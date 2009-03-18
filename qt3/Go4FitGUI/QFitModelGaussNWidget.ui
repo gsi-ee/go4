@@ -1,0 +1,113 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>QFitModelGaussNWidget</class>
+<widget class="QFitModelWidget">
+    <property name="name">
+        <cstring>QFitModelGaussNWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>QFitModelGaussNWidget</string>
+    </property>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel14</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>140</y>
+                <width>115</width>
+                <height>18</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Number of axis</string>
+        </property>
+    </widget>
+    <widget class="QSpinBox">
+        <property name="name">
+            <cstring>AxisNumberSpin</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>160</y>
+                <width>120</width>
+                <height>27</height>
+            </rect>
+        </property>
+        <property name="minValue">
+            <number>1</number>
+        </property>
+    </widget>
+    <widget class="QTable">
+        <column>
+            <property name="text">
+                <string>Axis number</string>
+            </property>
+        </column>
+        <property name="name">
+            <cstring>AxisTable</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>190</x>
+                <y>140</y>
+                <width>170</width>
+                <height>130</height>
+            </rect>
+        </property>
+        <property name="frameShadow">
+            <enum>Plain</enum>
+        </property>
+        <property name="numRows">
+            <number>3</number>
+        </property>
+        <property name="numCols">
+            <number>1</number>
+        </property>
+        <property name="selectionMode">
+            <enum>NoSelection</enum>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>AxisNumberSpin</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>QFitModelGaussNWidget</receiver>
+        <slot>AxisNumberSpin_valueChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>AxisTable</sender>
+        <signal>valueChanged(int,int)</signal>
+        <receiver>QFitModelGaussNWidget</receiver>
+        <slot>AxisTable_valueChanged(int,int)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QFitModelWidget.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitModelGaussN.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitGuiTypes.h</include>
+    <include location="local" impldecl="in implementation">QFitModelGaussNWidget.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4FitModelGaussN</forward>
+</forwards>
+<slots>
+    <slot returnType="TGo4FitModelGaussN *">GetGaussN()</slot>
+    <slot>FillSpecificData()</slot>
+    <slot>SetAxisTable()</slot>
+    <slot>AxisNumberSpin_valueChanged( int )</slot>
+    <slot>AxisTable_valueChanged( int, int )</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

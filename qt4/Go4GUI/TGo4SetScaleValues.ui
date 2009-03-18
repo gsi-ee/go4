@@ -1,0 +1,215 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>TGo4SetScaleValues</class>
+  <widget class="QWidget" name="TGo4SetScaleValues" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>260</width>
+        <height>128</height>
+      </rect>
+    </property>
+    <property name="windowTitle" >
+      <string>Set Scale Values</string>
+    </property>
+    <property name="windowIcon" >
+      <pixmap>:/icons/go4logo2_big.png</pixmap>
+    </property>
+    <layout class="QGridLayout" >
+      <property name="margin" >
+        <number>4</number>
+      </property>
+      <property name="spacing" >
+        <number>3</number>
+      </property>
+      <item row="0" column="4" >
+        <widget class="QLineEdit" name="XmaxV" />
+      </item>
+      <item row="0" column="0" >
+        <widget class="QLabel" name="textLabel1" >
+          <property name="text" >
+            <string>X min</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+      </item>
+      <item row="1" column="4" >
+        <widget class="QLineEdit" name="YmaxV" />
+      </item>
+      <item rowspan="1" row="0" column="1" colspan="2" >
+        <widget class="QLineEdit" name="XminV" >
+          <property name="minimumSize" >
+            <size>
+              <width>0</width>
+              <height>0</height>
+            </size>
+          </property>
+        </widget>
+      </item>
+      <item row="2" column="3" >
+        <widget class="QLabel" name="textLabel1_2_2_2" >
+          <property name="text" >
+            <string>Z max</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+      </item>
+      <item row="2" column="0" >
+        <widget class="QLabel" name="textLabel1_2_3" >
+          <property name="text" >
+            <string>Z min</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+      </item>
+      <item row="1" column="0" >
+        <widget class="QLabel" name="textLabel1_2" >
+          <property name="text" >
+            <string>Y min</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+      </item>
+      <item rowspan="1" row="1" column="1" colspan="2" >
+        <widget class="QLineEdit" name="YminV" />
+      </item>
+      <item rowspan="1" row="2" column="1" colspan="2" >
+        <widget class="QLineEdit" name="ZminV" />
+      </item>
+      <item row="2" column="4" >
+        <widget class="QLineEdit" name="ZmaxV" />
+      </item>
+      <item rowspan="1" row="3" column="0" colspan="2" >
+        <widget class="QCheckBox" name="AutoScaleButton" >
+          <property name="text" >
+            <string>AutoScale</string>
+          </property>
+          <property name="checked" >
+            <bool>true</bool>
+          </property>
+          <property name="toolTip" stdset="0" >
+            <string/>
+          </property>
+        </widget>
+      </item>
+      <item rowspan="1" row="3" column="2" colspan="2" >
+        <spacer name="spacer2" >
+          <property name="sizeHint" >
+            <size>
+              <width>20</width>
+              <height>20</height>
+            </size>
+          </property>
+          <property name="sizeType" >
+            <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+          </property>
+        </spacer>
+      </item>
+      <item row="3" column="4" >
+        <widget class="QPushButton" name="SetButton" >
+          <property name="text" >
+            <string>&amp;Set</string>
+          </property>
+          <property name="shortcut" >
+            <string>Alt+S</string>
+          </property>
+        </widget>
+      </item>
+      <item row="0" column="3" >
+        <widget class="QLabel" name="textLabel1_4" >
+          <property name="text" >
+            <string>X max</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+      </item>
+      <item row="1" column="3" >
+        <widget class="QLabel" name="textLabel1_2_2" >
+          <property name="text" >
+            <string>Y max</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <tabstops>
+    <tabstop>XminV</tabstop>
+    <tabstop>XmaxV</tabstop>
+    <tabstop>YminV</tabstop>
+    <tabstop>YmaxV</tabstop>
+    <tabstop>ZminV</tabstop>
+    <tabstop>ZmaxV</tabstop>
+    <tabstop>SetButton</tabstop>
+  </tabstops>
+  <connections>
+    <connection>
+      <sender>AutoScaleButton</sender>
+      <signal>toggled(bool)</signal>
+      <receiver>TGo4SetScaleValues</receiver>
+      <slot>AutoscaleChanged(bool)</slot>
+    </connection>
+    <connection>
+      <sender>SetButton</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4SetScaleValues</receiver>
+      <slot>ApplyValues()</slot>
+    </connection>
+    <connection>
+      <sender>XminV</sender>
+      <signal>returnPressed()</signal>
+      <receiver>TGo4SetScaleValues</receiver>
+      <slot>ApplyValues()</slot>
+    </connection>
+    <connection>
+      <sender>XmaxV</sender>
+      <signal>returnPressed()</signal>
+      <receiver>TGo4SetScaleValues</receiver>
+      <slot>ApplyValues()</slot>
+    </connection>
+    <connection>
+      <sender>YminV</sender>
+      <signal>returnPressed()</signal>
+      <receiver>TGo4SetScaleValues</receiver>
+      <slot>ApplyValues()</slot>
+    </connection>
+    <connection>
+      <sender>YmaxV</sender>
+      <signal>returnPressed()</signal>
+      <receiver>TGo4SetScaleValues</receiver>
+      <slot>ApplyValues()</slot>
+    </connection>
+    <connection>
+      <sender>ZminV</sender>
+      <signal>returnPressed()</signal>
+      <receiver>TGo4SetScaleValues</receiver>
+      <slot>ApplyValues()</slot>
+    </connection>
+    <connection>
+      <sender>ZmaxV</sender>
+      <signal>returnPressed()</signal>
+      <receiver>TGo4SetScaleValues</receiver>
+      <slot>ApplyValues()</slot>
+    </connection>
+  </connections>
+</ui>

@@ -1,0 +1,238 @@
+<ui version="4.0" stdsetdef="1" >
+  <author>Mohammad Al-Turany/S Linev</author>
+  <comment>Display the status of the analysis</comment>
+  <exportmacro></exportmacro>
+  <class>TGo4AnalysisStatusMonitor</class>
+  <widget class="QGo4Widget" name="TGo4AnalysisStatusMonitor" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1325</width>
+        <height>32</height>
+      </rect>
+    </property>
+    <property name="caption" >
+      <string>Go4 Analysis Status</string>
+    </property>
+    <property name="icon" >
+      <pixmap>:/icons/go4logo2_big.png</pixmap>
+    </property>
+    <layout class="QHBoxLayout" >
+      <property name="margin" >
+        <number>0</number>
+      </property>
+      <property name="spacing" >
+        <number>7</number>
+      </property>
+      <item>
+        <widget class="QLabel" name="Go4Pix" >
+          <property name="sizePolicy" >
+            <sizepolicy>
+              <hsizetype>0</hsizetype>
+              <vsizetype>0</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+            </sizepolicy>
+          </property>
+          <property name="minimumSize" >
+            <size>
+              <width>30</width>
+              <height>30</height>
+            </size>
+          </property>
+          <property name="maximumSize" >
+            <size>
+              <width>30</width>
+              <height>30</height>
+            </size>
+          </property>
+          <property name="pixmap" >
+            <pixmap>:/icons/go4logo2_big.png</pixmap>
+          </property>
+          <property name="scaledContents" >
+            <bool>true</bool>
+          </property>
+          <property name="toolTip" stdset="0" >
+            <string>Go4 logo showing running state of analysis</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+      </item>
+      <item>
+        <widget class="QLabel" name="SourceLabel" >
+          <property name="minimumSize" >
+            <size>
+              <width>100</width>
+              <height>7</height>
+            </size>
+          </property>
+          <property name="maximumSize" >
+            <size>
+              <width>32767</width>
+              <height>22</height>
+            </size>
+          </property>
+          <property name="frameShape" >
+            <enum>QFrame::Box</enum>
+          </property>
+          <property name="frameShadow" >
+            <enum>QFrame::Raised</enum>
+          </property>
+          <property name="margin" >
+            <number>0</number>
+          </property>
+          <property name="text" >
+            <string>input.lmd</string>
+          </property>
+          <property name="toolTip" stdset="0" >
+            <string>Currently open event source</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+      </item>
+      <item>
+        <layout class="QHBoxLayout" >
+          <item>
+            <widget class="QLCDNumber" name="LCDCurrentRate" >
+              <property name="numDigits" >
+                <number>8</number>
+              </property>
+              <property name="segmentStyle" >
+                <enum>QLCDNumber::Flat</enum>
+              </property>
+              <property name="toolTip" stdset="0" >
+                <string>Current event rate [events/sec].</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QLabel" name="TextLabel3" >
+              <property name="text" >
+                <string>Current Ev/s</string>
+              </property>
+              <property name="wordWrap" >
+                <bool>false</bool>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+      <item>
+        <layout class="QHBoxLayout" >
+          <item>
+            <widget class="QLCDNumber" name="LCDAverageRate" >
+              <property name="numDigits" >
+                <number>8</number>
+              </property>
+              <property name="segmentStyle" >
+                <enum>QLCDNumber::Flat</enum>
+              </property>
+              <property name="toolTip" stdset="0" >
+                <string>Average event rate since last reset [events/sec].</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QLabel" name="TextLabel4" >
+              <property name="text" >
+                <string>Average Ev/s</string>
+              </property>
+              <property name="wordWrap" >
+                <bool>false</bool>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+      <item>
+        <layout class="QHBoxLayout" >
+          <item>
+            <widget class="QLCDNumber" name="LCDTime" >
+              <property name="numDigits" >
+                <number>8</number>
+              </property>
+              <property name="segmentStyle" >
+                <enum>QLCDNumber::Flat</enum>
+              </property>
+              <property name="toolTip" stdset="0" >
+                <string>Time since last reset [sec].</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QLabel" name="TextLabel5" >
+              <property name="text" >
+                <string>s</string>
+              </property>
+              <property name="wordWrap" >
+                <bool>false</bool>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+      <item>
+        <layout class="QHBoxLayout" >
+          <item>
+            <widget class="QLCDNumber" name="LCDProcessedEvents" >
+              <property name="font" >
+                <font>
+                  <pointsize>7</pointsize>
+                </font>
+              </property>
+              <property name="numDigits" >
+                <number>10</number>
+              </property>
+              <property name="segmentStyle" >
+                <enum>QLCDNumber::Flat</enum>
+              </property>
+              <property name="toolTip" stdset="0" >
+                <string>Number of events processed since last reset.</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QLabel" name="TextLabel6" >
+              <property name="text" >
+                <string>Events</string>
+              </property>
+              <property name="wordWrap" >
+                <bool>false</bool>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+      <item>
+        <widget class="QLabel" name="DateLabel" >
+          <property name="frameShape" >
+            <enum>QFrame::Box</enum>
+          </property>
+          <property name="frameShadow" >
+            <enum>QFrame::Raised</enum>
+          </property>
+          <property name="text" >
+            <string>Date</string>
+          </property>
+          <property name="toolTip" stdset="0" >
+            <string>Date and time of last refresh.</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <includes>
+    <include location="local" >QGo4Widget.h</include>
+    <include location="local" >qmovie.h</include>
+  </includes>
+</ui>

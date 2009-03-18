@@ -1,0 +1,34 @@
+## basic settings for Win32
+
+#### File suffixes: ####
+ObjSuf        = obj
+ExeSuf        = .exe
+DllSuf        = lib
+
+#### Compilers: ####
+CXX           = $(GO4SYS)/build/cxx.sh
+CC            = $(GO4SYS)/build/cxx.sh
+
+#### Compiler optimisation flags: ####
+OPTIONS       = -GR -EHsc -nologo
+DEFINITIONS   = -DWIN32 -DGDK_WIN32 -D_WINDOWS -D_DLL -D_CRT_SECURE_NO_DEPRECATE
+EXTRACOPTIONS = -MD
+EXTRACXXOPTIONS =
+
+## This two copiler flags are alternative. 
+## When DOOPTIMIZATION = false, first is used otherwise second 
+DEBUGMODE     = -Z7
+OPTIMIZEMODE  = -Ox
+
+#### File system operations: ####
+LN            = ln -sf
+RM            = rm -f
+MV            = mv
+
+#### Linker definitions: ####
+LD            = $(GO4SYS)/build/ld.sh
+LDFLAGS       = /NOLOGO /INCREMENTAL:NO /nodefaultlib:libc.lib /nodefaultlib:dfor.lib
+SOFLAGS       = /DLL
+
+#### Other options: ####
+OutPutOpt     = -o 

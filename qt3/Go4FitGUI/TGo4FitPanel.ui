@@ -1,0 +1,2272 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>TGo4FitPanel</class>
+<widget class="QGo4Widget">
+    <property name="name">
+        <cstring>TGo4FitPanel</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>556</width>
+            <height>340</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Fit panel</string>
+    </property>
+    <property name="icon">
+        <pixmap>fitpanel.png</pixmap>
+    </property>
+    <property name="focusPolicy">
+        <enum>ClickFocus</enum>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QWidgetStack" row="1" column="0">
+            <property name="name">
+                <cstring>WidgetStack</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>2</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>10</verstretch>
+                </sizepolicy>
+            </property>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>PageExtended</cstring>
+                </property>
+                <attribute name="id">
+                    <number>0</number>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QSplitter" row="0" column="0">
+                        <property name="name">
+                            <cstring>splitter2</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Horizontal</enum>
+                        </property>
+                        <widget class="QListView">
+                            <column>
+                                <property name="text">
+                                    <string>Element</string>
+                                </property>
+                                <property name="clickable">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="resizable">
+                                    <bool>true</bool>
+                                </property>
+                            </column>
+                            <property name="name">
+                                <cstring>FitList</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>7</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>250</width>
+                                    <height>32767</height>
+                                </size>
+                            </property>
+                        </widget>
+                        <widget class="QWidgetStack">
+                            <property name="name">
+                                <cstring>ListStack</cstring>
+                            </property>
+                            <property name="frameShape">
+                                <enum>Box</enum>
+                            </property>
+                            <widget class="QWidget">
+                                <property name="name">
+                                    <cstring>page</cstring>
+                                </property>
+                                <attribute name="id">
+                                    <number>0</number>
+                                </attribute>
+                            </widget>
+                        </widget>
+                    </widget>
+                </grid>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>PageSimple</cstring>
+                </property>
+                <attribute name="id">
+                    <number>1</number>
+                </attribute>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>Smp_PolynomBtn</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>10</x>
+                            <y>10</y>
+                            <width>86</width>
+                            <height>24</height>
+                        </rect>
+                    </property>
+                    <property name="text">
+                        <string>Polynom</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Add polynom of selected order and make fit</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>Smp_GaussianBtn</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>10</x>
+                            <y>50</y>
+                            <width>86</width>
+                            <height>24</height>
+                        </rect>
+                    </property>
+                    <property name="text">
+                        <string>Gaussian</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Add proper gaussian and make fit</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>Smp_LorenzBtn</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>10</x>
+                            <y>90</y>
+                            <width>86</width>
+                            <height>24</height>
+                        </rect>
+                    </property>
+                    <property name="text">
+                        <string>Lorenz</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Add Lorenz function and make fit</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>Smp_ExponentBtn</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>10</x>
+                            <y>130</y>
+                            <width>86</width>
+                            <height>24</height>
+                        </rect>
+                    </property>
+                    <property name="text">
+                        <string>Exponent</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Add exponent function and make fit</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>Smp_ClearBtn</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>10</x>
+                            <y>180</y>
+                            <width>86</width>
+                            <height>24</height>
+                        </rect>
+                    </property>
+                    <property name="text">
+                        <string>Clear models</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Remove all model components</string>
+                    </property>
+                </widget>
+                <widget class="QSpinBox">
+                    <property name="name">
+                        <cstring>Smp_PolOrderSpin</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>120</x>
+                            <y>10</y>
+                            <width>50</width>
+                            <height>22</height>
+                        </rect>
+                    </property>
+                    <property name="maxValue">
+                        <number>9</number>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Polynom order</string>
+                    </property>
+                </widget>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>PageWizard</cstring>
+                </property>
+                <attribute name="id">
+                    <number>2</number>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QWidgetStack" row="0" column="1">
+                        <property name="name">
+                            <cstring>Wiz_Stack</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>2</hsizetype>
+                                <vsizetype>5</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <widget class="QWidget">
+                            <property name="name">
+                                <cstring>Wiz_ModelPage</cstring>
+                            </property>
+                            <attribute name="id">
+                                <number>0</number>
+                            </attribute>
+                            <grid>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
+                                    <property name="name">
+                                        <cstring>Wiz_ModelInfoLbl</cstring>
+                                    </property>
+                                    <property name="sizePolicy">
+                                        <sizepolicy>
+                                            <hsizetype>1</hsizetype>
+                                            <vsizetype>1</vsizetype>
+                                            <horstretch>0</horstretch>
+                                            <verstretch>0</verstretch>
+                                        </sizepolicy>
+                                    </property>
+                                    <property name="text">
+                                        <string>model info</string>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Model component class information</string>
+                                    </property>
+                                </widget>
+                                <widget class="QTable" row="2" column="0" rowspan="1" colspan="2">
+                                    <property name="name">
+                                        <cstring>Wiz_ParTable</cstring>
+                                    </property>
+                                    <property name="numRows">
+                                        <number>0</number>
+                                    </property>
+                                    <property name="numCols">
+                                        <number>0</number>
+                                    </property>
+                                    <property name="columnMovingEnabled">
+                                        <bool>true</bool>
+                                    </property>
+                                    <property name="selectionMode">
+                                        <enum>NoSelection</enum>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>List of model parameters</string>
+                                    </property>
+                                </widget>
+                                <widget class="QCheckBox" row="1" column="1">
+                                    <property name="name">
+                                        <cstring>Wiz_ModelBufChk</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>use buffers</string>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Use buffers for model calculations of fit</string>
+                                    </property>
+                                </widget>
+                                <widget class="QCheckBox" row="1" column="0">
+                                    <property name="name">
+                                        <cstring>Wiz_BackgroundChk</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>background</string>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Model belongs to background group. Affects output only</string>
+                                    </property>
+                                </widget>
+                            </grid>
+                        </widget>
+                        <widget class="QWidget">
+                            <property name="name">
+                                <cstring>Wiz_FitterPage</cstring>
+                            </property>
+                            <attribute name="id">
+                                <number>1</number>
+                            </attribute>
+                            <widget class="QLabel">
+                                <property name="name">
+                                    <cstring>Wiz_FitFunctionLbl</cstring>
+                                </property>
+                                <property name="geometry">
+                                    <rect>
+                                        <x>10</x>
+                                        <y>10</y>
+                                        <width>200</width>
+                                        <height>20</height>
+                                    </rect>
+                                </property>
+                                <property name="text">
+                                    <string>&amp;Fit function</string>
+                                </property>
+                                <property name="textFormat">
+                                    <enum>AutoText</enum>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>Wiz_FitFuncCmb</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QComboBox">
+                                <item>
+                                    <property name="text">
+                                        <string>Least squares</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Chi square</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Chi Pearson</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Chi Neyman</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Chi gamma</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>ML Poisson</string>
+                                    </property>
+                                </item>
+                                <property name="name">
+                                    <cstring>Wiz_FitFuncCmb</cstring>
+                                </property>
+                                <property name="geometry">
+                                    <rect>
+                                        <x>10</x>
+                                        <y>30</y>
+                                        <width>200</width>
+                                        <height>27</height>
+                                    </rect>
+                                </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>Type of function used for minimization</string>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox">
+                                <property name="name">
+                                    <cstring>Wiz_UseAmplEstimChk</cstring>
+                                </property>
+                                <property name="geometry">
+                                    <rect>
+                                        <x>10</x>
+                                        <y>70</y>
+                                        <width>230</width>
+                                        <height>20</height>
+                                    </rect>
+                                </property>
+                                <property name="text">
+                                    <string>use amplitudes estimations</string>
+                                </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>Selects amplitude estimation routine MINUIT minimization</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel">
+                                <property name="name">
+                                    <cstring>Wiz_MigradIterLbl</cstring>
+                                </property>
+                                <property name="geometry">
+                                    <rect>
+                                        <x>10</x>
+                                        <y>100</y>
+                                        <width>120</width>
+                                        <height>20</height>
+                                    </rect>
+                                </property>
+                                <property name="text">
+                                    <string>&amp;MIGRAD iterations</string>
+                                </property>
+                                <property name="buddy" stdset="0">
+                                    <cstring>Wiz_MigradIterSpin</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QSpinBox">
+                                <property name="name">
+                                    <cstring>Wiz_MigradIterSpin</cstring>
+                                </property>
+                                <property name="geometry">
+                                    <rect>
+                                        <x>140</x>
+                                        <y>100</y>
+                                        <width>80</width>
+                                        <height>22</height>
+                                    </rect>
+                                </property>
+                                <property name="maxValue">
+                                    <number>10000</number>
+                                </property>
+                                <property name="lineStep">
+                                    <number>100</number>
+                                </property>
+                                <property name="toolTip" stdset="0">
+                                    <string>Number of iterations of MIGRAD command of MINUIT</string>
+                                </property>
+                            </widget>
+                        </widget>
+                        <widget class="QWidget">
+                            <property name="name">
+                                <cstring>Wiz_EmptyPage</cstring>
+                            </property>
+                            <attribute name="id">
+                                <number>2</number>
+                            </attribute>
+                        </widget>
+                        <widget class="QWidget">
+                            <property name="name">
+                                <cstring>Wiz_DataPage</cstring>
+                            </property>
+                            <attribute name="id">
+                                <number>3</number>
+                            </attribute>
+                            <grid>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QLabel" row="0" column="0" rowspan="1" colspan="3">
+                                    <property name="name">
+                                        <cstring>Wiz_DataInfoLbl</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>data info</string>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Class information of data object</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel" row="1" column="0" rowspan="1" colspan="3">
+                                    <property name="name">
+                                        <cstring>Wiz_DataModelsLbl</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>models</string>
+                                    </property>
+                                </widget>
+                                <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="3">
+                                    <property name="name">
+                                        <cstring>Wiz_DataBufChk</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>use &amp;buffers for data</string>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Use buffers in minimization routine</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel" row="3" column="0" rowspan="1" colspan="3">
+                                    <property name="name">
+                                        <cstring>textLabel3_3</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>&amp;Objects</string>
+                                    </property>
+                                    <property name="buddy" stdset="0">
+                                        <cstring>Wiz_DataSlotsTable</cstring>
+                                    </property>
+                                </widget>
+                                <widget class="QTable" row="4" column="0" rowspan="1" colspan="3">
+                                    <column>
+                                        <property name="text">
+                                            <string>Name</string>
+                                        </property>
+                                    </column>
+                                    <column>
+                                        <property name="text">
+                                            <string>Class</string>
+                                        </property>
+                                    </column>
+                                    <column>
+                                        <property name="text">
+                                            <string>Ownership</string>
+                                        </property>
+                                    </column>
+                                    <column>
+                                        <property name="text">
+                                            <string>Comes from</string>
+                                        </property>
+                                    </column>
+                                    <property name="name">
+                                        <cstring>Wiz_DataSlotsTable</cstring>
+                                    </property>
+                                    <property name="numRows">
+                                        <number>3</number>
+                                    </property>
+                                    <property name="numCols">
+                                        <number>4</number>
+                                    </property>
+                                    <property name="readOnly">
+                                        <bool>true</bool>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>List of data objects assigned to data</string>
+                                    </property>
+                                </widget>
+                                <widget class="QPushButton" row="5" column="0">
+                                    <property name="name">
+                                        <cstring>Wiz_DataUseRangeBtn</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Use &amp;range</string>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Add selected range to list of axis ranges, where data should be fit</string>
+                                    </property>
+                                </widget>
+                                <widget class="QPushButton" row="5" column="1">
+                                    <property name="name">
+                                        <cstring>Wiz_DataClearRangesBtn</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>&amp;Clear ranges</string>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Clear list of axis range conditions</string>
+                                    </property>
+                                </widget>
+                                <widget class="QPushButton" row="5" column="2">
+                                    <property name="name">
+                                        <cstring>Wiz_DrawDataBtn</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>&amp;Draw data</string>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Draw model for selected data</string>
+                                    </property>
+                                </widget>
+                            </grid>
+                        </widget>
+                        <widget class="QWidget">
+                            <property name="name">
+                                <cstring>Wiz_PFPage</cstring>
+                            </property>
+                            <attribute name="id">
+                                <number>4</number>
+                            </attribute>
+                            <grid>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QCheckBox" row="0" column="0">
+                                    <property name="name">
+                                        <cstring>Wiz_PFUsePolynChk</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>use polynom of order</string>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Use polynomial function for background approximation</string>
+                                    </property>
+                                </widget>
+                                <widget class="QSpinBox" row="0" column="1">
+                                    <property name="name">
+                                        <cstring>Wiz_PFPolynSpin</cstring>
+                                    </property>
+                                    <property name="maxValue">
+                                        <number>9</number>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Order of polynom for background approximation</string>
+                                    </property>
+                                </widget>
+                                <widget class="QTabWidget" row="1" column="0" rowspan="1" colspan="2">
+                                    <property name="name">
+                                        <cstring>FindersTab</cstring>
+                                    </property>
+                                    <widget class="QWidget">
+                                        <property name="name">
+                                            <cstring>tab</cstring>
+                                        </property>
+                                        <attribute name="title">
+                                            <string>Variant 1</string>
+                                        </attribute>
+                                        <widget class="QLabel">
+                                            <property name="name">
+                                                <cstring>PF_AmplLbl</cstring>
+                                            </property>
+                                            <property name="geometry">
+                                                <rect>
+                                                    <x>10</x>
+                                                    <y>10</y>
+                                                    <width>130</width>
+                                                    <height>20</height>
+                                                </rect>
+                                            </property>
+                                            <property name="text">
+                                                <string>Threshold</string>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string>Amplitude threshold (relative to amplitude maximum) for lines</string>
+                                            </property>
+                                        </widget>
+                                        <widget class="QLabel">
+                                            <property name="name">
+                                                <cstring>Wiz_PF0MinWidthLbl</cstring>
+                                            </property>
+                                            <property name="geometry">
+                                                <rect>
+                                                    <x>10</x>
+                                                    <y>40</y>
+                                                    <width>113</width>
+                                                    <height>20</height>
+                                                </rect>
+                                            </property>
+                                            <property name="text">
+                                                <string>M&amp;inimum width</string>
+                                            </property>
+                                            <property name="buddy" stdset="0">
+                                                <cstring>PF_MinWidthEdt</cstring>
+                                            </property>
+                                        </widget>
+                                        <widget class="QLabel">
+                                            <property name="name">
+                                                <cstring>TextLabel7</cstring>
+                                            </property>
+                                            <property name="geometry">
+                                                <rect>
+                                                    <x>10</x>
+                                                    <y>100</y>
+                                                    <width>100</width>
+                                                    <height>20</height>
+                                                </rect>
+                                            </property>
+                                            <property name="text">
+                                                <string>M&amp;aximum width</string>
+                                            </property>
+                                            <property name="buddy" stdset="0">
+                                                <cstring>PF_MaxWidthEdt</cstring>
+                                            </property>
+                                        </widget>
+                                        <widget class="QGo4LineEdit">
+                                            <property name="name">
+                                                <cstring>PF_MinWidthEdt</cstring>
+                                            </property>
+                                            <property name="geometry">
+                                                <rect>
+                                                    <x>10</x>
+                                                    <y>60</y>
+                                                    <width>80</width>
+                                                    <height>27</height>
+                                                </rect>
+                                            </property>
+                                            <property name="text">
+                                                <string>4</string>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string>Minimum possible width of peak</string>
+                                            </property>
+                                        </widget>
+                                        <widget class="QGo4LineEdit">
+                                            <property name="name">
+                                                <cstring>PF_MaxWidthEdt</cstring>
+                                            </property>
+                                            <property name="geometry">
+                                                <rect>
+                                                    <x>10</x>
+                                                    <y>120</y>
+                                                    <width>80</width>
+                                                    <height>27</height>
+                                                </rect>
+                                            </property>
+                                            <property name="text">
+                                                <string>30</string>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string>Maximum possible width of peak</string>
+                                            </property>
+                                        </widget>
+                                        <widget class="QSlider">
+                                            <property name="name">
+                                                <cstring>PF_AmplSlider</cstring>
+                                            </property>
+                                            <property name="geometry">
+                                                <rect>
+                                                    <x>140</x>
+                                                    <y>10</y>
+                                                    <width>20</width>
+                                                    <height>140</height>
+                                                </rect>
+                                            </property>
+                                            <property name="maxValue">
+                                                <number>100</number>
+                                            </property>
+                                            <property name="orientation">
+                                                <enum>Vertical</enum>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string>Change amplitude threshold and find peaks</string>
+                                            </property>
+                                        </widget>
+                                    </widget>
+                                    <widget class="QWidget">
+                                        <property name="name">
+                                            <cstring>tab</cstring>
+                                        </property>
+                                        <attribute name="title">
+                                            <string>ROOT (2)</string>
+                                        </attribute>
+                                        <widget class="QLabel">
+                                            <property name="name">
+                                                <cstring>Wiz_PFROOTLbl</cstring>
+                                            </property>
+                                            <property name="geometry">
+                                                <rect>
+                                                    <x>10</x>
+                                                    <y>10</y>
+                                                    <width>110</width>
+                                                    <height>20</height>
+                                                </rect>
+                                            </property>
+                                            <property name="text">
+                                                <string>Line(s) &amp;width</string>
+                                            </property>
+                                            <property name="buddy" stdset="0">
+                                                <cstring>PF_WidthEdit</cstring>
+                                            </property>
+                                        </widget>
+                                        <widget class="QGo4LineEdit">
+                                            <property name="name">
+                                                <cstring>PF_WidthEdit</cstring>
+                                            </property>
+                                            <property name="geometry">
+                                                <rect>
+                                                    <x>10</x>
+                                                    <y>30</y>
+                                                    <width>100</width>
+                                                    <height>27</height>
+                                                </rect>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string>Approximate line width</string>
+                                            </property>
+                                        </widget>
+                                    </widget>
+                                    <widget class="QWidget">
+                                        <property name="name">
+                                            <cstring>tab</cstring>
+                                        </property>
+                                        <attribute name="title">
+                                            <string>Variant 3</string>
+                                        </attribute>
+                                        <widget class="QLabel">
+                                            <property name="name">
+                                                <cstring>PF_RelNoiseLbl</cstring>
+                                            </property>
+                                            <property name="geometry">
+                                                <rect>
+                                                    <x>10</x>
+                                                    <y>10</y>
+                                                    <width>110</width>
+                                                    <height>20</height>
+                                                </rect>
+                                            </property>
+                                            <property name="text">
+                                                <string>Relative noise</string>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string>Noise factor. Increase for less peaks</string>
+                                            </property>
+                                        </widget>
+                                        <widget class="QLabel">
+                                            <property name="name">
+                                                <cstring>textLabel2</cstring>
+                                            </property>
+                                            <property name="geometry">
+                                                <rect>
+                                                    <x>10</x>
+                                                    <y>40</y>
+                                                    <width>110</width>
+                                                    <height>20</height>
+                                                </rect>
+                                            </property>
+                                            <property name="text">
+                                                <string>&amp;Minimal noise</string>
+                                            </property>
+                                            <property name="buddy" stdset="0">
+                                                <cstring>PF_MinNoiseEdit</cstring>
+                                            </property>
+                                        </widget>
+                                        <widget class="QLabel">
+                                            <property name="name">
+                                                <cstring>textLabel4</cstring>
+                                            </property>
+                                            <property name="geometry">
+                                                <rect>
+                                                    <x>10</x>
+                                                    <y>100</y>
+                                                    <width>119</width>
+                                                    <height>20</height>
+                                                </rect>
+                                            </property>
+                                            <property name="text">
+                                                <string>&amp;Channel sumup</string>
+                                            </property>
+                                            <property name="buddy" stdset="0">
+                                                <cstring>PF_SumUpSpin</cstring>
+                                            </property>
+                                        </widget>
+                                        <widget class="QGo4LineEdit">
+                                            <property name="name">
+                                                <cstring>PF_MinNoiseEdit</cstring>
+                                            </property>
+                                            <property name="geometry">
+                                                <rect>
+                                                    <x>10</x>
+                                                    <y>60</y>
+                                                    <width>90</width>
+                                                    <height>27</height>
+                                                </rect>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string>Minimal noise.</string>
+                                            </property>
+                                        </widget>
+                                        <widget class="QSlider">
+                                            <property name="name">
+                                                <cstring>PF_RelNoiseSlider</cstring>
+                                            </property>
+                                            <property name="geometry">
+                                                <rect>
+                                                    <x>140</x>
+                                                    <y>10</y>
+                                                    <width>20</width>
+                                                    <height>140</height>
+                                                </rect>
+                                            </property>
+                                            <property name="minValue">
+                                                <number>1</number>
+                                            </property>
+                                            <property name="maxValue">
+                                                <number>100</number>
+                                            </property>
+                                            <property name="orientation">
+                                                <enum>Vertical</enum>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string>Change noise factor and find peaks</string>
+                                            </property>
+                                        </widget>
+                                        <widget class="QSpinBox">
+                                            <property name="name">
+                                                <cstring>PF_SumUpSpin</cstring>
+                                            </property>
+                                            <property name="geometry">
+                                                <rect>
+                                                    <x>10</x>
+                                                    <y>120</y>
+                                                    <width>90</width>
+                                                    <height>27</height>
+                                                </rect>
+                                            </property>
+                                            <property name="minValue">
+                                                <number>1</number>
+                                            </property>
+                                            <property name="toolTip" stdset="0">
+                                                <string>Sum up channel bins (smooth)</string>
+                                            </property>
+                                        </widget>
+                                    </widget>
+                                </widget>
+                            </grid>
+                        </widget>
+                    </widget>
+                    <widget class="QFrame" row="0" column="0">
+                        <property name="name">
+                            <cstring>Wiz_MainFrame</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>2</hsizetype>
+                                <vsizetype>5</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>230</width>
+                                <height>0</height>
+                            </size>
+                        </property>
+                        <property name="maximumSize">
+                            <size>
+                                <width>230</width>
+                                <height>32767</height>
+                            </size>
+                        </property>
+                        <property name="frameShape">
+                            <enum>StyledPanel</enum>
+                        </property>
+                        <property name="frameShadow">
+                            <enum>Plain</enum>
+                        </property>
+                        <property name="lineWidth">
+                            <number>0</number>
+                        </property>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>Wiz_AddModelBtn</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>125</x>
+                                    <y>220</y>
+                                    <width>20</width>
+                                    <height>20</height>
+                                </rect>
+                            </property>
+                            <property name="text">
+                                <string>+</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Add model(s) for selected data</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>Wiz_DelModelBtn</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>150</x>
+                                    <y>220</y>
+                                    <width>20</width>
+                                    <height>20</height>
+                                </rect>
+                            </property>
+                            <property name="text">
+                                <string>-</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Remove selected model(s)</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>Wiz_CloneModelBtn</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>175</x>
+                                    <y>220</y>
+                                    <width>20</width>
+                                    <height>20</height>
+                                </rect>
+                            </property>
+                            <property name="text">
+                                <string>*</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Clone selected model(s)</string>
+                            </property>
+                        </widget>
+                        <widget class="QLineEdit">
+                            <property name="name">
+                                <cstring>Wiz_FitNameEdt</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>0</x>
+                                    <y>20</y>
+                                    <width>110</width>
+                                    <height>27</height>
+                                </rect>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>Wiz_PFSetupBtn</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>120</x>
+                                    <y>30</y>
+                                    <width>110</width>
+                                    <height>23</height>
+                                </rect>
+                            </property>
+                            <property name="text">
+                                <string>Peak finder</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Show peak finder setup page</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel1_4</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>0</x>
+                                    <y>60</y>
+                                    <width>40</width>
+                                    <height>20</height>
+                                </rect>
+                            </property>
+                            <property name="text">
+                                <string>Data</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>Wiz_MinSetupBtn</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>120</x>
+                                    <y>0</y>
+                                    <width>110</width>
+                                    <height>23</height>
+                                </rect>
+                            </property>
+                            <property name="text">
+                                <string>Minimizer</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Show minimizer setup page</string>
+                            </property>
+                        </widget>
+                        <widget class="QListBox">
+                            <property name="name">
+                                <cstring>Wiz_DataList</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>0</x>
+                                    <y>80</y>
+                                    <width>100</width>
+                                    <height>130</height>
+                                </rect>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>List of data objects</string>
+                            </property>
+                        </widget>
+                        <widget class="QListBox">
+                            <property name="name">
+                                <cstring>Wiz_ModelList</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>120</x>
+                                    <y>80</y>
+                                    <width>100</width>
+                                    <height>130</height>
+                                </rect>
+                            </property>
+                            <property name="selectionMode">
+                                <enum>Extended</enum>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>List of model components</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>Wiz_AddDataBtn</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>0</x>
+                                    <y>220</y>
+                                    <width>20</width>
+                                    <height>20</height>
+                                </rect>
+                            </property>
+                            <property name="text">
+                                <string>+</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Add new data object</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>Wiz_DelDataBtn</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>30</x>
+                                    <y>220</y>
+                                    <width>20</width>
+                                    <height>20</height>
+                                </rect>
+                            </property>
+                            <property name="text">
+                                <string>-</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Delete selected data object</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>Wiz_RebuildDataBtn</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>0</x>
+                                    <y>220</y>
+                                    <width>90</width>
+                                    <height>23</height>
+                                </rect>
+                            </property>
+                            <property name="text">
+                                <string>Rebuild</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Make data list according to selected pad.</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel2_2</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>120</x>
+                                    <y>60</y>
+                                    <width>50</width>
+                                    <height>20</height>
+                                </rect>
+                            </property>
+                            <property name="text">
+                                <string>Models</string>
+                            </property>
+                        </widget>
+                        <widget class="QCheckBox">
+                            <property name="name">
+                                <cstring>Wiz_ShowAllMod</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>180</x>
+                                    <y>60</y>
+                                    <width>40</width>
+                                    <height>20</height>
+                                </rect>
+                            </property>
+                            <property name="text">
+                                <string>all</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Display all model components or only for selected data</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>Wiz_FitterNameLbl</cstring>
+                            </property>
+                            <property name="geometry">
+                                <rect>
+                                    <x>0</x>
+                                    <y>0</y>
+                                    <width>60</width>
+                                    <height>20</height>
+                                </rect>
+                            </property>
+                            <property name="text">
+                                <string>&amp;Name</string>
+                            </property>
+                            <property name="buddy" stdset="0">
+                                <cstring>Wiz_FitNameEdt</cstring>
+                            </property>
+                        </widget>
+                    </widget>
+                </grid>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>PageEmpty</cstring>
+                </property>
+                <attribute name="id">
+                    <number>3</number>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QLabel" row="0" column="0">
+                        <property name="name">
+                            <cstring>PageEmptyLbl</cstring>
+                        </property>
+                        <property name="text">
+                            <string>No fitter created!&lt;br&gt;
+You can do one of the following:&lt;br&gt;
+- select a pad with histogram (by MM button) and
+create a fitter with the "Use pad" button.&lt;br&gt;
+- drag a fitter from browser to this panel.&lt;br&gt;
+- double click on a fitter in the browser.&lt;br&gt;
+- create a fitter by "Fitter/Create for pad" menu command.&lt;br&gt;</string>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>PageParameters</cstring>
+                </property>
+                <attribute name="id">
+                    <number>4</number>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QTable" row="1" column="0" rowspan="1" colspan="3">
+                        <property name="name">
+                            <cstring>ParsTable</cstring>
+                        </property>
+                        <property name="numRows">
+                            <number>3</number>
+                        </property>
+                        <property name="numCols">
+                            <number>3</number>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>List of fitter parameters</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="0" column="0">
+                        <property name="name">
+                            <cstring>ParsInfoLbl</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>2</hsizetype>
+                                <vsizetype>5</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>200</width>
+                                <height>0</height>
+                            </size>
+                        </property>
+                        <property name="text">
+                            <string>&amp;List of fitter parameters</string>
+                        </property>
+                        <property name="buddy" stdset="0">
+                            <cstring>ParsTable</cstring>
+                        </property>
+                    </widget>
+                    <widget class="QCheckBox" row="0" column="1">
+                        <property name="name">
+                            <cstring>LineParsChk</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>2</hsizetype>
+                                <vsizetype>0</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>100</width>
+                                <height>0</height>
+                            </size>
+                        </property>
+                        <property name="text">
+                            <string>lines</string>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Show fitter parameters in flat/lines mode</string>
+                        </property>
+                    </widget>
+                    <spacer row="0" column="2">
+                        <property name="name">
+                            <cstring>spacer1</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Horizontal</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>460</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget class="QLabel" row="2" column="0" rowspan="1" colspan="3">
+                        <property name="name">
+                            <cstring>Par_FitterResLbl</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Results</string>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Gained value of fit function and number of degrees of freedom</string>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+        </widget>
+        <widget class="QFrame" row="2" column="0">
+            <property name="name">
+                <cstring>StatusFrame</cstring>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>0</width>
+                    <height>25</height>
+                </size>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>32767</width>
+                    <height>25</height>
+                </size>
+            </property>
+            <property name="frameShape">
+                <enum>StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Plain</enum>
+            </property>
+            <property name="lineWidth">
+                <number>0</number>
+            </property>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>MainAttachBtn</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>0</x>
+                        <y>0</y>
+                        <width>80</width>
+                        <height>25</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Use pad</string>
+                </property>
+                <property name="toolTip" stdset="0">
+                    <string>Start working with current pad</string>
+                </property>
+            </widget>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>MainFindBtn</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>80</x>
+                        <y>0</y>
+                        <width>50</width>
+                        <height>25</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Find</string>
+                </property>
+                <property name="toolTip" stdset="0">
+                    <string>Execute peak finder routine</string>
+                </property>
+            </widget>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>MainFitBtn</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>130</x>
+                        <y>0</y>
+                        <width>50</width>
+                        <height>25</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Fit</string>
+                </property>
+                <property name="toolTip" stdset="0">
+                    <string>Execute minimization routine</string>
+                </property>
+            </widget>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>MainDrawBtn</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>180</x>
+                        <y>0</y>
+                        <width>50</width>
+                        <height>25</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Draw</string>
+                </property>
+                <property name="toolTip" stdset="0">
+                    <string>Draw model and components</string>
+                </property>
+            </widget>
+            <widget class="QPushButton">
+                <property name="name">
+                    <cstring>MainParsBtn</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>230</x>
+                        <y>0</y>
+                        <width>50</width>
+                        <height>25</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Pars</string>
+                </property>
+                <property name="toolTip" stdset="0">
+                    <string></string>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>MainStatusLbl</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>290</x>
+                        <y>0</y>
+                        <width>290</width>
+                        <height>25</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Status:</string>
+                </property>
+            </widget>
+        </widget>
+        <widget class="QFrame" row="0" column="0">
+            <property name="name">
+                <cstring>MenuFrame</cstring>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>0</width>
+                    <height>15</height>
+                </size>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>32767</width>
+                    <height>15</height>
+                </size>
+            </property>
+            <property name="frameShape">
+                <enum>StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Plain</enum>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>FitList</sender>
+        <signal>contextMenuRequested(QListViewItem*,const QPoint&amp;,int)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>FitList_contextMenuRequested(QListViewItem*,const QPoint&amp;,int)</slot>
+    </connection>
+    <connection>
+        <sender>FitList</sender>
+        <signal>currentChanged(QListViewItem*)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>FitList_currentChanged(QListViewItem*)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_AddDataBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_AddDataBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_DelDataBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_DelDataBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_AddModelBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_AddModelBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_DelModelBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_DelModelBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_CloneModelBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_CloneModelBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_ShowAllMod</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_ShowAllMod_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_FitFuncCmb</sender>
+        <signal>activated(int)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_FitFuncCmb_activated(int)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_FitNameEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_FitNameEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_ParTable</sender>
+        <signal>valueChanged(int,int)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_ParTable_valueChanged(int,int)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_DataList</sender>
+        <signal>doubleClicked(QListBoxItem*)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_DataList_doubleClicked(QListBoxItem*)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_ModelList</sender>
+        <signal>doubleClicked(QListBoxItem*)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_ModelList_doubleClicked(QListBoxItem*)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_RebuildDataBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_RebuildDataBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_DataBufChk</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_DataBufChk_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_UseAmplEstimChk</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_UseAmplEstimChk_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_MigradIterSpin</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_MigradIterSpin_valueChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_DataSlotsTable</sender>
+        <signal>contextMenuRequested(int,int,const QPoint&amp;)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_DataSlotsTable_contextMenuRequested(int,int,const QPoint&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_DataUseRangeBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_DataUseRangeBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_DataClearRangesBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_DataClearRangesBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_DrawDataBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_DrawDataBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>MainAttachBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>MainAttachBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>MainFitBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>MainFitBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>MainDrawBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>MainDrawBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>MainFindBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>MainFindBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_DataList</sender>
+        <signal>clicked(QListBoxItem*)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_DataList_clicked(QListBoxItem*)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_DataList</sender>
+        <signal>pressed(QListBoxItem*)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_DataList_pressed(QListBoxItem*)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_DataList</sender>
+        <signal>highlighted(int)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_DataList_highlighted(int)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_ModelList</sender>
+        <signal>highlighted(int)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_ModelList_highlighted(int)</slot>
+    </connection>
+    <connection>
+        <sender>MainParsBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>MainParsBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>LineParsChk</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>LineParsChk_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>ParsTable</sender>
+        <signal>valueChanged(int,int)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>ParsTable_valueChanged(int,int)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_ModelBufChk</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_ModelBufChk_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_PFSetupBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_PFSetupBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_PFUsePolynChk</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_PFUsePolynChk_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_PFPolynSpin</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_PFPolynSpin_valueChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>PF_MinWidthEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>PF_MinWidthEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>PF_MaxWidthEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>PF_MaxWidthEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>PF_AmplSlider</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>PF_AmplSlider_valueChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>PF_AmplSlider</sender>
+        <signal>sliderReleased()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>PF_AmplSlider_sliderReleased()</slot>
+    </connection>
+    <connection>
+        <sender>PF_WidthEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>PF_WidthEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>PF_RelNoiseSlider</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>PF_RelNoiseSlider_valueChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>PF_RelNoiseSlider</sender>
+        <signal>sliderReleased()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>PF_RelNoiseSlider_sliderReleased()</slot>
+    </connection>
+    <connection>
+        <sender>PF_MinNoiseEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>PF_MinNoiseEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>PF_SumUpSpin</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>PF_SumUpSpin_valueChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>Smp_PolynomBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Smp_PolynomBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>Smp_GaussianBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Smp_GaussianBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>Smp_LorenzBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Smp_LorenzBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>Smp_ExponentBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Smp_ExponentBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>Smp_ClearBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Smp_ClearBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_MinSetupBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_MinSetupBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>FindersTab</sender>
+        <signal>currentChanged(QWidget*)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>FindersTab_currentChanged(QWidget*)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_ModelList</sender>
+        <signal>clicked(QListBoxItem*,const QPoint&amp;)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_ModelList_clicked(QListBoxItem*,const QPoint&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>Wiz_BackgroundChk</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>Wiz_BackgroundChk_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>PF_MinWidthEdt</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>PF_MinWidthEdt_returnPressed()</slot>
+    </connection>
+    <connection>
+        <sender>PF_MaxWidthEdt</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>PF_MaxWidthEdt_returnPressed()</slot>
+    </connection>
+    <connection>
+        <sender>PF_WidthEdit</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>PF_WidthEdit_returnPressed()</slot>
+    </connection>
+    <connection>
+        <sender>PF_MinNoiseEdit</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>PF_MinNoiseEdit_returnPressed()</slot>
+    </connection>
+    <connection>
+        <sender>ParsTable</sender>
+        <signal>contextMenuRequested(int, int, const QPoint &amp;)</signal>
+        <receiver>TGo4FitPanel</receiver>
+        <slot>ParsTable_contextMenuRequested(int, int, const QPoint &amp;)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QGo4Widget.h</include>
+    <include location="local" impldecl="in implementation">qlayout.h</include>
+    <include location="local" impldecl="in implementation">qmessagebox.h</include>
+    <include location="local" impldecl="in implementation">qevent.h</include>
+    <include location="local" impldecl="in implementation">qdragobject.h</include>
+    <include location="local" impldecl="in implementation">qinputdialog.h</include>
+    <include location="local" impldecl="in implementation">qfiledialog.h</include>
+    <include location="local" impldecl="in implementation">qmessagebox.h</include>
+    <include location="local" impldecl="in implementation">qpixmap.h</include>
+    <include location="local" impldecl="in implementation">qmenubar.h</include>
+    <include location="local" impldecl="in implementation">qpopupmenu.h</include>
+    <include location="local" impldecl="in implementation">qwidgetlist.h</include>
+    <include location="local" impldecl="in implementation">qapplication.h</include>
+    <include location="local" impldecl="in implementation">TStyle.h</include>
+    <include location="local" impldecl="in implementation">TObject.h</include>
+    <include location="local" impldecl="in implementation">TObjArray.h</include>
+    <include location="local" impldecl="in implementation">TArrayI.h</include>
+    <include location="local" impldecl="in implementation">TROOT.h</include>
+    <include location="local" impldecl="in implementation">TClass.h</include>
+    <include location="local" impldecl="in implementation">TMath.h</include>
+    <include location="local" impldecl="in implementation">TArrow.h</include>
+    <include location="local" impldecl="in implementation">Buttons.h</include>
+    <include location="local" impldecl="in implementation">TH1.h</include>
+    <include location="local" impldecl="in implementation">TCutG.h</include>
+    <include location="local" impldecl="in implementation">TPad.h</include>
+    <include location="local" impldecl="in implementation">TCanvas.h</include>
+    <include location="local" impldecl="in implementation">TPaveStats.h</include>
+    <include location="local" impldecl="in implementation">TFile.h</include>
+    <include location="local" impldecl="in implementation">TGo4LockGuard.h</include>
+    <include location="local" impldecl="in implementation">TGo4Slot.h</include>
+    <include location="local" impldecl="in implementation">TGo4Fitter.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitterAction.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitterConfig.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitterOutput.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitMinuit.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitAmplEstimation.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitPeakFinder.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitParsList.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitParameter.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitComponent.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitModel.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitModelPolynom.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitModelGauss1.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitModelGauss2.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitModelGaussN.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitModelFormula.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitModelFunction.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitModelFromData.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitData.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitDataHistogram.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitDataGraph.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitDataProfile.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitDataRidge.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitDependency.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitMinuitResult.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitSlot.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitAxisTrans.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitLinearTrans.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitMatrixTrans.h</include>
+    <include location="local" impldecl="in implementation">TGo4Log.h</include>
+    <include location="local" impldecl="in implementation">QGo4LineEdit.h</include>
+    <include location="local" impldecl="in implementation">TGo4ViewPanel.h</include>
+    <include location="local" impldecl="in implementation">TGo4WorkSpace.h</include>
+    <include location="local" impldecl="in implementation">TGo4QSettings.h</include>
+    <include location="local" impldecl="in implementation">QFitItem.h</include>
+    <include location="local" impldecl="in implementation">QFitWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitNamedWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitRangeWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitRangeCutWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitParWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitDependencyWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitParCfgWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitDataWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitModelWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitModelPolynomWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitModelGauss1Widget.h</include>
+    <include location="local" impldecl="in implementation">QFitModelGauss2Widget.h</include>
+    <include location="local" impldecl="in implementation">QFitModelGaussNWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitModelFormulaWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitModelFunctionWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitAmplEstimWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitPeakFinderWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitOutputActionWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitMinuitWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitMinuitResWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitSlotWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitterWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitTableWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitPrintWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitLinearTransWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitMatrixTransWidget.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitGuiTypes.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitPanel.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4ViewPanel</forward>
+    <forward>class TPad</forward>
+    <forward>class QMouseEvent</forward>
+    <forward>class QDragEnterEvent</forward>
+    <forward>class QDragMoveEvent</forward>
+    <forward>class QDropEvent</forward>
+    <forward>class QMenuBar</forward>
+    <forward>class QPopupMenu</forward>
+    <forward>class QFitItem</forward>
+    <forward>class QFitNamedWidget</forward>
+    <forward>class QFitModelWidget</forward>
+    <forward>class TObject</forward>
+    <forward>class TObjArray</forward>
+    <forward>class TGo4Slot</forward>
+    <forward>class TGo4FitSlot</forward>
+    <forward>class TGo4FitComponent</forward>
+    <forward>class TGo4FitModel</forward>
+    <forward>class TGo4FitData</forward>
+    <forward>class TGo4Fitter</forward>
+    <forward>class TGo4FitGuiArrow</forward>
+    <forward>class TGo4FitPeakFinder</forward>
+</forwards>
+<variables>
+    <variable>QMenuBar* MenuBar</variable>
+    <variable>QPopupMenu* FitterMenu</variable>
+    <variable>QPopupMenu* ViewMenu</variable>
+    <variable>QPopupMenu* SettMenu</variable>
+    <variable>QPopupMenu* ItemMenu</variable>
+    <variable>bool fbFillingWidget</variable>
+    <variable>int fiPaintMode</variable>
+    <variable>TObjArray* fxWizPars</variable>
+    <variable>TObjArray* fxWizSlots</variable>
+    <variable>TObjArray* fxParsTableList</variable>
+    <variable>TGo4ViewPanel* fxActivePanel</variable>
+    <variable>TPad* fxActivePad</variable>
+    <variable>TGo4ViewPanel* fxDrawNewPanel</variable>
+    <variable>bool fbDrawPanelCreation</variable>
+    <variable>QFitItem* fxCurrentItem</variable>
+    <variable>bool fbNeedConfirmation</variable>
+    <variable>bool fbShowPrimitives</variable>
+    <variable>bool fbFreezeMode</variable>
+    <variable>int fiPanelMode</variable>
+    <variable>bool fbParsWidgetShown</variable>
+    <variable>bool fbDrawModels</variable>
+    <variable>bool fbDrawComponents</variable>
+    <variable>bool fbDrawBackground</variable>
+    <variable>bool fbUseSamePanelForDraw</variable>
+    <variable>bool fbDrawInfoOnPad</variable>
+    <variable>int fiIntegralMode</variable>
+    <variable>bool fbRecalculateGaussWidth</variable>
+    <variable>int fiBuffersUsage</variable>
+    <variable>bool fbSaveWithReferences</variable>
+    <variable>bool fbUseCurrentRange</variable>
+    <variable>QString fxWizDataName</variable>
+    <variable>QString fxWizModelName</variable>
+    <variable>bool fbWizShowAllModels</variable>
+    <variable>int fiWizPageIndex</variable>
+    <variable>bool fbUseAmplEstim</variable>
+    <variable>int fiNumMigradIter</variable>
+</variables>
+<slots>
+    <slot>panelSlot(TGo4ViewPanel*, TPad*, int)</slot>
+    <slot>FitList_contextMenuRequested( QListViewItem * item, const QPoint &amp; pnt, int )</slot>
+    <slot>FitList_currentChanged( QListViewItem * item )</slot>
+    <slot>AboutToShowViewMenu()</slot>
+    <slot>ChangeViewType(int id)</slot>
+    <slot>ShowPanelPage(int id)</slot>
+    <slot>AboutToShowSettMenu()</slot>
+    <slot>ChangeSettings( int id )</slot>
+    <slot>AboutToShowFitterMenu()</slot>
+    <slot>FitterMenuItemSelected( int id )</slot>
+    <slot>AboutToShowItemMenu()</slot>
+    <slot>ItemMenuItemSelected( int id )</slot>
+    <slot>PF_MinWidthEdt_textChanged( const QString &amp; str )</slot>
+    <slot>PF_MaxWidthEdt_textChanged( const QString &amp; str )</slot>
+    <slot>PF_WidthEdit_textChanged( const QString &amp; str )</slot>
+    <slot>PF_AmplSlider_valueChanged( int zn )</slot>
+    <slot>PF_AmplSlider_sliderReleased()</slot>
+    <slot>PF_RelNoiseSlider_valueChanged( int zn )</slot>
+    <slot>PF_RelNoiseSlider_sliderReleased()</slot>
+    <slot>PF_MinNoiseEdit_textChanged( const QString &amp; str )</slot>
+    <slot>PF_SumUpSpin_valueChanged( int num )</slot>
+    <slot>Wiz_DataListSelect( int indx )</slot>
+    <slot>Wiz_DataList_highlighted( int indx )</slot>
+    <slot>Wiz_ModelListSelect( int indx, bool ontext )</slot>
+    <slot>Wiz_ModelList_highlighted( int indx )</slot>
+    <slot>Wiz_AddDataBtn_clicked()</slot>
+    <slot>Wiz_DelDataBtn_clicked()</slot>
+    <slot>Wiz_AddModelBtn_clicked()</slot>
+    <slot>Wiz_DelModelBtn_clicked()</slot>
+    <slot>Wiz_CloneModelBtn_clicked()</slot>
+    <slot>Wiz_ShowAllMod_toggled( bool zn )</slot>
+    <slot>Wiz_FitFuncCmb_activated( int typ )</slot>
+    <slot>Wiz_FitNameEdt_textChanged( const QString &amp; name )</slot>
+    <slot>Wiz_ParTable_valueChanged( int nrow, int ncol )</slot>
+    <slot>Wiz_DataList_doubleClicked( QListBoxItem * )</slot>
+    <slot>Wiz_ModelList_doubleClicked( QListBoxItem * )</slot>
+    <slot>Wiz_RebuildDataBtn_clicked()</slot>
+    <slot>Wiz_DataBufChk_toggled( bool zn )</slot>
+    <slot>Wiz_UseAmplEstimChk_toggled( bool chk )</slot>
+    <slot>Wiz_MigradIterSpin_valueChanged( int num )</slot>
+    <slot>Wiz_DataSlotsTable_contextMenuRequested( int nrow, int ncol, const QPoint &amp; pnt )</slot>
+    <slot>Wiz_DataUseRangeBtn_clicked()</slot>
+    <slot>Wiz_DataClearRangesBtn_clicked()</slot>
+    <slot>Wiz_DrawDataBtn_clicked()</slot>
+    <slot>Wiz_DataList_clicked( QListBoxItem * )</slot>
+    <slot>Wiz_DataList_pressed( QListBoxItem * )</slot>
+    <slot>Wiz_DataList_selected( int indx )</slot>
+    <slot>Wiz_ModelList_selected( int indx )</slot>
+    <slot>Wiz_ModelBufChk_toggled( bool zn )</slot>
+    <slot>Wiz_PFSetupBtn_clicked()</slot>
+    <slot>Wiz_PFUsePolynChk_toggled( bool zn )</slot>
+    <slot>Wiz_PFPolynSpin_valueChanged( int zn )</slot>
+    <slot>Wiz_MinSetupBtn_clicked()</slot>
+    <slot>MainAttachBtn_clicked()</slot>
+    <slot>MainFitBtn_clicked()</slot>
+    <slot>MainDrawBtn_clicked()</slot>
+    <slot>MainFindBtn_clicked()</slot>
+    <slot>MainParsBtn_clicked()</slot>
+    <slot>FillParsWidget()</slot>
+    <slot>LineParsChk_toggled( bool )</slot>
+    <slot>ParsTable_valueChanged( int nrow, int ncol )</slot>
+    <slot>ParsTableChanged( QTable * table, int nrow, int ncol, bool LinesView, TObjArray * TableList, bool updatepaint )</slot>
+    <slot>Smp_PolynomBtn_clicked()</slot>
+    <slot>Smp_GaussianBtn_clicked()</slot>
+    <slot>Smp_LorenzBtn_clicked()</slot>
+    <slot>Smp_ExponentBtn_clicked()</slot>
+    <slot>Smp_ClearBtn_clicked()</slot>
+    <slot>FindersTab_currentChanged( QWidget * )</slot>
+    <slot>Wiz_ModelList_clicked( QListBoxItem * item, const QPoint &amp; pnt )</slot>
+    <slot>Wiz_BackgroundChk_toggled( bool chk )</slot>
+    <slot>PF_MinWidthEdt_returnPressed()</slot>
+    <slot>PF_MaxWidthEdt_returnPressed()</slot>
+    <slot>PF_WidthEdit_returnPressed()</slot>
+    <slot>PF_MinNoiseEdit_returnPressed()</slot>
+    <slot>ParsTable_contextMenuRequested(int, int, const QPoint &amp;)</slot>
+</slots>
+<functions>
+    <function>init()</function>
+    <function>destroy()</function>
+    <function returnType="bool">IsAcceptDrag(const char* itemname, TClass * cl, int kind )</function>
+    <function>DropOnPanel( QDropEvent* event, const char * itemname, TClass * cl, int kind )</function>
+    <function>linkedObjectUpdated( const char * linkname, TObject * obj )</function>
+    <function>linkedObjectRemoved( const char * linkname )</function>
+    <function>linkedRemoved(TGo4Slot* slot, TObject* obj)</function>
+    <function>CreateFitSlotLink(TGo4FitSlot* slot, const char * itemname)</function>
+    <function access="protected">focusInEvent( QFocusEvent * event )</function>
+    <function access="protected">windowActivationChange( bool OldActive )</function>
+    <function>WorkWithFitter(const char* itemname, TGo4ViewPanel* panel, TPad* pad)</function>
+    <function>WorkWithFitterInSlot(TGo4Slot* slot)</function>
+    <function returnType="bool">WorkingWithPanel()</function>
+    <function returnType="bool">WorkingWithOnlyPad()</function>
+    <function returnType="TGo4ViewPanel*">ActivePanel()</function>
+    <function returnType="TPad*">ActivePad()</function>
+    <function returnType="TGo4Fitter*">GetFitter()</function>
+    <function returnType="TGo4Fitter*">CloneFitter()</function>
+    <function>RemoveFitterLink()</function>
+    <function>SetFitter(TGo4Fitter*)</function>
+    <function>Fitter_New()</function>
+    <function>Fitter_NewForActivePad(bool overwrite)</function>
+    <function>Fitter_Delete()</function>
+    <function>Fitter_UseWorkspace()</function>
+    <function>Fitter_UpdateReferences()</function>
+    <function>Fitter_SaveToBrowser()</function>
+    <function>Fitter_PrintParameters()</function>
+    <function>Fitter_RollbackParameters()</function>
+    <function>Button_WorkWithPanel()</function>
+    <function>Button_SimpleFit(int nmodel)</function>
+    <function>Button_SimpleClear()</function>
+    <function>Button_PeakFinder()</function>
+    <function>Button_PerformFit()</function>
+    <function>Button_FitterDraw(TGo4FitData* selecteddata)</function>
+    <function>Cmd_CreateFitter()</function>
+    <function>Cmd_CreateAppropriateFitter()</function>
+    <function>Cmd_DeleteFitter()</function>
+    <function>Cmd_ClearFitter()</function>
+    <function>Cmd_SaveFitter(bool ask)</function>
+    <function>Cmd_ItemPrint(QFitItem* item)</function>
+    <function>Cmd_AddNewData(QFitItem * item, int id)</function>
+    <function>Cmd_DrawData(QFitItem * item)</function>
+    <function>Cmd_DeleteData(QFitItem * item)</function>
+    <function>Cmd_DeleteAssosiatedModels(QFitItem * item)</function>
+    <function>Cmd_DeleteAllData(QFitItem * item)</function>
+    <function>Cmd_AddNewModel(QFitItem * item, int id)</function>
+    <function>Cmd_DeleteModel(QFitItem * item)</function>
+    <function>Cmd_RemoveModel(TGo4FitModel* model)</function>
+    <function>Cmd_DeleteModels(QFitItem * item)</function>
+    <function>Cmd_CloneModel(QFitItem * item)</function>
+    <function>Cmd_ClearAssigment(QFitItem* item)</function>
+    <function>Cmd_ClearAssigments(QFitItem* item)</function>
+    <function>Cmd_AssignModelToAllData(QFitItem* item)</function>
+    <function>Cmd_AssignModelToData(QFitItem* item, int id)</function>
+    <function>Cmd_RemoveRangeCondition(QFitItem* item)</function>
+    <function>Cmd_RemoveRangeConditions(QFitItem* item)</function>
+    <function>Cmd_AddRangeCondition(QFitItem* item, int id)</function>
+    <function>Cmd_DeleteAction(QFitItem* item)</function>
+    <function>Cmd_DeleteActions(QFitItem* item)</function>
+    <function>Cmd_MoveAction(QFitItem* item, int dir)</function>
+    <function>Cmd_ExecuteAction(QFitItem* item)</function>
+    <function>Cmd_ExecuteActions(QFitItem* item, bool expert)</function>
+    <function>Cmd_DeleteOutputActions(QFitItem* item)</function>
+    <function>Cmd_AddNewAction(QFitItem* item, int id)</function>
+    <function>Cmd_DeleteDependency(QFitItem* item)</function>
+    <function>Cmd_DeleteDependencies(QFitItem* item)</function>
+    <function>Cmd_AddDependency(QFitItem* item)</function>
+    <function>Cmd_MemorizePars(QFitItem* item)</function>
+    <function>Cmd_RememberPars(QFitItem* item)</function>
+    <function>Cmd_DeletePars(QFitItem* item)</function>
+    <function>Cmd_AddNewPar(QFitItem* item)</function>
+    <function>Cmd_MemorizePar(QFitItem* item)</function>
+    <function>Cmd_RememberPar(QFitItem* item)</function>
+    <function>Cmd_DeletePar(QFitItem* item)</function>
+    <function>Cmd_DeleteMinuitResult(QFitItem* item)</function>
+    <function>Cmd_UpdateAllSlots(QFitItem* item)</function>
+    <function>UpdateActivePage()</function>
+    <function>UpdateSimplePage()</function>
+    <function>UpdateWizardPage()</function>
+    <function>UpdateExtendedPage()</function>
+    <function>RemovePrimitives()</function>
+    <function returnType="TGo4Fitter*">CreateFitterFor(TGo4ViewPanel* panel, TPad* pad, const char* name)</function>
+    <function>CreateDataFor(TGo4ViewPanel* panel, TPad* pad, TGo4Fitter* fitter)</function>
+    <function returnType="bool">FillPopupForItem(QFitItem* item, QPopupMenu* menu)</function>
+    <function>ExecPopupForItem(QFitItem* item, int id)</function>
+    <function returnType="bool">FillPopupForSlot(TGo4FitSlot* slot, QPopupMenu* menu)</function>
+    <function>ExecutePopupForSlot(QFitItem* item, TGo4FitSlot* slot, int id)</function>
+    <function returnType="QFitItem*">GetFitterItem()</function>
+    <function returnType="QFitItem*">FindItem(TObject* obj, int ObjectType, QFitItem* parent)</function>
+    <function returnType="bool">ShowItem(QFitItem* item, bool force)</function>
+    <function returnType="bool">ShowItemAsText(QFitItem* item, bool force)</function>
+    <function returnType="bool">ShowItemAsGraph(QFitItem* item, bool force)</function>
+    <function>RemoveItemWidget()</function>
+    <function>UpdateItem(QFitItem* item, bool trace)</function>
+    <function>SetItemText(QFitItem* item, bool trace)</function>
+    <function>UpdateItemsOfType(int typ, QFitItem* parent)</function>
+    <function>FitItemDeleted(QFitItem* item)</function>
+    <function>FillModelTypesList(QPopupMenu* menu, int id, bool extend)</function>
+    <function>FillDataTypesList(QPopupMenu* menu, int id)</function>
+    <function>FillParsList(QFitItem* item)</function>
+    <function>FillSlotsList(QFitItem* parent, const TObjArray* lst, TObject* owner)</function>
+    <function>FillDependencyList(QFitItem* parent)</function>
+    <function>PaintFitter(TGo4Fitter* fitter, QFitItem* item, bool update)</function>
+    <function returnType="bool">PaintModel(TGo4FitModel* model, TPad* pad, QFitItem* item)</function>
+    <function returnType="bool">PaintModelsFor(TGo4Fitter* fitter, TGo4FitData* data, QFitItem* item, bool update)</function>
+    <function returnType="bool">PaintRange(TGo4FitComponent* comp, int nrange, TPad* pad, QFitItem* item)</function>
+    <function returnType="TGo4FitPeakFinder*">GetPeakFinder(bool autocreate)</function>
+    <function returnType="TGo4FitData*">Wiz_SelectedData()</function>
+    <function returnType="TGo4FitModel*">Wiz_SelectedModel()</function>
+    <function>Wiz_PrepareModelTypeList(QPopupMenu* menu)</function>
+    <function returnType="TGo4FitModel*">Wiz_CreateNewModel(int id)</function>
+    <function>Wiz_PrepareDataTypeList(QPopupMenu* menu)</function>
+    <function returnType="TGo4FitData*">Wiz_CreateNewData(int id)</function>
+    <function>Wiz_RebuildDataList()</function>
+    <function returnType="bool">Wiz_RemoveData()</function>
+    <function>Wiz_UseSelectedRange()</function>
+    <function>Wiz_TakeCurrentRange()</function>
+    <function>Wiz_GetModelInfo(TGo4FitModel* model, QString* info)</function>
+    <function returnType="QString">Wiz_GetSlotSourceInfo(TGo4FitSlot* slot)</function>
+    <function>ArrowChanged(TGo4FitGuiArrow* arr)</function>
+    <function>DeleteModelWithPrimit(TGo4FitGuiArrow* arr)</function>
+    <function returnType="int">GetPadIndexForSlot(TGo4FitSlot* slot)</function>
+    <function returnType="TPad*">FindPadForSlot(TGo4FitSlot* slot)</function>
+    <function returnType="TPad*">FindPadWhereData(TGo4FitData* data)</function>
+    <function returnType="TPad*">FindPadWhereModel(TGo4FitModel* model)</function>
+    <function returnType="TPad*">FindPadWhereComp(TGo4FitComponent* comp)</function>
+    <function returnType="TGo4FitData*">CreateData(int id, const char* name)</function>
+    <function returnType="TGo4FitModel*">CreateModel(int id, const char* namebase, TGo4Fitter* fitter, TGo4FitData* data)</function>
+    <function>LocateModel(TGo4FitModel* model, TGo4FitData* data, bool usepad)</function>
+    <function returnType="int">DefineModelWidgetType(TObject* obj)</function>
+    <function returnType="bool">UpdateObjectReferenceInSlot(TGo4FitSlot* slot, bool createlink)</function>
+    <function returnType="bool">UpdateObjectReferenceInSlots()</function>
+    <function>ClearObjectReferenceInSlots()</function>
+    <function>RemoveDrawObjects()</function>
+    <function>CloseDrawPanel()</function>
+    <function>UpdateStatusBar(const char* info)</function>
+    <function>UpdateItemMenu()</function>
+    <function>UpdatePFAmplLbl()</function>
+    <function>UpdatePFRelNoiseLbl()</function>
+    <function>UpdateWizDataList()</function>
+    <function>UpdateWizDataBtns()</function>
+    <function>UpdateWizModelsList(bool changestack)</function>
+    <function>UpdateWizModelsBtns()</function>
+    <function>UpdateWizStackWidget()</function>
+    <function>UpdateWizPaint(int mode)</function>
+    <function>FillParsTable( QTable * table, TGo4Fitter * fitter, TGo4FitModel * model, bool LinesView, TObjArray * TableList )</function>
+    <function>FillNamedWidget(QFitNamedWidget* w)</function>
+    <function>ChangeObjectName(QFitNamedWidget* w, const char* newname)</function>
+    <function>ChangeObjectTitle(QFitNamedWidget* w, const char* newtitle)</function>
+    <function>ChangeModelPar(QFitModelWidget* w, int npar, int value)</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

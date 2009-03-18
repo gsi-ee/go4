@@ -1,0 +1,109 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>QFitModelFormulaWidget</class>
+<widget class="QFitModelWidget">
+    <property name="name">
+        <cstring>QFitModelFormulaWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>QFitModelFormulaWidget</string>
+    </property>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel15</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>200</y>
+                <width>169</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Number of parameters</string>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel16</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>140</y>
+                <width>94</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Expression</string>
+        </property>
+    </widget>
+    <widget class="QGo4LineEdit">
+        <property name="name">
+            <cstring>ExprEdt</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>160</y>
+                <width>380</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QSpinBox">
+        <property name="name">
+            <cstring>NumParSpin</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>220</y>
+                <width>170</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>ExprEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitModelFormulaWidget</receiver>
+        <slot>ExprEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>NumParSpin</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>QFitModelFormulaWidget</receiver>
+        <slot>NumParSpin_valueChanged(int)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QFitModelWidget.h</include>
+    <include location="local" impldecl="in implementation">QGo4LineEdit.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitModelFormula.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitGuiTypes.h</include>
+    <include location="local" impldecl="in implementation">QFitModelFormulaWidget.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4FitModelFormula</forward>
+</forwards>
+<slots>
+    <slot returnType="TGo4FitModelFormula *">GetFormula()</slot>
+    <slot>FillSpecificData()</slot>
+    <slot>ExprEdt_textChanged( const QString &amp; )</slot>
+    <slot>NumParSpin_valueChanged( int )</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

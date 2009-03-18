@@ -1,0 +1,107 @@
+/****************************************************************************
+** ui.h extension file, included from the uic-generated form implementation.
+**
+** If you wish to add, delete or rename slots use Qt Designer which will
+** update this file, preserving your code. Create an init() slot in place of
+** a constructor, and a destroy() slot in place of a destructor.
+*****************************************************************************/
+
+
+TGo4FitData* QFitDataWidget::GetData() {
+   return dynamic_cast<TGo4FitData*> (GetObject());
+}
+
+void QFitDataWidget::FillSpecificData() {
+  QFitNamedWidget::FillSpecificData();
+
+  if(GetData()) {
+     if(GetData()->GetDataType()==TGo4FitData::dtHistogram) DataInfoLbl->setText("Data type: histogramic");
+                                                       else DataInfoLbl->setText("Data type: set of points");
+     DataInfoLbl->adjustSize();
+
+     AmplChk->setChecked(GetData()->GetAmplPar()!=0);
+     AmplChk->setEnabled(GetData()->CanAmplTouch());
+
+     NumCalibrSpin->setValue(GetData()->GetNumberOfTransSlots());
+     UseBinsChk->setChecked(GetData()->GetUseBinScale());
+     SigmaCmb->setCurrentItem(GetData()->GetSigmaSource());
+     SigmaEdt->setEnabled(GetData()->GetSigmaSource()==2);
+     SigmaEdt->setText(QString::number(GetData()->GetSigmaValue()));
+     BinsLimitEdt->setText(QString::number(GetData()->GetExcludeLessThen()));
+     UseBuffersChk->setChecked(GetData()->GetUseBuffers());
+
+     QString info("Models:");
+
+     TGo4Fitter* fitter = dynamic_cast<TGo4Fitter*> (GetItem()->Parent()->Object());
+     if (fitter)
+      for(Int_t nmodel=0;nmodel<fitter->GetNumModel();nmodel++) {
+         TGo4FitModel* model = fitter->GetModel(nmodel);
+         if (model->IsAssignTo(GetData()->GetName())) {
+            info+=" "; info+=model->GetName();
+         }
+      }
+     ModelsLbl->setText(info);
+     ModelsLbl->adjustSize();
+   }
+}
+
+void QFitDataWidget::NumCalibrSpin_valueChanged( int num)
+{
+  if(!fbFillWidget && GetData())
+    if (GetData()->SetNumberOfTransSlots(num)) {
+       if (GetFitter())
+         GetFitter()->SetUpdateSlotList();
+       UpdateWidgetItem(true);
+       UpdateItemsOfType(FitGui::ot_allslots, true);
+    }
+}
+
+void QFitDataWidget::UseBinsChk_toggled( bool zn)
+{
+ if(!fbFillWidget && GetData())
+    GetData()->SetUseBinScale(zn);
+}
+
+void QFitDataWidget::SigmaCmb_activated( int zn)
+{
+ if(!fbFillWidget && GetData()) {
+    GetData()->SetSigmaSource(zn, -1.);
+    SigmaEdt->setEnabled(zn==2);
+  }
+}
+
+
+void QFitDataWidget::SigmaEdt_textChanged( const QString & value)
+{
+  if(!fbFillWidget && GetData()) {
+    bool ok = TRUE;
+    double zn = value.toDouble(&ok);
+    if(ok) GetData()->SetSigmaValue(zn);
+  }
+}
+
+void QFitDataWidget::BinsLimitEdt_textChanged( const QString & value)
+{
+  if(!fbFillWidget && GetData()) {
+    bool ok = TRUE;
+    double zn = value.toDouble(&ok);
+    if(ok) GetData()->SetExcludeLessThen(zn);
+  }
+}
+
+void QFitDataWidget::AmplChk_toggled( bool chk)
+{
+  if(!fbFillWidget && GetData() && GetData()->CanAmplTouch()) {
+     bool res = FALSE;
+     if (chk) res = GetData()->MakeAmpl();
+        else  res = GetData()->RemoveAmpl();
+     if (res) UpdateItemsOfType(FitGui::ot_parslist, false);
+  }
+}
+
+
+void QFitDataWidget::UseBuffersChk_toggled(bool zn)
+{
+  if(!fbFillWidget && GetData())
+    GetData()->SetUseBuffers(zn);
+}

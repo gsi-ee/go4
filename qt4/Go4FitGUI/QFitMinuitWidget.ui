@@ -1,0 +1,61 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>QFitMinuitWidget</class>
+  <widget class="QFitNamedWidget" name="QFitMinuitWidget" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>600</width>
+        <height>480</height>
+      </rect>
+    </property>
+    <property name="caption" >
+      <string>QFitMinuitWidget</string>
+    </property>
+    <widget class="QLabel" name="TextLabel10" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>120</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>Command list:</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="Q3TextEdit" name="CommandsEdit" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>130</y>
+          <width>340</width>
+          <height>200</height>
+        </rect>
+      </property>
+      <property name="textFormat" >
+        <enum>Qt::PlainText</enum>
+      </property>
+    </widget>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <includes>
+    <include location="local" >QFitNamedWidget.h</include>
+  </includes>
+  <connections>
+    <connection>
+      <sender>CommandsEdit</sender>
+      <signal>textChanged()</signal>
+      <receiver>QFitMinuitWidget</receiver>
+      <slot>CommandsEdit_textChanged()</slot>
+    </connection>
+  </connections>
+</ui>

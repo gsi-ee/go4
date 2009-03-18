@@ -1,0 +1,116 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>TGo4DividePad</class>
+<author>Mohammad Al-Turany</author>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>TGo4DividePad</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>260</width>
+            <height>33</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Divide Pad</string>
+    </property>
+    <property name="icon">
+        <pixmap>go4logo2_big.png</pixmap>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
+        </property>
+        <property name="spacing">
+            <number>0</number>
+        </property>
+        <widget class="QLayoutWidget" row="0" column="0">
+            <property name="name">
+                <cstring>Layout63</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>0</number>
+                </property>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>DivideCanvas_b</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Divide Pad into</string>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>Layout15</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QSpinBox">
+                            <property name="name">
+                                <cstring>SpinBoxX</cstring>
+                            </property>
+                            <property name="minValue">
+                                <number>1</number>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>x</string>
+                            </property>
+                        </widget>
+                        <widget class="QSpinBox">
+                            <property name="name">
+                                <cstring>SpinBoxY</cstring>
+                            </property>
+                            <property name="minValue">
+                                <number>1</number>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>DivideCanvas_b</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4DividePad</receiver>
+        <slot>DivideCanvas()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">TGo4WorkSpace.h</include>
+    <include location="local" impldecl="in implementation">TGo4ViewPanel.h</include>
+    <include location="local" impldecl="in implementation">TGo4DividePad.ui.h</include>
+</includes>
+<slots>
+    <slot>DivideCanvas()</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="0" margin="0"/>
+</UI>

@@ -1,0 +1,55 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>QFitTableWidget</class>
+<widget class="QFitWidget">
+    <property name="name">
+        <cstring>QFitTableWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>QFitTableWidget</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="QTable" row="0" column="0">
+            <property name="name">
+                <cstring>Table</cstring>
+            </property>
+            <property name="numRows">
+                <number>0</number>
+            </property>
+            <property name="numCols">
+                <number>0</number>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<connections>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QFitWidget.h</include>
+    <include location="local" impldecl="in implementation">QFitItem.h</include>
+    <include location="local" impldecl="in implementation">TGo4Fitter.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitGuiTypes.h</include>
+    <include location="local" impldecl="in implementation">QFitTableWidget.ui.h</include>
+</includes>
+<slots>
+    <slot>FillSpecificData()</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

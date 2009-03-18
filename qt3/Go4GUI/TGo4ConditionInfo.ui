@@ -1,0 +1,351 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4ConditionInfo</class>
+<widget class="QGo4Widget">
+    <property name="name">
+        <cstring>TGo4ConditionInfo</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>238</width>
+            <height>345</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Condition Status Information</string>
+    </property>
+    <property name="icon">
+        <pixmap>go4logo2_big.png</pixmap>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>CondnameLbl</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Plain</enum>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Name of the condition</string>
+            </property>
+        </widget>
+        <widget class="QListBox" row="1" column="0">
+            <item>
+                <property name="text">
+                    <string>Title:</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Class:</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Dim:</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>X:</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Y:</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Counts</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>True:</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Enabled:</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>size: 0b</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Time</string>
+                </property>
+            </item>
+            <property name="name">
+                <cstring>PropertyBox</cstring>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="2" column="0">
+            <property name="name">
+                <cstring>layout200</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>ConInfoButton</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>right.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Refresh condition information.</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer17_2_2_2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>40</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>ConPrintButton</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>condlist.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Print condition list in analysis window.</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer17_2_2_2_2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>40</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>PrintLog</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>log.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Log current values to terminal or file.</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer17_2_2_2_3</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>40</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>ConEditButton</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>condedit.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Open condition editor.</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<customwidgets>
+</customwidgets>
+<connections>
+    <connection>
+        <sender>ConInfoButton</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ConditionInfo</receiver>
+        <slot>ConInfoButton_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>ConPrintButton</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ConditionInfo</receiver>
+        <slot>ConPrintButton_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>ConEditButton</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ConditionInfo</receiver>
+        <slot>ConEditButton_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>PrintLog</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ConditionInfo</receiver>
+        <slot>PrintLog_clicked()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QGo4Widget.h</include>
+    <include location="local" impldecl="in implementation">TClass.h</include>
+    <include location="local" impldecl="in implementation">TDatime.h</include>
+    <include location="local" impldecl="in implementation">TH1.h</include>
+    <include location="local" impldecl="in implementation">TGo4Log.h</include>
+    <include location="local" impldecl="in implementation">TGo4Condition.h</include>
+    <include location="local" impldecl="in implementation">TGo4WinCond.h</include>
+    <include location="local" impldecl="in implementation">TGo4ConditionInfo.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4Condition</forward>
+</forwards>
+<slots>
+    <slot>ConInfoButton_clicked()</slot>
+    <slot>ConPrintButton_clicked()</slot>
+    <slot>ConEditButton_clicked()</slot>
+    <slot>PrintLog_clicked()</slot>
+</slots>
+<functions>
+    <function>init()</function>
+    <function returnType="bool">IsAcceptDrag(const char* itemname, TClass* cl, int kind)</function>
+    <function>DropItem(const char* itemname, TClass* cl, int kind)</function>
+    <function>linkedObjectUpdated(const char* linkname, TObject* obj)</function>
+    <function>WorkWithCondition(const char* itemname)</function>
+    <function>ResetWidget()</function>
+    <function>RefreshWidget(TGo4Condition* cond)</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

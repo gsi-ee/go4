@@ -1,0 +1,74 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>QFitAmplEstimWidget</class>
+<widget class="QFitNamedWidget">
+    <property name="name">
+        <cstring>QFitAmplEstimWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>QFitAmplEstimWidget</string>
+    </property>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>110</y>
+                <width>85</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Iterations:</string>
+        </property>
+    </widget>
+    <widget class="QSpinBox">
+        <property name="name">
+            <cstring>Iterations</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>110</x>
+                <y>110</y>
+                <width>140</width>
+                <height>27</height>
+            </rect>
+        </property>
+        <property name="minValue">
+            <number>1</number>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>Iterations</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>QFitAmplEstimWidget</receiver>
+        <slot>Iterations_valueChanged(int)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QFitNamedWidget.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitAmplEstimation.h</include>
+    <include location="local" impldecl="in implementation">QFitAmplEstimWidget.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4FitAmplEstimation</forward>
+</forwards>
+<slots>
+    <slot returnType="TGo4FitAmplEstimation *">GetAmplEstim()</slot>
+    <slot>FillSpecificData()</slot>
+    <slot>Iterations_valueChanged( int )</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

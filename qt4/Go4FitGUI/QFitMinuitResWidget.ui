@@ -1,0 +1,43 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>QFitMinuitResWidget</class>
+  <widget class="QFitNamedWidget" name="QFitMinuitResWidget" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>454</width>
+        <height>435</height>
+      </rect>
+    </property>
+    <property name="caption" >
+      <string>QFitMinuitResWidget</string>
+    </property>
+    <widget class="QLabel" name="InfoLabel" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>120</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="frameShadow" >
+        <enum>QFrame::Raised</enum>
+      </property>
+      <property name="text" >
+        <string>Info label</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <includes>
+    <include location="local" >QFitNamedWidget.h</include>
+  </includes>
+</ui>

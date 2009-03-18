@@ -1,0 +1,116 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>QFitOutputActionWidget</class>
+  <widget class="QFitNamedWidget" name="QFitOutputActionWidget" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>600</width>
+        <height>480</height>
+      </rect>
+    </property>
+    <property name="caption" >
+      <string>QFitOutputActionWidget</string>
+    </property>
+    <widget class="QLabel" name="TextLabel2" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>85</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>Command:</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel3" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>150</y>
+          <width>85</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>Options:</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QGo4LineEdit" name="OptionsEdit" >
+      <property name="geometry" >
+        <rect>
+          <x>110</x>
+          <y>150</y>
+          <width>250</width>
+          <height>27</height>
+        </rect>
+      </property>
+    </widget>
+    <widget class="QComboBox" name="CommandCombo" >
+      <property name="geometry" >
+        <rect>
+          <x>110</x>
+          <y>110</y>
+          <width>170</width>
+          <height>27</height>
+        </rect>
+      </property>
+      <item>
+        <property name="text" >
+          <string>Print</string>
+        </property>
+      </item>
+      <item>
+        <property name="text" >
+          <string>Print("Pars")</string>
+        </property>
+      </item>
+      <item>
+        <property name="text" >
+          <string>Print("Ampls")</string>
+        </property>
+      </item>
+      <item>
+        <property name="text" >
+          <string>Print("Results")</string>
+        </property>
+      </item>
+      <item>
+        <property name="text" >
+          <string>Draw</string>
+        </property>
+      </item>
+    </widget>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <includes>
+    <include location="local" >QFitNamedWidget.h</include>
+    <include location="local">QGo4LineEdit.h</include>
+  </includes>
+  <connections>
+    <connection>
+      <sender>OptionsEdit</sender>
+      <signal>textChanged(QString)</signal>
+      <receiver>QFitOutputActionWidget</receiver>
+      <slot>OptionsEdit_textChanged(QString)</slot>
+    </connection>
+    <connection>
+      <sender>CommandCombo</sender>
+      <signal>activated(int)</signal>
+      <receiver>QFitOutputActionWidget</receiver>
+      <slot>CommandCombo_activated(int)</slot>
+    </connection>
+  </connections>
+</ui>

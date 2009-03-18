@@ -1,0 +1,162 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>QFitSlotWidget</class>
+  <widget class="QFitNamedWidget" name="QFitSlotWidget" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>600</width>
+        <height>480</height>
+      </rect>
+    </property>
+    <property name="caption" >
+      <string>QFitSlotWidget</string>
+    </property>
+    <widget class="QLabel" name="ObjectLbl" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>140</y>
+          <width>120</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>Slot</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QLabel" name="OwnershipLbl" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>170</y>
+          <width>120</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>Ownership</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QCheckBox" name="RequirementChk" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>200</y>
+          <width>150</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>slot required</string>
+      </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel25" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>235</y>
+          <width>40</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>Save</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QComboBox" name="SaveCmb" >
+      <property name="geometry" >
+        <rect>
+          <x>60</x>
+          <y>230</y>
+          <width>100</width>
+          <height>30</height>
+        </rect>
+      </property>
+      <item>
+        <property name="text" >
+          <string>if owned</string>
+        </property>
+      </item>
+      <item>
+        <property name="text" >
+          <string>always</string>
+        </property>
+      </item>
+      <item>
+        <property name="text" >
+          <string>never</string>
+        </property>
+      </item>
+    </widget>
+    <widget class="QLabel" name="InfoLbl" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>120</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="frameShape" >
+        <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow" >
+        <enum>QFrame::Plain</enum>
+      </property>
+      <property name="text" >
+        <string>Owner</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QLabel" name="SourceLbl" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>270</y>
+          <width>85</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>Source</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <includes>
+    <include location="local" >QFitNamedWidget.h</include>
+  </includes>
+  <connections>
+    <connection>
+      <sender>RequirementChk</sender>
+      <signal>toggled(bool)</signal>
+      <receiver>QFitSlotWidget</receiver>
+      <slot>RequirementChk_toggled(bool)</slot>
+    </connection>
+    <connection>
+      <sender>SaveCmb</sender>
+      <signal>activated(int)</signal>
+      <receiver>QFitSlotWidget</receiver>
+      <slot>SaveCmb_activated(int)</slot>
+    </connection>
+  </connections>
+</ui>

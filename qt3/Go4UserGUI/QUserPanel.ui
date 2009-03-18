@@ -1,0 +1,375 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>QUserPanel</class>
+<widget class="QGo4Widget">
+    <property name="name">
+        <cstring>QUserPanel</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>682</width>
+            <height>559</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>User panel</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QTabWidget" row="1" column="0">
+            <property name="name">
+                <cstring>TabWidget</cstring>
+            </property>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>DragAndDropTab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Drag &amp;&amp; drop</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QLabel" row="4" column="0">
+                        <property name="name">
+                            <cstring>DragKindLbl</cstring>
+                        </property>
+                        <property name="text">
+                            <string>textLabel4</string>
+                        </property>
+                    </widget>
+                    <widget class="QLayoutWidget" row="5" column="0">
+                        <property name="name">
+                            <cstring>layout1</cstring>
+                        </property>
+                        <hbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QPushButton">
+                                <property name="name">
+                                    <cstring>InfoBtn</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Info</string>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton">
+                                <property name="name">
+                                    <cstring>EditBtn</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Edit</string>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton">
+                                <property name="name">
+                                    <cstring>DrawBtn</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Draw</string>
+                                </property>
+                            </widget>
+                            <spacer>
+                                <property name="name">
+                                    <cstring>spacer6</cstring>
+                                </property>
+                                <property name="orientation">
+                                    <enum>Horizontal</enum>
+                                </property>
+                                <property name="sizeType">
+                                    <enum>Expanding</enum>
+                                </property>
+                                <property name="sizeHint">
+                                    <size>
+                                        <width>120</width>
+                                        <height>20</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </hbox>
+                    </widget>
+                    <widget class="QLabel" row="3" column="0">
+                        <property name="name">
+                            <cstring>DragClassLbl</cstring>
+                        </property>
+                        <property name="text">
+                            <string>textLabel3</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="1" column="0">
+                        <property name="name">
+                            <cstring>DragLbl</cstring>
+                        </property>
+                        <property name="text">
+                            <string>textLabel2</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="2" column="0">
+                        <property name="name">
+                            <cstring>DragItemLbl</cstring>
+                        </property>
+                        <property name="text">
+                            <string>textLabel5</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="0" column="0">
+                        <property name="name">
+                            <cstring>InfoLabel1</cstring>
+                        </property>
+                        <property name="text">
+                            <string>This is example of using drag &amp; drop mechanism of Go4 in user gui.&lt;br&gt;
+Any object from browser can be draged in this widget.&lt;br&gt;
+Widget can react on two events:&lt;br&gt;
+1. Drag enter action. In that case user can accept or &lt;br&gt;
+   discard draged object in IsAcceptDrag() function.&lt;br&gt;
+2. Drop action. In that case object can be linked to widget. &lt;br&gt;
+   After that widget will be informed when object is updated or deleted.</string>
+                        </property>
+                        <property name="alignment">
+                            <set>WordBreak|AlignVCenter</set>
+                        </property>
+                    </widget>
+                    <spacer row="6" column="0">
+                        <property name="name">
+                            <cstring>spacer5</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>20</width>
+                                <height>40</height>
+                            </size>
+                        </property>
+                    </spacer>
+                </grid>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>PrintTab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Object print</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
+                        <property name="name">
+                            <cstring>PrintInfoLabel</cstring>
+                        </property>
+                        <property name="text">
+                            <string>This example shows how Print() method of any object from browser can be called.&lt;br&gt;
+First select method which is used in obj-&gt;Print() to produce output &lt;br&gt;
+and then just drag &amp; drop object to this label (not to output window).</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
+                        <property name="name">
+                            <cstring>PrintLbl</cstring>
+                        </property>
+                        <property name="text">
+                            <string>PrintLbl</string>
+                        </property>
+                    </widget>
+                    <widget class="QTextEdit" row="3" column="0" rowspan="1" colspan="2">
+                        <property name="name">
+                            <cstring>PrintEdit</cstring>
+                        </property>
+                        <property name="readOnly">
+                            <bool>true</bool>
+                        </property>
+                    </widget>
+                    <widget class="QRadioButton" row="2" column="0">
+                        <property name="name">
+                            <cstring>stdoutButton</cstring>
+                        </property>
+                        <property name="text">
+                            <string>stdout (printf) is used in obj-&gt;Print()</string>
+                        </property>
+                        <property name="checked">
+                            <bool>true</bool>
+                        </property>
+                    </widget>
+                    <widget class="QRadioButton" row="2" column="1">
+                        <property name="name">
+                            <cstring>coutButton</cstring>
+                        </property>
+                        <property name="text">
+                            <string>cout is used in obj-&gt;Print()</string>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>MonitoringTab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Drawing</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>2</number>
+                    </property>
+                    <property name="spacing">
+                        <number>2</number>
+                    </property>
+                    <widget class="QLabel" row="0" column="0">
+                        <property name="name">
+                            <cstring>DrawInfoLbl</cstring>
+                        </property>
+                        <property name="text">
+                            <string>This is example of using QtRoot canvas inside user widget. &lt;br&gt; Just drag &amp; drop items like histograms or graphs from browser to canvas to draw them.</string>
+                        </property>
+                    </widget>
+                    <widget class="QGo4RootCanvas" row="1" column="0">
+                        <property name="name">
+                            <cstring>fxDrawCanvas</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>7</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>1</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>100</width>
+                                <height>100</height>
+                            </size>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+        </widget>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="text">
+                <string>This is an example of Go4 User GUI. &lt;br&gt;This panel uses functionality, provided by QGo4Widget class. &lt;br&gt;Tab widgets shows drag and drop facility, easy print method and monitoring example</string>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<customwidgets>
+    <customwidget>
+        <class>QGo4RootCanvas</class>
+        <header location="local">QGo4RootCanvas.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>5</hordata>
+            <verdata>5</verdata>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+        <pixmap>image0</pixmap>
+        <signal>CanvasDropEvent(QDropEvent*, TPad*)</signal>
+        <signal>CanvasStatusEvent(const char*)</signal>
+        <signal>DoCanvasResize()</signal>
+    </customwidget>
+</customwidgets>
+<images>
+    <image name="image0">
+        <data format="XBM.GZ" length="79">789c534e494dcbcc4b554829cdcdad8c2fcf4c29c95030e0524611cd48cd4ccf28010a1797249664262b2467241641a592324b8aa363156c15aab914146aadb90067111b1f</data>
+    </image>
+</images>
+<connections>
+    <connection>
+        <sender>InfoBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>QUserPanel</receiver>
+        <slot>InfoBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>EditBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>QUserPanel</receiver>
+        <slot>EditBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>DrawBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>QUserPanel</receiver>
+        <slot>DrawBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>coutButton</sender>
+        <signal>clicked()</signal>
+        <receiver>stdoutButton</receiver>
+        <slot>toggle()</slot>
+    </connection>
+    <connection>
+        <sender>stdoutButton</sender>
+        <signal>clicked()</signal>
+        <receiver>coutButton</receiver>
+        <slot>toggle()</slot>
+    </connection>
+    <connection>
+        <sender>fxDrawCanvas</sender>
+        <signal>CanvasDropEvent(QDropEvent*, TPad*)</signal>
+        <receiver>QUserPanel</receiver>
+        <slot>CanvasDropEventSlot(QDropEvent*,TPad*)</slot>
+    </connection>
+    <connection>
+        <sender>fxDrawCanvas</sender>
+        <signal>DoCanvasResize()</signal>
+        <receiver>QUserPanel</receiver>
+        <slot>DoCanvasResizeSlot()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QGo4Widget.h</include>
+    <include location="global" impldecl="in implementation">sstream</include>
+    <include location="global" impldecl="in implementation">iostream</include>
+    <include location="global" impldecl="in implementation">stdio.h</include>
+    <include location="local" impldecl="in implementation">qdragobject.h</include>
+    <include location="local" impldecl="in implementation">Riostream.h</include>
+    <include location="local" impldecl="in implementation">Rstrstream.h</include>
+    <include location="local" impldecl="in implementation">TClass.h</include>
+    <include location="local" impldecl="in implementation">TCanvas.h</include>
+    <include location="local" impldecl="in implementation">TGo4Proxy.h</include>
+    <include location="local" impldecl="in implementation">QGo4RootCanvas.h</include>
+    <include location="local" impldecl="in implementation">QUserPanel.ui.h</include>
+</includes>
+<slots>
+    <slot>InfoBtn_clicked()</slot>
+    <slot>EditBtn_clicked()</slot>
+    <slot>DrawBtn_clicked()</slot>
+    <slot>CanvasDropEventSlot(QDropEvent*,TPad*)</slot>
+    <slot>DoCanvasResizeSlot()</slot>
+</slots>
+<functions>
+    <function>init()</function>
+    <function>destroy()</function>
+    <function returnType="QString">kindString( int kind )</function>
+    <function returnType="bool">IsAcceptDrag( const char * itemname, TClass * cl, int kind )</function>
+    <function>DropItem( const char * itemname, TClass * cl, int kind )</function>
+    <function>linkedObjectUpdated( const char * linkname, TObject * obj )</function>
+    <function>linkedObjectRemoved( const char * linkname )</function>
+    <function>PrintObject(TObject* obj)</function>
+    <function>DrawObjectOnCanvas(const char* itemname)</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

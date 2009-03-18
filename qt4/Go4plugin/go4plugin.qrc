@@ -1,0 +1,10 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/">
+   <file>go4logo2.png</file>
+   <file>go4logo2_big.png</file>
+   <file>root.png</file>
+   <file>scale.png</file>         
+</qresource>
+</RCC>
+
+

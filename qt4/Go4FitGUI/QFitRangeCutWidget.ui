@@ -1,0 +1,145 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>QFitRangeCutWidget</class>
+  <widget class="QFitNamedWidget" name="QFitRangeCutWidget" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>600</width>
+        <height>480</height>
+      </rect>
+    </property>
+    <property name="caption" >
+      <string>Range cut</string>
+    </property>
+    <widget class="QLabel" name="textLabel1" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>80</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>Num points</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QSpinBox" name="NumPointsSpin" >
+      <property name="geometry" >
+        <rect>
+          <x>90</x>
+          <y>110</y>
+          <width>55</width>
+          <height>22</height>
+        </rect>
+      </property>
+      <property name="maximum" >
+        <number>999</number>
+      </property>
+      <property name="minimum" >
+        <number>4</number>
+      </property>
+    </widget>
+    <widget class="QCheckBox" name="ExcludeCutChk" >
+      <property name="geometry" >
+        <rect>
+          <x>160</x>
+          <y>110</y>
+          <width>130</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>exclude range cut</string>
+      </property>
+    </widget>
+    <widget class="Q3Table" name="XYTable" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>140</y>
+          <width>270</width>
+          <height>220</height>
+        </rect>
+      </property>
+      <property name="numRows" >
+        <number>3</number>
+      </property>
+      <property name="numCols" >
+        <number>2</number>
+      </property>
+      <row>
+        <property name="text" >
+          <string>1</string>
+        </property>
+        <property name="pixmap" >
+          <pixmap/>
+        </property>
+      </row>
+      <row>
+        <property name="text" >
+          <string>2</string>
+        </property>
+        <property name="pixmap" >
+          <pixmap/>
+        </property>
+      </row>
+      <row>
+        <property name="text" >
+          <string>3</string>
+        </property>
+        <property name="pixmap" >
+          <pixmap/>
+        </property>
+      </row>
+      <column>
+        <property name="text" >
+          <string>X coordinate</string>
+        </property>
+        <property name="pixmap" >
+          <pixmap/>
+        </property>
+      </column>
+      <column>
+        <property name="text" >
+          <string>Y coordinate</string>
+        </property>
+        <property name="pixmap" >
+          <pixmap/>
+        </property>
+      </column>
+    </widget>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <includes>
+    <include location="local" >QFitNamedWidget.h</include>
+  </includes>
+  <connections>
+    <connection>
+      <sender>NumPointsSpin</sender>
+      <signal>valueChanged(int)</signal>
+      <receiver>QFitRangeCutWidget</receiver>
+      <slot>NumPointsSpin_valueChanged(int)</slot>
+    </connection>
+    <connection>
+      <sender>ExcludeCutChk</sender>
+      <signal>toggled(bool)</signal>
+      <receiver>QFitRangeCutWidget</receiver>
+      <slot>ExcludeCutChk_toggled(bool)</slot>
+    </connection>
+    <connection>
+      <sender>XYTable</sender>
+      <signal>valueChanged(int,int)</signal>
+      <receiver>QFitRangeCutWidget</receiver>
+      <slot>XYTable_valueChanged(int,int)</slot>
+    </connection>
+  </connections>
+</ui>

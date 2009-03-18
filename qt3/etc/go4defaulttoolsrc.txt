@@ -1,0 +1,11 @@
+
+
+
+File Toolbar,Browser Options,Tools Toolbar,Color Tools,Analysis Toolbar,Draw Options,Draw Options Short,Zoom Tools,Canvas Tools,
+[File Toolbar,-43,1,-1,-1,1][Browser Options,172,0,-1,-1,1][Tools Toolbar,175,0,-1,-1,1][Color Tools,0,1,-1,-1,0][Analysis Toolbar,435,0,-1,-1,1][Draw Options,4,1,-1,-1,0][Draw Options Short,1,1,-1,-1,1][Zoom Tools,287,0,-1,-1,1][Canvas Tools,719,0,-1,-1,1]
+MBS monitor,Go4 Command Line,Tree viewer,Log Window,
+[MBS monitor,0,0,-1,-1,0][Go4 Command Line,0,0,-1,-1,1][Tree viewer,0,0,-1,-1,0][Log Window,0,0,-1,-1,0]
+
+
+Browser,
+[Browser,39,1,319,76,1]

@@ -1,0 +1,124 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4LogInfo</class>
+<author>???/S Linev</author>
+<widget class="QGo4Widget">
+    <property name="name">
+        <cstring>TGo4LogInfo</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>497</width>
+            <height>124</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Log Information</string>
+    </property>
+    <property name="icon">
+        <pixmap>go4logo2_big.png</pixmap>
+    </property>
+    <property name="acceptDrops">
+        <bool>true</bool>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
+        </property>
+        <property name="spacing">
+            <number>0</number>
+        </property>
+        <widget class="QListView" row="0" column="0">
+            <column>
+                <property name="text">
+                    <string>Date</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>Time</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>Description</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>Type</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <property name="name">
+                <cstring>LogText</cstring>
+            </property>
+            <property name="lineWidth">
+                <number>1</number>
+            </property>
+            <property name="resizePolicy">
+                <enum>Manual</enum>
+            </property>
+            <property name="allColumnsShowFocus">
+                <bool>true</bool>
+            </property>
+            <property name="showSortIndicator">
+                <bool>true</bool>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<customwidgets>
+</customwidgets>
+<includes>
+    <include location="local" impldecl="in declaration">QGo4Widget.h</include>
+    <include location="local" impldecl="in declaration">qpixmap.h</include>
+    <include location="local" impldecl="in implementation">TObject.h</include>
+    <include location="local" impldecl="in implementation">qfiledialog.h</include>
+    <include location="local" impldecl="in implementation">qdatetime.h</include>
+    <include location="local" impldecl="in implementation">TGo4LogInfo.ui.h</include>
+</includes>
+<variables>
+    <variable>QPixmap infoIcon</variable>
+    <variable>QPixmap warnIcon</variable>
+    <variable>QPixmap errorIcon</variable>
+</variables>
+<slots>
+    <slot>ClearLogInfo()</slot>
+    <slot>SaveLogInfo()</slot>
+</slots>
+<functions>
+    <function>init()</function>
+    <function>WorkWithInfo(TGo4Slot* slot)</function>
+    <function>linkedObjectUpdated( const char * linkname, TObject * obj )</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

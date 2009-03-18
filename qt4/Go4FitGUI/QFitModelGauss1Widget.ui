@@ -1,0 +1,58 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>QFitModelGauss1Widget</class>
+  <widget class="QFitModelWidget" name="QFitModelGauss1Widget" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>600</width>
+        <height>480</height>
+      </rect>
+    </property>
+    <property name="caption" >
+      <string>QFitModelGauss1Widget</string>
+    </property>
+    <widget class="QLabel" name="TextLabel11" >
+      <property name="geometry" >
+        <rect>
+          <x>20</x>
+          <y>140</y>
+          <width>140</width>
+          <height>18</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>Associated to axis:</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QSpinBox" name="AxisNumSpin" >
+      <property name="geometry" >
+        <rect>
+          <x>20</x>
+          <y>160</y>
+          <width>120</width>
+          <height>27</height>
+        </rect>
+      </property>
+    </widget>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <includes>
+    <include location="local" >QFitModelWidget.h</include>
+  </includes>
+  <connections>
+    <connection>
+      <sender>AxisNumSpin</sender>
+      <signal>valueChanged(int)</signal>
+      <receiver>QFitModelGauss1Widget</receiver>
+      <slot>AxisNumSpin_valueChanged(int)</slot>
+    </connection>
+  </connections>
+</ui>

@@ -1,0 +1,241 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>TGo4OptStatsSettings</class>
+  <widget class="QDialog" name="TGo4OptStatsSettings" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>335</width>
+        <height>213</height>
+      </rect>
+    </property>
+    <property name="windowTitle" >
+      <string>Global histogram statistic box setup:</string>
+    </property>
+    <property name="windowIcon" >
+      <pixmap>:/icons/go4logo2_big.png</pixmap>
+    </property>
+    <property name="sizeGripEnabled" >
+      <bool>true</bool>
+    </property>
+    <property name="toolTip" stdset="0" >
+      <string>Check properties for the histogram statistics box. Changes are applied for newly created histograms only!</string>
+    </property>
+    <layout class="QGridLayout" >
+      <item row="2" column="0" >
+        <layout class="QHBoxLayout" >
+          <item>
+            <spacer name="Horizontal Spacing2" >
+              <property name="sizeHint" >
+                <size>
+                  <width>210</width>
+                  <height>20</height>
+                </size>
+              </property>
+              <property name="sizeType" >
+                <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+              </property>
+            </spacer>
+          </item>
+          <item>
+            <widget class="QPushButton" name="buttonOk" >
+              <property name="text" >
+                <string>&amp;OK</string>
+              </property>
+              <property name="shortcut" >
+                <string/>
+              </property>
+              <property name="autoDefault" >
+                <bool>true</bool>
+              </property>
+              <property name="default" >
+                <bool>true</bool>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QPushButton" name="buttonCancel" >
+              <property name="text" >
+                <string>&amp;Cancel</string>
+              </property>
+              <property name="shortcut" >
+                <string/>
+              </property>
+              <property name="autoDefault" >
+                <bool>true</bool>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+      <item row="0" column="0" >
+        <layout class="QHBoxLayout" >
+          <item>
+            <widget class="QCheckBox" name="DrawStatboxButton" >
+              <property name="text" >
+                <string>Show Statistics Box</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <spacer name="spacer2" >
+              <property name="sizeHint" >
+                <size>
+                  <width>221</width>
+                  <height>20</height>
+                </size>
+              </property>
+              <property name="sizeType" >
+                <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+              </property>
+            </spacer>
+          </item>
+        </layout>
+      </item>
+      <item row="1" column="0" >
+        <widget class="Q3GroupBox" name="OptStatGroupBox" >
+          <property name="sizePolicy" >
+            <sizepolicy>
+              <hsizetype>5</hsizetype>
+              <vsizetype>5</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+            </sizepolicy>
+          </property>
+          <property name="title" >
+            <string>Show in Histogram Statistics:</string>
+          </property>
+          <layout class="QGridLayout" >
+            <item row="1" column="0" >
+              <widget class="QCheckBox" name="DrawEntriesButton" >
+                <property name="text" >
+                  <string>Entries</string>
+                </property>
+              </widget>
+            </item>
+            <item row="2" column="0" >
+              <widget class="QCheckBox" name="DrawIntegralButton" >
+                <property name="text" >
+                  <string>Integral</string>
+                </property>
+              </widget>
+            </item>
+            <item row="0" column="2" >
+              <widget class="QCheckBox" name="DrawUnderflowButton" >
+                <property name="text" >
+                  <string>Underflow</string>
+                </property>
+              </widget>
+            </item>
+            <item row="1" column="1" >
+              <widget class="QCheckBox" name="DrawMeanButton" >
+                <property name="text" >
+                  <string>Mean value</string>
+                </property>
+              </widget>
+            </item>
+            <item row="2" column="1" >
+              <widget class="QCheckBox" name="DrawCurtosisButton" >
+                <property name="text" >
+                  <string>Curtosis</string>
+                </property>
+              </widget>
+            </item>
+            <item row="2" column="2" >
+              <widget class="QCheckBox" name="DrawSkewnessButton" >
+                <property name="text" >
+                  <string>Skewness</string>
+                </property>
+              </widget>
+            </item>
+            <item row="0" column="1" >
+              <widget class="QCheckBox" name="DrawRMSButton" >
+                <property name="text" >
+                  <string>RMS</string>
+                </property>
+              </widget>
+            </item>
+            <item row="0" column="0" >
+              <widget class="QCheckBox" name="DrawNameButton" >
+                <property name="text" >
+                  <string>Histogram Name</string>
+                </property>
+              </widget>
+            </item>
+            <item rowspan="1" row="3" column="0" colspan="3" >
+              <layout class="QHBoxLayout" >
+                <item>
+                  <widget class="QCheckBox" name="DrawErrorsButton" >
+                    <property name="text" >
+                      <string>Display Errors</string>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <spacer name="spacer3" >
+                    <property name="sizeHint" >
+                      <size>
+                        <width>181</width>
+                        <height>20</height>
+                      </size>
+                    </property>
+                    <property name="sizeType" >
+                      <enum>QSizePolicy::Expanding</enum>
+                    </property>
+                    <property name="orientation" >
+                      <enum>Qt::Horizontal</enum>
+                    </property>
+                  </spacer>
+                </item>
+              </layout>
+            </item>
+            <item row="1" column="2" >
+              <widget class="QCheckBox" name="DrawOverflowButton" >
+                <property name="text" >
+                  <string>Overflow</string>
+                </property>
+              </widget>
+            </item>
+          </layout>
+        </widget>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <connections>
+    <connection>
+      <sender>buttonOk</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4OptStatsSettings</receiver>
+      <slot>accept()</slot>
+    </connection>
+    <connection>
+      <sender>buttonCancel</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4OptStatsSettings</receiver>
+      <slot>reject()</slot>
+    </connection>
+    <connection>
+      <sender>buttonOk</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4OptStatsSettings</receiver>
+      <slot>setFlags()</slot>
+    </connection>
+    <connection>
+      <sender>DrawStatboxButton</sender>
+      <signal>toggled(bool)</signal>
+      <receiver>OptStatGroupBox</receiver>
+      <slot>setEnabled(bool)</slot>
+    </connection>
+  </connections>
+</ui>

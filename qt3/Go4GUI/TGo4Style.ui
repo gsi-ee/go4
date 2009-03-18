@@ -1,0 +1,145 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4Style</class>
+<author>Mohammad Al-Turany/S Linev</author>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>TGo4Style</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>190</width>
+            <height>29</height>
+        </rect>
+    </property>
+    <property name="sizePolicy">
+        <sizepolicy>
+            <hsizetype>0</hsizetype>
+            <vsizetype>0</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+    </property>
+    <property name="caption">
+        <string>Style</string>
+    </property>
+    <hbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
+        </property>
+        <property name="spacing">
+            <number>0</number>
+        </property>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>TextLabel1</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>SetPalette</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Select color palette.</string>
+            </property>
+        </widget>
+        <widget class="QSpinBox">
+            <property name="name">
+                <cstring>Palette</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="maxValue">
+                <number>49</number>
+            </property>
+            <property name="value">
+                <number>1</number>
+            </property>
+        </widget>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>TextLabel2_3</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string> Pad:</string>
+            </property>
+        </widget>
+        <widget class="QToolButton">
+            <property name="name">
+                <cstring>PadColor</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="iconSet">
+                <iconset>color.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Change selected pad color.</string>
+            </property>
+        </widget>
+    </hbox>
+</widget>
+<connections>
+    <connection>
+        <sender>Palette</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>TGo4Style</receiver>
+        <slot>SetPalette(int)</slot>
+    </connection>
+    <connection>
+        <sender>PadColor</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4Style</receiver>
+        <slot>SetPadColor()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">TColor.h</include>
+    <include location="local" impldecl="in implementation">qcolordialog.h</include>
+    <include location="local" impldecl="in implementation">TGo4WorkSpace.h</include>
+    <include location="local" impldecl="in implementation">TGo4ViewPanel.h</include>
+    <include location="local" impldecl="in implementation">TGo4Style.ui.h</include>
+</includes>
+<slots>
+    <slot>SetPadColor()</slot>
+    <slot>SetPalette( int t )</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="0" margin="0"/>
+</UI>

@@ -1,0 +1,181 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>TGo4MacroDialog</class>
+  <widget class="QDialog" name="TGo4MacroDialog" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>310</width>
+        <height>191</height>
+      </rect>
+    </property>
+    <property name="windowTitle" >
+      <string>Select Macro template:</string>
+    </property>
+    <property name="windowIcon" >
+      <pixmap>:/icons/go4logo2_big.png</pixmap>
+    </property>
+    <property name="sizeGripEnabled" >
+      <bool>true</bool>
+    </property>
+    <property name="modal" >
+      <bool>true</bool>
+    </property>
+    <layout class="QGridLayout" >
+      <item row="0" column="0" >
+        <layout class="QVBoxLayout" >
+          <item>
+            <widget class="Q3ListBox" name="MacroListBox" >
+              <item>
+                <property name="text" >
+                  <string>Rebin histogram</string>
+                </property>
+              </item>
+              <item>
+                <property name="text" >
+                  <string>Add/substract histograms</string>
+                </property>
+              </item>
+              <item>
+                <property name="text" >
+                  <string>Divide histograms</string>
+                </property>
+              </item>
+              <item>
+                <property name="text" >
+                  <string>Projection X</string>
+                </property>
+              </item>
+              <item>
+                <property name="text" >
+                  <string>Projection Y</string>
+                </property>
+              </item>
+              <item>
+                <property name="text" >
+                  <string>Correlate histograms</string>
+                </property>
+              </item>
+              <item>
+                <property name="text" >
+                  <string>Histogram of histogram</string>
+                </property>
+              </item>
+              <item>
+                <property name="text" >
+                  <string>Profile X</string>
+                </property>
+              </item>
+              <item>
+                <property name="text" >
+                  <string>Profile Y</string>
+                </property>
+              </item>
+              <item>
+                <property name="text" >
+                  <string>Scale X axis</string>
+                </property>
+              </item>
+            </widget>
+          </item>
+          <item>
+            <widget class="QLabel" name="SyntaxLabel" >
+              <property name="text" >
+                <string>command syntax</string>
+              </property>
+              <property name="scaledContents" >
+                <bool>true</bool>
+              </property>
+              <property name="alignment" >
+                <set>Qt::AlignVCenter</set>
+              </property>
+              <property name="wordWrap" >
+                <bool>false</bool>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <layout class="QHBoxLayout" >
+              <item>
+                <spacer name="Horizontal Spacing2" >
+                  <property name="sizeHint" >
+                    <size>
+                      <width>210</width>
+                      <height>20</height>
+                    </size>
+                  </property>
+                  <property name="sizeType" >
+                    <enum>QSizePolicy::Expanding</enum>
+                  </property>
+                  <property name="orientation" >
+                    <enum>Qt::Horizontal</enum>
+                  </property>
+                </spacer>
+              </item>
+              <item>
+                <widget class="QPushButton" name="buttonOk" >
+                  <property name="text" >
+                    <string>&amp;OK</string>
+                  </property>
+                  <property name="shortcut" >
+                    <string/>
+                  </property>
+                  <property name="autoDefault" >
+                    <bool>true</bool>
+                  </property>
+                  <property name="default" >
+                    <bool>true</bool>
+                  </property>
+                </widget>
+              </item>
+              <item>
+                <widget class="QPushButton" name="buttonCancel" >
+                  <property name="text" >
+                    <string>&amp;Cancel</string>
+                  </property>
+                  <property name="shortcut" >
+                    <string/>
+                  </property>
+                  <property name="autoDefault" >
+                    <bool>true</bool>
+                  </property>
+                </widget>
+              </item>
+            </layout>
+          </item>
+        </layout>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <connections>
+    <connection>
+      <sender>buttonOk</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4MacroDialog</receiver>
+      <slot>accept()</slot>
+    </connection>
+    <connection>
+      <sender>buttonCancel</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4MacroDialog</receiver>
+      <slot>reject()</slot>
+    </connection>
+    <connection>
+      <sender>MacroListBox</sender>
+      <signal>selected(QString)</signal>
+      <receiver>TGo4MacroDialog</receiver>
+      <slot>accept()</slot>
+    </connection>
+    <connection>
+      <sender>MacroListBox</sender>
+      <signal>highlighted(QString)</signal>
+      <receiver>TGo4MacroDialog</receiver>
+      <slot>setCommand(QString)</slot>
+    </connection>
+  </connections>
+</ui>

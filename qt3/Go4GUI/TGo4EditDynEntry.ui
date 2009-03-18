@@ -1,0 +1,1354 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4EditDynEntry</class>
+<comment>Edit Dynamic List entries</comment>
+<author>Mohammad Al-Turany/Jörn Adamczewski/Sergey Linev</author>
+<widget class="QGo4Widget">
+    <property name="name">
+        <cstring>TGo4EditDynEntry</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>426</width>
+            <height>289</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Dynamic List Editor</string>
+    </property>
+    <property name="icon">
+        <pixmap>go4logo2_big.png</pixmap>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>2</number>
+        </property>
+        <property name="spacing">
+            <number>2</number>
+        </property>
+        <widget class="QGroupBox" row="0" column="0">
+            <property name="name">
+                <cstring>EntryBox</cstring>
+            </property>
+            <property name="title">
+                <string>DynamicEntry</string>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>5</number>
+                </property>
+                <property name="spacing">
+                    <number>3</number>
+                </property>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>EntryEnabledButton</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>enable</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Enable or disable execution of this entry.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>EntryNameLbl</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>7</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>Entry name</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QGroupBox" row="1" column="0">
+            <property name="name">
+                <cstring>HistogramBox</cstring>
+            </property>
+            <property name="title">
+                <string>Histogram</string>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>5</number>
+                </property>
+                <property name="spacing">
+                    <number>3</number>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>HistoNameLbl</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>7</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>Histogram name</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>HisCreateButton</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>26</width>
+                            <height>26</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>26</width>
+                            <height>26</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>hiscre.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Open histogram creation panel.</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>HisInfoButton</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>26</width>
+                            <height>26</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>26</width>
+                            <height>26</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>hislist.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Show histogram properties.</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QTabWidget" row="2" column="0">
+            <property name="name">
+                <cstring>EntryTabs</cstring>
+            </property>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>EventTab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Event data</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>3</number>
+                    </property>
+                    <property name="spacing">
+                        <number>3</number>
+                    </property>
+                    <widget class="QGo4LineEdit" row="2" column="1">
+                        <property name="name">
+                            <cstring>EvZnameEdit</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>0</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>200</width>
+                                <height>25</height>
+                            </size>
+                        </property>
+                        <property name="text">
+                            <string></string>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Data element name to fill histogram</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="2" column="0">
+                        <property name="name">
+                            <cstring>ZtextLabel</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>1</hsizetype>
+                                <vsizetype>1</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="font">
+                            <font>
+                                <pointsize>16</pointsize>
+                            </font>
+                        </property>
+                        <property name="text">
+                            <string>Z</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="0" column="0">
+                        <property name="name">
+                            <cstring>XtextLabel</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>1</hsizetype>
+                                <vsizetype>1</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="font">
+                            <font>
+                                <pointsize>16</pointsize>
+                            </font>
+                        </property>
+                        <property name="text">
+                            <string>X</string>
+                        </property>
+                    </widget>
+                    <widget class="QGo4LineEdit" row="0" column="1">
+                        <property name="name">
+                            <cstring>EvXnameEdit</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>0</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>200</width>
+                                <height>25</height>
+                            </size>
+                        </property>
+                        <property name="text">
+                            <string></string>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Data element name to fill histogram</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="1" column="0">
+                        <property name="name">
+                            <cstring>YtextLabel</cstring>
+                        </property>
+                        <property name="enabled">
+                            <bool>true</bool>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>1</hsizetype>
+                                <vsizetype>1</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="font">
+                            <font>
+                                <pointsize>16</pointsize>
+                            </font>
+                        </property>
+                        <property name="text">
+                            <string>Y</string>
+                        </property>
+                    </widget>
+                    <widget class="QGo4LineEdit" row="1" column="1">
+                        <property name="name">
+                            <cstring>EvYnameEdit</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>0</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>200</width>
+                                <height>25</height>
+                            </size>
+                        </property>
+                        <property name="text">
+                            <string></string>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Data element name to fill histogram</string>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>ConditionTab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Condition</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>3</number>
+                    </property>
+                    <property name="spacing">
+                        <number>3</number>
+                    </property>
+                    <widget class="QGo4LineEdit" row="1" column="1" rowspan="1" colspan="3">
+                        <property name="name">
+                            <cstring>ConXnameEdit</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>0</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>200</width>
+                                <height>25</height>
+                            </size>
+                        </property>
+                        <property name="text">
+                            <string></string>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Data element name to be checked by condition</string>
+                        </property>
+                    </widget>
+                    <widget class="QGo4LineEdit" row="2" column="1" rowspan="1" colspan="3">
+                        <property name="name">
+                            <cstring>ConYnameEdit</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>0</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>200</width>
+                                <height>25</height>
+                            </size>
+                        </property>
+                        <property name="text">
+                            <string></string>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Data element name to be checked by condition</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="2" column="0">
+                        <property name="name">
+                            <cstring>YConLbl</cstring>
+                        </property>
+                        <property name="enabled">
+                            <bool>true</bool>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>1</hsizetype>
+                                <vsizetype>1</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="font">
+                            <font>
+                                <pointsize>16</pointsize>
+                            </font>
+                        </property>
+                        <property name="text">
+                            <string>Y</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="1" column="0">
+                        <property name="name">
+                            <cstring>XConLbl</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>1</hsizetype>
+                                <vsizetype>1</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="font">
+                            <font>
+                                <pointsize>16</pointsize>
+                            </font>
+                        </property>
+                        <property name="text">
+                            <string>X</string>
+                        </property>
+                    </widget>
+                    <widget class="QPushButton" row="0" column="0">
+                        <property name="name">
+                            <cstring>ConNewButton</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>0</hsizetype>
+                                <vsizetype>0</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>26</width>
+                                <height>26</height>
+                            </size>
+                        </property>
+                        <property name="maximumSize">
+                            <size>
+                                <width>26</width>
+                                <height>26</height>
+                            </size>
+                        </property>
+                        <property name="text">
+                            <string></string>
+                        </property>
+                        <property name="iconSet">
+                            <iconset>condcre.png</iconset>
+                        </property>
+                        <property name="flat">
+                            <bool>false</bool>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Create new condition.</string>
+                        </property>
+                    </widget>
+                    <widget class="QPushButton" row="0" column="1">
+                        <property name="name">
+                            <cstring>ConInfoButton</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>0</hsizetype>
+                                <vsizetype>0</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>26</width>
+                                <height>26</height>
+                            </size>
+                        </property>
+                        <property name="maximumSize">
+                            <size>
+                                <width>26</width>
+                                <height>26</height>
+                            </size>
+                        </property>
+                        <property name="text">
+                            <string></string>
+                        </property>
+                        <property name="iconSet">
+                            <iconset>condedit.png</iconset>
+                        </property>
+                        <property name="flat">
+                            <bool>false</bool>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Edit condition properties</string>
+                        </property>
+                    </widget>
+                    <widget class="QPushButton" row="0" column="2">
+                        <property name="name">
+                            <cstring>ConRemoveButton</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>0</hsizetype>
+                                <vsizetype>0</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>26</width>
+                                <height>26</height>
+                            </size>
+                        </property>
+                        <property name="maximumSize">
+                            <size>
+                                <width>26</width>
+                                <height>26</height>
+                            </size>
+                        </property>
+                        <property name="text">
+                            <string></string>
+                        </property>
+                        <property name="iconSet">
+                            <iconset>delete.png</iconset>
+                        </property>
+                        <property name="flat">
+                            <bool>false</bool>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Remove condition fom entry</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="0" column="3">
+                        <property name="name">
+                            <cstring>CondNameLbl</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>5</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="text">
+                            <string>Condition name</string>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>TreeTab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>TreeDraw</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>3</number>
+                    </property>
+                    <property name="spacing">
+                        <number>3</number>
+                    </property>
+                    <widget class="QLabel" row="1" column="0">
+                        <property name="name">
+                            <cstring>textLabel4</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Draw expr.</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="2" column="0">
+                        <property name="name">
+                            <cstring>textLabel5</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Cut expr.</string>
+                        </property>
+                    </widget>
+                    <widget class="QGo4LineEdit" row="1" column="1" rowspan="1" colspan="2">
+                        <property name="name">
+                            <cstring>DrawExprEdit</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>0</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>200</width>
+                                <height>25</height>
+                            </size>
+                        </property>
+                        <property name="text">
+                            <string></string>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Event name to fill histogram.</string>
+                        </property>
+                    </widget>
+                    <widget class="QGo4LineEdit" row="2" column="1" rowspan="1" colspan="2">
+                        <property name="name">
+                            <cstring>CutExprEdit</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>0</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>200</width>
+                                <height>25</height>
+                            </size>
+                        </property>
+                        <property name="text">
+                            <string></string>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Event name to fill histogram.</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="3" column="0">
+                        <property name="name">
+                            <cstring>textLabel7</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Interval</string>
+                        </property>
+                    </widget>
+                    <widget class="QSpinBox" row="3" column="1">
+                        <property name="name">
+                            <cstring>DynIntervalSpin</cstring>
+                        </property>
+                        <property name="prefix">
+                            <string></string>
+                        </property>
+                        <property name="suffix">
+                            <string> events</string>
+                        </property>
+                        <property name="specialValueText">
+                            <string></string>
+                        </property>
+                        <property name="maxValue">
+                            <number>1000000000</number>
+                        </property>
+                        <property name="minValue">
+                            <number>1</number>
+                        </property>
+                        <property name="lineStep">
+                            <number>1000</number>
+                        </property>
+                        <property name="value">
+                            <number>2000</number>
+                        </property>
+                        <property name="toolTip" stdset="0">
+                            <string>Set the general dynamic list interval for the analysis. Defines the number of events to be stored in between two TTree::Draw for the dynamic list.</string>
+                        </property>
+                    </widget>
+                    <spacer row="3" column="2">
+                        <property name="name">
+                            <cstring>spacer68</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Horizontal</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>40</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget class="QLabel" row="0" column="0">
+                        <property name="name">
+                            <cstring>textLabel3</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Tree</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="0" column="1" rowspan="1" colspan="2">
+                        <property name="name">
+                            <cstring>TreeNameLbl</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>5</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="text">
+                            <string>TreeNameLbl</string>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+        </widget>
+        <widget class="QLayoutWidget" row="3" column="0">
+            <property name="name">
+                <cstring>layout32</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>RefreshButton</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string>Refresh</string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>right.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Refresh displayed entry from data source (analysis or file)</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>ApplyButton</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>left.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Update dynamic list in analysis.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>PleaseUpdateLabel</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="frameShape">
+                        <enum>WinPanel</enum>
+                    </property>
+                    <property name="frameShadow">
+                        <enum>Raised</enum>
+                    </property>
+                    <property name="lineWidth">
+                        <number>2</number>
+                    </property>
+                    <property name="margin">
+                        <number>1</number>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="pixmap">
+                        <pixmap>info1.png</pixmap>
+                    </property>
+                    <property name="scaledContents">
+                        <bool>true</bool>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>This label shows that your current changes have not yet been updated to the analysis.</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>SaveEntry</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>filesave.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Save this dynamic entry to a file.</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer17_2_2_2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>30</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>DrawButton</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>chart.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Draw histogram</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>ClearButton</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>clear.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Clear target histogram and reset events in memory Tree (TGo4Backstore). </string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>PrintListButton</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>dynlistlist.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Print dynamic list in analysis terminal.</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer17_2_2_5</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>79</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>CancelButton</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>closewindow.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Cancel without changes.</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<customwidgets>
+</customwidgets>
+<connections>
+    <connection>
+        <sender>ApplyButton</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>ApplyClicked()</slot>
+    </connection>
+    <connection>
+        <sender>ClearButton</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>ClearHistogramClicked()</slot>
+    </connection>
+    <connection>
+        <sender>PrintListButton</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>PrintDynList()</slot>
+    </connection>
+    <connection>
+        <sender>RefreshButton</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>RefreshClicked()</slot>
+    </connection>
+    <connection>
+        <sender>SaveEntry</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>SaveEntrySlot()</slot>
+    </connection>
+    <connection>
+        <sender>CancelButton</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>close()</slot>
+    </connection>
+    <connection>
+        <sender>EvXnameEdit</sender>
+        <signal>textDropped()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>EvXnameEdit_dropped()</slot>
+    </connection>
+    <connection>
+        <sender>EvYnameEdit</sender>
+        <signal>textDropped()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>EvYnameEdit_dropped()</slot>
+    </connection>
+    <connection>
+        <sender>EvZnameEdit</sender>
+        <signal>textDropped()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>EvZnameEdit_dropped()</slot>
+    </connection>
+    <connection>
+        <sender>ConXnameEdit</sender>
+        <signal>textDropped()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>ConXnameEdit_dropped()</slot>
+    </connection>
+    <connection>
+        <sender>ConYnameEdit</sender>
+        <signal>textDropped()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>ConYnameEdit_dropped()</slot>
+    </connection>
+    <connection>
+        <sender>DrawExprEdit</sender>
+        <signal>textDropped()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>DrawExprEdit_dropped()</slot>
+    </connection>
+    <connection>
+        <sender>CutExprEdit</sender>
+        <signal>textDropped()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>CutExprEdit_dropped()</slot>
+    </connection>
+    <connection>
+        <sender>HisCreateButton</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>HisCreateButton_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>HisInfoButton</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>HisInfoButton_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>ConNewButton</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>ConNewButton_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>ConInfoButton</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>ConInfoButton_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>EntryEnabledButton</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>EntryEnabledButton_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>EvXnameEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>EvXnameEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>EvYnameEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>EvYnameEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>EvZnameEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>EvZnameEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>ConXnameEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>ConXnameEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>ConYnameEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>ConYnameEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>DrawExprEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>DrawExprEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>CutExprEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>CutExprEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>DynIntervalSpin</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>DynIntervalSpin_valueChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>DrawButton</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>DrawButton_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>ConRemoveButton</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4EditDynEntry</receiver>
+        <slot>ConRemoveButton_clicked()</slot>
+    </connection>
+</connections>
+<tabstops>
+    <tabstop>EntryTabs</tabstop>
+    <tabstop>RefreshButton</tabstop>
+    <tabstop>ApplyButton</tabstop>
+    <tabstop>SaveEntry</tabstop>
+    <tabstop>ClearButton</tabstop>
+    <tabstop>PrintListButton</tabstop>
+    <tabstop>CancelButton</tabstop>
+</tabstops>
+<includes>
+    <include location="local" impldecl="in declaration">QGo4Widget.h</include>
+    <include location="local" impldecl="in implementation">qmessagebox.h</include>
+    <include location="local" impldecl="in implementation">TClass.h</include>
+    <include location="local" impldecl="in implementation">TH1.h</include>
+    <include location="local" impldecl="in implementation">TTree.h</include>
+    <include location="local" impldecl="in implementation">QGo4LineEdit.h</include>
+    <include location="local" impldecl="in implementation">TGo4TreeHistogramEntry.h</include>
+    <include location="local" impldecl="in implementation">TGo4HistogramEntry.h</include>
+    <include location="local" impldecl="in implementation">TGo4DynamicEntry.h</include>
+    <include location="local" impldecl="in implementation">TGo4Condition.h</include>
+    <include location="local" impldecl="in implementation">TGo4Slot.h</include>
+    <include location="local" impldecl="in implementation">TGo4BrowserProxy.h</include>
+    <include location="local" impldecl="in implementation">TGo4AnalysisProxy.h</include>
+    <include location="local" impldecl="in implementation">TGo4EditDynEntry.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TObject</forward>
+    <forward>class TGo4DynamicEntry</forward>
+    <forward>class TGo4HistogramEntry</forward>
+    <forward>class TGo4TreeHistogramEntry</forward>
+    <forward>class QGo4LineEdit</forward>
+</forwards>
+<variables>
+    <variable>int fiSelectedType</variable>
+    <variable>bool fbTypingMode</variable>
+</variables>
+<slots>
+    <slot>RefreshClicked()</slot>
+    <slot>ApplyClicked()</slot>
+    <slot>SetPleaseUpdate( bool on )</slot>
+    <slot>EntryChangedSlot()</slot>
+    <slot>SaveEntrySlot()</slot>
+    <slot>EvXnameEdit_dropped()</slot>
+    <slot>EvYnameEdit_dropped()</slot>
+    <slot>EvZnameEdit_dropped()</slot>
+    <slot>ConXnameEdit_dropped()</slot>
+    <slot>ConYnameEdit_dropped()</slot>
+    <slot>DrawExprEdit_dropped()</slot>
+    <slot>CutExprEdit_dropped()</slot>
+    <slot>HisCreateButton_clicked()</slot>
+    <slot>HisInfoButton_clicked()</slot>
+    <slot>ConNewButton_clicked()</slot>
+    <slot>ConInfoButton_clicked()</slot>
+    <slot>EntryEnabledButton_toggled( bool on )</slot>
+    <slot>EvXnameEdit_textChanged( const QString &amp; xname )</slot>
+    <slot>EvYnameEdit_textChanged( const QString &amp; yname )</slot>
+    <slot>EvZnameEdit_textChanged( const QString &amp; zname )</slot>
+    <slot>ConXnameEdit_textChanged( const QString &amp; xname )</slot>
+    <slot>ConYnameEdit_textChanged( const QString &amp; yname )</slot>
+    <slot>DrawExprEdit_textChanged( const QString &amp; value )</slot>
+    <slot>CutExprEdit_textChanged( const QString &amp; value )</slot>
+    <slot>DynIntervalSpin_valueChanged( int value )</slot>
+    <slot>DrawButton_clicked()</slot>
+    <slot>ClearHistogramClicked()</slot>
+    <slot>PrintDynList()</slot>
+    <slot>ConRemoveButton_clicked()</slot>
+</slots>
+<functions>
+    <function>init()</function>
+    <function returnType="bool">IsAcceptDrag( const char * itemname, TClass * cl, int kind )</function>
+    <function>DropItem( const char * itemname, TClass * cl, int kind )</function>
+    <function>linkedObjectUpdated( const char * linkname, TObject * obj )</function>
+    <function>RefreshWidget()</function>
+    <function returnType="QString">GetEventName( const QString &amp; itemname )</function>
+    <function returnType="QString">GetEventMember( const QString &amp; itemname )</function>
+    <function>WorkWithEntry( const char * itemname )</function>
+    <function>DropHistogram( const char * itemname )</function>
+    <function>DropCondition( const char * itemname )</function>
+    <function>DropTree( const char * itemname )</function>
+    <function>ResetWidget()</function>
+    <function>ProcessDropEvent( QGo4LineEdit * edt )</function>
+    <function>ProcessTreeDropEvent( QGo4LineEdit * edt )</function>
+    <function>requestedObjectCreated( const char * itemname, TClass * cl )</function>
+    <function returnType="bool">PrepareEntryForAnalysis()</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

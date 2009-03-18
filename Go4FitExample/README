@@ -1,0 +1,38 @@
+This is the README of Go4FitExample package.
+
+Package includes several examples for Go4Fit package.
+
+Before examples, Go4Fit package should be compiled first.
+To run examples, LD_LIBRARY_PATH should include path to libGo4Fit.so library
+(init_script.sh from Go4Fit can be used for that).
+
+To compile a set of examples, in Go4FitExample directory enter:
+
+   >make all
+
+While Example3 is uses FORTRAN code for function calculations,
+it will be compiled only when f77 and libg2c.so installed in the system.
+
+All examples (except 3-rd one) also can be used in CINT directly.
+To use them in CINT, just run root, load Go4Fit library:
+
+  [root] gSystem->Load("libGo4Fit.so");
+
+and then run any of them:
+
+  [root] .x Example1.cxx
+
+For the forth example appropriate library should be loaded first:
+
+  [root] gSystem->Load("libExample4.so");
+
+Another possibility to automatically load required libraries
+in ROOT CINT is to create .rootmap file. After compilation type:
+
+   > make map
+
+This works starting from ROOT 4.00/08.
+
+Detailed description of Go4Fit package can be found
+on Go4 web site http://go4.gsi.de.
+

@@ -1,0 +1,181 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4BrowserOptions</class>
+<widget class="QGo4Widget">
+    <property name="name">
+        <cstring>TGo4BrowserOptions</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>243</width>
+            <height>29</height>
+        </rect>
+    </property>
+    <property name="minimumSize">
+        <size>
+            <width>0</width>
+            <height>0</height>
+        </size>
+    </property>
+    <property name="caption">
+        <string>Browser options</string>
+    </property>
+    <hbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>1</number>
+        </property>
+        <property name="spacing">
+            <number>1</number>
+        </property>
+        <widget class="QToolButton">
+            <property name="name">
+                <cstring>RefreshBtn</cstring>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="iconSet">
+                <iconset>refresh.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Update browser content (request list of objecs from analysis)</string>
+            </property>
+        </widget>
+        <widget class="QToolButton">
+            <property name="name">
+                <cstring>StartMonitorBtn</cstring>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="iconSet">
+                <iconset>startselected.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Start monitoring of visible objects</string>
+            </property>
+        </widget>
+        <widget class="QSpinBox">
+            <property name="name">
+                <cstring>IntervalSpin</cstring>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>50</width>
+                    <height>0</height>
+                </size>
+            </property>
+            <property name="suffix">
+                <string> s</string>
+            </property>
+            <property name="maxValue">
+                <number>100</number>
+            </property>
+            <property name="minValue">
+                <number>2</number>
+            </property>
+            <property name="lineStep">
+                <number>2</number>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Monitoring interval</string>
+            </property>
+        </widget>
+        <widget class="QToolButton">
+            <property name="name">
+                <cstring>StopMonitorBtn</cstring>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="iconSet">
+                <iconset>Stop.png</iconset>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Stop monitoring</string>
+            </property>
+        </widget>
+        <widget class="QComboBox">
+            <item>
+                <property name="text">
+                    <string>All items</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Fetched</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Monitored</string>
+                </property>
+            </item>
+            <property name="name">
+                <cstring>FilterBox</cstring>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Select type of items, visible in browser</string>
+            </property>
+        </widget>
+    </hbox>
+</widget>
+<customwidgets>
+</customwidgets>
+<connections>
+    <connection>
+        <sender>RefreshBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4BrowserOptions</receiver>
+        <slot>RefreshBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>StartMonitorBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4BrowserOptions</receiver>
+        <slot>StartMonitorBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>StopMonitorBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4BrowserOptions</receiver>
+        <slot>StopMonitorBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>FilterBox</sender>
+        <signal>activated(int)</signal>
+        <receiver>TGo4BrowserOptions</receiver>
+        <slot>FilterBox_activated(int)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QGo4Widget.h</include>
+    <include location="local" impldecl="in implementation">TGo4BrowserProxy.h</include>
+    <include location="local" impldecl="in implementation">TGo4AnalysisProxy.h</include>
+    <include location="local" impldecl="in implementation">TGo4BrowserOptions.ui.h</include>
+</includes>
+<slots>
+    <slot>RefreshBtn_clicked()</slot>
+    <slot>StartMonitorBtn_clicked()</slot>
+    <slot>StopMonitorBtn_clicked()</slot>
+    <slot>FilterBox_activated( int )</slot>
+</slots>
+<functions>
+    <function>init()</function>
+    <function>StartWorking()</function>
+    <function>UpdateView()</function>
+    <function>linkedObjectUpdated(const char* linkname, TObject* obj)</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="0" margin="0"/>
+</UI>

@@ -1,0 +1,411 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4TreeViewer</class>
+<author>Mohammad Al-Turany</author>
+<widget class="QGo4Widget">
+    <property name="name">
+        <cstring>TGo4TreeViewer</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>673</width>
+            <height>32</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Go4 Tree Viewer</string>
+    </property>
+    <property name="icon">
+        <pixmap>go4logo2_big.png</pixmap>
+    </property>
+    <property name="toolTip" stdset="0">
+        <string>Drag and drop leaves from trees in browser and edit expressions. Plot button will fill target histogram.</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
+        </property>
+        <property name="spacing">
+            <number>0</number>
+        </property>
+        <widget class="QPushButton" row="0" column="0">
+            <property name="name">
+                <cstring>TreeDrawBtn</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>30</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap>draw_t.png</pixmap>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Fill target histogram from treedraw expression.</string>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="0" column="4">
+            <property name="name">
+                <cstring>Layout41</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>PixmapLabel5</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="pixmap">
+                        <pixmap>editcut_1.png</pixmap>
+                    </property>
+                    <property name="scaledContents">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QGo4LineEdit">
+                    <property name="name">
+                        <cstring>CutEdt</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>TTree::Draw cut expression</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget" row="0" column="3">
+            <property name="name">
+                <cstring>Layout37</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel2_3</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="font">
+                        <font>
+                            <family>Engraver</family>
+                        </font>
+                    </property>
+                    <property name="text">
+                        <string> Z:</string>
+                    </property>
+                </widget>
+                <widget class="QGo4LineEdit">
+                    <property name="name">
+                        <cstring>ZFieldEdt</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>TTree::Draw variable for axis 3</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget" row="0" column="1">
+            <property name="name">
+                <cstring>Layout35</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel2</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="font">
+                        <font>
+                            <family>Engraver</family>
+                        </font>
+                    </property>
+                    <property name="text">
+                        <string> X:</string>
+                    </property>
+                </widget>
+                <widget class="QGo4LineEdit">
+                    <property name="name">
+                        <cstring>XFieldEdt</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>TTree::Draw variable for axis 1</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget" row="0" column="2">
+            <property name="name">
+                <cstring>Layout36</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel2_2</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="font">
+                        <font>
+                            <family>Engraver</family>
+                        </font>
+                    </property>
+                    <property name="text">
+                        <string> Y:</string>
+                    </property>
+                </widget>
+                <widget class="QGo4LineEdit">
+                    <property name="name">
+                        <cstring>YFieldEdt</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>TTree::Draw variable for axis 2</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QPushButton" row="0" column="6">
+            <property name="name">
+                <cstring>TreeClearBtn</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>30</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>50</width>
+                    <height>32767</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap>clear.png</pixmap>
+            </property>
+            <property name="accel">
+                <string></string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Clear all text fields of tree viewer</string>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="0" column="5">
+            <property name="name">
+                <cstring>layout7</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>NewHistBtn</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>50</width>
+                            <height>50</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="pixmap">
+                        <pixmap>hiscre.png</pixmap>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Create new histogram.</string>
+                    </property>
+                </widget>
+                <widget class="QGo4LineEdit">
+                    <property name="name">
+                        <cstring>HistNameEdt</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Name of the target histogram to fill. Will be created if none of this name exists.</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>TreeDrawBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4TreeViewer</receiver>
+        <slot>TreeDrawBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>TreeClearBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4TreeViewer</receiver>
+        <slot>TreeClearBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>NewHistBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4TreeViewer</receiver>
+        <slot>NewHistBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>XFieldEdt</sender>
+        <signal>textDropped()</signal>
+        <receiver>TGo4TreeViewer</receiver>
+        <slot>XFieldEdt_dropped()</slot>
+    </connection>
+    <connection>
+        <sender>YFieldEdt</sender>
+        <signal>textDropped()</signal>
+        <receiver>TGo4TreeViewer</receiver>
+        <slot>YFieldEdt_dropped()</slot>
+    </connection>
+    <connection>
+        <sender>ZFieldEdt</sender>
+        <signal>textDropped()</signal>
+        <receiver>TGo4TreeViewer</receiver>
+        <slot>ZFieldEdt_dropped()</slot>
+    </connection>
+    <connection>
+        <sender>CutEdt</sender>
+        <signal>textDropped()</signal>
+        <receiver>TGo4TreeViewer</receiver>
+        <slot>cutEdit_dropped()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QGo4Widget.h</include>
+    <include location="local" impldecl="in implementation">qdragobject.h</include>
+    <include location="local" impldecl="in implementation">qapplication.h</include>
+    <include location="local" impldecl="in implementation">TH1.h</include>
+    <include location="local" impldecl="in implementation">TClass.h</include>
+    <include location="local" impldecl="in implementation">QGo4LineEdit.h</include>
+    <include location="local" impldecl="in implementation">TGo4Slot.h</include>
+    <include location="local" impldecl="in implementation">TGo4BrowserProxy.h</include>
+    <include location="local" impldecl="in implementation">TGo4TreeViewer.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TObject</forward>
+</forwards>
+<variables>
+    <variable>QString fxTreeName</variable>
+</variables>
+<slots>
+    <slot>NewHistBtn_clicked()</slot>
+    <slot>TreeClearBtn_clicked()</slot>
+    <slot>TreeDrawBtn_clicked()</slot>
+    <slot>XFieldEdt_dropped()</slot>
+    <slot>YFieldEdt_dropped()</slot>
+    <slot>ZFieldEdt_dropped()</slot>
+    <slot>cutEdit_dropped()</slot>
+</slots>
+<functions>
+    <function>init()</function>
+    <function>ResetWidget()</function>
+    <function>WorkWithLeaf(const char* itemname)</function>
+    <function>ProcessDropEvent(QGo4LineEdit* edt, bool caninit)</function>
+    <function>requestedObjectCreated(const char* itemname, TClass* cl)</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="1" margin="1"/>
+</UI>

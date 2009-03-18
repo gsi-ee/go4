@@ -1,0 +1,123 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>QFitModelFunctionWidget</class>
+  <widget class="QFitModelWidget" name="QFitModelFunctionWidget" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>600</width>
+        <height>480</height>
+      </rect>
+    </property>
+    <property name="caption" >
+      <string>QFitModelFunctionWidget</string>
+    </property>
+    <widget class="QLabel" name="TextLabel17" >
+      <property name="geometry" >
+        <rect>
+          <x>20</x>
+          <y>140</y>
+          <width>110</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>Library name</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel18" >
+      <property name="geometry" >
+        <rect>
+          <x>230</x>
+          <y>140</y>
+          <width>120</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>Function name</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel19" >
+      <property name="geometry" >
+        <rect>
+          <x>20</x>
+          <y>200</y>
+          <width>169</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>Number of parameters</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QGo4LineEdit" name="LibNameEdt" >
+      <property name="geometry" >
+        <rect>
+          <x>20</x>
+          <y>160</y>
+          <width>180</width>
+          <height>27</height>
+        </rect>
+      </property>
+    </widget>
+    <widget class="QGo4LineEdit" name="FuncNameEdt" >
+      <property name="geometry" >
+        <rect>
+          <x>230</x>
+          <y>160</y>
+          <width>180</width>
+          <height>27</height>
+        </rect>
+      </property>
+    </widget>
+    <widget class="QSpinBox" name="NumParSpin" >
+      <property name="geometry" >
+        <rect>
+          <x>20</x>
+          <y>220</y>
+          <width>160</width>
+          <height>27</height>
+        </rect>
+      </property>
+    </widget>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <includes>
+    <include location="local" >QFitModelWidget.h</include>
+    <include location="local">QGo4LineEdit.h</include>
+  </includes>
+  <connections>
+    <connection>
+      <sender>LibNameEdt</sender>
+      <signal>textChanged(QString)</signal>
+      <receiver>QFitModelFunctionWidget</receiver>
+      <slot>LibNameEdt_textChanged(QString)</slot>
+    </connection>
+    <connection>
+      <sender>FuncNameEdt</sender>
+      <signal>textChanged(QString)</signal>
+      <receiver>QFitModelFunctionWidget</receiver>
+      <slot>FuncNameEdt_textChanged(QString)</slot>
+    </connection>
+    <connection>
+      <sender>NumParSpin</sender>
+      <signal>valueChanged(int)</signal>
+      <receiver>QFitModelFunctionWidget</receiver>
+      <slot>NumParSpin_valueChanged(int)</slot>
+    </connection>
+  </connections>
+</ui>

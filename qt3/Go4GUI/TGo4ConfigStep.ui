@@ -1,0 +1,1026 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4ConfigStep</class>
+<author>Mohammad Al-Turany/Sergey Linev</author>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>TGo4ConfigStep</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>453</width>
+            <height>329</height>
+        </rect>
+    </property>
+    <property name="sizePolicy">
+        <sizepolicy>
+            <hsizetype>3</hsizetype>
+            <vsizetype>3</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+    </property>
+    <property name="caption">
+        <string>Configuration </string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>2</number>
+        </property>
+        <property name="spacing">
+            <number>0</number>
+        </property>
+        <widget class="QGroupBox" row="0" column="0">
+            <property name="name">
+                <cstring>ControlGroup_2</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>3</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="frameShape">
+                <enum>Box</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
+            </property>
+            <property name="title">
+                <string>Step Control</string>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>5</number>
+                </property>
+                <property name="spacing">
+                    <number>0</number>
+                </property>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>Step_Disable_b</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Disable Step</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Disable this step.</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>Disable_in_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Disable Source</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Disable event source. Step will then process output events of previous steps.</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>Disable_out_2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Disable Store</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Disable storing output events of this step.</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QButtonGroup" row="1" column="0">
+            <property name="name">
+                <cstring>SourceBox</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>3</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="font">
+                <font>
+                </font>
+            </property>
+            <property name="title">
+                <string>EventSource</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>5</number>
+                </property>
+                <property name="spacing">
+                    <number>0</number>
+                </property>
+                <widget class="QComboBox" row="0" column="0">
+                    <item>
+                        <property name="text">
+                            <string>Go4FileSource (1 tree/step) (*.root)</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>MBS File (*.lmd *.LMD *.lml)</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>MBS Stream Server</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>MBS Transport Server</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>MBS Event Server</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Remote Event Server</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>MBS Random</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>User Source</string>
+                        </property>
+                    </item>
+                    <property name="name">
+                        <cstring>Input_Combo_1_2</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Type of event source.</string>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget" row="4" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>layout56</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QSpinBox">
+                            <property name="name">
+                                <cstring>SpinBoxStartEvent</cstring>
+                            </property>
+                            <property name="maxValue">
+                                <number>999999999</number>
+                            </property>
+                            <property name="lineStep">
+                                <number>1000</number>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>First event to process.</string>
+                            </property>
+                        </widget>
+                        <widget class="QSpinBox">
+                            <property name="name">
+                                <cstring>SpinBoxStopEvent</cstring>
+                            </property>
+                            <property name="specialValueText">
+                                <string>all</string>
+                            </property>
+                            <property name="maxValue">
+                                <number>999999999</number>
+                            </property>
+                            <property name="lineStep">
+                                <number>1000</number>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Last event to process.</string>
+                            </property>
+                        </widget>
+                        <widget class="QSpinBox">
+                            <property name="name">
+                                <cstring>SpinBoxInterEvent</cstring>
+                            </property>
+                            <property name="maxValue">
+                                <number>999999999</number>
+                            </property>
+                            <property name="minValue">
+                                <number>1</number>
+                            </property>
+                            <property name="lineStep">
+                                <number>1000</number>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Skipping interval between two events to be processed.</string>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer6</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>16</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="QSpinBox">
+                            <property name="name">
+                                <cstring>SpinBoxTimeout</cstring>
+                            </property>
+                            <property name="suffix">
+                                <string> s</string>
+                            </property>
+                            <property name="specialValueText">
+                                <string>none</string>
+                            </property>
+                            <property name="maxValue">
+                                <number>9999</number>
+                            </property>
+                            <property name="value">
+                                <number>1</number>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Socket timeout for MBS sources.</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QLayoutWidget" row="3" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>layout12</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLayoutWidget">
+                            <property name="name">
+                                <cstring>layout20</cstring>
+                            </property>
+                            <hbox>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QLabel">
+                                    <property name="name">
+                                        <cstring>TextLabel4_2</cstring>
+                                    </property>
+                                    <property name="sizePolicy">
+                                        <sizepolicy>
+                                            <hsizetype>1</hsizetype>
+                                            <vsizetype>5</vsizetype>
+                                            <horstretch>0</horstretch>
+                                            <verstretch>0</verstretch>
+                                        </sizepolicy>
+                                    </property>
+                                    <property name="text">
+                                        <string>Port:</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLineEdit">
+                                    <property name="name">
+                                        <cstring>LineEditPortNumber</cstring>
+                                    </property>
+                                    <property name="sizePolicy">
+                                        <sizepolicy>
+                                            <hsizetype>3</hsizetype>
+                                            <vsizetype>0</vsizetype>
+                                            <horstretch>0</horstretch>
+                                            <verstretch>0</verstretch>
+                                        </sizepolicy>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Port for remote event server (6003).</string>
+                                    </property>
+                                </widget>
+                            </hbox>
+                        </widget>
+                        <widget class="QLayoutWidget">
+                            <property name="name">
+                                <cstring>Layout15_3</cstring>
+                            </property>
+                            <hbox>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <property name="margin">
+                                    <number>0</number>
+                                </property>
+                                <property name="spacing">
+                                    <number>6</number>
+                                </property>
+                                <widget class="QLabel">
+                                    <property name="name">
+                                        <cstring>TextLabel5_3</cstring>
+                                    </property>
+                                    <property name="sizePolicy">
+                                        <sizepolicy>
+                                            <hsizetype>1</hsizetype>
+                                            <vsizetype>5</vsizetype>
+                                            <horstretch>0</horstretch>
+                                            <verstretch>0</verstretch>
+                                        </sizepolicy>
+                                    </property>
+                                    <property name="text">
+                                        <string> Args:</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLineEdit">
+                                    <property name="name">
+                                        <cstring>LineEditArgumentsIn_2</cstring>
+                                    </property>
+                                    <property name="sizePolicy">
+                                        <sizepolicy>
+                                            <hsizetype>3</hsizetype>
+                                            <vsizetype>0</vsizetype>
+                                            <horstretch>0</horstretch>
+                                            <verstretch>0</verstretch>
+                                        </sizepolicy>
+                                    </property>
+                                    <property name="toolTip" stdset="0">
+                                        <string>Optional user arguments.</string>
+                                    </property>
+                                </widget>
+                            </hbox>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QLayoutWidget" row="2" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>Layout15_3_2</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <property name="spacing">
+                            <number>6</number>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TextLabel5_3_2</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>1</hsizetype>
+                                    <vsizetype>5</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="text">
+                                <string>Tagfile:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLineEdit">
+                            <property name="name">
+                                <cstring>LineEditTagfile</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>3</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Optional MBS tag file name.</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QLayoutWidget" row="1" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>layout42</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>InputSource_1_3</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>1</hsizetype>
+                                    <vsizetype>5</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="text">
+                                <string>Name:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLineEdit">
+                            <property name="name">
+                                <cstring>SourceNameEdit</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>3</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>File name or node name.</string>
+                            </property>
+                        </widget>
+                        <widget class="QToolButton">
+                            <property name="name">
+                                <cstring>FileNameInput</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>0</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>30</width>
+                                    <height>25</height>
+                                </size>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>30</width>
+                                    <height>25</height>
+                                </size>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                            <property name="iconSet">
+                                <iconset>findfile.png</iconset>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Browse for input file.</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QToolButton" row="0" column="1">
+                    <property name="name">
+                        <cstring>MbsMonitorBtn</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>25</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>25</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>mbslogo.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Open MBS monitor.</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QGroupBox" row="2" column="0">
+            <property name="name">
+                <cstring>StoreBox</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>3</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="title">
+                <string>EventStore</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>5</number>
+                </property>
+                <property name="spacing">
+                    <number>0</number>
+                </property>
+                <widget class="QComboBox" row="0" column="0">
+                    <item>
+                        <property name="text">
+                            <string>Go4FileStore (1 tree/step) (*.root)</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Go4BackStore</string>
+                        </property>
+                    </item>
+                    <property name="name">
+                        <cstring>Output_Combo_1_2</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>1</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="currentItem">
+                        <number>0</number>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Type of event store.</string>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget" row="1" column="0">
+                    <property name="name">
+                        <cstring>layout41</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>InputSource_1_2_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Name:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLineEdit">
+                            <property name="name">
+                                <cstring>StoreNameEdit</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>3</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Event store name.</string>
+                            </property>
+                        </widget>
+                        <widget class="QToolButton">
+                            <property name="name">
+                                <cstring>FileNameOutput</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>0</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>30</width>
+                                    <height>25</height>
+                                </size>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>30</width>
+                                    <height>25</height>
+                                </size>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                            <property name="iconSet">
+                                <iconset>findfile.png</iconset>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Browse for output file.</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QLayoutWidget" row="2" column="0">
+                    <property name="name">
+                        <cstring>layout57</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QSpinBox">
+                            <property name="name">
+                                <cstring>SplitLevel</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>100</width>
+                                    <height>32767</height>
+                                </size>
+                            </property>
+                            <property name="maxValue">
+                                <number>99</number>
+                            </property>
+                            <property name="value">
+                                <number>99</number>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Root TTree split level.</string>
+                            </property>
+                        </widget>
+                        <widget class="QSpinBox">
+                            <property name="name">
+                                <cstring>BufferSize</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>5</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>70</width>
+                                    <height>0</height>
+                                </size>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>50</width>
+                                    <height>32767</height>
+                                </size>
+                            </property>
+                            <property name="suffix">
+                                <string> kB  </string>
+                            </property>
+                            <property name="maxValue">
+                                <number>128</number>
+                            </property>
+                            <property name="minValue">
+                                <number>4</number>
+                            </property>
+                            <property name="value">
+                                <number>4</number>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Root branch buffer size.</string>
+                            </property>
+                        </widget>
+                        <widget class="QSpinBox">
+                            <property name="name">
+                                <cstring>CompLevel</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>5</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>50</width>
+                                    <height>32767</height>
+                                </size>
+                            </property>
+                            <property name="maxValue">
+                                <number>9</number>
+                            </property>
+                            <property name="value">
+                                <number>5</number>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Root TFile compression level.</string>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer5</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>99</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="QCheckBox">
+                            <property name="name">
+                                <cstring>StoreOverwriteMode</cstring>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>32767</width>
+                                    <height>24</height>
+                                </size>
+                            </property>
+                            <property name="text">
+                                <string>&amp;Overwrite</string>
+                            </property>
+                            <property name="accel">
+                                <string>Alt+O</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Overwrite old file, or append.</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+            </grid>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>Step_Disable_b</sender>
+        <signal>stateChanged(int)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>StepDisable(int)</slot>
+    </connection>
+    <connection>
+        <sender>Disable_in_2</sender>
+        <signal>stateChanged(int)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>InputDisable(int)</slot>
+    </connection>
+    <connection>
+        <sender>Disable_out_2</sender>
+        <signal>stateChanged(int)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>OutputDisable(int)</slot>
+    </connection>
+    <connection>
+        <sender>SourceNameEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>InputSourceText(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>Input_Combo_1_2</sender>
+        <signal>activated(int)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>SourceComboHighlighted(int)</slot>
+    </connection>
+    <connection>
+        <sender>Output_Combo_1_2</sender>
+        <signal>activated(int)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>StoreComboHighlighted(int)</slot>
+    </connection>
+    <connection>
+        <sender>StoreNameEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>OutputNameText(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>FileNameOutput</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>OutputFileDialog()</slot>
+    </connection>
+    <connection>
+        <sender>CompLevel</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>StoreCompLevel(int)</slot>
+    </connection>
+    <connection>
+        <sender>BufferSize</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>StoreBufferSize(int)</slot>
+    </connection>
+    <connection>
+        <sender>SplitLevel</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>StoreSplitLevel(int)</slot>
+    </connection>
+    <connection>
+        <sender>StoreOverwriteMode</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>StoreOverWrite(bool)</slot>
+    </connection>
+    <connection>
+        <sender>LineEditPortNumber</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>InputPort(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>LineEditArgumentsIn_2</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>InputArguments(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>LineEditTagfile</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>InputTagfile(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>SpinBoxStartEvent</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>StoreStartEvent(int)</slot>
+    </connection>
+    <connection>
+        <sender>SpinBoxStopEvent</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>StoreStopEvent(int)</slot>
+    </connection>
+    <connection>
+        <sender>Step_Disable_b</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>Disable_in_2</receiver>
+        <slot>setDisabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>Step_Disable_b</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>Disable_out_2</receiver>
+        <slot>setDisabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>FileNameInput</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>InputFileDialog()</slot>
+    </connection>
+    <connection>
+        <sender>SpinBoxInterEvent</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>StoreEventInterval(int)</slot>
+    </connection>
+    <connection>
+        <sender>SpinBoxTimeout</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>StoreTimeout(int)</slot>
+    </connection>
+    <connection>
+        <sender>MbsMonitorBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>MbsMonitorBtn_clicked()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">qfiledialog.h</include>
+    <include location="local" impldecl="in implementation">TClass.h</include>
+    <include location="local" impldecl="in implementation">Riostream.h</include>
+    <include location="local" impldecl="in implementation">TGo4AnalysisStepStatus.h</include>
+    <include location="local" impldecl="in implementation">TGo4EventStoreParameter.h</include>
+    <include location="local" impldecl="in implementation">TGo4EventSourceParameter.h</include>
+    <include location="local" impldecl="in implementation">TGo4UserSourceParameter.h</include>
+    <include location="local" impldecl="in implementation">TGo4RevServParameter.h</include>
+    <include location="local" impldecl="in implementation">TGo4FileStoreParameter.h</include>
+    <include location="local" impldecl="in implementation">TGo4BackStoreParameter.h</include>
+    <include location="local" impldecl="in implementation">TGo4FileSourceParameter.h</include>
+    <include location="local" impldecl="in implementation">TGo4MbsFileParameter.h</include>
+    <include location="local" impldecl="in implementation">TGo4MbsStreamParameter.h</include>
+    <include location="local" impldecl="in implementation">TGo4MbsTransportParameter.h</include>
+    <include location="local" impldecl="in implementation">TGo4MbsEventServerParameter.h</include>
+    <include location="local" impldecl="in implementation">TGo4MbsRandomParameter.h</include>
+    <include location="local" impldecl="in implementation">Go4EventServerTypes.h</include>
+    <include location="local" impldecl="in implementation">TGo4AnalysisConfiguration.h</include>
+    <include location="local" impldecl="in implementation">TGo4ConfigStep.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4AnalysisConfiguration</forward>
+    <forward>class TGo4AnalysisStepStatus</forward>
+</forwards>
+<variables>
+    <variable>TGo4AnalysisConfiguration* fxPanel</variable>
+    <variable>TGo4AnalysisStepStatus* fStepStatus</variable>
+</variables>
+<slots>
+    <slot>InputArguments( const QString &amp; Arg )</slot>
+    <slot>InputDisable( int )</slot>
+    <slot>InputPort( const QString &amp; fxPort )</slot>
+    <slot>InputSourceText( const QString &amp; Name )</slot>
+    <slot>OutputDisable( int )</slot>
+    <slot>OutputNameText( const QString &amp; Name )</slot>
+    <slot>StepDisable( int )</slot>
+    <slot>OutArguments( const QString &amp; )</slot>
+    <slot>SourceComboHighlighted( int k )</slot>
+    <slot>StoreComboHighlighted( int k )</slot>
+    <slot>OutputFileDialog()</slot>
+    <slot>StoreBufferSize( int t )</slot>
+    <slot>StoreSplitLevel( int t )</slot>
+    <slot>StoreCompLevel( int t )</slot>
+    <slot>StoreOverWrite( bool overwrite )</slot>
+    <slot>InputTagfile( const QString &amp; tag )</slot>
+    <slot>StoreStartEvent( int num )</slot>
+    <slot>StoreStopEvent( int num )</slot>
+    <slot>StoreEventInterval( int num )</slot>
+    <slot>StoreTimeout( int tim )</slot>
+    <slot>InputFileDialog()</slot>
+    <slot>MbsMonitorBtn_clicked()</slot>
+</slots>
+<functions>
+    <function>init()</function>
+    <function>destroy()</function>
+    <function>SetStepStatus( TGo4AnalysisConfiguration * panel, TGo4AnalysisStepStatus * StepStatus )</function>
+    <function returnType="QString">GetStepName()</function>
+    <function>SetStepControl( bool process, bool source, bool store )</function>
+    <function>GetStepControl( bool &amp; process, bool &amp; source, bool &amp; store )</function>
+    <function>ResetSourceWidgets( const QString &amp; name, int timeout )</function>
+    <function>SetFileSource()</function>
+    <function>SetMbsFileSource( QString TagFile, int start, int stop, int interval )</function>
+    <function>SetMbsStreamSource()</function>
+    <function>SetMbsTransportSource()</function>
+    <function>SetMbsEventServerSource()</function>
+    <function>SetMbsRevServSource( int port )</function>
+    <function>SetRandomSource()</function>
+    <function>SetUserSource( int port, QString expr )</function>
+    <function returnType="int">GetSourceSetup( QString &amp; name, int &amp; timeout )</function>
+    <function>GetMbsFileSource( QString &amp; TagFile, int &amp; start, int &amp; stop, int &amp; interval )</function>
+    <function>GetMbsRevServSource( int &amp; port )</function>
+    <function>GetUserSource( int &amp; port, QString &amp; expr )</function>
+    <function>SetFileStore( QString name, bool overwrite, int bufsize, int splitlevel, int compression )</function>
+    <function>SetBackStore( QString name, int bufsize, int splitlevel )</function>
+    <function returnType="QString">GetBackStoreName()</function>
+    <function returnType="int">GetStoreSetup( QString &amp; name )</function>
+    <function>GetFileStore( bool &amp; overwrite, int &amp; bufsize, int &amp; splitlevel, int &amp; compression )</function>
+    <function>GetBackStore( int &amp; bufsize, int &amp; splitlevel )</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

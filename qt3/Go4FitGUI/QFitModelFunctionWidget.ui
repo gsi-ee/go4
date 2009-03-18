@@ -1,0 +1,145 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>QFitModelFunctionWidget</class>
+<widget class="QFitModelWidget">
+    <property name="name">
+        <cstring>QFitModelFunctionWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>QFitModelFunctionWidget</string>
+    </property>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel17</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>140</y>
+                <width>110</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Library name</string>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel18</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>230</x>
+                <y>140</y>
+                <width>120</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Function name</string>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel19</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>200</y>
+                <width>169</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Number of parameters</string>
+        </property>
+    </widget>
+    <widget class="QGo4LineEdit">
+        <property name="name">
+            <cstring>LibNameEdt</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>160</y>
+                <width>180</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QGo4LineEdit">
+        <property name="name">
+            <cstring>FuncNameEdt</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>230</x>
+                <y>160</y>
+                <width>180</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QSpinBox">
+        <property name="name">
+            <cstring>NumParSpin</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>220</y>
+                <width>160</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>LibNameEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitModelFunctionWidget</receiver>
+        <slot>LibNameEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>FuncNameEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitModelFunctionWidget</receiver>
+        <slot>FuncNameEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>NumParSpin</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>QFitModelFunctionWidget</receiver>
+        <slot>NumParSpin_valueChanged(int)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QFitModelWidget.h</include>
+    <include location="local" impldecl="in implementation">QGo4LineEdit.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitModelFunction.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitGuiTypes.h</include>
+    <include location="local" impldecl="in implementation">QFitModelFunctionWidget.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4FitModelFunction</forward>
+</forwards>
+<slots>
+    <slot returnType="TGo4FitModelFunction *">GetFunction()</slot>
+    <slot>FillSpecificData()</slot>
+    <slot>LibNameEdt_textChanged( const QString &amp; )</slot>
+    <slot>FuncNameEdt_textChanged( const QString &amp; )</slot>
+    <slot>NumParSpin_valueChanged( int )</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

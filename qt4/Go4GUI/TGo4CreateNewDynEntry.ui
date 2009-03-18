@@ -1,0 +1,217 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>TGo4CreateNewDynEntry</class>
+  <widget class="QDialog" name="TGo4CreateNewDynEntry" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>253</width>
+        <height>176</height>
+      </rect>
+    </property>
+    <property name="windowTitle" >
+      <string>Create dynamic entry</string>
+    </property>
+    <property name="windowIcon" >
+      <pixmap>:/icons/go4logo2_big.png</pixmap>
+    </property>
+    <property name="toolTip" stdset="0" >
+      <string/>
+    </property>
+    <layout class="QGridLayout" >
+      <property name="margin" >
+        <number>7</number>
+      </property>
+      <property name="spacing" >
+        <number>3</number>
+      </property>
+      <item rowspan="1" row="3" column="0" colspan="2" >
+        <layout class="QHBoxLayout" >
+          <item>
+            <widget class="QPushButton" name="RemoteBtn" >
+              <property name="minimumSize" >
+                <size>
+                  <width>70</width>
+                  <height>30</height>
+                </size>
+              </property>
+              <property name="text" >
+                <string>&amp;Create remote</string>
+              </property>
+              <property name="shortcut" >
+                <string>Alt+C</string>
+              </property>
+              <property name="autoDefault" >
+                <bool>false</bool>
+              </property>
+              <property name="default" >
+                <bool>false</bool>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <spacer name="spacer187" >
+              <property name="sizeHint" >
+                <size>
+                  <width>20</width>
+                  <height>20</height>
+                </size>
+              </property>
+              <property name="sizeType" >
+                <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+              </property>
+            </spacer>
+          </item>
+          <item>
+            <widget class="QPushButton" name="CloseWin" >
+              <property name="sizePolicy" >
+                <sizepolicy>
+                  <hsizetype>0</hsizetype>
+                  <vsizetype>0</vsizetype>
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                </sizepolicy>
+              </property>
+              <property name="minimumSize" >
+                <size>
+                  <width>30</width>
+                  <height>30</height>
+                </size>
+              </property>
+              <property name="maximumSize" >
+                <size>
+                  <width>30</width>
+                  <height>30</height>
+                </size>
+              </property>
+              <property name="text" >
+                <string/>
+              </property>
+              <property name="icon" >
+                <iconset>:/icons/closewindow.png</iconset>
+              </property>
+              <property name="toolTip" stdset="0" >
+                <string>Close editor without change.</string>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+      <item row="2" column="0" >
+        <widget class="QLabel" name="TypeLabel" >
+          <property name="sizePolicy" >
+            <sizepolicy>
+              <hsizetype>0</hsizetype>
+              <vsizetype>5</vsizetype>
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+            </sizepolicy>
+          </property>
+          <property name="text" >
+            <string>Type:</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+      </item>
+      <item row="0" column="0" >
+        <widget class="QLabel" name="NameLabel" >
+          <property name="text" >
+            <string>Name:</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+      </item>
+      <item row="1" column="0" >
+        <widget class="QLabel" name="TitleLabel" >
+          <property name="text" >
+            <string>Title:</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+      </item>
+      <item row="1" column="1" >
+        <widget class="QLineEdit" name="EntryTitle" >
+          <property name="text" >
+            <string>enter title </string>
+          </property>
+          <property name="modified" >
+            <bool>false</bool>
+          </property>
+          <property name="dragEnabled" >
+            <bool>true</bool>
+          </property>
+          <property name="toolTip" stdset="0" >
+            <string>Name of new condition</string>
+          </property>
+        </widget>
+      </item>
+      <item row="0" column="1" >
+        <widget class="QLineEdit" name="EntryName" >
+          <property name="text" >
+            <string>enter entry</string>
+          </property>
+          <property name="modified" >
+            <bool>false</bool>
+          </property>
+          <property name="dragEnabled" >
+            <bool>true</bool>
+          </property>
+          <property name="toolTip" stdset="0" >
+            <string>Name of new condition</string>
+          </property>
+        </widget>
+      </item>
+      <item row="2" column="1" >
+        <widget class="QComboBox" name="EntryType" >
+          <property name="insertPolicy" >
+            <enum>QComboBox::InsertAtCurrent</enum>
+          </property>
+          <property name="duplicatesEnabled" >
+            <bool>false</bool>
+          </property>
+          <property name="toolTip" stdset="0" >
+            <string>Type of condition</string>
+          </property>
+          <item>
+            <property name="text" >
+              <string>Pointer entry</string>
+            </property>
+          </item>
+          <item>
+            <property name="text" >
+              <string>Tree entry</string>
+            </property>
+          </item>
+        </widget>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <connections>
+    <connection>
+      <sender>CloseWin</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4CreateNewDynEntry</receiver>
+      <slot>close()</slot>
+    </connection>
+    <connection>
+      <sender>RemoteBtn</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4CreateNewDynEntry</receiver>
+      <slot>accept()</slot>
+    </connection>
+  </connections>
+</ui>

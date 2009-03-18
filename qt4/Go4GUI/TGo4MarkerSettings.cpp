@@ -1,0 +1,59 @@
+#include "TGo4MarkerSettings.h"
+
+TGo4MarkerSettings::TGo4MarkerSettings( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
+    : QDialog( parent, name, modal, fl )
+{ 
+	//setObjectName(name);
+	setupUi(this);
+			// put slot connections here!
+			// note: Qt4 uic will add all existing connections 
+			// from ui file to the setupUI
+    // regions:
+    DrawLabelButton->setChecked(TGo4Condition::fgbLABELDRAW);
+    DrawIntButton->setChecked(TGo4Condition::fgbINTDRAW);
+    DrawLimButton->setChecked(TGo4Condition::fgbLIMITSDRAW);
+    DrawCountsButton->setChecked(TGo4Condition::fgbCMAXDRAW);
+    DrawYrmsButton->setChecked(TGo4Condition::fgbYRMSDRAW);
+    DrawXrmsButton->setChecked(TGo4Condition::fgbXRMSDRAW);
+    DrawXmaxButton->setChecked(TGo4Condition::fgbXMAXDRAW);
+    DrawYmaxButton->setChecked(TGo4Condition::fgbYMAXDRAW);
+    DrawXmeanButton->setChecked(TGo4Condition::fgbXMEANDRAW);
+    DrawYmeanButton->setChecked(TGo4Condition::fgbYMEANDRAW);
+
+    // point markers:
+    DrawPLabelButton->setChecked(TGo4Marker::fgbHASLABEL);
+    DrawPConnectorButton->setChecked(TGo4Marker::fgbHASCONNECTOR);
+    DrawPXButton->setChecked(TGo4Marker::fgbXDRAW);
+    DrawPYButton->setChecked(TGo4Marker::fgbYDRAW);
+    DrawPXbinButton->setChecked(TGo4Marker::fgbXBINDRAW);
+    DrawPYbinButton->setChecked(TGo4Marker::fgbYBINDRAW);
+    DrawPCountsButton->setChecked(TGo4Marker::fgbCONTDRAW);
+
+
+
+
+
+}
+
+
+void TGo4MarkerSettings::setFlags()
+{
+    TGo4Condition::fgbLABELDRAW=DrawLabelButton->isChecked();
+    TGo4Condition::fgbINTDRAW=DrawIntButton->isChecked();
+    TGo4Condition::fgbLIMITSDRAW=DrawLimButton->isChecked();
+    TGo4Condition::fgbCMAXDRAW=DrawCountsButton->isChecked();
+    TGo4Condition::fgbYRMSDRAW=DrawYrmsButton->isChecked();
+    TGo4Condition::fgbXRMSDRAW=DrawXrmsButton->isChecked();
+    TGo4Condition::fgbXMAXDRAW=DrawXmaxButton->isChecked();
+    TGo4Condition::fgbYMAXDRAW=DrawYmaxButton->isChecked();
+    TGo4Condition::fgbXMEANDRAW=DrawXmeanButton->isChecked();
+    TGo4Condition::fgbYMEANDRAW=DrawYmeanButton->isChecked();
+
+    TGo4Marker::fgbHASLABEL=DrawPLabelButton->isChecked();
+    TGo4Marker::fgbHASCONNECTOR=DrawPConnectorButton->isChecked();
+    TGo4Marker::fgbXDRAW=DrawPXButton->isChecked();
+    TGo4Marker::fgbYDRAW=DrawPYButton->isChecked();
+    TGo4Marker::fgbXBINDRAW=DrawPXbinButton->isChecked();
+    TGo4Marker::fgbYBINDRAW=DrawPYbinButton->isChecked();
+    TGo4Marker::fgbCONTDRAW=DrawPCountsButton->isChecked();
+}

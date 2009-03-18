@@ -1,0 +1,35 @@
+## basic settings for Solaris 
+
+#### File suffixes: ####
+ObjSuf        = o
+ExeSuf        =
+DllSuf        = so
+
+#### Compilers: ####
+CXX           = CC
+CC            = cc
+
+#### Compiler optimisation flags: ####
+OPTIONS       = -KPIC -errtags=yes
+DEFINITIONS   = -DSolaris
+#EXTRACOPTIONS =
+EXTRACXXOPTIONS = -features=extensions -erroff=hidevf 
+
+## This two copiler flags are alternative. 
+## When DOOPTIMIZATION = false, first is used otherwise second 
+DEBUGMODE     = -g 
+OPTIMIZEMODE  = -O 
+# OPTIMIZEMODE  = -O3 fails for some gcc (TString seekoff overload)
+
+#### File system operations: ####
+LN            = ln -sf
+RM            = rm -f
+MV            = mv
+
+#### Linker definitions: ####
+LD            = CC
+LDFLAGS       = -O
+SOFLAGS       = -G
+
+#### Other options: ####
+OutPutOpt     = -o 

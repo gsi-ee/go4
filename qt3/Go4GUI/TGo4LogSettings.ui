@@ -1,0 +1,319 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>TGo4LogSettings</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>TGo4LogSettings</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>284</width>
+            <height>192</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Set GUI Logging behaviour</string>
+    </property>
+    <property name="sizeGripEnabled">
+        <bool>true</bool>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QLayoutWidget" row="4" column="0">
+            <property name="name">
+                <cstring>Layout1</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>Horizontal Spacing2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonOk</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;OK</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                    <property name="default">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonCancel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Cancel</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget" row="3" column="0">
+            <property name="name">
+                <cstring>layout191</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>LogfileWrite</cstring>
+                    </property>
+                    <property name="text">
+                        <string>writing to file:</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Enable logging to file.</string>
+                    </property>
+                </widget>
+                <widget class="QLineEdit">
+                    <property name="name">
+                        <cstring>LogfileName</cstring>
+                    </property>
+                </widget>
+                <widget class="QToolButton">
+                    <property name="name">
+                        <cstring>FileNameLog</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>25</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>25</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="pixmap">
+                        <pixmap></pixmap>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>findfile.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Browse for output file.</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget" row="2" column="0">
+            <property name="name">
+                <cstring>layout193</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>LogfilePrint</cstring>
+                    </property>
+                    <property name="text">
+                        <string>printing on GUI shell window</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Enable logging in GUI shell window.</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Horizontal Spacing2_2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>110</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget" row="1" column="0">
+            <property name="name">
+                <cstring>ModeLabel_2</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>IgnoreLabel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Priority:</string>
+                    </property>
+                </widget>
+                <widget class="QComboBox">
+                    <item>
+                        <property name="text">
+                            <string>Debugs</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Infos</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Warnings</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Errors</string>
+                        </property>
+                    </item>
+                    <property name="name">
+                        <cstring>IgnoreCombo</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Priorities below selected one are included.</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget" row="0" column="0">
+            <property name="name">
+                <cstring>layout192</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>ModeLabel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Logging mode:</string>
+                    </property>
+                </widget>
+                <widget class="QComboBox">
+                    <item>
+                        <property name="text">
+                            <string>On demand</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Automatic</string>
+                        </property>
+                    </item>
+                    <property name="name">
+                        <cstring>ModeCombo</cstring>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Defines when logging shall be done.</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4LogSettings</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>buttonCancel</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4LogSettings</receiver>
+        <slot>reject()</slot>
+    </connection>
+    <connection>
+        <sender>FileNameLog</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4LogSettings</receiver>
+        <slot>LogfileDialog()</slot>
+    </connection>
+    <connection>
+        <sender>LogfileWrite</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>LogfileName</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>LogfileWrite</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>FileNameLog</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">qfiledialog.h</include>
+    <include location="local" impldecl="in implementation">TGo4Log.h</include>
+    <include location="local" impldecl="in implementation">TGo4LogSettings.ui.h</include>
+</includes>
+<slots>
+    <slot>LogfileDialog()</slot>
+</slots>
+<functions>
+    <function>init()</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

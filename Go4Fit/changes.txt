@@ -1,0 +1,92 @@
+History of Go4Fit package changes.
+
+19.11.2002
+  First public release. v. 1.0.
+
+01.2003
+  Relase of v. 1.1. Changes since last release:
+   1.  TGo4FitDataIter iterator class introduced. All data content access routins were moved from TGo4FitData
+       objects to iterators.
+   2.  All fitting actions now can be done without buffers allocation for data and models. It saves memory,
+       but may consume a lot of time.
+   3.  More clear mechanizm of buffers usage is introduced. Fitter SetMemoryUsage() routine now
+       sets usage of buffers mode : (0) without any buffers, (1) only for data objects, (2) for both data and models objects,
+       (3) explicit setup for each data and models (SetUseBuffers() routine).
+   4.  Draw() and EstimateAmplitudes() methods of fitter now can be called out of
+       Initialize()/Finalize() scopes.
+   5.  CreateResult() method of fitter renamed to CreateDrawObject() method and several new
+       parameters introduced. Also can be called in any place.
+   6.  If Draw() creates and shows more than one histogram, they all placed to THStack.
+   7.  All examples (except 3-rd) now can be run from CINT.
+   8.  ROOTPeakFinder() and PeakFinder() methods introduced.
+   9.  New AddH1(), AddPolynoms(), AddGauss1() methods of fitter were intoduced. They implement frequently
+       used operations for fitter.
+   10. Error concerning intregaration of model fixed.
+   11. Fitter streamer corrected for case, when the same object was assigned to several different slots.
+   12. Error in Streamer for TGo4FitComponent fixed. File format is changed.
+   13. Problem when deleting data or model object with owned object in slot fixed.
+   14. ProcessObjects() routine was added. It process a list of objects at once and creates either a list of fitters
+       or list of TVectorD objects with result values. Optinally list of rows (parameters) names and list of
+       columns (processed data) names can be obtained.
+   15. Axis calibration objects now called axis transformation object. This gives an ability introduce more complex axis
+       transformation(s).
+
+Release with Go4 v2.1
+
+02.2003
+   1. TGo4FitSlotList class introduced. It provides a common set of operation for working
+      with list of slots. Inherited by basic TGo4FitterAbstract & TGo4FitComponent classes/
+      Syntax of SetObject and ClearObject commands slightly changed.
+   2. One slot can be now connected to another. This means, that both slots will operatr with
+      same object, assigned to one of them. A complex chain of slots can be created (ring of
+      connected slots not allowed).
+   3. Data object now automatically discard usage of buffers, if any of it's axis
+      transformation objects has variable parameters.
+   4. Error in TGo4FitModelFormula fixed. Names of parameters were not correctly replaced
+      in expression for TFormula.
+   5. All models parameters can be renamed. All models objects detect meaning of parameter
+      via index. Names of parameters are used for displaying and in TGo4FitModelFormula class.
+   6. For TGo4FitModelFormula & TGo4FitModelFunction objects some of parameters can be
+      specified as position or width. This is may be usefull in GUI when displaying position
+      and width of lines.
+
+03.2003
+   7. Two function add: GetResultFF() & GetResultNDF(). They return result value of fit
+      function and number of degrees of freedom, which were achived last time when actions
+      were executed.
+   8. Fixed problem with saving fitter with/without objects.
+   9. All functions concerning buffers allocations and usage for data and model objects are
+      moved to protected scope. User can only specify buffers usage mode in fitter or for explicit
+      data and model objects. Buffers will be used only in actions execution.
+   10.New TGo4FitPeakFinder action created. It contains all setup and fuinction for three
+      different peak finders (by S.Linev(1), ROOT TSpectrum(2), H.Essel(3)). This action can
+      be added to actions list, but to execute this action DoActions(kTRUE) should be called.
+      This parameters allows to change fitter components in actions. See also Example11.
+   11.Each of model components now has group index. Model components with same index can be draw
+      simultaniously with fitter->Draw("data1,Group0") command. The index = 0 (default for polynoms)
+      is reserved to mark backfround components. To show background fitter->Draw("data1,Background")
+      can be used. For rest model components default value for index is -1.
+   12.Implementation of custom streamers changed. This is done to support standard
+      ROOT version scheme.
+
+Release with Go4 v2.2
+
+   1. Fixed error in DataRidge object. Now Example13 shows usage of data ridge object.
+
+
+31.03.2003
+   Released as separate package with version number 2.0
+
+10.2004
+   1. New method TGo4Fitter::CalculatesIntegral is added. It allows calculation of
+      integrals and counts sum for data objects and model components.
+   2. Add .rootmap generation to Makefile of Go4Fit & Go4FitExample packages.
+      After map generated, there is no need to explicitly load fit libraries
+      in CINT session.
+
+06.2007
+   Bug fix in TGo4FitModelFunction with loading of dynamic libraries.
+   
+08.2007
+   1. Bug fix with fixed parameters handling
+   2. New method TGo4Fitter::CloneModel() to clone any model component.

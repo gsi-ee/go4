@@ -1,0 +1,305 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4HisDrawOptions</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>TGo4HisDrawOptions</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>736</width>
+            <height>29</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Histogram Draw Options</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
+        </property>
+        <property name="spacing">
+            <number>0</number>
+        </property>
+        <widget class="QComboBox" row="0" column="0">
+            <property name="name">
+                <cstring>DrawOption</cstring>
+            </property>
+        </widget>
+        <widget class="QComboBox" row="0" column="1">
+            <property name="name">
+                <cstring>ErrorBars</cstring>
+            </property>
+        </widget>
+        <widget class="QComboBox" row="0" column="2">
+            <property name="name">
+                <cstring>Coordinates</cstring>
+            </property>
+        </widget>
+        <widget class="QComboBox" row="0" column="3">
+            <item>
+                <property name="text">
+                    <string>X: Lin</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>X: Log</string>
+                </property>
+            </item>
+            <property name="name">
+                <cstring>XStyle</cstring>
+            </property>
+        </widget>
+        <widget class="QComboBox" row="0" column="4">
+            <item>
+                <property name="text">
+                    <string>Y: Lin</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Y: Log</string>
+                </property>
+            </item>
+            <property name="name">
+                <cstring>YStyle</cstring>
+            </property>
+        </widget>
+        <widget class="QComboBox" row="0" column="5">
+            <item>
+                <property name="text">
+                    <string>Z: Lin</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Z: Log</string>
+                </property>
+            </item>
+            <property name="name">
+                <cstring>ZStyle</cstring>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="0" column="6">
+            <property name="name">
+                <cstring>AutoScaleBox</cstring>
+            </property>
+            <property name="text">
+                <string>Auto Scale</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="7">
+            <property name="name">
+                <cstring>LineColor</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>30</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="pixmap">
+                <pixmap>changelincol.png</pixmap>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>changelincol.png</iconset>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Change line color of selected object.</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="8">
+            <property name="name">
+                <cstring>FillColor</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>30</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="pixmap">
+                <pixmap>changefillcol.png</pixmap>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>changefillcol.png</iconset>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Change fill color for selected object.</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="9">
+            <property name="name">
+                <cstring>MarkerColor</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>30</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="pixmap">
+                <pixmap>changemarcol.png</pixmap>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>changemarcol.png</iconset>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Change marker color of selected object.</string>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>DrawOption</sender>
+        <signal>activated(int)</signal>
+        <receiver>TGo4HisDrawOptions</receiver>
+        <slot>SetDrawOptions(int)</slot>
+    </connection>
+    <connection>
+        <sender>ErrorBars</sender>
+        <signal>activated(int)</signal>
+        <receiver>TGo4HisDrawOptions</receiver>
+        <slot>SetErrorBars(int)</slot>
+    </connection>
+    <connection>
+        <sender>Coordinates</sender>
+        <signal>activated(int)</signal>
+        <receiver>TGo4HisDrawOptions</receiver>
+        <slot>SetCoordinates(int)</slot>
+    </connection>
+    <connection>
+        <sender>XStyle</sender>
+        <signal>activated(int)</signal>
+        <receiver>TGo4HisDrawOptions</receiver>
+        <slot>XaxisStyle(int)</slot>
+    </connection>
+    <connection>
+        <sender>YStyle</sender>
+        <signal>activated(int)</signal>
+        <receiver>TGo4HisDrawOptions</receiver>
+        <slot>YaxisStyle(int)</slot>
+    </connection>
+    <connection>
+        <sender>ZStyle</sender>
+        <signal>activated(int)</signal>
+        <receiver>TGo4HisDrawOptions</receiver>
+        <slot>ZaxisStyle(int)</slot>
+    </connection>
+    <connection>
+        <sender>AutoScaleBox</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4HisDrawOptions</receiver>
+        <slot>SetAutoScale(bool)</slot>
+    </connection>
+    <connection>
+        <sender>LineColor</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptions</receiver>
+        <slot>SetLineColor()</slot>
+    </connection>
+    <connection>
+        <sender>FillColor</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptions</receiver>
+        <slot>SetFillColor()</slot>
+    </connection>
+    <connection>
+        <sender>MarkerColor</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptions</receiver>
+        <slot>SetMarkerColor()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QGo4Widget.h</include>
+    <include location="local" impldecl="in implementation">qlineedit.h</include>
+    <include location="local" impldecl="in implementation">Riostream.h</include>
+    <include location="local" impldecl="in implementation">TROOT.h</include>
+    <include location="local" impldecl="in implementation">TColor.h</include>
+    <include location="local" impldecl="in implementation">TAttLine.h</include>
+    <include location="local" impldecl="in implementation">TAttFill.h</include>
+    <include location="local" impldecl="in implementation">TAttMarker.h</include>
+    <include location="local" impldecl="in implementation">TGo4Picture.h</include>
+    <include location="local" impldecl="in implementation">TGo4ViewPanel.h</include>
+    <include location="local" impldecl="in implementation">TGo4WorkSpace.h</include>
+    <include location="local" impldecl="in implementation">qcolordialog.h</include>
+    <include location="local" impldecl="in implementation">TGo4HisDrawOptions.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4ViewPanel</forward>
+    <forward>class TPad</forward>
+</forwards>
+<variables>
+    <variable>bool fbSettingPanelData</variable>
+    <variable>int fiLastView</variable>
+</variables>
+<slots>
+    <slot>panelSlot( TGo4ViewPanel * panel, TPad * pad, int signalid )</slot>
+    <slot>SetDrawOptions( int t )</slot>
+    <slot>SetErrorBars( int t )</slot>
+    <slot>SetCoordinates( int t )</slot>
+    <slot>XaxisStyle( int t )</slot>
+    <slot>YaxisStyle( int t )</slot>
+    <slot>ZaxisStyle( int t )</slot>
+    <slot>SetAutoScale( bool on )</slot>
+    <slot>SetLineColor()</slot>
+    <slot>SetFillColor()</slot>
+    <slot>SetMarkerColor()</slot>
+</slots>
+<functions>
+    <function>init()</function>
+    <function>ChangeDrawOptionForCurrentPanel( int kind, int value )</function>
+    <function>DecodeDrawOption( const char * drawopt, int &amp; HisErrorStyle, int &amp; HisCoordStyle, int &amp; HisDrawStyle)</function>
+    <function>CodeDrawOptions( int HisErrorStyle, int HisCoordStyle, int HisDrawStyle, QString &amp; buf )</function>
+    <function>UpdateView(int viewtype)</function>
+    <function>ChangeColor(int kind)</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="0" margin="0"/>
+</UI>

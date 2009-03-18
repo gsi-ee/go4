@@ -1,0 +1,214 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4MacroDialog</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>TGo4MacroDialog</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>310</width>
+            <height>191</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Select Macro template:</string>
+    </property>
+    <property name="icon">
+        <pixmap>go4logo2_big.png</pixmap>
+    </property>
+    <property name="sizeGripEnabled">
+        <bool>true</bool>
+    </property>
+    <property name="modal">
+        <bool>true</bool>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QLayoutWidget" row="0" column="0">
+            <property name="name">
+                <cstring>layout17</cstring>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QListBox">
+                    <item>
+                        <property name="text">
+                            <string>Rebin histogram</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Add/substract histograms</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Divide histograms</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Projection X</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Projection Y</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Correlate histograms</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Histogram of histogram</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Profile X</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Profile Y</string>
+                        </property>
+                    </item>
+                     <item>
+                        <property name="text">
+                            <string>Scale X axis</string>
+                        </property>
+                    </item>
+                    <property name="name">
+                        <cstring>MacroListBox</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>SyntaxLabel</cstring>
+                    </property>
+                    <property name="frameShape">
+                        <enum>ToolBarPanel</enum>
+                    </property>
+                    <property name="text">
+                        <string>command syntax</string>
+                    </property>
+                    <property name="scaledContents">
+                        <bool>true</bool>
+                    </property>
+                    <property name="alignment">
+                        <set>AlignVCenter</set>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout15</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <spacer>
+                            <property name="name">
+                                <cstring>Horizontal Spacing2</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>210</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>buttonOk</cstring>
+                            </property>
+                            <property name="text">
+                                <string>&amp;OK</string>
+                            </property>
+                            <property name="accel">
+                                <string></string>
+                            </property>
+                            <property name="autoDefault">
+                                <bool>true</bool>
+                            </property>
+                            <property name="default">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>buttonCancel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>&amp;Cancel</string>
+                            </property>
+                            <property name="accel">
+                                <string></string>
+                            </property>
+                            <property name="autoDefault">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+            </vbox>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4MacroDialog</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>buttonCancel</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4MacroDialog</receiver>
+        <slot>reject()</slot>
+    </connection>
+    <connection>
+        <sender>MacroListBox</sender>
+        <signal>selected(const QString&amp;)</signal>
+        <receiver>TGo4MacroDialog</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>MacroListBox</sender>
+        <signal>highlighted(const QString&amp;)</signal>
+        <receiver>TGo4MacroDialog</receiver>
+        <slot>setCommand(const QString&amp;)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">TGo4MacroDialog.ui.h</include>
+</includes>
+<variables>
+    <variable>QString fxCommand;</variable>
+</variables>
+<slots>
+    <slot>setCommand( const QString &amp; selection )</slot>
+    <slot>init()</slot>
+</slots>
+<functions>
+    <function returnType="const QString &amp;">getCommand()</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

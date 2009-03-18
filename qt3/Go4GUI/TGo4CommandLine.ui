@@ -1,0 +1,201 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4CommandLine</class>
+<widget class="QGo4Widget">
+    <property name="name">
+        <cstring>TGo4CommandLine</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>717</width>
+            <height>31</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>GUI Command line</string>
+    </property>
+    <property name="icon">
+        <pixmap>go4logo2_big.png</pixmap>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>2</number>
+        </property>
+        <widget class="QLayoutWidget" row="0" column="0">
+            <property name="name">
+                <cstring>layout12</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>GUILabel</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="font">
+                        <font>
+                            <pointsize>10</pointsize>
+                            <bold>1</bold>
+                        </font>
+                    </property>
+                    <property name="text">
+                        <string>GUI command:</string>
+                    </property>
+                </widget>
+                <widget class="QGo4CommandsHistory">
+                    <property name="name">
+                        <cstring>InputLine</cstring>
+                    </property>
+                    <property name="cursor">
+                        <cursor>4</cursor>
+                    </property>
+                    <property name="maxCount">
+                        <number>100</number>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Type root or go4 command here ("go4-&gt;" to access go4 command interface functions). Return key will start execution</string>
+                    </property>
+                </widget>
+                <widget class="QToolButton">
+                    <property name="name">
+                        <cstring>PredefinedBut</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>25</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>25</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>macro_t.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Select predefined macro statement. Then drag and drop histograms from browser to empty string arguments. Edit other arguments in command line.</string>
+                    </property>
+                </widget>
+                <widget class="QToolButton">
+                    <property name="name">
+                        <cstring>FileSearchBut</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>25</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>25</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>findfile.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Browse for macro to execute</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<customwidgets>
+</customwidgets>
+<connections>
+    <connection>
+        <sender>FileSearchBut</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4CommandLine</receiver>
+        <slot>FileSearchDialog()</slot>
+    </connection>
+    <connection>
+        <sender>InputLine</sender>
+        <signal>activated(const QString&amp;)</signal>
+        <receiver>TGo4CommandLine</receiver>
+        <slot>SelectCommand(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>PredefinedBut</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4CommandLine</receiver>
+        <slot>PredefinedDialog()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QGo4Widget.h</include>
+    <include location="local" impldecl="in declaration">QGo4CommandsHistory.h</include>
+    <include location="local" impldecl="in implementation">Riostream.h</include>
+    <include location="local" impldecl="in implementation">TROOT.h</include>
+    <include location="local" impldecl="in implementation">qfiledialog.h</include>
+    <include location="local" impldecl="in implementation">TGo4Script.h</include>
+    <include location="local" impldecl="in implementation">TGo4MainWindow.h</include>
+    <include location="local" impldecl="in implementation">TGo4QSettings.h</include>
+    <include location="local" impldecl="in implementation">qtextstream.h</include>
+    <include location="local" impldecl="in implementation">TGo4MacroDialog.h</include>
+    <include location="local" impldecl="in implementation">helpwindow.h</include>
+    <include location="local" impldecl="in implementation">TGo4CommandLine.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4MainWindow;</forward>
+</forwards>
+<variables>
+    <variable>TGo4MainWindow* fxMainWindow;</variable>
+    <variable>int fiHistoryDepth;</variable>
+</variables>
+<slots>
+    <slot>FileSearchDialog()</slot>
+    <slot>SelectCommand( const QString &amp; str )</slot>
+    <slot>SaveHistory()</slot>
+    <slot>LoadHistory()</slot>
+    <slot>PredefinedDialog()</slot>
+    <slot>PrintHelp()</slot>
+</slots>
+<functions>
+    <function>init()</function>
+    <function>setMainWindow( TGo4MainWindow * win )</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

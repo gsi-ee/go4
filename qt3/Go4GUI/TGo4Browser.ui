@@ -1,0 +1,121 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4Browser</class>
+<widget class="QGo4Widget">
+    <property name="name">
+        <cstring>TGo4Browser</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>338</width>
+            <height>398</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>New Go4 Browser</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>1</number>
+        </property>
+        <property name="spacing">
+            <number>1</number>
+        </property>
+        <widget class="QGo4BrowserListView" row="0" column="0">
+            <property name="name">
+                <cstring>ListView</cstring>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<customwidgets>
+</customwidgets>
+<connections>
+    <connection>
+        <sender>ListView</sender>
+        <signal>doubleClicked(QListViewItem*)</signal>
+        <receiver>TGo4Browser</receiver>
+        <slot>ListView_doubleClicked(QListViewItem*)</slot>
+    </connection>
+    <connection>
+        <sender>ListView</sender>
+        <signal>contextMenuRequested(QListViewItem*,const QPoint&amp;,int)</signal>
+        <receiver>TGo4Browser</receiver>
+        <slot>ListView_contextMenuRequested(QListViewItem*,const QPoint&amp;,int)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QGo4Widget.h</include>
+    <include location="local" impldecl="in implementation">qlistview.h</include>
+    <include location="local" impldecl="in implementation">qpopupmenu.h</include>
+    <include location="local" impldecl="in implementation">qdragobject.h</include>
+    <include location="local" impldecl="in implementation">qheader.h</include>
+    <include location="local" impldecl="in implementation">qfiledialog.h</include>
+    <include location="local" impldecl="in implementation">qinputdialog.h</include>
+    <include location="local" impldecl="in implementation">qtimer.h</include>
+    <include location="local" impldecl="in implementation">qapplication.h</include>
+    <include location="local" impldecl="in implementation">Riostream.h</include>
+    <include location="local" impldecl="in implementation">TClass.h</include>
+    <include location="local" impldecl="in implementation">TROOT.h</include>
+    <include location="local" impldecl="in implementation">TObjString.h</include>
+    <include location="local" impldecl="in implementation">TCanvas.h</include>
+    <include location="local" impldecl="in implementation">TGo4LockGuard.h</include>
+    <include location="local" impldecl="in implementation">TGo4Proxy.h</include>
+    <include location="local" impldecl="in implementation">TGo4Slot.h</include>
+    <include location="local" impldecl="in implementation">TGo4Iter.h</include>
+    <include location="local" impldecl="in implementation">TGo4BrowserProxy.h</include>
+    <include location="local" impldecl="in implementation">QGo4BrowserListView.h</include>
+    <include location="local" impldecl="in implementation">QGo4BrowserItem.h</include>
+    <include location="local" impldecl="in implementation">TGo4AnalysisProxy.h</include>
+    <include location="local" impldecl="in implementation">TGo4HServProxy.h</include>
+    <include location="local" impldecl="in implementation">TGo4QSettings.h</include>
+    <include location="local" impldecl="in implementation">TGo4ViewPanel.h</include>
+    <include location="local" impldecl="in implementation">TGo4Browser.ui.h</include>
+</includes>
+<forwards>
+    <forward>class QListViewItem</forward>
+    <forward>class QDragObject</forward>
+    <forward>class TGo4BrowserProxy</forward>
+</forwards>
+<variables>
+    <variable>bool fbUpdateTimerActive</variable>
+    <variable>bool fVisibleColumns[7]</variable>
+    <variable>int fIndexes[7]</variable>
+</variables>
+<slots>
+    <slot>RequestDragObjectSlot(QDragObject**)</slot>
+    <slot>ItemDropAcceptSlot(void* item, void* mime, bool* res)</slot>
+    <slot>ItemDropProcessSlot(void* item, void* e)</slot>
+    <slot>updateListViewItems()</slot>
+    <slot>ListView_doubleClicked( QListViewItem * item )</slot>
+    <slot>ListView_contextMenuRequested( QListViewItem *, const QPoint &amp;, int )</slot>
+    <slot>ContextMenuActivated(int)</slot>
+    <slot>ColumnToggled(int)</slot>
+    <slot>HeaderSizeChanged(int, int, int)</slot>
+</slots>
+<functions>
+    <function>init()</function>
+    <function>destroy()</function>
+    <function>StartWorking()</function>
+    <function>linkedObjectUpdated(const char* linkname, TObject* obj)</function>
+    <function returnType="TGo4BrowserProxy*">BrowserProxy()</function>
+    <function returnType="QString">FullItemName(QListViewItem * item)</function>
+    <function>SetViewItemProperties(TGo4Slot* slot, QListViewItem* item)</function>
+    <function returnType="bool">canDrawItem( QListViewItem * item )</function>
+    <function>checkVisisbilityFlags(bool showall)</function>
+    <function>ShootUpdateTimer()</function>
+    <function>ResetWidget()</function>
+    <function>DisplaySelectedItems()</function>
+    <function>SuperImposeSelectedItems()</function>
+    <function>SaveSelectedItems()</function>
+    <function>ExportSelectedItems(const char* filtername)</function>
+    <function>ExportSelectedItems(const char* filename, const char* filedir, const char* format, const char* description)</function>
+    <function returnType="QListViewItem*">FindItemFor(TGo4Slot* slot)</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

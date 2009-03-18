@@ -1,0 +1,61 @@
+## Include dependencies rules, working only on linux
+
+ifdef LIBDEPENDENC
+ifeq ($(findstring $(MAKECMDGOALS), examples $(FASTRULES)),)
+-include $(LIBDEPENDENC)
+endif
+endif
+
+ifdef EXAMPDEPENDENCS
+ifeq ($(findstring $(MAKECMDGOALS), libs gui $(FASTRULES)),)
+-include $(EXAMPDEPENDENCS)
+endif
+endif
+
+ifeq ($(DOOPTIMIZATION), false)
+OPTFLAGS = $(DEBUGMODE)
+else
+OPTFLAGS = $(OPTIMIZEMODE)
+endif
+
+
+## Extentions rules
+
+.SUFFIXES: .$(SrcSuf) .$(DepSuf) .$(HedSuf)
+
+%.$(ObjSuf): %.$(SrcSuf)
+	$(CXX) -c $< $(OPTFLAGS) $(CXXFLAGS) -o $@ 
+
+%.$(ObjSuf): %.$(CSuf)
+	$(CC) -c $< $(OPTFLAGS) $(CFLAGS) -o $@
+
+%.$(DepSuf): %.$(SrcSuf)
+	@echo "Generate dependency $@ ... "
+	@$(MakeDepend) $@ "$(CXXFLAGS)" $*.$(SrcSuf) > $@
+
+%.$(DepSuf): %.$(CSuf)
+	@echo "Generate dependency $@ ... "
+	@$(MakeDepend) $@ "$(CFLAGS)" $*.$(CSuf) > $@
+
+
+ifndef GO4_WITHOUT_QT
+
+#dependency and Qt staff generation works only on linux
+
+%.$(ObjSuf): %.cpp
+	$(CXX) -c $< $(OPTFLAGS) $(CXXFLAGS) $(QTCXXFLAGS) -o $@ 
+
+$(GO4SYS)/%.h: $(GO4SYS)/%.ui
+	@echo "Generate Go4 Qt header $@ ... "
+	@$(UIC) $< -o $@
+	@cp -f $@ $(GO4SYS)/include
+
+%.h: %.ui
+	@echo "Generate Qt header $@ ... "
+	@$(UIC) $< -o $@
+
+%.d: %.cpp
+	@echo "Generate dependency $@ ... "
+	@$(MakeDepend) $@ "$(CXXFLAGS) $(QTCXXFLAGS)" $*.cpp > $@
+
+endif

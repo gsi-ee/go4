@@ -1,0 +1,75 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>QFitModelPolynomWidget</class>
+<widget class="QFitModelWidget">
+    <property name="name">
+        <cstring>QFitModelPolynomWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>QFitModelPolynomWidget</string>
+    </property>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel8</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>140</y>
+                <width>210</width>
+                <height>18</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Maximum axis number:</string>
+        </property>
+    </widget>
+    <widget class="QSpinBox">
+        <property name="name">
+            <cstring>AxisSpin</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>160</y>
+                <width>140</width>
+                <height>27</height>
+            </rect>
+        </property>
+        <property name="minValue">
+            <number>0</number>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>AxisSpin</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>QFitModelPolynomWidget</receiver>
+        <slot>AxisSpin_valueChanged(int)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QFitModelWidget.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitModelPolynom.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitGuiTypes.h</include>
+    <include location="local" impldecl="in implementation">QFitModelPolynomWidget.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4FitModelPolynom</forward>
+</forwards>
+<slots>
+    <slot returnType="TGo4FitModelPolynom *">GetPolynom()</slot>
+    <slot>FillSpecificData()</slot>
+    <slot>AxisSpin_valueChanged( int )</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

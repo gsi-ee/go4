@@ -1,0 +1,661 @@
+<ui version="4.0" stdsetdef="1" >
+  <author>Mohammad Al-Turany/Joern Adamchewski/Sergey Linev</author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>TGo4AnalysisConfiguration</class>
+  <widget class="QGo4Widget" name="TGo4AnalysisConfiguration" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>365</width>
+        <height>472</height>
+      </rect>
+    </property>
+    <property name="caption" >
+      <string>Analysis Configuration</string>
+    </property>
+    <property name="icon" >
+      <pixmap>:/icons/go4logo2_big.png</pixmap>
+    </property>
+    <property name="focusPolicy" >
+      <enum>Qt::StrongFocus</enum>
+    </property>
+    <layout class="QGridLayout" >
+      <property name="margin" >
+        <number>3</number>
+      </property>
+      <property name="spacing" >
+        <number>1</number>
+      </property>
+      <item row="0" column="0" >
+        <widget class="QTabWidget" name="TabSteps" >
+          <property name="tabShape" >
+            <enum>QTabWidget::Triangular</enum>
+          </property>
+          <widget class="QWidget" name="DummyTab" >
+            <attribute name="title" >
+              <string>Analysis Step 1</string>
+            </attribute>
+            <layout class="QGridLayout" >
+              <property name="margin" >
+                <number>11</number>
+              </property>
+              <property name="spacing" >
+                <number>6</number>
+              </property>
+            </layout>
+          </widget>
+        </widget>
+      </item>
+      <item row="2" column="0" >
+        <widget class="Q3GroupBox" name="GroupBox2" >
+          <property name="title" >
+            <string>Analysis Configuration File</string>
+          </property>
+          <layout class="QHBoxLayout" >
+            <property name="margin" >
+              <number>7</number>
+            </property>
+            <property name="spacing" >
+              <number>3</number>
+            </property>
+            <item>
+              <layout class="QHBoxLayout" >
+                <item>
+                  <widget class="QPushButton" name="AnalysisLoadConf" >
+                    <property name="sizePolicy" >
+                      <sizepolicy>
+                        <hsizetype>0</hsizetype>
+                        <vsizetype>0</vsizetype>
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                      </sizepolicy>
+                    </property>
+                    <property name="minimumSize" >
+                      <size>
+                        <width>30</width>
+                        <height>25</height>
+                      </size>
+                    </property>
+                    <property name="maximumSize" >
+                      <size>
+                        <width>25</width>
+                        <height>25</height>
+                      </size>
+                    </property>
+                    <property name="text" >
+                      <string/>
+                    </property>
+                    <property name="icon" >
+                      <iconset>:/icons/open.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0" >
+                      <string>Load the analysis configuration from a file (executed in analysis).</string>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QPushButton" name="AnalysisSaveConf" >
+                    <property name="sizePolicy" >
+                      <sizepolicy>
+                        <hsizetype>0</hsizetype>
+                        <vsizetype>0</vsizetype>
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                      </sizepolicy>
+                    </property>
+                    <property name="minimumSize" >
+                      <size>
+                        <width>30</width>
+                        <height>25</height>
+                      </size>
+                    </property>
+                    <property name="maximumSize" >
+                      <size>
+                        <width>30</width>
+                        <height>25</height>
+                      </size>
+                    </property>
+                    <property name="text" >
+                      <string/>
+                    </property>
+                    <property name="icon" >
+                      <iconset>:/icons/filesave.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0" >
+                      <string>Save the configuration in the file (execute in analysis). Submit first!!</string>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QLineEdit" name="ConfigFileName" >
+                    <property name="sizePolicy" >
+                      <sizepolicy>
+                        <hsizetype>3</hsizetype>
+                        <vsizetype>0</vsizetype>
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                      </sizepolicy>
+                    </property>
+                    <property name="minimumSize" >
+                      <size>
+                        <width>136</width>
+                        <height>20</height>
+                      </size>
+                    </property>
+                    <property name="maximumSize" >
+                      <size>
+                        <width>32767</width>
+                        <height>24</height>
+                      </size>
+                    </property>
+                    <property name="text" >
+                      <string>Go4AnalysisPrefs.root</string>
+                    </property>
+                    <property name="toolTip" stdset="0" >
+                      <string>Configuration file name for saving.</string>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QToolButton" name="LoadConfigFileName" >
+                    <property name="sizePolicy" >
+                      <sizepolicy>
+                        <hsizetype>0</hsizetype>
+                        <vsizetype>0</vsizetype>
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                      </sizepolicy>
+                    </property>
+                    <property name="minimumSize" >
+                      <size>
+                        <width>30</width>
+                        <height>25</height>
+                      </size>
+                    </property>
+                    <property name="maximumSize" >
+                      <size>
+                        <width>30</width>
+                        <height>25</height>
+                      </size>
+                    </property>
+                    <property name="text" >
+                      <string/>
+                    </property>
+                    <property name="icon" >
+                      <iconset>:/icons/findfile.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0" >
+                      <string>Browse for configuration file.</string>
+                    </property>
+                  </widget>
+                </item>
+              </layout>
+            </item>
+          </layout>
+        </widget>
+      </item>
+      <item row="3" column="0" >
+        <layout class="QHBoxLayout" >
+          <item>
+            <widget class="QPushButton" name="GetActiveConfigButton" >
+              <property name="minimumSize" >
+                <size>
+                  <width>30</width>
+                  <height>30</height>
+                </size>
+              </property>
+              <property name="maximumSize" >
+                <size>
+                  <width>30</width>
+                  <height>30</height>
+                </size>
+              </property>
+              <property name="text" >
+                <string/>
+              </property>
+              <property name="shortcut" >
+                <string>Alt+G</string>
+              </property>
+              <property name="icon" >
+                <iconset>:/icons/right.png</iconset>
+              </property>
+              <property name="toolTip" stdset="0" >
+                <string>Get the actual analysis configuration from analysis (Alt-G)).</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QPushButton" name="SubmitPushButton" >
+              <property name="sizePolicy" >
+                <sizepolicy>
+                  <hsizetype>0</hsizetype>
+                  <vsizetype>0</vsizetype>
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                </sizepolicy>
+              </property>
+              <property name="minimumSize" >
+                <size>
+                  <width>100</width>
+                  <height>30</height>
+                </size>
+              </property>
+              <property name="maximumSize" >
+                <size>
+                  <width>100</width>
+                  <height>30</height>
+                </size>
+              </property>
+              <property name="focusPolicy" >
+                <enum>Qt::StrongFocus</enum>
+              </property>
+              <property name="text" >
+                <string>   S&amp;ubmit</string>
+              </property>
+              <property name="shortcut" >
+                <string>Alt+U</string>
+              </property>
+              <property name="autoDefault" >
+                <bool>true</bool>
+              </property>
+              <property name="default" >
+                <bool>true</bool>
+              </property>
+              <property name="icon" >
+                <iconset>:/icons/left.png</iconset>
+              </property>
+              <property name="toolTip" stdset="0" >
+                <string>Submit configuration to analysis Alt+U (stops and initializes analysis).</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QPushButton" name="SubmitAndStartButton" >
+              <property name="sizePolicy" >
+                <sizepolicy>
+                  <hsizetype>0</hsizetype>
+                  <vsizetype>0</vsizetype>
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                </sizepolicy>
+              </property>
+              <property name="minimumSize" >
+                <size>
+                  <width>140</width>
+                  <height>30</height>
+                </size>
+              </property>
+              <property name="maximumSize" >
+                <size>
+                  <width>140</width>
+                  <height>30</height>
+                </size>
+              </property>
+              <property name="focusPolicy" >
+                <enum>Qt::StrongFocus</enum>
+              </property>
+              <property name="text" >
+                <string>Submit+&amp;Start</string>
+              </property>
+              <property name="shortcut" >
+                <string>Alt+R</string>
+              </property>
+              <property name="autoDefault" >
+                <bool>false</bool>
+              </property>
+              <property name="default" >
+                <bool>false</bool>
+              </property>
+              <property name="icon" >
+                <iconset>:/icons/restart.png</iconset>
+              </property>
+              <property name="toolTip" stdset="0" >
+                <string>Submit configuration to analysis and start execution (panel will be closed)</string>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <spacer name="Spacer123" >
+              <property name="sizeHint" >
+                <size>
+                  <width>100</width>
+                  <height>20</height>
+                </size>
+              </property>
+              <property name="sizeType" >
+                <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+              </property>
+            </spacer>
+          </item>
+        </layout>
+      </item>
+      <item row="1" column="0" >
+        <widget class="Q3GroupBox" name="GroupBox3" >
+          <property name="title" >
+            <string>Auto Save File</string>
+          </property>
+          <layout class="QGridLayout" >
+            <property name="margin" >
+              <number>7</number>
+            </property>
+            <property name="spacing" >
+              <number>3</number>
+            </property>
+            <item row="0" column="0" >
+              <layout class="QHBoxLayout" >
+                <item>
+                  <widget class="QPushButton" name="SaveNowB" >
+                    <property name="sizePolicy" >
+                      <sizepolicy>
+                        <hsizetype>0</hsizetype>
+                        <vsizetype>0</vsizetype>
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                      </sizepolicy>
+                    </property>
+                    <property name="minimumSize" >
+                      <size>
+                        <width>30</width>
+                        <height>25</height>
+                      </size>
+                    </property>
+                    <property name="maximumSize" >
+                      <size>
+                        <width>30</width>
+                        <height>25</height>
+                      </size>
+                    </property>
+                    <property name="text" >
+                      <string/>
+                    </property>
+                    <property name="icon" >
+                      <iconset>:/icons/filesave.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0" >
+                      <string>Write auto save file immediately.</string>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QLineEdit" name="AutoSaveFileName" >
+                    <property name="sizePolicy" >
+                      <sizepolicy>
+                        <hsizetype>3</hsizetype>
+                        <vsizetype>0</vsizetype>
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                      </sizepolicy>
+                    </property>
+                    <property name="maximumSize" >
+                      <size>
+                        <width>32767</width>
+                        <height>24</height>
+                      </size>
+                    </property>
+                    <property name="toolTip" stdset="0" >
+                      <string>Name of the auto save file.</string>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QToolButton" name="LoadAutoSaveFileName" >
+                    <property name="sizePolicy" >
+                      <sizepolicy>
+                        <hsizetype>0</hsizetype>
+                        <vsizetype>0</vsizetype>
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                      </sizepolicy>
+                    </property>
+                    <property name="minimumSize" >
+                      <size>
+                        <width>30</width>
+                        <height>25</height>
+                      </size>
+                    </property>
+                    <property name="maximumSize" >
+                      <size>
+                        <width>30</width>
+                        <height>25</height>
+                      </size>
+                    </property>
+                    <property name="text" >
+                      <string/>
+                    </property>
+                    <property name="icon" >
+                      <iconset>:/icons/findfile.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0" >
+                      <string>Browse for auto save file name.</string>
+                    </property>
+                  </widget>
+                </item>
+              </layout>
+            </item>
+            <item row="1" column="0" >
+              <layout class="QHBoxLayout" >
+                <item>
+                  <widget class="QCheckBox" name="AutoSaveDisable" >
+                    <property name="maximumSize" >
+                      <size>
+                        <width>32767</width>
+                        <height>24</height>
+                      </size>
+                    </property>
+                    <property name="text" >
+                      <string>DISABLED</string>
+                    </property>
+                    <property name="toolTip" stdset="0" >
+                      <string>Disable autosave file</string>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QSpinBox" name="AutoSaveInterval" >
+                    <property name="sizePolicy" >
+                      <sizepolicy>
+                        <hsizetype>5</hsizetype>
+                        <vsizetype>5</vsizetype>
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                      </sizepolicy>
+                    </property>
+                    <property name="maximumSize" >
+                      <size>
+                        <width>100</width>
+                        <height>32767</height>
+                      </size>
+                    </property>
+                    <property name="suffix" >
+                      <string> s</string>
+                    </property>
+                    <property name="specialValueText" >
+                      <string>never</string>
+                    </property>
+                    <property name="maximum" >
+                      <number>100000</number>
+                    </property>
+                    <property name="minimum" >
+                      <number>0</number>
+                    </property>
+                    <property name="singleStep" >
+                      <number>10</number>
+                    </property>
+                    <property name="value" >
+                      <number>10</number>
+                    </property>
+                    <property name="toolTip" stdset="0" >
+                      <string>Time interval for auto save [sec]. Never: save at next Submit.</string>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <spacer name="spacer5_2" >
+                    <property name="sizeHint" >
+                      <size>
+                        <width>16</width>
+                        <height>20</height>
+                      </size>
+                    </property>
+                    <property name="sizeType" >
+                      <enum>QSizePolicy::Expanding</enum>
+                    </property>
+                    <property name="orientation" >
+                      <enum>Qt::Horizontal</enum>
+                    </property>
+                  </spacer>
+                </item>
+                <item>
+                  <widget class="QSpinBox" name="CompLevel" >
+                    <property name="sizePolicy" >
+                      <sizepolicy>
+                        <hsizetype>5</hsizetype>
+                        <vsizetype>5</vsizetype>
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                      </sizepolicy>
+                    </property>
+                    <property name="maximumSize" >
+                      <size>
+                        <width>55</width>
+                        <height>32767</height>
+                      </size>
+                    </property>
+                    <property name="maximum" >
+                      <number>9</number>
+                    </property>
+                    <property name="toolTip" stdset="0" >
+                      <string>Compression level to be used in the auto save file (see ROOT documentation).</string>
+                    </property>
+                  </widget>
+                </item>
+                <item>
+                  <widget class="QCheckBox" name="AutoSaveOverwrite" >
+                    <property name="maximumSize" >
+                      <size>
+                        <width>32767</width>
+                        <height>24</height>
+                      </size>
+                    </property>
+                    <property name="text" >
+                      <string>O&amp;verwrite</string>
+                    </property>
+                    <property name="shortcut" >
+                      <string>Alt+V</string>
+                    </property>
+                    <property name="toolTip" stdset="0" >
+                      <string>Overwrite auto save file.</string>
+                    </property>
+                  </widget>
+                </item>
+              </layout>
+            </item>
+          </layout>
+        </widget>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <tabstops>
+    <tabstop>SubmitPushButton</tabstop>
+    <tabstop>GetActiveConfigButton</tabstop>
+    <tabstop>TabSteps</tabstop>
+    <tabstop>SaveNowB</tabstop>
+    <tabstop>AutoSaveFileName</tabstop>
+    <tabstop>AutoSaveInterval</tabstop>
+    <tabstop>CompLevel</tabstop>
+    <tabstop>AutoSaveOverwrite</tabstop>
+    <tabstop>AnalysisLoadConf</tabstop>
+    <tabstop>AnalysisSaveConf</tabstop>
+    <tabstop>ConfigFileName</tabstop>
+  </tabstops>
+  <includes>
+    <include location="local" >QGo4Widget.h</include>
+  </includes>
+  <connections>
+    <connection>
+      <sender>SubmitPushButton</sender>
+      <signal>pressed()</signal>
+      <receiver>TGo4AnalysisConfiguration</receiver>
+      <slot>SubmitConfiguration()</slot>
+    </connection>
+    <connection>
+      <sender>AnalysisSaveConf</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4AnalysisConfiguration</receiver>
+      <slot>SaveConfiguration()</slot>
+    </connection>
+    <connection>
+      <sender>LoadConfigFileName</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4AnalysisConfiguration</receiver>
+      <slot>FileDialog_ConfFile()</slot>
+    </connection>
+    <connection>
+      <sender>LoadAutoSaveFileName</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4AnalysisConfiguration</receiver>
+      <slot>FileDialog_AutoSave()</slot>
+    </connection>
+    <connection>
+      <sender>AutoSaveFileName</sender>
+      <signal>textChanged(QString)</signal>
+      <receiver>TGo4AnalysisConfiguration</receiver>
+      <slot>LineEdit_AutoSaveFile()</slot>
+    </connection>
+    <connection>
+      <sender>GetActiveConfigButton</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4AnalysisConfiguration</receiver>
+      <slot>RequestAnalysisStatus()</slot>
+    </connection>
+    <connection>
+      <sender>CompLevel</sender>
+      <signal>valueChanged(int)</signal>
+      <receiver>TGo4AnalysisConfiguration</receiver>
+      <slot>SetCompressionLevel(int)</slot>
+    </connection>
+    <connection>
+      <sender>AnalysisLoadConf</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4AnalysisConfiguration</receiver>
+      <slot>LoadConfiguration()</slot>
+    </connection>
+    <connection>
+      <sender>AutoSaveInterval</sender>
+      <signal>valueChanged(int)</signal>
+      <receiver>TGo4AnalysisConfiguration</receiver>
+      <slot>SetAutoSaveInterval(int)</slot>
+    </connection>
+    <connection>
+      <sender>AutoSaveOverwrite</sender>
+      <signal>toggled(bool)</signal>
+      <receiver>TGo4AnalysisConfiguration</receiver>
+      <slot>SetAutoSaveOverwrite(bool)</slot>
+    </connection>
+    <connection>
+      <sender>SaveNowB</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4AnalysisConfiguration</receiver>
+      <slot>WriteAutoSave()</slot>
+    </connection>
+    <connection>
+      <sender>AutoSaveDisable</sender>
+      <signal>toggled(bool)</signal>
+      <receiver>TGo4AnalysisConfiguration</receiver>
+      <slot>DisableAutoSave(bool)</slot>
+    </connection>
+    <connection>
+      <sender>SubmitAndStartButton</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4AnalysisConfiguration</receiver>
+      <slot>SubmitAndStart()</slot>
+    </connection>
+  </connections>
+</ui>

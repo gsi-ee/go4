@@ -1,0 +1,238 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4OpenRemoteDialog</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>TGo4OpenRemoteDialog</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>304</width>
+            <height>139</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Open remote root file:</string>
+    </property>
+    <property name="sizeGripEnabled">
+        <bool>true</bool>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QLayoutWidget" row="0" column="0">
+            <property name="name">
+                <cstring>layout51</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout50</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>ServerLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Server:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>NameLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>File Name:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TypeLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>File Type:</string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout49</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLineEdit">
+                            <property name="name">
+                                <cstring>ServerEdit</cstring>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Remote server node name</string>
+                            </property>
+                        </widget>
+                        <widget class="QLineEdit">
+                            <property name="name">
+                                <cstring>FileNameEdit</cstring>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Filename without url to remote server</string>
+                            </property>
+                        </widget>
+                        <widget class="QComboBox">
+                            <item>
+                                <property name="text">
+                                    <string>TNetFile/XRootd (root:)</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>RFIO (rfio:)</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>WebFile (http:)</string>
+                                </property>
+                            </item>
+                            <item>
+                                <property name="text">
+                                    <string>Local file</string>
+                                </property>
+                            </item>
+                            <property name="name">
+                                <cstring>TypeSelectorBox</cstring>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Type of remote connection</string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget" row="1" column="0">
+            <property name="name">
+                <cstring>layout54</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer35</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>191</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonCancel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Cancel</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonOk</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;OK</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                    <property name="default">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4OpenRemoteDialog</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>buttonCancel</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4OpenRemoteDialog</receiver>
+        <slot>reject()</slot>
+    </connection>
+    <connection>
+        <sender>TypeSelectorBox</sender>
+        <signal>activated(const QString&amp;)</signal>
+        <receiver>TGo4OpenRemoteDialog</receiver>
+        <slot>TypeSelectorBox_activated(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>ServerEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4OpenRemoteDialog</receiver>
+        <slot>ServerEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>FileNameEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>TGo4OpenRemoteDialog</receiver>
+        <slot>FileNameEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">TGo4QSettings.h</include>
+    <include location="local" impldecl="in implementation">TGo4OpenRemoteDialog.ui.h</include>
+</includes>
+<variables>
+    <variable>QString fxServer</variable>
+    <variable>QString fxFile</variable>
+    <variable>QString fxType</variable>
+</variables>
+<slots>
+    <slot>TypeSelectorBox_activated( const QString &amp; tname )</slot>
+    <slot>ServerEdit_textChanged( const QString &amp; )</slot>
+    <slot>FileNameEdit_textChanged( const QString &amp; )</slot>
+</slots>
+<functions>
+    <function>init()</function>
+    <function>destroy()</function>
+    <function returnType="const QString &amp;">GetFileName()</function>
+    <function returnType="const QString &amp;">GetFileType()</function>
+    <function returnType="const QString &amp;">GetServer()</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

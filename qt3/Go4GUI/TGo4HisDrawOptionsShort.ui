@@ -1,0 +1,548 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4HisDrawOptionsShort</class>
+<widget class="QGo4Widget">
+    <property name="name">
+        <cstring>TGo4HisDrawOptionsShort</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>367</width>
+            <height>34</height>
+        </rect>
+    </property>
+    <property name="sizePolicy">
+        <sizepolicy>
+            <hsizetype>7</hsizetype>
+            <vsizetype>7</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+    </property>
+    <property name="caption">
+        <string>Histogram Drawing Options</string>
+    </property>
+    <property name="icon">
+        <pixmap>go4logo2_big.png</pixmap>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
+        </property>
+        <property name="spacing">
+            <number>0</number>
+        </property>
+        <widget class="QToolButton" row="0" column="0">
+            <property name="name">
+                <cstring>Ylin</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>12</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="iconSet">
+                <iconset>scaleylin.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Y linear</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="1">
+            <property name="name">
+                <cstring>Ylog</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>12</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="iconSet">
+                <iconset>scaleylog.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Y logarithmic</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="2">
+            <property name="name">
+                <cstring>Zlin</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>12</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="iconSet">
+                <iconset>scalezlin.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Z linear</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="3">
+            <property name="name">
+                <cstring>Zlog</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>12</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="iconSet">
+                <iconset>scalezlog.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Z logarithmic</string>
+            </property>
+        </widget>
+        <grid  row="0" column="4">
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
+        </property>
+        <property name="spacing">
+            <number>0</number>
+        </property>
+         <widget class="QToolButton" row="0" column="0">
+            <property name="name">
+                <cstring>Xlin</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>30</width>
+                    <height>12</height>
+                </size>
+            </property>
+            <property name="iconSet">
+                <iconset>scalexlin.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>X linear</string>
+            </property>
+        </widget>
+         <widget class="QToolButton" row="1" column="0">
+            <property name="name">
+                <cstring>Xlog</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>30</width>
+                    <height>12</height>
+                </size>
+            </property>
+            <property name="iconSet">
+                <iconset>scalexlog.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>X logarithmic</string>
+            </property>
+        </widget>
+        </grid>
+        <widget class="QToolButton" row="0" column="5">
+            <property name="name">
+                <cstring>LineColor</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>24</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="iconSet">
+                <iconset>changelincol.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Change line color of selected object.</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="6">
+            <property name="name">
+                <cstring>FillColor</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>24</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="iconSet">
+                <iconset>changefillcol.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Change fill color of selected object.</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="7">
+            <property name="name">
+                <cstring>MarkerColor</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>24</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="iconSet">
+                <iconset>changemarcol.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Change marker color of selected object.</string>
+            </property>
+        </widget>
+        <grid  row="0" column="8">
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
+        </property>
+        <property name="spacing">
+            <number>0</number>
+        </property>
+        <widget class="QToolButton" row="0" column="0">
+            <property name="name">
+                <cstring>D1his</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>30</width>
+                    <height>12</height>
+                </size>
+            </property>
+            <property name="iconSet">
+                <iconset>draw1dhis.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>1d histogram</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="1" column="0">
+            <property name="name">
+                <cstring>D1line</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>30</width>
+                    <height>12</height>
+                </size>
+            </property>
+            <property name="iconSet">
+                <iconset>draw1dline.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>1d line</string>
+            </property>
+        </widget>
+        </grid>
+        <widget class="QToolButton" row="0" column="9">
+            <property name="name">
+                <cstring>D2scatter</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>20</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="iconSet">
+                <iconset>cont2.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>2d scatter</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="10">
+            <property name="name">
+                <cstring>D2pixel</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>20</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="iconSet">
+                <iconset>col.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>2d pixel coloured</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="11">
+            <property name="name">
+                <cstring>D2surfcol</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>20</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="iconSet">
+                <iconset>surf2.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>2d surface coloured</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="12">
+            <property name="name">
+                <cstring>D2lego</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>20</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="iconSet">
+                <iconset>lego2.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>2d lego coloured</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="13">
+            <property name="name">
+                <cstring>D2contfill</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>20</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="iconSet">
+                <iconset>cont0.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>2d contour filled</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="14">
+            <property name="name">
+                <cstring>D2contline</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>20</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="iconSet">
+                <iconset>cont1.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>2d contour lines</string>
+            </property>
+        </widget>
+   </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>Xlin</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptionsShort</receiver>
+        <slot>SlotXlin()</slot>
+    </connection>
+    <connection>
+        <sender>Xlog</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptionsShort</receiver>
+        <slot>SlotXlog()</slot>
+    </connection>
+    <connection>
+        <sender>Ylin</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptionsShort</receiver>
+        <slot>SlotYlin()</slot>
+    </connection>
+    <connection>
+        <sender>Ylog</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptionsShort</receiver>
+        <slot>SlotYlog()</slot>
+    </connection>
+    <connection>
+        <sender>Zlin</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptionsShort</receiver>
+        <slot>SlotZlin()</slot>
+    </connection>
+    <connection>
+        <sender>Zlog</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptionsShort</receiver>
+        <slot>SlotZlog()</slot>
+    </connection>
+    <connection>
+        <sender>D1his</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptionsShort</receiver>
+        <slot>SlotD1his()</slot>
+    </connection>
+    <connection>
+        <sender>D1line</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptionsShort</receiver>
+        <slot>SlotD1line()</slot>
+    </connection>
+    <connection>
+        <sender>D2scatter</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptionsShort</receiver>
+        <slot>SlotD2scatter()</slot>
+    </connection>
+    <connection>
+        <sender>D2pixel</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptionsShort</receiver>
+        <slot>SlotD2pixel()</slot>
+    </connection>
+    <connection>
+        <sender>D2surfcol</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptionsShort</receiver>
+        <slot>SlotD2surfcol()</slot>
+    </connection>
+    <connection>
+        <sender>D2lego</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptionsShort</receiver>
+        <slot>SlotD2lego()</slot>
+    </connection>
+    <connection>
+        <sender>D2contfill</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptionsShort</receiver>
+        <slot>SlotD2contfill()</slot>
+    </connection>
+    <connection>
+        <sender>D2contline</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptionsShort</receiver>
+        <slot>SlotD2contline()</slot>
+    </connection>
+    <connection>
+        <sender>LineColor</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptionsShort</receiver>
+        <slot>SlotLineColor()</slot>
+    </connection>
+    <connection>
+        <sender>FillColor</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptionsShort</receiver>
+        <slot>SlotFillColor()</slot>
+    </connection>
+    <connection>
+        <sender>MarkerColor</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4HisDrawOptionsShort</receiver>
+        <slot>SlotMarkerColor()</slot>
+    </connection>
+
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QGo4Widget.h</include>
+    <include location="local" impldecl="in implementation">qlineedit.h</include>
+    <include location="local" impldecl="in implementation">Riostream.h</include>
+    <include location="local" impldecl="in implementation">TROOT.h</include>
+    <include location="local" impldecl="in implementation">TColor.h</include>
+    <include location="local" impldecl="in implementation">TAttLine.h</include>
+    <include location="local" impldecl="in implementation">TAttFill.h</include>
+    <include location="local" impldecl="in implementation">TAttMarker.h</include>
+    <include location="local" impldecl="in implementation">TGo4WorkSpace.h</include>
+    <include location="local" impldecl="in implementation">TGo4ViewPanel.h</include>
+    <include location="local" impldecl="in implementation">qcolordialog.h</include>
+    <include location="local" impldecl="in implementation">TGo4HisDrawOptionsShort.ui.h</include>
+</includes>
+<slots>
+    <slot>SlotXlin()</slot>
+    <slot>SlotXlog()</slot>
+    <slot>SlotYlin()</slot>
+    <slot>SlotYlog()</slot>
+    <slot>SlotZlin()</slot>
+    <slot>SlotZlog()</slot>
+    <slot>SlotD1his()</slot>
+    <slot>SlotD1line()</slot>
+    <slot>SlotD2scatter()</slot>
+    <slot>SlotD2pixel()</slot>
+    <slot>SlotD2surfcol()</slot>
+    <slot>SlotD2lego()</slot>
+    <slot>SlotD2contfill()</slot>
+    <slot>SlotD2contline()</slot>
+    <slot>SlotLineColor()</slot>
+    <slot>SlotFillColor()</slot>
+    <slot>SlotMarkerColor()</slot>
+</slots>
+<functions>
+    <function>init()</function>
+    <function>SetDrawOpt(int kind, int value, char* dropt)</function>
+    <function>ChangeColor(int kind)</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="2" margin="2"/>
+</UI>

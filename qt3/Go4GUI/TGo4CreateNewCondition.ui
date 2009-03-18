@@ -1,0 +1,267 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4CreateNewCondition</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>TGo4CreateNewCondition</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>234</width>
+            <height>161</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Create condition</string>
+    </property>
+    <property name="icon">
+        <pixmap>go4logo2_big.png</pixmap>
+    </property>
+    <property name="toolTip" stdset="0">
+        <string></string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>NameLabel</cstring>
+            </property>
+            <property name="text">
+                <string>Name:</string>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="0" column="1" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>CondName</cstring>
+            </property>
+            <property name="text">
+                <string>enter condition name</string>
+            </property>
+            <property name="edited">
+                <bool>false</bool>
+            </property>
+            <property name="dragEnabled">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Name of new condition</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="1" column="0">
+            <property name="name">
+                <cstring>TypeLabel</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>Type:</string>
+            </property>
+        </widget>
+        <widget class="QComboBox" row="1" column="1" rowspan="1" colspan="2">
+            <item>
+                <property name="text">
+                    <string>1-D window</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>2-D window</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Polygon (TCutG) </string>
+                </property>
+            </item>
+            <property name="name">
+                <cstring>ClassnameCombo</cstring>
+            </property>
+            <property name="insertionPolicy">
+                <enum>AtCurrent</enum>
+            </property>
+            <property name="duplicatesEnabled">
+                <bool>false</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Type of condition</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>ArraySizeLbl</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>1</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>Array size:</string>
+            </property>
+        </widget>
+        <widget class="QSpinBox" row="2" column="2">
+            <property name="name">
+                <cstring>ArraySizeSpin</cstring>
+            </property>
+            <property name="enabled">
+                <bool>true</bool>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="specialValueText">
+                <string>No array</string>
+            </property>
+            <property name="buttonSymbols">
+                <enum>PlusMinus</enum>
+            </property>
+            <property name="maxValue">
+                <number>100</number>
+            </property>
+            <property name="minValue">
+                <number>1</number>
+            </property>
+            <property name="lineStep">
+                <number>5</number>
+            </property>
+            <property name="value">
+                <number>1</number>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Define size of condition array</string>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="3" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>layout538</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>RemoteBtn</cstring>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>70</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Create remote</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+C</string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>false</bool>
+                    </property>
+                    <property name="default">
+                        <bool>false</bool>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer187</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>CloseWin</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>closewindow.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Close editor without change.</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>CloseWin</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4CreateNewCondition</receiver>
+        <slot>close()</slot>
+    </connection>
+    <connection>
+        <sender>RemoteBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4CreateNewCondition</receiver>
+        <slot>accept()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">TGo4Condition.h</include>
+    <include location="local" impldecl="in implementation">TGo4WinCond.h</include>
+    <include location="local" impldecl="in implementation">TGo4PolyCond.h</include>
+    <include location="local" impldecl="in implementation">TGo4CondArray.h</include>
+    <include location="local" impldecl="in implementation">TGo4CreateNewCondition.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4Condition</forward>
+</forwards>
+<functions>
+    <function>init()</function>
+    <function returnType="TGo4Condition*">MakeCondition()</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

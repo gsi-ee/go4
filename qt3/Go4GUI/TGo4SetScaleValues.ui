@@ -1,0 +1,242 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4SetScaleValues</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>TGo4SetScaleValues</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>260</width>
+            <height>128</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Set Scale Values</string>
+    </property>
+    <property name="icon">
+        <pixmap>go4logo2_big.png</pixmap>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>4</number>
+        </property>
+        <property name="spacing">
+            <number>3</number>
+        </property>
+        <widget class="QLineEdit" row="0" column="4">
+            <property name="name">
+                <cstring>XmaxV</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="text">
+                <string>X min</string>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="1" column="4">
+            <property name="name">
+                <cstring>YmaxV</cstring>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="0" column="1" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>XminV</cstring>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>0</width>
+                    <height>0</height>
+                </size>
+            </property>
+        </widget>
+        <widget class="QLabel" row="2" column="3">
+            <property name="name">
+                <cstring>textLabel1_2_2_2</cstring>
+            </property>
+            <property name="text">
+                <string>Z max</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="2" column="0">
+            <property name="name">
+                <cstring>textLabel1_2_3</cstring>
+            </property>
+            <property name="text">
+                <string>Z min</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="1" column="0">
+            <property name="name">
+                <cstring>textLabel1_2</cstring>
+            </property>
+            <property name="text">
+                <string>Y min</string>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="1" column="1" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>YminV</cstring>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="2" column="1" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>ZminV</cstring>
+            </property>
+        </widget>
+        <widget class="QLineEdit" row="2" column="4">
+            <property name="name">
+                <cstring>ZmaxV</cstring>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>AutoScaleButton</cstring>
+            </property>
+            <property name="text">
+                <string>AutoScale</string>
+            </property>
+            <property name="checked">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string></string>
+            </property>
+        </widget>
+        <spacer row="3" column="2" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>spacer2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QPushButton" row="3" column="4">
+            <property name="name">
+                <cstring>SetButton</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;Set</string>
+            </property>
+            <property name="accel">
+                <string>Alt+S</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="3">
+            <property name="name">
+                <cstring>textLabel1_4</cstring>
+            </property>
+            <property name="text">
+                <string>X max</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="1" column="3">
+            <property name="name">
+                <cstring>textLabel1_2_2</cstring>
+            </property>
+            <property name="text">
+                <string>Y max</string>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>AutoScaleButton</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4SetScaleValues</receiver>
+        <slot>AutoscaleChanged(bool)</slot>
+    </connection>
+    <connection>
+        <sender>SetButton</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4SetScaleValues</receiver>
+        <slot>ApplyValues()</slot>
+    </connection>
+    <connection>
+        <sender>XminV</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4SetScaleValues</receiver>
+        <slot>ApplyValues()</slot>
+    </connection>
+    <connection>
+        <sender>XmaxV</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4SetScaleValues</receiver>
+        <slot>ApplyValues()</slot>
+    </connection>
+    <connection>
+        <sender>YminV</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4SetScaleValues</receiver>
+        <slot>ApplyValues()</slot>
+    </connection>
+    <connection>
+        <sender>YmaxV</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4SetScaleValues</receiver>
+        <slot>ApplyValues()</slot>
+    </connection>
+    <connection>
+        <sender>ZminV</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4SetScaleValues</receiver>
+        <slot>ApplyValues()</slot>
+    </connection>
+    <connection>
+        <sender>ZmaxV</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4SetScaleValues</receiver>
+        <slot>ApplyValues()</slot>
+    </connection>
+</connections>
+<tabstops>
+    <tabstop>XminV</tabstop>
+    <tabstop>XmaxV</tabstop>
+    <tabstop>YminV</tabstop>
+    <tabstop>YmaxV</tabstop>
+    <tabstop>ZminV</tabstop>
+    <tabstop>ZmaxV</tabstop>
+    <tabstop>SetButton</tabstop>
+</tabstops>
+<includes>
+    <include location="local" impldecl="in implementation">TGo4ViewPanel.h</include>
+    <include location="local" impldecl="in implementation">TGo4WorkSpace.h</include>
+    <include location="local" impldecl="in implementation">TGo4SetScaleValues.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4ViewPanel</forward>
+    <forward>class TPad</forward>
+</forwards>
+<variables>
+    <variable>bool fbDoingRefresh</variable>
+</variables>
+<slots>
+    <slot>panelSlot( TGo4ViewPanel * panel, TPad * pad, int signalid )</slot>
+    <slot>ApplyValues()</slot>
+    <slot>AutoscaleChanged( bool on )</slot>
+</slots>
+<functions>
+    <function>init()</function>
+    <function access="protected">closeEvent( QCloseEvent * ce )</function>
+    <function>refreshView(bool force)</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

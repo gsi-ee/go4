@@ -1,0 +1,299 @@
+ObjSuf        = o
+SrcSuf        = cxx
+HedSuf        = h 
+ExeSuf        =
+DllSuf        = so
+OutPutOpt     = -o 
+
+CXX           = g++
+LD            = g++
+
+Go4FitDir     = $(CURDIR)/../Go4Fit
+GO4FIT_LIB    = $(Go4FitDir)/libGo4Fit.$(DllSuf)
+
+CXXFLAGS      = -O -fPIC -Wno-deprecated -I$(Go4FitDir) $(shell root-config --cflags)
+
+ROOTLIBMAP    = $(ROOTSYS)/bin/rlibmap
+MAPFILE       = .rootmap
+
+LDFLAGS       = -O
+SOFLAGS       = -shared -Wl,-soname,
+
+LIBS          = -L$(Go4FitDir) -lGo4Fit $(shell root-config --nonew --libs) -lMinuit 
+
+ifneq ($(wildcard $(ROOTSYS)/lib/libSpectrum.*)$(wildcard $(ROOTSYS)/root/lib/libSpectrum.*),)
+LIBS         += -lSpectrum
+endif
+
+# -------------------------------------------------------------------------
+ 
+all: example1 example2 example3 example4 example5 example6 example7 example8 example9 example10 example11 example12 example13
+
+clean: clean1 clean2 clean3 clean4 clean5 clean6 clean7 clean8 clean9 clean10 clean11 clean12 clean13
+	@rm -f *.bak *Dict.* *.so 
+
+# ------------------Example1------------------------------------------
+ 
+EX1_O      = Example1.$(ObjSuf)
+EX1_S      = Example1.$(SrcSuf)
+EX1_E      = Example1$(ExeSuf)
+
+$(EX1_E):     $(EX1_O)
+	$(LD) $(LDFLAGS) $(EX1_O) $(LIBS) $(OutPutOpt) $(EX1_E)
+	@echo "$(EX1_E) done"
+
+example1:  $(EX1_E)
+
+clean1:
+	@rm -f $(EX1_E) $(EX1_O)
+
+
+# ------------------Example2------------------------------------------
+ 
+EX2_O      = Example2.$(ObjSuf)
+EX2_S      = Example2.$(SrcSuf)
+EX2_FS     = Example2Func.$(SrcSuf)
+EX2_FO     = Example2Func.$(ObjSuf)
+EX2_DLL    = Example2Func.$(DllSuf)
+EX2_E      = Example2$(ExeSuf)
+
+$(EX2_DLL):  $(EX2_FO)
+	$(LD) $(SOFLAGS)$(EX2_DLL) $(LDFLAGS) $(EX2_FO) $(OutPutOpt) $(EX2_DLL)
+	@echo "$(EX2_DLL) done"
+
+$(EX2_E):     $(EX2_O)
+	$(LD) $(LDFLAGS) $(EX2_O) $(LIBS) $(OutPutOpt) $(EX2_E)
+	@echo "$(EX2_E) done"
+
+example2:  $(EX2_E) $(EX2_DLL)
+
+clean2:
+	@rm -f $(EX2_E) $(EX2_O) $(EX2_FO) $(EX2_DLL)
+
+# -----------------Example3-----------------------------------------------
+
+ifneq ($(shell which f77 2>/dev/null),)
+
+ifneq ($(wildcard /usr/lib/libg2c.*)$(wildcard /usr/local/lib/libg2c.*),)
+EX3_FUNCS   =  Example3Func.f
+EX3_FUNCO   =  Example3Func.o
+
+EX3_O      = Example3.$(ObjSuf)
+EX3_S      = Example3.$(SrcSuf)
+EX3_E      = Example3$(ExeSuf)   
+
+$(EX3_FUNCO):  $(EX3_FUNCS)
+	f77 -c $(EX3_FUNCS) -o $(EX3_FUNCO)
+	@echo "$(EX3_FUNCO) done"
+
+$(EX3_E):  $(EX3_O) $(EX3_FUNCO)
+	$(LD) $(LDFLAGS) $(EX3_O) $(EX3_FUNCO) $(LIBS) -lg2c $(OutPutOpt) $(EX3_E)
+	@echo "$(EX3_E) done"
+
+example3:  $(EX3_E) 
+
+clean3:
+	@rm -f $(EX3_E) $(EX3_O) $(EX3_FUNCO)
+    
+else
+example3:
+	@echo "Can not find libg2c.so shared library, required by f77"
+
+clean3:
+	@echo "Example3 not exists" 
+endif    
+
+else
+example3:
+	@echo "Can not find f77"      
+clean3:
+	@echo "Example3 not exists" 
+endif
+
+# ------------------Example4---------------------------------------------
+
+EX4_OBJ     =  TModelTemplate.$(ObjSuf)
+EX4_DICTO   =  Example4Dict.$(ObjSuf)
+EX4_SRC     =  TModelTemplate.$(SrcSuf)
+EX4_DICTS   =  Example4Dict.$(SrcSuf)
+EX4_LINKDEF =  Example4LinkDef.h
+EX4_HED     =  TModelTemplate.$(HedSuf) \
+               $(EX4_LINKDEF)
+EX4_DLL     =  libExample4.$(DllSuf)
+
+EX4_O      = Example4.$(ObjSuf)
+EX4_S      = Example4.$(SrcSuf)
+EX4_E      = Example4$(ExeSuf)
+
+$(EX4_DICTS): $(EX4_HED)
+	@echo "Generating dictionary $(EX4_DICTO)..."
+	@$(ROOTSYS)/bin/rootcint -f $(EX4_DICTS) -c -p -I$(Go4FitDir) $(EX4_HED) 
+    
+$(EX4_DLL):  $(EX4_OBJ) $(EX4_DICTO)
+	$(LD) $(SOFLAGS)$(EX4_DLL) $(LDFLAGS) $(EX4_OBJ) $(EX4_DICTO) $(OutPutOpt) $(EX4_DLL)
+	@echo "$(EX4_DLL) done"
+
+$(EX4_E):     $(EX4_O)
+	$(LD) $(LDFLAGS) $(EX4_O) $(LIBS) -L./ -lExample4 $(OutPutOpt) $(EX4_E)
+	@echo "$(EX4_E) done"      
+
+example4: $(EX4_DLL) $(EX4_E) 
+
+clean4:
+	@rm -f $(EX4_E) $(EX4_O) $(EX4_DLL) $(EX4_OBJ)
+
+# ------------------Example5------------------------------------------
+
+EX5_O      = Example5.$(ObjSuf)
+EX5_S      = Example5.$(SrcSuf)
+EX5_E      = Example5$(ExeSuf)
+
+$(EX5_E):     $(EX5_O)
+	$(LD) $(LDFLAGS) $(EX5_O) $(LIBS) $(OutPutOpt) $(EX5_E)
+	@echo "$(EX5_E) done"
+
+example5:  $(EX5_E)
+
+clean5:
+	@rm -f $(EX5_E) $(EX5_O)
+
+# ------------------Example6------------------------------------------
+
+EX6_O      = Example6.$(ObjSuf)
+EX6_S      = Example6.$(SrcSuf)
+EX6_E      = Example6$(ExeSuf)
+
+$(EX6_E):     $(EX6_O)
+	$(LD) $(LDFLAGS) $(EX6_O) $(LIBS) $(OutPutOpt) $(EX6_E)
+	@echo "$(EX6_E) done"
+
+example6:  $(EX6_E)
+
+clean6:
+	@rm -f $(EX6_E) $(EX6_O) Example6.root
+
+# ------------------Example7------------------------------------------
+
+EX7_O      = Example7.$(ObjSuf)
+EX7_S      = Example7.$(SrcSuf)
+EX7_E      = Example7$(ExeSuf)
+
+$(EX7_E):     $(EX7_O)
+	$(LD) $(LDFLAGS) $(EX7_O) $(LIBS) $(OutPutOpt) $(EX7_E)
+	@echo "$(EX7_E) done"
+
+example7:  $(EX7_E)
+
+clean7:
+	@rm -f $(EX7_E) $(EX7_O) Example7.root
+
+# ------------------Example8------------------------------------------
+
+EX8_O      = Example8.$(ObjSuf)
+EX8_S      = Example8.$(SrcSuf)
+EX8_E      = Example8$(ExeSuf)
+
+$(EX8_E):     $(EX8_O)
+	$(LD) $(LDFLAGS) $(EX8_O) $(LIBS) $(OutPutOpt) $(EX8_E)
+	@echo "$(EX8_E) done"
+
+example8:  $(EX8_E)
+
+clean8:
+	@rm -f $(EX8_E) $(EX8_O)
+
+# ------------------Example9------------------------------------------
+
+EX9_O      = Example9.$(ObjSuf)
+EX9_S      = Example9.$(SrcSuf)
+EX9_E      = Example9$(ExeSuf)
+
+$(EX9_E):     $(EX9_O)
+	$(LD) $(LDFLAGS) $(EX9_O) $(LIBS) $(OutPutOpt) $(EX9_E)
+	@echo "$(EX9_E) done"
+
+example9:  $(EX9_E)
+
+clean9:
+	@rm -f $(EX9_E) $(EX9_O)
+
+# ------------------Example10------------------------------------------
+
+EX10_O      = Example10.$(ObjSuf)
+EX10_S      = Example10.$(SrcSuf)
+EX10_E      = Example10$(ExeSuf)
+
+$(EX10_E):     $(EX10_O)
+	$(LD) $(LDFLAGS) $(EX10_O) $(LIBS) $(OutPutOpt) $(EX10_E)
+	@echo "$(EX10_E) done"
+
+example10:  $(EX10_E)
+
+clean10:
+	@rm -f $(EX10_E) $(EX10_O)
+
+# ------------------Example11------------------------------------------
+
+EX11_O      = Example11.$(ObjSuf)
+EX11_S      = Example11.$(SrcSuf)
+EX11_E      = Example11$(ExeSuf)
+
+$(EX11_E):     $(EX11_O)
+	$(LD) $(LDFLAGS) $(EX11_O) $(LIBS) $(OutPutOpt) $(EX11_E)
+	@echo "$(EX11_E) done"
+
+example11:  $(EX11_E)
+
+clean11:
+	@rm -f $(EX11_E) $(EX11_O)
+
+# ------------------Example12------------------------------------------
+
+EX12_O      = Example12.$(ObjSuf)
+EX12_S      = Example12.$(SrcSuf)
+EX12_E      = Example12$(ExeSuf)
+
+$(EX12_E):     $(EX12_O)
+	$(LD) $(LDFLAGS) $(EX12_O) $(LIBS) $(OutPutOpt) $(EX12_E)
+	@echo "$(EX12_E) done"
+
+example12:  $(EX12_E)
+
+clean12:
+	@rm -f $(EX12_E) $(EX12_O)
+
+# ------------------Example13------------------------------------------
+
+EX13_O      = Example13.$(ObjSuf)
+EX13_S      = Example13.$(SrcSuf)
+EX13_E      = Example13$(ExeSuf)
+
+$(EX13_E):     $(EX13_O)
+	$(LD) $(LDFLAGS) $(EX13_O) $(LIBS) $(OutPutOpt) $(EX13_E)
+	@echo "$(EX13_E) done"
+
+example13:  $(EX13_E)
+
+clean13:
+	@rm -f $(EX13_E) $(EX13_O)
+
+#------------------------------------------------------------------------------
+
+map:
+ifneq ($(wildcard $(ROOTLIBMAP)),)
+ifneq ($(findstring linkdef, $(shell $(ROOTLIBMAP) 2>&1)),)
+	@rm -f $(MAPFILE)
+	@$(ROOTLIBMAP) -r $(MAPFILE) -l $(GO4FIT_LIB) -d $(ROOTSYS)/lib/libMinuit.so -c $(Go4FitDir)/Go4FitLinkDef.h
+	@$(ROOTLIBMAP) -r $(MAPFILE) -l ./$(EX4_DLL) -d $(GO4FIT_LIB) $(ROOTSYS)/lib/libMinuit.so -c $(EX4_LINKDEF)
+	@echo "Fit examples map file done"
+endif
+else
+	@echo "Map of Fit examples classes can not be generated with ROOT $(shell root-config --version)"
+endif
+
+# DO NOT DELETE
+
+.SUFFIXES: .$(SrcSuf)
+
+.$(SrcSuf).$(ObjSuf):
+	$(CXX) -c $< $(CXXFLAGS) 

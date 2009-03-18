@@ -1,0 +1,261 @@
+##########################################################################
+#
+# GSI Qt-ROOT interface v3.5.0 (with Go4 extensions)  release notes
+#
+# NOTE: The regular GSI QtROOT interface (maintained by D.Bertini and M.Al-Turany)
+#		  is now part of the standard ROOT distribution (libQtGSI).
+#	     This package libGo4QtROOT contains also additional features 
+#		  as required by the Go4 framework. 
+#   	   	
+# Date 07/02/2008
+# updated:
+#         Joern Adamczewski 
+#
+##########################################################################
+
+
+##########################################################################
+#
+# Qt& ROOT v3.?.?  release notes
+# Date
+# updated:
+#         S.Linev
+#
+##########################################################################
+QtROOT code:
+1.  Instead of needResize property resizeFlag was introduced. It can has
+    three values: 0 - resize is not required, 1 - resize will be done
+    by next user call to checkResizeFlag() function, 2 - resize is done
+    by next paint event.
+
+2.  new MenuCommandExecuted() signal added to TQCanvasMenu class.
+    This signal is emmited when item in ROOT context menu is selected.
+
+##########################################################################
+#
+# Qt& ROOT v3.5.0  release notes
+# Date 13/01/2005
+# updated:
+#         j.adamczewski
+#
+##########################################################################
+
+QtROOT code:
+
+1.  New widget TQRootWindow which embeds a
+ROOT TGCompositeFrame into a QWidget. Internally, class
+TQRootFrame is used to proved the composite frame for ROOT.
+
+Root widgets may be inserted into the widget using method
+TQRootWindow::AddSubFrame(TGFrame* f, TGLayoutHints* l)
+(this inserts root TGFrame f with subwidgets and layout l).
+Alternatively, method TQRootWindow::SetEditable(bool on)
+can be used to declare the TQRootWindow as top level window,
+thus assigning all root widgets created afterwards as children
+of this frame (the root TGFrame::SetEditable mechanism).
+This is reasonable to embed any root gui produced by a
+root plugin, e.g. the root TGedEditor. An example of this
+usage can be found in the Go4 analysis framework distribution
+(http://go4.gsi.de), in class TGo4PreviewPanel of subpackage Go4GUI.
+
+
+
+
+
+##########################################################################
+#
+# Qt& ROOT v3.4.0  release notes
+# Date 22/09/2004
+# updated:
+#         j.adamczewski
+#
+##########################################################################
+
+QtROOT code:
+
+1. Bug fix concerning initialization
+   order of X11 system (ROOT init now before Qt init in
+   the main executables).
+   Lead to crash of the main gui on newer linux systems
+   when using Qt versions > 3.1 (FEDORA2, SuSe9.1).
+
+
+
+
+##########################################################################
+#
+# Qt& ROOT v3.3.1  release notes
+# Date 15/06/2004
+# updated:
+#         d.bertini, j.adamczewski
+#
+##########################################################################
+
+QtROOT code:
+
+1.     Removed implementation of TQCanvasImp::GetWindowGeometry()
+       due to changed return value of this method in TCanvasImp.
+       Necessary for compilation with root versions >=4.00/06
+
+
+
+##########################################################################
+#
+# Qt& ROOT v3.3  release notes
+# Date 01/04/2004
+# updated:
+#         d.bertini, j.adamczewski
+#
+##########################################################################
+
+QtROOT code :
+
+1.     TQRootCanvas::needResize property has getters and setters
+       bool NeedsResize() and SetNeedsResize(bool) to tune
+       canvas resize behaviour from outside
+
+2.     Disable method TQRootCanvas::GetEditorBar(), since
+       ROOT >= v4.00/02 does not provide this method in TCanvas anymore.
+       
+
+##########################################################################
+#
+# Qt& ROOT v2.4  release notes
+# Date 02/06/2002
+# updated:
+#         d.bertini and M. AL-Turany 03/06/2002
+#
+##########################################################################
+   
+QtROOT package:
+
+       1.    new configure script that enable cross check
+             of differents library. New options to build QtROOT.
+             config.sh -help
+
+QtROOT code :
+
+
+      1.     Bug in the popup menus is corrected, the root menus will
+             display in a proper way, i.e. they will not get out side the screen any
+             more.
+            
+      2.     SelectedPadChanged( TPad *) signal is implemented in the
+             TQRootCanvas,  this signal will be emitted each time the middle mouse button
+             is clicked to change the selected root canvas.
+            
+      3      Qt Hist Line Color & Qt Hist Fill Color items are added to
+             the popup menu in the Qt-Root interface, these items uses the Qt-Color
+             Dialog to change the colors.
+
+      4.     Thread safety support
+
+      5.     Latex editor included
+       
+
+#########################################################################
+#
+# Qt& ROOT v2.3  release notes
+# Date 13/08/2001 author: Denis Bertini <D.Bertini@gsi.de>
+# updated 31/10/01
+#
+##########################################################################
+
+
+
+
+(31/10/01 M. AL-TURANY) Drag&Drop functionality
+                       & QtDesigner integration
+===============================================
+
+          - Add-ons on TQRootCanvas classes
+                   * dropEvent()
+                   * dragEnterEvent() methods
+
+           - QtDesigner integration
+                   * added wrappers methods on Root TCanvas
+                     for more complete functionality when
+                     using  QtDesigner.
+
+(10/09/2001 D.B) soQtROOT module (available only on demand)
+==========================================================
+
+          - New modules in /qtroot
+                         inventor
+                         inventor/soGuiExamples
+
+          - Integration with free GPL Coin3d library
+            location: <http://coin3d.com>
+            (Open Inventor with Qt Bindings)
+
+                     - the SoQtRoot interface class
+
+
+( 13/08/2001 D.B ) QtROOT :
+===========================
+      1) Design changes:
+
+          - new TQRootCanvas contructor:
+
+           >TQRootCanvas::TQRootCanvas(
+           >QWidget *parent, QWidget* tabWin, const char *name, TCanvas *c=0)
+
+            i.e for the case the user wants to embedd a ROOT Canvas in
+            a Qt QTabWidget it is neccessary to have the TQRootCanvas
+            widget first handled by a QMainWindow,  in that case
+            via the constructor the TQRootCanvas class keep track of
+            both parent and the tab QMainWindow.
+
+           - new constructor for  TQCanvasMenu
+
+           >TQCanvasMenu(QWidget* parent, QWidget *tabWin, TCanvas *canvas)
+
+             it's here also necessary to keep track of parent QWidget in
+             TQCanvasMenu and to forward it to TQRootDialog
+             in the case the TCanvas::SetCanvasSize is called, in that
+             case the parent's method QWidget::resize() is called from
+             TQRootDialog::executeMethod().
+
+
+      2) TQRootDialog & TQCanvasMenu  class.
+
+            - Problem using TCint::Execute() and global
+              pointer gPad fixed using explicit bookeeping
+              of the Pad pointer in TQRootDialog::executeMethod()
+              and TQCanvasMenu::execute (int id)
+              using kept pointer in TROOT (gROOT->GetSelectedPad())
+              and not gPad.
+
+            - Avoid usage of TCint::Execute() when the method is
+              "Delete": this crashes Qt&Root interface from time
+              to time.
+              Instead : use a direct pur C++ delete of the TObject.
+
+              in TQRootDialog::executeMethod()
+              >line 130:  if (fCurObj) {delete fCurObj; fCurObj=0;}
+
+            - Problem linked to creation/deletion of multipad from
+              a parent pad  fixed.
+
+            - TCanvas::SetLineAttribute and TCanvas::SetFillAttribute
+              automatic repaint fixed.
+
+
+      3) "Add on" functionality
+
+            - the popup Dialog QVBox uses now the button "apply" and
+              "cancel" that enable multiple apply without automatic
+              closing of the dialog box.
+
+            - new example using differents TQRootCanvas within
+              a QTabWidget. (TGraph functionality tested in
+              a separate Tab).
+
+
+            - Adding debug infos mode from QRootApplication:
+
+              > QRootApplication a( argc, argv, 0 );
+              > a.setDebugOn();
+
+
+       

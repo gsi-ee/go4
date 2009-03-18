@@ -1,0 +1,292 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4OptStatsSettings</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>TGo4OptStatsSettings</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>335</width>
+            <height>213</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Global histogram statistic box setup:</string>
+    </property>
+    <property name="icon">
+        <pixmap>go4logo2_big.png</pixmap>
+    </property>
+    <property name="sizeGripEnabled">
+        <bool>true</bool>
+    </property>
+    <property name="toolTip" stdset="0">
+        <string>Check properties for the histogram statistics box. Changes are applied for newly created histograms only!</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QLayoutWidget" row="2" column="0">
+            <property name="name">
+                <cstring>layout20</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>Horizontal Spacing2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>210</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonOk</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;OK</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                    <property name="default">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonCancel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Cancel</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget" row="0" column="0">
+            <property name="name">
+                <cstring>layout4</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>DrawStatboxButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Show Statistics Box</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>221</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+        <widget class="QGroupBox" row="1" column="0">
+            <property name="name">
+                <cstring>OptStatGroupBox</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="title">
+                <string>Show in Histogram Statistics:</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton" row="1" column="0">
+                    <property name="name">
+                        <cstring>DrawEntriesButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Entries</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="2" column="0">
+                    <property name="name">
+                        <cstring>DrawIntegralButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Integral</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="0" column="2">
+                    <property name="name">
+                        <cstring>DrawUnderflowButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Underflow</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="1" column="1">
+                    <property name="name">
+                        <cstring>DrawMeanButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Mean value</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="2" column="1">
+                    <property name="name">
+                        <cstring>DrawCurtosisButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Curtosis</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="2" column="2">
+                    <property name="name">
+                        <cstring>DrawSkewnessButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Skewness</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="0" column="1">
+                    <property name="name">
+                        <cstring>DrawRMSButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>RMS</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="0" column="0">
+                    <property name="name">
+                        <cstring>DrawNameButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Histogram Name</string>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget" row="3" column="0" rowspan="1" colspan="3">
+                    <property name="name">
+                        <cstring>layout5</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QRadioButton">
+                            <property name="name">
+                                <cstring>DrawErrorsButton</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Display Errors</string>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer3</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>181</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </hbox>
+                </widget>
+                <widget class="QRadioButton" row="1" column="2">
+                    <property name="name">
+                        <cstring>DrawOverflowButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Overflow</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4OptStatsSettings</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>buttonCancel</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4OptStatsSettings</receiver>
+        <slot>reject()</slot>
+    </connection>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4OptStatsSettings</receiver>
+        <slot>setFlags()</slot>
+    </connection>
+    <connection>
+        <sender>DrawStatboxButton</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>OptStatGroupBox</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">TGo4Condition.h</include>
+    <include location="local" impldecl="in implementation">TGo4Marker.h</include>
+    <include location="local" impldecl="in implementation">TGo4QSettings.h</include>
+    <include location="local" impldecl="in implementation">TGo4OptStatsSettings.ui.h</include>
+</includes>
+<slots>
+    <slot>init()</slot>
+    <slot>setFlags()</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

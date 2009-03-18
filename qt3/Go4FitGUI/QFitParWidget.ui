@@ -1,0 +1,239 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>QFitParWidget</class>
+<widget class="QFitNamedWidget">
+    <property name="name">
+        <cstring>QFitParWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>304</width>
+            <height>339</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Parameter</string>
+    </property>
+    <widget class="QCheckBox">
+        <property name="name">
+            <cstring>FixedChk</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>180</y>
+                <width>57</width>
+                <height>23</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>fixed</string>
+        </property>
+    </widget>
+    <widget class="QGo4LineEdit">
+        <property name="name">
+            <cstring>ValueEdt</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>60</x>
+                <y>100</y>
+                <width>142</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QCheckBox">
+        <property name="name">
+            <cstring>RangeChk</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>220</y>
+                <width>64</width>
+                <height>23</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>range</string>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>140</y>
+                <width>40</width>
+                <height>18</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Error</string>
+        </property>
+    </widget>
+    <widget class="QGo4LineEdit">
+        <property name="name">
+            <cstring>EpsilonEdt</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>100</x>
+                <y>290</y>
+                <width>142</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QGo4LineEdit">
+        <property name="name">
+            <cstring>ErrorEdt</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>60</x>
+                <y>140</y>
+                <width>142</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QCheckBox">
+        <property name="name">
+            <cstring>EpsilonChk</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>290</y>
+                <width>73</width>
+                <height>23</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>epsilon</string>
+        </property>
+    </widget>
+    <widget class="QGo4LineEdit">
+        <property name="name">
+            <cstring>RangeMaxEdt</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>100</x>
+                <y>240</y>
+                <width>142</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>100</y>
+                <width>46</width>
+                <height>18</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Value</string>
+        </property>
+    </widget>
+    <widget class="QGo4LineEdit">
+        <property name="name">
+            <cstring>RangeMinEdt</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>100</x>
+                <y>200</y>
+                <width>142</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>ValueEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitParWidget</receiver>
+        <slot>ValueEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>ErrorEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitParWidget</receiver>
+        <slot>ErrorEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>RangeMinEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitParWidget</receiver>
+        <slot>RangeMinEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>RangeMaxEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitParWidget</receiver>
+        <slot>RangeMaxEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>EpsilonEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitParWidget</receiver>
+        <slot>EpsilonEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>FixedChk</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>QFitParWidget</receiver>
+        <slot>FixedChk_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>RangeChk</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>QFitParWidget</receiver>
+        <slot>RangeChk_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>EpsilonChk</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>QFitParWidget</receiver>
+        <slot>EpsilonChk_toggled(bool)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QFitNamedWidget.h</include>
+    <include location="local" impldecl="in implementation">QGo4LineEdit.h</include>
+    <include location="local" impldecl="in implementation">QFitItem.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitParameter.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitParsList.h</include>
+    <include location="local" impldecl="in implementation">QFitParWidget.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4FitParameter</forward>
+</forwards>
+<slots>
+    <slot returnType="TGo4FitParameter *">GetPar()</slot>
+    <slot>FillSpecificData()</slot>
+    <slot>ValueEdt_textChanged( const QString &amp; value )</slot>
+    <slot>ErrorEdt_textChanged( const QString &amp; value )</slot>
+    <slot>RangeMinEdt_textChanged( const QString &amp; value )</slot>
+    <slot>RangeMaxEdt_textChanged( const QString &amp; value )</slot>
+    <slot>EpsilonEdt_textChanged( const QString &amp; value )</slot>
+    <slot>FixedChk_toggled( bool zn )</slot>
+    <slot>RangeChk_toggled( bool zn )</slot>
+    <slot>EpsilonChk_toggled( bool zn )</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

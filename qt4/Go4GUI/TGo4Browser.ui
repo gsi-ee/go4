@@ -1,0 +1,55 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>TGo4Browser</class>
+  <widget class="QGo4Widget" name="TGo4Browser" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>338</width>
+        <height>398</height>
+      </rect>
+    </property>
+    <property name="caption" >
+      <string>New Go4 Browser</string>
+    </property>
+    <layout class="QGridLayout" >
+      <property name="margin" >
+        <number>1</number>
+      </property>
+      <property name="spacing" >
+        <number>1</number>
+      </property>
+      <item row="0" column="0" >
+        <widget class="QGo4BrowserListView" name="ListView" />
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <customwidgets>
+    <customwidget>
+      <class>QGo4BrowserListView</class>
+      <extends>Q3ListView</extends>
+    </customwidget>
+  </customwidgets>
+  <includes>
+    <include location="local" >QGo4Widget.h</include>
+  </includes>
+  <connections>
+    <connection>
+      <sender>ListView</sender>
+      <signal>doubleClicked(Q3ListViewItem*)</signal>
+      <receiver>TGo4Browser</receiver>
+      <slot>ListView_doubleClicked(Q3ListViewItem*)</slot>
+    </connection>
+    <connection>
+      <sender>ListView</sender>
+      <signal>contextMenuRequested(Q3ListViewItem*,QPoint,int)</signal>
+      <receiver>TGo4Browser</receiver>
+      <slot>ListView_contextMenuRequested(Q3ListViewItem*,QPoint,int)</slot>
+    </connection>
+  </connections>
+</ui>

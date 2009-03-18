@@ -1,0 +1,707 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4DabcMonitor</class>
+<widget class="QGo4Widget">
+    <property name="name">
+        <cstring>TGo4DabcMonitor</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>879</width>
+            <height>309</height>
+        </rect>
+    </property>
+    <property name="sizePolicy">
+        <sizepolicy>
+            <hsizetype>7</hsizetype>
+            <vsizetype>7</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+    </property>
+    <property name="minimumSize">
+        <size>
+            <width>0</width>
+            <height>0</height>
+        </size>
+    </property>
+    <property name="caption">
+        <string>DABC Monitor</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QGroupBox" row="0" column="1" rowspan="2" colspan="1">
+            <property name="name">
+                <cstring>dabcNodeBox</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>7</hsizetype>
+                    <vsizetype>7</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>320</width>
+                    <height>0</height>
+                </size>
+            </property>
+            <property name="title">
+                <string>DABC Nodes</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QGo4Table" row="0" column="0">
+                    <column>
+                        <property name="text">
+                            <string>Node</string>
+                        </property>
+                    </column>
+                    <column>
+                        <property name="text">
+                            <string>State</string>
+                        </property>
+                    </column>
+                    <column>
+                        <property name="text">
+                            <string>Show</string>
+                        </property>
+                    </column>
+                    <column>
+                        <property name="text">
+                            <string>Index</string>
+                        </property>
+                    </column>
+                    <column>
+                        <property name="text">
+                            <string>Log</string>
+                        </property>
+                    </column>
+                    <property name="name">
+                        <cstring>NodeTable</cstring>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>300</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                    <property name="numRows">
+                        <number>3</number>
+                    </property>
+                    <property name="numCols">
+                        <number>5</number>
+                    </property>
+                    <property name="rowMovingEnabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="readOnly">
+                        <bool>false</bool>
+                    </property>
+                    <property name="sorting">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QGroupBox" row="0" column="2" rowspan="2" colspan="1">
+            <property name="name">
+                <cstring>ratemeterBox</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>7</hsizetype>
+                    <vsizetype>7</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>320</width>
+                    <height>0</height>
+                </size>
+            </property>
+            <property name="title">
+                <string>Ratemeter View</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QGo4Table" row="0" column="0">
+                    <column>
+                        <property name="text">
+                            <string>Name</string>
+                        </property>
+                    </column>
+                    <column>
+                        <property name="text">
+                            <string>Value</string>
+                        </property>
+                    </column>
+                    <column>
+                        <property name="text">
+                            <string>Index</string>
+                        </property>
+                    </column>
+                    <column>
+                        <property name="text">
+                            <string>Trending</string>
+                        </property>
+                    </column>
+                    <column>
+                        <property name="text">
+                            <string>Statistics</string>
+                        </property>
+                    </column>
+                    <property name="name">
+                        <cstring>RateTable</cstring>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>300</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                    <property name="numRows">
+                        <number>3</number>
+                    </property>
+                    <property name="numCols">
+                        <number>5</number>
+                    </property>
+                    <property name="sorting">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <spacer row="2" column="0">
+            <property name="name">
+                <cstring>spacer2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>16</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QGroupBox" row="0" column="0">
+            <property name="name">
+                <cstring>dnsBox</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>200</width>
+                    <height>0</height>
+                </size>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>200</width>
+                    <height>32767</height>
+                </size>
+            </property>
+            <property name="margin">
+                <number>2</number>
+            </property>
+            <property name="title">
+                <string>DIM dns server</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout2</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QGo4LineEdit">
+                            <property name="name">
+                                <cstring>dimDnsNodeEdit</cstring>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Set DIM_DNS_NODE</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>RefreshDIMButton</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>0</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>30</width>
+                                    <height>30</height>
+                                </size>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+						  <property name="iconSet">
+                                <iconset>refresh.png</iconset>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Refresh list from DIM server</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>DateLabel</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>5</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>100</width>
+                            <height>12</height>
+                        </size>
+                    </property>
+                    <property name="frameShape">
+                        <enum>Box</enum>
+                    </property>
+                    <property name="frameShadow">
+                        <enum>Raised</enum>
+                    </property>
+                    <property name="margin">
+                        <number>0</number>
+                    </property>
+                    <property name="text">
+                        <string>Date</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Date and time of last refresh.</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>MoreCheck</cstring>
+                    </property>
+                    <property name="text">
+                        <string>more...</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Check to show Inspector and histogram controls</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QGroupBox" row="1" column="0">
+            <property name="name">
+                <cstring>controlBox</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>200</width>
+                    <height>0</height>
+                </size>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>200</width>
+                    <height>32767</height>
+                </size>
+            </property>
+            <property name="frameShape">
+                <enum>GroupBoxPanel</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
+            </property>
+            <property name="title">
+                <string>Inspector</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLayoutWidget" row="0" column="0">
+                    <property name="name">
+                        <cstring>serviceFilterlayout</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QGo4LineEdit">
+                            <property name="name">
+                                <cstring>dimServiceFilterEdit</cstring>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Filter for service names in log output</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>FullPrintDIMButton</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>0</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>30</width>
+                                    <height>30</height>
+                                </size>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                            <property name="iconSet">
+                                <iconset>log.png</iconset>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Print DIM services of the nodes checked as 'Dump' to terminal</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QCheckBox" row="1" column="0">
+                    <property name="name">
+                        <cstring>HistogramCheck</cstring>
+                    </property>
+                    <property name="font">
+                        <font>
+                            <bold>1</bold>
+                        </font>
+                    </property>
+                    <property name="text">
+                        <string>histogramming on</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Check to update monitoring histograms as selected in ratemeter table</string>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget" row="4" column="0">
+                    <property name="name">
+                        <cstring>layout64</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QCheckBox">
+                            <property name="name">
+                                <cstring>TrendAverageCheck</cstring>
+                            </property>
+                            <property name="text">
+                                <string>average</string>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Check to update average histograms over refresh time</string>
+                            </property>
+                        </widget>
+                        <widget class="QSpinBox">
+                            <property name="name">
+                                <cstring>FrequencyBox</cstring>
+                            </property>
+                            <property name="prefix">
+                                <string></string>
+                            </property>
+                            <property name="suffix">
+                                <string> s</string>
+                            </property>
+                            <property name="specialValueText">
+                                <string></string>
+                            </property>
+                            <property name="maxValue">
+                                <number>3600</number>
+                            </property>
+                            <property name="minValue">
+                                <number>1</number>
+                            </property>
+                            <property name="value">
+                                <number>2</number>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Refresh period</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <widget class="QLayoutWidget" row="2" column="0">
+                    <property name="name">
+                        <cstring>layout67</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QSpinBox">
+                            <property name="name">
+                                <cstring>TrendBinsBox</cstring>
+                            </property>
+                            <property name="prefix">
+                                <string></string>
+                            </property>
+                            <property name="suffix">
+                                <string> bins</string>
+                            </property>
+                            <property name="specialValueText">
+                                <string></string>
+                            </property>
+                            <property name="maxValue">
+                                <number>100000</number>
+                            </property>
+                            <property name="minValue">
+                                <number>10</number>
+                            </property>
+                            <property name="lineStep">
+                                <number>100</number>
+                            </property>
+                            <property name="value">
+                                <number>1000</number>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Binsize for trending histograms</string>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer12</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>91</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </hbox>
+                </widget>
+                <widget class="QCheckBox" row="3" column="0">
+                    <property name="name">
+                        <cstring>TrendSampleCheck</cstring>
+                    </property>
+                    <property name="text">
+                        <string>each sample</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Check to update direct sample histograms</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+    </grid>
+</widget>
+<customwidgets>
+</customwidgets>
+<connections>
+    <connection>
+        <sender>RefreshDIMButton</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4DabcMonitor</receiver>
+        <slot>refreshDIMSlot()</slot>
+    </connection>
+    <connection>
+        <sender>FullPrintDIMButton</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4DabcMonitor</receiver>
+        <slot>logDIMSlot()</slot>
+    </connection>
+    <connection>
+        <sender>NodeTable</sender>
+        <signal>valueChanged(int,int)</signal>
+        <receiver>TGo4DabcMonitor</receiver>
+        <slot>nodeTableChangedSlot(int,int)</slot>
+    </connection>
+    <connection>
+        <sender>RateTable</sender>
+        <signal>valueChanged(int,int)</signal>
+        <receiver>TGo4DabcMonitor</receiver>
+        <slot>rateTableChangedSlot(int,int)</slot>
+    </connection>
+    <connection>
+        <sender>HistogramCheck</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4DabcMonitor</receiver>
+        <slot>histogramCheckToggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>TrendAverageCheck</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4DabcMonitor</receiver>
+        <slot>averageCheckToggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>TrendBinsBox</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>TGo4DabcMonitor</receiver>
+        <slot>binsizeChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>MoreCheck</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>controlBox</receiver>
+        <slot>setShown(bool)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">dic.hxx</include>
+    <include location="global" impldecl="in declaration">vector</include>
+    <include location="local" impldecl="in declaration">qtimer.h</include>
+    <include location="local" impldecl="in declaration">QGo4Table.h</include>
+    <include location="global" impldecl="in declaration">deque</include>
+    <include location="global" impldecl="in implementation">iostream</include>
+    <include location="local" impldecl="in implementation">TGo4LockGuard.h</include>
+    <include location="local" impldecl="in implementation">qdatetime.h</include>
+    <include location="local" impldecl="in implementation">qregexp.h</include>
+    <include location="local" impldecl="in implementation">TH1.h</include>
+    <include location="local" impldecl="in implementation">TGo4Slot.h</include>
+    <include location="local" impldecl="in implementation">TGo4BrowserProxy.h</include>
+    <include location="local" impldecl="in implementation">qpixmap.h</include>
+    <include location="local" impldecl="in implementation">TGo4QSettings.h</include>
+    <include location="local" impldecl="in implementation">TGo4DabcMonitor.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4DabcInfo;</forward>
+    <forward>class TGo4DabcNodesInfo;</forward>
+    <forward>class TGo4DabcServiceInfo;</forward>
+    <forward>class TGo4DabcStateInfo;</forward>
+    <forward>class TGo4DabcRateInfo;</forward>
+    <forward>class TGo4DabcState;</forward>
+    <forward>class TGo4DabcRate;</forward>
+    <forward>class TH1;</forward>
+</forwards>
+<variables>
+    <variable>std::vector&lt; std::vector &lt;unsigned int&gt; &gt; fxRateCount;</variable>
+    <variable>std::vector&lt; std::vector &lt;float&gt; &gt; fxRateSum;</variable>
+    <variable>bool fbHistogramming;</variable>
+    <variable>int fiStatBins;</variable>
+    <variable>std::vector &lt; std::vector &lt;std::vector &lt;bool&gt; &gt; &gt; fbStatsInit;</variable>
+    <variable>std::vector&lt; std::vector &lt;bool&gt; &gt; fxStatsFlags;</variable>
+    <variable>int fiTrendBins;</variable>
+    <variable>std::vector&lt; std::vector &lt;std::vector &lt;bool&gt; &gt; &gt; fbTrendingInit;</variable>
+    <variable>bool fbNodeTableLocked;</variable>
+    <variable>bool fbRateTableLocked;</variable>
+    <variable>std::vector&lt;std::vector&lt;bool&gt; &gt; fxTrendingFlags;</variable>
+    <variable>unsigned int fxLastTimestamp;</variable>
+    <variable>bool fbDisplayRateTable;</variable>
+    <variable>bool fbDisplayNodeTable;</variable>
+    <variable>bool fbRebuildNodeTable;</variable>
+    <variable>std::vector&lt;std::vector&lt;TGo4DabcRate&gt; &gt; fxRateRecords;</variable>
+    <variable>TGo4DabcNodesInfo* fxServerInfo;</variable>
+    <variable>std::vector&lt;std::vector&lt;TGo4DabcRateInfo*&gt; &gt; fxRates;</variable>
+    <variable>std::vector&lt;TGo4DabcStateInfo*&gt; fxStates;</variable>
+    <variable>QStringList fxNodelist;</variable>
+    <variable>QString fxDnsNode;</variable>
+    <variable>std::vector&lt;TGo4DabcServiceInfo*&gt; fxServices;</variable>
+    <variable>std::vector&lt;TGo4DabcState&gt; fxStateRecords;</variable>
+    <variable>std::vector&lt;QString&gt; fxDabcNodes;</variable>
+    <variable>QTimer* fxDisplayTimer;</variable>
+    <variable>std::vector&lt;bool&gt; fxShowRateFlags;</variable>
+    <variable>bool fbRebuildRateTable;</variable>
+    <variable>std::vector&lt;bool&gt; fxShowLogFlags;</variable>
+    <variable>bool fbTrendingForward;</variable>
+    <variable>std::vector &lt; std::vector &lt;std::vector &lt; QString&gt; &gt; &gt; fxTrendHistoRefnames;</variable>
+    <variable>std::vector &lt; std::vector &lt;std::vector&lt;QString &gt; &gt; &gt; fxStatHistoRefnames;</variable>
+    <variable>std::vector &lt; std::vector &lt; std::deque &lt;float&gt; &gt; &gt; fxRateQueues;</variable>
+    <variable>bool fbDisplayHistograms;</variable>
+    <variable>QTimer* fxAverageTimer;</variable>
+</variables>
+<slots>
+    <slot>storeSettings()</slot>
+    <slot>refreshDIMSlot()</slot>
+    <slot>logDIMSlot()</slot>
+    <slot>histogramCheckToggled( bool val )</slot>
+    <slot>averageCheckToggled( bool val )</slot>
+    <slot>binsizeChanged( int val )</slot>
+    <slot>nodeTableChangedSlot( int row, int column )</slot>
+    <slot>rateTableChangedSlot( int row, int column )</slot>
+    <slot>createLogServices( int nodeindex )</slot>
+    <slot>displaySampleHistograms()</slot>
+    <slot>displayAverageHistograms()</slot>
+    <slot>displayAll()</slot>
+    <slot>updateTrending( int nodeix, int rateix, int hisix, double value )</slot>
+    <slot>IncTrending( TH1 * histo, double value, bool forwards )</slot>
+    <slot>updateStats( int nodeix, int rateix, int hix, double value )</slot>
+</slots>
+<functions>
+    <function access="private" specifier="non virtual">init()</function>
+    <function>infoUpdated( TGo4DabcInfo * info )</function>
+    <function>nodesUpdated( TGo4DabcNodesInfo * info )</function>
+    <function>servicesUpdated( TGo4DabcServiceInfo * info )</function>
+    <function>stateUpdated( TGo4DabcStateInfo * info )</function>
+    <function>rateUpdated( TGo4DabcRateInfo * info )</function>
+    <function access="protected">refreshNodes()</function>
+    <function access="protected">clearStates()</function>
+    <function access="protected">clearServices()</function>
+    <function access="protected">clearRates()</function>
+    <function access="protected">createRateServices( int nodeindex )</function>
+    <function access="protected">deleteRateServices( int nodeindex )</function>
+    <function access="protected">displayNodeTable()</function>
+    <function access="protected">fillNodeTableRow( int tableindex, int nodeindex, bool createnew )</function>
+    <function access="protected">displayRateTable()</function>
+    <function access="protected">fillRateTableRow( int tableindex, int nodeindex, int rateindex, bool createnew )</function>
+    <function access="protected" returnType="bool">getRateIndices( int tablerow, int &amp; nodeix, int &amp; rateix )</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>QGo4Widget.h</includehint>
+    <includehint>QGo4Table.h</includehint>
+    <includehint>QGo4Table.h</includehint>
+    <includehint>QGo4LineEdit.h</includehint>
+    <includehint>QGo4LineEdit.h</includehint>
+</includehints>
+</UI>

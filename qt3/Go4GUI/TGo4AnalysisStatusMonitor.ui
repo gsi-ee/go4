@@ -1,0 +1,280 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4AnalysisStatusMonitor</class>
+<comment>Display the status of the analysis</comment>
+<author>Mohammad Al-Turany/S Linev</author>
+<widget class="QGo4Widget">
+    <property name="name">
+        <cstring>TGo4AnalysisStatusMonitor</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>1325</width>
+            <height>32</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Go4 Analysis Status</string>
+    </property>
+    <property name="icon">
+        <pixmap>go4logo2_big.png</pixmap>
+    </property>
+    <hbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
+        </property>
+        <property name="spacing">
+            <number>7</number>
+        </property>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>Go4Pix</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>30</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>30</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="pixmap">
+                <pixmap>go4logo2_big.png</pixmap>
+            </property>
+            <property name="scaledContents">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Go4 logo showing running state of analysis</string>
+            </property>
+        </widget>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>SourceLabel</cstring>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>100</width>
+                    <height>7</height>
+                </size>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>32767</width>
+                    <height>22</height>
+                </size>
+            </property>
+            <property name="frameShape">
+                <enum>Box</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Raised</enum>
+            </property>
+            <property name="margin">
+                <number>0</number>
+            </property>
+            <property name="text">
+                <string>input.lmd</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Currently open event source</string>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout7</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLCDNumber">
+                    <property name="name">
+                        <cstring>LCDCurrentRate</cstring>
+                    </property>
+                    <property name="paletteBackgroundColor">
+                        <color>
+                            <red>0</red>
+                            <green>255</green>
+                            <blue>0</blue>
+                        </color>
+                    </property>
+                    <property name="numDigits">
+                        <number>8</number>
+                    </property>
+                    <property name="segmentStyle">
+                        <enum>Flat</enum>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Current event rate [events/sec].</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Current Ev/s</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout8</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLCDNumber">
+                    <property name="name">
+                        <cstring>LCDAverageRate</cstring>
+                    </property>
+                    <property name="numDigits">
+                        <number>8</number>
+                    </property>
+                    <property name="segmentStyle">
+                        <enum>Flat</enum>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Average event rate since last reset [events/sec].</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel4</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Average Ev/s</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout9</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLCDNumber">
+                    <property name="name">
+                        <cstring>LCDTime</cstring>
+                    </property>
+                    <property name="numDigits">
+                        <number>8</number>
+                    </property>
+                    <property name="segmentStyle">
+                        <enum>Flat</enum>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Time since last reset [sec].</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel5</cstring>
+                    </property>
+                    <property name="text">
+                        <string>s</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout10</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLCDNumber">
+                    <property name="name">
+                        <cstring>LCDProcessedEvents</cstring>
+                    </property>
+                    <property name="font">
+                        <font>
+                            <pointsize>7</pointsize>
+                        </font>
+                    </property>
+                    <property name="numDigits">
+                        <number>10</number>
+                    </property>
+                    <property name="segmentStyle">
+                        <enum>Flat</enum>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Number of events processed since last reset.</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>TextLabel6</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Events</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QLabel">
+            <property name="name">
+                <cstring>DateLabel</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>Box</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Raised</enum>
+            </property>
+            <property name="text">
+                <string>Date</string>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Date and time of last refresh.</string>
+            </property>
+        </widget>
+    </hbox>
+</widget>
+<customwidgets>
+</customwidgets>
+<includes>
+    <include location="local" impldecl="in declaration">QGo4Widget.h</include>
+    <include location="local" impldecl="in declaration">qmovie.h</include>
+    <include location="local" impldecl="in implementation">TGo4AnalysisClientStatus.h</include>
+    <include location="local" impldecl="in implementation">TGo4BrowserProxy.h</include>
+    <include location="local" impldecl="in implementation">TSystem.h</include>
+    <include location="local" impldecl="in implementation">math.h</include>
+    <include location="local" impldecl="in implementation">TGo4AnalysisStatusMonitor.ui.h</include>
+</includes>
+<variables>
+    <variable>QMovie fxRunMovie;</variable>
+</variables>
+<functions>
+    <function>init()</function>
+    <function>WorkWithRatemeter( TGo4Slot * slot )</function>
+    <function>linkedObjectUpdated( const char * linkname, TObject * obj )</function>
+    <function>linkedObjectRemoved( const char * linkname )</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

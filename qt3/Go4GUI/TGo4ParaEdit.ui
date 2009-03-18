@@ -1,0 +1,543 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4ParaEdit</class>
+<comment>Go4 Paramter Editor</comment>
+<author>Joern Adamzevski/Sergey Linev</author>
+<widget class="QGo4Widget">
+    <property name="name">
+        <cstring>TGo4ParaEdit</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>394</width>
+            <height>422</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Parameter Editor</string>
+    </property>
+    <property name="icon">
+        <pixmap>go4logo2_big.png</pixmap>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>2</number>
+        </property>
+        <property name="spacing">
+            <number>1</number>
+        </property>
+        <widget class="QGroupBox" row="1" column="0">
+            <property name="name">
+                <cstring>TitleBox</cstring>
+            </property>
+            <property name="title">
+                <string>Parameter</string>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>ParamNameLbl</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>150</width>
+                            <height>25</height>
+                        </size>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>This label shows name of edited parameter</string>
+                    </property>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>ParamClassLbl</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>150</width>
+                            <height>25</height>
+                        </size>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>This label shows class name of edited parameter</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QGroupBox" row="2" column="0">
+            <property name="name">
+                <cstring>MemberBox</cstring>
+            </property>
+            <property name="title">
+                <string>Object Members</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QTable" row="0" column="0">
+                    <column>
+                        <property name="text">
+                            <string>Type</string>
+                        </property>
+                    </column>
+                    <column>
+                        <property name="text">
+                            <string>Name</string>
+                        </property>
+                    </column>
+                    <column>
+                        <property name="text">
+                            <string>Value</string>
+                        </property>
+                    </column>
+                    <column>
+                        <property name="text">
+                            <string>Comments</string>
+                        </property>
+                    </column>
+                    <property name="name">
+                        <cstring>MemberTable</cstring>
+                    </property>
+                    <property name="numRows">
+                        <number>10</number>
+                    </property>
+                    <property name="numCols">
+                        <number>4</number>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Table of members. Double click into value fields to edit. Right mouse button for popup menu.</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QLayoutWidget" row="3" column="0">
+            <property name="name">
+                <cstring>layout107</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout106</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>RefreshButton</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>0</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>30</width>
+                                    <height>30</height>
+                                </size>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>30</width>
+                                    <height>30</height>
+                                </size>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                            <property name="iconSet">
+                                <iconset>right.png</iconset>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Refresh view from analysis parameter</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>ApplyButton</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>0</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>30</width>
+                                    <height>30</height>
+                                </size>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>30</width>
+                                    <height>30</height>
+                                </size>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                            <property name="iconSet">
+                                <iconset>left.png</iconset>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Send parameter settings to analysis.</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>PleaseUpdateLabel</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>0</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>30</width>
+                                    <height>30</height>
+                                </size>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>30</width>
+                                    <height>30</height>
+                                </size>
+                            </property>
+                            <property name="frameShape">
+                                <enum>WinPanel</enum>
+                            </property>
+                            <property name="frameShadow">
+                                <enum>Raised</enum>
+                            </property>
+                            <property name="lineWidth">
+                                <number>2</number>
+                            </property>
+                            <property name="margin">
+                                <number>1</number>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                            <property name="pixmap">
+                                <pixmap>info1.png</pixmap>
+                            </property>
+                            <property name="scaledContents">
+                                <bool>true</bool>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>This label shows that your current changes have not yet been updated to the analysis.</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>SavePar</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>0</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>30</width>
+                                    <height>30</height>
+                                </size>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>30</width>
+                                    <height>30</height>
+                                </size>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                            <property name="iconSet">
+                                <iconset>filesave.png</iconset>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Save this parameter to a file.</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer17_2_2_2_2_2_2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>40</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout102</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>ClearButton</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>0</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>30</width>
+                                    <height>30</height>
+                                </size>
+                            </property>
+                            <property name="maximumSize">
+                                <size>
+                                    <width>30</width>
+                                    <height>30</height>
+                                </size>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                            <property name="iconSet">
+                                <iconset>clear.png</iconset>
+                            </property>
+                            <property name="toolTip" stdset="0">
+                                <string>Clear parameter values. Clear() method of parameter class will be used.</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer17_2_2_2_2_4</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>36</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>CancelButton</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>closewindow.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Cancel without changes.</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<customwidgets>
+</customwidgets>
+<connections>
+    <connection>
+        <sender>MemberTable</sender>
+        <signal>valueChanged(int,int)</signal>
+        <receiver>TGo4ParaEdit</receiver>
+        <slot>ChangedTable(int,int)</slot>
+    </connection>
+    <connection>
+        <sender>CancelButton</sender>
+        <signal>pressed()</signal>
+        <receiver>TGo4ParaEdit</receiver>
+        <slot>close()</slot>
+    </connection>
+    <connection>
+        <sender>ApplyButton</sender>
+        <signal>pressed()</signal>
+        <receiver>TGo4ParaEdit</receiver>
+        <slot>ApplyClicked()</slot>
+    </connection>
+    <connection>
+        <sender>RefreshButton</sender>
+        <signal>pressed()</signal>
+        <receiver>TGo4ParaEdit</receiver>
+        <slot>RefreshClicked()</slot>
+    </connection>
+    <connection>
+        <sender>ClearButton</sender>
+        <signal>pressed()</signal>
+        <receiver>TGo4ParaEdit</receiver>
+        <slot>clearTextFields()</slot>
+    </connection>
+    <connection>
+        <sender>MemberTable</sender>
+        <signal>doubleClicked(int,int,int,const QPoint&amp;)</signal>
+        <receiver>TGo4ParaEdit</receiver>
+        <slot>TableDoubleClick(int,int)</slot>
+    </connection>
+    <connection>
+        <sender>MemberTable</sender>
+        <signal>contextMenuRequested(int,int,const QPoint&amp;)</signal>
+        <receiver>TGo4ParaEdit</receiver>
+        <slot>ContextMenu(int,int)</slot>
+    </connection>
+    <connection>
+        <sender>SavePar</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ParaEdit</receiver>
+        <slot>saveFile()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QGo4Widget.h</include>
+    <include location="local" impldecl="in implementation">qpopupmenu.h</include>
+    <include location="local" impldecl="in implementation">qlabel.h</include>
+    <include location="local" impldecl="in implementation">qmessagebox.h</include>
+    <include location="local" impldecl="in implementation">qfiledialog.h</include>
+    <include location="local" impldecl="in implementation">TROOT.h</include>
+    <include location="local" impldecl="in implementation">TFile.h</include>
+    <include location="local" impldecl="in implementation">TObjArray.h</include>
+    <include location="local" impldecl="in implementation">TList.h</include>
+    <include location="local" impldecl="in implementation">TClass.h</include>
+    <include location="local" impldecl="in implementation">TDataMember.h</include>
+    <include location="local" impldecl="in implementation">TDataType.h</include>
+    <include location="local" impldecl="in implementation">TBaseClass.h</include>
+    <include location="local" impldecl="in implementation">TGo4LockGuard.h</include>
+    <include location="local" impldecl="in implementation">TGo4Parameter.h</include>
+    <include location="local" impldecl="in implementation">TGo4ParameterMember.h</include>
+    <include location="local" impldecl="in implementation">TGo4ParameterStatus.h</include>
+    <include location="local" impldecl="in implementation">TGo4Fitter.h</include>
+    <include location="local" impldecl="in implementation">TGo4Slot.h</include>
+    <include location="local" impldecl="in implementation">TGo4BrowserProxy.h</include>
+    <include location="local" impldecl="in implementation">TGo4ParaEdit.ui.h</include>
+</includes>
+<forwards>
+    <forward>class QPopupMenu</forward>
+    <forward>class QMenuBar</forward>
+    <forward>class TGo4Fitter</forward>
+    <forward>class TGo4FitPanel</forward>
+    <forward>class QStatusBar</forward>
+    <forward>class TObject</forward>
+    <forward>class TGo4Parameter</forward>
+    <forward>class TGo4ParameterStatus</forward>
+    <forward>class TObjArray</forward>
+    <forward>class TClass</forward>
+</forwards>
+<variables>
+    <variable>int fiCurrentRow</variable>
+    <variable>TObjArray* fItems</variable>
+    <variable>QString fItemName</variable>
+</variables>
+<slots>
+    <slot>clearTextFields()</slot>
+    <slot>ChangedTable( int row, int col )</slot>
+    <slot>TableDoubleClick( int row, int col )</slot>
+    <slot>ContextMenu( int row, int col )</slot>
+    <slot>ExpandShrinkArray()</slot>
+    <slot>IncArrayIndex()</slot>
+    <slot>DecArrayIndex()</slot>
+    <slot>EditFitter()</slot>
+    <slot>GetFitterFromEditor()</slot>
+    <slot>saveFile()</slot>
+    <slot>RefreshClicked()</slot>
+    <slot>ApplyClicked()</slot>
+</slots>
+<functions>
+    <function>init()</function>
+    <function>destroy()</function>
+    <function returnType="bool">IsAcceptDrag(const char* itemname, TClass* cl, int kind)</function>
+    <function>DropItem(const char* itemname, TClass* cl, int kind)</function>
+    <function>linkedObjectUpdated(const char* linkname, TObject* obj)</function>
+    <function>linkedObjectRemoved( const char * linkname )</function>
+    <function>WorkWithParameter(const char* itemname, bool isrefresh)</function>
+    <function>ResetWidget()</function>
+    <function>RefreshWidget(TGo4Parameter* par)</function>
+    <function>RefreshWidget(TGo4ParameterStatus* parstatus)</function>
+    <function>ShowVisibleItems()</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

@@ -1,0 +1,284 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4MarkerSettings</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>TGo4MarkerSettings</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>323</width>
+            <height>314</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Global marker label setup:</string>
+    </property>
+    <property name="icon">
+        <pixmap>go4logo2_big.png</pixmap>
+    </property>
+    <property name="sizeGripEnabled">
+        <bool>true</bool>
+    </property>
+    <property name="toolTip" stdset="0">
+        <string>Check properties for the markers of regions (conditions), and points. Changes are applied for newly created markers only!</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QGroupBox" row="0" column="0">
+            <property name="name">
+                <cstring>ConditionGroupBox</cstring>
+            </property>
+            <property name="title">
+                <string>Windows/Polygons</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton" row="1" column="0">
+                    <property name="name">
+                        <cstring>DrawIntButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Display Integral</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="3" column="1">
+                    <property name="name">
+                        <cstring>DrawYrmsButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Display Y rms</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="0" column="1">
+                    <property name="name">
+                        <cstring>DrawLimButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Display region limits</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="4" column="0">
+                    <property name="name">
+                        <cstring>DrawXmaxButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Display X maximum</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="2" column="1">
+                    <property name="name">
+                        <cstring>DrawYmeanButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Display Y mean</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="0" column="0">
+                    <property name="name">
+                        <cstring>DrawLabelButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Draw region label</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="3" column="0">
+                    <property name="name">
+                        <cstring>DrawXrmsButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Display X rms</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="2" column="0">
+                    <property name="name">
+                        <cstring>DrawXmeanButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Display X mean</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="1" column="1">
+                    <property name="name">
+                        <cstring>DrawCountsButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Display Counts maximum</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="4" column="1">
+                    <property name="name">
+                        <cstring>DrawYmaxButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Display Y maximum</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QGroupBox" row="1" column="0">
+            <property name="name">
+                <cstring>MarkerGroupBox</cstring>
+            </property>
+            <property name="title">
+                <string>Point markers</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton" row="0" column="0">
+                    <property name="name">
+                        <cstring>DrawPLabelButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Draw marker label</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="0" column="1">
+                    <property name="name">
+                        <cstring>DrawPConnectorButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Draw label connection line</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="1" column="0">
+                    <property name="name">
+                        <cstring>DrawPXButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Display X coord.</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="1" column="1">
+                    <property name="name">
+                        <cstring>DrawPYButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Display Y coord.</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="2" column="1">
+                    <property name="name">
+                        <cstring>DrawPYbinButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Display Y bin#.</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="2" column="0">
+                    <property name="name">
+                        <cstring>DrawPXbinButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Display X bin#</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="3" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>DrawPCountsButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Display bin contents</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QLayoutWidget" row="2" column="0">
+            <property name="name">
+                <cstring>layout20</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>Horizontal Spacing2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>210</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonOk</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;OK</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                    <property name="default">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonCancel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Cancel</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4MarkerSettings</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>buttonCancel</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4MarkerSettings</receiver>
+        <slot>reject()</slot>
+    </connection>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4MarkerSettings</receiver>
+        <slot>setFlags()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">TGo4Condition.h</include>
+    <include location="local" impldecl="in implementation">TGo4Marker.h</include>
+    <include location="local" impldecl="in implementation">TGo4MarkerSettings.ui.h</include>
+</includes>
+<slots>
+    <slot>init()</slot>
+    <slot>setFlags()</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

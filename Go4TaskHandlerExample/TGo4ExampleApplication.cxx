@@ -1,0 +1,75 @@
+#include "TGo4ExampleApplication.h"
+
+#include "Riostream.h"
+
+#include "TRandom.h"
+
+#include "TGo4LockGuard.h"
+#include "TGo4Log.h"
+#include "TGo4CommandInvoker.h"
+
+TGo4ExampleApplication::TGo4ExampleApplication( TGo4BufferQueue* datq)
+: TNamed("My example application","Go4 Taskhandler example")
+   {
+   TRACE((15,"TGo4ExampleApplication::TGo4ExampleApplication() constructor",__LINE__, __FILE__));
+   fxDataQ=datq;
+   fxDemoHistogram = new TH1D("Test Histogram", "Client Data", 2048, 0, 2047);
+
+   TGo4CommandInvoker::Instance(); // make sure we have an invoker instance!
+   TGo4CommandInvoker::Register("ExampleApplication",this); // register as command receiver at the global invoker
+}
+
+TGo4ExampleApplication::~TGo4ExampleApplication()
+{
+   TRACE((15,"TGo4ExampleApplication::TGo4ExampleApplication() destructor",__LINE__, __FILE__));
+   delete fxDemoHistogram;
+   TGo4CommandInvoker::UnRegister(this);
+}
+
+void TGo4ExampleApplication::SendData(TNamed* data)
+{
+   TRACE((12,"TGo4ExampleApplication::SendData(TNamed*)",__LINE__, __FILE__));
+   if(fxDataQ)
+      {
+         cout << "Example Application: Sending data into queue..."<<endl;
+         fxDataQ->AddBufferFromObject(data);
+      }
+   else
+      {
+         cout << "Example Application: Sorry, no data queue present"<<endl;
+         // no data queue present
+      }
+
+}
+TH1* TGo4ExampleApplication::GetHistogram()
+{
+   TRACE((12,"TGo4ExampleApplication::GetHistogram",__LINE__, __FILE__));
+   return fxDemoHistogram;
+}
+void TGo4ExampleApplication::FillHistograms()
+{
+   TRACE((12,"TGo4ExampleApplication::FillHistograms",__LINE__, __FILE__));
+   TGo4LockGuard mainlock; // protect against socket streaming
+   static Int_t counter=0;
+   counter++;
+   Double_t peak1= gRandom->Gaus(550,42);
+   Double_t peak2= gRandom->Gaus(1200,230);
+   //cout << "Example Application random numbers: "<< peak1<<" "<< peak2 <<endl;
+   fxDemoHistogram->Fill((Axis_t) peak1);
+   fxDemoHistogram->Fill((Axis_t) peak2);
+   if(!(counter%100))
+      cout << "Example Application filled histogram 100 times" <<endl;
+
+}
+void TGo4ExampleApplication::CommandAction2()
+{
+   TRACE((14,"TGo4ExampleApplication::CommandAction2",__LINE__, __FILE__));
+   cout << "Example Application: executing Action 2"<<endl;
+
+}
+void TGo4ExampleApplication::CommandAction1()
+{
+   TRACE((14,"TGo4ExampleApplication::CommandAction1",__LINE__, __FILE__));
+   cout << "Example Application: executing Action 1"<<endl;
+   SendData(GetHistogram()); // later we get histogram by specified name
+}

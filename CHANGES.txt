@@ -1,0 +1,1187 @@
+--------------------------------------------------------------
+         Go4 Release Package v4.01-1 (build 40101)
+                      28-November-2008
+-------------------------------------------------------------
+    The GSI Online Offline Object Oriented (Go4) Project
+    Experiment Data Processing at EE department, GSI
+------------------------------------------------------------
+Authors: Joern Adamczewski-Musch      (1999-)
+         Mohammad Al-Turany           (2000-2004)
+         Denis Bertini                (2001-2004)
+         Hans Georg Essel             (1999-)
+         Marc Hemberger               (1999-2000)
+         Sergey Linev                 (2002-)
+---------------------------------------------------------------
+Copyright (C) 2000- Gesellschaft f. Schwerionenforschung, GSI
+                    Planckstr. 1, 64291 Darmstadt, Germany
+Contact:            http://go4.gsi.de
+---------------------------------------------------------------
+This software can be used under the license agreements as stated
+in Go4License.txt file which is part of the distribution.
+---------------------------------------------------------------
+
+Changes in Go4 v4.01.01 (November08)
+
+1. Maintenance: code adjustments for compilers gcc 4.3.x
+
+2. Bugfix for Qt problem: QProcess was put into infinite loop 
+after first stderr output to Go4 analysis window. 
+Workaround: redirect stderr to stdout in analysis startup script.
+
+3. Bugfix: counter overflow in TGo4MbsSource would stop taking 
+events from mbs connections and let process last read event 
+multiple times
+
+4. Several small bugfixes.
+
+Changes in Go4 v4.01.00 (October08)
+
+1. New toolwindow DABC Monitor: Allows to inspect all info services
+registered to any DIM server. Any DABC ratemeter service running on 
+DABC or MBS nodes may be monitored and filled into trending and 
+statistic histograms. This tool is build optionally if environment 
+$DIMDIR is set and DIM is installed there.
+
+2. Bugfix: MbsAPI streamserver connection timeout was not working 
+correctly (leads to hangup of analysis control when no data is 
+delivered from streamserver).
+
+3. Bugfix: Viewpanel canvas was not working with Qt >= 4.4.x (empty
+widget with grey background) because Qt workspace may change 
+X-window id at runtime.  Improved Go4QtRoot interface
+classes to reset winId dynamically on resize. Modified rendering of
+TQRootCanvas to avoid unnecessary Qt double buffering.
+
+4. Bugfix: Viewpanel embedded TGedEditor was sometimes not displayed
+at startup. Improved Go4QtRoot interface to avoid extra Resize()
+in TQRootWindow::paintEvent which may lose coordinates of 
+primary editor tab.
+
+5. Bugfix: "Settings/Style" menu would crash GUI sometimes due to
+unresolved problems in QtApplication::setStyle when called 
+at application runtime. Workaround: menu will select style for 
+Go4 settings, style is no sooner activated than on next startup.
+
+6.  Bugfix: "Settings/Fonts..." menu would crash GUI sometimes due to
+unresolved problems in QtApplication::setFont when called 
+at application runtime. Workaround: menu will select font for 
+Go4 settings, font is no sooner activated than on next startup.
+
+7. Bugfix: QGo4Settings is not working correctly anymore with Qt>4.4 
+due to modifications in QSettings API and Qt settings location. 
+Now general settings must always be kept 
+at $HOME/.config/GSI/.go4.conf 
+and can not vary for different directories in the same account. 
+However, the main window toolbar setup may still be saved locally 
+(at $PWD/.config/GSI/go4toolsrc, default), or account specific
+(at $HOME/.config/GSI/go4toolsrc). This is selected as before
+by setting environment variable GO4SETTINGS="ACCOUNT".
+
+
+  
+
+
+
+Changes in Go4 v4.00.03 (June08)
+
+1. Viewpanel menu: "File/Produce Graph From Markers" will generate 
+new TGraph in local workspace containing the points of all 
+Go4markers set in the current pad. May be used to fit function to 
+manually selected positions.
+2. Bugfix: Fitpanel range display in expert mode.
+
+
+Changes in Go4 v4.00.02 (May08)
+1. Support of Solaris with CC 5.x (without RFIO)
+2. Modifications in makefiles - now only in one place in Makefile.config
+   one should specify platform - Linux, Solaris or Win32.
+   Other small changes in makefiles   
+3. Fixes different warnings from Solaris CC compiler
+4. Bugfix: GUI TreeViewer swapped x/y/z coordinates, convention is TTree::Draw("z:y:x"))
+5. Bugfix: GUI Viewpanel: "Produce Picture" did not save all draw options to picture 
+
+Changes in Go4 v4.00.01 (Mar08)
+
+1. Bugfix: Adjustments for modifications in ROOT signal-slot mechanism
+   syntax (ROOT >=5.19/02); this caused viewpanel crash.
+
+2. Bugfix: Mismatch between Go4 viewpanel range (full visible range)
+   and ROOT user range (referring to low edges of bins) could cause slight
+   shift of x axis range on canvas refresh.
+
+Changes in Go4 v4.00.00 (Feb08)
+
+1. Ported the Go4 GUI for Qt Version 4. This includes the main Go4GUI, the
+Go4UserGUI example, and the GSI qtroot interface with the Go4 extensions.
+  
+Notes: 
+------
+   a) Go4 v4 REQUIRES Qt3support libraries of Qt4 installation (should be configure default).
+   
+   b) Go4 v4 needs to disable the XInitThreads() in ROOT TGClient initialization 
+      to avoid conflicts between ROOT X11 graphics and Qt4. 
+      This is only possible for new ROOT versions that support 
+      to switch the X11.XInitThread resource by environment settings (thanks to Fons Rademakers!).
+      
+      => GO4 v4 REQUIRES ROOT VERSION > 5.19/01  
+      
+   c) Go4 v4 will not work anymore with Qt Versions 3.x. To use Go4 with Qt3,
+      please install Go4 versions 3.03.0x which will still be supported in parallel.  
+
+2. Improvements in Mbs event library: Added new event types for future GSI data acquisition
+framework DABC. Some minor bugfixes.
+
+3. Bugfix in TGo4Browser. Arrays fVisibleColumns and fIndexes has 1 item less than required.
+
+4. Bugfix in QRootApplication. In constructor numc argument must be 
+   delivered as reference.
+
+5. Minor bugfix in TGo4MBSViewer - status record must be cleared in constructor.
+
+
+
+
+Changes in Go4 v3.03.01 (Nov07)
+
+1. Correct work of marker class in case of superimposed histograms.
+   Now newly created marker will be assigned to currently 
+   selected histogram.
+2. Bugfix in fit package concerning parameters handling when some
+   parameters are fixed.
+3. In FitGui in Wizard and Expert mode there is now possibility to 
+   clone existing model component. Especially usefull in case of 
+   TGo4FitModelFunction and TGo4FitModelFormula classes, which are
+   require a number of different settings.
+4. Bugfix in MbsAPI, f_stccomm.c file. Fixes problem with connecting 
+   64 bit machine to MBS events/stream/trasnport server. False 
+   usage of select() function.
+5. Small adjustments for the new ROOT (5.17.05) browser.
+6. Two ROOT libraries (libTree and libGpad) added to Go4 rootmap file 
+   that user Go4 analysis library can be loaded in CINT session.
+7. ThreadManager workaround for ROOT bug in TThread::Delete() (ROOT bug report 31085): 
+   for some compilers, Go4  GUI crashed when shutting down or 
+   disconnecting analysis.
+
+
+Changes in Go4 v3.03.00 (May07)
+
+1. Added missing includes for <math.h>, required by some compilers.
+
+2. Viewpanel and marker editor: A point- or region marker and its label will
+pop to the pad foreground when it is selected with left mouse button. Additionally,
+selection of a marker in the combo box of the editor will let it appear frontmost.
+
+3. Viewpanel: In superimpose mode selected histogram can be moved
+on the top of complete histogram stack via new menu command
+"Select/show histo on top".
+
+4. GUI commandline: added macro template "Scale X" (scalex.C) to
+scale x axis of 1D histogram with linear calibration function.
+
+5. Some Makefile and build script improvements
+
+6. Bugfix for changes in ROOT>v5.14 pad cleanup:
+Viewpanel with go4 markers on subpads crashed when closed or cleared.
+
+7. Bugfixes concerning 64 bit compatibility
+    (pointer arithmetics, avoid gcc builtin malloc())
+
+8. Adjustments to suppress gcc 4.1 warnings about casting
+pointers to dereferenced structure members
+
+
+Changes in Go4 v3.02.7 (Feb07)
+
+1. Fitpanel improvement: keep y-scaling when fitting on x
+subrange of histogram
+
+2. Autoscale checkbox as shortcut on top of each viewpanel
+
+
+
+Changes in Go4 v3.02.6 (Feb07)
+
+1. Due to changes in ROOT in many Go4 files includes like
+   "TROOT.h", "TMath.h", "TList.h" are missing.
+   Sometimes user should also include these files in user code.
+
+2. In latest ROOT TBuffer class becomes abstract, therefore one cannot
+   use it directly in the code. Instead, TBufferFile class should be used.
+   To support different ROOT version, TGo4Buffer definition was introduced.
+   For old ROOT versions, it is directly TBuffer, for newer - from TBufferFile.
+   TGo4Buffer.h file should be included only at the place, where new object is
+   created, for all other places TBuffer class should be used.
+
+3. Zoom toolbar: added buttons for scaling z-axis of 2d histograms.
+
+4. New icons for zoom toolbar and draw options toolbar.
+
+5. New additional draw options toolbar to select commonly used
+   drawing options by buttons (lin/log, line, histo, some 2d styles).
+   The new toolbar is displayed via the RMB options pull down menu.
+
+6. 1-d histogram drawing. Due to some features of ROOT histogram painter
+   several draw options (lin, barchart and others) not working after
+   TH1::SetSumw2() is called - in there Sumw2 array sum of squares of weights
+   is accumulated. Modification in Go4 code were done to
+   avoid Sumw2 arrays when it not necessary.
+
+7. Improvment in speed of view panel redraw (up to factor of 2).
+
+Changes in Go4 v3.02.5 (Dec06)
+
+1. Bugfix in Go4Socket library (missing include)
+because of changes in ROOT version 5.14-00
+
+2. Improvement in TGo4MbsFile for partial read of lmd file:
+Corrected mismatch between first event index and real event number
+(before: index=event number-1).
+
+3. New example macro scalex.C to scale x-axis of histogram with
+linear calibration function
+
+Changes in Go4 v3.02.4 (Oct06)
+
+1. Adjustment of Makefile because of changes in default
+libraries for ROOT >= 5.13/04(separated libSpectrum.so)
+
+2. Viewpanel draw options enhanced: support for TGraph draw modes and
+TGraphErrors error style. Reorganization of draw options for TH1/TH2.
+New draw options tool for line, marker, and fill colors of
+histograms and graphs.
+
+3. Viewpanel menu "Select" to chose active object from superimposed
+histograms and graphs.
+
+4. Settings menu: "Show event status" selectable as default
+pad option.
+
+5. Settings menu: "Statistics Box..." dialog to define default pad options
+for histogram statistics.
+
+6. TGo4Picture: new method AddSpecialObject() to add any ROOT graphical
+object (text labels, markers) to the picture
+
+7. TGo4MbsFile: now can also read listmode data of old event
+formats type 4,1 and 4,2.
+Event will be converted implicitely into format 10,1 for further processing:
+User unpack processor gets TGo4MbsEvent with one TGo4MbsSubevent that contains
+all event data.
+
+
+
+Changes in Go4 v3.02.3 (Sep06)
+
+1. Bugfix: Problems with viewpanel scaling functionality when build
+with gcc4.0.x compiler (FC5); fixed.
+
+2. GUI command interface TGo4AbstractInterface. Added methods:
+ - GetViewPanelName() - returns viewpanel name
+ - SetViewPanelName() - changes viewpanel name
+
+Changes in Go4 v3.02.2 (Sep06)
+
+1. GUI command interface TGo4AbstractInterface. Added methods:
+ - RedrawPanel() - updates viewpanel view
+ - RedrawItem() - updates all views of specified items
+ - FindViewPanel() - searchs for viewpanel of specified name
+ - GetActiveViewPanel() - returns currently active viewpanel
+
+2. Adjusted Go4ThreadManager package due to changes in
+TTimer copy constructor for ROOT versions > 5.12.00
+
+3. Some bugfixes concerning compilation against old
+ROOT versions 4.08
+
+
+
+Changes in Go4 v3.02.0 (July06)
+
+1. Analsis framework:
+TGo4EventElement now implements default method Fill() that
+calls virtual function TGo4EventSource::BuildEvent(). As a consequence,
+for a simple analysis the user only has to implement
+TXXXUnpackProc::BuildEvent(); there is no need to develop a
+user output event class. Even if output event structure shall be
+used, methods Fill() and Init() are not necessarily needed for
+a standard analysis. Go4ExampleSimple and Go4Example1Step
+were changed accordingly.
+
+2. Macro usage:
+Analysis sets define __GO4ANAMACRO__ on startup, to be used
+in any Go4 analysis script to check the current environment.
+In GUI, the define __GO4MACRO__ can be checked analogously.
+
+3. Parameter editor offers popup menu
+"GetFromFitPanel"  for embedded fitters to update fitter settings
+from the current fit editor. Useful for calibration parameters
+that should be fitted interactively to spectra
+(see Go4Example2Step).
+
+4. Bugfix: Access to RFIO root files from Go4 GUI browser was
+not possible (at gsi), since internal functions of libRFIO.so were
+shadowed by functions of gsi event lib with same names. Solved by
+separating Go4 event library package into different modules for
+analysis and gui task.
+
+5. Bugfix: Analysis server executed UserPostLoop() every time
+a gui client was disconnected. Disabled.
+
+6. Rebin in GUI. Now when histogram will be rebined via right-mouse
+menu or via ROOT graphical editor, rebining will be kept when histogram
+will be updated next time from analysis. Many viewews of the same histogram
+with different binning is possible. Binning also kept in hotstart file.
+TGo4Picture has new SetRebinX(), SetRebinY() methods to configure
+rebinning of displayed histogram.
+
+7. Condition Editor: New tab "Cut" for direct editing
+of polygon condition coordinates
+
+
+Changes in Go4 v3.01.2 (June06)
+
+1. Some adjustments of project files to build under SuSe Linux 10.1
+
+2. Start client dialog selects correct analysis directory when chosing the
+analysis executable
+
+3. All Go4 macros put into new subfolder $GO4SYS/macros. This
+directory should be added to entry Unix.*.Root.MacroPath
+in .rootrc setup file
+
+4. Bugfix: Several changes concerning the cleanup mechanism
+in GUI object manager
+
+5. Bugfix: AnalysisClient in CINT mode showed thread deadlock for ROOT
+versions> 5.02-00
+
+
+
+
+Changes in Go4 v3.01.0 (May06)
+
+1. New script command line widget for GUI:
+Allows execution of ROOT commands or macros within Go4 GUI task.
+Moreover, Go4 hotstart scripts may be invoked here at any time.
+The widget offers a file dialog to search for *.C and *.hotstart files.
+It also has a selector dialog of preloaded commodity functions
+for histogram manipulation (rebin, addition, projection, etc.). These function
+template calls may be completed with exisiting histogram names
+by dragging histogram items from the browser and dropping them on
+the empty command argument.
+The history of the command line may be saved to the current Go4
+settings file .go4/go4localrc and is then restored on next startup.
+
+2. New GUI command interface class TGo4AbstractInterface.
+It can be accessed by handle "go4->" in GUI command line. This makes
+it possible to interact with Go4 GUI views and browser objects in a
+ROOT/Go4 script. Additionally, all remote analysis control commands
+are available here, like in the hotstart scripts.
+Method reference of TGo4AbstractInterface is available in the Go4
+help viewer (type "help" in GUI command line, or use
+"Help/GUI commandline" menu of Go4 main window).
+Example scripts using this interface are at $GO4SYS/macros
+(definitions of the preloaded command line histogram functions)
+
+3. New general marker label settings dialog. In main window menu
+"Settings/Panel Defaults/Markel labels...", a checkbox dialog offers
+to switch all label properties of the region and point markers
+(visibility and information displayed in the label). These settings
+have effect on all new markers of the viewpanel marker editor. They are
+saved in the go4 preferences file .go4/go4localrc.
+
+4. New settings feature "Settings/Preferences/Fetch when saving".
+If enabled, the "save browser / save memory" button of the file
+toolbar will refresh all browser item objects from analysis before
+saving. Thus the ROOT file will contain a snapshot of all analysis
+objects. Otherwise, only the already fetched objects are saved.
+
+5. Zoom tools "set scale" dialog upgraded to non modal MDI widget.
+This will appear always on top of workspace widgets and refers to currently
+selected viewpanel pad. Changes include some bugfixes concerning the
+range settings of 2d histograms, and the autoscale property.
+
+6. FitPanel settings are saved/restored in go4 settings file
+
+7. Viewpanel superimpose mode improvements:
+   - is not changed anymore after superimposed draw of FitPanel results,
+   i.e. fitter data histogram can now be replaced just by  drag and drop on the viewpanel
+   - existing axis labels of first histogram are kept
+   - Bugfix: histogram title could not be switched off in superimpose mode
+
+8. Bugfix: crash when FitPanel histogram under work was replaced or deleted in viewpanel.
+
+9. Bugfix: Workaround for ROOT crash in histogram rebin editor:
+Selecting a histogram in viewpanel for rebin with the ROOT attributes
+editor lead to segmentation violation when original histogram
+was replaced or deleted.
+
+10. Bugfix: crash in Go4 markers/conditions when histogram in viewpanel was
+replaced by drag and drop.
+
+
+
+Changes in Go4 v3.00.2 (Mar06)
+
+1. Adjustments of includes due to changes in new ROOT version 5.10
+
+2. Bugfix: Update of histogram in gui failed when histogram dimensions
+(ranges) were changed in analysis
+
+
+Changes in Go4 v3.00.1 (Jan06)
+
+1. Mbs monitor tool: If monitoring on, calculation of rates now
+done in Go4, averaged over update time. Parameters of mbs monitor
+are stored in Go4 settings file.
+
+2. Position and size of histogram statistic label may now be saved
+in Go4 picture objects. Thus these properties
+can be restored on Go4 hotstart.
+
+3. TGo4Interface: new method ExecuteLine to remotely do CINT call
+from Go4 master process in the remote slave process
+
+4. Bugfix in viewpanel: crash on closing last non-minimized window
+
+5. Bugfix in fitter: problem with empty TGraph as data source
+
+6. Fit GUI: Enhanced draw styles for TGraph
+
+7. Improvements in make files
+
+
+
+
+
+Changes in Go4 v3.00.0 (Nov05)
+
+1. Redesign of the GUI with new internal object manager. Decoupling of
+controlling functionality from the  Qt graphics layer. Effects many
+of the following features.
+
+2. New Go4 browser. Instead of several tabs for remote analysis,
+local memory, monitoring list, now one browser with subbranches for
+different data sources, such as remote analysis, histogram servers,
+root files,  is used. Supports local memory workspace folder with
+copy and paste by drag and drop, clipboard, and renaming.
+All controls available via rightmouse button context menu.
+Switchable columns for object properties. Filter for monitored,
+fetched, and all objects.
+
+3. New viewpanel.  Improved marker editor with lightweight condition
+editor. Additional options to display date and time of refresh, and
+full object path. Can display same object with different draw styles
+and ranges simultaneuously.  May store current setup as Go4 picture.
+
+
+4. New condition editor: More compact layout, shares functionality
+with viewpanel marker editor.
+
+5. Improved parameter editor: May display user parameter structure
+without loading the user analysis library into the GUI. Suppresses
+display of unknown components.
+
+6. New dynamic list editor: More compact layout. Automatic resolving
+of event name and data member name when dragging and dropping from
+analysis event structure, in case of pointer entry.
+Dito for tree name and draw expression in case of tree entry.
+
+7. New dockwindow for analysis terminal. If analysis is started
+in external shell, functionality of analysis output window
+(macro execution, etc.) shrinks to dockwindow.
+
+8. Improved dialogs for analysis startup and connection.
+
+9. Decoupling of libraries from GUI. GUI does not require all
+analysis libraries anymore due to changes in command pattern and
+dependency rearrangements. Will speed up GUI startup time and
+may reduce memory consumption.
+
+10. Status monitor for remote MBS node. New dockwindow offering
+connection to the mbs status port. Frequently update of daq rates
+and status possible. Trending histograms in browser workspace.
+Full printout of mbs status and setup structures possible.
+
+11. Go4 analysis status bar improved. Animated Go4 logo shows true
+running state of analysis, independent of current event rate.
+Current event source of first active step displayed per name in
+text field.
+
+12. Remote control of Go4 analysis from regular ROOT session.
+Command interface to connect and control analysis process from CINT.
+Inspecting and retrieving Go4 objects with extended root TBrowser
+possible.
+
+13. Optional release package for MsWindowsXP (without Qt graphics).
+Required minor modifications in Go4 threadmanager for correct
+canceling of win threads.
+
+
+
+Changes in Go4 v2.10.0 (Jun05)
+
+1. Go4TaskHandler redesign: Decouple client and server tasks from
+master and slave role. This implies that analysis can run in the
+network both asserver or client task (as in previous Go4 versions).
+Vice versa, gui can run either as client or as server  (previous
+behavior). Additionally, TGo4AnalysisClient class now inherits
+TGo4Slave (previously TGo4ClientTask), and TGo4Display inherits
+TGo4Master (previously TGo4ServerTask).  One analysis server can be
+connected by many Go4 GUIs (one controller/administrator GUI,
+and several observer GUIs).
+
+2. Go4TaskHandler redesign: Password for login of master client to
+slave server with accounts for administrator, controller, and
+observer roles. Additionally, some Go4 commands are forbidden
+if master is logged in with a low priority account (observer e.g.
+may not reconfigure analysis, but only request objects for display).
+Default passwords may be changed in MainUserAnalysis code.
+
+3. Go4GUI prepared to run with analysis server:  Command go4 -client
+will start the GUI master task in client mode. In this case,
+the Launch analysis dialogue requests for login account, password,
+node and connection port of the analysis server. Moreover, a client
+GUI may first launch a new analysis server in an xterm and connect
+to it afterwards.
+
+4. Example of analysis server in package Go4Example2Step:
+MainUserAnalysis may be started from command line with option
+-server as third argument (first arguments like batch),
+thus starting the analysis as server. Processing starts immediately
+(no submit from GUI necessary). Command line parameters of this
+example will set additional boolean arguments (servermode, autorun)
+of  TGo4AnalysisClient constructor appropriately.
+
+5. ROOT macro execution with Go4 analysis server: A Go4 environment
+and analysis server can be started from any ROOT session in the
+background (.x go4Init.C). Go4 GUIs may connect to this server and
+request data from running analysis macros, or control macro via
+Start/Stop buttons. New methods TGo4Analysis::WaitForStart() to
+poll for the Go4 environment running state, and
+TGo4Analysis::Process() to invoke the Go4 analysis loop explicitely
+from ROOT macro (checks also for STOP). Example macros hsimple.C,
+hsimplego4.C and treedrawgo4.C
+
+6. Analysis: UserPreLoop() and UserPostLoop() are only executed
+once when analysis running state is changing. In previous versions,
+each press on Start, or Stop button, respectively, would execute
+the corresponding method another time. Bugfix: postloop was called
+twice if analysis client was terminated in running state.
+
+7. Bugfix: MbsAPI/f_evt.c (close of streamserver).
+
+8. Bugfix: Labels for conditions and markers were not drawn
+correctly in logscale anymore for ROOT v>4.03/02.
+
+9. Bugfix: Monitoring list reset after disconnect. Monitoring
+entries were sometimes deactivated after reconnecting analysis.
+
+10. Fixed several small memory leaks.
+
+
+
+New features in Go4 v2.9.1 (Apr05)
+
+1 . Bugfix: Adjusted reallocation behaviour in TGo4Socket and
+TGo4Buffer to changed definition of TBuffer::kIsOwner flag for
+ROOT versions>4.03/02
+
+2. Fixed several small memory leaks.
+
+
+
+New features in Go4 v2.9 (Feb05)
+
+1. Keyboard shortcuts for many functions.
+
+2. Settings for Go4 GUI are now saved in the current directory by
+default in $PWD/.go4/go4localrc and $PWD/.go4/go4toolsrc,
+respectively. So different settings for the same login account
+are possible now. If the current directory does not contain a Go4
+settings file on Go4 GUI startup, it will be created using the
+global account preferences at $HOME/.qt. Settings behavior can
+be changed using environment variable GO4SETTINGS. If this is
+set, the GUI  preferences are used from directory
+$GO4SETTINGS. If GO4SETTINGS contains keyword ACCOUNT, the Go4
+settings at $HOME/.qt are used (like in previous Go4 versions).
+
+3. New context sensitive menus (right mouse button popup) for
+all GUI browsers.
+
+4. Root object editor TGedEditor will show up in view panel side
+frame instead of top-level X-window. To implement this, the Go4
+QtRoot interface has a new widget TQRootWindow which embeds a
+root TGCompositeFrame into a QWidget.
+
+5. Superimposed drawn histograms, THStack objects and TMultiGraph
+will show a TLegend box in view panel. The legend box can be
+switched on or off by view panel menu.
+
+6. View panel marker editor: Added polygon shaped regions (TCutG).
+
+7. File browser: Added "Open remote file" functionality to read
+objects from TNetFile/XRootd (root:), TWebFile (http:),
+and tape library (rfio:).
+
+8. Analysis browser: Objects may be protected against Clear()
+(histogram reset to 0), and against deletion in the analysis.
+Browser shows protection state in 3rd column as "C" and "D"
+symbols, respectively. Objects created from analysis code are
+always protected against deletion, objects created from GUI may
+be deleted from GUI again. Protection against clear may be
+changed using the browser's right mouse button menu.
+The protection state is persistent in the auto save file.
+
+9. Analysis: Histograms associated with Go4 picture objects will
+not appear anymore in the analysis Pictures folder, but only in
+the Histograms folder.
+
+10. Analysis macro: New analysis macro MainUserAnalysisMacro.C
+in directory Go4ExampleSimple. It needs a .rootmap file for
+automatically loading all necessary libraries.This file is
+created by the new files Makefile and Module.mk from the example.
+One can copy both files from the example, or modify existing
+files if they contain application specific changes. Look for map-
+expressions!
+
+11. New Method TGo4Analysis::Print() to print the current setup
+of the analysis and the steps.
+
+12. Multiple input file (metafile) for TGo4MbsFile may contain
+lines with CINT commands preceded by an "@" character. Commands,
+e.g. root macro execution like ".x setup.C", are performed in
+between change of event source.
+
+13. Metafiles should have suffix .lml. Then they are recognized
+without@. The main programs in the examples have been modified
+not to add a .lmd to a .lml file name (update your main program
+accordingly!).
+
+14. TGo4FileSource: Partial IO functionality - name of the input
+event defines name of the tree branch to be read. Additionally,
+improved read performance for full event.
+
+15. New Example Go4ExampleMesh to show how to setup an analysis
+with non-subsequent analysis steps. May use partial input from
+tree branch.
+
+16. Reorganisation of Go4 make files and installation.
+Reduced number of Go4 libraries. Removed unnecessary root
+dictionary information from libraries. Go4 may be installed
+without libASImage.so if this is not supported on the system.
+
+17. Implemented .rootmap mechanism to auto-load required Go4
+libraries in macros.
+
+18. Bugfix: Preview panel options menu apply to all did not work
+for histogram statistics property.
+
+19. Bugfix: Double click in Go4 GUI browsers was not always
+working, because of conflict with drag and drop mode.
+
+20. Bugfix: When Submit was called without stopping the analysis
+before, references set in UserPreLoop() were not
+updated. Now UserPreLoop() is called also in this case. Additionally,
+UserPostLoop() is not called when analysis stops after initialization has failed.
+
+21. Bug fixes: A set of use cases has been set up to test the GUI
+functionality. Several bugs have been found and fixed
+performing these use cases. The test procedure has improved the
+stability of the GUI. It will be extended and used for all
+future Go4 updates.
+
+
+New features in Go4 v2.8 (Sep04)
+
+1.  Marker editor in view panel allows for marking
+    channels or windows.  Labels and arrows can be created. All
+    marker elements can be saved/restored.
+
+2.  New ROOT graphical editor can be called from view panel.
+    The editor dynamically adjusts to the graphical object
+    selected by LMB.
+
+3.  Viewpanel window title: can optionally be set by user and
+    may be kept constant. If a TGo4Picture is displayed, the
+    picture name defines the viewpanel title.
+
+4.  Condition editor: the cursor mode has been removed because the
+    functionality is now provided by the markers
+
+5.  Condition, markers and labels: Implemented correct root
+    streamer (bugfix), i.e. saving and loading these objects
+    in root files is possible with fully recovered functionality
+    and graphical properties. Support of pad display in
+    lin/log scale (bugfix). Additional controls in RMB menu
+    root (set ranges, location, save default properties,
+    reset). Default label setup stored with go4 GUI settings.
+
+6.  Polygon condition: Implemented statistics functions for
+    work histogram under the cut (integral, mean, rms, etc.).
+    Enabled "InsertPoint/RemovePoint" function in RMB menu (bugfix).
+
+7.  Fit GUI: Selection between sigma and FWHM (default) by
+    Settings->Recalculate gauss width. Fit results may be
+    printed to terminal or Go4 logfile output.
+
+8.  1D drawing: ROOT "L" (line) "C" (curve) "B" (bar chart)
+    "P0" (poly-marker) line styles supported.
+
+9.  Histograms: re-binning, projections, and profiles
+    supported (standard ROOT methods with RMB). Automatic
+    "synchronize with memory" on pad click to get newly
+    created histograms.
+
+10. Histogram client: monitoring implemented (auto-update).
+    Drag and drop support. Display error message when server
+    connection is not available (bugfix). Store server
+    specification in Go4 settings.
+
+11. File store: Storing objects into a ROOT file a title is
+    prompted. This title can be seen in the Go4 browser and
+    the ROOT browser.
+
+12. UserObjects folder: With AddObject(...) histograms,
+    parameters and conditions can be put into folders of the
+    UserObjects folder. They can be located there by the
+    standard Get methods, e.g. GetHistogram. Editors work also
+    with objects in these folders. Note: object names must
+    be unique!
+
+13. Log window: Empty messages are now suppressed (bug fix).
+
+14. QtROOT interface: bug fix concerning initialization
+    order of X11 system (ROOT init now before Qt init).
+    Lead to crash of the main gui on newer linux systems
+    when using Qt versions > 3.1 (FEDORA2, SuSe9.1)
+
+15. Thread manager: bug fix: adjusted default exception
+    handling to work with newer libpthread.so that uses
+    one process for all threads (e.g. FEDORA2). This lead
+    to a crash when go4 threads were canceled
+    (shutdown of the go4 GUI).
+
+16. Analysis Framework: bug fix: analysis without analysis
+    step (UserEventFunc only) again possible.
+
+17. Client startup script: full PATH and LD_LIBRARY_PATH
+    of the Go4 GUI environment is passed to the
+    analysis process.
+
+
+New features in Go4 v2.7
+
+1. Keyboard shortcuts ("Alt-1" to "Alt-5") to select browser tabs
+   (disk, monitor, remote, memory, histogram client).
+   Items are selectable with arrow keys (left-right to unfold and
+   shrink subfolders). Return key acts as doubleclick.
+
+2. MbsEvent classes improvements: Method to check TGo4MbsSuvevent if
+   it was filled in the previous mbsevent build. MbsEvent iterator
+   NextSubEvent() by default delivers newly filled subevents only,
+   suppressing exisiting subevents in list of non used ids.
+   Subevent data field re-uses the memory allocated by libgsievent
+   instead of copying it to own buffers.
+   New method SetPrintEvent to set verbose mode for the next n events.
+   Format changes in TGo4MbsEvent::PrintEvent().
+
+3. Performance improvements of analysis framework in step manager,
+   dynamic list and mbsevent
+
+4. New EventInfo toolwindow to control printout of an event sample in
+   remote or local terminal. Optionally the user implemented PrintEvent
+   method, or the root TTree::Show output may be used. May control the
+   arguments of TGo4MbsEvent::SetPrintEvent(). Supports drag and drop
+   for event names from remote browser.
+
+5. Scale values dialog window extended by zmin and zmax fields.
+   Allows setting minimum and maximum thresholds for channel contents of
+   2d histograms when autoscale is off.
+
+6. Display total memory consumption of histograms and conditions at the
+   end of PrintHistograms() and PrintConditions() execution, respectively.
+
+7. TCanvas support in disk browser improved: Histograms saved inside
+   a TCanvas in a root file will appear in memory browser whenever
+   this canvas is displayed
+
+8. Analysis Terminal window: Limitation of text history buffer to 100kb
+   by default, may be changed in settings menu. Disabled textwrapping
+   in output for scrollbars.
+
+9. Bugfix: Doubleclick on histogram in divided viewpanel did pop up
+   this histogram magnified in a new viewpanel, but did not initialize
+   viewpanel colors and crosshair settings correctly.
+
+New features in Go4 v2.6.1 (consolidation release):
+
+1. Conservation of TLateX textfields when changing draw
+   style/histogram statistics
+
+2. Disk browser open file dialog allows multiple file selection
+
+3. Superimpose of histograms with same name from different files
+   possible if overwrite mode is deselected in memory browser.
+   Histograms will be copied to memory browser with cycle numbers
+   added to names.
+
+4. Superimpose THStack does not crash anymore when deleting histograms
+
+5. Bugfix: Crash after closing and re-opening viewpanel for same
+   histogram with different subpad divisions
+
+6. Bugfix: Analysis did stop when an analysis step without
+   event processor is disabled
+
+7. Browser items (disk, monitor, remote, memory) selectable with
+   keyboard (after mousefocus or tab), return acts as doubleclick
+
+8. Bugfix: histogram bound to condition was not fetched from analysis
+   when doubleclicking on remote condition icon
+
+
+New features in Go4 v2.6:
+
+1. New Go4 Hotstart: The current setup of the gui (analysis name and
+   settings, viewpanel geometry, objects in memory and monitor browser,
+   displayed objects in pads) may be saved to a hotstart script file
+   (postfix ".hotstart") from the "Settings->Generate hotstart" menu.
+   The script name may be passed as argument on next go4 gui
+   startup (e.g. "go4 mysetup"), which will launch the analysis and
+   restore the settings (e.g. from file "mysetup.hotstart").
+
+2. New class TGo4ExportManager transforms and saves root objects
+   into other formats. Currently supported: plain ASCII (*.hdat, *.gdat)
+   and Radware/gf3 (*.spe). An export filter is available in the gui
+   memory browser to save selected objects.
+
+3. Example macro Go4Example2Step/convertfile.C converts all
+   histograms and graphs from root file into ascii files, conserving
+   the subfolder hierarchy.
+
+4. New TGo4StepFactory class can be used as standard step factory
+   to simplify the setup of analysis steps for small analyses.
+   New example package Go4Example1Step shows the usage.
+
+5. The TGo4Analysis class can now be used as standard analysis class.
+   New example package Go4ExampleSimple shows the usage.
+
+6. New viewpanel has size of previously active viewpanel.
+   Default viewpanel starting size is stored in settings and recovered
+   on next go4 startup.
+
+7. Viewpanel: Switch on/off histogram title display in options menu.
+
+8. Viewpanel: Switch on/off crosshair for each pad in options menu.
+   Default crosshair mode can be selected in main window settings menu
+   and is saved/restored by go4 settings. Crosshair mode button in
+   condition editor has been removed.
+
+9. Viewpanel: Default background  color can be selected in main window
+   settings menu and is saved/restored by go4 settings.
+
+10.New draw option TASImage for 2 dim histograms in Go4GUI.
+   May improve rendering speed  for large maps when updating and
+   resizing the canvas. Offers own palette editor in right mouse button
+   popup menu.
+
+11.Parameter editor: Added column to display the sourcecode
+   comments for each parameter class member as description.
+
+12.Condition editor: General editor has button to create a new
+   condition. New condition is defined in a dialog window and is put
+   into general editor. May be send to analysis for registration, or
+   saved into a file then. All types of new conditions
+   (window, polygon, array of these with variable size) are supported.
+
+13.Histogram and Condition info windows: Object size now takes
+   into account real data size on heap.
+
+14.New analysis toolbar button for "re-submit and start" shortcut.
+   Useful when file shall be re-read from the beginning after changing
+   something in the setup.
+
+15.Autosave may be disabled completely from analysis configuration gui.
+
+16.New mode for TGo4MbsFile (*.lmd) wildcard/metafile input: Auto-save file
+   may change its name whenever input file is changed. Name is automatically
+   derived from input filename. Old behaviour (one auto-save summing up
+   all inputs) is still possible. This can be switched with method
+   TGo4Analysis::SetAutoSaveFileChange(bool ).
+
+17.End of .lmd file input gives informational message instead of
+   error message.
+
+18.Bugfix: avoid log-file crash when go4 is started in directory without
+   write access.
+
+19.Some adjustements to work with ROOT versions > 4.00 in Go4Fit and
+   qtroot packages
+
+New features in Go4 v2.5.5 (intermediate installation):
+
+1. TCanvas objects in analysis task may be send and
+   displayed on GUI. Works both for memory and monitoring list.
+
+2. Support of TMultigraph objects in analysis and gui (display,
+   memory and monitoring list update).
+
+3. Bugfix in Go4 Mainwindow exit dialog. Exit via window "x" icon
+   works properly now, too.
+
+4. Redesign of Go4 Auto-save mechanism. Subfolders are mapped as
+   TDirectories in TFile now, thus improving performance for large
+   number of objects. Auto-save file is closed after each write,
+   avoiding invalid file states in case of analysis crash.
+   Dynamic list entries are saved as independent objects.
+
+5. Object editors (condition, parameter, dynamic list) may save
+   and load objects from/to root files.
+
+6. Support of dynamic list entries in disk browser: Editor opens
+   on double click.
+
+7. Status messages of object editors appear in bottom status line of
+   go4 main window.
+
+New features in Go4 v2.5
+
+1. Histograms may be bound to conditions by method
+   TGo4Conditions::SetHistogram(). The bound histogram
+   will be fetched automatically in GUI whenever condition is edited.
+
+2. TGo4Picture can contain conditions together with histogram objects.
+
+3. General condition editor in addition to the condition specific
+   editors. Supports drag and drop of condition icons and conditions
+   linked to TGo4Pictures.
+
+4. Warning label for unsaved changes in condition editor, and in dynamic
+   list editor.
+
+5. Condition editor cursor tab can make copies of the current cursor
+   marker. For printouts with multiple markers.
+
+6. Analysis log window in GUI displays date and time of last refresh.
+
+7. New histogram status window, and condition status window in GUI.
+
+8. Redesign of GUI object management: Added drag and drop support of
+   TGraph, TGo4Picture from all browsers. Bugfix and improvements in
+   histogram superimpose mode.
+
+9. Monitoring list supports TGraph, TGo4Picture, and THStack.
+
+10.Logfile mechanism for GUI actions. Log output configurable in
+   Settings menu. Logging output on demand from condition editor,
+   histogram and condition status windows.
+
+11.View panel can turn on or off histogram statistics box.
+
+12.View panel supports fix/auto scale modes for TH1, THStack, and TGraph
+   objects.
+
+13.View panel resize speed improved (redraw only at the end of resize
+   action). View panel does not start in full screen mode anymore.
+
+14.Analysis terminal: New buttons for clearing the terminal,
+   PrintHistograms, PrintConditions. Command line has shortcut "@" for
+   "TGo4Analysis::Instance()->". "KillAnalysis" button buffered with
+   confirmation dialog window.
+
+15."Quit Go4" button buffered with confirmation dialog window.
+
+16.Dynamic list editor can change the global dynamic list interval for
+   analysis.
+
+17.Reorganisation of GUI icons.
+
+18.Performance improvements in TTimers of Go4 kernel: Removed TurnOn/Off
+   statements.
+
+19.New method TGo4Analysis::NextMatchingObject() for search in
+   analysis objects with wildcard expression.
+
+20.Analysis: PrintHistograms(), PrintConditions() supports wildcard
+   expressions for output list selection.
+
+21.New methods: TGo4Analysis::StoreParameter, StoreCondition,
+   StoreFitter, StoreFolder to write these objects into event store of
+   an analysis step. Event number will be appended to object keys for
+   parameter logging.
+
+22.Consistency checks of analysis steps can be disabled by new method
+   TGo4Analysis::SetStepChecking(bool). For setting up of non serial type
+   analysis steps with own user management.
+
+23.TGo4MBSEvent::PrintEvent() extended to display headers and also data
+   field contents of subevents.
+
+24.New methods: TGo4MbsEvent::GetMbsBufferHeader(),
+   TGo4MbsSource::GetBufferHeader() to access the buffer headers of
+   list mode files. Implemented example in Go4Example2Step.
+
+25.Go4 GSI histogram server also exports TGraph objects as histograms
+   (if possible).
+
+26.Implementation of TGo4Condition::Paint() to display go4 conditions
+   in regular root environment. Conditions may be drawn on TPad which
+   already contains a histogram. New classes for condition painters and
+   condition views.
+
+27.Reorganisation of the distribution Makefiles.
+
+
+New features in Go4 v2.4:
+1. New Package Go4Log to handle all messages and logfile.
+   This replaces the old package Go4Trace. Static method
+   TGo4Log::Message(char*, ...) can be called everywhere to
+   display text on terminal and optionally write to logfile.
+   Modified go4 message prompt.
+2. Header information of mbs listmode data files accessible
+   by new methods s_filhe* TGo4MbsSource::GetInfoHeader()
+   and s_filhe* TGo4MbsEvent::GetMbsSourceHeader()
+3. Eventsource TGo4MbsRandom to deliver random spectra into
+   mbs events without connection to mbs node or reading
+   listmode file. Matches event structure of standard example
+   Go4Example2Step.
+4. TGo4Picture objects can be used in the monitoring list.
+5. Changes in Analysis configuration window:
+   Number of events, start/stop/skip events may be specified;
+   tagfile name and optional socket timeout.
+   Filebrowser for eventsource files. Autosave interval now
+   re-fers to time (seconds) instead number of events.
+   Modified layout.
+6. Dynamic list editor with button to PrintAll dynamic list
+   entries on analysis terminal.
+7. Improved postscript print dialog in Viewpanel menu.
+8. Histogram client API supports conversion into Radware format.
+9. Go4 histogram server supports float histograms. 
+10.Execution of ROOT interpreter commands / macros in the
+   analysis task possible by command line in analysis
+   terminal window.
+11.Re-design of condition editor: 
+   a. Display all conditions of array in different colors
+      or hide them optionally. Visibility in editor is
+      property of TGo4Condition and stored in autosave file.
+   b. Working viewpanel pad and reference histogram of
+      condition may be changed at any time.
+   c. Clear counters button applies clearing to analysis
+      condition immediately and refreshes editor from
+      analysis.
+   d. Statistics inside window condition limits
+      (integral, maximum, mean, rms, etc) are calculated;
+      these values are displayed in editor and may be
+      drawn in labels on working pad. Methods to calculate
+      statistical quantities belong to TGo4WindowCondition
+      class and may be used in analysis, too.
+   e. Cursor panel with crosshair mode and optional marker
+      to pick values from displayed histogram.
+      Cursor may be set by mouse click, by moving the
+      graphical marker object, or by defining cursor
+      position in the text fields. Cursor values may be
+      drawn in label on working pad
+   f. Extension of polygon condition/TCutG is calculated
+      and shown like the borders of the window condition.
+   g. Improved creation of new TCutG functionality.
+      Assignment to current polygon condition may be
+      canceled. Handles pads with multiple TCutGs.
+12.Added class TXXCalibPar to Go4Example2Step.
+   Shows a procedure how to calibrate spectra using the
+   Go4 fitter in connection with the parameter mechanism
+   and an ascii file database of line energies.  
+
+13.Make full screen default for new viewpanels.
+
+14.When updating objects in memory folder, a redraw is done
+   automatically. Keyboard shortcut "Alt r" for refresh of
+   local objects from analysis.
+
+15. When monitor updates a Viewpanel, the pads are updated
+   without blocking the GUI (not yet for picture).
+
+16. Button besides zoom buttons to enter display limits by values.
+
+17. Drag pictures from analysis pad to viewpanel possible.
+
+18. Some buttons/icons on the browser pads have been rearranged.
+   On memory browser pad the icons for
+   "update local objects" and "synchronize with directory"
+   have been exchanged to be consistent with analysis pad.
+
+New features in Go4 v2.3:
+1. TGraph objects can be registered and displayed correctly.
+   Reset of TGraph (clear all points) by "eraser" button
+   from gui possible.
+2. Reset/clear complete folders by selecting them in
+   remote browser and eraser button. New method
+   ClearObjects("Histograms")  to reset all objects of
+   named folder, e.g. all histograms at once.
+3. Print button to printout histogram and condition lists
+   with statistics in analysis terminal. These buttons
+   are located in the dynamic list editor.
+4. Parameter classes may contain TGo4Fitter* references
+   or arrays of these. Fit gui can be used to edit fitter
+   from within parameter editor. Framework provides new
+   class TGo4FitterEnvelope as example parameter.
+   Example put into TXXXAnalysis.
+5. User defined event source is possible. New class
+   TGo4UserSourceParameter to be checked in analysis step
+   factory for any kind of input. Example package
+   Go4ExampleUserSource shows usage.
+6. New class TGo4Picture to define layout of canvas with
+   histograms. Pictures are registered in Go4 Pictures
+   folder and stored in autosave file like histograms;
+   they can be displayed in any viewpanel. Example added
+   in TXXXAnalysis.
+7. Possibility to register complete TCanvas objects in Go4
+   Canvases folder to be saved within autosave file.
+   Switch TGo4Analysis into ROOT batchmode to suppress
+   drawing actions in analysis client while canvas is
+   set up.
+8. Go4 GUI can display and compare objects from different
+   files in the same view panel now.
+
+
+New features in Go4 v2.2:
+1. Possibility to select rsh or ssh and analysis output in
+   Xterm or GUI window.
+2. Wildcard in input lmd file names.
+3. Input file name beginning with @ is interpreted as text
+   file containing lmd file names.
+4. An autosave file can be written on demand
+   (button in configuration menu).
+5. Parameter editor. User parameter objects
+   (subclasses of TGo4Parameter) registered in the
+   analysis can be edited in the GUI by double click in
+   the browser. Currently supported members are the
+   primary data types and arrays of these.
+6. New environment variable GO4USERLIBRARY can be set to
+   a colon separated list of ROOT user libraries which
+   are loaded automatically in the GUI. This is needed
+   for editing parameter objects.
+7. Dynamic lists. A dynamic list editor can be used to
+   create/specify dynamic entries. A dynamic entry consists
+   of a histogram (can be created new) and a member of
+   an event object which shall be histogrammed.
+   Optionally a condition can be added. The condition also
+   can be created new. The event structure is expanded
+   in the browser. Drag&drop is provided to select members.
+8. The condition editor has been improved. Arrays are now
+   handled properly. TCutGs for polygon conditions can be
+   created new.
+9. TGraph objects are supported like histograms.
+10.In the Go4 view panel, the ROOT "event status"
+   (cursor position) can be displayed.
+11.The new fit GUI is available. It includes three
+   different peak finders, a simple fitter, a wizard, and
+   full access to all fitter components. Fitters can be
+   stored/retrieved to/from files or memory.
+12.User Makefile: the user executable need to be linked
+   against the makefile variable $(GO4LIBS) only,
+   as defined in the Makefile.config of the framework
+   (see Makefile of example Go4Example2Step).
+
+________________________________________________________________________
+

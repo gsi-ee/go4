@@ -1,0 +1,134 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>QFitOutputActionWidget</class>
+<widget class="QFitNamedWidget">
+    <property name="name">
+        <cstring>QFitOutputActionWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>QFitOutputActionWidget</string>
+    </property>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>110</y>
+                <width>85</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Command:</string>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel3</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>150</y>
+                <width>85</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Options:</string>
+        </property>
+    </widget>
+    <widget class="QGo4LineEdit">
+        <property name="name">
+            <cstring>OptionsEdit</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>110</x>
+                <y>150</y>
+                <width>250</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QComboBox">
+        <item>
+            <property name="text">
+                <string>Print</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Print("Pars")</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Print("Ampls")</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Print("Results")</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Draw</string>
+            </property>
+        </item>
+        <property name="name">
+            <cstring>CommandCombo</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>110</x>
+                <y>110</y>
+                <width>170</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>OptionsEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitOutputActionWidget</receiver>
+        <slot>OptionsEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>CommandCombo</sender>
+        <signal>activated(int)</signal>
+        <receiver>QFitOutputActionWidget</receiver>
+        <slot>CommandCombo_activated(int)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QFitNamedWidget.h</include>
+    <include location="local" impldecl="in implementation">QGo4LineEdit.h</include>
+    <include location="local" impldecl="in implementation">QFitItem.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitterOutput.h</include>
+    <include location="local" impldecl="in implementation">QFitOutputActionWidget.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4FitterOutput</forward>
+</forwards>
+<slots>
+    <slot returnType="TGo4FitterOutput *">GetOutAct()</slot>
+    <slot>FillSpecificData()</slot>
+    <slot>OptionsEdit_textChanged( const QString &amp; str )</slot>
+    <slot>CommandCombo_activated( int )</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

@@ -1,0 +1,71 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>QFitMatrixTransWidget</class>
+<widget class="QFitNamedWidget">
+    <property name="name">
+        <cstring>QFitMatrixTransWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>QFitMatrixTransWidget</string>
+    </property>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>textLabel1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>110</y>
+                <width>120</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Number of axis</string>
+        </property>
+    </widget>
+    <widget class="QSpinBox">
+        <property name="name">
+            <cstring>NumAxisSpin</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>150</x>
+                <y>110</y>
+                <width>55</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>NumAxisSpin</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>QFitMatrixTransWidget</receiver>
+        <slot>NumAxisSpin_valueChanged(int)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QFitNamedWidget.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitMatrixTrans.h</include>
+    <include location="local" impldecl="in implementation">QFitMatrixTransWidget.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4FitMatrixTrans</forward>
+</forwards>
+<slots>
+    <slot returnType="TGo4FitMatrixTrans *">GetMatrixTrans()</slot>
+    <slot>FillSpecificData()</slot>
+    <slot>NumAxisSpin_valueChanged( int )</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

@@ -1,0 +1,452 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>QFitPeakFinderWidget</class>
+<widget class="QFitNamedWidget">
+    <property name="name">
+        <cstring>QFitPeakFinderWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>340</width>
+            <height>347</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Peak finder</string>
+    </property>
+    <widget class="QGo4LineEdit">
+        <property name="name">
+            <cstring>DataNameEdt</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>80</x>
+                <y>110</y>
+                <width>108</width>
+                <height>22</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QCheckBox">
+        <property name="name">
+            <cstring>ClearModelsChk</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>220</x>
+                <y>110</y>
+                <width>150</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>clear models</string>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>textLabel1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>110</y>
+                <width>70</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="frameShape">
+            <enum>NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+            <enum>Plain</enum>
+        </property>
+        <property name="text">
+            <string>Data name</string>
+        </property>
+    </widget>
+    <widget class="QSpinBox">
+        <property name="name">
+            <cstring>PolynSpin</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>217</x>
+                <y>140</y>
+                <width>90</width>
+                <height>22</height>
+            </rect>
+        </property>
+        <property name="maxValue">
+            <number>9</number>
+        </property>
+    </widget>
+    <widget class="QCheckBox">
+        <property name="name">
+            <cstring>UsePolynChk</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>143</y>
+                <width>141</width>
+                <height>19</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>use polynom of order</string>
+        </property>
+    </widget>
+    <widget class="QTabWidget">
+        <property name="name">
+            <cstring>FindersTab</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>170</y>
+                <width>310</width>
+                <height>160</height>
+            </rect>
+        </property>
+        <widget class="QWidget">
+            <property name="name">
+                <cstring>tab</cstring>
+            </property>
+            <attribute name="title">
+                <string>Variant 1</string>
+            </attribute>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel6</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>70</y>
+                        <width>90</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Minimum width</string>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>TextLabel7</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>120</x>
+                        <y>70</y>
+                        <width>100</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Maximum width</string>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>PF_AmplLbl</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>10</y>
+                        <width>90</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Threshold</string>
+                </property>
+            </widget>
+            <widget class="QGo4LineEdit">
+                <property name="name">
+                    <cstring>ThresholdEdt</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>30</y>
+                        <width>80</width>
+                        <height>27</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>4</string>
+                </property>
+            </widget>
+            <widget class="QGo4LineEdit">
+                <property name="name">
+                    <cstring>MinWidthEdt</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>90</y>
+                        <width>80</width>
+                        <height>27</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>4</string>
+                </property>
+            </widget>
+            <widget class="QGo4LineEdit">
+                <property name="name">
+                    <cstring>MaxWidthEdt</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>120</x>
+                        <y>90</y>
+                        <width>80</width>
+                        <height>27</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>30</string>
+                </property>
+            </widget>
+        </widget>
+        <widget class="QWidget">
+            <property name="name">
+                <cstring>tab</cstring>
+            </property>
+            <attribute name="title">
+                <string>ROOT (2)</string>
+            </attribute>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>Wiz_PFROOTLbl</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>10</y>
+                        <width>110</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Line(s) width</string>
+                </property>
+            </widget>
+            <widget class="QGo4LineEdit">
+                <property name="name">
+                    <cstring>WidthEdit</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>30</y>
+                        <width>100</width>
+                        <height>27</height>
+                    </rect>
+                </property>
+            </widget>
+        </widget>
+        <widget class="QWidget">
+            <property name="name">
+                <cstring>tab</cstring>
+            </property>
+            <attribute name="title">
+                <string>Variant 3</string>
+            </attribute>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>PF_RelNoiseLbl</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>10</y>
+                        <width>110</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Relative noise</string>
+                </property>
+            </widget>
+            <widget class="QLineEdit">
+                <property name="name">
+                    <cstring>NoiseFactorEdit</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>30</y>
+                        <width>100</width>
+                        <height>27</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>textLabel2</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>150</x>
+                        <y>10</y>
+                        <width>90</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Minimal noise</string>
+                </property>
+            </widget>
+            <widget class="QLineEdit">
+                <property name="name">
+                    <cstring>NoiseMinEdit</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>150</x>
+                        <y>30</y>
+                        <width>100</width>
+                        <height>27</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QLabel">
+                <property name="name">
+                    <cstring>textLabel4</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>70</y>
+                        <width>91</width>
+                        <height>20</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Channel sumup</string>
+                </property>
+            </widget>
+            <widget class="QSpinBox">
+                <property name="name">
+                    <cstring>SumUpSpin</cstring>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>90</y>
+                        <width>90</width>
+                        <height>27</height>
+                    </rect>
+                </property>
+            </widget>
+        </widget>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>DataNameEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitPeakFinderWidget</receiver>
+        <slot>DataNameEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>ClearModelsChk</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>QFitPeakFinderWidget</receiver>
+        <slot>ClearModelsChk_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>UsePolynChk</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>QFitPeakFinderWidget</receiver>
+        <slot>UsePolynChk_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>PolynSpin</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>QFitPeakFinderWidget</receiver>
+        <slot>PolynSpin_valueChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>FindersTab</sender>
+        <signal>currentChanged(QWidget*)</signal>
+        <receiver>QFitPeakFinderWidget</receiver>
+        <slot>FindersTab_currentChanged(QWidget*)</slot>
+    </connection>
+    <connection>
+        <sender>ThresholdEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitPeakFinderWidget</receiver>
+        <slot>ThresholdEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>MinWidthEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitPeakFinderWidget</receiver>
+        <slot>MinWidthEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>MaxWidthEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitPeakFinderWidget</receiver>
+        <slot>MaxWidthEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>WidthEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitPeakFinderWidget</receiver>
+        <slot>WidthEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>NoiseFactorEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitPeakFinderWidget</receiver>
+        <slot>NoiseFactorEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>NoiseMinEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitPeakFinderWidget</receiver>
+        <slot>NoiseMinEdit_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>SumUpSpin</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>QFitPeakFinderWidget</receiver>
+        <slot>SumUpSpin_valueChanged(int)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QFitNamedWidget.h</include>
+    <include location="local" impldecl="in implementation">QGo4LineEdit.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitPeakFinder.h</include>
+    <include location="local" impldecl="in implementation">QFitPeakFinderWidget.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4FitPeakFinder</forward>
+</forwards>
+<slots>
+    <slot returnType="TGo4FitPeakFinder *">GetPF()</slot>
+    <slot>FillSpecificData()</slot>
+    <slot>DataNameEdt_textChanged( const QString &amp; )</slot>
+    <slot>ClearModelsChk_toggled( bool )</slot>
+    <slot>UsePolynChk_toggled( bool )</slot>
+    <slot>PolynSpin_valueChanged( int )</slot>
+    <slot>FindersTab_currentChanged( QWidget * )</slot>
+    <slot>ThresholdEdt_textChanged( const QString &amp; )</slot>
+    <slot>MinWidthEdt_textChanged( const QString &amp; )</slot>
+    <slot>MaxWidthEdt_textChanged( const QString &amp; )</slot>
+    <slot>WidthEdit_textChanged( const QString &amp; )</slot>
+    <slot>NoiseFactorEdit_textChanged( const QString &amp; )</slot>
+    <slot>NoiseMinEdit_textChanged( const QString &amp; )</slot>
+    <slot>SumUpSpin_valueChanged( int )</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

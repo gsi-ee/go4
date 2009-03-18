@@ -1,0 +1,386 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>QFitPeakFinderWidget</class>
+  <widget class="QFitNamedWidget" name="QFitPeakFinderWidget" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>340</width>
+        <height>347</height>
+      </rect>
+    </property>
+    <property name="caption" >
+      <string>Peak finder</string>
+    </property>
+    <widget class="QGo4LineEdit" name="DataNameEdt" >
+      <property name="geometry" >
+        <rect>
+          <x>80</x>
+          <y>110</y>
+          <width>108</width>
+          <height>22</height>
+        </rect>
+      </property>
+    </widget>
+    <widget class="QCheckBox" name="ClearModelsChk" >
+      <property name="geometry" >
+        <rect>
+          <x>220</x>
+          <y>110</y>
+          <width>150</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>clear models</string>
+      </property>
+    </widget>
+    <widget class="QLabel" name="textLabel1" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>70</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="frameShape" >
+        <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow" >
+        <enum>QFrame::Plain</enum>
+      </property>
+      <property name="text" >
+        <string>Data name</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QSpinBox" name="PolynSpin" >
+      <property name="geometry" >
+        <rect>
+          <x>217</x>
+          <y>140</y>
+          <width>90</width>
+          <height>22</height>
+        </rect>
+      </property>
+      <property name="maximum" >
+        <number>9</number>
+      </property>
+    </widget>
+    <widget class="QCheckBox" name="UsePolynChk" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>143</y>
+          <width>141</width>
+          <height>19</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>use polynom of order</string>
+      </property>
+    </widget>
+    <widget class="QTabWidget" name="FindersTab" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>170</y>
+          <width>310</width>
+          <height>160</height>
+        </rect>
+      </property>
+      <widget class="QWidget" name="tab1" >
+        <attribute name="title" >
+          <string>Variant 1</string>
+        </attribute>
+        <widget class="QLabel" name="TextLabel6" >
+          <property name="geometry" >
+            <rect>
+              <x>10</x>
+              <y>70</y>
+              <width>90</width>
+              <height>20</height>
+            </rect>
+          </property>
+          <property name="text" >
+            <string>Minimum width</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+        <widget class="QLabel" name="TextLabel7" >
+          <property name="geometry" >
+            <rect>
+              <x>120</x>
+              <y>70</y>
+              <width>100</width>
+              <height>20</height>
+            </rect>
+          </property>
+          <property name="text" >
+            <string>Maximum width</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+        <widget class="QLabel" name="PF_AmplLbl" >
+          <property name="geometry" >
+            <rect>
+              <x>10</x>
+              <y>10</y>
+              <width>90</width>
+              <height>20</height>
+            </rect>
+          </property>
+          <property name="text" >
+            <string>Threshold</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+        <widget class="QGo4LineEdit" name="ThresholdEdt" >
+          <property name="geometry" >
+            <rect>
+              <x>10</x>
+              <y>30</y>
+              <width>80</width>
+              <height>27</height>
+            </rect>
+          </property>
+          <property name="text" >
+            <string>4</string>
+          </property>
+        </widget>
+        <widget class="QGo4LineEdit" name="MinWidthEdt" >
+          <property name="geometry" >
+            <rect>
+              <x>10</x>
+              <y>90</y>
+              <width>80</width>
+              <height>27</height>
+            </rect>
+          </property>
+          <property name="text" >
+            <string>4</string>
+          </property>
+        </widget>
+        <widget class="QGo4LineEdit" name="MaxWidthEdt" >
+          <property name="geometry" >
+            <rect>
+              <x>120</x>
+              <y>90</y>
+              <width>80</width>
+              <height>27</height>
+            </rect>
+          </property>
+          <property name="text" >
+            <string>30</string>
+          </property>
+        </widget>
+      </widget>
+      <widget class="QWidget" name="tab2" >
+        <attribute name="title" >
+          <string>ROOT (2)</string>
+        </attribute>
+        <widget class="QLabel" name="Wiz_PFROOTLbl" >
+          <property name="geometry" >
+            <rect>
+              <x>10</x>
+              <y>10</y>
+              <width>110</width>
+              <height>20</height>
+            </rect>
+          </property>
+          <property name="text" >
+            <string>Line(s) width</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+        <widget class="QGo4LineEdit" name="WidthEdit" >
+          <property name="geometry" >
+            <rect>
+              <x>10</x>
+              <y>30</y>
+              <width>100</width>
+              <height>27</height>
+            </rect>
+          </property>
+        </widget>
+      </widget>
+      <widget class="QWidget" name="tab3" >
+        <attribute name="title" >
+          <string>Variant 3</string>
+        </attribute>
+        <widget class="QLabel" name="PF_RelNoiseLbl" >
+          <property name="geometry" >
+            <rect>
+              <x>10</x>
+              <y>10</y>
+              <width>110</width>
+              <height>20</height>
+            </rect>
+          </property>
+          <property name="text" >
+            <string>Relative noise</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+        <widget class="QLineEdit" name="NoiseFactorEdit" >
+          <property name="geometry" >
+            <rect>
+              <x>10</x>
+              <y>30</y>
+              <width>100</width>
+              <height>27</height>
+            </rect>
+          </property>
+        </widget>
+        <widget class="QLabel" name="textLabel2" >
+          <property name="geometry" >
+            <rect>
+              <x>150</x>
+              <y>10</y>
+              <width>90</width>
+              <height>20</height>
+            </rect>
+          </property>
+          <property name="text" >
+            <string>Minimal noise</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+        <widget class="QLineEdit" name="NoiseMinEdit" >
+          <property name="geometry" >
+            <rect>
+              <x>150</x>
+              <y>30</y>
+              <width>100</width>
+              <height>27</height>
+            </rect>
+          </property>
+        </widget>
+        <widget class="QLabel" name="textLabel4" >
+          <property name="geometry" >
+            <rect>
+              <x>10</x>
+              <y>70</y>
+              <width>91</width>
+              <height>20</height>
+            </rect>
+          </property>
+          <property name="text" >
+            <string>Channel sumup</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+        <widget class="QSpinBox" name="SumUpSpin" >
+          <property name="geometry" >
+            <rect>
+              <x>10</x>
+              <y>90</y>
+              <width>90</width>
+              <height>27</height>
+            </rect>
+          </property>
+        </widget>
+      </widget>
+    </widget>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <includes>
+    <include location="local" >QFitNamedWidget.h</include>
+    <include location="local">QGo4LineEdit.h</include>
+  </includes>
+  <connections>
+    <connection>
+      <sender>DataNameEdt</sender>
+      <signal>textChanged(QString)</signal>
+      <receiver>QFitPeakFinderWidget</receiver>
+      <slot>DataNameEdt_textChanged(QString)</slot>
+    </connection>
+    <connection>
+      <sender>ClearModelsChk</sender>
+      <signal>toggled(bool)</signal>
+      <receiver>QFitPeakFinderWidget</receiver>
+      <slot>ClearModelsChk_toggled(bool)</slot>
+    </connection>
+    <connection>
+      <sender>UsePolynChk</sender>
+      <signal>toggled(bool)</signal>
+      <receiver>QFitPeakFinderWidget</receiver>
+      <slot>UsePolynChk_toggled(bool)</slot>
+    </connection>
+    <connection>
+      <sender>PolynSpin</sender>
+      <signal>valueChanged(int)</signal>
+      <receiver>QFitPeakFinderWidget</receiver>
+      <slot>PolynSpin_valueChanged(int)</slot>
+    </connection>
+    <connection>
+      <sender>FindersTab</sender>
+      <signal>currentChanged(QWidget*)</signal>
+      <receiver>QFitPeakFinderWidget</receiver>
+      <slot>FindersTab_currentChanged(QWidget*)</slot>
+    </connection>
+    <connection>
+      <sender>ThresholdEdt</sender>
+      <signal>textChanged(QString)</signal>
+      <receiver>QFitPeakFinderWidget</receiver>
+      <slot>ThresholdEdt_textChanged(QString)</slot>
+    </connection>
+    <connection>
+      <sender>MinWidthEdt</sender>
+      <signal>textChanged(QString)</signal>
+      <receiver>QFitPeakFinderWidget</receiver>
+      <slot>MinWidthEdt_textChanged(QString)</slot>
+    </connection>
+    <connection>
+      <sender>MaxWidthEdt</sender>
+      <signal>textChanged(QString)</signal>
+      <receiver>QFitPeakFinderWidget</receiver>
+      <slot>MaxWidthEdt_textChanged(QString)</slot>
+    </connection>
+    <connection>
+      <sender>WidthEdit</sender>
+      <signal>textChanged(QString)</signal>
+      <receiver>QFitPeakFinderWidget</receiver>
+      <slot>WidthEdit_textChanged(QString)</slot>
+    </connection>
+    <connection>
+      <sender>NoiseFactorEdit</sender>
+      <signal>textChanged(QString)</signal>
+      <receiver>QFitPeakFinderWidget</receiver>
+      <slot>NoiseFactorEdit_textChanged(QString)</slot>
+    </connection>
+    <connection>
+      <sender>NoiseMinEdit</sender>
+      <signal>textChanged(QString)</signal>
+      <receiver>QFitPeakFinderWidget</receiver>
+      <slot>NoiseMinEdit_textChanged(QString)</slot>
+    </connection>
+    <connection>
+      <sender>SumUpSpin</sender>
+      <signal>valueChanged(int)</signal>
+      <receiver>QFitPeakFinderWidget</receiver>
+      <slot>SumUpSpin_valueChanged(int)</slot>
+    </connection>
+  </connections>
+</ui>

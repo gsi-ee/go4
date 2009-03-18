@@ -1,0 +1,192 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>QFitRangeWidget</class>
+<widget class="QFitWidget">
+    <property name="name">
+        <cstring>QFitRangeWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>260</width>
+            <height>199</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>QFitRangeWidget</string>
+    </property>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel6_2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>140</y>
+                <width>40</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Right</string>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel6</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>100</y>
+                <width>40</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Left</string>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel7</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>10</y>
+                <width>50</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Axis</string>
+        </property>
+    </widget>
+    <widget class="QSpinBox">
+        <property name="name">
+            <cstring>AxisNumSpin</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>70</x>
+                <y>10</y>
+                <width>110</width>
+                <height>27</height>
+            </rect>
+        </property>
+        <property name="maxValue">
+            <number>999</number>
+        </property>
+    </widget>
+    <widget class="QComboBox">
+        <item>
+            <property name="text">
+                <string>Include range</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Exclude range</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Exclude up to</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Exclude from</string>
+            </property>
+        </item>
+        <property name="name">
+            <cstring>RangeTypCmb</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>50</y>
+                <width>170</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QGo4LineEdit">
+        <property name="name">
+            <cstring>LeftEdt</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>70</x>
+                <y>100</y>
+                <width>110</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QGo4LineEdit">
+        <property name="name">
+            <cstring>RightEdt</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>70</x>
+                <y>140</y>
+                <width>110</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>AxisNumSpin</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>QFitRangeWidget</receiver>
+        <slot>AxisNumSpin_valueChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>RangeTypCmb</sender>
+        <signal>activated(int)</signal>
+        <receiver>QFitRangeWidget</receiver>
+        <slot>RangeTypCmb_activated(int)</slot>
+    </connection>
+    <connection>
+        <sender>LeftEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitRangeWidget</receiver>
+        <slot>LeftEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>RightEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitRangeWidget</receiver>
+        <slot>RightEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QFitWidget.h</include>
+    <include location="local" impldecl="in implementation">QGo4LineEdit.h</include>
+    <include location="local" impldecl="in implementation">QFitItem.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitComponent.h</include>
+    <include location="local" impldecl="in implementation">QFitRangeWidget.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4FitComponent</forward>
+</forwards>
+
+<slots>
+    <slot returnType="TGo4FitComponent *">GetComp()</slot>
+    <slot returnType="int">GetNumRange()</slot>
+    <slot>FillSpecificData()</slot>
+    <slot>EnableEditsForRangeType( int )</slot>
+    <slot>GetRangeData()</slot>
+    <slot>AxisNumSpin_valueChanged( int )</slot>
+    <slot>RangeTypCmb_activated( int )</slot>
+    <slot>LeftEdt_textChanged( const QString &amp; )</slot>
+    <slot>RightEdt_textChanged( const QString &amp; )</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

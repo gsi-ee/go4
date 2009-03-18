@@ -1,0 +1,69 @@
+ObjSuf           = o
+SrcSuf           = cxx
+HedSuf           = h
+DllSuf           = so
+
+CXX              = g++
+LD               = g++
+mkdepend         = g++
+
+ROOTLIBMAP       = $(ROOTSYS)/bin/rlibmap
+MAPFILE          = .rootmap
+
+CXXFLAGS         = -O -fPIC -Wno-deprecated $(shell root-config --cflags)
+SOFLAGS          = -shared -Wl,-soname,
+LDFLAGS          = -O
+
+GO4FIT_LINKDEF     = Go4FitLinkDef.$(HedSuf)
+GO4FIT_DICT        = G__Go4Fit
+GO4FIT_DH          = $(GO4FIT_DICT).$(HedSuf)
+GO4FIT_DS          = $(GO4FIT_DICT).$(SrcSuf)
+GO4FIT_DO          = $(GO4FIT_DICT).$(ObjSuf)
+
+GO4FIT_H           = $(filter-out $(GO4FIT_DH) $(GO4FIT_LINKDEF), $(wildcard *.$(HedSuf)))
+GO4FIT_S           = $(filter-out $(GO4FIT_DS), $(wildcard *.$(SrcSuf)))
+GO4FIT_O           = $(GO4FIT_S:.$(SrcSuf)=.$(ObjSuf))
+
+GO4FIT_LIB         = libGo4Fit.$(DllSuf)
+
+all: lib
+
+lib: $(GO4FIT_LIB)
+
+clean:
+	@rm -f $(GO4FIT_LIB) $(GO4FIT_O) $(GO4FIT_DO) $(GO4FIT_DH) $(GO4FIT_DS) *.bak Makefile.depend
+
+$(GO4FIT_LIB):  $(GO4FIT_O) $(GO4FIT_DO)
+	$(LD) $(SOFLAGS)$(GO4FIT_LIB) $(LDFLAGS) $(GO4FIT_O) $(GO4FIT_DO) -o $(GO4FIT_LIB)
+	@echo "$(Go4FitLib) done"
+
+$(GO4FIT_DS) $(GO4FIT_DH): $(GO4FIT_H) $(GO4FIT_LINKDEF)
+	@echo "Generating $(GO4FIT_DICT) dictionary ..."
+	@$(ROOTSYS)/bin/rootcint -f $(GO4FIT_DS) -c -p -I. $(GO4FIT_H) $(GO4FIT_LINKDEF)
+
+ifeq ($(findstring $(MAKECMDGOALS), clean),)
+
+Makefile.depend: $(GO4FIT_S) $(GO4FIT_H)
+	@echo "Generating dependency"
+	$(mkdepend) $(CXXFLAGS) -MM $(GO4FIT_S) > Makefile.depend
+
+-include Makefile.depend
+
+endif
+
+map:
+ifneq ($(wildcard $(ROOTLIBMAP)),)
+ifneq ($(findstring linkdef, $(shell $(ROOTLIBMAP) 2>&1)),)
+	@rm -f $(MAPFILE)
+	@$(ROOTLIBMAP) -r $(MAPFILE) -l ./$(GO4FIT_LIB) -d $(ROOTSYS)/lib/libMinuit.so -c $(GO4FIT_LINKDEF)
+	@echo "Fit map file done"
+endif
+else
+	@echo "Map of Fit classes can not be generated with ROOT $(shell root-config --version)"
+endif
+
+.SUFFIXES: .$(SrcSuf)
+
+.$(SrcSuf).$(ObjSuf):
+	$(CXX) -c $< $(CXXFLAGS)
+

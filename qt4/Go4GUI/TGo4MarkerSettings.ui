@@ -1,0 +1,238 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>TGo4MarkerSettings</class>
+  <widget class="QDialog" name="TGo4MarkerSettings" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>323</width>
+        <height>314</height>
+      </rect>
+    </property>
+    <property name="windowTitle" >
+      <string>Global marker label setup:</string>
+    </property>
+    <property name="windowIcon" >
+      <pixmap>:/icons/go4logo2_big.png</pixmap>
+    </property>
+    <property name="sizeGripEnabled" >
+      <bool>true</bool>
+    </property>
+    <property name="toolTip" stdset="0" >
+      <string>Check properties for the markers of regions (conditions), and points. Changes are applied for newly created markers only!</string>
+    </property>
+    <layout class="QGridLayout" >
+      <item row="0" column="0" >
+        <widget class="Q3GroupBox" name="ConditionGroupBox" >
+          <property name="title" >
+            <string>Windows/Polygons</string>
+          </property>
+          <layout class="QGridLayout" >
+            <item row="1" column="0" >
+              <widget class="QCheckBox" name="DrawIntButton" >
+                <property name="text" >
+                  <string>Display Integral</string>
+                </property>
+              </widget>
+            </item>
+            <item row="3" column="1" >
+              <widget class="QCheckBox" name="DrawYrmsButton" >
+                <property name="text" >
+                  <string>Display Y rms</string>
+                </property>
+              </widget>
+            </item>
+            <item row="0" column="1" >
+              <widget class="QCheckBox" name="DrawLimButton" >
+                <property name="text" >
+                  <string>Display region limits</string>
+                </property>
+              </widget>
+            </item>
+            <item row="4" column="0" >
+              <widget class="QCheckBox" name="DrawXmaxButton" >
+                <property name="text" >
+                  <string>Display X maximum</string>
+                </property>
+              </widget>
+            </item>
+            <item row="2" column="1" >
+              <widget class="QCheckBox" name="DrawYmeanButton" >
+                <property name="text" >
+                  <string>Display Y mean</string>
+                </property>
+              </widget>
+            </item>
+            <item row="0" column="0" >
+              <widget class="QCheckBox" name="DrawLabelButton" >
+                <property name="text" >
+                  <string>Draw region label</string>
+                </property>
+              </widget>
+            </item>
+            <item row="3" column="0" >
+              <widget class="QCheckBox" name="DrawXrmsButton" >
+                <property name="text" >
+                  <string>Display X rms</string>
+                </property>
+              </widget>
+            </item>
+            <item row="2" column="0" >
+              <widget class="QCheckBox" name="DrawXmeanButton" >
+                <property name="text" >
+                  <string>Display X mean</string>
+                </property>
+              </widget>
+            </item>
+            <item row="1" column="1" >
+              <widget class="QCheckBox" name="DrawCountsButton" >
+                <property name="text" >
+                  <string>Display Counts maximum</string>
+                </property>
+              </widget>
+            </item>
+            <item row="4" column="1" >
+              <widget class="QCheckBox" name="DrawYmaxButton" >
+                <property name="text" >
+                  <string>Display Y maximum</string>
+                </property>
+              </widget>
+            </item>
+          </layout>
+        </widget>
+      </item>
+      <item row="1" column="0" >
+        <widget class="Q3GroupBox" name="MarkerGroupBox" >
+          <property name="title" >
+            <string>Point markers</string>
+          </property>
+          <layout class="QGridLayout" >
+            <item row="0" column="0" >
+              <widget class="QCheckBox" name="DrawPLabelButton" >
+                <property name="text" >
+                  <string>Draw marker label</string>
+                </property>
+              </widget>
+            </item>
+            <item row="0" column="1" >
+              <widget class="QCheckBox" name="DrawPConnectorButton" >
+                <property name="text" >
+                  <string>Draw label connection line</string>
+                </property>
+              </widget>
+            </item>
+            <item row="1" column="0" >
+              <widget class="QCheckBox" name="DrawPXButton" >
+                <property name="text" >
+                  <string>Display X coord.</string>
+                </property>
+              </widget>
+            </item>
+            <item row="1" column="1" >
+              <widget class="QCheckBox" name="DrawPYButton" >
+                <property name="text" >
+                  <string>Display Y coord.</string>
+                </property>
+              </widget>
+            </item>
+            <item row="2" column="1" >
+              <widget class="QCheckBox" name="DrawPYbinButton" >
+                <property name="text" >
+                  <string>Display Y bin#.</string>
+                </property>
+              </widget>
+            </item>
+            <item row="2" column="0" >
+              <widget class="QCheckBox" name="DrawPXbinButton" >
+                <property name="text" >
+                  <string>Display X bin#</string>
+                </property>
+              </widget>
+            </item>
+            <item rowspan="1" row="3" column="0" colspan="2" >
+              <widget class="QCheckBox" name="DrawPCountsButton" >
+                <property name="text" >
+                  <string>Display bin contents</string>
+                </property>
+              </widget>
+            </item>
+          </layout>
+        </widget>
+      </item>
+      <item row="2" column="0" >
+        <layout class="QHBoxLayout" >
+          <item>
+            <spacer name="Horizontal Spacing2" >
+              <property name="sizeHint" >
+                <size>
+                  <width>210</width>
+                  <height>20</height>
+                </size>
+              </property>
+              <property name="sizeType" >
+                <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+              </property>
+            </spacer>
+          </item>
+          <item>
+            <widget class="QPushButton" name="buttonOk" >
+              <property name="text" >
+                <string>&amp;OK</string>
+              </property>
+              <property name="shortcut" >
+                <string/>
+              </property>
+              <property name="autoDefault" >
+                <bool>true</bool>
+              </property>
+              <property name="default" >
+                <bool>true</bool>
+              </property>
+            </widget>
+          </item>
+          <item>
+            <widget class="QPushButton" name="buttonCancel" >
+              <property name="text" >
+                <string>&amp;Cancel</string>
+              </property>
+              <property name="shortcut" >
+                <string/>
+              </property>
+              <property name="autoDefault" >
+                <bool>true</bool>
+              </property>
+            </widget>
+          </item>
+        </layout>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <connections>
+    <connection>
+      <sender>buttonOk</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4MarkerSettings</receiver>
+      <slot>accept()</slot>
+    </connection>
+    <connection>
+      <sender>buttonCancel</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4MarkerSettings</receiver>
+      <slot>reject()</slot>
+    </connection>
+    <connection>
+      <sender>buttonOk</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4MarkerSettings</receiver>
+      <slot>setFlags()</slot>
+    </connection>
+  </connections>
+</ui>

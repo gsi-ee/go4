@@ -1,0 +1,17 @@
+//---------------------------------------------------------------
+//                    Go4Fit Package Release v3.3
+//                          26-Jun-2007
+//---------------------------------------------------------------
+//     GSI Online Offline Object Oriented (Go4) Project
+//    Experiment Data Processing at DVEE department, GSI
+//---------------------------------------------------------------
+//Copyright (C)        Gesellschaft f. Schwerionenforschung, GSI
+//     2002 - 2007     Planckstr. 1, 64291 Darmstadt, Germany
+//----------------------------------------------------------------
+//This software can be used under the license agreements as stated
+//in http://go4.gsi.de/license.htm
+//----------------------------------------------------------------
+//WWW:            http://go4.gsi.de
+//Mail:           S.Linev@gsi.de
+//----------------------------------------------------------------
+

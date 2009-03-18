@@ -1,0 +1,268 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>QFitDataWidget</class>
+<widget class="QFitNamedWidget">
+    <property name="name">
+        <cstring>QFitDataWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>QFitDataWidget</string>
+    </property>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>DataInfoLbl</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>140</y>
+                <width>110</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>DataInfoLbl</string>
+        </property>
+    </widget>
+    <widget class="QCheckBox">
+        <property name="name">
+            <cstring>AmplChk</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>180</x>
+                <y>140</y>
+                <width>106</width>
+                <height>23</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>amplitude</string>
+        </property>
+    </widget>
+    <widget class="QSpinBox">
+        <property name="name">
+            <cstring>NumCalibrSpin</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>190</y>
+                <width>150</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel1</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>170</y>
+                <width>150</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Transformations slots</string>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel2</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>270</y>
+                <width>170</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Exclude bins less then</string>
+        </property>
+    </widget>
+    <widget class="QGo4LineEdit">
+        <property name="name">
+            <cstring>SigmaEdt</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>270</x>
+                <y>230</y>
+                <width>142</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QCheckBox">
+        <property name="name">
+            <cstring>UseBinsChk</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>180</x>
+                <y>190</y>
+                <width>207</width>
+                <height>23</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>use bins number as scale</string>
+        </property>
+    </widget>
+    <widget class="QGo4LineEdit">
+        <property name="name">
+            <cstring>BinsLimitEdt</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>190</x>
+                <y>270</y>
+                <width>140</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QComboBox">
+        <item>
+            <property name="text">
+                <string>No sigmas</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Takes sigmas from data</string>
+            </property>
+        </item>
+        <item>
+            <property name="text">
+                <string>Constant sigma value</string>
+            </property>
+        </item>
+        <property name="name">
+            <cstring>SigmaCmb</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>230</y>
+                <width>250</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>ModelsLbl</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>110</y>
+                <width>85</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>ModelsLbl</string>
+        </property>
+    </widget>
+    <widget class="QCheckBox">
+        <property name="name">
+            <cstring>UseBuffersChk</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>310</y>
+                <width>210</width>
+                <height>23</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>use buffers for evaluations</string>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>NumCalibrSpin</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>QFitDataWidget</receiver>
+        <slot>NumCalibrSpin_valueChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>UseBinsChk</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>QFitDataWidget</receiver>
+        <slot>UseBinsChk_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>SigmaCmb</sender>
+        <signal>activated(int)</signal>
+        <receiver>QFitDataWidget</receiver>
+        <slot>SigmaCmb_activated(int)</slot>
+    </connection>
+    <connection>
+        <sender>SigmaEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitDataWidget</receiver>
+        <slot>SigmaEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>BinsLimitEdt</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>QFitDataWidget</receiver>
+        <slot>BinsLimitEdt_textChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>AmplChk</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>QFitDataWidget</receiver>
+        <slot>AmplChk_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>UseBuffersChk</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>QFitDataWidget</receiver>
+        <slot>UseBuffersChk_toggled(bool)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QFitNamedWidget.h</include>
+    <include location="local" impldecl="in implementation">QGo4LineEdit.h</include>
+    <include location="local" impldecl="in implementation">QFitItem.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitData.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitModel.h</include>
+    <include location="local" impldecl="in implementation">TGo4Fitter.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitGuiTypes.h</include>
+    <include location="local" impldecl="in implementation">QFitDataWidget.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4FitData</forward>
+</forwards>
+<slots>
+    <slot returnType="TGo4FitData *">GetData()</slot>
+    <slot>FillSpecificData()</slot>
+    <slot>NumCalibrSpin_valueChanged( int num )</slot>
+    <slot>UseBinsChk_toggled( bool zn )</slot>
+    <slot>SigmaCmb_activated( int zn )</slot>
+    <slot>SigmaEdt_textChanged( const QString &amp; value )</slot>
+    <slot>BinsLimitEdt_textChanged( const QString &amp; value )</slot>
+    <slot>AmplChk_toggled( bool chk )</slot>
+    <slot>UseBuffersChk_toggled( bool )</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

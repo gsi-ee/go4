@@ -1,0 +1,74 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>QFitMinuitWidget</class>
+<widget class="QFitNamedWidget">
+    <property name="name">
+        <cstring>QFitMinuitWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>QFitMinuitWidget</string>
+    </property>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel10</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>110</y>
+                <width>120</width>
+                <height>20</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Command list:</string>
+        </property>
+    </widget>
+    <widget class="QTextEdit">
+        <property name="name">
+            <cstring>CommandsEdit</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>10</x>
+                <y>130</y>
+                <width>340</width>
+                <height>200</height>
+            </rect>
+        </property>
+        <property name="textFormat">
+            <enum>PlainText</enum>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>CommandsEdit</sender>
+        <signal>textChanged()</signal>
+        <receiver>QFitMinuitWidget</receiver>
+        <slot>CommandsEdit_textChanged()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QFitNamedWidget.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitMinuit.h</include>
+    <include location="local" impldecl="in implementation">QFitMinuitWidget.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4FitMinuit</forward>
+</forwards>
+<slots>
+    <slot returnType="TGo4FitMinuit *">GetMinuit()</slot>
+    <slot>FillSpecificData()</slot>
+    <slot>CommandsEdit_textChanged()</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

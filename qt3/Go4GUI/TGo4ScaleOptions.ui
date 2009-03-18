@@ -1,0 +1,698 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4ScaleOptions</class>
+<widget class="QGo4Widget">
+    <property name="name">
+        <cstring>TGo4ScaleOptions</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>367</width>
+            <height>34</height>
+        </rect>
+    </property>
+    <property name="sizePolicy">
+        <sizepolicy>
+            <hsizetype>7</hsizetype>
+            <vsizetype>7</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+    </property>
+    <property name="caption">
+        <string>Histogram Scale Options</string>
+    </property>
+    <property name="icon">
+        <pixmap>go4logo2_big.png</pixmap>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
+        </property>
+        <property name="spacing">
+            <number>0</number>
+        </property>
+        <widget class="QSpinBox" row="0" column="0">
+            <property name="name">
+                <cstring>ExpandFactor</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="maxValue">
+                <number>100</number>
+            </property>
+            <property name="lineStep">
+                <number>5</number>
+            </property>
+            <property name="value">
+                <number>10</number>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="1">
+            <property name="name">
+                <cstring>TextLabel1</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>%</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="2">
+            <property name="name">
+                <cstring>ExpandX</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>24</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap>zoomxin.png</pixmap>
+            </property>
+            <property name="autoRepeat">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>zoomxin.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Zoom X axis.</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="3">
+            <property name="name">
+                <cstring>ShiftL</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>24</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap>shiftleft.png</pixmap>
+            </property>
+            <property name="autoRepeat">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>shiftleft.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Shift graph down X.</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="4">
+            <property name="name">
+                <cstring>ShiftR</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>24</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap>shiftright.png</pixmap>
+            </property>
+            <property name="autoRepeat">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>shiftright.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Shift graph up X.</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="5">
+            <property name="name">
+                <cstring>UExpandX</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>1</hsizetype>
+                    <vsizetype>1</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>24</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap>zoomxout.png</pixmap>
+            </property>
+            <property name="autoRepeat">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>zoomxout.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Unzoom X axis.</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="6">
+            <property name="name">
+                <cstring>ExpandY</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>24</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap>zoomyin.png</pixmap>
+            </property>
+            <property name="autoRepeat">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>zoomyin.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Zoom Y axis.</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="7">
+            <property name="name">
+                <cstring>ShiftDown</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>24</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap>shiftdown.png</pixmap>
+            </property>
+            <property name="autoRepeat">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>shiftdown.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Shift graph down Y.</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="8">
+            <property name="name">
+                <cstring>ShiftUp</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>24</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap>shiftup.png</pixmap>
+            </property>
+            <property name="autoRepeat">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>shiftup.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Shift graph up Y.</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="9">
+            <property name="name">
+                <cstring>UExpandY</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>24</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap>zoomyout.png</pixmap>
+            </property>
+            <property name="autoRepeat">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>zoomyout.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Unzoom Y axis.</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="10">
+            <property name="name">
+                <cstring>ExpandZ</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>24</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap>zoomzin.png</pixmap>
+            </property>
+            <property name="autoRepeat">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>zoomzin.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Zoom Z axis.</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="11">
+            <property name="name">
+                <cstring>ShiftDownZ</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>24</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap>shiftzdown.png</pixmap>
+            </property>
+            <property name="autoRepeat">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>shiftzdown.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Shift graph down Z.</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="12">
+            <property name="name">
+                <cstring>ShiftUpZ</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>24</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap>shiftzup.png</pixmap>
+            </property>
+            <property name="autoRepeat">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>shiftzup.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Shift graph up Z.</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="13">
+            <property name="name">
+                <cstring>UExpandZ</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>24</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap>zoomzout.png</pixmap>
+            </property>
+            <property name="autoRepeat">
+                <bool>true</bool>
+            </property>
+            <property name="iconSet">
+                <iconset>zoomzout.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Unzoom Z axis.</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="14">
+            <property name="name">
+                <cstring>resize_b</cstring>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>0</width>
+                    <height>0</height>
+                </size>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>30</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap>zoomoff.png</pixmap>
+            </property>
+            <property name="iconSet">
+                <iconset>zoomoff.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Unzoom to full ranges.</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="0" column="15">
+            <property name="name">
+                <cstring>SetScale</cstring>
+            </property>
+            <property name="maximumSize">
+                <size>
+                    <width>30</width>
+                    <height>30</height>
+                </size>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="pixmap">
+                <pixmap>zoomlim.png</pixmap>
+            </property>
+            <property name="iconSet">
+                <iconset>zoomlim.png</iconset>
+            </property>
+            <property name="autoRaise">
+                <bool>true</bool>
+            </property>
+            <property name="toolTip" stdset="0">
+                <string>Open zoom and autoscale window.</string>
+            </property>
+        </widget>
+   </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>resize_b</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ScaleOptions</receiver>
+        <slot>resizeall()</slot>
+    </connection>
+    <connection>
+        <sender>SetScale</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ScaleOptions</receiver>
+        <slot>SetScaleValues()</slot>
+    </connection>
+    <connection>
+        <sender>UExpandX</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ScaleOptions</receiver>
+        <slot>SlotUExpandX()</slot>
+    </connection>
+    <connection>
+        <sender>ShiftL</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ScaleOptions</receiver>
+        <slot>SlotShiftL()</slot>
+    </connection>
+    <connection>
+        <sender>ShiftR</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ScaleOptions</receiver>
+        <slot>SlotShiftR()</slot>
+    </connection>
+    <connection>
+        <sender>ExpandX</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ScaleOptions</receiver>
+        <slot>SlotExpandX()</slot>
+    </connection>
+    <connection>
+        <sender>ShiftUp</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ScaleOptions</receiver>
+        <slot>SlotShiftU()</slot>
+    </connection>
+    <connection>
+        <sender>UExpandY</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ScaleOptions</receiver>
+        <slot>SlotUExpandY()</slot>
+    </connection>
+    <connection>
+        <sender>ExpandY</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ScaleOptions</receiver>
+        <slot>SlotExpandY()</slot>
+    </connection>
+    <connection>
+        <sender>ShiftDown</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ScaleOptions</receiver>
+        <slot>SlotShiftD()</slot>
+    </connection>
+    <connection>
+        <sender>ShiftUpZ</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ScaleOptions</receiver>
+        <slot>SlotShiftZU()</slot>
+    </connection>
+    <connection>
+        <sender>UExpandZ</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ScaleOptions</receiver>
+        <slot>SlotUExpandZ()</slot>
+    </connection>
+    <connection>
+        <sender>ExpandZ</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ScaleOptions</receiver>
+        <slot>SlotExpandZ()</slot>
+    </connection>
+    <connection>
+        <sender>ShiftDownZ</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ScaleOptions</receiver>
+        <slot>SlotShiftZD()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QGo4Widget.h</include>
+    <include location="local" impldecl="in implementation">qlineedit.h</include>
+    <include location="local" impldecl="in implementation">Riostream.h</include>
+    <include location="local" impldecl="in implementation">TGo4WorkSpace.h</include>
+    <include location="local" impldecl="in implementation">TGo4ViewPanel.h</include>
+    <include location="local" impldecl="in implementation">TGo4SetScaleValues.h</include>
+    <include location="local" impldecl="in implementation">TGo4ScaleOptions.ui.h</include>
+</includes>
+<slots>
+    <slot>SlotShiftL()</slot>
+    <slot>SlotShiftR()</slot>
+    <slot>SlotShiftU()</slot>
+    <slot>SlotShiftD()</slot>
+    <slot>SlotShiftZU()</slot>
+    <slot>SlotShiftZD()</slot>
+    <slot>SlotExpandX()</slot>
+    <slot>SlotExpandY()</slot>
+    <slot>SlotExpandZ()</slot>
+    <slot>SlotUExpandX()</slot>
+    <slot>SlotUExpandY()</slot>
+    <slot>SlotUExpandZ()</slot>
+    <slot>resizeall()</slot>
+    <slot>SetScaleValues()</slot>
+</slots>
+<functions>
+    <function>init()</function>
+    <function>MoveScale(int xaction, int yaction, int zaction)</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="2" margin="2"/>
+</UI>

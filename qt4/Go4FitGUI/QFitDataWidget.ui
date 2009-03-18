@@ -1,0 +1,227 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>QFitDataWidget</class>
+  <widget class="QFitNamedWidget" name="QFitDataWidget" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>600</width>
+        <height>480</height>
+      </rect>
+    </property>
+    <property name="caption" >
+      <string>QFitDataWidget</string>
+    </property>
+    <widget class="QLabel" name="DataInfoLbl" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>140</y>
+          <width>110</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>DataInfoLbl</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QCheckBox" name="AmplChk" >
+      <property name="geometry" >
+        <rect>
+          <x>180</x>
+          <y>140</y>
+          <width>106</width>
+          <height>23</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>amplitude</string>
+      </property>
+    </widget>
+    <widget class="QSpinBox" name="NumCalibrSpin" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>190</y>
+          <width>150</width>
+          <height>27</height>
+        </rect>
+      </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel1" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>170</y>
+          <width>150</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>Transformations slots</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel2" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>270</y>
+          <width>170</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>Exclude bins less then</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QGo4LineEdit" name="SigmaEdt" >
+      <property name="geometry" >
+        <rect>
+          <x>270</x>
+          <y>230</y>
+          <width>142</width>
+          <height>27</height>
+        </rect>
+      </property>
+    </widget>
+    <widget class="QCheckBox" name="UseBinsChk" >
+      <property name="geometry" >
+        <rect>
+          <x>180</x>
+          <y>190</y>
+          <width>207</width>
+          <height>23</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>use bins number as scale</string>
+      </property>
+    </widget>
+    <widget class="QGo4LineEdit" name="BinsLimitEdt" >
+      <property name="geometry" >
+        <rect>
+          <x>190</x>
+          <y>270</y>
+          <width>140</width>
+          <height>27</height>
+        </rect>
+      </property>
+    </widget>
+    <widget class="QComboBox" name="SigmaCmb" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>230</y>
+          <width>250</width>
+          <height>27</height>
+        </rect>
+      </property>
+      <item>
+        <property name="text" >
+          <string>No sigmas</string>
+        </property>
+      </item>
+      <item>
+        <property name="text" >
+          <string>Takes sigmas from data</string>
+        </property>
+      </item>
+      <item>
+        <property name="text" >
+          <string>Constant sigma value</string>
+        </property>
+      </item>
+    </widget>
+    <widget class="QLabel" name="ModelsLbl" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>85</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>ModelsLbl</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QCheckBox" name="UseBuffersChk" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>310</y>
+          <width>210</width>
+          <height>23</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>use buffers for evaluations</string>
+      </property>
+    </widget>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <includes>
+    <include location="local" >QFitNamedWidget.h</include>
+    <include location="local">QGo4LineEdit.h</include>
+  </includes>
+  <connections>
+    <connection>
+      <sender>NumCalibrSpin</sender>
+      <signal>valueChanged(int)</signal>
+      <receiver>QFitDataWidget</receiver>
+      <slot>NumCalibrSpin_valueChanged(int)</slot>
+    </connection>
+    <connection>
+      <sender>UseBinsChk</sender>
+      <signal>toggled(bool)</signal>
+      <receiver>QFitDataWidget</receiver>
+      <slot>UseBinsChk_toggled(bool)</slot>
+    </connection>
+    <connection>
+      <sender>SigmaCmb</sender>
+      <signal>activated(int)</signal>
+      <receiver>QFitDataWidget</receiver>
+      <slot>SigmaCmb_activated(int)</slot>
+    </connection>
+    <connection>
+      <sender>SigmaEdt</sender>
+      <signal>textChanged(QString)</signal>
+      <receiver>QFitDataWidget</receiver>
+      <slot>SigmaEdt_textChanged(QString)</slot>
+    </connection>
+    <connection>
+      <sender>BinsLimitEdt</sender>
+      <signal>textChanged(QString)</signal>
+      <receiver>QFitDataWidget</receiver>
+      <slot>BinsLimitEdt_textChanged(QString)</slot>
+    </connection>
+    <connection>
+      <sender>AmplChk</sender>
+      <signal>toggled(bool)</signal>
+      <receiver>QFitDataWidget</receiver>
+      <slot>AmplChk_toggled(bool)</slot>
+    </connection>
+    <connection>
+      <sender>UseBuffersChk</sender>
+      <signal>toggled(bool)</signal>
+      <receiver>QFitDataWidget</receiver>
+      <slot>UseBuffersChk_toggled(bool)</slot>
+    </connection>
+  </connections>
+</ui>

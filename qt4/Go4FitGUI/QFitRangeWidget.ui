@@ -1,0 +1,162 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>QFitRangeWidget</class>
+  <widget class="QFitWidget" name="QFitRangeWidget" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>260</width>
+        <height>199</height>
+      </rect>
+    </property>
+    <property name="caption" >
+      <string>QFitRangeWidget</string>
+    </property>
+    <widget class="QLabel" name="TextLabel6_2" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>140</y>
+          <width>40</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>Right</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel6" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>100</y>
+          <width>40</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>Left</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QLabel" name="TextLabel7" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>50</width>
+          <height>20</height>
+        </rect>
+      </property>
+      <property name="text" >
+        <string>Axis</string>
+      </property>
+      <property name="wordWrap" >
+        <bool>false</bool>
+      </property>
+    </widget>
+    <widget class="QSpinBox" name="AxisNumSpin" >
+      <property name="geometry" >
+        <rect>
+          <x>70</x>
+          <y>10</y>
+          <width>110</width>
+          <height>27</height>
+        </rect>
+      </property>
+      <property name="maximum" >
+        <number>999</number>
+      </property>
+    </widget>
+    <widget class="QComboBox" name="RangeTypCmb" >
+      <property name="geometry" >
+        <rect>
+          <x>10</x>
+          <y>50</y>
+          <width>170</width>
+          <height>27</height>
+        </rect>
+      </property>
+      <item>
+        <property name="text" >
+          <string>Include range</string>
+        </property>
+      </item>
+      <item>
+        <property name="text" >
+          <string>Exclude range</string>
+        </property>
+      </item>
+      <item>
+        <property name="text" >
+          <string>Exclude up to</string>
+        </property>
+      </item>
+      <item>
+        <property name="text" >
+          <string>Exclude from</string>
+        </property>
+      </item>
+    </widget>
+    <widget class="QGo4LineEdit" name="LeftEdt" >
+      <property name="geometry" >
+        <rect>
+          <x>70</x>
+          <y>100</y>
+          <width>110</width>
+          <height>27</height>
+        </rect>
+      </property>
+    </widget>
+    <widget class="QGo4LineEdit" name="RightEdt" >
+      <property name="geometry" >
+        <rect>
+          <x>70</x>
+          <y>140</y>
+          <width>110</width>
+          <height>27</height>
+        </rect>
+      </property>
+    </widget>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <includes>
+    <include location="local" >QFitWidget.h</include>
+    <include location="local">QGo4LineEdit.h</include>
+  </includes>
+  <connections>
+    <connection>
+      <sender>AxisNumSpin</sender>
+      <signal>valueChanged(int)</signal>
+      <receiver>QFitRangeWidget</receiver>
+      <slot>AxisNumSpin_valueChanged(int)</slot>
+    </connection>
+    <connection>
+      <sender>RangeTypCmb</sender>
+      <signal>activated(int)</signal>
+      <receiver>QFitRangeWidget</receiver>
+      <slot>RangeTypCmb_activated(int)</slot>
+    </connection>
+    <connection>
+      <sender>LeftEdt</sender>
+      <signal>textChanged(QString)</signal>
+      <receiver>QFitRangeWidget</receiver>
+      <slot>LeftEdt_textChanged(QString)</slot>
+    </connection>
+    <connection>
+      <sender>RightEdt</sender>
+      <signal>textChanged(QString)</signal>
+      <receiver>QFitRangeWidget</receiver>
+      <slot>RightEdt_textChanged(QString)</slot>
+    </connection>
+  </connections>
+</ui>

@@ -1,0 +1,54 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>QFitPrintWidget</class>
+<widget class="QFitWidget">
+    <property name="name">
+        <cstring>QFitPrintWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>500</width>
+            <height>400</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>QFitPrintWidget</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QTextEdit" row="0" column="0">
+            <property name="name">
+                <cstring>PrintText</cstring>
+            </property>
+            <property name="resizePolicy">
+                <enum>AutoOneFit</enum>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="wordWrap">
+                <enum>NoWrap</enum>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<includes>
+    <include location="local" impldecl="in declaration">QFitWidget.h</include>
+    <include location="local" impldecl="in implementation">Riostream.h</include>
+    <include location="local" impldecl="in implementation">Rstrstream.h</include>
+    <include location="local" impldecl="in implementation">TObject.h</include>
+    <include location="local" impldecl="in implementation">QFitPrintWidget.ui.h</include>
+</includes>
+<variables>
+    <variable>QString fxDrawOption</variable>
+</variables>
+<slots>
+    <slot>FillSpecificData()</slot>
+    <slot>SetDrawOption( const QString &amp; option )</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

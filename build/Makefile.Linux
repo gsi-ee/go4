@@ -1,0 +1,39 @@
+## basic settings for Linux
+
+#### File suffixes: ####
+ObjSuf        = o
+ExeSuf        =
+DllSuf        = so
+
+#### Compilers: ####
+CXX           = g++
+CC            = gcc
+
+#### Compiler optimisation flags: ####
+OPTIONS       = -fPIC
+DEFINITIONS   = -DLinux
+#EXTRACOPTIONS =
+EXTRACXXOPTIONS = -Wall -Wno-deprecated
+
+## This two copiler flags are alternative. 
+## When DOOPTIMIZATION = false, first is used otherwise second 
+DEBUGMODE     = -g 
+OPTIMIZEMODE  = -O2 
+# OPTIMIZEMODE  = -O3 fails for some gcc (TString seekoff overload)
+
+#### File system operations: ####
+LN            = ln -sf
+RM            = rm -f
+MV            = mv
+
+#### Linker definitions: ####
+LD            = g++
+LDFLAGS       = -O
+SOFLAGS       = -shared -Wl,-soname,
+
+
+#### Other options: ####
+OutPutOpt     = -o 
+
+
+

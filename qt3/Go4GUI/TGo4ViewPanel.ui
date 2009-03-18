@@ -1,0 +1,1071 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>TGo4ViewPanel</class>
+<widget class="QGo4Widget">
+    <property name="name">
+        <cstring>TGo4ViewPanel</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>838</width>
+            <height>620</height>
+        </rect>
+    </property>
+    <property name="sizePolicy">
+        <sizepolicy>
+            <hsizetype>5</hsizetype>
+            <vsizetype>5</vsizetype>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+    </property>
+    <property name="minimumSize">
+        <size>
+            <width>241</width>
+            <height>143</height>
+        </size>
+    </property>
+    <property name="sizeIncrement">
+        <size>
+            <width>200</width>
+            <height>200</height>
+        </size>
+    </property>
+    <property name="baseSize">
+        <size>
+            <width>350</width>
+            <height>350</height>
+        </size>
+    </property>
+    <property name="caption">
+        <string>View Panel</string>
+    </property>
+    <property name="icon">
+        <pixmap>go4logo2_big.png</pixmap>
+    </property>
+    <property name="mouseTracking">
+        <bool>true</bool>
+    </property>
+    <property name="acceptDrops">
+        <bool>true</bool>
+    </property>
+    <property name="autoMask">
+        <bool>false</bool>
+    </property>
+    <property name="sizeGripEnabled" stdset="0">
+        <bool>false</bool>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>2</number>
+        </property>
+        <property name="spacing">
+            <number>1</number>
+        </property>
+        <widget class="QButtonGroup" row="2" column="1">
+            <property name="name">
+                <cstring>MarkerPanel</cstring>
+            </property>
+            <property name="title">
+                <string>Marker Modes</string>
+            </property>
+            <property name="radioButtonExclusive">
+                <bool>true</bool>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>3</number>
+                </property>
+                <property name="spacing">
+                    <number>2</number>
+                </property>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>CursorB</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="toggleButton">
+                        <bool>true</bool>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>cursor.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Set point marker with next click on active pad</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>RegionB</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="toggleButton">
+                        <bool>true</bool>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>windcond.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Mark Region with next 2 clicks on active pad</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>PolyB</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="toggleButton">
+                        <bool>true</bool>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>polycond.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Mark Polygon region on active pad. Doubleclick to end editing.</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>LatexB</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="toggleButton">
+                        <bool>true</bool>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>x_pic.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Set latex object to position of next click on active pad.</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>DrawB</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="toggleButton">
+                        <bool>true</bool>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>downarrow.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Draw arrow (clicks two times on pad to create arrow)</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>FreezeMode</cstring>
+                    </property>
+                    <property name="text">
+                        <string>loop</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Do not reset cursor pick mode</string>
+                    </property>
+                </widget>
+                <widget class="QComboBox">
+                    <item>
+                        <property name="text">
+                            <string>New</string>
+                        </property>
+                    </item>
+                    <property name="name">
+                        <cstring>SelectedMarkerCmb</cstring>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>120</width>
+                            <height>25</height>
+                        </size>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>DelSelectedMarker</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>delete.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Removes selected marker (or condition)</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>GetConditionBtn</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>right.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Update selected condition from file (analysis)</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>InfoConditionBtn</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>condlist.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Show condition info</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>EditConditionBtn</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>condedit.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Edit selected condition</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>ModifyConditionBtn</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>info1.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Selected condition is modified. Please update</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>SetConditionBtn</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>left.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Update selected condition in analysis</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer34_2_2_2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>PrintLogB</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>30</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>log.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Log marker values to terminal or file.</string>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QFrame" row="1" column="0" rowspan="2" colspan="1">
+            <property name="name">
+                <cstring>EditorFrame</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>7</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>170</width>
+                    <height>0</height>
+                </size>
+            </property>
+            <property name="frameShape">
+                <enum>StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Sunken</enum>
+            </property>
+        </widget>
+        <widget class="QGo4RootCanvas" row="1" column="1">
+            <property name="name">
+                <cstring>fxGo4QRootCanvas</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>7</hsizetype>
+                    <vsizetype>7</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>20</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>50</width>
+                    <height>50</height>
+                </size>
+            </property>
+        </widget>
+        <widget class="QFrame" row="0" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>MenuFrame</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>7</hsizetype>
+                    <vsizetype>1</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>0</width>
+                    <height>10</height>
+                </size>
+            </property>
+            <property name="frameShape">
+                <enum>MenuBarPanel</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>Plain</enum>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<customwidgets>
+    <customwidget>
+        <class>QGo4RootCanvas</class>
+        <header location="local">QGo4RootCanvas.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>5</hordata>
+            <verdata>5</verdata>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+        <pixmap>image0</pixmap>
+        <signal>CanvasDropEvent(QDropEvent*, TPad*)</signal>
+        <signal>CanvasStatusEvent(const char*)</signal>
+        <signal>DoCanvasResize()</signal>
+    </customwidget>
+</customwidgets>
+<images>
+    <image name="image0">
+        <data format="XBM.GZ" length="79">789c534e494dcbcc4b554829cdcdad8c2fcf4c29c95030e0524611cd48cd4ccf28010a1797249664262b2467241641a592324b8aa363156c15aab914146aadb90067111b1f</data>
+    </image>
+</images>
+<connections>
+    <connection>
+        <sender>CursorB</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4ViewPanel</receiver>
+        <slot>SetCursorMode(bool)</slot>
+    </connection>
+    <connection>
+        <sender>RegionB</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4ViewPanel</receiver>
+        <slot>SetRegionMode(bool)</slot>
+    </connection>
+    <connection>
+        <sender>FreezeMode</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4ViewPanel</receiver>
+        <slot>SetFreezeMouseMode(bool)</slot>
+    </connection>
+    <connection>
+        <sender>LatexB</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4ViewPanel</receiver>
+        <slot>SetLateXMode(bool)</slot>
+    </connection>
+    <connection>
+        <sender>DrawB</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4ViewPanel</receiver>
+        <slot>SetDrawingMode(bool)</slot>
+    </connection>
+    <connection>
+        <sender>PrintLogB</sender>
+        <signal>pressed()</signal>
+        <receiver>TGo4ViewPanel</receiver>
+        <slot>LogMarkerValues()</slot>
+    </connection>
+    <connection>
+        <sender>PolyB</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>TGo4ViewPanel</receiver>
+        <slot>SetPolygonMode(bool)</slot>
+    </connection>
+    <connection>
+        <sender>SelectedMarkerCmb</sender>
+        <signal>activated(int)</signal>
+        <receiver>TGo4ViewPanel</receiver>
+        <slot>SelectedMarkerCmb_activated(int)</slot>
+    </connection>
+    <connection>
+        <sender>DelSelectedMarker</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ViewPanel</receiver>
+        <slot>DelSelectedMarker_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>fxGo4QRootCanvas</sender>
+        <signal>CanvasDropEvent(QDropEvent*, TPad*)</signal>
+        <receiver>TGo4ViewPanel</receiver>
+        <slot>CanvasDropEventSlot(QDropEvent*,TPad*)</slot>
+    </connection>
+    <connection>
+        <sender>fxGo4QRootCanvas</sender>
+        <signal>CanvasStatusEvent(const char*)</signal>
+        <receiver>TGo4ViewPanel</receiver>
+        <slot>CanvasStatusEventSlot(const char*)</slot>
+    </connection>
+    <connection>
+        <sender>fxGo4QRootCanvas</sender>
+        <signal>DoCanvasResize()</signal>
+        <receiver>TGo4ViewPanel</receiver>
+        <slot>DoCanvasResizeSlot()</slot>
+    </connection>
+    <connection>
+        <sender>GetConditionBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ViewPanel</receiver>
+        <slot>GetConditionBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>InfoConditionBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ViewPanel</receiver>
+        <slot>InfoConditionBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>EditConditionBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ViewPanel</receiver>
+        <slot>EditConditionBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>SetConditionBtn</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4ViewPanel</receiver>
+        <slot>SetConditionBtn_clicked()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QGo4Widget.h</include>
+    <include location="local" impldecl="in implementation">TH1.h</include>
+    <include location="local" impldecl="in implementation">TH2.h</include>
+    <include location="local" impldecl="in implementation">TH3.h</include>
+    <include location="local" impldecl="in implementation">TVirtualPadEditor.h</include>
+    <include location="local" impldecl="in implementation">TVirtualX.h</include>
+    <include location="local" impldecl="in implementation">RVersion.h</include>
+    <include location="local" impldecl="in implementation">Riostream.h</include>
+    <include location="local" impldecl="in implementation">THStack.h</include>
+    <include location="local" impldecl="in implementation">TGraph.h</include>
+    <include location="local" impldecl="in implementation">TMultiGraph.h</include>
+    <include location="local" impldecl="in implementation">TColor.h</include>
+    <include location="local" impldecl="in implementation">TCanvas.h</include>
+    <include location="local" impldecl="in implementation">TPad.h</include>
+    <include location="local" impldecl="in implementation">TFrame.h</include>
+    <include location="local" impldecl="in implementation">TCutG.h</include>
+    <include location="local" impldecl="in implementation">TArrow.h</include>
+    <include location="local" impldecl="in implementation">TList.h</include>
+    <include location="local" impldecl="in implementation">TLatex.h</include>
+    <include location="local" impldecl="in implementation">TPaveStats.h</include>
+    <include location="local" impldecl="in implementation">TPaveLabel.h</include>
+    <include location="local" impldecl="in implementation">TLegend.h</include>
+    <include location="local" impldecl="in implementation">TLegendEntry.h</include>
+    <include location="local" impldecl="in implementation">TStyle.h</include>
+    <include location="local" impldecl="in implementation">TROOT.h</include>
+    <include location="local" impldecl="in implementation">TMath.h</include>
+    <include location="local" impldecl="in implementation">TClass.h</include>
+    <include location="local" impldecl="in implementation">TSystem.h</include>
+    <include location="local" impldecl="in implementation">qmenubar.h</include>
+    <include location="local" impldecl="in implementation">qstatusbar.h</include>
+    <include location="local" impldecl="in implementation">qfiledialog.h</include>
+    <include location="local" impldecl="in implementation">qapplication.h</include>
+    <include location="local" impldecl="in implementation">qtimer.h</include>
+    <include location="local" impldecl="in implementation">qinputdialog.h</include>
+    <include location="local" impldecl="in implementation">TGo4Picture.h</include>
+    <include location="local" impldecl="in implementation">TGo4Fitter.h</include>
+    <include location="local" impldecl="in implementation">TGo4Marker.h</include>
+    <include location="local" impldecl="in implementation">TGo4Condition.h</include>
+    <include location="local" impldecl="in implementation">TGo4WinCond.h</include>
+    <include location="local" impldecl="in implementation">TGo4PolyCond.h</include>
+    <include location="local" impldecl="in implementation">TGo4CondArray.h</include>
+    <include location="local" impldecl="in implementation">TGo4WinCondView.h</include>
+    <include location="local" impldecl="in implementation">TGo4PolyCondView.h</include>
+    <include location="local" impldecl="in implementation">TGo4LockGuard.h</include>
+    <include location="local" impldecl="in implementation">tqrootwindow.h</include>
+    <include location="local" impldecl="in implementation">tqcanvasmenu.h</include>
+    <include location="local" impldecl="in implementation">TGo4WorkSpace.h</include>
+    <include location="local" impldecl="in implementation">TGo4Picture.h</include>
+    <include location="local" impldecl="in implementation">TGo4ASImage.h</include>
+    <include location="local" impldecl="in implementation">TGo4PrintWidget.h</include>
+    <include location="local" impldecl="in implementation">TGo4Proxy.h</include>
+    <include location="local" impldecl="in implementation">TGo4Slot.h</include>
+    <include location="local" impldecl="in implementation">TGo4ObjectProxy.h</include>
+    <include location="local" impldecl="in implementation">TGo4LinkProxy.h</include>
+    <include location="local" impldecl="in implementation">TGo4DrawObjProxy.h</include>
+    <include location="local" impldecl="in implementation">TGo4DrawCloneProxy.h</include>
+    <include location="local" impldecl="in implementation">TGo4Iter.h</include>
+    <include location="local" impldecl="in implementation">TGo4ObjectManager.h</include>
+    <include location="local" impldecl="in implementation">TGo4BrowserProxy.h</include>
+    <include location="local" impldecl="in implementation">QGo4RootCanvas.h</include>
+    <include location="local" impldecl="in implementation">TGo4QSettings.h</include>
+    <include location="local" impldecl="in implementation">TGo4ViewPanel.ui.h</include>
+</includes>
+<forwards>
+    <forward>class THStack</forward>
+    <forward>class TObject</forward>
+    <forward>class TCanvas</forward>
+    <forward>class TPad</forward>
+    <forward>class TH1</forward>
+    <forward>class TH2</forward>
+    <forward>class TAxis</forward>
+    <forward>class TGraph </forward>
+    <forward>class TCutG</forward>
+    <forward>class TMultiGraph</forward>
+    <forward>class TGo4ASImage</forward>
+    <forward>class TGo4Picture</forward>
+    <forward>class TQRootWindow</forward>
+    <forward>class QGo4RootCanvas</forward>
+    <forward>class TGo4Slot</forward>
+    <forward>class TGo4Picture</forward>
+    <forward>class TObjArray</forward>
+    <forward>class TVirtualPadEditor</forward>
+    <forward>class QMenuBar</forward>
+    <forward>class QPopupMenu</forward>
+    <forward>class QStatusBar</forward>
+</forwards>
+<variables>
+    <variable>QString fPanelName</variable>
+    <variable>bool fbEditorFrameVisible</variable>
+    <variable>TVirtualPadEditor* fxPeditor</variable>
+    <variable>TQRootWindow* fxRooteditor</variable>
+    <variable>bool fbFreezeTitle</variable>
+    <variable>bool fbMarkEditorVisible</variable>
+    <variable>bool fbTypingMode</variable>
+    <variable>QMenuBar* fMenuBar</variable>
+    <variable>TPad* ActivePad</variable>
+    <variable>int fiSkipRedrawCounter</variable>
+    <variable>bool fbCanvasCrosshair</variable>
+    <variable>bool fbCanvasEventstatus</variable>
+    <variable>QStatusBar *CanvasStatus</variable>
+    <variable>bool fbApplyToAllFlag</variable>
+    <variable>TPad* fxRepaintTimerPad</variable>
+    <variable>TPad* fxDoubleClickTimerPad</variable>
+    <variable access="public">enum {kind_None = -1,
+                                    kind_Link = 1,
+                                    knd_Reference = 2,
+                                    kind_Additional = 100,
+                                    kind_FitModels = 101,
+                                    kind_Specials = 200,
+                                    kind_Condition = 201,
+                                    kind_Marker = 202,
+                                    kind_Window = 203,
+                                    kind_Poly = 204,
+                                    kind_Latex = 205,
+                                    kind_Arrow = 206,
+                                    kind_FitInfo = 221,
+                                    kind_FitArrows = 222,
+                                    kind_Other = 300,
+                                    kind_Fitter = 301,
+                                    kind_Permanet = 1000,
+                                    kind_PadOptions = 1001,
+                                    kind_ThisPad = 1002,
+                                    kind_PadSlot = 1003 }</variable>
+    <variable>int fiMouseMode</variable>
+    <variable>int fiPickCounter</variable>
+    <variable>bool fbPickAgain</variable>
+    <variable>bool fbCloneFlag</variable>
+    <variable>bool fbModifiedSignalFlag</variable>
+    <variable>bool fbLeaveFocusAfterCondEnd</variable>
+    <variable>TH1* fDummyHisto</variable>
+    <variable>QPopupMenu* fSelectMenu</variable>
+    <variable>QCheckBox* fAutoScaleCheck</variable>
+</variables>
+<slots>
+    <slot>SetCursorMode( bool on )</slot>
+    <slot>SetRegionMode( bool on )</slot>
+    <slot>SetPolygonMode( bool on )</slot>
+    <slot>SetLateXMode( bool on )</slot>
+    <slot>SetDrawingMode( bool on )</slot>
+    <slot>SetFreezeMouseMode( bool on )</slot>
+    <slot>RefreshButtons()</slot>
+    <slot>SelectedMarkerCmb_activated( int indx )</slot>
+    <slot>DelSelectedMarker_clicked()</slot>
+    <slot>SetMarkerPanel()</slot>
+    <slot>LogMarkerValues()</slot>
+    <slot>ClearAllMarkers()</slot>
+    <slot>GetConditionBtn_clicked()</slot>
+    <slot>InfoConditionBtn_clicked()</slot>
+    <slot>EditConditionBtn_clicked()</slot>
+    <slot>SetConditionBtn_clicked()</slot>
+    <slot>SaveMarkers()</slot>
+    <slot>LoadMarkers()</slot>
+    <slot>SetActivePad( TPad * pad )</slot>
+    <slot>PadClickedSlot( TPad * pad )</slot>
+    <slot>PadDoubleClickedSlot( TPad * pad )</slot>
+    <slot>CanvasDropEventSlot( QDropEvent * event, TPad * pad )</slot>
+    <slot>CanvasStatusEventSlot( const char * message )</slot>
+    <slot>ProcessPadDoubleClick()</slot>
+    <slot>MenuCommandExecutedSlot( TObject * obj, const char * cmdname )</slot>
+    <slot>DoCanvasResizeSlot()</slot>
+    <slot>SaveCanvas()</slot>
+    <slot>ProducePicture()</slot>
+    <slot>ProduceGraphFromMarkers()</slot>
+    <slot>PrintCanvas()</slot>
+    <slot>StartRootEditor()</slot>
+    <slot>StartConditionEditor()</slot>
+    <slot>RectangularRatio()</slot>
+    <slot>DefaultPadMargin()</slot>
+    <slot>ClearActivePad()</slot>
+    <slot>ClearCanvas()</slot>
+    <slot>AboutToShowOptionsMenu()</slot>
+    <slot>ShowEventStatus()</slot>
+    <slot>ProcessPadModifiedSignal()</slot>
+    <slot>RedrawPanel( TPad * pad, bool force )</slot>
+    <slot>ResizeGedEditorSlot()</slot>
+    <slot>checkRepaintSlot()</slot>
+    <slot>OptionsMenuItemActivated(int)</slot>
+    <slot>SelectMenuItemActivated(int)</slot>
+    <slot>ApplyToAllToggled(bool)</slot>
+    <slot>AutoScaleToggled(bool)</slot>
+    <slot>SuperImposeToggled(bool)</slot>
+    <slot>panelSlot(TGo4ViewPanel * panel, TPad * pad, int signalid)</slot>
+</slots>
+<functions>
+    <function returnType="const char*"> GetPanelName()</function>
+    <function>SetPanelName(const char* newname)</function>
+    <function returnType="TGo4Slot*">GetPanelSlot()</function>
+    <function returnType="TGo4Slot*">AddNewSlot(const char* name, TGo4Slot* parent)</function>
+    <function>BlockPanelRedraw(bool on)</function>
+    <function>ResetWidget()</function>
+    <function>linkedObjectUpdated(const char* linkname, TObject* obj)</function>
+    <function>linkedUpdated(TGo4Slot* slot, TObject* obj)</function>
+    <function>linkedRemoved(TGo4Slot* slot, TObject* obj)</function>
+    <function returnType="bool">IsAcceptDrag( const char * itemname, TClass * cl, int kind )</function>
+    <function>DropOnPad(TPad* pad, const char * itemname, TClass * cl, int kind )</function>
+    <function>init()</function>
+    <function>CompleteInitialization()</function>
+    <function access="protected">destroy()</function>
+    <function>SetMouseMode( int mode )</function>
+    <function returnType="int">GetMouseMode()</function>
+    <function returnType="QString">GetSelectedMarkerName( TPad * pad )</function>
+    <function returnType="int">GetSelectedMarkerIndex( TPad * pad )</function>
+    <function returnType="TGo4Slot *">GetSelectedSlot( TPad * pad, int * selkind, TObject * * selobj )</function>
+    <function returnType="bool">IsConditionSelected( TPad * pad )</function>
+    <function returnType="TPad*">FindPadWithItem(const char* itemname)</function>
+    <function>UndrawItemOnPanel(const char* itemname)</function>
+    <function>SetSelectedMarker( TPad * pad, const QString &amp; selname, int selindex )</function>
+    <function>SetSelectedMarkerByMouseClick(TPad* pad, const char* name)</function>
+    <function>StartConditionEditing(TPad* pad)</function>
+    <function>SwitchMarkerButton( int kind, bool on )</function>
+    <function access="protected">CheckActionAtTheEnd( TPad * pad )</function>
+    <function access="protected" returnType="bool">CompleteMarkerEdit( TPad * pad )</function>
+    <function>MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemname)</function>
+    <function>UpdatePadStatus( TPad * pad, bool removeitems )</function>
+    <function>ProcessPadStatusUpdate( TPad * pad, TGo4Slot* parent, bool removeitems )</function>
+    <function returnType="TGo4Slot *">AddDrawObject( TPad * pad, int kind, const char * itemname, TObject * obj, bool owner, const char * drawopt )</function>
+    <function returnType="TGo4Slot *">GetDrawObjectSlot( TPad * pad, const char * name )</function>
+    <function returnType="TObject *">GetDrawObject( TPad * pad, const char * name )</function>
+    <function>DeleteDrawObject( TPad * pad, const char * name )</function>
+    <function>DeleteDrawObject( TPad * pad, TObject * obj )</function>
+    <function>CollectSpecialObjects( TPad * pad, TObjArray * objs, int selectkind )</function>
+    <function returnType="bool">DeleteDrawObjects( TPad * pad, int kindtodelete )</function>
+    <function>SetPadSuperImpose( TPad * pad, bool on )</function>
+    <function returnType="bool">ScanDrawOptions(TPad* pad, TGo4Slot* padslot, TGo4Picture* pic, bool onlyscan)</function>
+    <function>ScanObjectsDrawOptions(bool onlyscan, TGo4Slot* padslot, TObjArray* objs, TObjArray* objslots)</function>
+    <function>CollectMainDrawObjects( TGo4Slot * slot, TObjArray* objs, TObjArray* objslots, int modifier)</function>
+    <function returnType="TObject *">ProduceSuperimposeObject( TGo4Picture* padopt, TGo4Slot * sislot, TGo4Slot * legslot, TObjArray * objs, TObjArray * objslots, bool showitems )</function>
+    <function>Divide( int numX, int numY )</function>
+    <function>SetSlotPad(TGo4Slot* padslot, TPad * pad)</function>
+    <function returnType="TGo4Slot*">GetPadSlot( TPad * pad )</function>
+    <function returnType="TPad *">GetSlotPad( TGo4Slot * slot )</function>
+    <function returnType="bool">IsPadHasSubPads( TGo4Slot * padslot )</function>
+    <function returnType="bool">IsPadHasSubPads( TPad * pad )</function>
+    <function>MarkPadModified( TPad * pad )</function>
+    <function returnType="bool">IsPanelPad( TPad * pad )</function>
+    <function returnType="int">GetNumberOfPads( TPad * toppad )</function>
+    <function returnType="TPad *">GetSubPad( TPad * toppad, int num, bool onlytoplevel )</function>
+    <function>ProducePadsList( TObjArray * arr, TPad * toppad )</function>
+    <function returnType="const char*">GetDrawObjectLinkName( TPad * pad, TObject* obj )</function>
+    <function returnType="TGo4Slot *">GetPadMainObjectSlot( TPad * pad )</function>
+    <function returnType="TGo4Slot *">GetSuperimposeSlot(TGo4Slot* slot)</function>
+    <function returnType="TObject *">GetPadMainObject( TPad * pad )</function>
+    <function returnType="TCanvas *">GetCanvas()</function>
+    <function returnType="QGo4RootCanvas *">GetQCanvas()</function>
+    <function returnType="TPad *">GetActivePad()</function>
+    <function>AllocatePadOptions(TPad* pad)</function>
+    <function returnType="TGo4Picture *">GetPadOptions( TPad * pad )</function>
+    <function returnType="TGo4Picture *">GetPadOptions( TGo4Slot * padslot )</function>
+    <function returnType="TH1*">GetPadHistogram( TPad * pad )</function>
+    <function returnType="bool">IsRedrawBlocked()</function>
+    <function>UpdatePanelCaption()</function>
+    <function>SetDrawKind( TGo4Slot * slot, int kind )</function>
+    <function>SetSpecialDrawOption( TGo4Slot * slot, const char * drawopt )</function>
+    <function returnType="int">GetDrawKind( TGo4Slot * slot )</function>
+    <function>SetSelectedObjectIndex( TGo4Slot * slot, int indx )</function>
+    <function returnType="int">GetSelectedObjectIndex(TGo4Slot* slot)</function>
+    <function returnType="TObject*">GetSelectedObject( TPad * pad, const char** drawopt )</function>
+    <function returnType="bool">ShiftSelectedObjectToEnd(TPad * pad)</function>
+    <function returnType="const char *">GetSpecialDrawOption( TGo4Slot * slot )</function>
+    <function>CheckForSpecialObjects( TPad * pad, TGo4Slot * padslot )</function>
+    <function>CheckObjectsAssigments( TPad * pad, TGo4Slot * padslot )</function>
+    <function>ProcessPictureRedraw( const char* picitemname, TPad * pad, TGo4Picture * pic )</function>
+    <function>ProcessCanvasAdopt( TPad * tgtpad, TPad * srcpad, const char* srcitemname)</function>
+    <function returnType="bool">ProcessPadRedraw( TPad * pad, bool force)</function>
+    <function>RedrawHistogram( TPad * pad, TGo4Picture * padopt, TH1 * his, bool scancontent )</function>
+    <function>RedrawStack( TPad * pad, TGo4Picture * padopt, THStack * hs, bool dosuperimpose, bool scancontent )</function>
+    <function>RedrawGraph( TPad * pad, TGo4Picture * padopt, TGraph * gr, bool scancontent )</function>
+    <function>RedrawMultiGraph( TPad * pad, TGo4Picture * padopt, TMultiGraph * mg, bool dosuperimpose, bool scancontent )</function>
+    <function>RedrawImage( TPad * pad, TGo4Picture * padopt, TGo4ASImage * im, TH2 * asihisto, bool scancontent )</function>
+    <function>RedrawLegend( TPad * pad, TGo4Picture * padopt, TGo4Slot * legslot )</function>
+    <function>RedrawSpecialObjects( TPad * pad, TGo4Slot* padslot)</function>
+    <function returnType="bool">IsApplyToAllFlag()</function>
+    <function returnType="bool">IsFreezeTitle()</function>
+    <function>ChangeDrawOptionForPad(TGo4Slot* padslot, int kind, int value, const char* drawopt )</function>
+    <function>ChangeDrawOption( int kind, int value, const char* drawopt )</function>
+    <function>ResetPadFillColors( TPad * pad, int col )</function>
+    <function>ClearPad( TPad * pad, bool removeitems, bool removesubpads )</function>
+    <function>ClearPadItems( TGo4Slot * padslot, TGo4Slot* remain )</function>
+    <function>ProcessPadClear( TPad * pad, bool removeitems, bool removesubpads )</function>
+    <function>ProcessMarkersClear(TPad *pad, bool withsubpads)</function>
+    <function>SetPadDefaults( TPad * pad )</function>
+    <function>DisplayPadStatus( TPad * pad )</function>
+    <function>MoveScale( int expandfactor, int xaction, int yaction, int zaction )</function>
+    <function>MoveSingleScale( int expandfactor, int action, int naxis, TGo4Picture* opt)</function>
+    <function>TakeFullRangeFromHisto( TH1 * h1, TGo4Picture * padopt, bool isfirsthisto)</function>
+    <function>TakeFullRangeFromGraph( TGraph * gr, TGo4Picture * padopt, bool isfirst)</function>
+    <function>SetSelectedRangeToHisto( TH1 * h1, THStack* hs, TGo4Picture * padopt, bool ishisto )</function>
+    <function returnType="bool">GetVisibleRange(TPad* pad, int naxis, double &amp; min, double &amp; max)</function>
+    <function>PadRangeAxisChanged( TPad * pad )</function>
+    <function>PadRangeAxisChanged( TPad * pad, double rxmin, double rxmax, double rymin, double rymax )</function>
+    <function returnType="bool">TakeSelectedAxisRange(int naxis, TGo4Picture* padopt, double selmin, double selmax, bool force)</function>
+    <function returnType="bool">TakeSelectedAxisRange(int naxis, TGo4Picture* padopt, TAxis* ax)</function>
+    <function>GetSelectedRange(int &amp; ndim, bool &amp; autoscale, double &amp; xmin, double &amp; xmax, double &amp; ymin, double &amp; ymax, double &amp; zmin, double &amp; zmax)</function>
+    <function>SetSelectedRange(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax )</function>
+    <function>SetAutoScale(bool on, TPad* selpad)</function>
+    <function access="protected">enterEvent( QEvent * e )</function>
+    <function access="protected">leaveEvent( QEvent * e )</function>
+    <function access="protected">closeEvent( QCloseEvent * ce )</function>
+    <function access="protected">paintEvent( QPaintEvent * e )</function>
+    <function access="protected">resizeEvent( QResizeEvent * e )</function>
+    <function access="protected">mouseReleaseEvent( QMouseEvent * e )</function>
+    <function>ResizeGedEditor()</function>
+    <function>ActivateInGedEditor(TObject* obj)</function>
+    <function>CleanupGedEditor()</function>
+    <function>CheckResizeFlags()</function>
+    <function>ShootRepaintTimer()</function>
+    <function returnType="bool">IsRepaintTimerActive()</function>
+    <function>ShootRepaintTimer(TPad * pad)</function>
+    <function>PadDeleted( TPad * pad )</function>
+    <function access="protected" returnType="int">GetNumMarkers( TPad * pad, int kind )</function>
+    <function access="protected">AddMarkerObj( TPad * pad, int kind, TObject * obj )</function>
+    <function access="protected">SetActiveObj( TPad * pad, int kind, TGo4Slot * activeslot )</function>
+    <function access="protected" returnType="TObject *">GetActiveObj( TPad * pad, int kind )</function>
+    <function access="protected" returnType="QString">GetActiveObjName( TPad * pad, int kind )</function>
+</functions>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

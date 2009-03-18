@@ -1,0 +1,39 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>QFitPrintWidget</class>
+  <widget class="QFitWidget" name="QFitPrintWidget" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>500</width>
+        <height>400</height>
+      </rect>
+    </property>
+    <property name="caption" >
+      <string>QFitPrintWidget</string>
+    </property>
+    <layout class="QGridLayout" >
+      <item row="0" column="0" >
+        <widget class="Q3TextEdit" name="PrintText" >
+          <property name="resizePolicy" >
+            <enum>Q3ScrollView::AutoOneFit</enum>
+          </property>
+          <property name="text" >
+            <string/>
+          </property>
+          <property name="wordWrap" >
+            <enum>Q3TextEdit::NoWrap</enum>
+          </property>
+        </widget>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <includes>
+    <include location="local" >QFitWidget.h</include>
+  </includes>
+</ui>

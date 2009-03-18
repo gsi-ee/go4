@@ -1,0 +1,71 @@
+<!DOCTYPE UI><UI version="3.0" stdsetdef="1">
+<class>QFitModelGauss1Widget</class>
+<widget class="QFitModelWidget">
+    <property name="name">
+        <cstring>QFitModelGauss1Widget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>480</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>QFitModelGauss1Widget</string>
+    </property>
+    <widget class="QLabel">
+        <property name="name">
+            <cstring>TextLabel11</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>140</y>
+                <width>140</width>
+                <height>18</height>
+            </rect>
+        </property>
+        <property name="text">
+            <string>Associated to axis:</string>
+        </property>
+    </widget>
+    <widget class="QSpinBox">
+        <property name="name">
+            <cstring>AxisNumSpin</cstring>
+        </property>
+        <property name="geometry">
+            <rect>
+                <x>20</x>
+                <y>160</y>
+                <width>120</width>
+                <height>27</height>
+            </rect>
+        </property>
+    </widget>
+</widget>
+<connections>
+    <connection>
+        <sender>AxisNumSpin</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>QFitModelGauss1Widget</receiver>
+        <slot>AxisNumSpin_valueChanged(int)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in declaration">QFitModelWidget.h</include>
+    <include location="local" impldecl="in implementation">TGo4FitModelGauss1.h</include>
+    <include location="local" impldecl="in implementation">QFitModelGauss1Widget.ui.h</include>
+</includes>
+<forwards>
+    <forward>class TGo4FitModelGauss1</forward>
+</forwards>
+<slots>
+    <slot returnType="TGo4FitModelGauss1 *">GetGauss1()</slot>
+    <slot>FillSpecificData()</slot>
+    <slot>AxisNumSpin_valueChanged( int )</slot>
+</slots>
+<pixmapinproject/>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
