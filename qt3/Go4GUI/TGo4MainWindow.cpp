@@ -236,7 +236,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    MBSDockWin->setWidget(mbs);
    addDockWindow(MBSDockWin, Qt::DockBottom);
    MBSDockWin->show();
-#ifdef __GO4DIM__   
+#ifdef __GO4DIM__
    QDockWindow* DABCDockWin = new QDockWindow();
    DABCDockWin->setResizeEnabled(TRUE);
    DABCDockWin->setCaption("DABC monitor");
@@ -246,7 +246,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    DABCDockWin->setWidget(dabc);
    addDockWindow(DABCDockWin, Qt::DockBottom);
    DABCDockWin->show();
-#endif    
+#endif
 
    QToolBar* DividePanelBar = new QToolBar (this, "Canvas Tools");
    addDockWindow(DividePanelBar, "Canvas Tools", Qt::DockTop, TRUE );
@@ -852,7 +852,7 @@ void TGo4MainWindow::UserPanelSlot()
    usergui = getenv("GO4SYS");
    if (usergui.length()>0) {
      if (usergui[usergui.length()-1]!='/') usergui+="/";
-     usergui+="Go4UserGUI";
+     usergui+="qt3/Go4UserGUI";
      if (startUserGUI(usergui)) return;
    }
 

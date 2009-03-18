@@ -248,7 +248,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    addDockWindow(MBSDockWin, Qt::DockBottom);
    MBSDockWin->show();
 
-#ifdef __GO4DIM__   
+#ifdef __GO4DIM__
    Q3DockWindow* DABCDockWin = new Q3DockWindow();
    DABCDockWin->setResizeEnabled(TRUE);
    DABCDockWin->setCaption("DABC monitor");
@@ -258,7 +258,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    DABCDockWin->setWidget(dabc);
    addDockWindow(DABCDockWin, Qt::DockBottom);
    DABCDockWin->show();
-#endif    
+#endif
 
 
    Q3ToolBar* DividePanelBar = new Q3ToolBar (this, "Canvas Tools");
@@ -477,7 +477,7 @@ void TGo4MainWindow::AddSettingMenu()
    QSignalMapper *styleMapper = new QSignalMapper( this );
    //connect( styleMapper, SIGNAL( mapped( const QString& ) ), this, SLOT( MakeStyleSlot(const QString& ) ) );
    connect( styleMapper, SIGNAL( mapped( const QString& ) ), this, SLOT( SaveStyleSlot(const QString& ) ) );
-   
+
    QStringList list = QStyleFactory::keys();
    list.sort();
    Q3Dict<int> stylesDict( 117, FALSE );
@@ -869,7 +869,7 @@ void TGo4MainWindow::UserPanelSlot()
    usergui = getenv("GO4SYS");
    if (usergui.length()>0) {
      if (usergui[usergui.length()-1]!='/') usergui+="/";
-     usergui+="Go4UserGUI";
+     usergui+="qt4/Go4UserGUI";
      if (startUserGUI(usergui)) return;
    }
 
@@ -891,10 +891,10 @@ TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
 
    TGo4ViewPanel* panel = new TGo4ViewPanel(fxTGo4WorkSpace, name);
    fxTGo4WorkSpace->addWindow(panel); // warning: Qt may exchange the winId here!
-   panel->GetQCanvas()->performResize(); // may register new winId for TCanvas here 
+   panel->GetQCanvas()->performResize(); // may register new winId for TCanvas here
    ConnectGo4Widget(panel);
    panel->CompleteInitialization();
-   panel->update();  
+   panel->update();
    panel->show();
 
    if(ndiv>1) {
@@ -914,13 +914,13 @@ void TGo4MainWindow::closeEvent( QCloseEvent* ce)
    //cout <<"TGo4MainWindow::closeEvent...." << endl;
    if (fCloseCounter!=0) return;
 
-// new for Qt4:   
+// new for Qt4:
  if(QMessageBox::question( this, "Go4 GUI", "Really Exit Go4?",
-         QMessageBox::Yes | QMessageBox::No , 
-         QMessageBox::Yes) != QMessageBox::Yes ) 
-            {   
+         QMessageBox::Yes | QMessageBox::No ,
+         QMessageBox::Yes) != QMessageBox::Yes )
+            {
                //cout <<"QMessageBox does not return yes! "<< endl;
-               ce->ignore(); 
+               ce->ignore();
                return;
             }
 
@@ -941,7 +941,7 @@ void TGo4MainWindow::closeEvent( QCloseEvent* ce)
       statusBar()->message("Closing GUI...");
 
       ce->accept();
-      gSystem->Exit( 0 ); 
+      gSystem->Exit( 0 );
    }
       //cout <<"TGo4MainWindow::closeEvent is finished." << endl;
 
@@ -1161,15 +1161,15 @@ void TGo4MainWindow::ChangeFontSlot()
 //       cout <<"ChangeFontSlot returned from setFont" << endl;
 //       fxTGo4WorkSpace->SetEventsDisabled(false);
 
-//     set font for next startup (workaround)   
-         go4sett->setAppFont(font); 
+//     set font for next startup (workaround)
+         go4sett->setAppFont(font);
          delete go4sett;
          go4sett = new TGo4QSettings;
          QString infostring="Font "+ font.toString()+ " was saved to settings and will be activated on next start. Exit Go4 for restart now?";
          if(QMessageBox::question( this, "Go4 GUI", infostring,
-               QMessageBox::Yes | QMessageBox::No , 
-               QMessageBox::Yes) != QMessageBox::Yes ) 
-                  {   
+               QMessageBox::Yes | QMessageBox::No ,
+               QMessageBox::Yes) != QMessageBox::Yes )
+                  {
                      return;
                   }
          close();
@@ -1186,9 +1186,9 @@ void TGo4MainWindow::SaveStyleSlot(const QString &style)
    go4sett = new TGo4QSettings;
    QString infostring="Style "+style+" was saved to settings and will be activated on next start. Exit Go4 for restart now?";
    if(QMessageBox::question( this, "Go4 GUI", infostring,
-         QMessageBox::Yes | QMessageBox::No , 
-         QMessageBox::Yes) != QMessageBox::Yes ) 
-            {   
+         QMessageBox::Yes | QMessageBox::No ,
+         QMessageBox::Yes) != QMessageBox::Yes )
+            {
                return;
             }
    close();
@@ -2869,7 +2869,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
          if (!fbPanelTimerActive) {
            fbPanelTimerActive = true;
            QTimer::singleShot(0, this, SLOT(checkPanelRepaintSlot()));
-           //cout <<"tttttttt service_PanelTimer in MainWindow" << endl; 
+           //cout <<"tttttttt service_PanelTimer in MainWindow" << endl;
          }
 
          break;

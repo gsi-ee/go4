@@ -102,12 +102,12 @@ ifndef GO4_WITHOUT_QT
 
 ifdef GO4_QT3
   MODULES      += qt3/Go4QtRoot qt3/Go4FitGUI qt3/Go4UserGUI qt3/Go4GUI qt3/Go4plugin
-  EXMODULES    += qt3/Go4UserGUI
+#  EXMODULES    += qt3/Go4UserGUI
 endif
 
 ifdef GO4_QT4
   MODULES      += qt4/Go4QtRoot qt4/Go4FitGUI qt4/Go4UserGUI qt4/Go4GUI qt4/Go4plugin
-  EXMODULES    += qt4/Go4UserGUI
+#  EXMODULES    += qt4/Go4UserGUI
 endif
 
 BUILDGUILIBS += $(GO4SGUI_LIB) $(QTROOTI_LIB)
