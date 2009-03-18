@@ -1,65 +1,62 @@
-USERGUI_NAME        = Go4UserGUI
-MODULE_NAME         = $(USERGUI_NAME)
+USERGUI4_NAME       = qt4usergui
+MODULE_NAME         = $(USERGUI4_NAME)
 
 ## normally should be like this for every module, but can be specific
 
 ifdef GO4PACKAGE
-USERGUI_DIR         = $(GO4SYS)/qt4/$(USERGUI_NAME)
+USERGUI4_DIR         = $(GO4SYS)/qt4/Go4UserGUI
 else
-USERGUI_DIR         = $(CURDIR)
+USERGUI4_DIR         = $(CURDIR)
 endif
 
-USERGUI_LIBDIR      = $(USERGUI_DIR)
-USERGUI_QTLIBNAME   = libGo4UserGui
-USERGUI_QTPRO       = $(USERGUI_DIR)/Go4UserGui.pro
-USERGUI_QTMAKE      = $(USERGUI_DIR)/Makefile.qt
-USERGUI_QGO4WIDG    = $(GO4SYS)/include/QGo4Widget.h
+USERGUI4_LIBDIR      = $(USERGUI4_DIR)
+USERGUI4_QTLIBNAME   = libGo4UserGui
+USERGUI4_QTPRO       = $(USERGUI4_DIR)/Go4UserGui.pro
+USERGUI4_QTMAKE      = $(USERGUI4_DIR)/Makefile.qt
+USERGUI4_QGO4WIDG    = $(GO4SYS)/include/QGo4Widget.h
 
-USERGUI_NOTLIBF     =
+USERGUI4_NOTLIBF     =
 
 ## must be similar for every module
 
-USERGUI_FORMS      := $(wildcard $(USERGUI_DIR)/*.ui)
-#USERGUI_FORMSI     := $(wildcard $(USERGUI_DIR)/*.ui.h)
-USERGUI_FH         := $(USERGUI_FORMS:.ui=.h)
-USERGUI_FS         := $(USERGUI_FORMS:.ui=.cpp)
-#USERGUI_UI_H        = $(patsubst $(USERGUI_FORMS)/%.ui,$(USERGUI_FORMS)/ui_%.h,$(USERGUI_FORMS))
+USERGUI4_FORMS      := $(wildcard $(USERGUI4_DIR)/*.ui)
+#USERGUI4_FORMSI     := $(wildcard $(USERGUI4_DIR)/*.ui.h)
+USERGUI4_FH         := $(USERGUI4_FORMS:.ui=.h)
+USERGUI4_FS         := $(USERGUI4_FORMS:.ui=.cpp)
+#USERGUI4_UI_H        = $(patsubst $(USERGUI4_FORMS)/%.ui,$(USERGUI4_FORMS)/ui_%.h,$(USERGUI4_FORMS))
 
 
-USERGUI_QTLIB       = $(USERGUI_LIBDIR)/$(USERGUI_QTLIBNAME).$(DllSuf).$(VERSSUF)
+USERGUI4_QTLIB       = $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).$(DllSuf).$(VERSSUF)
 
 
 # used in the main Makefile
 
 ifdef DOPACKAGE
-DISTRFILES         += $(USERGUI_FORMS) $(USERGUI_FS) $(USERGUI_FH)
-DISTRFILES         += $(USERGUI_QTPRO) $(USERGUI_DIR)/README.txt
+DISTRFILES         += $(USERGUI4_FORMS) $(USERGUI4_FS) $(USERGUI4_FH)
+DISTRFILES         += $(USERGUI4_QTPRO) $(USERGUI4_DIR)/README.txt
 endif
-
-EXAMPLEEXECS += all-$(USERGUI_NAME)
-
 
 ##### local rules #####
 
-$(USERGUI_QTMAKE): $(USERGUI_QTPRO) $(USERGUI_FORMS) 
-	@echo "Generating $(USERGUI_QTMAKE)..."
-	cd $(USERGUI_DIR); $(QMAKE) $(USERGUI_QTPRO) -o $(USERGUI_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS)
+$(USERGUI4_QTMAKE): $(USERGUI4_QTPRO) $(USERGUI4_FORMS) 
+	@echo "Generating $(USERGUI4_QTMAKE)..."
+	cd $(USERGUI4_DIR); $(QMAKE) $(USERGUI4_QTPRO) -o $(USERGUI4_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS)
 
-$(USERGUI_QTLIB): $(USERGUI_QTMAKE) $(USERGUI_QGO4WIDG)
+$(USERGUI4_QTLIB): $(USERGUI4_QTMAKE) $(USERGUI4_QGO4WIDG)
 	@echo "Generating Qt part of the User GUI..."
-	+cd $(USERGUI_DIR); $(MAKE) -f $(USERGUI_QTMAKE)
+	+cd $(USERGUI4_DIR); $(MAKE) -f $(USERGUI4_QTMAKE)
 
-all-$(USERGUI_NAME):  $(USERGUI_QTLIB)
+all-$(USERGUI4_NAME):  $(USERGUI4_QTLIB)
 
-clean-obj-$(USERGUI_NAME):
-	@rm -f $(USERGUI_LIBDIR)/$(USERGUI_QTLIBNAME).$(DllSuf)*
-	@rm -f $(USERGUI_DIR)/*.o
+clean-obj-$(USERGUI4_NAME):
+	@rm -f $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).$(DllSuf)*
+	@rm -f $(USERGUI4_DIR)/*.o
 
-clean-$(USERGUI_NAME): clean-obj-$(USERGUI_NAME)
-ifneq ($(wildcard $(USERGUI_QTMAKE)),)
-	cd $(USERGUI_DIR); $(MAKE) -f $(USERGUI_QTMAKE) clean
+clean-$(USERGUI4_NAME): clean-obj-$(USERGUI4_NAME)
+ifneq ($(wildcard $(USERGUI4_QTMAKE)),)
+	cd $(USERGUI4_DIR); $(MAKE) -f $(USERGUI4_QTMAKE) clean
 endif
-	@rm -f $(USERGUI_QTMAKE)
+	@rm -f $(USERGUI4_QTMAKE)
 
-map-$(USERGUI_NAME):
+map-$(USERGUI4_NAME):
 	@echo "No ROOT map can be generated for User Gui"

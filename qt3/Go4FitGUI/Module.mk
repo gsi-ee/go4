@@ -1,65 +1,55 @@
-FITGUI_NAME         = Go4FitGUI
-MODULE_NAME         = $(FITGUI_NAME)
-
 ## normally should be like this for every module, but can be specific
 
-FITGUI_DIR         = $(GO4SYS)/qt3/$(FITGUI_NAME)
-FITGUI_QTLIBNAME   = libGo4FitGUI
-FITGUI_QTPRO       = $(FITGUI_DIR)/Go4FitGUI.pro
-FITGUI_QTMAKE      = $(FITGUI_DIR)/Makefile.qt
+FITGUI3_DIR         = $(GO4SYS)/qt3/Go4FitGUI
+FITGUI3_QTLIBNAME   = libGo4FitGUI3
+FITGUI3_QTPRO       = $(FITGUI3_DIR)/Go4FitGUI3.pro
+FITGUI3_QTMAKE      = $(FITGUI3_DIR)/Makefile.qt
 
-FITGUI_NOTLIBF     =
+FITGUI3_NOTLIBF     =
 
 ## must be similar for every module
 
-FITGUI_FORMS       = $(wildcard $(FITGUI_DIR)/*.ui)
-FITGUI_FORMSI      = $(wildcard $(FITGUI_DIR)/*.ui.h)
-FITGUI_FH          = $(FITGUI_FORMS:.ui=.h)
-FITGUI_FS          = $(FITGUI_FORMS:.ui=.cpp)
+FITGUI3_FORMS       = $(wildcard $(FITGUI3_DIR)/*.ui)
+FITGUI3_FORMSI      = $(wildcard $(FITGUI3_DIR)/*.ui.h)
+FITGUI3_FH          = $(FITGUI3_FORMS:.ui=.h)
+FITGUI3_FS          = $(FITGUI3_FORMS:.ui=.cpp)
 
-FITGUI_QTH         = $(FITGUI_DIR)/QFitItem.h \
-                     $(FITGUI_DIR)/QFitWidget.h \
-                     $(FITGUI_DIR)/QFitNamedWidget.h \
-                     $(FITGUI_DIR)/QFitModelWidget.h
-FITGUI_QTS         = $(FITGUI_QTH:.h=.cpp)
+FITGUI3_QTH         = $(FITGUI3_DIR)/QFitItem.h \
+                      $(FITGUI3_DIR)/QFitWidget.h \
+                      $(FITGUI3_DIR)/QFitNamedWidget.h \
+                      $(FITGUI3_DIR)/QFitModelWidget.h
+FITGUI3_QTS         = $(FITGUI3_QTH:.h=.cpp)
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(FITGUI_DIR)/%.h, $(GO4SYS)/include/%.h, $(FITGUI_QTH))
+GO4QT3HEADS        += $(FITGUI3_FH)
+GO4QT3HEADS        +=  $(patsubst $(FITGUI3_DIR)/%.h, $(GO4SYS)/include/%.h, $(FITGUI3_QTH))
 
 ifdef DOPACKAGE
-
-DISTRFILES         += $(FITGUI_FORMS) $(FITGUI_FORMSI) $(FITGUI_QTPRO)
-DISTRFILES         += $(FITGUI_QTH) $(FITGUI_QTS) $(FITGUI_DIR)/TGo4FitGuiTypes.h
+DISTRFILES         += $(FITGUI3_FORMS) $(FITGUI3_FORMSI) $(FITGUI3_QTPRO)
+DISTRFILES         += $(FITGUI3_QTH) $(FITGUI3_QTS) $(FITGUI3_DIR)/TGo4FitGuiTypes.h
 endif
-
-GO4QTHEADS         += $(FITGUI_FH)
-GO4QTTAGS          += qt-$(FITGUI_NAME)
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(FITGUI_DIR)/%.h
+$(GO4SYS)/include/%.h: $(FITGUI3_DIR)/%.h
 	@cp -f $< $@
 
 # generate makefile only if project is exists
-ifneq ($(wildcard $(FITGUI_QTPRO)),)
-$(FITGUI_QTMAKE): $(FITGUI_QTPRO) $(FITGUI_FORMS)
+ifneq ($(wildcard $(FITGUI3_QTPRO)),)
+$(FITGUI3_QTMAKE): $(FITGUI3_QTPRO) $(FITGUI3_FORMS)
 	@echo "Generating Makefile.qt of the Fit GUI..."
-	cd $(FITGUI_DIR); $(QMAKE) $(FITGUI_QTPRO) -o $(FITGUI_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS) "DESTDIR=$(GO4DLLPATH)"
+	cd $(FITGUI3_DIR); $(QMAKE) $(FITGUI3_QTPRO) -o $(FITGUI3_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS) "DESTDIR=$(GO4DLLPATH)"
 endif
 
-qt-$(FITGUI_NAME): $(FITGUI_QTMAKE)
+qt3-FitGUI: $(FITGUI3_QTMAKE)
 	@echo "Generating Qt part of the Fit GUI..."
-	+cd $(FITGUI_DIR); $(MAKE) -f $(FITGUI_QTMAKE)
+	+cd $(FITGUI3_DIR); $(MAKE) -f $(FITGUI3_QTMAKE)
 
-all-$(FITGUI_NAME):  $(FITGUI_FH) qt-$(FITGUI_NAME)
-
-clean-obj-$(FITGUI_NAME):
-	@rm -f $(GO4DLLPATH)/$(FITGUI_QTLIBNAME).$(DllSuf)*
-	@rm -f $(FITGUI_DIR)/*.o
-
-clean-$(FITGUI_NAME): clean-obj-$(FITGUI_NAME)
-ifneq ($(wildcard $(FITGUI_QTMAKE)),)
-	cd $(FITGUI_DIR); $(MAKE) -f $(FITGUI_QTMAKE) distclean
+clean-qt3-FitGUI:
+	@rm -f $(GO4DLLPATH)/$(FITGUI3_QTLIBNAME).$(DllSuf)*
+	@rm -f $(FITGUI3_DIR)/*.o
+ifneq ($(wildcard $(FITGUI3_QTMAKE)),)
+	cd $(FITGUI3_DIR); $(MAKE) -f $(FITGUI3_QTMAKE) distclean
 endif
-	@rm -f $(FITGUI_QTMAKE) $(FITGUI_FH)
+	@rm -f $(FITGUI3_QTMAKE) $(FITGUI3_FH)

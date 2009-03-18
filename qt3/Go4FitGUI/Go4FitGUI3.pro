@@ -5,12 +5,12 @@ SOURCES	+= QFitItem.cpp \
             QFitWidget.cpp \
             QFitNamedWidget.cpp \
             QFitModelWidget.cpp
-            
+
 HEADERS	+= QFitItem.h \
             QFitWidget.h \
             QFitNamedWidget.h \
             QFitModelWidget.h
-            
+
 FORMS	= TGo4FitPanel.ui \
 	QFitModelPolynomWidget.ui \
 	QFitModelGauss1Widget.ui \
@@ -35,9 +35,9 @@ FORMS	= TGo4FitPanel.ui \
 	QFitMatrixTransWidget.ui \
 	QFitPeakFinderWidget.ui \
 	QFitRangeCutWidget.ui
-	
+
 TEMPLATE = lib
-CONFIG	+= qt warn_off thread
-INCLUDEPATH	+= $(ROOTSYS)/include $(GO4SYS)/include
-DEPENDPATH	+= $(ROOTSYS)/include $(GO4SYS)/include
-LANGUAGE	= C++
+CONFIG += qt warn_off thread
+INCLUDEPATH += $(ROOTSYS)/include $(GO4SYS)/include
+DEPENDPATH += $(ROOTSYS)/include $(GO4SYS)/include
+LANGUAGE = C++

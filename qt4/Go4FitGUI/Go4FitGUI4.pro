@@ -28,7 +28,7 @@ SOURCES	+= TGo4FitPanel.cpp \
             QFitLinearTransWidget.cpp \
             QFitMatrixTransWidget.cpp \
             QFitPeakFinderWidget.cpp \
-            QFitRangeCutWidget.cpp           
+            QFitRangeCutWidget.cpp
 
 HEADERS	+= TGo4FitPanel.h \
             QFitItem.h \

@@ -83,12 +83,6 @@ EXMODULES = Go4EventServerExample Go4ExampleSimple \
             Go4ExampleUserSource Go4ExampleMesh Go4FitExample \
             Go4TaskHandlerExample Go4ThreadManagerExample
 
-ifndef GO4_WITHOUT_QT
-MODULES      += Go4QtRoot Go4FitGUI Go4UserGUI Go4GUI Go4plugin
-EXMODULES    += Go4UserGUI
-BUILDGUILIBS += $(GO4SGUI_LIB) $(QTROOTI_LIB)
-endif
-
 all:       gui map examples 
 
 .SUFFIXES: .cxx .d .h
@@ -106,6 +100,10 @@ FASTRULES    += clean-ex clean-qt clean-bak clean-obj clean-plugin \
 
 include $(patsubst %,%/Module.mk,$(MODULES))
 
+include qt3/Module.mk
+
+include qt4/Module.mk
+
 build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
 	@(if [ ! -f $@ ] ; then touch $@; fi)
 	@(if [ ! -f lib ] ; then mkdir -p lib; fi)
@@ -114,7 +112,7 @@ build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
 
 libs:           $(BUILDGO4LIBS)
 
-gui:            libs $(BUILDGUILIBS) $(GO4QTTAGS)
+gui::           libs
 
 examples:       map $(patsubst %,all-%,$(EXMODULES)) $(EXAMPLEEXECS)
 
@@ -125,7 +123,7 @@ ifndef DOMAP
 	@echo "Map for go4 classes can not be generated with ROOT $(shell root-config --version)"
 endif
 
-clean: clean-mainlibs clean-plugin $(patsubst %,clean-%,$(MODULES))
+clean:: clean-mainlibs clean-plugin $(patsubst %,clean-%,$(MODULES))
 	@rm -f $(GO4MAP)
 	@rm -f $(GO4SYS)/include/*.h
 	@rm -f build/dummy.d

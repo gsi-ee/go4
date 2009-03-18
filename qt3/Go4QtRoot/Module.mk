@@ -1,66 +1,60 @@
-QTROOT_NAME      = Go4QtRoot
-MODULE_NAME      = $(QTROOT_NAME)
+QT3ROOT_DIR       = $(GO4SYS)/qt3/Go4QtRoot
 
-QTROOT_DIR       = $(GO4SYS)/qt3/$(QTROOT_NAME)
+QT3ROOT_LIBNAME =  $(LIB_PREFIX)Go4Qt3Root
 
-QTROOTI_LIBNAME =  $(LIB_PREFIX)Go4QtRoot
+QT3ROOT_VERSUF = 3.5.0
 
-QTVERSUF = 3.5.0
+QT3ROOT_S       =  $(QT3ROOT_DIR)/qrootapplication.cpp \
+                   $(QT3ROOT_DIR)/tqrootguifactory.cpp \
+                   $(QT3ROOT_DIR)/tqcanvasimp.cpp \
+                   $(QT3ROOT_DIR)/tqcanvasmenu.cpp \
+                   $(QT3ROOT_DIR)/tqrootcanvas.cpp \
+                   $(QT3ROOT_DIR)/tqrootwindow.cpp \
+                   $(QT3ROOT_DIR)/tqrootdialog.cpp \
+                   $(QT3ROOT_DIR)/tqapplication.cpp \
+                   $(QT3ROOT_DIR)/qtframe.cpp
 
-QTROOTI_S       =  $(QTROOT_DIR)/qrootapplication.cpp \
-                   $(QTROOT_DIR)/tqrootguifactory.cpp \
-                   $(QTROOT_DIR)/tqcanvasimp.cpp \
-                   $(QTROOT_DIR)/tqcanvasmenu.cpp \
-                   $(QTROOT_DIR)/tqrootcanvas.cpp \
-                   $(QTROOT_DIR)/tqrootwindow.cpp \
-                   $(QTROOT_DIR)/tqrootdialog.cpp \
-                   $(QTROOT_DIR)/tqapplication.cpp \
-                   $(QTROOT_DIR)/qtframe.cpp
+QT3ROOT_H       =  $(QT3ROOT_S:.cpp=.$(HedSuf))
+QT3ROOT_O       =  $(QT3ROOT_S:.cpp=.$(ObjSuf))
+QT3ROOT_DEP     =  $(QT3ROOT_O:.$(ObjSuf)=.$(DepSuf))
 
-QTROOTI_H       =  $(QTROOTI_S:.cpp=.$(HedSuf))
-QTROOTI_O       =  $(QTROOTI_S:.cpp=.$(ObjSuf))
-QTROOTI_DEP     =  $(QTROOTI_O:.$(ObjSuf)=.$(DepSuf))
+QT3ROOT_MOCS    =  $(QT3ROOT_DIR)/moc_tqrootcanvas.cpp \
+                   $(QT3ROOT_DIR)/moc_tqrootwindow.cpp \
+                   $(QT3ROOT_DIR)/moc_tqcanvasmenu.cpp \
+                   $(QT3ROOT_DIR)/moc_tqrootdialog.cpp \
+                   $(QT3ROOT_DIR)/moc_qrootapplication.cpp \
+                   $(QT3ROOT_DIR)/moc_qtframe.cpp
 
-QTROOTI_MOCS    =  $(QTROOT_DIR)/moc_tqrootcanvas.cpp \
-                   $(QTROOT_DIR)/moc_tqrootwindow.cpp \
-                   $(QTROOT_DIR)/moc_tqcanvasmenu.cpp \
-                   $(QTROOT_DIR)/moc_tqrootdialog.cpp \
-                   $(QTROOT_DIR)/moc_qrootapplication.cpp \
-                   $(QTROOT_DIR)/moc_qtframe.cpp
+QT3ROOT_MOCO    = $(QT3ROOT_MOCS:.cpp=.$(ObjSuf))
 
-QTROOTI_MOCO    = $(QTROOTI_MOCS:.cpp=.$(ObjSuf))
-
-QTROOTI_LIB     =  $(GO4DLLPATH)/$(QTROOTI_LIBNAME).$(DllSuf).$(QTVERSUF)
-
+QT3ROOT_LIB     =  $(GO4DLLPATH)/$(QT3ROOT_LIBNAME).$(DllSuf).$(QT3ROOT_VERSUF)
 
 # used in the main Makefile
 
-LIBDEPENDENC       += $(QTROOTI_DEP)
+GO4QT3DEP   += $(QT3ROOT_DEP)
 
-ALLHDRS +=  $(patsubst $(QTROOT_DIR)/%.h, $(GO4SYS)/include/%.h, $(QTROOTI_H))
+GO4QT3HEADS +=  $(patsubst $(QT3ROOT_DIR)/%.h, $(GO4SYS)/include/%.h, $(QT3ROOT_H))
 
 ifdef DOPACKAGE
-DISTRFILES         += $(QTROOTI_H) $(QTROOTI_S)
-DISTRFILES         += $(QTROOT_DIR)/lockguard.h
-DISTRFILES         += $(QTROOT_DIR)/CHANGELOG.txt
+DISTRFILES         += $(QT3ROOT_H) $(QT3ROOT_S)
+DISTRFILES         += $(QT3ROOT_DIR)/lockguard.h
+DISTRFILES         += $(QT3ROOT_DIR)/CHANGELOG.txt
 endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(QTROOT_DIR)/%.h
+$(GO4SYS)/include/%.h: $(QT3ROOT_DIR)/%.h
 	@cp -f $< $@
 
-$(QTROOTI_LIB):    $(QTROOTI_O) $(QTROOTI_MOCO)
-	@$(MakeQLib) $(QTVERSUF) $(QTROOTI_LIBNAME) "$(QTROOTI_O) $(QTROOTI_MOCO)" $(GO4DLLPATH)
+$(QT3ROOT_LIB):    $(QT3ROOT_O) $(QT3ROOT_MOCO)
+	@$(MakeQLib) $(QT3ROOT_VERSUF) $(QT3ROOT_LIBNAME) "$(QT3ROOT_O) $(QT3ROOT_MOCO)" $(GO4DLLPATH)
 
-all-$(QTROOT_NAME): $(QTROOTI_LIB)
+qt3-interface: $(QT3ROOT_LIB)
 
-clean-obj-$(QTROOT_NAME):
-	@rm -f $(QTROOTI_O) $(QTROOTI_MOCO)
-	@$(CleanQLib) $(QTVERSUF) $(QTROOTI_LIBNAME) $(GO4DLLPATH)
+clean-qt3-interface:
+	@rm -f $(QT3ROOT_O) $(QT3ROOT_MOCO)
+	@$(CleanQLib) $(QT3ROOT_VERSUF) $(QT3ROOT_LIBNAME) $(GO4DLLPATH)
+	@rm -f $(QT3ROOT_MOCS) $(QT3ROOT_DEP)
 
-clean-$(QTROOT_NAME): clean-obj-$(QTROOT_NAME)
-	@rm -f $(QTROOTI_MOCS) $(QTROOTI_DEP)
-
-$(QTROOTI_MOCS): $(QTROOT_DIR)/moc_%.cpp: $(QTROOT_DIR)/%.h
+$(QT3ROOT_MOCS): $(QT3ROOT_DIR)/moc_%.cpp: $(QT3ROOT_DIR)/%.h
 	$(MOC) $< -o $@

@@ -63,20 +63,14 @@ GO4BGUI_LIBNAME = $(LIB_PREFIX)Go4GUI
 GO4BGUI_SLIB    = $(GO4DLLPATH)/$(GO4BGUI_LIBNAME).$(DllSuf)
 GO4BGUI_LIB     = $(GO4BGUI_SLIB).$(VERSSUF)
 
-GO4SGUI_LIBNAME = $(LIB_PREFIX)Go4GUIbis
-GO4SGUI_SLIB    = $(GO4DLLPATH)/$(GO4SGUI_LIBNAME).$(DllSuf)
-GO4SGUI_LIB     = $(GO4SGUI_SLIB).$(VERSSUF)
-
-
 BUILDGO4LIBS = $(GO4FIT_LIB) \
                $(GO4BASE_LIB) \
                $(THRDMNGR_LIB) \
                $(GO4TSKH_LIB) \
                $(GO4ANBASE_LIB) \
                $(VERSION_LIB) \
-               $(GO4AN_LIB)
-
-BUILDGUILIBS = $(GO4BGUI_LIB) 
+               $(GO4AN_LIB) \
+               $(GO4BGUI_LIB)
 
 MODULES  = MbsAPIbase MbsAPI RawAPI Go4Analysis Go4AnalysisClient \
            Go4CommandsAnalysis Go4CommandsBase \
@@ -98,21 +92,6 @@ EXMODULES = Go4EventServerExample Go4ExampleSimple \
             Go4TaskHandlerExample Go4ThreadManagerExample 
 
 
-ifndef GO4_WITHOUT_QT
-
-ifdef GO4_QT3
-  MODULES      += qt3/Go4QtRoot qt3/Go4FitGUI qt3/Go4UserGUI qt3/Go4GUI qt3/Go4plugin
-#  EXMODULES    += qt3/Go4UserGUI
-endif
-
-ifdef GO4_QT4
-  MODULES      += qt4/Go4QtRoot qt4/Go4FitGUI qt4/Go4UserGUI qt4/Go4GUI qt4/Go4plugin
-#  EXMODULES    += qt4/Go4UserGUI
-endif
-
-BUILDGUILIBS += $(GO4SGUI_LIB) $(QTROOTI_LIB)
-endif
-
 .PHONY:         all noqt includes libs gui plugin examples map \
                 clean clean-ex clean-qt clean-bak clean-obj clean-plugin \
                 package $(PACKAGERULES) \
@@ -130,6 +109,11 @@ all:            gui map examples
 
 include $(patsubst %,%/Module.mk,$(MODULES))
 
+#include qt3/Module.mk
+
+include qt4/Module.mk
+
+
 build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
 	@(if [ ! -f $@ ] ; then touch $@; fi)
 	@(if [ ! -f lib ] ; then mkdir -p lib; fi)
@@ -137,7 +121,7 @@ build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
 
 libs:           $(BUILDGO4LIBS)  
 
-gui:             libs $(BUILDGUILIBS) $(GO4QTTAGS)
+gui::           libs 
 
 examples:       map $(patsubst %,all-%,$(EXMODULES)) $(EXAMPLEEXECS)
 	@for DIRNAME in $(EXMODULES); do cp -f Makefile.module $(GO4SYS)/$$DIRNAME/Makefile; done
@@ -149,7 +133,7 @@ ifndef DOMAP
 	@echo "Map for go4 classes can not be generated with ROOT $(shell root-config --version)"
 endif
 
-clean:   clean-mainlibs clean-plugin $(patsubst %,clean-%,$(MODULES))
+clean::   clean-mainlibs clean-plugin $(patsubst %,clean-%,$(MODULES))
 	@rm -f $(GO4MAP)
 	@rm -f $(GO4SYS)/include/*.h
 	@rm -f build/dummy.d
@@ -161,7 +145,6 @@ clean-mainlibs:
 	@$(CleanLib) $(GO4ANBASE_LIBNAME) $(GO4DLLPATH)
 	@$(CleanLib) $(GO4AN_LIBNAME) $(GO4DLLPATH)
 	@$(CleanLib) $(GO4BGUI_LIBNAME) $(GO4DLLPATH)
-	@$(CleanLib) $(GO4SGUI_LIBNAME) $(GO4DLLPATH)
 
 clean-obj: clean-mainlibs $(patsubst %,clean-obj-%,$(MODULES))
 	@echo "Clean go4 object files done"
@@ -211,8 +194,6 @@ GO4BGUI_O = $(GO4OBJM_O) $(GO4OBJM_DO) \
             $(GO4DISPL_O) $(GO4DISPL_DO) \
             $(GO4PROX_O) $(GO4PROX_DO)
 
-GO4SGUI_O = $(GO4GUI_O) $(GO4GUI_DO) 
-
 $(GO4FIT_LIB):   $(GO4FIT_O) $(GO4FIT_DO)
 		@$(MakeLib) $(GO4FIT_LIBNAME) "$(GO4FIT_O) $(GO4FIT_DO)" $(GO4DLLPATH)
 
@@ -233,12 +214,6 @@ $(GO4AN_LIB): $(GO4AN_O)
 
 $(GO4BGUI_LIB): $(GO4BGUI_O)
 		@$(MakeLib) $(GO4BGUI_LIBNAME) "$(GO4BGUI_O)" $(GO4DLLPATH)
-
-$(GO4SGUI_LIB): $(GO4SGUI_O)
-		@$(MakeLib) $(GO4SGUI_LIBNAME) "$(GO4SGUI_O)" $(GO4DLLPATH)
-
-#$(GO4OBJM_LIB): $(GO4OBJM_O) $(GO4OBJM_DO)
-#		@$(MakeLib) $(GO4OBJM_LIBNAME) "$(GO4OBJM_O) $(GO4OBJM_DO)" $(GO4DLLPATH)
 
 ifdef DOMAP
 GO4MAPDEPLIST = $(GO4SYS)/Go4Fit/Go4FitLinkDef.h \
