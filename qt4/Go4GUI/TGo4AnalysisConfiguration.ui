@@ -576,7 +576,7 @@
     <tabstop>ConfigFileName</tabstop>
   </tabstops>
   <includes>
-    <include location="local" >QGo4Widget.h</include>
+    <include location="global">QGo4Widget.h</include>
   </includes>
   <connections>
     <connection>

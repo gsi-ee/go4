@@ -232,7 +232,7 @@
   <layoutdefault spacing="6" margin="11" />
   <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
   <includes>
-    <include location="local" >QGo4Widget.h</include>
-    <include location="local" >qmovie.h</include>
+    <include location="local">QGo4Widget.h</include>
+    <include location="local">qmovie.h</include>
   </includes>
 </ui>

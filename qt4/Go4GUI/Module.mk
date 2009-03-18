@@ -35,14 +35,14 @@ GO4GUI_QMAKED2OPT  = "HEADERS += TGo4DabcMonitor.h"
 GO4GUI_QMAKED3OPT  = "SOURCES += TGo4DabcMonitor.cpp"
 GO4GUI_QMAKED4OPT  = "INCLUDEPATH += $(DIMDIR)/dim"
 
-
 else
 GO4GUI_FORMS       = $(filter-out $(GO4GUI_DIR)/TGo4DabcMonitor.ui, $(wildcard $(GO4GUI_DIR)/*.ui))
 endif
 
 GO4GUI_PACKAGE_FORMS = $(wildcard $(GO4GUI_DIR)/*.ui)
+
 GO4GUI_FH          = $(GO4GUI_FORMS:.ui=.h)
-GO4GUI_UI_H        = $(patsubst $(GO4GUI_DIR)/%.ui, $(GO4GUI_DIR)/ui_%.h,$(GO4GUI_FORMS))
+GO4GUI_UI_H        = $(patsubst $(GO4GUI_DIR)/%.ui, $(GO4GUI_DIR)/ui_%.h, $(GO4GUI_FORMS))
 GO4GUI_FS          = $(GO4GUI_FORMS:.ui=.cpp)
 
 GO4GUI_S           = $(filter-out $(GO4GUI_DS), $(wildcard $(GO4GUI_DIR)/*.$(SrcSuf)))
@@ -60,12 +60,11 @@ GUIALLHDRS = $(patsubst $(GO4GUI_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4GUI_H) $(
 
 ALLHDRS +=  $(GUIALLHDRS)
 
-LIBDEPENDENC       += $(GO4GUI_DEP) $(GO4GUI_DDEP)
+LIBDEPENDENC     += $(GO4GUI_DEP) $(GO4GUI_DDEP)
 
+GO4QTHEADS       +=   $(GO4GUI_UI_H)
 
-GO4QTHEADS   +=   $(GO4GUI_UI_H)
-
-GO4QTTAGS          += qt-$(GO4GUI_NAME)
+GO4QTTAGS        += qt-$(GO4GUI_NAME)
 
 ifdef DOPACKAGE
 DISTRFILES         += $(GO4GUI_S) $(GO4GUI_H) $(GO4GUI_FH) $(GO4GUI_LINKDEF) 
@@ -100,7 +99,7 @@ qt-$(GO4GUI_NAME): $(BUILDGO4LIBS) $(GO4GUI_QTMAKE) qt-$(FITGUI_NAME)
 	@echo "Generating Qt part of the MainGUI..."
 	+cd $(GO4GUI_DIR); $(MAKE) -f $(GO4GUI_QTMAKE)
 
-all-$(GO4GUI_NAME):  $(GO4GUI_FH) $(GO4GUI_O) $(GO4GUI_DO) qt-$(GO4GUI_NAME)
+all-$(GO4GUI_NAME):  $(GO4GUI_O) $(GO4GUI_DO) qt-$(GO4GUI_NAME)
 
 clean-obj-$(GO4GUI_NAME):
 	@rm -f $(GO4GUI_O) $(GO4GUI_DO)

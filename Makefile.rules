@@ -51,7 +51,7 @@ $(GO4SYS)/%.h: $(GO4SYS)/%.ui
 	@cp -f $@ $(GO4SYS)/include
 
 %.h: %.ui
-	@echo "Generate Qt header $@ ... "
+	@echo "Generate Qt header here $@ ... "
 	@$(UIC) $< -o $@
 
 %.d: %.cpp
