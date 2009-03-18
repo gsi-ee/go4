@@ -406,7 +406,7 @@ void TGo4QSettings::RestoreSettings(QMainWindow* tgt)
      f.close();
      cout <<"Loaded Go4 toolbar settings from "<<fn << endl;
    } else {
-     QString fndefault = QString(getenv("GO4SYS")) + "/etc/go4defaulttoolsrc.txt";
+     QString fndefault = QString(getenv("GO4SYS")) + "/qt3/etc/go4defaulttoolsrc.txt";
      QFile fdefault( fndefault );
      if (fdefault.open( IO_ReadOnly )) {
        QTextStream ts( &fdefault );

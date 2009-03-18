@@ -64,7 +64,8 @@ endif
 
 ##### local rules #####
 
-$(GO4GUI_O) $(GO4GUI_DEP) : INCLUDES += -I$(QTDIR)/include
+$(GO4GUI_O) $(GO4GUI_DEP) : INCLUDES += $(QTINCLUDES)
+$(GO4GUI_O) $(GO4GUI_DEP) : DEFINITIONS += $(QTDEFINITIONS)
 
 $(GO4SYS)/include/%.h: $(GO4GUI_DIR)/%.h
 	@cp -f $< $@

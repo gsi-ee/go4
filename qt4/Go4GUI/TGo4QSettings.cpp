@@ -42,7 +42,7 @@ void TGo4QSettings::SetToCurrentDir(bool on)
    fgbUSEMYLOCATION=on;
    if(on) {
       fgxSETTINGSLOCATION = QDir::currentDirPath()+ "/.config/GSI";
-   } 
+   }
 }
 
 
@@ -118,8 +118,8 @@ void TGo4QSettings::getAppFont()
  QFont font;
  font.fromString(readEntry(GetSettingsName()+"/Font", "Arial,11,-1,5,50,0,0,0,0,0"));
  QApplication::setFont(font, true );
-   
-   
+
+
 }
 
 
@@ -410,7 +410,7 @@ void TGo4QSettings::RestoreSettings(Q3MainWindow* tgt)
      f.close();
      cout <<"Loaded Go4 toolbar settings from "<<fn.toStdString() << endl;
    } else {
-     QString fndefault = QString(getenv("GO4SYS")) + "/etc/go4defaulttoolsrc.txt";
+     QString fndefault = QString(getenv("GO4SYS")) + "/qt4/etc/go4defaulttoolsrc.txt";
      QFile fdefault( fndefault );
      if (fdefault.open( QIODevice::ReadOnly )) {
        QTextStream ts( &fdefault );

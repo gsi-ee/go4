@@ -19,7 +19,7 @@ OPTFLAGS = $(OPTIMIZEMODE)
 endif
 
 
-## Extentions rules
+## Extensions rules
 
 .SUFFIXES: .$(SrcSuf) .$(DepSuf) .$(HedSuf)
 
