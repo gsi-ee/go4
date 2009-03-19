@@ -31,7 +31,6 @@
 
 #include "TROOT.h"
 #include "TClass.h"
-//#include "TVirtualX.h"
 #include "Getline.h"
 #include "TStyle.h"
 #include "TObjectTable.h"

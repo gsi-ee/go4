@@ -36,9 +36,10 @@
 #include "TPad.h"
 #include "TVirtualPad.h"
 
-#include "q3mainwindow.h"
+#include <Qt3Support/q3mainwindow.h>
+#include <Qt3Support/q3vbox.h>
+
 #include "tqrootcanvas.h"
-#include "q3vbox.h"
 #include "qtframe.h"
 
 class TQCanvasImp :  public TCanvasImp {

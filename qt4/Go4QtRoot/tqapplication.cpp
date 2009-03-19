@@ -31,7 +31,7 @@
 #include "TSystem.h"
 #include "TGX11.h"
 
-#include "qglobal.h"
+#include <QtCore/qglobal.h>
 
 #include "tqrootguifactory.h"
 

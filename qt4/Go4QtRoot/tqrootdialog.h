@@ -13,10 +13,9 @@
 #ifndef TQROOTDIALOG_H
 #define TQROOTDIALOG_H
 
-#include "q3vbox.h"
-#include "q3ptrlist.h"
-//Added by qt3to4:
-#include <QCloseEvent>
+#include <Qt3Support/q3vbox.h>
+#include <Qt3Support/q3ptrlist.h>
+#include <QtGui/QCloseEvent>
 
 class TObject;
 class TMethod;

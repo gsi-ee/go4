@@ -6,11 +6,10 @@
 
 #include "Riostream.h"
 
-#include "q3popupmenu.h"
-#include "qinputdialog.h"
-#include "qcolordialog.h"
-//Added by qt3to4:
-#include <QMouseEvent>
+#include <Qt3Support/q3popupmenu.h>
+#include <QtGui/qinputdialog.h>
+#include <QtGui/qcolordialog.h>
+#include <QtGui/QMouseEvent>
 
 #include "TH1.h"
 #include "TPad.h"

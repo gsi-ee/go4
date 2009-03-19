@@ -27,7 +27,7 @@
 * @version 2.0
 */
 
-#include "qapplication.h"
+#include <QtGui/qapplication.h>
 
 class QTimer;
 class TTimer;

@@ -9,7 +9,7 @@
 #include <vector>
 #include <deque>
 #include "dic.hxx"
-#include "qtimer.h"
+#include <QtCore/qtimer.h>
 #include "QGo4Table.h"
 
 class TGo4DabcMonitor;

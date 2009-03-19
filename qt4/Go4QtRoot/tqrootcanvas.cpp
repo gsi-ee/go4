@@ -6,16 +6,15 @@
 
 #include "Riostream.h"
 
-#include "qpainter.h"
-#include "q3dragobject.h"
-//Added by qt3to4:
-#include <QDragEnterEvent>
-#include <QDropEvent>
-#include <QResizeEvent>
-#include <QMouseEvent>
-#include <QEvent>
-#include <QPaintEvent>
-#include <QCloseEvent>
+#include <QtGui/qpainter.h>
+#include <Qt3Support/q3dragobject.h>
+#include <QtGui/QDragEnterEvent>
+#include <QtGui/QDropEvent>
+#include <QtGui/QResizeEvent>
+#include <QtGui/QMouseEvent>
+#include <QtCore/QEvent>
+#include <QtGui/QPaintEvent>
+#include <QtGui/QCloseEvent>
 
 #include "TPad.h"
 #include "TCanvas.h"
@@ -41,9 +40,9 @@ TQRootCanvas::TQRootCanvas( QWidget *parent, const char *name, TCanvas *c ) :
   //setAttribute(Qt::WA_NoSystemBackground);
   setAttribute(Qt::WA_PaintOnScreen);
   setAttribute(Qt::WA_PaintUnclipped);
-  
+
   // add the Qt::WinId to TGX11 interface
-  xid=winId();  
+  xid=winId();
   wid=gVirtualX->AddWindow(xid,100,30);
   if (c==0){
     isCanvasOwned = true;
@@ -62,7 +61,7 @@ TQRootCanvas::TQRootCanvas( QWidget *parent, const char *name, TCanvas *c ) :
     parent->installEventFilter( this );
     fParent = parent;
   } else fParent=0;
-   
+
     setAcceptDrops(TRUE);
 
 }
@@ -78,12 +77,12 @@ TQRootCanvas::TQRootCanvas( QWidget *parent, QWidget* tabWin, const char *name, 
      setMouseTracking(true);
   setFocusPolicy( Qt::TabFocus );
   setCursor( Qt::crossCursor );
-  
+
   setAttribute(Qt::WA_NoSystemBackground);
   //setAttribute(Qt::WA_PaintOnScreen);
   // add the Qt::WinId to TGX11 interface
-  xid=winId();  
-  wid=gVirtualX->AddWindow(xid,100,30);  
+  xid=winId();
+  wid=gVirtualX->AddWindow(xid,100,30);
   if (c==0){
     isCanvasOwned = true;
     fCanvas=new TCanvas(name,width(),height(),wid);
@@ -125,7 +124,7 @@ void TQRootCanvas::setResizeFlag(int flag)
 
 bool TQRootCanvas::checkResizeFlag(int level)
 {
-   //cout <<"----- TQRootCanvas::checkResizeFlag, level="<<level<<", flag="<<fResizeFlag << endl; 
+   //cout <<"----- TQRootCanvas::checkResizeFlag, level="<<level<<", flag="<<fResizeFlag << endl;
    if (level>=fResizeFlag){
       performResize();
      return true;
@@ -134,12 +133,12 @@ bool TQRootCanvas::checkResizeFlag(int level)
 }
 
 void TQRootCanvas::performResize()
-{   
+{
    Qtrootlockguard threadlock;
    //cout <<"RRRRRRRRRRRRRRRR----- TQRootCanvas::performResize" << endl;
    //fResizeFlag = 0;
     UInt_t nxid=winId();
-   //cout <<"----- TQRootCanvas::performResize for current Xid:"<<nxid << endl;  
+   //cout <<"----- TQRootCanvas::performResize for current Xid:"<<nxid << endl;
    if(nxid!=xid)
    {
       // Qt has changed xid for this widget (e.g. at QWorkspace::addWindow())
@@ -192,7 +191,7 @@ void TQRootCanvas::mousePressEvent( QMouseEvent *e )
             selected    = pickobj->GetObject();
             selectedOpt = pickobj->GetOption();
           }
-         pad->cd(); 
+         pad->cd();
         }
         fCanvas->SetSelectedPad(pad);
         gROOT->SetSelectedPrimitive(selected);
@@ -266,19 +265,19 @@ void TQRootCanvas::resizeEvent( QResizeEvent *e )
    //Qtrootlockguard threadlock;
    //QWidget::resizeEvent( e );
     //performResize();
-   
+
    fResizeFlag++; // counter will dynamically disable repaint for continuous resize
 }
 
 void TQRootCanvas::paintEvent( QPaintEvent * e)
 {
     //cout <<"----- TQRootCanvas::paintEvent..." << endl;
-    
+
     checkResizeFlag(1); // repaint root graphics only if resizing is not in progress
     //QWidget::paintEvent( e );
-    
-    
-}   
+
+
+}
 
 void TQRootCanvas::leaveEvent( QEvent *e )
 {
@@ -316,7 +315,7 @@ Qtrootlockguard threadlock;
       return FALSE;
    }
 
-//   if( e->type() == QEvent::MouseButtonRelease) {  
+//   if( e->type() == QEvent::MouseButtonRelease) {
 //            return FALSE;
 //   }
 
@@ -337,23 +336,23 @@ Qtrootlockguard threadlock;
       return FALSE;
    }
 
-   if( e->type() == QEvent::Move) { 
+   if( e->type() == QEvent::Move) {
      return FALSE;
    }
 
-   if( (e->type() == QEvent::Show)) 
+   if( (e->type() == QEvent::Show))
 // ||
 //       (e->type() == QEvent::ShowNormal) ||
 //       (e->type() == QEvent::ShowFullScreen) ||
 //       (e->type() == QEvent::ShowMaximized) ||
-//       (e->type() == QEvent::ShowMinimized)) 
+//       (e->type() == QEvent::ShowMinimized))
    {
         //cout <<"----- TQRootCanvas::eventFilter: Show" << endl;
         setResizeFlag(1);
-        checkResizeFlag(1); 
+        checkResizeFlag(1);
         return FALSE;
    }
-   
+
 //   if( (e->type() == QEvent::UpdateRequest))
 //      {
 //        cout <<"----- TQRootCanvas::eventFilter: UpdateRequest" << endl;

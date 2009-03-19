@@ -1,10 +1,10 @@
 #ifndef TGO4WORKSPACE_H
 #define TGO4WORKSPACE_H
 
-#include "qworkspace.h"
-//Added by qt3to4:
-#include <QEvent>
-#include <QCloseEvent>
+#include <QtGui/qworkspace.h>
+
+#include <QtCore/QEvent>
+#include <QtGui/QCloseEvent>
 
 class TPad;
 class TGo4ViewPanel;
@@ -31,7 +31,7 @@ class TGo4WorkSpace : public QWorkspace {
 
       static TGo4WorkSpace* Instance();
 
-      void SetEventsDisabled(bool on){fbDisableEvents=on;}  
+      void SetEventsDisabled(bool on){fbDisableEvents=on;}
 
    signals:
       void panelSignal(TGo4ViewPanel*, TPad*, int);
@@ -48,7 +48,7 @@ class TGo4WorkSpace : public QWorkspace {
       TPad*         fxActivePad;
       TPad*         fxSelectedPad;
       static TGo4WorkSpace* fInstance;
-      
+
       bool fbDisableEvents;
 };
 

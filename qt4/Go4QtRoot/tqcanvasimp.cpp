@@ -18,7 +18,7 @@
 //                                                                      //
 //////////////////////////////////////////////////////////////////////////
 
-#include "qapplication.h"
+#include <QtGui/qapplication.h>
 #include "tqcanvasimp.h"
 #include "TClass.h"
 #include "TRootCanvas.h"

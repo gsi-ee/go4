@@ -7,7 +7,7 @@
 #include "qstatusbar.h"
 #include "qmenubar.h"
 #include "qtoolbutton.h"
-#include "qfile.h"
+#include <QtCore/qfile.h>
 #include "qmessagebox.h"
 #include "q3filedialog.h"
 #include "qapplication.h"

@@ -6,7 +6,7 @@
 #include "TGo4ViewPanel.h"
 #include "QGo4Widget.h"
 //Added by qt3to4:
-#include <QEvent>
+#include <QtCore/QEvent>
 #include <QCloseEvent>
 
 #include <iostream>

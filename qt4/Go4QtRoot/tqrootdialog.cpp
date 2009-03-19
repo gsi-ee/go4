@@ -15,42 +15,42 @@
 #include "Riostream.h"
 #include <stdlib.h>
 
-#include "qevent.h"
-#include "qpainter.h"
-#include "qprinter.h"
-#include "q3toolbar.h"
-#include "qtoolbutton.h"
-#include "qspinbox.h"
-#include "qtooltip.h"
-#include "qrect.h"
-#include "qpoint.h"
-#include "qcolordialog.h"
-#include "q3filedialog.h"
-#include "qcursor.h"
-#include "qimage.h"
-#include "q3strlist.h"
-#include "q3popupmenu.h"
-#include "q3intdict.h"
-#include "qpushbutton.h"
-#include "qaction.h"
-#include "qdial.h"
-#include "qapplication.h"
-#include "qimage.h"
-#include "qpixmap.h"
-#include "q3toolbar.h"
-#include "qtoolbutton.h"
-#include "qmenubar.h"
-#include "qnamespace.h"
-#include "qfile.h"
-#include "q3filedialog.h"
-#include "qstatusbar.h"
-#include "qmessagebox.h"
-#include "q3whatsthis.h"
-#include "qdialog.h"
-#include "qlabel.h"
-#include "qlineedit.h"
-//Added by qt3to4:
-#include <QCloseEvent>
+#include <QtGui/qevent.h>
+#include <QtGui/qpainter.h>
+#include <QtGui/qprinter.h>
+#include <QtGui/qtoolbutton.h>
+#include <QtGui/qspinbox.h>
+#include <QtGui/qtooltip.h>
+#include <QtCore/qrect.h>
+#include <QtCore/qpoint.h>
+#include <QtGui/qcolordialog.h>
+#include <QtGui/qcursor.h>
+#include <QtGui/qimage.h>
+#include <QtGui/qpushbutton.h>
+#include <QtGui/qaction.h>
+#include <QtGui/qdial.h>
+#include <QtGui/qapplication.h>
+#include <QtGui/qimage.h>
+#include <QtGui/qpixmap.h>
+#include <QtGui/qtoolbutton.h>
+#include <QtGui/qmenubar.h>
+#include <QtCore/qnamespace.h>
+#include <QtCore/qfile.h>
+#include <QtGui/qstatusbar.h>
+#include <QtGui/qmessagebox.h>
+#include <QtGui/qdialog.h>
+#include <QtGui/qlabel.h>
+#include <QtGui/qlineedit.h>
+#include <QtGui/QCloseEvent>
+
+#include <Qt3Support/q3filedialog.h>
+#include <Qt3Support/q3strlist.h>
+#include <Qt3Support/q3popupmenu.h>
+#include <Qt3Support/q3intdict.h>
+#include <Qt3Support/q3toolbar.h>
+#include <Qt3Support/q3filedialog.h>
+#include <Qt3Support/q3whatsthis.h>
+#include <Qt3Support/q3toolbar.h>
 
 #include "TPad.h"
 #include "TList.h"
@@ -170,15 +170,15 @@ void TQRootDialog::executeMethod()
      } else {
        // here call cint call
         qDebug("TCint::Execute called !\n");
-        
+
         fCurObj->Execute(fCurMethod, &tobjlist);
 
         if (fCurObj->TestBit(TObject::kNotDeleted)) {
            if (fMenu!=0)
               fMenu->EmitMenuCommandExecuted(fCurObj, fCurMethod->GetName());
         } else {
-           deletion = TRUE; 
-           fCurObj = 0; 
+           deletion = TRUE;
+           fCurObj = 0;
         }
      }
 
@@ -200,7 +200,7 @@ void TQRootDialog::executeMethod()
 void TQRootDialog::add(const char* argname, const char* value, const char* type)
 {
    Qtrootlockguard threadlock;
-   
+
    new QLabel(argname,fArgBox);
    QLineEdit* le = new  QLineEdit(fArgBox);
    le->setGeometry(10,10, 130, 30);

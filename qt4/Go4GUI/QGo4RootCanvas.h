@@ -6,10 +6,10 @@
 #include <QtDesigner/QDesignerExportWidget>
 
 //Added by qt3to4:
-#include <QMouseEvent>
-#include <QEvent>
-#include <QDropEvent>
-#include <QDragEnterEvent>
+#include <QtGui/QMouseEvent>
+#include <QtCore/QEvent>
+#include <QtGui/QDropEvent>
+#include <QtGui/QDragEnterEvent>
 
 class TPad;
 class TCanvas;
@@ -32,9 +32,9 @@ class QDESIGNER_WIDGET_EXPORT QGo4RootCanvas : public TQRootCanvas {
 
   public slots:
     void setShowEventStatus(bool s);
-    
+
     virtual void performResize();
-    
+
   protected:
 
     virtual void dropEvent(QDropEvent* event);

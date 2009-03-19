@@ -1,13 +1,13 @@
 #ifndef QGO4WIDGET_H
 #define QGO4WIDGET_H
 
-#include <QWidget>
+#include <QtGui/QWidget>
 #include <QtDesigner/QDesignerExportWidget>
 
-#include <QDragMoveEvent>
-#include <QCloseEvent>
-#include <QDropEvent>
-#include <QDragEnterEvent>
+#include <QtGui/QDragMoveEvent>
+#include <QtGui/QCloseEvent>
+#include <QtGui/QDropEvent>
+#include <QtGui/QDragEnterEvent>
 
 class TObject;
 class TClass;

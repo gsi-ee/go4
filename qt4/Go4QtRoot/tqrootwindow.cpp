@@ -7,13 +7,12 @@
 #include "GuiTypes.h"
 #include "TGFrame.h"
 
-#include "qevent.h"
-#include "qpainter.h"
-#include "q3dragobject.h"
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QCloseEvent>
-#include <QPaintEvent>
+#include <QtGui/qevent.h>
+#include <QtGui/qpainter.h>
+#include <Qt3Support/q3dragobject.h>
+#include <QtGui/QMouseEvent>
+#include <QtGui/QCloseEvent>
+#include <QtGui/QPaintEvent>
 
 #include "lockguard.h"
 
@@ -62,7 +61,7 @@ TQRootWindow::TQRootWindow( QWidget *parent, const char *name, bool designermode
   setCursor( Qt::crossCursor );
   //setAttribute(Qt::WA_NoSystemBackground);
   if(!designermode)
-     { 
+     {
      // add the Qt::WinId to TGX11 interface
      fiXid=winId();
      fiWinid=gVirtualX->AddWindow(fiXid,145,600);
@@ -169,7 +168,7 @@ void TQRootWindow::paintEvent( QPaintEvent * e)
          fiWinid=gVirtualX->AddWindow(nxid,width(),height());
          fxRootwindow=new TQRootFrame(fiXid);
          fiXid=nxid;
-      }  
+      }
      if(fbResizeOnPaint)
       {
          Qtrootlockguard threadlock;
@@ -178,14 +177,14 @@ void TQRootWindow::paintEvent( QPaintEvent * e)
          gVirtualX->Update(1); // Xsync/flus
       }
   }
-QWidget::paintEvent(e); 
+QWidget::paintEvent(e);
 }
 
 void TQRootWindow::resizeEvent( QResizeEvent *e )
 {
- //Qtrootlockguard threadlock;   
- QWidget::resizeEvent(e);  
-   
+ //Qtrootlockguard threadlock;
+ QWidget::resizeEvent(e);
+
 }
 
 

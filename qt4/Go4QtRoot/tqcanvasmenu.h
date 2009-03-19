@@ -1,10 +1,9 @@
 #ifndef TQCANVASMENU_H
 #define TQCANVASMENU_H
 
-#include "qobject.h"
-//Added by qt3to4:
-#include <Q3PopupMenu>
-#include <QMouseEvent>
+#include <QtCore/qobject.h>
+#include <Qt3Support/Q3PopupMenu>
+#include <QtGui/QMouseEvent>
 #include "TList.h"
 
 class TCanvas;

@@ -13,9 +13,8 @@
 #ifndef QTFRAME_H
 #define QTFRAME_H
 
-#include "q3mainwindow.h"
-//Added by qt3to4:
-#include <QCloseEvent>
+#include <Qt3Support/q3mainwindow.h>
+#include <QtGui/QCloseEvent>
 
 class TQRootCanvas;
 

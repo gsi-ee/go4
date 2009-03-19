@@ -1,12 +1,11 @@
 #ifndef TQROOTWINDOW_H
 #define TQROOTWINDOW_H
 
-#include "qwidget.h"
-//Added by qt3to4:
-#include <QPaintEvent>
-#include <QMouseEvent>
-#include <QEvent>
-#include <QCloseEvent>
+#include <QtGui/qwidget.h>
+#include <QtGui/QPaintEvent>
+#include <QtGui/QMouseEvent>
+#include <QtCore/QEvent>
+#include <QtGui/QCloseEvent>
 
 #include "TVirtualX.h"
 
@@ -25,7 +24,7 @@ class TQRootWindow : public QWidget {
    Q_OBJECT
 
    public:
-      /** real ctor*/  
+      /** real ctor*/
       TQRootWindow( QWidget *parent = 0, const char *name = 0, bool designermode=false);
 
       virtual ~TQRootWindow();
@@ -38,7 +37,7 @@ class TQRootWindow : public QWidget {
 
       /** make this frame to current root master frame.*/
       void SetEditable(bool on=true);
-      
+
       /** switch root frame resize mode on paint event:
        true=explicit resize, false=no resize of TQRootFrame*/
       void SetResizeOnPaint(bool on=true){fbResizeOnPaint=on;}
@@ -62,12 +61,12 @@ class TQRootWindow : public QWidget {
       /** this is the pseudo root window embedded into this widget.
         * is used as parent for subwindows */
       TQRootFrame *fxRootwindow;
-      
+
       /** ROOT internal window index*/
       int fiWinid;
       /** X window id as received from Qt (may change during runtime?)*/
       Window_t fiXid;
-      
+
       /** switch if paint event does explicit resize of ROOT frame (default)
        * for embedded TGedEditor, we better disable it and resize editor from
        * parent widget*/

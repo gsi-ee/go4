@@ -12,9 +12,8 @@
 
 #include "qtframe.h"
 
-#include "qmessagebox.h"
-//Added by qt3to4:
-#include <QCloseEvent>
+#include <QtGui/qmessagebox.h>
+#include <QtGui/QCloseEvent>
 #include "tqrootcanvas.h"
 
 using namespace std;

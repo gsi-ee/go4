@@ -3,33 +3,23 @@
 #include <dlfcn.h>
 #include "Riostream.h"
 
-#include "q3dockarea.h"
-#include <Q3DockWindow>
 #include "qcolor.h"
 #include "qcolordialog.h"
-#include "qnamespace.h"
+#include <QtCore/qnamespace.h>
 #include "qstring.h"
-#include "q3valuevector.h"
 #include "qtabwidget.h"
 #include "qvariant.h"
 #include "qmime.h"
-#include "q3dragobject.h"
 #include "qlayout.h"
 #include "qtooltip.h"
-#include "q3whatsthis.h"
 #include "qaction.h"
 #include "qmenubar.h"
-#include "q3popupmenu.h"
-#include "q3toolbar.h"
 #include "qimage.h"
 #include "qpixmap.h"
-#include "q3textbrowser.h"
 #include "qfontdialog.h"
-//Added by qt3to4:
 #include <QCloseEvent>
 #include <QDragEnterEvent>
 #include <QDropEvent>
-#include <Q3ActionGroup>
 #include "TGo4QSettings.h"
 #include "qapplication.h"
 #include "qclipboard.h"
@@ -37,7 +27,6 @@
 #include "qtoolbutton.h"
 #include "qsignalmapper.h"
 #include "qstylefactory.h"
-#include "q3filedialog.h"
 #include "qlayout.h"
 #include "qmessagebox.h"
 #include "qradiobutton.h"
@@ -47,11 +36,23 @@
 #include "qdir.h"
 #include "qfileinfo.h"
 #include "qevent.h"
-#include "q3process.h"
-#include "qtimer.h"
+#include <QtCore/qtimer.h>
 #include "qspinbox.h"
 #include "qstyle.h"
 #include <QDateTime>
+
+#include <Qt3Support/q3valuevector.h>
+#include <Qt3Support/q3whatsthis.h>
+#include <Qt3Support/q3popupmenu.h>
+#include <Qt3Support/q3toolbar.h>
+#include <Qt3Support/q3dragobject.h>
+#include <Qt3Support/q3textbrowser.h>
+#include <Qt3Support/Q3ActionGroup>
+#include <Qt3Support/q3filedialog.h>
+#include <Qt3Support/q3process.h>
+#include <Qt3Support/q3dockarea.h>
+#include <Qt3Support/Q3DockWindow>
+
 
 //////// root includes;
 #include "TSystem.h"

@@ -6,7 +6,7 @@
  * @since 03.11.2004 - adjusted for Qt4.4 10-2008 JAM
  */
 
-#include "qsettings.h"
+#include <QtCore/qsettings.h>
 
 class Q3MainWindow;
 class QWidget;
@@ -61,7 +61,7 @@ class TGo4QSettings : public QSettings {
 
     void    setBasicSettings();
     void    getBasicSettings();
-    
+
     void setAppFont(const QFont&);
     void getAppFont();
 
@@ -181,7 +181,7 @@ class TGo4QSettings : public QSettings {
     bool    getMbsMonitorMonitorActive();
     void    setMbsMonitorBackwardsTrending(bool on = true);
     bool    getMbsMonitorBackwardsTrending();
-    
+
     /**some things for the DABC monitor dockwindow: */
     void    setDabcMonitorNode(const QString& name);
     QString getDabcMonitorNode();
@@ -191,7 +191,7 @@ class TGo4QSettings : public QSettings {
     int     getDabcMonitorBins();
     void    setDabcMonitorBackwardsTrending(bool on = true);
     bool    getDabcMonitorBackwardsTrending();
-    
+
     /** implement history for gui commandline*/
     QStringList getCommandsHistoryGUI();
     void setCommandsHistoryGUI(QStringList & commands);

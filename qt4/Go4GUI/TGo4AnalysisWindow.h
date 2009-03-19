@@ -6,8 +6,7 @@
   * @since 06.09.2002 */
 
 #include "QGo4Widget.h"
-//Added by qt3to4:
-#include <Q3HBoxLayout>
+#include <Qt3Support/Q3HBoxLayout>
 
 class Q3Process;
 class QGo4CommandsHistory;

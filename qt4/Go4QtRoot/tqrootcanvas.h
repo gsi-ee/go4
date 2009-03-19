@@ -1,17 +1,17 @@
 #ifndef TQROOTCANVAS_H
 #define TQROOTCANVAS_H
 
-#include "qwidget.h"
+#include "QtGui/qwidget.h"
 
 #include <QtDesigner/QDesignerExportWidget>
 
-#include <QCloseEvent>
-#include <QDropEvent>
-#include <QPaintEvent>
-#include <QResizeEvent>
-#include <QMouseEvent>
-#include <QEvent>
-#include <QDragEnterEvent>
+#include <QtGui/QCloseEvent>
+#include <QtGui/QDropEvent>
+#include <QtGui/QPaintEvent>
+#include <QtGui/QResizeEvent>
+#include <QtGui/QMouseEvent>
+#include <QtCore/QEvent>
+#include <QtGui/QDragEnterEvent>
 #include "Rtypes.h"
 #include "Gtypes.h"
 #include "Buttons.h"
@@ -139,7 +139,7 @@ class QDESIGNER_WIDGET_EXPORT TQRootCanvas : public QWidget {
       virtual void      performResize();
 
    protected:
-      
+
       virtual void      dropEvent( QDropEvent *Event );
       virtual void      dragEnterEvent( QDragEnterEvent *e );
       virtual bool      eventFilter( QObject *, QEvent * );
@@ -151,14 +151,14 @@ class QDESIGNER_WIDGET_EXPORT TQRootCanvas : public QWidget {
       virtual void      mouseMoveEvent(QMouseEvent *e);
       virtual void      leaveEvent(QEvent *e);
       virtual void      closeEvent( QCloseEvent * e);
-      
-      
+
+
       virtual QPaintEngine * paintEngine () const {return 0;}
 
       TQCanvasMenu*     fContextMenu;
       TCanvas*          fCanvas;
       Int_t             wid;
-      UInt_t            xid; // current id of embedded canvas (may change in Qt 4.4)  
+      UInt_t            xid; // current id of embedded canvas (may change in Qt 4.4)
       bool              isCanvasOwned;
       QWidget*          fParent;
       QWidget*          fTabWin;

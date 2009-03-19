@@ -18,8 +18,8 @@
 #include "TSystem.h"
 #include "TGX11.h"
 
-#include "qobject.h"
-#include "qtimer.h"
+#include <QtCore/qobject.h>
+#include <QtCore/qtimer.h>
 
 #include "lockguard.h"
 

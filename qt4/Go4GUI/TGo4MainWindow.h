@@ -1,10 +1,10 @@
 #ifndef TGO4MAINWINDOW_H
 #define TGO4MAINWINDOW_H
 
-#include "q3mainwindow.h"
-//Added by qt3to4:
-#include <QCloseEvent>
-#include <Q3PopupMenu>
+#include <Qt3Support/q3mainwindow.h>
+
+#include <QtGui/QCloseEvent>
+#include <Qt3Support/Q3PopupMenu>
 
 class QApplication;
 

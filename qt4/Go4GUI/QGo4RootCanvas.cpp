@@ -1,6 +1,6 @@
 #include "QGo4RootCanvas.h"
 //Added by qt3to4:
-#include <QEvent>
+#include <QtCore/QEvent>
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QMouseEvent>

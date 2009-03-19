@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 #include "qdir.h"
-#include "qfile.h"
+#include <QtCore/qfile.h>
 #include "qfont.h"
 #include "qapplication.h"
 #include "q3mainwindow.h"

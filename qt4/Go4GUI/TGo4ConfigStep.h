@@ -2,8 +2,8 @@
 #define TGO4CONFIGSTEP_H
 
 
-#include <QWidget>
-#include "ui_TGo4ConfigStep.h"  
+#include <QtGui/QWidget>
+#include "ui_TGo4ConfigStep.h"
 
 class TGo4AnalysisConfiguration;
 class TGo4AnalysisStepStatus;
@@ -15,8 +15,8 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
      Q_OBJECT
 
  public:
- 	TGo4ConfigStep( QWidget* parent = 0, const char* name = 0, Qt::WFlags fl = 0 );
-	virtual void SetStepStatus( TGo4AnalysisConfiguration * panel, TGo4AnalysisStepStatus * StepStatus );
+  TGo4ConfigStep( QWidget* parent = 0, const char* name = 0, Qt::WFlags fl = 0 );
+    virtual void SetStepStatus( TGo4AnalysisConfiguration * panel, TGo4AnalysisStepStatus * StepStatus );
     virtual QString GetStepName();
     virtual void SetStepControl( bool process, bool source, bool store );
     virtual void GetStepControl( bool & process, bool & source, bool & store );
@@ -43,7 +43,7 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
 
 
  public slots:
- 
+
 	virtual void InputArguments( const QString & Arg );
     virtual void InputDisable( int );
     virtual void InputPort( const QString & fxPort );
@@ -67,9 +67,9 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
     virtual void InputFileDialog();
     virtual void MbsMonitorBtn_clicked();
 
-	
-	
-	
+
+
+
 
 	protected:
 		TGo4AnalysisConfiguration* fxPanel;
@@ -78,5 +78,5 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
 
 
 };
-	
+
 #endif

@@ -8,7 +8,7 @@
 #include "qtooltip.h"
 #include "qimage.h"
 #include "qpixmap.h"
-#include "qtimer.h"
+#include <QtCore/qtimer.h>
 #include "qlabel.h"
 #include "q3filedialog.h"
 #include "qmessagebox.h"
