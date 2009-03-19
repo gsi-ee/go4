@@ -19,9 +19,13 @@ GO4QTHEADS += $(GO4QT3HEADS)
 
 LIBDEPENDENC += $(GO4QT3DEP)
 
+FASTRULES += clean-qt3
+
 gui:: libs qt3-GUI all-qt3usergui
 
-clean:: clean-qt3-interface clean-qt3-FitGUI clean-qt3-GUI clean-qt3usergui clean-qt3plugin
+clean-qt3: clean-qt3-interface clean-qt3-FitGUI clean-qt3-GUI clean-qt3usergui clean-qt3plugin
+
+clean:: clean-qt3
 
 plugin:: all-qt3plugin
 

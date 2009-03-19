@@ -57,11 +57,12 @@ GO4GUI4_O           = $(GO4GUI4_S:.$(SrcSuf)=.$(ObjSuf))
 GO4GUI4_DEP         = $(GO4GUI4_O:.$(ObjSuf)=.$(DepSuf))
 GO4GUI4_DDEP        = $(GO4GUI4_DO:.$(ObjSuf)=.$(DepSuf))
 
+GO4GUI4_PUBH        = $(patsubst $(GO4GUI4_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4GUI4_H) $(GO4GUI4_QTH) $(GO4GUI4_FH))
+
+
 # used in the main Makefile
 
-GO4QT4HEADS        += $(GO4GUI4_UI_H)
-
-GO4QT4HEADS        += $(patsubst $(GO4GUI4_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4GUI4_H) $(GO4GUI4_QTH) $(GO4GUI4_FH))
+GO4QT4HEADS        += $(GO4GUI4_UI_H) $(GO4GUI4_PUBH)
 
 GO4QT4DEP          += $(GO4GUI4_DEP) $(GO4GUI4_DDEP)
 
@@ -78,6 +79,15 @@ $(GO4GUI4_O) $(GO4GUI4_DO) $(GO4GUI4_DEP) $(GO4GUI4_DDEP): DEFINITIONS += $(QTDE
 
 $(GO4SYS)/include/%.h: $(GO4GUI4_DIR)/%.h
 	@cp -f $< $@
+
+#$(GO4SYS)/include/qgo4widget.h: $(GO4GUI4_DIR)/QGo4Widget.h
+#	@cp -f $< $@
+
+#$(GO4SYS)/include/qgo4lineedit.h: $(GO4GUI4_DIR)/QGo4LineEdit.h
+#	@cp -f $< $@
+
+#$(GO4SYS)/include/qgo4commandshistory.h: $(GO4GUI4_DIR)/QGo4CommandsHistory.h
+#	@cp -f $< $@
 
 $(GO4GUI4_DS): $(GO4GUI4_H)  $(GO4GUI4_LINKDEF)
 	@$(ROOTCINTGO4) $(GO4GUI4_H) $(GO4GUI4_LINKDEF)
@@ -109,4 +119,4 @@ clean-qt4-GUI:
 ifneq ($(wildcard $(GO4GUI4_QTMAKE)),)
 	cd $(GO4GUI4_DIR); $(MAKE) -f $(GO4GUI4_QTMAKE) clean
 endif
-	@rm -f $(GO4GUI4_QTMAKE)
+	@rm -f $(GO4GUI4_QTMAKE) $(GO4GUI4_PUBH)

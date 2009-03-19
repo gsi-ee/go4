@@ -109,7 +109,7 @@ all:            gui map examples
 
 include $(patsubst %,%/Module.mk,$(MODULES))
 
-#include qt3/Module.mk
+include qt3/Module.mk
 
 include qt4/Module.mk
 

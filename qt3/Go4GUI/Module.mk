@@ -47,10 +47,11 @@ GO4GUI3_O           = $(GO4GUI3_S:.$(SrcSuf)=.$(ObjSuf))
 GO4GUI3_DEP         = $(GO4GUI3_O:.$(ObjSuf)=.$(DepSuf))
 GO4GUI3_DDEP        = $(GO4GUI3_DO:.$(ObjSuf)=.$(DepSuf))
 
+GO4GUI3_PUBH        = $(patsubst $(GO4GUI3_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4GUI3_H) $(GO4GUI3_QTH))
+
 # used in the main Makefile
 
-GO4QT3HEADS         += $(GO4GUI3_FH)
-GO4QT3HEADS         +=  $(patsubst $(GO4GUI3_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4GUI3_H) $(GO4GUI3_QTH))
+GO4QT3HEADS         += $(GO4GUI3_FH) $(GO4GUI3_PUBH)
 
 GO4QT3DEP           += $(GO4GUI3_DEP) $(GO4GUI3_DDEP)
 
@@ -97,4 +98,4 @@ clean-qt3-GUI:
 ifneq ($(wildcard $(GO4GUI3_QTMAKE)),)
 	cd $(GO4GUI3_DIR); $(MAKE) -f $(GO4GUI3_QTMAKE) distclean
 endif
-	@rm -f $(GO4GUI3_QTMAKE) $(GO4GUI3_FH)
+	@rm -f $(GO4GUI3_QTMAKE) $(GO4GUI3_FH) $(GO4GUI3_PUBH)

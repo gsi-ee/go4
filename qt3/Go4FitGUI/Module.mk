@@ -20,10 +20,11 @@ FITGUI3_QTH         = $(FITGUI3_DIR)/QFitItem.h \
                       $(FITGUI3_DIR)/QFitModelWidget.h
 FITGUI3_QTS         = $(FITGUI3_QTH:.h=.cpp)
 
+FITGUI3_PUBH        = $(patsubst $(FITGUI3_DIR)/%.h, $(GO4SYS)/include/%.h, $(FITGUI3_QTH) $(FITGUI3_DIR)/TGo4FitPanel.h)
+
 # used in the main Makefile
 
-GO4QT3HEADS        += $(FITGUI3_FH)
-GO4QT3HEADS        +=  $(patsubst $(FITGUI3_DIR)/%.h, $(GO4SYS)/include/%.h, $(FITGUI3_QTH))
+GO4QT3HEADS        += $(FITGUI3_FH) $(FITGUI3_PUBH)
 
 ifdef DOPACKAGE
 DISTRFILES         += $(FITGUI3_FORMS) $(FITGUI3_FORMSI) $(FITGUI3_QTPRO)
@@ -52,4 +53,4 @@ clean-qt3-FitGUI:
 ifneq ($(wildcard $(FITGUI3_QTMAKE)),)
 	cd $(FITGUI3_DIR); $(MAKE) -f $(FITGUI3_QTMAKE) distclean
 endif
-	@rm -f $(FITGUI3_QTMAKE) $(FITGUI3_FH)
+	@rm -f $(FITGUI3_QTMAKE) $(FITGUI3_FH) $(FITGUI3_PUBH)

@@ -19,10 +19,13 @@ FITGUI4_FS          = $(FITGUI4_FORMS:.ui=.cpp)
 FITGUI4_QTS         = $(filter-out $(FITGUI4_NOTLIBF), $(wildcard $(FITGUI4_DIR)/*.cpp))
 FITGUI4_QTH         = $(FITGUI4_QTS:.cpp=.h)
 
+FITGUI4_PUBH        = $(patsubst $(FITGUI4_DIR)/%.h, $(GO4SYS)/include/%.h, $(FITGUI4_QTH))
+
 # used in the main Makefile
 
-GO4QT4HEADS         += $(FITGUI4_UI_H)
-GO4QT4HEADS         +=  $(patsubst $(FITGUI4_DIR)/%.h, $(GO4SYS)/include/%.h, $(FITGUI4_QTH))
+GO4QT4HEADS         += $(FITGUI4_UI_H) $(FITGUI4_PUBH)
+# GO4QT4HEADS         += $(GO4SYS)/include/qfitwidget.h $(GO4SYS)/include/qfitnamedwidget.h $(GO4SYS)/include/qfitmodelwidget.h
+
 
 ifdef DOPACKAGE
 DISTRFILES         += $(FITGUI4_FORMS)  $(FITGUI4_QTPRO)
@@ -34,6 +37,16 @@ endif
 
 $(GO4SYS)/include/%.h: $(FITGUI4_DIR)/%.h
 	@cp -f $< $@
+
+#$(GO4SYS)/include/qfitwidget.h: $(FITGUI4_DIR)/QFitWidget.h
+#	@cp -f $< $@
+
+#$(GO4SYS)/include/qfitnamedwidget.h: $(FITGUI4_DIR)/QFitNamedWidget.h
+#	@cp -f $< $@
+
+#$(GO4SYS)/include/qfitmodelwidget.h: $(FITGUI4_DIR)/QFitModelWidget.h
+#	@cp -f $< $@
+
 
 $(FITGUI4_DIR)/ui_%.h: $(FITGUI4_DIR)/%.ui
 	@echo "Producing file $@ ..." 
@@ -57,4 +70,4 @@ clean-qt4-FitGUI:
 ifneq ($(wildcard $(FITGUI4_QTMAKE)),)
 	cd $(FITGUI4_DIR); $(MAKE) -f $(FITGUI4_QTMAKE) clean
 endif
-	@rm -f $(FITGUI4_QTMAKE)
+	@rm -f $(FITGUI4_QTMAKE) $(FITGUI4_PUBH)

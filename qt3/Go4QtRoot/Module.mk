@@ -29,11 +29,13 @@ QT3ROOT_MOCO    = $(QT3ROOT_MOCS:.cpp=.$(ObjSuf))
 
 QT3ROOT_LIB     =  $(GO4DLLPATH)/$(QT3ROOT_LIBNAME).$(DllSuf).$(QT3ROOT_VERSUF)
 
+QT3ROOT_PUBH    = $(patsubst $(QT3ROOT_DIR)/%.h, $(GO4SYS)/include/%.h, $(QT3ROOT_H))
+
 # used in the main Makefile
 
 GO4QT3DEP   += $(QT3ROOT_DEP)
 
-GO4QT3HEADS +=  $(patsubst $(QT3ROOT_DIR)/%.h, $(GO4SYS)/include/%.h, $(QT3ROOT_H))
+GO4QT3HEADS += $(QT3ROOT_PUBH)
 
 ifdef DOPACKAGE
 DISTRFILES         += $(QT3ROOT_H) $(QT3ROOT_S)
@@ -54,7 +56,7 @@ qt3-interface: $(QT3ROOT_LIB)
 clean-qt3-interface:
 	@rm -f $(QT3ROOT_O) $(QT3ROOT_MOCO)
 	@$(CleanQLib) $(QT3ROOT_VERSUF) $(QT3ROOT_LIBNAME) $(GO4DLLPATH)
-	@rm -f $(QT3ROOT_MOCS) $(QT3ROOT_DEP)
+	@rm -f $(QT3ROOT_MOCS) $(QT3ROOT_DEP) $(QT3ROOT_PUBH)
 
 $(QT3ROOT_MOCS): $(QT3ROOT_DIR)/moc_%.cpp: $(QT3ROOT_DIR)/%.h
 	$(MOC) $< -o $@

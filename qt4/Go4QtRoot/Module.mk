@@ -29,11 +29,13 @@ QT4ROOT_MOCO    = $(QT4ROOT_MOCS:.cpp=.$(ObjSuf))
 
 QT4ROOT_LIB     =  $(GO4DLLPATH)/$(QT4ROOT_LIBNAME).$(DllSuf).$(QT4ROOT_VERSUF)
 
+QT4ROOT_PUBH    = $(patsubst $(QT4ROOT_DIR)/%.h, $(GO4SYS)/include/%.h, $(QT4ROOT_H))
+
 # used in the main Makefile
 
 GO4QT4DEP   += $(QT4ROOT_DEP)
 
-GO4QT4HEADS +=  $(patsubst $(QT4ROOT_DIR)/%.h, $(GO4SYS)/include/%.h, $(QT4ROOT_H))
+GO4QT4HEADS += $(QT4ROOT_PUBH)
 
 ifdef DOPACKAGE
 DISTRFILES         += $(QT4ROOT_H) $(QT4ROOT_S)
@@ -54,7 +56,7 @@ qt4-interface: $(QT4ROOT_LIB)
 clean-qt4-interface:
 	@rm -f $(QT4ROOT_O) $(QT4ROOT_MOCO)
 	@$(CleanQLib) $(QT4ROOT_VERSUF) $(QT4ROOT_LIBNAME) $(GO4DLLPATH)
-	@rm -f $(QT4ROOT_MOCS) $(QT4ROOT_DEP)
+	@rm -f $(QT4ROOT_MOCS) $(QT4ROOT_DEP) $(QT4ROOT_PUBH)
 
 $(QT4ROOT_MOCS): $(QT4ROOT_DIR)/moc_%.cpp: $(QT4ROOT_DIR)/%.h
 	$(MOC) $< -o $@
