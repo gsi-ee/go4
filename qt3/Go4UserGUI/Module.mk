@@ -32,6 +32,7 @@ USERGUI3_QTLIB       = $(USERGUI3_LIBDIR)/$(USERGUI3_QTLIBNAME).$(DllSuf).$(VERS
 ifdef DOPACKAGE
 DISTRFILES         += $(USERGUI3_FORMS) $(USERGUI3_FORMSI)
 DISTRFILES         += $(USERGUI3_QTPRO) $(USERGUI3_DIR)/README.txt
+DISTRFILES         += $(USERGUI3_DIR)/Makefile $(USERGUI3_DIR)/Module.mk
 endif
 
 ##### local rules #####

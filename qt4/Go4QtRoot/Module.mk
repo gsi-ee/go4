@@ -41,12 +41,16 @@ ifdef DOPACKAGE
 DISTRFILES         += $(QT4ROOT_H) $(QT4ROOT_S)
 DISTRFILES         += $(QT4ROOT_DIR)/lockguard.h
 DISTRFILES         += $(QT4ROOT_DIR)/CHANGELOG.txt
+DISTRFILES         += $(QT4ROOT_DIR)/Module.mk
 endif
 
 ##### local rules #####
 
+ifdef GO4_QT4
 $(GO4SYS)/include/%.h: $(QT4ROOT_DIR)/%.h
 	@cp -f $< $@
+endif
+
 
 $(QT4ROOT_LIB):    $(QT4ROOT_O) $(QT4ROOT_MOCO)
 	@$(MakeQLib) $(QT4ROOT_VERSUF) $(QT4ROOT_LIBNAME) "$(QT4ROOT_O) $(QT4ROOT_MOCO)" $(GO4DLLPATH)

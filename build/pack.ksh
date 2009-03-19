@@ -3,10 +3,10 @@
 # $2 - headername
 HEAD=$2
 if [ "x$HEAD" == "x" ]; then
-   HEAD=header.txt
+   HEAD=distr/header.txt
 fi
 echo pack $1 ...
-cat $HEAD $1 blankline.txt >dummy.tmp
+cat $HEAD $1 distr/blankline.txt >dummy.tmp
 #this just copy file as it is
 mv -f dummy.tmp $1
 # this code to remove trailing tabs and spaces

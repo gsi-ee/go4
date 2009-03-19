@@ -20,8 +20,9 @@ GO4GUI4_QTPRO       = $(GO4GUI4_DIR)/go4gui.pro
 GO4GUI4_QTMAKE      = $(GO4GUI4_DIR)/Makefile.qt
 GO4GUI4_EXES        = $(GO4GUI4_DIR)/MainGo4GUI.cpp
 
-GO4GUI4_NOTLIBF     = $(GO4GUI4_DIR)/qrc_go4icons.cpp
 GO4GUI4_RESOURCES   = $(GO4GUI4_DIR)/go4icons.qrc
+GO4GUI4_GEN_QRC     = $(GO4GUI4_DIR)/qrc_go4icons.cpp
+GO4GUI4_NOTLIBF     = $(GO4GUI4_GEN_QRC)
 
 ## must be similar for every module
 
@@ -70,6 +71,7 @@ ifdef DOPACKAGE
 DISTRFILES         += $(GO4GUI4_S) $(GO4GUI4_H) $(GO4GUI4_FH) $(GO4GUI4_LINKDEF) 
 DISTRFILES         += $(GO4GUI4_PACKAGE_FORMS) $(GO4GUI4_QTPRO) $(GO4GUI4_RESOURCES)
 DISTRFILES         += $(GO4GUI4_QTS) $(GO4GUI4_QTH) $(GO4GUI4_EXES)
+DISTRFILES         += $(GO4GUI4_DIR)/Module.mk
 endif
 
 ##### local rules #####
@@ -77,17 +79,10 @@ endif
 $(GO4GUI4_O) $(GO4GUI4_DO) $(GO4GUI4_DEP) $(GO4GUI4_DDEP): INCLUDES += $(QTINCLUDES)
 $(GO4GUI4_O) $(GO4GUI4_DO) $(GO4GUI4_DEP) $(GO4GUI4_DDEP): DEFINITIONS += $(QTDEFINITIONS)
 
+ifdef GO4_QT4
 $(GO4SYS)/include/%.h: $(GO4GUI4_DIR)/%.h
 	@cp -f $< $@
-
-#$(GO4SYS)/include/qgo4widget.h: $(GO4GUI4_DIR)/QGo4Widget.h
-#	@cp -f $< $@
-
-#$(GO4SYS)/include/qgo4lineedit.h: $(GO4GUI4_DIR)/QGo4LineEdit.h
-#	@cp -f $< $@
-
-#$(GO4SYS)/include/qgo4commandshistory.h: $(GO4GUI4_DIR)/QGo4CommandsHistory.h
-#	@cp -f $< $@
+endif
 
 $(GO4GUI4_DS): $(GO4GUI4_H)  $(GO4GUI4_LINKDEF)
 	@$(ROOTCINTGO4) $(GO4GUI4_H) $(GO4GUI4_LINKDEF)
@@ -119,4 +114,4 @@ clean-qt4-GUI:
 ifneq ($(wildcard $(GO4GUI4_QTMAKE)),)
 	cd $(GO4GUI4_DIR); $(MAKE) -f $(GO4GUI4_QTMAKE) clean
 endif
-	@rm -f $(GO4GUI4_QTMAKE) $(GO4GUI4_PUBH)
+	@rm -f $(GO4GUI4_QTMAKE) $(GO4GUI4_PUBH) $(GO4GUI4_GEN_QRC)

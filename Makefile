@@ -124,7 +124,6 @@ libs:           $(BUILDGO4LIBS)
 gui::           libs 
 
 examples:       map $(patsubst %,all-%,$(EXMODULES)) $(EXAMPLEEXECS)
-	@for DIRNAME in $(EXMODULES); do cp -f Makefile.module $(GO4SYS)/$$DIRNAME/Makefile; done
 
 noqt:           all
 
@@ -304,31 +303,27 @@ HDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(subst $(GO4SYS),$(GO4DISTR_DIR),$(DI
 
 go4-package:
 	@echo "Creating package $(GO4TAR_NAME) ..."
-	@tar chf $(GO4TAR_NAME) Makefile.config
-	@tar rhf $(GO4TAR_NAME) Makefile.rules
-	@tar rhf $(GO4TAR_NAME) go4.init
+	@tar chf $(GO4TAR_NAME) Makefile.config Makefile.rules go4onlylogin.sh
 	@tar rhf $(GO4TAR_NAME) ./build/*.sh ./build/Makefile.*
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Module.mk,$(MODULES))
 	@tar rhf $(GO4TAR_NAME) $(subst $(GO4SYS),.,$(DISTRFILES))
-	@tar rhf $(GO4TAR_NAME) ./README.txt
-	@tar rhf $(GO4TAR_NAME) ./CHANGES.txt
-	@tar rhf $(GO4TAR_NAME) ./Go4License.txt
+	@tar rhf $(GO4TAR_NAME) README.txt CHANGES.txt Go4License.txt
 	@tar rhf $(GO4TAR_NAME) ./etc/*.ksh ./etc/*.txt ./etc/*.C
-	@tar rhf $(GO4TAR_NAME) ./docs 
+#	@tar rhf $(GO4TAR_NAME) ./docs  --exclude=*.svn
 	@tar rhf $(GO4TAR_NAME) ./macros/*.C 
-	@tar rhf $(GO4TAR_NAME) ./icons 
+	@tar rhf $(GO4TAR_NAME) ./icons --exclude=*.svn
 	@mkdir -p $(DISTR_DIR); cd $(DISTR_DIR); mkdir -p $(GO4PACK_VERS)
 	@mv $(GO4TAR_NAME) $(GO4DISTR_DIR)
 	@cd $(GO4DISTR_DIR); tar xf $(GO4TAR_NAME); rm -f $(GO4TAR_NAME)
-	@cp -f Makefile.distr $(GO4DISTR_DIR)/Makefile
-	@cd $(GO4DISTR_DIR)/etc; mkdir win
-	@cp -f go4init.bat $(GO4DISTR_DIR)/etc/win
-	@cp -f README_win.txt $(GO4DISTR_DIR)/etc/win
-	@cp -f go4login.init.distr $(GO4DISTR_DIR)/go4login.sh
+	@cp -f distr/Makefile.distr $(GO4DISTR_DIR)/Makefile
+	@cd $(GO4DISTR_DIR)/etc; mkdir -p win
+	@cp -f distr/go4login.sh $(GO4DISTR_DIR)
+	@cp -f distr/go4init.bat $(GO4DISTR_DIR)/etc/win
+	@cp -f distr/README_win.txt $(GO4DISTR_DIR)/etc/win
 ifndef FASTPACKAGING
 	@for FILENAME in $(HDISTFILES); do . $(GO4SYS)/build/pack.ksh $$FILENAME; done
 endif
-	@for DIRNAME in $(EXMODULES); do cp -f Makefile.module $(GO4DISTR_DIR)/$$DIRNAME/Makefile; done
+	@for DIRNAME in $(EXMODULES); do cp -f distr/Makefile.module $(GO4DISTR_DIR)/$$DIRNAME/Makefile; done
 	@mkdir -p $(GO4DISTR_DIR)/include
 	@touch -f $(GO4DISTR_DIR)/include/.dummy
 	@cd $(DISTR_DIR); chmod u+w *; chmod u+w */*; chmod u+w */*/*; tar chf $(GO4TAR_NAME) $(GO4PACK_VERS) ; gzip -f $(GO4TAR_NAME)
@@ -338,31 +333,34 @@ endif
 	@rmdir $(DISTR_DIR)
 	@echo "Package $(GO4TAR_NAME).gz done in $(PACKAGE_DIR)"
 
-HWINDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(subst $(GO4SYS),$(WINDISTR_DIR),$(DISTRFILES)))
+
+WINDISTRFILES = $(filter-out $(GO4SYS)/qt%, $(DISTRFILES))
+
+HWINDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(subst $(GO4SYS),$(WINDISTR_DIR),$(WINDISTRFILES)))
 
 win-src:
 	@echo "Creating package $(WINTAR_NAME) ..."
-	@tar chf $(WINTAR_NAME) Makefile.rules
-	@tar rhf $(WINTAR_NAME) Makefile.module Makefile.config
+	@tar chf $(WINTAR_NAME) Makefile.rules Makefile.config
 	@tar rhf $(WINTAR_NAME) ./build/*.sh ./build/Makefile.*
 	@tar rhf $(WINTAR_NAME) $(patsubst %,%/Module.mk,$(MODULES))
-	@tar rhf $(WINTAR_NAME) $(subst $(GO4SYS),.,$(DISTRFILES))
+	@tar rhf $(WINTAR_NAME) $(subst $(GO4SYS),.,$(WINDISTRFILES))
 	@tar rhf $(WINTAR_NAME) ./CHANGES.txt
 	@tar rhf $(WINTAR_NAME) ./Go4License.txt
-	@tar rhf $(WINTAR_NAME) ./go4init.bat
 	@tar rhf $(WINTAR_NAME) ./etc/*.ksh ./etc/*.txt ./etc/*.C
-	@tar rhf $(WINTAR_NAME) ./docs --exclude=*.proj --exclude=*/.sniffdir
+#	@tar rhf $(WINTAR_NAME) ./docs --exclude=*.svn
 	@tar rhf $(WINTAR_NAME) ./macros/*.C
-	@tar rhf $(WINTAR_NAME) ./Go4GUI/icons --exclude=*.proj
+	@tar rhf $(WINTAR_NAME) ./icons --exclude=*.svn
 	@mkdir -p $(DISTR_DIR); cd $(DISTR_DIR); mkdir -p $(WINPACK_VERS)
 	@mv $(WINTAR_NAME) $(WINDISTR_DIR)
 	@cd $(WINDISTR_DIR); tar xf $(WINTAR_NAME); rm -f $(WINTAR_NAME)
 	@cp -f Makefile $(WINDISTR_DIR)/Makefile
-	@cp -f README_win.txt $(WINDISTR_DIR)/README.txt
+	@cp -f distr/Makefile.module $(WINDISTR_DIR)
+	@cp -f distr/go4init.bat $(WINDISTR_DIR)
+	@cp -f distr/README_win.txt $(WINDISTR_DIR)/README.txt
 ifndef FASTPACKAGING
 	@for FILENAME in $(HWINDISTFILES); do . $(GO4SYS)/build/pack.ksh $$FILENAME; done
 endif
-	@for DIRNAME in $(EXMODULES); do cp -f Makefile.module $(WINDISTR_DIR)/$$DIRNAME/Makefile; done
+	@for DIRNAME in $(EXMODULES); do cp -f distr/Makefile.module $(WINDISTR_DIR)/$$DIRNAME/Makefile; done
 	@mkdir -p $(WINDISTR_DIR)/include
 	@touch -f $(WINDISTR_DIR)/include/.dummy
 	@cd $(DISTR_DIR); chmod u+w *; chmod u+w */*; chmod u+w */*/*; tar chf $(WINTAR_NAME) $(WINPACK_VERS) --exclude=$(WINTAR_NAME)*; gzip -f $(WINTAR_NAME)
@@ -450,10 +448,10 @@ thrd-package:
 	@cd $(DISTR_DIR); tar xf $(THRDTAR_NAME)
 	@mkdir -p $(DISTR_DIR)/include
 	@touch -f $(DISTR_DIR)/include/.dummy
-	@cp -f Makefile_threadmanager $(DISTR_DIR)/Makefile
-	@cp -f go4.taskh.init $(DISTR_DIR)/go4.init
-	@cp -f README_threadm.txt $(DISTR_DIR)/README.txt
-	@cp -f Makefile.module $(DISTR_DIR)/Go4ThreadManagerExample/Makefile
+	@cp -f distr/Makefile_threadmanager $(DISTR_DIR)/Makefile
+	@cp -f distr/go4.taskh.init $(DISTR_DIR)/go4.init
+	@cp -f distr/README_threadm.txt $(DISTR_DIR)/README.txt
+	@cp -f distr/Makefile.module $(DISTR_DIR)/Go4ThreadManagerExample/Makefile
 ifndef FASTPACKAGING
 	@for FILENAME in $(THRDHDISTFILES); do . $(GO4SYS)/build/pack.ksh $$FILENAME; done
 endif
@@ -490,14 +488,14 @@ task-package:
 	@mkdir -p $(DISTR_DIR)
 	@mv $(TASKTAR_NAME) $(DISTR_DIR)
 	@cd $(DISTR_DIR); tar xf $(TASKTAR_NAME)
-	@cp -f Makefile_taskhandler $(DISTR_DIR)/Makefile
-	@cp -f go4.taskh.init $(DISTR_DIR)/go4.init
-	@cp -f README_taskh.txt $(DISTR_DIR)/README.txt
+	@cp -f distr/Makefile_taskhandler $(DISTR_DIR)/Makefile
+	@cp -f distr/go4.taskh.init $(DISTR_DIR)/go4.init
+	@cp -f distr/README_taskh.txt $(DISTR_DIR)/README.txt
 	@mkdir -p $(DISTR_DIR)/include
 	@touch -f $(DISTR_DIR)/include/.dummy
-	@cp -f Makefile.module $(DISTR_DIR)/Go4Queue/Makefile
-	@cp -f Makefile.module $(DISTR_DIR)/Go4ThreadManagerExample/Makefile
-	@cp -f Makefile.module $(DISTR_DIR)/Go4TaskHandlerExample/Makefile
+	@cp -f distr/Makefile.module $(DISTR_DIR)/Go4Queue/Makefile
+	@cp -f distr/Makefile.module $(DISTR_DIR)/Go4ThreadManagerExample/Makefile
+	@cp -f distr/Makefile.module $(DISTR_DIR)/Go4TaskHandlerExample/Makefile
 ifndef FASTPACKAGING
 	@for FILENAME in $(TASKHDISTFILES); do . $(GO4SYS)/build/pack.ksh $$FILENAME; done
 endif

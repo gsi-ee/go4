@@ -13,6 +13,8 @@ include qt3/Go4UserGUI/Module.mk
 
 include qt3/Go4plugin/Module.mk
 
+DISTRFILES         += qt3/Module.mk
+
 ifdef GO4_QT3
 
 GO4QTHEADS += $(GO4QT3HEADS)

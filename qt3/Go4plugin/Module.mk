@@ -1,6 +1,7 @@
 PLUGIN3_DIR = $(GO4SYS)/qt3/Go4plugin
 
 ifdef DOPACKAGE
+DISTRFILES         += $(PLUGIN3_DIR)/Module.mk
 DISTRFILES         += $(PLUGIN3_DIR)/go4plugin.pro
 DISTRFILES         += $(PLUGIN3_DIR)/TGo4QtDesignerPlugin.h
 DISTRFILES         += $(PLUGIN3_DIR)/TGo4QtDesignerPlugin.cpp

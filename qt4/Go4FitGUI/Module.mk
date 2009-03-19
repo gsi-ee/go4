@@ -24,29 +24,21 @@ FITGUI4_PUBH        = $(patsubst $(FITGUI4_DIR)/%.h, $(GO4SYS)/include/%.h, $(FI
 # used in the main Makefile
 
 GO4QT4HEADS         += $(FITGUI4_UI_H) $(FITGUI4_PUBH)
-# GO4QT4HEADS         += $(GO4SYS)/include/qfitwidget.h $(GO4SYS)/include/qfitnamedwidget.h $(GO4SYS)/include/qfitmodelwidget.h
 
 
 ifdef DOPACKAGE
 DISTRFILES         += $(FITGUI4_FORMS)  $(FITGUI4_QTPRO)
 DISTRFILES         += $(FITGUI4_QTH) $(FITGUI4_QTS) $(FITGUI4_DIR)/TGo4FitGuiTypes.h
+DISTRFILES         += $(FITGUI4_DIR)/Module.mk
 endif
 
 
 ##### local rules #####
 
+ifdef GO4_QT4
 $(GO4SYS)/include/%.h: $(FITGUI4_DIR)/%.h
 	@cp -f $< $@
-
-#$(GO4SYS)/include/qfitwidget.h: $(FITGUI4_DIR)/QFitWidget.h
-#	@cp -f $< $@
-
-#$(GO4SYS)/include/qfitnamedwidget.h: $(FITGUI4_DIR)/QFitNamedWidget.h
-#	@cp -f $< $@
-
-#$(GO4SYS)/include/qfitmodelwidget.h: $(FITGUI4_DIR)/QFitModelWidget.h
-#	@cp -f $< $@
-
+endif
 
 $(FITGUI4_DIR)/ui_%.h: $(FITGUI4_DIR)/%.ui
 	@echo "Producing file $@ ..." 
