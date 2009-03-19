@@ -109,9 +109,9 @@ all:            gui map examples
 
 include $(patsubst %,%/Module.mk,$(MODULES))
 
-include qt3/Module.mk
+-include qt3/Module.mk
 
-include qt4/Module.mk
+-include qt4/Module.mk
 
 
 build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
@@ -304,14 +304,14 @@ HDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(subst $(GO4SYS),$(GO4DISTR_DIR),$(DI
 go4-package:
 	@echo "Creating package $(GO4TAR_NAME) ..."
 	@tar chf $(GO4TAR_NAME) Makefile.config Makefile.rules go4onlylogin.sh
-	@tar rhf $(GO4TAR_NAME) ./build/*.sh ./build/Makefile.*
+	@tar rhf $(GO4TAR_NAME) build/*.sh build/Makefile.*
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Module.mk,$(MODULES))
 	@tar rhf $(GO4TAR_NAME) $(subst $(GO4SYS),.,$(DISTRFILES))
 	@tar rhf $(GO4TAR_NAME) README.txt CHANGES.txt Go4License.txt
-	@tar rhf $(GO4TAR_NAME) ./etc/*.ksh ./etc/*.txt ./etc/*.C
+	@tar rhf $(GO4TAR_NAME) etc/*.ksh etc/*.txt etc/*.C
 #	@tar rhf $(GO4TAR_NAME) ./docs  --exclude=*.svn
-	@tar rhf $(GO4TAR_NAME) ./macros/*.C 
-	@tar rhf $(GO4TAR_NAME) ./icons --exclude=*.svn
+	@tar rhf $(GO4TAR_NAME) macros/*.C 
+	@tar rhf $(GO4TAR_NAME) icons --exclude=*.svn
 	@mkdir -p $(DISTR_DIR); cd $(DISTR_DIR); mkdir -p $(GO4PACK_VERS)
 	@mv $(GO4TAR_NAME) $(GO4DISTR_DIR)
 	@cd $(GO4DISTR_DIR); tar xf $(GO4TAR_NAME); rm -f $(GO4TAR_NAME)

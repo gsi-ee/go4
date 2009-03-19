@@ -1,6 +1,10 @@
 #!/bin/bash
 # note: replace first line by true location of bash on your linux!
 
+# specify your OS : Linux, Win32, Solaris 
+# export GO4_OS=Linux
+
+
 # change next line to the true location of your root installation
 export ROOTSYS=/home/user/root
 

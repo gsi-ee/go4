@@ -100,9 +100,9 @@ FASTRULES    += clean-ex clean-qt clean-bak clean-obj clean-plugin \
 
 include $(patsubst %,%/Module.mk,$(MODULES))
 
-include qt3/Module.mk
+-include qt3/Module.mk
 
-include qt4/Module.mk
+-include qt4/Module.mk
 
 build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
 	@(if [ ! -f $@ ] ; then touch $@; fi)

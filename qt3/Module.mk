@@ -13,7 +13,7 @@ include qt3/Go4UserGUI/Module.mk
 
 include qt3/Go4plugin/Module.mk
 
-DISTRFILES         += qt3/Module.mk
+DISTRFILES         += qt3/Module.mk qt3/etc/go4defaulttoolsrc.txt
 
 ifdef GO4_QT3
 
