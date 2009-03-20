@@ -43,12 +43,10 @@
 #include <QtGui/qlineedit.h>
 #include <QtGui/QCloseEvent>
 
-#include <Qt3Support/q3filedialog.h>
 #include <Qt3Support/q3strlist.h>
 #include <Qt3Support/q3popupmenu.h>
 #include <Qt3Support/q3intdict.h>
 #include <Qt3Support/q3toolbar.h>
-#include <Qt3Support/q3filedialog.h>
 #include <Qt3Support/q3whatsthis.h>
 #include <Qt3Support/q3toolbar.h>
 

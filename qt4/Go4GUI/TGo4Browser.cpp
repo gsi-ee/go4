@@ -3,8 +3,7 @@
 #include <Q3ListView>
 #include <Q3PopupMenu>
 #include <Q3DragObject>
-//#include <QHeader>
-#include <Q3FileDialog>
+#include <QFileDialog>
 #include <QInputDialog>
 #include <QTimer>
 #include <QApplication>
@@ -35,10 +34,10 @@ const int ColumnAllign[NColumns] = { Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft
 
 TGo4Browser::TGo4Browser(QWidget *parent, const char* name)
          : QGo4Widget(parent,name)
-{ 
+{
 	setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
 
    setAcceptDrops(false);
@@ -958,10 +957,10 @@ void TGo4Browser::ShootUpdateTimer()
 
 void TGo4Browser::SaveSelectedItems()
 {
-   Q3FileDialog fd(this, "export", kTRUE );
-   fd.setMode( Q3FileDialog::AnyFile);
-   fd.setCaption("Save selected objects to file");
-   fd.setFilters(QString("ROOT (*.root);;ROOT XML (*.xml)"));
+   QFileDialog fd(this, "Save selected objects to file", QString(),
+                  "ROOT (*.root);;ROOT XML (*.xml)");
+   fd.setMode( QFileDialog::AnyFile);
+
    if (fd.exec() != QDialog::Accepted) return;
 
    QString fname = fd.selectedFile();
@@ -986,9 +985,9 @@ void TGo4Browser::SaveSelectedItems()
 
 void TGo4Browser::ExportSelectedItems(const char* filtername)
 {
-   Q3FileDialog fd(this, "export", kTRUE );
-   fd.setMode(Q3FileDialog::DirectoryOnly);
-   fd.setCaption(QString("Select directory to export to ") + filtername);
+   QFileDialog fd(this, QString("Select directory to export to ") + filtername);
+   fd.setMode(QFileDialog::DirectoryOnly);
+
    if (fd.exec() != QDialog::Accepted) return;
 
    ExportSelectedItems("null",

@@ -3,7 +3,7 @@
 #include "Riostream.h"
 #include "TROOT.h"
 
-#include <Q3FileDialog>
+#include <QFileDialog>
 #include <QTextStream>
 
 
@@ -16,10 +16,10 @@
 
 TGo4CommandLine::TGo4CommandLine(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
-{ 
+{
 	setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
     fiHistoryDepth=50;
     LoadHistory();
@@ -28,24 +28,17 @@ TGo4CommandLine::TGo4CommandLine(QWidget *parent, const char* name)
 
 void TGo4CommandLine::FileSearchDialog()
 {
-Q3FileDialog fd( this, "search macro", true);
-   fd.setCaption("Select ROOT macro to execute in GUI");
-   fd.setMode( Q3FileDialog::ExistingFile);
-   fd.setName( "Select macro file");
-   QString filters="ROOT macro  (*.C *.c)";
-   filters+=";;Go4 hotstart script (*.hotstart)";
-   fd.setFilters(filters);
+   QFileDialog fd( this, "Select ROOT macro to execute in GUI", QString(),
+                  "ROOT macro  (*.C *.c);;Go4 hotstart script (*.hotstart)");
+   fd.setMode( QFileDialog::ExistingFile);
+
    if (fd.exec() != QDialog::Accepted) return;
    QString cmd;
    if(fd.selectedFilter().contains(".hotstart"))
-    {
-        cmd=fd.selectedFile();
-    }
+      cmd = fd.selectedFile();
    else
-    {
-       cmd = QString(".x ") + fd.selectedFile();
-    }
-    InputLine->insertItem(cmd, 0);
+      cmd = QString(".x ") + fd.selectedFile();
+   InputLine->insertItem(cmd, 0);
 }
 
 

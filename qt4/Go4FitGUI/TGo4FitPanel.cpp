@@ -5,14 +5,18 @@
 #include "qevent.h"
 #include "q3dragobject.h"
 #include "qinputdialog.h"
-#include "q3filedialog.h"
 #include "q3listview.h"
 #include "qpixmap.h"
 #include "qmenubar.h"
 #include "qtooltip.h"
-//#include "q3popupmenu.h"
-//#include "q3widgetlist.h"
 #include "qapplication.h"
+#include <QFocusEvent>
+#include <Q3Frame>
+#include <QDropEvent>
+#include <Q3PopupMenu>
+#include <QPixmap>
+#include <QMenuBar>
+#include <QFileDialog>
 
 #include "TStyle.h"
 #include "TObject.h"
@@ -94,14 +98,6 @@
 #include "QFitMatrixTransWidget.h"
 #include "TGo4FitGuiTypes.h"
 #include "Riostream.h"
-
-//Added by qt3to4:
-#include <QFocusEvent>
-#include <Q3Frame>
-#include <QDropEvent>
-#include <Q3PopupMenu>
-#include <QPixmap>
-#include <QMenuBar>
 
 
 // ********************************************************************
@@ -309,10 +305,10 @@ static const char* UnselectedXPM[]={
 
 TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
-{ 
+{
 			setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
 
     // fitstatus part
@@ -369,7 +365,7 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name)
     MenuBar->setMinimumWidth(50);
     MenuBar->setFrameShape(QMenuBar::NoFrame);
 
- 
+
 
     FitterMenu = new Q3PopupMenu( this );
     MenuBar->insertItem( "&Fitter",FitterMenu);
@@ -1251,7 +1247,7 @@ void TGo4FitPanel::Cmd_SaveFitter(bool ask)
   fname+=".root";
 
   if(ask) {
-    fname = Q3FileDialog::getSaveFileName(fname,
+    fname = QFileDialog::getSaveFileName(fname,
                                          QString("Root file (*.root)"),
                                          0,
                                          QString("save fitter dialog"),
@@ -2417,7 +2413,7 @@ void TGo4FitPanel::UpdateWizModelsList(bool changestack)
           if (strcmp(model->GetName(), fxWizModelName.latin1())==0) selindx = indx;
           indx++;
        }
-       
+
        Wiz_ModelList->setSelected(selindx, TRUE);
        if (selindx>=0)
           Wiz_ModelList->setCurrentItem(selindx);
@@ -2490,7 +2486,7 @@ void TGo4FitPanel::UpdateWizStackWidget()
        case 1: {
           TGo4FitModel* model = Wiz_SelectedModel();
           if (model==0) break;
-          
+
           target = Wiz_ModelPage;
 
           QString modelinfo;
@@ -2675,7 +2671,7 @@ void TGo4FitPanel::Wiz_DataList_highlighted( int indx)
 void TGo4FitPanel::Wiz_ModelListSelect(int indx, bool ontext)
 {
   if (fbFillingWidget) return;
-  
+
   QString name = Wiz_ModelList->text(indx);
 
   bool needupdate = ( (name != fxWizModelName.latin1()) ||
@@ -3419,7 +3415,7 @@ void TGo4FitPanel::FindersTab_currentChanged( QWidget * )
 void TGo4FitPanel::Wiz_ModelList_clicked( Q3ListBoxItem * item, const QPoint & pnt)
 {
   if (item==0) return;
-  
+
   QRect rect = Wiz_ModelList->itemRect(item);
   QPoint pnt2 = Wiz_ModelList->viewport()->mapFromGlobal(pnt);
 
@@ -4132,7 +4128,7 @@ void TGo4FitPanel::SetItemText(QFitItem* item, bool trace)
     case FitGui::ot_range: {
        TGo4FitComponent* comp = dynamic_cast<TGo4FitComponent*> (item->Object());
        if ((comp==0) || (item->Tag()<0) || (item->Tag()>=comp->GetNumRangeCondition())) break;
-       
+
        Int_t typ, naxis;
        Double_t left, right;
        comp->GetRangeCondition(item->Tag(), typ, naxis, left, right);
@@ -4186,7 +4182,7 @@ void TGo4FitPanel::SetItemText(QFitItem* item, bool trace)
     Q3ListViewItemIterator iter(topitem);
     while (iter.current()!=0) {
       QFitItem* it = dynamic_cast<QFitItem*> (iter.current());
-      if ((it!=0) && (it!=item) && 
+      if ((it!=0) && (it!=item) &&
           (item->ObjectType()==it->ObjectType()) &&
           (item->Object()==it->Object()) && (item->Tag()==it->Tag()))
             it->setText(0, text);
@@ -4815,7 +4811,7 @@ void TGo4FitPanel::ArrowChanged(TGo4FitGuiArrow* arr)
 
    if (fiPanelMode==FitGui::pm_Expert) {
       if ((arr->GetType()==TGo4FitGuiArrow::at_pos) ||
-         (arr->GetType()==TGo4FitGuiArrow::at_width)) 
+         (arr->GetType()==TGo4FitGuiArrow::at_width))
             UpdateItemsOfType(FitGui::ot_par, arr->GetItem());
 
       if (arr->GetType()==TGo4FitGuiArrow::at_range)

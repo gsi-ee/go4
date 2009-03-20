@@ -135,12 +135,8 @@ bool TQRootCanvas::checkResizeFlag(int level)
 void TQRootCanvas::performResize()
 {
    Qtrootlockguard threadlock;
-   //cout <<"RRRRRRRRRRRRRRRR----- TQRootCanvas::performResize" << endl;
-   //fResizeFlag = 0;
-    UInt_t nxid=winId();
-   //cout <<"----- TQRootCanvas::performResize for current Xid:"<<nxid << endl;
-   if(nxid!=xid)
-   {
+   UInt_t nxid=winId();
+   if(nxid!=xid) {
       // Qt has changed xid for this widget (e.g. at QWorkspace::addWindow())
       // need to adjust the ROOT X access:
       //cout <<"----- TQRootCanvas::performResize finds changed xwinid:"<<  setbase(10) <<nxid<<endl;
@@ -261,22 +257,12 @@ void TQRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
 
 void TQRootCanvas::resizeEvent( QResizeEvent *e )
 {
-   //cout <<"----- TQRootCanvas::resizeEvent ..." << endl;
-   //Qtrootlockguard threadlock;
-   //QWidget::resizeEvent( e );
-    //performResize();
-
    fResizeFlag++; // counter will dynamically disable repaint for continuous resize
 }
 
 void TQRootCanvas::paintEvent( QPaintEvent * e)
 {
-    //cout <<"----- TQRootCanvas::paintEvent..." << endl;
-
-    checkResizeFlag(1); // repaint root graphics only if resizing is not in progress
-    //QWidget::paintEvent( e );
-
-
+   checkResizeFlag(1); // repaint root graphics only if resizing is not in progress
 }
 
 void TQRootCanvas::leaveEvent( QEvent *e )

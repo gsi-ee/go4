@@ -1,14 +1,14 @@
 #include "TGo4LogSettings.h"
-#include <Q3FileDialog>
+#include <QFileDialog>
 #include "TGo4Log.h"
 
 TGo4LogSettings::TGo4LogSettings( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
     : QDialog( parent, name, modal, fl )
-{ 
+{
 	//setObjectName(name);
 	setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
    bool iswrite=TGo4Log::IsLogfileEnabled();
 
@@ -24,9 +24,8 @@ TGo4LogSettings::TGo4LogSettings( QWidget* parent, const char* name, bool modal,
 
 void TGo4LogSettings::LogfileDialog()
 {
-   Q3FileDialog fd( this, "Set GUI logfile:", TRUE );
-   fd.setMode( Q3FileDialog::AnyFile );
-   fd.setFilter( "Log textfile (*.log)" );
+   QFileDialog fd( this, "Set GUI logfile", "", "Log textfile (*.log)");
+   fd.setMode( QFileDialog::AnyFile );
    if (fd.exec() != QDialog::Accepted) return;
 
    QString fileName = fd.selectedFile();

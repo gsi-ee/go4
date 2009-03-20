@@ -1,7 +1,7 @@
 #include "TGo4LogInfo.h"
 
 #include "TObject.h"
-#include <Q3FileDialog>
+#include <QFileDialog>
 #include <QDateTime>
 #include <Q3ListView>
 #include <QTextStream>
@@ -9,10 +9,10 @@
 
 TGo4LogInfo::TGo4LogInfo(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
-{ 
+{
 	setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
    setAcceptDrops(FALSE);
    infoIcon = QPixmap(":/icons/info.png");
@@ -62,11 +62,10 @@ void TGo4LogInfo::ClearLogInfo()
 void TGo4LogInfo::SaveLogInfo()
 {
     QString TextToSave;
-    Q3FileDialog fd( this, "Save Log Information", TRUE );
-    fd.setMode( Q3FileDialog::AnyFile );
-    fd.setName( "Save Log Information ");
-    fd.setCaption( "Save analysis log window");
-    fd.setFilter( "Plain text (*.txt)" );
+    QFileDialog fd( this, "Save analysis log window", QString(),
+          "Plain text (*.txt)");
+    fd.setMode( QFileDialog::AnyFile );
+
     if ( fd.exec() != QDialog::Accepted ) return;
 
     QString fileName = fd.selectedFile();

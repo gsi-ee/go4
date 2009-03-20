@@ -1,6 +1,6 @@
 #include "TGo4ConfigStep.h"
 
-#include <Q3FileDialog>
+#include <QFileDialog>
 #include "TClass.h"
 #include "Riostream.h"
 #include "TGo4AnalysisStepStatus.h"
@@ -20,18 +20,16 @@
 #include "TGo4AnalysisConfiguration.h"
 
 
-
-
 const char* TGo4MbsFile__fgcNOTAGFILE = "GO4-NOLMDTAG";
 const char* TGo4MbsFile__fgcLMDSUF = ".lmd";
 const char* TGo4MbsFile__fgcFILELISTSUF = ".lml";
 
 TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char* name, Qt::WFlags fl )
     : QWidget( parent, name, fl )
-{ 
+{
 	setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
 
    fxPanel = 0;
@@ -346,15 +344,13 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
 
 void TGo4ConfigStep::OutputFileDialog()
 {
-    Q3FileDialog fd( this, "file name", TRUE );
-    fd.setMode( Q3FileDialog::AnyFile);
-    fd.setCaption( "Select file name for step output");
-    fd.setDir(fxPanel->GetStorePath());
-    fd.setFilter( "Go4FileStore  (*.root)" );
+    QFileDialog fd( this, "Select file name for step output",
+          fxPanel->GetStorePath(), "Go4FileStore  (*.root)");
+    fd.setMode( QFileDialog::AnyFile);
     if ( fd.exec() != QDialog::Accepted ) return;
 
     QString fileName = fd.selectedFile();
-    fxPanel->SetStorePath(fd.dirPath());
+    fxPanel->SetStorePath(fd.directory().path());
     if(!fileName.endsWith(".root")) fileName.append(".root");
     StoreNameEdit->setText(fileName);
 }
@@ -473,37 +469,40 @@ void TGo4ConfigStep::StoreTimeout( int tim )
 
 void TGo4ConfigStep::InputFileDialog()
 {
-    Q3FileDialog fd( this, "file name", TRUE );
-    fd.setMode( Q3FileDialog::ExistingFile);
-    fd.setCaption( "Select file name for step input");
-    fd.setDir(fxPanel->GetSourcePath());
-    bool mbsfilemode=false;
-    if(fStepStatus!=0) {
-        TGo4EventSourceParameter* sourcepar = fStepStatus->GetSourcePar();
-        if(sourcepar->InheritsFrom(TGo4FileSourceParameter::Class()))
-           fd.setFilter( "Go4FileSource  (*.root)" );
-        else if (sourcepar->InheritsFrom(TGo4MbsFileParameter::Class())) {
-            mbsfilemode=true;
-            QString filters="Go4MbsFile  (*";
-            filters+=TGo4MbsFile__fgcLMDSUF;
-            filters+=" *";
-            filters+=QString(TGo4MbsFile__fgcLMDSUF).upper();
-            filters+=");;Go4 list mode list (*";
-            filters+=TGo4MbsFile__fgcFILELISTSUF;
-            filters+=")";
-            fd.setFilters(filters);
-        }
-        else if (sourcepar->InheritsFrom(TGo4UserSourceParameter::Class())){
-           fd.setFilter( "all files  (*.*)" );
-        }
-        else
-           cout <<"Unknown sourcepar " <<sourcepar->ClassName() << endl;
-    }
+   QString filters;
+   bool mbsfilemode = false;
+   if(fStepStatus!=0) {
+       TGo4EventSourceParameter* sourcepar = fStepStatus->GetSourcePar();
+       if(sourcepar->InheritsFrom(TGo4FileSourceParameter::Class()))
+          filters = "Go4FileSource  (*.root)";
+       else
+       if (sourcepar->InheritsFrom(TGo4MbsFileParameter::Class())) {
+           mbsfilemode=true;
+           QString filters="Go4MbsFile  (*";
+           filters+=TGo4MbsFile__fgcLMDSUF;
+           filters+=" *";
+           filters+=QString(TGo4MbsFile__fgcLMDSUF).upper();
+           filters+=");;Go4 list mode list (*";
+           filters+=TGo4MbsFile__fgcFILELISTSUF;
+           filters+=")";
+       }
+       else
+       if (sourcepar->InheritsFrom(TGo4UserSourceParameter::Class())) {
+          filters = "all files  (*.*)";
+       }
+       else
+          cout <<"Unknown sourcepar " <<sourcepar->ClassName() << endl;
+   }
+
+
+    QFileDialog fd( this, "Select file name for step input",
+                          fxPanel->GetSourcePath(), filters);
+    fd.setMode(QFileDialog::ExistingFile);
 
     if ( fd.exec() != QDialog::Accepted ) return;
 
     QString fileName = fd.selectedFile();
-    fxPanel->SetSourcePath(fd.dirPath());
+    fxPanel->SetSourcePath(fd.directory().path());
     SourceNameEdit->setText(fileName);
     if(mbsfilemode) {
        if(fd.selectedFilter().contains(TGo4MbsFile__fgcFILELISTSUF)) {

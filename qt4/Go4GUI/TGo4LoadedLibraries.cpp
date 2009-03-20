@@ -1,6 +1,6 @@
 #include "TGo4LoadedLibraries.h"
 
-#include <Q3FileDialog>
+#include <QFileDialog>
 #include <QDateTime>
 
 #include "TSystem.h"
@@ -8,11 +8,11 @@
 
 TGo4LoadedLibraries::TGo4LoadedLibraries( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
     : QDialog( parent, name, modal, fl )
-{ 
+{
 	//setObjectName(name);
 	setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
     RefreshLibs();
     UnloadLibBtn->hide();
@@ -20,10 +20,8 @@ TGo4LoadedLibraries::TGo4LoadedLibraries( QWidget* parent, const char* name, boo
 
 void TGo4LoadedLibraries::LoadNewLibrary()
 {
-  Q3FileDialog fd(this, "Load Library", TRUE );
-  fd.setMode( Q3FileDialog::ExistingFiles);
-  fd.setName( "Load Shared Library ");
-  fd.setFilter( "Library (*.so)" );
+  QFileDialog fd(this, "Load Shared Library ", QString(), "Library (*.so)");
+  fd.setMode( QFileDialog::ExistingFiles);
 
   if ( fd.exec() != QDialog::Accepted ) return;
 

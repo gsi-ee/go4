@@ -48,10 +48,12 @@
 #include <Qt3Support/q3dragobject.h>
 #include <Qt3Support/q3textbrowser.h>
 #include <Qt3Support/Q3ActionGroup>
-#include <Qt3Support/q3filedialog.h>
 #include <Qt3Support/q3process.h>
 #include <Qt3Support/q3dockarea.h>
 #include <Qt3Support/Q3DockWindow>
+#include <Qt3Support/Q3Dict>
+
+#include <QFileDialog>
 
 
 //////// root includes;
@@ -195,9 +197,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
 
    // br->OpenFile("asf.root");
 
-
    new TGo4Script(this);
-
 
    gStyle->SetPalette(1);
    //gStyle->SetOptStat(11111111);
@@ -960,13 +960,14 @@ void TGo4MainWindow::ForseCloseSlot()
 
 void TGo4MainWindow::OpenFileSlot()
 {
-   Q3FileDialog fd( this, "Read Root File", TRUE );
-   fd.setCaption("Select a ROOT file to open it in the Go4 Disk Browser");
-   fd.setMode( Q3FileDialog::ExistingFiles);
+   QFileDialog fd( this,
+                   "Select a ROOT file to open it in the Go4 Disk Browser",
+                   fLastFileDir,
+                   QString("Root files (*.root);;Root xml files (*.xml);;All files (*.*)"));
+
+   fd.setMode( QFileDialog::ExistingFiles);
    fd.setName( "Open Root File ");
-   fd.setFilters(QString("Root files (*.root);;Root xml files (*.xml);;All files (*.*)"));
-   if (fLastFileDir.length()>0)
-     fd.setDir(QDir(fLastFileDir));
+
    if ( fd.exec() != QDialog::Accepted ) return;
 
    QStringList list = fd.selectedFiles();
@@ -1040,22 +1041,19 @@ void TGo4MainWindow::ConnectHServerSlot()
 
 void TGo4MainWindow::SaveFileSlot()
 {
-   Q3FileDialog fd(this, "export", kTRUE );
-   fd.setMode( Q3FileDialog::AnyFile);
-   if (go4sett->getFetchDataWhenSave())
-      fd.setCaption("Select root file to fetch and export all browser objects");
-   else
-      fd.setCaption("Select root file to export all local browser objects");
+   QFileDialog fd(this,
+        go4sett->getFetchDataWhenSave() ?
+        "Select root file to fetch and export all browser objects" :
+        "Select root file to export all local browser objects",
+        fLastFileDir, "ROOT (*.root)");
 
-   fd.setFilters(QString("ROOT (*.root)"));
-   fd.setSelection("export.root");
-   if (fLastFileDir.length()>0)
-      fd.setDir(QDir(fLastFileDir));
+   fd.setMode( QFileDialog::AnyFile);
+   fd.selectFile("export.root");
 
    if (fd.exec() != QDialog::Accepted) return;
 
    QString fname = fd.selectedFile();
-   fLastFileDir = QFileInfo(fname).dirPath(true);
+   fLastFileDir = fd.directory().path();
    if (fname.find(".root", 0, FALSE)<0) fname+=".root";
 
    if (!Browser()->SaveBrowserToFile(fname.latin1(), go4sett->getFetchDataWhenSave()))
@@ -2180,16 +2178,12 @@ bool TGo4MainWindow::SaveBrowserItemToFile(const char* itemname, const char* sub
    }
 
    if (!res) {
-      Q3FileDialog fd(this, "Save object", kTRUE );
-      fd.setMode( Q3FileDialog::AnyFile);
-      fd.setCaption(QString("Save ") + itemname + " in root file");
-      fd.setFilters(QString("ROOT (*.root);;ROOT XML (*.xml)"));
-      fd.setSelection("file.root");
-      if (fLastFileDir.length()>0)
-         fd.setDir(QDir(fLastFileDir));
+      QFileDialog fd(this, QString("Save ") + itemname + " in root file",
+                     fLastFileDir, "ROOT (*.root);;ROOT XML (*.xml)");
+      fd.setMode( QFileDialog::AnyFile);
       if (fd.exec() == QDialog::Accepted) {
          res = br->SaveItemToFile(itemname, fd.selectedFile().latin1(), subfolder);
-         fLastFileDir = QFileInfo(fd.selectedFile()).dirPath(true);
+         fLastFileDir = fd.directory().path();
       }
    }
 
@@ -2201,11 +2195,10 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
    if (panel==0) return;
 
    TCanvas* can = panel->GetCanvas();
-   Q3FileDialog fd( this, "Save Canvas", TRUE);
-   QString fdCaption = "Save ";
-   fdCaption.append(name());
-   fdCaption.append("  As");
-   fd.setCaption(fdCaption);
+
+   QFileDialog fd( this, QString("Save ") + name() + " As", fLastFileDir);
+   fd.setMode( QFileDialog::AnyFile );
+
    QString PS = "Post Script (*.ps)";
    QString PS_Portrait = "Post Script Portrait (*.ps)";
    QString PS_Landscape = "Post Script Landscape (*.ps)";
@@ -2222,36 +2215,35 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
    QString CXXM = "C++ Macro (*.C)";
    QString ROOTM = "root file (*.root)";
 
-   fd.setMode( Q3FileDialog::AnyFile );
-   fd.setName( "Save Canvas ");
-   fd.setFilter(PS);
-   fd.addFilter(PS_Portrait);
-   fd.addFilter(PS_Landscape);
-   fd.addFilter(EPS);
-   fd.addFilter(EPS_Preview);
-   fd.addFilter(PDF);
-   fd.addFilter(SVG);
-   fd.addFilter(GIF);
+   QStringList flt;
+
+   flt << PS;
+   flt << PS_Portrait;
+   flt << PS_Landscape;
+   flt << EPS;
+   flt << EPS_Preview;
+   flt << PDF;
+   flt << SVG;
+   flt << GIF;
 
    #if ROOT_VERSION_CODE >= ROOT_VERSION(4,4,2)
-   fd.addFilter(XPM);
-   fd.addFilter(PNG);
-   fd.addFilter(JPG);
-   fd.addFilter(TIFF);
+   flt << XPM;
+   flt << PNG;
+   flt << JPG;
+   flt << TIFF;
    #endif
 
-   fd.addFilter(CXXM);
-   fd.addFilter(ROOTM);
+   flt << CXXM;
+   flt << ROOTM;
 
-   if (fLastFileDir.length()>0)
-      fd.setDir(QDir(fLastFileDir));
+   fd.setFilters(flt);
 
    if (fd.exec() != QDialog::Accepted) return;
 
    QString filename = fd.selectedFile();
    QString filter = fd.selectedFilter();
 
-   fLastFileDir = QFileInfo(filename).dirPath(true);
+   fLastFileDir = fd.directory().path();
 
    const char* opt = "ps";
 
@@ -2942,7 +2934,7 @@ void TGo4MainWindow::StopGUIScriptSlot()
 void TGo4MainWindow::CreateGUIScriptSlot()
 {
    QString ext = TGo4Script::FileExtension();
-   QString fileName = Q3FileDialog::getSaveFileName(
+   QString fileName = QFileDialog::getSaveFileName(
         fLastFileDir, QString("GUI hotstart script (*") + ext + ")", this,
         "Create GUI script dialog", "Choose a file to be created");
    if (fileName.length()==0) return;

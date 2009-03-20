@@ -10,7 +10,6 @@
 #include "qpixmap.h"
 #include <QtCore/qtimer.h>
 #include "qlabel.h"
-#include "q3filedialog.h"
 #include "qmessagebox.h"
 #include "q3process.h"
 #include "q3textedit.h"
@@ -20,6 +19,7 @@
 #include <Q3HBoxLayout>
 #include <Q3GridLayout>
 #include "q3textstream.h"
+#include <QFileDialog>
 
 #include "TGo4QSettings.h"
 #include "TGo4AnalysisProxy.h"
@@ -283,11 +283,11 @@ void TGo4AnalysisWindow::ClearAnalysisOutput()
 void TGo4AnalysisWindow::SaveAnalysisOutput()
 {
    if (fxOutput==0) return;
-   Q3FileDialog fd(this, "Save analysis terminal output", TRUE);
-   fd.setMode( Q3FileDialog::AnyFile );
-   fd.setFilter( "Plain text (*.txt)" );
-   fd.setName( "Save analysis output");
-   fd.setCaption( "Save analysis terminal output");
+   QFileDialog fd(this,
+                  "Save analysis terminal output",
+                  "", "Plain text (*.txt)");
+   fd.setMode( QFileDialog::AnyFile );
+
    if (fd.exec() != QDialog::Accepted) return;
 
    QString fileName = fd.selectedFile();
@@ -321,11 +321,10 @@ void TGo4AnalysisWindow::HistActivated(const QString& str)
 
 void TGo4AnalysisWindow::FileDialog_Macro()
 {
-   Q3FileDialog fd( this, "search macro", true);
-   fd.setCaption("Select ROOT macro for analysis task");
-   fd.setMode( Q3FileDialog::ExistingFile);
-   fd.setName( "Select/Enter  root macro");
-   fd.setFilter( "CINT Macro  (*.C)" );
+   QFileDialog fd( this,
+                  "Select ROOT macro for analysis task"
+                  "", "CINT Macro  (*.C)");
+   fd.setMode( QFileDialog::ExistingFile);
 
    if (fd.exec() != QDialog::Accepted) return;
 

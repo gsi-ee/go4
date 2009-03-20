@@ -9,7 +9,6 @@
 #include "qtoolbutton.h"
 #include <QtCore/qfile.h>
 #include "qmessagebox.h"
-#include "q3filedialog.h"
 #include "qapplication.h"
 #include "qcombobox.h"
 #include "qprinter.h"

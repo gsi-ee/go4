@@ -1,6 +1,6 @@
 #include "TGo4AnalysisConfiguration.h"
 
-#include <Q3FileDialog>
+#include <QFileDialog>
 #include "TClass.h"
 #include "TGo4ConfigStep.h"
 #include "TGo4AnalysisStatus.h"
@@ -9,14 +9,12 @@
 #include "TGo4AnalysisConfiguration.h"
 
 
-
-
 TGo4AnalysisConfiguration::TGo4AnalysisConfiguration(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
-{ 
+{
 			setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
 
 
@@ -159,28 +157,28 @@ void TGo4AnalysisConfiguration::RequestAnalysisStatus()
 
 void TGo4AnalysisConfiguration::FileDialog_ConfFile()
 {
-    Q3FileDialog fd( this, "Select configuration file ", TRUE );
-    fd.setMode( Q3FileDialog::AnyFile);
-    fd.setCaption( "Select a configuraton file");
-    fd.setFilter( " Configuration file (*.root)" );
-    fd.setDir(fConfigPath);
+    QFileDialog fd(this,
+                   "Select a configuraton file",
+                   fConfigPath,
+                   " Configuration file (*.root)");
+    fd.setMode( QFileDialog::AnyFile);
     if (fd.exec() != QDialog::Accepted) return;
     QString fileName = fd.selectedFile();
-    fConfigPath = fd.dirPath();
+    fConfigPath = fd.directory().path();
     if(!fileName.endsWith(".root")) fileName.append(".root");
     ConfigFileName->setText(fileName);
 }
 
 void TGo4AnalysisConfiguration::FileDialog_AutoSave()
 {
-    Q3FileDialog fd( this, "Autosave file name", TRUE );
-    fd.setMode( Q3FileDialog::AnyFile);
-    fd.setCaption("Select file name for autosaving");
-    fd.setFilter( "Auto Save File (*.root)" );
-    fd.setDir(fAutoSavePath);
+    QFileDialog fd( this,
+          "Select file name for autosaving",
+          fAutoSavePath,
+          "Auto Save File (*.root)");
+    fd.setMode(QFileDialog::AnyFile);
     if (fd.exec() != QDialog::Accepted)  return;
     QString fileName = fd.selectedFile();
-    fAutoSavePath = fd.dirPath();
+    fAutoSavePath = fd.directory().path();
     if(!fileName.endsWith(".root")) fileName.append(".root");
     AutoSaveFileName->setText(fileName);
     LineEdit_AutoSaveFile();

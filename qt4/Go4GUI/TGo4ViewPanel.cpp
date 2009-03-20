@@ -34,8 +34,7 @@
 
 #include <QMenuBar>
 #include <QStatusBar>
-#include <Q3FileDialog>
-//#include <QApplication>
+#include <QFileDialog>
 #include <Q3PopupMenu>
 #include <QTimer>
 #include <QInputDialog>
@@ -75,10 +74,10 @@ const char* NoStackDrawOption = "nostack, ";
 
 TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
-{ 
+{
 	setupUi(this);;
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
    fPanelName = objectName();
 
@@ -312,7 +311,7 @@ void TGo4ViewPanel::CompleteInitialization()
    FileMenu->insertItem("Print...", this, SLOT(PrintCanvas()));
    FileMenu->insertItem("Produce &Picture", this, SLOT(ProducePicture()));
    FileMenu->insertItem("Produce &Graph from markers", this, SLOT(ProduceGraphFromMarkers()));
- 
+
 //   FileMenu->insertItem("Copy to T&Canvas in Memory", this, SLOT(SendToBrowser()));
 //   FileMenu->insertItem("&Load marker setup...", this, SLOT(LoadMarkers()));
 //   FileMenu->insertItem("Save &marker setup...", this, SLOT(SaveMarkers()));
@@ -904,10 +903,10 @@ void TGo4ViewPanel::DelSelectedMarker_clicked()
 void TGo4ViewPanel::SetMarkerPanel()
 {
 //    cout <<"using ShowMarkEditorId="<<ShowMarkEditorId << endl;
-//    
+//
 //    fbMarkEditorVisible= !fMenuBar->isItemChecked(ShowMarkEditorId);
 //    cout <<"changed fbMarkEditorVisible to "<<fbMarkEditorVisible << endl;
-// 
+//
     fbMarkEditorVisible=!fbMarkEditorVisible;
     if(!fbMarkEditorVisible) {
        // switch back to normal root mouse when editor is hidden
@@ -1021,31 +1020,25 @@ void TGo4ViewPanel::SetConditionBtn_clicked()
 
 void TGo4ViewPanel::SaveMarkers()
 {
-    Q3FileDialog* fd = new Q3FileDialog( this, "Save Markers", TRUE );
-    fd->setCaption("Save Markers of active pad into ");
-    fd->setMode( Q3FileDialog::AnyFile);
-    fd->setName( "Save to file: ");
-    fd->setFilter( "ROOT file (*.root)");
-    if ( fd->exec() == QDialog::Accepted ) {
-       QString filename = fd->selectedFile();
-       if (!filename.endsWith(".root")) filename.append(".root");
-//       fxTGo4PreviewPanelSlots->SaveMarkerSetup(filename,"Markersetup");
-    }
-    delete fd;
+   QFileDialog fd(this, "Save Markers of active pad into",
+                  QString(), "ROOT file (*.root)");
+   fd.setMode( QFileDialog::AnyFile);
+   if ( fd.exec() == QDialog::Accepted ) {
+      QString filename = fd.selectedFile();
+      if (!filename.endsWith(".root")) filename.append(".root");
+//      fxTGo4PreviewPanelSlots->SaveMarkerSetup(filename,"Markersetup");
+   }
 }
 
 void TGo4ViewPanel::LoadMarkers()
 {
-    Q3FileDialog* fd = new Q3FileDialog( this, "Load Markers", TRUE );
-    fd->setCaption("Load Marker setup from:");
-    fd->setMode( Q3FileDialog::ExistingFile );
-    fd->setName( "Load from file: ");
-    fd->setFilter( "ROOT file (*.root)");
-    if ( fd->exec() == QDialog::Accepted ) {
-        QString filename = fd->selectedFile();
-//        fxTGo4PreviewPanelSlots->LoadMarkerSetup(filename,"Markersetup");
-    }
-    delete fd;
+   QFileDialog fd( this, "Load Marker setup from:", QString(),
+                         "ROOT file (*.root)");
+   fd.setMode( QFileDialog::ExistingFile );
+   if (fd.exec() == QDialog::Accepted ) {
+       QString filename = fd.selectedFile();
+//     fxTGo4PreviewPanelSlots->LoadMarkerSetup(filename,"Markersetup");
+   }
 }
 
 
@@ -1080,7 +1073,7 @@ void TGo4ViewPanel::SetActivePad(TPad* pad)
 
    UpdatePanelCaption();
    CallPanelFunc(panel_Activated, ActivePad);
-     
+
 }
 
 void TGo4ViewPanel::PadClickedSlot(TPad* pad)
@@ -1089,8 +1082,8 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
    //cout <<"+++++++ TGo4ViewPanel::PadClickedSlot for "<<pad << endl;
    fxGo4QRootCanvas->setResizeFlag(); // refresh viewpanel canvas when clicking on pad
    fxGo4QRootCanvas->checkResizeFlag(); // (same as enter event for smooth resize; need this for maximize workaround)
-   
-   SetActivePad(pad); 
+
+   SetActivePad(pad);
 
    if (pad==0) return;
 
@@ -1515,9 +1508,9 @@ void TGo4ViewPanel::ProduceGraphFromMarkers()
    TObjArray markers;
    CollectSpecialObjects(GetActivePad(), &markers, kind_Marker);
    Int_t npts=markers.GetEntries();
-   //cout <<"Found "<<npts<<" markers in pad" <<endl; 
+   //cout <<"Found "<<npts<<" markers in pad" <<endl;
    if(npts==0) return;
-   // create arrays of length 
+   // create arrays of length
    Double_t x[npts];
    Double_t y[npts];
    // copy marker values to array:
@@ -1526,19 +1519,19 @@ void TGo4ViewPanel::ProduceGraphFromMarkers()
         TGo4Marker* mark=dynamic_cast<TGo4Marker*>(markers[j]);
         if(mark==0)
             {
-                cout <<"NEVER COME HERE: no marker at index "<<j << endl;   
+                cout <<"NEVER COME HERE: no marker at index "<<j << endl;
                 return;
             }
         x[j]=mark->GetX();
         y[j]=mark->GetY();
-        //cout <<"Set point "<<j <<" to x="<<x[j]<<", y="<<y[j]<<endl;    
+        //cout <<"Set point "<<j <<" to x="<<x[j]<<", y="<<y[j]<<endl;
     }
-   
-   // create graph from points array: 
+
+   // create graph from points array:
    TString grname=GetPanelName()+TString("-Markergraph");
    TGraph* graf = new TGraph(npts,x,y);
    graf->SetName(grname.Data());
-   graf->SetMarkerStyle(28);   
+   graf->SetMarkerStyle(28);
    SaveObjectInMemory("", graf);
 }
 
@@ -1550,7 +1543,7 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemn
    if ((padopt==0) || (slot==0)) return;
 
    pic->CopyOptionsFrom(padopt);
-   
+
    int objnamenum = 0;
 
    for(int n=0;n<slot->NumChilds();n++) {
@@ -1652,7 +1645,7 @@ void TGo4ViewPanel::StartRootEditor()
       //cout <<"TGo4ViewPanel::StartRootEditor() loading GED..." << endl;
       TGo4LockGuard lock;
       SetActivePad(GetCanvas());
-      fxRooteditor->SetResizeOnPaint(kFALSE); // disable internal resize on paintEvent, we use ResizeGedEditor 
+      fxRooteditor->SetResizeOnPaint(kFALSE); // disable internal resize on paintEvent, we use ResizeGedEditor
       fxRooteditor->SetEditable();      // mainframe will adopt pad editor window
       fxPeditor = TVirtualPadEditor::LoadEditor();
       fxRooteditor->SetEditable(kFALSE); // back to window manager as root window
@@ -1663,15 +1656,15 @@ void TGo4ViewPanel::StartRootEditor()
 //         TGCanvas* tgcan=ed->GetTGCanvas();
 //         TGTab* tab=ed->GetTab();
 //         TGCompositeFrame*	curfram=tab->GetCurrentContainer();
-//         TGCompositeFrame*	contfram=tab->GetContainer(); 
+//         TGCompositeFrame*	contfram=tab->GetContainer();
 //         cout <<"TGo4ViewPanel::StartRootEditor() has GED xid:"<<ed->GetId()<<", tgcanvas xid:"<<tgcan->GetId()<<", tab xid:"<<tab->GetId();
 //         if(curfram)
 //            cout <<", current frame xid:"<<curfram->GetId();
 //         if(contfram)
-//            cout <<", container frame xid:"<<contfram->GetId();   
+//            cout <<", container frame xid:"<<contfram->GetId();
 //         cout << endl;
 //         }
-////////////////////////////////////         
+////////////////////////////////////
 
    }
    ActivateInGedEditor(GetSelectedObject(GetActivePad(), 0));
@@ -1818,8 +1811,8 @@ void TGo4ViewPanel::SelectMenuItemActivated(int id)
 void TGo4ViewPanel::ShowEventStatus()
 {
    fbCanvasEventstatus = !fbCanvasEventstatus;
-   
-   
+
+
    fxGo4QRootCanvas->setShowEventStatus(fbCanvasEventstatus);
    CanvasStatus->setShown(fbCanvasEventstatus);
    if(!fbCanvasEventstatus) DisplayPadStatus(ActivePad);
@@ -2236,7 +2229,7 @@ void TGo4ViewPanel::CollectMainDrawObjects(TGo4Slot* slot, TObjArray* objs, TObj
       if (obj->InheritsFrom(TGraph::Class())) objtype = 2; else
       if (obj->InheritsFrom(TMultiGraph::Class())) objtype = 3;
 
- 
+
       // check if all main object correspond to type of last object
       // if no, delete
 
@@ -2834,7 +2827,7 @@ void TGo4ViewPanel::CheckObjectsAssigments( TPad * pad, TGo4Slot * padslot )
 
    int indx = GetSelectedObjectIndex(padslot);
    if (indx<0) indx = 0;
-   
+
    TH1* selhisto = dynamic_cast<TH1*> ((indx<=objs.GetLast()) ? objs.At(indx) : 0);
    if (selhisto==0) selhisto = GetPadHistogram(pad);
 
@@ -2843,30 +2836,30 @@ void TGo4ViewPanel::CheckObjectsAssigments( TPad * pad, TGo4Slot * padslot )
       Int_t kind = GetDrawKind(subslot);
       TObject* obj = subslot->GetAssignedObject();
       if (obj==0) continue;
-      
+
       TGo4Marker* mark = 0;
       TGo4Condition* cond = 0;
 
       // reset condition and marker histogram
       if ((kind>=kind_Specials) && (kind<kind_Other)) {
-         if (obj->InheritsFrom(TGo4Condition::Class())) 
-            cond = (TGo4Condition*) obj;     
+         if (obj->InheritsFrom(TGo4Condition::Class()))
+            cond = (TGo4Condition*) obj;
          else
          if (obj->InheritsFrom(TGo4Marker::Class()))
             mark = (TGo4Marker*) obj;
       } else
-      if (kind==kind_Condition) 
+      if (kind==kind_Condition)
           cond = dynamic_cast<TGo4Condition*>(obj);
-      
+
       TH1* oldhisto = 0;
-      
+
       if (cond!=0) oldhisto = cond->GetWorkHistogram(); else
       if (mark!=0) oldhisto = mark->GetHistogram();
-      
-      if (oldhisto!=0) 
+
+      if (oldhisto!=0)
         if (objs.FindObject(oldhisto)==0) oldhisto = 0;
-        
-      if (oldhisto==0) 
+
+      if (oldhisto==0)
         if (cond!=0) cond->SetWorkHistogram(selhisto); else
         if (mark!=0) mark->SetHistogram(selhisto);
    }
@@ -4092,7 +4085,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TH1* h1, THStack* hs, TGo4Picture* p
         // need to correct for upper bin width when transforming to ROOT user range:
         TAxis* ax=h1->GetXaxis();
         Double_t bwidthx=ax->GetBinWidth(ax->FindFixBin(umax));
-        ax->SetRangeUser(umin, umax-bwidthx);    
+        ax->SetRangeUser(umin, umax-bwidthx);
       }
    else
       h1->GetXaxis()->UnZoom();
@@ -4117,7 +4110,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TH1* h1, THStack* hs, TGo4Picture* p
             // need to correct for upper bin width when transforming to ROOT user range:
             TAxis* as=hs_h1->GetXaxis();
             Double_t bwidths=as->GetBinWidth(as->FindFixBin(umax));
-            as->SetRangeUser(umin, umax-bwidths);    
+            as->SetRangeUser(umin, umax-bwidths);
             }
          else
             hs_h1->GetXaxis()->UnZoom();
@@ -4133,7 +4126,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TH1* h1, THStack* hs, TGo4Picture* p
         // need to correct for upper bin width when transforming to ROOT user range:
         TAxis* ay=h1->GetYaxis();
         Double_t bwidthy=ay->GetBinWidth(ay->FindFixBin(umax));
-        ay->SetRangeUser(umin, umax-bwidthy);    
+        ay->SetRangeUser(umin, umax-bwidthy);
    } else {
       h1->GetYaxis()->UnZoom();
    }
@@ -4148,7 +4141,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TH1* h1, THStack* hs, TGo4Picture* p
         // need to correct for upper bin width when transforming to ROOT user range:
         TAxis* az=h1->GetZaxis();
         Double_t bwidthz=az->GetBinWidth(az->FindFixBin(umax));
-        az->SetRangeUser(umin, umax-bwidthz);    
+        az->SetRangeUser(umin, umax-bwidthz);
    } else
      h1->GetZaxis()->UnZoom();
 
@@ -4495,20 +4488,20 @@ void TGo4ViewPanel::enterEvent( QEvent * e )
 //    }
 }
 
-void TGo4ViewPanel::showEvent ( QShowEvent * e ) 
+void TGo4ViewPanel::showEvent ( QShowEvent * e )
 {
-    //cout <<"+++++++++ TGo4ViewPanel::showEvent " << endl;   
+    //cout <<"+++++++++ TGo4ViewPanel::showEvent " << endl;
 //    GetQCanvas()->setResizeFlag(1);
     QWidget::showEvent(e);
     //GetQCanvas()->checkResizeFlag(0);
-    
+
 }
 
 
 void TGo4ViewPanel::leaveEvent( QEvent * e )
 {
   //cout <<"rrrrrrrrrrrrrr TGo4ViewPanel::leaveEvent()" << endl;
-   
+
     #if ROOT_VERSION_CODE < ROOT_VERSION(4,3,1)
 
 //    #if __GO4ROOTVERSION__ < 40301
@@ -4532,14 +4525,14 @@ void TGo4ViewPanel::paintEvent(QPaintEvent* e)
    //cout <<"vvvvvv TGo4ViewPanel::paintEvent" << endl;
    QWidget::paintEvent(e);
    //ResizeGedEditor(); // better done by DoCanvasResizeSlot
-   
+
 }
 
 void TGo4ViewPanel::resizeEvent(QResizeEvent * e)
 {
    //cout <<"vvvvvv TGo4ViewPanel::resizeEvent" << endl;
    QWidget::resizeEvent(e);
-   
+
 }
 
 
@@ -4765,7 +4758,7 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
 
       case FreezeTitleId: {
          //fbFreezeTitle = !fOptionsMenu->isItemChecked(FreezeTitleId);
-         fbFreezeTitle=!fbFreezeTitle;  
+         fbFreezeTitle=!fbFreezeTitle;
          break;
       }
 

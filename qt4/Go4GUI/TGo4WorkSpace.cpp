@@ -5,7 +5,6 @@
 
 #include "TGo4ViewPanel.h"
 #include "QGo4Widget.h"
-//Added by qt3to4:
 #include <QtCore/QEvent>
 #include <QCloseEvent>
 
@@ -67,7 +66,7 @@ TGo4WorkSpace::~TGo4WorkSpace()
 ////   }
 //   std::cout <<"TGo4WorkSpace::eventFilter gets "<<e->type(); //<< std::endl;
 //   if(fbDisableEvents)
-//      { 
+//      {
 //         std::cout <<" disabled." << std::endl;
 //         return true;
 //      }
@@ -100,7 +99,7 @@ TGo4ViewPanel* TGo4WorkSpace::GetActivePanel()
 void TGo4WorkSpace::windowActivatedSlot(QWidget* w)
 {
    TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (w);
-   
+
    if ((panel!=0) && (fxActivePanel != panel))
      panel->SetActivePad(panel->GetActivePad());
 }

@@ -1,16 +1,16 @@
 #include "TGo4StartClient.h"
 #include <QDir>
 #include <QFileInfo>
-#include <Q3FileDialog>
+#include <QFileDialog>
 #include "TGo4QSettings.h"
 
 TGo4StartClient::TGo4StartClient( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
     : QDialog( parent, name, modal, fl )
-{ 
+{
 	//setObjectName(name);
 	setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
    LineEditClientName->setText(go4sett->getClientName());
    LineEditClientNode->setText(go4sett->getClientNode());
@@ -39,10 +39,8 @@ void TGo4StartClient::getResults()
 
 void TGo4StartClient::SelectDir()
 {
-   Q3FileDialog fd(this, "file name", TRUE);
-   fd.setMode(Q3FileDialog::DirectoryOnly);
-   fd.setName("Select your working dir");
-   fd.setCaption("Select your working dir");
+   QFileDialog fd(this, "Select your working dir");
+   fd.setMode(QFileDialog::DirectoryOnly);
 
    if (fd.exec() != QDialog::Accepted ) return;
 
@@ -53,17 +51,15 @@ void TGo4StartClient::SelectDir()
 
 void TGo4StartClient::SelectProg()
 {
-   Q3FileDialog fd(this, "file name", TRUE);
-   fd.setMode(Q3FileDialog::ExistingFile);
-   fd.setName("Select your analysis program");
-   fd.setCaption("Select your analysis program");
+   QFileDialog fd(this, "Select your analysis program");
+   fd.setMode(QFileDialog::ExistingFile);
 
    if (fd.exec() != QDialog::Accepted) return;
 
    QFileInfo fi(fd.selectedFile());
    LineEditClientExec->setText(fi.fileName());
-   LineEditClientDir->setText(fi.dirPath(TRUE));
-   QDir::setCurrent(fi.dirPath(TRUE));
+   LineEditClientDir->setText(fd.directory().path());
+   QDir::setCurrent(fd.directory().path());
 }
 
 

@@ -3,7 +3,7 @@
 #include <Q3PopupMenu>
 #include <QLabel>
 #include <QMessageBox>
-#include <Q3FileDialog>
+#include <QFileDialog>
 #include <QToolTip>
 
 #include "TROOT.h"
@@ -25,10 +25,10 @@
 
 TGo4ParaEdit::TGo4ParaEdit(QWidget *parent, const char* name)
          : QGo4Widget(parent,name)
-{ 
+{
 	setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
    fItems = 0;
    PleaseUpdateLabel->setShown(false);
@@ -336,7 +336,7 @@ void TGo4ParaEdit::ContextMenu( int row, int col )
 //            "Modify Fitter</b></u></font>", this);
 //        caption->setAlignment( Qt::AlignCenter );
         contextMenu.insertItem("Modify Fitter");
-        
+
 		  contextMenu.insertItem( "Edit...",  this, SLOT(EditFitter()));
 
         TGo4Fitter* fitter = 0;
@@ -446,11 +446,10 @@ void TGo4ParaEdit::saveFile()
          return;
       }
 
-      Q3FileDialog fd(this, "Save parameter", kTRUE );
-      fd.setMode( Q3FileDialog::AnyFile);
-      fd.setCaption(QString("Save ") + fItemName + " in root file");
-      fd.setFilters(QString("ROOT (*.root);;ROOT XML (*.xml)"));
-      fd.setSelection("file.root");
+      QFileDialog fd(this, QString("Save ") + fItemName + " in root file",
+            QString(), "ROOT (*.root);;ROOT XML (*.xml)");
+      fd.setMode( QFileDialog::AnyFile);
+      fd.selectFile("file.root");
       if (fd.exec() != QDialog::Accepted) return;
 
       TFile* f = TFile::Open(fd.selectedFile().latin1(),"UPDATE");
