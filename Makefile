@@ -303,7 +303,7 @@ HDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(subst $(GO4SYS),$(GO4DISTR_DIR),$(DI
 
 go4-package:
 	@echo "Creating package $(GO4TAR_NAME) ..."
-	@tar chf $(GO4TAR_NAME) Makefile.config Makefile.rules go4onlylogin.sh
+	@tar chf $(GO4TAR_NAME) Makefile.config Makefile.rules go4.init
 	@tar rhf $(GO4TAR_NAME) build/*.sh build/Makefile.*
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Module.mk,$(MODULES))
 	@tar rhf $(GO4TAR_NAME) $(subst $(GO4SYS),.,$(DISTRFILES))
@@ -340,7 +340,7 @@ HWINDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(subst $(GO4SYS),$(WINDISTR_DIR),$
 
 win-src:
 	@echo "Creating package $(WINTAR_NAME) ..."
-	@tar chf $(WINTAR_NAME) Makefile.rules Makefile.config
+	@tar chf $(WINTAR_NAME) Makefile.rules Makefile.config go4.init
 	@tar rhf $(WINTAR_NAME) ./build/*.sh ./build/Makefile.*
 	@tar rhf $(WINTAR_NAME) $(patsubst %,%/Module.mk,$(MODULES))
 	@tar rhf $(WINTAR_NAME) $(subst $(GO4SYS),.,$(WINDISTRFILES))

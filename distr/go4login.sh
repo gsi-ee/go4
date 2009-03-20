@@ -1,7 +1,7 @@
 #!/bin/bash
 # note: replace first line by true location of bash on your linux!
 
-# specify your OS : Linux, Win32, Solaris 
+# specify your OS : Linux (default), Win32, Solaris 
 # export GO4_OS=Linux
 
 
