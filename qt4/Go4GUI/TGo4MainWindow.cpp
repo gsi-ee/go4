@@ -54,6 +54,7 @@
 #include <Qt3Support/Q3Dict>
 
 #include <QFileDialog>
+#include <QtGui/QAction>
 
 
 //////// root includes;
@@ -134,9 +135,7 @@
 
 using namespace Qt;
 
-enum { fiFetchWhenDrawId = 111,
-       fiFetchWhenCopyId = 112,
-       fiFetchWhenSaveId = 113,
+enum {
        fiCrosshairId = 123,
        fiEventstatusId = 124,
        fiCloneId = 125,
@@ -431,22 +430,32 @@ void TGo4MainWindow::AddSettingMenu()
 //   menuBar()->insertItem( "St&yle",style);
 
 
-   fPrefMenu = new Q3PopupMenu( this );
-   fSettingMenu->insertItem( "&Preferences", fPrefMenu);
+   QMenu* prefMenu = fSettingMenu->addMenu("&Preferences");
 
-   fPrefMenu->insertItem("Fetch when drawing", this, SLOT(ChangeFetchWhenDrawSlot()), 0, fiFetchWhenDrawId);
-   fPrefMenu->setItemChecked(fiFetchWhenDrawId, go4sett->getFetchDataWhenDraw());
-   fPrefMenu->insertItem("Fetch when copying", this, SLOT(ChangeFetchWhenCopySlot()), 0, fiFetchWhenCopyId);
-   fPrefMenu->setItemChecked(fiFetchWhenCopyId, go4sett->getFetchDataWhenCopy());
-   fPrefMenu->insertItem("Fetch when saving", this, SLOT(ChangeFetchWhenSaveSlot()), 0, fiFetchWhenSaveId);
-   fPrefMenu->setItemChecked(fiFetchWhenSaveId, go4sett->getFetchDataWhenSave());
+   faFetchWhenDraw = new QAction("Fetch when drawing", this);
+   faFetchWhenDraw->setCheckable(true);
+   faFetchWhenDraw->setChecked(go4sett->getFetchDataWhenDraw());
+   connect(faFetchWhenDraw, SIGNAL(triggered()), this, SLOT(ChangeFetchWhenDrawSlot()));
+   prefMenu->addAction(faFetchWhenDraw);
+
+   faFetchWhenCopy = new QAction("Fetch when copying", this);
+   faFetchWhenCopy->setCheckable(true);
+   faFetchWhenCopy->setChecked(go4sett->getFetchDataWhenCopy());
+   connect(faFetchWhenCopy, SIGNAL(triggered()), this, SLOT(ChangeFetchWhenCopySlot()));
+   prefMenu->addAction(faFetchWhenCopy);
+
+   faFetchWhenSave = new QAction("Fetch when saving", this);
+   faFetchWhenSave->setCheckable(true);
+   faFetchWhenSave->setChecked(go4sett->getFetchDataWhenSave());
+   connect(faFetchWhenSave, SIGNAL(triggered()), this, SLOT(ChangeFetchWhenSaveSlot()));
+   prefMenu->addAction(faFetchWhenSave);
 
    fPanelMenu = new Q3PopupMenu( this );
    fSettingMenu->insertItem( "&Panel defaults", fPanelMenu);
 
-   fPanelMenu->insertItem("&Canvas color...",this, SLOT(CanvasColorSlot()));
-   fPanelMenu->insertItem("Marker labels...", this, SLOT(MarkerSettingsSlot()));
-   fPanelMenu->insertItem("Statistics box...", this, SLOT(OptStatsSlot()));
+   fPanelMenu->addAction("&Canvas color...", this, SLOT(CanvasColorSlot()));
+   fPanelMenu->addAction("Marker labels...", this, SLOT(MarkerSettingsSlot()));
+   fPanelMenu->addAction("Statistics box...", this, SLOT(OptStatsSlot()));
    fPanelMenu->insertItem("Cross(&X)hair mode", this, SLOT(CrosshairSlot()), 0, fiCrosshairId);
    fPanelMenu->setItemChecked(fiCrosshairId, go4sett->getPadCrosshair());
    fPanelMenu->insertItem("Show Event Status", this, SLOT(EventStatusSlot()), 0, fiEventstatusId);
@@ -1316,23 +1325,17 @@ void TGo4MainWindow::UpdateCaptionButtons()
 
 void TGo4MainWindow::ChangeFetchWhenDrawSlot()
 {
-   bool s = fPrefMenu->isItemChecked(fiFetchWhenDrawId);
-   //menuBar()->setItemChecked(fiFetchWhenDrawId, s);
-   go4sett->setFetchDataWhenDraw(s);
+   go4sett->setFetchDataWhenDraw(faFetchWhenDraw->isChecked());
 }
 
 void TGo4MainWindow::ChangeFetchWhenCopySlot()
 {
-   bool s = fPrefMenu->isItemChecked(fiFetchWhenCopyId);
-   //menuBar()->setItemChecked(fiFetchWhenCopyId, s);
-   go4sett->setFetchDataWhenCopy(s);
+   go4sett->setFetchDataWhenCopy(faFetchWhenCopy->isChecked());
 }
 
 void TGo4MainWindow::ChangeFetchWhenSaveSlot()
 {
-   bool s = fPrefMenu->isItemChecked(fiFetchWhenSaveId);
-   //menuBar()->setItemChecked(fiFetchWhenSaveId, s);
-   go4sett->setFetchDataWhenSave(s);
+   go4sett->setFetchDataWhenSave(faFetchWhenSave->isChecked());
 }
 
 void TGo4MainWindow::CanvasColorSlot()
@@ -1356,26 +1359,21 @@ void TGo4MainWindow::OptStatsSlot()
    // all work is done inside dialog.
 }
 
-
-
 void TGo4MainWindow::CrosshairSlot()
 {
    bool s = fPanelMenu->isItemChecked(fiCrosshairId);
-   //fPanelMenu->setItemChecked(fiCrosshairId, s);
    go4sett->setPadCrosshair(s);
 }
 
 void TGo4MainWindow::EventStatusSlot()
 {
    bool s = fPanelMenu->isItemChecked(fiEventstatusId);
-   //menuBar()->setItemChecked(fiEventstatusId, s);
    go4sett->setPadEventStatus(s);
 }
 
 void TGo4MainWindow::ChangeCloneFlagSlot()
 {
    bool s = fPanelMenu->isItemChecked(fiCloneId);
-   //menuBar()->setItemChecked(fiCloneId, s);
    fPanelMenu->setItemEnabled(fiDrawTimeId, s);
    fPanelMenu->setItemEnabled(fiDrawDateId, s);
    fPanelMenu->setItemEnabled(fiDrawItemId, s);
@@ -1385,21 +1383,18 @@ void TGo4MainWindow::ChangeCloneFlagSlot()
 void TGo4MainWindow::ChangeDrawTimeFlagSlot()
 {
    bool s = fPanelMenu->isItemChecked(fiDrawTimeId);
-   //menuBar()->setItemChecked(fiDrawTimeId, s);
    go4sett->setDrawTimeFlag(s);
 }
 
 void TGo4MainWindow::ChangeDrawItemFlagSlot()
 {
    bool s = fPanelMenu->isItemChecked(fiDrawItemId);
-   //menuBar()->setItemChecked(fiDrawItemId, s);
    go4sett->setDrawItemFlag(s);
 }
 
 void TGo4MainWindow::ChangeDrawDateFlagSlot()
 {
    bool s = fPanelMenu->isItemChecked(fiDrawDateId);
-   //menuBar()->setItemChecked(fiDrawDateId, s);
    go4sett->setDrawDateFlag(s);
 }
 

@@ -31,6 +31,8 @@ class TGo4AnalysisProxy;
 class TGo4BrowserProxy;
 class TGo4WidgetProxy;
 
+class QAction;
+
  /** This is the Go4 Main Window
    * @author Mohammad Al-Turany, modifications J.Adamczewski, S.Linev
    * @version 1.0
@@ -176,9 +178,8 @@ class TGo4MainWindow : public Q3MainWindow {
 
       QApplication*      fApp;
 
-      Q3PopupMenu*        windowsMenu;
+      Q3PopupMenu*       windowsMenu;
       Q3PopupMenu*     	 fSettingMenu;
-      Q3PopupMenu*     	 fPrefMenu;
       Q3PopupMenu*     	 fPanelMenu;
       TGo4WorkSpace*     fxTGo4WorkSpace;
       bool               fbServerMode;
@@ -196,6 +197,10 @@ class TGo4MainWindow : public Q3MainWindow {
       QString            fLastFileDir;
 
       bool               fbPanelTimerActive;
+
+      QAction*           faFetchWhenDraw;
+      QAction*           faFetchWhenCopy;
+      QAction*           faFetchWhenSave;
 };
 
 #endif
