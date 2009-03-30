@@ -32,6 +32,7 @@ class TGo4BrowserProxy;
 class TGo4WidgetProxy;
 
 class QAction;
+class QSignalMapper;
 
  /** This is the Go4 Main Window
    * @author Mohammad Al-Turany, modifications J.Adamczewski, S.Linev
@@ -178,10 +179,10 @@ class TGo4MainWindow : public Q3MainWindow {
 
       QApplication*      fApp;
 
-      Q3PopupMenu*       windowsMenu;
+      QMenu*             windowsMenu;
+      QSignalMapper*     winMapper;
       Q3PopupMenu*     	 fSettingMenu;
-      Q3PopupMenu*     	 fPanelMenu;
-      TGo4WorkSpace*     fxTGo4WorkSpace;
+      TGo4WorkSpace*     fxWorkSpace;
       bool               fbServerMode;
 
       TGo4ObjectManager* fxOM;
@@ -201,6 +202,23 @@ class TGo4MainWindow : public Q3MainWindow {
       QAction*           faFetchWhenDraw;
       QAction*           faFetchWhenCopy;
       QAction*           faFetchWhenSave;
+      QAction*           faCrosshair;
+      QAction*           faEventstatus;
+      QAction*           faClone;
+      QAction*           faDrawTime;
+      QAction*           faDrawDate;
+      QAction*           faDrawItem;
+
+      QAction*           faLaunchAnal;
+      QAction*           faConnectAnal;
+      QAction*           faPrepareAnal;
+      QAction*           faDisconnectAnal;
+      QAction*           faShutdownAnal;
+      QAction*           faSumbStartAnal;
+      QAction*           faStartAnal;
+      QAction*           faStopAnal;
+      QAction*           faAnalConfig;
+      QAction*           faAnalTermin;
 };
 
 #endif

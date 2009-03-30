@@ -132,26 +132,7 @@
 
 #include "TGo4HServerConnection.h"
 
-
 using namespace Qt;
-
-enum {
-       fiCrosshairId = 123,
-       fiEventstatusId = 124,
-       fiCloneId = 125,
-       fiDrawTimeId = 126,
-       fiDrawDateId = 127,
-       fiDrawItemId = 128,
-       fiLaunchAnal = 201,
-       fiConnectAnal = 202,
-       fiPrepareAnal = 203,
-       fiDisconnectAnal = 204,
-       fiShutdownAnal = 205,
-       fiSumbStartAnal = 206,
-       fiStartAnal = 207,
-       fiStopAnal = 208,
-       fiAnalConfig = 209,
-       fiAnalTermin = 210 };
 
 TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    Q3MainWindow(0, "MainWindow"),
@@ -180,6 +161,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    fConnectingCounter = 0;
 
    fbPanelTimerActive = false;
+   winMapper = 0;
 
     // create mount point for all data sources
    fxOM->MakeFolder(fOMDataPath.latin1());
@@ -202,10 +184,10 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    //gStyle->SetOptStat(11111111);
    gStyle->SetOptStat(go4sett->getOptStat());
 
-   fxTGo4WorkSpace = new TGo4WorkSpace(this);
-   fxTGo4WorkSpace->setScrollBarsEnabled(TRUE);
-   setCentralWidget(fxTGo4WorkSpace);
-   fxTGo4WorkSpace->setFocus();
+   fxWorkSpace = new TGo4WorkSpace(this);
+   fxWorkSpace->setScrollBarsEnabled(TRUE);
+   setCentralWidget(fxWorkSpace);
+   fxWorkSpace->setFocus();
 
    AddFileMenu();
    AddFileToolBar();
@@ -220,9 +202,8 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
 
    UpdateCaptionButtons();
 
-   windowsMenu = new Q3PopupMenu( this );
-   connect( windowsMenu, SIGNAL( aboutToShow() ), this, SLOT( windowsMenuAboutToShow() ) );
-   menuBar()->insertItem( "&Windows", windowsMenu );
+   windowsMenu = menuBar()->addMenu("&Windows");
+   connect(windowsMenu, SIGNAL(aboutToShow()), this, SLOT(windowsMenuAboutToShow()));
 
    statusBar()->message("Ready");
    statusBar()->setSizeGripEnabled(TRUE);
@@ -339,17 +320,16 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    lidock->show();
 
    menuBar()->insertSeparator();
-   Q3PopupMenu *HelpMenu = new Q3PopupMenu(this);
-   menuBar()->insertItem( "&Help",HelpMenu);
-   HelpMenu->insertItem("&Introduction (user manual)", this, SLOT(IntroHelpSlot()));
-   HelpMenu->insertItem("&Reference manual", this, SLOT(RefHelpSlot()));
-   HelpMenu->insertItem("&Fit Tutorial", this, SLOT(FitHelpSlot()));
-   HelpMenu->insertItem("&GUI commandline (reference)", this, SLOT(InterfaceHelpSlot()));
-   HelpMenu->insertSeparator();
 
-   HelpMenu->insertItem( "About &Qt", this, SLOT(aboutQt()), Key_F2 );
-   HelpMenu->insertItem( "About R&OOT", this, SLOT(aboutROOT()),Key_F3);
-   HelpMenu->insertItem( "About &Go4", this, SLOT(about()), Key_F4);
+   QMenu* helpMenu = menuBar()->addMenu("&Help");
+   helpMenu->addAction("&Introduction (user manual)", this, SLOT(IntroHelpSlot()));
+   helpMenu->addAction("&Reference manual", this, SLOT(RefHelpSlot()));
+   helpMenu->addAction("&Fit Tutorial", this, SLOT(FitHelpSlot()));
+   helpMenu->addAction("&GUI commandline (reference)", this, SLOT(InterfaceHelpSlot()));
+   helpMenu->addSeparator();
+   helpMenu->addAction("About &Qt", this, SLOT(aboutQt()), Key_F2 );
+   helpMenu->addAction("About R&OOT", this, SLOT(aboutROOT()), Key_F3);
+   helpMenu->addAction("About &Go4", this, SLOT(about()), Key_F4);
 
    QStringList LibList = QStringList::split(":", getenv("GO4USERLIBRARY"));
 
@@ -362,8 +342,8 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
 
    MakeStyleSlot(go4sett->getAppStyle());
 
-   menuBar()->setItemChecked(fiCrosshairId, go4sett->getPadCrosshair());
-   menuBar()->setItemChecked(fiEventstatusId, go4sett->getPadEventStatus());
+   faCrosshair->setChecked(go4sett->getPadCrosshair());
+   faEventstatus->setChecked(go4sett->getPadEventStatus());
 
    go4sett->getBasicSettings();
    go4sett->getAppFont();
@@ -419,16 +399,14 @@ void TGo4MainWindow::aboutROOT()
 void TGo4MainWindow::AddSettingMenu()
 {
    fSettingMenu = new Q3PopupMenu( this );
-   menuBar()->insertItem( "&Settings",fSettingMenu);
+   menuBar()->insertItem( "&Settings", fSettingMenu);
 
+   // TODO: should be replaced be createPopupMenu
    fSettingMenu->insertItem("Sh&ow/hide", createDockWindowMenu());
 
-   fSettingMenu->insertItem("&Fonts...",this, SLOT(ChangeFontSlot()));
-   Q3PopupMenu *style = new Q3PopupMenu( this );
-   style->setCheckable( TRUE );
-   fSettingMenu->insertItem("St&yle", style);
-//   menuBar()->insertItem( "St&yle",style);
+   fSettingMenu->addAction("&Fonts...", this, SLOT(ChangeFontSlot()));
 
+   QMenu *style = fSettingMenu->addMenu("St&yle");
 
    QMenu* prefMenu = fSettingMenu->addMenu("&Preferences");
 
@@ -450,86 +428,114 @@ void TGo4MainWindow::AddSettingMenu()
    connect(faFetchWhenSave, SIGNAL(triggered()), this, SLOT(ChangeFetchWhenSaveSlot()));
    prefMenu->addAction(faFetchWhenSave);
 
-   fPanelMenu = new Q3PopupMenu( this );
-   fSettingMenu->insertItem( "&Panel defaults", fPanelMenu);
+   QMenu* panelMenu = fSettingMenu->addMenu("&Panel defaults");
 
-   fPanelMenu->addAction("&Canvas color...", this, SLOT(CanvasColorSlot()));
-   fPanelMenu->addAction("Marker labels...", this, SLOT(MarkerSettingsSlot()));
-   fPanelMenu->addAction("Statistics box...", this, SLOT(OptStatsSlot()));
-   fPanelMenu->insertItem("Cross(&X)hair mode", this, SLOT(CrosshairSlot()), 0, fiCrosshairId);
-   fPanelMenu->setItemChecked(fiCrosshairId, go4sett->getPadCrosshair());
-   fPanelMenu->insertItem("Show Event Status", this, SLOT(EventStatusSlot()), 0, fiEventstatusId);
-   fPanelMenu->setItemChecked(fiEventstatusId, go4sett->getPadEventStatus());
+   panelMenu->addAction("&Canvas color...", this, SLOT(CanvasColorSlot()));
+   panelMenu->addAction("Marker labels...", this, SLOT(MarkerSettingsSlot()));
+   panelMenu->addAction("Statistics box...", this, SLOT(OptStatsSlot()));
 
-   fPanelMenu->insertItem("Objects cloning", this, SLOT(ChangeCloneFlagSlot()), 0, fiCloneId);
-   fPanelMenu->setItemChecked(fiCloneId, go4sett->getCloneFlag());
-   fPanelMenu->insertItem("Draw time", this, SLOT(ChangeDrawTimeFlagSlot()), 0, fiDrawTimeId);
-   fPanelMenu->setItemChecked(fiDrawTimeId, go4sett->getDrawTimeFlag());
-   fPanelMenu->setItemEnabled(fiDrawTimeId, go4sett->getCloneFlag());
-   fPanelMenu->insertItem("Draw date", this, SLOT(ChangeDrawDateFlagSlot()), 0, fiDrawDateId);
-   fPanelMenu->setItemChecked(fiDrawDateId, go4sett->getDrawDateFlag());
-   fPanelMenu->setItemEnabled(fiDrawDateId, go4sett->getCloneFlag());
-   fPanelMenu->insertItem("Draw item name", this, SLOT(ChangeDrawItemFlagSlot()), 0, fiDrawItemId);
-   fPanelMenu->setItemChecked(fiDrawItemId, go4sett->getDrawItemFlag());
-   fPanelMenu->setItemEnabled(fiDrawItemId, go4sett->getCloneFlag());
+   faCrosshair = new QAction("Cross(&X)hair mode", this);
+   faCrosshair->setCheckable(true);
+   faCrosshair->setChecked(go4sett->getPadCrosshair());
+   connect(faCrosshair, SIGNAL(triggered()), this, SLOT(CrosshairSlot()));
+   panelMenu->addAction(faCrosshair);
 
-   fSettingMenu->insertItem("&Log actions...",this, SLOT(LogSettingsSlot()));
+   faEventstatus = new QAction("Show Event Status", this);
+   faEventstatus->setCheckable(true);
+   faEventstatus->setChecked(go4sett->getPadEventStatus());
+   connect(faEventstatus, SIGNAL(triggered()), this, SLOT(EventStatusSlot()));
+   panelMenu->addAction(faEventstatus);
 
-   fSettingMenu->insertItem("Generate &hotstart", this, SLOT(CreateGUIScriptSlot()));
-   fSettingMenu->insertItem("&Break hotstart execution", this, SLOT(StopGUIScriptSlot()));
+   faClone = new QAction("Objects cloning", this);
+   faClone->setCheckable(true);
+   faClone->setChecked(go4sett->getCloneFlag());
+   connect(faClone, SIGNAL(triggered()), this, SLOT(ChangeCloneFlagSlot()));
+   panelMenu->addAction(faClone);
 
-   fSettingMenu->insertItem("&Terminal history", this, SLOT(InputTerminalParametersSlot()));
+   faDrawTime = new QAction("Draw time", this);
+   faDrawTime->setCheckable(true);
+   faDrawTime->setChecked(go4sett->getDrawTimeFlag());
+   faDrawTime->setEnabled(go4sett->getCloneFlag());
+   connect(faDrawTime, SIGNAL(triggered()), this, SLOT(ChangeDrawTimeFlagSlot()));
+   panelMenu->addAction(faDrawTime);
 
-   fSettingMenu->insertItem("&Save Settings", this, SLOT(SaveSettingsSlot()));
+   faDrawDate = new QAction("Draw date", this);
+   faDrawDate->setCheckable(true);
+   faDrawDate->setChecked(go4sett->getDrawDateFlag());
+   faDrawDate->setEnabled(go4sett->getCloneFlag());
+   connect(faDrawDate, SIGNAL(triggered()), this, SLOT(ChangeDrawDateFlagSlot()));
+   panelMenu->addAction(faDrawDate);
 
-   Q3ActionGroup *ag = new Q3ActionGroup( this, 0 );
+   faDrawItem = new QAction("Draw item name", this);
+   faDrawItem->setCheckable(true);
+   faDrawItem->setChecked(go4sett->getDrawItemFlag());
+   faDrawItem->setEnabled(go4sett->getCloneFlag());
+   connect(faDrawItem, SIGNAL(triggered()), this, SLOT(ChangeDrawItemFlagSlot()));
+   panelMenu->addAction(faDrawItem);
+
+   fSettingMenu->addAction("&Log actions...", this, SLOT(LogSettingsSlot()));
+
+   fSettingMenu->addAction("Generate &hotstart", this, SLOT(CreateGUIScriptSlot()));
+   fSettingMenu->addAction("&Break hotstart execution", this, SLOT(StopGUIScriptSlot()));
+
+   fSettingMenu->addAction("&Terminal history", this, SLOT(InputTerminalParametersSlot()));
+
+   fSettingMenu->addAction("&Save Settings", this, SLOT(SaveSettingsSlot()));
+
+   QActionGroup *ag = new QActionGroup(this);
    ag->setExclusive( TRUE );
    QSignalMapper *styleMapper = new QSignalMapper( this );
-   //connect( styleMapper, SIGNAL( mapped( const QString& ) ), this, SLOT( MakeStyleSlot(const QString& ) ) );
-   connect( styleMapper, SIGNAL( mapped( const QString& ) ), this, SLOT( SaveStyleSlot(const QString& ) ) );
+   connect(styleMapper, SIGNAL(mapped(const QString&)), this, SLOT(SaveStyleSlot(const QString&)));
 
    QStringList list = QStyleFactory::keys();
    list.sort();
-   Q3Dict<int> stylesDict( 117, FALSE );
+   QHash<QString, int> stylesDict;
    for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) {
       QString styleStr = *it;
       QString styleAccel = styleStr;
       if ( stylesDict[styleAccel.left(1)] ) {
          for ( uint i = 0; i < styleAccel.length(); i++ ) {
             if ( !stylesDict[styleAccel.mid( i, 1 )] ) {
-               stylesDict.insert(styleAccel.mid( i, 1 ), (const int *)1);
+               stylesDict.insert(styleAccel.mid( i, 1 ), 1);
                styleAccel = styleAccel.insert( i, '&' );
                break;
              }
           }
        } else {
-          stylesDict.insert(styleAccel.left(1), (const int *)1);
+          stylesDict.insert(styleAccel.left(1), 1);
           styleAccel = "&"+styleAccel;
        }
-       Q3Action *a = new Q3Action( styleStr, QIcon(), styleAccel, 0, ag, 0, ag->isExclusive() );
-       connect( a, SIGNAL( activated() ), styleMapper, SLOT(map()) );
-       styleMapper->setMapping( a, a->text() );
+       QAction *act = new QAction(styleAccel, this);
+       act->setCheckable(true);
+       if (go4sett->getAppStyle() == styleStr)
+    	   act->setChecked(true);
+
+       connect( act, SIGNAL(triggered()), styleMapper, SLOT(map()) );
+       styleMapper->setMapping(act, styleStr);
+
+       ag->addAction(act);
+       style->addAction(act);
+
+
    }
-   ag->addTo(style);
    QApplication::setColorSpec( QApplication::ManyColor );
 }
 
 void TGo4MainWindow::AddFileMenu()
 {
-    Q3PopupMenu *FileMenu = new Q3PopupMenu( this );
-     menuBar()->insertItem( "&File",FileMenu);
+   QMenu* fileMenu = menuBar()->addMenu("&File");
 
-     FileMenu->insertItem(QPixmap( ":/icons/open.png" ), "&Open...",
+   fileMenu->addAction(QIcon( ":/icons/open.png" ), "&Open...",
              this, SLOT(OpenFileSlot()), CTRL+Key_O );
-     FileMenu->insertItem(QPixmap( ":/icons/network.png" ), "Open &Remote...",
+   fileMenu->addAction(QIcon( ":/icons/network.png" ), "Open &Remote...",
              this, SLOT(OpenRemoteFileSlot()), CTRL+Key_R );
-     FileMenu->insertItem(QPixmap( ":/icons/histserv.png" ), "Open &HServer...",
+   fileMenu->addAction(QIcon( ":/icons/histserv.png" ), "Open &HServer...",
              this, SLOT(ConnectHServerSlot()), CTRL+Key_H );
-     FileMenu->insertItem(QPixmap( ":/icons/filesave.png" ), "Save memor&y...",
+   fileMenu->addAction(QIcon( ":/icons/filesave.png" ), "Save memor&y...",
              this, SLOT(SaveFileSlot()), CTRL+Key_Y );
-     FileMenu->insertItem(QPixmap( ":/icons/close.png" ),"Close all files",
+   fileMenu->addAction(QIcon( ":/icons/close.png" ),"Close all files",
              this, SLOT(CloseAllFilesSlot()), CTRL+Key_Q);
-     FileMenu->insertItem(QPixmap( ":/icons/exit.png" ), "E&xit",
+   fileMenu->addAction(QIcon( ":/icons/exit.png" ), "E&xit",
              this, SLOT(close()), CTRL+Key_X );
 }
 
@@ -572,28 +578,27 @@ void TGo4MainWindow::AddFileToolBar()
 
 void TGo4MainWindow::AddToolsMenu()
 {
-   Q3PopupMenu* Go4ToolMenu = new Q3PopupMenu(this);
-   menuBar()->insertItem( "&Tools", Go4ToolMenu);
+   QMenu* toolMenu = menuBar()->addMenu("&Tools");
 
-   Go4ToolMenu->insertItem(QPixmap( ":/icons/chart.png" ), "&View Panel",
+   toolMenu->addAction(QIcon(":/icons/chart.png" ), "&View Panel",
                 this, SLOT(MakeNewPanel()), CTRL+Key_V );
-   Go4ToolMenu->insertItem(QPixmap( ":/icons/fitpanel.png" ), "&Fit Panel...",
+   toolMenu->addAction(QIcon(":/icons/fitpanel.png" ), "&Fit Panel...",
                 this, SLOT(StartFitPanel()), CTRL+Key_F );
-   Go4ToolMenu->insertItem( QPixmap( ":/icons/hislist.png" ),"&Histogram properties...",
+   toolMenu->addAction(QIcon(":/icons/hislist.png" ),"&Histogram properties...",
                this, SLOT(StartHistogramInfo()));
-   Go4ToolMenu->insertItem(QPixmap( ":/icons/hiscre.png" ), "Create New H&is...",
+   toolMenu->addAction(QIcon(":/icons/hiscre.png" ), "Create New H&is...",
                this, SLOT(CreateNewHistSlot()), CTRL+Key_I );
-   Go4ToolMenu->insertItem( QPixmap( ":/icons/condlist.png" ),"C&ondition properties...",
+   toolMenu->addAction(QIcon(":/icons/condlist.png" ),"C&ondition properties...",
                this, SLOT(StartConditionInfo()));
-   Go4ToolMenu->insertItem( QPixmap( ":/icons/condcre.png" ),"&Condition Editor...",
+   toolMenu->addAction(QIcon(":/icons/condcre.png" ),"&Condition Editor...",
                this, SLOT(CreateNewConditionSlot()), CTRL+Key_C);
-   Go4ToolMenu->insertItem( QPixmap( ":/icons/zoom.png" ),"&Event Printout...",
+   toolMenu->addAction(QIcon(":/icons/zoom.png" ),"&Event Printout...",
                this, SLOT(StartEventInfo()));
-   Go4ToolMenu->insertItem( QPixmap( ":/icons/dynlist.png" ),"Create &Dyn. List entry ...",
+   toolMenu->addAction(QIcon(":/icons/dynlist.png" ),"Create &Dyn. List entry ...",
                this, SLOT(CreateNewDynEntrySlot()), CTRL+Key_D);
-   Go4ToolMenu->insertItem(QPixmap( ":/icons/dllicon.png" ), "Load Li&braries ...",
+   toolMenu->addAction(QIcon(":/icons/dllicon.png" ), "Load Li&braries ...",
                this, SLOT(LoadLibrarySlot()), CTRL+Key_B);
-   Go4ToolMenu->insertItem(QPixmap( ":/icons/user.png" ), "&User GUI ...",
+   toolMenu->addAction(QIcon(":/icons/user.png" ), "&User GUI ...",
                this, SLOT(UserPanelSlot()), CTRL+Key_U);
 }
 
@@ -656,38 +661,46 @@ void TGo4MainWindow::AddToolsBar()
 
 void TGo4MainWindow::AddAnalysisMenu()
 {
-   Q3PopupMenu * AnalysisMenu  = new Q3PopupMenu( this );
-   menuBar()->insertItem( "&Analysis", AnalysisMenu);
+   QMenu* anMenu = menuBar()->addMenu("&Analysis");
 
-   AnalysisMenu->insertItem(QPixmap( ":/icons/launchanal.png" ), "Lau&nch analysis...",
-           this, SLOT(LaunchClientSlot()), CTRL+Key_N, fiLaunchAnal);
+   faLaunchAnal =
+      anMenu->addAction(QIcon(":/icons/launchanal.png" ), "Lau&nch analysis...",
+           this, SLOT(LaunchClientSlot()), CTRL+Key_N);
+   faConnectAnal =
+      anMenu->addAction(QIcon(":/icons/connect.png"), "&Connect to running server...",
+             this, SLOT(ConnectServerSlot()), CTRL+Key_C);
 
-   AnalysisMenu->insertItem(QPixmap(":/icons/connect.png"), "&Connect to running server...",
-             this, SLOT(ConnectServerSlot()), CTRL+Key_C, fiConnectAnal);
+   faPrepareAnal =
+      anMenu->addAction(QIcon(":/icons/connect.png" ), "&Prepare for client connection...",
+             this, SLOT(PrepareForClientConnectionSlot()), CTRL+Key_C);
 
-   AnalysisMenu->insertItem(QPixmap( ":/icons/connect.png" ), "&Prepare for client connection...",
-             this, SLOT(PrepareForClientConnectionSlot()), CTRL+Key_C, fiPrepareAnal );
+   faDisconnectAnal =
+      anMenu->addAction(QIcon(":/icons/disconnect.png"), "Disconnect from analysis",
+             this, SLOT(DisconnectAnalysisSlot()), CTRL+Key_M);
 
-   AnalysisMenu->insertItem(QPixmap(":/icons/disconnect.png"), "Disconnect from analysis",
-             this, SLOT(DisconnectAnalysisSlot()), CTRL+Key_M, fiDisconnectAnal );
+   faShutdownAnal =
+      anMenu->addAction(QIcon(":/icons/shutanal.png"), "Shutdown analysis server",
+             this, SLOT(ShutdownAnalysisSlot()), CTRL+Key_M);
 
-   AnalysisMenu->insertItem(QPixmap(":/icons/shutanal.png"), "Shutdown analysis server",
-             this, SLOT(ShutdownAnalysisSlot()), CTRL+Key_M, fiShutdownAnal );
+   faSumbStartAnal =
+      anMenu->addAction(QIcon(":/icons/restart.png"), "Submit+S&tart",
+             this, SLOT(SubmitStartAnalysisSlot()), CTRL+Key_T);
 
-   AnalysisMenu->insertItem(QPixmap(":/icons/restart.png"), "Submit+S&tart",
-             this, SLOT(SubmitStartAnalysisSlot()), CTRL+Key_T, fiSumbStartAnal );
+   faStartAnal =
+      anMenu->addAction(QIcon(":/icons/start.png"), "&Start",
+             this, SLOT(StartAnalysisSlot()), CTRL+Key_S);
 
-   AnalysisMenu->insertItem(QPixmap(":/icons/start.png"), "&Start",
-             this, SLOT(StartAnalysisSlot()), CTRL+Key_S, fiStartAnal );
+   faStopAnal =
+      anMenu->addAction(QIcon(":/icons/Stop.png"), "Stop (&Halt)",
+             this, SLOT(StopAnalysisSlot()), CTRL+Key_H);
 
-   AnalysisMenu->insertItem(QPixmap(":/icons/Stop.png"), "Stop (&Halt)",
-             this, SLOT(StopAnalysisSlot()), CTRL+Key_H, fiStopAnal );
+   faAnalConfig =
+      anMenu->addAction(QIcon(":/icons/control.png"), "Confi&guration...",
+               this, SLOT(ToggleAnalysisConfiguration()), CTRL+Key_G);
 
-   AnalysisMenu->insertItem(QPixmap(":/icons/control.png"), "Confi&guration...",
-               this, SLOT(ToggleAnalysisConfiguration()), CTRL+Key_G, fiAnalConfig);
-
-   AnalysisMenu->insertItem(QPixmap(":/icons/analysiswin.png"), "Analysis &Window",
-               this, SLOT(ToggleAnalysisWindow()), CTRL+Key_W, fiAnalTermin);
+   faAnalTermin =
+      anMenu->addAction(QIcon(":/icons/analysiswin.png"), "Analysis &Window",
+               this, SLOT(ToggleAnalysisWindow()), CTRL+Key_W);
 }
 
 void TGo4MainWindow::AddAnalysisBar()
@@ -746,57 +759,62 @@ void TGo4MainWindow::AddAnalysisBar()
 void TGo4MainWindow::windowsMenuAboutToShow()
 {
     windowsMenu->clear();
-    int cascadeId = windowsMenu->insertItem("Ca&scade", centralWidget(), SLOT(cascade()));
-    int tileId    = windowsMenu->insertItem("&Tile", centralWidget(), SLOT(tile()));
-    int closallId = windowsMenu->insertItem("&Close all", this, SLOT(CloseAllWindows()));
-    int minallId  = windowsMenu->insertItem("&Minimize all", this, SLOT(MinAllWindows()));
-    if (fxTGo4WorkSpace->windowList().isEmpty()) {
-        windowsMenu->setItemEnabled(cascadeId, FALSE);
-        windowsMenu->setItemEnabled(tileId, FALSE);
-        windowsMenu->setItemEnabled(closallId, FALSE);
-        windowsMenu->setItemEnabled(minallId, FALSE);
-    }
+
+    bool on = ! fxWorkSpace->windowList().isEmpty();
+
+    windowsMenu->addAction("Ca&scade", centralWidget(), SLOT(cascade()))->setEnabled(on);
+    windowsMenu->addAction("&Tile", centralWidget(), SLOT(tile()))->setEnabled(on);
+    windowsMenu->addAction("&Close all", this, SLOT(CloseAllWindows()))->setEnabled(on);
+    windowsMenu->addAction("&Minimize all", this, SLOT(MinAllWindows()))->setEnabled(on);
+
+    windowsMenu->addSeparator();
 
     QGo4Widget* loginfo = FindGo4Widget("LogInfo", false);
+
+    windowsMenu->addAction("Save L&ogwindow", loginfo, SLOT(SaveLogInfo()))->setEnabled(loginfo!=0);
+    windowsMenu->addAction("Clear &Logwindow", loginfo, SLOT(ClearLogInfo()))->setEnabled(loginfo!=0);
+
     QGo4Widget* anw = FindGo4Widget("AnalysisWindow", false);
 
-    windowsMenu->insertSeparator();
-    int savelogId  = windowsMenu->insertItem("Save L&ogwindow", loginfo, SLOT(SaveLogInfo()));
-    int clearlogId = windowsMenu->insertItem("Clear &Logwindow", loginfo, SLOT(ClearLogInfo()));
-    int saveAnaId  = windowsMenu->insertItem("Save &Analysis window", anw, SLOT(SaveAnalysisOutput()));
-    int clearAnaId = windowsMenu->insertItem("Clear Analysis &window", anw, SLOT(ClearAnalysisOutput()));
-    windowsMenu->setItemEnabled(clearlogId, loginfo!=0);
-    windowsMenu->setItemEnabled(savelogId, loginfo!=0);
-    windowsMenu->setItemEnabled(saveAnaId, anw!=0);
-    windowsMenu->setItemEnabled(clearAnaId, anw!=0);
+    windowsMenu->addAction("Save &Analysis window", anw, SLOT(SaveAnalysisOutput()))->setEnabled(anw!=0);
+    windowsMenu->addAction("Clear Analysis &window", anw, SLOT(ClearAnalysisOutput()))->setEnabled(anw!=0);
 
-    windowsMenu->insertSeparator();
-    QWidgetList windows =  fxTGo4WorkSpace->windowList();
+    windowsMenu->addSeparator();
+
+    delete winMapper;
+    winMapper = new QSignalMapper(this);
+    connect(winMapper, SIGNAL(mapped(int)), this, SLOT(windowsMenuActivated(int)));
+
+    QWidgetList windows =  fxWorkSpace->windowList();
     for (int i=0; i<int(windows.count()); ++i ) {
-        int id = windowsMenu->insertItem(windows.at(i)->caption(),
-                                         this, SLOT( windowsMenuActivated(int)));
-        windowsMenu->setItemParameter(id, i);
-        windowsMenu->setItemChecked(id, fxTGo4WorkSpace->activeWindow() == windows.at(i));
+       QAction* act = new QAction(windows.at(i)->caption(), winMapper);
+       act->setCheckable(true);
+       act->setChecked(fxWorkSpace->activeWindow() == windows.at(i));
+
+       windowsMenu->addAction(act);
+
+       connect(act, SIGNAL(triggered()), winMapper, SLOT(map()) );
+       winMapper->setMapping(act, i);
     }
 }
 
 void TGo4MainWindow::CloseAllWindows()
 {
-   QWidgetList windows =  fxTGo4WorkSpace->windowList();
+   QWidgetList windows =  fxWorkSpace->windowList();
     for ( int i = 0; i < int(windows.count()); ++i )
        windows.at(i)->close();
 }
 
 void TGo4MainWindow::MinAllWindows()
 {
-   QWidgetList windows =  fxTGo4WorkSpace->windowList();
+   QWidgetList windows =  fxWorkSpace->windowList();
    for ( int i = 0; i < int(windows.count()); ++i )
        windows.at(i)->showMinimized();
 }
 
 void TGo4MainWindow::windowsMenuActivated( int id )
 {
-   QWidget* w = fxTGo4WorkSpace->windowList().at(id);
+   QWidget* w = fxWorkSpace->windowList().at(id);
    if (w) w->showNormal();
    w->setFocus();
 }
@@ -839,8 +857,8 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
    TStartUserGuiFunc startfunc = (TStartUserGuiFunc) ::dlsym(lib1,"StartUserPanel");
 
    if (startfunc!=0) {
-     QGo4Widget* userpanel = (QGo4Widget*) startfunc(fxTGo4WorkSpace);
-      fxTGo4WorkSpace->addWindow(userpanel);
+     QGo4Widget* userpanel = (QGo4Widget*) startfunc(fxWorkSpace);
+      fxWorkSpace->addWindow(userpanel);
      if (userpanel!=0) {
         userpanel->setName("UserPanel");
         ConnectGo4Widget(userpanel);
@@ -899,8 +917,8 @@ TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
      name = QString("Panel") + QString::number(n);
    } while ((edslot!=0) && (edslot->FindChild(name.latin1())!=0));
 
-   TGo4ViewPanel* panel = new TGo4ViewPanel(fxTGo4WorkSpace, name);
-   fxTGo4WorkSpace->addWindow(panel); // warning: Qt may exchange the winId here!
+   TGo4ViewPanel* panel = new TGo4ViewPanel(fxWorkSpace, name);
+   fxWorkSpace->addWindow(panel); // warning: Qt may exchange the winId here!
    panel->GetQCanvas()->performResize(); // may register new winId for TCanvas here
    ConnectGo4Widget(panel);
    panel->CompleteInitialization();
@@ -1112,8 +1130,8 @@ void TGo4MainWindow::HelpWindow(const char* filename, const char* dir, const cha
 {
    QApplication::setOverrideCursor( Qt::WaitCursor );
    if (msg!=0) StatusMessage(msg);
-   TGo4HelpWindow*  helpw =  new TGo4HelpWindow(filename, fxTGo4WorkSpace, dir);
-   fxTGo4WorkSpace->addWindow(helpw);
+   TGo4HelpWindow*  helpw =  new TGo4HelpWindow(filename, fxWorkSpace, dir);
+   fxWorkSpace->addWindow(helpw);
    helpw->show();
    QApplication::restoreOverrideCursor();
 }
@@ -1164,10 +1182,10 @@ void TGo4MainWindow::ChangeFontSlot()
    if (ok)
       {
        // direct set font:
-//       fxTGo4WorkSpace->SetEventsDisabled(true);
+//       fxWorkSpace->SetEventsDisabled(true);
 //       QApplication::setFont( font, true );
 //       cout <<"ChangeFontSlot returned from setFont" << endl;
-//       fxTGo4WorkSpace->SetEventsDisabled(false);
+//       fxWorkSpace->SetEventsDisabled(false);
 
 //     set font for next startup (workaround)
          go4sett->setAppFont(font);
@@ -1272,30 +1290,29 @@ void TGo4MainWindow::UpdateCaptionButtons()
    bool flag = (pr==0);
    QWidget* w1 = dynamic_cast<QWidget*> (child("Launch Analysis Button"));
    if (w1!=0) w1->setEnabled(flag);
-   menuBar()->setItemEnabled(fiLaunchAnal, flag);
+   faLaunchAnal->setEnabled(flag);
 
    if (pr==0) flag = (pr==0);
          else flag = (fConnectingCounter<=0) && pr->IsAnalysisServer() && !pr->IsConnected();
    QWidget* w2 = dynamic_cast<QWidget*> (child("Connect Analysis Button"));
    if (w2!=0) w2->setEnabled(flag);
-   menuBar()->setItemEnabled(fiConnectAnal, flag);
+   faConnectAnal->setEnabled(flag);
 
-   menuBar()->setItemEnabled(fiPrepareAnal, flag);
+   faPrepareAnal->setEnabled(flag);
 
    if (pr==0) flag = false;
          else flag = pr->IsAnalysisServer() &&
                      (pr->IsConnected() || (fConnectingCounter<=0));
    QWidget* w3 = dynamic_cast<QWidget*> (child("Disconnect Analysis Button"));
    if (w3!=0) w3->setEnabled(flag);
-   menuBar()->setItemEnabled(fiDisconnectAnal, flag);
+   faDisconnectAnal->setEnabled(flag);
 
    if (pr==0) flag = false;
          else flag = !pr->IsAnalysisServer() ||
                      (pr->IsConnected() && pr->IsAdministrator());
    QWidget* w4 = dynamic_cast<QWidget*> (child("Shutdown Analysis Button"));
    if (w4!=0) w4->setEnabled(flag);
-   menuBar()->setItemEnabled(fiShutdownAnal, flag);
-
+   faShutdownAnal->setEnabled(flag);
 
    bool iscontrolling = false;
    if (pr!=0)
@@ -1303,24 +1320,24 @@ void TGo4MainWindow::UpdateCaptionButtons()
 
    QWidget* ww = dynamic_cast<QWidget*> (child("Submit and Start Analysis"));
    if (ww!=0) ww->setEnabled(iscontrolling);
-   menuBar()->setItemEnabled(fiSumbStartAnal, iscontrolling);
+   faSumbStartAnal->setEnabled(iscontrolling);
 
    ww = dynamic_cast<QWidget*> (child("Start Analysis"));
    if (ww!=0) ww->setEnabled(iscontrolling);
-   menuBar()->setItemEnabled(fiStartAnal, iscontrolling);
+   faStartAnal->setEnabled(iscontrolling);
 
    ww = dynamic_cast<QWidget*> (child("Stop  Analysis"));
    if (ww!=0) ww->setEnabled(iscontrolling);
-   menuBar()->setItemEnabled(fiStopAnal, iscontrolling);
+   faStopAnal->setEnabled(iscontrolling);
 
    ww = dynamic_cast<QWidget*> (child("Analysis Configuration"));
    if (ww!=0) ww->setEnabled(iscontrolling);
-   menuBar()->setItemEnabled(fiAnalConfig, iscontrolling);
+   faAnalConfig->setEnabled(iscontrolling);
 
    flag = (FindAnalysisWindow()!=0);
    ww = dynamic_cast<QWidget*> (child("Analysis Window"));
    if (ww!=0) ww->setEnabled(flag);
-   menuBar()->setItemEnabled(fiAnalTermin, flag);
+   faAnalTermin->setEnabled(flag);
 }
 
 void TGo4MainWindow::ChangeFetchWhenDrawSlot()
@@ -1361,41 +1378,36 @@ void TGo4MainWindow::OptStatsSlot()
 
 void TGo4MainWindow::CrosshairSlot()
 {
-   bool s = fPanelMenu->isItemChecked(fiCrosshairId);
-   go4sett->setPadCrosshair(s);
+   go4sett->setPadCrosshair(faCrosshair->isChecked());
 }
 
 void TGo4MainWindow::EventStatusSlot()
 {
-   bool s = fPanelMenu->isItemChecked(fiEventstatusId);
-   go4sett->setPadEventStatus(s);
+   go4sett->setPadEventStatus(faEventstatus->isChecked());
 }
 
 void TGo4MainWindow::ChangeCloneFlagSlot()
 {
-   bool s = fPanelMenu->isItemChecked(fiCloneId);
-   fPanelMenu->setItemEnabled(fiDrawTimeId, s);
-   fPanelMenu->setItemEnabled(fiDrawDateId, s);
-   fPanelMenu->setItemEnabled(fiDrawItemId, s);
+   bool s = faClone->isChecked();
+   faDrawTime->setEnabled(s);
+   faDrawDate->setEnabled(s);
+   faDrawItem->setEnabled(s);
    go4sett->setCloneFlag(s);
 }
 
 void TGo4MainWindow::ChangeDrawTimeFlagSlot()
 {
-   bool s = fPanelMenu->isItemChecked(fiDrawTimeId);
-   go4sett->setDrawTimeFlag(s);
+   go4sett->setDrawTimeFlag(faDrawTime->isChecked());
 }
 
 void TGo4MainWindow::ChangeDrawItemFlagSlot()
 {
-   bool s = fPanelMenu->isItemChecked(fiDrawItemId);
-   go4sett->setDrawItemFlag(s);
+   go4sett->setDrawItemFlag(faDrawItem->isChecked());
 }
 
 void TGo4MainWindow::ChangeDrawDateFlagSlot()
 {
-   bool s = fPanelMenu->isItemChecked(fiDrawDateId);
-   go4sett->setDrawDateFlag(s);
+   go4sett->setDrawDateFlag(faDrawDate->isChecked());
 }
 
 
@@ -1501,8 +1513,8 @@ TGo4AnalysisProxy* TGo4MainWindow::AddAnalysisProxy(bool isserver, bool needoutp
 
    if(anw==0)
      if (needoutput) {
-        anw = new TGo4AnalysisWindow(fxTGo4WorkSpace, "AnalysisWindow", true);
-        fxTGo4WorkSpace->addWindow(anw);
+        anw = new TGo4AnalysisWindow(fxWorkSpace, "AnalysisWindow", true);
+        fxWorkSpace->addWindow(anw);
         ConnectGo4Widget(anw);
         anw->show();
         anw->WorkWithUpdateObjectCmd(anal->UpdateObjectSlot());
@@ -1603,8 +1615,8 @@ TGo4AnalysisConfiguration* TGo4MainWindow::EstablishAnalysisConfiguration(int le
    } else
    if (level>=2) {
      if (conf==0) {
-       conf = new TGo4AnalysisConfiguration(fxTGo4WorkSpace, "AnalysisConfiguration");
-       fxTGo4WorkSpace->addWindow(conf);
+       conf = new TGo4AnalysisConfiguration(fxWorkSpace, "AnalysisConfiguration");
+       fxWorkSpace->addWindow(conf);
        ConnectGo4Widget(conf);
      }
      TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
@@ -1823,8 +1835,8 @@ TGo4FitPanel* TGo4MainWindow::StartFitPanel()
    TGo4FitPanel* fitpanel = (TGo4FitPanel*) FindGo4Widget("FitPanel", true);
 
    if (fitpanel==0) {
-      fitpanel = new TGo4FitPanel(fxTGo4WorkSpace,"FitPanel");
-      fxTGo4WorkSpace->addWindow(fitpanel);
+      fitpanel = new TGo4FitPanel(fxWorkSpace,"FitPanel");
+      fxWorkSpace->addWindow(fitpanel);
       ConnectGo4Widget(fitpanel);
       fitpanel->polish();
       fitpanel->show();
@@ -1836,8 +1848,8 @@ TGo4HistogramInfo* TGo4MainWindow::StartHistogramInfo()
 {
    TGo4HistogramInfo* hinfo = (TGo4HistogramInfo*) FindGo4Widget("HistogramInfo", true);
    if (hinfo==0) {
-      hinfo = new TGo4HistogramInfo(fxTGo4WorkSpace, "HistogramInfo");
-      fxTGo4WorkSpace->addWindow(hinfo);
+      hinfo = new TGo4HistogramInfo(fxWorkSpace, "HistogramInfo");
+      fxWorkSpace->addWindow(hinfo);
       ConnectGo4Widget(hinfo);
       hinfo->polish();
       hinfo->show();
@@ -1850,8 +1862,8 @@ TGo4ConditionInfo* TGo4MainWindow::StartConditionInfo()
 {
    TGo4ConditionInfo* cinfo = (TGo4ConditionInfo*) FindGo4Widget("ConditionInfo", true);
    if (cinfo==0) {
-      cinfo = new TGo4ConditionInfo(fxTGo4WorkSpace, "ConditionInfo");
-      fxTGo4WorkSpace->addWindow(cinfo);
+      cinfo = new TGo4ConditionInfo(fxWorkSpace, "ConditionInfo");
+      fxWorkSpace->addWindow(cinfo);
       ConnectGo4Widget(cinfo);
       cinfo->polish();
       cinfo->show();
@@ -1882,8 +1894,8 @@ TGo4ParaEdit* TGo4MainWindow::StartParaEdit(const char* itemname)
    }
 
    if (pedit==0) {
-      pedit = new TGo4ParaEdit(fxTGo4WorkSpace, "ParaEdit");
-      fxTGo4WorkSpace->addWindow(pedit);
+      pedit = new TGo4ParaEdit(fxWorkSpace, "ParaEdit");
+      fxWorkSpace->addWindow(pedit);
       ConnectGo4Widget(pedit);
       pedit->polish();
       pedit->show();
@@ -1900,8 +1912,8 @@ TGo4EditDynEntry* TGo4MainWindow::StartEditDynEntry()
    TGo4EditDynEntry* dedit = (TGo4EditDynEntry*) FindGo4Widget("EditDynEntry", true);
 
    if (dedit==0) {
-      dedit = new TGo4EditDynEntry(fxTGo4WorkSpace, "EditDynEntry");
-      fxTGo4WorkSpace->addWindow(dedit);
+      dedit = new TGo4EditDynEntry(fxWorkSpace, "EditDynEntry");
+      fxWorkSpace->addWindow(dedit);
       ConnectGo4Widget(dedit);
       dedit->polish();
       dedit->show();
@@ -1914,8 +1926,8 @@ TGo4ConditionEditor* TGo4MainWindow::StartConditionEditor()
 {
    TGo4ConditionEditor* wedit = (TGo4ConditionEditor*) FindGo4Widget("ConditionEditor", true);
    if (wedit==0) {
-      wedit = new TGo4ConditionEditor(fxTGo4WorkSpace, "ConditionEditor");
-      fxTGo4WorkSpace->addWindow(wedit);
+      wedit = new TGo4ConditionEditor(fxWorkSpace, "ConditionEditor");
+      fxWorkSpace->addWindow(wedit);
       ConnectGo4Widget(wedit);
       wedit->polish();
       wedit->show();
@@ -1928,8 +1940,8 @@ TGo4EventInfo* TGo4MainWindow::StartEventInfo()
    TGo4EventInfo* einfo = (TGo4EventInfo*) FindGo4Widget("EventInfo", true);
 
    if (einfo==0) {
-      einfo = new TGo4EventInfo(fxTGo4WorkSpace, "EventInfo");
-      fxTGo4WorkSpace->addWindow(einfo);
+      einfo = new TGo4EventInfo(fxWorkSpace, "EventInfo");
+      fxWorkSpace->addWindow(einfo);
       ConnectGo4Widget(einfo);
       einfo->polish();
       einfo->show();
@@ -2013,15 +2025,15 @@ TGo4SetScaleValues* TGo4MainWindow::ToggleScaleValues()
 {
    TGo4SetScaleValues* scl = 0;
 
-   QWidgetList windows =  fxTGo4WorkSpace->windowList();
+   QWidgetList windows =  fxWorkSpace->windowList();
    for (int i=0; i<int(windows.count()); ++i ) {
       scl = dynamic_cast<TGo4SetScaleValues*> (windows.at(i));
       if (scl!=0) break;
    }
 
    if (scl==0) {
-      scl = new TGo4SetScaleValues(fxTGo4WorkSpace, "ScaleValues", Qt::WStyle_StaysOnTop);
-      fxTGo4WorkSpace->addWindow(scl);
+      scl = new TGo4SetScaleValues(fxWorkSpace, "ScaleValues", Qt::WStyle_StaysOnTop);
+      fxWorkSpace->addWindow(scl);
       scl->polish();
       scl->show();
    } else {
@@ -2343,7 +2355,7 @@ void TGo4MainWindow::checkPanelRepaintSlot()
    fbPanelTimerActive = false;
 
    // first check if active viewpnael need update its content
-   TGo4ViewPanel* actpanel = fxTGo4WorkSpace->GetActivePanel();
+   TGo4ViewPanel* actpanel = fxWorkSpace->GetActivePanel();
    if ((actpanel!=0) && actpanel->IsRepaintTimerActive())
       actpanel->checkRepaintSlot();
 
@@ -2764,7 +2776,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_LastActivePanel: {
          TGo4ViewPanel** res = (TGo4ViewPanel**) par;
-         *res = fxTGo4WorkSpace->GetActivePanel();
+         *res = fxWorkSpace->GetActivePanel();
          break;
       }
 
@@ -2878,7 +2890,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::panel_Deleted: {
          TGo4ViewPanel* panel = (TGo4ViewPanel*) editor;
          TPad* pad = (TPad*) par;
-         fxTGo4WorkSpace->ResponseOnPanelEvent(serviceid, panel, pad);
+         fxWorkSpace->ResponseOnPanelEvent(serviceid, panel, pad);
          break;
       }
 
