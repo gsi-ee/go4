@@ -1,19 +1,13 @@
 #include "QFitRangeWidget.h"
 
-//#include "QGo4LineEdit.h"
 #include "QFitItem.h"
 #include "TGo4FitComponent.h"
 
-
 QFitRangeWidget::QFitRangeWidget(QWidget *parent, const char* name)
-         : QFitWidget(parent, name)
-{ 
-			setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
-			// from ui file to the setupUI
+  : QFitWidget(parent, name)
+{
+   setupUi(this);
 }
-
 
 TGo4FitComponent* QFitRangeWidget::GetComp()
 {

@@ -3,7 +3,6 @@
 #include "qlayout.h"
 #include "qmessagebox.h"
 #include "qevent.h"
-#include "q3dragobject.h"
 #include "qinputdialog.h"
 #include "q3listview.h"
 #include "qpixmap.h"

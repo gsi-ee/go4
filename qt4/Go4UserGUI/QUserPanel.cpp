@@ -8,8 +8,6 @@
 #include "TGo4Proxy.h"
 #include "QGo4RootCanvas.h"
 
-#include <Q3TextDrag>
-
 #include <sstream>
 #include <stdlib.h>
 using namespace std;
@@ -43,7 +41,7 @@ QUserPanel::QUserPanel( QWidget* parent,  const char* name )
 {
    setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
 
 
@@ -199,17 +197,12 @@ void QUserPanel::PrintObject(TObject* obj)
 
 void QUserPanel::CanvasDropEventSlot(QDropEvent* event, TPad* pad)
 {
-   QString eventstr;
-   if (!Q3TextDrag::decode(event, eventstr)) return;
-   event->accept();
+
+   if (!event->mimeData()->hasText()) return;
+   QString eventstr = event->mimeData()->text();
+   event->acceptProposedAction();
    DrawObjectOnCanvas(eventstr.latin1());
 }
-
-//void QUserPanel::DoCanvasResizeSlot()
-//{
-//   cout << "DoCanvasResizeSlot" << endl;
-//   //fxDrawCanvas->checkResizeFlag();
-//}
 
 void QUserPanel::DrawObjectOnCanvas(const char* itemname)
 {

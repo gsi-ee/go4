@@ -40,18 +40,15 @@
 #include "qstyle.h"
 #include <QDateTime>
 
-#include <Qt3Support/q3valuevector.h>
-#include <Qt3Support/q3whatsthis.h>
 #include <Qt3Support/q3popupmenu.h>
 #include <Qt3Support/q3toolbar.h>
-#include <Qt3Support/q3dragobject.h>
-#include <Qt3Support/q3textbrowser.h>
 #include <Qt3Support/q3dockarea.h>
 #include <Qt3Support/Q3DockWindow>
 
 #include <QFileDialog>
 #include <QtGui/QAction>
 #include <QtCore/QProcess>
+#include <QtCore/QHash>
 
 
 //////// root includes;
@@ -2396,12 +2393,9 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
    switch (serviceid) {
       case QGo4Widget::service_DragEnter: {
          QDragEnterEvent* event = (QDragEnterEvent*) par;
-         if (event==0) return;
-         QString eventstr;
-         if (!Q3TextDrag::decode(event, eventstr)) {
-            event->ignore();
-            return;
-         }
+         if ((event==0) || !event->mimeData()->hasText()) return;
+
+         QString eventstr = event->mimeData()->text();
 
          bool accept = false;
          if (event->source()==FindGo4Widget("Browser",false)) {
@@ -2410,17 +2404,16 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
             accept = editor->IsAcceptDrag(eventstr.latin1(), cl, kind);
          }
 
-         if (accept) event->accept();
-                else event->ignore();
+         if (accept) event->acceptProposedAction();
          break;
       }
 
       case QGo4Widget::service_DropEvent: {
          QDropEvent* event = (QDropEvent*) par;
-         if (event==0) return;
-         QString eventstr;
-         if (!Q3TextDrag::decode(event, eventstr)) return;
-         event->accept();
+         if ((event==0) || !event->mimeData()->hasText()) return;
+
+         QString eventstr = event->mimeData()->text();
+         event->acceptProposedAction();
 
          if (event->source()==FindGo4Widget("Browser",false)) {
              int kind = Browser()->ItemKind(eventstr.latin1());

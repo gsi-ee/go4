@@ -1,5 +1,5 @@
 #include "QGo4BrowserListView.h"
-//Added by qt3to4:
+
 #include <QDropEvent>
 
 QGo4BrowserListView::QGo4BrowserListView(QWidget* parent, const char* name, Qt::WFlags f) :

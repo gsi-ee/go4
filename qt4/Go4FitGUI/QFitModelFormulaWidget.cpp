@@ -1,15 +1,14 @@
 #include "QFitModelFormulaWidget.h"
 
-//#include "QGo4LineEdit.h"
 #include "TGo4FitModelFormula.h"
 #include "TGo4FitGuiTypes.h"
 
 QFitModelFormulaWidget::QFitModelFormulaWidget(QWidget *parent, const char* name)
          : QFitModelWidget(parent, name)
-{ 
+{
 			setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
 }
 

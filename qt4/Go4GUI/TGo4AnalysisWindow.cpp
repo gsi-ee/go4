@@ -11,7 +11,6 @@
 #include <QtCore/qtimer.h>
 #include "qlabel.h"
 #include "qmessagebox.h"
-#include "q3textedit.h"
 #include "qpushbutton.h"
 #include "qtoolbutton.h"
 #include <Q3HBoxLayout>
@@ -19,6 +18,7 @@
 #include "q3textstream.h"
 #include <QFileDialog>
 #include <QtCore/QProcess>
+#include <QtGui/QTextEdit>
 
 #include "TGo4QSettings.h"
 #include "TGo4AnalysisProxy.h"
@@ -50,10 +50,10 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
        resize(700, 400);
        setIcon(QPixmap(":/icons/analysiswin.png"));
        Q3GridLayout* layout = new Q3GridLayout( this, 1, 1, 11, 6, "layout");
-       fxOutput = new Q3TextEdit(this, "output");
+       fxOutput = new QTextEdit(this, "output");
        fxOutput->setUndoRedoEnabled(FALSE);
-       fxOutput->setAutoFormatting(Q3TextEdit::AutoNone);
-       fxOutput->setWordWrap(Q3TextEdit::NoWrap);
+       fxOutput->setAutoFormatting(QTextEdit::AutoNone);
+       fxOutput->setWordWrapMode(QTextOption::NoWrap);
        fxOutput->setReadOnly(TRUE);
        layout->addWidget( fxOutput, 0, 0 );
 
@@ -187,20 +187,20 @@ void TGo4AnalysisWindow::updateTerminalOutput()
       unsigned int cutlength = fiMaxOuputSize / 2;
 
       if (buflen > 0) {
-         unsigned int outlen = fxOutput->length();
+         unsigned int outlen = fxOutput->toPlainText().length();
          if (buflen + outlen < fiMaxOuputSize)
            fxOutput->append(outputBuffer);
          else
          if (buflen>=cutlength) {
             outputBuffer.remove(0, buflen-cutlength);
             fxOutput->setText(outputBuffer);
-            fxOutput->moveCursor(Q3TextEdit::MoveEnd, FALSE);
+            fxOutput->moveCursor(QTextCursor::End);
          } else {
            QString curr = fxOutput->text();
            curr.remove(0, cutlength - buflen);
            curr+=outputBuffer;
            fxOutput->setText(curr);
-           fxOutput->moveCursor(Q3TextEdit::MoveEnd, FALSE);
+           fxOutput->moveCursor(QTextCursor::End);
          }
       }
     } else
@@ -233,13 +233,6 @@ void TGo4AnalysisWindow::readFromStderr()
 void TGo4AnalysisWindow::AppendOutputBuffer(const QString& value)
 {
     outputBuffer.append(value);
-}
-
-
-void TGo4AnalysisWindow::scrollToTop()
-{
-   if (fxOutput!=0)
-     fxOutput->setContentsPos( 0, 0 );
 }
 
 void TGo4AnalysisWindow::StartAnalysisShell(const char* text)

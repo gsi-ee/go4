@@ -353,30 +353,28 @@ Qtrootlockguard threadlock;
 
 void TQRootCanvas::dragEnterEvent( QDragEnterEvent *e )
 {
-//Qtrootlockguard threadlock;
-  if ( Q3TextDrag::canDecode(e ))
-    e->accept();
+   if (e->mimeData()->hasText())
+        e->acceptProposedAction();
 }
 
 void TQRootCanvas::dropEvent( QDropEvent *Event )
 {
    Qtrootlockguard threadlock;
-   QString str;
 
-    if ( Q3TextDrag::decode( Event, str ) ) {
-      TObject *dragedObject = gROOT->FindObject(str);
-      QPoint Pos = Event->pos();
-      TObject *object=0;
-      TPad *pad = fCanvas->Pick(Pos.x(), Pos.y(), object);
-      if(dragedObject!=0) {
-        if(dragedObject->InheritsFrom(TH1::Class())) {
-          pad->cd();
-          dragedObject->Draw();
-          pad->Update();
-        }
-      } else
-        cout << "object " << str.toStdString() <<  " not found by ROOT" << endl;
-    }
+   QString str = Event->mimeData()->text();
+
+   TObject *dragedObject = gROOT->FindObject(str);
+   QPoint Pos = Event->pos();
+   TObject *object=0;
+   TPad *pad = fCanvas->Pick(Pos.x(), Pos.y(), object);
+   if(dragedObject!=0) {
+     if(dragedObject->InheritsFrom(TH1::Class())) {
+       pad->cd();
+       dragedObject->Draw();
+       pad->Update();
+     }
+   } else
+     cout << "object " << str.toStdString() <<  " not found by ROOT" << endl;
 }
 
 /////////////////////////////////////End Drag and drop Support (Mohammad Al-Turany)

@@ -136,9 +136,9 @@ void TGo4Browser::ItemDropAcceptSlot(void* item, void* mime, bool* res)
 void TGo4Browser::ItemDropProcessSlot(void* item, void* e)
 {
    QString tgtname = FullItemName((Q3ListViewItem*) item);
-   QString dropname;
-   if (!Q3TextDrag::decode((QDropEvent*)e, dropname)) return;
-   Browser()->ProduceExplicitCopy(dropname, tgtname, go4sett->getFetchDataWhenCopy());
+   QDropEvent* event = (QDropEvent*) e;
+   if (!event->mimeData()->hasText()) return;
+   Browser()->ProduceExplicitCopy(event->mimeData()->text(), tgtname, go4sett->getFetchDataWhenCopy());
 }
 
 void TGo4Browser::ResetWidget()

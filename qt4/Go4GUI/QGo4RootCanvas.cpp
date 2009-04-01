@@ -1,5 +1,5 @@
 #include "QGo4RootCanvas.h"
-//Added by qt3to4:
+
 #include <QtCore/QEvent>
 #include <QDragEnterEvent>
 #include <QDropEvent>
@@ -12,7 +12,6 @@
 #include "qapplication.h"
 #include "qstring.h"
 #include "qcursor.h"
-#include "q3dragobject.h"
 
 QGo4RootCanvas::QGo4RootCanvas(QWidget *parent, const char *name, TCanvas *c) :
    TQRootCanvas(parent, name, c),
@@ -61,10 +60,10 @@ void QGo4RootCanvas::mouseMoveEvent(QMouseEvent *e)
    }
 }
 
-void QGo4RootCanvas::dragEnterEvent(QDragEnterEvent* e)
+void QGo4RootCanvas::dragEnterEvent(QDragEnterEvent* event)
 {
-   if (Q3TextDrag::canDecode(e))
-         e->accept();
+   if (event->mimeData()->hasText())
+      event->acceptProposedAction();
 }
 
 void QGo4RootCanvas::dropEvent(QDropEvent* event)
@@ -82,7 +81,7 @@ void QGo4RootCanvas::performResize()
    //cout <<".........QGo4RootCanvas::performResize" << endl;
    QApplication::setOverrideCursor(Qt::WaitCursor);
    emit DoCanvasResize();
-   TQRootCanvas::performResize();   
+   TQRootCanvas::performResize();
    QApplication::restoreOverrideCursor();
 }
 

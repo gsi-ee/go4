@@ -10,7 +10,7 @@
 
 class QProcess;
 class QGo4CommandsHistory;
-class Q3TextEdit;
+class QTextEdit;
 class Q3HBoxLayout;
 
 class TGo4AnalysisWindow : public QGo4Widget {
@@ -32,7 +32,6 @@ class TGo4AnalysisWindow : public QGo4Widget {
    public slots:
       void readFromStdout();
       void readFromStderr();
-      void scrollToTop();
       void RequestTerminate();
       void ClearAnalysisOutput();
       void SaveAnalysisOutput();
@@ -55,7 +54,7 @@ class TGo4AnalysisWindow : public QGo4Widget {
       QProcess *fAnalysisProcess;
       QGo4CommandsHistory *fxCmdHist;
       QString outputBuffer;
-      Q3TextEdit* fxOutput;
+      QTextEdit* fxOutput;
       unsigned int fiMaxOuputSize;
       bool fNewObjectForEditor;
 };
