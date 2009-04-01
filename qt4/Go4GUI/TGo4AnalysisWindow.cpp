@@ -11,15 +11,14 @@
 #include <QtCore/qtimer.h>
 #include "qlabel.h"
 #include "qmessagebox.h"
-#include "q3process.h"
 #include "q3textedit.h"
 #include "qpushbutton.h"
 #include "qtoolbutton.h"
-//Added by qt3to4:
 #include <Q3HBoxLayout>
 #include <Q3GridLayout>
 #include "q3textstream.h"
 #include <QFileDialog>
+#include <QtCore/QProcess>
 
 #include "TGo4QSettings.h"
 #include "TGo4AnalysisProxy.h"
@@ -215,7 +214,7 @@ void TGo4AnalysisWindow::updateTerminalOutput()
 void TGo4AnalysisWindow::readFromStdout()
 {
    if (fAnalysisProcess!=0) {
-      QByteArray ba = fAnalysisProcess->readStdout();
+      QByteArray ba = fAnalysisProcess->readAllStandardOutput();
       QString buf(ba);
       AppendOutputBuffer(buf);
    }
@@ -225,7 +224,7 @@ void TGo4AnalysisWindow::readFromStdout()
 void TGo4AnalysisWindow::readFromStderr()
 {
     if (fAnalysisProcess!=0) {
-       QByteArray ba = fAnalysisProcess->readStderr();
+       QByteArray ba = fAnalysisProcess->readAllStandardError();
        QString buf(ba);
        AppendOutputBuffer(buf);
     }
@@ -247,13 +246,13 @@ void TGo4AnalysisWindow::StartAnalysisShell(const char* text)
 {
     if (fAnalysisProcess!=0) delete fAnalysisProcess;
 
-    fAnalysisProcess = new Q3Process();
-    connect(fAnalysisProcess, SIGNAL(readyReadStdout()), this, SLOT(readFromStdout()));
-    connect(fAnalysisProcess, SIGNAL(readyReadStderr()), this, SLOT(readFromStderr()));
-//    connect(fAnalysisProcess, SIGNAL(processExited()),   this, SLOT(scrollToTop()));
+    fAnalysisProcess = new QProcess();
+    connect(fAnalysisProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readFromStdout()));
+    connect(fAnalysisProcess, SIGNAL(readyReadStandardError()), this, SLOT(readFromStderr()));
 
-    fAnalysisProcess->setArguments(QStringList::split(" ", text));
-    if (!fAnalysisProcess->start()) {
+    fAnalysisProcess->start(text);
+
+    if (fAnalysisProcess->state() == QProcess::NotRunning) {
        cerr << "Fatal error. Could not start the Analysis" << endl;
        TerminateAnalysisProcess();
     }
@@ -268,8 +267,8 @@ void TGo4AnalysisWindow::TerminateAnalysisProcess()
 {
    if (fAnalysisProcess==0) return;
    AppendOutputBuffer("\nTerminate process ... \n\n");
-   fAnalysisProcess->tryTerminate();
-   if (fAnalysisProcess->isRunning()) fAnalysisProcess->kill();
+   fAnalysisProcess->terminate();
+   if (fAnalysisProcess->state() == QProcess::Running) fAnalysisProcess->kill();
    delete fAnalysisProcess;
    fAnalysisProcess = 0;
 }

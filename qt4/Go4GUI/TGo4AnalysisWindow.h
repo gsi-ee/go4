@@ -8,7 +8,7 @@
 #include "QGo4Widget.h"
 #include <Qt3Support/Q3HBoxLayout>
 
-class Q3Process;
+class QProcess;
 class QGo4CommandsHistory;
 class Q3TextEdit;
 class Q3HBoxLayout;
@@ -52,7 +52,7 @@ class TGo4AnalysisWindow : public QGo4Widget {
       void CreateButtons(Q3HBoxLayout*, bool);
       void CreateCmdLine(Q3HBoxLayout*);
 
-      Q3Process *fAnalysisProcess;
+      QProcess *fAnalysisProcess;
       QGo4CommandsHistory *fxCmdHist;
       QString outputBuffer;
       Q3TextEdit* fxOutput;

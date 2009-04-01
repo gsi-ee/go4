@@ -46,8 +46,6 @@
 #include <Qt3Support/q3toolbar.h>
 #include <Qt3Support/q3dragobject.h>
 #include <Qt3Support/q3textbrowser.h>
-#include <Qt3Support/Q3ActionGroup>
-#include <Qt3Support/q3process.h>
 #include <Qt3Support/q3dockarea.h>
 #include <Qt3Support/Q3DockWindow>
 
@@ -1134,7 +1132,7 @@ void TGo4MainWindow::HelpWindow(const char* filename, const char* msg)
 
    QProcess info;
 
-   info.start(go4sys + "etc/Go4ShowPdf.ksh", QStringList() << (go4sys + filename));
+   info.start(go4sys + "etc/Go4ShowPdf.ksh " + go4sys + filename);
    if (info.waitForFinished(10000) && (info.exitCode()==0))
       StatusMessage(msg ? QString(msg) : QString("Show ") + filename);
    else
@@ -1795,10 +1793,8 @@ void TGo4MainWindow::TerminateAnalysis()
       StatusMessage(QString("Killing analysis client with: ")+fKillCommand);
 
    if (fKillCommand.length()>0) {
-      Q3Process* killprocess = new Q3Process;
-      killprocess->setArguments(QStringList::split(" ",fKillCommand));
-      if (!killprocess->start())
-        StatusMessage("Can not start kill command");
+      QProcess* killprocess = new QProcess;
+      killprocess->start(fKillCommand);
       QTimer::singleShot(10000, killprocess, SLOT(deleteLater()));
    } else
       StatusMessage("Can not kill analysis. Do it by OS commands");
