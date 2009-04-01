@@ -78,7 +78,6 @@ class TGo4MainWindow : public QMainWindow {
       void IntroHelpSlot();
       void RefHelpSlot();
       void FitHelpSlot();
-      void InterfaceHelpSlot();
       void CloseAllWindows();
       void MinAllWindows();
       void SaveSettingsSlot();
@@ -166,9 +165,7 @@ class TGo4MainWindow : public QMainWindow {
 
       void SavePanelCanvas(TGo4ViewPanel* panel);
 
-      void HelpWindow(const char* filename,
-                      const char* dir = "",
-                      const char* msg = 0);
+      void HelpWindow(const char* filename, const char* msg = 0);
 
       QApplication*      fApp;
 

@@ -5,7 +5,7 @@ CONFIG	+= qt warn_off thread
 
 INCLUDEPATH	+= $(ROOTSYS)/include $(GO4SYS)/include
 
-HEADERS	+= helpwindow.h \
+HEADERS	+= \
 	TGo4QSettings.h \
 	TGo4AnalysisWindow.h \
 	QGo4RootCanvas.h \
@@ -19,7 +19,7 @@ HEADERS	+= helpwindow.h \
 	TGo4MainWindow.h \
 	QGo4CommandsHistory.h
 
-SOURCES	+= helpwindow.cpp \
+SOURCES	+= \
 	TGo4QSettings.cpp \
 	TGo4AnalysisWindow.cpp \
 	QGo4RootCanvas.cpp \

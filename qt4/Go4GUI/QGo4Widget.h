@@ -134,7 +134,7 @@ class QDESIGNER_WIDGET_EXPORT  QGo4Widget : public QWidget {
       TGo4ViewPanel* CreateViewPanel(int ndiv = 0);
       TGo4ViewPanel* DrawItem(const char* itemname, TGo4ViewPanel* panel = 0, TPad* pad = 0, bool activate = true, int updatelevel = -1);
       TGo4ViewPanel* WhereItemDrawn(const char* itemname);
-      void HelpWindow(const char* filename, const char* filedir);
+      void HelpWindow(const char* filename, const char* msg = 0);
       void UndrawItem(const char* itemname);
       TGo4ViewPanel* LastActivePanel();
       void EditItem(const char* itemname);

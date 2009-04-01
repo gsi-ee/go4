@@ -308,11 +308,10 @@ void QGo4Widget::UndrawItem(const char* itemname)
    emit widgetService(this, service_UndrawItem, itemname, 0);
 }
 
-void QGo4Widget::HelpWindow(const char* filename, const char* filedir)
+void QGo4Widget::HelpWindow(const char* filename, const char* msg)
 {
-   emit widgetService(this, service_HelpWindow, filename, (void*)filedir);
+   emit widgetService(this, service_HelpWindow, filename, (void*)msg);
 }
-
 
 TGo4ViewPanel* QGo4Widget::LastActivePanel()
 {

@@ -6,13 +6,10 @@
 #include <QFileDialog>
 #include <QTextStream>
 
-
 #include "TGo4Script.h"
 #include "TGo4MainWindow.h"
 #include "TGo4QSettings.h"
 #include "TGo4MacroDialog.h"
-#include "helpwindow.h"
-
 
 TGo4CommandLine::TGo4CommandLine(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
@@ -158,7 +155,5 @@ cout <<"---- Please: note the Go4 helpwindow with TGo4AbstractInterface full met
 cout <<"----         see example scripts at $GO4SYS/macros !" << endl;
 cout <<"----         visit our website at: \t http://go4.gsi.de !" << endl;
 cout <<"------ " << endl;
-HelpWindow("classTGo4AbstractInterface.html","doxygen/go4abstractinterface");
-//TGo4HelpWindow* helpw = new TGo4HelpWindow("class_TGo4AbstractInterface.html",0,"doxygen/go4abstractinterface");
-//helpw->show();
+HelpWindow("docs/Go4Reference.pdf", "Show Go4 Reference manual...");
 }

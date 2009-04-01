@@ -20,6 +20,16 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
+Changes in Go4 v4.02.00 (April 09)
+
+1. Merge Go4 version 3 with Go4 version 4 together - now
+   same package can be compiled either with Qt 3.3 or Qt 4.4.x.
+   Version of Qt can be selected by setting proper QTDIR path.
+   If QTDIR is not set, default version will be used (if any) 
+2. Replace html documents by pdf, use external pdf viewer for them.
+3. Reduce usage of qt3support classes in qt4 part of gui.   
+
+
 Changes in Go4 v4.01.01 (November08)
 
 1. Maintenance: code adjustments for compilers gcc 4.3.x

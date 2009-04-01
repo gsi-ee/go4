@@ -31,7 +31,6 @@
 #include "qmessagebox.h"
 #include "qradiobutton.h"
 #include "qcombobox.h"
-#include "helpwindow.h"
 #include "qinputdialog.h"
 #include "qdir.h"
 #include "qfileinfo.h"
@@ -51,10 +50,10 @@
 #include <Qt3Support/q3process.h>
 #include <Qt3Support/q3dockarea.h>
 #include <Qt3Support/Q3DockWindow>
-#include <Qt3Support/Q3Dict>
 
 #include <QFileDialog>
 #include <QtGui/QAction>
+#include <QtCore/QProcess>
 
 
 //////// root includes;
@@ -325,7 +324,6 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    helpMenu->addAction("&Introduction (user manual)", this, SLOT(IntroHelpSlot()));
    helpMenu->addAction("&Reference manual", this, SLOT(RefHelpSlot()));
    helpMenu->addAction("&Fit Tutorial", this, SLOT(FitHelpSlot()));
-   helpMenu->addAction("&GUI commandline (reference)", this, SLOT(InterfaceHelpSlot()));
    helpMenu->addSeparator();
    helpMenu->addAction("About &Qt", this, SLOT(aboutQt()), Key_F2 );
    helpMenu->addAction("About R&OOT", this, SLOT(aboutROOT()), Key_F3);
@@ -1126,34 +1124,38 @@ void TGo4MainWindow::LogSettingsSlot()
    TGo4Log::AutoEnable(dlg.ModeCombo->currentItem());
 }
 
-void TGo4MainWindow::HelpWindow(const char* filename, const char* dir, const char* msg)
+void TGo4MainWindow::HelpWindow(const char* filename, const char* msg)
 {
    QApplication::setOverrideCursor( Qt::WaitCursor );
-   if (msg!=0) StatusMessage(msg);
-   TGo4HelpWindow*  helpw =  new TGo4HelpWindow(filename, fxWorkSpace, dir);
-   fxWorkSpace->addWindow(helpw);
-   helpw->show();
+
+   QString go4sys = getenv("GO4SYS");
+   if (go4sys.length()==0) go4sys = ".";
+   if (go4sys[go4sys.length()-1] != '/') go4sys+='/';
+
+   QProcess info;
+
+   info.start(go4sys + "etc/Go4ShowPdf.ksh", QStringList() << (go4sys + filename));
+   if (info.waitForFinished(10000) && (info.exitCode()==0))
+      StatusMessage(msg ? QString(msg) : QString("Show ") + filename);
+   else
+      StatusMessage(QString("Fail to display") + filename);
+
    QApplication::restoreOverrideCursor();
 }
 
 void  TGo4MainWindow::IntroHelpSlot()
 {
-   HelpWindow("Go4introV4.htm", "", "Loading Go4 Introduction manual...");
+   HelpWindow("docs/Go4Introduction.pdf", "Show Go4 Introduction manual...");
 }
 
 void  TGo4MainWindow::RefHelpSlot()
 {
-   HelpWindow("Go4refV4.htm", "", "Loading Go4 Reference manual...");
+   HelpWindow("docs/Go4Reference.pdf", "Show Go4 Reference manual...");
 }
 
 void TGo4MainWindow::FitHelpSlot()
 {
-   HelpWindow("Go4FitTutorial.htm", "", "Loading Go4 Fit tutorial...");
-}
-
-void TGo4MainWindow::InterfaceHelpSlot()
-{
-   HelpWindow("classTGo4AbstractInterface.html","doxygen/go4abstractinterface");
+   HelpWindow("docs/Go4FitTutorial.pdf", "Show Go4 Fit tutorial...");
 }
 
 void TGo4MainWindow::SaveSettingsSlot()
@@ -2865,20 +2867,16 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_PanelTimer: {
          TGo4ViewPanel* panel = (TGo4ViewPanel*) editor;
-//         int interval = (int) par;
          if (!fbPanelTimerActive) {
            fbPanelTimerActive = true;
            QTimer::singleShot(0, this, SLOT(checkPanelRepaintSlot()));
-           //cout <<"tttttttt service_PanelTimer in MainWindow" << endl;
          }
 
          break;
       }
 
       case QGo4Widget::service_HelpWindow: {
-         QString msg = "Loading help from ";
-         msg+=str;
-         HelpWindow(str, (const char*) par, msg.latin1());
+         HelpWindow(str, (const char*) par);
          break;
       }
 

@@ -309,7 +309,7 @@ go4-package:
 	@tar rhf $(GO4TAR_NAME) $(subst $(GO4SYS),.,$(DISTRFILES))
 	@tar rhf $(GO4TAR_NAME) README.txt CHANGES.txt Go4License.txt
 	@tar rhf $(GO4TAR_NAME) etc/*.ksh etc/*.txt etc/*.C
-#	@tar rhf $(GO4TAR_NAME) ./docs  --exclude=*.svn
+	@tar rhf $(GO4TAR_NAME) docs/*.pdf
 	@tar rhf $(GO4TAR_NAME) macros/*.C 
 	@tar rhf $(GO4TAR_NAME) icons --exclude=*.svn
 	@mkdir -p $(DISTR_DIR); cd $(DISTR_DIR); mkdir -p $(GO4PACK_VERS)
@@ -341,15 +341,14 @@ HWINDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(subst $(GO4SYS),$(WINDISTR_DIR),$
 win-src:
 	@echo "Creating package $(WINTAR_NAME) ..."
 	@tar chf $(WINTAR_NAME) Makefile.rules Makefile.config go4.init
-	@tar rhf $(WINTAR_NAME) ./build/*.sh ./build/Makefile.*
+	@tar rhf $(WINTAR_NAME) build/*.sh build/Makefile.*
 	@tar rhf $(WINTAR_NAME) $(patsubst %,%/Module.mk,$(MODULES))
 	@tar rhf $(WINTAR_NAME) $(subst $(GO4SYS),.,$(WINDISTRFILES))
-	@tar rhf $(WINTAR_NAME) ./CHANGES.txt
-	@tar rhf $(WINTAR_NAME) ./Go4License.txt
-	@tar rhf $(WINTAR_NAME) ./etc/*.ksh ./etc/*.txt ./etc/*.C
-#	@tar rhf $(WINTAR_NAME) ./docs --exclude=*.svn
-	@tar rhf $(WINTAR_NAME) ./macros/*.C
-	@tar rhf $(WINTAR_NAME) ./icons --exclude=*.svn
+	@tar rhf $(WINTAR_NAME) CHANGES.txt Go4License.txt
+	@tar rhf $(WINTAR_NAME) etc/*.ksh etc/*.txt etc/*.C
+	@tar rhf $(WINTAR_NAME) docs/*.pdf
+	@tar rhf $(WINTAR_NAME) macros/*.C
+	@tar rhf $(WINTAR_NAME) icons --exclude=*.svn
 	@mkdir -p $(DISTR_DIR); cd $(DISTR_DIR); mkdir -p $(WINPACK_VERS)
 	@mv $(WINTAR_NAME) $(WINDISTR_DIR)
 	@cd $(WINDISTR_DIR); tar xf $(WINTAR_NAME); rm -f $(WINTAR_NAME)
