@@ -2,10 +2,9 @@
 #define QFITMINUITWIDGET_H
 
 #include "QFitNamedWidget.h"
-#include "ui_QFitMinuitWidget.h"  
+#include "ui_QFitMinuitWidget.h"
 
 class TGo4FitMinuit;
-
 
 class QFitMinuitWidget : public QFitNamedWidget, public Ui::QFitMinuitWidget
  {

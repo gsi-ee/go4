@@ -33,10 +33,10 @@ endif
 
 ##### local rules #####
 
-ifdef GO4_QT4
-$(GO4SYS)/include/%.h: $(FITGUI4_DIR)/%.h
-	@cp -f $< $@
-endif
+#ifdef GO4_QT4
+#$(GO4SYS)/include/%.h: $(FITGUI4_DIR)/%.h
+#	@cp -f $< $@
+#endif
 
 $(FITGUI4_DIR)/ui_%.h: $(FITGUI4_DIR)/%.ui
 	@echo "Producing file $@ ..." 

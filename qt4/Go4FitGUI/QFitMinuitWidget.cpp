@@ -1,13 +1,14 @@
 #include "QFitMinuitWidget.h"
 
 #include "TGo4FitMinuit.h"
+#include "Riostream.h"
 
 QFitMinuitWidget::QFitMinuitWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
-{ 
+{
 			setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
 }
 
@@ -36,6 +37,11 @@ void QFitMinuitWidget::CommandsEdit_textChanged()
    if (minuit==0) return;
 
    minuit->ClearCommands();
-   for(int n=0;n<CommandsEdit->paragraphs();n++)
-     minuit->AddCommand(CommandsEdit->text(n));
+
+   QTextCursor curs(CommandsEdit->document());
+   while (!curs.atEnd()) {
+	  curs.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
+	  minuit->AddCommand(curs.selectedText());
+	  curs.movePosition(QTextCursor::NextWord, QTextCursor::MoveAnchor);
+   }
 }

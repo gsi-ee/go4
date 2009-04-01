@@ -31,8 +31,8 @@
         <bool>false</bool>
       </property>
     </widget>
-    <widget class="Q3TextEdit" name="CommandsEdit" >
-      <property name="geometry" >
+    <widget class="QTextEdit" name="CommandsEdit" >
+      <property name="geometry">
         <rect>
           <x>10</x>
           <y>130</y>

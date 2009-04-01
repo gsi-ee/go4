@@ -17,15 +17,9 @@
     </property>
     <layout class="QGridLayout" >
       <item row="0" column="0" >
-        <widget class="Q3TextEdit" name="PrintText" >
-          <property name="resizePolicy" >
-            <enum>Q3ScrollView::AutoOneFit</enum>
-          </property>
-          <property name="text" >
-            <string/>
-          </property>
-          <property name="wordWrap" >
-            <enum>Q3TextEdit::NoWrap</enum>
+        <widget class="QTextEdit" name="PrintText" >
+          <property name="wordWrapMode" >
+            <enum>QTextOption::NoWrap</enum>
           </property>
         </widget>
       </item>
