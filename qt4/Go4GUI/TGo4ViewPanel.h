@@ -2,7 +2,7 @@
 #define TGO4VIEWPANEL_H
 
 #include "QGo4Widget.h"
-#include "ui_TGo4ViewPanel.h"  
+#include "ui_TGo4ViewPanel.h"
 
 #ifdef __GO4GED__
 #include "TGedEditor.h"
@@ -29,7 +29,7 @@ class TVirtualPadEditor;
 class QMenuBar;
 class Q3PopupMenu;
 class QStatusBar;
-
+class QAction;
 
 
 class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
@@ -37,15 +37,11 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
      Q_OBJECT
 
  public:
-    
+
 	enum Go4ViewPanelMenuesId {
-    ShowMarkEditorId = 201,
-    ShowRootEditorId = 202,
-    EventStatusId    = 301,
     CrosshairId      = 302,
     FreezeTitleId    = 309,
     SetTitleTextId   = 310,
-    SelectObjectId   = 501,
     SuperimposeId    = 1011,
     StatisticsId     = 1006,
     SetTitleId       = 1007,
@@ -86,9 +82,9 @@ enum {kind_None = -1,
 		kind_PadOptions = 1001,
 		kind_ThisPad = 1002,
 		kind_PadSlot = 1003 };
-	 
-	 
-	 
+
+
+
 	 TGo4ViewPanel(QWidget *parent = 0, const char* name=0);
 
 	virtual ~TGo4ViewPanel();
@@ -132,7 +128,7 @@ char * drawopt );
     virtual bool ScanDrawOptions(TPad* pad, TGo4Slot* padslot, TGo4Picture* pic, bool onlyscan);
     virtual void ScanObjectsDrawOptions(bool onlyscan, TGo4Slot* padslot, TObjArray* objs, TObjArray* objslots);
     virtual void CollectMainDrawObjects( TGo4Slot * slot, TObjArray* objs, TObjArray* objslots, int modifier);
-    virtual TObject * ProduceSuperimposeObject( TGo4Picture* padopt, TGo4Slot * sislot, TGo4Slot * legslot, 
+    virtual TObject * ProduceSuperimposeObject( TGo4Picture* padopt, TGo4Slot * sislot, TGo4Slot * legslot,
 						TObjArray * objs, TObjArray * objslots, bool showitems );
     virtual void Divide( int numX, int numY );
     virtual void SetSlotPad(TGo4Slot* padslot, TPad * pad);
@@ -214,11 +210,6 @@ char * drawopt );
     virtual void ShootRepaintTimer(TPad * pad);
     virtual void PadDeleted( TPad * pad );
 
-
-
-
-
-	
  public slots:
 
 	virtual void SetCursorMode( bool on );
@@ -260,7 +251,7 @@ char * drawopt );
     virtual void AboutToShowOptionsMenu();
     virtual void ShowEventStatus();
     virtual void ProcessPadModifiedSignal();
-    virtual void RedrawPanel( TPad * pad, bool force );    
+    virtual void RedrawPanel( TPad * pad, bool force );
     virtual void checkRepaintSlot();
     virtual void OptionsMenuItemActivated(int);
     virtual void SelectMenuItemActivated(int);
@@ -296,7 +287,6 @@ protected:
     TH1* fDummyHisto;
     Q3PopupMenu* fSelectMenu;
     QCheckBox* fAutoScaleCheck;
-    Q3PopupMenu* fEditMenu;
     Q3PopupMenu* fOptionsMenu;
 
  	virtual void CheckActionAtTheEnd( TPad * pad );
@@ -305,9 +295,9 @@ protected:
     virtual void leaveEvent( QEvent * e );
     virtual void closeEvent( QCloseEvent * ce );
     virtual void paintEvent( QPaintEvent * e );
-    virtual void resizeEvent( QResizeEvent * e );    
+    virtual void resizeEvent( QResizeEvent * e );
     virtual void mouseReleaseEvent( QMouseEvent * e );
-    virtual void showEvent ( QShowEvent * event ); 
+    virtual void showEvent ( QShowEvent * event );
     virtual int GetNumMarkers( TPad * pad, int kind );
     virtual void AddMarkerObj( TPad * pad, int kind, TObject * obj );
     virtual void SetActiveObj( TPad * pad, int kind, TGo4Slot * activeslot );

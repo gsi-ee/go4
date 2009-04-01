@@ -403,23 +403,14 @@ void TGo4MainWindow::AddSettingMenu()
 
    QMenu* prefMenu = fSettingMenu->addMenu("&Preferences");
 
-   faFetchWhenDraw = new QAction("Fetch when drawing", this);
-   faFetchWhenDraw->setCheckable(true);
-   faFetchWhenDraw->setChecked(go4sett->getFetchDataWhenDraw());
-   connect(faFetchWhenDraw, SIGNAL(triggered()), this, SLOT(ChangeFetchWhenDrawSlot()));
-   prefMenu->addAction(faFetchWhenDraw);
+   faFetchWhenDraw = AddChkAction(prefMenu, "Fetch when drawing",
+		                go4sett->getFetchDataWhenDraw(), this, SLOT(ChangeFetchWhenDrawSlot()));
 
-   faFetchWhenCopy = new QAction("Fetch when copying", this);
-   faFetchWhenCopy->setCheckable(true);
-   faFetchWhenCopy->setChecked(go4sett->getFetchDataWhenCopy());
-   connect(faFetchWhenCopy, SIGNAL(triggered()), this, SLOT(ChangeFetchWhenCopySlot()));
-   prefMenu->addAction(faFetchWhenCopy);
+   faFetchWhenCopy = AddChkAction(prefMenu, "Fetch when copying",
+		              go4sett->getFetchDataWhenCopy(), this, SLOT(ChangeFetchWhenCopySlot()));
 
-   faFetchWhenSave = new QAction("Fetch when saving", this);
-   faFetchWhenSave->setCheckable(true);
-   faFetchWhenSave->setChecked(go4sett->getFetchDataWhenSave());
-   connect(faFetchWhenSave, SIGNAL(triggered()), this, SLOT(ChangeFetchWhenSaveSlot()));
-   prefMenu->addAction(faFetchWhenSave);
+   faFetchWhenSave = AddChkAction(prefMenu, "Fetch when saving",
+		              go4sett->getFetchDataWhenSave(), this, SLOT(ChangeFetchWhenSaveSlot()));
 
    QMenu* panelMenu = fSettingMenu->addMenu("&Panel defaults");
 
@@ -427,44 +418,27 @@ void TGo4MainWindow::AddSettingMenu()
    panelMenu->addAction("Marker labels...", this, SLOT(MarkerSettingsSlot()));
    panelMenu->addAction("Statistics box...", this, SLOT(OptStatsSlot()));
 
-   faCrosshair = new QAction("Cross(&X)hair mode", this);
-   faCrosshair->setCheckable(true);
-   faCrosshair->setChecked(go4sett->getPadCrosshair());
-   connect(faCrosshair, SIGNAL(triggered()), this, SLOT(CrosshairSlot()));
-   panelMenu->addAction(faCrosshair);
+   faCrosshair = AddChkAction(panelMenu, "Cross(&X)hair mode",
+		         go4sett->getPadCrosshair(), this, SLOT(CrosshairSlot()));
 
-   faEventstatus = new QAction("Show Event Status", this);
-   faEventstatus->setCheckable(true);
-   faEventstatus->setChecked(go4sett->getPadEventStatus());
-   connect(faEventstatus, SIGNAL(triggered()), this, SLOT(EventStatusSlot()));
-   panelMenu->addAction(faEventstatus);
+   faEventstatus = AddChkAction(panelMenu, "Show Event Status",
+		             go4sett->getPadEventStatus(), this, SLOT(EventStatusSlot()));
 
-   faClone = new QAction("Objects cloning", this);
-   faClone->setCheckable(true);
-   faClone->setChecked(go4sett->getCloneFlag());
-   connect(faClone, SIGNAL(triggered()), this, SLOT(ChangeCloneFlagSlot()));
-   panelMenu->addAction(faClone);
+   faClone = AddChkAction(panelMenu, "Objects cloning",
+		      go4sett->getCloneFlag(), this, SLOT(ChangeCloneFlagSlot()));
 
-   faDrawTime = new QAction("Draw time", this);
-   faDrawTime->setCheckable(true);
-   faDrawTime->setChecked(go4sett->getDrawTimeFlag());
+   faDrawTime = AddChkAction(panelMenu, "Draw time",
+		     go4sett->getDrawTimeFlag(), this, SLOT(ChangeDrawTimeFlagSlot()));
    faDrawTime->setEnabled(go4sett->getCloneFlag());
-   connect(faDrawTime, SIGNAL(triggered()), this, SLOT(ChangeDrawTimeFlagSlot()));
-   panelMenu->addAction(faDrawTime);
 
-   faDrawDate = new QAction("Draw date", this);
-   faDrawDate->setCheckable(true);
-   faDrawDate->setChecked(go4sett->getDrawDateFlag());
+   faDrawDate = AddChkAction(panelMenu, "Draw date",
+		           go4sett->getDrawDateFlag(), this, SLOT(ChangeDrawDateFlagSlot()));
    faDrawDate->setEnabled(go4sett->getCloneFlag());
-   connect(faDrawDate, SIGNAL(triggered()), this, SLOT(ChangeDrawDateFlagSlot()));
-   panelMenu->addAction(faDrawDate);
 
-   faDrawItem = new QAction("Draw item name", this);
-   faDrawItem->setCheckable(true);
-   faDrawItem->setChecked(go4sett->getDrawItemFlag());
-   faDrawItem->setEnabled(go4sett->getCloneFlag());
-   connect(faDrawItem, SIGNAL(triggered()), this, SLOT(ChangeDrawItemFlagSlot()));
+   faDrawItem = AddChkAction(panelMenu, "Draw item name",
+		      go4sett->getDrawItemFlag(), this, SLOT(ChangeDrawItemFlagSlot()));
    panelMenu->addAction(faDrawItem);
+   faDrawItem->setEnabled(go4sett->getCloneFlag());
 
    fSettingMenu->addAction("&Log actions...", this, SLOT(LogSettingsSlot()));
 

@@ -16,6 +16,8 @@ class TGo4Slot;
 class TGo4ViewPanel;
 class TGo4BrowserProxy;
 class TGo4AnalysisProxy;
+class QMenu;
+class QAction;
 
 class QDESIGNER_WIDGET_EXPORT  QGo4Widget : public QWidget {
    Q_OBJECT
@@ -174,5 +176,9 @@ class QDESIGNER_WIDGET_EXPORT  QGo4Widget : public QWidget {
 
       TGo4BrowserProxy* fBrowserProxy;
 };
+
+extern QAction* AddChkAction(QMenu* menu,
+		const QString& text, bool checked,
+		QObject* recv, const char* member);
 
 #endif

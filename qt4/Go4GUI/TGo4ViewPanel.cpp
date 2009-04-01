@@ -30,7 +30,6 @@
 
 #include "TGCanvas.h"
 #include "TGTab.h"
-//#include "TGCompositeFrame.h"
 
 #include <QMenuBar>
 #include <QStatusBar>
@@ -67,7 +66,6 @@
 #include "TGo4BrowserProxy.h"
 #include "QGo4RootCanvas.h"
 #include "TGo4QSettings.h"
-
 
 const char* NoStackDrawOption = "nostack, ";
 
@@ -297,7 +295,7 @@ void TGo4ViewPanel::CompleteInitialization()
 {
    TGo4LockGuard lock;
 
-   // create apropriate entry in OM
+   // create appropriate entry in OM
    UpdatePadStatus(GetCanvas(), true);
 
    //    fMenuBar
@@ -305,59 +303,58 @@ void TGo4ViewPanel::CompleteInitialization()
    fMenuBar->setMinimumWidth(50);
    fMenuBar->setFrameShape(QMenuBar::NoFrame);
     //File Menu
-   Q3PopupMenu* FileMenu = new Q3PopupMenu( fMenuBar );
-   fMenuBar->insertItem( "F&ile",FileMenu); // avoid conflict with mainwindow shortcut!
-   FileMenu->insertItem("&Save as...", this, SLOT(SaveCanvas()));
-   FileMenu->insertItem("Print...", this, SLOT(PrintCanvas()));
-   FileMenu->insertItem("Produce &Picture", this, SLOT(ProducePicture()));
-   FileMenu->insertItem("Produce &Graph from markers", this, SLOT(ProduceGraphFromMarkers()));
 
-//   FileMenu->insertItem("Copy to T&Canvas in Memory", this, SLOT(SendToBrowser()));
-//   FileMenu->insertItem("&Load marker setup...", this, SLOT(LoadMarkers()));
-//   FileMenu->insertItem("Save &marker setup...", this, SLOT(SaveMarkers()));
-   FileMenu->insertItem("Cl&ose", this, SLOT(close()));
+
+   QMenu* fileMenu = fMenuBar->addMenu("F&ile");
+   fileMenu->addAction("&Save as...", this, SLOT(SaveCanvas()));
+   fileMenu->addAction("Print...", this, SLOT(PrintCanvas()));
+   fileMenu->addAction("Produce &Picture", this, SLOT(ProducePicture()));
+   fileMenu->addAction("Produce &Graph from markers", this, SLOT(ProduceGraphFromMarkers()));
+
+//   fileMenu->addAction("Copy to T&Canvas in Memory", this, SLOT(SendToBrowser()));
+//   fileMenu->addAction("&Load marker setup...", this, SLOT(LoadMarkers()));
+//   fileMenu->addAction("Save &marker setup...", this, SLOT(SaveMarkers()));
+   fileMenu->addAction("Cl&ose", this, SLOT(close()));
 
     //Edit Menu
-   fEditMenu = new Q3PopupMenu( fMenuBar );
-   fMenuBar->insertItem("&Edit", fEditMenu);
+   QMenu* editMenu = fMenuBar->addMenu("&Edit");
 
-   fEditMenu->insertItem("Show Marker &editor", this, SLOT(SetMarkerPanel()), 0, ShowMarkEditorId);
-   fEditMenu->setItemChecked(ShowMarkEditorId, fbMarkEditorVisible);
-   fEditMenu->insertItem("Show &ROOT Attributes Editor", this, SLOT(StartRootEditor()), 0, ShowRootEditorId);
-   fEditMenu->setItemChecked(ShowRootEditorId, fbEditorFrameVisible);
-   fEditMenu->insertItem("Show &Event Status", this, SLOT(ShowEventStatus()), 0, EventStatusId);
-   fEditMenu->setItemChecked(EventStatusId, fbCanvasEventstatus);
-   fEditMenu->insertItem("Start &condition editor", this, SLOT(StartConditionEditor()));
-   fEditMenu->insertSeparator();
-   fEditMenu->insertItem("&1:1 coordinates ratio", this, SLOT(RectangularRatio()));
-   fEditMenu->insertItem("&Default pad margins", this, SLOT(DefaultPadMargin()));
-   fEditMenu->insertSeparator();
-   fEditMenu->insertItem("Clear &Markers", this, SLOT(ClearAllMarkers()));
-   fEditMenu->insertItem("Clear &Pad", this, SLOT(ClearActivePad()));
-   fEditMenu->insertItem("Clear C&anvas", this, SLOT(ClearCanvas()));
+   AddChkAction(editMenu, "Show Marker &editor", fbMarkEditorVisible, this, SLOT(SetMarkerPanel()));
+   AddChkAction(editMenu, "Show &ROOT Attributes Editor", fbEditorFrameVisible, this, SLOT(StartRootEditor()));
+   AddChkAction(editMenu, "Show &Event Status", fbCanvasEventstatus, this, SLOT(ShowEventStatus()));
+
+   editMenu->addAction("Start &condition editor", this, SLOT(StartConditionEditor()));
+   editMenu->addSeparator();
+   editMenu->addAction("&1:1 coordinates ratio", this, SLOT(RectangularRatio()));
+   editMenu->addAction("&Default pad margins", this, SLOT(DefaultPadMargin()));
+   editMenu->addSeparator();
+   editMenu->addAction("Clear &Markers", this, SLOT(ClearAllMarkers()));
+   editMenu->addAction("Clear &Pad", this, SLOT(ClearActivePad()));
+   editMenu->addAction("Clear C&anvas", this, SLOT(ClearCanvas()));
+
 
    fSelectMenu = new Q3PopupMenu( fMenuBar );
-   fMenuBar->insertItem("&Select", fSelectMenu, SelectObjectId);
+   fMenuBar->insertItem("&Select", fSelectMenu);
    connect(fSelectMenu, SIGNAL(activated(int)), this, SLOT(SelectMenuItemActivated(int)));
 
    fOptionsMenu = new Q3PopupMenu( fMenuBar );
    fMenuBar->insertItem( "&Options",fOptionsMenu);
    connect(fOptionsMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowOptionsMenu()));
+   connect(fOptionsMenu, SIGNAL(activated(int)), this, SLOT(OptionsMenuItemActivated(int)));
 
    fOptionsMenu->insertItem("&Crosshair", CrosshairId);
    fOptionsMenu->insertItem("Super&impose", SuperimposeId);
    fOptionsMenu->insertItem("Histogram &Statistics", StatisticsId);
    fOptionsMenu->insertItem("Multiplot &Legend", SetLegendId);
 
-   fOptionsMenu->insertSeparator();
+   fOptionsMenu->addSeparator();
    fOptionsMenu->insertItem("Histogram &Title", SetTitleId);
    fOptionsMenu->insertItem("Draw Time", DrawTimeId);
    fOptionsMenu->insertItem("Draw Date", DrawDateId);
    fOptionsMenu->insertItem("Draw item name", DrawItemnameId);
-   fOptionsMenu->insertSeparator();
+   fOptionsMenu->addSeparator();
    fOptionsMenu->insertItem("&Keep Viewpanel Title", FreezeTitleId);
    fOptionsMenu->insertItem("Set &Viewpanel Title...", SetTitleTextId);
-   connect(fOptionsMenu, SIGNAL(activated(int)), this, SLOT(OptionsMenuItemActivated(int)));
 
    QCheckBox* box1 = new QCheckBox(MenuFrame, "ApplyToAllCheck");
    box1->setText("Apply to all");
@@ -902,21 +899,16 @@ void TGo4ViewPanel::DelSelectedMarker_clicked()
 
 void TGo4ViewPanel::SetMarkerPanel()
 {
-//    cout <<"using ShowMarkEditorId="<<ShowMarkEditorId << endl;
-//
-//    fbMarkEditorVisible= !fMenuBar->isItemChecked(ShowMarkEditorId);
-//    cout <<"changed fbMarkEditorVisible to "<<fbMarkEditorVisible << endl;
-//
-    fbMarkEditorVisible=!fbMarkEditorVisible;
-    if(!fbMarkEditorVisible) {
+   fbMarkEditorVisible = !fbMarkEditorVisible;
+   if(!fbMarkEditorVisible) {
        // switch back to normal root mouse when editor is hidden
-       CompleteMarkerEdit(GetActivePad());
-       SetMouseMode(kMouseROOT);
-       gROOT->SetEditorMode("");
-       fiPickCounter = 0;
-    }
-    RefreshButtons();
-    ShootRepaintTimer();
+      CompleteMarkerEdit(GetActivePad());
+      SetMouseMode(kMouseROOT);
+      gROOT->SetEditorMode("");
+      fiPickCounter = 0;
+   }
+   RefreshButtons();
+   ShootRepaintTimer();
 }
 
 
@@ -1638,8 +1630,7 @@ void TGo4ViewPanel::PrintCanvas()
 
 void TGo4ViewPanel::StartRootEditor()
 {
-//   TGo4LockGuard lock;
-   fbEditorFrameVisible=!fbEditorFrameVisible;
+   fbEditorFrameVisible = !fbEditorFrameVisible;
    EditorFrame->setShown(fbEditorFrameVisible);
    if(fbEditorFrameVisible && (fxPeditor==0)) {
       //cout <<"TGo4ViewPanel::StartRootEditor() loading GED..." << endl;
@@ -1649,23 +1640,6 @@ void TGo4ViewPanel::StartRootEditor()
       fxRooteditor->SetEditable();      // mainframe will adopt pad editor window
       fxPeditor = TVirtualPadEditor::LoadEditor();
       fxRooteditor->SetEditable(kFALSE); // back to window manager as root window
-/////////// some debug things JAM
-//      TGedEditor* ed = dynamic_cast<TGedEditor*> (fxPeditor);
-//      if(ed)
-//         {
-//         TGCanvas* tgcan=ed->GetTGCanvas();
-//         TGTab* tab=ed->GetTab();
-//         TGCompositeFrame*	curfram=tab->GetCurrentContainer();
-//         TGCompositeFrame*	contfram=tab->GetContainer();
-//         cout <<"TGo4ViewPanel::StartRootEditor() has GED xid:"<<ed->GetId()<<", tgcanvas xid:"<<tgcan->GetId()<<", tab xid:"<<tab->GetId();
-//         if(curfram)
-//            cout <<", current frame xid:"<<curfram->GetId();
-//         if(contfram)
-//            cout <<", container frame xid:"<<contfram->GetId();
-//         cout << endl;
-//         }
-////////////////////////////////////
-
    }
    ActivateInGedEditor(GetSelectedObject(GetActivePad(), 0));
    show();
@@ -2696,10 +2670,9 @@ void TGo4ViewPanel::UpdatePanelCaption()
    if ((selected==TGo4Picture::PictureIndex) && (fulllist.length()>0))
       fulllist = QString("[") + fulllist + QString("]");
 
-   if (nselectitem==0) {
-      fMenuBar->setItemEnabled(SelectObjectId, false);
-   } else {
-      fMenuBar->setItemEnabled(SelectObjectId, true);
+   fSelectMenu->setEnabled(nselectitem > 0);
+
+   if (nselectitem>0) {
       if (selected==TGo4Picture::PictureIndex)
          fSelectMenu->setItemChecked(MasterSelectId, true);
       else

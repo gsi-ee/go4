@@ -1,18 +1,20 @@
 #include "QGo4Widget.h"
 #include <QtCore/qtimer.h>
-//Added by qt3to4:
+#include <QtGui/QAction>
+#include <QtGui/QMenu>
+
 #include <QDragMoveEvent>
 #include <QCloseEvent>
 #include <QDropEvent>
 #include <QDragEnterEvent>
-#include "Riostream.h"
+
 
 QGo4Widget::QGo4Widget(QWidget * parent, const char * name, Qt::WFlags f) :
    QWidget(parent, f),
    fWaitsForObjectCreation(false)
 {
    setObjectName(name);
-	setAcceptDrops(TRUE);
+   setAcceptDrops(TRUE);
    fCanDestroyWidget = true;
    fBrowserProxy = 0;
    fResetWidgetShooted = false;
@@ -380,4 +382,16 @@ void QGo4Widget::CallServiceFunc(int func, const char* str, void* par)
 void QGo4Widget::ServiceCall(const char* name, void* par)
 {
    CallServiceFunc(service_General, name, par);
+}
+
+QAction* AddChkAction(QMenu* menu,
+                      const QString& text, bool checked,
+		              QObject* recv, const char* member)
+{
+   QAction* act = new QAction(text, recv);
+   act->setCheckable(true);
+   act->setChecked(checked);
+   recv->connect (act, SIGNAL(triggered()), recv, member);
+   menu->addAction(act);
+   return act;
 }
