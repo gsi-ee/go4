@@ -45,6 +45,8 @@ ifndef GO4_WITHOUT_QT
 %.$(ObjSuf): %.cpp
 	$(CXX) -c $< $(OPTFLAGS) $(CXXFLAGS) $(QTCXXFLAGS) -o $@ 
 
+ifndef GO4_QT4
+
 $(GO4SYS)/%.h: $(GO4SYS)/%.ui
 	@echo "Generate Go4 Qt header $@ ... "
 	@$(UIC) $< -o $@
@@ -53,6 +55,8 @@ $(GO4SYS)/%.h: $(GO4SYS)/%.ui
 %.h: %.ui
 	@echo "Generate Qt header here $@ ... "
 	@$(UIC) $< -o $@
+
+endif
 
 %.d: %.cpp
 	@echo "Generate dependency $@ ... "

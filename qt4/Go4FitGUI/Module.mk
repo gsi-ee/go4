@@ -19,9 +19,12 @@ FITGUI4_FS          = $(FITGUI4_FORMS:.ui=.cpp)
 FITGUI4_QTS         = $(filter-out $(FITGUI4_NOTLIBF), $(wildcard $(FITGUI4_DIR)/*.cpp))
 FITGUI4_QTH         = $(FITGUI4_QTS:.cpp=.h)
 
+FITGUI4_PUBH        = $(patsubst $(FITGUI4_DIR)/%.h, $(GO4SYS)/include/%.h, $(FITGUI4_QTH))
+
+
 # used in the main Makefile
 
-GO4QT4HEADS         += $(FITGUI4_UI_H)
+GO4QT4HEADS         += $(FITGUI4_UI_H) $(FITGUI4_PUBH)
 
 
 ifdef DOPACKAGE
@@ -33,10 +36,10 @@ endif
 
 ##### local rules #####
 
-#ifdef GO4_QT4
-#$(GO4SYS)/include/%.h: $(FITGUI4_DIR)/%.h
-#	@cp -f $< $@
-#endif
+ifdef GO4_QT4
+$(GO4SYS)/include/%.h: $(FITGUI4_DIR)/%.h
+	@cp -f $< $@
+endif
 
 $(FITGUI4_DIR)/ui_%.h: $(FITGUI4_DIR)/%.ui
 	@echo "Producing file $@ ..." 
