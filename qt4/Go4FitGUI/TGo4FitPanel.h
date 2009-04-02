@@ -342,9 +342,12 @@ public slots:
 protected:
 
     QMenuBar* MenuBar;
-    Q3PopupMenu* FitterMenu;
-    Q3PopupMenu* ViewMenu;
-    Q3PopupMenu* SettMenu;
+    QMenu* FitterMenu;
+    QSignalMapper* FitterMap;
+    QMenu* ViewMenu;
+    QSignalMapper* ViewMap;
+    QMenu* SettMenu;
+    QSignalMapper* SettMap;
     Q3PopupMenu* ItemMenu;
 
     bool fbFillingWidget;

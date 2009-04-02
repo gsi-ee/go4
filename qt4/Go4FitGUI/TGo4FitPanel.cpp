@@ -16,6 +16,8 @@
 #include <QPixmap>
 #include <QMenuBar>
 #include <QFileDialog>
+#include <QtGui/QMenu>
+#include <QtCore/QSignalMapper>
 
 #include "TStyle.h"
 #include "TObject.h"
@@ -365,48 +367,50 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name)
     MenuBar->setFrameShape(QMenuBar::NoFrame);
 
 
-
-    FitterMenu = new Q3PopupMenu( this );
-    MenuBar->insertItem( "&Fitter",FitterMenu);
+    FitterMap = new QSignalMapper(this);
+    connect(FitterMap, SIGNAL(mapped(int)), this, SLOT(FitterMenuItemSelected(int)));
+    FitterMenu = MenuBar->addMenu("&Fitter");
     connect(FitterMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowFitterMenu()) );
 
-    ViewMenu = new Q3PopupMenu( this );
-    MenuBar->insertItem( "&Tools",ViewMenu);
+    ViewMap = new QSignalMapper(this);
+    connect(ViewMap, SIGNAL(mapped(int)), this, SLOT(ChangeViewType(int)));
+    ViewMenu = MenuBar->addMenu("&Tools");
     connect(ViewMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowViewMenu()) );
 
-    SettMenu = new Q3PopupMenu( this );
-    MenuBar->insertItem( "&Settings", SettMenu);
+    SettMap = new QSignalMapper(this);
+    connect(SettMap, SIGNAL(mapped(int)), this, SLOT(ChangeSettings(int)));
+    SettMenu = MenuBar->addMenu("&Settings");
     connect(SettMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowSettMenu()) );
 
-    SettMenu->insertItem("&Confirmation", this, SLOT(ChangeSettings(int)), 0, 1);
-    SettMenu->insertItem("&Show primitives", this, SLOT(ChangeSettings(int)), 0, 2);
-    SettMenu->insertItem("&Freeze mode", this, SLOT(ChangeSettings(int)), 0, 3);
-    SettMenu->insertItem("&Save with objects", this, SLOT(ChangeSettings(int)), 0, 4);
+    AddIdAction(SettMenu, SettMap, "&Confirmation", 1);
+    AddIdAction(SettMenu, SettMap, "&Show primitives", 2);
+    AddIdAction(SettMenu, SettMap, "&Freeze mode", 3);
+    AddIdAction(SettMenu, SettMap, "&Save with objects", 4);
 
-    SettMenu->insertSeparator();
+    SettMenu->addSeparator();
 
-    SettMenu->insertItem("&Use current range", this, SLOT(ChangeSettings(int)), 0, 10);
-    SettMenu->insertItem("&Draw model", this, SLOT(ChangeSettings(int)), 0, 11);
-    SettMenu->insertItem("Draw &background", this, SLOT(ChangeSettings(int)), 0, 14);
-    SettMenu->insertItem("Dra&w components", this, SLOT(ChangeSettings(int)), 0, 12);
-    SettMenu->insertItem("Draw on same &pad", this, SLOT(ChangeSettings(int)), 0, 13);
-    SettMenu->insertItem("Draw &info on pad", this, SLOT(ChangeSettings(int)), 0, 15);
+    AddIdAction(SettMenu, SettMap, "&Use current range", 10);
+    AddIdAction(SettMenu, SettMap, "&Draw model", 11);
+    AddIdAction(SettMenu, SettMap, "Draw &background", 14);
+    AddIdAction(SettMenu, SettMap, "Dra&w components", 12);
+    AddIdAction(SettMenu, SettMap, "Draw on same &pad", 13);
+    AddIdAction(SettMenu, SettMap, "Draw &info on pad", 15);
 
-    SettMenu->insertSeparator();
+    SettMenu->addSeparator();
 
-    SettMenu->insertItem("&No &integral", this, SLOT(ChangeSettings(int)), 0, 17);
-    SettMenu->insertItem("&Counts", this, SLOT(ChangeSettings(int)), 0, 18);
-    SettMenu->insertItem("&Integral", this, SLOT(ChangeSettings(int)), 0, 19);
-    SettMenu->insertItem("&Gauss integral", this, SLOT(ChangeSettings(int)), 0, 20);
+    AddIdAction(SettMenu, SettMap, "&No &integral", 17);
+    AddIdAction(SettMenu, SettMap, "&Counts", 18);
+    AddIdAction(SettMenu, SettMap, "&Integral", 19);
+    AddIdAction(SettMenu, SettMap, "&Gauss integral", 20);
 
-    SettMenu->insertItem("Recalculate gauss &widths", this, SLOT(ChangeSettings(int)), 0, 16);
+    AddIdAction(SettMenu, SettMap, "Recalculate gauss &widths", 16);
 
-    SettMenu->insertSeparator();
+    SettMenu->addSeparator();
 
-    SettMenu->insertItem("&Do not use buffers", this, SLOT(ChangeSettings(int)), 0, 21);
-    SettMenu->insertItem("&Only for data", this, SLOT(ChangeSettings(int)), 0, 22);
-    SettMenu->insertItem("&For data and models", this, SLOT(ChangeSettings(int)), 0, 23);
-    SettMenu->insertItem("&Individual settings", this, SLOT(ChangeSettings(int)), 0, 24);
+    AddIdAction(SettMenu, SettMap, "&Do not use buffers", 21);
+    AddIdAction(SettMenu, SettMap, "&Only for data", 22);
+    AddIdAction(SettMenu, SettMap, "&For data and models", 23);
+    AddIdAction(SettMenu, SettMap, "&Individual settings", 24);
 
     ItemMenu = 0;
 
@@ -1953,11 +1957,10 @@ void TGo4FitPanel::AboutToShowViewMenu()
 {
   ViewMenu->clear();
 
-  ViewMenu->insertItem("&Simple", this, SLOT(ChangeViewType(int)), 0, FitGui::pm_Simple);
-  ViewMenu->insertItem("&Wizard", this, SLOT(ChangeViewType(int)), 0, FitGui::pm_Wizard);
-  ViewMenu->insertItem("&Expert", this, SLOT(ChangeViewType(int)), 0, FitGui::pm_Expert);
-
-  ViewMenu->setItemChecked(fiPanelMode, TRUE);
+  AddIdAction(ViewMenu, ViewMap, "&Simple", FitGui::pm_Simple);
+  AddIdAction(ViewMenu, ViewMap, "&Wizard", FitGui::pm_Wizard);
+  AddIdAction(ViewMenu, ViewMap, "&Expert", FitGui::pm_Expert);
+  SetIdAction(ViewMap, fiPanelMode, true, true);
 }
 
 
@@ -2056,29 +2059,28 @@ void TGo4FitPanel::UpdateItemMenu()
 
 void TGo4FitPanel::AboutToShowSettMenu()
 {
-  SettMenu->setItemChecked(1, fbNeedConfirmation);
-  SettMenu->setItemChecked(2, fbShowPrimitives);
-  SettMenu->setItemChecked(3, fbFreezeMode);
-  SettMenu->setItemChecked(4, fbSaveWithReferences);
-  SettMenu->setItemVisible(4, (fiPanelMode==FitGui::pm_Expert) || (fiPanelMode==FitGui::pm_Wizard));
+  SetIdAction(SettMap, 1, true, fbNeedConfirmation);
+  SetIdAction(SettMap, 2, true, fbShowPrimitives);
+  SetIdAction(SettMap, 3, true, fbFreezeMode);
+  SetIdAction(SettMap, 4, (fiPanelMode==FitGui::pm_Expert) || (fiPanelMode==FitGui::pm_Wizard), fbSaveWithReferences);
 
-  SettMenu->setItemChecked(10,fbUseCurrentRange);
-  SettMenu->setItemChecked(11,fbDrawModels);
-  SettMenu->setItemChecked(12,fbDrawComponents);
-  SettMenu->setItemChecked(13,fbUseSamePanelForDraw);
-  SettMenu->setItemChecked(14,fbDrawBackground);
-  SettMenu->setItemChecked(15,fbDrawInfoOnPad);
-  SettMenu->setItemChecked(16,fbRecalculateGaussWidth);
+  SetIdAction(SettMap, 10, true, fbUseCurrentRange);
+  SetIdAction(SettMap, 11, true, fbDrawModels);
+  SetIdAction(SettMap, 12, true, fbDrawComponents);
+  SetIdAction(SettMap, 13, true, fbUseSamePanelForDraw);
+  SetIdAction(SettMap, 14, true, fbDrawBackground);
+  SetIdAction(SettMap, 15, true, fbDrawInfoOnPad);
+  SetIdAction(SettMap, 16, true, fbRecalculateGaussWidth);
 
-  SettMenu->setItemChecked(17,fiIntegralMode==0);
-  SettMenu->setItemChecked(18,fiIntegralMode==1);
-  SettMenu->setItemChecked(19,fiIntegralMode==2);
-  SettMenu->setItemChecked(20,fiIntegralMode==3);
+  SetIdAction(SettMap, 17, true, fiIntegralMode==0);
+  SetIdAction(SettMap, 18, true, fiIntegralMode==1);
+  SetIdAction(SettMap, 19, true, fiIntegralMode==2);
+  SetIdAction(SettMap, 20, true, fiIntegralMode==3);
 
-  SettMenu->setItemChecked(21,fiBuffersUsage==0);
-  SettMenu->setItemChecked(22,fiBuffersUsage==1);
-  SettMenu->setItemChecked(23,fiBuffersUsage==2);
-  SettMenu->setItemChecked(24,fiBuffersUsage==3);
+  SetIdAction(SettMap, 21, true, fiBuffersUsage==0);
+  SetIdAction(SettMap, 22, true, fiBuffersUsage==1);
+  SetIdAction(SettMap, 23, true, fiBuffersUsage==2);
+  SetIdAction(SettMap, 24, true, fiBuffersUsage==3);
 }
 
 void TGo4FitPanel::ChangeSettings(int id)
@@ -2134,39 +2136,21 @@ void TGo4FitPanel::AboutToShowFitterMenu()
    if (panel!=0) padname = QString("panel \"") + panel->caption() + "\"";
 
    if (fiPanelMode==FitGui::pm_Expert)
-     FitterMenu->insertItem("&Create for workspace", this, SLOT(FitterMenuItemSelected(int)), 0, 1);
-   FitterMenu->insertItem("Create &for "+padname, this, SLOT(FitterMenuItemSelected(int)), 0, 2);
-   FitterMenu->insertItem("&Delete", this, SLOT(FitterMenuItemSelected(int)), 0, 3);
-   FitterMenu->insertSeparator();
+     AddIdAction(FitterMenu, FitterMap, "&Create for workspace", 1, true);
+   AddIdAction(FitterMenu, FitterMap, QString("Create &for ")+padname, 2, (panel!=0));
+   AddIdAction(FitterMenu, FitterMap, "&Delete", 3, (fitter!=0));
+   FitterMenu->addSeparator();
 
-   FitterMenu->insertItem("Save to &browser", this, SLOT(FitterMenuItemSelected(int)), 0, 21);
+   AddIdAction(FitterMenu, FitterMap, "Save to &browser", 21, (fitter!=0));
    if (fiPanelMode==FitGui::pm_Expert)
-      FitterMenu->insertItem("&Workspace", this, SLOT(FitterMenuItemSelected(int)), 0, 23);
-   FitterMenu->insertItem("&Update references", this, SLOT(FitterMenuItemSelected(int)), 0, 24);
-   FitterMenu->insertItem("&Print parameters", this, SLOT(FitterMenuItemSelected(int)), 0, 25);
-   FitterMenu->insertItem("&Rollback parameters", this, SLOT(FitterMenuItemSelected(int)), 0, 26);
+	   AddIdAction(FitterMenu, FitterMap, "&Workspace", 23, WorkingWithPanel());
+   AddIdAction(FitterMenu, FitterMap, "&Update references", 24, (fitter!=0));
+   AddIdAction(FitterMenu, FitterMap, "&Print parameters", 25, (fitter!=0) && fbParsWidgetShown);
+   AddIdAction(FitterMenu, FitterMap, "&Rollback parameters", 26, (fitter!=0) && fitter->CanRollbackPars());
 
-   FitterMenu->insertSeparator();
+   FitterMenu->addSeparator();
 
-   FitterMenu->insertItem("&Close", this, SLOT(FitterMenuItemSelected(int)), 0, 99);
-
-   FitterMenu->setItemEnabled(1, TRUE);
-   FitterMenu->setItemEnabled(2, (panel!=0));
-   FitterMenu->setItemEnabled(3, (fitter!=0));
-
-   FitterMenu->setItemEnabled(11, (fitter!=0) && (panel!=0) && !samepad);
-   FitterMenu->setItemEnabled(12, (fitter!=0) && (panel!=0) && !samepad);
-   FitterMenu->setItemEnabled(13, (fitter!=0) && WorkingWithPanel());
-   FitterMenu->setItemEnabled(14, (fitter!=0) && WorkingWithPanel());
-
-   FitterMenu->setItemEnabled(21, (fitter!=0));
-   FitterMenu->setItemEnabled(22, (fitter!=0));
-   FitterMenu->setItemEnabled(23, WorkingWithPanel());
-   FitterMenu->setItemEnabled(24, (fitter!=0));
-   FitterMenu->setItemEnabled(25, (fitter!=0) && fbParsWidgetShown);
-   FitterMenu->setItemEnabled(26, (fitter!=0) && fitter->CanRollbackPars());
-
-   FitterMenu->setItemEnabled(99, TRUE);
+   AddIdAction(FitterMenu, FitterMap, "&Close", 99, true);
 }
 
 void TGo4FitPanel::FitterMenuItemSelected(int id)
@@ -2190,7 +2174,7 @@ void TGo4FitPanel::AboutToShowItemMenu()
   QFitItem* item = dynamic_cast<QFitItem*> (FitList->currentItem());
   if (item==0) return;
   ItemMenu->clear();
-  if (!FillPopupForItem(item,ItemMenu)) return;
+  if (!FillPopupForItem(item, ItemMenu)) return;
   for(uint n=0;n<ItemMenu->count();n++) {
      int id = ItemMenu->idAt(n);
      ItemMenu->connectItem(id, this, SLOT(ItemMenuItemSelected(int)));
