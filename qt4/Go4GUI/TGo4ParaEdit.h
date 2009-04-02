@@ -2,9 +2,8 @@
 #define TGO4PARAEDIT_H
 
 #include "QGo4Widget.h"
-#include "ui_TGo4ParaEdit.h"  
+#include "ui_TGo4ParaEdit.h"
 
-class Q3PopupMenu;
 class QMenuBar;
 class TGo4Fitter;
 class TGo4FitPanel;

@@ -34,11 +34,12 @@
 #include <QMenuBar>
 #include <QStatusBar>
 #include <QFileDialog>
-#include <Q3PopupMenu>
 #include <QTimer>
 #include <QInputDialog>
 #include <QToolTip>
 #include <QTime>
+#include <QtGui/QMenu>
+#include <QtCore/QSignalMapper>
 
 #include "TGo4Picture.h"
 #include "TGo4Fitter.h"
@@ -109,6 +110,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
    fxGo4QRootCanvas->getCanvas()->SetName(GetPanelName());
 
    fSelectMenu = 0;
+   fSelectMap = 0;
    fxPeditor = 0;
    fDummyHisto = 0;
 
@@ -159,8 +161,6 @@ TGo4ViewPanel::~TGo4ViewPanel()
       if (IsPanelPad((TPad*)gROOT->GetSelectedPad()))
          gROOT->SetSelectedPad(0);
 }
-
-
 
 
 const char*  TGo4ViewPanel::GetPanelName()
@@ -332,29 +332,28 @@ void TGo4ViewPanel::CompleteInitialization()
    editMenu->addAction("Clear &Pad", this, SLOT(ClearActivePad()));
    editMenu->addAction("Clear C&anvas", this, SLOT(ClearCanvas()));
 
+   fSelectMap = new QSignalMapper(this);
+   connect(fSelectMap, SIGNAL(mapped(int)), this, SLOT(SelectMenuItemActivated(int)));
+   fSelectMenu = fMenuBar->addMenu("&Select");
 
-   fSelectMenu = new Q3PopupMenu( fMenuBar );
-   fMenuBar->insertItem("&Select", fSelectMenu);
-   connect(fSelectMenu, SIGNAL(activated(int)), this, SLOT(SelectMenuItemActivated(int)));
-
-   fOptionsMenu = new Q3PopupMenu( fMenuBar );
-   fMenuBar->insertItem( "&Options",fOptionsMenu);
+   fOptionsMap = new QSignalMapper(this);
+   fOptionsMenu = fMenuBar->addMenu("&Options");
    connect(fOptionsMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowOptionsMenu()));
-   connect(fOptionsMenu, SIGNAL(activated(int)), this, SLOT(OptionsMenuItemActivated(int)));
+   connect(fOptionsMap, SIGNAL(mapped(int)), this, SLOT(OptionsMenuItemActivated(int)));
 
-   fOptionsMenu->insertItem("&Crosshair", CrosshairId);
-   fOptionsMenu->insertItem("Super&impose", SuperimposeId);
-   fOptionsMenu->insertItem("Histogram &Statistics", StatisticsId);
-   fOptionsMenu->insertItem("Multiplot &Legend", SetLegendId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "&Crosshair", CrosshairId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Super&impose", SuperimposeId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Histogram &Statistics", StatisticsId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Multiplot &Legend", SetLegendId);
 
    fOptionsMenu->addSeparator();
-   fOptionsMenu->insertItem("Histogram &Title", SetTitleId);
-   fOptionsMenu->insertItem("Draw Time", DrawTimeId);
-   fOptionsMenu->insertItem("Draw Date", DrawDateId);
-   fOptionsMenu->insertItem("Draw item name", DrawItemnameId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Histogram &Title", SetTitleId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Draw Time", DrawTimeId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Draw Date", DrawDateId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Draw item name", DrawItemnameId);
    fOptionsMenu->addSeparator();
-   fOptionsMenu->insertItem("&Keep Viewpanel Title", FreezeTitleId);
-   fOptionsMenu->insertItem("Set &Viewpanel Title...", SetTitleTextId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "&Keep Viewpanel Title", FreezeTitleId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Set &Viewpanel Title...", SetTitleTextId);
 
    QCheckBox* box1 = new QCheckBox(MenuFrame, "ApplyToAllCheck");
    box1->setText("Apply to all");
@@ -1735,20 +1734,15 @@ void TGo4ViewPanel::AboutToShowOptionsMenu()
 
    TGo4Picture *padopt = GetPadOptions(pad);
 
-   fOptionsMenu->setItemChecked(StatisticsId, padopt->IsHisStats());
-   fOptionsMenu->setItemChecked(SuperimposeId, padopt->IsSuperimpose());
-   fOptionsMenu->setItemChecked(SetTitleId, padopt->IsHisTitle());
-   fOptionsMenu->setItemChecked(DrawTimeId, padopt->IsTitleTime());
-   fOptionsMenu->setItemEnabled(DrawTimeId, padopt->IsHisTitle() && fbCloneFlag);
-   fOptionsMenu->setItemChecked(DrawDateId, padopt->IsTitleDate());
-   fOptionsMenu->setItemEnabled(DrawDateId, padopt->IsHisTitle() && fbCloneFlag);
-   fOptionsMenu->setItemChecked(DrawItemnameId, padopt->IsTitleItem());
-   fOptionsMenu->setItemEnabled(DrawItemnameId, padopt->IsHisTitle() && fbCloneFlag);
-
-   fOptionsMenu->setItemChecked(FreezeTitleId, fbFreezeTitle);
-
-   fOptionsMenu->setItemChecked(CrosshairId, fbCanvasCrosshair);
-   fOptionsMenu->setItemChecked(SetLegendId, padopt->IsLegendDraw());
+   SetIdAction(fOptionsMap, StatisticsId, true, padopt->IsHisStats());
+   SetIdAction(fOptionsMap, SuperimposeId, true, padopt->IsSuperimpose());
+   SetIdAction(fOptionsMap, SetTitleId, true, padopt->IsHisTitle());
+   SetIdAction(fOptionsMap, DrawTimeId, padopt->IsHisTitle() && fbCloneFlag, padopt->IsTitleTime());
+   SetIdAction(fOptionsMap, DrawDateId, padopt->IsHisTitle() && fbCloneFlag, padopt->IsTitleDate());
+   SetIdAction(fOptionsMap, DrawItemnameId, padopt->IsHisTitle() && fbCloneFlag, padopt->IsTitleItem());
+   SetIdAction(fOptionsMap, FreezeTitleId, true, fbFreezeTitle);
+   SetIdAction(fOptionsMap, CrosshairId, true, fbCanvasCrosshair);
+   SetIdAction(fOptionsMap, SetLegendId, true, padopt->IsLegendDraw());
 }
 
 void TGo4ViewPanel::SelectMenuItemActivated(int id)
@@ -2637,8 +2631,8 @@ void TGo4ViewPanel::UpdatePanelCaption()
    }
 
    if (sislot!=0) {
-      fSelectMenu->insertItem("Master object", MasterSelectId);
-      fSelectMenu->insertSeparator();
+      AddIdAction(fSelectMenu, fSelectMap, "Master object", MasterSelectId);
+      fSelectMenu->addSeparator();
       nselectitem++;
    }
 
@@ -2649,7 +2643,7 @@ void TGo4ViewPanel::UpdatePanelCaption()
 
    for(int n=0;n<=objslots.GetLast();n++) {
       TGo4Slot* subslot = (TGo4Slot*) objslots.At(n);
-      fSelectMenu->insertItem(objs.At(n)->GetName(), FirstSelectId+n);
+      AddIdAction(fSelectMenu, fSelectMap, objs.At(n)->GetName(), FirstSelectId+n);
       nselectitem++;
 
       QString subslotname = subslot->GetName();
@@ -2663,8 +2657,8 @@ void TGo4ViewPanel::UpdatePanelCaption()
 
    if ((selected!=TGo4Picture::PictureIndex) &&
        (objslots.GetLast()>0) && (selected<objslots.GetLast())) {
-           fSelectMenu->insertSeparator();
-           fSelectMenu->insertItem(QString("Show ") + selslotname + QString(" on top"), BringToFrontId);
+           fSelectMenu->addSeparator();
+           AddIdAction(fSelectMenu, fSelectMap, QString("Show ") + selslotname + QString(" on top"), BringToFrontId);
        }
 
    if ((selected==TGo4Picture::PictureIndex) && (fulllist.length()>0))
@@ -2674,9 +2668,9 @@ void TGo4ViewPanel::UpdatePanelCaption()
 
    if (nselectitem>0) {
       if (selected==TGo4Picture::PictureIndex)
-         fSelectMenu->setItemChecked(MasterSelectId, true);
+         SetIdAction(fSelectMap, MasterSelectId, true, true);
       else
-         fSelectMenu->setItemChecked(FirstSelectId+selected, true);
+    	 SetIdAction(fSelectMap, FirstSelectId+selected, true, true);
    }
 
    if (fulllist.length()>0) {
@@ -4706,7 +4700,6 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
 
    switch (id) {
       case CrosshairId: {
-         //fbCanvasCrosshair = !fOptionsMenu->isItemChecked(CrosshairId);
          fbCanvasCrosshair=!fbCanvasCrosshair;
          GetCanvas()->SetCrosshair(fbCanvasCrosshair);
 
@@ -4730,7 +4723,6 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
       }
 
       case FreezeTitleId: {
-         //fbFreezeTitle = !fOptionsMenu->isItemChecked(FreezeTitleId);
          fbFreezeTitle=!fbFreezeTitle;
          break;
       }
@@ -4754,8 +4746,8 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
 
       default:
         if (id>1000) {
-           //bool s = !fOptionsMenu->isItemChecked(id);
-           bool s = fOptionsMenu->isItemChecked(id);
+           QAction* act = SetIdAction(fOptionsMap, id);
+           bool s = act ? act->isChecked() : false;
            ChangeDrawOption(id-1000, s, 0);
         }
    }

@@ -40,7 +40,6 @@
 #include "qstyle.h"
 #include <QDateTime>
 
-#include <Qt3Support/q3popupmenu.h>
 #include <Qt3Support/q3toolbar.h>
 #include <Qt3Support/q3dockarea.h>
 #include <Qt3Support/Q3DockWindow>
@@ -391,17 +390,18 @@ void TGo4MainWindow::aboutROOT()
 
 void TGo4MainWindow::AddSettingMenu()
 {
-   fSettingMenu = new Q3PopupMenu( this );
-   menuBar()->insertItem( "&Settings", fSettingMenu);
+   QMenu* settMenu = menuBar()->addMenu("&Settings");
 
    // TODO: should be replaced be createPopupMenu
-   fSettingMenu->insertItem("Sh&ow/hide", createDockWindowMenu());
+   QMenu* sub = (QMenu*) createDockWindowMenu();
+   sub->setTitle("Sh&ow/hide");
+   settMenu->addMenu(sub);
 
-   fSettingMenu->addAction("&Fonts...", this, SLOT(ChangeFontSlot()));
+   settMenu->addAction("&Fonts...", this, SLOT(ChangeFontSlot()));
 
-   QMenu *style = fSettingMenu->addMenu("St&yle");
+   QMenu *style = settMenu->addMenu("St&yle");
 
-   QMenu* prefMenu = fSettingMenu->addMenu("&Preferences");
+   QMenu* prefMenu = settMenu->addMenu("&Preferences");
 
    faFetchWhenDraw = AddChkAction(prefMenu, "Fetch when drawing",
 		                go4sett->getFetchDataWhenDraw(), this, SLOT(ChangeFetchWhenDrawSlot()));
@@ -412,7 +412,7 @@ void TGo4MainWindow::AddSettingMenu()
    faFetchWhenSave = AddChkAction(prefMenu, "Fetch when saving",
 		              go4sett->getFetchDataWhenSave(), this, SLOT(ChangeFetchWhenSaveSlot()));
 
-   QMenu* panelMenu = fSettingMenu->addMenu("&Panel defaults");
+   QMenu* panelMenu = settMenu->addMenu("&Panel defaults");
 
    panelMenu->addAction("&Canvas color...", this, SLOT(CanvasColorSlot()));
    panelMenu->addAction("Marker labels...", this, SLOT(MarkerSettingsSlot()));
@@ -440,14 +440,14 @@ void TGo4MainWindow::AddSettingMenu()
    panelMenu->addAction(faDrawItem);
    faDrawItem->setEnabled(go4sett->getCloneFlag());
 
-   fSettingMenu->addAction("&Log actions...", this, SLOT(LogSettingsSlot()));
+   settMenu->addAction("&Log actions...", this, SLOT(LogSettingsSlot()));
 
-   fSettingMenu->addAction("Generate &hotstart", this, SLOT(CreateGUIScriptSlot()));
-   fSettingMenu->addAction("&Break hotstart execution", this, SLOT(StopGUIScriptSlot()));
+   settMenu->addAction("Generate &hotstart", this, SLOT(CreateGUIScriptSlot()));
+   settMenu->addAction("&Break hotstart execution", this, SLOT(StopGUIScriptSlot()));
 
-   fSettingMenu->addAction("&Terminal history", this, SLOT(InputTerminalParametersSlot()));
+   settMenu->addAction("&Terminal history", this, SLOT(InputTerminalParametersSlot()));
 
-   fSettingMenu->addAction("&Save Settings", this, SLOT(SaveSettingsSlot()));
+   settMenu->addAction("&Save Settings", this, SLOT(SaveSettingsSlot()));
 
    QActionGroup *ag = new QActionGroup(this);
    ag->setExclusive( TRUE );

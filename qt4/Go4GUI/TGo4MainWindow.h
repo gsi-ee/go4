@@ -4,7 +4,6 @@
 #include <Qt3Support/q3mainwindow.h>
 
 #include <QtGui/QCloseEvent>
-#include <Qt3Support/Q3PopupMenu>
 
 class QApplication;
 
@@ -21,7 +20,6 @@ class TGo4AnalysisWindow;
 class TGo4AnalysisStatusMonitor;
 class TGo4SetScaleValues;
 
-class Q3PopupMenu;
 class TGo4WorkSpace;
 class TGo4ViewPanel;
 class TPad;
@@ -33,6 +31,7 @@ class TGo4WidgetProxy;
 
 class QAction;
 class QSignalMapper;
+class QMenu;
 
  /** This is the Go4 Main Window
    * @author Mohammad Al-Turany, modifications J.Adamczewski, S.Linev
@@ -178,7 +177,6 @@ class TGo4MainWindow : public Q3MainWindow {
 
       QMenu*             windowsMenu;
       QSignalMapper*     winMapper;
-      Q3PopupMenu*     	 fSettingMenu;
       TGo4WorkSpace*     fxWorkSpace;
       bool               fbServerMode;
 

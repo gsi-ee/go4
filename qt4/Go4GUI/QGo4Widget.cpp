@@ -2,6 +2,7 @@
 #include <QtCore/qtimer.h>
 #include <QtGui/QAction>
 #include <QtGui/QMenu>
+#include <QtCore/QSignalMapper>
 
 #include <QDragMoveEvent>
 #include <QCloseEvent>
@@ -388,10 +389,55 @@ QAction* AddChkAction(QMenu* menu,
                       const QString& text, bool checked,
 		              QObject* recv, const char* member)
 {
-   QAction* act = new QAction(text, recv);
+   QAction* act = new QAction(text, menu);
    act->setCheckable(true);
    act->setChecked(checked);
    recv->connect (act, SIGNAL(triggered()), recv, member);
    menu->addAction(act);
+   return act;
+}
+
+QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
+                	const QString& text, int id, int enabled, int checked)
+{
+   QAction* act = new QAction(text, menu);
+   if (checked!=-1) {
+      act->setCheckable(true);
+      act->setChecked(checked > 0);
+   }
+   if (enabled!=-1)
+      act->setEnabled(enabled > 0);
+   map->connect (act, SIGNAL(triggered()), map, SLOT(map()));
+   menu->addAction(act);
+   map->setMapping(act, id);
+   return act;
+}
+
+QAction* SetIdAction(QSignalMapper* map, int id, int enabled, int checked)
+{
+   QAction* act = (QAction*) map->mapping(id);
+   if (act==0) return 0;
+   if (checked!=-1) {
+      act->setCheckable(true);
+      act->setChecked(checked > 0);
+   }
+   if (enabled!=-1)
+      act->setEnabled(enabled > 0);
+   return act;
+}
+
+QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
+		const QPixmap& icon, const QString& text, int id, int enabled, int checked)
+{
+   QAction* act = new QAction(icon, text, menu);
+   if (checked!=-1) {
+	  act->setCheckable(true);
+	  act->setChecked(checked > 0);
+   }
+   if (enabled!=-1)
+	  act->setEnabled(enabled > 0);
+   map->connect (act, SIGNAL(triggered()), map, SLOT(map()));
+   menu->addAction(act);
+   map->setMapping(act, id);
    return act;
 }

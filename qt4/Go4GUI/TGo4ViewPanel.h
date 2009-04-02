@@ -27,7 +27,6 @@ class TGo4Picture;
 class TObjArray;
 class TVirtualPadEditor;
 class QMenuBar;
-class Q3PopupMenu;
 class QStatusBar;
 class QAction;
 
@@ -285,9 +284,11 @@ protected:
     bool fbModifiedSignalFlag;
     bool fbLeaveFocusAfterCondEnd;
     TH1* fDummyHisto;
-    Q3PopupMenu* fSelectMenu;
+    QMenu* fSelectMenu;
+    QSignalMapper* fSelectMap;
     QCheckBox* fAutoScaleCheck;
-    Q3PopupMenu* fOptionsMenu;
+    QSignalMapper* fOptionsMap;
+    QMenu* fOptionsMenu;
 
  	virtual void CheckActionAtTheEnd( TPad * pad );
     virtual bool CompleteMarkerEdit( TPad * pad );

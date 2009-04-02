@@ -2,7 +2,7 @@
 #define TGO4FITPANEL_H
 
 #include "QGo4Widget.h"
-#include "ui_TGo4FitPanel.h"  
+#include "ui_TGo4FitPanel.h"
 #include "TArrow.h"
 
 
@@ -98,14 +98,6 @@ private:
    QFitItem* fxItem;                //!
    TGo4FitPanel* fxPanel;           //!
 };
-
-
-
-
-
-
-
-
 
 
 
@@ -329,8 +321,8 @@ public slots:
     virtual void FillParsWidget();
     virtual void LineParsChk_toggled( bool );
     virtual void ParsTable_valueChanged( int nrow, int ncol );
-    virtual void ParsTableChanged( Q3Table * table, int nrow, int ncol, 
-                                    bool LinesView, TObjArray * TableList, 
+    virtual void ParsTableChanged( Q3Table * table, int nrow, int ncol,
+                                    bool LinesView, TObjArray * TableList,
                                     bool updatepaint );
     virtual void Smp_PolynomBtn_clicked();
     virtual void Smp_GaussianBtn_clicked();
@@ -348,7 +340,7 @@ public slots:
 
 
 protected:
-    
+
     QMenuBar* MenuBar;
     Q3PopupMenu* FitterMenu;
     Q3PopupMenu* ViewMenu;
@@ -386,11 +378,11 @@ protected:
     int fiWizPageIndex;
     bool fbUseAmplEstim;
     int fiNumMigradIter;
-    
+
     virtual void focusInEvent( QFocusEvent * event );
     virtual void windowActivationChange( bool OldActive );
 
-    
+
 
 };
 

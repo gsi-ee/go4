@@ -8,6 +8,8 @@
 #include <QtGui/QCloseEvent>
 #include <QtGui/QDropEvent>
 #include <QtGui/QDragEnterEvent>
+#include <QtGui/QPixmap>
+
 
 class TObject;
 class TClass;
@@ -18,6 +20,7 @@ class TGo4BrowserProxy;
 class TGo4AnalysisProxy;
 class QMenu;
 class QAction;
+class QSignalMapper;
 
 class QDESIGNER_WIDGET_EXPORT  QGo4Widget : public QWidget {
    Q_OBJECT
@@ -180,5 +183,14 @@ class QDESIGNER_WIDGET_EXPORT  QGo4Widget : public QWidget {
 extern QAction* AddChkAction(QMenu* menu,
 		const QString& text, bool checked,
 		QObject* recv, const char* member);
+
+extern QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
+		const QString& text, int id, int enabled = -1, int checked = -1);
+
+extern QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
+		const QPixmap& icon, const QString& text, int id, int enabled = -1, int checked = -1);
+
+QAction* SetIdAction(QSignalMapper* map, int id, int enabled = -1, int checked = -1);
+
 
 #endif

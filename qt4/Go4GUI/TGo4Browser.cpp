@@ -1,13 +1,14 @@
 #include "TGo4Browser.h"
 
 #include <Q3ListView>
-#include <Q3PopupMenu>
 #include <Q3DragObject>
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QTimer>
 #include <QApplication>
 #include <QToolTip>
+#include <QMenu>
+#include <QSignalMapper>
 
 #include "Riostream.h"
 #include "TClass.h"
@@ -498,15 +499,16 @@ void TGo4Browser::ListView_doubleClicked(Q3ListViewItem* item)
 
 void TGo4Browser::ListView_contextMenuRequested(Q3ListViewItem* item, const QPoint& pos, int col)
 {
-   if (col!=0) {
-      Q3PopupMenu contextMenu;
-      for(int indx=1;indx<NColumns;indx++) {
-         contextMenu.insertItem(ColumnNames[indx], indx);
-         contextMenu.setItemChecked(indx, fVisibleColumns[indx]);
-      }
-      connect(&contextMenu, SIGNAL(activated(int)), this, SLOT(ColumnToggled(int)));
+    QMenu menu;
+    QSignalMapper map;
 
-      contextMenu.exec(pos);
+	if (col!=0) {
+      for(int indx=1;indx<NColumns;indx++)
+    	 AddIdAction(&menu, &map,
+    			     ColumnNames[indx], indx, true, fVisibleColumns[indx]);
+      connect(&map, SIGNAL(mapped(int)), this, SLOT(ColumnToggled(int)));
+
+      menu.exec(pos);
       return;
    }
 
@@ -626,49 +628,36 @@ void TGo4Browser::ListView_contextMenuRequested(Q3ListViewItem* item, const QPoi
          if (br->IsItemMonitored(itemslot)) nmonitor++;
       }
 
-   Q3PopupMenu contextMenu;
-   contextMenu.insertItem(QPixmap(":/icons/chart.png"),
-                          "Plot",  0, 0, 0, 11);
-   contextMenu.setItemEnabled(11, (ndraw>0));
+   AddIdAction(&menu, &map, QPixmap(":/icons/chart.png"),
+                 "Plot",  11, (ndraw>0));
 
-   contextMenu.insertItem(QPixmap(":/icons/superimpose.png"),
-                          "Superimpose",  0, 0, 0, 12);
-   contextMenu.setItemEnabled(12, (ndraw>1) && (nsuperimpose==ndraw));
+   AddIdAction(&menu, &map, QPixmap(":/icons/superimpose.png"),
+                 "Superimpose",  12, (ndraw>1) && (nsuperimpose==ndraw));
 
-   contextMenu.insertItem(QPixmap(":/icons/right.png"),
-                          "Fetch item(s)",  0, 0, 0, 18);
-   contextMenu.setItemEnabled(18, (nfolders>0) || (nobjects>0));
+   AddIdAction(&menu, &map, QPixmap(":/icons/right.png"),
+                  "Fetch item(s)",  18, (nfolders>0) || (nobjects>0));
 
-   contextMenu.insertItem(QPixmap(":/icons/saveall.png"),
-                          "Save selected...",  0, 0, 0, 13);
-   contextMenu.setItemEnabled(13, (nobjects>0) || ((nfolders==1) && (nitems==1)));
+   AddIdAction(&menu, &map, QPixmap(":/icons/saveall.png"),
+                   "Save selected...",  13, (nobjects>0) || ((nfolders==1) && (nitems==1)));
 
    // organize export submenu
    if (nexport>0) {
 
-      Q3PopupMenu* expmenu = new Q3PopupMenu(&contextMenu, "Export menu");
+      QMenu* expmenu = menu.addMenu(QPixmap(":/icons/export.png"), "Export to");
 
-      expmenu->insertItem("ASCII", 0, 0, 0, 141);
-      expmenu->insertItem("Radware", 0, 0, 0, 142);
-
-      contextMenu.insertItem(QPixmap(":/icons/export.png"),
-                             "Export to", expmenu);
-
-      connect(expmenu, SIGNAL(activated(int)), this, SLOT(ContextMenuActivated(int)));
+      AddIdAction(expmenu, &map, "ASCII", 141);
+      AddIdAction(expmenu, &map, "Radware", 142);
 
    } else {
-      contextMenu.insertItem(QPixmap(":/icons/export.png"),
-                             "Export to",  0, 0, 0, 14);
-      contextMenu.setItemEnabled(14, false);
+      AddIdAction(&menu, &map, QPixmap(":/icons/export.png"),
+                     "Export to",  14, false);
    }
 
-   contextMenu.insertItem(QPixmap(":/icons/info.png"),
-                          "Info...",  0, 0, 0, 15);
-   contextMenu.setItemEnabled(15, (ninfo>0));
+   AddIdAction(&menu, &map, QPixmap(":/icons/info.png"),
+                 "Info...",  15, (ninfo>0));
 
-   contextMenu.insertItem(QPixmap(":/icons/control.png"),
-                           "Edit..", 0, 0, 0, 16);
-   contextMenu.setItemEnabled(16, (nedits>0));
+   AddIdAction(&menu, &map, QPixmap(":/icons/control.png"),
+                 "Edit..", 16, (nedits>0));
 
    QString dellabel = "Delete item";
    QString delbutton = ":/icons/delete.png";
@@ -685,70 +674,57 @@ void TGo4Browser::ListView_contextMenuRequested(Q3ListViewItem* item, const QPoi
      dellabel = "Close/delete items";
    }
 
-   contextMenu.insertItem(QPixmap(delbutton),
-                          dellabel, 0, 0, 0, 17);
-   contextMenu.setItemEnabled(17, (nclose>0) || (ndelete>0));
+   AddIdAction(&menu, &map, QPixmap(delbutton),
+                 dellabel, 17, (nclose>0) || (ndelete>0));
 
-   contextMenu.insertItem(QPixmap(":/icons/copyws.png"),
-                          "Copy to Workspace",  0, 0, 0, 19);
-   contextMenu.setItemEnabled(19, (nobjects>0) || ((nfolders==1) && (nitems==1)));
+   AddIdAction(&menu, &map, QPixmap(":/icons/copyws.png"),
+                 "Copy to Workspace",  19, (nobjects>0) || ((nfolders==1) && (nitems==1)));
 
-   contextMenu.insertItem(QPixmap(":/icons/editcopy.png"),
-                          "Copy to clipboard",  0, 0, 0, 20);
-   contextMenu.setItemEnabled(20, (nobjects>0) || (nfolders>0));
+   AddIdAction(&menu, &map, QPixmap(":/icons/editcopy.png"),
+                  "Copy to clipboard",  20, (nobjects>0) || (nfolders>0));
 
    if ((nremote>0) || (nanalysis>0)) {
 
-       contextMenu.insertSeparator();
+       menu.addSeparator();
 
-       contextMenu.insertItem(QPixmap(":/icons/monitor.png"),
-                              "Monitor item(s)",  0, 0, 0, 21);
-       contextMenu.setItemEnabled(21, ((nobjects>0) && (nremote>0) && (nmonitor<nremote)) || ((nfolders==1) && (nitems==1)));
+       AddIdAction(&menu, &map, QPixmap(":/icons/monitor.png"),
+                     "Monitor item(s)",  21, ((nobjects>0) && (nremote>0) && (nmonitor<nremote)) || ((nfolders==1) && (nitems==1)));
 
-       contextMenu.insertItem(QPixmap(":/icons/Stop.png"),
-                              "Stop item(s) monitoring",  0, 0, 0, 22);
-       contextMenu.setItemEnabled(22, ((nobjects>0) && (nremote>0) && (nmonitor>0)) || ((nfolders==1) && (nitems==1)));
+       AddIdAction(&menu, &map, QPixmap(":/icons/Stop.png"),
+                     "Stop item(s) monitoring", 22, ((nobjects>0) && (nremote>0) && (nmonitor>0)) || ((nfolders==1) && (nitems==1)));
 
-       contextMenu.insertItem(QPixmap( ":/icons/clear.png" ),
-                              "Clear (Reset to 0)", 0, 0, 0, 23);
-       contextMenu.setItemEnabled(23, (nclear>0));
+       AddIdAction(&menu, &map, QPixmap( ":/icons/clear.png" ),
+                     "Clear (Reset to 0)", 23, (nclear>0));
 
-       contextMenu.insertItem(QPixmap( ":/icons/clear_nok.png" ),
-                              "Set Clear protection", 0, 0, 0, 24);
-       contextMenu.setItemEnabled(24, (nclearprotoff>0));
+       AddIdAction(&menu, &map, QPixmap( ":/icons/clear_nok.png" ),
+                     "Set Clear protection", 24, (nclearprotoff>0));
 
-       contextMenu.insertItem(QPixmap( ":/icons/clear_ok.png" ),
-                              "Unset Clear protection", 0, 0, 0, 25);
-       contextMenu.setItemEnabled(25, (nclearproton>0));
+       AddIdAction(&menu, &map, QPixmap( ":/icons/clear_ok.png" ),
+                     "Unset Clear protection", 25, (nclearproton>0));
 
-       contextMenu.insertItem(QPixmap( ":/icons/delete.png" ),
-                              "Delete from analysis", 0, 0, 0, 26);
-       contextMenu.setItemEnabled(26, (ndelprotoff>0));
+       AddIdAction(&menu, &map, QPixmap( ":/icons/delete.png" ),
+                     "Delete from analysis", 26, (ndelprotoff>0));
 
-       contextMenu.insertItem(QPixmap( ":/icons/refresh.png" ),
-                              "Refresh namelist", 0, 0, 0, 27);
-       contextMenu.setItemEnabled(27, true);
+       AddIdAction(&menu, &map, QPixmap( ":/icons/refresh.png" ),
+                     "Refresh namelist", 27, true);
    }
 
    if ((nmemory>0) && (nmemory==nitems)) {
-       contextMenu.insertSeparator();
+       menu.addSeparator();
 
-       contextMenu.insertItem(QPixmap(":/icons/crefolder.png"),
-                              "Create folder",  0, 0, 0, 41);
-       contextMenu.setItemEnabled(41, (nmemory==1) && (nfolders==1));
+       AddIdAction(&menu, &map, QPixmap(":/icons/crefolder.png"),
+                    "Create folder",  41, (nmemory==1) && (nfolders==1));
 
-       contextMenu.insertItem(QPixmap(":/icons/rename.png"),
-                              "Rename object",  0, 0, 0, 42);
-       contextMenu.setItemEnabled(42, (nmemory==1) && !istopmemory);
+       AddIdAction(&menu, &map, QPixmap(":/icons/rename.png"),
+                    "Rename object",  42, (nmemory==1) && !istopmemory);
 
-       contextMenu.insertItem(QPixmap(":/icons/editpaste.png"),
-                              "Paste from clipboard",  0, 0, 0, 43);
-       contextMenu.setItemEnabled(43, br->IsClipboard() && (nmemory==1) && (nfolders==1));
+       AddIdAction(&menu, &map, QPixmap(":/icons/editpaste.png"),
+                    "Paste from clipboard",  43, br->IsClipboard() && (nmemory==1) && (nfolders==1));
    }
 
-   connect(&contextMenu, SIGNAL(activated(int)), this, SLOT(ContextMenuActivated(int)));
+   connect(&map, SIGNAL(mapped(int)), this, SLOT(ContextMenuActivated(int)));
 
-   contextMenu.exec(pos);
+   menu.exec(pos);
 }
 
 void TGo4Browser::ColumnToggled(int indx)

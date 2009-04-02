@@ -2,12 +2,12 @@
 #define TQCANVASMENU_H
 
 #include <QtCore/qobject.h>
-#include <Qt3Support/Q3PopupMenu>
 #include <QtGui/QMouseEvent>
 #include "TList.h"
 
 class TCanvas;
-class Q3PopupMenu;
+class QMenu;
+class QSignalMapper;
 class TMethodArg;
 
 /**
@@ -67,8 +67,12 @@ class TQCanvasMenu : public QObject {
       void EmitMenuCommandExecuted(TObject*, const char*);
 
    protected:
+
+	  QAction* addIdAction(const QString& text, int id);
+
       TObject*         fCurrObj;
-      Q3PopupMenu*      fPopup;
+      QMenu*           fPopup;
+      QSignalMapper*   fMap;
       TList            fMethods;
       TCanvas*         c;
       QWidget*         fParent;

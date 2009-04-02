@@ -6,10 +6,11 @@
 
 #include "Riostream.h"
 
-#include <Qt3Support/q3popupmenu.h>
+#include <QtGui/QMenu>
 #include <QtGui/qinputdialog.h>
 #include <QtGui/qcolordialog.h>
 #include <QtGui/QMouseEvent>
+#include <QtCore/QSignalMapper>
 
 #include "TH1.h"
 #include "TPad.h"
@@ -30,7 +31,9 @@
 TQCanvasMenu::TQCanvasMenu(QWidget* parent, TCanvas *canvas)
 {
     c = canvas;
-    fPopup = new Q3PopupMenu;
+    fPopup = new QMenu;
+    fMap = new QSignalMapper;
+    connect(fMap, SIGNAL(mapped(int)), this, SLOT(execute(int)));
     fCurrObj = 0;
     fParent= parent;
     fTabWin = 0;
@@ -39,7 +42,9 @@ TQCanvasMenu::TQCanvasMenu(QWidget* parent, TCanvas *canvas)
 TQCanvasMenu::TQCanvasMenu(QWidget* parent, QWidget *tabWin, TCanvas *canvas)
 {
    c=canvas;
-   fPopup = new Q3PopupMenu;
+   fPopup = new QMenu;
+   fMap = new QSignalMapper;
+   connect(fMap, SIGNAL(mapped(int)), this, SLOT(execute(int)));
    fParent = parent;
    fTabWin = tabWin;
    fCurrObj=0;
@@ -47,6 +52,7 @@ TQCanvasMenu::TQCanvasMenu(QWidget* parent, QWidget *tabWin, TCanvas *canvas)
 
 TQCanvasMenu::~TQCanvasMenu()
 {
+   if (fMap) delete fMap;
    if(fPopup) delete fPopup;
 }
 
@@ -83,49 +89,58 @@ char* TQCanvasMenu::createArgumentTitle(TMethodArg *argument)
   return argTitle;
 }
 
+QAction* TQCanvasMenu::addIdAction(const QString& text, int id)
+{
+   QAction* act = new QAction(text, fPopup);
+   fMap->connect (act, SIGNAL(triggered()), fMap, SLOT(map()));
+   fPopup->addAction(act);
+   fMap->setMapping(act, id);
+   return act;
+}
+
 
 void TQCanvasMenu::popup(TObject *obj, double x, double y, QMouseEvent *e)
 {
    Qtrootlockguard threadlock;
    TClass *klass=obj->IsA();
-   int curId=-1;
+   int curId = -1;
 
-   fCurrObj=obj;
+   fCurrObj = obj;
    fPopup->clear();
    fMethods.Clear();
 
    QString buffer=klass->GetName();
    buffer+="::";
    buffer+=obj->GetName();
-   fPopup->insertItem(buffer, this, SLOT( execute(int) ), 0,curId); curId++;
+   addIdAction(buffer, curId++);
    klass->GetMenuItems(&fMethods);
-   fPopup->insertSeparator();
+   fPopup->addSeparator();
 
    if(!klass->InheritsFrom(TLatex::Class())) {
-       fPopup->insertItem("Insert Latex", this, SLOT(execute(int)), 0, 100 );
-       fPopup->insertSeparator();
+       addIdAction("Insert Latex", 100 );
+       fPopup->addSeparator();
    }
 
    if(klass->InheritsFrom(TH1::Class())) {
-      fPopup->insertItem("Qt Hist Line Color ", this, SLOT(execute(int)), 0, 101 );
-      fPopup->insertItem("Qt Hist Fill Color ", this, SLOT(execute(int)), 0, 102 );
-      fPopup->insertSeparator();
+	  addIdAction("Qt Hist Line Color ", 101 );
+	  addIdAction("Qt Hist Fill Color ", 102 );
+      fPopup->addSeparator();
    }
 
    TIter iter(&fMethods);
    TMethod *method=0;
    while ( (method = dynamic_cast<TMethod*>(iter())) != 0) {
       buffer=method->GetName();
-      fPopup->insertItem(buffer, this, SLOT( execute(int) ), 0,curId);
-       curId++;
+      addIdAction(buffer, curId++);
    }
 
-   MousePosX= x;  // hold the position where the mouse was clicked
-   MousePosY= y;
+   MousePosX = x;  // hold the position where the mouse was clicked
+   MousePosY = y;
 
-   fPopup->popup(e->globalPos(), 0); /* let Qt decide how to draw the popup Menu otherwise we have a problem that
-                    *   the visible rectangle can get outside the screen (M. Al-Turany 03.06.02)
-                    */
+   fPopup->popup(e->globalPos(), 0);
+   /* let Qt decide how to draw the popup Menu otherwise we have a problem that
+    *   the visible rectangle can get outside the screen (M. Al-Turany 03.06.02)
+    */
 }
 
 void TQCanvasMenu::execute(int id)

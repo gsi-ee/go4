@@ -2,7 +2,8 @@
 #include "TGo4ConditionEditor.h"
 
 #include <QMessageBox>
-#include <Q3PopupMenu>
+#include <QtGui/QMenu>
+#include <QtCore/QSignalMapper>
 #include <QToolTip>
 #include "TH1.h"
 #include "TCutG.h"
@@ -23,12 +24,12 @@
 
 TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
-{ 
+{
 			setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
-			
+
 			setCaption("Condition editor");
 			ResetWidget();
 			fiSelectedIndex = -1;
@@ -821,13 +822,13 @@ void TGo4ConditionEditor::CutTable_contextMenuRequested( int nrow, int, const QP
    TCutG* cut = pcond==0 ? 0 : pcond->GetCut(kFALSE);
    if (cut==0) return;
 
-   Q3PopupMenu contextMenu;
-   contextMenu.insertItem("Insert point", nrow);
+   QMenu menu;
+   QSignalMapper map;
+   AddIdAction(&menu, &map, "Insert point", nrow);
    // only internal points should be allowed to deleted
-   contextMenu.insertItem("Delete point", nrow+1000000);
-   contextMenu.setItemEnabled(nrow+1000000, (nrow>0) && (nrow<cut->GetN()-1));
-   connect(&contextMenu, SIGNAL(activated(int)), this, SLOT(ContextMenuSlot(int)));
-   contextMenu.exec(pos);
+   AddIdAction(&menu, &map, "Delete point", nrow+1000000, (nrow>0) && (nrow<cut->GetN()-1));
+   connect(&map, SIGNAL(mapped(int)), this, SLOT(ContextMenuSlot(int)));
+   menu.exec(pos);
 }
 
 void TGo4ConditionEditor::ContextMenuSlot(int id)
