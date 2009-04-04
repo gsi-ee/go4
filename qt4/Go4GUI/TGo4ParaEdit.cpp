@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QToolTip>
+#include <QHeaderView>
 
 #include "TROOT.h"
 #include "TFile.h"
@@ -22,7 +23,6 @@
 #include "TGo4Slot.h"
 #include "TGo4BrowserProxy.h"
 
-
 TGo4ParaEdit::TGo4ParaEdit(QWidget *parent, const char* name)
          : QGo4Widget(parent,name)
 {
@@ -38,6 +38,8 @@ TGo4ParaEdit::TGo4ParaEdit(QWidget *parent, const char* name)
    ParamClassLbl->setText("");
 
    fItemName = "";
+   fFillingTable = false;
+   MemberTable->setContextMenuPolicy(Qt::CustomContextMenu);
 }
 
 TGo4ParaEdit::~TGo4ParaEdit()
@@ -214,41 +216,50 @@ void TGo4ParaEdit::RefreshWidget(TGo4ParameterStatus* status)
 void TGo4ParaEdit::ShowVisibleItems()
 {
    if (fItems==0) {
-      MemberTable->setNumRows(0);
+      MemberTable->setRowCount(0);
       return;
    }
 
+   fFillingTable = true;
+
    MemberTable->hide();
 
-   MemberTable->horizontalHeader()->setLabel(fiColType,"Type");
-   MemberTable->horizontalHeader()->setLabel(fiColName,"Name");
-   MemberTable->horizontalHeader()->setLabel(fiColValue,"Value");
-   MemberTable->horizontalHeader()->setLabel(fiColComment,"Comments");
+   MemberTable->horizontalHeaderItem(fiColType)->setText("Type");
+   MemberTable->horizontalHeaderItem(fiColName)->setText("Name");
+   MemberTable->horizontalHeaderItem(fiColValue)->setText("Value");
+   MemberTable->horizontalHeaderItem(fiColComment)->setText("Comments");
 
    int memnum = fItems->GetLast()+1;
-   MemberTable->setNumRows(memnum);
-   MemberTable->setColumnReadOnly(fiColType,true);
-   MemberTable->setColumnReadOnly(fiColName,true);
-   MemberTable->setColumnReadOnly(fiColComment,true);
-   MemberTable->setLeftMargin(0);
+   MemberTable->setRowCount(memnum);
+   // MemberTable->setLeftMargin(0);
    MemberTable->verticalHeader()->hide();
    TString buf;
    for(int row=0; row<memnum; row++) {
        TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(row);
-       MemberTable->setText(row, fiColType, info->GetTypeName());
-       MemberTable->setText(row, fiColName, info->GetFullName(buf));
 
-       MemberTable->setText(row, fiColValue, info->GetStrValue());
-       MemberTable->setText(row,fiColComment, info->GetTitle());
+       QTableWidgetItem* item = new QTableWidgetItem(info->GetTypeName());
+       item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+   	   MemberTable->setItem(row, fiColType, item);
 
-       Q3TableItem* item=MemberTable->item(row, fiColValue);
-       if(item!=0) item->setEnabled(info->CanStrEdit());
+   	   item = new QTableWidgetItem(info->GetFullName(buf));
+   	   item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+       MemberTable->setItem(row, fiColName, item);
 
-       if(info->IsVisible())
-          MemberTable->showRow(row);
+       item = new QTableWidgetItem(info->GetStrValue());
+       if (info->CanStrEdit())
+    	 item->setFlags(item->flags() | Qt::ItemIsEditable);
        else
-          MemberTable->hideRow(row);
+         item->setFlags(item->flags() & ~ Qt::ItemIsEditable);
+       MemberTable->setItem(row, fiColValue, item);
+
+       item = new QTableWidgetItem(info->GetTitle());
+       item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+       MemberTable->setItem(row, fiColComment, item);
+
+       MemberTable->setRowHidden(row, !info->IsVisible());
    }
+
+   fFillingTable = false;
 
    MemberTable->show();
    polish();
@@ -274,8 +285,8 @@ void TGo4ParaEdit::clearTextFields()
 
 void TGo4ParaEdit::ChangedTable( int row, int col )
 {
-   if (col==fiColValue) {
-      QString txt = MemberTable->text(row, col);
+   if ((col==fiColValue) && !fFillingTable) {
+      QString txt = MemberTable->item(row, col)->text();
       TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(row);
       info->SetStrValue(txt.latin1());
       PleaseUpdateLabel->setShown(true);
@@ -298,9 +309,13 @@ void TGo4ParaEdit::TableDoubleClick( int row, int col )
    }
 }
 
-void TGo4ParaEdit::ContextMenu( int row, int col )
+void TGo4ParaEdit::ContextMenu(const QPoint& pnt)
 {
-   if(col!=fiColName) return;
+   QTableWidgetItem* item = MemberTable->itemAt (pnt);
+
+   if ((item==0) || (MemberTable->column(item) != fiColName)) return;
+
+   int row = MemberTable->row(item);
 
    TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(row);
 

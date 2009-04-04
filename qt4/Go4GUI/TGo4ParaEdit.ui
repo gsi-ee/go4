@@ -89,12 +89,12 @@
           </property>
           <layout class="QGridLayout" >
             <item row="0" column="0" >
-              <widget class="Q3Table" name="MemberTable" >
-                <property name="numRows" >
-                  <number>10</number>
-                </property>
-                <property name="numCols" >
+              <widget class="QTableWidget" name="MemberTable" >
+                <property name="columnCount" >
                   <number>4</number>
+                </property>
+                <property name="rowCount" >
+                  <number>6</number>
                 </property>
                 <property name="toolTip" stdset="0" >
                   <string>Table of members. Double click into value fields to edit. Right mouse button for popup menu.</string>
@@ -394,7 +394,7 @@
   <connections>
     <connection>
       <sender>MemberTable</sender>
-      <signal>valueChanged(int,int)</signal>
+      <signal>cellChanged(int,int)</signal>
       <receiver>TGo4ParaEdit</receiver>
       <slot>ChangedTable(int,int)</slot>
     </connection>
@@ -424,15 +424,15 @@
     </connection>
     <connection>
       <sender>MemberTable</sender>
-      <signal>doubleClicked(int,int,int,QPoint)</signal>
+      <signal>cellDoubleClicked(int,int)</signal>
       <receiver>TGo4ParaEdit</receiver>
       <slot>TableDoubleClick(int,int)</slot>
     </connection>
     <connection>
       <sender>MemberTable</sender>
-      <signal>contextMenuRequested(int,int,QPoint)</signal>
+      <signal>customContextMenuRequested(const QPoint &amp;)</signal>
       <receiver>TGo4ParaEdit</receiver>
-      <slot>ContextMenu(int,int)</slot>
+      <slot>ContextMenu(const QPoint &amp;)</slot>
     </connection>
     <connection>
       <sender>SavePar</sender>

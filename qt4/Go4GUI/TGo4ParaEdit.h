@@ -41,7 +41,7 @@ class TGo4ParaEdit : public QGo4Widget, public Ui::TGo4ParaEdit
 	virtual void clearTextFields();
     virtual void ChangedTable( int row, int col );
     virtual void TableDoubleClick( int row, int col );
-    virtual void ContextMenu( int row, int col );
+    virtual void ContextMenu( const QPoint& );
     virtual void ExpandShrinkArray();
     virtual void IncArrayIndex();
     virtual void DecArrayIndex();
@@ -55,6 +55,7 @@ class TGo4ParaEdit : public QGo4Widget, public Ui::TGo4ParaEdit
     int fiCurrentRow;
     TObjArray* fItems;
     QString fItemName;
+    bool fFillingTable;
 
  };
 
