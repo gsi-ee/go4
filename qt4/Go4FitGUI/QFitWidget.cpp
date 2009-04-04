@@ -1,10 +1,12 @@
 #include "QFitWidget.h"
 
-#include "QFitItem.h"
-#include "q3popupmenu.h"
-//Added by qt3to4:
 #include <QContextMenuEvent>
 #include <QCloseEvent>
+#include <QtCore/QSignalMapper>
+#include <QtGui/QMenu>
+
+#include "QFitItem.h"
+
 #include "TObject.h"
 #include "TGo4FitPanel.h"
 
@@ -68,11 +70,15 @@ void QFitWidget::contextMenuEvent(QContextMenuEvent* ev)
 {
   if ((GetItem()==0) || (fxPanel==0)) return;
 
-  Q3PopupMenu menu(0,"QFitWidgetPopup");
+  QSignalMapper map(this);
+  connect(&map, SIGNAL(mapped(int)), fxPanel, SLOT(ItemMenuItemSelected(int)));
 
-  if (fxPanel->FillPopupForItem(GetItem(),&menu)) {
-     int id = menu.exec(ev->globalPos());
-     fxPanel->ExecPopupForItem(GetItem(), id);
+  QMenu menu(this);
+
+  if (fxPanel->FillPopupForItem(GetItem(),&menu, &map)) {
+	 fxPanel->CurrFitItem = GetItem();
+     menu.exec(ev->globalPos());
+     fxPanel->CurrFitItem = 0;
   }
 }
 

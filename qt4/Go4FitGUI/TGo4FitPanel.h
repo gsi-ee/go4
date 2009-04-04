@@ -35,7 +35,6 @@ class QDragEnterEvent;
 class QDragMoveEvent;
 class QDropEvent;
 class QMenuBar;
-class Q3PopupMenu;
 class QFitItem;
 class QFitNamedWidget;
 class QFitModelWidget;
@@ -47,7 +46,6 @@ class TGo4FitComponent;
 class TGo4FitModel;
 class TGo4FitData;
 class TGo4Fitter;
-
 
 class TGo4Fitter;
 class TGo4FitGuiArrow;
@@ -189,9 +187,8 @@ public:
     virtual void RemovePrimitives();
     virtual TGo4Fitter* CreateFitterFor(TGo4ViewPanel* panel, TPad* pad, const char* name);
     virtual void CreateDataFor(TGo4ViewPanel* panel, TPad* pad, TGo4Fitter* fitter);
-    virtual bool FillPopupForItem(QFitItem* item, Q3PopupMenu* menu);
-    virtual void ExecPopupForItem(QFitItem* item, int id);
-    virtual bool FillPopupForSlot(TGo4FitSlot* slot, Q3PopupMenu* menu);
+    virtual bool FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* map);
+    virtual bool FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu, QSignalMapper* map);
     virtual void ExecutePopupForSlot(QFitItem* item, TGo4FitSlot* slot, int id);
     virtual QFitItem* GetFitterItem();
     virtual QFitItem* FindItem(TObject* obj, int ObjectType, QFitItem* parent);
@@ -203,8 +200,8 @@ public:
     virtual void SetItemText(QFitItem* item, bool trace);
     virtual void UpdateItemsOfType(int typ, QFitItem* parent);
     virtual void FitItemDeleted(QFitItem* item);
-    virtual void FillModelTypesList(Q3PopupMenu* menu, int id, bool extend);
-    virtual void FillDataTypesList(Q3PopupMenu* menu, int id);
+    virtual void FillModelTypesList(QMenu* menu, QSignalMapper* map, int id, bool extend);
+    virtual void FillDataTypesList(QMenu* menu, QSignalMapper* map, int id);
     virtual void FillParsList(QFitItem* item);
     virtual void FillSlotsList(QFitItem* parent, const TObjArray* lst, TObject* owner);
     virtual void FillDependencyList(QFitItem* parent);
@@ -215,9 +212,7 @@ public:
     virtual TGo4FitPeakFinder* GetPeakFinder(bool autocreate);
     virtual TGo4FitData* Wiz_SelectedData();
     virtual TGo4FitModel* Wiz_SelectedModel();
-    virtual void Wiz_PrepareModelTypeList(Q3PopupMenu* menu);
     virtual TGo4FitModel* Wiz_CreateNewModel(int id);
-    virtual void Wiz_PrepareDataTypeList(Q3PopupMenu* menu);
     virtual TGo4FitData* Wiz_CreateNewData(int id);
     virtual void Wiz_RebuildDataList();
     virtual bool Wiz_RemoveData();
@@ -338,6 +333,8 @@ public slots:
     virtual void PF_MinNoiseEdit_returnPressed();
     virtual void ParsTable_contextMenuRequested(int, int, const QPoint &);
 
+public:
+	QFitItem* CurrFitItem;
 
 protected:
 
@@ -348,7 +345,9 @@ protected:
     QSignalMapper* ViewMap;
     QMenu* SettMenu;
     QSignalMapper* SettMap;
-    Q3PopupMenu* ItemMenu;
+    QMenu* ItemMenu;
+    QSignalMapper* ItemMap;
+
 
     bool fbFillingWidget;
     int fiPaintMode;
