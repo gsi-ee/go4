@@ -23,11 +23,11 @@
         <number>6</number>
       </property>
       <item row="0" column="0" >
-        <widget class="Q3Table" name="Table" >
-          <property name="numRows" >
+        <widget class="QTableWidget" name="Table" >
+          <property name="rowCount" >
             <number>0</number>
           </property>
-          <property name="numCols" >
+          <property name="columnCount" >
             <number>0</number>
           </property>
         </widget>

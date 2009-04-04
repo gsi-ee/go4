@@ -44,7 +44,7 @@
         <number>1</number>
       </property>
     </widget>
-    <widget class="Q3Table" name="AxisTable" >
+    <widget class="QTableWidget" name="AxisTable" >
       <property name="geometry" >
         <rect>
           <x>190</x>
@@ -56,10 +56,10 @@
       <property name="frameShadow" >
         <enum>Plain</enum>
       </property>
-      <property name="numRows" >
+      <property name="rowCount" >
         <number>3</number>
       </property>
-      <property name="numCols" >
+      <property name="columnCount" >
         <number>1</number>
       </property>
       <property name="selectionMode" >
@@ -86,7 +86,7 @@
     </connection>
     <connection>
       <sender>AxisTable</sender>
-      <signal>valueChanged(int,int)</signal>
+      <signal>cellChanged(int,int)</signal>
       <receiver>QFitModelGaussNWidget</receiver>
       <slot>AxisTable_valueChanged(int,int)</slot>
     </connection>

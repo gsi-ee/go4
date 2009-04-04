@@ -6,10 +6,10 @@
 
 QFitRangeCutWidget::QFitRangeCutWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
-{ 
+{
 			setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
 }
 
@@ -40,14 +40,14 @@ void QFitRangeCutWidget::FillXYPointsTable() {
    TCutG* cut = GetCut();
    if (cut==0) return;
 
-   XYTable->setNumRows(cut->GetN());
+   XYTable->setRowCount(cut->GetN());
 
    for (int n=0;n<cut->GetN();n++) {
       Double_t x,y;
       cut->GetPoint(n, x,y);
-      XYTable->setText(n, 0, QString::number(x));
-      XYTable->setText(n, 1, QString::number(y));
-      XYTable->verticalHeader()->setLabel(n, QString::number(n));
+      XYTable->setItem(n, 0, new QTableWidgetItem(QString::number(x)));
+      XYTable->setItem(n, 1, new QTableWidgetItem(QString::number(y)));
+      XYTable->setVerticalHeaderItem(n, new QTableWidgetItem(QString::number(n)));
    }
 }
 
@@ -85,14 +85,14 @@ void QFitRangeCutWidget::XYTable_valueChanged( int nrow, int ncol)
   if(!fbFillWidget && (GetCut()!=0)) {
      TCutG* cut = GetCut();
      bool ok;
-     double zn = XYTable->text(nrow, ncol).toDouble(&ok);
+     double zn = XYTable->item(nrow, ncol)->text().toDouble(&ok);
      if(ok) {
          if (ncol==0) cut->GetX()[nrow] = zn;
                  else cut->GetY()[nrow] = zn;
          if ((nrow==0) || (nrow==cut->GetN()-1)) {
             int nrow1 = (nrow==0) ? cut->GetN()-1 : 0;
             fbFillWidget = TRUE;
-            XYTable->setText(nrow1, ncol, XYTable->text(nrow, ncol));
+            XYTable->setItem(nrow1, ncol, new QTableWidgetItem(XYTable->item(nrow, ncol)->text()));
             if (ncol==0) cut->GetX()[nrow1] = zn;
                     else cut->GetY()[nrow1] = zn;
             fbFillWidget = FALSE;

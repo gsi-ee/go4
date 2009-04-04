@@ -1,15 +1,11 @@
 #ifndef TGO4CONDITIONEDITOR_H
 #define TGO4CONDITIONEDITOR_H
 
-
-#include <iostream>
-
 #include "QGo4Widget.h"
-#include "ui_TGo4ConditionEditor.h"  
+#include "ui_TGo4ConditionEditor.h"
 
 class TGo4Condition;
 class TCutG;
-
 
 
 class TGo4ConditionEditor : public QGo4Widget, public Ui::TGo4ConditionEditor
@@ -39,7 +35,7 @@ class TGo4ConditionEditor : public QGo4Widget, public Ui::TGo4ConditionEditor
 
 
  public slots:
- 
+
  	virtual void PleaseUpdateSlot();
     virtual void SelectedCond( int t );
     virtual void ArrayAll();
@@ -67,21 +63,14 @@ class TGo4ConditionEditor : public QGo4Widget, public Ui::TGo4ConditionEditor
     virtual void ModifyButton_clicked();
     virtual void NPointsSpin_valueChanged( int npoint );
     virtual void CutTable_valueChanged( int ncol, int nrow );
-    virtual void CutTable_contextMenuRequested( int, int, const QPoint & );
+    virtual void CutTable_contextMenuRequested(const QPoint &);
     virtual void ContextMenuSlot(int);
-
- 
- 	/////////////////
- 	
-	
 
 protected:
     bool fbTypingMode;
     int fiSelectedIndex;
     bool fbDrawOnNextRefresh;
     int fiLastChangeValue;
-
-
 
  };
 

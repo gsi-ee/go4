@@ -307,9 +307,9 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name)
 {
    setupUi(this);
 
-    fbFreezeMode = false;
-    fiPanelMode = FitGui::pm_Wizard;
-    fbParsWidgetShown = false;
+   fbFreezeMode = false;
+   fiPanelMode = FitGui::pm_Wizard;
+   fbParsWidgetShown = false;
 
    fbNeedConfirmation = go4sett->getBool("/FitPanel/NeedConfirmation", false);
    fbShowPrimitives = go4sett->getBool("/FitPanel/ShowPrimitives", true);
@@ -345,7 +345,7 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name)
             this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
 
     MenuBar = new QMenuBar( MenuFrame, "menubar" );
-    MenuBar->setMinimumWidth(50);
+    // MenuBar->setMinimumWidth(100);
     MenuBar->setFrameShape(QMenuBar::NoFrame);
 
 
@@ -2039,6 +2039,7 @@ void TGo4FitPanel::UpdateItemMenu()
        connect(ItemMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowItemMenu()));
     } else
        ItemMenu->setTitle(itemtext);
+    MenuBar->adjustSize();
   } else
     if (ItemMenu!=0) {
       delete ItemMenu;

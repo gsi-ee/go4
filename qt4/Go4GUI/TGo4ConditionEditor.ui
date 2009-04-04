@@ -438,11 +438,11 @@
         </widget>
        </item>
        <item rowspan="3" row="0" column="1" >
-        <widget class="Q3Table" name="CutTable" >
-         <property name="numRows" >
+        <widget class="QTableWidget" name="CutTable" >
+         <property name="rowCount" >
           <number>3</number>
          </property>
-         <property name="numCols" >
+         <property name="columnCount" >
           <number>2</number>
          </property>
          <row>
@@ -1695,7 +1695,7 @@
   </connection>
   <connection>
    <sender>CutTable</sender>
-   <signal>valueChanged(int,int)</signal>
+   <signal>cellChanged(int,int)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>CutTable_valueChanged(int,int)</slot>
    <hints>
@@ -1711,9 +1711,9 @@
   </connection>
   <connection>
    <sender>CutTable</sender>
-   <signal>contextMenuRequested(int,int,QPoint)</signal>
+   <signal>customContextMenuRequested(const QPoint &amp;)</signal>
    <receiver>TGo4ConditionEditor</receiver>
-   <slot>CutTable_contextMenuRequested(int,int,QPoint)</slot>
+   <slot>CutTable_contextMenuRequested(const QPoint &amp;)</slot>
    <hints>
     <hint type="sourcelabel" >
      <x>20</x>

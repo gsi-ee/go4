@@ -60,7 +60,7 @@
         <string>exclude range cut</string>
       </property>
     </widget>
-    <widget class="Q3Table" name="XYTable" >
+    <widget class="QTableWidget" name="XYTable" >
       <property name="geometry" >
         <rect>
           <x>10</x>
@@ -69,10 +69,10 @@
           <height>220</height>
         </rect>
       </property>
-      <property name="numRows" >
+      <property name="rowCount" >
         <number>3</number>
       </property>
-      <property name="numCols" >
+      <property name="columnCount" >
         <number>2</number>
       </property>
       <row>
@@ -137,7 +137,7 @@
     </connection>
     <connection>
       <sender>XYTable</sender>
-      <signal>valueChanged(int,int)</signal>
+      <signal>cellChanged(int,int)</signal>
       <receiver>QFitRangeCutWidget</receiver>
       <slot>XYTable_valueChanged(int,int)</slot>
     </connection>

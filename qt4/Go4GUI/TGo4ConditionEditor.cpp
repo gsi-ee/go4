@@ -25,17 +25,15 @@
 TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
 {
-			setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
+   setupUi(this);
 
-			setCaption("Condition editor");
-			ResetWidget();
-			fiSelectedIndex = -1;
-			adjustSize();
-			fbDrawOnNextRefresh = false;
-			fiLastChangeValue = -1;
+   setCaption("Condition editor");
+	ResetWidget();
+	fiSelectedIndex = -1;
+	adjustSize();
+	fbDrawOnNextRefresh = false;
+	fiLastChangeValue = -1;
+	CutTable->setContextMenuPolicy(Qt::CustomContextMenu);
 }
 
 
@@ -728,17 +726,17 @@ void TGo4ConditionEditor::FillCutWidget(TCutG* cut)
    fbTypingMode = false;
 
    if (cut==0) {
-      CutTable->setNumRows(0);
+      CutTable->setRowCount(0);
       NPointsSpin->setValue(0);
    } else {
-      CutTable->setNumRows(cut->GetN());
+      CutTable->setRowCount(cut->GetN());
       NPointsSpin->setValue(cut->GetN());
       for (int n=0;n<cut->GetN();n++) {
          Double_t x,y;
          cut->GetPoint(n, x,y);
-         CutTable->setText(n, 0, QString::number(x));
-         CutTable->setText(n, 1, QString::number(y));
-         CutTable->verticalHeader()->setLabel(n, QString::number(n));
+         CutTable->setItem(n, 0, new QTableWidgetItem(QString::number(x)));
+         CutTable->setItem(n, 1, new QTableWidgetItem(QString::number(y)));
+         CutTable->setVerticalHeaderItem(n, new QTableWidgetItem(QString::number(n)));
       }
    }
 
@@ -794,7 +792,7 @@ void TGo4ConditionEditor::CutTable_valueChanged( int nrow, int ncol)
    if (cut==0) return;
 
    bool ok;
-   double zn = CutTable->text(nrow, ncol).toDouble(&ok);
+   double zn = CutTable->item(nrow, ncol)->text().toDouble(&ok);
 
    if (!ok) return;
    if (ncol==0) cut->GetX()[nrow] = zn;
@@ -802,7 +800,7 @@ void TGo4ConditionEditor::CutTable_valueChanged( int nrow, int ncol)
    if ((nrow==0) || (nrow==cut->GetN()-1)) {
       int nrow1 = (nrow==0) ? cut->GetN()-1 : 0;
       fbTypingMode = false;
-      CutTable->setText(nrow1, ncol, CutTable->text(nrow, ncol));
+      CutTable->setItem(nrow1, ncol, new QTableWidgetItem(CutTable->item(nrow, ncol)->text()));
       if (ncol==0) cut->GetX()[nrow1] = zn;
               else cut->GetY()[nrow1] = zn;
       fbTypingMode = true;
@@ -814,13 +812,17 @@ void TGo4ConditionEditor::CutTable_valueChanged( int nrow, int ncol)
 }
 
 
-void TGo4ConditionEditor::CutTable_contextMenuRequested( int nrow, int, const QPoint & pos )
+void TGo4ConditionEditor::CutTable_contextMenuRequested( const QPoint & pos )
 {
    if (!fbTypingMode) return;
 
+   QTableWidgetItem* item = CutTable->itemAt (pos);
+
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (SelectedCondition());
    TCutG* cut = pcond==0 ? 0 : pcond->GetCut(kFALSE);
-   if (cut==0) return;
+   if ((cut==0) || (item==0)) return;
+
+   int nrow = CutTable->row(item);
 
    QMenu menu;
    QSignalMapper map;

@@ -133,7 +133,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    fbServerMode(server)
 {
    setDockWindowsMovable(TRUE);
-   statusBar();
+   // statusBar();
    resize( 1152, 864 );
 
    setIcon(QPixmap(":/icons/go4logo2_big.png"));

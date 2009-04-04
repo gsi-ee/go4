@@ -5,11 +5,8 @@
 
 QFitModelGaussNWidget::QFitModelGaussNWidget(QWidget *parent, const char* name)
          : QFitModelWidget(parent, name)
-{ 
-			setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
-			// from ui file to the setupUI
+{
+  setupUi(this);
 }
 
 TGo4FitModelGaussN * QFitModelGaussNWidget::GetGaussN()
@@ -30,9 +27,10 @@ void QFitModelGaussNWidget::SetAxisTable()
 {
    if (GetGaussN()==0) return;
    int num = GetGaussN()->GetAxisNumbers();
-   AxisTable->setNumRows(num);
+   AxisTable->setRowCount(num);
    for(int n=0;n<num;n++)
-     AxisTable->setText(n,0,QString::number(GetGaussN()->GetAxisForIndex(n)));
+     AxisTable->setItem(n,0,
+   	new QTableWidgetItem(QString::number(GetGaussN()->GetAxisForIndex(n))));
 }
 
 void QFitModelGaussNWidget::AxisNumberSpin_valueChanged( int num)
@@ -48,7 +46,7 @@ void QFitModelGaussNWidget::AxisTable_valueChanged( int nrow, int ncol)
 {
    if(!fbFillWidget && GetGaussN()) {
       bool ok = FALSE;
-      int value = AxisTable->text(nrow,ncol).toInt(&ok);
+      int value = AxisTable->item(nrow,ncol)->text().toInt(&ok);
       if(ok) {
           GetGaussN()->SetAxisForIndex(nrow,value);
           if (GetGaussN()->ResortIndexes(nrow)) SetAxisTable();
