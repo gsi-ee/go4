@@ -531,7 +531,7 @@
         </widget>
       </item>
       <item rowspan="2" row="1" column="0" colspan="1" >
-        <widget class="Q3Frame" name="EditorFrame" >
+        <widget class="QFrame" name="EditorFrame" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>0</hsizetype>
@@ -573,7 +573,7 @@
         </widget>
       </item>
       <item rowspan="1" row="0" column="0" colspan="2" >
-        <widget class="Q3Frame" name="MenuFrame" >
+        <widget class="QFrame" name="MenuFrame" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>7</hsizetype>

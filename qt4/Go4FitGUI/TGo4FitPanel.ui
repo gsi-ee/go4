@@ -811,7 +811,7 @@
                 </widget>
               </item>
               <item row="0" column="0" >
-                <widget class="Q3Frame" name="Wiz_MainFrame" >
+                <widget class="QFrame" name="Wiz_MainFrame" >
                   <property name="sizePolicy" >
                     <sizepolicy>
                       <hsizetype>2</hsizetype>
@@ -1205,7 +1205,7 @@ create a fitter with the "Use pad" button.&lt;br>
         </widget>
       </item>
       <item row="2" column="0" >
-        <widget class="Q3Frame" name="StatusFrame" >
+        <widget class="QFrame" name="StatusFrame" >
           <property name="minimumSize" >
             <size>
               <width>0</width>
@@ -1326,7 +1326,7 @@ create a fitter with the "Use pad" button.&lt;br>
         </widget>
       </item>
       <item row="0" column="0" >
-        <widget class="Q3Frame" name="MenuFrame" >
+        <widget class="QFrame" name="MenuFrame" >
            <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>7</hsizetype>

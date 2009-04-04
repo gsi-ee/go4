@@ -430,7 +430,7 @@
             </layout>
           </item>
           <item>
-            <widget class="Q3Frame" name="MoreFrame" >
+            <widget class="QFrame" name="MoreFrame" >
               <property name="sizePolicy" >
                 <sizepolicy>
                   <hsizetype>5</hsizetype>
@@ -450,9 +450,6 @@
               </property>
               <property name="frameShadow" >
                 <enum>Raised</enum>
-              </property>
-              <property name="margin" >
-                <number>0</number>
               </property>
               <layout class="QHBoxLayout" >
                 <property name="margin" >

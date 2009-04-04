@@ -10,7 +10,6 @@
 #include "qtooltip.h"
 #include "qapplication.h"
 #include <QFocusEvent>
-#include <Q3Frame>
 #include <QDropEvent>
 #include <QPixmap>
 #include <QMenuBar>
