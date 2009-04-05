@@ -15,7 +15,6 @@ SOURCES  = QGo4WidgetPlugin.cpp \
            QFitModelWidgetPlugin.cpp\
            QGo4CommandsHistoryPlugin.cpp \
            QGo4RootCanvasPlugin.cpp \
-           QGo4TablePlugin.cpp \
            TQrootCanvasPlugin.cpp \
            TQrootWindowPlugin.cpp \
            QGo4Widget.cpp \
@@ -26,7 +25,6 @@ SOURCES  = QGo4WidgetPlugin.cpp \
            QFitModelWidget.cpp\
            QGo4CommandsHistory.cpp \
            QGo4RootCanvas.cpp \
-           QGo4Table.cpp \
            tqrootcanvas.cpp \
            tqcanvasmenu.cpp \
            tqrootdialog.cpp\
@@ -42,7 +40,6 @@ HEADERS  = QGo4WidgetPlugin.h \
            QFitModelWidgetPlugin.h \
            QGo4CommandsHistoryPlugin.h \
            QGo4RootCanvasPlugin.h \
-           QGo4TablePlugin.h \
            TQrootCanvasPlugin.h \
            TQrootWindowPlugin.h \
            QGo4Widget.h \
@@ -53,7 +50,6 @@ HEADERS  = QGo4WidgetPlugin.h \
            QFitModelWidget.h \
            QGo4CommandsHistory.h \
            QGo4RootCanvas.h \
-           QGo4Table.h \
            tqrootcanvas.h \
            tqcanvasmenu.h \
            tqrootdialog.h \

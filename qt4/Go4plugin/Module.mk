@@ -53,8 +53,6 @@ all-qt4plugin:
 	cp -f $(GO4SYS)/qt4/Go4GUI/QGo4CommandsHistory.cpp $(PLUGIN4_DIR)
 	cp -f $(GO4SYS)/qt4/Go4GUI/QGo4RootCanvas.h $(PLUGIN4_DIR)
 	cp -f $(GO4SYS)/qt4/Go4GUI/QGo4RootCanvas.cpp $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4GUI/QGo4Table.h $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4GUI/QGo4Table.cpp $(PLUGIN4_DIR)
 	cp -f $(GO4SYS)/qt4/Go4QtRoot/tqrootcanvas.h $(PLUGIN4_DIR)
 	cp -f $(GO4SYS)/qt4/Go4QtRoot/tqrootcanvas.cpp $(PLUGIN4_DIR)
 	cp -f $(GO4SYS)/qt4/Go4QtRoot/tqcanvasmenu.h $(PLUGIN4_DIR)

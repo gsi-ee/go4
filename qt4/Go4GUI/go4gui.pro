@@ -13,7 +13,6 @@ HEADERS	+= \
 	TGo4WorkSpace.h \
 	QGo4LineEdit.h \
 	QGo4Widget.h \
-	QGo4Table.h \
 	QGo4BrowserListView.h \
 	QGo4BrowserItem.h \
 	TGo4ASImage.h \
@@ -61,7 +60,6 @@ SOURCES	+= \
 	TGo4WorkSpace.cpp \
 	QGo4LineEdit.cpp \
 	QGo4Widget.cpp \
-	QGo4Table.cpp \
 	QGo4BrowserListView.cpp \
 	QGo4BrowserItem.cpp \
 	TGo4ASImage.cpp \

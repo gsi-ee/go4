@@ -152,7 +152,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout" >
       <item row="0" column="0" >
-       <widget class="QGo4Table" name="NodeTable" >
+       <widget class="QTableWidget" name="NodeTable" >
         <property name="sizePolicy" >
          <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
           <horstretch>0</horstretch>
@@ -171,19 +171,13 @@
           <height>100</height>
          </size>
         </property>
-        <property name="numRows" >
+        <property name="rowCount" >
          <number>3</number>
         </property>
-        <property name="numCols" >
+        <property name="columnCount" >
          <number>5</number>
         </property>
-        <property name="rowMovingEnabled" >
-         <bool>false</bool>
-        </property>
-        <property name="readOnly" >
-         <bool>false</bool>
-        </property>
-        <property name="sorting" >
+        <property name="sortingEnabled" >
          <bool>true</bool>
         </property>
         <row>
@@ -250,20 +244,20 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_2" >
       <item row="0" column="0" >
-       <widget class="QGo4Table" name="RateTable" >
+       <widget class="QTableWidget" name="RateTable" >
         <property name="minimumSize" >
          <size>
           <width>300</width>
           <height>0</height>
          </size>
         </property>
-        <property name="numRows" >
+        <property name="rowCount" >
          <number>3</number>
         </property>
-        <property name="numCols" >
+        <property name="columnCount" >
          <number>5</number>
         </property>
-        <property name="sorting" >
+        <property name="sortingEnabled" >
          <bool>true</bool>
         </property>
         <row>
@@ -524,11 +518,6 @@
    <header>QGo4LineEdit.h</header>
   </customwidget>
   <customwidget>
-   <class>QGo4Table</class>
-   <extends>Q3Table</extends>
-   <header>QGo4Table.h</header>
-  </customwidget>
-  <customwidget>
    <class>Q3GroupBox</class>
    <extends>QGroupBox</extends>
    <header>Qt3Support/Q3GroupBox</header>
@@ -536,16 +525,12 @@
   </customwidget>
  </customwidgets>
  <includes>
-  <include location="local" >dic.hxx</include>
-  <include location="global" >vector</include>
-  <include location="local" >qtimer.h</include>
-  <include location="local" >QGo4Table.h</include>
-  <include location="global" >deque</include>
-  <include location="local" >QGo4Widget.h</include>
-  <include location="local" >QGo4Table.h</include>
-  <include location="local" >QGo4Table.h</include>
-  <include location="local" >QGo4LineEdit.h</include>
-  <include location="local" >QGo4LineEdit.h</include>
+  <include location="local">dic.hxx</include>
+  <include location="global">vector</include>
+  <include location="local">qtimer.h</include>
+  <include location="global">deque</include>
+  <include location="local">QGo4Widget.h</include>
+  <include location="local">QGo4LineEdit.h</include>
  </includes>
  <resources/>
  <connections>
@@ -583,7 +568,7 @@
   </connection>
   <connection>
    <sender>NodeTable</sender>
-   <signal>valueChanged(int,int)</signal>
+   <signal>cellChanged(int,int)</signal>
    <receiver>TGo4DabcMonitor</receiver>
    <slot>nodeTableChangedSlot(int,int)</slot>
    <hints>
@@ -599,7 +584,7 @@
   </connection>
   <connection>
    <sender>RateTable</sender>
-   <signal>valueChanged(int,int)</signal>
+   <signal>cellChanged(int,int)</signal>
    <receiver>TGo4DabcMonitor</receiver>
    <slot>rateTableChangedSlot(int,int)</slot>
    <hints>

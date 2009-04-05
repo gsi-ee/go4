@@ -2,7 +2,6 @@
 
 #include "QGo4WidgetPlugin.h"
 #include "QGo4LineEditPlugin.h"
-#include "QGo4TablePlugin.h"
 #include "QGo4CommandsHistoryPlugin.h"
 #include "QGo4BrowserListViewPlugin.h"
 #include "QFitWidgetPlugin.h"
@@ -16,10 +15,9 @@
 Go4WidgetPlugins::Go4WidgetPlugins(QObject *parent)
          : QObject(parent)
 {
-   Q_INIT_RESOURCE(go4plugin); 
+   Q_INIT_RESOURCE(go4plugin);
    widgets.append(new QGo4WidgetPlugin(this));
    widgets.append(new QGo4LineEditPlugin(this));
-   widgets.append(new QGo4TablePlugin(this));
    widgets.append(new QGo4CommandsHistoryPlugin(this));
    widgets.append(new QGo4BrowserListViewPlugin(this));
    widgets.append(new QFitWidgetPlugin(this));
