@@ -824,13 +824,13 @@ void TGo4ConditionEditor::CutTable_contextMenuRequested( const QPoint & pos )
 
    int nrow = CutTable->row(item);
 
-   QMenu menu;
-   QSignalMapper map;
+   QMenu menu(this);
+   QSignalMapper map(this);
    AddIdAction(&menu, &map, "Insert point", nrow);
    // only internal points should be allowed to deleted
    AddIdAction(&menu, &map, "Delete point", nrow+1000000, (nrow>0) && (nrow<cut->GetN()-1));
    connect(&map, SIGNAL(mapped(int)), this, SLOT(ContextMenuSlot(int)));
-   menu.exec(pos);
+   menu.exec(CutTable->mapToGlobal(pos));
 }
 
 void TGo4ConditionEditor::ContextMenuSlot(int id)

@@ -18,7 +18,7 @@ class Q3ListViewItem;
 class QPushButton;
 class QSpinBox;
 class QLabel;
-class Q3Table;
+class QTableWidget;
 class QCheckBox;
 class QComboBox;
 class QTabWidget;
@@ -246,7 +246,7 @@ public:
     virtual void UpdateWizModelsBtns();
     virtual void UpdateWizStackWidget();
     virtual void UpdateWizPaint(int mode);
-    virtual void FillParsTable( Q3Table * table, TGo4Fitter * fitter, TGo4FitModel * model, bool LinesView, TObjArray
+    virtual void FillParsTable( QTableWidget* table, TGo4Fitter * fitter, TGo4FitModel * model, bool LinesView, TObjArray
  * TableList );
     virtual void FillNamedWidget(QFitNamedWidget* w);
     virtual void ChangeObjectName(QFitNamedWidget* w, const char* newname);
@@ -295,7 +295,7 @@ public slots:
     virtual void Wiz_DataBufChk_toggled( bool zn );
     virtual void Wiz_UseAmplEstimChk_toggled( bool chk );
     virtual void Wiz_MigradIterSpin_valueChanged( int num );
-    virtual void Wiz_DataSlotsTable_contextMenuRequested( int nrow, int ncol, const QPoint & pnt );
+    virtual void Wiz_DataSlotsTable_contextMenuRequested(const QPoint & pnt );
     virtual void Wiz_DataUseRangeBtn_clicked();
     virtual void Wiz_DataClearRangesBtn_clicked();
     virtual void Wiz_DrawDataBtn_clicked();
@@ -316,7 +316,7 @@ public slots:
     virtual void FillParsWidget();
     virtual void LineParsChk_toggled( bool );
     virtual void ParsTable_valueChanged( int nrow, int ncol );
-    virtual void ParsTableChanged( Q3Table * table, int nrow, int ncol,
+    virtual void ParsTableChanged( QTableWidget * table, int nrow, int ncol,
                                     bool LinesView, TObjArray * TableList,
                                     bool updatepaint );
     virtual void Smp_PolynomBtn_clicked();
@@ -331,7 +331,6 @@ public slots:
     virtual void PF_MaxWidthEdt_returnPressed();
     virtual void PF_WidthEdit_returnPressed();
     virtual void PF_MinNoiseEdit_returnPressed();
-    virtual void ParsTable_contextMenuRequested(int, int, const QPoint &);
 
 public:
 	QFitItem* CurrFitItem;

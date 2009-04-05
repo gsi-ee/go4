@@ -226,18 +226,12 @@
                         </widget>
                       </item>
                       <item rowspan="1" row="2" column="0" colspan="2" >
-                        <widget class="Q3Table" name="Wiz_ParTable" >
-                          <property name="numRows" >
+                        <widget class="QTableWidget" name="Wiz_ParTable" >
+                          <property name="rowCount" >
                             <number>0</number>
                           </property>
-                          <property name="numCols" >
+                          <property name="columnCount" >
                             <number>0</number>
-                          </property>
-                          <property name="columnMovingEnabled" >
-                            <bool>true</bool>
-                          </property>
-                          <property name="selectionMode" >
-                            <enum>NoSelection</enum>
                           </property>
                           <property name="toolTip" stdset="0" >
                             <string>List of model parameters</string>
@@ -447,15 +441,12 @@
                         </widget>
                       </item>
                       <item rowspan="1" row="4" column="0" colspan="3" >
-                        <widget class="Q3Table" name="Wiz_DataSlotsTable" >
-                          <property name="numRows" >
+                        <widget class="QTableWidget" name="Wiz_DataSlotsTable" >
+                          <property name="rowCount" >
                             <number>3</number>
                           </property>
-                          <property name="numCols" >
+                          <property name="columnCount" >
                             <number>4</number>
-                          </property>
-                          <property name="readOnly" >
-                            <bool>true</bool>
                           </property>
                           <property name="toolTip" stdset="0" >
                             <string>List of data objects assigned to data</string>
@@ -1089,8 +1080,7 @@
                   <property name="text" >
                     <string>No fitter created!&lt;br>
 You can do one of the following:&lt;br>
-- select a pad with histogram (by MM button) and
-create a fitter with the "Use pad" button.&lt;br>
+- create a fitter for active pad with the "Use pad" button.&lt;br>
 - drag a fitter from browser to this panel.&lt;br>
 - double click on a fitter in the browser.&lt;br>
 - create a fitter by "Fitter/Create for pad" menu command.&lt;br></string>
@@ -1108,11 +1098,11 @@ create a fitter with the "Use pad" button.&lt;br>
             </attribute>
             <layout class="QGridLayout" >
               <item rowspan="1" row="1" column="0" colspan="3" >
-                <widget class="Q3Table" name="ParsTable" >
-                  <property name="numRows" >
+                <widget class="QTableWidget" name="ParsTable" >
+                  <property name="rowCount" >
                     <number>3</number>
                   </property>
-                  <property name="numCols" >
+                  <property name="columnCount" >
                     <number>3</number>
                   </property>
                   <property name="toolTip" stdset="0" >
@@ -1175,7 +1165,7 @@ create a fitter with the "Use pad" button.&lt;br>
                 <spacer name="spacer1" >
                   <property name="sizeHint" >
                     <size>
-                      <width>460</width>
+                      <width>230</width>
                       <height>20</height>
                     </size>
                   </property>
@@ -1426,7 +1416,7 @@ create a fitter with the "Use pad" button.&lt;br>
     </connection>
     <connection>
       <sender>Wiz_ParTable</sender>
-      <signal>valueChanged(int,int)</signal>
+      <signal>cellChanged(int,int)</signal>
       <receiver>TGo4FitPanel</receiver>
       <slot>Wiz_ParTable_valueChanged(int,int)</slot>
     </connection>
@@ -1468,9 +1458,9 @@ create a fitter with the "Use pad" button.&lt;br>
     </connection>
     <connection>
       <sender>Wiz_DataSlotsTable</sender>
-      <signal>contextMenuRequested(int,int,QPoint)</signal>
+      <signal>customContextMenuRequested(const QPoint &amp;)</signal>
       <receiver>TGo4FitPanel</receiver>
-      <slot>Wiz_DataSlotsTable_contextMenuRequested(int,int,QPoint)</slot>
+      <slot>Wiz_DataSlotsTable_contextMenuRequested(const QPoint &amp;)</slot>
     </connection>
     <connection>
       <sender>Wiz_DataUseRangeBtn</sender>
@@ -1552,7 +1542,7 @@ create a fitter with the "Use pad" button.&lt;br>
     </connection>
     <connection>
       <sender>ParsTable</sender>
-      <signal>valueChanged(int,int)</signal>
+      <signal>cellChanged(int,int)</signal>
       <receiver>TGo4FitPanel</receiver>
       <slot>ParsTable_valueChanged(int,int)</slot>
     </connection>
@@ -1711,12 +1701,6 @@ create a fitter with the "Use pad" button.&lt;br>
       <signal>returnPressed()</signal>
       <receiver>TGo4FitPanel</receiver>
       <slot>PF_MinNoiseEdit_returnPressed()</slot>
-    </connection>
-    <connection>
-      <sender>ParsTable</sender>
-      <signal>contextMenuRequested(int,int,QPoint)</signal>
-      <receiver>TGo4FitPanel</receiver>
-      <slot>ParsTable_contextMenuRequested(int,int,QPoint)</slot>
     </connection>
   </connections>
 </ui>

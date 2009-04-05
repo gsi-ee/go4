@@ -340,6 +340,11 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name)
     fxDrawNewPanel = 0;
     fbDrawPanelCreation = false;
 
+    QTableWidgetItem* item = new QTableWidgetItem;
+    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    Wiz_DataSlotsTable->setItemPrototype(item);
+    Wiz_DataSlotsTable->setContextMenuPolicy(Qt::CustomContextMenu);
+
     TGo4WorkSpace* ws = TGo4WorkSpace::Instance();
     connect(ws, SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
             this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
@@ -453,10 +458,11 @@ void TGo4FitPanel::DropOnPanel( QDropEvent* event, const char * itemname, TClass
 
    QWidget* w = childAt(event->pos(), TRUE);
 
-   if (w == Wiz_DataSlotsTable->viewport()) {
-      QPoint pnt = Wiz_DataSlotsTable->viewport()->mapFrom(this, event->pos());
-      pnt = Wiz_DataSlotsTable->viewportToContents(pnt);
-      int nrow = Wiz_DataSlotsTable->rowAt(pnt.y());
+   if (w == Wiz_DataSlotsTable) {
+      QPoint pnt = Wiz_DataSlotsTable->mapFrom(this, event->pos());
+      QTableWidgetItem* item = Wiz_DataSlotsTable->itemAt(pnt);
+
+      int nrow = item ? item->row() : -1;
 
       if ((nrow<0) || (nrow>fxWizSlots->GetLast())) return;
 
@@ -788,23 +794,23 @@ void TGo4FitPanel::Fitter_SaveToBrowser()
 
 void TGo4FitPanel::Fitter_PrintParameters()
 {
-   Q3Table* tab = ParsTable;
+   QTableWidget* tab = ParsTable;
    if (tab==0) return;
 
    TGo4Log::Info("Printout of fitter parameters table");
 
    QString str("Name");
-   for(int ncol=0;ncol<tab->numCols();ncol++) {
+   for(int ncol=0;ncol<tab->columnCount();ncol++) {
       str+="\t";
-      str+=tab->horizontalHeader()->label(ncol);
+      str+=tab->horizontalHeaderItem(ncol)->text();
    }
    TGo4Log::Info(str.latin1());
 
-   for(int nrow=0;nrow<tab->numRows();nrow++) {
-      str = tab->verticalHeader()->label(nrow);
-      for(int ncol=0;ncol<tab->numCols();ncol++) {
+   for(int nrow=0;nrow<tab->rowCount();nrow++) {
+      str = tab->verticalHeaderItem(nrow)->text();
+      for(int ncol=0;ncol<tab->columnCount();ncol++) {
         str+="\t";
-        str+=tab->text(nrow, ncol);
+        str+=tab->item(nrow, ncol)->text();
       }
       TGo4Log::Info(str.latin1());
    }
@@ -2571,31 +2577,30 @@ void TGo4FitPanel::UpdateWizStackWidget()
          fxWizSlots->Clear();
          data->FillSlotList(fxWizSlots);
 
-         Wiz_DataSlotsTable->setNumRows(fxWizSlots->GetLast()+1);
+         Wiz_DataSlotsTable->setRowCount(fxWizSlots->GetLast()+1);
 
          for(int n=0;n<=fxWizSlots->GetLast();n++) {
            TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (fxWizSlots->At(n));
            if (slot==0) continue;
 
-           Wiz_DataSlotsTable->verticalHeader()->setLabel(n, slot->GetName());
+           Wiz_DataSlotsTable->setVerticalHeaderItem(n, new QTableWidgetItem(slot->GetName()));
            TObject* obj = slot->GetObject();
 
            if (obj==0) {
-              Wiz_DataSlotsTable->setText(n, 0, " --- ");
-              Wiz_DataSlotsTable->setText(n, 1, slot->GetClass()->GetName());
-              Wiz_DataSlotsTable->setText(n, 2, "false");
+              Wiz_DataSlotsTable->setItem(n, 0, new QTableWidgetItem(" --- "));
+              Wiz_DataSlotsTable->setItem(n, 1, new QTableWidgetItem(slot->GetClass()->GetName()));
+              Wiz_DataSlotsTable->setItem(n, 2, new QTableWidgetItem("false"));
            } else {
-              Wiz_DataSlotsTable->setText(n, 0, obj->GetName());
-              Wiz_DataSlotsTable->setText(n, 1, obj->ClassName());
-              if (slot->GetOwned()) Wiz_DataSlotsTable->setText(n, 2, "true");
-                               else Wiz_DataSlotsTable->setText(n, 2, "false");
+         	  Wiz_DataSlotsTable->setItem(n, 0, new QTableWidgetItem(obj->GetName()));
+              Wiz_DataSlotsTable->setItem(n, 1, new QTableWidgetItem(obj->ClassName()));
+              if (slot->GetOwned()) Wiz_DataSlotsTable->setItem(n, 2, new QTableWidgetItem("true"));
+                               else Wiz_DataSlotsTable->setItem(n, 2, new QTableWidgetItem("false"));
            }
 
-           Wiz_DataSlotsTable->setText(n, 3, Wiz_GetSlotSourceInfo(slot));
+           Wiz_DataSlotsTable->setItem(n, 3, new QTableWidgetItem(Wiz_GetSlotSourceInfo(slot)));
          }
 
-         for(int n=0;n<=3;n++)
-           Wiz_DataSlotsTable->adjustColumn(n);
+         Wiz_DataSlotsTable->resizeColumnsToContents ();
 
          Wiz_DataUseRangeBtn->setEnabled(FindPadWhereData(data)!=0);
          if (data!=0)
@@ -2949,11 +2954,15 @@ void TGo4FitPanel::Wiz_MigradIterSpin_valueChanged( int num)
 }
 
 
-void TGo4FitPanel::Wiz_DataSlotsTable_contextMenuRequested( int nrow, int ncol, const QPoint& pnt )
+void TGo4FitPanel::Wiz_DataSlotsTable_contextMenuRequested(const QPoint& pnt )
 {
   if (fbFillingWidget || (fxWizSlots==0)) return;
 
-  if ((nrow<0) || (ncol<0) || (nrow>fxWizSlots->GetLast())) return;
+  QTableWidgetItem* item = Wiz_DataSlotsTable->itemAt(pnt);
+
+  int nrow = item ? item->row() : -1;
+
+  if ((nrow<0) || (nrow>fxWizSlots->GetLast())) return;
 
   TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (fxWizSlots->At(nrow));
   if (slot==0) return;
@@ -2962,7 +2971,7 @@ void TGo4FitPanel::Wiz_DataSlotsTable_contextMenuRequested( int nrow, int ncol, 
   QMenu menu(this);
 
   if (FillPopupForSlot(slot, &menu, &map)) {
-     QAction* act = menu.exec(pnt);
+     QAction* act = menu.exec(Wiz_DataSlotsTable->mapToGlobal(pnt));
      if (act==0) return;
      for (int id=0; id<10000; id++)
        if (act == (QAction*) map.mapping(id))
@@ -3087,18 +3096,21 @@ void TGo4FitPanel::ParsTable_valueChanged( int nrow, int ncol)
 }
 
 
-void TGo4FitPanel::FillParsTable(Q3Table* table, TGo4Fitter* fitter, TGo4FitModel* model, bool LinesView, TObjArray* TableList) {
+void TGo4FitPanel::FillParsTable(QTableWidget* table, TGo4Fitter* fitter, TGo4FitModel* model, bool LinesView, TObjArray* TableList) {
    if ((table==0) || (fitter==0) || (TableList==0)) return;
 
    if (model && LinesView) return;
    TableList->Clear();
 
-   for (int n=0;n<table->numRows();n++) table->clearCell(n, 0);
-
-   for (int nr=0;nr<table->numRows();nr++)
-     for (int nc=0;nc<table->numCols();nc++)
-       if (table->item(nr,nc))
-          table->item(nr,nc)->setEnabled(TRUE);
+/*   for (int nr=0;nr<table->rowCount();nr++)
+     for (int nc=0;nc<table->columnCount();nc++) {
+   	  QTableWidgetItem* item = table->item(nr,nc);
+   	  if (item) {
+   		  item->setFlags(item->flags() | Qt::ItemIsEnabled);
+   		  if (nc==0) item->setText("");
+   	  }
+     }
+*/
 
    if (LinesView) {
      int MaxAxis = 0;
@@ -3111,27 +3123,28 @@ void TGo4FitPanel::FillParsTable(Q3Table* table, TGo4Fitter* fitter, TGo4FitMode
      }
 
      int nfcol = (fiIntegralMode>0) ? 2 : 1;
-     table->setNumCols(nfcol+(MaxAxis+1)*2);
-     table->horizontalHeader()->setLabel(0,"Amplitude");
-     if (fiIntegralMode==1)
-        table->horizontalHeader()->setLabel(1,"Counts");
-     else if (fiIntegralMode==2)
-        table->horizontalHeader()->setLabel(1,"Integral");
-     else if (fiIntegralMode==3)
-        table->horizontalHeader()->setLabel(1,"Gauss Int");
+     table->setColumnCount(nfcol+(MaxAxis+1)*2);
+     table->setHorizontalHeaderItem(0, new QTableWidgetItem("Amplitude"));
+
+     QString capt;
+     if (fiIntegralMode==1) capt = "Counts"; else
+     if (fiIntegralMode==2) capt = "Integral"; else
+     if (fiIntegralMode==3) capt = "Gauss Int";
+     if (!capt.isEmpty())
+       table->setHorizontalHeaderItem(1, new QTableWidgetItem(capt));
 
      for (int naxis=0;naxis<=MaxAxis;naxis++) {
-        QString capt = QString("Position ") + QString::number(naxis);
-        table->horizontalHeader()->setLabel(nfcol + naxis*2, capt);
+        capt = QString("Position ") + QString::number(naxis);
+        table->setHorizontalHeaderItem(nfcol + naxis*2, new QTableWidgetItem(capt));
         if (fbRecalculateGaussWidth)
           capt = QString("FWHM ");
         else
           capt = QString("Sigma ");
         capt += QString::number(naxis);
-        table->horizontalHeader()->setLabel(nfcol+1 + naxis*2, capt);
+        table->setHorizontalHeaderItem(nfcol+1 + naxis*2, new QTableWidgetItem(capt));
      }
 
-     table->setNumRows(fitter->GetNumModel());
+     table->setRowCount(fitter->GetNumModel());
 
      for (Int_t n=0; n<fitter->GetNumModel();n++) {
         TGo4FitModel* m = fitter->GetModel(n);
@@ -3143,9 +3156,12 @@ void TGo4FitPanel::FillParsTable(Q3Table* table, TGo4Fitter* fitter, TGo4FitMode
                              fbRecalculateGaussWidth;
         double widthk = recalculatew ? 2.3548 : 1.0;
 
-        table->verticalHeader()->setLabel(n, m->GetName());
-        table->setText(n, 0, QString::number(m->GetAmplValue()));
-        table->item(n,0)->setEnabled(m->GetAmplPar());
+        table->setVerticalHeaderItem(n, new QTableWidgetItem(m->GetName()));
+
+        QTableWidgetItem* item0 = new QTableWidgetItem(QString::number(m->GetAmplValue()));
+        if (!m->GetAmplPar())
+      	  item0->setFlags(item0->flags() & ~Qt::ItemIsEnabled);
+        table->setItem(n, 0, item0);
 
         if (fiIntegralMode>0) {
            Double_t v = 0.;
@@ -3166,32 +3182,38 @@ void TGo4FitPanel::FillParsTable(Q3Table* table, TGo4Fitter* fitter, TGo4FitMode
               case 3: v = m->Integral(); break;
               default: v = 0;
            }
+
+           QTableWidgetItem* item1;
            if ((v<=0.) && (fiIntegralMode==3))
-             table->setText(n, 1, "---");
+             item1 = new QTableWidgetItem("---");
            else
-             table->setText(n, 1, QString::number(v));
-           table->item(n,1)->setEnabled(FALSE);
+             item1 = new QTableWidgetItem(QString::number(v));
+           item1->setFlags(item1->flags() & ~Qt::ItemIsEnabled);
+           table->setItem(n, 1, item1);
         }
 
         for (int naxis=0;naxis<=MaxAxis;naxis++) {
 
             Double_t pos, width;
 
+            QTableWidgetItem* item;
+
             if (m->GetPosition(naxis,pos)) {
-              table->setText(n, nfcol+naxis*2, QString::number(pos));
-              table->item(n, nfcol+naxis*2)->setEnabled(TRUE);
+            	item = new QTableWidgetItem(QString::number(pos));
             } else {
-              table->setText(n, nfcol+naxis*2, "---");
-              table->item(n, nfcol+naxis*2)->setEnabled(FALSE);
+              item = new QTableWidgetItem("---");
+              item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
             }
 
+            table->setItem(n, nfcol+naxis*2, item);
+
             if (m->GetWidth(naxis,width)) {
-               table->setText(n, nfcol+1+naxis*2, QString::number(width*widthk));
-               table->item(n, nfcol+1+naxis*2)->setEnabled(TRUE);
+            	item = new QTableWidgetItem(QString::number(width*widthk));
             } else {
-              table->setText(n, nfcol+1+naxis*2, "---");
-              table->item(n, nfcol+1+naxis*2)->setEnabled(FALSE);
+               item = new QTableWidgetItem("---");
+               item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
             }
+            table->setItem(n, nfcol+1+naxis*2, item);
         }
      }
 
@@ -3204,55 +3226,56 @@ void TGo4FitPanel::FillParsTable(Q3Table* table, TGo4Fitter* fitter, TGo4FitMode
      for(Int_t n=0; n<pars->NumPars();n++)
        TableList->Add(pars->GetPar(n));
 
-     table->setNumCols(6);
-     table->horizontalHeader()->setLabel(0,"Fixed");
-     table->horizontalHeader()->setLabel(1,"Value");
-     table->horizontalHeader()->setLabel(2,"Error");
-     table->horizontalHeader()->setLabel(3,"Epsilon");
-     table->horizontalHeader()->setLabel(4,"Min");
-     table->horizontalHeader()->setLabel(5,"Max");
+     table->setColumnCount(6);
+     table->setHorizontalHeaderItem(0, new QTableWidgetItem("Fixed"));
+     table->setHorizontalHeaderItem(1, new QTableWidgetItem("Value"));
+     table->setHorizontalHeaderItem(2, new QTableWidgetItem("Error"));
+     table->setHorizontalHeaderItem(3, new QTableWidgetItem("Epsilon"));
+     table->setHorizontalHeaderItem(4, new QTableWidgetItem("Min"));
+     table->setHorizontalHeaderItem(5, new QTableWidgetItem("Max"));
 
-     table->setNumRows(TableList->GetLast()+1);
+     table->setRowCount(TableList->GetLast()+1);
 
      for(Int_t n=0;n<=TableList->GetLast();n++) {
        TGo4FitParameter* par = dynamic_cast<TGo4FitParameter*> (TableList->At(n));
        if (par==0) continue;
 
-       if (model) table->verticalHeader()->setLabel(n, par->GetName());
-             else table->verticalHeader()->setLabel(n, par->GetFullName());
+       if (model) table->setVerticalHeaderItem(n, new QTableWidgetItem(par->GetName()));
+             else table->setVerticalHeaderItem(n, new QTableWidgetItem(par->GetFullName()));
 
-       Q3CheckTableItem* checkitem = new Q3CheckTableItem(table, "fix");
-       checkitem->setChecked(par->GetFixed());
+       QTableWidgetItem* checkitem = new QTableWidgetItem("fix");
+       checkitem->setCheckState(par->GetFixed() ? Qt::Checked : Qt::Unchecked);
        table->setItem(n, 0, checkitem);
 
-       table->setText(n, 1, QString::number(par->GetValue()));
-       table->item(n,1)->setEnabled(!par->GetFixed());
+       QTableWidgetItem* item = new QTableWidgetItem(QString::number(par->GetValue()));
+       if (par->GetFixed())
+      	 item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
+       table->setItem(n, 1, item);
 
-       table->setText(n, 2, QString::number(par->GetError()));
+       table->setItem(n, 2, new QTableWidgetItem(QString::number(par->GetError())));
 
        Double_t eps, min, max;
-       if (par->GetEpsilon(eps)) table->setText(n, 3, QString::number(eps));
-                            else table->setText(n, 3, "");
-
+       if (par->GetEpsilon(eps)) table->setItem(n, 3, new QTableWidgetItem(QString::number(eps)));
+                            else table->setItem(n, 3, new QTableWidgetItem(""));
 
        if (par->GetRange(min,max)) {
-         table->setText(n, 4, QString::number(min));
-         table->setText(n, 5, QString::number(max));
+         table->setItem(n, 4, new QTableWidgetItem(QString::number(min)));
+         table->setItem(n, 5, new QTableWidgetItem(QString::number(max)));
        } else {
-         table->setText(n, 4, "");
-         table->setText(n, 5, "");
+         table->setItem(n, 4, new QTableWidgetItem(""));
+         table->setItem(n, 5, new QTableWidgetItem(""));
        }
      }
    }
+   table->resizeColumnsToContents();
+   table->resizeRowsToContents();
 
-   for(int n=0;n<table->numCols();n++)
-     table->adjustColumn(n);
-
-   table->verticalHeader()->adjustHeaderSize();
-   table->horizontalHeader()->adjustHeaderSize();
+   // table->verticalHeader()->adjustHeaderSize();
+   // table->horizontalHeader()->adjustHeaderSize();
 }
 
-void TGo4FitPanel::ParsTableChanged(Q3Table* table, int nrow, int ncol, bool LinesView, TObjArray* TableList, bool updatepaint) {
+void TGo4FitPanel::ParsTableChanged(QTableWidget* table, int nrow, int ncol, bool LinesView, TObjArray* TableList, bool updatepaint)
+{
    if (fbFillingWidget || (table==0) || (TableList==0)) return;
 
    if ((nrow<0) || (nrow>TableList->GetLast())) return;
@@ -3268,7 +3291,7 @@ void TGo4FitPanel::ParsTableChanged(Q3Table* table, int nrow, int ncol, bool Lin
       double widthk = recalculatew ? 2.3548 : 1.0;
 
       bool ok = FALSE;
-      double zn = table->text(nrow, ncol).toDouble(&ok);
+      double zn = table->item(nrow, ncol)->text().toDouble(&ok);
       if (!ok) return;
 
       if (ncol==0) model->SetAmplValue(zn); else {
@@ -3285,28 +3308,33 @@ void TGo4FitPanel::ParsTableChanged(Q3Table* table, int nrow, int ncol, bool Lin
 
        switch (ncol) {
          case 0: {
-           Q3CheckTableItem* checkitem = dynamic_cast<Q3CheckTableItem*> ( table->item(nrow,0));
-           if (checkitem) par->SetFixed(checkitem->isChecked());
-           table->item(nrow,1)->setEnabled(!par->GetFixed());
-           break; }
+         	if (table->item(nrow,0)->checkState()==Qt::Checked) par->SetFixed(kTRUE); else
+          	if (table->item(nrow,0)->checkState()==Qt::Unchecked) par->SetFixed(kFALSE);
+         	if (par->GetFixed())
+         		table->item(nrow,1)->setFlags(table->item(nrow,1)->flags() & ~Qt::ItemIsEnabled);
+         	else
+         		table->item(nrow,1)->setFlags(table->item(nrow,1)->flags() | Qt::ItemIsEnabled);
+            break;
+         }
          case 1: {
            if (par->GetFixed()) break;
            bool ok = FALSE;
-           double zn = table->text(nrow,1).toDouble(&ok);
+           double zn = table->item(nrow,1)->text().toDouble(&ok);
            if (ok) {
-             par->SetValue(zn);
-             if (updatepaint) UpdateWizPaint(2);
+              par->SetValue(zn);
+              if (updatepaint) UpdateWizPaint(2);
            }
-           break; }
+           break;
+         }
          case 2: {
            if (par->GetFixed()) break;
            bool ok = FALSE;
-           double zn = table->text(nrow,2).toDouble(&ok);
+           double zn = table->item(nrow,2)->text().toDouble(&ok);
            if (ok) par->SetError(zn);
            break; }
          case 3: {
            bool ok = FALSE;
-           double zn = table->text(nrow,3).toDouble(&ok);
+           double zn = table->item(nrow,3)->text().toDouble(&ok);
            if (ok) par->SetEpsilon(zn);
            break; }
          case 4:
@@ -3315,7 +3343,7 @@ void TGo4FitPanel::ParsTableChanged(Q3Table* table, int nrow, int ncol, bool Lin
 
            bool ok = FALSE;
            bool range_changed = false;
-           double zn = table->text(nrow, ncol).toDouble(&ok);
+           double zn = table->item(nrow, ncol)->text().toDouble(&ok);
            if(ok) {
 
              bool changemin = false;
@@ -3348,13 +3376,13 @@ void TGo4FitPanel::ParsTableChanged(Q3Table* table, int nrow, int ncol, bool Lin
              range_changed = true;
              fbFillingWidget = true;
              if (changemin)
-               table->setText(nrow, 4, QString::number(min));
+               table->item(nrow, 4)->setText(QString::number(min));
              if (changemax)
-               table->setText(nrow, 5, QString::number(max));
+               table->item(nrow, 5)->setText(QString::number(max));
              fbFillingWidget = false;
            } else {
-             if ((table->text(nrow, ncol).length()==0) &&
-                 (table->text(nrow, 9-ncol).length()==0)) {
+             if ((table->item(nrow, ncol)->text().length()==0) &&
+                 (table->item(nrow, 9-ncol)->text().length()==0)) {
                     par->ClearRange();
                     range_changed = true;
                  }
@@ -3363,10 +3391,13 @@ void TGo4FitPanel::ParsTableChanged(Q3Table* table, int nrow, int ncol, bool Lin
            // reset first columns of pars list when we touch range values
            if (range_changed) {
               fbFillingWidget = true;
-              Q3CheckTableItem* checkitem = dynamic_cast<Q3CheckTableItem*> ( table->item(nrow,0));
-              if (checkitem) checkitem->setChecked(par->GetFixed());
-              table->item(nrow,1)->setEnabled(!par->GetFixed());
-              table->setText(nrow, 1, QString::number(par->GetValue()));
+              table->item(nrow,0)->
+                 setCheckState(par->GetFixed() ? Qt::Checked : Qt::Unchecked);
+           	  if (par->GetFixed())
+           		  table->item(nrow,1)->setFlags(table->item(nrow,1)->flags() & ~Qt::ItemIsEnabled);
+           	  else
+           		  table->item(nrow,1)->setFlags(table->item(nrow,1)->flags() | Qt::ItemIsEnabled);
+              table->item(nrow,1)->setText(QString::number(par->GetValue()));
               fbFillingWidget = false;
            }
 
@@ -3499,10 +3530,6 @@ void TGo4FitPanel::PF_MinNoiseEdit_returnPressed()
 {
   if (!fbFillingWidget)
     Button_PeakFinder();
-}
-
-void TGo4FitPanel::ParsTable_contextMenuRequested(int nrow, int ncol, const QPoint &)
-{
 }
 
 TGo4Fitter* TGo4FitPanel::CreateFitterFor(TGo4ViewPanel* panel, TPad* pad, const char* name)

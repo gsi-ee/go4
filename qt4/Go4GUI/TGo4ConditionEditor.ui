@@ -1016,11 +1016,6 @@
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>Q3Table</class>
-   <extends>Q3Frame</extends>
-   <header>q3table.h</header>
-  </customwidget>
-  <customwidget>
    <class>QGo4Widget</class>
    <extends>QWidget</extends>
    <header>QGo4Widget.h</header>
