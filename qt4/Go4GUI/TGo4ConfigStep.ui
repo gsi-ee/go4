@@ -31,7 +31,7 @@
         <number>0</number>
       </property>
       <item row="0" column="0" >
-        <widget class="Q3GroupBox" name="ControlGroup_2" >
+        <widget class="QGroupBox" name="ControlGroup_2" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>3</hsizetype>
@@ -39,12 +39,6 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
             </sizepolicy>
-          </property>
-          <property name="frameShape" >
-            <enum>Q3GroupBox::Box</enum>
-          </property>
-          <property name="frameShadow" >
-            <enum>Q3GroupBox::Sunken</enum>
           </property>
           <property name="title" >
             <string>Step Control</string>
@@ -77,7 +71,7 @@
               </widget>
             </item>
             <item>
-              <widget class="QCheckBox" name="Disable_out_2" >
+              <widget class="QCheckBox" name="DisableStoreBox" >
                 <property name="text" >
                   <string>Disable Store</string>
                 </property>
@@ -103,7 +97,7 @@
             <font/>
           </property>
           <property name="title" >
-            <string>EventSource</string>
+            <string>Event source</string>
           </property>
           <layout class="QGridLayout" >
             <property name="margin" >
@@ -477,7 +471,7 @@
         </widget>
       </item>
       <item row="2" column="0" >
-        <widget class="Q3GroupBox" name="StoreBox" >
+        <widget class="QGroupBox" name="StoreBox" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>3</hsizetype>
@@ -487,7 +481,7 @@
             </sizepolicy>
           </property>
           <property name="title" >
-            <string>EventStore</string>
+            <string>Event store</string>
           </property>
           <layout class="QGridLayout" >
             <property name="margin" >
@@ -739,7 +733,7 @@
       <slot>InputDisable(int)</slot>
     </connection>
     <connection>
-      <sender>Disable_out_2</sender>
+      <sender>DisableStoreBox</sender>
       <signal>stateChanged(int)</signal>
       <receiver>TGo4ConfigStep</receiver>
       <slot>OutputDisable(int)</slot>
@@ -837,7 +831,7 @@
     <connection>
       <sender>Step_Disable_b</sender>
       <signal>toggled(bool)</signal>
-      <receiver>Disable_out_2</receiver>
+      <receiver>DisableStoreBox</receiver>
       <slot>setDisabled(bool)</slot>
     </connection>
     <connection>

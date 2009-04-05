@@ -23,7 +23,7 @@
     </property>
     <layout class="QGridLayout" >
       <item row="1" column="0" >
-        <widget class="Q3WidgetStack" name="WidgetStack" >
+        <widget class="QStackedWidget" name="WidgetStack" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>2</hsizetype>
@@ -69,7 +69,7 @@
                       </property>
                     </column>
                   </widget>
-                  <widget class="Q3WidgetStack" name="ListStack" >
+                  <widget class="QStackedWidget" name="ListStack" >
                     <property name="frameShape" >
                       <enum>Box</enum>
                     </property>
@@ -190,7 +190,7 @@
             </attribute>
             <layout class="QGridLayout" >
               <item row="0" column="1" >
-                <widget class="Q3WidgetStack" name="Wiz_Stack" >
+                <widget class="QStackedWidget" name="Wiz_Stack" >
                   <property name="sizePolicy" >
                     <sizepolicy>
                       <hsizetype>2</hsizetype>

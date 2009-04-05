@@ -91,7 +91,7 @@
         </layout>
       </item>
       <item rowspan="1" row="3" column="0" colspan="2" >
-        <widget class="Q3GroupBox" name="YAxisGroup" >
+        <widget class="QGroupBox" name="YAxisGroup" >
           <property name="title" >
             <string>Y-Axis</string>
           </property>
@@ -157,13 +157,7 @@
         </widget>
       </item>
       <item rowspan="1" row="4" column="0" colspan="2" >
-        <widget class="Q3GroupBox" name="ZAxisGroup" >
-          <property name="frameShape" >
-            <enum>Q3GroupBox::GroupBoxPanel</enum>
-          </property>
-          <property name="frameShadow" >
-            <enum>Q3GroupBox::Sunken</enum>
-          </property>
+        <widget class="QGroupBox" name="ZAxisGroup" >
           <property name="title" >
             <string>Z-Axis</string>
           </property>
@@ -288,7 +282,7 @@
         </widget>
       </item>
       <item rowspan="1" row="2" column="0" colspan="2" >
-        <widget class="Q3GroupBox" name="GroupBox7" >
+        <widget class="QGroupBox" name="GroupBox7" >
           <property name="title" >
             <string>X-Axis</string>
           </property>

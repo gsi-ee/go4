@@ -26,7 +26,7 @@
         <number>1</number>
       </property>
       <item row="1" column="0" >
-        <widget class="Q3GroupBox" name="TitleBox" >
+        <widget class="QGroupBox" name="TitleBox" >
           <property name="title" >
             <string>Parameter</string>
           </property>
@@ -83,7 +83,7 @@
         </widget>
       </item>
       <item row="2" column="0" >
-        <widget class="Q3GroupBox" name="MemberBox" >
+        <widget class="QGroupBox" name="MemberBox" >
           <property name="title" >
             <string>Object Members</string>
           </property>

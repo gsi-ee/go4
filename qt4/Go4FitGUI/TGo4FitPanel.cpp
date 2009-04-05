@@ -333,6 +333,7 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name)
     fiNumMigradIter = 0;
 
     fxCurrentItem = 0;
+    fxCurrentItemWidget = 0;
 
     fxActivePanel = 0;
     fxActivePad = 0;
@@ -1272,11 +1273,12 @@ void TGo4FitPanel::Cmd_ItemPrint(QFitItem* item)
    RemoveItemWidget();
    QFitPrintWidget* widget = new QFitPrintWidget(0, QString("Print ")+obj->GetName());
 
-   ListStack->addWidget(widget, FitGui::ListStackId);
+   fxCurrentItemWidget = widget;
 
+   ListStack->addWidget(widget);
    widget->SetDrawOption(str);
    widget->SetItem(this, item);
-   ListStack->raiseWidget(widget);
+   ListStack->setCurrentWidget(widget);
 }
 
 void TGo4FitPanel::Cmd_DrawData(QFitItem * item)
@@ -1978,8 +1980,8 @@ void TGo4FitPanel::ShowPanelPage( int id )
       case 3: w = PageExtended; break;
       case 100: w = PageParameters; break;
    }
-   if (w!=WidgetStack->visibleWidget())
-     WidgetStack->raiseWidget(w);
+   if (w!=WidgetStack->currentWidget())
+     WidgetStack->setCurrentWidget(w);
 }
 
 void TGo4FitPanel::UpdateStatusBar(const char* info)
@@ -2640,8 +2642,8 @@ void TGo4FitPanel::UpdateWizStackWidget()
       }
     }
 
-    if (target) Wiz_Stack->raiseWidget(target);
-           else Wiz_Stack->raiseWidget(Wiz_EmptyPage);
+    if (target) Wiz_Stack->setCurrentWidget(target);
+           else Wiz_Stack->setCurrentWidget(Wiz_EmptyPage);
 
     fbFillingWidget = false;
 }
@@ -3084,7 +3086,7 @@ void TGo4FitPanel::LineParsChk_toggled(bool)
   if (fitter==0) return;
   fbFillingWidget = true;
   FillParsTable(ParsTable, fitter, 0, LineParsChk->isChecked(), fxParsTableList);
-  WidgetStack->raiseWidget(PageParameters);
+  WidgetStack->setCurrentWidget(PageParameters);
   fbFillingWidget = false;
 }
 
@@ -4256,7 +4258,7 @@ bool TGo4FitPanel::ShowItemAsText(QFitItem* item, bool force)
 
   QFitItem* widgetitem = item->DefineWidgetItem();
 
-  QFitWidget* oldwidget = dynamic_cast<QFitWidget*> (ListStack->widget(FitGui::ListStackId));
+  QFitWidget* oldwidget = dynamic_cast<QFitWidget*> (fxCurrentItemWidget);
   if ((oldwidget!=0) && (oldwidget->GetItem()==widgetitem)) {
     oldwidget->FillWidget();
     return TRUE;
@@ -4298,9 +4300,10 @@ bool TGo4FitPanel::ShowItemAsText(QFitItem* item, bool force)
    }
 
    if (widget!=0) {
+   	fxCurrentItemWidget = widget;
       widget->SetItem(this, widgetitem);
-      ListStack->addWidget(widget, FitGui::ListStackId);
-      ListStack->raiseWidget(widget);
+      ListStack->addWidget(widget);
+      ListStack->setCurrentWidget(widget);
    }
 
    return TRUE;
@@ -4380,10 +4383,10 @@ bool TGo4FitPanel::ShowItemAsGraph(QFitItem* item, bool force)
 void TGo4FitPanel::RemoveItemWidget()
 {
    fxCurrentItem = 0;
-   QWidget* w = ListStack->widget(FitGui::ListStackId);
-   if (w) {
-     ListStack->removeWidget(w);
-     delete w;
+   if (fxCurrentItemWidget) {
+     ListStack->removeWidget(fxCurrentItemWidget);
+     delete fxCurrentItemWidget;
+     fxCurrentItemWidget = 0;
    }
 }
 
@@ -4820,7 +4823,7 @@ void TGo4FitPanel::ArrowChanged(TGo4FitGuiArrow* arr)
       if (arr->GetType()==TGo4FitGuiArrow::at_range)
          SetItemText(arr->GetItem(), TRUE);
 
-      QFitWidget* current = dynamic_cast<QFitWidget*> (ListStack->widget(FitGui::ListStackId));
+      QFitWidget* current = dynamic_cast<QFitWidget*> (fxCurrentItemWidget);
       if(current) current->FillWidget();
    }
 

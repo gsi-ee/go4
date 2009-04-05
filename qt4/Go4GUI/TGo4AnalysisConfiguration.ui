@@ -49,7 +49,7 @@
         </widget>
       </item>
       <item row="2" column="0" >
-        <widget class="Q3GroupBox" name="GroupBox2" >
+        <widget class="QGroupBox" name="GroupBox2" >
           <property name="title" >
             <string>Analysis Configuration File</string>
           </property>
@@ -335,7 +335,7 @@
         </layout>
       </item>
       <item row="1" column="0" >
-        <widget class="Q3GroupBox" name="GroupBox3" >
+        <widget class="QGroupBox" name="GroupBox3" >
           <property name="title" >
             <string>Auto Save File</string>
           </property>

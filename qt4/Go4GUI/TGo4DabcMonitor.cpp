@@ -945,6 +945,7 @@ if(fbRebuildNodeTable)
     {
         //std::cout<<"*********                               - rebuild table" <<std::endl;
         // first case: create table completely new
+	     NodeTable->setRowCount(0);
         int maxnodes = fxDabcNodes.size();
         NodeTable->setRowCount(maxnodes);
         for(int ix=0; ix<maxnodes; ++ix)
@@ -1061,6 +1062,7 @@ if(fbRebuildRateTable)
         //std::cout<<"*********                               - rebuild table" <<std::endl;
         // first case: create table completely new
        //std::cout<<"*                    inserting "<<numrates<<" rows" <<std::endl;
+	     RateTable->setRowCount(0);
         RateTable->setRowCount(numrates);
         int tableindex=0;
         // now fill table with services:

@@ -102,7 +102,7 @@
         </layout>
       </item>
       <item row="1" column="0" >
-        <widget class="Q3GroupBox" name="OptStatGroupBox" >
+        <widget class="QGroupBox" name="OptStatGroupBox" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>5</hsizetype>

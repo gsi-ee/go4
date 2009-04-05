@@ -84,7 +84,7 @@ void TGo4ConfigStep::InputSourceText(const QString& Name)
 
 void TGo4ConfigStep::OutputDisable(int )
 {
-    if(Disable_out_2->isChecked()){ //checked
+    if(DisableStoreBox->isChecked()){ //checked
        fStepStatus->SetStoreEnabled(kFALSE);
        StoreBox->setEnabled(false);
        StoreBox->setHidden(true);
@@ -93,6 +93,8 @@ void TGo4ConfigStep::OutputDisable(int )
        StoreBox->setEnabled(true);
        StoreBox->setShown(true);
     }
+   parentWidget()->adjustSize();
+   parentWidget()->parentWidget()->adjustSize();
    parentWidget()->parentWidget()->parentWidget()->adjustSize();
 }
 
@@ -528,14 +530,14 @@ void TGo4ConfigStep::SetStepControl(bool process, bool source, bool store)
 {
    Step_Disable_b->setChecked(!process);
    Disable_in_2->setChecked(!source);
-   Disable_out_2->setChecked(!store);
+   DisableStoreBox->setChecked(!store);
 }
 
 void TGo4ConfigStep::GetStepControl(bool& process, bool& source, bool& store)
 {
    process  = !Step_Disable_b->isChecked();
    source = !Disable_in_2->isChecked();
-   store = !Disable_out_2->isChecked();
+   store = !DisableStoreBox->isChecked();
 }
 
 void TGo4ConfigStep::ResetSourceWidgets(const QString& name, int timeout)

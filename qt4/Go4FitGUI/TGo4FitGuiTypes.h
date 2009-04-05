@@ -33,8 +33,6 @@ namespace FitGui {
 
    enum PanelMode
      { pm_None = 0, pm_Simple = 1, pm_Wizard = 2, pm_Expert = 3};
-
-   enum { ListStackId = 111 };
 };
 
 #endif

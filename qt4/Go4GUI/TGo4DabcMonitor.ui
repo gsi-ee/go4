@@ -14,7 +14,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout_3" >
    <item row="0" column="0" >
-    <widget class="Q3GroupBox" name="dnsBox" >
+    <widget class="QGroupBox" name="dnsBox" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
        <horstretch>0</horstretch>
@@ -35,9 +35,6 @@
      </property>
      <property name="title" >
       <string>DIM dns server</string>
-     </property>
-     <property name="margin" >
-      <number>0</number>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout" >
       <item>
@@ -134,7 +131,7 @@
     </widget>
    </item>
    <item rowspan="3" row="0" column="1" >
-    <widget class="Q3GroupBox" name="dabcNodeBox" >
+    <widget class="QGroupBox" name="dabcNodeBox" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
        <horstretch>0</horstretch>
@@ -226,7 +223,7 @@
     </widget>
    </item>
    <item rowspan="3" row="0" column="2" >
-    <widget class="Q3GroupBox" name="ratemeterBox" >
+    <widget class="QGroupBox" name="ratemeterBox" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
        <horstretch>0</horstretch>
@@ -306,7 +303,7 @@
     </widget>
    </item>
    <item row="1" column="0" >
-    <widget class="Q3GroupBox" name="controlBox" >
+    <widget class="QGroupBox" name="controlBox" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
        <horstretch>0</horstretch>
@@ -327,12 +324,6 @@
      </property>
      <property name="title" >
       <string>Inspector</string>
-     </property>
-     <property name="frameShape" >
-      <enum>Q3GroupBox::GroupBoxPanel</enum>
-     </property>
-     <property name="frameShadow" >
-      <enum>Q3GroupBox::Sunken</enum>
      </property>
      <layout class="QGridLayout" >
       <item row="0" column="0" >
@@ -516,12 +507,6 @@
    <class>QGo4LineEdit</class>
    <extends>QLineEdit</extends>
    <header>QGo4LineEdit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>Q3GroupBox</class>
-   <extends>QGroupBox</extends>
-   <header>Qt3Support/Q3GroupBox</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <includes>

@@ -29,7 +29,7 @@
         <enum>Minimum</enum>
       </property>
       <item row="1" column="0" >
-        <widget class="Q3GroupBox" name="MbsPrintBox" >
+        <widget class="QGroupBox" name="MbsPrintBox" >
           <property name="title" >
             <string>MBS Event</string>
           </property>
