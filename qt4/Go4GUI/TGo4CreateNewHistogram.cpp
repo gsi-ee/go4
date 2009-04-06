@@ -6,21 +6,34 @@
 #include "TDirectory.h"
 #include "TROOT.h"
 #include "TGo4QSettings.h"
+#include <QButtonGroup>
 
 TGo4CreateNewHistogram::TGo4CreateNewHistogram( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
     : QDialog( parent, name, modal, fl )
-{ 
+{
 	setObjectName(name);
 	setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
    HisName->setText(go4sett->getHistName());
    HisTitle->setText("histogram title");
 
+   HisClassGrp = new QButtonGroup(this);
+   HisClassGrp->addButton(TH1_b, 1);
+   HisClassGrp->addButton(TH2_b, 2);
+   HisClassGrp->addButton(TH3_b, 3);
+
+   HisTypeGrp = new QButtonGroup(this);
+   HisTypeGrp->addButton(S_b, 1);
+   HisTypeGrp->addButton(D_b, 2);
+   HisTypeGrp->addButton(F_b, 3);
+   HisTypeGrp->addButton(I_b, 4);
+   HisTypeGrp->addButton(C_b, 5);
+
    int htype = go4sett->getHistType();
-   HisClassType->setButton(htype / 10);
-   HisType->setButton(htype % 10);
+   HisClassGrp->button(htype / 10)->setChecked(true);
+   HisTypeGrp->button(htype % 10)->setChecked(true);
 
    int npoints;
    double min, max;
@@ -62,7 +75,7 @@ TH1* TGo4CreateNewHistogram::MakeHistogram()
 {
    const char* hname = HisName->text().latin1();
    const char* htitle = HisTitle->text().latin1();
-   int htype = HisClassType->selectedId()*10 + HisType->selectedId();
+   int htype = HisClassGrp->checkedId()*10 + HisTypeGrp->checkedId();
 
    int nxbins = XNoOfBins->text().toInt();
    int nybins = YNoOfBins->text().toInt();

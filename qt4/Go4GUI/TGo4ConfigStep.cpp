@@ -557,14 +557,14 @@ void TGo4ConfigStep::ResetSourceWidgets(const QString& name, int timeout)
 
 void TGo4ConfigStep::SetFileSource()
 {
-   Input_Combo_1_2->setCurrentItem(0);
+   EventSourceCombo->setCurrentItem(0);
    FileNameInput->setEnabled(true);
    SourceComboHighlighted(0);
 }
 
 void TGo4ConfigStep::SetMbsFileSource(QString TagFile, int start, int stop, int interval)
 {
-   Input_Combo_1_2->setCurrentItem(1);
+   EventSourceCombo->setCurrentItem(1);
    LineEditTagfile->setEnabled(true);
    SpinBoxStartEvent->setEnabled(true);
    SpinBoxStopEvent->setEnabled(true);
@@ -582,28 +582,28 @@ void TGo4ConfigStep::SetMbsFileSource(QString TagFile, int start, int stop, int 
 
 void TGo4ConfigStep::SetMbsStreamSource()
 {
-   Input_Combo_1_2->setCurrentItem(2);
+   EventSourceCombo->setCurrentItem(2);
    SpinBoxTimeout->setEnabled(true);
    SourceComboHighlighted(2);
 }
 
 void TGo4ConfigStep::SetMbsTransportSource()
 {
-   Input_Combo_1_2->setCurrentItem(3);
+   EventSourceCombo->setCurrentItem(3);
    SpinBoxTimeout->setEnabled(true);
    SourceComboHighlighted(3);
 }
 
 void TGo4ConfigStep::SetMbsEventServerSource()
 {
-   Input_Combo_1_2->setCurrentItem(4);
+   EventSourceCombo->setCurrentItem(4);
    SpinBoxTimeout->setEnabled(true);
    SourceComboHighlighted(4);
 }
 
 void TGo4ConfigStep::SetMbsRevServSource(int port)
 {
-   Input_Combo_1_2->setCurrentItem(5);
+   EventSourceCombo->setCurrentItem(5);
    QString PortNo;
    PortNo.setNum(port);
    LineEditPortNumber->setText(PortNo);
@@ -614,13 +614,13 @@ void TGo4ConfigStep::SetMbsRevServSource(int port)
 
 void TGo4ConfigStep::SetRandomSource()
 {
-   Input_Combo_1_2->setCurrentItem(6);
+   EventSourceCombo->setCurrentItem(6);
    SourceComboHighlighted(6);
 }
 
 void TGo4ConfigStep::SetUserSource(int port, QString expr)
 {
-   Input_Combo_1_2->setCurrentItem(7);
+   EventSourceCombo->setCurrentItem(7);
    QString PortNo;
    PortNo.setNum(port);
    LineEditPortNumber->setText(PortNo);
@@ -636,7 +636,7 @@ int TGo4ConfigStep::GetSourceSetup(QString& name, int& timeout)
 {
    name = SourceNameEdit->text();
    timeout = SpinBoxTimeout->value();
-   return Input_Combo_1_2->currentItem();
+   return EventSourceCombo->currentItem();
 }
 
 void TGo4ConfigStep::GetMbsFileSource(QString& TagFile, int& start, int& stop, int& interval)

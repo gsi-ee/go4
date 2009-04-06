@@ -107,7 +107,7 @@
               <number>0</number>
             </property>
             <item row="0" column="0" >
-              <widget class="QComboBox" name="Input_Combo_1_2" >
+              <widget class="QComboBox" name="EventSourceCombo" >
                 <property name="toolTip" stdset="0" >
                   <string>Type of event source.</string>
                 </property>
@@ -745,7 +745,7 @@
       <slot>InputSourceText(QString)</slot>
     </connection>
     <connection>
-      <sender>Input_Combo_1_2</sender>
+      <sender>EventSourceCombo</sender>
       <signal>activated(int)</signal>
       <receiver>TGo4ConfigStep</receiver>
       <slot>SourceComboHighlighted(int)</slot>
