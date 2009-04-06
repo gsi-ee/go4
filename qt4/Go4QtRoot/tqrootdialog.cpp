@@ -104,7 +104,7 @@ TQRootDialog::TQRootDialog(QWidget *parent, const char *name, Qt::WFlags f,
 TQRootDialog::~TQRootDialog()
 {
    if(fArgBox) delete fArgBox;
-   aList.remove();
+   aList.clear();
 }
 
 void TQRootDialog::receive()
@@ -129,7 +129,12 @@ void TQRootDialog::executeMethod()
    //cout<< "executeMethod" << fCurMethod->GetName() << endl;
 
    TObjArray tobjlist(fCurMethod->GetListOfMethodArgs()->LastIndex()+1);
-   for ( QLineEdit* st = aList.first(); st; st = aList.next()) {
+   QList<QLineEdit*>::iterator iter = aList.begin();
+
+   while ( iter != aList.end()) {
+   	QLineEdit* st = *iter;
+   	iter++;
+   	if (st==0) break;
       QString s = st->text();
       qDebug( "** QString values (first ) :%s \n", (const char*) s );
       TObjString *t = new TObjString( (const char*) s );
@@ -154,7 +159,11 @@ void TQRootDialog::executeMethod()
      if (strcmp(fCurMethod->GetName(), "SetCanvasSize") == 0) {
         int value[2];
         int l=0;
-        for ( QLineEdit* st = aList.first(); st; st = aList.next()) {
+        QList<QLineEdit*>::iterator iter = aList.begin();
+        while ( iter != aList.end()) {
+        	  QLineEdit* st = *iter;
+        	  iter++;
+        	  if (st==0) break;
            QString s = st->text();
            qDebug( "** QString values (first ) :%s \n", (const char*) s );
            value[l++] = atoi ( s );

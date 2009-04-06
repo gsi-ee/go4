@@ -1,22 +1,19 @@
 #include "TGo4TreeViewer.h"
-//#include <Q3DragObject>
+
 #include <QApplication>
 #include <QToolTip>
 
 #include "TH1.h"
 #include "TClass.h"
-//#include "QGo4LineEdit.h"
 #include "TGo4Slot.h"
 #include "TGo4BrowserProxy.h"
 
 TGo4TreeViewer::TGo4TreeViewer(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
-{ 
+{
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
-			// from ui file to the setupUI
-   fxTreeName = "";
+
+	fxTreeName = "";
    TreeDrawBtn->setEnabled(FALSE);
    setAcceptDrops(FALSE);
    QToolTip::add(this, "Tree is not selected. Drag and drop leaf item from browser to X, Y or Z field");

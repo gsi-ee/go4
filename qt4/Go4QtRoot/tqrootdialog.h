@@ -14,7 +14,7 @@
 #define TQROOTDIALOG_H
 
 #include <Qt3Support/q3vbox.h>
-#include <Qt3Support/q3ptrlist.h>
+#include <QtCore/QList>
 #include <QtGui/QCloseEvent>
 
 class TObject;
@@ -60,7 +60,7 @@ class TQRootDialog: public Q3VBox {
 
    protected:
        Q3VBox*           fArgBox;
-       Q3PtrList<QLineEdit> aList;
+       QList<QLineEdit*> aList;
        TObject*         fCurObj;
        TObject*         fPrevObj;
        TMethod*         fCurMethod;
