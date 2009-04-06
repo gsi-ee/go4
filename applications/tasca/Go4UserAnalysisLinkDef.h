@@ -13,6 +13,7 @@
 #pragma link C++ class TascaAnlProc+;
 #pragma link C++ class TascaCalibPar+;
 #pragma link C++ class TascaAnlFact+;
+#pragma link C++ class TascaCodec+;
 
 #endif
 

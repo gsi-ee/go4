@@ -1,95 +1,97 @@
-EXAMP2STEP_NAME        = Go4Example2Step
-MODULE_NAME            = $(EXAMP2STEP_NAME)
+TASCA_NAME        = Tasca
+MODULE_NAME            = $(TASCA_NAME)
 
 ## normally should be like this for every module, but can be specific
 
 ifdef GO4PACKAGE
-EXAMP2STEP_DIR         = $(GO4SYS)/$(EXAMP2STEP_NAME)
+TASCA_DIR         = $(GO4SYS)/$(TASCA_NAME)
 else
-EXAMP2STEP_DIR         = .
+TASCA_DIR         = .
 endif
 
-EXAMP2STEP_LINKDEF     = $(EXAMP2STEP_DIR)/Go4UserAnalysisLinkDef.$(HedSuf)
-EXAMP2STEP_LIBNAME     = libGo4UserAnalysis
-EXAMP2STEP_EXENAME     = MainUserAnalysis
-EXAMP2STEP_ONLYMAP     = $(EXAMP2STEP_DIR)/.localmap
-EXAMP2STEP_MAP         = $(EXAMP2STEP_DIR)/$(ROOTMAPNAME)
+TASCA_LINKDEF     = $(TASCA_DIR)/Go4UserAnalysisLinkDef.$(HedSuf)
+TASCA_LIBNAME     = libGo4UserAnalysis
+TASCA_EXENAME     = MainUserAnalysis
+TASCA_ONLYMAP     = $(TASCA_DIR)/.localmap
+TASCA_MAP         = $(TASCA_DIR)/$(ROOTMAPNAME)
 
-EXAMP2STEP_NOTLIBF     = 
+TASCA_NOTLIBF     = 
 
 ## must be similar for every module
 
-EXAMP2STEP_EXEO        = $(EXAMP2STEP_DIR)/$(EXAMP2STEP_EXENAME).$(ObjSuf)
-#EXAMP2STEP_EXEH        = $(EXAMP2STEP_DIR)/$(EXAMP2STEP_EXENAME).$(HedSuf)
-EXAMP2STEP_EXES        = $(EXAMP2STEP_DIR)/$(EXAMP2STEP_EXENAME).$(SrcSuf)
-EXAMP2STEP_EXE         = $(EXAMP2STEP_DIR)/$(EXAMP2STEP_EXENAME)$(ExeSuf)   
+TASCA_EXEO        = $(TASCA_DIR)/$(TASCA_EXENAME).$(ObjSuf)
+#TASCA_EXEH        = $(TASCA_DIR)/$(TASCA_EXENAME).$(HedSuf)
+TASCA_EXES        = $(TASCA_DIR)/$(TASCA_EXENAME).$(SrcSuf)
+TASCA_EXE         = $(TASCA_DIR)/$(TASCA_EXENAME)$(ExeSuf)   
 
-EXAMP2STEP_DICT        = $(EXAMP2STEP_DIR)/$(DICT_PREFIX)$(EXAMP2STEP_NAME)
-EXAMP2STEP_DH          = $(EXAMP2STEP_DICT).$(HedSuf)
-EXAMP2STEP_DS          = $(EXAMP2STEP_DICT).$(SrcSuf)
-EXAMP2STEP_DO          = $(EXAMP2STEP_DICT).$(ObjSuf)
+TASCA_DICT        = $(TASCA_DIR)/$(DICT_PREFIX)$(TASCA_NAME)
+TASCA_DH          = $(TASCA_DICT).$(HedSuf)
+TASCA_DS          = $(TASCA_DICT).$(SrcSuf)
+TASCA_DO          = $(TASCA_DICT).$(ObjSuf)
 
-EXAMP2STEP_H           = $(filter-out $(EXAMP2STEP_EXEH) $(EXAMP2STEP_NOTLIBF) $(EXAMP2STEP_DH) $(EXAMP2STEP_LINKDEF), $(wildcard $(EXAMP2STEP_DIR)/*.$(HedSuf)))
-EXAMP2STEP_S           = $(filter-out $(EXAMP2STEP_EXES) $(EXAMP2STEP_NOTLIBF) $(EXAMP2STEP_DS), $(wildcard $(EXAMP2STEP_DIR)/*.$(SrcSuf)))
-EXAMP2STEP_O           = $(EXAMP2STEP_S:.$(SrcSuf)=.$(ObjSuf))
+TASCA_H           = $(filter-out $(TASCA_EXEH) $(TASCA_NOTLIBF) $(TASCA_DH) $(TASCA_LINKDEF), $(wildcard $(TASCA_DIR)/*.$(HedSuf)))
+TASCA_S           = $(filter-out $(TASCA_EXES) $(TASCA_NOTLIBF) $(TASCA_DS), $(wildcard $(TASCA_DIR)/*.$(SrcSuf)))
+TASCA_O           = $(TASCA_S:.$(SrcSuf)=.$(ObjSuf))
 
-EXAMP2STEP_DEP         =  $(EXAMP2STEP_O:.$(ObjSuf)=.$(DepSuf))
-EXAMP2STEP_DDEP        =  $(EXAMP2STEP_DO:.$(ObjSuf)=.$(DepSuf))
-EXAMP2STEP_EDEP        =  $(EXAMP2STEP_EXEO:.$(ObjSuf)=.$(DepSuf))
+TASCA_DEP         =  $(TASCA_O:.$(ObjSuf)=.$(DepSuf))
+TASCA_DDEP        =  $(TASCA_DO:.$(ObjSuf)=.$(DepSuf))
+TASCA_EDEP        =  $(TASCA_EXEO:.$(ObjSuf)=.$(DepSuf))
 
-EXAMP2STEP_SLIB        =  $(EXAMP2STEP_DIR)/$(EXAMP2STEP_LIBNAME).$(DllSuf)
-EXAMP2STEP_LIB         =  $(EXAMP2STEP_DIR)/$(EXAMP2STEP_LIBNAME).$(DllSuf).$(VERSSUF)
+TASCA_SLIB        =  $(TASCA_DIR)/$(TASCA_LIBNAME).$(DllSuf)
+TASCA_LIB         =  $(TASCA_DIR)/$(TASCA_LIBNAME).$(DllSuf).$(VERSSUF)
 
 # used in the main Makefile
 
-EXAMPDEPENDENCS    += $(EXAMP2STEP_DEP) $(EXAMP2STEP_DDEP) $(EXAMP2STEP_EDEP)
+EXAMPDEPENDENCS    += $(TASCA_DEP) $(TASCA_DDEP) $(TASCA_EDEP)
 
 ifdef DOPACKAGE
-DISTRFILES         += $(EXAMP2STEP_S) $(EXAMP2STEP_H) $(EXAMP2STEP_LINKDEF) $(EXAMP2STEP_EXEH) $(EXAMP2STEP_EXES)
-DISTRFILES         += $(EXAMP2STEP_DIR)/Readme.txt $(EXAMP2STEP_DIR)/Makefile.win
-DISTRFILES         += $(EXAMP2STEP_DIR)/AnalysisStart.sh  $(EXAMP2STEP_DIR)/rename.sh 
-DISTRFILES         += $(EXAMP2STEP_DIR)/calilines.txt
-DISTRFILES         += $(EXAMP2STEP_DIR)/gaussfiles.lml
-DISTRFILES         += $(EXAMP2STEP_DIR)/convertfile.C
-DISTRFILES         += $(EXAMP2STEP_DIR)/findobjects.C
-DISTRFILES         += $(EXAMP2STEP_DIR)/browse.C
-DISTRFILES         += $(EXAMP2STEP_DIR)/plothistos.C
-#DISTRFILES         += $(wildcard $(EXAMP2STEP_DIR)/*.C)
+DISTRFILES         += $(TASCA_S) $(TASCA_H) $(TASCA_LINKDEF) $(TASCA_EXEH) $(TASCA_EXES)
+DISTRFILES         += $(TASCA_DIR)/Readme.txt $(TASCA_DIR)/Makefile.win
+DISTRFILES         += $(TASCA_DIR)/AnalysisStart.sh  $(TASCA_DIR)/rename.sh 
+DISTRFILES         += $(TASCA_DIR)/calilines.txt
+DISTRFILES         += $(TASCA_DIR)/gaussfiles.lml
+DISTRFILES         += $(TASCA_DIR)/convertfile.C
+DISTRFILES         += $(TASCA_DIR)/findobjects.C
+DISTRFILES         += $(TASCA_DIR)/browse.C
+DISTRFILES         += $(TASCA_DIR)/plothistos.C
+#DISTRFILES         += $(wildcard $(TASCA_DIR)/*.C)
 endif
 
 ##### local rules #####
 
-$(EXAMP2STEP_EXE):      $(BUILDGO4LIBS) $(EXAMP2STEP_EXEO) $(EXAMP2STEP_LIB)
-	$(LD) $(LDFLAGS) $(EXAMP2STEP_EXEO) $(LIBS_FULLSET) $(EXAMP2STEP_LIB) $(OutPutOpt) $(EXAMP2STEP_EXE)
+$(TASCA_EXE):      $(BUILDGO4LIBS) $(TASCA_EXEO) $(TASCA_LIB)
+	$(LD) $(LDFLAGS) $(TASCA_EXEO) $(LIBS_FULLSET) $(TASCA_LIB) $(OutPutOpt) $(TASCA_EXE)
 	@echo "$@  done"
 
-$(EXAMP2STEP_LIB):   $(EXAMP2STEP_O) $(EXAMP2STEP_DO)
-	$(MakeLib) $(EXAMP2STEP_LIBNAME) "$(EXAMP2STEP_O) $(EXAMP2STEP_DO)" $(EXAMP2STEP_DIR)
+$(TASCA_LIB):   $(TASCA_O) $(TASCA_DO)
+	$(MakeLib) $(TASCA_LIBNAME) "$(TASCA_O) $(TASCA_DO)" $(TASCA_DIR)
+	echo "Making lib"
 
-$(EXAMP2STEP_DS): $(EXAMP2STEP_H)  $(EXAMP2STEP_LINKDEF)
-		@$(ROOTCINTGO4) $(EXAMP2STEP_H) $(EXAMP2STEP_LINKDEF)
+$(TASCA_DS): $(TASCA_H)  $(TASCA_LINKDEF)
+		@$(ROOTCINTGO4) $(TASCA_H) $(TASCA_LINKDEF)
 
-$(EXAMP2STEP_ONLYMAP): $(EXAMP2STEP_LINKDEF) $(EXAMP2STEP_LIB)
-	@rm -f $(EXAMP2STEP_ONLYMAP)
-	@$(MakeMap) $(EXAMP2STEP_ONLYMAP) $(EXAMP2STEP_SLIB) $(EXAMP2STEP_LINKDEF) "$(ANAL_LIB_DEP)"
+$(TASCA_ONLYMAP): $(TASCA_LINKDEF) $(TASCA_LIB)
+	@rm -f $(TASCA_ONLYMAP)
+	@$(MakeMap) $(TASCA_ONLYMAP) $(TASCA_SLIB) $(TASCA_LINKDEF) "$(ANAL_LIB_DEP)"
 
-all-$(EXAMP2STEP_NAME):     $(EXAMP2STEP_LIB) $(EXAMP2STEP_EXE) map-$(EXAMP2STEP_NAME)
+all-$(TASCA_NAME):     $(TASCA_LIB) $(TASCA_EXE) map-$(TASCA_NAME)
+	echo "Making all"
 
-clean-obj-$(EXAMP2STEP_NAME):
-	@rm -f $(EXAMP2STEP_O) $(EXAMP2STEP_DO)
-	@$(CleanLib) $(EXAMP2STEP_LIBNAME) $(EXAMP2STEP_DIR)
-	@rm -f $(EXAMP2STEP_EXEO) $(EXAMP2STEP_EXE)
+clean-obj-$(TASCA_NAME):
+	@rm -f $(TASCA_O) $(TASCA_DO)
+	@$(CleanLib) $(TASCA_LIBNAME) $(TASCA_DIR)
+	@rm -f $(TASCA_EXEO) $(TASCA_EXE)
 
-clean-$(EXAMP2STEP_NAME): clean-obj-$(EXAMP2STEP_NAME)
-	@rm -f $(EXAMP2STEP_DEP) $(EXAMP2STEP_DDEP) $(EXAMP2STEP_DS) $(EXAMP2STEP_DH)
-	@rm -f $(EXAMP2STEP_EDEP)
-	@rm -f $(EXAMP2STEP_ONLYMAP) $(EXAMP2STEP_MAP)
+clean-$(TASCA_NAME): clean-obj-$(TASCA_NAME)
+	@rm -f $(TASCA_DEP) $(TASCA_DDEP) $(TASCA_DS) $(TASCA_DH)
+	@rm -f $(TASCA_EDEP)
+	@rm -f $(TASCA_ONLYMAP) $(TASCA_MAP)
 
 ifdef DOMAP
-map-$(EXAMP2STEP_NAME): $(GO4MAP) $(EXAMP2STEP_ONLYMAP)
-	@rm -f $(EXAMP2STEP_MAP)
-	@cat $(GO4MAP) $(EXAMP2STEP_ONLYMAP) > $(EXAMP2STEP_MAP)
+map-$(TASCA_NAME): $(GO4MAP) $(TASCA_ONLYMAP)
+	@rm -f $(TASCA_MAP)
+	@cat $(GO4MAP) $(TASCA_ONLYMAP) > $(TASCA_MAP)
 else
-map-$(EXAMP2STEP_NAME):
+map-$(TASCA_NAME):
 
 endif

@@ -2,6 +2,7 @@
 #define TascaUNPACKPROCESSOR_H
 
 #include "TGo4EventProcessor.h"
+#include "TascaCodec.h"
 
 class TascaParameter;
 class TascaUnpackEvent;
@@ -13,6 +14,7 @@ class TascaUnpackProc : public TGo4EventProcessor {
       virtual ~TascaUnpackProc() ;
       void TascaUnpack(TascaUnpackEvent* target);
   private:
+		TascaCodec *codec;
       TH1I          *fCr1Ch[8];
       TH1I          *fCr2Ch[8];
       TH2I          *fCr1Ch1x2;

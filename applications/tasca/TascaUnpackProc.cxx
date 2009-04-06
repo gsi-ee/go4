@@ -36,6 +36,8 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   Text_t chead[64];
   Int_t i;
 
+  codec = new TascaCodec();
+
   //// init user analysis objects:
 
   fParam1   = (TascaParameter *)   GetParameter("TascaPar1");
@@ -223,107 +225,66 @@ TascaUnpackProc::~TascaUnpackProc()
 void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* poutevt)
 {
   TGo4MbsSubEvent* psubevt;
-  Int_t index=0;
-  Int_t value=0;
+  Int_t crate, channels, header;
   Int_t lwords;
   Int_t *pdata;
+  Int_t latches=0;
+  Int_t adcs=0;
+  Int_t patt0,patt1,patt2,patt3;
+  Int_t lat,lat0,lat1,lat2,lat3;
+  poutevt->SetValid(kFALSE); // not to store
   fInput    = (TGo4MbsEvent* ) GetInputEvent(); // from this
-  if(fInput)
-    {
-      /////////////////////////////////////////////////////////////
-      ////// use this if you want access to the mbs file header data:
-      //      s_filhe* head=fInput->GetMbsSourceHeader();
-      //      if(head)
-      //         {
-      //            cout <<"found filhe structure:" << endl;
-      //            cout <<"\tdatalen: "<<head->filhe_dlen << endl;
-      //            cout <<"\tfilename_l: "<<head->filhe_file_l << endl;
-      //            cout <<"\tfilename: "<<head->filhe_file << endl;
-      //            cout <<"\ttype: "<<head->filhe_type << endl;
-      //            cout <<"\tsubtype: "<<head->filhe_subtype << endl;
-      //            cout <<"\t#commentlines: "<<head->filhe_lines << endl;
-      //         }
-      //      else
-      //         {
-      //            cout <<"zero file header" << endl;
-      //         }
-      //////////////////////////////////////////////////////////////////
+  if(fInput == 0) return;
+  if(fInput->GetTrigger()==14) return;
+  if(fInput->GetTrigger()==15) return;
+  cout << "Event=" << fInput->GetCount() << endl;
+  fInput->ResetIterator();
+  psubevt = fInput->NextSubEvent();
+  pdata=psubevt->GetDataField();
+  lwords= psubevt->GetIntLen();
+  // get number of latches and number of ADCs
+  latches = *pdata & 0xFFFF;
+  adcs = (*pdata++ & 0xFFFF0000) >> 16;
+  patt0=*pdata++; // latch base + 0
+  lat=*pdata++; //
+  lat0=*pdata++; // latch 0
 
-      /////////////////////////////////////////////////////////////
-      ////// use this if you want access to the mbs buffer header data:
-      //      s_bufhe* head=fInput->GetMbsBufferHeader();
-      //      if(head)
-      //         {
-      //            cout <<"\nfound bufhe structure:" << endl;
-      //            cout <<"\tbuffernumber: "<<head->l_buf << endl;
-      //            cout <<"\tdatalen: "<<head->l_dlen << endl;
-      //            cout <<"\ttime lo: "<<head->l_time[0] << endl; // seconds since epoch 1970
-      //            cout <<"\ttime hi: "<<head->l_time[1] << endl; // microseconds since time lo
-      //            cout <<"\ttimestring: "<<ctime((const time_t*) &(head->l_time[0]));
-      //            cout << "\t\t + "<<head->l_time[1] << " µs"<<endl;
-      //            cout <<"\ttype: "<<head->i_type << endl;
-      //            cout <<"\tsubtype: "<<head->i_subtype << endl;
-      //         }
-      //      else
-      //         {
-      //            cout <<"zero buffer header" << endl;
-      //         }
-      //////////////////////////////////////////////////////////////////
+  patt1=*pdata++; // latch base + 1
+  lat1=*pdata++; // latch 1
+  patt2=*pdata++; // latch base + 2
+  lat2=*pdata++; // latch 2
+  patt3=*pdata++; // latch base + 3
+  lat3=*pdata++; // latch 3
 
-      fInput->ResetIterator();
-      while ((psubevt = fInput->NextSubEvent()) != 0) // subevent loop
-   {
-     if( psubevt->GetSubcrate() == 1)
-       {
-         pdata=psubevt->GetDataField();
-         lwords= psubevt->GetIntLen();
-         if(lwords >= 8) lwords=8; // take only first 8 lwords
-         for(Int_t i = 0; i<lwords; ++i)
-      {
-        index =  *pdata&0xfff;      // in case low word is index
-        //value = (*pdata>>16)&0xfff; // in case high word is data
-        if(*pdata != 0)
-          {
-            fCr1Ch[i]->Fill((Float_t)(*pdata));
-            poutevt->fiCrate1[i] = *pdata; // fill output event
-            if(i == 0) // fill first channel
-         {
-                          if(fconHis1->Test(*pdata))fHis1gate->Fill((Float_t)(*pdata));
-                          fHis1->Fill((Float_t)(*pdata));
-         }
-            if(i == 1)
-         {
-                          if(fconHis2->Test(*pdata))fHis2gate->Fill((Float_t)(*pdata));
-                          fHis2->Fill((Float_t)(*pdata));
-           // fill Cr1Ch1x2 for three polygons:
-                if(fPolyCon1->Test(*pdata,value))       fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)value);
-                if(((*fConArr2)[0])->Test(*pdata,value))fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)value);
-                if(((*fConArr2)[1])->Test(*pdata,value))fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)value);
-         }
-          }
-        value = *pdata; // save for 2d histogram
-        pdata++;
-      } // for SEW LW
-       } // if (subcrate)
-     if( psubevt->GetSubcrate() == 2)
-       {
-         pdata=psubevt->GetDataField();
-         lwords= (psubevt->GetDlen() -2) * sizeof(Short_t)/sizeof(Int_t);
-         if(lwords >= 8) lwords=8;
-         for(Int_t i = 0; i<lwords; ++i)
-      {
-        index=*pdata&0xfff;
-        value=(*pdata>>16)&0xfff;
-        if(*pdata != 0)
-          {
-            poutevt->fiCrate2[i] = *pdata;
-            fCr2Ch[i]->Fill((Float_t)(*pdata));
-          }
-        pdata++;
-      } // for SEW LW
-       } // if (subcrate)
-   }  // while
-      poutevt->SetValid(kTRUE); // to store
-    } // if(fInput)
-  else    cout << "TascaUnpackProc: no input event !"<< endl;
+  cout << "  ADCs=" << adcs << " latches=" << latches << endl;
+
+  // first module
+while(adcs > 0){
+  adcs--;
+  header=*pdata++;
+  codec->setValue(header);
+  if(codec->isHeader()){
+	  crate=codec->getCrate();
+	  channels=codec->getCnt();
+	  cout << "    Crate=" << crate << " channels=" << channels << endl;
+	  for(Int_t i=0;i<channels;i++){
+		  codec->setValue(*pdata++);
+		  cout << "      chan=" << codec->getChan()
+			  << " adr=" << codec->getAddress()
+			  << " adc=" << codec->getAdc()
+			  << " Un=" << codec->isUnder()
+			  << " Ov=" << codec->isOver()
+			  << endl;
+	  }
+	  pdata++; // skip EOB
+  } else if(codec->isEob()){
+	  cout << "    EOB " << endl;
+  } else if(!codec->isValid()){
+	  cout << "    No data " << endl;
+  } else {
+	  cout << "    No header found " << header << endl;
+  }
+  }
+
+  poutevt->SetValid(kTRUE); // to store
 }
