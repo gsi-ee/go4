@@ -1814,50 +1814,50 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
 
    if (kind==TGo4Access::kndObject) {
       if (cl!=0) {
-        if (cl->InheritsFrom(TProfile::Class())) { cando = 1110; pixmap = ":/icons/profile_t.png"; } else
-        if (cl->InheritsFrom(TGo4Picture::Class())) { cando = 110; pixmap = ":/icons/picture.png"; } else
-        if (cl->InheritsFrom(TGo4Parameter::Class())) { cando = 1011; pixmap = ":/icons/parameter.png"; } else
-        if (cl->InheritsFrom(TMultiGraph::Class())) { cando = 1110; pixmap = ":/icons/superimpose.png"; } else
-        if (cl->InheritsFrom(THStack::Class())) { cando = 1110; pixmap = ":/icons/superimpose.png"; } else
-        if (cl->InheritsFrom(TGraph::Class())) { cando = 1001110; pixmap = ":/icons/tgraph.png"; } else
-        if (cl->InheritsFrom(TGo4Fitter::Class())) { cando = 11; pixmap = ":/icons/fitter.png"; } else
-        if (cl->InheritsFrom(TCanvas::Class())) { cando = 110; pixmap = ":/icons/canvas.png"; } else
-        if (cl->InheritsFrom(TFile::Class())) { pixmap = ":/icons/rootdb_t.png"; } else
-        if (cl->InheritsFrom(TTree::Class())) { pixmap = ":/icons/tree_t.png"; } else
-        if (cl->InheritsFrom(TFolder::Class())) { pixmap = ":/icons/folder_t.png"; } else
-        if (cl->InheritsFrom(TDirectory::Class())) { pixmap = ":/icons/folder_t.png"; } else
-        if (cl->InheritsFrom(TH3::Class())) { cando = 1101110; pixmap = ":/icons/h3_t.png"; } else
-        if (cl->InheritsFrom(TH2::Class())) { cando = 1101110; pixmap = ":/icons/h2_t.png"; } else
-        if (cl->InheritsFrom(TH1::Class())) { cando = 1101110; pixmap = ":/icons/h1_t.png"; } else
-        if (cl->InheritsFrom(TGo4WinCond::Class())) { cando = 101011; pixmap = ":/icons/windcond.png"; } else
-        if (cl->InheritsFrom(TGo4PolyCond::Class())) { cando = 101011; pixmap = ":/icons/polycond.png"; } else
-        if (cl->InheritsFrom(TGo4CondArray::Class())) { cando = 101011; pixmap = ":/icons/windcondarray.png"; } else
-        if (cl->InheritsFrom(TGo4TreeHistogramEntry::Class())) { cando = 1011; pixmap = ":/icons/dynentryx.png"; } else
-        if (cl->InheritsFrom(TGo4HistogramEntry::Class())) { cando = 1011; pixmap = ":/icons/dynentryx.png"; }
+        if (cl->InheritsFrom(TProfile::Class())) { cando = 1110; pixmap = "profile_t.png"; } else
+        if (cl->InheritsFrom(TGo4Picture::Class())) { cando = 110; pixmap = "picture.png"; } else
+        if (cl->InheritsFrom(TGo4Parameter::Class())) { cando = 1011; pixmap = "parameter.png"; } else
+        if (cl->InheritsFrom(TMultiGraph::Class())) { cando = 1110; pixmap = "superimpose.png"; } else
+        if (cl->InheritsFrom(THStack::Class())) { cando = 1110; pixmap = "superimpose.png"; } else
+        if (cl->InheritsFrom(TGraph::Class())) { cando = 1001110; pixmap = "tgraph.png"; } else
+        if (cl->InheritsFrom(TGo4Fitter::Class())) { cando = 11; pixmap = "fitter.png"; } else
+        if (cl->InheritsFrom(TCanvas::Class())) { cando = 110; pixmap = "canvas.png"; } else
+        if (cl->InheritsFrom(TFile::Class())) { pixmap = "rootdb_t.png"; } else
+        if (cl->InheritsFrom(TTree::Class())) { pixmap = "tree_t.png"; } else
+        if (cl->InheritsFrom(TFolder::Class())) { pixmap = "folder_t.png"; } else
+        if (cl->InheritsFrom(TDirectory::Class())) { pixmap = "folder_t.png"; } else
+        if (cl->InheritsFrom(TH3::Class())) { cando = 1101110; pixmap = "h3_t.png"; } else
+        if (cl->InheritsFrom(TH2::Class())) { cando = 1101110; pixmap = "h2_t.png"; } else
+        if (cl->InheritsFrom(TH1::Class())) { cando = 1101110; pixmap = "h1_t.png"; } else
+        if (cl->InheritsFrom(TGo4WinCond::Class())) { cando = 101011; pixmap = "windcond.png"; } else
+        if (cl->InheritsFrom(TGo4PolyCond::Class())) { cando = 101011; pixmap = "polycond.png"; } else
+        if (cl->InheritsFrom(TGo4CondArray::Class())) { cando = 101011; pixmap = "windcondarray.png"; } else
+        if (cl->InheritsFrom(TGo4TreeHistogramEntry::Class())) { cando = 1011; pixmap = "dynentryx.png"; } else
+        if (cl->InheritsFrom(TGo4HistogramEntry::Class())) { cando = 1011; pixmap = "dynentryx.png"; }
       }
    } else
    if (kind==TGo4Access::kndFolder) {
-     pixmap = ":/icons/folder_t.png";
-     if ((cl!=0) && cl->InheritsFrom(TTree::Class())) { cando = 10; pixmap = ":/icons/tree_t.png"; } else
-     if ((cl!=0) && cl->InheritsFrom(TCanvas::Class())) { cando = 110; pixmap = ":/icons/canvas.png"; } else
-     if ((cl!=0) && cl->InheritsFrom(TFile::Class())) { cando = 10000; pixmap = ":/icons/rootdb_t.png"; } else
-     if ((cl!=0) && cl->InheritsFrom(TGo4HServProxy::Class())) { cando = 10000; pixmap = ":/icons/histserv.png"; } else
-     if ((cl!=0) && cl->InheritsFrom(TGo4AnalysisProxy::Class())) {pixmap = ":/icons/analysiswin.png"; }
+     pixmap = "folder_t.png";
+     if ((cl!=0) && cl->InheritsFrom(TTree::Class())) { cando = 10; pixmap = "tree_t.png"; } else
+     if ((cl!=0) && cl->InheritsFrom(TCanvas::Class())) { cando = 110; pixmap = "canvas.png"; } else
+     if ((cl!=0) && cl->InheritsFrom(TFile::Class())) { cando = 10000; pixmap = "rootdb_t.png"; } else
+     if ((cl!=0) && cl->InheritsFrom(TGo4HServProxy::Class())) { cando = 10000; pixmap = "histserv.png"; } else
+     if ((cl!=0) && cl->InheritsFrom(TGo4AnalysisProxy::Class())) {pixmap = "analysiswin.png"; }
    } else
    if (kind==TGo4Access::kndTreeBranch)
-     pixmap = ":/icons/branch_t.png";
+     pixmap = "branch_t.png";
    else
    if (kind==TGo4Access::kndTreeLeaf) {
-     cando = 11;  pixmap = ":/icons/leaf_t.png";
+     cando = 11;  pixmap = "leaf_t.png";
    } else
    if (kind==TGo4Access::kndGo4Param) {
-      cando = 1011; pixmap = ":/icons/parameter.png";
+      cando = 1011; pixmap = "parameter.png";
    } else
    if (kind==TGo4Access::kndDataMember) {
-      cando = 10; pixmap = ":/icons/eventitem.png";
+      cando = 10; pixmap = "eventitem.png";
    } else
    if (kind==TGo4Access::kndEventElement) {
-      cando = 100010; pixmap = ":/icons/eventobj.png";
+      cando = 100010; pixmap = "eventobj.png";
    }
 
    return cando;

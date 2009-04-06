@@ -367,6 +367,7 @@ void TGo4Browser::updateListViewItems()
 
       TString pixmap;
       int cando = TGo4BrowserProxy::DefineItemProperties(itemkind, itemclass, pixmap);
+      if (pixmap.Length()>0) pixmap = TString(":/icons/") + pixmap;
       TGo4BrowserProxy::SetItemCanDo(curslot, cando);
 
       if (curitem==0) {
