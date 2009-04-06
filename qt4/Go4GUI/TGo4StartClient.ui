@@ -103,43 +103,18 @@
       <item row="4" column="0" >
         <layout class="QHBoxLayout" >
           <item>
-            <widget class="Q3ButtonGroup" name="ClientShellGroup" >
-              <property name="sizePolicy" >
-                <sizepolicy>
-                  <hsizetype>1</hsizetype>
-                  <vsizetype>0</vsizetype>
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                </sizepolicy>
-              </property>
+            <widget class="QGroupBox" name="ClientShellGroupBox" >
               <property name="title" >
                 <string>Starting mode</string>
               </property>
-              <property name="exclusive" >
-                <bool>true</bool>
-              </property>
               <layout class="QHBoxLayout" >
-                <property name="margin" >
-                  <number>7</number>
-                </property>
                 <property name="spacing" >
-                  <number>3</number>
+                  <number>1</number>
                 </property>
                 <item>
                   <widget class="QRadioButton" name="rsh_selected" >
-                    <property name="sizePolicy" >
-                      <sizepolicy>
-                        <hsizetype>0</hsizetype>
-                        <vsizetype>0</vsizetype>
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                      </sizepolicy>
-                    </property>
                     <property name="text" >
                       <string>rsh</string>
-                    </property>
-                    <property name="buttonGroupId" >
-                      <number>1</number>
                     </property>
                   </widget>
                 </item>
@@ -161,19 +136,8 @@
                 </item>
                 <item>
                   <widget class="QRadioButton" name="ssh_selected" >
-                    <property name="sizePolicy" >
-                      <sizepolicy>
-                        <hsizetype>0</hsizetype>
-                        <vsizetype>0</vsizetype>
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                      </sizepolicy>
-                    </property>
                     <property name="text" >
                       <string>ssh</string>
-                    </property>
-                    <property name="buttonGroupId" >
-                      <number>2</number>
                     </property>
                   </widget>
                 </item>
@@ -181,15 +145,7 @@
             </widget>
           </item>
           <item>
-            <widget class="Q3ButtonGroup" name="ClientTermGroup" >
-              <property name="sizePolicy" >
-                <sizepolicy>
-                  <hsizetype>5</hsizetype>
-                  <vsizetype>0</vsizetype>
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                </sizepolicy>
-              </property>
+            <widget class="QGroupBox" name="ClientTermGroupBox" >
               <property name="title" >
                 <string>Shell mode</string>
               </property>
@@ -205,9 +161,6 @@
                     <property name="text" >
                       <string>Qt Window</string>
                     </property>
-                    <property name="buttonGroupId" >
-                      <number>1</number>
-                    </property>
                   </widget>
                 </item>
                 <item>
@@ -215,18 +168,12 @@
                     <property name="text" >
                       <string>Xterm</string>
                     </property>
-                    <property name="buttonGroupId" >
-                      <number>2</number>
-                    </property>
                   </widget>
                 </item>
                 <item>
                   <widget class="QRadioButton" name="konsole_selected" >
                     <property name="text" >
                       <string>konsole</string>
-                    </property>
-                    <property name="buttonGroupId" >
-                      <number>3</number>
                     </property>
                   </widget>
                 </item>

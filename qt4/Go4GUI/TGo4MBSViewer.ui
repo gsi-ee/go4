@@ -675,7 +675,7 @@
                       </widget>
                     </item>
                     <item>
-                      <widget class="Q3ButtonGroup" name="StateGroup" >
+                      <widget class="QGroupBox" name="StateGroupBox" >
                         <property name="sizePolicy" >
                           <sizepolicy>
                             <hsizetype>5</hsizetype>
@@ -690,12 +690,6 @@
                             <height>35</height>
                           </size>
                         </property>
-                        <property name="lineWidth" >
-                          <number>1</number>
-                        </property>
-                        <property name="margin" >
-                          <number>0</number>
-                        </property>
                         <property name="title" >
                           <string/>
                         </property>
@@ -703,9 +697,6 @@
                           <set>Qt::AlignVCenter</set>
                         </property>
                         <property name="flat" >
-                          <bool>false</bool>
-                        </property>
-                        <property name="exclusive" >
                           <bool>false</bool>
                         </property>
                         <property name="selectedId" stdset="0" >
@@ -890,18 +881,6 @@
       <signal>textChanged(QString)</signal>
       <receiver>TGo4MBSViewer</receiver>
       <slot>NodeChanged(QString)</slot>
-    </connection>
-    <connection>
-      <sender>StateGroup</sender>
-      <signal>clicked(int)</signal>
-      <receiver>TGo4MBSViewer</receiver>
-      <slot>StateGroup_clicked(int)</slot>
-    </connection>
-    <connection>
-      <sender>FullPrintButton</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4MBSViewer</receiver>
-      <slot>PrintStatus()</slot>
     </connection>
     <connection>
       <sender>TrendCheck</sender>

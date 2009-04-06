@@ -99,8 +99,6 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
    fbMarkEditorVisible = false;
    fbTypingMode = true;
    MarkerPanel->setShown(false);
-   MarkerPanel->setRadioButtonExclusive(false);
-   MarkerPanel->setExclusive(false);
    fiMouseMode = kMouseROOT;
    fiPickCounter = 0;
    fbPickAgain = false;

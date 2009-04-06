@@ -61,12 +61,9 @@
         <number>1</number>
       </property>
       <item row="2" column="1" >
-        <widget class="Q3ButtonGroup" name="MarkerPanel" >
+        <widget class="QGroupBox" name="MarkerPanel" >
           <property name="title" >
             <string>Marker Modes</string>
-          </property>
-          <property name="radioButtonExclusive" >
-            <bool>true</bool>
           </property>
           <layout class="QHBoxLayout" >
             <property name="margin" >

@@ -2,7 +2,7 @@
 #define TGO4MBSVIEWER_H
 
 #include "QGo4Widget.h"
-#include "ui_TGo4MBSViewer.h"  
+#include "ui_TGo4MBSViewer.h"
 
 #include <QMovie>
 
@@ -26,9 +26,8 @@ extern "C"
     INTS4 f_ut_seg_show (s_daqst *ps_daqst, s_setup *ps_setup, s_set_ml *ps_set_ml, s_set_mo *ps_set_mo);;
 }
 
+class QButtonGroup;
 class TH1;
-
-
 
 class TGo4MBSViewer : public QGo4Widget, public Ui::TGo4MBSViewer
  {
@@ -39,54 +38,54 @@ class TGo4MBSViewer : public QGo4Widget, public Ui::TGo4MBSViewer
 	 virtual ~TGo4MBSViewer();
 
  	TH1* TrendHisto( QString & refname ,const QString & name, const QString & title, int value);
-	
+
 
 
  public slots:
 
 
 	virtual void StoreSettings();
-		
+
 	virtual void TimerStart();
-	
+
 	virtual void TimerStop();
-	
+
 	virtual void Display();
-	
+
 	virtual void Refresh();
-	
+
 	virtual void NodeEditEnter();
-	
+
 	virtual void NodeChanged( const QString & txt );
-	
+
 	virtual void ShowStatus();
-	
+
 	virtual void StateGroup_clicked( int id);
-	
+
 	virtual void PrintStatus();
-	
+
 	virtual void TrendSwitched( bool on );
-	
+
 	virtual void UpdateTrending();
-	
+
 	virtual void IncTrending( TH1 * histo, int value, bool forwards );
-	
+
 	virtual void FrequencyBox_valueChanged( int );
-	
+
 	virtual void MoreBox_toggled( bool on);
-	
+
 	virtual void TrendBinsBox_valueChanged( int i);
-	
+
 	virtual void RefreshButtonClick();
-	
+
 	virtual void SetNode( const QString & txt );
-	
+
 	virtual void ResetRunIcon();
-	
+
 	virtual void StartMovieReset();
 
 protected:
-    
+
 	bool fbSingleRefresh;
     int fiLastDataNum;
     int fiLastEventNum;
@@ -125,7 +124,7 @@ protected:
     int fiCalcedServDataRate;
     int fiDataDelta;
     int fiServDataDelta;
-
+    QButtonGroup* StateGroup;
 
 
  };

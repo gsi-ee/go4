@@ -2,7 +2,9 @@
 #define TGO4STARTCLIENT_H
 
 #include <QDialog>
-#include "ui_TGo4StartClient.h"  
+#include "ui_TGo4StartClient.h"
+
+class QButtonGroup;
 
 class TGo4StartClient : public QDialog, public Ui::TGo4StartClient
  {
@@ -15,14 +17,19 @@ class TGo4StartClient : public QDialog, public Ui::TGo4StartClient
 
  public slots:
 
-	
-	
+
+
 	virtual void SelectDir();
-	
+
 	virtual void SelectProg();
-	
+
 	virtual void ServerModeCombo_activated(int id);
 
+protected:
+	QButtonGroup* ClientShellGroup;
+	QButtonGroup* ClientTermGroup;
+
+
  };
- 
+
 #endif

@@ -11,10 +11,10 @@
 
 TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name)
          : QGo4Widget(parent,name), fxRunMovie(0)
-{ 
+{
 	setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
 fbIsMonitoring=false;
 fbWarningState=false;
@@ -39,8 +39,16 @@ MoreBox->setChecked(fbShowMore);
 FrequencyBox->setValue(go4sett->getMbsMonitorFreq());
 fbTrendingForward=!(go4sett->getMbsMonitorBackwardsTrending());
 
+StateGroup = new QButtonGroup(this);
+StateGroup->setExclusive(false);
+StateGroup->addButton(StatusRadio, 0);
+StateGroup->addButton(SetupRadio, 1);
+StateGroup->addButton(SetupMLRadio, 2);
+StateGroup->addButton(SetupMORadio, 3);
+StateGroup->button(0)->setChecked(true);
+connect(StateGroup, SIGNAL(buttonClicked(int)), this, SLOT(StateGroup_clicked(int)));
 
-StateGroup->setButton(0);
+
 fxHistoAccessName="nosuchobject";
 fxHistokBAccessName="nosuchobject";
 fxHistoEvRatioAccessName="nosuchobject";
@@ -68,7 +76,7 @@ Display();
 
 TGo4MBSViewer::~TGo4MBSViewer()
 {
-	delete fxRunMovie; 	
+	delete fxRunMovie;
 }
 
 
@@ -321,19 +329,13 @@ void TGo4MBSViewer::ShowStatus()
                 f_ut_seg_show (0,0,0,&fxSetupMO);
             else
                 f_ut_seg_show (&fxDaqStat,0,0,0);
-   } 
+   }
 
 }
 
 void TGo4MBSViewer::StateGroup_clicked( int id)
 {
-    switch(id){
-    case 0:
-    default:
-        fbGetSetup=false;
-        fbGetSetML=false;
-        fbGetSetMO=false;
-        break;
+  switch(id){
     case 1:
         fbGetSetup=true;
         fbGetSetML=false;
@@ -349,7 +351,12 @@ void TGo4MBSViewer::StateGroup_clicked( int id)
         fbGetSetML=false;
         fbGetSetMO=true;
         break;
-    };
+    default:
+        fbGetSetup=false;
+        fbGetSetML=false;
+        fbGetSetMO=false;
+        break;
+  };
 }
 
 
