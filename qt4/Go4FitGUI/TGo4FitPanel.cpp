@@ -253,55 +253,6 @@ void TGo4FitGuiArrow::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 
 // *************************************************************************
 
-
-static const char* SelectedXPM[]={
-"12 12 5 1",
-"# c #000000",
-"a c #ffffff",
-"c c #808080",
-"b c #c0c0c0",
-". c None",
-"############",
-"#aaaaaaaaaa#",
-"#aaaaaaa##a#",
-"#aaaaaaa##a#",
-"#aaaaaa##aa#",
-"#a##aaa##aa#",
-"#a##aa##aaa#",
-"#aa##a##aaa#",
-"#aa####aaaa#",
-"#aaa##aaaaa#",
-"#aaaaaaaaaa#",
-"############"};
-
-static const char* UnselectedXPM[]={
-"12 12 5 1",
-"# c #000000",
-"a c #ffffff",
-"c c #808080",
-"b c #c0c0c0",
-". c None",
-"############",
-"#aaaaaaaaaa#",
-"#aaaaaaaaaa#",
-"#aaaaaaaaaa#",
-"#aaaaaaaaaa#",
-"#aaaaaaaaaa#",
-"#aaaaaaaaaa#",
-"#aaaaaaaaaa#",
-"#aaaaaaaaaa#",
-"#aaaaaaaaaa#",
-"#aaaaaaaaaa#",
-"############"};
-
-
-
-
-
-
-
-
-
 TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
 {
@@ -2379,12 +2330,14 @@ void TGo4FitPanel::UpdateWizDataList()
      int selindx = -1;
      for(Int_t n=0;n<fitter->GetNumData();n++) {
        TGo4FitData* data = fitter->GetData(n);
-       Wiz_DataList->insertItem(data->GetName());
-       if (strcmp(data->GetName(), fxWizDataName.latin1())==0) selindx = n;
+       QListWidgetItem* item = new QListWidgetItem(data->GetName());
+       if (strcmp(data->GetName(), fxWizDataName.latin1())==0) {
+      	 selindx = n;
+      	 item->setSelected(true);
+       }
+       Wiz_DataList->addItem(item);
      }
-     Wiz_DataList->setSelected(selindx, TRUE);
      if (selindx<0) fxWizDataName = "";
-               else Wiz_DataList->setSelected(selindx, TRUE);
    }
    UpdateWizDataBtns();
    fbFillingWidget = false;
@@ -2439,19 +2392,21 @@ void TGo4FitPanel::UpdateWizModelsList(bool changestack)
 
           bool assign = FALSE;
           if (data && model->IsAssignTo(data->GetName())) assign = TRUE;
-          if (assign) Wiz_ModelList->insertItem(QPixmap(SelectedXPM), model->GetName());
-                 else Wiz_ModelList->insertItem(QPixmap(UnselectedXPM), model->GetName());
-
-          if (strcmp(model->GetName(), fxWizModelName.latin1())==0) selindx = indx;
+          QListWidgetItem* item = new QListWidgetItem(model->GetName());
+          item->setCheckState(assign ? Qt::Checked : Qt::Unchecked );
+          if (strcmp(model->GetName(), fxWizModelName.latin1())==0) {
+         	 selindx = indx;
+         	 item->setSelected(true);
+          }
+          Wiz_ModelList->addItem(item);
           indx++;
        }
 
-       Wiz_ModelList->setSelected(selindx, TRUE);
        if (selindx>=0)
-          Wiz_ModelList->setCurrentItem(selindx);
+          Wiz_ModelList->setCurrentRow(selindx);
 
        if (selindx<0) fxWizModelName = "";
-                 else Wiz_ModelList->ensureCurrentVisible();
+//                 else Wiz_ModelList->ensureCurrentVisible();
 
     } else fxWizModelName = "";
 
@@ -2679,13 +2634,12 @@ void TGo4FitPanel::UpdateWizPaint(int mode)
    }
 }
 
-void TGo4FitPanel::Wiz_DataListSelect(int indx)
+void TGo4FitPanel::Wiz_DataListSelect(QListWidgetItem* item)
 {
-   if (fbFillingWidget) return;
-   QString name = Wiz_DataList->text(indx);
+   if (fbFillingWidget || (item==0)) return;
+   QString name = item->text();
 
-   if ( (name==fxWizDataName) &&
-        (fiWizPageIndex == 2) ) return;
+   if ((name==fxWizDataName) && (fiWizPageIndex == 2)) return;
    fxWizDataName = name;
    fiWizPageIndex = 2;
    UpdateWizDataBtns();
@@ -2694,16 +2648,11 @@ void TGo4FitPanel::Wiz_DataListSelect(int indx)
    UpdateWizPaint(1);
 }
 
-void TGo4FitPanel::Wiz_DataList_highlighted( int indx)
+void TGo4FitPanel::Wiz_ModelListSelect(QListWidgetItem* item)
 {
-  Wiz_DataListSelect(indx);
-}
+  if (fbFillingWidget || (item==0)) return;
 
-void TGo4FitPanel::Wiz_ModelListSelect(int indx, bool ontext)
-{
-  if (fbFillingWidget) return;
-
-  QString name = Wiz_ModelList->text(indx);
+  QString name = item->text();
 
   bool needupdate = ( (name != fxWizModelName.latin1()) ||
                       (fiWizPageIndex != 1) );
@@ -2711,23 +2660,18 @@ void TGo4FitPanel::Wiz_ModelListSelect(int indx, bool ontext)
   fxWizModelName = name;
   fiWizPageIndex = 1;
 
-  if (!ontext) {
+  TGo4Fitter* fitter = GetFitter();
+  TGo4FitModel* model = Wiz_SelectedModel();
+  TGo4FitData* data = Wiz_SelectedData();
+  if ((fitter!=0) && (data!=0) && (model!=0)) {
+     bool wasassigned = model->IsAssignTo(data->GetName());
+     bool isassigned = (item->checkState() == Qt::Checked);
 
-    TGo4Fitter* fitter = GetFitter();
-    TGo4FitModel* model = Wiz_SelectedModel();
-    TGo4FitData* data = Wiz_SelectedData();
-    if ((fitter!=0) && (data!=0) && (model!=0)) {
-       bool wasassigned = model->IsAssignTo(data->GetName());
-       if (wasassigned) fitter->ClearModelAssignmentTo(model->GetName(), data->GetName());
-                   else fitter->AssignModelTo(model->GetName(), data->GetName());
-
-      fbFillingWidget = true;
-      if (!wasassigned) Wiz_ModelList->changeItem(QPixmap(SelectedXPM), model->GetName(), indx);
-                   else Wiz_ModelList->changeItem(QPixmap(UnselectedXPM), model->GetName(), indx);
-      Wiz_ModelList->setSelected(indx, TRUE);
-      fbFillingWidget = false;
-      needupdate = TRUE;
-    }
+     if (wasassigned != isassigned) {
+        if (wasassigned) fitter->ClearModelAssignmentTo(model->GetName(), data->GetName());
+                    else fitter->AssignModelTo(model->GetName(), data->GetName());
+        needupdate = true;
+      }
   }
 
   if (needupdate) {
@@ -2736,12 +2680,6 @@ void TGo4FitPanel::Wiz_ModelListSelect(int indx, bool ontext)
      UpdateWizPaint(2);
   }
 }
-
-void TGo4FitPanel::Wiz_ModelList_highlighted(int indx)
-{
-   Wiz_ModelListSelect(indx, TRUE);
-}
-
 
 void TGo4FitPanel::Wiz_AddDataBtn_clicked()
 {
@@ -2821,8 +2759,8 @@ void TGo4FitPanel::Wiz_DelModelBtn_clicked()
        QMessageBox::Yes, QMessageBox::No) == QMessageBox::No ) return;
 
   for(uint n=0; n<Wiz_ModelList->count();n++) {
-     if (!Wiz_ModelList->isSelected(n)) continue;
-     QString name = Wiz_ModelList->text(n);
+     if (!Wiz_ModelList->item(n)->isSelected()) continue;
+     QString name = Wiz_ModelList->item(n)->text();
      fitter->RemoveModel(name, kTRUE);
   }
 
@@ -2840,8 +2778,8 @@ void TGo4FitPanel::Wiz_CloneModelBtn_clicked()
   if (fitter==0) return;
 
   for(uint n=0; n<Wiz_ModelList->count();n++) {
-     if (!Wiz_ModelList->isSelected(n)) continue;
-     QString name = Wiz_ModelList->text(n);
+     if (!Wiz_ModelList->item(n)->isSelected()) continue;
+     QString name = Wiz_ModelList->item(n)->text();
      fitter->CloneModel(name);
   }
 
@@ -2887,7 +2825,7 @@ void TGo4FitPanel::Wiz_ParTable_valueChanged( int nrow, int ncol)
 }
 
 
-void TGo4FitPanel::Wiz_DataList_doubleClicked( Q3ListBoxItem * )
+void TGo4FitPanel::Wiz_DataList_doubleClicked(QListWidgetItem*)
 {
   TGo4Fitter* fitter = GetFitter();
   TGo4FitData* data = Wiz_SelectedData();
@@ -2909,7 +2847,7 @@ void TGo4FitPanel::Wiz_DataList_doubleClicked( Q3ListBoxItem * )
 }
 
 
-void TGo4FitPanel::Wiz_ModelList_doubleClicked( Q3ListBoxItem * )
+void TGo4FitPanel::Wiz_ModelList_doubleClicked(QListWidgetItem*)
 {
   TGo4Fitter* fitter = GetFitter();
   TGo4FitModel* model = Wiz_SelectedModel();
@@ -3030,26 +2968,6 @@ void TGo4FitPanel::MainFindBtn_clicked()
 {
    if (GetFitter()!=0)
       Button_PeakFinder();
-}
-
-void TGo4FitPanel::Wiz_DataList_clicked( Q3ListBoxItem * )
-{
-  Wiz_DataListSelect(Wiz_DataList->currentItem());
-}
-
-void TGo4FitPanel::Wiz_DataList_pressed( Q3ListBoxItem * )
-{
-  Wiz_DataListSelect(Wiz_DataList->currentItem());
-}
-
-void TGo4FitPanel::Wiz_DataList_selected( int indx)
-{
-   Wiz_DataListSelect(indx);
-}
-
-void TGo4FitPanel::Wiz_ModelList_selected( int indx)
-{
-   Wiz_ModelListSelect(indx, TRUE);
 }
 
 void TGo4FitPanel::MainParsBtn_clicked()
@@ -3488,16 +3406,6 @@ void TGo4FitPanel::FindersTab_currentChanged( QWidget * )
   TGo4FitPeakFinder* finder = GetPeakFinder(true);
   if (finder)
     finder->SetPeakFinderType(FindersTab->currentPageIndex());
-}
-
-void TGo4FitPanel::Wiz_ModelList_clicked( Q3ListBoxItem * item, const QPoint & pnt)
-{
-  if (item==0) return;
-
-  QRect rect = Wiz_ModelList->itemRect(item);
-  QPoint pnt2 = Wiz_ModelList->viewport()->mapFromGlobal(pnt);
-
-  Wiz_ModelListSelect(Wiz_ModelList->currentItem(), (pnt2.x() - rect.left()) >=15 );
 }
 
 void TGo4FitPanel::Wiz_BackgroundChk_toggled( bool chk)

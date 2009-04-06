@@ -9,7 +9,7 @@
         <x>0</x>
         <y>0</y>
         <width>220</width>
-        <height>363</height>
+        <height>360</height>
       </rect>
     </property>
     <property name="caption" >
@@ -30,7 +30,7 @@
         </widget>
       </item>
       <item row="1" column="0" >
-        <widget class="Q3ListBox" name="PropertyBox" >
+        <widget class="QListWidget" name="PropertyBox" >
           <item>
             <property name="text" >
               <string>Title</string>

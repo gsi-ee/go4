@@ -11,10 +11,10 @@
 
 TGo4ConditionInfo::TGo4ConditionInfo(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
-{ 
+{
 	setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
    setCaption("Condition Info:");
 }
@@ -102,17 +102,17 @@ void TGo4ConditionInfo::WorkWithCondition(const char* itemname)
 void TGo4ConditionInfo::ResetWidget()
 {
    QGo4Widget::ResetWidget();
-   PropertyBox->changeItem("Title",CONTITLE);
-   PropertyBox->changeItem("Class:",CONCLASS);
-   PropertyBox->changeItem("X Testrange",CONX);
-   PropertyBox->changeItem("Y Testrange",CONY);
-   PropertyBox->changeItem("Dimension",CONDIM);
-   PropertyBox->changeItem("Counts",CONCOUNTS);
-   PropertyBox->changeItem("Result",CONRESULT);
-   PropertyBox->changeItem("Test mode",CONMODE);
-   PropertyBox->changeItem("Size",CONSIZE);
+   PropertyBox->item(CONTITLE)->setText("Title");
+   PropertyBox->item(CONCLASS)->setText("Class:");
+   PropertyBox->item(CONX)->setText("X Testrange");
+   PropertyBox->item(CONY)->setText("Y Testrange");
+   PropertyBox->item(CONDIM)->setText("Dimension");
+   PropertyBox->item(CONCOUNTS)->setText("Counts");
+   PropertyBox->item(CONRESULT)->setText("Result");
+   PropertyBox->item(CONMODE)->setText("Test mode");
+   PropertyBox->item(CONSIZE)->setText("Size");
    TDatime now;
-   PropertyBox->changeItem(now.AsSQLString(),CONTIME);
+   PropertyBox->item(CONTIME)->setText(now.AsSQLString());
    polish();
    update();
    show();
@@ -124,42 +124,42 @@ void TGo4ConditionInfo::RefreshWidget(TGo4Condition* cond)
    if(cond==0) return;
 
    TString str;
-   PropertyBox->changeItem(cond->GetTitle(), CONTITLE);
-   PropertyBox->changeItem(cond->ClassName(), CONCLASS);
+   PropertyBox->item(CONTITLE)->setText(cond->GetTitle());
+   PropertyBox->item(CONCLASS)->setText(cond->ClassName());
    int dimension = 0;
    if(cond->InheritsFrom(TGo4WinCond::Class())) {
        TGo4WinCond* wcon = (TGo4WinCond*) cond;
        double xmin, xmax, ymin, ymax;
        wcon->GetValues(dimension, xmin, xmax, ymin, ymax);
        str.Form("X: [%.1f,%.1f]",xmin, xmax);
-       PropertyBox->changeItem(str.Data(), CONX);
+       PropertyBox->item(CONX)->setText(str.Data());
        str.Form("Y: [%.1f,%.1f]",ymin, ymax);
-       PropertyBox->changeItem(str.Data(), CONY);
+       PropertyBox->item(CONY)->setText(str.Data());
    } else {
-       PropertyBox->changeItem("X:-", CONX);
-       PropertyBox->changeItem("Y:-",CONY);
+       PropertyBox->item(CONX)->setText("X:-");
+       PropertyBox->item(CONY)->setText("Y:-");
        dimension = 2;
    }
 
    str.Form("Dim:%d", dimension);
-   PropertyBox->changeItem(str.Data(), CONDIM);
+   PropertyBox->item(CONDIM)->setText(str.Data());
    str.Form("Counts:%d", cond->Counts());
-   PropertyBox->changeItem(str.Data(), CONCOUNTS);
+   PropertyBox->item(CONCOUNTS)->setText(str.Data());
    str.Form("True:%d",cond->TrueCounts());
-   PropertyBox->changeItem(str.Data(), CONRESULT);
+   PropertyBox->item(CONRESULT)->setText(str.Data());
 
    if(cond->IsEnabled()) str = "test enabled"; else
      if(cond->FixedResult()) str = "always true";
                         else  str = "always false";
    if(cond->IsTrue()) str += " - regular";
                  else str += " - inverse";
-   PropertyBox->changeItem(str.Data(), CONMODE);
+   PropertyBox->item(CONMODE)->setText(str.Data());
 
    str.Form("size:%d b",cond->GetMemorySize());
-   PropertyBox->changeItem(str.Data(),CONSIZE);
+   PropertyBox->item(CONSIZE)->setText(str.Data());
 
    TDatime now;
-   PropertyBox->changeItem(now.AsSQLString(), CONTIME);
+   PropertyBox->item(CONTIME)->setText(now.AsSQLString());
    polish();
    update();
    show();

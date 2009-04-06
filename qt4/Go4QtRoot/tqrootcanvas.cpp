@@ -7,7 +7,6 @@
 #include "Riostream.h"
 
 #include <QtGui/qpainter.h>
-#include <Qt3Support/q3dragobject.h>
 #include <QtGui/QDragEnterEvent>
 #include <QtGui/QDropEvent>
 #include <QtGui/QResizeEvent>

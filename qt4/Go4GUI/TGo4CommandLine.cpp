@@ -115,13 +115,10 @@ gROOT->ProcessLine(".L $GO4SYS/macros/scalex.C");
 
 void TGo4CommandLine::PredefinedDialog()
 {
-TGo4MacroDialog md( this, "select", true);
-if (md.exec() != QDialog::Accepted) return;
-QString cmd=md.getCommand();
-InputLine->insertItem(cmd, 0);
-
-
-
+   TGo4MacroDialog md( this, "select", true);
+   if (md.exec() != QDialog::Accepted) return;
+   InputLine->insertItem(md.getCommand(), 0);
+   InputLine->setCurrentIndex(0);
 }
 
 

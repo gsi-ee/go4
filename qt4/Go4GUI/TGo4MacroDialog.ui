@@ -28,7 +28,7 @@
       <item row="0" column="0" >
         <layout class="QVBoxLayout" >
           <item>
-            <widget class="Q3ListBox" name="MacroListBox" >
+            <widget class="QListWidget" name="MacroListBox" >
               <item>
                 <property name="text" >
                   <string>Rebin histogram</string>
@@ -167,13 +167,13 @@
     </connection>
     <connection>
       <sender>MacroListBox</sender>
-      <signal>selected(QString)</signal>
+      <signal>itemActivated(QListWidgetItem*)</signal>
       <receiver>TGo4MacroDialog</receiver>
       <slot>accept()</slot>
     </connection>
     <connection>
       <sender>MacroListBox</sender>
-      <signal>highlighted(QString)</signal>
+      <signal>currentTextChanged(const QString &amp;)</signal>
       <receiver>TGo4MacroDialog</receiver>
       <slot>setCommand(QString)</slot>
     </connection>

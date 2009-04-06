@@ -938,7 +938,7 @@
                       <string>Show minimizer setup page</string>
                     </property>
                   </widget>
-                  <widget class="Q3ListBox" name="Wiz_DataList" >
+                  <widget class="QListWidget" name="Wiz_DataList" >
                     <property name="geometry" >
                       <rect>
                         <x>0</x>
@@ -951,7 +951,7 @@
                       <string>List of data objects</string>
                     </property>
                   </widget>
-                  <widget class="Q3ListBox" name="Wiz_ModelList" >
+                  <widget class="QListWidget" name="Wiz_ModelList" >
                     <property name="geometry" >
                       <rect>
                         <x>120</x>
@@ -961,7 +961,7 @@
                       </rect>
                     </property>
                     <property name="selectionMode" >
-                      <enum>Q3ListBox::Extended</enum>
+                      <enum>QAbstractItemView::ExtendedSelection</enum>
                     </property>
                     <property name="toolTip" stdset="0" >
                       <string>List of model components</string>
@@ -1421,16 +1421,10 @@ You can do one of the following:&lt;br>
       <slot>Wiz_ParTable_valueChanged(int,int)</slot>
     </connection>
     <connection>
-      <sender>Wiz_DataList</sender>
-      <signal>doubleClicked(Q3ListBoxItem*)</signal>
-      <receiver>TGo4FitPanel</receiver>
-      <slot>Wiz_DataList_doubleClicked(Q3ListBoxItem*)</slot>
-    </connection>
-    <connection>
       <sender>Wiz_ModelList</sender>
-      <signal>doubleClicked(Q3ListBoxItem*)</signal>
+      <signal>itemDoubleClicked(QListWidgetItem*)</signal>
       <receiver>TGo4FitPanel</receiver>
-      <slot>Wiz_ModelList_doubleClicked(Q3ListBoxItem*)</slot>
+      <slot>Wiz_ModelList_doubleClicked(QListWidgetItem*)</slot>
     </connection>
     <connection>
       <sender>Wiz_RebuildDataBtn</sender>
@@ -1506,27 +1500,39 @@ You can do one of the following:&lt;br>
     </connection>
     <connection>
       <sender>Wiz_DataList</sender>
-      <signal>clicked(Q3ListBoxItem*)</signal>
+      <signal>itemDoubleClicked(QListWidgetItem*)</signal>
       <receiver>TGo4FitPanel</receiver>
-      <slot>Wiz_DataList_clicked(Q3ListBoxItem*)</slot>
+      <slot>Wiz_DataList_doubleClicked(QListWidgetItem*)</slot>
     </connection>
     <connection>
       <sender>Wiz_DataList</sender>
-      <signal>pressed(Q3ListBoxItem*)</signal>
+      <signal>itemClicked(QListWidgetItem*)</signal>
       <receiver>TGo4FitPanel</receiver>
-      <slot>Wiz_DataList_pressed(Q3ListBoxItem*)</slot>
+      <slot>Wiz_DataListSelect(QListWidgetItem*)</slot>
     </connection>
     <connection>
       <sender>Wiz_DataList</sender>
-      <signal>highlighted(int)</signal>
+      <signal>itemChanged(QListWidgetItem*)</signal>
       <receiver>TGo4FitPanel</receiver>
-      <slot>Wiz_DataList_highlighted(int)</slot>
+      <slot>Wiz_DataListSelect(QListWidgetItem*)</slot>
+    </connection>
+    <connection>
+      <sender>Wiz_DataList</sender>
+      <signal>itemPressed(QListWidgetItem*)</signal>
+      <receiver>TGo4FitPanel</receiver>
+      <slot>Wiz_DataListSelect(QListWidgetItem*)</slot>
     </connection>
     <connection>
       <sender>Wiz_ModelList</sender>
-      <signal>highlighted(int)</signal>
+      <signal>itemClicked(QListWidgetItem*)</signal>
       <receiver>TGo4FitPanel</receiver>
-      <slot>Wiz_ModelList_highlighted(int)</slot>
+      <slot>Wiz_ModelListSelect(QListWidgetItem*)</slot>
+    </connection>
+    <connection>
+      <sender>Wiz_ModelList</sender>
+      <signal>itemChanged(QListWidgetItem*)</signal>
+      <receiver>TGo4FitPanel</receiver>
+      <slot>Wiz_ModelListSelect(QListWidgetItem*)</slot>
     </connection>
     <connection>
       <sender>MainParsBtn</sender>
@@ -1665,12 +1671,6 @@ You can do one of the following:&lt;br>
       <signal>currentChanged(QWidget*)</signal>
       <receiver>TGo4FitPanel</receiver>
       <slot>FindersTab_currentChanged(QWidget*)</slot>
-    </connection>
-    <connection>
-      <sender>Wiz_ModelList</sender>
-      <signal>clicked(Q3ListBoxItem*,QPoint)</signal>
-      <receiver>TGo4FitPanel</receiver>
-      <slot>Wiz_ModelList_clicked(Q3ListBoxItem*,QPoint)</slot>
     </connection>
     <connection>
       <sender>Wiz_BackgroundChk</sender>

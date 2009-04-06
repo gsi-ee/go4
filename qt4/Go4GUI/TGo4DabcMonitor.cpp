@@ -5,7 +5,6 @@
 #include "TGo4Slot.h"
 #include "TGo4LockGuard.h"
 
-#include <Q3CheckTableItem>
 #include <QDateTime>
 
 #include "TH1.h"
