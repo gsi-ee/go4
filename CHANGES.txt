@@ -27,7 +27,8 @@ Changes in Go4 v4.02.00 (April 09)
    Version of Qt can be selected by setting proper QTDIR path.
    If QTDIR is not set, default version will be used (if any) 
 2. Replace html documents by pdf, use external pdf viewer for them.
-3. Reduce usage of qt3support classes in qt4 part of gui.   
+3. Reduce usage of qt3support classes in qt4 part of gui.
+4. Add in Go4Example2Step example of TGo4Fitter usage   
 
 
 Changes in Go4 v4.01.01 (November08)

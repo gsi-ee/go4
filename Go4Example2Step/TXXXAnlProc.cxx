@@ -13,6 +13,7 @@
 #include "TXXXUnpackEvent.h"
 #include "TXXXParameter.h"
 #include "TXXXCalibPar.h"
+#include "TGo4Fitter.h"
 
 //***********************************************************
 TXXXAnlProc::TXXXAnlProc()
@@ -67,6 +68,16 @@ TXXXAnlProc::TXXXAnlProc(const char* name) :
       fxMultiGraph->Add(fxGraph1);
       fxMultiGraph->Add(fxGraph2);
       AddObject(fxMultiGraph);
+
+      fFitter = new TGo4Fitter("Fitter", TGo4Fitter::ff_chi_square, kTRUE);
+      fFitter->AddH1("data", 0, kFALSE, 100., 1000.);
+      fFitter->AddPolynomX("data", "Pol", 1);
+      AddObject(fFitter);
+
+      fFitSrc = new TH1I("FitSource","Copy of fit data", 1000, 0, 1000);
+      fFitRes = new TH1I("FitTarget","Copy of fit result", 1000, 0, 1000);
+      AddObject(fFitSrc);
+      AddObject(fFitRes);
     }
   else
     { // restored from auto-save file, get pointers
@@ -75,6 +86,9 @@ TXXXAnlProc::TXXXAnlProc(const char* name) :
       fSum3    =(TH1I*)GetHistogram("Sum3");
       fCaliSum1=(TH1I*)GetHistogram("Sum1Calib");
       fCaligraph= (TGraph*)GetObject("Calibration");
+      fFitter = (TGo4Fitter*)GetObject("Fitter");
+      fFitSrc = (TH1I*)GetObject("FitSource");
+      fFitRes = (TH1I*)GetObject("FitTarget");
       cout << "AnlProc: Restored histograms from autosave" << endl;
     }
   if(GetParameter("CaliPar")==0)
@@ -88,6 +102,8 @@ TXXXAnlProc::TXXXAnlProc(const char* name) :
       // use calibration parameter from autosave or previous run:
       fCalipar= (TXXXCalibPar*) GetParameter("CaliPar");
     }
+
+  fFitCounter = 0;
 }
 //***********************************************************
 TXXXAnlProc::~TXXXAnlProc()
@@ -124,5 +140,32 @@ void TXXXAnlProc::XXXEventAnalysis(TXXXAnlEvent* poutevt)
      fSum3->Fill(poutevt->frData[ii]+fParam2->frP1);
    }
     }
+
+  fFitCounter++;
+
+  if ((fFitCounter % 5000000 == 0) && (fFitter!=0)) {
+     TH1* histo1 = GetHistogram("Crate1/Cr1Ch04");
+
+     if (histo1!=0) {
+        fFitter->SetH1("data", histo1, kFALSE);
+        fFitter->DoActions();
+//        cout << "K = " << fFitter->GetParValue("Pol_1.Ampl") << " B = " << fFitter->GetParValue("Pol_0.Ampl") << endl;
+//        cout << "FF = " << fFitter->GetResultFF() << " NDF = " << fFitter->GetResultNDF() << endl;
+
+        fFitSrc->Reset();
+        fFitSrc->SetBins(histo1->GetNbinsX(), histo1->GetXaxis()->GetXmin(), histo1->GetXaxis()->GetXmax());
+        fFitSrc->Add(histo1);
+
+        TH1* histo2 = (TH1*) fFitter->CreateDrawObject("FitResult", "data", kTRUE);
+        fFitRes->Reset();
+        if (histo2!=0) {
+           fFitRes->SetBins(histo2->GetNbinsX(), histo2->GetXaxis()->GetXmin(), histo2->GetXaxis()->GetXmax());
+           fFitRes->Add(histo2);
+           fFitRes->SetTitle(Form("Result K=%5.3f B=%7.1f", fFitter->GetParValue("Pol_1.Ampl"), fFitter->GetParValue("Pol_0.Ampl")));
+           delete histo2;
+        }
+     }
+  }
+
 
 } // BuildCalEvent

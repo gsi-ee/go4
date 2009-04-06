@@ -7,6 +7,7 @@ class TXXXUnpackEvent;
 class TXXXParameter;
 class TXXXCalibPar;
 class TXXXAnlEvent;
+class TGo4Fitter;
 
 class TXXXAnlProc : public TGo4EventProcessor {
    public:
@@ -31,6 +32,11 @@ class TXXXAnlProc : public TGo4EventProcessor {
       TXXXParameter    *fParam2;
       TXXXCalibPar     *fCalipar;
       TGo4WinCond      *fWinCon;
+
+      TGo4Fitter       *fFitter;
+      Int_t             fFitCounter;
+      TH1I             *fFitSrc;
+      TH1I             *fFitRes;
 
    ClassDef(TXXXAnlProc,1)
 };
