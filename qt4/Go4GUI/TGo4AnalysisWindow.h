@@ -6,12 +6,11 @@
   * @since 06.09.2002 */
 
 #include "QGo4Widget.h"
-#include <Qt3Support/Q3HBoxLayout>
 
 class QProcess;
 class QGo4CommandsHistory;
 class QTextEdit;
-class Q3HBoxLayout;
+class QHBoxLayout;
 
 class TGo4AnalysisWindow : public QGo4Widget {
    Q_OBJECT
@@ -48,8 +47,8 @@ class TGo4AnalysisWindow : public QGo4Widget {
       virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
       virtual void linkedObjectRemoved(const char* linkname);
 
-      void CreateButtons(Q3HBoxLayout*, bool);
-      void CreateCmdLine(Q3HBoxLayout*);
+      void CreateButtons(QHBoxLayout*, bool);
+      void CreateCmdLine(QHBoxLayout*);
 
       QProcess *fAnalysisProcess;
       QGo4CommandsHistory *fxCmdHist;

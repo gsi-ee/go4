@@ -13,9 +13,9 @@
 #include "qmessagebox.h"
 #include "qpushbutton.h"
 #include "qtoolbutton.h"
-#include <Q3HBoxLayout>
-#include <Q3GridLayout>
-#include "q3textstream.h"
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QGridLayout>
+#include <QtCore/QTextStream>
 #include <QFileDialog>
 #include <QtCore/QProcess>
 #include <QtGui/QTextEdit>
@@ -49,7 +49,7 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
 
        resize(700, 400);
        setIcon(QPixmap(":/icons/analysiswin.png"));
-       Q3GridLayout* layout = new Q3GridLayout( this, 1, 1, 11, 6, "layout");
+       QGridLayout* layout = new QGridLayout( this, 1, 1, 11, 6, "layout");
        fxOutput = new QTextEdit(this, "output");
        fxOutput->setUndoRedoEnabled(FALSE);
        fxOutput->setAutoFormatting(QTextEdit::AutoNone);
@@ -59,17 +59,17 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
 
        fiMaxOuputSize = go4sett->getTermHistorySize();
 
-       Q3HBoxLayout *box1 = new Q3HBoxLayout(layout);
+       QHBoxLayout *box1 = new QHBoxLayout(layout);
        box1->addWidget(new QLabel("Press enter to execute.", this), 1);
        CreateCmdLine(box1);
 
-       Q3HBoxLayout *box2 = new Q3HBoxLayout(layout);
+       QHBoxLayout *box2 = new QHBoxLayout(layout);
        CreateButtons(box2, needkillbtn);
 
        updateTerminalOutput();
     } else {
 
-       Q3HBoxLayout *box = new Q3HBoxLayout(this, 0, 3);
+       QHBoxLayout *box = new QHBoxLayout(this, 0, 3);
 
        CreateButtons(box, needkillbtn);
 
@@ -79,7 +79,7 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
     }
 }
 
-void TGo4AnalysisWindow::CreateCmdLine(Q3HBoxLayout* box)
+void TGo4AnalysisWindow::CreateCmdLine(QHBoxLayout* box)
 {
    fxCmdHist = new QGo4CommandsHistory(this, "commandslist");
    QToolTip::add(fxCmdHist, "CINT command for analysis process. Note: '@' means 'TGo4Analysis::Instance()->' .");
@@ -99,7 +99,7 @@ void TGo4AnalysisWindow::CreateCmdLine(Q3HBoxLayout* box)
    box->addWidget(MacroSearch,1);
 }
 
-void TGo4AnalysisWindow::CreateButtons(Q3HBoxLayout* box, bool needkillbtn)
+void TGo4AnalysisWindow::CreateButtons(QHBoxLayout* box, bool needkillbtn)
 {
    if (needkillbtn) {
       QToolButton* KillProcess= new QToolButton(this,"KillProcess");
@@ -286,7 +286,7 @@ void TGo4AnalysisWindow::SaveAnalysisOutput()
    if(!fileName.endsWith(".txt")) fileName.append(".txt");
    QFile NewFile(fileName);
    NewFile.open( QIODevice::ReadWrite | QIODevice::Append );
-   Q3TextStream t( &NewFile );
+   QTextStream t( &NewFile );
    t << fxOutput->text() << endl;
    NewFile.close();
 }
