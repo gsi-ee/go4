@@ -7,7 +7,7 @@
 #include "TH2.h"
 #include "TCutG.h"
 #include "snprintf.h"
-
+#include "TPaveStats.h"
 #include "s_filhe_swap.h"
 #include "s_bufhe_swap.h"
 
@@ -34,56 +34,58 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 
   Text_t chis[16];
   Text_t chead[64];
-  Int_t i;
 
   codec = new TascaCodec();
+  evcount=0;
 
   //// init user analysis objects:
 
   fParam1   = (TascaParameter *)   GetParameter("TascaPar1");
   fParam2   = (TascaParameter *)   GetParameter("TascaPar2");
-  fParam1->PrintParameter(0,0);
-  fParam2->PrintParameter(0,0);
+//  fParam1->PrintParameter(0,0);
+//  fParam2->PrintParameter(0,0);
 
   // Creation of histograms:
-  if(GetHistogram("Crate1/Cr1Ch01")==0)
+  if(GetHistogram("Mod1/M1chan01")==0)
     {
-      for(i =0;i<8;i++)
-   {
-     snprintf(chis,15,"Cr1Ch%02d",i+1);
-     snprintf(chead,63,"Crate 1 channel %2d",i+1);
-          fCr1Ch[i] = new TH1I (chis,chead,5000,1,5000);
-          AddHistogram(fCr1Ch[i],"Crate1");
-     snprintf(chis,15,"Cr2Ch%02d",i+1);
-     snprintf(chead,63,"Crate 2 channel %2d",i+1);
-          fCr2Ch[i] = new TH1I (chis,chead,5000,1,5000);
-          AddHistogram(fCr2Ch[i],"Crate2");
-   }
-      fCr1Ch1x2 = new TH2I("Cr1Ch1x2","Crate 1 channel 1x2",200,1,5000,200,1,5000);
-      AddHistogram(fCr1Ch1x2);
-      fHis1 = new TH1I ("His1","Condition histogram",5000,1,5000);
-      AddHistogram(fHis1);
-      fHis2 = new TH1I ("His2","Condition histogram",5000,1,5000);
-      AddHistogram(fHis2);
-      fHis1gate = new TH1I ("His1g","Gated histogram",5000,1,5000);
-      AddHistogram(fHis1gate);
-      fHis2gate = new TH1I ("His2g","Gated histogram",5000,1,5000);
-      AddHistogram(fHis2gate);
+      for(i =0;i<32;i++)
+      {
+		snprintf(chis,15,"M1chan%02d",i+1);
+		snprintf(chead,63,"Mod 08 chan %2d",i+1);
+		fM1Ch[i] = new TH1I (chis,chead,5000,-0.5,4999.5);
+		AddHistogram(fM1Ch[i],"Mod1");
+		snprintf(chis,15,"M2chan%02d",i+1);
+		snprintf(chead,63,"Mod 10 chan %2d",i+1);
+		fM2Ch[i] = new TH1I (chis,chead,5000,-0.5,4999.5);
+		AddHistogram(fM2Ch[i],"Mod2");
+		snprintf(chis,15,"M3chan%02d",i+1);
+		snprintf(chead,63,"Mod 12 chan %2d",i+1);
+		fM3Ch[i] = new TH1I (chis,chead,5000,-0.5,4999.5);
+		AddHistogram(fM3Ch[i],"Mod3");
+      }
+		fPed1 = new TH1I ("M1ped","Mod 08 pedestals",32,-0.5,31.5);
+		fPed2 = new TH1I ("M2ped","Mod 10 pedestals",32,-0.5,31.5);
+		fPed3 = new TH1I ("M3ped","Mod 12 pedestals",32,-0.5,31.5);
+		AddHistogram(fPed1);
+		AddHistogram(fPed2);
+		AddHistogram(fPed3);
+
     }
   else // got them from autosave file
     {
-      for(i =0;i<8;i++)
+      for(i =0;i<32;i++)
    {
-     snprintf(chis,15,"Crate1/Cr1Ch%02d",i+1);
-          fCr1Ch[i]=(TH1I*)GetHistogram(chis);
-     snprintf(chis,15,"Crate2/Cr2Ch%02d",i+1);
-          fCr2Ch[i]=(TH1I*)GetHistogram(chis);
+		snprintf(chis,15,"Mod1/M1chan%02d",i+1);
+		fM1Ch[i]=(TH1I*)GetHistogram(chis);
+		snprintf(chis,15,"Mod2/M2chan%02d",i+1);
+		fM2Ch[i]=(TH1I*)GetHistogram(chis);
+		snprintf(chis,15,"Mod3/M3chan%02d",i+1);
+		fM3Ch[i]=(TH1I*)GetHistogram(chis);
    }
-      fCr1Ch1x2=(TH2I*)GetHistogram("Cr1Ch1x2");
-      fHis1=(TH1I*)GetHistogram("His1");
-      fHis2=(TH1I*)GetHistogram("His2");
-      fHis1gate=(TH1I*)GetHistogram("His1g");
-      fHis2gate=(TH1I*)GetHistogram("His2g");
+      fPed1=(TH1I*)GetHistogram("M1ped");
+      fPed2=(TH1I*)GetHistogram("M2ped");
+      fPed3=(TH1I*)GetHistogram("M3ped");
+
       cout << "Unpack: Restored histograms from autosave" << endl;
     }
   // Creation of conditions:
@@ -93,131 +95,66 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
       fWinCon1->SetValues(50,2000);
       fWinCon1->Disable(true); // return always true
 
-      fWinCon2= new TGo4WinCond("wincon2");
-      fWinCon2->SetValues(50,70,90,120);
-      fWinCon2->Disable(true);
-      fWinCon2->Invert(kTRUE);
-
-      fconHis1= new TGo4WinCond("cHis1");
-      fconHis2= new TGo4WinCond("cHis2");
-      fconHis1->SetValues(100,2000);
-      fconHis2->SetValues(100,2000);
-
-      fConArr1= new TGo4CondArray("winconar",30,"TGo4WinCond");
-      fConArr1->SetValues(100,500);
-      fConArr1->Disable(true);
-      ((*fConArr1)[0])->SetValues(200,400);
-      ((*fConArr1)[1])->SetValues(700,1000);
-      ((*fConArr1)[2])->SetValues(1500,2000);
-      fConArr1->SetHistogram("Sum3");
-
-      Double_t xvalues[4]={400,700,600,400};
-      Double_t yvalues[4]={800,900,1100,800};
-      TCutG* mycut= new TCutG("cut1",4,xvalues,yvalues);
-      fPolyCon1= new TGo4PolyCond("polycon");
-      fPolyCon1->SetValues(mycut); // copies mycat into fPolyCon1
-      fPolyCon1->Disable(true);
-      delete mycut; // mycat has been copied into the conditions
-
-      xvalues[0]=1000;xvalues[1]=2000;xvalues[2]=1500;xvalues[3]=1000;
-      yvalues[0]=1000;yvalues[1]=1000;yvalues[2]=3000;yvalues[3]=1000;
-      mycut= new TCutG("cut2",4,xvalues,yvalues);
-      fConArr2= new TGo4CondArray("polyconar",5,"TGo4PolyCond");
-      fConArr2->SetValues(mycut);
-      fConArr2->Disable(true);
-      delete mycut; // mycat has been copied into the conditions
-
-      AddAnalysisCondition(fWinCon1);
-      AddAnalysisCondition(fWinCon2);
-      AddAnalysisCondition(fPolyCon1);
-      AddAnalysisCondition(fConArr1);
-      AddAnalysisCondition(fConArr2);
-      AddAnalysisCondition(fconHis1);
-      AddAnalysisCondition(fconHis2);
     }
   else // got them from autosave file
     {
       fWinCon1  = (TGo4WinCond*)  GetAnalysisCondition("wincon1");
-      fWinCon2  = (TGo4WinCond*)  GetAnalysisCondition("wincon2");
-      fPolyCon1 = (TGo4PolyCond*) GetAnalysisCondition("polycon");
-      fConArr1  = (TGo4CondArray*)GetAnalysisCondition("winconar");
-      fConArr2  = (TGo4CondArray*)GetAnalysisCondition("polyconar");
-      fconHis1  = (TGo4WinCond*)  GetAnalysisCondition("cHis1");
-      fconHis2  = (TGo4WinCond*)  GetAnalysisCondition("cHis2");
-      fconHis1->ResetCounts();
-      fconHis2->ResetCounts();
-      fWinCon1->ResetCounts();
-      fWinCon2->ResetCounts();
-      fPolyCon1->ResetCounts();
-      fConArr1->ResetCounts();
-      fConArr2->ResetCounts();
-
       cout << "Unpack: Restored conditions from autosave" << endl;
     }
-  // connect histograms to conditions. will be drawn when condition is edited.
-  fconHis1->SetHistogram("His1");
-  fconHis2->SetHistogram("His2");
-  fconHis1->Enable();
-  fconHis2->Enable();
-  fconHis1->PrintCondition(true);
-  fconHis2->PrintCondition(true);
 
-  if (GetPicture("Picture1")==0)
+// pictures
+  if (GetPicture("M1raw")==0)
     {
-      fcondSet = new TGo4Picture("condSet","Set conditions");
-      fcondSet->SetDrawHeader(kTRUE);
-      fcondSet->SetDivision(2,2);
-      fcondSet->Pic(0,0)->AddObject(fHis1);
-      fcondSet->Pic(0,1)->AddObject(fHis2);
-      fcondSet->Pic(0,0)->AddCondition(fconHis1);
-      fcondSet->Pic(0,1)->AddCondition(fconHis2);
-      fcondSet->Pic(1,0)->AddObject(fHis1gate);
-      fcondSet->Pic(1,1)->AddObject(fHis2gate);
-      fcondSet->Pic(1,0)->SetFillAtt(4, 1001); // solid
-      fcondSet->Pic(1,0)->SetLineAtt(4,1,1);
-      fcondSet->Pic(1,1)->SetFillAtt(9, 1001); // solid
-      fcondSet->Pic(1,1)->SetLineAtt(9,1,1);
-      AddPicture(fcondSet);
-
-      Picture1 = new TGo4Picture("Picture1","Picture example");
-      Picture1->SetLinesDivision(3, 2,3,1);
-      Picture1->LPic(0,0)->AddObject(fCr1Ch[0]);
-      Picture1->LPic(0,0)->SetFillAtt(5, 3001); // pattern
-      Picture1->LPic(0,0)->SetLineAtt(5,1,1);
-      Picture1->LPic(0,1)->AddObject(fCr1Ch[1]);
-      Picture1->LPic(0,1)->SetFillAtt(4, 3001); // pattern
-      Picture1->LPic(0,1)->SetLineAtt(4,1,1);
-      Picture1->LPic(1,0)->AddObject(fCr1Ch[2]);
-      Picture1->LPic(1,0)->SetFillAtt(6, 1001); // solid
-      Picture1->LPic(1,0)->SetLineAtt(6,1,1);
-      Picture1->LPic(1,1)->AddObject(fCr1Ch[3]);
-      Picture1->LPic(1,1)->SetFillAtt(7, 1001); // solid
-      Picture1->LPic(1,1)->SetLineAtt(7,1,1);
-      Picture1->LPic(1,2)->AddObject(fCr1Ch[4]);
-      Picture1->LPic(3,0)->AddObject(fCr1Ch1x2);
-      Picture1->LPic(3,0)->SetDrawOption("CONT");
-
-      AddPicture(Picture1);
-
+      M1raw = new TGo4Picture("M1raw","Module 8",8,4);
+      M2raw = new TGo4Picture("M2raw","Module 10",8,4);
+      M3raw = new TGo4Picture("M3raw","Module 12",8,4);
+      AddPicture(M1raw);
+      AddPicture(M2raw);
+      AddPicture(M3raw);
+      Int_t m=0;
+      // 4 columns, 8 rows
+      // enlarge stats box and position in [0:1] coordinates
+      // show only Mean value (ROOT manual "Statistics Display")
+      for(i=0;i<8;i++)for(k=0;k<4;k++){
+    	  M1raw->Pic(i,k)->AddH1(fM1Ch[m]);
+          M1raw->Pic(i,k)->SetStatsAttr(0.1,0.6,0.4,0.8,100);
+    	  M2raw->Pic(i,k)->AddH1(fM2Ch[m]);
+          M2raw->Pic(i,k)->SetStatsAttr(0.1,0.6,0.4,0.8,100);
+    	  M3raw->Pic(i,k)->AddH1(fM3Ch[m]);
+          M3raw->Pic(i,k)->SetStatsAttr(0.1,0.6,0.4,0.8,100);
+    	  m++;
+      }
     }
   else
     {
-      Picture1 = GetPicture("Picture1");
-      fcondSet = (TGo4Picture *)GetPicture("condSet");
+      M1raw = GetPicture("M1raw");
+      M2raw = GetPicture("M2raw");
+      M3raw = GetPicture("M3raw");
+      cout << "Unpack: Restored pictures from autosave" << endl;
     }
 
   fWinCon1->Enable();
-  fWinCon1->PrintCondition(true);
-  fPolyCon1->Enable();
-  fPolyCon1->PrintCondition(true);
-  ((*fConArr2)[0])->Enable();
-  ((*fConArr2)[1])->Enable();
 }
 //***********************************************************
 TascaUnpackProc::~TascaUnpackProc()
 {
-  fWinCon1->PrintCondition(true);
-  fPolyCon1->PrintCondition(true);
+for(Int_t i =0;i<32;i++)
+{
+cout <<
+fM1Ch[i]->GetName() << ":" << fM1Ch[i]->GetMean() << " " <<
+fM2Ch[i]->GetName() << ":" << fM2Ch[i]->GetMean() << " " <<
+fM3Ch[i]->GetName() << ":" << fM3Ch[i]->GetMean()
+<< endl;
+}
+}
+//***********************************************************
+void TascaUnpackProc::savePedestals(){
+for(Int_t i =0;i<32;i++)
+{
+	fPed1->SetBinContent(i,fM1Ch[i]->GetMean());
+	fPed2->SetBinContent(i,fM2Ch[i]->GetMean());
+	fPed3->SetBinContent(i,fM3Ch[i]->GetMean());
+}
 }
 //***********************************************************
 
@@ -225,7 +162,7 @@ TascaUnpackProc::~TascaUnpackProc()
 void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* poutevt)
 {
   TGo4MbsSubEvent* psubevt;
-  Int_t crate, channels, header;
+  Int_t crate, address, channels, header;
   Int_t lwords;
   Int_t *pdata;
   Int_t latches=0;
@@ -237,7 +174,7 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* poutevt)
   if(fInput == 0) return;
   if(fInput->GetTrigger()==14) return;
   if(fInput->GetTrigger()==15) return;
-  cout << "Event=" << fInput->GetCount() << endl;
+  //cout << "Event=" << fInput->GetCount() << endl;
   fInput->ResetIterator();
   psubevt = fInput->NextSubEvent();
   pdata=psubevt->GetDataField();
@@ -256,7 +193,7 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* poutevt)
   patt3=*pdata++; // latch base + 3
   lat3=*pdata++; // latch 3
 
-  cout << "  ADCs=" << adcs << " latches=" << latches << endl;
+  //cout << "  ADCs=" << adcs << " latches=" << latches << endl;
 
   // first module
 while(adcs > 0){
@@ -266,25 +203,46 @@ while(adcs > 0){
   if(codec->isHeader()){
 	  crate=codec->getCrate();
 	  channels=codec->getCnt();
-	  cout << "    Crate=" << crate << " channels=" << channels << endl;
-	  for(Int_t i=0;i<channels;i++){
-		  codec->setValue(*pdata++);
-		  cout << "      chan=" << codec->getChan()
-			  << " adr=" << codec->getAddress()
-			  << " adc=" << codec->getAdc()
-			  << " Un=" << codec->isUnder()
-			  << " Ov=" << codec->isOver()
-			  << endl;
-	  }
+	  address=codec->getAddress();
+	  //cout << "    Crate=" << crate << " addr=" << address << " channels=" << channels << endl;
+	  if(address == 8){
+		  for(Int_t i=0;i<channels;i++){
+			  codec->setValue(*pdata++);
+			  fM1Ch[codec->getChan()]->Fill(codec->getAdc());
+			  poutevt->fiMod1[codec->getChan()]=codec->getAdc();
+	  }}
+	  else if(address == 10){
+		  for(Int_t i=0;i<channels;i++){
+			  codec->setValue(*pdata++);
+			  fM2Ch[codec->getChan()]->Fill(codec->getAdc());
+			  poutevt->fiMod2[codec->getChan()]=codec->getAdc();
+	  }}
+	  else if(address == 12){
+		  for(Int_t i=0;i<channels;i++){
+			  codec->setValue(*pdata++);
+			  fM3Ch[codec->getChan()]->Fill(codec->getAdc());
+			  poutevt->fiMod3[codec->getChan()]=codec->getAdc();
+	  }}
+//	  for(Int_t i=0;i<channels;i++){
+//		  codec->setValue(*pdata++);
+//		  cout
+//		  << "      addr=" << codec->getAddress()
+//		  << " chan=" << codec->getChan()
+//			  << " adc=" << codec->getAdc()
+//			  << " Un=" << codec->isUnder()
+//			  << " Ov=" << codec->isOver()
+//			  << endl;
+//	  }
 	  pdata++; // skip EOB
   } else if(codec->isEob()){
-	  cout << "    EOB " << endl;
+	  //cout << "    EOB " << endl;
   } else if(!codec->isValid()){
-	  cout << "    No data " << endl;
+	  //cout << "    No data " << endl;
   } else {
-	  cout << "    No header found " << header << endl;
+	  //cout << "    No header found " << header << endl;
   }
   }
-
+evcount++;
+if(evcount%100 != 0)savePedestals();
   poutevt->SetValid(kTRUE); // to store
 }

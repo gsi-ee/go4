@@ -306,24 +306,23 @@ Int_t TascaAnalysis::UserEventFunc()
 //// This function is called once for each event.
    Int_t value = 0;
    Int_t count = 0;
-   if(fMbsEvent) value = fMbsEvent->GetDlen()/2+2; // total longwords
-   fSize->Fill(value); // fill histogram
-   fEvents++;
-   if(fEvents == 1 || IsNewInputFile()) {
-      if(fMbsEvent) {
-         count=fMbsEvent->GetCount();
-         cout << "\nFirst event #: " << count  << endl;
-         s_bufhe* bufheader=fMbsEvent->GetMbsBufferHeader();
-         if(bufheader) {
-            cout <<"First Buffer:"<<endl;
-            cout <<"\tNumber: "<<bufheader->l_buf << endl;
-            void* timptr=&(bufheader->l_time[0]); // satisfy compiler warning
-            cout <<"\tTime: "<<ctime((const time_t*) timptr);
-            cout << "\t\t\t + "<<bufheader->l_time[1] << " µs"<<endl;
-         }
-      }
-      SetNewInputFile(kFALSE); // we have to reset the newfile flag
-   }
-   fLastEvent = count;
+   if(fMbsEvent) {
+	   value = fMbsEvent->GetDlen()/2+2; // total longwords
+	   fLastEvent = fMbsEvent->GetCount();
+	   fSize->Fill(value); // fill histogram
+	   fEvents++;
+	   if(fEvents == 1 || IsNewInputFile()) {
+		 count=fMbsEvent->GetCount();
+		 cout << "\nFirst event #: " << count  << endl;
+		 s_bufhe* bufheader=fMbsEvent->GetMbsBufferHeader();
+		 if(bufheader) {
+			cout <<"First Buffer:"<<endl;
+			cout <<"\tNumber: "<<bufheader->l_buf << endl;
+			void* timptr=&(bufheader->l_time[0]); // satisfy compiler warning
+			cout <<"\tTime: "<<ctime((const time_t*) timptr);
+			cout << "\t\t\t + "<<bufheader->l_time[1] << " µs"<<endl;
+		 }
+		  SetNewInputFile(kFALSE); // we have to reset the newfile flag
+   }}
    return 0;
 }

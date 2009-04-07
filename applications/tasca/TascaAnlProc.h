@@ -16,15 +16,6 @@ class TascaAnlProc : public TGo4EventProcessor {
 
       void TascaEventAnalysis(TascaAnlEvent* target);
 
-      TH1I             *fSum1;
-      TH1I             *fSum2;
-      TH1I             *fSum3;
-      TH1I             *fCaliSum1;
-      TGraph           *fCaligraph;
-
-      TGraph           *fxGraph1;
-      TGraph           *fxGraph2;
-      TMultiGraph      *fxMultiGraph;
 
       TascaUnpackEvent  *fInput;
       TascaParameter    *fParam1;

@@ -26,10 +26,10 @@ class TascaUnpackEvent : public TGo4EventElement {
       void Clear(Option_t *t="");
       Int_t Init();
 
-      Int_t fiCrate1[16];
-      Int_t fiCrate2[16];
-      Int_t fiCrate3[16];
-      Int_t fiCrate4[16];
+      Int_t fiMod1[32];
+      Int_t fiMod2[32];
+      Int_t fiMod3[32];
+
    private:
       TascaUnpackProc * fxTascaEP;  //! Don't put this to file
       TGo4FileSource * fxTascaFS;  //! Don't put this to file

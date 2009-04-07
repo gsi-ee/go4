@@ -14,9 +14,14 @@ class TascaUnpackProc : public TGo4EventProcessor {
       virtual ~TascaUnpackProc() ;
       void TascaUnpack(TascaUnpackEvent* target);
   private:
+	  void savePedestals();
 		TascaCodec *codec;
-      TH1I          *fCr1Ch[8];
-      TH1I          *fCr2Ch[8];
+      TH1I          *fM1Ch[32];
+      TH1I          *fM2Ch[32];
+      TH1I          *fM3Ch[32];
+      TH1I  		*fPed1;
+      TH1I  		*fPed2;
+      TH1I  		*fPed3;
       TH2I          *fCr1Ch1x2;
       TH1I          *fHis1;
       TH1I          *fHis1gate;
@@ -33,7 +38,13 @@ class TascaUnpackProc : public TGo4EventProcessor {
       TascaParameter *fParam1;
       TascaParameter *fParam2;
       TGo4Picture   *Picture1;
+      TGo4Picture   *M1raw;
+      TGo4Picture   *M2raw;
+      TGo4Picture   *M3raw;
       TGo4Picture   *fcondSet;
+      Int_t latches[5];
+      Int_t patterns[5];
+      Int_t i,k, evcount;
 
    ClassDef(TascaUnpackProc,1)
 };
