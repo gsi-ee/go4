@@ -22,6 +22,7 @@ class TH1;
 class THStack;
 class TGraph;
 class TPaveStats;
+class TPaveText;
 class TList;
 
 class TGo4Picture : public TNamed {
@@ -126,7 +127,7 @@ class TGo4Picture : public TNamed {
       void GetDrawAttributes(TObject* obj, Int_t index = UndefIndex);
 
       // set string draw options
-      virtual void SetDrawOption(Option_t* option = "") 
+      virtual void SetDrawOption(Option_t* option = "")
       {
          SetDrawOption(option, UndefIndex);
       }
@@ -135,7 +136,7 @@ class TGo4Picture : public TNamed {
       {
          return GetDrawOption(UndefIndex);
       }
-      
+
       virtual Option_t* GetDrawOption(Int_t index);
 
       // set draw style (Go4GUI index like)
@@ -150,6 +151,11 @@ class TGo4Picture : public TNamed {
 
       void SetHisTitle(bool on);
       Bool_t IsHisTitle() const;
+
+      void SetTitleAttr(Double_t x1, Double_t y1, Double_t x2, Double_t y2);
+      void SetTitleAttr(TPaveText* titl);
+      Bool_t HasTitleAttr();
+      Bool_t GetTitleAttr(TPaveText* titl);
 
       void SetTitleTime(Bool_t on = kTRUE);
       Bool_t IsTitleTime() const;

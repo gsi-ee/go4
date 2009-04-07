@@ -83,6 +83,11 @@ enum OptionsIdentifiers {
    op_RebinX      = 87,
    op_RebinY      = 88,
 
+   op_TitleX1     = 89,
+   op_TitleY1     = 90,
+   op_TitleX2     = 91,
+   op_TitleY2     = 92,
+
    op_ObjsBound   = 0x4000,
 
    op_Style        = op_ObjsBound,
@@ -904,6 +909,46 @@ Bool_t TGo4Picture::IsHisTitle() const
    return zn!=0;
 }
 
+void TGo4Picture::SetTitleAttr(Double_t x1, Double_t y1, Double_t x2, Double_t y2)
+{
+   SetOptionD(PictureIndex, op_TitleX1, x1);
+   SetOptionD(PictureIndex, op_TitleY1, y1);
+   SetOptionD(PictureIndex, op_TitleX2, x2);
+   SetOptionD(PictureIndex, op_TitleY2, y2);
+}
+
+void TGo4Picture::SetTitleAttr(TPaveText* titl)
+{
+   if (titl!=0)
+      SetTitleAttr(titl->GetX1NDC(), titl->GetY1NDC(),
+                   titl->GetX2NDC(), titl->GetY2NDC());
+}
+
+Bool_t TGo4Picture::HasTitleAttr()
+{
+   return IsHisTitle() && (FindOptPos(PictureIndex, op_TitleX1)>=0);
+}
+
+
+Bool_t TGo4Picture::GetTitleAttr(TPaveText* titl)
+{
+   if (titl==0) return kFALSE;
+
+   Double_t x1, y1, x2, y2;
+   if (GetOptionD(PictureIndex, op_TitleX1, x1) &&
+       GetOptionD(PictureIndex, op_TitleY1, y1) &&
+       GetOptionD(PictureIndex, op_TitleX2, x2) &&
+       GetOptionD(PictureIndex, op_TitleY2, y2)) {
+         titl->SetX1NDC(x1);
+         titl->SetY1NDC(y1);
+         titl->SetX2NDC(x2);
+         titl->SetY2NDC(y2);
+         titl->ConvertNDCtoPad();
+       }
+   return kTRUE;
+}
+
+
 void TGo4Picture::SetTitleTime(Bool_t on)
 {
    SetOption(PictureIndex, op_TitleTime, on ? 1 : 0);
@@ -1195,7 +1240,7 @@ void TGo4Picture::SetOption(Short_t index, Short_t typ, Long_t value)
 Bool_t TGo4Picture::GetOption(Short_t index, Short_t typ, Long_t& value) const
 {
    if (typ>=op_ObjsBound) return kFALSE;
-   Int_t pos = FindOptPos(index,typ);
+   Int_t pos = FindOptPos(index, typ);
    if (pos<0) return kFALSE;
    value = fxOptValue[pos];
    return kTRUE;
@@ -1641,7 +1686,7 @@ void TGo4Picture::MakeScript(ostream& fs, const char* name)
 
    fs << name << "SetHisStats(" << (IsHisStats() ? "true" : "false") << ");" << endl;
 
-   if (IsHisStats()) {
+   if (IsHisStats() && (FindOptPos(PictureIndex, op_HisStatsX1) >= 0)) {
      fs << name << "SetStatsAttr("
         << GetD(PictureIndex, op_HisStatsX1, gStyle->GetStatX()-gStyle->GetStatW()) << ", "
         << GetD(PictureIndex, op_HisStatsY1, gStyle->GetStatY()-gStyle->GetStatH()) << ", "
@@ -1654,6 +1699,13 @@ void TGo4Picture::MakeScript(ostream& fs, const char* name)
    }
 
    fs << name << "SetHisTitle(" << (IsHisTitle() ? "true" : "false") << ");" << endl;
+   if (IsHisTitle() && FindOptPos(PictureIndex, op_TitleX1) >= 0) {
+     fs << name << "SetTitleAttr("
+        << GetD(PictureIndex, op_TitleX1, gStyle->GetTitleX()-gStyle->GetTitleW()) << ", "
+        << GetD(PictureIndex, op_TitleY1, gStyle->GetTitleY()-gStyle->GetTitleH()) << ", "
+        << GetD(PictureIndex, op_TitleX2, gStyle->GetTitleX()) << ", "
+        << GetD(PictureIndex, op_TitleY2, gStyle->GetTitleY()) << ");" << endl;
+   }
 
    fs << name << "SetAutoScale(" << (IsAutoScale() ? "true" : "false") << ");" << endl;
 

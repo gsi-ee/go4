@@ -3376,6 +3376,20 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
    if (!doasiimage)
       RedrawSpecialObjects(pad, slot);
 
+   if (padopt->HasTitleAttr()) {
+      TPaveText* titl = dynamic_cast<TPaveText*>
+              (pad->GetListOfPrimitives()->FindObject("title"));
+      if (titl==0) {
+         pad->Update();
+         titl = dynamic_cast<TPaveText*>
+                       (pad->GetListOfPrimitives()->FindObject("title"));
+      }
+      if (titl) {
+         padopt->GetTitleAttr(titl);
+         pad->Modified();
+      }
+   }
+
    CallPanelFunc(panel_Updated, pad);
 
    return true;

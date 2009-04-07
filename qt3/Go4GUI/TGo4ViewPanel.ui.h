@@ -227,7 +227,7 @@ void TGo4ViewPanel::CompleteInitialization()
    FileMenu->insertItem("Print...", this, SLOT(PrintCanvas()));
    FileMenu->insertItem("Produce &Picture", this, SLOT(ProducePicture()));
    FileMenu->insertItem("Produce &Graph from markers", this, SLOT(ProduceGraphFromMarkers()));
- 
+
 //   FileMenu->insertItem("Copy to T&Canvas in Memory", this, SLOT(SendToBrowser()));
 //   FileMenu->insertItem("&Load marker setup...", this, SLOT(LoadMarkers()));
 //   FileMenu->insertItem("Save &marker setup...", this, SLOT(SaveMarkers()));
@@ -1444,9 +1444,9 @@ void TGo4ViewPanel::ProduceGraphFromMarkers()
    TObjArray markers;
    CollectSpecialObjects(GetActivePad(), &markers, kind_Marker);
    Int_t npts=markers.GetEntries();
-   //cout <<"Found "<<npts<<" markers in pad" <<endl; 
+   //cout <<"Found "<<npts<<" markers in pad" <<endl;
    if(npts==0) return;
-   // create arrays of length 
+   // create arrays of length
    Double_t x[npts];
    Double_t y[npts];
    // copy marker values to array:
@@ -1455,19 +1455,19 @@ void TGo4ViewPanel::ProduceGraphFromMarkers()
         TGo4Marker* mark=dynamic_cast<TGo4Marker*>(markers[j]);
         if(mark==0)
             {
-                cout <<"NEVER COME HERE: no marker at index "<<j << endl;   
+                cout <<"NEVER COME HERE: no marker at index "<<j << endl;
                 return;
             }
         x[j]=mark->GetX();
         y[j]=mark->GetY();
-        //cout <<"Set point "<<j <<" to x="<<x[j]<<", y="<<y[j]<<endl;    
+        //cout <<"Set point "<<j <<" to x="<<x[j]<<", y="<<y[j]<<endl;
     }
-   
-   // create graph from points array: 
+
+   // create graph from points array:
    TString grname=GetPanelName()+TString("-Markergraph");
    TGraph* graf = new TGraph(npts,x,y);
    graf->SetName(grname.Data());
-   graf->SetMarkerStyle(28);   
+   graf->SetMarkerStyle(28);
    SaveObjectInMemory("", graf);
 }
 
@@ -1488,11 +1488,11 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemn
    if ((padopt==0) || (slot==0)) return;
 
    pic->CopyOptionsFrom(padopt);
-   
+
    int objnamenum = 0;
 
    for(int n=0;n<slot->NumChilds();n++) {
-       
+
       TGo4Slot* subslot = slot->GetChild(n);
       int kind = GetDrawKind(subslot);
 
@@ -1513,7 +1513,7 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemn
       }
 
       if ((kind!=kind_Link) && (kind!=kind_Condition)) continue;
-      
+
       const char* drawopt = padopt->GetDrawOption(objnamenum++);
 
       if (useitemname) {
@@ -2760,7 +2760,7 @@ void TGo4ViewPanel::CheckObjectsAssigments( TPad * pad, TGo4Slot * padslot )
 
    int indx = GetSelectedObjectIndex(padslot);
    if (indx<0) indx = 0;
-   
+
    TH1* selhisto = dynamic_cast<TH1*> ((indx<=objs.GetLast()) ? objs.At(indx) : 0);
    if (selhisto==0) selhisto = GetPadHistogram(pad);
 
@@ -2769,30 +2769,30 @@ void TGo4ViewPanel::CheckObjectsAssigments( TPad * pad, TGo4Slot * padslot )
       Int_t kind = GetDrawKind(subslot);
       TObject* obj = subslot->GetAssignedObject();
       if (obj==0) continue;
-      
+
       TGo4Marker* mark = 0;
       TGo4Condition* cond = 0;
 
       // reset condition and marker histogram
       if ((kind>=kind_Specials) && (kind<kind_Other)) {
-         if (obj->InheritsFrom(TGo4Condition::Class())) 
-            cond = (TGo4Condition*) obj;     
+         if (obj->InheritsFrom(TGo4Condition::Class()))
+            cond = (TGo4Condition*) obj;
          else
          if (obj->InheritsFrom(TGo4Marker::Class()))
             mark = (TGo4Marker*) obj;
       } else
-      if (kind==kind_Condition) 
+      if (kind==kind_Condition)
           cond = dynamic_cast<TGo4Condition*>(obj);
-      
+
       TH1* oldhisto = 0;
-      
+
       if (cond!=0) oldhisto = cond->GetWorkHistogram(); else
       if (mark!=0) oldhisto = mark->GetHistogram();
-      
-      if (oldhisto!=0) 
+
+      if (oldhisto!=0)
         if (objs.FindObject(oldhisto)==0) oldhisto = 0;
-        
-      if (oldhisto==0) 
+
+      if (oldhisto==0)
         if (cond!=0) cond->SetWorkHistogram(selhisto); else
         if (mark!=0) mark->SetHistogram(selhisto);
    }
@@ -3345,6 +3345,20 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 
    if (!doasiimage)
       RedrawSpecialObjects(pad, slot);
+
+   if (padopt->HasTitleAttr()) {
+      TPaveText* titl = dynamic_cast<TPaveText*>
+              (pad->GetListOfPrimitives()->FindObject("title"));
+      if (titl==0) {
+         pad->Update();
+         titl = dynamic_cast<TPaveText*>
+                       (pad->GetListOfPrimitives()->FindObject("title"));
+      }
+      if (titl) {
+         padopt->GetTitleAttr(titl);
+         pad->Modified();
+      }
+   }
 
    CallPanelFunc(panel_Updated, pad);
 
@@ -4014,13 +4028,13 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TH1* h1, THStack* hs, TGo4Picture* p
    double hmin(0.), hmax(0.), umin, umax;
 
    if (padopt->GetRange(0, umin, umax))
-      { 
+      {
         // note: go4 range is full visible range of histogram
         // [low edge first bin, up edge last bin]
         // need to correct for upper bin width when transforming to ROOT user range:
         TAxis* ax=h1->GetXaxis();
         Double_t bwidthx=ax->GetBinWidth(ax->FindFixBin(umax));
-        ax->SetRangeUser(umin, umax-bwidthx);    
+        ax->SetRangeUser(umin, umax-bwidthx);
       }
    else
       h1->GetXaxis()->UnZoom();
@@ -4045,7 +4059,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TH1* h1, THStack* hs, TGo4Picture* p
             // need to correct for upper bin width when transforming to ROOT user range:
             TAxis* as=hs_h1->GetXaxis();
             Double_t bwidths=as->GetBinWidth(as->FindFixBin(umax));
-            as->SetRangeUser(umin, umax-bwidths);    
+            as->SetRangeUser(umin, umax-bwidths);
             }
          else
             hs_h1->GetXaxis()->UnZoom();
@@ -4061,7 +4075,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TH1* h1, THStack* hs, TGo4Picture* p
         // need to correct for upper bin width when transforming to ROOT user range:
         TAxis* ay=h1->GetYaxis();
         Double_t bwidthy=ay->GetBinWidth(ay->FindFixBin(umax));
-        ay->SetRangeUser(umin, umax-bwidthy);    
+        ay->SetRangeUser(umin, umax-bwidthy);
    } else {
       h1->GetYaxis()->UnZoom();
    }
@@ -4076,7 +4090,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TH1* h1, THStack* hs, TGo4Picture* p
         // need to correct for upper bin width when transforming to ROOT user range:
         TAxis* az=h1->GetZaxis();
         Double_t bwidthz=az->GetBinWidth(az->FindFixBin(umax));
-        az->SetRangeUser(umin, umax-bwidthz);    
+        az->SetRangeUser(umin, umax-bwidthz);
    } else
      h1->GetZaxis()->UnZoom();
 
@@ -4158,6 +4172,12 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TH1* h1, THStack* hs, TGo4Picture* p
           stats->ConvertNDCtoPad();
         }
       padopt->GetStatsAttr(stats);
+   }
+
+   if (padopt->IsHisTitle() && isthishisto) {
+      TPaveText* titl = dynamic_cast<TPaveText*>
+              (h1->GetListOfFunctions()->FindObject("title"));
+      if (titl) padopt->GetTitleAttr(titl);
    }
 }
 
