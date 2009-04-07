@@ -175,6 +175,9 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       fcondSet->Pic(1,0)->SetLineAtt(4,1,1);
       fcondSet->Pic(1,1)->SetFillAtt(9, 1001); // solid
       fcondSet->Pic(1,1)->SetLineAtt(9,1,1);
+
+      fcondSet->Pic(0,0)->SetTitleAttr(0.05, 0.85, 0.8, 0.95);
+
       AddPicture(fcondSet);
 
       Picture1 = new TGo4Picture("Picture1","Picture example");

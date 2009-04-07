@@ -926,7 +926,10 @@ void TGo4Picture::SetTitleAttr(TPaveText* titl)
 
 Bool_t TGo4Picture::HasTitleAttr()
 {
-   return IsHisTitle() && (FindOptPos(PictureIndex, op_TitleX1)>=0);
+   return (FindOptPos(PictureIndex, op_TitleX1)>=0) &&
+          (FindOptPos(PictureIndex, op_TitleX2)>=0) &&
+          (FindOptPos(PictureIndex, op_TitleY1)>=0) &&
+          (FindOptPos(PictureIndex, op_TitleY2)>=0);
 }
 
 
@@ -1699,7 +1702,7 @@ void TGo4Picture::MakeScript(ostream& fs, const char* name)
    }
 
    fs << name << "SetHisTitle(" << (IsHisTitle() ? "true" : "false") << ");" << endl;
-   if (IsHisTitle() && FindOptPos(PictureIndex, op_TitleX1) >= 0) {
+   if (HasTitleAttr()) {
      fs << name << "SetTitleAttr("
         << GetD(PictureIndex, op_TitleX1, gStyle->GetTitleX()-gStyle->GetTitleW()) << ", "
         << GetD(PictureIndex, op_TitleY1, gStyle->GetTitleY()-gStyle->GetTitleH()) << ", "

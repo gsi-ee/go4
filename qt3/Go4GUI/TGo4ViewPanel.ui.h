@@ -2026,8 +2026,10 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot* padslot, TGo4Picture* p
       const char* clname = link->GetObject()->ClassName();
       if ((strcmp(clname, "TFrame")==0) ||
           (strcmp(clname, "TPaveText")==0) ||
-          (strcmp(clname, "TLegend")==0))
-        link = link->Next();
+          (strcmp(clname, "TLegend")==0)) {
+
+         link = link->Next();
+      }
       else
         break;
    }
@@ -2060,6 +2062,7 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot* padslot, TGo4Picture* p
             pic->SetStatsAttr(stats);
          }
       }
+
    }
 
    if (pad->GetLogx()!=pic->GetLogScale(0)) {
@@ -2079,6 +2082,12 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot* padslot, TGo4Picture* p
 
    if (pad==GetCanvas())
      fbCanvasCrosshair = pad->HasCrosshair();
+
+   TPaveText* titl = dynamic_cast<TPaveText*> (pad->GetListOfPrimitives()->FindObject("title"));
+   if (titl) {
+      pic->SetTitleAttr(titl);
+      optchanged = true;
+   }
 
    TObjArray objs, objslots;
 
