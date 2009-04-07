@@ -118,10 +118,13 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
       for(i=0;i<8;i++)for(k=0;k<4;k++){
     	  M1raw->Pic(i,k)->AddH1(fM1Ch[m]);
           M1raw->Pic(i,k)->SetStatsAttr(0.1,0.6,0.4,0.8,100);
+          M1raw->Pic(i,k)->SetTitleAttr(0.1,0.8,0.7,0.9);
     	  M2raw->Pic(i,k)->AddH1(fM2Ch[m]);
           M2raw->Pic(i,k)->SetStatsAttr(0.1,0.6,0.4,0.8,100);
+          M2raw->Pic(i,k)->SetTitleAttr(0.1,0.8,0.7,0.9);
     	  M3raw->Pic(i,k)->AddH1(fM3Ch[m]);
           M3raw->Pic(i,k)->SetStatsAttr(0.1,0.6,0.4,0.8,100);
+          M3raw->Pic(i,k)->SetTitleAttr(0.1,0.8,0.7,0.9);
     	  m++;
       }
     }
@@ -244,5 +247,5 @@ while(adcs > 0){
   }
 evcount++;
 if(evcount%100 != 0)savePedestals();
-  poutevt->SetValid(kTRUE); // to store
+poutevt->SetValid(kTRUE); // to store
 }
