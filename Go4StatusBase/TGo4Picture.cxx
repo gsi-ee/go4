@@ -667,6 +667,29 @@ void TGo4Picture::GetH1Att(TH1* h1, Int_t index)
    GetAxisAtt(2, h1->GetZaxis(), index);
 }
 
+void TGo4Picture::SetAxisLabelFontSize(Int_t naxis, Float_t LabelSize, Int_t index)
+{
+   if ((naxis<0) || (naxis>2)) return;
+   CheckIndex(index);
+   Int_t op = op_AxisX;
+   if (naxis==1) op = op_AxisY; else
+   if (naxis==2) op = op_AxisZ;
+
+   SetOptionF(index, op+4, LabelSize);
+
+}
+
+void TGo4Picture::SetAxisTitleFontSize(Int_t naxis, Float_t TitleSize, Int_t index)
+{
+   if ((naxis<0) || (naxis>2)) return;
+   CheckIndex(index);
+   Int_t op = op_AxisX;
+   if (naxis==1) op = op_AxisY; else
+   if (naxis==2) op = op_AxisZ;
+
+   SetOptionF(index, op+10, TitleSize);
+}
+
 void TGo4Picture::SetAxisAtt(Int_t naxis,
                       Color_t AxisColor,
                       Color_t LabelColor,
