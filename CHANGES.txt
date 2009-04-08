@@ -29,6 +29,7 @@ Changes in Go4 v4.02.00 (April 09)
 2. Replace html documents by pdf, use external pdf viewer for them.
 3. Reduce usage of qt3support classes in qt4 part of gui.
 4. Add in Go4Example2Step example of TGo4Fitter usage   
+5. Few more options can be set in TGo4Picture
 
 
 Changes in Go4 v4.01.01 (November08)
