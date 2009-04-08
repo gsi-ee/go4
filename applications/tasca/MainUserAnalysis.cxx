@@ -56,7 +56,7 @@ Bool_t autorun=kFALSE;    // immedeately run analysis on start
 Int_t  runningMode;       // kGUI or kBatch
 Int_t  maxevents = -1;    // number of events (batch mode)
 Int_t  intype=GO4EV_MBS_FILE; // type of source
-Bool_t writeout1=kFALSE;  // write output file
+Bool_t writeout1=kTRUE;  // write output file
 Bool_t writeout2=kFALSE;  // write output file
 Text_t hostname[128];     // hostname used by GUI
 UInt_t iport=5000;        // port number used by GUI
@@ -92,7 +92,7 @@ strcpy(hostname,"localhost");
    strncpy(asf,outname,120);     // auto save file
    strcat(asf,"_AS");
    strncpy(out,outname,110);     // output root file
-   strcat(out,"_TascaEvent"); // append name of output event object
+   strcat(out,"_TascaUnp"); // append name of output event object
    strncpy(anl,outname,110);     // output root file
    strcat(anl,"_TascaAnl");   // append name of output event object
    strncpy(serv,argv[2],110);     // input (file with full path)

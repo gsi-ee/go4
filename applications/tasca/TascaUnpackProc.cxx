@@ -117,13 +117,24 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
       // show only Mean value (ROOT manual "Statistics Display")
       for(i=0;i<8;i++)for(k=0;k<4;k++){
     	  M1raw->Pic(i,k)->AddH1(fM1Ch[m]);
-          M1raw->Pic(i,k)->SetStatsAttr(0.1,0.6,0.4,0.75,100);
+          M1raw->Pic(i,k)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
+          M1raw->Pic(i,k)->SetAxisAtt(0, 1, 1, 62, 0.005, 0.07, 510, 0.03, 1, 62, 1, 0.05, kFALSE, "+", 0, 0);
+          M1raw->Pic(i,k)->SetAxisAtt(1, 1, 1, 62, 0.005, 0.07, 510, 0.03, 1, 62, 1, 0.05, kFALSE, "+", 0, 0);
+          M1raw->Pic(i,k)->SetHisTitle(false);
           M1raw->Pic(i,k)->SetTitleAttr(0.1,0.75,0.7,0.9);
+
     	  M2raw->Pic(i,k)->AddH1(fM2Ch[m]);
-          M2raw->Pic(i,k)->SetStatsAttr(0.1,0.6,0.4,0.75,100);
+          M2raw->Pic(i,k)->SetStatsAttr(0.1,0.6,0.4,0.9,101);
+          M2raw->Pic(i,k)->SetAxisAtt(0, 1, 1, 62, 0.005, 0.07, 510, 0.03, 1, 62, 1, 0.05, kFALSE, "+", 0, 0);
+          M2raw->Pic(i,k)->SetAxisAtt(1, 1, 1, 62, 0.005, 0.07, 510, 0.03, 1, 62, 1, 0.05, kFALSE, "+", 0, 0);
+          M2raw->Pic(i,k)->SetHisTitle(false);
           M2raw->Pic(i,k)->SetTitleAttr(0.1,0.75,0.7,0.9);
+
     	  M3raw->Pic(i,k)->AddH1(fM3Ch[m]);
-          M3raw->Pic(i,k)->SetStatsAttr(0.1,0.6,0.4,0.75,100);
+          M3raw->Pic(i,k)->SetStatsAttr(0.1,0.6,0.4,0.9,101);
+          M3raw->Pic(i,k)->SetAxisAtt(0, 1, 1, 62, 0.005, 0.07, 510, 0.03, 1, 62, 1, 0.05, kFALSE, "+", 0, 0);
+          M3raw->Pic(i,k)->SetAxisAtt(1, 1, 1, 62, 0.005, 0.07, 510, 0.03, 1, 62, 1, 0.05, kFALSE, "+", 0, 0);
+          M3raw->Pic(i,k)->SetHisTitle(false);
           M3raw->Pic(i,k)->SetTitleAttr(0.1,0.75,0.7,0.9);
     	  m++;
       }
@@ -143,11 +154,11 @@ TascaUnpackProc::~TascaUnpackProc()
 {
 for(Int_t i =0;i<32;i++)
 {
-cout <<
-fM1Ch[i]->GetName() << ":" << fM1Ch[i]->GetMean() << " " <<
-fM2Ch[i]->GetName() << ":" << fM2Ch[i]->GetMean() << " " <<
-fM3Ch[i]->GetName() << ":" << fM3Ch[i]->GetMean()
-<< endl;
+//cout <<
+//fM1Ch[i]->GetName() << ":" << fM1Ch[i]->GetMean() << " " <<
+//fM2Ch[i]->GetName() << ":" << fM2Ch[i]->GetMean() << " " <<
+//fM3Ch[i]->GetName() << ":" << fM3Ch[i]->GetMean()
+//<< endl;
 }
 }
 //***********************************************************
@@ -211,20 +222,20 @@ while(adcs > 0){
 	  if(address == 8){
 		  for(Int_t i=0;i<channels;i++){
 			  codec->setValue(*pdata++);
-			  fM1Ch[codec->getChan()]->Fill(codec->getAdc());
 			  poutevt->fiMod1[codec->getChan()]=codec->getAdc();
+			  fM1Ch[codec->getChan()]->Fill(codec->getAdc());
 	  }}
 	  else if(address == 10){
 		  for(Int_t i=0;i<channels;i++){
 			  codec->setValue(*pdata++);
-			  fM2Ch[codec->getChan()]->Fill(codec->getAdc());
 			  poutevt->fiMod2[codec->getChan()]=codec->getAdc();
+			  fM2Ch[codec->getChan()]->Fill(codec->getAdc());
 	  }}
 	  else if(address == 12){
 		  for(Int_t i=0;i<channels;i++){
 			  codec->setValue(*pdata++);
-			  fM3Ch[codec->getChan()]->Fill(codec->getAdc());
 			  poutevt->fiMod3[codec->getChan()]=codec->getAdc();
+			  fM3Ch[codec->getChan()]->Fill(codec->getAdc());
 	  }}
 //	  for(Int_t i=0;i<channels;i++){
 //		  codec->setValue(*pdata++);
@@ -237,6 +248,7 @@ while(adcs > 0){
 //			  << endl;
 //	  }
 	  pdata++; // skip EOB
+	  poutevt->SetValid(kTRUE); // to store
   } else if(codec->isEob()){
 	  //cout << "    EOB " << endl;
   } else if(!codec->isValid()){
@@ -247,5 +259,4 @@ while(adcs > 0){
   } // loop over ADCs
 evcount++;
 if(evcount%100 != 0)savePedestals();
-poutevt->SetValid(kTRUE); // to store
 }
