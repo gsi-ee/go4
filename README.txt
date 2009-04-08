@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.1-1 (build 40101)
-                      28-November-2008
+         Go4 Release Package v4.2-0 (build 40200)
+                      8-April-2009
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -21,18 +21,22 @@ in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 These packages are tested on
     Suse 10.2 (x86_64), SuSe 11
-    Debian 3.1 (32 bit and AMD 64bit), Debian 4.0
+    Debian 3.1 , Debian 4.0 (32 bit and AMD 64bit)
     compilers: gcc 3.3.5, gcc 4.1.2, gcc 4.3.x
     SunOS 5.2 (Solaris) with CC 5.8
 
 REQUIREMENTS:
     ROOT Version >=5.19/01 
 
-    Qt: >=4.3.x NOTE: Go4 V4 does not work with Qt version 3 !
-                      Please use Go4 V3.x if you have Qt3.x
+	NEW: Go4 version 4.2.0 and higher can be built with Qt3 or Qt4.
+	     Makefile recognises which QT is active (by QTDIR or qmake version),
+	     and builds the corresponding QT dependend branch of Go4.
+	 
+    Qt: >=4.3.x NOTE: Go4 V4.0, V4.1 does not work with Qt version 3 !
+                      Please use Go4 V3.x or V4.2 if you have Qt3.x
 
 INSTALLATION:
-- Install the ROOT framework Version >=5.19/01
+- Install the ROOT framework Version >=5.22/00
   (download at http://root.cern.ch)
   NOTE: choose installation mode for one generic $ROOTSYS directory,
   DO NOT INSTALL root in "fixed location" as system libraries, i.e.

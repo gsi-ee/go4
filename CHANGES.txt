@@ -29,7 +29,12 @@ Changes in Go4 v4.02.00 (April 09)
 2. Replace html documents by pdf, use external pdf viewer for them.
 3. Reduce usage of qt3support classes in qt4 part of gui.
 4. Add in Go4Example2Step example of TGo4Fitter usage   
-5. Few more options can be set in TGo4Picture
+5. Few more options can be set in TGo4Picture:
+   SetStatsAttr(xLeft,yBottom,xRight,yTop,101); (bottom < top)
+   SetAxisTitleFontSize(axis, size, 0); axis=0,1,2
+   SetAxisLabelFontSize(axis, size, 0); size 0.01...0.1
+   SetTitleAttr(xLeft,yBottom,xRight,yTop);
+   
 
 
 Changes in Go4 v4.01.01 (November08)
