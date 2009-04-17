@@ -65,7 +65,7 @@ TGo4EventProcessor * TGo4StepFactory::CreateEventProcessor(TGo4EventProcessorPar
 
   // par is the object specified as last argument creating the step in TAnalysis
   // only info we can get is an ID
-  cout << "**** " << GetName() << ": Create event processor " << fProcessorName << endl;
+  cout << "GO4-*> " << GetName() << ": Create event processor " << fProcessorName << endl;
   if(fnewProcessor.Length() == 0)cout << "No event processor was specified!" << endl;
   else {
     // create event processor by macro
@@ -92,7 +92,7 @@ TGo4EventElement * TGo4StepFactory::CreateOutputEvent()
 {
   TGo4EventElement * Oevent = 0;
 
-  cout << "**** " << GetName() << ": Create output event " << fOutputEventName << endl;
+  cout << "GO4-*> " << GetName() << ": Create output event " << fOutputEventName << endl;
   if(fnewOutputEvent.Length() == 0) cout << "No output event was specified!" << endl;
   else {
    gROOT->ProcessLine(fnewOutputEvent.Data());
@@ -119,7 +119,7 @@ TGo4EventElement * TGo4StepFactory::CreateInputEvent()
 {
   TGo4EventElement * Ievent = 0;
 
-  cout << "**** " << GetName() << ": Create input event " << fInputEventName << endl;
+  cout << "GO4-*> " << GetName() << ": Create input event " << fInputEventName << endl;
   if(fnewInputEvent.Length() == 0) return (TGo4EventElement *)TGo4EventServerFactory::CreateInputEvent();
   else {
    gROOT->ProcessLine(fnewInputEvent.Data());
