@@ -23,70 +23,54 @@
 //***********************************************************
 TascaUnpackProc::TascaUnpackProc() :
   TGo4EventProcessor()
-{
-}
+{}
 //***********************************************************
-// this one is used in TascaUnpackFact.cxx
+// this one is used
 TascaUnpackProc::TascaUnpackProc(const char* name) :
    TGo4EventProcessor(name)
 {
-  cout << "**** TascaUnpackProc: Create" << endl;
+  cout << "Tasca> TascaUnpackProc: Create" << endl;
 
   Text_t chis[16];
   Text_t chead[64];
 
   codec = new TascaCodec();
+  codec->setMap(false);
   evcount=0;
 
   //// init user analysis objects:
 
-  fParam1   = (TascaParameter *)   GetParameter("TascaPar1");
-  fParam2   = (TascaParameter *)   GetParameter("TascaPar2");
-//  fParam1->PrintParameter(0,0);
-//  fParam2->PrintParameter(0,0);
+  fParPed   = (TascaParameter *)   GetParameter("TascaPedestals");
 
   // Creation of histograms:
-  if(GetHistogram("Mod1/M1chan01")==0)
+  if(GetHistogram("AllAdc/Adc00")==0)
     {
-      for(i =0;i<32;i++)
+      for(i =0;i<96;i++)
       {
-		snprintf(chis,15,"M1chan%02d",i+1);
-		snprintf(chead,63,"Mod 08 chan %2d",i+1);
-		fM1Ch[i] = new TH1I (chis,chead,5000,-0.5,4999.5);
-		AddHistogram(fM1Ch[i],"Mod1");
-		snprintf(chis,15,"M2chan%02d",i+1);
-		snprintf(chead,63,"Mod 10 chan %2d",i+1);
-		fM2Ch[i] = new TH1I (chis,chead,5000,-0.5,4999.5);
-		AddHistogram(fM2Ch[i],"Mod2");
-		snprintf(chis,15,"M3chan%02d",i+1);
-		snprintf(chead,63,"Mod 12 chan %2d",i+1);
-		fM3Ch[i] = new TH1I (chis,chead,5000,-0.5,4999.5);
-		AddHistogram(fM3Ch[i],"Mod3");
+		snprintf(chis,15,"Adc%02d",i);
+		if(i > 63)      snprintf(chead,63,"Mod 12 chan %2d",i-64);
+		else if(i > 31) snprintf(chead,63,"Mod 10 chan %2d",i-32);
+		else            snprintf(chead,63,"Mod 08 chan %2d",i);
+		fAdc[i] = new TH1I (chis,chead,5000,-0.5,4999.5);
+		AddHistogram(fAdc[i],"AllAdc");
       }
-		fPed1 = new TH1I ("M1ped","Mod 08 pedestals",32,-0.5,31.5);
-		fPed2 = new TH1I ("M2ped","Mod 10 pedestals",32,-0.5,31.5);
-		fPed3 = new TH1I ("M3ped","Mod 12 pedestals",32,-0.5,31.5);
-		AddHistogram(fPed1);
-		AddHistogram(fPed2);
-		AddHistogram(fPed3);
+	fPedestal = new TH1I ("Pedestals","Pedestals",96,-0.5,95.5);
+	AddHistogram(fPedestal);
+	fContent = new TH1I ("Contents","Contents",96,-0.5,95.5);
+	AddHistogram(fContent);
 
     }
   else // got them from autosave file
     {
-      for(i =0;i<32;i++)
-   {
-		snprintf(chis,15,"Mod1/M1chan%02d",i+1);
-		fM1Ch[i]=(TH1I*)GetHistogram(chis);
-		snprintf(chis,15,"Mod2/M2chan%02d",i+1);
-		fM2Ch[i]=(TH1I*)GetHistogram(chis);
-		snprintf(chis,15,"Mod3/M3chan%02d",i+1);
-		fM3Ch[i]=(TH1I*)GetHistogram(chis);
-   }
-      fPed1=(TH1I*)GetHistogram("M1ped");
-      fPed2=(TH1I*)GetHistogram("M2ped");
-      fPed3=(TH1I*)GetHistogram("M3ped");
+      for(i =0;i<96;i++)
+      {
+		snprintf(chis,15,"AllAdc/Adc%02d",i);
+		fAdc[i]=(TH1I*)GetHistogram(chis);
+      }
+      fPedestal=(TH1I*)GetHistogram("Pedestals");
+      fContent=(TH1I*)GetHistogram("Contents");
 
-      cout << "Unpack: Restored histograms from autosave" << endl;
+      cout << "Tasca> TascaUnpackProc: Restored histograms from autosave" << endl;
     }
   // Creation of conditions:
   if(GetAnalysisCondition("wincon1")==0)
@@ -99,7 +83,7 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   else // got them from autosave file
     {
       fWinCon1  = (TGo4WinCond*)  GetAnalysisCondition("wincon1");
-      cout << "Unpack: Restored conditions from autosave" << endl;
+      cout << "Tasca> TascaUnpackProc: Restored conditions from autosave" << endl;
     }
 
 // pictures
@@ -116,24 +100,24 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
       // enlarge stats box and position in [0:1] coordinates
       // show only Mean value (ROOT manual "Statistics Display")
       for(i=0;i<8;i++)for(k=0;k<4;k++){
-    	  M1raw->Pic(i,k)->AddH1(fM1Ch[m]);
+    	  M1raw->Pic(i,k)->AddH1(fAdc[m]);
           M1raw->Pic(i,k)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
-          M1raw->Pic(i,k)->SetAxisAtt(0, 1, 1, 62, 0.005, 0.07, 510, 0.03, 1, 62, 1, 0.05, kFALSE, "+", 0, 0);
-          M1raw->Pic(i,k)->SetAxisAtt(1, 1, 1, 62, 0.005, 0.07, 510, 0.03, 1, 62, 1, 0.05, kFALSE, "+", 0, 0);
+          M1raw->Pic(i,k)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
+          M1raw->Pic(i,k)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
           M1raw->Pic(i,k)->SetHisTitle(false);
           M1raw->Pic(i,k)->SetTitleAttr(0.1,0.75,0.7,0.9);
 
-    	  M2raw->Pic(i,k)->AddH1(fM2Ch[m]);
+    	  M2raw->Pic(i,k)->AddH1(fAdc[m+32]);
           M2raw->Pic(i,k)->SetStatsAttr(0.1,0.6,0.4,0.9,101);
-          M2raw->Pic(i,k)->SetAxisAtt(0, 1, 1, 62, 0.005, 0.07, 510, 0.03, 1, 62, 1, 0.05, kFALSE, "+", 0, 0);
-          M2raw->Pic(i,k)->SetAxisAtt(1, 1, 1, 62, 0.005, 0.07, 510, 0.03, 1, 62, 1, 0.05, kFALSE, "+", 0, 0);
+          M2raw->Pic(i,k)->SetAxisLabelFontSize(0, 0.07, 0);
+          M2raw->Pic(i,k)->SetAxisLabelFontSize(1, 0.07, 0);
           M2raw->Pic(i,k)->SetHisTitle(false);
           M2raw->Pic(i,k)->SetTitleAttr(0.1,0.75,0.7,0.9);
 
-    	  M3raw->Pic(i,k)->AddH1(fM3Ch[m]);
+    	  M3raw->Pic(i,k)->AddH1(fAdc[m+64]);
           M3raw->Pic(i,k)->SetStatsAttr(0.1,0.6,0.4,0.9,101);
-          M3raw->Pic(i,k)->SetAxisAtt(0, 1, 1, 62, 0.005, 0.07, 510, 0.03, 1, 62, 1, 0.05, kFALSE, "+", 0, 0);
-          M3raw->Pic(i,k)->SetAxisAtt(1, 1, 1, 62, 0.005, 0.07, 510, 0.03, 1, 62, 1, 0.05, kFALSE, "+", 0, 0);
+          M3raw->Pic(i,k)->SetAxisLabelFontSize(0, 0.07, 0);
+          M3raw->Pic(i,k)->SetAxisLabelFontSize(1, 0.07, 0);
           M3raw->Pic(i,k)->SetHisTitle(false);
           M3raw->Pic(i,k)->SetTitleAttr(0.1,0.75,0.7,0.9);
     	  m++;
@@ -144,7 +128,7 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
       M1raw = GetPicture("M1raw");
       M2raw = GetPicture("M2raw");
       M3raw = GetPicture("M3raw");
-      cout << "Unpack: Restored pictures from autosave" << endl;
+      cout << "Tasca> TascaUnpackProc: Restored pictures from autosave" << endl;
     }
 
   fWinCon1->Enable();
@@ -152,46 +136,38 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 //***********************************************************
 TascaUnpackProc::~TascaUnpackProc()
 {
-for(Int_t i =0;i<32;i++)
-{
-//cout <<
-//fM1Ch[i]->GetName() << ":" << fM1Ch[i]->GetMean() << " " <<
-//fM2Ch[i]->GetName() << ":" << fM2Ch[i]->GetMean() << " " <<
-//fM3Ch[i]->GetName() << ":" << fM3Ch[i]->GetMean()
-//<< endl;
-}
+  cout << "Tasca> TascaUnpackProc: Delete" << endl;
 }
 //***********************************************************
-void TascaUnpackProc::savePedestals(){
-for(Int_t i =0;i<32;i++)
-{
-	fPed1->SetBinContent(i,fM1Ch[i]->GetMean());
-	fPed2->SetBinContent(i,fM2Ch[i]->GetMean());
-	fPed3->SetBinContent(i,fM3Ch[i]->GetMean());
-}
-}
+void TascaUnpackProc::SavePedestals(){
+for(i =0;i<96;i++){
+	fPedestal->SetBinContent(i,fAdc[i]->GetMean());
+	fParPed->SetPedestal(i,fAdc[i]->GetMean());
+}}
 //***********************************************************
 
 //-----------------------------------------------------------
 void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* poutevt)
 {
   TGo4MbsSubEvent* psubevt;
-  Int_t crate, address, channels, header;
-  Int_t lwords;
-  Int_t *pdata;
-  Int_t latches=0;
-  Int_t adcs=0;
-  Int_t patt0,patt1,patt2,patt3;
-  Int_t lat,lat0,lat1,lat2,lat3;
+  UInt_t crate, address, channels, header, off;
+  UInt_t lwords;
+  UInt_t *pdata;
+  UInt_t latches=0;
+  UInt_t adcs=0;
+  UInt_t patt0,patt1,patt2,patt3;
+  UInt_t lat,lat0,lat1,lat2,lat3;
+
   poutevt->SetValid(kFALSE); // not to store
   fInput    = (TGo4MbsEvent* ) GetInputEvent(); // from this
   if(fInput == 0) return;
   if(fInput->GetTrigger()==14) return;
   if(fInput->GetTrigger()==15) return;
+  if(fInput->GetDlen() == 36) return;
   //cout << "Event=" << fInput->GetCount() << endl;
   fInput->ResetIterator();
   psubevt = fInput->NextSubEvent();
-  pdata=psubevt->GetDataField();
+  pdata=(UInt_t *)psubevt->GetDataField();
   lwords= psubevt->GetIntLen();
   // get number of latches and number of ADCs
   latches = *pdata & 0xFFFF;
@@ -209,7 +185,9 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* poutevt)
 
   //cout << "  ADCs=" << adcs << " latches=" << latches << endl;
 
-  // first module
+// Build Mpx table
+  codec->setMpxIndex(lat0,lat1,lat2,lat3);
+// first copy ADC values into low and high arrays
 while(adcs > 0){
   adcs--;
   header=*pdata++;
@@ -219,44 +197,59 @@ while(adcs > 0){
 	  channels=codec->getCnt();
 	  address=codec->getAddress();
 	  //cout << "    Crate=" << crate << " addr=" << address << " channels=" << channels << endl;
-	  if(address == 8){
-		  for(Int_t i=0;i<channels;i++){
-			  codec->setValue(*pdata++);
-			  poutevt->fiMod1[codec->getChan()]=codec->getAdc();
-			  fM1Ch[codec->getChan()]->Fill(codec->getAdc());
-	  }}
-	  else if(address == 10){
-		  for(Int_t i=0;i<channels;i++){
-			  codec->setValue(*pdata++);
-			  poutevt->fiMod2[codec->getChan()]=codec->getAdc();
-			  fM2Ch[codec->getChan()]->Fill(codec->getAdc());
-	  }}
-	  else if(address == 12){
-		  for(Int_t i=0;i<channels;i++){
-			  codec->setValue(*pdata++);
-			  poutevt->fiMod3[codec->getChan()]=codec->getAdc();
-			  fM3Ch[codec->getChan()]->Fill(codec->getAdc());
-	  }}
-//	  for(Int_t i=0;i<channels;i++){
-//		  codec->setValue(*pdata++);
-//		  cout
-//		  << "      addr=" << codec->getAddress()
-//		  << " chan=" << codec->getChan()
-//			  << " adc=" << codec->getAdc()
-//			  << " Un=" << codec->isUnder()
-//			  << " Ov=" << codec->isOver()
-//			  << endl;
-//	  }
+	  switch (address){
+		  case  8: off= 0; break;
+		  case 10: off=32; break;
+		  case 12: off=64; break;
+		  default: off= 0; break;
+	  }
+	  for(i=0;i<channels;i++){
+		  codec->setValue(*pdata++); // channel should be even
+		  poutevt->fiAdc[off+codec->getChan()]=codec->getAdc();
+		  fAdc[off+codec->getChan()]->Fill(codec->getAdc());
+		  fContent->Fill(off+codec->getChan());
+	  }
 	  pdata++; // skip EOB
 	  poutevt->SetValid(kTRUE); // to store
   } else if(codec->isEob()){
 	  //cout << "    EOB " << endl;
   } else if(!codec->isValid()){
-	  //cout << "    No data " << endl;
+	  cout << "    No data " << endl;
   } else {
-	  //cout << "    No header found " << header << endl;
+	  cout << "    No header found " << header << endl;
   }
   } // loop over ADCs
+
+
+// now fill the detector arrays
+// StopX
+for(i=0;i<codec->getStopXnoAdc();i++){
+	k=codec->getStopXAdc(i); // ADC channel index, low or high
+	n=codec->getIndex(k);    // from that get stripe index
+	poutevt->fiStopXL[n]=poutevt->fiAdc[2*k];
+	poutevt->fiStopXH[n]=poutevt->fiAdc[2*k+1];
+}
+// StopY
+for(i=0;i<codec->getStopYnoAdc();i++){
+	k=codec->getStopYAdc(i); // ADC channel index, low or high
+	n=codec->getIndex(k);    // from that get stripe index
+	poutevt->fiStopYL[n]=poutevt->fiAdc[2*k];
+	poutevt->fiStopYH[n]=poutevt->fiAdc[2*k+1];
+}
+// Back
+for(i=0;i<codec->getBacknoAdc();i++){
+	k=codec->getBackAdc(i); // ADC channel index, low or high
+	n=codec->getIndex(k);    // from that get stripe index
+	poutevt->fiBackL[n]=poutevt->fiAdc[2*k];
+	poutevt->fiBackH[n]=poutevt->fiAdc[2*k+1];
+}
+// Veto
+for(i=0;i<codec->getVetonoAdc();i++){
+	k=codec->getVetoAdc(i); // ADC channel index, low or high
+	n=codec->getIndex(k);    // from that get stripe index
+	poutevt->fiVetoL[n]=poutevt->fiAdc[2*k];
+	poutevt->fiVetoH[n]=poutevt->fiAdc[2*k+1];
+}
 evcount++;
-if(evcount%100 != 0)savePedestals();
+if(evcount%10000 != 0)SavePedestals();
 }

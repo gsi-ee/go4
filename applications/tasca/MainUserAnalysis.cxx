@@ -5,18 +5,19 @@
 #include "TROOT.h"
 #include "TRint.h"
 #include "TApplication.h"
-#include "TH1.h"
-#include "TCanvas.h"
+#include "snprintf.h"
 #include "TBenchmark.h"
 
 #include "TGo4Log.h"
+#include "TGo4StepFactory.h"
+#include "TGo4AnalysisStep.h"
 #include "TascaAnalysis.h"
 #include "TGo4AnalysisClient.h"
 #include "Go4EventServerTypes.h"
 
 void usage(); // print announcement
 
-TROOT go4application("GO4","Go4 user analysis");
+TROOT go4application("Go4Tasca","Go4 Tasca analysis");
 
 #define kGUI   2
 #define kBatch 1
@@ -56,24 +57,22 @@ Bool_t autorun=kFALSE;    // immedeately run analysis on start
 Int_t  runningMode;       // kGUI or kBatch
 Int_t  maxevents = -1;    // number of events (batch mode)
 Int_t  intype=GO4EV_MBS_FILE; // type of source
-Bool_t writeout1=kTRUE;  // write output file
-Bool_t writeout2=kFALSE;  // write output file
 Text_t hostname[128];     // hostname used by GUI
 UInt_t iport=5000;        // port number used by GUI
 UInt_t sport=6003;        // remote event server port
 Int_t  iarg;              // argument index
+Text_t macro[128];         // input name
 Text_t serv[128];         // input name
-Text_t out[128];          // output root events
-Text_t anl[128];          // output root events
-Text_t asf[128];          // auto save file (batch)
+Text_t Unpout[128];          // output root events
+Text_t Anlout[128];          // output root events
+Text_t ASfile[128];          // auto save file (batch)
 Text_t filetype[8];       // file type .lmd or .lml
 Text_t *pc,*tmpname,*outname;
-TascaAnalysis* analysis;
 
 // some defaults:
 strcpy(serv,"Go4AnalysisServer"); // name (servermode only)
-strcpy(out,"gauss_TascaEvent");
-strcpy(anl,"gauss_TascaAnl");
+strcpy(Unpout,"Unpacked");
+strcpy(Anlout,"Analyzed");
 strcpy(hostname,"localhost");
 
 // Now parse arguments
@@ -87,14 +86,14 @@ strcpy(hostname,"localhost");
    if((pc=strstr(tmpname,".lml")) != 0){*pc=0;strcpy(filetype,".lml");}
    tmpname=argv[2];
    if((pc=strstr(argv[2],"@")) != 0) tmpname++;
-   outname=tmpname;
+   outname=tmpname; // file name or node name
    if((tmpname=strrchr(outname,'/')) != 0) outname=tmpname+1;
-   strncpy(asf,outname,120);     // auto save file
-   strcat(asf,"_AS");
-   strncpy(out,outname,110);     // output root file
-   strcat(out,"_TascaUnp"); // append name of output event object
-   strncpy(anl,outname,110);     // output root file
-   strcat(anl,"_TascaAnl");   // append name of output event object
+   strncpy(ASfile,outname,120);     // auto save file
+   strcat(ASfile,"_AS");
+   strncpy(Unpout,outname,110);     // output root file
+   strcat(Unpout,"_Unpacked"); // append name of output event object
+   strncpy(Anlout,outname,110);     // output root file
+   strcat(Anlout,"_Analysis");   // append name of output event object
    strncpy(serv,argv[2],110);     // input (file with full path)
 
 if(strstr(argv[1],"-gui"))
@@ -128,7 +127,7 @@ else
    else if(strstr(argv[1],"-t")) intype=GO4EV_MBS_TRANSPORT;
    else if(strstr(argv[1],"-s")) intype=GO4EV_MBS_STREAM;
    else if(strstr(argv[1],"-e")) intype=GO4EV_MBS_EVENTSERVER;
-   else if(strstr(argv[1],"-ra")) intype=GO4EV_MBS_RANDOM;
+   else if(strstr(argv[1],"-ra"))intype=GO4EV_MBS_RANDOM;
    else if(strstr(argv[1],"-r")) intype=GO4EV_MBS_REVSERV;
    else {
        cout << "invalid input type: " << argv[1] << endl;
@@ -139,32 +138,24 @@ else
    if(argc > iarg){
           if(strstr(argv[iarg],"-s"))servermode=kTRUE;
      else if(strstr(argv[iarg],"-p")){iarg++; sport=atoi(argv[iarg]);}
-     else if(strstr(argv[iarg],"-o"))writeout2=kTRUE;
      else maxevents=atoi(argv[iarg]);
      iarg++;
    }
    if(argc > iarg){
           if(strstr(argv[iarg],"-p")){iarg++; sport=atoi(argv[iarg]);}
-     else if(strstr(argv[iarg],"-o"))writeout2=kTRUE;
      else maxevents=atoi(argv[iarg]);
      iarg++;
    }
    if(argc > iarg){
-          if(strstr(argv[iarg],"-o"))writeout2=kTRUE;
-     else maxevents=atoi(argv[iarg]);
+     maxevents=atoi(argv[iarg]);
      iarg++;
    }
    if(argc > iarg) maxevents=atoi(argv[iarg]);
 
    if(maxevents == -1) maxevents = 99999999;
-   cout << endl << "**** Input " << serv << " (" << argv[1] << ") ";
+   cout << endl << "Tasca> Input " << serv << " (" << argv[1] << ") ";
    if(strstr(argv[1],"-r")) cout << "port " << sport;
-   cout << endl << "     output step1: " << out << ".root";
-   if(writeout1) cout << " enabled"; else cout << " disabled";
-   cout << endl << "     output step2: " << anl << ".root";
-   if(writeout2) cout << " enabled"; else cout << " disabled";
-   cout << endl << "     process " << maxevents << " events" << endl;
-   cout << "     auto save file: " << asf << ".root" << endl << endl;
+   cout << endl << "       process " << maxevents << " events" << endl;
    if(servermode){
      autorun=kTRUE;
      runningMode = kGUI;
@@ -182,7 +173,27 @@ TGo4Log::SetIgnoreLevel(1); // set this to 1 to suppress detailed debug output
 TGo4Log::OpenLogfile("TascaLogfile.txt","--Logfile for go4 Tasca--",kFALSE);
 TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages
 
-analysis = new TascaAnalysis(serv,intype,sport,out,anl,writeout1,writeout2);
+  TascaAnalysis* analysis = new TascaAnalysis();
+  TGo4StepFactory*  unpackfactory  = new TGo4StepFactory("UnpackFact");
+  unpackfactory->DefEventProcessor("Unpack","TascaUnpackProc");// object name, class name
+  unpackfactory->DefOutputEvent("Unpacked","TascaUnpackEvent"); // object name, class name
+  TGo4AnalysisStep* unpackstep     = new TGo4AnalysisStep("Unpack",unpackfactory,0,0,0);
+  analysis->AddAnalysisStep(unpackstep);
+  if(intype==GO4EV_MBS_FILE)
+    unpackstep->SetEventSource(new TGo4MbsFileParameter(serv));
+
+  TGo4StepFactory*  analysisfactory  = new TGo4StepFactory("AnalysisFact");
+  analysisfactory->DefEventProcessor("Analysis","TascaAnlProc");// object name, class name
+  analysisfactory->DefInputEvent("Unpacked","TascaUnpackEvent"); // object name, class name
+  analysisfactory->DefOutputEvent("Analyzed","TascaAnlEvent"); // object name, class name
+  TGo4AnalysisStep* analysisstep     = new TGo4AnalysisStep("Analysis",analysisfactory,0,0,0);
+  analysis->AddAnalysisStep(analysisstep);
+
+// use macros to set up
+  snprintf(macro,127,".x setup.C(\"%s\",\"%s\",\"%s\")",ASfile,Unpout,Anlout);
+  gROOT->ProcessLine(macro);
+
+
 if(servermode)
 {
    //==================== password settings for gui login (for analysis server only)
@@ -193,39 +204,35 @@ if(servermode)
    // autoconnect to gui server will not work then!!!
 }
 
-analysis->SetAutoSaveFile(asf);   // optional
-analysis->SetAutoSaveInterval(0); // after n seconds , 0 = at termination of event loop
-analysis->SetAutoSave(kFALSE);    // optional
-
 // analysis->Print();
 // ===================== End analysis setup ================================
 
  if(runningMode == kBatch)
    {
-     cout << "**** Main: starting analysis in batch mode ...  " << endl;
+     cout << "Tasca> Main: starting analysis in batch mode ...  " << endl;
      analysis->SetAutoSave(kTRUE);   // optional enable auto-save
      if (analysis->InitEventClasses() )
        {
     analysis->RunImplicitLoop(maxevents);
     delete analysis;
-    cout << "**** Main: Done!"<<endl;
+    cout << "Tasca> Main: Done!"<<endl;
     gApplication->Terminate();
        }
      else
        {
-    cout << "**** Main: Init event classes failed, aborting!"<<endl;
+    cout << "Tasca> Main: Init event classes failed, aborting!"<<endl;
     gApplication->Terminate();
        }
    }
  if(runningMode == kGUI)
    {
-     if(servermode)  cout << "**** Main: starting analysis in server mode ..." << endl;
-     else            cout << "**** Main: starting analysis in slave mode ..." << endl;
+     if(servermode)  cout << "Tasca> Main: starting analysis in server mode ..." << endl;
+     else            cout << "Tasca> Main: starting analysis in slave mode ..." << endl;
      // to start histogram server: kTRUE,"base","password"
      TGo4AnalysisClient* client = new TGo4AnalysisClient(serv, analysis, hostname, iport, kFALSE, "", "", servermode, autorun);
      // other ctor needs at least 5 argcs, disabled..
      //TGo4AnalysisClient* client = new TGo4AnalysisClient(argc,argv,analysis,kFALSE,"","",servermode, autorun);
-     cout << "**** Main created AnalysisClient Instance: "<<client->GetName()<<endl;
+     cout << "Tasca> Main created AnalysisClient Instance: "<<client->GetName()<<endl;
    }
 //=================  start root application loop ==========================
 cout << "Run the application loop" << endl;

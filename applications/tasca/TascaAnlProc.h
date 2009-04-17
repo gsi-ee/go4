@@ -18,10 +18,8 @@ class TascaAnlProc : public TGo4EventProcessor {
 
 
       TascaUnpackEvent  *fInput;
-      TascaParameter    *fParam1;
-      TascaParameter    *fParam2;
-      TascaCalibPar     *fCalipar;
-      TGo4WinCond      *fWinCon;
+      TascaParameter    *fParPed;
+      TH2D *fStop;
 
    ClassDef(TascaAnlProc,1)
 };

@@ -8,11 +8,8 @@
 #pragma link C++ class TascaAnalysis+;
 #pragma link C++ class TascaUnpackEvent+;
 #pragma link C++ class TascaUnpackProc+;
-#pragma link C++ class TascaUnpackFact+;
 #pragma link C++ class TascaAnlEvent+;
 #pragma link C++ class TascaAnlProc+;
-#pragma link C++ class TascaCalibPar+;
-#pragma link C++ class TascaAnlFact+;
 #pragma link C++ class TascaCodec+;
 
 #endif

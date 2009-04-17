@@ -15,10 +15,12 @@ TascaUnpackEvent::TascaUnpackEvent() :
 TascaUnpackEvent::TascaUnpackEvent(const char* name) :
    TGo4EventElement(name),fxTascaEP(0),fxTascaFS(0)
 {
+    cout << "Tasca> TascaUnpackEvent: Create"<< endl;
 }
 //***********************************************************
 TascaUnpackEvent::~TascaUnpackEvent()
 {
+    cout << "Tasca> TascaUnpackEvent: Delete"<< endl;
 }
 //***********************************************************
 
@@ -31,12 +33,12 @@ Int_t TascaUnpackEvent::Init()
   // is it used by Unpack step as output?
   if(CheckEventSource("TascaUnpackProc")){
     fxTascaEP = (TascaUnpackProc*)GetEventSource();
-    cout << "**** TascaUnpackEvent init for Unpack step"<< endl;
+    cout << "Tasca> TascaUnpackEvent init for Unpack step"<< endl;
   }
   // or is it used from Analysis step as input
   else if(CheckEventSource("TGo4FileSource")){
     fxTascaFS = (TGo4FileSource*)GetEventSource();
-    cout << "**** TascaUnpackEvent init for Analysis step"<< endl;
+    cout << "Tasca> TascaUnpackEvent init for Analysis step"<< endl;
   }
   else          rev=1;
   return rev;
@@ -54,13 +56,14 @@ Int_t TascaUnpackEvent::Fill()
 //-----------------------------------------------------------
 void  TascaUnpackEvent::Clear(Option_t *t)
 {
-   void* destfield;
-   //cout << "+++ event clear" << endl;
-   destfield = (void*) &fiMod1[0];
-   memset(destfield,0, sizeof(fiMod1));
-   destfield = (void*) &fiMod2[0];
-   memset(destfield,0, sizeof(fiMod2));
-   destfield = (void*) &fiMod3[0];
-   memset(destfield,0, sizeof(fiMod3));
+	   memset((void*) &fiAdc[0],  0, sizeof(fiAdc));
+	   memset((void*) &fiStopXL[0],0, sizeof(fiStopXL));
+	   memset((void*) &fiStopXH[0],0, sizeof(fiStopXH));
+	   memset((void*) &fiStopYL[0],0, sizeof(fiStopYL));
+	   memset((void*) &fiStopYH[0],0, sizeof(fiStopYH));
+	   memset((void*) &fiBackL[0], 0, sizeof(fiBackL));
+	   memset((void*) &fiBackH[0], 0, sizeof(fiBackH));
+	   memset((void*) &fiVetoL[0], 0, sizeof(fiVetoL));
+	   memset((void*) &fiVetoH[0], 0, sizeof(fiVetoH));
    //cout << "+++ event clear" << endl;
 }

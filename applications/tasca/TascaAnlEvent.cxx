@@ -13,10 +13,12 @@ TascaAnlEvent::TascaAnlEvent()
 TascaAnlEvent::TascaAnlEvent(const char * name)
   :TGo4EventElement(name),fxTascaCP(0)
 {
+    cout << "Tasca> TascaAnlEvent: Created"<< endl;
 }
 //***********************************************************
 TascaAnlEvent::~TascaAnlEvent()
 {
+    cout << "Tasca> TascaAnlEvent: Deleted"<< endl;
 }
 //***********************************************************
 
@@ -28,7 +30,7 @@ Int_t TascaAnlEvent::Init()
   Int_t rev = 0;
   if(CheckEventSource("TascaAnlProc")){
     fxTascaCP = (TascaAnlProc*)GetEventSource();
-    cout << "**** TascaAnlEvent init for Analysis step"<< endl;
+    cout << "Tasca> TascaAnlEvent init for Analysis step"<< endl;
   }
    else     rev=1;
    return rev;

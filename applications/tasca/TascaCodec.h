@@ -7,43 +7,85 @@ class TascaCodec
 {
 public:
 	enum  V785fields {
-		GEO = 		0xF8000000, GEO_OFF = 	27,
-		CRATE = 	0x00FF0000, CRATE_OFF = 16,
-		CNT =		0x0000003F, CNT_OFF = 	 0,
-		CHAN =		0x001F0000, CHAN_OFF = 	16,
-		ADC =		0x00000FFF, ADC_OFF = 	 0,
-		COUNT = 	0x00FFFFFF, COUNT_OFF =  0,
+		// first shift offset, then mask bits:
+		GEO = 		0x1F, 		GEO_OFF = 	27,
+		CRATE = 	0xFF, 		CRATE_OFF = 16,
+		CNT =		0x3F, 		CNT_OFF = 	 0,
+		CHAN =		0x1F, 		CHAN_OFF = 	16,
+		ADC =		0xFFF, 		ADC_OFF = 	 0,
+		EVCNT = 	0xFFFFFF, 	EVCNT_OFF =  0,
+		// compare masked value with mask:
 		UNDER = 	0x00002000,
 		OVER =		0x00001000,
-		TYPE =		0x07000000, TYPE_OFF =	24,
+		TYPE =		0x07000000,
 		HEADER =	0x02000000,
-		DATA =		0x0,
+		DATA =		0x00000000,
 		EOB = 		0x04000000,
 		UNVALID =	0x06000000
 	};
+	enum Detector {
+		STOPX = 0, STOPX_SIZE = 18,
+		STOPY = 1, STOPY_SIZE = 12,
+		BACK  = 2, BACK_SIZE  =  8,
+		VETO  = 3, VETO_SIZE  =  2
+	};
+	Detector detector;
 
 	TascaCodec();
-	TascaCodec(Int_t v);
+	TascaCodec(UInt_t v);
 	virtual ~TascaCodec();
 
-	Int_t getAddress(){return (value & TascaCodec::GEO) >> TascaCodec::GEO_OFF;}
-	Int_t getCrate(){return (value & TascaCodec::CRATE) >> TascaCodec::CRATE_OFF;}
-	Int_t getCnt(){return (value & TascaCodec::CNT) >> TascaCodec::CNT_OFF;}
-	Int_t getChan(){return (value & TascaCodec::CHAN) >> TascaCodec::CHAN_OFF;}
-	Int_t getAdc(){return (value & TascaCodec::ADC) >> TascaCodec::ADC_OFF;}
-	Int_t getCount(){return (value & TascaCodec::COUNT) >> TascaCodec::COUNT_OFF;}
-	Int_t getType(){return (value & TascaCodec::TYPE) >> TascaCodec::TYPE_OFF;}
-	void setValue(Int_t v){value=v;}
-	Bool_t isHeader(){return (value & TascaCodec::TYPE) == TascaCodec::HEADER ;}
-	Bool_t isData()  {return (value & TascaCodec::TYPE) == TascaCodec::DATA;}
-	Bool_t isEob()   {return (value & TascaCodec::TYPE) == TascaCodec::EOB;}
-	Bool_t isValid() {return (value & TascaCodec::TYPE) != TascaCodec::UNVALID;}
-	Bool_t isUnder() {return (value & TascaCodec::UNDER) == TascaCodec::UNDER;}
-	Bool_t isOver()  {return (value & TascaCodec::OVER) == TascaCodec::OVER;}
+	// Setup matrix connecting channels with ADCs.
+	// Called once.
+	void setMap(Bool_t print);
+	// Print map for a given detector and return number of ADC channels used
+	UInt_t printMap(UInt_t detector);
+	void printDetector(UInt_t detector, const char *name);
+	void printDetector(UInt_t *adc, UInt_t n);
+	// Decoding the V875
+	UInt_t getAddress(){return (fiValue >> GEO_OFF) & GEO;}
+	UInt_t getCrate(){return (fiValue >> CRATE_OFF) & CRATE;}
+	UInt_t getCnt(){return (fiValue >> CNT_OFF) & CNT;}
+	UInt_t getChan(){return (fiValue >> CHAN_OFF) & CHAN;}
+	UInt_t getAdc(){return (fiValue >> ADC_OFF) & ADC;}
+	UInt_t getCount(){return (fiValue >> EVCNT_OFF) & EVCNT;}
+	Bool_t isHeader()  {return (fiValue & TYPE) == HEADER ;}
+	Bool_t isData()    {return (fiValue & TYPE) == DATA;}
+	Bool_t isEob()     {return (fiValue & TYPE) == EOB;}
+	Bool_t isValid()   {return (fiValue & TYPE) != UNVALID;}
+	Bool_t isUnder()   {return (fiValue & UNDER) == UNDER;}
+	Bool_t isOver()    {return (fiValue & OVER) == OVER;}
+    // Store 32 bit value of ADC which is used for the getter methods.
+	void setValue(UInt_t v){fiValue=v;}
+	// Fill table of multiplex indices from the four registers.
+	// Called per event
+	void setMpxIndex(UInt_t reg0, UInt_t reg1, UInt_t reg2, UInt_t reg3);
+	// return index of stripe from ADC number
+	UInt_t getIndex(UInt_t adc){return fiMap[adc][fiMpxIndex[adc]];}
+	Bool_t isTof()     {return (fiReg0 & 0x40000000) == 0x40000000;}
+	Bool_t isChopper() {return (fiReg0 & 0x80000000) == 0x80000000;}
+	Bool_t isMacro()   {return (fiReg1 & 0x40000000) == 0x40000000;}
+	Bool_t isMicro()   {return (fiReg1 & 0x80000000) == 0x80000000;}
+	UInt_t getStopXAdc(UInt_t adc){return fiStopX[adc];}
+	UInt_t getStopYAdc(UInt_t adc){return fiStopY[adc];}
+	UInt_t getBackAdc(UInt_t adc) {return fiBack[adc];}
+	UInt_t getVetoAdc(UInt_t adc) {return fiVeto[adc];}
+	UInt_t getStopXnoAdc() {return STOPX_SIZE;}
+	UInt_t getStopYnoAdc() {return STOPY_SIZE;}
+	UInt_t getBacknoAdc()  {return BACK_SIZE;}
+	UInt_t getVetonoAdc()  {return VETO_SIZE;}
 
 private:
-	Int_t	value;
-	TascaCodec::V785fields fields;
+	UInt_t test,fiValue;
+	UInt_t fiReg0, fiReg1, fiReg2, fiReg3;
+	V785fields fields;
+    UInt_t fiDetector[40]; // the detector number for ADC channels
+    UInt_t fiMpxIndex[40]; // the multiplex indices from the registers
+    UInt_t fiMap[40][8]; // returns stripe from ADC number and multiplex index
+    UInt_t fiStopX[STOPX_SIZE]; // list of ADC channels
+    UInt_t fiStopY[STOPY_SIZE]; // list of ADC channels
+    UInt_t fiBack[BACK_SIZE]; // list of ADC channels
+    UInt_t fiVeto[VETO_SIZE]; // list of ADC channels
 
 	ClassDef(TascaCodec,1)
 };

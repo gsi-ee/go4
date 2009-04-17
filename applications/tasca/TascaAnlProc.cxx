@@ -12,11 +12,10 @@
 #include "TascaAnlEvent.h"
 #include "TascaUnpackEvent.h"
 #include "TascaParameter.h"
-#include "TascaCalibPar.h"
 
 //***********************************************************
 TascaAnlProc::TascaAnlProc()
-  : TGo4EventProcessor(),fInput(0),fParam1(0),fParam2(0),fWinCon(0)
+  : TGo4EventProcessor(),fInput(0)
 {
 }
 //***********************************************************
@@ -24,31 +23,26 @@ TascaAnlProc::TascaAnlProc()
 TascaAnlProc::TascaAnlProc(const char* name) :
   TGo4EventProcessor(name)
 {
-  cout << "**** TascaAnlProc: Create" << endl;
+  cout << "Tasca> TascaAnlProc: Create" << endl;
   //// init user analysis objects:
-  fParam1 = (TascaParameter*)  GetParameter("TascaPar1");
-  fParam2 = (TascaParameter*)  GetParameter("TascaPar2");
-  fWinCon = (TGo4WinCond *)   GetAnalysisCondition("wincon1");
+  fParPed = (TascaParameter*)  GetParameter("TascaParPed");
 
   // we must check, if the histograms have been restored from auto-save file
-  if(GetHistogram("Sum1")==0)
+  if(GetHistogram("Analysis/Stop2d")==0)
   {
-
-    }
+	fStop=new TH2D("Stop2d","Stripes",144,0,144,96,0,96);
+	AddHistogram(fStop,"Analysis");
+  }
   else
     { // restored from auto-save file, get pointers
-      cout << "AnlProc: Restored histograms from autosave" << endl;
-    }
-  if(GetParameter("CaliPar")==0)
-    {
-    }
-  else
-    {
+	  fStop=(TH2D*)GetHistogram("Analysis/Stop2d");
+      cout << "Tasca> TascaAnlProc: Restored histograms from autosave" << endl;
     }
 }
 //***********************************************************
 TascaAnlProc::~TascaAnlProc()
 {
+	  cout << "Tasca> TascaAnlProc: Delete" << endl;
 }
 //***********************************************************
 
@@ -57,8 +51,12 @@ void TascaAnlProc::TascaEventAnalysis(TascaAnlEvent* poutevt)
 {
   Int_t ii,i;
   fInput  = (TascaUnpackEvent*) GetInputEvent();
+  for(ii=0;ii<96;ii++)
+	  for(i=0;i<144;i++){
+		  fStop->Fill(i,ii,fInput->fiStopXL[i]+fInput->fiStopYL[ii]);
+	  }
 
-  poutevt->SetValid(kTRUE);       // events are not stored until kTRUE is set
+  poutevt->SetValid(kFALSE);       // events are not stored until kTRUE is set
 
 
 } // BuildCalEvent
