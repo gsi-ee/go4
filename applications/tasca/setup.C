@@ -4,7 +4,7 @@ void setup(Text_t* AutoSaveFile,Text_t* UnpackedFile,Text_t* AnalyzedFile)
   TGo4FileStoreParameter * f1;
   TGo4FileSourceParameter * f2;
 
-  // steering parameters:
+  // steering parameters to modify:
   TString unpackProcess("yes");
   TString unpackStore("yes");
   TString unpackOverWrite("yes");

@@ -7,6 +7,7 @@
 #include "TFile.h"
 
 #include "TascaParameter.h"
+#include "TascaPedestals.h"
 
 
 //***********************************************************
@@ -19,8 +20,10 @@ TascaAnalysis::TascaAnalysis()
   // At this point, autosave file has not yet been read!
   // Therefore parameter values set here will be overwritten
   // if an autosave file is there.
-  fPar = new TascaParameter("TascaPedestals");
+  fPar = new TascaParameter("TascaParameters");
+  fPedestals = new TascaPedestals("TascaPedestals");
   AddParameter(fPar);
+  AddParameter(fPedestals);
 
 }
 

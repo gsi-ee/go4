@@ -18,6 +18,7 @@
 #include "TGo4Picture.h"
 
 #include "TascaParameter.h"
+#include "TascaPedestals.h"
 #include "TascaUnpackEvent.h"
 
 //***********************************************************
@@ -40,7 +41,7 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 
   //// init user analysis objects:
 
-  fParPed   = (TascaParameter *)   GetParameter("TascaPedestals");
+  fParPed   = (TascaPedestals *)   GetParameter("TascaPedestals");
 
   // Creation of histograms:
   if(GetHistogram("AllAdc/Adc00")==0)
@@ -139,10 +140,10 @@ TascaUnpackProc::~TascaUnpackProc()
   cout << "Tasca> TascaUnpackProc: Delete" << endl;
 }
 //***********************************************************
-void TascaUnpackProc::SavePedestals(){
+void TascaUnpackProc::CalcPedestals(){
 for(i =0;i<96;i++){
 	fPedestal->SetBinContent(i,fAdc[i]->GetMean());
-	fParPed->SetPedestal(i,fAdc[i]->GetMean());
+	fParPed->SetPedestals(i,fAdc[i]->GetMean());
 }}
 //***********************************************************
 
@@ -251,5 +252,5 @@ for(i=0;i<codec->getVetonoAdc();i++){
 	poutevt->fiVetoH[n]=poutevt->fiAdc[2*k+1];
 }
 evcount++;
-if(evcount%10000 != 0)SavePedestals();
+if(evcount%10000 != 0) CalcPedestals();
 }

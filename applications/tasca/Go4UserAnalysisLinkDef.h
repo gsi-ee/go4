@@ -5,6 +5,7 @@
 #pragma link off all functions;
 
 #pragma link C++ class TascaParameter+;
+#pragma link C++ class TascaPedestals+;
 #pragma link C++ class TascaAnalysis+;
 #pragma link C++ class TascaUnpackEvent+;
 #pragma link C++ class TascaUnpackProc+;

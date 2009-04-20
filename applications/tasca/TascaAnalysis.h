@@ -6,6 +6,7 @@
 class TFile;
 class TH1D;
 class TascaParameter;
+class TascaPedestals;
 
 class TascaAnalysis : public TGo4Analysis  {
    public:
@@ -15,7 +16,8 @@ class TascaAnalysis : public TGo4Analysis  {
       virtual Int_t UserEventFunc();
       virtual Int_t UserPostLoop();
    private:
-      TascaParameter      *fPar;
+	      TascaParameter      *fPar;
+	      TascaPedestals      *fPedestals;
 
    ClassDef(TascaAnalysis,1)
 };

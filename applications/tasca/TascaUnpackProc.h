@@ -5,6 +5,7 @@
 #include "TascaCodec.h"
 
 class TascaParameter;
+class TascaPedestals;
 class TascaUnpackEvent;
 
 class TascaUnpackProc : public TGo4EventProcessor {
@@ -14,8 +15,9 @@ class TascaUnpackProc : public TGo4EventProcessor {
       virtual ~TascaUnpackProc() ;
       void TascaUnpack(TascaUnpackEvent* target);
   private:
-	  void SavePedestals();
-		TascaCodec *codec;
+	  void CalcPedestals();
+
+	  TascaCodec *codec;
       TH1I          *fAdc[96];
       TH1I  		*fPedestal;
       TH1I  		*fContent;
@@ -32,7 +34,7 @@ class TascaUnpackProc : public TGo4EventProcessor {
       TGo4CondArray *fConArr1;
       TGo4CondArray *fConArr2;
       TGo4MbsEvent  *fInput;
-      TascaParameter *fParPed;
+      TascaPedestals *fParPed;
       TGo4Picture   *Picture1;
       TGo4Picture   *M1raw;
       TGo4Picture   *M2raw;
