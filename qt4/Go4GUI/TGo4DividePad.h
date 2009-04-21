@@ -2,7 +2,7 @@
 #define TGO4DIVIDEPAD_H
 
 #include <QWidget>
-#include "ui_TGo4DividePad.h"  
+#include "ui_TGo4DividePad.h"
 
 class TGo4DividePad : public QWidget, public Ui::TGo4DividePad
  {

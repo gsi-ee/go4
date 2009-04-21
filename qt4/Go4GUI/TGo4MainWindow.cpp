@@ -234,7 +234,6 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    DABCDockWin->show();
 #endif
 
-
    Q3ToolBar* DividePanelBar = new Q3ToolBar (this, "Canvas Tools");
    addDockWindow(DividePanelBar, "Canvas Tools", Qt::DockTop, TRUE );
    setAppropriate (DividePanelBar, true);
@@ -893,10 +892,19 @@ TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
    panel->show();
 
    if(ndiv>1) {
-      int DivX = (int) TMath::Sqrt(ndiv*1.);
-      int DivY = DivX;
-      if(DivX*DivY<ndiv) {
-         do { DivX=DivX+1; } while(DivX*DivY<ndiv);
+
+      int DivX(1), DivY(1);
+
+      TGo4DividePad* divpad = findChild<TGo4DividePad*>("DividePad");
+
+      if (divpad!=0) {
+         DivX = divpad->SpinBoxX->value();
+         DivY = divpad->SpinBoxY->value();
+      }
+      if (DivX * DivY < ndiv) {
+         DivX = (int) TMath::Sqrt(ndiv*1.);
+         DivY = DivX;
+         while (DivX*DivY<ndiv) DivY++;
       }
       panel->Divide(DivX, DivY);
    }
@@ -1930,11 +1938,11 @@ void TGo4MainWindow::ToggleAnalysisConfiguration()
    if (conf==0) return;
 
    if (conf->isVisible())
-     conf->hide();
+      conf->hide();
    else {
-     conf->raise();
-     conf->show();
-     if (conf->isMinimized()) conf->showNormal();
+      conf->raise();
+      conf->show();
+      if (conf->isMinimized()) conf->showNormal();
    }
 }
 

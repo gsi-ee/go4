@@ -880,10 +880,19 @@ TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
    panel->GetCanvas()->Resize();
 
    if(ndiv>1) {
-      int DivX = (int) TMath::Sqrt(ndiv*1.);
-      int DivY = DivX;
-      if(DivX*DivY<ndiv) {
-         do { DivX=DivX+1; } while(DivX*DivY<ndiv);
+
+      int DivX(1), DivY(1);
+
+      TGo4DividePad* divpad = (TGo4DividePad*) child("DividePad");
+
+      if (divpad!=0) {
+         DivX = divpad->SpinBoxX->value();
+         DivY = divpad->SpinBoxY->value();
+      }
+      if (DivX * DivY < ndiv) {
+         DivX = (int) TMath::Sqrt(ndiv*1.);
+         DivY = DivX;
+         while (DivX*DivY<ndiv) DivY++;
       }
       panel->Divide(DivX, DivY);
    }
