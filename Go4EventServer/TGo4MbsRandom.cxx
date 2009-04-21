@@ -23,7 +23,7 @@ double TGo4MbsRandom::fgdSigma2[NUM_PEAK] = {  22., 153., 104.,  100.,   20.};
 
 
 TGo4MbsRandom::TGo4MbsRandom(TGo4MbsRandomParameter* par) :
-   TGo4MbsSource(par->GetName(), 1),
+   TGo4MbsSource(par, 1),
    fiDLen(0),
    fiNumSub(0),
    fiNumDat(0),
@@ -32,12 +32,8 @@ TGo4MbsRandom::TGo4MbsRandom(TGo4MbsRandomParameter* par) :
    TRACE((15,"TGo4MbsRandom::TGo4MbsRandom(TGo4MbsRandomParameter*)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Event Source MbsRandom %s:  ",GetName());
-   if(par)
-      {
-       // here we could specify special values of random source parameter
 
-       }
-  Open();
+   Open();
 }
 
 TGo4MbsRandom::TGo4MbsRandom(const char* name) :
@@ -55,18 +51,15 @@ TGo4MbsRandom::TGo4MbsRandom(const char* name) :
 
 TGo4MbsRandom::TGo4MbsRandom()
 {
-TRACE((15,"TGo4MbsRandom::TGo4MbsRandom()",__LINE__, __FILE__));
-
+   TRACE((15,"TGo4MbsRandom::TGo4MbsRandom()",__LINE__, __FILE__));
 }
 
 
 TGo4MbsRandom::~TGo4MbsRandom()
 {
-TRACE((15,"TGo4MbsRandom::~TGo4MbsRandom()",__LINE__, __FILE__));
-Close();
+   TRACE((15,"TGo4MbsRandom::~TGo4MbsRandom()",__LINE__, __FILE__));
+   Close();
 }
-
-
 
 Int_t TGo4MbsRandom::NextEvent()
 {

@@ -84,15 +84,15 @@ void TGo4ConfigStep::InputSourceText(const QString& Name)
 
 void TGo4ConfigStep::OutputDisable(int )
 {
-    if(DisableStoreBox->isChecked()){ //checked
-       fStepStatus->SetStoreEnabled(kFALSE);
-       StoreBox->setEnabled(false);
-       StoreBox->setHidden(true);
-    }else{    //unchecked
-       fStepStatus->SetStoreEnabled(kTRUE);
-       StoreBox->setEnabled(true);
-       StoreBox->setShown(true);
-    }
+   if(DisableStoreBox->isChecked()) { //checked
+      fStepStatus->SetStoreEnabled(kFALSE);
+      StoreBox->setEnabled(false);
+      StoreBox->setHidden(true);
+   } else {    //unchecked
+      fStepStatus->SetStoreEnabled(kTRUE);
+      StoreBox->setEnabled(true);
+      StoreBox->setShown(true);
+   }
    parentWidget()->adjustSize();
    parentWidget()->parentWidget()->adjustSize();
    parentWidget()->parentWidget()->parentWidget()->adjustSize();
@@ -100,7 +100,7 @@ void TGo4ConfigStep::OutputDisable(int )
 
 void TGo4ConfigStep::OutputNameText(const QString& Name)
 {
-    fStepStatus->GetStorePar()->SetName(Name.stripWhiteSpace().latin1());
+   fStepStatus->GetStorePar()->SetName(Name.stripWhiteSpace().latin1());
 }
 
 void TGo4ConfigStep::StepDisable(int )
@@ -115,14 +115,11 @@ void TGo4ConfigStep::StepDisable(int )
        InputDisable(0);
        OutputDisable(0);
    }
-
 }
 
 void TGo4ConfigStep::OutArguments(const QString&)
 {
-
 }
-
 
 void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4AnalysisStepStatus* StepStatus)
 {

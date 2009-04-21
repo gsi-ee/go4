@@ -1,9 +1,9 @@
 #ifndef TGO4REVSERVPARAMETER_H
 #define TGO4REVSERVPARAMETER_H
 
-#include "TGo4EventSourceParameter.h"
+#include "TGo4MbsSourceParameter.h"
 
-class TGo4RevServParameter : public TGo4EventSourceParameter {
+class TGo4RevServParameter : public TGo4MbsSourceParameter {
   public:
     TGo4RevServParameter();
 
@@ -17,12 +17,14 @@ class TGo4RevServParameter : public TGo4EventSourceParameter {
 
     virtual Int_t PrintParameter(Text_t* buffer=0, Int_t buflen=0);
 
+    virtual Bool_t UpdateFrom(TGo4Parameter* rhs);
+
   private:
 
     /** Port number .  */
     Int_t fiPort;
 
-  ClassDef(TGo4RevServParameter,2)
+  ClassDef(TGo4RevServParameter, 3)
 };
 
 #endif //TGO4REVSERVPARAMETER_H

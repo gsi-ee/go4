@@ -6,8 +6,9 @@
 
 const Int_t TGo4RevServ::fgiDEFAULTPORT=6003;
 
-TGo4RevServ::TGo4RevServ(const char* name)
-: TGo4MbsSource(name , GETEVT__REVSERV), fiPort(0)
+TGo4RevServ::TGo4RevServ(const char* name) :
+   TGo4MbsSource(name , GETEVT__REVSERV),
+   fiPort(0)
 {
    TRACE((15,"TGo4RevServ::TGo4RevServ(Text_t*)",__LINE__, __FILE__));
    TGo4Log::Debug(" New Event Source RevServ %s:  ",name);
@@ -15,14 +16,14 @@ TGo4RevServ::TGo4RevServ(const char* name)
    Open();
 }
 
-TGo4RevServ::TGo4RevServ(TGo4RevServParameter* par)
-: TGo4MbsSource(par->GetName(), GETEVT__REVSERV), fiPort(0)
+TGo4RevServ::TGo4RevServ(TGo4RevServParameter* par) :
+   TGo4MbsSource(par, GETEVT__REVSERV),
+   fiPort(par->GetPort())
 {
    TRACE((15,"TGo4RevServ::TGo4RevServ(TGo4RevServParameter*)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Event Source RevServ %s:  ",GetName());
-   SetTimeout(par->GetTimeout());
-   SetPort(par->GetPort());
+
    Open();
 }
 

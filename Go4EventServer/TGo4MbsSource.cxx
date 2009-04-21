@@ -6,6 +6,7 @@
 
 #include "TGo4MbsEvent.h"
 #include "TGo4MbsSubEvent.h"
+#include "TGo4MbsSourceParameter.h"
 
 #include "TGo4Log.h"
 #include "TGo4EventErrorException.h"
@@ -17,11 +18,32 @@ const UInt_t TGo4MbsSource::fguSHORTBYCHAR = sizeof(Short_t) / sizeof(Char_t);
 const UInt_t TGo4MbsSource::fguLONGBYSHORT = sizeof(Int_t) / sizeof(Short_t);
 const UInt_t TGo4MbsSource::fguEVHEBYCHAR  = sizeof(s_evhe) /  sizeof(Char_t);
 
-TGo4MbsSource::TGo4MbsSource(const char* name, Int_t mode)
-: TGo4EventSource(name), fiMode(mode),
+TGo4MbsSource::TGo4MbsSource(TGo4MbsSourceParameter* par, Int_t mode) :
+   TGo4EventSource(par->GetName()),
+   fiMode(mode),
    fxEvent(0), fxBuffer(0), fxInfoHeader(0),
-   fbIsOpen(kFALSE), fbDataCopyMode(kFALSE), fuEventCounter(0),fuStartEvent(0) ,fuStopEvent(0),
-   fuEventInterval(0), fiTimeout(-1)
+   fbIsOpen(kFALSE), fbDataCopyMode(kFALSE),
+   fuEventCounter(0), fbFirstEvent(kTRUE),
+   fuStartEvent(par->GetStartEvent()) ,
+   fuStopEvent(par->GetStopEvent()),
+   fuEventInterval(par->GetEventInterval()),
+   fiTimeout(par->GetTimeout())
+{
+   fxInputChannel=f_evt_control();
+   TRACE((15,"TGo4MbsSource::TGo4MbsSource(Text_t*, Int_t)",__LINE__, __FILE__));
+// Open() call will be done by subclasses ctors, so we can overwrite Open() method
+//cout <<"TGo4MbsSource with data copy mode="<<fbDataCopyMode << endl;
+}
+
+
+TGo4MbsSource::TGo4MbsSource(const char* name, Int_t mode) :
+   TGo4EventSource(name),
+   fiMode(mode),
+   fxEvent(0), fxBuffer(0), fxInfoHeader(0),
+   fbIsOpen(kFALSE), fbDataCopyMode(kFALSE),
+   fuEventCounter(0), fbFirstEvent(kTRUE),
+   fuStartEvent(0) ,fuStopEvent(0), fuEventInterval(0),
+   fiTimeout(-1)
 {
 	fxInputChannel=f_evt_control();
    TRACE((15,"TGo4MbsSource::TGo4MbsSource(Text_t*, Int_t)",__LINE__, __FILE__));
@@ -30,11 +52,13 @@ TGo4MbsSource::TGo4MbsSource(const char* name, Int_t mode)
 }
 
 
-TGo4MbsSource::TGo4MbsSource()
-: TGo4EventSource("default mbs source"),fiMode(0),
-  fxEvent(0), fxBuffer(0), fxInfoHeader(0),
-  fbIsOpen(kFALSE),fbDataCopyMode(kFALSE),fuEventCounter(0),fuStartEvent(0) ,fuStopEvent(0),
-  fuEventInterval(0), fiTimeout(-1)
+TGo4MbsSource::TGo4MbsSource() :
+   TGo4EventSource("default mbs source"),
+   fiMode(0),
+   fxEvent(0), fxBuffer(0), fxInfoHeader(0),
+   fbIsOpen(kFALSE),fbDataCopyMode(kFALSE),
+   fuEventCounter(0), fbFirstEvent(kTRUE),
+   fuStartEvent(0) ,fuStopEvent(0), fuEventInterval(0), fiTimeout(-1)
 {
 	fxInputChannel=f_evt_control();
    TRACE((15,"TGo4MbsSource::TGo4MbsSource()",__LINE__, __FILE__));
@@ -215,7 +239,7 @@ TGo4MbsSubEvent* TGo4MbsSource::BuildMbsSubEvent(TGo4MbsEvent * target, Int_t fu
       TGo4Log::Debug(" Created new output subevent for event %d\n\tpid:%d subcrate:%d ctrl:%d",
                fxEvent->l_count ,subtarget->GetProcid(),subtarget->GetSubcrate(), subtarget->GetControl());
       target->fxSubEvArray->AddLast(subtarget);
-   } 
+   }
    ////     fill header:
    subtarget->SetDlen(datalength);
    void* data = (void*) source;
@@ -223,7 +247,7 @@ TGo4MbsSubEvent* TGo4MbsSource::BuildMbsSubEvent(TGo4MbsEvent * target, Int_t fu
       subtarget->fbIsDataOwner = kTRUE;
       subtarget->ReAllocate(fieldlength); // reallocate field if necessary
       //// fill data into target field:
-      if(datalength>2) 
+      if(datalength>2)
          memcpy((void*) (subtarget->fiData),
                   data, (datalength-2)*sizeof(Short_t));
    } else {
@@ -244,35 +268,38 @@ Int_t TGo4MbsSource::NextEvent()
    TRACE((12,"TGo4MbsSource::NextEvent()",__LINE__, __FILE__));
    // skip and sample mode introduced without changed gsievt functions for first tests
    ULong_t eventstep;
-   if(fuEventInterval)
+
+   if (fbFirstEvent) {
+      fbFirstEvent = kFALSE;
+      eventstep = fuStartEvent + 1;
+   } else
+   if(fuEventInterval > 0)
       eventstep = fuEventInterval;
    else
-      eventstep=1;
-      
+      eventstep = 1;
+
    // test if we had reached the last event:
    if(fuStopEvent!=0 && fuEventCounter>=fuStopEvent)
       SetEventStatus(GETEVT__NOMORE);
    else {
-      // check possible overflow of our counter:  
+      // check possible overflow of our counter:
       if(fuEventCounter+eventstep<fuEventCounter)
         {
             TGo4Log::Warn("TGo4MbsSource::NextEvent(): Overflow of eventcounter at %d, reset to 0",fuEventCounter),
             fuEventCounter=0;
-        }        
-      // go to the start event if necessary
-      if(fuEventCounter<fuStartEvent) 
-          while(fuEventCounter++<fuStartEvent){}
-      ULong_t counter(0);    
-      for(counter=fuEventCounter; counter<fuEventCounter+eventstep; ++counter) {
+        }
+      while (eventstep > 0) {
          // retrieve the event, skip all events until end of the step
          Int_t status=f_evt_get_event(fxInputChannel,
                              (Int_t **) (void*) &fxEvent,
                              (Int_t **) (void*) &fxBuffer);
          SetEventStatus(status);
          if(status!=0) break;
+         eventstep--;
+         fuEventCounter++;
       }
-      fuEventCounter = counter; // index of next event
    }
+
    if(GetEventStatus()!=0) {
       Text_t buffer[TGo4EventSource::fguTXTLEN];
       f_evt_error(GetEventStatus(),buffer,1); // provide text message for later output
@@ -293,7 +320,7 @@ Int_t TGo4MbsSource::NextEvent()
          throw TGo4EventErrorException(this);
          break;
    }
-   
+
    cout << "MbsSource::NextEvent --  NEVER COME HERE" << endl;
    return GetEventStatus();
 }

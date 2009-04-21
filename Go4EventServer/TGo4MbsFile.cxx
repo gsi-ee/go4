@@ -21,7 +21,6 @@ const Text_t TGo4MbsFile::fgcFILELISTSUF[]=".lml";
 
 TGo4MbsFile::TGo4MbsFile() :
    TGo4MbsSource(),
-   fbFirstEvent(kTRUE),
    fbMultipleMode(kFALSE),
    fbWildcardMode(kFALSE),
    fxMultiFile(0),
@@ -32,13 +31,12 @@ TGo4MbsFile::TGo4MbsFile() :
 
 TGo4MbsFile::TGo4MbsFile(const char* name) :
    TGo4MbsSource(name , GETEVT__FILE),
-   fbFirstEvent(kTRUE),
    fbMultipleMode(kFALSE),
    fbWildcardMode(kFALSE),
    fxMultiFile(0),
    fbFileOpen(kFALSE)
 {
-TRACE((15,"TGo4MbsFile::TGo4MbsFile(Text_t*)",__LINE__, __FILE__));
+   TRACE((15,"TGo4MbsFile::TGo4MbsFile(Text_t*)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Event Source MbsFile %s:  ",name);
    fxTagFile=fgcNOTAGFILE;
@@ -47,24 +45,18 @@ TRACE((15,"TGo4MbsFile::TGo4MbsFile(Text_t*)",__LINE__, __FILE__));
 
 
 TGo4MbsFile::TGo4MbsFile(TGo4MbsFileParameter* par) :
-   TGo4MbsSource(par->GetName() , GETEVT__FILE),
-   fbFirstEvent(kTRUE),
+   TGo4MbsSource(par , GETEVT__FILE),
    fbMultipleMode(kFALSE),
    fbWildcardMode(kFALSE),
    fxMultiFile(0),
    fbFileOpen(kFALSE)
-   {
-TRACE((15,"TGo4MbsFile::TGo4MbsFile(TGo4MbsFileParameter**)",__LINE__, __FILE__));
+{
+   TRACE((15,"TGo4MbsFile::TGo4MbsFile(TGo4MbsFileParameter**)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Event Source MbsFile %s:  ",GetName());
-   if(par!=0)
-      {
-          SetEventInterval(par->GetEventInterval());
-          SetStartEvent(par->GetStartEvent());
-          SetStopEvent(par->GetStopEvent());
-          fxTagFile=par->GetTagName();
-      }
-Open();
+   if(par!=0) fxTagFile=par->GetTagName();
+
+   Open();
 }
 
 

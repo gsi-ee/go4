@@ -55,8 +55,6 @@ class TGo4MbsFile : public TGo4MbsSource {
     /** standard suffix for list of listmode files */
     static const Text_t fgcFILELISTSUF[];
 
-    Bool_t fbFirstEvent;
-
   private:
 
     /** For multiple input mode: Open next file in list. */
@@ -98,7 +96,7 @@ class TGo4MbsFile : public TGo4MbsSource {
     /** This indicates if the current file is open or not */
     Bool_t fbFileOpen;
 
-  ClassDef(TGo4MbsFile,1)
+  ClassDef(TGo4MbsFile, 2)
 };
 
 #endif //TGO4MBSFILE_H

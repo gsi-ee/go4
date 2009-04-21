@@ -23,6 +23,7 @@ extern "C"
 
 class TGo4MbsEvent;
 class TGo4MbsSubEvent;
+class TGo4MbsSourceParameter;
 
 /** data structure to keep parameters for f_evt_type (SetPrintEvent) */
 class TGo4MbsSourcePrintPar : public TObject {
@@ -51,6 +52,8 @@ class TGo4MbsSource : public TGo4EventSource {
     TGo4MbsSource();
 
     TGo4MbsSource(const char* name, Int_t mode);
+
+    TGo4MbsSource(TGo4MbsSourceParameter* par, Int_t mode);
 
     virtual ~TGo4MbsSource();
 
@@ -141,6 +144,9 @@ class TGo4MbsSource : public TGo4EventSource {
     /** Current event index counter */
     ULong_t fuEventCounter;
 
+    /** Indicates if first event should be extracted */
+    Bool_t fbFirstEvent;
+
     /** Index of first event to process. */
     ULong_t fuStartEvent;
 
@@ -156,7 +162,7 @@ class TGo4MbsSource : public TGo4EventSource {
     /** This structure keeps parameters for printevent mode */
     TGo4MbsSourcePrintPar fxPrEventPar; //!
 
-  ClassDef(TGo4MbsSource, 1)
+  ClassDef(TGo4MbsSource, 2)
 
 };
 

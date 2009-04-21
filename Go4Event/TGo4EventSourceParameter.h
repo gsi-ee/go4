@@ -5,14 +5,14 @@
 
 /**
  * Basic type for all classes containing information
- * to parametrize the event source. For use in the
+ * to parameterize the event source. For use in the
  * event factory; factory method gets (possibly subclassed)
  * parameter object which is suited to the concrete user
  * factory. Name string can be used as filename, e.g.
  */
 class TGo4EventSourceParameter : public TGo4Parameter {
    public:
-      TGo4EventSourceParameter() ;
+      TGo4EventSourceParameter();
 
       TGo4EventSourceParameter(const char* name, Int_t id = 0);
 

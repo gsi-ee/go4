@@ -1,9 +1,9 @@
 #ifndef TGO4MBSEVENTSERVERPARAMETER_H
 #define TGO4MBSEVENTSERVERPARAMETER_H
 
-#include "TGo4EventSourceParameter.h"
+#include "TGo4MbsSourceParameter.h"
 
-class TGo4MbsEventServerParameter : public TGo4EventSourceParameter {
+class TGo4MbsEventServerParameter : public TGo4MbsSourceParameter {
   friend class TGo4MbsEventServer;
   public:
     TGo4MbsEventServerParameter();
@@ -12,7 +12,7 @@ class TGo4MbsEventServerParameter : public TGo4EventSourceParameter {
 
     virtual ~TGo4MbsEventServerParameter() ;
 
-  ClassDef(TGo4MbsEventServerParameter,1)
+  ClassDef(TGo4MbsEventServerParameter, 2)
 };
 
 #endif //TGO4MBSEVENTSERVERPARAMETER_H

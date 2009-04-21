@@ -14,17 +14,16 @@ TGo4MbsTransport::TGo4MbsTransport(const char* name)
 }
 
 TGo4MbsTransport::TGo4MbsTransport(TGo4MbsTransportParameter* par)
-: TGo4MbsSource(par->GetName() , GETEVT__TRANS)
+: TGo4MbsSource(par, GETEVT__TRANS)
 {
    TRACE((15,"TGo4MbsTransport::TGo4MbsTransport(TGo4MbsTransportParameter**)",__LINE__, __FILE__));
    TGo4Log::Debug(" New Event Source MbsTransport %s:  ",GetName());
-   SetTimeout(par->GetTimeout());
+
    Open();
 }
 
 
 TGo4MbsTransport::TGo4MbsTransport()
-//: TGo4MbsSource("Default MbsTransport" , GETEVT__TRANS)
 {
    TRACE((15,"TGo4MbsTransport::TGo4MbsTransport()",__LINE__, __FILE__));
 }

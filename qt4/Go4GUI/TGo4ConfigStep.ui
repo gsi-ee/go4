@@ -158,13 +158,13 @@
                 <item>
                   <widget class="QSpinBox" name="SpinBoxStartEvent" >
                     <property name="maximum" >
-                      <number>999999999</number>
+                      <number>2000000000</number>
                     </property>
                     <property name="singleStep" >
                       <number>1000</number>
                     </property>
                     <property name="toolTip" stdset="0" >
-                      <string>First event to process.</string>
+                      <string>Sequence number of first event for processing</string>
                     </property>
                   </widget>
                 </item>
@@ -174,13 +174,13 @@
                       <string>all</string>
                     </property>
                     <property name="maximum" >
-                      <number>999999999</number>
+                      <number>2000000000</number>
                     </property>
                     <property name="singleStep" >
                       <number>1000</number>
                     </property>
                     <property name="toolTip" stdset="0" >
-                      <string>Last event to process.</string>
+                      <string>Last event to process</string>
                     </property>
                   </widget>
                 </item>

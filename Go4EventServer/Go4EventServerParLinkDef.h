@@ -4,6 +4,7 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
+#pragma link C++ class TGo4MbsSourceParameter+;
 #pragma link C++ class TGo4MbsFileParameter+;
 #pragma link C++ class TGo4MbsStreamParameter+;
 #pragma link C++ class TGo4MbsTransportParameter+;

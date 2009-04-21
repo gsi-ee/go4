@@ -1,9 +1,9 @@
 #ifndef TGO4MBSTRANSPORTPARAMETER_H
 #define TGO4MBSTRANSPORTPARAMETER_H
 
-#include "TGo4EventSourceParameter.h"
+#include "TGo4MbsSourceParameter.h"
 
-class TGo4MbsTransportParameter : public TGo4EventSourceParameter {
+class TGo4MbsTransportParameter : public TGo4MbsSourceParameter {
   public:
     TGo4MbsTransportParameter() ;
 
@@ -11,7 +11,7 @@ class TGo4MbsTransportParameter : public TGo4EventSourceParameter {
 
     virtual ~TGo4MbsTransportParameter() ;
 
-  ClassDef(TGo4MbsTransportParameter,1)
+  ClassDef(TGo4MbsTransportParameter, 2)
 };
 
 #endif //TGO4MBSTRANSPORTPARAMETER_H
