@@ -73,7 +73,6 @@ void TGo4TreeViewer::ProcessDropEvent(QGo4LineEdit* edt, bool caninit)
       QToolTip::add(this, QString("Selected tree: ") + fxTreeName);
 
       TreeDrawBtn->setEnabled(TRUE);
-      cout << "Treeviewer " << treename.Data() << " edt " << edt->text() << endl;
       AddLink(treename.Data(), "Tree");
    }
 
@@ -84,7 +83,6 @@ void TGo4TreeViewer::ProcessDropEvent(QGo4LineEdit* edt, bool caninit)
       return;
    }
 
-   cout << "Treeviewer leaf " << leafname.Data() << endl;
    // count number of [ and replace by []
    // this means, by default accumulate over all members
    TObjArray* it=leafname.Tokenize("[");
