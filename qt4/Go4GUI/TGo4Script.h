@@ -77,26 +77,38 @@ class TGo4Script : public TGo4AbstractInterface {
                              const char* sourcename,
                              int timeout,
                              const char* TagFile,
-                             int start,
-                             int stop,
-                             int interval);
+                             int start = 0,
+                             int stop = 0,
+                             int interval = 0);
 
       void StepMbsStreamSource(const char* stepname,
                                const char* sourcename,
-                               int timeout);
+                               int timeout,
+                               int start = 0,
+                               int stop = 0,
+                               int interval = 0);
 
       void StepMbsTransportSource(const char* stepname,
                                   const char* sourcename,
-                                  int timeout);
+                                  int timeout,
+                                  int start = 0,
+                                  int stop = 0,
+                                  int interval = 0);
 
       void StepMbsEventServerSource(const char* stepname,
                                     const char* sourcename,
-                                    int timeout);
+                                    int timeout,
+                                    int start = 0,
+                                    int stop = 0,
+                                    int interval = 0);
 
       void StepMbsRevServSource(const char* stepname,
                                 const char* sourcename,
                                 int timeout,
-                                int port);
+                                int port,
+                                int start = 0,
+                                int stop = 0,
+                                int interval = 0);
 
       void StepRandomSource(const char* stepname,
                             const char* sourcename,

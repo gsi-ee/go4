@@ -352,30 +352,42 @@ class TGo4AbstractInterface : public TObject {
                              const char* sourcename,
                              int timeout,
                              const char* TagFile,
-                             int start,
-                             int stop,
-                             int interval) {}
+                             int start = 0,
+                             int stop = 0,
+                             int interval = 0) {}
 
       /** Set MBS stream server as step data source */
       virtual void StepMbsStreamSource(const char* stepname,
                                const char* sourcename,
-                               int timeout) {}
+                               int timeout,
+                               int start = 0,
+                               int stop = 0,
+                               int interval = 0) {}
 
       /** Set MBS transport server as step data source */
       virtual void StepMbsTransportSource(const char* stepname,
                                   const char* sourcename,
-                                  int timeout) {}
+                                  int timeout,
+                                  int start = 0,
+                                  int stop = 0,
+                                  int interval = 0) {}
 
       /** Set MBS event server as step data source */
       virtual void StepMbsEventServerSource(const char* stepname,
                                     const char* sourcename,
-                                    int timeout) {}
+                                    int timeout,
+                                    int start = 0,
+                                    int stop = 0,
+                                    int interval = 0) {}
 
       /** Set MBS remote event server as step data source */
       virtual void StepMbsRevServSource(const char* stepname,
                                 const char* sourcename,
                                 int timeout,
-                                int port) {}
+                                int port,
+                                int start = 0,
+                                int stop = 0,
+                                int interval = 0) {}
 
       /** Set random generator as step data source */
       virtual void StepRandomSource(const char* stepname,

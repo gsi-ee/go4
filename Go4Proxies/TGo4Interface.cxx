@@ -346,12 +346,12 @@ void TGo4Interface::StepFileSource(const char* stepname,
 }
 
 void TGo4Interface::StepMbsFileSource(const char* stepname,
-                                        const char* sourcename,
-                                        int timeout,
-                                        const char* TagFile,
-                                        int start,
-                                        int stop,
-                                        int interval)
+                                      const char* sourcename,
+                                      int timeout,
+                                      const char* TagFile,
+                                      int start,
+                                      int stop,
+                                      int interval)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
    if (step==0) return;
@@ -368,45 +368,66 @@ void TGo4Interface::StepMbsFileSource(const char* stepname,
 }
 
 void TGo4Interface::StepMbsStreamSource(const char* stepname,
-                                            const char* sourcename,
-                                            int timeout)
+                                        const char* sourcename,
+                                        int timeout,
+                                        int start,
+                                        int stop,
+                                        int interval)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
    if (step==0) return;
 
    TGo4MbsStreamParameter par(sourcename);
    par.SetTimeout(timeout);
+   par.SetStartEvent(start);
+   par.SetStopEvent(stop);
+   par.SetEventInterval(interval);
    step->SetSourcePar(&par);
 }
 
 void TGo4Interface::StepMbsTransportSource(const char* stepname,
                                         const char* sourcename,
-                                        int timeout)
+                                        int timeout,
+                                        int start,
+                                        int stop,
+                                        int interval)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
    if (step==0) return;
 
    TGo4MbsTransportParameter par(sourcename);
    par.SetTimeout(timeout);
+   par.SetStartEvent(start);
+   par.SetStopEvent(stop);
+   par.SetEventInterval(interval);
    step->SetSourcePar(&par);
 }
 
 void TGo4Interface::StepMbsEventServerSource(const char* stepname,
                                           const char* sourcename,
-                                          int timeout)
+                                          int timeout,
+                                          int start,
+                                          int stop,
+                                          int interval)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
    if (step==0) return;
 
    TGo4MbsEventServerParameter par(sourcename);
    par.SetTimeout(timeout);
+   par.SetStartEvent(start);
+   par.SetStopEvent(stop);
+   par.SetEventInterval(interval);
    step->SetSourcePar(&par);
 }
 
 void TGo4Interface::StepMbsRevServSource(const char* stepname,
                                       const char* sourcename,
                                       int timeout,
-                                      int port)
+                                      int port,
+                                      int start,
+                                      int stop,
+                                      int interval)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
    if (step==0) return;
@@ -414,6 +435,9 @@ void TGo4Interface::StepMbsRevServSource(const char* stepname,
    TGo4RevServParameter par(sourcename);
    par.SetTimeout(timeout);
    par.SetPort(port);
+   par.SetStartEvent(start);
+   par.SetStopEvent(stop);
+   par.SetEventInterval(interval);
    step->SetSourcePar(&par);
 }
 

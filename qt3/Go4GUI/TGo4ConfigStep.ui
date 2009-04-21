@@ -1001,17 +1001,17 @@
     <function returnType="QString">GetStepName()</function>
     <function>SetStepControl( bool process, bool source, bool store )</function>
     <function>GetStepControl( bool &amp; process, bool &amp; source, bool &amp; store )</function>
-    <function>ResetSourceWidgets( const QString &amp; name, int timeout )</function>
+    <function>ResetSourceWidgets( const QString &amp; name, int timeout, int start, int stop, int interval)</function>
     <function>SetFileSource()</function>
-    <function>SetMbsFileSource( QString TagFile, int start, int stop, int interval )</function>
+    <function>SetMbsFileSource( QString TagFile)</function>
     <function>SetMbsStreamSource()</function>
     <function>SetMbsTransportSource()</function>
     <function>SetMbsEventServerSource()</function>
     <function>SetMbsRevServSource( int port )</function>
     <function>SetRandomSource()</function>
     <function>SetUserSource( int port, QString expr )</function>
-    <function returnType="int">GetSourceSetup( QString &amp; name, int &amp; timeout )</function>
-    <function>GetMbsFileSource( QString &amp; TagFile, int &amp; start, int &amp; stop, int &amp; interval )</function>
+    <function returnType="int">GetSourceSetup( QString &amp; name, int &amp; timeout, int &amp; start, int &amp; stop, int &amp; interval )</function>
+    <function>GetMbsFileSource( QString &amp; TagFile)</function>
     <function>GetMbsRevServSource( int &amp; port )</function>
     <function>GetUserSource( int &amp; port, QString &amp; expr )</function>
     <function>SetFileStore( QString name, bool overwrite, int bufsize, int splitlevel, int compression )</function>

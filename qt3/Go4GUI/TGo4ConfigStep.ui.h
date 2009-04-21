@@ -125,7 +125,12 @@ void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4Analysi
 
     TGo4EventSourceParameter* srcpar = StepStatus->GetSourcePar();
 
-    ResetSourceWidgets(srcpar->GetName(), srcpar->GetTimeout());
+    TGo4MbsSourceParameter* mbspar = dynamic_cast<TGo4MbsSourceParameter*> (srcpar);
+
+    ResetSourceWidgets(srcpar->GetName(), srcpar->GetTimeout(),
+                        mbspar ? mbspar->GetStartEvent() : 0,
+                        mbspar ? mbspar->GetStopEvent() : 0,
+                        mbspar ? mbspar->GetEventInterval() : 0);
 
     switch(srcpar->GetID()) {
        case GO4EV_FILE: {
@@ -134,10 +139,7 @@ void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4Analysi
        }
        case GO4EV_MBS_FILE: {
           TGo4MbsFileParameter* filpar=dynamic_cast<TGo4MbsFileParameter*>(srcpar);
-          SetMbsFileSource(filpar ? filpar->GetTagName() : "",
-                           filpar ? filpar->GetStartEvent() : 0,
-                           filpar ? filpar->GetStopEvent() : 0,
-                           filpar ? filpar->GetEventInterval() : 0);
+          SetMbsFileSource(filpar ? filpar->GetTagName() : "");
           break;
        }
        case GO4EV_MBS_STREAM: {
@@ -253,6 +255,9 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
        fStepStatus->SetSourcePar(newpar5);
        SpinBoxTimeout->setEnabled(true);
        MbsMonitorBtn->setEnabled(true);
+       SpinBoxStartEvent->setEnabled(true);
+       SpinBoxStopEvent->setEnabled(true);
+       SpinBoxInterEvent->setEnabled(true);
        delete newpar5;
      } else
      if (k==3) {       // mbs transport server (input only)
@@ -260,6 +265,9 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
        fStepStatus->SetSourcePar(newpar6);
        SpinBoxTimeout->setEnabled(true);
        MbsMonitorBtn->setEnabled(true);
+       SpinBoxStartEvent->setEnabled(true);
+       SpinBoxStopEvent->setEnabled(true);
+       SpinBoxInterEvent->setEnabled(true);
        delete newpar6;
      }else
      if (k==4) {     // mbs event server  (input only)
@@ -267,6 +275,9 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
        fStepStatus->SetSourcePar(newpar7);
        SpinBoxTimeout->setEnabled(true);
        MbsMonitorBtn->setEnabled(true);
+       SpinBoxStartEvent->setEnabled(true);
+       SpinBoxStopEvent->setEnabled(true);
+       SpinBoxInterEvent->setEnabled(true);
        delete newpar7;
      } else
      if (k==5) {     //    rev serv
@@ -274,6 +285,9 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
        newpar8->SetPort(LineEditPortNumber->text().toInt());
        fStepStatus->SetSourcePar(newpar8);
        LineEditPortNumber->setEnabled(true);
+       SpinBoxStartEvent->setEnabled(true);
+       SpinBoxStopEvent->setEnabled(true);
+       SpinBoxInterEvent->setEnabled(true);
        delete newpar8;
      } else
      if (k==6) {     //    mbs random
@@ -381,60 +395,39 @@ void TGo4ConfigStep::InputTagfile( const QString & tag )
 {
    TGo4EventSourceParameter* SourcePar=fStepStatus->GetSourcePar();
    int ParId=SourcePar->GetID();
-   if (ParId==GO4EV_MBS_FILE)
-    {              // tagfile only for mbs lmd file
-       TGo4MbsFileParameter* filpar=dynamic_cast<TGo4MbsFileParameter*>(SourcePar);
-    if (filpar!=0)
-        {
-            if(tag.isEmpty())
-                {
-                    //cout <<"Input empty tagname...." << endl;
-                    filpar->SetTagName(TGo4MbsFile__fgcNOTAGFILE);
-                }
-            else
-                {
-                    filpar->SetTagName(tag.stripWhiteSpace().latin1());
-                }
+   if (ParId!=GO4EV_MBS_FILE) return;
+   // tagfile only for mbs lmd file
+   TGo4MbsFileParameter* filpar=dynamic_cast<TGo4MbsFileParameter*>(SourcePar);
+   if (filpar==0) return;
 
-        }
-    }
+   if(tag.isEmpty())
+      filpar->SetTagName(TGo4MbsFile__fgcNOTAGFILE);
+   else
+      filpar->SetTagName(tag.stripWhiteSpace().latin1());
 }
 
 void TGo4ConfigStep::StoreStartEvent( int num )
 {
-   TGo4EventSourceParameter* SourcePar=fStepStatus->GetSourcePar();
-   int ParId=SourcePar->GetID();
-   if (ParId==GO4EV_MBS_FILE)
-    {              //only for mbs lmd file
-       TGo4MbsFileParameter* filpar=dynamic_cast<TGo4MbsFileParameter*>(SourcePar);
-    if (filpar!=0)
-            filpar->SetStartEvent(num);
-    }
+   // only for mbs sources
+   TGo4MbsSourceParameter* par =
+      dynamic_cast<TGo4MbsFileParameter*>(fStepStatus->GetSourcePar());
+   if (par!=0) par->SetStartEvent(num);
 }
 
 void TGo4ConfigStep::StoreStopEvent( int num )
 {
-TGo4EventSourceParameter* SourcePar=fStepStatus->GetSourcePar();
-int ParId=SourcePar->GetID();
-if (ParId==GO4EV_MBS_FILE)
-    {              //only for mbs lmd file
-       TGo4MbsFileParameter* filpar=dynamic_cast<TGo4MbsFileParameter*>(SourcePar);
-    if (filpar!=0)
-            filpar->SetStopEvent(num);
-    }
-
+   // only for mbs sources
+   TGo4MbsSourceParameter* par =
+      dynamic_cast<TGo4MbsFileParameter*>(fStepStatus->GetSourcePar());
+   if (par!=0) par->SetStopEvent(num);
 }
 
 void TGo4ConfigStep::StoreEventInterval( int num )
 {
-TGo4EventSourceParameter* SourcePar=fStepStatus->GetSourcePar();
-int ParId=SourcePar->GetID();
-if (ParId==GO4EV_MBS_FILE)
-    {              //only for mbs lmd file
-       TGo4MbsFileParameter* filpar=dynamic_cast<TGo4MbsFileParameter*>(SourcePar);
-    if (filpar!=0)
-            filpar->SetEventInterval(num);
-    }
+   // only for mbs sources
+   TGo4MbsSourceParameter* par =
+      dynamic_cast<TGo4MbsFileParameter*>(fStepStatus->GetSourcePar());
+   if (par!=0) par->SetEventInterval(num);
 }
 
 void TGo4ConfigStep::StoreTimeout( int tim )
@@ -512,10 +505,13 @@ void TGo4ConfigStep::GetStepControl(bool& process, bool& source, bool& store)
    store = !Disable_out_2->isChecked();
 }
 
-void TGo4ConfigStep::ResetSourceWidgets(const QString& name, int timeout)
+void TGo4ConfigStep::ResetSourceWidgets(const QString& name, int timeout, int start, int stop, int interval)
 {
     SourceNameEdit->setText(name);
     SpinBoxTimeout->setValue(timeout);
+    SpinBoxStartEvent->setValue(start);
+    SpinBoxStopEvent->setValue(stop);
+    SpinBoxInterEvent->setValue(interval);
 
     LineEditPortNumber->setEnabled(false);
     LineEditArgumentsIn_2->setEnabled(false);
@@ -534,21 +530,15 @@ void TGo4ConfigStep::SetFileSource()
    SourceComboHighlighted(0);
 }
 
-void TGo4ConfigStep::SetMbsFileSource(QString TagFile, int start, int stop, int interval)
+void TGo4ConfigStep::SetMbsFileSource(QString TagFile)
 {
    Input_Combo_1_2->setCurrentItem(1);
    LineEditTagfile->setEnabled(true);
-   SpinBoxStartEvent->setEnabled(true);
-   SpinBoxStopEvent->setEnabled(true);
-   SpinBoxInterEvent->setEnabled(true);
    FileNameInput->setEnabled(true);
    if(!strstr(TagFile.latin1(),TGo4MbsFile__fgcNOTAGFILE))
       LineEditTagfile->setText(TagFile);
    else
       LineEditTagfile->setText("");
-   SpinBoxStartEvent->setValue(start);
-   SpinBoxStopEvent->setValue(stop);
-   SpinBoxInterEvent->setValue(interval);
    SourceComboHighlighted(1);
 }
 
@@ -604,20 +594,20 @@ void TGo4ConfigStep::SetUserSource(int port, QString expr)
    SourceComboHighlighted(7);
 }
 
-int TGo4ConfigStep::GetSourceSetup(QString& name, int& timeout)
+int TGo4ConfigStep::GetSourceSetup(QString& name, int& timeout, int& start, int& stop, int& interval)
 {
    name = SourceNameEdit->text();
    timeout = SpinBoxTimeout->value();
-   return Input_Combo_1_2->currentItem();
-}
-
-void TGo4ConfigStep::GetMbsFileSource(QString& TagFile, int& start, int& stop, int& interval)
-{
-   TagFile = LineEditTagfile->text();
-//   if (TagFile.length()==0) TagFile = TGo4MbsFile__fgcNOTAGFILE;
    start = SpinBoxStartEvent->value();
    stop = SpinBoxStopEvent->value();
    interval = SpinBoxInterEvent->value();
+   return Input_Combo_1_2->currentItem();
+}
+
+void TGo4ConfigStep::GetMbsFileSource(QString& TagFile)
+{
+   TagFile = LineEditTagfile->text();
+//   if (TagFile.length()==0) TagFile = TGo4MbsFile__fgcNOTAGFILE;
 }
 
 void TGo4ConfigStep::GetMbsRevServSource(int& port)

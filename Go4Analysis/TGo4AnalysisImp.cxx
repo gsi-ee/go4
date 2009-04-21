@@ -223,7 +223,7 @@ Int_t TGo4Analysis::MainCycle()
       // note: creation of status buffer uses mainlock internally now
       // status mutex required to be outside main mutex always JA
       if(fxAnalysisSlave->TestBufferUpdateConditions())
-        fxAnalysisSlave->UpdateStatusBuffer();
+         fxAnalysisSlave->UpdateStatusBuffer();
    }
 
    return 0;

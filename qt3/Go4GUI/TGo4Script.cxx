@@ -456,55 +456,64 @@ void TGo4Script::StepFileSource(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
-      step->ResetSourceWidgets(sourcename, timeout);
+      step->ResetSourceWidgets(sourcename, timeout, 0, 0, 0);
       step->SetFileSource();
    }
 }
 
 void TGo4Script::StepMbsFileSource(const char* stepname,
-                                        const char* sourcename,
-                                        int timeout,
-                                        const char* TagFile,
-                                        int start,
-                                        int stop,
-                                        int interval)
+                                   const char* sourcename,
+                                   int timeout,
+                                   const char* TagFile,
+                                   int start,
+                                   int stop,
+                                   int interval)
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
-      step->ResetSourceWidgets(sourcename, timeout);
-      step->SetMbsFileSource(TagFile, start, stop, interval);
+      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
+      step->SetMbsFileSource(TagFile);
    }
 }
 
 void TGo4Script::StepMbsStreamSource(const char* stepname,
                                      const char* sourcename,
-                                     int timeout)
+                                     int timeout,
+                                     int start,
+                                     int stop,
+                                     int interval)
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
-      step->ResetSourceWidgets(sourcename, timeout);
+      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
       step->SetMbsStreamSource();
    }
 }
 
 void TGo4Script::StepMbsTransportSource(const char* stepname,
                                         const char* sourcename,
-                                        int timeout)
+                                        int timeout,
+                                        int start,
+                                        int stop,
+                                        int interval)
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
-      step->ResetSourceWidgets(sourcename, timeout);
+      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
       step->SetMbsTransportSource();
    }
 }
 
 void TGo4Script::StepMbsEventServerSource(const char* stepname,
                                           const char* sourcename,
-                                          int timeout)
+                                          int timeout,
+                                          int start,
+                                          int stop,
+                                          int interval)
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
-      step->ResetSourceWidgets(sourcename, timeout);
+      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
       step->SetMbsEventServerSource();
    }
 }
@@ -512,11 +521,14 @@ void TGo4Script::StepMbsEventServerSource(const char* stepname,
 void TGo4Script::StepMbsRevServSource(const char* stepname,
                                       const char* sourcename,
                                       int timeout,
-                                      int port)
+                                      int port,
+                                      int start,
+                                      int stop,
+                                      int interval)
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
-      step->ResetSourceWidgets(sourcename, timeout);
+      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
       step->SetMbsRevServSource(port);
    }
 }
@@ -527,7 +539,7 @@ void TGo4Script::StepRandomSource(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
-      step->ResetSourceWidgets(sourcename, timeout);
+      step->ResetSourceWidgets(sourcename, timeout, 0, 0, 0);
       step->SetRandomSource();
    }
 }
@@ -540,7 +552,7 @@ void TGo4Script::StepUserSource(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
-      step->ResetSourceWidgets(sourcename, timeout);
+      step->ResetSourceWidgets(sourcename, timeout, 0, 0, 0);
       step->SetUserSource(port, expr);
    }
 }
@@ -685,9 +697,16 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
 
    fs << "// Automatically generated startup script" << endl;
    fs << "// Do not change it!" << endl << endl;
-   
-   const char* go4sys = getenv("GO4SYS");
-   if (go4sys==0) go4sys = "@@@ non existing directory @@@";
+
+   TString go4sys, rootsys;
+   if (getenv("GO4SYS") != 0) {
+      go4sys = getenv("GO4SYS");
+      if (go4sys[go4sys.Length()-1] != '/') go4sys+="/";
+   }
+   if (getenv("ROOTSYS") != 0) {
+      rootsys = getenv("ROOTSYS");
+      if (rootsys[rootsys.Length()-1] != '/') rootsys+="/";
+   }
 
    TString libs = gInterpreter->GetSharedLibs();
    const char* token = strtok((char*) libs.Data(), " ,\t\n");
@@ -696,18 +715,19 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
           (strstr(token,"libGX11TTF.")==0) &&
           (strstr(token,"libHistPainter.")==0)) {
               fs << "go4->LoadLibrary(\"";
-              if (strstr(token, go4sys)==token) {
-                 fs << "$GO4SYS/";
-                 int len = strlen(go4sys);
-                 if (go4sys[len-1] != '/') len++;
-                 fs << (token + len);
-              } else   
+              if ((go4sys.Length() > 0) && strstr(token, go4sys.Data())==token)
+                 fs << "$GO4SYS/" << (token + go4sys.Length());
+              else
+              if ((rootsys.Length() > 0) && strstr(token, rootsys.Data())==token)
+                 fs << "$ROOTSYS/" << (token + rootsys.Length());
+              else
                  fs << token;
-              
+
               fs << "\");" << endl;
           }
       token = strtok(NULL, " ,\t\n");
    }
+
    TObjArray prlist;
    br->MakeFilesList(&prlist);
    for(Int_t n=0;n<=prlist.GetLast();n++) {
@@ -768,8 +788,8 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
                                  << (store ? "kTRUE" : "kFALSE") << ");" << endl;
 
       QString srcname;
-      int timeout;
-      int nsrc = stepconf->GetSourceSetup(srcname, timeout);
+      int timeout, start, stop, interval;
+      int nsrc = stepconf->GetSourceSetup(srcname, timeout, start, stop, interval);
       TString srcargs = "(\"";
       srcargs += stepconf->GetStepName();
       srcargs += "\", \"";
@@ -777,34 +797,42 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       srcargs += "\", ";
       srcargs += timeout;
 
+      TString inter_args;
+      if ((start!=0) || (stop!=0) || (interval!=0)) {
+         inter_args += ", ";
+         inter_args += start;
+         inter_args += ", ";
+         inter_args += stop;
+         inter_args += ", ";
+         inter_args += interval;
+      }
+
+
       switch(nsrc) {
          case 0:
            fs << "go4->StepFileSource" << srcargs;
            break;
          case 1: {
            QString TagFile;
-           int start,stop,interval;
-           stepconf->GetMbsFileSource(TagFile,start,stop,interval);
+           stepconf->GetMbsFileSource(TagFile);
            fs << "go4->StepMbsFileSource" << srcargs << ", \""
-                                          << TagFile  << "\", "
-                                          << start  << ", "
-                                          << stop  << ", "
-                                          << interval;
+                                          << TagFile  << "\""
+                                          << inter_args;
            break;
          }
          case 2:
-           fs << "go4->StepMbsStreamSource" << srcargs;
+           fs << "go4->StepMbsStreamSource" << srcargs << inter_args;
            break;
          case 3:
-           fs << "go4->StepMbsTransportSource" << srcargs;
+           fs << "go4->StepMbsTransportSource" << srcargs << inter_args;
            break;
          case 4:
-           fs << "go4->StepMbsEventServerSource" << srcargs;
+           fs << "go4->StepMbsEventServerSource" << srcargs << inter_args;
            break;
          case 5: {
            int port;
            stepconf->GetMbsRevServSource(port);
-           fs << "go4->StepMbsRevServSource" << srcargs << ", " << port;
+           fs << "go4->StepMbsRevServSource" << srcargs << ", " << port << inter_args;
            break;
          }
          case 6:

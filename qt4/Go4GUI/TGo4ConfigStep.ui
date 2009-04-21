@@ -180,7 +180,7 @@
                       <number>1000</number>
                     </property>
                     <property name="toolTip" stdset="0" >
-                      <string>Last event to process</string>
+                      <string>Last event to process (default - all events are processed)</string>
                     </property>
                   </widget>
                 </item>
@@ -204,7 +204,7 @@
                   <spacer name="spacer6" >
                     <property name="sizeHint" >
                       <size>
-                        <width>16</width>
+                        <width>5</width>
                         <height>20</height>
                       </size>
                     </property>
