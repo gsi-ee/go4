@@ -57,7 +57,7 @@ public:
      */
     virtual TGo4TaskStatus* CreateStatus();
 
-    Bool_t& MainIsRunning() { return fbMainIsRunning; }
+    Bool_t MainIsRunning() { return fbMainIsRunning; }
 
     /** Delivers next command from command queue. */
     TGo4Command* NextCommand();

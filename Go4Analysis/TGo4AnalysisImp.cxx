@@ -968,13 +968,12 @@ void TGo4Analysis::SendObjectToGUI(TNamed * ob)
       }
 }
 
-Bool_t& TGo4Analysis::IsRunning()
+Bool_t TGo4Analysis::IsRunning()
 {
-if(fxAnalysisSlave)
-   return fxAnalysisSlave->MainIsRunning();
-else
-   return TGo4Analysis::fbExists; // should be kTRUE
-
+   if(fxAnalysisSlave)
+      return fxAnalysisSlave->MainIsRunning();
+   else
+      return TGo4Analysis::fbExists; // should be kTRUE
 }
 
 void TGo4Analysis::SetRunning(Bool_t on)

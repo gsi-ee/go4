@@ -455,7 +455,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * if no slave task (analysis client) is available, always true
       * (plain batch mode never stops)
       * Test: read by reference than copy value, faster?*/
-    Bool_t& IsRunning();
+    Bool_t IsRunning();
 
 
     /** Switch slave process into running state. To be used
