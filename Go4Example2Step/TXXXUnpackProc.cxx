@@ -1,4 +1,5 @@
 #include "TXXXUnpackProc.h"
+#include "TGo4EventEndException.h"
 
 #include "Riostream.h"
 #include <time.h>
@@ -329,4 +330,7 @@ void TXXXUnpackProc::XXXUnpack(TXXXUnpackEvent* poutevt)
       poutevt->SetValid(kTRUE); // to store
     } // if(fInput)
   else    cout << "XXXUnpackProc: no input event !"<< endl;
+// throwing this exception stops the event loop
+// Note that subsequent steps are not executed!
+//	throw TGo4EventEndException(this);
 }

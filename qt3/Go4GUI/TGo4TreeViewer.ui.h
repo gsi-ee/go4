@@ -1,3 +1,6 @@
+#include "Riostream.h"
+#include "TObjArray.h"
+#include "TObjString.h"
 void TGo4TreeViewer::init()
 {
    fxTreeName = "";
@@ -70,6 +73,7 @@ void TGo4TreeViewer::ProcessDropEvent(QGo4LineEdit* edt, bool caninit)
       QToolTip::add(this, QString("Selected tree: ") + fxTreeName);
 
       TreeDrawBtn->setEnabled(TRUE);
+      cout << "Treeviewer " << treename.Data() << " edt " << edt->text() << endl;
       AddLink(treename.Data(), "Tree");
    }
 
@@ -80,7 +84,15 @@ void TGo4TreeViewer::ProcessDropEvent(QGo4LineEdit* edt, bool caninit)
       return;
    }
 
+   cout << "Treeviewer leaf " << leafname.Data() << endl;
+   // count number of [ and replace by []
+   // this means, by default accumulate over all members
+   TObjArray* it=leafname.Tokenize("[");
+   leafname=((TObjString *)it->First())->GetName();
+   for(Int_t i=1;i<it->GetEntriesFast();i++) leafname.Append("[]");
    edt->setText(leafname.Data());
+   edt->setFocus();
+   it->Delete();
 }
 
 void TGo4TreeViewer::TreeDrawBtn_clicked()

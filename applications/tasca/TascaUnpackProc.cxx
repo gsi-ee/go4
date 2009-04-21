@@ -1,8 +1,11 @@
 #include "TascaUnpackProc.h"
+#include "TGo4EventEndException.h"
 
 #include "Riostream.h"
 #include <time.h>
 
+#include "TObjArray.h"
+#include "TObjString.h"
 #include "TH1.h"
 #include "TH2.h"
 #include "TCutG.h"
@@ -161,10 +164,10 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* poutevt)
 
   poutevt->SetValid(kFALSE); // not to store
   fInput    = (TGo4MbsEvent* ) GetInputEvent(); // from this
-  if(fInput == 0) return;
-  if(fInput->GetTrigger()==14) return;
-  if(fInput->GetTrigger()==15) return;
-  if(fInput->GetDlen() == 36) return;
+  if((fInput != 0) &
+     (fInput->GetTrigger()!=14) &
+     (fInput->GetTrigger()!=15) &
+     (fInput->GetDlen() != 36)){
   //cout << "Event=" << fInput->GetCount() << endl;
   fInput->ResetIterator();
   psubevt = fInput->NextSubEvent();
@@ -251,6 +254,11 @@ for(i=0;i<codec->getVetonoAdc();i++){
 	poutevt->fiVetoL[n]=poutevt->fiAdc[2*k];
 	poutevt->fiVetoH[n]=poutevt->fiAdc[2*k+1];
 }
+} // check for valid event
 evcount++;
-if(evcount%10000 != 0) CalcPedestals();
+if(evcount == 10000) {
+	CalcPedestals();
+	evcount=0;
+	//throw TGo4EventEndException(this);
+}
 }

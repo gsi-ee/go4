@@ -355,10 +355,22 @@
         <slot>XFieldEdt_dropped()</slot>
     </connection>
     <connection>
+        <sender>XFieldEdt</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4TreeViewer</receiver>
+        <slot>TreeDrawBtn_clicked()</slot>
+    </connection>
+    <connection>
         <sender>YFieldEdt</sender>
         <signal>textDropped()</signal>
         <receiver>TGo4TreeViewer</receiver>
         <slot>YFieldEdt_dropped()</slot>
+    </connection>
+    <connection>
+        <sender>YFieldEdt</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4TreeViewer</receiver>
+        <slot>TreeDrawBtn_clicked()</slot>
     </connection>
     <connection>
         <sender>ZFieldEdt</sender>
@@ -367,10 +379,22 @@
         <slot>ZFieldEdt_dropped()</slot>
     </connection>
     <connection>
+        <sender>ZFieldEdt</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4TreeViewer</receiver>
+        <slot>TreeDrawBtn_clicked()</slot>
+    </connection>
+    <connection>
         <sender>CutEdt</sender>
         <signal>textDropped()</signal>
         <receiver>TGo4TreeViewer</receiver>
         <slot>cutEdit_dropped()</slot>
+    </connection>
+    <connection>
+        <sender>CutEdt</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4TreeViewer</receiver>
+        <slot>TreeDrawBtn_clicked()</slot>
     </connection>
 </connections>
 <includes>
