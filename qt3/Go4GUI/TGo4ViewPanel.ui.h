@@ -1902,6 +1902,7 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
    if (kind<100)
      CallPanelFunc(panel_Modified, pad);
 
+   tgtslot->SetPar("::FirstDraw", "true");
    SetDrawKind(tgtslot, kind);
    SetSpecialDrawOption(tgtslot, drawopt);
 
@@ -2244,15 +2245,18 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Picture* padopt, TGo4Slot* 
 
       for(int n=0;n<=objs->GetLast();n++) {
          TH1* histo = (TH1*) objs->At(n);
+         TGo4Slot* slot = (TGo4Slot*) objslots->At(n);
 
-         Int_t kind = GetDrawKind((TGo4Slot*) objslots->At(n));
-         if ((resetcolors) || (kind==kind_FitModels))
+         Int_t kind = GetDrawKind(slot);
+         if ((resetcolors) || (kind==kind_FitModels) || (slot->GetPar("::FirstDraw")!=0))
             histo->SetLineColor(n+1);
          histo->GetXaxis()->UnZoom();
 
          const char* drawopt = padopt->GetDrawOption(n);
          if (drawopt==0)
-            drawopt = GetSpecialDrawOption((TGo4Slot*) objslots->At(n));
+            drawopt = GetSpecialDrawOption(slot);
+
+         slot->RemovePar("::FirstDraw");
 
          hs->Add(histo, drawopt);
       }
@@ -2269,11 +2273,13 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Picture* padopt, TGo4Slot* 
         mgr->GetListOfGraphs()->Clear();
       for(int n=0;n<=objs->GetLast();n++) {
          TGraph* gr = (TGraph*) objs->At(n);
-         Int_t kind = GetDrawKind((TGo4Slot*) objslots->At(n));
+         TGo4Slot* slot = (TGo4Slot*) objslots->At(n);
+
+         Int_t kind = GetDrawKind(slot);
 
          TString drawopt = padopt->GetDrawOption(n);
          if (drawopt.Length()==0)
-            drawopt = GetSpecialDrawOption((TGo4Slot*) objslots->At(n));
+            drawopt = GetSpecialDrawOption(slot);
          if (drawopt.Length()==0) drawopt = "AP";
 
          if (n>0) {
@@ -2282,10 +2288,13 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Picture* padopt, TGo4Slot* 
             drawopt.ReplaceAll("A","");
          }
 
-         if ((resetcolors) || (kind==kind_FitModels)) {
+         if ((resetcolors) || (kind==kind_FitModels) || (slot->GetPar("::FirstDraw")!=0)) {
             gr->SetLineColor(n+1);
             gr->SetMarkerColor(n+1);
          }
+
+         slot->RemovePar("::FirstDraw");
+
          mgr->Add(gr, drawopt.Data());
       }
       oldobj = mgr;
