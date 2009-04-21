@@ -514,7 +514,11 @@ TGo4LockGuard mainguard;
                                            (oldsize+extraspace));
    //cout << "Socket reallocating char receive buffer from "<<oldsize<< " to " << newsize<< endl;
    buffer->ResetBit(fgiISOWNER);
+#if ROOT_VERSION_CODE > ROOT_VERSION(5,23,2)
+   buffer->SetBuffer(memfield, newsize + extraspace);
+#else
    buffer->SetBuffer(memfield, newsize);
+#endif
    buffer->SetBit(fgiISOWNER);
    // <- here we avoid the ownership of TBuffer for the internal buffer
    // (new feature of ROOT versions > 3.02/04)
