@@ -195,46 +195,37 @@ TRACE((14,"TGo4Analysis::InitEventClasses()",__LINE__, __FILE__));
 
 Int_t TGo4Analysis::MainCycle()
 {
-TRACE((11,"TGo4Analysis::MainCycle()",__LINE__, __FILE__));
-   if(fbInitIsDone)
-      {
-         {
-         TGo4LockGuard mainlock; // protect analysis, but not status buffer
-            fiAutoSaveCount++;
-            ProcessAnalysisSteps();
-            UserEventFunc();
-            fxObjectManager->ProcessDynamicList();
-            Double_t rt=fxAutoSaveClock->RealTime();
+   TRACE((11,"TGo4Analysis::MainCycle()",__LINE__, __FILE__));
+   if(!fbInitIsDone)
+      throw TGo4UserException(3,"Analysis not yet initialized");
 
-   //         if( (fiAutoSaveInterval!=0) && (fiAutoSaveCount > fiAutoSaveInterval) )
-            if( (fiAutoSaveInterval!=0) && (rt > (Double_t) fiAutoSaveInterval) )
-                  {
-                  if(fbAutoSaveOn)
-                     Message(0,"Analysis: Main Cycle Autosaving after %.2f s (%d events).",rt,fiAutoSaveCount);
-                  AutoSave();
-                  fiAutoSaveCount=0;
-                  fxAutoSaveClock->Start(kTRUE);
-               }
-            else
-               {
-                  fxAutoSaveClock->Continue();
-               }
-         } //TGo4LockGuard main;
-          if(fxAnalysisSlave)
-             {
-                  fxAnalysisSlave->UpdateRate();
-                  if(fxAnalysisSlave->TestBufferUpdateConditions())
-                    {
-                       fxAnalysisSlave->UpdateStatusBuffer();
-                       // note: creation of status buffer uses mainlock internally now
-                       // status mutex required to be outside main mutex always JA
-                    }
-             }
+   {
+      TGo4LockGuard mainlock; // protect analysis, but not status buffer
+      ProcessAnalysisSteps();
+      UserEventFunc();
+      fxObjectManager->ProcessDynamicList();
+
+      if (fbAutoSaveOn && (fiAutoSaveInterval!=0)) {
+         fiAutoSaveCount++;
+         Double_t rt = fxAutoSaveClock->RealTime();
+         if (rt > (Double_t) fiAutoSaveInterval) {
+            Message(0,"Analysis: Main Cycle Autosaving after %.2f s (%d events).",rt,fiAutoSaveCount);
+            AutoSave();
+            fiAutoSaveCount = 0;
+            fxAutoSaveClock->Start(kTRUE);
+         } else
+            fxAutoSaveClock->Continue();
       }
-   else
-      {
-         throw TGo4UserException(3,"Analysis not yet initialized");
-      }
+   } //TGo4LockGuard main;
+
+   if(fxAnalysisSlave) {
+      fxAnalysisSlave->UpdateRate();
+      // note: creation of status buffer uses mainlock internally now
+      // status mutex required to be outside main mutex always JA
+      if(fxAnalysisSlave->TestBufferUpdateConditions())
+        fxAnalysisSlave->UpdateStatusBuffer();
+   }
+
    return 0;
 }
 
@@ -832,7 +823,7 @@ TRACE((12,"TGo4Analysis::UnLockAutoSave()",__LINE__, __FILE__));
 
 void TGo4Analysis::AutoSave()
 {
-TRACE((12,"TGo4Analysis::AutoSave()",__LINE__, __FILE__));
+   TRACE((12,"TGo4Analysis::AutoSave()",__LINE__, __FILE__));
    //
    if(!fbAutoSaveOn) return;
    TGo4LockGuard  autoguard(fxAutoSaveMutex);
