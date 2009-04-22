@@ -1,281 +1,272 @@
-<ui version="4.0" stdsetdef="1" >
-  <author>Mohammad Al-Turany/S.Linev/J.Adamczewski</author>
-  <comment></comment>
-  <exportmacro></exportmacro>
-  <class>TGo4LoadedLibraries</class>
-  <widget class="QDialog" name="TGo4LoadedLibraries" >
-    <property name="geometry" >
-      <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>607</width>
-        <height>219</height>
-      </rect>
-    </property>
-    <property name="windowTitle" >
-      <string>Loaded Libraries</string>
-    </property>
-    <property name="windowIcon" >
-      <pixmap>:/icons/go4logo2_big.png</pixmap>
-    </property>
-    <layout class="QGridLayout" >
-      <property name="margin" >
-        <number>11</number>
-      </property>
-      <property name="spacing" >
+<ui version="4.0" >
+ <author>Mohammad Al-Turany/S.Linev/J.Adamczewski</author>
+ <class>TGo4LoadedLibraries</class>
+ <widget class="QDialog" name="TGo4LoadedLibraries" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>688</width>
+    <height>219</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Loaded Libraries</string>
+  </property>
+  <property name="windowIcon" >
+   <iconset/>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>11</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item row="0" column="0" >
+    <widget class="QSplitter" name="Splitter28" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <widget class="QWidget" name="Layout497" >
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
         <number>6</number>
-      </property>
-      <item row="0" column="0" >
-        <widget class="QSplitter" name="Splitter28" >
-          <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-          </property>
-          <widget class="QWidget" name="Layout497" >
-            <layout class="QVBoxLayout" >
-              <property name="margin" >
-                <number>0</number>
-              </property>
-              <property name="spacing" >
-                <number>6</number>
-              </property>
-              <item>
-                <widget class="QLabel" name="TextLabel16" >
-                  <property name="text" >
-                    <string>dynamically loaded Shared libraries.</string>
-                  </property>
-                  <property name="scaledContents" >
-                    <bool>true</bool>
-                  </property>
-                  <property name="alignment" >
-                    <set>Qt::AlignVCenter</set>
-                  </property>
-                  <property name="wordWrap" >
-                    <bool>true</bool>
-                  </property>
-                </widget>
-              </item>
-              <item>
-                <widget class="Q3ListView" name="LoadedLibsD" >
-                  <property name="selectionMode" >
-                    <enum>Q3ListView::Extended</enum>
-                  </property>
-                  <property name="allColumnsShowFocus" >
-                    <bool>true</bool>
-                  </property>
-                  <property name="showSortIndicator" >
-                    <bool>true</bool>
-                  </property>
-                  <column>
-                    <property name="text" >
-                      <string>Name</string>
-                    </property>
-                    <property name="clickable" >
-                      <bool>true</bool>
-                    </property>
-                    <property name="resizable" >
-                      <bool>true</bool>
-                    </property>
-                  </column>
-                  <column>
-                    <property name="text" >
-                      <string>size</string>
-                    </property>
-                    <property name="clickable" >
-                      <bool>true</bool>
-                    </property>
-                    <property name="resizable" >
-                      <bool>true</bool>
-                    </property>
-                  </column>
-                  <column>
-                    <property name="text" >
-                      <string>Modified</string>
-                    </property>
-                    <property name="clickable" >
-                      <bool>true</bool>
-                    </property>
-                    <property name="resizable" >
-                      <bool>true</bool>
-                    </property>
-                  </column>
-                  <column>
-                    <property name="text" >
-                      <string>Owner</string>
-                    </property>
-                    <property name="clickable" >
-                      <bool>true</bool>
-                    </property>
-                    <property name="resizable" >
-                      <bool>true</bool>
-                    </property>
-                  </column>
-                  <column>
-                    <property name="text" >
-                      <string>Group</string>
-                    </property>
-                    <property name="clickable" >
-                      <bool>true</bool>
-                    </property>
-                    <property name="resizable" >
-                      <bool>true</bool>
-                    </property>
-                  </column>
-                </widget>
-              </item>
-            </layout>
-          </widget>
-          <widget class="QWidget" name="Layout431" >
-            <layout class="QVBoxLayout" >
-              <property name="margin" >
-                <number>0</number>
-              </property>
-              <property name="spacing" >
-                <number>6</number>
-              </property>
-              <item>
-                <widget class="QLabel" name="TextLabel17" >
-                  <property name="text" >
-                    <string>Linked shared libraries.</string>
-                  </property>
-                  <property name="scaledContents" >
-                    <bool>true</bool>
-                  </property>
-                  <property name="alignment" >
-                    <set>Qt::AlignVCenter</set>
-                  </property>
-                  <property name="wordWrap" >
-                    <bool>true</bool>
-                  </property>
-                </widget>
-              </item>
-              <item>
-                <widget class="Q3ListView" name="LoadedLibsS" >
-                  <property name="selectionMode" >
-                    <enum>Q3ListView::NoSelection</enum>
-                  </property>
-                  <column>
-                    <property name="text" >
-                      <string>Name</string>
-                    </property>
-                    <property name="clickable" >
-                      <bool>true</bool>
-                    </property>
-                    <property name="resizable" >
-                      <bool>true</bool>
-                    </property>
-                  </column>
-                </widget>
-              </item>
-            </layout>
-          </widget>
+       </property>
+       <item>
+        <widget class="QLabel" name="TextLabel16" >
+         <property name="text" >
+          <string>Dynamically loaded shared libraries:</string>
+         </property>
+         <property name="scaledContents" >
+          <bool>true</bool>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignVCenter</set>
+         </property>
+         <property name="wordWrap" >
+          <bool>true</bool>
+         </property>
         </widget>
-      </item>
-      <item row="1" column="0" >
-        <layout class="QHBoxLayout" >
-          <property name="margin" >
-            <number>0</number>
+       </item>
+       <item>
+        <widget class="QTreeWidget" name="LoadedLibsD" >
+         <column>
+          <property name="text" >
+           <string>Name</string>
           </property>
-          <property name="spacing" >
-            <number>6</number>
+         </column>
+         <column>
+          <property name="text" >
+           <string>size</string>
           </property>
-          <item>
-            <spacer name="Spacer69" >
-              <property name="sizeHint" >
-                <size>
-                  <width>20</width>
-                  <height>20</height>
-                </size>
-              </property>
-              <property name="sizeType" >
-                <enum>QSizePolicy::Expanding</enum>
-              </property>
-              <property name="orientation" >
-                <enum>Qt::Horizontal</enum>
-              </property>
-            </spacer>
-          </item>
-          <item>
-            <widget class="QPushButton" name="RefreshBtn" >
-              <property name="text" >
-                <string>&amp;Refresh</string>
-              </property>
-            </widget>
-          </item>
-          <item>
-            <widget class="QPushButton" name="LoadLibBtn" >
-              <property name="text" >
-                <string>&amp;Load New Library</string>
-              </property>
-            </widget>
-          </item>
-          <item>
-            <widget class="QPushButton" name="UnloadLibBtn" >
-              <property name="text" >
-                <string>&amp;UnLoad Library</string>
-              </property>
-            </widget>
-          </item>
-          <item>
-            <widget class="QPushButton" name="CloseBtn" >
-              <property name="text" >
-                <string>&amp;Close</string>
-              </property>
-            </widget>
-          </item>
-          <item>
-            <spacer name="Spacer68" >
-              <property name="sizeHint" >
-                <size>
-                  <width>20</width>
-                  <height>20</height>
-                </size>
-              </property>
-              <property name="sizeType" >
-                <enum>QSizePolicy::Expanding</enum>
-              </property>
-              <property name="orientation" >
-                <enum>Qt::Horizontal</enum>
-              </property>
-            </spacer>
-          </item>
-        </layout>
-      </item>
+         </column>
+         <column>
+          <property name="text" >
+           <string>Modified</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>Owner</string>
+          </property>
+         </column>
+         <column>
+          <property name="text" >
+           <string>Group</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="Layout431" >
+      <layout class="QVBoxLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="TextLabel17" >
+         <property name="text" >
+          <string>Linked shared libraries:</string>
+         </property>
+         <property name="scaledContents" >
+          <bool>true</bool>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignVCenter</set>
+         </property>
+         <property name="wordWrap" >
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTreeWidget" name="LoadedLibsS" >
+         <column>
+          <property name="text" >
+           <string>Name</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item row="1" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="RefreshBtn" >
+       <property name="text" >
+        <string>&amp;Refresh</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="LoadLibBtn" >
+       <property name="text" >
+        <string>&amp;Load New Library</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="UnloadLibBtn" >
+       <property name="text" >
+        <string>&amp;UnLoad Library</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="CloseBtn" >
+       <property name="text" >
+        <string>&amp;Close</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
     </layout>
-  </widget>
-  <layoutdefault spacing="6" margin="11" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
-  <tabstops>
-    <tabstop>LoadedLibsD</tabstop>
-    <tabstop>LoadedLibsS</tabstop>
-    <tabstop>RefreshBtn</tabstop>
-    <tabstop>LoadLibBtn</tabstop>
-    <tabstop>UnloadLibBtn</tabstop>
-    <tabstop>CloseBtn</tabstop>
-  </tabstops>
-  <connections>
-    <connection>
-      <sender>LoadLibBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4LoadedLibraries</receiver>
-      <slot>LoadNewLibrary()</slot>
-    </connection>
-    <connection>
-      <sender>UnloadLibBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4LoadedLibraries</receiver>
-      <slot>UnloadLibrary()</slot>
-    </connection>
-    <connection>
-      <sender>RefreshBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4LoadedLibraries</receiver>
-      <slot>RefreshLibs()</slot>
-    </connection>
-    <connection>
-      <sender>CloseBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4LoadedLibraries</receiver>
-      <slot>close()</slot>
-    </connection>
-  </connections>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <tabstops>
+  <tabstop>LoadedLibsD</tabstop>
+  <tabstop>LoadedLibsS</tabstop>
+  <tabstop>RefreshBtn</tabstop>
+  <tabstop>LoadLibBtn</tabstop>
+  <tabstop>UnloadLibBtn</tabstop>
+  <tabstop>CloseBtn</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>LoadLibBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>TGo4LoadedLibraries</receiver>
+   <slot>LoadNewLibrary()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>UnloadLibBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>TGo4LoadedLibraries</receiver>
+   <slot>UnloadLibrary()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>RefreshBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>TGo4LoadedLibraries</receiver>
+   <slot>RefreshLibs()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>CloseBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>TGo4LoadedLibraries</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

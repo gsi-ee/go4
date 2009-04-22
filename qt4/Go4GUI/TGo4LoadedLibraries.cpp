@@ -9,13 +9,9 @@
 TGo4LoadedLibraries::TGo4LoadedLibraries( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
     : QDialog( parent, name, modal, fl )
 {
-	//setObjectName(name);
-	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
-    RefreshLibs();
-    UnloadLibBtn->hide();
+   setupUi(this);
+   RefreshLibs();
+   UnloadLibBtn->hide();
 }
 
 void TGo4LoadedLibraries::LoadNewLibrary()
@@ -37,10 +33,12 @@ void TGo4LoadedLibraries::LoadNewLibrary()
 
 void TGo4LoadedLibraries::UnloadLibrary()
 {
-   Q3ListViewItemIterator it(LoadedLibsD);
-   for ( ; it.current(); ++it )
-     if ( it.current()->isSelected() )
-       gSystem->Unload(it.current()->text(0).latin1());
+   QTreeWidgetItemIterator it(LoadedLibsD);
+   while(*it) {
+     if ( (*it)->isSelected() )
+        gSystem->Unload((*it)->text(0).latin1());
+     it++;
+   }
 
    RefreshLibs();
 }
@@ -59,8 +57,12 @@ void TGo4LoadedLibraries::RefreshLibs()
    while(token!=NULL) {
       QFileInfo fi(token);
       snprintf(buffer,15,"%d",fi.size());
-      new Q3ListViewItem(LoadedLibsD,token,QString(buffer),
-                        fi.lastModified().toString(), fi.owner(), fi.group() );
+
+      QStringList columns;
+      columns << token << QString(buffer) << fi.lastModified().toString() << fi.owner() << fi.group();
+
+      LoadedLibsD->addTopLevelItem(new QTreeWidgetItem(columns));
+
       token = strtok_r(NULL, seps, &tokbuf);
    }
 
@@ -70,7 +72,9 @@ void TGo4LoadedLibraries::RefreshLibs()
    token =strtok_r((char *)T1.latin1(), seps, &tokbuf);
 
    while(token!=NULL) {
-      new Q3ListViewItem(LoadedLibsS,token);
+      QStringList columns;
+      columns << token;
+      LoadedLibsS->addTopLevelItem(new QTreeWidgetItem(columns));
       token = strtok_r(NULL, seps, &tokbuf);
    }
 }
