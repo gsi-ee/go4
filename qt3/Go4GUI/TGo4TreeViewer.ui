@@ -20,7 +20,7 @@
         <pixmap>go4logo2_big.png</pixmap>
     </property>
     <property name="toolTip" stdset="0">
-        <string>Drag and drop leaves from trees in browser and edit expressions. Plot button will fill target histogram.</string>
+        <string>Drag/drop tree leaves from browser, edit expressions, fill target histogram by RET or button.</string>
     </property>
     <grid>
         <property name="name">
@@ -98,7 +98,7 @@
                         <cstring>CutEdt</cstring>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>TTree::Draw cut expression</string>
+                        <string>TTree::Draw cut expression (RET=fill)</string>
                     </property>
                 </widget>
             </hbox>
@@ -143,7 +143,7 @@
                         <cstring>ZFieldEdt</cstring>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>TTree::Draw variable for axis 3</string>
+                        <string>TTree::Draw variable for axis 3 (RET=fill)</string>
                     </property>
                 </widget>
             </hbox>
@@ -188,7 +188,7 @@
                         <cstring>XFieldEdt</cstring>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>TTree::Draw variable for axis 1</string>
+                        <string>TTree::Draw variable for axis 1 (RET=fill)</string>
                     </property>
                 </widget>
             </hbox>
@@ -233,7 +233,7 @@
                         <cstring>YFieldEdt</cstring>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>TTree::Draw variable for axis 2</string>
+                        <string>TTree::Draw variable for axis 2 (RET=fill)</string>
                     </property>
                 </widget>
             </hbox>
@@ -322,7 +322,7 @@
                         <cstring>HistNameEdt</cstring>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>Name of the target histogram to fill. Will be created if none of this name exists.</string>
+                        <string>Name of the target histogram to fill. Will be created if none of this name exists. (RET=fill)</string>
                     </property>
                 </widget>
             </hbox>
@@ -396,7 +396,22 @@
         <receiver>TGo4TreeViewer</receiver>
         <slot>TreeDrawBtn_clicked()</slot>
     </connection>
+    <connection>
+        <sender>HistNameEdt</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4TreeViewer</receiver>
+        <slot>TreeDrawBtn_clicked()</slot>
+    </connection>
 </connections>
+<tabstops>
+    <tabstop>XFieldEdt</tabstop>
+    <tabstop>YFieldEdt</tabstop>
+    <tabstop>ZFieldEdt</tabstop>
+    <tabstop>CutEdt</tabstop>
+    <tabstop>HistNameEdt</tabstop>
+    <tabstop>NewHistBtn</tabstop>
+    <tabstop>TreeClearBtn</tabstop>
+</tabstops>
 <includes>
     <include location="local" impldecl="in declaration">QGo4Widget.h</include>
     <include location="local" impldecl="in implementation">qdragobject.h</include>
