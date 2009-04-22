@@ -5,29 +5,26 @@
 
 GO4_OS=$1
 
-SOSUFFIX=$2
-VESUFFIX=$3
+RM=$2
+SOSUFFIX=$3
+VESUFFIX=$4
 
-LIBNAME=$4
-LIBDIR=$5
+LIBNAME=$5
+LIBDIR=$6
 
-if [ "x$LIBDIR" != "x" ]; then
-   rm -f $LIBDIR/$LIBNAME.$SOSUFFIX.$VESUFFIX
-   rm -f $LIBDIR/$LIBNAME.$SOSUFFIX
-   rm -f $LIBDIR/$LIBNAME.$SOSUFFIX.*
-   if [ "$GO4_OS" = "Win32" ]; then
-      rm -f $LIBDIR/$LIBNAME.*
-      if [ "$LIBDIR" = "lib" ]; then
-         rm -f bin/$LIBNAME.dll
-      fi
-   fi
-else
-   rm -f $LIBNAME.$SOSUFFIX.$VESUFFIX
-   rm -f $LIBNAME.$SOSUFFIX
-   rm -f $LIBNAME.$SOSUFFIX.*
-   if [ "$GO4_OS" = "Win32" ]; then
-      rm -f $LIBNAME.*
-   fi
+if [ "x$LIBDIR" = "x" ]; then
+   LIBDIR=.
+fi
+
+$RM $LIBDIR/$LIBNAME.$SOSUFFIX.$VESUFFIX
+$RM $LIBDIR/$LIBNAME.$SOSUFFIX
+$RM $LIBDIR/$LIBNAME.$SOSUFFIX.*
+$RM $LIBDIR/$LIBNAME.rootmap
+if [ "$GO4_OS" = "Win32" ]; then
+  $RM $LIBDIR/$LIBNAME.*
+  if [ "$LIBDIR" = "lib" ]; then
+    $RM bin/$LIBNAME.dll
+  fi
 fi
 
 exit 0

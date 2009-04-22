@@ -17,9 +17,6 @@ else
 FITEX_USEDLIBS = $(ROOTLIBS) -lMinuit $(if $(USESPECTRUM),-lSpectrum,) $(LIBGO4FIT)
 endif
 
-FITEX_ONLYMAP  = $(FITEX_DIR)/.localmap
-FITEX_MAP      = $(FITEX_DIR)/$(ROOTMAPNAME)
-
 # ------------------Example1------------------------------------------
  
 FITEX1_O      = $(FITEX_DIR)/Example1.$(ObjSuf)
@@ -91,7 +88,7 @@ $(FITEX4_DICTS): $(FITEX4_HED)
 	@rootcint -f $(FITEX4_DICTS) -c $(FITEX4_HED) $(FITEX4_LINKDEF)
     
 $(FITEX4_LIB):  $(FITEX4_OBJ) $(FITEX4_DICTO)
-	@$(MakeLib) $(FITEX4_LIBNAME) "$(FITEX4_OBJ) $(FITEX4_DICTO)" $(FITEX_DIR)
+	@$(MakeLib) $(FITEX4_LIBNAME) "$(FITEX4_OBJ) $(FITEX4_DICTO)" $(FITEX_DIR) $(FITEX4_LINKDEF) "$(GO4FIT_SLIB) $(ROOTSYS)/lib/libMinuit.$(DllSuf)"
 
 ifdef GO4_WIN32
 FITEX4_LIBSSET = $(FITEX4_LIB)
@@ -208,7 +205,7 @@ FITEXDISTRFILES    += $(FITEX_DIR)/histograms.root $(FITEX_DIR)/README
 DISTRFILES         += $(FITEXDISTRFILES) $(FITEX_DIR)/Makefile.standalone
 endif
 
-all-$(FITEX_NAME):  $(FITEX_DLLS) $(FITEX_EXECS) map-$(FITEX_NAME)
+all-$(FITEX_NAME):  $(FITEX_DLLS) $(FITEX_EXECS)
 
 clean-obj-$(FITEX_NAME):
 	@rm -f $(FITEX_EXECS) $(FITEX_DLLS) $(FITEX_OBJS) $(FITEX_DIR)/*.$(DllSuf) $(FITEX_DIR)/*.$(ObjSuf)
@@ -217,18 +214,4 @@ clean-obj-$(FITEX_NAME):
 
 clean-$(FITEX_NAME): clean-obj-$(FITEX_NAME)
 	@rm -f $(FITEX_DIR)/*.bak $(FITEX_DIR)/*Dict.* $(FITEX_DIR)/Example*.root 
-	@rm -f $(FITEX_ONLYMAP) $(FITEX_MAP)
-
-$(FITEX_ONLYMAP): $(FITEX_LINKDEF) $(FITEX4_LIB)
-	@rm -f $(FITEX_ONLYMAP)
-	@$(MakeMap) $(FITEX_ONLYMAP) $(FITEX4_LIB) $(FITEX4_LINKDEF) "$(GO4FIT_SLIB) $(ROOTSYS)/lib/libMinuit.$(DllSuf)"
-
-ifdef DOMAP
-map-$(FITEX_NAME): $(GO4MAP) $(FITEX_ONLYMAP)
-	@rm -f $(FITEX_MAP)
-	@cat $(GO4MAP) $(FITEX_ONLYMAP) > $(FITEX_MAP)
-else
-map-$(FITEX_NAME):
-
-endif
 

@@ -105,7 +105,7 @@ FASTRULES    += clean-ex clean-qt clean-bak clean-obj clean-dep clean-plugin\
                 $(patsubst %,clean-obj-%,$(MODULES)) \
                 $(patsubst %,map-%,$(MODULES))
 
-all:            gui map examples 
+all:            gui examples 
 
 include $(patsubst %,%/Module.mk,$(MODULES))
 
@@ -114,16 +114,19 @@ include $(patsubst %,%/Module.mk,$(MODULES))
 -include qt4/Module.mk
 
 
-build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
+build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS) $(GO4MAP)
 	@(if [ ! -f $@ ] ; then touch $@; fi)
 	@(if [ ! -f lib ] ; then mkdir -p lib; fi)
 	@(if [ ! -f bin ] ; then mkdir -p bin; fi)
 
-libs:           $(BUILDGO4LIBS)  
+$(GO4MAP):
+	@(if [ ! -f $@ ] ; then touch $@; fi)
+
+libs:           $(BUILDGO4LIBS)
 
 gui::           libs 
 
-examples:       map $(patsubst %,all-%,$(EXMODULES)) $(EXAMPLEEXECS)
+examples:       $(patsubst %,all-%,$(EXMODULES)) $(EXAMPLEEXECS)
 
 noqt:           all
 
@@ -148,9 +151,6 @@ clean-mainlibs:
 clean-obj: clean-mainlibs $(patsubst %,clean-obj-%,$(MODULES))
 	@echo "Clean go4 object files done"
 
-clean-qt: clean-Go4QtRoot clean-Go4FitGUI clean-Go4GUI
-	@echo "Clean go4 qt modules are done"
-
 clean-ex:  $(patsubst %,clean-%,$(EXMODULES))
 	@echo "Clean examples done"
 
@@ -170,16 +170,29 @@ GO4BASE_O = $(LOCKGRD_O) $(LOCKGRD_DO) \
             $(STATBASE_O) $(STATBASE_DO) \
             $(CONDBASE_O) $(CONDBASE_DO)
 
+GO4BASE_LINKDEFS = $(LOCKGRD_LINKDEF) \
+                   $(GO4LOG_LINKDEF) \
+                   $(COMBASE_LINKDEF) \
+                   $(STATBASE_LINKDEF) \
+                   $(CONDBASE_LINKDEF)
+
 GO4TSKH_O = $(GO4SOCKET_O) \
             $(GO4QUEUE_O) \
             $(TASKHAND_O) $(TASKHAND_DO) \
             $(CMDTASKHANDL_O) $(CMDTASKHANDL_DO)
+
+GO4TSKH_LINKDEFS = $(TASKHAND_LINKDEF) $(CMDTASKHANDL_LINKDEF)
 
 GO4ANBASE_O = $(MBSAPIBASE_O)  \
             $(GO4EVENTPAR_O) $(GO4EVENTPAR_DO) \
             $(EVENTSERVPAR_O) $(EVENTSERVPAR_DO) \
             $(DYNLIST_O) $(DYNLIST_DO) \
             $(STATANAL_O) $(STATANAL_DO)
+
+GO4ANBASE_LINKDEFS = $(GO4EVENTPAR_LINKDEF) \
+                     $(EVENTSERVPAR_LINKDEF) \
+                     $(DYNLIST_LINKDEF) \
+                     $(STATANAL_LINKDEF)
 
 GO4AN_O   = $(MBSAPI_O) $(RAWAPI_O) \
             $(GO4EVENT_O) $(GO4EVENT_DO) \
@@ -189,87 +202,40 @@ GO4AN_O   = $(MBSAPI_O) $(RAWAPI_O) \
             $(CMDANAL_O) $(CMDANAL_DO) \
             $(ANALCL_O) $(ANALCL_DO)
 
+GO4AN_LINKDEFS = $(GO4EVENT_LINKDEF) \
+                 $(EVENTSERV_LINKDEF) \
+                 $(HISTSERV_LINKDEF) \
+                 $(GO4ANAL_LINKDEF) \
+                 $(CMDANAL_LINKDEF) \
+                 $(ANALCL_LINKDEF)
+
 GO4BGUI_O = $(GO4OBJM_O) $(GO4OBJM_DO) \
             $(GO4DISPL_O) $(GO4DISPL_DO) \
             $(GO4PROX_O) $(GO4PROX_DO)
 
+GO4BGUI_LINKDEFS = $(GO4OBJM_LINKDEF) \
+                   $(GO4PROX_LINKDEF)
+
 $(GO4FIT_LIB):   $(GO4FIT_O) $(GO4FIT_DO)
-		@$(MakeLib) $(GO4FIT_LIBNAME) "$(GO4FIT_O) $(GO4FIT_DO)" $(GO4DLLPATH)
+	@$(MakeLib) $(GO4FIT_LIBNAME) "$(GO4FIT_O) $(GO4FIT_DO)" $(GO4DLLPATH) Go4Fit/Go4FitLinkDef.h "$(BASIC_LIB_DEP)"
 
 $(GO4BASE_LIB):  $(GO4BASE_O)
-		@$(MakeLib) $(GO4BASE_LIBNAME) "$(GO4BASE_O)" $(GO4DLLPATH)
+	@$(MakeLib) $(GO4BASE_LIBNAME) "$(GO4BASE_O)" $(GO4DLLPATH) "$(GO4BASE_LINKDEFS)" "$(BASIC_LIB_DEP)"
 
 $(THRDMNGR_LIB):   $(THRDMNGR_O) $(THRDMNGR_DO)
-		@$(MakeLib) $(THRDMNGR_LIBNAME) "$(THRDMNGR_O) $(THRDMNGR_DO)" $(GO4DLLPATH)
+	@$(MakeLib) $(THRDMNGR_LIBNAME) "$(THRDMNGR_O) $(THRDMNGR_DO)" $(GO4DLLPATH) Go4ThreadManager/Go4ThreadManagerLinkDef.h "$(GO4BASE_SLIB) $(BASIC_LIB_DEP)"
 
 $(GO4TSKH_LIB):   $(GO4TSKH_O)
-		@$(MakeLib) $(GO4TSKH_LIBNAME) "$(GO4TSKH_O)" $(GO4DLLPATH)
+	@$(MakeLib) $(GO4TSKH_LIBNAME) "$(GO4TSKH_O)" $(GO4DLLPATH) "$(GO4TSKH_LINKDEFS)" "$(THRDMNGR_SLIB) $(GO4BASE_SLIB) $(BASIC_LIB_DEP)"
 
 $(GO4ANBASE_LIB): $(GO4ANBASE_O)
-		@$(MakeLib) $(GO4ANBASE_LIBNAME) "$(GO4ANBASE_O)" $(GO4DLLPATH)
+	@$(MakeLib) $(GO4ANBASE_LIBNAME) "$(GO4ANBASE_O)" $(GO4DLLPATH) "$(GO4ANBASE_LINKDEFS)" "$(VERSION_SLIB) $(GO4TSKH_SLIB) $(THRDMNGR_SLIB) $(GO4BASE_SLIB) $(GO4FIT_SLIB) $(BASIC_LIB_DEP)"
 
 $(GO4AN_LIB): $(GO4AN_O)
-		@$(MakeLib) $(GO4AN_LIBNAME) "$(GO4AN_O)" $(GO4DLLPATH)
+	@$(MakeLib) $(GO4AN_LIBNAME) "$(GO4AN_O)" $(GO4DLLPATH) "$(GO4AN_LINKDEFS)" "$(VERSION_SLIB) $(GO4ANBASE_SLIB) $(GO4TSKH_SLIB) $(THRDMNGR_SLIB) $(GO4BASE_SLIB) $(GO4FIT_SLIB) $(BASIC_LIB_DEP)"
 
 $(GO4BGUI_LIB): $(GO4BGUI_O)
-		@$(MakeLib) $(GO4BGUI_LIBNAME) "$(GO4BGUI_O)" $(GO4DLLPATH)
-
-ifdef DOMAP
-GO4MAPDEPLIST = $(GO4SYS)/Go4Fit/Go4FitLinkDef.h \
-                $(GO4SYS)/Go4LockGuard/Go4LockGuardLinkDef.h \
-                $(GO4SYS)/Go4Log/Go4LogLinkDef.h \
-                $(GO4SYS)/Go4CommandsBase/Go4CommandsBaseLinkDef.h \
-                $(GO4SYS)/Go4StatusBase/Go4StatusBaseLinkDef.h \
-                $(GO4SYS)/Go4ConditionsBase/Go4ConditionsBaseLinkDef.h \
-                $(GO4SYS)/Go4ThreadManager/Go4ThreadManagerLinkDef.h \
-                $(GO4SYS)/Go4TaskHandler/Go4TaskHandlerLinkDef.h \
-                $(GO4SYS)/Go4Event/Go4EventLinkDef.h \
-                $(GO4SYS)/Go4EventServer/Go4EventServerLinkDef.h \
-                $(GO4SYS)/Go4HistogramServer/Go4HistogramServerLinkDef.h \
-                $(GO4SYS)/Go4DynamicList/Go4DynamicListLinkDef.h \
-                $(GO4SYS)/Go4StatusAnalysis/Go4StatusAnalysisLinkDef.h \
-                $(GO4SYS)/Go4Analysis/Go4AnalysisLinkDef.h \
-                $(GO4SYS)/Go4CommandsAnalysis/Go4CommandsAnalysisLinkDef.h \
-                $(GO4SYS)/Go4AnalysisClient/Go4AnalysisClientLinkDef.h \
-                $(GO4SYS)/Go4Proxies/Go4ProxiesLinkDef.h 
-
-GO4MAPDEPLIBS = $(GO4FIT_LIB) \
-                $(GO4BASE_LIB) \
-                $(THRDMNGR_LIB) \
-                $(GO4TSKH_LIB) \
-                $(GO4ANBASE_LIB) \
-                $(GO4AN_LIB) \
-                $(GO4BGUI_LIB)
-
-$(GO4MAP): $(GO4MAPDEPLIST) $(GO4MAPDEPLIBS)
-	@rm -f $(GO4MAP)
-	@echo "Producing $(GO4MAP) file"
-	@$(MakeMap) $(GO4MAP) $(GO4FIT_SLIB)   Go4Fit/Go4FitLinkDef.h "$(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4BASE_SLIB)  Go4LockGuard/Go4LockGuardLinkDef.h "$(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4BASE_SLIB)  Go4Log/Go4LogLinkDef.h "$(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4BASE_SLIB)  Go4CommandsBase/Go4CommandsBaseLinkDef.h "$(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4BASE_SLIB)  Go4StatusBase/Go4StatusBaseLinkDef.h "$(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4BASE_SLIB)  Go4ConditionsBase/Go4ConditionsBaseLinkDef.h "$(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(THRDMNGR_SLIB) Go4ThreadManager/Go4ThreadManagerLinkDef.h "$(GO4BASE_SLIB) $(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4TSKH_SLIB)  Go4TaskHandler/Go4TaskHandlerLinkDef.h "$(THRDMNGR_SLIB) $(GO4BASE_SLIB) $(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4TSKH_SLIB)  Go4CommandsTaskHandler/Go4CommandsTaskHandlerLinkDef.h "$(THRDMNGR_SLIB) $(GO4BASE_SLIB) $(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4ANBASE_SLIB) Go4Event/Go4EventParLinkDef.h "$(VERSION_SLIB) $(GO4TSKH_SLIB) $(THRDMNGR_SLIB) $(GO4BASE_SLIB) $(GO4FIT_SLIB) $(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4ANBASE_SLIB) Go4EventServer/Go4EventServerParLinkDef.h "$(VERSION_SLIB) $(GO4TSKH_SLIB) $(THRDMNGR_SLIB) $(GO4BASE_SLIB) $(GO4FIT_SLIB) $(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4ANBASE_SLIB) Go4DynamicList/Go4DynamicListLinkDef.h "$(VERSION_SLIB) $(GO4TSKH_SLIB) $(THRDMNGR_SLIB) $(GO4BASE_SLIB) $(GO4FIT_SLIB) $(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4ANBASE_SLIB) Go4StatusAnalysis/Go4StatusAnalysisLinkDef.h "$(VERSION_SLIB) $(GO4TSKH_SLIB) $(THRDMNGR_SLIB) $(GO4BASE_SLIB) $(GO4FIT_SLIB) $(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4AN_SLIB)    Go4Event/Go4EventLinkDef.h "$(VERSION_SLIB) $(GO4ANBASE_SLIB) $(GO4TSKH_SLIB) $(THRDMNGR_SLIB) $(GO4BASE_SLIB) $(GO4FIT_SLIB) $(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4AN_SLIB)    Go4EventServer/Go4EventServerLinkDef.h "$(VERSION_SLIB) $(GO4ANBASE_SLIB) $(GO4TSKH_SLIB) $(THRDMNGR_SLIB) $(GO4BASE_SLIB) $(GO4FIT_SLIB) $(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4AN_SLIB)    Go4HistogramServer/Go4HistogramServerLinkDef.h "$(VERSION_SLIB) $(GO4ANBASE_SLIB) $(GO4TSKH_SLIB) $(THRDMNGR_SLIB) $(GO4BASE_SLIB) $(GO4FIT_SLIB) $(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4AN_SLIB)    Go4Analysis/Go4AnalysisLinkDef.h "$(VERSION_SLIB) $(GO4ANBASE_SLIB) $(GO4TSKH_SLIB) $(THRDMNGR_SLIB) $(GO4BASE_SLIB) $(GO4FIT_SLIB) $(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4AN_SLIB)    Go4CommandsAnalysis/Go4CommandsAnalysisLinkDef.h "$(VERSION_SLIB) $(GO4ANBASE_SLIB) $(GO4TSKH_SLIB) $(THRDMNGR_SLIB) $(GO4BASE_SLIB) $(GO4FIT_SLIB) $(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4AN_SLIB)    Go4AnalysisClient/Go4AnalysisClientLinkDef.h "$(VERSION_SLIB) $(GO4ANBASE_SLIB) $(GO4TSKH_SLIB) $(THRDMNGR_SLIB) $(GO4BASE_SLIB) $(GO4FIT_SLIB) $(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4BGUI_SLIB)  Go4ObjectManager/Go4ObjectManagerLinkDef.h "$(VERSION_SLIB) $(GO4ANBASE_SLIB) $(GO4TSKH_SLIB) $(THRDMNGR_SLIB) $(GO4BASE_SLIB) $(GO4FIT_SLIB) $(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4BGUI_SLIB)  Go4Proxies/Go4ProxiesLinkDef.h "$(VERSION_SLIB) $(GO4ANBASE_SLIB) $(GO4TSKH_SLIB) $(THRDMNGR_SLIB) $(GO4BASE_SLIB) $(GO4FIT_SLIB) $(BASIC_LIB_DEP)"
-	@echo "Map of go4 classes is done"
-else
-$(GO4MAP):
-	@echo "Go4 map can not be generated"
-endif
+	@$(MakeLib) $(GO4BGUI_LIBNAME) "$(GO4BGUI_O)" $(GO4DLLPATH) "$(GO4BGUI_LINKDEFS)" "$(VERSION_SLIB) $(GO4ANBASE_SLIB) $(GO4TSKH_SLIB) $(THRDMNGR_SLIB) $(GO4BASE_SLIB) $(GO4FIT_SLIB) $(BASIC_LIB_DEP)"
 
 ifdef DOPACKAGE
 

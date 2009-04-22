@@ -35,19 +35,6 @@ clean-obj: clean-obj-$(MODULE_NAME)
 clean: clean-$(MODULE_NAME)
 	@echo "Clean everything in $(MODULE_NAME)"
 
-ifdef DOMAP
-ifeq ($(wildcard $(GO4MAP)),)
-map:
-	@echo "Map for Go4 classes not generated. Call make map in $(GO4SYS) directory"
-else
-map: map-$(MODULE_NAME)
-	@echo "Map for $(MODULE_NAME) done"
-endif
-else
-map:
-	@echo "Map for $(MODULE_NAME) can not be generated with ROOT $(shell root-config --version)"
-endif
-
 ifdef DOPACKAGE
 package:
 	@tar chf $(MODULE_NAME).tar Module.mk

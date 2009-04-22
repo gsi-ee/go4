@@ -9,14 +9,19 @@ LD=$2
 RM=$3
 MV=$4
 LN=$5
-LDFLAGS=$6
-SOFLAGS=$7
-SOSUFFIX=$8
-VESUFFIX=$9
+RLIBMAP=$6
+ANALDEPLIBS=$7
+LDFLAGS=$8
+SOFLAGS=$9
+SOSUFFIX=${10}
+VESUFFIX=${11}
 
-LIBNAME=${10}
-LIBOBJS=${11}
-LIBDIR=${12}
+LIBNAME=${12}
+LIBOBJS=${13}
+LIBDIR=${14}
+
+LINKDEF=${15}
+DEPLIBS=${16}
 
 # here is completely Win32 path
 
@@ -114,38 +119,39 @@ fi
 
 # rest is Unix-like library building
 
-if [ "x$LIBDIR" != "x" ]; then
-   $RM $LIBDIR/$LIBNAME.$SOSUFFIX.$VESUFFIX
-else
-   $RM $LIBNAME.$SOSUFFIX.$VESUFFIX
+
+if [ "x$LIBDIR" = "x" ]; then
+   LIBDIR=.
 fi
+
+$RM $LIBDIR/$LIBNAME.$SOSUFFIX
+$RM $LIBDIR/$LIBNAME.$SOSUFFIX.$VESUFFIX
 
 if [ "$GO4_OS" = "Solaris" ]; then
    echo $LD $SOFLAGS $LDFLAGS $LIBOBJS -o $LIBNAME.$SOSUFFIX.$VESUFFIX
 
-   $LD $SOFLAGS $LDFLAGS $LIBOBJS -o $LIBNAME.$SOSUFFIX.$VESUFFIX
+   $LD $SOFLAGS $LDFLAGS $LIBOBJS -o $LIBDIR/$LIBNAME.$SOSUFFIX.$VESUFFIX
 else
    echo $LD $SOFLAGS$LIBNAME.$SOSUFFIX.$VESUFFIX $LDFLAGS $LIBOBJS -o $LIBNAME.$SOSUFFIX.$VESUFFIX
 
    $LD $SOFLAGS$LIBNAME.$SOSUFFIX.$VESUFFIX $LDFLAGS $LIBOBJS \
-            -o $LIBNAME.$SOSUFFIX.$VESUFFIX
+            -o $LIBDIR/$LIBNAME.$SOSUFFIX.$VESUFFIX
 fi
 
-if [ "x$LIBDIR" != "x" ]; then
-   if [ "x$LIBDIR" != "x." ]; then
-      if [ "$LIBDIR" != `pwd` ]; then
-         $MV $LIBNAME.$SOSUFFIX.$VESUFFIX $LIBDIR
-      fi
-   fi
-fi
+CURDIR=`pwd`
 
-if [ "x$LIBDIR" != "x" ]; then
-   cd $LIBDIR; $LN $LIBNAME.$SOSUFFIX.$VESUFFIX $LIBNAME.$SOSUFFIX
-else
-   $LN $LIBNAME.$SOSUFFIX.$VESUFFIX $LIBNAME.$SOSUFFIX
-fi
-
+cd $LIBDIR; $LN $LIBNAME.$SOSUFFIX.$VESUFFIX $LIBNAME.$SOSUFFIX
 
 echo $LIBNAME.$SOSUFFIX 'done'
 
+if [ "x$LINKDEF" != "x" ]; then
+   if [ "x$DEPLIBS" = "x" ]; then
+      DEPLIBS=$ANALDEPLIBS
+   fi
+   cd $CURDIR
+   echo $RLIBMAP -r $LIBDIR/$LIBNAME.rootmap -l $LIBDIR/$LIBNAME.$SOSUFFIX -d $DEPLIBS -c $LINKDEF
+   $RLIBMAP -r $LIBDIR/$LIBNAME.rootmap -l $LIBDIR/$LIBNAME.$SOSUFFIX -d $DEPLIBS -c $LINKDEF
+   echo $LIBNAME.rootmap 'done'
+fi
+   
 exit 0
