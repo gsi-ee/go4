@@ -116,29 +116,29 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
 class TGo4AnalysisLevelIter : public TGo4LevelIter {
    public:
       TGo4AnalysisLevelIter() :
-         TGo4LevelIter(), 
-         fIter(0), 
+         TGo4LevelIter(),
+         fIter(0),
          fCurrent(0),
          fIsTree(kFALSE)
       {
       }
-      
+
       TGo4AnalysisLevelIter(TFolder* folder, Bool_t istree = kFALSE) :
-         TGo4LevelIter(), 
-         fIter(0), 
+         TGo4LevelIter(),
+         fIter(0),
          fCurrent(0),
          fIsTree(istree)
       {
-         fIter = folder->GetListOfFolders()->MakeIterator(); 
+         fIter = folder->GetListOfFolders()->MakeIterator();
       }
 
       virtual ~TGo4AnalysisLevelIter()
       {
          delete fIter;
       }
-      
+
       virtual Bool_t next()
-      { 
+      {
          fCurrent = fIter->Next();
          return (fCurrent!=0);
       }
@@ -181,14 +181,14 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
          if (tr!=0) return new TGo4AnalysisLevelIter(tr->GetNamesFolder(), kTRUE);
          return new TGo4AnalysisLevelIter((TFolder*)fCurrent, fIsTree);
       }
-      
+
       virtual const char* name()
-      { 
+      {
          return fCurrent->GetName();
       }
 
       virtual const char* info()
-      { 
+      {
          return fCurrent->GetTitle();
       }
 
@@ -197,7 +197,7 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
          TGo4ObjectStatus* status =  dynamic_cast <TGo4ObjectStatus*> (fCurrent);
          return (status==0) ? 0 : status->GetObjectSize();
       }
-      
+
       virtual Int_t GetKind()
       {
          Int_t kind = TGo4Access::kndNone;
@@ -223,7 +223,7 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
       {
          return EntryClassName(fCurrent);
       }
-      
+
     static const char* EntryClassName(TObject* entry)
     {
        if (entry==0) return 0;
@@ -249,10 +249,10 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
           TGo4ObjectStatus* status =  dynamic_cast <TGo4ObjectStatus*> (entry);
           if (status!=0) return status->GetObjectClass();
        }
-        
+
        return entry->ClassName();
     }
-    
+
    protected:
       TIterator*     fIter;     //!
       TObject*       fCurrent;  //!

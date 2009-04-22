@@ -70,7 +70,7 @@ void TGo4RootBrowserProxy::Message(const char* str1, const char* str2, Int_t blo
    TBrowser* br = 0;
 
    while ((br = dynamic_cast<TBrowser*> (iter())) !=0 ) {
-       
+
 #if ROOT_VERSION_CODE > ROOT_VERSION(5,17,4)
       br->SetStatusText(str1, 0);
       br->SetStatusText(str2, 1);
@@ -85,7 +85,7 @@ void TGo4RootBrowserProxy::Message(const char* str1, const char* str2, Int_t blo
          status->SetText(str1, 0);
          status->SetText(str2, 1);
       }
-#endif      
+#endif
    }
 
    if (blockdelay>0) {
@@ -155,7 +155,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
       gROOT->GetListOfBrowsables()->Add(topfold);
 
       TString img = getenv("GO4SYS");
-      img += "/Go4GUI/icons/";
+      img += "/icons/";
 
       TGMimeTypes* mt = gClient->GetMimeTypeList();
       mt->AddType("go4/logo", "Go4Logo", img + "go4logo2_big.png", img + "go4logo2.png", "->Draw()");
