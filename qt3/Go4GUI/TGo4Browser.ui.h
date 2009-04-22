@@ -493,6 +493,7 @@ void TGo4Browser::ListView_contextMenuRequested(QListViewItem* item, const QPoin
    int nanalysis = 0;
    int nmonitor = 0;
    int nclear = 0;
+   int nclearlocal = 0;
    int nclearproton = 0;
    int nclearprotoff = 0;
    int ndelprotoff = 0;
@@ -560,6 +561,9 @@ void TGo4Browser::ListView_contextMenuRequested(QListViewItem* item, const QPoin
 
          if (ismemitem || istopmemory)
            nmemory++;
+
+         if (ismemitem && TGo4BrowserProxy::CanClearItem(cando))
+            nclearlocal++;
 
          if ((kind==TGo4Access::kndObject) && (itemslot->GetAssignedObject()!=0)) {
             nassigned++;
@@ -708,6 +712,10 @@ void TGo4Browser::ListView_contextMenuRequested(QListViewItem* item, const QPoin
        contextMenu.insertItem(QPixmap::fromMimeSource("rename.png"),
                               "Rename object",  0, 0, 0, 42);
        contextMenu.setItemEnabled(42, (nmemory==1) && !istopmemory);
+
+       contextMenu.insertItem(QPixmap::fromMimeSource("clear.png"),
+                              "Clear object(s)",  0, 0, 0, 44);
+       contextMenu.setItemEnabled(44, (nclearlocal>0));
 
        contextMenu.insertItem(QPixmap::fromMimeSource("editpaste.png"),
                               "Paste from clipboard",  0, 0, 0, 43);
@@ -892,6 +900,11 @@ void TGo4Browser::ContextMenuActivated(int id)
             case 43: {  // paste items from clipboard
                br->CopyClipboard(itemname.latin1(), go4sett->getFetchDataWhenCopy());
                br->ClearClipboard();
+               break;
+            }
+
+            case 44: { // clear memory item
+               br->ClearMemoryItem(itemname.latin1());
                break;
             }
          }

@@ -71,6 +71,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       void CreateMemorySubfolder(const char* itemname, const char* newfoldername);
       void RenameMemoryItem(const char* itemname, const char* newname);
+      void ClearMemoryItem(const char* itemname);
 
       void RequestObjectStatus(const char* name, TGo4Slot* tgtslot);
 

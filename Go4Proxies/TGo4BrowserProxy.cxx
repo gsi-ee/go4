@@ -1453,6 +1453,62 @@ void TGo4BrowserProxy::RenameMemoryItem(const char* itemname, const char* newnam
    slot->ForwardEvent(slot, TGo4Slot::evObjAssigned);
 }
 
+
+
+void TGo4BrowserProxy::ClearMemoryItem(const char* itemname)
+{
+   TGo4Slot* itemslot = BrowserSlot(itemname);
+   if (itemslot==0) return;
+
+   TGo4Slot* memslot = BrowserMemorySlot();
+   if (!itemslot->IsParent(memslot)) return;
+
+   TGo4Slot* slot = DataSlot(itemname);
+   if (slot==0) return;
+
+   TObject* ob = slot->GetAssignedObject();
+   if (ob==0) return;
+
+   if(ob->InheritsFrom(TH1::Class())) {
+      TH1* his = dynamic_cast<TH1*>(ob);
+      if (his) his->Reset(); // histogram has no Clear implementation!
+   } else
+   if(ob->InheritsFrom(TGo4DynamicEntry::Class())) {
+      TGo4DynamicEntry* entry = dynamic_cast<TGo4DynamicEntry*>(ob);
+      if (entry) entry->Reset(); // dynamic entry has no Clear implementation!
+   } else
+   if(ob->InheritsFrom(TGo4Picture::Class())) {
+      TGo4Picture* pic = dynamic_cast<TGo4Picture*>(ob);
+      if (pic) pic->Reset(); // picture has no Clear implementation!
+   } else
+   if(ob->InheritsFrom(TGraph::Class())) {
+      TGraph* gr= dynamic_cast<TGraph*>(ob);
+      if (gr) {
+         Int_t pn = gr->GetN();
+         gr->Set(0); // clear array of points
+         gr->Set(pn); // this should set all to 0
+      }
+   } else
+   if(ob->InheritsFrom(TMultiGraph::Class())) {
+     TMultiGraph* mg = dynamic_cast<TMultiGraph*>(ob);
+     if (mg) {
+        TIter liter(mg->GetListOfGraphs());
+        TGraph* gr = 0;
+        while(( gr = (TGraph*) liter())!=0) {
+           Int_t pn = gr->GetN();
+           gr->Set(0); // clear array of points
+           gr->Set(pn); // this should set all to 0
+        }
+     }
+   } else {
+      // use virtual Clear of all objects
+      // make sure that TNamed::Clear is overwritten in subclasses
+      ob->Clear();
+   }
+
+   itemslot->ForwardEvent(itemslot, TGo4Slot::evObjAssigned);
+}
+
 TString TGo4BrowserProxy::SaveToMemory(const char* pathname, TObject* obj, Bool_t ownership, Bool_t overwrite)
 {
    if (obj==0) return TString("");

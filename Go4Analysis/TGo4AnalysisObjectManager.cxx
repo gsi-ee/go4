@@ -215,7 +215,7 @@ Bool_t TGo4AnalysisObjectManager::ClearObjects(const Text_t * name)
    TGo4LockGuard  dirguard(fxDirMutex);
    TObject* ob = fxGo4Dir->FindObjectAny(name);
    if(ob!=0)
-     { 
+     {
         if(ob->InheritsFrom(TFolder::Class()))
            rev=ClearFolder(dynamic_cast<TFolder*>(ob));
         else
@@ -1927,7 +1927,7 @@ if(ob)
       if(ob->InheritsFrom(TH1::Class()))
          {
              TH1* his= dynamic_cast<TH1*>(ob);
-             his->Reset(); // histogram has no Clear implementation!
+             if (his) his->Reset(); // histogram has no Clear implementation!
          }
       else if(ob->InheritsFrom(TGo4DynamicEntry::Class()))
          {
@@ -1936,23 +1936,27 @@ if(ob)
          }
       else if(ob->InheritsFrom(TGo4Picture::Class()))
          {
-             TGo4Picture* pic= dynamic_cast<TGo4Picture*>(ob);
-             pic->Reset(); // picture has no Clear implementation!
+             TGo4Picture* pic = dynamic_cast<TGo4Picture*>(ob);
+             if (pic) pic->Reset(); // picture has no Clear implementation!
          }
       else if(ob->InheritsFrom(TGraph::Class()))
          {
             TGraph* gr= dynamic_cast<TGraph*>(ob);
-            Int_t pn=gr->GetN();
-            gr->Set(0); // clear array of points
-            gr->Set(pn); // this should set all to 0
+            if (gr) {
+               Int_t pn=gr->GetN();
+               gr->Set(0); // clear array of points
+               gr->Set(pn); // this should set all to 0
+            }
          }
      else if(ob->InheritsFrom(TMultiGraph::Class()))
          {
             TMultiGraph* mg= dynamic_cast<TMultiGraph*>(ob);
-            TIter liter(mg->GetListOfGraphs());
-            TObject* ob=0;
-            while((ob=liter())!=0)
+            if (mg) {
+               TIter liter(mg->GetListOfGraphs());
+               TObject* ob=0;
+               while((ob=liter())!=0)
                   ClearObject(ob);
+            }
          }
       else if(ob->InheritsFrom(TGo4EventElement::Class()))
          {
