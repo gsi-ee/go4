@@ -1,4 +1,6 @@
 #include "TGo4TreeViewer.h"
+#include "TObjArray.h"
+#include "TObjString.h"
 
 #include <QApplication>
 #include <QToolTip>
@@ -92,8 +94,14 @@ void TGo4TreeViewer::ProcessDropEvent(QGo4LineEdit* edt, bool caninit)
       StatusMessage(QString("Invalid leaf name ") + value);
       return;
    }
-
+   // count number of [ and replace by []
+   // this means, by default accumulate over all members
+   TObjArray* it=leafname.Tokenize("[");
+   leafname=((TObjString *)it->First())->GetName();
+   for(Int_t i=1;i<it->GetEntriesFast();i++) leafname.Append("[]");
    edt->setText(leafname.Data());
+   edt->setFocus();
+   it->Delete();
 }
 
 void TGo4TreeViewer::TreeDrawBtn_clicked()

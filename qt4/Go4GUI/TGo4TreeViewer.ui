@@ -19,7 +19,7 @@
       <pixmap>:/icons/go4logo2_big.png</pixmap>
     </property>
     <property name="toolTip" stdset="0" >
-      <string>Drag and drop leaves from trees in browser and edit expressions. Plot button will fill target histogram.</string>
+      <string>Drag/drop tree leaves from browser, edit expressions, fill target histogram by RET or button.</string>
     </property>
     <layout class="QGridLayout" >
       <property name="margin" >
@@ -87,7 +87,7 @@
           <item>
             <widget class="QGo4LineEdit" name="CutEdt" >
               <property name="toolTip" stdset="0" >
-                <string>TTree::Draw cut expression</string>
+                <string>TTree::Draw cut expression (RET=fill)</string>
               </property>
             </widget>
           </item>
@@ -127,7 +127,7 @@
           <item>
             <widget class="QGo4LineEdit" name="ZFieldEdt" >
               <property name="toolTip" stdset="0" >
-                <string>TTree::Draw variable for axis 3</string>
+                <string>TTree::Draw variable for axis 3 (RET=fill)</string>
               </property>
             </widget>
           </item>
@@ -167,7 +167,7 @@
           <item>
             <widget class="QGo4LineEdit" name="XFieldEdt" >
               <property name="toolTip" stdset="0" >
-                <string>TTree::Draw variable for axis 1</string>
+                <string>TTree::Draw variable for axis 1 (RET=fill)</string>
               </property>
             </widget>
           </item>
@@ -207,7 +207,7 @@
           <item>
             <widget class="QGo4LineEdit" name="YFieldEdt" >
               <property name="toolTip" stdset="0" >
-                <string>TTree::Draw variable for axis 2</string>
+                <string>TTree::Draw variable for axis 2 (RET=fill)</string>
               </property>
             </widget>
           </item>
@@ -287,7 +287,7 @@
           <item>
             <widget class="QGo4LineEdit" name="HistNameEdt" >
               <property name="toolTip" stdset="0" >
-                <string>Name of the target histogram to fill. Will be created if none of this name exists.</string>
+                <string>Name of the target histogram to fill. Will be created if none of this name exists (RET=fill).</string>
               </property>
             </widget>
           </item>
@@ -327,10 +327,22 @@
       <slot>XFieldEdt_dropped()</slot>
     </connection>
     <connection>
+        <sender>XFieldEdt</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4TreeViewer</receiver>
+        <slot>TreeDrawBtn_clicked()</slot>
+    </connection>
+    <connection>
       <sender>YFieldEdt</sender>
       <signal>textDropped()</signal>
       <receiver>TGo4TreeViewer</receiver>
       <slot>YFieldEdt_dropped()</slot>
+    </connection>
+    <connection>
+        <sender>YFieldEdt</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4TreeViewer</receiver>
+        <slot>TreeDrawBtn_clicked()</slot>
     </connection>
     <connection>
       <sender>ZFieldEdt</sender>
@@ -339,10 +351,37 @@
       <slot>ZFieldEdt_dropped()</slot>
     </connection>
     <connection>
+        <sender>ZFieldEdt</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4TreeViewer</receiver>
+        <slot>TreeDrawBtn_clicked()</slot>
+    </connection>
+    <connection>
       <sender>CutEdt</sender>
       <signal>textDropped()</signal>
       <receiver>TGo4TreeViewer</receiver>
       <slot>cutEdit_dropped()</slot>
     </connection>
+    <connection>
+        <sender>CutEdt</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4TreeViewer</receiver>
+        <slot>TreeDrawBtn_clicked()</slot>
+    </connection>
+    <connection>
+        <sender>HistNameEdt</sender>
+        <signal>returnPressed()</signal>
+        <receiver>TGo4TreeViewer</receiver>
+        <slot>TreeDrawBtn_clicked()</slot>
+    </connection>
   </connections>
+<tabstops>
+    <tabstop>XFieldEdt</tabstop>
+    <tabstop>YFieldEdt</tabstop>
+    <tabstop>ZFieldEdt</tabstop>
+    <tabstop>CutEdt</tabstop>
+    <tabstop>HistNameEdt</tabstop>
+    <tabstop>NewHistBtn</tabstop>
+    <tabstop>TreeClearBtn</tabstop>
+</tabstops>
 </ui>
