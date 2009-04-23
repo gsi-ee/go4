@@ -13,8 +13,6 @@ class QSpacerItem;
 class QWidgetStack;
 class QWidget;
 class QSplitter;
-class Q3ListView;
-class Q3ListViewItem;
 class QPushButton;
 class QSpinBox;
 class QLabel;
@@ -254,8 +252,8 @@ public:
 
 public slots:
     virtual void panelSlot(TGo4ViewPanel*, TPad*, int);
-    virtual void FitList_contextMenuRequested( Q3ListViewItem * item, const QPoint & pnt, int );
-    virtual void FitList_currentChanged( Q3ListViewItem * item );
+    virtual void FitList_customContextMenuRequested(const QPoint &);
+    virtual void FitList_currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*);
     virtual void AboutToShowViewMenu();
     virtual void ChangeViewType(int id);
     virtual void ShowPanelPage(int id);

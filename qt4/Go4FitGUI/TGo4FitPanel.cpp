@@ -4,7 +4,6 @@
 #include "qmessagebox.h"
 #include "qevent.h"
 #include "qinputdialog.h"
-#include "q3listview.h"
 #include "qpixmap.h"
 #include "qmenubar.h"
 #include "qtooltip.h"
@@ -275,6 +274,9 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name)
    fiIntegralMode = go4sett->getInt("/FitPanel/IntegralMode", 0);
    fiBuffersUsage = go4sett->getInt("/FitPanel/BuffersUsage", 1);
 
+
+   FitList->setContextMenuPolicy(Qt::CustomContextMenu);
+
     // fit options part
     fxWizDataName = "";
     fxWizModelName = "";
@@ -371,14 +373,16 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name)
 TGo4FitPanel::~TGo4FitPanel()
 {
    // discards messages from deleted items
-   fxCurrentItem = 0;
+	fbFillingWidget = true;
+
+	fxCurrentItem = 0;
    FitList->clear();
 
    delete fxParsTableList;
    delete fxWizSlots;
    delete fxWizPars;
 
-   RemovePrimitives();
+	RemovePrimitives();
    RemoveDrawObjects();
    CloseDrawPanel();
 
@@ -1390,7 +1394,7 @@ void TGo4FitPanel::Cmd_AddNewData(QFitItem * item, int id)
 
   QFitItem* curr = FindItem(data, FitGui::ot_data, item);
   if (curr!=0)
-    FitList->setSelected(curr, TRUE);
+    FitList->setCurrentItem(curr, QItemSelectionModel::Select);
   UpdateStatusBar(0);
 }
 
@@ -1413,7 +1417,7 @@ void  TGo4FitPanel::Cmd_AddNewModel(QFitItem * item, int id)
 
   QFitItem* curr = FindItem(model, FitGui::ot_model, item);
   if (curr!=0)
-    FitList->setSelected(curr, TRUE);
+    FitList->setCurrentItem(curr, QItemSelectionModel::Select);
   UpdateStatusBar(0);
 }
 
@@ -1600,7 +1604,7 @@ void TGo4FitPanel::Cmd_MoveAction(QFitItem* item, int dir)
       UpdateItem(parent, TRUE);
       item = FindItem(action, -1, 0);
       if (item!=0)
-        FitList->setSelected(item, TRUE);
+      	FitList->setCurrentItem(item, QItemSelectionModel::Select);
    }
 }
 
@@ -1862,20 +1866,17 @@ void TGo4FitPanel::Cmd_UpdateAllSlots(QFitItem* item)
 
   UpdateObjectReferenceInSlots();
 
-  Q3ListViewItem* child = item->firstChild();
-  while (child) {
-     UpdateItem(dynamic_cast<QFitItem*>(child), TRUE);
-     child = child->nextSibling();
-  }
+  for (int n=0; n < item->childCount(); n++)
+	  UpdateItem(dynamic_cast<QFitItem*>(item->child(n)), TRUE);
 }
 
 
 // *************************** fitslots  ends ******************************
 
 
-void TGo4FitPanel::FitList_contextMenuRequested( Q3ListViewItem * item, const QPoint & pnt, int )
+void TGo4FitPanel::FitList_customContextMenuRequested(const QPoint & pnt)
 {
-   QFitItem* fititem = dynamic_cast<QFitItem*> (item);
+   QFitItem* fititem = dynamic_cast<QFitItem*> (FitList->itemAt(pnt));
    if (fititem==0) return;
 
    QSignalMapper map(this);
@@ -1884,16 +1885,18 @@ void TGo4FitPanel::FitList_contextMenuRequested( Q3ListViewItem * item, const QP
    QMenu menu(this);
 
    if (FillPopupForItem(fititem, &menu, &map)) {
-	  CurrFitItem = fititem;
-      menu.exec(pnt);
+	   CurrFitItem = fititem;
+      menu.exec(FitList->mapToGlobal(pnt));
       CurrFitItem = 0;
    }
 }
 
 
-void TGo4FitPanel::FitList_currentChanged( Q3ListViewItem * item)
+void TGo4FitPanel::FitList_currentItemChanged(QTreeWidgetItem* curr, QTreeWidgetItem*)
 {
-   QFitItem* fititem = dynamic_cast<QFitItem*> (item);
+	if (fbFillingWidget) return;
+
+   QFitItem* fititem = dynamic_cast<QFitItem*> (curr);
    if (fititem==0) return;
 
    ShowItem(fititem, false);
@@ -3547,15 +3550,18 @@ void TGo4FitPanel::UpdateExtendedPage()
 
    RemovePrimitives();
 
+   fbFillingWidget = true;
    FitList->clear();
-   FitList->setSorting(-1);
+   FitList->setSortingEnabled(false);
+   fbFillingWidget = false;
+
    TGo4Fitter* fitter = GetFitter();
    if (fitter==0) {
-     new QFitItem(this, FitList, 0, FitGui::ot_empty, FitGui::wt_none, FitGui::mt_empty);
+      new QFitItem(this, FitList->invisibleRootItem(), 0, FitGui::ot_empty, FitGui::wt_none, FitGui::mt_empty);
    } else {
-      QFitItem* fitteritem = new QFitItem(this, FitList, fitter, FitGui::ot_fitter, FitGui::wt_fitter, FitGui::mt_fitter, FitGui::gt_fitter);
-      fitteritem->setOpen(TRUE);
-      FitList->setSelected(fitteritem, kTRUE);
+      QFitItem* fitteritem = new QFitItem(this, FitList->invisibleRootItem(), fitter, FitGui::ot_fitter, FitGui::wt_fitter, FitGui::mt_fitter, FitGui::gt_fitter);
+      fitteritem->setExpanded(TRUE);
+      FitList->setCurrentItem(fitteritem, QItemSelectionModel::Select);
       ShowItem(fitteritem, false);
    }
 
@@ -3835,7 +3841,7 @@ void TGo4FitPanel::ExecutePopupForSlot(QFitItem* item, TGo4FitSlot* slot, int id
    if (item) {
      ShowItem(item, false);
      UpdateItem(item, TRUE);
-     item->setOpen(TRUE);
+     item->setExpanded(TRUE);
    } else
      UpdateActivePage();
 }
@@ -3847,8 +3853,8 @@ void TGo4FitPanel::UpdateItem(QFitItem* item, bool trace)
   if (fxCurrentItem!=0)
       if (fxCurrentItem->FindInParents(item)) RemoveItemWidget();
 
-   while (item->firstChild())
-      delete item->firstChild();
+   while (item->childCount() > 0)
+      delete item->child(0);
 
   SetItemText(item, FALSE);
 
@@ -4013,9 +4019,11 @@ void TGo4FitPanel::UpdateItem(QFitItem* item, bool trace)
     QFitItem* topitem = GetFitterItem();
     if (topitem==0) return;
 
-    Q3ListViewItemIterator iter(topitem);
-    while (iter.current()!=0) {
-      QFitItem* it = dynamic_cast<QFitItem*> (iter.current());
+
+    QTreeWidgetItemIterator iter(topitem);
+
+    while (*iter) {
+      QFitItem* it = dynamic_cast<QFitItem*> (*iter);
       if ((it!=0) && (it!=item) &&
           (item->ObjectType()==it->ObjectType()) &&
           (item->Object()==it->Object())) UpdateItem(it, FALSE);
@@ -4101,9 +4109,10 @@ void TGo4FitPanel::SetItemText(QFitItem* item, bool trace)
     QFitItem* topitem = GetFitterItem();
     if (topitem==0) return;
 
-    Q3ListViewItemIterator iter(topitem);
-    while (iter.current()!=0) {
-      QFitItem* it = dynamic_cast<QFitItem*> (iter.current());
+    QTreeWidgetItemIterator iter(topitem);
+
+    while (*iter) {
+      QFitItem* it = dynamic_cast<QFitItem*> (*iter);
       if ((it!=0) && (it!=item) &&
           (item->ObjectType()==it->ObjectType()) &&
           (item->Object()==it->Object()) && (item->Tag()==it->Tag()))
@@ -4117,9 +4126,15 @@ void TGo4FitPanel::UpdateItemsOfType(int typ, QFitItem* parent)
 {
    if (parent==0) parent = GetFitterItem();
 
-   Q3ListViewItemIterator iter(parent);
-   while (iter.current()!=0) {
-      QFitItem* item = dynamic_cast<QFitItem*> (iter.current());
+   if (parent==0) {
+   	cout << "Did not found " << endl;
+   	return;
+   }
+
+   QTreeWidgetItemIterator iter(parent);
+
+   while (*iter) {
+      QFitItem* item = dynamic_cast<QFitItem*> (*iter);
       if ((item!=0) && (item->ObjectType()==typ)) UpdateItem(item, FALSE);
       ++iter;
    }
@@ -4127,7 +4142,7 @@ void TGo4FitPanel::UpdateItemsOfType(int typ, QFitItem* parent)
 
 QFitItem* TGo4FitPanel::GetFitterItem()
 {
-  QFitItem* item = dynamic_cast<QFitItem*> (FitList->firstChild());
+  QFitItem* item = dynamic_cast<QFitItem*> (FitList->topLevelItem(0));
   if (item && (item->ObjectType()==FitGui::ot_fitter)) return item;
   return 0;
 }
@@ -4135,9 +4150,11 @@ QFitItem* TGo4FitPanel::GetFitterItem()
 QFitItem* TGo4FitPanel::FindItem(TObject* obj, int ObjectType, QFitItem* parent)
 {
    if (parent==0) parent = GetFitterItem();
-   Q3ListViewItemIterator iter(parent);
-   while (iter.current()!=0) {
-      QFitItem* item = dynamic_cast<QFitItem*> (iter.current());
+
+   QTreeWidgetItemIterator iter(parent);
+
+   while (*iter) {
+      QFitItem* item = dynamic_cast<QFitItem*> (*iter);
       if (item!=0)
         if ((obj==0) || (item->Object()==obj))
           if ((ObjectType==FitGui::ot_none) || (ObjectType==item->ObjectType())) return item;
@@ -4243,14 +4260,14 @@ bool TGo4FitPanel::ShowItemAsGraph(QFitItem* item, bool force)
    }
 
    if (gritem->GraphType()==FitGui::gt_model) {
-     TGo4FitModel* model = dynamic_cast<TGo4FitModel*> (gritem->Object());
-     if (model==0) return FALSE;
-     bool draw = FALSE;
-     for(Int_t n=0;n<model->NumAssigments();n++) {
-        TGo4FitData* data = fitter->FindData(model->AssignmentName(n));
-        if (PaintModel(model, FindPadWhereData(data), gritem)) draw = true;
-     }
-     return draw;
+      TGo4FitModel* model = dynamic_cast<TGo4FitModel*> (gritem->Object());
+      if (model==0) return FALSE;
+      bool draw = FALSE;
+      for(Int_t n=0;n<model->NumAssigments();n++) {
+         TGo4FitData* data = fitter->FindData(model->AssignmentName(n));
+         if (PaintModel(model, FindPadWhereData(data), gritem)) draw = true;
+      }
+      return draw;
    }
 
    if (gritem->GraphType()==FitGui::gt_ass) {
@@ -4275,11 +4292,10 @@ bool TGo4FitPanel::ShowItemAsGraph(QFitItem* item, bool force)
 
       TPad* pad = FindPadWhereComp(comp);
       if (pad!=0) {
-        Q3ListViewItem* child = gritem->firstChild();
         for(int nrange=0;nrange<comp->GetNumRangeCondition();nrange++) {
-           if (child==0) return false;
-           PaintRange(comp, nrange, pad, (QFitItem*)child);
-           child = child->nextSibling();
+           QFitItem* child = dynamic_cast<QFitItem*> (gritem->child(nrange));
+      	  if (child==0) return false;
+           PaintRange(comp, nrange, pad, child);
         }
         return true;
       }

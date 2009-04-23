@@ -7,22 +7,12 @@
 #include "TObject.h"
 #include "TGo4FitPanel.h"
 
-QFitItem::QFitItem(TGo4FitPanel* panel, QFitItem* parent, TObject* iObj, int iObjectType, int iWidgetType, int iPopupMenuType, int iGraphType, int iTag ) :
-   Q3ListViewItem (parent, QString::null, QString::null)
+QFitItem::QFitItem(TGo4FitPanel* panel, QTreeWidgetItem* parent, TObject* iObj, int iObjectType, int iWidgetType, int iPopupMenuType, int iGraphType, int iTag ) :
+	QTreeWidgetItem()
 {
-   fxPanel = panel;
-   fxObj = iObj;
-   fiObjectType = iObjectType;
-   fiWidgetType = iWidgetType;
-   fiPopupMenuType = iPopupMenuType;
-   fiGraphType = iGraphType;
-   fiTag = iTag;
-   if (fxPanel) fxPanel->UpdateItem(this, FALSE);
-}
+	setText(0, QString::null);
+	setText(1, QString::null);
 
-QFitItem::QFitItem(TGo4FitPanel* panel, Q3ListView * parent, TObject* iObj, int iObjectType, int iWidgetType, int iPopupMenuType, int iGraphType, int iTag) :
-   Q3ListViewItem (parent, QString::null, QString::null)
-{
    fxPanel = panel;
    fxObj = iObj;
    fiObjectType = iObjectType;
@@ -30,6 +20,9 @@ QFitItem::QFitItem(TGo4FitPanel* panel, Q3ListView * parent, TObject* iObj, int 
    fiPopupMenuType = iPopupMenuType;
    fiGraphType = iGraphType;
    fiTag = iTag;
+
+   parent->addChild(this);
+
    if (fxPanel) fxPanel->UpdateItem(this, FALSE);
 }
 
@@ -38,41 +31,8 @@ QFitItem::~QFitItem()
    if (fxPanel) fxPanel->FitItemDeleted(this);
 }
 
-TObject* QFitItem::Object()
+QFitItem* QFitItem::DefineWidgetItem()
 {
-  return fxObj;
-}
-
-void QFitItem::SetObject(TObject* obj)
-{
-  fxObj = obj;
-}
-
-int QFitItem::ObjectType() {
-  return fiObjectType;
-}
-
-int QFitItem::WidgetType() {
-  return fiWidgetType;
-}
-
-int QFitItem::PopupMenuType() {
-  return fiPopupMenuType;
-}
-
-int QFitItem::GraphType() {
-  return fiGraphType;
-}
-
-int QFitItem::Tag() {
-  return fiTag;
-}
-
-QFitItem* QFitItem::Parent() {
-  return dynamic_cast<QFitItem*> (parent());
-}
-
-QFitItem* QFitItem::DefineWidgetItem() {
   QFitItem* item = this;
 
   while (item!=0) {
@@ -82,7 +42,8 @@ QFitItem* QFitItem::DefineWidgetItem() {
   return 0;
 }
 
-QFitItem* QFitItem::DefineGraphItem() {
+QFitItem* QFitItem::DefineGraphItem()
+{
   QFitItem* item = this;
 
   while (item!=0) {
@@ -92,7 +53,8 @@ QFitItem* QFitItem::DefineGraphItem() {
   return 0;
 }
 
-bool QFitItem::FindInParents(QFitItem* item) {
+bool QFitItem::FindInParents(QFitItem* item)
+{
    QFitItem* i = this;
    i = i->Parent();
 
