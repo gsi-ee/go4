@@ -3,10 +3,10 @@
 
 #include "TGo4EventProcessor.h"
 
-class TascaUnpackEvent;
+class TascaCaliEvent;
 class TascaParameter;
-class TascaCalibPar;
 class TascaAnlEvent;
+class TascaAnalysis;
 
 class TascaAnlProc : public TGo4EventProcessor {
    public:
@@ -17,8 +17,9 @@ class TascaAnlProc : public TGo4EventProcessor {
       void TascaEventAnalysis(TascaAnlEvent* target);
 
 
-      TascaUnpackEvent  *fInput;
-      TascaParameter    *fParPed;
+	  TascaAnalysis  * anl;
+      TascaCaliEvent *fInput;
+      TascaParameter *fParPed;
       TH2D *fStop;
 
    ClassDef(TascaAnlProc,1)

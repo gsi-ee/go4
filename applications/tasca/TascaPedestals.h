@@ -19,7 +19,9 @@ class TascaPedestals : public TGo4Parameter {
 
       Bool_t fbRestore;
       Bool_t fbSave;
+      Bool_t fbCalibrate;
       TString fxFile;
+      Float_t ffOffset;
       Float_t ffPedestals[96];
 
    ClassDef(TascaPedestals,1)

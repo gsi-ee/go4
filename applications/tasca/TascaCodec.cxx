@@ -2,20 +2,21 @@ using namespace std;
 #include "Riostream.h"
 #include <string>
 #include "TascaCodec.h"
-TascaCodec::TascaCodec()
-:test(0),fiValue(0)
+TascaCodec::TascaCodec() : TGo4Parameter(),
+testmaxi(0),test(0),fiValue(0)
 {}
-TascaCodec::TascaCodec(UInt_t v)
-:test(0),fiValue(v)
+TascaCodec::TascaCodec(const char* name) : TGo4Parameter(name),
+testmaxi(0),test(0),fiValue(0)
 {}
-TascaCodec::~TascaCodec(){}
+TascaCodec::~TascaCodec()
+{}
 
 void TascaCodec::setMpxIndex(UInt_t reg0, UInt_t reg1, UInt_t reg2, UInt_t reg3){
 int s=0;
-fiReg0=reg0;
-fiReg1=reg1;
-fiReg2=reg2;
-fiReg3=reg3;
+	fiReg0=reg0;
+	fiReg1=reg1;
+	fiReg2=reg2;
+	fiReg3=reg3;
 	for(int i=0;i<10;i++){
 		fiMpxIndex[i]   =((reg0>>s)&7) + test;
 		fiMpxIndex[i+10]=((reg1>>s)&7) + test;
@@ -24,7 +25,7 @@ fiReg3=reg3;
 		s += 3;
 	}
 	test++;
-	if(test > 7) test=0;
+	if(test > testmaxi) test=0;
 }
 void TascaCodec::setMap(Bool_t print){
 int i=0,si=0;
@@ -120,5 +121,15 @@ for(i=0;i<40;i++) {
 }}
 printf("\nDetector %d uses %d ADC channels\n",detector,n);
 return n;
+}
+//-----------------------------------------------------------
+Bool_t TascaCodec::UpdateFrom(TGo4Parameter *pp){
+  if(pp->InheritsFrom("TascaCodec")) {
+    TascaCodec * from = (TascaCodec *) pp;
+    testmaxi=from->testmaxi;
+  }
+  else
+     cout << "Wrong parameter object: " << pp->ClassName() << endl;
+  return kTRUE;
 }
 

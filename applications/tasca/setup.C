@@ -1,4 +1,4 @@
-void setup(Text_t* AutoSaveFile,Text_t* UnpackedFile,Text_t* AnalyzedFile)
+void setup(Text_t* AutoSaveFile,Text_t* UnpackedFile,Text_t* CalibratedFile,Text_t* AnalyzedFile)
 {
   TGo4AnalysisStep * step;
   TGo4FileStoreParameter * f1;
@@ -6,8 +6,12 @@ void setup(Text_t* AutoSaveFile,Text_t* UnpackedFile,Text_t* AnalyzedFile)
 
   // steering parameters to modify:
   TString unpackProcess("yes");
-  TString unpackStore("yes");
+  TString unpackStore("no");
   TString unpackOverWrite("yes");
+
+  TString caliProcess("yes");
+  TString caliStore("no");
+  TString caliOverWrite("yes");
 
   TString analysisProcess("no");
   TString analysisStore("no");
@@ -27,11 +31,26 @@ void setup(Text_t* AutoSaveFile,Text_t* UnpackedFile,Text_t* AnalyzedFile)
   step->SetErrorStopEnabled(kTRUE);
 
   // Second step
-  step = go4->GetAnalysisStep("Analysis");
-  step->SetProcessEnabled(analysisProcess.BeginsWith("y"));
+  step = go4->GetAnalysisStep("Calibration");
+  step->SetProcessEnabled(caliProcess.BeginsWith("y"));
   // if unpack is disabled, get input from file
   if(unpackProcess.BeginsWith("n")){
     f2 = new TGo4FileSourceParameter(UnpackedFile);
+    step->SetEventSource(f2);
+  }
+  f1 = new TGo4FileStoreParameter(CalibratedFile);
+  f1->SetOverwriteMode(caliOverWrite.BeginsWith("y"));
+  step->SetEventStore(f1);
+  step->SetStoreEnabled(caliStore.BeginsWith("y"));
+  step->SetSourceEnabled(kTRUE);
+  step->SetErrorStopEnabled(kTRUE);
+
+  // Third step
+  step = go4->GetAnalysisStep("Analysis");
+  step->SetProcessEnabled(analysisProcess.BeginsWith("y"));
+  // if cali is disabled, get input from file
+  if(caliProcess.BeginsWith("n")){
+    f2 = new TGo4FileSourceParameter(CalibratedFile);
     step->SetEventSource(f2);
   }
   f1 = new TGo4FileStoreParameter(AnalyzedFile);
@@ -54,11 +73,21 @@ void setup(Text_t* AutoSaveFile,Text_t* UnpackedFile,Text_t* AnalyzedFile)
   printf("       unpackProcess:     %s\n",unpackProcess.Data());
   printf("       unpackStore:       %s file %s\n",unpackStore.Data(),UnpackedFile);
   printf("       unpackOverWrite:   %s\n",unpackOverWrite.Data());
-  printf("       analysisProcess:   %s\n",analysisProcess.Data());
+
+  printf("       caliProcess:   %s\n",caliProcess.Data());
   if(unpackProcess.BeginsWith("n"))
-  printf("       analysisSource:    yes file %s\n",UnpackedFile);
+  printf("       caliSource:    yes file %s\n",UnpackedFile);
   else
-  printf("       analysisSource:    yes from unpack\n");
+  printf("       caliSource:    yes from unpack\n");
+  printf("       caliStore:     %s file %s\n",caliStore.Data(),CalibratedFile);
+  printf("       caliOverWrite: %s\n",caliOverWrite.Data());
+
+  printf("       analysisProcess:   %s\n",analysisProcess.Data());
+  if(caliProcess.BeginsWith("n"))
+  printf("       analysisSource:    yes file %s\n",CalibratedFile);
+  else
+  printf("       analysisSource:    yes from cali\n");
   printf("       analysisStore:     %s file %s\n",analysisStore.Data(),AnalyzedFile);
   printf("       analysisOverWrite: %s\n",analysisOverWrite.Data());
+
 }

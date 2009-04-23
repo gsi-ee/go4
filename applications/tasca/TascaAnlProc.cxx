@@ -10,8 +10,9 @@
 #include "TGo4WinCond.h"
 
 #include "TascaAnlEvent.h"
-#include "TascaUnpackEvent.h"
+#include "TascaCaliEvent.h"
 #include "TascaParameter.h"
+#include "TascaAnalysis.h"
 
 //***********************************************************
 TascaAnlProc::TascaAnlProc()
@@ -50,11 +51,11 @@ TascaAnlProc::~TascaAnlProc()
 void TascaAnlProc::TascaEventAnalysis(TascaAnlEvent* poutevt)
 {
   Int_t ii,i;
-  fInput  = (TascaUnpackEvent*) GetInputEvent();
-  for(ii=0;ii<96;ii++)
-	  for(i=0;i<144;i++){
-		  fStop->Fill(i,ii,fInput->fiStopXL[i]+fInput->fiStopYL[ii]);
-	  }
+  fInput  = (TascaCaliEvent*) GetInputEvent();
+//  for(ii=0;ii<96;ii++)
+//	  for(i=0;i<144;i++){
+//		  fStop->Fill(i,ii,fInput->fiStopXL[i]+fInput->fiStopYL[ii]);
+//	  }
 
   poutevt->SetValid(kFALSE);       // events are not stored until kTRUE is set
 

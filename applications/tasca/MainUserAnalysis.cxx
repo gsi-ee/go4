@@ -64,6 +64,7 @@ Int_t  iarg;              // argument index
 Text_t macro[128];         // input name
 Text_t serv[128];         // input name
 Text_t Unpout[128];          // output root events
+Text_t Calout[128];          // output root events
 Text_t Anlout[128];          // output root events
 Text_t ASfile[128];          // auto save file (batch)
 Text_t filetype[8];       // file type .lmd or .lml
@@ -72,6 +73,7 @@ Text_t *pc,*tmpname,*outname;
 // some defaults:
 strcpy(serv,"Go4AnalysisServer"); // name (servermode only)
 strcpy(Unpout,"Unpacked");
+strcpy(Calout,"Calibrated");
 strcpy(Anlout,"Analyzed");
 strcpy(hostname,"localhost");
 
@@ -92,6 +94,8 @@ strcpy(hostname,"localhost");
    strcat(ASfile,"_AS");
    strncpy(Unpout,outname,110);     // output root file
    strcat(Unpout,"_Unpacked"); // append name of output event object
+   strncpy(Calout,outname,110);     // output root file
+   strcat(Calout,"_Calibrated"); // append name of output event object
    strncpy(Anlout,outname,110);     // output root file
    strcat(Anlout,"_Analysis");   // append name of output event object
    strncpy(serv,argv[2],110);     // input (file with full path)
@@ -159,7 +163,7 @@ else
    if(servermode){
      autorun=kTRUE;
      runningMode = kGUI;
-     cout << "     Analysis running in server mode. GUIs may connect!" << endl;
+     cout << "Tasca> Analysis running in server mode. GUIs may connect!" << endl;
    }
  }
 // Now setup the  analysis itself
@@ -182,15 +186,22 @@ TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages
   if(intype==GO4EV_MBS_FILE)
     unpackstep->SetEventSource(new TGo4MbsFileParameter(serv));
 
+  TGo4StepFactory*  califactory  = new TGo4StepFactory("CaliFact");
+  califactory->DefEventProcessor("Calibration","TascaCaliProc");// object name, class name
+  califactory->DefInputEvent("Unpacked","TascaUnpackEvent"); // object name, class name
+  califactory->DefOutputEvent("Calibrated","TascaCaliEvent"); // object name, class name
+  TGo4AnalysisStep* calistep     = new TGo4AnalysisStep("Calibration",califactory,0,0,0);
+  analysis->AddAnalysisStep(calistep);
+
   TGo4StepFactory*  analysisfactory  = new TGo4StepFactory("AnalysisFact");
   analysisfactory->DefEventProcessor("Analysis","TascaAnlProc");// object name, class name
-  analysisfactory->DefInputEvent("Unpacked","TascaUnpackEvent"); // object name, class name
+  analysisfactory->DefInputEvent("Calibrated","TascaCaliEvent"); // object name, class name
   analysisfactory->DefOutputEvent("Analyzed","TascaAnlEvent"); // object name, class name
   TGo4AnalysisStep* analysisstep     = new TGo4AnalysisStep("Analysis",analysisfactory,0,0,0);
   analysis->AddAnalysisStep(analysisstep);
 
 // use macros to set up
-  snprintf(macro,127,".x setup.C(\"%s\",\"%s\",\"%s\")",ASfile,Unpout,Anlout);
+  snprintf(macro,127,".x setup.C(\"%s\",\"%s\",\"%s\",\"%s\")",ASfile,Unpout,Calout,Anlout);
   gROOT->ProcessLine(macro);
 
 
@@ -235,7 +246,7 @@ if(servermode)
      cout << "Tasca> Main created AnalysisClient Instance: "<<client->GetName()<<endl;
    }
 //=================  start root application loop ==========================
-cout << "Run the application loop" << endl;
+cout << "Tasca> Run the application loop" << endl;
 theApp.Run();
 return 0;
 }

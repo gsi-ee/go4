@@ -1,54 +1,54 @@
-#include "TascaUnpackEvent.h"
+#include "TascaCaliEvent.h"
 
 #include "Riostream.h"
 
 #include "TGo4FileSource.h"
-#include "TascaUnpackProc.h"
+#include "TascaCaliProc.h"
 
 
 //***********************************************************
-TascaUnpackEvent::TascaUnpackEvent() :
+TascaCaliEvent::TascaCaliEvent() :
    TGo4EventElement(),fxTascaEP(0),fxTascaFS(0)
 {
 }
 //***********************************************************
-TascaUnpackEvent::TascaUnpackEvent(const char* name) :
+TascaCaliEvent::TascaCaliEvent(const char* name) :
    TGo4EventElement(name),fxTascaEP(0),fxTascaFS(0)
 {
-    cout << "Tasca> TascaUnpackEvent: Create"<< endl;
+    cout << "Tasca> TascaCaliEvent: Create"<< endl;
 }
 //***********************************************************
-TascaUnpackEvent::~TascaUnpackEvent()
+TascaCaliEvent::~TascaCaliEvent()
 {
-    cout << "Tasca> TascaUnpackEvent: Delete"<< endl;
+    cout << "Tasca> TascaCaliEvent: Delete"<< endl;
 }
 //***********************************************************
 
 //-----------------------------------------------------------
-Int_t TascaUnpackEvent::Init()
+Int_t TascaCaliEvent::Init()
 {
   Int_t rev=0;
   //cout << "+++ Init event" << endl;
   Clear();
-  // is it used by Unpack step as output?
-  if(CheckEventSource("TascaUnpackProc")){
-    fxTascaEP = (TascaUnpackProc*)GetEventSource();
-    cout << "Tasca> TascaUnpackEvent init for Unpack step"<< endl;
+  // is it used by Cali step as output?
+  if(CheckEventSource("TascaCaliProc")){
+    fxTascaEP = (TascaCaliProc*)GetEventSource();
+    cout << "Tasca> TascaCaliEvent init for Cali step"<< endl;
   }
-  // or is it used from Cali step as input
+  // or is it used from Analysis step as input
   else if(CheckEventSource("TGo4FileSource")){
     fxTascaFS = (TGo4FileSource*)GetEventSource();
-    cout << "Tasca> TascaUnpackEvent init for Calibration step"<< endl;
+    cout << "Tasca> TascaCaliEvent init for Analysis step"<< endl;
   }
   else          rev=1;
   return rev;
 }
 //-----------------------------------------------------------
-Int_t TascaUnpackEvent::Fill()
+Int_t TascaCaliEvent::Fill()
 {
    Int_t rev=0;
    Clear();
-   if(fxTascaEP)fxTascaEP->TascaUnpack(this);  // user event processing method
+   if(fxTascaEP)fxTascaEP->TascaCalibrate(this);  // user event processing method
    if(fxTascaFS)fxTascaFS->BuildEvent(this); // method from framework to restore event from file
    return rev;
 }

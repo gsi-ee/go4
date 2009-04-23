@@ -10,6 +10,8 @@ TascaPedestals::TascaPedestals(const char* name) : TGo4Parameter(name){
     cout << "Tasca> TascaPedestals: " << name << " created" << endl;
     fbRestore=kFALSE;
     fbSave=kFALSE;
+    fbCalibrate=kFALSE;
+    ffOffset=0;
     fxFile="ped.txt";
     for(UInt_t ix=0;ix<sizeof(ffPedestals)/sizeof(Float_t);++ix)
        ffPedestals[ix]=0;
@@ -82,6 +84,8 @@ Bool_t TascaPedestals::UpdateFrom(TGo4Parameter *pp){
     if(from->fbSave){
     	SavePedestals(fxFile.Data());
     }
+    fbCalibrate=from->fbCalibrate;
+    ffOffset=from->ffOffset;
   }
   else
      cout << "Wrong parameter object: " << pp->ClassName() << endl;

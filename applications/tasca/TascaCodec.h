@@ -2,8 +2,9 @@
 #define TascaCodec_H
 
 #include "TObject.h"
+#include "TGo4Parameter.h"
 
-class TascaCodec
+class TascaCodec : public TGo4Parameter
 {
 public:
 	enum  V785fields {
@@ -32,8 +33,9 @@ public:
 	Detector detector;
 
 	TascaCodec();
-	TascaCodec(UInt_t v);
+	TascaCodec(const char* name);
 	virtual ~TascaCodec();
+    Bool_t  UpdateFrom(TGo4Parameter *);
 
 	// Setup matrix connecting channels with ADCs.
 	// Called once.
@@ -60,6 +62,7 @@ public:
 	// Fill table of multiplex indices from the four registers.
 	// Called per event
 	void setMpxIndex(UInt_t reg0, UInt_t reg1, UInt_t reg2, UInt_t reg3);
+	UInt_t * getMpxIndex(){return fiMpxIndex;}
 	// return index of stripe from ADC number
 	UInt_t getIndex(UInt_t adc){return fiMap[adc][fiMpxIndex[adc]];}
 	Bool_t isTof()     {return (fiReg0 & 0x40000000) == 0x40000000;}
@@ -76,7 +79,9 @@ public:
 	UInt_t getVetonoAdc()  {return VETO_SIZE;}
 
 private:
-	UInt_t test,fiValue;
+	UInt_t testmaxi;
+	UInt_t test;
+	UInt_t fiValue;
 	UInt_t fiReg0, fiReg1, fiReg2, fiReg3;
 	V785fields fields;
     UInt_t fiDetector[40]; // the detector number for ADC channels
