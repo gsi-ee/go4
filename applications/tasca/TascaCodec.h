@@ -45,38 +45,38 @@ public:
 	void printDetector(UInt_t detector, const char *name);
 	void printDetector(UInt_t *adc, UInt_t n);
 	// Decoding the V875
-	UInt_t getAddress(){return (fiValue >> GEO_OFF) & GEO;}
-	UInt_t getCrate(){return (fiValue >> CRATE_OFF) & CRATE;}
-	UInt_t getCnt(){return (fiValue >> CNT_OFF) & CNT;}
-	UInt_t getChan(){return (fiValue >> CHAN_OFF) & CHAN;}
-	UInt_t getAdc(){return (fiValue >> ADC_OFF) & ADC;}
-	UInt_t getCount(){return (fiValue >> EVCNT_OFF) & EVCNT;}
-	Bool_t isHeader()  {return (fiValue & TYPE) == HEADER ;}
-	Bool_t isData()    {return (fiValue & TYPE) == DATA;}
-	Bool_t isEob()     {return (fiValue & TYPE) == EOB;}
-	Bool_t isValid()   {return (fiValue & TYPE) != UNVALID;}
-	Bool_t isUnder()   {return (fiValue & UNDER) == UNDER;}
-	Bool_t isOver()    {return (fiValue & OVER) == OVER;}
+	inline UInt_t getAddress(){return (fiValue >> GEO_OFF) & GEO;}
+	inline UInt_t getCrate(){return (fiValue >> CRATE_OFF) & CRATE;}
+	inline UInt_t getCnt(){return (fiValue >> CNT_OFF) & CNT;}
+	inline UInt_t getChan(){return (fiValue >> CHAN_OFF) & CHAN;}
+	inline UInt_t getAdc(){return (fiValue >> ADC_OFF) & ADC;}
+	inline UInt_t getCount(){return (fiValue >> EVCNT_OFF) & EVCNT;}
+	inline Bool_t isHeader()  {return (fiValue & TYPE) == HEADER ;}
+	inline Bool_t isData()    {return (fiValue & TYPE) == DATA;}
+	inline Bool_t isEob()     {return (fiValue & TYPE) == EOB;}
+	inline Bool_t isValid()   {return (fiValue & TYPE) != UNVALID;}
+	inline Bool_t isUnder()   {return (fiValue & UNDER) == UNDER;}
+	inline Bool_t isOver()    {return (fiValue & OVER) == OVER;}
     // Store 32 bit value of ADC which is used for the getter methods.
-	void setValue(UInt_t v){fiValue=v;}
+	inline void setValue(UInt_t v){fiValue=v;}
 	// Fill table of multiplex indices from the four registers.
 	// Called per event
 	void setMpxIndex(UInt_t reg0, UInt_t reg1, UInt_t reg2, UInt_t reg3);
-	UInt_t * getMpxIndex(){return fiMpxIndex;}
+	inline UInt_t * getMpxIndex(){return fiMpxIndex;}
 	// return index of stripe from ADC number
-	UInt_t getIndex(UInt_t adc){return fiMap[adc][fiMpxIndex[adc]];}
-	Bool_t isTof()     {return (fiReg0 & 0x40000000) == 0x40000000;}
-	Bool_t isChopper() {return (fiReg0 & 0x80000000) == 0x80000000;}
-	Bool_t isMacro()   {return (fiReg1 & 0x40000000) == 0x40000000;}
-	Bool_t isMicro()   {return (fiReg1 & 0x80000000) == 0x80000000;}
-	UInt_t getStopXAdc(UInt_t adc){return fiStopX[adc];}
-	UInt_t getStopYAdc(UInt_t adc){return fiStopY[adc];}
-	UInt_t getBackAdc(UInt_t adc) {return fiBack[adc];}
-	UInt_t getVetoAdc(UInt_t adc) {return fiVeto[adc];}
-	UInt_t getStopXnoAdc() {return STOPX_SIZE;}
-	UInt_t getStopYnoAdc() {return STOPY_SIZE;}
-	UInt_t getBacknoAdc()  {return BACK_SIZE;}
-	UInt_t getVetonoAdc()  {return VETO_SIZE;}
+	inline UInt_t getIndex(UInt_t adc){return fiMap[adc][fiMpxIndex[adc]];}
+	inline Bool_t isTof()     {return (fiReg0 & 0x40000000) == 0x40000000;}
+	inline Bool_t isChopper() {return (fiReg0 & 0x80000000) == 0x80000000;}
+	inline Bool_t isMacro()   {return (fiReg1 & 0x40000000) == 0x40000000;}
+	inline Bool_t isMicro()   {return (fiReg1 & 0x80000000) == 0x80000000;}
+	inline UInt_t getStopXAdc(UInt_t adc){return fiStopX[adc];}
+	inline UInt_t getStopYAdc(UInt_t adc){return fiStopY[adc];}
+	inline UInt_t getBackAdc(UInt_t adc) {return fiBack[adc];}
+	inline UInt_t getVetoAdc(UInt_t adc) {return fiVeto[adc];}
+	inline UInt_t getStopXnoAdc() {return STOPX_SIZE;}
+	inline UInt_t getStopYnoAdc() {return STOPY_SIZE;}
+	inline UInt_t getBacknoAdc()  {return BACK_SIZE;}
+	inline UInt_t getVetonoAdc()  {return VETO_SIZE;}
 
 private:
 	UInt_t testmaxi;

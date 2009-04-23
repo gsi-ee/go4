@@ -26,6 +26,9 @@ TascaAnlProc::TascaAnlProc(const char* name) :
 {
   cout << "Tasca> TascaAnlProc: Create" << endl;
   //// init user analysis objects:
+
+  anl=(TascaAnalysis *)TGo4Analysis::Instance();
+
   fParPed = (TascaParameter*)  GetParameter("TascaParPed");
 
   // we must check, if the histograms have been restored from auto-save file
@@ -52,10 +55,10 @@ void TascaAnlProc::TascaEventAnalysis(TascaAnlEvent* poutevt)
 {
   Int_t ii,i;
   fInput  = (TascaCaliEvent*) GetInputEvent();
-//  for(ii=0;ii<96;ii++)
-//	  for(i=0;i<144;i++){
-//		  fStop->Fill(i,ii,fInput->fiStopXL[i]+fInput->fiStopYL[ii]);
-//	  }
+  for(ii=0;ii<96;ii++)
+	  for(i=0;i<144;i++){
+		  fStop->Fill(i,ii,fInput->ffStopXL[i]+fInput->ffStopYL[ii]);
+	  }
 
   poutevt->SetValid(kFALSE);       // events are not stored until kTRUE is set
 

@@ -39,6 +39,7 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   Text_t chis[32];
   Text_t chead[64];
 
+  anl=(TascaAnalysis *)TGo4Analysis::Instance();
   fPedestals   = (TascaPedestals *) GetParameter("Pedestals");
   if(fPedestals==0){
 	  fPedestals = new TascaPedestals("Pedestals");
@@ -52,92 +53,48 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   codec->setMap(false);
   evcount=0;
 
-  // Creation of histograms:
+// Creation of histograms:
+// The anl function gets the histogram or creates it
   for(i =0;i<96;i++)
   {
-	snprintf(chis,15,"Adc%02d",i);
+	snprintf(chis,15,"Adc_%02d",i);
 	if(i > 63)      snprintf(chead,63,"Mod 11 chan %2d",i-64);
 	else if(i > 31) snprintf(chead,63,"Mod 09 chan %2d",i-32);
 	else            snprintf(chead,63,"Mod 07 chan %2d",i);
-	fAdc[i] = anl->CreateTH1I("AllAdc",chis,chead,5000,0.5,5000.5);
+	fAdc[i] = anl->CreateTH1I("Raw/AllAdc",chis,chead,5000,0.5,5000.5);
   }
   for(i =0;i<8;i++)
   {
-		snprintf(chis,15,"GammaE%d",i);
+		snprintf(chis,15,"GammaE_%d",i);
 		snprintf(chead,63,"Gamma E raw %d",i);
-		fGammaE[i] = anl->CreateTH1I ("GammaRaw",chis,chead,5000,0.5,5000.5);
-		snprintf(chis,15,"GammaT%d",i);
+		fGammaE[i] = anl->CreateTH1I ("Raw/Gamma",chis,chead,9000,0.5,9000.5);
+		snprintf(chis,15,"GammaT_%d",i);
 		snprintf(chead,63,"Gamma T raw %d",i);
-		fGammaT[i] = anl->CreateTH1I ("GammaRaw",chis,chead,5000,0.5,5000.5);
+		fGammaT[i] = anl->CreateTH1I ("Raw/Gamma",chis,chead,5000,0.5,5000.5);
   }
-	fPedestal  = anl->CreateTH1I (0,"Pedestals","Pedestals",96,-0.5,95.5);
-	fContent   = anl->CreateTH1I (0,"Contents","Contents",96,-0.5,95.5);
+	fPedestal  = anl->CreateTH1I ("Raw","Pedestals","Pedestals",96,-0.5,95.5);
+	fContent   = anl->CreateTH1I ("Raw","Contents","Contents",96,-0.5,95.5);
 	fTree      = anl->CreateTH1I (0,"Tree","Leaf",5000,0.5,5000.5);
-	fAdcAllRaw = anl->CreateTH1I (0,"AdcAllRaw","All adc raw",5000,0.5,5000.5);
-	fAdcAllCal = anl->CreateTH1I (0,"AdcAllCal","All adc cal",5000,0.5,5000.5);
+	fAdcAllRaw = anl->CreateTH1I ("Raw","AdcAllRaw","All adc raw",5000,0.5,5000.5);
+	fAdcAllCal = anl->CreateTH1I ("Raw","AdcAllCal","All adc cal",5000,0.5,5000.5);
 
-// pictures
-  if (GetPicture("M1raw")==0)
-    {
-      Geraw = new TGo4Picture("Geraw","Gamma raw",8,2);
-      M1raw = new TGo4Picture("M1raw","Module 8",8,4);
-      M2raw = new TGo4Picture("M2raw","Module 10",8,4);
-      M3raw = new TGo4Picture("M3raw","Module 12",8,4);
-      AddPicture(Geraw);
-      AddPicture(M1raw);
-      AddPicture(M2raw);
-      AddPicture(M3raw);
-      Int_t m=0;
-      // 4 columns, 8 rows
-      // enlarge stats box and position in [0:1] coordinates
-      // show only Mean value (ROOT manual "Statistics Display")
-      for(i=0;i<8;i++){
-    	  Geraw->Pic(i,0)->AddH1(fGammaE[i]);
-          Geraw->Pic(i,0)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
-          Geraw->Pic(i,0)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
-          Geraw->Pic(i,0)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
-          Geraw->Pic(i,0)->SetHisTitle(false);
-          Geraw->Pic(i,0)->SetTitleAttr(0.1,0.75,0.7,0.9);
-
-    	  Geraw->Pic(i,1)->AddH1(fGammaT[i]);
-          Geraw->Pic(i,1)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
-          Geraw->Pic(i,1)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
-          Geraw->Pic(i,1)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
-          Geraw->Pic(i,1)->SetHisTitle(false);
-          Geraw->Pic(i,1)->SetTitleAttr(0.1,0.75,0.7,0.9);
-
-    	  for(k=0;k<4;k++){
-    	  M1raw->Pic(i,k)->AddH1(fAdc[m]);
-          M1raw->Pic(i,k)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
-          M1raw->Pic(i,k)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
-          M1raw->Pic(i,k)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
-          M1raw->Pic(i,k)->SetHisTitle(false);
-          M1raw->Pic(i,k)->SetTitleAttr(0.1,0.75,0.7,0.9);
-
-    	  M2raw->Pic(i,k)->AddH1(fAdc[m+32]);
-          M2raw->Pic(i,k)->SetStatsAttr(0.1,0.6,0.4,0.9,101);
-          M2raw->Pic(i,k)->SetAxisLabelFontSize(0, 0.07, 0);
-          M2raw->Pic(i,k)->SetAxisLabelFontSize(1, 0.07, 0);
-          M2raw->Pic(i,k)->SetHisTitle(false);
-          M2raw->Pic(i,k)->SetTitleAttr(0.1,0.75,0.7,0.9);
-
-    	  M3raw->Pic(i,k)->AddH1(fAdc[m+64]);
-          M3raw->Pic(i,k)->SetStatsAttr(0.1,0.6,0.4,0.9,101);
-          M3raw->Pic(i,k)->SetAxisLabelFontSize(0, 0.07, 0);
-          M3raw->Pic(i,k)->SetAxisLabelFontSize(1, 0.07, 0);
-          M3raw->Pic(i,k)->SetHisTitle(false);
-          M3raw->Pic(i,k)->SetTitleAttr(0.1,0.75,0.7,0.9);
-    	  m++;
-      }}
-    }
-  else
-    {
-      Geraw = GetPicture("Geraw");
-      M1raw = GetPicture("M1raw");
-      M2raw = GetPicture("M2raw");
-      M3raw = GetPicture("M3raw");
-      cout << "Tasca> TascaUnpackProc: Restored pictures from autosave" << endl;
-    }
+// pictures rows, columns
+    Geraw = anl->CreatePicture("Raw","Gamma","Gamma raw",8,2);
+    M1raw = anl->CreatePicture("Raw","V785_1","Module 7",8,4);
+    M2raw = anl->CreatePicture("Raw","V785_2","Module 9",8,4);
+    M3raw = anl->CreatePicture("Raw","V785_3","Module 11",8,4);
+  Int_t m=0;
+  // enlarge stats box and position in [0:1] coordinates
+  // show only Mean value (ROOT manual "Statistics Display")
+  for(i=0;i<8;i++){ // 8 rows
+	  anl->SetPicture(Geraw,fGammaE[i],i,0,1);
+	  anl->SetPicture(Geraw,fGammaT[i],i,1,1);
+	  for(k=0;k<4;k++){ // 4 columns
+		  anl->SetPicture(M1raw,fAdc[m],i,k,1);
+		  anl->SetPicture(M2raw,fAdc[m+32],i,k,1);
+		  anl->SetPicture(M3raw,fAdc[m+64],i,k,1);
+	  m++;
+  }}
 }
 //***********************************************************
 TascaUnpackProc::~TascaUnpackProc()
