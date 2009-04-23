@@ -2,8 +2,6 @@ QT3ROOT_DIR       = $(GO4SYS)/qt3/Go4QtRoot
 
 QT3ROOT_LIBNAME =  $(LIB_PREFIX)Go4Qt3Root
 
-QT3ROOT_VERSUF = 3.5.0
-
 QT3ROOT_S       =  $(QT3ROOT_DIR)/qrootapplication.cpp \
                    $(QT3ROOT_DIR)/tqrootguifactory.cpp \
                    $(QT3ROOT_DIR)/tqcanvasimp.cpp \
@@ -27,7 +25,7 @@ QT3ROOT_MOCS    =  $(QT3ROOT_DIR)/moc_tqrootcanvas.cpp \
 
 QT3ROOT_MOCO    = $(QT3ROOT_MOCS:.cpp=.$(ObjSuf))
 
-QT3ROOT_LIB     =  $(GO4DLLPATH)/$(QT3ROOT_LIBNAME).$(DllSuf).$(QT3ROOT_VERSUF)
+QT3ROOT_LIB     =  $(GO4DLLPATH)/$(QT3ROOT_LIBNAME).$(DllSuf)
 
 QT3ROOT_PUBH    = $(patsubst $(QT3ROOT_DIR)/%.h, $(GO4SYS)/include/%.h, $(QT3ROOT_H))
 
@@ -52,13 +50,13 @@ $(GO4SYS)/include/%.h: $(QT3ROOT_DIR)/%.h
 endif
 
 $(QT3ROOT_LIB):    $(QT3ROOT_O) $(QT3ROOT_MOCO)
-	@$(MakeQLib) $(QT3ROOT_VERSUF) $(QT3ROOT_LIBNAME) "$(QT3ROOT_O) $(QT3ROOT_MOCO)" $(GO4DLLPATH)
+	@$(MakeLibrary) $(QT3ROOT_LIBNAME) "$(QT3ROOT_O) $(QT3ROOT_MOCO)" $(GO4DLLPATH)
 
 qt3-interface: $(QT3ROOT_LIB)
 
 clean-qt3-interface:
 	@rm -f $(QT3ROOT_O) $(QT3ROOT_MOCO)
-	@$(CleanQLib) $(QT3ROOT_VERSUF) $(QT3ROOT_LIBNAME) $(GO4DLLPATH)
+	@$(CleanLib) $(QT3ROOT_LIBNAME) $(GO4DLLPATH)
 	@rm -f $(QT3ROOT_MOCS) $(QT3ROOT_DEP) $(QT3ROOT_PUBH)
 
 $(QT3ROOT_MOCS): $(QT3ROOT_DIR)/moc_%.cpp: $(QT3ROOT_DIR)/%.h

@@ -26,7 +26,7 @@ USERGUI4_FS         := $(USERGUI4_FORMS:.ui=.cpp)
 #USERGUI4_UI_H        = $(patsubst $(USERGUI4_FORMS)/%.ui,$(USERGUI4_FORMS)/ui_%.h,$(USERGUI4_FORMS))
 
 
-USERGUI4_QTLIB       = $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).$(DllSuf).$(VERSSUF)
+USERGUI4_QTLIB       = $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).$(DllSuf)
 
 
 # used in the main Makefile

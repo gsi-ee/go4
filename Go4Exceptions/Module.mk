@@ -15,8 +15,6 @@ EXCEPT_O           = $(EXCEPT_S:.$(SrcSuf)=.$(ObjSuf))
 
 EXCEPT_DEP         =  $(EXCEPT_O:.$(ObjSuf)=.$(DepSuf))
 
-#EXCEPT_LIB         =  $(GO4DLLPATH)/$(EXCEPT_LIBNAME).$(DllSuf).$(VERSSUF)
-
 # used in the main Makefile
 
 ALLHDRS +=  $(patsubst $(EXCEPT_DIR)/%.h, $(GO4SYS)/include/%.h, $(EXCEPT_H) $(EXCEPT_DIR)/Go4Exceptions.h)

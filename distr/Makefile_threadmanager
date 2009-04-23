@@ -3,12 +3,10 @@ include Makefile.config
 GO4PACKAGE = go4threadmanager
 
 GO4BASE_LIBNAME = $(LIB_PREFIX)Go4Base
-GO4BASE_SLIB    = $(GO4DLLPATH)/$(GO4BASE_LIBNAME).$(DllSuf)
-GO4BASE_LIB     = $(GO4BASE_SLIB).$(VERSSUF)
+GO4BASE_LIB     = $(GO4DLLPATH)/$(GO4BASE_LIBNAME).$(DllSuf)
 
 THRDMNGR_LIBNAME= $(LIB_PREFIX)Go4ThreadManager
-THRDMNGR_SLIB   = $(GO4DLLPATH)/$(THRDMNGR_LIBNAME).$(DllSuf)
-THRDMNGR_LIB    = $(THRDMNGR_SLIB).$(VERSSUF)
+THRDMNGR_LIB    = $(GO4DLLPATH)/$(THRDMNGR_LIBNAME).$(DllSuf)
 
 BUILDGO4LIBS = $(GO4BASE_LIB) \
                $(THRDMNGR_LIB)
@@ -18,9 +16,9 @@ MODULES  = Go4Exceptions Go4LockGuard Go4Log \
 
 EXMODULES = Go4ThreadManagerExample
 
-all:       libs map examples
+all:       libs examples
 
-.PHONY:         all libs examples map \
+.PHONY:         all libs examples \
                 clean clean-ex clean-bak clean-obj package \
                 $(patsubst %,all-%,$(MODULES)) \
                 $(patsubst %,clean-%,$(MODULES)) \
@@ -28,19 +26,17 @@ all:       libs map examples
 
 include $(patsubst %,%/Module.mk,$(MODULES))
 
-build/dummy.d: Makefile $(ALLHDRS) 
+build/dummy.d: Makefile $(ALLHDRS) $(GO4MAP) 
 	@(if [ ! -f $@ ] ; then touch $@; fi)
 	@(if [ ! -f lib ] ; then mkdir -p lib; fi)
 	@(if [ ! -f bin ] ; then mkdir -p bin; fi)
 
+$(GO4MAP):
+   @(if [ ! -f $@ ] ; then touch $@; fi)
+
 libs:           $(BUILDGO4LIBS)    
 
 examples:       $(patsubst %,all-%,$(EXMODULES)) $(EXAMPLEEXECS)
-
-map:            $(GO4MAP)
-ifndef DOMAP
-	@echo "Map for thread manager classes can not be generated with ROOT $(shell root-config --version)"
-endif
 
 clean:     $(patsubst %,clean-%,$(MODULES))
 	@rm -f $(GO4MAP)
@@ -63,31 +59,17 @@ GO4BASE_O = $(LOCKGRD_O) $(LOCKGRD_DO) \
             $(GO4LOG_O) $(GO4LOG_DO) \
             $(EXCEPT_O)
 
+GO4BASE_LINKDEFS = $(LOCKGRD_LINKDEF) \
+                   $(GO4LOG_LINKDEF) \
+                   $(COMBASE_LINKDEF) \
+                   $(STATBASE_LINKDEF) \
+                   $(CONDBASE_LINKDEF)
+
 $(GO4BASE_LIB):   $(GO4BASE_O)
-		@$(MakeLib) $(GO4BASE_LIBNAME) "$(GO4BASE_O)" $(GO4DLLPATH)
+		@$(MakeLibrary) $(GO4BASE_LIBNAME) "$(GO4BASE_O)" $(GO4DLLPATH) "$(GO4BASE_LINKDEFS)" "$(BASIC_LIB_DEP)"
 
 $(THRDMNGR_LIB):   $(THRDMNGR_O) $(THRDMNGR_DO)
-		@$(MakeLib) $(THRDMNGR_LIBNAME) "$(THRDMNGR_O) $(THRDMNGR_DO)" $(GO4DLLPATH)
-
-ifdef DOMAP
-
-GO4MAPDEPLIST = $(GO4SYS)/Go4LockGuard/Go4LockGuardLinkDef.h \
-                $(GO4SYS)/Go4Log/Go4LogLinkDef.h \
-                $(GO4SYS)/Go4ThreadManager/Go4ThreadManagerLinkDef.h
-
-GO4MAPDEPLIBS = $(GO4BASE_LIB) $(THRDMNGR_LIB)
-                
-$(GO4MAP): $(GO4MAPDEPLIST) $(GO4MAPDEPLIBS)
-	@rm -f $(GO4MAP)
-	@echo "Producing $(GO4MAP) file"
-	@$(MakeMap) $(GO4MAP) $(GO4BASE_SLIB) $(GO4SYS)/Go4LockGuard/Go4LockGuardLinkDef.h "$(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(GO4BASE_SLIB) $(GO4SYS)/Go4Log/Go4LogLinkDef.h "$(BASIC_LIB_DEP)"
-	@$(MakeMap) $(GO4MAP) $(THRDMNGR_SLIB) $(GO4SYS)/Go4ThreadManager/Go4ThreadManagerLinkDef.h "$(GO4BASE_SLIB) $(BASIC_LIB_DEP)"
-	@echo "Map of go4 thread manager classes is done"
-else
-$(GO4MAP):
-	@echo "Go4 thread manager classes map can not be generated"
-endif
+		@$(MakeLibrary) $(THRDMNGR_LIBNAME) "$(THRDMNGR_O) $(THRDMNGR_DO)" $(GO4DLLPATH) $(THRDMNGR_LINKDEF) "$(GO4BASE_LIB) $(BASIC_LIB_DEP)"
 
 include Makefile.rules
 

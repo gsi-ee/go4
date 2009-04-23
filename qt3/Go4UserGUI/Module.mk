@@ -24,7 +24,7 @@ USERGUI3_FORMSI     := $(wildcard $(USERGUI3_DIR)/*.ui.h)
 USERGUI3_FH         := $(USERGUI3_FORMS:.ui=.h)
 USERGUI3_FS         := $(USERGUI3_FORMS:.ui=.cpp)
 
-USERGUI3_QTLIB       = $(USERGUI3_LIBDIR)/$(USERGUI3_QTLIBNAME).$(DllSuf).$(VERSSUF)
+USERGUI3_QTLIB      = $(USERGUI3_LIBDIR)/$(USERGUI3_QTLIBNAME).$(DllSuf)
 
 
 # used in the main Makefile
