@@ -331,7 +331,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
 
    go4sett->restoreGeometry(this);
 
-   MakeStyleSlot(go4sett->getAppStyle());
+   QApplication::setStyle(go4sett->getAppStyle());
 
    faCrosshair->setChecked(go4sett->getPadCrosshair());
    faEventstatus->setChecked(go4sett->getPadEventStatus());
@@ -451,7 +451,7 @@ void TGo4MainWindow::AddSettingMenu()
    QActionGroup *ag = new QActionGroup(this);
    ag->setExclusive( TRUE );
    QSignalMapper *styleMapper = new QSignalMapper( this );
-   connect(styleMapper, SIGNAL(mapped(const QString&)), this, SLOT(SaveStyleSlot(const QString&)));
+   connect(styleMapper, SIGNAL(mapped(const QString&)), this, SLOT(SetStyleSlot(const QString&)));
 
    QStringList list = QStyleFactory::keys();
    list.sort();
@@ -1181,62 +1181,25 @@ void TGo4MainWindow::ChangeFontSlot()
       }
 }
 
-
-
-void TGo4MainWindow::SaveStyleSlot(const QString &style)
+void TGo4MainWindow::SetStyleSlot(const QString &style)
 {
-   //cout <<"SaveStyleSlot for "<<style.ascii() << endl;
+   QString infostring="Style "+style+" was selected.\n";
+   infostring += "One can try to apply it immediately, but Qt crashed very often at that place :(\n";
+   infostring += "One can save that style in settings and it will be applied next time Go4 is started";
+
+   int res = QMessageBox::question( this, "Go4 GUI", infostring,
+         QMessageBox::Apply | QMessageBox::Save | QMessageBox::Cancel ,
+         QMessageBox::Save);
+
+   if (res == QMessageBox::Cancel) return;
+
+   // save settings anyway
    go4sett->setAppStyle(style);
    delete go4sett;
    go4sett = new TGo4QSettings;
-   QString infostring="Style "+style+" was saved to settings and will be activated on next start. Exit Go4 for restart now?";
-   if(QMessageBox::question( this, "Go4 GUI", infostring,
-         QMessageBox::Yes | QMessageBox::No ,
-         QMessageBox::Yes) != QMessageBox::Yes )
-            {
-               return;
-            }
-   close();
-}
 
-
-void TGo4MainWindow::MakeStyleSlot(const QString &style)
-{
-   cout <<"Activating style "<<style.ascii()<< " from settings." << endl;
-   QApplication::setStyle(style);
-   if(style == "Platinum") {
-       QPalette p( QColor( 239, 239, 239 ) );
-       QApplication::setPalette( p, TRUE );
-       QApplication::setFont(QApplication::font(), TRUE);
-   } else if(style == "Windows") {
-       QApplication::setFont(QApplication::font(), TRUE);
-   } else if(style == "CDE") {
-       QPalette p( QColor( 75, 123, 130 ) );
-       p.setColor( QPalette::Active, QColorGroup::Base, QColor( 55, 77, 78 ) );
-       p.setColor( QPalette::Inactive, QColorGroup::Base, QColor( 55, 77, 78 ) );
-       p.setColor( QPalette::Disabled, QColorGroup::Base, QColor( 55, 77, 78 ) );
-       p.setColor( QPalette::Active, QColorGroup::Highlight, Qt::white );
-       p.setColor( QPalette::Active, QColorGroup::HighlightedText, QColor( 55, 77, 78 ) );
-       p.setColor( QPalette::Inactive, QColorGroup::Highlight, Qt::white );
-       p.setColor( QPalette::Inactive, QColorGroup::HighlightedText, QColor( 55, 77, 78 ) );
-       p.setColor( QPalette::Disabled, QColorGroup::Highlight, Qt::white );
-       p.setColor( QPalette::Disabled, QColorGroup::HighlightedText, QColor( 55, 77, 78 ) );
-       p.setColor( QPalette::Active, QColorGroup::Foreground, Qt::white );
-       p.setColor( QPalette::Active, QColorGroup::Text, Qt::white );
-       p.setColor( QPalette::Active, QColorGroup::ButtonText, Qt::white );
-       p.setColor( QPalette::Inactive, QColorGroup::Foreground, Qt::white );
-       p.setColor( QPalette::Inactive, QColorGroup::Text, Qt::white );
-       p.setColor( QPalette::Inactive, QColorGroup::ButtonText, Qt::white );
-       p.setColor( QPalette::Disabled, QColorGroup::Foreground, Qt::lightGray );
-       p.setColor( QPalette::Disabled, QColorGroup::Text, Qt::lightGray );
-       p.setColor( QPalette::Disabled, QColorGroup::ButtonText, Qt::lightGray );
-       QApplication::setPalette( p, TRUE );
-       QApplication::setFont( QFont( "times", QApplication::font().pointSize() ), TRUE );
-   } else if(style == "Motif" || style == "MotifPlus") {
-       QPalette p( QColor( 192, 192, 192 ) );
-       QApplication::setPalette( p, TRUE );
-       QApplication::setFont(QApplication::font(), TRUE );
-   }
+   if (res == QMessageBox::Apply)
+      QApplication::setStyle(style);
 }
 
 void TGo4MainWindow::StatusMessage(const QString& mess)

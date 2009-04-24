@@ -87,8 +87,7 @@ class TGo4MainWindow : public Q3MainWindow {
       void MinAllWindows();
       void SaveSettingsSlot();
       void ChangeFontSlot();
-      void MakeStyleSlot(const QString&);
-      void SaveStyleSlot(const QString&);
+      void SetStyleSlot(const QString&);
       void windowsMenuActivated( int id );
       void ForseCloseSlot();
 

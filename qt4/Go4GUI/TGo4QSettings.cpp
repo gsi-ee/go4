@@ -81,7 +81,7 @@ void TGo4QSettings::setBasicSettings()
 void TGo4QSettings::getBasicSettings()
 {
 //   QString AppStyle = readEntry(GetSettingsName()+"/Style/AppStyle", "windows");
-//   MakeStyleSlot(AppStyle);
+//   QApplication::setStyle(AppStyle);
 
 //   QFont font;
 //   font.fromString(readEntry(GetSettingsName()+"/Font", "Arial,11,-1,5,50,0,0,0,0,0"));

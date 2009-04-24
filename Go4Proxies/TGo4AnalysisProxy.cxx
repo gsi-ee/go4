@@ -1022,9 +1022,11 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
 
    launchcmd = "";
 
-// formatstrings in etc/Go4LaunchClientPrefs.txt have been changed
+// format strings in etc/Go4LaunchClientPrefs.txt have been changed
 // to pass go4sys:rootsys instead of rootsys (9 args only!!!)
 // Accordingly, the startup scripts are changed to set GO4SYS and ROOTSYS from $1
+
+// Change simple syntax back - one can use ${10} to treat arguments number bigger than 9
 
    switch(konsole) {
      case 2: { // xterm
