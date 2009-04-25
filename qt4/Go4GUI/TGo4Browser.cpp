@@ -1,7 +1,5 @@
 #include "TGo4Browser.h"
 
-#include <Q3ListView>
-#include <Q3DragObject>
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QTimer>
@@ -9,6 +7,7 @@
 #include <QToolTip>
 #include <QMenu>
 #include <QSignalMapper>
+#include <QHeaderView>
 
 #include "Riostream.h"
 #include "TClass.h"
@@ -21,7 +20,6 @@
 #include "TGo4Iter.h"
 #include "TGo4BrowserProxy.h"
 #include "QGo4BrowserListView.h"
-#include "QGo4BrowserItem.h"
 #include "TGo4AnalysisProxy.h"
 #include "TGo4HServProxy.h"
 #include "TGo4QSettings.h"
@@ -33,48 +31,68 @@ const int ColumnWidths[NColumns] = { 150, 40, 120, 90, 60, 100, 50 };
 const char* ColumnNames[NColumns] = { "Name", "Flags", "Info", "Date", "Time", "Class", "Size" };
 const int ColumnAllign[NColumns] = { Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft, Qt::AlignRight };
 
+QTreeWidgetItem* nextSibling(QTreeWidgetItem* item)
+{
+	if (item==0) return 0;
+
+   QTreeWidgetItem* prnt = item->parent();
+   if (prnt==0) prnt = item->treeWidget()->invisibleRootItem();
+	if (prnt==0) return 0;
+
+	int indx = prnt->indexOfChild(item) + 1;
+	if (indx >= prnt->childCount()) return 0;
+	return prnt->child(indx);
+}
+
+
 TGo4Browser::TGo4Browser(QWidget *parent, const char* name)
          : QGo4Widget(parent,name)
 {
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
 
    setAcceptDrops(false);
    setCanDestroyWidget(FALSE);
 
    fbUpdateTimerActive = false;
 
-   ListView->setSorting(-1);
-   ListView->setSelectionMode(Q3ListView::Extended);
+   ListView->setSortingEnabled(false);
+   ListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
    ListView->setAcceptDrops(false);
    ListView->viewport()->setAcceptDrops(true);
 
-   for(int indx=0;indx<NColumns;indx++) {
-      fIndexes[indx] = indx;
+   ListView->setRootIsDecorated(false);
 
+   // ListView->setDragEnabled(true);
+
+   for(int indx=0;indx<NColumns;indx++) {
       int width = -1;
-      if ((indx==0) || (indx==2))
-        width = ColumnWidths[indx];
+      if ((indx==0) || (indx==2)) width = ColumnWidths[indx];
       width = go4sett->getBrowserColumn(ColumnNames[indx], width);
       fVisibleColumns[indx] = width>0;
-      if (fVisibleColumns[indx])
-         ListView->addColumn(ColumnNames[indx], width);
+
+   	ListView->headerItem()->setText(indx, ColumnNames[indx]);
+
+   	ListView->header()->setSectionHidden(indx, ! fVisibleColumns[indx]);
+   	ListView->headerItem()->setTextAlignment(indx, ColumnAllign[indx]);
+
+   	ListView->header()->resizeSection(indx, width>0 ? width : ColumnWidths[indx]);
    }
 
    // not in .ui file while designer brakes this connection
-   connect(ListView, SIGNAL(RequestDragObject(Q3DragObject**)),
-           this, SLOT(RequestDragObjectSlot(Q3DragObject**)));
+   connect(ListView, SIGNAL(RequestDragObject(QDrag**)),
+           this, SLOT(RequestDragObjectSlot(QDrag**)));
 
-   connect(ListView, SIGNAL(ItemDropAccept(void*, void*, bool*)),
-           this, SLOT(ItemDropAcceptSlot(void*, void*, bool*)));
+//   connect(ListView, SIGNAL(ItemDropAccept(void*, void*, bool*)),
+//           this, SLOT(ItemDropAcceptSlot(void*, void*, bool*)));
 
    connect(ListView, SIGNAL(ItemDropProcess(void*, void*)),
            this, SLOT(ItemDropProcessSlot(void*, void*)));
 
-   connect(ListView->header(), SIGNAL(sizeChange(int, int, int)),
-           this, SLOT(HeaderSizeChanged(int, int, int)));
+   connect(ListView->header(), SIGNAL(sectionResized(int, int, int)),
+           this, SLOT(HeaderSectionResizedSlot(int, int, int)));
+
+   connect(ListView->header(), SIGNAL(customContextMenuRequested(const QPoint &)),
+           this, SLOT(Header_customContextMenuRequested(const QPoint &)));
 
    QToolTip::add(ListView->header(),
      QString("You can change selected browser columns\n") +
@@ -82,6 +100,9 @@ TGo4Browser::TGo4Browser(QWidget *parent, const char* name)
              "m - monitored,\ns - static,\n" +
              "d - can be deleted,\np - protected against delete\n" +
              "r - can not be reset (read only),\nw - can be reset");
+
+   ListView->setContextMenuPolicy(Qt::CustomContextMenu);
+   ListView->header()->setContextMenuPolicy(Qt::CustomContextMenu);
 }
 
 
@@ -104,24 +125,30 @@ void TGo4Browser::linkedObjectUpdated(const char* linkname, TObject* obj)
    }
 }
 
-void TGo4Browser::RequestDragObjectSlot(Q3DragObject** res)
+
+void TGo4Browser::RequestDragObjectSlot(QDrag** res)
 {
-   *res = 0;
+	*res = 0;
 
    if (ListView->currentItem()==0) return;
 
    QString fullname = FullItemName(ListView->currentItem());
 
-   *res = new Q3TextDrag(fullname, this);
+	*res = new QDrag(this);
+	QMimeData *mimeData = new QMimeData;
+	mimeData->setText(fullname);
+
+	(*res)->setMimeData(mimeData);
 }
 
-void TGo4Browser::ItemDropAcceptSlot(void* item, void* mime, bool* res)
+void TGo4Browser::ItemDropAcceptSlot(void* item, void* d, bool* res)
 {
    *res = false;
-   QString tgtname = FullItemName((Q3ListViewItem*) item);
+   QString tgtname = FullItemName((QTreeWidgetItem*) item);
+   const QMimeData* mime = (const QMimeData*) d;
+   if (!mime->hasText()) return;
 
-   QString dropname;
-   if (!Q3TextDrag::decode((const QMimeSource*)mime, dropname)) return;
+   QString dropname = mime->text();
 
    TGo4Slot* tgtslot = Browser()->ItemSlot(tgtname);
    TGo4Slot* dropslot = Browser()->ItemSlot(dropname);
@@ -134,12 +161,12 @@ void TGo4Browser::ItemDropAcceptSlot(void* item, void* mime, bool* res)
    *res = true;
 }
 
-void TGo4Browser::ItemDropProcessSlot(void* item, void* e)
+void TGo4Browser::ItemDropProcessSlot(void* item, void* d)
 {
-   QString tgtname = FullItemName((Q3ListViewItem*) item);
-   QDropEvent* event = (QDropEvent*) e;
-   if (!event->mimeData()->hasText()) return;
-   Browser()->ProduceExplicitCopy(event->mimeData()->text(), tgtname, go4sett->getFetchDataWhenCopy());
+   QString tgtname = FullItemName((QTreeWidgetItem*) item);
+   const QMimeData* mime = (const QMimeData*) d;
+   if (!mime->hasText()) return;
+   Browser()->ProduceExplicitCopy(mime->text(), tgtname, go4sett->getFetchDataWhenCopy());
 }
 
 void TGo4Browser::ResetWidget()
@@ -151,7 +178,7 @@ TGo4BrowserProxy* TGo4Browser::BrowserProxy()
    return (TGo4BrowserProxy*) GetLinked("Browser", 0);
 }
 
-QString TGo4Browser::FullItemName(Q3ListViewItem* item)
+QString TGo4Browser::FullItemName(QTreeWidgetItem* item)
 {
    QString name;
    if (item!=0) {
@@ -164,7 +191,7 @@ QString TGo4Browser::FullItemName(Q3ListViewItem* item)
    return name;
 }
 
-Q3ListViewItem* TGo4Browser::FindItemFor(TGo4Slot* slot)
+QTreeWidgetItem* TGo4Browser::FindItemFor(TGo4Slot* slot)
 {
    TGo4BrowserProxy* br = BrowserProxy();
    if (br==0) return 0;
@@ -173,15 +200,15 @@ Q3ListViewItem* TGo4Browser::FindItemFor(TGo4Slot* slot)
    if (!br->BrowserItemName(slot, itemname)) return 0;
    const char* iname = itemname.Data();
 
-   Q3ListViewItemIterator it(ListView);
-   for ( ; it.current(); ++it ) {
-     QString fullname = FullItemName(it.current());
-     if (strcmp(fullname.latin1(), iname)==0) return it.current();
+   QTreeWidgetItemIterator it(ListView);
+   for ( ; *it; ++it ) {
+      QString fullname = FullItemName(*it);
+      if (strcmp(fullname.latin1(), iname)==0) return *it;
    }
    return 0;
 }
 
-void TGo4Browser::SetViewItemProperties(TGo4Slot* itemslot, Q3ListViewItem* item)
+void TGo4Browser::SetViewItemProperties(TGo4Slot* itemslot, QTreeWidgetItem* item)
 {
    if ((itemslot==0) || (item==0)) return;
 
@@ -202,13 +229,16 @@ void TGo4Browser::SetViewItemProperties(TGo4Slot* itemslot, Q3ListViewItem* item
       default: visible = true;
    }
 
-   item->setDragEnabled(TGo4BrowserProxy::CanDragItem(cando));
+   if (TGo4BrowserProxy::CanDragItem(cando))
+      item->setFlags(item->flags() | Qt::ItemIsDragEnabled);
+   else
+   	item->setFlags(item->flags() & ~Qt::ItemIsDragEnabled);
 
-   item->setDropEnabled(false);
+   item->setFlags(item->flags() & ~Qt::ItemIsDropEnabled);
    if (kind==TGo4Access::kndFolder) {
       TGo4Slot* memslot = br->BrowserMemorySlot();
       if (itemslot->IsParent(memslot) || (itemslot==memslot))
-        item->setDropEnabled(true);
+        item->setFlags(item->flags() | Qt::ItemIsDropEnabled);
    }
 
    if (visible)
@@ -218,7 +248,7 @@ void TGo4Browser::SetViewItemProperties(TGo4Slot* itemslot, Q3ListViewItem* item
 
    // make visible all folders, where item is located
    if (visible && (br->GetItemFilter()>0)) {
-      Q3ListViewItem* parent = item->parent();
+      QTreeWidgetItem* parent = item->parent();
       while (parent!=0) {
          parent->setText(NColumns, "visible");
          parent = parent->parent();
@@ -251,24 +281,17 @@ void TGo4Browser::SetViewItemProperties(TGo4Slot* itemslot, Q3ListViewItem* item
          default: flags+="-"; break;
       }
    }
-   if (fIndexes[1]>0)
-     item->setText(fIndexes[1], flags);
-   if (fIndexes[2]>0)
-     item->setText(fIndexes[2], iteminfo);
-   if (fIndexes[3]>0)
-     item->setText(fIndexes[3], br->ItemDate(itemslot));
-   if (fIndexes[4]>0)
-     item->setText(fIndexes[4], br->ItemTime(itemslot));
-   if (fIndexes[5]>0)
-     item->setText(fIndexes[5], classname);
-   if (fIndexes[6]>0) {
-     QString sizelbl = "";
-     int sizeinfo = br->ItemSizeInfo(itemslot);
-     int calcsize = br->GetCalcSize(itemslot);
-     if (sizeinfo>0) sizelbl = QString::number(sizeinfo); else
-     if (calcsize>0) sizelbl = QString("= ") + QString::number(calcsize);
-     item->setText(fIndexes[6], sizelbl);
-   }
+   item->setText(1, flags);
+   item->setText(2, iteminfo);
+   item->setText(3, br->ItemDate(itemslot));
+   item->setText(4, br->ItemTime(itemslot));
+   item->setText(5, classname);
+   QString sizelbl = "";
+   int sizeinfo = br->ItemSizeInfo(itemslot);
+   int calcsize = br->GetCalcSize(itemslot);
+   if (sizeinfo>0) sizelbl = QString::number(sizeinfo); else
+   if (calcsize>0) sizelbl = QString("= ") + QString::number(calcsize);
+   item->setText(6, sizelbl);
 }
 
 void TGo4Browser::updateListViewItems()
@@ -278,27 +301,9 @@ void TGo4Browser::updateListViewItems()
    fbUpdateTimerActive = false;
 
    // first update list of visible columns
-   int indx = 1;
-   int ncolumn = 1;
-   while (indx<NColumns) {
-      if (fVisibleColumns[indx]) {
-         while ((ncolumn<ListView->columns()) &&
-                 ListView->header()->label(ncolumn) != QString(ColumnNames[indx]))
-           ListView->removeColumn(ncolumn);
-         if (ncolumn>=ListView->columns())
-           ListView->addColumn(ColumnNames[indx], ColumnWidths[indx]);
-         fIndexes[indx]=ncolumn;
-         ListView->setColumnAlignment(ncolumn, ColumnAllign[indx]);
-         ncolumn++;
-      } else
-         fIndexes[indx]=-1;
 
-      indx++;
-   }
-
-   // remove unused columns
-   while (ncolumn<ListView->columns())
-      ListView->removeColumn(ncolumn);
+   for(int indx=0;indx<NColumns;indx++)
+   	ListView->header()->setSectionHidden(indx, !fVisibleColumns[indx]);
 
    TGo4BrowserProxy* br = BrowserProxy();
    if (br==0) return;
@@ -312,9 +317,9 @@ void TGo4Browser::updateListViewItems()
 
 //   slot->Print("");
 
-   Q3ListViewItem* curfold = 0;
-   Q3ListViewItem* curitem = ListView->firstChild();
-   Q3ListViewItem* previtem = 0;
+   QTreeWidgetItem* curfold = 0;
+   QTreeWidgetItem* curitem = ListView->topLevelItem(0);
+   QTreeWidgetItem* previtem = 0;
 
    TGo4Iter iter(topslot, kTRUE);
 
@@ -328,14 +333,14 @@ void TGo4Browser::updateListViewItems()
       while (levelchange++<0) {
 
           while (curitem!=0) {
-            Q3ListViewItem* next = curitem->nextSibling();
+            QTreeWidgetItem* next = nextSibling(curitem);
             delete curitem;
             curitem = next;
           }
 
           if (curfold==0) break;
 
-          curitem = curfold->nextSibling();
+          curitem = nextSibling(curfold);
           previtem = curfold;
           curfold = curfold->parent();
       }
@@ -343,8 +348,8 @@ void TGo4Browser::updateListViewItems()
       if (!res) break;
 
       // delete all slots in folder, which has another name
-      while ((curitem!=0) && (strcmp(iter.getname(), curitem->text(0))!=0)) {
-         Q3ListViewItem* next = curitem->nextSibling();
+      while ((curitem!=0) && (strcmp(iter.getname(), curitem->text(0).latin1())!=0)) {
+         QTreeWidgetItem* next = nextSibling(curitem);
          delete curitem;
          curitem = next;
       }
@@ -372,31 +377,33 @@ void TGo4Browser::updateListViewItems()
 
       if (curitem==0) {
         if (curfold==0)
-          curitem = new QGo4BrowserItem(ListView, previtem, iter.getname());
+          curitem = new QTreeWidgetItem(ListView, previtem);
         else
-          curitem = new QGo4BrowserItem(curfold, previtem, iter.getname());
+          curitem = new QTreeWidgetItem(curfold, previtem);
       }
 
-      if ((pixmap.Length()>0) && (curitem->pixmap(0)==0))
-        curitem->setPixmap(0, QPixmap(pixmap.Data()));
+      curitem->setText(0, iter.getname());
+
+      if ((pixmap.Length()>0) && curitem->icon(0).isNull())
+        curitem->setIcon(0, QIcon(pixmap.Data()));
 
       SetViewItemProperties(curslot, curitem);
 
       if (iter.isfolder()) {
          curfold = curitem;
-         curitem = curfold->firstChild();
+         curitem = curfold->child(0);
          previtem = 0;
       } else {
          // remove any substructures if any
-         while (curitem->firstChild()!=0)
-           delete curitem->firstChild();
+         while (curitem->child(0)!=0)
+           delete curitem->child(0);
          previtem = curitem;
-         curitem = curitem->nextSibling();
+         curitem = nextSibling(curitem);
       }
    }
 
    while (curitem!=0) {
-      Q3ListViewItem* next = curitem->nextSibling();
+      QTreeWidgetItem* next = nextSibling(curitem);
       delete curitem;
       curitem = next;
    }
@@ -412,13 +419,13 @@ void TGo4Browser::updateListViewItems()
 
 void TGo4Browser::checkVisisbilityFlags(bool showall)
 {
-   Q3ListViewItemIterator it(ListView);
-   for ( ; it.current(); ++it ) {
-      Q3ListViewItem* item = it.current();
-     if (showall || (item->parent()==0))
-        item->setVisible(true);
-     else
-        item->setVisible(item->text(NColumns)=="visible");
+	QTreeWidgetItemIterator it(ListView);
+   for ( ; *it; ++it ) {
+      QTreeWidgetItem* item = *it;
+      if (showall || (item->parent()==0))
+        item->setHidden(false);
+      else
+        item->setHidden(item->text(NColumns)!="visible");
    }
 }
 
@@ -430,10 +437,10 @@ void TGo4Browser::DisplaySelectedItems()
    int npads = 0;
 
    {
-     Q3ListViewItemIterator it(ListView);
-     for ( ; it.current(); ++it )
-       if (it.current()->isSelected() &&
-           canDrawItem(it.current())) npads++;
+   	QTreeWidgetItemIterator it(ListView);
+      for ( ; *it; ++it )
+       if ((*it)->isSelected() &&
+           canDrawItem(*it)) npads++;
    }
 
    if (npads==0) return;
@@ -442,10 +449,10 @@ void TGo4Browser::DisplaySelectedItems()
    TPad* subpad = 0;
 
    int cnt = 0;
-   Q3ListViewItemIterator it(ListView);
-   for ( ; it.current(); ++it )
-     if ( it.current()->isSelected() && canDrawItem(it.current())) {
-        QString itemname = FullItemName(it.current());
+	QTreeWidgetItemIterator it(ListView);
+   for ( ; *it; ++it )
+     if ( (*it)->isSelected() && canDrawItem(*it)) {
+        QString itemname = FullItemName(*it);
 
         subpad = newpanel->GetSubPad(newpanel->GetCanvas(), cnt++, true);
 
@@ -460,15 +467,15 @@ void TGo4Browser::SuperImposeSelectedItems()
 {
    TGo4ViewPanel* newpanel = 0;
 
-   Q3ListViewItemIterator it(ListView);
-   for ( ; it.current(); ++it )
-     if ( it.current()->isSelected() && canDrawItem(it.current())) {
+	QTreeWidgetItemIterator it(ListView);
+   for ( ; *it; ++it )
+     if ( (*it)->isSelected() && canDrawItem(*it)) {
         if (newpanel==0) {
            newpanel = CreateViewPanel();
            newpanel->SetPadSuperImpose(newpanel->GetCanvas(), true);
         }
 
-        QString itemname = FullItemName(it.current());
+        QString itemname = FullItemName(*it);
 
         DrawItem(itemname.latin1(), newpanel, newpanel->GetCanvas(), false);
      }
@@ -476,7 +483,7 @@ void TGo4Browser::SuperImposeSelectedItems()
      newpanel->ShootRepaintTimer();
 }
 
-void TGo4Browser::ListView_doubleClicked(Q3ListViewItem* item)
+void TGo4Browser::ListView_doubleClicked(QTreeWidgetItem* item, int ncol)
 {
    if (item==0) return;
 
@@ -498,10 +505,34 @@ void TGo4Browser::ListView_doubleClicked(Q3ListViewItem* item)
 //   SetViewItemProperties(itemslot, item);
 }
 
-void TGo4Browser::ListView_contextMenuRequested(Q3ListViewItem* item, const QPoint& pos, int col)
+void TGo4Browser::Header_customContextMenuRequested(const QPoint & pos)
 {
-    QMenu menu;
-    QSignalMapper map;
+   QMenu menu;
+   QSignalMapper map;
+
+   for(int indx=1;indx<NColumns;indx++)
+   	 AddIdAction(&menu, &map,
+    			     ColumnNames[indx], indx, true, fVisibleColumns[indx]);
+   connect(&map, SIGNAL(mapped(int)), this, SLOT(ColumnToggled(int)));
+
+   menu.exec(ListView->header()->mapToGlobal(pos));
+}
+
+
+void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
+{
+
+	QTreeWidgetItem* item = ListView->itemAt(pos);
+
+	if (item==ListView->headerItem()) {
+		cout << "Found header item"<<endl;
+
+	}
+
+	int col = ListView->header()->logicalIndexAt(pos);
+
+   QMenu menu;
+   QSignalMapper map;
 
 	if (col!=0) {
       for(int indx=1;indx<NColumns;indx++)
@@ -509,7 +540,7 @@ void TGo4Browser::ListView_contextMenuRequested(Q3ListViewItem* item, const QPoi
     			     ColumnNames[indx], indx, true, fVisibleColumns[indx]);
       connect(&map, SIGNAL(mapped(int)), this, SLOT(ColumnToggled(int)));
 
-      menu.exec(pos);
+      menu.exec(ListView->viewport()->mapToGlobal(pos));
       return;
    }
 
@@ -540,10 +571,10 @@ void TGo4Browser::ListView_contextMenuRequested(Q3ListViewItem* item, const QPoi
    int ndelete = 0;
    int nassigned = 0;
 
-   Q3ListViewItemIterator it(ListView);
-   for ( ; it.current(); ++it )
-      if (it.current()->isSelected()) {
-         QString fullname = FullItemName(it.current());
+	QTreeWidgetItemIterator it(ListView);
+   for ( ; *it; ++it )
+      if ((*it)->isSelected()) {
+         QString fullname = FullItemName(*it);
          TGo4Slot* itemslot = br->ItemSlot(fullname.latin1());
          if (itemslot==0) continue;
          nitems++;
@@ -732,7 +763,7 @@ void TGo4Browser::ListView_contextMenuRequested(Q3ListViewItem* item, const QPoi
 
    connect(&map, SIGNAL(mapped(int)), this, SLOT(ContextMenuActivated(int)));
 
-   menu.exec(pos);
+   menu.exec(ListView->viewport()->mapToGlobal(pos));
 }
 
 void TGo4Browser::ColumnToggled(int indx)
@@ -740,12 +771,12 @@ void TGo4Browser::ColumnToggled(int indx)
    if ((indx<=0) || (indx>=NColumns)) return;
    fVisibleColumns[indx] = !fVisibleColumns[indx];
 
-   HeaderSizeChanged(0, 0, 0);
+   HeaderSectionResizedSlot(0, 0, 0);
 
    ShootUpdateTimer();
 }
 
-void TGo4Browser::HeaderSizeChanged(int, int, int)
+void TGo4Browser::HeaderSectionResizedSlot(int, int, int)
 {
    int ncolumn = 0;
    for(int indx=0;indx<NColumns;indx++) {
@@ -778,10 +809,10 @@ void TGo4Browser::ContextMenuActivated(int id)
    if (id==19)
      QApplication::setOverrideCursor(Qt::WaitCursor);
 
-   Q3ListViewItemIterator it(ListView);
-   for ( ; it.current(); ++it )
-      if (it.current()->isSelected()) {
-         QString itemname = FullItemName(it.current());
+	QTreeWidgetItemIterator it(ListView);
+   for ( ; *it; ++it )
+      if ((*it)->isSelected()) {
+         QString itemname = FullItemName(*it);
          TGo4Slot* itemslot = br->ItemSlot(itemname.latin1());
          if (itemslot==0) continue;
          int cando = br->ItemCanDo(itemslot);
@@ -928,7 +959,7 @@ void TGo4Browser::ContextMenuActivated(int id)
      QApplication::restoreOverrideCursor();
 }
 
-bool TGo4Browser::canDrawItem(Q3ListViewItem* item)
+bool TGo4Browser::canDrawItem(QTreeWidgetItem* item)
 {
    if (item==0) return false;
    int cando = BrowserProxy()->ItemCanDo(FullItemName(item));
@@ -987,15 +1018,15 @@ void TGo4Browser::ExportSelectedItems(const char* filtername)
 
 void TGo4Browser::ExportSelectedItems(const char* filename, const char* filedir, const char* format, const char* description)
 {
-    TObjArray items;
-    Q3ListViewItemIterator it(ListView);
-    for ( ; it.current(); ++it )
-      if (it.current()->isSelected()) {
-         QString fullname = FullItemName(it.current());
-         items.Add(new TObjString(fullname.latin1()));
-      }
+   TObjArray items;
+  	QTreeWidgetItemIterator it(ListView);
+  	for ( ; *it; ++it )
+  		if ((*it)->isSelected()) {
+  			QString fullname = FullItemName(*it);
+  			items.Add(new TObjString(fullname.latin1()));
+  		}
 
-    BrowserProxy()->ExportItemsTo(&items, go4sett->getFetchDataWhenSave(), filename, filedir, format, description);
+  	BrowserProxy()->ExportItemsTo(&items, go4sett->getFetchDataWhenSave(), filename, filedir, format, description);
 
-    items.Delete();
+  	items.Delete();
 }

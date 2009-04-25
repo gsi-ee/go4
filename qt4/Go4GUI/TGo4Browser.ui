@@ -27,29 +27,23 @@
       </item>
     </layout>
   </widget>
-  <layoutdefault spacing="6" margin="11" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
-  <customwidgets>
-    <customwidget>
-      <class>QGo4BrowserListView</class>
-      <extends>Q3ListView</extends>
-    </customwidget>
-  </customwidgets>
+  <layoutdefault spacing="0" margin="0" />
   <includes>
-    <include location="local" >QGo4Widget.h</include>
+    <include location="local">QGo4Widget.h</include>
+    <include location="local">QGo4BrowserListView.h</include>
   </includes>
   <connections>
     <connection>
       <sender>ListView</sender>
-      <signal>doubleClicked(Q3ListViewItem*)</signal>
+      <signal>itemDoubleClicked(QTreeWidgetItem*, int)</signal>
       <receiver>TGo4Browser</receiver>
-      <slot>ListView_doubleClicked(Q3ListViewItem*)</slot>
+      <slot>ListView_doubleClicked(QTreeWidgetItem*, int)</slot>
     </connection>
     <connection>
       <sender>ListView</sender>
-      <signal>contextMenuRequested(Q3ListViewItem*,QPoint,int)</signal>
+      <signal>customContextMenuRequested(const QPoint &amp;)</signal>
       <receiver>TGo4Browser</receiver>
-      <slot>ListView_contextMenuRequested(Q3ListViewItem*,QPoint,int)</slot>
+      <slot>ListView_customContextMenuRequested(const QPoint &amp;)</slot>
     </connection>
   </connections>
 </ui>

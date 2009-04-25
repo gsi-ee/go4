@@ -2355,10 +2355,14 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_DropEvent: {
          QDropEvent* event = (QDropEvent*) par;
+
          if ((event==0) || !event->mimeData()->hasText()) return;
 
          QString eventstr = event->mimeData()->text();
          event->acceptProposedAction();
+
+         cout << "Drop event in main widget " << eventstr.latin1() << endl;
+
 
          if (event->source()==FindGo4Widget("Browser",false)) {
              int kind = Browser()->ItemKind(eventstr.latin1());

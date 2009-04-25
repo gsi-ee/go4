@@ -99,8 +99,12 @@ void QGo4Widget::dragMoveEvent(QDragMoveEvent*)
 //   emit widgetService(this, service_DragMove, "", e);
 }
 
+#include "Riostream.h"
+
 void QGo4Widget::dropEvent(QDropEvent* e)
 {
+	cout << "Drop event " << endl;
+
    emit widgetService(this, service_DropEvent, 0, e);
 }
 

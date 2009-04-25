@@ -2,8 +2,8 @@
 
 #include <QDropEvent>
 
-QGo4BrowserListView::QGo4BrowserListView(QWidget* parent, const char* name, Qt::WFlags f) :
-  Q3ListView(parent, name, f)
+QGo4BrowserListView::QGo4BrowserListView(QWidget* parent) :
+  QTreeWidget(parent)
 {
 }
 
@@ -11,21 +11,39 @@ QGo4BrowserListView::~QGo4BrowserListView()
 {
 }
 
-Q3DragObject* QGo4BrowserListView::dragObject()
+QStringList QGo4BrowserListView::mimeTypes () const
 {
-   Q3DragObject* res = 0;
-   emit RequestDragObject(&res);
-   return res;
+   QStringList qstrList;
+   qstrList.append("text");
+   return qstrList;
 }
 
-bool QGo4BrowserListView::IsAcceptItemDrop(const Q3ListViewItem* item, const QMimeSource * mime)
+
+Qt::DropActions QGo4BrowserListView::supportedDropActions () const
 {
-   bool res = false;
-   emit ItemDropAccept((void*)item, (void*)mime, &res);
-   return res;
+    // returns what actions are supported when dropping
+    return Qt::CopyAction | Qt::MoveAction;
 }
 
-void QGo4BrowserListView::ProcessItemDrop(Q3ListViewItem* item, QDropEvent * e)
+
+bool QGo4BrowserListView::dropMimeData(QTreeWidgetItem *item, int index, const QMimeData *data, Qt::DropAction action)
 {
-   emit ItemDropProcess((void*)item, (void*)e);
+	emit ItemDropProcess((void*)item, (void*)data);
+
+   return true;
+}
+
+void QGo4BrowserListView::mouseMoveEvent(QMouseEvent *event)
+{
+	// if not left button - return
+	if (!(event->buttons() & Qt::LeftButton)) return;
+
+	QDrag *drag = 0;
+
+	// request from browser drag
+
+	emit RequestDragObject(&drag);
+
+	if (drag)
+   	drag->start(Qt::CopyAction | Qt::MoveAction);
 }

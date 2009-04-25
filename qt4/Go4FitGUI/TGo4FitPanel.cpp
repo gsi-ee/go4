@@ -1886,7 +1886,7 @@ void TGo4FitPanel::FitList_customContextMenuRequested(const QPoint & pnt)
 
    if (FillPopupForItem(fititem, &menu, &map)) {
 	   CurrFitItem = fititem;
-      menu.exec(FitList->mapToGlobal(pnt));
+      menu.exec(FitList->viewport()->mapToGlobal(pnt));
       CurrFitItem = 0;
    }
 }

@@ -62,7 +62,7 @@ void QGo4RootCanvas::mouseMoveEvent(QMouseEvent *e)
 
 void QGo4RootCanvas::dragEnterEvent(QDragEnterEvent* event)
 {
-   if (event->mimeData()->hasText())
+	if (event->mimeData()->hasText())
       event->acceptProposedAction();
 }
 
@@ -78,7 +78,6 @@ void QGo4RootCanvas::dropEvent(QDropEvent* event)
 
 void QGo4RootCanvas::performResize()
 {
-   //cout <<".........QGo4RootCanvas::performResize" << endl;
    QApplication::setOverrideCursor(Qt::WaitCursor);
    emit DoCanvasResize();
    TQRootCanvas::performResize();

@@ -1,32 +1,29 @@
 #ifndef QGOBROWSERLISTVIEW_H
 #define QGOBROWSERLISTVIEW_H
 
-#include "q3listview.h"
+#include <QTreeWidget>
 #include <QtDesigner/QDesignerExportWidget>
 
 #include <QDropEvent>
 
-class Q3DragObject;
-
-class QDESIGNER_WIDGET_EXPORT QGo4BrowserListView : public Q3ListView {
+class QDESIGNER_WIDGET_EXPORT QGo4BrowserListView : public QTreeWidget {
    Q_OBJECT
 
    public:
-      QGo4BrowserListView(QWidget* parent = 0, const char* name = 0, Qt::WFlags f = 0);
+      QGo4BrowserListView(QWidget* parent = 0);
       virtual ~QGo4BrowserListView();
 
-      bool IsAcceptItemDrop(const Q3ListViewItem* item, const QMimeSource * mime);
-      void ProcessItemDrop(Q3ListViewItem* item, QDropEvent * e);
+      virtual bool dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action);
+      virtual QStringList mimeTypes() const;
+      virtual Qt::DropActions supportedDropActions () const;
+
+      virtual void mouseMoveEvent(QMouseEvent *event);
 
    signals:
 
-      void RequestDragObject(Q3DragObject**);
-      void ItemDropAccept(void*, void*, bool*);
+      void RequestDragObject(QDrag**);
       void ItemDropProcess(void*, void*);
 
-   protected:
-
-      virtual Q3DragObject* dragObject();
 };
 
 #endif

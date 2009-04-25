@@ -14,7 +14,6 @@ HEADERS	+= \
 	QGo4LineEdit.h \
 	QGo4Widget.h \
 	QGo4BrowserListView.h \
-	QGo4BrowserItem.h \
 	TGo4ASImage.h \
 	TGo4MainWindow.h \
 	QGo4CommandsHistory.h \
@@ -61,7 +60,6 @@ SOURCES	+= \
 	QGo4LineEdit.cpp \
 	QGo4Widget.cpp \
 	QGo4BrowserListView.cpp \
-	QGo4BrowserItem.cpp \
 	TGo4ASImage.cpp \
 	TGo4MainWindow.cpp \
 	MainGo4GUI.cpp \

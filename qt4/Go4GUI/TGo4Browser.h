@@ -5,10 +5,7 @@
 #include "QGo4BrowserListView.h"
 #include "ui_TGo4Browser.h"
 
-class Q3ListViewItem;
-class Q3DragObject;
 class TGo4BrowserProxy;
-
 
 class TGo4Browser : public QGo4Widget, public Ui::TGo4Browser
  {
@@ -30,25 +27,19 @@ class TGo4Browser : public QGo4Widget, public Ui::TGo4Browser
 
 	TGo4BrowserProxy* BrowserProxy();
 
-	QString FullItemName(Q3ListViewItem* item);
+	QString FullItemName(QTreeWidgetItem* item);
 
+	QTreeWidgetItem* FindItemFor(TGo4Slot* slot);
 
-	Q3ListViewItem* FindItemFor(TGo4Slot* slot);
-
-	void SetViewItemProperties(TGo4Slot* itemslot, Q3ListViewItem* item);
-
+	void SetViewItemProperties(TGo4Slot* itemslot, QTreeWidgetItem* item);
 
 	void checkVisisbilityFlags(bool showall);
 
-
 	void DisplaySelectedItems();
-
-
 
 	void SuperImposeSelectedItems();
 
-
-	bool canDrawItem(Q3ListViewItem* item);
+	bool canDrawItem(QTreeWidgetItem* item);
 
 	void ShootUpdateTimer();
 
@@ -60,7 +51,7 @@ class TGo4Browser : public QGo4Widget, public Ui::TGo4Browser
 
 public slots:
 
-	void RequestDragObjectSlot(Q3DragObject** res);
+	void RequestDragObjectSlot(QDrag**);
 
 	void ItemDropAcceptSlot(void* item, void* mime, bool* res);
 
@@ -68,14 +59,15 @@ public slots:
 
 	void updateListViewItems();
 
-	void ListView_doubleClicked(Q3ListViewItem* item);
+	void ListView_doubleClicked(QTreeWidgetItem* item, int ncol);
 
+	void ListView_customContextMenuRequested(const QPoint&);
 
-	void ListView_contextMenuRequested(Q3ListViewItem* item, const QPoint& pos, int col);
+	void Header_customContextMenuRequested(const QPoint &);
 
 	void ColumnToggled(int indx);
 
-	void HeaderSizeChanged(int, int, int);
+	void HeaderSectionResizedSlot(int, int, int);
 
 	void ContextMenuActivated(int id);
 
@@ -83,7 +75,6 @@ protected:
 
 	bool fbUpdateTimerActive;
 	bool fVisibleColumns[7];
-	int fIndexes[7];
 };
 
 

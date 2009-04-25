@@ -1438,6 +1438,8 @@ void TGo4ViewPanel::PadDoubleClickedSlot(TPad* pad)
 
 void TGo4ViewPanel::CanvasDropEventSlot(QDropEvent* event, TPad* pad)
 {
+	cout << "Canvas Drop event " << pad->GetName() << endl;
+
    emit widgetService(this, service_DropEvent, (const char*) pad, event);
 }
 
