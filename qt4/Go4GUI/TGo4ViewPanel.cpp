@@ -52,7 +52,6 @@
 #include "TGo4PolyCondView.h"
 #include "TGo4LockGuard.h"
 #include "tqrootwindow.h"
-#include "tqcanvasmenu.h"
 #include "TGo4WorkSpace.h"
 #include "TGo4ASImage.h"
 #include "TGo4PrintWidget.h"
@@ -118,7 +117,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
            this, SLOT(PadClickedSlot(TPad*)));
    connect(fxGo4QRootCanvas, SIGNAL(PadDoubleClicked(TPad*)),
            this, SLOT(PadDoubleClickedSlot(TPad*)));
-   connect(fxGo4QRootCanvas->getContextMenu(), SIGNAL(MenuCommandExecuted(TObject*, const char*)),
+   connect(fxGo4QRootCanvas, SIGNAL(MenuCommandExecuted(TObject*, const char*)),
            this, SLOT(MenuCommandExecutedSlot(TObject*, const char*)));
    connect(fxGo4QRootCanvas, SIGNAL(CanvasLeaveEvent()),
            this, SLOT(RefreshButtons()));

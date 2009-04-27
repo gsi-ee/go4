@@ -4,24 +4,37 @@
 
 #include "tqrootcanvas.h"
 
-#include "Riostream.h"
+#include <QtCore/QEvent>
+#include <QtCore/QSignalMapper>
 
 #include <QtGui/qpainter.h>
 #include <QtGui/QDragEnterEvent>
 #include <QtGui/QDropEvent>
 #include <QtGui/QResizeEvent>
 #include <QtGui/QMouseEvent>
-#include <QtCore/QEvent>
 #include <QtGui/QPaintEvent>
 #include <QtGui/QCloseEvent>
+#include <QtGui/QInputDialog>
+#include <QtGui/QColorDialog>
+#include <QtGui/QMenu>
+#include <QtGui/QAction>
 
 #include "TPad.h"
 #include "TCanvas.h"
 #include "TROOT.h"
 #include "TString.h"
 #include "TH1.h"
+#include "TClass.h"
+#include "TDataType.h"
+#include "TDataMember.h"
+#include "TMethod.h"
+#include "TMethodCall.h"
+#include "TMethodArg.h"
+#include "TColor.h"
+#include "TLatex.h"
+#include "Riostream.h"
 
-#include "tqcanvasmenu.h"
+#include "tqrootdialog.h"
 #include "lockguard.h"
 
 TQRootCanvas::TQRootCanvas( QWidget *parent, const char *name, TCanvas *c ) :
@@ -51,7 +64,10 @@ TQRootCanvas::TQRootCanvas( QWidget *parent, const char *name, TCanvas *c ) :
     fCanvas=c;
   }
   // create the context menu
-  fContextMenu = new TQCanvasMenu( parent, fCanvas );
+  fMousePosX = 0;
+  fMousePosY = 0;
+  fMenuMethods = 0;
+  fMenuObj = 0;
 
   // test here all the events sent to the QWidget
   // has a parent widget
@@ -90,7 +106,10 @@ TQRootCanvas::TQRootCanvas( QWidget *parent, QWidget* tabWin, const char *name, 
     fCanvas=c;
   }
   // create the context menu
-  fContextMenu = new TQCanvasMenu( parent, tabWin, fCanvas );
+  fMousePosX = 0;
+  fMousePosY = 0;
+  fMenuMethods = 0;
+  fMenuObj = 0;
 
   // test here all the events sent to the QWidget
   // has a parent widget
@@ -106,14 +125,12 @@ TQRootCanvas::TQRootCanvas( QWidget *parent, QWidget* tabWin, const char *name, 
 
 TQRootCanvas::~TQRootCanvas()
 {
-   if (fContextMenu){
-      delete fContextMenu;
-      fContextMenu = 0;
-   }
    if( isCanvasOwned && fCanvas ) {
      delete fCanvas;
      fCanvas = 0;
    }
+   delete fMenuMethods;
+   fMenuMethods = 0;
 }
 
 void TQRootCanvas::setResizeFlag(int flag)
@@ -190,7 +207,48 @@ void TQRootCanvas::mousePressEvent( QMouseEvent *e )
         }
         fCanvas->SetSelectedPad(pad);
         gROOT->SetSelectedPrimitive(selected);
-        fContextMenu->popup(selected, gPad->AbsPixeltoX(gPad->GetEventX()),  gPad->AbsPixeltoY(gPad->GetEventY()), e);
+        fMousePosX = gPad->AbsPixeltoX(gPad->GetEventX());
+        fMousePosY = gPad->AbsPixeltoY(gPad->GetEventY());
+
+        QMenu menu(this);
+        QSignalMapper map;
+        connect(&map, SIGNAL(mapped(int)), this, SLOT(executeMenu(int)));
+
+        fMenuObj = selected;
+        fMenuMethods = new TList;
+        TClass *cl = fMenuObj->IsA();
+        int curId = -1;
+
+        QString buffer = Form("%s::%s", cl->GetName(), fMenuObj->GetName());
+        addMenuAction(&menu, &map, buffer, curId++);
+
+        cl->GetMenuItems(fMenuMethods);
+        menu.addSeparator();
+
+        if(!cl->InheritsFrom(TLatex::Class())) {
+           addMenuAction(&menu, &map, "Insert Latex", 100 );
+           menu.addSeparator();
+        }
+
+        if(cl->InheritsFrom(TH1::Class())) {
+          addMenuAction(&menu, &map, "Qt Hist Line Color ", 101 );
+          addMenuAction(&menu, &map, "Qt Hist Fill Color ", 102 );
+          menu.addSeparator();
+        }
+
+        TIter iter(fMenuMethods);
+        TMethod *method=0;
+        while ( (method = dynamic_cast<TMethod*>(iter())) != 0) {
+           buffer = method->GetName();
+           addMenuAction(&menu, &map, buffer, curId++);
+        }
+
+        if (menu.exec(e->globalPos())==0) {
+           fMenuObj = 0;
+           delete fMenuMethods;
+           fMenuMethods = 0;
+        }
+
         break;
      }
      case Qt::MidButton :
@@ -678,4 +736,260 @@ void  TQRootCanvas::closeEvent( QCloseEvent * e){
 
     e->accept();
     return;
+}
+
+
+void TQRootCanvas::methodDialog(TObject* object, TMethod* method)
+{
+   if ((object==0) || (method==0)) return;
+
+   Qtrootlockguard threadlock;
+  // Create dialog object with OK and Cancel buttons. This dialog
+   // prompts for the arguments of "method".
+
+   TQRootDialog dlg;
+
+   dlg.setWindowTitle(Form("%s:%s", object->GetName(), method->GetName()));
+
+  // iterate through all arguments and create apropriate input-data objects:
+  // inputlines, option menus...
+   TMethodArg *argument = 0;
+   TIter next(method->GetListOfMethodArgs());
+
+   while ((argument = (TMethodArg *) next())) {
+      TString argTitle = Form("(%s)  %s", argument->GetTitle(), argument->GetName());
+      TString argDflt = argument->GetDefault() ? argument->GetDefault() : "";
+      if (argDflt.Length()>0)
+         argTitle += Form(" [default: %s]", argDflt.Data());
+      TString type       = argument->GetTypeName();
+      TDataType    *datatype   = gROOT->GetType(type);
+      TString       basictype;
+
+      if (datatype) {
+         basictype = datatype->GetTypeName();
+      } else {
+         if (strncmp(type.Data(), "enum", 4) != 0)
+            cout << "*** Warning in Dialog(): data type is not basic type, assuming (int)\n";
+         basictype = "int";
+      }
+
+      if (strchr(argument->GetTitle(), '*')) {
+         basictype += "*";
+         type = "char*";
+      }
+
+      TDataMember *m = argument->GetDataMember();
+      if (m && m->GetterMethod()) {
+
+         Text_t gettername[256] = "";
+         strncpy(gettername, m->GetterMethod()->GetMethodName(),255);
+         m->GetterMethod()->Init(object->IsA(), gettername, "");
+
+         // Get the current value and form it as a text:
+
+         Text_t val[256];
+
+         if (basictype == "char*") {
+            Text_t *tdefval;
+            m->GetterMethod()->Execute(object, "", &tdefval);
+            strncpy(val, tdefval, 255);
+         } else
+         if ((basictype == "float") ||
+             (basictype == "double")) {
+            Double_t ddefval;
+            m->GetterMethod()->Execute(object, "", ddefval);
+            snprintf(val, 255, "%g", ddefval);
+         } else
+         if ((basictype == "char") ||
+             (basictype == "int")  ||
+             (basictype == "long") ||
+             (basictype == "short")) {
+            Long_t ldefval;
+            m->GetterMethod()->Execute(object, "", ldefval);
+            snprintf(val, 255, "%li", ldefval);
+         }
+
+         // Find out whether we have options ...
+
+         TList *opt;
+         if ((opt = m->GetOptions()) != 0) {
+            cout << "*** Warning in Dialog(): option menu not yet implemented " << opt << endl;
+            // should stop dialog
+            return;
+         } else {
+            // we haven't got options - textfield ...
+            dlg.addArg(argTitle.Data(), val, type.Data());
+         }
+      } else {    // if m not found ...
+         if ((argDflt.Length() > 1) &&
+             (argDflt[0]=='\"') && (argDflt[argDflt.Length()-1]=='\"')) {
+            // cut "" from the string argument
+            argDflt.Remove(0,1);
+            argDflt.Remove(argDflt.Length()-1,1);
+         }
+
+         dlg.addArg(argTitle.Data(), argDflt.Data(), type.Data());
+      }
+   }
+
+   if (dlg.exec() != QDialog::Accepted) return;
+
+   Bool_t deletion = kFALSE;
+
+   qDebug("DIAL executeMethod:  simple version\n");
+   TVirtualPad *psave =  gROOT->GetSelectedPad();
+
+   qDebug("DIAL saved pad: %s gPad:%s \n",psave->GetName(),gPad->GetName());
+
+   qDebug("DIAL obj:%s meth:%s \n", object->GetName(), method->GetName());
+
+   //cout<< "executeMethod" << fCurMethod->GetName() << endl;
+
+   TObjArray tobjlist(method->GetListOfMethodArgs()->LastIndex() + 1);
+   for (int n=0; n<=method->GetListOfMethodArgs()->LastIndex(); n++) {
+      QString s = dlg.getArg(n);
+      qDebug( "** QString values (first ) :%s \n", (const char*) s );
+      TObjString *t = new TObjString( (const char*) s );
+      tobjlist.AddLast(t) ;
+   }
+
+   // handle command if existing object
+   if(strcmp(method->GetName(),"Delete") == 0) {
+      // here call explicitely the dtor
+      qDebug(" DIAL obj name deleted :%s \n", object->GetName());
+      emit MenuCommandExecuted(object, "Delete");
+      delete object;
+      object = 0;
+      deletion = kTRUE;
+      qDebug(" DIAL deletion done closing ... \n");
+   } else
+   if (strcmp(method->GetName(), "SetCanvasSize") == 0) {
+      int width = dlg.getArg(0).toInt();
+      int height = dlg.getArg(1).toInt();
+      qDebug( " do resize with %i %i \n", width, height);
+      resize(width, height);
+      emit MenuCommandExecuted(fCanvas, "SetCanvasSize");
+   } else {
+      // here call cint call
+      qDebug("TCint::Execute called !\n");
+
+      object->Execute(method, &tobjlist);
+
+      if (object->TestBit(TObject::kNotDeleted))
+         emit MenuCommandExecuted(object, method->GetName());
+      else {
+        deletion = TRUE;
+        object = 0;
+      }
+   }
+
+   if(!deletion ) {
+      qDebug("DIAL set saved pad: %s herit:%s gPad:%s\n",
+             psave->GetName(), psave->ClassName(), gPad->GetName());
+      gROOT->SetSelectedPad(psave);
+      gROOT->GetSelectedPad()->Modified();
+      gROOT->GetSelectedPad()->Update();
+      qDebug("DIAL update done on %s \n", gROOT->GetSelectedPad()->GetName());
+   } else {
+      gROOT->SetSelectedPad( gPad );
+      gROOT->GetSelectedPad()->Update();
+   }
+}
+
+QAction* TQRootCanvas::addMenuAction(QMenu* menu, QSignalMapper* map, const QString& text, int id)
+{
+   QAction* act = new QAction(text, menu);
+   map->connect (act, SIGNAL(triggered()), map, SLOT(map()));
+   menu->addAction(act);
+   map->setMapping(act, id);
+   return act;
+}
+
+void TQRootCanvas::executeMenu(int id)
+{
+   Qtrootlockguard threadlock;
+   QString text("");
+   bool ok = FALSE;
+   if (id >=100) {
+      switch (id){
+         case 100: {
+            TLatex *fxLatex = new TLatex();
+            text = QInputDialog::getText(tr( "Qt Root" ),
+                                         tr( "Please enter your text" ),
+                                         QLineEdit::Normal, QString::null, &ok);
+            //if (ok && !text.isEmpty())
+            fxLatex->DrawLatex(fMousePosX, fMousePosY, text.latin1());
+            emit MenuCommandExecuted(fxLatex, "DrawLatex");
+            break;
+        }
+        case 101: {
+           TH1 *h1 = dynamic_cast<TH1*> (fMenuObj);
+           if (h1!=0) {
+              QColor col = QColorDialog::getColor();
+              if (col.isValid()) {
+                 short int C_new =  TColor::GetColor(col.red(), col.green(), col.blue());
+                 h1->SetLineColor(C_new);
+                 emit MenuCommandExecuted(h1, "SetLineColor");
+              }
+            }
+           break;
+        }
+        case 102 : {
+           TH1 *h1 = dynamic_cast<TH1*> (fMenuObj);
+           if (h1!=0) {
+              QColor col = QColorDialog::getColor();
+              if (col.isValid()) {
+                short int C_new =  TColor::GetColor(col.red(), col.green(), col.blue());
+                h1->SetFillColor(C_new);
+                emit MenuCommandExecuted(h1,"SetFillColor");
+              }
+           }
+        }
+      }
+      gROOT->GetSelectedPad()->Update();
+      gROOT->GetSelectedPad()->Modified();
+      fCanvas->Modified();
+      fCanvas->ForceUpdate();
+      gROOT->SetFromPopUp( kFALSE );
+   } else
+   if (id >=0) {
+
+      // save global to Pad before calling TObject::Execute()
+
+      TVirtualPad  *psave = gROOT->GetSelectedPad();
+      TMethod *method= (TMethod *) fMenuMethods->At(id);
+
+      /// test: do this in any case!
+      fCanvas->HandleInput(kButton3Up, gPad->XtoAbsPixel(fMousePosX), gPad->YtoAbsPixel(fMousePosY));
+
+      // change current dir that all new histograms appear here
+      gROOT->cd();
+
+      if (method->GetListOfMethodArgs()->First())
+         methodDialog(fMenuObj, method);
+      else {
+         gROOT->SetFromPopUp(kTRUE);
+         fMenuObj->Execute(method->GetName(), "");
+
+         if (fMenuObj->TestBit(TObject::kNotDeleted)) {
+            emit MenuCommandExecuted(fMenuObj, method->GetName());
+         } else
+            fMenuObj = 0;
+      }
+      fCanvas->GetPadSave()->Update();
+      fCanvas->GetPadSave()->Modified();
+      gROOT->SetSelectedPad(psave);
+      ////qDebug("MENU:  gPad:%s gROOT:%s cur:%s \n",
+      //gPad->GetName(), gROOT->GetSelectedPad()->GetName(), c->GetName());
+
+      gROOT->GetSelectedPad()->Update();
+      gROOT->GetSelectedPad()->Modified();
+      fCanvas->Modified();
+      fCanvas->ForceUpdate();
+      gROOT->SetFromPopUp(kFALSE);
+    }
+
+   fMenuObj = 0;
+   delete fMenuMethods;
+   fMenuMethods = 0;
 }

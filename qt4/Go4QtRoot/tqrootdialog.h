@@ -13,60 +13,39 @@
 #ifndef TQROOTDIALOG_H
 #define TQROOTDIALOG_H
 
-#include <Qt3Support/q3vbox.h>
-#include <QtCore/QList>
-#include <QtGui/QCloseEvent>
-
-class TObject;
-class TMethod;
-class TCanvas;
-class QLineEdit;
-class TQCanvasMenu;
+#include <QtCore/QVector>
+#include <QtGui/QDialog>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QLineEdit>
 
 /**
 * TQRootDialog
 *
 * A TQRootDialog is used to prompt for the arguments of an object's
-* member function. It is called by the TQCanvasMenu class
+* member function. It is called by the TQRootCanvas class
 *
-* @see TQCanvasMenu, QList, QVBox, TMethod, TCanvas
+* @see TQRootCanvas
 *
 *
-* @authors Denis Bertini <d.bertini@gsi.de>
+* @authors Denis Bertini <d.bertini@gsi.de>, Sergey Linev
 * @version 2.0
 */
 
 
-class TQRootDialog: public Q3VBox {
+class TQRootDialog: public QDialog {
    Q_OBJECT
 
    public:
-      TQRootDialog(QWidget *parent, const char *name, Qt::WFlags f=0,
-                   TObject *obj=0,TMethod *meth=0);
+      TQRootDialog();
 
-      virtual ~TQRootDialog();
+      void addArg(const char* argname, const char* value, const char* type);
 
-      void add(const char* argname, const char* value, const char* type);
-      void popup();
-      void setTCanvas(TCanvas* aCanvas) { fCurCanvas=aCanvas; }
-      void SetCanMenu(TQCanvasMenu* menu) { fMenu = menu; }
-
-   public slots:
-       void executeMethod();
+      QString getArg(int n);
 
    protected:
-       void closeEvent( QCloseEvent* ce);
+      QVBoxLayout *argLayout;
 
-   protected:
-       Q3VBox*           fArgBox;
-       QList<QLineEdit*> aList;
-       TObject*         fCurObj;
-       TObject*         fPrevObj;
-       TMethod*         fCurMethod;
-       TMethod*         fPrevMethod;
-       TCanvas*         fCurCanvas;
-       QWidget*         fParent;
-       TQCanvasMenu*    fMenu;
+      QVector<QLineEdit*> fArgs;
 };
 
 #endif

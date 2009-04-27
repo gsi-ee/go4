@@ -55,8 +55,6 @@ all-qt4plugin:
 	cp -f $(GO4SYS)/qt4/Go4GUI/QGo4RootCanvas.cpp $(PLUGIN4_DIR)
 	cp -f $(GO4SYS)/qt4/Go4QtRoot/tqrootcanvas.h $(PLUGIN4_DIR)
 	cp -f $(GO4SYS)/qt4/Go4QtRoot/tqrootcanvas.cpp $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4QtRoot/tqcanvasmenu.h $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4QtRoot/tqcanvasmenu.cpp $(PLUGIN4_DIR)
 	cp -f $(GO4SYS)/qt4/Go4QtRoot/tqrootdialog.h $(PLUGIN4_DIR)
 	cp -f $(GO4SYS)/qt4/Go4QtRoot/tqrootdialog.cpp $(PLUGIN4_DIR)
 	cp -f $(GO4SYS)/qt4/Go4QtRoot/tqrootwindow.h $(PLUGIN4_DIR)
@@ -84,6 +82,5 @@ clean-qt4plugin:
 	rm -f $(PLUGIN4_DIR)/QGo4CommandsHistory.*
 	rm -f $(PLUGIN4_DIR)/QGo4RootCanvas.*
 	rm -f $(PLUGIN4_DIR)/tqrootcanvas.*
-	rm -f $(PLUGIN4_DIR)/tqcanvasmenu.*
 	rm -f $(PLUGIN4_DIR)/tqrootdialog.*
 	rm -f $(PLUGIN4_DIR)/tqrootwindow.*

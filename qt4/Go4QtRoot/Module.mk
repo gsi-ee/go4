@@ -5,7 +5,6 @@ QT4ROOT_LIBNAME =  $(LIB_PREFIX)Go4Qt4Root
 QT4ROOT_S       =  $(QT4ROOT_DIR)/qrootapplication.cpp \
                    $(QT4ROOT_DIR)/tqrootguifactory.cpp \
                    $(QT4ROOT_DIR)/tqcanvasimp.cpp \
-                   $(QT4ROOT_DIR)/tqcanvasmenu.cpp \
                    $(QT4ROOT_DIR)/tqrootcanvas.cpp \
                    $(QT4ROOT_DIR)/tqrootwindow.cpp \
                    $(QT4ROOT_DIR)/tqrootdialog.cpp \
@@ -18,7 +17,6 @@ QT4ROOT_DEP     =  $(QT4ROOT_O:.$(ObjSuf)=.$(DepSuf))
 
 QT4ROOT_MOCS    =  $(QT4ROOT_DIR)/moc_tqrootcanvas.cpp \
                    $(QT4ROOT_DIR)/moc_tqrootwindow.cpp \
-                   $(QT4ROOT_DIR)/moc_tqcanvasmenu.cpp \
                    $(QT4ROOT_DIR)/moc_tqrootdialog.cpp \
                    $(QT4ROOT_DIR)/moc_qrootapplication.cpp \
                    $(QT4ROOT_DIR)/moc_qtframe.cpp

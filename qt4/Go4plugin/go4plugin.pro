@@ -26,7 +26,6 @@ SOURCES  = QGo4WidgetPlugin.cpp \
            QGo4CommandsHistory.cpp \
            QGo4RootCanvas.cpp \
            tqrootcanvas.cpp \
-           tqcanvasmenu.cpp \
            tqrootdialog.cpp\
            tqrootwindow.cpp\
            go4plugin.cpp
@@ -51,7 +50,6 @@ HEADERS  = QGo4WidgetPlugin.h \
            QGo4CommandsHistory.h \
            QGo4RootCanvas.h \
            tqrootcanvas.h \
-           tqcanvasmenu.h \
            tqrootdialog.h \
            tqrootwindow.h\
            lockguard.h\

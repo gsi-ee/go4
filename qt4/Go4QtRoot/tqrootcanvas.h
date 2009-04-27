@@ -12,12 +12,14 @@
 #include <QtGui/QMouseEvent>
 #include <QtCore/QEvent>
 #include <QtGui/QDragEnterEvent>
+#include <QtCore/QSignalMapper>
 #include "Rtypes.h"
 #include "Gtypes.h"
 #include "Buttons.h"
 #include "TVirtualX.h"
 
 class TObject;
+class TMethod;
 class TObjLink;
 class TVirtualPad;
 class TPad;
@@ -25,7 +27,10 @@ class TCanvas;
 class TBrowser;
 class TContextMenu;
 class TControlBar;
-class TQCanvasMenu;
+class QSignalMapper;
+class QMenu;
+class QAction;
+class TList;
 
 /** This canvas uses Qt eventloop to handle user input
   *   @short Graphic Qt Widget based Canvas
@@ -49,7 +54,6 @@ class QDESIGNER_WIDGET_EXPORT TQRootCanvas : public QWidget {
       QWidget*          getTabWin() { return fTabWin;}
       void              setResizeFlag(int level = 1);
       bool              checkResizeFlag(int level = 1);
-      TQCanvasMenu*     getContextMenu() { return fContextMenu; }
       void              setMaskDoubleClick(bool on=true) { fMaskDoubleClick = on; }
 
    signals:
@@ -62,6 +66,8 @@ class QDESIGNER_WIDGET_EXPORT TQRootCanvas : public QWidget {
 
       /** signal emitted when user produce left mouse doubleclick on pad  */
       void              PadDoubleClicked(TPad*);
+
+      void              MenuCommandExecuted(TObject*, const char*);
 
    public slots:
 
@@ -138,6 +144,8 @@ class QDESIGNER_WIDGET_EXPORT TQRootCanvas : public QWidget {
       virtual void      Update();
       virtual void      performResize();
 
+      void              executeMenu(int id);
+
    protected:
 
       virtual void      dropEvent( QDropEvent *Event );
@@ -152,10 +160,11 @@ class QDESIGNER_WIDGET_EXPORT TQRootCanvas : public QWidget {
       virtual void      leaveEvent(QEvent *e);
       virtual void      closeEvent( QCloseEvent * e);
 
-
       virtual QPaintEngine * paintEngine () const {return 0;}
 
-      TQCanvasMenu*     fContextMenu;
+      void              methodDialog(TObject* object, TMethod* method);
+      QAction*          addMenuAction(QMenu* menu, QSignalMapper* map, const QString& text, int id);
+
       TCanvas*          fCanvas;
       Int_t             wid;
       UInt_t            xid; // current id of embedded canvas (may change in Qt 4.4)
@@ -165,6 +174,12 @@ class QDESIGNER_WIDGET_EXPORT TQRootCanvas : public QWidget {
    private:
       int               fResizeFlag;
       bool              fMaskDoubleClick;
+      double            fMousePosX;    // mouse position in user coordinate when activate menu
+      double            fMousePosY;    // mouse position in user coordinate when activate menu
+
+      TObject*          fMenuObj;      // object use to fill menu
+      TList*            fMenuMethods;  // list of menu methods
+
 };
 
 #endif
