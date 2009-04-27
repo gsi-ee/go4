@@ -297,10 +297,16 @@ void TQCanvasMenu::dialog(TObject* object, TMethod* method)
    }
 
    } else {    // if m not found ...
-      char val[256] = "";
-      const char *tval = argument->GetDefault();
-      if (tval) strncpy(val, tval, 255);
-      fDialog->add(argname, val, type);
+      TString argDflt = argument->GetDefault() ? argument->GetDefault() : "";
+
+      if ((argDflt.Length() > 1) &&
+          (argDflt[0]=='\"') && (argDflt[argDflt.Length()-1]=='\"')) {
+         // cut "" from the string argument
+         argDflt.Remove(0,1);
+         argDflt.Remove(argDflt.Length()-1,1);
+      }
+
+      fDialog->add(argname, argDflt.Data(), type);
 
    }
    }
