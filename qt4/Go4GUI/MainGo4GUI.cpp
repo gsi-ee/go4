@@ -5,7 +5,7 @@
 #include "TSystem.h"
 #include "TEnv.h"
 
-#include "tqapplication.h"
+#include "TApplication.h"
 #include "qrootapplication.h"
 
 #include "TGo4Log.h"
@@ -16,12 +16,12 @@
 #include "TGX11.h"
 
 extern void qt_x11_set_global_double_buffer(bool);
- 
 
 
-int main(int argc, char **argv) 
+
+int main(int argc, char **argv)
 {
-    
+
     gEnv->SetValue("X11.XInitThread", 0);   // required to avoid conflicts with Qt4
     qt_x11_set_global_double_buffer(false); // improves qtroot canvas update
     bool traceon = false;
@@ -48,8 +48,9 @@ int main(int argc, char **argv)
             exit;
          }
     }
-    TQApplication app("uno",&argc,argv); // ROOT application
-    Q_INIT_RESOURCE(go4icons); 
+    TApplication app("uno", &argc, argv); // ROOT application
+
+    Q_INIT_RESOURCE(go4icons);
     QRootApplication myapp( argc, argv); // Qt application
     TGo4Log::Instance(); // init logger object
     TGo4Log::SetIgnoreLevel(1); // set this to 1 to suppress detailed debug output
@@ -68,7 +69,7 @@ int main(int argc, char **argv)
     // we may store window geometries to local folder (or into user path, or into account path),
     // the rest is in the account settings since we cannot specify user path anymore
     // (will be in $HOME/.config/GSI/go4.conf)
-    bool accountsettings=false;  
+    bool accountsettings=false;
     QString settingsenv=getenv("GO4SETTINGS");
     if(settingsenv.isEmpty()) {
         // try settings in $PWD/.config, use $HOME/.config, or the user defined location
@@ -94,10 +95,10 @@ int main(int argc, char **argv)
                cout <<"Creating settings subdirectory "<<qsubdir.toStdString()<<" ..."<< endl;
                if(gSystem->mkdir(qsubdir,true)!=0)
                   cout <<"Could not create "<<qsubdir.toStdString()<<" !"<< endl;
-            } 
+            }
       }
     /////// end settings setup ///////////////////////////////
-    
+
     if(traceon) TGo4Log::SetIgnoreLevel(0);
            else TGo4Log::SetIgnoreLevel(1);
 
@@ -107,7 +108,7 @@ int main(int argc, char **argv)
     // create instance, which should be used everywhere
     go4sett = new TGo4QSettings();
     TGo4MainWindow* Go4MainGUI = new TGo4MainWindow(&myapp, servermode);
-    Go4MainGUI->setGeometry (20, 20, 1152, 864);  
+    Go4MainGUI->setGeometry (20, 20, 1152, 864);
     myapp.setMainWidget(Go4MainGUI);
     Go4MainGUI->polish();
     Go4MainGUI->show();
