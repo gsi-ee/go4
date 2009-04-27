@@ -52,7 +52,6 @@ class TQRootDialog: public Q3VBox {
       void SetCanMenu(TQCanvasMenu* menu) { fMenu = menu; }
 
    public slots:
-       void receive(); // to be replaced
        void executeMethod();
 
    protected:

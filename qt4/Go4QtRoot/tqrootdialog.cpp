@@ -107,11 +107,6 @@ TQRootDialog::~TQRootDialog()
    aList.clear();
 }
 
-void TQRootDialog::receive()
-{
-   executeMethod();
-}
-
 void TQRootDialog::executeMethod()
 {
    Qtrootlockguard threadlock;

@@ -2,14 +2,12 @@
 
 #include "Riostream.h"
 
-//#include "TVirtualX.h"
 #include "TSystem.h"
 #include "GuiTypes.h"
 #include "TGFrame.h"
 
 #include <QtGui/qevent.h>
 #include <QtGui/qpainter.h>
-#include <Qt3Support/q3dragobject.h>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QCloseEvent>
 #include <QtGui/QPaintEvent>
