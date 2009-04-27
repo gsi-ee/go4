@@ -2,216 +2,202 @@
 #define TGO4QSETTINGS_H
 
 /**
- * @author J. Adamczewski
+ * @author J. Adamczewski, S.Linev
  * @since 03.11.2004 - adjusted for Qt4.4 10-2008 JAM
  */
 
-#include <QtCore/QSettings>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <QtGui/QFont>
 
 class QMainWindow;
 class QWidget;
+class QSettings;
 
 /** Extends the usual QSettings by a global setup for the
 * location of the settings file. May switch load/save between
 * the user home directory, and the current directory */
 
-class TGo4QSettings : public QSettings {
-    public:
+class TGo4QSettings {
+	   void Open();
+	public:
 
-    TGo4QSettings();
-    TGo4QSettings ( Format format );
-    virtual  ~TGo4QSettings();
+		static void SetSettLocation(const QString& filename);
 
-    /** Printout where the settings are saved*/
-    void DumpSettingsLocation();
+		static QString GetSettLoaction();
 
-    static void SetToCurrentDir(bool on);
+		TGo4QSettings();
+		virtual ~TGo4QSettings();
 
-    static void SetUserPath(const QString& mypath)
-        {
-          fgbUSEMYLOCATION=true;
-          fgxSETTINGSLOCATION=mypath;
-        }
+		void Store();
 
+		void RestoreSettings(QMainWindow* tgt);
 
+		void StoreSettings(QMainWindow* src);
 
-    static bool UsesUserPath(){return fgbUSEMYLOCATION;}
+		// set generic function
 
-    static const QString& GetUserPath() {return fgxSETTINGSLOCATION;}
+		void    setBool(const QString& name, bool value = true);
+		bool    getBool(const QString& name, bool def = true);
+		void    setInt(const QString& name, int value = 0);
+		int     getInt(const QString& name, int def = 0);
+		void    setStr(const QString& name, const QString& value = "");
+		QString getStr(const QString& name, const QString& value = "");
+		void    setDouble(const QString& name, double value = 0.);
+		double  getDouble(const QString& name, double value = 0.);
 
-    static const QString& GetSettingsName() {return fgxSETTINGSNAME;}
+		// set of Go4Specific functions
 
-    static QString getSettingsFileName();
+		void    setBasicSettings();
+		void    getBasicSettings();
 
-    void RestoreSettings(QMainWindow* tgt);
+		void setAppFont(const QFont&);
+		void getAppFont();
 
-    void StoreSettings(QMainWindow* src);
+		void    setAppStyle(const QString&);
+		QString getAppStyle();
 
-    // set generic function
+		void    setClientName(const QString&);
+		QString getClientName();
+		void    setClientNode(const QString&);
+		QString getClientNode();
+		void    setClientDir(const QString&);
+		QString getClientDir();
+		void    setClientExec(const QString&);
+		QString getClientExec();
+		void    setClientShellMode(int);
+		QString getClientShell();
+		int     getClientShellMode();
+		void    setClientTermMode(int);
+		int     getClientTermMode();
+		QString getClientTerm();
+		void    setClientIsServer(bool on);
+		bool    getClientIsServer();
+		void    setClientPort(int);
+		int     getClientPort();
+		void    setClientControllerMode(int);
+		int     getClientControllerMode();
+		void    setClientDefaultPass(bool);
+		bool    getClientDefaultPass();
 
-    void    setBool(const QString& name, bool value = true);
-    bool    getBool(const QString& name, bool def = true);
-    void    setInt(const QString& name, int value = 0);
-    int     getInt(const QString& name, int def = 0);
-    void    setStr(const QString& name, const QString& value = "");
-    QString getStr(const QString& name, const QString& value = "");
+		void    setTermHistorySize(int sz);
+		int     getTermHistorySize();
 
-    // set of Go4Specific functions
+		void    setHServName(const QString&);
+		QString getHServName();
+		void    setHServBase(const QString&);
+		QString getHServBase();
+		void    setHServFilter(const QString&);
+		QString getHServFilter();
+		void    setHServPort(int port);
+		int     getHServPort();
 
-    void    setBasicSettings();
-    void    getBasicSettings();
+		void    setPadCrosshair(bool on);
+		bool    getPadCrosshair();
 
-    void setAppFont(const QFont&);
-    void getAppFont();
+		void    setPadEventStatus(bool on);
+		bool    getPadEventStatus();
 
-    void    setAppStyle(const QString&);
-    QString getAppStyle();
+		void    setCanvasColor(int red, int green, int blue);
+		void    getCanvasColor(int& red, int& green, int& blue);
 
-    void    setClientName(const QString&);
-    QString getClientName();
-    void    setClientNode(const QString&);
-    QString getClientNode();
-    void    setClientDir(const QString&);
-    QString getClientDir();
-    void    setClientExec(const QString&);
-    QString getClientExec();
-    void    setClientShellMode(int);
-    QString getClientShell();
-    int     getClientShellMode();
-    void    setClientTermMode(int);
-    int     getClientTermMode();
-    QString getClientTerm();
-    void    setClientIsServer(bool on);
-    bool    getClientIsServer();
-    void    setClientPort(int);
-    int     getClientPort();
-    void    setClientControllerMode(int);
-    int     getClientControllerMode();
-    void    setClientDefaultPass(bool);
-    bool    getClientDefaultPass();
+		void    setOptStat(int value);
+		int     getOptStat();
 
-    void    setTermHistorySize(int sz);
-    int     getTermHistorySize();
+		void    setStatBoxVisible(bool on = true);
+		bool    getStatBoxVisible();
 
-    void    setHServName(const QString&);
-    QString getHServName();
-    void    setHServBase(const QString&);
-    QString getHServBase();
-    void    setHServFilter(const QString&);
-    QString getHServFilter();
-    void    setHServPort(int port);
-    int     getHServPort();
+		void    setStatBoxErrors(bool on = true);
+		bool    getStatBoxErrors();
 
-    void    setPadCrosshair(bool on);
-    bool    getPadCrosshair();
+		void    setCloneFlag(bool on = true);
+		bool    getCloneFlag();
 
-    void    setPadEventStatus(bool on);
-    bool    getPadEventStatus();
+		void    setDrawTimeFlag(bool on = true);
+		bool    getDrawTimeFlag();
 
-    void    setCanvasColor(int red, int green, int blue);
-    void    getCanvasColor(int& red, int& green, int& blue);
+		void    setDrawDateFlag(bool on = true);
+		bool    getDrawDateFlag();
 
-    void    setOptStat(int value);
-    int     getOptStat();
+		void    setDrawItemFlag(bool on = true);
+		bool    getDrawItemFlag();
 
-    void    setStatBoxVisible(bool on = true);
-    bool    getStatBoxVisible();
+		void    storeGeometry(QMainWindow* w);
+		void    restoreGeometry(QMainWindow* w);
 
-    void    setStatBoxErrors(bool on = true);
-    bool    getStatBoxErrors();
+		void    storePanelSize(QWidget* w);
+		void    restorePanelSize(QWidget* w);
 
-    void    setCloneFlag(bool on = true);
-    bool    getCloneFlag();
+		void    setBrowserColumn(const char* name, int width);
+		int     getBrowserColumn(const char* name, int defwidth);
 
-    void    setDrawTimeFlag(bool on = true);
-    bool    getDrawTimeFlag();
+		void    setHistName(const QString& value);
+		QString getHistName();
 
-    void    setDrawDateFlag(bool on = true);
-    bool    getDrawDateFlag();
+		void    setHistType(int value);
+		int     getHistType();
 
-    void    setDrawItemFlag(bool on = true);
-    bool    getDrawItemFlag();
+		void    setHistAxisPars(int naxis, int npoints, double min, double max);
+		void    getHistAxisPars(int naxis, int& npoints, double& min, double& max);
 
-    void    storeGeometry(QMainWindow* w);
-    void    restoreGeometry(QMainWindow* w);
+		void    setFetchDataWhenDraw(bool on = true);
+		bool    getFetchDataWhenDraw();
 
-    void    storePanelSize(QWidget* w);
-    void    restorePanelSize(QWidget* w);
+		void    setFetchDataWhenCopy(bool on = true);
+		bool    getFetchDataWhenCopy();
 
-    void    setBrowserColumn(const char* name, int width);
-    int     getBrowserColumn(const char* name, int defwidth);
+		void    setFetchDataWhenSave(bool on = true);
+		bool    getFetchDataWhenSave();
 
-    void    setHistName(const QString& value);
-    QString getHistName();
+		void    setRemoteFileSett(const QString& hostname, const QString& filename, const QString& protocol);
+		void    getRemoteFileSett(QString& hostname, QString& filename, QString& protocol);
 
-    void    setHistType(int value);
-    int     getHistType();
+		void    setPrinterSett(const QString& name, const QString& cmd);
+		void    getPrinterSett(QString& name, QString& cmd);
 
-    void    setHistAxisPars(int naxis, int npoints, double min, double max);
-    void    getHistAxisPars(int naxis, int& npoints, double& min, double& max);
+		/**some things for the mbs monitor dockwindow: */
+		void    setMbsMonitorNode(const QString& name);
+		QString getMbsMonitorNode();
+		void    setMbsMonitorFreq(int secs);
+		int     getMbsMonitorFreq();
+		void    setMbsMonitorBins(int num);
+		int     getMbsMonitorBins();
+		void    setMbsMonitorTrend(bool on = true);
+		bool    getMbsMonitorTrend();
+		void    setMbsMonitorMore(bool on = true);
+		bool    getMbsMonitorMore();
+		void    setMbsMonitorMonitorActive(bool on = true);
+		bool    getMbsMonitorMonitorActive();
+		void    setMbsMonitorBackwardsTrending(bool on = true);
+		bool    getMbsMonitorBackwardsTrending();
 
-    void    setFetchDataWhenDraw(bool on = true);
-    bool    getFetchDataWhenDraw();
+		/**some things for the DABC monitor dockwindow: */
+		void    setDabcMonitorNode(const QString& name);
+		QString getDabcMonitorNode();
+		void    setDabcMonitorFreq(int secs);
+		int     getDabcMonitorFreq();
+		void    setDabcMonitorBins(int num);
+		int     getDabcMonitorBins();
+		void    setDabcMonitorBackwardsTrending(bool on = true);
+		bool    getDabcMonitorBackwardsTrending();
 
-    void    setFetchDataWhenCopy(bool on = true);
-    bool    getFetchDataWhenCopy();
-
-    void    setFetchDataWhenSave(bool on = true);
-    bool    getFetchDataWhenSave();
-
-    void    setRemoteFileSett(const QString& hostname, const QString& filename, const QString& protocol);
-    void    getRemoteFileSett(QString& hostname, QString& filename, QString& protocol);
-
-    void    setPrinterSett(const QString& name, const QString& cmd);
-    void    getPrinterSett(QString& name, QString& cmd);
-
-    /**some things for the mbs monitor dockwindow: */
-    void    setMbsMonitorNode(const QString& name);
-    QString getMbsMonitorNode();
-    void    setMbsMonitorFreq(int secs);
-    int     getMbsMonitorFreq();
-    void    setMbsMonitorBins(int num);
-    int     getMbsMonitorBins();
-    void    setMbsMonitorTrend(bool on = true);
-    bool    getMbsMonitorTrend();
-    void    setMbsMonitorMore(bool on = true);
-    bool    getMbsMonitorMore();
-    void    setMbsMonitorMonitorActive(bool on = true);
-    bool    getMbsMonitorMonitorActive();
-    void    setMbsMonitorBackwardsTrending(bool on = true);
-    bool    getMbsMonitorBackwardsTrending();
-
-    /**some things for the DABC monitor dockwindow: */
-    void    setDabcMonitorNode(const QString& name);
-    QString getDabcMonitorNode();
-    void    setDabcMonitorFreq(int secs);
-    int     getDabcMonitorFreq();
-    void    setDabcMonitorBins(int num);
-    int     getDabcMonitorBins();
-    void    setDabcMonitorBackwardsTrending(bool on = true);
-    bool    getDabcMonitorBackwardsTrending();
-
-    /** implement history for gui commandline*/
-    QStringList getCommandsHistoryGUI();
-    void setCommandsHistoryGUI(QStringList & commands);
+		/** implement history for gui commandline*/
+		QStringList getCommandsHistoryGUI();
+		void setCommandsHistoryGUI(const QStringList & commands);
 
 
-    private:
+	private:
 
+		/** Currently opened settings */
+		QSettings* sett;
 
-    /** if true, settings will be put to location specified in mypath string and read there.
-      * Otherwise use
-      * QSettings defaultpaths */
-    static bool fgbUSEMYLOCATION;
+		/** This is the name of the file with settings, if empty - default qt location will be used */
+		static QString fgSettFileName;
 
-    /** The actual path to the settings */
-    static QString fgxSETTINGSLOCATION;
-
- /** This is the name of the currently activated settings group prefix
-     * e.g. "/go4" */
-    static QString fgxSETTINGSNAME;
 };
 
+
 extern TGo4QSettings* go4sett;
+
 
 #endif // TGO4ANALYSISWINDOW_H

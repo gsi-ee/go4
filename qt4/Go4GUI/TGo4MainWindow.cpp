@@ -313,7 +313,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    // start mbs monitoring only after browser etc. is fully there:
    if(go4sett->getMbsMonitorMonitorActive()) mbs->TimerStart();
 
-   go4sett->DumpSettingsLocation();
+   cout <<"Using Qt Settings at "<< TGo4QSettings::GetSettLoaction().ascii() << endl;
 }
 
 TGo4MainWindow::~TGo4MainWindow()
@@ -1054,48 +1054,41 @@ void TGo4MainWindow::FitHelpSlot()
 
 void TGo4MainWindow::SaveSettingsSlot()
 {
-   go4sett->storeGeometry(this);
+	go4sett->storeGeometry(this);
 
-   go4sett->setBasicSettings();
-   go4sett->setAppFont(QApplication::font());
+	go4sett->setBasicSettings();
+	go4sett->setAppFont(QApplication::font());
 
-   //go4sett->setAppStyle(QApplication::style()->name());
+   go4sett->setAppStyle(QApplication::style()->name());
 
    go4sett->StoreSettings(this);
 
-   go4sett->DumpSettingsLocation();
+   go4sett->Store();
 
-   delete go4sett;
-
-   go4sett = new TGo4QSettings;
+   cout <<"Using Qt Settings at "<< TGo4QSettings::GetSettLoaction().ascii() << endl;
 }
 
 void TGo4MainWindow::ChangeFontSlot()
 {
-   //cout <<"ChangeFontSlot ..." << endl;
    bool ok = false;
    QFont font= QFontDialog::getFont(&ok, QApplication::font(), this);
-   if (ok)
-      {
-       // direct set font:
-//       fxWorkSpace->SetEventsDisabled(true);
-//       QApplication::setFont( font, true );
-//       cout <<"ChangeFontSlot returned from setFont" << endl;
-//       fxWorkSpace->SetEventsDisabled(false);
+   if (!ok) return;
 
-//     set font for next startup (workaround)
-         go4sett->setAppFont(font);
-         delete go4sett;
-         go4sett = new TGo4QSettings;
-         QString infostring="Font "+ font.toString()+ " was saved to settings and will be activated on next start. Exit Go4 for restart now?";
-         if(QMessageBox::question( this, "Go4 GUI", infostring,
-               QMessageBox::Yes | QMessageBox::No ,
-               QMessageBox::Yes) != QMessageBox::Yes )
-                  {
-                     return;
-                  }
-         close();
-      }
+   QString infostring="Style " + font.toString() + "  was selected.\n";
+   infostring += "One can try to apply it immediately, but Qt4 crashed often at that place :(\n";
+   infostring += "One can save that font in settings and it will be applied next time Go4 is started";
+
+   int res = QMessageBox::question( this, "Go4 GUI", infostring,
+         QMessageBox::Apply | QMessageBox::Save | QMessageBox::Cancel ,
+         QMessageBox::Save);
+
+   if (res == QMessageBox::Cancel) return;
+
+   go4sett->setAppFont(font);
+   go4sett->Store();
+
+   if (res == QMessageBox::Apply)
+   	QApplication::setFont(font, true );
 }
 
 void TGo4MainWindow::SetStyleSlot(const QString &style)
@@ -1112,8 +1105,7 @@ void TGo4MainWindow::SetStyleSlot(const QString &style)
 
    // save settings anyway
    go4sett->setAppStyle(style);
-   delete go4sett;
-   go4sett = new TGo4QSettings;
+   go4sett->Store();
 
    if (res == QMessageBox::Apply)
       QApplication::setStyle(style);

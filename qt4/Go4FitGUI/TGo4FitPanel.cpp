@@ -274,7 +274,6 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name)
    fiIntegralMode = go4sett->getInt("/FitPanel/IntegralMode", 0);
    fiBuffersUsage = go4sett->getInt("/FitPanel/BuffersUsage", 1);
 
-
    FitList->setContextMenuPolicy(Qt::CustomContextMenu);
 
     // fit options part

@@ -21,7 +21,6 @@ extern void qt_x11_set_global_double_buffer(bool);
 
 int main(int argc, char **argv)
 {
-
     gEnv->SetValue("X11.XInitThread", 0);   // required to avoid conflicts with Qt4
     qt_x11_set_global_double_buffer(false); // improves qtroot canvas update
     bool traceon = false;
@@ -69,34 +68,39 @@ int main(int argc, char **argv)
     // we may store window geometries to local folder (or into user path, or into account path),
     // the rest is in the account settings since we cannot specify user path anymore
     // (will be in $HOME/.config/GSI/go4.conf)
-    bool accountsettings=false;
-    QString settingsenv=getenv("GO4SETTINGS");
-    if(settingsenv.isEmpty()) {
-        // try settings in $PWD/.config, use $HOME/.config, or the user defined location
-       if (gSystem->AccessPathName(QDir::currentDirPath(),kWritePermission)) {
-         TGo4QSettings::SetToCurrentDir(false); // can not write on current dir: use account settings
-         accountsettings=true;
-       } else {
-         TGo4QSettings::SetToCurrentDir(true); // by default, use current dir settings
-       }
+    QString settingsenv = getenv("GO4SETTINGS");
+
+    if(settingsenv.contains("LOCAL")) {
+        // try settings in $PWD/go4.conf
+       if (!gSystem->AccessPathName(QDir::currentDirPath(),kWritePermission))
+      	 TGo4QSettings::SetSettLocation(QDir::currentDirPath() + "/go4.conf");
     } else
-    if(settingsenv.contains("ACCOUNT")) {
-       TGo4QSettings::SetToCurrentDir(false); // explicit defined account settings
-       accountsettings=true;
-    } else {
-       TGo4QSettings::SetUserPath(settingsenv); //use specified settings path
+    if(!settingsenv.contains("ACCOUNT"))
+   	 TGo4QSettings::SetSettLocation(settingsenv);
+
+    QString settfile = TGo4QSettings::GetSettLoaction();
+    cout << "settfile = " << settfile.ascii() << endl;
+
+    if((settfile.length() > 0) && gSystem->AccessPathName(settfile)) {
+   	 QString subdir = QFileInfo(settfile).absolutePath();
+   	 cout << "Create subdirectory " << subdir.ascii() << endl;
+   	 const char* go4sys = getenv("GO4SYS");
+
+   	 QString dfltfile = "qt4/go4.conf";
+   	 if (go4sys!=0)
+   		 dfltfile = QString(go4sys) + "/" + dfltfile;
+
+   	 if (gSystem->mkdir(subdir.ascii(), kTRUE))
+   		 cout << "Cannot create subdirectory " << subdir.ascii() << " for configuarations" << endl;
+   	 else
+   		 if (gSystem->CopyFile(dfltfile.ascii(), settfile.ascii(), kFALSE))
+   			 cout << "Cannot copy default config file into " << settfile.ascii() << endl;
+   		 else
+   			 cout << "Copied default config file into " << settfile.ascii() << endl;
     }
-    if(!accountsettings) // want to have local settings
-      {
-      // need to create local settings subfolder if not exisiting, otherwise write will fail:
-         QString qsubdir=TGo4QSettings::GetUserPath();
-         if(gSystem->AccessPathName(qsubdir))
-            {
-               cout <<"Creating settings subdirectory "<<qsubdir.toStdString()<<" ..."<< endl;
-               if(gSystem->mkdir(qsubdir,true)!=0)
-                  cout <<"Could not create "<<qsubdir.toStdString()<<" !"<< endl;
-            }
-      }
+
+    go4sett = new TGo4QSettings;
+
     /////// end settings setup ///////////////////////////////
 
     if(traceon) TGo4Log::SetIgnoreLevel(0);
@@ -106,7 +110,7 @@ int main(int argc, char **argv)
        cout << "G-OOOO->  Started go4gui. "  << endl;
     cout << "   Go4 " << __GO4RELEASE__ << endl;
     // create instance, which should be used everywhere
-    go4sett = new TGo4QSettings();
+
     TGo4MainWindow* Go4MainGUI = new TGo4MainWindow(&myapp, servermode);
     Go4MainGUI->setGeometry (20, 20, 1152, 864);
     myapp.setMainWidget(Go4MainGUI);

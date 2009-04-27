@@ -1,84 +1,96 @@
 #include "TGo4QSettings.h"
 
+#include <QtCore/QSettings>
+
 #include "Riostream.h"
 #include <stdlib.h>
 
 #include "qdir.h"
 #include <QtCore/QFile>
 #include "qfont.h"
-#include "qapplication.h"
+#include <QtGui/QApplication>
 #include <QtGui/QMainWindow>
 
 #include "TGo4Marker.h"
 #include "TGo4Condition.h"
 
-const char* fxToolsfile = "/go4toolsrc";
-const char* fxSettingsfolder = "/.config/GSI";
-const char* fxOrganisation = "GSI";
-const char* fxApplication = "go4";
-
-bool TGo4QSettings::fgbUSEMYLOCATION = false;
-QString TGo4QSettings::fgxSETTINGSLOCATION = "";
-QString TGo4QSettings::fgxSETTINGSNAME = "/go4";
+QString TGo4QSettings::fgSettFileName = "";
 
 TGo4QSettings* go4sett = 0;
 
-
-TGo4QSettings::TGo4QSettings() : QSettings(fxOrganisation,fxApplication)
+void TGo4QSettings::SetSettLocation(const QString& filename)
 {
+	fgSettFileName = filename;
 }
 
-TGo4QSettings::TGo4QSettings(Format format) : QSettings(format, QSettings::UserScope, fxOrganisation, fxApplication)
+QString TGo4QSettings::GetSettLoaction()
 {
+	if (fgSettFileName.length() > 0) return fgSettFileName;
+	return QDir::homePath() + "/.config/GSI/go4.conf";
 }
 
+TGo4QSettings::TGo4QSettings()
+{
+	Open();
+}
 
 TGo4QSettings::~TGo4QSettings()
 {
+	delete sett;
 }
 
-void TGo4QSettings::SetToCurrentDir(bool on)
+void TGo4QSettings::Open()
 {
-   fgbUSEMYLOCATION=on;
-   if(on) {
-      fgxSETTINGSLOCATION = QDir::currentDirPath()+ "/.config/GSI";
-   }
+   if (fgSettFileName.length()>0)
+   	sett = new QSettings(fgSettFileName, QSettings::NativeFormat);
+   else
+   	sett = new QSettings("GSI","go4");
 }
 
-
-void TGo4QSettings::DumpSettingsLocation()
+void TGo4QSettings::Store()
 {
-cout <<"Using Qt Settings at "<<fileName().ascii() <<" ."<<endl;
+	delete sett;
+	Open();
 }
 
 void TGo4QSettings::setBool(const QString& name, bool value)
 {
-   setValue( GetSettingsName()+name, QString(value ? "true" : "false"));
+   sett->setValue(name, QString(value ? "true" : "false"));
 }
 
 bool TGo4QSettings::getBool(const QString& name, bool def)
 {
-   return value( GetSettingsName()+name, QString(def ? "true" : "false")).toString() == QString("true");
+   return sett->value(name, QString(def ? "true" : "false")).toString() == QString("true");
 }
 
 void TGo4QSettings::setInt(const QString& name, int value)
 {
-   setValue(GetSettingsName()+name, value);
+	sett->setValue(name, value);
 }
 
 int TGo4QSettings::getInt(const QString& name, int def)
 {
-   return value( GetSettingsName()+name, def).toInt();
+   return sett->value(name, def).toInt();
 }
 
 void TGo4QSettings::setStr(const QString& name, const QString& value)
 {
-   setValue( GetSettingsName()+name, value);
+	sett->setValue(name, value);
 }
 
 QString TGo4QSettings::getStr(const QString& name, const QString& def)
 {
-   return value( GetSettingsName()+name, def).toString();
+   return sett->value(name, def).toString();
+}
+
+void TGo4QSettings::setDouble(const QString& name, double value)
+{
+	sett->setValue(name, value);
+}
+
+double TGo4QSettings::getDouble(const QString& name, double def)
+{
+   return sett->value(name, def).toDouble();
 }
 
 
@@ -86,7 +98,7 @@ QString TGo4QSettings::getStr(const QString& name, const QString& def)
 
 void TGo4QSettings::setBasicSettings()
 {
-   //writeEntry(GetSettingsName()+"/Font", QApplication::font().toString() );
+   //writeEntry( "/Font", QApplication::font().toString() );
 
    setBool("/markers/Markerlabel", TGo4Marker::fgbHASLABEL);
    setBool("/markers/Connectorline", TGo4Marker::fgbHASCONNECTOR);
@@ -110,11 +122,11 @@ void TGo4QSettings::setBasicSettings()
 
 void TGo4QSettings::getBasicSettings()
 {
-//   QString AppStyle = readEntry(GetSettingsName()+"/Style/AppStyle", "windows");
+//   QString AppStyle = readEntry( "/Style/AppStyle", "windows");
 //   QApplication::setStyle(AppStyle);
 
 //   QFont font;
-//   font.fromString(readEntry(GetSettingsName()+"/Font", "Arial,11,-1,5,50,0,0,0,0,0"));
+//   font.fromString(readEntry( "/Font", "Arial,11,-1,5,50,0,0,0,0,0"));
 //   QApplication::setFont(font, true );
 
    TGo4Marker::fgbHASLABEL     = getBool("/markers/Markerlabel", 1);
@@ -140,81 +152,74 @@ void TGo4QSettings::getBasicSettings()
 
 void  TGo4QSettings::setAppFont(const QFont& font)
 {
-   writeEntry(GetSettingsName()+"/Font", font.toString() );
+   setStr("/Font", font.toString());
 }
 
 void TGo4QSettings::getAppFont()
 {
- QFont font;
- font.fromString(readEntry(GetSettingsName()+"/Font", "Arial,11,-1,5,50,0,0,0,0,0"));
- QApplication::setFont(font, true );
+   QFont font;
+   font.fromString(getStr("/Font", "Arial,11,-1,5,50,0,0,0,0,0"));
+   QApplication::setFont(font, true );
 }
-
-
 
 void TGo4QSettings::setAppStyle(const QString& v)
 {
-   writeEntry(GetSettingsName()+"/Style/AppStyle", v);
+   setStr("/Style/AppStyle", v);
 }
 
 QString TGo4QSettings::getAppStyle()
 {
-   return readEntry(GetSettingsName()+"/Style/AppStyle", "windows");
+   return getStr("/Style/AppStyle", "windows");
 }
 
 void TGo4QSettings::setClientName(const QString& v)
 {
-   writeEntry(GetSettingsName()+"/ClientSetting/Name", v);
+   setStr("/ClientSetting/Name", v);
 }
 
 QString TGo4QSettings::getClientName()
 {
-   return readEntry(GetSettingsName()+"/ClientSetting/Name", "MyAnalysis");
+   return getStr("/ClientSetting/Name", "MyAnalysis");
 }
 
 void TGo4QSettings::setClientNode(const QString& v)
 {
-   writeEntry( GetSettingsName()+"/ClientSetting/Node", v);
+   setStr(  "/ClientSetting/Node", v);
 }
 
 QString TGo4QSettings::getClientNode()
 {
-   return readEntry(GetSettingsName()+"/ClientSetting/Node", "localhost");
+   return getStr("/ClientSetting/Node", "localhost");
 }
 
 void TGo4QSettings::setClientDir(const QString& v)
 {
-   writeEntry( GetSettingsName()+"/ClientSetting/Dir", v);
+   setStr("/ClientSetting/Dir", v);
 }
 
 QString TGo4QSettings::getClientDir()
 {
-   return readEntry(GetSettingsName()+"/ClientSetting/Dir", QDir::currentDirPath());
+   return getStr("/ClientSetting/Dir", QDir::currentDirPath());
 }
 
 void TGo4QSettings::setClientExec(const QString& v)
 {
-   writeEntry( GetSettingsName()+"/ClientSetting/Exec", v);
+   setStr(  "/ClientSetting/Exec", v);
 }
 
 QString TGo4QSettings::getClientExec()
 {
-   return readEntry( GetSettingsName()+"/ClientSetting/Exec", "MainUserAnalysis");
+   return getStr("/ClientSetting/Exec", "MainUserAnalysis");
 }
 
 void TGo4QSettings::setClientShellMode(int v)
 {
-   QString res = "ssh";
-   switch(v) {
-      case 1: res = "rsh"; break;
-      case 2: res = "ssh"; break;
-   }
-   writeEntry( GetSettingsName()+"/ClientSetting/Shell", res);
+   setStr(  "/ClientSetting/Shell", v==1 ? "rsh" : "ssh");
 }
 
 QString TGo4QSettings::getClientShell()
 {
-   return readEntry( GetSettingsName()+"/ClientSetting/Shell", "ssh");
+   return getStr(  "/ClientSetting/Shell", "ssh");
 }
 
 int TGo4QSettings::getClientShellMode()
@@ -235,12 +240,12 @@ void TGo4QSettings::setClientTermMode(int v)
       case 2: res = "xterm"; break;
       case 3: res = "konsole"; break;
    }
-   writeEntry( GetSettingsName()+"/ClientSetting/Term", res);
+   setStr(  "/ClientSetting/Term", res);
 }
 
 QString TGo4QSettings::getClientTerm()
 {
-   return readEntry( GetSettingsName()+"/ClientSetting/Term", "qt");
+   return getStr("/ClientSetting/Term", "qt");
 }
 
 int TGo4QSettings::getClientTermMode()
@@ -255,470 +260,456 @@ int TGo4QSettings::getClientTermMode()
 
 void  TGo4QSettings::setClientIsServer(bool on)
 {
-   writeEntry(GetSettingsName()+"/ClientSetting/IsServer", on ? "on" : "off");
+   setBool("/ClientSetting/IsServer", on);
 }
 
 bool TGo4QSettings::getClientIsServer()
 {
-   QString value = readEntry(GetSettingsName()+"/ClientSetting/IsServer", "off");
-   return  value == QString("on");
+   return getBool("/ClientSetting/IsServer", false);
 }
 
 void TGo4QSettings::setClientPort(int nport)
 {
-   writeEntry(GetSettingsName()+"/ClientSetting/ClientPort", nport);
+   setInt( "/ClientSetting/ClientPort", nport);
 }
 
 int TGo4QSettings::getClientPort()
 {
-   return readNumEntry(GetSettingsName()+"/ClientSetting/ClientPort", 5000);
+   return getInt( "/ClientSetting/ClientPort", 5000);
 }
 
 void TGo4QSettings::setClientControllerMode(int mode)
 {
-   writeEntry(GetSettingsName()+"/ClientSetting/Controller", mode);
+   setInt( "/ClientSetting/Controller", mode);
 }
 
 int TGo4QSettings::getClientControllerMode()
 {
-   return readNumEntry(GetSettingsName()+"/ClientSetting/Controller", 0);
+   return getInt( "/ClientSetting/Controller", 0);
 }
 
 void TGo4QSettings::setClientDefaultPass(bool on)
 {
-   writeEntry(GetSettingsName()+"/ClientSetting/DefaultPass", on ? "on" : "off");
+   setBool( "/ClientSetting/DefaultPass", on);
 }
 
 bool TGo4QSettings::getClientDefaultPass()
 {
-   QString value = readEntry(GetSettingsName()+"/ClientSetting/DefaultPass", "on");
-   return value == QString("on");
+   return getBool( "/ClientSetting/DefaultPass", true);
 }
 
 void TGo4QSettings::setTermHistorySize(int sz)
 {
-   writeEntry(GetSettingsName()+"/AnalisysTerminal/HistorySize", sz);
+   setInt( "/AnalisysTerminal/HistorySize", sz);
 }
 
 int TGo4QSettings::getTermHistorySize()
 {
-   return readNumEntry(GetSettingsName()+"/AnalisysTerminal/HistorySize", 100000);
+   return getInt( "/AnalisysTerminal/HistorySize", 100000);
 }
 
 void TGo4QSettings::setHServName(const QString& v)
 {
-   writeEntry(GetSettingsName()+"/HistogramClient/server", v);
+   setStr( "/HistogramClient/server", v);
 }
 
 QString TGo4QSettings::getHServName()
 {
-   return readEntry(GetSettingsName()+"/HistogramClient/server", "");
+   return getStr( "/HistogramClient/server", "");
 }
 
 void TGo4QSettings::setHServBase(const QString& v)
 {
-   writeEntry(GetSettingsName()+"/HistogramClient/base", v);
+   setStr( "/HistogramClient/base", v);
 }
 
 QString TGo4QSettings::getHServBase()
 {
-   return readEntry(GetSettingsName()+"/HistogramClient/base", "");
+   return getStr( "/HistogramClient/base", "");
 }
 
 void TGo4QSettings::setHServFilter(const QString& v)
 {
-   writeEntry(GetSettingsName()+"/HistogramClient/filter", v);
+   setStr( "/HistogramClient/filter", v);
 }
 
 QString TGo4QSettings::getHServFilter()
 {
-   return readEntry(GetSettingsName()+"/HistogramClient/filter", "*");
+   return getStr( "/HistogramClient/filter", "*");
 }
 
 void TGo4QSettings::setHServPort(int port)
 {
-   writeEntry(GetSettingsName()+"/HistogramClient/port", port);
+   setInt( "/HistogramClient/port", port);
 }
 
 int TGo4QSettings::getHServPort()
 {
-   return readNumEntry(GetSettingsName()+"/HistogramClient/port", 6009);
+   return getInt( "/HistogramClient/port", 6009);
 }
 
 
 void TGo4QSettings::setPadCrosshair(bool on)
 {
-   writeEntry( GetSettingsName()+"/geometry/Crosshairmode", on ? 1: 0);
+   setBool(  "/geometry/Crosshairmode", on);
 }
 
 bool TGo4QSettings::getPadCrosshair()
 {
-   return readNumEntry( GetSettingsName()+"/geometry/Crosshairmode", 0) != 0;
+   return getBool(  "/geometry/Crosshairmode", false);
 }
 
 void TGo4QSettings::setPadEventStatus(bool on)
 {
-   writeEntry( GetSettingsName()+"/geometry/Eventstatusmode", on ? 1: 0);
+   setBool(  "/geometry/Eventstatusmode", on);
 }
 
 bool TGo4QSettings::getPadEventStatus()
 {
-   return readNumEntry( GetSettingsName()+"/geometry/Eventstatusmode", 0) != 0;
+   return getBool("/geometry/Eventstatusmode", false);
 }
 
 void TGo4QSettings::setCanvasColor(int red, int green, int blue)
 {
-   writeEntry(GetSettingsName()+"/geometry/ViewPanelBackRed", red );
-   writeEntry(GetSettingsName()+"/geometry/ViewPanelBackGrn", green);
-   writeEntry(GetSettingsName()+"/geometry/ViewPanelBackBlu", blue );
+   setInt( "/ViewPanel/BackRed", red );
+   setInt( "/ViewPanel/BackGrn", green);
+   setInt( "/ViewPanel/BackBlu", blue );
 }
 
 void TGo4QSettings::getCanvasColor(int& red, int& green, int& blue)
 {
-   red   = readNumEntry(GetSettingsName()+"/geometry/ViewPanelBackRed", 220);
-   green = readNumEntry(GetSettingsName()+"/geometry/ViewPanelBackGrn", 220);
-   blue  = readNumEntry(GetSettingsName()+"/geometry/ViewPanelBackBlu", 220);
+   red   = getInt( "/ViewPanel/BackRed", 220);
+   green = getInt( "/ViewPanel/BackGrn", 220);
+   blue  = getInt( "/ViewPanel/BackBlu", 220);
 }
 
 void TGo4QSettings::setCloneFlag(bool on)
 {
-   writeEntry( GetSettingsName()+"/geometry/CloneFlag", on ? 1: 0);
+   setBool("/ViewPanel/CloneFlag", on);
 }
 
 bool TGo4QSettings::getCloneFlag()
 {
-   return readNumEntry( GetSettingsName()+"/geometry/CloneFlag", 1);
+   return getBool(  "/ViewPanel/CloneFlag", true);
 }
 
 void TGo4QSettings::setDrawTimeFlag(bool on)
 {
-   writeEntry( GetSettingsName()+"/geometry/DrawTime", on ? 1: 0);
+   setBool("/ViewPanel/DrawTime", on);
 }
 
 bool TGo4QSettings::getDrawTimeFlag()
 {
-   return readNumEntry( GetSettingsName()+"/geometry/DrawTime", 1);
+   return getBool("/ViewPanel/DrawTime", true);
 }
 
 void TGo4QSettings::setDrawDateFlag(bool on)
 {
-   writeEntry( GetSettingsName()+"/geometry/DrawDate", on ? 1: 0);
+   setBool("/ViewPanel/DrawDate", on);
 }
 
 bool TGo4QSettings::getDrawDateFlag()
 {
-   return readNumEntry( GetSettingsName()+"/geometry/DrawDate", 0);
+   return getBool("/ViewPanel/DrawDate");
 }
 
 void TGo4QSettings::setDrawItemFlag(bool on)
 {
-   writeEntry( GetSettingsName()+"/geometry/DrawItem", on ? 1: 0);
+   setBool("/ViewPanel/DrawItem", on);
 }
 
 bool TGo4QSettings::getDrawItemFlag()
 {
-   return readNumEntry( GetSettingsName()+"/geometry/DrawItem", 0);
-}
-
-QString TGo4QSettings::getSettingsFileName()
-{
-   if(UsesUserPath())
-      return GetUserPath() + fxToolsfile;
-   else
-      return QDir::homeDirPath() + fxSettingsfolder+ fxToolsfile;
+   return getBool("/ViewPanel/DrawItem");
 }
 
 void TGo4QSettings::RestoreSettings(QMainWindow* tgt)
 {
-   tgt->restoreState(value(GetSettingsName()+"/MainWindow").toByteArray());
+   tgt->restoreState(sett->value("/MainWindow/State").toByteArray());
 }
 
 void TGo4QSettings::StoreSettings(QMainWindow* src)
 {
-   setValue(GetSettingsName()+"/MainWindow", src->saveState());
+   sett->setValue( "/MainWindow/State", src->saveState());
 }
 
 void TGo4QSettings::storeGeometry(QMainWindow* w)
 {
-   writeEntry(GetSettingsName()+"/geometry/MainWinWidth", w->width() );
-   writeEntry(GetSettingsName()+"/geometry/MainWinHeight", w->height() );
-   writeEntry(GetSettingsName()+"/geometry/MainWinX", w->x() );
-   writeEntry(GetSettingsName()+"/geometry/MainWinY", w->y() );
+   setInt( "/geometry/MainWinWidth", w->width() );
+   setInt( "/geometry/MainWinHeight", w->height() );
+   setInt( "/geometry/MainWinX", w->x() );
+   setInt( "/geometry/MainWinY", w->y() );
 }
 
 void TGo4QSettings::restoreGeometry(QMainWindow* w)
 {
    int Width, Height, PosX, PosY;
-   Width  = readNumEntry(GetSettingsName()+"/geometry/MainWinWidth", 997 );
-   Height = readNumEntry(GetSettingsName()+"/geometry/MainWinHeight", 690 );
-   PosX   = readNumEntry(GetSettingsName()+"/geometry/MainWinX", 129 );
-   PosY   = readNumEntry(GetSettingsName()+"/geometry/MainWinY", 132 );
+   Width  = getInt( "/geometry/MainWinWidth", 997 );
+   Height = getInt( "/geometry/MainWinHeight", 690 );
+   PosX   = getInt( "/geometry/MainWinX", 129 );
+   PosY   = getInt( "/geometry/MainWinY", 132 );
    w->resize( Width, Height );
    w->move( PosX, PosY );
 }
 
 void TGo4QSettings::storePanelSize(QWidget* w)
 {
-   writeEntry(GetSettingsName()+"/geometry/ViewPanelWidth", w->width() );
-   writeEntry(GetSettingsName()+"/geometry/ViewPanelHeight", w->height() );
+   setInt( "/ViewPanel/Width", w->width() );
+   setInt( "/ViewPanel/Height", w->height() );
 }
 
 void TGo4QSettings::restorePanelSize(QWidget* w)
 {
    QSize rect;
-   rect.setWidth(readNumEntry(GetSettingsName()+"/geometry/ViewPanelWidth", 300));
-   rect.setHeight(readNumEntry(GetSettingsName()+"/geometry/ViewPanelHeight", 300));
+   rect.setWidth(getInt( "/ViewPanel/Width", 300));
+   rect.setHeight(getInt( "/ViewPanel/Height", 300));
    w->resize(rect);
 }
 
 void TGo4QSettings::setBrowserColumn(const char* name, int width)
 {
-   writeEntry(GetSettingsName()+"/Browser/" + name, width);
+   setInt( QString("/Browser/") + name, width);
 }
 
 int TGo4QSettings::getBrowserColumn(const char* name, int defwidth)
 {
-   return readNumEntry(GetSettingsName()+"/Browser/" + name, defwidth);
+   return getInt( QString("/Browser/") + name, defwidth);
 }
 
 
 void TGo4QSettings::setOptStat(int value)
 {
-   writeEntry(GetSettingsName()+"/HistStatsBox/OptStats", value);
+   setInt( "/HistStatsBox/OptStats", value);
 }
 
 int TGo4QSettings::getOptStat()
 {
-   return readNumEntry(GetSettingsName()+"/HistStatsBox/OptStats", 11111111);
+   return getInt( "/HistStatsBox/OptStats", 11111111);
 }
 
 void TGo4QSettings::setStatBoxVisible(bool on)
 {
-   writeEntry(GetSettingsName()+"/HistStatsBox/Visible", on ? 1: 0);
+   setBool( "/HistStatsBox/Visible", on);
 }
 
 bool TGo4QSettings::getStatBoxVisible()
 {
-   return readNumEntry(GetSettingsName()+"/HistStatsBox/Visible", 1);
+   return getBool( "/HistStatsBox/Visible", true);
 }
 
 void TGo4QSettings::setStatBoxErrors(bool on)
 {
-   writeEntry(GetSettingsName()+"/HistStatsBox/Errors", on ? 1: 0);
+   setBool( "/HistStatsBox/Errors", on);
 }
 
 bool TGo4QSettings::getStatBoxErrors()
 {
-   return readNumEntry(GetSettingsName()+"/HistStatsBox/Errors", 0);
+   return getBool( "/HistStatsBox/Errors", false);
 }
 
 
 void  TGo4QSettings::setHistName(const QString& value)
 {
-   writeEntry(GetSettingsName()+"/NewHist/Name", value);
+   setStr( "/NewHist/Name", value);
 }
 
 QString TGo4QSettings::getHistName()
 {
-   return readEntry(GetSettingsName()+"/NewHist/Name", "histo1");
+   return getStr( "/NewHist/Name", "histo1");
 }
 
 void TGo4QSettings::setHistType(int value)
 {
-   writeEntry(GetSettingsName()+"/NewHist/HType", value);
+   setInt( "/NewHist/HType", value);
 }
 
 int TGo4QSettings::getHistType()
 {
-   return readNumEntry(GetSettingsName()+"/NewHist/HType", 11);
+   return getInt( "/NewHist/HType", 11);
 }
-
-
-
 
 void TGo4QSettings::setHistAxisPars(int naxis, int npoints, double min, double max)
 {
-   QString sname = GetSettingsName()+"/NewHist/Axis";
+   QString sname =  "/NewHist/Axis";
    switch (naxis) {
       case 0: sname+="X_"; break;
       case 1: sname+="Y_"; break;
       case 2: sname+="Z_"; break;
       default: sname+="X_"; break;
    }
-   writeEntry(sname+"NPoints", npoints);
-   writeEntry(sname+"Min", min);
-   writeEntry(sname+"Max", max);
+   setInt(sname+"NPoints", npoints);
+   setDouble(sname+"Min", min);
+   setDouble(sname+"Max", max);
 }
 
 void TGo4QSettings::getHistAxisPars(int naxis, int& npoints, double& min, double& max)
 {
-   QString sname = GetSettingsName()+"/NewHist/Axis";
+   QString sname =  "/NewHist/Axis";
    switch (naxis) {
       case 0: sname+="X_"; break;
       case 1: sname+="Y_"; break;
       case 2: sname+="Z_"; break;
       default: sname+="X_"; break;
    }
-   npoints = readDoubleEntry(sname+"NPoints", 100);
-   min = readDoubleEntry(sname+"Min", 0.);
-   max = readDoubleEntry(sname+"Max", 100.);
+   npoints = getInt(sname+"NPoints", 100);
+   min = getDouble(sname+"Min", 0.);
+   max = getDouble(sname+"Max", 100.);
 }
 
 void TGo4QSettings::setFetchDataWhenDraw(bool on)
 {
-   writeEntry( GetSettingsName()+"/preferences/FetchWhenDraw", on ? 1: 0);
+   setBool("/preferences/FetchWhenDraw", on);
 }
 
 bool TGo4QSettings::getFetchDataWhenDraw()
 {
-   return readNumEntry( GetSettingsName()+"/preferences/FetchWhenDraw", 1) != 0;
+   return getBool("/preferences/FetchWhenDraw", true);
 }
 
 void TGo4QSettings::setFetchDataWhenCopy(bool on)
 {
-   writeEntry( GetSettingsName()+"/preferences/FetchWhenCopy", on ? 1: 0);
+   setBool("/preferences/FetchWhenCopy", on);
 }
 
 bool TGo4QSettings::getFetchDataWhenCopy()
 {
-   return readNumEntry( GetSettingsName()+"/preferences/FetchWhenCopy", 0) != 0;
+   return getBool("/preferences/FetchWhenCopy", false);
 }
 
 void TGo4QSettings::setFetchDataWhenSave(bool on)
 {
-   writeEntry( GetSettingsName()+"/preferences/FetchWhenSave", on ? 1 : 0);
+   setBool("/preferences/FetchWhenSave", on);
 }
 
 bool TGo4QSettings::getFetchDataWhenSave()
 {
-   return readNumEntry( GetSettingsName()+"/preferences/FetchWhenSave", 0) != 0;
+   return getBool("/preferences/FetchWhenSave", false);
 }
 
 void TGo4QSettings::setRemoteFileSett(const QString& hostname, const QString& filename, const QString& protocol)
 {
-   writeEntry(GetSettingsName()+"/OpenRemoteFile/Host", hostname);
-   writeEntry(GetSettingsName()+"/OpenRemoteFile/File", filename);
-   writeEntry(GetSettingsName()+"/OpenRemoteFile/Type", protocol);
+   setStr( "/OpenRemoteFile/Host", hostname);
+   setStr( "/OpenRemoteFile/File", filename);
+   setStr( "/OpenRemoteFile/Type", protocol);
 }
 
 void TGo4QSettings::getRemoteFileSett(QString& hostname, QString& filename, QString& protocol)
 {
-   hostname = readEntry(GetSettingsName()+"/OpenRemoteFile/Host", "machine.gsi.de");
-   filename = readEntry(GetSettingsName()+"/OpenRemoteFile/File", "tmp/hsimple.root");
-   protocol = readEntry(GetSettingsName()+"/OpenRemoteFile/Type", "root:");
+   hostname = getStr( "/OpenRemoteFile/Host", "machine.gsi.de");
+   filename = getStr( "/OpenRemoteFile/File", "tmp/hsimple.root");
+   protocol = getStr( "/OpenRemoteFile/Type", "root:");
 }
 
 void TGo4QSettings::setPrinterSett(const QString& name, const QString& cmd)
 {
-   writeEntry(GetSettingsName()+"/Printer", name);
-   writeEntry(GetSettingsName()+"/PrintProg", cmd);
+   setStr( "/Printer/Name", name);
+   setStr( "/Printer/Prog", cmd);
 }
 
 void TGo4QSettings::getPrinterSett(QString& name, QString& cmd)
 {
-   name = readEntry(GetSettingsName()+"/Printer", getenv("PRINTER"));
-   cmd  = readEntry(GetSettingsName()+"/PrintProg","lpr");
+   name = getStr( "/Printer/Name", getenv("PRINTER"));
+   cmd  = getStr( "/Printer/Prog","lpr");
 }
 
 void    TGo4QSettings::setMbsMonitorNode(const QString& name)
 {
-   writeEntry(GetSettingsName()+"/MbsMonitor/Node", name);
+   setStr( "/MbsMonitor/Node", name);
 }
 
 QString TGo4QSettings::getMbsMonitorNode()
 {
-    return readEntry(GetSettingsName()+"/MbsMonitor/Node", "r2-d2");
+    return getStr( "/MbsMonitor/Node", "r2-d2");
 }
 
 void    TGo4QSettings::setMbsMonitorFreq(int secs)
 {
-   writeEntry(GetSettingsName()+"/MbsMonitor/Frequency", secs);
+   setInt( "/MbsMonitor/Frequency", secs);
 }
 
 int     TGo4QSettings::getMbsMonitorFreq()
 {
-   return readNumEntry(GetSettingsName()+"/MbsMonitor/Frequency", 5);
+   return getInt( "/MbsMonitor/Frequency", 5);
 }
 
 void    TGo4QSettings::setMbsMonitorBins(int num)
 {
-   writeEntry(GetSettingsName()+"/MbsMonitor/Bins", num);
+   setInt( "/MbsMonitor/Bins", num);
 }
 
 int     TGo4QSettings::getMbsMonitorBins()
 {
-   return readNumEntry(GetSettingsName()+"/MbsMonitor/Bins", 200);
+   return getInt( "/MbsMonitor/Bins", 200);
 }
 
 void    TGo4QSettings::setMbsMonitorTrend(bool on)
 {
-   writeEntry( GetSettingsName()+"/MbsMonitor/TrendOn", on ? 1: 0);
+   setBool(  "/MbsMonitor/TrendOn", on);
 }
 
 bool    TGo4QSettings::getMbsMonitorTrend()
 {
-    return readNumEntry( GetSettingsName()+"/MbsMonitor/TrendOn", 0) != 0;
+    return getBool("/MbsMonitor/TrendOn", false);
 }
 
 void    TGo4QSettings::setMbsMonitorMore(bool on)
 {
-   writeEntry( GetSettingsName()+"/MbsMonitor/ShowMore", on ? 1: 0);
+   setBool("/MbsMonitor/ShowMore", on);
 }
 
 bool    TGo4QSettings::getMbsMonitorMore()
 {
-   return readNumEntry( GetSettingsName()+"/MbsMonitor/ShowMore", 1) != 0;
+   return getBool("/MbsMonitor/ShowMore", true);
 }
 
 void    TGo4QSettings::setMbsMonitorMonitorActive(bool on)
 {
-   writeEntry( GetSettingsName()+"/MbsMonitor/MonitorActive", on ? 1: 0);
+   setBool("/MbsMonitor/MonitorActive", on);
 }
 
 bool    TGo4QSettings::getMbsMonitorMonitorActive()
 {
-   return readNumEntry( GetSettingsName()+"/MbsMonitor/MonitorActive", 0) != 0;
+   return getBool("/MbsMonitor/MonitorActive", false);
 }
 
 void    TGo4QSettings::setMbsMonitorBackwardsTrending(bool on)
 {
-   writeEntry( GetSettingsName()+"/MbsMonitor/BackwardsTrending", on ? 1: 0);
+   setBool("/MbsMonitor/BackwardsTrending", on);
 }
 
 bool    TGo4QSettings::getMbsMonitorBackwardsTrending()
 {
-   return readNumEntry( GetSettingsName()+"/MbsMonitor/BackwardsTrending", 1) != 0;
+   return getBool("/MbsMonitor/BackwardsTrending", true);
 }
-
 
 void    TGo4QSettings::setDabcMonitorNode(const QString& name)
 {
-   writeEntry(GetSettingsName()+"/DabcMonitor/Node", name);
+   setStr( "/DabcMonitor/Node", name);
 }
 
 QString TGo4QSettings::getDabcMonitorNode()
 {
-    return readEntry(GetSettingsName()+"/DabcMonitor/Node", "dimDns.gsi.de");
+    return getStr( "/DabcMonitor/Node", "dimDns.gsi.de");
 }
 
 void    TGo4QSettings::setDabcMonitorFreq(int secs)
 {
-   writeEntry(GetSettingsName()+"/DabcMonitor/Frequency", secs);
+   setInt( "/DabcMonitor/Frequency", secs);
 }
 
 int     TGo4QSettings::getDabcMonitorFreq()
 {
-   return readNumEntry(GetSettingsName()+"/DabcMonitor/Frequency", 5);
+   return getInt( "/DabcMonitor/Frequency", 5);
 }
 
 void    TGo4QSettings::setDabcMonitorBins(int num)
 {
-   writeEntry(GetSettingsName()+"/DabcMonitor/Bins", num);
+   setInt( "/DabcMonitor/Bins", num);
 }
 
 int     TGo4QSettings::getDabcMonitorBins()
 {
-   return readNumEntry(GetSettingsName()+"/DabcMonitor/Bins", 200);
+   return getInt( "/DabcMonitor/Bins", 200);
 }
 
 void    TGo4QSettings::setDabcMonitorBackwardsTrending(bool on)
@@ -733,12 +724,12 @@ bool TGo4QSettings::getDabcMonitorBackwardsTrending()
 
 QStringList TGo4QSettings::getCommandsHistoryGUI()
 {
-  return readListEntry( GetSettingsName()+"/CommandsHistoryGUI");
+  return sett->value("/CommandsHistoryGUI").toStringList();
 }
 
-void TGo4QSettings::setCommandsHistoryGUI(QStringList & commands)
+void TGo4QSettings::setCommandsHistoryGUI(const QStringList & commands)
 {
-   writeEntry( GetSettingsName()+"/CommandsHistoryGUI", commands);
+   sett->setValue(  "/CommandsHistoryGUI", commands);
 
 }
 
