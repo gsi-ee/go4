@@ -4,10 +4,10 @@
 #include <stdlib.h>
 
 #include "qdir.h"
-#include <QtCore/qfile.h>
+#include <QtCore/QFile>
 #include "qfont.h"
 #include "qapplication.h"
-#include "q3mainwindow.h"
+#include <QtGui/QMainWindow>
 
 #include "TGo4Marker.h"
 #include "TGo4Condition.h"
@@ -51,6 +51,36 @@ void TGo4QSettings::DumpSettingsLocation()
 cout <<"Using Qt Settings at "<<fileName().ascii() <<" ."<<endl;
 }
 
+void TGo4QSettings::setBool(const QString& name, bool value)
+{
+   setValue( GetSettingsName()+name, QString(value ? "true" : "false"));
+}
+
+bool TGo4QSettings::getBool(const QString& name, bool def)
+{
+   return value( GetSettingsName()+name, QString(def ? "true" : "false")).toString() == QString("true");
+}
+
+void TGo4QSettings::setInt(const QString& name, int value)
+{
+   setValue(GetSettingsName()+name, value);
+}
+
+int TGo4QSettings::getInt(const QString& name, int def)
+{
+   return value( GetSettingsName()+name, def).toInt();
+}
+
+void TGo4QSettings::setStr(const QString& name, const QString& value)
+{
+   setValue( GetSettingsName()+name, value);
+}
+
+QString TGo4QSettings::getStr(const QString& name, const QString& def)
+{
+   return value( GetSettingsName()+name, def).toString();
+}
+
 
 // set of Go4 specific functions
 
@@ -58,24 +88,24 @@ void TGo4QSettings::setBasicSettings()
 {
    //writeEntry(GetSettingsName()+"/Font", QApplication::font().toString() );
 
-   writeEntry(GetSettingsName()+"/markers/Markerlabel", (int) TGo4Marker::fgbHASLABEL);
-   writeEntry(GetSettingsName()+"/markers/Connectorline", (int) TGo4Marker::fgbHASCONNECTOR);
-   writeEntry(GetSettingsName()+"/markers/ShowX", (int) TGo4Marker::fgbXDRAW);
-   writeEntry(GetSettingsName()+"/markers/ShowY", (int) TGo4Marker::fgbYDRAW);
-   writeEntry(GetSettingsName()+"/markers/ShowXbin", (int) TGo4Marker::fgbXBINDRAW);
-   writeEntry(GetSettingsName()+"/markers/ShowYbin", (int)TGo4Marker::fgbYBINDRAW);
-   writeEntry(GetSettingsName()+"/markers/ShowBinContent", (int) TGo4Marker::fgbCONTDRAW);
+   setBool("/markers/Markerlabel", TGo4Marker::fgbHASLABEL);
+   setBool("/markers/Connectorline", TGo4Marker::fgbHASCONNECTOR);
+   setBool("/markers/ShowX", TGo4Marker::fgbXDRAW);
+   setBool("/markers/ShowY", TGo4Marker::fgbYDRAW);
+   setBool("/markers/ShowXbin", TGo4Marker::fgbXBINDRAW);
+   setBool("/markers/ShowYbin", TGo4Marker::fgbYBINDRAW);
+   setBool("/markers/ShowBinContent", TGo4Marker::fgbCONTDRAW);
 
-   writeEntry(GetSettingsName()+"/conditions/Conditionlabel", (int) TGo4Condition::fgbLABELDRAW);
-   writeEntry(GetSettingsName()+"/conditions/ShowLimits", (int) TGo4Condition::fgbLIMITSDRAW);
-   writeEntry(GetSettingsName()+"/conditions/ShowIntegral", (int) TGo4Condition::fgbINTDRAW);
-   writeEntry(GetSettingsName()+"/conditions/ShowXmean", (int) TGo4Condition::fgbXMEANDRAW);
-   writeEntry(GetSettingsName()+"/conditions/ShowYmean", (int) TGo4Condition::fgbYMEANDRAW);
-   writeEntry(GetSettingsName()+"/conditions/ShowXrms", (int) TGo4Condition::fgbXRMSDRAW);
-   writeEntry(GetSettingsName()+"/conditions/ShowYrms", (int) TGo4Condition::fgbYRMSDRAW);
-   writeEntry(GetSettingsName()+"/conditions/ShowXmax", (int) TGo4Condition::fgbXMAXDRAW);
-   writeEntry(GetSettingsName()+"/conditions/ShowYmax", (int) TGo4Condition::fgbYMAXDRAW);
-   writeEntry(GetSettingsName()+"/conditions/ShowCmax", (int) TGo4Condition::fgbCMAXDRAW);
+   setBool("/conditions/Conditionlabel", TGo4Condition::fgbLABELDRAW);
+   setBool("/conditions/ShowLimits", TGo4Condition::fgbLIMITSDRAW);
+   setBool("/conditions/ShowIntegral", TGo4Condition::fgbINTDRAW);
+   setBool("/conditions/ShowXmean", TGo4Condition::fgbXMEANDRAW);
+   setBool("/conditions/ShowYmean", TGo4Condition::fgbYMEANDRAW);
+   setBool("/conditions/ShowXrms", TGo4Condition::fgbXRMSDRAW);
+   setBool("/conditions/ShowYrms", TGo4Condition::fgbYRMSDRAW);
+   setBool("/conditions/ShowXmax", TGo4Condition::fgbXMAXDRAW);
+   setBool("/conditions/ShowYmax", TGo4Condition::fgbYMAXDRAW);
+   setBool("/conditions/ShowCmax", TGo4Condition::fgbCMAXDRAW);
 }
 
 void TGo4QSettings::getBasicSettings()
@@ -87,24 +117,24 @@ void TGo4QSettings::getBasicSettings()
 //   font.fromString(readEntry(GetSettingsName()+"/Font", "Arial,11,-1,5,50,0,0,0,0,0"));
 //   QApplication::setFont(font, true );
 
-   TGo4Marker::fgbHASLABEL     = readNumEntry(GetSettingsName()+"/markers/Markerlabel", 1);
-   TGo4Marker::fgbHASCONNECTOR = readNumEntry(GetSettingsName()+"/markers/Connectorline", 1);;
-   TGo4Marker::fgbXDRAW        = readNumEntry(GetSettingsName()+"/markers/ShowX", 1);
-   TGo4Marker::fgbYDRAW        = readNumEntry(GetSettingsName()+"/markers/ShowY", 0);
-   TGo4Marker::fgbXBINDRAW     = readNumEntry(GetSettingsName()+"/markers/ShowXbin", 0);
-   TGo4Marker::fgbYBINDRAW     = readNumEntry(GetSettingsName()+"/markers/ShowYbin", 0);
-   TGo4Marker::fgbCONTDRAW     = readNumEntry(GetSettingsName()+"/markers/ShowBinContent", 1);
+   TGo4Marker::fgbHASLABEL     = getBool("/markers/Markerlabel", 1);
+   TGo4Marker::fgbHASCONNECTOR = getBool("/markers/Connectorline", 1);;
+   TGo4Marker::fgbXDRAW        = getBool("/markers/ShowX", 1);
+   TGo4Marker::fgbYDRAW        = getBool("/markers/ShowY", 0);
+   TGo4Marker::fgbXBINDRAW     = getBool("/markers/ShowXbin", 0);
+   TGo4Marker::fgbYBINDRAW     = getBool("/markers/ShowYbin", 0);
+   TGo4Marker::fgbCONTDRAW     = getBool("/markers/ShowBinContent", 1);
 
-   TGo4Condition::fgbLABELDRAW = readNumEntry(GetSettingsName()+"/conditions/Conditionlabel", 1);
-   TGo4Condition::fgbLIMITSDRAW= readNumEntry(GetSettingsName()+"/conditions/ShowLimits", 1);
-   TGo4Condition::fgbINTDRAW   = readNumEntry(GetSettingsName()+"/conditions/ShowIntegral", 1);
-   TGo4Condition::fgbXMEANDRAW = readNumEntry(GetSettingsName()+"/conditions/ShowXmean", 1);
-   TGo4Condition::fgbYMEANDRAW = readNumEntry(GetSettingsName()+"/conditions/ShowYmean", 0);
-   TGo4Condition::fgbXRMSDRAW  = readNumEntry(GetSettingsName()+"/conditions/ShowXrms", 1);
-   TGo4Condition::fgbYRMSDRAW  = readNumEntry(GetSettingsName()+"/conditions/ShowYrms", 0);
-   TGo4Condition::fgbXMAXDRAW  = readNumEntry(GetSettingsName()+"/conditions/ShowXmax", 1);
-   TGo4Condition::fgbYMAXDRAW  = readNumEntry(GetSettingsName()+"/conditions/ShowYmax", 0);
-   TGo4Condition::fgbCMAXDRAW  = readNumEntry(GetSettingsName()+"/conditions/ShowCmax", 1);
+   TGo4Condition::fgbLABELDRAW = getBool("/conditions/Conditionlabel", 1);
+   TGo4Condition::fgbLIMITSDRAW= getBool("/conditions/ShowLimits", 1);
+   TGo4Condition::fgbINTDRAW   = getBool("/conditions/ShowIntegral", 1);
+   TGo4Condition::fgbXMEANDRAW = getBool("/conditions/ShowXmean", 1);
+   TGo4Condition::fgbYMEANDRAW = getBool("/conditions/ShowYmean", 0);
+   TGo4Condition::fgbXRMSDRAW  = getBool("/conditions/ShowXrms", 1);
+   TGo4Condition::fgbYRMSDRAW  = getBool("/conditions/ShowYrms", 0);
+   TGo4Condition::fgbXMAXDRAW  = getBool("/conditions/ShowXmax", 1);
+   TGo4Condition::fgbYMAXDRAW  = getBool("/conditions/ShowYmax", 0);
+   TGo4Condition::fgbCMAXDRAW  = getBool("/conditions/ShowCmax", 1);
 }
 
 
@@ -118,8 +148,6 @@ void TGo4QSettings::getAppFont()
  QFont font;
  font.fromString(readEntry(GetSettingsName()+"/Font", "Arial,11,-1,5,50,0,0,0,0,0"));
  QApplication::setFont(font, true );
-
-
 }
 
 
@@ -400,40 +428,17 @@ QString TGo4QSettings::getSettingsFileName()
       return QDir::homeDirPath() + fxSettingsfolder+ fxToolsfile;
 }
 
-void TGo4QSettings::RestoreSettings(Q3MainWindow* tgt)
+void TGo4QSettings::RestoreSettings(QMainWindow* tgt)
 {
-   QString fn = getSettingsFileName();
-   QFile f( fn );
-   if (f.open(QIODevice::ReadOnly)) {
-     QTextStream ts( &f );
-     ts >> *tgt;
-     f.close();
-     cout <<"Loaded Go4 toolbar settings from "<<fn.toStdString() << endl;
-   } else {
-     QString fndefault = QString(getenv("GO4SYS")) + "/qt4/etc/go4defaulttoolsrc.txt";
-     QFile fdefault( fndefault );
-     if (fdefault.open( QIODevice::ReadOnly )) {
-       QTextStream ts( &fdefault );
-       ts >> *tgt;
-       fdefault.close();
-       cout <<"Loaded Go4 toolbar settings from "<<fndefault.toStdString() << endl;
-     } else
-       cout <<"Could not load default toolbar settings from "<<fndefault.toStdString() << endl;
-   }
+   tgt->restoreState(value(GetSettingsName()+"/MainWindow").toByteArray());
 }
 
-void TGo4QSettings::StoreSettings(Q3MainWindow* src)
+void TGo4QSettings::StoreSettings(QMainWindow* src)
 {
-   QString fn = getSettingsFileName();
-   QFile f( fn );
-   f.open( QIODevice::WriteOnly );
-   QTextStream ts( &f );
-   ts << *src;
-   f.close();
-   cout <<"Saved Go4 toolbar settings to " << fn.toStdString() << endl;
+   setValue(GetSettingsName()+"/MainWindow", src->saveState());
 }
 
-void TGo4QSettings::storeGeometry(Q3MainWindow* w)
+void TGo4QSettings::storeGeometry(QMainWindow* w)
 {
    writeEntry(GetSettingsName()+"/geometry/MainWinWidth", w->width() );
    writeEntry(GetSettingsName()+"/geometry/MainWinHeight", w->height() );
@@ -441,7 +446,7 @@ void TGo4QSettings::storeGeometry(Q3MainWindow* w)
    writeEntry(GetSettingsName()+"/geometry/MainWinY", w->y() );
 }
 
-void TGo4QSettings::restoreGeometry(Q3MainWindow* w)
+void TGo4QSettings::restoreGeometry(QMainWindow* w)
 {
    int Width, Height, PosX, PosY;
    Width  = readNumEntry(GetSettingsName()+"/geometry/MainWinWidth", 997 );
@@ -718,47 +723,13 @@ int     TGo4QSettings::getDabcMonitorBins()
 
 void    TGo4QSettings::setDabcMonitorBackwardsTrending(bool on)
 {
-   writeEntry( GetSettingsName()+"/DabcMonitor/BackwardsTrending", on ? 1: 0);
+   setBool("/DabcMonitor/BackwardsTrending", on);
 }
 
-bool    TGo4QSettings::getDabcMonitorBackwardsTrending()
+bool TGo4QSettings::getDabcMonitorBackwardsTrending()
 {
-   return readNumEntry( GetSettingsName()+"/DabcMonitor/BackwardsTrending", 1) != 0;
+   return getBool("/DabcMonitor/BackwardsTrending", true);
 }
-
-
-
-
-void    TGo4QSettings::setBool(const QString& name, bool value)
-{
-   writeEntry( GetSettingsName()+name, value ? 1: 0);
-}
-
-bool    TGo4QSettings::getBool(const QString& name, bool def)
-{
-   return readNumEntry( GetSettingsName()+name, def ? 1 : 0) != 0;
-}
-
-void    TGo4QSettings::setInt(const QString& name, int value)
-{
-   writeEntry( GetSettingsName()+name, value);
-}
-
-int     TGo4QSettings::getInt(const QString& name, int def)
-{
-   return readNumEntry( GetSettingsName()+name, def);
-}
-
-void    TGo4QSettings::setStr(const QString& name, const QString& value)
-{
-   writeEntry( GetSettingsName()+name, value);
-}
-
-QString TGo4QSettings::getStr(const QString& name, const QString& def)
-{
-   return readEntry( GetSettingsName()+name, def);
-}
-
 
 QStringList TGo4QSettings::getCommandsHistoryGUI()
 {

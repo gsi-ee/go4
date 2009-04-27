@@ -1,14 +1,13 @@
 <ui version="4.0" stdsetdef="1" >
   <author></author>
   <comment></comment>
-  <exportmacro></exportmacro>
   <class>TGo4MBSViewer</class>
   <widget class="QGo4Widget" name="TGo4MBSViewer" >
     <property name="geometry" >
       <rect>
         <x>0</x>
         <y>0</y>
-        <width>1005</width>
+        <width>600</width>
         <height>85</height>
       </rect>
     </property>

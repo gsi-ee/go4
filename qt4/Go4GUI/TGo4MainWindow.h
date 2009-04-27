@@ -1,7 +1,7 @@
 #ifndef TGO4MAINWINDOW_H
 #define TGO4MAINWINDOW_H
 
-#include <Qt3Support/q3mainwindow.h>
+#include <QtGui/QMainWindow>
 
 #include <QtGui/QCloseEvent>
 
@@ -38,7 +38,7 @@ class QMenu;
    * @version 1.0
    * @since 15.05.2002 */
 
-class TGo4MainWindow : public Q3MainWindow {
+class TGo4MainWindow : public QMainWindow {
    Q_OBJECT
 
    public:

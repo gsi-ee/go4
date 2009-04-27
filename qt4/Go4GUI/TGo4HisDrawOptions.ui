@@ -1,7 +1,4 @@
 <ui version="4.0" stdsetdef="1" >
-  <author></author>
-  <comment></comment>
-  <exportmacro></exportmacro>
   <class>TGo4HisDrawOptions</class>
   <widget class="QWidget" name="TGo4HisDrawOptions" >
     <property name="geometry" >

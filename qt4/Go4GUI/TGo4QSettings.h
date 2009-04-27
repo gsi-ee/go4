@@ -6,9 +6,9 @@
  * @since 03.11.2004 - adjusted for Qt4.4 10-2008 JAM
  */
 
-#include <QtCore/qsettings.h>
+#include <QtCore/QSettings>
 
-class Q3MainWindow;
+class QMainWindow;
 class QWidget;
 
 /** Extends the usual QSettings by a global setup for the
@@ -43,10 +43,9 @@ class TGo4QSettings : public QSettings {
 
     static QString getSettingsFileName();
 
-    static void RestoreSettings(Q3MainWindow* tgt);
+    void RestoreSettings(QMainWindow* tgt);
 
-    static void StoreSettings(Q3MainWindow* src);
-
+    void StoreSettings(QMainWindow* src);
 
     // set generic function
 
@@ -133,8 +132,8 @@ class TGo4QSettings : public QSettings {
     void    setDrawItemFlag(bool on = true);
     bool    getDrawItemFlag();
 
-    void    storeGeometry(Q3MainWindow* w);
-    void    restoreGeometry(Q3MainWindow* w);
+    void    storeGeometry(QMainWindow* w);
+    void    restoreGeometry(QMainWindow* w);
 
     void    storePanelSize(QWidget* w);
     void    restorePanelSize(QWidget* w);

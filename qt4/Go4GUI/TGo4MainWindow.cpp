@@ -40,9 +40,8 @@
 #include "qstyle.h"
 #include <QDateTime>
 
-#include <Qt3Support/q3toolbar.h>
-#include <Qt3Support/q3dockarea.h>
-#include <Qt3Support/Q3DockWindow>
+#include <QtGui/QDockWidget>
+#include <QtGui/QToolBar>
 
 #include <QFileDialog>
 #include <QtGui/QAction>
@@ -128,18 +127,18 @@
 using namespace Qt;
 
 TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
-   Q3MainWindow(0, "MainWindow"),
+   QMainWindow(),
    fApp(app),
    fbServerMode(server)
 {
-   setDockWindowsMovable(TRUE);
+   // setDockWindowsMovable(TRUE);
    // statusBar();
    resize( 1152, 864 );
 
-   setIcon(QPixmap(":/icons/go4logo2_big.png"));
-   setRightJustification( TRUE );
-   setUsesTextLabel(TRUE);
-   setOpaqueMoving(FALSE);
+   setWindowIcon(QIcon(":/icons/go4logo2_big.png"));
+   // setRightJustification( TRUE );
+   // setUsesTextLabel(TRUE);
+   // setOpaqueMoving(FALSE);
 
    fxOM = new TGo4ObjectManager("GUI_OM","Gui object manager");
    fOMDataPath    = "data";
@@ -201,115 +200,87 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    statusBar()->message("Ready");
    statusBar()->setSizeGripEnabled(TRUE);
 
-   Q3DockWindow* BrowserDockWin = new Q3DockWindow();
-   BrowserDockWin->setResizeEnabled(TRUE);
-   BrowserDockWin->setCaption("Browser");
-   setAppropriate(BrowserDockWin, true);
+   QDockWidget* BrowserDockWin = new QDockWidget("Browser", this, Qt::Widget);
+   BrowserDockWin->setObjectName("BrowserDock");
    TGo4Browser* browser = new TGo4Browser(BrowserDockWin,"Browser");
+   browser->setWindowFlags(Qt::Widget);
    ConnectGo4Widget(browser);
    browser->StartWorking();
+   BrowserDockWin->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable);
    BrowserDockWin->setWidget(browser);
-   addDockWindow(BrowserDockWin, Qt::DockRight);
-   BrowserDockWin->show();
+   BrowserDockWin->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+   addDockWidget(Qt::LeftDockWidgetArea, BrowserDockWin);
 
-   Q3DockWindow* MBSDockWin = new Q3DockWindow();
-   MBSDockWin->setResizeEnabled(TRUE);
-   MBSDockWin->setCaption("MBS monitor");
-   setAppropriate(MBSDockWin, true);
-   TGo4MBSViewer* mbs = new TGo4MBSViewer(MBSDockWin, "MBSViewer");
+   QToolBar* MBSDockWin = addToolBar("MBS monitor");
+   MBSDockWin->setObjectName("MbsViewerDock");
+   TGo4MBSViewer* mbs = new TGo4MBSViewer(this, "MBSViewer");
    ConnectGo4Widget(mbs);
-   MBSDockWin->setWidget(mbs);
-   addDockWindow(MBSDockWin, Qt::DockBottom);
-   MBSDockWin->show();
+   MBSDockWin->addWidget(mbs);
 
 #ifdef __GO4DIM__
-   Q3DockWindow* DABCDockWin = new Q3DockWindow();
-   DABCDockWin->setResizeEnabled(TRUE);
-   DABCDockWin->setCaption("DABC monitor");
-   setAppropriate(DABCDockWin, true);
-   TGo4DabcMonitor* dabc = new TGo4DabcMonitor(DABCDockWin, "DABCMonitor");
+   QToolBar* DABCDockWin = addToolBar("DABC monitor");
+   DABCDockWin->setObjectName("DabcMonitorDock");
+   TGo4DabcMonitor* dabc = new TGo4DabcMonitor(this, "DabcMonitor");
    ConnectGo4Widget(dabc);
-   DABCDockWin->setWidget(dabc);
-   addDockWindow(DABCDockWin, Qt::DockBottom);
-   DABCDockWin->show();
+   DABCDockWin->addWidget(dabc);
 #endif
 
-   Q3ToolBar* DividePanelBar = new Q3ToolBar (this, "Canvas Tools");
-   addDockWindow(DividePanelBar, "Canvas Tools", Qt::DockTop, TRUE );
-   setAppropriate (DividePanelBar, true);
-   DividePanelBar->setHorizontallyStretchable(FALSE);
-   TGo4DividePad* dividepanel = new TGo4DividePad(DividePanelBar, "DividePad");
-   dividepanel->polish();
-   dividepanel->show();
+   QToolBar* DividePanelBar = addToolBar("Canvas Tools");
+   DividePanelBar->setObjectName("DividePadDock");
+   TGo4DividePad* dividepanel = new TGo4DividePad(this, "DividePad");
+   DividePanelBar->addWidget(dividepanel);
 
-   Q3ToolBar* stylebar = new Q3ToolBar(this, "Color Tools");
-   addDockWindow(stylebar, "Color Tools", Qt::DockTop, TRUE );
-   setAppropriate (stylebar, true);
-   TGo4Style* style = new TGo4Style(stylebar, "StyleToolBar");
-   style->polish();
-   style->show();
+   QToolBar* stylebar = addToolBar("Color Tools");
+   stylebar->setObjectName("Go4StyleDock");
+   TGo4Style* style = new TGo4Style(this, "Go4Style");
+   stylebar->addWidget(style);
 
-   Q3ToolBar* BrowserOptionsPanel = new Q3ToolBar(this,"Browser Options Panel");
-   addDockWindow(BrowserOptionsPanel, "Browser Options", Qt::DockTop, TRUE);
-   TGo4BrowserOptions* bropt = new TGo4BrowserOptions(BrowserOptionsPanel,"BrowserOptions");
+   QToolBar* BrowserOptionsPanel = addToolBar("Browser Options");
+   BrowserOptionsPanel->setObjectName("BrowserOptionsDock");
+   TGo4BrowserOptions* bropt = new TGo4BrowserOptions(this, "BrowserOptions");
    ConnectGo4Widget(bropt);
+   BrowserOptionsPanel->addWidget(bropt);
    bropt->StartWorking();
-   bropt->polish();
-   bropt->show();
 
-   Q3ToolBar* DrawOptionPanel = new Q3ToolBar(this,"Histogram Draw Options");
-   addDockWindow(DrawOptionPanel, "Draw Options", Qt::DockTop, TRUE);
-   TGo4HisDrawOptions* drawopt = new TGo4HisDrawOptions(DrawOptionPanel,"HisDrawOptions");
-   drawopt->polish();
-   drawopt->show();
+   QToolBar* DrawOptionPanel = addToolBar("Draw Options");
+   DrawOptionPanel->setObjectName("DrawOptionsDock");
+   TGo4HisDrawOptions* drawopt = new TGo4HisDrawOptions(this, "DrawOptions");
+   DrawOptionPanel->addWidget(drawopt);
 
-   Q3ToolBar* DrawOptionShortPanel = new Q3ToolBar(this,"Histogram Short Draw Options");
-   addDockWindow(DrawOptionShortPanel, "Draw Options Short", Qt::DockTop, TRUE);
-   TGo4HisDrawOptionsShort* drawopts = new TGo4HisDrawOptionsShort(DrawOptionShortPanel,"HisDrawOptionsShort");
-   drawopts->polish();
-   drawopts->show();
+   QToolBar* DrawOptionShortPanel = addToolBar("Hist Draw Options");
+   DrawOptionShortPanel->setObjectName("HisDrawOptionsDock");
+   TGo4HisDrawOptionsShort* drawopts = new TGo4HisDrawOptionsShort(this, "HisDrawOptions");
+   DrawOptionShortPanel->addWidget(drawopts);
+   DrawOptionShortPanel->adjustSize();
 
-   Q3ToolBar* ScaleOptionBar = new Q3ToolBar(this, "Zoom Tools");
-   addDockWindow(ScaleOptionBar, "Zoom Tools", Qt::DockTop, TRUE );
-   TGo4ScaleOptions* scopt = new TGo4ScaleOptions(ScaleOptionBar,"ScaleOptions");
+   QToolBar* ScaleOptionBar = addToolBar("Zoom Tools");
+   ScaleOptionBar->setObjectName("ScaleOptionsDock");
+   TGo4ScaleOptions* scopt = new TGo4ScaleOptions(this, "ScaleOptions");
    ConnectGo4Widget(scopt);
-   scopt->polish();
-   scopt->show();
-   setAppropriate(ScaleOptionBar, TRUE);
+   ScaleOptionBar->addWidget(scopt);
+   ScaleOptionBar->adjustSize();
 
-   Q3DockWindow* commandlinebar = new Q3DockWindow();
-   commandlinebar->setResizeEnabled(TRUE);
-   commandlinebar->setCaption("Go4 Command Line");
-   setAppropriate (commandlinebar, true);
-   TGo4CommandLine* cli = new TGo4CommandLine(commandlinebar, "CommandlineToolBar");
+   QToolBar* commandlinebar = addToolBar("Go4 Command Line");
+   commandlinebar->setObjectName("CommandLineDock");
+   TGo4CommandLine* cli = new TGo4CommandLine(this, "CommandLine");
    cli->setMainWindow(this);
    ConnectGo4Widget(cli);
-   commandlinebar->setWidget(cli);
-   cli->polish();
-   cli->show();
-   addDockWindow(commandlinebar, Qt::DockBottom);
-   commandlinebar->show();
+   commandlinebar->addWidget(cli);
 
-
-   Q3DockWindow* tviewerdock = new Q3DockWindow();
-   tviewerdock->setResizeEnabled(TRUE);
-   tviewerdock->setCaption("Tree viewer");
-   setAppropriate(tviewerdock, true);
-   TGo4TreeViewer* tviewer = new TGo4TreeViewer(tviewerdock, "TreeViewer");
+   QToolBar* tviewerdock = addToolBar("Tree viewer");
+   tviewerdock->setObjectName("TreeViewerDock");
+   TGo4TreeViewer* tviewer = new TGo4TreeViewer(this, "TreeViewer");
    ConnectGo4Widget(tviewer);
-   tviewerdock->setWidget(tviewer);
-   addDockWindow(tviewerdock, Qt::DockBottom);
-   tviewerdock->show();
+   tviewerdock->addWidget(tviewer);
 
-   Q3DockWindow* lidock = new Q3DockWindow();
-   lidock->setResizeEnabled( TRUE );
-   lidock->setCaption("Log Window");
-   setAppropriate(lidock, true);
-   TGo4LogInfo* loginfo = new TGo4LogInfo(lidock, "LogInfo");
+   QDockWidget* LogDockWin = new QDockWidget("Log window", this);
+   LogDockWin->setObjectName("LogInfoDock");
+   TGo4LogInfo* loginfo = new TGo4LogInfo(this, "LogInfo");
    ConnectGo4Widget(loginfo);
-   lidock->setWidget(loginfo);
-   addDockWindow(lidock, Qt::DockBottom);
-   lidock->show();
+   LogDockWin->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable);
+   LogDockWin->setWidget(loginfo);
+   LogDockWin->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+   addDockWidget(Qt::BottomDockWidgetArea, LogDockWin);
 
    menuBar()->insertSeparator();
 
@@ -391,8 +362,7 @@ void TGo4MainWindow::AddSettingMenu()
 {
    QMenu* settMenu = menuBar()->addMenu("&Settings");
 
-   // TODO: should be replaced be createPopupMenu
-   QMenu* sub = (QMenu*) createDockWindowMenu();
+   QMenu* sub = createPopupMenu();
    sub->setTitle("Sh&ow/hide");
    settMenu->addMenu(sub);
 
@@ -507,39 +477,26 @@ void TGo4MainWindow::AddFileMenu()
 
 void TGo4MainWindow::AddFileToolBar()
 {
-   Q3ToolBar *FileBar = new Q3ToolBar( this, "File Toolbar" );
-   addDockWindow(FileBar, "File Toolbar", Qt::DockTop, TRUE );
-   FileBar->setNewLine ( FALSE );
+   QToolBar *FileBar = addToolBar( "File Toolbar" );
+   FileBar->setObjectName("FileToolBar");
 
-   QToolButton *FileOpenB  = new QToolButton( QPixmap( ":/icons/open.png" ), QString::null, QString::null,
-                    this, SLOT(OpenFileSlot()), FileBar, "Open Local File" );
-   FileOpenB->setUsesTextLabel(FALSE);
-   QToolTip::add(FileOpenB, "Open a local file from disk");
+   FileBar->addAction( QIcon( ":/icons/open.png" ), "Open a local file from disk",
+                       this, SLOT(OpenFileSlot()));
 
-   QToolButton *FileRemoteOpenB = new QToolButton( QPixmap( ":/icons/network.png" ), QString::null, QString::null,
-                    this, SLOT(OpenRemoteFileSlot()), FileBar, "Open Remote File" );
-   FileRemoteOpenB->setUsesTextLabel(FALSE);
-   QToolTip::add(FileRemoteOpenB, "Open a remote file from server");
+   FileBar->addAction( QIcon( ":/icons/network.png" ), "Open a remote file from server",
+                        this, SLOT(OpenRemoteFileSlot()));
 
-   QToolButton *HServB = new QToolButton( QPixmap( ":/icons/histserv.png" ), QString::null, QString::null,
-                    this, SLOT(ConnectHServerSlot()), FileBar, "Open Remote Histogram Server" );
-   HServB->setUsesTextLabel(FALSE);
-   QToolTip::add(HServB, "Connect to running HServer");
+   FileBar->addAction( QIcon( ":/icons/histserv.png" ), "Connect to running histogram server",
+                        this, SLOT(ConnectHServerSlot()));
 
-   QToolButton *FileSaveB  = new QToolButton( QPixmap( ":/icons/filesave.png" ), QString::null, QString::null,
-                    this, SLOT(SaveFileSlot()), FileBar, "Save File" );
-   FileSaveB->setUsesTextLabel(FALSE);
-   QToolTip::add(FileSaveB, "Save the content of the browser to a root file");
+   FileBar->addAction( QIcon( ":/icons/filesave.png" ), "Save the content of the browser to a root file",
+                       this, SLOT(SaveFileSlot()));
 
-   QToolButton *FileAllCloseB  = new QToolButton( QPixmap( ":/icons/close.png" ), QString::null, QString::null,
-                    this, SLOT(CloseAllFilesSlot() ), FileBar, "Close All Files" );
-   FileAllCloseB->setUsesTextLabel(FALSE);
-   QToolTip::add(FileAllCloseB, "Close all root files in file browser");
+   FileBar->addAction( QIcon( ":/icons/close.png" ), "Close all root files in file browser",
+                       this, SLOT(CloseAllFilesSlot() ));
 
-   QToolButton *FileExitB  = new QToolButton( QPixmap( ":/icons/exit.png" ), QString::null, QString::null,
-                   this, SLOT(close()), FileBar, "Exit" );
-   FileExitB->setUsesTextLabel(FALSE);
-   QToolTip::add(FileExitB, "Exit the Go4");
+   FileBar->addAction( QIcon( ":/icons/exit.png" ), "Exit the Go4",
+                       this, SLOT(close()));
 }
 
 void TGo4MainWindow::AddToolsMenu()
@@ -570,59 +527,38 @@ void TGo4MainWindow::AddToolsMenu()
 
 void TGo4MainWindow::AddToolsBar()
 {
-   Q3ToolBar *Go4ToolBar = new Q3ToolBar( this, "File operations" );
-   addDockWindow(Go4ToolBar, "Tools Toolbar", Qt::DockTop, TRUE );
-   Go4ToolBar->setNewLine ( FALSE );
+   QToolBar *ToolBar = addToolBar("Go4 tools");
+   ToolBar->setObjectName("Go4ToolsBar");
 
-   QToolButton *ViewB  = new QToolButton( QPixmap( ":/icons/chart.png" ), QString::null, QString::null,
-                 this, SLOT(MakeNewPanel()), Go4ToolBar, "View Panel" );
-   ViewB->setUsesTextLabel(FALSE);
-   QToolTip::add(ViewB , "Create a new view panel");
+   ToolBar->addAction( QIcon( ":/icons/chart.png" ), "Create a new view panel",
+                       this, SLOT(MakeNewPanel()));
 
-   QToolButton *FitPanelB  = new QToolButton( QPixmap( ":/icons/fitpanel.png" ), QString::null, QString::null,
-                    this, SLOT(StartFitPanel()), Go4ToolBar, "Fit Panel" );
-   FitPanelB->setUsesTextLabel(FALSE);
-   QToolTip::add(FitPanelB , "Show/hide the Go4 Fit Panel");
+   ToolBar->addAction( QIcon( ":/icons/fitpanel.png" ), "Show/hide the Go4 Fit Panel",
+                    this, SLOT(StartFitPanel()));
 
-   QToolButton *HisInfoB  = new QToolButton( QPixmap( ":/icons/hislist.png" ), QString::null, QString::null,
-                    this, SLOT(StartHistogramInfo()), Go4ToolBar, "Histogram properties");
-   HisInfoB->setUsesTextLabel(FALSE);
-   QToolTip::add(HisInfoB , "Show histogram properties window");
+   ToolBar->addAction( QIcon( ":/icons/hislist.png" ), "Show histogram properties window",
+                    this, SLOT(StartHistogramInfo()));
 
-   QToolButton *CreatHisB  = new QToolButton( QPixmap( ":/icons/hiscre.png" ), QString::null, QString::null,
-                    this, SLOT(CreateNewHistSlot()), Go4ToolBar, "Create New Histogram" );
-   CreatHisB->setUsesTextLabel(FALSE);
-   QToolTip::add(CreatHisB , "Create new ROOT Histogram");
+   ToolBar->addAction( QIcon( ":/icons/hiscre.png" ), "Create new ROOT Histogram",
+                    this, SLOT(CreateNewHistSlot()));
 
-   QToolButton *ConInfoB  = new QToolButton( QPixmap( ":/icons/condlist.png" ), QString::null, QString::null,
-                    this, SLOT(StartConditionInfo()), Go4ToolBar, "Condition properties");
-   ConInfoB->setUsesTextLabel(FALSE);
-   QToolTip::add(ConInfoB , "Show condition properties window");
+   ToolBar->addAction( QIcon( ":/icons/condlist.png" ), "Show condition properties window",
+                    this, SLOT(StartConditionInfo()));
 
-   QToolButton *ConEditB  = new QToolButton( QPixmap( ":/icons/condcre.png" ), QString::null, QString::null,
-                    this, SLOT(CreateNewConditionSlot()), Go4ToolBar, "Condition editor");
-   ConEditB->setUsesTextLabel(FALSE);
-   QToolTip::add(ConEditB , "Create new condition in analysis");
+   ToolBar->addAction( QIcon( ":/icons/condcre.png" ), "Create new condition in analysis",
+                    this, SLOT(CreateNewConditionSlot()));
 
-   QToolButton *EveInfoB  = new QToolButton( QPixmap( ":/icons/zoom.png" ), QString::null, QString::null,
-                    this, SLOT(StartEventInfo()), Go4ToolBar, "Event printout");
-   EveInfoB->setUsesTextLabel(FALSE);
-   QToolTip::add(EveInfoB , "Event printout and examination window");
+   ToolBar->addAction( QIcon( ":/icons/zoom.png" ), "Event printout and examination window",
+                    this, SLOT(StartEventInfo()));
 
-   QToolButton *DynEditorB  = new QToolButton( QPixmap( ":/icons/dynlist.png" ), QString::null, QString::null,
-                    this, SLOT(CreateNewDynEntrySlot()), Go4ToolBar, "Create Dyn. List");
-   DynEditorB->setUsesTextLabel(FALSE);
-   QToolTip::add(DynEditorB , "Create new Dynamic list entry");
+   ToolBar->addAction( QIcon( ":/icons/dynlist.png" ), "Create new Dynamic list entry",
+                    this, SLOT(CreateNewDynEntrySlot()));
 
-   QToolButton *LibB  = new QToolButton( QPixmap( ":/icons/dllicon.png" ), QString::null, QString::null,
-                    this, SLOT(LoadLibrarySlot() ), Go4ToolBar, "Load Libraries" );
-   LibB->setUsesTextLabel(FALSE);
-   QToolTip::add(LibB , "Load Libraries");
+   ToolBar->addAction( QIcon( ":/icons/dllicon.png" ), "Load Libraries",
+                    this, SLOT(LoadLibrarySlot() ));
 
-   QToolButton *UsrB  = new QToolButton( QPixmap( ":/icons/user.png" ), QString::null, QString::null,
-                    this, SLOT(UserPanelSlot()), Go4ToolBar, "User GUI" );
-   UsrB->setUsesTextLabel(FALSE);
-   QToolTip::add(UsrB , "Start user panel");
+   ToolBar->addAction( QIcon( ":/icons/user.png" ), "Start user panel",
+                    this, SLOT(UserPanelSlot()));
 }
 
 void TGo4MainWindow::AddAnalysisMenu()
@@ -671,55 +607,36 @@ void TGo4MainWindow::AddAnalysisMenu()
 
 void TGo4MainWindow::AddAnalysisBar()
 {
-   Q3ToolBar *AnalysisToolBar = new Q3ToolBar( this, "AnalysisToolBar" );
-   addDockWindow(AnalysisToolBar, "Analysis Toolbar", Qt::DockTop, TRUE );
-   AnalysisToolBar->setNewLine ( FALSE );
-   QToolTip::add(AnalysisToolBar, "Analysis related tool buttons");
+   QToolBar *AnalBar = addToolBar("Analysis Toolbar");
+   AnalBar->setObjectName("AnalysisToolBar");
+   QToolTip::add(AnalBar, "Analysis related tool buttons");
 
-   QToolButton *LaunchB  = new QToolButton( QPixmap( ":/icons/launchanal.png" ), QString::null, QString::null,
-                   this, SLOT(LaunchClientSlot()), AnalysisToolBar, "Launch Analysis Button" );
-   LaunchB->setUsesTextLabel(FALSE);
-   QToolTip::add(LaunchB, "Launch an analysis");
+   AnalBar->addAction( QIcon( ":/icons/launchanal.png" ), "Launch an analysis",
+                   this, SLOT(LaunchClientSlot()));
 
-   QToolButton *ConnectB  = new QToolButton( QPixmap( ":/icons/connect.png" ), QString::null, QString::null,
-                   this, SLOT(ConnectServerSlot()), AnalysisToolBar, "Connect Analysis Button" );
-   ConnectB->setUsesTextLabel(FALSE);
-   QToolTip::add(ConnectB, "Connect running analysis");
+   AnalBar->addAction( QIcon( ":/icons/connect.png" ), "Connect running analysis",
+                   this, SLOT(ConnectServerSlot()));
 
-   QToolButton *DisconnectB  = new QToolButton( QPixmap( ":/icons/disconnect.png" ), QString::null, QString::null,
-                   this, SLOT(DisconnectAnalysisSlot()), AnalysisToolBar, "Disconnect Analysis Button" );
-   DisconnectB->setUsesTextLabel(FALSE);
-   QToolTip::add(DisconnectB, "Disconnect from running analysis");
+   AnalBar->addAction( QIcon( ":/icons/disconnect.png" ), "Disconnect from running analysis",
+                   this, SLOT(DisconnectAnalysisSlot()));
 
-   QToolButton *ShutdownB  = new QToolButton( QPixmap( ":/icons/shutanal.png" ), QString::null, QString::null,
-                  this, SLOT(ShutdownAnalysisSlot()), AnalysisToolBar, "Shutdown Analysis Button" );
-   ShutdownB->setUsesTextLabel(FALSE);
-   QToolTip::add(ShutdownB, "Shutdown running analysis");
+   AnalBar->addAction( QIcon( ":/icons/shutanal.png" ), "Shutdown running analysis",
+                  this, SLOT(ShutdownAnalysisSlot()));
 
-   QToolButton *SetStartB  = new QToolButton( QPixmap( ":/icons/restart.png" ), QString::null, QString::null,
-                    this, SLOT(SubmitStartAnalysisSlot()), AnalysisToolBar, "Submit and Start Analysis" );
-   SetStartB->setUsesTextLabel(FALSE);
-   QToolTip::add(SetStartB, "Submit Settings and start analysis");
+   AnalBar->addAction( QIcon( ":/icons/restart.png" ), "Submit Settings and start analysis",
+                    this, SLOT(SubmitStartAnalysisSlot()));
 
-   QToolButton *StartB  = new QToolButton( QPixmap( ":/icons/start.png" ), QString::null, QString::null,
-                   this, SLOT(StartAnalysisSlot()), AnalysisToolBar, "Start Analysis" );
-   StartB->setUsesTextLabel(FALSE);
-   QToolTip::add(StartB, "Start analysis");
+   AnalBar->addAction( QIcon( ":/icons/start.png" ), "Start analysis",
+                   this, SLOT(StartAnalysisSlot()));
 
-   QToolButton *StopB  = new QToolButton( QPixmap( ":/icons/Stop.png" ), QString::null, QString::null,
-                  this, SLOT(StopAnalysisSlot()), AnalysisToolBar, "Stop  Analysis" );
-   StopB->setUsesTextLabel(FALSE);
-   QToolTip::add(StopB, "Stop analysis");
+   AnalBar->addAction( QIcon( ":/icons/Stop.png" ), "Stop analysis",
+                  this, SLOT(StopAnalysisSlot()));
 
-   QToolButton *ConfigB  = new QToolButton( QPixmap( ":/icons/control.png" ), QString::null, QString::null,
-                  this, SLOT(ToggleAnalysisConfiguration()), AnalysisToolBar, "Analysis Configuration" );
-   ConfigB->setUsesTextLabel(FALSE);
-   QToolTip::add(ConfigB, "Show the analysis configuration");
+   AnalBar->addAction( QIcon( ":/icons/control.png" ), "Show the analysis configuration",
+                  this, SLOT(ToggleAnalysisConfiguration()));
 
-   QToolButton *AnalysisWinB  = new QToolButton( QPixmap( ":/icons/analysiswin.png" ), QString::null, QString::null,
-                   this, SLOT(ToggleAnalysisWindow()), AnalysisToolBar, "Analysis Window" );
-   AnalysisWinB->setUsesTextLabel(FALSE);
-   QToolTip::add(AnalysisWinB, "Show the analysis window");
+   AnalBar->addAction( QIcon( ":/icons/analysiswin.png" ), "Show the analysis window",
+                   this, SLOT(ToggleAnalysisWindow()));
 }
 
 void TGo4MainWindow::windowsMenuAboutToShow()
@@ -1496,16 +1413,12 @@ void TGo4MainWindow::UpdateDockAnalysisWindow()
        shouldexists = true;
 
    if (shouldexists && (anw==0)) {
-     Q3DockWindow* dock = new Q3DockWindow();
-     dock->setResizeEnabled(FALSE);
-     dock->setCaption("AnalysisControls");
-     setAppropriate(dock, true);
+     QToolBar* dock = addToolBar("Analysis control");
+     dock->setObjectName("AnalysisControlBar");
      bool showkill = !anal->IsAnalysisServer() || fKillCommand.length()>0;
-     anw = new TGo4AnalysisWindow(dock, "AnalysisWindow", false, showkill);
+     anw = new TGo4AnalysisWindow(this, "AnalysisWindow", false, showkill);
      ConnectGo4Widget(anw);
-     dock->setWidget(anw);
-     addDockWindow(dock, Qt::DockTop);
-     dock->show();
+     dock->addWidget(anw);
      anw->WorkWithUpdateObjectCmd(anal->UpdateObjectSlot());
    }
 }
@@ -1928,7 +1841,7 @@ void TGo4MainWindow::ToggleAnalysisWindow()
         if (anw->isMinimized()) anw->showNormal();
       }
    } else {
-      Q3DockWindow* dock = dynamic_cast<Q3DockWindow*> (anw->parentWidget());
+      QToolBar* dock = dynamic_cast<QToolBar*> (anw->parentWidget());
       if (dock->isVisible())
          dock->hide();
       else
@@ -1940,9 +1853,9 @@ void TGo4MainWindow::CloseAnalysisWindow()
 {
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
    if (anw!=0) {
-      Q3DockWindow* dock = dynamic_cast<Q3DockWindow*> (anw->parentWidget());
-      removeDockWindow(dock);
-      delete dock;
+      QToolBar* bar = dynamic_cast<QToolBar*> (anw->parentWidget());
+      removeToolBar(bar);
+      delete bar;
    }
 }
 
