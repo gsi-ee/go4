@@ -192,9 +192,6 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
 
    UpdateCaptionButtons();
 
-   statusBar()->showMessage("Ready");
-   statusBar()->setSizeGripEnabled(TRUE);
-
    QDockWidget* BrowserDockWin = new QDockWidget("Browser", this, Qt::Widget);
    BrowserDockWin->setObjectName("BrowserDock");
    TGo4Browser* browser = new TGo4Browser(BrowserDockWin,"Browser");
@@ -283,8 +280,6 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    windowsMenu = menuBar()->addMenu("&Windows");
    connect(windowsMenu, SIGNAL(aboutToShow()), this, SLOT(windowsMenuAboutToShow()));
 
-
-
    menuBar()->addSeparator();
 
    QMenu* helpMenu = menuBar()->addMenu("&Help");
@@ -321,6 +316,9 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    if(go4sett->getMbsMonitorMonitorActive()) mbs->TimerStart();
 
    cout <<"Using Qt Settings at "<< TGo4QSettings::GetSettLoaction().toAscii().constData() << endl;
+
+   statusBar()->showMessage("Ready");
+   statusBar()->setSizeGripEnabled(TRUE);
 }
 
 TGo4MainWindow::~TGo4MainWindow()
@@ -373,7 +371,7 @@ void TGo4MainWindow::AddSettingMenu()
    sub->setTitle("Sh&ow/hide");
    settMenu->addMenu(sub);
 
-   settMenu->addAction("&Fonts...", this, SLOT(ChangeFontSlot()));
+   settMenu->addAction("&Font...", this, SLOT(ChangeFontSlot()));
 
    QMenu *style = settMenu->addMenu("St&yle");
 

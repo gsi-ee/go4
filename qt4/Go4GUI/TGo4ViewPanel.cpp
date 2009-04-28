@@ -642,12 +642,12 @@ void TGo4ViewPanel::StartConditionEditing(TPad* pad)
 
    if (selectedkind==kind_Window) {
       FreezeMode->setChecked(false);
-      RegionB->setEnabled(true);
+      RegionB->setChecked(true);
       fbLeaveFocusAfterCondEnd = true;
    } else
    if (selectedkind==kind_Poly) {
       FreezeMode->setChecked(false);
-      PolyB->setEnabled(true);
+      PolyB->setChecked(true);
       fbLeaveFocusAfterCondEnd = true;
    } else
      return;
@@ -749,53 +749,53 @@ void TGo4ViewPanel::RefreshButtons()
 
    switch(GetMouseMode()) {
       case kMouseROOT:
-         CursorB->setEnabled(false);
-         RegionB->setEnabled(false);
-         LatexB->setEnabled(false);
-         DrawB->setEnabled(false);
-         PolyB->setEnabled(false);
+         CursorB->setChecked(false);
+         RegionB->setChecked(false);
+         LatexB->setChecked(false);
+         DrawB->setChecked(false);
+         PolyB->setChecked(false);
          break;
       case kMousePickCursor:
-         CursorB->setEnabled(true);
-         RegionB->setEnabled(false);
-         LatexB->setEnabled(false);
-         DrawB->setEnabled(false);
-         PolyB->setEnabled(false);
+         CursorB->setChecked(true);
+         RegionB->setChecked(false);
+         LatexB->setChecked(false);
+         DrawB->setChecked(false);
+         PolyB->setChecked(false);
          break;
       case kMousePickLimits:
-         CursorB->setEnabled(false);
-         RegionB->setEnabled(true);
-         LatexB->setEnabled(false);
-         DrawB->setEnabled(false);
-         PolyB->setEnabled(false);
+         CursorB->setChecked(false);
+         RegionB->setChecked(true);
+         LatexB->setChecked(false);
+         DrawB->setChecked(false);
+         PolyB->setChecked(false);
          break;
       case kMousePickPolygon:
-         CursorB->setEnabled(false);
-         RegionB->setEnabled(false);
-         LatexB->setEnabled(false);
-         DrawB->setEnabled(false);
-         PolyB->setEnabled(true);
+         CursorB->setChecked(false);
+         RegionB->setChecked(false);
+         LatexB->setChecked(false);
+         DrawB->setChecked(false);
+         PolyB->setChecked(true);
          break;
       case kMousePickLatex:
-         CursorB->setEnabled(false);
-         RegionB->setEnabled(false);
-         LatexB->setEnabled(true);
-         DrawB->setEnabled(false);
-         PolyB->setEnabled(false);
+         CursorB->setChecked(false);
+         RegionB->setChecked(false);
+         LatexB->setChecked(true);
+         DrawB->setChecked(false);
+         PolyB->setChecked(false);
          break;
       case kMouseDraw:   // currently, we only draw arrows:
-         CursorB->setEnabled(false);
-         RegionB->setEnabled(false);
-         LatexB->setEnabled(false);
-         DrawB->setEnabled(true);
-         PolyB->setEnabled(false);
+         CursorB->setChecked(false);
+         RegionB->setChecked(false);
+         LatexB->setChecked(false);
+         DrawB->setChecked(true);
+         PolyB->setChecked(false);
          break;
       default:
-         CursorB->setEnabled(false);
-         RegionB->setEnabled(false);
-         LatexB->setEnabled(false);
-         DrawB->setEnabled(false);
-         PolyB->setEnabled(false);
+         CursorB->setChecked(false);
+         RegionB->setChecked(false);
+         LatexB->setChecked(false);
+         DrawB->setChecked(false);
+         PolyB->setChecked(false);
          break;
    }; // switch()
    FreezeMode->setChecked(fbPickAgain);
@@ -1478,7 +1478,6 @@ void TGo4ViewPanel::MenuCommandExecutedSlot(TObject* obj, const char* cmdname)
 
 void TGo4ViewPanel::DoCanvasResizeSlot()
 {
-   //cout <<" TGo4ViewPanel::DoCanvasResizeSlot() " << endl;
    ResizeGedEditor();
 }
 
@@ -4485,36 +4484,20 @@ void TGo4ViewPanel::SetSelectedRange(double xmin, double xmax, double ymin, doub
 void TGo4ViewPanel::enterEvent( QEvent * e )
 {
     QWidget::enterEvent(e);
-//    if (ScanDrawOptions(GetActivePad(), GetPadOptions(GetActivePad()), true)) {
-//      cout << "Options are changed" << endl;
-//      CallPanelFunc(panel_Updated, GetActivePad());
-//    }
 }
 
 void TGo4ViewPanel::showEvent ( QShowEvent * e )
 {
-    //cout <<"+++++++++ TGo4ViewPanel::showEvent " << endl;
-//    GetQCanvas()->setResizeFlag(1);
     QWidget::showEvent(e);
-    //GetQCanvas()->checkResizeFlag(0);
-
 }
 
 
 void TGo4ViewPanel::leaveEvent( QEvent * e )
 {
-  //cout <<"rrrrrrrrrrrrrr TGo4ViewPanel::leaveEvent()" << endl;
-
     #if ROOT_VERSION_CODE < ROOT_VERSION(4,3,1)
-
-//    #if __GO4ROOTVERSION__ < 40301
     if(fxPeditor) fxPeditor->DeleteEditors();
     #endif
     QWidget::leaveEvent(e);
-//    if (ScanDrawOptions(GetActivePad(), GetPadOptions(GetActivePad()), true)) {
-//      cout << "Options are changed" << endl;
-//       CallPanelFunc(panel_Updated, GetActivePad());
-//    }
 }
 
 void TGo4ViewPanel::closeEvent( QCloseEvent* ce )
@@ -4525,17 +4508,12 @@ void TGo4ViewPanel::closeEvent( QCloseEvent* ce )
 
 void TGo4ViewPanel::paintEvent(QPaintEvent* e)
 {
-   //cout <<"vvvvvv TGo4ViewPanel::paintEvent" << endl;
    QWidget::paintEvent(e);
-   //ResizeGedEditor(); // better done by DoCanvasResizeSlot
-
 }
 
 void TGo4ViewPanel::resizeEvent(QResizeEvent * e)
 {
-   //cout <<"vvvvvv TGo4ViewPanel::resizeEvent" << endl;
    QWidget::resizeEvent(e);
-
 }
 
 void TGo4ViewPanel::mouseReleaseEvent(QMouseEvent * e)
@@ -4543,6 +4521,16 @@ void TGo4ViewPanel::mouseReleaseEvent(QMouseEvent * e)
    CheckResizeFlags();
 }
 
+
+bool TGo4ViewPanel::event(QEvent * ev)
+{
+   if(( ev->type() == QEvent::MouseButtonRelease) ||
+     ( ev->type() == QEvent::NonClientAreaMouseButtonRelease)) {
+     CheckResizeFlags();
+   }
+
+	return QGo4Widget::event(ev);
+}
 
 void TGo4ViewPanel::ResizeGedEditor()
 {
@@ -4615,7 +4603,6 @@ bool TGo4ViewPanel::IsRepaintTimerActive()
 
 void TGo4ViewPanel::checkRepaintSlot()
 {
-   //cout <<"rrrrrrrrrrrrrr TGo4ViewPanel::checkRepaintSlot()" << endl;
    TPad* pad = fxRepaintTimerPad;
    fxRepaintTimerPad = 0;
    CheckResizeFlags();
@@ -4625,9 +4612,6 @@ void TGo4ViewPanel::checkRepaintSlot()
 
 void TGo4ViewPanel::PadDeleted(TPad* pad)
 {
-//   if (pad==GetActivePad())
-//     SetActivePad(GetCanvas());
-
    TGo4Slot* slot = GetPadSlot(pad);
    if (slot!=0) delete slot;
 

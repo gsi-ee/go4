@@ -464,9 +464,7 @@ void TGo4QSettings::storePanelSize(QWidget* w)
 
 void TGo4QSettings::restorePanelSize(QWidget* w)
 {
-   QSize rect;
-   rect.setWidth(getInt( "/ViewPanel/Width", 300));
-   rect.setHeight(getInt( "/ViewPanel/Height", 300));
+   QSize rect(getInt( "/ViewPanel/Width", 450), getInt( "/ViewPanel/Height", 250));
    w->resize(rect);
 }
 

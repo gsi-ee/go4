@@ -167,7 +167,7 @@ class QDESIGNER_WIDGET_EXPORT TQRootCanvas : public QWidget {
 
       TCanvas*          fCanvas;
       Int_t             wid;
-      UInt_t            xid; // current id of embedded canvas (may change in Qt 4.4)
+      UInt_t            fXid; // current id of embedded canvas (may change in Qt 4.4)
       bool              isCanvasOwned;
       QWidget*          fParent;
       QWidget*          fTabWin;

@@ -57,8 +57,8 @@ TQRootCanvas::TQRootCanvas( QWidget *parent, const char *name, TCanvas *c ) :
   setAttribute(Qt::WA_PaintUnclipped);
 
   // add the Qt::WinId to TGX11 interface
-  xid=winId();
-  wid=gVirtualX->AddWindow(xid,100,30);
+  fXid = winId();
+  wid=gVirtualX->AddWindow(fXid,100,30);
   if (c==0){
     isCanvasOwned = true;
     fCanvas=new TCanvas(name,width(),height(),wid);
@@ -100,8 +100,8 @@ TQRootCanvas::TQRootCanvas( QWidget *parent, QWidget* tabWin, const char *name, 
    setAttribute(Qt::WA_NoSystemBackground);
    //setAttribute(Qt::WA_PaintOnScreen);
    // add the Qt::WinId to TGX11 interface
-   xid=winId();
-   wid=gVirtualX->AddWindow(xid,100,30);
+   fXid = winId();
+   wid = gVirtualX->AddWindow(fXid,100,30);
    if (c==0){
       isCanvasOwned = true;
       fCanvas=new TCanvas(name,width(),height(),wid);
@@ -139,15 +139,14 @@ TQRootCanvas::~TQRootCanvas()
 
 void TQRootCanvas::setResizeFlag(int flag)
 {
-      fResizeFlag = flag;
+   fResizeFlag = flag;
 }
 
 bool TQRootCanvas::checkResizeFlag(int level)
 {
-   //cout <<"----- TQRootCanvas::checkResizeFlag, level="<<level<<", flag="<<fResizeFlag << endl;
    if (level>=fResizeFlag){
       performResize();
-     return true;
+      return true;
    }
    return false;
 }
@@ -155,15 +154,14 @@ bool TQRootCanvas::checkResizeFlag(int level)
 void TQRootCanvas::performResize()
 {
    TGo4LockGuard threadlock;
-   UInt_t nxid=winId();
-   if(nxid!=xid) {
-      // Qt has changed xid for this widget (e.g. at QWorkspace::addWindow())
+   UInt_t newid = winId();
+   if(newid != fXid) {
+      // Qt has changed fXid for this widget (e.g. at QWorkspace::addWindow())
       // need to adjust the ROOT X access:
-      //cout <<"----- TQRootCanvas::performResize finds changed xwinid:"<<  setbase(10) <<nxid<<endl;
       delete fCanvas; // should also remove old x windows!
-      wid=gVirtualX->AddWindow(nxid,width(),height());
-      fCanvas=new TCanvas(objectName().toAscii(), width(),height(),wid);
-      xid=nxid;
+      wid = gVirtualX->AddWindow(newid, width(), height());
+      fCanvas=new TCanvas(objectName().toAscii(), width(), height(), wid);
+      fXid = newid;
    }
    Resize();
    Update();
@@ -336,7 +334,7 @@ void TQRootCanvas::leaveEvent( QEvent *e )
 bool TQRootCanvas::eventFilter( QObject *o, QEvent *e )
 {
 TGo4LockGuard threadlock;
-   if ( e->type() == QEvent::Close) {  // close
+      if ( e->type() == QEvent::Close) {  // close
       if (fCanvas && (isCanvasOwned== false) ) {
          delete fCanvas;
          #if DEBUG_LEVEL
@@ -362,14 +360,18 @@ TGo4LockGuard threadlock;
       return FALSE;
    }
 
-//   if( e->type() == QEvent::MouseButtonRelease) {
-//            return FALSE;
+//   if(( e->type() == QEvent::MouseButtonRelease) ||
+//     ( e->type() == QEvent::NonClientAreaMouseButtonRelease)) {
+//   	cout << "Event released" << endl;
+//
+//     checkResizeFlag();
+//     return FALSE;
 //   }
 
    if( e->type() == QEvent::Enter) { // On enter event check resize flag
        //cout <<"----- TQRootCanvas::eventFilter: Enter" << endl;
        setResizeFlag(1); // enable repaint when resize is done
-       checkResizeFlag(1); // immediately do a repaint on entering window
+       checkResizeFlag(); // immediately do a repaint on entering window
        return FALSE;
    }
 

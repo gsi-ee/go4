@@ -298,6 +298,7 @@ protected:
     virtual void paintEvent( QPaintEvent * e );
     virtual void resizeEvent( QResizeEvent * e );
     virtual void mouseReleaseEvent( QMouseEvent * e );
+    virtual bool event( QEvent * );
     virtual void showEvent ( QShowEvent * event );
     virtual int GetNumMarkers( TPad * pad, int kind );
     virtual void AddMarkerObj( TPad * pad, int kind, TObject * obj );
