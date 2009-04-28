@@ -190,12 +190,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    AddAnalysisMenu();
    AddAnalysisBar();
 
-   AddSettingMenu();
-
    UpdateCaptionButtons();
-
-   windowsMenu = menuBar()->addMenu("&Windows");
-   connect(windowsMenu, SIGNAL(aboutToShow()), this, SLOT(windowsMenuAboutToShow()));
 
    statusBar()->message("Ready");
    statusBar()->setSizeGripEnabled(TRUE);
@@ -281,6 +276,14 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    LogDockWin->setWidget(loginfo);
    LogDockWin->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
    addDockWidget(Qt::BottomDockWidgetArea, LogDockWin);
+
+   // make it here while only here exists all toolbars and dock widgets
+   AddSettingMenu();
+
+   windowsMenu = menuBar()->addMenu("&Windows");
+   connect(windowsMenu, SIGNAL(aboutToShow()), this, SLOT(windowsMenuAboutToShow()));
+
+
 
    menuBar()->insertSeparator();
 
@@ -1014,8 +1017,8 @@ void TGo4MainWindow::LogSettingsSlot()
 
    TGo4Log::LogfileEnable(dlg.LogfileWrite->isChecked());
    TGo4Log::OutputEnable(dlg.LogfilePrint->isChecked());
-   TGo4Log::SetIgnoreLevel(dlg.IgnoreCombo->currentItem());
-   TGo4Log::AutoEnable(dlg.ModeCombo->currentItem());
+   TGo4Log::SetIgnoreLevel(dlg.IgnoreCombo->currentIndex());
+   TGo4Log::AutoEnable(dlg.ModeCombo->currentIndex());
 }
 
 void TGo4MainWindow::HelpWindow(const char* filename, const char* msg)

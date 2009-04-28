@@ -7,7 +7,6 @@
 #include "qlayout.h"
 #include "qtooltip.h"
 #include "qimage.h"
-#include "qpixmap.h"
 #include <QtCore/qtimer.h>
 #include "qlabel.h"
 #include "qmessagebox.h"
@@ -48,7 +47,7 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
     if (needoutput) {
 
        resize(700, 400);
-       setIcon(QPixmap(":/icons/analysiswin.png"));
+       setWindowIcon(QIcon(":/icons/analysiswin.png"));
        QGridLayout* layout = new QGridLayout( this, 1, 1, 11, 6, "layout");
        fxOutput = new QTextEdit(this, "output");
        fxOutput->setUndoRedoEnabled(FALSE);
@@ -92,8 +91,7 @@ void TGo4AnalysisWindow::CreateCmdLine(QHBoxLayout* box)
    MacroSearch->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, MacroSearch->sizePolicy().hasHeightForWidth() ) );
    MacroSearch->setMinimumSize( QSize( 30, 25 ) );
    MacroSearch->setMaximumSize( QSize( 30, 25 ) );
-   MacroSearch->setPixmap( QPixmap( "" ) );
-   MacroSearch->setIconSet( QIcon( QPixmap( ":/icons/findfile.png" ) ) );
+   MacroSearch->setIcon( QIcon(":/icons/findfile.png" ) );
    QToolTip::add(MacroSearch, trUtf8( "Search root macro on disk." ) );
    connect(MacroSearch, SIGNAL(clicked()), this, SLOT(FileDialog_Macro()));
    box->addWidget(MacroSearch,1);
@@ -106,8 +104,7 @@ void TGo4AnalysisWindow::CreateButtons(QHBoxLayout* box, bool needkillbtn)
       KillProcess->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, KillProcess->sizePolicy().hasHeightForWidth() ) );
       KillProcess->setMinimumSize( QSize( 30, 25 ) );
       KillProcess->setMaximumSize( QSize( 30, 25 ) );
-      KillProcess->setPixmap( QPixmap( "" ) );
-      KillProcess->setIconSet( QIcon( QPixmap( ":/icons/killanal.png" ) ) );
+      KillProcess->setIcon( QIcon( ":/icons/killanal.png" ) );
       QToolTip::add( KillProcess, trUtf8( "Apply Ctrl+C in the analysis terminal." ) );
       connect(KillProcess, SIGNAL(clicked()), this, SLOT(RequestTerminate()));
       box->addWidget(KillProcess);
@@ -118,8 +115,7 @@ void TGo4AnalysisWindow::CreateButtons(QHBoxLayout* box, bool needkillbtn)
       ClearButton->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, ClearButton->sizePolicy().hasHeightForWidth() ) );
       ClearButton->setMinimumSize( QSize( 30, 25 ) );
       ClearButton->setMaximumSize( QSize( 30, 25 ) );
-      ClearButton->setPixmap( QPixmap( "" ) );
-      ClearButton->setIconSet( QIcon( QPixmap( ":/icons/clear.png" ) ) );
+      ClearButton->setIcon( QIcon( ":/icons/clear.png" ) );
       QToolTip::add(ClearButton, trUtf8( "Clear Terminal Window." ) );
       connect(ClearButton, SIGNAL(clicked()), this, SLOT(ClearAnalysisOutput()));
       box->addItem(new QSpacerItem(1,1));
@@ -130,8 +126,7 @@ void TGo4AnalysisWindow::CreateButtons(QHBoxLayout* box, bool needkillbtn)
    PrintHistoButton->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, PrintHistoButton->sizePolicy().hasHeightForWidth() ) );
    PrintHistoButton->setMinimumSize( QSize( 30, 25 ) );
    PrintHistoButton->setMaximumSize( QSize( 30, 25 ) );
-   PrintHistoButton->setPixmap( QPixmap( "" ) );
-   PrintHistoButton->setIconSet( QIcon( QPixmap( ":/icons/hislist.png" ) ) );
+   PrintHistoButton->setIcon( QIcon( ":/icons/hislist.png" ) );
    QToolTip::add(PrintHistoButton, trUtf8( "Print list of all histograms." ) );
    connect(PrintHistoButton, SIGNAL(clicked()), this, SLOT(PrintHistograms()));
    box->addWidget(PrintHistoButton,1);
@@ -140,8 +135,7 @@ void TGo4AnalysisWindow::CreateButtons(QHBoxLayout* box, bool needkillbtn)
    PrintConnyButton->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, PrintConnyButton->sizePolicy().hasHeightForWidth() ) );
    PrintConnyButton->setMinimumSize( QSize( 30, 25 ) );
    PrintConnyButton->setMaximumSize( QSize( 30, 25 ) );
-   PrintConnyButton->setPixmap( QPixmap( "" ) );
-   PrintConnyButton->setIconSet( QIcon( QPixmap( ":/icons/condlist.png" ) ) );
+   PrintConnyButton->setIcon( QIcon( ":/icons/condlist.png" ) );
    QToolTip::add(PrintConnyButton, trUtf8( "Print list of all conditions." ) );
    connect(PrintConnyButton, SIGNAL(clicked()), this, SLOT(PrintConditions()));
    box->addWidget(PrintConnyButton,1);
@@ -150,8 +144,7 @@ void TGo4AnalysisWindow::CreateButtons(QHBoxLayout* box, bool needkillbtn)
    PrintEventButton->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, PrintEventButton->sizePolicy().hasHeightForWidth() ) );
    PrintEventButton->setMinimumSize( QSize( 30, 25 ) );
    PrintEventButton->setMaximumSize( QSize( 30, 25 ) );
-   PrintEventButton->setPixmap( QPixmap( "" ) );
-   PrintEventButton->setIconSet( QIcon( QPixmap( ":/icons/zoom.png" ) ) );
+   PrintEventButton->setIconSet( QIcon( ":/icons/zoom.png" ) );
    QToolTip::add(PrintEventButton, trUtf8( "Start Event Inspection panel" ) );
    connect(PrintEventButton, SIGNAL(clicked()), this, SLOT(PrintEvent()));
    box->addWidget(PrintEventButton,1);
@@ -297,13 +290,13 @@ void TGo4AnalysisWindow::HistActivated(const QString& str)
       fxCmdHist->ResetEnterPressed();
       int pos = -1;
       for (int i=0;i<fxCmdHist->count();i++)
-        if (fxCmdHist->text(i)=="") pos = i;
+        if (fxCmdHist->itemText(i)=="") pos = i;
 
       if (pos>0) fxCmdHist->removeItem(pos);
-      if (pos!=0) fxCmdHist->insertItem("", 0);
+      if (pos!=0) fxCmdHist->insertItem(0, "");
 
-      if (fxCmdHist->currentItem()!=0)
-        fxCmdHist->setCurrentItem(0);
+      if (fxCmdHist->currentIndex()!=0)
+        fxCmdHist->setCurrentIndex(0);
 
       TGo4AnalysisProxy* anal = GetAnalysis();
       if (anal!=0)
@@ -322,13 +315,13 @@ void TGo4AnalysisWindow::FileDialog_Macro()
 
    QString cmd = QString(".x ") + fd.selectedFile();
    if(!cmd.endsWith(".C")) cmd.append(".C");
-   fxCmdHist->insertItem(cmd, 0);
+   fxCmdHist->addItem(cmd);
 }
 
 void TGo4AnalysisWindow::PrintHistograms()
 {
    const QString com="@PrintHistograms()";
-   fxCmdHist->insertItem(com,0);
+   fxCmdHist->addItem(com);
    fxCmdHist->SetEnterPressed(1);
    HistActivated(com);
    fxCmdHist->SetEnterPressed(0);
@@ -337,7 +330,7 @@ void TGo4AnalysisWindow::PrintHistograms()
 void TGo4AnalysisWindow::PrintConditions()
 {
    const QString com="@PrintConditions()";
-   fxCmdHist->insertItem(com,0);
+   fxCmdHist->addItem(com);
    fxCmdHist->SetEnterPressed(1);
    HistActivated(com);
    fxCmdHist->SetEnterPressed(0);

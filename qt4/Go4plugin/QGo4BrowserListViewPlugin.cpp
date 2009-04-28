@@ -40,13 +40,13 @@ QGo4BrowserListViewPlugin::QGo4BrowserListViewPlugin(QObject *parent)
 
  QIcon QGo4BrowserListViewPlugin::icon() const
  {
-     return QIcon(QPixmap(":/go4logo2.png"));
+     return QIcon(":/go4logo2.png");
  }
 
  QString QGo4BrowserListViewPlugin::toolTip() const
  {
      return "Go4browser list view";
-     
+
  }
 
  QString QGo4BrowserListViewPlugin::whatsThis() const
@@ -69,7 +69,7 @@ QGo4BrowserListViewPlugin::QGo4BrowserListViewPlugin(QObject *parent)
             "   <width>100</width>\n"
             "   <height>100</height>\n"
             "  </rect>\n"
-            " </property>\n"           
+            " </property>\n"
             "</widget>\n";
  }
 

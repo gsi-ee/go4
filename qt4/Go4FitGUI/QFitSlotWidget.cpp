@@ -12,10 +12,10 @@
 
 QFitSlotWidget::QFitSlotWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
-{ 
+{
 			setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
 }
 
@@ -49,7 +49,7 @@ void QFitSlotWidget::FillSpecificData()
      OwnershipLbl->adjustSize();
 
      RequirementChk->setChecked(slot->GetNeeded());
-     SaveCmb->setCurrentItem(slot->GetSaveFlag());
+     SaveCmb->setCurrentIndex(slot->GetSaveFlag());
 
      if (fxPanel!=0) {
         SourceLbl->setText(QString("Source: ") + fxPanel->Wiz_GetSlotSourceInfo(slot));

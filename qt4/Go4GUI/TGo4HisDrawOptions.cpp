@@ -3,7 +3,7 @@
 //#include <QLineEdit>
 #include "Riostream.h"
 #include "TROOT.h"
-#include "TColor.h" 
+#include "TColor.h"
 #include "TAttLine.h"
 #include "TAttFill.h"
 #include "TAttMarker.h"
@@ -14,11 +14,11 @@
 
 TGo4HisDrawOptions::TGo4HisDrawOptions( QWidget* parent, const char* name, Qt::WFlags fl )
     : QWidget( parent, name, fl )
-{ 
+{
 	setObjectName(name);
 	setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
    fbSettingPanelData = true;
 
@@ -76,12 +76,12 @@ void TGo4HisDrawOptions::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid
          int ErrorStyle = 0, CoordStyle = 0, DrawStyle = 0;
          DecodeDrawOption(drawopt, ErrorStyle, CoordStyle, DrawStyle);
 
-         DrawOption->setCurrentItem(DrawStyle);
-         ErrorBars->setCurrentItem(ErrorStyle);
-         Coordinates->setCurrentItem(CoordStyle);
-         XStyle->setCurrentItem(padopt->GetLogScale(0));
-         YStyle->setCurrentItem(padopt->GetLogScale(1));
-         ZStyle->setCurrentItem(padopt->GetLogScale(2));
+         DrawOption->setCurrentIndex(DrawStyle);
+         ErrorBars->setCurrentIndex(ErrorStyle);
+         Coordinates->setCurrentIndex(CoordStyle);
+         XStyle->setCurrentIndex(padopt->GetLogScale(0));
+         YStyle->setCurrentIndex(padopt->GetLogScale(1));
+         ZStyle->setCurrentIndex(padopt->GetLogScale(2));
          ZStyle->setEnabled(ndim>1);
          AutoScaleBox->setChecked(padopt->IsAutoScale());
 
@@ -106,115 +106,115 @@ void TGo4HisDrawOptions::UpdateView(int viewtype)
 
    switch(viewtype) {
       case view_Histo1:
-         DrawOption->insertItem(QPixmap(":/icons/h1_t.png"),   " scatter",         0);
-         DrawOption->insertItem(QPixmap(""),           "AH   no axis",     1);
-         DrawOption->insertItem(QPixmap(""),           "*H   stars",       2);
-         DrawOption->insertItem(QPixmap(""),           "L    lines",       3);
-         DrawOption->insertItem(QPixmap(""),           "LF2  lines+fill",  4);
-         DrawOption->insertItem(QPixmap(""),           "C    curve",       5);
-         DrawOption->insertItem(QPixmap(""),           "B    barchart",    6);
-         DrawOption->insertItem(QPixmap(""),           "P    polymarkers", 7);
-         DrawOption->insertItem(QPixmap(""),           "P0   polymarkers", 8);
-         DrawOption->insertItem(QPixmap(""),           "9    high resol",  9);
-         DrawOption->insertItem(QPixmap(""),           "][   no right",   10);
-         DrawOption->insertItem(QPixmap(""),           "TEXT digits b/w", 11);
-         DrawOption->insertItem(QPixmap(""),           "BAR  barchart",   12);
-         DrawOption->insertItem(QPixmap(":/icons/lego.png"),  " lego  b/w",      13);
-         DrawOption->insertItem(QPixmap(":/icons/lego1.png"), " lego1 shadow",   14);
-         DrawOption->insertItem(QPixmap(":/icons/lego2.png"), " lego2 color",    15);
-         DrawOption->insertItem(QPixmap(":/icons/surf.png"),  " mesh b/w",       16);
-         DrawOption->insertItem(QPixmap(":/icons/surf1.png"), " mesh color",     17);
-         DrawOption->insertItem(QPixmap(":/icons/surf2.png"), " surf c",         18);
-         DrawOption->insertItem(QPixmap(":/icons/surf3.png"), " mesh+contour",   19);
-         DrawOption->insertItem(QPixmap(":/icons/surf4.png"), " gourand",        20);
-         DrawOption->insertItem(QPixmap(":/icons/surf5.png"), " col contour",    21);
-         DrawOption->insertItem(QPixmap(""), "",    22);
+         DrawOption->addItem( QIcon(":/icons/h1_t.png"),   " scatter");
+         DrawOption->addItem( QIcon(""),           "AH   no axis");
+         DrawOption->addItem( QIcon(""),           "*H   stars");
+         DrawOption->addItem( QIcon(""),           "L    lines");
+         DrawOption->addItem( QIcon(""),           "LF2  lines+fill");
+         DrawOption->addItem( QIcon(""),           "C    curve");
+         DrawOption->addItem( QIcon(""),           "B    barchart");
+         DrawOption->addItem( QIcon(""),           "P    polymarkers");
+         DrawOption->addItem( QIcon(""),           "P0   polymarkers");
+         DrawOption->addItem( QIcon(""),           "9    high resol");
+         DrawOption->addItem( QIcon(""),           "][   no right");
+         DrawOption->addItem( QIcon(""),           "TEXT digits b/w");
+         DrawOption->addItem( QIcon(""),           "BAR  barchart");
+         DrawOption->addItem( QIcon(":/icons/lego.png"),  " lego  b/w");
+         DrawOption->addItem( QIcon(":/icons/lego1.png"), " lego1 shadow");
+         DrawOption->addItem( QIcon(":/icons/lego2.png"), " lego2 color");
+         DrawOption->addItem( QIcon(":/icons/surf.png"),  " mesh b/w");
+         DrawOption->addItem( QIcon(":/icons/surf1.png"), " mesh color");
+         DrawOption->addItem( QIcon(":/icons/surf2.png"), " surf c");
+         DrawOption->addItem( QIcon(":/icons/surf3.png"), " mesh+contour");
+         DrawOption->addItem( QIcon(":/icons/surf4.png"), " gourand");
+         DrawOption->addItem( QIcon(":/icons/surf5.png"), " col contour");
+         DrawOption->addItem( QIcon(""), "");
          lines=30;
          break;
       case view_Histo2:
       case view_Histo2ext:
-         DrawOption->insertItem(QPixmap(":/icons/h1_t.png"), " scatter",       0);
-         DrawOption->insertItem(QPixmap(":/icons/col.png"),  " pixel c",       1);
-         DrawOption->insertItem(QPixmap(":/icons/cont0.png")," cont0 c",       2);
-         DrawOption->insertItem(QPixmap(":/icons/lego2.png")," lego2 color",   3);
-         DrawOption->insertItem(QPixmap(":/icons/surf2.png")," surf c",        4);
-         DrawOption->insertItem(QPixmap(":/icons/surf1.png")," mesh color",    5);
-         DrawOption->insertItem(QPixmap(":/icons/cont1.png")," cont1 c",       6);
-         DrawOption->insertItem(QPixmap(":/icons/cont1.png")," cont4",         7);
-         DrawOption->insertItem(QPixmap(":/icons/lego1.png")," lego1 shadow",  8);
-         DrawOption->insertItem(QPixmap(":/icons/lego.png"), " lego b/w",      9);
-         DrawOption->insertItem(QPixmap(":/icons/cont2.png")," cont2 dot b/w",10);
-         DrawOption->insertItem(QPixmap(":/icons/cont3.png")," cont3 b/w",    11);
-         DrawOption->insertItem(QPixmap(":/icons/surf.png"), " mesh b/w",     12);
-         DrawOption->insertItem(QPixmap(":/icons/surf3.png")," mesh+contour", 13);
-         DrawOption->insertItem(QPixmap(":/icons/surf4.png")," gourand",      14);
-         DrawOption->insertItem(QPixmap(":/icons/surf5.png")," col contour",  15);
-         DrawOption->insertItem(QPixmap(""),         "ARR  arrow mode",16);
-         DrawOption->insertItem(QPixmap(""),         "BOX  boxes",   17);
-         DrawOption->insertItem(QPixmap(""),         "TEXT content", 18);
+         DrawOption->addItem( QIcon(":/icons/h1_t.png"), " scatter");
+         DrawOption->addItem( QIcon(":/icons/col.png"),  " pixel c");
+         DrawOption->addItem( QIcon(":/icons/cont0.png")," cont0 c");
+         DrawOption->addItem( QIcon(":/icons/lego2.png")," lego2 color");
+         DrawOption->addItem( QIcon(":/icons/surf2.png")," surf c");
+         DrawOption->addItem( QIcon(":/icons/surf1.png")," mesh color");
+         DrawOption->addItem( QIcon(":/icons/cont1.png")," cont1 c");
+         DrawOption->addItem( QIcon(":/icons/cont1.png")," cont4");
+         DrawOption->addItem( QIcon(":/icons/lego1.png")," lego1 shadow");
+         DrawOption->addItem( QIcon(":/icons/lego.png"), " lego b/w");
+         DrawOption->addItem( QIcon(":/icons/cont2.png")," cont2 dot b/w");
+         DrawOption->addItem( QIcon(":/icons/cont3.png")," cont3 b/w");
+         DrawOption->addItem( QIcon(":/icons/surf.png"), " mesh b/w");
+         DrawOption->addItem( QIcon(":/icons/surf3.png")," mesh+contour");
+         DrawOption->addItem( QIcon(":/icons/surf4.png")," gourand");
+         DrawOption->addItem( QIcon(":/icons/surf5.png")," col contour");
+         DrawOption->addItem( QIcon(""),         "ARR  arrow mode");
+         DrawOption->addItem( QIcon(""),         "BOX  boxes");
+         DrawOption->addItem( QIcon(""),         "TEXT content");
          lines=30;
 #ifdef __GO4ASI__
-         DrawOption->insertItem(QPixmap(":/icons/asimage.png"), " ASImage",   19);
-         DrawOption->insertItem(QPixmap(""), "",    20);
+         DrawOption->addItem( QIcon(":/icons/asimage.png"), " ASImage");
+         DrawOption->addItem( QIcon(""), "");
 #else
-         DrawOption->insertItem(QPixmap(""), "",    19);
+         DrawOption->addItem( QIcon(""), "");
 #endif
          break;
       case view_Graph:
-         DrawOption->insertItem("P: default");
-         DrawOption->insertItem("*: stars");
-         DrawOption->insertItem("L: line");
-         DrawOption->insertItem("F: fill");
-         DrawOption->insertItem("F1: fill 1");
-         DrawOption->insertItem("F2: fill 2");
-         DrawOption->insertItem("C: smooth");
-         DrawOption->insertItem("B: bar");
-         DrawOption->insertItem("LP: line + mark");
-         DrawOption->insertItem("L*: line + *");
-         DrawOption->insertItem("FP: fill + mark");
-         DrawOption->insertItem("F*: fill + *");
-         DrawOption->insertItem("CP: smooth + mark");
-         DrawOption->insertItem("C*: smooth + *");
-         DrawOption->insertItem("BP: smooth + mark");
-         DrawOption->insertItem("B*: smooth + *");
+         DrawOption->addItem("P: default");
+         DrawOption->addItem("*: stars");
+         DrawOption->addItem("L: line");
+         DrawOption->addItem("F: fill");
+         DrawOption->addItem("F1: fill 1");
+         DrawOption->addItem("F2: fill 2");
+         DrawOption->addItem("C: smooth");
+         DrawOption->addItem("B: bar");
+         DrawOption->addItem("LP: line + mark");
+         DrawOption->addItem("L*: line + *");
+         DrawOption->addItem("FP: fill + mark");
+         DrawOption->addItem("F*: fill + *");
+         DrawOption->addItem("CP: smooth + mark");
+         DrawOption->addItem("C*: smooth + *");
+         DrawOption->addItem("BP: smooth + mark");
+         DrawOption->addItem("B*: smooth + *");
          lines=30;
          break;
    }
-	/////// TODO: port this 
-	//DrawOption->setSizeLimit(lines);
+
+   DrawOption->setMaxVisibleItems(lines);
 
    switch(viewtype) {
       case view_Histo1:
-         ErrorBars->insertItem("No Errors");
-         ErrorBars->insertItem("E: simple");
-         ErrorBars->insertItem("E1: edges");
-         ErrorBars->insertItem("E2: rectangles");
-         ErrorBars->insertItem("E3: fill");
-         ErrorBars->insertItem("E4: contour");
+         ErrorBars->addItem("No Errors");
+         ErrorBars->addItem("E: simple");
+         ErrorBars->addItem("E1: edges");
+         ErrorBars->addItem("E2: rectangles");
+         ErrorBars->addItem("E3: fill");
+         ErrorBars->addItem("E4: contour");
          break;
       case view_Histo2:
-         ErrorBars->insertItem("No palette");
-         ErrorBars->insertItem(QPixmap(":/icons/colz.png")," +scale",1);
+         ErrorBars->addItem("No palette");
+         ErrorBars->addItem(QIcon(":/icons/colz.png")," +scale");
          break;
       case view_Histo2ext:
-         ErrorBars->insertItem("No palette");
-         ErrorBars->insertItem(QPixmap(":/icons/colz.png")," +scale",1);
-         ErrorBars->insertItem("    - front",2);
-         ErrorBars->insertItem("    - back",3);
-         ErrorBars->insertItem("    - fr & bk",4);
-         ErrorBars->insertItem(QPixmap(":/icons/colz.png")," scale - fr",5);
-         ErrorBars->insertItem(QPixmap(":/icons/colz.png"), " scale - bk",6);
-         ErrorBars->insertItem(QPixmap(":/icons/colz.png"), " scale - fr & bk",7);
+         ErrorBars->addItem("No palette");
+         ErrorBars->addItem(QIcon(":/icons/colz.png")," +scale");
+         ErrorBars->addItem("    - front");
+         ErrorBars->addItem("    - back");
+         ErrorBars->addItem("    - fr & bk");
+         ErrorBars->addItem(QIcon(":/icons/colz.png")," scale - fr");
+         ErrorBars->addItem(QIcon(":/icons/colz.png"), " scale - bk");
+         ErrorBars->addItem(QIcon(":/icons/colz.png"), " scale - fr & bk");
          break;
       case view_Graph:
-         ErrorBars->insertItem("errors as is");
-         ErrorBars->insertItem("X: no errors");
-         ErrorBars->insertItem(">: arrow");
-         ErrorBars->insertItem("|>: full arrow");
-         ErrorBars->insertItem("2: err opt 2");
-         ErrorBars->insertItem("3: err opt 3");
-         ErrorBars->insertItem("4: err opt 4");
-         ErrorBars->insertItem("[]: asym err");
+         ErrorBars->addItem("errors as is");
+         ErrorBars->addItem("X: no errors");
+         ErrorBars->addItem(">: arrow");
+         ErrorBars->addItem("|>: full arrow");
+         ErrorBars->addItem("2: err opt 2");
+         ErrorBars->addItem("3: err opt 3");
+         ErrorBars->addItem("4: err opt 4");
+         ErrorBars->addItem("[]: asym err");
          break;
    }
 
@@ -222,24 +222,23 @@ void TGo4HisDrawOptions::UpdateView(int viewtype)
       case view_Histo1:
       case view_Histo2:
       case view_Histo2ext:
-         Coordinates->insertItem("Cartesian");
-         Coordinates->insertItem("Polar");
-         Coordinates->insertItem("Spheric");
-         Coordinates->insertItem("Rapidity");
-         Coordinates->insertItem("Cylindric");
+         Coordinates->addItem("Cartesian");
+         Coordinates->addItem("Polar");
+         Coordinates->addItem("Spheric");
+         Coordinates->addItem("Rapidity");
+         Coordinates->addItem("Cylindric");
          break;
       case view_Graph:
-         Coordinates->insertItem("A: norm axis");
-         Coordinates->insertItem("supp. axis");
-         Coordinates->insertItem("AX+: top");
-         Coordinates->insertItem("AY+: right");
-         Coordinates->insertItem("AX+Y+: x & y");
-         Coordinates->insertItem("A1: ylow = ymin");
+         Coordinates->addItem("A: norm axis");
+         Coordinates->addItem("supp. axis");
+         Coordinates->addItem("AX+: top");
+         Coordinates->addItem("AY+: right");
+         Coordinates->addItem("AX+Y+: x & y");
+         Coordinates->addItem("A1: ylow = ymin");
          break;
    }
 
    fiLastView = viewtype;
-   //cout << "Set Viewtype " << fiLastView << endl;
 }
 
 void TGo4HisDrawOptions::ChangeDrawOptionForCurrentPanel(int kind, int value)
@@ -259,9 +258,9 @@ void TGo4HisDrawOptions::ChangeDrawOptionForCurrentPanel(int kind, int value)
 
    //cout << "    Viewtype " << fiLastView << endl;
    if ((kind>=0) && (kind<=2)) {
-      CodeDrawOptions(ErrorBars->currentItem(),
-                      Coordinates->currentItem(),
-                      DrawOption->currentItem(), buf);
+      CodeDrawOptions(ErrorBars->currentIndex(),
+                      Coordinates->currentIndex(),
+                      DrawOption->currentIndex(), buf);
       if (buf.length()>0) drawopt = buf.latin1();
 
       //if(drawopt) cout << ">> " << value << " " << drawopt << endl;

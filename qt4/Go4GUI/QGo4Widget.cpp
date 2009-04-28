@@ -431,7 +431,7 @@ QAction* SetIdAction(QSignalMapper* map, int id, int enabled, int checked)
 }
 
 QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
-		const QPixmap& icon, const QString& text, int id, int enabled, int checked)
+		const QIcon& icon, const QString& text, int id, int enabled, int checked)
 {
    QAction* act = new QAction(icon, text, menu);
    if (checked!=-1) {

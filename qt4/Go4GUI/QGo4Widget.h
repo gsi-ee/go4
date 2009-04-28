@@ -8,8 +8,7 @@
 #include <QtGui/QCloseEvent>
 #include <QtGui/QDropEvent>
 #include <QtGui/QDragEnterEvent>
-#include <QtGui/QPixmap>
-
+#include <QtGui/QIcon>
 
 class TObject;
 class TClass;
@@ -188,7 +187,7 @@ extern QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
 		const QString& text, int id, int enabled = -1, int checked = -1);
 
 extern QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
-		const QPixmap& icon, const QString& text, int id, int enabled = -1, int checked = -1);
+		const QIcon& icon, const QString& text, int id, int enabled = -1, int checked = -1);
 
 QAction* SetIdAction(QSignalMapper* map, int id, int enabled = -1, int checked = -1);
 

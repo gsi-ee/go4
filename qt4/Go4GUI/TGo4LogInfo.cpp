@@ -58,7 +58,6 @@ void TGo4LogInfo::linkedObjectUpdated( const char * linkname, TObject * obj )
    Name.remove(0, 6);
    Item->setText(3, Name);
 
-
    LogText->addTopLevelItem(Item);
    Item->setSelected(true);
    LogText->setCurrentItem(Item);

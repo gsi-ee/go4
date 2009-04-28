@@ -41,7 +41,7 @@ QGo4WidgetPlugin::QGo4WidgetPlugin(QObject *parent)
 
  QIcon QGo4WidgetPlugin::icon() const
  {
-     return QIcon(QPixmap(":/go4logo2.png"));
+     return QIcon(":/go4logo2.png");
  }
 
  QString QGo4WidgetPlugin::toolTip() const
@@ -69,7 +69,7 @@ bool QGo4WidgetPlugin::isContainer() const
             "   <width>100</width>\n"
             "   <height>100</height>\n"
             "  </rect>\n"
-            " </property>\n"            
+            " </property>\n"
             "</widget>\n";
  }
 

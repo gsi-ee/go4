@@ -998,11 +998,8 @@ show();
 void TGo4DabcMonitor::fillNodeTableRow( int tableindex, int nodeindex, bool createnew )
 {
   NodeTable->setItem(tableindex, DABCMON_NODE_NODECOL, new QTableWidgetItem(fxDabcNodes[nodeindex]));
-//QImage img=QImage::fromMimeSource( "eventitem.png" );
-//QPixmap pixmap = img.scaleHeight( NodeTable->rowHeight(tableindex) );
 
-  QPixmap pixmap( ":/icons/eventitem.png" );
-  pixmap=pixmap.scaledToHeight(NodeTable->rowHeight(tableindex),Qt::SmoothTransformation);
+  QPixmap pixmap = QPixmap(":/icons/eventitem.png").scaledToHeight(NodeTable->rowHeight(tableindex),Qt::SmoothTransformation);
 
   QTableWidgetItem* item = 0;
   QString col =fxStateRecords[nodeindex].fxColor.lower();
@@ -1169,9 +1166,8 @@ void TGo4DabcMonitor::fillRateTableRow( int tableindex, int nodeindex, int ratei
 
    QTableWidgetItem* item = 0;
    if(rvec[rateindex].fxRate<0) {
-      QPixmap pixmap( ":/icons/info1.png" );
-      pixmap=pixmap.scaledToHeight(RateTable->rowHeight(tableindex),Qt::SmoothTransformation);
-      item = new QTableWidgetItem(pixmap, val);
+      QPixmap pixmap = QPixmap(":/icons/info1.png").scaledToHeight(RateTable->rowHeight(tableindex),Qt::SmoothTransformation);
+      item = new QTableWidgetItem( QIcon(pixmap), val);
    } else
       item = new QTableWidgetItem(val);
    item->setFlags(item->flags() & ~Qt::ItemIsEditable);

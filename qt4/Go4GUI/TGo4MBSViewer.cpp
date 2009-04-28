@@ -152,7 +152,7 @@ if(fbRunning && !fbWarningState){
     fxRunMovie->start();
 }
 else{
-    RunPix->setPixmap(QPixmap( ":/icons/mbsbutton.png" ));
+    RunPix->setWindowIcon(QIcon( ":/icons/mbsbutton.png" ));
     if(fxRunMovie) fxRunMovie->stop();
 }
 WarnPix->setShown(fbWarningState);

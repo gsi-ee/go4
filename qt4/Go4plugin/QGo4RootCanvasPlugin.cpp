@@ -26,12 +26,12 @@ QGo4RootCanvasPlugin::QGo4RootCanvasPlugin(QObject *parent)
 
  QWidget *QGo4RootCanvasPlugin::createWidget(QWidget *parent)
  {
-    QGo4RootCanvas* widg=new QGo4RootCanvas(parent);     
+    QGo4RootCanvas* widg=new QGo4RootCanvas(parent);
     QPalette* npal= new QPalette(widg->palette());
-    npal->setBrush(QPalette::Window,QPixmap(":/go4logo2.png"));
+    npal->setBrush(QPalette::Window, QPixmap(":/go4logo2.png"));
     widg->setPalette(*npal);
     widg->setAutoFillBackground(true);
-    return widg;  
+    return widg;
  }
 
  QString QGo4RootCanvasPlugin::name() const
@@ -46,7 +46,7 @@ QGo4RootCanvasPlugin::QGo4RootCanvasPlugin(QObject *parent)
 
  QIcon QGo4RootCanvasPlugin::icon() const
  {
-     return QIcon(QPixmap(":/go4logo2.png"));
+     return QIcon(":/go4logo2.png");
  }
 
  QString QGo4RootCanvasPlugin::toolTip() const
@@ -74,7 +74,7 @@ bool QGo4RootCanvasPlugin::isContainer() const
             "   <width>100</width>\n"
             "   <height>100</height>\n"
             "  </rect>\n"
-            " </property>\n"            
+            " </property>\n"
             "</widget>\n";
  }
 

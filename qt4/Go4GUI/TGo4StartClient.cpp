@@ -27,7 +27,7 @@ TGo4StartClient::TGo4StartClient( QWidget* parent, const char* name, bool modal,
    LineEditClientExec->setText(go4sett->getClientExec());
 
    bool isserver = go4sett->getClientIsServer();
-   ServerModeCombo->setCurrentItem(isserver ? 1 : 0);
+   ServerModeCombo->setCurrentIndex(isserver ? 1 : 0);
    qt_selected->setEnabled(!isserver);
    if (isserver && ClientTermGroup->checkedId()==1)
       ClientTermGroup->button(2)->setChecked(true);
@@ -41,7 +41,7 @@ void TGo4StartClient::getResults()
    go4sett->setClientExec(LineEditClientExec->text());
    go4sett->setClientShellMode(ClientShellGroup->checkedId());
    go4sett->setClientTermMode(ClientTermGroup->checkedId());
-   go4sett->setClientIsServer(ServerModeCombo->currentItem()==1);
+   go4sett->setClientIsServer(ServerModeCombo->currentIndex()==1);
 }
 
 void TGo4StartClient::SelectDir()

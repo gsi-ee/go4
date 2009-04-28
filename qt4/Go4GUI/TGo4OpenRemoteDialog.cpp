@@ -4,11 +4,11 @@
 TGo4OpenRemoteDialog::TGo4OpenRemoteDialog( QWidget* parent, const char* name, bool modal, Qt::WFlags fl)
 			: QDialog( parent, name, modal, fl )
 
-{ 
+{
 	//setObjectName(name);
 	setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
    QString hostname, filename, protocol;
    go4sett->getRemoteFileSett(hostname, filename, protocol);
@@ -19,15 +19,15 @@ TGo4OpenRemoteDialog::TGo4OpenRemoteDialog( QWidget* parent, const char* name, b
    fxFile=filename;
    fxType=protocol;
    if(protocol.contains("root:"))
-      TypeSelectorBox->setCurrentItem(0);
+      TypeSelectorBox->setCurrentIndex(0);
    else
    if (protocol.contains("rfio:"))
-      TypeSelectorBox->setCurrentItem(1);
+      TypeSelectorBox->setCurrentIndex(1);
    else
    if (protocol.contains("http:"))
-      TypeSelectorBox->setCurrentItem(2);
+      TypeSelectorBox->setCurrentIndex(2);
    else
-      TypeSelectorBox->setCurrentItem(3);
+      TypeSelectorBox->setCurrentIndex(3);
    TypeSelectorBox_activated(protocol);
 }
 

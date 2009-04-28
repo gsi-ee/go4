@@ -4,13 +4,11 @@
 #include "qmessagebox.h"
 #include "qevent.h"
 #include "qinputdialog.h"
-#include "qpixmap.h"
 #include "qmenubar.h"
 #include "qtooltip.h"
 #include "qapplication.h"
 #include <QFocusEvent>
 #include <QDropEvent>
-#include <QPixmap>
 #include <QMenuBar>
 #include <QFileDialog>
 #include <QtGui/QMenu>
@@ -2464,7 +2462,7 @@ void TGo4FitPanel::UpdateWizStackWidget()
 
           int typ = fitter->GetFitFunctionType();
           if (typ==TGo4Fitter::ff_user) typ = TGo4Fitter::ff_least_squares;
-          Wiz_FitFuncCmb->setCurrentItem(typ);
+          Wiz_FitFuncCmb->setCurrentIndex(typ);
 
           Wiz_UseAmplEstimChk->setChecked(fbUseAmplEstim);
           Wiz_MigradIterSpin->setValue(fiNumMigradIter);

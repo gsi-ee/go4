@@ -39,7 +39,7 @@ QFitWidgetPlugin::QFitWidgetPlugin(QObject *parent)
 
  QIcon QFitWidgetPlugin::icon() const
  {
-     return QIcon(QPixmap(":/go4logo2.png"));
+     return QIcon(":/go4logo2.png");
  }
 
  QString QFitWidgetPlugin::toolTip() const
@@ -67,7 +67,7 @@ QFitWidgetPlugin::QFitWidgetPlugin(QObject *parent)
             "   <width>100</width>\n"
             "   <height>100</height>\n"
             "  </rect>\n"
-            " </property>\n"            
+            " </property>\n"
             "</widget>\n";
  }
 
@@ -76,5 +76,5 @@ QFitWidgetPlugin::QFitWidgetPlugin(QObject *parent)
      return "QFitWidget.h";
  }
 
- 
+
 

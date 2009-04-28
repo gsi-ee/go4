@@ -27,7 +27,7 @@ void QFitRangeWidget::FillSpecificData() {
    Double_t left, right;
    GetComp()->GetRangeCondition(num,typ,naxis,left,right);
 
-   RangeTypCmb->setCurrentItem(typ);
+   RangeTypCmb->setCurrentIndex(typ);
    AxisNumSpin->setValue(naxis);
 
    if (typ!=3) LeftEdt->setText(QString::number(left));
@@ -49,7 +49,7 @@ void QFitRangeWidget::GetRangeData()
   int num = GetNumRange();
   if(num<0) return;
 
-  Int_t typ = RangeTypCmb->currentItem();
+  Int_t typ = RangeTypCmb->currentIndex();
   Int_t naxis = AxisNumSpin->value();
 
   Double_t left=0., right=0.;

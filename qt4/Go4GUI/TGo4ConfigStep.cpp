@@ -549,14 +549,14 @@ void TGo4ConfigStep::ResetSourceWidgets(const QString& name,
 
 void TGo4ConfigStep::SetFileSource()
 {
-   EventSourceCombo->setCurrentItem(0);
+   EventSourceCombo->setCurrentIndex(0);
    FileNameInput->setEnabled(true);
    SourceComboHighlighted(0);
 }
 
 void TGo4ConfigStep::SetMbsFileSource(QString TagFile)
 {
-   EventSourceCombo->setCurrentItem(1);
+   EventSourceCombo->setCurrentIndex(1);
    LineEditTagfile->setEnabled(true);
    FileNameInput->setEnabled(true);
    if(!strstr(TagFile.latin1(),TGo4MbsFile__fgcNOTAGFILE))
@@ -568,28 +568,28 @@ void TGo4ConfigStep::SetMbsFileSource(QString TagFile)
 
 void TGo4ConfigStep::SetMbsStreamSource()
 {
-   EventSourceCombo->setCurrentItem(2);
+   EventSourceCombo->setCurrentIndex(2);
    SpinBoxTimeout->setEnabled(true);
    SourceComboHighlighted(2);
 }
 
 void TGo4ConfigStep::SetMbsTransportSource()
 {
-   EventSourceCombo->setCurrentItem(3);
+   EventSourceCombo->setCurrentIndex(3);
    SpinBoxTimeout->setEnabled(true);
    SourceComboHighlighted(3);
 }
 
 void TGo4ConfigStep::SetMbsEventServerSource()
 {
-   EventSourceCombo->setCurrentItem(4);
+   EventSourceCombo->setCurrentIndex(4);
    SpinBoxTimeout->setEnabled(true);
    SourceComboHighlighted(4);
 }
 
 void TGo4ConfigStep::SetMbsRevServSource(int port)
 {
-   EventSourceCombo->setCurrentItem(5);
+   EventSourceCombo->setCurrentIndex(5);
    QString PortNo;
    PortNo.setNum(port);
    LineEditPortNumber->setText(PortNo);
@@ -600,13 +600,13 @@ void TGo4ConfigStep::SetMbsRevServSource(int port)
 
 void TGo4ConfigStep::SetRandomSource()
 {
-   EventSourceCombo->setCurrentItem(6);
+   EventSourceCombo->setCurrentIndex(6);
    SourceComboHighlighted(6);
 }
 
 void TGo4ConfigStep::SetUserSource(int port, QString expr)
 {
-   EventSourceCombo->setCurrentItem(7);
+   EventSourceCombo->setCurrentIndex(7);
    QString PortNo;
    PortNo.setNum(port);
    LineEditPortNumber->setText(PortNo);
@@ -625,7 +625,7 @@ int TGo4ConfigStep::GetSourceSetup(QString& name, int& timeout, int& start, int&
    start = SpinBoxStartEvent->value();
    stop = SpinBoxStopEvent->value();
    interval = SpinBoxInterEvent->value();
-   return EventSourceCombo->currentItem();
+   return EventSourceCombo->currentIndex();
 }
 
 void TGo4ConfigStep::GetMbsFileSource(QString& TagFile)
@@ -649,7 +649,7 @@ void TGo4ConfigStep::SetFileStore(QString name, bool overwrite, int bufsize, int
 {
    StoreNameEdit->setEnabled(TRUE);
    StoreNameEdit->setText(name);
-   Output_Combo_1_2->setCurrentItem(0);
+   Output_Combo_1_2->setCurrentIndex(0);
    StoreOverwriteMode->setChecked(overwrite);
    StoreOverwriteMode->setEnabled(TRUE);
    BufferSize->setValue(bufsize/1000);
@@ -664,7 +664,7 @@ void TGo4ConfigStep::SetBackStore(QString name, int bufsize, int splitlevel)
 {
    StoreNameEdit->setEnabled(FALSE);
    StoreNameEdit->setText(GetBackStoreName());
-   Output_Combo_1_2->setCurrentItem(1);
+   Output_Combo_1_2->setCurrentIndex(1);
    BufferSize->setValue(bufsize/1000);
    SplitLevel->setValue(splitlevel);
    StoreOverwriteMode->setEnabled(FALSE);
@@ -682,7 +682,7 @@ QString TGo4ConfigStep::GetBackStoreName()
 
 int TGo4ConfigStep::GetStoreSetup(QString& name)
 {
-   int typ = Output_Combo_1_2->currentItem();
+   int typ = Output_Combo_1_2->currentIndex();
    if (typ==1) name = GetBackStoreName();
           else name = StoreNameEdit->text();
    return typ;

@@ -8,10 +8,10 @@
 
 QFitDataWidget::QFitDataWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
-{ 
+{
 			setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
 }
 
@@ -32,7 +32,7 @@ void QFitDataWidget::FillSpecificData() {
 
      NumCalibrSpin->setValue(GetData()->GetNumberOfTransSlots());
      UseBinsChk->setChecked(GetData()->GetUseBinScale());
-     SigmaCmb->setCurrentItem(GetData()->GetSigmaSource());
+     SigmaCmb->setCurrentIndex(GetData()->GetSigmaSource());
      SigmaEdt->setEnabled(GetData()->GetSigmaSource()==2);
      SigmaEdt->setText(QString::number(GetData()->GetSigmaValue()));
      BinsLimitEdt->setText(QString::number(GetData()->GetExcludeLessThen()));

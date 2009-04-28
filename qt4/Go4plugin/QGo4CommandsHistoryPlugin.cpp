@@ -39,7 +39,7 @@ QGo4CommandsHistoryPlugin::QGo4CommandsHistoryPlugin(QObject *parent)
 
  QIcon QGo4CommandsHistoryPlugin::icon() const
  {
-     return QIcon(QPixmap(":/go4logo2.png"));
+     return QIcon(":/go4logo2.png");
  }
 
  QString QGo4CommandsHistoryPlugin::toolTip() const
@@ -67,7 +67,7 @@ bool QGo4CommandsHistoryPlugin::isContainer() const
             "   <width>100</width>\n"
             "   <height>100</height>\n"
             "  </rect>\n"
-            " </property>\n"            
+            " </property>\n"
             "</widget>\n";
  }
 
@@ -76,4 +76,4 @@ bool QGo4CommandsHistoryPlugin::isContainer() const
      return "QGo4CommandsHistory.h";
  }
 
- 
+

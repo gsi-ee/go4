@@ -12,8 +12,8 @@ TGo4LogSettings::TGo4LogSettings( QWidget* parent, const char* name, bool modal,
 			// from ui file to the setupUI
    bool iswrite=TGo4Log::IsLogfileEnabled();
 
-   IgnoreCombo->setCurrentItem(TGo4Log::GetIgnoreLevel());
-   ModeCombo->setCurrentItem(TGo4Log::IsAutoEnabled());
+   IgnoreCombo->setCurrentIndex(TGo4Log::GetIgnoreLevel());
+   ModeCombo->setCurrentIndex(TGo4Log::IsAutoEnabled());
    LogfilePrint->setChecked(TGo4Log::IsOutputEnabled());
 
    LogfileWrite->setChecked(iswrite);

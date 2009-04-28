@@ -117,7 +117,7 @@ void TGo4ConditionEditor::WorkWithCondition(const char* itemname)
       iconname = ":/icons/refresh.png";
       tooltip = "Refresh condition from source";
    }
-   RefreshButton->setIconSet( QIconSet( QPixmap(iconname) ) );
+   RefreshButton->setIcon( QIcon(iconname) );
    QToolTip::remove(RefreshButton);
    QToolTip::add(RefreshButton, tooltip);
 
@@ -271,15 +271,15 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    InvertCombo->setEnabled(true);
 
    if(cond->IsEnabled())
-     ResultCombo->setCurrentItem(0);
+     ResultCombo->setCurrentIndex(0);
    else
      if (cond->FixedResult())
-       ResultCombo->setCurrentItem(1);
+       ResultCombo->setCurrentIndex(1);
      else
-       ResultCombo->setCurrentItem(2);
+       ResultCombo->setCurrentIndex(2);
 
-   if(cond->IsTrue()) InvertCombo->setCurrentItem(0);
-                 else InvertCombo->setCurrentItem(1);
+   if(cond->IsTrue()) InvertCombo->setCurrentIndex(0);
+                 else InvertCombo->setCurrentIndex(1);
 
    LCDCounts->display(cond->Counts());
    LCDTrueCounts->display(cond->TrueCounts());

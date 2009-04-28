@@ -35,7 +35,7 @@ void TGo4CommandLine::FileSearchDialog()
       cmd = fd.selectedFile();
    else
       cmd = QString(".x ") + fd.selectedFile();
-   InputLine->insertItem(cmd, 0);
+   InputLine->addItem(cmd);
 }
 
 
@@ -43,16 +43,16 @@ void TGo4CommandLine::SelectCommand( const QString & str )
 {
 if (InputLine->EnterPressed() && (str!="")) {
       InputLine->ResetEnterPressed();
-      InputLine->removeItem(InputLine->currentItem()); // remove possible duplicate
+      InputLine->removeItem(InputLine->currentIndex()); // remove possible duplicate
       int pos = -1;
       for (int i=0;i<InputLine->count();i++){
-            if (InputLine->text(i)=="") pos = i;
+            if (InputLine->itemText(i)=="") pos = i;
         }
         if (pos>=0) InputLine->removeItem(pos); // clear previous blank line
-      InputLine->insertItem(str,0); // put last command on top of history
-      InputLine->insertItem("", 0); // insert blank line on top
-      if (InputLine->currentItem()!=0)
-        InputLine->setCurrentItem(0); // provide free line
+      InputLine->addItem(str); // put last command on top of history
+      InputLine->addItem(""); // insert blank line on top
+      if (InputLine->currentIndex()!=0)
+        InputLine->setCurrentIndex(0); // provide free line
       QString message;
        if(str.contains("help") || str.contains(".go4h"))
         {
@@ -87,7 +87,7 @@ void TGo4CommandLine::SaveHistory()
     for(int i=0;( (i<InputLine->count() ) && (i<fiHistoryDepth) ); ++i)
         {
             //cout <<"\n Save history saved "<<InputLine->text(i) << endl;
-            histlist.append(InputLine->text(i));
+            histlist.append(InputLine->itemText(i));
         }
     go4sett->setCommandsHistoryGUI(histlist);
 }
@@ -97,19 +97,18 @@ void TGo4CommandLine::LoadHistory()
 {
 // read command history from settings:
     QStringList histlist=go4sett->getCommandsHistoryGUI();
-    InputLine->insertStringList(histlist);
+    InputLine->addItems(histlist);
 // prepared pre-loading of system macros:
-gROOT->ProcessLine(".L $GO4SYS/macros/corrhistos.C");
-gROOT->ProcessLine(".L $GO4SYS/macros/hishisto.C");
-gROOT->ProcessLine(".L $GO4SYS/macros/addhistos.C");
-gROOT->ProcessLine(".L $GO4SYS/macros/divhistos.C");
-gROOT->ProcessLine(".L $GO4SYS/macros/profileX.C");
-gROOT->ProcessLine(".L $GO4SYS/macros/profileY.C");
-gROOT->ProcessLine(".L $GO4SYS/macros/projectionX.C");
-gROOT->ProcessLine(".L $GO4SYS/macros/projectionY.C");
-gROOT->ProcessLine(".L $GO4SYS/macros/rebin.C");
-gROOT->ProcessLine(".L $GO4SYS/macros/scalex.C");
-
+    gROOT->ProcessLine(".L $GO4SYS/macros/corrhistos.C");
+    gROOT->ProcessLine(".L $GO4SYS/macros/hishisto.C");
+    gROOT->ProcessLine(".L $GO4SYS/macros/addhistos.C");
+    gROOT->ProcessLine(".L $GO4SYS/macros/divhistos.C");
+    gROOT->ProcessLine(".L $GO4SYS/macros/profileX.C");
+    gROOT->ProcessLine(".L $GO4SYS/macros/profileY.C");
+    gROOT->ProcessLine(".L $GO4SYS/macros/projectionX.C");
+    gROOT->ProcessLine(".L $GO4SYS/macros/projectionY.C");
+    gROOT->ProcessLine(".L $GO4SYS/macros/rebin.C");
+    gROOT->ProcessLine(".L $GO4SYS/macros/scalex.C");
 }
 
 
@@ -117,7 +116,7 @@ void TGo4CommandLine::PredefinedDialog()
 {
    TGo4MacroDialog md( this, "select", true);
    if (md.exec() != QDialog::Accepted) return;
-   InputLine->insertItem(md.getCommand(), 0);
+   InputLine->addItem(md.getCommand());
    InputLine->setCurrentIndex(0);
 }
 

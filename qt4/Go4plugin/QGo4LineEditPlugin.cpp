@@ -1,4 +1,4 @@
-#include "QGo4LineEdit.h" 
+#include "QGo4LineEdit.h"
 #include "QGo4LineEditPlugin.h"
 #include <QtPlugin>
 
@@ -39,7 +39,7 @@ QString QGo4LineEditPlugin::group() const
 
 QIcon QGo4LineEditPlugin::icon() const
 {
-  return QIcon(QPixmap(":/go4logo2.png"));
+  return QIcon(":/go4logo2.png");
 }
 
 QString QGo4LineEditPlugin::toolTip() const
@@ -67,7 +67,7 @@ QString QGo4LineEditPlugin::domXml() const
          "   <width>100</width>\n"
          "   <height>100</height>\n"
          "  </rect>\n"
-         " </property>\n"           
+         " </property>\n"
          "</widget>\n";
 }
 

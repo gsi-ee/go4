@@ -18,10 +18,10 @@
 
 TGo4EditDynEntry::TGo4EditDynEntry(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
-{ 
+{
 	setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
    fbTypingMode = true;
    fiSelectedType = entry_None;
@@ -211,7 +211,7 @@ void TGo4EditDynEntry::WorkWithEntry(const char* itemname)
       iconname = ":/icons/refresh.png";
       tooltip = "Refresh dynamic entry from source";
    }
-   RefreshButton->setIconSet( QIconSet( QPixmap(iconname) ) );
+   RefreshButton->setIcon( QIcon(iconname) );
    QToolTip::remove(RefreshButton);
    QToolTip::add(RefreshButton, tooltip);
 
@@ -288,7 +288,7 @@ void TGo4EditDynEntry::ResetWidget()
 
    DrawButton->setShown(false);
 
-   RefreshButton->setIconSet( QIconSet( QPixmap( "right" ) ) );
+   RefreshButton->setIcon( QIcon(":/icons/right.png" ) );
 
    SetPleaseUpdate(false);
 }

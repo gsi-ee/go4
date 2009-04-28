@@ -8,10 +8,10 @@
 
 QFitterWidget::QFitterWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
-{ 
+{
 			setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
 }
 
@@ -26,7 +26,7 @@ void QFitterWidget::FillSpecificData()
    if (GetFitter()) {
       int typ = GetFitter()->GetFitFunctionType();
       if (typ==TGo4Fitter::ff_user) typ = TGo4Fitter::ff_least_squares;
-      FitFunctionTypeCmb->setCurrentItem(typ);
+      FitFunctionTypeCmb->setCurrentIndex(typ);
 
       const char strend[3] = { 13, 10 , 0 };
       QString info("Associations:");

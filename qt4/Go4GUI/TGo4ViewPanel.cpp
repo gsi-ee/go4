@@ -741,7 +741,7 @@ void TGo4ViewPanel::RefreshButtons()
          iconname = ":/icons/refresh.png";
          tooltip = "Refresh condition from source";
       }
-      GetConditionBtn->setIconSet( QIconSet( QPixmap(iconname) ) );
+      GetConditionBtn->setIcon( QIcon(iconname) );
       QToolTip::remove(GetConditionBtn);
       QToolTip::add(GetConditionBtn, tooltip);
 
@@ -802,7 +802,7 @@ void TGo4ViewPanel::RefreshButtons()
    FreezeMode->setChecked(fbPickAgain);
 
    SelectedMarkerCmb->clear();
-   SelectedMarkerCmb->insertItem("new");
+   SelectedMarkerCmb->addItem("new");
 
    TGo4Slot* slot = GetPadSlot(GetActivePad());
    int findindx = -1;
@@ -826,14 +826,14 @@ void TGo4ViewPanel::RefreshButtons()
                 QString fullname(arr->GetName());
                 fullname+="/Sub";
                 fullname+=QString::number(ncon);
-                SelectedMarkerCmb->insertItem(fullname);
+                SelectedMarkerCmb->addItem(fullname);
 
                 if ((selname==obj->GetName()) &&
                     (selindex==ncon))
                        findindx = SelectedMarkerCmb->count()-1;
              }
           } else {
-             SelectedMarkerCmb->insertItem(obj->GetName());
+             SelectedMarkerCmb->addItem(obj->GetName());
              if (selname==obj->GetName())
                findindx = SelectedMarkerCmb->count()-1;
           }
@@ -845,7 +845,7 @@ void TGo4ViewPanel::RefreshButtons()
       SetSelectedMarker(GetActivePad(), "", -1);
    }
 
-   SelectedMarkerCmb->setCurrentItem(findindx);
+   SelectedMarkerCmb->setCurrentIndex(findindx);
    DelSelectedMarker->setEnabled((findindx>0) /*&& !iscondition*/);
 
    if (fbMarkEditorVisible) {
@@ -862,7 +862,7 @@ void TGo4ViewPanel::SelectedMarkerCmb_activated(int indx)
    if (indx==0)
       SetSelectedMarker(GetActivePad(), "", -1);
    else {
-     QString selname = SelectedMarkerCmb->text(indx);
+     QString selname = SelectedMarkerCmb->itemText(indx);
      int selindex = -1;
      int p = selname.find("/Sub");
      if (p>0) {

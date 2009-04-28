@@ -44,7 +44,7 @@ TQRootWindowPlugin::TQRootWindowPlugin(QObject *parent)
 
  QIcon TQRootWindowPlugin::icon() const
  {
-     return QIcon(QPixmap(":/go4logo2.png"));
+     return QIcon(":/go4logo2.png");
  }
 
  QString TQRootWindowPlugin::toolTip() const
@@ -72,7 +72,7 @@ bool TQRootWindowPlugin::isContainer() const
             "   <width>100</width>\n"
             "   <height>100</height>\n"
             "  </rect>\n"
-            " </property>\n"            
+            " </property>\n"
             "</widget>\n";
  }
 

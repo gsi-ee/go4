@@ -90,13 +90,13 @@ int main(int argc, char **argv)
    	 if (go4sys!=0)
    		 dfltfile = QString(go4sys) + "/" + dfltfile;
 
-   	 if (gSystem->mkdir(subdir.ascii(), kTRUE))
+   	 if (!gSystem->AccessPathName(subdir.ascii()) || !gSystem->mkdir(subdir.ascii(), kTRUE)) {
+          if (gSystem->CopyFile(dfltfile.ascii(), settfile.ascii(), kFALSE))
+               cout << "Cannot copy default config file into " << settfile.ascii() << endl;
+            else
+               cout << "Copied default config file into " << settfile.ascii() << endl;
+   	 } else
    		 cout << "Cannot create subdirectory " << subdir.ascii() << " for configuarations" << endl;
-   	 else
-   		 if (gSystem->CopyFile(dfltfile.ascii(), settfile.ascii(), kFALSE))
-   			 cout << "Cannot copy default config file into " << settfile.ascii() << endl;
-   		 else
-   			 cout << "Copied default config file into " << settfile.ascii() << endl;
     }
 
     go4sett = new TGo4QSettings;

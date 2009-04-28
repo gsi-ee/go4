@@ -9,10 +9,10 @@
 
 TGo4AnalysisStatusMonitor::TGo4AnalysisStatusMonitor(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
-{ 
+{
 	setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
    setAcceptDrops(FALSE);
 //   QString moviepath=gSystem->Getenv("GO4SYS");
@@ -23,7 +23,7 @@ TGo4AnalysisStatusMonitor::TGo4AnalysisStatusMonitor(QWidget *parent, const char
 
 TGo4AnalysisStatusMonitor::~TGo4AnalysisStatusMonitor()
 {
-	delete fxRunMovie;	
+	delete fxRunMovie;
 }
 
 void TGo4AnalysisStatusMonitor::WorkWithRatemeter(TGo4Slot* slot)
@@ -43,7 +43,7 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObj
    if(!status->IsAnalysisRunning())
     {
         LCDCurrentRate->setPaletteBackgroundColor(QColor(255,0,0));
-        Go4Pix->setPixmap(QPixmap( ":/icons/go4logo2.png" ));
+        Go4Pix->setWindowIcon( QIcon(":/icons/go4logo2.png"));
         fxRunMovie->stop();
     }
     else

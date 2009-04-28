@@ -7,10 +7,10 @@
 
 QFitOutputActionWidget::QFitOutputActionWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
-{ 
+{
 			setupUi(this);
 			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
+			// note: Qt4 uic will add all existing connections
 			// from ui file to the setupUI
 }
 
@@ -24,8 +24,8 @@ void QFitOutputActionWidget::FillSpecificData()
 {
    QFitNamedWidget::FillSpecificData();
    if (GetOutAct()) {
-      if (QString("Draw")==GetOutAct()->GetCommand()) CommandCombo->setCurrentItem(4);
-                                                 else CommandCombo->setCurrentItem(0);
+      if (QString("Draw")==GetOutAct()->GetCommand()) CommandCombo->setCurrentIndex(4);
+                                                 else CommandCombo->setCurrentIndex(0);
       OptionsEdit->setText(GetOutAct()->GetOptions());
    }
 }

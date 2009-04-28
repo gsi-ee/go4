@@ -39,7 +39,7 @@ QFitNamedWidgetPlugin::QFitNamedWidgetPlugin(QObject *parent)
 
  QIcon QFitNamedWidgetPlugin::icon() const
  {
-     return QIcon(QPixmap(":/go4logo2.png"));
+     return QIcon(":/go4logo2.png");
  }
 
  QString QFitNamedWidgetPlugin::toolTip() const
@@ -67,7 +67,7 @@ bool QFitNamedWidgetPlugin::isContainer() const
             "   <width>100</width>\n"
             "   <height>100</height>\n"
             "  </rect>\n"
-            " </property>\n"            
+            " </property>\n"
             "</widget>\n";
  }
 

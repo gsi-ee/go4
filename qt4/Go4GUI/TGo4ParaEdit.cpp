@@ -137,7 +137,7 @@ void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
       if (par!=0) RefreshWidget(par);
    }
 
-   RefreshButton->setIconSet( QIconSet( QPixmap(iconname) ) );
+   RefreshButton->setIcon(QIcon(iconname));
    QToolTip::remove(RefreshButton);
    QToolTip::add(RefreshButton, tooltip);
 
