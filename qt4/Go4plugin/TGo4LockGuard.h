@@ -3,12 +3,12 @@
 
 // dummy definition for lockguard for designer plugin
 
-//typedef int Qtrootlockguard;
+//typedef int TGo4LockGuard;
 // this one will give "unused" warnings, better use:
-class Qtrootlockguard
+class TGo4LockGuard
 { 
 public:
-    Qtrootlockguard(): dummy(0){};
+    TGo4LockGuard(): dummy(0){};
     
 private: 
     int dummy;

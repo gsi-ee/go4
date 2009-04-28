@@ -34,15 +34,16 @@
 #include "TLatex.h"
 #include "Riostream.h"
 
+#include "TGo4LockGuard.h"
+
 #include "tqrootdialog.h"
-#include "lockguard.h"
 
 TQRootCanvas::TQRootCanvas( QWidget *parent, const char *name, TCanvas *c ) :
    QWidget( parent, name ,Qt::WNoAutoErase | Qt::WResizeNoErase ),
    fResizeFlag(1),
    fMaskDoubleClick(false)
 {
-  Qtrootlockguard threadlock;
+  TGo4LockGuard threadlock;
   // set defaults
   setUpdatesEnabled( true );
   setMouseTracking(true);
@@ -86,7 +87,7 @@ TQRootCanvas::TQRootCanvas( QWidget *parent, QWidget* tabWin, const char *name, 
    fResizeFlag(1),
    fMaskDoubleClick(false)
 {
-   Qtrootlockguard threadlock;
+   TGo4LockGuard threadlock;
   // set defaults
      setUpdatesEnabled( true );
      setMouseTracking(true);
@@ -150,7 +151,7 @@ bool TQRootCanvas::checkResizeFlag(int level)
 
 void TQRootCanvas::performResize()
 {
-   Qtrootlockguard threadlock;
+   TGo4LockGuard threadlock;
    UInt_t nxid=winId();
    if(nxid!=xid) {
       // Qt has changed xid for this widget (e.g. at QWorkspace::addWindow())
@@ -167,7 +168,7 @@ void TQRootCanvas::performResize()
 
 void TQRootCanvas::mouseMoveEvent(QMouseEvent *e)
 {
-  Qtrootlockguard threadlock;
+  TGo4LockGuard threadlock;
   if (fCanvas!=0) {
      if (e->state() & Qt::LeftButton)
        fCanvas->HandleInput(kButton1Motion, e->x(), e->y());
@@ -179,7 +180,7 @@ void TQRootCanvas::mouseMoveEvent(QMouseEvent *e)
 
 void TQRootCanvas::mousePressEvent( QMouseEvent *e )
 {
-   Qtrootlockguard threadlock;
+   TGo4LockGuard threadlock;
    //cout <<"----- TQRootCanvas::mousePressEvent" << endl;
    TObjLink* pickobj = 0;
    TPad* pad = fCanvas->Pick(e->x(), e->y(), pickobj);
@@ -266,7 +267,7 @@ void TQRootCanvas::mousePressEvent( QMouseEvent *e )
 
 void TQRootCanvas::mouseReleaseEvent( QMouseEvent *e )
 {
-   Qtrootlockguard threadlock;
+   TGo4LockGuard threadlock;
    switch(e->button()) {
       case Qt::LeftButton :
          fCanvas->HandleInput(kButton1Up, e->x(), e->y());
@@ -286,7 +287,7 @@ void TQRootCanvas::mouseReleaseEvent( QMouseEvent *e )
 
 void TQRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
 {
-   Qtrootlockguard threadlock;
+   TGo4LockGuard threadlock;
    switch(e->button()) {
       case Qt::LeftButton : {
          if (!fMaskDoubleClick)
@@ -324,14 +325,14 @@ void TQRootCanvas::paintEvent( QPaintEvent * e)
 
 void TQRootCanvas::leaveEvent( QEvent *e )
 {
-   Qtrootlockguard threadlock;
+   TGo4LockGuard threadlock;
    if (fCanvas!=0)
       fCanvas->HandleInput(kMouseLeave, 0, 0);
 }
 
 bool TQRootCanvas::eventFilter( QObject *o, QEvent *e )
 {
-Qtrootlockguard threadlock;
+TGo4LockGuard threadlock;
    if ( e->type() == QEvent::Close) {  // close
       if (fCanvas && (isCanvasOwned== false) ) {
          delete fCanvas;
@@ -416,7 +417,7 @@ void TQRootCanvas::dragEnterEvent( QDragEnterEvent *e )
 
 void TQRootCanvas::dropEvent( QDropEvent *Event )
 {
-   Qtrootlockguard threadlock;
+   TGo4LockGuard threadlock;
 
    QString str = Event->mimeData()->text();
 
@@ -743,7 +744,7 @@ void TQRootCanvas::methodDialog(TObject* object, TMethod* method)
 {
    if ((object==0) || (method==0)) return;
 
-   Qtrootlockguard threadlock;
+   TGo4LockGuard threadlock;
   // Create dialog object with OK and Cancel buttons. This dialog
    // prompts for the arguments of "method".
 
@@ -907,7 +908,7 @@ QAction* TQRootCanvas::addMenuAction(QMenu* menu, QSignalMapper* map, const QStr
 
 void TQRootCanvas::executeMenu(int id)
 {
-   Qtrootlockguard threadlock;
+   TGo4LockGuard threadlock;
    QString text("");
    bool ok = FALSE;
    if (id >=100) {

@@ -21,8 +21,6 @@
 #include <QtCore/qobject.h>
 #include <QtCore/qtimer.h>
 
-#include "lockguard.h"
-
 extern void qt_ignore_badwindow();
 extern bool qt_badwindow();
 //extern bool qt_xdnd_handle_badwindow();
@@ -68,7 +66,7 @@ void qMessageOutput( QtMsgType type, const char *msg )
       case QtCriticalMsg:
           fprintf( stderr, "QtRoot-Critical: \n %s\n", msg );
           break;
-      default:    
+      default:
           fprintf( stderr, "QtRoot-Other: \n %s\n", msg );
           break;
    }

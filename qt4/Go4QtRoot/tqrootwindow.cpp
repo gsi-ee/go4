@@ -12,7 +12,7 @@
 #include <QtGui/QCloseEvent>
 #include <QtGui/QPaintEvent>
 
-#include "lockguard.h"
+#include "TGo4LockGuard.h"
 
 /** Pseudo root mainframe to wrap root composite frames like TGedEditor */
 class TQRootFrame: public TGCompositeFrame {
@@ -154,12 +154,12 @@ return rev;
 
 void TQRootWindow::paintEvent( QPaintEvent * e)
 {
-//Qtrootlockguard threadlock;
+//TGo4LockGuard threadlock;
  if(fxRootwindow){
      UInt_t nxid=winId();
      if(fiXid!=nxid)
       {
-         Qtrootlockguard threadlock;
+         TGo4LockGuard threadlock;
          // may happen when this window is embedded to Qt workspace...
          //cout <<"Warning: TQRootWindow::paintEvent finds changed X window id: "<<winId()<<", previous:"<<fiXid << endl;
          delete fxRootwindow; // should also remove old x windows!
@@ -169,7 +169,7 @@ void TQRootWindow::paintEvent( QPaintEvent * e)
       }
      if(fbResizeOnPaint)
       {
-         Qtrootlockguard threadlock;
+         TGo4LockGuard threadlock;
          //cout <<"TQRootWindow::paintEvent does TGCompositeFrame Resize ..." <<endl;
          fxRootwindow->Resize(width(),height());
          gVirtualX->Update(1); // Xsync/flus
@@ -180,7 +180,7 @@ QWidget::paintEvent(e);
 
 void TQRootWindow::resizeEvent( QResizeEvent *e )
 {
- //Qtrootlockguard threadlock;
+ //TGo4LockGuard threadlock;
  QWidget::resizeEvent(e);
 
 }
@@ -188,7 +188,7 @@ void TQRootWindow::resizeEvent( QResizeEvent *e )
 
 bool TQRootWindow ::eventFilter( QObject *o, QEvent *e )
 {
-Qtrootlockguard threadlock;
+   TGo4LockGuard threadlock;
   // Filtering of QWidget Events
   //cout <<"TQRootWindow ::eventFilter" << endl;
   QMouseEvent* me=dynamic_cast<QMouseEvent*>(e);

@@ -52,5 +52,5 @@ HEADERS  = QGo4WidgetPlugin.h \
            tqrootcanvas.h \
            tqrootdialog.h \
            tqrootwindow.h\
-           lockguard.h\
+           TGo4LockGuard.h\
            go4plugin.h

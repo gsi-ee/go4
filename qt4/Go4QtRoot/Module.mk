@@ -30,7 +30,6 @@ GO4QT4HEADS += $(QT4ROOT_PUBH)
 
 ifdef DOPACKAGE
 DISTRFILES         += $(QT4ROOT_H) $(QT4ROOT_S)
-DISTRFILES         += $(QT4ROOT_DIR)/lockguard.h
 DISTRFILES         += $(QT4ROOT_DIR)/CHANGELOG.txt
 DISTRFILES         += $(QT4ROOT_DIR)/Module.mk
 endif
