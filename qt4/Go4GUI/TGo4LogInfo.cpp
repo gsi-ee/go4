@@ -75,14 +75,17 @@ void TGo4LogInfo::SaveLogInfo()
     QString TextToSave;
     QFileDialog fd( this, "Save analysis log window", QString(),
           "Plain text (*.txt)");
-    fd.setMode( QFileDialog::AnyFile );
+    fd.setFileMode( QFileDialog::AnyFile );
 
     if ( fd.exec() != QDialog::Accepted ) return;
 
-    QString fileName = fd.selectedFile();
+    QStringList flst = fd.selectedFiles();
+    if (flst.isEmpty()) return;
+
+    QString fileName = flst[0];
     if(!fileName.endsWith(".txt")) fileName.append(".txt");
     QFile NewFile(fileName);
-    NewFile.open( IO_ReadWrite | IO_Append );
+    NewFile.open( QIODevice::ReadWrite | QIODevice::Append );
     QTextStream t( &NewFile );
 
     QTreeWidgetItemIterator it(LogText);

@@ -12,7 +12,7 @@
         <height>435</height>
       </rect>
     </property>
-    <property name="caption" >
+    <property name="windowTitle" >
       <string>QFitMinuitResWidget</string>
     </property>
     <widget class="QLabel" name="InfoLabel" >
@@ -36,8 +36,7 @@
     </widget>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
   <includes>
-    <include location="local" >QFitNamedWidget.h</include>
+    <include location="local">QFitNamedWidget.h</include>
   </includes>
 </ui>

@@ -1,6 +1,5 @@
 #include "QFitParCfgWidget.h"
 
-//#include "QGo4LineEdit.h"
 #include "QFitItem.h"
 #include "TGo4FitParsList.h"
 #include "TGo4FitParameter.h"
@@ -8,11 +7,8 @@
 
 QFitParCfgWidget::QFitParCfgWidget(QWidget *parent, const char* name)
          : QFitWidget(parent, name)
-{ 
-			setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
-			// from ui file to the setupUI
+{
+   setupUi(this);
 }
 
 
@@ -63,9 +59,9 @@ void QFitParCfgWidget::ParNameEdit_textChanged( const QString & name)
   if(!fbFillWidget && GetPar() && (name.length()>0)) {
       TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (GetItem()->Parent()->Object());
       if (pars==0) return;
-      if (pars->FindPar(name)) return;
-      GetPar()->SetName(name);
-      GetItem()->setText(0,name);
+      if (pars->FindPar(name.toAscii())) return;
+      GetPar()->SetName(name.toAscii());
+      GetItem()->setText(0,name.toAscii());
   }
 }
 

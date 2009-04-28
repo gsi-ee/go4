@@ -38,11 +38,11 @@
         <height>350</height>
       </size>
     </property>
-    <property name="caption" >
+    <property name="windowTitle" >
       <string>View Panel</string>
     </property>
-    <property name="icon" >
-      <pixmap>:/icons/go4logo2_big.png</pixmap>
+    <property name="windowIcon" >
+      <icon>:/icons/go4logo2_big.png</icon>
     </property>
     <property name="mouseTracking" >
       <bool>true</bool>
@@ -596,28 +596,6 @@
     </layout>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <customwidgets>
-    <customwidget>
-      <class>QGo4RootCanvas</class>
-      <extends>TQRootCanvas</extends>
-      <header location="local" >QGo4RootCanvas.h</header>
-      <sizehint>
-        <width>-1</width>
-        <height>-1</height>
-      </sizehint>
-      <container>0</container>
-      <sizepolicy>
-        <hordata>5</hordata>
-        <verdata>5</verdata>
-      </sizepolicy>
-      <pixmap>image0</pixmap>
-    </customwidget>
-    <customwidget>
-      <class>QGo4Widget</class>
-      <extends>QWidget</extends>
-      <header location="local">QGo4Widget.h</header>
-    </customwidget>
-  </customwidgets>
   <images>
     <image name="image0" >
       <data format="XBM.GZ" length="79" >789c534e494dcbcc4b554829cdcdad8c2fcf4c29c95030e0524611cd48cd4ccf28010a1797249664262b2467241641a592324b8aa363156c15aab914146aadb90067111b1f</data>
@@ -625,6 +603,7 @@
   </images>
   <includes>
     <include location="local">QGo4Widget.h</include>
+    <include location="local">QGo4RootCanvas.h</include>
   </includes>
   <connections>
     <connection>

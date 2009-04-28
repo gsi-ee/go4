@@ -6,10 +6,7 @@
 QFitModelFormulaWidget::QFitModelFormulaWidget(QWidget *parent, const char* name)
          : QFitModelWidget(parent, name)
 {
-			setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
+   setupUi(this);
 }
 
 TGo4FitModelFormula * QFitModelFormulaWidget::GetFormula()
@@ -29,7 +26,7 @@ void QFitModelFormulaWidget::FillSpecificData()
 void QFitModelFormulaWidget::ExprEdt_textChanged( const QString & str)
 {
   if(!fbFillWidget && GetFormula())
-    GetFormula()->SetExpression(str);
+    GetFormula()->SetExpression(str.toAscii());
 }
 
 void QFitModelFormulaWidget::NumParSpin_valueChanged( int num)

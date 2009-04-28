@@ -9,23 +9,21 @@
 QFitModelWidget::QFitModelWidget( QWidget* parent,  const char* name )
     : QFitNamedWidget( parent, name )
 {
-    if (name==0) setName( "QFitModelWidget" );
-    setCaption("QFitModelWidget");
+    if (name==0) setObjectName( "QFitModelWidget" );
+    setWindowTitle("QFitModelWidget");
 
-    AmplChk = new QCheckBox( this, "AmplChk" );
+    AmplChk = new QCheckBox("amplitude", this);
     AmplChk->setGeometry( QRect( 10, 110, 80, 25 ) );
-    AmplChk->setText("amplitude");
 
-    textLabel1 = new QLabel( "group", this, "textLabel1" );
+    textLabel1 = new QLabel( "group", this );
     textLabel1->setGeometry( QRect( 200, 110, 40, 20 ) );
 
-    BuffersChk = new QCheckBox( this, "BuffersChk" );
+    BuffersChk = new QCheckBox("use buffers", this);
     BuffersChk->setGeometry( QRect( 100, 110, 90, 25 ) );
-    BuffersChk->setText("use buffers");
 
-    GroupSpin = new QSpinBox( this, "GroupSpin" );
+    GroupSpin = new QSpinBox( this );
     GroupSpin->setGeometry( QRect( 240, 110, 55, 22 ) );
-    GroupSpin->setMinValue( -1 );
+    GroupSpin->setMinimum( -1 );
     resize( QSize(600, 480).expandedTo(minimumSizeHint()) );
     //clearWState( WState_Polished );
 

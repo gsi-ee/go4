@@ -82,7 +82,8 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll)
     timer = new QTimer( this );
     QObject::connect( timer, SIGNAL(timeout()),
             this, SLOT(execute()) );
-    timer->start( 20, FALSE );
+    timer->setSingleShot(false);
+    timer->start(20);
 
     rtimer = new TTimer(20);
     rtimer->Start(20, kFALSE);

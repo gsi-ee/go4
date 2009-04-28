@@ -47,19 +47,20 @@ class TQRootFrame: public TGCompositeFrame {
 ///////////////////////////////////////////////////
 // This is the widget to be embedded in qt:
 
-TQRootWindow::TQRootWindow( QWidget *parent, const char *name, bool designermode)
-  : QWidget( parent, name)//, WMouseNoMask | WPaintUnclipped | WPaintClever)//|WRepaintNoErase | WResizeNoErase)
-   ,fxRootwindow(0),fbResizeOnPaint(kTRUE)
+TQRootWindow::TQRootWindow( QWidget *parent, const char *name, bool designermode) :
+  QWidget(parent),
+  fxRootwindow(0),
+  fbResizeOnPaint(kTRUE)
 {
+   setObjectName( name ? name : "QRootWindow");
+
   // set defaults
   setUpdatesEnabled( true );
   setMouseTracking(true);
 
   setFocusPolicy( Qt::TabFocus );
-  setCursor( Qt::crossCursor );
-  //setAttribute(Qt::WA_NoSystemBackground);
-  if(!designermode)
-     {
+  setCursor( Qt::CrossCursor );
+  if(!designermode) {
      // add the Qt::WinId to TGX11 interface
      fiXid=winId();
      fiWinid=gVirtualX->AddWindow(fiXid,145,600);
@@ -67,20 +68,16 @@ TQRootWindow::TQRootWindow( QWidget *parent, const char *name, bool designermode
      fxRootwindow=new TQRootFrame(fiXid);
      fxRootwindow->Resize();
      if ( parent ) parent->installEventFilter( this );
-     }
+  }
 }
-
-
-
 
 void TQRootWindow::AddSubFrame(TGFrame* f, TGLayoutHints* l)
 {
-   //cout <<"TQRootWindow::AddSubFrame" << endl;
    fxRootwindow->AddFrame(f,l);
    fxRootwindow->MapWindow();
    fxRootwindow->MapSubwindows();
    fxRootwindow->Resize();
-   polish();
+   ensurePolished();
    update();
    show();
 }
@@ -92,62 +89,61 @@ void TQRootWindow::SetEditable(bool on)
 
 Event_t* TQRootWindow::MapQMouseEvent(QMouseEvent *e)
 {
-if(e==0) return 0;
-Event_t* rev= new Event_t;
+   if(e==0) return 0;
+   Event_t* rev= new Event_t;
 
-rev->fX=e->x();
-rev->fY=e->y();
-rev->fXRoot= e->globalX();
-rev->fYRoot= e->globalY();
+   rev->fX=e->x();
+   rev->fY=e->y();
+   rev->fXRoot= e->globalX();
+   rev->fYRoot= e->globalY();
 
-// translate Qt event type:
-if(e->type() == QEvent::MouseButtonPress)   rev->fType = kButtonPress;
-else if(e->type() == QEvent::MouseButtonRelease) rev->fType = kButtonRelease;
-else if(e->type() == QEvent::MouseButtonDblClick) rev->fType = kButtonDoubleClick;
-else if(e->type() == QEvent::MouseMove) rev->fType = kMotionNotify;
-else if(e->type() == QEvent::KeyPress) rev->fType = kGKeyPress;
-else if(e->type() == QEvent::KeyRelease) rev->fType = kKeyRelease;
-else rev->fType = kOtherEvent;
+   // translate Qt event type:
+   if(e->type() == QEvent::MouseButtonPress) rev->fType = kButtonPress;
+   else if(e->type() == QEvent::MouseButtonRelease) rev->fType = kButtonRelease;
+   else if(e->type() == QEvent::MouseButtonDblClick) rev->fType = kButtonDoubleClick;
+   else if(e->type() == QEvent::MouseMove) rev->fType = kMotionNotify;
+   else if(e->type() == QEvent::KeyPress) rev->fType = kGKeyPress;
+   else if(e->type() == QEvent::KeyRelease) rev->fType = kKeyRelease;
+   else rev->fType = kOtherEvent;
 
-// translate Qt state bits:
-rev->fState=0;
-if(e->state() & Qt::LeftButton)
-         rev->fState |= kButton1Mask;
-if(e->state() & Qt::RightButton)
-         rev->fState |= kButton3Mask;
-if(e->state() & Qt::MidButton)
-         rev->fState |= kButton2Mask;
-if(e->state() & Qt::MouseButtonMask)
-         rev->fState |= kButton1Mask;
-if(e->state() & Qt::ShiftButton)
-         rev->fState |= kKeyShiftMask;
-if(e->state() & Qt::ControlButton)
-         rev->fState |= kKeyControlMask;
-if(e->state() & Qt::AltButton)
-         rev->fState |= kKeyMod1Mask;
-if(e->state() & Qt::MetaButton)
-         rev->fState |= kKeyMod1Mask;
-//if(e->state() & KeyButtonMask)
-//         rev->fState |= ShiftMask;
-//if(e->state() & Keypad)
-//         rev->fState |= ShiftMask;
+   // translate Qt state bits:
+   rev->fState=0;
+   if(e->buttons() & Qt::LeftButton)
+      rev->fState |= kButton1Mask;
+   if(e->buttons() & Qt::RightButton)
+      rev->fState |= kButton3Mask;
+   if(e->buttons() & Qt::MidButton)
+      rev->fState |= kButton2Mask;
+   if(e->buttons() & Qt::MouseButtonMask)
+      rev->fState |= kButton1Mask;
 
-rev->fCode      = Qt::NoButton;    // button code
-if(e->button() & Qt::LeftButton)
-         rev->fCode |= kButton1Mask;
-if(e->button() & Qt::RightButton)
-         rev->fCode |= kButton3Mask;
-if(e->button() & Qt::MidButton)
-         rev->fCode |= kButton2Mask;
+   if(e->modifiers() & Qt::ShiftModifier)
+      rev->fState |= kKeyShiftMask;
+   if(e->modifiers() & Qt::ControlModifier)
+      rev->fState |= kKeyControlMask;
+   if(e->modifiers() & Qt::AltModifier)
+      rev->fState |= kKeyMod1Mask;
+   if(e->modifiers() & Qt::MetaModifier)
+      rev->fState |= kKeyMod1Mask;
+   //if(e->buttons() & KeyButtonMask)
+   //         rev->fState |= ShiftMask;
+   //if(e->buttons() & Keypad)
+   //         rev->fState |= ShiftMask;
 
-rev->fUser[0]=0;
-rev->fWindow    = gVirtualX->GetWindowID(fiWinid); // we refer signals to this window
-rev->fSendEvent = 0;
-rev->fTime = 0; // this might cause problems with root doubleclick treatment?
+   rev->fCode      = Qt::NoButton;    // button code
+   if(e->button() == Qt::LeftButton)
+      rev->fCode |= kButton1Mask;
+   if(e->button() == Qt::RightButton)
+      rev->fCode |= kButton3Mask;
+   if(e->button() == Qt::MidButton)
+      rev->fCode |= kButton2Mask;
 
+   rev->fUser[0]=0;
+   rev->fWindow    = gVirtualX->GetWindowID(fiWinid); // we refer signals to this window
+   rev->fSendEvent = 0;
+   rev->fTime = 0; // this might cause problems with root doubleclick treatment?
 
-
-return rev;
+   return rev;
 }
 
 
@@ -189,27 +185,22 @@ void TQRootWindow::resizeEvent( QResizeEvent *e )
 bool TQRootWindow ::eventFilter( QObject *o, QEvent *e )
 {
    TGo4LockGuard threadlock;
-  // Filtering of QWidget Events
-  //cout <<"TQRootWindow ::eventFilter" << endl;
-  QMouseEvent* me=dynamic_cast<QMouseEvent*>(e);
-  if(me)
-   {
-    //cout <<"TQRootWindow ::eventFilter has mouse event" << endl;
-    Event_t* roote=MapQMouseEvent(me);
-    if(fxRootwindow) fxRootwindow->HandleEvent(roote);
-    delete roote;
-    return FALSE;
+   QMouseEvent* me=dynamic_cast<QMouseEvent*>(e);
+   if(me) {
+      Event_t* roote=MapQMouseEvent(me);
+      if(fxRootwindow) fxRootwindow->HandleEvent(roote);
+      delete roote;
+      return FALSE;
    }
 
+   if ( e->type() == QEvent::Close) {  // close
+      delete fxRootwindow;
+      fxRootwindow=0;
+      return FALSE;
+   }
 
-  if ( e->type() == QEvent::Close) {  // close
-        delete fxRootwindow;
-        fxRootwindow=0;
-        return FALSE;
-       }
-
-  // standard event processing
-  return QWidget::eventFilter( o, e );
+   // standard event processing
+   return QWidget::eventFilter( o, e );
 }
 
 

@@ -12,11 +12,11 @@
         <height>34</height>
       </rect>
     </property>
-    <property name="caption" >
+    <property name="windowTitle" >
       <string>Histogram Drawing Options</string>
     </property>
-    <property name="icon" >
-      <pixmap>:/icons/go4logo2_big.png</pixmap>
+    <property name="windowIcon" >
+      <icon>:/icons/go4logo2_big.png</icon>
     </property>
     <layout class="QGridLayout" >
       <property name="margin" >
@@ -371,9 +371,8 @@
     </layout>
   </widget>
   <layoutdefault spacing="2" margin="2" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
   <includes>
-    <include location="local" >QGo4Widget.h</include>
+    <include location="local">QGo4Widget.h</include>
   </includes>
   <connections>
     <connection>

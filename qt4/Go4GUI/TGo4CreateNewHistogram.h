@@ -13,7 +13,7 @@ class TGo4CreateNewHistogram : public QDialog, public Ui::TGo4CreateNewHistogram
      Q_OBJECT
 
  public:
-     TGo4CreateNewHistogram( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
+     TGo4CreateNewHistogram( QWidget* parent = 0);
 	 void SetAnalysisAvaliable(bool on);
 
 	void SetLocalAvaliable(bool on);

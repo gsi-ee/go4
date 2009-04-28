@@ -12,7 +12,7 @@
         <height>236</height>
       </rect>
     </property>
-    <property name="caption" >
+    <property name="windowTitle" >
       <string>QFitDependencyWidget</string>
     </property>
     <widget class="QLabel" name="TextLabel4" >
@@ -69,9 +69,8 @@
     </widget>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
   <includes>
-    <include location="local" >QFitWidget.h</include>
+    <include location="local">QFitWidget.h</include>
     <include location="local">QGo4LineEdit.h</include>
   </includes>
   <connections>

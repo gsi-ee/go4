@@ -11,15 +11,14 @@
 #include "TGo4FitPanel.h"
 
 QFitWidget::QFitWidget( QWidget* parent, const char* name, Qt::WFlags fl )
-    : QWidget( parent, name, fl )
+    : QWidget( parent, fl )
 {
-    if (name==0) setName( "QFitWidget" );
-    resize( QSize(533, 405).expandedTo(minimumSizeHint()) );
-    //clearWState( Qt::WState_Polished );
+   setObjectName(name ? name : "QFitWidget");
+   resize( QSize(533, 405).expandedTo(minimumSizeHint()) );
 
-    fxPanel = 0;
-    fxItem = 0;
-    fbFillWidget = FALSE;
+   fxPanel = 0;
+   fxItem = 0;
+   fbFillWidget = FALSE;
 }
 
 QFitWidget::~QFitWidget()

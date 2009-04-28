@@ -16,7 +16,7 @@
       <string>Select Macro template:</string>
     </property>
     <property name="windowIcon" >
-      <pixmap>:/icons/go4logo2_big.png</pixmap>
+      <icon>:/icons/go4logo2_big.png</icon>
     </property>
     <property name="sizeGripEnabled" >
       <bool>true</bool>
@@ -151,7 +151,6 @@
     </layout>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
   <connections>
     <connection>
       <sender>buttonOk</sender>

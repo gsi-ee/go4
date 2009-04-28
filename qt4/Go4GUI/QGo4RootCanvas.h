@@ -5,8 +5,6 @@
 
 #include <QtDesigner/QDesignerExportWidget>
 
-//Added by qt3to4:
-#include <QtGui/QMouseEvent>
 #include <QtCore/QEvent>
 #include <QtGui/QDropEvent>
 #include <QtGui/QDragEnterEvent>

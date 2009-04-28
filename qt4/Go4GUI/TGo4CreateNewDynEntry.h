@@ -3,7 +3,7 @@
 
 
 #include <QDialog>
-#include "ui_TGo4CreateNewDynEntry.h"  
+#include "ui_TGo4CreateNewDynEntry.h"
 
 class TGo4DynamicEntry;
 
@@ -12,8 +12,8 @@ class TGo4CreateNewDynEntry : public QDialog, public Ui::TGo4CreateNewDynEntry
      Q_OBJECT
 
  public:
- 	TGo4CreateNewDynEntry( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
+ 	 TGo4CreateNewDynEntry( QWidget* parent = 0 );
 	 TGo4DynamicEntry* MakeEntry();
  };
- 
+
 #endif

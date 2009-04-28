@@ -2,14 +2,11 @@
 
 #include <QToolTip>
 
-TGo4MacroDialog::TGo4MacroDialog( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-    : QDialog( parent, name, modal, fl )
-{ 
-	setObjectName(name);
+TGo4MacroDialog::TGo4MacroDialog( QWidget* parent )
+    : QDialog( parent )
+{
+	setObjectName("Go4MacroDialog");
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
-			// from ui file to the setupUI
    setCommand("Add");
 }
 
@@ -25,7 +22,7 @@ void TGo4MacroDialog::setCommand( const QString & selection )
         fxCommand+='"';
         fxCommand+=", 1, kTRUE);";
         SyntaxLabel->setText("Bool_t addhistos(const char* name1, const char* name2, Double_t factor, Bool_t draw)");
-        QToolTip::add(this,"Add histograms: result=name1 + factor * name2. \n If draw==true, display in new viewpanel, otherwise just update existing displays");
+        setToolTip("Add histograms: result=name1 + factor * name2. \n If draw==true, display in new viewpanel, otherwise just update existing displays");
     }
     else if (selection.contains("Divide"))
     {
@@ -38,7 +35,7 @@ void TGo4MacroDialog::setCommand( const QString & selection )
         fxCommand+=", kTRUE);";
         SyntaxLabel->setText("Bool_t divhistos(const char* name1, const char* name2, Bool_t draw)");
 
-        QToolTip::add(this,"Divide histograms: result=name1 by name2.\n If draw==true, display in new viewpanel, otherwise just update existing displays ");
+        setToolTip("Divide histograms: result=name1 by name2.\n If draw==true, display in new viewpanel, otherwise just update existing displays ");
     }
      else if (selection.contains("Rebin"))
     {
@@ -48,7 +45,7 @@ void TGo4MacroDialog::setCommand( const QString & selection )
         fxCommand+=", 2, kTRUE);";
         SyntaxLabel->setText("Bool_t rebin(const char* name1, int ngroup, Bool_t draw)");
 
-        QToolTip::add(this,"Rebin histogram name1 by mergin ngroup neighboured channels together. \n If draw=true, display in new viewpanel, otherwise just update existing displays ");
+        setToolTip("Rebin histogram name1 by mergin ngroup neighboured channels together. \n If draw=true, display in new viewpanel, otherwise just update existing displays ");
     }
     else if (selection.contains("Projection X"))
     {
@@ -57,7 +54,7 @@ void TGo4MacroDialog::setCommand( const QString & selection )
         fxCommand+='"';
         fxCommand+=", -1, -1, kTRUE);";
         SyntaxLabel->setText("Bool_t projectionX(const char* name1, Int_t firstybin, Int_t lastybin, Bool_t draw)");
-        QToolTip::add(this," Do projection to X axis for 2d histogram name1.\n Parameters firstybin, lastybin for y range. \n If draw==true, display in new viewpanel, otherwise just update existing displays ");
+        setToolTip(" Do projection to X axis for 2d histogram name1.\n Parameters firstybin, lastybin for y range. \n If draw==true, display in new viewpanel, otherwise just update existing displays ");
 
     }
     else if (selection.contains("Projection Y"))
@@ -67,7 +64,7 @@ void TGo4MacroDialog::setCommand( const QString & selection )
         fxCommand+='"';
         fxCommand+=", -1, -1, kTRUE);";
         SyntaxLabel->setText("Bool_t projectionY(const char* name1, Int_t firstxbin, Int_t lastxbin, Bool_t draw)");
-        QToolTip::add(this," Do projection to Y axis for 2d histogram name1. \n Parameters firstxbin, lastxbin for x range. \n If draw==true, display in new viewpanel, otherwise just update existing displays ");
+        setToolTip(" Do projection to Y axis for 2d histogram name1. \n Parameters firstxbin, lastxbin for x range. \n If draw==true, display in new viewpanel, otherwise just update existing displays ");
 
     }
     else if (selection.contains("Correlate"))
@@ -80,7 +77,7 @@ void TGo4MacroDialog::setCommand( const QString & selection )
         fxCommand+='"';
         fxCommand+=", kTRUE);";
         SyntaxLabel->setText("Bool_t corrhistos(const char* name1, const char* name2, Bool_t draw)");
-        QToolTip::add(this," Correlate bin contents of two histograms in a graph.\n If draw==true, display in new viewpanel, otherwise just update existing displays ");
+        setToolTip(" Correlate bin contents of two histograms in a graph.\n If draw==true, display in new viewpanel, otherwise just update existing displays ");
 
     }
     else if (selection.contains("Histogram of"))
@@ -90,7 +87,7 @@ void TGo4MacroDialog::setCommand( const QString & selection )
         fxCommand+='"';
         fxCommand+=", 1000, kTRUE);";
          SyntaxLabel->setText("Bool_t hishisto(const char* name1, Int_t bins, Bool_t draw)");
-        QToolTip::add(this," Create histogram and fill with contents of histogram name1. \n If draw==true, display in new viewpanel, otherwise just update existing displays ");
+        setToolTip(" Create histogram and fill with contents of histogram name1. \n If draw==true, display in new viewpanel, otherwise just update existing displays ");
 
     }
     else if (selection.contains("Profile X"))
@@ -100,7 +97,7 @@ void TGo4MacroDialog::setCommand( const QString & selection )
         fxCommand+='"';
         fxCommand+=", -1, -1, kTRUE);";
          SyntaxLabel->setText("Bool_t profileX(const char* name1, Int_t firstybin, Int_t lastybin, Bool_t draw)");
-        QToolTip::add(this," Do profile to X axis for 2d histogram name1. \n Parameters firstybin, lastybin for y range. \n If draw==true, display in new viewpanel, otherwise just update existing displays ");
+        setToolTip(" Do profile to X axis for 2d histogram name1. \n Parameters firstybin, lastybin for y range. \n If draw==true, display in new viewpanel, otherwise just update existing displays ");
 
     }
     else if (selection.contains("Profile Y"))
@@ -110,7 +107,7 @@ void TGo4MacroDialog::setCommand( const QString & selection )
         fxCommand+='"';
         fxCommand+=", -1, -1, kTRUE);";
         SyntaxLabel->setText("Bool_t profileY(const char* name1, Int_t firstxbin, Int_t lastxbin, Bool_t draw)");
-        QToolTip::add(this," Do profile to Y axis for 2d histogram name1. \n Parameters firstxbin, lastxbin for x range. \n If draw==true, display in new viewpanel, otherwise just update existing displays ");
+        setToolTip(" Do profile to Y axis for 2d histogram name1. \n Parameters firstxbin, lastxbin for x range. \n If draw==true, display in new viewpanel, otherwise just update existing displays ");
 
     }
      else if (selection.contains("Scale X"))
@@ -120,7 +117,7 @@ void TGo4MacroDialog::setCommand( const QString & selection )
         fxCommand+='"';
         fxCommand+=", 1, 0, kTRUE);";
         SyntaxLabel->setText("Bool_t scalex(const char* name1, Double_t a1, Double_t a0, Bool_t draw)");
-        QToolTip::add(this," Scale x axis of histogram name1 by linear function. \n Parameters: x'= a1*x + a0. \n If draw==true, display in new viewpanel, otherwise just update existing displays ");
+        setToolTip(" Scale x axis of histogram name1 by linear function. \n Parameters: x'= a1*x + a0. \n If draw==true, display in new viewpanel, otherwise just update existing displays ");
     }
     else
     {

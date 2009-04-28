@@ -5,14 +5,10 @@
 #include "TGo4ViewPanel.h"
 
 TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WFlags fl )
-    : QWidget( parent, name, fl )
-{ 
-	//setObjectName(name);
-	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
-			// from ui file to the setupUI
-
+    : QWidget( parent, fl )
+{
+   setObjectName( name ? name : "Go4Style");
+   setupUi(this);
 }
 
 

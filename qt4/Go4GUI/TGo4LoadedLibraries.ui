@@ -213,7 +213,6 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
   <tabstop>LoadedLibsD</tabstop>
   <tabstop>LoadedLibsS</tabstop>
@@ -222,7 +221,6 @@
   <tabstop>UnloadLibBtn</tabstop>
   <tabstop>CloseBtn</tabstop>
  </tabstops>
- <resources/>
  <connections>
   <connection>
    <sender>LoadLibBtn</sender>

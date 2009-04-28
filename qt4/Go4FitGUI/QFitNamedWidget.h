@@ -1,4 +1,3 @@
-
 #ifndef QFITNAMEDWIDGET_H
 #define QFITNAMEDWIDGET_H
 

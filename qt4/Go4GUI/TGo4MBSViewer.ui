@@ -11,10 +11,10 @@
         <height>85</height>
       </rect>
     </property>
-    <property name="caption" >
+    <property name="windowTitle" >
       <string>MBS Status</string>
     </property>
-    <property name="icon" >
+    <property name="windowIcon" >
       <pixmap>:/icons/mbslogo.png</pixmap>
     </property>
     <layout class="QGridLayout" >
@@ -124,11 +124,8 @@
                       <height>32767</height>
                     </size>
                   </property>
-                  <property name="frameShape" >
-                    <enum>LineEditPanel</enum>
-                  </property>
-                  <property name="frameShadow" >
-                    <enum>Sunken</enum>
+                  <property name="frame" >
+                    <bool>true</bool>
                   </property>
                   <property name="text" >
                     <string/>
@@ -445,7 +442,7 @@
                 </size>
               </property>
               <property name="frameShape" >
-                <enum>PopupPanel</enum>
+                <enum>Panel</enum>
               </property>
               <property name="frameShadow" >
                 <enum>Raised</enum>
@@ -844,11 +841,10 @@
     </layout>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
   <includes>
-    <include location="local" >qmovie.h</include>
-    <include location="local" >QGo4Widget.h</include>
-    <include location="local" >QGo4LineEdit.h</include>
+    <include location="local">qmovie.h</include>
+    <include location="local">QGo4Widget.h</include>
+    <include location="local">QGo4LineEdit.h</include>
   </includes>
   <connections>
     <connection>

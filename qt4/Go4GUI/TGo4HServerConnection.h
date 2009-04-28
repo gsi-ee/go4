@@ -2,7 +2,7 @@
 #define TGO4HSERVERCPNNECTION_H
 
 #include <QDialog>
-#include "ui_TGo4HServerConnection.h"  
+#include "ui_TGo4HServerConnection.h"
 
 class TGo4HServerConnection : public QDialog, public Ui::TGo4HServerConnection
  {
@@ -10,10 +10,13 @@ class TGo4HServerConnection : public QDialog, public Ui::TGo4HServerConnection
 
  public:
      TGo4HServerConnection( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 )
-                        : QDialog( parent, name, modal, fl )
+                        : QDialog( parent, fl )
         {
-          setupUi(this);  
+           setObjectName(name ? name : "Go4HServConnection");
+           setModal(modal);
+
+          setupUi(this);
         }
  };
- 
+
 #endif

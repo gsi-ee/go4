@@ -1,22 +1,15 @@
 #include "QFitSlotWidget.h"
 
 #include "TClass.h"
-//#include "qevent.h"
-//#include "qdragobject.h"
 #include "QFitItem.h"
 #include "QGo4LineEdit.h"
 #include "TGo4FitSlot.h"
 #include "TGo4FitPanel.h"
 
-
-
 QFitSlotWidget::QFitSlotWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
-			setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
+   setupUi(this);
 }
 
 TGo4FitSlot* QFitSlotWidget::GetSlot()

@@ -8,10 +8,7 @@
 QFitOutputActionWidget::QFitOutputActionWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
-			setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
+   setupUi(this);
 }
 
 
@@ -33,7 +30,7 @@ void QFitOutputActionWidget::FillSpecificData()
 void QFitOutputActionWidget::OptionsEdit_textChanged( const QString & str)
 {
   if(!fbFillWidget && GetOutAct())
-    GetOutAct()->SetOptions(str);
+    GetOutAct()->SetOptions(str.toAscii());
 }
 
 void QFitOutputActionWidget::CommandCombo_activated( int n)

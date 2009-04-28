@@ -10,9 +10,6 @@ QFitTableWidget::QFitTableWidget(QWidget *parent, const char* name)
          : QFitWidget(parent, name)
 {
    setupUi(this);
-   // put slot connections here!
-   // note: Qt4 uic will add all existing connections
-   // from ui file to the setupUI
 }
 
 void QFitTableWidget::FillSpecificData()

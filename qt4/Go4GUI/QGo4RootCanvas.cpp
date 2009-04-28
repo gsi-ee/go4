@@ -3,7 +3,7 @@
 #include <QtCore/QEvent>
 #include <QDragEnterEvent>
 #include <QDropEvent>
-#include <QMouseEvent>
+#include <QtGui/QMouseEvent>
 
 #include "Riostream.h"
 
@@ -56,7 +56,7 @@ void QGo4RootCanvas::mouseMoveEvent(QMouseEvent *e)
          buffer += "  y = ";
          buffer += QString::number(py);
       }
-      emit CanvasStatusEvent(buffer.latin1());
+      emit CanvasStatusEvent(buffer.toAscii());
    }
 }
 

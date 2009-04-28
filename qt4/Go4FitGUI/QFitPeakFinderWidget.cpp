@@ -1,19 +1,12 @@
 #include "QFitPeakFinderWidget.h"
 
-//#include "QGo4LineEdit.h"
 #include "TGo4FitPeakFinder.h"
-
-
 
 QFitPeakFinderWidget::QFitPeakFinderWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
-{ 
-			setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
-			// from ui file to the setupUI
+{
+   setupUi(this);
 }
-
 
 TGo4FitPeakFinder * QFitPeakFinderWidget::GetPF() {
   return dynamic_cast<TGo4FitPeakFinder*> (GetObject());
@@ -30,7 +23,7 @@ void QFitPeakFinderWidget::FillSpecificData() {
       PolynSpin->setValue(finder->GetPolynomOrder());
       PolynSpin->setEnabled(finder->GetUsePolynom());
 
-      FindersTab->setCurrentPage(finder->GetPeakFinderType());
+      FindersTab->setCurrentIndex(finder->GetPeakFinderType());
 
       ThresholdEdt->setText(QString::number(finder->Get0MaxAmplFactor()));
       MinWidthEdt->setText(QString::number(finder->Get0MinWidth()));
@@ -48,7 +41,7 @@ void QFitPeakFinderWidget::FillSpecificData() {
 void QFitPeakFinderWidget::DataNameEdt_textChanged( const QString & name)
 {
   if (!fbFillWidget && GetPF())
-    GetPF()->SetDataName(name);
+    GetPF()->SetDataName(name.toAscii());
 }
 
 
@@ -75,10 +68,10 @@ void QFitPeakFinderWidget::PolynSpin_valueChanged( int zn)
 }
 
 
-void QFitPeakFinderWidget::FindersTab_currentChanged( QWidget * w )
+void QFitPeakFinderWidget::FindersTab_currentChanged( int indx)
 {
   if (!fbFillWidget && GetPF())
-    GetPF()->SetPeakFinderType(FindersTab->indexOf(w));
+    GetPF()->SetPeakFinderType(indx);
 }
 
 

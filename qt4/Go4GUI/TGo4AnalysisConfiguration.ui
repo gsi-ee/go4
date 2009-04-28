@@ -12,11 +12,11 @@
         <height>472</height>
       </rect>
     </property>
-    <property name="caption" >
+    <property name="windowTitle" >
       <string>Analysis Configuration</string>
     </property>
-    <property name="icon" >
-      <pixmap>:/icons/go4logo2_big.png</pixmap>
+    <property name="windowIcon" >
+      <icon>:/icons/go4logo2_big.png</icon>
     </property>
     <property name="focusPolicy" >
       <enum>Qt::StrongFocus</enum>
@@ -561,7 +561,6 @@
     </layout>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
   <tabstops>
     <tabstop>SubmitPushButton</tabstop>
     <tabstop>GetActiveConfigButton</tabstop>

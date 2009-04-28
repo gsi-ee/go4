@@ -14,7 +14,7 @@
    <string>Start Client</string>
   </property>
   <property name="windowIcon" >
-   <pixmap>:/icons/go4logo2_big.png</pixmap>
+   <icon>:/icons/go4logo2_big.png</icon>
   </property>
   <layout class="QGridLayout" >
    <property name="margin" >
@@ -424,14 +424,12 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <tabstops>
   <tabstop>LineEditClientName</tabstop>
   <tabstop>LineEditClientNode</tabstop>
   <tabstop>PushButtonStartClient</tabstop>
   <tabstop>PushButtonCancel</tabstop>
  </tabstops>
- <resources/>
  <connections>
   <connection>
    <sender>PushButtonCancel</sender>

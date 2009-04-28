@@ -4,14 +4,11 @@
 #include "TGo4TreeHistogramEntry.h"
 #include "TGo4HistogramEntry.h"
 
-TGo4CreateNewDynEntry::TGo4CreateNewDynEntry( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-    : QDialog( parent, name, modal, fl )
+TGo4CreateNewDynEntry::TGo4CreateNewDynEntry( QWidget* parent )
+    : QDialog( parent)
 {
-	//setObjectName(name);
+	setObjectName("Go4CreateNewDynEntry");
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
    setAcceptDrops(FALSE);
    EntryName->setText("entry");
    EntryTitle->setText("Dynamic entry title");
@@ -30,8 +27,8 @@ TGo4DynamicEntry* TGo4CreateNewDynEntry::MakeEntry()
 
    if (entry!=0) {
      entry->EnableProcessing(kFALSE);
-     entry->SetName(EntryName->text().latin1());
-     entry->SetTitle(EntryTitle->text().latin1());
+     entry->SetName(EntryName->text().toAscii());
+     entry->SetTitle(EntryTitle->text().toAscii());
    }
 
    return entry;

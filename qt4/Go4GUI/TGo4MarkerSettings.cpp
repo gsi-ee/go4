@@ -1,13 +1,10 @@
 #include "TGo4MarkerSettings.h"
 
-TGo4MarkerSettings::TGo4MarkerSettings( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-    : QDialog( parent, name, modal, fl )
-{ 
-	//setObjectName(name);
+TGo4MarkerSettings::TGo4MarkerSettings( QWidget* parent )
+    : QDialog( parent )
+{
+	setObjectName("Go4MarkerSettings");
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
-			// from ui file to the setupUI
     // regions:
     DrawLabelButton->setChecked(TGo4Condition::fgbLABELDRAW);
     DrawIntButton->setChecked(TGo4Condition::fgbINTDRAW);

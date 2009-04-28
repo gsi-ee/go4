@@ -4,7 +4,6 @@
 #include "TROOT.h"
 
 #include <QFileDialog>
-#include <QTextStream>
 
 #include "TGo4Script.h"
 #include "TGo4MainWindow.h"
@@ -15,11 +14,8 @@ TGo4CommandLine::TGo4CommandLine(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
 {
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
-    fiHistoryDepth=50;
-    LoadHistory();
+   fiHistoryDepth=50;
+   LoadHistory();
 }
 
 
@@ -27,14 +23,18 @@ void TGo4CommandLine::FileSearchDialog()
 {
    QFileDialog fd( this, "Select ROOT macro to execute in GUI", QString(),
                   "ROOT macro  (*.C *.c);;Go4 hotstart script (*.hotstart)");
-   fd.setMode( QFileDialog::ExistingFile);
+   fd.setFileMode( QFileDialog::ExistingFile);
 
    if (fd.exec() != QDialog::Accepted) return;
+
+   QStringList flst = fd.selectedFiles();
+   if (flst.isEmpty()) return;
+
    QString cmd;
-   if(fd.selectedFilter().contains(".hotstart"))
-      cmd = fd.selectedFile();
+   if(fd.selectedNameFilter().contains(".hotstart"))
+      cmd = flst[0];
    else
-      cmd = QString(".x ") + fd.selectedFile();
+      cmd = QString(".x ") + flst[0];
    InputLine->addItem(cmd);
 }
 
@@ -60,15 +60,13 @@ if (InputLine->EnterPressed() && (str!="")) {
         }
       else if(str.contains(".hotstart") && !str.contains(".x"))
         {
-            QTextOStream( &message ) <<"Executing hotstart script: "<<str.latin1() << endl;
-            StatusMessage(message);
-            fxMainWindow->HotStart(str.latin1());
+            StatusMessage(QString("Executing hotstart script: ") + str);
+            fxMainWindow->HotStart(str.toAscii());
         }
       else
         {
-            QTextOStream( &message ) <<"Executing command: "<<str.latin1() << endl;
-            StatusMessage(message);
-            gROOT->ProcessLine(str.latin1());
+            StatusMessage(QString("Executing command: ") + str);
+            gROOT->ProcessLine(str.toAscii());
         }
        SaveHistory();
    }
@@ -114,7 +112,7 @@ void TGo4CommandLine::LoadHistory()
 
 void TGo4CommandLine::PredefinedDialog()
 {
-   TGo4MacroDialog md( this, "select", true);
+   TGo4MacroDialog md;
    if (md.exec() != QDialog::Accepted) return;
    InputLine->addItem(md.getCommand());
    InputLine->setCurrentIndex(0);

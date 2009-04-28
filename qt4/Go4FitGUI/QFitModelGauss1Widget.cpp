@@ -5,11 +5,8 @@
 
 QFitModelGauss1Widget::QFitModelGauss1Widget(QWidget *parent, const char* name)
          : QFitModelWidget(parent, name)
-{ 
-			setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
-			// from ui file to the setupUI
+{
+   setupUi(this);
 }
 
 TGo4FitModelGauss1 * QFitModelGauss1Widget::GetGauss1()

@@ -18,7 +18,7 @@
         <height>0</height>
       </size>
     </property>
-    <property name="caption" >
+    <property name="windowTitle" >
       <string>Browser options</string>
     </property>
     <layout class="QHBoxLayout" >
@@ -123,9 +123,8 @@
     </layout>
   </widget>
   <layoutdefault spacing="0" margin="0" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
   <includes>
-    <include location="local" >QGo4Widget.h</include>
+    <include location="local">QGo4Widget.h</include>
   </includes>
   <connections>
     <connection>

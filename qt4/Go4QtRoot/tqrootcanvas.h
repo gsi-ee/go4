@@ -9,10 +9,10 @@
 #include <QtGui/QDropEvent>
 #include <QtGui/QPaintEvent>
 #include <QtGui/QResizeEvent>
-#include <QtGui/QMouseEvent>
 #include <QtCore/QEvent>
 #include <QtGui/QDragEnterEvent>
 #include <QtCore/QSignalMapper>
+
 #include "Rtypes.h"
 #include "Gtypes.h"
 #include "Buttons.h"

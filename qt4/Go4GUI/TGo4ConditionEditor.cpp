@@ -27,7 +27,7 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name)
 {
    setupUi(this);
 
-   setCaption("Condition editor");
+   setWindowTitle("Condition editor");
 	ResetWidget();
 	fiSelectedIndex = -1;
 	adjustSize();
@@ -65,7 +65,7 @@ void TGo4ConditionEditor::DropItem(const char* itemname, TClass* cl, int kind)
 //         cond->SetHistogram(itemname);
 //         cond->SetHistogramLink(kTRUE);
 //      }
-//      CondTabs->setCurrentPage(1);
+//      CondTabs->setCurrentIndex(1);
 //      PleaseUpdateSlot();
 //      RefreshWidget();
 //   }
@@ -118,8 +118,7 @@ void TGo4ConditionEditor::WorkWithCondition(const char* itemname)
       tooltip = "Refresh condition from source";
    }
    RefreshButton->setIcon( QIcon(iconname) );
-   QToolTip::remove(RefreshButton);
-   QToolTip::add(RefreshButton, tooltip);
+   RefreshButton->setToolTip(tooltip);
 
    TGo4ViewPanel* panel = WhereItemDrawn(itemname);
 
@@ -169,7 +168,7 @@ void TGo4ConditionEditor::ResetWidget()
    ResultCombo->setEnabled(false);
    InvertCombo->setEnabled(false);
 
-   CondTabs->setTabEnabled(CondTabs->page(1), false);
+   CondTabs->setTabEnabled(1, false);
 }
 
 void TGo4ConditionEditor::RefreshWidget(bool checkindex)
@@ -207,7 +206,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    if (arr==0) {
       fiSelectedIndex = -1;
    } else {
-      ArrayElements->setMaxValue(arr->GetNumber()-1);
+      ArrayElements->setMaximum(arr->GetNumber()-1);
       if (fiSelectedIndex>=arr->GetNumber()-1)
         fiSelectedIndex=arr->GetNumber()-1;
       ArrayElements->setValue(fiSelectedIndex);
@@ -257,7 +256,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    if (panel!=0) {
      if (infolbl.length()>0) infolbl+="  ";
      infolbl += "Drawn: ";
-     infolbl += panel->name();
+     infolbl += panel->objectName();
      if ((pad!=0) && (pad!=(TPad*)panel->GetCanvas())) {
         infolbl += ", ";
         infolbl += pad->GetName();
@@ -320,9 +319,9 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
       Win2_up->setDisabled(true);
    }
 
-   CondTabs->setTabEnabled(CondTabs->page(1), (pcond!=0));
-   if ((pcond==0) && (CondTabs->currentPageIndex()==1))
-     CondTabs->setCurrentPage(0);
+   CondTabs->setTabEnabled(1, (pcond!=0));
+   if ((pcond==0) && (CondTabs->currentIndex()==1))
+     CondTabs->setCurrentIndex(0);
    if (pcond!=0) FillCutWidget(pcond->GetCut(kFALSE));
 
    IntBox->setChecked(cond->IsIntDraw());

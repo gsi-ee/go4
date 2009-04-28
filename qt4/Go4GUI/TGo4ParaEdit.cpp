@@ -27,10 +27,8 @@ TGo4ParaEdit::TGo4ParaEdit(QWidget *parent, const char* name)
          : QGo4Widget(parent,name)
 {
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
-   fItems = 0;
+
+	fItems = 0;
    PleaseUpdateLabel->setShown(false);
    adjustSize();
 
@@ -93,7 +91,7 @@ void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
 {
 //   cout << "WorkWithParameter  item = " << itemname << endl;
 
-   if (PleaseUpdateLabel->isShown() && !isrefresh) {
+   if (PleaseUpdateLabel->isVisible() && !isrefresh) {
        TGo4Parameter* par = dynamic_cast<TGo4Parameter*> (GetLinked("Parameter",0));
        const char* previtem = GetLinkedName("Parameter");
        if ((par!=0) && (previtem!=0)) {
@@ -138,13 +136,9 @@ void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
    }
 
    RefreshButton->setIcon(QIcon(iconname));
-   QToolTip::remove(RefreshButton);
-   QToolTip::add(RefreshButton, tooltip);
+   RefreshButton->setToolTip(tooltip);
 
    setFocus();
-
-//   cout << "WorkWithParameter  finish item = " << itemname << endl;
-
 }
 
 void TGo4ParaEdit::ResetWidget()
@@ -262,7 +256,7 @@ void TGo4ParaEdit::ShowVisibleItems()
    fFillingTable = false;
 
    MemberTable->show();
-   polish();
+   ensurePolished();
    update();
    show();
    raise();
@@ -288,7 +282,7 @@ void TGo4ParaEdit::ChangedTable( int row, int col )
    if ((col==fiColValue) && !fFillingTable) {
       QString txt = MemberTable->item(row, col)->text();
       TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(row);
-      info->SetStrValue(txt.latin1());
+      info->SetStrValue(txt.toAscii());
       PleaseUpdateLabel->setShown(true);
    }
 }
@@ -434,7 +428,7 @@ void TGo4ParaEdit::saveFile()
             PleaseUpdateLabel->setShown(false);
    } else
    if (fItemName.length()>0) {
-      const char* parclass = Browser()->ItemClassName(fItemName.latin1());
+      const char* parclass = Browser()->ItemClassName(fItemName.toAscii());
       if (parclass==0) return;
       if (gROOT->GetClass(parclass)==0) {
          QMessageBox::warning(this, "Parameter editor",
@@ -442,7 +436,7 @@ void TGo4ParaEdit::saveFile()
          return;
       }
       TString foldname, parname;
-      TGo4Slot::ProduceFolderAndName(fItemName.latin1(), foldname, parname);
+      TGo4Slot::ProduceFolderAndName(fItemName.toAscii(), foldname, parname);
 
       TGo4ParameterStatus status(parname, parclass, (TObjArray*)fItems->Clone());
 
@@ -456,11 +450,14 @@ void TGo4ParaEdit::saveFile()
 
       QFileDialog fd(this, QString("Save ") + fItemName + " in root file",
             QString(), "ROOT (*.root);;ROOT XML (*.xml)");
-      fd.setMode( QFileDialog::AnyFile);
+      fd.setFileMode( QFileDialog::AnyFile);
       fd.selectFile("file.root");
       if (fd.exec() != QDialog::Accepted) return;
 
-      TFile* f = TFile::Open(fd.selectedFile().latin1(),"UPDATE");
+      QStringList flst = fd.selectedFiles();
+      if (flst.isEmpty()) return;
+
+      TFile* f = TFile::Open(flst[0].toAscii(),"UPDATE");
       if (f!=0) {
          f->WriteTObject(par, par->GetName(), "WriteDelete") > 0;
          delete f;
@@ -470,11 +467,7 @@ void TGo4ParaEdit::saveFile()
 
 void TGo4ParaEdit::RefreshClicked()
 {
-//   cout << " RefreshClicked " << endl;
-
-   WorkWithParameter(ParamNameLbl->text(), true);
-
-//   cout << " RefreshClicked done" << endl;
+   WorkWithParameter(ParamNameLbl->text().toAscii(), true);
 }
 
 void TGo4ParaEdit::ApplyClicked()
@@ -484,15 +477,15 @@ void TGo4ParaEdit::ApplyClicked()
    if ((fItemName.length()==0) || (fItems==0)) return;
 
    TString foldname, parname;
-   TGo4Slot::ProduceFolderAndName(fItemName.latin1(), foldname, parname);
+   TGo4Slot::ProduceFolderAndName(fItemName.toAscii(), foldname, parname);
 
-   const char* parclass = Browser()->ItemClassName(fItemName.latin1());
+   const char* parclass = Browser()->ItemClassName(fItemName.toAscii());
    if (parclass==0) return;
 
    TGo4ParameterStatus status(parname, parclass, (TObjArray*)fItems->Clone());
 
-   if (UpdateItemInAnalysis(fItemName, &status))
-     if (BrowserItemRemote(fItemName))
+   if (UpdateItemInAnalysis(fItemName.toAscii(), &status))
+     if (BrowserItemRemote(fItemName.toAscii()))
         RefreshClicked();
      else
         PleaseUpdateLabel->setShown(false);

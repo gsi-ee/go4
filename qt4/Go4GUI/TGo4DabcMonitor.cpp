@@ -137,7 +137,7 @@ fbTrendingForward=!(go4sett->getMbsMonitorBackwardsTrending());
 controlBox->setShown(false);
 //std::cout<<"found settings: node="<<node<<", bins="<<fiTrendBins<<", forward="<<fbTrendingForward <<std::endl;
 
-//polish();
+//ensurePolished();
 //update();
 //show();
 }
@@ -173,7 +173,7 @@ void TGo4DabcMonitor::refreshDIMSlot()
 TGo4LockGuard gard;
 //std::cout<<"refreshDIMSlot()" <<std::endl;
 // first get list of dabc nodes from DIM server
-fxDnsNode=dimDnsNodeEdit->text().stripWhiteSpace();
+fxDnsNode=dimDnsNodeEdit->text().trimmed();
 if(fxDnsNode.isEmpty()) return; // avoid crash of DIM with fatal error ;-)
 DimClient::setDnsNode (fxDnsNode);
 delete fxServerInfo;
@@ -417,8 +417,8 @@ else
          char* ptr=(char*) info->getData();
          int size=info->getSize();
          QString format=info->getServiceType();
-         std::cout<<" - structure of format " << format.ascii()<<std::endl;
-         QStringList elements=QStringList::split(";",format);
+         std::cout<<" - structure of format " << format.toAscii()<<std::endl;
+         QStringList elements = format.split(";",QString::SkipEmptyParts);
          for ( QStringList::Iterator it = elements.begin(); it != elements.end(); ++it )
              {
                  QString component=*it;
@@ -469,7 +469,7 @@ else
                                  ptr++;
                              }
                      }// if(type==)
-                 std::cout<<prompt.ascii()<<content.ascii()<< "< "<<std::endl;;
+                 std::cout<<prompt.toAscii()<<content.toAscii()<< "< "<<std::endl;;
                  int currentposition= (long) ptr - (long) info->getData();
                  if(currentposition > size)
                      {
@@ -478,20 +478,20 @@ else
                      }
             }//  for ( QStringList::Iterator it
     }//   if(info->getType()=="int")
-std::cout<<" - (timestamp:"<<timestamp.toString().ascii()<<")" <<std::endl;
+std::cout<<" - (timestamp:"<<timestamp.toString().toAscii()<<")" <<std::endl;
 delete info; // discard service after first update!
 }
 
 
 void TGo4DabcMonitor::nodesUpdated( TGo4DabcNodesInfo * info )
 {
-TGo4LockGuard gard;
-//std::cout<<"nodes Updated()" <<std::endl;
-QString servers=info->getString();
-fxNodelist=QStringList::split("|",servers);
-refreshNodes();
-fbDisplayNodeTable=true;
-fbDisplayRateTable=true;
+   TGo4LockGuard gard;
+  //std::cout<<"nodes Updated()" <<std::endl;
+   QString servers=info->getString();
+   fxNodelist = servers.split("|", QString::SkipEmptyParts);
+   refreshNodes();
+   fbDisplayNodeTable=true;
+   fbDisplayRateTable=true;
 
 }
 
@@ -524,7 +524,7 @@ else
      //std::cout<<"+++ got service list: " << services <<std::endl;
 
                // find full name of nodestate in services:
-    QStringList servlist=QStringList::split(0x0A,services); // separator is return
+    QStringList servlist = services.split(0x0A, QString::SkipEmptyParts);
     QString stateservice="";
     for ( QStringList::Iterator sit = servlist.begin(); sit != servlist.end(); ++sit )
         {
@@ -712,7 +712,7 @@ for ( QStringList::Iterator it = fxNodelist.begin(); it != fxNodelist.end(); ++i
                 // no dabcnode (i.e. mbs)
                 reducednode=current.section('@',0,0);;
             }
-        //std::cout<<"++++ found reduced node "<<reducednode.ascii() <<std::endl;
+        //std::cout<<"++++ found reduced node "<<reducednode.toAscii() <<std::endl;
 
                 //std::cout<<"++++ found DABC prefix " <<std::endl;
 
@@ -822,7 +822,7 @@ QString services=fxServices[nodeindex]->getString();
  //std::cout<<"+++ createRateServices got service list: " << services <<std::endl;
 
            // find full name of nodestate in services:
-QStringList servlist=QStringList::split(0x0A,services); // separator is return
+QStringList servlist = services.split(0x0A, QString::SkipEmptyParts);
 QString rateservice="";
 for ( QStringList::Iterator sit = servlist.begin(); sit != servlist.end(); ++sit )
     {
@@ -888,16 +888,16 @@ void TGo4DabcMonitor::createLogServices(int nodeindex)
 {
 TGo4LockGuard gard;
 //std::cout<<"rrrrrrrr createLogServices for "<<nodeindex <<std::endl;
-QRegExp filter(dimServiceFilterEdit->text().stripWhiteSpace());
+QRegExp filter(dimServiceFilterEdit->text().trimmed());
 filter.setWildcard(true); // use simple wildcard matching, like shell
-std::cout<<std::endl<< "---- Retrieving current DIM variables from node "<<fxDabcNodes[nodeindex].ascii()<<" with filter:"<<filter.pattern().ascii() <<std::endl;
+std::cout<<std::endl<< "---- Retrieving current DIM variables from node "<<fxDabcNodes[nodeindex].toAscii()<<" with filter:"<<filter.pattern().toAscii() <<std::endl;
 
 //search the service list for our node for all rate services:
 QString services=fxServices[nodeindex]->getString();
 //std::cout<<"+++ createLogServices got service list: " << services <<std::endl;
 
        // find full name of nodestate in services:
-QStringList servlist=QStringList::split(0x0A,services); // separator is return
+QStringList servlist = services.split(0x0A, QString::SkipEmptyParts);
 QString logservice="";
 for ( QStringList::Iterator sit = servlist.begin(); sit != servlist.end(); ++sit )
     {
@@ -989,7 +989,7 @@ else
                fillNodeTableRow(tableindex, ix, false);
             }//for(int ix=0; ix<maxnodes; ++ix)
     }//if(fbRebuildNodeTable)
-polish();
+ensurePolished();
 update();
 show();
 }
@@ -1151,7 +1151,7 @@ else
                     }
             }// for rownum
     }//if(fbRebuildRateTable)
-polish();
+ensurePolished();
 update();
 show();
 }
@@ -1511,7 +1511,7 @@ if(histoslot==0)
             {
                 lo=0;
                 up=100;
-                //std::cout <<"using default histogram range for name: "<<name.ascii()<<" ["<<lo<<","<<up<<"]" << std::endl;
+                //std::cout <<"using default histogram range for name: "<<name.toAscii()<<" ["<<lo<<","<<up<<"]" << std::endl;
             }
         his=new TH1F(name,title,fiStatBins,lo,up);
         TAxis* xax=his->GetXaxis();

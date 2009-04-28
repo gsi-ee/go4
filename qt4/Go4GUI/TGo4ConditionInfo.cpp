@@ -13,10 +13,7 @@ TGo4ConditionInfo::TGo4ConditionInfo(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
 {
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
-   setCaption("Condition Info:");
+   setWindowTitle("Condition Info:");
 }
 
 
@@ -41,7 +38,7 @@ void TGo4ConditionInfo::linkedObjectUpdated(const char* linkname, TObject* obj)
 
 void TGo4ConditionInfo::ConInfoButton_clicked()
 {
-   WorkWithCondition(CondnameLbl->text());
+   WorkWithCondition(CondnameLbl->text().toAscii());
 }
 
 void TGo4ConditionInfo::ConPrintButton_clicked()
@@ -81,7 +78,7 @@ void TGo4ConditionInfo::PrintLog_clicked()
     textbuffer+=" Status received at: ";
     textbuffer+=PropertyBox->item(CONTIME)->text();
 
-    TGo4Log::Message(1, textbuffer.latin1());
+    TGo4Log::Message(1, textbuffer.toAscii());
 }
 
 void TGo4ConditionInfo::WorkWithCondition(const char* itemname)
@@ -113,7 +110,7 @@ void TGo4ConditionInfo::ResetWidget()
    PropertyBox->item(CONSIZE)->setText("Size");
    TDatime now;
    PropertyBox->item(CONTIME)->setText(now.AsSQLString());
-   polish();
+   ensurePolished();
    update();
    show();
    raise();
@@ -160,7 +157,7 @@ void TGo4ConditionInfo::RefreshWidget(TGo4Condition* cond)
 
    TDatime now;
    PropertyBox->item(CONTIME)->setText(now.AsSQLString());
-   polish();
+   ensurePolished();
    update();
    show();
    raise();

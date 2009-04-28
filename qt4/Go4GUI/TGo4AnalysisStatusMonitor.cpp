@@ -11,12 +11,7 @@ TGo4AnalysisStatusMonitor::TGo4AnalysisStatusMonitor(QWidget *parent, const char
          : QGo4Widget(parent, name)
 {
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
    setAcceptDrops(FALSE);
-//   QString moviepath=gSystem->Getenv("GO4SYS");
-//   moviepath+="/Go4GUI/icons/go4logorun4.gif";
    QString moviepath=":/icons/go4logorun4.gif";
    fxRunMovie= new QMovie(moviepath);
 }
@@ -39,20 +34,22 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObj
    double Rate = status->GetRate();
    if(Rate>10) LCDCurrentRate->display(floor(Rate));
           else LCDCurrentRate->display(Rate);
-   //if(Rate<=0)
-   if(!status->IsAnalysisRunning())
-    {
-        LCDCurrentRate->setPaletteBackgroundColor(QColor(255,0,0));
-        Go4Pix->setWindowIcon( QIcon(":/icons/go4logo2.png"));
-        fxRunMovie->stop();
-    }
-    else
-     {
-        LCDCurrentRate->setPaletteBackgroundColor(QColor(0,255,0));
-        Go4Pix->clear();
-        Go4Pix->setMovie(fxRunMovie);
-        fxRunMovie->start();
-     }
+   QColor color;
+   if(!status->IsAnalysisRunning()) {
+      color = QColor(255,0,0);
+      Go4Pix->setWindowIcon( QIcon(":/icons/go4logo2.png"));
+      fxRunMovie->stop();
+   } else {
+       color = QColor(0, 255, 0);
+       Go4Pix->clear();
+       Go4Pix->setMovie(fxRunMovie);
+       fxRunMovie->start();
+   }
+
+   QPalette palette;
+   palette.setColor(LCDCurrentRate->backgroundRole(), color);
+   LCDCurrentRate->setPalette(palette);
+
    if(status->GetAvRate()>10)
       LCDAverageRate->display(floor(status->GetAvRate()));
    else

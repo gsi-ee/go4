@@ -4,11 +4,12 @@
 #include <QFileDialog>
 #include "TGo4QSettings.h"
 
-TGo4StartClient::TGo4StartClient( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-    : QDialog( parent, name, modal, fl )
+TGo4StartClient::TGo4StartClient( QWidget* parent )
+    : QDialog( parent )
 {
-	//setObjectName(name);
 	setupUi(this);
+
+	setObjectName("Go4StartClient");
 
 	ClientShellGroup = new QButtonGroup(this);
 	ClientShellGroup->addButton(rsh_selected, 1);
@@ -47,11 +48,14 @@ void TGo4StartClient::getResults()
 void TGo4StartClient::SelectDir()
 {
    QFileDialog fd(this, "Select your working dir");
-   fd.setMode(QFileDialog::DirectoryOnly);
+   fd.setFileMode(QFileDialog::DirectoryOnly);
 
    if (fd.exec() != QDialog::Accepted ) return;
 
-   QString fileName = fd.selectedFile();
+   QStringList flst = fd.selectedFiles();
+   if (flst.isEmpty()) return;
+
+   QString fileName = flst[0];
    LineEditClientDir->setText(fileName);
    QDir::setCurrent(fileName);
 }
@@ -59,11 +63,14 @@ void TGo4StartClient::SelectDir()
 void TGo4StartClient::SelectProg()
 {
    QFileDialog fd(this, "Select your analysis program");
-   fd.setMode(QFileDialog::ExistingFile);
+   fd.setFileMode(QFileDialog::ExistingFile);
 
    if (fd.exec() != QDialog::Accepted) return;
 
-   QFileInfo fi(fd.selectedFile());
+   QStringList flst = fd.selectedFiles();
+   if (flst.isEmpty()) return;
+
+   QFileInfo fi(flst[0]);
    LineEditClientExec->setText(fi.fileName());
    LineEditClientDir->setText(fd.directory().path());
    QDir::setCurrent(fd.directory().path());

@@ -88,8 +88,4 @@ CONFIG	+= qt warn_off thread
 INCLUDEPATH	+= $(ROOTSYS)/include $(GO4SYS)/include ../Go4GUI
 DEPENDPATH	+= $(ROOTSYS)/include $(GO4SYS)/include
 LANGUAGE	= C++
-#The following line was inserted by qt3to4
-QT +=  qt3support 
-#The following line was inserted by qt3to4
-#CONFIG += uic3
 

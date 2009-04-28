@@ -3,7 +3,6 @@
 
 #include <QtGui/qwidget.h>
 #include <QtGui/QPaintEvent>
-#include <QtGui/QMouseEvent>
 #include <QtCore/QEvent>
 #include <QtGui/QCloseEvent>
 

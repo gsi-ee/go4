@@ -4,13 +4,10 @@
 
 
 TGo4SetScaleValues::TGo4SetScaleValues( QWidget* parent, const char* name, Qt::WFlags fl )
-    : QWidget( parent, name, fl )
-{ 
-	setObjectName(name);
+    : QWidget( parent, fl )
+{
+   setObjectName( name ? name : "Go4SetScaleValues");
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
-			// from ui file to the setupUI
    connect(TGo4WorkSpace::Instance(), SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
           this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
 
@@ -32,12 +29,12 @@ void TGo4SetScaleValues::refreshView(bool force)
    fbDoingRefresh = true;
 
    if (force) {
-      XminV->clearModified();
-      XmaxV->clearModified();
-      YminV->clearModified();
-      YmaxV->clearModified();
-      ZminV->clearModified();
-      ZmaxV->clearModified();
+      XminV->setModified(false);
+      XmaxV->setModified(false);
+      YminV->setModified(false);
+      YmaxV->setModified(false);
+      ZminV->setModified(false);
+      ZmaxV->setModified(false);
    }
 
    TGo4ViewPanel* panel = TGo4WorkSpace::Instance()->GetActivePanel();
@@ -46,7 +43,7 @@ void TGo4SetScaleValues::refreshView(bool force)
 
    if (panel!=0) {
 
-      setCaption(QString("Scale values: ") + panel->name());
+      setWindowTitle(QString("Scale values: ") + panel->objectName());
 
       int ndim = 0;
       double Xmin=0, Xmax=0, Ymin=0, Ymax=0, Zmin=0, Zmax=0;
@@ -92,7 +89,7 @@ void TGo4SetScaleValues::refreshView(bool force)
       }
 
    } else {
-      setCaption(QString("Scale values: none"));
+      setWindowTitle(QString("Scale values: none"));
 
       XminV->setText("");
       XmaxV->setText("");

@@ -6,10 +6,7 @@
 QFitMinuitWidget::QFitMinuitWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
 {
-			setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
+   setupUi(this);
 }
 
 TGo4FitMinuit * QFitMinuitWidget::GetMinuit() {
@@ -41,7 +38,7 @@ void QFitMinuitWidget::CommandsEdit_textChanged()
    QTextCursor curs(CommandsEdit->document());
    while (!curs.atEnd()) {
 	  curs.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
-	  minuit->AddCommand(curs.selectedText());
+	  minuit->AddCommand(curs.selectedText().toAscii());
 	  curs.movePosition(QTextCursor::NextWord, QTextCursor::MoveAnchor);
    }
 }

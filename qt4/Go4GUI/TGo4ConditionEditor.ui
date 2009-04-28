@@ -11,11 +11,8 @@
     <height>273</height>
    </rect>
   </property>
-  <property name="caption" stdset="0" >
+  <property name="windowTitle">
    <string>Edit Window Condition</string>
-  </property>
-  <property name="icon" stdset="0" >
-   <pixmap/>
   </property>
   <layout class="QGridLayout" >
    <property name="leftMargin" >
@@ -1013,14 +1010,6 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>QGo4Widget</class>
-   <extends>QWidget</extends>
-   <header>QGo4Widget.h</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>ArrayAllButton</tabstop>
   <tabstop>ArrayElements</tabstop>
@@ -1042,203 +1031,80 @@
   <tabstop>CloseWin</tabstop>
  </tabstops>
  <includes>
-  <include location="local" >QGo4Widget.h</include>
+  <include location="local">QGo4Widget.h</include>
  </includes>
- <resources>
-  <include location="go4icons.qrc" />
- </resources>
  <connections>
   <connection>
    <sender>CloseWin</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>UpdateCon</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>UpdatePressed()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>ArrayElements</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SelectedCond(int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>ResultCombo</sender>
    <signal>activated(int)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetResultMode(int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>InvertCombo</sender>
    <signal>activated(int)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetInvertMode(int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>ClearCondCount</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>ClearCounters()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>DisplayB</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>DisplayPressed()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>RefreshButton</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>RefreshClicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Win1_low</sender>
    <signal>returnPressed()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>LimitsReturnPressed()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Win1_up</sender>
    <signal>returnPressed()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>LimitsReturnPressed()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Win2_low</sender>
    <signal>returnPressed()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>LimitsReturnPressed()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Win2_up</sender>
    <signal>returnPressed()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>LimitsReturnPressed()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Win1_low</sender>

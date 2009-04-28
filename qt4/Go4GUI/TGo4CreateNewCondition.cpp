@@ -6,15 +6,12 @@
 #include "TGo4CondArray.h"
 
 
-TGo4CreateNewCondition::TGo4CreateNewCondition( QWidget* parent, const char* name, bool modal, Qt::WFlags fl)
-         : QDialog( parent, name, modal, fl )
+TGo4CreateNewCondition::TGo4CreateNewCondition( QWidget* parent)
+         : QDialog( parent )
 
 {
-	//setObjectName(name);
+	setObjectName("Go4CreateNewCondition");
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
    setAcceptDrops(FALSE);
    CondName->setText("new_cond");
    ClassnameCombo->setCurrentIndex(0);
@@ -23,7 +20,7 @@ TGo4CreateNewCondition::TGo4CreateNewCondition( QWidget* parent, const char* nam
 
 TGo4Condition* TGo4CreateNewCondition::MakeCondition()
 {
-   const char* cname = CondName->text().latin1();
+   const char* cname = CondName->text().toAscii();
    int arrsize = ArraySizeSpin->value();
    int ctype = ClassnameCombo->currentIndex();
 

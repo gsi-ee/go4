@@ -1,15 +1,12 @@
 #include "TGo4OpenRemoteDialog.h"
 #include "TGo4QSettings.h"
 
-TGo4OpenRemoteDialog::TGo4OpenRemoteDialog( QWidget* parent, const char* name, bool modal, Qt::WFlags fl)
-			: QDialog( parent, name, modal, fl )
+TGo4OpenRemoteDialog::TGo4OpenRemoteDialog( QWidget* parent)
+			: QDialog( parent )
 
 {
-	//setObjectName(name);
+	setObjectName("Go4OpenRemoteDialog");
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
    QString hostname, filename, protocol;
    go4sett->getRemoteFileSett(hostname, filename, protocol);
 

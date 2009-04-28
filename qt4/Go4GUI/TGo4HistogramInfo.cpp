@@ -13,10 +13,7 @@ TGo4HistogramInfo::TGo4HistogramInfo(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
 {
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
-   setCaption("Histogram Info:");
+   setWindowTitle("Histogram Info:");
    ResetWidget();
 }
 
@@ -27,12 +24,12 @@ void TGo4HistogramInfo::HisPrintButton_clicked()
 
 void TGo4HistogramInfo::HisDrawButton_clicked()
 {
-   DrawItem(HisnameLbl->text().latin1());
+   DrawItem(HisnameLbl->text());
 }
 
 void TGo4HistogramInfo::HisInfoButton_clicked()
 {
-   WorkWithHistogram(HisnameLbl->text());
+   WorkWithHistogram(HisnameLbl->text().toAscii());
 }
 
 bool TGo4HistogramInfo::IsAcceptDrag(const char* itemname, TClass* cl, int kind)
@@ -98,7 +95,7 @@ void TGo4HistogramInfo::ResetWidget()
    PropertyBox->item(HISSIZE)->setText("Size");
    TDatime now;
    PropertyBox->item(HISTIME)->setText(now.AsSQLString());
-   polish();
+   ensurePolished();
    update();
    show();
    raise();
@@ -148,7 +145,7 @@ void TGo4HistogramInfo::RefreshHistogramInfo(TGo4HistogramStatus* hstate)
    str.Form("size:%d b",hstate->GetObjectSize());
    PropertyBox->item(HISSIZE)->setText(str.Data());
    PropertyBox->item(HISTIME)->setText(hstate->GetTimeString());
-   polish();
+   ensurePolished();
    update();
    show();
    raise();
@@ -184,5 +181,5 @@ void TGo4HistogramInfo::PrintLog_clicked()
    textbuffer+=PropertyBox->item(HISSIZE)->text();
    textbuffer+=" Status received at: ";
    textbuffer+=PropertyBox->item(HISTIME)->text();
-   TGo4Log::Message(1,textbuffer.latin1());
+   TGo4Log::Message(1,textbuffer.toAscii());
 }

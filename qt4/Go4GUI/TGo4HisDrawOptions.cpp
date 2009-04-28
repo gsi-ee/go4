@@ -13,13 +13,10 @@
 #include <QColorDialog>
 
 TGo4HisDrawOptions::TGo4HisDrawOptions( QWidget* parent, const char* name, Qt::WFlags fl )
-    : QWidget( parent, name, fl )
+    : QWidget( parent, fl )
 {
-	setObjectName(name);
+   setObjectName( name ? name : "Go4HisDrawOptions");
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
    fbSettingPanelData = true;
 
    connect(TGo4WorkSpace::Instance(), SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
@@ -261,7 +258,7 @@ void TGo4HisDrawOptions::ChangeDrawOptionForCurrentPanel(int kind, int value)
       CodeDrawOptions(ErrorBars->currentIndex(),
                       Coordinates->currentIndex(),
                       DrawOption->currentIndex(), buf);
-      if (buf.length()>0) drawopt = buf.latin1();
+      if (buf.length()>0) drawopt = buf.toAscii();
 
       //if(drawopt) cout << ">> " << value << " " << drawopt << endl;
       //else cout << "No options" << endl;

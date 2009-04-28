@@ -12,7 +12,7 @@
         <height>347</height>
       </rect>
     </property>
-    <property name="caption" >
+    <property name="windowTitle" >
       <string>Peak finder</string>
     </property>
     <widget class="QGo4LineEdit" name="DataNameEdt" >
@@ -304,9 +304,8 @@
     </widget>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
   <includes>
-    <include location="local" >QFitNamedWidget.h</include>
+    <include location="local">QFitNamedWidget.h</include>
     <include location="local">QGo4LineEdit.h</include>
   </includes>
   <connections>
@@ -336,9 +335,9 @@
     </connection>
     <connection>
       <sender>FindersTab</sender>
-      <signal>currentChanged(QWidget*)</signal>
+      <signal>currentChanged(int)</signal>
       <receiver>QFitPeakFinderWidget</receiver>
-      <slot>FindersTab_currentChanged(QWidget*)</slot>
+      <slot>FindersTab_currentChanged(int)</slot>
     </connection>
     <connection>
       <sender>ThresholdEdt</sender>

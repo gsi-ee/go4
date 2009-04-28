@@ -9,68 +9,66 @@
 #include "TGo4QSettings.h"
 #include "f_stccomm.h"
 
-TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name)
-         : QGo4Widget(parent,name), fxRunMovie(0)
+TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
+   QGo4Widget(parent,name),
+   fxRunMovie(0)
 {
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
-fbIsMonitoring=false;
-fbWarningState=false;
-fbRunning=false;
-fbGetSetup=false;
-fbGetSetML=false;
-fbGetSetMO=false;
-fbTrending=false;
-fbTrendingInit=true;
-fbShowMore=false;
-fbSingleRefresh=false;
-fbTrendingForward=false; // define moving direction of trend histograms
-fiTrendBins=1000;
-// now overwrite some settings:
-SetNode(go4sett->getMbsMonitorNode());
-fbTrending=go4sett->getMbsMonitorTrend();
-TrendCheck->setChecked(fbTrending);
-fiTrendBins=go4sett->getMbsMonitorBins();
-TrendBinsBox->setValue(fiTrendBins);
-fbShowMore=go4sett->getMbsMonitorMore();
-MoreBox->setChecked(fbShowMore);
-FrequencyBox->setValue(go4sett->getMbsMonitorFreq());
-fbTrendingForward=!(go4sett->getMbsMonitorBackwardsTrending());
+	fbIsMonitoring=false;
+	fbWarningState=false;
+	fbRunning=false;
+	fbGetSetup=false;
+	fbGetSetML=false;
+	fbGetSetMO=false;
+	fbTrending=false;
+	fbTrendingInit=true;
+	fbShowMore=false;
+	fbSingleRefresh=false;
+	fbTrendingForward=false; // define moving direction of trend histograms
+	fiTrendBins=1000;
+	// now overwrite some settings:
+	SetNode(go4sett->getMbsMonitorNode());
+	fbTrending=go4sett->getMbsMonitorTrend();
+	TrendCheck->setChecked(fbTrending);
+	fiTrendBins=go4sett->getMbsMonitorBins();
+	TrendBinsBox->setValue(fiTrendBins);
+	fbShowMore=go4sett->getMbsMonitorMore();
+	MoreBox->setChecked(fbShowMore);
+	FrequencyBox->setValue(go4sett->getMbsMonitorFreq());
+	fbTrendingForward=!(go4sett->getMbsMonitorBackwardsTrending());
 
-StateGroup = new QButtonGroup(this);
-StateGroup->setExclusive(false);
-StateGroup->addButton(StatusRadio, 0);
-StateGroup->addButton(SetupRadio, 1);
-StateGroup->addButton(SetupMLRadio, 2);
-StateGroup->addButton(SetupMORadio, 3);
-StateGroup->button(0)->setChecked(true);
-connect(StateGroup, SIGNAL(buttonClicked(int)), this, SLOT(StateGroup_clicked(int)));
+	StateGroup = new QButtonGroup(this);
+	StateGroup->setExclusive(false);
+	StateGroup->addButton(StatusRadio, 0);
+	StateGroup->addButton(SetupRadio, 1);
+	StateGroup->addButton(SetupMLRadio, 2);
+	StateGroup->addButton(SetupMORadio, 3);
+	StateGroup->button(0)->setChecked(true);
+	connect(StateGroup, SIGNAL(buttonClicked(int)), this, SLOT(StateGroup_clicked(int)));
 
 
-fxHistoAccessName="nosuchobject";
-fxHistokBAccessName="nosuchobject";
-fxHistoEvRatioAccessName="nosuchobject";
-fxServerLabel="NO SERVER";
-fxTimer=new QTimer(this);
-fxMovieResetTimer=new QTimer(this);
-//QString moviepath=gSystem->Getenv("GO4SYS");
-//moviepath+="Go4GUI/icons/mbslogorun.gif";
-QString moviepath=":/icons/mbslogorun.gif";
-fxRunMovie= new QMovie(moviepath);
-fxDaqStat.bh_acqui_running=0; // we do not want to startup with running state
-fxDaqStat.l_open_file = 0; // just set initial value
-memset(&fxDaqStat, 0, sizeof(fxDaqStat));
-fiCalcedEventRate=0;
-fiCalcedDataRate=0;
-fiCalcedServDataRate=0;
-fiLastServDataNum=0;
-fiLastEventNum=0;
-fiLastDataNum=0;
-connect( fxTimer, SIGNAL(timeout()), this, SLOT(Refresh()) );
-connect( fxMovieResetTimer, SIGNAL(timeout()), this, SLOT(ResetRunIcon()) );
-Display();
+	fxHistoAccessName="nosuchobject";
+	fxHistokBAccessName="nosuchobject";
+	fxHistoEvRatioAccessName="nosuchobject";
+	fxServerLabel="NO SERVER";
+	fxTimer=new QTimer(this);
+	fxMovieResetTimer=new QTimer(this);
+	//QString moviepath=gSystem->Getenv("GO4SYS");
+	//moviepath+="Go4GUI/icons/mbslogorun.gif";
+	QString moviepath=":/icons/mbslogorun.gif";
+	fxRunMovie= new QMovie(moviepath);
+	fxDaqStat.bh_acqui_running=0; // we do not want to startup with running state
+	fxDaqStat.l_open_file = 0; // just set initial value
+	memset(&fxDaqStat, 0, sizeof(fxDaqStat));
+	fiCalcedEventRate=0;
+	fiCalcedDataRate=0;
+	fiCalcedServDataRate=0;
+	fiLastServDataNum=0;
+	fiLastEventNum=0;
+	fiLastDataNum=0;
+	connect( fxTimer, SIGNAL(timeout()), this, SLOT(Refresh()) );
+	connect( fxMovieResetTimer, SIGNAL(timeout()), this, SLOT(ResetRunIcon()) );
+	Display();
 
 }
 
@@ -119,7 +117,7 @@ StoreSettings();
 
 void TGo4MBSViewer::Display()
 {
-setCaption("MBS Status - "+NodeEdit->text());
+setWindowTitle("MBS Status - "+NodeEdit->text());
 if(!fbSingleRefresh)
     {
     NodeEdit->setEnabled(!fbIsMonitoring);
@@ -164,7 +162,7 @@ SetupMORadio->setEnabled(fxDaqStat.bh_set_mo_loaded);
 if(fbWarningState)
     cerr <<fxMessage.toStdString() << endl;
 
-polish();
+ensurePolished();
 update();
 show();
 }
@@ -306,7 +304,7 @@ void TGo4MBSViewer::NodeEditEnter()
 void TGo4MBSViewer::NodeChanged( const QString & txt )
 {
 fxNode=txt;
-fxNode.stripWhiteSpace();
+fxNode.trimmed();
 }
 
 
@@ -462,7 +460,7 @@ TH1* TGo4MBSViewer::TrendHisto( QString & refname ,const QString & name, const Q
 {
 TH1* his=0;
 TGo4Slot* histoslot=0;
-if(!fbTrendingInit) histoslot=Browser()->BrowserSlot(refname);
+if(!fbTrendingInit) histoslot=Browser()->BrowserSlot(refname.toAscii());
 if(histoslot==0)
     {
         Axis_t lo,up;
@@ -476,13 +474,13 @@ if(histoslot==0)
                 lo=-1*fiTrendBins*FrequencyBox->value();
                 up=0;
             }
-        his=new TH1F(name,title,fiTrendBins,lo,up);
+        his=new TH1F(name.toAscii(), title.toAscii() ,fiTrendBins,lo,up);
         TAxis* xax=his->GetXaxis();
         xax->SetTitle("s");
         xax->CenterTitle();
         //xax->SetLimits(0,lo,up);
 
-        TGo4Slot* hisdataslot=Browser()->DataSlot(refname);
+        TGo4Slot* hisdataslot=Browser()->DataSlot(refname.toAscii());
         if(hisdataslot)
             {
                 hisdataslot->AssignObject(his,true);
@@ -491,7 +489,7 @@ if(histoslot==0)
             {
                 refname=Browser()->SaveToMemory("Mbs", his, true);
             }
-        histoslot=Browser()->BrowserSlot(refname);
+        histoslot=Browser()->BrowserSlot(refname.toAscii());
     }
 else
     {
@@ -553,12 +551,8 @@ void TGo4MBSViewer::ResetRunIcon()
 
 void TGo4MBSViewer::StartMovieReset()
 {
-if(!fbIsMonitoring)
-    fxMovieResetTimer->start(2000,true);
-
+   if(!fbIsMonitoring) {
+      fxMovieResetTimer->setSingleShot(true);
+      fxMovieResetTimer->start(2000);
+   }
 }
-
-
-
-
-

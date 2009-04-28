@@ -608,7 +608,7 @@ TString TGo4Script::GetViewPanelName(ViewPanelHandle handle)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
    if (panel==0) return TString();
-   return TString(panel->name());
+   return TString(panel->objectName().toAscii().constData());
 }
 
 ViewPanelHandle TGo4Script::FindViewPanel(const char* name)

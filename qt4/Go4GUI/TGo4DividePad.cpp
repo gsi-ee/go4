@@ -4,9 +4,9 @@
 #include "TGo4ViewPanel.h"
 
 TGo4DividePad::TGo4DividePad( QWidget* parent, const char* name, Qt::WFlags fl )
-    : QWidget( parent, name, fl )
+    : QWidget( parent, fl )
 {
-	setObjectName(name);
+   setObjectName( name ? name : "Go4DividePad");
 	setupUi(this);
 }
 

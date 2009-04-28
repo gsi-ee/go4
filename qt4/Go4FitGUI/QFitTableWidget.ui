@@ -12,7 +12,7 @@
         <height>480</height>
       </rect>
     </property>
-    <property name="caption" >
+    <property name="windowTitle" >
       <string>QFitTableWidget</string>
     </property>
     <layout class="QGridLayout" >
@@ -35,8 +35,7 @@
     </layout>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
   <includes>
-    <include location="local" >QFitWidget.h</include>
+    <include location="local">QFitWidget.h</include>
   </includes>
 </ui>

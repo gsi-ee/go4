@@ -2,7 +2,7 @@
 #define QFITPEAKFINDERWIDGET_H
 
 #include "QFitNamedWidget.h"
-#include "ui_QFitPeakFinderWidget.h"  
+#include "ui_QFitPeakFinderWidget.h"
 
 class TGo4FitPeakFinder;
 
@@ -21,7 +21,7 @@ public slots:
     virtual void ClearModelsChk_toggled( bool );
     virtual void UsePolynChk_toggled( bool );
     virtual void PolynSpin_valueChanged( int );
-    virtual void FindersTab_currentChanged( QWidget * );
+    virtual void FindersTab_currentChanged( int );
     virtual void ThresholdEdt_textChanged( const QString & );
     virtual void MinWidthEdt_textChanged( const QString & );
     virtual void MaxWidthEdt_textChanged( const QString & );

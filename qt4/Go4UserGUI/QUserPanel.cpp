@@ -40,10 +40,6 @@ QUserPanel::QUserPanel( QWidget* parent,  const char* name )
     : QGo4Widget( parent, name )
 {
    setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
-
 
    DragLbl->setText("");
    DragItemLbl->setText("");
@@ -84,7 +80,7 @@ bool QUserPanel::IsAcceptDrag(const char* itemname, TClass* cl, int kind)
 {
    bool res = false;
 
-   switch (TabWidget->currentPageIndex()) {
+   switch (TabWidget->currentIndex()) {
       case 0:
         DragLbl->setText("Go4 GUI asks if widget accept dragged item");
         DragItemLbl->setText(itemname);
@@ -104,7 +100,7 @@ bool QUserPanel::IsAcceptDrag(const char* itemname, TClass* cl, int kind)
 
 void QUserPanel::DropItem(const char* itemname, TClass* cl, int kind)
 {
-   switch (TabWidget->currentPageIndex()) {
+   switch (TabWidget->currentIndex()) {
       case 0:
          DragLbl->setText("User dropped item");
          DragItemLbl->setText(itemname);
@@ -163,7 +159,6 @@ void QUserPanel::EditBtn_clicked()
    EditItem(DragItemLbl->text());
 }
 
-
 void QUserPanel::DrawBtn_clicked()
 {
    DrawItem(DragItemLbl->text());
@@ -201,7 +196,7 @@ void QUserPanel::CanvasDropEventSlot(QDropEvent* event, TPad* pad)
    if (!event->mimeData()->hasText()) return;
    QString eventstr = event->mimeData()->text();
    event->acceptProposedAction();
-   DrawObjectOnCanvas(eventstr.latin1());
+   DrawObjectOnCanvas(eventstr.toAscii());
 }
 
 void QUserPanel::DrawObjectOnCanvas(const char* itemname)

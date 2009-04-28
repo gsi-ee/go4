@@ -12,7 +12,7 @@
         <height>398</height>
       </rect>
     </property>
-    <property name="caption" >
+    <property name="windowTitle" >
       <string>New Go4 Browser</string>
     </property>
     <layout class="QGridLayout" >

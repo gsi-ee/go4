@@ -9,12 +9,9 @@ const char* defMbsEventName = "MbsEvent-10-1";
 
 TGo4EventInfo::TGo4EventInfo(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
-{ 
+{
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
-			// from ui file to the setupUI
-   setCaption("Event info");
+   setWindowTitle("Event info");
    ResetWidget();
 }
 
@@ -88,7 +85,7 @@ void TGo4EventInfo::RefreshClicked()
 
    TGo4BrowserProxy* br = Browser();
    if (br!=0)
-      br->RequestEventStatus(evname.latin1(), istree, tgtslot);
+      br->RequestEventStatus(evname.toAscii(), istree, tgtslot);
 }
 
 void TGo4EventInfo::PrintEventClicked()
@@ -96,9 +93,9 @@ void TGo4EventInfo::PrintEventClicked()
    if (EventLbl->text().length()==0) return;
 
    TString folder, name;
-   TGo4Slot::ProduceFolderAndName(EventLbl->text().latin1(), folder, name);
+   TGo4Slot::ProduceFolderAndName(EventLbl->text().toAscii(), folder, name);
 
-   TGo4AnalysisProxy* anal  = GetAnalysis(EventLbl->text().latin1());
+   TGo4AnalysisProxy* anal  = GetAnalysis(EventLbl->text().toAscii());
 
    if (anal!=0)
      anal->RemotePrintEvent(name.Data(),

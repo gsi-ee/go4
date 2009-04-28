@@ -9,7 +9,7 @@
     <height>292</height>
    </rect>
   </property>
-  <property name="caption" stdset="0" >
+  <property name="windowTitle">
    <string>DABC Monitor</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_3" >
@@ -495,20 +495,6 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>QGo4Widget</class>
-   <extends>QWidget</extends>
-   <header>QGo4Widget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>QGo4LineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>QGo4LineEdit.h</header>
-  </customwidget>
- </customwidgets>
  <includes>
   <include location="local">dic.hxx</include>
   <include location="global">vector</include>
@@ -517,7 +503,6 @@
   <include location="local">QGo4Widget.h</include>
   <include location="local">QGo4LineEdit.h</include>
  </includes>
- <resources/>
  <connections>
   <connection>
    <sender>RefreshDIMButton</sender>

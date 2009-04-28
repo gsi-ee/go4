@@ -1,16 +1,11 @@
 #include "TGo4ConnectServer.h"
 #include "TGo4QSettings.h"
 
-
-
-TGo4ConnectServer::TGo4ConnectServer( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-    : QDialog( parent, name, modal, fl )
+TGo4ConnectServer::TGo4ConnectServer( QWidget* parent )
+   : QDialog( parent )
 {
-	//setObjectName(name);
+	setObjectName("Go4ConnectServer");
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
 
    ClientNode->setText(go4sett->getClientNode());
    PortNumber->setValue(go4sett->getClientPort());

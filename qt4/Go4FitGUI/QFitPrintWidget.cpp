@@ -11,11 +11,8 @@ using namespace std;
 
 QFitPrintWidget::QFitPrintWidget(QWidget *parent, const char* name)
          : QFitWidget(parent, name)
-{ 
-			setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
-			// from ui file to the setupUI
+{
+   setupUi(this);
 }
 
 
@@ -24,7 +21,8 @@ void QFitPrintWidget::SetDrawOption( const QString & option )
    fxDrawOption = option;
 }
 
-void QFitPrintWidget::FillSpecificData() {
+void QFitPrintWidget::FillSpecificData()
+{
   if (GetObject()) {
 
       cout.flush();
@@ -35,7 +33,7 @@ void QFitPrintWidget::FillSpecificData() {
 
       cout.rdbuf(strout.rdbuf());
 
-      GetObject()->Print(fxDrawOption);
+      GetObject()->Print(fxDrawOption.toAscii());
 
       cout << endl;
 

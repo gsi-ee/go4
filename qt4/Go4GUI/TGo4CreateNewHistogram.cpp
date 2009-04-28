@@ -8,14 +8,11 @@
 #include "TGo4QSettings.h"
 #include <QButtonGroup>
 
-TGo4CreateNewHistogram::TGo4CreateNewHistogram( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-    : QDialog( parent, name, modal, fl )
+TGo4CreateNewHistogram::TGo4CreateNewHistogram( QWidget* parent)
+    : QDialog( parent)
 {
-	setObjectName(name);
+	setObjectName("Go4CreateNewHistogram");
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
    HisName->setText(go4sett->getHistName());
    HisTitle->setText("histogram title");
 
@@ -73,8 +70,8 @@ int TGo4CreateNewHistogram::GetSelectedCmd()
 
 TH1* TGo4CreateNewHistogram::MakeHistogram()
 {
-   const char* hname = HisName->text().latin1();
-   const char* htitle = HisTitle->text().latin1();
+   const char* hname = HisName->text().toAscii();
+   const char* htitle = HisTitle->text().toAscii();
    int htype = HisClassGrp->checkedId()*10 + HisTypeGrp->checkedId();
 
    int nxbins = XNoOfBins->text().toInt();

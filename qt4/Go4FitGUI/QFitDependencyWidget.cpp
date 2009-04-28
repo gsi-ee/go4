@@ -5,15 +5,12 @@
 #include "TGo4FitDependency.h"
 #include "QFitItem.h"
 #include "TObjArray.h"
-#include "TGo4FitDependency.h" 
+#include "TGo4FitDependency.h"
 
 QFitDependencyWidget::QFitDependencyWidget(QWidget *parent, const char* name)
          : QFitWidget(parent, name)
-{ 
-			setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
-			// from ui file to the setupUI
+{
+   setupUi(this);
 }
 
 TGo4FitDependency * QFitDependencyWidget::GetDepen() {
@@ -42,7 +39,7 @@ void QFitDependencyWidget::FillSpecificData() {
 void QFitDependencyWidget::ParamEdit_textChanged( const QString & param)
 {
   if(!fbFillWidget && GetDepen() && (param.length()>0)) {
-     GetDepen()->SetParameter(param);
+     GetDepen()->SetParameter(param.toAscii());
      SetWidgetItemText(true);
   }
 }
@@ -54,7 +51,7 @@ void QFitDependencyWidget::ExpressionEdt_textChanged( const QString & value)
      bool ok = FALSE;
      double zn = value.toDouble(&ok);
      if (ok) GetDepen()->SetInitValue(zn);
-        else GetDepen()->SetExpression(value);
+        else GetDepen()->SetExpression(value.toAscii());
      SetWidgetItemText(true);
   }
 }

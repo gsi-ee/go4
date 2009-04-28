@@ -12,11 +12,11 @@
         <height>289</height>
       </rect>
     </property>
-    <property name="caption" >
+    <property name="windowTitle" >
       <string>Dynamic List Editor</string>
     </property>
-    <property name="icon" >
-      <pixmap>:/icons/go4logo2_big.png</pixmap>
+    <property name="windowIcon" >
+      <icon>:/icons/go4logo2_big.png</icon>
     </property>
     <layout class="QGridLayout" >
       <property name="margin" >
@@ -1059,7 +1059,6 @@
     </layout>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
   <tabstops>
     <tabstop>EntryTabs</tabstop>
     <tabstop>RefreshButton</tabstop>
@@ -1070,7 +1069,7 @@
     <tabstop>CancelButton</tabstop>
   </tabstops>
   <includes>
-    <include location="local" >QGo4Widget.h</include>
+    <include location="local">QGo4Widget.h</include>
     <include location="local">QGo4LineEdit.h</include>
   </includes>
   <connections>

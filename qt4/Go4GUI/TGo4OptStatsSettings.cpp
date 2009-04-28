@@ -3,14 +3,11 @@
 #include "TGo4Marker.h"
 #include "TGo4QSettings.h"
 
-TGo4OptStatsSettings::TGo4OptStatsSettings( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-    : QDialog( parent, name, modal, fl )
-{ 
+TGo4OptStatsSettings::TGo4OptStatsSettings( QWidget* parent )
+    : QDialog( parent )
+{
 	//setObjectName(name);
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
-			// from ui file to the setupUI
 
     bool showstat=go4sett->getStatBoxVisible();
     DrawStatboxButton->setChecked(showstat);

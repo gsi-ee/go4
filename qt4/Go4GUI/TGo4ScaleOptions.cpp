@@ -7,11 +7,8 @@
 
 TGo4ScaleOptions::TGo4ScaleOptions(QWidget *parent, const char* name)
          : QGo4Widget(parent,name)
-{ 
+{
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
-			// from ui file to the setupUI
 }
 
 void TGo4ScaleOptions::SlotShiftL()

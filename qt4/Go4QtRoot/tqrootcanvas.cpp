@@ -39,17 +39,19 @@
 #include "tqrootdialog.h"
 
 TQRootCanvas::TQRootCanvas( QWidget *parent, const char *name, TCanvas *c ) :
-   QWidget( parent, name ,Qt::WNoAutoErase | Qt::WResizeNoErase ),
+   QWidget(parent),
    fResizeFlag(1),
    fMaskDoubleClick(false)
 {
+   setObjectName( name ? name : "QRootCanvas");
+
   TGo4LockGuard threadlock;
   // set defaults
   setUpdatesEnabled( true );
   setMouseTracking(true);
 
   setFocusPolicy( Qt::TabFocus );
-  setCursor( Qt::crossCursor );
+  setCursor( Qt::CrossCursor );
   //setAttribute(Qt::WA_NoSystemBackground);
   setAttribute(Qt::WA_PaintOnScreen);
   setAttribute(Qt::WA_PaintUnclipped);
@@ -83,45 +85,46 @@ TQRootCanvas::TQRootCanvas( QWidget *parent, const char *name, TCanvas *c ) :
 }
 
 TQRootCanvas::TQRootCanvas( QWidget *parent, QWidget* tabWin, const char *name, TCanvas *c ) :
-   QWidget( tabWin, name ,Qt::WNoAutoErase | Qt::WResizeNoErase ),
+   QWidget(tabWin),
    fResizeFlag(1),
    fMaskDoubleClick(false)
 {
+   setObjectName( name ? name : "QRootCanvas");
+
    TGo4LockGuard threadlock;
-  // set defaults
-     setUpdatesEnabled( true );
-     setMouseTracking(true);
-  setFocusPolicy( Qt::TabFocus );
-  setCursor( Qt::crossCursor );
+   setUpdatesEnabled( true );
+   setMouseTracking(true);
+   setFocusPolicy( Qt::TabFocus );
+   setCursor( Qt::CrossCursor );
 
-  setAttribute(Qt::WA_NoSystemBackground);
-  //setAttribute(Qt::WA_PaintOnScreen);
-  // add the Qt::WinId to TGX11 interface
-  xid=winId();
-  wid=gVirtualX->AddWindow(xid,100,30);
-  if (c==0){
-    isCanvasOwned = true;
-    fCanvas=new TCanvas(name,width(),height(),wid);
-  }else{
-    isCanvasOwned= false;
-    fCanvas=c;
-  }
-  // create the context menu
-  fMousePosX = 0;
-  fMousePosY = 0;
-  fMenuMethods = 0;
-  fMenuObj = 0;
+   setAttribute(Qt::WA_NoSystemBackground);
+   //setAttribute(Qt::WA_PaintOnScreen);
+   // add the Qt::WinId to TGX11 interface
+   xid=winId();
+   wid=gVirtualX->AddWindow(xid,100,30);
+   if (c==0){
+      isCanvasOwned = true;
+      fCanvas=new TCanvas(name,width(),height(),wid);
+   }else{
+      isCanvasOwned= false;
+      fCanvas=c;
+   }
+   // create the context menu
+   fMousePosX = 0;
+   fMousePosY = 0;
+   fMenuMethods = 0;
+   fMenuObj = 0;
 
-  // test here all the events sent to the QWidget
-  // has a parent widget
-  // then install filter
-  if ( parent ){
-    parent->installEventFilter( this );
-    fParent = parent;
-  } else fParent=0;
+   // test here all the events sent to the QWidget
+   // has a parent widget
+   // then install filter
+   if ( parent ){
+      parent->installEventFilter( this );
+      fParent = parent;
+   } else fParent=0;
 
-  if ( tabWin ) fTabWin = tabWin;
-    setAcceptDrops(TRUE);
+   if ( tabWin ) fTabWin = tabWin;
+   setAcceptDrops(TRUE);
 }
 
 TQRootCanvas::~TQRootCanvas()
@@ -159,7 +162,7 @@ void TQRootCanvas::performResize()
       //cout <<"----- TQRootCanvas::performResize finds changed xwinid:"<<  setbase(10) <<nxid<<endl;
       delete fCanvas; // should also remove old x windows!
       wid=gVirtualX->AddWindow(nxid,width(),height());
-      fCanvas=new TCanvas(name(), width(),height(),wid);
+      fCanvas=new TCanvas(objectName().toAscii(), width(),height(),wid);
       xid=nxid;
    }
    Resize();
@@ -170,8 +173,8 @@ void TQRootCanvas::mouseMoveEvent(QMouseEvent *e)
 {
   TGo4LockGuard threadlock;
   if (fCanvas!=0) {
-     if (e->state() & Qt::LeftButton)
-       fCanvas->HandleInput(kButton1Motion, e->x(), e->y());
+     if (e->buttons() & Qt::LeftButton)
+        fCanvas->HandleInput(kButton1Motion, e->x(), e->y());
      else
         fCanvas->HandleInput(kMouseMotion, e->x(), e->y());
   }
@@ -421,7 +424,7 @@ void TQRootCanvas::dropEvent( QDropEvent *Event )
 
    QString str = Event->mimeData()->text();
 
-   TObject *dragedObject = gROOT->FindObject(str);
+   TObject *dragedObject = gROOT->FindObject(str.toAscii());
    QPoint Pos = Event->pos();
    TObject *object=0;
    TPad *pad = fCanvas->Pick(Pos.x(), Pos.y(), object);
@@ -849,8 +852,8 @@ void TQRootCanvas::methodDialog(TObject* object, TMethod* method)
    TObjArray tobjlist(method->GetListOfMethodArgs()->LastIndex() + 1);
    for (int n=0; n<=method->GetListOfMethodArgs()->LastIndex(); n++) {
       QString s = dlg.getArg(n);
-      qDebug( "** QString values (first ) :%s \n", (const char*) s );
-      TObjString *t = new TObjString( (const char*) s );
+      qDebug( "** QString values (first ) :%s \n", (const char*) s.toAscii() );
+      TObjString *t = new TObjString( (const char*) s.toAscii() );
       tobjlist.AddLast(t) ;
    }
 
@@ -915,11 +918,11 @@ void TQRootCanvas::executeMenu(int id)
       switch (id){
          case 100: {
             TLatex *fxLatex = new TLatex();
-            text = QInputDialog::getText(tr( "Qt Root" ),
+            text = QInputDialog::getText(this, tr( "Qt Root" ),
                                          tr( "Please enter your text" ),
                                          QLineEdit::Normal, QString::null, &ok);
             //if (ok && !text.isEmpty())
-            fxLatex->DrawLatex(fMousePosX, fMousePosY, text.latin1());
+            fxLatex->DrawLatex(fMousePosX, fMousePosY, text.toAscii());
             emit MenuCommandExecuted(fxLatex, "DrawLatex");
             break;
         }

@@ -127,21 +127,21 @@ class QDESIGNER_WIDGET_EXPORT  QGo4Widget : public QWidget {
       bool BrowserItemRemote(const char* itemname);
       TGo4BrowserProxy* Browser();
 
-      void StatusMessage(const char* message);
+      void StatusMessage(const QString& message);
 
       /** Function call dialog to create object of appropriate class
         *  isremote==0 - object should be created localy and widget will be informed
         *  isremote==1 - object should be created on analysis side and widget should be informaed
         *  isremote==-1 - activate creation dialog without restriction (remote or local), widget will not be informed */
       void AskToCreateObject(TClass* cl, int isremote);
-      void ShowItemInfo(const char* itemname);
+      void ShowItemInfo(const QString& itemname);
       TGo4ViewPanel* CreateViewPanel(int ndiv = 0);
-      TGo4ViewPanel* DrawItem(const char* itemname, TGo4ViewPanel* panel = 0, TPad* pad = 0, bool activate = true, int updatelevel = -1);
+      TGo4ViewPanel* DrawItem(const QString& itemname, TGo4ViewPanel* panel = 0, TPad* pad = 0, bool activate = true, int updatelevel = -1);
       TGo4ViewPanel* WhereItemDrawn(const char* itemname);
       void HelpWindow(const char* filename, const char* msg = 0);
       void UndrawItem(const char* itemname);
       TGo4ViewPanel* LastActivePanel();
-      void EditItem(const char* itemname);
+      void EditItem(const QString& itemname);
       void EditObjectInSlot(TGo4Slot* slot);
       QString SaveObjectInMemory(const char* foldername, TObject* obj);
       bool SaveItemToFile(const char* itemname, const char* subfolder = 0);

@@ -12,7 +12,7 @@
         <height>480</height>
       </rect>
     </property>
-    <property name="caption" >
+    <property name="windowTitle" >
       <string>Range cut</string>
     </property>
     <widget class="QLabel" name="textLabel1" >
@@ -118,9 +118,8 @@
     </widget>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
   <includes>
-    <include location="local" >QFitNamedWidget.h</include>
+    <include location="local">QFitNamedWidget.h</include>
   </includes>
   <connections>
     <connection>

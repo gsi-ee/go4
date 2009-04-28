@@ -72,31 +72,31 @@ int main(int argc, char **argv)
 
     if(settingsenv.contains("LOCAL")) {
         // try settings in $PWD/go4.conf
-       if (!gSystem->AccessPathName(QDir::currentDirPath(),kWritePermission))
-      	 TGo4QSettings::SetSettLocation(QDir::currentDirPath() + "/go4.conf");
+       if (!gSystem->AccessPathName(QDir::currentPath().toAscii(),kWritePermission))
+      	 TGo4QSettings::SetSettLocation(QDir::currentPath() + "/go4.conf");
     } else
     if(!settingsenv.contains("ACCOUNT"))
    	 TGo4QSettings::SetSettLocation(settingsenv);
 
     QString settfile = TGo4QSettings::GetSettLoaction();
-    cout << "settfile = " << settfile.ascii() << endl;
+    cout << "settfile = " << settfile.toAscii().constData() << endl;
 
-    if((settfile.length() > 0) && gSystem->AccessPathName(settfile)) {
+    if((settfile.length() > 0) && gSystem->AccessPathName(settfile.toAscii())) {
    	 QString subdir = QFileInfo(settfile).absolutePath();
-   	 cout << "Create subdirectory " << subdir.ascii() << endl;
+   	 cout << "Create subdirectory " << subdir.toAscii().constData() << endl;
    	 const char* go4sys = getenv("GO4SYS");
 
    	 QString dfltfile = "qt4/go4.conf";
    	 if (go4sys!=0)
    		 dfltfile = QString(go4sys) + "/" + dfltfile;
 
-   	 if (!gSystem->AccessPathName(subdir.ascii()) || !gSystem->mkdir(subdir.ascii(), kTRUE)) {
-          if (gSystem->CopyFile(dfltfile.ascii(), settfile.ascii(), kFALSE))
-               cout << "Cannot copy default config file into " << settfile.ascii() << endl;
+   	 if (!gSystem->AccessPathName(subdir.toAscii()) || !gSystem->mkdir(subdir.toAscii(), kTRUE)) {
+          if (gSystem->CopyFile(dfltfile.toAscii(), settfile.toAscii(), kFALSE))
+               cout << "Cannot copy default config file into " << settfile.toAscii().constData() << endl;
             else
-               cout << "Copied default config file into " << settfile.ascii() << endl;
+               cout << "Copied default config file into " << settfile.toAscii().constData() << endl;
    	 } else
-   		 cout << "Cannot create subdirectory " << subdir.ascii() << " for configuarations" << endl;
+   		 cout << "Cannot create subdirectory " << subdir.toAscii().constData() << " for configuarations" << endl;
     }
 
     go4sett = new TGo4QSettings;
@@ -113,14 +113,16 @@ int main(int argc, char **argv)
 
     TGo4MainWindow* Go4MainGUI = new TGo4MainWindow(&myapp, servermode);
     Go4MainGUI->setGeometry (20, 20, 1152, 864);
-    myapp.setMainWidget(Go4MainGUI);
-    Go4MainGUI->polish();
+
+    myapp.connect(&myapp, SIGNAL(lastWindowClosed()), &myapp, SLOT(quit()));
+
+    Go4MainGUI->ensurePolished();
     Go4MainGUI->show();
     myapp.connect( &myapp, SIGNAL( lastWindowClosed() ), &myapp, SLOT( quit() ) );
     QApplication::setDoubleClickInterval(400); //ms, for Qt>=3.3 avoid very fast defaults!
     QApplication::setStartDragTime(150); // ms
     if (hotstart.length()>0)
-      Go4MainGUI->HotStart(hotstart.latin1());
+      Go4MainGUI->HotStart(hotstart.toAscii());
     int res = myapp.exec();
     delete go4sett;
     return res;

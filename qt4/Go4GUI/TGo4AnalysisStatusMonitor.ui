@@ -12,11 +12,11 @@
         <height>32</height>
       </rect>
     </property>
-    <property name="caption" >
+    <property name="windowTitle" >
       <string>Go4 Analysis Status</string>
     </property>
-    <property name="icon" >
-      <pixmap>:/icons/go4logo2_big.png</pixmap>
+    <property name="windowIcon" >
+      <icon>:/icons/go4logo2_big.png</icon>
     </property>
     <layout class="QHBoxLayout" >
       <property name="margin" >
@@ -48,7 +48,7 @@
             </size>
           </property>
           <property name="pixmap" >
-            <pixmap>:/icons/go4logo2_big.png</pixmap>
+            <icon>:/icons/go4logo2_big.png</icon>
           </property>
           <property name="scaledContents" >
             <bool>true</bool>
@@ -230,7 +230,6 @@
     </layout>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
   <includes>
     <include location="local">QGo4Widget.h</include>
     <include location="local">qmovie.h</include>

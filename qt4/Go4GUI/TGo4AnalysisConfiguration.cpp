@@ -12,11 +12,7 @@
 TGo4AnalysisConfiguration::TGo4AnalysisConfiguration(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
 {
-			setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
-
+   setupUi(this);
 
    fSourcePath = ".";
    fStorePath = ".";
@@ -74,11 +70,11 @@ void TGo4AnalysisConfiguration::ResetWidget()
 {
    QGo4Widget::ResetWidget();
 
-   QWidget* w= 0;
+   QWidget* w = 0;
    do {
-     w = TabSteps->currentPage();
+     w = TabSteps->currentWidget();
      if (w!=0) {
-        TabSteps->removePage(w);
+        TabSteps->removeTab(TabSteps->indexOf(w));
         delete w;
      }
    } while (w!=0);
@@ -92,11 +88,11 @@ void TGo4AnalysisConfiguration::RefreshWidget()
 
    fbTypingMode = false;
 
-   QWidget* w= 0;
-   do{
-     w = TabSteps->currentPage();
+   QWidget* w = 0;
+   do {
+     w = TabSteps->currentWidget();
      if (w!=0) {
-        TabSteps->removePage(w);
+        TabSteps->removeTab(TabSteps->indexOf(w));
         delete w;
      }
    } while (w!=0);
@@ -105,12 +101,12 @@ void TGo4AnalysisConfiguration::RefreshWidget()
       TGo4AnalysisStepStatus* stepstatus = status->GetStepStatus(i);
       if (stepstatus==0) continue;
       QString StepName = stepstatus->GetName();
-      TGo4ConfigStep* NewStep = new TGo4ConfigStep(TabSteps, StepName);
+      TGo4ConfigStep* NewStep = new TGo4ConfigStep(TabSteps, StepName.toAscii());
       NewStep->SetStepStatus(this, stepstatus);
-      TabSteps->insertTab(NewStep, StepName, i);
+      TabSteps->insertTab(i, NewStep, StepName);
     }
 
-    TabSteps->setCurrentPage(0);
+    TabSteps->setCurrentIndex(0);
     TabSteps->adjustSize();
 
         //Get Analysis    Parameters
@@ -161,9 +157,10 @@ void TGo4AnalysisConfiguration::FileDialog_ConfFile()
                    "Select a configuraton file",
                    fConfigPath,
                    " Configuration file (*.root)");
-    fd.setMode( QFileDialog::AnyFile);
+    fd.setFileMode( QFileDialog::AnyFile);
     if (fd.exec() != QDialog::Accepted) return;
-    QString fileName = fd.selectedFile();
+    QStringList flst = fd.selectedFiles();
+    QString fileName = flst.isEmpty() ? QString() : flst[0];
     fConfigPath = fd.directory().path();
     if(!fileName.endsWith(".root")) fileName.append(".root");
     ConfigFileName->setText(fileName);
@@ -175,9 +172,13 @@ void TGo4AnalysisConfiguration::FileDialog_AutoSave()
           "Select file name for autosaving",
           fAutoSavePath,
           "Auto Save File (*.root)");
-    fd.setMode(QFileDialog::AnyFile);
+    fd.setFileMode(QFileDialog::AnyFile);
     if (fd.exec() != QDialog::Accepted)  return;
-    QString fileName = fd.selectedFile();
+
+    QStringList flst = fd.selectedFiles();
+    if (flst.isEmpty()) return;
+
+    QString fileName = flst[0];
     fAutoSavePath = fd.directory().path();
     if(!fileName.endsWith(".root")) fileName.append(".root");
     AutoSaveFileName->setText(fileName);
@@ -186,11 +187,11 @@ void TGo4AnalysisConfiguration::FileDialog_AutoSave()
 
 void TGo4AnalysisConfiguration::LineEdit_AutoSaveFile()
 {
-   QString fname = AutoSaveFileName->text().stripWhiteSpace();
+   QString fname = AutoSaveFileName->text().trimmed();
    TGo4AnalysisStatus* status =
      dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
    if ((status!=0) && fbTypingMode)
-     status->SetAutoFileName(fname.latin1());
+     status->SetAutoFileName(fname.toAscii());
 }
 
 void TGo4AnalysisConfiguration::SetCompressionLevel( int t)
@@ -203,21 +204,21 @@ void TGo4AnalysisConfiguration::SetCompressionLevel( int t)
 
 void TGo4AnalysisConfiguration::LoadConfiguration()
 {
-   QString fname = ConfigFileName->text().stripWhiteSpace();
+   QString fname = ConfigFileName->text().trimmed();
    TGo4AnalysisProxy* anal =
      dynamic_cast<TGo4AnalysisProxy*>(GetLinked("Analysis", 0));
    if (anal!=0)
-     anal->LoadConfigFile(fname.latin1());
+     anal->LoadConfigFile(fname.toAscii());
    RequestAnalysisStatus();
 }
 
 void TGo4AnalysisConfiguration::SaveConfiguration()
 {
-   QString fname = ConfigFileName->text().stripWhiteSpace();
+   QString fname = ConfigFileName->text().trimmed();
    TGo4AnalysisProxy* anal =
      dynamic_cast<TGo4AnalysisProxy*>(GetLinked("Analysis", 0));
    if (anal!=0)
-     anal->SaveConfigFile(fname.latin1());
+     anal->SaveConfigFile(fname.toAscii());
 }
 
 void TGo4AnalysisConfiguration::SubmitConfiguration()
@@ -277,7 +278,7 @@ int TGo4AnalysisConfiguration::GetNumSteps()
 TGo4ConfigStep* TGo4AnalysisConfiguration::GetStepConfig(int n)
 {
    if ((n<0) || (n>=TabSteps->count())) return 0;
-   return dynamic_cast<TGo4ConfigStep*> (TabSteps->page(n));
+   return dynamic_cast<TGo4ConfigStep*> (TabSteps->widget(n));
 }
 
 TGo4ConfigStep* TGo4AnalysisConfiguration::FindStepConfig(QString name)
@@ -332,5 +333,5 @@ void TGo4AnalysisConfiguration::GetAnalysisConfigFile(QString& filename)
 
 void TGo4AnalysisConfiguration::DisplayMbsMonitor(const QString& mbsname )
 {
-   ServiceCall("DisplayMbsMonitor", (void*) mbsname.latin1());
+   ServiceCall("DisplayMbsMonitor", (void*) mbsname.toAscii().constData());
 }

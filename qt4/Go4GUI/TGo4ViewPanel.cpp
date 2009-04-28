@@ -74,10 +74,8 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
 {
 	setupUi(this);;
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
-   fPanelName = objectName();
+
+	fPanelName = objectName();
 
    ActivePad = 0;
 
@@ -102,8 +100,8 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
    fiPickCounter = 0;
    fbPickAgain = false;
 
-   setCaption(GetPanelName());
-   fxGo4QRootCanvas->setName(GetPanelName());
+   setWindowTitle(GetPanelName());
+   fxGo4QRootCanvas->setObjectName(GetPanelName());
    fxGo4QRootCanvas->getCanvas()->SetName(GetPanelName());
 
    fSelectMenu = 0;
@@ -162,7 +160,7 @@ TGo4ViewPanel::~TGo4ViewPanel()
 
 const char*  TGo4ViewPanel::GetPanelName()
 {
-   return fPanelName.latin1();
+   return fPanelName.toAscii();
 }
 
 void TGo4ViewPanel::SetPanelName(const char* newname)
@@ -296,9 +294,9 @@ void TGo4ViewPanel::CompleteInitialization()
    UpdatePadStatus(GetCanvas(), true);
 
    //    fMenuBar
-   fMenuBar = new QMenuBar( MenuFrame, "MenuBar" );
+   fMenuBar = new QMenuBar(MenuFrame);
    fMenuBar->setMinimumWidth(50);
-   fMenuBar->setFrameShape(QMenuBar::NoFrame);
+   //fMenuBar->setFrameShape(QMenuBar::NoFrame);
     //File Menu
 
 
@@ -352,34 +350,36 @@ void TGo4ViewPanel::CompleteInitialization()
    AddIdAction(fOptionsMenu, fOptionsMap, "&Keep Viewpanel Title", FreezeTitleId);
    AddIdAction(fOptionsMenu, fOptionsMap, "Set &Viewpanel Title...", SetTitleTextId);
 
-   QCheckBox* box1 = new QCheckBox(MenuFrame, "ApplyToAllCheck");
-   box1->setText("Apply to all");
+   QCheckBox* box1 = new QCheckBox("Apply to all", MenuFrame);
+   box1->setObjectName("ApplyToAllCheck");
    connect(box1, SIGNAL(toggled(bool)), this, SLOT(ApplyToAllToggled(bool)));
 
-   fAutoScaleCheck = new QCheckBox(MenuFrame, "AutoScaleCheck");
-   fAutoScaleCheck->setText("AutoScale");
+   fAutoScaleCheck = new QCheckBox("AutoScale", MenuFrame);
+   fAutoScaleCheck->setObjectName("AutoScaleCheck");
    fAutoScaleCheck->setChecked(GetPadOptions(GetCanvas())->IsAutoScale());
    connect(fAutoScaleCheck, SIGNAL(toggled(bool)), this, SLOT(AutoScaleToggled(bool)));
 
-   QHBoxLayout* menugrid = new QHBoxLayout(MenuFrame, 0, -1, "MenuLayout");
+   QHBoxLayout* menugrid = new QHBoxLayout(MenuFrame);
+   menugrid->setMargin(0);
+   menugrid->setSpacing(0);
    menugrid->addWidget(fMenuBar, 10, Qt::AlignLeft);
    menugrid->addWidget(box1, 1, Qt::AlignRight);
    menugrid->addWidget(fAutoScaleCheck, 1, Qt::AlignRight);
-   gridLayout->addMultiCellLayout(menugrid, 0, 0, 0, 1);
+   gridLayout->addLayout(menugrid, 0, 0, 1, 2);
 
    connect(TGo4WorkSpace::Instance(), SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
            this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
 
    // status widget
-   CanvasStatus = new QStatusBar(this, "Canvas Status");
-   gridLayout->addMultiCellWidget( CanvasStatus, 3, 3, 0, 1 );
+   CanvasStatus = new QStatusBar(this);
+   gridLayout->addWidget(CanvasStatus, 3, 0, 1, 2 );
    CanvasStatus->setShown(false);
 
    // setup of root editor
    fxRooteditor = new TQRootWindow(EditorFrame,"rootwrapperwindow");
    QVBoxLayout* gedlayout = new QVBoxLayout(EditorFrame);
    if (fxRooteditor) gedlayout->addWidget(fxRooteditor);
-   EditorFrame->polish();
+   EditorFrame->ensurePolished();
    EditorFrame->update();
    EditorFrame->show();
    EditorFrame->setShown(fbEditorFrameVisible);
@@ -537,7 +537,7 @@ void TGo4ViewPanel::SetSelectedMarker(TPad* pad, const QString& selname, int sel
       SetSpecialDrawOption(oldsel, 0);
 
    if (selname.length()>0)
-      padslot->SetPar("::SelMarker", selname.latin1());
+      padslot->SetPar("::SelMarker", selname.toAscii());
    else
       padslot->RemovePar("::SelMarker");
 
@@ -553,7 +553,7 @@ void TGo4ViewPanel::SetSelectedMarker(TPad* pad, const QString& selname, int sel
    if ((selindex>=0) && (newselslot!=0)) {
       QString drawopt("sel=");
       drawopt += QString::number(selindex);
-      SetSpecialDrawOption(newselslot, drawopt.latin1());
+      SetSpecialDrawOption(newselslot, drawopt.toAscii());
    }
 
    if (((oldselindex!=selindex) || (oldselname!=selname)) &&
@@ -642,12 +642,12 @@ void TGo4ViewPanel::StartConditionEditing(TPad* pad)
 
    if (selectedkind==kind_Window) {
       FreezeMode->setChecked(false);
-      RegionB->setOn(true);
+      RegionB->setEnabled(true);
       fbLeaveFocusAfterCondEnd = true;
    } else
    if (selectedkind==kind_Poly) {
       FreezeMode->setChecked(false);
-      PolyB->setOn(true);
+      PolyB->setEnabled(true);
       fbLeaveFocusAfterCondEnd = true;
    } else
      return;
@@ -742,61 +742,60 @@ void TGo4ViewPanel::RefreshButtons()
          tooltip = "Refresh condition from source";
       }
       GetConditionBtn->setIcon( QIcon(iconname) );
-      QToolTip::remove(GetConditionBtn);
-      QToolTip::add(GetConditionBtn, tooltip);
+      GetConditionBtn->setToolTip(tooltip);
 
    } else
       ModifyConditionBtn->setShown(false);
 
    switch(GetMouseMode()) {
       case kMouseROOT:
-         CursorB->setOn(false);
-         RegionB->setOn(false);
-         LatexB->setOn(false);
-         DrawB->setOn(false);
-         PolyB->setOn(false);
+         CursorB->setEnabled(false);
+         RegionB->setEnabled(false);
+         LatexB->setEnabled(false);
+         DrawB->setEnabled(false);
+         PolyB->setEnabled(false);
          break;
       case kMousePickCursor:
-         CursorB->setOn(true);
-         RegionB->setOn(false);
-         LatexB->setOn(false);
-         DrawB->setOn(false);
-         PolyB->setOn(false);
+         CursorB->setEnabled(true);
+         RegionB->setEnabled(false);
+         LatexB->setEnabled(false);
+         DrawB->setEnabled(false);
+         PolyB->setEnabled(false);
          break;
       case kMousePickLimits:
-         CursorB->setOn(false);
-         RegionB->setOn(true);
-         LatexB->setOn(false);
-         DrawB->setOn(false);
-         PolyB->setOn(false);
+         CursorB->setEnabled(false);
+         RegionB->setEnabled(true);
+         LatexB->setEnabled(false);
+         DrawB->setEnabled(false);
+         PolyB->setEnabled(false);
          break;
       case kMousePickPolygon:
-         CursorB->setOn(false);
-         RegionB->setOn(false);
-         LatexB->setOn(false);
-         DrawB->setOn(false);
-         PolyB->setOn(true);
+         CursorB->setEnabled(false);
+         RegionB->setEnabled(false);
+         LatexB->setEnabled(false);
+         DrawB->setEnabled(false);
+         PolyB->setEnabled(true);
          break;
       case kMousePickLatex:
-         CursorB->setOn(false);
-         RegionB->setOn(false);
-         LatexB->setOn(true);
-         DrawB->setOn(false);
-         PolyB->setOn(false);
+         CursorB->setEnabled(false);
+         RegionB->setEnabled(false);
+         LatexB->setEnabled(true);
+         DrawB->setEnabled(false);
+         PolyB->setEnabled(false);
          break;
       case kMouseDraw:   // currently, we only draw arrows:
-         CursorB->setOn(false);
-         RegionB->setOn(false);
-         LatexB->setOn(false);
-         DrawB->setOn(true);
-         PolyB->setOn(false);
+         CursorB->setEnabled(false);
+         RegionB->setEnabled(false);
+         LatexB->setEnabled(false);
+         DrawB->setEnabled(true);
+         PolyB->setEnabled(false);
          break;
       default:
-         CursorB->setOn(false);
-         RegionB->setOn(false);
-         LatexB->setOn(false);
-         DrawB->setOn(false);
-         PolyB->setOn(false);
+         CursorB->setEnabled(false);
+         RegionB->setEnabled(false);
+         LatexB->setEnabled(false);
+         DrawB->setEnabled(false);
+         PolyB->setEnabled(false);
          break;
    }; // switch()
    FreezeMode->setChecked(fbPickAgain);
@@ -849,7 +848,7 @@ void TGo4ViewPanel::RefreshButtons()
    DelSelectedMarker->setEnabled((findindx>0) /*&& !iscondition*/);
 
    if (fbMarkEditorVisible) {
-      MarkerPanel->polish();
+      MarkerPanel->ensurePolished();
       MarkerPanel->update();
       MarkerPanel->show();
    }
@@ -864,9 +863,9 @@ void TGo4ViewPanel::SelectedMarkerCmb_activated(int indx)
    else {
      QString selname = SelectedMarkerCmb->itemText(indx);
      int selindex = -1;
-     int p = selname.find("/Sub");
+     int p = selname.indexOf("/Sub");
      if (p>0) {
-        selindex = atoi(selname.latin1()+p+4);
+        selindex = atoi(selname.toAscii().constData()+p+4);
         selname.truncate(p);
      } else
         selindex = -1;
@@ -1010,9 +1009,12 @@ void TGo4ViewPanel::SaveMarkers()
 {
    QFileDialog fd(this, "Save Markers of active pad into",
                   QString(), "ROOT file (*.root)");
-   fd.setMode( QFileDialog::AnyFile);
+   fd.setFileMode( QFileDialog::AnyFile);
    if ( fd.exec() == QDialog::Accepted ) {
-      QString filename = fd.selectedFile();
+      QStringList flst = fd.selectedFiles();
+      if (flst.isEmpty()) return;
+
+      QString filename = flst[0];
       if (!filename.endsWith(".root")) filename.append(".root");
 //      fxTGo4PreviewPanelSlots->SaveMarkerSetup(filename,"Markersetup");
    }
@@ -1022,9 +1024,11 @@ void TGo4ViewPanel::LoadMarkers()
 {
    QFileDialog fd( this, "Load Marker setup from:", QString(),
                          "ROOT file (*.root)");
-   fd.setMode( QFileDialog::ExistingFile );
+   fd.setFileMode( QFileDialog::ExistingFile );
    if (fd.exec() == QDialog::Accepted ) {
-       QString filename = fd.selectedFile();
+      QStringList flst = fd.selectedFiles();
+      if (flst.isEmpty()) return;
+      QString filename = flst[0];
 //     fxTGo4PreviewPanelSlots->LoadMarkerSetup(filename,"Markersetup");
    }
 }
@@ -1136,7 +1140,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
               bool fbTwoDimRegion=(hist!=0) && (hist->GetDimension()>1);
               int ix = GetNumMarkers(pad, kind_Window);
               QString name = "Region " + QString::number(ix+1);
-              conny = new TGo4WinCond(name.latin1());
+              conny = new TGo4WinCond(name.toAscii());
               if(fbTwoDimRegion)
                  conny->SetValues(0,0,0,0);
               else
@@ -1200,7 +1204,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
               TH1* hist = GetPadHistogram(pad);
               int ix = GetNumMarkers(pad, kind_Poly);
               QString name = "Polygon " + QString::number(ix+1);
-              cond = new TGo4PolyCond(name.latin1());
+              cond = new TGo4PolyCond(name.toAscii());
               AddMarkerObj(pad, kind_Poly, cond);
               cond->SetWorkHistogram(hist);
            } else {
@@ -1257,12 +1261,12 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
            int ix = GetNumMarkers(pad, kind_Latex);
            QString name = QString("Label ") + QString::number(ix+1);
            bool ok;
-           QString txt = QInputDialog::getText("Enter new LaTeX label text:",
+           QString txt = QInputDialog::getText(this, "Enter new LaTeX label text:",
                          name, QLineEdit::Normal, QString::null, &ok);
            if (ok && (txt.length()>0)) {
-              TLatex* latex = new TLatex(x,y, name.latin1());
-              latex->SetName(name.latin1());
-              latex->SetTitle(txt.latin1());
+              TLatex* latex = new TLatex(x,y, name.toAscii());
+              latex->SetName(name.toAscii());
+              latex->SetTitle(txt.toAscii());
               AddMarkerObj(pad, kind_Latex, latex);
            } else {
               fiMouseMode=kMouseROOT;
@@ -1445,7 +1449,7 @@ void TGo4ViewPanel::CanvasDropEventSlot(QDropEvent* event, TPad* pad)
 void TGo4ViewPanel::CanvasStatusEventSlot(const char* message)
 {
    if (CanvasStatus!=0)
-     CanvasStatus->message(message);
+     CanvasStatus->showMessage(message);
 }
 
 void TGo4ViewPanel::ProcessPadDoubleClick()
@@ -1621,9 +1625,9 @@ void TGo4ViewPanel::PrintCanvas()
                     " " + outfile;
    QString DelCmd = QString("rm -f ") + outfile;
 
-   GetCanvas()->Print(outfile.latin1());
-   gSystem->Exec(PrnCmd.latin1());
-   gSystem->Exec(DelCmd.latin1());
+   GetCanvas()->Print(outfile.toAscii());
+   gSystem->Exec(PrnCmd.toAscii());
+   gSystem->Exec(DelCmd.toAscii());
 }
 
 void TGo4ViewPanel::StartRootEditor()
@@ -1916,7 +1920,7 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
      }
    } else {
       QString newslotname = itemname;
-      if ((newslotname.length()==0) || (padslot->FindChild(newslotname.latin1())!=0)) {
+      if ((newslotname.length()==0) || (padslot->FindChild(newslotname.toAscii())!=0)) {
          int cnt = 0;
          do {
            if ((itemname==0) || (*itemname==0))
@@ -1924,9 +1928,9 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
            else
               newslotname = itemname;
            newslotname += QString::number(cnt++);
-         } while (padslot->FindChild(newslotname.latin1())!=0);
+         } while (padslot->FindChild(newslotname.toAscii())!=0);
       }
-      tgtslot = AddNewSlot(newslotname.latin1(), padslot);
+      tgtslot = AddNewSlot(newslotname.toAscii(), padslot);
       tgtslot->SetProxy(new TGo4ObjectProxy(obj, owner));
    }
    if (tgtslot==0) return 0;
@@ -2702,7 +2706,7 @@ void TGo4ViewPanel::UpdatePanelCaption()
    }
 
    if (!fbFreezeTitle)
-      setCaption(capt);
+      setWindowTitle(capt);
 }
 
 void TGo4ViewPanel::SetDrawKind(TGo4Slot* slot, int kind)
@@ -2906,7 +2910,7 @@ void TGo4ViewPanel::CheckForSpecialObjects(TPad *pad, TGo4Slot* padslot)
          QString mycaption = GetPanelName();
          mycaption += ": ";
          mycaption += pic->GetTitle();
-         setCaption(mycaption);
+         setWindowTitle(mycaption);
          fbFreezeTitle = true;
       }
 
@@ -3078,7 +3082,7 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad* tgtpad, TPad* srcpad, const char* s
          srcsubpad->GetPadPar(xlow, ylow, xup, yup);
 
          tgtpad->cd();
-         TPad* tgtsubpad = new TPad(subpadname.latin1(), srcsubpad->GetName(), xlow, ylow, xup, yup);
+         TPad* tgtsubpad = new TPad(subpadname.toAscii(), srcsubpad->GetName(), xlow, ylow, xup, yup);
          tgtsubpad->SetNumber(nsubpads);
          tgtsubpad->Draw();
 
@@ -3220,7 +3224,7 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
    if ((pad!=GetCanvas()) || !ispadupdatecalled)
       GetCanvas()->Update();
 
-   QCheckBox* box1 = dynamic_cast<QCheckBox*> (child("ApplyToAllCheck"));
+   QCheckBox* box1 = findChild<QCheckBox*>("ApplyToAllCheck");
    if (box1!=0) box1->setChecked(fbApplyToAllFlag);
 
    BlockPanelRedraw(false);
@@ -3862,7 +3866,7 @@ void TGo4ViewPanel::DisplayPadStatus(TPad * pad)
    if (IsApplyToAllFlag()) output.append(" All Pads:");
    output.append(" Ready");
    if (CanvasStatus!=0)
-     CanvasStatus->message(output);
+     CanvasStatus->showMessage(output);
 }
 
 void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction, int zaction)
@@ -4534,14 +4538,10 @@ void TGo4ViewPanel::resizeEvent(QResizeEvent * e)
 
 }
 
-
-
 void TGo4ViewPanel::mouseReleaseEvent(QMouseEvent * e)
 {
-   //cout <<"vvvvvv TGo4ViewPanel::mouseReleaseEvent" << endl;
    CheckResizeFlags();
 }
-
 
 
 void TGo4ViewPanel::ResizeGedEditor()
@@ -4671,9 +4671,9 @@ void TGo4ViewPanel::AddMarkerObj(TPad* pad, int kind, TObject* obj)
    int cnt = 0;
    do {
      slotname = basename + QString::number(cnt++);
-   } while (padslot->FindChild(slotname.latin1())!=0);
+   } while (padslot->FindChild(slotname.toAscii())!=0);
 
-   TGo4Slot* objslot = AddDrawObject(pad, kind, slotname.latin1(), obj, true, 0);
+   TGo4Slot* objslot = AddDrawObject(pad, kind, slotname.toAscii(), obj, true, 0);
 
    SetActiveObj(pad, kind, objslot);
 }
@@ -4761,16 +4761,16 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
 
       case SetTitleTextId:  {
          bool ok = false;
-         QString mycaption = caption();
+         QString mycaption = windowTitle();
          QString oldtitle = mycaption.remove(fPanelName + ": ");
-         QString text = QInputDialog::getText(
+         QString text = QInputDialog::getText(this,
                           GetPanelName(), "Enter Viewpanel Title:", QLineEdit::Normal,
-                         oldtitle, &ok, this );
+                         oldtitle, &ok);
          if ( ok && !text.isEmpty() ) {
             QString mycaption = GetPanelName();
             mycaption += ": ";
             mycaption += text;
-            setCaption(mycaption);
+            setWindowTitle(mycaption);
             fbFreezeTitle = true;
          }
          break;

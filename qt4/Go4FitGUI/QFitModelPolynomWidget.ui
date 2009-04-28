@@ -12,7 +12,7 @@
         <height>480</height>
       </rect>
     </property>
-    <property name="caption" >
+    <property name="windowTitle" >
       <string>QFitModelPolynomWidget</string>
     </property>
     <widget class="QLabel" name="TextLabel8" >
@@ -46,9 +46,8 @@
     </widget>
   </widget>
   <layoutdefault spacing="6" margin="11" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
   <includes>
-    <include location="local" >QFitModelWidget.h</include>
+    <include location="local">QFitModelWidget.h</include>
   </includes>
   <connections>
     <connection>

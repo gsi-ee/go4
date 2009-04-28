@@ -12,7 +12,7 @@ class TGo4StartClient : public QDialog, public Ui::TGo4StartClient
 
  public:
 
-	 TGo4StartClient( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 );
+	 TGo4StartClient(QWidget* parent = 0);
 	 void getResults();
 
  public slots:

@@ -146,5 +146,3 @@ RESOURCES += go4icons.qrc
 PROJECTNAME = Go4GUI
 
 DEPENDPATH	+= $(ROOTSYS)/include $(GO4SYS)/include
-
-QT +=  qt3support 

@@ -42,14 +42,17 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
 
     fNewObjectForEditor = true;
 
-    setCaption("Analysis Terminal");
+    setWindowTitle("Analysis Terminal");
 
     if (needoutput) {
 
        resize(700, 400);
        setWindowIcon(QIcon(":/icons/analysiswin.png"));
-       QGridLayout* layout = new QGridLayout( this, 1, 1, 11, 6, "layout");
-       fxOutput = new QTextEdit(this, "output");
+       QGridLayout* layout = new QGridLayout( this );
+       layout->setMargin(11);
+       layout->setSpacing(6);
+
+       fxOutput = new QTextEdit(this);
        fxOutput->setUndoRedoEnabled(FALSE);
        fxOutput->setAutoFormatting(QTextEdit::AutoNone);
        fxOutput->setWordWrapMode(QTextOption::NoWrap);
@@ -58,17 +61,19 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
 
        fiMaxOuputSize = go4sett->getTermHistorySize();
 
-       QHBoxLayout *box1 = new QHBoxLayout(layout);
+       QHBoxLayout *box1 = new QHBoxLayout(this);
        box1->addWidget(new QLabel("Press enter to execute.", this), 1);
        CreateCmdLine(box1);
+       layout->addLayout(box1, 1, 0);
 
-       QHBoxLayout *box2 = new QHBoxLayout(layout);
+       QHBoxLayout *box2 = new QHBoxLayout(this);
        CreateButtons(box2, needkillbtn);
+       layout->addLayout(box2, 2, 0);
 
        updateTerminalOutput();
     } else {
 
-       QHBoxLayout *box = new QHBoxLayout(this, 0, 3);
+       QHBoxLayout *box = new QHBoxLayout(this);
 
        CreateButtons(box, needkillbtn);
 
@@ -81,18 +86,18 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
 void TGo4AnalysisWindow::CreateCmdLine(QHBoxLayout* box)
 {
    fxCmdHist = new QGo4CommandsHistory(this, "commandslist");
-   QToolTip::add(fxCmdHist, "CINT command for analysis process. Note: '@' means 'TGo4Analysis::Instance()->' .");
+   fxCmdHist->setToolTip("CINT command for analysis process. Note: '@' means 'TGo4Analysis::Instance()->' .");
    connect(fxCmdHist, SIGNAL(activated(const QString&)),  this, SLOT(HistActivated(const QString&)));
    fxCmdHist->setMinimumSize( QSize( 220, 25 ) );
 
    box->addWidget(fxCmdHist, HasOutput() ? 3 : 1);
 
-   QToolButton* MacroSearch = new QToolButton( this, "MacroSearch" );
-   MacroSearch->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, MacroSearch->sizePolicy().hasHeightForWidth() ) );
+   QToolButton* MacroSearch = new QToolButton( this );
    MacroSearch->setMinimumSize( QSize( 30, 25 ) );
    MacroSearch->setMaximumSize( QSize( 30, 25 ) );
+   MacroSearch->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
    MacroSearch->setIcon( QIcon(":/icons/findfile.png" ) );
-   QToolTip::add(MacroSearch, trUtf8( "Search root macro on disk." ) );
+   MacroSearch->setToolTip("Search root macro on disk.");
    connect(MacroSearch, SIGNAL(clicked()), this, SLOT(FileDialog_Macro()));
    box->addWidget(MacroSearch,1);
 }
@@ -100,52 +105,52 @@ void TGo4AnalysisWindow::CreateCmdLine(QHBoxLayout* box)
 void TGo4AnalysisWindow::CreateButtons(QHBoxLayout* box, bool needkillbtn)
 {
    if (needkillbtn) {
-      QToolButton* KillProcess= new QToolButton(this,"KillProcess");
-      KillProcess->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, KillProcess->sizePolicy().hasHeightForWidth() ) );
+      QToolButton* KillProcess = new QToolButton( this );
       KillProcess->setMinimumSize( QSize( 30, 25 ) );
       KillProcess->setMaximumSize( QSize( 30, 25 ) );
+      KillProcess->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
       KillProcess->setIcon( QIcon( ":/icons/killanal.png" ) );
-      QToolTip::add( KillProcess, trUtf8( "Apply Ctrl+C in the analysis terminal." ) );
+      KillProcess->setToolTip("Apply Ctrl+C in the analysis terminal.");
       connect(KillProcess, SIGNAL(clicked()), this, SLOT(RequestTerminate()));
       box->addWidget(KillProcess);
    }
 
    if (HasOutput()) {
-      QToolButton* ClearButton = new QToolButton( this, "ClearButton" );
-      ClearButton->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, ClearButton->sizePolicy().hasHeightForWidth() ) );
+      QToolButton* ClearButton = new QToolButton( this );
       ClearButton->setMinimumSize( QSize( 30, 25 ) );
       ClearButton->setMaximumSize( QSize( 30, 25 ) );
+      ClearButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
       ClearButton->setIcon( QIcon( ":/icons/clear.png" ) );
-      QToolTip::add(ClearButton, trUtf8( "Clear Terminal Window." ) );
+      ClearButton->setToolTip("Clear Terminal Window.");
       connect(ClearButton, SIGNAL(clicked()), this, SLOT(ClearAnalysisOutput()));
       box->addItem(new QSpacerItem(1,1));
       box->addWidget(ClearButton,1);
    }
 
-   QToolButton* PrintHistoButton = new QToolButton( this, "PrintHistoButton" );
-   PrintHistoButton->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, PrintHistoButton->sizePolicy().hasHeightForWidth() ) );
+   QToolButton* PrintHistoButton = new QToolButton( this );
    PrintHistoButton->setMinimumSize( QSize( 30, 25 ) );
    PrintHistoButton->setMaximumSize( QSize( 30, 25 ) );
+   PrintHistoButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
    PrintHistoButton->setIcon( QIcon( ":/icons/hislist.png" ) );
-   QToolTip::add(PrintHistoButton, trUtf8( "Print list of all histograms." ) );
+   PrintHistoButton->setToolTip("Print list of all histograms.");
    connect(PrintHistoButton, SIGNAL(clicked()), this, SLOT(PrintHistograms()));
    box->addWidget(PrintHistoButton,1);
 
-   QToolButton* PrintConnyButton = new QToolButton( this, "PrintConnyButton" );
-   PrintConnyButton->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, PrintConnyButton->sizePolicy().hasHeightForWidth() ) );
+   QToolButton* PrintConnyButton = new QToolButton( this );
    PrintConnyButton->setMinimumSize( QSize( 30, 25 ) );
    PrintConnyButton->setMaximumSize( QSize( 30, 25 ) );
+   PrintConnyButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
    PrintConnyButton->setIcon( QIcon( ":/icons/condlist.png" ) );
-   QToolTip::add(PrintConnyButton, trUtf8( "Print list of all conditions." ) );
+   PrintConnyButton->setToolTip("Print list of all conditions.");
    connect(PrintConnyButton, SIGNAL(clicked()), this, SLOT(PrintConditions()));
    box->addWidget(PrintConnyButton,1);
 
-   QToolButton*  PrintEventButton = new QToolButton( this, "PrintEventButton" );
-   PrintEventButton->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, PrintEventButton->sizePolicy().hasHeightForWidth() ) );
+   QToolButton*  PrintEventButton = new QToolButton( this );
    PrintEventButton->setMinimumSize( QSize( 30, 25 ) );
    PrintEventButton->setMaximumSize( QSize( 30, 25 ) );
-   PrintEventButton->setIconSet( QIcon( ":/icons/zoom.png" ) );
-   QToolTip::add(PrintEventButton, trUtf8( "Start Event Inspection panel" ) );
+   PrintEventButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+   PrintEventButton->setIcon( QIcon( ":/icons/zoom.png" ) );
+   PrintEventButton->setToolTip("Start Event Inspection panel");
    connect(PrintEventButton, SIGNAL(clicked()), this, SLOT(PrintEvent()));
    box->addWidget(PrintEventButton,1);
 }
@@ -189,7 +194,7 @@ void TGo4AnalysisWindow::updateTerminalOutput()
             fxOutput->setText(outputBuffer);
             fxOutput->moveCursor(QTextCursor::End);
          } else {
-           QString curr = fxOutput->text();
+           QString curr = fxOutput->toPlainText();
            curr.remove(0, cutlength - buflen);
            curr+=outputBuffer;
            fxOutput->setText(curr);
@@ -271,16 +276,19 @@ void TGo4AnalysisWindow::SaveAnalysisOutput()
    QFileDialog fd(this,
                   "Save analysis terminal output",
                   "", "Plain text (*.txt)");
-   fd.setMode( QFileDialog::AnyFile );
+   fd.setFileMode( QFileDialog::AnyFile );
 
    if (fd.exec() != QDialog::Accepted) return;
 
-   QString fileName = fd.selectedFile();
+   QStringList flst = fd.selectedFiles();
+   if (flst.isEmpty()) return;
+   QString fileName = flst[0];
+
    if(!fileName.endsWith(".txt")) fileName.append(".txt");
    QFile NewFile(fileName);
    NewFile.open( QIODevice::ReadWrite | QIODevice::Append );
    QTextStream t( &NewFile );
-   t << fxOutput->text() << endl;
+   t << fxOutput->toPlainText() << endl;
    NewFile.close();
 }
 
@@ -300,7 +308,7 @@ void TGo4AnalysisWindow::HistActivated(const QString& str)
 
       TGo4AnalysisProxy* anal = GetAnalysis();
       if (anal!=0)
-        anal->ExecuteLine(str.latin1());
+        anal->ExecuteLine(str.toAscii());
    }
 }
 
@@ -309,11 +317,14 @@ void TGo4AnalysisWindow::FileDialog_Macro()
    QFileDialog fd( this,
                   "Select ROOT macro for analysis task"
                   "", "CINT Macro  (*.C)");
-   fd.setMode( QFileDialog::ExistingFile);
+   fd.setFileMode( QFileDialog::ExistingFile);
 
    if (fd.exec() != QDialog::Accepted) return;
 
-   QString cmd = QString(".x ") + fd.selectedFile();
+   QStringList flst = fd.selectedFiles();
+   if (flst.isEmpty()) return;
+
+   QString cmd = QString(".x ") + flst[0];
    if(!cmd.endsWith(".C")) cmd.append(".C");
    fxCmdHist->addItem(cmd);
 }

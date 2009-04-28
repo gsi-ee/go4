@@ -300,9 +300,9 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name)
     connect(ws, SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
             this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
 
-    MenuBar = new QMenuBar( MenuFrame, "menubar" );
+    MenuBar = new QMenuBar(MenuFrame);
     // MenuBar->setMinimumWidth(100);
-    MenuBar->setFrameShape(QMenuBar::NoFrame);
+    // MenuBar->setFrameShape(QMenuBar::NoFrame);
 
 
     FitterMap = new QSignalMapper(this);
@@ -409,7 +409,7 @@ void TGo4FitPanel::DropOnPanel( QDropEvent* event, const char * itemname, TClass
 
    if (event==0) return;
 
-   QWidget* w = childAt(event->pos(), TRUE);
+   QWidget* w = childAt(event->pos());
 
    if (w == Wiz_DataSlotsTable) {
       QPoint pnt = Wiz_DataSlotsTable->mapFrom(this, event->pos());
@@ -624,7 +624,7 @@ void TGo4FitPanel::SetFitter(TGo4Fitter* fitter)
    if (!WorkingWithPanel()) {
       if (fitter!=0) {
          QString itemname = SaveObjectInMemory("FitPanel", fitter);
-         AddLink(itemname, "Fitter");
+         AddLink(itemname.toAscii(), "Fitter");
       }
    } else {
       ActivePanel()->DeleteDrawObject(ActivePad(),"::Fitter");
@@ -757,7 +757,7 @@ void TGo4FitPanel::Fitter_PrintParameters()
       str+="\t";
       str+=tab->horizontalHeaderItem(ncol)->text();
    }
-   TGo4Log::Info(str.latin1());
+   TGo4Log::Info(str.toAscii());
 
    for(int nrow=0;nrow<tab->rowCount();nrow++) {
       str = tab->verticalHeaderItem(nrow)->text();
@@ -765,7 +765,7 @@ void TGo4FitPanel::Fitter_PrintParameters()
         str+="\t";
         str+=tab->item(nrow, ncol)->text();
       }
-      TGo4Log::Info(str.latin1());
+      TGo4Log::Info(str.toAscii());
    }
 }
 
@@ -920,7 +920,7 @@ void TGo4FitPanel::Button_PerformFit()
             QString cmd("MIGRAD ");
             cmd+=QString::number(fiNumMigradIter);
             cmd+=" 1";
-            minuit->AddCommand(cmd.latin1());
+            minuit->AddCommand(cmd.toAscii());
             fitter->AddAction(minuit);
           }
        }
@@ -1195,17 +1195,16 @@ void TGo4FitPanel::Cmd_SaveFitter(bool ask)
   fname+=".root";
 
   if(ask) {
-    fname = QFileDialog::getSaveFileName(fname,
-                                         QString("Root file (*.root)"),
-                                         0,
-                                         QString("save fitter dialog"),
-                                         QString("Set file name to save fitter"));
+    fname = QFileDialog::getSaveFileName(this,
+                                         "Save fitter dialog",
+                                         fname,
+                                         "Root file (*.root)");
     if (fname==QString::null) return;
   }
 
   fitter->SetSaveFlagForObjects(fbSaveWithReferences);
 
-  TFile f(fname,"recreate");
+  TFile f(fname.toAscii(),"recreate");
   fitter->Write();
 }
 
@@ -1217,13 +1216,14 @@ void TGo4FitPanel::Cmd_ItemPrint(QFitItem* item)
    QString str("*");
    bool ok = TRUE;
    if (obj->InheritsFrom(TGo4Fitter::Class()))
-      str = QInputDialog::getText(QString("Go4 Fit Panel"),
+      str = QInputDialog::getText(this,
+                                  QString("Go4 Fit Panel"),
                                   QString("Enter parameters for Print() command"),
-                                  QLineEdit::Normal, str, &ok, 0);
+                                  QLineEdit::Normal, str, &ok);
    if (!ok) return;
 
    RemoveItemWidget();
-   QFitPrintWidget* widget = new QFitPrintWidget(0, QString("Print ")+obj->GetName());
+   QFitPrintWidget* widget = new QFitPrintWidget(0, (QString("Print ")+obj->GetName()).toAscii());
 
    fxCurrentItemWidget = widget;
 
@@ -1424,7 +1424,7 @@ void TGo4FitPanel::Cmd_ClearAssigment(QFitItem* item)
   TGo4FitModel* model = dynamic_cast<TGo4FitModel*> (item->Parent()->Object());
   if (model==0) return;
 
-  model->ClearAssignmentTo(item->text(0).latin1());
+  model->ClearAssignmentTo(item->text(0).toAscii());
 
   UpdateItemsOfType(FitGui::ot_parslist, item->Parent()->Parent());
 
@@ -1956,13 +1956,12 @@ void TGo4FitPanel::UpdateStatusBar(const char* info)
 
    MainAttachBtn->setEnabled(TRUE);
 
-   QToolTip::remove(MainParsBtn);
    if (fbParsWidgetShown) {
      MainParsBtn->setText("Back");
-     QToolTip::add(MainParsBtn, "Back to last selected page");
+     MainParsBtn->setToolTip("Back to last selected page");
    } else {
      MainParsBtn->setText("Pars");
-     QToolTip::add(MainParsBtn, "Show list of fitter parameters");
+     MainParsBtn->setToolTip("Show list of fitter parameters");
    }
 
    if (fitter==0) {
@@ -2082,7 +2081,7 @@ void TGo4FitPanel::AboutToShowFitterMenu()
      (panel==ActivePanel()) && (panel->GetActivePad()==ActivePad());
 
    QString padname;
-   if (panel!=0) padname = QString("panel \"") + panel->caption() + "\"";
+   if (panel!=0) padname = QString("panel \"") + panel->windowTitle() + "\"";
 
    if (fiPanelMode==FitGui::pm_Expert)
      AddIdAction(FitterMenu, FitterMap, "&Create for workspace", 1, true);
@@ -2331,7 +2330,7 @@ void TGo4FitPanel::UpdateWizDataList()
      for(Int_t n=0;n<fitter->GetNumData();n++) {
        TGo4FitData* data = fitter->GetData(n);
        QListWidgetItem* item = new QListWidgetItem(data->GetName());
-       if (strcmp(data->GetName(), fxWizDataName.latin1())==0) {
+       if (strcmp(data->GetName(), fxWizDataName.toAscii())==0) {
       	 selindx = n;
       	 item->setSelected(true);
        }
@@ -2394,7 +2393,7 @@ void TGo4FitPanel::UpdateWizModelsList(bool changestack)
           if (data && model->IsAssignTo(data->GetName())) assign = TRUE;
           QListWidgetItem* item = new QListWidgetItem(model->GetName());
           item->setCheckState(assign ? Qt::Checked : Qt::Unchecked );
-          if (strcmp(model->GetName(), fxWizModelName.latin1())==0) {
+          if (strcmp(model->GetName(), fxWizModelName.toAscii())==0) {
          	 selindx = indx;
          	 item->setSelected(true);
           }
@@ -2574,7 +2573,7 @@ void TGo4FitPanel::UpdateWizStackWidget()
 
          UpdateStatusBar(0);
 
-         FindersTab->setCurrentPage(finder->GetPeakFinderType());
+         FindersTab->setCurrentIndex(finder->GetPeakFinderType());
 
          Wiz_PFUsePolynChk->setChecked(finder->GetUsePolynom());
          Wiz_PFPolynSpin->setEnabled(finder->GetUsePolynom());
@@ -2654,7 +2653,7 @@ void TGo4FitPanel::Wiz_ModelListSelect(QListWidgetItem* item)
 
   QString name = item->text();
 
-  bool needupdate = ( (name != fxWizModelName.latin1()) ||
+  bool needupdate = ( (name != fxWizModelName.toAscii()) ||
                       (fiWizPageIndex != 1) );
 
   fxWizModelName = name;
@@ -2761,7 +2760,7 @@ void TGo4FitPanel::Wiz_DelModelBtn_clicked()
   for(uint n=0; n<Wiz_ModelList->count();n++) {
      if (!Wiz_ModelList->item(n)->isSelected()) continue;
      QString name = Wiz_ModelList->item(n)->text();
-     fitter->RemoveModel(name, kTRUE);
+     fitter->RemoveModel(name.toAscii(), kTRUE);
   }
 
   fxWizModelName = "";
@@ -2780,7 +2779,7 @@ void TGo4FitPanel::Wiz_CloneModelBtn_clicked()
   for(uint n=0; n<Wiz_ModelList->count();n++) {
      if (!Wiz_ModelList->item(n)->isSelected()) continue;
      QString name = Wiz_ModelList->item(n)->text();
-     fitter->CloneModel(name);
+     fitter->CloneModel(name.toAscii());
   }
 
   fxWizModelName = "";
@@ -2809,7 +2808,7 @@ void TGo4FitPanel::Wiz_FitNameEdt_textChanged( const QString & name)
 {
   TGo4Fitter* fitter = GetFitter();
   if(fbFillingWidget || (fitter==0) || (name.length()==0)) return;
-  fitter->SetName(name);
+  fitter->SetName(name.toAscii());
 
   fiWizPageIndex = 0;
   UpdateWizStackWidget();
@@ -2831,15 +2830,15 @@ void TGo4FitPanel::Wiz_DataList_doubleClicked(QListWidgetItem*)
   TGo4FitData* data = Wiz_SelectedData();
   if ((data==0) || (fitter==0)) return;
   bool ok;
-  QString newname = QInputDialog::getText("Change data name", "Input new name", QLineEdit::Normal, data->GetName(), &ok, this);
+  QString newname = QInputDialog::getText(this, "Change data name", "Input new name", QLineEdit::Normal, data->GetName(), &ok);
   if (ok && (newname.length()>0) && (newname!=data->GetName())) {
-     if (fitter->FindData(newname)) {
+     if (fitter->FindData(newname.toAscii())) {
        QMessageBox::information(this, "Fit panel", "Unable to rename data.\n Name " +
                                 newname + " already exists","return");
        return;
      }
-     fitter->ChangeDataNameInAssignments(data->GetName(), newname);
-     data->SetName(newname);
+     fitter->ChangeDataNameInAssignments(data->GetName(), newname.toAscii());
+     data->SetName(newname.toAscii());
      fxWizDataName = newname;
      UpdateWizDataList();
      UpdateWizPaint(1);
@@ -2853,14 +2852,14 @@ void TGo4FitPanel::Wiz_ModelList_doubleClicked(QListWidgetItem*)
   TGo4FitModel* model = Wiz_SelectedModel();
   if ((model==0) || (fitter==0)) return;
   bool ok;
-  QString newname = QInputDialog::getText("Change model name", "Input new name", QLineEdit::Normal, model->GetName(), &ok, this);
+  QString newname = QInputDialog::getText(this, "Change model name", "Input new name", QLineEdit::Normal, model->GetName(), &ok);
   if (ok && (newname.length()>0) && (newname!=model->GetName())) {
-     if (fitter->FindModel(newname)) {
+     if (fitter->FindModel(newname.toAscii())) {
        QMessageBox::information(this, "Fit panel", QString("Unable to rename model.\n Name ")+
                                 newname + " already exists\n", "Return");
        return;
      }
-     model->SetName(newname);
+     model->SetName(newname.toAscii());
      fxWizModelName = newname;
      UpdateWizModelsList(TRUE);
      UpdateWizPaint(2);
@@ -3399,13 +3398,13 @@ void TGo4FitPanel::Wiz_MinSetupBtn_clicked()
   UpdateWizPaint(0);
 }
 
-void TGo4FitPanel::FindersTab_currentChanged( QWidget * )
+void TGo4FitPanel::FindersTab_currentChanged( int )
 {
   if (fbFillingWidget) return;
 
   TGo4FitPeakFinder* finder = GetPeakFinder(true);
   if (finder)
-    finder->SetPeakFinderType(FindersTab->currentPageIndex());
+    finder->SetPeakFinderType(FindersTab->currentIndex());
 }
 
 void TGo4FitPanel::Wiz_BackgroundChk_toggled( bool chk)
@@ -4270,7 +4269,7 @@ bool TGo4FitPanel::ShowItemAsGraph(QFitItem* item, bool force)
    if (gritem->GraphType()==FitGui::gt_ass) {
      TGo4FitModel* model = dynamic_cast<TGo4FitModel*> (gritem->Parent()->Parent()->Object());
      if (model) {
-        TGo4FitData* data =  fitter->FindData(gritem->text(0).latin1());
+        TGo4FitData* data =  fitter->FindData(gritem->text(0).toAscii());
         if (PaintModel(model, FindPadWhereData(data), gritem->Parent()->Parent()))
            return true;
      }
@@ -4512,13 +4511,13 @@ TGo4FitPeakFinder* TGo4FitPanel::GetPeakFinder(bool autocreate)
 TGo4FitData* TGo4FitPanel::Wiz_SelectedData()
 {
    TGo4Fitter* fitter = GetFitter();
-   return (fitter==0) ? 0 : fitter->FindData(fxWizDataName.latin1());
+   return (fitter==0) ? 0 : fitter->FindData(fxWizDataName.toAscii());
 }
 
 TGo4FitModel* TGo4FitPanel::Wiz_SelectedModel()
 {
    TGo4Fitter* fitter = GetFitter();
-   return (fitter==0) ? 0 : fitter->FindModel(fxWizModelName.latin1());
+   return (fitter==0) ? 0 : fitter->FindModel(fxWizModelName.toAscii());
 }
 
 
@@ -4689,7 +4688,7 @@ QString TGo4FitPanel::Wiz_GetSlotSourceInfo(TGo4FitSlot* slot)
        res = "reference without pad";
      else {
        res = "Panel: ";
-       res+= ActivePanel()->name();
+       res+= ActivePanel()->objectName();
        if (ActivePanel()->GetCanvas() != pad) {
           res += "  pad: ";
           res += pad->GetName();
@@ -4699,7 +4698,7 @@ QString TGo4FitPanel::Wiz_GetSlotSourceInfo(TGo4FitSlot* slot)
       int slotindex = GetPadIndexForSlot(slot);
       QString linkname;
       linkname.sprintf("FitSlotLink_%d", slotindex);
-      const char* itemname = GetLinkedName(linkname);
+      const char* itemname = GetLinkedName(linkname.toAscii());
 
       if (itemname!=0) res = itemname;
                   else res = "reference to external object";
@@ -4985,15 +4984,13 @@ void TGo4FitPanel::CreateFitSlotLink(TGo4FitSlot* slot, const char * itemname)
    QString linkname;
    linkname.sprintf("FitSlotLink_%d", slotindex);
 
-   RemoveLink(linkname);
+   RemoveLink(linkname.toAscii());
 
-   AddLink(itemname, linkname);
+   AddLink(itemname, linkname.toAscii());
 
-   GetLinked(linkname, 1);
+   GetLinked(linkname.toAscii(), 1);
 
    UpdateObjectReferenceInSlot(slot, false);
-
-//   GetLinked(linkname, 0);
 }
 
 
@@ -5023,7 +5020,7 @@ bool TGo4FitPanel::UpdateObjectReferenceInSlot(TGo4FitSlot* slot, bool createlin
       int slotindex = GetPadIndexForSlot(slot);
       QString linkname;
       linkname.sprintf("FitSlotLink_%d", slotindex);
-      obj = GetLinked(linkname, 0);
+      obj = GetLinked(linkname.toAscii(), 0);
    }
 
    if (obj==0) res = false;

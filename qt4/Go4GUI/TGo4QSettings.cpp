@@ -161,7 +161,7 @@ void TGo4QSettings::getAppFont()
 {
    QFont font;
    font.fromString(getStr("/Font", "Arial,11,-1,5,50,0,0,0,0,0"));
-   QApplication::setFont(font, true );
+   QApplication::setFont(font);
 }
 
 void TGo4QSettings::setAppStyle(const QString& v)
@@ -201,7 +201,7 @@ void TGo4QSettings::setClientDir(const QString& v)
 
 QString TGo4QSettings::getClientDir()
 {
-   return getStr("/ClientSetting/Dir", QDir::currentDirPath());
+   return getStr("/ClientSetting/Dir", QDir::currentPath());
 }
 
 void TGo4QSettings::setClientExec(const QString& v)

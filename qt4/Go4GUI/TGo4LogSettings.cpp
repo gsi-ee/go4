@@ -2,14 +2,11 @@
 #include <QFileDialog>
 #include "TGo4Log.h"
 
-TGo4LogSettings::TGo4LogSettings( QWidget* parent, const char* name, bool modal, Qt::WFlags fl )
-    : QDialog( parent, name, modal, fl )
+TGo4LogSettings::TGo4LogSettings( QWidget* parent )
+    : QDialog( parent )
 {
-	//setObjectName(name);
+	setObjectName("Go4LogSettings");
 	setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections
-			// from ui file to the setupUI
    bool iswrite=TGo4Log::IsLogfileEnabled();
 
    IgnoreCombo->setCurrentIndex(TGo4Log::GetIgnoreLevel());
@@ -25,10 +22,13 @@ TGo4LogSettings::TGo4LogSettings( QWidget* parent, const char* name, bool modal,
 void TGo4LogSettings::LogfileDialog()
 {
    QFileDialog fd( this, "Set GUI logfile", "", "Log textfile (*.log)");
-   fd.setMode( QFileDialog::AnyFile );
+   fd.setFileMode( QFileDialog::AnyFile );
    if (fd.exec() != QDialog::Accepted) return;
 
-   QString fileName = fd.selectedFile();
+   QStringList flst = fd.selectedFiles();
+   if (flst.isEmpty()) return;
+
+   QString fileName = flst[0];
    if(!fileName.endsWith(".log")) fileName.append(".log");
    LogfileName->setText(fileName);
 }

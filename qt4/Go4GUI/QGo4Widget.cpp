@@ -231,9 +231,9 @@ void QGo4Widget::CallPanelFunc(int func, TPad* pad)
 }
 
 
-void QGo4Widget::StatusMessage(const char* message)
+void QGo4Widget::StatusMessage(const QString& message)
 {
-   emit widgetService(this, service_StatusMessage, message, 0);
+   emit widgetService(this, service_StatusMessage, message.toAscii().constData(), 0);
 }
 
 
@@ -272,7 +272,7 @@ void QGo4Widget::AskToCreateObject(TClass* cl, int isremote)
 {
    fWaitsForObjectCreation = (isremote>=0);
    QString str = QString::number(isremote);
-   emit widgetService(this, service_CreateItem, str.latin1(), (void*) cl);
+   emit widgetService(this, service_CreateItem, str.toAscii(), (void*) cl);
 }
 
 void QGo4Widget::InformThatObjectCreated(const char* itemname, TClass* cl)
@@ -285,27 +285,27 @@ void QGo4Widget::requestedObjectCreated(const char* /* itemname */, TClass* /* c
 {
 }
 
-void QGo4Widget::ShowItemInfo(const char* itemname)
+void QGo4Widget::ShowItemInfo(const QString& itemname)
 {
-   emit widgetService(this, service_ShowInfo, itemname, 0);
+   emit widgetService(this, service_ShowInfo, itemname.toAscii().constData(), 0);
 }
 
 TGo4ViewPanel* QGo4Widget::CreateViewPanel(int ndiv)
 {
    QString str = QString::number(ndiv);
    TGo4ViewPanel* res = 0;
-   emit widgetService(this, service_CreateViewPanel, str.latin1(), (void*)&res);
+   emit widgetService(this, service_CreateViewPanel, str.toAscii(), (void*)&res);
    return res;
 }
 
-TGo4ViewPanel* QGo4Widget::DrawItem(const char* itemname, TGo4ViewPanel* panel, TPad* pad, bool activate, int updatelevel)
+TGo4ViewPanel* QGo4Widget::DrawItem(const QString& itemname, TGo4ViewPanel* panel, TPad* pad, bool activate, int updatelevel)
 {
    void* res[4];
    res[0] = panel;
    res[1] = pad;
    res[2] = &activate;
    res[3] = &updatelevel;
-   emit widgetService(this, service_DrawItem, itemname, res);
+   emit widgetService(this, service_DrawItem, itemname.toAscii().constData(), res);
    return (TGo4ViewPanel*) res[0];
 }
 
@@ -333,9 +333,9 @@ TGo4ViewPanel* QGo4Widget::LastActivePanel()
    return res;
 }
 
-void QGo4Widget::EditItem(const char* itemname)
+void QGo4Widget::EditItem(const QString& itemname)
 {
-   emit widgetService(this, service_EditItem, itemname, 0);
+   emit widgetService(this, service_EditItem, itemname.toAscii().constData(), 0);
 }
 
 void QGo4Widget::EditObjectInSlot(TGo4Slot* slot)

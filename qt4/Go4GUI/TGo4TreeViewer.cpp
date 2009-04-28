@@ -18,7 +18,7 @@ TGo4TreeViewer::TGo4TreeViewer(QWidget *parent, const char* name)
 	fxTreeName = "";
    TreeDrawBtn->setEnabled(FALSE);
    setAcceptDrops(FALSE);
-   QToolTip::add(this, "Tree is not selected. Drag and drop leaf item from browser to X, Y or Z field");
+   setToolTip("Tree is not selected. Drag and drop leaf item from browser to X, Y or Z field");
 }
 
 void TGo4TreeViewer::ResetWidget()
@@ -31,7 +31,7 @@ void TGo4TreeViewer::ResetWidget()
    CutEdt->clear();
    TreeDrawBtn->setEnabled(FALSE);
    fxTreeName = "";
-   QToolTip::add(this, "Tree is not selected. Drag and drop leaf item from browser to X, Y or Z field");
+   setToolTip("Tree is not selected. Drag and drop leaf item from browser to X, Y or Z field");
 }
 
 void TGo4TreeViewer::WorkWithLeaf(const char* itemname)
@@ -76,20 +76,20 @@ void TGo4TreeViewer::ProcessDropEvent(QGo4LineEdit* edt, bool caninit)
       }
 
       TString treename;
-      if (!br->DefineTreeName(value.latin1(), treename)) {
+      if (!br->DefineTreeName(value.toAscii(), treename)) {
           StatusMessage(QString("Invalid tree ") + value);
           edt->setText("");
           return;
       }
       fxTreeName = treename.Data();
-      QToolTip::add(this, QString("Selected tree: ") + fxTreeName);
+      setToolTip(QString("Selected tree: ") + fxTreeName);
 
       TreeDrawBtn->setEnabled(TRUE);
       AddLink(treename.Data(), "Tree");
    }
 
    TString leafname;
-   if (!br->DefineLeafName(value.latin1(), fxTreeName.latin1(), leafname)) {
+   if (!br->DefineLeafName(value.toAscii(), fxTreeName.toAscii(), leafname)) {
       edt->setText("");
       StatusMessage(QString("Invalid leaf name ") + value);
       return;
@@ -123,22 +123,22 @@ void TGo4TreeViewer::TreeDrawBtn_clicked()
 
    TString createdh;
 
-   br->PerformTreeDraw(fxTreeName.latin1(),
-                       XFieldEdt->text().latin1(),
-                       YFieldEdt->text().latin1(),
-                       ZFieldEdt->text().latin1(),
-                       CutEdt->text().latin1(),
-                       HistNameEdt->text().latin1(),
+   br->PerformTreeDraw(fxTreeName.toAscii(),
+                       XFieldEdt->text().toAscii(),
+                       YFieldEdt->text().toAscii(),
+                       ZFieldEdt->text().toAscii(),
+                       CutEdt->text().toAscii(),
+                       HistNameEdt->text().toAscii(),
                        createdh);
 
     if (createdh.Length()>0) {
        HistNameEdt->setText(createdh.Data());
        DrawItem(createdh.Data());
     } else {
-        if (WhereItemDrawn(HistNameEdt->text().latin1())==0)
-           DrawItem(HistNameEdt->text().latin1());
+        if (WhereItemDrawn(HistNameEdt->text().toAscii())==0)
+           DrawItem(HistNameEdt->text());
         else
-           br->RequestBrowserObject(HistNameEdt->text().latin1());
+           br->RequestBrowserObject(HistNameEdt->text().toAscii());
     }
 
    QApplication::restoreOverrideCursor();
@@ -152,7 +152,7 @@ void TGo4TreeViewer::TreeClearBtn_clicked()
 void TGo4TreeViewer::NewHistBtn_clicked()
 {
    if (fxTreeName.length()>0)
-     AskToCreateObject(TH1::Class(), BrowserItemRemote(fxTreeName.latin1()) ? 1 : 0);
+     AskToCreateObject(TH1::Class(), BrowserItemRemote(fxTreeName.toAscii()) ? 1 : 0);
 }
 
 void TGo4TreeViewer::requestedObjectCreated(const char* itemname, TClass* cl)

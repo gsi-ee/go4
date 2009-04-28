@@ -26,7 +26,6 @@ class QFrame;
 class QLineEdit;
 class TGo4ViewPanel;
 class TPad;
-class QMouseEvent;
 class QDragEnterEvent;
 class QDragMoveEvent;
 class QDropEvent;
@@ -314,7 +313,7 @@ public slots:
     virtual void Smp_LorenzBtn_clicked();
     virtual void Smp_ExponentBtn_clicked();
     virtual void Smp_ClearBtn_clicked();
-    virtual void FindersTab_currentChanged( QWidget * );
+    virtual void FindersTab_currentChanged( int);
     virtual void Wiz_BackgroundChk_toggled( bool chk );
     virtual void PF_MinWidthEdt_returnPressed();
     virtual void PF_MaxWidthEdt_returnPressed();

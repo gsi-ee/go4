@@ -12,10 +12,10 @@
   <property name="focusPolicy" >
    <enum>Qt::ClickFocus</enum>
   </property>
-  <property name="caption" stdset="0" >
-   <string>Fit panel</string>
+  <property name="windowTitle">
+    <string>Fit panel</string>
   </property>
-  <property name="icon" stdset="0" >
+  <property name="windowIcon">
    <pixmap>:/icons/fitpanel.png</pixmap>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" >
@@ -1336,12 +1336,10 @@ You can do one of the following:&lt;br>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <includes>
-  <include location="local" >QGo4Widget.h</include>
-  <include location="local" >QGo4LineEdit.h</include>
+  <include location="local">QGo4Widget.h</include>
+  <include location="local">QGo4LineEdit.h</include>
  </includes>
- <resources/>
  <connections>
   <connection>
    <sender>FitList</sender>
@@ -2177,9 +2175,9 @@ You can do one of the following:&lt;br>
   </connection>
   <connection>
    <sender>FindersTab</sender>
-   <signal>currentChanged(QWidget*)</signal>
+   <signal>currentChanged(int)</signal>
    <receiver>TGo4FitPanel</receiver>
-   <slot>FindersTab_currentChanged(QWidget*)</slot>
+   <slot>FindersTab_currentChanged(int)</slot>
    <hints>
     <hint type="sourcelabel" >
      <x>20</x>

@@ -1,7 +1,5 @@
 <ui version="4.0" stdsetdef="1" >
-  <author>Mohammad Al-Turany</author>
-  <comment></comment>
-  <exportmacro></exportmacro>
+  <author>Mohammad Al-Turany/S.Linev</author>
   <class>TGo4TreeViewer</class>
   <widget class="QGo4Widget" name="TGo4TreeViewer" >
     <property name="geometry" >
@@ -12,11 +10,11 @@
         <height>32</height>
       </rect>
     </property>
-    <property name="caption" >
+    <property name="windowTitle" >
       <string>Go4 Tree Viewer</string>
     </property>
-    <property name="icon" >
-      <pixmap>:/icons/go4logo2_big.png</pixmap>
+    <property name="windowIcon" >
+      <icon>:/icons/go4logo2_big.png</icon>
     </property>
     <property name="toolTip" stdset="0" >
       <string>Drag/drop tree leaves from browser, edit expressions, fill target histogram by RET or button.</string>
@@ -296,9 +294,8 @@
     </layout>
   </widget>
   <layoutdefault spacing="1" margin="1" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
   <includes>
-    <include location="local" >QGo4Widget.h</include>
+    <include location="local">QGo4Widget.h</include>
     <include location="local">QGo4LineEdit.h</include>
   </includes>
   <connections>

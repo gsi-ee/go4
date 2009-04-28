@@ -3,15 +3,9 @@
 
 QFitAmplEstimWidget::QFitAmplEstimWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)
-{ 
-			setupUi(this);
-			// put slot connections here!
-			// note: Qt4 uic will add all existing connections 
-			// from ui file to the setupUI
-
+{
+   setupUi(this);
 }
-
-
 
 TGo4FitAmplEstimation * QFitAmplEstimWidget::GetAmplEstim() {
    return dynamic_cast<TGo4FitAmplEstimation*> (GetObject());

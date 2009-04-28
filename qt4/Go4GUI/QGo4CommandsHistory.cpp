@@ -2,12 +2,14 @@
 #include <QKeyEvent>
 
 QGo4CommandsHistory::QGo4CommandsHistory(QWidget* w, const char* name) :
-    QComboBox(TRUE, w, name)
+    QComboBox(w)
 {
+   setObjectName(name ? name : "Go4CommandsHistory");
    setMaxCount(50);
    setInsertPolicy(InsertAtTop);
    setDuplicatesEnabled(FALSE);
    setAutoCompletion(TRUE);
+   setEditable(true);
    fiEnterPressed = 0;
 }
 
