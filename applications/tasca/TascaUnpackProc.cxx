@@ -25,9 +25,9 @@
 #include "TascaUnpackEvent.h"
 #include "TascaAnalysis.h"
 
-#define V785_1 8
-#define V785_2 10
-#define V785_3 12
+#define V785_1 7
+#define V785_2 8
+#define V785_3 9
 
 //***********************************************************
 TascaUnpackProc::TascaUnpackProc() :
