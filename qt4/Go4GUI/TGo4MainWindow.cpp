@@ -192,6 +192,16 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
 
    UpdateCaptionButtons();
 
+   QDockWidget* MBSDockWin = new QDockWidget("MBS monitor", this, Qt::Widget);
+   MBSDockWin->setObjectName("MbsViewerDock");
+   TGo4MBSViewer* mbs = new TGo4MBSViewer(MBSDockWin, "MBSViewer");
+   mbs->setWindowFlags(Qt::Widget);
+   ConnectGo4Widget(mbs);
+   MBSDockWin->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable);
+   MBSDockWin->setWidget(mbs);
+   MBSDockWin->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+   addDockWidget(Qt::BottomDockWidgetArea, MBSDockWin);
+
    QDockWidget* BrowserDockWin = new QDockWidget("Browser", this, Qt::Widget);
    BrowserDockWin->setObjectName("BrowserDock");
    TGo4Browser* browser = new TGo4Browser(BrowserDockWin,"Browser");
@@ -203,18 +213,17 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    BrowserDockWin->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
    addDockWidget(Qt::LeftDockWidgetArea, BrowserDockWin);
 
-   QToolBar* MBSDockWin = addToolBar("MBS monitor");
-   MBSDockWin->setObjectName("MbsViewerDock");
-   TGo4MBSViewer* mbs = new TGo4MBSViewer(this, "MBSViewer");
-   ConnectGo4Widget(mbs);
-   MBSDockWin->addWidget(mbs);
 
 #ifdef __GO4DIM__
-   QToolBar* DABCDockWin = addToolBar("DABC monitor");
-   DABCDockWin->setObjectName("DabcMonitorDock");
-   TGo4DabcMonitor* dabc = new TGo4DabcMonitor(this, "DabcMonitor");
+   QDockWidget* DABCDockWin = new QDockWidget("DABC monitor", this, Qt::Widget);
+   DABCDockWin->setObjectName("DABCMonitorDock");
+   TGo4DabcMonitor* dabc = new TGo4DabcMonitor(DABCDockWin, "DabcMonitor");
+   dabc->setWindowFlags(Qt::Widget);
    ConnectGo4Widget(dabc);
-   DABCDockWin->addWidget(dabc);
+   DABCDockWin->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable);
+   DABCDockWin->setWidget(dabc);
+   DABCDockWin->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+   addDockWidget(Qt::BottomDockWidgetArea, DABCDockWin);
 #endif
 
    QToolBar* DividePanelBar = addToolBar("Canvas Tools");

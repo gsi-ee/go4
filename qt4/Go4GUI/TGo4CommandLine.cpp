@@ -114,7 +114,7 @@ void TGo4CommandLine::PredefinedDialog()
 {
    TGo4MacroDialog md;
    if (md.exec() != QDialog::Accepted) return;
-   InputLine->addItem(md.getCommand());
+   InputLine->insertItem(0, md.getCommand());
    InputLine->setCurrentIndex(0);
 }
 
