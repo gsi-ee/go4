@@ -2,19 +2,19 @@ QT4ROOT_DIR       = $(GO4SYS)/qt4/Go4QtRoot
 
 QT4ROOT_LIBNAME =  $(LIB_PREFIX)Go4Qt4Root
 
-QT4ROOT_S       =  $(QT4ROOT_DIR)/qrootapplication.cpp \
-                   $(QT4ROOT_DIR)/tqrootcanvas.cpp \
-                   $(QT4ROOT_DIR)/tqrootwindow.cpp \
-                   $(QT4ROOT_DIR)/tqrootdialog.cpp
+QT4ROOT_S       =  $(QT4ROOT_DIR)/QRootApplication.cpp \
+                   $(QT4ROOT_DIR)/QRootCanvas.cpp \
+                   $(QT4ROOT_DIR)/QRootWindow.cpp \
+                   $(QT4ROOT_DIR)/QRootDialog.cpp
 
 QT4ROOT_H       =  $(QT4ROOT_S:.cpp=.$(HedSuf))
 QT4ROOT_O       =  $(QT4ROOT_S:.cpp=.$(ObjSuf))
 QT4ROOT_DEP     =  $(QT4ROOT_O:.$(ObjSuf)=.$(DepSuf))
 
-QT4ROOT_MOCS    =  $(QT4ROOT_DIR)/moc_tqrootcanvas.cpp \
-                   $(QT4ROOT_DIR)/moc_tqrootwindow.cpp \
-                   $(QT4ROOT_DIR)/moc_tqrootdialog.cpp \
-                   $(QT4ROOT_DIR)/moc_qrootapplication.cpp
+QT4ROOT_MOCS    =  $(QT4ROOT_DIR)/moc_QRootCanvas.cpp \
+                   $(QT4ROOT_DIR)/moc_QRootWindow.cpp \
+                   $(QT4ROOT_DIR)/moc_QRootDialog.cpp \
+                   $(QT4ROOT_DIR)/moc_QRootApplication.cpp
 
 QT4ROOT_MOCO    = $(QT4ROOT_MOCS:.cpp=.$(ObjSuf))
 

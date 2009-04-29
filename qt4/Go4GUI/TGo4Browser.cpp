@@ -19,7 +19,7 @@
 #include "TGo4Slot.h"
 #include "TGo4Iter.h"
 #include "TGo4BrowserProxy.h"
-#include "QGo4BrowserListView.h"
+#include "QGo4BrowserTreeWidget.h"
 #include "TGo4AnalysisProxy.h"
 #include "TGo4HServProxy.h"
 #include "TGo4QSettings.h"

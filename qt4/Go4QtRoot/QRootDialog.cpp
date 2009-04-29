@@ -10,14 +10,14 @@
 * Go4License.txt file which is part of the distribution.                  *
 ***************************************************************************/
 
-#include "tqrootdialog.h"
+#include "QRootDialog.h"
 
 #include <QtGui/QGridLayout>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QLabel>
 #include <QtGui/QPushButton>
 
-TQRootDialog::TQRootDialog() : QDialog()
+QRootDialog::QRootDialog() : QDialog()
 {
    QGridLayout *gridLayout = new QGridLayout(this);
    gridLayout->setSpacing(1);
@@ -44,7 +44,7 @@ TQRootDialog::TQRootDialog() : QDialog()
    gridLayout->addLayout(buttLayout, 1, 0, Qt::AlignBottom);
 }
 
-void TQRootDialog::addArg(const char* argname, const char* value, const char* type)
+void QRootDialog::addArg(const char* argname, const char* value, const char*)
 {
    QLabel* lbl = new QLabel(argname);
    argLayout->addWidget(lbl);
@@ -58,7 +58,7 @@ void TQRootDialog::addArg(const char* argname, const char* value, const char* ty
    fArgs.push_back(le);
 }
 
-QString TQRootDialog::getArg(int n)
+QString QRootDialog::getArg(int n)
 {
    if ((n<0) || (n>=fArgs.size())) return QString("");
    return fArgs[n]->text();

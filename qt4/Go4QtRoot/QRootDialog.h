@@ -10,8 +10,8 @@
 * Go4License.txt file which is part of the distribution.                  *
 ***************************************************************************/
 
-#ifndef TQROOTDIALOG_H
-#define TQROOTDIALOG_H
+#ifndef QROOTDIALOG_H
+#define QROOTDIALOG_H
 
 #include <QtCore/QVector>
 #include <QtGui/QDialog>
@@ -19,12 +19,12 @@
 #include <QtGui/QLineEdit>
 
 /**
-* TQRootDialog
+* QRootDialog
 *
-* A TQRootDialog is used to prompt for the arguments of an object's
-* member function. It is called by the TQRootCanvas class
+* A QRootDialog is used to prompt for the arguments of an object's
+* member function. It is called by the QRootCanvas class
 *
-* @see TQRootCanvas
+* @see QRootCanvas
 *
 *
 * @authors Denis Bertini <d.bertini@gsi.de>, Sergey Linev
@@ -32,11 +32,11 @@
 */
 
 
-class TQRootDialog: public QDialog {
+class QRootDialog: public QDialog {
    Q_OBJECT
 
    public:
-      TQRootDialog();
+      QRootDialog();
 
       void addArg(const char* argname, const char* value, const char* type);
 

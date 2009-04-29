@@ -3,13 +3,13 @@
 
 #include <QDesignerCustomWidgetInterface>
 
-class QGo4BrowserListViewPlugin : public QObject, public QDesignerCustomWidgetInterface
+class QGo4BrowserTreeWidgetPlugin : public QObject, public QDesignerCustomWidgetInterface
  {
      Q_OBJECT
      Q_INTERFACES(QDesignerCustomWidgetInterface)
 
  public:
-     QGo4BrowserListViewPlugin(QObject *parent = 0);
+     QGo4BrowserTreeWidgetPlugin(QObject *parent = 0);
 
      bool isContainer() const;
      bool isInitialized() const;

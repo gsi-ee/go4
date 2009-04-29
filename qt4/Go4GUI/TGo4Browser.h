@@ -2,7 +2,7 @@
 #define TGO4BROWSER_H
 
 #include "QGo4Widget.h"
-#include "QGo4BrowserListView.h"
+#include "QGo4BrowserTreeWidget.h"
 #include "ui_TGo4Browser.h"
 
 class TGo4BrowserProxy;

@@ -6,12 +6,12 @@
 
 #include <QDropEvent>
 
-class QDESIGNER_WIDGET_EXPORT QGo4BrowserListView : public QTreeWidget {
+class QDESIGNER_WIDGET_EXPORT QGo4BrowserTreeWidget : public QTreeWidget {
    Q_OBJECT
 
    public:
-      QGo4BrowserListView(QWidget* parent = 0);
-      virtual ~QGo4BrowserListView();
+      QGo4BrowserTreeWidget(QWidget* parent = 0);
+      virtual ~QGo4BrowserTreeWidget();
 
       virtual bool dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action);
       virtual QStringList mimeTypes() const;

@@ -1,31 +1,31 @@
-#include "tqrootcanvas.h"
-#include "TQRootCanvasPlugin.h"
+#include "QRootCanvas.h"
+#include "QRootCanvasPlugin.h"
 
 #include <QtPlugin>
 //#include <iostream>
 
 
-TQRootCanvasPlugin::TQRootCanvasPlugin(QObject *parent)
+QRootCanvasPlugin::QRootCanvasPlugin(QObject *parent)
      : QObject(parent)
  {
      initialized = false;
  }
 
- void TQRootCanvasPlugin::initialize(QDesignerFormEditorInterface * /* core */)
+ void QRootCanvasPlugin::initialize(QDesignerFormEditorInterface * /* core */)
  {
      if (initialized)
          return;
      initialized = true;
  }
 
- bool TQRootCanvasPlugin::isInitialized() const
+ bool QRootCanvasPlugin::isInitialized() const
  {
      return initialized;
  }
 
- QWidget *TQRootCanvasPlugin::createWidget(QWidget *parent)
+ QWidget *QRootCanvasPlugin::createWidget(QWidget *parent)
  {
-     TQRootCanvas* widg=new TQRootCanvas(parent,"TQRootCanvas");
+     QRootCanvas* widg=new QRootCanvas(parent);
      QPalette* npal= new QPalette(widg->palette());
      //npal->setColor(QPalette::Window,Qt::red);
      npal->setBrush(QPalette::Window,QPixmap(":/scale.png"));
@@ -35,39 +35,39 @@ TQRootCanvasPlugin::TQRootCanvasPlugin(QObject *parent)
 
  }
 
- QString TQRootCanvasPlugin::name() const
+ QString QRootCanvasPlugin::name() const
  {
-     return "TQRootCanvas";
+     return "QRootCanvas";
  }
 
- QString TQRootCanvasPlugin::group() const
+ QString QRootCanvasPlugin::group() const
  {
      return "Go4 Custom Widgets";
  }
 
- QIcon TQRootCanvasPlugin::icon() const
+ QIcon QRootCanvasPlugin::icon() const
  {
      return QIcon(":/go4logo2.png");
  }
 
- QString TQRootCanvasPlugin::toolTip() const
+ QString QRootCanvasPlugin::toolTip() const
  {
      return "Standard QtROOT canvas";
  }
 
-QString TQRootCanvasPlugin::whatsThis() const
+QString QRootCanvasPlugin::whatsThis() const
  {
      return "ROOT canvas embedded into QWidget";
  }
 
-bool TQRootCanvasPlugin::isContainer() const
+bool QRootCanvasPlugin::isContainer() const
  {
      return false;
  }
 
- QString TQRootCanvasPlugin::domXml() const
+ QString QRootCanvasPlugin::domXml() const
  {
-     return "<widget class=\"TQRootCanvas\" name=\"TQRootCanvas\">\n"
+     return "<widget class=\"QRootCanvas\" name=\"QRootCanvas\">\n"
             " <property name=\"geometry\">\n"
             "  <rect>\n"
             "   <x>0</x>\n"
@@ -79,9 +79,9 @@ bool TQRootCanvasPlugin::isContainer() const
             "</widget>\n";
  }
 
- QString TQRootCanvasPlugin::includeFile() const
+ QString QRootCanvasPlugin::includeFile() const
  {
-     return "tqrootcanvas.h";
+     return "QRootCanvas.h";
  }
 
 

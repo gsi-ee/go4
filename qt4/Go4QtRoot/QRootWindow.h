@@ -1,5 +1,5 @@
-#ifndef TQROOTWINDOW_H
-#define TQROOTWINDOW_H
+#ifndef QROOTWINDOW_H
+#define QROOTWINDOW_H
 
 #include <QtGui/qwidget.h>
 #include <QtGui/QPaintEvent>
@@ -19,14 +19,14 @@ class TGCompositeFrame;
 /** Qt widget wrapper for ROOT TGWindow class.
   * @author J.Adamczewski */
 
-class TQRootWindow : public QWidget {
+class QRootWindow : public QWidget {
    Q_OBJECT
 
    public:
       /** real ctor*/
-      TQRootWindow( QWidget *parent = 0, const char *name = 0, bool designermode=false);
+      QRootWindow( QWidget *parent = 0, const char *name = 0, bool designermode=false);
 
-      virtual ~TQRootWindow();
+      virtual ~QRootWindow();
 
       TGCompositeFrame* GetRootFrame();
       int GetRootWid() { return fiWinid;}

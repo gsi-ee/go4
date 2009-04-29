@@ -6,7 +6,7 @@
 #include "TClass.h"
 #include "TCanvas.h"
 #include "TGo4Proxy.h"
-#include "QGo4RootCanvas.h"
+#include "QRootCanvas.h"
 
 #include <sstream>
 #include <stdlib.h>

@@ -1,30 +1,30 @@
-#include "tqrootwindow.h"
-#include "TQRootWindowPlugin.h"
+#include "QRootWindow.h"
+#include "QRootWindowPlugin.h"
 
 #include <QtPlugin>
 
 
-TQRootWindowPlugin::TQRootWindowPlugin(QObject *parent)
+QRootWindowPlugin::QRootWindowPlugin(QObject *parent)
      : QObject(parent)
  {
      initialized = false;
  }
 
- void TQRootWindowPlugin::initialize(QDesignerFormEditorInterface * /* core */)
+ void QRootWindowPlugin::initialize(QDesignerFormEditorInterface * /* core */)
  {
      if (initialized)
          return;
      initialized = true;
  }
 
- bool TQRootWindowPlugin::isInitialized() const
+ bool QRootWindowPlugin::isInitialized() const
  {
      return initialized;
  }
 
- QWidget *TQRootWindowPlugin::createWidget(QWidget *parent)
+ QWidget *QRootWindowPlugin::createWidget(QWidget *parent)
  {
-   TQRootWindow* widg=new TQRootWindow(parent,"TQRootWindow",true);
+   QRootWindow* widg=new QRootWindow(parent);
    QPalette* npal= new QPalette(widg->palette());
    npal->setBrush(QPalette::Window,QPixmap(":/root.png"));
    widg->setPalette(*npal);
@@ -32,39 +32,39 @@ TQRootWindowPlugin::TQRootWindowPlugin(QObject *parent)
    return widg;
  }
 
- QString TQRootWindowPlugin::name() const
+ QString QRootWindowPlugin::name() const
  {
-     return "TQRootWindow";
+     return "QRootWindow";
  }
 
- QString TQRootWindowPlugin::group() const
+ QString QRootWindowPlugin::group() const
  {
      return "Go4 Custom Widgets";
  }
 
- QIcon TQRootWindowPlugin::icon() const
+ QIcon QRootWindowPlugin::icon() const
  {
      return QIcon(":/go4logo2.png");
  }
 
- QString TQRootWindowPlugin::toolTip() const
+ QString QRootWindowPlugin::toolTip() const
  {
      return "Qwidget to embed a ROOT TGCompositeFrame";
  }
 
-QString TQRootWindowPlugin::whatsThis() const
+QString QRootWindowPlugin::whatsThis() const
  {
      return "ROOT TGFrame embedded into a QWidget ";
  }
 
-bool TQRootWindowPlugin::isContainer() const
+bool QRootWindowPlugin::isContainer() const
  {
      return false;
  }
 
- QString TQRootWindowPlugin::domXml() const
+ QString QRootWindowPlugin::domXml() const
  {
-     return "<widget class=\"TQRootWindow\" name=\"TQRootWindow\">\n"
+     return "<widget class=\"QRootWindow\" name=\"QRootWindow\">\n"
             " <property name=\"geometry\">\n"
             "  <rect>\n"
             "   <x>0</x>\n"
@@ -76,9 +76,9 @@ bool TQRootWindowPlugin::isContainer() const
             "</widget>\n";
  }
 
- QString TQRootWindowPlugin::includeFile() const
+ QString QRootWindowPlugin::includeFile() const
  {
-     return "tqrootwindow.h";
+     return "QRootWindow.h";
  }
 
 

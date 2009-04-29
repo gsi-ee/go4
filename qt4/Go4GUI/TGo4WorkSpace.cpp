@@ -44,41 +44,6 @@ TGo4WorkSpace::~TGo4WorkSpace()
 }
 
 
-
-
-//bool TGo4WorkSpace::eventFilter( QObject *fx , QEvent* e )
-//{
-////   switch (e->type()) {
-////      case QEvent::Move:  // Move
-////           return false;
-////           break;
-////      case QEvent::Resize :  //Resize
-////           return false;
-////           break;
-////      case QEvent::Paint :  //Paint
-////           return false;
-////           break;
-////   }
-////
-////   if(e->type()==QEvent::MouseButtonRelease) { // Resize on mouse release
-////      if (fxActivePanel!=0)
-////        fxActivePanel->CheckResizeFlags();
-////   }
-//   std::cout <<"TGo4WorkSpace::eventFilter gets "<<e->type(); //<< std::endl;
-//   if(fbDisableEvents)
-//      {
-//         std::cout <<" disabled." << std::endl;
-//         return true;
-//      }
-//   else
-//      {
-//          std::cout <<" enabled." << std::endl;
-//         return QWorkspace::eventFilter( fx , e );
-//      }
-//}
-
-
-
 TPad* TGo4WorkSpace::GetSelectedPad()
 {
     return fxSelectedPad;

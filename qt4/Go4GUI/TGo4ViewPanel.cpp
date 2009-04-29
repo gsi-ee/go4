@@ -51,7 +51,7 @@
 #include "TGo4WinCondView.h"
 #include "TGo4PolyCondView.h"
 #include "TGo4LockGuard.h"
-#include "tqrootwindow.h"
+#include "QRootWindow.h"
 #include "TGo4WorkSpace.h"
 #include "TGo4ASImage.h"
 #include "TGo4PrintWidget.h"
@@ -64,7 +64,7 @@
 #include "TGo4Iter.h"
 #include "TGo4ObjectManager.h"
 #include "TGo4BrowserProxy.h"
-#include "QGo4RootCanvas.h"
+#include "QRootCanvas.h"
 #include "TGo4QSettings.h"
 
 const char* NoStackDrawOption = "nostack, ";
@@ -103,6 +103,8 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
    setWindowTitle(GetPanelName());
    fxGo4QRootCanvas->setObjectName(GetPanelName());
    fxGo4QRootCanvas->getCanvas()->SetName(GetPanelName());
+
+   fxGo4QRootCanvas->updateGeometry();
 
    fSelectMenu = 0;
    fSelectMap = 0;
@@ -219,7 +221,7 @@ void TGo4ViewPanel::linkedUpdated(TGo4Slot* slot, TObject* obj)
          padopt->SetPadModified();
 
          // in this small period other objects can come,
-         // therefore only one repain will be done
+         // therefore only one repaint will be done
          ShootRepaintTimer();
       }
    }
@@ -376,7 +378,7 @@ void TGo4ViewPanel::CompleteInitialization()
    CanvasStatus->setShown(false);
 
    // setup of root editor
-   fxRooteditor = new TQRootWindow(EditorFrame,"rootwrapperwindow");
+   fxRooteditor = new QRootWindow(EditorFrame,"rootwrapperwindow");
    QVBoxLayout* gedlayout = new QVBoxLayout(EditorFrame);
    if (fxRooteditor) gedlayout->addWidget(fxRooteditor);
    EditorFrame->ensurePolished();
@@ -391,6 +393,9 @@ void TGo4ViewPanel::CompleteInitialization()
    SetPadDefaults(GetCanvas());
 
    go4sett->restorePanelSize(this);
+
+   fxGo4QRootCanvas->Modified();
+
    fbCloneFlag = go4sett->getCloneFlag();
 }
 
@@ -1071,9 +1076,6 @@ void TGo4ViewPanel::SetActivePad(TPad* pad)
 void TGo4ViewPanel::PadClickedSlot(TPad* pad)
 {
    TGo4LockGuard lock;
-   //cout <<"+++++++ TGo4ViewPanel::PadClickedSlot for "<<pad << endl;
-   fxGo4QRootCanvas->setResizeFlag(); // refresh viewpanel canvas when clicking on pad
-   fxGo4QRootCanvas->checkResizeFlag(); // (same as enter event for smooth resize; need this for maximize workaround)
 
    SetActivePad(pad);
 
@@ -1086,15 +1088,9 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
    bool docreate = GetSelectedMarkerName(pad).length()==0;
    bool docheck = false;
 
-//   cout << "PadClickedSlot( px = " << px << " py = " << py << endl;
-
    switch(fiMouseMode) {
      case kMouseROOT: {
         TObject *obj = GetCanvas()->GetSelected();
-//        if (obj!=0)
-//           cout << "  obj = " << obj->GetName()
-//                << "  class = " << obj->ClassName() << endl;
-
         if (obj!=0)
         if (obj->InheritsFrom(TGo4Marker::Class()) ||
             obj->InheritsFrom(TGo4WinCondView::Class()) ||
@@ -1156,13 +1152,11 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
               AddMarkerObj(pad, kind_Window, conny);
            } else
               conny = dynamic_cast<TGo4WinCond*> (GetActiveObj(pad, kind_Window));
-//           cout << "Start wincond = " << (conny ? conny->GetName() : "null") << endl;
            if(conny==0) return;
            fiPickCounter++;
         } else
         if (fiPickCounter==1) {
            conny = dynamic_cast<TGo4WinCond*> (GetActiveObj(pad, kind_Window));
-//           cout << "Stop wincond = " << (conny ? conny->GetName() : "null") << endl;
            if(conny==0) return;
            xmin = conny->GetXLow();
            ymin = conny->GetYLow();
@@ -1178,9 +1172,6 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
            conny->SetValues(xmin,xmax,ymin,ymax);
         else
            conny->SetValues(xmin, xmax);
-
-//        cout << "XUP = " << conny->GetXUp() << endl;
-//        cout << "YUP = " << conny->GetYUp() << endl;
 
         TGo4Slot* condslot = GetSelectedSlot(pad, 0, 0);
         if (GetDrawKind(condslot)==kind_Condition) {
@@ -1645,7 +1636,6 @@ void TGo4ViewPanel::StartRootEditor()
    ActivateInGedEditor(GetSelectedObject(GetActivePad(), 0));
    show();
    ResizeGedEditor();
-   fxGo4QRootCanvas->checkResizeFlag();
 }
 
 void TGo4ViewPanel::StartConditionEditor()
@@ -2541,7 +2531,7 @@ TCanvas* TGo4ViewPanel::GetCanvas()
     return fxGo4QRootCanvas->getCanvas();
 }
 
-QGo4RootCanvas* TGo4ViewPanel::GetQCanvas()
+QRootCanvas* TGo4ViewPanel::GetQCanvas()
 {
    return fxGo4QRootCanvas;
 }
@@ -3182,7 +3172,9 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
    if (IsRedrawBlocked()) return;
 
    TGo4LockGuard lock;
-   //cout <<"rrrrrrrrr TGo4ViewPanel::RedrawPanel" << endl;
+
+   // cout <<"rrrrrrrrr TGo4ViewPanel::RedrawPanel" << pad->GetName() << endl;
+
    BlockPanelRedraw(true);
 
    bool isanychildmodified = false;
@@ -4481,55 +4473,15 @@ void TGo4ViewPanel::SetSelectedRange(double xmin, double xmax, double ymin, doub
    RedrawPanel(selpad, false);
 }
 
-void TGo4ViewPanel::enterEvent( QEvent * e )
-{
-    QWidget::enterEvent(e);
-}
-
-void TGo4ViewPanel::showEvent ( QShowEvent * e )
-{
-    QWidget::showEvent(e);
-}
-
-
-void TGo4ViewPanel::leaveEvent( QEvent * e )
-{
-    #if ROOT_VERSION_CODE < ROOT_VERSION(4,3,1)
-    if(fxPeditor) fxPeditor->DeleteEditors();
-    #endif
-    QWidget::leaveEvent(e);
-}
-
 void TGo4ViewPanel::closeEvent( QCloseEvent* ce )
 {
     ce->accept();
     delete this;
 }
 
-void TGo4ViewPanel::paintEvent(QPaintEvent* e)
+void TGo4ViewPanel::resizeEvent( QResizeEvent * e )
 {
-   QWidget::paintEvent(e);
-}
-
-void TGo4ViewPanel::resizeEvent(QResizeEvent * e)
-{
-   QWidget::resizeEvent(e);
-}
-
-void TGo4ViewPanel::mouseReleaseEvent(QMouseEvent * e)
-{
-   CheckResizeFlags();
-}
-
-
-bool TGo4ViewPanel::event(QEvent * ev)
-{
-   if(( ev->type() == QEvent::MouseButtonRelease) ||
-     ( ev->type() == QEvent::NonClientAreaMouseButtonRelease)) {
-     CheckResizeFlags();
-   }
-
-	return QGo4Widget::event(ev);
+   go4sett->storePanelSize(this);
 }
 
 void TGo4ViewPanel::ResizeGedEditor()
@@ -4575,13 +4527,6 @@ void TGo4ViewPanel::CleanupGedEditor()
    #endif
 }
 
-void TGo4ViewPanel::CheckResizeFlags()
-{
-   TGo4LockGuard lock;
-   fxGo4QRootCanvas->checkResizeFlag();
-   go4sett->storePanelSize(this);
-}
-
 void TGo4ViewPanel::ShootRepaintTimer()
 {
    ShootRepaintTimer(GetCanvas());
@@ -4605,7 +4550,6 @@ void TGo4ViewPanel::checkRepaintSlot()
 {
    TPad* pad = fxRepaintTimerPad;
    fxRepaintTimerPad = 0;
-   CheckResizeFlags();
    if (pad!=0)
       RedrawPanel(pad, false);
 }

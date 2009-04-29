@@ -10,7 +10,7 @@
 * Go4License.txt file which is part of the distribution.                  *
 ***************************************************************************/
 
-#include "qrootapplication.h"
+#include "QRootApplication.h"
 
 #include "Riostream.h"
 #include <stdlib.h>

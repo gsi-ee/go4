@@ -216,7 +216,7 @@ and then just drag &amp; drop object to this label (not to output window).</stri
                 </widget>
               </item>
               <item row="1" column="0" >
-                <widget class="QGo4RootCanvas" name="fxDrawCanvas" >
+                <widget class="QRootCanvas" name="fxDrawCanvas" >
                   <property name="sizePolicy" >
                     <sizepolicy>
                       <hsizetype>7</hsizetype>
@@ -257,7 +257,7 @@ and then just drag &amp; drop object to this label (not to output window).</stri
   </images>
   <includes>
     <include location="local">QGo4Widget.h</include>
-    <include location="local">QGo4RootCanvas.h</include>
+    <include location="local">QRootCanvas.h</include>
   </includes>
   <connections>
     <connection>

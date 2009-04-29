@@ -6,7 +6,7 @@
 #include "TEnv.h"
 
 #include "TApplication.h"
-#include "qrootapplication.h"
+#include "QRootApplication.h"
 
 #include "TGo4Log.h"
 #include "TGo4Version.h"

@@ -61,7 +61,7 @@
 #include "TList.h"
 
 /////// Go4 includes, other packages:
-#include "qrootapplication.h"
+#include "QRootApplication.h"
 #include "TGo4Version.h"
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"

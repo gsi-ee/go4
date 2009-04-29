@@ -1,15 +1,15 @@
-#ifndef TQROOTCANVASPLUGIN_H
-#define TQROOTCANVASPLUGIN_H
+#ifndef TQROOTWINDOWPLUGIN_H
+#define TQROOTWINDOWPLUGIN_H
 
 #include <QDesignerCustomWidgetInterface>
 
-class TQRootCanvasPlugin : public QObject, public QDesignerCustomWidgetInterface
+class QRootWindowPlugin : public QObject, public QDesignerCustomWidgetInterface
  {
      Q_OBJECT
      Q_INTERFACES(QDesignerCustomWidgetInterface)
 
  public:
-     TQRootCanvasPlugin(QObject *parent = 0);
+     QRootWindowPlugin(QObject *parent = 0);
 
      bool isContainer() const;
      bool isInitialized() const;

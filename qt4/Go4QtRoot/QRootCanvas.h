@@ -1,5 +1,5 @@
-#ifndef TQROOTCANVAS_H
-#define TQROOTCANVAS_H
+#ifndef QROOTCANVAS_H
+#define QROOTCANVAS_H
 
 #include "QtGui/qwidget.h"
 
@@ -12,6 +12,7 @@
 #include <QtCore/QEvent>
 #include <QtGui/QDragEnterEvent>
 #include <QtCore/QSignalMapper>
+#include <QtCore/QTimer>
 
 #include "Rtypes.h"
 #include "Gtypes.h"
@@ -39,22 +40,19 @@ class TList;
   * @version 2.0
   */
 
-class QDESIGNER_WIDGET_EXPORT TQRootCanvas : public QWidget {
+class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
    Q_OBJECT
 
    public:
-      TQRootCanvas( QWidget *parent = 0, const char *name = 0 ,TCanvas *c=0);
-      TQRootCanvas( QWidget *parent = 0, QWidget* tabWin = 0 , const char *name = 0 ,TCanvas *c=0);
-      virtual ~TQRootCanvas();
+      QRootCanvas(QWidget *parent = 0);
+      virtual ~QRootCanvas();
 
       TCanvas*          getCanvas() { return fCanvas;}
       int               getRootWid() { return wid;}
-      bool              getCanvasOwner(){ return isCanvasOwned; }
-      QWidget*          getParent() { return fParent;}
-      QWidget*          getTabWin() { return fTabWin;}
-      void              setResizeFlag(int level = 1);
-      bool              checkResizeFlag(int level = 1);
       void              setMaskDoubleClick(bool on=true) { fMaskDoubleClick = on; }
+
+      bool              showEventStatus() const;
+      void              setShowEventStatus(bool s);
 
    signals:
       /** signal which will be emitted when root selected pad is changed
@@ -68,6 +66,15 @@ class QDESIGNER_WIDGET_EXPORT TQRootCanvas : public QWidget {
       void              PadDoubleClicked(TPad*);
 
       void              MenuCommandExecuted(TObject*, const char*);
+
+      void              CanvasStatusEvent(const char*);
+
+      void              CanvasDropEvent(QDropEvent*, TPad*);
+
+      void              CanvasLeaveEvent();
+
+      void              DoCanvasResize();
+
 
    public slots:
 
@@ -92,7 +99,6 @@ class QDESIGNER_WIDGET_EXPORT TQRootCanvas : public QWidget {
       Int_t             GetEventX() ;
       Int_t             GetEventY() ;
       Color_t           GetHighLightColor() ;
-      virtual void      GetPadDivision(Int_t xdivision=1, Int_t ydivision=1);
       TVirtualPad      *GetPadSave() ;
       TObject          *GetSelected() ;
       Option_t         *GetSelectedOpt() ;
@@ -117,6 +123,7 @@ class QDESIGNER_WIDGET_EXPORT TQRootCanvas : public QWidget {
       Bool_t            IsBatch() ;
       Bool_t            IsRetained() ;
       virtual void      ls(Option_t *option="") ;
+      void              Modified(Bool_t=1);
       void              MoveOpaque(Int_t set=1);
       Bool_t            OpaqueMoving() ;
       Bool_t            OpaqueResizing() ;
@@ -145,12 +152,12 @@ class QDESIGNER_WIDGET_EXPORT TQRootCanvas : public QWidget {
       virtual void      performResize();
 
       void              executeMenu(int id);
+      void              processRepaintTimer();
 
    protected:
 
       virtual void      dropEvent( QDropEvent *Event );
       virtual void      dragEnterEvent( QDragEnterEvent *e );
-      virtual bool      eventFilter( QObject *, QEvent * );
       virtual void      mousePressEvent( QMouseEvent *e );
       virtual void      mouseReleaseEvent( QMouseEvent *e );
       virtual void      resizeEvent( QResizeEvent *e );
@@ -165,20 +172,22 @@ class QDESIGNER_WIDGET_EXPORT TQRootCanvas : public QWidget {
       void              methodDialog(TObject* object, TMethod* method);
       QAction*          addMenuAction(QMenu* menu, QSignalMapper* map, const QString& text, int id);
 
+      void              actiavteRepaint(int mode);
+
       TCanvas*          fCanvas;
       Int_t             wid;
       UInt_t            fXid; // current id of embedded canvas (may change in Qt 4.4)
-      bool              isCanvasOwned;
-      QWidget*          fParent;
-      QWidget*          fTabWin;
+      QTimer            fRepaintTimer; // do not draw canvas immediately, postpone this on few miliseconds
+      int               fRepaintMode; // 0 - inactive, 1 - paint, 2 - resize
    private:
-      int               fResizeFlag;
       bool              fMaskDoubleClick;
       double            fMousePosX;    // mouse position in user coordinate when activate menu
       double            fMousePosY;    // mouse position in user coordinate when activate menu
 
       TObject*          fMenuObj;      // object use to fill menu
       TList*            fMenuMethods;  // list of menu methods
+      bool              fxShowEventStatus;
+
 
 };
 

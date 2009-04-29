@@ -1,15 +1,15 @@
-#ifndef QGO4ROOTCANVASPLUGIN_H
-#define QGO4ROOTCANVASPLUGIN_H
+#ifndef TQROOTCANVASPLUGIN_H
+#define TQROOTCANVASPLUGIN_H
 
 #include <QDesignerCustomWidgetInterface>
 
-class QGo4RootCanvasPlugin : public QObject, public QDesignerCustomWidgetInterface
+class QRootCanvasPlugin : public QObject, public QDesignerCustomWidgetInterface
  {
      Q_OBJECT
      Q_INTERFACES(QDesignerCustomWidgetInterface)
 
  public:
-     QGo4RootCanvasPlugin(QObject *parent = 0);
+     QRootCanvasPlugin(QObject *parent = 0);
 
      bool isContainer() const;
      bool isInitialized() const;

@@ -2,10 +2,11 @@
 ** Copyright ( C ) 2000 denis Bertini.  All rights reserved.
 *****************************************************************************/
 
-#include "tqrootcanvas.h"
+#include "QRootCanvas.h"
 
 #include <QtCore/QEvent>
 #include <QtCore/QSignalMapper>
+#include <QtGui/QApplication>
 
 #include <QtGui/qpainter.h>
 #include <QtGui/QDragEnterEvent>
@@ -36,100 +37,52 @@
 
 #include "TGo4LockGuard.h"
 
-#include "tqrootdialog.h"
+#include "QRootDialog.h"
 
-TQRootCanvas::TQRootCanvas( QWidget *parent, const char *name, TCanvas *c ) :
+QRootCanvas::QRootCanvas(QWidget *parent) :
    QWidget(parent),
-   fResizeFlag(1),
-   fMaskDoubleClick(false)
+   fMaskDoubleClick(false),
+   fxShowEventStatus(false)
 {
-   setObjectName( name ? name : "QRootCanvas");
+   setObjectName( "QRootCanvas");
 
-  TGo4LockGuard threadlock;
-  // set defaults
-  setUpdatesEnabled( true );
-  setMouseTracking(true);
-
-  setFocusPolicy( Qt::TabFocus );
-  setCursor( Qt::CrossCursor );
-  //setAttribute(Qt::WA_NoSystemBackground);
-  setAttribute(Qt::WA_PaintOnScreen);
-  setAttribute(Qt::WA_PaintUnclipped);
-
-  // add the Qt::WinId to TGX11 interface
-  fXid = winId();
-  wid=gVirtualX->AddWindow(fXid,100,30);
-  if (c==0){
-    isCanvasOwned = true;
-    fCanvas=new TCanvas(name,width(),height(),wid);
-     }else{
-    isCanvasOwned= false;
-    fCanvas=c;
-  }
-  // create the context menu
-  fMousePosX = 0;
-  fMousePosY = 0;
-  fMenuMethods = 0;
-  fMenuObj = 0;
-
-  // test here all the events sent to the QWidget
-  // has a parent widget
-  // then install filter
-  if ( parent ){
-    parent->installEventFilter( this );
-    fParent = parent;
-  } else fParent=0;
-
-    setAcceptDrops(TRUE);
-
-}
-
-TQRootCanvas::TQRootCanvas( QWidget *parent, QWidget* tabWin, const char *name, TCanvas *c ) :
-   QWidget(tabWin),
-   fResizeFlag(1),
-   fMaskDoubleClick(false)
-{
-   setObjectName( name ? name : "QRootCanvas");
+   setSizeIncrement( QSize( 100, 100 ) );
 
    TGo4LockGuard threadlock;
+   // set defaults
    setUpdatesEnabled( true );
    setMouseTracking(true);
+
    setFocusPolicy( Qt::TabFocus );
    setCursor( Qt::CrossCursor );
 
-   setAttribute(Qt::WA_NoSystemBackground);
-   //setAttribute(Qt::WA_PaintOnScreen);
+   // diable option that at least background is redrawn immediately
+   // and canvas content after 100 ms timeout
+   //setAttribute(Qt::WA_NoSystemBackground);
+   setAttribute(Qt::WA_PaintOnScreen);
+   setAttribute(Qt::WA_PaintUnclipped);
+
    // add the Qt::WinId to TGX11 interface
    fXid = winId();
    wid = gVirtualX->AddWindow(fXid,100,30);
-   if (c==0){
-      isCanvasOwned = true;
-      fCanvas=new TCanvas(name,width(),height(),wid);
-   }else{
-      isCanvasOwned= false;
-      fCanvas=c;
-   }
+
+   fCanvas = new TCanvas("Canvas", width(), height(), wid);
    // create the context menu
    fMousePosX = 0;
    fMousePosY = 0;
    fMenuMethods = 0;
    fMenuObj = 0;
 
-   // test here all the events sent to the QWidget
-   // has a parent widget
-   // then install filter
-   if ( parent ){
-      parent->installEventFilter( this );
-      fParent = parent;
-   } else fParent=0;
-
-   if ( tabWin ) fTabWin = tabWin;
    setAcceptDrops(TRUE);
+
+   fRepaintMode = 0;
+   fRepaintTimer.setSingleShot(true);
+   connect(&fRepaintTimer, SIGNAL(timeout()), this, SLOT(processRepaintTimer()));
 }
 
-TQRootCanvas::~TQRootCanvas()
+QRootCanvas::~QRootCanvas()
 {
-   if( isCanvasOwned && fCanvas ) {
+   if(fCanvas ) {
      delete fCanvas;
      fCanvas = 0;
    }
@@ -137,23 +90,12 @@ TQRootCanvas::~TQRootCanvas()
    fMenuMethods = 0;
 }
 
-void TQRootCanvas::setResizeFlag(int flag)
-{
-   fResizeFlag = flag;
-}
-
-bool TQRootCanvas::checkResizeFlag(int level)
-{
-   if (level>=fResizeFlag){
-      performResize();
-      return true;
-   }
-   return false;
-}
-
-void TQRootCanvas::performResize()
+void QRootCanvas::performResize()
 {
    TGo4LockGuard threadlock;
+
+   QApplication::setOverrideCursor(Qt::WaitCursor);
+
    UInt_t newid = winId();
    if(newid != fXid) {
       // Qt has changed fXid for this widget (e.g. at QWorkspace::addWindow())
@@ -162,12 +104,21 @@ void TQRootCanvas::performResize()
       wid = gVirtualX->AddWindow(newid, width(), height());
       fCanvas=new TCanvas(objectName().toAscii(), width(), height(), wid);
       fXid = newid;
+
+      cout << "replace X id for " << objectName().toAscii().constData() << endl;
    }
-   Resize();
+
+   if (fRepaintMode == 1) Modified(); else Resize();
    Update();
+
+   fRepaintMode = 0;
+
+   emit DoCanvasResize();
+
+   QApplication::restoreOverrideCursor();
 }
 
-void TQRootCanvas::mouseMoveEvent(QMouseEvent *e)
+void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
 {
   TGo4LockGuard threadlock;
   if (fCanvas!=0) {
@@ -176,13 +127,31 @@ void TQRootCanvas::mouseMoveEvent(QMouseEvent *e)
      else
         fCanvas->HandleInput(kMouseMotion, e->x(), e->y());
   }
+
+  if(fxShowEventStatus) {
+     TObject* selected = fCanvas->GetSelected();
+     Int_t px = fCanvas->GetEventX();
+     Int_t py = fCanvas->GetEventY();
+     QString buffer = "";
+     if (selected!=0) {
+        buffer = selected->GetName();
+        buffer += "  ";
+        buffer += selected->GetObjectInfo(px,py);
+     } else {
+        buffer = "No seleceted object x = ";
+        buffer += QString::number(px);
+        buffer += "  y = ";
+        buffer += QString::number(py);
+     }
+     emit CanvasStatusEvent(buffer.toAscii());
+  }
 }
 
 
-void TQRootCanvas::mousePressEvent( QMouseEvent *e )
+void QRootCanvas::mousePressEvent( QMouseEvent *e )
 {
    TGo4LockGuard threadlock;
-   //cout <<"----- TQRootCanvas::mousePressEvent" << endl;
+   //cout <<"----- QRootCanvas::mousePressEvent" << endl;
    TObjLink* pickobj = 0;
    TPad* pad = fCanvas->Pick(e->x(), e->y(), pickobj);
    TObject *selected = fCanvas->GetSelected();
@@ -266,7 +235,7 @@ void TQRootCanvas::mousePressEvent( QMouseEvent *e )
    }
 }
 
-void TQRootCanvas::mouseReleaseEvent( QMouseEvent *e )
+void QRootCanvas::mouseReleaseEvent( QMouseEvent *e )
 {
    TGo4LockGuard threadlock;
    switch(e->button()) {
@@ -286,7 +255,7 @@ void TQRootCanvas::mouseReleaseEvent( QMouseEvent *e )
   }
 }
 
-void TQRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
+void QRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
 {
    TGo4LockGuard threadlock;
    switch(e->button()) {
@@ -314,438 +283,378 @@ void TQRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
    }
 }
 
-void TQRootCanvas::resizeEvent( QResizeEvent *e )
+void QRootCanvas::actiavteRepaint(int mode)
 {
-   fResizeFlag++; // counter will dynamically disable repaint for continuous resize
+   if (mode > fRepaintMode) fRepaintMode = mode;
+   fRepaintTimer.setSingleShot(true);
+   fRepaintTimer.start(100);
 }
 
-void TQRootCanvas::paintEvent( QPaintEvent * e)
+void QRootCanvas::resizeEvent( QResizeEvent *)
 {
-   checkResizeFlag(1); // repaint root graphics only if resizing is not in progress
+   actiavteRepaint(2);
 }
 
-void TQRootCanvas::leaveEvent( QEvent *e )
+void QRootCanvas::paintEvent( QPaintEvent *)
 {
+//   QWidget::paintEvent(e);
+
+   actiavteRepaint(1);
+}
+
+void QRootCanvas::processRepaintTimer()
+{
+   if (fRepaintMode > 0)
+      performResize();
+}
+
+void QRootCanvas::leaveEvent( QEvent *e )
+{
+   QWidget::leaveEvent(e);
+
    TGo4LockGuard threadlock;
    if (fCanvas!=0)
       fCanvas->HandleInput(kMouseLeave, 0, 0);
+
+   emit CanvasLeaveEvent();
 }
 
-bool TQRootCanvas::eventFilter( QObject *o, QEvent *e )
+void QRootCanvas::setShowEventStatus(bool s)
 {
-TGo4LockGuard threadlock;
-      if ( e->type() == QEvent::Close) {  // close
-      if (fCanvas && (isCanvasOwned== false) ) {
-         delete fCanvas;
-         #if DEBUG_LEVEL
-         qDebug("TQRootCanvas ::eventFilter canvas Id:%i deleted \n", fCanvas->GetCanvasID()) ;
-         #endif
-         fCanvas=0;
-       }
-      return FALSE;
-   }
-
-   if ( e->type() == QEvent::ChildRemoved ) {  // child is removed
-      #if DEBUG_LEVEL
-      qDebug(" TQRootCanvas:QEvent:Child removed called \n" );
-      #endif
-      return FALSE;                        // eat event
-   }
-
-
-   if ( e->type() == QEvent::Destroy) {  // destroy
-      #if DEBUG_LEVEL
-      qDebug(" QEvent:Destroy called \n" );
-      #endif
-      return FALSE;
-   }
-
-//   if(( e->type() == QEvent::MouseButtonRelease) ||
-//     ( e->type() == QEvent::NonClientAreaMouseButtonRelease)) {
-//   	cout << "Event released" << endl;
-//
-//     checkResizeFlag();
-//     return FALSE;
-//   }
-
-   if( e->type() == QEvent::Enter) { // On enter event check resize flag
-       //cout <<"----- TQRootCanvas::eventFilter: Enter" << endl;
-       setResizeFlag(1); // enable repaint when resize is done
-       checkResizeFlag(); // immediately do a repaint on entering window
-       return FALSE;
-   }
-
-   if( e->type() == QEvent::Leave) {
-       fCanvas->FeedbackMode(kFALSE);
-       return FALSE;
-    }
-
-
-   if( e->type() == QEvent::Paint) {  // Paint is handled in paintEvent
-      return FALSE;
-   }
-
-   if( e->type() == QEvent::Move) {
-     return FALSE;
-   }
-
-   if( (e->type() == QEvent::Show))
-// ||
-//       (e->type() == QEvent::ShowNormal) ||
-//       (e->type() == QEvent::ShowFullScreen) ||
-//       (e->type() == QEvent::ShowMaximized) ||
-//       (e->type() == QEvent::ShowMinimized))
-   {
-        //cout <<"----- TQRootCanvas::eventFilter: Show" << endl;
-        setResizeFlag(1);
-        checkResizeFlag(1);
-        return FALSE;
-   }
-
-//   if( (e->type() == QEvent::UpdateRequest))
-//      {
-//        cout <<"----- TQRootCanvas::eventFilter: UpdateRequest" << endl;
-//        return FALSE;
-//   }
-
-   // standard event processing
-   return QWidget::eventFilter( o, e );
+   fxShowEventStatus = s;
 }
+
+bool QRootCanvas::showEventStatus() const
+{
+   return fxShowEventStatus;
+}
+
 
 ////////////////////////////////////// drag and drop support
 
-void TQRootCanvas::dragEnterEvent( QDragEnterEvent *e )
+void QRootCanvas::dragEnterEvent( QDragEnterEvent *e )
 {
    if (e->mimeData()->hasText())
-        e->acceptProposedAction();
+      e->acceptProposedAction();
 }
 
-void TQRootCanvas::dropEvent( QDropEvent *Event )
+void QRootCanvas::dropEvent( QDropEvent *event )
 {
-   TGo4LockGuard threadlock;
+   TObject* obj(0);
+   QPoint pos = event->pos();
+   TPad* pad = Pick(pos.x(), pos.y(), obj);
 
-   QString str = Event->mimeData()->text();
-
-   TObject *dragedObject = gROOT->FindObject(str.toAscii());
-   QPoint Pos = Event->pos();
-   TObject *object=0;
-   TPad *pad = fCanvas->Pick(Pos.x(), Pos.y(), object);
-   if(dragedObject!=0) {
-     if(dragedObject->InheritsFrom(TH1::Class())) {
-       pad->cd();
-       dragedObject->Draw();
-       pad->Update();
-     }
-   } else
-     cout << "object " << str.toStdString() <<  " not found by ROOT" << endl;
+   if (pad!=0)
+      emit CanvasDropEvent(event, pad);
 }
 
 /////////////////////////////////////End Drag and drop Support (Mohammad Al-Turany)
 
 
-void      TQRootCanvas::cd(Int_t subpadnumber)
+void      QRootCanvas::cd(Int_t subpadnumber)
 {
    fCanvas->cd(subpadnumber);
 }
 
-void      TQRootCanvas::Browse(TBrowser *b)
+void      QRootCanvas::Browse(TBrowser *b)
 {
    fCanvas->Browse(b);
 }
 
-void      TQRootCanvas::Clear(Option_t *option)
+void      QRootCanvas::Clear(Option_t *option)
 {
    fCanvas->Clear(option);
 }
-void      TQRootCanvas::Close(Option_t *option)
+void      QRootCanvas::Close(Option_t *option)
 {
    fCanvas->Close(option);
 }
-void      TQRootCanvas::Draw(Option_t *option)
+void      QRootCanvas::Draw(Option_t *option)
 {
    fCanvas->Draw(option);
 }
-TObject  *TQRootCanvas::DrawClone(Option_t *option)
+TObject  *QRootCanvas::DrawClone(Option_t *option)
 {
    return  fCanvas->DrawClone(option);
 }
-TObject  *TQRootCanvas::DrawClonePad()
+TObject  *QRootCanvas::DrawClonePad()
 {
    return  fCanvas->DrawClonePad();
 }
-void      TQRootCanvas::EditorBar()
+void      QRootCanvas::EditorBar()
 {
    fCanvas->EditorBar();
 }
-void      TQRootCanvas::EnterLeave(TPad *prevSelPad, TObject *prevSelObj)
+void      QRootCanvas::EnterLeave(TPad *prevSelPad, TObject *prevSelObj)
 {
    fCanvas->EnterLeave(prevSelPad, prevSelObj);
 }
-void      TQRootCanvas::FeedbackMode(Bool_t set)
+void      QRootCanvas::FeedbackMode(Bool_t set)
 {
    fCanvas->FeedbackMode(set);
 }
-void      TQRootCanvas::Flush()
+void      QRootCanvas::Flush()
 {
    fCanvas->Flush();
 }
-void      TQRootCanvas::UseCurrentStyle()
+void      QRootCanvas::UseCurrentStyle()
 {
    fCanvas->UseCurrentStyle();
 }
-void      TQRootCanvas::ForceUpdate()
+void      QRootCanvas::ForceUpdate()
 {
    fCanvas->ForceUpdate() ;
 }
-const char  *TQRootCanvas::GetDISPLAY()
+const char  *QRootCanvas::GetDISPLAY()
 {
    return fCanvas->GetDISPLAY() ;
 }
-TContextMenu  *TQRootCanvas::GetContextMenu()
+TContextMenu  *QRootCanvas::GetContextMenu()
 {
    return  fCanvas->GetContextMenu() ;
 }
-Int_t     TQRootCanvas::GetDoubleBuffer()
+Int_t     QRootCanvas::GetDoubleBuffer()
 {
    return fCanvas->GetDoubleBuffer();
 }
-TControlBar  *TQRootCanvas::GetEditorBar()
+TControlBar  *QRootCanvas::GetEditorBar()
 {
    return 0; // not existing anymore for ROOT>4.00/02 JA
    //return fCanvas->GetEditorBar();
 }
-Int_t     TQRootCanvas::GetEvent()
+Int_t     QRootCanvas::GetEvent()
 {
    return fCanvas->GetEvent();
 }
-Int_t     TQRootCanvas::GetEventX()
+Int_t     QRootCanvas::GetEventX()
 {
    return fCanvas->GetEventX() ;
 }
-Int_t     TQRootCanvas::GetEventY()
+Int_t     QRootCanvas::GetEventY()
 {
    return fCanvas->GetEventY() ;
 }
-Color_t   TQRootCanvas::GetHighLightColor()
+Color_t   QRootCanvas::GetHighLightColor()
 {
    return fCanvas->GetHighLightColor() ;
 }
-void     TQRootCanvas::GetPadDivision(Int_t xdivision, Int_t ydivision)
-{
-//      fCanvas->GetPadDivision(xdivision, ydivision);
-//       do nothing this function was taken out in root 3.0.4
 
-}
-TVirtualPad  *TQRootCanvas::GetPadSave()
+TVirtualPad  *QRootCanvas::GetPadSave()
 {
    return fCanvas->GetPadSave();
 }
-TObject   *TQRootCanvas::GetSelected()
+TObject   *QRootCanvas::GetSelected()
 {
    return fCanvas->GetSelected() ;
 }
-Option_t  *TQRootCanvas::GetSelectedOpt()
+Option_t  *QRootCanvas::GetSelectedOpt()
 {
    return fCanvas->GetSelectedOpt();
 }
-TVirtualPad *TQRootCanvas::GetSelectedPad()
+TVirtualPad *QRootCanvas::GetSelectedPad()
 {
    return fCanvas->GetSelectedPad();
 }
-Bool_t    TQRootCanvas::GetShowEventStatus()
+Bool_t    QRootCanvas::GetShowEventStatus()
 {
    return fCanvas->GetShowEventStatus() ;
 }
-Bool_t    TQRootCanvas::GetAutoExec()
+Bool_t    QRootCanvas::GetAutoExec()
 {
    return fCanvas->GetAutoExec();
 }
-Size_t    TQRootCanvas::GetXsizeUser()
+Size_t    QRootCanvas::GetXsizeUser()
 {
    return fCanvas->GetXsizeUser();
 }
-Size_t    TQRootCanvas::GetYsizeUser()
+Size_t    QRootCanvas::GetYsizeUser()
 {
    return fCanvas->GetYsizeUser();
 }
-Size_t    TQRootCanvas::GetXsizeReal()
+Size_t    QRootCanvas::GetXsizeReal()
 {
    return fCanvas->GetXsizeReal();
 }
-Size_t    TQRootCanvas::GetYsizeReal()
+Size_t    QRootCanvas::GetYsizeReal()
 {
    return fCanvas->GetYsizeReal();
 }
-Int_t     TQRootCanvas::GetCanvasID()
+Int_t     QRootCanvas::GetCanvasID()
 {
    return fCanvas->GetCanvasID();
 }
 
-Int_t     TQRootCanvas::GetWindowTopX()
+Int_t     QRootCanvas::GetWindowTopX()
 {
    return fCanvas->GetWindowTopX();
 }
-Int_t     TQRootCanvas::GetWindowTopY()
+Int_t     QRootCanvas::GetWindowTopY()
 {
    return fCanvas->GetWindowTopY();
 }
-UInt_t    TQRootCanvas::GetWindowWidth()
+UInt_t    QRootCanvas::GetWindowWidth()
 {
    return fCanvas->GetWindowWidth() ;
 }
-UInt_t    TQRootCanvas::GetWindowHeight()
+UInt_t    QRootCanvas::GetWindowHeight()
 {
    return fCanvas->GetWindowHeight();
 }
-UInt_t    TQRootCanvas::GetWw()
+UInt_t    QRootCanvas::GetWw()
 {
    return fCanvas->GetWw();
 }
-UInt_t    TQRootCanvas::GetWh()
+UInt_t    QRootCanvas::GetWh()
 {
    return fCanvas->GetWh() ;
 }
-void      TQRootCanvas::GetCanvasPar(Int_t &wtopx, Int_t &wtopy, UInt_t &ww, UInt_t &wh)
+void      QRootCanvas::GetCanvasPar(Int_t &wtopx, Int_t &wtopy, UInt_t &ww, UInt_t &wh)
 {
    fCanvas->GetCanvasPar(wtopx, wtopy, ww, wh);
 }
-void      TQRootCanvas::HandleInput(EEventType button, Int_t x, Int_t y)
+void      QRootCanvas::HandleInput(EEventType button, Int_t x, Int_t y)
 {
    fCanvas->HandleInput(button, x, y);
 }
-Bool_t    TQRootCanvas::HasMenuBar()
+Bool_t    QRootCanvas::HasMenuBar()
 {
    return fCanvas->HasMenuBar() ;
 }
-void      TQRootCanvas::Iconify()
+void      QRootCanvas::Iconify()
 {
    fCanvas->Iconify();
 }
-Bool_t    TQRootCanvas::IsBatch()
+Bool_t    QRootCanvas::IsBatch()
 {
    return fCanvas->IsBatch() ;
 }
-Bool_t    TQRootCanvas::IsRetained()
+Bool_t    QRootCanvas::IsRetained()
 {
    return fCanvas->IsRetained();
 }
-void      TQRootCanvas::ls(Option_t *option)
+void      QRootCanvas::ls(Option_t *option)
 {
    fCanvas->ls(option);
 }
-void      TQRootCanvas::MoveOpaque(Int_t set)
+
+void QRootCanvas::Modified(Bool_t mod)
+{
+   fCanvas->Modified(mod);
+}
+
+void QRootCanvas::MoveOpaque(Int_t set)
 {
    fCanvas->MoveOpaque(set);
 }
-Bool_t    TQRootCanvas::OpaqueMoving()
+
+Bool_t    QRootCanvas::OpaqueMoving()
 {
    return fCanvas->OpaqueMoving();
 }
-Bool_t    TQRootCanvas::OpaqueResizing()
+Bool_t    QRootCanvas::OpaqueResizing()
 {
    return fCanvas->OpaqueResizing();
 }
-void      TQRootCanvas::Paint(Option_t *option)
+void      QRootCanvas::Paint(Option_t *option)
 {
    fCanvas->Paint(option);
 }
-TPad     *TQRootCanvas::Pick(Int_t px, Int_t py, TObjLink *&pickobj)
+TPad     *QRootCanvas::Pick(Int_t px, Int_t py, TObjLink *&pickobj)
 {
    return fCanvas->Pick(px, py, pickobj);
 }
-TPad     *TQRootCanvas::Pick(Int_t px, Int_t py, TObject *prevSelObj)
+TPad     *QRootCanvas::Pick(Int_t px, Int_t py, TObject *prevSelObj)
 {
    return fCanvas->Pick(px, py, prevSelObj);
 }
-void      TQRootCanvas::Resize(Option_t *option)
+void      QRootCanvas::Resize(Option_t *option)
 {
    fCanvas->Resize(option);
 }
-void      TQRootCanvas::ResizeOpaque(Int_t set)
+void      QRootCanvas::ResizeOpaque(Int_t set)
 {
    fCanvas->ResizeOpaque(set);
 }
-void      TQRootCanvas::SaveSource(const char *filename, Option_t *option)
+void      QRootCanvas::SaveSource(const char *filename, Option_t *option)
 {
    fCanvas->SaveSource(filename, option);
 }
-void      TQRootCanvas::SetCursor(ECursor cursor)
+void      QRootCanvas::SetCursor(ECursor cursor)
 {
    fCanvas->SetCursor(cursor);
 }
-void      TQRootCanvas::SetDoubleBuffer(Int_t mode)
+void      QRootCanvas::SetDoubleBuffer(Int_t mode)
 {
    fCanvas->SetDoubleBuffer(mode);
 }
-void      TQRootCanvas::SetWindowPosition(Int_t x, Int_t y)
+void      QRootCanvas::SetWindowPosition(Int_t x, Int_t y)
 {
    fCanvas->SetWindowPosition(x, y) ;
 }
-void      TQRootCanvas::SetWindowSize(UInt_t ww, UInt_t wh)
+void      QRootCanvas::SetWindowSize(UInt_t ww, UInt_t wh)
 {
    fCanvas->SetWindowSize(ww,wh) ;
 }
-void      TQRootCanvas::SetCanvasSize(UInt_t ww, UInt_t wh)
+void      QRootCanvas::SetCanvasSize(UInt_t ww, UInt_t wh)
 {
    fCanvas->SetCanvasSize(ww, wh);
 }
-void      TQRootCanvas::SetHighLightColor(Color_t col)
+void      QRootCanvas::SetHighLightColor(Color_t col)
 {
    fCanvas->SetHighLightColor(col);
 }
-void      TQRootCanvas::SetSelected(TObject *obj)
+void      QRootCanvas::SetSelected(TObject *obj)
 {
    fCanvas->SetSelected(obj);
 }
-void      TQRootCanvas::SetSelectedPad(TPad *pad)
+void      QRootCanvas::SetSelectedPad(TPad *pad)
 {
    fCanvas->SetSelectedPad(pad);
 }
-void      TQRootCanvas::Show()
+void      QRootCanvas::Show()
 {
    fCanvas->Show() ;
 }
-void      TQRootCanvas::Size(Float_t xsizeuser, Float_t ysizeuser)
+void      QRootCanvas::Size(Float_t xsizeuser, Float_t ysizeuser)
 {
    fCanvas->Size(xsizeuser, ysizeuser);
 }
-void      TQRootCanvas::SetBatch(Bool_t batch)
+void      QRootCanvas::SetBatch(Bool_t batch)
 {
    fCanvas->SetBatch(batch);
 }
-void      TQRootCanvas::SetRetained(Bool_t retained)
+void      QRootCanvas::SetRetained(Bool_t retained)
 {
    fCanvas->SetRetained(retained);
 }
-void      TQRootCanvas::SetTitle(const char *title)
+void      QRootCanvas::SetTitle(const char *title)
 {
    fCanvas->SetTitle(title);
 }
-void      TQRootCanvas::ToggleEventStatus()
+void      QRootCanvas::ToggleEventStatus()
 {
    fCanvas->ToggleEventStatus();
 }
-void      TQRootCanvas::ToggleAutoExec()
+void      QRootCanvas::ToggleAutoExec()
 {
    fCanvas->ToggleAutoExec();
 }
-void      TQRootCanvas::Update()
+void      QRootCanvas::Update()
 {
    fCanvas->Update();
 }
 
-void  TQRootCanvas::closeEvent( QCloseEvent * e){
- //   printf("TQRootCanvas: close event called \n");
-    if( isCanvasOwned ){
-      delete fCanvas; fCanvas = 0;
-    }
+void  QRootCanvas::closeEvent( QCloseEvent * e)
+{
+ //   printf("QRootCanvas: close event called \n");
+    delete fCanvas; fCanvas = 0;
 
     e->accept();
     return;
 }
 
 
-void TQRootCanvas::methodDialog(TObject* object, TMethod* method)
+void QRootCanvas::methodDialog(TObject* object, TMethod* method)
 {
    if ((object==0) || (method==0)) return;
 
@@ -753,7 +662,7 @@ void TQRootCanvas::methodDialog(TObject* object, TMethod* method)
   // Create dialog object with OK and Cancel buttons. This dialog
    // prompts for the arguments of "method".
 
-   TQRootDialog dlg;
+   QRootDialog dlg;
 
    dlg.setWindowTitle(Form("%s:%s", object->GetName(), method->GetName()));
 
@@ -902,7 +811,7 @@ void TQRootCanvas::methodDialog(TObject* object, TMethod* method)
    }
 }
 
-QAction* TQRootCanvas::addMenuAction(QMenu* menu, QSignalMapper* map, const QString& text, int id)
+QAction* QRootCanvas::addMenuAction(QMenu* menu, QSignalMapper* map, const QString& text, int id)
 {
    QAction* act = new QAction(text, menu);
    map->connect (act, SIGNAL(triggered()), map, SLOT(map()));
@@ -911,7 +820,7 @@ QAction* TQRootCanvas::addMenuAction(QMenu* menu, QSignalMapper* map, const QStr
    return act;
 }
 
-void TQRootCanvas::executeMenu(int id)
+void QRootCanvas::executeMenu(int id)
 {
    TGo4LockGuard threadlock;
    QString text("");

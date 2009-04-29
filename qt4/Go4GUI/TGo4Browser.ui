@@ -23,14 +23,14 @@
         <number>1</number>
       </property>
       <item row="0" column="0" >
-        <widget class="QGo4BrowserListView" name="ListView" />
+        <widget class="QGo4BrowserTreeWidget" name="ListView" />
       </item>
     </layout>
   </widget>
   <layoutdefault spacing="0" margin="0" />
   <includes>
     <include location="local">QGo4Widget.h</include>
-    <include location="local">QGo4BrowserListView.h</include>
+    <include location="local">QGo4BrowserTreeWidget.h</include>
   </includes>
   <connections>
     <connection>

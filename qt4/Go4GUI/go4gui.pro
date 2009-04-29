@@ -9,11 +9,10 @@ HEADERS	+= \
 	TGo4HServerConnection.h\
 	TGo4QSettings.h \
 	TGo4AnalysisWindow.h \
-	QGo4RootCanvas.h \
 	TGo4WorkSpace.h \
 	QGo4LineEdit.h \
 	QGo4Widget.h \
-	QGo4BrowserListView.h \
+	QGo4BrowserTreeWidget.h \
 	TGo4ASImage.h \
 	TGo4MainWindow.h \
 	QGo4CommandsHistory.h \
@@ -55,11 +54,10 @@ HEADERS	+= \
 SOURCES	+= \
 	TGo4QSettings.cpp \
 	TGo4AnalysisWindow.cpp \
-	QGo4RootCanvas.cpp \
 	TGo4WorkSpace.cpp \
 	QGo4LineEdit.cpp \
 	QGo4Widget.cpp \
-	QGo4BrowserListView.cpp \
+	QGo4BrowserTreeWidget.cpp \
 	TGo4ASImage.cpp \
 	TGo4MainWindow.cpp \
 	MainGo4GUI.cpp \

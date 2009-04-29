@@ -552,7 +552,7 @@
         </widget>
       </item>
       <item row="1" column="1" >
-        <widget class="QGo4RootCanvas" name="fxGo4QRootCanvas" >
+        <widget class="QRootCanvas" name="fxGo4QRootCanvas" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>7</hsizetype>
@@ -603,7 +603,7 @@
   </images>
   <includes>
     <include location="local">QGo4Widget.h</include>
-    <include location="local">QGo4RootCanvas.h</include>
+    <include location="local">QRootCanvas.h</include>
   </includes>
   <connections>
     <connection>
