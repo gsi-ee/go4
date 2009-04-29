@@ -15,11 +15,13 @@ class TascaUnpackProc : public TGo4EventProcessor {
       TascaUnpackProc(const char* name);
       virtual ~TascaUnpackProc() ;
       void TascaUnpack(TascaUnpackEvent* target);
+      Bool_t DecodeGamma(UInt_t* data, UInt_t* behind);
   private:
 	  void CalcPedestals();
 
 	  TascaAnalysis * anl;
       TascaPedestals *fPedestals;
+      TascaParameter *fParam;
 	  TascaCodec 	*codec;
       TH1I          *fAdc[96];
       TH1I  		*fPedestal;
@@ -29,6 +31,11 @@ class TascaUnpackProc : public TGo4EventProcessor {
       TH1I			*fAdcAllCal;
       TH1I			*fGammaE[8];
       TH1I			*fGammaT[8];
+      TH1I          *fTrace[8];
+      TH1I          *fTrace_e[8];
+      TH1I          *fHisto[8];
+      TH1I          *fPileup[8];
+      TascaUnpackEvent* pUnpackEvent;
       TGo4MbsEvent  *fInput;
       TGo4Picture   *Geraw;
       TGo4Picture   *M1raw;

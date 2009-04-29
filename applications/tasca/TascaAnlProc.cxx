@@ -29,19 +29,9 @@ TascaAnlProc::TascaAnlProc(const char* name) :
 
   anl=(TascaAnalysis *)TGo4Analysis::Instance();
 
-  fParPed = (TascaParameter*)  GetParameter("TascaParPed");
+  fParam = (TascaParameter*)  GetParameter("Parameters");
 
-  // we must check, if the histograms have been restored from auto-save file
-  if(GetHistogram("Analysis/Stop2d")==0)
-  {
-	fStop=new TH2D("Stop2d","Stripes",144,0,144,96,0,96);
-	AddHistogram(fStop,"Analysis");
-  }
-  else
-    { // restored from auto-save file, get pointers
-	  fStop=(TH2D*)GetHistogram("Analysis/Stop2d");
-      cout << "Tasca> TascaAnlProc: Restored histograms from autosave" << endl;
-    }
+  fStop=anl->CreateTH2D("Analysis","Stop2d","Stripes",144,0,144,96,0,96);
 }
 //***********************************************************
 TascaAnlProc::~TascaAnlProc()

@@ -7,30 +7,35 @@
 class TascaCodec : public TGo4Parameter
 {
 public:
-	enum  V785fields {
+	enum {
 		// first shift offset, then mask bits:
-		GEO = 		0x1F, 		GEO_OFF = 	27,
-		CRATE = 	0xFF, 		CRATE_OFF = 16,
-		CNT =		0x3F, 		CNT_OFF = 	 0,
-		CHAN =		0x1F, 		CHAN_OFF = 	16,
-		ADC =		0xFFF, 		ADC_OFF = 	 0,
-		EVCNT = 	0xFFFFFF, 	EVCNT_OFF =  0,
+		// SIS3302
+		SMAX_RAW =	1024,	SMAX_E =		512, SCHANNELS = 8,
+		SCARD =		0xFF,	SCARD_OFF = 	24,
+		SCHAN =		0xFF,	SCHAN_OFF = 	16,
+		SINDEX =		0x7,	SINDEX_OFF = 16,
+		SDATA =		0xFFFF,	SDATAL_OFF =  0, SDATAH_OFF = 16,
+		// V785
+		VGEO = 		0x1F, 		VGEO_OFF = 	27,
+		VCRATE = 	0xFF, 		VCRATE_OFF = 16,
+		VCNT =		0x3F, 		VCNT_OFF = 	 0,
+		VCHAN =		0x1F, 		VCHAN_OFF = 	16,
+		VADC =		0xFFF, 		VADC_OFF = 	 0,
+		VEVCNT = 	0xFFFFFF, 	VEVCNT_OFF =  0,
 		// compare masked value with mask:
-		UNDER = 	0x00002000,
-		OVER =		0x00001000,
-		TYPE =		0x07000000,
-		HEADER =	0x02000000,
-		DATA =		0x00000000,
-		EOB = 		0x04000000,
-		UNVALID =	0x06000000
-	};
-	enum Detector {
+		VUNDER = 	0x00002000,
+		VOVER =		0x00001000,
+		VTYPE =		0x07000000,
+		VHEADER =	0x02000000,
+		VDATA =		0x00000000,
+		VEOB = 		0x04000000,
+		VUNVALID =	0x06000000,
+
 		STOPX = 0, STOPX_SIZE = 18,
 		STOPY = 1, STOPY_SIZE = 12,
 		BACK  = 2, BACK_SIZE  =  8,
-		VETO  = 3, VETO_SIZE  =  2
+		VETO  = 3, VETO_SIZE  =  2,
 	};
-	Detector detector;
 
 	TascaCodec();
 	TascaCodec(const char* name);
@@ -45,18 +50,18 @@ public:
 	void printDetector(UInt_t detector, const char *name);
 	void printDetector(UInt_t *adc, UInt_t n);
 	// Decoding the V875
-	inline UInt_t getAddress(){return (fiValue >> GEO_OFF) & GEO;}
-	inline UInt_t getCrate(){return (fiValue >> CRATE_OFF) & CRATE;}
-	inline UInt_t getCnt(){return (fiValue >> CNT_OFF) & CNT;}
-	inline UInt_t getChan(){return (fiValue >> CHAN_OFF) & CHAN;}
-	inline UInt_t getAdc(){return (fiValue >> ADC_OFF) & ADC;}
-	inline UInt_t getCount(){return (fiValue >> EVCNT_OFF) & EVCNT;}
-	inline Bool_t isHeader()  {return (fiValue & TYPE) == HEADER ;}
-	inline Bool_t isData()    {return (fiValue & TYPE) == DATA;}
-	inline Bool_t isEob()     {return (fiValue & TYPE) == EOB;}
-	inline Bool_t isValid()   {return (fiValue & TYPE) != UNVALID;}
-	inline Bool_t isUnder()   {return (fiValue & UNDER) == UNDER;}
-	inline Bool_t isOver()    {return (fiValue & OVER) == OVER;}
+	inline UInt_t getAddress(){return (fiValue >> VGEO_OFF) & VGEO;}
+	inline UInt_t getCrate(){return (fiValue >> VCRATE_OFF) & VCRATE;}
+	inline UInt_t getCnt(){return (fiValue >> VCNT_OFF) & VCNT;}
+	inline UInt_t getChan(){return (fiValue >> VCHAN_OFF) & VCHAN;}
+	inline UInt_t getAdc(){return (fiValue >> VADC_OFF) & VADC;}
+	inline UInt_t getCount(){return (fiValue >> VEVCNT_OFF) & VEVCNT;}
+	inline Bool_t isHeader()  {return (fiValue & VTYPE) == VHEADER ;}
+	inline Bool_t isData()    {return (fiValue & VTYPE) == VDATA;}
+	inline Bool_t isEob()     {return (fiValue & VTYPE) == VEOB;}
+	inline Bool_t isValid()   {return (fiValue & VTYPE) != VUNVALID;}
+	inline Bool_t isUnder()   {return (fiValue & VUNDER) == VUNDER;}
+	inline Bool_t isOver()    {return (fiValue & VOVER) == VOVER;}
     // Store 32 bit value of ADC which is used for the getter methods.
 	inline void setValue(UInt_t v){fiValue=v;}
 	// Fill table of multiplex indices from the four registers.
@@ -83,7 +88,6 @@ private:
 	UInt_t test;
 	UInt_t fiValue;
 	UInt_t fiReg0, fiReg1, fiReg2, fiReg3;
-	V785fields fields;
     UInt_t fiDetector[40]; // the detector number for ADC channels
     UInt_t fiMpxIndex[40]; // the multiplex indices from the registers
     UInt_t fiMap[40][8]; // returns stripe from ADC number and multiplex index

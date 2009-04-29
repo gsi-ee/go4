@@ -27,6 +27,14 @@ class TascaCaliProc : public TGo4EventProcessor {
       TH1I *fhBackL[64];
       TH1I *fhVetoH[16]; // 8x6
       TH1I *fhVetoL[16];
+      TH1D *fhdStopXL;
+      TH1D *fhdStopXH;
+      TH1D *fhdStopYL;
+      TH1D *fhdStopYH;
+      TH1D *fhdBackH;
+      TH1D *fhdBackL;
+      TH1D *fhdVetoH;
+      TH1D *fhdVetoL;
       TH1I *fhGammaMysec[8];
       TH1I *fhGammaKev[8];
 	  TascaCalibration 	*fCalibration;
@@ -38,6 +46,7 @@ class TascaCaliProc : public TGo4EventProcessor {
       TGo4Picture   *Back[2];
       TGo4Picture   *Veto;
       TGo4Picture   *Gamma;
+      TGo4Picture   *Sum;
       UInt_t i,k,n, evcount;
 
    ClassDef(TascaCaliProc,1)

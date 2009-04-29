@@ -19,7 +19,7 @@ class TascaAnlProc : public TGo4EventProcessor {
 
 	  TascaAnalysis  * anl;
       TascaCaliEvent *fInput;
-      TascaParameter *fParPed;
+      TascaParameter *fParam;
       TH2D *fStop;
 
    ClassDef(TascaAnlProc,1)

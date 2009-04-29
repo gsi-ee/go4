@@ -24,15 +24,24 @@ class TascaUnpackEvent : public TGo4EventElement {
        * event element.
        */
       void Clear(Option_t *t=""){
-	   memset((void*) &fiAdc[0],  0, sizeof(fiAdc));
-	   memset((void*) &fiStopXL[0],0, sizeof(fiStopXL));
-	   memset((void*) &fiStopXH[0],0, sizeof(fiStopXH));
-	   memset((void*) &fiStopYL[0],0, sizeof(fiStopYL));
-	   memset((void*) &fiStopYH[0],0, sizeof(fiStopYH));
-	   memset((void*) &fiBackL[0], 0, sizeof(fiBackL));
-	   memset((void*) &fiBackH[0], 0, sizeof(fiBackH));
-	   memset((void*) &fiVetoL[0], 0, sizeof(fiVetoL));
-	   memset((void*) &fiVetoH[0], 0, sizeof(fiVetoH));
+   	   memset((void*) &fiAdc[0],  0, sizeof(fiAdc));
+   	   memset((void*) &fiStopXL[0],0, sizeof(fiStopXL));
+   	   memset((void*) &fiStopXH[0],0, sizeof(fiStopXH));
+   	   memset((void*) &fiStopYL[0],0, sizeof(fiStopYL));
+   	   memset((void*) &fiStopYH[0],0, sizeof(fiStopYH));
+   	   memset((void*) &fiBackL[0], 0, sizeof(fiBackL));
+   	   memset((void*) &fiBackH[0], 0, sizeof(fiBackH));
+   	   memset((void*) &fiVetoL[0], 0, sizeof(fiVetoL));
+   	   memset((void*) &fiVetoH[0], 0, sizeof(fiVetoH));
+
+   	   memset((void*) &fiStopXLhits[0],0, sizeof(fiStopXLhits));
+	   memset((void*) &fiStopXHhits[0],0, sizeof(fiStopXHhits));
+	   memset((void*) &fiStopYLhits[0],0, sizeof(fiStopYLhits));
+	   memset((void*) &fiStopYHhits[0],0, sizeof(fiStopYHhits));
+	   memset((void*) &fiBackLhits[0], 0, sizeof(fiBackLhits));
+	   memset((void*) &fiBackHhits[0], 0, sizeof(fiBackHhits));
+	   memset((void*) &fiVetoLhits[0], 0, sizeof(fiVetoLhits));
+	   memset((void*) &fiVetoHhits[0], 0, sizeof(fiVetoHhits));
       }
 
       Int_t Init();
@@ -47,6 +56,16 @@ class TascaUnpackEvent : public TGo4EventElement {
       UInt_t fiBackL[64];
       UInt_t fiVetoH[16];
       UInt_t fiVetoL[16];
+
+      UInt_t fiStopXLhits[4];
+      UInt_t fiStopXHhits[4];
+      UInt_t fiStopYLhits[4];
+      UInt_t fiStopYHhits[4];
+      UInt_t fiBackHhits[4];
+      UInt_t fiBackLhits[4];
+      UInt_t fiVetoHhits[4];
+      UInt_t fiVetoLhits[4];
+
       UInt_t fiMpxi[40];
       UInt_t fiGammaT[8];
       UInt_t fiGammaE[8];

@@ -9,8 +9,8 @@ void setup(Text_t* AutoSaveFile,Text_t* UnpackedFile,Text_t* CalibratedFile,Text
   TString unpackStore("no");
   TString unpackOverWrite("yes");
 
-  TString caliProcess("yes");
-  TString caliStore("yes");
+  TString caliProcess("no");
+  TString caliStore("no");
   TString caliOverWrite("yes");
 
   TString analysisProcess("no");
