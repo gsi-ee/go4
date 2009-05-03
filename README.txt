@@ -60,7 +60,7 @@ INSTALLATION:
       e.g. in a startup script qtlogin
 
 - Unpack this Go4 distribution in the future Go4 System directory,
-  e.g. /usr/local/pub/go4_4_2.00
+  e.g. /usr/local/pub/go4_4_2.01
 
 - In the Go4 System directory, execute script ". go4.init".
   This will set the environment $GO4SYS to the current directory 
