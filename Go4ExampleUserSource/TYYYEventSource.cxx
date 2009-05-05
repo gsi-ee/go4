@@ -10,16 +10,23 @@
 #include "TYYYRawEvent.h"
 
 TYYYEventSource::TYYYEventSource(const char* name,
-                                 const char* args, Int_t port)
-: TGo4EventSource(name),
- fbIsOpen(kFALSE), fxArgs(args), fiPort(port), fxFile(0)
+                                 const char* args,
+                                 Int_t port) :
+   TGo4EventSource(name),
+   fbIsOpen(kFALSE),
+   fxArgs(args),
+   fiPort(port),
+   fxFile(0)
 {
    Open();
 }
 
-TYYYEventSource::TYYYEventSource(TGo4UserSourceParameter* par)
-: TGo4EventSource(" "),
-fbIsOpen(kFALSE), fxArgs(" "), fiPort(0),fxFile(0)
+TYYYEventSource::TYYYEventSource(TGo4UserSourceParameter* par) :
+   TGo4EventSource(" "),
+   fbIsOpen(kFALSE),
+   fxArgs(" "),
+   fiPort(0),
+   fxFile(0)
 {
    if(par)
       {
@@ -34,13 +41,13 @@ fbIsOpen(kFALSE), fxArgs(" "), fiPort(0),fxFile(0)
       }
 }
 
-
-
-TYYYEventSource::TYYYEventSource()
-: TGo4EventSource("default YYY source"),
-   fbIsOpen(kFALSE), fxArgs(" "), fiPort(0),fxFile(0)
+TYYYEventSource::TYYYEventSource() :
+   TGo4EventSource("default YYY source"),
+   fbIsOpen(kFALSE),
+   fxArgs(" "),
+   fiPort(0),
+   fxFile(0)
 {
-
 }
 
 TYYYEventSource::~TYYYEventSource()
@@ -59,7 +66,7 @@ void TYYYEventSource::BuildYYYEvent(TYYYRawEvent* target)
    const char* cursor = fxNextline.Data();
    do{
       target->ReAllocate(numval+1); // check if realloc necessary
-      scanresult=sscanf(cursor,"%s",buffer);
+      scanresult = sscanf(cursor,"%s",buffer);
       //cout <<"BuildYYYEvent got buffer:"<<buffer<<", scanresult:";
       //cout << scanresult << endl;
       if(scanresult!=0 && scanresult!=-1)
@@ -94,7 +101,7 @@ void TYYYEventSource::BuildYYYEvent(TYYYRawEvent* target)
 Int_t TYYYEventSource::NextEvent()
 {
 // read another event from open file into our buffer
-do{
+   do {
         fxFile->getline(const_cast<Text_t*>(fxNextline.Data()),
                         TGo4EventSource::fguTXTLEN,
                         '\n' ); // read whole line
@@ -102,50 +109,38 @@ do{
           {
               // reached last line or read error?
               SetCreateStatus(1);
-              Text_t buffer[TGo4EventSource::fguTXTLEN];
-              snprintf(buffer,TGo4EventSource::fguTXTLEN,
-                  "End of input file %s", GetName());
-              SetErrMess(buffer);
+              SetErrMess(Form("End of input file %s", GetName()));
               throw TGo4EventErrorException(this);
           }
       //cout <<"read line:"<<fxNextline.Data() << endl;
-}while(strstr(fxNextline.Data(),"#") || strstr(fxNextline.Data(),"!") ); // skip any comments
+   }while(strstr(fxNextline.Data(),"#") || strstr(fxNextline.Data(),"!") ); // skip any comments
 
-return 0;
+   return 0;
 }
 
 Int_t TYYYEventSource::Open()
 {
-if(fbIsOpen)
-   return -1;
-cout << "Open of TYYYEventSource"<< endl;
-// open connection/file
-fxNextline.Capacity(TGo4EventSource::fguTXTLEN);
-Int_t status=0; // openstatus of source
-fxFile=new std::ifstream(GetName());
-if(fxFile==0)
-   {
-      status=1;
-      SetCreateStatus(status);
-      Text_t buffer[TGo4EventSource::fguTXTLEN];
-      snprintf(buffer,TGo4EventSource::fguTXTLEN,
-               "Eror opening user file:%s",GetName());
-      SetErrMess(buffer);
+   if(fbIsOpen) return -1;
+   cout << "Open of TYYYEventSource"<< endl;
+   // open connection/file
+   fxNextline.Capacity(TGo4EventSource::fguTXTLEN);
+   fxFile = new std::ifstream(GetName());
+   if((fxFile==0) || !fxFile->good()) {
+      delete fxFile; fxFile = 0;
+      SetCreateStatus(1);
+      SetErrMess(Form("Eror opening user file:%s",GetName()));
       throw TGo4EventErrorException(this);
    }
-fbIsOpen=kTRUE;
-return status;
+   fbIsOpen=kTRUE;
+   return 0;
 }
 
 Int_t TYYYEventSource::Close()
 {
-if(!fbIsOpen)
-   return -1;
-
-cout << "Close of TYYYEventSource"<< endl;
-Int_t status=0; // closestatus of source
-delete fxFile;
-fbIsOpen=kFALSE;
-return status;
-
+   if(!fbIsOpen) return -1;
+   cout << "Close of TYYYEventSource"<< endl;
+   Int_t status=0; // closestatus of source
+   delete fxFile;
+   fbIsOpen=kFALSE;
+   return status;
 }

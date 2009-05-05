@@ -15,17 +15,19 @@
 #include "TYYYParameter.h"
 
 //***********************************************************
-TYYYUnpackProc::TYYYUnpackProc()
-  : TGo4EventProcessor("YYYProc"),
-    fX(0),fY(0),fZ(0),fVX(0),fVY(0),fVZ(0),fNumScatt(0),
-    fXY(0),fVXVY(0), fXYCond(0),fVXVYCond(0),fEmitX(0),fEmitY(0),
-    fInput(0),fParam1(0)
+TYYYUnpackProc::TYYYUnpackProc() :
+   TGo4EventProcessor("YYYProc"),
+   fX(0),fY(0),fZ(0),fVX(0),fVY(0),fVZ(0),fNumScatt(0),
+   fXY(0),fVXVY(0), fXYCond(0), fVXVYCond(0), fEmitX(0), fEmitY(0), fEmitDist(0),
+   fWinConR(0), fWinConV(0), fPolyConEmit(0),
+   fParam1(0)
 {
 }
 //***********************************************************
 // this one is used in TYYYUnpackFact.cxx
-TYYYUnpackProc::TYYYUnpackProc(const char* name)
-  : TGo4EventProcessor(name)
+TYYYUnpackProc::TYYYUnpackProc(const char* name) :
+  TGo4EventProcessor(name)
+
 {
   cout << "**** TYYYUnpackProc: Create" << endl;
 
@@ -34,9 +36,8 @@ TYYYUnpackProc::TYYYUnpackProc(const char* name)
   fParam1   = (TYYYParameter *)   GetParameter("YYYPar1");
   fParam1->PrintParameter(0,0);
 
-  // Creation of histograms:
-  if(GetHistogram("Position/Xfinal")==0)
-    {
+  if(GetHistogram("Position/Xfinal")==0) {
+     // Creation of histograms:
       fX = new TH1D ("Xfinal", "Scatt sim x (nm)",1000,-1e7,1e+7);
       fY = new TH1D ("Yfinal", "Scatt sim y (nm)",1000,-1e7,1e+7);
       fZ = new TH1D ("Zfinal", "Scatt sim z (nm)",1000,1,1e+8);
@@ -53,8 +54,6 @@ TYYYUnpackProc::TYYYUnpackProc(const char* name)
       fEmitDist = new TH1D("Emit4d","transverse emittance distribution",4000,0,2e+5);
 
 
-
-
       AddHistogram(fX,"Position");
       AddHistogram(fY,"Position");
       AddHistogram(fZ,"Position");
@@ -69,9 +68,10 @@ TYYYUnpackProc::TYYYUnpackProc(const char* name)
       AddHistogram(fEmitX);
       AddHistogram(fEmitY);
       AddHistogram(fEmitDist);
-    }
-  else // got them from autosave file
-    {
+  } else {
+
+     // got them from autosave file
+
       fX = (TH1D*)GetHistogram("Position/Xfinal");
       fY = (TH1D*)GetHistogram("Position/Yfinal");
       fZ = (TH1D*)GetHistogram("Position/Zfinal");
@@ -89,9 +89,10 @@ TYYYUnpackProc::TYYYUnpackProc(const char* name)
 
       cout << "Unpack: Restored histograms from autosave" << endl;
     }
-  // Creation of conditions:
-  if(GetAnalysisCondition("RCondition")==0)
-    {
+
+  if(GetAnalysisCondition("RCondition")==0) {
+     // Creation of conditions:
+
       fWinConR= new TGo4WinCond("RCondition");
       fWinConR->SetValues(50,70);
       fWinConR->Disable(true); // return always true
@@ -108,13 +109,13 @@ TYYYUnpackProc::TYYYUnpackProc(const char* name)
       fPolyConEmit->Disable(true);
       delete mycut; // mycat has been copied into the conditions
 
-
       AddAnalysisCondition(fWinConR);
       AddAnalysisCondition(fWinConV);
       AddAnalysisCondition(fPolyConEmit);
-     }
-  else // got them from autosave file
-    {
+
+  } else {
+     // got them from autosave file
+
       fWinConR  = (TGo4WinCond*)  GetAnalysisCondition("RCondition");
       fWinConV  = (TGo4WinCond*)  GetAnalysisCondition("VCondition");
       fPolyConEmit = (TGo4PolyCond*) GetAnalysisCondition("EmittCondition");
@@ -123,58 +124,59 @@ TYYYUnpackProc::TYYYUnpackProc(const char* name)
       fPolyConEmit->ResetCounts();
       cout << "Unpack: Restored conditions from autosave" << endl;
     }
- fWinConR->Enable();
- fWinConR->PrintCondition(true);
- fPolyConEmit->Enable();
- fPolyConEmit->PrintCondition(true);
+   fWinConR->Enable();
+   fWinConR->PrintCondition(true);
+   fPolyConEmit->Enable();
+   fPolyConEmit->PrintCondition(true);
 }
 //***********************************************************
 TYYYUnpackProc::~TYYYUnpackProc()
 {
- fWinConR->PrintCondition(true);
- fPolyConEmit->PrintCondition(true);
+   fWinConR->PrintCondition(true);
+   fPolyConEmit->PrintCondition(true);
 }
 //***********************************************************
 
 //-----------------------------------------------------------
 void TYYYUnpackProc::YYYUnpack(TYYYUnpackEvent* poutevt)
 {
-  fInput    = dynamic_cast<TYYYRawEvent*> (GetInputEvent());
-  if(fInput)
-    {
-         // fill poutevt here:
-         for(Int_t i=0; i<3;++i)
-         {
-            poutevt->fdR[i]=fInput->fdData[i]; // units: nm
-            poutevt->fdV[i]=fInput->fdData[i+3]; // units: nm/ps
-         }
-         poutevt->fdR[0]-=5e+6; // correction for beam axis offset
-         poutevt->fdR[1]-=5e+6; // beam was shifted by 5 mm
-         poutevt->fiNumScatt= (Int_t) fInput->fdData[6];
-         // calculate derived values;
-         if(poutevt->fdV[2]) poutevt->fdGam[0]=poutevt->fdV[0]/poutevt->fdV[2]; // gammax=vx/vz (rad)
-         if(poutevt->fdV[2]) poutevt->fdGam[1]=poutevt->fdV[1]/poutevt->fdV[2]; // gammay=vy/vz (rad)
-         Double_t scalefact=1e-3; // transform nm*rad to mm*mrad
-         poutevt->fdEmittX=poutevt->fdR[0]*poutevt->fdGam[0]*TMath::Pi()*scalefact;
-         poutevt->fdEmittY=poutevt->fdR[1]*poutevt->fdGam[1]*TMath::Pi()*scalefact;
-         poutevt->fdEmitt4d=poutevt->fdEmittX*poutevt->fdEmittY;
-         // fill histograms:
-         fX->Fill(poutevt->fdR[0]);
-         fY->Fill(poutevt->fdR[1]);
-         fZ->Fill(poutevt->fdR[2]);;
-         fVX->Fill(poutevt->fdV[0]);
-         fVY->Fill(poutevt->fdV[1]);
-         fVZ->Fill(poutevt->fdV[2]);
-         fNumScatt->Fill(poutevt->fiNumScatt);
-         fXY->Fill(poutevt->fdR[0],poutevt->fdR[1]);
-         fVXVY->Fill(poutevt->fdV[0],poutevt->fdV[1]);
-         if(fWinConR->Test(poutevt->fdR[0],poutevt->fdR[1]))
-            fXYCond->Fill(poutevt->fdR[0],poutevt->fdR[1]);
-         if(fWinConV->Test(poutevt->fdV[0],poutevt->fdV[1]))
-            fVXVYCond->Fill(poutevt->fdV[0],poutevt->fdV[1]);
-        fEmitX->Fill(poutevt->fdR[0],poutevt->fdGam[0]);
-        fEmitY->Fill(poutevt->fdR[1],poutevt->fdGam[1]);
-        fEmitDist->Fill(poutevt->fdEmitt4d);
-  } // if(fInput)
-  else    cout << "YYYUnpackProc: no input event !"<< endl;
+   TYYYRawEvent *inp = dynamic_cast<TYYYRawEvent*> (GetInputEvent());
+   if (inp==0) {
+      cout << "YYYUnpackProc: no input event !"<< endl;
+      return;
+   }
+
+   // fill poutevt here:
+   for(Int_t i=0; i<3;++i)
+   {
+      poutevt->fdR[i] = inp->fdData[i]; // units: nm
+      poutevt->fdV[i] = inp->fdData[i+3]; // units: nm/ps
+   }
+   poutevt->fdR[0]-=5e+6; // correction for beam axis offset
+   poutevt->fdR[1]-=5e+6; // beam was shifted by 5 mm
+   poutevt->fiNumScatt= (Int_t) inp->fdData[6];
+   // calculate derived values;
+   if(poutevt->fdV[2]) poutevt->fdGam[0]=poutevt->fdV[0]/poutevt->fdV[2]; // gammax=vx/vz (rad)
+   if(poutevt->fdV[2]) poutevt->fdGam[1]=poutevt->fdV[1]/poutevt->fdV[2]; // gammay=vy/vz (rad)
+   Double_t scalefact=1e-3; // transform nm*rad to mm*mrad
+   poutevt->fdEmittX=poutevt->fdR[0]*poutevt->fdGam[0]*TMath::Pi()*scalefact;
+   poutevt->fdEmittY=poutevt->fdR[1]*poutevt->fdGam[1]*TMath::Pi()*scalefact;
+   poutevt->fdEmitt4d=poutevt->fdEmittX*poutevt->fdEmittY;
+   // fill histograms:
+   fX->Fill(poutevt->fdR[0]);
+   fY->Fill(poutevt->fdR[1]);
+   fZ->Fill(poutevt->fdR[2]);;
+   fVX->Fill(poutevt->fdV[0]);
+   fVY->Fill(poutevt->fdV[1]);
+   fVZ->Fill(poutevt->fdV[2]);
+   fNumScatt->Fill(poutevt->fiNumScatt);
+   fXY->Fill(poutevt->fdR[0],poutevt->fdR[1]);
+   fVXVY->Fill(poutevt->fdV[0],poutevt->fdV[1]);
+   if(fWinConR->Test(poutevt->fdR[0],poutevt->fdR[1]))
+      fXYCond->Fill(poutevt->fdR[0],poutevt->fdR[1]);
+   if(fWinConV->Test(poutevt->fdV[0],poutevt->fdV[1]))
+      fVXVYCond->Fill(poutevt->fdV[0],poutevt->fdV[1]);
+   fEmitX->Fill(poutevt->fdR[0],poutevt->fdGam[0]);
+   fEmitY->Fill(poutevt->fdR[1],poutevt->fdGam[1]);
+   fEmitDist->Fill(poutevt->fdEmitt4d);
 }

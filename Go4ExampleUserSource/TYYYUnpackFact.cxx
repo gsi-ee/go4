@@ -11,13 +11,13 @@
 #include "TYYYEventSource.h"
 
 //***********************************************************
-TYYYUnpackFact::TYYYUnpackFact(const char* name)
-: TGo4EventServerFactory(name)
+TYYYUnpackFact::TYYYUnpackFact(const char* name) :
+   TGo4EventServerFactory(name)
 {
 }
 //***********************************************************
-TYYYUnpackFact::TYYYUnpackFact()
-: TGo4EventServerFactory("YYY Event Fact")
+TYYYUnpackFact::TYYYUnpackFact() :
+   TGo4EventServerFactory("YYY Event Fact")
 {
 }
 //***********************************************************
@@ -28,16 +28,13 @@ TYYYUnpackFact::~TYYYUnpackFact()
 
 TGo4EventElement * TYYYUnpackFact::CreateInputEvent()
 {
-   TYYYRawEvent* event = new TYYYRawEvent("YYYRawEvent");
-   return event;
-
+   return new TYYYRawEvent("YYYRawEvent");
 }
 
 //-----------------------------------------------------------
 TGo4EventProcessor * TYYYUnpackFact::CreateEventProcessor(TGo4EventProcessorParameter* par)
 {
-   TYYYUnpackProc* proc = new TYYYUnpackProc("YYYUnpackProc");
-   return proc;
+   return new TYYYUnpackProc("YYYUnpackProc");
 }
 
 //-----------------------------------------------------------
@@ -51,20 +48,20 @@ TGo4EventElement * TYYYUnpackFact::CreateOutputEvent()
 //-----------------------------------------------------------
 TGo4EventSource * TYYYUnpackFact::CreateEventSource(TGo4EventSourceParameter * par)
 {
-TGo4EventSource* rev=0;
-if(par)
+   TGo4EventSource* rev=0;
+   if(par)
+   {
+      if(!strcmp(par->ClassName(),"TGo4UserSourceParameter"))
       {
-         if(!strcmp(par->ClassName(),"TGo4UserSourceParameter"))
-            {
-               rev= new TYYYEventSource(dynamic_cast<TGo4UserSourceParameter* > (par) );
-               cout <<"TYYYUnpackFact::CreateEventSource with UserSourceParameter" << endl;
-            }
-         else
-            {
-               rev=TGo4EventServerFactory::CreateEventSource(par);
-               cout <<"TYYYUnpackFact::CreateEventSource with parameter "<<par->GetName() << endl;
-
-            }
+         rev= new TYYYEventSource(dynamic_cast<TGo4UserSourceParameter* > (par) );
+         cout <<"TYYYUnpackFact::CreateEventSource with UserSourceParameter" << endl;
       }
-return rev;
+      else
+      {
+         rev=TGo4EventServerFactory::CreateEventSource(par);
+         cout <<"TYYYUnpackFact::CreateEventSource with parameter "<<par->GetName() << endl;
+
+      }
+   }
+   return rev;
 }

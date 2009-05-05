@@ -2,8 +2,6 @@
 #define TYYYEVENTSOURCE_H
 
 #include "TGo4EventSource.h"
-
-using namespace std;
 #include <fstream>
 
 class TYYYRawEvent;
