@@ -1614,9 +1614,9 @@ return rev;
 }
 
 
-Bool_t TGo4AnalysisObjectManager::RemoveObjectFromFolder(const Text_t* fullname, TFolder* fold, Bool_t isDel)
+Bool_t TGo4AnalysisObjectManager::RemoveObjectFromFolder(const char* fullname, TFolder* fold, Bool_t isDel)
 {
-TRACE((11,"TGo4AnalysisObjectManager::RemoveObjectFromFolder(const Text_t*, TFolder*, Bool_t)",__LINE__, __FILE__));
+TRACE((11,"TGo4AnalysisObjectManager::RemoveObjectFromFolder(const char*, TFolder*, Bool_t)",__LINE__, __FILE__));
 //
    if(fold==0) return kFALSE;
    TGo4LockGuard  dirguard(fxDirMutex);

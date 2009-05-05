@@ -212,34 +212,24 @@ void TGo4Marker::Print(Option_t* opt) const{
 
 void TGo4Marker::PrintMarker(Option_t* opt)
 {
-TString option=opt;
-option.ToLower();
-TString textbuffer="Marker ";
-textbuffer+=GetName();
-textbuffer+=" with";
-TH1* hist=GetHistogram();
-if(hist)
-   {
+   TString option=opt;
+   option.ToLower();
+   TString textbuffer="Marker ";
+   textbuffer+=GetName();
+   textbuffer+=" with";
+   TH1* hist=GetHistogram();
+   if(hist) {
       textbuffer+=" histogram: ";
       textbuffer+=hist->GetName();
-   }
-else
-   {
+   } else
       textbuffer+="out histogram";
-   }
-Text_t buffer[256];
-snprintf(buffer,256,
-      "\n    X:  \t\tY:  \t\tXbin:\t\tYbin:\t\tCounts:\n    %.2f\t\t%.2f\t\t%d\t\t%d\t\t%d",
-      GetX(), GetY(), GetXbin(),GetYbin(),GetCont());
-textbuffer+=buffer;
-if(option.Contains("go4log"))
-   {
+
+   textbuffer += Form("\n    X:  \t\tY:  \t\tXbin:\t\tYbin:\t\tCounts:\n    %.2f\t\t%.2f\t\t%d\t\t%d\t\t%d",
+         GetX(), GetY(), GetXbin(),GetYbin(),GetCont());
+   if(option.Contains("go4log"))
       TGo4Log::Message(1,textbuffer.Data());
-   }
-else
-   {
-      cout << textbuffer.Data() << endl;
-   }
+   else
+      std::cout << textbuffer.Data() << std::endl;
 }
 
 void TGo4Marker::SaveLabelStyle()

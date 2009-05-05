@@ -267,11 +267,7 @@ if(fbMultipleMode)
       if(fxMultiFile==0)
          {
             SetCreateStatus(GETEVT__NOFILE);
-            Text_t buffer[TGo4EventSource::fguTXTLEN];
-            //f_evt_error(GetCreateStatus(),buffer,1); // provide text message for later output
-            snprintf(buffer,TGo4EventSource::fguTXTLEN,
-               "Eror opening multiple infile:%s",fxMultiName.Data());
-            SetErrMess(buffer);
+            SetErrMess(Form("Eror opening multiple infile:%s",fxMultiName.Data()));
             throw TGo4EventErrorException(this);
          }
       while(NextFile()<0) {;} // skip invalid filenames
@@ -367,10 +363,7 @@ if(fbMultipleMode && fxMultiFile!=0)
           {
               // reached last filename, or read error?
               SetCreateStatus(GETEVT__NOFILE);
-              Text_t buffer[TGo4EventSource::fguTXTLEN];
-              snprintf(buffer,TGo4EventSource::fguTXTLEN,
-                  "End of multiple input namesfile %s", fxMultiName.Data());
-              SetErrMess(buffer);
+              SetErrMess(Form("End of multiple input namesfile %s", fxMultiName.Data()));
               //throw TGo4EventErrorException(this,3);
               throw TGo4EventEndException(this);
           }

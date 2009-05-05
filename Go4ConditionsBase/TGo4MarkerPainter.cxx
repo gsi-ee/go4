@@ -53,7 +53,6 @@ if(fxMarker && fxMarker->HasLabel())
       Bool_t drxbin=fxMarker->IsXbinDraw();
       Bool_t drybin=fxMarker->IsYbinDraw();
       Bool_t drcont=fxMarker->IsContDraw();
-      Text_t buffer[256];
       SetX0(xpmin);
       SetY0(ypmin); // initial coordinates are real axis coordinates
       SetLineColor(fxMarker->GetMarkerColor());
@@ -62,36 +61,21 @@ if(fxMarker && fxMarker->HasLabel())
       TH1* his=fxMarker->GetHistogram();
       if(his)
          {
-            cap+=":";      
+            cap+=":";
             cap+=his->GetName();
          }
       SetCaption(cap.Data());
       TGo4LabelPainter::PaintLabel();// this creates new label
       if(drx)
-         {
-            snprintf(buffer,256,"X    = %.4E",fxMarker->GetX());
-            AddToLabel(buffer);
-         }
+         AddToLabel(Form("X    = %.4E",fxMarker->GetX()));
       if(dry)
-         {
-            snprintf(buffer,256,"Y    = %.4E",fxMarker->GetY());
-            AddToLabel(buffer);
-         }
+         AddToLabel(Form("Y    = %.4E",fxMarker->GetY()));
       if(drxbin)
-         {
-            snprintf(buffer,256,"Xbin = %d",fxMarker->GetXbin());
-            AddToLabel(buffer);
-         }
+         AddToLabel(Form("Xbin = %d",fxMarker->GetXbin()));
       if(drybin)
-         {
-            snprintf(buffer,256,"Ybin = %d",fxMarker->GetYbin());
-            AddToLabel(buffer);
-         }
+         AddToLabel(Form("Ybin = %d",fxMarker->GetYbin()));
       if(drcont)
-         {
-            snprintf(buffer,256,"C    = %d",fxMarker->GetCont());
-            AddToLabel(buffer);
-         }
+         AddToLabel(Form("C    = %d",fxMarker->GetCont()));
       RePaintLabel();
       PaintConnector();
    }//if(fxMarker && fxMarker->HasLabel())
@@ -117,14 +101,14 @@ Bool_t TGo4MarkerPainter::CheckConnector()
        fbIsConStreamed=kFALSE;
        return kTRUE;
    }
-    if(TGo4LabelConnector::fxLastDeleted==(char*) fxConnector) 
+    if(TGo4LabelConnector::fxLastDeleted==(char*) fxConnector)
       {
          // our label was deleted by user mouse menu just before
          TGo4LabelConnector::fxLastDeleted=0;
          fxConnector=0; // reset reference, will re-create label on next paint
          return kFALSE;
       }
-   
+
 
    return fxConnector!=0;
 }

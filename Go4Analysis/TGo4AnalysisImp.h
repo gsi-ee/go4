@@ -369,14 +369,14 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /** Load Analysis Status from file and set analysis
       * to these settings. */
-    Bool_t LoadStatus(const Text_t* filename=0);
+    Bool_t LoadStatus(const char* filename=0);
 
     /** Load analysis objects from file. File is the autosave file by
       * default, but may be specified by name. */
-    Bool_t LoadObjects(const Text_t* filename=0);
+    Bool_t LoadObjects(const char* filename=0);
 
     /** Save current analysis settings into file of given name. */
-    Bool_t SaveStatus(const Text_t* filename=0);
+    Bool_t SaveStatus(const char* filename=0);
 
     /** Enable or disable check of subsequent analysis step
       * for io consistency. Default is on, disable for non

@@ -805,7 +805,7 @@ class TGo4AnalysisObjectManager : public TNamed
        * Return kTRUE if object was found and removed, otherwise kFALSE.
        * Used by RemoveHistogram etc. methods.
        */
-      Bool_t RemoveObjectFromFolder(const Text_t* fullname, TFolder* fold, Bool_t isDel);
+      Bool_t RemoveObjectFromFolder(const char* fullname, TFolder* fold, Bool_t isDel);
 
   /**
        * Update folder destination with the content of the folder source. Subfolder

@@ -537,9 +537,9 @@ void TGo4Analysis::SetStatus(TGo4AnalysisStatus * state)
 }
 
 
-Bool_t TGo4Analysis::LoadStatus(const Text_t * filename)
+Bool_t TGo4Analysis::LoadStatus(const char* filename)
 {
-   TRACE((11,"TGo4Analysis::LoadStatus(const Text_t*)",__LINE__, __FILE__));
+   TRACE((11,"TGo4Analysis::LoadStatus(const char*)",__LINE__, __FILE__));
    //
    Bool_t rev=kFALSE;
    Int_t buflen=1024;
@@ -594,15 +594,15 @@ Bool_t TGo4Analysis::LoadStatus(const Text_t * filename)
    return rev;
 }
 
-Bool_t TGo4Analysis::SaveStatus(const Text_t* filename)
+Bool_t TGo4Analysis::SaveStatus(const char* filename)
 {
-   TRACE((11,"TGo4Analysis::SaveStatus(const Text_t*)",__LINE__, __FILE__));
+   TRACE((11,"TGo4Analysis::SaveStatus(const char*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
    Int_t buflen=1024;
    Text_t buffer[1024];
    if(filename)
       {
-         strncpy(buffer,filename,buflen-100);
+         strncpy(buffer, filename, buflen-100);
       }
    else
       {
@@ -897,7 +897,7 @@ Message(0,"Analysis BaseClass --  Nameslist updated.");
 
 
 
-Bool_t TGo4Analysis::LoadObjects(const Text_t * filename)
+Bool_t TGo4Analysis::LoadObjects(const char* filename)
 {
 TGo4LockGuard  autoguard(fxAutoSaveMutex);
 Bool_t rev=kTRUE;

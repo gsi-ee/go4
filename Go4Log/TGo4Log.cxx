@@ -262,38 +262,23 @@ catch(...)
 
 void TGo4Log::WriteLogfile(const char* text, Bool_t withtime)
 {
-TGo4LockGuard(fxMutex);
-if(text==0) return;
-if((fgxLogfile!=0) && fgbLogfileEnabled)
-{
-try
-   {
-   if(withtime)
-      {
-         Text_t buffer[fguMESLEN];
+   TGo4LockGuard(fxMutex);
+   if((text==0) || !fgbLogfileEnabled || (fgxLogfile==0)) return;
+   try {
+      if(withtime) {
          TDatime now;
-         snprintf(buffer,fguMESLEN,"%s: %s",
-                     now.AsSQLString(),
-                        text);
-         *((std::ofstream*)fgxLogfile) << buffer << endl;
+         *((std::ofstream*)fgxLogfile) << now.AsSQLString() << ": ";
       }
-   else
-      {
-         *((std::ofstream*)fgxLogfile) << text << endl;
-      }
+      *((std::ofstream*)fgxLogfile) << text << endl;
    }// try
-catch(std::exception& ex) // treat standard library exceptions
+   catch(std::exception& ex) // treat standard library exceptions
    {
      cerr <<"standard exception "<<ex.what()<<"in TGo4Log::WriteLogfile" << endl;
    }
-catch(...)
+   catch(...)
    {
        cerr <<"!!! Unexpected exception in TGo4Log::WriteLogfile !!!" << endl;
    } // catch
-
-
-}
-
 }
 
 

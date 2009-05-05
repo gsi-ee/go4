@@ -86,7 +86,7 @@ if(fxCondition && fxCondition->IsVisible())
    Bool_t isarray=fxCondition->IsArrayType();
    Bool_t ismulti=fxCondition->IsMultiEdit();
    TH1* histogram=fxCondition->GetWorkHistogram();
-   Text_t buffer[256];
+
    if((isarray && !ismulti) || !haslabel)
       {
          // no label: remove previous label
@@ -104,66 +104,37 @@ if(fxCondition && fxCondition->IsVisible())
           TH1* his=fxCondition->GetWorkHistogram();
           if(his)
             {
-               cap+=":";      
+               cap+=":";
                cap+=his->GetName();
             }
           SetCaption(cap.Data());
           TGo4LabelPainter::PaintLabel();// this creates new label at initial coords
-         if(drlimits)
+          if(drlimits)
             {
-               snprintf(buffer,256,"X1   = %.4E",fxCondition->GetXLow());
-               AddToLabel(buffer);
-               snprintf(buffer,256,"X2   = %.4E",fxCondition->GetXUp());
-               AddToLabel(buffer);
+               AddToLabel(Form("X1   = %.4E",fxCondition->GetXLow()));
+               AddToLabel(Form("X2   = %.4E",fxCondition->GetXUp()));
                if(fxCondition->GetDimension()>1)
                {
-                  snprintf(buffer,256,"Y1   = %.4E",fxCondition->GetYLow());
-                  AddToLabel(buffer);
-                  snprintf(buffer,256,"Y2   = %.4E",fxCondition->GetYUp());
-                  AddToLabel(buffer);
+                  AddToLabel(Form("Y1   = %.4E",fxCondition->GetYLow()));
+                  AddToLabel(Form("Y2   = %.4E",fxCondition->GetYUp()));
                }
             }
          if(drint)
-            {
-               snprintf(buffer,256,"Int   = %.4E",fxCondition->GetIntegral(histogram));
-               AddToLabel(buffer);
-            }
+            AddToLabel(Form("Int   = %.4E",fxCondition->GetIntegral(histogram)));
          if(drxmean)
-            {
-               snprintf(buffer,256,"Xmean = %.4E",fxCondition->GetMean(histogram,1));
-               AddToLabel(buffer);
-            }
-
+            AddToLabel(Form("Xmean = %.4E",fxCondition->GetMean(histogram,1)));
          if(drxrms)
-            {
-               snprintf(buffer,256,"Xrms  = %.4E",fxCondition->GetRMS(histogram,1));
-               AddToLabel(buffer);
-            }
+            AddToLabel(Form("Xrms  = %.4E",fxCondition->GetRMS(histogram,1)));
          if(drxmax)
-            {
-               snprintf(buffer,256,"Xmax  = %.4E",fxCondition->GetXMax(histogram));
-               AddToLabel(buffer);
-            }
+            AddToLabel(Form("Xmax  = %.4E",fxCondition->GetXMax(histogram)));
          if(drymean)
-            {
-               snprintf(buffer,256,"Ymean = %.4E",fxCondition->GetMean(histogram,2));
-               AddToLabel(buffer);
-            }
+            AddToLabel(Form("Ymean = %.4E",fxCondition->GetMean(histogram,2)));
          if(dryrms)
-            {
-               snprintf(buffer,256,"Yrms  = %.4E",fxCondition->GetRMS(histogram,2));
-               AddToLabel(buffer);
-            }
+            AddToLabel(Form("Yrms  = %.4E",fxCondition->GetRMS(histogram,2)));
          if(drymax)
-            {
-               snprintf(buffer,256,"Ymax  = %.4E",fxCondition->GetYMax(histogram));
-               AddToLabel(buffer);
-            }
+            AddToLabel(Form("Ymax  = %.4E",fxCondition->GetYMax(histogram)));
          if(drcmax)
-            {
-               snprintf(buffer,256,"Cmax  = %.4E",fxCondition->GetCMax(histogram));
-               AddToLabel(buffer);
-            }
+            AddToLabel(Form("Cmax  = %.4E",fxCondition->GetCMax(histogram)));
          RePaintLabel();
       }//if((isarray && !ismulti) || !haslabel)
    }//if(fxCondition && fxCondition->IsVisible())

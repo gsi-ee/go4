@@ -232,23 +232,16 @@ else
 
    //textbuffer+="\n";
    if(option.Contains("limits"))
-      {
-         Text_t buffer[256];
-         snprintf(buffer,256,
-               "\n!  Xlow: \t\tXup: \t\tYlow: \t\tYup:\n   %.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t",
+      textbuffer +=
+         Form("\n!  Xlow: \t\tXup: \t\tYlow: \t\tYup:\n   %.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t",
                localthis->GetXLow(),localthis->GetXUp(),localthis->GetYLow(),localthis->GetYUp());
-         textbuffer+=buffer;
 
-      }
    if(option.Contains("flags"))
-      {
-          Text_t buffer[256];
-          snprintf(buffer,256,
-            "\n!  Status:\n!  Enab.: \tVis.: \tRes.: \tTrue: \tCnts: \tTrueCnts:\n   %d\t\t%d\t%d\t%d\t%d\t%d",
-             localthis->fbEnabled, localthis->IsVisible(), localthis->fbResult, localthis->fbTrue,
-             localthis->Counts(), localthis->TrueCounts());
-          textbuffer+=buffer;
-      }
+      textbuffer +=
+         Form("\n!  Status:\n!  Enab.: \tVis.: \tRes.: \tTrue: \tCnts: \tTrueCnts:\n   %d\t\t%d\t%d\t%d\t%d\t%d",
+               localthis->fbEnabled, localthis->IsVisible(), localthis->fbResult, localthis->fbTrue,
+               localthis->Counts(), localthis->TrueCounts());
+
    if(option.Contains("stats"))
       {
          // output of region statistics
@@ -259,12 +252,10 @@ else
             {
                textbuffer+=" histogram: ";
                textbuffer+=hist->GetName();
-               Text_t buffer[256];
-               snprintf(buffer,256,
-               "\n!   Int:\t\tXmax:\t\tYmax:\t\tCmax:\t\tXmean:\t\tYmean:\t\tXrms:\t\tYrms:\n    %.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f",
-               localthis->GetIntegral(hist), localthis->GetXMax(hist),localthis->GetYMax(hist), localthis->GetCMax(hist),
-               localthis->GetMean(hist,1), localthis->GetMean(hist,2), localthis->GetRMS(hist,1), localthis->GetRMS(hist,2));
-               textbuffer+=buffer;
+               textbuffer +=
+                  Form("\n!   Int:\t\tXmax:\t\tYmax:\t\tCmax:\t\tXmean:\t\tYmean:\t\tXrms:\t\tYrms:\n    %.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f",
+                        localthis->GetIntegral(hist), localthis->GetXMax(hist),localthis->GetYMax(hist), localthis->GetCMax(hist),
+                        localthis->GetMean(hist,1), localthis->GetMean(hist,2), localthis->GetRMS(hist,1), localthis->GetRMS(hist,2));
             }
          else
             {
