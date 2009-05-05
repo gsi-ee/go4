@@ -47,6 +47,24 @@ class TascaCaliEvent : public TGo4EventElement {
       Float_t ffVetoL[16];
       Float_t ffGammaMysec[8];
       Float_t ffGammaKev[8];
+      // index of maximum hit, if we had more than one hit
+      UInt_t fiStopXLhitI;
+      UInt_t fiStopXHhitI;
+      UInt_t fiStopYLhitI;
+      UInt_t fiStopYHhitI;
+      UInt_t fiBackHhitI;
+      UInt_t fiBackLhitI;
+      UInt_t fiVetoHhitI;
+      UInt_t fiVetoLhitI;
+      // value of maximum hit, if we had more than one hit
+      Float_t ffStopXLhitV;
+      Float_t ffStopXHhitV;
+      Float_t ffStopYLhitV;
+      Float_t ffStopYHhitV;
+      Float_t ffBackHhitV;
+      Float_t ffBackLhitV;
+      Float_t ffVetoHhitV;
+      Float_t ffVetoLhitV;
 
    private:
       TascaCaliProc * fxTascaEP;  //! Don't put this to file

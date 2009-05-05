@@ -218,33 +218,32 @@ if(servermode)
 // analysis->Print();
 // ===================== End analysis setup ================================
 
- if(runningMode == kBatch)
-   {
-     cout << "Tasca> Main: starting analysis in batch mode ...  " << endl;
-     analysis->SetAutoSave(kTRUE);   // optional enable auto-save
-     if (analysis->InitEventClasses() )
-       {
-    analysis->RunImplicitLoop(maxevents);
-    delete analysis;
-    cout << "Tasca> Main: Done!"<<endl;
-    gApplication->Terminate();
-       }
-     else
-       {
-    cout << "Tasca> Main: Init event classes failed, aborting!"<<endl;
-    gApplication->Terminate();
-       }
-   }
- if(runningMode == kGUI)
-   {
-     if(servermode)  cout << "Tasca> Main: starting analysis in server mode ..." << endl;
-     else            cout << "Tasca> Main: starting analysis in slave mode ..." << endl;
-     // to start histogram server: kTRUE,"base","password"
-     TGo4AnalysisClient* client = new TGo4AnalysisClient(serv, analysis, hostname, iport, kFALSE, "", "", servermode, autorun);
-     // other ctor needs at least 5 argcs, disabled..
-     //TGo4AnalysisClient* client = new TGo4AnalysisClient(argc,argv,analysis,kFALSE,"","",servermode, autorun);
-     cout << "Tasca> Main created AnalysisClient Instance: "<<client->GetName()<<endl;
-   }
+if(runningMode == kBatch)
+{
+	cout << "Tasca> Main: starting analysis in batch mode ...  " << endl;
+	if (analysis->InitEventClasses() )
+	{
+		analysis->RunImplicitLoop(maxevents);
+		delete analysis;
+		cout << "Tasca> Main: Done!"<<endl;
+		gApplication->Terminate();
+	}
+	else
+	{
+		cout << "Tasca> Main: Init event classes failed, aborting!"<<endl;
+		gApplication->Terminate();
+	}
+}
+if(runningMode == kGUI)
+{
+	if(servermode)  cout << "Tasca> Main: starting analysis in server mode ..." << endl;
+	else            cout << "Tasca> Main: starting analysis in slave mode ..." << endl;
+	// to start histogram server: kTRUE,"base","password"
+	TGo4AnalysisClient* client = new TGo4AnalysisClient(serv, analysis, hostname, iport, kFALSE, "", "", servermode, autorun);
+	// other ctor needs at least 5 argcs, disabled..
+	//TGo4AnalysisClient* client = new TGo4AnalysisClient(argc,argv,analysis,kFALSE,"","",servermode, autorun);
+	cout << "Tasca> Main created AnalysisClient Instance: "<<client->GetName()<<endl;
+}
 //=================  start root application loop ==========================
 cout << "Tasca> Run the application loop" << endl;
 theApp.Run();

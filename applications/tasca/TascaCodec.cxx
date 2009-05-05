@@ -3,29 +3,40 @@ using namespace std;
 #include <string>
 #include "TascaCodec.h"
 TascaCodec::TascaCodec() : TGo4Parameter(),
-testmaxi(0),test(0),fiValue(0)
+testmaxi(7),test(0),fiValue(0),fiReg0(0),fiReg1(0),fiReg2(0),fiReg3(0)
 {}
 TascaCodec::TascaCodec(const char* name) : TGo4Parameter(name),
-testmaxi(0),test(0),fiValue(0)
+testmaxi(7),test(0),fiValue(0),fiReg0(0),fiReg1(0),fiReg2(0),fiReg3(0)
 {}
 TascaCodec::~TascaCodec()
 {}
 
-void TascaCodec::setMpxIndex(UInt_t reg0, UInt_t reg1, UInt_t reg2, UInt_t reg3){
-int s=0;
-	fiReg0=reg0;
-	fiReg1=reg1;
-	fiReg2=reg2;
-	fiReg3=reg3;
-	for(int i=0;i<10;i++){
-		fiMpxIndex[i]   =((reg0>>s)&7) + test;
-		fiMpxIndex[i+10]=((reg1>>s)&7) + test;
-		fiMpxIndex[i+20]=((reg2>>s)&7) + test;
-		fiMpxIndex[i+30]=((reg3>>s)&7) + test;
+void TascaCodec::setMpxIndex(UInt_t reg0, UInt_t reg1, UInt_t reg2, UInt_t reg3)
+{
+int s=0,i;
+// bits are inverted!
+	fiReg0=~reg0;
+	fiReg1=~reg1;
+	fiReg2=~reg2;
+	fiReg3=~reg3;
+	for(i=0;i<5;i++){
+		fiMpxIndex[i]    = ((fiReg0>>s)&7) - test;
+		fiMpxIndex[i+10] = ((fiReg1>>s)&7) - test;
+		fiMpxIndex[i+20] = ((fiReg2>>s)&7) - test;
+		fiMpxIndex[i+30] = ((fiReg3>>s)&7) - test;
+		s += 3;
+	}
+	s++; // skip flag bit
+	for(i=5;i<10;i++){
+		fiMpxIndex[i]    = ((fiReg0>>s)&7) - test;
+		fiMpxIndex[i+10] = ((fiReg1>>s)&7) - test;
+		fiMpxIndex[i+20] = ((fiReg2>>s)&7) - test;
+		fiMpxIndex[i+30] = ((fiReg3>>s)&7) - test;
 		s += 3;
 	}
 	test++;
 	if(test > testmaxi) test=0;
+	if(testmaxi > 7)cout << "Testmaxi " << testmaxi << endl;
 }
 void TascaCodec::setMap(Bool_t print){
 int i=0,si=0;

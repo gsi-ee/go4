@@ -20,6 +20,7 @@
 #include "TGo4CondArray.h"
 #include "TGo4Picture.h"
 
+#include "TascaControl.h"
 #include "TascaParameter.h"
 #include "TascaPedestals.h"
 #include "TascaUnpackEvent.h"
@@ -45,6 +46,11 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 
   anl=(TascaAnalysis *)TGo4Analysis::Instance();
 
+  fControl   = (TascaControl *) GetParameter("Controls");
+  if(fControl==0){
+	  fControl = new TascaControl("Controls");
+	  AddParameter(fControl);
+  }
   fParam   = (TascaParameter *) GetParameter("Parameters");
   if(fParam==0){
 	  fParam = new TascaParameter("Parameters");
@@ -60,7 +66,8 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
     codec = new TascaCodec("Codec");
     AddParameter(codec);
   }
-  codec->setMap(false);
+  codec->Cleanup();
+  codec->setMap(true);
   evcount=0;
 
 // Creation of histograms:
@@ -86,9 +93,9 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   for(i =0;i<96;i++)
   {
 	snprintf(chis,15,"Adc_%02d",i);
-	if(i > 63)      snprintf(chead,63,"Mod 11 chan %2d",i-64);
-	else if(i > 31) snprintf(chead,63,"Mod 09 chan %2d",i-32);
-	else            snprintf(chead,63,"Mod 07 chan %2d",i);
+	if(i > 63)      snprintf(chead,63,"Mod 3 chan %2d",i-64);
+	else if(i > 31) snprintf(chead,63,"Mod 2 chan %2d",i-32);
+	else            snprintf(chead,63,"Mod 1 chan %2d",i);
 	fAdc[i] = anl->CreateTH1I("Raw/AllAdc",chis,chead,5000,0.5,5000.5);
   }
   for(i =0;i<8;i++)
@@ -198,10 +205,10 @@ while(adcs > 0){
 	  channels=codec->getCnt();
 	  address=codec->getAddress();
 	  //cout << "    Crate=" << crate << " addr=" << address << " channels=" << channels << endl;
-	  switch (address){
-		  case V785_1: off= 0; break;
-		  case V785_2: off=32; break;
-		  case V785_3: off=64; break;
+	  switch (adcs){ // 2 is first, 0 last
+		  case 2: off= 0; break;
+		  case 1: off=32; break;
+		  case 0: off=64; break;
 		  default: off= 0; cout<<"Unknown V785 "<<address<<endl;break;
 	  }
 	  for(i=0;i<channels;i++){
@@ -222,28 +229,14 @@ while(adcs > 0){
   }
   } // loop over ADCs
 
-if(fPedestals->fbCalibrate)	for(i=0;i<96;i++){
+if(fPedestals->fbCalibrate)	{
+	for(i=0;i<96;i++){
 	pUnpackEvent->fiAdc[i]=pUnpackEvent->fiAdc[i]+
 	(UInt_t )(fPedestals->ffOffset-fPedestals->ffPedestals[i]);
 	fAdcAllCal->Fill(pUnpackEvent->fiAdc[i]);
-}
+}}
 
 // now fill the detector arrays. Low is even, high is odd index in fiAdc
-// StopX
-for(i=0;i<codec->getStopXnoAdc();i++){
-	k=codec->getStopXAdc(i); // ADC channel index, low or high
-	n=codec->getIndex(k);    // from that get stripe index
-	if((pUnpackEvent->fiAdc[2*k]>0)&(iStopXLhits<4)){
-		pUnpackEvent->fiStopXLhits[iStopXLhits]=n;
-		iStopXLhits++;
-	}
-	if((pUnpackEvent->fiAdc[2*k+1]>0)&(iStopXHhits<4)){
-		pUnpackEvent->fiStopXHhits[iStopXHhits]=n;
-		iStopXHhits++;
-	}
-	pUnpackEvent->fiStopXL[n]=pUnpackEvent->fiAdc[2*k];
-	pUnpackEvent->fiStopXH[n]=pUnpackEvent->fiAdc[2*k+1];
-}//StopX
 // StopY
 for(i=0;i<codec->getStopYnoAdc();i++){
 	k=codec->getStopYAdc(i); // ADC channel index, low or high
@@ -251,14 +244,48 @@ for(i=0;i<codec->getStopYnoAdc();i++){
 	if((pUnpackEvent->fiAdc[2*k]>0)&(iStopYLhits<4)){
 		pUnpackEvent->fiStopYLhits[iStopYLhits]=n;
 		iStopYLhits++;
+		if(pUnpackEvent->fiAdc[2*k]>pUnpackEvent->fiStopYLhitV){
+			pUnpackEvent->fiStopYLhitV=pUnpackEvent->fiAdc[2*k];
+			pUnpackEvent->fiStopYLhitI=n;
+		}
 	}
 	if((pUnpackEvent->fiAdc[2*k+1]>0)&(iStopYHhits<4)){
 		pUnpackEvent->fiStopYHhits[iStopYHhits]=n;
 		iStopYHhits++;
+		if(pUnpackEvent->fiAdc[2*k+1]>pUnpackEvent->fiStopYHhitV){
+			pUnpackEvent->fiStopYHhitV=pUnpackEvent->fiAdc[2*k+1];
+			pUnpackEvent->fiStopYHhitI=n;
+		}
 	}
 	pUnpackEvent->fiStopYL[n]=pUnpackEvent->fiAdc[2*k];
 	pUnpackEvent->fiStopYH[n]=pUnpackEvent->fiAdc[2*k+1];
 }//StopY
+//printf("YHi %d ",pUnpackEvent->fiStopYHhitI);
+// StopX
+for(i=0;i<codec->getStopXnoAdc();i++){
+	k=codec->getStopXAdc(i); // ADC channel index, low or high
+	n=codec->getIndex(k);    // from that get stripe index
+	//cout << "k " << k << " n " << n << " adc "<< pUnpackEvent->fiAdc[2*k+1]<<endl;
+	if((pUnpackEvent->fiAdc[2*k]>0)&(iStopXLhits<4)){
+		pUnpackEvent->fiStopXLhits[iStopXLhits]=n;
+		iStopXLhits++;
+		if(pUnpackEvent->fiAdc[2*k]>pUnpackEvent->fiStopXLhitV){
+			pUnpackEvent->fiStopXLhitV=pUnpackEvent->fiAdc[2*k];
+			pUnpackEvent->fiStopXLhitI=n;
+		}
+	}
+	if((pUnpackEvent->fiAdc[2*k+1]>0)&(iStopXHhits<4)){
+		pUnpackEvent->fiStopXHhits[iStopXHhits]=n;
+		iStopXHhits++;
+		if(pUnpackEvent->fiAdc[2*k+1]>pUnpackEvent->fiStopXHhitV){
+			pUnpackEvent->fiStopXHhitV=pUnpackEvent->fiAdc[2*k+1];
+			pUnpackEvent->fiStopXHhitI=n;
+			//printf("n %d adc %d\n",pUnpackEvent->fiStopXHhitI,pUnpackEvent->fiStopXHhitV);
+		}
+	}
+	pUnpackEvent->fiStopXL[n]=pUnpackEvent->fiAdc[2*k];
+	pUnpackEvent->fiStopXH[n]=pUnpackEvent->fiAdc[2*k+1];
+}//StopX
 // Back
 for(i=0;i<codec->getBacknoAdc();i++){
 	k=codec->getBackAdc(i); // ADC channel index, low or high
@@ -266,10 +293,18 @@ for(i=0;i<codec->getBacknoAdc();i++){
 	if((pUnpackEvent->fiAdc[2*k]>0)&(iBackLhits<4)){
 		pUnpackEvent->fiBackLhits[iBackLhits]=n;
 		iBackLhits++;
+		if(pUnpackEvent->fiAdc[2*k]>pUnpackEvent->fiBackLhitV){
+			pUnpackEvent->fiBackLhitV=pUnpackEvent->fiAdc[2*k];
+			pUnpackEvent->fiBackLhitI=n;
+		}
 	}
 	if((pUnpackEvent->fiAdc[2*k+1]>0)&(iBackHhits<4)){
 		pUnpackEvent->fiBackHhits[iBackHhits]=n;
 		iBackHhits++;
+		if(pUnpackEvent->fiAdc[2*k+1]>pUnpackEvent->fiBackHhitV){
+			pUnpackEvent->fiBackHhitV=pUnpackEvent->fiAdc[2*k+1];
+			pUnpackEvent->fiBackHhitI=n;
+		}
 	}
 	pUnpackEvent->fiBackL[n]=pUnpackEvent->fiAdc[2*k];
 	pUnpackEvent->fiBackH[n]=pUnpackEvent->fiAdc[2*k+1];
@@ -281,10 +316,18 @@ for(i=0;i<codec->getVetonoAdc();i++){
 	if((pUnpackEvent->fiAdc[2*k]>0)&(iVetoLhits<4)){
 		pUnpackEvent->fiVetoLhits[iVetoLhits]=n;
 		iVetoLhits++;
+		if(pUnpackEvent->fiAdc[2*k]>pUnpackEvent->fiVetoLhitV){
+			pUnpackEvent->fiVetoLhitV=pUnpackEvent->fiAdc[2*k];
+			pUnpackEvent->fiVetoLhitI=n;
+		}
 	}
 	if((pUnpackEvent->fiAdc[2*k+1]>0)&(iVetoHhits<4)){
 		pUnpackEvent->fiVetoHhits[iVetoHhits]=n;
 		iVetoHhits++;
+		if(pUnpackEvent->fiAdc[2*k+1]>pUnpackEvent->fiVetoHhitV){
+			pUnpackEvent->fiVetoHhitV=pUnpackEvent->fiAdc[2*k+1];
+			pUnpackEvent->fiVetoHhitI=n;
+		}
 	}
 	pUnpackEvent->fiVetoL[n]=pUnpackEvent->fiAdc[2*k];
 	pUnpackEvent->fiVetoH[n]=pUnpackEvent->fiAdc[2*k+1];
@@ -292,6 +335,8 @@ for(i=0;i<codec->getVetonoAdc();i++){
 }// V785 ADCs
 // follows Sis3302
 if(pdata != pbehind){
+	cout << "NO GAMMA" << endl;
+  pdata++; // skip first tag word
   DecodeGamma(pdata,pbehind);
   pUnpackEvent->SetValid(kTRUE); // to store
   for(i=0;i<codec->SCHANNELS;i++)

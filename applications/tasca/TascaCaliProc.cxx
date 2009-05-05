@@ -14,6 +14,7 @@
 
 #include "TGo4Picture.h"
 
+#include "TascaControl.h"
 #include "TascaParameter.h"
 #include "TascaCalibration.h"
 #include "TascaCaliEvent.h"
@@ -36,6 +37,11 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 
   anl=(TascaAnalysis *)TGo4Analysis::Instance();
 
+  fControl   = (TascaControl *) GetParameter("Controls");
+  if(fControl==0){
+	  fControl = new TascaControl("Controls");
+	  AddParameter(fControl);
+  }
   fCalibration   = (TascaCalibration *) GetParameter("Calibration");
   if(fCalibration==0){
 	  fCalibration = new TascaCalibration("Calibration");
@@ -166,46 +172,63 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 
   poutevt->SetValid(kFALSE); // not to store
   fInput    = (TascaUnpackEvent* ) GetInputEvent(); // from this
-  poutevt->ffTimeStamp=fInput->fiTimeStamp;
-  for(i=0;i<144;i++)
-	  for(k=0;k<96;k++)
-		  if((fInput->fiStopXL[i]>0)&(fInput->fiStopYL[k]>0))
-			  fhStopL->Fill(i,k);
+  poutevt->fiStopXLhitI=fInput->fiStopXLhitI;
+  poutevt->fiStopXHhitI=fInput->fiStopXHhitI;
+  poutevt->fiStopYLhitI=fInput->fiStopYLhitI;
+  poutevt->fiStopYHhitI=fInput->fiStopYHhitI;
+  poutevt->fiBackHhitI=fInput->fiBackHhitI;
+  poutevt->fiBackLhitI=fInput->fiBackLhitI;
+  poutevt->fiVetoHhitI=fInput->fiVetoHhitI;
+  poutevt->fiVetoLhitI=fInput->fiVetoLhitI;
+  // value of maximum hit, if we had more than one hit
+  poutevt->ffStopXLhitV=(Float_t)fInput->fiStopXLhitV;
+  poutevt->ffStopXHhitV=(Float_t)fInput->fiStopXHhitV;
+  poutevt->ffStopYLhitV=(Float_t)fInput->fiStopYLhitV;
+  poutevt->ffStopYHhitV=(Float_t)fInput->fiStopYHhitV;
+  poutevt->ffBackHhitV=(Float_t)fInput->fiBackHhitV;
+  poutevt->ffBackLhitV=(Float_t)fInput->fiBackLhitV;
+  poutevt->ffVetoHhitV=(Float_t)fInput->fiVetoHhitV;
+  poutevt->ffVetoLhitV=(Float_t)fInput->fiVetoLhitV;
+  poutevt->ffTimeStamp=(Float_t)fInput->fiTimeStamp;
+//  for(i=0;i<144;i++)
+//	  for(k=0;k<96;k++)
+//		  if((fInput->fiStopXL[i]>0)&(fInput->fiStopYL[k]>0))
+//			  fhStopL->Fill(i,k);
   for(i=0;i<144;i++){
-	  poutevt->ffStopXL[i]=fInput->fiStopXL[i];
-	  poutevt->ffStopXH[i]=fInput->fiStopXH[i];
+	  poutevt->ffStopXL[i]=(Float_t)fInput->fiStopXL[i];
+	  poutevt->ffStopXH[i]=(Float_t)fInput->fiStopXH[i];
 	  if(fInput->fiStopXL[i]>0)fhdStopXL->Fill(i);
 	  if(fInput->fiStopXH[i]>0)fhdStopXH->Fill(i);
 	  fhStopXL[i]->Fill(fInput->fiStopXL[i]);
 	  fhStopXH[i]->Fill(fInput->fiStopXH[i]);
   }
   for(i=0;i<96;i++){
-	  poutevt->ffStopYL[i]=fInput->fiStopYL[i];
-	  poutevt->ffStopYH[i]=fInput->fiStopYH[i];
+	  poutevt->ffStopYL[i]=(Float_t)fInput->fiStopYL[i];
+	  poutevt->ffStopYH[i]=(Float_t)fInput->fiStopYH[i];
 	  if(fInput->fiStopYL[i]>0)fhdStopYL->Fill(i);
 	  if(fInput->fiStopYH[i]>0)fhdStopYH->Fill(i);
 	  fhStopYL[i]->Fill(fInput->fiStopYL[i]);
 	  fhStopYH[i]->Fill(fInput->fiStopYH[i]);
   }
   for(i=0;i<64;i++){
-	  poutevt->ffBackL[i]=fInput->fiBackL[i];
-	  poutevt->ffBackH[i]=fInput->fiBackH[i];
+	  poutevt->ffBackL[i]=(Float_t)fInput->fiBackL[i];
+	  poutevt->ffBackH[i]=(Float_t)fInput->fiBackH[i];
 	  if(fInput->fiBackL[i]>0)fhdBackL->Fill(i);
 	  if(fInput->fiBackH[i]>0)fhdBackH->Fill(i);
 	  fhBackL[i]->Fill(fInput->fiBackL[i]);
 	  fhBackH[i]->Fill(fInput->fiBackH[i]);
   }
   for(i=0;i<16;i++){
-	  poutevt->ffVetoL[i]=fInput->fiVetoL[i];
-	  poutevt->ffVetoH[i]=fInput->fiVetoH[i];
+	  poutevt->ffVetoL[i]=(Float_t)fInput->fiVetoL[i];
+	  poutevt->ffVetoH[i]=(Float_t)fInput->fiVetoH[i];
 	  if(fInput->fiVetoL[i]>0)fhdVetoL->Fill(i);
 	  if(fInput->fiVetoH[i]>0)fhdVetoH->Fill(i);
 	  fhVetoL[i]->Fill(fInput->fiVetoL[i]);
 	  fhVetoH[i]->Fill(fInput->fiVetoH[i]);
   }
   for(i=0;i<8;i++){
-	  poutevt->ffGammaKev[i]   = fInput->fiGammaE[i];
-	  poutevt->ffGammaMysec[i] = fInput->fiGammaT[i];
+	  poutevt->ffGammaKev[i]   = (Float_t)fInput->fiGammaE[i];
+	  poutevt->ffGammaMysec[i] = (Float_t)fInput->fiGammaT[i];
 	  fhGammaKev[i]->Fill(fInput->fiGammaE[i]);
 	  fhGammaMysec[i]->Fill(fInput->fiGammaT[i]);
   }

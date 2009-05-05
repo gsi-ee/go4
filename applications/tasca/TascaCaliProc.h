@@ -4,6 +4,7 @@
 #include "TGo4EventProcessor.h"
 #include "TascaCodec.h"
 
+class TascaControl;
 class TascaParameter;
 class TascaCalibration;
 class TascaUnpackEvent;
@@ -37,6 +38,7 @@ class TascaCaliProc : public TGo4EventProcessor {
       TH1D *fhdVetoL;
       TH1I *fhGammaMysec[8];
       TH1I *fhGammaKev[8];
+      TascaControl  *fControl;
 	  TascaCalibration 	*fCalibration;
       TH2I          *fhStopH;
       TH2I          *fhStopL;

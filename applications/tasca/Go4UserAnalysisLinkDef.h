@@ -4,6 +4,7 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
+#pragma link C++ class TascaControl+;
 #pragma link C++ class TascaParameter+;
 #pragma link C++ class TascaPedestals+;
 #pragma link C++ class TascaCalibration+;

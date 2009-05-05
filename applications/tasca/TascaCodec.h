@@ -11,17 +11,17 @@ public:
 		// first shift offset, then mask bits:
 		// SIS3302
 		SMAX_RAW =	1024,	SMAX_E =		512, SCHANNELS = 8,
-		SCARD =		0xFF,	SCARD_OFF = 	24,
-		SCHAN =		0xFF,	SCHAN_OFF = 	16,
-		SINDEX =		0x7,	SINDEX_OFF = 16,
-		SDATA =		0xFFFF,	SDATAL_OFF =  0, SDATAH_OFF = 16,
+		SCARD =		0xFF,	SCARD_OFF = 	 24,
+		SCHAN =		0xFF,	SCHAN_OFF = 	 16,
+		SINDEX =	0x7,	SINDEX_OFF = 	 16,
+		SDATA =		0xFFFF,	SDATAL_OFF =  	  0, SDATAH_OFF = 16,
 		// V785
 		VGEO = 		0x1F, 		VGEO_OFF = 	27,
-		VCRATE = 	0xFF, 		VCRATE_OFF = 16,
+		VCRATE = 	0xFF, 		VCRATE_OFF =16,
 		VCNT =		0x3F, 		VCNT_OFF = 	 0,
-		VCHAN =		0x1F, 		VCHAN_OFF = 	16,
+		VCHAN =		0x1F, 		VCHAN_OFF = 16,
 		VADC =		0xFFF, 		VADC_OFF = 	 0,
-		VEVCNT = 	0xFFFFFF, 	VEVCNT_OFF =  0,
+		VEVCNT = 	0xFFFFFF, 	VEVCNT_OFF = 0,
 		// compare masked value with mask:
 		VUNDER = 	0x00002000,
 		VOVER =		0x00001000,
@@ -70,9 +70,10 @@ public:
 	inline UInt_t * getMpxIndex(){return fiMpxIndex;}
 	// return index of stripe from ADC number
 	inline UInt_t getIndex(UInt_t adc){return fiMap[adc][fiMpxIndex[adc]];}
-	inline Bool_t isTof()     {return (fiReg0 & 0x40000000) == 0x40000000;}
-	inline Bool_t isChopper() {return (fiReg0 & 0x80000000) == 0x80000000;}
-	inline Bool_t isMacro()   {return (fiReg1 & 0x40000000) == 0x40000000;}
+	// bits in fiReg are inverted
+	inline Bool_t isTof()     {return (fiReg0 & 0x00008000) == 0x00008000;} // bit 15
+	inline Bool_t isChopper() {return (fiReg0 & 0x80000000) == 0x80000000;} // bit 31
+	inline Bool_t isMacro()   {return (fiReg1 & 0x00008000) == 0x00008000;}
 	inline Bool_t isMicro()   {return (fiReg1 & 0x80000000) == 0x80000000;}
 	inline UInt_t getStopXAdc(UInt_t adc){return fiStopX[adc];}
 	inline UInt_t getStopYAdc(UInt_t adc){return fiStopY[adc];}
@@ -82,19 +83,32 @@ public:
 	inline UInt_t getStopYnoAdc() {return STOPY_SIZE;}
 	inline UInt_t getBacknoAdc()  {return BACK_SIZE;}
 	inline UInt_t getVetonoAdc()  {return VETO_SIZE;}
+	void Cleanup()
+	{
+	   	memset((void*) &fiDetector[0],0, sizeof(fiDetector));
+	   	memset((void*) &fiMpxIndex[0],0, sizeof(fiMpxIndex));
+	   	memset((void*) &fiMap[0][0],0, sizeof(fiMap));
+	   	memset((void*) &fiStopX[0],0, sizeof(fiStopX));
+	   	memset((void*) &fiStopY[0],0, sizeof(fiStopY));
+	   	memset((void*) &fiBack[0],0, sizeof(fiBack));
+	   	memset((void*) &fiVeto[0],0, sizeof(fiVeto));
+	}
 
 private:
-	UInt_t testmaxi;
-	UInt_t test;
-	UInt_t fiValue;
-	UInt_t fiReg0, fiReg1, fiReg2, fiReg3;
-    UInt_t fiDetector[40]; // the detector number for ADC channels
-    UInt_t fiMpxIndex[40]; // the multiplex indices from the registers
-    UInt_t fiMap[40][8]; // returns stripe from ADC number and multiplex index
-    UInt_t fiStopX[STOPX_SIZE]; // list of ADC channels
-    UInt_t fiStopY[STOPY_SIZE]; // list of ADC channels
-    UInt_t fiBack[BACK_SIZE]; // list of ADC channels
-    UInt_t fiVeto[VETO_SIZE]; // list of ADC channels
+	UInt_t testmaxi;//! Don't put this to file
+	UInt_t test;//! Don't put this to file
+	UInt_t fiValue;//! Don't put this to file
+	UInt_t fiReg0; //! Don't put this to file
+	UInt_t fiReg1;//! Don't put this to file
+	UInt_t fiReg2; //! Don't put this to file
+	UInt_t fiReg3;//! Don't put this to file
+    UInt_t fiDetector[40]; //! the detector number for ADC channels
+    UInt_t fiMpxIndex[40]; //! the multiplex indices from the registers
+    UInt_t fiMap[40][8]; //! returns stripe from ADC number and multiplex index
+    UInt_t fiStopX[STOPX_SIZE]; //! list of ADC channels
+    UInt_t fiStopY[STOPY_SIZE]; //! list of ADC channels
+    UInt_t fiBack[BACK_SIZE]; //! list of ADC channels
+    UInt_t fiVeto[VETO_SIZE]; //! list of ADC channels
 
 	ClassDef(TascaCodec,1)
 };

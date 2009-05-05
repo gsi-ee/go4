@@ -4,6 +4,7 @@
 #include "TGo4EventProcessor.h"
 #include "TascaCodec.h"
 
+class TascaControl;
 class TascaParameter;
 class TascaPedestals;
 class TascaUnpackEvent;
@@ -21,6 +22,7 @@ class TascaUnpackProc : public TGo4EventProcessor {
 
 	  TascaAnalysis * anl;
       TascaPedestals *fPedestals;
+      TascaControl  *fControl;
       TascaParameter *fParam;
 	  TascaCodec 	*codec;
       TH1I          *fAdc[96];
