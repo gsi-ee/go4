@@ -3,10 +3,10 @@ using namespace std;
 #include <string>
 #include "TascaCodec.h"
 TascaCodec::TascaCodec() : TGo4Parameter(),
-testmaxi(7),test(0),fiValue(0),fiReg0(0),fiReg1(0),fiReg2(0),fiReg3(0)
+testmaxi(0),test(0),fiValue(0),fiReg0(0),fiReg1(0),fiReg2(0),fiReg3(0)
 {}
 TascaCodec::TascaCodec(const char* name) : TGo4Parameter(name),
-testmaxi(7),test(0),fiValue(0),fiReg0(0),fiReg1(0),fiReg2(0),fiReg3(0)
+testmaxi(0),test(0),fiValue(0),fiReg0(0),fiReg1(0),fiReg2(0),fiReg3(0)
 {}
 TascaCodec::~TascaCodec()
 {}
