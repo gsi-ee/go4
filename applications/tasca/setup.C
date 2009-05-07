@@ -9,11 +9,11 @@ void setup(Text_t* AutoSaveFile,Text_t* UnpackedFile,Text_t* CalibratedFile,Text
   TString unpackStore("no");
   TString unpackOverWrite("yes");
 
-  TString caliProcess("no");
+  TString caliProcess("yes");
   TString caliStore("no");
   TString caliOverWrite("yes");
 
-  TString analysisProcess("no");
+  TString analysisProcess("yes");
   TString analysisStore("no");
   TString analysisOverWrite("yes");
 
@@ -66,21 +66,24 @@ void setup(Text_t* AutoSaveFile,Text_t* UnpackedFile,Text_t* CalibratedFile,Text
   go4->SetAutoSave(autosave.BeginsWith("y"));    // optional
 
   printf("Tasca> setup.C: Setup analysis\n");
-  if(autosaveinterval==0)
-  printf("       autosave:          %s once file %s\n",autosave.Data(),AutoSaveFile);
-  else
-  printf("       autosave:          %s every %ds file %s\n",autosave.Data(),autosaveinterval,AutoSaveFile);
+  if(go4->IsAutoSaveOn()){
+	  if(autosaveinterval==0)
+		  printf("       autosave:          %s once file %s\n",autosave.Data(),AutoSaveFile);
+	  else
+		  printf("       autosave:          %s every %ds file %s\n",autosave.Data(),autosaveinterval,AutoSaveFile);
+  } else
+  printf("       autosave:          off\n");
   printf("       unpackProcess:     %s\n",unpackProcess.Data());
   printf("       unpackStore:       %s file %s\n",unpackStore.Data(),UnpackedFile);
   printf("       unpackOverWrite:   %s\n",unpackOverWrite.Data());
 
-  printf("       caliProcess:   %s\n",caliProcess.Data());
+  printf("       caliProcess:       %s\n",caliProcess.Data());
   if(unpackProcess.BeginsWith("n"))
-  printf("       caliSource:    yes file %s\n",UnpackedFile);
+  printf("       caliSource:        yes file %s\n",UnpackedFile);
   else
-  printf("       caliSource:    yes from unpack\n");
-  printf("       caliStore:     %s file %s\n",caliStore.Data(),CalibratedFile);
-  printf("       caliOverWrite: %s\n",caliOverWrite.Data());
+  printf("       caliSource:        yes from unpack\n");
+  printf("       caliStore:         %s file %s\n",caliStore.Data(),CalibratedFile);
+  printf("       caliOverWrite:     %s\n",caliOverWrite.Data());
 
   printf("       analysisProcess:   %s\n",analysisProcess.Data());
   if(caliProcess.BeginsWith("n"))

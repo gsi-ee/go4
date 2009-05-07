@@ -76,48 +76,50 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   {
       snprintf(chis,15,"TraceRaw_%02d",i);
       snprintf(chead,63,"Raw Data channel %2d",i);
-      fTrace[i] = anl->CreateTH1I ("Raw/SIS3302/TraceR",chis,chead,codec->SMAX_RAW,0.5,codec->SMAX_RAW+0.5);
+      fTrace[i] = anl->CreateTH1I ("Unpack/SIS3302/TraceR",chis,chead,codec->SMAX_RAW,0.5,codec->SMAX_RAW+0.5);
 
       snprintf(chis,15,"TraceE_%02d",i);
       snprintf(chead,63,"E Filter channel %2d",i);
-      fTrace_e[i] = anl->CreateTH1I ("Raw/SIS3302/TraceE",chis,chead,codec->SMAX_E,0.5,codec->SMAX_E+0.5);
+      fTrace_e[i] = anl->CreateTH1I ("Unpack/SIS3302/TraceE",chis,chead,codec->SMAX_E,0.5,codec->SMAX_E+0.5);
 
       snprintf(chis,15,"Histo_%02d",i);
       snprintf(chead,63,"Histo channel %2d",i);
-      fHisto[i] = anl->CreateTH1I ("Raw/SIS3302/Histo",chis,chead,8192,0.5,8191.5);
+      fHisto[i] = anl->CreateTH1I ("Unpack/SIS3302/Histo",chis,chead,8192,0.5,8191.5);
 
       snprintf(chis,15,"Pileup_%02d",i);
       snprintf(chead,63,"Pileup channel %2d",i);
-      fPileup[i] = anl->CreateTH1I ("Raw/SIS3302/Pileup",chis,chead,1024,0.5,1023.5);
+      fPileup[i] = anl->CreateTH1I ("Unpack/SIS3302/Pileup",chis,chead,1024,0.5,1023.5);
   }
+  // histograms only if required
+if(fControl->UnpackHisto){
   for(i =0;i<96;i++)
   {
 	snprintf(chis,15,"Adc_%02d",i);
 	if(i > 63)      snprintf(chead,63,"Mod 3 chan %2d",i-64);
 	else if(i > 31) snprintf(chead,63,"Mod 2 chan %2d",i-32);
 	else            snprintf(chead,63,"Mod 1 chan %2d",i);
-	fAdc[i] = anl->CreateTH1I("Raw/AllAdc",chis,chead,5000,0.5,5000.5);
+	fAdc[i] = anl->CreateTH1I("Unpack/AllAdc",chis,chead,5000,0.5,5000.5);
   }
   for(i =0;i<8;i++)
   {
 		snprintf(chis,15,"GammaE_%d",i);
 		snprintf(chead,63,"Gamma E raw %d",i);
-		fGammaE[i] = anl->CreateTH1I ("Raw/GammaE",chis,chead,9000,0.5,9000.5);
+		fGammaE[i] = anl->CreateTH1I ("Unpack/GammaE",chis,chead,9000,0.5,9000.5);
 		snprintf(chis,15,"GammaT_%d",i);
 		snprintf(chead,63,"Gamma T raw %d",i);
-		fGammaT[i] = anl->CreateTH1I ("Raw/GammaT",chis,chead,5000,0.5,5000.5);
+		fGammaT[i] = anl->CreateTH1I ("Unpack/GammaT",chis,chead,5000,0.5,5000.5);
   }
-	fPedestal  = anl->CreateTH1I ("Raw","Pedestals","Pedestals",96,-0.5,95.5);
-	fContent   = anl->CreateTH1I ("Raw","Contents","Contents",96,-0.5,95.5);
+	fPedestal  = anl->CreateTH1I ("Unpack","Pedestals","Pedestals",96,-0.5,95.5);
+	fContent   = anl->CreateTH1I ("Unpack","Contents","Contents",96,-0.5,95.5);
 	fTree      = anl->CreateTH1I (0,"Tree","Leaf",5000,0.5,5000.5);
-	fAdcAllRaw = anl->CreateTH1I ("Raw","AdcAllRaw","All adc raw",5000,0.5,5000.5);
-	fAdcAllCal = anl->CreateTH1I ("Raw","AdcAllCal","All adc cal",5000,0.5,5000.5);
+	fAdcAllRaw = anl->CreateTH1I ("Unpack","AdcAllRaw","All adc raw",5000,0.5,5000.5);
+	fAdcAllCal = anl->CreateTH1I ("Unpack","AdcAllCal","All adc cal",5000,0.5,5000.5);
 
 // pictures rows, columns
-    Geraw = anl->CreatePicture("Raw","pGamma","Gamma raw",8,2);
-    M1raw = anl->CreatePicture("Raw","pV785_1","Module 7",8,4);
-    M2raw = anl->CreatePicture("Raw","pV785_2","Module 9",8,4);
-    M3raw = anl->CreatePicture("Raw","pV785_3","Module 11",8,4);
+    Geraw = anl->CreatePicture("Unpack","pGamma","Gamma raw",8,2);
+    M1raw = anl->CreatePicture("Unpack","pV785_1","Module 7",8,4);
+    M2raw = anl->CreatePicture("Unpack","pV785_2","Module 9",8,4);
+    M3raw = anl->CreatePicture("Unpack","pV785_3","Module 11",8,4);
   Int_t m=0;
   // enlarge stats box and position in [0:1] coordinates
   // show only Mean value (ROOT manual "Statistics Display")
@@ -130,6 +132,7 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 		  anl->SetPicture(M3raw,fAdc[m+64],i,k,1);
 	  m++;
   }}
+  }
 }
 //***********************************************************
 TascaUnpackProc::~TascaUnpackProc()
@@ -139,7 +142,7 @@ TascaUnpackProc::~TascaUnpackProc()
 //***********************************************************
 void TascaUnpackProc::CalcPedestals(){
 for(i =0;i<96;i++){
-	fPedestal->SetBinContent(i,fAdc[i]->GetMean());
+	if(fPedestal)fPedestal->SetBinContent(i,fAdc[i]->GetMean());
 	fPedestals->SetPedestals(i,fAdc[i]->GetMean());
 }}
 //***********************************************************
@@ -230,11 +233,12 @@ while(adcs > 0){
   } // loop over ADCs
 
 if(fPedestals->fbCalibrate)	{
+if(fControl->UnpackHisto){
 	for(i=0;i<96;i++){
 	pUnpackEvent->fiAdc[i]=pUnpackEvent->fiAdc[i]+
 	(UInt_t )(fPedestals->ffOffset-fPedestals->ffPedestals[i]);
 	fAdcAllCal->Fill(pUnpackEvent->fiAdc[i]);
-}}
+}}}
 
 // now fill the detector arrays. Low is even, high is odd index in fiAdc
 // StopY
