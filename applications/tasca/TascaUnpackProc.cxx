@@ -67,7 +67,7 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
     AddParameter(codec);
   }
   codec->Cleanup();
-  codec->setMap(true);
+  codec->setMap(false); // set true to get printout
   evcount=0;
 
 // Creation of histograms:

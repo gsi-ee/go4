@@ -68,6 +68,7 @@ Text_t Calout[128];          // output root events
 Text_t Anlout[128];          // output root events
 Text_t ASfile[128];          // auto save file (batch)
 Text_t filetype[8];       // file type .lmd or .lml
+Text_t prefix[3];         // name prefix: b for batch, i for interactive
 Text_t *pc,*tmpname,*outname;
 
 // some defaults:
@@ -76,6 +77,26 @@ strcpy(Unpout,"Unpacked");
 strcpy(Calout,"Calibrated");
 strcpy(Anlout,"Analyzed");
 strcpy(hostname,"localhost");
+
+if(strstr(argv[1],"-gui")) {
+	  if(argc < 4) {
+	   usage(); // too few argument for gui
+	   exit(0);
+	   }
+	strcpy(prefix,"i_");
+}
+else if(strstr(argv[1],"-server")) strcpy(prefix,"s_");
+else {
+	   if(argc < 3) {
+	   usage(); // too few argument for batch
+	   exit(0);
+	   }
+	strcpy(prefix,"b_");
+}
+strcpy(Unpout,prefix);
+strcpy(Calout,prefix);
+strcpy(Anlout,prefix);
+strcpy(ASfile,prefix);
 
 // Now parse arguments
    // strip any path information from input:
@@ -90,22 +111,18 @@ strcpy(hostname,"localhost");
    if((pc=strstr(argv[2],"@")) != 0) tmpname++;
    outname=tmpname; // file name or node name
    if((tmpname=strrchr(outname,'/')) != 0) outname=tmpname+1;
-   strncpy(ASfile,outname,120);     // auto save file
+   strncat(ASfile,outname,120);     // auto save file
    strcat(ASfile,"_AS");
-   strncpy(Unpout,outname,110);     // output root file
+   strncat(Unpout,outname,110);     // output root file
    strcat(Unpout,"_Unpacked"); // append name of output event object
-   strncpy(Calout,outname,110);     // output root file
+   strncat(Calout,outname,110);     // output root file
    strcat(Calout,"_Calibrated"); // append name of output event object
-   strncpy(Anlout,outname,110);     // output root file
+   strncat(Anlout,outname,110);     // output root file
    strcat(Anlout,"_Analysis");   // append name of output event object
    strncpy(serv,argv[2],110);     // input (file with full path)
 
 if(strstr(argv[1],"-gui"))
 {
-  if(argc < 4) {
-   usage(); // too few argument for gui
-   exit(0);
-   }
 // set up arguments for GUI mode
    runningMode = kGUI;
    strncpy(hostname,argv[3],110);
@@ -120,12 +137,7 @@ else if(strstr(argv[1],"-server"))
  }
 else
 // set up arguments for batch mode
- {
-   if(argc < 3) {
-   usage(); // too few argument for gui
-   exit(0);
-   }
-
+{
    runningMode = kBatch;
         if(strstr(argv[1],"-f")){intype=GO4EV_MBS_FILE;strcat(serv,filetype);}
    else if(strstr(argv[1],"-t")) intype=GO4EV_MBS_TRANSPORT;
