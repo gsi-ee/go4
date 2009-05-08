@@ -4,6 +4,8 @@
 #include "Riostream.h"
 #include <time.h>
 
+#include "TRandom.h"
+#include <math.h>
 #include "TObjArray.h"
 #include "TObjString.h"
 #include "TH1.h"
@@ -109,6 +111,20 @@ if(fControl->UnpackHisto){
 		snprintf(chead,63,"Gamma T raw %d",i);
 		fGammaT[i] = anl->CreateTH1I ("Unpack/GammaT",chis,chead,5000,0.5,5000.5);
   }
+	fTest      = anl->CreateTH1I (0,"Gaussians","Gauss",4000,0.5,4000.5);
+	  gRandom->SetSeed(0);
+for(i=0;i<4000;i++){
+	Double_t v1,v2,s;
+	do{
+    	v1 = 2.*gRandom->Rndm()-1.;
+    	v2 = 2.*gRandom->Rndm()-1.;
+    	s = v1*v1+v2*v2;
+      } while (s >= 1.0 || s == 0.0);
+	fTest->Fill(30.*v1*(sqrt(-2.*log(s)/s)) + 500.);
+	fTest->Fill(40.*v2*(sqrt(-2.*log(s)/s)) + 2000.);
+	fTest->Fill(30.*v1*(sqrt(-2.*log(s)/s)) + 1500.);
+	fTest->Fill(40.*v2*(sqrt(-2.*log(s)/s)) + 2500.);
+}
 	fPedestal  = anl->CreateTH1I ("Unpack","Pedestals","Pedestals",96,-0.5,95.5);
 	fContent   = anl->CreateTH1I ("Unpack","Contents","Contents",96,-0.5,95.5);
 	fTree      = anl->CreateTH1I (0,"Tree","Leaf",5000,0.5,5000.5);

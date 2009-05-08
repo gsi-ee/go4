@@ -4,6 +4,7 @@
 #include "TGo4EventProcessor.h"
 #include "TascaCodec.h"
 
+class TGraph;
 class TascaControl;
 class TascaParameter;
 class TascaCalibration;
@@ -42,6 +43,7 @@ class TascaCaliProc : public TGo4EventProcessor {
 	  TascaCalibration 	*fCalibration;
       TH2I          *fhStopH;
       TH2I          *fhStopL;
+      TGraph* 		fCaligraph;
       TascaUnpackEvent  *fInput;
       TGo4Picture   *StopX[6];
       TGo4Picture   *StopY[4];

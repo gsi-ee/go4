@@ -8,7 +8,9 @@
 #include "TObjString.h"
 #include "TH1.h"
 #include "TH2.h"
+#include "TGraph.h"
 #include "TCutG.h"
+#include "TGo4Fitter.h"
 #include "snprintf.h"
 #include "TPaveStats.h"
 
@@ -46,6 +48,13 @@ TascaCaliProc::TascaCaliProc(const char* name) :
   if(fCalibration==0){
 	  fCalibration = new TascaCalibration("Calibration");
 	  AddParameter(fCalibration);
+  }
+  fCaligraph = (TGraph *)GetObject("Caligraph");
+  if(fCaligraph ==0){
+	  fCaligraph=new TGraph;
+	  fCaligraph->SetName("Caligraph");
+	  fCaligraph->SetMarkerStyle(3);
+	  AddObject(fCaligraph);
   }
   evcount=0;
 	fhdStopXL=anl->CreateTH1D("Cali/Sum","StopXL", "StopX all low",144,0,144);
@@ -98,6 +107,9 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 	snprintf(chead,63,"Gamma [mysec] %d",i);
 	fhGammaMysec[i] = anl->CreateTH1I ("Cali/GammaMysec",chis,chead,5000,0,5000);
   }
+  // setup calibration
+  fCalibration->Setup(fhGammaKev[0],fCaligraph);
+
   // pictures rows, columns
   StopX[0] = anl->CreatePicture("Cali","pStopXL0","Stop X low",8,6);
   StopX[1] = anl->CreatePicture("Cali","pStopXL1","Stop X low",8,6);

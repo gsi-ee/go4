@@ -35,6 +35,7 @@ public:
 		STOPY = 1, STOPY_SIZE = 12,
 		BACK  = 2, BACK_SIZE  =  8,
 		VETO  = 3, VETO_SIZE  =  2,
+		GAMMA = 4
 	};
 
 	TascaCodec();
