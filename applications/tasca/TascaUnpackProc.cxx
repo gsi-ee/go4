@@ -242,7 +242,7 @@ while(adcs > 0){
   } else if(codec->isEob()){
 	  //cout << "    EOB " << endl;
   } else if(!codec->isValid()){
-	  cout << "    No data " << endl;
+    //cout << "    No data " << endl;
   } else {
 	  cout << "    No header found " << header << endl;
   }
@@ -355,7 +355,6 @@ for(i=0;i<codec->getVetonoAdc();i++){
 }// V785 ADCs
 // follows Sis3302
 if(pdata != pbehind){
-	cout << "NO GAMMA" << endl;
   pdata++; // skip first tag word
   DecodeGamma(pdata,pbehind);
   pUnpackEvent->SetValid(kTRUE); // to store

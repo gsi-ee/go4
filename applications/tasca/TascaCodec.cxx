@@ -15,10 +15,11 @@ void TascaCodec::setMpxIndex(UInt_t reg0, UInt_t reg1, UInt_t reg2, UInt_t reg3)
 {
 int s=0,i;
 // bits are inverted!
-	fiReg0=~reg0;
-	fiReg1=~reg1;
-	fiReg2=~reg2;
-	fiReg3=~reg3;
+	fiReg0=reg0;
+	fiReg1=reg1;
+	fiReg2=reg2;
+	fiReg3=reg3;
+
 	for(i=0;i<5;i++){
 		fiMpxIndex[i]    = ((fiReg0>>s)&7) - test;
 		fiMpxIndex[i+10] = ((fiReg1>>s)&7) - test;
@@ -34,6 +35,7 @@ int s=0,i;
 		fiMpxIndex[i+30] = ((fiReg3>>s)&7) - test;
 		s += 3;
 	}
+// 	for(i=0;i<40;i++)if(fiMpxIndex[i]>0)cout <<i <<" " <<fiMpxIndex[i]<<endl;
 	test++;
 	if(test > testmaxi) test=0;
 	if(testmaxi > 7)cout << "Testmaxi " << testmaxi << endl;

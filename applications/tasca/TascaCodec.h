@@ -72,10 +72,10 @@ public:
 	// return index of stripe from ADC number
 	inline UInt_t getIndex(UInt_t adc){return fiMap[adc][fiMpxIndex[adc]];}
 	// bits in fiReg are inverted
-	inline Bool_t isTof()     {return (fiReg0 & 0x00008000) == 0x00008000;} // bit 15
-	inline Bool_t isChopper() {return (fiReg0 & 0x80000000) == 0x80000000;} // bit 31
-	inline Bool_t isMacro()   {return (fiReg1 & 0x00008000) == 0x00008000;}
-	inline Bool_t isMicro()   {return (fiReg1 & 0x80000000) == 0x80000000;}
+	inline Bool_t isTof()     {return (fiReg0 & 0x00008000) != 0x00008000;} // bit 15
+	inline Bool_t isChopper() {return (fiReg0 & 0x80000000) != 0x80000000;} // bit 31
+	inline Bool_t isMacro()   {return (fiReg1 & 0x00008000) != 0x00008000;}
+	inline Bool_t isMicro()   {return (fiReg1 & 0x80000000) != 0x80000000;}
 	inline UInt_t getStopXAdc(UInt_t adc){return fiStopX[adc];}
 	inline UInt_t getStopYAdc(UInt_t adc){return fiStopY[adc];}
 	inline UInt_t getBackAdc(UInt_t adc) {return fiBack[adc];}
