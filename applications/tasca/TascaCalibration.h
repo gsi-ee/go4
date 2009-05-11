@@ -34,9 +34,43 @@ class TascaCalibration : public TGo4Parameter {
       }
       /** set filenames for input and output **/
       void SetFiles(Text_t *input,Text_t *output)
-		  {if(input)fxLineFile=input;if(output)fxCoFile=output;}
+		  {if(input)LineFile=input;if(output)CoeffFile=output;}
       /** Fit lines of one histogram, calculate coefficients **/
       void FitLines(TH1* histo, Double_t& a0, Double_t& a1, Double_t& a2);
+
+      /** Save calibration file **/
+      Bool_t SaveToFile; // Save calibration file
+      /** Filename for ascii file with linesname - energy */
+      TString CoeffFile;     // Filename for ascii file with coefficients
+      /** Set to kTRUE to make calibration fit in update from */
+      Bool_t Recalibrate;       // Set to kTRUE to make calibration fit in update from
+      /** Set to kTRUE to re-read energies from external ascii file */
+      Bool_t ReadLineFile;   // Set to kTRUE to re-read energies from external ascii file
+      /** Filename for ascii file with linesname - energy */
+      TString LineFile;     // Filename for ascii file with linesname - energy
+      /** Fitter to search lines*/
+      TGo4Fitter* LineFitter; // Fitter to search lines
+
+      /** Fitter for calibration of channel/energies with polynom */
+      TGo4Fitter* Calibrator; // Fitter for calibration of channel/energies with polynom
+
+      /** Centroid channel numbers for fitted lines */
+      Int_t fiLineChannel[__LINESNUMBER__]; // Centroid channel numbers for fitted lines
+      /** Database energies of calibration lines */
+      Float_t ffLineEnergy[__LINESNUMBER__]; // Database energies of calibration lines
+      /** Database names of calibration lines. */
+      TString fxLineName[__LINESNUMBER__]; // Database names of calibration lines.
+
+      /** Reference to graph containing the calibration points */
+      TGraph* fxCalibCurve; //! Reference to graph containing the calibration points
+      /** Name of the graph to contain the calibration points */
+      TString fxGraphName; // Name of the graph to contain the calibration points
+
+     /** Reference to histogram containing the calibration spectrum */
+      TH1* fxCalibSpectrum; //! Reference to histogram containing the calibration spectrum
+
+      /** Name of the calibration spectrum histogram */
+      TString fxSpectrumName; //Name of the calibration spectrum histogram
 
       /** Calibration polynom coeff */
       Double_t fdStopXL_a0[144];
@@ -75,39 +109,6 @@ class TascaCalibration : public TGo4Parameter {
       Double_t fdGammaT_a2[8];
 
       Double_t fdA[__POLORDER__]; // Calibration polynom coeff
-      /** Set to kTRUE to make calibration fit in update from */
-      Bool_t fbRecalibrate;       // Set to kTRUE to make calibration fit in update from
-      /** Set to kTRUE to re-read energies from external ascii file */
-      Bool_t fbReadDatabase;   // Set to kTRUE to re-read energies from external ascii file
-      /** Filename for ascii file with linesname - energy */
-      TString fxLineFile;     // Filename for ascii file with linesname - energy
-      /** Filename for ascii file with linesname - energy */
-      TString fxCoFile;     // Filename for ascii file with coefficients
-      /** Centroid channel numbers for fitted lines */
-      Int_t fiLineChannel[__LINESNUMBER__]; // Centroid channel numbers for fitted lines
-      /** Database energies of calibration lines */
-      Float_t ffLineEnergy[__LINESNUMBER__]; // Database energies of calibration lines
-      /** Database names of calibration lines. */
-      TString fxLineName[__LINESNUMBER__]; // Database names of calibration lines.
-
-      /** Fitter to search lines*/
-      TGo4Fitter* fxLineFitter; // Fitter to search lines
-
-      /** Fitter for calibration of channel/energies with polynom */
-      TGo4Fitter* fxCalibrator; // Fitter for calibration of channel/energies with polynom
-
-      /** Reference to graph containing the calibration points */
-      TGraph* fxCalibCurve; //! Reference to graph containing the calibration points
-      /** Name of the graph to contain the calibration points */
-      TString fxGraphName; // Name of the graph to contain the calibration points
-
-     /** Reference to histogram containing the calibration spectrum */
-      TH1* fxCalibSpectrum; //! Reference to histogram containing the calibration spectrum
-
-      /** Name of the calibration spectrum histogram */
-      TString fxSpectrumName; //Name of the calibration spectrum histogram
-
-      Bool_t fbSave;
 
    ClassDef(TascaCalibration,1)
 };

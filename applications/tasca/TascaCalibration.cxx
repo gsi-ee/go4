@@ -13,29 +13,29 @@
 
 //***********************************************************
 TascaCalibration::TascaCalibration() : TGo4Parameter(),
-fbRecalibrate(kFALSE),
-fbReadDatabase(kFALSE),
-fxLineFitter(0),
-fxCalibrator(0),
+Recalibrate(kFALSE),
+ReadLineFile(kFALSE),
+LineFitter(0),
+Calibrator(0),
 fxCalibCurve(0),
 fxCalibSpectrum(0)
 {}
 //***********************************************************
 TascaCalibration::TascaCalibration(const char* name) : TGo4Parameter(name),
-fbRecalibrate(kFALSE),
-fbReadDatabase(kFALSE),
-fxLineFitter(0),
-fxCalibrator(0),
+Recalibrate(kFALSE),
+ReadLineFile(kFALSE),
+LineFitter(0),
+Calibrator(0),
 fxCalibCurve(0),
 fxCalibSpectrum(0)
 {
     cout << "Tasca> TascaCalibration: " << name << " created" << endl;
-    fbSave=kFALSE;
+    SaveToFile=kFALSE;
 }
 //***********************************************************
 TascaCalibration::~TascaCalibration(){
-	  delete fxLineFitter;
-	  delete fxCalibrator;
+	  delete LineFitter;
+	  delete Calibrator;
     cout << "Tasca> TascaCalibration: " << GetName() << " deleted" << endl;
 }
 //***********************************************************
@@ -46,11 +46,11 @@ void TascaCalibration::Setup(TH1* spectrum, TGraph* curve){
 	fxCalibCurve=curve;
     fxGraphName=fxCalibCurve->GetName();
 	// Set up fitters:
-	fxLineFitter=new TGo4Fitter("Linefinder", TGo4Fitter::ff_least_squares, kTRUE);
-    fxLineFitter->AddH1(__DATANAME__, fxCalibSpectrum, kFALSE);
-	fxCalibrator=new TGo4Fitter("Calibrator", TGo4Fitter::ff_least_squares, kTRUE);
-    fxCalibrator->AddGraph(__GRAPHNAME__, fxCalibCurve, kFALSE);
-	fxCalibrator->AddPolynomX(__GRAPHNAME__,"A",__POLORDER__-1);
+	LineFitter=new TGo4Fitter("Linefinder", TGo4Fitter::ff_least_squares, kTRUE);
+    LineFitter->AddH1(__DATANAME__, fxCalibSpectrum, kFALSE);
+	Calibrator=new TGo4Fitter("Calibrator", TGo4Fitter::ff_least_squares, kTRUE);
+    Calibrator->AddGraph(__GRAPHNAME__, fxCalibCurve, kFALSE);
+	Calibrator->AddPolynomX(__GRAPHNAME__,"A",__POLORDER__-1);
 	// note that __POLORDER__ is number of polynom parameters here
 	// i.e. true order of polynom +1
 	Text_t modname[__TEXTMAX__];
@@ -58,7 +58,7 @@ void TascaCalibration::Setup(TH1* spectrum, TGraph* curve){
 		{
 		   fdA[i]=1/(i+1);
 		   snprintf(modname,__TEXTMAX__,"A_%d",i);
-		   TGo4FitModel* mod=fxCalibrator->FindModel(modname);
+		   TGo4FitModel* mod=Calibrator->FindModel(modname);
 		   if(mod)
 			  {
 				 // for the beginning, disable models beyond order 1:
@@ -73,7 +73,7 @@ void TascaCalibration::Setup(TH1* spectrum, TGraph* curve){
 	  fiLineChannel[ix]=0;
 	  ffLineEnergy[ix]=0;
 	}
-	  fxLineFile="calilines.txt";
+	  LineFile="calilines.txt";
 	  ReadDatabase();
 }
 //-----------------------------------------------------------
@@ -98,14 +98,15 @@ Bool_t TascaCalibration::UpdateFrom(TGo4Parameter *pp){
      {
       fdA[ord]=from->fdA[ord];
      }
-   fbRecalibrate=from->fbRecalibrate;
-   fbReadDatabase=from->fbReadDatabase;
-   if(fxLineFitter) delete fxLineFitter;
-   fxLineFitter=from->fxLineFitter;
-   from->fxLineFitter=0; // adopt lines finder
-   if(fxCalibrator) delete fxCalibrator;
-   fxCalibrator=from->fxCalibrator;
-   from->fxCalibrator=0; // adopt calibration fitter
+   Recalibrate=from->Recalibrate;
+   ReadLineFile=from->ReadLineFile;
+   if(LineFitter) delete LineFitter;
+   LineFitter=from->LineFitter;
+   from->LineFitter=0; // adopt lines finder
+   if(Calibrator) delete Calibrator;
+   Calibrator=from->Calibrator;
+   from->Calibrator=0; // adopt calibration fitter
+   LineFile=from->LineFile;
 
    // note: graph with calibration curve is not copied!
 
@@ -129,13 +130,13 @@ Bool_t TascaCalibration::UpdateFrom(TGo4Parameter *pp){
           cout <<"Updated graph pointer ref to "<<fxCalibCurve << endl;
 
    // now reread database if desired:
-   if(fbReadDatabase)
+   if(ReadLineFile)
       {
           cout <<"Reread database" << endl;
           ReadDatabase();
       }
 
-   if(fbRecalibrate)
+   if(Recalibrate)
    {
       cout <<"Recalibrating..." << endl;
       // first we get the channels from the linesfinder fitter:
@@ -143,7 +144,7 @@ Bool_t TascaCalibration::UpdateFrom(TGo4Parameter *pp){
         for(Int_t i=0; i<__LINESNUMBER__;++i)
         {
            const Text_t* linename=fxLineName[i];
-           TGo4FitModel* mod=fxLineFitter->FindModel(linename);
+           TGo4FitModel* mod=LineFitter->FindModel(linename);
            if(mod)
               {
                  // check here if component is active or not
@@ -176,15 +177,15 @@ Bool_t TascaCalibration::UpdateFrom(TGo4Parameter *pp){
                   }
               } // for
         // now perform fit of calibration graph:
-        fxCalibrator->SetObject(__GRAPHNAME__, fxCalibCurve, kFALSE);
-        fxCalibrator->DoActions();
-        fxCalibrator->PrintLines();
+        Calibrator->SetObject(__GRAPHNAME__, fxCalibCurve, kFALSE);
+        Calibrator->DoActions();
+        Calibrator->PrintLines();
         // finally, copy results of calibration to the parameter fields:
         Text_t modname[__TEXTMAX__];
         for(Int_t i=0; i<__POLORDER__;++i)
         {
            snprintf(modname,__TEXTMAX__,"A_%d",i);
-           TGo4FitModel* mod=fxCalibrator->FindModel(modname);
+           TGo4FitModel* mod=Calibrator->FindModel(modname);
            if(mod)
               {
                  // check here if component is active or not
@@ -221,13 +222,14 @@ void TascaCalibration::ReadDatabase()
 // read energies from file:
 Text_t nextline[__TEXTMAX__];
 Text_t buf[__TEXTMAX__];
-std::ifstream database(fxLineFile.Data());
+std::ifstream database(LineFile.Data());
 if(database==0)
    {
       TGo4Log::Error("Open error of calibration energy file %s",
-         fxLineFile.Data());
+         LineFile.Data());
       return;
    }
+TGo4Log::Info("Calibration energy file %s",LineFile.Data());
   Int_t ix=0;
   while(1){
 	do{
@@ -244,13 +246,13 @@ if(database==0)
 //      cout <<"\te:"<<ffLineEnergy[ix] << endl;
 //      cout <<"\tch:"<<fiLineChannel[ix] << endl;
 
-	fxLineFitter->AddGauss1(__DATANAME__,
+	LineFitter->AddGauss1(__DATANAME__,
 							 fxLineName[ix].Data(),
 							 fiLineChannel[ix],
 							 TMath::Sqrt((Long_t) fiLineChannel[ix]));
 	ix++;
   } // while(1)
-  fxLineFitter->MemorizePars(); // Save start parameters
+  LineFitter->MemorizePars(); // Save start parameters
       //cout <<"scanned lines:"<<ix << endl;
 }
 

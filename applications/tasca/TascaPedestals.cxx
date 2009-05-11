@@ -8,11 +8,11 @@ TascaPedestals::TascaPedestals() : TGo4Parameter() {}
 //***********************************************************
 TascaPedestals::TascaPedestals(const char* name) : TGo4Parameter(name){
     cout << "Tasca> TascaPedestals: " << name << " created" << endl;
-    fbRestore=kFALSE;
-    fbSave=kFALSE;
-    fbCalibrate=kFALSE;
+    Restore=kFALSE;
+    Save=kFALSE;
+    Calibrate=kFALSE;
     ffOffset=0;
-    fxFile="ped.txt";
+    File="ped.txt";
     for(UInt_t ix=0;ix<sizeof(ffPedestals)/sizeof(Float_t);++ix)
        ffPedestals[ix]=0;
 }
@@ -23,10 +23,10 @@ TascaPedestals::~TascaPedestals(){
 
 //-----------------------------------------------------------
 void TascaPedestals::SavePedestals(const char * file){
-	fxFile=file;
-	std::ofstream database(fxFile.Data());
+	File=file;
+	std::ofstream database(File.Data());
 	if(database==0)
-	    cout << "Tasca> TascaPedestals: Error open " << fxFile.Data()<< endl;
+	    cout << "Tasca> TascaPedestals: Error open " << File.Data()<< endl;
 	else {
 		database << "# header " << endl;
 		database << "! header " << endl;
@@ -35,7 +35,7 @@ void TascaPedestals::SavePedestals(const char * file){
 			<< setprecision(5)
 			<< setiosflags(ios::fixed)<<ffPedestals[ix] << endl;
 		database.close();
-		cout << "Tasca> TascaPedestals: Pedestals in " << fxFile.Data()<< endl;
+		cout << "Tasca> TascaPedestals: Pedestals in " << File.Data()<< endl;
 	}
 	RestorePedestals(file);
 	return;
@@ -45,12 +45,12 @@ void TascaPedestals::RestorePedestals(const char * file){
 	Text_t line[64];
 	Float_t v;
 	UInt_t ii,i=0;
-	fxFile=file;
-	std::ifstream database(fxFile.Data());
+	File=file;
+	std::ifstream database(File.Data());
 	if(database==0)
-	    cout << "Tasca> TascaPedestals: Error open " << fxFile.Data() << endl;
+	    cout << "Tasca> TascaPedestals: Error open " << File.Data() << endl;
 	else {
-		cout << "Tasca> TascaPedestals: Pedestals from " << fxFile.Data()<< endl;
+		cout << "Tasca> TascaPedestals: Pedestals from " << File.Data()<< endl;
 		while(i<sizeof(ffPedestals)/sizeof(Float_t)){
 			database.getline(line,63,'\n' ); // read whole line
             if(database.eof() || !database.good()) break;
@@ -77,14 +77,14 @@ Int_t TascaPedestals::PrintPedestals(){
 Bool_t TascaPedestals::UpdateFrom(TGo4Parameter *pp){
   if(pp->InheritsFrom("TascaPedestals")) {
     TascaPedestals * from = (TascaPedestals *) pp;
-    fxFile=from->fxFile;
-    if(from->fbRestore){
-    	RestorePedestals(fxFile.Data());
+    File=from->File;
+    if(from->Restore){
+    	RestorePedestals(File.Data());
     }
-    if(from->fbSave){
-    	SavePedestals(fxFile.Data());
+    if(from->Save){
+    	SavePedestals(File.Data());
     }
-    fbCalibrate=from->fbCalibrate;
+    Calibrate=from->Calibrate;
     ffOffset=from->ffOffset;
   }
   else

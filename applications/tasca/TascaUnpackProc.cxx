@@ -248,7 +248,7 @@ while(adcs > 0){
   }
   } // loop over ADCs
 
-if(fPedestals->fbCalibrate)	{
+if(fPedestals->Calibrate)	{
 if(fControl->UnpackHisto){
 	for(i=0;i<96;i++){
 	pUnpackEvent->fiAdc[i]=pUnpackEvent->fiAdc[i]+
@@ -364,7 +364,7 @@ if(pdata != pbehind){
 }
 } // check for valid event
 evcount++;
-if(!fPedestals->fbCalibrate){
+if(!fPedestals->Calibrate){
 	if(evcount >= 10000) {
 	CalcPedestals();
 	evcount=0;
@@ -560,7 +560,7 @@ while(1)
 			energy=*pl_data++;
 			//        printf("energy: 0x%x\n",(int)energy);
 
-			if (fParam->fill)
+			if (fParam->Fill)
 				energy=energy-*pl_data++;    // difference between Emax and Baseline
 			else
 				pl_data++;
@@ -627,7 +627,7 @@ while(1)
 		energy=*pl_data++;
 		//        printf("energy: 0x%x\n",(int)energy);
 
-		if (fParam->fill)
+		if (fParam->Fill)
 			energy=energy-*pl_data++;    // difference between Emax and Baseline
 		else
 			pl_data++;

@@ -96,13 +96,11 @@ public:
 	}
 
 private:
-	UInt_t testmaxi;//! Don't put this to file
-	UInt_t test;//! Don't put this to file
-	UInt_t fiValue;//! Don't put this to file
-	UInt_t fiReg0; //! Don't put this to file
-	UInt_t fiReg1;//! Don't put this to file
-	UInt_t fiReg2; //! Don't put this to file
-	UInt_t fiReg3;//! Don't put this to file
+	UInt_t testmaxi;//! Must be 0
+	UInt_t fiReg0; //! Register 0
+	UInt_t fiReg1;//! Register 1
+	UInt_t fiReg2; //! Register 2
+	UInt_t fiReg3;//! Register 3
     UInt_t fiDetector[40]; //! the detector number for ADC channels
     UInt_t fiMpxIndex[40]; //! the multiplex indices from the registers
     UInt_t fiMap[40][8]; //! returns stripe from ADC number and multiplex index
@@ -110,6 +108,8 @@ private:
     UInt_t fiStopY[STOPY_SIZE]; //! list of ADC channels
     UInt_t fiBack[BACK_SIZE]; //! list of ADC channels
     UInt_t fiVeto[VETO_SIZE]; //! list of ADC channels
+	UInt_t test;//! Transient
+	UInt_t fiValue;//! Transient
 
 	ClassDef(TascaCodec,1)
 };

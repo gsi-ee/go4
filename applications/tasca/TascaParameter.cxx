@@ -6,10 +6,9 @@
 TascaParameter::TascaParameter() : TGo4Parameter() {}
 //***********************************************************
 TascaParameter::TascaParameter(const char* name) : TGo4Parameter(name),
-fill(1),shift(7)
+Fill(1),shift(7),Save(0)
 {
     cout << "Tasca> TascaParameter: " << name << " created" << endl;
-    fbSave=kFALSE;
 }
 //***********************************************************
 TascaParameter::~TascaParameter(){
@@ -27,9 +26,9 @@ Int_t TascaParameter::PrintParameter(){
 Bool_t TascaParameter::UpdateFrom(TGo4Parameter *pp){
   if(pp->InheritsFrom("TascaParameter")) {
     TascaParameter * from = (TascaParameter *) pp;
-    if(from->fbSave){
+    if(from->Save){
     }
-    fill=from->fill;
+    Fill=from->Fill;
     shift=from->shift;
    cout << "Tasca> TascaParameter: " << GetName() << " updated" << endl;
   }

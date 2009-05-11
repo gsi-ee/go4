@@ -13,9 +13,9 @@ class TascaParameter : public TGo4Parameter {
       Int_t PrintParameter();
       Bool_t UpdateFrom(TGo4Parameter *);
 
-      Bool_t fbSave;
-      Bool_t fill;
-      Int_t   shift;
+      Bool_t Save;
+      Bool_t Fill;
+      Int_t  shift;
 
    ClassDef(TascaParameter,1)
 };

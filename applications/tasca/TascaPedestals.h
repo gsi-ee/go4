@@ -17,10 +17,10 @@ class TascaPedestals : public TGo4Parameter {
       void    SavePedestals(const char * file);
       void    RestorePedestals(const char * file);
 
-      Bool_t fbRestore;
-      Bool_t fbSave;
-      Bool_t fbCalibrate;
-      TString fxFile;
+      Bool_t Restore;
+      Bool_t Save;
+      Bool_t Calibrate;
+      TString File;
       Float_t ffOffset;
       Float_t ffPedestals[96];
 
