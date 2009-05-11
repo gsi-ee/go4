@@ -197,6 +197,8 @@ TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages
   analysis->AddAnalysisStep(unpackstep);
   if(intype==GO4EV_MBS_FILE)
     unpackstep->SetEventSource(new TGo4MbsFileParameter(serv));
+  if(intype==GO4EV_MBS_TRANSPORT)
+    unpackstep->SetEventSource(new TGo4MbsTransportParameter(serv));
 
   TGo4StepFactory*  califactory  = new TGo4StepFactory("CaliFact");
   califactory->DefEventProcessor("Calibration","TascaCaliProc");// object name, class name
