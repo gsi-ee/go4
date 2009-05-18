@@ -30,6 +30,7 @@ class TascaUnpackProc : public TGo4EventProcessor {
       TH1I  		*fPedestal;
       TH1I  		*fContent;
       TH1I			*fTree;
+      TH1I			*fTime;
       TH1I			*fAdcAllRaw;
       TH1I			*fAdcAllCal;
       TH1I			*fGammaE[8];
@@ -45,6 +46,8 @@ class TascaUnpackProc : public TGo4EventProcessor {
       TGo4Picture   *M2raw;
       TGo4Picture   *M3raw;
       UInt_t i,k,n, evcount;
+      UInt_t gammaTimeLast;
+      UInt_t adcTimeLast;
 
    ClassDef(TascaUnpackProc,1)
 };

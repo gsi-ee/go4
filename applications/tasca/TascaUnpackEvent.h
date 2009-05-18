@@ -42,6 +42,11 @@ class TascaUnpackEvent : public TGo4EventElement {
 	   memset((void*) &fiBackHhits[0], 0, sizeof(fiBackHhits));
 	   memset((void*) &fiVetoLhits[0], 0, sizeof(fiVetoLhits));
 	   memset((void*) &fiVetoHhits[0], 0, sizeof(fiVetoHhits));
+
+	   memset((void*) &fiGammaQ[0], 0, sizeof(fiGammaQ));
+	   memset((void*) &fiGammaE[0], 0, sizeof(fiGammaE));
+	   memset((void*) &fiGammaT[0], 0, sizeof(fiGammaT));
+
 	   fiStopXLhitI=0;
 	   fiStopXHhitI=0;
 	   fiStopYLhitI=0;
@@ -104,6 +109,12 @@ class TascaUnpackEvent : public TGo4EventElement {
       UInt_t fiMpxi[40];
       UInt_t fiGammaT[8];
       UInt_t fiGammaE[8];
+      UInt_t fiGammaQ[8];
+
+      Bool_t fisTof;
+      Bool_t fisChopper;
+      Bool_t fisMacro;
+      Bool_t fisMicro;
 
    private:
       TascaUnpackProc * fxTascaEP;  //! Don't put this to file

@@ -68,9 +68,20 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
     codec = new TascaCodec("Codec");
     AddParameter(codec);
   }
+  // reset counters
+  fControl->TofChecked=0;
+  fControl->TofTrue=0;
+  fControl->ChopperChecked=0;
+  fControl->ChopperTrue=0;
+  fControl->MicroChecked=0;
+  fControl->MicroTrue=0;
+  fControl->MacroChecked=0;
+  fControl->MacroTrue=0;
+  cout << "Tasca> TascaUnpackProc: Reset check counters" << endl;
   codec->Cleanup();
   codec->setMap(false); // set true to get printout
   evcount=0;
+  gammaTimeLast=0;
 
 // Creation of histograms:
 // The anl function gets the histogram or creates it
@@ -92,8 +103,6 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
       snprintf(chead,63,"Pileup channel %2d",i);
       fPileup[i] = anl->CreateTH1I ("Unpack/SIS3302/Pileup",chis,chead,1024,0.5,1023.5);
   }
-  // histograms only if required
-if(fControl->UnpackHisto){
   for(i =0;i<96;i++)
   {
 	snprintf(chis,15,"Adc_%02d",i);
@@ -111,11 +120,12 @@ if(fControl->UnpackHisto){
 		snprintf(chead,63,"Gamma T raw %d",i);
 		fGammaT[i] = anl->CreateTH1I ("Unpack/GammaT",chis,chead,5000,0.5,5000.5);
   }
+  // test spectrum
 	fTest      = anl->CreateTH1I (0,"Gaussians","Gauss",4000,0.5,4000.5);
 	  gRandom->SetSeed(0);
-for(i=0;i<4000;i++){
-	Double_t v1,v2,s;
-	do{
+	  for(i=0;i<4000;i++){
+		  Double_t v1,v2,s;
+		  do{
     	v1 = 2.*gRandom->Rndm()-1.;
     	v2 = 2.*gRandom->Rndm()-1.;
     	s = v1*v1+v2*v2;
@@ -124,10 +134,12 @@ for(i=0;i<4000;i++){
 	fTest->Fill(40.*v2*(sqrt(-2.*log(s)/s)) + 2000.);
 	fTest->Fill(30.*v1*(sqrt(-2.*log(s)/s)) + 1500.);
 	fTest->Fill(40.*v2*(sqrt(-2.*log(s)/s)) + 2500.);
-}
+	  }
+
 	fPedestal  = anl->CreateTH1I ("Unpack","Pedestals","Pedestals",96,-0.5,95.5);
 	fContent   = anl->CreateTH1I ("Unpack","Contents","Contents",96,-0.5,95.5);
 	fTree      = anl->CreateTH1I (0,"Tree","Leaf",5000,0.5,5000.5);
+	fTime      = anl->CreateTH1I (0,"Time","Time diff",5000,0.5,5000.5);
 	fAdcAllRaw = anl->CreateTH1I ("Unpack","AdcAllRaw","All adc raw",5000,0.5,5000.5);
 	fAdcAllCal = anl->CreateTH1I ("Unpack","AdcAllCal","All adc cal",5000,0.5,5000.5);
 
@@ -148,7 +160,6 @@ for(i=0;i<4000;i++){
 		  anl->SetPicture(M3raw,fAdc[m+64],i,k,1);
 	  m++;
   }}
-  }
 }
 //***********************************************************
 TascaUnpackProc::~TascaUnpackProc()
@@ -178,6 +189,7 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
 		  iStopYLhits=0,iStopYHhits=0,
 		  iBackLhits=0,iBackHhits=0,
 		  iVetoLhits=0,iVetoHhits=0;
+  Bool_t takeEvent=kFALSE;
   pUnpackEvent=pUP;
   fInput    = (TGo4MbsEvent* ) GetInputEvent(); // from this
   if((fInput != 0) &
@@ -190,7 +202,7 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   pdata=(UInt_t *)psubevt->GetDataField();
   lwords= psubevt->GetIntLen();
   pbehind=pdata+lwords;
-  pUnpackEvent->SetValid(kFALSE); // not to store
+  pUnpackEvent->SetValid(takeEvent); // not to store
   // get number of latches and number of V785 ADCs
   latches = *pdata & 0xFFFF;
   adcs    = (*pdata & 0xFFFF0000) >> 16;
@@ -209,9 +221,29 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   patt3=*pdata++; // latch base + 3
   lat3=*pdata++; // latch 3
 
-  pUnpackEvent->fiTimeStamp=patt0;
+  pUnpackEvent->fiTimeStamp=(patt0-adcTimeLast)>>16;
+  adcTimeLast=patt0;
+  fTime->Fill(pUnpackEvent->fiTimeStamp);
 // Build Mpx table
   codec->setMpxIndex(lat0,lat1,lat2,lat3);
+// check conditions to select events
+  takeEvent=kTRUE;
+  if(fControl->checkTof){
+	  takeEvent=(fControl->TofMustbe==codec->isTof());
+	  if(!takeEvent)return;
+  }
+  if(fControl->checkChopper){
+	  takeEvent=(fControl->ChopperMustbe==codec->isChopper());
+	  if(!takeEvent)return;
+  }
+  if(fControl->checkMicro){
+	  takeEvent=(fControl->MicroMustbe==codec->isMicro());
+	  if(!takeEvent)return;
+  }
+  if(fControl->checkMacro){
+	  takeEvent=(fControl->MacroMustbe==codec->isMacro());
+	  if(!takeEvent)return;
+  }
 // copy the index table to event to store in tree
   memcpy(pUnpackEvent->fiMpxi,codec->getMpxIndex(),sizeof(pUnpackEvent->fiMpxi));
 // first copy ADC values into low and high arrays
@@ -249,12 +281,11 @@ while(adcs > 0){
   } // loop over ADCs
 
 if(fPedestals->Calibrate)	{
-if(fControl->UnpackHisto){
 	for(i=0;i<96;i++){
 	pUnpackEvent->fiAdc[i]=pUnpackEvent->fiAdc[i]+
 	(UInt_t )(fPedestals->ffOffset-fPedestals->ffPedestals[i]);
 	fAdcAllCal->Fill(pUnpackEvent->fiAdc[i]);
-}}}
+}}
 
 // now fill the detector arrays. Low is even, high is odd index in fiAdc
 // StopY
@@ -357,9 +388,11 @@ for(i=0;i<codec->getVetonoAdc();i++){
 if(pdata != pbehind){
   pdata++; // skip first tag word
   DecodeGamma(pdata,pbehind);
-  pUnpackEvent->SetValid(kTRUE); // to store
-  for(i=0;i<codec->SCHANNELS;i++)
+  pUnpackEvent->SetValid(takeEvent); // to store
+  for(i=0;i<codec->SCHANNELS;i++){
 	fGammaE[i]->Fill(pUnpackEvent->fiGammaE[i]);
+	fGammaT[i]->Fill(pUnpackEvent->fiGammaT[i]);
+  }
   return;
 }
 } // check for valid event
@@ -453,12 +486,13 @@ while(1)
 	//  beginning of struck data
 	//*****************************
 
-	pl_data++;  // skip two timestamp longwords
-	pl_data++;
-	//        pl_data16 = (INTS2 *) pl_data;
-
 	card=(buffer_length&0xFF000000)>>24;
 	chan=(buffer_length&0x00FF0000)>>16;
+
+	pl_data++;  // skip two timestamp longwords
+	pUnpackEvent->fiGammaT[chan]=(*pl_data - gammaTimeLast)>>4;
+	gammaTimeLast=*pl_data++;
+	//        pl_data16 = (INTS2 *) pl_data;
 
 	//****************
 	//   Raw Data
@@ -671,17 +705,20 @@ while(1)
 
 	if (ft_cnt == 0)                 // no internal trigger (ADC out of range!?)
 	{
+		pUnpackEvent->fiGammaQ[chan]=2; // quality
 		fPileup[chan]->Fill(200);
 	}
 	else if (ft_cnt == 1)                 // good event
 	{
 		fPileup[chan]->Fill(400);
+		pUnpackEvent->fiGammaQ[chan]=0; // quality
 		pUnpackEvent->fiGammaE[chan]=energy>>fParam->shift;
 		fHisto[chan]->Fill(energy>>fParam->shift);
 	}
 	else if (ft_cnt > 1)                  // pileup
 	{
 		fPileup[chan]->Fill(600);
+		pUnpackEvent->fiGammaQ[chan]=1; // quality
 		pUnpackEvent->fiGammaE[chan]=energy>>fParam->shift;
 		fHisto[chan]->Fill(energy>>fParam->shift);
 	}

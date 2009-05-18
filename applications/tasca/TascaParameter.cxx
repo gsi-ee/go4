@@ -6,7 +6,7 @@
 TascaParameter::TascaParameter() : TGo4Parameter() {}
 //***********************************************************
 TascaParameter::TascaParameter(const char* name) : TGo4Parameter(name),
-Fill(1),shift(7),Save(0)
+Save(0),Fill(1),shift(7)
 {
     cout << "Tasca> TascaParameter: " << name << " created" << endl;
 }

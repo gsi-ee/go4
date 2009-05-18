@@ -66,6 +66,11 @@ class TascaCaliEvent : public TGo4EventElement {
       Float_t ffVetoHhitV;
       Float_t ffVetoLhitV;
 
+      Bool_t fisTof;
+      Bool_t fisChopper;
+      Bool_t fisMacro;
+      Bool_t fisMicro;
+
    private:
       TascaCaliProc * fxTascaEP;  //! Don't put this to file
       TGo4FileSource * fxTascaFS;  //! Don't put this to file

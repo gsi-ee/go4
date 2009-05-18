@@ -18,7 +18,8 @@
 
 #include "TascaControl.h"
 #include "TascaParameter.h"
-#include "TascaCalibration.h"
+#include "TascaCaliGamma.h"
+#include "TascaCaliAdc.h"
 #include "TascaCaliEvent.h"
 #include "TascaUnpackEvent.h"
 #include "TascaAnalysis.h"
@@ -44,17 +45,29 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 	  fControl = new TascaControl("Controls");
 	  AddParameter(fControl);
   }
-  fCalibration   = (TascaCalibration *) GetParameter("Calibration");
-  if(fCalibration==0){
-	  fCalibration = new TascaCalibration("Calibration");
-	  AddParameter(fCalibration);
+  fCaliGamma   = (TascaCaliGamma *) GetParameter("CaliGamma");
+  if(fCaliGamma==0){
+	  fCaliGamma = new TascaCaliGamma("CaliGamma");
+	  AddParameter(fCaliGamma);
   }
-  fCaligraph = (TGraph *)GetObject("Caligraph");
-  if(fCaligraph ==0){
-	  fCaligraph=new TGraph;
-	  fCaligraph->SetName("Caligraph");
-	  fCaligraph->SetMarkerStyle(3);
-	  AddObject(fCaligraph);
+  fCaliAdc   = (TascaCaliAdc *) GetParameter("CaliAdc");
+  if(fCaliAdc==0){
+	  fCaliAdc = new TascaCaliAdc("CaliAdc");
+	  AddParameter(fCaliAdc);
+  }
+  fCaliGammaGraph = (TGraph *)GetObject("CaliGammaGraph");
+  if(fCaliGammaGraph ==0){
+	  fCaliGammaGraph=new TGraph;
+	  fCaliGammaGraph->SetName("CaliGammaGraph");
+	  fCaliGammaGraph->SetMarkerStyle(3);
+	  AddObject(fCaliGammaGraph);
+  }
+  fCaliAdcGraph = (TGraph *)GetObject("CaliAdcGraph");
+  if(fCaliAdcGraph ==0){
+	  fCaliAdcGraph=new TGraph;
+	  fCaliAdcGraph->SetName("CaliAdcGraph");
+	  fCaliAdcGraph->SetMarkerStyle(3);
+	  AddObject(fCaliAdcGraph);
   }
   evcount=0;
 	fhdStopXL=anl->CreateTH1D("Cali/Sum","StopXL", "StopX all low",144,0,144);
@@ -108,7 +121,8 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 	fhGammaMysec[i] = anl->CreateTH1I ("Cali/GammaMysec",chis,chead,5000,0,5000);
   }
   // setup calibration
-  fCalibration->Setup(fhGammaKev[0],fCaligraph);
+  fCaliGamma->Setup("gammaEu.txt",fhGammaKev[0],fCaliGammaGraph);
+  fCaliAdc->Setup("alpha.txt",fhStopXL[0],fCaliAdcGraph);
 
   // pictures rows, columns
   StopX[0] = anl->CreatePicture("Cali","pStopXL0","Stop X low",8,6);
@@ -184,6 +198,11 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 
   poutevt->SetValid(kFALSE); // not to store
   fInput    = (TascaUnpackEvent* ) GetInputEvent(); // from this
+  poutevt->fisTof=fInput->fisTof;
+  poutevt->fisChopper=fInput->fisChopper;
+  poutevt->fisMicro=fInput->fisMicro;
+  poutevt->fisMacro=fInput->fisMacro;
+
   poutevt->fiStopXLhitI=fInput->fiStopXLhitI;
   poutevt->fiStopXHhitI=fInput->fiStopXHhitI;
   poutevt->fiStopYLhitI=fInput->fiStopYLhitI;
