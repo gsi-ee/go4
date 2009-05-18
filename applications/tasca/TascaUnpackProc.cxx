@@ -230,19 +230,27 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   takeEvent=kTRUE;
   if(fControl->checkTof){
 	  takeEvent=(fControl->TofMustbe==codec->isTof());
+	  fControl->TofChecked++;
 	  if(!takeEvent)return;
+	  fControl->TofTrue++;
   }
   if(fControl->checkChopper){
 	  takeEvent=(fControl->ChopperMustbe==codec->isChopper());
+	  fControl->ChopperChecked++;
 	  if(!takeEvent)return;
+	  fControl->ChopperTrue++;
   }
   if(fControl->checkMicro){
 	  takeEvent=(fControl->MicroMustbe==codec->isMicro());
+	  fControl->MicroChecked++;
 	  if(!takeEvent)return;
+	  fControl->MicroTrue++;
   }
   if(fControl->checkMacro){
 	  takeEvent=(fControl->MacroMustbe==codec->isMacro());
+	  fControl->MacroChecked++;
 	  if(!takeEvent)return;
+	  fControl->MacroTrue++;
   }
 // copy the index table to event to store in tree
   memcpy(pUnpackEvent->fiMpxi,codec->getMpxIndex(),sizeof(pUnpackEvent->fiMpxi));
