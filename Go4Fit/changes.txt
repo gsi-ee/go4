@@ -21,12 +21,12 @@ History of Go4Fit package changes.
    8.  ROOTPeakFinder() and PeakFinder() methods introduced.
    9.  New AddH1(), AddPolynoms(), AddGauss1() methods of fitter were intoduced. They implement frequently
        used operations for fitter.
-   10. Error concerning intregaration of model fixed.
+   10. Error concerning integration of model fixed.
    11. Fitter streamer corrected for case, when the same object was assigned to several different slots.
    12. Error in Streamer for TGo4FitComponent fixed. File format is changed.
    13. Problem when deleting data or model object with owned object in slot fixed.
    14. ProcessObjects() routine was added. It process a list of objects at once and creates either a list of fitters
-       or list of TVectorD objects with result values. Optinally list of rows (parameters) names and list of
+       or list of TVectorD objects with result values. Optionally list of rows (parameters) names and list of
        columns (processed data) names can be obtained.
    15. Axis calibration objects now called axis transformation object. This gives an ability introduce more complex axis
        transformation(s).
