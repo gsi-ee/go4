@@ -7,8 +7,7 @@
 class TGraph;
 class TascaControl;
 class TascaParameter;
-class TascaCaliGamma;
-class TascaCaliAdc;
+class TascaCalibration;
 class TascaUnpackEvent;
 class TascaCaliEvent;
 class TascaAnalysis;
@@ -41,12 +40,9 @@ class TascaCaliProc : public TGo4EventProcessor {
       TH1I *fhGammaMysec[8];
       TH1I *fhGammaKev[8];
       TascaControl  *fControl;
-	  TascaCaliGamma 	*fCaliGamma;
-	  TascaCaliAdc 	*fCaliAdc;
+	  TascaCalibration 	*fCalibration;
       TH2I          *fhStopH;
       TH2I          *fhStopL;
-      TGraph* 		fCaliGammaGraph;
-      TGraph* 		fCaliAdcGraph;
       TascaUnpackEvent  *fInput;
       TGo4Picture   *StopX[6];
       TGo4Picture   *StopY[4];

@@ -1,6 +1,0 @@
-! this file contains line names and energies
-! format: name energy channel(initial value)
-AlKa   1.486708       500
-SiKa   1.739985       1500
-MnKa   5.8988010      2000
-FeKa   6.4040062      2500

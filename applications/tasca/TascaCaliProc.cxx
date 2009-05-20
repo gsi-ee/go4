@@ -8,8 +8,6 @@
 #include "TObjString.h"
 #include "TH1.h"
 #include "TH2.h"
-#include "TGraph.h"
-#include "TCutG.h"
 #include "TGo4Fitter.h"
 #include "snprintf.h"
 #include "TPaveStats.h"
@@ -18,8 +16,7 @@
 
 #include "TascaControl.h"
 #include "TascaParameter.h"
-#include "TascaCaliGamma.h"
-#include "TascaCaliAdc.h"
+#include "TascaCalibration.h"
 #include "TascaCaliEvent.h"
 #include "TascaUnpackEvent.h"
 #include "TascaAnalysis.h"
@@ -45,30 +42,14 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 	  fControl = new TascaControl("Controls");
 	  AddParameter(fControl);
   }
-  fCaliGamma   = (TascaCaliGamma *) GetParameter("CaliGamma");
-  if(fCaliGamma==0){
-	  fCaliGamma = new TascaCaliGamma("CaliGamma");
-	  AddParameter(fCaliGamma);
+  fCalibration   = (TascaCalibration *) GetParameter("Calibration");
+  if(fCalibration==0){
+	  fCalibration = new TascaCalibration("Calibration");
+	  AddParameter(fCalibration);
   }
-  fCaliAdc   = (TascaCaliAdc *) GetParameter("CaliAdc");
-  if(fCaliAdc==0){
-	  fCaliAdc = new TascaCaliAdc("CaliAdc");
-	  AddParameter(fCaliAdc);
-  }
-  fCaliGammaGraph = (TGraph *)GetObject("CaliGammaGraph");
-  if(fCaliGammaGraph ==0){
-	  fCaliGammaGraph=new TGraph;
-	  fCaliGammaGraph->SetName("CaliGammaGraph");
-	  fCaliGammaGraph->SetMarkerStyle(3);
-	  AddObject(fCaliGammaGraph);
-  }
-  fCaliAdcGraph = (TGraph *)GetObject("CaliAdcGraph");
-  if(fCaliAdcGraph ==0){
-	  fCaliAdcGraph=new TGraph;
-	  fCaliAdcGraph->SetName("CaliAdcGraph");
-	  fCaliAdcGraph->SetMarkerStyle(3);
-	  AddObject(fCaliAdcGraph);
-  }
+  // sets coefficients a0,a2 to 0, a1 to 1.
+  fCalibration->Preset();
+
   evcount=0;
 	fhdStopXL=anl->CreateTH1D("Cali/Sum","StopXL", "StopX all low",144,0,144);
 	fhdStopYL=anl->CreateTH1D("Cali/Sum","StopYL", "StopY all low",96,0,96);
@@ -120,9 +101,6 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 	snprintf(chead,63,"Gamma [mysec] %d",i);
 	fhGammaMysec[i] = anl->CreateTH1I ("Cali/GammaMysec",chis,chead,5000,0,5000);
   }
-  // setup calibration
-  fCaliGamma->Setup("gammaEu.txt",fhGammaKev[0],fCaliGammaGraph);
-  fCaliAdc->Setup("alpha.txt",fhStopXL[0],fCaliAdcGraph);
 
   // pictures rows, columns
   StopX[0] = anl->CreatePicture("Cali","pStopXL0","Stop X low",8,6);
@@ -223,10 +201,6 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   poutevt->ffTimeStamp=(Float_t)fInput->fiTimeStamp;
   poutevt->ffSystemSec=(Float_t)fInput->fiSystemSec;
   poutevt->ffSystemMysec=(Float_t)fInput->fiSystemMysec;
-//  for(i=0;i<144;i++)
-//	  for(k=0;k<96;k++)
-//		  if((fInput->fiStopXL[i]>0)&(fInput->fiStopYL[k]>0))
-//			  fhStopL->Fill(i,k);
   for(i=0;i<144;i++){
 	  poutevt->ffStopXL[i]=(Float_t)fInput->fiStopXL[i];
 	  poutevt->ffStopXH[i]=(Float_t)fInput->fiStopXH[i];

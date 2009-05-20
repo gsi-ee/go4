@@ -307,9 +307,9 @@ while(adcs > 0){
   } else if(codec->isEob()){
 	  //cout << "    EOB " << endl;
   } else if(!codec->isValid()){
-    //cout << "    No data " << endl;
+      //cout << "    No data " << endl;
   } else {
-	  cout << "    No header found " << header << endl;
+	  //cout << "    No header found " << header << endl;
   }
   } // loop over ADCs
 
@@ -524,7 +524,7 @@ while(1)
 	chan=(buffer_length&0x00FF0000)>>16;
 
 	pl_data++;  // skip two timestamp longwords
-	pUnpackEvent->fiGammaT[chan]=*pl_data;
+	pUnpackEvent->fiGammaT[chan]=*pl_data++;
 	//        pl_data16 = (INTS2 *) pl_data;
 
 	//****************
