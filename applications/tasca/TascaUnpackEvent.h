@@ -63,11 +63,16 @@ class TascaUnpackEvent : public TGo4EventElement {
 	   fiBackLhitV=0;
 	   fiVetoHhitV=0;
 	   fiVetoLhitV=0;
+	   fiSystemSec=0;
+	   fiSystemMysec=0;
+	   fiTimeStamp=0;
       }
 
       Int_t Init();
 
       UInt_t fiAdc[96];  //! Don't put this to file
+      UInt_t fiSystemSec;
+      UInt_t fiSystemMysec;
       UInt_t fiTimeStamp;
       // Data fields of detectors
       UInt_t fiStopXL[144];

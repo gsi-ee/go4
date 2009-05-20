@@ -3,18 +3,15 @@
 #include "Riostream.h"
 
 //***********************************************************
-TascaControl::TascaControl() : TGo4Parameter(),
-UnpackHisto(kTRUE),CaliHisto(kTRUE),AnlHisto(kTRUE),
-checkTof(kFALSE),checkChopper(kFALSE),checkMacro(kFALSE),checkMicro(kFALSE),
-TofMustbe(kTRUE),ChopperMustbe(kTRUE),MacroMustbe(kTRUE),MicroMustbe(kTRUE)
-{}
+TascaControl::TascaControl() : TGo4Parameter()
+{
+    init();
+}
 //***********************************************************
-TascaControl::TascaControl(const char* name) : TGo4Parameter(name),
-UnpackHisto(kTRUE),CaliHisto(kTRUE),AnlHisto(kTRUE),
-checkTof(kFALSE),checkChopper(kFALSE),checkMacro(kFALSE),checkMicro(kFALSE),
-TofMustbe(kTRUE),ChopperMustbe(kTRUE),MacroMustbe(kTRUE),MicroMustbe(kTRUE)
+TascaControl::TascaControl(const char* name) : TGo4Parameter(name)
 {
     cout << "Tasca> TascaControl: " << name << " created" << endl;
+    init();
 }
 //***********************************************************
 TascaControl::~TascaControl(){

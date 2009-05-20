@@ -36,6 +36,8 @@ class TascaCaliEvent : public TGo4EventElement {
 
       Int_t Init();
 
+      Float_t ffSystemSec;
+      Float_t ffSystemMysec;
       Float_t ffTimeStamp;
       Float_t ffStopXL[144];  // 3x 8x6
       Float_t ffStopXH[144];

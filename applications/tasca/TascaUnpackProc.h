@@ -33,6 +33,7 @@ class TascaUnpackProc : public TGo4EventProcessor {
       TH1I			*fTime;
       TH1I			*fAdcAllRaw;
       TH1I			*fAdcAllCal;
+      TH1I			*fFilter;
       TH1I			*fGammaE[8];
       TH1I			*fGammaT[8];
       TH1I          *fTrace[8];

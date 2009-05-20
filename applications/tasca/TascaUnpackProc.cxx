@@ -136,6 +136,7 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 	fTest->Fill(40.*v2*(sqrt(-2.*log(s)/s)) + 2500.);
 	  }
 
+	fFilter    = anl->CreateTH1I ("Unpack","Filter","Tof,chopper,macro,micro",16,0,17);
 	fPedestal  = anl->CreateTH1I ("Unpack","Pedestals","Pedestals",96,-0.5,95.5);
 	fContent   = anl->CreateTH1I ("Unpack","Contents","Contents",96,-0.5,95.5);
 	fTree      = anl->CreateTH1I (0,"Tree","Leaf",5000,0.5,5000.5);
@@ -203,6 +204,12 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   lwords= psubevt->GetIntLen();
   pbehind=pdata+lwords;
   pUnpackEvent->SetValid(takeEvent); // not to store
+  // look for system time stamp
+  if(*pdata == 0xaffeaffe){
+	  pdata++;
+	  pUnpackEvent->fiSystemSec=*pdata++;
+	  pUnpackEvent->fiSystemMysec=*pdata++;
+  }
   // get number of latches and number of V785 ADCs
   latches = *pdata & 0xFFFF;
   adcs    = (*pdata & 0xFFFF0000) >> 16;
@@ -227,31 +234,44 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
 // Build Mpx table
   codec->setMpxIndex(lat0,lat1,lat2,lat3);
 // check conditions to select events
-  takeEvent=kTRUE;
+
+  if(codec->isTof())fFilter->Fill(2);
+  else 				fFilter->Fill(3);
+  if(codec->isChopper())fFilter->Fill(6);
+  else 					fFilter->Fill(7);
+  if(codec->isMacro())	fFilter->Fill(10);
+  else 					fFilter->Fill(11);
+  if(codec->isMicro())	fFilter->Fill(14);
+  else 					fFilter->Fill(15);
   if(fControl->checkTof){
-	  takeEvent=(fControl->TofMustbe==codec->isTof());
 	  fControl->TofChecked++;
+	  fFilter->Fill(1);
+	  takeEvent=(fControl->TofMustbe==codec->isTof());
 	  if(!takeEvent)return;
 	  fControl->TofTrue++;
   }
   if(fControl->checkChopper){
-	  takeEvent=(fControl->ChopperMustbe==codec->isChopper());
 	  fControl->ChopperChecked++;
+	  fFilter->Fill(5);
+	  takeEvent=(fControl->ChopperMustbe==codec->isChopper());
 	  if(!takeEvent)return;
 	  fControl->ChopperTrue++;
   }
-  if(fControl->checkMicro){
-	  takeEvent=(fControl->MicroMustbe==codec->isMicro());
-	  fControl->MicroChecked++;
-	  if(!takeEvent)return;
-	  fControl->MicroTrue++;
-  }
   if(fControl->checkMacro){
-	  takeEvent=(fControl->MacroMustbe==codec->isMacro());
 	  fControl->MacroChecked++;
+	  fFilter->Fill(9);
+	  takeEvent=(fControl->MacroMustbe==codec->isMacro());
 	  if(!takeEvent)return;
 	  fControl->MacroTrue++;
   }
+  if(fControl->checkMicro){
+	  fControl->MicroChecked++;
+	  fFilter->Fill(13);
+	  takeEvent=(fControl->MicroMustbe==codec->isMicro());
+	  if(!takeEvent)return;
+	  fControl->MicroTrue++;
+  }
+  takeEvent=kTRUE;
 // copy the index table to event to store in tree
   memcpy(pUnpackEvent->fiMpxi,codec->getMpxIndex(),sizeof(pUnpackEvent->fiMpxi));
 // first copy ADC values into low and high arrays

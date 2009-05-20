@@ -221,6 +221,8 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   poutevt->ffVetoHhitV=(Float_t)fInput->fiVetoHhitV;
   poutevt->ffVetoLhitV=(Float_t)fInput->fiVetoLhitV;
   poutevt->ffTimeStamp=(Float_t)fInput->fiTimeStamp;
+  poutevt->ffSystemSec=(Float_t)fInput->fiSystemSec;
+  poutevt->ffSystemMysec=(Float_t)fInput->fiSystemMysec;
 //  for(i=0;i<144;i++)
 //	  for(k=0;k<96;k++)
 //		  if((fInput->fiStopXL[i]>0)&(fInput->fiStopYL[k]>0))
