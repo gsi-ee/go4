@@ -67,8 +67,7 @@ endif
 
 ##### local rules #####
 
-$(GO4GUI3_O) $(GO4GUI3_DEP) : INCLUDES += $(QTINCLUDES)
-$(GO4GUI3_O) $(GO4GUI3_DEP) : DEFINITIONS += $(QTDEFINITIONS)
+$(GO4GUI3_O) $(GO4GUI3_DEP) : CXXFLAGS += $(QTCXXFLAGS)
 
 ifdef GO4_QT3
 $(GO4SYS)/include/%.h: $(GO4GUI3_DIR)/%.h
