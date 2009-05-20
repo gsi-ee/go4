@@ -82,6 +82,9 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   codec->setMap(false); // set true to get printout
   evcount=0;
   gammaTimeLast=0;
+  secTimeLast=0;
+  mysecTimeLast=0;
+  adcTimeLast=0;
 
 // Creation of histograms:
 // The anl function gets the histogram or creates it
@@ -228,9 +231,11 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   patt3=*pdata++; // latch base + 3
   lat3=*pdata++; // latch 3
 
-  pUnpackEvent->fiTimeStamp=(patt0-adcTimeLast)>>16;
+  pUnpackEvent->fiTimeStamp=patt0;
+  fTime->Fill((patt0-adcTimeLast)/100000);
   adcTimeLast=patt0;
-  fTime->Fill(pUnpackEvent->fiTimeStamp);
+  secTimeLast=pUnpackEvent->fiSystemSec;
+  mysecTimeLast=pUnpackEvent->fiSystemMysec;
 // Build Mpx table
   codec->setMpxIndex(lat0,lat1,lat2,lat3);
 // check conditions to select events
@@ -419,8 +424,9 @@ if(pdata != pbehind){
   pUnpackEvent->SetValid(takeEvent); // to store
   for(i=0;i<codec->SCHANNELS;i++){
 	fGammaE[i]->Fill(pUnpackEvent->fiGammaE[i]);
-	fGammaT[i]->Fill(pUnpackEvent->fiGammaT[i]);
+	fGammaT[i]->Fill(pUnpackEvent->fiGammaT[i]-gammaTimeLast);
   }
+  gammaTimeLast=pUnpackEvent->fiGammaE[7];
   return;
 }
 } // check for valid event
@@ -518,8 +524,7 @@ while(1)
 	chan=(buffer_length&0x00FF0000)>>16;
 
 	pl_data++;  // skip two timestamp longwords
-	pUnpackEvent->fiGammaT[chan]=(*pl_data - gammaTimeLast)>>4;
-	gammaTimeLast=*pl_data++;
+	pUnpackEvent->fiGammaT[chan]=*pl_data;
 	//        pl_data16 = (INTS2 *) pl_data;
 
 	//****************

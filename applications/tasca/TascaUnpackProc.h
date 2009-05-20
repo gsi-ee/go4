@@ -48,6 +48,8 @@ class TascaUnpackProc : public TGo4EventProcessor {
       TGo4Picture   *M3raw;
       UInt_t i,k,n, evcount;
       UInt_t gammaTimeLast;
+      UInt_t secTimeLast;
+      UInt_t mysecTimeLast;
       UInt_t adcTimeLast;
 
    ClassDef(TascaUnpackProc,1)
