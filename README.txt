@@ -31,8 +31,8 @@ REQUIREMENTS:
    Qt version: either 3.3.x or 4.4.x
 
    NEW: this Go4 distribution can be built with Qt3 or Qt4.
-        Makefile recognizes which QT is active (by QTDIR or qmake version),
-        and builds the corresponding QT depend branch of Go4.
+        One can set QTDIR variable directly (version will be recognized with qmake),
+        or one can set WITHQT variable to 3,4,no to use globally installed version of Qt. 
 
 INSTALLATION:
 
