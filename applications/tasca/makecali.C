@@ -1,4 +1,4 @@
-// Main function caligam at the end
+// Main function makecali at the end
 //
 #include <Riostream.h>
 #include <stdio.h>
@@ -61,6 +61,7 @@ cfile.close();
 sollmax=energy[energies-1]; // highest energy
 }
 //-------------------------------------------------------
+// function to get list of histograms from folder
 TListIter *GetHistograms(TFile *f, char *dir, char *wildcard)
 {
 	TString fulldir;
@@ -91,6 +92,7 @@ TListIter *GetHistograms(TFile *f, char *dir, char *wildcard)
 	return iter;
 }
 //-------------------------------------------------------
+// find peaks and fit coefficients for one histogram
 Bool_t MakeCalibration(TH1 *his){
 char num[128];
 char *p;
@@ -221,17 +223,17 @@ ofile.close();
 // Text_t is since 5.15-04 no longer supported!
 Bool_t makecali(const char *prefix, const char *histofile)
 {
-	TString x=histofile;
-	TString rootfile = x+".root";
-	TString pref=prefix;
-	TString califile;
+TString x=histofile;
+TString rootfile = x+".root";
+TString pref=prefix;
+TString califile;
 fitter=new TGo4Fitter("Fitter", TGo4Fitter::ff_least_squares, kTRUE);
 cali=new TGo4Fitter("Calibrator", TGo4Fitter::ff_least_squares, kTRUE);
 graph=new TGraph();
 cali->AddGraph("CaliGraph", graph, kFALSE);
 cali->AddPolynomX("CaliGraph","A",2);
 
-// Gamma energies
+// For peak finder
 noisefactor=7.7;
 noise=20.;
 sum=1.;
@@ -243,7 +245,7 @@ ReadEnergies("gammaEu.txt");
 califile=pref+"_gammaE.txt";
 //makecali1(rootfile,"Histograms/Unpack/GammaE",califile);
 //-----------------------------------
-// Alpha energies
+// For peak finder
 noisefactor=3.;
 noise=5.;
 sum=1.;
