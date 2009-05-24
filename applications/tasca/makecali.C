@@ -12,6 +12,7 @@ Double_t linepos[MAXLINES];
 Double_t lineposc[MAXLINES];
 Double_t energy[MAXLINES];
 Int_t i,ii,iii,lines,peaks,energies,hisind;
+Int_t minpeaks,maxpeaks,peakdistance;
 Double_t sollmin=122.;
 Double_t sollmax=1408.;
 Double_t offset,factor;
@@ -90,7 +91,7 @@ TListIter *GetHistograms(TFile *f, char *dir, char *wildcard)
 	return iter;
 }
 //-------------------------------------------------------
-Bool_t MakeCalibration(TH1 *his, Int_t width){
+Bool_t MakeCalibration(TH1 *his){
 char num[128];
 char *p;
 sprintf(full,"%s/%s",dir,his->GetName());
@@ -111,21 +112,27 @@ for(ii=0;ii<MAXLINES;ii++){
 	model=fitter->GetModel(ii);
 	if(model) if(model->GetParValue("Pos")>0)lines++;
 }
-cout <<" "<< setw(2)<<lines << ":";
-lines+=2; // two back ground models
+cout <<" "<< setw(2)<<lines << ": ";
 peaks=0;
+lines+=2; // two back ground models
 // get position of lines
 for(ii=0;ii<lines;ii++){
 	model=fitter->GetModel(ii);
 	if(model){
 		linepos[peaks]=model->GetParValue("Pos");
-		if(linepos[peaks]>0){
+		if(linepos[peaks]>0){ // excludes background models
 			cout << " "<< setw(7)<<linepos[peaks];
 			//			 << " Ampl " << mod->GetParValue("Ampl")
 			//			 << " Width " << mod->GetParValue("Width")<<endl;
 			peaks++;
 		}}
 }
+if(peaks < minpeaks){
+	cal0=0.;
+	cal1=1.;
+	cal2=0.;
+	cout<<full<<" empty"<<endl;
+}else{
 // Adjust raw
 factor=sollmax/linepos[peaks-1];
 offset=0.0;
@@ -142,7 +149,7 @@ for(ii=0;ii<peaks;ii++){
 graph->Set(0);// remove points
 ii=0;
 for(i=0;i<energies;i++){
-	while(abs(lineposc[ii]-energy[i]) > width){
+	while(abs(lineposc[ii]-energy[i]) > peakdistance){
 		lineposc[ii++]=0;
 		if(ii==MAXLINES)break;
 	}
@@ -163,6 +170,7 @@ model=cali->GetModel(1);
 cal1=model->GetParValue("Ampl");
 model=cali->GetModel(2);
 cal2=model->GetParValue("Ampl");
+} // peaks found, fitting coefficients
 strcpy(num,his->GetName());
 // need index for file:
 p=strrchr(num,'_')+1;
@@ -170,7 +178,6 @@ Int_t i=atoi(p);
 //cout << num<<" "<<i<<" "
 //	<< cal0<<" "<<cal1<<" "<<cal2<<endl;
 fLine.Form("%s %d %lf %le %le\n",num,i,cal0,cal1,cal2);
-cout<<coeffline;
 ii=0;
 for(i=0;i<energies;i++){
 	while((ii<(MAXLINES-1))&(lineposc[ii]==0))ii++;
@@ -185,86 +192,92 @@ for(i=0;i<energies;i++){
 return kTRUE;
 }
 //-------------------------------------------------------
-// Main entry function
-// Text_t is since 5.15-04 no longer supported!
-Bool_t makecali(const char *calif, const char *file)
+// Handle one directory and create one calibration file
+void makecali1(TString rootfile, char *directory, TString califile)
 {
-	TString x=calif;
-	TString califile = x+".txt";
-	x=file;
-	TString rootfile = x+".root";
 cout << "# Calib: "<<califile << " File: "<<rootfile << endl;
 cout << "# Factor "<<noisefactor<<" noise "<<noise<<" sum "<<sum<<endl;
+strcpy(dir,directory);
+// open root file with histograms
+TFile* rfile = new TFile(rootfile.Data(),"READ");
+// get list of histograms from directory
+cout<<rootfile.Data()<<": "<<directory<<" * "<<endl;
+TListIter *iter=GetHistograms(rfile, directory, "*");
+ofstream ofile(califile.Data());
+while(namo = iter->Next())
+{
+	his= (TH1*) namo;
+	if(his->GetMean()>0){
+		MakeCalibration(his);
+		ofile.write(fLine.Data(),fLine.Length());
+	} // histogram with data
+	else cout << directory<<"/"<<his->GetName()<<" empty"<<endl;
+} // histogram loop
+rfile->Close();
+ofile.close();
+}
+//-------------------------------------------------------
+// Main entry function
+// Text_t is since 5.15-04 no longer supported!
+Bool_t makecali(const char *prefix, const char *histofile)
+{
+	TString x=histofile;
+	TString rootfile = x+".root";
+	TString pref=prefix;
+	TString califile;
 fitter=new TGo4Fitter("Fitter", TGo4Fitter::ff_least_squares, kTRUE);
 cali=new TGo4Fitter("Calibrator", TGo4Fitter::ff_least_squares, kTRUE);
 graph=new TGraph();
 cali->AddGraph("CaliGraph", graph, kFALSE);
 cali->AddPolynomX("CaliGraph","A",2);
 
-Bool_t caligam=kTRUE;
-Bool_t caliadc=kTRUE;
-//-----------------------------------
-if(caligam)
-{
+// Gamma energies
 noisefactor=7.7;
 noise=20.;
 sum=1.;
+peakdistance=10;
+minpeaks=6;
+maxpeaks=15;
 // Read calibration file with energies
-ReadEnergies(calif);
-
-// open root file with histograms
-TFile* rfile = new TFile(rootfile.Data(),"READ");
-
-// get list of histograms from directory
-strcpy(dir,"Histograms/Unpack/GammaE");
-cout<<rootfile.Data()<<": "<<dir<<" * "<<endl;
-TListIter *iter=GetHistograms(rfile, dir, "GammaE*");
-ofstream ofile("gammacoeff.txt");
-while(namo = iter->Next())
-{
-	his= (TH1*) namo;
-	if(his->GetMean()>0){
-		MakeCalibration(his,10);
-		ofile.write(fLine.Data(),fLine.Length());
-	} // histogram with data
-	else cout << his->GetName()<<" empty"<<endl;
-} // histogram loop
-rfile->Close();
-ofile.close();
-}
+ReadEnergies("gammaEu.txt");
+califile=pref+"_gammaE.txt";
+//makecali1(rootfile,"Histograms/Unpack/GammaE",califile);
 //-----------------------------------
-if(caliadc)
-{
+// Alpha energies
 noisefactor=3.;
 noise=5.;
 sum=1.;
-
+peakdistance=2500;
+minpeaks=3;
+maxpeaks=4;
 // Read calibration file with energies
 ReadEnergies("alpha.txt");
 
-//fitter=new TGo4Fitter("Fitter", TGo4Fitter::ff_least_squares, kTRUE);
-// open root file with histograms
-TFile* rfile = new TFile(rootfile.Data(),"READ");
+califile=pref+"_StopXL.txt";
+makecali1(rootfile,"Histograms/Cali/StopXL",califile);
 
-// get list of histograms from directory
-strcpy(dir,"Histograms/Cali/StopL");
-cout<<rootfile.Data()<<": "<<dir<<" * "<<endl;
-TListIter *iter2=GetHistograms(rfile, dir, "StopXL_*");
-ofstream ofile("stopXLcoeff.txt");
-while(namo = iter2->Next())
-{
-	his= (TH1*) namo;
-	if(his->GetMean()>0){
-		MakeCalibration(his,2500);
-		if(peaks != 4)cout << his->GetName()<<" "<<peaks<<" peaks"<<endl;
-		ofile.write(fLine.Data(),fLine.Length());
-	} // histogram with data
-	else cout << his->GetName()<<" empty"<<endl;
-} // histogram loop
-rfile->Close();
-ofile.close();
-}
+califile=pref+"_StopYL.txt";
+makecali1(rootfile,"Histograms/Cali/StopYL",califile);
+
+califile=pref+"_StopXH.txt";
+makecali1(rootfile,"Histograms/Cali/StopXH",califile);
+
+califile=pref+"_StopYH.txt";
+makecali1(rootfile,"Histograms/Cali/StopYH",califile);
+
+califile=pref+"_BackL.txt";
+makecali1(rootfile,"Histograms/Cali/BackL",califile);
+
+califile=pref+"_BackH.txt";
+makecali1(rootfile,"Histograms/Cali/BackH",califile);
+
+califile=pref+"_VetoL.txt";
+makecali1(rootfile,"Histograms/Cali/VetoL",califile);
+
+califile=pref+"_VetoH.txt";
+makecali1(rootfile,"Histograms/Cali/VetoH",califile);
+
+
 //-----------------------------------
 return kTRUE;
 }
-

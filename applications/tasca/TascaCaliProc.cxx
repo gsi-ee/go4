@@ -63,18 +63,18 @@ TascaCaliProc::TascaCaliProc(const char* name) :
   for(i=0;i<144;i++){
 	snprintf(chis,15,"StopXL_%03d",i);
 	snprintf(chead,63,"StopX Low %03d",i);
-	fhStopXL[i]=anl->CreateTH1I("Cali/StopL",chis,chead,5000,0.5,5000.5);
+	fhStopXL[i]=anl->CreateTH1I("Cali/StopXL",chis,chead,5000,0.5,5000.5);
 	snprintf(chis,15,"StopXH_%03d",i);
 	snprintf(chead,63,"StopX High %03d",i);
-	fhStopXH[i]=anl->CreateTH1I("Cali/StopH",chis,chead,5000,0.5,5000.5);
+	fhStopXH[i]=anl->CreateTH1I("Cali/StopXH",chis,chead,5000,0.5,5000.5);
   }
   for(i=0;i<96;i++){
 	snprintf(chis,15,"StopYL_%03d",i);
 	snprintf(chead,63,"StopY Low %03d",i);
-	fhStopYL[i]=anl->CreateTH1I("Cali/StopL",chis,chead,5000,0.5,5000.5);
+	fhStopYL[i]=anl->CreateTH1I("Cali/StopYL",chis,chead,5000,0.5,5000.5);
 	snprintf(chis,15,"StopYH_%03d",i);
 	snprintf(chead,63,"StopY High %03d",i);
-	fhStopYH[i]=anl->CreateTH1I("Cali/StopH",chis,chead,5000,0.5,5000.5);
+	fhStopYH[i]=anl->CreateTH1I("Cali/StopYH",chis,chead,5000,0.5,5000.5);
   }
   for(i=0;i<64;i++){
 	snprintf(chis,15,"BackL_%03d",i);
