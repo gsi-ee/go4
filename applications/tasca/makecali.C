@@ -151,19 +151,19 @@ for(ii=0;ii<peaks;ii++){
 // now identify lines in histogram
 // histogram may have more lines than energies.
 graph->Set(0);// remove points
-ii=0;
-for(i=0;i<energies;i++){
+ii=peaks;
+for(i=energies-1;i>=0;i--){
 	while(abs(lineposc[ii]-energy[i]) > peakdistance){
-		lineposc[ii++]=0;
-		if(ii==MAXLINES)break;
+		lineposc[ii--]=0;
+		if(ii<0)break;
 	}
-	if(ii==MAXLINES)break;
-//	    	   cout <<i<<"-"<< ii
-//				   << " ch "<< setw(6)<<linepos[ii]
-//				   <<" "<< setw(6)<<lineposc[ii]
-//				   << " E "<< setw(6)<<energy[i]<< endl;
+	if(ii<0)break;
+// 	    	   cout <<i<<"-"<< ii
+// 				   << " ch "<< setw(6)<<linepos[ii]
+// 				   <<" "<< setw(6)<<lineposc[ii]
+// 				   << " E "<< setw(6)<<energy[i]<< endl;
 	graph->SetPoint(i,linepos[ii],energy[i]);
-	ii++;
+	ii--;
 }
 cali->SetObject("CaliGraph", graph, kFALSE);
 cali->DoActions(kTRUE);
@@ -182,16 +182,16 @@ Int_t i=atoi(p);
  if(verbose)cout << num<<" "<<i<<" "
  	<< cal0<<" "<<cal1<<" "<<cal2<<endl;
 fLine.Form("%s %d %lf %le %le\n",num,i,cal0,cal1,cal2);
-ii=0;
-for(i=0;i<energies;i++){
-	while((ii<(MAXLINES-1))&(lineposc[ii]==0))ii++;
+ii=peaks;
+for(i=energies-1;i>=0;i--){
+	while((ii>0)&(lineposc[ii]==0))ii--;
 	cal=cal0+cal1*linepos[ii]+cal2*linepos[ii]*linepos[ii];
 	if(verbose)cout <<i<< " ch "<< setw(7)<<linepos[ii]
  		<<" cal "<< setw(7)<<cal
  		<<" E "<< setw(7)<<energy[i]
  		<<" "<<cal*100./energy[i]<<"%"<< endl;
-	ii++;
-	if(ii==MAXLINES)break;
+	ii--;
+	if(ii<0)break;
 }
 return kTRUE;
 }
@@ -280,6 +280,7 @@ ReadEnergies("alpha.txt");
 // califile=pref+"_VetoL.txt";
 // makecali1(rootfile,"Histograms/Cali/VetoL",califile);
 
+peakdistance=1500;
  lolim=50.;
  hilim=1500.;
 califile=pref+"_StopXH.txt";
@@ -290,15 +291,15 @@ makecali1(rootfile,"Histograms/Cali/StopXH",califile);
 califile=pref+"_StopYH.txt";
 makecali1(rootfile,"Histograms/Cali/StopYH",califile);
 
- lolim=50.;
- hilim=1500.;
-califile=pref+"_BackH.txt";
-makecali1(rootfile,"Histograms/Cali/BackH",califile);
+//  lolim=50.;
+//  hilim=1500.;
+// califile=pref+"_BackH.txt";
+// makecali1(rootfile,"Histograms/Cali/BackH",califile);
 
- lolim=50.;
- hilim=1500.;
-califile=pref+"_VetoH.txt";
-makecali1(rootfile,"Histograms/Cali/VetoH",califile);
+//  lolim=50.;
+//  hilim=1500.;
+// califile=pref+"_VetoH.txt";
+// makecali1(rootfile,"Histograms/Cali/VetoH",califile);
 
 
 //-----------------------------------
