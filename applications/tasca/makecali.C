@@ -17,6 +17,8 @@ Double_t sollmin=122.;
 Double_t sollmax=1408.;
 Double_t offset,factor;
 Double_t cal,cal0,cal1,cal2;
+Bool_t verbose=kFALSE;
+Float_t lolim,hilim;
 char nextline[256];
 char buf[256];
 char full[128];
@@ -104,7 +106,7 @@ finder->SetupForThird(noisefactor, noise, sum);
 fitter->AddAction(finder);
 //fitter->AddStandardActions();
 // with kFALSE fitter does not own histogram
-fitter->AddH1("data1", his, kFALSE, 0., 1500.);
+fitter->AddH1("data1", his, kFALSE, lolim, hilim);
 fitter->DoActions(kTRUE);
 lines=0;
 memset(linepos,0,sizeof(linepos));
@@ -177,17 +179,17 @@ strcpy(num,his->GetName());
 // need index for file:
 p=strrchr(num,'_')+1;
 Int_t i=atoi(p);
-//cout << num<<" "<<i<<" "
-//	<< cal0<<" "<<cal1<<" "<<cal2<<endl;
+ if(verbose)cout << num<<" "<<i<<" "
+ 	<< cal0<<" "<<cal1<<" "<<cal2<<endl;
 fLine.Form("%s %d %lf %le %le\n",num,i,cal0,cal1,cal2);
 ii=0;
 for(i=0;i<energies;i++){
 	while((ii<(MAXLINES-1))&(lineposc[ii]==0))ii++;
 	cal=cal0+cal1*linepos[ii]+cal2*linepos[ii]*linepos[ii];
-//	cout <<i<< " ch "<< setw(7)<<linepos[ii]
-//		<<" cal "<< setw(7)<<cal
-//		<<" E "<< setw(7)<<energy[i]
-//		<<" "<<cal*100./energy[i]<<"%"<< endl;
+	if(verbose)cout <<i<< " ch "<< setw(7)<<linepos[ii]
+ 		<<" cal "<< setw(7)<<cal
+ 		<<" E "<< setw(7)<<energy[i]
+ 		<<" "<<cal*100./energy[i]<<"%"<< endl;
 	ii++;
 	if(ii==MAXLINES)break;
 }
@@ -240,6 +242,8 @@ sum=1.;
 peakdistance=10;
 minpeaks=6;
 maxpeaks=15;
+ lolim=0.;
+ hilim=1500.;
 // Read calibration file with energies
 ReadEnergies("gammaEu.txt");
 califile=pref+"_gammaE.txt";
@@ -248,34 +252,51 @@ califile=pref+"_gammaE.txt";
 // For peak finder
 noisefactor=3.;
 noise=5.;
-sum=1.;
-peakdistance=2500;
+sum=2.;
+peakdistance=1500;
 minpeaks=3;
 maxpeaks=4;
+ verbose=kTRUE;
 // Read calibration file with energies
 ReadEnergies("alpha.txt");
 
-califile=pref+"_StopXL.txt";
-makecali1(rootfile,"Histograms/Cali/StopXL",califile);
+//  lolim=200.;
+//  hilim=1500.;
+// califile=pref+"_StopXL.txt";
+// makecali1(rootfile,"Histograms/Cali/StopXL",califile);
 
-califile=pref+"_StopYL.txt";
-makecali1(rootfile,"Histograms/Cali/StopYL",califile);
+//  lolim=200.;
+//  hilim=1500.;
+// califile=pref+"_StopYL.txt";
+// makecali1(rootfile,"Histograms/Cali/StopYL",califile);
 
+//  lolim=200.;
+//  hilim=1500.;
+// califile=pref+"_BackL.txt";
+// makecali1(rootfile,"Histograms/Cali/BackL",califile);
+
+//  lolim=200.;
+//  hilim=1500.;
+// califile=pref+"_VetoL.txt";
+// makecali1(rootfile,"Histograms/Cali/VetoL",califile);
+
+ lolim=50.;
+ hilim=1500.;
 califile=pref+"_StopXH.txt";
 makecali1(rootfile,"Histograms/Cali/StopXH",califile);
 
+ lolim=50.;
+ hilim=1500.;
 califile=pref+"_StopYH.txt";
 makecali1(rootfile,"Histograms/Cali/StopYH",califile);
 
-califile=pref+"_BackL.txt";
-makecali1(rootfile,"Histograms/Cali/BackL",califile);
-
+ lolim=50.;
+ hilim=1500.;
 califile=pref+"_BackH.txt";
 makecali1(rootfile,"Histograms/Cali/BackH",califile);
 
-califile=pref+"_VetoL.txt";
-makecali1(rootfile,"Histograms/Cali/VetoL",califile);
-
+ lolim=50.;
+ hilim=1500.;
 califile=pref+"_VetoH.txt";
 makecali1(rootfile,"Histograms/Cali/VetoH",califile);
 
