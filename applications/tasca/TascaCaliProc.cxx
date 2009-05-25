@@ -65,7 +65,11 @@ TascaCaliProc::TascaCaliProc(const char* name) :
   }
   // sets coefficients a0,a2 to 0, a1 to 1.
   fCalibration->Preset();
-  fCalibration->ReadCoefficients("new");
+  if(fCalibration->UseCalibration){
+	  fCalibration->ReadCoefficients("new");
+	  cout << "Tasca> TascaCaliProc: Use calibration" << endl;
+  }
+  else   cout << "Tasca> TascaCaliProc: No calibration" << endl;
 
   evcount=0;
 	fhdStopXL=anl->CreateTH1D("Cali/Sum","StopXL", "StopX all low",144,0,144);
@@ -80,34 +84,74 @@ TascaCaliProc::TascaCaliProc(const char* name) :
   for(i=0;i<144;i++){
 	snprintf(chis,15,"StopXL_%03d",i);
 	snprintf(chead,63,"StopX Low %03d",i);
-	fhStopXL[i]=anl->CreateTH1I("Cali/StopXL",chis,chead,8000,0.5,8000.5);
+	fhStopXL[i]=anl->CreateTH1I("Cali/StopXL",chis,chead,4000,0.5,4000.5);
 	snprintf(chis,15,"StopXH_%03d",i);
 	snprintf(chead,63,"StopX High %03d",i);
-	fhStopXH[i]=anl->CreateTH1I("Cali/StopXH",chis,chead,8000,0.5,8000.5);
+	fhStopXH[i]=anl->CreateTH1I("Cali/StopXH",chis,chead,4000,0.5,4000.5);
+	fhStopXH[i]->GetXaxis()->SetTitle("Channels");
+	fhStopXH[i]->GetYaxis()->SetTitle("Counts");
+	fhStopXL[i]->GetXaxis()->SetTitle("Channels");
+	fhStopXL[i]->GetYaxis()->SetTitle("Counts");
+	if(fCalibration->UseCalibration){
+		fhStopXL[i]->GetXaxis()->SetLimits(0,30000);
+		fhStopXH[i]->GetXaxis()->SetLimits(0,30000);
+		fhStopXL[i]->GetXaxis()->SetTitle("Energy [Kev]");
+		fhStopXH[i]->GetXaxis()->SetTitle("Energy [Kev]");
+	}
   }
   for(i=0;i<96;i++){
 	snprintf(chis,15,"StopYL_%03d",i);
 	snprintf(chead,63,"StopY Low %03d",i);
-	fhStopYL[i]=anl->CreateTH1I("Cali/StopYL",chis,chead,8000,0.5,8000.5);
+	fhStopYL[i]=anl->CreateTH1I("Cali/StopYL",chis,chead,4000,0.5,4000.5);
 	snprintf(chis,15,"StopYH_%03d",i);
 	snprintf(chead,63,"StopY High %03d",i);
-	fhStopYH[i]=anl->CreateTH1I("Cali/StopYH",chis,chead,8000,0.5,8000.5);
+	fhStopYH[i]=anl->CreateTH1I("Cali/StopYH",chis,chead,4000,0.5,4000.5);
+	fhStopYH[i]->GetXaxis()->SetTitle("Channels");
+	fhStopYH[i]->GetYaxis()->SetTitle("Counts");
+	fhStopYL[i]->GetXaxis()->SetTitle("Channels");
+	fhStopYL[i]->GetYaxis()->SetTitle("Counts");
+	if(fCalibration->UseCalibration){
+		fhStopYL[i]->GetXaxis()->SetLimits(0,30000);
+		fhStopYH[i]->GetXaxis()->SetLimits(0,30000);
+		fhStopYL[i]->GetXaxis()->SetTitle("Energy [Kev]");
+		fhStopYH[i]->GetXaxis()->SetTitle("Energy [Kev]");
+	}
   }
   for(i=0;i<64;i++){
 	snprintf(chis,15,"BackL_%03d",i);
 	snprintf(chead,63,"Back Low %03d",i);
-	fhBackL[i]=anl->CreateTH1I("Cali/BackL",chis,chead,8000,0.5,8000.5);
+	fhBackL[i]=anl->CreateTH1I("Cali/BackL",chis,chead,4000,0.5,4000.5);
 	snprintf(chis,15,"BackH_%03d",i);
 	snprintf(chead,63,"Back High %03d",i);
-	fhBackH[i]=anl->CreateTH1I("Cali/BackH",chis,chead,8000,0.5,8000.5);
+	fhBackH[i]=anl->CreateTH1I("Cali/BackH",chis,chead,4000,0.5,4000.5);
+	fhBackH[i]->GetXaxis()->SetTitle("Channels");
+	fhBackH[i]->GetYaxis()->SetTitle("Counts");
+	fhBackL[i]->GetXaxis()->SetTitle("Channels");
+	fhBackL[i]->GetYaxis()->SetTitle("Counts");
+	if(fCalibration->UseCalibration){
+		fhBackL[i]->GetXaxis()->SetLimits(0,30000);
+		fhBackH[i]->GetXaxis()->SetLimits(0,30000);
+		fhBackL[i]->GetXaxis()->SetTitle("Energy [Kev]");
+		fhBackH[i]->GetXaxis()->SetTitle("Energy [Kev]");
+	}
   }
   for(i=0;i<16;i++){
 	snprintf(chis,15,"VetoL_%03d",i);
 	snprintf(chead,63,"Veto Low %03d",i);
-	fhVetoL[i]=anl->CreateTH1I("Cali/VetoL",chis,chead,8000,0.5,8000.5);
+	fhVetoL[i]=anl->CreateTH1I("Cali/VetoL",chis,chead,4000,0.5,4000.5);
 	snprintf(chis,15,"VetoH_%03d",i);
 	snprintf(chead,63,"Veto High %03d",i);
-	fhVetoH[i]=anl->CreateTH1I("Cali/VetoH",chis,chead,8000,0.5,8000.5);
+	fhVetoH[i]=anl->CreateTH1I("Cali/VetoH",chis,chead,4000,0.5,4000.5);
+	fhVetoH[i]->GetXaxis()->SetTitle("Channels");
+	fhVetoH[i]->GetYaxis()->SetTitle("Counts");
+	fhVetoL[i]->GetXaxis()->SetTitle("Channels");
+	fhVetoL[i]->GetYaxis()->SetTitle("Counts");
+	if(fCalibration->UseCalibration){
+		fhVetoL[i]->GetXaxis()->SetLimits(0,30000);
+		fhVetoH[i]->GetXaxis()->SetLimits(0,30000);
+		fhVetoL[i]->GetXaxis()->SetTitle("Energy [Kev]");
+		fhVetoH[i]->GetXaxis()->SetTitle("Energy [Kev]");
+	}
   }
   for(i =0;i<8;i++)
   {

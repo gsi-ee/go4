@@ -13,6 +13,7 @@ TascaCalibration::TascaCalibration() : TGo4Parameter()
 TascaCalibration::TascaCalibration(const char* name) : TGo4Parameter(name)
 {
     cout << "Tasca> TascaCalibration: " << name << " created" << endl;
+    UseCalibration=kFALSE;
 }
 //***********************************************************
 TascaCalibration::~TascaCalibration(){
@@ -66,6 +67,7 @@ Bool_t TascaCalibration::Preset(){
 Bool_t TascaCalibration::UpdateFrom(TGo4Parameter *pp){
 if(pp->InheritsFrom("TascaCalibration")) {
   TascaCalibration * from = (TascaCalibration *) pp;
+  UseCalibration=from->UseCalibration;
 }
 return kTRUE;
 }

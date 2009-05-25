@@ -247,7 +247,7 @@ maxpeaks=15;
 // Read calibration file with energies
 ReadEnergies("gammaEu.txt");
 califile=pref+"_GammaE.txt";
-makecali1(rootfile,"Histograms/Unpack/GammaE",califile);
+//makecali1(rootfile,"Histograms/Unpack/GammaE",califile);
 //-----------------------------------
 // For peak finder
 noisefactor=3.;
