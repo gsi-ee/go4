@@ -6,6 +6,7 @@
 
 #include "TObjArray.h"
 #include "TObjString.h"
+#include "TGraph.h"
 #include "TH1.h"
 #include "TH2.h"
 #include "TGo4Fitter.h"
@@ -16,6 +17,7 @@
 
 #include "TascaControl.h"
 #include "TascaParameter.h"
+#include "TascaCaliFitter.h"
 #include "TascaCalibration.h"
 #include "TascaCaliEvent.h"
 #include "TascaUnpackEvent.h"
@@ -42,6 +44,20 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 	  fControl = new TascaControl("Controls");
 	  AddParameter(fControl);
   }
+  fCaliFit   = (TascaCaliFitter *) GetParameter("CaliFitter");
+  if(fCaliFit==0){
+	  fCaliFit = new TascaCaliFitter("CaliFitter");
+	  AddParameter(fCaliFit);
+  }
+  fCaliGraph = (TGraph *)GetObject("CaliGraph");
+  if(fCaliGraph ==0){
+	  fCaliGraph=new TGraph;
+	  fCaliGraph->SetName("CaliGraph");
+	  fCaliGraph->SetMarkerStyle(24);
+	  AddObject(fCaliGraph);
+  }
+  // setup calibration
+  fCaliFit->Setup(fCaliGraph);
   fCalibration   = (TascaCalibration *) GetParameter("Calibration");
   if(fCalibration==0){
 	  fCalibration = new TascaCalibration("Calibration");
@@ -49,6 +65,7 @@ TascaCaliProc::TascaCaliProc(const char* name) :
   }
   // sets coefficients a0,a2 to 0, a1 to 1.
   fCalibration->Preset();
+  fCalibration->ReadCoefficients("new");
 
   evcount=0;
 	fhdStopXL=anl->CreateTH1D("Cali/Sum","StopXL", "StopX all low",144,0,144);
@@ -63,34 +80,34 @@ TascaCaliProc::TascaCaliProc(const char* name) :
   for(i=0;i<144;i++){
 	snprintf(chis,15,"StopXL_%03d",i);
 	snprintf(chead,63,"StopX Low %03d",i);
-	fhStopXL[i]=anl->CreateTH1I("Cali/StopXL",chis,chead,5000,0.5,5000.5);
+	fhStopXL[i]=anl->CreateTH1I("Cali/StopXL",chis,chead,8000,0.5,8000.5);
 	snprintf(chis,15,"StopXH_%03d",i);
 	snprintf(chead,63,"StopX High %03d",i);
-	fhStopXH[i]=anl->CreateTH1I("Cali/StopXH",chis,chead,5000,0.5,5000.5);
+	fhStopXH[i]=anl->CreateTH1I("Cali/StopXH",chis,chead,8000,0.5,8000.5);
   }
   for(i=0;i<96;i++){
 	snprintf(chis,15,"StopYL_%03d",i);
 	snprintf(chead,63,"StopY Low %03d",i);
-	fhStopYL[i]=anl->CreateTH1I("Cali/StopYL",chis,chead,5000,0.5,5000.5);
+	fhStopYL[i]=anl->CreateTH1I("Cali/StopYL",chis,chead,8000,0.5,8000.5);
 	snprintf(chis,15,"StopYH_%03d",i);
 	snprintf(chead,63,"StopY High %03d",i);
-	fhStopYH[i]=anl->CreateTH1I("Cali/StopYH",chis,chead,5000,0.5,5000.5);
+	fhStopYH[i]=anl->CreateTH1I("Cali/StopYH",chis,chead,8000,0.5,8000.5);
   }
   for(i=0;i<64;i++){
 	snprintf(chis,15,"BackL_%03d",i);
 	snprintf(chead,63,"Back Low %03d",i);
-	fhBackL[i]=anl->CreateTH1I("Cali/BackL",chis,chead,5000,0.5,5000.5);
+	fhBackL[i]=anl->CreateTH1I("Cali/BackL",chis,chead,8000,0.5,8000.5);
 	snprintf(chis,15,"BackH_%03d",i);
 	snprintf(chead,63,"Back High %03d",i);
-	fhBackH[i]=anl->CreateTH1I("Cali/BackH",chis,chead,5000,0.5,5000.5);
+	fhBackH[i]=anl->CreateTH1I("Cali/BackH",chis,chead,8000,0.5,8000.5);
   }
   for(i=0;i<16;i++){
 	snprintf(chis,15,"VetoL_%03d",i);
 	snprintf(chead,63,"Veto Low %03d",i);
-	fhVetoL[i]=anl->CreateTH1I("Cali/VetoL",chis,chead,5000,0.5,5000.5);
+	fhVetoL[i]=anl->CreateTH1I("Cali/VetoL",chis,chead,8000,0.5,8000.5);
 	snprintf(chis,15,"VetoH_%03d",i);
 	snprintf(chead,63,"Veto High %03d",i);
-	fhVetoH[i]=anl->CreateTH1I("Cali/VetoH",chis,chead,5000,0.5,5000.5);
+	fhVetoH[i]=anl->CreateTH1I("Cali/VetoH",chis,chead,8000,0.5,8000.5);
   }
   for(i =0;i<8;i++)
   {
@@ -190,54 +207,54 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   poutevt->fiVetoHhitI=fInput->fiVetoHhitI;
   poutevt->fiVetoLhitI=fInput->fiVetoLhitI;
   // value of maximum hit, if we had more than one hit
-  poutevt->ffStopXLhitV=(Float_t)fInput->fiStopXLhitV;
-  poutevt->ffStopXHhitV=(Float_t)fInput->fiStopXHhitV;
-  poutevt->ffStopYLhitV=(Float_t)fInput->fiStopYLhitV;
-  poutevt->ffStopYHhitV=(Float_t)fInput->fiStopYHhitV;
-  poutevt->ffBackHhitV=(Float_t)fInput->fiBackHhitV;
-  poutevt->ffBackLhitV=(Float_t)fInput->fiBackLhitV;
-  poutevt->ffVetoHhitV=(Float_t)fInput->fiVetoHhitV;
-  poutevt->ffVetoLhitV=(Float_t)fInput->fiVetoLhitV;
+  poutevt->ffStopXLhitV=fCalibration->CalibrateStopXL(fInput->fiStopXLhitV,fInput->fiStopXLhitI);
+  poutevt->ffStopXHhitV=fCalibration->CalibrateStopXH(fInput->fiStopXHhitV,fInput->fiStopXHhitI);
+  poutevt->ffStopYLhitV=fCalibration->CalibrateStopYL(fInput->fiStopYLhitV,fInput->fiStopYLhitI);
+  poutevt->ffStopYHhitV=fCalibration->CalibrateStopYH(fInput->fiStopYHhitV,fInput->fiStopYHhitI);
+  poutevt->ffBackHhitV =fCalibration->CalibrateBackH(fInput->fiBackHhitV,fInput->fiBackHhitI);
+  poutevt->ffBackLhitV =fCalibration->CalibrateBackL(fInput->fiBackLhitV,fInput->fiBackLhitI);
+  poutevt->ffVetoHhitV =fCalibration->CalibrateVetoH(fInput->fiVetoHhitV,fInput->fiVetoHhitI);
+  poutevt->ffVetoLhitV =fCalibration->CalibrateVetoL(fInput->fiVetoLhitV,fInput->fiVetoLhitI);
   poutevt->ffTimeStamp=(Float_t)fInput->fiTimeStamp;
   poutevt->ffSystemSec=(Float_t)fInput->fiSystemSec;
   poutevt->ffSystemMysec=(Float_t)fInput->fiSystemMysec;
   for(i=0;i<144;i++){
-	  poutevt->ffStopXL[i]=(Float_t)fInput->fiStopXL[i];
-	  poutevt->ffStopXH[i]=(Float_t)fInput->fiStopXH[i];
+	  poutevt->ffStopXL[i]=fCalibration->CalibrateStopXL(fInput->fiStopXL[i],i);
+	  poutevt->ffStopXH[i]=fCalibration->CalibrateStopXH(fInput->fiStopXH[i],i);
 	  if(fInput->fiStopXL[i]>0)fhdStopXL->Fill(i);
 	  if(fInput->fiStopXH[i]>0)fhdStopXH->Fill(i);
-	  fhStopXL[i]->Fill(fInput->fiStopXL[i]);
-	  fhStopXH[i]->Fill(fInput->fiStopXH[i]);
+	  fhStopXL[i]->Fill(poutevt->ffStopXL[i]);
+	  fhStopXH[i]->Fill(poutevt->ffStopXH[i]);
   }
   for(i=0;i<96;i++){
-	  poutevt->ffStopYL[i]=(Float_t)fInput->fiStopYL[i];
-	  poutevt->ffStopYH[i]=(Float_t)fInput->fiStopYH[i];
+	  poutevt->ffStopYL[i]=fCalibration->CalibrateStopYL(fInput->fiStopYL[i],i);
+	  poutevt->ffStopYH[i]=fCalibration->CalibrateStopYH(fInput->fiStopYH[i],i);
 	  if(fInput->fiStopYL[i]>0)fhdStopYL->Fill(i);
 	  if(fInput->fiStopYH[i]>0)fhdStopYH->Fill(i);
-	  fhStopYL[i]->Fill(fInput->fiStopYL[i]);
-	  fhStopYH[i]->Fill(fInput->fiStopYH[i]);
+	  fhStopYL[i]->Fill(poutevt->ffStopYL[i]);
+	  fhStopYH[i]->Fill(poutevt->ffStopYH[i]);
   }
   for(i=0;i<64;i++){
-	  poutevt->ffBackL[i]=(Float_t)fInput->fiBackL[i];
-	  poutevt->ffBackH[i]=(Float_t)fInput->fiBackH[i];
+	  poutevt->ffBackL[i]=fCalibration->CalibrateBackL(fInput->fiBackL[i],i);
+	  poutevt->ffBackH[i]=fCalibration->CalibrateBackH(fInput->fiBackH[i],i);
 	  if(fInput->fiBackL[i]>0)fhdBackL->Fill(i);
 	  if(fInput->fiBackH[i]>0)fhdBackH->Fill(i);
-	  fhBackL[i]->Fill(fInput->fiBackL[i]);
-	  fhBackH[i]->Fill(fInput->fiBackH[i]);
+	  fhBackL[i]->Fill(poutevt->ffBackL[i]);
+	  fhBackH[i]->Fill(poutevt->ffBackH[i]);
   }
   for(i=0;i<16;i++){
-	  poutevt->ffVetoL[i]=(Float_t)fInput->fiVetoL[i];
-	  poutevt->ffVetoH[i]=(Float_t)fInput->fiVetoH[i];
+	  poutevt->ffVetoL[i]=fCalibration->CalibrateVetoL(fInput->fiVetoL[i],i);
+	  poutevt->ffVetoH[i]=fCalibration->CalibrateVetoH(fInput->fiVetoH[i],i);
 	  if(fInput->fiVetoL[i]>0)fhdVetoL->Fill(i);
 	  if(fInput->fiVetoH[i]>0)fhdVetoH->Fill(i);
-	  fhVetoL[i]->Fill(fInput->fiVetoL[i]);
-	  fhVetoH[i]->Fill(fInput->fiVetoH[i]);
+	  fhVetoL[i]->Fill(poutevt->ffVetoL[i]);
+	  fhVetoH[i]->Fill(poutevt->ffVetoH[i]);
   }
   for(i=0;i<8;i++){
-	  poutevt->ffGammaKev[i]   = (Float_t)fInput->fiGammaE[i];
-	  poutevt->ffGammaMysec[i] = (Float_t)fInput->fiGammaT[i];
-	  fhGammaKev[i]->Fill(fInput->fiGammaE[i]);
-	  fhGammaMysec[i]->Fill(fInput->fiGammaT[i]);
+	  poutevt->ffGammaKev[i]   = fCalibration->CalibrateGammaE(fInput->fiGammaE[i],i);
+	  poutevt->ffGammaMysec[i] = fInput->fiGammaT[i];
+	  fhGammaKev[i]->Fill(poutevt->ffGammaKev[i]);
+	  fhGammaMysec[i]->Fill(poutevt->ffGammaMysec[i]);
   }
   poutevt->SetValid(kTRUE); // store
 }

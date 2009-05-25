@@ -70,35 +70,68 @@ if(pp->InheritsFrom("TascaCalibration")) {
 return kTRUE;
 }
 //-----------------------------------------------------------
-void TascaCalibration::ReadCoefficients(const char * file){
+void TascaCalibration::ReadSingleCoefficients(const char * file
+		, UInt_t size, Double_t *a0, Double_t *a1, Double_t *a2){
 	Text_t line[128];
 	Double_t v0,v1,v2;
 	UInt_t ii;
 	//File=file;
 	char name[32];
 	std::ifstream database(file);
-	if(database==0)
+	if(database==0){
 	    cout << "Tasca> TascaCalibration: Error open " << file << endl;
-	else {
-		cout << "Tasca> TascaCalibration: Coefficients from " << file<< endl;
-		while(1){
-			database.getline(line,127,'\n' ); // read whole line
-            if(database.eof() || !database.good()) break;
-            if(strstr(line,"#") || strstr(line,"!")){
-            	cout << line << endl;
-            	continue;// skip any comments
-            }
-			sscanf(line,"%s %d %lf %le %le",name,&ii,&v0,&v1,&v2);
-			cout << name<<" "<<ii<<" "
-				<< v0<<" "<<v1<<" "<<v2<<endl;
-			if(ii>143) cout << "Index error: " << ii << " should less 8"<< endl;
-			fdStopXL_a0[ii]=v0;
-			fdStopXL_a1[ii]=v1;
-			fdStopXL_a2[ii]=v2;
-		}
-		database.close();
+	    return;
 	}
+	cout << "Tasca> TascaCalibration: Coefficients from " << file<< endl;
+	while(1){
+		database.getline(line,127,'\n' ); // read whole line
+		if(database.eof() || !database.good()) break;
+		if(strstr(line,"#") || strstr(line,"!")){
+			cout << line << endl;
+			continue;// skip any comments
+		}
+		sscanf(line,"%s %d %lf %le %le",name,&ii,&v0,&v1,&v2);
+//		cout << name<<" "<<ii<<" "
+//			<< v0<<" "<<v1<<" "<<v2<<endl;
+		if(ii>=size) cout << "Index error: " << ii << " should less equal "<<size<< endl;
+		a0[ii]=v0;
+		a1[ii]=v1;
+		a2[ii]=v2;
+	}
+	database.close();
 	return;
+
+}
+void TascaCalibration::ReadCoefficients(const char * prefix){
+	TString full;
+	TString pref=prefix;
+	UInt_t size=144;
+	full.Form("%s_StopXL.txt",prefix);
+	ReadSingleCoefficients(full.Data(),size,fdStopXL_a0,fdStopXL_a1,fdStopXL_a2);
+	full.Form("%s_StopXH.txt",prefix);
+	ReadSingleCoefficients(full.Data(),size,fdStopXH_a0,fdStopXH_a1,fdStopXH_a2);
+	size=96;
+	full.Form("%s_StopYL.txt",prefix);
+	ReadSingleCoefficients(full.Data(),size,fdStopYL_a0,fdStopYL_a1,fdStopYL_a2);
+	full.Form("%s_StopYH.txt",prefix);
+	ReadSingleCoefficients(full.Data(),size,fdStopYH_a0,fdStopYH_a1,fdStopYH_a2);
+	size=64;
+	full.Form("%s_BackL.txt",prefix);
+	ReadSingleCoefficients(full.Data(),size,fdBackL_a0,fdBackL_a1,fdBackL_a2);
+	full.Form("%s_BackH.txt",prefix);
+	ReadSingleCoefficients(full.Data(),size,fdBackH_a0,fdBackH_a1,fdBackH_a2);
+	size=16;
+	full.Form("%s_VetoL.txt",prefix);
+	ReadSingleCoefficients(full.Data(),size,fdVetoL_a0,fdVetoL_a1,fdVetoL_a2);
+	full.Form("%s_VetoH.txt",prefix);
+	ReadSingleCoefficients(full.Data(),size,fdVetoH_a0,fdVetoH_a1,fdVetoH_a2);
+	size=8;
+	full.Form("%s_GammaE.txt",prefix);
+	ReadSingleCoefficients(full.Data(),size,fdGammaE_a0,fdGammaE_a1,fdGammaE_a2);
+	full.Form("%s_GammaT.txt",prefix);
+	ReadSingleCoefficients(full.Data(),size,fdGammaT_a0,fdGammaT_a1,fdGammaT_a2);
+//	for(UInt_t i=0;i<size;i++)
+//	cout <<fdStopXL_a0[i]<<" "<< fdStopXL_a1[i]<<" "<<  fdStopXL_a2[i]<<endl;
 }
 
 

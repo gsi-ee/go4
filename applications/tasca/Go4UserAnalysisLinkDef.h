@@ -7,6 +7,7 @@
 #pragma link C++ class TascaControl+;
 #pragma link C++ class TascaParameter+;
 #pragma link C++ class TascaPedestals+;
+#pragma link C++ class TascaCaliFitter+;
 #pragma link C++ class TascaCalibration+;
 #pragma link C++ class TascaCodec+;
 #pragma link C++ class TascaAnalysis+;
