@@ -131,10 +131,10 @@ for(ii=0;ii<lines;ii++){
 			peaks++;
 		}}
 }
+cal0=0.;
+cal1=1.;
+cal2=0.;
 if(peaks < minpeaks){
-	cal0=0.;
-	cal1=1.;
-	cal2=0.;
 	cout<<full<<" empty"<<endl;
 }else{
 // Adjust raw
@@ -172,8 +172,8 @@ model=cali->GetModel(0);
 cal0=model->GetParValue("Ampl");
 model=cali->GetModel(1);
 cal1=model->GetParValue("Ampl");
-model=cali->GetModel(2);
-cal2=model->GetParValue("Ampl");
+// model=cali->GetModel(2);
+// cal2=model->GetParValue("Ampl");
 } // peaks found, fitting coefficients
 strcpy(num,his->GetName());
 // need index for file:
@@ -233,73 +233,75 @@ fitter=new TGo4Fitter("Fitter", TGo4Fitter::ff_least_squares, kTRUE);
 cali=new TGo4Fitter("Calibrator", TGo4Fitter::ff_least_squares, kTRUE);
 graph=new TGraph();
 cali->AddGraph("CaliGraph", graph, kFALSE);
-cali->AddPolynomX("CaliGraph","A",2);
+ cali->AddPolynomX("CaliGraph","A",1); // only linear fit
 
+//-----------------------------------
 // For peak finder
-noisefactor=7.7;
-noise=20.;
+ verbose=kTRUE;
+noisefactor=5.4;
+noise=5.;
 sum=1.;
-peakdistance=10;
+peakdistance=40;
 minpeaks=6;
 maxpeaks=15;
- lolim=0.;
- hilim=1500.;
+ lolim=200.;
+ hilim=6000.;
 // Read calibration file with energies
-ReadEnergies("gammaEu.txt");
-califile=pref+"_GammaE.txt";
-//makecali1(rootfile,"Histograms/Unpack/GammaE",califile);
+// ReadEnergies("gammaEu.txt");
+// califile=pref+"_GammaE.txt";
+// makecali1(rootfile,"Histograms/Unpack/GammaE",califile);
 //-----------------------------------
 // For peak finder
 noisefactor=3.;
-noise=5.;
+noise=20.;
 sum=2.;
 peakdistance=1500;
 minpeaks=3;
 maxpeaks=4;
  verbose=kTRUE;
 // Read calibration file with energies
-ReadEnergies("alpha.txt");
+// ReadEnergies("alpha.txt");
 
-  lolim=200.;
-  hilim=1500.;
- califile=pref+"_StopXL.txt";
- makecali1(rootfile,"Histograms/Cali/StopXL",califile);
+//   lolim=200.;
+//   hilim=1500.;
+//  califile=pref+"_StopXL.txt";
+//  makecali1(rootfile,"Histograms/Cali/StopXL",califile);
 
-  lolim=200.;
-  hilim=1500.;
- califile=pref+"_StopYL.txt";
- makecali1(rootfile,"Histograms/Cali/StopYL",califile);
+//   lolim=200.;
+//   hilim=1500.;
+//  califile=pref+"_StopYL.txt";
+//  makecali1(rootfile,"Histograms/Cali/StopYL",califile);
 
-  lolim=200.;
-  hilim=1500.;
- califile=pref+"_BackL.txt";
- makecali1(rootfile,"Histograms/Cali/BackL",califile);
+//   lolim=200.;
+//   hilim=1500.;
+//  califile=pref+"_BackL.txt";
+//  makecali1(rootfile,"Histograms/Cali/BackL",califile);
 
-  lolim=200.;
-  hilim=1500.;
- califile=pref+"_VetoL.txt";
- makecali1(rootfile,"Histograms/Cali/VetoL",califile);
+//   lolim=200.;
+//   hilim=1500.;
+//  califile=pref+"_VetoL.txt";
+//  makecali1(rootfile,"Histograms/Cali/VetoL",califile);
 
-peakdistance=1500;
- lolim=50.;
- hilim=1500.;
-califile=pref+"_StopXH.txt";
-makecali1(rootfile,"Histograms/Cali/StopXH",califile);
+// peakdistance=1500;
+//  lolim=50.;
+//  hilim=1500.;
+// califile=pref+"_StopXH.txt";
+// makecali1(rootfile,"Histograms/Cali/StopXH",califile);
 
- lolim=50.;
- hilim=1500.;
-califile=pref+"_StopYH.txt";
-makecali1(rootfile,"Histograms/Cali/StopYH",califile);
+//  lolim=50.;
+//  hilim=1500.;
+// califile=pref+"_StopYH.txt";
+// makecali1(rootfile,"Histograms/Cali/StopYH",califile);
 
-  lolim=50.;
-  hilim=1500.;
- califile=pref+"_BackH.txt";
- makecali1(rootfile,"Histograms/Cali/BackH",califile);
+//   lolim=50.;
+//   hilim=1500.;
+//  califile=pref+"_BackH.txt";
+//  makecali1(rootfile,"Histograms/Cali/BackH",califile);
 
-  lolim=50.;
-  hilim=1500.;
- califile=pref+"_VetoH.txt";
- makecali1(rootfile,"Histograms/Cali/VetoH",califile);
+//   lolim=50.;
+//   hilim=1500.;
+//  califile=pref+"_VetoH.txt";
+//  makecali1(rootfile,"Histograms/Cali/VetoH",califile);
 
 
 //-----------------------------------
