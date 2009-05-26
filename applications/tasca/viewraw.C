@@ -1,3 +1,10 @@
+//---------------------------------------------
+// Go4 Tasca analysis 
+// Author: Hans G. Essel 
+//         H.Essel@gsi.de 
+// GSI, Experiment Electronics, Data Processing
+//---------------------------------------------
+
 void tree(const char* filename, const char *detector, int channel)
 {
   //gSystem->Load("libGo4UserAnalysis.so"); // if there is no .rootmap file!
