@@ -65,11 +65,12 @@ TascaCaliProc::TascaCaliProc(const char* name) :
   }
   // sets coefficients a0,a2 to 0, a1 to 1.
   fCalibration->Preset();
-  if(fCalibration->UseCalibration){
+  gROOT->ProcessLine(".x setcali.C()"); // en-disable calibration
+  if(fCalibration->UseCalibration){ // was set in setcali.C
 	  fCalibration->ReadCoefficients("new");
 	  cout << "Tasca> TascaCaliProc: Use calibration" << endl;
   }
-  else   cout << "Tasca> TascaCaliProc: No calibration" << endl;
+  else   cout << "Tasca> TascaCaliProc: No calibration used" << endl;
 
   evcount=0;
 	fhdStopXL=anl->CreateTH1D("Cali/Sum","StopXL", "StopX all low",144,0,144);
