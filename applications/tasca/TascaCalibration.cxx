@@ -104,33 +104,34 @@ void TascaCalibration::ReadSingleCoefficients(const char * file
 	return;
 
 }
-void TascaCalibration::ReadCoefficients(const char * prefix){
+void TascaCalibration::ReadCoefficients(){
 	TString full;
 	TString pref=prefix;
+
 	UInt_t size=144;
-	full.Form("%s_StopXL.txt",prefix);
+	full.Form("%s_StopXL.txt",prefix.Data());
 	ReadSingleCoefficients(full.Data(),size,fdStopXL_a0,fdStopXL_a1,fdStopXL_a2);
-	full.Form("%s_StopXH.txt",prefix);
+	full.Form("%s_StopXH.txt",prefix.Data());
 	ReadSingleCoefficients(full.Data(),size,fdStopXH_a0,fdStopXH_a1,fdStopXH_a2);
 	size=96;
-	full.Form("%s_StopYL.txt",prefix);
+	full.Form("%s_StopYL.txt",prefix.Data());
 	ReadSingleCoefficients(full.Data(),size,fdStopYL_a0,fdStopYL_a1,fdStopYL_a2);
-	full.Form("%s_StopYH.txt",prefix);
+	full.Form("%s_StopYH.txt",prefix.Data());
 	ReadSingleCoefficients(full.Data(),size,fdStopYH_a0,fdStopYH_a1,fdStopYH_a2);
 	size=64;
-	full.Form("%s_BackL.txt",prefix);
+	full.Form("%s_BackL.txt",prefix.Data());
 	ReadSingleCoefficients(full.Data(),size,fdBackL_a0,fdBackL_a1,fdBackL_a2);
-	full.Form("%s_BackH.txt",prefix);
+	full.Form("%s_BackH.txt",prefix.Data());
 	ReadSingleCoefficients(full.Data(),size,fdBackH_a0,fdBackH_a1,fdBackH_a2);
 	size=16;
-	full.Form("%s_VetoL.txt",prefix);
+	full.Form("%s_VetoL.txt",prefix.Data());
 	ReadSingleCoefficients(full.Data(),size,fdVetoL_a0,fdVetoL_a1,fdVetoL_a2);
-	full.Form("%s_VetoH.txt",prefix);
+	full.Form("%s_VetoH.txt",prefix.Data());
 	ReadSingleCoefficients(full.Data(),size,fdVetoH_a0,fdVetoH_a1,fdVetoH_a2);
 	size=8;
-	full.Form("%s_GammaE.txt",prefix);
+	full.Form("%s_GammaE.txt",prefix.Data());
 	ReadSingleCoefficients(full.Data(),size,fdGammaE_a0,fdGammaE_a1,fdGammaE_a2);
-	full.Form("%s_GammaT.txt",prefix);
+	full.Form("%s_GammaT.txt",prefix.Data());
 	ReadSingleCoefficients(full.Data(),size,fdGammaT_a0,fdGammaT_a1,fdGammaT_a2);
 //	for(UInt_t i=0;i<size;i++)
 //	cout <<fdStopXL_a0[i]<<" "<< fdStopXL_a1[i]<<" "<<  fdStopXL_a2[i]<<endl;
