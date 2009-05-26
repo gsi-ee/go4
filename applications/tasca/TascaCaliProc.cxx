@@ -158,11 +158,13 @@ TascaCaliProc::TascaCaliProc(const char* name) :
   {
 	snprintf(chis,15,"GammaKev_%d",i);
 	snprintf(chead,63,"Gamma [Kev] %d",i);
-	fhGammaKev[i] = anl->CreateTH1I ("Cali/GammaKev",chis,chead,9000,0,2000);
+	fhGammaKev[i] = anl->CreateTH1I ("Cali/GammaKev",chis,chead,2000,0.5,2000.5);
 	snprintf(chis,15,"GammaMysec_%d",i);
 	snprintf(chead,63,"Gamma [mysec] %d",i);
 	fhGammaMysec[i] = anl->CreateTH1I ("Cali/GammaMysec",chis,chead,5000,0,5000);
   }
+  fhGammaSumKev = anl->CreateTH1I ("Cali/Sum","GammaSumKev","Sum of crystals [Kev]",2000,0.5,2000.5);
+  fhGammaAddbackKev = anl->CreateTH1I ("Cali/Sum","GammaAddback","Sum of energies [Kev]",2000,0.5,2000.5);
 
   // pictures rows, columns
   StopX[0] = anl->CreatePicture("Cali","pStopXL0","Stop X low",8,6);
@@ -295,11 +297,15 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 	  fhVetoL[i]->Fill(poutevt->ffVetoL[i]);
 	  fhVetoH[i]->Fill(poutevt->ffVetoH[i]);
   }
+Double_t sum=0.;
   for(i=0;i<8;i++){
 	  poutevt->ffGammaKev[i]   = fCalibration->CalibrateGammaE(fInput->fiGammaE[i],i);
 	  poutevt->ffGammaMysec[i] = fInput->fiGammaT[i];
 	  fhGammaKev[i]->Fill(poutevt->ffGammaKev[i]);
+	  fhGammaSumKev->Fill(poutevt->ffGammaKev[i]);
+	  sum += poutevt->ffGammaKev[i];
 	  fhGammaMysec[i]->Fill(poutevt->ffGammaMysec[i]);
   }
+  fhGammaAddbackKev->Fill(sum);
   poutevt->SetValid(kTRUE); // store
 }
