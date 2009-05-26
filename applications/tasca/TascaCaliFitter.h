@@ -26,6 +26,8 @@ class TascaCaliFitter : public TGo4Parameter {
       void ReadDatabase();
 
       TString LineFile;     // Filename for ascii file with linesname - energy
+      /** to do the fit in UpdateFrom must be true, will be set false  */
+      Bool_t DoFit; //to do the fit in UpdateFrom must be true, will be set false
       /** Fitter to search lines*/
       TGo4Fitter* LineFitter; // Fitter to search lines
 

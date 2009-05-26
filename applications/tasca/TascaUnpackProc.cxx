@@ -124,22 +124,22 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 		fGammaT[i] = anl->CreateTH1I ("Unpack/GammaT",chis,chead,5000,0.5,5000.5);
   }
   // test spectrum
-	fTest      = anl->CreateTH1I (0,"Gaussians","Gauss",4000,0.5,4000.5);
-	  gRandom->SetSeed(0);
-	  for(i=0;i<4000;i++){
-		  Double_t v1,v2,s;
-		  do{
-    	v1 = 2.*gRandom->Rndm()-1.;
-    	v2 = 2.*gRandom->Rndm()-1.;
-    	s = v1*v1+v2*v2;
-      } while (s >= 1.0 || s == 0.0);
-	fTest->Fill(30.*v1*(sqrt(-2.*log(s)/s)) + 500.);
-	fTest->Fill(40.*v2*(sqrt(-2.*log(s)/s)) + 2000.);
-	fTest->Fill(30.*v1*(sqrt(-2.*log(s)/s)) + 1500.);
-	fTest->Fill(40.*v2*(sqrt(-2.*log(s)/s)) + 2500.);
-	  }
+//	fTest      = anl->CreateTH1I (0,"Gaussians","Gauss",4000,0.5,4000.5);
+//	  gRandom->SetSeed(0);
+//	  for(i=0;i<4000;i++){
+//		  Double_t v1,v2,s;
+//		  do{
+//    	v1 = 2.*gRandom->Rndm()-1.;
+//    	v2 = 2.*gRandom->Rndm()-1.;
+//    	s = v1*v1+v2*v2;
+//      } while (s >= 1.0 || s == 0.0);
+//	fTest->Fill(30.*v1*(sqrt(-2.*log(s)/s)) + 500.);
+//	fTest->Fill(40.*v2*(sqrt(-2.*log(s)/s)) + 2000.);
+//	fTest->Fill(30.*v1*(sqrt(-2.*log(s)/s)) + 1500.);
+//	fTest->Fill(40.*v2*(sqrt(-2.*log(s)/s)) + 2500.);
+//	  }
 
-	fFilter    = anl->CreateTH1I ("Unpack","Filter","Tof,chopper,macro,micro",16,0,17);
+	fFilter    = anl->CreateTH1I ("Unpack","Filter","Tof,chopper,macro,micro",17,0,17);
 	fPedestal  = anl->CreateTH1I ("Unpack","Pedestals","Pedestals",96,-0.5,95.5);
 	fContent   = anl->CreateTH1I ("Unpack","Contents","Contents",96,-0.5,95.5);
 	fTree      = anl->CreateTH1I (0,"Tree","Leaf",5000,0.5,5000.5);
@@ -239,9 +239,9 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
 // Build Mpx table
   codec->setMpxIndex(lat0,lat1,lat2,lat3);
 // check conditions to select events
-
-  if(codec->isTof())fFilter->Fill(2);
-  else 				fFilter->Fill(3);
+fFilter->Fill(0); // all events
+  if(codec->isTof())	fFilter->Fill(2);
+  else 					fFilter->Fill(3);
   if(codec->isChopper())fFilter->Fill(6);
   else 					fFilter->Fill(7);
   if(codec->isMacro())	fFilter->Fill(10);

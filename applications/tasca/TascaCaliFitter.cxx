@@ -53,7 +53,7 @@ void TascaCaliFitter::Setup(TGraph* curve){
 //-----------------------------------------------------------
 Int_t TascaCaliFitter::PrintParameter(){
   return 0;
-  cout << "CaliFitter " << GetName()<<":" <<endl;
+  cout << "Tasca> CaliFitter " << GetName()<<":" <<endl;
   return 0;
 }
 //-----------------------------------------------------------
@@ -63,6 +63,8 @@ if(!pp->InheritsFrom("TascaCaliFitter")) {
 return kTRUE;
 }
 TascaCaliFitter * from = (TascaCaliFitter *) pp;
+if(!from->DoFit)return kTRUE;
+
 if(LineFitter) delete LineFitter;
 LineFitter=from->LineFitter;
 from->LineFitter=0; // adopt lines finder
@@ -81,7 +83,6 @@ for(Int_t ix=0;ix<ADC__LINES;++ix)
 	fxLineName[ix]=from->fxLineName[ix];
 	//cout <<"updated line:"<<fxLineName[ix].Data() << endl;
 }
-cout <<"Updated Parameter:" << endl;
 //PrintParameter(0,0);
 // get references to graph and histogram from analysis:
 // note that updatefrom is only used on analysis side here!
@@ -89,13 +90,10 @@ fxCalibCurve=dynamic_cast<TGraph*>(TGo4Analysis::Instance()->GetObject(fxGraphNa
 
 if(fxCalibCurve==0)
 	cout <<"Graph "<<fxGraphName.Data() << " not existing in analysis"<< endl;
-else
-	cout <<"Updated graph pointer ref to "<<fxCalibCurve << endl;
-
 
 // now reread database if desired:
 ReadDatabase();
-cout <<"Calibrating..." << endl;
+cout << "Tasca> CaliFitter: "<<"Calibrating..." << endl;
 // first we get the channels from the linesfinder fitter:
 Int_t lines=0;
 for(Int_t i=0; i<ADC__LINES;++i)
@@ -118,7 +116,7 @@ for(Int_t ix=0;ix<lines;++ix)
 		fxCalibCurve->SetPoint(point,
 				fiLineChannel[ix],
 				ffLineEnergy[ix]);
-		cout<<fiLineChannel[ix]<<" to "<<ffLineEnergy[ix]<<endl;
+		cout<<"     "<<fiLineChannel[ix]<<" to "<<ffLineEnergy[ix]<<endl;
 		// we only fit active lines
 		++point;
 	}
@@ -144,12 +142,12 @@ for(Int_t i=0; i<__POLORDER__;++i)
 }
 for(Int_t i=0;i<lines;i++){
 	Double_t d=fdA[0]+fdA[1]*fiLineChannel[i]+fdA[2]*fiLineChannel[i]*fiLineChannel[i];
-	cout << fiLineChannel[i]<<" to "<<ffLineEnergy[i]<<" = "<<d<<endl;
+	cout <<"     "<< fiLineChannel[i]<<" to "<<ffLineEnergy[i]<<" = "<<d<<endl;
 
 }
 
 
-cout << "Tasca> TascaCaliFitter: " << GetName() << " updated" << endl;
+cout << "Tasca> CaliFitter: fit done" << endl;
 return kTRUE;
 }
 void TascaCaliFitter::ReadDatabase()
@@ -164,7 +162,7 @@ if(database==0)
          LineFile.Data());
       return;
    }
-cout<<"CaliFitter energy file "<<LineFile.Data()<<endl;
+cout<< "Tasca> CaliFitter: energy file "<<LineFile.Data()<<endl;
   Int_t ix=0;
   while(1){
 	do{
