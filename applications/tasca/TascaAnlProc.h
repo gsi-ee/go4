@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -31,6 +31,7 @@ class TascaAnlProc : public TGo4EventProcessor {
       TascaParameter *fParam;
       TH2D *fStopLE[48];
       TH2D *fStopHE[48];
+      TH2D *fStopXY;
       UInt_t i,ii;
 
    ClassDef(TascaAnlProc,1)
