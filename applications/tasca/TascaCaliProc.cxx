@@ -67,7 +67,7 @@ TascaCaliProc::TascaCaliProc(const char* name) :
   fCalibration->Preset();
   gROOT->ProcessLine(".x setcali.C()"); // en-disable calibration
   if(fCalibration->UseCalibration){ // was set in setcali.C
-	  fCalibration->ReadCoefficients("new");
+	  fCalibration->ReadCoefficients();
 	  cout << "Tasca> TascaCaliProc: Use calibration" << endl;
   }
   else   cout << "Tasca> TascaCaliProc: No calibration used" << endl;
