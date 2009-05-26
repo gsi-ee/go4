@@ -13,7 +13,7 @@ class TascaCalibration : public TGo4Parameter {
       Int_t PrintParameter();
       Bool_t Preset();
       Bool_t UpdateFrom(TGo4Parameter *);
-      void ReadCoefficients(const char * prefix);
+      void ReadCoefficients();
       void ReadSingleCoefficients(const char * file, UInt_t size, Double_t *a0, Double_t *a1, Double_t *a2);
       inline Float_t CalibrateGammaE(UInt_t channel,UInt_t index){
     	  Double_t c=(Double_t)channel;
@@ -55,10 +55,14 @@ class TascaCalibration : public TGo4Parameter {
     	  Double_t c=(Double_t)channel;
     	  return (Float_t) (fdVetoH_a0[index]+(fdVetoH_a1[index]+fdVetoH_a2[index]*c)*c);
       }
-      void enableCalibration(Bool_t on){
+      void EnableCalibration(Bool_t on){
     	  UseCalibration=on;
       }
+      void SetPrefix(const char *pref){
+	prefix=pref;
+      }
       Bool_t UseCalibration;
+      TString prefix;
       /** Calibration polynom coeff */
       Double_t fdGammaE_a0[8];
       Double_t fdGammaE_a1[8];
