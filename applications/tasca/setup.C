@@ -1,3 +1,10 @@
+//---------------------------------------------
+// Go4 Tasca analysis 
+// Author: Hans G. Essel 
+//         H.Essel@gsi.de 
+// GSI, Experiment Electronics, Data Processing
+//---------------------------------------------
+
 void setup(Text_t* AutoSaveFile,Text_t* UnpackedFile,Text_t* CalibratedFile,Text_t* AnalyzedFile)
 {
   TGo4AnalysisStep * step;
