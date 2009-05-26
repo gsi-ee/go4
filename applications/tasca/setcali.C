@@ -1,12 +1,15 @@
-#include <fstream.h>
-#include <Riostream.h>
-#include "RVersion.h"
+//---------------------------------------------
+// Go4 Tasca analysis 
+// Author: Hans G. Essel 
+//         H.Essel@gsi.de 
+// GSI, Experiment Electronics, Data Processing
+//---------------------------------------------
+
 void setcali()
 {
-Bool_t on = kFALSE; // set value here
 TascaCalibration *fCalibration = (TascaCalibration *) go4->GetObject("Calibration","Go4");
  if(fCalibration!=0){
-  fCalibration->EnableCalibration(on);
-  fCalibration->SetPrefix("new");// prefix for coefficient files
+  fCalibration->EnableCalibration(kFALSE); // use calibration or not
+  fCalibration->SetPrefix("new"); // prefix for coefficient files
  }
 }

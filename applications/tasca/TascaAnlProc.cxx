@@ -1,3 +1,10 @@
+//---------------------------------------------
+// Go4 Tasca analysis 
+// Author: Hans G. Essel 
+//         H.Essel@gsi.de 
+// GSI, Experiment Electronics, Data Processing
+//---------------------------------------------
+
 #include "TascaAnlProc.h"
 
 #include "Riostream.h"

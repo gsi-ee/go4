@@ -1,3 +1,10 @@
+//---------------------------------------------
+// Go4 Tasca analysis 
+// Author: Hans G. Essel 
+//         H.Essel@gsi.de 
+// GSI, Experiment Electronics, Data Processing
+//---------------------------------------------
+
 #include "TascaCalibration.h"
 
 #include "TMath.h"
