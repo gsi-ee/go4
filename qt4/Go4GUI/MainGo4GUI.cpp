@@ -70,13 +70,14 @@ int main(int argc, char **argv)
     // (will be in $HOME/.config/GSI/go4.conf)
     QString settingsenv = getenv("GO4SETTINGS");
 
-    if(settingsenv.contains("LOCAL")) {
-        // try settings in $PWD/go4.conf
-       if (!gSystem->AccessPathName(QDir::currentPath().toAscii(),kWritePermission))
-      	 TGo4QSettings::SetSettLocation(QDir::currentPath() + "/go4.conf");
+    if(settingsenv.contains("ACCOUNT")) {
+       // do nothing, it is default location in .config/GSI/go4.conf
     } else
-    if(!settingsenv.contains("ACCOUNT"))
-   	 TGo4QSettings::SetSettLocation(settingsenv);
+    if(!settingsenv.isEmpty() && !settingsenv.contains("LOCAL")) {
+       TGo4QSettings::SetSettLocation(settingsenv);
+    } else
+    if (!gSystem->AccessPathName(QDir::currentPath().toAscii(),kWritePermission))
+       TGo4QSettings::SetSettLocation(QDir::currentPath() + "/go4.conf");
 
     QString settfile = TGo4QSettings::GetSettLoaction();
     cout << "settfile = " << settfile.toAscii().constData() << endl;

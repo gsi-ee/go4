@@ -14,7 +14,7 @@
    <string>Start Client</string>
   </property>
   <property name="windowIcon" >
-   <icon>:/icons/go4logo2_big.png</icon>
+   <iconset>:/icons/go4logo2_big.png</iconset>
   </property>
   <layout class="QGridLayout" >
    <property name="margin" >

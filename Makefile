@@ -235,8 +235,8 @@ fast-packages: packages
 
 packages: go4-package fit-package thrd-package task-package win-src
 
-GO4PACK_VERS     = go4_$(MAJOR)_$(MINOR)
-GO4TAR_NAME      = go4$(MAJOR).tar
+GO4PACK_VERS     = go4-$(MAJOR).$(MINOR)
+GO4TAR_NAME      = go4-$(MAJOR).$(MINOR).tar
 WINPACK_VERS     = go4
 WINTAR_NAME      = go4win.tar
 WINBIN_NAME      = go4winbin.zip

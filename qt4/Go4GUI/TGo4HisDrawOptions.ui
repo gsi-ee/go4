@@ -97,7 +97,7 @@
             <bool>true</bool>
           </property>
           <property name="icon" >
-            <icon>:/icons/changelincol.png</icon>
+            <iconset>:/icons/changelincol.png</iconset>
           </property>
           <property name="toolTip" stdset="0" >
             <string>Change line color of selected object.</string>

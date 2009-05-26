@@ -115,7 +115,7 @@
                 <string/>
               </property>
               <property name="icon" >
-                <icon>:/icons/findfile.png</icon>
+                <iconset>:/icons/findfile.png</iconset>
               </property>
               <property name="toolTip" stdset="0" >
                 <string>Browse for output file.</string>

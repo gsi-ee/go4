@@ -16,7 +16,7 @@
       <string>Go4 Analysis Status</string>
     </property>
     <property name="windowIcon" >
-      <icon>:/icons/go4logo2_big.png</icon>
+      <iconset>:/icons/go4logo2_big.png</iconset>
     </property>
     <layout class="QHBoxLayout" >
       <property name="margin" >
@@ -48,7 +48,7 @@
             </size>
           </property>
           <property name="pixmap" >
-            <icon>:/icons/go4logo2_big.png</icon>
+            <pixmap>:/icons/go4logo2_big.png</pixmap>
           </property>
           <property name="scaledContents" >
             <bool>true</bool>

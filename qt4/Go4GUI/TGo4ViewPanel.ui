@@ -42,7 +42,7 @@
       <string>View Panel</string>
     </property>
     <property name="windowIcon" >
-      <icon>:/icons/go4logo2_big.png</icon>
+      <iconset>:/icons/go4logo2_big.png</iconset>
     </property>
     <property name="mouseTracking" >
       <bool>true</bool>

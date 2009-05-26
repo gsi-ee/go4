@@ -13,7 +13,7 @@
    <string>GUI Command line</string>
   </property>
   <property name="windowIcon" >
-   <icon>:/icons/go4logo2_big.png</icon>
+   <iconset>:/icons/go4logo2_big.png</iconset>
   </property>
   <layout class="QHBoxLayout" >
    <property name="margin" >

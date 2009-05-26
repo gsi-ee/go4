@@ -14,7 +14,7 @@
       <string>Go4 Tree Viewer</string>
     </property>
     <property name="windowIcon" >
-      <icon>:/icons/go4logo2_big.png</icon>
+      <iconset>:/icons/go4logo2_big.png</iconset>
     </property>
     <property name="toolTip" stdset="0" >
       <string>Drag/drop tree leaves from browser, edit expressions, fill target histogram by RET or button.</string>
