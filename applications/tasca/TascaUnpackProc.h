@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -33,6 +33,7 @@ class TascaUnpackProc : public TGo4EventProcessor {
       TascaParameter *fParam;
 	  TascaCodec 	*codec;
       TH1I          *fAdc[96];
+      TH1I  		*fSpill;
       TH1I  		*fTest;
       TH1I  		*fPedestal;
       TH1I  		*fContent;
@@ -58,6 +59,11 @@ class TascaUnpackProc : public TGo4EventProcessor {
       UInt_t secTimeLast;
       UInt_t mysecTimeLast;
       UInt_t adcTimeLast;
+      UInt_t spillTime0;
+      UInt_t spillIndex;
+      Int_t spillBins[100];
+      Bool_t spillOn;
+      Bool_t spillTest;
 
    ClassDef(TascaUnpackProc,1)
 };

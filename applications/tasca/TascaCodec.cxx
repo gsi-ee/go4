@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -26,6 +26,7 @@ int s=0,i;
 	fiReg1=reg1;
 	fiReg2=reg2;
 	fiReg3=reg3;
+	test=0;
 
 	for(i=0;i<5;i++){
 		fiMpxIndex[i]    = ((fiReg0>>s)&7) - test;
@@ -43,9 +44,9 @@ int s=0,i;
 		s += 3;
 	}
 // 	for(i=0;i<40;i++)if(fiMpxIndex[i]>0)cout <<i <<" " <<fiMpxIndex[i]<<endl;
-	test++;
-	if(test > testmaxi) test=0;
-	if(testmaxi > 7)cout << "Testmaxi " << testmaxi << endl;
+//	test++;
+//	if(test > testmaxi) test=0;
+//	if(testmaxi > 7)cout << "Testmaxi " << testmaxi << endl;
 }
 void TascaCodec::setMap(Bool_t print){
 int i=0,si=0;

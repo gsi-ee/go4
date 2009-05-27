@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -52,6 +52,11 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 
   Text_t chis[32];
   Text_t chead[64];
+  spillTime0=0;
+  spillIndex=0;
+  spillOn=kFALSE;
+  spillTest=kFALSE;
+  memset((void*) spillBins,0, sizeof(spillBins));
 
   anl=(TascaAnalysis *)TGo4Analysis::Instance();
 
@@ -146,6 +151,7 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 //	fTest->Fill(40.*v2*(sqrt(-2.*log(s)/s)) + 2500.);
 //	  }
 
+	fSpill     = anl->CreateTH1I ("Unpack","Spill","Events over spill",100,0,100);
 	fFilter    = anl->CreateTH1I ("Unpack","Filter","Tof,chopper,macro,micro",17,0,17);
 	fPedestal  = anl->CreateTH1I ("Unpack","Pedestals","Pedestals",96,-0.5,95.5);
 	fContent   = anl->CreateTH1I ("Unpack","Contents","Contents",96,-0.5,95.5);
@@ -195,11 +201,12 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   UInt_t latches=0;
   UInt_t adcs=0;
   UInt_t patt0,patt1,patt2,patt3;
-  UInt_t lat,lat0,lat1,lat2,lat3;
+  UInt_t timestamp,lat0,lat1,lat2,lat3;
   UInt_t  iStopXLhits=0,iStopXHhits=0,
 		  iStopYLhits=0,iStopYHhits=0,
 		  iBackLhits=0,iBackHhits=0,
 		  iVetoLhits=0,iVetoHhits=0;
+  UInt_t timediff;
   Bool_t takeEvent=kFALSE;
   pUnpackEvent=pUP;
   fInput    = (TGo4MbsEvent* ) GetInputEvent(); // from this
@@ -208,6 +215,7 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
      (fInput->GetTrigger()!=15) &
      (fInput->GetDlen() != 36)){
   //cout << "Event=" << fInput->GetCount() << endl;
+  evcount++;
   fInput->ResetIterator();
   psubevt = fInput->NextSubEvent();
   pdata=(UInt_t *)psubevt->GetDataField();
@@ -217,7 +225,7 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   // look for system time stamp
   if(*pdata == 0xaffeaffe){
 	  pdata++;
-	  pUnpackEvent->fiSystemSec=*pdata++;
+	  pUnpackEvent->fiSystemSec=*pdata++ - 1243402774;
 	  pUnpackEvent->fiSystemMysec=*pdata++;
   }
   // get number of latches and number of V785 ADCs
@@ -227,8 +235,8 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   // Get V785 data
   if(adcs > 0){
   pdata++;
-  patt0=*pdata++; // latch base + 0 : time stamp
-  lat=*pdata++; //
+  patt0=*pdata++; // abcd
+  timestamp=*pdata++; // latch base : time stamp
   lat0=*pdata++; // latch 0
 
   patt1=*pdata++; // latch base + 1
@@ -237,14 +245,50 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   lat2=*pdata++; // latch 2
   patt3=*pdata++; // latch base + 3
   lat3=*pdata++; // latch 3
-
-  pUnpackEvent->fiTimeStamp=patt0;
-  fTime->Fill((patt0-adcTimeLast)/100000);
-  adcTimeLast=patt0;
+  codec->setMpxIndex(lat0,lat1,lat2,lat3);
+// Spill event counts
+  spillTest=codec->isMacro();
+  // simulate
+  //if((evcount%100)==0)spillTest=!spillTest;
+//	cout <<evcount<<" "<<evcount%10<<" "<<spill<<" "<<spillOn<<endl;
+if(spillTest){ // spill on
+	  if(!spillOn){ // was off
+		  spillTime0=timestamp; // save time
+		  spillOn=kTRUE;
+//		  cout<<"off to on at "<<timestamp
+//		  <<" s "<<pUnpackEvent->fiSystemSec
+//		  <<" m "<<pUnpackEvent->fiSystemMysec
+//		  <<endl;
+	  }else{
+		  if(timestamp<spillTime0) timediff=0xFFFFFFFF-spillTime0+timestamp+1;
+		  else                     timediff=timestamp-spillTime0;
+		 //cout<<"diff "<<timediff<<" this "<<timestamp<<" - "<<spillTime0<<endl;
+		  if(timediff>50){
+			//  cout<<"index "<<spillIndex<<" last "<<spillTime0<<" this "<<timestamp<<endl;
+			  spillIndex++; // next bin
+			  spillTime0=timestamp; // save time
+		  }
+	  if(spillIndex<100)fSpill->Fill(spillIndex);
+	  }
+}else{ // spill off
+	  if(spillOn){ // was on
+		  //for(i=0;i<100;i++)fSpill->SetBinContent(i,spillBins[i]);
+		  //cout<<"last index "<<spillIndex<<endl;
+		  spillIndex=0;
+		  //memset((void*) spillBins,0, sizeof(spillBins));
+		  spillOn=kFALSE;
+	  }
+	// was off and is off: do nothing
+}
+//-----
+  pUnpackEvent->fiTimeStamp=timestamp; // mysec
+  if(timestamp<adcTimeLast) timediff=0xFFFFFFFF-adcTimeLast+timestamp+1;
+  else                      timediff=timestamp-adcTimeLast;
+  fTime->Fill(timediff/100000);
+  adcTimeLast=timestamp;
   secTimeLast=pUnpackEvent->fiSystemSec;
   mysecTimeLast=pUnpackEvent->fiSystemMysec;
 // Build Mpx table
-  codec->setMpxIndex(lat0,lat1,lat2,lat3);
 // check conditions to select events
 fFilter->Fill(0); // all events
   if(codec->isTof())	fFilter->Fill(2);
@@ -320,12 +364,12 @@ while(adcs > 0){
   }
   } // loop over ADCs
 
-if(fPedestals->Calibrate)	{
-	for(i=0;i<96;i++){
-	pUnpackEvent->fiAdc[i]=pUnpackEvent->fiAdc[i]+
-	(UInt_t )(fPedestals->ffOffset-fPedestals->ffPedestals[i]);
-	fAdcAllCal->Fill(pUnpackEvent->fiAdc[i]);
-}}
+//if(fPedestals->Calibrate)	{
+//	for(i=0;i<96;i++){
+//	pUnpackEvent->fiAdc[i]=pUnpackEvent->fiAdc[i]+
+//	(UInt_t )(fPedestals->ffOffset-fPedestals->ffPedestals[i]);
+//	fAdcAllCal->Fill(pUnpackEvent->fiAdc[i]);
+//}}
 
 // now fill the detector arrays. Low is even, high is odd index in fiAdc
 // StopY
@@ -437,13 +481,12 @@ if(pdata != pbehind){
   return;
 }
 } // check for valid event
-evcount++;
-if(!fPedestals->Calibrate){
-	if(evcount >= 10000) {
-	CalcPedestals();
-	evcount=0;
-	//throw TGo4EventEndException(this);
-	}}
+//if(!fPedestals->Calibrate){
+//	if(evcount >= 10000) {
+//	CalcPedestals();
+//	evcount=0;
+//	}}
+//throw TGo4EventEndException(this); // to stop analysis
 }
 Bool_t TascaUnpackProc::DecodeGamma(UInt_t* data, UInt_t* behind)
 {  // called by framework. We dont fill any output event here at all
