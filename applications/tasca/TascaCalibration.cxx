@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -57,7 +57,10 @@ Bool_t TascaCalibration::Preset(){
 	memset(fdVetoL_a2,0,sizeof(fdVetoL_a2));
 	memset(fdVetoH_a2,0,sizeof(fdVetoH_a2));
 	for(i=0;i<144;i++){
-		fdStopXL_a1[i]=1.;fdStopXH_a1[i]=1.;fdStopYL_a1[i]=1.;fdStopYH_a1[i]=1.;
+		fdStopXL_a1[i]=1.;fdStopXH_a1[i]=1.;
+	}
+	for(i=0;i<96;i++){
+		fdStopYL_a1[i]=1.;fdStopYH_a1[i]=1.;
 	}
 	for(i=0;i<64;i++){
 		fdBackL_a1[i]=1.;fdBackH_a1[i]=1.;
