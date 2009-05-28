@@ -51,8 +51,8 @@ INSTALLATION:
   and will compile either qt3 or qt4 GUI. In this case it is not necessary
   to set QTDIR location (sometime it is even does not exists). 
   If there is no Qt installed on your system, or Go4 is not able to use it correctly,
-  install Qt graphics library X11-free-4.4.x from source 
-  (download at http://trolltech.com/developer/downloads/qt/x11).
+  install Qt graphics library qt-x11-opensource-src-4.5.1
+  (download at http://www.qtsoftware.com/downloads).
   In the $QTDIR, before building Qt configure it like:
       ./configure -prefix $PWD -shared 
    Set environment variables
@@ -60,7 +60,7 @@ INSTALLATION:
       e.g. in a startup script qtlogin
 
 - Unpack this Go4 distribution in the future Go4 System directory,
-  e.g. /usr/local/pub/go4_4_2.01
+  e.g. /usr/local/pub/go4-4.2.01
 
 - In the Go4 System directory, execute script ". go4.init".
   This will set the environment $GO4SYS to the current directory 
