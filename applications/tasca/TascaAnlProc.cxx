@@ -77,9 +77,7 @@ TascaAnlProc::~TascaAnlProc()
 void TascaAnlProc::TascaEventAnalysis(TascaAnlEvent* poutevt)
 {
   fInput  = (TascaCaliEvent*) GetInputEvent();
-  if((fInput->fiStopYLhitI>0)&(fInput->fiStopYLhitI<96))
     fStopLE[fInput->fiStopYLhitI%48]->Fill(fInput->fiStopXLhitI,fInput->ffStopXLhitV);
-  if((fInput->fiStopYHhitI>0)&(fInput->fiStopYHhitI<96))
     fStopHE[fInput->fiStopYHhitI%48]->Fill(fInput->fiStopXHhitI,fInput->ffStopXHhitV);
   if((fInput->ffStopXHhitV>0)&(fInput->ffStopYHhitV>0))
     fStopXY->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
