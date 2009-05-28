@@ -151,14 +151,14 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 //	fTest->Fill(40.*v2*(sqrt(-2.*log(s)/s)) + 2500.);
 //	  }
 
-	fSpill     = anl->CreateTH1I ("Unpack","Spill","Events over spill",100,0,60000);
+	fSpill     = anl->CreateTH1I ("Unpack","Spill","Events over spill",1000,0,200000);
 	fSpill->GetXaxis()->SetTitle("Mysec");
 	fSpill->GetYaxis()->SetTitle("Events");
 	fFilter    = anl->CreateTH1I ("Unpack","Filter","Tof,chopper,macro,micro",17,0,17);
 	fPedestal  = anl->CreateTH1I ("Unpack","Pedestals","Pedestals",96,-0.5,95.5);
 	fContent   = anl->CreateTH1I ("Unpack","Contents","Contents",96,-0.5,95.5);
 	fTree      = anl->CreateTH1I (0,"Tree","Leaf",5000,0.5,5000.5);
-	fTime      = anl->CreateTH1I (0,"Time","Time diff",5000,0.5,5000.5);
+	fTime      = anl->CreateTH1I (0,"Time","Time diff",1000,0,20000);
 	fAdcAllRaw = anl->CreateTH1I ("Unpack","AdcAllRaw","All adc raw",5000,0.5,5000.5);
 	fAdcAllCal = anl->CreateTH1I ("Unpack","AdcAllCal","All adc cal",5000,0.5,5000.5);
 
@@ -250,9 +250,6 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   codec->setMpxIndex(lat0,lat1,lat2,lat3);
 // Spill event counts
   spillTest=codec->isMacro();
-  // simulate
-  //if((evcount%100)==0)spillTest=!spillTest;
-//	cout <<evcount<<" "<<evcount%10<<" "<<spill<<" "<<spillOn<<endl;
 if(spillTest){ // spill on
   if(!spillOn) spillTime0=timestamp; // was off, save time
   else{
@@ -267,7 +264,7 @@ if(spillTest){ // spill on
   pUnpackEvent->fiTimeStamp=timestamp; // mysec
   if(timestamp<adcTimeLast) timediff=0xFFFFFFFF-adcTimeLast+timestamp+1;
   else                      timediff=timestamp-adcTimeLast;
-  fTime->Fill(timediff/100000);
+  fTime->Fill(timediff);
   adcTimeLast=timestamp;
   secTimeLast=pUnpackEvent->fiSystemSec;
   mysecTimeLast=pUnpackEvent->fiSystemMysec;
@@ -359,7 +356,7 @@ while(adcs > 0){
 for(i=0;i<codec->getStopYnoAdc();i++){
 	k=codec->getStopYAdc(i); // ADC channel index, low or high
 	n=codec->getIndex(k);    // from that get stripe index
-	if((pUnpackEvent->fiAdc[2*k]>0)&(iStopYLhits<4)){
+	if((pUnpackEvent->fiAdc[2*k]>10)&(iStopYLhits<4)){
 		pUnpackEvent->fiStopYLhits[iStopYLhits]=n;
 		iStopYLhits++;
 		if(pUnpackEvent->fiAdc[2*k]>pUnpackEvent->fiStopYLhitV){
@@ -367,7 +364,7 @@ for(i=0;i<codec->getStopYnoAdc();i++){
 			pUnpackEvent->fiStopYLhitI=n;
 		}
 	}
-	if((pUnpackEvent->fiAdc[2*k+1]>0)&(iStopYHhits<4)){
+	if((pUnpackEvent->fiAdc[2*k+1]>10)&(iStopYHhits<4)){
 		pUnpackEvent->fiStopYHhits[iStopYHhits]=n;
 		iStopYHhits++;
 		if(pUnpackEvent->fiAdc[2*k+1]>pUnpackEvent->fiStopYHhitV){
@@ -384,7 +381,7 @@ for(i=0;i<codec->getStopXnoAdc();i++){
 	k=codec->getStopXAdc(i); // ADC channel index, low or high
 	n=codec->getIndex(k);    // from that get stripe index
 	//cout << "k " << k << " n " << n << " adc "<< pUnpackEvent->fiAdc[2*k+1]<<endl;
-	if((pUnpackEvent->fiAdc[2*k]>0)&(iStopXLhits<4)){
+	if((pUnpackEvent->fiAdc[2*k]>10)&(iStopXLhits<4)){
 		pUnpackEvent->fiStopXLhits[iStopXLhits]=n;
 		iStopXLhits++;
 		if(pUnpackEvent->fiAdc[2*k]>pUnpackEvent->fiStopXLhitV){
@@ -392,7 +389,7 @@ for(i=0;i<codec->getStopXnoAdc();i++){
 			pUnpackEvent->fiStopXLhitI=n;
 		}
 	}
-	if((pUnpackEvent->fiAdc[2*k+1]>0)&(iStopXHhits<4)){
+	if((pUnpackEvent->fiAdc[2*k+1]>10)&(iStopXHhits<4)){
 		pUnpackEvent->fiStopXHhits[iStopXHhits]=n;
 		iStopXHhits++;
 		if(pUnpackEvent->fiAdc[2*k+1]>pUnpackEvent->fiStopXHhitV){
@@ -404,6 +401,12 @@ for(i=0;i<codec->getStopXnoAdc();i++){
 	pUnpackEvent->fiStopXL[n]=pUnpackEvent->fiAdc[2*k];
 	pUnpackEvent->fiStopXH[n]=pUnpackEvent->fiAdc[2*k+1];
 }//StopX
+//  printf("xi %4d xv %4d yi %4d yv %4d\n",
+// 	pUnpackEvent->fiStopXHhitI,
+// 	pUnpackEvent->fiStopXHhitV,
+// 	pUnpackEvent->fiStopYHhitI,
+// 	pUnpackEvent->fiStopYHhitV);
+
 // Back
 for(i=0;i<codec->getBacknoAdc();i++){
 	k=codec->getBackAdc(i); // ADC channel index, low or high
