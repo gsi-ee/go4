@@ -92,8 +92,8 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 	fhdVetoH= anl->CreateTH1D("Cali/Sum","VetoH",  "Veto all high",16,0,16);
 	fhStopL=  anl->CreateTH2I("Cali/Sum","StopL",  "Stop detector",144,0,144,96,0,96);
 	if(fCalibration->UseCalibration){
-		fhdStopXLsum->GetXaxis()->SetLimits(0,300);
-		fhdStopXHsum->GetXaxis()->SetLimits(0,30000);
+		fhdStopXLsum->GetXaxis()->SetLimits(1,30001);
+		fhdStopXHsum->GetXaxis()->SetLimits(200,300200);
 		fhdStopXLsum->GetXaxis()->SetTitle("Energy [Kev]");
 		fhdStopXHsum->GetXaxis()->SetTitle("Energy [Kev]");
 	}
@@ -109,10 +109,10 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 	fhStopXL[i]->GetXaxis()->SetTitle("Channels");
 	fhStopXL[i]->GetYaxis()->SetTitle("Counts");
 	if(fCalibration->UseCalibration){
-		fhStopXL[i]->GetXaxis()->SetLimits(0,300);
-		fhStopXH[i]->GetXaxis()->SetLimits(0,30000);
+		fhStopXL[i]->GetXaxis()->SetLimits(1,30001);
+		fhStopXH[i]->GetXaxis()->SetLimits(200,300200);
 		fhStopXL[i]->GetXaxis()->SetTitle("Energy [Kev]");
-		fhStopXH[i]->GetXaxis()->SetTitle("Energy [Kev]");
+		fhStopXH[i]->GetXaxis()->SetTitle("Energy [kev]");
 	}
   }
   for(i=0;i<96;i++){
@@ -127,8 +127,8 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 	fhStopYL[i]->GetXaxis()->SetTitle("Channels");
 	fhStopYL[i]->GetYaxis()->SetTitle("Counts");
 	if(fCalibration->UseCalibration){
-		fhStopYL[i]->GetXaxis()->SetLimits(0,300);
-		fhStopYH[i]->GetXaxis()->SetLimits(0,30000);
+		fhStopYL[i]->GetXaxis()->SetLimits(1,30001);
+		fhStopYH[i]->GetXaxis()->SetLimits(200,300200);
 		fhStopYL[i]->GetXaxis()->SetTitle("Energy [Kev]");
 		fhStopYH[i]->GetXaxis()->SetTitle("Energy [Kev]");
 	}
@@ -145,8 +145,8 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 	fhBackL[i]->GetXaxis()->SetTitle("Channels");
 	fhBackL[i]->GetYaxis()->SetTitle("Counts");
 	if(fCalibration->UseCalibration){
-		fhBackL[i]->GetXaxis()->SetLimits(0,30000);
-		fhBackH[i]->GetXaxis()->SetLimits(0,30000);
+		fhBackL[i]->GetXaxis()->SetLimits(1,30001);
+		fhBackH[i]->GetXaxis()->SetLimits(200,300200);
 		fhBackL[i]->GetXaxis()->SetTitle("Energy [Kev]");
 		fhBackH[i]->GetXaxis()->SetTitle("Energy [Kev]");
 	}
@@ -163,8 +163,8 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 	fhVetoL[i]->GetXaxis()->SetTitle("Channels");
 	fhVetoL[i]->GetYaxis()->SetTitle("Counts");
 	if(fCalibration->UseCalibration){
-		fhVetoL[i]->GetXaxis()->SetLimits(0,30000);
-		fhVetoH[i]->GetXaxis()->SetLimits(0,30000);
+		fhVetoL[i]->GetXaxis()->SetLimits(1,30001);
+		fhVetoH[i]->GetXaxis()->SetLimits(200,300200);
 		fhVetoL[i]->GetXaxis()->SetTitle("Energy [Kev]");
 		fhVetoH[i]->GetXaxis()->SetTitle("Energy [Kev]");
 	}
