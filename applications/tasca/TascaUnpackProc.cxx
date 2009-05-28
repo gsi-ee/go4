@@ -151,7 +151,9 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 //	fTest->Fill(40.*v2*(sqrt(-2.*log(s)/s)) + 2500.);
 //	  }
 
-	fSpill     = anl->CreateTH1I ("Unpack","Spill","Events over spill",100,0,100);
+	fSpill     = anl->CreateTH1I ("Unpack","Spill","Events over spill",100,0,60000);
+	fSpill->GetXaxis()->SetTitle("Mysec");
+	fSpill->GetYaxis()->SetTitle("Events");
 	fFilter    = anl->CreateTH1I ("Unpack","Filter","Tof,chopper,macro,micro",17,0,17);
 	fPedestal  = anl->CreateTH1I ("Unpack","Pedestals","Pedestals",96,-0.5,95.5);
 	fContent   = anl->CreateTH1I ("Unpack","Contents","Contents",96,-0.5,95.5);
@@ -252,34 +254,15 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   //if((evcount%100)==0)spillTest=!spillTest;
 //	cout <<evcount<<" "<<evcount%10<<" "<<spill<<" "<<spillOn<<endl;
 if(spillTest){ // spill on
-	  if(!spillOn){ // was off
-		  spillTime0=timestamp; // save time
-		  spillOn=kTRUE;
-//		  cout<<"off to on at "<<timestamp
-//		  <<" s "<<pUnpackEvent->fiSystemSec
-//		  <<" m "<<pUnpackEvent->fiSystemMysec
-//		  <<endl;
-	  }else{
-		  if(timestamp<spillTime0) timediff=0xFFFFFFFF-spillTime0+timestamp+1;
-		  else                     timediff=timestamp-spillTime0;
-		 //cout<<"diff "<<timediff<<" this "<<timestamp<<" - "<<spillTime0<<endl;
-		  if(timediff>50){
-			//  cout<<"index "<<spillIndex<<" last "<<spillTime0<<" this "<<timestamp<<endl;
-			  spillIndex++; // next bin
-			  spillTime0=timestamp; // save time
-		  }
-	  if(spillIndex<100)fSpill->Fill(spillIndex);
-	  }
-}else{ // spill off
-	  if(spillOn){ // was on
-		  //for(i=0;i<100;i++)fSpill->SetBinContent(i,spillBins[i]);
-		  //cout<<"last index "<<spillIndex<<endl;
-		  spillIndex=0;
-		  //memset((void*) spillBins,0, sizeof(spillBins));
-		  spillOn=kFALSE;
-	  }
-	// was off and is off: do nothing
-}
+  if(!spillOn) spillTime0=timestamp; // was off, save time
+  else{
+	  if(timestamp<spillTime0) timediff=0xFFFFFFFF-spillTime0+timestamp+1;
+	  else                     timediff=timestamp-spillTime0;
+	  fSpill->Fill(timediff);
+  }
+  spillOn=kTRUE;
+}else spillOn=kFALSE; // spill off
+
 //-----
   pUnpackEvent->fiTimeStamp=timestamp; // mysec
   if(timestamp<adcTimeLast) timediff=0xFFFFFFFF-adcTimeLast+timestamp+1;

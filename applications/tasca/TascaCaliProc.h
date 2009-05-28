@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -41,6 +41,8 @@ class TascaCaliProc : public TGo4EventProcessor {
       TH1D *fhdStopXH;
       TH1D *fhdStopYL;
       TH1D *fhdStopYH;
+      TH1D *fhdStopXHsum;
+      TH1D *fhdStopXLsum;
       TH1D *fhdBackH;
       TH1D *fhdBackL;
       TH1D *fhdVetoH;

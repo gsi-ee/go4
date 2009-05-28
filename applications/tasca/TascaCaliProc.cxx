@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -82,6 +82,8 @@ TascaCaliProc::TascaCaliProc(const char* name) :
   evcount=0;
 	fhdStopXL=anl->CreateTH1D("Cali/Sum","StopXL", "StopX all low",144,0,144);
 	fhdStopYL=anl->CreateTH1D("Cali/Sum","StopYL", "StopY all low",96,0,96);
+	fhdStopXLsum=anl->CreateTH1D("Cali/Sum","StopXLsum", "StopX sum low",4000,0.5,4000.5);
+	fhdStopXHsum=anl->CreateTH1D("Cali/Sum","StopXHsum", "StopX sum high",4000,0.5,4000.5);
 	fhdBackL= anl->CreateTH1D("Cali/Sum","BackL",  "Back all low",64,0,64);
 	fhdVetoL= anl->CreateTH1D("Cali/Sum","VetoL",  "Veto all low",16,0,16);
 	fhdStopXH=anl->CreateTH1D("Cali/Sum","StopXH", "StopX all high",144,0,144);
@@ -89,6 +91,12 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 	fhdBackH= anl->CreateTH1D("Cali/Sum","BackH",  "Back all high",64,0,64);
 	fhdVetoH= anl->CreateTH1D("Cali/Sum","VetoH",  "Veto all high",16,0,16);
 	fhStopL=  anl->CreateTH2I("Cali/Sum","StopL",  "Stop detector",144,0,144,96,0,96);
+	if(fCalibration->UseCalibration){
+		fhdStopXLsum->GetXaxis()->SetLimits(0,300);
+		fhdStopXHsum->GetXaxis()->SetLimits(0,30000);
+		fhdStopXLsum->GetXaxis()->SetTitle("Energy [Kev]");
+		fhdStopXHsum->GetXaxis()->SetTitle("Energy [Kev]");
+	}
   for(i=0;i<144;i++){
 	snprintf(chis,15,"StopXL_%03d",i);
 	snprintf(chead,63,"StopX Low %03d",i);
@@ -101,7 +109,7 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 	fhStopXL[i]->GetXaxis()->SetTitle("Channels");
 	fhStopXL[i]->GetYaxis()->SetTitle("Counts");
 	if(fCalibration->UseCalibration){
-		fhStopXL[i]->GetXaxis()->SetLimits(0,30000);
+		fhStopXL[i]->GetXaxis()->SetLimits(0,300);
 		fhStopXH[i]->GetXaxis()->SetLimits(0,30000);
 		fhStopXL[i]->GetXaxis()->SetTitle("Energy [Kev]");
 		fhStopXH[i]->GetXaxis()->SetTitle("Energy [Kev]");
@@ -119,7 +127,7 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 	fhStopYL[i]->GetXaxis()->SetTitle("Channels");
 	fhStopYL[i]->GetYaxis()->SetTitle("Counts");
 	if(fCalibration->UseCalibration){
-		fhStopYL[i]->GetXaxis()->SetLimits(0,30000);
+		fhStopYL[i]->GetXaxis()->SetLimits(0,300);
 		fhStopYH[i]->GetXaxis()->SetLimits(0,30000);
 		fhStopYL[i]->GetXaxis()->SetTitle("Energy [Kev]");
 		fhStopYH[i]->GetXaxis()->SetTitle("Energy [Kev]");
@@ -279,6 +287,8 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 	  if(fInput->fiStopXH[i]>0)fhdStopXH->Fill(i);
 	  fhStopXL[i]->Fill(poutevt->ffStopXL[i]);
 	  fhStopXH[i]->Fill(poutevt->ffStopXH[i]);
+	  fhdStopXLsum->Fill(poutevt->ffStopXL[i]);
+	  fhdStopXHsum->Fill(poutevt->ffStopXH[i]);
   }
   for(i=0;i<96;i++){
 	  poutevt->ffStopYL[i]=fCalibration->CalibrateStopYL(fInput->fiStopYL[i],i);
