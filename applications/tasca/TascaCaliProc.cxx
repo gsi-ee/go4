@@ -218,16 +218,27 @@ TascaCaliProc::TascaCaliProc(const char* name) :
   Back[1] = anl->CreatePicture("Cali","pBackH","Back high",8,8);
   Veto    = anl->CreatePicture("Cali","pVeto","Veto",8,4);
   Gamma   = anl->CreatePicture("Cali","pGamma","Gamma Cal",8,2);
-  Sum     = anl->CreatePicture("Cali","pDetectors","Summary detectors",4,2);
+  Sum     = anl->CreatePicture("Cali","pDetectorSum","Summary detectors",4,2);
 
-  anl->SetPicture(Sum,fhdStopXL,0,0,1);
-  anl->SetPicture(Sum,fhdStopYL,1,0,1);
-  anl->SetPicture(Sum,fhdBackL, 2,0,1);
-  anl->SetPicture(Sum,fhdVetoL, 3,0,1);
-  anl->SetPicture(Sum,fhdStopXH,0,1,1);
-  anl->SetPicture(Sum,fhdStopYH,1,1,1);
-  anl->SetPicture(Sum,fhdBackH, 2,1,1);
-  anl->SetPicture(Sum,fhdVetoH, 3,1,1);
+  anl->SetPicture(Sum,fhdStopXLsum,0,0,1);
+  anl->SetPicture(Sum,fhdStopYLsum,1,0,1);
+  anl->SetPicture(Sum,fhdBackLsum, 2,0,1);
+  anl->SetPicture(Sum,fhdVetoLsum, 3,0,1);
+  anl->SetPicture(Sum,fhdStopXHsum,0,1,1);
+  anl->SetPicture(Sum,fhdStopYHsum,1,1,1);
+  anl->SetPicture(Sum,fhdBackHsum, 2,1,1);
+  anl->SetPicture(Sum,fhdVetoHsum, 3,1,1);
+
+  Hits     = anl->CreatePicture("Cali","pDetectorHits","Summary detector hits",4,2);
+
+  anl->SetPicture(Hits,fhdStopXL,0,0,1);
+  anl->SetPicture(Hits,fhdStopYL,1,0,1);
+  anl->SetPicture(Hits,fhdBackL, 2,0,1);
+  anl->SetPicture(Hits,fhdVetoL, 3,0,1);
+  anl->SetPicture(Hits,fhdStopXH,0,1,1);
+  anl->SetPicture(Hits,fhdStopYH,1,1,1);
+  anl->SetPicture(Hits,fhdBackH, 2,1,1);
+  anl->SetPicture(Hits,fhdVetoH, 3,1,1);
 
   Int_t m=0;
     // enlarge stats box and position in [0:1] coordinates
