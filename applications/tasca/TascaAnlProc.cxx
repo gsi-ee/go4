@@ -20,6 +20,7 @@
 #include "TascaCaliEvent.h"
 #include "TascaControl.h"
 #include "TascaParameter.h"
+#include "TGo4WinCond.h"
 #include "TascaAnalysis.h"
 
 //***********************************************************
@@ -65,7 +66,15 @@ TascaAnlProc::TascaAnlProc(const char* name) :
     fStopLE[i]=anl->CreateTH2D("Anl/StopLE",chis,chead,144,0,144,200,0,30000);
     fStopLE[i]->GetXaxis()->SetTitle("X position [stripe]");
     fStopLE[i]->GetYaxis()->SetTitle("Energy [Kev]");
-  }}
+  }
+// Creation of conditions (check if restored from auto save file):
+    fadcKevH = (TGo4WinCond *)anl->CreateCondition("Anl","adcKevH",0,kTRUE,0,300000);
+    fadcKevL = (TGo4WinCond *)anl->CreateCondition("Anl","adcKevL",0,kTRUE,0,30000);
+    fgammaKev= (TGo4WinCond *)anl->CreateCondition("Anl","gammaKev",0,kTRUE,0,2000);
+    fadcKevH->Enable();
+    fadcKevL->Enable();
+    fgammaKev->Enable();
+}
 //***********************************************************
 TascaAnlProc::~TascaAnlProc()
 {
@@ -76,15 +85,21 @@ TascaAnlProc::~TascaAnlProc()
 //-----------------------------------------------------------
 void TascaAnlProc::TascaEventAnalysis(TascaAnlEvent* poutevt)
 {
-  fInput  = (TascaCaliEvent*) GetInputEvent();
-    fStopLE[fInput->fiStopYLhitI%48]->Fill(fInput->fiStopXLhitI,fInput->ffStopXLhitV);
-    fStopHE[fInput->fiStopYHhitI%48]->Fill(fInput->fiStopXHhitI,fInput->ffStopXHhitV);
-  if((fInput->ffStopXHhitV>0)&(fInput->ffStopYHhitV>0))
-    fStopXY->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
+fInput  = (TascaCaliEvent*) GetInputEvent();
+Bool_t YH=fadcKevH->Test(fInput->ffStopYHhitV);
+Bool_t YL=fadcKevL->Test(fInput->ffStopYLhitV);
+if(YL)
+fStopLE[fInput->fiStopYLhitI%48]->Fill(fInput->fiStopXLhitI,fInput->ffStopXLhitV);
+
+if(YH)
+fStopHE[fInput->fiStopYHhitI%48]->Fill(fInput->fiStopXHhitI,fInput->ffStopXHhitV);
+
+if(YL & YH)
+fStopXY->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
 //  cout << "Yi "<< fInput->fiStopYHhitI%48
 //  << " Xi "<<fInput->fiStopXHhitI
 //  << " v "  << fInput->ffStopXHhitV<< endl;
-  poutevt->SetValid(kFALSE);       // events are not stored until kTRUE is set
+poutevt->SetValid(kFALSE);       // events are not stored until kTRUE is set
 
 
 } // BuildCalEvent

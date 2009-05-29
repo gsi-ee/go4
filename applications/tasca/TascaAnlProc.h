@@ -29,6 +29,9 @@ class TascaAnlProc : public TGo4EventProcessor {
       TascaCaliEvent *fInput;
       TascaControl  *fControl;
       TascaParameter *fParam;
+      TGo4WinCond   *fadcKevL;
+      TGo4WinCond   *fadcKevH;
+      TGo4WinCond   *fgammaKev;
       TH2D *fStopLE[48];
       TH2D *fStopHE[48];
       TH2D *fStopXY;

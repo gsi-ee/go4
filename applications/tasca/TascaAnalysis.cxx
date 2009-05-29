@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -14,9 +14,12 @@
 #include "TH2I.h"
 #include "TH2D.h"
 #include "TFile.h"
+#include "TCutG.h"
 
 #include "TascaParameter.h"
-
+#include "TGo4WinCond.h"
+#include "TGo4PolyCond.h"
+#include "TGo4CondArray.h"
 
 //***********************************************************
 TascaAnalysis::TascaAnalysis()
@@ -59,6 +62,38 @@ Int_t TascaAnalysis::UserEventFunc()
 {
 //// This function is called once for each event.
    return 0;
+}
+//-----------------------------------------------------------
+TGo4Condition* TascaAnalysis::CreateCondition(const Text_t* folder, const Text_t* name, Int_t dim, Bool_t reset, Double_t low, Double_t high)
+{
+	TGo4Condition* p;
+	Text_t full[128];
+	if(folder==0)strncpy(full,name,127);
+	else 		 snprintf(full,127,"%s/%s",folder,name);
+	p = GetAnalysisCondition(full);
+	if(p==0){
+		if(dim == 0) p = (TGo4Condition *) new TGo4WinCond(name);
+		else p = (TGo4Condition *)new TGo4CondArray(name,dim,"TGo4WinCond");
+		AddAnalysisCondition(p,folder);
+		p->SetValues(low,high);
+		if(reset)p->ResetCounts();	}
+	return p;
+}
+//-----------------------------------------------------------
+TGo4Condition* TascaAnalysis::CreateCondition(const Text_t* folder, const Text_t* name, Int_t dim, Bool_t reset, TCutG* poly)
+{
+	TGo4Condition* p;
+	Text_t full[128];
+	if(folder==0)strncpy(full,name,127);
+	else 		 snprintf(full,127,"%s/%s",folder,name);
+	p = GetAnalysisCondition(full);
+	if(p==0){
+		if(dim == 0) p = (TGo4Condition *) new TGo4PolyCond(name);
+		else p = (TGo4Condition *)new TGo4CondArray(name,dim,"TGo4PolyCond");
+		AddAnalysisCondition(p,folder);
+		p->SetValues(poly);
+		if(reset)p->ResetCounts();	}
+	return p;
 }
 //-----------------------------------------------------------
 TGo4Picture* TascaAnalysis::CreatePicture(const Text_t* folder, const Text_t* name, const Text_t* title, UInt_t ir, UInt_t ic)
