@@ -70,6 +70,7 @@ class TascaCaliProc : public TGo4EventProcessor {
       TGo4Picture   *Veto;
       TGo4Picture   *Gamma;
       TGo4Picture   *Sum;
+      TGo4Picture   *Hits;
       UInt_t i,k,n, evcount;
 
    ClassDef(TascaCaliProc,1)
