@@ -88,18 +88,18 @@ void TascaAnlProc::TascaEventAnalysis(TascaAnlEvent* poutevt)
 fInput  = (TascaCaliEvent*) GetInputEvent();
 Bool_t YH=fadcKevH->Test(fInput->ffStopYHhitV);
 Bool_t YL=fadcKevL->Test(fInput->ffStopYLhitV);
-if(YL)
-fStopLE[fInput->fiStopYLhitI%48]->Fill(fInput->fiStopXLhitI,fInput->ffStopXLhitV);
+Bool_t XH=fadcKevH->Test(fInput->ffStopXHhitV);
 
-if(YH)
-fStopHE[fInput->fiStopYHhitI%48]->Fill(fInput->fiStopXHhitI,fInput->ffStopXHhitV);
+if(YL) fStopLE[fInput->fiStopYLhitI%48]->Fill(fInput->fiStopXLhitI,fInput->ffStopXLhitV);
 
-if(YL & YH)
-fStopXY->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
+if(YH) fStopHE[fInput->fiStopYHhitI%48]->Fill(fInput->fiStopXHhitI,fInput->ffStopXHhitV);
+
+if(XH & YH) fStopXY->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
+
 //  cout << "Yi "<< fInput->fiStopYHhitI%48
 //  << " Xi "<<fInput->fiStopXHhitI
 //  << " v "  << fInput->ffStopXHhitV<< endl;
-poutevt->SetValid(kFALSE);       // events are not stored until kTRUE is set
 
+poutevt->SetValid(kFALSE);       // events are not stored until kTRUE is set
 
 } // BuildCalEvent
