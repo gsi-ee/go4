@@ -521,13 +521,7 @@ void TGo4Browser::Header_customContextMenuRequested(const QPoint & pos)
 
 void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 {
-
 	QTreeWidgetItem* item = ListView->itemAt(pos);
-
-	if (item==ListView->headerItem()) {
-		cout << "Found header item"<<endl;
-
-	}
 
 	int col = ListView->header()->logicalIndexAt(pos);
 
