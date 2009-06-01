@@ -1964,6 +1964,8 @@ TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char* itemname, TGo4View
 
    TGo4Slot* guislot = br->BrowserSlot(itemname);
 
+//   cout << "Draw item " << itemname << " slot = " << guislot << endl;
+
    if (guislot==0) return 0;
    if (guislot->GetProxy()==0) {
       cerr << " Problem with gui slots" << endl;

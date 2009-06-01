@@ -1884,6 +1884,8 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
       return 0;
    }
 
+//    out << "Add object = " << (obj ? obj->ClassName() : "---") << " pad = " << pad->GetName() << endl;
+
    // clear only if link is added
    if (kind<100)
      ClearPad(pad, false, true);
@@ -2180,10 +2182,11 @@ void TGo4ViewPanel::CollectMainDrawObjects(TGo4Slot* slot, TObjArray* objs, TObj
 
       if (obj->InheritsFrom(TH1::Class())) objtype = 1; else
       if (obj->InheritsFrom(TGraph::Class())) objtype = 2; else
-      if (obj->InheritsFrom(TMultiGraph::Class())) objtype = 3;
+      if (obj->InheritsFrom(TMultiGraph::Class())) objtype = 3; else
+      if (obj->InheritsFrom(THStack::Class())) objtype = 4;
 
       // can happen condition here, which is add as link and not identified as condition yet
-      // should bot be recognised as "main" draw object
+      // should both be recognized as "main" draw object
       if (objtype>0) {
          lastobjtype = objtype;
          mainslots.Add(subslot);
@@ -2198,8 +2201,8 @@ void TGo4ViewPanel::CollectMainDrawObjects(TGo4Slot* slot, TObjArray* objs, TObj
       Int_t objtype = 0;
       if (obj->InheritsFrom(TH1::Class())) objtype = 1; else
       if (obj->InheritsFrom(TGraph::Class())) objtype = 2; else
-      if (obj->InheritsFrom(TMultiGraph::Class())) objtype = 3;
-
+      if (obj->InheritsFrom(TMultiGraph::Class())) objtype = 3; else
+      if (obj->InheritsFrom(THStack::Class())) objtype = 4;
 
       // check if all main object correspond to type of last object
       // if no, delete
@@ -3127,9 +3130,9 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad* tgtpad, TPad* srcpad, const char* s
       // make superimpose only for histos and graphs
       if ((kind>0) && ((mainkind==0) || (kind==mainkind) && (kind<3))) {
 
-//         cout << tgtpad->GetName() << ":  Add main draw object " << obj->GetName()
-//              << "  class =  " << obj->ClassName()
-//              << "  srcitem = " << itemname << endl;
+         cout << tgtpad->GetName() << ":  Add main draw object " << obj->GetName()
+              << "  class =  " << obj->ClassName()
+              << "  srcitem = " << itemname << endl;
 
          if (drawopt!=0)
             padopt->SetDrawOption(drawopt, nmain);
@@ -3449,6 +3452,8 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs, bo
    if (drawopt.Length()==0) drawopt="hist";
    if (!drawopt.Contains(NoStackDrawOption, TString::kIgnoreCase))
      drawopt.Prepend(NoStackDrawOption);
+
+//   cout << "Draw stack " << hs << " with options " << endl;
 
    hs->Draw(drawopt.Data());
    TH1* framehisto = hs->GetHistogram();

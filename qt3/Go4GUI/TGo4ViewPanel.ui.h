@@ -2154,7 +2154,10 @@ void TGo4ViewPanel::CollectMainDrawObjects(TGo4Slot* slot, TObjArray* objs, TObj
       int objtype = 0;
 
       if (obj->InheritsFrom(TH1::Class())) objtype = 1; else
-      if (obj->InheritsFrom(TGraph::Class())) objtype = 2;
+      if (obj->InheritsFrom(TGraph::Class())) objtype = 2; else
+      if (obj->InheritsFrom(TMultiGraph::Class())) objtype = 3; else
+      if (obj->InheritsFrom(THStack::Class())) objtype = 4;
+
 
       // can happen condition here, which is add as link and not identified as condition yet
       // should bot be recognised as "main" draw object
@@ -2171,7 +2174,10 @@ void TGo4ViewPanel::CollectMainDrawObjects(TGo4Slot* slot, TObjArray* objs, TObj
       TObject* obj = subslot->GetAssignedObject();
       Int_t objtype = 0;
       if (obj->InheritsFrom(TH1::Class())) objtype = 1; else
-      if (obj->InheritsFrom(TGraph::Class())) objtype = 2;
+      if (obj->InheritsFrom(TGraph::Class())) objtype = 2; else
+      if (obj->InheritsFrom(TMultiGraph::Class())) objtype = 3; else
+      if (obj->InheritsFrom(THStack::Class())) objtype = 4;
+
 
       // check if all main object correspond to type of last object
       // if no, delete

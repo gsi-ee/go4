@@ -1,32 +1,42 @@
 #include "TGo4CanvasProxy.h"
 
 #include "TROOT.h"
+#include "TObjArray.h"
 #include "TClass.h"
 #include "TFrame.h"
 #include "TPaveText.h"
+#include "TObjString.h"
+#include "THStack.h"
+#include "TH1.h"
 
 #include "TGo4Slot.h"
 #include "TGo4ObjectProxy.h"
 #include "TGo4ObjectManager.h"
 
 class TGo4CanvasLevelIter : public TGo4LevelIter {
+   protected:
+      TIterator*     fIter;     //!
+      TObject*       fCurrent;  //!
+      TObjArray      fStacks;   //!
    public:
       TGo4CanvasLevelIter(TPad* pad) :
-         TGo4LevelIter(), 
-         fIter(0), 
-         fCurrent(0)
+         TGo4LevelIter(),
+         fIter(0),
+         fCurrent(0),
+         fStacks()
       {
-         fIter = pad->GetListOfPrimitives()->MakeIterator(); 
+         fIter = pad->GetListOfPrimitives()->MakeIterator();
+         fStacks.SetOwner(kTRUE);
       }
 
       virtual ~TGo4CanvasLevelIter()
       {
          delete fIter;
       }
-       
+
       virtual Bool_t next()
       {
-         bool skip = false; 
+         bool skip = false;
          do {
            skip = false;
            fCurrent = fIter->Next();
@@ -47,11 +57,17 @@ class TGo4CanvasLevelIter : public TGo4LevelIter {
 
            if (strcmp(fCurrent->GetName(), fCurrent->ClassName())==0) { skip = true; continue; }
 
+           // this is axis object for drawing THStack in the canvas
+           if (fStacks.FindObject(fCurrent->GetName()) && fCurrent->InheritsFrom(TH1F::Class())) { skip = true; continue; }
+
          } while(skip);
-           
+
+         if (fCurrent && fCurrent->InheritsFrom(THStack::Class()))
+        	 fStacks.Add(new TObjString(fCurrent->GetName()));
+
          return (fCurrent!=0);
       }
- 
+
       virtual Bool_t isfolder()
       {
          return (dynamic_cast<TPad*>(fCurrent)!=0);
@@ -62,34 +78,31 @@ class TGo4CanvasLevelIter : public TGo4LevelIter {
          TPad* subpad = dynamic_cast<TPad*>(fCurrent);
          return (subpad==0) ? 0 : new TGo4CanvasLevelIter(subpad);
       }
-      
+
       virtual const char* name()
       {
          return fCurrent->GetName();
       }
-      
+
       virtual const char* info()
       {
          return fCurrent->ClassName();
       }
-      
+
       virtual Int_t GetKind()
       {
          return isfolder() ? TGo4Access::kndFolder : TGo4Access::kndObject;
       }
-      
+
       virtual const char* GetClassName()
       {
          return fCurrent->ClassName();
       }
-   protected:
-      TIterator*     fIter;     //!
-      TObject*       fCurrent;  //!
 };
 
 // ****************************************************************
 
-TGo4CanvasProxy::TGo4CanvasProxy() : 
+TGo4CanvasProxy::TGo4CanvasProxy() :
    TGo4Proxy(),
    fCanvas(0),
    fOwner(kFALSE)
@@ -105,12 +118,12 @@ TGo4CanvasProxy::TGo4CanvasProxy(TCanvas* c, Bool_t owner) :
 
 TGo4CanvasProxy::~TGo4CanvasProxy()
 {
-   if (fOwner) delete fCanvas;  
+   if (fOwner) delete fCanvas;
 }
 
 Int_t TGo4CanvasProxy::GetObjectKind()
 {
-   return (fCanvas!=0) ? TGo4Access::kndFolder : TGo4Access::kndNone; 
+   return (fCanvas!=0) ? TGo4Access::kndFolder : TGo4Access::kndNone;
 }
 
 const char* TGo4CanvasProxy::GetContainedClassName()
@@ -194,29 +207,31 @@ TObject* TGo4CanvasProxy::GetAssignedObject()
 
 TGo4Access* TGo4CanvasProxy::ProduceProxy(TCanvas* canv, const char* name)
 {
-   if (canv==0) return 0; 
+   if (canv==0) return 0;
    if ((name==0) || (*name==0)) return new TGo4ObjectAccess(canv);
-   
+
    TPad* curpad = canv;
    const char* curname = name;
-      
-   while (curpad!=0) { 
+
+   while (curpad!=0) {
       const char* slash = strchr(curname,'/');
       UInt_t len = (slash!=0) ? slash - curname : strlen(curname);
       TIter iter(curpad->GetListOfPrimitives());
       TObject* obj = 0;
-      while ((obj = iter())!=0) 
+      while ((obj = iter())!=0)
          if ((strlen(obj->GetName())==len) &&
              (strncmp(obj->GetName(), curname, len)==0)) break;
       if (obj==0) return 0;
-      
+
+//      cout << "Object class = " << obj->ClassName() << endl;
+
       if (slash==0) return new TGo4ObjectAccess(obj);
-      
+
       curname = slash+1;
-            
+
       curpad = dynamic_cast<TPad*>(obj);
    }
-   
+
    return 0;
 }
 
