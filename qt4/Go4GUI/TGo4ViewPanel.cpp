@@ -3130,9 +3130,9 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad* tgtpad, TPad* srcpad, const char* s
       // make superimpose only for histos and graphs
       if ((kind>0) && ((mainkind==0) || (kind==mainkind) && (kind<3))) {
 
-         cout << tgtpad->GetName() << ":  Add main draw object " << obj->GetName()
-              << "  class =  " << obj->ClassName()
-              << "  srcitem = " << itemname << endl;
+//         cout << tgtpad->GetName() << ":  Add main draw object " << obj->GetName()
+//              << "  class =  " << obj->ClassName()
+//              << "  srcitem = " << itemname << endl;
 
          if (drawopt!=0)
             padopt->SetDrawOption(drawopt, nmain);
