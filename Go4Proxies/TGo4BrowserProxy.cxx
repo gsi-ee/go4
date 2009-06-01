@@ -1896,9 +1896,10 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
      pixmap = "folder_t.png";
      if ((cl!=0) && cl->InheritsFrom(TTree::Class())) { cando = 10; pixmap = "tree_t.png"; } else
      if ((cl!=0) && cl->InheritsFrom(TCanvas::Class())) { cando = 110; pixmap = "canvas.png"; } else
+     if ((cl!=0) && cl->InheritsFrom(THStack::Class())) { cando = 110; pixmap = "superimpose.png"; } else
      if ((cl!=0) && cl->InheritsFrom(TFile::Class())) { cando = 10000; pixmap = "rootdb_t.png"; } else
      if ((cl!=0) && cl->InheritsFrom(TGo4HServProxy::Class())) { cando = 10000; pixmap = "histserv.png"; } else
-     if ((cl!=0) && cl->InheritsFrom(TGo4AnalysisProxy::Class())) {pixmap = "analysiswin.png"; }
+     if ((cl!=0) && cl->InheritsFrom(TGo4AnalysisProxy::Class())) { pixmap = "analysiswin.png"; }
    } else
    if (kind==TGo4Access::kndTreeBranch)
      pixmap = "branch_t.png";

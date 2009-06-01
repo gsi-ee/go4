@@ -11,6 +11,7 @@
 
 #include "TGo4Slot.h"
 #include "TGo4ObjectProxy.h"
+#include "TGo4HStackProxy.h"
 #include "TGo4ObjectManager.h"
 
 class TGo4CanvasLevelIter : public TGo4LevelIter {
@@ -70,13 +71,17 @@ class TGo4CanvasLevelIter : public TGo4LevelIter {
 
       virtual Bool_t isfolder()
       {
-         return (dynamic_cast<TPad*>(fCurrent)!=0);
+         return (dynamic_cast<TPad*>(fCurrent)!=0) ||
+                 (dynamic_cast<THStack*>(fCurrent)!=0);
       }
 
       virtual TGo4LevelIter* subiterator()
       {
          TPad* subpad = dynamic_cast<TPad*>(fCurrent);
-         return (subpad==0) ? 0 : new TGo4CanvasLevelIter(subpad);
+         if (subpad!=0) return new TGo4CanvasLevelIter(subpad);
+         THStack* hs = dynamic_cast<THStack*> (fCurrent);
+         if (hs!=0) return TGo4HStackProxy::ProduceIter(hs);
+         return 0;
       }
 
       virtual const char* name()
@@ -230,6 +235,12 @@ TGo4Access* TGo4CanvasProxy::ProduceProxy(TCanvas* canv, const char* name)
       curname = slash+1;
 
       curpad = dynamic_cast<TPad*>(obj);
+
+      if (curpad==0) {
+         THStack* hs = dynamic_cast<THStack*> (obj);
+         if (hs!=0)
+            return TGo4HStackProxy::ProduceProxy(hs, curname);
+      }
    }
 
    return 0;

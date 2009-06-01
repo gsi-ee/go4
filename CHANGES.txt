@@ -29,7 +29,9 @@ Changes in Go4 v4.03.00 (June 09)
 3. Go4 makefile now can better recognise standard installed Qt version
    without QTDIR set. make WITHQT=3 or make WITHQT=4 forces usage of 
    specified qt version.
-4. Fix problem with drawing of THStack from canvas or file.  
+4. Fix problem with drawing of THStack from canvas or file. 
+5. Add proxy for THStack to be able browse into THStack and 
+   draw single histograms from it 
 
 
 Changes in Go4 v4.02.00 (April 09)

@@ -12,6 +12,7 @@
 #pragma link C++ class TGo4TreeProxy+;
 #pragma link C++ class TGo4FolderProxy+;
 #pragma link C++ class TGo4CanvasProxy+;
+#pragma link C++ class TGo4HStackProxy+;
 #pragma link C++ class TGo4LinkProxy+;
 
 #pragma link C++ class TGo4Access+;

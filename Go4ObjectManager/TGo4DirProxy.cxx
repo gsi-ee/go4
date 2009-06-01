@@ -11,6 +11,7 @@
 #include "TGo4ObjectProxy.h"
 #include "TGo4TreeProxy.h"
 #include "TGo4CanvasProxy.h"
+#include "TGo4HStackProxy.h"
 #include "TGo4Slot.h"
 
 class TGo4KeyAccess : public TGo4Access {
@@ -120,7 +121,8 @@ class TGo4DirLevelIter : public TGo4LevelIter {
          return (cl!=0) &&
                 (cl->InheritsFrom(TDirectory::Class()) ||
                  cl->InheritsFrom(TTree::Class()) ||
-                 cl->InheritsFrom(TCanvas::Class()));
+                 cl->InheritsFrom(TCanvas::Class()) ||
+                 cl->InheritsFrom(THStack::Class()));
       }
 
       virtual TGo4LevelIter* subiterator()
@@ -129,10 +131,13 @@ class TGo4DirLevelIter : public TGo4LevelIter {
          if (obj==0) return 0;
 
          if (obj->InheritsFrom(TTree::Class()))
-           return TGo4TreeProxy::ProduceIter((TTree*)obj);
+            return TGo4TreeProxy::ProduceIter((TTree*)obj);
 
          if (obj->InheritsFrom(TCanvas::Class()))
-           return TGo4CanvasProxy::ProduceIter((TCanvas*)obj);
+            return TGo4CanvasProxy::ProduceIter((TCanvas*)obj);
+
+         if (obj->InheritsFrom(THStack::Class()))
+            return TGo4HStackProxy::ProduceIter((THStack*)obj);
 
          TDirectory* subdir = dynamic_cast<TDirectory*> (obj);
          return subdir==0 ? 0 : new TGo4DirLevelIter(subdir, fReadRight);
@@ -286,6 +291,10 @@ TGo4Access* TGo4DirProxy::ProduceProxy(TDirectory* dir, Bool_t readright, const 
       TCanvas* canv = dynamic_cast<TCanvas*> (obj);
       if (canv!=0)
          return TGo4CanvasProxy::ProduceProxy(canv, curname);
+
+      THStack* hs = dynamic_cast<THStack*> (obj);
+      if (hs!=0)
+         return TGo4HStackProxy::ProduceProxy(hs, curname);
 
       curdir = dynamic_cast<TDirectory*>(obj);
    }
