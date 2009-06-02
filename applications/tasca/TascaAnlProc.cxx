@@ -51,6 +51,16 @@ TascaAnlProc::TascaAnlProc(const char* name) :
 	  fParam = new TascaParameter("Parameters");
 	  AddParameter(fParam);
   }
+  fAlphaGammaL=anl->CreateTH2D("Anl","AlphaGammaL","Energies",1000,0,30000,1000,0,2500);
+  fAlphaGammaL->GetXaxis()->SetTitle("Alpha [Kev]");
+  fAlphaGammaL->GetYaxis()->SetTitle("Gamma [Kev]");
+  fAlphaGammaL->GetZaxis()->SetTitle("Hits");
+
+  fAlphaBackL=anl->CreateTH2D("Anl","AlphaBackL","Energies",1000,0,30000,1000,0,10000);
+  fAlphaBackL->GetXaxis()->SetTitle("Alpha [Kev]");
+  fAlphaBackL->GetYaxis()->SetTitle("Back [Kev]");
+  fAlphaBackL->GetZaxis()->SetTitle("Hits");
+
   fStopXY=anl->CreateTH2D("Anl","StopXYhits","Hit counters",144,0,144,48,0,48);
   fStopXY->GetXaxis()->SetTitle("X position [stripe]");
   fStopXY->GetYaxis()->SetTitle("Y position [stripe]");
@@ -88,13 +98,18 @@ void TascaAnlProc::TascaEventAnalysis(TascaAnlEvent* poutevt)
 fInput  = (TascaCaliEvent*) GetInputEvent();
 Bool_t YH=fadcKevH->Test(fInput->ffStopYHhitV);
 Bool_t YL=fadcKevL->Test(fInput->ffStopYLhitV);
+Bool_t XL=fadcKevL->Test(fInput->ffStopXLhitV);
 Bool_t XH=fadcKevH->Test(fInput->ffStopXHhitV);
 
 if(YL) fStopLE[fInput->fiStopYLhitI%48]->Fill(fInput->fiStopXLhitI,fInput->ffStopXLhitV);
 
 if(YH) fStopHE[fInput->fiStopYHhitI%48]->Fill(fInput->fiStopXHhitI,fInput->ffStopXHhitV);
 
-if(XH & YH) fStopXY->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
+if(XH & YH & XL & YL) fStopXY->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
+
+ fAlphaBackL->Fill(fInput->ffStopXLhitV,fInput->ffBackLhitV);
+
+ for(Int_t i=0;i<7;i++) fAlphaGammaL->Fill(fInput->ffStopXLhitV,fInput->ffGammaKev[i]);
 
 //  cout << "Yi "<< fInput->fiStopYHhitI%48
 //  << " Xi "<<fInput->fiStopXHhitI
