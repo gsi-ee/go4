@@ -20,11 +20,11 @@ void setup(Text_t* AutoSaveFile,
   TString unpackStore("no");
   TString unpackOverWrite("yes");
 
-  TString caliProcess("no");
+  TString caliProcess("yes");
   TString caliStore("no");
   TString caliOverWrite("yes");
 
-  TString chekProcess("no");
+  TString checkProcess("no");
   TString checkStore("no");
   TString checkOverWrite("yes");
 
@@ -32,7 +32,7 @@ void setup(Text_t* AutoSaveFile,
   TString analysisStore("no");
   TString analysisOverWrite("yes");
 
-  TString autosave("yes");
+  TString autosave("no");
   Int_t autosaveinterval=0; // after n seconds, 0 = at termination of event loop
 
   // First step
@@ -62,16 +62,16 @@ void setup(Text_t* AutoSaveFile,
 
   // Third step
   step = go4->GetAnalysisStep("Checker");
-  step->SetProcessEnabled(checkerProcess.BeginsWith("y"));
+  step->SetProcessEnabled(checkProcess.BeginsWith("y"));
   // if cali is disabled, get input from file
   if(caliProcess.BeginsWith("n")){
     f2 = new TGo4FileSourceParameter(CalibratedFile);
     step->SetEventSource(f2);
   }
   f1 = new TGo4FileStoreParameter(CheckedFile);
-  f1->SetOverwriteMode(checkerOverWrite.BeginsWith("y"));
+  f1->SetOverwriteMode(checkOverWrite.BeginsWith("y"));
   step->SetEventStore(f1);
-  step->SetStoreEnabled(checkerStore.BeginsWith("y"));
+  step->SetStoreEnabled(checkStore.BeginsWith("y"));
   step->SetSourceEnabled(kTRUE);
   step->SetErrorStopEnabled(kTRUE);
 
