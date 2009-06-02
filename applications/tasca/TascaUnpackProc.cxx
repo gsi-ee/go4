@@ -151,7 +151,7 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 //	fTest->Fill(40.*v2*(sqrt(-2.*log(s)/s)) + 2500.);
 //	  }
 
-	fSpill     = anl->CreateTH1I ("Unpack","Spill","Events over spill",1000,0,200000);
+	fSpill     = anl->CreateTH1I ("Unpack","Spill","Events over spill",10000,0,200000);
 	fSpill->GetXaxis()->SetTitle("Mysec");
 	fSpill->GetYaxis()->SetTitle("Events");
 	fFilter    = anl->CreateTH1I ("Unpack","Filter","Tof,chopper,macro,micro",17,0,17);
@@ -250,7 +250,9 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   codec->setMpxIndex(lat0,lat1,lat2,lat3);
 // Spill event counts
   spillTest=codec->isMacro();
-if(spillTest){ // spill on
+//  if(fInput->GetTrigger()==12) spillTest=kTRUE;
+//  if(fInput->GetTrigger()==13) spillTest=kFALSE;
+  if(spillTest){ // spill on
   if(!spillOn) spillTime0=timestamp; // was off, save time
   else{
 	  if(timestamp<spillTime0) timediff=0xFFFFFFFF-spillTime0+timestamp+1;

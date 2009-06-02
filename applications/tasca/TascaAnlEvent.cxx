@@ -53,8 +53,3 @@ Int_t TascaAnlEvent::Fill()
    return rev;
 
 }
-//-----------------------------------------------------------
-void TascaAnlEvent::Clear(Option_t *t)
-{
-  void* destfield;
-}

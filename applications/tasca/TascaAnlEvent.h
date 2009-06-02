@@ -19,7 +19,7 @@ class TascaAnlEvent : public TGo4EventElement {
       virtual ~TascaAnlEvent() ;
       virtual Int_t Init();
       virtual Int_t Fill();
-      virtual void  Clear(Option_t *t="");
+      virtual void  Clear(Option_t *t=""){}
 
    private:
       // this object is streamed. Therefore pointers must be excluded!
