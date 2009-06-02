@@ -35,6 +35,10 @@ class TascaAnlProc : public TGo4EventProcessor {
       TH2D *fStopLE[48];
       TH2D *fStopHE[48];
       TH2D *fStopXY;
+      TH2D* fAlphaBackL;
+      TH2D* fAlphaBackH;
+      TH2D* fAlphaGammaL;
+      TH2D* fAlphaGammaH;
       UInt_t i,ii;
 
    ClassDef(TascaAnlProc,1)
