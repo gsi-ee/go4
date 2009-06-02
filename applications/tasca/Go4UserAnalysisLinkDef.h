@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -22,6 +22,8 @@
 #pragma link C++ class TascaUnpackProc+;
 #pragma link C++ class TascaCaliEvent+;
 #pragma link C++ class TascaCaliProc+;
+#pragma link C++ class TascaCheckEvent+;
+#pragma link C++ class TascaCheckProc+;
 #pragma link C++ class TascaAnlEvent+;
 #pragma link C++ class TascaAnlProc+;
 

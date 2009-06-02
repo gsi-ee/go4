@@ -1,11 +1,15 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
-void setup(Text_t* AutoSaveFile,Text_t* UnpackedFile,Text_t* CalibratedFile,Text_t* AnalyzedFile)
+void setup(Text_t* AutoSaveFile,
+		Text_t* UnpackedFile,
+		Text_t* CalibratedFile,
+		Text_t* CheckedFile,
+		Text_t* AnalyzedFile)
 {
   TGo4AnalysisStep * step;
   TGo4FileStoreParameter * f1;
@@ -19,6 +23,10 @@ void setup(Text_t* AutoSaveFile,Text_t* UnpackedFile,Text_t* CalibratedFile,Text
   TString caliProcess("no");
   TString caliStore("no");
   TString caliOverWrite("yes");
+
+  TString chekProcess("no");
+  TString checkStore("no");
+  TString checkOverWrite("yes");
 
   TString analysisProcess("no");
   TString analysisStore("no");
@@ -53,11 +61,26 @@ void setup(Text_t* AutoSaveFile,Text_t* UnpackedFile,Text_t* CalibratedFile,Text
   step->SetErrorStopEnabled(kTRUE);
 
   // Third step
-  step = go4->GetAnalysisStep("Analysis");
-  step->SetProcessEnabled(analysisProcess.BeginsWith("y"));
+  step = go4->GetAnalysisStep("Checker");
+  step->SetProcessEnabled(checkerProcess.BeginsWith("y"));
   // if cali is disabled, get input from file
   if(caliProcess.BeginsWith("n")){
     f2 = new TGo4FileSourceParameter(CalibratedFile);
+    step->SetEventSource(f2);
+  }
+  f1 = new TGo4FileStoreParameter(CheckedFile);
+  f1->SetOverwriteMode(checkerOverWrite.BeginsWith("y"));
+  step->SetEventStore(f1);
+  step->SetStoreEnabled(checkerStore.BeginsWith("y"));
+  step->SetSourceEnabled(kTRUE);
+  step->SetErrorStopEnabled(kTRUE);
+
+  // Fourth step
+  step = go4->GetAnalysisStep("Analysis");
+  step->SetProcessEnabled(analysisProcess.BeginsWith("y"));
+  // if cali is disabled, get input from file
+  if(checkerProcess.BeginsWith("n")){
+    f2 = new TGo4FileSourceParameter(CheckedFile);
     step->SetEventSource(f2);
   }
   f1 = new TGo4FileStoreParameter(AnalyzedFile);

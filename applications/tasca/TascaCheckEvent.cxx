@@ -5,56 +5,51 @@
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
-#include "TascaAnlEvent.h"
+#include "TascaCheckEvent.h"
 
 #include "Riostream.h"
 
-#include "TascaAnlProc.h"
+#include "TascaCheckProc.h"
 
 //***********************************************************
-TascaAnlEvent::TascaAnlEvent()
+TascaCheckEvent::TascaCheckEvent()
   :TGo4EventElement(),fxTascaCP(0)
 {
 }
 //***********************************************************
-TascaAnlEvent::TascaAnlEvent(const char * name)
+TascaCheckEvent::TascaCheckEvent(const char * name)
   :TGo4EventElement(name),fxTascaCP(0)
 {
-    cout << "Tasca> TascaAnlEvent: Created"<< endl;
+    cout << "Tasca> TascaCheckEvent: Created"<< endl;
 }
 //***********************************************************
-TascaAnlEvent::~TascaAnlEvent()
+TascaCheckEvent::~TascaCheckEvent()
 {
-    cout << "Tasca> TascaAnlEvent: Deleted"<< endl;
+    cout << "Tasca> TascaCheckEvent: Deleted"<< endl;
 }
 //***********************************************************
 
 
 //-----------------------------------------------------------
-Int_t TascaAnlEvent::Init()
+Int_t TascaCheckEvent::Init()
 {
    // check for different source types
   Int_t rev = 0;
-  if(CheckEventSource("TascaAnlProc")){
-    fxTascaCP = (TascaAnlProc*)GetEventSource();
-    cout << "Tasca> TascaAnlEvent init for Analysis step"<< endl;
+  if(CheckEventSource("TascaCheckProc")){
+    fxTascaCP = (TascaCheckProc*)GetEventSource();
+    cout << "Tasca> TascaCheckEvent init for Analysis step"<< endl;
   }
    else     rev=1;
    return rev;
 
 }
 //-----------------------------------------------------------
-Int_t TascaAnlEvent::Fill()
+Int_t TascaCheckEvent::Fill()
 {
    // check for different source types
    Int_t rev = 0;
    Clear();
-   if(fxTascaCP)fxTascaCP->TascaEventAnalysis(this);
+   if(fxTascaCP)fxTascaCP->TascaEventCheck(this);
    return rev;
 
-}
-//-----------------------------------------------------------
-void TascaAnlEvent::Clear(Option_t *t)
-{
-  void* destfield;
 }

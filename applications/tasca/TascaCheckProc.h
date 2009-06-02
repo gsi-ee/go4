@@ -5,24 +5,24 @@
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
-#ifndef TascaAnlPROCESSOR_H
-#define TascaAnlPROCESSOR_H
+#ifndef TascaCheckPROCESSOR_H
+#define TascaCheckPROCESSOR_H
 
 #include "TGo4EventProcessor.h"
 
 class TascaCaliEvent;
 class TascaControl;
 class TascaParameter;
-class TascaAnlEvent;
+class TascaCheckEvent;
 class TascaAnalysis;
 
-class TascaAnlProc : public TGo4EventProcessor {
+class TascaCheckProc : public TGo4EventProcessor {
    public:
-      TascaAnlProc() ;
-      TascaAnlProc(const char * name);
-      virtual ~TascaAnlProc();
+      TascaCheckProc() ;
+      TascaCheckProc(const char * name);
+      virtual ~TascaCheckProc();
 
-      void TascaEventAnalysis(TascaAnlEvent* target);
+      void TascaEventCheck(TascaCheckEvent* target);
 
 
 	  TascaAnalysis  * anl;
@@ -41,6 +41,6 @@ class TascaAnlProc : public TGo4EventProcessor {
       TH2D* fAlphaGammaH;
       UInt_t i,ii;
 
-   ClassDef(TascaAnlProc,1)
+   ClassDef(TascaCheckProc,1)
 };
-#endif //TascaAnlPROCESSOR_H
+#endif //TascaCheckPROCESSOR_H

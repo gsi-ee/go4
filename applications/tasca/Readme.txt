@@ -64,9 +64,9 @@ the 2d one with a polygon condition pc1, and the output event members are set.
 
 Step two: Analysis
 
-The factory:      TascaAnlFact
-The event filled: TascaAnlEvent
-The processor:    TascaAnlProc
+The factory:      TascaCheckFact
+The event filled: TascaCheckEvent
+The processor:    TascaCheckProc
 
 The step two is build in the same way as step one.
 Note that the TascaUnpackEvent is used two times: once as output of step one,
@@ -95,7 +95,7 @@ From GUI, objects are loaded from autosave file when Submit button is pressed.
 Parameter containing fitters for calibration
 
  Class TascaCalibPar is another parameter class with the purpose of
- performing calibration. This parameter is used in the TascaAnlProc.cxx
+ performing calibration. This parameter is used in the TascaCheckProc.cxx
  processor of the second step. Example reads names of the calibration lines,
  the energies and initial channel numbers from file calilines.txt
  on initialization. These are present in arrays inside the parameter.
@@ -135,7 +135,7 @@ Parameter containing fitters for calibration
    (i.e. reloading it from autosave file or sending it to analysis)
  - The calibration is used in the method float TascaCalibPar::Energy(int)
    which calculates the energy from a given channel number.
-   Histogram fCaliSum in TascaAnlProc is filled using this method.
+   Histogram fCaliSum in TascaCheckProc is filled using this method.
  - Set boolean field "fbReadDatabase" in parameter to 1 (true) if
    the calibration lines shall be reread from file. This will overwrite
    any settings and fits performed with the linesfinder fitter on

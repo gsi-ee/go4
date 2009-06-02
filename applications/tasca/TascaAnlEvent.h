@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -21,7 +21,6 @@ class TascaAnlEvent : public TGo4EventElement {
       virtual Int_t Fill();
       virtual void  Clear(Option_t *t="");
 
-      Float_t frData[16];
    private:
       // this object is streamed. Therefore pointers must be excluded!
       // Otherwise these objects are streamed as well

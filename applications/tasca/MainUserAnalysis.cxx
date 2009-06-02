@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -72,6 +72,7 @@ Text_t macro[128];         // input name
 Text_t serv[128];         // input name
 Text_t Unpout[128];          // output root events
 Text_t Calout[128];          // output root events
+Text_t Chkout[128];          // output root events
 Text_t Anlout[128];          // output root events
 Text_t ASfile[128];          // auto save file (batch)
 Text_t filetype[8];       // file type .lmd or .lml
@@ -82,6 +83,7 @@ Text_t *pc,*tmpname,*outname;
 strcpy(serv,"Go4AnalysisServer"); // name (servermode only)
 strcpy(Unpout,"Unpacked");
 strcpy(Calout,"Calibrated");
+strcpy(Chkout,"Checked");
 strcpy(Anlout,"Analyzed");
 strcpy(hostname,"localhost");
 
@@ -102,6 +104,7 @@ else {
 }
 strcpy(Unpout,prefix);
 strcpy(Calout,prefix);
+strcpy(Chkout,prefix);
 strcpy(Anlout,prefix);
 strcpy(ASfile,prefix);
 
@@ -124,6 +127,8 @@ strcpy(ASfile,prefix);
    strcat(Unpout,"_Unpacked"); // append name of output event object
    strncat(Calout,outname,110);     // output root file
    strcat(Calout,"_Calibrated"); // append name of output event object
+   strncat(Chkout,outname,110);     // output root file
+   strcat(Chkout,"_Checked"); // append name of output event object
    strncat(Anlout,outname,110);     // output root file
    strcat(Anlout,"_Analysis");   // append name of output event object
    strncpy(serv,argv[2],110);     // input (file with full path)
@@ -214,15 +219,22 @@ TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages
   TGo4AnalysisStep* calistep     = new TGo4AnalysisStep("Calibration",califactory,0,0,0);
   analysis->AddAnalysisStep(calistep);
 
+  TGo4StepFactory*  checkfactory  = new TGo4StepFactory("CheckFact");
+  checkfactory->DefEventProcessor("Checker","TascaCheckProc");// object name, class name
+  checkfactory->DefInputEvent("Calibrated","TascaCaliEvent"); // object name, class name
+  checkfactory->DefOutputEvent("Checked","TascaCheckEvent"); // object name, class name
+  TGo4AnalysisStep* checkstep     = new TGo4AnalysisStep("Checker",checkfactory,0,0,0);
+  analysis->AddAnalysisStep(checkstep);
+
   TGo4StepFactory*  analysisfactory  = new TGo4StepFactory("AnalysisFact");
   analysisfactory->DefEventProcessor("Analysis","TascaAnlProc");// object name, class name
-  analysisfactory->DefInputEvent("Calibrated","TascaCaliEvent"); // object name, class name
+  analysisfactory->DefInputEvent("Checked","TascaCheckEvent"); // object name, class name
   analysisfactory->DefOutputEvent("Analyzed","TascaAnlEvent"); // object name, class name
   TGo4AnalysisStep* analysisstep     = new TGo4AnalysisStep("Analysis",analysisfactory,0,0,0);
   analysis->AddAnalysisStep(analysisstep);
 
 // use macros to set up
-  snprintf(macro,127,".x setup.C(\"%s\",\"%s\",\"%s\",\"%s\")",ASfile,Unpout,Calout,Anlout);
+  snprintf(macro,127,".x setup.C(\"%s\",\"%s\",\"%s\",\"%s\",\"%s\")",ASfile,Unpout,Calout,Chkout,Anlout);
   gROOT->ProcessLine(macro);
 
 
