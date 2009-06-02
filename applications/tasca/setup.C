@@ -24,7 +24,7 @@ void setup(Text_t* AutoSaveFile,
   TString caliStore("no");
   TString caliOverWrite("yes");
 
-  TString checkProcess("no");
+  TString checkProcess("yes");
   TString checkStore("no");
   TString checkOverWrite("yes");
 
@@ -32,7 +32,7 @@ void setup(Text_t* AutoSaveFile,
   TString analysisStore("no");
   TString analysisOverWrite("yes");
 
-  TString autosave("no");
+  TString autosave("yes");
   Int_t autosaveinterval=0; // after n seconds, 0 = at termination of event loop
 
   // First step
@@ -79,7 +79,7 @@ void setup(Text_t* AutoSaveFile,
   step = go4->GetAnalysisStep("Analysis");
   step->SetProcessEnabled(analysisProcess.BeginsWith("y"));
   // if cali is disabled, get input from file
-  if(checkerProcess.BeginsWith("n")){
+  if(checkProcess.BeginsWith("n")){
     f2 = new TGo4FileSourceParameter(CheckedFile);
     step->SetEventSource(f2);
   }

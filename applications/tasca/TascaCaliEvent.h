@@ -75,6 +75,7 @@ class TascaCaliEvent : public TGo4EventElement {
       Float_t ffVetoHhitV;
       Float_t ffVetoLhitV;
 
+      UInt_t fiEventNumber;
       Bool_t fisTof;
       Bool_t fisChopper;
       Bool_t fisMacro;

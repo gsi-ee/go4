@@ -39,6 +39,8 @@ class TascaCheckProc : public TGo4EventProcessor {
       TH2D* fAlphaBackH;
       TH2D* fAlphaGammaL;
       TH2D* fAlphaGammaH;
+      TH2D* fAlphaVetoL;
+      TH2D* fAlphaVetoH;
       UInt_t i,ii;
 
    ClassDef(TascaCheckProc,1)

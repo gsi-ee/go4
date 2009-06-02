@@ -17,6 +17,14 @@ TascaAnlEvent::TascaAnlEvent()
 {
 }
 //***********************************************************
+TascaAnlEvent::TascaAnlEvent(TascaAnlEvent *s)
+  :TGo4EventElement(),fxTascaCP(0)
+{
+	if(s){
+		for(UInt_t i=0;i<10;i++)fiTest[i]=s->fiTest[i];
+	}
+}
+//***********************************************************
 TascaAnlEvent::TascaAnlEvent(const char * name)
   :TGo4EventElement(name),fxTascaCP(0)
 {

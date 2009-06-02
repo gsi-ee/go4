@@ -49,6 +49,7 @@ class TascaCheckEvent : public TGo4EventElement {
       Float_t ffGammaMysec[8];
       Float_t ffGammaKev[8];
 
+      UInt_t fiEventNumber;
       Bool_t fisTof;
       Bool_t fisChopper;
       Bool_t fisMacro;

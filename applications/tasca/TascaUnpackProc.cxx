@@ -264,6 +264,7 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
 
 //-----
   pUnpackEvent->fiTimeStamp=timestamp; // mysec
+  pUnpackEvent->fiEventNumber=fInput->GetCount();
   if(timestamp<adcTimeLast) timediff=0xFFFFFFFF-adcTimeLast+timestamp+1;
   else                      timediff=timestamp-adcTimeLast;
   fTime->Fill(timediff);

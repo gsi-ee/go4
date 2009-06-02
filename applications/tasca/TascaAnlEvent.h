@@ -15,6 +15,7 @@ class TascaAnlProc;
 class TascaAnlEvent : public TGo4EventElement {
    public:
       TascaAnlEvent() ;
+      TascaAnlEvent(TascaAnlEvent* source) ;
       TascaAnlEvent(const char* name) ;
       virtual ~TascaAnlEvent() ;
       virtual Int_t Init();
@@ -25,6 +26,8 @@ class TascaAnlEvent : public TGo4EventElement {
       // this object is streamed. Therefore pointers must be excluded!
       // Otherwise these objects are streamed as well
       TascaAnlProc     * fxTascaCP;  //! Don't put this to file
+
+      UInt_t fiTest[10];
 
    ClassDef(TascaAnlEvent,1)
 };

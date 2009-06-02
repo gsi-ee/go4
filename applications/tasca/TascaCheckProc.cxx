@@ -51,15 +51,20 @@ TascaCheckProc::TascaCheckProc(const char* name) :
 	  fParam = new TascaParameter("Parameters");
 	  AddParameter(fParam);
   }
-  fAlphaGammaL=anl->CreateTH2D("Check","AlphaGammaL","Energies",1000,0,30000,1000,0,2500);
+  fAlphaGammaL=anl->CreateTH2D("Check","AlphaGammaL","Energies",1000,1,30000,1000,1,2500);
   fAlphaGammaL->GetXaxis()->SetTitle("Alpha [Kev]");
   fAlphaGammaL->GetYaxis()->SetTitle("Gamma [Kev]");
   fAlphaGammaL->GetZaxis()->SetTitle("Hits");
 
-  fAlphaBackL=anl->CreateTH2D("Check","AlphaBackL","Energies",1000,0,30000,1000,0,10000);
+  fAlphaBackL=anl->CreateTH2D("Check","AlphaBackL","Energies",1000,1,30000,1000,1,10000);
   fAlphaBackL->GetXaxis()->SetTitle("Alpha [Kev]");
   fAlphaBackL->GetYaxis()->SetTitle("Back [Kev]");
   fAlphaBackL->GetZaxis()->SetTitle("Hits");
+
+  fAlphaVetoL=anl->CreateTH2D("Check","AlphaVetoL","Energies",1000,1,30000,1000,1,4000);
+  fAlphaVetoL->GetXaxis()->SetTitle("Alpha [Kev]");
+  fAlphaVetoL->GetYaxis()->SetTitle("Veto [Kev]");
+  fAlphaVetoL->GetZaxis()->SetTitle("Hits");
 
   fStopXY=anl->CreateTH2D("Check","StopXYhits","Hit counters",144,0,144,48,0,48);
   fStopXY->GetXaxis()->SetTitle("X position [stripe]");
@@ -100,6 +105,7 @@ poutevt->fisTof=fInput->fisTof;
 poutevt->fisChopper=fInput->fisChopper;
 poutevt->fisMicro=fInput->fisMicro;
 poutevt->fisMacro=fInput->fisMacro;
+poutevt->fiEventNumber=fInput->fiEventNumber;
 poutevt->fiStopXLhitI=fInput->fiStopXLhitI;
 poutevt->fiStopXHhitI=fInput->fiStopXHhitI;
 poutevt->fiStopYLhitI=fInput->fiStopYLhitI;
@@ -136,7 +142,9 @@ if(YH) fStopHE[fInput->fiStopYHhitI%48]->Fill(fInput->fiStopXHhitI,fInput->ffSto
 
 if(XH & YH & XL & YL) fStopXY->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
 
- fAlphaBackL->Fill(fInput->ffStopXLhitV,fInput->ffBackLhitV);
+fAlphaBackL->Fill(fInput->ffStopXLhitV,fInput->ffBackLhitV);
+
+ fAlphaVetoL->Fill(fInput->ffStopXLhitV,fInput->ffVetoLhitV);
 
  for(Int_t i=0;i<7;i++) fAlphaGammaL->Fill(fInput->ffStopXLhitV,fInput->ffGammaKev[i]);
 

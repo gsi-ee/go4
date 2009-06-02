@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -81,6 +81,7 @@ class TascaUnpackEvent : public TGo4EventElement {
       UInt_t fiSystemSec;
       UInt_t fiSystemMysec;
       UInt_t fiTimeStamp;
+      UInt_t fiEventNumber;
       // Data fields of detectors
       UInt_t fiStopXL[144];
       UInt_t fiStopXH[144];

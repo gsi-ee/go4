@@ -290,6 +290,7 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   poutevt->fisChopper=fInput->fisChopper;
   poutevt->fisMicro=fInput->fisMicro;
   poutevt->fisMacro=fInput->fisMacro;
+  poutevt->fiEventNumber=fInput->fiEventNumber;
 
   poutevt->fiStopXLhitI=fInput->fiStopXLhitI;
   poutevt->fiStopXHhitI=fInput->fiStopXHhitI;
