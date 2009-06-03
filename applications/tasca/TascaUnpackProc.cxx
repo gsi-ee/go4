@@ -81,6 +81,7 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
     AddParameter(codec);
   }
   // reset counters
+  gROOT->ProcessLine(".x setcontrol.C()");
   fControl->TofChecked=0;
   fControl->TofTrue=0;
   fControl->ChopperChecked=0;
@@ -155,6 +156,8 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 	fSpill->GetXaxis()->SetTitle("Mysec");
 	fSpill->GetYaxis()->SetTitle("Events");
 	fFilter    = anl->CreateTH1I ("Unpack","Filter","Tof,chopper,macro,micro",17,0,17);
+	fFilter->GetYaxis()->SetTitle("Counts");
+	fFilter->GetXaxis()->SetTitle("0:all, 1:checked, 2:true, 3:false, 5: 9: 13:");
 	fPedestal  = anl->CreateTH1I ("Unpack","Pedestals","Pedestals",96,-0.5,95.5);
 	fContent   = anl->CreateTH1I ("Unpack","Contents","Contents",96,-0.5,95.5);
 	fTree      = anl->CreateTH1I (0,"Tree","Leaf",5000,0.5,5000.5);
@@ -223,7 +226,7 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   pdata=(UInt_t *)psubevt->GetDataField();
   lwords= psubevt->GetIntLen();
   pbehind=pdata+lwords;
-  pUnpackEvent->SetValid(takeEvent); // not to store
+  pUnpackEvent->SetValid(kFALSE); // not to store
   // look for system time stamp
   if(*pdata == 0xaffeaffe){
 	  pdata++;
@@ -341,7 +344,7 @@ while(adcs > 0){
   } else if(codec->isEob()){
 	  //cout << "    EOB " << endl;
   } else if(!codec->isValid()){
-      //cout << "    No data " << endl;
+      //cout << "    No data " <<pUnpackEvent->fiEventNumber<< endl;
   } else {
 	  //cout << "    No header found " << header << endl;
   }
@@ -461,7 +464,7 @@ for(i=0;i<codec->getVetonoAdc();i++){
 if(pdata != pbehind){
   pdata++; // skip first tag word
   DecodeGamma(pdata,pbehind);
-  pUnpackEvent->SetValid(takeEvent); // to store
+  pUnpackEvent->SetValid(kTRUE); // to store
   for(i=0;i<codec->SCHANNELS;i++){
 	fGammaE[i]->Fill(pUnpackEvent->fiGammaE[i]);
 	fGammaT[i]->Fill(pUnpackEvent->fiGammaT[i]-gammaTimeLast);

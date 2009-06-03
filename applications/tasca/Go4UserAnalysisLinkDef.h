@@ -26,6 +26,8 @@
 #pragma link C++ class TascaCheckProc+;
 #pragma link C++ class TascaAnlEvent+;
 #pragma link C++ class TascaAnlProc+;
+#pragma link C++ class TascaEventStack+;
+#pragma link C++ class TascaEvent+;
 
 #endif
 
