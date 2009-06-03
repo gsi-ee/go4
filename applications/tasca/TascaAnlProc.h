@@ -15,6 +15,8 @@ class TascaControl;
 class TascaParameter;
 class TascaAnlEvent;
 class TascaAnalysis;
+class TascaEvent;
+class TascaEventStack;
 
 class TascaAnlProc : public TGo4EventProcessor {
    public:
@@ -29,6 +31,8 @@ class TascaAnlProc : public TGo4EventProcessor {
       TascaCheckEvent *fInput;
       TascaControl  *fControl;
       TascaParameter *fParam;
+      TascaEventStack *fEventStack;
+      TascaEvent *fEvent;
       UInt_t i,ii;
 
    ClassDef(TascaAnlProc,1)

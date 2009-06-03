@@ -29,8 +29,36 @@ Int_t TascaEvent::PrintEvent(){
   return 0;
 }
 //-----------------------------------------------------------
-Bool_t TascaEvent::UpdateFrom(TascaCheckEvent *pp){
-   cout << "Tasca> TascaEvent: " << GetName() << " updated" << endl;
+Bool_t TascaEvent::Copy(TascaCheckEvent *pp){
+	fisTof=pp->fisTof;
+	fisChopper=pp->fisChopper;
+	fisMicro=pp->fisMicro;
+	fisMacro=pp->fisMacro;
+	fiEventNumber=pp->fiEventNumber;
+	fiStopXLhitI=pp->fiStopXLhitI;
+	fiStopXHhitI=pp->fiStopXHhitI;
+	fiStopYLhitI=pp->fiStopYLhitI;
+	fiStopYHhitI=pp->fiStopYHhitI;
+	fiBackHhitI=pp->fiBackHhitI;
+	fiBackLhitI=pp->fiBackLhitI;
+	fiVetoHhitI=pp->fiVetoHhitI;
+	fiVetoLhitI=pp->fiVetoLhitI;
+	// value of maximum hit, if we had more than one hit
+	ffStopXLhitV=pp->ffStopXLhitV;
+	ffStopXHhitV=pp->ffStopXHhitV;
+	ffStopYLhitV=pp->ffStopYLhitV;
+	ffStopYHhitV=pp->ffStopYHhitV;
+	ffBackHhitV =pp->ffBackHhitV;
+	ffBackLhitV =pp->ffBackLhitV;
+	ffVetoHhitV =pp->ffVetoHhitV;
+	ffVetoLhitV =pp->ffVetoLhitV;
+	ffTimeStamp=pp->ffTimeStamp;
+	ffSystemSec=pp->ffSystemSec;
+	ffSystemMysec=pp->ffSystemMysec;
+	for(Int_t i=0;i<8;i++){
+		  ffGammaKev[i]   = pp->ffGammaKev[i];
+		  ffGammaMysec[i] = pp->ffGammaMysec[i];
+	}
   return kTRUE;
 }
 

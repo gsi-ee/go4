@@ -17,6 +17,8 @@
 #include "TGo4WinCond.h"
 
 #include "TascaAnlEvent.h"
+#include "TascaEventStack.h"
+#include "TascaEvent.h"
 #include "TascaCheckEvent.h"
 #include "TascaControl.h"
 #include "TascaParameter.h"
@@ -51,6 +53,7 @@ TascaAnlProc::TascaAnlProc(const char* name) :
 	  fParam = new TascaParameter("Parameters");
 	  AddParameter(fParam);
   }
+  fEventStack=new TascaEventStack(10);
 }
 //***********************************************************
 TascaAnlProc::~TascaAnlProc()
@@ -63,7 +66,21 @@ TascaAnlProc::~TascaAnlProc()
 void TascaAnlProc::TascaEventAnalysis(TascaAnlEvent* poutevt)
 {
 fInput  = (TascaCheckEvent*) GetInputEvent();
-
+if(fEventStack->used<fEventStack->entries){ // fill stack slots
+	((TascaEvent *)fEventStack->At(fEventStack->used))->Copy(fInput);
+	fEventStack->used++;
+}
+else { // remove first and put to end
+	fEvent=(TascaEvent *) fEventStack->First();
+	fEvent->Copy(fInput);
+	fEventStack->Remove(fEvent);
+	fEventStack->AddLast(fEvent);
+	fEvent=(TascaEvent *) fEventStack->First();
+	// loop over all events of stack
+	while(fEvent){
+		fEvent=(TascaEvent *) fEventStack->After(fEvent);
+	}
+}
 poutevt->SetValid(kFALSE);       // events are not stored until kTRUE is set
 
 } // BuildCalEvent

@@ -12,20 +12,24 @@
 //***********************************************************
 TascaEventStack::TascaEventStack() {}
 //***********************************************************
-TascaEventStack::TascaEventStack(const char* name)
+TascaEventStack::TascaEventStack(UInt_t slots)
 {
-    cout << "Tasca> TascaEventStack: " << name << " created" << endl;
+	used=0;
+	entries=slots;
+	for(UInt_t i=0;i<entries;i++)
+		AddLast(new TascaEvent());
+    cout << "Tasca> EventStack: " << entries << " created" << endl;
 }
 //***********************************************************
 TascaEventStack::~TascaEventStack(){
-    cout << "Tasca> TascaEventStack: " << GetName() << " deleted" << endl;
+    cout << "Tasca> EventStack: deleted" << endl;
 }
 //***********************************************************
 
 //-----------------------------------------------------------
 Int_t TascaEventStack::PrintEventStack(){
   return 0;
-  cout << "EventStack " << GetName()<<":" <<endl;
+  cout << "Tasca> EventStack :" <<endl;
   return 0;
 }
 

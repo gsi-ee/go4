@@ -9,17 +9,19 @@
 #define TascaEventStack_H
 
 #include "TList.h"
+#include "TascaEvent.h"
 
 
 class TascaEventStack : public TList {
    public:
       TascaEventStack();
-      TascaEventStack(const char* name);
+      TascaEventStack(UInt_t slots);
       virtual ~TascaEventStack();
 
       Int_t PrintEventStack();
 
-
+	UInt_t used;
+	UInt_t entries;
    ClassDef(TascaEventStack,1)
 };
 
