@@ -144,9 +144,9 @@ if(XH & YH & XL & YL) fStopXY->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48
 
 fAlphaBackL->Fill(fInput->ffStopXLhitV,fInput->ffBackLhitV);
 
- fAlphaVetoL->Fill(fInput->ffStopXLhitV,fInput->ffVetoLhitV);
+fAlphaVetoL->Fill(fInput->ffStopXLhitV,fInput->ffVetoLhitV);
 
- for(Int_t i=0;i<7;i++) fAlphaGammaL->Fill(fInput->ffStopXLhitV,fInput->ffGammaKev[i]);
+for(Int_t i=0;i<7;i++) fAlphaGammaL->Fill(fInput->ffStopXLhitV,fInput->ffGammaKev[i]);
 
 
 poutevt->SetValid(kFALSE);       // events are not stored until kTRUE is set

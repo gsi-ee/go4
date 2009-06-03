@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -30,6 +30,7 @@ class TascaControl : public TGo4Parameter {
     	  MicroMustbe=kTRUE;
     	  UnpackHisto=kTRUE;
     	  CaliHisto=kTRUE;
+    	  CheckHisto=kTRUE;
     	  AnlHisto=kTRUE;
       }
 
@@ -43,6 +44,7 @@ class TascaControl : public TGo4Parameter {
 	Bool_t MicroMustbe;//true-false
 	Bool_t UnpackHisto;
 	Bool_t CaliHisto;
+	Bool_t CheckHisto;
 	Bool_t AnlHisto;
 	UInt_t TofChecked;
 	UInt_t TofTrue;

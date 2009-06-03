@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -46,6 +46,7 @@ Bool_t TascaControl::UpdateFrom(TGo4Parameter *pp){
     MicroMustbe=from->MicroMustbe;//true equals isMicro
     UnpackHisto=from->UnpackHisto;
     CaliHisto=from->CaliHisto;
+    CheckHisto=from->CheckHisto;
     AnlHisto=from->AnlHisto;
    cout << "Tasca> TascaControl: " << GetName() << " updated" << endl;
   }
