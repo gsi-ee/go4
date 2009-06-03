@@ -54,7 +54,7 @@ TascaCheckProc::TascaCheckProc(const char* name) :
   gROOT->ProcessLine(".x setparam.C()");
   gROOT->ProcessLine(".x setcontrol.C()");
 
-  if(fControl->CaliHisto){
+  if(fControl->CheckHisto){
   fAlphaGammaL=anl->CreateTH2D("Check","AlphaGammaL","Energies",1000,1,30000,1000,1,2500);
   fAlphaGammaL->GetXaxis()->SetTitle("Alpha [Kev]");
   fAlphaGammaL->GetYaxis()->SetTitle("Gamma [Kev]");
@@ -86,7 +86,7 @@ TascaCheckProc::TascaCheckProc(const char* name) :
     fStopLE[i]->GetXaxis()->SetTitle("X position [stripe]");
     fStopLE[i]->GetYaxis()->SetTitle("Energy [Kev]");
   }
-  }// fControl->CaliHisto
+  }// fControl->CheckHisto
 // Creation of conditions (check if restored from auto save file):
     fadcKevH = (TGo4WinCond *)anl->CreateCondition("Check","adcKevH",0,kTRUE,0,300000);
     fadcKevL = (TGo4WinCond *)anl->CreateCondition("Check","adcKevL",0,kTRUE,0,30000);
@@ -141,7 +141,7 @@ Bool_t YL=fadcKevL->Test(fInput->ffStopYLhitV);
 Bool_t XL=fadcKevL->Test(fInput->ffStopXLhitV);
 Bool_t XH=fadcKevH->Test(fInput->ffStopXHhitV);
 
-if(fControl->CaliHisto){
+if(fControl->CheckHisto){
 if(YL) fStopLE[fInput->fiStopYLhitI%48]->Fill(fInput->fiStopXLhitI,fInput->ffStopXLhitV);
 
 if(YH) fStopHE[fInput->fiStopYHhitI%48]->Fill(fInput->fiStopXHhitI,fInput->ffStopXHhitV);
@@ -153,7 +153,7 @@ fAlphaBackL->Fill(fInput->ffStopXLhitV,fInput->ffBackLhitV);
 fAlphaVetoL->Fill(fInput->ffStopXLhitV,fInput->ffVetoLhitV);
 
 for(Int_t i=0;i<7;i++) fAlphaGammaL->Fill(fInput->ffStopXLhitV,fInput->ffGammaKev[i]);
-} // fControl->CaliHisto
+} // fControl->CheckHisto
 
 poutevt->SetValid(kFALSE);       // events are not stored until kTRUE is set
 

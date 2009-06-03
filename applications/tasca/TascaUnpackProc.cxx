@@ -119,6 +119,7 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
       snprintf(chead,63,"Pileup channel %2d",i);
       fPileup[i] = anl->CreateTH1I ("Unpack/SIS3302/Pileup",chis,chead,1024,0.5,1023.5);
   }
+  if(fControl->UnpackHisto){
   for(i =0;i<96;i++)
   {
 	snprintf(chis,15,"Adc_%02d",i);
@@ -126,6 +127,7 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 	else if(i > 31) snprintf(chead,63,"Mod 2 chan %2d",i-32);
 	else            snprintf(chead,63,"Mod 1 chan %2d",i);
 	fAdc[i] = anl->CreateTH1I("Unpack/AllAdc",chis,chead,5000,0.5,5000.5);
+  }
   }
   for(i =0;i<8;i++)
   {
@@ -176,12 +178,14 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   for(i=0;i<8;i++){ // 8 rows
 	  anl->SetPicture(Geraw,fGammaE[i],i,0,1);
 	  anl->SetPicture(Geraw,fGammaT[i],i,1,1);
+	  if(fControl->UnpackHisto){
 	  for(k=0;k<4;k++){ // 4 columns
 		  anl->SetPicture(M1raw,fAdc[m],i,k,1);
 		  anl->SetPicture(M2raw,fAdc[m+32],i,k,1);
 		  anl->SetPicture(M3raw,fAdc[m+64],i,k,1);
-	  m++;
-  }}
+		  m++;
+	  }}
+  }
 }
 //***********************************************************
 TascaUnpackProc::~TascaUnpackProc()
@@ -190,10 +194,11 @@ TascaUnpackProc::~TascaUnpackProc()
 }
 //***********************************************************
 void TascaUnpackProc::CalcPedestals(){
+if(fControl->UnpackHisto){
 for(i =0;i<96;i++){
 	if(fPedestal)fPedestal->SetBinContent(i,fAdc[i]->GetMean());
 	fPedestals->SetPedestals(i,fAdc[i]->GetMean());
-}}
+}}}
 //***********************************************************
 
 //-----------------------------------------------------------
@@ -335,7 +340,6 @@ while(adcs > 0){
 	  for(i=0;i<channels;i++){
 		  codec->setValue(*pdata++);
 		  pUnpackEvent->fiAdc[off+codec->getChan()]=codec->getAdc();
-		  fAdc[off+codec->getChan()]->Fill(codec->getAdc());
 		  fAdcAllRaw->Fill(codec->getAdc());
 		  fContent->Fill(off+codec->getChan());
 	  }
@@ -349,6 +353,9 @@ while(adcs > 0){
 	  //cout << "    No header found " << header << endl;
   }
   } // loop over ADCs
+if(fControl->UnpackHisto){
+for(i=0;i<96;i++) fAdc[i]->Fill(pUnpackEvent->fiAdc[i]);
+}
 
 //if(fPedestals->Calibrate)	{
 //	for(i=0;i<96;i++){

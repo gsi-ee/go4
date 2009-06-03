@@ -10,10 +10,10 @@ void setcontrol()
 {
 TascaControl *fControl = (TascaControl *) go4->GetObject("Controls","Go4");
  if(fControl!=0){
-  fControl->UnpackHisto=kTRUE;
-  fControl->CaliHisto=kFALSE;
-  fControl->CheckHisto=kFALSE;
-  fControl->AnlHisto=kFALSE;
+  fControl->UnpackHisto  =kTRUE;
+  fControl->CaliHisto    =kTRUE;
+  fControl->CheckHisto   =kTRUE;
+  fControl->AnlHisto     =kTRUE;
   fControl->checkTof     =kFALSE;
   fControl->checkChopper =kFALSE;
   fControl->checkMacro   =kFALSE;
