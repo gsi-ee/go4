@@ -4,15 +4,16 @@
 //         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
+#include <Riostream.h>
 
 void setcontrol()
 {
 TascaControl *fControl = (TascaControl *) go4->GetObject("Controls","Go4");
  if(fControl!=0){
   fControl->UnpackHisto=kTRUE;
-  fControl->CaliHisto=kTRUE;
-  fControl->CheckHisto=kTRUE;
-  fControl->AnlHisto=kTRUE;
+  fControl->CaliHisto=kFALSE;
+  fControl->CheckHisto=kFALSE;
+  fControl->AnlHisto=kFALSE;
   fControl->checkTof     =kFALSE;
   fControl->checkChopper =kFALSE;
   fControl->checkMacro   =kFALSE;
@@ -23,4 +24,5 @@ TascaControl *fControl = (TascaControl *) go4->GetObject("Controls","Go4");
   fControl->MicroMustbe  =kTRUE;//true-false
   fControl->PrintParameter();
  }
+ else cout<<"Controls not found"<<endl;
 }

@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -13,7 +13,7 @@
 TascaParameter::TascaParameter() : TGo4Parameter() {}
 //***********************************************************
 TascaParameter::TascaParameter(const char* name) : TGo4Parameter(name),
-Save(0),Fill(1),shift(5)
+Save(0),Fill(1),shift(5),EventStackSize(10)
 {
     cout << "Tasca> TascaParameter: " << name << " created" << endl;
 }
@@ -37,6 +37,7 @@ Bool_t TascaParameter::UpdateFrom(TGo4Parameter *pp){
     }
     Fill=from->Fill;
     shift=from->shift;
+    EventStackSize=from->EventStackSize;
    cout << "Tasca> TascaParameter: " << GetName() << " updated" << endl;
   }
   else

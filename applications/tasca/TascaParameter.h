@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -23,6 +23,7 @@ class TascaParameter : public TGo4Parameter {
       Bool_t Save;
       Bool_t Fill;
       Int_t  shift;
+      UInt_t EventStackSize;
 
    ClassDef(TascaParameter,1)
 };

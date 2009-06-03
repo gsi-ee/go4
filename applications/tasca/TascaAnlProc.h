@@ -17,6 +17,7 @@ class TascaAnlEvent;
 class TascaAnalysis;
 class TascaEvent;
 class TascaEventStack;
+#include "TList.h"
 
 class TascaAnlProc : public TGo4EventProcessor {
    public:
@@ -32,8 +33,11 @@ class TascaAnlProc : public TGo4EventProcessor {
       TascaControl  *fControl;
       TascaParameter *fParam;
       TascaEventStack *fEventStack;
-      TascaEvent *fEvent;
+  	  TListIter *fStackIter;
+  	  TListIter *fEventIter;
+  	  TascaEvent *fEvent;
       UInt_t i,ii;
+      Bool_t stackfilled;
 
    ClassDef(TascaAnlProc,1)
 };

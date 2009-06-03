@@ -20,7 +20,6 @@ class TascaEventStack : public TList {
 
       Int_t PrintEventStack();
 
-	UInt_t used;
 	UInt_t entries;
    ClassDef(TascaEventStack,1)
 };

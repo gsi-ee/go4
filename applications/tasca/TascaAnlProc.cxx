@@ -53,7 +53,11 @@ TascaAnlProc::TascaAnlProc(const char* name) :
 	  fParam = new TascaParameter("Parameters");
 	  AddParameter(fParam);
   }
-  fEventStack=new TascaEventStack(10);
+  gROOT->ProcessLine(".x setparam.C()");
+  gROOT->ProcessLine(".x setcontrol.C()");
+  fEventStack=new TascaEventStack(fParam->EventStackSize);
+  fStackIter = new TListIter(fEventStack);
+  fEventIter = new TListIter(fEventStack);
 }
 //***********************************************************
 TascaAnlProc::~TascaAnlProc()
@@ -66,20 +70,30 @@ TascaAnlProc::~TascaAnlProc()
 void TascaAnlProc::TascaEventAnalysis(TascaAnlEvent* poutevt)
 {
 fInput  = (TascaCheckEvent*) GetInputEvent();
-if(fEventStack->used<fEventStack->entries){ // fill stack slots
-	((TascaEvent *)fEventStack->At(fEventStack->used))->Copy(fInput);
-	fEventStack->used++;
+// Note that we have already filled the list with preallocated events.
+// Therefore the iterator runs over all entries.
+fEvent=(TascaEvent *)fStackIter->Next();
+if(fEvent){ // fill stack slots
+	fEvent->Copy(fInput); // copy event data into event entry
+	stackfilled=kTRUE;
 }
 else { // remove first and put to end
-	fEvent=(TascaEvent *) fEventStack->First();
-	fEvent->Copy(fInput);
-	fEventStack->Remove(fEvent);
-	fEventStack->AddLast(fEvent);
-	fEvent=(TascaEvent *) fEventStack->First();
-	// loop over all events of stack
-	while(fEvent){
-		fEvent=(TascaEvent *) fEventStack->After(fEvent);
+	if(stackfilled){
+		stackfilled=kFALSE; // to avoid further printout
+		cout<<" Event stack filled "<<fEventStack->entries<< " entries"<<endl;
 	}
+	fEvent=(TascaEvent *) fEventStack->First(); // the oldest one
+	fEvent->Copy(fInput); // current
+	fEventStack->Remove(fEvent);
+	fEventStack->AddLast(fEvent); // latest at the end
+	// loop over all events of stack
+	fEvent=(TascaEvent *) fEventStack->First();
+	// this takes about 7 mysec per 100 entries
+	fEventIter->Reset();
+	while(fEvent=(TascaEvent *)fEventIter->Next()){
+		// cout<<fEvent->fiEventNumber<<" ";
+	}
+	// cout<<endl;
 }
 poutevt->SetValid(kFALSE);       // events are not stored until kTRUE is set
 

@@ -71,6 +71,8 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 	  fCalibration = new TascaCalibration("Calibration");
 	  AddParameter(fCalibration);
   }
+  gROOT->ProcessLine(".x setcontrol.C()");
+
   // sets coefficients a0,a2 to 0, a1 to 1.
   fCalibration->Preset();
   gROOT->ProcessLine(".x setcali.C()"); // en-disable calibration
@@ -80,8 +82,8 @@ TascaCaliProc::TascaCaliProc(const char* name) :
   }
   else   cout << "Tasca> TascaCaliProc: No calibration used" << endl;
 
-  evcount=0;
-	fhdStopXL=anl->CreateTH1D("Cali/Sum","StopXL", "StopX all low",144,0,144);
+if(fControl->CaliHisto){
+  fhdStopXL=anl->CreateTH1D("Cali/Sum","StopXL", "StopX all low",144,0,144);
 	fhdStopXH=anl->CreateTH1D("Cali/Sum","StopXH", "StopX all high",144,0,144);
 	fhdStopYL=anl->CreateTH1D("Cali/Sum","StopYL", "StopY all low",96,0,96);
 	fhdStopYH=anl->CreateTH1D("Cali/Sum","StopYH", "StopY all high",96,0,96);
@@ -271,7 +273,7 @@ TascaCaliProc::TascaCaliProc(const char* name) :
     		anl->SetPicture(Back[1],fhBackH[m],i,k,1);
     		m++;
     	}}
-
+} // fControl->CaliHisto
 }
 //***********************************************************
 TascaCaliProc::~TascaCaliProc()
@@ -286,6 +288,8 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 
   poutevt->SetValid(kFALSE); // not to store
   fInput    = (TascaUnpackEvent* ) GetInputEvent(); // from this
+
+// Fill output event
   poutevt->fisTof=fInput->fisTof;
   poutevt->fisChopper=fInput->fisChopper;
   poutevt->fisMicro=fInput->fisMicro;
@@ -315,6 +319,27 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   for(i=0;i<144;i++){
 	  poutevt->ffStopXL[i]=fCalibration->CalibrateStopXL(fInput->fiStopXL[i],i);
 	  poutevt->ffStopXH[i]=fCalibration->CalibrateStopXH(fInput->fiStopXH[i],i);
+  }
+  for(i=0;i<96;i++){
+	  poutevt->ffStopYL[i]=fCalibration->CalibrateStopYL(fInput->fiStopYL[i],i);
+	  poutevt->ffStopYH[i]=fCalibration->CalibrateStopYH(fInput->fiStopYH[i],i);
+  }
+  for(i=0;i<64;i++){
+	  poutevt->ffBackL[i]=fCalibration->CalibrateBackL(fInput->fiBackL[i],i);
+	  poutevt->ffBackH[i]=fCalibration->CalibrateBackH(fInput->fiBackH[i],i);
+  }
+  for(i=0;i<16;i++){
+	  poutevt->ffVetoL[i]=fCalibration->CalibrateVetoL(fInput->fiVetoL[i],i);
+	  poutevt->ffVetoH[i]=fCalibration->CalibrateVetoH(fInput->fiVetoH[i],i);
+  }
+  for(i=0;i<8;i++){
+	  poutevt->ffGammaKev[i]   = fCalibration->CalibrateGammaE(fInput->fiGammaE[i],i);
+	  poutevt->ffGammaMysec[i] = fInput->fiGammaT[i];
+  }
+
+// now filling histograms
+  if(fControl->CaliHisto){
+  for(i=0;i<144;i++){
 	  if(fInput->fiStopXL[i]>0)fhdStopXL->Fill(i);
 	  if(fInput->fiStopXH[i]>0)fhdStopXH->Fill(i);
 	  fhStopXL[i]->Fill(poutevt->ffStopXL[i]);
@@ -323,8 +348,6 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 	  fhdStopXHsum->Fill(poutevt->ffStopXH[i]);
   }
   for(i=0;i<96;i++){
-	  poutevt->ffStopYL[i]=fCalibration->CalibrateStopYL(fInput->fiStopYL[i],i);
-	  poutevt->ffStopYH[i]=fCalibration->CalibrateStopYH(fInput->fiStopYH[i],i);
 	  if(fInput->fiStopYL[i]>0)fhdStopYL->Fill(i);
 	  if(fInput->fiStopYH[i]>0)fhdStopYH->Fill(i);
 	  fhStopYL[i]->Fill(poutevt->ffStopYL[i]);
@@ -333,8 +356,6 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 	  fhdStopYHsum->Fill(poutevt->ffStopYH[i]);
   }
   for(i=0;i<64;i++){
-	  poutevt->ffBackL[i]=fCalibration->CalibrateBackL(fInput->fiBackL[i],i);
-	  poutevt->ffBackH[i]=fCalibration->CalibrateBackH(fInput->fiBackH[i],i);
 	  if(fInput->fiBackL[i]>0)fhdBackL->Fill(i);
 	  if(fInput->fiBackH[i]>0)fhdBackH->Fill(i);
 	  fhBackL[i]->Fill(poutevt->ffBackL[i]);
@@ -343,8 +364,6 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 	  fhdBackHsum->Fill(poutevt->ffBackH[i]);
   }
   for(i=0;i<16;i++){
-	  poutevt->ffVetoL[i]=fCalibration->CalibrateVetoL(fInput->fiVetoL[i],i);
-	  poutevt->ffVetoH[i]=fCalibration->CalibrateVetoH(fInput->fiVetoH[i],i);
 	  if(fInput->fiVetoL[i]>0)fhdVetoL->Fill(i);
 	  if(fInput->fiVetoH[i]>0)fhdVetoH->Fill(i);
 	  fhVetoL[i]->Fill(poutevt->ffVetoL[i]);
@@ -354,13 +373,13 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   }
 Double_t sum=0.;
   for(i=0;i<8;i++){
-	  poutevt->ffGammaKev[i]   = fCalibration->CalibrateGammaE(fInput->fiGammaE[i],i);
-	  poutevt->ffGammaMysec[i] = fInput->fiGammaT[i];
 	  fhGammaKev[i]->Fill(poutevt->ffGammaKev[i]);
 	  fhGammaSumKev->Fill(poutevt->ffGammaKev[i]);
 	  sum += poutevt->ffGammaKev[i];
 	  fhGammaMysec[i]->Fill(poutevt->ffGammaMysec[i]);
   }
   fhGammaAddbackKev->Fill(sum);
+  } // fControl->CaliHisto
+
   poutevt->SetValid(kTRUE); // store
 }
