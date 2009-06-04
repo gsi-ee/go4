@@ -52,13 +52,15 @@ Bool_t TascaEvent::Copy(TascaCheckEvent *pp){
 	ffBackLhitV =pp->ffBackLhitV;
 	ffVetoHhitV =pp->ffVetoHhitV;
 	ffVetoLhitV =pp->ffVetoLhitV;
-	ffTimeStamp=pp->ffTimeStamp;
-	ffSystemSec=pp->ffSystemSec;
-	ffSystemMysec=pp->ffSystemMysec;
-	for(Int_t i=0;i<8;i++){
-		  ffGammaKev[i]   = pp->ffGammaKev[i];
-		  ffGammaMysec[i] = pp->ffGammaMysec[i];
-	}
+	fiTimeStamp=pp->fiTimeStamp;
+	fiSystemSec=pp->fiSystemSec;
+	fiSystemMysec=pp->fiSystemMysec;
+	fiDeltaTime=pp->fiDeltaTime;
+	fiDeltaSystemTime=pp->fiDeltaSystemTime;
+	fiGammaMysec = pp->fiGammaMysec;
+	fiDeltaGammaMysec = pp->fiDeltaGammaMysec;
+	for(Int_t i=0;i<7;i++) ffGammaKev[i] = pp->ffGammaKev[i];
+
   return kTRUE;
 }
 

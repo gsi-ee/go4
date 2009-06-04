@@ -82,6 +82,7 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   }
   // reset counters
   gROOT->ProcessLine(".x setcontrol.C()");
+  gROOT->ProcessLine(".x setparam.C()");
   fControl->TofChecked=0;
   fControl->TofTrue=0;
   fControl->ChopperChecked=0;
@@ -129,15 +130,15 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 	fAdc[i] = anl->CreateTH1I("Unpack/AllAdc",chis,chead,5000,0.5,5000.5);
   }
   }
-  for(i =0;i<8;i++)
+  for(i =0;i<7;i++)
   {
 		snprintf(chis,15,"GammaE_%d",i);
 		snprintf(chead,63,"Gamma E raw %d",i);
 		fGammaE[i] = anl->CreateTH1I ("Unpack/GammaE",chis,chead,9000,0.5,9000.5);
-		snprintf(chis,15,"GammaT_%d",i);
-		snprintf(chead,63,"Gamma T raw %d",i);
-		fGammaT[i] = anl->CreateTH1I ("Unpack/GammaT",chis,chead,5000,0.5,5000.5);
   }
+	snprintf(chis,15,"GammaT");
+	snprintf(chead,63,"Gamma T 10 ns");
+	fGammaT = anl->CreateTH1I ("Unpack",chis,chead,5000,0.5,200000.5);
   // test spectrum
 //	fTest      = anl->CreateTH1I (0,"Gaussians","Gauss",4000,0.5,4000.5);
 //	  gRandom->SetSeed(0);
@@ -154,6 +155,15 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 //	fTest->Fill(40.*v2*(sqrt(-2.*log(s)/s)) + 2500.);
 //	  }
 
+	fSize     = anl->CreateTH1I ("Unpack","Size","Netto event size",200,0,200);
+	fSize->GetXaxis()->SetTitle("Size [32bit]");
+	fSize->GetYaxis()->SetTitle("Events");
+	fSizeA     = anl->CreateTH1I ("Unpack","SizeA","Netto ADC event size",200,0,200);
+	fSizeA->GetXaxis()->SetTitle("Size [32bit]");
+	fSizeA->GetYaxis()->SetTitle("Events");
+	fSizeG     = anl->CreateTH1I ("Unpack","SizeG","Netto GAMMA event size",200,0,200);
+	fSizeG->GetXaxis()->SetTitle("Size [32bit]");
+	fSizeG->GetYaxis()->SetTitle("Events");
 	fSpill     = anl->CreateTH1I ("Unpack","Spill","Events over spill",10000,0,200000);
 	fSpill->GetXaxis()->SetTitle("Mysec");
 	fSpill->GetYaxis()->SetTitle("Events");
@@ -168,16 +178,16 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 	fAdcAllCal = anl->CreateTH1I ("Unpack","AdcAllCal","All adc cal",5000,0.5,5000.5);
 
 // pictures rows, columns
-    Geraw = anl->CreatePicture("Unpack","pGamma","Gamma raw",8,2);
+    Geraw = anl->CreatePicture("Unpack","pGamma","Gamma raw",8,1);
     M1raw = anl->CreatePicture("Unpack","pV785_1","Module 7",8,4);
     M2raw = anl->CreatePicture("Unpack","pV785_2","Module 9",8,4);
     M3raw = anl->CreatePicture("Unpack","pV785_3","Module 11",8,4);
   Int_t m=0;
   // enlarge stats box and position in [0:1] coordinates
   // show only Mean value (ROOT manual "Statistics Display")
+  for(i=0;i<7;i++) anl->SetPicture(Geraw,fGammaE[i],i,0,1);
+                   anl->SetPicture(Geraw,fGammaT,7,0,1);
   for(i=0;i<8;i++){ // 8 rows
-	  anl->SetPicture(Geraw,fGammaE[i],i,0,1);
-	  anl->SetPicture(Geraw,fGammaT[i],i,1,1);
 	  if(fControl->UnpackHisto){
 	  for(k=0;k<4;k++){ // 4 columns
 		  anl->SetPicture(M1raw,fAdc[m],i,k,1);
@@ -207,7 +217,7 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   TGo4MbsSubEvent* psubevt;
   UInt_t crate, address, channels, header, off;
   UInt_t lwords;
-  UInt_t *pdata,*pbehind;
+  UInt_t *pdata,*pbehind,*psubevent;
   UInt_t latches=0;
   UInt_t adcs=0;
   UInt_t patt0,patt1,patt2,patt3;
@@ -220,6 +230,7 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   Bool_t takeEvent=kFALSE;
   pUnpackEvent=pUP;
   fInput    = (TGo4MbsEvent* ) GetInputEvent(); // from this
+  fSize->Fill((fInput->GetDlen()>>1)-5);// is data length in 32bit without headers
   if((fInput != 0) &
      (fInput->GetTrigger()!=14) &
      (fInput->GetTrigger()!=15) &
@@ -229,7 +240,7 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   fInput->ResetIterator();
   psubevt = fInput->NextSubEvent();
   pdata=(UInt_t *)psubevt->GetDataField();
-  lwords= psubevt->GetIntLen();
+  lwords= psubevt->GetIntLen(); // data length 32 bit
   pbehind=pdata+lwords;
   pUnpackEvent->SetValid(kFALSE); // not to store
   // look for system time stamp
@@ -242,6 +253,7 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   latches = *pdata & 0xFFFF;
   adcs    = (*pdata & 0xFFFF0000) >> 16;
 
+  psubevent=pdata;
   // Get V785 data
   if(adcs > 0){
   pdata++;
@@ -467,16 +479,18 @@ for(i=0;i<codec->getVetonoAdc();i++){
 	pUnpackEvent->fiVetoH[n]=pUnpackEvent->fiAdc[2*k+1];
 }//Veto
 }// V785 ADCs
+  if(pdata-psubevent)  fSizeA->Fill(pdata-psubevent);
 // follows Sis3302
 if(pdata != pbehind){
   pdata++; // skip first tag word
   DecodeGamma(pdata,pbehind);
   pUnpackEvent->SetValid(kTRUE); // to store
-  for(i=0;i<codec->SCHANNELS;i++){
+  for(i=0;i<codec->SCHANNELS-1;i++){
 	fGammaE[i]->Fill(pUnpackEvent->fiGammaE[i]);
-	fGammaT[i]->Fill(pUnpackEvent->fiGammaT[i]-gammaTimeLast);
   }
-  gammaTimeLast=pUnpackEvent->fiGammaE[7];
+  fGammaT->Fill(pUnpackEvent->fiGammaTime-gammaTimeLast);
+  gammaTimeLast=pUnpackEvent->fiGammaTime;
+  if(pbehind-pdata)  fSizeG->Fill(pbehind-pdata);
   return;
 }
 } // check for valid event
@@ -573,7 +587,10 @@ while(1)
 	chan=(buffer_length&0x00FF0000)>>16;
 
 	pl_data++;  // skip two timestamp longwords
-	pUnpackEvent->fiGammaT[chan]=*pl_data++;
+	if(chan==7)	{
+		pUnpackEvent->fiGammaTime=*pl_data;
+		return kFALSE;	}
+	pl_data++;
 	//        pl_data16 = (INTS2 *) pl_data;
 
 	//****************

@@ -21,12 +21,22 @@ class TascaCheckEvent : public TGo4EventElement {
       virtual Int_t Fill();
       virtual void  Clear(Option_t *t=""){
 	   memset((void*) &ffGammaKev[0], 0, sizeof(ffGammaKev));
-	   memset((void*) &ffGammaMysec[0], 0, sizeof(ffGammaMysec));
+	   fiGammaMysec=0;
       }
 
-      Float_t ffSystemSec;
-      Float_t ffSystemMysec;
-      Float_t ffTimeStamp;
+      UInt_t fiEventNumber;
+      Bool_t fisTof;
+      Bool_t fisChopper;
+      Bool_t fisMacro;
+      Bool_t fisMicro;
+
+      UInt_t fiSystemSec;
+      UInt_t fiSystemMysec;
+      UInt_t fiTimeStamp;
+      UInt_t fiGammaMysec;
+      UInt_t fiDeltaSystemTime;
+      UInt_t fiDeltaGammaMysec;
+      UInt_t fiDeltaTime;
       // index of maximum hit, if we had more than one hit
       UInt_t fiStopXLhitI;
       UInt_t fiStopXHhitI;
@@ -46,14 +56,7 @@ class TascaCheckEvent : public TGo4EventElement {
       Float_t ffVetoHhitV;
       Float_t ffVetoLhitV;
 
-      Float_t ffGammaMysec[8];
-      Float_t ffGammaKev[8];
-
-      UInt_t fiEventNumber;
-      Bool_t fisTof;
-      Bool_t fisChopper;
-      Bool_t fisMacro;
-      Bool_t fisMicro;
+      Float_t ffGammaKev[7];
 
    private:
       // this object is streamed. Therefore pointers must be excluded!

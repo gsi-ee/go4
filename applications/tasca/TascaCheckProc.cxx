@@ -128,13 +128,12 @@ poutevt->ffBackHhitV =fInput->ffBackHhitV;
 poutevt->ffBackLhitV =fInput->ffBackLhitV;
 poutevt->ffVetoHhitV =fInput->ffVetoHhitV;
 poutevt->ffVetoLhitV =fInput->ffVetoLhitV;
-poutevt->ffTimeStamp=fInput->ffTimeStamp;
-poutevt->ffSystemSec=fInput->ffSystemSec;
-poutevt->ffSystemMysec=fInput->ffSystemMysec;
-for(Int_t i=0;i<8;i++){
-	  poutevt->ffGammaKev[i]   = fInput->ffGammaKev[i];
-	  poutevt->ffGammaMysec[i] = fInput->ffGammaMysec[i];
-}
+poutevt->fiSystemSec=fInput->fiSystemSec;
+poutevt->fiSystemMysec=fInput->fiSystemMysec;
+poutevt->fiDeltaTime=fInput->fiDeltaTime;
+poutevt->fiDeltaSystemTime=fInput->fiDeltaSystemTime;
+poutevt->fiGammaMysec = fInput->fiGammaMysec;
+for(Int_t i=0;i<7;i++) poutevt->ffGammaKev[i]   = fInput->ffGammaKev[i];
 
 Bool_t YH=fadcKevH->Test(fInput->ffStopYHhitV);
 Bool_t YL=fadcKevL->Test(fInput->ffStopYLhitV);
@@ -155,6 +154,6 @@ fAlphaVetoL->Fill(fInput->ffStopXLhitV,fInput->ffVetoLhitV);
 for(Int_t i=0;i<7;i++) fAlphaGammaL->Fill(fInput->ffStopXLhitV,fInput->ffGammaKev[i]);
 } // fControl->CheckHisto
 
-poutevt->SetValid(kFALSE);       // events are not stored until kTRUE is set
+poutevt->SetValid(kTRUE);       // events are not stored until kTRUE is set
 
 } // BuildCalEvent

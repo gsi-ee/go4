@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -26,9 +26,9 @@ class TascaCalibration : public TGo4Parameter {
     	  Double_t c=(Double_t)channel;
     	  return (Float_t) (fdGammaE_a0[index]+(fdGammaE_a1[index]+fdGammaE_a2[index]*c)*c);
       }
-      inline Float_t CalibrateGammaT(UInt_t channel,UInt_t index){
+      inline UInt_t CalibrateGammaT(UInt_t channel){
     	  Double_t c=(Double_t)channel;
-    	  return (Float_t) (fdGammaT_a0[index]+(fdGammaT_a1[index]+fdGammaT_a2[index]*c)*c);
+    	  return (UInt_t) (fdGammaT_a0+fdGammaT_a1*c);
       }
       inline Float_t CalibrateStopXL(UInt_t channel,UInt_t index){
     	  Double_t c=(Double_t)channel;
@@ -74,9 +74,9 @@ class TascaCalibration : public TGo4Parameter {
       Double_t fdGammaE_a0[8];
       Double_t fdGammaE_a1[8];
       Double_t fdGammaE_a2[8];
-      Double_t fdGammaT_a0[8];
-      Double_t fdGammaT_a1[8];
-      Double_t fdGammaT_a2[8];
+      Double_t fdGammaT_a0;
+      Double_t fdGammaT_a1;
+      Double_t fdGammaT_a2;
 
       Double_t fdStopXL_a0[144];
       Double_t fdStopXL_a1[144];

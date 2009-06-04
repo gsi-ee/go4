@@ -43,9 +43,19 @@ class TascaCaliEvent : public TGo4EventElement {
 
       Int_t Init();
 
-      Float_t ffSystemSec;
-      Float_t ffSystemMysec;
-      Float_t ffTimeStamp;
+      UInt_t fiEventNumber;
+      Bool_t fisTof;
+      Bool_t fisChopper;
+      Bool_t fisMacro;
+      Bool_t fisMicro;
+
+      UInt_t fiSystemSec;
+      UInt_t fiSystemMysec;
+      UInt_t fiTimeStamp;
+      UInt_t fiGammaMysec;
+      UInt_t fiDeltaSystemTime;
+      UInt_t fiDeltaGammaMysec;
+      UInt_t fiDeltaTime;
       Float_t ffStopXL[144];  // 3x 8x6
       Float_t ffStopXH[144];
       Float_t ffStopYL[96];  // 2x 8x6
@@ -54,8 +64,7 @@ class TascaCaliEvent : public TGo4EventElement {
       Float_t ffBackL[64];
       Float_t ffVetoH[16]; // 8x6
       Float_t ffVetoL[16];
-      Float_t ffGammaMysec[8];
-      Float_t ffGammaKev[8];
+      Float_t ffGammaKev[7];
       // index of maximum hit, if we had more than one hit
       UInt_t fiStopXLhitI;
       UInt_t fiStopXHhitI;
@@ -74,12 +83,6 @@ class TascaCaliEvent : public TGo4EventElement {
       Float_t ffBackLhitV;
       Float_t ffVetoHhitV;
       Float_t ffVetoLhitV;
-
-      UInt_t fiEventNumber;
-      Bool_t fisTof;
-      Bool_t fisChopper;
-      Bool_t fisMacro;
-      Bool_t fisMicro;
 
    private:
       TascaCaliProc * fxTascaEP;  //! Don't put this to file

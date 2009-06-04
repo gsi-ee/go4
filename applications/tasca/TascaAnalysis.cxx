@@ -173,3 +173,43 @@ if(h == 0){
 	}
 return h;
 }
+TH1I* TascaAnalysis::CreateTH1I(const Text_t* folder, const Text_t* name,
+		  const Text_t* title, const Text_t* xlett, const Text_t* ylett,
+		  UInt_t channels, Double_t low, Double_t high)
+{
+	TH1I* h=CreateTH1I(folder, name, title, channels, low, high);
+	h->GetXaxis()->SetTitle(xlett);
+	h->GetYaxis()->SetTitle(ylett);
+	return h;
+}
+TH1D* TascaAnalysis::CreateTH1D(const Text_t* folder, const Text_t* name,
+		  const Text_t* title,  const Text_t* xlett, const Text_t* ylett,
+		  UInt_t channels, Double_t low, Double_t high)
+{
+	TH1D* h=CreateTH1D(folder, name, title, channels, low, high);
+	h->GetXaxis()->SetTitle(xlett);
+	h->GetYaxis()->SetTitle(ylett);
+	return h;
+}
+TH2I* TascaAnalysis::CreateTH2I(const Text_t* folder, const Text_t* name,
+		  const Text_t* title,  const Text_t* xlett, const Text_t* ylett, const Text_t* zlett,
+		  UInt_t channels1, Double_t low1, Double_t high1,
+		  UInt_t channels2, Double_t low2, Double_t high2)
+{
+	TH2I* h=CreateTH2I(folder, name, title, channels1, low1, high1, channels2, low2, high2);
+	h->GetXaxis()->SetTitle(xlett);
+	h->GetYaxis()->SetTitle(ylett);
+	h->GetZaxis()->SetTitle(zlett);
+	return h;
+}
+TH2D* TascaAnalysis::CreateTH2D(const Text_t* folder, const Text_t* name,  const Text_t* zlett,
+		  const Text_t* title,  const Text_t* xlett, const Text_t* ylett,
+		  UInt_t channels1, Double_t low1, Double_t high1,
+		  UInt_t channels2, Double_t low2, Double_t high2)
+{
+	TH2D* h=CreateTH2D(folder, name, title, channels1, low1, high1, channels2, low2, high2);
+	h->GetXaxis()->SetTitle(xlett);
+	h->GetYaxis()->SetTitle(ylett);
+	h->GetZaxis()->SetTitle(zlett);
+	return h;
+}

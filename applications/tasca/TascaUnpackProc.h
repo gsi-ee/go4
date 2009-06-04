@@ -35,6 +35,9 @@ class TascaUnpackProc : public TGo4EventProcessor {
       TH1I          *fAdc[96];
       TH1I  		*fSpill;
       TH1I  		*fTest;
+      TH1I  		*fSize;
+      TH1I  		*fSizeA;
+      TH1I  		*fSizeG;
       TH1I  		*fPedestal;
       TH1I  		*fContent;
       TH1I			*fTree;
@@ -42,8 +45,8 @@ class TascaUnpackProc : public TGo4EventProcessor {
       TH1I			*fAdcAllRaw;
       TH1I			*fAdcAllCal;
       TH1I			*fFilter;
-      TH1I			*fGammaE[8];
-      TH1I			*fGammaT[8];
+      TH1I			*fGammaE[7];
+      TH1I			*fGammaT;
       TH1I          *fTrace[8];
       TH1I          *fTrace_e[8];
       TH1I          *fHisto[8];

@@ -36,7 +36,6 @@ Int_t TascaCalibration::PrintParameter(){
 Bool_t TascaCalibration::Preset(){
 	Int_t i;
 	memset(fdGammaE_a0,0,sizeof(fdGammaE_a0));
-	memset(fdGammaT_a0,0,sizeof(fdGammaT_a0));
 	memset(fdStopXL_a0,0,sizeof(fdStopXL_a0));
 	memset(fdStopXH_a0,0,sizeof(fdStopXH_a0));
 	memset(fdStopYL_a0,0,sizeof(fdStopYL_a0));
@@ -47,7 +46,6 @@ Bool_t TascaCalibration::Preset(){
 	memset(fdVetoH_a0,0,sizeof(fdVetoH_a0));
 
 	memset(fdGammaE_a2,0,sizeof(fdGammaE_a2));
-	memset(fdGammaT_a2,0,sizeof(fdGammaT_a2));
 	memset(fdStopXL_a2,0,sizeof(fdStopXL_a2));
 	memset(fdStopXH_a2,0,sizeof(fdStopXH_a2));
 	memset(fdStopYL_a2,0,sizeof(fdStopYL_a2));
@@ -69,8 +67,11 @@ Bool_t TascaCalibration::Preset(){
 		fdVetoL_a1[i]=1.;fdVetoH_a1[i]=1.;
 	}
 	for(i=0;i<8;i++){
-		fdGammaE_a1[i]=1.;fdGammaT_a1[i]=1.;
+		fdGammaE_a1[i]=1.;
 	}
+	fdGammaT_a0=0.;
+	fdGammaT_a1=0.01;
+	fdGammaT_a1=0.;
 	return kTRUE;
   }
 //-----------------------------------------------------------
@@ -141,10 +142,6 @@ void TascaCalibration::ReadCoefficients(){
 	size=8;
 	full.Form("%s_GammaE.txt",prefix.Data());
 	ReadSingleCoefficients(full.Data(),size,fdGammaE_a0,fdGammaE_a1,fdGammaE_a2);
-	full.Form("%s_GammaT.txt",prefix.Data());
-	ReadSingleCoefficients(full.Data(),size,fdGammaT_a0,fdGammaT_a1,fdGammaT_a2);
-//	for(UInt_t i=0;i<size;i++)
-//	cout <<fdStopXL_a0[i]<<" "<< fdStopXL_a1[i]<<" "<<  fdStopXL_a2[i]<<endl;
 }
 
 

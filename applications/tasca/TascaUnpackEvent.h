@@ -52,7 +52,7 @@ class TascaUnpackEvent : public TGo4EventElement {
 
 	   memset((void*) &fiGammaQ[0], 0, sizeof(fiGammaQ));
 	   memset((void*) &fiGammaE[0], 0, sizeof(fiGammaE));
-	   memset((void*) &fiGammaT[0], 0, sizeof(fiGammaT));
+	   fiGammaTime=0;
 
 	   fiStopXLhitI=0;
 	   fiStopXHhitI=0;
@@ -78,10 +78,19 @@ class TascaUnpackEvent : public TGo4EventElement {
       Int_t Init();
 
       UInt_t fiAdc[96];  //! Don't put this to file
+      UInt_t fiEventNumber;
+      Bool_t fisTof;
+      Bool_t fisChopper;
+      Bool_t fisMacro;
+      Bool_t fisMicro;
+
       UInt_t fiSystemSec;
       UInt_t fiSystemMysec;
       UInt_t fiTimeStamp;
-      UInt_t fiEventNumber;
+      UInt_t fiGammaTime;
+      UInt_t fiDeltaSystemTime;
+      UInt_t fiDeltaGammaTime;
+      UInt_t fiDeltaTime;
       // Data fields of detectors
       UInt_t fiStopXL[144];
       UInt_t fiStopXH[144];
@@ -120,14 +129,8 @@ class TascaUnpackEvent : public TGo4EventElement {
       UInt_t fiVetoLhitV;
 
       UInt_t fiMpxi[40];
-      UInt_t fiGammaT[8];
-      UInt_t fiGammaE[8];
+      UInt_t fiGammaE[7];
       UInt_t fiGammaQ[8];
-
-      Bool_t fisTof;
-      Bool_t fisChopper;
-      Bool_t fisMacro;
-      Bool_t fisMicro;
 
    private:
       TascaUnpackProc * fxTascaEP;  //! Don't put this to file

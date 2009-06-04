@@ -47,6 +47,11 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 
   anl=(TascaAnalysis *)TGo4Analysis::Instance();
 
+  fParam   = (TascaParameter *) GetParameter("Parameters");
+  if(fParam==0){
+	  fParam = new TascaParameter("Parameters");
+	  AddParameter(fParam);
+  }
   fControl   = (TascaControl *) GetParameter("Controls");
   if(fControl==0){
 	  fControl = new TascaControl("Controls");
@@ -72,6 +77,7 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 	  AddParameter(fCalibration);
   }
   gROOT->ProcessLine(".x setcontrol.C()");
+  gROOT->ProcessLine(".x setparam.C()");
 
   // sets coefficients a0,a2 to 0, a1 to 1.
   fCalibration->Preset();
@@ -83,7 +89,41 @@ TascaCaliProc::TascaCaliProc(const char* name) :
   else   cout << "Tasca> TascaCaliProc: No calibration used" << endl;
 
 if(fControl->CaliHisto){
-  fhdStopXL=anl->CreateTH1D("Cali/Sum","StopXL", "StopX all low",144,0,144);
+	fhCompStopXL=anl->CreateTH2I("Cali/Sum","StopXL","Stop X low all to 1",
+			"Low Energy all [Kev]","Low Energy 0 [Kev]","Counts",
+			100,0,30000,100,0,30000);
+	fhCompStopYL=anl->CreateTH2I("Cali/Sum","StopYL","Stop Y low all to 1",
+			"Low Energy all [Kev]","Low Energy 0 [Kev]","Counts",
+			100,0,30000,100,0,30000);
+	fhCompStopXH=anl->CreateTH2I("Cali/Sum","StopXH","Stop X high all to 1",
+			"Low Energy all [Kev]","Low Energy 0 [Kev]","Counts",
+			100,0,300000,100,0,300000);
+	fhCompStopYH=anl->CreateTH2I("Cali/Sum","StopYH","Stop Y high all to 1",
+			"Low Energy all [Kev]","Low Energy 0 [Kev]","Counts",
+			100,0,300000,100,0,300000);
+	fhCompBackH=anl->CreateTH2I("Cali/Sum","BackH","Back high all to 1",
+			"Low Energy all [Kev]","Low Energy 0 [Kev]","Counts",
+			100,0,300000,100,0,300000);
+	fhCompVetoH=anl->CreateTH2I("Cali/Sum","VetoH","Veto high all to 1",
+			"Low Energy all [Kev]","Low Energy 0 [Kev]","Counts",
+			100,0,300000,100,0,300000);
+	fhCompBackL=anl->CreateTH2I("Cali/Sum","BackL","Back low all to 1",
+			"Low Energy all [Kev]","Low Energy 0 [Kev]","Counts",
+			100,0,30000,100,0,30000);
+	fhCompVetoL=anl->CreateTH2I("Cali/Sum","VetoL","Veto low all to 1",
+			"Low Energy all [Kev]","Low Energy 0 [Kev]","Counts",
+			100,0,30000,100,0,30000);
+	fhCompGamma=anl->CreateTH2I("Cali/Sum","Gamma","Gamma all to 1",
+			"Low Energy all [Kev]","Low Energy 0 [Kev]","Counts",
+			100,0,2500,100,0,2500);
+
+	fhStopXLH=anl->CreateTH2I("Cali/Sum","StopXLH","Stop X low/high",4000,0,30000,4000,0,30000);
+	fhStopXLH->GetXaxis()->SetTitle("Low Energy [Kev]");
+	fhStopXLH->GetYaxis()->SetTitle("High Energy [Kev]");
+	fhStopYLH=anl->CreateTH2I("Cali/Sum","StopYLH","Stop Y low/high",4000,0,30000,4000,0,30000);
+	fhStopYLH->GetXaxis()->SetTitle("Low Energy [Kev]");
+	fhStopYLH->GetYaxis()->SetTitle("High Energy [Kev]");
+    fhdStopXL=anl->CreateTH1D("Cali/Sum","StopXL", "StopX all low",144,0,144);
 	fhdStopXH=anl->CreateTH1D("Cali/Sum","StopXH", "StopX all high",144,0,144);
 	fhdStopYL=anl->CreateTH1D("Cali/Sum","StopYL", "StopY all low",96,0,96);
 	fhdStopYH=anl->CreateTH1D("Cali/Sum","StopYH", "StopY all high",96,0,96);
@@ -189,15 +229,15 @@ if(fControl->CaliHisto){
 		fhVetoH[i]->GetXaxis()->SetTitle("Energy [Kev]");
 	}
   }
-  for(i =0;i<8;i++)
+  for(i =0;i<7;i++)
   {
 	snprintf(chis,15,"GammaKev_%d",i);
 	snprintf(chead,63,"Gamma [Kev] %d",i);
 	fhGammaKev[i] = anl->CreateTH1I ("Cali/GammaKev",chis,chead,2000,0.5,2000.5);
-	snprintf(chis,15,"GammaMysec_%d",i);
-	snprintf(chead,63,"Gamma [mysec] %d",i);
-	fhGammaMysec[i] = anl->CreateTH1I ("Cali/GammaMysec",chis,chead,5000,0,5000);
   }
+	snprintf(chis,15,"GammaMysec");
+	snprintf(chead,63,"Gamma [mysec]");
+	fhGammaMysec = anl->CreateTH1I ("Cali",chis,chead,5000,0,2000);
   fhGammaSumKev = anl->CreateTH1I ("Cali/Sum","GammaSumKev","Sum of crystals [Kev]",2000,0.5,2000.5);
   fhGammaAddbackKev = anl->CreateTH1I ("Cali/Sum","GammaAddback","Sum of energies [Kev]",2000,0.5,2000.5);
   fhGammaSumKev->GetXaxis()->SetTitle("Energy [Kev]");
@@ -219,7 +259,7 @@ if(fControl->CaliHisto){
   Back[0] = anl->CreatePicture("Cali","pBackL","Back low",8,8);
   Back[1] = anl->CreatePicture("Cali","pBackH","Back high",8,8);
   Veto    = anl->CreatePicture("Cali","pVeto","Veto",8,4);
-  Gamma   = anl->CreatePicture("Cali","pGamma","Gamma Cal",8,2);
+  Gamma   = anl->CreatePicture("Cali","pGamma","Gamma Cal",8,1);
   Sum     = anl->CreatePicture("Cali","pDetectorSum","Summary detectors",4,2);
 
   anl->SetPicture(Sum,fhdStopXLsum,0,0,1);
@@ -242,12 +282,13 @@ if(fControl->CaliHisto){
   anl->SetPicture(Hits,fhdBackH, 2,1,1);
   anl->SetPicture(Hits,fhdVetoH, 3,1,1);
 
+  for(i=0;i<7;i++) // 8 rows
+	  anl->SetPicture(Gamma,fhGammaKev[i],i,0,1);
+  	  anl->SetPicture(Gamma,fhGammaMysec,7,0,1);
   Int_t m=0;
     // enlarge stats box and position in [0:1] coordinates
     // show only Mean value (ROOT manual "Statistics Display")
 	  for(i=0;i<8;i++){ // 8 rows
-    	  anl->SetPicture(Gamma,fhGammaKev[i],i,0,1);
-      	  anl->SetPicture(Gamma,fhGammaMysec[i],i,1,1);
       	  anl->SetPicture(Veto,fhVetoL[i],i,0,1);
       	  anl->SetPicture(Veto,fhVetoL[i+8],i,1,1);
       	  anl->SetPicture(Veto,fhVetoH[i],i,2,1);
@@ -313,9 +354,15 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   poutevt->ffBackLhitV =fCalibration->CalibrateBackL(fInput->fiBackLhitV,fInput->fiBackLhitI);
   poutevt->ffVetoHhitV =fCalibration->CalibrateVetoH(fInput->fiVetoHhitV,fInput->fiVetoHhitI);
   poutevt->ffVetoLhitV =fCalibration->CalibrateVetoL(fInput->fiVetoLhitV,fInput->fiVetoLhitI);
-  poutevt->ffTimeStamp=(Float_t)fInput->fiTimeStamp;
-  poutevt->ffSystemSec=(Float_t)fInput->fiSystemSec;
-  poutevt->ffSystemMysec=(Float_t)fInput->fiSystemMysec;
+
+  if(poutevt->ffStopXLhitV>fParam->AlphaMaxL)poutevt->ffStopXLhitV=poutevt->ffStopXHhitV;
+  if(poutevt->ffStopYLhitV>fParam->AlphaMaxL)poutevt->ffStopYLhitV=poutevt->ffStopYHhitV;
+
+  poutevt->fiTimeStamp=fInput->fiTimeStamp;
+  poutevt->fiSystemSec=fInput->fiSystemSec;
+  poutevt->fiSystemMysec=fInput->fiSystemMysec;
+  poutevt->fiDeltaTime=fInput->fiDeltaTime;
+  poutevt->fiDeltaSystemTime=fInput->fiDeltaSystemTime;
   for(i=0;i<144;i++){
 	  poutevt->ffStopXL[i]=fCalibration->CalibrateStopXL(fInput->fiStopXL[i],i);
 	  poutevt->ffStopXH[i]=fCalibration->CalibrateStopXH(fInput->fiStopXH[i],i);
@@ -332,13 +379,15 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 	  poutevt->ffVetoL[i]=fCalibration->CalibrateVetoL(fInput->fiVetoL[i],i);
 	  poutevt->ffVetoH[i]=fCalibration->CalibrateVetoH(fInput->fiVetoH[i],i);
   }
-  for(i=0;i<8;i++){
+  for(i=0;i<7;i++){
 	  poutevt->ffGammaKev[i]   = fCalibration->CalibrateGammaE(fInput->fiGammaE[i],i);
-	  poutevt->ffGammaMysec[i] = fInput->fiGammaT[i];
   }
+  poutevt->fiGammaMysec = fCalibration->CalibrateGammaT(fInput->fiGammaTime);
 
 // now filling histograms
   if(fControl->CaliHisto){
+	  fhStopXLH->Fill(poutevt->ffStopXLhitV,poutevt->ffStopXHhitV);
+	  fhStopYLH->Fill(poutevt->ffStopYLhitV,poutevt->ffStopYHhitV);
   for(i=0;i<144;i++){
 	  if(fInput->fiStopXL[i]>0)fhdStopXL->Fill(i);
 	  if(fInput->fiStopXH[i]>0)fhdStopXH->Fill(i);
@@ -346,6 +395,8 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 	  fhStopXH[i]->Fill(poutevt->ffStopXH[i]);
 	  fhdStopXLsum->Fill(poutevt->ffStopXL[i]);
 	  fhdStopXHsum->Fill(poutevt->ffStopXH[i]);
+	  fhCompStopXL->Fill(poutevt->ffStopXL[i],poutevt->ffStopXL[10]);
+	  fhCompStopXH->Fill(poutevt->ffStopXH[i],poutevt->ffStopXH[10]);
   }
   for(i=0;i<96;i++){
 	  if(fInput->fiStopYL[i]>0)fhdStopYL->Fill(i);
@@ -354,6 +405,8 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 	  fhStopYH[i]->Fill(poutevt->ffStopYH[i]);
 	  fhdStopYLsum->Fill(poutevt->ffStopYL[i]);
 	  fhdStopYHsum->Fill(poutevt->ffStopYH[i]);
+	  fhCompStopYL->Fill(poutevt->ffStopYL[i],poutevt->ffStopYL[10]);
+	  fhCompStopYH->Fill(poutevt->ffStopYH[i],poutevt->ffStopYH[10]);
   }
   for(i=0;i<64;i++){
 	  if(fInput->fiBackL[i]>0)fhdBackL->Fill(i);
@@ -362,7 +415,9 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 	  fhBackH[i]->Fill(poutevt->ffBackH[i]);
 	  fhdBackLsum->Fill(poutevt->ffBackL[i]);
 	  fhdBackHsum->Fill(poutevt->ffBackH[i]);
-  }
+	  fhCompBackL->Fill(poutevt->ffBackL[i],poutevt->ffBackL[10]);
+	  fhCompBackH->Fill(poutevt->ffBackH[i],poutevt->ffBackH[10]);
+ }
   for(i=0;i<16;i++){
 	  if(fInput->fiVetoL[i]>0)fhdVetoL->Fill(i);
 	  if(fInput->fiVetoH[i]>0)fhdVetoH->Fill(i);
@@ -370,16 +425,19 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 	  fhVetoH[i]->Fill(poutevt->ffVetoH[i]);
 	  fhdVetoLsum->Fill(poutevt->ffVetoL[i]);
 	  fhdVetoHsum->Fill(poutevt->ffVetoH[i]);
+	  fhCompVetoL->Fill(poutevt->ffVetoL[i],poutevt->ffVetoL[10]);
+	  fhCompVetoH->Fill(poutevt->ffVetoH[i],poutevt->ffVetoH[10]);
   }
 Double_t sum=0.;
-  for(i=0;i<8;i++){
+  for(i=0;i<7;i++){
 	  fhGammaKev[i]->Fill(poutevt->ffGammaKev[i]);
 	  fhGammaSumKev->Fill(poutevt->ffGammaKev[i]);
 	  sum += poutevt->ffGammaKev[i];
-	  fhGammaMysec[i]->Fill(poutevt->ffGammaMysec[i]);
+	  fhCompGamma->Fill(poutevt->ffGammaKev[i],poutevt->ffGammaKev[1]);
   }
+  fhGammaMysec->Fill(poutevt->fiGammaMysec);
   fhGammaAddbackKev->Fill(sum);
-  } // fControl->CaliHisto
+} // fControl->CaliHisto
 
   poutevt->SetValid(kTRUE); // store
 }
