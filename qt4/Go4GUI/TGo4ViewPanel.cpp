@@ -1463,6 +1463,41 @@ void TGo4ViewPanel::MenuCommandExecutedSlot(TObject* obj, const char* cmdname)
       UpdatePadStatus(pad, true);
 
    Browser()->Scan_gROOT();
+
+   if ((strcmp(cmdname, "UnZoom")==0) && obj->InheritsFrom(TAxis::Class())) {
+
+      // this code is done specially to treat unzoom in the THStack
+
+      TGo4Iter iter(GetPanelSlot(), kTRUE);
+      TGo4Slot* subslot = 0;
+
+      do  {
+         if (subslot==0) subslot = GetPanelSlot();
+                   else  subslot = iter.getslot();
+
+         TPad* subpad = GetSlotPad(subslot);
+         if (subpad==0) continue;
+
+         TGo4Slot* sislot = GetSuperimposeSlot(subslot);
+         if (sislot==0) continue;
+
+         THStack* hs = dynamic_cast<THStack*> (sislot->GetAssignedObject());
+         if (hs==0) continue;
+
+         TH1* framehisto = hs->GetHistogram();
+         if (framehisto==0) continue;
+
+         if (framehisto->GetXaxis()!=obj) continue;
+
+         TIter next(hs->GetHists());
+         TH1* hs_h1 = 0;
+         while ( (hs_h1 = (TH1*) next()) !=0 )
+            hs_h1->GetXaxis()->UnZoom();
+
+         return;
+      } while (iter.next());
+   }
+
 }
 
 void TGo4ViewPanel::DoCanvasResizeSlot()
@@ -4087,63 +4122,37 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TH1* h1, THStack* hs, TGo4Picture* p
    else
       h1->GetXaxis()->UnZoom();
 
-   // this peace of code allows autoscale for THStack when autoscale is
-   // on and some range is selected. In this case ROOT uses h1->GetMaximum(),
-   // which is calculated inside selected range. Therefore, even if range
-   // selection of any histogram does not affect range with of THStack, range
-   // selection defines GetMaximum() and GetMinimum() behaviour, used in autoscale
-   // Comment out, while with unzoom of X axis user do not see full histogram range,
-   // only previous selection until next refresh
-
-/*
-   if (hs!=0) {
-      TIter next(hs->GetHists());
-      TH1* hs_h1 = 0;
-      while ( (hs_h1 = (TH1*) next()) !=0 )
-         if (padopt->GetRange(0, umin, umax))
-            {
-             // note: go4 range is full visible range of histogram
-             // [low edge first bin, up edge last bin]
-            // need to correct for upper bin width when transforming to ROOT user range:
-            TAxis* as=hs_h1->GetXaxis();
-            Double_t bwidths=as->GetBinWidth(as->FindFixBin(umax));
-            as->SetRangeUser(umin, umax-bwidths);
-            }
-         else
-            hs_h1->GetXaxis()->UnZoom();
-   }
-*/
    if (padopt->GetRange(1, umin, umax)) {
       if (!autoscale && (ndim==1)) {
          hmin = umin;
          hmax = umax;
       }
-        // note: go4 range is full visible range of histogram
-        // [low edge first bin, up edge last bin]
-        // need to correct for upper bin width when transforming to ROOT user range:
-        TAxis* ay=h1->GetYaxis();
-        Double_t bwidthy=ay->GetBinWidth(ay->FindFixBin(umax));
-        ay->SetRangeUser(umin, umax-bwidthy);
+      // note: go4 range is full visible range of histogram
+      // [low edge first bin, up edge last bin]
+      // need to correct for upper bin width when transforming to ROOT user range:
+      TAxis* ay = h1->GetYaxis();
+      Double_t bwidthy = ay->GetBinWidth(ay->FindFixBin(umax));
+      ay->SetRangeUser(umin, umax-bwidthy);
    } else {
       h1->GetYaxis()->UnZoom();
    }
 
    if (padopt->GetRange(2, umin, umax) && (ndim>1)) {
-     if (!autoscale && (ndim==2)) {
-        hmin = umin;
-        hmax = umax;
-     }
+      if (!autoscale && (ndim==2)) {
+         hmin = umin;
+         hmax = umax;
+      }
       // note: go4 range is full visible range of histogram
-        // [low edge first bin, up edge last bin]
-        // need to correct for upper bin width when transforming to ROOT user range:
-        TAxis* az=h1->GetZaxis();
-        Double_t bwidthz=az->GetBinWidth(az->FindFixBin(umax));
-        az->SetRangeUser(umin, umax-bwidthz);
+      // [low edge first bin, up edge last bin]
+      // need to correct for upper bin width when transforming to ROOT user range:
+      TAxis* az = h1->GetZaxis();
+      Double_t bwidthz = az->GetBinWidth(az->FindFixBin(umax));
+      az->SetRangeUser(umin, umax-bwidthz);
    } else
      h1->GetZaxis()->UnZoom();
 
    if (hmin!=hmax) {
-      // if scale axis is log, prevent negative values, othervise
+      // if scale axis is log, prevent negative values, otherwise
       // histogram will not be displayed
       if (padopt->GetLogScale(ndim)) {
          if (hmax<=0) hmax = 1.;
@@ -4161,14 +4170,32 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TH1* h1, THStack* hs, TGo4Picture* p
          hs->SetMaximum(hmax);
       }
    } else {
-      // this is autoscale mode,
-      h1->SetMinimum();
-      h1->SetMaximum();
+      // this is autoscale mode
+
       if (hs!=0) {
+
+         if (ndim==1) {
+            TIter next(hs->GetHists());
+            TH1* hs_h1 = 0;
+            while ( (hs_h1 = (TH1*) next()) !=0 ) {
+               if (padopt->GetRange(0, umin, umax)) {
+                  TAxis* ax = hs_h1->GetXaxis();
+                  Double_t bwidths = ax->GetBinWidth(ax->FindFixBin(umax));
+                  ax->SetRangeUser(umin, umax-bwidths);
+               } else
+                  hs_h1->GetXaxis()->UnZoom();
+
+               hs_h1->GetYaxis()->UnZoom();
+            }
+         }
          hs->SetMinimum();
          hs->SetMaximum();
       }
+
+      h1->SetMinimum();
+      h1->SetMaximum();
       h1->ResetBit(TH1::kIsZoomed);
+
       // here one can estimate actual range  which will be displayed on canvas
 
       if (ndim<3) {

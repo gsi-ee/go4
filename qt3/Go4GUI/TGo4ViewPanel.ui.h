@@ -1426,6 +1426,40 @@ void TGo4ViewPanel::MenuCommandExecutedSlot(TObject* obj, const char* cmdname)
       UpdatePadStatus(pad, true);
 
    Browser()->Scan_gROOT();
+
+   if ((strcmp(cmdname, "UnZoom")==0) && obj->InheritsFrom(TAxis::Class())) {
+
+      // this code is done specially to treat unzoom in the THStack
+
+      TGo4Iter iter(GetPanelSlot(), kTRUE);
+      TGo4Slot* subslot = 0;
+
+      do  {
+         if (subslot==0) subslot = GetPanelSlot();
+                   else  subslot = iter.getslot();
+
+         TPad* subpad = GetSlotPad(subslot);
+         if (subpad==0) continue;
+
+         TGo4Slot* sislot = GetSuperimposeSlot(subslot);
+         if (sislot==0) continue;
+
+         THStack* hs = dynamic_cast<THStack*> (sislot->GetAssignedObject());
+         if (hs==0) continue;
+
+         TH1* framehisto = hs->GetHistogram();
+         if (framehisto==0) continue;
+
+         if (framehisto->GetXaxis()!=obj) continue;
+
+         TIter next(hs->GetHists());
+         TH1* hs_h1 = 0;
+         while ( (hs_h1 = (TH1*) next()) !=0 )
+            hs_h1->GetXaxis()->UnZoom();
+
+         return;
+      } while (iter.next());
+   }
 }
 
 void TGo4ViewPanel::DoCanvasResizeSlot()
@@ -4138,12 +4172,26 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TH1* h1, THStack* hs, TGo4Picture* p
       }
    } else {
       // this is autoscale mode,
-      h1->SetMinimum();
-      h1->SetMaximum();
       if (hs!=0) {
+         if (ndim==1) {
+            TIter next(hs->GetHists());
+            TH1* hs_h1 = 0;
+            while ( (hs_h1 = (TH1*) next()) !=0 ) {
+               if (padopt->GetRange(0, umin, umax)) {
+                  TAxis* ax = hs_h1->GetXaxis();
+                  Double_t bwidths = ax->GetBinWidth(ax->FindFixBin(umax));
+                  ax->SetRangeUser(umin, umax-bwidths);
+               } else
+                  hs_h1->GetXaxis()->UnZoom();
+
+               hs_h1->GetYaxis()->UnZoom();
+            }
+         }
          hs->SetMinimum();
          hs->SetMaximum();
       }
+      h1->SetMinimum();
+      h1->SetMaximum();
       h1->ResetBit(TH1::kIsZoomed);
       // here one can estimate actual range  which will be displayed on canvas
 
@@ -4356,6 +4404,8 @@ void TGo4ViewPanel::PadRangeAxisChanged(TPad* pad, double rxmin, double rxmax, d
    TGo4LockGuard lock;
 
    if (IsRedrawBlocked() || (pad==0)) return;
+
+   cout << "PadRangeAxisChanged pad = " << pad->GetName() << endl;
 
    TGo4Picture* padopt = GetPadOptions(pad);
    if (padopt==0) return;
