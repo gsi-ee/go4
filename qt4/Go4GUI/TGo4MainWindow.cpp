@@ -1670,6 +1670,9 @@ TGo4FitPanel* TGo4MainWindow::StartFitPanel()
       ConnectGo4Widget(fitpanel);
       fitpanel->ensurePolished();
       fitpanel->show();
+   } else {
+      fitpanel->showNormal();
+      fitpanel->setFocus();
    }
    return fitpanel;
 }

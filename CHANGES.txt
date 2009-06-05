@@ -21,18 +21,21 @@ in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
 Changes in Go4 v4.03.00 (June 09)
-1. Remove Q3Support classes completly - now qt4 based GUI is 
+1. Remove Q3Support classes completely - now qt4 based GUI is 
    pure Qt4 application. This solves many side effects like crash
    by style changing or blinking during resize of main window
 2. rootmap files are generated per library - this simplifies make 
    procedure significantly, old user makefiles should be still working
-3. Go4 makefile now can better recognise standard installed Qt version
-   without QTDIR set. make WITHQT=3 or make WITHQT=4 forces usage of 
+3. Go4 makefile now can better recognize standard installed Qt version
+   without QTDIR set. 'make WITHQT=3' or 'make WITHQT=4' forces usage of 
    specified qt version.
 4. Fix problem with drawing of THStack from canvas or file. 
 5. Add proxy for THStack to be able browse into THStack and 
    draw single histograms from it 
-
+6. Better autoscale of THStack class
+7. Ensure that drawing of histogram first time done only once,
+   in case of 2D histograms doubles the performance
+     
 
 Changes in Go4 v4.02.00 (April 09)
 
