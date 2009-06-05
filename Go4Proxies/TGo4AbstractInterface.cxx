@@ -223,6 +223,8 @@ Bool_t TGo4AbstractInterface::LoadHotStart(const char* filename)
 
    ifstream f(filename);
 
+   if (!f.good()) return kFALSE;
+
    char buf[10000];
 
    while (!f.eof()) {

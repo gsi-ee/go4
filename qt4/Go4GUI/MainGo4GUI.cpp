@@ -1,6 +1,7 @@
 #include "Riostream.h"
 #include <stdlib.h>
-#include "qdir.h"
+#include <QDir>
+#include <QStringList>
 
 #include "TSystem.h"
 #include "TEnv.h"
@@ -11,6 +12,7 @@
 #include "TGo4Log.h"
 #include "TGo4Version.h"
 #include "TGo4MainWindow.h"
+#include "TGo4BrowserProxy.h"
 #include "TGo4QSettings.h"
 
 #include "TGX11.h"
@@ -26,6 +28,8 @@ int main(int argc, char **argv)
     bool traceon = false;
     bool servermode = true;
     QString hotstart = "";
+    QStringList files;
+
     for(int narg=1;narg<argc;narg++) {
        if (strlen(argv[narg])==0) continue;
 
@@ -41,11 +45,13 @@ int main(int argc, char **argv)
           }
 
        } else
-         if (hotstart.length()==0) {
-            hotstart = argv[narg];
-            if(!strstr(argv[narg], ".hotstart")) hotstart.append(".hotstart");
-            exit;
-         }
+       if (strstr(argv[narg],".root")!=0)
+          files.append(argv[narg]);
+       else
+       if (hotstart.length()==0) {
+          hotstart = argv[narg];
+          if(!strstr(argv[narg], ".hotstart")) hotstart.append(".hotstart");
+       }
     }
     TApplication app("uno", &argc, argv); // ROOT application
 
@@ -122,8 +128,13 @@ int main(int argc, char **argv)
     myapp.connect( &myapp, SIGNAL( lastWindowClosed() ), &myapp, SLOT( quit() ) );
     QApplication::setDoubleClickInterval(400); //ms, for Qt>=3.3 avoid very fast defaults!
     QApplication::setStartDragTime(150); // ms
+
+    for (int i = 0; i < files.size(); ++i)
+       Go4MainGUI->Browser()->OpenFile(files.at(i).toAscii());
+
     if (hotstart.length()>0)
       Go4MainGUI->HotStart(hotstart.toAscii());
+
     int res = myapp.exec();
     delete go4sett;
     return res;

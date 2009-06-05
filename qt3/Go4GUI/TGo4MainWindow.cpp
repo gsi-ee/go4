@@ -769,8 +769,11 @@ void TGo4MainWindow::MinAllWindows()
 void TGo4MainWindow::windowsMenuActivated( int id )
 {
    QWidget* w = fxTGo4WorkSpace->windowList().at(id);
-   if (w) w->showNormal();
-   w->setFocus();
+   if (w) {
+      w->showNormal();
+      w->setFocus();
+   }
+
 }
 
 typedef void* (*TStartUserGuiFunc)(QWidget* parent);
@@ -1785,6 +1788,9 @@ TGo4FitPanel* TGo4MainWindow::StartFitPanel()
       ConnectGo4Widget(fitpanel);
       fitpanel->polish();
       fitpanel->show();
+   } else {
+      fitpanel->showNormal();
+      fitpanel->setFocus();
    }
    return fitpanel;
 }

@@ -1,7 +1,9 @@
 #include "Riostream.h"
 #include <stdlib.h>
 
-#include "qdir.h"
+#include <qdir.h>
+#include <qstringlist.h>
+
 
 #include "TSystem.h"
 
@@ -12,12 +14,14 @@
 #include "TGo4Version.h"
 #include "TGo4MainWindow.h"
 #include "TGo4QSettings.h"
+#include "TGo4BrowserProxy.h"
 
 int main(int argc, char **argv) {
 
     bool traceon = false;
     bool servermode = true;
     QString hotstart = "";
+    QStringList files;
 
     for(int narg=1;narg<argc;narg++) {
        if (strlen(argv[narg])==0) continue;
@@ -34,11 +38,13 @@ int main(int argc, char **argv) {
           }
 
        } else
-         if (hotstart.length()==0) {
-            hotstart = argv[narg];
-            if(!strstr(argv[narg], ".hotstart")) hotstart.append(".hotstart");
-            exit;
-         }
+       if (strstr(argv[narg],".root")!=0)
+          files.append(argv[narg]);
+       else
+       if (hotstart.length()==0) {
+          hotstart = argv[narg];
+          if(!strstr(argv[narg], ".hotstart")) hotstart.append(".hotstart");
+       }
     }
 
     TQApplication app("uno",&argc,argv); // init ROOT before Qt because of XInitThreads JA
@@ -128,6 +134,9 @@ int main(int argc, char **argv) {
     myapp.connect( &myapp, SIGNAL( lastWindowClosed() ), &myapp, SLOT( quit() ) );
     QApplication::setDoubleClickInterval(400); //ms, for Qt>=3.3 avoid very fast defaults!
     QApplication::setStartDragTime(150); // ms
+
+    for ( QStringList::Iterator it = files.begin(); it != files.end(); ++it )
+       Go4MainGUI->Browser()->OpenFile((*it).latin1());
 
     if (hotstart.length()>0)
       Go4MainGUI->HotStart(hotstart.latin1());
