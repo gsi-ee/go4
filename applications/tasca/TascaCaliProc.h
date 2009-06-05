@@ -66,15 +66,6 @@ class TascaCaliProc : public TGo4EventProcessor {
       TH2I  *fhStopL;
       TH2I  *fhStopXLH;
       TH2I  *fhStopYLH;
-      TH2I  *fhCompStopXL;
-      TH2I  *fhCompStopXH;
-      TH2I  *fhCompStopYL;
-      TH2I  *fhCompStopYH;
-      TH2I  *fhCompBackL;
-      TH2I  *fhCompVetoL;
-      TH2I  *fhCompBackH;
-      TH2I  *fhCompVetoH;
-      TH2I  *fhCompGamma;
       TascaUnpackEvent  *fInput;
       TGo4Picture   *StopX[6];
       TGo4Picture   *StopY[4];

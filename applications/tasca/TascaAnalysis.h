@@ -28,6 +28,8 @@ class TascaAnalysis : public TGo4Analysis  {
       Int_t UserPreLoop();
       Int_t UserEventFunc();
       Int_t UserPostLoop();
+      TNamed* CreateObject(const Text_t* type, const Text_t* name, Int_t par1=0);
+      TGo4Parameter* CreateParameter(const Text_t* type, const Text_t* name);
       void SetPicture(TGo4Picture *p, TH1 *h, UInt_t ir, UInt_t ic, UInt_t mode);
       TGo4Picture* CreatePicture(const Text_t* folder, const Text_t* name, const Text_t* title, UInt_t ir, UInt_t ic);
       TGo4Condition* CreateCondition(const Text_t* folder, const Text_t* name, Int_t dim, Bool_t reset, Double_t low, Double_t high);

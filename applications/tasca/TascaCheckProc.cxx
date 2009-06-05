@@ -41,16 +41,8 @@ TascaCheckProc::TascaCheckProc(const char* name) :
 
   anl=(TascaAnalysis *)TGo4Analysis::Instance();
 
-  fControl   = (TascaControl *) GetParameter("Controls");
-  if(fControl==0){
-	  fControl = new TascaControl("Controls");
-	  AddParameter(fControl);
-  }
-  fParam   = (TascaParameter *) GetParameter("Parameters");
-  if(fParam==0){
-	  fParam = new TascaParameter("Parameters");
-	  AddParameter(fParam);
-  }
+  fControl = (TascaControl *)   anl->CreateParameter("Control","Controls");
+  fParam   = (TascaParameter *) anl->CreateParameter("Parameter","Parameters");
   gROOT->ProcessLine(".x setparam.C()");
   gROOT->ProcessLine(".x setcontrol.C()");
 

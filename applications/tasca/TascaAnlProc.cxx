@@ -38,8 +38,6 @@ TascaAnlProc::TascaAnlProc(const char* name) :
   cout << "Tasca> TascaAnlProc: Create" << endl;
   //// init user analysis objects:
 
-  Text_t chis[32];
-  Text_t chead[64];
 
   anl=(TascaAnalysis *)TGo4Analysis::Instance();
 

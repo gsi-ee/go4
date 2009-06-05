@@ -47,40 +47,17 @@ TascaCaliProc::TascaCaliProc(const char* name) :
 
   anl=(TascaAnalysis *)TGo4Analysis::Instance();
 
-  fParam   = (TascaParameter *) GetParameter("Parameters");
-  if(fParam==0){
-	  fParam = new TascaParameter("Parameters");
-	  AddParameter(fParam);
-  }
-  fControl   = (TascaControl *) GetParameter("Controls");
-  if(fControl==0){
-	  fControl = new TascaControl("Controls");
-	  AddParameter(fControl);
-  }
-  fCaliFit   = (TascaCaliFitter *) GetParameter("CaliFitter");
-  if(fCaliFit==0){
-	  fCaliFit = new TascaCaliFitter("CaliFitter");
-	  AddParameter(fCaliFit);
-  }
-  fCaliGraph = (TGraph *)GetObject("CaliGraph");
-  if(fCaliGraph ==0){
-	  fCaliGraph=new TGraph;
-	  fCaliGraph->SetName("CaliGraph");
-	  fCaliGraph->SetMarkerStyle(24);
-	  AddObject(fCaliGraph);
-  }
+  fParam       = (TascaParameter *)   anl->CreateParameter("Parameter","Parameters");
+  fControl     = (TascaControl *)     anl->CreateParameter("Control","Controls");
+  fCaliFit     = (TascaCaliFitter *)  anl->CreateParameter("CaliFitter","CaliFitter");
+  fCalibration = (TascaCalibration *) anl->CreateParameter("Calibration","Calibration");
+  fCaliGraph   = (TGraph *)           anl->CreateObject("Graph","CaliGraph",24);
   // setup calibration
   fCaliFit->Setup(fCaliGraph);
-  fCalibration   = (TascaCalibration *) GetParameter("Calibration");
-  if(fCalibration==0){
-	  fCalibration = new TascaCalibration("Calibration");
-	  AddParameter(fCalibration);
-  }
   gROOT->ProcessLine(".x setcontrol.C()");
   gROOT->ProcessLine(".x setparam.C()");
 
   // sets coefficients a0,a2 to 0, a1 to 1.
-  fCalibration->Preset();
   gROOT->ProcessLine(".x setcali.C()"); // en-disable calibration
   if(fCalibration->UseCalibration){ // was set in setcali.C
 	  fCalibration->ReadCoefficients();
@@ -89,34 +66,6 @@ TascaCaliProc::TascaCaliProc(const char* name) :
   else   cout << "Tasca> TascaCaliProc: No calibration used" << endl;
 
 if(fControl->CaliHisto){
-	fhCompStopXL=anl->CreateTH2I("Cali/Sum","StopXL","Stop X low all to 1",
-			"Low Energy all [Kev]","Low Energy 0 [Kev]","Counts",
-			100,0,30000,100,0,30000);
-	fhCompStopYL=anl->CreateTH2I("Cali/Sum","StopYL","Stop Y low all to 1",
-			"Low Energy all [Kev]","Low Energy 0 [Kev]","Counts",
-			100,0,30000,100,0,30000);
-	fhCompStopXH=anl->CreateTH2I("Cali/Sum","StopXH","Stop X high all to 1",
-			"Low Energy all [Kev]","Low Energy 0 [Kev]","Counts",
-			100,0,300000,100,0,300000);
-	fhCompStopYH=anl->CreateTH2I("Cali/Sum","StopYH","Stop Y high all to 1",
-			"Low Energy all [Kev]","Low Energy 0 [Kev]","Counts",
-			100,0,300000,100,0,300000);
-	fhCompBackH=anl->CreateTH2I("Cali/Sum","BackH","Back high all to 1",
-			"Low Energy all [Kev]","Low Energy 0 [Kev]","Counts",
-			100,0,300000,100,0,300000);
-	fhCompVetoH=anl->CreateTH2I("Cali/Sum","VetoH","Veto high all to 1",
-			"Low Energy all [Kev]","Low Energy 0 [Kev]","Counts",
-			100,0,300000,100,0,300000);
-	fhCompBackL=anl->CreateTH2I("Cali/Sum","BackL","Back low all to 1",
-			"Low Energy all [Kev]","Low Energy 0 [Kev]","Counts",
-			100,0,30000,100,0,30000);
-	fhCompVetoL=anl->CreateTH2I("Cali/Sum","VetoL","Veto low all to 1",
-			"Low Energy all [Kev]","Low Energy 0 [Kev]","Counts",
-			100,0,30000,100,0,30000);
-	fhCompGamma=anl->CreateTH2I("Cali/Sum","Gamma","Gamma all to 1",
-			"Low Energy all [Kev]","Low Energy 0 [Kev]","Counts",
-			100,0,2500,100,0,2500);
-
 	fhStopXLH=anl->CreateTH2I("Cali/Sum","StopXLH","Stop X low/high",4000,0,30000,4000,0,30000);
 	fhStopXLH->GetXaxis()->SetTitle("Low Energy [Kev]");
 	fhStopXLH->GetYaxis()->SetTitle("High Energy [Kev]");
@@ -395,8 +344,6 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 	  fhStopXH[i]->Fill(poutevt->ffStopXH[i]);
 	  fhdStopXLsum->Fill(poutevt->ffStopXL[i]);
 	  fhdStopXHsum->Fill(poutevt->ffStopXH[i]);
-	  fhCompStopXL->Fill(poutevt->ffStopXL[i],poutevt->ffStopXL[10]);
-	  fhCompStopXH->Fill(poutevt->ffStopXH[i],poutevt->ffStopXH[10]);
   }
   for(i=0;i<96;i++){
 	  if(fInput->fiStopYL[i]>0)fhdStopYL->Fill(i);
@@ -405,8 +352,6 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 	  fhStopYH[i]->Fill(poutevt->ffStopYH[i]);
 	  fhdStopYLsum->Fill(poutevt->ffStopYL[i]);
 	  fhdStopYHsum->Fill(poutevt->ffStopYH[i]);
-	  fhCompStopYL->Fill(poutevt->ffStopYL[i],poutevt->ffStopYL[10]);
-	  fhCompStopYH->Fill(poutevt->ffStopYH[i],poutevt->ffStopYH[10]);
   }
   for(i=0;i<64;i++){
 	  if(fInput->fiBackL[i]>0)fhdBackL->Fill(i);
@@ -415,8 +360,6 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 	  fhBackH[i]->Fill(poutevt->ffBackH[i]);
 	  fhdBackLsum->Fill(poutevt->ffBackL[i]);
 	  fhdBackHsum->Fill(poutevt->ffBackH[i]);
-	  fhCompBackL->Fill(poutevt->ffBackL[i],poutevt->ffBackL[10]);
-	  fhCompBackH->Fill(poutevt->ffBackH[i],poutevt->ffBackH[10]);
  }
   for(i=0;i<16;i++){
 	  if(fInput->fiVetoL[i]>0)fhdVetoL->Fill(i);
@@ -425,15 +368,12 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 	  fhVetoH[i]->Fill(poutevt->ffVetoH[i]);
 	  fhdVetoLsum->Fill(poutevt->ffVetoL[i]);
 	  fhdVetoHsum->Fill(poutevt->ffVetoH[i]);
-	  fhCompVetoL->Fill(poutevt->ffVetoL[i],poutevt->ffVetoL[10]);
-	  fhCompVetoH->Fill(poutevt->ffVetoH[i],poutevt->ffVetoH[10]);
   }
 Double_t sum=0.;
   for(i=0;i<7;i++){
 	  fhGammaKev[i]->Fill(poutevt->ffGammaKev[i]);
 	  fhGammaSumKev->Fill(poutevt->ffGammaKev[i]);
 	  sum += poutevt->ffGammaKev[i];
-	  fhCompGamma->Fill(poutevt->ffGammaKev[i],poutevt->ffGammaKev[1]);
   }
   fhGammaMysec->Fill(poutevt->fiGammaMysec);
   fhGammaAddbackKev->Fill(sum);

@@ -115,13 +115,13 @@ void setup(Text_t* AutoSaveFile,
   printf("       caliStore:         %s file %s\n",caliStore.Data(),CalibratedFile);
   printf("       caliOverWrite:     %s\n",caliOverWrite.Data());
 
-  printf("       checkProcess:       %s\n",checkProcess.Data());
+  printf("       checkProcess:      %s\n",checkProcess.Data());
   if(caliProcess.BeginsWith("n"))
-  printf("       checkSource:        yes file %s\n",CalibratedFile);
+  printf("       checkSource:       yes file %s\n",CalibratedFile);
   else
-  printf("       checkSource:        yes from unpack\n");
-  printf("       checkStore:         %s file %s\n",checkStore.Data(),CheckedFile);
-  printf("       checkOverWrite:     %s\n",checkOverWrite.Data());
+  printf("       checkSource:       yes from unpack\n");
+  printf("       checkStore:        %s file %s\n",checkStore.Data(),CheckedFile);
+  printf("       checkOverWrite:    %s\n",checkOverWrite.Data());
 
   printf("       analysisProcess:   %s\n",analysisProcess.Data());
   if(checkProcess.BeginsWith("n"))

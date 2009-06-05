@@ -15,8 +15,16 @@
 #include "TH2D.h"
 #include "TFile.h"
 #include "TCutG.h"
+#include "TNamed.h"
+#include "TGraph.h"
 
+#include "TascaControl.h"
 #include "TascaParameter.h"
+#include "TascaPedestals.h"
+#include "TascaCaliFitter.h"
+#include "TascaCalibration.h"
+#include "TascaCodec.h"
+#include "TascaControl.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
 #include "TGo4CondArray.h"
@@ -62,6 +70,39 @@ Int_t TascaAnalysis::UserEventFunc()
 {
 //// This function is called once for each event.
    return 0;
+}
+//-----------------------------------------------------------
+TNamed* TascaAnalysis::CreateObject(const Text_t* type, const Text_t* name, Int_t par1)
+{
+	TNamed* par=GetObject(name);
+	if(par) return par;
+	else if(strcmp(type,"Graph") == 0){
+		TGraph* gr=new TGraph();
+		gr->SetName("CaliGraph");
+		gr->SetMarkerStyle(par1);
+		AddObject(gr);
+		return (TNamed *)gr;
+	}
+	cout << "Tasca> Object class "<<type<<" not known!" << endl;
+	return 0;
+}
+//-----------------------------------------------------------
+TGo4Parameter* TascaAnalysis::CreateParameter(const Text_t* type, const Text_t* name)
+{
+	TGo4Parameter * par=GetParameter(name);
+	if(par) return par;
+	else if(strcmp(type,"Codec")      == 0) par = new TascaCodec(name);
+	else if(strcmp(type,"Control")    == 0) par = new TascaControl(name);
+	else if(strcmp(type,"Parameter")  == 0) par = new TascaParameter(name);
+	else if(strcmp(type,"Calibration")== 0) par = new TascaCalibration(name);
+	else if(strcmp(type,"Pedestals")  == 0) par = new TascaPedestals(name);
+	else if(strcmp(type,"CaliFitter") == 0) par = new TascaCaliFitter(name);
+	else {
+		cout << "Tasca> Parameter class "<<type<<" not known!" << endl;
+		return 0;
+	}
+	AddParameter(par);
+	return par;
 }
 //-----------------------------------------------------------
 TGo4Condition* TascaAnalysis::CreateCondition(const Text_t* folder, const Text_t* name, Int_t dim, Bool_t reset, Double_t low, Double_t high)

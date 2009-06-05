@@ -60,26 +60,10 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 
   anl=(TascaAnalysis *)TGo4Analysis::Instance();
 
-  fControl   = (TascaControl *) GetParameter("Controls");
-  if(fControl==0){
-	  fControl = new TascaControl("Controls");
-	  AddParameter(fControl);
-  }
-  fParam   = (TascaParameter *) GetParameter("Parameters");
-  if(fParam==0){
-	  fParam = new TascaParameter("Parameters");
-	  AddParameter(fParam);
-  }
-  fPedestals   = (TascaPedestals *) GetParameter("Pedestals");
-  if(fPedestals==0){
-	  fPedestals = new TascaPedestals("Pedestals");
-	  AddParameter(fPedestals);
-  }
-  codec = (TascaCodec *) GetParameter("Codec");
-  if(codec==0){
-    codec = new TascaCodec("Codec");
-    AddParameter(codec);
-  }
+  fParam     = (TascaParameter *) anl->CreateParameter("Parameter","Parameters");
+  fControl   = (TascaControl *)   anl->CreateParameter("Control","Controls");
+  fPedestals = (TascaPedestals *) anl->CreateParameter("Pedestals","Pedestals");
+  codec      = (TascaCodec *)     anl->CreateParameter("Codec","Codec");
   // reset counters
   gROOT->ProcessLine(".x setcontrol.C()");
   gROOT->ProcessLine(".x setparam.C()");
