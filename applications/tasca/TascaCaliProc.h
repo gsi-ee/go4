@@ -28,6 +28,8 @@ class TascaCaliProc : public TGo4EventProcessor {
       void TascaCalibrate(TascaCaliEvent* target);
   private:
 	  TascaAnalysis * anl;
+      TGo4WinCond   *fadcKevL;
+      TGo4WinCond   *fadcKevH;
       TH1I *fhTimeStamp;
       TH1I *fhStopXL[144];  // 6x 8x6
       TH1I *fhStopXH[144];
