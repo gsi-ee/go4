@@ -324,16 +324,16 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 	  fhStopXLH->Fill(poutevt->ffStopXLhitV,poutevt->ffStopXHhitV);
 	  fhStopYLH->Fill(poutevt->ffStopYLhitV,poutevt->ffStopYHhitV);
   for(i=0;i<144;i++){
-	  if(fInput->fiStopXL[i]>0)fhdStopXL->Fill(i);
-	  if(fInput->fiStopXH[i]>0)fhdStopXH->Fill(i);
+	  if(poutevt->ffStopXL[i]>2000)fhdStopXL->Fill(i);
+	  if(poutevt->ffStopXH[i]>2000)fhdStopXH->Fill(i);
 	  fhStopXL[i]->Fill(poutevt->ffStopXL[i]);
 	  fhStopXH[i]->Fill(poutevt->ffStopXH[i]);
 	  fhdStopXLsum->Fill(poutevt->ffStopXL[i]);
 	  fhdStopXHsum->Fill(poutevt->ffStopXH[i]);
   }
   for(i=0;i<96;i++){
-	  if(fInput->fiStopYL[i]>0)fhdStopYL->Fill(i);
-	  if(fInput->fiStopYH[i]>0)fhdStopYH->Fill(i);
+	  if(poutevt->ffStopYL[i]>2000)fhdStopYL->Fill(i);
+	  if(poutevt->ffStopYH[i]>2000)fhdStopYH->Fill(i);
 	  fhStopYL[i]->Fill(poutevt->ffStopYL[i]);
 	  fhStopYH[i]->Fill(poutevt->ffStopYH[i]);
 	  fhdStopYLsum->Fill(poutevt->ffStopYL[i]);
