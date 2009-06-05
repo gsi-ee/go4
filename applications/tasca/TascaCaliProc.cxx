@@ -249,6 +249,8 @@ if(fControl->CaliHisto){
     		anl->SetPicture(Back[1],fhBackH[m],i,k,1);
     		m++;
     	}}
+    fadcKevH = (TGo4WinCond *)anl->CreateCondition("Check","adcKevH",0,kTRUE,0,300000);
+    fadcKevL = (TGo4WinCond *)anl->CreateCondition("Check","adcKevL",0,kTRUE,0,30000);
 } // fControl->CaliHisto
 }
 //***********************************************************
@@ -324,16 +326,16 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 	  fhStopXLH->Fill(poutevt->ffStopXLhitV,poutevt->ffStopXHhitV);
 	  fhStopYLH->Fill(poutevt->ffStopYLhitV,poutevt->ffStopYHhitV);
   for(i=0;i<144;i++){
-	  if(poutevt->ffStopXL[i]>2000)fhdStopXL->Fill(i);
-	  if(poutevt->ffStopXH[i]>2000)fhdStopXH->Fill(i);
+          if(fadcKevL->Test(poutevt->ffStopXL[i]))fhdStopXL->Fill(i);
+	  if(fadcKevH->Test(poutevt->ffStopXH[i]))fhdStopXH->Fill(i);
 	  fhStopXL[i]->Fill(poutevt->ffStopXL[i]);
 	  fhStopXH[i]->Fill(poutevt->ffStopXH[i]);
 	  fhdStopXLsum->Fill(poutevt->ffStopXL[i]);
 	  fhdStopXHsum->Fill(poutevt->ffStopXH[i]);
   }
   for(i=0;i<96;i++){
-	  if(poutevt->ffStopYL[i]>2000)fhdStopYL->Fill(i);
-	  if(poutevt->ffStopYH[i]>2000)fhdStopYH->Fill(i);
+          if(fadcKevL->Test(poutevt->ffStopYL[i]))fhdStopYL->Fill(i);
+	  if(fadcKevH->Test(poutevt->ffStopYH[i]))fhdStopYH->Fill(i);
 	  fhStopYL[i]->Fill(poutevt->ffStopYL[i]);
 	  fhStopYH[i]->Fill(poutevt->ffStopYH[i]);
 	  fhdStopYLsum->Fill(poutevt->ffStopYL[i]);
