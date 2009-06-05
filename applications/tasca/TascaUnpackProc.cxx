@@ -121,7 +121,7 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 		fGammaE[i] = anl->CreateTH1I ("Unpack/GammaE",chis,chead,9000,0.5,9000.5);
 		snprintf(chis,15,"GammaT_%d",i);
 		snprintf(chead,63,"Gamma T raw %d",i);
-		fGammaT[i] = anl->CreateTH1I ("Unpack/GammaT",chis,chead,"[10ns]","Counts",1000,0,1000);
+		fGammaT[i] = anl->CreateTH1I ("Unpack/GammaT",chis,chead,"[10ns]","Counts",1000,0.5,1000.5);
   }
   fGammaTime  = anl->CreateTH1I ("Unpack","GammaTimeDelta","Gamma delta time","[mysec]","Events",5000,0.5,20000.5);
   fSystemTime = anl->CreateTH1I ("Unpack","SystemTimeDelta","System delta time","[mysec]","Events",5000,0.5,20000.5);
