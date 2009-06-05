@@ -47,36 +47,17 @@ TascaCheckProc::TascaCheckProc(const char* name) :
   gROOT->ProcessLine(".x setcontrol.C()");
 
   if(fControl->CheckHisto){
-  fAlphaGammaL=anl->CreateTH2D("Check","AlphaGammaL","Energies",1000,1,30000,1000,1,2500);
-  fAlphaGammaL->GetXaxis()->SetTitle("Alpha [Kev]");
-  fAlphaGammaL->GetYaxis()->SetTitle("Gamma [Kev]");
-  fAlphaGammaL->GetZaxis()->SetTitle("Hits");
-
-  fAlphaBackL=anl->CreateTH2D("Check","AlphaBackL","Energies",1000,1,30000,1000,1,10000);
-  fAlphaBackL->GetXaxis()->SetTitle("Alpha [Kev]");
-  fAlphaBackL->GetYaxis()->SetTitle("Back [Kev]");
-  fAlphaBackL->GetZaxis()->SetTitle("Hits");
-
-  fAlphaVetoL=anl->CreateTH2D("Check","AlphaVetoL","Energies",1000,1,30000,1000,1,4000);
-  fAlphaVetoL->GetXaxis()->SetTitle("Alpha [Kev]");
-  fAlphaVetoL->GetYaxis()->SetTitle("Veto [Kev]");
-  fAlphaVetoL->GetZaxis()->SetTitle("Hits");
-
-  fStopXY=anl->CreateTH2D("Check","StopXYhits","Hit counters",144,0,144,48,0,48);
-  fStopXY->GetXaxis()->SetTitle("X position [stripe]");
-  fStopXY->GetYaxis()->SetTitle("Y position [stripe]");
-  fStopXY->GetZaxis()->SetTitle("Hits");
+  fAlphaGammaL=anl->CreateTH2D("Check","AlphaGammaL","Energies","Alpha [Kev]","Gamma [Kev]","Hits",1000,1,30000,1000,1,2500);
+  fAlphaBackL=anl->CreateTH2D("Check","AlphaBackL","Energies","Alpha [Kev]","Back [Kev]","Hits",1000,1,30000,1000,1,10000);
+  fAlphaVetoL=anl->CreateTH2D("Check","AlphaVetoL","Energies","Alpha [Kev]","Veto [Kev]","Hits",1000,1,30000,1000,1,4000);
+  fStopXY=anl->CreateTH2D("Check","StopXYhits","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
   for(i=0;i<48;i++){
     snprintf(chis,15,"XH_%03d",i);
     snprintf(chead,63,"Stop X High %03d",i);
-    fStopHE[i]=anl->CreateTH2D("Check/StopHE",chis,chead,144,0,144,200,0,300000);
-    fStopHE[i]->GetXaxis()->SetTitle("X position [stripe]");
-    fStopHE[i]->GetYaxis()->SetTitle("Energy [Kev]");
+    fStopHE[i]=anl->CreateTH2D("Check/StopHE",chis,chead,"X position [stripe]","Energy [Kev]","Counts",144,0,144,200,0,300000);
     snprintf(chis,15,"XL_%03d",i);
     snprintf(chead,63,"Stop X Low %03d",i);
-    fStopLE[i]=anl->CreateTH2D("Check/StopLE",chis,chead,144,0,144,200,0,30000);
-    fStopLE[i]->GetXaxis()->SetTitle("X position [stripe]");
-    fStopLE[i]->GetYaxis()->SetTitle("Energy [Kev]");
+    fStopLE[i]=anl->CreateTH2D("Check/StopLE",chis,chead,"X position [stripe]","Energy [Kev]","Counts",144,0,144,200,0,30000);
   }
   }// fControl->CheckHisto
 // Creation of conditions (check if restored from auto save file):
@@ -120,7 +101,6 @@ poutevt->ffBackHhitV =fInput->ffBackHhitV;
 poutevt->ffBackLhitV =fInput->ffBackLhitV;
 poutevt->ffVetoHhitV =fInput->ffVetoHhitV;
 poutevt->ffVetoLhitV =fInput->ffVetoLhitV;
-poutevt->fiSystemSec=fInput->fiSystemSec;
 poutevt->fiSystemMysec=fInput->fiSystemMysec;
 poutevt->fiDeltaTime=fInput->fiDeltaTime;
 poutevt->fiDeltaSystemTime=fInput->fiDeltaSystemTime;

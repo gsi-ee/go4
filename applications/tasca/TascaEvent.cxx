@@ -53,7 +53,6 @@ Bool_t TascaEvent::Copy(TascaCheckEvent *pp){
 	ffVetoHhitV =pp->ffVetoHhitV;
 	ffVetoLhitV =pp->ffVetoLhitV;
 	fiTimeStamp=pp->fiTimeStamp;
-	fiSystemSec=pp->fiSystemSec;
 	fiSystemMysec=pp->fiSystemMysec;
 	fiDeltaTime=pp->fiDeltaTime;
 	fiDeltaSystemTime=pp->fiDeltaSystemTime;

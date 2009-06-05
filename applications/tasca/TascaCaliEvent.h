@@ -49,12 +49,13 @@ class TascaCaliEvent : public TGo4EventElement {
       Bool_t fisMacro;
       Bool_t fisMicro;
 
-      UInt_t fiSystemSec;
       UInt_t fiSystemMysec;
       UInt_t fiTimeStamp;
       UInt_t fiGammaMysec;
       UInt_t fiDeltaSystemTime;
       UInt_t fiDeltaGammaMysec;
+      UInt_t fiGammaMulti;
+      UInt_t fiAdcMulti;
       UInt_t fiDeltaTime;
       Float_t ffStopXL[144];  // 3x 8x6
       Float_t ffStopXH[144];

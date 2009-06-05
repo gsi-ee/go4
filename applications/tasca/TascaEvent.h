@@ -25,14 +25,14 @@ class TascaEvent : public TObject {
       Bool_t fisMacro;
       Bool_t fisMicro;
 
-      UInt_t fiSystemSec;
       UInt_t fiSystemMysec;
       UInt_t fiTimeStamp;
       UInt_t fiGammaMysec;
       UInt_t fiDeltaSystemTime;
       UInt_t fiDeltaGammaMysec;
       UInt_t fiDeltaTime;
-      // index of maximum hit, if we had more than one hit
+      UInt_t fiGammaMulti;
+     // index of maximum hit, if we had more than one hit
       UInt_t fiStopXLhitI;
       UInt_t fiStopXHhitI;
       UInt_t fiStopYLhitI;

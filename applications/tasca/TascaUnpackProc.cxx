@@ -79,10 +79,10 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   codec->Cleanup();
   codec->setMap(false); // set true to get printout
   evcount=0;
-  gammaTimeLast=0;
-  secTimeLast=0;
-  mysecTimeLast=0;
-  adcTimeLast=0;
+  TimeLastgamma=0;
+  TimeLastsec=0;
+  TimeLastmysec=0;
+  TimeLastadc=0;
 
 // Creation of histograms:
 // The anl function gets the histogram or creates it
@@ -120,9 +120,11 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 		snprintf(chead,63,"Gamma E raw %d",i);
 		fGammaE[i] = anl->CreateTH1I ("Unpack/GammaE",chis,chead,9000,0.5,9000.5);
   }
-	snprintf(chis,15,"GammaT");
-	snprintf(chead,63,"Gamma T 10 ns");
-	fGammaT = anl->CreateTH1I ("Unpack",chis,chead,5000,0.5,200000.5);
+  fGammaTime  = anl->CreateTH1I ("Unpack","GammaTimeDelta","Gamma delta time","[mysec]","Events",5000,0.5,20000.5);
+  fSystemTime = anl->CreateTH1I ("Unpack","SystemTimeDelta","System delta time","[mysec]","Events",5000,0.5,20000.5);
+  fAdcTime    = anl->CreateTH1I ("Unpack","AdcTimeDelta","Adc  delta time","[mysec]","Events",5000,0.5,20000.5);
+  fGammaMulti = anl->CreateTH1I ("Unpack","GammaMulti","Gamma multiplicity",10,0,10);
+  fAdcMulti = anl->CreateTH1I ("Unpack","AdcMulti","Adc multiplicity",100,0,100);
   // test spectrum
 //	fTest      = anl->CreateTH1I (0,"Gaussians","Gauss",4000,0.5,4000.5);
 //	  gRandom->SetSeed(0);
@@ -139,27 +141,16 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 //	fTest->Fill(40.*v2*(sqrt(-2.*log(s)/s)) + 2500.);
 //	  }
 
-	fSize     = anl->CreateTH1I ("Unpack","Size","Netto event size",200,0,200);
-	fSize->GetXaxis()->SetTitle("Size [32bit]");
-	fSize->GetYaxis()->SetTitle("Events");
-	fSizeA     = anl->CreateTH1I ("Unpack","SizeA","Netto ADC event size",200,0,200);
-	fSizeA->GetXaxis()->SetTitle("Size [32bit]");
-	fSizeA->GetYaxis()->SetTitle("Events");
-	fSizeG     = anl->CreateTH1I ("Unpack","SizeG","Netto GAMMA event size",200,0,200);
-	fSizeG->GetXaxis()->SetTitle("Size [32bit]");
-	fSizeG->GetYaxis()->SetTitle("Events");
-	fSpill     = anl->CreateTH1I ("Unpack","Spill","Events over spill",10000,0,200000);
-	fSpill->GetXaxis()->SetTitle("Mysec");
-	fSpill->GetYaxis()->SetTitle("Events");
-	fFilter    = anl->CreateTH1I ("Unpack","Filter","Tof,chopper,macro,micro",17,0,17);
-	fFilter->GetYaxis()->SetTitle("Counts");
-	fFilter->GetXaxis()->SetTitle("0:all, 1:checked, 2:true, 3:false, 5: 9: 13:");
+	fSize      = anl->CreateTH1I ("Unpack","Size","Netto event size","Size [32bit]","Events",200,0,200);
+	fSizeA     = anl->CreateTH1I ("Unpack","SizeA","Netto ADC event size","Size [32bit]","Events",200,0,200);
+	fSizeG     = anl->CreateTH1I ("Unpack","SizeG","Netto GAMMA event size","Size [32bit]","Events",200,0,200);
+	fSpill     = anl->CreateTH1I ("Unpack","Spill","Events over spill","Mysec","Events",10000,0,200000);
+	fFilter    = anl->CreateTH1I ("Unpack","Filter","Tof,chopper,macro,micro","0:all, 1:checked, 2:true, 3:false, 5: 9: 13:","Counts",17,0,17);
 	fPedestal  = anl->CreateTH1I ("Unpack","Pedestals","Pedestals",96,-0.5,95.5);
 	fContent   = anl->CreateTH1I ("Unpack","Contents","Contents",96,-0.5,95.5);
 	fTree      = anl->CreateTH1I (0,"Tree","Leaf",5000,0.5,5000.5);
 	fTime      = anl->CreateTH1I (0,"Time","Time diff",1000,0,20000);
 	fAdcAllRaw = anl->CreateTH1I ("Unpack","AdcAllRaw","All adc raw",5000,0.5,5000.5);
-	fAdcAllCal = anl->CreateTH1I ("Unpack","AdcAllCal","All adc cal",5000,0.5,5000.5);
 
 // pictures rows, columns
     Geraw = anl->CreatePicture("Unpack","pGamma","Gamma raw",8,1);
@@ -170,7 +161,7 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   // enlarge stats box and position in [0:1] coordinates
   // show only Mean value (ROOT manual "Statistics Display")
   for(i=0;i<7;i++) anl->SetPicture(Geraw,fGammaE[i],i,0,1);
-                   anl->SetPicture(Geraw,fGammaT,7,0,1);
+                   anl->SetPicture(Geraw,fGammaTime,7,0,1);
   for(i=0;i<8;i++){ // 8 rows
 	  if(fControl->UnpackHisto){
 	  for(k=0;k<4;k++){ // 4 columns
@@ -230,7 +221,7 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   // look for system time stamp
   if(*pdata == 0xaffeaffe){
 	  pdata++;
-	  pUnpackEvent->fiSystemSec=*pdata++ - 1243402774;
+	  pUnpackEvent->fiSystemSec=*pdata++;
 	  pUnpackEvent->fiSystemMysec=*pdata++;
   }
   // get number of latches and number of V785 ADCs
@@ -269,12 +260,20 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
 //-----
   pUnpackEvent->fiTimeStamp=timestamp; // mysec
   pUnpackEvent->fiEventNumber=fInput->GetCount();
-  if(timestamp<adcTimeLast) timediff=0xFFFFFFFF-adcTimeLast+timestamp+1;
-  else                      timediff=timestamp-adcTimeLast;
+  if(timestamp<TimeLastadc) timediff=0xFFFFFFFF-TimeLastadc+timestamp+1;
+  else                      timediff=timestamp-TimeLastadc;
   fTime->Fill(timediff);
-  adcTimeLast=timestamp;
-  secTimeLast=pUnpackEvent->fiSystemSec;
-  mysecTimeLast=pUnpackEvent->fiSystemMysec;
+  TimeLastadc=timestamp;
+  pUnpackEvent->fiDeltaTime=timediff;
+  if(TimeLastsec > 0)
+    pUnpackEvent->fiSystemMysec += (pUnpackEvent->fiSystemSec-TimeLastsec)*1000000;
+  TimeLastsec=pUnpackEvent->fiSystemSec;
+  if(pUnpackEvent->fiSystemMysec<TimeLastmysec) timediff=0xFFFFFFFF-TimeLastmysec+pUnpackEvent->fiSystemMysec+1;
+  else                      timediff=pUnpackEvent->fiSystemMysec-TimeLastmysec;
+  pUnpackEvent->fiDeltaSystemTime=timediff;
+  TimeLastmysec=pUnpackEvent->fiSystemMysec;
+  fSystemTime->Fill(pUnpackEvent->fiDeltaSystemTime);
+  fAdcTime->Fill(pUnpackEvent->fiDeltaTime);
 // Build Mpx table
 // check conditions to select events
 fFilter->Fill(0); // all events
@@ -338,6 +337,7 @@ while(adcs > 0){
 		  pUnpackEvent->fiAdc[off+codec->getChan()]=codec->getAdc();
 		  fAdcAllRaw->Fill(codec->getAdc());
 		  fContent->Fill(off+codec->getChan());
+		  pUnpackEvent->fiAdcMulti++;
 	  }
 	  pdata++; // skip EOB
 	  pUnpackEvent->SetValid(kTRUE); // to store
@@ -352,13 +352,6 @@ while(adcs > 0){
 if(fControl->UnpackHisto){
 for(i=0;i<96;i++) fAdc[i]->Fill(pUnpackEvent->fiAdc[i]);
 }
-
-//if(fPedestals->Calibrate)	{
-//	for(i=0;i<96;i++){
-//	pUnpackEvent->fiAdc[i]=pUnpackEvent->fiAdc[i]+
-//	(UInt_t )(fPedestals->ffOffset-fPedestals->ffPedestals[i]);
-//	fAdcAllCal->Fill(pUnpackEvent->fiAdc[i]);
-//}}
 
 // now fill the detector arrays. Low is even, high is odd index in fiAdc
 // StopY
@@ -462,6 +455,7 @@ for(i=0;i<codec->getVetonoAdc();i++){
 	pUnpackEvent->fiVetoL[n]=pUnpackEvent->fiAdc[2*k];
 	pUnpackEvent->fiVetoH[n]=pUnpackEvent->fiAdc[2*k+1];
 }//Veto
+fAdcMulti->Fill(pUnpackEvent->fiAdcMulti);
 }// V785 ADCs
   if(pdata-psubevent)  fSizeA->Fill(pdata-psubevent);
 // follows Sis3302
@@ -472,11 +466,15 @@ if(pdata != pbehind){
   for(i=0;i<codec->SCHANNELS-1;i++){
 	fGammaE[i]->Fill(pUnpackEvent->fiGammaE[i]);
   }
-  fGammaT->Fill(pUnpackEvent->fiGammaTime-gammaTimeLast);
-  gammaTimeLast=pUnpackEvent->fiGammaTime;
+  fGammaMulti->Fill(pUnpackEvent->fiGammaMulti);
+  if(pUnpackEvent->fiGammaTime<TimeLastgamma) timediff=0xFFFFFFFF-TimeLastgamma+pUnpackEvent->fiGammaTime+1;
+  else                      timediff=pUnpackEvent->fiGammaTime-TimeLastgamma;
+  pUnpackEvent->fiDeltaGammaTime=timediff;
+  fGammaTime->Fill(pUnpackEvent->fiDeltaGammaTime/100);
+  TimeLastgamma=pUnpackEvent->fiGammaTime;
   if(pbehind-pdata)  fSizeG->Fill(pbehind-pdata);
-  return;
 }
+return;
 } // check for valid event
 //if(!fPedestals->Calibrate){
 //	if(evcount >= 10000) {
@@ -796,6 +794,7 @@ while(1)
 		fPileup[chan]->Fill(400);
 		pUnpackEvent->fiGammaQ[chan]=0; // quality
 		pUnpackEvent->fiGammaE[chan]=energy>>fParam->shift;
+		pUnpackEvent->fiGammaMulti++;
 		fHisto[chan]->Fill(energy>>fParam->shift);
 	}
 	else if (ft_cnt > 1)                  // pileup
@@ -803,6 +802,7 @@ while(1)
 		fPileup[chan]->Fill(600);
 		pUnpackEvent->fiGammaQ[chan]=1; // quality
 		pUnpackEvent->fiGammaE[chan]=energy>>fParam->shift;
+		pUnpackEvent->fiGammaMulti++;
 		fHisto[chan]->Fill(energy>>fParam->shift);
 	}
 

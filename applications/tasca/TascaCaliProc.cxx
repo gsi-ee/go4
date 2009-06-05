@@ -56,22 +56,11 @@ TascaCaliProc::TascaCaliProc(const char* name) :
   fCaliFit->Setup(fCaliGraph);
   gROOT->ProcessLine(".x setcontrol.C()");
   gROOT->ProcessLine(".x setparam.C()");
-
-  // sets coefficients a0,a2 to 0, a1 to 1.
   gROOT->ProcessLine(".x setcali.C()"); // en-disable calibration
-  if(fCalibration->UseCalibration){ // was set in setcali.C
-	  fCalibration->ReadCoefficients();
-	  cout << "Tasca> TascaCaliProc: Use calibration" << endl;
-  }
-  else   cout << "Tasca> TascaCaliProc: No calibration used" << endl;
 
 if(fControl->CaliHisto){
-	fhStopXLH=anl->CreateTH2I("Cali/Sum","StopXLH","Stop X low/high",4000,0,30000,4000,0,30000);
-	fhStopXLH->GetXaxis()->SetTitle("Low Energy [Kev]");
-	fhStopXLH->GetYaxis()->SetTitle("High Energy [Kev]");
-	fhStopYLH=anl->CreateTH2I("Cali/Sum","StopYLH","Stop Y low/high",4000,0,30000,4000,0,30000);
-	fhStopYLH->GetXaxis()->SetTitle("Low Energy [Kev]");
-	fhStopYLH->GetYaxis()->SetTitle("High Energy [Kev]");
+	fhStopXLH=anl->CreateTH2I("Cali/Sum","StopXLH","Stop X low/high","Low Energy [Kev]","High Energy [Kev]","Counts",4000,0,30000,4000,0,30000);
+	fhStopYLH=anl->CreateTH2I("Cali/Sum","StopYLH","Stop Y low/high","Low Energy [Kev]","High Energy [Kev]","Counts",4000,0,30000,4000,0,30000);
     fhdStopXL=anl->CreateTH1D("Cali/Sum","StopXL", "StopX all low",144,0,144);
 	fhdStopXH=anl->CreateTH1D("Cali/Sum","StopXH", "StopX all high",144,0,144);
 	fhdStopYL=anl->CreateTH1D("Cali/Sum","StopYL", "StopY all low",96,0,96);
@@ -113,10 +102,6 @@ if(fControl->CaliHisto){
 	snprintf(chis,15,"StopXH_%03d",i);
 	snprintf(chead,63,"StopX High %03d",i);
 	fhStopXH[i]=anl->CreateTH1I("Cali/StopXH",chis,chead,4000,0.5,4000.5);
-	fhStopXH[i]->GetXaxis()->SetTitle("Channels");
-	fhStopXH[i]->GetYaxis()->SetTitle("Counts");
-	fhStopXL[i]->GetXaxis()->SetTitle("Channels");
-	fhStopXL[i]->GetYaxis()->SetTitle("Counts");
 	if(fCalibration->UseCalibration){
 		fhStopXL[i]->GetXaxis()->SetLimits(1,30001);
 		fhStopXH[i]->GetXaxis()->SetLimits(200,300200);
@@ -182,15 +167,13 @@ if(fControl->CaliHisto){
   {
 	snprintf(chis,15,"GammaKev_%d",i);
 	snprintf(chead,63,"Gamma [Kev] %d",i);
-	fhGammaKev[i] = anl->CreateTH1I ("Cali/GammaKev",chis,chead,2000,0.5,2000.5);
+	fhGammaKev[i] = anl->CreateTH1I ("Cali/GammaKev",chis,chead,"Energy [Kev]","Channels",2000,0.5,2000.5);
   }
-	snprintf(chis,15,"GammaMysec");
-	snprintf(chead,63,"Gamma [mysec]");
-	fhGammaMysec = anl->CreateTH1I ("Cali",chis,chead,5000,0,2000);
-  fhGammaSumKev = anl->CreateTH1I ("Cali/Sum","GammaSumKev","Sum of crystals [Kev]",2000,0.5,2000.5);
-  fhGammaAddbackKev = anl->CreateTH1I ("Cali/Sum","GammaAddback","Sum of energies [Kev]",2000,0.5,2000.5);
-  fhGammaSumKev->GetXaxis()->SetTitle("Energy [Kev]");
-  fhGammaAddbackKev->GetXaxis()->SetTitle("Energy [Kev]");
+  snprintf(chis,15,"GammaMysec");
+  snprintf(chead,63,"Gamma [mysec]");
+  fhGammaMysec = anl->CreateTH1I ("Cali",chis,chead,"Gamma [mysec]","Counts",5000,0,2000);
+  fhGammaSumKev = anl->CreateTH1I ("Cali/Sum","GammaSumKev","Sum of crystals [Kev]","Energy [Kev]","Counts",2000,0.5,2000.5);
+  fhGammaAddbackKev = anl->CreateTH1I ("Cali/Sum","GammaAddback","Sum of energies [Kev]","Energy [Kev]","Counts",2000,0.5,2000.5);
 
   // pictures rows, columns
   StopX[0] = anl->CreatePicture("Cali","pStopXL0","Stop X low",8,6);
@@ -308,7 +291,6 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   if(poutevt->ffStopYLhitV>fParam->AlphaMaxL)poutevt->ffStopYLhitV=poutevt->ffStopYHhitV;
 
   poutevt->fiTimeStamp=fInput->fiTimeStamp;
-  poutevt->fiSystemSec=fInput->fiSystemSec;
   poutevt->fiSystemMysec=fInput->fiSystemMysec;
   poutevt->fiDeltaTime=fInput->fiDeltaTime;
   poutevt->fiDeltaSystemTime=fInput->fiDeltaSystemTime;

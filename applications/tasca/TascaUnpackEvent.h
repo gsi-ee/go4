@@ -53,7 +53,9 @@ class TascaUnpackEvent : public TGo4EventElement {
 	   memset((void*) &fiGammaQ[0], 0, sizeof(fiGammaQ));
 	   memset((void*) &fiGammaE[0], 0, sizeof(fiGammaE));
 	   fiGammaTime=0;
-
+	   fiTimeStamp=0;
+	   fiGammaMulti=0;
+	   fiAdcMulti=0;
 	   fiStopXLhitI=0;
 	   fiStopXHhitI=0;
 	   fiStopYLhitI=0;
@@ -91,6 +93,8 @@ class TascaUnpackEvent : public TGo4EventElement {
       UInt_t fiDeltaSystemTime;
       UInt_t fiDeltaGammaTime;
       UInt_t fiDeltaTime;
+      UInt_t fiGammaMulti;
+      UInt_t fiAdcMulti;
       // Data fields of detectors
       UInt_t fiStopXL[144];
       UInt_t fiStopXH[144];

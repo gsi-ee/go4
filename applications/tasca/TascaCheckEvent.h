@@ -30,13 +30,14 @@ class TascaCheckEvent : public TGo4EventElement {
       Bool_t fisMacro;
       Bool_t fisMicro;
 
-      UInt_t fiSystemSec;
       UInt_t fiSystemMysec;
       UInt_t fiTimeStamp;
       UInt_t fiGammaMysec;
       UInt_t fiDeltaSystemTime;
       UInt_t fiDeltaGammaMysec;
       UInt_t fiDeltaTime;
+      UInt_t fiGammaMulti;
+      UInt_t fiAdcMulti;
       // index of maximum hit, if we had more than one hit
       UInt_t fiStopXLhitI;
       UInt_t fiStopXHhitI;

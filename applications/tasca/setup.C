@@ -15,7 +15,8 @@ void setup(Text_t* AutoSaveFile,
   TGo4FileStoreParameter * f1;
   TGo4FileSourceParameter * f2;
 
-  // steering parameters to modify:
+//--------------------------------------------
+// steering parameters to modify:
   TString unpackProcess("yes");
   TString unpackStore("no");
   TString unpackOverWrite("yes");
@@ -24,7 +25,7 @@ void setup(Text_t* AutoSaveFile,
   TString caliStore("no");
   TString caliOverWrite("yes");
 
-  TString checkProcess("no");
+  TString checkProcess("yes");
   TString checkStore("no");
   TString checkOverWrite("yes");
 
@@ -34,6 +35,7 @@ void setup(Text_t* AutoSaveFile,
 
   TString autosave("yes");
   Int_t autosaveinterval=0; // after n seconds, 0 = at termination of event loop
+//--------------------------------------------
 
   // First step
   step = go4->GetAnalysisStep("Unpack");
