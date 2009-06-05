@@ -552,7 +552,7 @@
         </widget>
       </item>
       <item row="1" column="1" >
-        <widget class="QRootCanvas" name="fxGo4QRootCanvas" >
+        <widget class="QRootCanvas" name="fxQCanvas" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>7</hsizetype>
@@ -661,19 +661,19 @@
       <slot>DelSelectedMarker_clicked()</slot>
     </connection>
     <connection>
-      <sender>fxGo4QRootCanvas</sender>
+      <sender>fxQCanvas</sender>
       <signal>CanvasDropEvent(QDropEvent*,TPad*)</signal>
       <receiver>TGo4ViewPanel</receiver>
       <slot>CanvasDropEventSlot(QDropEvent*,TPad*)</slot>
     </connection>
     <connection>
-      <sender>fxGo4QRootCanvas</sender>
+      <sender>fxQCanvas</sender>
       <signal>CanvasStatusEvent(const char*)</signal>
       <receiver>TGo4ViewPanel</receiver>
       <slot>CanvasStatusEventSlot(const char*)</slot>
     </connection>
     <connection>
-      <sender>fxGo4QRootCanvas</sender>
+      <sender>fxQCanvas</sender>
       <signal>DoCanvasResize()</signal>
       <receiver>TGo4ViewPanel</receiver>
       <slot>DoCanvasResizeSlot()</slot>

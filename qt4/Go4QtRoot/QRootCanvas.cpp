@@ -64,7 +64,7 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
 
    // add the Qt::WinId to TGX11 interface
    fXid = winId();
-   wid = gVirtualX->AddWindow(fXid,100,30);
+   wid = gVirtualX->AddWindow(fXid, 100, 30);
 
    fCanvas = new TCanvas("Canvas", width(), height(), wid);
    // create the context menu
@@ -90,6 +90,11 @@ QRootCanvas::~QRootCanvas()
    fMenuMethods = 0;
 }
 
+void QRootCanvas::resetPaintFlag()
+{
+   fRepaintMode = -1;
+}
+
 void QRootCanvas::performResize()
 {
    TGo4LockGuard threadlock;
@@ -108,7 +113,9 @@ void QRootCanvas::performResize()
       cout << "replace X id for " << objectName().toAscii().constData() << endl;
    }
 
-   if (fRepaintMode == 1) Modified(); else Resize();
+   if (fRepaintMode == 1) Modified();
+                     else Resize();
+
    Update();
 
    fRepaintMode = 0;
@@ -297,9 +304,15 @@ void QRootCanvas::resizeEvent( QResizeEvent *)
 
 void QRootCanvas::paintEvent( QPaintEvent *)
 {
-//   QWidget::paintEvent(e);
+   // this is workaround a problem, that after drawing canvas in
+   // viewpanel there is always 1 event after that
+   // therefore fRepaintMode set to -1 to ignore such first event
+   // In future behavior may change
 
-   actiavteRepaint(1);
+   if (fRepaintMode<0)
+      fRepaintMode = 0;
+   else
+      actiavteRepaint(1);
 }
 
 void QRootCanvas::processRepaintTimer()
@@ -641,6 +654,11 @@ void      QRootCanvas::ToggleAutoExec()
 }
 void      QRootCanvas::Update()
 {
+//   Int_t d1, d2;
+//   UInt_t w, h;
+//   gVirtualX->GetGeometry(fXid, d1, d2, w, h);
+//   cout << "Before update w = " << w << endl;
+
    fCanvas->Update();
 }
 

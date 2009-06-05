@@ -73,7 +73,7 @@ const char* NoStackDrawOption = "nostack, ";
 TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
 {
-	setupUi(this);;
+   setupUi(this);;
 
 	fPanelName = objectName();
 
@@ -101,25 +101,109 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
    fbPickAgain = false;
 
    setWindowTitle(GetPanelName());
-   fxGo4QRootCanvas->setObjectName(GetPanelName());
-   fxGo4QRootCanvas->getCanvas()->SetName(GetPanelName());
+   fxQCanvas->setObjectName(GetPanelName());
+   fxQCanvas->getCanvas()->SetName(GetPanelName());
 
-   fxGo4QRootCanvas->updateGeometry();
+   go4sett->restorePanelSize(this);
 
    fSelectMenu = 0;
    fSelectMap = 0;
    fxPeditor = 0;
    fDummyHisto = 0;
 
-   connect(fxGo4QRootCanvas, SIGNAL(SelectedPadChanged(TPad*)),
+   fMenuBar = new QMenuBar(MenuFrame);
+   fMenuBar->setMinimumWidth(50);
+
+
+   QMenu* fileMenu = fMenuBar->addMenu("F&ile");
+   fileMenu->addAction("&Save as...", this, SLOT(SaveCanvas()));
+   fileMenu->addAction("Print...", this, SLOT(PrintCanvas()));
+   fileMenu->addAction("Produce &Picture", this, SLOT(ProducePicture()));
+   fileMenu->addAction("Produce &Graph from markers", this, SLOT(ProduceGraphFromMarkers()));
+
+//   fileMenu->addAction("Copy to T&Canvas in Memory", this, SLOT(SendToBrowser()));
+//   fileMenu->addAction("&Load marker setup...", this, SLOT(LoadMarkers()));
+//   fileMenu->addAction("Save &marker setup...", this, SLOT(SaveMarkers()));
+   fileMenu->addAction("Cl&ose", this, SLOT(close()));
+
+    //Edit Menu
+   QMenu* editMenu = fMenuBar->addMenu("&Edit");
+
+   AddChkAction(editMenu, "Show Marker &editor", fbMarkEditorVisible, this, SLOT(SetMarkerPanel()));
+   AddChkAction(editMenu, "Show &ROOT Attributes Editor", fbEditorFrameVisible, this, SLOT(StartRootEditor()));
+   AddChkAction(editMenu, "Show &Event Status", fbCanvasEventstatus, this, SLOT(ShowEventStatus()));
+
+   editMenu->addAction("Start &condition editor", this, SLOT(StartConditionEditor()));
+   editMenu->addSeparator();
+   editMenu->addAction("&1:1 coordinates ratio", this, SLOT(RectangularRatio()));
+   editMenu->addAction("&Default pad margins", this, SLOT(DefaultPadMargin()));
+   editMenu->addSeparator();
+   editMenu->addAction("Clear &Markers", this, SLOT(ClearAllMarkers()));
+   editMenu->addAction("Clear &Pad", this, SLOT(ClearActivePad()));
+   editMenu->addAction("Clear C&anvas", this, SLOT(ClearCanvas()));
+
+   fSelectMap = new QSignalMapper(this);
+   connect(fSelectMap, SIGNAL(mapped(int)), this, SLOT(SelectMenuItemActivated(int)));
+   fSelectMenu = fMenuBar->addMenu("&Select");
+
+   fOptionsMap = new QSignalMapper(this);
+   fOptionsMenu = fMenuBar->addMenu("&Options");
+   connect(fOptionsMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowOptionsMenu()));
+   connect(fOptionsMap, SIGNAL(mapped(int)), this, SLOT(OptionsMenuItemActivated(int)));
+
+   AddIdAction(fOptionsMenu, fOptionsMap, "&Crosshair", CrosshairId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Super&impose", SuperimposeId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Histogram &Statistics", StatisticsId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Multiplot &Legend", SetLegendId);
+
+   fOptionsMenu->addSeparator();
+   AddIdAction(fOptionsMenu, fOptionsMap, "Histogram &Title", SetTitleId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Draw Time", DrawTimeId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Draw Date", DrawDateId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Draw item name", DrawItemnameId);
+   fOptionsMenu->addSeparator();
+   AddIdAction(fOptionsMenu, fOptionsMap, "&Keep Viewpanel Title", FreezeTitleId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Set &Viewpanel Title...", SetTitleTextId);
+
+   QCheckBox* box1 = new QCheckBox("Apply to all", MenuFrame);
+   box1->setObjectName("ApplyToAllCheck");
+   connect(box1, SIGNAL(toggled(bool)), this, SLOT(ApplyToAllToggled(bool)));
+
+   fAutoScaleCheck = new QCheckBox("AutoScale", MenuFrame);
+   fAutoScaleCheck->setObjectName("AutoScaleCheck");
+   connect(fAutoScaleCheck, SIGNAL(toggled(bool)), this, SLOT(AutoScaleToggled(bool)));
+
+
+   QHBoxLayout* menugrid = new QHBoxLayout(MenuFrame);
+   menugrid->setMargin(0);
+   menugrid->setSpacing(0);
+   menugrid->addWidget(fMenuBar, 10, Qt::AlignLeft);
+   menugrid->addWidget(box1, 1, Qt::AlignRight);
+   menugrid->addWidget(fAutoScaleCheck, 1, Qt::AlignRight);
+   gridLayout->addLayout(menugrid, 0, 0, 1, 2);
+
+
+   // status widget
+   CanvasStatus = new QStatusBar(this);
+   gridLayout->addWidget(CanvasStatus, 3, 0, 1, 2 );
+   CanvasStatus->setShown(false);
+
+   EditorFrame->setShown(fbEditorFrameVisible);
+
+   //EditorFrame->ensurePolished();
+   //EditorFrame->update();
+   //EditorFrame->show();
+   // setup of root editor
+
+   connect(fxQCanvas, SIGNAL(SelectedPadChanged(TPad*)),
            this, SLOT(SetActivePad(TPad*)));
-   connect(fxGo4QRootCanvas, SIGNAL(PadClicked(TPad*)),
+   connect(fxQCanvas, SIGNAL(PadClicked(TPad*)),
            this, SLOT(PadClickedSlot(TPad*)));
-   connect(fxGo4QRootCanvas, SIGNAL(PadDoubleClicked(TPad*)),
+   connect(fxQCanvas, SIGNAL(PadDoubleClicked(TPad*)),
            this, SLOT(PadDoubleClickedSlot(TPad*)));
-   connect(fxGo4QRootCanvas, SIGNAL(MenuCommandExecuted(TObject*, const char*)),
+   connect(fxQCanvas, SIGNAL(MenuCommandExecuted(TObject*, const char*)),
            this, SLOT(MenuCommandExecutedSlot(TObject*, const char*)));
-   connect(fxGo4QRootCanvas, SIGNAL(CanvasLeaveEvent()),
+   connect(fxQCanvas, SIGNAL(CanvasLeaveEvent()),
            this, SLOT(RefreshButtons()));
 }
 
@@ -160,7 +244,7 @@ TGo4ViewPanel::~TGo4ViewPanel()
 }
 
 
-const char*  TGo4ViewPanel::GetPanelName()
+const char* TGo4ViewPanel::GetPanelName()
 {
    return fPanelName.toAscii();
 }
@@ -295,106 +379,31 @@ void TGo4ViewPanel::CompleteInitialization()
    // create appropriate entry in OM
    UpdatePadStatus(GetCanvas(), true);
 
-   //    fMenuBar
-   fMenuBar = new QMenuBar(MenuFrame);
-   fMenuBar->setMinimumWidth(50);
+   fAutoScaleCheck->setChecked(GetPadOptions(GetCanvas())->IsAutoScale());
+
+
    //fMenuBar->setFrameShape(QMenuBar::NoFrame);
     //File Menu
 
+   //RefreshButtons();
 
-   QMenu* fileMenu = fMenuBar->addMenu("F&ile");
-   fileMenu->addAction("&Save as...", this, SLOT(SaveCanvas()));
-   fileMenu->addAction("Print...", this, SLOT(PrintCanvas()));
-   fileMenu->addAction("Produce &Picture", this, SLOT(ProducePicture()));
-   fileMenu->addAction("Produce &Graph from markers", this, SLOT(ProduceGraphFromMarkers()));
-
-//   fileMenu->addAction("Copy to T&Canvas in Memory", this, SLOT(SendToBrowser()));
-//   fileMenu->addAction("&Load marker setup...", this, SLOT(LoadMarkers()));
-//   fileMenu->addAction("Save &marker setup...", this, SLOT(SaveMarkers()));
-   fileMenu->addAction("Cl&ose", this, SLOT(close()));
-
-    //Edit Menu
-   QMenu* editMenu = fMenuBar->addMenu("&Edit");
-
-   AddChkAction(editMenu, "Show Marker &editor", fbMarkEditorVisible, this, SLOT(SetMarkerPanel()));
-   AddChkAction(editMenu, "Show &ROOT Attributes Editor", fbEditorFrameVisible, this, SLOT(StartRootEditor()));
-   AddChkAction(editMenu, "Show &Event Status", fbCanvasEventstatus, this, SLOT(ShowEventStatus()));
-
-   editMenu->addAction("Start &condition editor", this, SLOT(StartConditionEditor()));
-   editMenu->addSeparator();
-   editMenu->addAction("&1:1 coordinates ratio", this, SLOT(RectangularRatio()));
-   editMenu->addAction("&Default pad margins", this, SLOT(DefaultPadMargin()));
-   editMenu->addSeparator();
-   editMenu->addAction("Clear &Markers", this, SLOT(ClearAllMarkers()));
-   editMenu->addAction("Clear &Pad", this, SLOT(ClearActivePad()));
-   editMenu->addAction("Clear C&anvas", this, SLOT(ClearCanvas()));
-
-   fSelectMap = new QSignalMapper(this);
-   connect(fSelectMap, SIGNAL(mapped(int)), this, SLOT(SelectMenuItemActivated(int)));
-   fSelectMenu = fMenuBar->addMenu("&Select");
-
-   fOptionsMap = new QSignalMapper(this);
-   fOptionsMenu = fMenuBar->addMenu("&Options");
-   connect(fOptionsMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowOptionsMenu()));
-   connect(fOptionsMap, SIGNAL(mapped(int)), this, SLOT(OptionsMenuItemActivated(int)));
-
-   AddIdAction(fOptionsMenu, fOptionsMap, "&Crosshair", CrosshairId);
-   AddIdAction(fOptionsMenu, fOptionsMap, "Super&impose", SuperimposeId);
-   AddIdAction(fOptionsMenu, fOptionsMap, "Histogram &Statistics", StatisticsId);
-   AddIdAction(fOptionsMenu, fOptionsMap, "Multiplot &Legend", SetLegendId);
-
-   fOptionsMenu->addSeparator();
-   AddIdAction(fOptionsMenu, fOptionsMap, "Histogram &Title", SetTitleId);
-   AddIdAction(fOptionsMenu, fOptionsMap, "Draw Time", DrawTimeId);
-   AddIdAction(fOptionsMenu, fOptionsMap, "Draw Date", DrawDateId);
-   AddIdAction(fOptionsMenu, fOptionsMap, "Draw item name", DrawItemnameId);
-   fOptionsMenu->addSeparator();
-   AddIdAction(fOptionsMenu, fOptionsMap, "&Keep Viewpanel Title", FreezeTitleId);
-   AddIdAction(fOptionsMenu, fOptionsMap, "Set &Viewpanel Title...", SetTitleTextId);
-
-   QCheckBox* box1 = new QCheckBox("Apply to all", MenuFrame);
-   box1->setObjectName("ApplyToAllCheck");
-   connect(box1, SIGNAL(toggled(bool)), this, SLOT(ApplyToAllToggled(bool)));
-
-   fAutoScaleCheck = new QCheckBox("AutoScale", MenuFrame);
-   fAutoScaleCheck->setObjectName("AutoScaleCheck");
-   fAutoScaleCheck->setChecked(GetPadOptions(GetCanvas())->IsAutoScale());
-   connect(fAutoScaleCheck, SIGNAL(toggled(bool)), this, SLOT(AutoScaleToggled(bool)));
-
-   QHBoxLayout* menugrid = new QHBoxLayout(MenuFrame);
-   menugrid->setMargin(0);
-   menugrid->setSpacing(0);
-   menugrid->addWidget(fMenuBar, 10, Qt::AlignLeft);
-   menugrid->addWidget(box1, 1, Qt::AlignRight);
-   menugrid->addWidget(fAutoScaleCheck, 1, Qt::AlignRight);
-   gridLayout->addLayout(menugrid, 0, 0, 1, 2);
-
-   connect(TGo4WorkSpace::Instance(), SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
-           this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
-
-   // status widget
-   CanvasStatus = new QStatusBar(this);
-   gridLayout->addWidget(CanvasStatus, 3, 0, 1, 2 );
-   CanvasStatus->setShown(false);
-
-   // setup of root editor
    fxRooteditor = new QRootWindow(EditorFrame,"rootwrapperwindow");
    QVBoxLayout* gedlayout = new QVBoxLayout(EditorFrame);
    if (fxRooteditor) gedlayout->addWidget(fxRooteditor);
-   EditorFrame->ensurePolished();
-   EditorFrame->update();
-   EditorFrame->show();
-   EditorFrame->setShown(fbEditorFrameVisible);
 
-   //RefreshButtons();
+
+   //    fMenuBar
+   connect(TGo4WorkSpace::Instance(), SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
+           this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
+
+   // adjust canvas size before any drawing will be done
+   GetQCanvas()->Resize();
 
    SetActivePad(GetCanvas());
 
    SetPadDefaults(GetCanvas());
 
-   go4sett->restorePanelSize(this);
-
-   fxGo4QRootCanvas->Modified();
+   //fxQCanvas->Modified();
 
    fbCloneFlag = go4sett->getCloneFlag();
 }
@@ -723,7 +732,7 @@ void TGo4ViewPanel::RefreshButtons()
    TGo4LockGuard lock;
 
    MarkerPanel->setShown(fbMarkEditorVisible);
-   fxGo4QRootCanvas->setMaskDoubleClick(fbMarkEditorVisible);
+   fxQCanvas->setMaskDoubleClick(fbMarkEditorVisible);
 
 //   if(!fbMarkEditorVisible) return;
 
@@ -1806,7 +1815,7 @@ void TGo4ViewPanel::ShowEventStatus()
    fbCanvasEventstatus = !fbCanvasEventstatus;
 
 
-   fxGo4QRootCanvas->setShowEventStatus(fbCanvasEventstatus);
+   fxQCanvas->setShowEventStatus(fbCanvasEventstatus);
    CanvasStatus->setShown(fbCanvasEventstatus);
    if(!fbCanvasEventstatus) DisplayPadStatus(ActivePad);
 }
@@ -2564,12 +2573,12 @@ TObject* TGo4ViewPanel::GetPadMainObject(TPad* pad)
 
 TCanvas* TGo4ViewPanel::GetCanvas()
 {
-    return fxGo4QRootCanvas->getCanvas();
+    return fxQCanvas->getCanvas();
 }
 
 QRootCanvas* TGo4ViewPanel::GetQCanvas()
 {
-   return fxGo4QRootCanvas;
+   return fxQCanvas;
 }
 
 TPad * TGo4ViewPanel::GetActivePad()
@@ -3209,8 +3218,6 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
 
    TGo4LockGuard lock;
 
-   // cout <<"rrrrrrrrr TGo4ViewPanel::RedrawPanel" << pad->GetName() << endl;
-
    BlockPanelRedraw(true);
 
    bool isanychildmodified = false;
@@ -3219,8 +3226,8 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
    QTime starttm = QTime::currentTime();
    bool intime = true;
 
-   // this loop done to allow consiquent update of multi-pad canvas
-   // each subpad separetely redrawn in ProcessPadRedraw() method and
+   // this loop done to allow consequent update of multi-pad canvas
+   // each subpad separately redrawn in ProcessPadRedraw() method and
    // than pad->Update() is called. If it takes too long,
    // loop is finishing and via paint timer will be activated later
 
@@ -3231,7 +3238,7 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
 
       TGo4WorkSpace::Instance()->SetSelectedPad(selpad);
 
-      // here pad->Update should redraw only modifed subpad
+      // here pad->Update should redraw only modified subpad
       if (isanychildmodified) {
          pad->Update();
          ispadupdatecalled = true;
@@ -3245,6 +3252,7 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
    if (ActivePad!=0)
      UpdatePanelCaption();
 
+
    RefreshButtons();
 
    // to correctly select active pad, one should call canvas->Update()
@@ -3253,6 +3261,8 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
 
    QCheckBox* box1 = findChild<QCheckBox*>("ApplyToAllCheck");
    if (box1!=0) box1->setChecked(fbApplyToAllFlag);
+
+   GetQCanvas()->resetPaintFlag();
 
    BlockPanelRedraw(false);
 

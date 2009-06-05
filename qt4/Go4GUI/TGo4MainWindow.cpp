@@ -802,11 +802,12 @@ TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
 
    TGo4ViewPanel* panel = new TGo4ViewPanel(fxWorkSpace, name.toAscii());
    fxWorkSpace->addWindow(panel); // warning: Qt may exchange the winId here!
-   panel->GetQCanvas()->performResize(); // may register new winId for TCanvas here
+   // panel->GetQCanvas()->performResize(); // may register new winId for TCanvas here
    ConnectGo4Widget(panel);
-   panel->CompleteInitialization();
    panel->update();
    panel->show();
+   panel->ensurePolished();
+   panel->CompleteInitialization();
 
    if(ndiv>1) {
 
