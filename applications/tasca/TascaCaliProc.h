@@ -54,6 +54,7 @@ class TascaCaliProc : public TGo4EventProcessor {
       TH1D *fhdVetoHsum;
       TH1D *fhdVetoLsum;
       TH1I *fhGammaMysec;
+      TH1I *fhGamma10ns[7];
       TH1I *fhGammaKev[7];
       TH1I *fhGammaSumKev;
       TH1I *fhGammaAddbackKev;

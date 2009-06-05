@@ -52,6 +52,7 @@ class TascaUnpackEvent : public TGo4EventElement {
 
 	   memset((void*) &fiGammaQ[0], 0, sizeof(fiGammaQ));
 	   memset((void*) &fiGammaE[0], 0, sizeof(fiGammaE));
+	   memset((void*) &fiGammaChannelTime[0], 0, sizeof(fiGammaChannelTime));
 	   fiGammaTime=0;
 	   fiTimeStamp=0;
 	   fiGammaMulti=0;
@@ -90,6 +91,7 @@ class TascaUnpackEvent : public TGo4EventElement {
       UInt_t fiSystemMysec;
       UInt_t fiTimeStamp;
       UInt_t fiGammaTime;
+      UInt_t fiGammaChannelTime[7];
       UInt_t fiDeltaSystemTime;
       UInt_t fiDeltaGammaTime;
       UInt_t fiDeltaTime;

@@ -105,7 +105,10 @@ poutevt->fiSystemMysec=fInput->fiSystemMysec;
 poutevt->fiDeltaTime=fInput->fiDeltaTime;
 poutevt->fiDeltaSystemTime=fInput->fiDeltaSystemTime;
 poutevt->fiGammaMysec = fInput->fiGammaMysec;
-for(Int_t i=0;i<7;i++) poutevt->ffGammaKev[i]   = fInput->ffGammaKev[i];
+for(Int_t i=0;i<7;i++){
+	poutevt->ffGammaKev[i]   = fInput->ffGammaKev[i];
+	poutevt->fiGammaChannelTime[i]   = fInput->fiGammaChannelTime[i];
+}
 
 Bool_t YH=fadcKevH->Test(fInput->ffStopYHhitV);
 Bool_t YL=fadcKevL->Test(fInput->ffStopYLhitV);

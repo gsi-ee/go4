@@ -119,6 +119,9 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 		snprintf(chis,15,"GammaE_%d",i);
 		snprintf(chead,63,"Gamma E raw %d",i);
 		fGammaE[i] = anl->CreateTH1I ("Unpack/GammaE",chis,chead,9000,0.5,9000.5);
+		snprintf(chis,15,"GammaT_%d",i);
+		snprintf(chead,63,"Gamma T raw %d",i);
+		fGammaT[i] = anl->CreateTH1I ("Unpack/GammaT",chis,chead,"[10ns]","Counts",1000,0,1000);
   }
   fGammaTime  = anl->CreateTH1I ("Unpack","GammaTimeDelta","Gamma delta time","[mysec]","Events",5000,0.5,20000.5);
   fSystemTime = anl->CreateTH1I ("Unpack","SystemTimeDelta","System delta time","[mysec]","Events",5000,0.5,20000.5);
@@ -153,15 +156,18 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 	fAdcAllRaw = anl->CreateTH1I ("Unpack","AdcAllRaw","All adc raw",5000,0.5,5000.5);
 
 // pictures rows, columns
-    Geraw = anl->CreatePicture("Unpack","pGamma","Gamma raw",8,1);
+    Geraw = anl->CreatePicture("Unpack","pGamma","Gamma raw",8,2);
     M1raw = anl->CreatePicture("Unpack","pV785_1","Module 7",8,4);
     M2raw = anl->CreatePicture("Unpack","pV785_2","Module 9",8,4);
     M3raw = anl->CreatePicture("Unpack","pV785_3","Module 11",8,4);
   Int_t m=0;
   // enlarge stats box and position in [0:1] coordinates
   // show only Mean value (ROOT manual "Statistics Display")
-  for(i=0;i<7;i++) anl->SetPicture(Geraw,fGammaE[i],i,0,1);
-                   anl->SetPicture(Geraw,fGammaTime,7,0,1);
+  for(i=0;i<7;i++){
+	  anl->SetPicture(Geraw,fGammaE[i],i,0,1);
+	  anl->SetPicture(Geraw,fGammaT[i],i,1,1);
+  }
+  anl->SetPicture(Geraw,fGammaTime,7,1,1);
   for(i=0;i<8;i++){ // 8 rows
 	  if(fControl->UnpackHisto){
 	  for(k=0;k<4;k++){ // 4 columns
@@ -465,6 +471,9 @@ if(pdata != pbehind){
   pUnpackEvent->SetValid(kTRUE); // to store
   for(i=0;i<codec->SCHANNELS-1;i++){
 	fGammaE[i]->Fill(pUnpackEvent->fiGammaE[i]);
+	if(pUnpackEvent->fiGammaE[i]>0)
+		pUnpackEvent->fiGammaChannelTime[i]=(Int_t)(fGammaStamps[i]-fGammaStamps[7]);
+	fGammaT[i]->Fill(pUnpackEvent->fiGammaChannelTime[i]);
   }
   fGammaMulti->Fill(pUnpackEvent->fiGammaMulti);
   if(pUnpackEvent->fiGammaTime<TimeLastgamma) timediff=0xFFFFFFFF-TimeLastgamma+pUnpackEvent->fiGammaTime+1;
@@ -568,7 +577,9 @@ while(1)
 	card=(buffer_length&0xFF000000)>>24;
 	chan=(buffer_length&0x00FF0000)>>16;
 
-	pl_data++;  // skip two timestamp longwords
+	fGammaStamps[chan]=((ULong64_t)*pl_data)<<32;  // high part
+	pl_data++;
+	fGammaStamps[chan]+=*pl_data;  // low part
 	if(chan==7)	{
 		pUnpackEvent->fiGammaTime=*pl_data;
 		return kFALSE;	}

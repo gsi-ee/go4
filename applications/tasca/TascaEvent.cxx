@@ -58,7 +58,10 @@ Bool_t TascaEvent::Copy(TascaCheckEvent *pp){
 	fiDeltaSystemTime=pp->fiDeltaSystemTime;
 	fiGammaMysec = pp->fiGammaMysec;
 	fiDeltaGammaMysec = pp->fiDeltaGammaMysec;
-	for(Int_t i=0;i<7;i++) ffGammaKev[i] = pp->ffGammaKev[i];
+	for(Int_t i=0;i<7;i++){
+		ffGammaKev[i] = pp->ffGammaKev[i];
+		fiGammaChannelTime[i] = pp->fiGammaChannelTime[i];
+	}
 
   return kTRUE;
 }

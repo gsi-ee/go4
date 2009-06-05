@@ -165,9 +165,12 @@ if(fControl->CaliHisto){
   }
   for(i =0;i<7;i++)
   {
-	snprintf(chis,15,"GammaKev_%d",i);
-	snprintf(chead,63,"Gamma [Kev] %d",i);
-	fhGammaKev[i] = anl->CreateTH1I ("Cali/GammaKev",chis,chead,"Energy [Kev]","Channels",2000,0.5,2000.5);
+		snprintf(chis,15,"GammaKev_%d",i);
+		snprintf(chead,63,"Gamma [Kev] %d",i);
+		fhGammaKev[i] = anl->CreateTH1I ("Cali/GammaKev",chis,chead,"Energy [Kev]","Channels",2000,0.5,2000.5);
+		snprintf(chis,15,"Gamma10ns_%d",i);
+		snprintf(chead,63,"Gamma [10ns] %d",i);
+		fhGamma10ns[i] = anl->CreateTH1I ("Cali/Gamma10ns",chis,chead,"Time [10ns]","Channels",2000,0.5,20000.5);
   }
   snprintf(chis,15,"GammaMysec");
   snprintf(chead,63,"Gamma [mysec]");
@@ -312,6 +315,7 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   }
   for(i=0;i<7;i++){
 	  poutevt->ffGammaKev[i]   = fCalibration->CalibrateGammaE(fInput->fiGammaE[i],i);
+	  poutevt->fiGammaChannelTime[i] = fInput->fiGammaChannelTime[i];
   }
   poutevt->fiGammaMysec = fCalibration->CalibrateGammaT(fInput->fiGammaTime);
 
@@ -353,6 +357,7 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   }
 Double_t sum=0.;
   for(i=0;i<7;i++){
+	  fhGamma10ns[i]->Fill(poutevt->fiGammaChannelTime[i]);
 	  fhGammaKev[i]->Fill(poutevt->ffGammaKev[i]);
 	  fhGammaSumKev->Fill(poutevt->ffGammaKev[i]);
 	  sum += poutevt->ffGammaKev[i];

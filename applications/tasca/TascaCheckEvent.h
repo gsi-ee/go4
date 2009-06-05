@@ -33,6 +33,7 @@ class TascaCheckEvent : public TGo4EventElement {
       UInt_t fiSystemMysec;
       UInt_t fiTimeStamp;
       UInt_t fiGammaMysec;
+      UInt_t fiGammaChannelTime[7];
       UInt_t fiDeltaSystemTime;
       UInt_t fiDeltaGammaMysec;
       UInt_t fiDeltaTime;

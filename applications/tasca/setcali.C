@@ -14,7 +14,7 @@ TascaCalibration *fCalibration = (TascaCalibration *) go4->GetObject("Calibratio
   fCalibration->Preset();
   if(fCalibration->UseCalibration){
 	  fCalibration->ReadCoefficients();
-	  cout << "Tasca> TascaCaliProc: Use calibration " << prefix<<endl;
+	  cout << "Tasca> TascaCaliProc: Use calibration " << fCalibration->prefix<<endl;
   }
   else   cout << "Tasca> TascaCaliProc: No calibration used" << endl;
  }
