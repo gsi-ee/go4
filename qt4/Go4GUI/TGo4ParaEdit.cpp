@@ -451,6 +451,7 @@ void TGo4ParaEdit::saveFile()
       QFileDialog fd(this, QString("Save ") + fItemName + " in root file",
             QString(), "ROOT (*.root);;ROOT XML (*.xml)");
       fd.setFileMode( QFileDialog::AnyFile);
+      fd.setAcceptMode(QFileDialog::AcceptSave);
       fd.selectFile("file.root");
       if (fd.exec() != QDialog::Accepted) return;
 

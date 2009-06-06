@@ -76,6 +76,7 @@ void TGo4LogInfo::SaveLogInfo()
     QFileDialog fd( this, "Save analysis log window", QString(),
           "Plain text (*.txt)");
     fd.setFileMode( QFileDialog::AnyFile );
+    fd.setAcceptMode(QFileDialog::AcceptSave);
 
     if ( fd.exec() != QDialog::Accepted ) return;
 

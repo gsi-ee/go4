@@ -1024,6 +1024,7 @@ void TGo4ViewPanel::SaveMarkers()
    QFileDialog fd(this, "Save Markers of active pad into",
                   QString(), "ROOT file (*.root)");
    fd.setFileMode( QFileDialog::AnyFile);
+   fd.setAcceptMode(QFileDialog::AcceptSave);
    if ( fd.exec() == QDialog::Accepted ) {
       QStringList flst = fd.selectedFiles();
       if (flst.isEmpty()) return;

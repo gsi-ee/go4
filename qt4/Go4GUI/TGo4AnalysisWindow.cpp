@@ -277,6 +277,7 @@ void TGo4AnalysisWindow::SaveAnalysisOutput()
                   "Save analysis terminal output",
                   "", "Plain text (*.txt)");
    fd.setFileMode( QFileDialog::AnyFile );
+   fd.setAcceptMode(QFileDialog::AcceptSave);
 
    if (fd.exec() != QDialog::Accepted) return;
 

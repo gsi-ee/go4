@@ -976,6 +976,7 @@ void TGo4Browser::SaveSelectedItems()
    QFileDialog fd(this, "Save selected objects to file", QString(),
                   "ROOT (*.root);;ROOT XML (*.xml)");
    fd.setFileMode( QFileDialog::AnyFile);
+   fd.setAcceptMode(QFileDialog::AcceptSave);
 
    if (fd.exec() != QDialog::Accepted) return;
 

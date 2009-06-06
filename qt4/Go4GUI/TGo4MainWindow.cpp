@@ -967,6 +967,7 @@ void TGo4MainWindow::SaveFileSlot()
         fLastFileDir, "ROOT (*.root)");
 
    fd.setFileMode( QFileDialog::AnyFile);
+   fd.setAcceptMode(QFileDialog::AcceptSave);
    fd.selectFile("export.root");
 
    if (fd.exec() != QDialog::Accepted) return;
@@ -2043,6 +2044,7 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
 
    QFileDialog fd( this, QString("Save ") + panel->objectName() + " As", fLastFileDir);
    fd.setFileMode( QFileDialog::AnyFile );
+   fd.setAcceptMode(QFileDialog::AcceptSave);
 
    QString PS = "Post Script (*.ps)";
    QString PS_Portrait = "Post Script Portrait (*.ps)";

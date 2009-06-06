@@ -154,7 +154,7 @@ void TGo4AnalysisConfiguration::RequestAnalysisStatus()
 void TGo4AnalysisConfiguration::FileDialog_ConfFile()
 {
     QFileDialog fd(this,
-                   "Select a configuraton file",
+                   "Select a configuration file",
                    fConfigPath,
                    " Configuration file (*.root)");
     fd.setFileMode( QFileDialog::AnyFile);
@@ -173,6 +173,7 @@ void TGo4AnalysisConfiguration::FileDialog_AutoSave()
           fAutoSavePath,
           "Auto Save File (*.root)");
     fd.setFileMode(QFileDialog::AnyFile);
+    fd.setAcceptMode(QFileDialog::AcceptSave);
     if (fd.exec() != QDialog::Accepted)  return;
 
     QStringList flst = fd.selectedFiles();
