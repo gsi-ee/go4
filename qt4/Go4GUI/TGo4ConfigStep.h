@@ -45,12 +45,12 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
  public slots:
 
 	virtual void InputArguments( const QString & Arg );
-    virtual void InputDisable( int );
+    virtual void InputStateChanged( int );
     virtual void InputPort( const QString & fxPort );
     virtual void InputSourceText( const QString & Name );
-    virtual void OutputDisable( int );
+    virtual void OutputStateChanged( int );
     virtual void OutputNameText( const QString & Name );
-    virtual void StepDisable( int );
+    virtual void StepStateChanged( int );
     virtual void OutArguments( const QString & );
     virtual void SourceComboHighlighted( int k );
     virtual void StoreComboHighlighted( int k );

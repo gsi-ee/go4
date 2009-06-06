@@ -47,15 +47,13 @@ void TGo4ConfigStep::InputArguments(const QString& Arg)
     }
 }
 
-void TGo4ConfigStep::InputDisable(int )
+void TGo4ConfigStep::InputStateChanged(int )
 {
-    if(Disable_in_2->isChecked()) { //checked
-        fStepStatus->SetSourceEnabled(kFALSE);
-        SourceBox->setEnabled(false);
-    } else {                        //unchecked
-        fStepStatus->SetSourceEnabled(kTRUE);
-        SourceBox->setEnabled(true);
-    }
+   bool stepon = EnableStepBox->isChecked();
+   bool on = EnableSourceBox->isChecked();
+
+   fStepStatus->SetSourceEnabled(on);
+   SourceBox->setEnabled(stepon && on);
 }
 
 void TGo4ConfigStep::InputPort(const QString& fxPort)
@@ -81,17 +79,15 @@ void TGo4ConfigStep::InputSourceText(const QString& Name)
     fStepStatus->GetSourcePar()->SetName(Name.trimmed().toAscii());
 }
 
-void TGo4ConfigStep::OutputDisable(int )
+void TGo4ConfigStep::OutputStateChanged(int )
 {
-   if(DisableStoreBox->isChecked()) { //checked
-      fStepStatus->SetStoreEnabled(kFALSE);
-      StoreBox->setEnabled(false);
-      StoreBox->setHidden(true);
-   } else {    //unchecked
-      fStepStatus->SetStoreEnabled(kTRUE);
-      StoreBox->setEnabled(true);
-      StoreBox->setShown(true);
-   }
+   bool stepon = EnableStepBox->isChecked();
+   bool on = EnableStoreBox->isChecked();
+
+   fStepStatus->SetStoreEnabled(on);
+   StoreBox->setEnabled(stepon && on);
+   StoreBox->setShown(on);
+
    parentWidget()->adjustSize();
    parentWidget()->parentWidget()->adjustSize();
    parentWidget()->parentWidget()->parentWidget()->adjustSize();
@@ -102,18 +98,16 @@ void TGo4ConfigStep::OutputNameText(const QString& Name)
    fStepStatus->GetStorePar()->SetName(Name.trimmed().toAscii());
 }
 
-void TGo4ConfigStep::StepDisable(int )
+void TGo4ConfigStep::StepStateChanged(int )
 {
-    if(Step_Disable_b->isChecked()){
-       fStepStatus->SetProcessEnabled(kFALSE);
-       SourceBox->setEnabled(false);
-       StoreBox->setEnabled(false);
-//       StoreBox->setHidden(true);
-    }else{
-       fStepStatus->SetProcessEnabled(kTRUE);
-       InputDisable(0);
-       OutputDisable(0);
-   }
+   bool on = EnableStepBox->isChecked();
+
+   fStepStatus->SetProcessEnabled(on);
+   EnableSourceBox->setEnabled(on);
+   EnableStoreBox->setEnabled(on);
+
+   InputStateChanged(0);
+   OutputStateChanged(0);
 }
 
 void TGo4ConfigStep::OutArguments(const QString&)
@@ -520,16 +514,18 @@ QString TGo4ConfigStep::GetStepName()
 
 void TGo4ConfigStep::SetStepControl(bool process, bool source, bool store)
 {
-   Step_Disable_b->setChecked(!process);
-   Disable_in_2->setChecked(!source);
-   DisableStoreBox->setChecked(!store);
+   EnableStepBox->setChecked(process);
+   EnableSourceBox->setChecked(source);
+   EnableStoreBox->setChecked(store);
+
+   //StepStateChanged(0);
 }
 
 void TGo4ConfigStep::GetStepControl(bool& process, bool& source, bool& store)
 {
-   process  = !Step_Disable_b->isChecked();
-   source = !Disable_in_2->isChecked();
-   store = !DisableStoreBox->isChecked();
+   process = EnableStepBox->isChecked();
+   source = EnableSourceBox->isChecked();
+   store = EnableStoreBox->isChecked();
 }
 
 void TGo4ConfigStep::ResetSourceWidgets(const QString& name,

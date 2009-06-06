@@ -67,35 +67,35 @@
                 </property>
                 <widget class="QCheckBox">
                     <property name="name">
-                        <cstring>Step_Disable_b</cstring>
+                        <cstring>EnableStepBox</cstring>
                     </property>
                     <property name="text">
-                        <string>Disable Step</string>
+                        <string>Enable Step</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>Disable this step.</string>
+                        <string>Enable this step</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox">
                     <property name="name">
-                        <cstring>Disable_in_2</cstring>
+                        <cstring>EnableSourceBox</cstring>
                     </property>
                     <property name="text">
-                        <string>Disable Source</string>
+                        <string>Source</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>Disable event source. Step will then process output events of previous steps.</string>
+                        <string>Enable event source. If diabled, step will then process output events of previous steps.</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox">
                     <property name="name">
-                        <cstring>Disable_out_2</cstring>
+                        <cstring>EnableStoreBox</cstring>
                     </property>
                     <property name="text">
-                        <string>Disable Store</string>
+                        <string>Store</string>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>Disable storing output events of this step.</string>
+                        <string>Enable storing output events of this step.</string>
                     </property>
                 </widget>
             </hbox>
@@ -803,22 +803,22 @@
 </widget>
 <connections>
     <connection>
-        <sender>Step_Disable_b</sender>
+        <sender>EnableStepBox</sender>
         <signal>stateChanged(int)</signal>
         <receiver>TGo4ConfigStep</receiver>
-        <slot>StepDisable(int)</slot>
+        <slot>StepStateChanged(int)</slot>
     </connection>
     <connection>
-        <sender>Disable_in_2</sender>
+        <sender>EnableSourceBox</sender>
         <signal>stateChanged(int)</signal>
         <receiver>TGo4ConfigStep</receiver>
-        <slot>InputDisable(int)</slot>
+        <slot>InputStateChanged(int)</slot>
     </connection>
     <connection>
-        <sender>Disable_out_2</sender>
+        <sender>EnableStoreBox</sender>
         <signal>stateChanged(int)</signal>
         <receiver>TGo4ConfigStep</receiver>
-        <slot>OutputDisable(int)</slot>
+        <slot>OutputStateChanged(int)</slot>
     </connection>
     <connection>
         <sender>SourceNameEdit</sender>
@@ -905,18 +905,6 @@
         <slot>StoreStopEvent(int)</slot>
     </connection>
     <connection>
-        <sender>Step_Disable_b</sender>
-        <signal>toggled(bool)</signal>
-        <receiver>Disable_in_2</receiver>
-        <slot>setDisabled(bool)</slot>
-    </connection>
-    <connection>
-        <sender>Step_Disable_b</sender>
-        <signal>toggled(bool)</signal>
-        <receiver>Disable_out_2</receiver>
-        <slot>setDisabled(bool)</slot>
-    </connection>
-    <connection>
         <sender>FileNameInput</sender>
         <signal>clicked()</signal>
         <receiver>TGo4ConfigStep</receiver>
@@ -972,12 +960,12 @@
 </variables>
 <slots>
     <slot>InputArguments( const QString &amp; Arg )</slot>
-    <slot>InputDisable( int )</slot>
+    <slot>InputStateChanged( int )</slot>
     <slot>InputPort( const QString &amp; fxPort )</slot>
     <slot>InputSourceText( const QString &amp; Name )</slot>
-    <slot>OutputDisable( int )</slot>
+    <slot>OutputStateChanged( int )</slot>
     <slot>OutputNameText( const QString &amp; Name )</slot>
-    <slot>StepDisable( int )</slot>
+    <slot>StepStateChanged( int )</slot>
     <slot>OutArguments( const QString &amp; )</slot>
     <slot>SourceComboHighlighted( int k )</slot>
     <slot>StoreComboHighlighted( int k )</slot>

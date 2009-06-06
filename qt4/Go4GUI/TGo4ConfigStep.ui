@@ -51,32 +51,32 @@
               <number>0</number>
             </property>
             <item>
-              <widget class="QCheckBox" name="Step_Disable_b" >
+              <widget class="QCheckBox" name="EnableStepBox" >
                 <property name="text" >
-                  <string>Disable Step</string>
+                  <string>Enable Step</string>
                 </property>
                 <property name="toolTip" stdset="0" >
-                  <string>Disable this step.</string>
+                  <string>Enable processing of this step.</string>
                 </property>
               </widget>
             </item>
             <item>
-              <widget class="QCheckBox" name="Disable_in_2" >
+              <widget class="QCheckBox" name="EnableSourceBox" >
                 <property name="text" >
-                  <string>Disable Source</string>
+                  <string>Source</string>
                 </property>
                 <property name="toolTip" stdset="0" >
-                  <string>Disable event source. Step will then process output events of previous steps.</string>
+                  <string>Enable event source. If disabled, step will then process output events of previous steps.</string>
                 </property>
               </widget>
             </item>
             <item>
-              <widget class="QCheckBox" name="DisableStoreBox" >
+              <widget class="QCheckBox" name="EnableStoreBox" >
                 <property name="text" >
-                  <string>Disable Store</string>
+                  <string>Store</string>
                 </property>
                 <property name="toolTip" stdset="0" >
-                  <string>Disable storing output events of this step.</string>
+                  <string>Enable storing output events of this step.</string>
                 </property>
               </widget>
             </item>
@@ -720,22 +720,22 @@
   <layoutdefault spacing="6" margin="11" />
   <connections>
     <connection>
-      <sender>Step_Disable_b</sender>
+      <sender>EnableStepBox</sender>
       <signal>stateChanged(int)</signal>
       <receiver>TGo4ConfigStep</receiver>
-      <slot>StepDisable(int)</slot>
+      <slot>StepStateChanged(int)</slot>
     </connection>
     <connection>
-      <sender>Disable_in_2</sender>
+      <sender>EnableSourceBox</sender>
       <signal>stateChanged(int)</signal>
       <receiver>TGo4ConfigStep</receiver>
-      <slot>InputDisable(int)</slot>
+      <slot>InputStateChanged(int)</slot>
     </connection>
     <connection>
-      <sender>DisableStoreBox</sender>
+      <sender>EnableStoreBox</sender>
       <signal>stateChanged(int)</signal>
       <receiver>TGo4ConfigStep</receiver>
-      <slot>OutputDisable(int)</slot>
+      <slot>OutputStateChanged(int)</slot>
     </connection>
     <connection>
       <sender>SourceNameEdit</sender>
@@ -820,18 +820,6 @@
       <signal>valueChanged(int)</signal>
       <receiver>TGo4ConfigStep</receiver>
       <slot>StoreStopEvent(int)</slot>
-    </connection>
-    <connection>
-      <sender>Step_Disable_b</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>Disable_in_2</receiver>
-      <slot>setDisabled(bool)</slot>
-    </connection>
-    <connection>
-      <sender>Step_Disable_b</sender>
-      <signal>toggled(bool)</signal>
-      <receiver>DisableStoreBox</receiver>
-      <slot>setDisabled(bool)</slot>
     </connection>
     <connection>
       <sender>FileNameInput</sender>
