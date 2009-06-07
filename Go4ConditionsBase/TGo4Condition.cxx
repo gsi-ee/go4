@@ -516,13 +516,18 @@ fbCMaxDraw=on;
 }
 Bool_t TGo4Condition::IsCMaxDraw()
 {
-return fbCMaxDraw;
+   return fbCMaxDraw;
 }
 
 void TGo4Condition::SetHistogram(const char* name)
 {
-  fxHistoName=name;
-  fbHistogramLink=true;
+   if ((name==0) || (*name==0)) {
+      fxHistoName = "";
+      fbHistogramLink = false;
+   } else {
+      fxHistoName = name;
+      fbHistogramLink = true;
+   }
 }
 
 const char* TGo4Condition::GetLinkedHistogram()

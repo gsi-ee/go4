@@ -171,7 +171,7 @@
                         </property>
                     </item>
                     <property name="name">
-                        <cstring>Input_Combo_1_2</cstring>
+                        <cstring>InputKindCombo</cstring>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Type of event source.</string>
@@ -827,7 +827,7 @@
         <slot>InputSourceText(const QString&amp;)</slot>
     </connection>
     <connection>
-        <sender>Input_Combo_1_2</sender>
+        <sender>InputKindCombo</sender>
         <signal>activated(int)</signal>
         <receiver>TGo4ConfigStep</receiver>
         <slot>SourceComboHighlighted(int)</slot>

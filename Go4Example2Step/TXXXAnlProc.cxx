@@ -1,19 +1,20 @@
 #include "TXXXAnlProc.h"
 
-#include "Riostream.h"
+#include <math.h>
 
 #include "TH1.h"
 #include "TH2.h"
 #include "TGraph.h"
 #include "TMultiGraph.h"
+#include "Riostream.h"
 
 #include "TGo4WinCond.h"
+#include "TGo4Fitter.h"
 
 #include "TXXXAnlEvent.h"
 #include "TXXXUnpackEvent.h"
 #include "TXXXParameter.h"
 #include "TXXXCalibPar.h"
-#include "TGo4Fitter.h"
 
 //***********************************************************
 TXXXAnlProc::TXXXAnlProc()
