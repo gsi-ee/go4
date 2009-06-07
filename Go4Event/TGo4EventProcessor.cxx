@@ -8,6 +8,7 @@
 #include "TH2.h"
 #include "TCutG.h"
 #include "TArrayD.h"
+#include "TAxis.h"
 
 #include "TGo4Log.h"
 #include "TGo4WinCond.h"
@@ -16,8 +17,11 @@
 #include "TGo4EventCalibration.h"
 #include "TGo4AnalysisImp.h"
 
-TGo4EventProcessor::TGo4EventProcessor(const char* name)
-: TGo4EventSource(name), fxInputEvent(0), fxCalibration(0)
+TGo4EventProcessor::TGo4EventProcessor(const char* name) :
+   TGo4EventSource(name),
+   fxInputEvent(0),
+   fxCalibration(0),
+   fbMakeWithAutosave(kTRUE)
 {
 TRACE((15,"TGo4EventProcessor::TGo4EventProcessor()",__LINE__, __FILE__));
 }
@@ -30,43 +34,17 @@ TRACE((15,"TGo4EventProcessor::~TGo4EventProcessor()",__LINE__, __FILE__));
 Bool_t TGo4EventProcessor::CheckInputEvent(const char* classname)
 {
    TRACE((12,"TGo4EventProcessor::CheckInputEvent()",__LINE__, __FILE__));
-   if(fxInputEvent==0)
-      {
-         return kFALSE;
-      }
-   else
-      {
-         if(!strcmp(fxInputEvent->ClassName(),classname))
-            {
-               return kTRUE;
-            }
-         else
-            {
-               return kFALSE;
-            }
+   if(fxInputEvent==0) return kFALSE;
 
-     }
-
+   return !strcmp(fxInputEvent->ClassName(),classname);
 }
 
 Bool_t TGo4EventProcessor::CheckCalibration(const char* classname)
 {
    TRACE((12,"TGo4EventProcessor::CheckCalibration()",__LINE__, __FILE__));
-   if(fxCalibration==0)
-      {
-         return kFALSE;
-      }
-   else
-      {
-         if(!strcmp(fxCalibration->ClassName(),classname))
-            {
-               return kTRUE;
-            }
-         else
-            {
-               return kFALSE;
-            }
-     }
+   if(fxCalibration==0) return kFALSE;
+
+   return !strcmp(fxCalibration->ClassName(),classname);
 }
 
 Bool_t TGo4EventProcessor::AddObject(TNamed* any, const char* subfolder)
@@ -201,33 +179,33 @@ TH1* TGo4EventProcessor::MakeH1(char type, const char* fullname, const char* tit
    const char* separ = strrchr(fullname, '/');
    if (separ!=0) {
       histoname = separ + 1;
-      foldername.Append(fullname, fullname - separ - 1);
+      foldername.Append(fullname, separ - fullname);
    } else
       histoname = fullname;
 
    int itype = 0;
-   const char* stype = "TH1I";
+   const char* sclass = "TH1I";
    switch (type) {
-      case 'I': case 'i': itype = 0; stype = "TH1I"; break;
-      case 'F': case 'f': itype = 1; stype = "TH1F"; break;
-      case 'D': case 'd': itype = 2; stype = "TH1D"; break;
-      case 'S': case 's': itype = 3; stype = "TH1S"; break;
-      case 'C': case 'c': itype = 4; stype = "TH1C"; break;
+      case 'I': case 'i': itype = 0; sclass = "TH1I"; break;
+      case 'F': case 'f': itype = 1; sclass = "TH1F"; break;
+      case 'D': case 'd': itype = 2; sclass = "TH1D"; break;
+      case 'S': case 's': itype = 3; sclass = "TH1S"; break;
+      case 'C': case 'c': itype = 4; sclass = "TH1C"; break;
       default:
-         cout << "There is no histogram with type:" << type << ", use I instead" << endl;
+         cout << "There is no histogram type:" << type << ", use I instead" << endl;
    }
 
    TH1* oldh = GetHistogram(fullname);
 
    if (oldh!=0) {
-      if (oldh->InheritsFrom(stype) && fbMakeWithAutosave) {
+      if (oldh->InheritsFrom(sclass) && fbMakeWithAutosave) {
          if (title) oldh->SetTitle(title);
          if (xtitle) oldh->GetXaxis()->SetTitle(xtitle);
          if (ytitle) oldh->GetYaxis()->SetTitle(ytitle);
          return oldh;
       }
       cout << "There is histogram " << fullname << " with type " << oldh->ClassName() << " other than specified "
-           << stype << " rebuild" << endl;
+           << sclass << " rebuild" << endl;
    }
 
    TH1* newh = 0;
@@ -270,33 +248,33 @@ TH2* TGo4EventProcessor::MakeH2(char type, const char* fullname, const char* tit
    const char* separ = strrchr(fullname, '/');
    if (separ!=0) {
       histoname = separ + 1;
-      foldername.Append(fullname, fullname - separ - 1);
+      foldername.Append(fullname, separ - fullname);
    } else
       histoname = fullname;
 
    int itype = 0;
-   const char* stype = "TH2I";
+   const char* sclass = "TH2I";
    switch (type) {
-      case 'I': case 'i': itype = 0; stype = "TH2I"; break;
-      case 'F': case 'f': itype = 1; stype = "TH2F"; break;
-      case 'D': case 'd': itype = 2; stype = "TH2D"; break;
-      case 'S': case 's': itype = 3; stype = "TH2S"; break;
-      case 'C': case 'c': itype = 4; stype = "TH2C"; break;
+      case 'I': case 'i': itype = 0; sclass = "TH2I"; break;
+      case 'F': case 'f': itype = 1; sclass = "TH2F"; break;
+      case 'D': case 'd': itype = 2; sclass = "TH2D"; break;
+      case 'S': case 's': itype = 3; sclass = "TH2S"; break;
+      case 'C': case 'c': itype = 4; sclass = "TH2C"; break;
       default:
-         cout << "There is no histogram with type:" << type << ", use I instead" << endl;
+         cout << "There is no histogram type:" << type << ", use I instead" << endl;
    }
 
    TH1* oldh = GetHistogram(fullname);
 
    if (oldh!=0) {
-      if (oldh->InheritsFrom(stype) && fbMakeWithAutosave) {
+      if (oldh->InheritsFrom(sclass) && fbMakeWithAutosave) {
          if (title) oldh->SetTitle(title);
          if (xtitle) oldh->GetXaxis()->SetTitle(xtitle);
          if (ytitle) oldh->GetYaxis()->SetTitle(ytitle);
          return (TH2*) oldh;
       }
       cout << "There is histogram " << fullname << " with type " << oldh->ClassName() << " other than specified "
-           << stype << " rebuild" << endl;
+           << sclass << " rebuild" << endl;
    }
 
    TH2* newh = 0;
@@ -327,6 +305,46 @@ TH2* TGo4EventProcessor::MakeH2(char type, const char* fullname, const char* tit
 
 TGo4WinCond* TGo4EventProcessor::MakeWinCond(const char* fullname,
                                                    Double_t xmin, Double_t xmax,
+                                                   const char* HistoName)
+{
+   TString foldername, condname;
+
+   if ((fullname==0) || (strlen(fullname)==0)) {
+      cout << "Condition name not specified, can be a hard error" << endl;
+      return 0;
+   }
+   const char* separ = strrchr(fullname, '/');
+   if (separ!=0) {
+      condname = separ + 1;
+      foldername.Append(fullname, separ - fullname);
+   } else
+      condname = fullname;
+
+   TGo4Condition* cond = GetAnalysisCondition(fullname);
+
+   if (cond!=0) {
+      if (cond->InheritsFrom(TGo4WinCond::Class()) && fbMakeWithAutosave) {
+         cond->ResetCounts();
+         return (TGo4WinCond*) cond;
+      }
+      RemoveAnalysisCondition(fullname);
+   }
+
+   TGo4WinCond* wcond = new TGo4WinCond(condname);
+   wcond->SetValues(xmin, xmax);
+   wcond->SetHistogram(HistoName);
+   wcond->Enable();
+
+   if (foldername.Length() > 0)
+      AddAnalysisCondition(wcond, foldername.Data());
+   else
+      AddAnalysisCondition(wcond);
+
+   return wcond;
+}
+
+TGo4WinCond* TGo4EventProcessor::MakeWinCond(const char* fullname,
+                                                   Double_t xmin, Double_t xmax,
                                                    Double_t ymin, Double_t ymax,
                                                    const char* HistoName)
 {
@@ -339,23 +357,22 @@ TGo4WinCond* TGo4EventProcessor::MakeWinCond(const char* fullname,
    const char* separ = strrchr(fullname, '/');
    if (separ!=0) {
       condname = separ + 1;
-      foldername.Append(fullname, fullname - separ - 1);
+      foldername.Append(fullname, separ - fullname);
    } else
       condname = fullname;
 
    TGo4Condition* cond = GetAnalysisCondition(fullname);
 
    if (cond!=0) {
-      if (cond->InheritsFrom(TGo4WinCond::Class()) && fbMakeWithAutosave)
+      if (cond->InheritsFrom(TGo4WinCond::Class()) && fbMakeWithAutosave) {
+         cond->ResetCounts();
          return (TGo4WinCond*) cond;
+      }
       RemoveAnalysisCondition(fullname);
    }
 
    TGo4WinCond* wcond = new TGo4WinCond(condname);
-   if ((ymin!=0.) || (ymax!=0.))
-      wcond->SetValues(xmin, xmax, ymin, ymax);
-   else
-      wcond->SetValues(xmin, xmax);
+   wcond->SetValues(xmin, xmax, ymin, ymax);
    wcond->SetHistogram(HistoName);
    wcond->Enable();
 
@@ -381,15 +398,17 @@ TGo4PolyCond* TGo4EventProcessor::MakePolyCond(const char* fullname,
    const char* separ = strrchr(fullname, '/');
    if (separ!=0) {
       condname = separ + 1;
-      foldername.Append(fullname, fullname - separ - 1);
+      foldername.Append(fullname, separ - fullname);
    } else
       condname = fullname;
 
    TGo4Condition* cond = GetAnalysisCondition(fullname);
 
    if (cond!=0) {
-      if (cond->InheritsFrom(TGo4PolyCond::Class()) && fbMakeWithAutosave)
+      if (cond->InheritsFrom(TGo4PolyCond::Class()) && fbMakeWithAutosave) {
+         cond->ResetCounts();
          return (TGo4PolyCond*) cond;
+      }
       RemoveAnalysisCondition(fullname);
    }
 

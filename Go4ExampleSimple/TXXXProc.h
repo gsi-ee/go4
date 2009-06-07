@@ -14,13 +14,13 @@ class TXXXProc : public TGo4EventProcessor {
       Bool_t BuildEvent(TGo4EventElement* target); // event processing function
 
  private:
-      TH1I          *fCr1Ch[8];
-      TH1I          *fCr2Ch[8];
-      TH2I          *fCr1Ch1x2;
-      TH1I          *fHis1;
-      TH1I          *fHis1gate;
-      TH1I          *fHis2;
-      TH1I          *fHis2gate;
+      TH1          *fCr1Ch[8];
+      TH1          *fCr2Ch[8];
+      TH2          *fCr1Ch1x2;
+      TH1          *fHis1;
+      TH1          *fHis1gate;
+      TH1          *fHis2;
+      TH1          *fHis2gate;
       TGo4WinCond   *fconHis1;
       TGo4WinCond   *fconHis2;
       TGo4PolyCond  *fPolyCon;

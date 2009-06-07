@@ -228,14 +228,24 @@ class TGo4EventProcessor : public TGo4EventSource {
                    Int_t nbinsy, Double_t ylow, Double_t yup,
                    const char* xtitle = 0, const char* ytitle = 0);
 
-      /** Create window condition.
+      /** Create 1D window condition.
        * fullname specifies name of condition (optionally with subfolder name)
        * xmin, xmax - condition range
        * HistoName - name of histogram, to which condition is assigned
        */
       TGo4WinCond* MakeWinCond(const char* fullname,
                                Double_t xmin, Double_t xmax,
-                               Double_t ymin = 0., Double_t ymax = 0.,
+                               const char* HistoName = 0);
+
+      /** Create 2D window condition.
+       * fullname specifies name of condition (optionally with subfolder name)
+       * xmin, xmax - X condition range
+       * ymin, ymax - Y condition range
+       * HistoName - name of histogram, to which condition is assigned
+       */
+      TGo4WinCond* MakeWinCond(const char* fullname,
+                               Double_t xmin, Double_t xmax,
+                               Double_t ymin, Double_t ymax,
                                const char* HistoName = 0);
 
       /** Create polygon condition.

@@ -25,7 +25,7 @@ Changes in Go4 v4.03.00 (June 09)
    pure Qt4 application. This solves many side effects like crash
    by style changing or blinking during resize of main window
 2. rootmap files are generated per library - this simplifies make 
-   procedure significantly, old user makefiles should be still working
+   procedure significantly, old user makefiles are still working
 3. Go4 makefile now can better recognize standard installed Qt version
    without QTDIR set. 'make WITHQT=3' or 'make WITHQT=4' forces usage of 
    specified qt version.
@@ -39,6 +39,9 @@ Changes in Go4 v4.03.00 (June 09)
    which will be loaded automatically
 9. Fix error (reported by Nick) - gui was hanging when 
    non-existing hotstart file was specified.
+10.New MakeH1, MakeH2, MakeWinCond, MakePolyCond are implemented.
+   They provide easy way to produce analysis objects or take them 
+   from the autosave file. 
      
 
 Changes in Go4 v4.02.00 (April 09)
