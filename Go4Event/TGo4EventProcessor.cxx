@@ -9,6 +9,7 @@
 #include "TCutG.h"
 #include "TArrayD.h"
 #include "TAxis.h"
+#include "TInterpreter.h"
 
 #include "TGo4Log.h"
 #include "TGo4WinCond.h"
@@ -440,4 +441,55 @@ TGo4PolyCond* TGo4EventProcessor::MakePolyCond(const char* fullname,
       AddAnalysisCondition(pcond);
 
    return pcond;
+}
+
+TGo4Parameter* TGo4EventProcessor::MakeParameter(const char* fullname,
+                                                       const char* classname,
+                                                       const char* newcmd)
+{
+   TString foldername, paramname;
+
+   if ((fullname==0) || (strlen(fullname)==0)) {
+      cout << "Parameter name not specified, can be a hard error" << endl;
+      return 0;
+   }
+   const char* separ = strrchr(fullname, '/');
+   if (separ!=0) {
+      paramname = separ + 1;
+      foldername.Append(fullname, separ - fullname);
+   } else
+      paramname = fullname;
+
+   TGo4Parameter* param = GetParameter(fullname);
+
+   if (param!=0) {
+      if (param->InheritsFrom(classname)) return param;
+      cout << "There is parameter " << fullname << " with type " << param->ClassName() << " other than specified "
+           << classname << ", rebuild" << endl;
+      RemoveParameter(fullname);
+   }
+
+   paramname = TString("\"") + paramname + TString("\"");
+
+   TString cmd;
+   if (newcmd!=0)
+      cmd = Form(newcmd, paramname.Data());
+   else
+      cmd = Form("new %s(%s)", classname, paramname.Data());
+
+   Long_t res = gInterpreter->ProcessLine(cmd.Data());
+
+   if (res==0) {
+      cout << "Cannot create parameter of class " << classname << endl;
+      return 0;
+   }
+
+   param = (TGo4Parameter*) res;
+
+   if (foldername.Length() > 0)
+      AddParameter(param, foldername.Data());
+   else
+      AddParameter(param);
+
+   return param;
 }

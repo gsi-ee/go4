@@ -262,6 +262,16 @@ class TGo4EventProcessor : public TGo4EventSource {
                                    Double_t (*points) [2],
                                    const char* HistoName = 0);
 
+      /** Create parameter of specified class,
+       * fullname specifies name of condition (optionally with subfolder name)
+       * classname - name of required parameter class, it should be known to ROOT.
+       * newcmd - command to create parameter like "new UserParameter(%s, 1000, 2000)",
+       *          where %s is place for parameter name
+       */
+      TGo4Parameter* MakeParameter(const char* fullname,
+                                      const char* classname,
+                                      const char* newcmd = 0);
+
    protected:
 
       /** Default ctor for root streamer. */

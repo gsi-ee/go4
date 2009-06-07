@@ -31,17 +31,7 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
 {
    cout << "**** TXXXProc: Create instance " << name << endl;
 
-   // Creation of parameters (check if restored from auto save file):
-   if(GetParameter("Par1")==0) {
-      // no auto save, create new
-      fParam = new TXXXParam("Par1");
-      AddParameter(fParam);
-      cout << "**** TXXXProc: Created parameter" << endl;
-   } else {
-      // got them from autosave file, restore pointers
-      fParam=(TXXXParam *)GetParameter("Par1");
-      cout << "**** TXXXProc: Restored parameter from autosave" << endl;
-   }
+   fParam=(TXXXParam*) MakeParameter("Par1", "TXXXParam");
 
    for(int i=0;i<8;i++) {
       fCr1Ch[i] = MakeH1('I', Form("Crate1/Cr1Ch%02d",i+1), Form("Crate 1 channel %2d",i+1), 5000, 0., 5000.);
@@ -60,7 +50,7 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
    Double_t cutpnts[3][2] = { {400, 800}, {700, 900}, {600, 1100} };
    fPolyCon = MakePolyCond("polycon", 3, cutpnts);
 
-   fConArr   = (TGo4CondArray*)GetAnalysisCondition("polyconar");
+   fConArr = (TGo4CondArray*)GetAnalysisCondition("polyconar");
    if(fConArr==0) {
       // This is example how to create condition array
       cout << "**** TXXXProc: Create condition" << endl;
