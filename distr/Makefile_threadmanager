@@ -34,7 +34,7 @@ build/dummy.d: Makefile $(ALLHDRS) $(GO4MAP)
 	@(if [ ! -f bin ] ; then mkdir -p bin; fi)
 
 $(GO4MAP):
-   @(if [ ! -f $@ ] ; then touch $@; fi)
+	@(if [ ! -f $@ ] ; then touch $@; fi)
 
 libs:           $(BUILDGO4LIBS)    
 

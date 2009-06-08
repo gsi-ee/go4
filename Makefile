@@ -386,7 +386,7 @@ thrd-package:
 	@echo "Creating package $(THRDTAR_NAME) ..."
 	@tar chf $(THRDTAR_NAME) Makefile.config
 	@tar rhf $(THRDTAR_NAME) Makefile.rules
-	@tar rhf $(THRDTAR_NAME) ./build/*.sh
+	@tar rhf $(THRDTAR_NAME) ./build/*.sh build/Makefile.*
 	@tar rhf $(THRDTAR_NAME) $(patsubst %,%/Module.mk,$(THRDMODULES))
 	@tar rhf $(THRDTAR_NAME) $(patsubst %,%/Makefile,$(THRDMODULESEX))
 	@tar rhf $(THRDTAR_NAME) $(subst $(GO4SYS),.,$(THRDDISTRFILES))
@@ -429,7 +429,7 @@ task-package:
 	@echo "Creating package $(TASKTAR_NAME) ..."
 	@tar chf $(TASKTAR_NAME) Makefile.config
 	@tar rhf $(TASKTAR_NAME) Makefile.rules
-	@tar rhf $(TASKTAR_NAME) ./build/*.sh
+	@tar rhf $(TASKTAR_NAME) ./build/*.sh  build/Makefile.*
 	@tar rhf $(TASKTAR_NAME) $(patsubst %,%/Module.mk,$(TASKMODULES))
 	@tar rhf $(TASKTAR_NAME) $(patsubst %,%/Makefile,$(TASKMODULESEX))
 	@tar rhf $(TASKTAR_NAME) $(subst $(GO4SYS),.,$(TASKDISTRFILES))

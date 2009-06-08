@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-              Go4 Threadmanager v4.1-1 (40101)
-                      28-Nov-2008
+              Go4 Threadmanager v4.3-0 (40300)
+                      19-Jun-2009
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at DVEE department, GSI
@@ -25,7 +25,7 @@ tested on
     Debian 3.1 (32 bit and AMD 64bit), Debian 4.0, Ubuntu 6.10
         compilers: gcc 3.2, gcc 3.3.5, gcc 3.4.3, gcc 4.1.x, gcc 4.3.x
     SunOS 5.2 (Solaris) with CC 5.8
-    ROOT: recommended >=4.04; tested for ROOT versions <=5.15-06
+    ROOT: recommended >=4.04; tested for ROOT versions <=5.23-04
 
 --------------------------------------------------------------
 
