@@ -1,5 +1,6 @@
+include $(GO4SYS)/Makefile.config
+
 EXAMPMESH_NAME        = Go4ExampleMesh
-MODULE_NAME            = $(EXAMPMESH_NAME)
 
 ## normally should be like this for every module, but can be specific
 
@@ -58,13 +59,13 @@ $(EXAMPMESH_LIB):   $(EXAMPMESH_O) $(EXAMPMESH_DO)
 $(EXAMPMESH_DS): $(EXAMPMESH_H)  $(EXAMPMESH_LINKDEF)
 	@$(ROOTCINTGO4) $(EXAMPMESH_H) $(EXAMPMESH_LINKDEF)
 
-all-$(EXAMPMESH_NAME):     $(EXAMPMESH_LIB) $(EXAMPMESH_EXE)
+all::     $(EXAMPMESH_LIB) $(EXAMPMESH_EXE)
 
-clean-obj-$(EXAMPMESH_NAME):
+clean::
 	@rm -f $(EXAMPMESH_O) $(EXAMPMESH_DO)
 	@$(CleanLib) $(EXAMPMESH_LIBNAME) $(EXAMPMESH_DIR)
 	@rm -f $(EXAMPMESH_EXEO) $(EXAMPMESH_EXE)
-
-clean-$(EXAMPMESH_NAME): clean-obj-$(EXAMPMESH_NAME)
 	@rm -f $(EXAMPMESH_DEP) $(EXAMPMESH_DDEP) $(EXAMPMESH_DS) $(EXAMPMESH_DH)
 	@rm -f $(EXAMPMESH_EDEP)
+
+include $(GO4SYS)/Makefile.rules

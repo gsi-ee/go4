@@ -1,5 +1,4 @@
 LOCKGRD_NAME        = Go4LockGuard
-MODULE_NAME         = $(LOCKGRD_NAME)
 
 ## normally should be like this for every module, but can be specific
 

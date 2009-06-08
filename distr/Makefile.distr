@@ -1,5 +1,7 @@
 include Makefile.config
 
+Go4_Makefile_Rules = included
+
 ifdef GO4_WIN32
   GO4SYS = .
 endif   
@@ -48,42 +50,38 @@ BUILDGO4LIBS = $(GO4FIT_LIB) \
                $(GO4AN_LIB) \
                $(GO4BGUI_LIB)
 
-MODULES  = MbsAPIbase MbsAPI RawAPI \
-           Go4Analysis Go4AnalysisClient \
+MODULES  = MbsAPIbase MbsAPI RawAPI Go4Analysis Go4AnalysisClient \
            Go4CommandsAnalysis Go4CommandsBase \
            Go4CommandsTaskHandler Go4TaskHandler \
            Go4ConditionsBase Go4DynamicList Go4Event \
-           Go4EventServer Go4EventServerExample Go4Exceptions \
-           Go4Display Go4Proxies\
-           Go4ExampleSimple Go4Example1Step Go4Example2Step \
-           Go4ExampleUserSource Go4ExampleMesh \
-           Go4Fit Go4FitExample  Go4ObjectManager \
+           Go4EventServer Go4Exceptions \
+           Go4Display Go4Proxies \
+           Go4Fit Go4ObjectManager \
            Go4HistogramServer Go4LockGuard Go4Log \
            Go4Queue Go4Socket Go4StatusAnalysis Go4StatusBase \
-           Go4TaskHandlerExample \
-           Go4ThreadManager Go4ThreadManagerExample
+           Go4ThreadManager
            
-EXMODULES = Go4EventServerExample Go4ExampleSimple \
-            Go4Example1Step Go4Example2Step \
+EXMODULES = Go4ExampleSimple Go4Example1Step Go4Example2Step \
             Go4ExampleUserSource Go4ExampleMesh Go4FitExample \
-            Go4TaskHandlerExample Go4ThreadManagerExample
+            Go4ThreadManagerExample Go4TaskHandlerExample Go4EventServerExample
 
-all:       gui examples 
+all::      gui 
 
 .SUFFIXES: .cxx .d .h
 
-.PHONY:         all setup libs gui plugin examples \
-                clean celan-obj clean-ex clean-qt package clean-plugin \
+.PHONY:         all setup libs gui plugin \
+                clean celan-obj clean-qt3 clean-qt4 package clean-plugin \
                 $(patsubst %,all-%,$(MODULES)) \
                 $(patsubst %,clean-%,$(MODULES)) \
                 $(patsubst %,clean-obj-%,$(MODULES))
 
-FASTRULES    += clean-ex clean-qt clean-bak clean-obj clean-plugin \
+FASTRULES    += clean-obj clean-qt3 clean-qt4 clean-plugin \
                 $(patsubst %,clean-%,$(MODULES)) \
-                $(patsubst %,clean-obj-%,$(MODULES)) \
-                $(patsubst %,map-%,$(MODULES))
+                $(patsubst %,clean-obj-%,$(MODULES))
 
 include $(patsubst %,%/Module.mk,$(MODULES))
+
+include $(patsubst %,%/Makefile, $(EXMODULES))
 
 -include qt3/Module.mk
 
@@ -99,11 +97,9 @@ build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS) $(GO4MAP)
 $(GO4MAP):
 	@(if [ ! -f $@ ] ; then touch $@; fi)
 
-libs:           $(BUILDGO4LIBS)
+libs::          $(BUILDGO4LIBS)
 
 gui::           libs
-
-examples:       $(patsubst %,all-%,$(EXMODULES)) $(EXAMPLEEXECS)
 
 noqt:           all
 
@@ -122,8 +118,6 @@ clean-mainlibs:
 
 clean-obj: clean-mainlibs $(patsubst %,clean-obj-%,$(MODULES))
 	@echo "Clean go4 object files done"
-
-clean-ex:       $(patsubst %,clean-%,$(EXMODULES))
 
 GO4BASE_O = $(LOCKGRD_O) $(LOCKGRD_DO) \
             $(GO4LOG_O) $(GO4LOG_DO) \
@@ -200,6 +194,7 @@ $(GO4AN_LIB):   $(GO4AN_O)
 $(GO4BGUI_LIB):   $(GO4BGUI_O)
 	@$(MakeLibrary) $(GO4BGUI_LIBNAME) "$(GO4BGUI_O)" $(GO4DLLPATH) "$(GO4BGUI_LINKDEFS)" "$(VERSION_LIB) $(GO4ANBASE_LIB) $(GO4TSKH_LIB) $(THRDMNGR_LIB) $(GO4BASE_LIB) $(GO4FIT_LIB) $(BASIC_LIB_DEP)"
 
+Go4_Makefile_Rules = 
 include Makefile.rules
 
 ifeq ($(findstring $(MAKECMDGOALS), $(FASTRULES)),)

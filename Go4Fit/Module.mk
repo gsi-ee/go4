@@ -1,5 +1,4 @@
 GO4FIT_NAME        = Go4Fit
-MODULE_NAME         = $(GO4FIT_NAME)
 
 ## normally should be like this for every module, but can be specific
 

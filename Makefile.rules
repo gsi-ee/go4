@@ -1,5 +1,9 @@
 ## Include dependencies rules, working only on linux
 
+ifeq ($(Go4_Makefile_Rules),)
+
+Go4_Makefile_Rules = included
+
 ifdef LIBDEPENDENC
 ifeq ($(findstring $(MAKECMDGOALS), examples $(FASTRULES)),)
 -include $(LIBDEPENDENC)
@@ -61,5 +65,7 @@ endif
 %.d: %.cpp
 	@echo "Generate dependency $@ ... "
 	@$(MakeDepend) $@ "$(CXXFLAGS) $(QTCXXFLAGS)" $*.cpp > $@
+
+endif
 
 endif

@@ -1,4 +1,5 @@
 include Makefile.config
+Go4_Makefile_Rules = included
 
 GO4PACKAGE = go4threadmanager
 
@@ -11,20 +12,21 @@ THRDMNGR_LIB    = $(GO4DLLPATH)/$(THRDMNGR_LIBNAME).$(DllSuf)
 BUILDGO4LIBS = $(GO4BASE_LIB) \
                $(THRDMNGR_LIB)
 
-MODULES  = Go4Exceptions Go4LockGuard Go4Log \
-           Go4ThreadManager Go4ThreadManagerExample
+MODULES  = Go4Exceptions Go4LockGuard Go4Log Go4ThreadManager
 
 EXMODULES = Go4ThreadManagerExample
 
-all:       libs examples
+all::       libs
 
-.PHONY:         all libs examples \
-                clean clean-ex clean-bak clean-obj package \
+.PHONY:         all libs \
+                clean clean-obj package \
                 $(patsubst %,all-%,$(MODULES)) \
                 $(patsubst %,clean-%,$(MODULES)) \
                 $(patsubst %,clean-obj-%,$(MODULES))
 
 include $(patsubst %,%/Module.mk,$(MODULES))
+
+include $(patsubst %,%/Makefile, $(EXMODULES))
 
 build/dummy.d: Makefile $(ALLHDRS) $(GO4MAP) 
 	@(if [ ! -f $@ ] ; then touch $@; fi)
@@ -38,7 +40,7 @@ libs:           $(BUILDGO4LIBS)
 
 examples:       $(patsubst %,all-%,$(EXMODULES)) $(EXAMPLEEXECS)
 
-clean:     $(patsubst %,clean-%,$(MODULES))
+clean::   $(patsubst %,clean-%,$(MODULES))
 	@rm -f $(GO4MAP)
 	@$(CleanLib) $(GO4BASE_LIBNAME) $(GO4DLLPATH)
 	@echo "Clean go4 threadmanager done"
@@ -46,14 +48,6 @@ clean:     $(patsubst %,clean-%,$(MODULES))
 clean-obj: $(patsubst %,clean-obj-%,$(MODULES))
 	@$(CleanLib) $(GO4BASE_LIBNAME) $(GO4DLLPATH)
 	@echo "Clean go4 threadmanager object files done"
-
-clean-ex:  $(patsubst %,clean-%,$(EXMODULES))
-	@echo "Clean threadmanager examples done"
-
-clean-bak:
-	@echo "Delete bak files"
-	@rm -f $(patsubst %,%/*.bak,$(MODULES))
-	@rm -f $(patsubst %,%/*.*~,$(MODULES))
 
 GO4BASE_O = $(LOCKGRD_O) $(LOCKGRD_DO) \
             $(GO4LOG_O) $(GO4LOG_DO) \
@@ -71,6 +65,7 @@ $(GO4BASE_LIB):   $(GO4BASE_O)
 $(THRDMNGR_LIB):   $(THRDMNGR_O) $(THRDMNGR_DO)
 		@$(MakeLibrary) $(THRDMNGR_LIBNAME) "$(THRDMNGR_O) $(THRDMNGR_DO)" $(GO4DLLPATH) $(THRDMNGR_LINKDEF) "$(GO4BASE_LIB) $(BASIC_LIB_DEP)"
 
+Go4_Makefile_Rules =
 include Makefile.rules
 
 ifeq ($(findstring $(MAKECMDGOALS), $(FASTRULES)),)

@@ -1,5 +1,4 @@
 GO4QUEUE_NAME        = Go4Queue
-MODULE_NAME         = $(GO4QUEUE_NAME)
 
 ## normally should be like this for every module, but can be specific
 

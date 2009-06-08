@@ -1,5 +1,4 @@
 CMDANAL_NAME        = Go4CommandsAnalysis
-MODULE_NAME         = $(CMDANAL_NAME)
 
 ## normally should be like this for every module, but can be specific
 

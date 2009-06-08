@@ -1,5 +1,6 @@
+include $(GO4SYS)/Makefile.config
+
 FITEX_NAME    = Go4FitExample
-MODULE_NAME   = $(FITEX_NAME)
 
 ifdef GO4PACKAGE
 FITEX_DIR     = $(GO4SYS)/$(FITEX_NAME)
@@ -205,13 +206,12 @@ FITEXDISTRFILES    += $(FITEX_DIR)/histograms.root $(FITEX_DIR)/README
 DISTRFILES         += $(FITEXDISTRFILES) $(FITEX_DIR)/Makefile.standalone
 endif
 
-all-$(FITEX_NAME):  $(FITEX_DLLS) $(FITEX_EXECS)
+all::  $(FITEX_DLLS) $(FITEX_EXECS)
 
-clean-obj-$(FITEX_NAME):
+clean::
 	@rm -f $(FITEX_EXECS) $(FITEX_DLLS) $(FITEX_OBJS) $(FITEX_DIR)/*.$(DllSuf) $(FITEX_DIR)/*.$(ObjSuf)
 	@$(CleanLib) $(FITEX2_LIBNAME) $(FITEX_DIR)
 	@$(CleanLib) $(FITEX4_LIBNAME) $(FITEX_DIR)
-
-clean-$(FITEX_NAME): clean-obj-$(FITEX_NAME)
 	@rm -f $(FITEX_DIR)/*.bak $(FITEX_DIR)/*Dict.* $(FITEX_DIR)/Example*.root 
 
+include $(GO4SYS)/Makefile.rules

@@ -1,5 +1,6 @@
+include $(GO4SYS)/Makefile.config
+
 EXAMP2STEP_NAME        = Go4Example2Step
-MODULE_NAME            = $(EXAMP2STEP_NAME)
 
 ## normally should be like this for every module, but can be specific
 
@@ -66,13 +67,13 @@ $(EXAMP2STEP_LIB):   $(EXAMP2STEP_O) $(EXAMP2STEP_DO)
 $(EXAMP2STEP_DS): $(EXAMP2STEP_H)  $(EXAMP2STEP_LINKDEF)
 	@$(ROOTCINTGO4) $(EXAMP2STEP_H) $(EXAMP2STEP_LINKDEF)
 
-all-$(EXAMP2STEP_NAME):  $(EXAMP2STEP_LIB) $(EXAMP2STEP_EXE)
+all::  $(EXAMP2STEP_LIB) $(EXAMP2STEP_EXE)
 
-clean-obj-$(EXAMP2STEP_NAME):
+clean::
 	@rm -f $(EXAMP2STEP_O) $(EXAMP2STEP_DO)
 	@$(CleanLib) $(EXAMP2STEP_LIBNAME) $(EXAMP2STEP_DIR)
 	@rm -f $(EXAMP2STEP_EXEO) $(EXAMP2STEP_EXE)
-
-clean-$(EXAMP2STEP_NAME): clean-obj-$(EXAMP2STEP_NAME)
 	@rm -f $(EXAMP2STEP_DEP) $(EXAMP2STEP_DDEP) $(EXAMP2STEP_DS) $(EXAMP2STEP_DH)
 	@rm -f $(EXAMP2STEP_EDEP)
+
+include $(GO4SYS)/Makefile.rules

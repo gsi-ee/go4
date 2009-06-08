@@ -1,5 +1,4 @@
 GO4DISPL_NAME        = Go4Display
-MODULE_NAME         = $(GO4DISPL_NAME)
 
 ## normally should be like this for every module, but can be specific
 

@@ -1,5 +1,6 @@
+include $(GO4SYS)/Makefile.config
+
 EXAMPSIMP_NAME        = Go4ExampleSimple
-MODULE_NAME            = $(EXAMPSIMP_NAME)
 
 ## normally should be like this for every module, but can be specific
 
@@ -50,7 +51,7 @@ endif
 
 ##### local rules #####
 
-$(EXAMPSIMP_EXE):      $(BUILDGO4LIBS) $(EXAMPSIMP_EXEO) $(EXAMPSIMP_LIB)
+$(EXAMPSIMP_EXE):   $(BUILDGO4LIBS) $(EXAMPSIMP_EXEO) $(EXAMPSIMP_LIB)
 	$(LD) $(LDFLAGS) $(EXAMPSIMP_EXEO) $(LIBS_FULLSET) $(EXAMPSIMP_LIB) $(OutPutOpt) $(EXAMPSIMP_EXE)
 	@echo "$@  done"
 
@@ -60,13 +61,13 @@ $(EXAMPSIMP_LIB):   $(EXAMPSIMP_O) $(EXAMPSIMP_DO)
 $(EXAMPSIMP_DS): $(EXAMPSIMP_H)  $(EXAMPSIMP_LINKDEF)
 	@$(ROOTCINTGO4) $(EXAMPSIMP_H) $(EXAMPSIMP_LINKDEF)
 
-all-$(EXAMPSIMP_NAME):     $(EXAMPSIMP_LIB) $(EXAMPSIMP_EXE)
+all::  $(EXAMPSIMP_LIB) $(EXAMPSIMP_EXE)
 
-clean-obj-$(EXAMPSIMP_NAME):
+clean::
 	@rm -f $(EXAMPSIMP_O) $(EXAMPSIMP_DO)
 	@$(CleanLib) $(EXAMPSIMP_LIBNAME) $(EXAMPSIMP_DIR)
 	@rm -f $(EXAMPSIMP_EXEO) $(EXAMPSIMP_EXE)
-
-clean-$(EXAMPSIMP_NAME): clean-obj-$(EXAMPSIMP_NAME)
 	@rm -f $(EXAMPSIMP_DEP) $(EXAMPSIMP_DDEP) $(EXAMPSIMP_DS) $(EXAMPSIMP_DH)
 	@rm -f $(EXAMPSIMP_EDEP)
+
+include $(GO4SYS)/Makefile.rules

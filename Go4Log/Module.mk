@@ -1,5 +1,4 @@
 GO4LOG_NAME        = Go4Log
-MODULE_NAME         = $(GO4LOG_NAME)
 
 ## normally should be like this for every module, but can be specific
 

@@ -1,5 +1,4 @@
 COMBASE_NAME        = Go4CommandsBase
-MODULE_NAME         = $(COMBASE_NAME)
 
 ## normally should be like this for every module, but can be specific
 

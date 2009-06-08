@@ -1,5 +1,4 @@
 HISTSERV_NAME        = Go4HistogramServer
-MODULE_NAME         = $(HISTSERV_NAME)
 
 ## normally should be like this for every module, but can be specific
 

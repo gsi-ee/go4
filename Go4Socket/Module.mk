@@ -1,5 +1,4 @@
 GO4SOCKET_NAME        = Go4Socket
-MODULE_NAME         = $(GO4SOCKET_NAME)
 
 ## normally should be like this for every module, but can be specific
 

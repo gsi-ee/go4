@@ -1,5 +1,4 @@
 CONDBASE_NAME        = Go4ConditionsBase
-MODULE_NAME         = $(CONDBASE_NAME)
 
 ## normally should be like this for every module, but can be specific
 

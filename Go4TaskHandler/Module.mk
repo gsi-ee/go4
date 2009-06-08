@@ -1,5 +1,4 @@
 TASKHAND_NAME        = Go4TaskHandler
-MODULE_NAME         = $(TASKHAND_NAME)
 
 ## normally should be like this for every module, but can be specific
 

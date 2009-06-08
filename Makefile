@@ -4,9 +4,12 @@ endif
 
 include Makefile.config
 
+Go4_Makefile_Rules = included
+
 ifdef GO4_WIN32
   GO4SYS = .
 endif   
+
 
 GO4PACKAGE = go4
 
@@ -67,38 +70,35 @@ MODULES  = MbsAPIbase MbsAPI RawAPI Go4Analysis Go4AnalysisClient \
            Go4CommandsAnalysis Go4CommandsBase \
            Go4CommandsTaskHandler Go4TaskHandler \
            Go4ConditionsBase Go4DynamicList Go4Event \
-           Go4EventServer Go4EventServerExample Go4Exceptions \
+           Go4EventServer Go4Exceptions \
            Go4Display Go4Proxies \
-           Go4ExampleSimple Go4Example1Step Go4Example2Step \
-           Go4ExampleUserSource Go4ExampleMesh\
-           Go4Fit Go4FitExample Go4ObjectManager \
+           Go4Fit Go4ObjectManager \
            Go4HistogramServer Go4LockGuard Go4Log \
            Go4Queue Go4Socket Go4StatusAnalysis Go4StatusBase \
-           Go4TaskHandlerExample \
-           Go4ThreadManager Go4ThreadManagerExample
+           Go4ThreadManager
            
-EXMODULES = Go4EventServerExample Go4ExampleSimple \
-            Go4Example1Step Go4Example2Step \
-            Go4ExampleMesh Go4ExampleUserSource Go4FitExample \
-            Go4TaskHandlerExample Go4ThreadManagerExample 
+EXMODULES = Go4ExampleSimple Go4Example1Step Go4Example2Step \
+            Go4ExampleUserSource Go4ExampleMesh Go4FitExample \
+            Go4ThreadManagerExample Go4TaskHandlerExample Go4EventServerExample
 
-
-.PHONY:         all noqt includes libs gui plugin examples \
-                clean clean-ex clean-qt clean-bak clean-obj clean-plugin \
+.PHONY:         all noqt includes libs gui plugin \
+                clean clean-qt3 clean-qt4 clean-bak clean-obj clean-plugin \
                 package $(PACKAGERULES) \
                 $(patsubst %,all-%,$(MODULES)) \
                 $(patsubst %,clean-%,$(MODULES)) \
                 $(patsubst %,clean-obj-%,$(MODULES))
 
-FASTRULES    += clean-ex clean-qt clean-bak clean-obj clean-dep clean-plugin\
+FASTRULES    += clean-qt3 clean-qt4 clean-bak clean-obj clean-dep clean-plugin\
                 $(PACKAGERULES) \
                 $(patsubst %,clean-%,$(MODULES)) \
                 $(patsubst %,clean-obj-%,$(MODULES)) \
                 $(patsubst %,map-%,$(MODULES))
 
-all:            gui examples 
+all::           gui 
 
 include $(patsubst %,%/Module.mk,$(MODULES))
+
+include $(patsubst %,%/Makefile, $(EXMODULES))
 
 -include qt3/Module.mk
 
@@ -113,11 +113,9 @@ build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS) $(GO4MAP)
 $(GO4MAP):
 	@(if [ ! -f $@ ] ; then touch $@; fi)
 
-libs:           $(BUILDGO4LIBS)
+libs::          $(BUILDGO4LIBS)
 
 gui::           libs 
-
-examples:       $(patsubst %,all-%,$(EXMODULES)) $(EXAMPLEEXECS)
 
 noqt:           all
 
@@ -137,13 +135,13 @@ clean-mainlibs:
 clean-obj: clean-mainlibs $(patsubst %,clean-obj-%,$(MODULES))
 	@echo "Clean go4 object files done"
 
-clean-ex:  $(patsubst %,clean-%,$(EXMODULES))
-	@echo "Clean examples done"
-
 clean-bak:
 	@echo "Delete bak files"
 	@rm -f $(patsubst %,%/*.bak,$(MODULES))
 	@rm -f $(patsubst %,%/*.*~,$(MODULES))
+	@rm -f $(patsubst %,%/*.bak,$(EXMODULES))
+	@rm -f $(patsubst %,%/*.*~,$(EXMODULES))
+	@rm -f go4logfile.txt $(patsubst %,%/go4logfile.txt,$(EXMODULES))
 
 clean-dep:
 	@rm -f $(LIBDEPENDENC) $(EXAMPDEPENDENCS)
@@ -258,6 +256,7 @@ go4-package:
 	@tar chf $(GO4TAR_NAME) Makefile.config Makefile.rules go4.init
 	@tar rhf $(GO4TAR_NAME) build/*.sh build/Makefile.*
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Module.mk,$(MODULES))
+	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Makefile,$(EXMODULES))
 	@tar rhf $(GO4TAR_NAME) $(subst $(GO4SYS),.,$(DISTRFILES))
 	@tar rhf $(GO4TAR_NAME) README.txt CHANGES.txt Go4License.txt
 	@tar rhf $(GO4TAR_NAME) etc/*.ksh etc/*.txt etc/*.C
@@ -275,7 +274,6 @@ go4-package:
 ifndef FASTPACKAGING
 	@for FILENAME in $(HDISTFILES); do . $(GO4SYS)/build/pack.ksh $$FILENAME; done
 endif
-	@for DIRNAME in $(EXMODULES); do cp -f distr/Makefile.module $(GO4DISTR_DIR)/$$DIRNAME/Makefile; done
 	@mkdir -p $(GO4DISTR_DIR)/include
 	@touch -f $(GO4DISTR_DIR)/include/.dummy
 	@cd $(DISTR_DIR); chmod u+w *; chmod u+w */*; chmod u+w */*/*; tar chf $(GO4TAR_NAME) $(GO4PACK_VERS) ; gzip -f $(GO4TAR_NAME)
@@ -295,6 +293,7 @@ win-src:
 	@tar chf $(WINTAR_NAME) Makefile.rules Makefile.config go4.init
 	@tar rhf $(WINTAR_NAME) build/*.sh build/Makefile.*
 	@tar rhf $(WINTAR_NAME) $(patsubst %,%/Module.mk,$(MODULES))
+	@tar rhf $(WINTAR_NAME) $(patsubst %,%/Makefile,$(EXMODULES))
 	@tar rhf $(WINTAR_NAME) $(subst $(GO4SYS),.,$(WINDISTRFILES))
 	@tar rhf $(WINTAR_NAME) CHANGES.txt Go4License.txt
 	@tar rhf $(WINTAR_NAME) etc/*.ksh etc/*.txt etc/*.C
@@ -305,13 +304,11 @@ win-src:
 	@mv $(WINTAR_NAME) $(WINDISTR_DIR)
 	@cd $(WINDISTR_DIR); tar xf $(WINTAR_NAME); rm -f $(WINTAR_NAME)
 	@cp -f Makefile $(WINDISTR_DIR)/Makefile
-	@cp -f distr/Makefile.module $(WINDISTR_DIR)
 	@cp -f distr/go4init.bat $(WINDISTR_DIR)
 	@cp -f distr/README_win.txt $(WINDISTR_DIR)/README.txt
 ifndef FASTPACKAGING
 	@for FILENAME in $(HWINDISTFILES); do . $(GO4SYS)/build/pack.ksh $$FILENAME; done
 endif
-	@for DIRNAME in $(EXMODULES); do cp -f distr/Makefile.module $(WINDISTR_DIR)/$$DIRNAME/Makefile; done
 	@mkdir -p $(WINDISTR_DIR)/include
 	@touch -f $(WINDISTR_DIR)/include/.dummy
 	@cd $(DISTR_DIR); chmod u+w *; chmod u+w */*; chmod u+w */*/*; tar chf $(WINTAR_NAME) $(WINPACK_VERS) --exclude=$(WINTAR_NAME)*; gzip -f $(WINTAR_NAME)
@@ -379,8 +376,8 @@ endif
 	@rmdir $(DISTR_DIR)
 	@echo "Package $(FITTAR_NAME).gz done in $(PACKAGE_DIR)"
 
-THRDMODULES = Go4Exceptions Go4LockGuard Go4Log \
-              Go4ThreadManager Go4ThreadManagerExample
+THRDMODULES = Go4Exceptions Go4LockGuard Go4Log Go4ThreadManager 
+THRDMODULESEX = Go4ThreadManagerExample
 THRDDISTRFILES = $(EXCEPT_DISTRFILES) $(LOCKGRD_DISTRFILES) $(GO4LOG_DISTRFILES) \
                  $(THRDMNGR_DISTRFILES) $(THRDMNGREXAMP_DISTRFILES) 
 THRDHDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(subst $(GO4SYS),$(DISTR_DIR),$(THRDDISTRFILES)))
@@ -391,6 +388,7 @@ thrd-package:
 	@tar rhf $(THRDTAR_NAME) Makefile.rules
 	@tar rhf $(THRDTAR_NAME) ./build/*.sh
 	@tar rhf $(THRDTAR_NAME) $(patsubst %,%/Module.mk,$(THRDMODULES))
+	@tar rhf $(THRDTAR_NAME) $(patsubst %,%/Makefile,$(THRDMODULESEX))
 	@tar rhf $(THRDTAR_NAME) $(subst $(GO4SYS),.,$(THRDDISTRFILES))
 	@tar rhf $(THRDTAR_NAME) ./Go4License.txt
 	@tar rhf $(THRDTAR_NAME) ./etc/Go4ClientStartup.ksh
@@ -402,7 +400,6 @@ thrd-package:
 	@cp -f distr/Makefile_threadmanager $(DISTR_DIR)/Makefile
 	@cp -f distr/go4.taskh.init $(DISTR_DIR)/go4.init
 	@cp -f distr/README_threadm.txt $(DISTR_DIR)/README.txt
-	@cp -f distr/Makefile.module $(DISTR_DIR)/Go4ThreadManagerExample/Makefile
 ifndef FASTPACKAGING
 	@for FILENAME in $(THRDHDISTFILES); do . $(GO4SYS)/build/pack.ksh $$FILENAME; done
 endif
@@ -414,10 +411,11 @@ endif
 	@echo "Package $(THRDTAR_NAME).gz done in $(PACKAGE_DIR)"
 
 TASKMODULES = Go4Exceptions Go4LockGuard Go4Log \
-              Go4ThreadManager Go4ThreadManagerExample \
+              Go4ThreadManager \
               Go4Queue Go4Socket Go4StatusBase \
               Go4CommandsBase Go4CommandsTaskHandler \
-              Go4TaskHandler Go4TaskHandlerExample
+              Go4TaskHandler 
+TASKMODULESEX = Go4ThreadManagerExample Go4TaskHandlerExample
               
 TASKDISTRFILES = $(EXCEPT_DISTRFILES) $(LOCKGRD_DISTRFILES) $(GO4LOG_DISTRFILES) \
                  $(THRDMNGR_DISTRFILES) $(THRDMNGREXAMP_DISTRFILES) \
@@ -433,6 +431,7 @@ task-package:
 	@tar rhf $(TASKTAR_NAME) Makefile.rules
 	@tar rhf $(TASKTAR_NAME) ./build/*.sh
 	@tar rhf $(TASKTAR_NAME) $(patsubst %,%/Module.mk,$(TASKMODULES))
+	@tar rhf $(TASKTAR_NAME) $(patsubst %,%/Makefile,$(TASKMODULESEX))
 	@tar rhf $(TASKTAR_NAME) $(subst $(GO4SYS),.,$(TASKDISTRFILES))
 	@tar rhf $(TASKTAR_NAME) ./Go4License.txt
 	@tar rhf $(TASKTAR_NAME) ./etc/Go4ClientStartup.ksh
@@ -444,9 +443,6 @@ task-package:
 	@cp -f distr/README_taskh.txt $(DISTR_DIR)/README.txt
 	@mkdir -p $(DISTR_DIR)/include
 	@touch -f $(DISTR_DIR)/include/.dummy
-	@cp -f distr/Makefile.module $(DISTR_DIR)/Go4Queue/Makefile
-	@cp -f distr/Makefile.module $(DISTR_DIR)/Go4ThreadManagerExample/Makefile
-	@cp -f distr/Makefile.module $(DISTR_DIR)/Go4TaskHandlerExample/Makefile
 ifndef FASTPACKAGING
 	@for FILENAME in $(TASKHDISTFILES); do . $(GO4SYS)/build/pack.ksh $$FILENAME; done
 endif
@@ -459,6 +455,7 @@ endif
 
 endif
 
+Go4_Makefile_Rules =
 include Makefile.rules
 
 ifeq ($(findstring $(MAKECMDGOALS), $(FASTRULES)),)

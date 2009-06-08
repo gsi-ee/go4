@@ -1,5 +1,4 @@
 CMDTASKHANDL_NAME        = Go4CommandsTaskHandler
-MODULE_NAME         = $(CMDTASKHANDL_NAME)
 
 ## normally should be like this for every module, but can be specific
 

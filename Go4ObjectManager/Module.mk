@@ -1,5 +1,4 @@
 GO4OBJM_NAME     = Go4ObjectManager
-MODULE_NAME      = $(GO4OBJM_NAME)
 
 ## normally should be like this for every module, but can be specific
 

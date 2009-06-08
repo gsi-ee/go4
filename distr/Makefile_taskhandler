@@ -1,5 +1,7 @@
 include Makefile.config
 
+Go4_Makefile_Rules = included
+
 GO4PACKAGE = go4taskhandler
 
 GO4BASE_LIBNAME = $(LIB_PREFIX)Go4Base
@@ -16,22 +18,24 @@ BUILDGO4LIBS = $(GO4BASE_LIB) \
                $(GO4TSKH_LIB)
 
 MODULES  = Go4Exceptions Go4LockGuard Go4Log \
-           Go4ThreadManager Go4ThreadManagerExample \
+           Go4ThreadManager \
            Go4Queue Go4Socket Go4StatusBase \
            Go4CommandsBase Go4CommandsTaskHandler \
-           Go4TaskHandler Go4TaskHandlerExample
+           Go4TaskHandler
 
 EXMODULES = Go4ThreadManagerExample Go4TaskHandlerExample 
 
-all:          libs examples 
+all::          libs 
 
-.PHONY:         all libs examples \
-                clean clean-ex clean-bak clean-obj package \
+.PHONY:         all libs \
+                clean clean-obj package \
                 $(patsubst %,all-%,$(MODULES)) \
                 $(patsubst %,clean-%,$(MODULES)) \
                 $(patsubst %,clean-obj-%,$(MODULES))
 
 include $(patsubst %,%/Module.mk,$(MODULES))
+
+include $(patsubst %,%/Makefile, $(EXMODULES))
 
 
 build/dummy.d: Makefile $(ALLHDRS) $(GO4MAP) 
@@ -42,11 +46,9 @@ build/dummy.d: Makefile $(ALLHDRS) $(GO4MAP)
 $(GO4MAP):
    @(if [ ! -f $@ ] ; then touch $@; fi)
 
-libs:        $(BUILDGO4LIBS)         
+libs::       $(BUILDGO4LIBS)         
 
-examples:    $(patsubst %,all-%,$(EXMODULES)) $(EXAMPLEEXECS)
-
-clean:     $(patsubst %,clean-%,$(MODULES))
+clean::     $(patsubst %,clean-%,$(MODULES))
 	@rm -f $(GO4MAP)
 	@$(CleanLib) $(GO4BASE_LIBNAME) $(GO4DLLPATH)
 	@$(CleanLib) $(GO4TSKH_LIBNAME) $(GO4DLLPATH)
@@ -56,14 +58,6 @@ clean-obj: $(patsubst %,clean-obj-%,$(MODULES))
 	@$(CleanLib) $(GO4BASE_LIBNAME) $(GO4DLLPATH)
 	@$(CleanLib) $(GO4TSKH_LIBNAME) $(GO4DLLPATH)
 	@echo "Clean go4 taskhandeler object files done"
-
-clean-ex:  $(patsubst %,clean-%,$(EXMODULES))
-	@echo "Clean taskhandeler examples done"
-
-clean-bak:
-	@echo "Delete bak files"
-	@rm -f $(patsubst %,%/*.bak,$(MODULES))
-	@rm -f $(patsubst %,%/*.*~,$(MODULES))
 
 GO4BASE_O = $(LOCKGRD_O) $(LOCKGRD_DO) \
             $(GO4LOG_O) $(GO4LOG_DO) \
@@ -94,6 +88,7 @@ $(THRDMNGR_LIB):   $(THRDMNGR_O) $(THRDMNGR_DO)
 $(GO4TSKH_LIB):   $(GO4TSKH_O)
 		@$(MakeLibrary) $(GO4TSKH_LIBNAME) "$(GO4TSKH_O)" $(GO4DLLPATH) "$(GO4TSKH_LINKDEFS)" "$(THRDMNGR_LIB) $(GO4BASE_LIB) $(BASIC_LIB_DEP)"
 
+Go4_Makefile_Rules =
 include Makefile.rules
 
 ifeq ($(findstring $(MAKECMDGOALS), $(FASTRULES)),)

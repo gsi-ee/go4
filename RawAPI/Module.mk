@@ -1,5 +1,4 @@
 RAWAPI_NAME         = RawAPI
-MODULE_NAME         = $(RAWAPI_NAME)
 
 ## normally should be like this for every module, but can be specific
 

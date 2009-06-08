@@ -1,5 +1,4 @@
 STATBASE_NAME        = Go4StatusBase
-MODULE_NAME         = $(STATBASE_NAME)
 
 ## normally should be like this for every module, but can be specific
 

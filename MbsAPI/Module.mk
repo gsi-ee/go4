@@ -1,5 +1,4 @@
 MBSAPI_NAME         = MbsAPI
-MODULE_NAME         = $(MBSAPI_NAME)
 
 ## normally should be like this for every module, but can be specific
 

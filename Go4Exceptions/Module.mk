@@ -1,5 +1,4 @@
 EXCEPT_NAME        = Go4Exceptions
-MODULE_NAME         = $(EXCEPT_NAME)
 
 ## normally should be like this for every module, but can be specific
 

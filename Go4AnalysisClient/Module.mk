@@ -1,5 +1,4 @@
 ANALCL_NAME        = Go4AnalysisClient
-MODULE_NAME        = $(ANALCL_NAME)
 
 ## normally should be like this for every module, but can be specific
 

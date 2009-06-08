@@ -1,5 +1,4 @@
 DYNLIST_NAME        = Go4DynamicList
-MODULE_NAME         = $(DYNLIST_NAME)
 
 ## normally should be like this for every module, but can be specific
 

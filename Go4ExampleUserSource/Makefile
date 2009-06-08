@@ -1,5 +1,6 @@
+include $(GO4SYS)/Makefile.config
+
 EXUSERSRC_NAME        = Go4ExampleUserSource
-MODULE_NAME         = $(EXUSERSRC_NAME)
 
 ## normally should be like this for every module, but can be specific
 
@@ -59,13 +60,13 @@ $(EXUSERSRC_LIB):   $(EXUSERSRC_O) $(EXUSERSRC_DO)
 $(EXUSERSRC_DS): $(EXUSERSRC_H)  $(EXUSERSRC_LINKDEF)
 	@$(ROOTCINTGO4) $(EXUSERSRC_H) $(EXUSERSRC_LINKDEF)
 
-all-$(EXUSERSRC_NAME):     $(EXUSERSRC_LIB) $(EXUSERSRC_EXE)
+all::  $(EXUSERSRC_LIB) $(EXUSERSRC_EXE)
 
-clean-obj-$(EXUSERSRC_NAME):
+clean::
 	@rm -f $(EXUSERSRC_O) $(EXUSERSRC_DO)
 	@$(CleanLib) $(EXUSERSRC_LIBNAME) $(EXUSERSRC_DIR)
 	@rm -f $(EXUSERSRC_EXEO) $(EXUSERSRC_EXE)
-
-clean-$(EXUSERSRC_NAME): clean-obj-$(EXUSERSRC_NAME)
 	@rm -f $(EXUSERSRC_DEP) $(EXUSERSRC_DDEP) $(EXUSERSRC_DS) $(EXUSERSRC_DH)
 	@rm -f $(EXUSERSRC_EDEP)
+
+include $(GO4SYS)/Makefile.rules

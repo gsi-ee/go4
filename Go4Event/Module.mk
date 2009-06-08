@@ -1,6 +1,5 @@
 GO4EVENT_NAME       = Go4Event
 GO4EVENTPAR_NAME    = Go4EventPar
-MODULE_NAME         = $(GO4EVENT_NAME)
 
 ## normally should be like this for every module, but can be specific
 

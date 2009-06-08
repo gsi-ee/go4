@@ -1,5 +1,4 @@
 STATANAL_NAME        = Go4StatusAnalysis
-MODULE_NAME         = $(STATANAL_NAME)
 
 ## normally should be like this for every module, but can be specific
 

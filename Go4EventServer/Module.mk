@@ -1,6 +1,5 @@
 EVENTSERV_NAME        = Go4EventServer
 EVENTSERVPAR_NAME     = Go4EventServerPar
-MODULE_NAME         = $(EVENTSERV_NAME)
 
 ## normally should be like this for every module, but can be specific
 
