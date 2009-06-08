@@ -39,14 +39,12 @@ TGo4ObjectStatus::TGo4ObjectStatus(TObject* object, Bool_t withtime) :
       fxObjectClass="Unknown Class";
    }
 
-   if(withtime) {
-       TDatime now;
-       fxStatusTime=now.AsSQLString();
-   } else {
-      //fxStatusTime="creation time unknown";
+   if (withtime) {
+      TDatime now;
+      fxStatusTime = now.AsSQLString();
    }
-// we might suppress time information for substatus objects
-// for performance reason
+   // we might suppress time information for substatus objects
+   // for performance reason
 }
 
 TGo4ObjectStatus::~TGo4ObjectStatus()
@@ -58,8 +56,7 @@ TGo4ObjectStatus::~TGo4ObjectStatus()
 Int_t TGo4ObjectStatus::PrintStatus(Text_t* buffer, Int_t buflen)
 {
    TRACE((12,"TGo4ObjectStatus::PrintStatus()",__LINE__, __FILE__));
-   if(buflen<=0 && buffer!=0)
-      return 0;
+   if(buflen<=0 && buffer!=0) return 0;
    Int_t locallen=2048;
    Text_t localbuf[2048];
    Text_t* current=localbuf;

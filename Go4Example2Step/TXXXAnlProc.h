@@ -32,6 +32,6 @@ class TXXXAnlProc : public TGo4EventProcessor {
       TH1              *fFitSrc;
       TH1              *fFitRes;
 
-   ClassDef(TXXXAnlProc,1)
+   ClassDef(TXXXAnlProc, 1)
 };
 #endif //TXXXANLPROCESSOR_H

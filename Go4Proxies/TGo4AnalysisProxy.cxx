@@ -154,17 +154,13 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
          if (strcmp(flagname,"IsRemote")==0) return 1;
          if (strcmp(flagname,"IsDeleteProtect")==0) {
             TGo4ObjectStatus* sts = dynamic_cast<TGo4ObjectStatus*> (fCurrent);
-            if (sts!=0){
-              if (sts->IsDeleteProtect()) return 1;
-                                     else return 0;
-            }
+            if (sts!=0)
+              return sts->IsDeleteProtect() ? 1 : 0;
          }
          if (strcmp(flagname,"IsResetProtect")==0) {
             TGo4ObjectStatus* sts = dynamic_cast<TGo4ObjectStatus*> (fCurrent);
-            if (sts!=0){
-              if (sts->IsResetProtect()) return 1;
-                                    else return 0;
-            }
+            if (sts!=0)
+               return sts->IsResetProtect() ? 1 : 0;
          }
 
          return -1;

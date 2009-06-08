@@ -1803,7 +1803,7 @@ void TGo4BrowserProxy::SyncBrowserSlots()
       SetProtectionBits(curslot, iter.getflag("IsDeleteProtect"), iter.getflag("IsResetProtect"));
 
       if (iter.getslot()!=0)
-        SetCanDelete(curslot, IsCanDelete(iter.getslot()));
+         SetCanDelete(curslot, IsCanDelete(iter.getslot()));
 
       TObject* assobj = 0;
       if ((kind==TGo4Access::kndObject) && (iter.getslot()!=0)) {

@@ -21,13 +21,13 @@ TXXXAnlProc::TXXXAnlProc() :
    TGo4EventProcessor(),
    fSum1(0),fSum2(0),fSum3(0),
    fParam1(0),fParam2(0),fWinCon(0)
-   {
-   }
+{
+}
 //***********************************************************
 // this one is used in TXXXAnlFact
 TXXXAnlProc::TXXXAnlProc(const char* name) :
    TGo4EventProcessor(name)
-   {
+{
    cout << "**** TXXXAnlProc: Create" << endl;
    //// init user analysis objects:
    fParam1 = (TXXXParameter*)  GetParameter("XXXPar1");
@@ -66,7 +66,7 @@ TXXXAnlProc::TXXXAnlProc(const char* name) :
    }
 
    fFitCounter = 0;
-   }
+}
 //***********************************************************
 TXXXAnlProc::~TXXXAnlProc()
 {
@@ -122,6 +122,4 @@ void TXXXAnlProc::XXXEventAnalysis(TXXXAnlEvent* poutevt)
          }
       }
    }
-
-
 } // BuildCalEvent

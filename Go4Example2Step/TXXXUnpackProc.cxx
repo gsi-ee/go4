@@ -156,7 +156,7 @@ TXXXUnpackProc::~TXXXUnpackProc()
 //-----------------------------------------------------------
 void TXXXUnpackProc::XXXUnpack(TXXXUnpackEvent* poutevt)
 {
-   TGo4MbsEvent* fInput    = (TGo4MbsEvent* ) GetInputEvent(); // from this
+   TGo4MbsEvent* fInput = (TGo4MbsEvent* ) GetInputEvent(); // from this
    if (fInput==0) {
       cout << "XXXUnpackProc: no input event !"<< endl;
       return;
