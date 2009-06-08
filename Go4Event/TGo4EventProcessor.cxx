@@ -22,7 +22,8 @@ TGo4EventProcessor::TGo4EventProcessor(const char* name) :
    TGo4EventSource(name),
    fxInputEvent(0),
    fxCalibration(0),
-   fbMakeWithAutosave(kTRUE)
+   fbMakeWithAutosave(kTRUE),
+   fbObjMade(kFALSE)
 {
 TRACE((15,"TGo4EventProcessor::TGo4EventProcessor()",__LINE__, __FILE__));
 }
@@ -171,6 +172,7 @@ TH1* TGo4EventProcessor::MakeH1(char type, const char* fullname, const char* tit
                                      Int_t nbinsx, Double_t xlow, Double_t xup,
                                      const char* xtitle, const char* ytitle)
 {
+   fbObjMade = kFALSE;
    TString foldername, histoname;
 
    if ((fullname==0) || (strlen(fullname)==0)) {
@@ -232,6 +234,8 @@ TH1* TGo4EventProcessor::MakeH1(char type, const char* fullname, const char* tit
    else
       AddHistogram(newh);
 
+   fbObjMade = kTRUE;
+
    return newh;
 }
 
@@ -240,6 +244,7 @@ TH2* TGo4EventProcessor::MakeH2(char type, const char* fullname, const char* tit
                                      Int_t nbinsy, Double_t ylow, Double_t yup,
                                      const char* xtitle, const char* ytitle)
 {
+   fbObjMade = kFALSE;
    TString foldername, histoname;
 
    if ((fullname==0) || (strlen(fullname)==0)) {
@@ -301,6 +306,8 @@ TH2* TGo4EventProcessor::MakeH2(char type, const char* fullname, const char* tit
    else
       AddHistogram(newh);
 
+   fbObjMade = kTRUE;
+
    return newh;
 }
 
@@ -308,6 +315,7 @@ TGo4WinCond* TGo4EventProcessor::MakeWinCond(const char* fullname,
                                                    Double_t xmin, Double_t xmax,
                                                    const char* HistoName)
 {
+   fbObjMade = kFALSE;
    TString foldername, condname;
 
    if ((fullname==0) || (strlen(fullname)==0)) {
@@ -341,6 +349,8 @@ TGo4WinCond* TGo4EventProcessor::MakeWinCond(const char* fullname,
    else
       AddAnalysisCondition(wcond);
 
+   fbObjMade = kTRUE;
+
    return wcond;
 }
 
@@ -349,6 +359,7 @@ TGo4WinCond* TGo4EventProcessor::MakeWinCond(const char* fullname,
                                                    Double_t ymin, Double_t ymax,
                                                    const char* HistoName)
 {
+   fbObjMade = kFALSE;
    TString foldername, condname;
 
    if ((fullname==0) || (strlen(fullname)==0)) {
@@ -382,6 +393,8 @@ TGo4WinCond* TGo4EventProcessor::MakeWinCond(const char* fullname,
    else
       AddAnalysisCondition(wcond);
 
+   fbObjMade = kTRUE;
+
    return wcond;
 }
 
@@ -390,6 +403,7 @@ TGo4PolyCond* TGo4EventProcessor::MakePolyCond(const char* fullname,
                                                      Double_t (*points) [2],
                                                      const char* HistoName)
 {
+   fbObjMade = kFALSE;
    TString foldername, condname;
 
    if ((fullname==0) || (strlen(fullname)==0)) {
@@ -440,6 +454,8 @@ TGo4PolyCond* TGo4EventProcessor::MakePolyCond(const char* fullname,
    else
       AddAnalysisCondition(pcond);
 
+   fbObjMade = kTRUE;
+
    return pcond;
 }
 
@@ -447,6 +463,7 @@ TGo4Parameter* TGo4EventProcessor::MakeParameter(const char* fullname,
                                                        const char* classname,
                                                        const char* newcmd)
 {
+   fbObjMade = kFALSE;
    TString foldername, paramname;
 
    if ((fullname==0) || (strlen(fullname)==0)) {
@@ -490,6 +507,8 @@ TGo4Parameter* TGo4EventProcessor::MakeParameter(const char* fullname,
       AddParameter(param, foldername.Data());
    else
       AddParameter(param);
+
+   fbObjMade = kTRUE;
 
    return param;
 }

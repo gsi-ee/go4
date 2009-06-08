@@ -192,6 +192,8 @@ class TGo4EventProcessor : public TGo4EventSource {
       /** Set flag to use data from autosave file in Make... methods (default true) */
       void SetMakeWithAutosave(Bool_t on = kTRUE) { fbMakeWithAutosave = on; }
 
+      Bool_t IsObjMade() const { return fbObjMade; }
+
       /** Create one dimensional histogram of specified type. Type can be:
        * 'I', 'i' for TH1I - Int_t as bin content (default)
        * 'F', 'f' for TH1F - Float_t as bin content
@@ -266,7 +268,8 @@ class TGo4EventProcessor : public TGo4EventSource {
        * fullname specifies name of condition (optionally with subfolder name)
        * classname - name of required parameter class, it should be known to ROOT.
        * newcmd - command to create parameter like "new UserParameter(%s, 1000, 2000)",
-       *          where %s is place for parameter name
+       *          where %s is place for parameter name.  Should be specified, if parameter
+       *          constructor contains more parameters as only parameter name
        */
       TGo4Parameter* MakeParameter(const char* fullname,
                                       const char* classname,
@@ -287,6 +290,9 @@ class TGo4EventProcessor : public TGo4EventSource {
 
       /** If false, do not use data from autosave file in Make... methods */
       Bool_t fbMakeWithAutosave; //!
+
+      /** Indicates, if object was created by last Make... method call */
+      Bool_t fbObjMade; //!
 
    ClassDef(TGo4EventProcessor,2)
 };

@@ -3,7 +3,6 @@
 
 #include "TGo4EventProcessor.h"
 
-class TXXXUnpackEvent;
 class TXXXParameter;
 class TXXXCalibPar;
 class TXXXAnlEvent;
@@ -17,17 +16,12 @@ class TXXXAnlProc : public TGo4EventProcessor {
 
       void XXXEventAnalysis(TXXXAnlEvent* target);
 
-      TH1I             *fSum1;
-      TH1I             *fSum2;
-      TH1I             *fSum3;
-      TH1I             *fCaliSum1;
+      TH1              *fSum1;
+      TH1              *fSum2;
+      TH1              *fSum3;
+      TH1              *fCaliSum1;
       TGraph           *fCaligraph;
 
-      TGraph           *fxGraph1;
-      TGraph           *fxGraph2;
-      TMultiGraph      *fxMultiGraph;
-
-      TXXXUnpackEvent  *fInput;
       TXXXParameter    *fParam1;
       TXXXParameter    *fParam2;
       TXXXCalibPar     *fCalipar;
@@ -35,8 +29,8 @@ class TXXXAnlProc : public TGo4EventProcessor {
 
       TGo4Fitter       *fFitter;
       Int_t             fFitCounter;
-      TH1I             *fFitSrc;
-      TH1I             *fFitRes;
+      TH1              *fFitSrc;
+      TH1              *fFitRes;
 
    ClassDef(TXXXAnlProc,1)
 };

@@ -20,141 +20,92 @@
 //***********************************************************
 TXXXProc::TXXXProc() : TGo4EventProcessor()
 {
-  cout << "**** TXXXProc: Create instance " << endl;
+   cout << "**** TXXXProc: Create instance " << endl;
 }
 //***********************************************************
 TXXXProc::~TXXXProc()
 {
-  cout << "**** TXXXProc: Delete instance " << endl;
+   cout << "**** TXXXProc: Delete instance " << endl;
 }
 //***********************************************************
 // this one is used in standard factory
 TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
 {
-  cout << "**** TXXXProc: Create instance " << name << endl;
+   cout << "**** TXXXProc: Create instance " << name << endl;
 
-  Text_t chis[16];
-  Text_t chead[64];
-  Int_t i;
+   //// init user analysis objects:
+   fParam   = (TXXXParam *)   GetParameter("Par1");    // created in TXXXAnalysis, values from auto save
+   fControl = (TXXXControl *) GetParameter("Control"); // created in TXXXAnalysis, values from auto save
 
-  //// init user analysis objects:
+   // This example analysis allows for en-disabling the histogram filling.
+   // Macro setfill.C creates macro histofill.C to set histogram fill status in parameter "Control".
+   // Executed in Analysis terminal input line by .x setfill.C(n) with n=0,1.
+   // This macro histofill.C, not the auto save file, will set status.
+   gROOT->ProcessLine(".x histofill.C");
+   fControl->PrintParameter(0,0);
 
-  fParam   = (TXXXParam *)   GetParameter("Par1");    // created in TXXXAnalysis, values from auto save
-  fControl = (TXXXControl *) GetParameter("Control"); // created in TXXXAnalysis, values from auto save
-
-  // This example analysis allows for en-disabling the histogram filling.
-  // Macro setfill.C creates macro histofill.C to set histogram fill status in parameter "Control".
-  // Executed in Analysis terminal input line by .x setfill.C(n) with n=0,1.
-  // This macro histofill.C, not the auto save file, will set status.
-  gROOT->ProcessLine(".x histofill.C");
-  fControl->PrintParameter(0,0);
-
-  // Creation of histograms (check if restored from auto save file):
-  if(GetHistogram("Crate1/Cr1Ch01")==0)
-    {// no auto save, create new
-      for(i =0;i<8;i++)
-   {
-     snprintf(chis,15,"Cr1Ch%02d",i+1);  snprintf(chead, 63, "Crate 1 channel %2d",i+1);
-          fCr1Ch[i] = new TH1I (chis,chead,5000,1,5000);
-          AddHistogram(fCr1Ch[i],"Crate1");
-     snprintf(chis,15,"Cr2Ch%02d",i+1);  snprintf(chead, 63, "Crate 2 channel %2d",i+1);
-          fCr2Ch[i] = new TH1I (chis,chead,5000,1,5000);
-          AddHistogram(fCr2Ch[i],"Crate2");
+   cout << "**** TXXXProc: Produce histograms" << endl;
+   // Creation of histograms (or take them from autosave)
+   for(int i=0;i<8;i++) {
+      fCr1Ch[i] = MakeH1('I', Form("Crate1/Cr1Ch%02d",i+1), Form("Crate 1 channel %2d",i+1), 5000, 0., 5000.);
+      fCr2Ch[i] = MakeH1('I', Form("Crate2/Cr2Ch%02d",i+1), Form("Crate 2 channel %2d",i+1), 5000, 0., 5000.);
    }
-      fCr1Ch1x2 = new TH2I("Cr1Ch1x2","Crate 1 channel 1x2",200,1,5000,200,1,5000);
-      AddHistogram(fCr1Ch1x2);
-      fHis1     = new TH1I ("His1","Condition histogram",5000,1,5000);
-      AddHistogram(fHis1);
-      fHis2     = new TH1I ("His2","Condition histogram",5000,1,5000);
-      AddHistogram(fHis2);
-      fHis1gate = new TH1I ("His1g","Gated histogram",5000,1,5000);
-      AddHistogram(fHis1gate);
-      fHis2gate = new TH1I ("His2g","Gated histogram",5000,1,5000);
-      AddHistogram(fHis2gate);
-      cout << "**** TXXXProc: Created histograms" << endl;
-    }
-  else // got them from autosave file, restore pointers
-    {
-      for(i =0;i<8;i++)
-   {
-     snprintf(chis,15,"Crate1/Cr1Ch%02d",i+1); fCr1Ch[i] = (TH1I*)GetHistogram(chis);
-     snprintf(chis,15,"Crate2/Cr2Ch%02d",i+1); fCr2Ch[i] = (TH1I*)GetHistogram(chis);
-   }
-      fCr1Ch1x2 = (TH2I*)GetHistogram("Cr1Ch1x2");
-      fHis1     = (TH1I*)GetHistogram("His1");
-      fHis2     = (TH1I*)GetHistogram("His2");
-      fHis1gate = (TH1I*)GetHistogram("His1g");
-      fHis2gate = (TH1I*)GetHistogram("His2g");
-      cout << "**** TXXXProc: Restored histograms from autosave" << endl;
-    }
-  // Creation of conditions (check if restored from auto save file):
-  if(GetAnalysisCondition("cHis1")==0)
-    {// no auto save, create new
-      fconHis1= new TGo4WinCond("cHis1");
-      fconHis2= new TGo4WinCond("cHis2");
-      fconHis1->SetValues(100,2000);
-      fconHis2->SetValues(100,2000);
-      AddAnalysisCondition(fconHis1);
-      AddAnalysisCondition(fconHis2);
 
-      Double_t xvalues[4]={400,700,600,400};
-      Double_t yvalues[4]={800,900,1100,800};
-      TCutG* mycut= new TCutG("cut1",4,xvalues,yvalues);
-      fPolyCon= new TGo4PolyCond("polycon");
-      fPolyCon->SetValues(mycut); // copies mycat into fPolyCon
-      fPolyCon->Disable(true);   // means: condition check always returns true
-      delete mycut; // mycat has been copied into the conditions
-      AddAnalysisCondition(fPolyCon);
+   fCr1Ch1x2 = MakeH2('I', "Cr1Ch1x2","Crate 1 channel 1x2", 200, 0., 5000., 200, 0., 5000.);
+   fHis1 = MakeH1('I', "His1","Condition histogram", 5000, 0., 5000.);
+   fHis2 = MakeH1('I', "His2","Condition histogram", 5000, 0., 5000.);
+   fHis1gate = MakeH1('I', "His1g","Gated histogram", 5000, 0., 5000.);
+   fHis2gate = MakeH1('I', "His2g","Gated histogram", 5000, 0., 5000.);
 
-      xvalues[0]=1000;xvalues[1]=2000;xvalues[2]=1500;xvalues[3]=1000;
-      yvalues[0]=1000;yvalues[1]=1000;yvalues[2]=3000;yvalues[3]=1000;
-      mycut= new TCutG("cut2",4,xvalues,yvalues);
+   cout << "**** TXXXProc: Produce conditions" << endl;
+   fconHis1 = MakeWinCond("cHis1", 100, 2000, "His1");
+   fconHis2 = MakeWinCond("cHis2", 100, 2000, "His2");
+
+   Double_t cutpnts[3][2] = { {400, 800}, {700, 900}, {600, 1100} };
+   fPolyCon = MakePolyCond("polycon", 3, cutpnts);
+
+   fConArr = (TGo4CondArray*)GetAnalysisCondition("polyconar");
+   if(fConArr==0) {
+      // This is example how to create condition array
+      cout << "**** TXXXProc: Create condition" << endl;
+      Double_t xvalues[4] = { 1000, 2000, 1500, 1000 };
+      Double_t yvalues[4] = { 1000, 1000, 3000, 1000 };
+      TCutG* mycut = new TCutG("cut2", 4, xvalues, yvalues);
       fConArr = new TGo4CondArray("polyconar",4,"TGo4PolyCond");
       fConArr->SetValues(mycut);
       fConArr->Disable(true);   // means: condition check always returns true
       delete mycut; // mycat has been copied into the conditions
       AddAnalysisCondition(fConArr);
-      cout << "**** TXXXProc: Created conditions" << endl;
-    }
-  else // got them from autosave file, restore pointers
-    {
-      fPolyCon  = (TGo4PolyCond*) GetAnalysisCondition("polycon");
-      fConArr   = (TGo4CondArray*)GetAnalysisCondition("polyconar");
-      fconHis1  = (TGo4WinCond*)  GetAnalysisCondition("cHis1");
-      fconHis2  = (TGo4WinCond*)  GetAnalysisCondition("cHis2");
-      fconHis1->ResetCounts();
-      fconHis2->ResetCounts();
-      fPolyCon->ResetCounts();
+   } else {
+      cout << "**** TXXXProc: Restore condition from autosave" << endl;
       fConArr->ResetCounts();
-      cout << "**** TXXXProc: Restored conditions from autosave" << endl;
-    }
-  // connect histograms to conditions. will be drawn when condition is edited.
-  fconHis1->SetHistogram("His1");
-  fconHis2->SetHistogram("His2");
-  fconHis1->Enable();
-  fconHis2->Enable();
-  fPolyCon->Enable();
-  ((*fConArr)[0])->Enable();
-  ((*fConArr)[1])->Enable(); // 2 and 3 remain disabled
+   }
+   // connect histograms to conditions. will be drawn when condition is edited.
+   ((*fConArr)[0])->Enable();
+   ((*fConArr)[1])->Enable(); // 2 and 3 remain disabled
 
-  if (GetPicture("Picture")==0)
-    {// no auto save, create new
+   cout << "**** TXXXProc: Produce pictures" << endl;
+   fcondSet = GetPicture("condSet");
+   if (fcondSet==0) {
       // in the upper two pads, the condition limits can be set,
       // in the lower two pads, the resulting histograms are shown
       fcondSet = new TGo4Picture("condSet","Set conditions");
-      fcondSet->SetLinesDivision(2,2,2);
-      fcondSet->LPic(0,0)->AddObject(fHis1);
-      fcondSet->LPic(0,1)->AddObject(fHis2);
-      fcondSet->LPic(0,0)->AddCondition(fconHis1);
-      fcondSet->LPic(0,1)->AddCondition(fconHis2);
-      fcondSet->LPic(1,0)->AddObject(fHis1gate);
-      fcondSet->LPic(1,1)->AddObject(fHis2gate);
-      fcondSet->LPic(1,0)->SetFillAtt(4, 1001); // solid
-      fcondSet->LPic(1,0)->SetLineAtt(4,1,1);
-      fcondSet->LPic(1,1)->SetFillAtt(9, 1001); // solid
-      fcondSet->LPic(1,1)->SetLineAtt(9,1,1);
+      fcondSet->SetDivision(2,2);
+      fcondSet->Pic(0,0)->AddObject(fHis1);
+      fcondSet->Pic(0,1)->AddObject(fHis2);
+      fcondSet->Pic(0,0)->AddCondition(fconHis1);
+      fcondSet->Pic(0,1)->AddCondition(fconHis2);
+      fcondSet->Pic(1,0)->AddObject(fHis1gate);
+      fcondSet->Pic(1,1)->AddObject(fHis2gate);
+      fcondSet->Pic(1,0)->SetFillAtt(4, 1001); // solid
+      fcondSet->Pic(1,0)->SetLineAtt(4,1,1);
+      fcondSet->Pic(1,1)->SetFillAtt(9, 1001); // solid
+      fcondSet->Pic(1,1)->SetLineAtt(9,1,1);
       AddPicture(fcondSet);
+   }
 
+   fPicture = GetPicture("Picture");
+   if (fPicture == 0) {
       fPicture = new TGo4Picture("Picture","Picture example");
       fPicture->SetLinesDivision(3, 2,3,1);
       fPicture->LPic(0,0)->AddObject(fCr1Ch[0]);
@@ -173,93 +124,72 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
       fPicture->LPic(3,0)->AddObject(fCr1Ch1x2);
       fPicture->LPic(3,0)->SetDrawOption("CONT");
       AddPicture(fPicture);
-      cout << "**** TXXXProc: Created pictures" << endl;
-    }
-  else  // got them from autosave file, restore pointers
-    {
-      fPicture = GetPicture("Picture");
-      fcondSet = GetPicture("condSet");
-      cout << "**** TXXXProc: Restored pictures from autosave" << endl;
-    }
+   }
 }
 //-----------------------------------------------------------
 // event function
 Bool_t TXXXProc::BuildEvent(TGo4EventElement* target)
 {
-  // called by framework from TXXXEvent to fill it
+   // called by framework from TXXXEvent to fill it
 
-  TXXXEvent* XXXEvent = (TXXXEvent*) target;
-  TGo4MbsSubEvent* psubevt;
-  Int_t index=0;
-  Float_t value1=0;
-  Float_t value2=0;
-  Float_t value=0;
-  Int_t lwords,i;
-  Int_t *pdata;
+   TXXXEvent* XXXEvent = (TXXXEvent*) target;
 
-  fInput = (TGo4MbsEvent* ) GetInputEvent();
-  if(fInput == 0)
-    {
-    cout << "AnlProc: no input event !"<< endl;
-    return kFALSE;
-    }
-  if(fInput->GetTrigger() > 11)
-    {
+   TGo4MbsEvent* source = (TGo4MbsEvent*) GetInputEvent();
+   if(source == 0) {
+      cout << "AnlProc: no input event !"<< endl;
+      return kFALSE;
+   }
+   if(source->GetTrigger() > 11) {
       cout << "**** TXXXProc: Skip trigger event"<<endl;
       XXXEvent->SetValid(kFALSE); // not store
       return kFALSE;
-    }
-  // first we fill the TXXXEvent with data from MBS source
-  // we have up to two subevents, crate 1 and 2
-  // Note that one has to loop over all subevents and select them by
-  // crate number:   psubevt->GetSubcrate(),
-  // procid:         psubevt->GetProcid(),
-  // and/or control: psubevt->GetControl()
-  // here we use only crate number
+   }
+   // first we fill the TXXXEvent with data from MBS source
+   // we have up to two subevents, crate 1 and 2
+   // Note that one has to loop over all subevents and select them by
+   // crate number:   psubevt->GetSubcrate(),
+   // procid:         psubevt->GetProcid(),
+   // and/or control: psubevt->GetControl()
+   // here we use only crate number
 
-  fInput->ResetIterator();
-  while((psubevt = fInput->NextSubEvent()) != 0) // loop over subevents
-    {
-      pdata=psubevt->GetDataField();
-      lwords= psubevt->GetIntLen();
+   source->ResetIterator();
+   TGo4MbsSubEvent* psubevt(0);
+   while((psubevt = source->NextSubEvent()) != 0) { // loop over subevents
+      Int_t *pdata = psubevt->GetDataField();
+      Int_t lwords = psubevt->GetIntLen();
       if(lwords > 8) lwords=8; // take only first 8 lwords
 
-      if(psubevt->GetSubcrate() == 1)
-   {
-     for(i = 0; i<lwords; i++)
-       {
-         //index =  *pdata&0xfff;      // in case low word is index
-         //value = (*pdata>>16)&0xfff; // and high word is data
-         value=(Float_t)*pdata++;      // otherwise longword data
-         index=i;                      // and index in order
-         XXXEvent->fCrate1[index] = value; // copy to output event
-       }
-   }
+      if(psubevt->GetSubcrate() == 1) {
+         for(Int_t i = 0; i<lwords; i++) {
+            // Int_t index =  *pdata&0xfff;      // in case low word is index
+            //Float_t value = (*pdata>>16)&0xfff; // and high word is data
+            Float_t value = (Float_t)*pdata++;      // otherwise longword data
+            Int_t index = i;                      // and index in order
+            XXXEvent->fCrate1[index] = value; // copy to output event
+         }
+      }
       if(psubevt->GetSubcrate() == 2)
-   {
-     for(i = 0; i<lwords; i++) XXXEvent->fCrate2[i] = (Float_t)*pdata++;
+         for(Int_t i = 0; i<lwords; i++)
+            XXXEvent->fCrate2[i] = (Float_t)*pdata++;
    }
-    }
 
- // now we fill histograms from XXXEvent
-  if(fControl->fill)
-    {
-      for(i = 0; i<8; i++)
-   {
-     fCr1Ch[i]->Fill(XXXEvent->fCrate1[i]);
-     fCr2Ch[i]->Fill(XXXEvent->fCrate2[i]);
-   }
-      value1=XXXEvent->fCrate1[0];
-      value2=XXXEvent->fCrate1[1];
+   // now we fill histograms from XXXEvent
+   if(fControl->fill) {
+      for(Int_t i = 0; i<8; i++) {
+         fCr1Ch[i]->Fill(XXXEvent->fCrate1[i]);
+         fCr2Ch[i]->Fill(XXXEvent->fCrate2[i]);
+      }
+      Float_t value1 = XXXEvent->fCrate1[0];
+      Float_t value2 = XXXEvent->fCrate1[1];
       fHis1->Fill(value1); //fill histograms without gate
       fHis2->Fill(value2);
-      if(fconHis1->Test(value1))fHis1gate->Fill(value1); //fill histograms with gate
-      if(fconHis2->Test(value2))fHis2gate->Fill(value2);
+      if (fconHis1->Test(value1)) fHis1gate->Fill(value1); //fill histograms with gate
+      if (fconHis2->Test(value2)) fHis2gate->Fill(value2);
       // fill Cr1Ch1x2 for three polygons:
-      if(fPolyCon->Test(value1,value2))        fCr1Ch1x2->Fill(value1,value2);
+      if (fPolyCon->Test(value1,value2))       fCr1Ch1x2->Fill(value1,value2);
       if(((*fConArr)[0])->Test(value1,value2)) fCr1Ch1x2->Fill(value1,value2);
       if(((*fConArr)[1])->Test(value1,value2)) fCr1Ch1x2->Fill(value1,value2);
-    }
-  XXXEvent->SetValid(kTRUE); // to store
-  return kTRUE;
+   }
+   XXXEvent->SetValid(kTRUE); // to store
+   return kTRUE;
 }

@@ -23,148 +23,91 @@
 
 //***********************************************************
 TXXXUnpackProc::TXXXUnpackProc() :
-  TGo4EventProcessor()
-{
-}
+   TGo4EventProcessor()
+   {
+   }
 //***********************************************************
 // this one is used in TXXXUnpackFact.cxx
 TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    TGo4EventProcessor(name)
-{
-  cout << "**** TXXXUnpackProc: Create" << endl;
-
-  Text_t chis[16];
-  Text_t chead[64];
-  Int_t i;
-
-  //// init user analysis objects:
-
-  fParam1   = (TXXXParameter *)   GetParameter("XXXPar1");
-  fParam2   = (TXXXParameter *)   GetParameter("XXXPar2");
-  fParam1->PrintParameter(0,0);
-  fParam2->PrintParameter(0,0);
-
-  // Creation of histograms:
-  if(GetHistogram("Crate1/Cr1Ch01")==0)
-    {
-      for(i =0;i<8;i++)
    {
-     snprintf(chis,15,"Cr1Ch%02d",i+1);
-     snprintf(chead,63,"Crate 1 channel %2d",i+1);
-          fCr1Ch[i] = new TH1I (chis,chead,5000,1,5000);
-          AddHistogram(fCr1Ch[i],"Crate1");
-     snprintf(chis,15,"Cr2Ch%02d",i+1);
-     snprintf(chead,63,"Crate 2 channel %2d",i+1);
-          fCr2Ch[i] = new TH1I (chis,chead,5000,1,5000);
-          AddHistogram(fCr2Ch[i],"Crate2");
+   cout << "**** TXXXUnpackProc: Create" << endl;
+
+   //// init user analysis objects:
+   fParam1   = (TXXXParameter *)   GetParameter("XXXPar1");
+   fParam2   = (TXXXParameter *)   GetParameter("XXXPar2");
+   fParam1->PrintParameter(0,0);
+   fParam2->PrintParameter(0,0);
+
+   cout << "**** TXXXProc: Produce histograms" << endl;
+   for(int i=0;i<8;i++) {
+      fCr1Ch[i] = MakeH1('I', Form("Crate1/Cr1Ch%02d",i+1), Form("Crate 1 channel %2d",i+1), 5000, 0., 5000.);
+      fCr2Ch[i] = MakeH1('I', Form("Crate2/Cr2Ch%02d",i+1), Form("Crate 2 channel %2d",i+1), 5000, 0., 5000.);
    }
-      fCr1Ch1x2 = new TH2I("Cr1Ch1x2","Crate 1 channel 1x2",200,1,5000,200,1,5000);
-      AddHistogram(fCr1Ch1x2);
-      fHis1 = new TH1I ("His1","Condition histogram",5000,1,5000);
-      AddHistogram(fHis1);
-      fHis2 = new TH1I ("His2","Condition histogram",5000,1,5000);
-      AddHistogram(fHis2);
-      fHis1gate = new TH1I ("His1g","Gated histogram",5000,1,5000);
-      AddHistogram(fHis1gate);
-      fHis2gate = new TH1I ("His2g","Gated histogram",5000,1,5000);
-      AddHistogram(fHis2gate);
-    }
-  else // got them from autosave file
-    {
-      for(i =0;i<8;i++)
-   {
-     snprintf(chis,15,"Crate1/Cr1Ch%02d",i+1);
-          fCr1Ch[i]=(TH1I*)GetHistogram(chis);
-     snprintf(chis,15,"Crate2/Cr2Ch%02d",i+1);
-          fCr2Ch[i]=(TH1I*)GetHistogram(chis);
-   }
-      fCr1Ch1x2=(TH2I*)GetHistogram("Cr1Ch1x2");
-      fHis1=(TH1I*)GetHistogram("His1");
-      fHis2=(TH1I*)GetHistogram("His2");
-      fHis1gate=(TH1I*)GetHistogram("His1g");
-      fHis2gate=(TH1I*)GetHistogram("His2g");
-      cout << "Unpack: Restored histograms from autosave" << endl;
-    }
-  // Creation of conditions:
-  if(GetAnalysisCondition("wincon1")==0)
-    {
-      fWinCon1= new TGo4WinCond("wincon1");
-      fWinCon1->SetValues(50,2000);
-      fWinCon1->Disable(true); // return always true
 
-      fWinCon2= new TGo4WinCond("wincon2");
-      fWinCon2->SetValues(50,70,90,120);
-      fWinCon2->Disable(true);
-      fWinCon2->Invert(kTRUE);
+   fCr1Ch1x2 = MakeH2('I', "Cr1Ch1x2","Crate 1 channel 1x2", 200, 0., 5000., 200, 0., 5000.);
+   fHis1 = MakeH1('I', "His1","Condition histogram", 5000, 0., 5000.);
+   fHis2 = MakeH1('I', "His2","Condition histogram", 5000, 0., 5000.);
+   fHis1gate = MakeH1('I', "His1g","Gated histogram", 5000, 0., 5000.);
+   fHis2gate = MakeH1('I', "His2g","Gated histogram", 5000, 0., 5000.);
 
-      fconHis1= new TGo4WinCond("cHis1");
-      fconHis2= new TGo4WinCond("cHis2");
-      fconHis1->SetValues(100,2000);
-      fconHis2->SetValues(100,2000);
+   cout << "**** TXXXProc: Produce conditions" << endl;
+   fWinCon1 = MakeWinCond("wincon1", 50, 2000);
+   fWinCon2 = MakeWinCond("wincon2", 50, 70, 90, 120);
+   fconHis1 = MakeWinCond("cHis1", 100, 2000, "His1");
+   fconHis2 = MakeWinCond("cHis2", 100, 2000, "His2");
 
-      fConArr1= new TGo4CondArray("winconar",30,"TGo4WinCond");
+   Double_t cutpnts[3][2] = { {400, 800}, {700, 900}, {600, 1100} };
+   fPolyCon1 = MakePolyCond("polycon", 3, cutpnts);
+
+
+   fConArr1 = (TGo4CondArray*)GetAnalysisCondition("winconar");
+   if (fConArr1==0) {
+      fConArr1 = new TGo4CondArray("winconar",30,"TGo4WinCond");
       fConArr1->SetValues(100,500);
       fConArr1->Disable(true);
       ((*fConArr1)[0])->SetValues(200,400);
       ((*fConArr1)[1])->SetValues(700,1000);
       ((*fConArr1)[2])->SetValues(1500,2000);
       fConArr1->SetHistogram("Sum3");
-
-      Double_t xvalues[4]={400,700,600,400};
-      Double_t yvalues[4]={800,900,1100,800};
-      TCutG* mycut= new TCutG("cut1",4,xvalues,yvalues);
-      fPolyCon1= new TGo4PolyCond("polycon");
-      fPolyCon1->SetValues(mycut); // copies mycat into fPolyCon1
-      fPolyCon1->Disable(true);
-      delete mycut; // mycat has been copied into the conditions
-
-      xvalues[0]=1000;xvalues[1]=2000;xvalues[2]=1500;xvalues[3]=1000;
-      yvalues[0]=1000;yvalues[1]=1000;yvalues[2]=3000;yvalues[3]=1000;
-      mycut= new TCutG("cut2",4,xvalues,yvalues);
-      fConArr2= new TGo4CondArray("polyconar",5,"TGo4PolyCond");
-      fConArr2->SetValues(mycut);
-      fConArr2->Disable(true);
-      delete mycut; // mycat has been copied into the conditions
-
-      AddAnalysisCondition(fWinCon1);
-      AddAnalysisCondition(fWinCon2);
-      AddAnalysisCondition(fPolyCon1);
       AddAnalysisCondition(fConArr1);
-      AddAnalysisCondition(fConArr2);
-      AddAnalysisCondition(fconHis1);
-      AddAnalysisCondition(fconHis2);
-    }
-  else // got them from autosave file
-    {
-      fWinCon1  = (TGo4WinCond*)  GetAnalysisCondition("wincon1");
-      fWinCon2  = (TGo4WinCond*)  GetAnalysisCondition("wincon2");
-      fPolyCon1 = (TGo4PolyCond*) GetAnalysisCondition("polycon");
-      fConArr1  = (TGo4CondArray*)GetAnalysisCondition("winconar");
-      fConArr2  = (TGo4CondArray*)GetAnalysisCondition("polyconar");
-      fconHis1  = (TGo4WinCond*)  GetAnalysisCondition("cHis1");
-      fconHis2  = (TGo4WinCond*)  GetAnalysisCondition("cHis2");
-      fconHis1->ResetCounts();
-      fconHis2->ResetCounts();
-      fWinCon1->ResetCounts();
-      fWinCon2->ResetCounts();
-      fPolyCon1->ResetCounts();
+   } else {
       fConArr1->ResetCounts();
+   }
+
+   fConArr2 = (TGo4CondArray*)GetAnalysisCondition("polyconar");
+   if(fConArr2==0) {
+      // This is example how to create condition array
+      cout << "**** TXXXProc: Create condition" << endl;
+      Double_t xvalues[4] = { 1000, 2000, 1500, 1000 };
+      Double_t yvalues[4] = { 1000, 1000, 3000, 1000 };
+      TCutG* mycut = new TCutG("cut2", 4, xvalues, yvalues);
+      fConArr2 = new TGo4CondArray("polyconar",4,"TGo4PolyCond");
+      fConArr2->SetValues(mycut);
+      fConArr2->Disable(true);   // means: condition check always returns true
+      delete mycut; // mycat has been copied into the conditions
+      AddAnalysisCondition(fConArr2);
+   } else {
+      cout << "**** TXXXProc: Restore condition from autosave" << endl;
       fConArr2->ResetCounts();
+   }
+   // connect histograms to conditions. will be drawn when condition is edited.
+   fWinCon1->Enable();
+   fWinCon2->Disable(true); // return always true
+   fWinCon2->Invert(kTRUE);
+   fWinCon1->PrintCondition(true);
+   fconHis1->PrintCondition(true);
+   fconHis2->PrintCondition(true);
+   fPolyCon1->Enable();
+   fPolyCon1->PrintCondition(true);
+   ((*fConArr2)[0])->Enable();
+   ((*fConArr2)[1])->Enable(); // 2 and 3 remain disabled
 
-      cout << "Unpack: Restored conditions from autosave" << endl;
-    }
-  // connect histograms to conditions. will be drawn when condition is edited.
-  fconHis1->SetHistogram("His1");
-  fconHis2->SetHistogram("His2");
-  fconHis1->Enable();
-  fconHis2->Enable();
-  fconHis1->PrintCondition(true);
-  fconHis2->PrintCondition(true);
-
-  if (GetPicture("Picture1")==0)
-    {
+   fcondSet = GetPicture("condSet");
+   if (fcondSet==0) {
+      // in the upper two pads, the condition limits can be set,
+      // in the lower two pads, the resulting histograms are shown
       fcondSet = new TGo4Picture("condSet","Set conditions");
-      fcondSet->SetDrawHeader(kTRUE);
       fcondSet->SetDivision(2,2);
       fcondSet->Pic(0,0)->AddObject(fHis1);
       fcondSet->Pic(0,1)->AddObject(fHis2);
@@ -176,161 +119,143 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       fcondSet->Pic(1,0)->SetLineAtt(4,1,1);
       fcondSet->Pic(1,1)->SetFillAtt(9, 1001); // solid
       fcondSet->Pic(1,1)->SetLineAtt(9,1,1);
-
       fcondSet->Pic(0,0)->SetTitleAttr(0.05, 0.85, 0.8, 0.95);
-
       AddPicture(fcondSet);
+   }
 
-      Picture1 = new TGo4Picture("Picture1","Picture example");
-      Picture1->SetLinesDivision(3, 2,3,1);
-      Picture1->LPic(0,0)->AddObject(fCr1Ch[0]);
-      Picture1->LPic(0,0)->SetFillAtt(5, 3001); // pattern
-      Picture1->LPic(0,0)->SetLineAtt(5,1,1);
-      Picture1->LPic(0,1)->AddObject(fCr1Ch[1]);
-      Picture1->LPic(0,1)->SetFillAtt(4, 3001); // pattern
-      Picture1->LPic(0,1)->SetLineAtt(4,1,1);
-      Picture1->LPic(1,0)->AddObject(fCr1Ch[2]);
-      Picture1->LPic(1,0)->SetFillAtt(6, 1001); // solid
-      Picture1->LPic(1,0)->SetLineAtt(6,1,1);
-      Picture1->LPic(1,1)->AddObject(fCr1Ch[3]);
-      Picture1->LPic(1,1)->SetFillAtt(7, 1001); // solid
-      Picture1->LPic(1,1)->SetLineAtt(7,1,1);
-      Picture1->LPic(1,2)->AddObject(fCr1Ch[4]);
-      Picture1->LPic(3,0)->AddObject(fCr1Ch1x2);
-      Picture1->LPic(3,0)->SetDrawOption("CONT");
-
-      AddPicture(Picture1);
-
-    }
-  else
-    {
-      Picture1 = GetPicture("Picture1");
-      fcondSet = (TGo4Picture *)GetPicture("condSet");
-    }
-
-  fWinCon1->Enable();
-  fWinCon1->PrintCondition(true);
-  fPolyCon1->Enable();
-  fPolyCon1->PrintCondition(true);
-  ((*fConArr2)[0])->Enable();
-  ((*fConArr2)[1])->Enable();
+   fPicture1 = GetPicture("Picture1");
+   if (fPicture1 == 0) {
+      fPicture1 = new TGo4Picture("Picture1","Picture example");
+      fPicture1->SetLinesDivision(3, 2,3,1);
+      fPicture1->LPic(0,0)->AddObject(fCr1Ch[0]);
+      fPicture1->LPic(0,0)->SetFillAtt(5, 3001); // pattern
+      fPicture1->LPic(0,0)->SetLineAtt(5,1,1);
+      fPicture1->LPic(0,1)->AddObject(fCr1Ch[1]);
+      fPicture1->LPic(0,1)->SetFillAtt(4, 3001); // pattern
+      fPicture1->LPic(0,1)->SetLineAtt(4,1,1);
+      fPicture1->LPic(1,0)->AddObject(fCr1Ch[2]);
+      fPicture1->LPic(1,0)->SetFillAtt(6, 1001); // solid
+      fPicture1->LPic(1,0)->SetLineAtt(6,1,1);
+      fPicture1->LPic(1,1)->AddObject(fCr1Ch[3]);
+      fPicture1->LPic(1,1)->SetFillAtt(7, 1001); // solid
+      fPicture1->LPic(1,1)->SetLineAtt(7,1,1);
+      fPicture1->LPic(1,2)->AddObject(fCr1Ch[4]);
+      fPicture1->LPic(3,0)->AddObject(fCr1Ch1x2);
+      fPicture1->LPic(3,0)->SetDrawOption("CONT");
+      AddPicture(fPicture1);
+   }
 }
 //***********************************************************
 TXXXUnpackProc::~TXXXUnpackProc()
 {
-  fWinCon1->PrintCondition(true);
-  fPolyCon1->PrintCondition(true);
+   fWinCon1->PrintCondition(true);
+   fPolyCon1->PrintCondition(true);
 }
 //***********************************************************
 
 //-----------------------------------------------------------
 void TXXXUnpackProc::XXXUnpack(TXXXUnpackEvent* poutevt)
 {
-  TGo4MbsSubEvent* psubevt;
-  Int_t index=0;
-  Int_t value=0;
-  Int_t lwords;
-  Int_t *pdata;
-  fInput    = (TGo4MbsEvent* ) GetInputEvent(); // from this
-  if(fInput)
-    {
-      /////////////////////////////////////////////////////////////
-      ////// use this if you want access to the mbs file header data:
-      //      s_filhe* head=fInput->GetMbsSourceHeader();
-      //      if(head)
-      //         {
-      //            cout <<"found filhe structure:" << endl;
-      //            cout <<"\tdatalen: "<<head->filhe_dlen << endl;
-      //            cout <<"\tfilename_l: "<<head->filhe_file_l << endl;
-      //            cout <<"\tfilename: "<<head->filhe_file << endl;
-      //            cout <<"\ttype: "<<head->filhe_type << endl;
-      //            cout <<"\tsubtype: "<<head->filhe_subtype << endl;
-      //            cout <<"\t#commentlines: "<<head->filhe_lines << endl;
-      //         }
-      //      else
-      //         {
-      //            cout <<"zero file header" << endl;
-      //         }
-      //////////////////////////////////////////////////////////////////
+   TGo4MbsEvent* fInput    = (TGo4MbsEvent* ) GetInputEvent(); // from this
+   if (fInput==0) {
+      cout << "XXXUnpackProc: no input event !"<< endl;
+      return;
+   }
 
-      /////////////////////////////////////////////////////////////
-      ////// use this if you want access to the mbs buffer header data:
-      //      s_bufhe* head=fInput->GetMbsBufferHeader();
-      //      if(head)
-      //         {
-      //            cout <<"\nfound bufhe structure:" << endl;
-      //            cout <<"\tbuffernumber: "<<head->l_buf << endl;
-      //            cout <<"\tdatalen: "<<head->l_dlen << endl;
-      //            cout <<"\ttime lo: "<<head->l_time[0] << endl; // seconds since epoch 1970
-      //            cout <<"\ttime hi: "<<head->l_time[1] << endl; // microseconds since time lo
-      //            cout <<"\ttimestring: "<<ctime((const time_t*) &(head->l_time[0]));
-      //            cout << "\t\t + "<<head->l_time[1] << " µs"<<endl;
-      //            cout <<"\ttype: "<<head->i_type << endl;
-      //            cout <<"\tsubtype: "<<head->i_subtype << endl;
-      //         }
-      //      else
-      //         {
-      //            cout <<"zero buffer header" << endl;
-      //         }
-      //////////////////////////////////////////////////////////////////
+   /////////////////////////////////////////////////////////////
+   ////// use this if you want access to the mbs file header data:
+   //      s_filhe* head=fInput->GetMbsSourceHeader();
+   //      if(head)
+   //         {
+   //            cout <<"found filhe structure:" << endl;
+   //            cout <<"\tdatalen: "<<head->filhe_dlen << endl;
+   //            cout <<"\tfilename_l: "<<head->filhe_file_l << endl;
+   //            cout <<"\tfilename: "<<head->filhe_file << endl;
+   //            cout <<"\ttype: "<<head->filhe_type << endl;
+   //            cout <<"\tsubtype: "<<head->filhe_subtype << endl;
+   //            cout <<"\t#commentlines: "<<head->filhe_lines << endl;
+   //         }
+   //      else
+   //         {
+   //            cout <<"zero file header" << endl;
+   //         }
+   //////////////////////////////////////////////////////////////////
 
-      fInput->ResetIterator();
-      while ((psubevt = fInput->NextSubEvent()) != 0) // subevent loop
+   /////////////////////////////////////////////////////////////
+   ////// use this if you want access to the mbs buffer header data:
+   //      s_bufhe* head=fInput->GetMbsBufferHeader();
+   //      if(head)
+   //         {
+   //            cout <<"\nfound bufhe structure:" << endl;
+   //            cout <<"\tbuffernumber: "<<head->l_buf << endl;
+   //            cout <<"\tdatalen: "<<head->l_dlen << endl;
+   //            cout <<"\ttime lo: "<<head->l_time[0] << endl; // seconds since epoch 1970
+   //            cout <<"\ttime hi: "<<head->l_time[1] << endl; // microseconds since time lo
+   //            cout <<"\ttimestring: "<<ctime((const time_t*) &(head->l_time[0]));
+   //            cout << "\t\t + "<<head->l_time[1] << " µs"<<endl;
+   //            cout <<"\ttype: "<<head->i_type << endl;
+   //            cout <<"\tsubtype: "<<head->i_subtype << endl;
+   //         }
+   //      else
+   //         {
+   //            cout <<"zero buffer header" << endl;
+   //         }
+   //////////////////////////////////////////////////////////////////
+
+
+   fInput->ResetIterator();
+   TGo4MbsSubEvent* psubevt(0);
+   while ((psubevt = fInput->NextSubEvent()) != 0) // subevent loop
    {
-     if( psubevt->GetSubcrate() == 1)
-       {
-         pdata=psubevt->GetDataField();
-         lwords= psubevt->GetIntLen();
+      if( psubevt->GetSubcrate() == 1)
+      {
+         Int_t* pdata = psubevt->GetDataField();
+         Int_t lwords = psubevt->GetIntLen();
          if(lwords >= 8) lwords=8; // take only first 8 lwords
+         Int_t lastvalue = 0;
          for(Int_t i = 0; i<lwords; ++i)
+         {
+            // Int_t index =  *pdata&0xfff;      // in case low word is index
+            // Int_t value = (*pdata>>16)&0xfff; // in case high word is data
+            if(*pdata != 0)
+            {
+               fCr1Ch[i]->Fill((Float_t)(*pdata));
+               poutevt->fiCrate1[i] = *pdata; // fill output event
+               if(i == 0) // fill first channel
+               {
+                  if(fconHis1->Test(*pdata))fHis1gate->Fill((Float_t)(*pdata));
+                  fHis1->Fill((Float_t)(*pdata));
+               }
+               if(i == 1)
+               {
+                  if(fconHis2->Test(*pdata))fHis2gate->Fill((Float_t)(*pdata));
+                  fHis2->Fill((Float_t)(*pdata));
+                  // fill Cr1Ch1x2 for three polygons:
+                  if(fPolyCon1->Test(*pdata,lastvalue))       fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
+                  if(((*fConArr2)[0])->Test(*pdata,lastvalue))fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
+                  if(((*fConArr2)[1])->Test(*pdata,lastvalue))fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
+               }
+            }
+            lastvalue = *pdata; // save for 2d histogram
+            pdata++;
+         } // for SEW LW
+      } // if (subcrate)
+      if( psubevt->GetSubcrate() == 2)
       {
-        index =  *pdata&0xfff;      // in case low word is index
-        //value = (*pdata>>16)&0xfff; // in case high word is data
-        if(*pdata != 0)
-          {
-            fCr1Ch[i]->Fill((Float_t)(*pdata));
-            poutevt->fiCrate1[i] = *pdata; // fill output event
-            if(i == 0) // fill first channel
-         {
-                          if(fconHis1->Test(*pdata))fHis1gate->Fill((Float_t)(*pdata));
-                          fHis1->Fill((Float_t)(*pdata));
-         }
-            if(i == 1)
-         {
-                          if(fconHis2->Test(*pdata))fHis2gate->Fill((Float_t)(*pdata));
-                          fHis2->Fill((Float_t)(*pdata));
-           // fill Cr1Ch1x2 for three polygons:
-                if(fPolyCon1->Test(*pdata,value))       fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)value);
-                if(((*fConArr2)[0])->Test(*pdata,value))fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)value);
-                if(((*fConArr2)[1])->Test(*pdata,value))fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)value);
-         }
-          }
-        value = *pdata; // save for 2d histogram
-        pdata++;
-      } // for SEW LW
-       } // if (subcrate)
-     if( psubevt->GetSubcrate() == 2)
-       {
-         pdata=psubevt->GetDataField();
-         lwords= (psubevt->GetDlen() -2) * sizeof(Short_t)/sizeof(Int_t);
+         Int_t* pdata = psubevt->GetDataField();
+         Int_t lwords = (psubevt->GetDlen() -2) * sizeof(Short_t)/sizeof(Int_t);
          if(lwords >= 8) lwords=8;
-         for(Int_t i = 0; i<lwords; ++i)
-      {
-        index=*pdata&0xfff;
-        value=(*pdata>>16)&0xfff;
-        if(*pdata != 0)
-          {
-            poutevt->fiCrate2[i] = *pdata;
-            fCr2Ch[i]->Fill((Float_t)(*pdata));
-          }
-        pdata++;
-      } // for SEW LW
-       } // if (subcrate)
+         for(Int_t i = 0; i<lwords; ++i) {
+            if(*pdata != 0) {
+               poutevt->fiCrate2[i] = *pdata;
+               fCr2Ch[i]->Fill((Float_t)(*pdata));
+            }
+            pdata++;
+         } // for SEW LW
+      } // if (subcrate)
    }  // while
-      poutevt->SetValid(kTRUE); // to store
-    } // if(fInput)
-  else    cout << "XXXUnpackProc: no input event !"<< endl;
-// throwing this exception stops the event loop
-// Note that subsequent steps are not executed!
-//	throw TGo4EventEndException(this);
+   poutevt->SetValid(kTRUE); // to store
+   // throwing this exception stops the event loop
+   // Note that subsequent steps are not executed!
+   //	throw TGo4EventEndException(this);
 }

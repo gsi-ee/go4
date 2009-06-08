@@ -41,7 +41,8 @@ Changes in Go4 v4.03.00 (June 09)
    non-existing hotstart file was specified.
 10.New MakeH1, MakeH2, MakeWinCond, MakePolyCond, MakeParameter 
    are implemented. They provide easy way to produce analysis objects or 
-   take them from the autosave file. 
+   take them from the autosave file. See analysis examples how
+   these methods can be used.   
      
 
 Changes in Go4 v4.02.00 (April 09)
