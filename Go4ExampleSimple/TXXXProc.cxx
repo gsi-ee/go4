@@ -34,15 +34,15 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
    fParam = (TXXXParam*) MakeParameter("Par1", "TXXXParam");
 
    for(int i=0;i<8;i++) {
-      fCr1Ch[i] = MakeH1('I', Form("Crate1/Cr1Ch%02d",i+1), Form("Crate 1 channel %2d",i+1), 5000, 0., 5000.);
-      fCr2Ch[i] = MakeH1('I', Form("Crate2/Cr2Ch%02d",i+1), Form("Crate 2 channel %2d",i+1), 5000, 0., 5000.);
+      fCr1Ch[i] = MakeTH1('I', Form("Crate1/Cr1Ch%02d",i+1), Form("Crate 1 channel %2d",i+1), 5000, 0., 5000.);
+      fCr2Ch[i] = MakeTH1('I', Form("Crate2/Cr2Ch%02d",i+1), Form("Crate 2 channel %2d",i+1), 5000, 0., 5000.);
    }
 
-   fCr1Ch1x2 = MakeH2('I', "Cr1Ch1x2","Crate 1 channel 1x2", 200, 0., 5000., 200, 0., 5000.);
-   fHis1 = MakeH1('I', "His1","Condition histogram", 5000, 0., 5000.);
-   fHis2 = MakeH1('I', "His2","Condition histogram", 5000, 0., 5000.);
-   fHis1gate = MakeH1('I', "His1g","Gated histogram", 5000, 0., 5000.);
-   fHis2gate = MakeH1('I', "His2g","Gated histogram", 5000, 0., 5000.);
+   fCr1Ch1x2 = MakeTH2('I', "Cr1Ch1x2","Crate 1 channel 1x2", 200, 0., 5000., 200, 0., 5000.);
+   fHis1 = MakeTH1('I', "His1","Condition histogram", 5000, 0., 5000.);
+   fHis2 = MakeTH1('I', "His2","Condition histogram", 5000, 0., 5000.);
+   fHis1gate = MakeTH1('I', "His1g","Gated histogram", 5000, 0., 5000.);
+   fHis2gate = MakeTH1('I', "His2g","Gated histogram", 5000, 0., 5000.);
 
    fconHis1 = MakeWinCond("cHis1", 100,2000, "His1");
    fconHis2 = MakeWinCond("cHis2", 100,2000, "His2");

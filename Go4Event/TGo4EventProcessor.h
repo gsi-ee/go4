@@ -209,7 +209,7 @@ class TGo4EventProcessor : public TGo4EventSource {
        * If histogram exactly with same name and type already exists in  autosave file,
        * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
        */
-      TH1* MakeH1(char type, const char* fullname, const char* title,
+      TH1* MakeTH1(char type, const char* fullname, const char* title,
                    Int_t nbinsx, Double_t xlow, Double_t xup,
                    const char* xtitle = 0, const char* ytitle = 0);
 
@@ -227,7 +227,7 @@ class TGo4EventProcessor : public TGo4EventSource {
        * If histogram exactly with same name and type already exists in  autosave file,
        * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
        */
-      TH2* MakeH2(char type, const char* fullname, const char* title,
+      TH2* MakeTH2(char type, const char* fullname, const char* title,
                    Int_t nbinsx, Double_t xlow, Double_t xup,
                    Int_t nbinsy, Double_t ylow, Double_t yup,
                    const char* xtitle = 0, const char* ytitle = 0);

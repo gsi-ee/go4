@@ -39,7 +39,7 @@ Changes in Go4 v4.03.00 (June 09)
    which will be loaded automatically
 9. Fix error (reported by Nick) - gui was hanging when 
    non-existing hotstart file was specified.
-10.New MakeH1, MakeH2, MakeWinCond, MakePolyCond, MakeParameter 
+10.New MakeTH1, MakeTH2, MakeWinCond, MakePolyCond, MakeParameter 
    are implemented. They provide easy way to produce analysis objects or 
    take them from the autosave file. See analysis examples how
    these methods can be used.

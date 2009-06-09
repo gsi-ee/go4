@@ -168,7 +168,7 @@ void TGo4EventProcessor::Clear(Option_t* opt)
 }
 
 
-TH1* TGo4EventProcessor::MakeH1(char type, const char* fullname, const char* title,
+TH1* TGo4EventProcessor::MakeTH1(char type, const char* fullname, const char* title,
                                      Int_t nbinsx, Double_t xlow, Double_t xup,
                                      const char* xtitle, const char* ytitle)
 {
@@ -239,7 +239,7 @@ TH1* TGo4EventProcessor::MakeH1(char type, const char* fullname, const char* tit
    return newh;
 }
 
-TH2* TGo4EventProcessor::MakeH2(char type, const char* fullname, const char* title,
+TH2* TGo4EventProcessor::MakeTH2(char type, const char* fullname, const char* title,
                                      Int_t nbinsx, Double_t xlow, Double_t xup,
                                      Int_t nbinsy, Double_t ylow, Double_t yup,
                                      const char* xtitle, const char* ytitle)

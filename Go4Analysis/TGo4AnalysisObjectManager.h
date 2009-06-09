@@ -169,7 +169,7 @@ class TGo4AnalysisObjectManager : public TNamed
         *    ytitle    - title on y axis [optional]
         */
 
-      TH1* MakeH1(const Text_t* histotype,
+      TH1* MakeTH1(const Text_t* histotype,
                   const Text_t* foldername,
                   const Text_t* histoname,
                   Int_t         nbinsx,
@@ -199,7 +199,7 @@ class TGo4AnalysisObjectManager : public TNamed
         *    ytitle    - title on y axis [optional]
         */
 
-      TH2* MakeH2(const Text_t* histotype,
+      TH2* MakeTH2(const Text_t* histotype,
                   const Text_t* foldername,
                   const Text_t* histoname,
                   Int_t         nbinsx,

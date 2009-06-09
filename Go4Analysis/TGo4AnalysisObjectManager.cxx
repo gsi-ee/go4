@@ -584,7 +584,7 @@ TRACE((11,"TGo4AnalysisObjectManager::AddHistogram(TH1*)",__LINE__, __FILE__));
    return rev;
 }
 
-TH1* TGo4AnalysisObjectManager::MakeH1(const Text_t* histotype,
+TH1* TGo4AnalysisObjectManager::MakeTH1(const Text_t* histotype,
                                        const Text_t* foldername,
                                        const Text_t* histoname,
                                        Int_t         nbinsx,
@@ -628,7 +628,7 @@ TH1* TGo4AnalysisObjectManager::MakeH1(const Text_t* histotype,
    return histo;
 }
 
-TH2* TGo4AnalysisObjectManager::MakeH2(const Text_t* histotype,
+TH2* TGo4AnalysisObjectManager::MakeTH2(const Text_t* histotype,
                                        const Text_t* foldername,
                                        const Text_t* histoname,
                                        Int_t         nbinsx,

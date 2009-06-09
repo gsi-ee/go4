@@ -36,24 +36,24 @@ TYYYUnpackProc::TYYYUnpackProc(const char* name) :
    fParam1   = (TYYYParameter *) GetParameter("YYYPar1");
    fParam1->PrintParameter(0,0);
 
-   fX = MakeH1('D', "Position/Xfinal", "Scatt sim x (nm)",1000,-1e7,1e+7);
-   fY = MakeH1('D', "Position/Yfinal", "Scatt sim y (nm)",1000,-1e7,1e+7);
-   fZ = MakeH1('D', "Position/Zfinal", "Scatt sim z (nm)",1000, 1., 1e+8);
+   fX = MakeTH1('D', "Position/Xfinal", "Scatt sim x (nm)",1000,-1e7,1e+7);
+   fY = MakeTH1('D', "Position/Yfinal", "Scatt sim y (nm)",1000,-1e7,1e+7);
+   fZ = MakeTH1('D', "Position/Zfinal", "Scatt sim z (nm)",1000, 1., 1e+8);
 
-   fVX = MakeH1('D', "Velocity/Vxfinal", "Scatt sim vx (nm/ps)",1000, -5e+3,5e+3);
-   fVY = MakeH1('D', "Velocity/Vyfinal", "Scatt sim vy (nm/ps)",1000, -5e+3,5e+3);
-   fVZ = MakeH1('D', "Velocity/Vzfinal", "Scatt sim vz (nm/ps)",1000, 1.,3e+4);
+   fVX = MakeTH1('D', "Velocity/Vxfinal", "Scatt sim vx (nm/ps)",1000, -5e+3,5e+3);
+   fVY = MakeTH1('D', "Velocity/Vyfinal", "Scatt sim vy (nm/ps)",1000, -5e+3,5e+3);
+   fVZ = MakeTH1('D', "Velocity/Vzfinal", "Scatt sim vz (nm/ps)",1000, 1.,3e+4);
 
-   fNumScatt = MakeH1('D', "Nscatt", "Multiple scattering collisions",50000, 15000., 25000.);
+   fNumScatt = MakeTH1('D', "Nscatt", "Multiple scattering collisions",50000, 15000., 25000.);
 
-   fXY = MakeH2('D', "Position/X-Y","x versus y final",100,-1e7,1e+7,100,-1e+7,1e+7);
-   fVXVY = MakeH2('D', "Velocity/Vx-Vy","vx versus vy final",100,-5e+3,5e+3,100,-5e+3,5e+3);
-   fXYCond = MakeH2('D', "Position/X-Y-cond","x versus y final",100,-1e+7,1e+7,100,-1e+7,1e+7);
-   fVXVYCond = MakeH2('D', "Velocity/Vx-Vy-cond","vx versus vy final",100,-1e+3,1e+3,100,-1e+3,1e+3);
+   fXY = MakeTH2('D', "Position/X-Y","x versus y final",100,-1e7,1e+7,100,-1e+7,1e+7);
+   fVXVY = MakeTH2('D', "Velocity/Vx-Vy","vx versus vy final",100,-5e+3,5e+3,100,-5e+3,5e+3);
+   fXYCond = MakeTH2('D', "Position/X-Y-cond","x versus y final",100,-1e+7,1e+7,100,-1e+7,1e+7);
+   fVXVYCond = MakeTH2('D', "Velocity/Vx-Vy-cond","vx versus vy final",100,-1e+3,1e+3,100,-1e+3,1e+3);
 
-   fEmitX = MakeH2('D', "X-X'","transverse emittance x",100,-1e+7,1e+7,100,-0.1,0.1);
-   fEmitY = MakeH2('D', "Y-Y'","transverse emittance y",100,-1e+7,1e+7,100,-0.1,0.1);
-   fEmitDist = MakeH1('D', "Emit4d","transverse emittance distribution",4000,0,2e+5);
+   fEmitX = MakeTH2('D', "X-X'","transverse emittance x",100,-1e+7,1e+7,100,-0.1,0.1);
+   fEmitY = MakeTH2('D', "Y-Y'","transverse emittance y",100,-1e+7,1e+7,100,-0.1,0.1);
+   fEmitDist = MakeTH1('D', "Emit4d","transverse emittance distribution",4000,0,2e+5);
 
    fWinConR = MakeWinCond("RCondition", 50., 70.);
    fWinConV = MakeWinCond("VCondition", 50, 70, 90, 120);

@@ -34,13 +34,13 @@ TXXXAnlProc::TXXXAnlProc(const char* name) :
    fParam2 = (TXXXParameter*)  GetParameter("XXXPar2");
    fWinCon = (TGo4WinCond *)   GetAnalysisCondition("wincon1");
 
-   fSum1     = MakeH1('I', "Sum1", "Sum over 8 channels", 5000, 1., 5001.);
-   fSum2     = MakeH1('I', "Sum2", "Sum over 8 channels shift 1", 5000, 1., 5001.);
-   fSum3     = MakeH1('I', "Sum3", "Sum over 8 channels shift 2", 5000, 1., 5001.);
-   fCaliSum1 = MakeH1('I', "Sum1Calib", "Sum over 8 channels(keV)", 5000, 1., 20.);
+   fSum1     = MakeTH1('I', "Sum1", "Sum over 8 channels", 5000, 1., 5001.);
+   fSum2     = MakeTH1('I', "Sum2", "Sum over 8 channels shift 1", 5000, 1., 5001.);
+   fSum3     = MakeTH1('I', "Sum3", "Sum over 8 channels shift 2", 5000, 1., 5001.);
+   fCaliSum1 = MakeTH1('I', "Sum1Calib", "Sum over 8 channels(keV)", 5000, 1., 20.);
 
-   fFitSrc   = MakeH1('I', "FitSource","Copy of fit data", 1000, 0., 1000.);
-   fFitRes   = MakeH1('I', "FitTarget","Copy of fit result", 1000, 0., 1000.);
+   fFitSrc   = MakeTH1('I', "FitSource","Copy of fit data", 1000, 0., 1000.);
+   fFitRes   = MakeTH1('I', "FitTarget","Copy of fit result", 1000, 0., 1000.);
 
    fCaligraph = (TGraph*) GetObject("Calibration");
    if (fCaligraph==0) {
