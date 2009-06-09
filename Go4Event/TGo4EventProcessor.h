@@ -192,6 +192,8 @@ class TGo4EventProcessor : public TGo4EventSource {
       /** Set flag to use data from autosave file in Make... methods (default true) */
       void SetMakeWithAutosave(Bool_t on = kTRUE) { fbMakeWithAutosave = on; }
 
+      /** Returns kTRUE if object in last Make... call was created,
+       * kFALSE when object was retrieved from autosavefile */
       Bool_t IsObjMade() const { return fbObjMade; }
 
       /** Create one dimensional histogram of specified type. Type can be:

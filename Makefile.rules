@@ -27,9 +27,6 @@ endif
 
 libs::
 
-clean::
-
-
 ## Extensions rules
 
 .SUFFIXES: .$(SrcSuf) .$(DepSuf) .$(HedSuf)

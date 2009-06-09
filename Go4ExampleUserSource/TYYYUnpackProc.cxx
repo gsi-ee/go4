@@ -29,104 +29,43 @@ TYYYUnpackProc::TYYYUnpackProc(const char* name) :
   TGo4EventProcessor(name)
 
 {
-  cout << "**** TYYYUnpackProc: Create" << endl;
+   cout << "**** TYYYUnpackProc: Create" << endl;
 
-  //// init user analysis objects:
+   //// init user analysis objects:
 
-  fParam1   = (TYYYParameter *)   GetParameter("YYYPar1");
-  fParam1->PrintParameter(0,0);
+   fParam1   = (TYYYParameter *) GetParameter("YYYPar1");
+   fParam1->PrintParameter(0,0);
 
-  if(GetHistogram("Position/Xfinal")==0) {
-     // Creation of histograms:
-      fX = new TH1D ("Xfinal", "Scatt sim x (nm)",1000,-1e7,1e+7);
-      fY = new TH1D ("Yfinal", "Scatt sim y (nm)",1000,-1e7,1e+7);
-      fZ = new TH1D ("Zfinal", "Scatt sim z (nm)",1000,1,1e+8);
-      fVX = new TH1D ("Vxfinal", "Scatt sim vx (nm/ps)",1000,-5e+3,5e+3);
-      fVY = new TH1D ("Vyfinal", "Scatt sim vy (nm/ps)",1000,-5e+3,5e+3);
-      fVZ = new TH1D ("Vzfinal", "Scatt sim vz (nm/ps)",1000,1,3e+4);
-      fNumScatt = new TH1D ("Nscatt", "Multiple scattering collisions",50000,15000,25000);
-      fXY = new TH2D("X-Y","x versus y final",100,-1e7,1e+7,100,-1e+7,1e+7);
-      fVXVY = new TH2D("Vx-Vy","vx versus vy final",100,-5e+3,5e+3,100,-5e+3,5e+3);
-      fXYCond = new TH2D("X-Y-cond","x versus y final",100,-1e+7,1e+7,100,-1e+7,1e+7);
-      fVXVYCond = new TH2D("Vx-Vy-cond","vx versus vy final",100,-1e+3,1e+3,100,-1e+3,1e+3);
-      fEmitX = new TH2D("X-X'","transverse emittance x",100,-1e+7,1e+7,100,-0.1,0.1);
-      fEmitY = new TH2D("Y-Y'","transverse emittance y",100,-1e+7,1e+7,100,-0.1,0.1);
-      fEmitDist = new TH1D("Emit4d","transverse emittance distribution",4000,0,2e+5);
+   fX = MakeH1('D', "Position/Xfinal", "Scatt sim x (nm)",1000,-1e7,1e+7);
+   fY = MakeH1('D', "Position/Yfinal", "Scatt sim y (nm)",1000,-1e7,1e+7);
+   fZ = MakeH1('D', "Position/Zfinal", "Scatt sim z (nm)",1000, 1., 1e+8);
 
+   fVX = MakeH1('D', "Velocity/Vxfinal", "Scatt sim vx (nm/ps)",1000, -5e+3,5e+3);
+   fVY = MakeH1('D', "Velocity/Vyfinal", "Scatt sim vy (nm/ps)",1000, -5e+3,5e+3);
+   fVZ = MakeH1('D', "Velocity/Vzfinal", "Scatt sim vz (nm/ps)",1000, 1.,3e+4);
 
-      AddHistogram(fX,"Position");
-      AddHistogram(fY,"Position");
-      AddHistogram(fZ,"Position");
-      AddHistogram(fXY,"Position");
-      AddHistogram(fXYCond,"Position");
-      AddHistogram(fVX,"Velocity");
-      AddHistogram(fVY,"Velocity");
-      AddHistogram(fVZ,"Velocity");
-      AddHistogram(fVXVY,"Velocity");
-      AddHistogram(fVXVYCond,"Velocity");
-      AddHistogram(fNumScatt);
-      AddHistogram(fEmitX);
-      AddHistogram(fEmitY);
-      AddHistogram(fEmitDist);
-  } else {
+   fNumScatt = MakeH1('D', "Nscatt", "Multiple scattering collisions",50000, 15000., 25000.);
 
-     // got them from autosave file
+   fXY = MakeH2('D', "Position/X-Y","x versus y final",100,-1e7,1e+7,100,-1e+7,1e+7);
+   fVXVY = MakeH2('D', "Velocity/Vx-Vy","vx versus vy final",100,-5e+3,5e+3,100,-5e+3,5e+3);
+   fXYCond = MakeH2('D', "Position/X-Y-cond","x versus y final",100,-1e+7,1e+7,100,-1e+7,1e+7);
+   fVXVYCond = MakeH2('D', "Velocity/Vx-Vy-cond","vx versus vy final",100,-1e+3,1e+3,100,-1e+3,1e+3);
 
-      fX = (TH1D*)GetHistogram("Position/Xfinal");
-      fY = (TH1D*)GetHistogram("Position/Yfinal");
-      fZ = (TH1D*)GetHistogram("Position/Zfinal");
-      fVX = (TH1D*)GetHistogram("Velocity/Vxfinal");
-      fVY = (TH1D*)GetHistogram("Velocity/Vyfinal");
-      fVZ = (TH1D*)GetHistogram("Velocity/Vzfinal");
-      fNumScatt = (TH1D*)GetHistogram("Nscatt");;
-      fXY = (TH2D*)GetHistogram("Position/X-Y");
-      fVXVY = (TH2D*)GetHistogram("Velocity/Vx-Vy");
-      fXYCond = (TH2D*)GetHistogram("Position/X-Y-cond");
-      fVXVYCond = (TH2D*)GetHistogram("Velocity/Vx-Vy-cond");
-      fEmitX = (TH2D*)GetHistogram("X-X'");
-      fEmitY = (TH2D*)GetHistogram("Y-Y'");
-      fEmitDist = (TH1D*)GetHistogram("Emit4d");
+   fEmitX = MakeH2('D', "X-X'","transverse emittance x",100,-1e+7,1e+7,100,-0.1,0.1);
+   fEmitY = MakeH2('D', "Y-Y'","transverse emittance y",100,-1e+7,1e+7,100,-0.1,0.1);
+   fEmitDist = MakeH1('D', "Emit4d","transverse emittance distribution",4000,0,2e+5);
 
-      cout << "Unpack: Restored histograms from autosave" << endl;
-    }
-
-  if(GetAnalysisCondition("RCondition")==0) {
-     // Creation of conditions:
-
-      fWinConR= new TGo4WinCond("RCondition");
-      fWinConR->SetValues(50,70);
-      fWinConR->Disable(true); // return always true
-
-      fWinConV= new TGo4WinCond("VCondition");
-      fWinConV->SetValues(50,70,90,120);
+   fWinConR = MakeWinCond("RCondition", 50., 70.);
+   fWinConV = MakeWinCond("VCondition", 50, 70, 90, 120);
+   if (IsObjMade()) {
       fWinConV->Disable(true);
       fWinConV->Invert(kTRUE);
-      Double_t xvalues[4]={400,700,600,400};
-      Double_t yvalues[4]={800,900,1100,800};
-      TCutG* mycut= new TCutG("initialcut",4,xvalues,yvalues);
-      fPolyConEmit= new TGo4PolyCond("EmittCondition");
-      fPolyConEmit->SetValues(mycut); // copies mycat into fPolyConEmit
-      fPolyConEmit->Disable(true);
-      delete mycut; // mycat has been copied into the conditions
+   }
 
-      AddAnalysisCondition(fWinConR);
-      AddAnalysisCondition(fWinConV);
-      AddAnalysisCondition(fPolyConEmit);
+   Double_t cutpnts[3][2] = { {400, 800}, {700, 900}, {600, 1100} };
+   fPolyConEmit = MakePolyCond("EmittCondition", 3, cutpnts);
 
-  } else {
-     // got them from autosave file
-
-      fWinConR  = (TGo4WinCond*)  GetAnalysisCondition("RCondition");
-      fWinConV  = (TGo4WinCond*)  GetAnalysisCondition("VCondition");
-      fPolyConEmit = (TGo4PolyCond*) GetAnalysisCondition("EmittCondition");
-      fWinConR->ResetCounts();
-      fWinConV->ResetCounts();
-      fPolyConEmit->ResetCounts();
-      cout << "Unpack: Restored conditions from autosave" << endl;
-    }
-   fWinConR->Enable();
    fWinConR->PrintCondition(true);
-   fPolyConEmit->Enable();
    fPolyConEmit->PrintCondition(true);
 }
 //***********************************************************
