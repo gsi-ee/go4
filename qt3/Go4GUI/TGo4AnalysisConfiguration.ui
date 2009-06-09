@@ -510,7 +510,7 @@
                         </property>
                         <widget class="QCheckBox">
                             <property name="name">
-                                <cstring>AutoSaveDisable</cstring>
+                                <cstring>AutoSaveEnable</cstring>
                             </property>
                             <property name="maximumSize">
                                 <size>
@@ -519,7 +519,7 @@
                                 </size>
                             </property>
                             <property name="text">
-                                <string>DISABLED</string>
+                                <string>Enabled</string>
                             </property>
                             <property name="toolTip" stdset="0">
                                 <string>Disable autosave file</string>
@@ -547,7 +547,7 @@
                                 <string> s</string>
                             </property>
                             <property name="specialValueText">
-                                <string>never</string>
+                                <string>once</string>
                             </property>
                             <property name="maxValue">
                                 <number>100000</number>
@@ -562,7 +562,7 @@
                                 <number>10</number>
                             </property>
                             <property name="toolTip" stdset="0">
-                                <string>Time interval for auto save [sec]. Never: save at next Submit.</string>
+                                <string>Time interval for auto save [sec]. Once: save at next Submit.</string>
                             </property>
                         </widget>
                         <spacer>
@@ -703,10 +703,10 @@
         <slot>WriteAutoSave()</slot>
     </connection>
     <connection>
-        <sender>AutoSaveDisable</sender>
+        <sender>AutoSaveEnable</sender>
         <signal>toggled(bool)</signal>
         <receiver>TGo4AnalysisConfiguration</receiver>
-        <slot>DisableAutoSave(bool)</slot>
+        <slot>EnableAutoSaveSlot(bool)</slot>
     </connection>
     <connection>
         <sender>SubmitAndStartButton</sender>
@@ -761,7 +761,7 @@
     <slot>SetAutoSaveInterval( int t )</slot>
     <slot>SetAutoSaveOverwrite( bool Overwrite )</slot>
     <slot>WriteAutoSave()</slot>
-    <slot>DisableAutoSave( bool disabled )</slot>
+    <slot>EnableAutoSaveSlot( bool disabled )</slot>
 </slots>
 <functions>
     <function>init()</function>

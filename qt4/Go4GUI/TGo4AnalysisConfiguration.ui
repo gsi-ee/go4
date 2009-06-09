@@ -440,7 +440,7 @@
             <item row="1" column="0" >
               <layout class="QHBoxLayout" >
                 <item>
-                  <widget class="QCheckBox" name="AutoSaveDisable" >
+                  <widget class="QCheckBox" name="AutoSaveEnable" >
                     <property name="maximumSize" >
                       <size>
                         <width>32767</width>
@@ -448,7 +448,7 @@
                       </size>
                     </property>
                     <property name="text" >
-                      <string>DISABLED</string>
+                      <string>Enabled</string>
                     </property>
                     <property name="toolTip" stdset="0" >
                       <string>Disable autosave file</string>
@@ -475,7 +475,7 @@
                       <string> s</string>
                     </property>
                     <property name="specialValueText" >
-                      <string>never</string>
+                      <string>once</string>
                     </property>
                     <property name="maximum" >
                       <number>100000</number>
@@ -490,7 +490,7 @@
                       <number>10</number>
                     </property>
                     <property name="toolTip" stdset="0" >
-                      <string>Time interval for auto save [sec]. Never: save at next Submit.</string>
+                      <string>Time interval for auto save [sec]. Once: save at next Submit.</string>
                     </property>
                   </widget>
                 </item>
@@ -645,10 +645,10 @@
       <slot>WriteAutoSave()</slot>
     </connection>
     <connection>
-      <sender>AutoSaveDisable</sender>
+      <sender>AutoSaveEnable</sender>
       <signal>toggled(bool)</signal>
       <receiver>TGo4AnalysisConfiguration</receiver>
-      <slot>DisableAutoSave(bool)</slot>
+      <slot>EnableAutoSaveSlot(bool)</slot>
     </connection>
     <connection>
       <sender>SubmitAndStartButton</sender>

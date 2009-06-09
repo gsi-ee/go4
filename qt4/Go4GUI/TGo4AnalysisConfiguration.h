@@ -99,7 +99,7 @@ class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConf
 	virtual void WriteAutoSave();
 	
 	
-	virtual void DisableAutoSave( bool disabled);
+	virtual void EnableAutoSaveSlot( bool disabled);
 
 
 protected:

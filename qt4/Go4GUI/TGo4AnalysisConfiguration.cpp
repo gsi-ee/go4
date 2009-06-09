@@ -262,13 +262,13 @@ void TGo4AnalysisConfiguration::WriteAutoSave()
                          status->IsAutoSaveOverwrite());
 }
 
-void TGo4AnalysisConfiguration::DisableAutoSave( bool disabled)
+void TGo4AnalysisConfiguration::EnableAutoSaveSlot(bool enabled)
 {
    TGo4AnalysisStatus* status =
      dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
    if ((status!=0) && fbTypingMode)
-      status->SetAutoSaveOn(!disabled);
-    AutoSaveInterval->setEnabled(!disabled);
+      status->SetAutoSaveOn(enabled);
+    AutoSaveInterval->setEnabled(enabled);
 }
 
 int TGo4AnalysisConfiguration::GetNumSteps()
@@ -295,7 +295,7 @@ TGo4ConfigStep* TGo4AnalysisConfiguration::FindStepConfig(QString name)
 void TGo4AnalysisConfiguration::SetAutoSaveConfig(QString filename,
                                                   int interval,
                                                   int compression,
-                                                  bool enbaled,
+                                                  bool enabled,
                                                   bool overwrite)
 {
   AutoSaveFileName->setText(filename);
@@ -303,15 +303,15 @@ void TGo4AnalysisConfiguration::SetAutoSaveConfig(QString filename,
   CompLevel->setValue(compression);
 
   AutoSaveOverwrite->setChecked(overwrite);
-  AutoSaveDisable->setChecked(!enbaled);
+  AutoSaveEnable->setChecked(enabled);
 
-  AutoSaveInterval->setEnabled(enbaled);
+  AutoSaveInterval->setEnabled(enabled);
 }
 
 void TGo4AnalysisConfiguration::GetAutoSaveConfig(QString& filename,
                                                   int& interval,
                                                   int& compression,
-                                                  bool& enbaled,
+                                                  bool& enabled,
                                                   bool& overwrite)
 {
   filename = AutoSaveFileName->text();
@@ -319,7 +319,7 @@ void TGo4AnalysisConfiguration::GetAutoSaveConfig(QString& filename,
   compression = CompLevel->value();
 
   overwrite = AutoSaveOverwrite->isChecked();
-  enbaled = !AutoSaveDisable->isChecked();
+  enabled = AutoSaveEnable->isChecked();
 }
 
 void TGo4AnalysisConfiguration::SetAnalysisConfigFile(QString filename)
