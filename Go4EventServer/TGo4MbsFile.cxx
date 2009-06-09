@@ -289,8 +289,12 @@ else
           fbIsOpen=kFALSE; // only for single mode the
                            // error result of first NextFile()
                            // will indicate that open failed
-       else
+       else {
           fbIsOpen=kTRUE;
+          TGo4Log::Info("TGo4MbsFile: %s opened", GetCurrentFileName());
+       }
+
+
    }
    // note that open flag indicates state of complete mbssource,
    // not the state of one single file in the multiple file list.

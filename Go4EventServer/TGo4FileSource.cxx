@@ -14,25 +14,26 @@
 
 R__EXTERN TTree *gTree;
 
-TGo4FileSource::TGo4FileSource(const char* name)
-: TGo4EventSource(name), fxFile(0), fxTree(0), fiMaxEvents(0), fiCurrentEvent(0),fbActivated(kFALSE),
-  fxTopEvent(0)
+TGo4FileSource::TGo4FileSource(const char* name) :
+   TGo4EventSource(name), fxFile(0), fxTree(0), fiMaxEvents(0), fiCurrentEvent(0),fbActivated(kFALSE),
+   fxTopEvent(0)
 {
    Open();
 }
 
-TGo4FileSource::TGo4FileSource(TGo4FileSourceParameter* par)
-: TGo4EventSource(par->GetName()), fxFile(0), fxTree(0), fiMaxEvents(0),
-fiCurrentEvent(0), fbActivated(kFALSE),
-fxTopEvent(0)
+TGo4FileSource::TGo4FileSource(TGo4FileSourceParameter* par) :
+   TGo4EventSource(par->GetName()), fxFile(0), fxTree(0), fiMaxEvents(0),
+   fiCurrentEvent(0), fbActivated(kFALSE),
+   fxTopEvent(0)
 {
-Open();
+   Open();
 }
 
 
-TGo4FileSource::TGo4FileSource()
-: TGo4EventSource("Go4FileSource"), fxFile(0), fxTree(0), fiMaxEvents(0), fiCurrentEvent(0), fbActivated(kFALSE),
-fxTopEvent(0)
+TGo4FileSource::TGo4FileSource() :
+   TGo4EventSource("Go4FileSource"), fxFile(0), fxTree(0), fiMaxEvents(0),
+   fiCurrentEvent(0), fbActivated(kFALSE),
+   fxTopEvent(0)
 {
    // for streamer, do not open here!
 }
@@ -41,7 +42,7 @@ Int_t TGo4FileSource::Open()
 {
    TString buffer(GetName());
    if(strstr(buffer.Data(),TGo4FileStore::fgcFILESUF)==0)
-        buffer+=TGo4FileStore::fgcFILESUF;
+      buffer+=TGo4FileStore::fgcFILESUF;
    fxFile = TFile::Open(buffer.Data(), "READ"); // in such way rfio etc is also supported!
    if(! ( fxFile && fxFile->IsOpen() )) ThrowError(66,0,"!!! ERROR: FILE not found !!!");
 
@@ -52,15 +53,14 @@ Int_t TGo4FileSource::Open()
       if (fxTree)
          break; // we take first Tree in file, disregarding its name...
    }
-   if (fxTree==0)
-      {
-         ThrowError(77,0,"!!! ERROR: Tree not found !!!");
-      }
-   else
-      {
-         SetCreateStatus(0);
-         fiMaxEvents= (Int_t )fxTree->GetEntries();
-      }
+   if (fxTree==0) {
+      ThrowError(77,0,"!!! ERROR: Tree not found !!!");
+   } else {
+      SetCreateStatus(0);
+      fiMaxEvents= (Int_t )fxTree->GetEntries();
+   }
+   TGo4Log::Info("TGo4FileSource: %s opened", buffer.Data());
+
    return 0;
 }
 
