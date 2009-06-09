@@ -96,54 +96,39 @@ if(fbProcessEnabled)
 
 void TGo4AnalysisStep::Process()
 {
-TRACE((12,"TGo4AnalysisStep::Process()",__LINE__, __FILE__));
-if(!fbProcessEnabled) return;
-//cout <<"Processing Step " <<GetName() << endl;
-   TGo4EventElement* input;
-   fiProcessStatus=0;
+   TRACE((12,"TGo4AnalysisStep::Process()",__LINE__, __FILE__));
+   if(!fbProcessEnabled) return;
+   //cout <<"Processing Step " <<GetName() << endl;
+   TGo4EventElement* input(0);
+   fiProcessStatus = 0;
    ////////// source part:
-   if(fbSourceEnabled && (fxEventSource!=0) )
-      {
-         // fill input event from own source
-         fxInputEvent->SetEventSource(fxEventSource);
-         fxInputEvent->Fill();
-         input=fxInputEvent;
+   if (fbSourceEnabled && (fxEventSource!=0)) {
+      // fill input event from own source
+      fxInputEvent->SetEventSource(fxEventSource);
+      fxInputEvent->Fill();
+      input = fxInputEvent;
+   } else
+     // get input event structure from previous step
+     input = fxOwner->GetOutputEvent();
 
-      }
-   else
-      {
-         // get input event structure from previous step
-         input=fxOwner->GetOutputEvent();
-      } // end if(fbSourceEnabled && (fxEventSource!=0) )
    ///////////// processor part:
-   if(fxEventProcessor==0)
-      {
-         SetStatusMessage("! AnalysisStep -- Process Error: no event processor !");
-         throw TGo4AnalysisStepException(this);
-      }
-   fxEventProcessor->SetInputEvent(input);
-   if(fxOutputEvent!=0)
-      {
-         fxOutputEvent->SetEventSource(fxEventProcessor);
-         fxOutputEvent->Fill();
-         fxOwner->SetOutputEvent(fxOutputEvent);
-         if(fbStoreEnabled && (fxEventStore!=0) && fxOutputEvent->IsValid())
-            {
-               fxEventStore->Store(fxOutputEvent);
-            }
-         else {
-//                  cout <<"StoreEnabled:"<< fbStoreEnabled << endl;
-//                  cout <<"EventStore: "<< fxEventStore << endl;
-//                  if(fxEventStore) cout <<" "<<fxEventStore->GetName()<<endl;
-//                  cout <<"Outputevent valid: "<<fxOutputEvent->IsValid()  << endl;
+   if(fxEventProcessor==0) {
+      SetStatusMessage("! AnalysisStep -- Process Error: no event processor !");
+      throw TGo4AnalysisStepException(this);
+   }
 
-         } // end if(fbStoreEnabled && (fxEventStore!=0) )
-      }
-   else
-      {
-         SetStatusMessage("! AnalysisStep -- Process Error: no output event !");
-         throw TGo4AnalysisStepException(this);
-      } // end if(fxOutputEvent!=0)
+   fxEventProcessor->SetInputEvent(input);
+
+   if(fxOutputEvent!=0) {
+      fxOutputEvent->SetEventSource(fxEventProcessor);
+      fxOutputEvent->Fill();
+      fxOwner->SetOutputEvent(fxOutputEvent);
+      if(fbStoreEnabled && (fxEventStore!=0) && fxOutputEvent->IsValid())
+         fxEventStore->Store(fxOutputEvent);
+   } else {
+      SetStatusMessage("! AnalysisStep -- Process Error: no output event !");
+      throw TGo4AnalysisStepException(this);
+   } // end if(fxOutputEvent!=0)
 
 }
 

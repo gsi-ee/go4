@@ -1,9 +1,10 @@
 #include "TGo4AnalysisClientImp.h"
 
-#include "Riostream.h"
 #include <stdlib.h>
+
+#include "Riostream.h"
 #include "TApplication.h"
-#include "TStopwatch.h"
+#include "TTimeStamp.h"
 #include "snprintf.h"
 #include "TROOT.h"
 
@@ -150,8 +151,7 @@ fdBufferUpdateTime(0), fxHistoServer(0), fbAutoStart(autorun), fbCintMode(kFALSE
 
 void TGo4AnalysisClient::Constructor(Bool_t starthistserv, const char* basename,  const char* passwd)
 {
-   fxUpdateWatch = new TStopwatch;
-   fxRatemeter= new TGo4Ratemeter;
+   fxRatemeter = new TGo4Ratemeter;
    TGo4Log::Debug(" AnalysisClient ''%s'' started ",GetName());
    fcMainName= new Text_t[TGo4ThreadManager::fguTEXTLENGTH];
    fcWatchName= new Text_t[TGo4ThreadManager::fguTEXTLENGTH];
@@ -206,7 +206,6 @@ TGo4AnalysisClient::~TGo4AnalysisClient()
 
    delete fxCintLockTimer;
    delete fxRatemeter;
-   delete fxUpdateWatch;
    delete fxAnalysis;
    delete [] fcMainName;
    delete [] fcWatchName;
@@ -326,9 +325,7 @@ void TGo4AnalysisClient::Start()
          if(!MainIsRunning()) fxAnalysis->PreLoop(); // only call once
          TGo4Slave::Start();
          fxRatemeter->Reset();
-         //fdBufferUpdateTime=TStopwatch::GetRealTime();
-         fdBufferUpdateTime=fxUpdateWatch->RealTime();
-         fxUpdateWatch->Continue();
+         fdBufferUpdateTime = TTimeStamp().AsDouble();
          SendStatusMessage(1,kTRUE,"AnalysisClient %s has started analysis processing.",GetName());
          UpdateRate(-2); // fake rate to display green light :)
          UpdateStatusBuffer();
@@ -453,21 +450,17 @@ Bool_t TGo4AnalysisClient::TestRatemeter()
 
 Bool_t TGo4AnalysisClient::TestBufferUpdateConditions()
 {
-   //Double_t currenttime=TStopwatch::GetRealTime(); // worked in old root only...
-   Double_t currenttime=fxUpdateWatch->RealTime();
-   fxUpdateWatch->Continue();
-   Double_t deltatime=currenttime-fdBufferUpdateTime;
-   UInt_t currentcount=GetCurrentCount();
-if( (currentcount && (currentcount % fguSTATUSUPDATE == 0)) || (deltatime>fgdSTATUSTIMEOUT) )
-   {
+   Double_t currenttime = TTimeStamp().AsDouble();
+   Double_t deltatime = currenttime - fdBufferUpdateTime;
+   UInt_t currentcount = GetCurrentCount();
+   if( (currentcount && (currentcount % fguSTATUSUPDATE == 0) && (deltatime>0.1*fgdSTATUSTIMEOUT))
+      || (deltatime > fgdSTATUSTIMEOUT) ) {
       // buffer shall be updated if certain number of events is processed or the time is up
-       fdBufferUpdateTime=currenttime;
-       return kTRUE;
+      fdBufferUpdateTime = currenttime;
+      return kTRUE;
    }
-else
-   {
-      return kFALSE;
-   }
+
+   return kFALSE;
 }
 
 

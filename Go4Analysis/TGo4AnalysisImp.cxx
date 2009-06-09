@@ -90,79 +90,75 @@ Bool_t TGo4Analysis::Exists()
 }
 
 
-TGo4Analysis::TGo4Analysis()
-   :    TGo4CommandReceiver(), TObject(),
-      fbInitIsDone(kFALSE),fbAutoSaveOn(kTRUE),fxAnalysisSlave(0),
-      fxStepManager(0), fxObjectManager(0),
-      fiAutoSaveCount(0), fiAutoSaveInterval(TGo4Analysis::fgiAUTOSAVECOUNTS), fiAutoSaveCompression(5),
-      fxAutoFile(0), fbAutoSaveOverwrite(kFALSE), fbNewInputFile(kFALSE), fbAutoSaveFileChange(kFALSE), fxSampleEvent(0), fxObjectNames(0)
+TGo4Analysis::TGo4Analysis() :
+   TGo4CommandReceiver(), TObject(),
+   fbInitIsDone(kFALSE),fbAutoSaveOn(kTRUE),fxAnalysisSlave(0),
+   fxStepManager(0), fxObjectManager(0),
+   fiAutoSaveCount(0), fiAutoSaveInterval(TGo4Analysis::fgiAUTOSAVECOUNTS), fiAutoSaveCompression(5),
+   fxAutoFile(0), fbAutoSaveOverwrite(kFALSE), fbNewInputFile(kFALSE), fbAutoSaveFileChange(kFALSE), fxSampleEvent(0), fxObjectNames(0)
 {
-TRACE((15,"TGo4Analysis::TGo4Analysis()",__LINE__, __FILE__));
+   TRACE((15,"TGo4Analysis::TGo4Analysis()",__LINE__, __FILE__));
    //
    if(! ( TGo4Version::Instance()->CheckVersion(TGo4Analysis::fgiGO4VERSION) ) )
-      {
-         // wrong version number between framework and user executable
-         Message(-1,"!!!! Analysis Base class:\n\t User Analysis was built with wrong \t\tGo4 Buildversion %d !!!!!",
-               TGo4Version::Instance()->GetBuildVersion());
-         Message(-1,"\t Please rebuild your analysis with current \tGo4 Buildversion %d ",
-                     fgiGO4VERSION);
-         Message(-1,"\t >>make clean all<<");
-         Message(-1,"Aborting in 20 s...");
-         gSystem->Sleep(20000);
-         gApplication->Terminate();
-      }
+   {
+      // wrong version number between framework and user executable
+      Message(-1,"!!!! Analysis Base class:\n\t User Analysis was built with wrong \t\tGo4 Buildversion %d !!!!!",
+            TGo4Version::Instance()->GetBuildVersion());
+      Message(-1,"\t Please rebuild your analysis with current \tGo4 Buildversion %d ",
+            fgiGO4VERSION);
+      Message(-1,"\t >>make clean all<<");
+      Message(-1,"Aborting in 20 s...");
+      gSystem->Sleep(20000);
+      gApplication->Terminate();
+   }
    else
-      {
-          // may not disable output of version number:
-        Message(-1,"Welcome to Go4 Analysis Framework Release %s (build %d) !",
-                     __GO4RELEASE__ , fgiGO4VERSION);
-      }
+   {
+      // may not disable output of version number:
+      Message(-1,"Welcome to Go4 Analysis Framework Release %s (build %d) !",
+            __GO4RELEASE__ , fgiGO4VERSION);
+   }
    if(fxInstance==0)
-      {
-         gROOT->SetBatch(kTRUE);
-         fxStepManager=new TGo4AnalysisStepManager("Go4 Analysis Step Manager");
-         fxObjectManager=new TGo4AnalysisObjectManager("Go4 Central Object Manager");
-         SetDynListInterval(TGo4Analysis::fgiDYNLISTINTERVAL);
-         fxAutoSaveMutex =   new TMutex(kTRUE);
-         fxAutoSaveClock=new TStopwatch;
-         fxAutoSaveClock->Stop();
-         fxAutoFileName=fgcDEFAULTFILENAME;
-         fxConfigFilename=fgcDEFAULTSTATUSFILENAME;
-         TGo4CommandInvoker::Instance(); // make sure we have an invoker instance!
-         TGo4CommandInvoker::SetCommandList(new TGo4AnalysisCommandList);
-         TGo4CommandInvoker::Register("Analysis",this); // register as command receiver at the global invoker
-         fxInstance=this; // for ctor usage from derived user subclass
-         fbExists=kTRUE;
-      }
+   {
+      gROOT->SetBatch(kTRUE);
+      fxStepManager=new TGo4AnalysisStepManager("Go4 Analysis Step Manager");
+      fxObjectManager=new TGo4AnalysisObjectManager("Go4 Central Object Manager");
+      SetDynListInterval(TGo4Analysis::fgiDYNLISTINTERVAL);
+      fxAutoSaveMutex =   new TMutex(kTRUE);
+      fxAutoSaveClock=new TStopwatch;
+      fxAutoSaveClock->Stop();
+      fxAutoFileName=fgcDEFAULTFILENAME;
+      fxConfigFilename=fgcDEFAULTSTATUSFILENAME;
+      TGo4CommandInvoker::Instance(); // make sure we have an invoker instance!
+      TGo4CommandInvoker::SetCommandList(new TGo4AnalysisCommandList);
+      TGo4CommandInvoker::Register("Analysis",this); // register as command receiver at the global invoker
+      fxInstance=this; // for ctor usage from derived user subclass
+      fbExists=kTRUE;
+   }
    else
-      {
-         // instance already there
-         Message(2,"Analysis BaseClass ctor -- analysis singleton already exists !!!");
-      }
-      // settings for macro execution
-      gROOT->ProcessLine("TGo4Analysis *go4 = TGo4Analysis::Instance();");
-      gROOT->ProcessLine(".x $GO4SYS/Go4Analysis/anamacroinit.C");
+   {
+      // instance already there
+      Message(2,"Analysis BaseClass ctor -- analysis singleton already exists !!!");
+   }
+   // settings for macro execution
+   gROOT->ProcessLine("TGo4Analysis *go4 = TGo4Analysis::Instance();");
+   gROOT->ProcessLine(".x $GO4SYS/Go4Analysis/anamacroinit.C");
 }
 
 TGo4Analysis::~TGo4Analysis()
 {
-TRACE((15,"TGo4Analysis::~TGo4Analysis()",__LINE__, __FILE__));
-CloseAnalysis();
-//cout <<"after close analysis." << endl;
-CloseAutoSaveFile();
-delete fxStepManager;
-delete fxObjectManager;
-if(fxObjectNames)
-   {
-      delete fxObjectNames;
-      //cout <<"deleted namesobject" << endl;
-   }
-delete fxAutoSaveClock;
-delete fxSampleEvent;
-TGo4CommandInvoker::UnRegister(this);
-fxInstance=0; // reset static singleton instance pointer
-//gROOT->ProcessLine(".x $GO4SYS/Go4Analysis/anamacroclose.C");
-//cout <<"end of dtor" << endl;
+   TRACE((15,"TGo4Analysis::~TGo4Analysis()",__LINE__, __FILE__));
+   CloseAnalysis();
+   //cout <<"after close analysis." << endl;
+   CloseAutoSaveFile();
+   delete fxStepManager;
+   delete fxObjectManager;
+   if(fxObjectNames) delete fxObjectNames;
+   delete fxAutoSaveClock;
+   delete fxSampleEvent;
+   TGo4CommandInvoker::UnRegister(this);
+   fxInstance=0; // reset static singleton instance pointer
+   //gROOT->ProcessLine(".x $GO4SYS/Go4Analysis/anamacroclose.C");
+   //cout <<"end of dtor" << endl;
 }
 
 ////////////////////////////////////////////////////
@@ -170,24 +166,19 @@ fxInstance=0; // reset static singleton instance pointer
 
 Bool_t TGo4Analysis::InitEventClasses()
 {
-TRACE((14,"TGo4Analysis::InitEventClasses()",__LINE__, __FILE__));
+   TRACE((14,"TGo4Analysis::InitEventClasses()",__LINE__, __FILE__));
    //
    Bool_t rev=kTRUE;
-   if(!fbInitIsDone)
-      {
-         Message(0,"Analysis BaseClass --  Initializing EventClasses...");
-         LoadObjects(); // always use autosave file to get last objects list
-         rev=fxStepManager->InitEventClasses();
-         UpdateNamesList();
-         Message(-1,"Analysis BaseClass --  Initializing EventClasses done.");
-         fbInitIsDone=kTRUE;
-      }
-      else
-         {
-            Message(-1,"Analysis BaseClass --  EventClasses were already initialized.");
-            rev=kTRUE;
-         }
-      return rev;
+   if(!fbInitIsDone) {
+      Message(0,"Analysis BaseClass --  Initializing EventClasses...");
+      LoadObjects(); // always use autosave file to get last objects list
+      rev = fxStepManager->InitEventClasses();
+      UpdateNamesList();
+      Message(-1,"Analysis BaseClass --  Initializing EventClasses done.");
+      fbInitIsDone = kTRUE;
+   } else
+      Message(-1,"Analysis BaseClass --  EventClasses were already initialized.");
+   return rev;
 }
 
 /////////////////////////////////////////////////////////
@@ -201,8 +192,11 @@ Int_t TGo4Analysis::MainCycle()
 
    {
       TGo4LockGuard mainlock; // protect analysis, but not status buffer
+
       ProcessAnalysisSteps();
+
       UserEventFunc();
+
       fxObjectManager->ProcessDynamicList();
 
       if (fbAutoSaveOn && (fiAutoSaveInterval!=0)) {
@@ -222,7 +216,7 @@ Int_t TGo4Analysis::MainCycle()
       fxAnalysisSlave->UpdateRate();
       // note: creation of status buffer uses mainlock internally now
       // status mutex required to be outside main mutex always JA
-      if(fxAnalysisSlave->TestBufferUpdateConditions())
+      if (fxAnalysisSlave->TestBufferUpdateConditions())
          fxAnalysisSlave->UpdateStatusBuffer();
    }
 

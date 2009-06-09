@@ -497,39 +497,30 @@ TRACE((11,"TGo4AnalysisStepManager::GetAnalysisStep(Text_t *)",__LINE__, __FILE_
 
 Int_t TGo4AnalysisStepManager::ProcessAnalysisSteps()
 {
-TRACE((11,"TGo4AnalysisStepManager::ProcessAnalysisSteps()",__LINE__, __FILE__));
+   TRACE((11,"TGo4AnalysisStepManager::ProcessAnalysisSteps()",__LINE__, __FILE__));
    //
-   Int_t rev=0;
-   fxCurrentStep=0;
-   fiCurrentStepIndex=0;
-   Bool_t isfirststep=kTRUE;
+   fxCurrentStep = 0;
+   fiCurrentStepIndex = 0;
+   Bool_t isfirststep = kTRUE;
    SetOutputEvent(0); // make sure that first step wont take output of last one
-      {
-      //TGo4LockGuard  listguard(fxStepMutex);
-         for(fiCurrentStepIndex=fiFirstStepIndex; fiCurrentStepIndex<=fiLastStepIndex;fiCurrentStepIndex++)
-            {
-               fxCurrentStep=dynamic_cast<TGo4AnalysisStep*>(fxStepList->UncheckedAt(fiCurrentStepIndex));
-               if(fxCurrentStep==0) break;
-                     if(IsStepChecking() && isfirststep )
-                        {
-                           // check first step source:
-                           isfirststep=kFALSE;
-                           if(fxCurrentStep->IsSourceImplemented())
-                              {
-                                 fxCurrentStep->SetSourceEnabled();
-                              }
-                           else
-                              {
-                                 fxCurrentStep->SetStatusMessage("!!! No Event Source for first analysis step !!!");
-                                 throw TGo4AnalysisStepException(fxCurrentStep);
-                              }
-                        } else { } //  if(IsStepChecking() && isfirststep)
-                     fxCurrentStep->Process();
-            } // for(...)
-      } // lock guard
+   for(fiCurrentStepIndex = fiFirstStepIndex; fiCurrentStepIndex<=fiLastStepIndex;fiCurrentStepIndex++) {
+      fxCurrentStep = (TGo4AnalysisStep*) (fxStepList->UncheckedAt(fiCurrentStepIndex));
+      if(fxCurrentStep==0) break;
+      if(IsStepChecking() && isfirststep ) {
+         // check first step source:
+         isfirststep = kFALSE;
+         if(fxCurrentStep->IsSourceImplemented())
+            fxCurrentStep->SetSourceEnabled();
+         else {
+            fxCurrentStep->SetStatusMessage("!!! No Event Source for first analysis step !!!");
+            throw TGo4AnalysisStepException(fxCurrentStep);
+         }
+      }
+      fxCurrentStep->Process();
+   } // for(...)
    // finally, we update maintree header if the steps use treesource/store instances:
    if(TGo4MainTree::Exists()) TGo4MainTree::Instance()->Update();
-   return rev;
+   return 0;
 }
 
 

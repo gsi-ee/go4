@@ -4,7 +4,6 @@
 #include "TGo4Slave.h"
 
 class TTimer;
-class TStopwatch;
 class TGo4Analysis;
 class TGo4ClientStatus;
 class TGo4Ratemeter;
@@ -174,9 +173,6 @@ private:
 
     /** absoulute time of the last status buffer update. Reset by TestBufferUpdateCondition */
     Double_t fdBufferUpdateTime;
-
-    /** Stopwatch controlling the buffer update time. */
-    TStopwatch* fxUpdateWatch;                   //!
 
     /** @link aggregation
       *   @supplierCardinality 1 */
