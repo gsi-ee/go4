@@ -115,9 +115,9 @@ int main(int argc, char **argv)
             usage("Remote event server name or port are not specified");
       } else
       if (strstr(argv[narg],"-nu")) {
-         if (++narg < argc)
+         if (++narg < argc) {
             if (sscanf(argv[narg++],"%ld",&maxevents)!=1) maxevents = -1;
-         else
+         } else
             usage("number of events to process not specified");
       } else
       if (strstr(argv[narg],"-asf")) {
