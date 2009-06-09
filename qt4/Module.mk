@@ -10,7 +10,7 @@ include qt4/Go4FitGUI/Module.mk
 
 include qt4/Go4GUI/Module.mk
 
-include qt4/Go4UserGUI/Module.mk
+include qt4/Go4UserGUI/Makefile
 
 include qt4/Go4plugin/Module.mk
 

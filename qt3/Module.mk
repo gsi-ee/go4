@@ -9,7 +9,7 @@ include qt3/Go4FitGUI/Module.mk
 
 include qt3/Go4GUI/Module.mk
 
-include qt3/Go4UserGUI/Module.mk
+include qt3/Go4UserGUI/Makefile
 
 include qt3/Go4plugin/Module.mk
 

@@ -23,6 +23,13 @@ OPTFLAGS = $(OPTIMIZEMODE)
 endif
 
 
+#define targets, which may be not defines in user makefile
+
+libs::
+
+clean::
+
+
 ## Extensions rules
 
 .SUFFIXES: .$(SrcSuf) .$(DepSuf) .$(HedSuf)

@@ -52,11 +52,11 @@ endif
 $(GO4SYS)/include/%.h: $(ANALCL_DIR)/%.h
 	@cp -f $< $@
 
-$(ANALCL_EXE):    $(BUILDGO4LIBS) $(ANALCL_EXEO)
+$(ANALCL_EXE):   libs $(ANALCL_EXEO)
 	$(LD) $(LDFLAGS) $(ANALCL_EXEO) $(LIBS_FULLSET) $(ANALCL_LIB) $(OutPutOpt) $(ANALCL_EXE)
 	@echo "$@  done"
 
-$(ANALCL_EXECINT):    $(BUILDGO4LIBS) $(ANALCL_EXECINTO)
+$(ANALCL_EXECINT):   libs $(ANALCL_EXECINTO)
 	$(LD) $(LDFLAGS) $(ANALCL_EXECINTO) $(LIBS_FULLSET) $(ANALCL_LIB) $(OutPutOpt) $(ANALCL_EXECINT)
 	@echo "$@  done"
 

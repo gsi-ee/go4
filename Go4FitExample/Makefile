@@ -18,6 +18,8 @@ else
 FITEX_USEDLIBS = $(ROOTLIBS) -lMinuit $(if $(USESPECTRUM),-lSpectrum,) $(LIBGO4FIT)
 endif
 
+all::  $(FITEX_DLLS) $(FITEX_EXECS)
+
 # ------------------Example1------------------------------------------
  
 FITEX1_O      = $(FITEX_DIR)/Example1.$(ObjSuf)
@@ -205,8 +207,6 @@ FITEXDISTRFILES    += $(FITEX4_LINKDEF) $(FITEX4_SRC) $(FITEX4_HED)
 FITEXDISTRFILES    += $(FITEX_DIR)/histograms.root $(FITEX_DIR)/README
 DISTRFILES         += $(FITEXDISTRFILES) $(FITEX_DIR)/Makefile.standalone
 endif
-
-all::  $(FITEX_DLLS) $(FITEX_EXECS)
 
 clean::
 	@rm -f $(FITEX_EXECS) $(FITEX_DLLS) $(FITEX_OBJS) $(FITEX_DIR)/*.$(DllSuf) $(FITEX_DIR)/*.$(ObjSuf)

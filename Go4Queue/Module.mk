@@ -39,7 +39,7 @@ endif
 $(GO4SYS)/include/%.h: $(GO4QUEUE_DIR)/%.h
 	@cp -f $< $@
 
-$(GO4QUEUE_EXE):      $(BUILDGO4LIBS) $(GO4QUEUE_EXEO)
+$(GO4QUEUE_EXE):    libs $(GO4QUEUE_EXEO)
 	$(LD) $(LDFLAGS) $(GO4QUEUE_EXEO) $(LIBS_TASKHANDSET) $(OutPutOpt) $(GO4QUEUE_EXE)
 	@echo "$@  done"      
 

@@ -44,7 +44,7 @@ endif
 $(GO4SYS)/include/%.h: $(HISTSERV_DIR)/%.h
 	@cp -f $< $@
 
-$(HISTSERV_EXE):      $(BUILDGO4LIBS) $(HISTSERV_EXEO)
+$(HISTSERV_EXE):     libs $(HISTSERV_EXEO)
 	$(LD) $(LDFLAGS) $(HISTSERV_EXEO) $(LIBS_FULLSET) $(OutPutOpt) $(HISTSERV_EXE)
 	@echo "$@  done"      
 

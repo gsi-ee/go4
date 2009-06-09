@@ -57,7 +57,7 @@ all-qt4plugin:
 	cp -f $(GO4SYS)/qt4/Go4QtRoot/QRootWindow.cpp $(PLUGIN4_DIR)
 
 #	cd $(PLUGIN4_DIR); $(QMAKE) go4plugin.pro; make all
-	cd $(PLUGIN4_DIR); $(QMAKE) go4plugin.pro $(QMAKEOPTFLAG) $(QMAKEFLAGS) $(QMAKELIBFLAGS) "LIBS+=$(ROOTGLIBS) " ; make all
+	cd $(PLUGIN4_DIR); $(QMAKE) go4plugin.pro -o Makefile.qt $(QMAKEOPTFLAG) $(QMAKEFLAGS) $(QMAKELIBFLAGS) "LIBS+=$(ROOTGLIBS) "; $(MAKE) -f Makefile.qt
 
 	@echo ""
 	@echo "==========================================="
@@ -66,16 +66,19 @@ all-qt4plugin:
 	@echo "$(QTDIR)/plugins/designer directory"
 
 clean-qt4plugin:
-	cd $(PLUGIN4_DIR); $(QMAKE) go4plugin.pro $(QMAKEOPTFLAG) $(QMAKEFLAGS) $(QMAKELIBFLAGS) "LIBS+=$(ROOTGLIBS) " ; make distclean; rm -f *.o *.so Makefile
-	rm -fr $(PLUGIN4_DIR)/debug $(PLUGIN4_DIR)/release
-	rm -f $(PLUGIN4_DIR)/QGo4LineEdit.*
-	rm -f $(PLUGIN4_DIR)/QGo4BrowserTreeWidget.*
-	rm -f $(PLUGIN4_DIR)/QGo4Widget.*
-	rm -f $(PLUGIN4_DIR)/QFitItem.h $(PLUGIN4_DIR)/TGo4FitPanel.h $(PLUGIN4_DIR)/ui_TGo4FitPanel.h
-	rm -f $(PLUGIN4_DIR)/QFitWidget.*
-	rm -f $(PLUGIN4_DIR)/QFitNamedWidget.*
-	rm -f $(PLUGIN4_DIR)/QFitModelWidget.*
-	rm -f $(PLUGIN4_DIR)/QGo4CommandsHistory.*
-	rm -f $(PLUGIN4_DIR)/QRootCanvas.*
-	rm -f $(PLUGIN4_DIR)/QRootDialog.*
-	rm -f $(PLUGIN4_DIR)/QRootWindow.*
+ifneq ($(wildcard $(PLUGIN4_DIR)/Makefile.qt),)
+	cd $(PLUGIN4_DIR); $(MAKE) -f Makefile.qt distclean 
+endif
+	@rm -f $(PLUGIN4_DIR)/*.o $(PLUGIN4_DIR)/*.so $(PLUGIN4_DIR)/Makefile.qt
+	@rm -fr $(PLUGIN4_DIR)/debug $(PLUGIN4_DIR)/release
+	@rm -f $(PLUGIN4_DIR)/QGo4LineEdit.*
+	@rm -f $(PLUGIN4_DIR)/QGo4BrowserTreeWidget.*
+	@rm -f $(PLUGIN4_DIR)/QGo4Widget.*
+	@rm -f $(PLUGIN4_DIR)/QFitItem.h $(PLUGIN4_DIR)/TGo4FitPanel.h $(PLUGIN4_DIR)/ui_TGo4FitPanel.h
+	@rm -f $(PLUGIN4_DIR)/QFitWidget.*
+	@rm -f $(PLUGIN4_DIR)/QFitNamedWidget.*
+	@rm -f $(PLUGIN4_DIR)/QFitModelWidget.*
+	@rm -f $(PLUGIN4_DIR)/QGo4CommandsHistory.*
+	@rm -f $(PLUGIN4_DIR)/QRootCanvas.*
+	@rm -f $(PLUGIN4_DIR)/QRootDialog.*
+	@rm -f $(PLUGIN4_DIR)/QRootWindow.*
