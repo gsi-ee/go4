@@ -312,7 +312,7 @@ void TGo4AnalysisConfiguration::SetAutoSaveConfig(QString filename,
 void TGo4AnalysisConfiguration::GetAutoSaveConfig(QString& filename,
                                                   int& interval,
                                                   int& compression,
-                                                  bool& enbaled,
+                                                  bool& enabled,
                                                   bool& overwrite)
 {
   filename = AutoSaveFileName->text();
