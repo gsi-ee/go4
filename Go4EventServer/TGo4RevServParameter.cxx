@@ -7,11 +7,11 @@
 #include "Go4EventServerTypes.h"
 
 
-TGo4RevServParameter::TGo4RevServParameter(const char* name) :
+TGo4RevServParameter::TGo4RevServParameter(const char* name, Int_t defport) :
    TGo4MbsSourceParameter(name, GO4EV_MBS_REVSERV),
-   fiPort(0)
+   fiPort(defport)
 {
-   TRACE((14,"TGo4MbsRevServParameter::TGo4MbsRevServParameter(Text_t*,...)", __LINE__, __FILE__));
+   TRACE((14,"TGo4MbsRevServParameter::TGo4MbsRevServParameter(const char*,...)", __LINE__, __FILE__));
 }
 
 TGo4RevServParameter::TGo4RevServParameter() :

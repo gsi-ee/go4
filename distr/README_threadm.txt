@@ -1,6 +1,6 @@
 --------------------------------------------------------------
               Go4 Threadmanager v4.3-0 (40300)
-                      19-Jun-2009
+                      15-June-2009
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at DVEE department, GSI

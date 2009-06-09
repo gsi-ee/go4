@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.2-1 (build 40201)
-                      30-April-2009
+         Go4 Release Package v4.3-0 (build 40300)
+                      19-June-2009
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -20,8 +20,8 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 These package was tested on
-    Suse 10.2 (x86_64), SuSe 11.1
-    Debian 3.1 , Debian 4.0 (32 bit and AMD 64bit)
+    Suse 10.2 (x86_64), SuSe 11.1 (x86_64)
+    Debian 3.1, Debian 4.0 (32 bit and AMD 64bit)
     compilers: gcc 3.3.5, gcc 4.1.2, gcc 4.3.x
     SunOS 5.2 (Solaris) with CC 5.8
 
@@ -60,7 +60,7 @@ INSTALLATION:
       e.g. in a startup script qtlogin
 
 - Unpack this Go4 distribution in the future Go4 System directory,
-  e.g. /usr/local/pub/go4-4.2.01
+  e.g. /usr/local/pub/go4-4.3.00
 
 - In the Go4 System directory, execute script ". go4.init".
   This will set the environment $GO4SYS to the current directory 
@@ -82,9 +82,9 @@ INSTALLATION:
   external xterm (ssh mode).
 
 - The analysis startup script $GO4SYS/etc/Go4ClientStartup.ksh specifies
-  in the first line the shell to execute it, i.e "#!/usr/bin/ksh". Please
+  in the first line the shell to execute it, i.e "#!/bin/bash". Please
   check if this is the correct location of the ksh executable on your system
-  (type "which ksh" in shell). If not, you should edit this line to indicate
+  (type "which bash" in shell). If not, you should edit this line to indicate
   the absolute path. If ksh should not be installed at all on your linux, you
   can use bash instead. The same is true for the user startup script
   AnalysisStart.sh that is in the user analysis working directory,
@@ -113,8 +113,3 @@ INSTALLATION:
 
 - Please contact the Go4 developer team for any bug reports and wishes!
 ________________________________________________________________________
-
-
-
-
-

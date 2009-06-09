@@ -8,16 +8,17 @@ make clean all
 
 Description of the package
 
-A test file is /s/goofy/gauss.lmd
+A test file is /GSI/lea/gauss.lmd
 
 Main program:
 MainUserAnalysis
 
 The main program can be started from the Go4 GUI or by command line:
 
-./MainUserAnalysis -file|-trans|-stream|-evserv|-revserv input [-p port] [events]
-./MainUserAnalysis -f myfile.lmd
-./MainUserAnalysis -e r3f-12 1000
+./MainUserAnalysis -file|-trans|-stream|-evserv|-revserv|-random input [-num events] [-asf output]
+./MainUserAnalysis -fi /GSI/lea/gauss.lmd
+./MainUserAnalysis -ev r3f-12
+./MainUserAnalysis -re lxi007 6009
 
 The events can be read from standard GSI lmd files or MBS or event servers.
 For each event the user event processor TXXXProc is called.
@@ -25,9 +26,6 @@ This user event processor fills some histograms from the input MBS event.
 
 All classes are defined and declared in two files (*.h and *.cxx)
 In MainUserAnalysis the analysis step is created with a standard step factory.
-The input is specified in the macros
-file.C, trans.C, stream.C, evserv.C, revserv.C
-other setups are in setup.C.
 
 The processor:    TXXXProc
 
@@ -55,8 +53,7 @@ When TXXXAnalysis is created, the autosave file is not yet loaded. Therefore the
 objects created here are overwritten by the objects from autosave file (if any), except histograms.
 From GUI, objects are loaded from autosave file when Submit button is pressed.
 One can inspect the content of the auto save file with the Go4 GUI.
-Note that
-GO4USERLIBRARY=/mypath/libGo4UserAnalysis.so
+Note that GO4USERLIBRARY=/my/analysis/path/libGo4UserAnalysis.so
 should be defined to enable the GUI to read the auto save file.
 
 Creating a new class

@@ -1,6 +1,6 @@
 --------------------------------------------------------------
               Go4 Taskhandler v4.3-0 (build 40300)
-                      19-Jun-2009
+                      15-June-2009
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI

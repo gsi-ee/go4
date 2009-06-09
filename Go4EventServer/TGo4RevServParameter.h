@@ -7,7 +7,7 @@ class TGo4RevServParameter : public TGo4MbsSourceParameter {
   public:
     TGo4RevServParameter();
 
-    TGo4RevServParameter(const char* name);
+    TGo4RevServParameter(const char* name, Int_t defport = 0);
 
     virtual ~TGo4RevServParameter() ;
 
