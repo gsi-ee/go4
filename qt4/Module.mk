@@ -22,14 +22,15 @@ GO4QTHEADS += $(GO4QT4HEADS)
 
 LIBDEPENDENC += $(GO4QT4DEP)
 
-FASTRULES += clean-qt4
-
 gui:: libs qt4-GUI all-qt4usergui
+
+plugin:: all-qt4plugin
+
+endif
+
+FASTRULES += clean-qt4
 
 clean-qt4: clean-qt4-interface clean-qt4-FitGUI clean-qt4-GUI clean-qt4usergui clean-qt4plugin
 
 clean:: clean-qt4
 
-plugin:: all-qt4plugin
-
-endif

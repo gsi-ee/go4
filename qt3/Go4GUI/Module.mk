@@ -100,3 +100,5 @@ ifneq ($(wildcard $(GO4GUI3_QTMAKE)),)
 	cd $(GO4GUI3_DIR); $(MAKE) -f $(GO4GUI3_QTMAKE) distclean
 endif
 	@rm -f $(GO4GUI3_QTMAKE) $(GO4GUI3_FH) $(GO4GUI3_PUBH)
+	@rm -rf .obj .moc
+	@echo "Clean qt3 gui done"

@@ -63,3 +63,5 @@ ifneq ($(wildcard $(FITGUI4_QTMAKE)),)
 	cd $(FITGUI4_DIR); $(MAKE) -f $(FITGUI4_QTMAKE) clean
 endif
 	@rm -f $(FITGUI4_QTMAKE) $(FITGUI4_PUBH)
+	@rm -rf .obj .moc
+	@echo "Clean qt4 fitgui done"

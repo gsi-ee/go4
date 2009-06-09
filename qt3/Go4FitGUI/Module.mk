@@ -58,3 +58,5 @@ ifneq ($(wildcard $(FITGUI3_QTMAKE)),)
 	cd $(FITGUI3_DIR); $(MAKE) -f $(FITGUI3_QTMAKE) distclean
 endif
 	@rm -f $(FITGUI3_QTMAKE) $(FITGUI3_FH) $(FITGUI3_PUBH)
+	@rm -rf .obj .moc
+	@echo "Clean qt3 fitgui done"

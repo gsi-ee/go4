@@ -113,3 +113,5 @@ ifneq ($(wildcard $(GO4GUI4_QTMAKE)),)
 	cd $(GO4GUI4_DIR); $(MAKE) -f $(GO4GUI4_QTMAKE) clean
 endif
 	@rm -f $(GO4GUI4_QTMAKE) $(GO4GUI4_PUBH) $(GO4GUI4_GEN_QRC)
+	@rm -rf .obj .moc
+	@echo "Clean qt4 gui done"
