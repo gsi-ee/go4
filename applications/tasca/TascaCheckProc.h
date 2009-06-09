@@ -33,6 +33,13 @@ class TascaCheckProc : public TGo4EventProcessor {
       TGo4WinCond   *fadcKevH;
       TGo4WinCond   *fgammaKev;
       TGo4WinCond   *fgammaMysec;
+      TGo4WinCond   *fwinEVR;
+      TGo4WinCond   *fwinAlpha;
+      TGo4WinCond   *fwinFission1;
+      TGo4WinCond   *fwinAlpha1;
+      TGo4WinCond   *fwinAlpha2;
+      TGo4WinCond   *fwinFission2;
+      TGo4WinCond   *fwinBack;
       TH2D *fStopLE[48];
       TH2D *fStopHE[48];
       TH2D *fStopXY;
@@ -42,6 +49,10 @@ class TascaCheckProc : public TGo4EventProcessor {
       TH2D* fAlphaGammaH;
       TH2D* fAlphaVetoL;
       TH2D* fAlphaVetoH;
+      TH1I	*fTime;
+      UInt_t TimeLastgamma;
+      UInt_t TimeLastmysec;
+      UInt_t TimeLastadc;
       UInt_t i,ii;
 
    ClassDef(TascaCheckProc,1)

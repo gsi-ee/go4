@@ -61,6 +61,7 @@ class TascaAnalysis : public TGo4Analysis  {
     		  UInt_t channels1, Double_t low1, Double_t high1, UInt_t channels2, Double_t low2, Double_t high2);
    private:
 	      TascaParameter      *fParam;
+	      UInt_t events;
 
    ClassDef(TascaAnalysis,1)
 };

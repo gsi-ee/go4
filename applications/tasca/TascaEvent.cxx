@@ -34,7 +34,11 @@ Bool_t TascaEvent::Copy(TascaCheckEvent *pp){
 	fisChopper=pp->fisChopper;
 	fisMicro=pp->fisMicro;
 	fisMacro=pp->fisMacro;
+	fisEvr=pp->fisEvr;
+	fisAlpha=pp->fisAlpha;
+	fisFission=pp->fisFission;
 	fiEventNumber=pp->fiEventNumber;
+
 	fiStopXLhitI=pp->fiStopXLhitI;
 	fiStopXHhitI=pp->fiStopXHhitI;
 	fiStopYLhitI=pp->fiStopYLhitI;
@@ -52,16 +56,16 @@ Bool_t TascaEvent::Copy(TascaCheckEvent *pp){
 	ffBackLhitV =pp->ffBackLhitV;
 	ffVetoHhitV =pp->ffVetoHhitV;
 	ffVetoLhitV =pp->ffVetoLhitV;
+    fiDeltaSystemTime=pp->fiDeltaSystemTime;
+    fiDeltaGammaTime=pp->fiDeltaGammaTime;
+    fiDeltaTime=pp->fiDeltaTime;
+    fiGammaMulti=pp->fiDeltaTime;
+    ffGammaMax=pp->ffGammaMax;
+    ffGammaSum=pp->ffGammaSum;
+
 	fiTimeStamp=pp->fiTimeStamp;
 	fiSystemMysec=pp->fiSystemMysec;
-	fiDeltaTime=pp->fiDeltaTime;
-	fiDeltaSystemTime=pp->fiDeltaSystemTime;
 	fiGammaMysec = pp->fiGammaMysec;
-	fiDeltaGammaMysec = pp->fiDeltaGammaMysec;
-	for(Int_t i=0;i<7;i++){
-		ffGammaKev[i] = pp->ffGammaKev[i];
-		fiGammaChannelTime[i] = pp->fiGammaChannelTime[i];
-	}
 
   return kTRUE;
 }

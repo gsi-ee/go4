@@ -126,8 +126,16 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   fGammaTime  = anl->CreateTH1I ("Unpack","GammaTimeDelta","Gamma delta time","[mysec]","Events",5000,0.5,20000.5);
   fSystemTime = anl->CreateTH1I ("Unpack","SystemTimeDelta","System delta time","[mysec]","Events",5000,0.5,20000.5);
   fAdcTime    = anl->CreateTH1I ("Unpack","AdcTimeDelta","Adc  delta time","[mysec]","Events",5000,0.5,20000.5);
-  fGammaMulti = anl->CreateTH1I ("Unpack","GammaMulti","Gamma multiplicity",10,0,10);
-  fAdcMulti = anl->CreateTH1I ("Unpack","AdcMulti","Adc multiplicity",100,0,100);
+  fMultiGamma = anl->CreateTH1I ("Unpack","MultiGamma","Gamma multiplicity",10,0,10);
+  fMultiAdc   = anl->CreateTH1I ("Unpack","MultiAdc","Adc multiplicity",100,0,100);
+  fMultiStopXL = anl->CreateTH1I ("Unpack","MultiStopXL","Stop XL multiplicity",144,0,144);
+  fMultiStopXH = anl->CreateTH1I ("Unpack","MultiStopXH","Stop XH multiplicity",144,0,144);
+  fMultiStopYL = anl->CreateTH1I ("Unpack","MultiStopYL","Stop YL multiplicity",144,0,144);
+  fMultiStopYH = anl->CreateTH1I ("Unpack","MultiStopYH","Stop YH multiplicity",144,0,144);
+  fMultiBackL = anl->CreateTH1I ("Unpack","MultiBackL","Back L multiplicity",64,0,64);
+  fMultiBackH = anl->CreateTH1I ("Unpack","MultiBackH","Back H multiplicity",64,0,64);
+  fMultiVetoL = anl->CreateTH1I ("Unpack","MultiVetoL","Veto L multiplicity",16,0,16);
+  fMultiVetoH = anl->CreateTH1I ("Unpack","MultiVetoH","Veto H multiplicity",16,0,16);
   // test spectrum
 //	fTest      = anl->CreateTH1I (0,"Gaussians","Gauss",4000,0.5,4000.5);
 //	  gRandom->SetSeed(0);
@@ -156,10 +164,21 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 	fAdcAllRaw = anl->CreateTH1I ("Unpack","AdcAllRaw","All adc raw",5000,0.5,5000.5);
 
 // pictures rows, columns
+    Multi = anl->CreatePicture("Unpack","Multi","Multiplicities",5,2);
     Geraw = anl->CreatePicture("Unpack","pGamma","Gamma raw",8,2);
     M1raw = anl->CreatePicture("Unpack","pV785_1","Module 7",8,4);
     M2raw = anl->CreatePicture("Unpack","pV785_2","Module 9",8,4);
     M3raw = anl->CreatePicture("Unpack","pV785_3","Module 11",8,4);
+	anl->SetPicture(Multi,fMultiAdc,0,0,1);
+	anl->SetPicture(Multi,fMultiStopXL,1,0,1);
+	anl->SetPicture(Multi,fMultiStopXH,2,0,1);
+	anl->SetPicture(Multi,fMultiStopYL,3,0,1);
+	anl->SetPicture(Multi,fMultiStopYH,4,0,1);
+	anl->SetPicture(Multi,fMultiGamma,0,1,1);
+	anl->SetPicture(Multi,fMultiBackL,1,1,1);
+	anl->SetPicture(Multi,fMultiBackH,2,1,1);
+	anl->SetPicture(Multi,fMultiVetoL,3,1,1);
+	anl->SetPicture(Multi,fMultiVetoH,4,1,1);
   Int_t m=0;
   // enlarge stats box and position in [0:1] coordinates
   // show only Mean value (ROOT manual "Statistics Display")
@@ -197,7 +216,7 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
 {
   TGo4MbsSubEvent* psubevt;
   UInt_t crate, address, channels, header, off;
-  UInt_t lwords;
+  UInt_t lwords, multiL, multiH, low=100;
   UInt_t *pdata,*pbehind,*psubevent;
   UInt_t latches=0;
   UInt_t adcs=0;
@@ -270,19 +289,23 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   else                      timediff=timestamp-TimeLastadc;
   fTime->Fill(timediff);
   TimeLastadc=timestamp;
-  pUnpackEvent->fiDeltaTime=timediff;
+  fiDeltaTime=timediff;
   if(TimeLastsec > 0)
     pUnpackEvent->fiSystemMysec += (pUnpackEvent->fiSystemSec-TimeLastsec)*1000000;
   TimeLastsec=pUnpackEvent->fiSystemSec;
   if(pUnpackEvent->fiSystemMysec<TimeLastmysec) timediff=0xFFFFFFFF-TimeLastmysec+pUnpackEvent->fiSystemMysec+1;
   else                      timediff=pUnpackEvent->fiSystemMysec-TimeLastmysec;
-  pUnpackEvent->fiDeltaSystemTime=timediff;
+  fiDeltaSystemTime=timediff;
   TimeLastmysec=pUnpackEvent->fiSystemMysec;
-  fSystemTime->Fill(pUnpackEvent->fiDeltaSystemTime);
-  fAdcTime->Fill(pUnpackEvent->fiDeltaTime);
+  fSystemTime->Fill(fiDeltaSystemTime);
+  fAdcTime->Fill(fiDeltaTime);
 // Build Mpx table
 // check conditions to select events
 fFilter->Fill(0); // all events
+pUnpackEvent->fisTof=codec->isTof();
+pUnpackEvent->fisMacro=codec->isMacro();
+pUnpackEvent->fisMicro=codec->isMicro();
+pUnpackEvent->fisChopper=codec->isChopper();
   if(codec->isTof())	fFilter->Fill(2);
   else 					fFilter->Fill(3);
   if(codec->isChopper())fFilter->Fill(6);
@@ -343,7 +366,7 @@ while(adcs > 0){
 		  pUnpackEvent->fiAdc[off+codec->getChan()]=codec->getAdc();
 		  fAdcAllRaw->Fill(codec->getAdc());
 		  fContent->Fill(off+codec->getChan());
-		  pUnpackEvent->fiAdcMulti++;
+		  pUnpackEvent->fiMultiAdc++;
 	  }
 	  pdata++; // skip EOB
 	  pUnpackEvent->SetValid(kTRUE); // to store
@@ -361,43 +384,59 @@ for(i=0;i<96;i++) fAdc[i]->Fill(pUnpackEvent->fiAdc[i]);
 
 // now fill the detector arrays. Low is even, high is odd index in fiAdc
 // StopY
+multiL=0;
+multiH=0;
 for(i=0;i<codec->getStopYnoAdc();i++){
 	k=codec->getStopYAdc(i); // ADC channel index, low or high
 	n=codec->getIndex(k);    // from that get stripe index
-	if((pUnpackEvent->fiAdc[2*k]>10)&(iStopYLhits<4)){
+	if(pUnpackEvent->fiAdc[2*k]>low){
+		multiL++;
+		if(iStopYLhits<4){
 		pUnpackEvent->fiStopYLhits[iStopYLhits]=n;
 		iStopYLhits++;
 		if(pUnpackEvent->fiAdc[2*k]>pUnpackEvent->fiStopYLhitV){
 			pUnpackEvent->fiStopYLhitV=pUnpackEvent->fiAdc[2*k];
 			pUnpackEvent->fiStopYLhitI=n;
 		}
-	}
-	if((pUnpackEvent->fiAdc[2*k+1]>10)&(iStopYHhits<4)){
+	}}
+	if(pUnpackEvent->fiAdc[2*k+1]>low){
+		multiH++;
+		if(iStopYHhits<4){
 		pUnpackEvent->fiStopYHhits[iStopYHhits]=n;
 		iStopYHhits++;
 		if(pUnpackEvent->fiAdc[2*k+1]>pUnpackEvent->fiStopYHhitV){
 			pUnpackEvent->fiStopYHhitV=pUnpackEvent->fiAdc[2*k+1];
 			pUnpackEvent->fiStopYHhitI=n;
 		}
-	}
+	}}
 	pUnpackEvent->fiStopYL[n]=pUnpackEvent->fiAdc[2*k];
 	pUnpackEvent->fiStopYH[n]=pUnpackEvent->fiAdc[2*k+1];
 }//StopY
+fMultiStopYL->Fill(multiL);
+fMultiStopYH->Fill(multiH);
+pUnpackEvent->fiMultiStopYL=multiL;
+pUnpackEvent->fiMultiStopYH=multiH;
 //printf("YHi %d ",pUnpackEvent->fiStopYHhitI);
 // StopX
+multiL=0;
+multiH=0;
 for(i=0;i<codec->getStopXnoAdc();i++){
 	k=codec->getStopXAdc(i); // ADC channel index, low or high
 	n=codec->getIndex(k);    // from that get stripe index
 	//cout << "k " << k << " n " << n << " adc "<< pUnpackEvent->fiAdc[2*k+1]<<endl;
-	if((pUnpackEvent->fiAdc[2*k]>10)&(iStopXLhits<4)){
+	if(pUnpackEvent->fiAdc[2*k]>low){
+		multiL++;
+		if(iStopXLhits<4){
 		pUnpackEvent->fiStopXLhits[iStopXLhits]=n;
 		iStopXLhits++;
 		if(pUnpackEvent->fiAdc[2*k]>pUnpackEvent->fiStopXLhitV){
 			pUnpackEvent->fiStopXLhitV=pUnpackEvent->fiAdc[2*k];
 			pUnpackEvent->fiStopXLhitI=n;
 		}
-	}
-	if((pUnpackEvent->fiAdc[2*k+1]>10)&(iStopXHhits<4)){
+	}}
+	if(pUnpackEvent->fiAdc[2*k+1]>low){
+		multiH++;
+		if(iStopXHhits<4){
 		pUnpackEvent->fiStopXHhits[iStopXHhits]=n;
 		iStopXHhits++;
 		if(pUnpackEvent->fiAdc[2*k+1]>pUnpackEvent->fiStopXHhitV){
@@ -405,10 +444,14 @@ for(i=0;i<codec->getStopXnoAdc();i++){
 			pUnpackEvent->fiStopXHhitI=n;
 			//printf("n %d adc %d\n",pUnpackEvent->fiStopXHhitI,pUnpackEvent->fiStopXHhitV);
 		}
-	}
+	}}
 	pUnpackEvent->fiStopXL[n]=pUnpackEvent->fiAdc[2*k];
 	pUnpackEvent->fiStopXH[n]=pUnpackEvent->fiAdc[2*k+1];
 }//StopX
+fMultiStopXL->Fill(multiL);
+fMultiStopXH->Fill(multiH);
+pUnpackEvent->fiMultiStopXL=multiL;
+pUnpackEvent->fiMultiStopXH=multiH;
 //  printf("xi %4d xv %4d yi %4d yv %4d\n",
 // 	pUnpackEvent->fiStopXHhitI,
 // 	pUnpackEvent->fiStopXHhitV,
@@ -416,52 +459,73 @@ for(i=0;i<codec->getStopXnoAdc();i++){
 // 	pUnpackEvent->fiStopYHhitV);
 
 // Back
+multiL=0;
+multiH=0;
 for(i=0;i<codec->getBacknoAdc();i++){
 	k=codec->getBackAdc(i); // ADC channel index, low or high
 	n=codec->getIndex(k);    // from that get stripe index
-	if((pUnpackEvent->fiAdc[2*k]>0)&(iBackLhits<4)){
+	if(pUnpackEvent->fiAdc[2*k]>0){
+		multiL++;
+		if(iBackLhits<4){
 		pUnpackEvent->fiBackLhits[iBackLhits]=n;
 		iBackLhits++;
 		if(pUnpackEvent->fiAdc[2*k]>pUnpackEvent->fiBackLhitV){
 			pUnpackEvent->fiBackLhitV=pUnpackEvent->fiAdc[2*k];
 			pUnpackEvent->fiBackLhitI=n;
 		}
-	}
-	if((pUnpackEvent->fiAdc[2*k+1]>0)&(iBackHhits<4)){
+	}}
+	if(pUnpackEvent->fiAdc[2*k+1]>0){
+		multiH++;
+		if(iBackHhits<4){
 		pUnpackEvent->fiBackHhits[iBackHhits]=n;
 		iBackHhits++;
 		if(pUnpackEvent->fiAdc[2*k+1]>pUnpackEvent->fiBackHhitV){
 			pUnpackEvent->fiBackHhitV=pUnpackEvent->fiAdc[2*k+1];
 			pUnpackEvent->fiBackHhitI=n;
 		}
-	}
+	}}
 	pUnpackEvent->fiBackL[n]=pUnpackEvent->fiAdc[2*k];
 	pUnpackEvent->fiBackH[n]=pUnpackEvent->fiAdc[2*k+1];
 }// Back
+fMultiBackL->Fill(multiL);
+fMultiBackH->Fill(multiH);
+pUnpackEvent->fiMultiBackL=multiL;
+pUnpackEvent->fiMultiBackH=multiH;
 // Veto
+multiL=0;
+multiH=0;
 for(i=0;i<codec->getVetonoAdc();i++){
 	k=codec->getVetoAdc(i); // ADC channel index, low or high
 	n=codec->getIndex(k);    // from that get stripe index
-	if((pUnpackEvent->fiAdc[2*k]>0)&(iVetoLhits<4)){
+	if(pUnpackEvent->fiAdc[2*k]>0){
+		multiL++;
+		if(iVetoLhits<4){
 		pUnpackEvent->fiVetoLhits[iVetoLhits]=n;
 		iVetoLhits++;
 		if(pUnpackEvent->fiAdc[2*k]>pUnpackEvent->fiVetoLhitV){
 			pUnpackEvent->fiVetoLhitV=pUnpackEvent->fiAdc[2*k];
 			pUnpackEvent->fiVetoLhitI=n;
 		}
-	}
-	if((pUnpackEvent->fiAdc[2*k+1]>0)&(iVetoHhits<4)){
+	}}
+	if(pUnpackEvent->fiAdc[2*k+1]>0){
+		multiH++;
+		if(iVetoHhits<4){
 		pUnpackEvent->fiVetoHhits[iVetoHhits]=n;
 		iVetoHhits++;
 		if(pUnpackEvent->fiAdc[2*k+1]>pUnpackEvent->fiVetoHhitV){
 			pUnpackEvent->fiVetoHhitV=pUnpackEvent->fiAdc[2*k+1];
 			pUnpackEvent->fiVetoHhitI=n;
 		}
-	}
+	}}
 	pUnpackEvent->fiVetoL[n]=pUnpackEvent->fiAdc[2*k];
 	pUnpackEvent->fiVetoH[n]=pUnpackEvent->fiAdc[2*k+1];
 }//Veto
-fAdcMulti->Fill(pUnpackEvent->fiAdcMulti);
+fMultiVetoL->Fill(multiL);
+fMultiVetoH->Fill(multiH);
+pUnpackEvent->fiMultiVetoL=multiL;
+pUnpackEvent->fiMultiVetoH=multiH;
+pUnpackEvent->fisVeto=(multiL>0);
+fMultiAdc->Fill(pUnpackEvent->fiMultiAdc);
 }// V785 ADCs
   if(pdata-psubevent)  fSizeA->Fill(pdata-psubevent);
 // follows Sis3302
@@ -475,11 +539,11 @@ if(pdata != pbehind){
 		pUnpackEvent->fiGammaChannelTime[i]=(Int_t)(fGammaStamps[i]-fGammaStamps[7]);
 	fGammaT[i]->Fill(pUnpackEvent->fiGammaChannelTime[i]);
   }
-  fGammaMulti->Fill(pUnpackEvent->fiGammaMulti);
+  fMultiGamma->Fill(pUnpackEvent->fiMultiGamma);
   if(pUnpackEvent->fiGammaTime<TimeLastgamma) timediff=0xFFFFFFFF-TimeLastgamma+pUnpackEvent->fiGammaTime+1;
   else                      timediff=pUnpackEvent->fiGammaTime-TimeLastgamma;
-  pUnpackEvent->fiDeltaGammaTime=timediff;
-  fGammaTime->Fill(pUnpackEvent->fiDeltaGammaTime/100);
+  fiDeltaGammaTime=timediff;
+  fGammaTime->Fill(fiDeltaGammaTime/100);
   TimeLastgamma=pUnpackEvent->fiGammaTime;
   if(pbehind-pdata)  fSizeG->Fill(pbehind-pdata);
 }
@@ -805,7 +869,7 @@ while(1)
 		fPileup[chan]->Fill(400);
 		pUnpackEvent->fiGammaQ[chan]=0; // quality
 		pUnpackEvent->fiGammaE[chan]=energy>>fParam->shift;
-		pUnpackEvent->fiGammaMulti++;
+		pUnpackEvent->fiMultiGamma++;
 		fHisto[chan]->Fill(energy>>fParam->shift);
 	}
 	else if (ft_cnt > 1)                  // pileup
@@ -813,7 +877,7 @@ while(1)
 		fPileup[chan]->Fill(600);
 		pUnpackEvent->fiGammaQ[chan]=1; // quality
 		pUnpackEvent->fiGammaE[chan]=energy>>fParam->shift;
-		pUnpackEvent->fiGammaMulti++;
+		pUnpackEvent->fiMultiGamma++;
 		fHisto[chan]->Fill(energy>>fParam->shift);
 	}
 

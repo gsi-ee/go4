@@ -24,15 +24,19 @@ class TascaEvent : public TObject {
       Bool_t fisChopper;
       Bool_t fisMacro;
       Bool_t fisMicro;
+      Bool_t fisEvr;
+      Bool_t fisFission;
+      Bool_t fisAlpha;
 
       UInt_t fiSystemMysec;
       UInt_t fiTimeStamp;
       UInt_t fiGammaMysec;
-      UInt_t fiGammaChannelTime[7];
       UInt_t fiDeltaSystemTime;
-      UInt_t fiDeltaGammaMysec;
+      UInt_t fiDeltaGammaTime;
       UInt_t fiDeltaTime;
       UInt_t fiGammaMulti;
+      Float_t ffGammaMax;
+      Float_t ffGammaSum;
      // index of maximum hit, if we had more than one hit
       UInt_t fiStopXLhitI;
       UInt_t fiStopXHhitI;
@@ -51,8 +55,6 @@ class TascaEvent : public TObject {
       Float_t ffBackLhitV;
       Float_t ffVetoHhitV;
       Float_t ffVetoLhitV;
-
-      Float_t ffGammaKev[7];
 
    ClassDef(TascaEvent,1)
 };

@@ -22,6 +22,9 @@ class TascaCheckEvent : public TGo4EventElement {
       virtual void  Clear(Option_t *t=""){
 	   memset((void*) &ffGammaKev[0], 0, sizeof(ffGammaKev));
 	   fiGammaMysec=0;
+	   fisEvr=kFALSE;
+	   fisFission=kFALSE;
+	   fisAlpha=kFALSE;
       }
 
       UInt_t fiEventNumber;
@@ -29,13 +32,16 @@ class TascaCheckEvent : public TGo4EventElement {
       Bool_t fisChopper;
       Bool_t fisMacro;
       Bool_t fisMicro;
+      Bool_t fisVeto;
+      Bool_t fisEvr;
+      Bool_t fisFission;
+      Bool_t fisAlpha;
 
       UInt_t fiSystemMysec;
       UInt_t fiTimeStamp;
       UInt_t fiGammaMysec;
-      UInt_t fiGammaChannelTime[7];
       UInt_t fiDeltaSystemTime;
-      UInt_t fiDeltaGammaMysec;
+      UInt_t fiDeltaGammaTime;
       UInt_t fiDeltaTime;
       UInt_t fiGammaMulti;
       UInt_t fiAdcMulti;
@@ -48,6 +54,16 @@ class TascaCheckEvent : public TGo4EventElement {
       UInt_t fiBackLhitI;
       UInt_t fiVetoHhitI;
       UInt_t fiVetoLhitI;
+      UInt_t fiMultiStopXL;
+      UInt_t fiMultiStopXH;
+      UInt_t fiMultiStopYL;
+      UInt_t fiMultiStopYH;
+      UInt_t fiMultiBackH;
+      UInt_t fiMultiBackL;
+      UInt_t fiMultiVetoH;
+      UInt_t fiMultiVetoL;
+      UInt_t fiMultiGamma;
+      UInt_t fiMultiAdc;
       // value of maximum hit, if we had more than one hit
       Float_t ffStopXLhitV;
       Float_t ffStopXHhitV;
@@ -57,6 +73,8 @@ class TascaCheckEvent : public TGo4EventElement {
       Float_t ffBackLhitV;
       Float_t ffVetoHhitV;
       Float_t ffVetoLhitV;
+      Float_t ffGammaMax;
+      Float_t ffGammaSum;
 
       Float_t ffGammaKev[7];
 

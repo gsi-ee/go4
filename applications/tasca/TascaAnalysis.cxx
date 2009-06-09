@@ -41,6 +41,7 @@ TascaAnalysis::TascaAnalysis()
   // if an autosave file is there.
   fParam = new TascaParameter("Parameters");
   AddParameter(fParam);
+  events=0;
 
 }
 
@@ -62,6 +63,8 @@ Int_t TascaAnalysis::UserPreLoop()
 Int_t TascaAnalysis::UserPostLoop()
 {
   cout << "Tasca> TascaAnalysis: PostLoop" << endl;
+  cout << "Tasca> TascaAnalysis: Events processed="<<events<<endl;
+  events=0;
    return 0;
 }
 
@@ -69,6 +72,7 @@ Int_t TascaAnalysis::UserPostLoop()
 Int_t TascaAnalysis::UserEventFunc()
 {
 //// This function is called once for each event.
+	events++;
    return 0;
 }
 //-----------------------------------------------------------

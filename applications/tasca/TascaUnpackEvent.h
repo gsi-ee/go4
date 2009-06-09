@@ -55,8 +55,8 @@ class TascaUnpackEvent : public TGo4EventElement {
 	   memset((void*) &fiGammaChannelTime[0], 0, sizeof(fiGammaChannelTime));
 	   fiGammaTime=0;
 	   fiTimeStamp=0;
-	   fiGammaMulti=0;
-	   fiAdcMulti=0;
+	   fiMultiGamma=0;
+	   fiMultiAdc=0;
 	   fiStopXLhitI=0;
 	   fiStopXHhitI=0;
 	   fiStopYLhitI=0;
@@ -86,17 +86,13 @@ class TascaUnpackEvent : public TGo4EventElement {
       Bool_t fisChopper;
       Bool_t fisMacro;
       Bool_t fisMicro;
+      Bool_t fisVeto;
 
       UInt_t fiSystemSec;
       UInt_t fiSystemMysec;
       UInt_t fiTimeStamp;
       UInt_t fiGammaTime;
       UInt_t fiGammaChannelTime[7];
-      UInt_t fiDeltaSystemTime;
-      UInt_t fiDeltaGammaTime;
-      UInt_t fiDeltaTime;
-      UInt_t fiGammaMulti;
-      UInt_t fiAdcMulti;
       // Data fields of detectors
       UInt_t fiStopXL[144];
       UInt_t fiStopXH[144];
@@ -124,6 +120,16 @@ class TascaUnpackEvent : public TGo4EventElement {
       UInt_t fiBackLhitI;
       UInt_t fiVetoHhitI;
       UInt_t fiVetoLhitI;
+      UInt_t fiMultiStopXL;
+      UInt_t fiMultiStopXH;
+      UInt_t fiMultiStopYL;
+      UInt_t fiMultiStopYH;
+      UInt_t fiMultiBackH;
+      UInt_t fiMultiBackL;
+      UInt_t fiMultiVetoH;
+      UInt_t fiMultiVetoL;
+      UInt_t fiMultiGamma;
+      UInt_t fiMultiAdc;
       // value of maximum hit, if we had more than one hit
       UInt_t fiStopXLhitV;
       UInt_t fiStopXHhitV;

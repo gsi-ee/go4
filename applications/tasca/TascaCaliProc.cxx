@@ -267,11 +267,14 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   poutevt->SetValid(kFALSE); // not to store
   fInput    = (TascaUnpackEvent* ) GetInputEvent(); // from this
 
+  if(fInput->fisVeto) return;
+
 // Fill output event
   poutevt->fisTof=fInput->fisTof;
   poutevt->fisChopper=fInput->fisChopper;
   poutevt->fisMicro=fInput->fisMicro;
   poutevt->fisMacro=fInput->fisMacro;
+  poutevt->fisVeto=fInput->fisVeto;
   poutevt->fiEventNumber=fInput->fiEventNumber;
 
   poutevt->fiStopXLhitI=fInput->fiStopXLhitI;
@@ -282,6 +285,14 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   poutevt->fiBackLhitI=fInput->fiBackLhitI;
   poutevt->fiVetoHhitI=fInput->fiVetoHhitI;
   poutevt->fiVetoLhitI=fInput->fiVetoLhitI;
+  poutevt->fiMultiStopXL=fInput->fiMultiStopXL;
+  poutevt->fiMultiStopXH=fInput->fiMultiStopXH;
+  poutevt->fiMultiStopYL=fInput->fiMultiStopYL;
+  poutevt->fiMultiStopYH=fInput->fiMultiStopYH;
+  poutevt->fiMultiBackH=fInput->fiMultiBackH;
+  poutevt->fiMultiBackL=fInput->fiMultiBackL;
+  poutevt->fiMultiVetoH=fInput->fiMultiVetoH;
+  poutevt->fiMultiVetoL=fInput->fiMultiVetoL;
   // value of maximum hit, if we had more than one hit
   poutevt->ffStopXLhitV=fCalibration->CalibrateStopXL(fInput->fiStopXLhitV,fInput->fiStopXLhitI);
   poutevt->ffStopXHhitV=fCalibration->CalibrateStopXH(fInput->fiStopXHhitV,fInput->fiStopXHhitI);
@@ -297,8 +308,7 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 
   poutevt->fiTimeStamp=fInput->fiTimeStamp;
   poutevt->fiSystemMysec=fInput->fiSystemMysec;
-  poutevt->fiDeltaTime=fInput->fiDeltaTime;
-  poutevt->fiDeltaSystemTime=fInput->fiDeltaSystemTime;
+  poutevt->fiGammaMysec = fCalibration->CalibrateGammaT(fInput->fiGammaTime);
   for(i=0;i<144;i++){
 	  poutevt->ffStopXL[i]=fCalibration->CalibrateStopXL(fInput->fiStopXL[i],i);
 	  poutevt->ffStopXH[i]=fCalibration->CalibrateStopXH(fInput->fiStopXH[i],i);
@@ -315,11 +325,14 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 	  poutevt->ffVetoL[i]=fCalibration->CalibrateVetoL(fInput->fiVetoL[i],i);
 	  poutevt->ffVetoH[i]=fCalibration->CalibrateVetoH(fInput->fiVetoH[i],i);
   }
+  poutevt->ffGammaMax=0.;
+  poutevt->ffGammaSum=0.;
   for(i=0;i<7;i++){
 	  poutevt->ffGammaKev[i]   = fCalibration->CalibrateGammaE(fInput->fiGammaE[i],i);
-	  poutevt->fiGammaChannelTime[i] = fInput->fiGammaChannelTime[i];
+  	  poutevt->ffGammaSum += poutevt->ffGammaKev[i];
+  	  if(poutevt->ffGammaKev[i]>poutevt->ffGammaMax)
+  		  poutevt->ffGammaMax=poutevt->ffGammaKev[i];
   }
-  poutevt->fiGammaMysec = fCalibration->CalibrateGammaT(fInput->fiGammaTime);
 
 // now filling histograms
   if(fControl->CaliHisto){
@@ -357,15 +370,13 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 	  fhdVetoLsum->Fill(poutevt->ffVetoL[i]);
 	  fhdVetoHsum->Fill(poutevt->ffVetoH[i]);
   }
-Double_t sum=0.;
   for(i=0;i<7;i++){
-	  fhGamma10ns[i]->Fill(poutevt->fiGammaChannelTime[i]);
+	  fhGamma10ns[i]->Fill(fInput->fiGammaChannelTime[i]);
 	  fhGammaKev[i]->Fill(poutevt->ffGammaKev[i]);
 	  fhGammaSumKev->Fill(poutevt->ffGammaKev[i]);
-	  sum += poutevt->ffGammaKev[i];
   }
   fhGammaMysec->Fill(poutevt->fiGammaMysec);
-  fhGammaAddbackKev->Fill(sum);
+  fhGammaAddbackKev->Fill(poutevt->ffGammaSum);
 } // fControl->CaliHisto
 
   poutevt->SetValid(kTRUE); // store

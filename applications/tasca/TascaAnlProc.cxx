@@ -88,9 +88,9 @@ else { // remove first and put to end
 	fEvent=(TascaEvent *) fEventStack->First();
 	// this takes about 7 mysec per 100 entries
 	fEventIter->Reset();
-	while(fEvent=(TascaEvent *)fEventIter->Next()){
+	//while(fEvent=(TascaEvent *)fEventIter->Next()){
 		// cout<<fEvent->fiEventNumber<<" ";
-	}
+	//}
 	// cout<<endl;
 }
 poutevt->SetValid(kFALSE);       // events are not stored until kTRUE is set
