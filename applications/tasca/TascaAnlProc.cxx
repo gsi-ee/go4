@@ -93,15 +93,21 @@ if(fInput->fisFission){
 	fFissionEvent=fEvent;
 	fStackEvent=fEvent;
 	fTimeDiff=0;
-	printf("Fission %3d: %8d  Mev %6.2f Back %6.2f\n",fFissions,
-			fFissionEvent->fiEventNumber,
-			fFissionEvent->ffStopXHhitV/1000.,
-			fFissionEvent->ffBackHhitV/1000.
+	printf("Fission %3d: %8d  MevH  %6.2f L %6.2f Back H %6.2f L %6.2f StopX %3d StopY %3d\n",fFissions,
+	       fFissionEvent->fiEventNumber,
+	       fFissionEvent->ffStopXHhitV/1000.,
+	       fFissionEvent->ffStopXLhitV/1000.,
+	       fFissionEvent->ffBackHhitV/1000.,
+	       fFissionEvent->ffBackLhitV/1000.,
+	       fFissionEvent->fiStopXHhitI,
+	       fFissionEvent->fiStopYHhitI
 			);
 	while((fStackEvent=(TascaEvent *) fEventStack->Before(fStackEvent))!=0){
 		fTimeDiff += fStackEvent->fiDeltaTime;
 		if(fTimeDiff < fParam->Fission1Tmax){ // in alpha time window
-		if(fStackEvent->fisAlpha){
+		  if(fStackEvent->fisAlpha&
+		     (fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXLhitI)&
+		     (fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYLhitI)){
 			fAlphaFound=kTRUE;
 			printf("    Alpha %8d Delta %7.3f Mev %6.2f\n",
 					fFissionEvent->fiEventNumber-fStackEvent->fiEventNumber,
@@ -109,7 +115,9 @@ if(fInput->fisFission){
 					);
 		}}
 		if(fTimeDiff > (fParam->Fission1Tmax+fParam->AlphaTmax))break; // out of time window
-		if(fAlphaFound&fStackEvent->fisEvr){
+		if(fAlphaFound&fStackEvent->fisEvr&
+		   (fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXHhitI)&
+		   (fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYHhitI)){
 			printf("    Evr   %8d Delta %7.3f Mev %6.2f\n",
 					fFissionEvent->fiEventNumber-fStackEvent->fiEventNumber,
 					(Float_t)fTimeDiff/1000000.,fStackEvent->ffStopXHhitV/1000.

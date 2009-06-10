@@ -8,20 +8,20 @@
 
 void setparam()
 {
-	Float_t EvrHmin=7000,EvrHmax=20000;
-	Float_t Alpha0Lmin=9800,Alpha0Lmax=10200;
-	Float_t Alpha1Lmin=9700,Alpha1Lmax=10100;
-	Float_t Alpha2Lmin=8970,Alpha2Lmax=9370;
+	Float_t EvrHmin     =4000,  EvrHmax     =15000;
+	Float_t Alpha0Lmin  =9800,  Alpha0Lmax  =10200;
+	Float_t Alpha1Lmin  =9700,  Alpha1Lmax  =10100;
+	Float_t Alpha2Lmin  =8970,  Alpha2Lmax  =9370;
 	Float_t Fission1Hmin=60000, Fission1Hmax=220000;
 	Float_t Fission2Hmin=60000, Fission2Hmax=220000;
-	Float_t BackHmin=10000, BackHmax=80000;
+	Float_t BackHmin    =10000, BackHmax    =80000;
 	TGo4WinCond * wc;
 	TascaParameter *fp;
 // because the name Parameters is not unique we must fully qualify
  fp = (TascaParameter *) go4->GetObject("Parameters/Parameters","Go4");
  if(fp!=0){
 	 fp->shift=5;
-	 fp->EventStackSize=10000; // prefix for coefficient files
+	 fp->EventStackSize=100000; // prefix for coefficient files
      fp->AlphaMaxL=16000.; // take low value up to this limit
      fp->AlphaMaxH=30000.;// take high value up to this limit as low
      fp->AlphaTmin=0;
