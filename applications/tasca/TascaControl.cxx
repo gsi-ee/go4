@@ -29,11 +29,11 @@ TascaControl::~TascaControl(){
 //-----------------------------------------------------------
 Int_t TascaControl::PrintParameter(){
   cout << "Parameter " << GetName()<<":" <<endl;
-  cout<<"Histograms Unpack:"<<UnpackHisto
+  cout<<"      Histograms Unpack:"<<UnpackHisto
   <<" Cali:"<<CaliHisto
   <<" Check:"<<CheckHisto
   <<" Anl:"<<AnlHisto<<endl;
-  cout<<"Check Tof:"<<checkTof<<"="<<TofMustbe
+  cout<<"      Check Tof:"<<checkTof<<"="<<TofMustbe
 	  <<" Chop:"<<checkChopper<<"="<<ChopperMustbe
 	  <<" Macro:"<<checkMacro<<"="<<MacroMustbe
 	  <<" Micro:"<<checkMicro<<"="<<MicroMustbe<<endl;

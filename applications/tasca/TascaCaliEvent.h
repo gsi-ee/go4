@@ -82,7 +82,6 @@ class TascaCaliEvent : public TGo4EventElement {
       UInt_t fiMultiVetoH;
       UInt_t fiMultiVetoL;
       UInt_t fiMultiGamma;
-      UInt_t fiMultiAdc;
       // value of maximum hit, if we had more than one hit
       Float_t ffStopXLhitV;
       Float_t ffStopXHhitV;

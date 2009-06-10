@@ -203,9 +203,9 @@ TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages
 
   TascaAnalysis* analysis = new TascaAnalysis();
   TGo4StepFactory*  unpackfactory  = new TGo4StepFactory("UnpackFact");
-  unpackfactory->DefEventProcessor("Unpack","TascaUnpackProc");// object name, class name
+  unpackfactory->DefEventProcessor("Unpacker","TascaUnpackProc");// object name, class name
   unpackfactory->DefOutputEvent("Unpacked","TascaUnpackEvent"); // object name, class name
-  TGo4AnalysisStep* unpackstep     = new TGo4AnalysisStep("Unpack",unpackfactory,0,0,0);
+  TGo4AnalysisStep* unpackstep     = new TGo4AnalysisStep("Unpacker",unpackfactory,0,0,0);
   analysis->AddAnalysisStep(unpackstep);
   if(intype==GO4EV_MBS_FILE)
     unpackstep->SetEventSource(new TGo4MbsFileParameter(serv));
@@ -213,10 +213,10 @@ TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages
     unpackstep->SetEventSource(new TGo4MbsTransportParameter(serv));
 
   TGo4StepFactory*  califactory  = new TGo4StepFactory("CaliFact");
-  califactory->DefEventProcessor("Calibration","TascaCaliProc");// object name, class name
+  califactory->DefEventProcessor("Calibrator","TascaCaliProc");// object name, class name
   califactory->DefInputEvent("Unpacked","TascaUnpackEvent"); // object name, class name
   califactory->DefOutputEvent("Calibrated","TascaCaliEvent"); // object name, class name
-  TGo4AnalysisStep* calistep     = new TGo4AnalysisStep("Calibration",califactory,0,0,0);
+  TGo4AnalysisStep* calistep     = new TGo4AnalysisStep("Calibrator",califactory,0,0,0);
   analysis->AddAnalysisStep(calistep);
 
   TGo4StepFactory*  checkfactory  = new TGo4StepFactory("CheckFact");
@@ -227,10 +227,10 @@ TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages
   analysis->AddAnalysisStep(checkstep);
 
   TGo4StepFactory*  analysisfactory  = new TGo4StepFactory("AnalysisFact");
-  analysisfactory->DefEventProcessor("Analysis","TascaAnlProc");// object name, class name
+  analysisfactory->DefEventProcessor("Analyzer","TascaAnlProc");// object name, class name
   analysisfactory->DefInputEvent("Checked","TascaCheckEvent"); // object name, class name
   analysisfactory->DefOutputEvent("Analyzed","TascaAnlEvent"); // object name, class name
-  TGo4AnalysisStep* analysisstep     = new TGo4AnalysisStep("Analysis",analysisfactory,0,0,0);
+  TGo4AnalysisStep* analysisstep     = new TGo4AnalysisStep("Analyzer",analysisfactory,0,0,0);
   analysis->AddAnalysisStep(analysisstep);
 
 // use macros to set up

@@ -11,6 +11,7 @@
 #include "TGo4EventElement.h"
 
 class TascaAnlProc;
+class TGo4FileSource;
 
 class TascaAnlEvent : public TGo4EventElement {
    public:
@@ -20,12 +21,14 @@ class TascaAnlEvent : public TGo4EventElement {
       virtual ~TascaAnlEvent() ;
       virtual Int_t Init();
       virtual Int_t Fill();
-      virtual void  Clear(Option_t *t=""){}
+      virtual void  Clear(Option_t *t=""){
+      }
 
    private:
       // this object is streamed. Therefore pointers must be excluded!
       // Otherwise these objects are streamed as well
-      TascaAnlProc     * fxTascaCP;  //! Don't put this to file
+      TascaAnlProc   * fxTascaCP;  //! Don't put this to file
+      TGo4FileSource * fxTascaFS;  //! Don't put this to file
 
       UInt_t fiTest[10];
 

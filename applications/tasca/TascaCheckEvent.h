@@ -11,6 +11,7 @@
 #include "TGo4EventElement.h"
 
 class TascaCheckProc;
+class TGo4FileSource;
 
 class TascaCheckEvent : public TGo4EventElement {
    public:
@@ -20,12 +21,10 @@ class TascaCheckEvent : public TGo4EventElement {
       virtual Int_t Init();
       virtual Int_t Fill();
       virtual void  Clear(Option_t *t=""){
-	   memset((void*) &ffGammaKev[0], 0, sizeof(ffGammaKev));
-	   fiGammaMysec=0;
 	   fisEvr=kFALSE;
 	   fisFission=kFALSE;
 	   fisAlpha=kFALSE;
-      }
+     }
 
       UInt_t fiEventNumber;
       Bool_t fisTof;
@@ -43,8 +42,6 @@ class TascaCheckEvent : public TGo4EventElement {
       UInt_t fiDeltaSystemTime;
       UInt_t fiDeltaGammaTime;
       UInt_t fiDeltaTime;
-      UInt_t fiGammaMulti;
-      UInt_t fiAdcMulti;
       // index of maximum hit, if we had more than one hit
       UInt_t fiStopXLhitI;
       UInt_t fiStopXHhitI;
@@ -63,7 +60,6 @@ class TascaCheckEvent : public TGo4EventElement {
       UInt_t fiMultiVetoH;
       UInt_t fiMultiVetoL;
       UInt_t fiMultiGamma;
-      UInt_t fiMultiAdc;
       // value of maximum hit, if we had more than one hit
       Float_t ffStopXLhitV;
       Float_t ffStopXHhitV;
@@ -81,7 +77,8 @@ class TascaCheckEvent : public TGo4EventElement {
    private:
       // this object is streamed. Therefore pointers must be excluded!
       // Otherwise these objects are streamed as well
-      TascaCheckProc     * fxTascaCP;  //! Don't put this to file
+      TascaCheckProc * fxTascaCP;  //! Don't put this to file
+      TGo4FileSource * fxTascaFS;  //! Don't put this to file
 
    ClassDef(TascaCheckEvent,1)
 };

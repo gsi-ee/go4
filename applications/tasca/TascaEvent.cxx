@@ -59,7 +59,7 @@ Bool_t TascaEvent::Copy(TascaCheckEvent *pp){
     fiDeltaSystemTime=pp->fiDeltaSystemTime;
     fiDeltaGammaTime=pp->fiDeltaGammaTime;
     fiDeltaTime=pp->fiDeltaTime;
-    fiGammaMulti=pp->fiDeltaTime;
+    fiGammaMulti=pp->fiMultiGamma;
     ffGammaMax=pp->ffGammaMax;
     ffGammaSum=pp->ffGammaSum;
 

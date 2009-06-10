@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -22,7 +22,7 @@ TascaCaliEvent::TascaCaliEvent() :
 TascaCaliEvent::TascaCaliEvent(const char* name) :
    TGo4EventElement(name),fxTascaEP(0),fxTascaFS(0)
 {
-    cout << "Tasca> TascaCaliEvent: Create"<< endl;
+    cout << "Tasca> TascaCaliEvent "<<name<<" created"<< endl;
 }
 //***********************************************************
 TascaCaliEvent::~TascaCaliEvent()
@@ -42,10 +42,10 @@ Int_t TascaCaliEvent::Init()
     fxTascaEP = (TascaCaliProc*)GetEventSource();
     cout << "Tasca> TascaCaliEvent init for Cali step"<< endl;
   }
-  // or is it used from Analysis step as input
+  // or is it used from Check step as input
   else if(CheckEventSource("TGo4FileSource")){
     fxTascaFS = (TGo4FileSource*)GetEventSource();
-    cout << "Tasca> TascaCaliEvent init for Analysis step"<< endl;
+    cout << "Tasca> TascaCaliEvent init for Check step"<< endl;
   }
   else          rev=1;
   return rev;

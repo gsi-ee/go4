@@ -48,7 +48,7 @@ TascaUnpackProc::TascaUnpackProc() :
 TascaUnpackProc::TascaUnpackProc(const char* name) :
    TGo4EventProcessor(name)
 {
-  cout << "Tasca> TascaUnpackProc: Create" << endl;
+  cout << "Tasca> TascaUnpackProc "<<name<<" created" << endl;
 
   Text_t chis[32];
   Text_t chead[64];
@@ -83,6 +83,7 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   TimeLastsec=0;
   TimeLastmysec=0;
   TimeLastadc=0;
+  LastEvent=0;
 
 // Creation of histograms:
 // The anl function gets the histogram or creates it
@@ -160,7 +161,6 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 	fPedestal  = anl->CreateTH1I ("Unpack","Pedestals","Pedestals",96,-0.5,95.5);
 	fContent   = anl->CreateTH1I ("Unpack","Contents","Contents",96,-0.5,95.5);
 	fTree      = anl->CreateTH1I (0,"Tree","Leaf",5000,0.5,5000.5);
-	fTime      = anl->CreateTH1I (0,"Time","Time diff",1000,0,20000);
 	fAdcAllRaw = anl->CreateTH1I ("Unpack","AdcAllRaw","All adc raw",5000,0.5,5000.5);
 
 // pictures rows, columns
@@ -200,7 +200,7 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 //***********************************************************
 TascaUnpackProc::~TascaUnpackProc()
 {
-  cout << "Tasca> TascaUnpackProc: Delete" << endl;
+  cout << "Tasca> TascaUnpackProc: Delete, last event "<<LastEvent << endl;
 }
 //***********************************************************
 void TascaUnpackProc::CalcPedestals(){
@@ -229,20 +229,23 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   UInt_t timediff;
   Bool_t takeEvent=kFALSE;
   pUnpackEvent=pUP;
+  pUnpackEvent->SetValid(kFALSE);
   fInput    = (TGo4MbsEvent* ) GetInputEvent(); // from this
   fSize->Fill((fInput->GetDlen()>>1)-5);// is data length in 32bit without headers
-  if((fInput != 0) &
-     (fInput->GetTrigger()!=14) &
-     (fInput->GetTrigger()!=15) &
-     (fInput->GetDlen() != 36)){
-  //cout << "Event=" << fInput->GetCount() << endl;
+  if((fInput == 0) |
+     (fInput->GetTrigger()==14) |
+     (fInput->GetTrigger()==15) |
+     (fInput->GetDlen() == 36)){
+	  //cout<<"Unp: skip "<<fInput->GetCount()<<endl;
+	  return;
+  }
+  //cout<<endl<<"Unp: "<<fInput->GetCount()<<endl;
   evcount++;
   fInput->ResetIterator();
   psubevt = fInput->NextSubEvent();
   pdata=(UInt_t *)psubevt->GetDataField();
   lwords= psubevt->GetIntLen(); // data length 32 bit
   pbehind=pdata+lwords;
-  pUnpackEvent->SetValid(kFALSE); // not to store
   // look for system time stamp
   if(*pdata == 0xaffeaffe){
 	  pdata++;
@@ -285,9 +288,11 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
 //-----
   pUnpackEvent->fiTimeStamp=timestamp; // mysec
   pUnpackEvent->fiEventNumber=fInput->GetCount();
+  if(LastEvent+1 != pUnpackEvent->fiEventNumber)
+	  cout <<"      Last event "<<LastEvent<<", this "<<pUnpackEvent->fiEventNumber<<endl;
+  LastEvent= pUnpackEvent->fiEventNumber;
   if(timestamp<TimeLastadc) timediff=0xFFFFFFFF-TimeLastadc+timestamp+1;
   else                      timediff=timestamp-TimeLastadc;
-  fTime->Fill(timediff);
   TimeLastadc=timestamp;
   fiDeltaTime=timediff;
   if(TimeLastsec > 0)
@@ -342,7 +347,7 @@ pUnpackEvent->fisChopper=codec->isChopper();
 	  if(!takeEvent)return;
 	  fControl->MicroTrue++;
   }
-  takeEvent=kTRUE;
+  takeEvent=kFALSE;
 // copy the index table to event to store in tree
   memcpy(pUnpackEvent->fiMpxi,codec->getMpxIndex(),sizeof(pUnpackEvent->fiMpxi));
 // first copy ADC values into low and high arrays
@@ -369,7 +374,7 @@ while(adcs > 0){
 		  pUnpackEvent->fiMultiAdc++;
 	  }
 	  pdata++; // skip EOB
-	  pUnpackEvent->SetValid(kTRUE); // to store
+	  takeEvent=kTRUE;
   } else if(codec->isEob()){
 	  //cout << "    EOB " << endl;
   } else if(!codec->isValid()){
@@ -381,6 +386,7 @@ while(adcs > 0){
 if(fControl->UnpackHisto){
 for(i=0;i<96;i++) fAdc[i]->Fill(pUnpackEvent->fiAdc[i]);
 }
+pUnpackEvent->SetValid(takeEvent); // to store
 
 // now fill the detector arrays. Low is even, high is odd index in fiAdc
 // StopY
@@ -527,7 +533,7 @@ pUnpackEvent->fiMultiVetoH=multiH;
 pUnpackEvent->fisVeto=(multiL>0);
 fMultiAdc->Fill(pUnpackEvent->fiMultiAdc);
 }// V785 ADCs
-  if(pdata-psubevent)  fSizeA->Fill(pdata-psubevent);
+if(pdata-psubevent) fSizeA->Fill(pdata-psubevent);
 // follows Sis3302
 if(pdata != pbehind){
   pdata++; // skip first tag word
@@ -548,7 +554,7 @@ if(pdata != pbehind){
   if(pbehind-pdata)  fSizeG->Fill(pbehind-pdata);
 }
 return;
-} // check for valid event
+ // check for valid event
 //if(!fPedestals->Calibrate){
 //	if(evcount >= 10000) {
 //	CalcPedestals();

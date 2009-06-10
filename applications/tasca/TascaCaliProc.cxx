@@ -40,7 +40,7 @@ TascaCaliProc::TascaCaliProc() :
 TascaCaliProc::TascaCaliProc(const char* name) :
    TGo4EventProcessor(name)
 {
-  cout << "Tasca> TascaCaliProc: Create" << endl;
+  cout << "Tasca> TascaCaliProc "<<name<<" created" << endl;
 
   Text_t chis[32];
   Text_t chead[64];
@@ -266,7 +266,8 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 
   poutevt->SetValid(kFALSE); // not to store
   fInput    = (TascaUnpackEvent* ) GetInputEvent(); // from this
-
+  // Process only if event is valid
+  if(!fInput->IsValid()) return;
   if(fInput->fisVeto) return;
 
 // Fill output event
@@ -293,6 +294,7 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   poutevt->fiMultiBackL=fInput->fiMultiBackL;
   poutevt->fiMultiVetoH=fInput->fiMultiVetoH;
   poutevt->fiMultiVetoL=fInput->fiMultiVetoL;
+  poutevt->fiMultiGamma=fInput->fiMultiGamma;
   // value of maximum hit, if we had more than one hit
   poutevt->ffStopXLhitV=fCalibration->CalibrateStopXL(fInput->fiStopXLhitV,fInput->fiStopXLhitI);
   poutevt->ffStopXHhitV=fCalibration->CalibrateStopXH(fInput->fiStopXHhitV,fInput->fiStopXHhitI);

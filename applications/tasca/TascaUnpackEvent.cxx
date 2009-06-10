@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -22,7 +22,7 @@ TascaUnpackEvent::TascaUnpackEvent() :
 TascaUnpackEvent::TascaUnpackEvent(const char* name) :
    TGo4EventElement(name),fxTascaEP(0),fxTascaFS(0)
 {
-    cout << "Tasca> TascaUnpackEvent: Create"<< endl;
+    cout << "Tasca> TascaUnpackEvent "<<name<<" created"<< endl;
 }
 //***********************************************************
 TascaUnpackEvent::~TascaUnpackEvent()

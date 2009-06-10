@@ -10,17 +10,18 @@
 #include "Riostream.h"
 
 #include "TascaCheckProc.h"
+#include "TGo4FileSource.h"
 
 //***********************************************************
 TascaCheckEvent::TascaCheckEvent()
-  :TGo4EventElement(),fxTascaCP(0)
+  :TGo4EventElement(),fxTascaCP(0),fxTascaFS(0)
 {
 }
 //***********************************************************
 TascaCheckEvent::TascaCheckEvent(const char * name)
-  :TGo4EventElement(name),fxTascaCP(0)
+  :TGo4EventElement(name),fxTascaCP(0),fxTascaFS(0)
 {
-    cout << "Tasca> TascaCheckEvent: Created"<< endl;
+    cout << "Tasca> TascaCheckEvent "<<name<<" created"<< endl;
 }
 //***********************************************************
 TascaCheckEvent::~TascaCheckEvent()
@@ -37,6 +38,11 @@ Int_t TascaCheckEvent::Init()
   Int_t rev = 0;
   if(CheckEventSource("TascaCheckProc")){
     fxTascaCP = (TascaCheckProc*)GetEventSource();
+    cout << "Tasca> TascaCheckEvent init for Check step"<< endl;
+  }
+  // or is it used from Analysis step as input
+  else if(CheckEventSource("TGo4FileSource")){
+    fxTascaFS = (TGo4FileSource*)GetEventSource();
     cout << "Tasca> TascaCheckEvent init for Analysis step"<< endl;
   }
    else     rev=1;
@@ -50,6 +56,7 @@ Int_t TascaCheckEvent::Fill()
    Int_t rev = 0;
    Clear();
    if(fxTascaCP)fxTascaCP->TascaEventCheck(this);
+   if(fxTascaFS)fxTascaFS->BuildEvent(this); // method from framework to restore event from file
    return rev;
 
 }

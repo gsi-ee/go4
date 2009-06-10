@@ -10,7 +10,7 @@ void setcali()
 TascaCalibration *fCalibration = (TascaCalibration *) go4->GetObject("Calibration","Go4");
  if(fCalibration!=0){
   fCalibration->EnableCalibration(kTRUE); // use calibration or not
-  fCalibration->SetPrefix("cali"); // prefix for coefficient files
+  fCalibration->SetPrefix("cali2"); // prefix for coefficient files
   fCalibration->Preset();
   if(fCalibration->UseCalibration){
 	  fCalibration->ReadCoefficients();

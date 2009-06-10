@@ -17,30 +17,34 @@ void setup(Text_t* AutoSaveFile,
 
 //--------------------------------------------
 // steering parameters to modify:
-  TString unpackProcess("yes");
+  TString unpackProcess("no");
   TString unpackStore("no");
   TString unpackOverWrite("yes");
 
-  TString caliProcess("yes");
-  TString caliStore("no");
+  TString caliProcess("no");
+  TString caliStore("yes");
   TString caliOverWrite("yes");
 
-  TString checkProcess("yes");
-  TString checkStore("no");
+  TString checkProcess("no");
+  TString checkStore("yes");
   TString checkOverWrite("yes");
 
-  TString analysisProcess("no");
+  TString analysisProcess("yes");
   TString analysisStore("no");
   TString analysisOverWrite("yes");
 
-  TString autosave("yes");
+  UInt_t SplitLevel=1;
+  UInt_t BufferSize=100000;
+  UInt_t Compression=3;
+
+  TString autosave("no");
   Int_t autosaveinterval=0; // after n seconds, 0 = at termination of event loop
 //--------------------------------------------
 
   // First step
-  step = go4->GetAnalysisStep("Unpack");
+  step = go4->GetAnalysisStep("Unpacker");
   step->SetProcessEnabled(unpackProcess.BeginsWith("y"));
-  f1 = new TGo4FileStoreParameter(UnpackedFile);
+  f1 = new TGo4FileStoreParameter(UnpackedFile,SplitLevel,BufferSize,Compression);
   f1->SetOverwriteMode(unpackOverWrite.BeginsWith("y"));
   step->SetEventStore(f1);
   step->SetStoreEnabled(unpackStore.BeginsWith("y"));
@@ -48,14 +52,14 @@ void setup(Text_t* AutoSaveFile,
   step->SetErrorStopEnabled(kTRUE);
 
   // Second step
-  step = go4->GetAnalysisStep("Calibration");
+  step = go4->GetAnalysisStep("Calibrator");
   step->SetProcessEnabled(caliProcess.BeginsWith("y"));
   // if unpack is disabled, get input from file
   if(unpackProcess.BeginsWith("n")){
     f2 = new TGo4FileSourceParameter(UnpackedFile);
     step->SetEventSource(f2);
   }
-  f1 = new TGo4FileStoreParameter(CalibratedFile);
+  f1 = new TGo4FileStoreParameter(CalibratedFile,SplitLevel,BufferSize,Compression);
   f1->SetOverwriteMode(caliOverWrite.BeginsWith("y"));
   step->SetEventStore(f1);
   step->SetStoreEnabled(caliStore.BeginsWith("y"));
@@ -70,7 +74,7 @@ void setup(Text_t* AutoSaveFile,
     f2 = new TGo4FileSourceParameter(CalibratedFile);
     step->SetEventSource(f2);
   }
-  f1 = new TGo4FileStoreParameter(CheckedFile);
+  f1 = new TGo4FileStoreParameter(CheckedFile,SplitLevel,BufferSize,Compression);
   f1->SetOverwriteMode(checkOverWrite.BeginsWith("y"));
   step->SetEventStore(f1);
   step->SetStoreEnabled(checkStore.BeginsWith("y"));
@@ -78,14 +82,14 @@ void setup(Text_t* AutoSaveFile,
   step->SetErrorStopEnabled(kTRUE);
 
   // Fourth step
-  step = go4->GetAnalysisStep("Analysis");
+  step = go4->GetAnalysisStep("Analyzer");
   step->SetProcessEnabled(analysisProcess.BeginsWith("y"));
-  // if cali is disabled, get input from file
+  // if check is disabled, get input from file
   if(checkProcess.BeginsWith("n")){
     f2 = new TGo4FileSourceParameter(CheckedFile);
     step->SetEventSource(f2);
   }
-  f1 = new TGo4FileStoreParameter(AnalyzedFile);
+  f1 = new TGo4FileStoreParameter(AnalyzedFile,SplitLevel,BufferSize,Compression);
   f1->SetOverwriteMode(analysisOverWrite.BeginsWith("y"));
   step->SetEventStore(f1);
   step->SetStoreEnabled(analysisStore.BeginsWith("y"));
@@ -100,37 +104,45 @@ void setup(Text_t* AutoSaveFile,
   printf("Tasca> setup.C: Setup analysis\n");
   if(go4->IsAutoSaveOn()){
 	  if(autosaveinterval==0)
-		  printf("       autosave:          %s once file %s\n",autosave.Data(),AutoSaveFile);
-	  else
-		  printf("       autosave:          %s every %ds file %s\n",autosave.Data(),autosaveinterval,AutoSaveFile);
+		  printf("       Autosave:    %s once file %s\n",autosave.Data(),AutoSaveFile);
+	  elsA
+		  printf("       autosave:    %s every %ds file %s\n",autosave.Data(),autosaveinterval,AutoSaveFile);
   } else
-  printf("       autosave:          off\n");
-  printf("       unpackProcess:     %s\n",unpackProcess.Data());
-  printf("       unpackStore:       %s file %s\n",unpackStore.Data(),UnpackedFile);
-  printf("       unpackOverWrite:   %s\n",unpackOverWrite.Data());
-
-  printf("       caliProcess:       %s\n",caliProcess.Data());
+  printf("       Autosave:    off\n");
+  printf("       Unpacker:    %s\n",unpackProcess.Data());
+  if(unpackProcess.BeginsWith("y")){
+  printf("         Store:     %s file %s\n",unpackStore.Data(),UnpackedFile);
+  printf("         OverWrite: %s\n",unpackOverWrite.Data());
+  }
+  printf("       Calibrator:  %s\n",caliProcess.Data());
+  if(caliProcess.BeginsWith("y")){
   if(unpackProcess.BeginsWith("n"))
-  printf("       caliSource:        yes file %s\n",UnpackedFile);
+  printf("         Source:    yes file %s\n",UnpackedFile);
   else
-  printf("       caliSource:        yes from unpack\n");
-  printf("       caliStore:         %s file %s\n",caliStore.Data(),CalibratedFile);
-  printf("       caliOverWrite:     %s\n",caliOverWrite.Data());
-
-  printf("       checkProcess:      %s\n",checkProcess.Data());
+  printf("         Source:    yes from unpack\n");
+  printf("         Store:     %s file %s\n",caliStore.Data(),CalibratedFile);
+  printf("         OverWrite: %s\n",caliOverWrite.Data());
+  }
+  printf("       Checker:     %s\n",checkProcess.Data());
+  if(checkProcess.BeginsWith("y")){
   if(caliProcess.BeginsWith("n"))
-  printf("       checkSource:       yes file %s\n",CalibratedFile);
+  printf("         Source:    yes file %s\n",CalibratedFile);
   else
-  printf("       checkSource:       yes from unpack\n");
-  printf("       checkStore:        %s file %s\n",checkStore.Data(),CheckedFile);
-  printf("       checkOverWrite:    %s\n",checkOverWrite.Data());
-
-  printf("       analysisProcess:   %s\n",analysisProcess.Data());
+  printf("         Source:    yes from unpack\n");
+  printf("         Store:     %s file %s\n",checkStore.Data(),CheckedFile);
+  printf("         OverWrite: %s\n",checkOverWrite.Data());
+  }
+  printf("       Analyzer:    %s\n",analysisProcess.Data());
+  if(analysisProcess.BeginsWith("y")){
   if(checkProcess.BeginsWith("n"))
-  printf("       analysisSource:    yes file %s\n",CheckedFile);
+  printf("         Source:    yes file %s\n",CheckedFile);
   else
-  printf("       analysisSource:    yes from cali\n");
-  printf("       analysisStore:     %s file %s\n",analysisStore.Data(),AnalyzedFile);
-  printf("       analysisOverWrite: %s\n",analysisOverWrite.Data());
+  printf("         Source:    yes from cali\n");
+  printf("         Store:     %s file %s\n",analysisStore.Data(),AnalyzedFile);
+  printf("         OverWrite: %s\n",analysisOverWrite.Data());
+  }
+  printf("       Splitlevel:  %d\n",SplitLevel);
+  printf("       Buffersize:  %d\n",BufferSize);
+  printf("       Compression: %d\n",Compression);
 
 }

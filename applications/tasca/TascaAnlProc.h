@@ -32,12 +32,28 @@ class TascaAnlProc : public TGo4EventProcessor {
       TascaCheckEvent *fInput;
       TascaControl  *fControl;
       TascaParameter *fParam;
+      TGo4WinCond   *fwinEVR;
+      TGo4WinCond   *fwinAlpha;
+      TGo4WinCond   *fwinFission1;
+      TGo4WinCond   *fwinAlpha1;
+      TGo4WinCond   *fwinAlpha2;
+      TGo4WinCond   *fwinFission2;
+      TGo4WinCond   *fwinBack;
       TascaEventStack *fEventStack;
   	  TListIter *fStackIter;
   	  TListIter *fEventIter;
   	  TascaEvent *fEvent;
+  	  TascaEvent *fFissionEvent;
+  	  TascaEvent *fAlphaEvent;
+  	  TascaEvent *fStackEvent;
       UInt_t i,ii;
-      Bool_t stackfilled;
+      UInt_t fFissions;
+      UInt_t fAlphas;
+      UInt_t fEvrs;
+      UInt_t fFirstEvent;
+      Bool_t fStackfilled;
+      Bool_t fAlphaFound;
+      UInt_t fTimeDiff;
 
    ClassDef(TascaAnlProc,1)
 };

@@ -79,6 +79,7 @@ class TascaUnpackProc : public TGo4EventProcessor {
       UInt_t TimeLastsec;
       UInt_t TimeLastmysec;
       UInt_t TimeLastadc;
+      UInt_t LastEvent;
       UInt_t spillTime0;
       UInt_t spillIndex;
       Int_t spillBins[100];

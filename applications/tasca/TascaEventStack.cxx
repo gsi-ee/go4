@@ -15,6 +15,7 @@ TascaEventStack::TascaEventStack() {}
 TascaEventStack::TascaEventStack(UInt_t slots)
 {
 	entries=slots;
+	used=0;
 	for(UInt_t i=0;i<entries;i++) AddLast(new TascaEvent());
     cout << "Tasca> EventStack: " << entries << " created" << endl;
 }

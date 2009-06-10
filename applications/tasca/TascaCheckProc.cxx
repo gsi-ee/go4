@@ -31,9 +31,9 @@ TascaCheckProc::TascaCheckProc()
 //***********************************************************
 // this one is used in TascaCheckFact
 TascaCheckProc::TascaCheckProc(const char* name) :
-  TGo4EventProcessor(name)
+  TGo4EventProcessor(name),fInput(0),fLastEvent(0)
 {
-  cout << "Tasca> TascaCheckProc: Create" << endl;
+  cout << "Tasca> TascaCheckProc "<<name<<" created" << endl;
   //// init user analysis objects:
 
   Text_t chis[32];
@@ -42,11 +42,11 @@ TascaCheckProc::TascaCheckProc(const char* name) :
   TimeLastgamma=0;
   TimeLastmysec=0;
   TimeLastadc=0;
+  fEvents=0;
   anl=(TascaAnalysis *)TGo4Analysis::Instance();
 
   fControl = (TascaControl *)   anl->CreateParameter("Control","Controls");
   fParam   = (TascaParameter *) anl->CreateParameter("Parameter","Parameters");
-  gROOT->ProcessLine(".x setparam.C()");
   gROOT->ProcessLine(".x setcontrol.C()");
 
   fTime      = anl->CreateTH1I ("Check","Time","Time diff",20000,0,20000000);
@@ -68,28 +68,20 @@ TascaCheckProc::TascaCheckProc(const char* name) :
     fadcKevH = (TGo4WinCond *)anl->CreateCondition("Check","adcKevH",0,kTRUE,0,300000);
     fadcKevL = (TGo4WinCond *)anl->CreateCondition("Check","adcKevL",0,kTRUE,0,30000);
     fgammaKev= (TGo4WinCond *)anl->CreateCondition("Check","gammaKev",0,kTRUE,0,2000);
-    fwinEVR     = (TGo4WinCond *)anl->CreateCondition("Check","EvrH",0,kTRUE,7000,20000);
-    fwinAlpha   = (TGo4WinCond *)anl->CreateCondition("Check","AlphaL",0,kTRUE,9800,10200);
-    fwinAlpha1  = (TGo4WinCond *)anl->CreateCondition("Check","Alpha1L",0,kTRUE,9700,10100);
-    fwinAlpha2  = (TGo4WinCond *)anl->CreateCondition("Check","Alpha2L",0,kTRUE,8970,9370);
-    fwinFission1= (TGo4WinCond *)anl->CreateCondition("Check","Fission1H",0,kTRUE,60000,220000);
-    fwinFission2= (TGo4WinCond *)anl->CreateCondition("Check","Fission2H",0,kTRUE,60000,220000);
-    fwinBack    = (TGo4WinCond *)anl->CreateCondition("Check","BackH",0,kTRUE,10000,80000);
-    fwinEVR->Enable();
-    fwinFission1->Enable();
-    fwinFission2->Enable();
-    fwinBack->Enable();
-    fwinAlpha->Enable();
-    fwinAlpha1->Enable();
-    fwinAlpha2->Enable();
-    fadcKevH->Enable();
-    fadcKevL->Enable();
-    fgammaKev->Enable();
+    fwinEVR     = (TGo4WinCond *)anl->CreateCondition("Check","EvrH",0,kTRUE,0,1);
+    fwinAlpha   = (TGo4WinCond *)anl->CreateCondition("Check","AlphaL",0,kTRUE,0,1);
+    fwinAlpha1  = (TGo4WinCond *)anl->CreateCondition("Check","Alpha1L",0,kTRUE,0,1);
+    fwinAlpha2  = (TGo4WinCond *)anl->CreateCondition("Check","Alpha2L",0,kTRUE,0,1);
+    fwinFission1= (TGo4WinCond *)anl->CreateCondition("Check","Fission1H",0,kTRUE,0,1);
+    fwinFission2= (TGo4WinCond *)anl->CreateCondition("Check","Fission2H",0,kTRUE,0,1);
+    fwinBack    = (TGo4WinCond *)anl->CreateCondition("Check","BackH",0,kTRUE,0,1);
+    gROOT->ProcessLine(".x setparam.C()");
   }
 //***********************************************************
 TascaCheckProc::~TascaCheckProc()
 {
-	  cout << "Tasca> TascaCheckProc: Delete" << endl;
+	  cout << "Tasca> TascaCheckProc: Delete, events written: " <<fEvents<<
+	  ", last "<<fLastEvent<<endl;
 }
 //***********************************************************
 
@@ -97,7 +89,13 @@ TascaCheckProc::~TascaCheckProc()
 void TascaCheckProc::TascaEventCheck(TascaCheckEvent* poutevt)
 {
 Bool_t takeEvent=kFALSE;
+poutevt->SetValid(takeEvent);       // events are not stored until kTRUE is set
 fInput  = (TascaCaliEvent*) GetInputEvent();
+if(fLastEvent==0)
+	  cout <<"      Checker: First event "<<fInput->fiEventNumber<<endl;
+fLastEvent=fInput->fiEventNumber;
+// Process only if event is valid
+if(!fInput->IsValid()) return;
 
 if(fControl->CheckHisto){
 	Bool_t YH=fadcKevH->Test(fInput->ffStopYHhitV);
@@ -133,7 +131,6 @@ if(fInput->fisTof){
 		poutevt->fisFission=kTRUE;
 	}
 }
-poutevt->SetValid(kFALSE);       // events are not stored until kTRUE is set
 if(takeEvent){
 	poutevt->fisTof=fInput->fisTof;
 	poutevt->fisChopper=fInput->fisChopper;
@@ -157,6 +154,7 @@ if(takeEvent){
 	poutevt->fiMultiBackL=fInput->fiMultiBackL;
 	poutevt->fiMultiVetoH=fInput->fiMultiVetoH;
 	poutevt->fiMultiVetoL=fInput->fiMultiVetoL;
+	poutevt->fiMultiGamma=fInput->fiMultiGamma;
 	// value of maximum hit, if we had more than one hit
 	poutevt->ffStopXLhitV=fInput->ffStopXLhitV;
 	poutevt->ffStopXHhitV=fInput->ffStopXHhitV;
@@ -172,21 +170,24 @@ if(takeEvent){
 	for(Int_t i=0;i<7;i++){
 		poutevt->ffGammaKev[i]   = fInput->ffGammaKev[i];
 	}
+	poutevt->ffGammaSum   = fInput->ffGammaSum;
+	poutevt->ffGammaMax   = fInput->ffGammaMax;
 // Calculate incremental time
 	if(fInput->fiTimeStamp<TimeLastadc)
 		 poutevt->fiDeltaTime=0xFFFFFFFF-TimeLastadc+fInput->fiTimeStamp+1;
 	else poutevt->fiDeltaTime=fInput->fiTimeStamp-TimeLastadc;
 	TimeLastadc=fInput->fiTimeStamp;
-	if(poutevt->fiSystemMysec<TimeLastmysec)
-		 poutevt->fiDeltaSystemTime=0xFFFFFFFF-TimeLastmysec+poutevt->fiSystemMysec+1;
-	else poutevt->fiDeltaSystemTime=poutevt->fiSystemMysec-TimeLastmysec;
-	TimeLastmysec=poutevt->fiSystemMysec;
-	if(poutevt->fiGammaMysec<TimeLastgamma)
-		 poutevt->fiDeltaGammaTime=0xFFFFFFFF-TimeLastgamma+poutevt->fiGammaMysec+1;
-	else poutevt->fiDeltaGammaTime=poutevt->fiGammaMysec-TimeLastgamma;
-	TimeLastgamma=poutevt->fiGammaMysec;
+	if(fInput->fiSystemMysec<TimeLastmysec)
+		 poutevt->fiDeltaSystemTime=0xFFFFFFFF-TimeLastmysec+fInput->fiSystemMysec+1;
+	else poutevt->fiDeltaSystemTime=fInput->fiSystemMysec-TimeLastmysec;
+	TimeLastmysec=fInput->fiSystemMysec;
+	if(fInput->fiGammaMysec<TimeLastgamma)
+		 poutevt->fiDeltaGammaTime=0xFFFFFFFF-TimeLastgamma+fInput->fiGammaMysec+1;
+	else poutevt->fiDeltaGammaTime=fInput->fiGammaMysec-TimeLastgamma;
+	TimeLastgamma=fInput->fiGammaMysec;
 	fTime->Fill(poutevt->fiDeltaTime);
 	poutevt->SetValid(kTRUE);       // events are not stored until kTRUE is set
+	fEvents++;
 }
 return;
 } // BuildCalEvent
