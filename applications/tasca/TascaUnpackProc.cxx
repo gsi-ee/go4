@@ -147,6 +147,8 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   fMultiBackH = anl->CreateTH1I ("Unpack","MultiBackH","Back H multiplicity",64,0,64);
   fMultiVetoL = anl->CreateTH1I ("Unpack","MultiVetoL","Veto L multiplicity",16,0,16);
   fMultiVetoH = anl->CreateTH1I ("Unpack","MultiVetoH","Veto H multiplicity",16,0,16);
+  fTof = anl->CreateTH1I ("Unpack","Tof","Adc[80]",1000,0,4000);
+  fTofgated = anl->CreateTH1I ("Unpack","Tofg","Adc[80] gated with TOF",1000,0,4000);
   // test spectrum
 //	fTest      = anl->CreateTH1I (0,"Gaussians","Gauss",4000,0.5,4000.5);
 //	  gRandom->SetSeed(0);
@@ -390,7 +392,7 @@ if(fControl->UnpackHisto){
 for(i=0;i<96;i++) fAdc[i]->Fill(pUnpackEvent->fiAdc[i]);
 }
 pUnpackEvent->SetValid(takeEvent); // to store
-
+pUnpackEvent->fisTof=pUnpackEvent->fiAdc[80]>300;
 // now fill the detector arrays. Low is even, high is odd index in fiAdc
 // StopX
 multiL=0;

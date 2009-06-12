@@ -22,7 +22,7 @@ void setup(Text_t* AutoSaveFile,
   TString unpackOverWrite("yes");
 
   TString caliProcess("no");
-  TString caliStore("no");
+  TString caliStore("yes");
   TString caliOverWrite("yes");
 
   TString checkProcess("no");

@@ -71,7 +71,7 @@ TascaAnlProc::~TascaAnlProc()
 }
 //***********************************************************
 void TascaAnlProc::PrintFission(Bool_t store){
-printf("Fission %3d: %8d  MevH:%6.2f L: %6.2f Back H: %6.2f L: %6.2f X %3d Y %3d\n",
+printf("Fission %3d: %9d  MevH:%6.2f L: %6.2f Back H: %6.2f L: %6.2f X %3d Y %3d\n",
 		fFissions,
 		fFissionEvent->fiEventNumber,
 		fFissionEvent->ffStopXHhitV/1000.,
@@ -98,8 +98,8 @@ printf("    Evr   %8d MevH: %6.2f toFission [s] %7.3f                  X %3d Y %
 		fFissionEvent->fiEventNumber-fStackEvent->fiEventNumber,
 		fStackEvent->ffStopXHhitV/1000.,
 		(Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.,
-		fStackEvent->fiStopXLhitI,
-		fStackEvent->fiStopYLhitI
+		fStackEvent->fiStopXHhitI,
+		fStackEvent->fiStopYHhitI
 );
 return;
 }
@@ -128,49 +128,53 @@ if(fInput->fisFission){
 	fFissionEvent=fEvent; // keep that as end point
 	fStackEvent=fEvent;  // to step back
 	fTimeDiff=fFissionEvent->fiDeltaTime;
+    	//printf("=============================\n");
 	//PrintFission(kFALSE);
 	while((fStackEvent=(TascaEvent *) fEventStack->Before(fStackEvent))!=0){
 		if(fTimeDiff <= fParam->Fission1Tmax){ // in alpha time window
 		  if(fStackEvent->fisAlpha
 		     &(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXLhitI)
-//		     (fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYLhitI)
-		     )
-		  {
+		     &(fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYLhitI)
+		     ){
 			//PrintAlpha(kFALSE);
 			fAlphaFound=kTRUE;
 		}} // fission in time
 		if(fTimeDiff > (fParam->Fission1Tmax+fParam->AlphaTmax))break; // out of time window
 		if(fStackEvent->fisEvr
 		   &(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXHhitI)
-//		   (fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYHhitI)
-		   )
-			{
+		   &(fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYHhitI)
+		   ){
 			fEvrFound=kTRUE;
 			//PrintEvr(kFALSE);
-			}
+		}
 		fTimeDiff += fStackEvent->fiDeltaTime;
 	} // while back loop
 	//' We go now from here forward up to fission to print correct order
 	fTimeDiff=0;
-	if((fEvrFound|fAlphaFound)&(fStackEvent !=0)){
-    printf("=============================\n");
-	while((fStackEvent=(TascaEvent *) fEventStack->After(fStackEvent))!=fFissionEvent){
+	if((fEvrFound|fAlphaFound)){
+	if(fStackEvent==0)fStackEvent=(TascaEvent *) fEventStack->First();
+    	printf("%7.3f sec =============================\n",
+		(Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.);
+	fAlphaFound=kFALSE;
+	fEvrFound=kFALSE;
+	while(fStackEvent!=fFissionEvent){
 		if(fStackEvent->fisEvr
 		   &(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXHhitI)
-//		   (fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYHhitI)
-		   )
-			{
+		   &(fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYHhitI)
+		   ){
+			fEvrFound=kTRUE;
 			PrintEvr(kFALSE);
-			}
-		  if(fStackEvent->fisAlpha
+		}
+		if(fStackEvent->fisAlpha
 		     &(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXLhitI)
-//		     (fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYLhitI)
-		     )
-		  {
+		     &(fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYLhitI)
+		   ){
+			fAlphaFound=kTRUE;
 			PrintAlpha(kFALSE);
 		} // fission in time
+		fStackEvent=(TascaEvent *) fEventStack->After(fStackEvent);
 	} // second while loop forward
-	}
+	} // found Alpha or Evr
 	if(fEvrFound|fAlphaFound) PrintFission(kFALSE);
 	fEventStack->used=0;
 	fEvent=(TascaEvent *) fEventStack->First();
