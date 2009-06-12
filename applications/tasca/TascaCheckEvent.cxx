@@ -6,6 +6,7 @@
 //---------------------------------------------
 
 #include "TascaCheckEvent.h"
+#include "TascaEvent.h"
 
 #include "Riostream.h"
 
@@ -59,4 +60,43 @@ Int_t TascaCheckEvent::Fill()
    if(fxTascaFS)fxTascaFS->BuildEvent(this); // method from framework to restore event from file
    return rev;
 
+}
+//-----------------------------------------------------------
+void TascaCheckEvent::CopyTo(TascaEvent *pp){
+	pp->fisTof=fisTof;
+	pp->fisChopper=fisChopper;
+	pp->fisMicro=fisMicro;
+	pp->fisMacro=fisMacro;
+	pp->fisEvr=fisEvr;
+	pp->fisAlpha=fisAlpha;
+	pp->fisFission=fisFission;
+	pp->fiEventNumber=fiEventNumber;
+
+	pp->fiStopXLhitI=fiStopXLhitI;
+	pp->fiStopXHhitI=fiStopXHhitI;
+	pp->fiStopYLhitI=fiStopYLhitI;
+	pp->fiStopYHhitI=fiStopYHhitI;
+	pp->fiBackHhitI=fiBackHhitI;
+	pp->fiBackLhitI=fiBackLhitI;
+	pp->fiVetoHhitI=fiVetoHhitI;
+	pp->fiVetoLhitI=fiVetoLhitI;
+	// value of maximum hit, if we had more than one hit
+	pp->ffStopXLhitV=ffStopXLhitV;
+	pp->ffStopXHhitV=ffStopXHhitV;
+	pp->ffStopYLhitV=ffStopYLhitV;
+	pp->ffStopYHhitV=ffStopYHhitV;
+	pp->ffBackHhitV =ffBackHhitV;
+	pp->ffBackLhitV =ffBackLhitV;
+	pp->ffVetoHhitV =ffVetoHhitV;
+	pp->ffVetoLhitV =ffVetoLhitV;
+	pp->fiDeltaSystemTime=fiDeltaSystemTime;
+	pp->fiDeltaGammaTime=fiDeltaGammaTime;
+	pp->fiDeltaTime=fiDeltaTime;
+	pp->ffGammaMax=ffGammaMax;
+	pp->ffGammaSum=ffGammaSum;
+
+	pp->fiTimeStamp=fiTimeStamp;
+	pp->fiSystemMysec=fiSystemMysec;
+	pp->fiGammaMysec=fiGammaMysec;
+  return;
 }

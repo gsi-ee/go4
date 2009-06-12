@@ -53,14 +53,14 @@ class TascaCaliEvent : public TGo4EventElement {
       UInt_t fiSystemMysec;
       UInt_t fiTimeStamp;
       UInt_t fiGammaMysec;
-      Float_t ffStopXL[144]; //! dont store
-      Float_t ffStopXH[144]; //! dont store
-      Float_t ffStopYL[96];  //! dont store
-      Float_t ffStopYH[96]; //! dont store
-      Float_t ffBackH[64];  //! dont store
-      Float_t ffBackL[64]; //! dont store
-      Float_t ffVetoH[16]; //! dont store
-      Float_t ffVetoL[16]; //! dont store
+//      Float_t ffStopXL[144]; //! dont store
+//      Float_t ffStopXH[144]; //! dont store
+//      Float_t ffStopYL[96];  //! dont store
+//      Float_t ffStopYH[96]; //! dont store
+//      Float_t ffBackH[64];  //! dont store
+//      Float_t ffBackL[64]; //! dont store
+//      Float_t ffVetoH[16]; //! dont store
+//      Float_t ffVetoL[16]; //! dont store
       Float_t ffGammaKev[7];
       Float_t ffGammaMax;
       Float_t ffGammaSum;
@@ -73,15 +73,15 @@ class TascaCaliEvent : public TGo4EventElement {
       UInt_t fiBackLhitI;
       UInt_t fiVetoHhitI;
       UInt_t fiVetoLhitI;
-      UInt_t fiMultiStopXL;
-      UInt_t fiMultiStopXH;
-      UInt_t fiMultiStopYL;
-      UInt_t fiMultiStopYH;
-      UInt_t fiMultiBackH;
-      UInt_t fiMultiBackL;
-      UInt_t fiMultiVetoH;
-      UInt_t fiMultiVetoL;
-      UInt_t fiMultiGamma;
+//      UInt_t fiMultiStopXL;
+//      UInt_t fiMultiStopXH;
+//      UInt_t fiMultiStopYL;
+//      UInt_t fiMultiStopYH;
+//      UInt_t fiMultiBackH;
+//      UInt_t fiMultiBackL;
+//      UInt_t fiMultiVetoH;
+//      UInt_t fiMultiVetoL;
+//      UInt_t fiMultiGamma;
       // value of maximum hit, if we had more than one hit
       Float_t ffStopXLhitV;
       Float_t ffStopXHhitV;

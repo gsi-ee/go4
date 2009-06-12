@@ -84,6 +84,16 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   TimeLastmysec=0;
   TimeLastadc=0;
   LastEvent=0;
+  for(i=0;i<5;i++){
+   StopXLcross[5]=0.;
+   StopXHcross[5]=0.;
+   StopYLcross[5]=0.;
+   StopYHcross[5]=0.;
+   BackLcross[5]=0.;
+   BackHcross[5]=0.;
+   VetoLcross[5]=0.;
+   VetoHcross[5]=0.;
+   }
 
 // Creation of histograms:
 // The anl function gets the histogram or creates it
@@ -215,19 +225,11 @@ for(i =0;i<96;i++){
 void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
 {
   TGo4MbsSubEvent* psubevt;
-  UInt_t crate, address, channels, header, off;
-  UInt_t lwords, multiL, multiH, low=100;
-  UInt_t *pdata,*pbehind,*psubevent;
-  UInt_t latches=0;
-  UInt_t adcs=0;
-  UInt_t patt0,patt1,patt2,patt3;
-  UInt_t timestamp,lat0,lat1,lat2,lat3;
-  UInt_t  iStopXLhits=0,iStopXHhits=0,
-		  iStopYLhits=0,iStopYHhits=0,
-		  iBackLhits=0,iBackHhits=0,
-		  iVetoLhits=0,iVetoHhits=0;
-  UInt_t timediff;
-  Bool_t takeEvent=kFALSE;
+  UInt_t H,L;
+  low=100;
+  takeEvent=kFALSE;
+  latches=1;
+  adcs=0;
   pUnpackEvent=pUP;
   pUnpackEvent->SetValid(kFALSE);
   fInput    = (TGo4MbsEvent* ) GetInputEvent(); // from this
@@ -291,6 +293,7 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   if(LastEvent+1 != pUnpackEvent->fiEventNumber)
 	  cout <<"      Last event "<<LastEvent<<", this "<<pUnpackEvent->fiEventNumber<<endl;
   LastEvent= pUnpackEvent->fiEventNumber;
+ // cout <<"Unp: "<<pUnpackEvent->fiEventNumber<< endl;
   if(timestamp<TimeLastadc) timediff=0xFFFFFFFF-TimeLastadc+timestamp+1;
   else                      timediff=timestamp-TimeLastadc;
   TimeLastadc=timestamp;
@@ -389,80 +392,62 @@ for(i=0;i<96;i++) fAdc[i]->Fill(pUnpackEvent->fiAdc[i]);
 pUnpackEvent->SetValid(takeEvent); // to store
 
 // now fill the detector arrays. Low is even, high is odd index in fiAdc
-// StopY
-multiL=0;
-multiH=0;
-for(i=0;i<codec->getStopYnoAdc();i++){
-	k=codec->getStopYAdc(i); // ADC channel index, low or high
-	n=codec->getIndex(k);    // from that get stripe index
-	if(pUnpackEvent->fiAdc[2*k]>low){
-		multiL++;
-		if(iStopYLhits<4){
-		pUnpackEvent->fiStopYLhits[iStopYLhits]=n;
-		iStopYLhits++;
-		if(pUnpackEvent->fiAdc[2*k]>pUnpackEvent->fiStopYLhitV){
-			pUnpackEvent->fiStopYLhitV=pUnpackEvent->fiAdc[2*k];
-			pUnpackEvent->fiStopYLhitI=n;
-		}
-	}}
-	if(pUnpackEvent->fiAdc[2*k+1]>low){
-		multiH++;
-		if(iStopYHhits<4){
-		pUnpackEvent->fiStopYHhits[iStopYHhits]=n;
-		iStopYHhits++;
-		if(pUnpackEvent->fiAdc[2*k+1]>pUnpackEvent->fiStopYHhitV){
-			pUnpackEvent->fiStopYHhitV=pUnpackEvent->fiAdc[2*k+1];
-			pUnpackEvent->fiStopYHhitI=n;
-		}
-	}}
-	pUnpackEvent->fiStopYL[n]=pUnpackEvent->fiAdc[2*k];
-	pUnpackEvent->fiStopYH[n]=pUnpackEvent->fiAdc[2*k+1];
-}//StopY
-fMultiStopYL->Fill(multiL);
-fMultiStopYH->Fill(multiH);
-pUnpackEvent->fiMultiStopYL=multiL;
-pUnpackEvent->fiMultiStopYH=multiH;
-//printf("YHi %d ",pUnpackEvent->fiStopYHhitI);
 // StopX
 multiL=0;
 multiH=0;
 for(i=0;i<codec->getStopXnoAdc();i++){
 	k=codec->getStopXAdc(i); // ADC channel index, low or high
 	n=codec->getIndex(k);    // from that get stripe index
-	//cout << "k " << k << " n " << n << " adc "<< pUnpackEvent->fiAdc[2*k+1]<<endl;
-	if(pUnpackEvent->fiAdc[2*k]>low){
+	//cout << "k " << k << " n " << n << " adc "<< H<<endl;
+	L=pUnpackEvent->fiAdc[2*k];
+	if(L>low){
 		multiL++;
-		if(iStopXLhits<4){
-		pUnpackEvent->fiStopXLhits[iStopXLhits]=n;
-		iStopXLhits++;
-		if(pUnpackEvent->fiAdc[2*k]>pUnpackEvent->fiStopXLhitV){
-			pUnpackEvent->fiStopXLhitV=pUnpackEvent->fiAdc[2*k];
+		if(L>pUnpackEvent->fiStopXLhitV){
+			pUnpackEvent->fiStopXLhitV=L;
 			pUnpackEvent->fiStopXLhitI=n;
 		}
-	}}
-	if(pUnpackEvent->fiAdc[2*k+1]>low){
+	}
+	H=pUnpackEvent->fiAdc[2*k+1];
+	if(H>low){
 		multiH++;
-		if(iStopXHhits<4){
-		pUnpackEvent->fiStopXHhits[iStopXHhits]=n;
-		iStopXHhits++;
-		if(pUnpackEvent->fiAdc[2*k+1]>pUnpackEvent->fiStopXHhitV){
-			pUnpackEvent->fiStopXHhitV=pUnpackEvent->fiAdc[2*k+1];
+		if(H>pUnpackEvent->fiStopXHhitV){
+			pUnpackEvent->fiStopXHhitV=H;
 			pUnpackEvent->fiStopXHhitI=n;
 			//printf("n %d adc %d\n",pUnpackEvent->fiStopXHhitI,pUnpackEvent->fiStopXHhitV);
 		}
-	}}
-	pUnpackEvent->fiStopXL[n]=pUnpackEvent->fiAdc[2*k];
-	pUnpackEvent->fiStopXH[n]=pUnpackEvent->fiAdc[2*k+1];
+	}
+	pUnpackEvent->fiStopXL[n]=L;
+	pUnpackEvent->fiStopXH[n]=H;
 }//StopX
-fMultiStopXL->Fill(multiL);
-fMultiStopXH->Fill(multiH);
 pUnpackEvent->fiMultiStopXL=multiL;
 pUnpackEvent->fiMultiStopXH=multiH;
-//  printf("xi %4d xv %4d yi %4d yv %4d\n",
-// 	pUnpackEvent->fiStopXHhitI,
-// 	pUnpackEvent->fiStopXHhitV,
-// 	pUnpackEvent->fiStopYHhitI,
-// 	pUnpackEvent->fiStopYHhitV);
+// StopY
+multiL=0;
+multiH=0;
+for(i=0;i<codec->getStopYnoAdc();i++){
+	k=codec->getStopYAdc(i); // ADC channel index, low or high
+	n=codec->getIndex(k);    // from that get stripe index
+	L=pUnpackEvent->fiAdc[2*k];
+	if(L>low){
+		multiL++;
+		if(L>pUnpackEvent->fiStopYLhitV){
+			pUnpackEvent->fiStopYLhitV=L;
+			pUnpackEvent->fiStopYLhitI=n;
+		}
+	}
+	H=pUnpackEvent->fiAdc[2*k+1];
+	if(H>low){
+		multiH++;
+		if(H>pUnpackEvent->fiStopYHhitV){
+			pUnpackEvent->fiStopYHhitV=H;
+			pUnpackEvent->fiStopYHhitI=n;
+		}
+	}
+	pUnpackEvent->fiStopYL[n]=L;
+	pUnpackEvent->fiStopYH[n]=H;
+}//StopY
+pUnpackEvent->fiMultiStopYL=multiL;
+pUnpackEvent->fiMultiStopYH=multiH;
 
 // Back
 multiL=0;
@@ -470,31 +455,25 @@ multiH=0;
 for(i=0;i<codec->getBacknoAdc();i++){
 	k=codec->getBackAdc(i); // ADC channel index, low or high
 	n=codec->getIndex(k);    // from that get stripe index
-	if(pUnpackEvent->fiAdc[2*k]>0){
+	L=pUnpackEvent->fiAdc[2*k];
+	if(L>0){
 		multiL++;
-		if(iBackLhits<4){
-		pUnpackEvent->fiBackLhits[iBackLhits]=n;
-		iBackLhits++;
-		if(pUnpackEvent->fiAdc[2*k]>pUnpackEvent->fiBackLhitV){
-			pUnpackEvent->fiBackLhitV=pUnpackEvent->fiAdc[2*k];
+		if(L>pUnpackEvent->fiBackLhitV){
+			pUnpackEvent->fiBackLhitV=L;
 			pUnpackEvent->fiBackLhitI=n;
 		}
-	}}
-	if(pUnpackEvent->fiAdc[2*k+1]>0){
+	}
+	H=pUnpackEvent->fiAdc[2*k+1];
+	if(H>0){
 		multiH++;
-		if(iBackHhits<4){
-		pUnpackEvent->fiBackHhits[iBackHhits]=n;
-		iBackHhits++;
-		if(pUnpackEvent->fiAdc[2*k+1]>pUnpackEvent->fiBackHhitV){
-			pUnpackEvent->fiBackHhitV=pUnpackEvent->fiAdc[2*k+1];
+		if(H>pUnpackEvent->fiBackHhitV){
+			pUnpackEvent->fiBackHhitV=H;
 			pUnpackEvent->fiBackHhitI=n;
 		}
-	}}
-	pUnpackEvent->fiBackL[n]=pUnpackEvent->fiAdc[2*k];
-	pUnpackEvent->fiBackH[n]=pUnpackEvent->fiAdc[2*k+1];
+	}
+	pUnpackEvent->fiBackL[n]=L;
+	pUnpackEvent->fiBackH[n]=H;
 }// Back
-fMultiBackL->Fill(multiL);
-fMultiBackH->Fill(multiH);
 pUnpackEvent->fiMultiBackL=multiL;
 pUnpackEvent->fiMultiBackH=multiH;
 // Veto
@@ -503,35 +482,28 @@ multiH=0;
 for(i=0;i<codec->getVetonoAdc();i++){
 	k=codec->getVetoAdc(i); // ADC channel index, low or high
 	n=codec->getIndex(k);    // from that get stripe index
-	if(pUnpackEvent->fiAdc[2*k]>0){
+	L=pUnpackEvent->fiAdc[2*k];
+	if(L>0){
 		multiL++;
-		if(iVetoLhits<4){
-		pUnpackEvent->fiVetoLhits[iVetoLhits]=n;
-		iVetoLhits++;
-		if(pUnpackEvent->fiAdc[2*k]>pUnpackEvent->fiVetoLhitV){
-			pUnpackEvent->fiVetoLhitV=pUnpackEvent->fiAdc[2*k];
+		if(L>pUnpackEvent->fiVetoLhitV){
+			pUnpackEvent->fiVetoLhitV=L;
 			pUnpackEvent->fiVetoLhitI=n;
 		}
-	}}
-	if(pUnpackEvent->fiAdc[2*k+1]>0){
+	}
+	H=pUnpackEvent->fiAdc[2*k+1];
+	if(H>0){
 		multiH++;
-		if(iVetoHhits<4){
-		pUnpackEvent->fiVetoHhits[iVetoHhits]=n;
-		iVetoHhits++;
-		if(pUnpackEvent->fiAdc[2*k+1]>pUnpackEvent->fiVetoHhitV){
-			pUnpackEvent->fiVetoHhitV=pUnpackEvent->fiAdc[2*k+1];
+		if(H>pUnpackEvent->fiVetoHhitV){
+			pUnpackEvent->fiVetoHhitV=H;
 			pUnpackEvent->fiVetoHhitI=n;
 		}
-	}}
-	pUnpackEvent->fiVetoL[n]=pUnpackEvent->fiAdc[2*k];
-	pUnpackEvent->fiVetoH[n]=pUnpackEvent->fiAdc[2*k+1];
+	}
+	pUnpackEvent->fiVetoL[n]=L;
+	pUnpackEvent->fiVetoH[n]=H;
 }//Veto
-fMultiVetoL->Fill(multiL);
-fMultiVetoH->Fill(multiH);
 pUnpackEvent->fiMultiVetoL=multiL;
 pUnpackEvent->fiMultiVetoH=multiH;
 pUnpackEvent->fisVeto=(multiL>0);
-fMultiAdc->Fill(pUnpackEvent->fiMultiAdc);
 }// V785 ADCs
 if(pdata-psubevent) fSizeA->Fill(pdata-psubevent);
 // follows Sis3302

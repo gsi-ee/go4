@@ -22,7 +22,7 @@ void setup(Text_t* AutoSaveFile,
   TString unpackOverWrite("yes");
 
   TString caliProcess("no");
-  TString caliStore("yes");
+  TString caliStore("no");
   TString caliOverWrite("yes");
 
   TString checkProcess("no");
@@ -37,7 +37,7 @@ void setup(Text_t* AutoSaveFile,
   UInt_t BufferSize=100000;
   UInt_t Compression=3;
 
-  TString autosave("no");
+  TString autosave("yes");
   Int_t autosaveinterval=0; // after n seconds, 0 = at termination of event loop
 //--------------------------------------------
 
@@ -105,7 +105,7 @@ void setup(Text_t* AutoSaveFile,
   if(go4->IsAutoSaveOn()){
 	  if(autosaveinterval==0)
 		  printf("       Autosave:    %s once file %s\n",autosave.Data(),AutoSaveFile);
-	  elsA
+	  else
 		  printf("       autosave:    %s every %ds file %s\n",autosave.Data(),autosaveinterval,AutoSaveFile);
   } else
   printf("       Autosave:    off\n");

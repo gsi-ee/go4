@@ -267,6 +267,7 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   poutevt->SetValid(kFALSE); // not to store
   fInput    = (TascaUnpackEvent* ) GetInputEvent(); // from this
   // Process only if event is valid
+  //cout <<"Cal: "<<fInput->fiEventNumber<< endl;
   if(!fInput->IsValid()) return;
   if(fInput->fisVeto) return;
 
@@ -286,15 +287,15 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   poutevt->fiBackLhitI=fInput->fiBackLhitI;
   poutevt->fiVetoHhitI=fInput->fiVetoHhitI;
   poutevt->fiVetoLhitI=fInput->fiVetoLhitI;
-  poutevt->fiMultiStopXL=fInput->fiMultiStopXL;
-  poutevt->fiMultiStopXH=fInput->fiMultiStopXH;
-  poutevt->fiMultiStopYL=fInput->fiMultiStopYL;
-  poutevt->fiMultiStopYH=fInput->fiMultiStopYH;
-  poutevt->fiMultiBackH=fInput->fiMultiBackH;
-  poutevt->fiMultiBackL=fInput->fiMultiBackL;
-  poutevt->fiMultiVetoH=fInput->fiMultiVetoH;
-  poutevt->fiMultiVetoL=fInput->fiMultiVetoL;
-  poutevt->fiMultiGamma=fInput->fiMultiGamma;
+//  poutevt->fiMultiStopXL=fInput->fiMultiStopXL;
+//  poutevt->fiMultiStopXH=fInput->fiMultiStopXH;
+//  poutevt->fiMultiStopYL=fInput->fiMultiStopYL;
+//  poutevt->fiMultiStopYH=fInput->fiMultiStopYH;
+//  poutevt->fiMultiBackH=fInput->fiMultiBackH;
+//  poutevt->fiMultiBackL=fInput->fiMultiBackL;
+//  poutevt->fiMultiVetoH=fInput->fiMultiVetoH;
+//  poutevt->fiMultiVetoL=fInput->fiMultiVetoL;
+//  poutevt->fiMultiGamma=fInput->fiMultiGamma;
   // value of maximum hit, if we had more than one hit
   poutevt->ffStopXLhitV=fCalibration->CalibrateStopXL(fInput->fiStopXLhitV,fInput->fiStopXLhitI);
   poutevt->ffStopXHhitV=fCalibration->CalibrateStopXH(fInput->fiStopXHhitV,fInput->fiStopXHhitI);
@@ -311,22 +312,22 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   poutevt->fiTimeStamp=fInput->fiTimeStamp;
   poutevt->fiSystemMysec=fInput->fiSystemMysec;
   poutevt->fiGammaMysec = fCalibration->CalibrateGammaT(fInput->fiGammaTime);
-  for(i=0;i<144;i++){
-	  poutevt->ffStopXL[i]=fCalibration->CalibrateStopXL(fInput->fiStopXL[i],i);
-	  poutevt->ffStopXH[i]=fCalibration->CalibrateStopXH(fInput->fiStopXH[i],i);
-  }
-  for(i=0;i<96;i++){
-	  poutevt->ffStopYL[i]=fCalibration->CalibrateStopYL(fInput->fiStopYL[i],i);
-	  poutevt->ffStopYH[i]=fCalibration->CalibrateStopYH(fInput->fiStopYH[i],i);
-  }
-  for(i=0;i<64;i++){
-	  poutevt->ffBackL[i]=fCalibration->CalibrateBackL(fInput->fiBackL[i],i);
-	  poutevt->ffBackH[i]=fCalibration->CalibrateBackH(fInput->fiBackH[i],i);
-  }
-  for(i=0;i<16;i++){
-	  poutevt->ffVetoL[i]=fCalibration->CalibrateVetoL(fInput->fiVetoL[i],i);
-	  poutevt->ffVetoH[i]=fCalibration->CalibrateVetoH(fInput->fiVetoH[i],i);
-  }
+//  for(i=0;i<144;i++){
+//	  poutevt->ffStopXL[i]=fCalibration->CalibrateStopXL(fInput->fiStopXL[i],i);
+//	  poutevt->ffStopXH[i]=fCalibration->CalibrateStopXH(fInput->fiStopXH[i],i);
+//  }
+//  for(i=0;i<96;i++){
+//	  poutevt->ffStopYL[i]=fCalibration->CalibrateStopYL(fInput->fiStopYL[i],i);
+//	  poutevt->ffStopYH[i]=fCalibration->CalibrateStopYH(fInput->fiStopYH[i],i);
+//  }
+//  for(i=0;i<64;i++){
+//	  poutevt->ffBackL[i]=fCalibration->CalibrateBackL(fInput->fiBackL[i],i);
+//	  poutevt->ffBackH[i]=fCalibration->CalibrateBackH(fInput->fiBackH[i],i);
+//  }
+//  for(i=0;i<16;i++){
+//	  poutevt->ffVetoL[i]=fCalibration->CalibrateVetoL(fInput->fiVetoL[i],i);
+//	  poutevt->ffVetoH[i]=fCalibration->CalibrateVetoH(fInput->fiVetoH[i],i);
+//  }
   poutevt->ffGammaMax=0.;
   poutevt->ffGammaSum=0.;
   for(i=0;i<7;i++){
@@ -340,38 +341,38 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   if(fControl->CaliHisto){
 	  fhStopXLH->Fill(poutevt->ffStopXLhitV,poutevt->ffStopXHhitV);
 	  fhStopYLH->Fill(poutevt->ffStopYLhitV,poutevt->ffStopYHhitV);
-  for(i=0;i<144;i++){
-          if(fadcKevL->Test(poutevt->ffStopXL[i]))fhdStopXL->Fill(i);
-	  if(fadcKevH->Test(poutevt->ffStopXH[i]))fhdStopXH->Fill(i);
-	  fhStopXL[i]->Fill(poutevt->ffStopXL[i]);
-	  fhStopXH[i]->Fill(poutevt->ffStopXH[i]);
-	  fhdStopXLsum->Fill(poutevt->ffStopXL[i]);
-	  fhdStopXHsum->Fill(poutevt->ffStopXH[i]);
-  }
-  for(i=0;i<96;i++){
-          if(fadcKevL->Test(poutevt->ffStopYL[i]))fhdStopYL->Fill(i);
-	  if(fadcKevH->Test(poutevt->ffStopYH[i]))fhdStopYH->Fill(i);
-	  fhStopYL[i]->Fill(poutevt->ffStopYL[i]);
-	  fhStopYH[i]->Fill(poutevt->ffStopYH[i]);
-	  fhdStopYLsum->Fill(poutevt->ffStopYL[i]);
-	  fhdStopYHsum->Fill(poutevt->ffStopYH[i]);
-  }
-  for(i=0;i<64;i++){
-	  if(fInput->fiBackL[i]>0)fhdBackL->Fill(i);
-	  if(fInput->fiBackH[i]>0)fhdBackH->Fill(i);
-	  fhBackL[i]->Fill(poutevt->ffBackL[i]);
-	  fhBackH[i]->Fill(poutevt->ffBackH[i]);
-	  fhdBackLsum->Fill(poutevt->ffBackL[i]);
-	  fhdBackHsum->Fill(poutevt->ffBackH[i]);
- }
-  for(i=0;i<16;i++){
-	  if(fInput->fiVetoL[i]>0)fhdVetoL->Fill(i);
-	  if(fInput->fiVetoH[i]>0)fhdVetoH->Fill(i);
-	  fhVetoL[i]->Fill(poutevt->ffVetoL[i]);
-	  fhVetoH[i]->Fill(poutevt->ffVetoH[i]);
-	  fhdVetoLsum->Fill(poutevt->ffVetoL[i]);
-	  fhdVetoHsum->Fill(poutevt->ffVetoH[i]);
-  }
+//  for(i=0;i<144;i++){
+//          if(fadcKevL->Test(poutevt->ffStopXL[i]))fhdStopXL->Fill(i);
+//	  if(fadcKevH->Test(poutevt->ffStopXH[i]))fhdStopXH->Fill(i);
+//	  fhStopXL[i]->Fill(poutevt->ffStopXL[i]);
+//	  fhStopXH[i]->Fill(poutevt->ffStopXH[i]);
+//	  fhdStopXLsum->Fill(poutevt->ffStopXL[i]);
+//	  fhdStopXHsum->Fill(poutevt->ffStopXH[i]);
+//  }
+//  for(i=0;i<96;i++){
+//          if(fadcKevL->Test(poutevt->ffStopYL[i]))fhdStopYL->Fill(i);
+//	  if(fadcKevH->Test(poutevt->ffStopYH[i]))fhdStopYH->Fill(i);
+//	  fhStopYL[i]->Fill(poutevt->ffStopYL[i]);
+//	  fhStopYH[i]->Fill(poutevt->ffStopYH[i]);
+//	  fhdStopYLsum->Fill(poutevt->ffStopYL[i]);
+//	  fhdStopYHsum->Fill(poutevt->ffStopYH[i]);
+//  }
+//  for(i=0;i<64;i++){
+//	  if(fInput->fiBackL[i]>0)fhdBackL->Fill(i);
+//	  if(fInput->fiBackH[i]>0)fhdBackH->Fill(i);
+//	  fhBackL[i]->Fill(poutevt->ffBackL[i]);
+//	  fhBackH[i]->Fill(poutevt->ffBackH[i]);
+//	  fhdBackLsum->Fill(poutevt->ffBackL[i]);
+//	  fhdBackHsum->Fill(poutevt->ffBackH[i]);
+// }
+//  for(i=0;i<16;i++){
+//	  if(fInput->fiVetoL[i]>0)fhdVetoL->Fill(i);
+//	  if(fInput->fiVetoH[i]>0)fhdVetoH->Fill(i);
+//	  fhVetoL[i]->Fill(poutevt->ffVetoL[i]);
+//	  fhVetoH[i]->Fill(poutevt->ffVetoH[i]);
+//	  fhdVetoLsum->Fill(poutevt->ffVetoL[i]);
+//	  fhdVetoHsum->Fill(poutevt->ffVetoH[i]);
+//  }
   for(i=0;i<7;i++){
 	  fhGamma10ns[i]->Fill(fInput->fiGammaChannelTime[i]);
 	  fhGammaKev[i]->Fill(poutevt->ffGammaKev[i]);

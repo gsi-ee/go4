@@ -17,7 +17,6 @@ class TascaEvent : public TObject {
       virtual ~TascaEvent();
 
       Int_t PrintEvent();
-      Bool_t Copy(TascaCheckEvent *);
 
       UInt_t fiEventNumber;
       Bool_t fisTof;

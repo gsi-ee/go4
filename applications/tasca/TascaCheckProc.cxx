@@ -95,6 +95,7 @@ if(fLastEvent==0)
 	  cout <<"      Checker: First event "<<fInput->fiEventNumber<<endl;
 fLastEvent=fInput->fiEventNumber;
 // Process only if event is valid
+//cout <<"Chk: "<<fInput->fiEventNumber<< endl;
 if(!fInput->IsValid()) return;
 
 if(fControl->CheckHisto){
@@ -126,10 +127,7 @@ if(fInput->fisTof){
 	if(fwinAlpha1->Test(fInput->ffStopXLhitV)){takeEvent=kTRUE;poutevt->fisAlpha=kTRUE;}
 	if(fwinAlpha2->Test(fInput->ffStopXLhitV)){takeEvent=kTRUE;poutevt->fisAlpha=kTRUE;}
 	if(fwinFission1->Test(fInput->ffStopXHhitV)&
-			fwinBack->Test(fInput->ffBackHhitV)){
-		takeEvent=kTRUE;
-		poutevt->fisFission=kTRUE;
-	}
+		fwinBack->Test(fInput->ffBackHhitV))  {takeEvent=kTRUE;poutevt->fisFission=kTRUE;}
 }
 if(takeEvent){
 	poutevt->fisTof=fInput->fisTof;
@@ -146,15 +144,15 @@ if(takeEvent){
 	poutevt->fiBackLhitI=fInput->fiBackLhitI;
 	poutevt->fiVetoHhitI=fInput->fiVetoHhitI;
 	poutevt->fiVetoLhitI=fInput->fiVetoLhitI;
-	poutevt->fiMultiStopXL=fInput->fiMultiStopXL;
-	poutevt->fiMultiStopXH=fInput->fiMultiStopXH;
-	poutevt->fiMultiStopYL=fInput->fiMultiStopYL;
-	poutevt->fiMultiStopYH=fInput->fiMultiStopYH;
-	poutevt->fiMultiBackH=fInput->fiMultiBackH;
-	poutevt->fiMultiBackL=fInput->fiMultiBackL;
-	poutevt->fiMultiVetoH=fInput->fiMultiVetoH;
-	poutevt->fiMultiVetoL=fInput->fiMultiVetoL;
-	poutevt->fiMultiGamma=fInput->fiMultiGamma;
+//	poutevt->fiMultiStopXL=fInput->fiMultiStopXL;
+//	poutevt->fiMultiStopXH=fInput->fiMultiStopXH;
+//	poutevt->fiMultiStopYL=fInput->fiMultiStopYL;
+//	poutevt->fiMultiStopYH=fInput->fiMultiStopYH;
+//	poutevt->fiMultiBackH=fInput->fiMultiBackH;
+//	poutevt->fiMultiBackL=fInput->fiMultiBackL;
+//	poutevt->fiMultiVetoH=fInput->fiMultiVetoH;
+//	poutevt->fiMultiVetoL=fInput->fiMultiVetoL;
+//	poutevt->fiMultiGamma=fInput->fiMultiGamma;
 	// value of maximum hit, if we had more than one hit
 	poutevt->ffStopXLhitV=fInput->ffStopXLhitV;
 	poutevt->ffStopXHhitV=fInput->ffStopXHhitV;

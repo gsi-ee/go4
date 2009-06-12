@@ -26,7 +26,14 @@ class TascaAnlProc : public TGo4EventProcessor {
       virtual ~TascaAnlProc();
 
       void TascaEventAnalysis(TascaAnlEvent* target);
-
+      void PrintFission(Bool_t store);
+      void PrintAlpha(Bool_t store);
+      void PrintEvr(Bool_t store);
+      inline UInt_t TimeDiff(UInt_t later, UInt_t earlier){
+		if(later<earlier)
+			 return 0xFFFFFFFF-earlier+later+1;
+		else return later-earlier;
+      }
 
 	  TascaAnalysis  * anl;
       TascaCheckEvent *fInput;
@@ -53,6 +60,7 @@ class TascaAnlProc : public TGo4EventProcessor {
       UInt_t fFirstEvent;
       Bool_t fStackfilled;
       Bool_t fAlphaFound;
+      Bool_t fEvrFound;
       UInt_t fTimeDiff;
 
    ClassDef(TascaAnlProc,1)

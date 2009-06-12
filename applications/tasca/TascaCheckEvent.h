@@ -12,6 +12,7 @@
 
 class TascaCheckProc;
 class TGo4FileSource;
+class TascaEvent;
 
 class TascaCheckEvent : public TGo4EventElement {
    public:
@@ -20,6 +21,7 @@ class TascaCheckEvent : public TGo4EventElement {
       virtual ~TascaCheckEvent() ;
       virtual Int_t Init();
       virtual Int_t Fill();
+      void CopyTo(TascaEvent *t);
       virtual void  Clear(Option_t *t=""){
 	   fisEvr=kFALSE;
 	   fisFission=kFALSE;
@@ -51,15 +53,15 @@ class TascaCheckEvent : public TGo4EventElement {
       UInt_t fiBackLhitI;
       UInt_t fiVetoHhitI;
       UInt_t fiVetoLhitI;
-      UInt_t fiMultiStopXL;
-      UInt_t fiMultiStopXH;
-      UInt_t fiMultiStopYL;
-      UInt_t fiMultiStopYH;
-      UInt_t fiMultiBackH;
-      UInt_t fiMultiBackL;
-      UInt_t fiMultiVetoH;
-      UInt_t fiMultiVetoL;
-      UInt_t fiMultiGamma;
+//      UInt_t fiMultiStopXL;
+//      UInt_t fiMultiStopXH;
+//      UInt_t fiMultiStopYL;
+//      UInt_t fiMultiStopYH;
+//      UInt_t fiMultiBackH;
+//      UInt_t fiMultiBackL;
+//      UInt_t fiMultiVetoH;
+//      UInt_t fiMultiVetoL;
+//      UInt_t fiMultiGamma;
       // value of maximum hit, if we had more than one hit
       Float_t ffStopXLhitV;
       Float_t ffStopXHhitV;

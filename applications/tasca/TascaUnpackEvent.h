@@ -41,15 +41,6 @@ class TascaUnpackEvent : public TGo4EventElement {
    	   memset((void*) &fiVetoL[0], 0, sizeof(fiVetoL));
    	   memset((void*) &fiVetoH[0], 0, sizeof(fiVetoH));
 
-   	   memset((void*) &fiStopXLhits[0],0, sizeof(fiStopXLhits));
-	   memset((void*) &fiStopXHhits[0],0, sizeof(fiStopXHhits));
-	   memset((void*) &fiStopYLhits[0],0, sizeof(fiStopYLhits));
-	   memset((void*) &fiStopYHhits[0],0, sizeof(fiStopYHhits));
-	   memset((void*) &fiBackLhits[0], 0, sizeof(fiBackLhits));
-	   memset((void*) &fiBackHhits[0], 0, sizeof(fiBackHhits));
-	   memset((void*) &fiVetoLhits[0], 0, sizeof(fiVetoLhits));
-	   memset((void*) &fiVetoHhits[0], 0, sizeof(fiVetoHhits));
-
 	   memset((void*) &fiGammaQ[0], 0, sizeof(fiGammaQ));
 	   memset((void*) &fiGammaE[0], 0, sizeof(fiGammaE));
 	   memset((void*) &fiGammaChannelTime[0], 0, sizeof(fiGammaChannelTime));
@@ -102,15 +93,6 @@ class TascaUnpackEvent : public TGo4EventElement {
       UInt_t fiBackL[64];
       UInt_t fiVetoH[16];
       UInt_t fiVetoL[16];
-      // hit list of detectors (indices of first > 0)
-      UInt_t fiStopXLhits[4];
-      UInt_t fiStopXHhits[4];
-      UInt_t fiStopYLhits[4];
-      UInt_t fiStopYHhits[4];
-      UInt_t fiBackHhits[4];
-      UInt_t fiBackLhits[4];
-      UInt_t fiVetoHhits[4];
-      UInt_t fiVetoLhits[4];
       // index of maximum hit, if we had more than one hit
       UInt_t fiStopXLhitI;
       UInt_t fiStopXHhitI;
