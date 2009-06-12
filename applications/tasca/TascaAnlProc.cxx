@@ -71,7 +71,7 @@ TascaAnlProc::~TascaAnlProc()
 }
 //***********************************************************
 void TascaAnlProc::PrintFission(Bool_t store){
-printf("Fission %3d: %9d  MevH:%6.2f L: %6.2f Back H: %6.2f L: %6.2f X %3d Y %3d\n",
+printf("Fission %3d: %9d  MevH:%6.2f L: %6.2f Back H: %6.2f L: %6.2f X %3d Y %3d Spill %d\n",
 		fFissions,
 		fFissionEvent->fiEventNumber,
 		fFissionEvent->ffStopXHhitV/1000.,
@@ -79,27 +79,30 @@ printf("Fission %3d: %9d  MevH:%6.2f L: %6.2f Back H: %6.2f L: %6.2f X %3d Y %3d
 		fFissionEvent->ffBackHhitV/1000.,
 		fFissionEvent->ffBackLhitV/1000.,
 		fFissionEvent->fiStopXHhitI,
-		fFissionEvent->fiStopYHhitI
+		fFissionEvent->fiStopYHhitI,
+		fFissionEvent->fisMacro
 );
 return;
 }
 void TascaAnlProc::PrintAlpha(Bool_t store){
-printf("    Alpha %8d MevL: %6.2f toFission [s] %7.3f                  X %3d Y %3d\n",
+printf("    Alpha %8d MevL: %6.2f toFission [s] %7.3f                  X %3d Y %3d Spill %d\n",
 		fFissionEvent->fiEventNumber-fStackEvent->fiEventNumber,
 		fStackEvent->ffStopXLhitV/1000.,
 		(Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.,
 		fStackEvent->fiStopXLhitI,
-		fStackEvent->fiStopYLhitI
+		fStackEvent->fiStopYLhitI,
+		fStackEvent->fisMacro
 );
 return;
 }
 void TascaAnlProc::PrintEvr(Bool_t store){
-printf("    Evr   %8d MevH: %6.2f toFission [s] %7.3f                  X %3d Y %3d\n",
+printf("    Evr   %8d MevH: %6.2f toFission [s] %7.3f                  X %3d Y %3d Spill %d\n",
 		fFissionEvent->fiEventNumber-fStackEvent->fiEventNumber,
 		fStackEvent->ffStopXHhitV/1000.,
 		(Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.,
 		fStackEvent->fiStopXHhitI,
-		fStackEvent->fiStopYHhitI
+		fStackEvent->fiStopYHhitI,
+		fStackEvent->fisMacro
 );
 return;
 }
