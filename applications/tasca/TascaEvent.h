@@ -37,14 +37,14 @@ class TascaEvent : public TObject {
       Float_t ffGammaMax;
       Float_t ffGammaSum;
      // index of maximum hit, if we had more than one hit
-      UInt_t fiStopXLhitI;
-      UInt_t fiStopXHhitI;
-      UInt_t fiStopYLhitI;
-      UInt_t fiStopYHhitI;
-      UInt_t fiBackHhitI;
-      UInt_t fiBackLhitI;
-      UInt_t fiVetoHhitI;
-      UInt_t fiVetoLhitI;
+      Int_t fiStopXLhitI;
+      Int_t fiStopXHhitI;
+      Int_t fiStopYLhitI;
+      Int_t fiStopYHhitI;
+      Int_t fiBackHhitI;
+      Int_t fiBackLhitI;
+      Int_t fiVetoHhitI;
+      Int_t fiVetoLhitI;
       // value of maximum hit, if we had more than one hit
       Float_t ffStopXLhitV;
       Float_t ffStopXHhitV;
