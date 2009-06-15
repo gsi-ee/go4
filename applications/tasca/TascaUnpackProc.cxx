@@ -450,6 +450,12 @@ for(i=0;i<codec->getStopYnoAdc();i++){
 }//StopY
 pUnpackEvent->fiMultiStopYL=multiL;
 pUnpackEvent->fiMultiStopYH=multiH;
+//if((pUnpackEvent->fiStopYLhitI<0)|(pUnpackEvent->fiStopYHhitI<0))
+//printf("Ev %9d: XL=%3d XH=%3d YL=%3d YH=%3d BL=%3d BH=%3d\n",
+//pUnpackEvent->fiEventNumber,
+//pUnpackEvent->fiStopYLhitI,pUnpackEvent->fiStopYHhitI,
+//pUnpackEvent->fiBackLhitI,pUnpackEvent->fiBackHhitI,
+//pUnpackEvent->fiStopXLhitI,pUnpackEvent->fiStopXHhitI);
 
 // Back
 multiL=0;
