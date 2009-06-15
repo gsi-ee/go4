@@ -287,15 +287,15 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   poutevt->fiBackLhitI=fInput->fiBackLhitI;
   poutevt->fiVetoHhitI=fInput->fiVetoHhitI;
   poutevt->fiVetoLhitI=fInput->fiVetoLhitI;
-//  poutevt->fiMultiStopXL=fInput->fiMultiStopXL;
-//  poutevt->fiMultiStopXH=fInput->fiMultiStopXH;
-//  poutevt->fiMultiStopYL=fInput->fiMultiStopYL;
-//  poutevt->fiMultiStopYH=fInput->fiMultiStopYH;
-//  poutevt->fiMultiBackH=fInput->fiMultiBackH;
-//  poutevt->fiMultiBackL=fInput->fiMultiBackL;
-//  poutevt->fiMultiVetoH=fInput->fiMultiVetoH;
-//  poutevt->fiMultiVetoL=fInput->fiMultiVetoL;
-//  poutevt->fiMultiGamma=fInput->fiMultiGamma;
+  poutevt->fiMultiStopXL=fInput->fiMultiStopXL;
+  poutevt->fiMultiStopXH=fInput->fiMultiStopXH;
+  poutevt->fiMultiStopYL=fInput->fiMultiStopYL;
+  poutevt->fiMultiStopYH=fInput->fiMultiStopYH;
+  poutevt->fiMultiBackH=fInput->fiMultiBackH;
+  poutevt->fiMultiBackL=fInput->fiMultiBackL;
+  poutevt->fiMultiVetoH=fInput->fiMultiVetoH;
+  poutevt->fiMultiVetoL=fInput->fiMultiVetoL;
+  poutevt->fiMultiGamma=fInput->fiMultiGamma;
   // value of maximum hit, if we had more than one hit
   poutevt->ffStopXLhitV=fCalibration->CalibrateStopXL(fInput->fiStopXLhitV,fInput->fiStopXLhitI);
   poutevt->ffStopXHhitV=fCalibration->CalibrateStopXH(fInput->fiStopXHhitV,fInput->fiStopXHhitI);
