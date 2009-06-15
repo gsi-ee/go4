@@ -9,19 +9,19 @@
 void setparam()
 {
 // Energy windows MeV
-	Float_t EvrHmin     = 4.000,  EvrHmax     =15.000;
-	Float_t Alpha0Lmin  = 9.800,  Alpha0Lmax  =10.200;
-	Float_t Alpha1Lmin  = 9.700,  Alpha1Lmax  =10.100;
-	Float_t Alpha2Lmin  = 8.970,  Alpha2Lmax  = 9.3700;
-	Float_t Fission1Hmin=60.000,  Fission1Hmax=22.0000;
-	Float_t Fission2Hmin=60.000,  Fission2Hmax=22.0000;
-	Float_t BackHmin    =10.000,  BackHmax    =80.000;
+	Float_t EvrHmin     = 4.000,  EvrHmax     = 15.000;
+	Float_t Alpha0Lmin  = 9.800,  Alpha0Lmax  = 10.200;
+	Float_t Alpha1Lmin  = 9.700,  Alpha1Lmax  = 10.100;
+	Float_t Alpha2Lmin  = 8.970,  Alpha2Lmax  =  9.3700;
+	Float_t Fission1Hmin=60.000,  Fission1Hmax=220.0000;
+	Float_t Fission2Hmin=60.000,  Fission2Hmax=220.0000;
+	Float_t BackHmin    =10.000,  BackHmax    = 80.000;
 // Time windows sec
 	Float_t fAlphaTmin   =0.,     fAlphaTmax   =900.;
-	Float_t fAlpha1Tmin  =0.,     fAlpha1Tmax  =20.;
+	Float_t fAlpha1Tmin  =0.,     fAlpha1Tmax  = 20.;
 	Float_t fAlpha2Tmin  =0.,     fAlpha2Tmax  =180.;
-	Float_t fFission1Tmin=0.,     fFission1Tmax=900.; 
-	Float_t fFission2Tmin=0.,     fFission2Tmax=70.;
+	Float_t fFission1Tmin=0.,     fFission1Tmax=900.;
+	Float_t fFission2Tmin=0.,     fFission2Tmax= 70.;
 
 	TGo4WinCond * wc;
 	TascaParameter *fp;
@@ -41,7 +41,7 @@ void setparam()
      fp->Alpha2Tmin  =(UInt_t)fAlpha2Tmin*1000000;
      fp->Alpha2Tmax  =(UInt_t)fAlpha2Tmax*1000000;
      fp->Fission1Tmin=(UInt_t)fFission1Tmin*1000000;
-     fp->Fission1Tmax=(UInt_t)fFission1Tmax*1000000; 
+     fp->Fission1Tmax=(UInt_t)fFission1Tmax*1000000;
      fp->Fission2Tmin=(UInt_t)fFission2Tmin*1000000;
      fp->Fission2Tmax=(UInt_t)fFission2Tmax*1000000;
      fp->PrintParameter();
