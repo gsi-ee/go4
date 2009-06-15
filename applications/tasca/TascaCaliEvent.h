@@ -31,6 +31,7 @@ class TascaCaliEvent : public TGo4EventElement {
        * event element.
        */
       void Clear(Option_t *t=""){
+       fiEventNumber=0;
 //	   memset((void*) &ffStopXL[0],0, sizeof(ffStopXL));
 //	   memset((void*) &ffStopXH[0],0, sizeof(ffStopXH));
 //	   memset((void*) &ffStopYL[0],0, sizeof(ffStopYL));

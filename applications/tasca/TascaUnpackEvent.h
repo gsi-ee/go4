@@ -44,6 +44,7 @@ class TascaUnpackEvent : public TGo4EventElement {
 	   memset((void*) &fiGammaQ[0], 0, sizeof(fiGammaQ));
 	   memset((void*) &fiGammaE[0], 0, sizeof(fiGammaE));
 	   memset((void*) &fiGammaChannelTime[0], 0, sizeof(fiGammaChannelTime));
+       fiEventNumber=0;
 	   fiGammaTime=0;
 	   fiTimeStamp=0;
 	   fiMultiGamma=0;

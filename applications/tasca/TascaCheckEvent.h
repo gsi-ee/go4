@@ -23,6 +23,7 @@ class TascaCheckEvent : public TGo4EventElement {
       virtual Int_t Fill();
       void CopyTo(TascaEvent *t);
       virtual void  Clear(Option_t *t=""){
+       fiEventNumber=0;
 	   fisEvr=kFALSE;
 	   fisFission=kFALSE;
 	   fisAlpha=kFALSE;

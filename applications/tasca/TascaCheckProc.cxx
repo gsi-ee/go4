@@ -31,7 +31,7 @@ TascaCheckProc::TascaCheckProc()
 //***********************************************************
 // this one is used in TascaCheckFact
 TascaCheckProc::TascaCheckProc(const char* name) :
-  TGo4EventProcessor(name),fInput(0),fLastEvent(0)
+  TGo4EventProcessor(name),fInput(0),fLastEvent(-1)
 {
   cout << "Tasca> TascaCheckProc "<<name<<" created" << endl;
   //// init user analysis objects:
@@ -91,12 +91,12 @@ void TascaCheckProc::TascaEventCheck(TascaCheckEvent* poutevt)
 Bool_t takeEvent=kFALSE;
 poutevt->SetValid(takeEvent);       // events are not stored until kTRUE is set
 fInput  = (TascaCaliEvent*) GetInputEvent();
-if(fLastEvent==0)
-	  cout <<"      Checker: First event "<<fInput->fiEventNumber<<endl;
-fLastEvent=fInput->fiEventNumber;
 // Process only if event is valid
 //cout <<"Chk: "<<fInput->fiEventNumber<< endl;
 if(!fInput->IsValid()) return;
+if(fLastEvent==-1)
+	  cout <<"      Checker: First event "<<fInput->fiEventNumber<<endl;
+fLastEvent=fInput->fiEventNumber;
 
 if(fControl->CheckHisto){
 	Bool_t YH=fadcKevH->Test(fInput->ffStopYHhitV);
