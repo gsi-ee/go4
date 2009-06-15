@@ -68,7 +68,7 @@ TascaCheckProc::TascaCheckProc(const char* name) :
     fadcKevH = (TGo4WinCond *)anl->CreateCondition("Check","adcKevH",0,kTRUE,0,300000);
     fadcKevL = (TGo4WinCond *)anl->CreateCondition("Check","adcKevL",0,kTRUE,0,30000);
     fgammaKev= (TGo4WinCond *)anl->CreateCondition("Check","gammaKev",0,kTRUE,0,2000);
-    fwinEVR     = (TGo4WinCond *)anl->CreateCondition("Check","EvrH",0,kTRUE,0,1);
+    fwinEvr     = (TGo4WinCond *)anl->CreateCondition("Check","EvrH",0,kTRUE,0,1);
     fwinAlpha   = (TGo4WinCond *)anl->CreateCondition("Check","AlphaL",0,kTRUE,0,1);
     fwinAlpha1  = (TGo4WinCond *)anl->CreateCondition("Check","Alpha1L",0,kTRUE,0,1);
     fwinAlpha2  = (TGo4WinCond *)anl->CreateCondition("Check","Alpha2L",0,kTRUE,0,1);
@@ -118,7 +118,7 @@ if(fControl->CheckHisto){
 
 // Filter out events
 if(fInput->fisTof){
-	if(fInput->fisMacro&fwinEVR->Test(fInput->ffStopXHhitV)){
+	if(fInput->fisMacro&fwinEvr->Test(fInput->ffStopXHhitV)){
 		takeEvent=kTRUE;
 		poutevt->fisEvr=kTRUE;
 	}

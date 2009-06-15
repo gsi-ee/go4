@@ -17,16 +17,16 @@ void setup(Text_t* AutoSaveFile,
 
 //--------------------------------------------
 // steering parameters to modify:
-  TString unpackProcess("no");
+  TString unpackProcess("yes");
   TString unpackStore("no");
   TString unpackOverWrite("yes");
 
-  TString caliProcess("no");
-  TString caliStore("yes");
+  TString caliProcess("yes");
+  TString caliStore("no");
   TString caliOverWrite("yes");
 
-  TString checkProcess("no");
-  TString checkStore("yes");
+  TString checkProcess("yes");
+  TString checkStore("nop");
   TString checkOverWrite("yes");
 
   TString analysisProcess("yes");

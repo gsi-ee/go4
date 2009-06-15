@@ -28,10 +28,10 @@ void setparam()
 // because the name Parameters is not unique we must fully qualify
  fp = (TascaParameter *) go4->GetObject("Parameters/Parameters","Go4");
  if(fp!=0){
-	 fp->shift=5;
-	 fp->EventStackSize=100000; // prefix for coefficient files
-     fp->AlphaMaxL=16000.; // take low value up to this limit
-     fp->AlphaMaxH=30000.;// take high value up to this limit as low
+	fp->shift=5; // Unpacker gamma decoder for energies
+	fp->EventStackSize=100000; // used in Analysis
+	fp->AlphaMaxL=16000.; // Calibrator take low value up to this limit
+	fp->AlphaMaxH=30000.;// take high value up to this limit as low
 
 // Do not change here:
      fp->AlphaTmin   =(UInt_t)fAlphaTmin*1000000;

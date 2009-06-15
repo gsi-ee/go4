@@ -33,7 +33,7 @@ class TascaCheckProc : public TGo4EventProcessor {
       TGo4WinCond   *fadcKevH;
       TGo4WinCond   *fgammaKev;
       TGo4WinCond   *fgammaMysec;
-      TGo4WinCond   *fwinEVR;
+      TGo4WinCond   *fwinEvr;
       TGo4WinCond   *fwinAlpha;
       TGo4WinCond   *fwinFission1;
       TGo4WinCond   *fwinAlpha1;
