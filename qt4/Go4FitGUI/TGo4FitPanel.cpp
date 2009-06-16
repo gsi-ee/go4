@@ -274,97 +274,99 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name)
 
    FitList->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    // fit options part
-    fxWizDataName = "";
-    fxWizModelName = "";
-    fbWizShowAllModels = true;
-    fiWizPageIndex = 0;
-    fbUseAmplEstim = false;
-    fiNumMigradIter = 0;
+   // fit options part
+   fxWizDataName = "";
+   fxWizModelName = "";
+   fbWizShowAllModels = true;
+   fiWizPageIndex = 0;
+   fbUseAmplEstim = false;
+   fiNumMigradIter = 0;
 
-    fxCurrentItem = 0;
-    fxCurrentItemWidget = 0;
+   fxCurrentItem = 0;
+   fxCurrentItemWidget = 0;
 
-    fxActivePanel = 0;
-    fxActivePad = 0;
+   fxActivePanel = 0;
+   fxActivePad = 0;
 
-    fxDrawNewPanel = 0;
-    fbDrawPanelCreation = false;
+   fxDrawNewPanel = 0;
+   fbDrawPanelCreation = false;
 
-    QTableWidgetItem* item = new QTableWidgetItem;
-    item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-    Wiz_DataSlotsTable->setItemPrototype(item);
-    Wiz_DataSlotsTable->setContextMenuPolicy(Qt::CustomContextMenu);
+   QTableWidgetItem* item = new QTableWidgetItem;
+   item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+   Wiz_DataSlotsTable->setItemPrototype(item);
+   Wiz_DataSlotsTable->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    TGo4WorkSpace* ws = TGo4WorkSpace::Instance();
-    connect(ws, SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
-            this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
+   TGo4WorkSpace* ws = TGo4WorkSpace::Instance();
+   connect(ws, SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
+         this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
 
-    MenuBar = new QMenuBar(MenuFrame);
-    // MenuBar->setMinimumWidth(100);
-    // MenuBar->setFrameShape(QMenuBar::NoFrame);
-
-
-    FitterMap = new QSignalMapper(this);
-    connect(FitterMap, SIGNAL(mapped(int)), this, SLOT(FitterMenuItemSelected(int)));
-    FitterMenu = MenuBar->addMenu("&Fitter");
-    connect(FitterMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowFitterMenu()) );
-
-    ViewMap = new QSignalMapper(this);
-    connect(ViewMap, SIGNAL(mapped(int)), this, SLOT(ChangeViewType(int)));
-    ViewMenu = MenuBar->addMenu("&Tools");
-    connect(ViewMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowViewMenu()) );
-
-    SettMap = new QSignalMapper(this);
-    connect(SettMap, SIGNAL(mapped(int)), this, SLOT(ChangeSettings(int)));
-    SettMenu = MenuBar->addMenu("&Settings");
-    connect(SettMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowSettMenu()) );
-
-    AddIdAction(SettMenu, SettMap, "&Confirmation", 1);
-    AddIdAction(SettMenu, SettMap, "&Show primitives", 2);
-    AddIdAction(SettMenu, SettMap, "&Freeze mode", 3);
-    AddIdAction(SettMenu, SettMap, "&Save with objects", 4);
-
-    SettMenu->addSeparator();
-
-    AddIdAction(SettMenu, SettMap, "&Use current range", 10);
-    AddIdAction(SettMenu, SettMap, "&Draw model", 11);
-    AddIdAction(SettMenu, SettMap, "Draw &background", 14);
-    AddIdAction(SettMenu, SettMap, "Dra&w components", 12);
-    AddIdAction(SettMenu, SettMap, "Draw on same &pad", 13);
-    AddIdAction(SettMenu, SettMap, "Draw &info on pad", 15);
-
-    SettMenu->addSeparator();
-
-    AddIdAction(SettMenu, SettMap, "&No &integral", 17);
-    AddIdAction(SettMenu, SettMap, "&Counts", 18);
-    AddIdAction(SettMenu, SettMap, "&Integral", 19);
-    AddIdAction(SettMenu, SettMap, "&Gauss integral", 20);
-
-    AddIdAction(SettMenu, SettMap, "Recalculate gauss &widths", 16);
-
-    SettMenu->addSeparator();
-
-    AddIdAction(SettMenu, SettMap, "&Do not use buffers", 21);
-    AddIdAction(SettMenu, SettMap, "&Only for data", 22);
-    AddIdAction(SettMenu, SettMap, "&For data and models", 23);
-    AddIdAction(SettMenu, SettMap, "&Individual settings", 24);
-
-    ItemMenu = 0;
-    ItemMap = new QSignalMapper(this);
-    connect(ItemMap, SIGNAL(mapped(int)), this, SLOT(ItemMenuItemSelected(int)));
-    CurrFitItem = 0;
+   MenuBar = new QMenuBar(MenuFrame);
+   // MenuBar->setMinimumWidth(100);
+   // MenuBar->setFrameShape(QMenuBar::NoFrame);
 
 
-    fxWizPars = new TObjArray();
-    fxWizSlots = new TObjArray();
-    fxParsTableList = new TObjArray();
+   FitterMap = new QSignalMapper(this);
+   connect(FitterMap, SIGNAL(mapped(int)), this, SLOT(FitterMenuItemSelected(int)));
+   FitterMenu = MenuBar->addMenu("&Fitter");
+   connect(FitterMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowFitterMenu()) );
 
-    fiPaintMode = 0;
+   ViewMap = new QSignalMapper(this);
+   connect(ViewMap, SIGNAL(mapped(int)), this, SLOT(ChangeViewType(int)));
+   ViewMenu = MenuBar->addMenu("&Tools");
+   connect(ViewMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowViewMenu()) );
 
-    gridLayout->setMargin(3);
-    gridLayout->setSpacing(1);
-    UpdateActivePage();
+   SettMap = new QSignalMapper(this);
+   connect(SettMap, SIGNAL(mapped(int)), this, SLOT(ChangeSettings(int)));
+   SettMenu = MenuBar->addMenu("&Settings");
+   connect(SettMenu, SIGNAL(aboutToShow()), this, SLOT(AboutToShowSettMenu()) );
+
+   AddIdAction(SettMenu, SettMap, "&Confirmation", 1);
+   AddIdAction(SettMenu, SettMap, "&Show primitives", 2);
+   AddIdAction(SettMenu, SettMap, "&Freeze mode", 3);
+   AddIdAction(SettMenu, SettMap, "&Save with objects", 4);
+
+   SettMenu->addSeparator();
+
+   AddIdAction(SettMenu, SettMap, "&Use current range", 10);
+   AddIdAction(SettMenu, SettMap, "&Draw model", 11);
+   AddIdAction(SettMenu, SettMap, "Draw &background", 14);
+   AddIdAction(SettMenu, SettMap, "Dra&w components", 12);
+   AddIdAction(SettMenu, SettMap, "Draw on same &pad", 13);
+   AddIdAction(SettMenu, SettMap, "Draw &info on pad", 15);
+
+   SettMenu->addSeparator();
+
+   AddIdAction(SettMenu, SettMap, "&No &integral", 17);
+   AddIdAction(SettMenu, SettMap, "&Counts", 18);
+   AddIdAction(SettMenu, SettMap, "&Integral", 19);
+   AddIdAction(SettMenu, SettMap, "&Gauss integral", 20);
+
+   AddIdAction(SettMenu, SettMap, "Recalculate gauss &widths", 16);
+
+   SettMenu->addSeparator();
+
+   AddIdAction(SettMenu, SettMap, "&Do not use buffers", 21);
+   AddIdAction(SettMenu, SettMap, "&Only for data", 22);
+   AddIdAction(SettMenu, SettMap, "&For data and models", 23);
+   AddIdAction(SettMenu, SettMap, "&Individual settings", 24);
+
+   ItemMenu = 0;
+   ItemMap = new QSignalMapper(this);
+   connect(ItemMap, SIGNAL(mapped(int)), this, SLOT(ItemMenuItemSelected(int)));
+   CurrFitItem = 0;
+
+   Wiz_DataSlotsTable->horizontalHeader()->setStretchLastSection(TRUE);
+   Wiz_ParTable->horizontalHeader()->setStretchLastSection(TRUE);
+
+   fxWizPars = new TObjArray();
+   fxWizSlots = new TObjArray();
+   fxParsTableList = new TObjArray();
+
+   fiPaintMode = 0;
+
+   gridLayout->setMargin(3);
+   gridLayout->setSpacing(1);
+   UpdateActivePage();
 }
 
 TGo4FitPanel::~TGo4FitPanel()

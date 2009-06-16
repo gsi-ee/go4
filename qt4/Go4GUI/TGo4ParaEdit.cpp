@@ -38,6 +38,7 @@ TGo4ParaEdit::TGo4ParaEdit(QWidget *parent, const char* name)
    fItemName = "";
    fFillingTable = false;
    MemberTable->setContextMenuPolicy(Qt::CustomContextMenu);
+   MemberTable->horizontalHeader()->setStretchLastSection(TRUE);
 }
 
 TGo4ParaEdit::~TGo4ParaEdit()

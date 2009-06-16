@@ -4,7 +4,8 @@ This package contains a simple running 1 step Go4 analysis.
 
 Rebuild the package by
 
-make clean all
+make clean 
+make all
 
 Description of the package
 
