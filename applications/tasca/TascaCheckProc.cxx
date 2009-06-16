@@ -91,12 +91,12 @@ void TascaCheckProc::TascaEventCheck(TascaCheckEvent* poutevt)
 Bool_t takeEvent=kFALSE;
 poutevt->SetValid(takeEvent);       // events are not stored until kTRUE is set
 fInput  = (TascaCaliEvent*) GetInputEvent();
+if(fLastEvent<0)
+	  cout <<"      Checker: First event "<<fInput->fiEventNumber<<endl;
+fLastEvent=fInput->fiEventNumber;
 // Process only if event is valid
 //cout <<"Chk: "<<fInput->fiEventNumber<< endl;
 if(!fInput->IsValid()) return;
-if(fLastEvent==-1)
-	  cout <<"      Checker: First event "<<fInput->fiEventNumber<<endl;
-fLastEvent=fInput->fiEventNumber;
 
 if(fControl->CheckHisto){
 	Bool_t YH=fadcKevH->Test(fInput->ffStopYHhitV);
@@ -144,15 +144,15 @@ if(takeEvent){
 	poutevt->fiBackLhitI=fInput->fiBackLhitI;
 	poutevt->fiVetoHhitI=fInput->fiVetoHhitI;
 	poutevt->fiVetoLhitI=fInput->fiVetoLhitI;
-//	poutevt->fiMultiStopXL=fInput->fiMultiStopXL;
-//	poutevt->fiMultiStopXH=fInput->fiMultiStopXH;
-//	poutevt->fiMultiStopYL=fInput->fiMultiStopYL;
-//	poutevt->fiMultiStopYH=fInput->fiMultiStopYH;
-//	poutevt->fiMultiBackH=fInput->fiMultiBackH;
-//	poutevt->fiMultiBackL=fInput->fiMultiBackL;
-//	poutevt->fiMultiVetoH=fInput->fiMultiVetoH;
-//	poutevt->fiMultiVetoL=fInput->fiMultiVetoL;
-//	poutevt->fiMultiGamma=fInput->fiMultiGamma;
+	poutevt->fiMultiStopXL=fInput->fiMultiStopXL;
+	poutevt->fiMultiStopXH=fInput->fiMultiStopXH;
+	poutevt->fiMultiStopYL=fInput->fiMultiStopYL;
+	poutevt->fiMultiStopYH=fInput->fiMultiStopYH;
+	poutevt->fiMultiBackH=fInput->fiMultiBackH;
+	poutevt->fiMultiBackL=fInput->fiMultiBackL;
+	poutevt->fiMultiVetoH=fInput->fiMultiVetoH;
+	poutevt->fiMultiVetoL=fInput->fiMultiVetoL;
+	poutevt->fiMultiGamma=fInput->fiMultiGamma;
 	// value of maximum hit, if we had more than one hit
 	poutevt->ffStopXLhitV=fInput->ffStopXLhitV;
 	poutevt->ffStopXHhitV=fInput->ffStopXHhitV;
