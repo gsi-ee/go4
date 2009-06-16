@@ -516,7 +516,7 @@ fMultiVetoH->Fill(multiH);
 pUnpackEvent->fisVeto=(multiL>0);
 }// V785 ADCs
 
-if(spillOn&(pUnpackEvent->fiStopXLhitV>fParam->AlphaMinL))fSpillG->Fill(timediff);
+if(spillOn&(pUnpackEvent->fiStopXHhitV>fParam->AlphaMinH))fSpillG->Fill(timediff);
 if(pdata-psubevent) fSizeA->Fill(pdata-psubevent);
 
 // follows Sis3302
