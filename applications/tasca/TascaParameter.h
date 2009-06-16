@@ -24,8 +24,12 @@ class TascaParameter : public TGo4Parameter {
       Bool_t Fill;
       Int_t  shift;
       UInt_t EventStackSize;
+      UInt_t Adc80TofMin;
+      UInt_t AdcThreshold;
       Float_t AlphaMaxL;
       Float_t AlphaMaxH;
+      Float_t AlphaMinL;
+      Float_t AlphaMinH;
       UInt_t AlphaTmin;
       UInt_t AlphaTmax;
       UInt_t Alpha1Tmin;

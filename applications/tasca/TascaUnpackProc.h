@@ -34,6 +34,7 @@ class TascaUnpackProc : public TGo4EventProcessor {
 	  TascaCodec 	*codec;
       TH1I          *fAdc[96];
       TH1I  		*fSpill;
+      TH1I  		*fSpillG;
       TH1I  		*fTof;
       TH1I  		*fTofgated;
       TH1I  		*fTest;

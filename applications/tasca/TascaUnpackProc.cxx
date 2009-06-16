@@ -137,18 +137,18 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   fGammaTime  = anl->CreateTH1I ("Unpack","GammaTimeDelta","Gamma delta time","[mysec]","Events",5000,0.5,20000.5);
   fSystemTime = anl->CreateTH1I ("Unpack","SystemTimeDelta","System delta time","[mysec]","Events",5000,0.5,20000.5);
   fAdcTime    = anl->CreateTH1I ("Unpack","AdcTimeDelta","Adc  delta time","[mysec]","Events",5000,0.5,20000.5);
-  fMultiGamma = anl->CreateTH1I ("Unpack","MultiGamma","Gamma multiplicity",10,0,10);
-  fMultiAdc   = anl->CreateTH1I ("Unpack","MultiAdc","Adc multiplicity",100,0,100);
-  fMultiStopXL = anl->CreateTH1I ("Unpack","MultiStopXL","Stop XL multiplicity",144,0,144);
-  fMultiStopXH = anl->CreateTH1I ("Unpack","MultiStopXH","Stop XH multiplicity",144,0,144);
-  fMultiStopYL = anl->CreateTH1I ("Unpack","MultiStopYL","Stop YL multiplicity",144,0,144);
-  fMultiStopYH = anl->CreateTH1I ("Unpack","MultiStopYH","Stop YH multiplicity",144,0,144);
-  fMultiBackL = anl->CreateTH1I ("Unpack","MultiBackL","Back L multiplicity",64,0,64);
-  fMultiBackH = anl->CreateTH1I ("Unpack","MultiBackH","Back H multiplicity",64,0,64);
-  fMultiVetoL = anl->CreateTH1I ("Unpack","MultiVetoL","Veto L multiplicity",16,0,16);
-  fMultiVetoH = anl->CreateTH1I ("Unpack","MultiVetoH","Veto H multiplicity",16,0,16);
-  fTof = anl->CreateTH1I ("Unpack","Tof","Adc[80]",1000,0,4000);
-  fTofgated = anl->CreateTH1I ("Unpack","Tofg","Adc[80] gated with TOF",1000,0,4000);
+  fMultiGamma = anl->CreateTH1I ("Unpack/Multi","MultiGamma","Gamma multiplicity",10,0,10);
+  fMultiAdc   = anl->CreateTH1I ("Unpack/Multi","MultiAdc","Adc multiplicity",100,0,100);
+  fMultiStopXL = anl->CreateTH1I ("Unpack/Multi","MultiStopXL","Stop XL multiplicity",144,0,144);
+  fMultiStopXH = anl->CreateTH1I ("Unpack/Multi","MultiStopXH","Stop XH multiplicity",144,0,144);
+  fMultiStopYL = anl->CreateTH1I ("Unpack/Multi","MultiStopYL","Stop YL multiplicity",144,0,144);
+  fMultiStopYH = anl->CreateTH1I ("Unpack/Multi","MultiStopYH","Stop YH multiplicity",144,0,144);
+  fMultiBackL = anl->CreateTH1I ("Unpack/Multi","MultiBackL","Back L multiplicity",64,0,64);
+  fMultiBackH = anl->CreateTH1I ("Unpack/Multi","MultiBackH","Back H multiplicity",64,0,64);
+  fMultiVetoL = anl->CreateTH1I ("Unpack/Multi","MultiVetoL","Veto L multiplicity",16,0,16);
+  fMultiVetoH = anl->CreateTH1I ("Unpack/Multi","MultiVetoH","Veto H multiplicity",16,0,16);
+  fTof        = anl->CreateTH1I ("Unpack","Tof","Adc[80]",1000,0,4000);
+  fTofgated   = anl->CreateTH1I ("Unpack","Tofg","Adc[80] gated with TOF",1000,0,4000);
   // test spectrum
 //	fTest      = anl->CreateTH1I (0,"Gaussians","Gauss",4000,0.5,4000.5);
 //	  gRandom->SetSeed(0);
@@ -169,6 +169,7 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
 	fSizeA     = anl->CreateTH1I ("Unpack","SizeA","Netto ADC event size","Size [32bit]","Events",200,0,200);
 	fSizeG     = anl->CreateTH1I ("Unpack","SizeG","Netto GAMMA event size","Size [32bit]","Events",200,0,200);
 	fSpill     = anl->CreateTH1I ("Unpack","Spill","Events over spill","Mysec","Events",10000,0,200000);
+	fSpillG    = anl->CreateTH1I ("Unpack","SpillGated","Events over spill with stop E","Mysec","Events",10000,0,200000);
 	fFilter    = anl->CreateTH1I ("Unpack","Filter","Tof,chopper,macro,micro","0:all, 1:checked, 2:true, 3:false, 5: 9: 13:","Counts",17,0,17);
 	fPedestal  = anl->CreateTH1I ("Unpack","Pedestals","Pedestals",96,-0.5,95.5);
 	fContent   = anl->CreateTH1I ("Unpack","Contents","Contents",96,-0.5,95.5);
@@ -228,7 +229,7 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
 {
   TGo4MbsSubEvent* psubevt;
   UInt_t H,L;
-  low=100;
+  low=fParam->AdcThreshold;
   takeEvent=kFALSE;
   latches=1;
   adcs=0;
@@ -287,7 +288,7 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
 	  fSpill->Fill(timediff);
   }
   spillOn=kTRUE;
-}else spillOn=kFALSE; // spill off
+  }else spillOn=kFALSE; // spill off
 
 //-----
   pUnpackEvent->fiTimeStamp=timestamp; // mysec
@@ -296,16 +297,14 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
 	  cout <<"      Last event "<<LastEvent<<", this "<<pUnpackEvent->fiEventNumber<<endl;
   LastEvent= pUnpackEvent->fiEventNumber;
  // cout <<"Unp: "<<pUnpackEvent->fiEventNumber<< endl;
-  if(timestamp<TimeLastadc) timediff=0xFFFFFFFF-TimeLastadc+timestamp+1;
-  else                      timediff=timestamp-TimeLastadc;
+  if(timestamp<TimeLastadc) fiDeltaTime=0xFFFFFFFF-TimeLastadc+timestamp+1;
+  else                      fiDeltaTime=timestamp-TimeLastadc;
   TimeLastadc=timestamp;
-  fiDeltaTime=timediff;
   if(TimeLastsec > 0)
     pUnpackEvent->fiSystemMysec += (pUnpackEvent->fiSystemSec-TimeLastsec)*1000000;
   TimeLastsec=pUnpackEvent->fiSystemSec;
-  if(pUnpackEvent->fiSystemMysec<TimeLastmysec) timediff=0xFFFFFFFF-TimeLastmysec+pUnpackEvent->fiSystemMysec+1;
-  else                      timediff=pUnpackEvent->fiSystemMysec-TimeLastmysec;
-  fiDeltaSystemTime=timediff;
+  if(pUnpackEvent->fiSystemMysec<TimeLastmysec) fiDeltaSystemTime=0xFFFFFFFF-TimeLastmysec+pUnpackEvent->fiSystemMysec+1;
+  else                                          fiDeltaSystemTime=pUnpackEvent->fiSystemMysec-TimeLastmysec;
   TimeLastmysec=pUnpackEvent->fiSystemMysec;
   fSystemTime->Fill(fiDeltaSystemTime);
   fAdcTime->Fill(fiDeltaTime);
@@ -391,8 +390,9 @@ while(adcs > 0){
 if(fControl->UnpackHisto){
 for(i=0;i<96;i++) fAdc[i]->Fill(pUnpackEvent->fiAdc[i]);
 }
+fMultiAdc->Fill(pUnpackEvent->fiMultiAdc);
 pUnpackEvent->SetValid(takeEvent); // to store
-pUnpackEvent->fisTof=pUnpackEvent->fiAdc[80]>300;
+pUnpackEvent->fisTof=pUnpackEvent->fiAdc[80] > fParam->Adc80TofMin;
 // now fill the detector arrays. Low is even, high is odd index in fiAdc
 // StopX
 multiL=0;
@@ -402,7 +402,7 @@ for(i=0;i<codec->getStopXnoAdc();i++){
 	n=codec->getIndex(k);    // from that get stripe index
 	//cout << "k " << k << " n " << n << " adc "<< H<<endl;
 	L=pUnpackEvent->fiAdc[2*k];
-	if(L>low){
+	if(L>fParam->AdcThreshold){
 		multiL++;
 		if(L>pUnpackEvent->fiStopXLhitV){
 			pUnpackEvent->fiStopXLhitV=L;
@@ -410,7 +410,7 @@ for(i=0;i<codec->getStopXnoAdc();i++){
 		}
 	}
 	H=pUnpackEvent->fiAdc[2*k+1];
-	if(H>low){
+	if(H>fParam->AdcThreshold){
 		multiH++;
 		if(H>pUnpackEvent->fiStopXHhitV){
 			pUnpackEvent->fiStopXHhitV=H;
@@ -423,6 +423,8 @@ for(i=0;i<codec->getStopXnoAdc();i++){
 }//StopX
 pUnpackEvent->fiMultiStopXL=multiL;
 pUnpackEvent->fiMultiStopXH=multiH;
+fMultiStopXL->Fill(multiL);
+fMultiStopXH->Fill(multiH);
 // StopY
 multiL=0;
 multiH=0;
@@ -430,7 +432,7 @@ for(i=0;i<codec->getStopYnoAdc();i++){
 	k=codec->getStopYAdc(i); // ADC channel index, low or high
 	n=codec->getIndex(k);    // from that get stripe index
 	L=pUnpackEvent->fiAdc[2*k];
-	if(L>low){
+	if(L>fParam->AdcThreshold){
 		multiL++;
 		if(L>pUnpackEvent->fiStopYLhitV){
 			pUnpackEvent->fiStopYLhitV=L;
@@ -438,7 +440,7 @@ for(i=0;i<codec->getStopYnoAdc();i++){
 		}
 	}
 	H=pUnpackEvent->fiAdc[2*k+1];
-	if(H>low){
+	if(H>fParam->AdcThreshold){
 		multiH++;
 		if(H>pUnpackEvent->fiStopYHhitV){
 			pUnpackEvent->fiStopYHhitV=H;
@@ -450,12 +452,8 @@ for(i=0;i<codec->getStopYnoAdc();i++){
 }//StopY
 pUnpackEvent->fiMultiStopYL=multiL;
 pUnpackEvent->fiMultiStopYH=multiH;
-//if((pUnpackEvent->fiStopYLhitI<0)|(pUnpackEvent->fiStopYHhitI<0))
-//printf("Ev %9d: XL=%3d XH=%3d YL=%3d YH=%3d BL=%3d BH=%3d\n",
-//pUnpackEvent->fiEventNumber,
-//pUnpackEvent->fiStopYLhitI,pUnpackEvent->fiStopYHhitI,
-//pUnpackEvent->fiBackLhitI,pUnpackEvent->fiBackHhitI,
-//pUnpackEvent->fiStopXLhitI,pUnpackEvent->fiStopXHhitI);
+fMultiStopYL->Fill(multiL);
+fMultiStopYH->Fill(multiH);
 
 // Back
 multiL=0;
@@ -484,6 +482,8 @@ for(i=0;i<codec->getBacknoAdc();i++){
 }// Back
 pUnpackEvent->fiMultiBackL=multiL;
 pUnpackEvent->fiMultiBackH=multiH;
+fMultiBackL->Fill(multiL);
+fMultiBackH->Fill(multiH);
 // Veto
 multiL=0;
 multiH=0;
@@ -511,9 +511,14 @@ for(i=0;i<codec->getVetonoAdc();i++){
 }//Veto
 pUnpackEvent->fiMultiVetoL=multiL;
 pUnpackEvent->fiMultiVetoH=multiH;
+fMultiVetoL->Fill(multiL);
+fMultiVetoH->Fill(multiH);
 pUnpackEvent->fisVeto=(multiL>0);
 }// V785 ADCs
+
+if(spillOn&(pUnpackEvent->fiStopXLhitV>fParam->AlphaMinL))fSpillG->Fill(timediff);
 if(pdata-psubevent) fSizeA->Fill(pdata-psubevent);
+
 // follows Sis3302
 if(pdata != pbehind){
   pdata++; // skip first tag word

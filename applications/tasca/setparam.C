@@ -23,17 +23,22 @@ void setparam()
 	Float_t fFission1Tmin=0.,     fFission1Tmax=900.;
 	Float_t fFission2Tmin=0.,     fFission2Tmax= 70.;
 
-	TGo4WinCond * wc;
-	TascaParameter *fp;
+TGo4WinCond * wc;
+TascaParameter *fp;
 // because the name Parameters is not unique we must fully qualify
- fp = (TascaParameter *) go4->GetObject("Parameters/Parameters","Go4");
+fp = (TascaParameter *) go4->GetObject("Parameters/Parameters","Go4");
  if(fp!=0){
-	fp->shift=5; // Unpacker gamma decoder for energies
-	fp->EventStackSize=100000; // used in Analysis
-	fp->AlphaMaxL=16000.; // Calibrator take low value up to this limit
-	fp->AlphaMaxH=30000.;// take high value up to this limit as low
 
-// Do not change here:
+	fp->shift=5;               // Unpacker gamma decoder for energies
+	fp->Adc80TofMin=300;       // signals Tof (instead of TOF register)
+	fp->AdcThreshold=100;      // Unpacker uses this is minimum raw value
+	fp->EventStackSize=100000; // used in Analysis
+	fp->AlphaMaxL=16000.;      // Calibrator take low value up to this limit. Above
+	fp->AlphaMaxH=30000.;      // take high value up to this limit as low
+	fp->AlphaMinL=1000.;       // Unpacker uncalibrated minimum value for alpha
+	fp->AlphaMinH=1000.;       // Unpacker uncalibrated minimum value for alpha
+
+// -----------------Do not change below ---------------------
      fp->AlphaTmin   =(UInt_t)fAlphaTmin*1000000;
      fp->AlphaTmax   =(UInt_t)fAlphaTmax*1000000;
      fp->Alpha1Tmin  =(UInt_t)fAlpha1Tmin*1000000;

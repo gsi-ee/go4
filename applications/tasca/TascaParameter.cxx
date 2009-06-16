@@ -26,6 +26,11 @@ Save(0),Fill(1),shift(5),EventStackSize(10)
     Fission1Tmax=180000000;
     Fission2Tmin=0;
     Fission2Tmax=180000000;
+    AlphaMaxL=20000;
+    AlphaMaxH=20000;
+    AlphaMinL=0;
+    AlphaMinH=0;
+    Adc80TofMin=0;
 }
 //***********************************************************
 TascaParameter::~TascaParameter(){
@@ -36,6 +41,10 @@ TascaParameter::~TascaParameter(){
 //-----------------------------------------------------------
 Int_t TascaParameter::PrintParameter(){
   cout << "Tasca> TascaParameter " << GetName()<<":" <<endl;
+  printf("      Adc:  80TofMin=%10d Thrs=%10d\n",Adc80TofMin,AdcThreshold);
+  printf("      Alpha:    minL=%10.1f minH=%10.1f\n",AlphaMinL,AlphaMinH);
+  printf("      Alpha:    maxL=%10.1f maxH=%10.1f\n",AlphaMaxL,AlphaMaxH);
+  printf("      Alpha:    Tmin=%10d Tmax=%10d\n",AlphaTmin,AlphaTmax);
   printf("      Alpha:    Tmin=%10d Tmax=%10d\n",AlphaTmin,AlphaTmax);
   printf("      Alpha1:   Tmin=%10d Tmax=%10d\n",Alpha1Tmin,Alpha1Tmax);
   printf("      Alpha2:   Tmin=%10d Tmax=%10d\n",Alpha2Tmin,Alpha2Tmax);
