@@ -18,12 +18,14 @@ class TascaParameter : public TGo4Parameter {
       virtual ~TascaParameter();
 
       Int_t PrintParameter();
+      Bool_t IsPrinted(){return Printed;}
       Bool_t UpdateFrom(TGo4Parameter *);
 
       Bool_t Save;
       Bool_t Fill;
       Int_t  shift;
       UInt_t EventStackSize;
+      Bool_t Printed; //! not to store
       UInt_t Adc80TofMin;
       UInt_t AdcThreshold;
       Float_t AlphaMaxL;

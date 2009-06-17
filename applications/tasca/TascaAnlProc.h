@@ -62,6 +62,8 @@ class TascaAnlProc : public TGo4EventProcessor {
       Bool_t fAlphaFound;
       Bool_t fEvrFound;
       UInt_t fTimeDiff;
+      UInt_t fiEventsProcessed;
+      UInt_t fiEventsWritten;
 
    ClassDef(TascaAnlProc,1)
 };

@@ -54,6 +54,7 @@ class TascaControl : public TGo4Parameter {
 	UInt_t MacroTrue;
 	UInt_t MicroChecked;
 	UInt_t MicroTrue;
+	Bool_t Printed;//! not to store
 
    ClassDef(TascaControl,1)
 };

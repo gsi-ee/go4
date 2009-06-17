@@ -22,14 +22,14 @@ void setup(Text_t* AutoSaveFile,
   TString unpackOverWrite("yes");
 
   TString caliProcess("yes");
-  TString caliStore("no");
+  TString caliStore("yes");
   TString caliOverWrite("yes");
 
   TString checkProcess("yes");
-  TString checkStore("nop");
+  TString checkStore("yes");
   TString checkOverWrite("yes");
 
-  TString analysisProcess("yes");
+  TString analysisProcess("no");
   TString analysisStore("no");
   TString analysisOverWrite("yes");
 
@@ -119,7 +119,7 @@ void setup(Text_t* AutoSaveFile,
   if(unpackProcess.BeginsWith("n"))
   printf("         Source:    yes file %s\n",UnpackedFile);
   else
-  printf("         Source:    yes from unpack\n");
+  printf("         Source:    yes from Unpacker\n");
   printf("         Store:     %s file %s\n",caliStore.Data(),CalibratedFile);
   printf("         OverWrite: %s\n",caliOverWrite.Data());
   }
@@ -128,7 +128,7 @@ void setup(Text_t* AutoSaveFile,
   if(caliProcess.BeginsWith("n"))
   printf("         Source:    yes file %s\n",CalibratedFile);
   else
-  printf("         Source:    yes from unpack\n");
+  printf("         Source:    yes from Calibrator\n");
   printf("         Store:     %s file %s\n",checkStore.Data(),CheckedFile);
   printf("         OverWrite: %s\n",checkOverWrite.Data());
   }
@@ -137,7 +137,7 @@ void setup(Text_t* AutoSaveFile,
   if(checkProcess.BeginsWith("n"))
   printf("         Source:    yes file %s\n",CheckedFile);
   else
-  printf("         Source:    yes from cali\n");
+  printf("         Source:    yes from Checker\n");
   printf("         Store:     %s file %s\n",analysisStore.Data(),AnalyzedFile);
   printf("         OverWrite: %s\n",analysisOverWrite.Data());
   }

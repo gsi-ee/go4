@@ -13,7 +13,7 @@
 TascaParameter::TascaParameter() : TGo4Parameter() {}
 //***********************************************************
 TascaParameter::TascaParameter(const char* name) : TGo4Parameter(name),
-Save(0),Fill(1),shift(5),EventStackSize(10)
+Save(0),Fill(1),shift(5),EventStackSize(10),Printed(kFALSE)
 {
     cout << "Tasca> TascaParameter: " << name << " created" << endl;
     AlphaTmin=0;
@@ -40,6 +40,7 @@ TascaParameter::~TascaParameter(){
 
 //-----------------------------------------------------------
 Int_t TascaParameter::PrintParameter(){
+if(!Printed){
   cout << "Tasca> TascaParameter " << GetName()<<":" <<endl;
   printf("      Adc:  80TofMin=%10d Thrs=%10d\n",Adc80TofMin,AdcThreshold);
   printf("      Alpha:    minL=%10.1f minH=%10.1f\n",AlphaMinL,AlphaMinH);
@@ -50,6 +51,8 @@ Int_t TascaParameter::PrintParameter(){
   printf("      Alpha2:   Tmin=%10d Tmax=%10d\n",Alpha2Tmin,Alpha2Tmax);
   printf("      Fission1: Tmin=%10d Tmax=%10d\n",Fission1Tmin,Fission1Tmax);
   printf("      Fission2: Tmin=%10d Tmax=%10d\n",Fission2Tmin,Fission2Tmax);
+}
+  Printed=kTRUE;
   return 0;
 }
 //-----------------------------------------------------------

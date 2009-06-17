@@ -26,6 +26,14 @@
 #include "TascaAnalysis.h"
 
 //***********************************************************
+TascaAnlProc::~TascaAnlProc()
+{
+	  cout << "Tasca> TascaAnlProc:    Processed "<<fiEventsProcessed<<" written "<<fiEventsWritten << endl;
+	  cout << "                        Fissions "<<fFissions << endl;
+	  cout << "                        Alphas   "<<fAlphas << endl;
+	  cout << "                        EVRs     "<<fEvrs << endl;
+}
+//***********************************************************
 TascaAnlProc::TascaAnlProc()
   : TGo4EventProcessor(),fInput(0),fFissions(0),fAlphas(0),fEvrs(0)
 {
@@ -58,17 +66,11 @@ TascaAnlProc::TascaAnlProc(const char* name) :
   fEvent=(TascaEvent *) fEventStack->First();
   fStackfilled=kFALSE;
   fFirstEvent=0;
+  fiEventsProcessed=0;
+  fiEventsWritten=0;
   fAlphaFound=kFALSE;
   fEvrFound=kFALSE;
   }
-//***********************************************************
-TascaAnlProc::~TascaAnlProc()
-{
-	  cout << "Tasca> TascaAnlProc: Delete" << endl;
-	  cout << "      Fissions "<<fFissions << endl;
-	  cout << "      Alphas   "<<fAlphas << endl;
-	  cout << "      EVRs     "<<fEvrs << endl;
-}
 //***********************************************************
 void TascaAnlProc::PrintFission(Bool_t store){
 printf("Fission %3d: %9d  MevH:%6.2f L: %6.2f Back H: %6.2f L: %6.2f X %3d Y %3d Spill %d\n",
@@ -82,6 +84,7 @@ printf("Fission %3d: %9d  MevH:%6.2f L: %6.2f Back H: %6.2f L: %6.2f X %3d Y %3d
 		fFissionEvent->fiStopYHhitI,
 		fFissionEvent->fisMacro
 );
+fiEventsWritten++;
 return;
 }
 void TascaAnlProc::PrintAlpha(Bool_t store){
@@ -93,6 +96,7 @@ printf("    Alpha %8d MevL: %6.2f toFission [s] %7.3f                  X %3d Y %
 		fStackEvent->fiStopYLhitI,
 		fStackEvent->fisMacro
 );
+fiEventsWritten++;
 return;
 }
 void TascaAnlProc::PrintEvr(Bool_t store){
@@ -104,6 +108,7 @@ printf("    Evr   %8d MevH: %6.2f toFission [s] %7.3f                  X %3d Y %
 		fStackEvent->fiStopYHhitI,
 		fStackEvent->fisMacro
 );
+fiEventsWritten++;
 return;
 }
 //-----------------------------------------------------------
@@ -111,6 +116,7 @@ void TascaAnlProc::TascaEventAnalysis(TascaAnlEvent* poutevt)
 {
 poutevt->SetValid(kFALSE);       // events are not stored until kTRUE is set
 fInput  = (TascaCheckEvent*) GetInputEvent();
+fiEventsProcessed++;
 // Process only if event is valid
 //cout <<"Anl: "<<fInput->fiEventNumber<< endl;
 if(!fInput->IsValid()) return;

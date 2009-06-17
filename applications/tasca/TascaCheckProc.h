@@ -54,7 +54,8 @@ class TascaCheckProc : public TGo4EventProcessor {
       UInt_t TimeLastmysec;
       UInt_t TimeLastadc;
       UInt_t i,ii;
-      UInt_t fEvents;
+      UInt_t fiEventsProcessed;
+      UInt_t fiEventsWritten;
       Int_t fLastEvent;
 
    ClassDef(TascaCheckProc,1)

@@ -40,6 +40,13 @@
 #define V785_3 9
 
 //***********************************************************
+TascaUnpackProc::~TascaUnpackProc()
+{
+  cout << "Tasca> TascaUnpackProc: Processed "<<fiEventsProcessed<<
+  " written "<<fiEventsWritten <<
+  " last "<<fLastEvent<<endl;
+}
+//***********************************************************
 TascaUnpackProc::TascaUnpackProc() :
   TGo4EventProcessor()
 {}
@@ -78,12 +85,13 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   cout << "Tasca> TascaUnpackProc: Reset check counters" << endl;
   codec->Cleanup();
   codec->setMap(false); // set true to get printout
-  evcount=0;
+  fiEventsProcessed=0;
+  fiEventsWritten=0;
   TimeLastgamma=0;
   TimeLastsec=0;
   TimeLastmysec=0;
   TimeLastadc=0;
-  LastEvent=0;
+  fLastEvent=0;
   for(i=0;i<5;i++){
    StopXLcross[5]=0.;
    StopXHcross[5]=0.;
@@ -211,11 +219,6 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   }
 }
 //***********************************************************
-TascaUnpackProc::~TascaUnpackProc()
-{
-  cout << "Tasca> TascaUnpackProc: Delete, last event "<<LastEvent << endl;
-}
-//***********************************************************
 void TascaUnpackProc::CalcPedestals(){
 if(fControl->UnpackHisto){
 for(i =0;i<96;i++){
@@ -239,13 +242,11 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   fSize->Fill((fInput->GetDlen()>>1)-5);// is data length in 32bit without headers
   if((fInput == 0) |
      (fInput->GetTrigger()==14) |
-     (fInput->GetTrigger()==15) |
-     (fInput->GetDlen() == 36)){
-	  //cout<<"Unp: skip "<<fInput->GetCount()<<endl;
+     (fInput->GetTrigger()==15)) {
 	  return;
   }
   //cout<<endl<<"Unp: "<<fInput->GetCount()<<endl;
-  evcount++;
+  fiEventsProcessed++;
   fInput->ResetIterator();
   psubevt = fInput->NextSubEvent();
   pdata=(UInt_t *)psubevt->GetDataField();
@@ -293,9 +294,11 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
 //-----
   pUnpackEvent->fiTimeStamp=timestamp; // mysec
   pUnpackEvent->fiEventNumber=fInput->GetCount();
-  if(LastEvent+1 != pUnpackEvent->fiEventNumber)
-	  cout <<"      Last event "<<LastEvent<<", this "<<pUnpackEvent->fiEventNumber<<endl;
-  LastEvent= pUnpackEvent->fiEventNumber;
+  if(fLastEvent+1 != pUnpackEvent->fiEventNumber){
+	  cout <<"      Unpack:  Last event  "<<fLastEvent<<", this "<<pUnpackEvent->fiEventNumber<<endl;
+	  cout <<"      Unpack:  First event "<<pUnpackEvent->fiEventNumber<<endl;
+  }
+  fLastEvent= pUnpackEvent->fiEventNumber;
  // cout <<"Unp: "<<pUnpackEvent->fiEventNumber<< endl;
   if(timestamp<TimeLastadc) fiDeltaTime=0xFFFFFFFF-TimeLastadc+timestamp+1;
   else                      fiDeltaTime=timestamp-TimeLastadc;
@@ -523,7 +526,7 @@ if(pdata-psubevent) fSizeA->Fill(pdata-psubevent);
 if(pdata != pbehind){
   pdata++; // skip first tag word
   DecodeGamma(pdata,pbehind);
-  pUnpackEvent->SetValid(kTRUE); // to store
+  takeEvent=kTRUE;
   for(i=0;i<codec->SCHANNELS-1;i++){
 	fGammaE[i]->Fill(pUnpackEvent->fiGammaE[i]);
 	if(pUnpackEvent->fiGammaE[i]>0)
@@ -538,6 +541,8 @@ if(pdata != pbehind){
   TimeLastgamma=pUnpackEvent->fiGammaTime;
   if(pbehind-pdata)  fSizeG->Fill(pbehind-pdata);
 }
+pUnpackEvent->SetValid(takeEvent); // to store
+if(takeEvent)fiEventsWritten++;
 return;
  // check for valid event
 //if(!fPedestals->Calibrate){

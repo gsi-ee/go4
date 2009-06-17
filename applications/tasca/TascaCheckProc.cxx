@@ -24,6 +24,13 @@
 #include "TascaAnalysis.h"
 
 //***********************************************************
+TascaCheckProc::~TascaCheckProc()
+{
+	  cout << "Tasca> TascaCheckProc:  Processed "<<fiEventsProcessed<<
+	  " written "<<fiEventsWritten <<
+	  " last "<<fLastEvent<<endl;
+}
+//***********************************************************
 TascaCheckProc::TascaCheckProc()
   : TGo4EventProcessor(),fInput(0)
 {
@@ -42,7 +49,8 @@ TascaCheckProc::TascaCheckProc(const char* name) :
   TimeLastgamma=0;
   TimeLastmysec=0;
   TimeLastadc=0;
-  fEvents=0;
+  fiEventsProcessed=0;
+  fiEventsWritten=0;
   anl=(TascaAnalysis *)TGo4Analysis::Instance();
 
   fControl = (TascaControl *)   anl->CreateParameter("Control","Controls");
@@ -78,12 +86,6 @@ TascaCheckProc::TascaCheckProc(const char* name) :
     gROOT->ProcessLine(".x setparam.C()");
   }
 //***********************************************************
-TascaCheckProc::~TascaCheckProc()
-{
-	  cout << "Tasca> TascaCheckProc: Delete, events written: " <<fEvents<<
-	  ", last "<<fLastEvent<<endl;
-}
-//***********************************************************
 
 //-----------------------------------------------------------
 void TascaCheckProc::TascaEventCheck(TascaCheckEvent* poutevt)
@@ -91,12 +93,13 @@ void TascaCheckProc::TascaEventCheck(TascaCheckEvent* poutevt)
 Bool_t takeEvent=kFALSE;
 poutevt->SetValid(takeEvent);       // events are not stored until kTRUE is set
 fInput  = (TascaCaliEvent*) GetInputEvent();
-if(fLastEvent<0)
-	  cout <<"      Checker: First event "<<fInput->fiEventNumber<<endl;
-fLastEvent=fInput->fiEventNumber;
+fiEventsProcessed++;
 // Process only if event is valid
 //cout <<"Chk: "<<fInput->fiEventNumber<< endl;
 if(!fInput->IsValid()) return;
+if(fLastEvent<0)
+	  cout <<"      Checker: First event "<<fInput->fiEventNumber<<endl;
+fLastEvent=fInput->fiEventNumber;
 
 if(fControl->CheckHisto){
 	Bool_t YH=fadcKevH->Test(fInput->ffStopYHhitV);
@@ -126,6 +129,9 @@ if(fInput->fisTof){
 	if(fwinAlpha->Test(fInput->ffStopXLhitV)) {takeEvent=kTRUE;poutevt->fisAlpha=kTRUE;}
 	if(fwinAlpha1->Test(fInput->ffStopXLhitV)){takeEvent=kTRUE;poutevt->fisAlpha=kTRUE;}
 	if(fwinAlpha2->Test(fInput->ffStopXLhitV)){takeEvent=kTRUE;poutevt->fisAlpha=kTRUE;}
+	if(fwinAlpha->Test(fInput->ffStopXLhitV+fInput->ffBackLhitV)) {takeEvent=kTRUE;poutevt->fisAlpha=kTRUE;}
+	if(fwinAlpha1->Test(fInput->ffStopXLhitV+fInput->ffBackLhitV)){takeEvent=kTRUE;poutevt->fisAlpha=kTRUE;}
+	if(fwinAlpha2->Test(fInput->ffStopXLhitV+fInput->ffBackLhitV)){takeEvent=kTRUE;poutevt->fisAlpha=kTRUE;}
 	if(fwinFission1->Test(fInput->ffStopXHhitV)&
 		fwinBack->Test(fInput->ffBackHhitV))  {takeEvent=kTRUE;poutevt->fisFission=kTRUE;}
 }
@@ -185,7 +191,7 @@ if(takeEvent){
 	TimeLastgamma=fInput->fiGammaMysec;
 	fTime->Fill(poutevt->fiDeltaTime);
 	poutevt->SetValid(kTRUE);       // events are not stored until kTRUE is set
-	fEvents++;
+	fiEventsWritten++;
 }
 return;
 } // BuildCalEvent

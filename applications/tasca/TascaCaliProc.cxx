@@ -32,6 +32,13 @@
 #include "TascaAnalysis.h"
 
 //***********************************************************
+TascaCaliProc::~TascaCaliProc()
+{
+  cout << "Tasca> TascaCaliProc:   Processed "<<fiEventsProcessed<<
+  " written "<<fiEventsWritten <<
+  " last "<<fLastEvent<<endl;
+}
+//***********************************************************
 TascaCaliProc::TascaCaliProc() :
   TGo4EventProcessor()
 {}
@@ -57,6 +64,8 @@ TascaCaliProc::TascaCaliProc(const char* name) :
   gROOT->ProcessLine(".x setcontrol.C()");
   gROOT->ProcessLine(".x setparam.C()");
   gROOT->ProcessLine(".x setcali.C()"); // en-disable calibration
+  fiEventsProcessed=0;
+  fiEventsWritten=0;
 
 if(fControl->CaliHisto){
 	fhStopXLH=anl->CreateTH2I("Cali/Sum","StopXLH","Stop X low/high","Low Energy [Kev]","High Energy [Kev]","Counts",4000,0,30000,4000,0,30000);
@@ -254,11 +263,6 @@ if(fControl->CaliHisto){
 } // fControl->CaliHisto
 }
 //***********************************************************
-TascaCaliProc::~TascaCaliProc()
-{
-  cout << "Tasca> TascaCaliProc: Delete" << endl;
-}
-//***********************************************************
 
 //-----------------------------------------------------------
 void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
@@ -266,6 +270,7 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 
   poutevt->SetValid(kFALSE); // not to store
   fInput    = (TascaUnpackEvent* ) GetInputEvent(); // from this
+  fiEventsProcessed++;
   // Process only if event is valid
   //cout <<"Cal: "<<fInput->fiEventNumber<< endl;
   if(!fInput->IsValid()) return;
@@ -383,4 +388,5 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
 } // fControl->CaliHisto
 
   poutevt->SetValid(kTRUE); // store
+  fiEventsWritten++;
 }

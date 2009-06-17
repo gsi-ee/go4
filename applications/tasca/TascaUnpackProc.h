@@ -74,7 +74,9 @@ class TascaUnpackProc : public TGo4EventProcessor {
       TGo4Picture   *M2raw;
       TGo4Picture   *M3raw;
       ULong64_t	fGammaStamps[8];
-      UInt_t i,k,n, evcount;
+      UInt_t i,k,n;
+      UInt_t fiEventsProcessed;
+      UInt_t fiEventsWritten;
       UInt_t fiDeltaSystemTime;
       UInt_t fiDeltaGammaTime;
       UInt_t fiDeltaTime;
@@ -82,7 +84,7 @@ class TascaUnpackProc : public TGo4EventProcessor {
       UInt_t TimeLastsec;
       UInt_t TimeLastmysec;
       UInt_t TimeLastadc;
-      UInt_t LastEvent;
+      UInt_t fLastEvent;
       UInt_t spillTime0;
       UInt_t spillIndex;
       Int_t spillBins[100];
