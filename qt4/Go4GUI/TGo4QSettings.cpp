@@ -13,6 +13,7 @@
 
 #include "TGo4Marker.h"
 #include "TGo4Condition.h"
+#include "TGo4WorkSpace.h"
 
 QString TGo4QSettings::fgSettFileName = "";
 
@@ -462,10 +463,17 @@ void TGo4QSettings::storePanelSize(QWidget* w)
    setInt( "/ViewPanel/Height", w->height() );
 }
 
-void TGo4QSettings::restorePanelSize(QWidget* w)
+QSize TGo4QSettings::lastPanelSize()
 {
    QSize rect(getInt( "/ViewPanel/Width", 450), getInt( "/ViewPanel/Height", 250));
-   w->resize(rect);
+
+   if (rect.height() > TGo4WorkSpace::Instance()->height()*4/5)
+      rect.setHeight(TGo4WorkSpace::Instance()->height()*4/5);
+
+   if (rect.width() > TGo4WorkSpace::Instance()->width()*4/5)
+      rect.setWidth(TGo4WorkSpace::Instance()->width()*4/5);
+
+   return rect;
 }
 
 void TGo4QSettings::setBrowserColumn(const char* name, int width)

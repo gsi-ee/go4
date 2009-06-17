@@ -31,6 +31,11 @@
 #include "TGCanvas.h"
 #include "TGTab.h"
 
+#ifdef __GO4GED__
+#include "TGedEditor.h"
+#endif
+
+
 #include <QMenuBar>
 #include <QStatusBar>
 #include <QFileDialog>
@@ -104,7 +109,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
    fxQCanvas->setObjectName(GetPanelName());
    fxQCanvas->getCanvas()->SetName(GetPanelName());
 
-   go4sett->restorePanelSize(this);
+   resize(go4sett->lastPanelSize());
 
    fSelectMenu = 0;
    fSelectMap = 0;
@@ -243,7 +248,6 @@ TGo4ViewPanel::~TGo4ViewPanel()
          gROOT->SetSelectedPad(0);
 }
 
-
 const char* TGo4ViewPanel::GetPanelName()
 {
    return fPanelName.toAscii();
@@ -253,7 +257,6 @@ void TGo4ViewPanel::SetPanelName(const char* newname)
 {
    fPanelName = newname;
 }
-
 
 TGo4Slot* TGo4ViewPanel::GetPanelSlot()
 {

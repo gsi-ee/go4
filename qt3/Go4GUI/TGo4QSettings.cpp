@@ -11,6 +11,7 @@
 
 #include "TGo4Marker.h"
 #include "TGo4Condition.h"
+#include "TGo4WorkSpace.h"
 
 const char* fxToolsfile = "/go4toolsrc";
 const char* fxSettingsfolder = "/.qt";
@@ -459,6 +460,13 @@ void TGo4QSettings::restorePanelSize(QWidget* w)
    QSize rect;
    rect.setWidth(readNumEntry(GetSettingsName()+"/geometry/ViewPanelWidth", 300));
    rect.setHeight(readNumEntry(GetSettingsName()+"/geometry/ViewPanelHeight", 300));
+
+   if (rect.height() > TGo4WorkSpace::Instance()->height()*4/5)
+      rect.setHeight(TGo4WorkSpace::Instance()->height()*4/5);
+
+   if (rect.width() > TGo4WorkSpace::Instance()->width()*4/5)
+      rect.setWidth(TGo4WorkSpace::Instance()->width()*4/5);
+
    w->resize(rect);
 }
 
