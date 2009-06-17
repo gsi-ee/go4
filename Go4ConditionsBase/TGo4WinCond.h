@@ -44,10 +44,10 @@ class TGo4WinCond : public TGo4Condition {
       /** Returns limits. */
       virtual void GetValues(Int_t & dim, Double_t & x1, Double_t & y1, Double_t & x2, Double_t & y2);
 
-      virtual Double_t GetXLow();
-      virtual Double_t GetXUp();
-      virtual Double_t GetYLow();
-      virtual Double_t GetYUp();
+      inline virtual Double_t GetXLow(){return fLow1;}
+      inline virtual Double_t GetXUp() {return fUp1;}
+      inline virtual Double_t GetYLow(){return fLow2;}
+      inline virtual Double_t GetYUp() {return fUp2;}
 
       /** Printout. If limits is true, print limits too. */
       void PrintCondition(Bool_t limits);

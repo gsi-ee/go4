@@ -97,26 +97,6 @@ void TGo4WinCond::GetValues(Int_t & dim, Double_t & x1, Double_t & y1, Double_t 
    dim = GetDimension();
 }
 
-Double_t TGo4WinCond::GetXLow()
-{
-   return fLow1;;
-}
-
-Double_t TGo4WinCond::GetXUp()
-{
-   return fUp1;;
-}
-
-Double_t TGo4WinCond::GetYLow()
-{
-   return fLow2;
-}
-
-Double_t TGo4WinCond::GetYUp()
-{
-   return fUp2;
-}
-
 Bool_t TGo4WinCond::IsPolygonType()
 {
    return kFALSE;
