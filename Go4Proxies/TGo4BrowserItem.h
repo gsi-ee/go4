@@ -1,9 +1,9 @@
 #ifndef TGO4BROWSERITEM_H
 #define TGO4BROWSERITEM_H
 
-#include "TFolder.h"
-
 #include "RVersion.h"
+
+#include "TFolder.h"
 
 class TIterator;
 class TGo4BrowserProxy;
@@ -52,11 +52,19 @@ class TGo4BrowserItem : public TFolder {
       virtual void SetName(const char* name);
       virtual void SetTitle(const char* title = "");
       virtual void ls(Option_t* option = "*") const;
-      #if ROOT_VERSION_CODE < ROOT_VERSION(5,13,6)
-      virtual void SaveAs(const char* filename = "");
-      #else
+
+#ifdef WIN32
+
       virtual void SaveAs(const char* filename = "", Option_t *option = "");
-      #endif
+
+#else
+
+#if ROOT_VERSION_CODE < ROOT_VERSION(5,13,6)
+      virtual void SaveAs(const char* filename = "");
+#else
+      virtual void SaveAs(const char* filename = "", Option_t *option = "");
+#endif
+#endif
       virtual void DrawClass() const;
       virtual TObject* DrawClone(Option_t* option = "") const;
       virtual void Dump() const;

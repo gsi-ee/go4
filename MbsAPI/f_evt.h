@@ -42,6 +42,9 @@ typedef struct
   INTS4 l_offset;
 } s_tag;
 
+struct sLmdControl;
+
+
 typedef struct
 {
    INTS4    l_server_type;    /* number specifying input source */

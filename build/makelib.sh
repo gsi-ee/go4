@@ -31,7 +31,7 @@ if [ "$GO4_OS" = "Win32" ]; then
            comctl32.lib WSock32.lib"
   
   rootlibs="libCore.lib libCint.lib libMatrix.lib \
-            libHist.lib libGraf.lib libMinuit.lib \
+            libHist.lib libGraf.lib libMinuit.lib libMathCore.lib \
             libGpad.lib libThread.lib libTree.lib libXMLIO.lib"
   
   if [[ -a $ROOTSYS/lib/libSpectrum.lib ]]; then
@@ -101,8 +101,13 @@ if [ "$GO4_OS" = "Win32" ]; then
   
   link $SOFLAGS $LDFLAGS -out:$LIBDIR/${LIBNAME}.dll $LIBOBJS \
      $LIBDIR/${LIBNAME}.exp $extralibs $rootlibs $syslibs
-  
-  cp $LIBDIR/${LIBNAME}.lib $LIBDIR/${LIBNAME}.lib.$VESUFFIX
+
+  if [ "x$LINKDEF" != "x" ]; then
+     echo currdir=`pwd`
+     echo $RLIBMAP -r $LIBDIR/$LIBNAME.rootmap -l $LIBDIR/$LIBNAME.$SOSUFFIX -d $DEPLIBS -c $LINKDEF
+     $RLIBMAP -r $LIBDIR/$LIBNAME.rootmap -l $LIBDIR/$LIBNAME.$SOSUFFIX -d $DEPLIBS -c $LINKDEF
+     echo $LIBNAME.rootmap 'done'
+  fi
   
   if [ "$LIBDIR" == "lib" ]; then
     if [ "$isgo4lib" = "true" ]; then
