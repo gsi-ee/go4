@@ -31,6 +31,7 @@
 #define fgetpos64 fgetpos 
 #define fopen64 fopen 
 #define fseeko64 fseek
+#define fpos64_t fpos_t
 
 struct timespec {
    long   tv_sec;        /* seconds */
