@@ -6,7 +6,7 @@
 
 /* ++++++++++++++++ include UNIX standard headers +++++++++++++++++++++++++ */
 
-#if MBS_ENDIAN == 1     
+#if MBS_ENDIAN == 1
 #include "s_ve10_1.h"
 #include "s_ves10_1.h"
 #include "s_evhe.h"
@@ -17,8 +17,6 @@
 #include "s_evhe_swap.h"
 #include "s_bufhe_swap.h"
 #endif
-
-#include "fLmd.h"
 
 #define MAX_BUF_LGTH 32768
 #define MIN_BUF_LGTH 512

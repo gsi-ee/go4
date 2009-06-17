@@ -7,6 +7,7 @@
 #include "qmenubar.h"
 #include "qtooltip.h"
 #include "qapplication.h"
+#include "qheaderview.h"
 #include <QFocusEvent>
 #include <QDropEvent>
 #include <QMenuBar>
