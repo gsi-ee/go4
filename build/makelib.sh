@@ -103,17 +103,18 @@ if [ "$GO4_OS" = "Win32" ]; then
      $LIBDIR/${LIBNAME}.exp $extralibs $rootlibs $syslibs
 
   if [ "x$LINKDEF" != "x" ]; then
-     echo currdir=`pwd`
-     echo $RLIBMAP -r $LIBDIR/$LIBNAME.rootmap -l $LIBDIR/$LIBNAME.$SOSUFFIX -d $DEPLIBS -c $LINKDEF
-     $RLIBMAP -r $LIBDIR/$LIBNAME.rootmap -l $LIBDIR/$LIBNAME.$SOSUFFIX -d $DEPLIBS -c $LINKDEF
+     echo $RLIBMAP -r $LIBDIR/$LIBNAME.rootmap -l $LIBDIR/$LIBNAME.dll -d ${DEPLIBS//.lib/.dll} -c $LINKDEF
+     $RLIBMAP -r $LIBDIR/$LIBNAME.rootmap -l $LIBDIR/$LIBNAME.dll -d ${DEPLIBS//.lib/.dll} -c $LINKDEF
      echo $LIBNAME.rootmap 'done'
   fi
   
   if [ "$LIBDIR" == "lib" ]; then
     if [ "$isgo4lib" = "true" ]; then
-      echo Copy $LIBDIR/${LIBNAME}.dll to lib directory
+      echo Copy $LIBDIR/${LIBNAME}.dll to bin directory
       $MV $LIBDIR/${LIBNAME}.dll bin/${LIBNAME}.dll
-      touch $LIBDIR/${LIBNAME}.dll
+      if [ "x$LINKDEF" != "x" ]; then
+         cp $LIBDIR/${LIBNAME}.rootmap bin/${LIBNAME}.rootmap
+      fi
     fi
   fi
   

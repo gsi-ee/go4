@@ -13,10 +13,6 @@ DEPLIBS=$6
 DUMMY1=$MAPNAME.dummy1
 DUMMY2=$MAPNAME.dummy2
 
-#  echo 'map name = ' $MAPNAME
-#  echo 'lib name = ' $LIBNAME
-#  echo 'linkdef name = ' $LINKDEFNAME
-
 if [ "$GO4_OS" = "Win32" ]; then
   LIBNAME=${LIBNAME//.lib/.dll}
   DEPLIBS=${DEPLIBS//.lib/.dll}
