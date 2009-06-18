@@ -122,7 +122,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       void FetchItem(const char* itemname, Int_t wait_time = 0);
       void RedrawItem(const char* itemname);
 
-      Bool_t DefineFileObject(const char* itemname, TString& filedataslot, const char* &filepath);
+      Bool_t DefineFileObject(const char* itemname, TString& filedataslot, const char** filepath);
       Bool_t UpdateObjectInFile(const char* itemname, const char* fileslotname, const char* filepath);
       Bool_t SaveItemToFile(const char* itemname, const char* filename, const char* subfolder = 0);
 

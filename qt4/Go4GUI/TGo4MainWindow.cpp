@@ -2011,7 +2011,7 @@ bool TGo4MainWindow::SaveBrowserItemToFile(const char* itemname, const char* sub
 
    bool res = false;
 
-   if (br->DefineFileObject(itemname, fileslotname, filepath)) {
+   if (br->DefineFileObject(itemname, fileslotname, &filepath)) {
       int answer = QMessageBox::question(this, "Writing object to file",
          QString("Overwrite ") + filepath + " in file " + fileslotname.Data(),
          "Overwrite", "Save to other file", "Cancel");
