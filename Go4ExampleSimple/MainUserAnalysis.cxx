@@ -21,7 +21,7 @@ void usage(const char* err = 0)
    cout << "* GO4  online analysis    " << endl;
    cout << "* H. Essel, GSI, Darmstadt" << endl;
    cout << "* calling:                " << endl;
-   cout << "* MainUserAnalysis -server [CONFIG]                   : run analysis in server mode" << endl;
+   cout << "* MainUserAnalysis -server [CONFIG]              : run analysis in server mode" << endl;
    cout << "* MainUserAnalysis -gui name guihost guiport [CONFIG] : connect analysis to prepared gui" << endl;
    cout << "* MainUserAnalysis [CONFIG]                           : run analysis in batch mode" << endl;
    cout << "* CONFIG : -file filename.lmd   :  open lmd file" << endl;
@@ -71,6 +71,8 @@ int main(int argc, char **argv)
       batchMode = kFALSE;
       servermode = kTRUE;
       narg++;
+      // exclude dummy arguments from gui
+      while ((narg<argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) narg++;
    } else {
       // set up arguments for batch mode
       batchMode = kTRUE;
