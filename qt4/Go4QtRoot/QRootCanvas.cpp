@@ -145,7 +145,7 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
         buffer += "  ";
         buffer += selected->GetObjectInfo(px,py);
      } else {
-        buffer = "No seleceted object x = ";
+        buffer = "No selected object x = ";
         buffer += QString::number(px);
         buffer += "  y = ";
         buffer += QString::number(py);
