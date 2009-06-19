@@ -41,8 +41,6 @@ class QRootApplication : public QApplication {
 
       void setDebugOn() { fDebug=true; }
       void setWarningOn() { fWarning=true; }
-      void setErrorHandler();
-
 
       static bool fDebug;
       static bool fWarning;

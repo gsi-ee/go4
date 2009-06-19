@@ -16,16 +16,16 @@
 #include <stdlib.h>
 #include "TTimer.h"
 #include "TSystem.h"
-#include "TGX11.h"
 
 #include <QtCore/qobject.h>
 #include <QtCore/qtimer.h>
 
-extern void qt_ignore_badwindow();
-extern bool qt_badwindow();
-//extern bool qt_xdnd_handle_badwindow();
+#ifndef Win32
 
-static  int qt_x11_errhandler( Display *dpy, XErrorEvent *err ){
+#include "TGX11.h"
+
+static int qt_x11_errhandler( Display *dpy, XErrorEvent *err )
+{
   // special for modality usage: XGetWindowProperty + XQueryTree()
   if ( err->error_code == BadWindow ) {
     //if ( err->request_code == 25 && qt_xdnd_handle_badwindow() )
@@ -42,9 +42,9 @@ static  int qt_x11_errhandler( Display *dpy, XErrorEvent *err ){
   qWarning( "X11 Error: %s %d\n  Major opcode:  %d",
              errstr, err->error_code, err->request_code );
   return 0;
-
 }
 
+#endif
 
 bool QRootApplication::fDebug=false;
 bool QRootApplication::fWarning=false;
@@ -102,7 +102,10 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll)
    // install a filter on the parent   // M.Al-Turany
 
   // use Qt-specific XError Handler (moved this call here from tqapplication JA)
-   setErrorHandler();
+
+#ifndef Win32
+   XSetErrorHandler( qt_x11_errhandler );
+#endif
 }
 
 QRootApplication::~QRootApplication()
@@ -113,12 +116,6 @@ void QRootApplication::execute()
 //call the inner loop of ROOT
 {
    gSystem->InnerLoop();
-}
-
-void QRootApplication::setErrorHandler()
-// set a Qt-Specific error Handler
-{
-   XSetErrorHandler( qt_x11_errhandler );
 }
 
 void QRootApplication::quit()
