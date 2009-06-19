@@ -4,7 +4,9 @@
 #include <QDateTime>
 
 #include "TSystem.h"
+#include "TString.h"
 #include "TInterpreter.h"
+#include "TObjArray.h"
 
 TGo4LoadedLibraries::TGo4LoadedLibraries( QWidget* parent )
     : QDialog( parent )
@@ -46,36 +48,32 @@ void TGo4LoadedLibraries::UnloadLibrary()
 
 void TGo4LoadedLibraries::RefreshLibs()
 {
-   char seps[]=" ,\t\n";
-   char buffer[16];
-
    LoadedLibsD->clear();
-   QString T = gInterpreter->GetSharedLibs();
 
-   char* tokbuf = 0;
-   char *token = strtok_r((char *)T.toAscii().constData(), seps, &tokbuf);
+   TObjArray* libs = TString(gInterpreter->GetSharedLibs()).Tokenize(" ,\t\n");
 
-   while(token!=NULL) {
-      QFileInfo fi(token);
-      snprintf(buffer,15,"%d",fi.size());
+   if (libs!=0)
+      for (int n=0; n<=libs->GetLast(); n++) {
+         QFileInfo fi(libs->At(n)->GetName());
 
-      QStringList columns;
-      columns << token << QString(buffer) << fi.lastModified().toString() << fi.owner() << fi.group();
+         QStringList columns;
 
-      LoadedLibsD->addTopLevelItem(new QTreeWidgetItem(columns));
+         columns << fi.fileName() << QString::number(fi.size()) << fi.lastModified().toString() << fi.owner() << fi.group();
 
-      token = strtok_r(NULL, seps, &tokbuf);
-   }
+         LoadedLibsD->addTopLevelItem(new QTreeWidgetItem(columns));
+      }
+
+   delete libs;
 
    LoadedLibsS->clear();
-   QString T1 = gSystem->GetLinkedLibs();
 
-   token =strtok_r((char *)T1.toAscii().constData(), seps, &tokbuf);
+   libs = TString(gSystem->GetLinkedLibs()).Tokenize(" ,\t\n");
 
-   while(token!=NULL) {
-      QStringList columns;
-      columns << token;
-      LoadedLibsS->addTopLevelItem(new QTreeWidgetItem(columns));
-      token = strtok_r(NULL, seps, &tokbuf);
-   }
+   if (libs!=0)
+      for (int n=0; n<=libs->GetLast(); n++) {
+         QStringList columns;
+         columns << libs->At(n)->GetName();
+         LoadedLibsS->addTopLevelItem(new QTreeWidgetItem(columns));
+      }
+   delete libs;
 }

@@ -1,5 +1,7 @@
 #include "TGo4ViewPanel.h"
 
+#include <math.h>
+
 #include "TH1.h"
 #include "TH2.h"
 #include "TH3.h"
@@ -14,6 +16,7 @@
 #include "TCanvas.h"
 #include "TPad.h"
 #include "TFrame.h"
+#include "TArrayD.h"
 #include "TCutG.h"
 #include "TArrow.h"
 #include "TList.h"
@@ -27,6 +30,7 @@
 #include "TMath.h"
 #include "TClass.h"
 #include "TSystem.h"
+#include "snprintf.h"
 
 #include "TGCanvas.h"
 #include "TGTab.h"
@@ -1541,25 +1545,22 @@ void TGo4ViewPanel::ProduceGraphFromMarkers()
    //cout <<"Found "<<npts<<" markers in pad" <<endl;
    if(npts==0) return;
    // create arrays of length
-   Double_t x[npts];
-   Double_t y[npts];
+   TArrayD x(npts), y(npts);
    // copy marker values to array:
-   for(Int_t j=0;j<npts;++j)
-    {
-        TGo4Marker* mark=dynamic_cast<TGo4Marker*>(markers[j]);
-        if(mark==0)
-            {
-                cout <<"NEVER COME HERE: no marker at index "<<j << endl;
-                return;
-            }
-        x[j]=mark->GetX();
-        y[j]=mark->GetY();
-        //cout <<"Set point "<<j <<" to x="<<x[j]<<", y="<<y[j]<<endl;
-    }
+   for(Int_t j=0;j<npts;++j) {
+      TGo4Marker* mark = dynamic_cast<TGo4Marker*>(markers[j]);
+      if(mark==0) {
+         cout <<"NEVER COME HERE: no marker at index "<<j << endl;
+         return;
+      }
+      x[j]=mark->GetX();
+      y[j]=mark->GetY();
+      //cout <<"Set point "<<j <<" to x="<<x[j]<<", y="<<y[j]<<endl;
+   }
 
    // create graph from points array:
-   TString grname=GetPanelName()+TString("-Markergraph");
-   TGraph* graf = new TGraph(npts,x,y);
+   TString grname=GetPanelName() + TString("-Markergraph");
+   TGraph* graf = new TGraph(npts, x.GetArray(), y.GetArray());
    graf->SetName(grname.Data());
    graf->SetMarkerStyle(28);
    SaveObjectInMemory("", graf);
@@ -3845,19 +3846,16 @@ void TGo4ViewPanel::SetPadDefaults(TPad* pad)
        Float_t h,l,s;
        normal->GetHLS(h,l,s);
        const char* cname = normal->GetName();
-       Text_t aname[64];
        // assign the color numbers and names for shading:
        Float_t dr, dg, db, lr, lg, lb;
        TColor *dark = gROOT->GetColor(100+padfillcolor);
        if(dark==0) {
-          snprintf(aname,64,"%s%s",cname,"_dark");
-          new TColor(100+padfillcolor, -1, -1, -1, aname);
+          new TColor(100+padfillcolor, -1, -1, -1, Form("%s%s",cname,"_dark"));
           dark = gROOT->GetColor(100+padfillcolor);
        }
        TColor *light = gROOT->GetColor(150+padfillcolor);
        if(light==0) {
-          snprintf(aname,64,"%s%s",cname,"_bright");
-          new TColor(150+padfillcolor, -1, -1, -1, aname);
+          new TColor(150+padfillcolor, -1, -1, -1, Form("%s%s",cname,"_bright"));
           light = gROOT->GetColor(150+padfillcolor);
        }
 

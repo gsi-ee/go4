@@ -1,6 +1,8 @@
 #include "TGo4MainWindow.h"
 
+#ifndef WIN32
 #include <dlfcn.h>
+#endif
 
 #include "qaction.h"
 #include "qimage.h"
@@ -716,8 +718,20 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
    if (defaultnames)
      libname = "libGo4UserGui.so";
 
-   cout << "Try : " << (dirname+libname).toAscii().constData() << endl;
-   void* lib1 = ::dlopen((dirname+libname).toAscii(), RTLD_LAZY | RTLD_GLOBAL);
+   TStartUserGuiFunc startfunc = 0;
+
+   libname = dirname + libname;
+
+   cout << "Try : " << libname.toAscii().constData() << endl;
+
+#ifdef WIN32
+
+   if (gSystem->Load(libname.toAscii())>=0)
+      startfunc = (TStartUserGuiFunc) gSystem->DynFindSymbol(libname.toAscii(), "StartUserPanel");
+
+#else
+
+   void* lib1 = ::dlopen(libname.toAscii(), RTLD_LAZY | RTLD_GLOBAL);
 
    if (lib1==0) {
       const char* errmsg = ::dlerror();
@@ -725,28 +739,34 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
       return false;
    }
 
-   TStartUserGuiFunc startfunc = (TStartUserGuiFunc) ::dlsym(lib1,"StartUserPanel");
+   startfunc = (TStartUserGuiFunc) ::dlsym(lib1,"StartUserPanel");
+#endif
+
 
    if (startfunc!=0) {
-     QGo4Widget* userpanel = (QGo4Widget*) startfunc(fxWorkSpace);
+      QGo4Widget* userpanel = (QGo4Widget*) startfunc(fxWorkSpace);
       fxWorkSpace->addWindow(userpanel);
-     if (userpanel!=0) {
-        userpanel->setObjectName("UserPanel");
-        ConnectGo4Widget(userpanel);
-        userpanel->show();
-        result = true;
-     } else
-       StatusMessage("StartUserPanel() function did not create user widget");
+      if (userpanel!=0) {
+         userpanel->setObjectName("UserPanel");
+         ConnectGo4Widget(userpanel);
+         userpanel->show();
+         result = true;
+      } else
+         StatusMessage("StartUserPanel() function did not create user widget");
    }
 
    if (result) {
-     cout << "Start user GUI from ";
-     if (dirname.length()>0)
-        cout << dirname.toStdString() << endl;
-     else
-        cout << "$LD_LIBRARY_PATH=" << ::getenv("LD_LIBRARY_PATH") << endl;
+      cout << "Start user GUI from ";
+      if (dirname.length()>0)
+         cout << dirname.toStdString() << endl;
+      else
+         cout << "$LD_LIBRARY_PATH=" << ::getenv("LD_LIBRARY_PATH") << endl;
    } else {
+#ifdef WIN32
       if (lib1!=0) dlclose(lib1);
+#else
+      gSystem->Unload(libname.toAscii());
+#endif
    }
 
    return result;
