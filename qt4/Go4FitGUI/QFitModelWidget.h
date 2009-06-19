@@ -8,12 +8,12 @@ class QSpinBox;
 class QCheckBox;
 
 #ifdef WIN32
-#define QDESIGNER_WIDGET_EXPORT
+class QFitModelWidget : public QFitNamedWidget {
 #else
 #include <QtDesigner/QDesignerExportWidget>
+class QDESIGNER_WIDGET_EXPORT QFitModelWidget : public QFitNamedWidget {
 #endif
 
-class QDESIGNER_WIDGET_EXPORT QFitModelWidget : public QFitNamedWidget {
   Q_OBJECT
 
   public:

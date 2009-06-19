@@ -9,13 +9,13 @@ class TGo4Fitter;
 class TGo4FitPanel;
 
 #ifdef WIN32
-#define QDESIGNER_WIDGET_EXPORT
+class QFitWidget : public QWidget {
 #else
 #include <QtDesigner/QDesignerExportWidget>
+class QDESIGNER_WIDGET_EXPORT QFitWidget : public QWidget {
 #endif
 
 
-class QDESIGNER_WIDGET_EXPORT QFitWidget : public QWidget {
    Q_OBJECT
 
    public:

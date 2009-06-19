@@ -7,12 +7,12 @@ class QGo4LineEdit;
 class QLabel;
 
 #ifdef WIN32
-#define QDESIGNER_WIDGET_EXPORT
+class QFitNamedWidget : public QFitWidget {
 #else
 #include <QtDesigner/QDesignerExportWidget>
+class QDESIGNER_WIDGET_EXPORT QFitNamedWidget : public QFitWidget {
 #endif
 
-class QDESIGNER_WIDGET_EXPORT QFitNamedWidget : public QFitWidget {
    Q_OBJECT
 
    public:

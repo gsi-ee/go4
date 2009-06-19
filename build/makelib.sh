@@ -67,6 +67,10 @@ if [ "$GO4_OS" = "Win32" ]; then
   elif [ "$LIBNAME" = "libGo4GUI" ]; then
     extralibs="libGo4Fit.lib libGo4Base.lib libGo4ThreadManager.lib \
                libGo4TaskHandler.lib libGo4AnalBase.lib libGui.lib "
+  elif [ "$LIBNAME" = "libGo4GUI4bis" ]; then
+    extralibs="libGo4Fit.lib libGo4Base.lib libGo4ThreadManager.lib \
+               libGo4TaskHandler.lib libGo4AnalBase.lib libGo4GUI.lib libGui.lib"
+    LDFLAGS="$LDFLAGS /FORCE"
   else
   #this is a case for user libraries
   #add here more library if something is missing

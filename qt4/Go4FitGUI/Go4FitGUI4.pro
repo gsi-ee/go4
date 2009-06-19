@@ -7,6 +7,12 @@ INCLUDEPATH += ../../include ../Go4GUI
 DEPENDPATH  += ../../include
 DESTDIR=../../lib
 
+
+win32 {
+   QMAKE_LFLAGS += /FORCE
+   TARGET=libGo4FitGUI
+}
+
 SOURCES	+= TGo4FitPanel.cpp \
             QFitItem.cpp \
             QFitWidget.cpp \
