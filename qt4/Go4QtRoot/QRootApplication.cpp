@@ -20,7 +20,7 @@
 #include <QtCore/qobject.h>
 #include <QtCore/qtimer.h>
 
-#ifndef Win32
+#ifndef WIN32
 
 #include "TGX11.h"
 
@@ -103,7 +103,7 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll)
 
   // use Qt-specific XError Handler (moved this call here from tqapplication JA)
 
-#ifndef Win32
+#ifndef WIN32
    XSetErrorHandler( qt_x11_errhandler );
 #endif
 }

@@ -1,18 +1,9 @@
 #ifndef QROOTCANVAS_H
 #define QROOTCANVAS_H
 
-#include "QtGui/qwidget.h"
+#include <QtGui/QWidget>
 
 #include <QtDesigner/QDesignerExportWidget>
-
-#include <QtGui/QCloseEvent>
-#include <QtGui/QDropEvent>
-#include <QtGui/QPaintEvent>
-#include <QtGui/QResizeEvent>
-#include <QtCore/QEvent>
-#include <QtGui/QDragEnterEvent>
-#include <QtCore/QSignalMapper>
-#include <QtCore/QTimer>
 
 #include "Rtypes.h"
 #include "Gtypes.h"
@@ -28,10 +19,12 @@ class TCanvas;
 class TBrowser;
 class TContextMenu;
 class TControlBar;
+class TList;
+
 class QSignalMapper;
 class QMenu;
 class QAction;
-class TList;
+class QTimer;
 
 /** This canvas uses Qt eventloop to handle user input
   *   @short Graphic Qt Widget based Canvas
@@ -48,7 +41,7 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       virtual ~QRootCanvas();
 
       TCanvas*          getCanvas() { return fCanvas;}
-      int               getRootWid() { return wid;}
+      int               getRootWid() { return fRootWindowId;}
       void              setMaskDoubleClick(bool on=true) { fMaskDoubleClick = on; }
 
       bool              showEventStatus() const;
@@ -74,7 +67,6 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       void              CanvasLeaveEvent();
 
       void              DoCanvasResize();
-
 
    public slots:
 
@@ -176,9 +168,9 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       void              actiavteRepaint(int mode);
 
       TCanvas*          fCanvas;
-      Int_t             wid;
-      UInt_t            fXid; // current id of embedded canvas (may change in Qt 4.4)
-      QTimer            fRepaintTimer; // do not draw canvas immediately, postpone this on few miliseconds
+      Int_t             fRootWindowId;
+      ULong_t           fQtWindowId; // current id of embedded canvas (may change in Qt 4.4)
+      QTimer*           fRepaintTimer; // do not draw canvas immediately, postpone this on few miliseconds
       int               fRepaintMode; // 0 - inactive, 1 - paint, 2 - resize, -1 - skip first repaint event
    private:
       bool              fMaskDoubleClick;
@@ -188,8 +180,6 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       TObject*          fMenuObj;      // object use to fill menu
       TList*            fMenuMethods;  // list of menu methods
       bool              fxShowEventStatus;
-
-
 };
 
 #endif

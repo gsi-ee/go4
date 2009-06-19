@@ -6,8 +6,9 @@
 
 #include <QtCore/QEvent>
 #include <QtCore/QSignalMapper>
-#include <QtGui/QApplication>
+#include <QtCore/QTimer>
 
+#include <QtGui/QApplication>
 #include <QtGui/qpainter.h>
 #include <QtGui/QDragEnterEvent>
 #include <QtGui/QDropEvent>
@@ -63,10 +64,10 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
    setAttribute(Qt::WA_PaintUnclipped);
 
    // add the Qt::WinId to TGX11 interface
-   fXid = winId();
-   wid = gVirtualX->AddWindow(fXid, 100, 30);
+   fQtWindowId = (ULong_t) winId();
+   fRootWindowId = gVirtualX->AddWindow(fQtWindowId, 100, 30);
 
-   fCanvas = new TCanvas("Canvas", width(), height(), wid);
+   fCanvas = new TCanvas("Canvas", width(), height(), fRootWindowId);
    // create the context menu
    fMousePosX = 0;
    fMousePosY = 0;
@@ -76,18 +77,21 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
    setAcceptDrops(TRUE);
 
    fRepaintMode = 0;
-   fRepaintTimer.setSingleShot(true);
-   connect(&fRepaintTimer, SIGNAL(timeout()), this, SLOT(processRepaintTimer()));
+   fRepaintTimer = new QTimer;
+   fRepaintTimer->setSingleShot(true);
+   connect(fRepaintTimer, SIGNAL(timeout()), this, SLOT(processRepaintTimer()));
 }
 
 QRootCanvas::~QRootCanvas()
 {
-   if(fCanvas ) {
+   if(fCanvas) {
      delete fCanvas;
      fCanvas = 0;
    }
    delete fMenuMethods;
    fMenuMethods = 0;
+
+   delete fRepaintTimer;
 }
 
 void QRootCanvas::resetPaintFlag()
@@ -101,14 +105,14 @@ void QRootCanvas::performResize()
 
    QApplication::setOverrideCursor(Qt::WaitCursor);
 
-   UInt_t newid = winId();
-   if(newid != fXid) {
-      // Qt has changed fXid for this widget (e.g. at QWorkspace::addWindow())
+   ULong_t newid = (ULong_t) winId();
+   if(newid != fQtWindowId) {
+      // Qt has changed id for this widget (e.g. at QWorkspace::addWindow())
       // need to adjust the ROOT X access:
       delete fCanvas; // should also remove old x windows!
-      wid = gVirtualX->AddWindow(newid, width(), height());
-      fCanvas=new TCanvas(objectName().toAscii(), width(), height(), wid);
-      fXid = newid;
+      fRootWindowId = gVirtualX->AddWindow(newid, width(), height());
+      fCanvas = new TCanvas(objectName().toAscii(), width(), height(), fRootWindowId);
+      fQtWindowId = newid;
 
       cout << "replace X id for " << objectName().toAscii().constData() << endl;
    }
@@ -293,8 +297,8 @@ void QRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
 void QRootCanvas::actiavteRepaint(int mode)
 {
    if (mode > fRepaintMode) fRepaintMode = mode;
-   fRepaintTimer.setSingleShot(true);
-   fRepaintTimer.start(100);
+   fRepaintTimer->setSingleShot(true);
+   fRepaintTimer->start(100);
 }
 
 void QRootCanvas::resizeEvent( QResizeEvent *)
@@ -656,7 +660,7 @@ void      QRootCanvas::Update()
 {
 //   Int_t d1, d2;
 //   UInt_t w, h;
-//   gVirtualX->GetGeometry(fXid, d1, d2, w, h);
+//   gVirtualX->GetGeometry(fQtWindowId, d1, d2, w, h);
 //   cout << "Before update w = " << w << endl;
 
    fCanvas->Update();
