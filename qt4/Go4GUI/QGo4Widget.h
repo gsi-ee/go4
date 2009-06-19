@@ -2,7 +2,6 @@
 #define QGO4WIDGET_H
 
 #include <QtGui/QWidget>
-#include <QtDesigner/QDesignerExportWidget>
 
 #include <QtGui/QDragMoveEvent>
 #include <QtGui/QCloseEvent>
@@ -21,7 +20,13 @@ class QMenu;
 class QAction;
 class QSignalMapper;
 
+#ifdef WIN32
+class QGo4Widget : public QWidget {
+#else
+#include <QtDesigner/QDesignerExportWidget>
 class QDESIGNER_WIDGET_EXPORT  QGo4Widget : public QWidget {
+#endif
+
    Q_OBJECT
 
    friend class TGo4MainWindow;

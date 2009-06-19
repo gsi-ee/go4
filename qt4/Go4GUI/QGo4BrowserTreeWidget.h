@@ -1,12 +1,15 @@
 #ifndef QGOBROWSERLISTVIEW_H
 #define QGOBROWSERLISTVIEW_H
 
-#include <QTreeWidget>
+#include <QtGui/QTreeWidget>
+
+#ifdef WIN32
+class QGo4BrowserTreeWidget : public QTreeWidget {
+
+#else
 #include <QtDesigner/QDesignerExportWidget>
-
-#include <QDropEvent>
-
 class QDESIGNER_WIDGET_EXPORT QGo4BrowserTreeWidget : public QTreeWidget {
+#endif
    Q_OBJECT
 
    public:

@@ -1,12 +1,16 @@
 #ifndef QGO4COMMANDSHISTORY_H
 #define QGO4COMMANDSHISTORY_H
 
-#include <QtDesigner/QDesignerExportWidget>
 #include <QtGui/QComboBox>
 
-#include <QKeyEvent>
+#ifdef WIN32
+class QGo4CommandsHistory : public QComboBox {
 
+#else
+#include <QtDesigner/QDesignerExportWidget>
 class QDESIGNER_WIDGET_EXPORT QGo4CommandsHistory : public QComboBox {
+
+#endif
    Q_OBJECT
 
    public:

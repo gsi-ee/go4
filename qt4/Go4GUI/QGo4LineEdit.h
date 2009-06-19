@@ -1,8 +1,7 @@
 #ifndef QGO4LINEEDIT_H
 #define QGO4LINEEDIT_H
 
-#include "qlineedit.h"
-#include <QtDesigner/QDesignerExportWidget>
+#include <QtGui/QLineEdit>
 
 #include <QDropEvent>
 #include <QDragEnterEvent>
@@ -13,8 +12,18 @@
  * @since 14.11.2001
  */
 
+#ifdef WIN32
+
+class QGo4LineEdit : public QLineEdit {
+
+#else
+
+#include <QtDesigner/QDesignerExportWidget>
 class QDESIGNER_WIDGET_EXPORT QGo4LineEdit : public QLineEdit {
+
+#endif
    Q_OBJECT
+
 
    public:
       QGo4LineEdit(QWidget *parent=0, const char *name=0);

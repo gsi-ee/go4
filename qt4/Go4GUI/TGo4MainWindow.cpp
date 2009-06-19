@@ -763,9 +763,9 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
          cout << "$LD_LIBRARY_PATH=" << ::getenv("LD_LIBRARY_PATH") << endl;
    } else {
 #ifdef WIN32
-      if (lib1!=0) dlclose(lib1);
-#else
       gSystem->Unload(libname.toAscii());
+#else
+      if (lib1!=0) dlclose(lib1);
 #endif
    }
 
