@@ -12,13 +12,14 @@
 
 #include "QRootApplication.h"
 
-#include "Riostream.h"
 #include <stdlib.h>
+
+#include "Riostream.h"
 #include "TTimer.h"
 #include "TSystem.h"
 
-#include <QtCore/qobject.h>
-#include <QtCore/qtimer.h>
+#include <QtCore/QObject>
+#include <QtCore/QTimer>
 
 #ifndef WIN32
 

@@ -1,10 +1,7 @@
 #ifndef QROOTWINDOW_H
 #define QROOTWINDOW_H
 
-#include <QtGui/qwidget.h>
-#include <QtGui/QPaintEvent>
-#include <QtCore/QEvent>
-#include <QtGui/QCloseEvent>
+#include <QtGui/QWidget>
 
 #include "TVirtualX.h"
 
@@ -62,9 +59,9 @@ class QRootWindow : public QWidget {
       TQRootFrame *fxRootwindow;
 
       /** ROOT internal window index*/
-      int fiWinid;
+      Int_t fiWinid;
       /** X window id as received from Qt (may change during runtime?)*/
-      Window_t fiXid;
+      WId fQtWinId;
 
       /** switch if paint event does explicit resize of ROOT frame (default)
        * for embedded TGedEditor, we better disable it and resize editor from

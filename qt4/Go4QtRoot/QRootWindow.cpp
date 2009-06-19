@@ -6,8 +6,7 @@
 #include "GuiTypes.h"
 #include "TGFrame.h"
 
-#include <QtGui/qevent.h>
-#include <QtGui/qpainter.h>
+#include <QtGui/QPainter>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QCloseEvent>
 #include <QtGui/QPaintEvent>
@@ -18,8 +17,8 @@
 class TQRootFrame: public TGCompositeFrame {
    public:
    /** pretend a root frame for the externally created window of id wid */
-   TQRootFrame(Window_t wid) :
-      TGCompositeFrame(gClient,wid,new TGMainFrame(gClient->GetDefaultRoot(),100,100))
+   TQRootFrame(WId wid) :
+      TGCompositeFrame(gClient, (Window_t) wid, new TGMainFrame(gClient->GetDefaultRoot(),100,100))
    {
      // we have to offer a real mainframe as top parent for root internal lists:
     // fParent=new TGMainFrame(gClient->GetDefaultRoot(),100,100);
@@ -62,10 +61,10 @@ QRootWindow::QRootWindow( QWidget *parent, const char *name, bool designermode) 
   setCursor( Qt::CrossCursor );
   if(!designermode) {
      // add the Qt::WinId to TGX11 interface
-     fiXid=winId();
-     fiWinid=gVirtualX->AddWindow(fiXid,145,600);
-     //cout <<"QRootWindow ctor added window for "<<fiXid<<" with ROOT wid:"<<fiWinid<< endl;
-     fxRootwindow=new TQRootFrame(fiXid);
+     fQtWinId = winId();
+     fiWinid = gVirtualX->AddWindow(fQtWinId,145,600);
+     //cout <<"QRootWindow ctor added window for "<<fQtWinId<<" with ROOT wid:"<<fiWinid<< endl;
+     fxRootwindow = new TQRootFrame(fQtWinId);
      fxRootwindow->Resize();
      if ( parent ) parent->installEventFilter( this );
   }
@@ -150,28 +149,26 @@ Event_t* QRootWindow::MapQMouseEvent(QMouseEvent *e)
 
 void QRootWindow::paintEvent( QPaintEvent * e)
 {
-//TGo4LockGuard threadlock;
- if(fxRootwindow){
-     UInt_t nxid=winId();
-     if(fiXid!=nxid)
-      {
+   //TGo4LockGuard threadlock;
+   if(fxRootwindow) {
+      WId nxid = winId();
+      if(fQtWinId!=nxid) {
          TGo4LockGuard threadlock;
          // may happen when this window is embedded to Qt workspace...
-         //cout <<"Warning: QRootWindow::paintEvent finds changed X window id: "<<winId()<<", previous:"<<fiXid << endl;
+         cout <<"Warning: QRootWindow::paintEvent finds changed X window id: "<< (ULong_t) winId()<<", previous:"<<fQtWinId << endl;
          delete fxRootwindow; // should also remove old x windows!
-         fiWinid=gVirtualX->AddWindow(nxid,width(),height());
-         fxRootwindow=new TQRootFrame(fiXid);
-         fiXid=nxid;
+         fQtWinId = nxid;
+         fiWinid = gVirtualX->AddWindow((ULong_t) fQtWinId, width(), height());
+         fxRootwindow = new TQRootFrame(fQtWinId);
       }
-     if(fbResizeOnPaint)
-      {
+      if(fbResizeOnPaint) {
          TGo4LockGuard threadlock;
          //cout <<"QRootWindow::paintEvent does TGCompositeFrame Resize ..." <<endl;
          fxRootwindow->Resize(width(),height());
          gVirtualX->Update(1); // Xsync/flus
       }
-  }
-QWidget::paintEvent(e);
+   }
+   QWidget::paintEvent(e);
 }
 
 void QRootWindow::resizeEvent( QResizeEvent *e )

@@ -35,6 +35,7 @@
 #include "TColor.h"
 #include "TLatex.h"
 #include "Riostream.h"
+#include "snprintf.h"
 
 #include "TGo4LockGuard.h"
 
@@ -64,8 +65,8 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
    setAttribute(Qt::WA_PaintUnclipped);
 
    // add the Qt::WinId to TGX11 interface
-   fQtWindowId = (ULong_t) winId();
-   fRootWindowId = gVirtualX->AddWindow(fQtWindowId, 100, 30);
+   fQtWindowId = winId();
+   fRootWindowId = gVirtualX->AddWindow((ULong_t)fQtWindowId, 100, 30);
 
    fCanvas = new TCanvas("Canvas", width(), height(), fRootWindowId);
    // create the context menu
@@ -105,7 +106,7 @@ void QRootCanvas::performResize()
 
    QApplication::setOverrideCursor(Qt::WaitCursor);
 
-   ULong_t newid = (ULong_t) winId();
+   WId newid = winId();
    if(newid != fQtWindowId) {
       // Qt has changed id for this widget (e.g. at QWorkspace::addWindow())
       // need to adjust the ROOT X access:
@@ -660,7 +661,7 @@ void      QRootCanvas::Update()
 {
 //   Int_t d1, d2;
 //   UInt_t w, h;
-//   gVirtualX->GetGeometry(fQtWindowId, d1, d2, w, h);
+//   gVirtualX->GetGeometry((ULong_t)fQtWindowId, d1, d2, w, h);
 //   cout << "Before update w = " << w << endl;
 
    fCanvas->Update();
