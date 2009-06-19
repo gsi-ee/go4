@@ -2,13 +2,16 @@
 #define QFITMODELWIDGET_H
 
 #include "QFitNamedWidget.h"
-#include <QtDesigner/QDesignerExportWidget>
-
-#include <QLabel>
 
 class QLabel;
 class QSpinBox;
 class QCheckBox;
+
+#ifdef WIN32
+#define QDESIGNER_WIDGET_EXPORT
+#else
+#include <QtDesigner/QDesignerExportWidget>
+#endif
 
 class QDESIGNER_WIDGET_EXPORT QFitModelWidget : public QFitNamedWidget {
   Q_OBJECT

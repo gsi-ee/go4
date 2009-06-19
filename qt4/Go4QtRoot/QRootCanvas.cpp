@@ -111,7 +111,7 @@ void QRootCanvas::performResize()
       // Qt has changed id for this widget (e.g. at QWorkspace::addWindow())
       // need to adjust the ROOT X access:
       delete fCanvas; // should also remove old x windows!
-      fRootWindowId = gVirtualX->AddWindow(newid, width(), height());
+      fRootWindowId = gVirtualX->AddWindow((ULong_t)newid, width(), height());
       fCanvas = new TCanvas(objectName().toAscii(), width(), height(), fRootWindowId);
       fQtWindowId = newid;
 

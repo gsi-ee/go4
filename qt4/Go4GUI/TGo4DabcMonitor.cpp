@@ -6,6 +6,7 @@
 #include "TGo4LockGuard.h"
 
 #include <QDateTime>
+#include <QtCore/QTimer>
 
 #include "TH1.h"
 

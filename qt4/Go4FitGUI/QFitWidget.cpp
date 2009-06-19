@@ -1,7 +1,7 @@
 #include "QFitWidget.h"
 
-#include <QContextMenuEvent>
-#include <QCloseEvent>
+#include <QtGui/QContextMenuEvent>
+#include <QtGui/QCloseEvent>
 #include <QtCore/QSignalMapper>
 #include <QtGui/QMenu>
 

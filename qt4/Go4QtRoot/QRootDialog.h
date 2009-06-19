@@ -15,8 +15,9 @@
 
 #include <QtCore/QVector>
 #include <QtGui/QDialog>
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QLineEdit>
+
+class QLineEdit;
+class QVBoxLayout;
 
 /**
 * QRootDialog

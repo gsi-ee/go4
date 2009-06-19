@@ -1,16 +1,19 @@
 #ifndef QFITWIDGET_H
 #define QFITWIDGET_H
 
-#include "qwidget.h"
-#include <QtDesigner/QDesignerExportWidget>
-
-#include <QContextMenuEvent>
-#include <QCloseEvent>
+#include <QtGui/QWidget>
 
 class TObject;
 class QFitItem;
 class TGo4Fitter;
 class TGo4FitPanel;
+
+#ifdef WIN32
+#define QDESIGNER_WIDGET_EXPORT
+#else
+#include <QtDesigner/QDesignerExportWidget>
+#endif
+
 
 class QDESIGNER_WIDGET_EXPORT QFitWidget : public QWidget {
    Q_OBJECT

@@ -39,8 +39,8 @@ class QRootApplication : public QApplication {
       QRootApplication(int& argc, char **argv, int poll=0);
       virtual ~QRootApplication();
 
-      void setDebugOn() { fDebug=true; }
-      void setWarningOn() { fWarning=true; }
+      void setDebugOn() { fDebug = true; }
+      void setWarningOn() { fWarning = true; }
 
       static bool fDebug;
       static bool fWarning;

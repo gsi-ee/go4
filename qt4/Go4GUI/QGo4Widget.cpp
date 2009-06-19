@@ -1,5 +1,5 @@
 #include "QGo4Widget.h"
-#include <QtCore/qtimer.h>
+#include <QtCore/QTimer>
 #include <QtGui/QAction>
 #include <QtGui/QMenu>
 #include <QtCore/QSignalMapper>

@@ -2,8 +2,8 @@
 
 FITGUI4_DIR         = $(GO4SYS)/qt4/Go4FitGUI
 FITGUI4_QTLIBNAME   = libGo4FitGUI4
-FITGUI4_QTPRO       = $(FITGUI4_DIR)/Go4FitGUI4.pro
-FITGUI4_QTMAKE      = $(FITGUI4_DIR)/Makefile.qt
+FITGUI4_QTPRO       = Go4FitGUI4.pro
+FITGUI4_QTMAKE      = Makefile.qt
 
 FITGUI4_NOTLIBF     =
 
@@ -28,7 +28,7 @@ GO4QT4HEADS         += $(FITGUI4_UI_H) $(FITGUI4_PUBH)
 
 
 ifdef DOPACKAGE
-DISTRFILES         += $(FITGUI4_FORMS)  $(FITGUI4_QTPRO)
+DISTRFILES         += $(FITGUI4_FORMS)  $(FITGUI4_DIR)/$(FITGUI4_QTPRO)
 DISTRFILES         += $(FITGUI4_QTH) $(FITGUI4_QTS) $(FITGUI4_DIR)/TGo4FitGuiTypes.h
 DISTRFILES         += $(FITGUI4_DIR)/Module.mk
 endif
@@ -46,22 +46,22 @@ $(FITGUI4_DIR)/ui_%.h: $(FITGUI4_DIR)/%.ui
 	@$(UIC) $< -o $@
 
 # generate makefile only if project is exists
-ifneq ($(wildcard $(FITGUI4_QTPRO)),)
-$(FITGUI4_QTMAKE): $(FITGUI4_QTPRO) $(FITGUI4_FORMS)
+ifneq ($(wildcard $(FITGUI4_DIR)/$(FITGUI4_QTPRO)),)
+$(FITGUI4_DIR)/$(FITGUI4_QTMAKE): $(FITGUI4_DIR)/$(FITGUI4_QTPRO) $(FITGUI4_FORMS)
 	@echo "Generating Makefile.qt of the Fit GUI..."
-	cd $(FITGUI4_DIR); $(QMAKE) $(FITGUI4_QTPRO) -o $(FITGUI4_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS) "DESTDIR=$(GO4DLLPATH)"
+	cd $(FITGUI4_DIR); $(QMAKE) $(FITGUI4_QTPRO) -o $(FITGUI4_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS)
 endif
 
-qt4-FitGUI: $(GO4QT4HEADS) $(FITGUI4_QTMAKE) $(FITGUI4_UI_H)
+qt4-FitGUI: $(GO4QT4HEADS) $(FITGUI4_DIR)/$(FITGUI4_QTMAKE) $(FITGUI4_UI_H)
 	@echo "Generating Qt4 part of the Fit GUI..."
-	+cd $(FITGUI4_DIR); $(MAKE) -f $(FITGUI4_QTMAKE)
+	+cd $(FITGUI4_DIR); $(MAKEFORQT) -f $(FITGUI4_QTMAKE)
 
 clean-qt4-FitGUI:
 	@rm -f $(GO4DLLPATH)/$(FITGUI4_QTLIBNAME).$(DllSuf)*
 	@rm -f $(FITGUI4_DIR)/*.o
-ifneq ($(wildcard $(FITGUI4_QTMAKE)),)
-	cd $(FITGUI4_DIR); $(MAKE) -f $(FITGUI4_QTMAKE) clean
+ifneq ($(wildcard $(FITGUI4_DIR)/$(FITGUI4_QTMAKE)),)
+	cd $(FITGUI4_DIR); $(MAKEFORQT) -f $(FITGUI4_QTMAKE) clean
 endif
-	@rm -f $(FITGUI4_QTMAKE) $(FITGUI4_PUBH)
+	@rm -f $(FITGUI4_DIR)/$(FITGUI4_QTMAKE) $(FITGUI4_PUBH)
 	@rm -rf .obj .moc
 	@echo "Clean qt4 fitgui done"

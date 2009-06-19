@@ -2,10 +2,11 @@
 
 #include "Riostream.h"
 
-#include "qstring.h"
-
 #include "TObject.h"
 #include "TGo4FitPanel.h"
+
+#include <QtCore/QString>
+
 
 QFitItem::QFitItem(TGo4FitPanel* panel, QTreeWidgetItem* parent, TObject* iObj, int iObjectType, int iWidgetType, int iPopupMenuType, int iGraphType, int iTag ) :
 	QTreeWidgetItem()

@@ -1,55 +1,42 @@
 #include "TGo4MainWindow.h"
 
 #include <dlfcn.h>
-#include "Riostream.h"
 
-#include "qcolor.h"
-#include "qcolordialog.h"
-#include <QtCore/qnamespace.h>
-#include "qstring.h"
-#include "qtabwidget.h"
-#include "qvariant.h"
-#include "qmime.h"
-#include "qlayout.h"
-#include "qtooltip.h"
 #include "qaction.h"
-#include "qmenubar.h"
 #include "qimage.h"
 #include "qpixmap.h"
-#include "qfontdialog.h"
-#include <QCloseEvent>
-#include <QDragEnterEvent>
-#include <QDropEvent>
-#include "TGo4QSettings.h"
-#include "qapplication.h"
 #include "qclipboard.h"
-#include <QStatusBar>
-#include "qtoolbutton.h"
-#include "qsignalmapper.h"
 #include "qstylefactory.h"
-#include "qlayout.h"
-#include "qmessagebox.h"
-#include "qradiobutton.h"
-#include "qcombobox.h"
-#include "qinputdialog.h"
-#include "qdir.h"
 #include "qfileinfo.h"
-#include "qevent.h"
-#include <QtCore/qtimer.h>
-#include "qspinbox.h"
-#include "qstyle.h"
-#include <QDateTime>
 
-#include <QtGui/QDockWidget>
-#include <QtGui/QToolBar>
-
-#include <QFileDialog>
-#include <QtGui/QAction>
+#include <QtCore/QString>
+#include <QtCore/QDateTime>
+#include <QtCore/QTimer>
 #include <QtCore/QProcess>
 #include <QtCore/QHash>
+#include <QtCore/QSignalMapper>
+#include <QtCore/QDir>
+
+#include <QtGui/QApplication>
+#include <QtGui/QMenuBar>
+#include <QtGui/QDockWidget>
+#include <QtGui/QToolBar>
+#include <QtGui/QComboBox>
+#include <QtGui/QAction>
+#include <QtGui/QStatusBar>
+#include <QtGui/QStyle>
+#include <QtGui/QColor>
+#include <QtGui/QToolTip>
+#include <QtGui/QToolButton>
+#include <QtGui/QMessageBox>
+#include <QtGui/QColorDialog>
+#include <QtGui/QFileDialog>
+#include <QtGui/QFontDialog>
+#include <QtGui/QInputDialog>
 
 
 //////// root includes;
+#include "Riostream.h"
 #include "TSystem.h"
 #include "TROOT.h"
 #include "TMath.h"
@@ -82,6 +69,7 @@
 
 //////// Go4 includes from Go4GUI package:
 #include "QGo4Widget.h"
+#include "TGo4QSettings.h"
 #include "TGo4TreeViewer.h"
 #include "TGo4Browser.h"
 #include "TGo4BrowserOptions.h"

@@ -2,12 +2,15 @@
 #define QFITNAMEDWIDGET_H
 
 #include "QFitWidget.h"
-#include <QtDesigner/QDesignerExportWidget>
-
-#include <QLabel>
 
 class QGo4LineEdit;
 class QLabel;
+
+#ifdef WIN32
+#define QDESIGNER_WIDGET_EXPORT
+#else
+#include <QtDesigner/QDesignerExportWidget>
+#endif
 
 class QDESIGNER_WIDGET_EXPORT QFitNamedWidget : public QFitWidget {
    Q_OBJECT

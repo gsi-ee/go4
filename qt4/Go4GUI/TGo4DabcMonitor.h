@@ -9,7 +9,6 @@
 #include <vector>
 #include <deque>
 #include "dic.hxx"
-#include <QtCore/qtimer.h>
 #include <QtGui/QTableWidget>
 
 class TGo4DabcMonitor;
@@ -21,6 +20,7 @@ class TGo4DabcRateInfo;
 class TGo4DabcState;
 class TGo4DabcRate;
 class TH1;
+class QTimer;
 
 #define DABCMON_NODE_NODECOL 0
 #define DABCMON_NODE_STATECOL 1

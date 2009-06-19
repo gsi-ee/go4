@@ -62,7 +62,7 @@ QRootWindow::QRootWindow( QWidget *parent, const char *name, bool designermode) 
   if(!designermode) {
      // add the Qt::WinId to TGX11 interface
      fQtWinId = winId();
-     fiWinid = gVirtualX->AddWindow(fQtWinId,145,600);
+     fiWinid = gVirtualX->AddWindow((ULong_t)fQtWinId,145,600);
      //cout <<"QRootWindow ctor added window for "<<fQtWinId<<" with ROOT wid:"<<fiWinid<< endl;
      fxRootwindow = new TQRootFrame(fQtWinId);
      fxRootwindow->Resize();

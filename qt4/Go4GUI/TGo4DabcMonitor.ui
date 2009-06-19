@@ -498,7 +498,7 @@
  <includes>
   <include location="local">dic.hxx</include>
   <include location="global">vector</include>
-  <include location="local">qtimer.h</include>
+  <include location="local">QTimer</include>
   <include location="global">deque</include>
   <include location="local">QGo4Widget.h</include>
   <include location="local">QGo4LineEdit.h</include>

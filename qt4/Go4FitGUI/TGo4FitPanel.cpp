@@ -1,19 +1,20 @@
 #include "TGo4FitPanel.h"
 
-#include "qlayout.h"
-#include "qmessagebox.h"
 #include "qevent.h"
-#include "qinputdialog.h"
-#include "qmenubar.h"
-#include "qtooltip.h"
-#include "qapplication.h"
 #include "qheaderview.h"
-#include <QFocusEvent>
-#include <QDropEvent>
-#include <QMenuBar>
-#include <QFileDialog>
-#include <QtGui/QMenu>
+
 #include <QtCore/QSignalMapper>
+
+#include <QtGui/QMenuBar>
+#include <QtGui/QFocusEvent>
+#include <QtGui/QDropEvent>
+#include <QtGui/QMessageBox>
+#include <QtGui/QApplication>
+#include <QtGui/QToolTip>
+#include <QtGui/QMenu>
+#include <QtGui/QMenuBar>
+#include <QtGui/QFileDialog>
+#include <QtGui/QInputDialog>
 
 #include "TStyle.h"
 #include "TObject.h"
@@ -22,14 +23,15 @@
 #include "TROOT.h"
 #include "TClass.h"
 #include "TMath.h"
-
 #include "Buttons.h"
+#include "snprintf.h"
 #include "TH1.h"
 #include "TCutG.h"
 #include "TPad.h"
 #include "TCanvas.h"
 #include "TPaveStats.h"
 #include "TFile.h"
+
 #include "TGo4LockGuard.h"
 #include "TGo4Slot.h"
 #include "TGo4Fitter.h"
@@ -62,7 +64,6 @@
 #include "TGo4FitLinearTrans.h"
 #include "TGo4FitMatrixTrans.h"
 #include "TGo4Log.h"
-//#include "QGo4LineEdit.h"
 #include "TGo4ViewPanel.h"
 #include "TGo4WorkSpace.h"
 #include "TGo4QSettings.h"

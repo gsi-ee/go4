@@ -1,9 +1,17 @@
 TEMPLATE	= app 
 LANGUAGE	= C++
+MOC_DIR=.moc
+OBJECTS_DIR=.obj
 
 CONFIG	+= qt warn_off thread dll
 
-INCLUDEPATH	+= $(ROOTSYS)/include $(GO4SYS)/include ../Go4FitGUI
+INCLUDEPATH	+= ../../include ../Go4FitGUI
+DEPENDPATH  += ../../include
+
+TARGET = ../../bin/go4
+PROJECTNAME = Go4GUI
+
+RESOURCES += go4icons.qrc
 
 HEADERS	+= \
 	TGo4HServerConnection.h\
@@ -132,15 +140,3 @@ FORMS += TGo4ViewPanel.ui \
 	TGo4MacroDialog.ui \
 	TGo4MarkerSettings.ui \
 	TGo4OptStatsSettings.ui
-
-
-MOC_DIR=.moc
-OBJECTS_DIR=.obj
-
-TARGET = ../../bin/go4
-MOC = $(SYSCONF_MOC)
-
-RESOURCES += go4icons.qrc
-PROJECTNAME = Go4GUI
-
-DEPENDPATH	+= $(ROOTSYS)/include $(GO4SYS)/include

@@ -2,7 +2,7 @@
 #define QGO4COMMANDSHISTORY_H
 
 #include <QtDesigner/QDesignerExportWidget>
-#include "qcombobox.h"
+#include <QtGui/QComboBox>
 
 #include <QKeyEvent>
 

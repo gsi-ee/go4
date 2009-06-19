@@ -3,7 +3,11 @@
 
 #include <QtGui/QWidget>
 
+#ifdef WIN32
+#define QDESIGNER_WIDGET_EXPORT
+#else
 #include <QtDesigner/QDesignerExportWidget>
+#endif
 
 #include "Rtypes.h"
 #include "Gtypes.h"
@@ -34,6 +38,7 @@ class QTimer;
   */
 
 class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
+
    Q_OBJECT
 
    public:

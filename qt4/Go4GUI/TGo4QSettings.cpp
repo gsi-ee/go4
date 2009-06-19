@@ -5,9 +5,10 @@
 #include "Riostream.h"
 #include <stdlib.h>
 
-#include "qdir.h"
 #include <QtCore/QFile>
-#include "qfont.h"
+#include <QtCore/QDir>
+
+#include <QtGui/QFont>
 #include <QtGui/QApplication>
 #include <QtGui/QMainWindow>
 

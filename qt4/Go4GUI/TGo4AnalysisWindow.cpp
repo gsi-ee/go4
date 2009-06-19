@@ -3,21 +3,21 @@
 #include "TSystem.h"
 #include "Riostream.h"
 
-#include "qmime.h"
-#include "qlayout.h"
-#include "qtooltip.h"
 #include "qimage.h"
-#include <QtCore/qtimer.h>
 #include "qlabel.h"
-#include "qmessagebox.h"
 #include "qpushbutton.h"
-#include "qtoolbutton.h"
+
+#include <QtCore/QTimer>
+#include <QtCore/QTextStream>
+#include <QtCore/QProcess>
+
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QGridLayout>
-#include <QtCore/QTextStream>
-#include <QFileDialog>
-#include <QtCore/QProcess>
 #include <QtGui/QTextEdit>
+#include <QtGui/QToolTip>
+#include <QtGui/QMessageBox>
+#include <QtGui/QFileDialog>
+#include <QtGui/QToolButton>
 
 #include "TGo4QSettings.h"
 #include "TGo4AnalysisProxy.h"
