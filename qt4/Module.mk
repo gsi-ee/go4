@@ -7,9 +7,10 @@ GO4QT4DEP   :=
 
 include qt4/Go4GUI/Module.mk
 
-ifndef GO4_WIN32
-
 include qt4/Go4UserGUI/Makefile
+
+
+ifndef GO4_WIN32
 
 include qt4/Go4plugin/Module.mk
 

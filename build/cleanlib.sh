@@ -22,6 +22,7 @@ if [ "$GO4_OS" = "Win32" ]; then
   $RM $LIBDIR/$LIBNAME.*
   if [ "$LIBDIR" = "lib" ]; then
     $RM bin/$LIBNAME.dll
+    $RM bin/$LIBNAME.rootmap
   fi
 fi
 

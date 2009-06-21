@@ -69,6 +69,7 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
    fRootWindowId = gVirtualX->AddWindow((ULong_t)fQtWindowId, 100, 30);
 
    fCanvas = new TCanvas("Canvas", width(), height(), fRootWindowId);
+
    // create the context menu
    fMousePosX = 0;
    fMousePosY = 0;

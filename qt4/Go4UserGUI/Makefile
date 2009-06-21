@@ -10,8 +10,8 @@ endif
 
 USERGUI4_LIBDIR      = $(USERGUI4_DIR)
 USERGUI4_QTLIBNAME   = libGo4UserGui
-USERGUI4_QTPRO       = $(USERGUI4_DIR)/Go4UserGui.pro
-USERGUI4_QTMAKE      = $(USERGUI4_DIR)/Makefile.qt
+USERGUI4_QTPRO       = Go4UserGui.pro
+USERGUI4_QTMAKE      = Makefile.qt
 USERGUI4_QGO4WIDG    = $(GO4SYS)/include/QGo4Widget.h
 
 USERGUI4_NOTLIBF     =
@@ -45,23 +45,28 @@ clean:: clean-qt4usergui
 endif
 
 
-$(USERGUI4_QTMAKE): $(USERGUI4_QTPRO) $(USERGUI4_FORMS) 
+$(USERGUI4_DIR)/$(USERGUI4_QTMAKE): $(USERGUI4_DIR)/$(USERGUI4_QTPRO) $(USERGUI4_FORMS) 
 	@echo "Generating $(USERGUI4_QTMAKE)..."
 	cd $(USERGUI4_DIR); $(QMAKE) $(USERGUI4_QTPRO) -o $(USERGUI4_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS)
 
-$(USERGUI4_QTLIB): $(USERGUI4_QTMAKE) $(USERGUI4_QGO4WIDG)
+$(USERGUI4_QTLIB): $(USERGUI4_DIR)/$(USERGUI4_QTMAKE) $(USERGUI4_QGO4WIDG)
 	@echo "Generating Qt part of the User GUI..."
-	+cd $(USERGUI4_DIR); $(MAKE) -f $(USERGUI4_QTMAKE)
+	+cd $(USERGUI4_DIR); $(MAKEFORQT) -f $(USERGUI4_QTMAKE)
 
+ifndef GO4_WIN32
 all-qt4usergui:  $(USERGUI4_QTLIB)
+else
+all-qt4usergui:
+	@echo "No user gui (yet) under windows"
+endif
 
 clean-qt4usergui:
 	@rm -f $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).$(DllSuf)*
 	@rm -f $(USERGUI4_DIR)/*.o
-ifneq ($(wildcard $(USERGUI4_QTMAKE)),)
-	cd $(USERGUI4_DIR); $(MAKE) -f $(USERGUI4_QTMAKE) clean
+ifneq ($(wildcard $(USERGUI4_DIR)/$(USERGUI4_QTMAKE)),)
+	cd $(USERGUI4_DIR); $(MAKEFORQT) -f $(USERGUI4_QTMAKE) clean
 endif
-	@rm -f $(USERGUI4_QTMAKE)
+	@rm -f $(USERGUI4_DIR)/$(USERGUI4_QTMAKE)
 
 clean-qt4:: clean-qt4usergui
 
