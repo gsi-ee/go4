@@ -15,7 +15,17 @@ class TVirtualPad;
  * @since 06/2004
  */
 
-class TGo4Marker : public TMarker {
+class 
+
+#ifndef __CINT__
+#ifdef WIN32
+#ifndef BUILDING_GO4BASE_DLL
+__declspec(dllimport)
+#endif
+#endif
+#endif
+
+TGo4Marker : public TMarker {
 
 public:
    TGo4Marker();

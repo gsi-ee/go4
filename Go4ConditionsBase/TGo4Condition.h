@@ -18,7 +18,21 @@ class TGo4HistogramEntry;
 class TGo4EventElement;
 class TGo4ConditionPainter;
 
-class TGo4Condition : public TNamed, public TAttLine, public TAttFill {
+
+
+class 
+
+#ifndef __CINT__
+#ifdef WIN32
+#ifndef BUILDING_GO4BASE_DLL
+__declspec(dllimport)
+#endif
+#endif
+#endif
+
+
+TGo4Condition : public TNamed, public TAttLine, public TAttFill {
+
   friend class TGo4CondArray;
 
   public:
