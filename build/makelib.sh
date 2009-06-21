@@ -26,9 +26,7 @@ DEPLIBS=${15}
 
 if [ "$GO4_OS" = "Win32" ]; then
 
-  syslibs="msvcrt.lib oldnames.lib kernel32.lib advapi32.lib \
-           user32.lib gdi32.lib comdlg32.lib winspool.lib \
-           comctl32.lib WSock32.lib"
+  syslibs="ws2_32.lib"
   
   rootlibs="libCore.lib libCint.lib libMatrix.lib \
             libHist.lib libGraf.lib libMinuit.lib libMathCore.lib \
@@ -66,11 +64,7 @@ if [ "$GO4_OS" = "Win32" ]; then
                libGo4TaskHandler.lib libGo4AnalBase.lib libGo4Version.lib"
   elif [ "$LIBNAME" = "libGo4GUI" ]; then
     extralibs="libGo4Fit.lib libGo4Base.lib libGo4ThreadManager.lib \
-               libGo4TaskHandler.lib libGo4AnalBase.lib libGui.lib "
-  elif [ "$LIBNAME" = "libGo4GUI4bis" ]; then
-    extralibs="libGo4Fit.lib libGo4Base.lib libGo4ThreadManager.lib \
-               libGo4TaskHandler.lib libGo4AnalBase.lib libGo4GUI.lib libGui.lib"
-    LDFLAGS="$LDFLAGS /FORCE"
+               libGo4TaskHandler.lib libGo4AnalBase.lib libGui.lib"
   else
   #this is a case for user libraries
   #add here more library if something is missing
@@ -79,18 +73,12 @@ if [ "$GO4_OS" = "Win32" ]; then
                libGo4TaskHandler.lib libGo4AnalBase.lib libGo4Analysis.lib"
   fi
   
-  #name=`basename $LIBNAME.dll`
-  #echo "name = $LIBNAME  extra = $extralibs"
-  
-  #bindexp=/cygdrive/f/Serg/root/bin/bindexplib
-  bindexp=bindexplib
-  
   rm -f $LIBDIR/$LIBNAME.*
   
-  #echo $bindexp $LIBNAME $LIBOBJS > $LIBDIR/${LIBNAME}.def
+  #echo bindexplib $LIBNAME $LIBOBJS > $LIBDIR/${LIBNAME}.def
   echo Produce $LIBDIR/${LIBNAME}.def
   
-  $bindexp $LIBNAME $LIBOBJS > $LIBDIR/${LIBNAME}.def
+  bindexplib $LIBNAME $LIBOBJS > $LIBDIR/${LIBNAME}.def
   
   #echo /cygdrive/f/Serg/MVC/bin/link -LIB -nologo -MACHINE:IX86 \
   #      -out:$LIBDIR/${LIBNAME}.lib $LIBOBJS -def:$LIBDIR/${LIBNAME}.def

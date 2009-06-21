@@ -27,7 +27,7 @@ MV            = mv
 
 #### Linker definitions: ####
 LD            = $(GO4SYS)/build/ld.sh
-LDFLAGS       = /NOLOGO /INCREMENTAL:NO /nodefaultlib:libc.lib /nodefaultlib:dfor.lib
+LDFLAGS       = /NOLOGO /INCREMENTAL:NO
 SOFLAGS       = /DLL
 
 #### Other options: ####
