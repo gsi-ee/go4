@@ -45,7 +45,7 @@ endif
 GO4GUI4_PACKAGE_FORMS = $(wildcard $(GO4GUI4_DIR)/*.ui)
 
 GO4GUI4_FH          = $(GO4GUI4_FORMS:.ui=.h)
-GO4GUI4_UI_H        = $(patsubst $(GO4GUI4_DIR)/%.ui, $(GO4GUI4_DIR)/ui_%.h, $(GO4GUI4_FORMS))
+GO4GUI4_UI_H        = $(patsubst $(GO4GUI4_DIR)/%.ui, $(GO4SYS)/include/ui_%.h, $(GO4GUI4_FORMS))
 GO4GUI4_FS          = $(GO4GUI4_FORMS:.ui=.cpp)
 
 GO4GUI4_S           = $(filter-out $(GO4GUI4_DS), $(wildcard $(GO4GUI4_DIR)/*.$(SrcSuf)))
@@ -60,11 +60,22 @@ GO4GUI4_DDEP        = $(GO4GUI4_DO:.$(ObjSuf)=.$(DepSuf))
 GO4GUI4_PUBH        = $(patsubst $(GO4GUI4_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4GUI4_H) $(GO4GUI4_QTH) $(GO4GUI4_FH))
 
 
+
+QT4ROOT_DIR       = $(GO4SYS)/qt4/Go4QtRoot
+
+QT4ROOT_H         =  $(QT4ROOT_DIR)/QRootApplication.h \
+                     $(QT4ROOT_DIR)/QRootCanvas.h \
+                     $(QT4ROOT_DIR)/QRootWindow.h \
+                     $(QT4ROOT_DIR)/QRootDialog.h
+
+QT4ROOT_PUBH    = $(patsubst $(QT4ROOT_DIR)/%.h, $(GO4SYS)/include/%.h, $(QT4ROOT_H))
+
+
 # used in the main Makefile
 
-GO4QT4HEADS        += $(GO4GUI4_UI_H) $(GO4GUI4_PUBH)
+GO4QT4HEADS        += $(GO4GUI4_UI_H) $(GO4GUI4_PUBH) $(QT4ROOT_PUBH)
 
-GO4QT4DEP          += $(GO4GUI4_DEP) $(GO4GUI4_DDEP)
+#GO4QT4DEP          += $(GO4GUI4_DEP) $(GO4GUI4_DDEP)
 
 ifdef DOPACKAGE
 DISTRFILES         += $(GO4GUI4_S) $(GO4GUI4_H) $(GO4GUI4_FH) $(GO4GUI4_LINKDEF) 
@@ -80,6 +91,11 @@ $(GO4GUI4_O) $(GO4GUI4_DO) $(GO4GUI4_DEP) $(GO4GUI4_DDEP): CXXFLAGS += $(QTCXXFL
 ifdef GO4_QT4
 $(GO4SYS)/include/%.h: $(GO4GUI4_DIR)/%.h
 	@cp -f $< $@
+$(GO4SYS)/include/%.h: $(QT4ROOT_DIR)/%.h
+	@cp -f $< $@
+$(GO4SYS)/include/ui_%.h: $(GO4GUI4_DIR)/%.ui
+	@echo "Producing file $@ ..." 
+	@$(UIC) $< -o $@
 endif
 
 $(GO4GUI4_DS): $(GO4GUI4_H)  $(GO4GUI4_LINKDEF)
@@ -88,18 +104,13 @@ $(GO4GUI4_DS): $(GO4GUI4_H)  $(GO4GUI4_LINKDEF)
 $(GO4SGUI4_LIB): $(GO4GUI4_O) $(GO4GUI4_DO)
 	@$(MakeLibrary) $(GO4SGUI4_LIBNAME) "$(GO4GUI4_O) $(GO4GUI4_DO)" $(GO4DLLPATH)
 
-$(GO4GUI4_DIR)/ui_%.h: $(GO4GUI4_DIR)/%.ui
-	@echo "Producing file $@ ..." 
-	@$(UIC) $< -o $@
-
-
 ifneq ($(wildcard $(GO4GUI4_DIR)/$(GO4GUI4_QTPRO)),)
-$(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE): $(GO4GUI4_DIR)/$(GO4GUI4_QTPRO) $(GO4GUI4_FORMS)
+$(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE): $(GO4GUI4_DIR)/$(GO4GUI4_QTPRO) $(GO4GUI4_FORMS) $(GO4GUI4_DS)
 	@echo "Generating $(GO4GUI4_QTMAKE)"
-	cd $(GO4GUI4_DIR); $(QMAKE) $(GO4GUI4_QTPRO) -o $(GO4GUI4_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS) $(QMAKELIBFLAGS) "LIBS+=$(LIBS_GUISET) -lGo4GUI4bis -lGo4Qt4Root -lGo4FitGUI4" $(GO4GUI4_QMAKED1OPT) $(GO4GUI4_QMAKED2OPT) $(GO4GUI4_QMAKED3OPT) $(GO4GUI4_QMAKED4OPT)
+	cd $(GO4GUI4_DIR); $(QMAKE) $(GO4GUI4_QTPRO) -o $(GO4GUI4_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS) $(QMAKELIBFLAGS) "LIBS+=$(LIBS_GUISET)" $(GO4GUI4_QMAKED1OPT) $(GO4GUI4_QMAKED2OPT) $(GO4GUI4_QMAKED3OPT) $(GO4GUI4_QMAKED4OPT)
 endif
 
-qt4-GUI: $(GO4QT4HEADS) libs $(GO4SGUI4_LIB) qt4-interface qt4-FitGUI $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE)
+qt4-GUI: $(GO4QT4HEADS) libs $(GO4GUI4_DS) $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE)
 	@echo "Generating Qt4 part of the MainGUI..."
 	+cd $(GO4GUI4_DIR); $(MAKEFORQT) -f $(GO4GUI4_QTMAKE)
 
@@ -114,4 +125,5 @@ ifneq ($(wildcard $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE)),)
 endif
 	@rm -f $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE) $(GO4GUI4_PUBH) $(GO4GUI4_GEN_QRC)
 	@rm -rf .obj .moc
+	@rm -f .obj .moc $(GO4GUI4_UI_H)
 	@echo "Clean qt4 gui done"

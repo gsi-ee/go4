@@ -82,3 +82,5 @@ endif
 	@rm -f $(PLUGIN4_DIR)/QRootCanvas.*
 	@rm -f $(PLUGIN4_DIR)/QRootDialog.*
 	@rm -f $(PLUGIN4_DIR)/QRootWindow.*
+
+clean-qt4:: clean-qt4plugin

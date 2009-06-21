@@ -63,4 +63,6 @@ ifneq ($(wildcard $(USERGUI4_QTMAKE)),)
 endif
 	@rm -f $(USERGUI4_QTMAKE)
 
+clean-qt4:: clean-qt4usergui
+
 include $(GO4SYS)/Makefile.rules

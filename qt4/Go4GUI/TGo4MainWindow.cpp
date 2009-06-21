@@ -1,9 +1,5 @@
 #include "TGo4MainWindow.h"
 
-#ifndef WIN32
-#include <dlfcn.h>
-#endif
-
 #include "qaction.h"
 #include "qimage.h"
 #include "qpixmap.h"
@@ -724,24 +720,12 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
 
    cout << "Try : " << libname.toAscii().constData() << endl;
 
-#ifdef WIN32
+   bool loaded = false;
 
-   if (gSystem->Load(libname.toAscii())>=0)
+   if (gSystem->Load(libname.toAscii())>=0) {
+      loaded = true;
       startfunc = (TStartUserGuiFunc) gSystem->DynFindSymbol(libname.toAscii(), "StartUserPanel");
-
-#else
-
-   void* lib1 = ::dlopen(libname.toAscii(), RTLD_LAZY | RTLD_GLOBAL);
-
-   if (lib1==0) {
-      const char* errmsg = ::dlerror();
-      if (errmsg!=0) cout << errmsg << endl;
-      return false;
    }
-
-   startfunc = (TStartUserGuiFunc) ::dlsym(lib1,"StartUserPanel");
-#endif
-
 
    if (startfunc!=0) {
       QGo4Widget* userpanel = (QGo4Widget*) startfunc(fxWorkSpace);
@@ -762,11 +746,7 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
       else
          cout << "$LD_LIBRARY_PATH=" << ::getenv("LD_LIBRARY_PATH") << endl;
    } else {
-#ifdef WIN32
-      gSystem->Unload(libname.toAscii());
-#else
-      if (lib1!=0) dlclose(lib1);
-#endif
+      if (loaded) gSystem->Unload(libname.toAscii());
    }
 
    return result;

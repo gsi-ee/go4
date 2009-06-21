@@ -4,15 +4,16 @@ GO4QT4HEADS :=
 
 GO4QT4DEP   :=
 
-include qt4/Go4QtRoot/Module.mk
-
-include qt4/Go4FitGUI/Module.mk
 
 include qt4/Go4GUI/Module.mk
+
+ifndef GO4_WIN32
 
 include qt4/Go4UserGUI/Makefile
 
 include qt4/Go4plugin/Module.mk
+
+endif
 
 DISTRFILES         += qt4/Module.mk qt4/go4.conf
 
@@ -30,7 +31,7 @@ endif
 
 FASTRULES += clean-qt4
 
-clean-qt4: clean-qt4-interface clean-qt4-FitGUI clean-qt4-GUI clean-qt4usergui clean-qt4plugin
+clean-qt4:: clean-qt4-GUI
 
 clean:: clean-qt4
 
