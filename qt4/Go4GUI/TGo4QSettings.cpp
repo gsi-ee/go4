@@ -24,37 +24,37 @@ TGo4QSettings* go4sett = 0;
 
 void TGo4QSettings::SetSettLocation(const QString& filename)
 {
-	fgSettFileName = filename;
+   fgSettFileName = filename;
 }
 
 QString TGo4QSettings::GetSettLoaction()
 {
-	if (fgSettFileName.length() > 0) return fgSettFileName;
-	return QDir::homePath() + "/.config/GSI/go4.conf";
+   if (fgSettFileName.length() > 0) return fgSettFileName;
+   return QDir::homePath() + "/.config/GSI/go4.conf";
 }
 
 TGo4QSettings::TGo4QSettings()
 {
-	Open();
+   Open();
 }
 
 TGo4QSettings::~TGo4QSettings()
 {
-	delete sett;
+   delete sett;
 }
 
 void TGo4QSettings::Open()
 {
    if (fgSettFileName.length()>0)
-   	sett = new QSettings(fgSettFileName, QSettings::NativeFormat);
+      sett = new QSettings(fgSettFileName, QSettings::NativeFormat);
    else
-   	sett = new QSettings("GSI","go4");
+      sett = new QSettings("GSI","go4");
 }
 
 void TGo4QSettings::Store()
 {
-	delete sett;
-	Open();
+   delete sett;
+   Open();
 }
 
 void TGo4QSettings::setBool(const QString& name, bool value)
@@ -69,7 +69,7 @@ bool TGo4QSettings::getBool(const QString& name, bool def)
 
 void TGo4QSettings::setInt(const QString& name, int value)
 {
-	sett->setValue(name, value);
+   sett->setValue(name, value);
 }
 
 int TGo4QSettings::getInt(const QString& name, int def)
@@ -79,7 +79,7 @@ int TGo4QSettings::getInt(const QString& name, int def)
 
 void TGo4QSettings::setStr(const QString& name, const QString& value)
 {
-	sett->setValue(name, value);
+   sett->setValue(name, value);
 }
 
 QString TGo4QSettings::getStr(const QString& name, const QString& def)
@@ -89,14 +89,13 @@ QString TGo4QSettings::getStr(const QString& name, const QString& def)
 
 void TGo4QSettings::setDouble(const QString& name, double value)
 {
-	sett->setValue(name, value);
+   sett->setValue(name, value);
 }
 
 double TGo4QSettings::getDouble(const QString& name, double def)
 {
    return sett->value(name, def).toDouble();
 }
-
 
 // set of Go4 specific functions
 
@@ -126,12 +125,12 @@ void TGo4QSettings::setBasicSettings()
 
 void TGo4QSettings::getBasicSettings()
 {
-//   QString AppStyle = readEntry( "/Style/AppStyle", "windows");
-//   QApplication::setStyle(AppStyle);
+   //   QString AppStyle = readEntry( "/Style/AppStyle", "windows");
+   //   QApplication::setStyle(AppStyle);
 
-//   QFont font;
-//   font.fromString(readEntry( "/Font", "Arial,11,-1,5,50,0,0,0,0,0"));
-//   QApplication::setFont(font, true );
+   //   QFont font;
+   //   font.fromString(readEntry( "/Font", "Arial,11,-1,5,50,0,0,0,0,0"));
+   //   QApplication::setFont(font, true );
 
    TGo4Marker::fgbHASLABEL     = getBool("/markers/Markerlabel", 1);
    TGo4Marker::fgbHASCONNECTOR = getBool("/markers/Connectorline", 1);;
@@ -231,7 +230,7 @@ int TGo4QSettings::getClientShellMode()
    QString v = getClientShell();
    int shellmode = 2;
    if(v.contains("rsh")) shellmode=1; else
-   if(v.contains("ssh")) shellmode=2;
+      if(v.contains("ssh")) shellmode=2;
    return shellmode;
 }
 
@@ -257,8 +256,8 @@ int TGo4QSettings::getClientTermMode()
    QString v = getClientTerm();
    int termmode = 1;
    if(v.contains("qt")) termmode = 1; else
-   if(v.contains("xterm")) termmode = 2; else
-   if(v.contains("konsole")) termmode = 3;
+      if(v.contains("xterm")) termmode = 2; else
+         if(v.contains("konsole")) termmode = 3;
    return termmode;
 }
 
@@ -630,7 +629,7 @@ void    TGo4QSettings::setMbsMonitorNode(const QString& name)
 
 QString TGo4QSettings::getMbsMonitorNode()
 {
-    return getStr( "/MbsMonitor/Node", "r2-d2");
+   return getStr( "/MbsMonitor/Node", "r2-d2");
 }
 
 void    TGo4QSettings::setMbsMonitorFreq(int secs)
@@ -660,7 +659,7 @@ void    TGo4QSettings::setMbsMonitorTrend(bool on)
 
 bool    TGo4QSettings::getMbsMonitorTrend()
 {
-    return getBool("/MbsMonitor/TrendOn", false);
+   return getBool("/MbsMonitor/TrendOn", false);
 }
 
 void    TGo4QSettings::setMbsMonitorMore(bool on)
@@ -700,7 +699,7 @@ void    TGo4QSettings::setDabcMonitorNode(const QString& name)
 
 QString TGo4QSettings::getDabcMonitorNode()
 {
-    return getStr( "/DabcMonitor/Node", "dimDns.gsi.de");
+   return getStr( "/DabcMonitor/Node", "dimDns.gsi.de");
 }
 
 void    TGo4QSettings::setDabcMonitorFreq(int secs)
@@ -735,7 +734,7 @@ bool TGo4QSettings::getDabcMonitorBackwardsTrending()
 
 QStringList TGo4QSettings::getCommandsHistoryGUI()
 {
-  return sett->value("/CommandsHistoryGUI").toStringList();
+   return sett->value("/CommandsHistoryGUI").toStringList();
 }
 
 void TGo4QSettings::setCommandsHistoryGUI(const QStringList & commands)
