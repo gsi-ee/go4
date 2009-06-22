@@ -107,6 +107,9 @@ class TascaUnpackProc : public TGo4EventProcessor {
       UInt_t timestamp,lat0,lat1,lat2,lat3;
       UInt_t timediff;
       Bool_t takeEvent;
+      char  cfilenum[8];
+      char  cfilename[512];
+      UInt_t filenum;
 
    ClassDef(TascaUnpackProc,1)
 };

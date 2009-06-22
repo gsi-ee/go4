@@ -141,6 +141,7 @@ if(takeEvent){
 	poutevt->fisMicro=fInput->fisMicro;
 	poutevt->fisMacro=fInput->fisMacro;
 	poutevt->fisVeto=fInput->fisVeto;
+	poutevt->fiFileNumber=fInput->fiFileNumber;
 	poutevt->fiEventNumber=fInput->fiEventNumber;
 	poutevt->fiStopXLhitI=fInput->fiStopXLhitI;
 	poutevt->fiStopXHhitI=fInput->fiStopXHhitI;

@@ -62,7 +62,7 @@ TascaAnlProc::TascaAnlProc(const char* name) :
   gROOT->ProcessLine(".x setcontrol.C()");
 
   // print description *********************************************************
-  cout<<"      All fissions with Y, Y +-1 Time window fission2 plus alpha2"<<endl;
+  cout<<"      All fissions offbeam with Y, Y +-1 Time window fission2 plus alpha2"<<endl;
 
   fEventStack=new TascaEventStack(fParam->EventStackSize);
   fStackIter = new TListIter(fEventStack);
@@ -134,7 +134,8 @@ if(fFirstEvent==0)fFirstEvent=fInput->fiEventNumber;
 // We assume that fEvent is a valid slot.
 // With fisrt event this is first slot
 // From fission event we go back
- if(fInput->fisFission&(fInput->fiMultiStopYH>0)){
+ if(fInput->fisFission&!fInput->fisMacro&(fInput->fiMultiStopYH>0)){
+// if(fInput->fisFission&(fInput->fiMultiStopYH>0)){
 // if(fInput->fisFission&(fInput->ffBackHhitV>10)){
 // if(fInput->fisFission){
 	fAlphaFound=kFALSE;
@@ -151,7 +152,8 @@ if(fFirstEvent==0)fFirstEvent=fInput->fiEventNumber;
 		  if(fStackEvent->fisAlpha
 		     &(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXLhitI)
 		     &((fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYLhitI)
-		       |((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI))
+		       |((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI)
+		       |((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYLhitI))
 		     ){
 			//PrintAlpha(kFALSE);
 			fAlphaFound=kTRUE;
@@ -162,6 +164,7 @@ if(fFirstEvent==0)fFirstEvent=fInput->fiEventNumber;
 		   &(fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYHhitI)
 		   ){
 			fEvrFound=kTRUE;
+			fiFileNumber=fStackEvent->fiFileNumber;
 			//PrintEvr(kFALSE);
 		}
 		fTimeDiff += fStackEvent->fiDeltaTime;
@@ -174,8 +177,8 @@ if(fFirstEvent==0)fFirstEvent=fInput->fiEventNumber;
 	    cout<<"End of stack"<<endl;
 	    fStackEvent=(TascaEvent *) fEventStack->First();
 	  }
-    	printf("%7.3f sec =============================\n",
-		(Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.);
+    	printf("%7.3f sec File %4d =============================\n",
+	       (Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.,fiFileNumber);
 	fAlphaFound=kFALSE;
 	fEvrFound=kFALSE; //fake for offbeam
 	while(fStackEvent!=fFissionEvent){
@@ -189,7 +192,8 @@ if(fFirstEvent==0)fFirstEvent=fInput->fiEventNumber;
 		else if(fStackEvent->fisAlpha
 		     &(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXLhitI)
 			&((fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYLhitI)
-		       |((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI))
+		       |((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI)
+		       |((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYLhitI))
 		   ){
 			fAlphaFound=kTRUE;
 			PrintAlpha(kFALSE);

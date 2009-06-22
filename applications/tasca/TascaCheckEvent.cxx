@@ -70,6 +70,7 @@ void TascaCheckEvent::CopyTo(TascaEvent *pp){
 	pp->fisEvr=fisEvr;
 	pp->fisAlpha=fisAlpha;
 	pp->fisFission=fisFission;
+	pp->fiFileNumber=fiFileNumber;
 	pp->fiEventNumber=fiEventNumber;
 
 	pp->fiStopXLhitI=fiStopXLhitI;

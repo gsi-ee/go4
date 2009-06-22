@@ -44,6 +44,7 @@ class TascaCaliEvent : public TGo4EventElement {
 
       Int_t Init();
 
+      UInt_t fiFileNumber;
       UInt_t fiEventNumber;
       Bool_t fisTof;
       Bool_t fisChopper;

@@ -245,6 +245,10 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
      (fInput->GetTrigger()==15)) {
 	  return;
   }
+  strcpy(cfilename,fInput->GetEventSource()->GetActiveName());
+  memcpy(&cfilenum,&cfilename[strlen(cfilename)-8],4);
+  cfilenum[4]=0;
+  pUnpackEvent->fiFileNumber=atoi(cfilenum);
   //cout<<endl<<"Unp: "<<fInput->GetCount()<<endl;
   fiEventsProcessed++;
   fInput->ResetIterator();
@@ -566,7 +570,7 @@ long i,
 samples,    // no of samples per trace
 chan,
 card,       // card number
-energy,
+energy=0,
 trg_cnt,
 ft_cnt,
 trailer;

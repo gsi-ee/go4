@@ -44,6 +44,7 @@ class TascaUnpackEvent : public TGo4EventElement {
 	   memset((void*) &fiGammaQ[0], 0, sizeof(fiGammaQ));
 	   memset((void*) &fiGammaE[0], 0, sizeof(fiGammaE));
 	   memset((void*) &fiGammaChannelTime[0], 0, sizeof(fiGammaChannelTime));
+       fiFileNumber=0;
        fiEventNumber=0;
 	   fiGammaTime=0;
 	   fiTimeStamp=0;
@@ -73,6 +74,7 @@ class TascaUnpackEvent : public TGo4EventElement {
       Int_t Init();
 
       UInt_t fiAdc[96];  //! Don't put this to file
+      UInt_t fiFileNumber;
       UInt_t fiEventNumber;
       Bool_t fisTof;
       Bool_t fisChopper;

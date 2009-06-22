@@ -18,6 +18,7 @@ class TascaEvent : public TObject {
 
       Int_t PrintEvent();
 
+      UInt_t fiFileNumber;
       UInt_t fiEventNumber;
       Bool_t fisTof;
       Bool_t fisChopper;

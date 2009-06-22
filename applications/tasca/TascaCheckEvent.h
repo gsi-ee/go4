@@ -29,6 +29,7 @@ class TascaCheckEvent : public TGo4EventElement {
 	   fisAlpha=kFALSE;
      }
 
+      UInt_t fiFileNumber;
       UInt_t fiEventNumber;
       Bool_t fisTof;
       Bool_t fisChopper;
