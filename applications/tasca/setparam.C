@@ -17,10 +17,10 @@ void setparam()
 	Float_t Fission2Hmin=60.000,  Fission2Hmax=220.0000;
 	Float_t BackHmin   =-100000,  BackHmax    = 80000;
 // Time windows sec
-	Float_t fAlphaTmin   =0.,     fAlphaTmax   =900.;
+	Float_t fAlphaTmin   =0.,     fAlphaTmax   = 10.;
 	Float_t fAlpha1Tmin  =0.,     fAlpha1Tmax  = 20.;
 	Float_t fAlpha2Tmin  =0.,     fAlpha2Tmax  =180.;
-	Float_t fFission1Tmin=0.,     fFission1Tmax=900.;
+	Float_t fFission1Tmin=0.,     fFission1Tmax=  1.;
 	Float_t fFission2Tmin=0.,     fFission2Tmax= 70.;
 
 TGo4WinCond * wc;
