@@ -35,15 +35,12 @@ endif
 ##### local rules #####
 
 $(GO4SYS)/include/%.h: $(LOCKGRD_DIR)/%.h
+	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
 $(LOCKGRD_DS): $(LOCKGRD_H)  $(LOCKGRD_LINKDEF)
-		@$(ROOTCINTGO4) $(LOCKGRD_H) $(LOCKGRD_LINKDEF)
+	@$(ROOTCINTGO4) $(LOCKGRD_H) $(LOCKGRD_LINKDEF)
 
-all-$(LOCKGRD_NAME):  $(LOCKGRD_O) $(LOCKGRD_DO)
-
-clean-obj-$(LOCKGRD_NAME):
-		@rm -f $(LOCKGRD_O) $(LOCKGRD_DO)
-
-clean-$(LOCKGRD_NAME): clean-obj-$(LOCKGRD_NAME)
-		@rm -f $(LOCKGRD_DEP) $(LOCKGRD_DDEP) $(LOCKGRD_DS) $(LOCKGRD_DH)
+clean::
+	@rm -f $(LOCKGRD_O) $(LOCKGRD_DO)
+	@rm -f $(LOCKGRD_DEP) $(LOCKGRD_DDEP) $(LOCKGRD_DS) $(LOCKGRD_DH)

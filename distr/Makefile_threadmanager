@@ -18,36 +18,32 @@ EXMODULES = Go4ThreadManagerExample
 
 all::       libs
 
-.PHONY:         all libs \
-                clean clean-obj package \
-                $(patsubst %,all-%,$(MODULES)) \
-                $(patsubst %,clean-%,$(MODULES)) \
-                $(patsubst %,clean-obj-%,$(MODULES))
+.PHONY:         all libs clean clean-mainlibs
+
+FASTRULES += clean-mainlibs
 
 include $(patsubst %,%/Module.mk,$(MODULES))
 
 include $(patsubst %,%/Makefile, $(EXMODULES))
 
-build/dummy.d: Makefile $(ALLHDRS) $(GO4MAP) 
+build/dummy.d: Makefile $(ALLHDRS)
 	@(if [ ! -f $@ ] ; then touch $@; fi)
 	@(if [ ! -f lib ] ; then mkdir -p lib; fi)
 	@(if [ ! -f bin ] ; then mkdir -p bin; fi)
+	@(if [ ! -f $(GO4MAP) ] ; then touch $(GO4MAP); fi)
 
-$(GO4MAP):
-	@(if [ ! -f $@ ] ; then touch $@; fi)
+libs::    $(BUILDGO4LIBS)
 
-libs:           $(BUILDGO4LIBS)    
+examples:  $(patsubst %,all-%,$(EXMODULES)) $(EXAMPLEEXECS)
 
-examples:       $(patsubst %,all-%,$(EXMODULES)) $(EXAMPLEEXECS)
-
-clean::   $(patsubst %,clean-%,$(MODULES))
+clean:: clean-mainlibs
 	@rm -f $(GO4MAP)
 	@$(CleanLib) $(GO4BASE_LIBNAME) $(GO4DLLPATH)
 	@echo "Clean go4 threadmanager done"
 
-clean-obj: $(patsubst %,clean-obj-%,$(MODULES))
+clean-mainlibs:
 	@$(CleanLib) $(GO4BASE_LIBNAME) $(GO4DLLPATH)
-	@echo "Clean go4 threadmanager object files done"
+	$(CleanLib) $(THRDMNGR_LIBNAME) $(GO4DLLPATH)
 
 GO4BASE_O = $(LOCKGRD_O) $(LOCKGRD_DO) \
             $(GO4LOG_O) $(GO4LOG_DO) \
@@ -60,10 +56,10 @@ GO4BASE_LINKDEFS = $(LOCKGRD_LINKDEF) \
                    $(CONDBASE_LINKDEF)
 
 $(GO4BASE_LIB):   $(GO4BASE_O)
-		@$(MakeLibrary) $(GO4BASE_LIBNAME) "$(GO4BASE_O)" $(GO4DLLPATH) "$(GO4BASE_LINKDEFS)" "$(BASIC_LIB_DEP)"
+	@$(MakeLibrary) $(GO4BASE_LIBNAME) "$(GO4BASE_O)" $(GO4DLLPATH) "$(GO4BASE_LINKDEFS)" "$(BASIC_LIB_DEP)"
 
 $(THRDMNGR_LIB):   $(THRDMNGR_O) $(THRDMNGR_DO)
-		@$(MakeLibrary) $(THRDMNGR_LIBNAME) "$(THRDMNGR_O) $(THRDMNGR_DO)" $(GO4DLLPATH) $(THRDMNGR_LINKDEF) "$(GO4BASE_LIB) $(BASIC_LIB_DEP)"
+	@$(MakeLibrary) $(THRDMNGR_LIBNAME) "$(THRDMNGR_O) $(THRDMNGR_DO)" $(GO4DLLPATH) $(THRDMNGR_LINKDEF) "$(GO4BASE_LIB) $(BASIC_LIB_DEP)"
 
 Go4_Makefile_Rules =
 include Makefile.rules

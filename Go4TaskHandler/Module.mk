@@ -36,16 +36,13 @@ endif
 ##### local rules #####
 
 $(GO4SYS)/include/%.h: $(TASKHAND_DIR)/%.h
+	@echo "Copy header $@ ..."
 	@cp -f $< $@
 
-$(TASKHAND_DS): $(TASKHAND_H)  $(TASKHAND_LINKDEF)
-		@$(ROOTCINTGO4) $(TASKHAND_H) $(TASKHAND_LINKDEF)
+$(TASKHAND_DS): $(TASKHAND_H) $(TASKHAND_LINKDEF)
+	@$(ROOTCINTGO4) $(TASKHAND_H) $(TASKHAND_LINKDEF)
 
-all-$(TASKHAND_NAME): $(TASKHAND_O) $(TASKHAND_DO) 
-
-clean-obj-$(TASKHAND_NAME):
-		@rm -f $(TASKHAND_O) $(TASKHAND_DO)
-
-clean-$(TASKHAND_NAME): clean-obj-$(TASKHAND_NAME)
-		@rm -f $(TASKHAND_DEP) $(TASKHAND_DDEP) $(TASKHAND_DS) $(TASKHAND_DH)
+clean::
+	@rm -f $(TASKHAND_O) $(TASKHAND_DO)
+	@rm -f $(TASKHAND_DEP) $(TASKHAND_DDEP) $(TASKHAND_DS) $(TASKHAND_DH)
 

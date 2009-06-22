@@ -51,11 +51,11 @@ int main(int argc, char **argv) {
 
     QRootApplication myapp( argc, argv, 0 );
 
+    TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages
     TGo4Log::Instance(); // init logger object
     TGo4Log::SetIgnoreLevel(1); // set this to 1 to suppress detailed debug output
     // set this to 2 to get warnings and errors only
     // set this to 3 to get errors only
-    TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages
 
     ///////////// Define the GO4 Settings. //////////////////////
     // has to be done here, since mainwindow components have local

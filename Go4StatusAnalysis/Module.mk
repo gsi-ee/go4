@@ -34,16 +34,13 @@ endif
 ##### local rules #####
 
 $(GO4SYS)/include/%.h: $(STATANAL_DIR)/%.h
+	@echo "Copy header $@ ..."
 	@cp -f $< $@
 
 $(STATANAL_DS): $(STATANAL_H)  $(STATANAL_LINKDEF)
-		@$(ROOTCINTGO4) $(STATANAL_H) $(STATANAL_LINKDEF)
+	@$(ROOTCINTGO4) $(STATANAL_H) $(STATANAL_LINKDEF)
 
-all-$(STATANAL_NAME): $(STATANAL_O) $(STATANAL_DO)
-
-clean-obj-$(STATANAL_NAME):
-		@rm -f $(STATANAL_O) $(STATANAL_DO)
-
-clean-$(STATANAL_NAME): clean-obj-$(STATANAL_NAME)
-		@rm -f $(STATANAL_DEP) $(STATANAL_DDEP) $(STATANAL_DS) $(STATANAL_DH)
+clean::
+	@rm -f $(STATANAL_O) $(STATANAL_DO)
+	@rm -f $(STATANAL_DEP) $(STATANAL_DDEP) $(STATANAL_DS) $(STATANAL_DH)
 

@@ -29,12 +29,9 @@ endif
 ##### local rules #####
 
 $(GO4SYS)/include/%.h: $(MBSAPI_DIR)/%.h
+	@echo "Copy header $@ ..."
 	@cp -f $< $@
 
-all-$(MBSAPI_NAME):     $(MBSAPI_O)
-
-clean-obj-$(MBSAPI_NAME):
-		@rm -f $(MBSAPI_O)
-
-clean-$(MBSAPI_NAME): clean-obj-$(MBSAPI_NAME)
-		@rm -f $(MBSAPI_DEP)
+clean::
+	@rm -f $(MBSAPI_O)
+	@rm -f $(MBSAPI_DEP)

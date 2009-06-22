@@ -29,12 +29,8 @@ endif
 ##### local rules #####
 
 $(GO4SYS)/include/%.h: $(EXCEPT_DIR)/%.h
+	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
-all-$(EXCEPT_NAME): $(EXCEPT_O)
-
-clean-obj-$(EXCEPT_NAME):
-		@rm -f $(EXCEPT_O) 
-
-clean-$(EXCEPT_NAME): clean-obj-$(EXCEPT_NAME)
-		@rm -f $(EXCEPT_DEP)
+clean::
+	@rm -f $(EXCEPT_O) $(EXCEPT_DEP)

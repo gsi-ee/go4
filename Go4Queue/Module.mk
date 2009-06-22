@@ -37,18 +37,17 @@ endif
 ##### local rules #####
 
 $(GO4SYS)/include/%.h: $(GO4QUEUE_DIR)/%.h
+	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
-$(GO4QUEUE_EXE):    libs $(GO4QUEUE_EXEO)
+$(GO4QUEUE_EXE):  $(BUILDGO4LIBS) $(GO4QUEUE_EXEO)
 	$(LD) $(LDFLAGS) $(GO4QUEUE_EXEO) $(LIBS_TASKHANDSET) $(OutPutOpt) $(GO4QUEUE_EXE)
-	@echo "$@  done"      
+	@echo "$@  done"
 
-all-$(GO4QUEUE_NAME):  $(GO4QUEUE_O) $(GO4QUEUE_EXE)
+all:: $(GO4QUEUE_EXE)
 
-clean-obj-$(GO4QUEUE_NAME):
-		@rm -f $(GO4QUEUE_O)
-		@rm -f $(GO4QUEUE_EXEO) $(GO4QUEUE_EXE)
-
-clean-$(GO4QUEUE_NAME): clean-obj-$(GO4QUEUE_NAME)
-		@rm -f $(GO4QUEUE_DEP)
-		@rm -f $(GO4QUEUE_EDEP)
+clean::
+	@rm -f $(GO4QUEUE_O)
+	@rm -f $(GO4QUEUE_EXEO) $(GO4QUEUE_EXE)
+	@rm -f $(GO4QUEUE_DEP)
+	@rm -f $(GO4QUEUE_EDEP)

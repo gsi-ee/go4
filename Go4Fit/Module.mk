@@ -36,16 +36,12 @@ endif
 ##### local rules #####
 
 $(GO4SYS)/include/%.h: $(GO4FIT_DIR)/%.h
+	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
 $(GO4FIT_DS): $(GO4FIT_H)  $(GO4FIT_LINKDEF)
-		@$(ROOTCINTGO4) $(GO4FIT_H) $(GO4FIT_LINKDEF)
+	@$(ROOTCINTGO4) $(GO4FIT_H) $(GO4FIT_LINKDEF)
 
-all-$(GO4FIT_NAME):  $(GO4FIT_O) $(GO4FIT_DO)
-
-clean-obj-$(GO4FIT_NAME):
-		@rm -f $(GO4FIT_O) $(GO4FIT_DO)
-		@$(CleanLib) $(GO4FIT_LIBNAME) $(GO4DLLPATH)
-
-clean-$(GO4FIT_NAME): clean-obj-$(GO4FIT_NAME)
-		@rm -f $(GO4FIT_DEP) $(GO4FIT_DDEP) $(GO4FIT_DS) $(GO4FIT_DH)
+clean::
+	@rm -f $(GO4FIT_O) $(GO4FIT_DO)
+	@rm -f $(GO4FIT_DEP) $(GO4FIT_DDEP) $(GO4FIT_DS) $(GO4FIT_DH)

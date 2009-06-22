@@ -34,16 +34,13 @@ endif
 ##### local rules #####
 
 $(GO4SYS)/include/%.h: $(CONDBASE_DIR)/%.h
+	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
 $(CONDBASE_DS): $(CONDBASE_H)  $(CONDBASE_LINKDEF)
-		@$(ROOTCINTGO4) $(CONDBASE_H) $(CONDBASE_LINKDEF)
+	@$(ROOTCINTGO4) $(CONDBASE_H) $(CONDBASE_LINKDEF)
 
-all-$(CONDBASE_NAME):  $(CONDBASE_O) $(CONDBASE_DO)
-
-clean-obj-$(CONDBASE_NAME):
-		@rm -f $(CONDBASE_O) $(CONDBASE_DO)
-
-clean-$(CONDBASE_NAME): clean-obj-$(CONDBASE_NAME)
-		@rm -f $(CONDBASE_DEP) $(CONDBASE_DDEP) $(CONDBASE_DS) $(CONDBASE_DH)
+clean::
+	@rm -f $(CONDBASE_O) $(CONDBASE_DO)
+	@rm -f $(CONDBASE_DEP) $(CONDBASE_DDEP) $(CONDBASE_DS) $(CONDBASE_DH)
 

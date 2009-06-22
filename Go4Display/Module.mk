@@ -27,12 +27,9 @@ endif
 ##### local rules #####
 
 $(GO4SYS)/include/%.h: $(GO4DISPL_DIR)/%.h
+	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
-all-$(GO4DISPL_NAME):  $(GO4DISPL_O) $(GO4DISPL_DO)
-
-clean-obj-$(GO4DISPL_NAME):
-		@rm -f $(GO4DISPL_O)
-
-clean-$(GO4DISPL_NAME): clean-obj-$(GO4DISPL_NAME)
-		@rm -f $(GO4DISPL_DEP)
+clean::
+	@rm -f $(GO4DISPL_O)
+	@rm -f $(GO4DISPL_DEP)

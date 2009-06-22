@@ -37,7 +37,6 @@ GO4GUI4_QMAKED1OPT  = "FORMS += TGo4DabcMonitor.ui"
 GO4GUI4_QMAKED2OPT  = "HEADERS += TGo4DabcMonitor.h"
 GO4GUI4_QMAKED3OPT  = "SOURCES += TGo4DabcMonitor.cpp"
 GO4GUI4_QMAKED4OPT  = "INCLUDEPATH += $(DIMDIR)/dim"
-
 else
 GO4GUI4_FORMS       = $(filter-out $(GO4GUI4_DIR)/TGo4DabcMonitor.ui, $(wildcard $(GO4GUI4_DIR)/*.ui))
 endif
@@ -90,11 +89,15 @@ $(GO4GUI4_O) $(GO4GUI4_DO) $(GO4GUI4_DEP) $(GO4GUI4_DDEP): CXXFLAGS += $(QTCXXFL
 
 ifdef GO4_QT4
 $(GO4SYS)/include/%.h: $(GO4GUI4_DIR)/%.h
+	@echo "Copy header $@ ..." 
 	@cp -f $< $@
+	
 $(GO4SYS)/include/%.h: $(QT4ROOT_DIR)/%.h
+	@echo "Copy header $@ ..." 
 	@cp -f $< $@
+	
 $(GO4SYS)/include/ui_%.h: $(GO4GUI4_DIR)/%.ui
-	@echo "Producing file $@ ..." 
+	@echo "Producing ui file $@ ..." 
 	@$(UIC) $< -o $@
 endif
 
@@ -124,6 +127,6 @@ ifneq ($(wildcard $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE)),)
 	cd $(GO4GUI4_DIR); $(MAKEFORQT) -f $(GO4GUI4_QTMAKE) clean
 endif
 	@rm -f $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE) $(GO4GUI4_PUBH) $(GO4GUI4_GEN_QRC)
-	@rm -rf .obj .moc
-	@rm -f .obj .moc $(GO4GUI4_UI_H)
+	@rm -rf $(GO4GUI4_DIR)/.obj $(GO4GUI4_DIR)/.moc
+	@rm -f $(GO4GUI4_UI_H)
 	@echo "Clean qt4 gui done"

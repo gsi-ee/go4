@@ -34,16 +34,13 @@ endif
 ##### local rules #####
 
 $(GO4SYS)/include/%.h: $(CMDANAL_DIR)/%.h
+	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
-$(CMDANAL_DS): $(CMDANAL_H)  $(CMDANAL_LINKDEF)
-		@$(ROOTCINTGO4) $(CMDANAL_H) $(CMDANAL_LINKDEF)
-        
-all-$(CMDANAL_NAME):  $(CMDANAL_O) $(CMDANAL_DO)
+$(CMDANAL_DS): $(CMDANAL_H) $(CMDANAL_LINKDEF)
+	@$(ROOTCINTGO4) $(CMDANAL_H) $(CMDANAL_LINKDEF)
 
-clean-obj-$(CMDANAL_NAME):
-		@rm -f $(CMDANAL_O) $(CMDANAL_DO)
-
-clean-$(CMDANAL_NAME): clean-obj-$(CMDANAL_NAME)
-		@rm -f $(CMDANAL_DEP) $(CMDANAL_DDEP) $(CMDANAL_DS) $(CMDANAL_DH)
+clean::
+	@rm -f $(CMDANAL_O) $(CMDANAL_DO)
+	@rm -f $(CMDANAL_DEP) $(CMDANAL_DDEP) $(CMDANAL_DS) $(CMDANAL_DH)
 

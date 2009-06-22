@@ -18,6 +18,15 @@ endif
 
 DISTRFILES         += qt4/Module.mk qt4/go4.conf
 
+DISTRFILES         += $(GO4SYS)/qt4/Go4QtRoot/CHANGELOG.txt
+DISTRFILES         += $(wildcard $(GO4SYS)/qt4/Go4QtRoot/*.h)
+DISTRFILES         += $(wildcard $(GO4SYS)/qt4/Go4QtRoot/*.cpp)
+DISTRFILES         += $(wildcard $(GO4SYS)/qt4/Go4FitGUI/*.h)
+DISTRFILES         += $(wildcard $(GO4SYS)/qt4/Go4FitGUI/*.ui)
+DISTRFILES         += $(wildcard $(GO4SYS)/qt4/Go4FitGUI/*.cpp)
+
+
+
 ifdef GO4_QT4
 
 GO4QTHEADS += $(GO4QT4HEADS)

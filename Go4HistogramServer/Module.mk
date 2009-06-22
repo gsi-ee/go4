@@ -42,21 +42,20 @@ endif
 ##### local rules #####
 
 $(GO4SYS)/include/%.h: $(HISTSERV_DIR)/%.h
+	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
-$(HISTSERV_EXE):     libs $(HISTSERV_EXEO)
+$(HISTSERV_EXE): $(BUILDGO4LIBS) $(HISTSERV_EXEO)
 	$(LD) $(LDFLAGS) $(HISTSERV_EXEO) $(LIBS_FULLSET) $(OutPutOpt) $(HISTSERV_EXE)
-	@echo "$@  done"      
+	@echo "$@  done"
 
 $(HISTSERV_DS): $(HISTSERV_H)  $(HISTSERV_LINKDEF)
-		@$(ROOTCINTGO4) $(HISTSERV_H) $(HISTSERV_LINKDEF)
+	@$(ROOTCINTGO4) $(HISTSERV_H) $(HISTSERV_LINKDEF)
 
-all-$(HISTSERV_NAME):     $(HISTSERV_O) $(HISTSERV_DO) $(HISTSERV_EXE)
+all:: $(HISTSERV_EXE)
 
-clean-obj-$(HISTSERV_NAME):
-		@rm -f $(HISTSERV_O) $(HISTSERV_DO)
-		@rm -f $(HISTSERV_EXEO) $(HISTSERV_EXE)
-
-clean-$(HISTSERV_NAME): clean-obj-$(HISTSERV_NAME)
-		@rm -f $(HISTSERV_DEP) $(HISTSERV_DDEP) $(HISTSERV_DS) $(HISTSERV_DH)
-		@rm -f $(HISTSERV_EDEP)
+clean-$(HISTSERV_NAME):
+	@rm -f $(HISTSERV_O) $(HISTSERV_DO)
+	@rm -f $(HISTSERV_EXEO) $(HISTSERV_EXE)
+	@rm -f $(HISTSERV_DEP) $(HISTSERV_DDEP) $(HISTSERV_DS) $(HISTSERV_DH)
+	@rm -f $(HISTSERV_EDEP)

@@ -36,15 +36,12 @@ endif
 ##### local rules #####
 
 $(GO4SYS)/include/%.h: $(COMBASE_DIR)/%.h
+	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
 $(COMBASE_DS): $(COMBASE_H)  $(COMBASE_LINKDEF)
-		@$(ROOTCINTGO4) $(COMBASE_H) $(COMBASE_LINKDEF)
+	@$(ROOTCINTGO4) $(COMBASE_H) $(COMBASE_LINKDEF)
 
-all-$(COMBASE_NAME):  $(COMBASE_O) $(COMBASE_DO)
-
-clean-obj-$(COMBASE_NAME):
-		@rm -f $(COMBASE_O) $(COMBASE_DO)
-
-clean-$(COMBASE_NAME): clean-obj-$(COMBASE_NAME)
-		@rm -f $(COMBASE_DEP) $(COMBASE_DDEP) $(COMBASE_DS) $(COMBASE_DH)
+clean::
+	@rm -f $(COMBASE_O) $(COMBASE_DO)
+	@rm -f $(COMBASE_DEP) $(COMBASE_DDEP) $(COMBASE_DS) $(COMBASE_DH)

@@ -36,6 +36,7 @@ endif
 
 ifdef GO4_QT3
 $(GO4SYS)/include/%.h: $(FITGUI3_DIR)/%.h
+	@echo "Copy header $@ ..."
 	@cp -f $< $@
 endif
 

@@ -36,15 +36,12 @@ endif
 ##### local rules #####
 
 $(GO4SYS)/include/%.h: $(GO4PROX_DIR)/%.h
+	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
 $(GO4PROX_DS): $(GO4PROX_H)  $(GO4PROX_LINKDEF)
-		@$(ROOTCINTGO4) $(GO4PROX_H) $(GO4PROX_LINKDEF)
+	@$(ROOTCINTGO4) $(GO4PROX_H) $(GO4PROX_LINKDEF)
 
-all-$(GO4PROX_NAME):  $(GO4PROX_O) $(GO4PROX_DO)
-
-clean-obj-$(GO4PROX_NAME):
-		@rm -f $(GO4PROX_O) $(GO4PROX_DO)
-
-clean-$(GO4PROX_NAME): clean-obj-$(GO4PROX_NAME)
-		@rm -f $(GO4PROX_DEP) $(GO4PROX_DDEP) $(GO4PROX_DS) $(GO4PROX_DH)
+clean::
+	@rm -f $(GO4PROX_O) $(GO4PROX_DO)
+	@rm -f $(GO4PROX_DEP) $(GO4PROX_DDEP) $(GO4PROX_DS) $(GO4PROX_DH)

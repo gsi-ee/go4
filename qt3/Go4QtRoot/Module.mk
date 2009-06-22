@@ -46,6 +46,7 @@ endif
 
 ifdef GO4_QT3
 $(GO4SYS)/include/%.h: $(QT3ROOT_DIR)/%.h
+	@echo "Copy header $@ ..."
 	@cp -f $< $@
 endif
 

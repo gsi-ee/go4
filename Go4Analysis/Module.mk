@@ -46,21 +46,14 @@ endif
 ##### local rules #####
 
 $(GO4SYS)/include/%.h: $(GO4ANAL_DIR)/%.h
+	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
 $(GO4ANAL_DS): $(GO4ANAL_H)  $(GO4ANAL_LINKDEF)
-		@$(ROOTCINTGO4) $(GO4ANAL_H) $(GO4ANAL_LINKDEF)
+	@$(ROOTCINTGO4) $(GO4ANAL_H) $(GO4ANAL_LINKDEF)
 
-$(VERSION_LIB):   $(VERSION_O)
-		@$(MakeLibrary) $(VERSION_LIBNAME) "$(VERSION_O)" $(GO4DLLPATH)
-
-all-$(GO4ANAL_NAME):   $(GO4ANAL_O) $(GO4ANAL_DO) $(VERSION_LIB)
-
-clean-obj-$(GO4ANAL_NAME):
-		@rm -f $(GO4ANAL_O) $(GO4ANAL_DO)
-		@rm -f $(VERSION_O)
-		@$(CleanLib) $(VERSION_LIBNAME) $(GO4DLLPATH)
-
-clean-$(GO4ANAL_NAME): clean-obj-$(GO4ANAL_NAME)
-		@rm -f $(GO4ANAL_DEP) $(GO4ANAL_DDEP) $(GO4ANAL_DS) $(GO4ANAL_DH)
-		@rm -f $(VERSION_DEP)
+clean::
+	@rm -f $(GO4ANAL_O) $(GO4ANAL_DO)
+	@rm -f $(VERSION_O)
+	@rm -f $(GO4ANAL_DEP) $(GO4ANAL_DDEP) $(GO4ANAL_DS) $(GO4ANAL_DH)
+	@rm -f $(VERSION_DEP)

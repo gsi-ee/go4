@@ -82,17 +82,11 @@ EXMODULES = Go4ExampleSimple Go4Example1Step Go4Example2Step \
             Go4ThreadManagerExample Go4TaskHandlerExample Go4EventServerExample
 
 .PHONY:         all noqt includes libs gui plugin \
-                clean clean-qt3 clean-qt4 clean-bak clean-obj clean-plugin \
-                package $(PACKAGERULES) \
-                $(patsubst %,all-%,$(MODULES)) \
-                $(patsubst %,clean-%,$(MODULES)) \
-                $(patsubst %,clean-obj-%,$(MODULES))
+                clean clean-qt3 clean-qt4 clean-bak clean-plugin clean-mainlibs\
+                package $(PACKAGERULES)
 
-FASTRULES    += clean-qt3 clean-qt4 clean-bak clean-obj clean-dep clean-plugin\
-                $(PACKAGERULES) \
-                $(patsubst %,clean-%,$(MODULES)) \
-                $(patsubst %,clean-obj-%,$(MODULES)) \
-                $(patsubst %,map-%,$(MODULES))
+FASTRULES    += clean-qt3 clean-qt4 clean-bak clean-dep clean-plugin\
+                $(PACKAGERULES)
 
 all::           gui 
 
@@ -105,13 +99,11 @@ include $(patsubst %,%/Makefile, $(EXMODULES))
 -include qt4/Module.mk
 
 
-build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS) $(GO4MAP)
+build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
 	@(if [ ! -f $@ ] ; then touch $@; fi)
 	@(if [ ! -f lib ] ; then mkdir -p lib; fi)
 	@(if [ ! -f bin ] ; then mkdir -p bin; fi)
-
-$(GO4MAP):
-	@(if [ ! -f $@ ] ; then touch $@; fi)
+	@(if [ ! -f $(GO4MAP) ] ; then touch $(GO4MAP); fi)
 
 libs::          $(BUILDGO4LIBS)
 
@@ -119,21 +111,22 @@ gui::           libs
 
 noqt:           all
 
-clean::   clean-mainlibs clean-plugin $(patsubst %,clean-%,$(MODULES))
+clean::   clean-mainlibs clean-plugin
 	@rm -f $(GO4MAP)
 	@rm -f $(GO4SYS)/include/*.h
+	@rm -rf bin lib
 	@rm -f build/dummy.d
 	@echo "Clean go4 done"
 
 clean-mainlibs:
+	@$(CleanLib) $(GO4FIT_LIBNAME) $(GO4DLLPATH)
 	@$(CleanLib) $(GO4BASE_LIBNAME) $(GO4DLLPATH)
+	@$(CleanLib) $(THRDMNGR_LIBNAME) $(GO4DLLPATH)
 	@$(CleanLib) $(GO4TSKH_LIBNAME) $(GO4DLLPATH)
 	@$(CleanLib) $(GO4ANBASE_LIBNAME) $(GO4DLLPATH)
 	@$(CleanLib) $(GO4AN_LIBNAME) $(GO4DLLPATH)
+	@$(CleanLib) $(VERSION_LIBNAME) $(GO4DLLPATH)
 	@$(CleanLib) $(GO4BGUI_LIBNAME) $(GO4DLLPATH)
-
-clean-obj: clean-mainlibs $(patsubst %,clean-obj-%,$(MODULES))
-	@echo "Clean go4 object files done"
 
 clean-bak:
 	@echo "Delete bak files"
@@ -220,6 +213,9 @@ $(GO4ANBASE_LIB): $(GO4ANBASE_O)
 
 $(GO4AN_LIB): $(GO4AN_O)
 	@$(MakeLibrary) $(GO4AN_LIBNAME) "$(GO4AN_O)" $(GO4DLLPATH) "$(GO4AN_LINKDEFS)" "$(VERSION_LIB) $(GO4ANBASE_LIB) $(GO4TSKH_LIB) $(THRDMNGR_LIB) $(GO4BASE_LIB) $(GO4FIT_LIB) $(BASIC_LIB_DEP)"
+
+$(VERSION_LIB): $(VERSION_O)
+	@$(MakeLibrary) $(VERSION_LIBNAME) "$(VERSION_O)" $(GO4DLLPATH)
 
 $(GO4BGUI_LIB): $(GO4BGUI_O)
 	@$(MakeLibrary) $(GO4BGUI_LIBNAME) "$(GO4BGUI_O)" $(GO4DLLPATH) "$(GO4BGUI_LINKDEFS)" "$(VERSION_LIB) $(GO4ANBASE_LIB) $(GO4TSKH_LIB) $(THRDMNGR_LIB) $(GO4BASE_LIB) $(GO4FIT_LIB) $(BASIC_LIB_DEP)"

@@ -35,17 +35,13 @@ endif
 ##### local rules #####
 
 $(GO4SYS)/include/%.h: $(THRDMNGR_DIR)/%.h
+	@echo "Copy header $@ ..."
 	@cp -f $< $@
 
 $(THRDMNGR_DS): $(THRDMNGR_H)  $(THRDMNGR_LINKDEF)
-		@$(ROOTCINTGO4) $(THRDMNGR_H) $(THRDMNGR_LINKDEF)
+	@$(ROOTCINTGO4) $(THRDMNGR_H) $(THRDMNGR_LINKDEF)
 
-all-$(THRDMNGR_NAME):  $(THRDMNGR_O) $(THRDMNGR_DO)
-
-clean-obj-$(THRDMNGR_NAME):
-		@rm -f $(THRDMNGR_O) $(THRDMNGR_DO)
-		@$(CleanLib) $(THRDMNGR_LIBNAME) $(GO4DLLPATH)
-
-clean-$(THRDMNGR_NAME): clean-obj-$(THRDMNGR_NAME)
-		@rm -f $(THRDMNGR_DEP) $(THRDMNGR_DDEP) $(THRDMNGR_DS) $(THRDMNGR_DH)
+clean::
+	@rm -f $(THRDMNGR_O) $(THRDMNGR_DO)
+	@rm -f $(THRDMNGR_DEP) $(THRDMNGR_DDEP) $(THRDMNGR_DS) $(THRDMNGR_DH)
 

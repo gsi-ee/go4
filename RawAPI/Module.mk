@@ -30,12 +30,9 @@ endif
 ##### local rules #####
 
 $(GO4SYS)/include/%.h: $(RAWAPI_DIR)/%.h
+	@echo "Copy header $@ ..."
 	@cp -f $< $@
 
-all-$(RAWAPI_NAME): $(RAWAPI_O)
-
-clean-obj-$(RAWAPI_NAME):
-		@rm -f $(RAWAPI_O)
-
-clean-$(RAWAPI_NAME): clean-obj-$(RAWAPI_NAME)
-		@rm -f $(RAWAPI_DEP)
+clean::
+	@rm -f $(RAWAPI_O)
+	@rm -f $(RAWAPI_DEP)

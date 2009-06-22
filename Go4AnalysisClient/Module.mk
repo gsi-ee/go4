@@ -50,26 +50,25 @@ endif
 ##### local rules #####
 
 $(GO4SYS)/include/%.h: $(ANALCL_DIR)/%.h
+	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
-$(ANALCL_EXE):   libs $(ANALCL_EXEO)
+$(ANALCL_EXE): $(BUILDGO4LIBS) $(ANALCL_EXEO)
 	$(LD) $(LDFLAGS) $(ANALCL_EXEO) $(LIBS_FULLSET) $(ANALCL_LIB) $(OutPutOpt) $(ANALCL_EXE)
 	@echo "$@  done"
 
-$(ANALCL_EXECINT):   libs $(ANALCL_EXECINTO)
+$(ANALCL_EXECINT): $(BUILDGO4LIBS) $(ANALCL_EXECINTO)
 	$(LD) $(LDFLAGS) $(ANALCL_EXECINTO) $(LIBS_FULLSET) $(ANALCL_LIB) $(OutPutOpt) $(ANALCL_EXECINT)
 	@echo "$@  done"
 
 $(ANALCL_DS): $(ANALCL_H)  $(ANALCL_LINKDEF)
-		@$(ROOTCINTGO4) $(ANALCL_H) $(ANALCL_LINKDEF)
+	@$(ROOTCINTGO4) $(ANALCL_H) $(ANALCL_LINKDEF)
 
-all-$(ANALCL_NAME):    $(ANALCL_O) $(ANALCL_DO) $(ANALCL_EXE)
+all::  $(ANALCL_EXE) $(ANALCL_EXECINT)
 
-clean-obj-$(ANALCL_NAME):
-		@rm -f $(ANALCL_O) $(ANALCL_DO)
-		@rm -f $(ANALCL_EXEO) $(ANALCL_EXE)
-		@rm -f $(ANALCL_EXECINTO) $(ANALCL_EXECINT)
-
-clean-$(ANALCL_NAME): clean-obj-$(ANALCL_NAME)
-		@rm -f $(ANALCL_DEP) $(ANALCL_DDEP) $(ANALCL_DS) $(ANALCL_DH)
-		@rm -f $(ANALCL_EDEP)
+clean::
+	@rm -f $(ANALCL_O) $(ANALCL_DO)
+	@rm -f $(ANALCL_EXEO) $(ANALCL_EXE)
+	@rm -f $(ANALCL_EXECINTO) $(ANALCL_EXECINT)
+	@rm -f $(ANALCL_DEP) $(ANALCL_DDEP) $(ANALCL_DS) $(ANALCL_DH)
+	@rm -f $(ANALCL_EDEP)

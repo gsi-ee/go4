@@ -34,16 +34,13 @@ endif
 ##### local rules #####
 
 $(GO4SYS)/include/%.h: $(DYNLIST_DIR)/%.h
+	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
 $(DYNLIST_DS): $(DYNLIST_H)  $(DYNLIST_LINKDEF)
-		@$(ROOTCINTGO4) $(DYNLIST_H) $(DYNLIST_LINKDEF)
+	@$(ROOTCINTGO4) $(DYNLIST_H) $(DYNLIST_LINKDEF)
 
-all-$(DYNLIST_NAME):  $(DYNLIST_O) $(DYNLIST_DO)
-
-clean-obj-$(DYNLIST_NAME):
-		@rm -f $(DYNLIST_O) $(DYNLIST_DO)
-
-clean-$(DYNLIST_NAME): clean-obj-$(DYNLIST_NAME)
-		@rm -f $(DYNLIST_DEP) $(DYNLIST_DDEP) $(DYNLIST_DS) $(DYNLIST_DH)
+clean::
+	@rm -f $(DYNLIST_O) $(DYNLIST_DO)
+	@rm -f $(DYNLIST_DEP) $(DYNLIST_DDEP) $(DYNLIST_DS) $(DYNLIST_DH)
 
