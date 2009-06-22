@@ -173,9 +173,6 @@
     </layout>
   </widget>
   <layoutdefault spacing="0" margin="0" />
-  <includes>
-    <include location="local">QGo4Widget.h</include>
-  </includes>
   <connections>
     <connection>
       <sender>DrawOption</sender>

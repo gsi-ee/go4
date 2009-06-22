@@ -1,6 +1,5 @@
 #include "TGo4HisDrawOptionsShort.h"
 
-//#include <QLineEdit>
 #include "Riostream.h"
 #include "TROOT.h"
 #include "TColor.h"
@@ -60,7 +59,7 @@ void TGo4HisDrawOptionsShort::SlotD1line()
 
 void TGo4HisDrawOptionsShort::SlotD2scatter()
 {
-    SetDrawOpt(0, 0, "");
+    SetDrawOpt(0, 0, "HIST");
 }
 
 void TGo4HisDrawOptionsShort::SlotD2pixel()

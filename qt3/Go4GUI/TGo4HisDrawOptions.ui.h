@@ -242,22 +242,15 @@ void TGo4HisDrawOptions::ChangeDrawOptionForCurrentPanel(int kind, int value)
    if (panel==0) return;
 
    TPad* pad = panel->GetActivePad();
-//   TGo4Picture* padopt = panel->GetPadOptions(pad);
-//   if (padopt==0) return;
 
    QString buf;
    const char* drawopt = 0;
-   const char* pp;
 
-   //cout << "    Viewtype " << fiLastView << endl;
    if ((kind>=0) && (kind<=2)) {
       CodeDrawOptions(ErrorBars->currentItem(),
                       Coordinates->currentItem(),
                       DrawOption->currentItem(), buf);
       if (buf.length()>0) drawopt = buf.latin1();
-
-      //if(drawopt) cout << ">> " << value << " " << drawopt << endl;
-      //else cout << "No options" << endl;
    }
    panel->ChangeDrawOption(kind, value, drawopt);
 }
@@ -305,6 +298,7 @@ void TGo4HisDrawOptions::DecodeDrawOption(const char* drawopt,
    HisDrawStyle = 0;
    HisErrorStyle = 0;
    HisCoordStyle = 0;
+   if (fiLastView==view_Histo2) HisDrawStyle =  1;
 
    if ((drawopt==0) || (*drawopt==0)) return;
 
@@ -406,6 +400,7 @@ void TGo4HisDrawOptions::DecodeDrawOption(const char* drawopt,
       if ((HisDrawStyle>=16) && ((HisCoordStyle==0) || (HisCoordStyle==2)))
         HisCoordStyle = 1;
    } else { // Histo2
+      if(buf.Contains("hist"))  HisDrawStyle =  0; else
       if(buf.Contains("col"))   HisDrawStyle =  1; else
       if(buf.Contains("lego3")) HisDrawStyle =  9; else // from gededitor
       if(buf.Contains("lego1")) HisDrawStyle =  8; else
@@ -515,7 +510,7 @@ void TGo4HisDrawOptions::CodeDrawOptions(int HisErrorStyle,
    } else // Histo2
 
     switch (HisDrawStyle) {
-       case  0: buf="";  break;
+       case  0: buf="hist";  break;
        case  1: buf="col";   break;
        case  9: buf="lego3"; break;
        case  8: buf="lego1"; break;

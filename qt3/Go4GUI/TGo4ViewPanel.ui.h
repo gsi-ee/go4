@@ -3431,7 +3431,7 @@ void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his, bo
       TakeFullRangeFromHisto(his, padopt, true);
 
    TString drawopt(padopt->GetDrawOption(0));
-   if (drawopt.Length()==0) drawopt="hist";
+   if (drawopt.Length()==0) drawopt = (his->GetDimension()==2) ? "col" : "hist";
    drawopt.ToUpper();
 
    his->SetStats(padopt->IsHisStats());

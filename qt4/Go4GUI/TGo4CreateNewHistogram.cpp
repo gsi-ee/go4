@@ -70,8 +70,11 @@ int TGo4CreateNewHistogram::GetSelectedCmd()
 
 TH1* TGo4CreateNewHistogram::MakeHistogram()
 {
-   const char* hname = HisName->text().toAscii();
-   const char* htitle = HisTitle->text().toAscii();
+   QByteArray ba_hname = HisName->text().toAscii();
+   QByteArray ba_htitle = HisTitle->text().toAscii();
+   const char* hname = ba_hname.constData();
+   const char* htitle = ba_htitle.constData();
+
    int htype = HisClassGrp->checkedId()*10 + HisTypeGrp->checkedId();
 
    int nxbins = XNoOfBins->text().toInt();

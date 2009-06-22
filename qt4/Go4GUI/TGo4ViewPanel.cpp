@@ -254,7 +254,8 @@ TGo4ViewPanel::~TGo4ViewPanel()
 
 const char* TGo4ViewPanel::GetPanelName()
 {
-   return fPanelName.toAscii();
+   fbaPanelName = fPanelName.toAscii();
+   return fbaPanelName.constData();
 }
 
 void TGo4ViewPanel::SetPanelName(const char* newname)
@@ -3469,7 +3470,7 @@ void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his, bo
       TakeFullRangeFromHisto(his, padopt, true);
 
    TString drawopt(padopt->GetDrawOption(0));
-   if (drawopt.Length()==0) drawopt="hist";
+   if (drawopt.Length()==0) drawopt = (his->GetDimension()==2) ? "col" : "hist";
    drawopt.ToUpper();
 
    his->SetStats(padopt->IsHisStats());
@@ -3724,7 +3725,9 @@ void TGo4ViewPanel::ChangeDrawOption(int kind, int value, const char* drawopt)
    }
 
    TPad* pad = scanall ? GetCanvas() : GetActivePad();
+
    if (pad==0) pad = GetCanvas();
+
    TGo4Slot* slot = GetPadSlot(pad);
    if (slot==0) return;
 

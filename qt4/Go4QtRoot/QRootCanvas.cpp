@@ -156,7 +156,8 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
         buffer += "  y = ";
         buffer += QString::number(py);
      }
-     emit CanvasStatusEvent(buffer.toAscii());
+     QByteArray ba = buffer.toAscii();
+     emit CanvasStatusEvent(ba.constData());
   }
 }
 
@@ -787,8 +788,8 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
    TObjArray tobjlist(method->GetListOfMethodArgs()->LastIndex() + 1);
    for (int n=0; n<=method->GetListOfMethodArgs()->LastIndex(); n++) {
       QString s = dlg.getArg(n);
-      qDebug( "** QString values (first ) :%s \n", (const char*) s.toAscii() );
-      TObjString *t = new TObjString( (const char*) s.toAscii() );
+      qDebug( "** QString values (first ) :%s \n", s.toAscii().constData() );
+      TObjString *t = new TObjString(s.toAscii().constData());
       tobjlist.AddLast(t) ;
    }
 

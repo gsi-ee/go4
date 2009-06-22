@@ -44,6 +44,8 @@ Changes in Go4 v4.03.00 (June 09)
    take them from the autosave file. See analysis examples how
    these methods can be used.
 11.Examples only have Makefile, no Module.mk any more
+12.Make "COL" as default option for 2-D histogram, improves significantly 
+   speed for large histograms, one can always goes back to scatter plot 
 
 Changes in Go4 v4.02.00 (April 09)
 

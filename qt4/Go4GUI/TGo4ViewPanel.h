@@ -253,6 +253,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
    protected:
 
       QString fPanelName;
+      QByteArray fbaPanelName;
       bool fbEditorFrameVisible;
       TVirtualPadEditor* fxPeditor;
       QRootWindow* fxRooteditor;

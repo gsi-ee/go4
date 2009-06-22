@@ -2465,7 +2465,9 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_AddEditorLink: {
          TGo4Slot* brslot = Browser()->BrowserSlot((const char*)par);
 
-         if (str==0) str = editor->objectName().toAscii().constData();
+         QByteArray ba = editor->objectName().toAscii();
+
+         if (str==0) str = ba.constData();
 
          TGo4Slot* link = fxOM->AddLink(brslot, edslot->GetFullName(),
                                         str, "link to browser item");
@@ -2477,7 +2479,8 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_AddDirectLink: {
          //cout << " QGo4Widget::service_AddDirectLink " << endl;
-         if (str==0) str = editor->objectName().toAscii().constData();
+         QByteArray ba = editor->objectName().toAscii();
+         if (str==0) str = ba.constData();
          TGo4Slot* slot = (TGo4Slot*) par;
          if (slot!=0) {
             //cout << "add link for " << str << " in edslot = " << edslot->GetFullName() << endl;

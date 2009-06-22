@@ -20,11 +20,13 @@ TGo4CreateNewCondition::TGo4CreateNewCondition( QWidget* parent)
 
 TGo4Condition* TGo4CreateNewCondition::MakeCondition()
 {
-   const char* cname = CondName->text().toAscii();
+   QByteArray ba = CondName->text().toAscii();
+   if (ba.length()==0) return 0;
+
+   const char* cname = ba.constData();
    int arrsize = ArraySizeSpin->value();
    int ctype = ClassnameCombo->currentIndex();
 
-   if ((cname==0) || (*cname==0)) return 0;
    TGo4Condition* cond = 0;
 
    if (arrsize>1) {
