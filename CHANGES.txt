@@ -46,6 +46,10 @@ Changes in Go4 v4.03.00 (June 09)
 11.Examples only have Makefile, no Module.mk any more
 12.Make "COL" as default option for 2-D histogram, improves significantly 
    speed for large histograms, one can always goes back to scatter plot 
+13.Analysis, running inside gui, runs without DYSPLAY variable set (ssh -x).
+   If any graphics required in analysis, one should run it in separate
+   xterm/konsole application, where ssh -X is done. 
+
 
 Changes in Go4 v4.02.00 (April 09)
 

@@ -998,7 +998,7 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
    for(int n=0;n<num;n++)
      launchprefs.getline(formatstring, 1000, '\n' );
 
-   const char* shcom = usessh ? "ssh -X " : "rsh -n";
+   const char* shcom = usessh ? (konsole == 0 ? "ssh -x " : "ssh -X ")  : "rsh -n";
    TString serverdisplay = "";
    if (!usessh) {
       serverdisplay = "-display ";

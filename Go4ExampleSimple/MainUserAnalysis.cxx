@@ -43,6 +43,10 @@ int main(int argc, char **argv)
 {
    if (argc<2) usage("Too few arguments");
 
+   int app_argc = 2;
+   char* app_argv[] = { argv[0], "-b" };
+   TApplication theApp("Go4App", &app_argc, app_argv);
+
    Bool_t batchMode(kTRUE);  // GUI or Batch
 
    Bool_t servermode(kFALSE);            // run analysis slave as servertask
@@ -183,8 +187,6 @@ int main(int argc, char **argv)
          cout << "**** Main: Init event classes failed, aborting!"<<endl;
    } else {
       if (hostname==0) hostname = "localhost";
-
-      TApplication theApp("Go4App", 0, 0);
 
       if(servermode)  cout << "**** Main: starting analysis in server mode ..." << endl;
       else            cout << "**** Main: starting analysis in slave mode ..." << endl;
