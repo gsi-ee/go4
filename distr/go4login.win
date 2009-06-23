@@ -1,0 +1,32 @@
+
+# first create symbolik links on the software where spaces are presented, 
+# for instance visual studio or SDK
+# it can be done with mklink utility under admin account. do something like
+#  > mklink /D "C:\Program Files\Visual studio" c:\soft\vc
+# than adjust correct windows pathes and try
+
+VC_PATH="C:\Soft\VS\VC"
+SDK_PATH="C:\Soft\SDK"
+IDE_PATH="C:\Soft\VS\Common7\IDE"
+ROOT_PATH="C:\cygwin\home\Sergey\root"
+GO4_PATH="C:\cygwin\home\Sergey\go4"
+QT_PATH="C:\Soft\qt451"
+
+export GO4_OS=Win32
+export GO4SYS=`cygpath $GO4_PATH`
+
+export ROOTSYS=`cygpath $ROOT_PATH`
+export QTDIR=`cygpath $QT_PATH`
+export LD_LIBRARY_PATH=$ROOTSYS/lib:$GO4SYS/lib:$QTDIR/lib:$LD_LIBRARY_PATH
+export PATH=$ROOTSYS/bin:$GO4SYS/bin:$QTDIR/bin:$PATH
+export INCLUDE="$VC_PATH\include;$SDK_PATH\Include;$QT_PATH\include"
+
+export LIB="$ROOT_PATH\lib;$GO4_PATH\lib;$VC_PATH\lib;$SDK_PATH\Lib;$QT_PATH\lib"
+export PATH=`cygpath $VC_PATH`/bin:$PATH
+
+#this is required by MS cl compiler to find some dlls
+export PATH=`cygpath $IDE_PATH`:$PATH
+
+export PATH=`cygpath $SDK_PATH/bin`:$PATH
+
+export QMAKESPEC=win32-msvc2008
