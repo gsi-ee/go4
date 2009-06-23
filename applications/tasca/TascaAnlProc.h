@@ -49,10 +49,12 @@ class TascaAnlProc : public TGo4EventProcessor {
       TascaEventStack *fEventStack;
   	  TListIter *fStackIter;
   	  TListIter *fEventIter;
-  	  TascaEvent *fEvent;
+  	  TascaEvent *fEventCurrent;
   	  TascaEvent *fFissionEvent;
   	  TascaEvent *fAlphaEvent;
   	  TascaEvent *fStackEvent;
+  	  TObjLink *fStackLinkCurrent;
+  	  TObjLink *fStackLinkEntry;
       UInt_t i,ii;
       UInt_t fFissions;
       UInt_t fAlphas;
@@ -69,6 +71,7 @@ class TascaAnlProc : public TGo4EventProcessor {
       UInt_t fiSFtaken;
       UInt_t fiEvprocessed;
       UInt_t fiEvprocessedTotal;
+      UInt_t fiLastFissionEvent;
 
    ClassDef(TascaAnlProc,1)
 };

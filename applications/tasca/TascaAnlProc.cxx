@@ -64,12 +64,15 @@ TascaAnlProc::TascaAnlProc(const char* name) :
   gROOT->ProcessLine(".x setcontrol.C()");
 
   // print description *********************************************************
-  cout<<"      All fissions offbeam with Y, Y +-1 Time window fission2 plus alpha2"<<endl;
+  cout<<"*****************************************************************************"<<endl;
+  cout<<"      Full stack, All fissions offbeam with Y, Y +-1 Time window fission2 plus alpha2"<<endl;
+  cout<<"*****************************************************************************"<<endl;
 
   fEventStack=new TascaEventStack(fParam->EventStackSize);
   fStackIter = new TListIter(fEventStack);
   fEventIter = new TListIter(fEventStack);
-  fEvent=(TascaEvent *) fEventStack->First();
+  fEventCurrent=(TascaEvent *) fEventStack->First();
+  fStackLinkCurrent=fEventStack->FirstLink();
   fStackfilled=kFALSE;
   fFirstEvent=0;
   fiEventsProcessed=0;
@@ -80,6 +83,7 @@ TascaAnlProc::TascaAnlProc(const char* name) :
   fiEvprocessedTotal=0;
   fAlphaFound=kFALSE;
   fEvrFound=kFALSE;
+  fiLastFissionEvent=0;
   }
 //***********************************************************
 void TascaAnlProc::PrintFission(Bool_t store){
@@ -98,8 +102,8 @@ fiEventsWritten++;
 return;
 }
 void TascaAnlProc::PrintAlpha(Bool_t store){
-printf("           Alpha %8d MevL: %6.2f BL: %6.2f toFission [s] %8.3f  X %3d Y %3d Spill %d\n",
-		fFissionEvent->fiEventNumber-fStackEvent->fiEventNumber,
+printf("          Alpha %9d MevL: %6.2f BL: %6.2f toFission [s] %8.3f  X %3d Y %3d Spill %d\n",
+		fStackEvent->fiEventNumber,
 		fStackEvent->ffStopXLhitV/1000.,
 		fFissionEvent->ffBackLhitV/1000.,
 		(Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.,
@@ -111,8 +115,8 @@ fiEventsWritten++;
 return;
 }
 void TascaAnlProc::PrintEvr(Bool_t store){
-printf("           Evr   %8d MevH: %6.2f            toFission [s] %8.3f  X %3d Y %3d Spill %d\n",
-		fFissionEvent->fiEventNumber-fStackEvent->fiEventNumber,
+printf("          Evr   %9d MevH: %6.2f            toFission [s] %8.3f  X %3d Y %3d Spill %d\n",
+		fStackEvent->fiEventNumber,
 		fStackEvent->ffStopXHhitV/1000.,
 		(Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.,
 		fStackEvent->fiStopXHhitI,
@@ -137,38 +141,40 @@ if(fInput->fisAlpha)fAlphas++;
 if(fInput->fisEvr)fEvrs++;
 if(fFirstEvent==0)fFirstEvent=fInput->fiEventNumber;
 
-// We assume that fEvent is a valid slot.
-// With fisrt event this is first slot
+// We assume that fEventCurrent is a valid slot.
+// With first event this is first slot
+fInput->CopyTo(fEventCurrent); // copy event data into event entry
+fEventStack->used++;
 // From fission event we go back
- if(fInput->fisFission&!fInput->fisMacro&(fInput->fiStopYHhitI>=0)){
-// if(fInput->fisFission&(fInput->fiMultiStopYH>0)){
+ if(fInput->fisFission&&(!fInput->fisMacro)&&(fInput->fiStopYHhitI>=0)){
+// if(fInput->fisFission&&(fInput->fiStopYHhitI>=0)){
 // if(fInput->fisFission&(fInput->ffBackHhitV>10)){
 // if(fInput->fisFission){
 	fiSFprocessed++;
 	fAlphaFound=kFALSE;
 	fEvrFound=kFALSE;
-	fInput->CopyTo(fEvent); // copy event data into event entry
-	fEventStack->used++;
-	fFissionEvent=fEvent; // keep that as end point
-	fStackEvent=fEvent;  // to step back
+	fFissionEvent=fEventCurrent; // keep that as end point
+	fStackEvent=fEventCurrent;  // to step back
 	fTimeDiff=fFissionEvent->fiDeltaTime;
+	fStackLinkEntry=fStackLinkCurrent;
     	//printf("=============================\n");
 	//PrintFission(kFALSE);
-	while((fStackEvent=(TascaEvent *) fEventStack->Before(fStackEvent))!=0){
+	while((fStackLinkEntry=fStackLinkEntry->Prev())!=0){
+		fStackEvent=(TascaEvent *) fStackLinkEntry->GetObject();
 		if(fTimeDiff <= fParam->Alpha2Tmax){ // in alpha time window
 		  if(fStackEvent->fisAlpha
-		     &(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXLhitI)
-		     &((fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYLhitI)
-		       |((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI)
-		       |((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYLhitI))
+		     &&(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXLhitI)
+		     &&((fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYLhitI)
+		       ||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI)
+		       ||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYLhitI))
 		     ){
 			//PrintAlpha(kFALSE);
 			fAlphaFound=kTRUE;
 		}} // fission in time
 		if(fTimeDiff > (fParam->Fission2Tmax+fParam->Alpha2Tmax))break; // out of time window
 		if(fStackEvent->fisEvr
-		   &(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXHhitI)
-		   &(fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYHhitI)
+		   &&(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXHhitI)
+		   &&(fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYHhitI)
 		   ){
 			fEvrFound=kTRUE;
 			fiFileNumber=fStackEvent->fiFileNumber;
@@ -181,59 +187,68 @@ if(fFirstEvent==0)fFirstEvent=fInput->fiEventNumber;
 	// We go now from here forward up to fission to print correct order
 	fTimeDiff=0;
 	//fEvrFound=kTRUE; // fake for off beam
-	if(fEvrFound&fAlphaFound){
+	if(fEvrFound&&fAlphaFound){
 		fiSFtaken++;
-	  if(fStackEvent==0){
-	    cout<<"End of stack, entries "<<fEventStack->used<<endl;
-	    fStackEvent=(TascaEvent *) fEventStack->First();
-	  }
-    	printf("%7.3f sec File %4d Stack %d =============================\n",
-	       (Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.,
-	       fiFileNumber,fiEvprocessed);
-    fiEvprocessed=0;
-	fAlphaFound=kFALSE;
-	fEvrFound=kFALSE; //fake for offbeam
-	while(fStackEvent!=fFissionEvent){
-		if(fStackEvent->fisEvr
-		   &(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXHhitI)
-		   &(fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYHhitI)
-		   ){
-			fEvrFound=kTRUE;
-			PrintEvr(kFALSE);
+		if(fStackLinkEntry==0){
+			cout<<"End of stack, entries "<<fEventStack->used<<endl;
+			fStackEvent=(TascaEvent *) fEventStack->First();
+			fStackLinkEntry=fEventStack->FirstLink();
 		}
-		else if(fStackEvent->fisAlpha
-		     &(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXLhitI)
-			&((fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYLhitI)
-		       |((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI)
-		       |((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYLhitI))
-		   ){
-			fAlphaFound=kTRUE;
-			PrintAlpha(kFALSE);
-		} // fission in time
-		fStackEvent=(TascaEvent *) fEventStack->After(fStackEvent);
-	} // second while loop forward
+		printf("%7.3f sec File %4d Stack %d =============================\n",
+				(Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.,
+				fiFileNumber,fiEvprocessed);
+		fiEvprocessed=0;
+		fAlphaFound=kFALSE;
+		fEvrFound=kFALSE; //fake for offbeam
+		while(fStackEvent!=fFissionEvent){
+			if(fStackEvent->fisEvr
+					&&(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXHhitI)
+					&&(fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYHhitI)
+			){
+				fEvrFound=kTRUE;
+				PrintEvr(kFALSE);
+			}
+			else if(fStackEvent->fisAlpha
+					&&(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXLhitI)
+					&&((fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYLhitI)
+							||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI)
+							||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYLhitI))
+			){
+				fAlphaFound=kTRUE;
+				PrintAlpha(kFALSE);
+			}
+			else if((fStackEvent->fisFission)&&(fiLastFissionEvent==fStackEvent->fiEventNumber))
+				printf("Fission     %9d double\n",fStackEvent->fiEventNumber);
+			fStackLinkEntry=fStackLinkEntry->Next();
+			fStackEvent=(TascaEvent *) fStackLinkEntry->GetObject();
+		} // second while loop forward
 	} // found Alpha or Evr
-	if(fEvrFound&fAlphaFound) PrintFission(kFALSE);
-	fEventStack->used=0;
-	fEvent=(TascaEvent *) fEventStack->First();
-	if(fStackfilled)
-	cout<<"File "<<fInput->fiFileNumber<<" all "<<fEventStack->entries<<" slots cleared."<<endl;
-	fStackfilled=kFALSE;
-	return;
+	if(fEvrFound&&fAlphaFound){
+		PrintFission(kFALSE);
+		fiLastFissionEvent=fFissionEvent->fiEventNumber;
+	}
+//	fEventStack->used=0;
+//	fEventCurrent=(TascaEvent *) fEventStack->First();
+//	fStackLinkCurrent=fEventStack->FirstLink();
+//	if(fStackfilled)
+//	cout<<"File "<<fInput->fiFileNumber<<" all "<<fEventStack->entries<<" slots cleared."<<endl;
+//	fStackfilled=kFALSE;
+//	return;
 } // fission
 // Note that we have already filled the list with preallocated events.
 // Therefore the iterator runs over all entries.
-fInput->CopyTo(fEvent); // copy event data into event entry
-fEventStack->used++;
-fEvent=(TascaEvent *) fEventStack->After(fEvent); // for next event
-if(fEvent==0){ // no more slots
+fStackLinkCurrent=fStackLinkCurrent->Next();
+if(fStackLinkCurrent==0){
 	if(!fStackfilled)
 	cout<<"File "<<fInput->fiFileNumber<<" all "<<fEventStack->entries<<" slots used, start shuffling"<<endl;
 	fStackfilled=kTRUE;
 	fStackEvent=(TascaEvent *) fEventStack->First(); // the oldest one
 	fEventStack->Remove(fStackEvent);  // remove from first
 	fEventStack->AddLast(fStackEvent); // newest at the end
-	fEvent=fStackEvent;
-}
+	fEventCurrent=fStackEvent;
+	fStackLinkCurrent=fEventStack->LastLink();
+
+} else
+	fEventCurrent=(TascaEvent *) fStackLinkCurrent->GetObject();
 return;
 } // BuildCalEvent
