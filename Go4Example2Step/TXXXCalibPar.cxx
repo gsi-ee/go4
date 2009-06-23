@@ -21,15 +21,15 @@ TXXXCalibPar::TXXXCalibPar() :
    fxCalibCurve(0),
    fxCalibSpectrum(0)
 {
-  fxDatabase="calilines.txt";
-  Text_t buf[__TEXTMAX__];
-  for(Int_t ord=0;ord<__POLORDER__;++ord) fdA[ord]=0;
-  for(Int_t ix=0;ix<__LINESNUMBER__;++ix) {
-     fiLinesChannel[ix]=0;
-     ffLinesEnergy[ix]=0;
-     snprintf(buf,__TEXTMAX__,"Defaultline-%d",ix);
-     fxLinesNames[ix]=buf;
-  }
+   fxDatabase="calilines.txt";
+   Text_t buf[__TEXTMAX__];
+   for(Int_t ord=0;ord<__POLORDER__;++ord) fdA[ord]=0;
+   for(Int_t ix=0;ix<__LINESNUMBER__;++ix) {
+      fiLinesChannel[ix]=0;
+      ffLinesEnergy[ix]=0;
+      snprintf(buf,__TEXTMAX__,"Defaultline-%d",ix);
+      fxLinesNames[ix]=buf;
+   }
 }
 //***********************************************************
 TXXXCalibPar::TXXXCalibPar(const char* name, TH1* spectrum, TGraph* curve) :
@@ -41,52 +41,52 @@ TXXXCalibPar::TXXXCalibPar(const char* name, TH1* spectrum, TGraph* curve) :
    fxCalibCurve(curve),
    fxCalibSpectrum(spectrum)
 {
-// Set up fitters:
-fxLinesFinder=new TGo4Fitter("Linefinder", TGo4Fitter::ff_least_squares, kTRUE);
-fxCalibrator=new TGo4Fitter("Calibrator", TGo4Fitter::ff_least_squares, kTRUE);
-if(fxCalibSpectrum)
+   // Set up fitters:
+   fxLinesFinder=new TGo4Fitter("Linefinder", TGo4Fitter::ff_least_squares, kTRUE);
+   fxCalibrator=new TGo4Fitter("Calibrator", TGo4Fitter::ff_least_squares, kTRUE);
+   if(fxCalibSpectrum)
    {
       fxLinesFinder->AddH1(__DATANAME__, fxCalibSpectrum, kFALSE);
       fxSpectrumName=fxCalibSpectrum->GetName();
    }
-else
+   else
    {
       fxSpectrumName="Please specify calibration spectrum";
    }
-if(fxCalibCurve)
+   if(fxCalibCurve)
    {
       fxCalibrator->AddGraph(__GRAPHNAME__, fxCalibCurve, kFALSE);
       fxGraphName=fxCalibCurve->GetName();
    }
-else
+   else
    {
       fxSpectrumName="Please specify fit graph name";
    }
-fxCalibrator->AddPolynomX(__GRAPHNAME__,"A",__POLORDER__-1);
-// note that __POLORDER__ is number of polynom parameters here
-// i.e. true order of polynom +1
-Text_t modname[__TEXTMAX__];
-for(Int_t i=0; i<__POLORDER__;++i)
-        {
-           fdA[i]=1/(i+1);
-           snprintf(modname,__TEXTMAX__,"A_%d",i);
-           TGo4FitModel* mod=fxCalibrator->FindModel(modname);
-           if(mod)
-              {
-                 // for the beginning, disable models beyond order 1:
-                 if(i>1) mod->ClearAssignmentTo(__GRAPHNAME__);
-              }
-           else
-            cout <<"could not find model "<<modname << endl;
-        }
+   fxCalibrator->AddPolynomX(__GRAPHNAME__,"A",__POLORDER__-1);
+   // note that __POLORDER__ is number of polynom parameters here
+   // i.e. true order of polynom +1
+   Text_t modname[__TEXTMAX__];
+   for(Int_t i=0; i<__POLORDER__;++i)
+   {
+      fdA[i]=1/(i+1);
+      snprintf(modname,__TEXTMAX__,"A_%d",i);
+      TGo4FitModel* mod=fxCalibrator->FindModel(modname);
+      if(mod)
+      {
+         // for the beginning, disable models beyond order 1:
+         if(i>1) mod->ClearAssignmentTo(__GRAPHNAME__);
+      }
+      else
+         cout <<"could not find model "<<modname << endl;
+   }
 
-for(Int_t ix=0;ix<__LINESNUMBER__;++ix)
-{
-  fiLinesChannel[ix]=0;
-  ffLinesEnergy[ix]=0;
-}
-  fxDatabase="calilines.txt";
-  ReadDatabase();
+   for(Int_t ix=0;ix<__LINESNUMBER__;++ix)
+   {
+      fiLinesChannel[ix]=0;
+      ffLinesEnergy[ix]=0;
+   }
+   fxDatabase="calilines.txt";
+   ReadDatabase();
 }
 //***********************************************************
 TXXXCalibPar::~TXXXCalibPar()
@@ -97,146 +97,134 @@ TXXXCalibPar::~TXXXCalibPar()
 //***********************************************************
 
 //-----------------------------------------------------------
-Int_t TXXXCalibPar::PrintParameter(Text_t * n, Int_t){
-
-
+Int_t TXXXCalibPar::PrintParameter(Text_t * n, Int_t)
+{
   return 0;
 }
 //-----------------------------------------------------------
-Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *pp){
+Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
+{
 /////////////////////// under const /////////////////
+   TXXXCalibPar * from = dynamic_cast<TXXXCalibPar*> (source);
+   if (from==0) {
+      cout << "Wrong parameter class: " << source->ClassName() << endl;
+      return kFALSE;
+   }
 
-
-  if(pp->InheritsFrom("TXXXCalibPar"))
-  {
-    TXXXCalibPar * from;
-    from = (TXXXCalibPar *) pp;
-    for(Int_t ord=0;ord<__POLORDER__;++ord)
-     {
-      fdA[ord]=from->fdA[ord];
-     }
-   fbRecalibrate=from->fbRecalibrate;
-   fbReadDatabase=from->fbReadDatabase;
+   for(Int_t ord=0;ord<__POLORDER__;++ord)
+      fdA[ord] = from->fdA[ord];
+   fbRecalibrate = from->fbRecalibrate;
+   fbReadDatabase = from->fbReadDatabase;
    if(fxLinesFinder) delete fxLinesFinder;
-   fxLinesFinder=from->fxLinesFinder;
-   from->fxLinesFinder=0; // adopt lines finder
+   fxLinesFinder = from->fxLinesFinder;
+   from->fxLinesFinder = 0; // adopt lines finder
    if(fxCalibrator) delete fxCalibrator;
-   fxCalibrator=from->fxCalibrator;
-   from->fxCalibrator=0; // adopt calibration fitter
+   fxCalibrator = from->fxCalibrator;
+   from->fxCalibrator = 0; // adopt calibration fitter
 
    // note: graph with calibration curve is not copied!
 
-
-    for(Int_t ix=0;ix<__LINESNUMBER__;++ix)
-    {
-       fiLinesChannel[ix]=from->fiLinesChannel[ix];
-       ffLinesEnergy[ix]=from->ffLinesEnergy[ix];
-       fxLinesNames[ix]=from->fxLinesNames[ix];
-       //cout <<"updated line:"<<fxLinesNames[ix].Data() << endl;
-    }
+   for(Int_t ix=0;ix<__LINESNUMBER__;++ix)
+   {
+      fiLinesChannel[ix]=from->fiLinesChannel[ix];
+      ffLinesEnergy[ix]=from->ffLinesEnergy[ix];
+      fxLinesNames[ix]=from->fxLinesNames[ix];
+      //cout <<"updated line:"<<fxLinesNames[ix].Data() << endl;
+   }
    cout <<"Updated Parameter:" << endl;
    //PrintParameter(0,0);
    // get references to graph and histogram from analysis:
    // note that updatefrom is only used on analysis side here!
-   fxCalibCurve=dynamic_cast<TGraph*>(TGo4Analysis::Instance()->GetObject(fxGraphName.Data())) ;
+   fxCalibCurve = dynamic_cast<TGraph*>(TGo4Analysis::Instance()->GetObject(fxGraphName.Data())) ;
 
    if(fxCalibCurve==0)
-      {
-         cout <<"Graph "<<fxGraphName.Data() << " not existing in analysis"<< endl;
-     }
+   {
+      cout <<"Graph "<<fxGraphName.Data() << " not existing in analysis"<< endl;
+   }
    else
-      {
-          cout <<"Updated graph pointer ref to "<<fxCalibCurve << endl;
-      }
-
-
+   {
+      cout <<"Updated graph pointer ref to "<<fxCalibCurve << endl;
+   }
 
    // now reread database if desired:
    if(fbReadDatabase)
-      {
-          cout <<"Reread database" << endl;
-          ReadDatabase();
-      }
+   {
+      cout <<"Reread database" << endl;
+      ReadDatabase();
+   }
 
    if(fbRecalibrate)
    {
       cout <<"Recalibrating..." << endl;
       // first we get the channels from the linesfinder fitter:
 
-        for(Int_t i=0; i<__LINESNUMBER__;++i)
-        {
-           const Text_t* linename=fxLinesNames[i];
-           TGo4FitModel* mod=fxLinesFinder->FindModel(linename);
-           if(mod)
-              {
-                 // check here if component is active or not
-                 if(mod->IsAssignTo(__DATANAME__))
-                    fiLinesChannel[i]=(Int_t) mod->GetParValue("Pos");
-                 else
-                    fiLinesChannel[i]=0; // mark not active lines
-              }
-           else
-              {
-                  //cout <<"could not find model "<<linename << endl;
-              }
-        }
+      for(Int_t i=0; i<__LINESNUMBER__;++i)
+      {
+         const Text_t* linename=fxLinesNames[i];
+         TGo4FitModel* mod=fxLinesFinder->FindModel(linename);
+         if(mod)
+         {
+            // check here if component is active or not
+            if(mod->IsAssignTo(__DATANAME__))
+               fiLinesChannel[i]=(Int_t) mod->GetParValue("Pos");
+            else
+               fiLinesChannel[i]=0; // mark not active lines
+         }
+         else
+         {
+            //cout <<"could not find model "<<linename << endl;
+         }
+      }
 
 
       // setup calibration graph with the new channel coords:
       if(fxCalibCurve)
+      {
+         fxCalibCurve->Set(0);
+         Int_t point=0;
+         for(Int_t ix=0;ix<__LINESNUMBER__;++ix)
          {
-            fxCalibCurve->Set(0);
-            Int_t point=0;
-            for(Int_t ix=0;ix<__LINESNUMBER__;++ix)
-               {
-               if(fiLinesChannel[ix]!=0)
-                  {
-                     fxCalibCurve->SetPoint(point,
-                                    fiLinesChannel[ix],
-                                    ffLinesEnergy[ix]);
-                     // we only fit active lines
-                     ++point;
-                  }
-              } // for
-        // now perform fit of calibration graph:
-        fxCalibrator->SetObject(__GRAPHNAME__, fxCalibCurve, kFALSE);
-        fxCalibrator->DoActions();
-        fxCalibrator->PrintLines();
-        // finally, copy results of calibration to the parameter fields:
-        Text_t modname[__TEXTMAX__];
-        for(Int_t i=0; i<__POLORDER__;++i)
-        {
-           snprintf(modname,__TEXTMAX__,"A_%d",i);
-           TGo4FitModel* mod=fxCalibrator->FindModel(modname);
-           if(mod)
-              {
-                 // check here if component is active or not
-                 if(mod->IsAssignTo(__GRAPHNAME__))
-                    fdA[i]=mod->GetParValue("Ampl");
-                 else
-                    fdA[i]=0;
-              }
-           else
-            ;//cout <<"could not find model "<<modname << endl;
-
-        }
+            if(fiLinesChannel[ix]!=0)
+            {
+               fxCalibCurve->SetPoint(point,
+                     fiLinesChannel[ix],
+                     ffLinesEnergy[ix]);
+               // we only fit active lines
+               ++point;
+            }
+         } // for
+         // now perform fit of calibration graph:
+         fxCalibrator->SetObject(__GRAPHNAME__, fxCalibCurve, kFALSE);
+         fxCalibrator->DoActions();
+         fxCalibrator->PrintLines();
+         // finally, copy results of calibration to the parameter fields:
+         Text_t modname[__TEXTMAX__];
+         for(Int_t i=0; i<__POLORDER__;++i)
+         {
+            snprintf(modname,__TEXTMAX__,"A_%d",i);
+            TGo4FitModel* mod=fxCalibrator->FindModel(modname);
+            if(mod)
+            {
+               // check here if component is active or not
+               if(mod->IsAssignTo(__GRAPHNAME__))
+                  fdA[i]=mod->GetParValue("Ampl");
+               else
+                  fdA[i]=0;
+            }
+            else
+               ;//cout <<"could not find model "<<modname << endl;
 
          }
+
+      }
       else
-         {
-          TGo4Log::Error("Calibration parameter %s has no TGraph!",
-             GetName());
-         }
-
+      {
+         TGo4Log::Error("Calibration parameter %s has no TGraph!",
+               GetName());
+      }
    }
 
-  }
-else
-     {
-     cout << "Wrong parameter object: " << pp->ClassName() << endl;
-
-     }
-return kTRUE;
+  return kTRUE;
 }
 
 void TXXXCalibPar::ReadDatabase()

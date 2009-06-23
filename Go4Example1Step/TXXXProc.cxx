@@ -13,7 +13,6 @@
 #include "TGo4MbsEvent.h"
 #include "snprintf.h"
 
-#include "TXXXParam.h"
 #include "TXXXControl.h"
 #include "TXXXEvent.h"
 
@@ -34,8 +33,9 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
    cout << "**** TXXXProc: Create instance " << name << endl;
 
    //// init user analysis objects:
-   fParam   = (TXXXParam *)   GetParameter("Par1");    // created in TXXXAnalysis, values from auto save
-   fControl = (TXXXControl *) GetParameter("Control"); // created in TXXXAnalysis, values from auto save
+
+   // Parameters are created in analysis, therefore just take them out
+   fControl = (TXXXControl *) GetParameter("Control");
 
    // This example analysis allows for en-disabling the histogram filling.
    // Macro setfill.C creates macro histofill.C to set histogram fill status in parameter "Control".

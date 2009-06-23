@@ -5,7 +5,6 @@
 
 class TFile;
 class TGo4MbsEvent;
-class TXXXParam;
 class TXXXControl;
 
 class TXXXAnalysis : public TGo4Analysis {
@@ -19,7 +18,6 @@ class TXXXAnalysis : public TGo4Analysis {
    private:
       TFile        *fUserFile;
       TGo4MbsEvent *fMbsEvent;
-      TXXXParam     *fPar;
       TXXXControl   *fCtl;
       Int_t         fEvents;
       Int_t         fLastEvent;

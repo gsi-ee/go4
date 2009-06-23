@@ -19,9 +19,9 @@ TGo4Parameter::TGo4Parameter() :
 }
 
 TGo4Parameter::TGo4Parameter(const char* name, const char* title) :
-   TNamed(name, title)
+   TNamed(name ? name : "Parameter", title)
 {
-   TRACE((12,"TGo4Parameter ::TGo4Parameter (Text_t*, Text_t*)",__LINE__, __FILE__));
+   TRACE((12,"TGo4Parameter ::TGo4Parameter (const char*, const char*)",__LINE__, __FILE__));
 
 }
 

@@ -6,7 +6,6 @@
 #include "Go4EventServer.h"
 #include "TGo4StepFactory.h"
 #include "TGo4AnalysisStep.h"
-#include "TXXXParam.h"
 #include "TXXXControl.h"
 
 //***********************************************************
@@ -93,8 +92,6 @@ TXXXAnalysis::TXXXAnalysis(const char* input, Int_t type, Int_t port, const char
    // At this point, autosave file has not yet been read!
    // Therefore parameter values set here will be overwritten
    // if an autosave file is there.
-   fPar = new TXXXParam("Par1");
-   AddParameter(fPar);
    fCtl = new TXXXControl("Control");
    AddParameter(fCtl);
 }

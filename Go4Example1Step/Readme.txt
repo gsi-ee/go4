@@ -32,7 +32,7 @@ that the viewer knows TXXXEvent.
 All classes are defined and declared in two files (*.h and *.cxx)
 In TXXXAnalysis the analysis step is created with the step factory and input and output
 parameters. Here the defaults are set concerning the event IO.
-Two parameter objects are created (TXXXParam and TXXXControl).
+Also parameter object of class TXXXControl is created.
 
 The event filled: TXXXEvent
 The processor:    TXXXProc
@@ -51,15 +51,12 @@ In the first part, data from the raw input MBS event are copied to the members o
 output event TXXXEvent. Two subevents (crate 1,2) are processed.
 Then the histograms are filled, the 2d one with polygon conditions.
 
-A Parameter class TXXXParam
-In this class one can store parameters, and use them in all steps.
-Parameters can be modified from GUI.
 Parameter class TXXXControl
 This class has one member "fill" which is checked in TXXXProc->Event
 to fill histograms or not. The macro setfill.C(n), n=0,1 can be used
 in the GUI to switch the filling on or off. It creates macro histofill.C() which
-is actually used to set filling on or off (in TXXXProc). You can modify histofill.C
-by editor.
+is actually used to set filling on or off (when creating TXXXProc). 
+You can modify histofill.C by editor.
 
 Autosave file mechanism.
 By default autosave is enabled in batch mode, disabled in GUI mode,
@@ -80,7 +77,7 @@ Add class in Makefile and Go4UserAnalysisLinkDef.h
 Then make all.
 
 Adapt the example
-Most probably you will change TXXXParam to keep useful parameters.
+Most probably you will change TXXXControl to keep useful parameters.
 Then you might change TXXXEvent to represent your event data.
 Keep the Clear method consistent with the data members!
 Then definitely you will change TXXXProc to create your histograms, conditions,

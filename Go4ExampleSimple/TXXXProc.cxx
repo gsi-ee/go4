@@ -116,10 +116,11 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement* target)
    }
 
    // now we fill histograms from the arrays
-   for(Int_t i = 0; i<8; i++) {
-      fCr1Ch[i]->Fill(Crate1[i]);
-      fCr2Ch[i]->Fill(Crate2[i]);
-   }
+   if (fParam->fillRaw)
+      for(Int_t i = 0; i<8; i++) {
+         fCr1Ch[i]->Fill(Crate1[i]);
+         fCr2Ch[i]->Fill(Crate2[i]);
+      }
    Float_t value1 = Crate1[0];
    Float_t value2 = Crate1[1];
    fHis1->Fill(value1); // fill histograms without gate

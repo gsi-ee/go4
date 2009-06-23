@@ -1,5 +1,5 @@
-#ifndef CALIBPAR_H
-#define CALIBPAR_H
+#ifndef TXXXCalibPar_H
+#define TXXXCalibPar_H
 
 #include "TGo4Parameter.h"
 
