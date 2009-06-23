@@ -28,10 +28,12 @@
 //***********************************************************
 TascaAnlProc::~TascaAnlProc()
 {
-	  cout << "Tasca> TascaAnlProc:    Processed "<<fiEventsProcessed<<" written "<<fiEventsWritten << endl;
-	  cout << "                        Fissions "<<fFissions << endl;
-	  cout << "                        Alphas   "<<fAlphas << endl;
-	  cout << "                        EVRs     "<<fEvrs << endl;
+	  cout << "Tasca> TascaAnlProc:    Processed "<<fiEventsProcessed<<" selected "<<fiEventsWritten << endl;
+	  cout << "                  stack Processed "<<fiEvprocessedTotal<<endl;
+	  cout << "                  total Fissions "<<fFissions <<" processed "<<fiSFprocessed<<endl;
+	  cout << "                  total Alphas   "<<fAlphas << endl;
+	  cout << "                  total EVRs     "<<fEvrs << endl;
+
 }
 //***********************************************************
 TascaAnlProc::TascaAnlProc()
@@ -72,6 +74,10 @@ TascaAnlProc::TascaAnlProc(const char* name) :
   fFirstEvent=0;
   fiEventsProcessed=0;
   fiEventsWritten=0;
+  fiSFprocessed=0;
+  fiSFtaken=0;
+  fiEvprocessed=0;
+  fiEvprocessedTotal=0;
   fAlphaFound=kFALSE;
   fEvrFound=kFALSE;
   }
@@ -134,10 +140,11 @@ if(fFirstEvent==0)fFirstEvent=fInput->fiEventNumber;
 // We assume that fEvent is a valid slot.
 // With fisrt event this is first slot
 // From fission event we go back
- if(fInput->fisFission&!fInput->fisMacro&(fInput->fiMultiStopYH>0)){
+ if(fInput->fisFission&!fInput->fisMacro&(fInput->fiStopYHhitI>=0)){
 // if(fInput->fisFission&(fInput->fiMultiStopYH>0)){
 // if(fInput->fisFission&(fInput->ffBackHhitV>10)){
 // if(fInput->fisFission){
+	fiSFprocessed++;
 	fAlphaFound=kFALSE;
 	fEvrFound=kFALSE;
 	fInput->CopyTo(fEvent); // copy event data into event entry
@@ -168,17 +175,22 @@ if(fFirstEvent==0)fFirstEvent=fInput->fiEventNumber;
 			//PrintEvr(kFALSE);
 		}
 		fTimeDiff += fStackEvent->fiDeltaTime;
+		fiEvprocessed++;
+		fiEvprocessedTotal++;
 	} // while back loop
-	//' We go now from here forward up to fission to print correct order
+	// We go now from here forward up to fission to print correct order
 	fTimeDiff=0;
 	//fEvrFound=kTRUE; // fake for off beam
 	if(fEvrFound&fAlphaFound){
+		fiSFtaken++;
 	  if(fStackEvent==0){
-	    cout<<"End of stack"<<endl;
+	    cout<<"End of stack, entries "<<fEventStack->used<<endl;
 	    fStackEvent=(TascaEvent *) fEventStack->First();
 	  }
-    	printf("%7.3f sec File %4d =============================\n",
-	       (Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.,fiFileNumber);
+    	printf("%7.3f sec File %4d Stack %d =============================\n",
+	       (Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.,
+	       fiFileNumber,fiEvprocessed);
+    fiEvprocessed=0;
 	fAlphaFound=kFALSE;
 	fEvrFound=kFALSE; //fake for offbeam
 	while(fStackEvent!=fFissionEvent){
@@ -205,7 +217,7 @@ if(fFirstEvent==0)fFirstEvent=fInput->fiEventNumber;
 	fEventStack->used=0;
 	fEvent=(TascaEvent *) fEventStack->First();
 	if(fStackfilled)
-	cout<<"All "<<fEventStack->entries<<" slots cleared."<<endl;
+	cout<<"File "<<fInput->fiFileNumber<<" all "<<fEventStack->entries<<" slots cleared."<<endl;
 	fStackfilled=kFALSE;
 	return;
 } // fission
@@ -216,7 +228,7 @@ fEventStack->used++;
 fEvent=(TascaEvent *) fEventStack->After(fEvent); // for next event
 if(fEvent==0){ // no more slots
 	if(!fStackfilled)
-	cout<<"All "<<fEventStack->entries<<" slots used, start shuffling"<<endl;
+	cout<<"File "<<fInput->fiFileNumber<<" all "<<fEventStack->entries<<" slots used, start shuffling"<<endl;
 	fStackfilled=kTRUE;
 	fStackEvent=(TascaEvent *) fEventStack->First(); // the oldest one
 	fEventStack->Remove(fStackEvent);  // remove from first

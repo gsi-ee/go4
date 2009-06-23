@@ -65,6 +65,10 @@ class TascaAnlProc : public TGo4EventProcessor {
       UInt_t fiEventsProcessed;
       UInt_t fiEventsWritten;
       UInt_t fiFileNumber;
+      UInt_t fiSFprocessed;
+      UInt_t fiSFtaken;
+      UInt_t fiEvprocessed;
+      UInt_t fiEvprocessedTotal;
 
    ClassDef(TascaAnlProc,1)
 };

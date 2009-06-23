@@ -151,14 +151,14 @@ if(takeEvent){
 	poutevt->fiBackLhitI=fInput->fiBackLhitI;
 	poutevt->fiVetoHhitI=fInput->fiVetoHhitI;
 	poutevt->fiVetoLhitI=fInput->fiVetoLhitI;
-	poutevt->fiMultiStopXL=fInput->fiMultiStopXL;
-	poutevt->fiMultiStopXH=fInput->fiMultiStopXH;
-	poutevt->fiMultiStopYL=fInput->fiMultiStopYL;
-	poutevt->fiMultiStopYH=fInput->fiMultiStopYH;
-	poutevt->fiMultiBackH=fInput->fiMultiBackH;
-	poutevt->fiMultiBackL=fInput->fiMultiBackL;
-	poutevt->fiMultiVetoH=fInput->fiMultiVetoH;
-	poutevt->fiMultiVetoL=fInput->fiMultiVetoL;
+// 	poutevt->fiMultiStopXL=fInput->fiMultiStopXL;
+// 	poutevt->fiMultiStopXH=fInput->fiMultiStopXH;
+// 	poutevt->fiMultiStopYL=fInput->fiMultiStopYL;
+// 	poutevt->fiMultiStopYH=fInput->fiMultiStopYH;
+// 	poutevt->fiMultiBackH=fInput->fiMultiBackH;
+// 	poutevt->fiMultiBackL=fInput->fiMultiBackL;
+// 	poutevt->fiMultiVetoH=fInput->fiMultiVetoH;
+// 	poutevt->fiMultiVetoL=fInput->fiMultiVetoL;
 	poutevt->fiMultiGamma=fInput->fiMultiGamma;
 	// value of maximum hit, if we had more than one hit
 	poutevt->ffStopXLhitV=fInput->ffStopXLhitV;
@@ -172,9 +172,9 @@ if(takeEvent){
 	poutevt->fiTimeStamp=fInput->fiTimeStamp;
 	poutevt->fiSystemMysec=fInput->fiSystemMysec;
 	poutevt->fiGammaMysec = fInput->fiGammaMysec;
-	for(Int_t i=0;i<7;i++){
-		poutevt->ffGammaKev[i]   = fInput->ffGammaKev[i];
-	}
+// 	for(Int_t i=0;i<7;i++){
+// 		poutevt->ffGammaKev[i]   = fInput->ffGammaKev[i];
+// 	}
 	poutevt->ffGammaSum   = fInput->ffGammaSum;
 	poutevt->ffGammaMax   = fInput->ffGammaMax;
 // Calculate incremental time

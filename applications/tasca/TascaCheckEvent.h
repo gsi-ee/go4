@@ -55,14 +55,14 @@ class TascaCheckEvent : public TGo4EventElement {
       Int_t fiBackLhitI;
       Int_t fiVetoHhitI;
       Int_t fiVetoLhitI;
-      UInt_t fiMultiStopXL;
-      UInt_t fiMultiStopXH;
-      UInt_t fiMultiStopYL;
-      UInt_t fiMultiStopYH;
-      UInt_t fiMultiBackH;
-      UInt_t fiMultiBackL;
-      UInt_t fiMultiVetoH;
-      UInt_t fiMultiVetoL;
+/*       UInt_t fiMultiStopXL; */
+/*       UInt_t fiMultiStopXH; */
+/*       UInt_t fiMultiStopYL; */
+/*       UInt_t fiMultiStopYH; */
+/*       UInt_t fiMultiBackH; */
+/*       UInt_t fiMultiBackL; */
+/*       UInt_t fiMultiVetoH; */
+/*       UInt_t fiMultiVetoL; */
       UInt_t fiMultiGamma;
       // value of maximum hit, if we had more than one hit
       Float_t ffStopXLhitV;
@@ -76,7 +76,7 @@ class TascaCheckEvent : public TGo4EventElement {
       Float_t ffGammaMax;
       Float_t ffGammaSum;
 
-      Float_t ffGammaKev[7];
+/*       Float_t ffGammaKev[7]; */
 
    private:
       // this object is streamed. Therefore pointers must be excluded!
