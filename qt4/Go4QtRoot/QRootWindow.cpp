@@ -59,6 +59,10 @@ QRootWindow::QRootWindow( QWidget *parent, const char *name, bool designermode) 
 
   setFocusPolicy( Qt::TabFocus );
   setCursor( Qt::CrossCursor );
+#ifdef WIN32
+  designermode = true;
+#endif
+
   if(!designermode) {
      // add the Qt::WinId to TGX11 interface
      fQtWinId = winId();
