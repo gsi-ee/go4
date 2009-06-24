@@ -40,6 +40,7 @@
 #include "TMath.h"
 #include "TStyle.h"
 #include "TH1.h"
+#include "TH2.h"
 #include "TTree.h"
 #include "TColor.h"
 #include "TCanvas.h"
@@ -154,6 +155,12 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    h1->SetDirectory(0);
    br->SaveToMemory("", h1, kTRUE);
 
+/*   TH2I* h2 = new TH2I("histo2","histo 2 title", 100, -10., 10., 100, -10., 10.);
+   h2->FillRandom("gaus",100000);
+   h2->SetDrawOption("hist");
+   h2->SetDirectory(0);
+   br->SaveToMemory("", h2, kTRUE);
+*/
    // br->OpenFile("asf.root");
 
    new TGo4Script(this);

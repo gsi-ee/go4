@@ -41,6 +41,8 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
 
    Q_OBJECT
 
+   enum { act_Update = 1, act_Resize = 2 };
+
    public:
       QRootCanvas(QWidget *parent = 0);
       virtual ~QRootCanvas();
@@ -51,8 +53,6 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
 
       bool              showEventStatus() const;
       void              setShowEventStatus(bool s);
-
-      void              actiavteRepaint(int mode);
 
    signals:
       /** signal which will be emitted when root selected pad is changed
@@ -73,7 +73,7 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
 
       void              CanvasLeaveEvent();
 
-      void              DoCanvasResize();
+      void              CanvasUpdated();
 
    public slots:
 
@@ -148,11 +148,9 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       virtual void      ToggleEventStatus();
       virtual void      ToggleAutoExec();
       virtual void      Update();
-      virtual void      performResize();
 
       void              executeMenu(int id);
       void              processRepaintTimer();
-      void              resetPaintFlag();
 
    protected:
 
@@ -171,6 +169,8 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
 
       void              methodDialog(TObject* object, TMethod* method);
       QAction*          addMenuAction(QMenu* menu, QSignalMapper* map, const QString& text, int id);
+
+      void              actiavteRepaint(int act);
 
       TCanvas*          fCanvas;
       Int_t             fRootWindowId;

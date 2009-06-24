@@ -1,7 +1,7 @@
 #ifndef QUSERPANEL_H
 #define QUSERPANEL_H
 
-#include "ui_QUserPanel.h"  
+#include "ui_QUserPanel.h"
 #include <QGo4Widget.h>
 
 class QUserPanel : public QGo4Widget, public Ui::QUserPanel
@@ -24,9 +24,6 @@ public slots:
     virtual void EditBtn_clicked();
     virtual void DrawBtn_clicked();
     virtual void CanvasDropEventSlot(QDropEvent*,TPad*);
-    //virtual void DoCanvasResizeSlot();
-
-
 };
 
 #endif

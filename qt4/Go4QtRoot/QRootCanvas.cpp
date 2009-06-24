@@ -8,8 +8,7 @@
 #include <QtCore/QSignalMapper>
 #include <QtCore/QTimer>
 
-#include <QtGui/QApplication>
-#include <QtGui/qpainter.h>
+#include <QtGui/QPainter>
 #include <QtGui/QDragEnterEvent>
 #include <QtGui/QDropEvent>
 #include <QtGui/QResizeEvent>
@@ -94,40 +93,6 @@ QRootCanvas::~QRootCanvas()
    fMenuMethods = 0;
 
    delete fRepaintTimer;
-}
-
-void QRootCanvas::resetPaintFlag()
-{
-   if (fRepaintMode<2)
-      fRepaintMode = -1;
-}
-
-void QRootCanvas::performResize()
-{
-   TGo4LockGuard threadlock;
-
-   QApplication::setOverrideCursor(Qt::WaitCursor);
-
-   WId newid = winId();
-   if(newid != fQtWindowId) {
-      // Qt has changed id for this widget (e.g. at QWorkspace::addWindow())
-      // need to adjust the ROOT X access:
-      delete fCanvas; // should also remove old x windows!
-      fRootWindowId = gVirtualX->AddWindow((ULong_t)newid, width(), height());
-      fCanvas = new TCanvas(objectName().toAscii(), width(), height(), fRootWindowId);
-      fQtWindowId = newid;
-   }
-
-   if (fRepaintMode == 1) Modified();
-                     else Resize();
-
-   Update();
-
-   fRepaintMode = 0;
-
-   emit DoCanvasResize();
-
-   QApplication::restoreOverrideCursor();
 }
 
 void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
@@ -298,14 +263,14 @@ void QRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
 
 void QRootCanvas::actiavteRepaint(int mode)
 {
-   if (mode > fRepaintMode) fRepaintMode = mode;
+   fRepaintMode |= mode;
    fRepaintTimer->setSingleShot(true);
    fRepaintTimer->start(100);
 }
 
 void QRootCanvas::resizeEvent( QResizeEvent *)
 {
-   actiavteRepaint(2);
+   actiavteRepaint(act_Resize);
 }
 
 void QRootCanvas::paintEvent( QPaintEvent *)
@@ -318,13 +283,33 @@ void QRootCanvas::paintEvent( QPaintEvent *)
    if (fRepaintMode<0)
       fRepaintMode = 0;
    else
-      actiavteRepaint(1);
+      actiavteRepaint(act_Update);
 }
 
 void QRootCanvas::processRepaintTimer()
 {
-   if (fRepaintMode > 0)
-      performResize();
+   if (fRepaintMode == 0) return;
+
+   TGo4LockGuard threadlock;
+
+   WId newid = winId();
+   if(newid != fQtWindowId) {
+      // Qt has changed id for this widget (e.g. at QWorkspace::addWindow())
+      // need to adjust the ROOT X access:
+      delete fCanvas; // should also remove old x windows!
+      fRootWindowId = gVirtualX->AddWindow((ULong_t)newid, width(), height());
+      fCanvas = new TCanvas(objectName().toAscii(), width(), height(), fRootWindowId);
+      fQtWindowId = newid;
+   }
+
+   if (fRepaintMode && act_Resize) fCanvas->Resize();
+                              else fCanvas->Modified(kTRUE);
+
+   fCanvas->Update();
+
+   fRepaintMode = 0;
+
+   emit CanvasUpdated();
 }
 
 void QRootCanvas::leaveEvent( QEvent *e )
@@ -660,12 +645,9 @@ void      QRootCanvas::ToggleAutoExec()
 }
 void      QRootCanvas::Update()
 {
-//   Int_t d1, d2;
-//   UInt_t w, h;
-//   gVirtualX->GetGeometry((ULong_t)fQtWindowId, d1, d2, w, h);
-//   cout << "Before update w = " << w << endl;
-
-   fCanvas->Update();
+   // do not call update directly, just use timer
+   actiavteRepaint(act_Update);
+//   fCanvas->Update();
 }
 
 void  QRootCanvas::closeEvent( QCloseEvent * e)

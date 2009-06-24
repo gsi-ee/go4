@@ -227,7 +227,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void CanvasStatusEventSlot( const char * message );
       virtual void ProcessPadDoubleClick();
       virtual void MenuCommandExecutedSlot( TObject * obj, const char * cmdname );
-      virtual void DoCanvasResizeSlot();
+      virtual void CanvasUpdatedSlot();
       virtual void SaveCanvas();
       virtual void ProducePicture();
       virtual void ProduceGraphFromMarkers();

@@ -1060,7 +1060,7 @@ void TGo4ViewPanel::SetActivePad(TPad* pad)
    if (pad==0) {
       GetCanvas()->SetSelected(0);
       GetCanvas()->SetSelectedPad(0);
-      GetCanvas()->Update();
+      GetQCanvas()->Update();
       //cout <<"+++++++++ TGo4ViewPanel::SetActivePad updates canvas (pad 0)" << endl;
       return;
    }
@@ -1072,7 +1072,10 @@ void TGo4ViewPanel::SetActivePad(TPad* pad)
    TGo4WorkSpace::Instance()->SetSelectedPad(ActivePad);
 
    BlockPanelRedraw(true);
-   ActivePad->Update();
+   if (ActivePad == GetCanvas())
+      GetQCanvas()->Update();
+   else
+      ActivePad->Update();
    //cout <<"+++++++++ TGo4ViewPanel::SetActivePad updated ActivePad "<<(hex)<<ActivePad << endl;
    BlockPanelRedraw(false);
 
@@ -1510,7 +1513,7 @@ void TGo4ViewPanel::MenuCommandExecutedSlot(TObject* obj, const char* cmdname)
 
 }
 
-void TGo4ViewPanel::DoCanvasResizeSlot()
+void TGo4ViewPanel::CanvasUpdatedSlot()
 {
    ResizeGedEditor();
 }
@@ -3240,7 +3243,10 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
 
       // here pad->Update should redraw only modified subpad
       if (isanychildmodified) {
-         pad->Update();
+         if (pad == GetCanvas())
+            GetQCanvas()->Update();
+         else
+            pad->Update();
          ispadupdatecalled = true;
       }
 
@@ -3257,12 +3263,10 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
 
    // to correctly select active pad, one should call canvas->Update()
    if ((pad!=GetCanvas()) || !ispadupdatecalled)
-      GetCanvas()->Update();
+      GetQCanvas()->Update();
 
    QCheckBox* box1 = findChild<QCheckBox*>("ApplyToAllCheck");
    if (box1!=0) box1->setChecked(fbApplyToAllFlag);
-
-   GetQCanvas()->resetPaintFlag();
 
    BlockPanelRedraw(false);
 
@@ -4715,8 +4719,8 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
           }
          #endif
 
-         GetCanvas()->Modified();
-         GetCanvas()->Update();
+         GetQCanvas()->Modified();
+         GetQCanvas()->Update();
          CallPanelFunc(panel_Updated, GetCanvas());
          break;
       }

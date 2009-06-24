@@ -677,9 +677,9 @@
     </connection>
     <connection>
       <sender>fxQCanvas</sender>
-      <signal>DoCanvasResize()</signal>
+      <signal>CanvasUpdated()</signal>
       <receiver>TGo4ViewPanel</receiver>
-      <slot>DoCanvasResizeSlot()</slot>
+      <slot>CanvasUpdatedSlot()</slot>
     </connection>
     <connection>
       <sender>GetConditionBtn</sender>
