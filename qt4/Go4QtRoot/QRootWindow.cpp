@@ -157,6 +157,7 @@ Bool_t QRootWindow::MapQMouseEvent(QMouseEvent *e, Event_t* rev)
 void QRootWindow::paintEvent( QPaintEvent * e)
 {
    //TGo4LockGuard threadlock;
+
    if(fxRootwindow) {
       WId nxid = winId();
       if(fQtWinId!=nxid) {
@@ -166,7 +167,7 @@ void QRootWindow::paintEvent( QPaintEvent * e)
          delete fxRootwindow; // should also remove old x windows!
          fQtWinId = nxid;
          fiWinid = gVirtualX->AddWindow((ULong_t) fQtWinId, width(), height());
-         fxRootwindow = new TQRootFrame(fQtWinId);
+         fxRootwindow = new TQRootFrame(gVirtualX->GetWindowID(fiWinid));
       }
       if(fbResizeOnPaint) {
          TGo4LockGuard threadlock;
@@ -226,4 +227,3 @@ TGCompositeFrame* QRootWindow::GetRootFrame()
 {
    return fxRootwindow;
 }
-

@@ -3,7 +3,7 @@
 
 #include <QtGui/QWidget>
 
-#include "TVirtualX.h"
+#include "Rtypes.h"
 
 class QMouseEvent;
 class QPaintEvent;
@@ -60,7 +60,7 @@ class QRootWindow : public QWidget {
 
       /** ROOT internal window index*/
       Int_t fiWinid;
-      /** X window id as received from Qt (may change during runtime?)*/
+      /** Qt window id as received from Qt (may change during runtime?)*/
       WId fQtWinId;
 
       /** switch if paint event does explicit resize of ROOT frame (default)

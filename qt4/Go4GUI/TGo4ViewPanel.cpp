@@ -1072,10 +1072,7 @@ void TGo4ViewPanel::SetActivePad(TPad* pad)
    TGo4WorkSpace::Instance()->SetSelectedPad(ActivePad);
 
    BlockPanelRedraw(true);
-   if (ActivePad == GetCanvas())
-      GetQCanvas()->Update();
-   else
-      ActivePad->Update();
+   GetQCanvas()->Update();
    //cout <<"+++++++++ TGo4ViewPanel::SetActivePad updated ActivePad "<<(hex)<<ActivePad << endl;
    BlockPanelRedraw(false);
 
@@ -3243,10 +3240,7 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
 
       // here pad->Update should redraw only modified subpad
       if (isanychildmodified) {
-         if (pad == GetCanvas())
-            GetQCanvas()->Update();
-         else
-            pad->Update();
+         GetQCanvas()->Update();
          ispadupdatecalled = true;
       }
 
@@ -3258,11 +3252,10 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
    if (ActivePad!=0)
      UpdatePanelCaption();
 
-
    RefreshButtons();
 
    // to correctly select active pad, one should call canvas->Update()
-   if ((pad!=GetCanvas()) || !ispadupdatecalled)
+   if (!ispadupdatecalled)
       GetQCanvas()->Update();
 
    QCheckBox* box1 = findChild<QCheckBox*>("ApplyToAllCheck");
@@ -3444,11 +3437,6 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
    if (padopt->HasTitleAttr()) {
       TPaveText* titl = dynamic_cast<TPaveText*>
               (pad->GetListOfPrimitives()->FindObject("title"));
-      if (titl==0) {
-         pad->Update();
-         titl = dynamic_cast<TPaveText*>
-                       (pad->GetListOfPrimitives()->FindObject("title"));
-      }
       if (titl) {
          padopt->GetTitleAttr(titl);
          pad->Modified();

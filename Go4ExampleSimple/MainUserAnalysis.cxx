@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 
    Bool_t batchMode(kTRUE);  // GUI or Batch
 
-   Bool_t servermode(kFALSE);            // run analysis slave as servertask
+   Bool_t servermode(kFALSE);            // run analysis as server task
    const char* hostname = "localhost";   // gui host name
    Int_t iport(5000);                    // port number used by GUI
 
@@ -163,15 +163,17 @@ int main(int argc, char **argv)
    factory->DefEventProcessor("XXXProc","TXXXProc");// object name, class name
    factory->DefOutputEvent("XXXEvent","TGo4EventElement"); // object name, class name
 
+/*
    if(servermode) {
-
       //==================== password settings for gui login (for analysis server only)
+      // note: do not change go4 default passwords for analysis in client mode
+      // autoconnect to gui server will not work then!!!
       analysis->SetAdministratorPassword("XXXadmin");
       analysis->SetControllerPassword("XXXctrl");
       analysis->SetObserverPassword("XXXview");
-      // note: do not change go4 default passwords for analysis in client mode
-      // autoconnect to gui server will not work then!!!
    }
+*/
+
 
    //------ start the analysis -------------------------
    if(batchMode) {
