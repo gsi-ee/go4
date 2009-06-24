@@ -11,8 +11,8 @@ void setparam()
 // Energy windows MeV
 	Float_t EvrHmin     = 4.000,  EvrHmax     = 15.000;
 	Float_t Alpha0Lmin  = 9.800,  Alpha0Lmax  = 10.200;
-	Float_t Alpha1Lmin  = 9.700,  Alpha1Lmax  = 10.100;
-	Float_t Alpha2Lmin  = 8.970,  Alpha2Lmax  =  9.3700;
+	Float_t Alpha1Lmin  = 9.500,  Alpha1Lmax  = 10.100;
+	Float_t Alpha2Lmin  = 8.970,  Alpha2Lmax  =  9.501;
 	Float_t Fission1Hmin=60.000,  Fission1Hmax=220.0000;
 	Float_t Fission2Hmin=60.000,  Fission2Hmax=220.0000;
 	Float_t BackHmin   =-100000,  BackHmax    = 80000;
