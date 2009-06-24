@@ -1666,7 +1666,6 @@ void TGo4ViewPanel::StartRootEditor()
    fbEditorFrameVisible = !fbEditorFrameVisible;
    EditorFrame->setVisible(fbEditorFrameVisible);
    if(fbEditorFrameVisible && (fxPeditor==0)) {
-      //cout <<"TGo4ViewPanel::StartRootEditor() loading GED..." << endl;
       TGo4LockGuard lock;
       SetActivePad(GetCanvas());
       fxRooteditor->SetResizeOnPaint(kFALSE); // disable internal resize on paintEvent, we use ResizeGedEditor

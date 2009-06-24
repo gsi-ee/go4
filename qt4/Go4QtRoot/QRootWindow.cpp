@@ -60,18 +60,12 @@ QRootWindow::QRootWindow( QWidget *parent, const char *name, bool designermode) 
 
    setFocusPolicy( Qt::TabFocus );
    setCursor( Qt::CrossCursor );
-#ifdef WIN32
-   designermode = true;
-#endif
 
    if(!designermode) {
       // add the Qt::WinId to TGX11 interface
       fQtWinId = winId();
       fiWinid = gVirtualX->AddWindow((ULong_t)fQtWinId,145,400);
       //cout <<"QRootWindow ctor added window for "<<fQtWinId<<" with ROOT wid:"<<fiWinid<< endl;
-
-      //     cout << "qtid = " << fQtWinId << " virtual x id = " << gVirtualX->GetWindowID(fiWinid) << endl;
-
       fxRootwindow = new TQRootFrame(gVirtualX->GetWindowID(fiWinid));
       fxRootwindow->Resize();
       if ( parent ) parent->installEventFilter( this );
