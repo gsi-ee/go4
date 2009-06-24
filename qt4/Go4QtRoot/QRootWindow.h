@@ -52,7 +52,7 @@ class QRootWindow : public QWidget {
       //virtual QPaintEngine * paintEngine () const {return 0;}
 
       /** translate Qt mouse event into root event structure. */
-      Event_t* MapQMouseEvent(QMouseEvent *e);
+      Bool_t MapQMouseEvent(QMouseEvent *e, Event_t* rev);
 
       /** this is the pseudo root window embedded into this widget.
         * is used as parent for subwindows */

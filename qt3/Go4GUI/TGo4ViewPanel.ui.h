@@ -1,6 +1,6 @@
 const char* NoStackDrawOption = "nostack, ";
 
-#ifdef __GO4GED__
+#ifndef __NOGO4GED__
 #include "TGedEditor.h"
 #endif
 
@@ -4562,7 +4562,7 @@ void TGo4ViewPanel::ResizeGedEditorSlot()
 
 void TGo4ViewPanel::ResizeGedEditor()
 {
-   #ifdef __GO4GED__
+   #ifndef __NOGO4GED__
    TGo4LockGuard lock;
    TGedEditor* ed = dynamic_cast<TGedEditor*> (fxPeditor);
    if ((ed!=0) && fbEditorFrameVisible)
@@ -4573,7 +4573,7 @@ void TGo4ViewPanel::ResizeGedEditor()
 void TGo4ViewPanel::ActivateInGedEditor(TObject* obj)
 {
    if (!fbEditorFrameVisible) return;
-   #ifdef __GO4GED__
+   #ifndef __NOGO4GED__
    TGedEditor* ed = dynamic_cast<TGedEditor*> (fxPeditor);
    if ((ed!=0) && (obj!=0))
       if (!obj->InheritsFrom(THStack::Class()) && !obj->InheritsFrom(TMultiGraph::Class())) {
@@ -4585,7 +4585,7 @@ void TGo4ViewPanel::ActivateInGedEditor(TObject* obj)
 
 void TGo4ViewPanel::CleanupGedEditor()
 {
-   #ifdef __GO4GED__
+   #ifndef __NOGO4GED__
 //   cout << "TGo4ViewPanel::CleanupGedEditor()" << endl;
    TGedEditor* ed = dynamic_cast<TGedEditor*> (fxPeditor);
    if (ed==0) return;

@@ -150,7 +150,7 @@ void TGo4HisDrawOptions::UpdateView(int viewtype)
          DrawOption->addItem( QIcon(""),         "BOX  boxes");
          DrawOption->addItem( QIcon(""),         "TEXT content");
          lines=30;
-#ifdef __GO4ASI__
+#ifndef __NOGO4ASI__
          DrawOption->addItem( QIcon(":/icons/asimage.png"), " ASImage");
          DrawOption->addItem( QIcon(""), "");
 #else
@@ -534,7 +534,7 @@ void TGo4HisDrawOptions::CodeDrawOptions(int HisErrorStyle,
        case 16: buf="arr";   break;
        case 17: buf="box";   break;
        case 18: buf="text";  break;
-#ifdef __GO4ASI__
+#ifndef __NOGO4ASI__
        case 19: buf="asimage"; return; break;
 #else
        case 19: buf=""; break;

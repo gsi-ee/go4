@@ -98,7 +98,8 @@ QRootCanvas::~QRootCanvas()
 
 void QRootCanvas::resetPaintFlag()
 {
-   fRepaintMode = -1;
+   if (fRepaintMode<2)
+      fRepaintMode = -1;
 }
 
 void QRootCanvas::performResize()
@@ -115,8 +116,6 @@ void QRootCanvas::performResize()
       fRootWindowId = gVirtualX->AddWindow((ULong_t)newid, width(), height());
       fCanvas = new TCanvas(objectName().toAscii(), width(), height(), fRootWindowId);
       fQtWindowId = newid;
-
-      cout << "replace X id for " << objectName().toAscii().constData() << endl;
    }
 
    if (fRepaintMode == 1) Modified();

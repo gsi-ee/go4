@@ -52,6 +52,8 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       bool              showEventStatus() const;
       void              setShowEventStatus(bool s);
 
+      void              actiavteRepaint(int mode);
+
    signals:
       /** signal which will be emitted when root selected pad is changed
         * via clicking the mid-mouse button (M. al-Turany) */
@@ -169,8 +171,6 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
 
       void              methodDialog(TObject* object, TMethod* method);
       QAction*          addMenuAction(QMenu* menu, QSignalMapper* map, const QString& text, int id);
-
-      void              actiavteRepaint(int mode);
 
       TCanvas*          fCanvas;
       Int_t             fRootWindowId;

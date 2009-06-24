@@ -1,6 +1,6 @@
 #include "TGo4ASImage.h"
- 
-#ifdef __GO4ASI__
+
+#ifndef __NOGO4ASI__
 
 #include "TH2.h"
 #include "TGo4Log.h"

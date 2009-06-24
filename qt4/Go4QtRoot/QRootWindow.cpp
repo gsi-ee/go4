@@ -16,28 +16,29 @@
 /** Pseudo root mainframe to wrap root composite frames like TGedEditor */
 class TQRootFrame: public TGCompositeFrame {
    public:
-   /** pretend a root frame for the externally created window of id wid */
-   TQRootFrame(WId wid) :
-      TGCompositeFrame(gClient, (Window_t) wid, new TGMainFrame(gClient->GetDefaultRoot(),100,100))
-   {
-     // we have to offer a real mainframe as top parent for root internal lists:
-    // fParent=new TGMainFrame(gClient->GetDefaultRoot(),100,100);
-   }
+      /** pretend a root frame for the externally created window of id wid */
+      TQRootFrame(Window_t id) :
+         TGCompositeFrame(gClient, id, new TGMainFrame(gClient->GetDefaultRoot(),100,100))
+         {
+         // we have to offer a real mainframe as top parent for root internal lists:
+         // fParent=new TGMainFrame(gClient->GetDefaultRoot(),100,100);
+         }
 
-   virtual ~TQRootFrame()
-   {
-     delete fParent;
-   }
+      virtual ~TQRootFrame()
+      {
+         delete fParent;
+      }
 
-   virtual void CloseWindow()
-   {
-      UnmapWindow();  // capture the close window
-   }
+      virtual void CloseWindow()
+      {
+         UnmapWindow();  // capture the close window
+      }
 
-   virtual Bool_t HandleEvent(Event_t *event)
+      /*   virtual Bool_t HandleEvent(Event_t *event)
    {
       return TGCompositeFrame::HandleEvent(event);
    }
+       */
 
 };
 
@@ -47,32 +48,35 @@ class TQRootFrame: public TGCompositeFrame {
 // This is the widget to be embedded in qt:
 
 QRootWindow::QRootWindow( QWidget *parent, const char *name, bool designermode) :
-  QWidget(parent),
-  fxRootwindow(0),
-  fbResizeOnPaint(kTRUE)
-{
+   QWidget(parent),
+   fxRootwindow(0),
+   fbResizeOnPaint(kTRUE)
+   {
    setObjectName( name ? name : "QRootWindow");
 
-  // set defaults
-  setUpdatesEnabled( true );
-  setMouseTracking(true);
+   // set defaults
+   setUpdatesEnabled( true );
+   setMouseTracking(true);
 
-  setFocusPolicy( Qt::TabFocus );
-  setCursor( Qt::CrossCursor );
+   setFocusPolicy( Qt::TabFocus );
+   setCursor( Qt::CrossCursor );
 #ifdef WIN32
-  designermode = true;
+   designermode = true;
 #endif
 
-  if(!designermode) {
-     // add the Qt::WinId to TGX11 interface
-     fQtWinId = winId();
-     fiWinid = gVirtualX->AddWindow((ULong_t)fQtWinId,145,600);
-     //cout <<"QRootWindow ctor added window for "<<fQtWinId<<" with ROOT wid:"<<fiWinid<< endl;
-     fxRootwindow = new TQRootFrame(fQtWinId);
-     fxRootwindow->Resize();
-     if ( parent ) parent->installEventFilter( this );
-  }
-}
+   if(!designermode) {
+      // add the Qt::WinId to TGX11 interface
+      fQtWinId = winId();
+      fiWinid = gVirtualX->AddWindow((ULong_t)fQtWinId,145,400);
+      //cout <<"QRootWindow ctor added window for "<<fQtWinId<<" with ROOT wid:"<<fiWinid<< endl;
+
+      //     cout << "qtid = " << fQtWinId << " virtual x id = " << gVirtualX->GetWindowID(fiWinid) << endl;
+
+      fxRootwindow = new TQRootFrame(gVirtualX->GetWindowID(fiWinid));
+      fxRootwindow->Resize();
+      if ( parent ) parent->installEventFilter( this );
+   }
+   }
 
 void QRootWindow::AddSubFrame(TGFrame* f, TGLayoutHints* l)
 {
@@ -90,10 +94,9 @@ void QRootWindow::SetEditable(bool on)
    fxRootwindow->SetEditable(on);
 }
 
-Event_t* QRootWindow::MapQMouseEvent(QMouseEvent *e)
+Bool_t QRootWindow::MapQMouseEvent(QMouseEvent *e, Event_t* rev)
 {
-   if(e==0) return 0;
-   Event_t* rev= new Event_t;
+   if((e==0) || (rev==0)) return kFALSE;
 
    rev->fX=e->x();
    rev->fY=e->y();
@@ -146,7 +149,7 @@ Event_t* QRootWindow::MapQMouseEvent(QMouseEvent *e)
    rev->fSendEvent = 0;
    rev->fTime = 0; // this might cause problems with root doubleclick treatment?
 
-   return rev;
+   return kTRUE;
 }
 
 
@@ -177,8 +180,8 @@ void QRootWindow::paintEvent( QPaintEvent * e)
 
 void QRootWindow::resizeEvent( QResizeEvent *e )
 {
- //TGo4LockGuard threadlock;
- QWidget::resizeEvent(e);
+   //TGo4LockGuard threadlock;
+   QWidget::resizeEvent(e);
 
 }
 
@@ -186,17 +189,18 @@ void QRootWindow::resizeEvent( QResizeEvent *e )
 bool QRootWindow ::eventFilter( QObject *o, QEvent *e )
 {
    TGo4LockGuard threadlock;
-   QMouseEvent* me=dynamic_cast<QMouseEvent*>(e);
-   if(me) {
-      Event_t* roote=MapQMouseEvent(me);
-      if(fxRootwindow) fxRootwindow->HandleEvent(roote);
-      delete roote;
+   QMouseEvent* me = dynamic_cast<QMouseEvent*>(e);
+
+   Event_t root_evnt;
+
+   if (MapQMouseEvent(me, &root_evnt)) {
+      if(fxRootwindow) fxRootwindow->HandleEvent(&root_evnt);
       return FALSE;
    }
 
    if ( e->type() == QEvent::Close) {  // close
       delete fxRootwindow;
-      fxRootwindow=0;
+      fxRootwindow = 0;
       return FALSE;
    }
 
@@ -204,22 +208,18 @@ bool QRootWindow ::eventFilter( QObject *o, QEvent *e )
    return QWidget::eventFilter( o, e );
 }
 
-
-
 void  QRootWindow::closeEvent( QCloseEvent * e){
 
-    delete fxRootwindow;
-    fxRootwindow=0;
-    e->accept();
-    return;
+   delete fxRootwindow;
+   fxRootwindow = 0;
+   e->accept();
+   return;
 }
-
-
 
 QRootWindow::~QRootWindow()
 {
-    delete fxRootwindow;
-    fxRootwindow=0;
+   delete fxRootwindow;
+   fxRootwindow = 0;
 }
 
 TGCompositeFrame* QRootWindow::GetRootFrame()

@@ -5,9 +5,7 @@ class TH2;
 class TPad;
 class TGo4ViewPanel;
 
-#define __GO4ASI__
-
-#ifdef __GO4ASI__
+#ifndef __NOGO4ASI__
 
 #include "TASImage.h"
 

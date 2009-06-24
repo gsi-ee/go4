@@ -539,7 +539,7 @@
           </property>
           <property name="minimumSize" >
             <size>
-              <width>190</width>
+              <width>175</width>
               <height>0</height>
             </size>
           </property>
@@ -548,6 +548,9 @@
           </property>
           <property name="frameShadow" >
             <enum>Sunken</enum>
+          </property>
+          <property name="visible">
+             <bool>FALSE</bool>
           </property>
         </widget>
       </item>
@@ -595,7 +598,7 @@
       </item>
     </layout>
   </widget>
-  <layoutdefault spacing="6" margin="11" />
+  <layoutdefault spacing="3" margin="3" />
   <images>
     <image name="image0" >
       <data format="XBM.GZ" length="79" >789c534e494dcbcc4b554829cdcdad8c2fcf4c29c95030e0524611cd48cd4ccf28010a1797249664262b2467241641a592324b8aa363156c15aab914146aadb90067111b1f</data>
