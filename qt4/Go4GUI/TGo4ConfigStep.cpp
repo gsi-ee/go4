@@ -86,7 +86,7 @@ void TGo4ConfigStep::OutputStateChanged(int )
 
    fStepStatus->SetStoreEnabled(on);
    StoreBox->setEnabled(stepon && on);
-   StoreBox->setShown(on);
+   StoreBox->setVisible(on);
 
    parentWidget()->adjustSize();
    parentWidget()->parentWidget()->adjustSize();

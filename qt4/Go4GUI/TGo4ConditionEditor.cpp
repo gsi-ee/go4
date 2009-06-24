@@ -143,17 +143,17 @@ void TGo4ConditionEditor::ResetWidget()
    CondNameLbl->setText("");
    CondClassLbl->setText("");
 
-   PleaseUpdateLabel->setShown(FALSE);
+   PleaseUpdateLabel->setVisible(FALSE);
 
-   ArrayAllButton->setShown(FALSE);
-   ArrayElements->setShown(FALSE);
+   ArrayAllButton->setVisible(FALSE);
+   ArrayElements->setVisible(FALSE);
 
-   HistogramChk->setShown(FALSE);
+   HistogramChk->setVisible(FALSE);
    HistogramChk->setChecked(FALSE);
    HistogramChk->setText("null");
    HistogramChk->setEnabled(FALSE);
 
-   CondVisibleChk->setShown(FALSE);
+   CondVisibleChk->setVisible(FALSE);
    DrawInfoLbl->setText("");
    CondTabs->setEnabled(FALSE);
 
@@ -180,7 +180,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    TGo4ViewPanel* panel = WhereItemDrawn(conditemname);
    TPad* pad = panel==0 ? 0 : panel->FindPadWithItem(conditemname);
 
-   PleaseUpdateLabel->setShown(cond->IsChanged()!=0);
+   PleaseUpdateLabel->setVisible(cond->IsChanged()!=0);
    fiLastChangeValue = cond->IsChanged();
 
    QString hitemname;
@@ -201,8 +201,8 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
 
    TGo4CondArray* arr = dynamic_cast<TGo4CondArray*> (cond);
 
-   ArrayAllButton->setShown(arr!=0);
-   ArrayElements->setShown(arr!=0);
+   ArrayAllButton->setVisible(arr!=0);
+   ArrayElements->setVisible(arr!=0);
    if (arr==0) {
       fiSelectedIndex = -1;
    } else {
@@ -214,7 +214,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
       cond = SelectedCondition();
    }
 
-   ModifyButton->setShown((panel!=0) && ((arr==0) || (fiSelectedIndex>=0)));
+   ModifyButton->setVisible((panel!=0) && ((arr==0) || (fiSelectedIndex>=0)));
 
    TGo4WinCond* wcond = dynamic_cast<TGo4WinCond*> (cond);
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (cond);
@@ -250,7 +250,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
 //      DisplayB->setEnabled(TRUE);
    }
 
-   CondVisibleChk->setShown(TRUE);
+   CondVisibleChk->setVisible(TRUE);
    CondVisibleChk->setChecked(cond->IsVisible());
 
    if (panel!=0) {
@@ -374,7 +374,7 @@ void TGo4ConditionEditor::PleaseUpdateSlot()
 {
    TGo4Condition* cond = dynamic_cast<TGo4Condition*> (GetLinked("Condition",0));
    SetChangeFlag(true);
-   PleaseUpdateLabel->setShown(TRUE);
+   PleaseUpdateLabel->setVisible(TRUE);
 }
 
 void TGo4ConditionEditor::SelectedCond(int t)

@@ -2362,16 +2362,16 @@ void TGo4FitPanel::UpdateWizDataBtns()
    Wiz_PFSetupBtn->setEnabled(data!=0);
 
    if (!WorkingWithPanel()) {
-     Wiz_RebuildDataBtn->setShown(FALSE);
-     Wiz_AddDataBtn->setShown(TRUE);
-     Wiz_DelDataBtn->setShown(TRUE);
+     Wiz_RebuildDataBtn->setVisible(FALSE);
+     Wiz_AddDataBtn->setVisible(TRUE);
+     Wiz_DelDataBtn->setVisible(TRUE);
      Wiz_AddDataBtn->setEnabled(fitter!=0);
      Wiz_DelDataBtn->setEnabled(data!=0);
    } else {
-     Wiz_RebuildDataBtn->setShown(TRUE);
+     Wiz_RebuildDataBtn->setVisible(TRUE);
      Wiz_RebuildDataBtn->setEnabled(fitter!=0);
-     Wiz_AddDataBtn->setShown(FALSE);
-     Wiz_DelDataBtn->setShown(FALSE);
+     Wiz_AddDataBtn->setVisible(FALSE);
+     Wiz_DelDataBtn->setVisible(FALSE);
    }
 }
 
@@ -2430,7 +2430,7 @@ void TGo4FitPanel::UpdateWizModelsBtns()
    TGo4Fitter* fitter = GetFitter();
    TGo4FitModel* model = Wiz_SelectedModel();
 
-   Wiz_ShowAllMod->setShown(!WorkingWithOnlyPad());
+   Wiz_ShowAllMod->setVisible(!WorkingWithOnlyPad());
 
    if (fitter) {
       Wiz_AddModelBtn->setEnabled(TRUE);

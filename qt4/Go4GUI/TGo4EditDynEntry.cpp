@@ -99,8 +99,8 @@ void TGo4EditDynEntry::RefreshWidget()
          hentry->GetHistogramName(), hitemname))
            hitemname = hentry->GetHistogramName();
        HistoNameLbl->setText(hitemname.Data());
-       DrawButton->setShown(hitemname.Length()>0);
-       ClearButton->setShown(hitemname.Length()>0);
+       DrawButton->setVisible(hitemname.Length()>0);
+       ClearButton->setVisible(hitemname.Length()>0);
 
        QString fname = hentry->GetHistEventName(0);
        if (fname.length()>0) fname += "/";
@@ -146,8 +146,8 @@ void TGo4EditDynEntry::RefreshWidget()
          tentry->GetHistogramName(), hitemname))
            hitemname = tentry->GetHistogramName();
        HistoNameLbl->setText(hitemname.Data());
-       DrawButton->setShown(hitemname.Length()>0);
-       ClearButton->setShown(hitemname.Length()>0);
+       DrawButton->setVisible(hitemname.Length()>0);
+       ClearButton->setVisible(hitemname.Length()>0);
 
        TString titemname;
        if (!br->DefineRelatedObject(entryitem,
@@ -227,8 +227,8 @@ void TGo4EditDynEntry::DropHistogram(const char * itemname)
    EntryChangedSlot();
 
    HistoNameLbl->setText(itemname);
-   DrawButton->setShown(true);
-   ClearButton->setShown(true);
+   DrawButton->setVisible(true);
+   ClearButton->setVisible(true);
 
    TGo4DynamicEntry* entry =
      dynamic_cast<TGo4DynamicEntry*>(GetLinked("Entry", 0));
@@ -283,7 +283,7 @@ void TGo4EditDynEntry::ResetWidget()
    HistogramBox->setEnabled(FALSE);
    EntryTabs->setEnabled(FALSE);
 
-   DrawButton->setShown(false);
+   DrawButton->setVisible(false);
 
    RefreshButton->setIcon( QIcon(":/icons/right.png" ) );
 
@@ -308,7 +308,7 @@ void TGo4EditDynEntry::ApplyClicked()
 
 void TGo4EditDynEntry::SetPleaseUpdate( bool on )
 {
-   PleaseUpdateLabel->setShown(on);
+   PleaseUpdateLabel->setVisible(on);
    ensurePolished();
    update();
    show();

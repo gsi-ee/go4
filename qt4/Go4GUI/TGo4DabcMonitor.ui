@@ -620,7 +620,7 @@
    <sender>MoreCheck</sender>
    <signal>toggled(bool)</signal>
    <receiver>controlBox</receiver>
-   <slot>setShown(bool)</slot>
+   <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
      <x>23</x>

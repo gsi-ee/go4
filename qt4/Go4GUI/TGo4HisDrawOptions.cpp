@@ -24,7 +24,7 @@ TGo4HisDrawOptions::TGo4HisDrawOptions( QWidget* parent, const char* name, Qt::W
 
    UpdateView(view_Histo1);
 
-   AutoScaleBox->setShown(false);
+   AutoScaleBox->setVisible(false);
 
    LineColor->setEnabled(false);
    FillColor->setEnabled(false);

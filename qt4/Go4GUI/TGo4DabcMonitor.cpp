@@ -135,7 +135,7 @@ FrequencyBox->setValue(go4sett->getDabcMonitorFreq());
 fbTrendingForward=!(go4sett->getMbsMonitorBackwardsTrending());
 
 
-controlBox->setShown(false);
+controlBox->setVisible(false);
 //std::cout<<"found settings: node="<<node<<", bins="<<fiTrendBins<<", forward="<<fbTrendingForward <<std::endl;
 
 //ensurePolished();

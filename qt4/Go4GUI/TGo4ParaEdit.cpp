@@ -29,7 +29,7 @@ TGo4ParaEdit::TGo4ParaEdit(QWidget *parent, const char* name)
 	setupUi(this);
 
 	fItems = 0;
-   PleaseUpdateLabel->setShown(false);
+   PleaseUpdateLabel->setVisible(false);
    adjustSize();
 
    ParamNameLbl->setText("");
@@ -159,7 +159,7 @@ void TGo4ParaEdit::ResetWidget()
 
    ShowVisibleItems();
 
-   PleaseUpdateLabel->setShown(false);
+   PleaseUpdateLabel->setVisible(false);
 }
 
 void TGo4ParaEdit::RefreshWidget(TGo4Parameter* par)
@@ -178,7 +178,7 @@ void TGo4ParaEdit::RefreshWidget(TGo4Parameter* par)
 
    ShowVisibleItems();
 
-   PleaseUpdateLabel->setShown(false);
+   PleaseUpdateLabel->setVisible(false);
 }
 
 
@@ -203,7 +203,7 @@ void TGo4ParaEdit::RefreshWidget(TGo4ParameterStatus* status)
 
    ShowVisibleItems();
 
-   PleaseUpdateLabel->setShown(false);
+   PleaseUpdateLabel->setVisible(false);
 
 //   cout << "RefreshWidget done" << endl;
 }
@@ -273,7 +273,7 @@ void TGo4ParaEdit::clearTextFields()
       info->SetStrValue("");
    }
 
-   PleaseUpdateLabel->setShown(true);
+   PleaseUpdateLabel->setVisible(true);
 
    ShowVisibleItems();
 }
@@ -284,7 +284,7 @@ void TGo4ParaEdit::ChangedTable( int row, int col )
       QString txt = MemberTable->item(row, col)->text();
       TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(row);
       info->SetStrValue(txt.toAscii());
-      PleaseUpdateLabel->setShown(true);
+      PleaseUpdateLabel->setVisible(true);
    }
 }
 
@@ -401,7 +401,7 @@ void TGo4ParaEdit::EditFitter()
    TGo4Slot* fitterslot = AddSlot("Fitter");
    fitterslot->AssignObject(fitter, kFALSE);
    EditObjectInSlot(fitterslot);
-   PleaseUpdateLabel->setShown(true);
+   PleaseUpdateLabel->setVisible(true);
 }
 
 void TGo4ParaEdit::GetFitterFromEditor()
@@ -426,7 +426,7 @@ void TGo4ParaEdit::saveFile()
       if (par==0) return;
       if (par->SetMemberValues(fItems))
          if (SaveItemToFile(GetLinkedName("Parameter"), "Parameters"))
-            PleaseUpdateLabel->setShown(false);
+            PleaseUpdateLabel->setVisible(false);
    } else
    if (fItemName.length()>0) {
       const char* parclass = Browser()->ItemClassName(fItemName.toAscii());
@@ -490,5 +490,5 @@ void TGo4ParaEdit::ApplyClicked()
      if (BrowserItemRemote(fItemName.toAscii()))
         RefreshClicked();
      else
-        PleaseUpdateLabel->setShown(false);
+        PleaseUpdateLabel->setVisible(false);
 }

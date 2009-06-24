@@ -104,7 +104,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
    // setup of marker editor
    fbMarkEditorVisible = false;
    fbTypingMode = true;
-   MarkerPanel->setShown(false);
+   MarkerPanel->setVisible(false);
    fiMouseMode = kMouseROOT;
    fiPickCounter = 0;
    fbPickAgain = false;
@@ -196,9 +196,9 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
    // status widget
    CanvasStatus = new QStatusBar(this);
    gridLayout->addWidget(CanvasStatus, 3, 0, 1, 2 );
-   CanvasStatus->setShown(false);
+   CanvasStatus->setVisible(false);
 
-   EditorFrame->setShown(fbEditorFrameVisible);
+   EditorFrame->setVisible(fbEditorFrameVisible);
 
    connect(fxQCanvas, SIGNAL(SelectedPadChanged(TPad*)),
            this, SLOT(SetActivePad(TPad*)));
@@ -731,7 +731,7 @@ void TGo4ViewPanel::RefreshButtons()
 {
    TGo4LockGuard lock;
 
-   MarkerPanel->setShown(fbMarkEditorVisible);
+   MarkerPanel->setVisible(fbMarkEditorVisible);
    fxQCanvas->setMaskDoubleClick(fbMarkEditorVisible);
 
 //   if(!fbMarkEditorVisible) return;
@@ -739,15 +739,15 @@ void TGo4ViewPanel::RefreshButtons()
    bool iscondition = IsConditionSelected(GetActivePad());
 
    fbTypingMode=false;
-   GetConditionBtn->setShown(iscondition);
-   InfoConditionBtn->setShown(iscondition);
-   EditConditionBtn->setShown(iscondition);
-   SetConditionBtn->setShown(iscondition);
+   GetConditionBtn->setVisible(iscondition);
+   InfoConditionBtn->setVisible(iscondition);
+   EditConditionBtn->setVisible(iscondition);
+   SetConditionBtn->setVisible(iscondition);
    if (iscondition) {
       TGo4Slot* slot = GetSelectedSlot(GetActivePad(), 0, 0);
       TGo4Condition* cond = slot==0 ? 0 :
         dynamic_cast<TGo4Condition*> (slot->GetAssignedObject());
-      ModifyConditionBtn->setShown((cond!=0) && (cond->IsChanged()!=0));
+      ModifyConditionBtn->setVisible((cond!=0) && (cond->IsChanged()!=0));
 
       QString iconname = ":/icons/right.png";
       QString tooltip = "Refresh condition from analysis";
@@ -759,7 +759,7 @@ void TGo4ViewPanel::RefreshButtons()
       GetConditionBtn->setToolTip(tooltip);
 
    } else
-      ModifyConditionBtn->setShown(false);
+      ModifyConditionBtn->setVisible(false);
 
    switch(GetMouseMode()) {
       case kMouseROOT:
@@ -1664,7 +1664,7 @@ void TGo4ViewPanel::StartRootEditor()
 {
 #ifndef __NOGO4GED__
    fbEditorFrameVisible = !fbEditorFrameVisible;
-   EditorFrame->setShown(fbEditorFrameVisible);
+   EditorFrame->setVisible(fbEditorFrameVisible);
    if(fbEditorFrameVisible && (fxPeditor==0)) {
       //cout <<"TGo4ViewPanel::StartRootEditor() loading GED..." << endl;
       TGo4LockGuard lock;
@@ -1816,7 +1816,7 @@ void TGo4ViewPanel::ShowEventStatus()
 
 
    fxQCanvas->setShowEventStatus(fbCanvasEventstatus);
-   CanvasStatus->setShown(fbCanvasEventstatus);
+   CanvasStatus->setVisible(fbCanvasEventstatus);
    if(!fbCanvasEventstatus) DisplayPadStatus(ActivePad);
 }
 

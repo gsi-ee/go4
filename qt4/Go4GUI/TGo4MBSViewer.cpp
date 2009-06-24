@@ -127,7 +127,7 @@ if(!fbSingleRefresh)
     //TrendCheck->setEnabled(!fbIsMonitoring);
     TrendBinsBox->setEnabled(!fbTrending);
     }
-MoreFrame->setShown(fbShowMore);
+MoreFrame->setVisible(fbShowMore);
 SumEvents->display((double) fxDaqStat.bl_n_events);
 //RateEvents->display((double) fxDaqStat.bl_r_events);
 RateEvents->display((double) fiCalcedEventRate);
@@ -153,7 +153,7 @@ else{
     RunPix->setWindowIcon(QIcon( ":/icons/mbsbutton.png" ));
     if(fxRunMovie) fxRunMovie->stop();
 }
-WarnPix->setShown(fbWarningState);
+WarnPix->setVisible(fbWarningState);
 
 // put here enable/disable setup buttons:
 SetupRadio->setEnabled(fxDaqStat.bh_setup_loaded);
