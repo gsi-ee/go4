@@ -101,3 +101,24 @@ void TascaCheckEvent::CopyTo(TascaEvent *pp){
 	pp->fiGammaMysec=fiGammaMysec;
   return;
 }
+//-----------------------------------------------------------
+void TascaCheckEvent::PrintEvent()
+{
+	printf("CheckEvent Run %3d File %4d Evt %9d Tof:%d Off:%d Veto:%d EVR:%d Al:%d FS:%d\n",
+			fiFileNumber>>16,fiFileNumber&0xffff,fiEventNumber,
+			fisTof,!fisMacro,fisVeto,fisEvr,fisAlpha,fisFission);
+	printf("  [mysec] Sys %9d Gam %9d Adc %9d, d [msec] Sys %6.3f Gam %6.3f Adc %6.3f\n",
+			fiSystemMysec,fiGammaMysec,fiTimeStamp,
+			(Float_t)fiDeltaSystemTime/1000,
+			(Float_t)fiDeltaGammaTime/1000,
+			(Float_t)fiDeltaTime/1000);
+	printf("  StopXL(H) i %3d (%3d), [MeV] %7.3f (%7.3f)",
+			fiStopXLhitI,fiStopXHhitI,ffStopXLhitV/1000.,ffStopXHhitV/1000.);
+	printf("  StopYL(H) i %3d (%3d), [MeV] %7.3f (%7.3f)\n",
+			fiStopYLhitI,fiStopYHhitI,ffStopYLhitV/1000.,ffStopYHhitV/1000.);
+	printf("  BackL(H)  i %3d (%3d), [MeV] %7.3f (%7.3f)",
+			fiBackLhitI,fiBackHhitI,ffBackLhitV/1000.,ffBackHhitV/1000.);
+	printf("  VetoL(H)  i %3d (%3d), [MeV] %7.3f (%7.3f)\n",
+			fiVetoLhitI,fiVetoHhitI,ffVetoLhitV/1000.,ffVetoHhitV/1000.);
+	printf("  Gamma Multi %d, [MeV] Sum %f Max %f \n",fiMultiGamma,ffGammaSum/1000.,ffGammaMax/1000.);
+}

@@ -245,10 +245,15 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
      (fInput->GetTrigger()==15)) {
 	  return;
   }
+  // file number
   strcpy(cfilename,fInput->GetEventSource()->GetActiveName());
   memcpy(&cfilenum,&cfilename[strlen(cfilename)-8],4);
   cfilenum[4]=0;
   pUnpackEvent->fiFileNumber=atoi(cfilenum);
+  // run number
+  memcpy(&cfilenum,&cfilename[strlen(cfilename)-11],3);
+  cfilenum[3]=0;
+  pUnpackEvent->fiFileNumber += (atoi(cfilenum)<<16);
   //cout<<endl<<"Unp: "<<fInput->GetCount()<<endl;
   fiEventsProcessed++;
   fInput->ResetIterator();
@@ -304,15 +309,20 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   }
   fLastEvent= pUnpackEvent->fiEventNumber;
  // cout <<"Unp: "<<pUnpackEvent->fiEventNumber<< endl;
+  // register time
   if(timestamp<TimeLastadc) fiDeltaTime=0xFFFFFFFF-TimeLastadc+timestamp+1;
   else                      fiDeltaTime=timestamp-TimeLastadc;
   TimeLastadc=timestamp;
+  // system time, sec minus offset
   if(TimeLastsec > 0)
     pUnpackEvent->fiSystemMysec += (pUnpackEvent->fiSystemSec-TimeLastsec)*1000000;
   TimeLastsec=pUnpackEvent->fiSystemSec;
+  pUnpackEvent->fiSystemSec = (pUnpackEvent->fiSystemSec-fParam->SystemTimeSecOff)*1000; //msec
+  pUnpackEvent->fiSystemSec=pUnpackEvent->fiSystemSec+(pUnpackEvent->fiSystemMysec/1000);//msec
   if(pUnpackEvent->fiSystemMysec<TimeLastmysec) fiDeltaSystemTime=0xFFFFFFFF-TimeLastmysec+pUnpackEvent->fiSystemMysec+1;
   else                                          fiDeltaSystemTime=pUnpackEvent->fiSystemMysec-TimeLastmysec;
   TimeLastmysec=pUnpackEvent->fiSystemMysec;
+
   fSystemTime->Fill(fiDeltaSystemTime);
   fAdcTime->Fill(fiDeltaTime);
 // Build Mpx table
@@ -516,11 +526,11 @@ for(i=0;i<codec->getVetonoAdc();i++){
 	pUnpackEvent->fiVetoL[n]=L;
 	pUnpackEvent->fiVetoH[n]=H;
 }//Veto
+pUnpackEvent->fisVeto=(multiL>0);
 pUnpackEvent->fiMultiVetoL=multiL;
 pUnpackEvent->fiMultiVetoH=multiH;
 fMultiVetoL->Fill(multiL);
 fMultiVetoH->Fill(multiH);
-pUnpackEvent->fisVeto=(multiL>0);
 }// V785 ADCs
 
 if(spillOn&(pUnpackEvent->fiStopXHhitV>fParam->AlphaMinH))fSpillG->Fill(timediff);

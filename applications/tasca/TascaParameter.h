@@ -42,6 +42,7 @@ class TascaParameter : public TGo4Parameter {
       UInt_t Fission1Tmax;
       UInt_t Fission2Tmin;
       UInt_t Fission2Tmax;
+      UInt_t SystemTimeSecOff;
 
    ClassDef(TascaParameter,1)
 };

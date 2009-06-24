@@ -43,6 +43,7 @@ class TascaCaliEvent : public TGo4EventElement {
       }
 
       Int_t Init();
+      void PrintEvent();
 
       UInt_t fiFileNumber;
       UInt_t fiEventNumber;
@@ -77,7 +78,7 @@ class TascaCaliEvent : public TGo4EventElement {
       Int_t fiVetoLhitI;
       UInt_t fiMultiStopXL;
       UInt_t fiMultiStopXH;
-      Int_t fiMultiStopYL;
+      UInt_t fiMultiStopYL;
       UInt_t fiMultiStopYH;
       UInt_t fiMultiBackH;
       UInt_t fiMultiBackL;

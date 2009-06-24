@@ -1,0 +1,40 @@
+//---------------------------------------------
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
+// GSI, Experiment Electronics, Data Processing
+//---------------------------------------------
+
+void printcheckevent(const char* rootinfile, unsigned int event)
+{
+  //gSystem->Load("libGo4UserAnalysis.so"); // if there is no .rootmap file!
+
+  char filename[128];
+  TString fname(filename);
+
+// TYasca event
+   TascaCheckEvent* eve=new TascaCheckEvent();
+   cout<<rootinfile<<endl;
+
+// open root file for read
+     TFile infile(rootinfile);
+     TTree* oldTree=0;
+     oldTree=(TTree *)infile.Get("CheckerxTree");
+     TBranch* br=oldTree->GetBranch("Checked.");
+     if(br != 0){
+     TBranch* brfilter=oldTree->GetBranch("Checked.fiEventNumber");
+     if(brfilter != 0){
+     br->SetAddress(&eve);
+     Int_t nentries = oldTree->GetEntries();
+     for (Int_t i=0;i<nentries;i++)
+     {
+       brfilter->GetEntry(i);
+       if(eve->fiEventNumber==event){
+         oldTree->GetEntry(i);
+         eve->PrintEvent();
+         break;
+       }
+     }}}
+     infile.Close(); // close input root file
+   exit(0);
+}
