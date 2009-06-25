@@ -4,7 +4,7 @@
 #include "Riosfwd.h"
 #include "TSystem.h"
 #include "TROOT.h"
-#include "snprintf.h"
+#include "string.h"
 
 #include "TGo4Log.h"
 
@@ -133,13 +133,8 @@ catch(TGo4EventEndException& ex)
         while(NextFile()<0){;}
                    //skip filenames with open error until a file
                    // in the list opens properly (retval==0)
-            Text_t txt[TGo4EventSource::fguTXTLEN];
-            snprintf(txt,
-            TGo4EventSource::fguTXTLEN,
-               "\n       Eventsource   Open file: %s tagfile:%s first:%lu last:%lu delta:%lu",
-               GetCurrentFileName(),GetCurrentTagName(),
-                  fuStartEvent,fuStopEvent, fuEventInterval);
-            SetErrMess(txt);
+            SetErrMess(Form("\n       Eventsource   Open file: %s tagfile:%s first:%lu last:%lu delta:%lu",
+               GetCurrentFileName(),GetCurrentTagName(), fuStartEvent,fuStopEvent, fuEventInterval));
             NewFileAction();
             throw TGo4EventErrorException(this,0);
                      // priority 0 means do not stop analysis
@@ -163,34 +158,21 @@ catch(TGo4EventEndException& ex)
 
 Int_t TGo4MbsFile::Close()
 {
-TRACE((12,"TGo4MbsFile::Close()",__LINE__, __FILE__));
-if(!fbIsOpen)
-   return -1;
-//cout << "Close of TGo4MbsFile"<< endl;
-Int_t rev=0;
-rev=GetCreateStatus();
-// close connection/file
-if(CloseFile() == GETEVT__SUCCESS)
-   {
-      fbIsOpen=kFALSE;
-   }
-else
-   {
-      // do nothing (for streamer)
-   }
-if(fxMultiFile) delete fxMultiFile;
-if(fbWildcardMode)
-   {
-      Text_t command[TGo4EventSource::fguTXTLEN];
-      snprintf(command,TGo4EventSource::fguTXTLEN,
-            "rm %s",fxMultiName.Data());
-      //cout <<"Executing command "<<command << endl;
-      gSystem->Exec(command);
-   }
-return rev;
+   TRACE((12,"TGo4MbsFile::Close()",__LINE__, __FILE__));
+   if(!fbIsOpen) return -1;
+   //cout << "Close of TGo4MbsFile"<< endl;
+   Int_t rev = GetCreateStatus();
+   // close connection/file
+   if(CloseFile() == GETEVT__SUCCESS) fbIsOpen = kFALSE;
 
+   if(fxMultiFile) { delete fxMultiFile; fxMultiFile=0; }
 
+   if(fbWildcardMode)
+      gSystem->Exec(Form("rm %s",fxMultiName.Data()));
+
+   return rev;
 }
+
 Int_t TGo4MbsFile::Open()
 {
 TRACE((12,"TGo4MbsFile::Open()",__LINE__, __FILE__));
@@ -224,29 +206,18 @@ else if(strstr(GetName(),"*") || strstr(GetName(),"?"))
       fbMultipleMode=kTRUE;
       multiname = fgcWILDFILE;
       // evaluate expression here and create input file:
-      Text_t wildexpr[TGo4EventSource::fguTXTLEN];
+      TString wildexpr;
       if(!strstr(GetName(),fgcLMDSUF))
-         {
-          //cout <<"adding suffix "<<fgcLMDSUF << endl;
-          // wildcard name does not contain lmd suffix, we put it in
-          snprintf(wildexpr,TGo4EventSource::fguTXTLEN,
-            "%s%s",GetName(),fgcLMDSUF);
-         }
+         wildexpr = Form("%s%s",GetName(),fgcLMDSUF);
       else
-         {
-            snprintf(wildexpr,TGo4EventSource::fguTXTLEN,
-            "%s",GetName());
-         }
-      const Text_t* homedir=gSystem->Getenv("HOME");
-      Text_t buf[TGo4EventSource::fguTXTLEN];
-      snprintf(buf,TGo4EventSource::fguTXTLEN,
-            "%s/%s",homedir,multiname);
-      fxMultiName=buf;
-      Text_t command[TGo4EventSource::fguTXTLEN];
-      snprintf(command,TGo4EventSource::fguTXTLEN,
-            "ls -1 %s > %s",wildexpr, fxMultiName.Data());
+         wildexpr = GetName();
+
+      const char* homedir = gSystem->Getenv("HOME");
+      fxMultiName = Form("%s/%s", homedir, multiname);
+
+      TString command = Form("ls -1 %s > %s",wildexpr.Data(), fxMultiName.Data());
       //cout <<"Executing command "<<command << endl;
-      gSystem->Exec(command); // write input file from wildcard expression
+      gSystem->Exec(command.Data()); // write input file from wildcard expression
 
    }
 else
@@ -273,14 +244,10 @@ if(fbMultipleMode)
       while(NextFile()<0) {;} // skip invalid filenames
        // note that TGo4EventEndException will break this loop if no valid file in list
       fbIsOpen=kTRUE;
-      Text_t txt[TGo4EventSource::fguTXTLEN];
-      snprintf(txt,
-      TGo4EventSource::fguTXTLEN,
-     "Eventsource TGo4MbsFile:%s \n       Eventsource   Open file: %s tag:%s first:%lu last:%lu delta:%lu",
-      GetName(),GetCurrentFileName(),GetCurrentTagName(),
-      fuStartEvent,fuStopEvent, fuEventInterval);
       NewFileAction(kFALSE);
-      TGo4Analysis::Instance()->Message(1,txt);
+      TGo4Analysis::Instance()->Message(1,Form(
+            "Eventsource TGo4MbsFile:%s \n       Eventsource   Open file: %s tag:%s first:%lu last:%lu delta:%lu",
+                  GetName(),GetCurrentFileName(),GetCurrentTagName(), fuStartEvent,fuStopEvent, fuEventInterval));
    }
 else
    {
@@ -387,15 +354,12 @@ if(fbMultipleMode && fxMultiFile!=0)
      while(strlen(nextline)==0 || rem1!=0 || rem2!=0 || command!=0); // skip any comments and empty lines, and continue after macro execution
      convs=sscanf(nextline,"%s %s %lu %lu %lu",nextfile,nexttag,
               &fuStartEvent, &fuStopEvent, &fuEventInterval);
-     if(convs<2)
-        {
+     if(convs<2) {
          // line contained not all parameters, reset remaining
          fuStartEvent=0;
          fuStopEvent=0;
          fuEventInterval=0;
-         snprintf(nexttag,
-            TGo4EventSource::fguTXTLEN,"%s",
-            TGo4MbsFile::fgcNOTAGFILE);
+         strncpy(nexttag, TGo4MbsFile::fgcNOTAGFILE, TGo4EventSource::fguTXTLEN);
         }
 //     cout <<"Read next filename "<<nextfile<<" and tag "<<nexttag << endl;
 //     cout <<"Got Start:"<<fuStartEvent<<". stop:"<<fuStopEvent,

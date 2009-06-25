@@ -77,7 +77,7 @@ class TGo4TreeStore : public TGo4EventStore {
     TGo4EventCalibration * fxCalibration; //!
 
     /** Class name of the event associated with this store. */
-    Text_t fcEventClass[256]; //!
+    TString fcEventClass; //!
 
     /** TBranch splitlevel. */
     Int_t fiSplit;

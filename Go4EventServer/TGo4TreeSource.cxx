@@ -3,7 +3,6 @@
 #include "Riostream.h"
 
 #include "TTree.h"
-#include "snprintf.h"
 
 #include "TGo4Log.h"
 #include "TGo4MainTree.h"
@@ -53,26 +52,20 @@ TGo4TreeSource::~TGo4TreeSource()
 
 Int_t TGo4TreeSource::Open()
 {
- TRACE((15,"TGo4TreeSource::Open()",__LINE__, __FILE__));
+   TRACE((15,"TGo4TreeSource::Open()",__LINE__, __FILE__));
 
-Text_t buffer [TGo4EventSource::fguTXTLEN];
-snprintf(buffer,TGo4EventSource::fguTXTLEN -5, "%s",GetName());
-strcat(buffer,"."); // for branches containing the same event structure
+   // for branches containing the same event structure
+   TString buffer = Form("%s.",GetName());
 
-fxSingletonTree=TGo4MainTree::Instance();
-fxTree= fxSingletonTree->GetTree();
-fxBranch= fxTree->GetBranch(buffer);
-if(fxBranch)
-   {
-      TGo4Log::Debug(" TreeSource: Found existing branch %s ", buffer);
-   }
-else
-   {
-      ThrowError(77,0,"!!! ERROR: Branch %s  not found!!!",buffer);
-      //TGo4Log::Debug(" !!! TreeSource: ERROR - no branch %s ", buffer);
-   }
+   fxSingletonTree = TGo4MainTree::Instance();
+   fxTree = fxSingletonTree->GetTree();
+   fxBranch = fxTree->GetBranch(buffer.Data());
+   if(fxBranch)
+      TGo4Log::Debug(" TreeSource: Found existing branch %s ", buffer.Data());
+   else
+      ThrowError(77,0,"!!! ERROR: Branch %s  not found!!!",buffer.Data());
 
-return 0;
+   return 0;
 }
 
 
