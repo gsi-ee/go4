@@ -54,6 +54,8 @@ void TGo4ConfigStep::InputStateChanged(int )
 
    fStepStatus->SetSourceEnabled(on);
    SourceBox->setEnabled(stepon && on);
+
+   fxPanel->ChangeTabTitle(this, fStepNumber);
 }
 
 void TGo4ConfigStep::InputPort(const QString& fxPort)
@@ -88,6 +90,8 @@ void TGo4ConfigStep::OutputStateChanged(int )
    StoreBox->setEnabled(stepon && on);
    StoreBox->setVisible(on);
 
+   fxPanel->ChangeTabTitle(this, fStepNumber);
+
    parentWidget()->adjustSize();
    parentWidget()->parentWidget()->adjustSize();
    parentWidget()->parentWidget()->parentWidget()->adjustSize();
@@ -106,6 +110,8 @@ void TGo4ConfigStep::StepStateChanged(int )
    EnableSourceBox->setEnabled(on);
    EnableStoreBox->setEnabled(on);
 
+   fxPanel->ChangeTabTitle(this, fStepNumber);
+
    InputStateChanged(0);
    OutputStateChanged(0);
 }
@@ -114,12 +120,13 @@ void TGo4ConfigStep::OutArguments(const QString&)
 {
 }
 
-void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4AnalysisStepStatus* StepStatus)
+void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4AnalysisStepStatus* StepStatus, int number)
 {
     if (StepStatus==0) return;
 
     fxPanel = panel;
     fStepStatus = StepStatus;
+    fStepNumber = number;
 
     //----------------------------------------------------//
     //Source:
@@ -510,6 +517,18 @@ void TGo4ConfigStep::InputFileDialog()
 QString TGo4ConfigStep::GetStepName()
 {
    return fStepStatus->GetName();
+}
+
+QString TGo4ConfigStep::GetTabTitle()
+{
+   QString res = fStepStatus->GetName();
+   if (fStepNumber>=0) {
+      res += " ";
+      res += EnableStepBox->isChecked() ? "x" : "o";
+      res += EnableSourceBox->isChecked() ? "x" : "o";
+      res += EnableStoreBox->isChecked() ? "x" : "o";
+   }
+   return res;
 }
 
 void TGo4ConfigStep::SetStepControl(bool process, bool source, bool store)

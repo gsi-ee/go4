@@ -2,9 +2,9 @@
 #define TGO4ANALYSISCONFIGURATION_H
 
 #include "QGo4Widget.h"
-#include "ui_TGo4AnalysisConfiguration.h"  
+#include "ui_TGo4AnalysisConfiguration.h"
 
-  
+
 class TGo4ConfigStep;
 
 
@@ -29,16 +29,18 @@ class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConf
 	virtual void ResetWidget();
 
 	virtual void RefreshWidget();
-	
+
 	virtual QString GetSourcePath();
-	
+
 	virtual QString GetStorePath();
-	
+
 	virtual void SetSourcePath(const QString & v);
-	
+
 	virtual void SetStorePath(const QString & v);
- 
+
 	int GetNumSteps();
+
+   void ChangeTabTitle(TGo4ConfigStep* step, int number);
 
 
 	TGo4ConfigStep* GetStepConfig(int n);
@@ -57,48 +59,48 @@ class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConf
                                                   bool& enbaled,
                                                   bool& overwrite);
 
- 
+
  	virtual void SetAnalysisConfigFile(QString filename);
 
 	virtual void GetAnalysisConfigFile(QString& filename);
 
 
 	virtual void DisplayMbsMonitor(const QString& mbsname );
- 
- 
+
+
  public slots:
 
 	virtual void RequestAnalysisStatus();
-	
-	
+
+
 	virtual void FileDialog_ConfFile();
-	
+
 	virtual void FileDialog_AutoSave();
-	
-	
+
+
 	virtual void LineEdit_AutoSaveFile();
-	
+
 	virtual void SetCompressionLevel( int t);
-	
-	
+
+
 	virtual void LoadConfiguration();
-	
+
 	virtual void SaveConfiguration();
-	
+
 	virtual void SubmitConfiguration();
-	
-	
+
+
 	virtual void SubmitAndStart();
-	
-	
+
+
 	virtual void SetAutoSaveInterval(int t);
-	
-	
+
+
 	virtual void SetAutoSaveOverwrite(bool overwrite);
-	
+
 	virtual void WriteAutoSave();
-	
-	
+
+
 	virtual void EnableAutoSaveSlot( bool disabled);
 
 
@@ -112,5 +114,5 @@ protected:
 
 
 };
- 
-#endif 
+
+#endif

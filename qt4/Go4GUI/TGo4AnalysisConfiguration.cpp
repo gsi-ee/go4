@@ -102,8 +102,8 @@ void TGo4AnalysisConfiguration::RefreshWidget()
       if (stepstatus==0) continue;
       QString StepName = stepstatus->GetName();
       TGo4ConfigStep* NewStep = new TGo4ConfigStep(TabSteps, StepName.toAscii());
-      NewStep->SetStepStatus(this, stepstatus);
-      TabSteps->insertTab(i, NewStep, StepName);
+      NewStep->SetStepStatus(this, stepstatus, status->GetNumberOfSteps() > 1 ? i : -1);
+      TabSteps->insertTab(i, NewStep, NewStep->GetTabTitle());
     }
 
     TabSteps->setCurrentIndex(0);
@@ -122,6 +122,13 @@ void TGo4AnalysisConfiguration::RefreshWidget()
 
     fbTypingMode = true;
 }
+
+void TGo4AnalysisConfiguration::ChangeTabTitle(TGo4ConfigStep* step, int number)
+{
+   if (number>=0)
+      TabSteps->setTabText(number, step->GetTabTitle());
+}
+
 
 QString TGo4AnalysisConfiguration::GetSourcePath()
 {
