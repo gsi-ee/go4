@@ -78,6 +78,8 @@ void TXXXAnlProc::XXXEventAnalysis(TXXXAnlEvent* poutevt)
 {
    TXXXUnpackEvent* fInput  = (TXXXUnpackEvent*) GetInputEvent();
 
+   poutevt->SetValid(kFALSE);       // events are not stored until kTRUE is set
+   if(!fInput->IsValid())return;    // do not process unvalid event
    poutevt->SetValid(kTRUE);       // events are not stored until kTRUE is set
    Int_t cnt(0);
    for(Int_t ii=0;ii<4;ii++) {
