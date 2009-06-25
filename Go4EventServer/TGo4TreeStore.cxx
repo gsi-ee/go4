@@ -53,6 +53,7 @@ TGo4TreeStore::TGo4TreeStore(const char* name,
                fxFile->SetCompressionLevel(compression);
                fxBranch->SetFile(fxFile);
                TGo4Log::Debug(" TreeStore: Set branch to file %s ", filename);
+               TGo4Log::Info("TGo4TreeStore: Open file tree %s UPDATE", buffer);
             }
          else
             {
@@ -104,7 +105,8 @@ TGo4TreeStore::TGo4TreeStore(TGo4TreeStoreParameter* par, TGo4EventElement* even
                fxFile->SetCompressionLevel(par->fiCompression);
                fxBranch->SetFile(fxFile);
                TGo4Log::Debug(" TreeStore: Set branch to file %s ", buffer);
-            }
+               TGo4Log::Info("TGo4TreeStore: Open file tree %s UPDATE", buffer);
+           }
          else
             {
                fxFile=0;
