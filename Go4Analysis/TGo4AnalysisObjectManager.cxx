@@ -1480,38 +1480,27 @@ TGo4LockGuard  dirguard(fxDirMutex);
    TFolder* result=0;
    if(parent==0) return 0;
    if(subfolder==0) return parent;
-   Text_t subname[fguSUBFOLDERMAXLEN];
-   size_t fnamelen=0;
-   const char* endname = subfolder;
-   const char* searchname = subfolder;
-   endname=strstr(searchname,"/"); // find end of first subfolder string
-   if(endname!=0)
-      {
-         // we have subfolder of subfolder, process recursively
-         endname+=1;
-         fnamelen= endname-searchname; // length of first subfolder name
-         if(fnamelen>fguSUBFOLDERMAXLEN) fnamelen=fguSUBFOLDERMAXLEN;
-         snprintf(subname,fnamelen,"%s",searchname);
-         //cout <<" fffffff Searching for subfolder "<< subname << endl;
-         TFolder* nextsubfolder=FindSubFolder(parent,subname,create); // get folder directly under parent
-         result=FindSubFolder(nextsubfolder,endname,create); // search rest of path in this folder
-      }
-   else
-      {
-         // only one level of subfolder, find it directly
-         TIter listiter(parent->GetListOfFolders());
-         TObject* entry;
-         while((entry=listiter()) !=0)
-            if(entry->InheritsFrom(TFolder::Class()))
-                 if(!strcmp(subfolder,entry->GetName())) {
-                     result= dynamic_cast<TFolder*>(entry);
-                     break;
-                 }
-         if(result==0 && create)
-            {
-               result=parent->AddFolder(subfolder,"UserFolder"); // create new subfolder if not found
-            }
-      } // if (endname!=0)
+   const char* separ = strchr(subfolder,'/'); // find end of first subfolder string
+   if(separ!=0) {
+      // we have subfolder of subfolder, process recursively
+      TString subname(subfolder, separ - subfolder);
+
+      //cout <<" fffffff Searching for subfolder "<< subname << endl;
+      TFolder* nextsubfolder = FindSubFolder(parent, subname.Data(), create); // get folder directly under parent
+      result = FindSubFolder(nextsubfolder, separ+1,create); // search rest of path in this folder
+   } else {
+      // only one level of subfolder, find it directly
+      TIter listiter(parent->GetListOfFolders());
+      TObject* entry;
+      while((entry=listiter()) !=0)
+         if(entry->InheritsFrom(TFolder::Class()))
+              if(!strcmp(subfolder,entry->GetName())) {
+                 result= dynamic_cast<TFolder*>(entry);
+                 break;
+              }
+      if(result==0 && create)
+         result=parent->AddFolder(subfolder,"UserFolder"); // create new subfolder if not found
+   } // if (endname!=0)
    return result;
 }
 
