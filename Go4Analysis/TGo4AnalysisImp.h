@@ -244,7 +244,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * If name of analysis step is given, tree will be assigned
       * to folder dedicated to that step. In stepname is zero,
       * the tree will be put into general tree folder. */
-    Bool_t RemoveTree(TTree * tree, const Text_t* stepname=0);
+    Bool_t RemoveTree(TTree * tree, const char* stepname=0);
 
     /** Add Histogram into the dynamic list wich is linked to a tree.
       * If Histogram of hisname already exists, this histogram will taken.

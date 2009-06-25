@@ -1269,7 +1269,7 @@ Bool_t TGo4Analysis::RemoveCanvas(const Text_t * name)
   return fxObjectManager->RemoveCanvas(name);
 }
 
-Bool_t TGo4Analysis::RemoveTree(TTree * tree, const Text_t* stepname)
+Bool_t TGo4Analysis::RemoveTree(TTree * tree, const char* stepname)
 {
   return fxObjectManager->RemoveTree(tree, stepname);
 }
