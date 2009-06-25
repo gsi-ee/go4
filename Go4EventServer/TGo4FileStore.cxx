@@ -5,7 +5,6 @@
 #include "TFolder.h"
 #include "TFile.h"
 #include "TTree.h"
-#include "snprintf.h"
 
 #include "TGo4Log.h"
 #include "TGo4EventElement.h"
@@ -112,47 +111,41 @@ TGo4FileStore::TGo4FileStore(TGo4FileStoreParameter* par) :
    fiBufsize = par->GetBufsize();
 
    TTree::SetMaxTreeSize(fgiFILESPLITSIZE);
-   Text_t buffer[TGo4EventStore::fguTXTLEN];
-   snprintf(buffer,TGo4EventStore::fguTXTLEN -20, "%s", par->GetName());
-   SetName(buffer);
-   if(!strstr(buffer,fgcFILESUF))
-      strcat(buffer,fgcFILESUF);
-   if(par->IsOverwriteMode())
-      {
-         fxFile = new TFile(buffer, "RECREATE");
-         TGo4Log::Info("TGo4FileStore: Open file %s RECREATE", buffer);
-     }
-   else
-      {
-         fxFile = new TFile(buffer, "UPDATE");
-         TGo4Log::Info("TGo4FileStore: Open file %s UPDATE", buffer);
-      }
+
+   TString buffer = par->GetName();
+   SetName(buffer.Data());
+   if(!buffer.Contains(fgcFILESUF)) buffer.Append(fgcFILESUF);
+   if(par->IsOverwriteMode()) {
+      fxFile = new TFile(buffer.Data(), "RECREATE");
+      TGo4Log::Info("TGo4FileStore: Open file %s RECREATE", buffer.Data());
+   } else {
+      fxFile = new TFile(buffer.Data(), "UPDATE");
+      TGo4Log::Info("TGo4FileStore: Open file %s UPDATE", buffer.Data());
+   }
    fxFile->SetCompressionLevel(par->GetCompression());
 
      // strip any path information from treename (could be identical with filename!)
    const char* lastname = par->GetTitle();
    const char* oldname=lastname;
    lastname=strstr(oldname,"/");
-   while(lastname!=0)
-      {
-         oldname=lastname+1;
-         lastname=strstr(oldname,"/");
-      }
-   snprintf(buffer, TGo4EventStore::fguTXTLEN -10 ,"%s", oldname);
-   strcat(buffer,fgcTREESUF);
-   fxTree= dynamic_cast<TTree*> (fxFile->Get(buffer));
-   if(fxTree)
-      {
-         TGo4Log::Debug(" Tree %s has been found in file %s ",buffer, fxFile->GetName());
-         fiFillCount= (Int_t) (fxTree->GetEntries());
-      }
-   else
-      {
-         fxTree = new TTree(buffer, "Go4FileStore");
-         fxTree->SetAutoSave(par->GetAutosaveSize());
-         fxTree->Write();
-         TGo4Log::Debug(" Tree %s has been created in file %s ",buffer, fxFile->GetName());
-      }
+   while(lastname!=0) {
+      oldname=lastname+1;
+      lastname=strstr(oldname,"/");
+   }
+
+
+   buffer = oldname;
+   buffer += fgcTREESUF;
+   fxTree = dynamic_cast<TTree*> (fxFile->Get(buffer.Data()));
+   if(fxTree) {
+      TGo4Log::Debug(" Tree %s has been found in file %s ", buffer.Data(), fxFile->GetName());
+      fiFillCount= (Int_t) (fxTree->GetEntries());
+   } else {
+      fxTree = new TTree(buffer.Data(), "Go4FileStore");
+      fxTree->SetAutoSave(par->GetAutosaveSize());
+      fxTree->Write();
+      TGo4Log::Debug(" Tree %s has been created in file %s ",buffer.Data(), fxFile->GetName());
+   }
 }
 
 
@@ -191,59 +184,53 @@ Int_t TGo4FileStore::Store(TGo4EventElement* event)
    Int_t rev=-1;
    TGo4EventElement* lastevent= fxEvent; // keep pointer to last event
    fxEvent=event; // address of next event into event pointer
-   if(!fbBranchExists)
-      {
-         // first call of Store, create new branch
-         //cout << "**********************Creating new branch!"<< endl;
-         if(fxEvent)
-            {
-               Text_t topbranchname [TGo4EventStore::fguTXTLEN];
-               snprintf(topbranchname,TGo4EventStore::fguTXTLEN -20,"%s.", fxEvent->GetName());
-               TBranch*   go4branch= fxTree->GetBranch(topbranchname);
-               if(go4branch)
-                  {
-                     // tree already had branch of our name, check it
-                     TGo4Log::Debug(" FileStore: Found existing branch %s , continue filling ", fgcEVBRANCHNAME);
-                     // here we might check the classname of the stored events inbranch
-                     go4branch->SetAddress(&fxEvent);
-                     fbBranchExists=kTRUE;
-                  }
-               else
-                  {
-                     // no such branch existing, create a new one
-                     TBranch *topbranch=
-                     fxTree->Branch(topbranchname, fxEvent->ClassName(), &fxEvent, fiBufsize, fiSplit);
-                     TGo4Log::Debug(" FileStore: Created new branch %s ", topbranchname);
-                     fbBranchExists=kTRUE;
-                     if (fxEvent->InheritsFrom(TGo4CompositeEvent::Class()))
-                      dynamic_cast<TGo4CompositeEvent*>  (fxEvent)->makeBranch(topbranch);
-                  } // if(go4branch)
-               lastevent=event; // this is our first event ever...
-            }
-         else
-            {
-               // this is an error....
-               rev=1;
-            }
-      } // if(!fbEventBranchExists)
-   else
-      {
-           // need not to create a branch, use existing one
+   if(!fbBranchExists) {
+      // first call of Store, create new branch
+      //cout << "**********************Creating new branch!"<< endl;
+      if(fxEvent) {
+         TString topbranchname = Form("%s.", fxEvent->GetName());
+         TBranch*  go4branch = fxTree->GetBranch(topbranchname.Data());
+         if(go4branch) {
+            // tree already had branch of our name, check it
+            TGo4Log::Debug(" FileStore: Found existing branch %s , continue filling ", fgcEVBRANCHNAME);
+            // here we might check the classname of the stored events inbranch
+            go4branch->SetAddress(&fxEvent);
+            fbBranchExists=kTRUE;
+         } else {
+            // no such branch existing, create a new one
+            TBranch *topbranch=
+               fxTree->Branch(topbranchname.Data(), fxEvent->ClassName(), &fxEvent, fiBufsize, fiSplit);
+            TGo4Log::Debug(" FileStore: Created new branch %s ", topbranchname.Data());
+            fbBranchExists=kTRUE;
+            if (fxEvent->InheritsFrom(TGo4CompositeEvent::Class()))
+               dynamic_cast<TGo4CompositeEvent*>  (fxEvent)->makeBranch(topbranch);
+         } // if(go4branch)
+         lastevent=event; // this is our first event ever...
       }
-      // check if new event is same class as previous ones
-//   if(lastevent && !strcmp( event->ClassName(), lastevent->ClassName() ) )
-//      {
-         // event class is matching, we fill it into our tree
-         fxTree->Fill();
-         fiFillCount++;
-         rev=0;
-//      }
-//   else
-//      {
-//         // new event does not match the old ones, we ignore it
-//         fxEvent=lastevent; // restore old event pointer for next cycle
-//         rev=1;
-//      }
+      else
+      {
+         // this is an error....
+         rev=1;
+      }
+   } // if(!fbEventBranchExists)
+   else
+   {
+      // need not to create a branch, use existing one
+   }
+   // check if new event is same class as previous ones
+   //   if(lastevent && !strcmp( event->ClassName(), lastevent->ClassName() ) )
+   //      {
+   // event class is matching, we fill it into our tree
+   fxTree->Fill();
+   fiFillCount++;
+   rev=0;
+   //      }
+   //   else
+   //      {
+   //         // new event does not match the old ones, we ignore it
+   //         fxEvent=lastevent; // restore old event pointer for next cycle
+   //         rev=1;
+   //      }
    return rev;
 }
 
@@ -275,23 +262,17 @@ Int_t TGo4FileStore::Store(TFolder* fold)
 
 void TGo4FileStore::WriteToStore(TNamed* ob)
 {
-if(ob)
-   {
-         TDirectory* dsav=gDirectory;
-         Text_t buf[TGo4EventStore::fguTXTLEN];
-         Text_t oldname[TGo4EventStore::fguTXTLEN];
-         strncpy(oldname,ob->GetName(), TGo4EventStore::fguTXTLEN -1);
-         snprintf(buf,
-                  TGo4EventStore::fguTXTLEN-1,
-                  "%s_%d" , oldname, fiFillCount);
-         ob->SetName(buf);
-         if(fxTree) fxFile=fxTree->GetCurrentFile();
-         fxFile->cd();
-         ob->Write(0, TObject::kOverwrite);
-         ob->SetName(oldname);
-         dsav->cd();
-   }
+   if (ob==0) return;
 
+   TDirectory* dsav=gDirectory;
+   Text_t buf[TGo4EventStore::fguTXTLEN];
+   TString oldname = ob->GetName();
+   ob->SetName(Form("%s_%d" , oldname, fiFillCount));
+   if(fxTree) fxFile=fxTree->GetCurrentFile();
+   fxFile->cd();
+   ob->Write(0, TObject::kOverwrite);
+   ob->SetName(oldname.Data());
+   dsav->cd();
 }
 
 

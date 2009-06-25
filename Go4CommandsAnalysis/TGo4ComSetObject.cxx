@@ -2,7 +2,6 @@
 
 #include "TFolder.h"
 #include "TH1.h"
-#include "snprintf.h"
 
 #include "TGo4Log.h"
 #include "TGo4AnalysisClientImp.h"
@@ -44,11 +43,10 @@ TGo4ComSetObject::~TGo4ComSetObject()
 
 void TGo4ComSetObject::Set(TGo4RemoteCommand* remcom)
 {
-if(remcom==0) return;
-TGo4AnalysisObjectCommand::Set(remcom);
-TObject* ob=remcom->GetAggregate(); // we take over ownership
-if(ob && ob!=fxObject)
-   {
+   if(remcom==0) return;
+   TGo4AnalysisObjectCommand::Set(remcom);
+   TObject* ob=remcom->GetAggregate(); // we take over ownership
+   if(ob && ob!=fxObject) {
       delete fxObject;
       fxObject=ob;
    }
@@ -117,151 +115,129 @@ Int_t TGo4ComSetObject::ExeCom()
 Int_t TGo4ComSetObject::ExeSetParStatus(TGo4ParameterStatus* par)
 {
    if (par==0) return -1;
-   char buf[256];
+   TString buf;
    if(fxAna->SetParameterStatus(GetObjectName(),par)) {
-      snprintf(buf,255,"Parameter %s was set to new values.", GetObjectName());
-      fxClient->SendStatusMessage(1, kTRUE,buf);
+      buf = Form("Parameter %s was set to new values.", GetObjectName());
+      fxClient->SendStatusMessage(1, kTRUE, buf.Data());
       fxResult->SetAction(kGo4ActionEdit);
    } else {
-      snprintf(buf,255,"SetObject - ERROR: failed to set parameter %s",GetObjectName());
-      fxClient->SendStatusMessage(3, kTRUE, buf);
+      buf = Form("SetObject - ERROR: failed to set parameter %s",GetObjectName());
+      fxClient->SendStatusMessage(3, kTRUE, buf.Data());
       fxResult->SetAction(kGo4ActionError);
    }
-   fxResult->SetMessage(buf);
+   fxResult->SetMessage(buf.Data());
    delete fxObject;
    return 0;
 }
 
 Int_t TGo4ComSetObject::ExeSetPar(TGo4Parameter* par)
 {
-if(par==0) return -1;
-char buf[256];
-if(fxAna->SetParameter(GetObjectName(),par))
-   {
-     snprintf(buf,255,"Parameter %s was set to new values.", GetObjectName());
-     fxClient->SendStatusMessage(1, kTRUE,buf);
-     fxResult->SetAction(kGo4ActionEdit);
-   }
-else
-   {
-      snprintf(buf,255,"SetObject - ERROR: failed to set parameter %s",GetObjectName());
-      fxClient->SendStatusMessage(3, kTRUE,buf);
+   if(par==0) return -1;
+   TString buf;
+   if(fxAna->SetParameter(GetObjectName(),par)) {
+      buf = Form("Parameter %s was set to new values.", GetObjectName());
+      fxClient->SendStatusMessage(1, kTRUE, buf.Data());
+      fxResult->SetAction(kGo4ActionEdit);
+   } else {
+      buf = Form("SetObject - ERROR: failed to set parameter %s",GetObjectName());
+      fxClient->SendStatusMessage(3, kTRUE, buf.Data());
       fxResult->SetAction(kGo4ActionError);
    }
-fxResult->SetMessage(buf);
-delete fxObject;
-return 0;
+   fxResult->SetMessage(buf.Data());
+   delete fxObject;
+   return 0;
 }
 
 Int_t TGo4ComSetObject::ExeSetCon(TGo4Condition* conny)
 {
-if(conny==0) return -1;
-char buf[256];
-if(fxAna->SetAnalysisCondition(GetObjectName(),conny, kFALSE))
-   {
-     snprintf(buf,255,"Condition %s was set to new values.", GetObjectName());
-     fxClient->SendStatusMessage(1, kTRUE,buf);
-     fxResult->SetAction(kGo4ActionEdit);
-   }
-else
-   {
-      snprintf(buf,255,"SetCondition - ERROR: failed to set %s", GetObjectName());
-      fxClient->SendStatusMessage(3, kTRUE,buf);
+   if(conny==0) return -1;
+   TString buf;
+   if(fxAna->SetAnalysisCondition(GetObjectName(),conny, kFALSE)) {
+      buf = Form("Condition %s was set to new values.", GetObjectName());
+      fxClient->SendStatusMessage(1, kTRUE, buf.Data());
+      fxResult->SetAction(kGo4ActionEdit);
+   } else {
+      buf = Form("SetCondition - ERROR: failed to set %s", GetObjectName());
+      fxClient->SendStatusMessage(3, kTRUE, buf.Data());
       fxResult->SetAction(kGo4ActionError);
    }
-fxResult->SetMessage(buf);
-delete fxObject;
-return 0;
+   fxResult->SetMessage(buf.Data());
+   delete fxObject;
+   return 0;
 }
 
 Int_t TGo4ComSetObject::ExeSetHis(TH1* his)
 {
-if(his==0) return -1;
-char buf[256];
-if(fxAna->AddHistogram(his))
-   {
-     his->SetBit(TGo4Status::kGo4CanDelete); // dynamic objects may be deleted from gui
-     snprintf(buf,255,"Added new histogram %s to Go4 folders.", GetObjectName());
-     fxResult->SetAction(kGo4ActionPlot);
-     fxClient->SendStatusMessage(1, kFALSE,buf);
-   }
-else
-   {
-      snprintf(buf,255,"ERROR on adding new histogram %s ", GetObjectName());
-      fxClient->SendStatusMessage(3, kFALSE,buf);
+   if(his==0) return -1;
+   TString buf;
+   if(fxAna->AddHistogram(his)) {
+      his->SetBit(TGo4Status::kGo4CanDelete); // dynamic objects may be deleted from gui
+      fxResult->SetAction(kGo4ActionPlot);
+      buf = Form("Added new histogram %s to Go4 folders.", GetObjectName());
+      fxClient->SendStatusMessage(1, kFALSE, buf.Data());
+   } else {
+      buf = Form("ERROR on adding new histogram %s ", GetObjectName());
+      fxClient->SendStatusMessage(3, kFALSE, buf.Data());
       fxResult->SetAction(kGo4ActionError);
       delete his;
    }
-fxResult->SetMessage(buf);
-return 0;
+   fxResult->SetMessage(buf.Data());
+   return 0;
 }
 
 Int_t TGo4ComSetObject::ExeSetDyn(TGo4DynamicEntry* dyn)
 {
    if(dyn==0) return -1;
-   char buf[256];
+   TString buf;
    if(fxAna->AddDynamicEntry((TGo4DynamicEntry*)dyn->Clone())) {
       TGo4TreeHistogramEntry* tentry = dynamic_cast<TGo4TreeHistogramEntry*> (dyn);
       if ((tentry!=0) && tentry->IsEnabledProcessing())
-        fxAna->SetDynListInterval(tentry->GetDynListInterval());
-
-      snprintf(buf,255,"Set new status for entry  %s of dynamic list %s.",
-                GetObjectName(), GetFolderName());
+         fxAna->SetDynListInterval(tentry->GetDynListInterval());
       fxResult->SetAction(kGo4ActionEdit);
-      fxClient->SendStatusMessage(1,kTRUE,buf);
+      buf = Form("Set new status for entry  %s of dynamic list %s.", GetObjectName(), GetFolderName());
+      fxClient->SendStatusMessage(1, kTRUE, buf.Data());
    } else {
-      snprintf(buf,255,"Could not set status for entry %s of dynamic list %s !!!",
-                      GetObjectName(), GetFolderName());
+      buf = Form("Could not set status for entry %s of dynamic list %s !!!", GetObjectName(), GetFolderName());
       fxResult->SetAction(kGo4ActionError);
-      fxClient->SendStatusMessage(2,kTRUE,buf);
+      fxClient->SendStatusMessage(2, kTRUE, buf.Data());
    }
-   fxResult->SetMessage(buf);
+   fxResult->SetMessage(buf.Data());
    delete fxObject;
    return 0;
 }
 
 Int_t TGo4ComSetObject::ExeSetPic(TGo4Picture* pic)
 {
-if(pic==0) return -1;
-char buf[256];
-if(fxAna->SetPicture(GetObjectName(),pic))
-{
-   snprintf(buf,255,"Picture %s was set to new values.", GetObjectName());
-   fxResult->SetAction(kGo4ActionPlot);
-   fxClient->SendStatusMessage(1, kFALSE,buf);
-}
-else
-{
-   snprintf(buf,255,"SetPicture - ERROR: failed to set %s",GetObjectName());
-   fxClient->SendStatusMessage(3, kFALSE,buf);
-   fxResult->SetAction(kGo4ActionError);
-}
-fxResult->SetMessage(buf);
-delete fxObject;
-return 0;
-
-
+   if(pic==0) return -1;
+   TString buf;
+   if(fxAna->SetPicture(GetObjectName(),pic)) {
+      fxResult->SetAction(kGo4ActionPlot);
+      buf = Form("Picture %s was set to new values.", GetObjectName());
+      fxClient->SendStatusMessage(1, kFALSE, buf.Data());
+   } else {
+      buf = Form("SetPicture - ERROR: failed to set %s",GetObjectName());
+      fxClient->SendStatusMessage(3, kFALSE, buf.Data());
+      fxResult->SetAction(kGo4ActionError);
+   }
+   fxResult->SetMessage(buf.Data());
+   delete fxObject;
+   return 0;
 }
 
 
 Int_t TGo4ComSetObject::ExeSetObj(TObject* ob)
 {
-char buf[256];
-if(fxAna->AddObject(dynamic_cast<TNamed*>(ob)))
-   {
-      snprintf(buf,255,"Added new object %s to Go4 folders.",
-                                    GetObjectName());
+   TString buf;
+   if(fxAna->AddObject(dynamic_cast<TNamed*>(ob))) {
       fxResult->SetAction(kGo4ActionRefresh);
-      fxClient->SendStatusMessage(1, kFALSE,buf);
-   }
-else
-   {
-      snprintf(buf,255,"ERROR on adding new object %s ",
-                                     GetObjectName());
+      buf = Form("Added new object %s to Go4 folders.", GetObjectName());
+      fxClient->SendStatusMessage(1, kFALSE, buf.Data());
+   } else {
       fxResult->SetAction(kGo4ActionError);
-      fxClient->SendStatusMessage(3, kFALSE,buf);
+      buf = Form("ERROR on adding new object %s ", GetObjectName());
+      fxClient->SendStatusMessage(3, kFALSE, buf.Data());
       delete ob;
    }
-fxResult->SetMessage(buf);
-return 0;
+   fxResult->SetMessage(buf.Data());
+   return 0;
 }

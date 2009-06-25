@@ -3,7 +3,6 @@
 #include "Riostream.h"
 
 #include "TKey.h"
-#include "snprintf.h"
 #include "TFile.h"
 #include "TTree.h"
 

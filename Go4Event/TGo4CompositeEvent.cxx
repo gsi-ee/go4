@@ -2,7 +2,6 @@
 
 #include "Riostream.h"
 
-#include "snprintf.h"
 #include "TTree.h"
 #include "TROOT.h"
 #include "TObjArray.h"
@@ -43,18 +42,15 @@ TGo4CompositeEvent::~TGo4CompositeEvent()
 
 void TGo4CompositeEvent::makeBranch(TBranch *parent)
 {
-
   TGo4EventElement  **par;
-  char buffer[256];
-  TBranch *b=NULL;
+  TBranch *b = 0;
   Int_t i=0;
 
   TObjArray &vector=*fEventElements;
   for(i=0;i<=fEventElements->GetLast();i++) {
     par=(TGo4EventElement **)&(vector[i]);
     if ((*par)!=NULL) {
-      snprintf(buffer,255,"%s.",(*par)->GetName());
-      b=gTree->TTree::Branch(buffer, (*par)->ClassName(),par,4000,99);
+      b=gTree->TTree::Branch(Form("%s.",(*par)->GetName()), (*par)->ClassName(),par,4000,99);
       (*par)->makeBranch(b);
     }
   }

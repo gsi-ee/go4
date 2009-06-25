@@ -5,7 +5,6 @@
 #include "Riostream.h"
 #include "TApplication.h"
 #include "TTimeStamp.h"
-#include "snprintf.h"
 #include "TROOT.h"
 
 #include "TGo4Log.h"

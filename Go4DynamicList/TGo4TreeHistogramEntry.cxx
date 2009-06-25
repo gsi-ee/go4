@@ -3,7 +3,6 @@
 #include "Riostream.h"
 
 #include "TTree.h"
-#include "snprintf.h"
 #include "TROOT.h"
 
 #include "TGo4Log.h"
@@ -40,9 +39,7 @@ TGo4TreeHistogramEntry::TGo4TreeHistogramEntry(const char* histogramname,
    fiLastEvent(0)
 {
    TRACE((15,"TGo4TreeHistogramEntry::TGo4TreeHistogramEntry(const Text_t*, const Text_t*, const Text_t*, TCut)",__LINE__, __FILE__));
-   char buffer[2048];
-   snprintf(buffer,2047,"%s%s",histogramname,fgcENTRYSUF);
-   SetName(buffer); // histogram name is different from entryname!
+   SetName(Form("%s%s",histogramname,fgcENTRYSUF)); // histogram name is different from entryname!
    EnableProcessing(kTRUE);
 
    Reset();
