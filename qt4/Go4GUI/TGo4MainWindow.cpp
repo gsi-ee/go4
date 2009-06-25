@@ -1245,6 +1245,18 @@ void TGo4MainWindow::ChangeDrawDateFlagSlot()
 
 void TGo4MainWindow::LaunchClientSlot(bool interactive)
 {
+#ifdef WIN32
+   QMessageBox::warning(this, "Launch analysis",
+                               "Launch analysis does not yet supported under Windows.\n"
+                               "One can connect to running analysis server\n"
+                               "For instance, Go4ExampleSimple can be started with command:\n"
+                               "\nMainUserAnalysis.exe -server -random\n\n"
+                               "and than one can connect to it with default passwords.\n"
+                               "One also able to connect analysis, running on Linux.");
+   return;
+
+#endif
+
    TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
    if (anal!=0) {
       QMessageBox::warning(this, "Launch analysis", "Please disconnect analysis first");
