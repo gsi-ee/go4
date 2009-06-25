@@ -24,6 +24,7 @@ TGo4MainTree::TGo4MainTree() :
    TRACE((15,"TGo4MainTree::TGo4MainTree()", __LINE__, __FILE__));
 
    fxFile = new TFile(fgcFILENAME, "UPDATE");
+   TGo4Log::Info("TGo4MainTree: Open file %s UPDATE", fgcFILENAME);
    fxFile->SetCompressionLevel(fgiCOMPRESS);
    // check if tree already exists...
    fxTree= dynamic_cast<TTree*> (fxFile->Get(fgcTREENAME));

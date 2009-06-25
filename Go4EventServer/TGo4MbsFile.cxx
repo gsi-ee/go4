@@ -136,7 +136,7 @@ catch(TGo4EventEndException& ex)
             Text_t txt[TGo4EventSource::fguTXTLEN];
             snprintf(txt,
             TGo4EventSource::fguTXTLEN,
-               "Changed input to: %s tagfile:%s first:%lu last:%lu delta:%lu",
+               "\n       Eventsource   Open file: %s tagfile:%s first:%lu last:%lu delta:%lu",
                GetCurrentFileName(),GetCurrentTagName(),
                   fuStartEvent,fuStopEvent, fuEventInterval);
             SetErrMess(txt);
@@ -276,7 +276,7 @@ if(fbMultipleMode)
       Text_t txt[TGo4EventSource::fguTXTLEN];
       snprintf(txt,
       TGo4EventSource::fguTXTLEN,
-     "Eventsource TGo4MbsFile:%s Changed input to: %s tag:%s first:%lu last:%lu delta:%lu",
+     "Eventsource TGo4MbsFile:%s \n       Eventsource   Open file: %s tag:%s first:%lu last:%lu delta:%lu",
       GetName(),GetCurrentFileName(),GetCurrentTagName(),
       fuStartEvent,fuStopEvent, fuEventInterval);
       NewFileAction(kFALSE);
@@ -291,7 +291,7 @@ else
                            // will indicate that open failed
        else {
           fbIsOpen=kTRUE;
-          TGo4Log::Info("TGo4MbsFile: %s opened", GetCurrentFileName());
+          TGo4Log::Info("TGo4MbsFile: Open file %s", GetCurrentFileName());
        }
 
 

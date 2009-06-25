@@ -59,7 +59,7 @@ Int_t TGo4FileSource::Open()
       SetCreateStatus(0);
       fiMaxEvents= (Int_t )fxTree->GetEntries();
    }
-   TGo4Log::Info("TGo4FileSource: %s opened", buffer.Data());
+   TGo4Log::Info("TGo4FileSource: Open file %s", buffer.Data());
 
    return 0;
 }

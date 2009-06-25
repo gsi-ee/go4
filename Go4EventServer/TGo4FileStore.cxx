@@ -57,10 +57,12 @@ TGo4FileStore::TGo4FileStore(const char* name,
    if(overwrite)
       {
          fxFile = new TFile(buffer.Data(), "RECREATE");
+         TGo4Log::Info("TGo4FileStore: Open file %s RECREATE", buffer.Data());
       }
    else
       {
          fxFile = new TFile(buffer.Data(), "UPDATE");
+         TGo4Log::Info("TGo4FileStore: Open file %s UPDATE", buffer.Data());
       }
    fxFile->SetCompressionLevel(compression);
 
@@ -118,10 +120,12 @@ TGo4FileStore::TGo4FileStore(TGo4FileStoreParameter* par) :
    if(par->IsOverwriteMode())
       {
          fxFile = new TFile(buffer, "RECREATE");
-      }
+         TGo4Log::Info("TGo4FileStore: Open file %s RECREATE", buffer);
+     }
    else
       {
          fxFile = new TFile(buffer, "UPDATE");
+         TGo4Log::Info("TGo4FileStore: Open file %s UPDATE", buffer);
       }
    fxFile->SetCompressionLevel(par->GetCompression());
 
