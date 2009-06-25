@@ -98,7 +98,7 @@ public:
      * Execute string command. Uses gInterpreter by default. May be overridden
      * to evaluate go4 command strings in subclass.
      */
-    virtual void ExecuteString(const Text_t* command);
+    virtual void ExecuteString(const char* command);
 
 protected:
 

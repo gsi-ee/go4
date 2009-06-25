@@ -65,8 +65,8 @@ class TGo4InterruptHandler : public TSignalHandler {
 };
 
 
-const Text_t TGo4AnalysisClient::fgcWATCHTHREAD[]="WATCH-";
-const Text_t TGo4AnalysisClient::fgcMAINTHREAD[]="MAIN-";
+const char* TGo4AnalysisClient::fgcWATCHTHREAD="WATCH-";
+const char* TGo4AnalysisClient::fgcMAINTHREAD="MAIN-";
 const UInt_t TGo4AnalysisClient::fguSTATUSUPDATE = 1000; // events between two updates
 const Double_t TGo4AnalysisClient::fgdSTATUSTIMEOUT = 2; // maximum seconds between two updates
 const UInt_t TGo4AnalysisClient::fguCINTTIMERPERIOD = 200; // frequency of timer for cint lock
@@ -153,19 +153,20 @@ void TGo4AnalysisClient::Constructor(Bool_t starthistserv, const char* basename,
 {
    fxRatemeter = new TGo4Ratemeter;
    TGo4Log::Debug(" AnalysisClient ''%s'' started ",GetName());
-   fcMainName= new Text_t[TGo4ThreadManager::fguTEXTLENGTH];
-   fcWatchName= new Text_t[TGo4ThreadManager::fguTEXTLENGTH];
-   Text_t namebuffer[TGo4ThreadManager::fguTEXTLENGTH];
-   snprintf(namebuffer, TGo4ThreadManager::fguTEXTLENGTH-1 ,"MainRunnable of %s",GetName());
-   TGo4AnalysisMainRunnable* mainrun= new TGo4AnalysisMainRunnable(namebuffer, this);
-   snprintf(namebuffer,TGo4ThreadManager::fguTEXTLENGTH-1,"WatchRunnable of %s",GetName());
-   TGo4AnalysisWatchRunnable* watchrun= new TGo4AnalysisWatchRunnable(namebuffer, this);
+
+   fcMainName = Form("%s%s", fgcMAINTHREAD, GetName());
+   fcWatchName = Form("%s%s", fgcWATCHTHREAD, GetName());
+
+   TGo4AnalysisMainRunnable* mainrun =
+      new TGo4AnalysisMainRunnable(Form("MainRunnable of %s",GetName()), this);
+   TGo4AnalysisWatchRunnable* watchrun=
+      new TGo4AnalysisWatchRunnable(Form("WatchRunnable of %s",GetName()), this);
+
       // adding runnables to thread handler who takes over the responsibility...:
-   snprintf(fcMainName, TGo4ThreadManager::fguTEXTLENGTH-1,"%s%s",fgcMAINTHREAD,GetName());
    TGo4ThreadHandler* th=GetThreadHandler();
-   th->NewThread(fcMainName,mainrun);
-   snprintf(fcWatchName, TGo4ThreadManager::fguTEXTLENGTH-1,"%s%s",fgcWATCHTHREAD,GetName());
-   th->NewThread(fcWatchName,watchrun);
+   th->NewThread(fcMainName.Data(),mainrun);
+
+   th->NewThread(fcWatchName.Data(),watchrun);
    TGo4CommandInvoker::Instance(); // make sure we have an invoker instance!
    TGo4CommandInvoker::SetCommandList(new TGo4AnalysisCommandList);
    TGo4CommandInvoker::Register("AnalysisClient",this); // register as command receiver at the global invoker
@@ -207,8 +208,6 @@ TGo4AnalysisClient::~TGo4AnalysisClient()
    delete fxCintLockTimer;
    delete fxRatemeter;
    delete fxAnalysis;
-   delete [] fcMainName;
-   delete [] fcWatchName;
    TGo4CommandInvoker::UnRegister(this);
 }
 
@@ -321,7 +320,7 @@ void TGo4AnalysisClient::Start()
    TRACE((12,"TGo4AnalysisClient::Start()",__LINE__, __FILE__));
    if(fxAnalysis->IsInitDone())
       {
-         if(GetThreadHandler()) GetThreadHandler()->Start(fcMainName); // this is useful anyway...
+         if(GetThreadHandler()) GetThreadHandler()->Start(fcMainName.Data()); // this is useful anyway...
          if(!MainIsRunning()) fxAnalysis->PreLoop(); // only call once
          TGo4Slave::Start();
          fxRatemeter->Reset();
@@ -338,9 +337,9 @@ void TGo4AnalysisClient::Start()
       }
 }
 
-void TGo4AnalysisClient::SendAnalysisObject(const Text_t * name)
+void TGo4AnalysisClient::SendAnalysisObject(const char * name)
 {
-   TRACE((12,"TGo4AnalysisClient::SendAnalysisObject(Text_t* name)",__LINE__, __FILE__));
+   TRACE((12,"TGo4AnalysisClient::SendAnalysisObject(char* name)",__LINE__, __FILE__));
    TNamed* ob=fxAnalysis->GetObject(name);
    SendObject(ob);
 }
@@ -397,23 +396,23 @@ void TGo4AnalysisClient::SendNamesList()
 void TGo4AnalysisClient::KillMain()
 {
    TRACE((12,"TGo4AnalysisClient::KillMain()",__LINE__, __FILE__));
-   if(GetThreadHandler()) GetThreadHandler()->Stop(fcMainName);
+   if(GetThreadHandler()) GetThreadHandler()->Stop(fcMainName.Data());
    // put dummy buffer to command queue. This will wake up the main thread from command wait.
    if(GetTask()) GetTask()->WakeCommandQueue(); // note that the dummy command will not have the termination id here!
-   if(GetThreadHandler()) GetThreadHandler()->Cancel(fcMainName);
+   if(GetThreadHandler()) GetThreadHandler()->Cancel(fcMainName.Data());
    SendStatusMessage(2,kTRUE,"AnalysisClient %s has killed main analysis thread.",GetName());
 }
 
 void TGo4AnalysisClient::RestartMain()
 {
    TRACE((12,"TGo4AnalysisClient::RestartMain()",__LINE__, __FILE__));
-   if(GetThreadHandler()) GetThreadHandler()->Stop(fcMainName);
+   if(GetThreadHandler()) GetThreadHandler()->Stop(fcMainName.Data());
    // put dummy buffer to command queue. This will wake up the main thread from command wait.
    if(GetTask()) GetTask()->WakeCommandQueue(); // note that the dummy command will not have the termination id here!
    if(GetThreadHandler())
       {
-      GetThreadHandler()->ReCreate(fcMainName);
-      GetThreadHandler()->Start(fcMainName);
+      GetThreadHandler()->ReCreate(fcMainName.Data());
+      GetThreadHandler()->Start(fcMainName.Data());
       }
    fxRatemeter->Reset();
    SendStatusMessage(2,kTRUE,"AnalysisClient %s has killed and relaunched main analysis thread.",GetName());
@@ -464,7 +463,7 @@ Bool_t TGo4AnalysisClient::TestBufferUpdateConditions()
 }
 
 
-void TGo4AnalysisClient::StartObjectServer(const Text_t* basename,  const Text_t* passwd)
+void TGo4AnalysisClient::StartObjectServer(const char* basename,  const char* passwd)
 {
     StopObjectServer(); // shutdown exisiting one with old basename/passwd
     fxHistoServer= new TGo4HistogramServer(this,basename,passwd,kFALSE);
@@ -501,8 +500,8 @@ void TGo4AnalysisClient::TerminateFast ()
    if(GetThreadHandler())
       {
       GetThreadHandler()->StopAll(); // this will not stop immeadeately, therefor:
-      GetThreadHandler()->Cancel(fcWatchName);
-      GetThreadHandler()->Cancel(fcMainName); // maybe we not need this...
+      GetThreadHandler()->Cancel(fcWatchName.Data());
+      GetThreadHandler()->Cancel(fcMainName.Data()); // maybe we not need this...
       GetThreadHandler()->Cancel(GetTask()->GetTaskHandler()->GetDatName());
       GetThreadHandler()->Cancel(GetTask()->GetTaskHandler()->GetStatName());
       }
@@ -511,50 +510,43 @@ void TGo4AnalysisClient::TerminateFast ()
 }
 
 
-void TGo4AnalysisClient::ExecuteString(const Text_t* command)
+void TGo4AnalysisClient::ExecuteString(const char* command)
 {
-   if(strstr(command,"ANHServStart"))
+   if(strstr(command,"ANHServStart")) {
+      TString buffer = command;
+      strtok((char*) buffer.Data(), ":"); // first find the command itself
+      TString base = Form("%s",strtok(0,":"));
+      TString pass = Form("%s",strtok(0,":"));
+      cout <<"ExecuteString found base "<< base<<",  passwd "<<pass << endl;
+      StartObjectServer(base.Data(), pass.Data());
+   } else
+   if (!strcmp(command,"ANHServStop")) {
+      StopObjectServer();
+   } else {
+      TString comstring="";
+      const char* cursor = command;
+      const char* at=0;
+      do
       {
-         Text_t buffer[TGo4ThreadManager::fguTEXTLENGTH];
-         Text_t base[TGo4ThreadManager::fguTEXTLENGTH];
-         Text_t pass[TGo4ThreadManager::fguTEXTLENGTH];
-         snprintf(buffer,TGo4ThreadManager::fguTEXTLENGTH,"%s",command);
-         strtok(buffer,":"); // first find the command itself
-         snprintf(base,TGo4ThreadManager::fguTEXTLENGTH,"%s",strtok(0,":"));
-         snprintf(pass,TGo4ThreadManager::fguTEXTLENGTH,"%s",strtok(0,":"));
-         cout <<"ExecuteString found base "<< base<<",  passwd "<<pass << endl;
-         StartObjectServer(base, pass);
+         Ssiz_t len=strlen(cursor);
+         at=strstr(cursor,"@");
+         if(at)
+         {
+            //cout <<"Found at: "<<at << endl;
+            len=(Ssiz_t) (at-cursor);
+            comstring.Append(cursor,len);
+            comstring.Append("TGo4Analysis::Instance()->");
+            cursor=at+1;
+         }
+         else
+         {
+            //cout <<"Appended "<<cursor << endl;
+            comstring.Append(cursor);
+         }
       }
-   else if (!strcmp(command,"ANHServStop"))
-       {
-         StopObjectServer();
-       }
-   else
-      {
-         TString comstring="";
-         const char* cursor = command;
-         const char* at=0;
-         do
-            {
-              Ssiz_t len=strlen(cursor);
-              at=strstr(cursor,"@");
-              if(at)
-                 {
-                    //cout <<"Found at: "<<at << endl;
-                    len=(Ssiz_t) (at-cursor);
-                    comstring.Append(cursor,len);
-                    comstring.Append("TGo4Analysis::Instance()->");
-                    cursor=at+1;
-                 }
-               else
-                  {
-                   //cout <<"Appended "<<cursor << endl;
-                   comstring.Append(cursor);
-                  }
-            }
-         while(at);
-         TGo4Slave::ExecuteString(comstring.Data()); // treat command as root com
-      }
+      while(at);
+      TGo4Slave::ExecuteString(comstring.Data()); // treat command as root com
+   }
 }
 Int_t TGo4AnalysisClient::StartWorkThreads()
 {
@@ -562,8 +554,8 @@ Int_t TGo4AnalysisClient::StartWorkThreads()
    TGo4TaskOwner::StartWorkThreads();
    if(GetThreadHandler())
       {
-         GetThreadHandler()->Start(fcMainName);
-         GetThreadHandler()->Start(fcWatchName);
+         GetThreadHandler()->Start(fcMainName.Data());
+         GetThreadHandler()->Start(fcWatchName.Data());
       }
    return 0;
 }
@@ -574,8 +566,8 @@ Int_t TGo4AnalysisClient::StopWorkThreads()
    TGo4TaskOwner::StopWorkThreads();
    if(GetThreadHandler())
       {
-      GetThreadHandler()->Stop(fcMainName);
-      GetThreadHandler()->Stop(fcWatchName);
+      GetThreadHandler()->Stop(fcMainName.Data());
+      GetThreadHandler()->Stop(fcWatchName.Data());
       }
    return 0;
 }

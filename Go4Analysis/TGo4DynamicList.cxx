@@ -11,7 +11,6 @@
 #include "TH1.h"
 #include "TList.h"
 #include "TROOT.h"
-#include "snprintf.h"
 
 #include "TGo4Log.h"
 #include "TGo4DynamicListException.h"
@@ -106,88 +105,82 @@ TDataMember* FindDataMember(TClass* eventclass,
                             const char* memname,
                             Long_t* totaloffset)
 {
-if(!eventclass) return 0;
-// here we might parse the memname for dots to figure out aggregated classes
+   if(!eventclass) return 0;
+   // here we might parse the memname for dots to figure out aggregated classes
 
-/////////////////////////////////
-// check for array member index:
-Long_t indexoffset=0;
-Text_t ixtext[256];
-const char* ixbegin = strstr(memname,"[");
-if(ixbegin)
-{
-//   cout <<"-------------FindDataMember of Entry " << GetName() << endl;
-//   cout <<"Found index in member" << memname << endl;
-   ixbegin++;
-   const char* ixend=strstr(ixbegin,"]");
-   if(ixend)
-   {
-      Int_t ixlen=ixend-ixbegin;
-      snprintf(ixtext,ixlen+1,"%s",ixbegin);
-      indexoffset=atoi(ixtext); // to be used downstream
-      if(indexoffset<0) indexoffset=0;
+   /////////////////////////////////
+   // check for array member index:
+   Long_t indexoffset = 0;
+   const char* ixbegin = strchr(memname,'[');
+   if(ixbegin) {
+      //   cout <<"-------------FindDataMember of Entry " << GetName() << endl;
+      //   cout <<"Found index in member" << memname << endl;
+      ixbegin++;
+      const char* ixend = strchr(ixbegin,']');
+      if(ixend)  {
+         TString buf(ixbegin, ixend-ixbegin);
+         indexoffset = buf.Atoll();
+         if(indexoffset<0) indexoffset=0;
+      }
    }
-   else {}
-}
-else {}
-/////////////////////////////////
+   /////////////////////////////////
 
-TDataMember* eventmember= eventclass->GetDataMember(memname);
-if(eventmember) {
-   *totaloffset+=eventmember->GetOffset();
-} else {
-     // if not found directly, check for baseclass members:
-     TIter baseiter(eventclass->GetListOfBases());
-     TObject* ob=0;
-     while((ob=baseiter()) !=0) {
-           TBaseClass* baseclass=dynamic_cast<TBaseClass*>(ob);
-           if(baseclass!=0)
-              {
-                  // we have a baseclass
-                  TClass* bclass=baseclass->GetClassPointer();
-                  // search for member in all superclasses recursively:
-                  eventmember=FindDataMember(bclass,memname,totaloffset);
-                  if(eventmember)
-                    {
-                       // we found member in any of the baseclasses
-                       *totaloffset+=baseclass->GetDelta();
-                          // inc total offset to this by baseclass offset
-                          // member offset is relative to TClass (i.e. baseclass here)
-                       //cout <<"iiiiiiiiiInitPointers baseclass member: " << eventmember << endl;
-                       //cout <<"iiiiiiiiiInitPointers baseclass delta: " << baseclass->GetDelta() << endl;
-                       break;
-                    } else{ }
-              } // if(baseclass)
-        } // while
-    } // if (eventmember)
+   TDataMember* eventmember= eventclass->GetDataMember(memname);
+   if(eventmember) {
+      *totaloffset+=eventmember->GetOffset();
+   } else {
+      // if not found directly, check for baseclass members:
+      TIter baseiter(eventclass->GetListOfBases());
+      TObject* ob=0;
+      while((ob=baseiter()) !=0) {
+         TBaseClass* baseclass=dynamic_cast<TBaseClass*>(ob);
+         if(baseclass!=0)
+         {
+            // we have a baseclass
+            TClass* bclass=baseclass->GetClassPointer();
+            // search for member in all superclasses recursively:
+            eventmember=FindDataMember(bclass,memname,totaloffset);
+            if(eventmember)
+            {
+               // we found member in any of the baseclasses
+               *totaloffset+=baseclass->GetDelta();
+               // inc total offset to this by baseclass offset
+               // member offset is relative to TClass (i.e. baseclass here)
+               //cout <<"iiiiiiiiiInitPointers baseclass member: " << eventmember << endl;
+               //cout <<"iiiiiiiiiInitPointers baseclass delta: " << baseclass->GetDelta() << endl;
+               break;
+            } else{ }
+         } // if(baseclass)
+      } // while
+   } // if (eventmember)
 
-// finally, we check for eventmember type to add
-//correct offset in case of array:
-if(eventmember)
+   // finally, we check for eventmember type to add
+   //correct offset in case of array:
+   if(eventmember)
    {
-   const char* tname = eventmember->GetFullTypeName();
-   // check if given index is inside allocated size:
-   Int_t maxindex=eventmember->GetMaxIndex(0);
-   if(maxindex<0) maxindex=1; // for non-array members maxindex is -1
-   if(indexoffset<maxindex)
+      const char* tname = eventmember->GetFullTypeName();
+      // check if given index is inside allocated size:
+      Int_t maxindex=eventmember->GetMaxIndex(0);
+      if(maxindex<0) maxindex=1; // for non-array members maxindex is -1
+      if(indexoffset<maxindex)
       {
          Int_t datasize = eventmember->GetDataType()->Size();
          *totaloffset += indexoffset*datasize;
          //cout <<"totaloffset:"<< *totaloffset<<endl;
       }
-   else
+      else
       {
-      throw TGo4DynamicListException(0,
-         "Index %d for array member:%s out of range %s[%d]",
-            indexoffset, memname, tname, maxindex);
+         throw TGo4DynamicListException(0,
+               "Index %d for array member:%s out of range %s[%d]",
+               indexoffset, memname, tname, maxindex);
       }
-   // for now, we only handle 1d arrays
-   // root allows to check higher dimensions, maybe later...?
-   //for(Int_t ii=0; ii<4; ++ii)
-   //{
-   //   Int_t maxindex=eventmember->GetMaxIndex(ii);
-   //   cout <<"Found maxindex "<<maxindex<<" for dimension "<<ii << endl;
-   //}
+      // for now, we only handle 1d arrays
+      // root allows to check higher dimensions, maybe later...?
+      //for(Int_t ii=0; ii<4; ++ii)
+      //{
+      //   Int_t maxindex=eventmember->GetMaxIndex(ii);
+      //   cout <<"Found maxindex "<<maxindex<<" for dimension "<<ii << endl;
+      //}
    }
 
    return eventmember;
@@ -198,49 +191,49 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
    if (hentry==0) return true;
 
    if (hentry->NeedInitialisation()) {
-       TGo4Analysis* ana= TGo4Analysis::Instance();
+      TGo4Analysis* ana= TGo4Analysis::Instance();
 
-       hentry->fxCondition = ana->GetAnalysisCondition(hentry->GetConditionName());
+      hentry->fxCondition = ana->GetAnalysisCondition(hentry->GetConditionName());
 
-       for(Int_t n=0; n<__MAXCONDIM__; n++) {
-          TGo4EventElement* event = 0;
-          TDataMember* eventmember = 0;
-          Long_t offset=0;
+      for(Int_t n=0; n<__MAXCONDIM__; n++) {
+         TGo4EventElement* event = 0;
+         TDataMember* eventmember = 0;
+         Long_t offset=0;
 
-          const char* evname = hentry->GetConEventName(n);
-          const char* memname = hentry->GetConVarName(n);
+         const char* evname = hentry->GetConEventName(n);
+         const char* memname = hentry->GetConVarName(n);
 
-          if (!TString(evname).Contains(TGo4HistogramEntry::Get_fgcNOEVENT()))
-              event = ana->GetEventStructure(evname);
+         if (!TString(evname).Contains(TGo4HistogramEntry::Get_fgcNOEVENT()))
+            event = ana->GetEventStructure(evname);
 
-          if(event!=0)
-             if(!TString(memname).Contains(TGo4HistogramEntry::Get_fgcNODATA()))
-                eventmember = FindDataMember(event->IsA(), memname, &offset);
+         if(event!=0)
+            if(!TString(memname).Contains(TGo4HistogramEntry::Get_fgcNODATA()))
+               eventmember = FindDataMember(event->IsA(), memname, &offset);
 
-          hentry->InitCondPointer(n, event, eventmember, offset);
-       }
+         hentry->InitCondPointer(n, event, eventmember, offset);
+      }
 
-       hentry->fxHistogram = ana->GetHistogram(hentry->GetHistogramName());
+      hentry->fxHistogram = ana->GetHistogram(hentry->GetHistogramName());
 
-       for(Int_t n=0; n<__MAXHISDIM__; n++) {
-          TGo4EventElement* event = 0;
-          TDataMember* eventmember = 0;
-          Long_t offset=0;
+      for(Int_t n=0; n<__MAXHISDIM__; n++) {
+         TGo4EventElement* event = 0;
+         TDataMember* eventmember = 0;
+         Long_t offset=0;
 
-          const char* evname = hentry->GetHistEventName(n);
-          const char* memname = hentry->GetHistVarName(n);
+         const char* evname = hentry->GetHistEventName(n);
+         const char* memname = hentry->GetHistVarName(n);
 
-          if (!TString(evname).Contains(TGo4HistogramEntry::Get_fgcNOEVENT()))
-              event = ana->GetEventStructure(evname);
+         if (!TString(evname).Contains(TGo4HistogramEntry::Get_fgcNOEVENT()))
+            event = ana->GetEventStructure(evname);
 
-          if(event!=0)
-             if(!TString(memname).Contains(TGo4HistogramEntry::Get_fgcNODATA()))
-                eventmember = FindDataMember(event->IsA(), memname, &offset);
+         if(event!=0)
+            if(!TString(memname).Contains(TGo4HistogramEntry::Get_fgcNODATA()))
+               eventmember = FindDataMember(event->IsA(), memname, &offset);
 
-          hentry->InitHistPointer(n, event, eventmember, offset);
-       }
+         hentry->InitHistPointer(n, event, eventmember, offset);
+      }
 
-       hentry->SetNeedInitialisation(kFALSE);
+      hentry->SetNeedInitialisation(kFALSE);
    }
 
    Bool_t evvalid[__MAXHISDIM__];
@@ -248,7 +241,7 @@ bool TGo4DynamicList::ProcessHEntry(TGo4HistogramEntry* hentry)
       evvalid[n] = kFALSE;
       TGo4EventElement* event = (TGo4EventElement*) hentry->fxHisEvents[n];
       if (event!=0)
-        evvalid[n] = event->IsValid();
+         evvalid[n] = event->IsValid();
    }
 
    hentry->ProcessNew(evvalid);
@@ -269,7 +262,7 @@ bool TGo4DynamicList::ProcessTEntry(TGo4TreeHistogramEntry* tentry, Bool_t proce
    TTree* tree = TGo4Analysis::Instance()->GetTree(tentry->GetTreeName());
    if (tree==0) {
       throw TGo4DynamicListException(tentry,
-         "Tree Histogram Entry: !!! Could not find Tree %s ",tentry->GetTreeName());
+            "Tree Histogram Entry: !!! Could not find Tree %s ",tentry->GetTreeName());
       return kFALSE;
    }
 
@@ -277,41 +270,35 @@ bool TGo4DynamicList::ProcessTEntry(TGo4TreeHistogramEntry* tentry, Bool_t proce
    //if(!histo) cout <<"ProcessTEntry do did not find histo "<<hname << endl;
    if (!tentry->fbNewHistogram && (histo==0)) {
       throw TGo4DynamicListException(tentry,
-         "Tree Histogram Entry: !!! Could not find Histogram %s ",hname);
+            "Tree Histogram Entry: !!! Could not find Histogram %s ",hname);
       return kFALSE;
    }
 
    if (histo!=0)
-     tentry->fbNewHistogram = kFALSE;
+      tentry->fbNewHistogram = kFALSE;
 
    tentry->ProcessTreeNew(tree, TGo4Analysis::Instance()->GetDynListInterval());
 
    if (tentry->fbNewHistogram) {
-//// debug
-//        cout <<"gDirectory is "<<gDirectory->GetName() << endl;
-//        cout <<"gROOT is "<<gROOT->GetName() << endl;
-       histo = dynamic_cast<TH1*>(gROOT->FindObject(hname));
-       if(histo==0)
-         {
-//            cout <<"not found by FindObject, try FindObjectAny..." << endl;
-            histo = dynamic_cast<TH1*>(gROOT->FindObjectAny(hname));
-         }
-       // note JA: FindObject fails with histogram created in hsimple.C on Cintserver when gDirectory was different from gRoot
-       // in this case, histogram is only available in TRoot::fList via scan over root folders
-       // note2: second fix is in TGo4Analysis::Process() which explicitely resets gDirectory to gROOT
-       // before entering the MainCycle(); so FindObjectAny should be never necessary now
-       if(histo!=0) {
-          //cout <<"ProcessTEntry did FIND NEW histo "<<hname << endl;
-          TGo4Analysis::Instance()->AddHistogram(histo); // we put the new histogram into our histo folder!
-          histo->SetBit(TGo4Status::kGo4CanDelete);
-          tentry->fbNewHistogram=kFALSE;
-       }
-       else{
-           // never come here!
-           //cout <<"ProcessTEntry do did neither find NEW histo "<<hname << endl;
-
-       }
-
+      //// debug
+      //        cout <<"gDirectory is "<<gDirectory->GetName() << endl;
+      //        cout <<"gROOT is "<<gROOT->GetName() << endl;
+      histo = dynamic_cast<TH1*>(gROOT->FindObject(hname));
+      if(histo==0)
+      {
+         //            cout <<"not found by FindObject, try FindObjectAny..." << endl;
+         histo = dynamic_cast<TH1*>(gROOT->FindObjectAny(hname));
+      }
+      // note JA: FindObject fails with histogram created in hsimple.C on Cintserver when gDirectory was different from gRoot
+      // in this case, histogram is only available in TRoot::fList via scan over root folders
+      // note2: second fix is in TGo4Analysis::Process() which explicitely resets gDirectory to gROOT
+      // before entering the MainCycle(); so FindObjectAny should be never necessary now
+      if(histo!=0) {
+         //cout <<"ProcessTEntry did FIND NEW histo "<<hname << endl;
+         TGo4Analysis::Instance()->AddHistogram(histo); // we put the new histogram into our histo folder!
+         histo->SetBit(TGo4Status::kGo4CanDelete);
+         tentry->fbNewHistogram=kFALSE;
+      }
    }
 
    return true;

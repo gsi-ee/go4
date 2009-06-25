@@ -131,7 +131,7 @@ void TGo4Task::TerminateFast ()
       TGo4ThreadManager::TerminateFast();
 }
 
-void TGo4Task::ExecuteString(const Text_t* command)
+void TGo4Task::ExecuteString(const char* command)
 {
    if(fxSlave)
       fxSlave->ExecuteString(command);

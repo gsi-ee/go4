@@ -41,15 +41,15 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
 
    cout << "**** TXXXProc: Produce histograms" << endl;
    for(int i=0;i<8;i++) {
-      fCr1Ch[i] = MakeTH1('I', Form("Crate1/Cr1Ch%02d",i+1), Form("Crate 1 channel %2d",i+1), 5000, 0., 5000.);
-      fCr2Ch[i] = MakeTH1('I', Form("Crate2/Cr2Ch%02d",i+1), Form("Crate 2 channel %2d",i+1), 5000, 0., 5000.);
+      fCr1Ch[i] = MakeTH1('I', Form("Crate1/Cr1Ch%02d",i+1), Form("Crate 1 channel %2d",i+1), 5000, 1., 5001.);
+      fCr2Ch[i] = MakeTH1('I', Form("Crate2/Cr2Ch%02d",i+1), Form("Crate 2 channel %2d",i+1), 5000, 1., 5001.);
    }
 
-   fCr1Ch1x2 = MakeTH2('I', "Cr1Ch1x2","Crate 1 channel 1x2", 200, 0., 5000., 200, 0., 5000.);
-   fHis1 = MakeTH1('I', "His1","Condition histogram", 5000, 0., 5000.);
-   fHis2 = MakeTH1('I', "His2","Condition histogram", 5000, 0., 5000.);
-   fHis1gate = MakeTH1('I', "His1g","Gated histogram", 5000, 0., 5000.);
-   fHis2gate = MakeTH1('I', "His2g","Gated histogram", 5000, 0., 5000.);
+   fCr1Ch1x2 = MakeTH2('I', "Cr1Ch1x2","Crate 1 channel 1x2", 200, 1., 5001., 200, 1., 5001.);
+   fHis1 = MakeTH1('I', "His1","Condition histogram", 5000, 1., 5001.);
+   fHis2 = MakeTH1('I', "His2","Condition histogram", 5000, 1., 5001.);
+   fHis1gate = MakeTH1('I', "His1g","Gated histogram", 5000, 1., 5001.);
+   fHis2gate = MakeTH1('I', "His2g","Gated histogram", 5000, 1., 5001.);
 
    cout << "**** TXXXProc: Produce conditions" << endl;
    fWinCon1 = MakeWinCond("wincon1", 50, 2000);

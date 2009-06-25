@@ -3,6 +3,8 @@
 
 #include "TGo4Slave.h"
 
+#include "TString.h"
+
 class TTimer;
 class TGo4Analysis;
 class TGo4ClientStatus;
@@ -67,7 +69,7 @@ class TGo4AnalysisClient : public TGo4Slave {
     /** Fetch object of name from analysis instance and put
       * it into the data queue of the client. Send an error status
       * object via status queue if there is no such object. */
-    void SendAnalysisObject(const Text_t* name);
+    void SendAnalysisObject(const char* name);
 
     /** Send a complete status object of the analysis via
       * the status queue. */
@@ -94,7 +96,7 @@ class TGo4AnalysisClient : public TGo4Slave {
 
     /** Start the object (histogram) server. Existing server will be stopped and replaced
       * by new server with different basename and password. */
-    void StartObjectServer(const Text_t* basename,  const Text_t* passwd);
+    void StartObjectServer(const char* basename,  const char* passwd);
 
     /** Stop the object (histogram) server. */
     void StopObjectServer();
@@ -118,7 +120,7 @@ class TGo4AnalysisClient : public TGo4Slave {
 
     /** Execute string command. Overrides base class implementation
       * to decouple some commands from analysis client. */
-    virtual void ExecuteString(const Text_t* command);
+    virtual void ExecuteString(const char* command);
 
     void SetCintMode(Bool_t on=kTRUE);
 
@@ -133,10 +135,10 @@ class TGo4AnalysisClient : public TGo4Slave {
     void UnLockAll();
 
     /** suffix for main thread name */
-    static const Text_t fgcMAINTHREAD[]; //!
+    static const char* fgcMAINTHREAD; //!
 
     /** suffix for watch thread name */
-    static const Text_t fgcWATCHTHREAD[]; //!
+    static const char* fgcWATCHTHREAD; //!
 
     /** Number of mainloop runs between two updates of the client status object. */
     static const UInt_t fguSTATUSUPDATE;
@@ -166,10 +168,10 @@ private:
     TGo4Analysis* fxAnalysis;                   //!
 
     /** remember name of main thread */
-    Text_t* fcMainName;                          //!
+    TString fcMainName;                          //!
 
     /** remember name of watch thread */
-    Text_t* fcWatchName;                         //!
+    TString fcWatchName;                         //!
 
     /** absoulute time of the last status buffer update. Reset by TestBufferUpdateCondition */
     Double_t fdBufferUpdateTime;
