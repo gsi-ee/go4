@@ -1037,7 +1037,7 @@
     <function>MoveSingleScale( int expandfactor, int action, int naxis, TGo4Picture* opt)</function>
     <function>TakeFullRangeFromHisto( TH1 * h1, TGo4Picture * padopt, bool isfirsthisto)</function>
     <function>TakeFullRangeFromGraph( TGraph * gr, TGo4Picture * padopt, bool isfirst)</function>
-    <function>SetSelectedRangeToHisto( TH1 * h1, THStack* hs, TGo4Picture * padopt, bool ishisto )</function>
+    <function>SetSelectedRangeToHisto( TPad * pad, TH1 * h1, THStack* hs, TGo4Picture * padopt, bool ishisto )</function>
     <function returnType="bool">GetVisibleRange(TPad* pad, int naxis, double &amp; min, double &amp; max)</function>
     <function>PadRangeAxisChanged( TPad * pad )</function>
     <function>PadRangeAxisChanged( TPad * pad, double rxmin, double rxmax, double rymin, double rymax )</function>

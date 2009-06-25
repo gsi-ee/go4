@@ -152,7 +152,7 @@ class TGo4Picture : public TNamed {
       void SetHisTitle(bool on);
       Bool_t IsHisTitle() const;
 
-      void SetTitleAttr(Double_t x1, Double_t y1, Double_t x2, Double_t y2);
+      void SetTitleAttr(Double_t x1, Double_t y1, Double_t x2, Double_t y2, Double_t textsize = 0.);
       void SetTitleAttr(TPaveText* titl);
       Bool_t HasTitleAttr();
       Bool_t GetTitleAttr(TPaveText* titl);

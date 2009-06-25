@@ -676,12 +676,6 @@
       <slot>CanvasStatusEventSlot(const char*)</slot>
     </connection>
     <connection>
-      <sender>fxQCanvas</sender>
-      <signal>CanvasUpdated()</signal>
-      <receiver>TGo4ViewPanel</receiver>
-      <slot>CanvasUpdatedSlot()</slot>
-    </connection>
-    <connection>
       <sender>GetConditionBtn</sender>
       <signal>clicked()</signal>
       <receiver>TGo4ViewPanel</receiver>

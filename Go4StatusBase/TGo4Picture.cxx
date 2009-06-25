@@ -87,6 +87,7 @@ enum OptionsIdentifiers {
    op_TitleY1     = 90,
    op_TitleX2     = 91,
    op_TitleY2     = 92,
+   op_TitleTextSz = 93,
 
    op_ObjsBound   = 0x4000,
 
@@ -932,19 +933,24 @@ Bool_t TGo4Picture::IsHisTitle() const
    return zn!=0;
 }
 
-void TGo4Picture::SetTitleAttr(Double_t x1, Double_t y1, Double_t x2, Double_t y2)
+void TGo4Picture::SetTitleAttr(Double_t x1, Double_t y1, Double_t x2, Double_t y2, Double_t textsize)
 {
    SetOptionD(PictureIndex, op_TitleX1, x1);
    SetOptionD(PictureIndex, op_TitleY1, y1);
    SetOptionD(PictureIndex, op_TitleX2, x2);
    SetOptionD(PictureIndex, op_TitleY2, y2);
+
+   if (textsize!=0.)
+      SetOptionD(PictureIndex, op_TitleTextSz, textsize);
 }
 
 void TGo4Picture::SetTitleAttr(TPaveText* titl)
 {
-   if (titl!=0)
+   if (titl!=0) {
       SetTitleAttr(titl->GetX1NDC(), titl->GetY1NDC(),
-                   titl->GetX2NDC(), titl->GetY2NDC());
+                   titl->GetX2NDC(), titl->GetY2NDC(),
+                   titl->GetTextSize());
+   }
 }
 
 Bool_t TGo4Picture::HasTitleAttr()
@@ -960,7 +966,7 @@ Bool_t TGo4Picture::GetTitleAttr(TPaveText* titl)
 {
    if (titl==0) return kFALSE;
 
-   Double_t x1, y1, x2, y2;
+   Double_t x1, y1, x2, y2, sz(0.);
    if (GetOptionD(PictureIndex, op_TitleX1, x1) &&
        GetOptionD(PictureIndex, op_TitleY1, y1) &&
        GetOptionD(PictureIndex, op_TitleX2, x2) &&
@@ -971,6 +977,12 @@ Bool_t TGo4Picture::GetTitleAttr(TPaveText* titl)
          titl->SetY2NDC(y2);
          titl->ConvertNDCtoPad();
        }
+
+   if (GetOptionD(PictureIndex, op_TitleTextSz, sz))
+      titl->SetTextSize(sz);
+   else
+      titl->SetTextSize(0);
+
    return kTRUE;
 }
 
@@ -1730,7 +1742,17 @@ void TGo4Picture::MakeScript(ostream& fs, const char* name)
         << GetD(PictureIndex, op_TitleX1, gStyle->GetTitleX()-gStyle->GetTitleW()) << ", "
         << GetD(PictureIndex, op_TitleY1, gStyle->GetTitleY()-gStyle->GetTitleH()) << ", "
         << GetD(PictureIndex, op_TitleX2, gStyle->GetTitleX()) << ", "
-        << GetD(PictureIndex, op_TitleY2, gStyle->GetTitleY()) << ");" << endl;
+        << GetD(PictureIndex, op_TitleY2, gStyle->GetTitleY());
+
+     Double_t sz(0.);
+     if (GetOptionD(PictureIndex, op_TitleTextSz, sz))
+        fs << ", " << sz;
+
+     fs << ");" << endl;
+
+     fs << name << "SetTitleTime(" << (IsTitleTime() ? "true" : "false") << ");" << endl;
+     fs << name << "SetTitleDate(" << (IsTitleDate() ? "true" : "false") << ");" << endl;
+     fs << name << "SetTitleItem(" << (IsTitleItem() ? "true" : "false") << ");" << endl;
    }
 
    fs << name << "SetAutoScale(" << (IsAutoScale() ? "true" : "false") << ");" << endl;

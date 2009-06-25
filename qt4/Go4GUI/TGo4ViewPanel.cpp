@@ -86,7 +86,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
 
 	fPanelName = objectName();
 
-   ActivePad = 0;
+   fxActivePad = 0;
 
    fbEditorFrameVisible = false;
    fiSkipRedrawCounter = 0;
@@ -200,16 +200,18 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
 
    EditorFrame->setVisible(fbEditorFrameVisible);
 
-   connect(fxQCanvas, SIGNAL(SelectedPadChanged(TPad*)),
+   connect(GetQCanvas(), SIGNAL(SelectedPadChanged(TPad*)),
            this, SLOT(SetActivePad(TPad*)));
-   connect(fxQCanvas, SIGNAL(PadClicked(TPad*)),
+   connect(GetQCanvas(), SIGNAL(PadClicked(TPad*)),
            this, SLOT(PadClickedSlot(TPad*)));
-   connect(fxQCanvas, SIGNAL(PadDoubleClicked(TPad*)),
+   connect(GetQCanvas(), SIGNAL(PadDoubleClicked(TPad*)),
            this, SLOT(PadDoubleClickedSlot(TPad*)));
-   connect(fxQCanvas, SIGNAL(MenuCommandExecuted(TObject*, const char*)),
+   connect(GetQCanvas(), SIGNAL(MenuCommandExecuted(TObject*, const char*)),
            this, SLOT(MenuCommandExecutedSlot(TObject*, const char*)));
-   connect(fxQCanvas, SIGNAL(CanvasLeaveEvent()),
+   connect(GetQCanvas(), SIGNAL(CanvasLeaveEvent()),
            this, SLOT(RefreshButtons()));
+   connect(GetQCanvas(), SIGNAL(CanvasUpdated()),
+           this, SLOT(CanvasUpdatedSlot()));
 }
 
 TGo4ViewPanel::~TGo4ViewPanel()
@@ -385,12 +387,10 @@ void TGo4ViewPanel::CompleteInitialization()
 
    fAutoScaleCheck->setChecked(GetPadOptions(GetCanvas())->IsAutoScale());
 
-#ifndef __NOGO4GED__
-   fxRooteditor = new QRootWindow(EditorFrame,"rootwrapperwindow");
+   fxRooteditor = new QRootWindow(EditorFrame, "rootwrapperwindow");
    QVBoxLayout* gedlayout = new QVBoxLayout(EditorFrame);
    gedlayout->setContentsMargins(0,0,0,0);
-   if (fxRooteditor) gedlayout->addWidget(fxRooteditor);
-#endif
+   gedlayout->addWidget(fxRooteditor);
 
    //    fMenuBar
    connect(TGo4WorkSpace::Instance(), SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
@@ -1044,7 +1044,6 @@ void TGo4ViewPanel::LoadMarkers()
       QStringList flst = fd.selectedFiles();
       if (flst.isEmpty()) return;
       QString filename = flst[0];
-//     fxTGo4PreviewPanelSlots->LoadMarkerSetup(filename,"Markersetup");
    }
 }
 
@@ -1052,35 +1051,33 @@ void TGo4ViewPanel::LoadMarkers()
 void TGo4ViewPanel::SetActivePad(TPad* pad)
 {
    TGo4LockGuard lock;
-   //cout <<"+++++++++ TGo4ViewPanel::SetActivePad " << endl;
-   if (ActivePad!=pad)
-     CompleteMarkerEdit(ActivePad);
-   //cout <<"+++++++++ TGo4ViewPanel::SetActivePad explicit raise()" << endl;
-   raise(); // test: explicitely put to front before refresh canvas
+
+   if (fxActivePad!=pad)
+      CompleteMarkerEdit(fxActivePad);
+
+   raise();
+
    if (pad==0) {
       GetCanvas()->SetSelected(0);
       GetCanvas()->SetSelectedPad(0);
       GetQCanvas()->Update();
-      //cout <<"+++++++++ TGo4ViewPanel::SetActivePad updates canvas (pad 0)" << endl;
       return;
    }
 
-   ActivePad = pad;
-   ActivePad->cd();
-   GetCanvas()->SetSelectedPad(ActivePad);
+   fxActivePad = pad;
+   fxActivePad->cd();
+   GetCanvas()->SetSelectedPad(fxActivePad);
 
-   TGo4WorkSpace::Instance()->SetSelectedPad(ActivePad);
+   TGo4WorkSpace::Instance()->SetSelectedPad(fxActivePad);
 
    BlockPanelRedraw(true);
    GetQCanvas()->Update();
-   //cout <<"+++++++++ TGo4ViewPanel::SetActivePad updated ActivePad "<<(hex)<<ActivePad << endl;
    BlockPanelRedraw(false);
 
-   DisplayPadStatus(ActivePad);
+   DisplayPadStatus(fxActivePad);
 
    UpdatePanelCaption();
-   CallPanelFunc(panel_Activated, ActivePad);
-
+   CallPanelFunc(panel_Activated, fxActivePad);
 }
 
 void TGo4ViewPanel::PadClickedSlot(TPad* pad)
@@ -1672,8 +1669,10 @@ void TGo4ViewPanel::StartRootEditor()
       fxRooteditor->SetEditable();      // mainframe will adopt pad editor window
       fxPeditor = TVirtualPadEditor::LoadEditor();
       fxRooteditor->SetEditable(kFALSE); // back to window manager as root window
-   }
-   ActivateInGedEditor(GetSelectedObject(GetActivePad(), 0));
+      ActivateInGedEditor(GetSelectedObject(GetActivePad(), 0));
+   } else
+      ActivateInGedEditor(0);
+
    show();
    ResizeGedEditor();
 #endif
@@ -1816,7 +1815,7 @@ void TGo4ViewPanel::ShowEventStatus()
 
    fxQCanvas->setShowEventStatus(fbCanvasEventstatus);
    CanvasStatus->setVisible(fbCanvasEventstatus);
-   if(!fbCanvasEventstatus) DisplayPadStatus(ActivePad);
+   if(!fbCanvasEventstatus) DisplayPadStatus(GetActivePad());
 }
 
 void TGo4ViewPanel::UpdatePadStatus(TPad* pad, bool removeitems)
@@ -2402,9 +2401,6 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Picture* padopt, TGo4Slot* 
 
 void TGo4ViewPanel::Divide( int numX, int numY )
 {
-   // remove subpads wil not cleanup labels of this pad:
-   // fxTGo4PreviewPanelSlots->ClearAllLabels(ActivePad);
-
    TPad* pad = GetActivePad();
 
    TGo4Slot* padslot = GetPadSlot(pad);
@@ -2582,7 +2578,7 @@ QRootCanvas* TGo4ViewPanel::GetQCanvas()
 
 TPad * TGo4ViewPanel::GetActivePad()
 {
-   return ActivePad;
+   return fxActivePad;
 }
 
 void TGo4ViewPanel::AllocatePadOptions(TPad* pad)
@@ -3248,7 +3244,7 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
 
    } while (!force && isanychildmodified && intime);
 
-   if (ActivePad!=0)
+   if (GetActivePad()!=0)
      UpdatePanelCaption();
 
    RefreshButtons();
@@ -3433,15 +3429,6 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
    if (!doasiimage)
       RedrawSpecialObjects(pad, slot);
 
-   if (padopt->HasTitleAttr()) {
-      TPaveText* titl = dynamic_cast<TPaveText*>
-              (pad->GetListOfPrimitives()->FindObject("title"));
-      if (titl) {
-         padopt->GetTitleAttr(titl);
-         pad->Modified();
-      }
-   }
-
    CallPanelFunc(panel_Updated, pad);
 
    return true;
@@ -3462,7 +3449,7 @@ void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his, bo
    his->SetBit(TH1::kNoTitle, !padopt->IsHisTitle());
    his->Draw(drawopt.Data());
 
-   SetSelectedRangeToHisto(his, 0, padopt, true);
+   SetSelectedRangeToHisto(pad, his, 0, padopt, true);
 }
 
 void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs, bool dosuperimpose, bool scancontent)
@@ -3507,7 +3494,7 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs, bo
       }
    }
 
-   SetSelectedRangeToHisto(framehisto, hs, padopt, false);
+   SetSelectedRangeToHisto(pad, framehisto, hs, padopt, false);
 }
 
 
@@ -3535,7 +3522,7 @@ void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, boo
    }
    gr->Draw(drawopt.Data());
 
-   SetSelectedRangeToHisto(framehisto, 0, padopt, false);
+   SetSelectedRangeToHisto(pad, framehisto, 0, padopt, false);
 }
 
 void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt, TMultiGraph * mg, bool dosuperimpose, bool scancontent)
@@ -3569,7 +3556,7 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt, TMultiGraph
 
    if (framehisto!=0) {
 
-      SetSelectedRangeToHisto(framehisto, 0, padopt, false);
+      SetSelectedRangeToHisto(pad, framehisto, 0, padopt, false);
 
       // this is workaround to prevent recreation of framehistogram in TMultiGraf::Paint
 
@@ -3751,7 +3738,7 @@ void TGo4ViewPanel::ClearPad(TPad* pad, bool removeitems, bool removesubpads)
    BlockPanelRedraw(true);
    CleanupGedEditor();
    ProcessPadClear(pad, removeitems, removesubpads);
-   if (ActivePad==0)
+   if (GetActivePad()==0)
      SetActivePad(GetCanvas());
    GetCanvas()->SetSelected(0);
    BlockPanelRedraw(false);
@@ -3791,7 +3778,7 @@ void TGo4ViewPanel::ProcessPadClear(TPad * pad, bool removeitems, bool removesub
       if (subpad==0) continue;
       ProcessPadClear(subpad, removeitems || removesubpads, removesubpads);
       if (!removesubpads) continue;
-      if (ActivePad==subpad) ActivePad=0;
+      if (fxActivePad==subpad) fxActivePad=0;
 
       delete subslot;
 
@@ -4098,11 +4085,11 @@ void TGo4ViewPanel::TakeFullRangeFromGraph(TGraph * gr, TGo4Picture * padopt, bo
    padopt->ClearFullRange(2);
 }
 
-void TGo4ViewPanel::SetSelectedRangeToHisto(TH1* h1, THStack* hs, TGo4Picture* padopt, bool isthishisto)
+void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs, TGo4Picture* padopt, bool isthishisto)
 {
-   // set selected range and stats position for histogram
+   // set selected range, stats and title position for histogram
 
-   if ((h1==0) || (padopt==0)) return;
+   if ((h1==0) || (padopt==0) || (pad==0)) return;
 
    int ndim = padopt->GetFullRangeDim();
 
@@ -4235,7 +4222,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TH1* h1, THStack* hs, TGo4Picture* p
       TPaveStats* stats = dynamic_cast<TPaveStats*>
               (h1->GetListOfFunctions()->FindObject("stats"));
       if (stats==0) {
-         stats  = new TPaveStats(
+         stats = new TPaveStats(
                        gStyle->GetStatX()-gStyle->GetStatW(),
                        gStyle->GetStatY()-gStyle->GetStatH(),
                        gStyle->GetStatX(),
@@ -4244,9 +4231,35 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TH1* h1, THStack* hs, TGo4Picture* p
           stats->UseCurrentStyle();
           stats->SetName("stats");
           h1->GetListOfFunctions()->Add(stats);
-          stats->ConvertNDCtoPad();
+          stats->ConvertNDCtoPad(); // need to bypass TPave init problem
         }
       padopt->GetStatsAttr(stats);
+   }
+
+   if (padopt->IsHisTitle() && padopt->HasTitleAttr()) {
+      TPaveText* titl = dynamic_cast<TPaveText*>
+              (pad->GetListOfPrimitives()->FindObject("title"));
+
+      if (titl==0) {
+         titl = new TPaveText(gStyle->GetTitleX()-gStyle->GetTitleW(),
+                              gStyle->GetTitleY()-gStyle->GetTitleH(),
+                              gStyle->GetTitleX(),
+                              gStyle->GetTitleY(),"blNDC");
+         titl->UseCurrentStyle();
+         titl->SetFillColor(gStyle->GetTitleFillColor());
+         titl->SetFillStyle(gStyle->GetTitleStyle());
+         titl->SetName("title");
+         titl->SetBorderSize(gStyle->GetTitleBorderSize());
+         titl->SetTextColor(gStyle->GetTitleTextColor());
+         titl->SetTextFont(gStyle->GetTitleFont(""));
+         if (gStyle->GetTitleFont("")%10 > 2)
+           titl->SetTextSize(gStyle->GetTitleFontSize());
+         titl->AddText(h1->GetTitle());
+         titl->SetBit(kCanDelete);
+         pad->GetListOfPrimitives()->Add(titl);
+         titl->ConvertNDCtoPad(); // need to bypass TPave init problem
+      }
+      padopt->GetTitleAttr(titl);
    }
 }
 
@@ -4520,7 +4533,7 @@ void TGo4ViewPanel::ResizeGedEditor()
    //TGo4LockGuard lock;
    //cout <<"vvvvvv TGo4ViewPanel::ResizeGedEditor() " << endl;
    TGedEditor* ed = dynamic_cast<TGedEditor*> (fxPeditor);
-   if ((ed!=0) && fbEditorFrameVisible)
+   if ((ed!=0) && fbEditorFrameVisible && fxRooteditor)
       ed->Resize(fxRooteditor->width(),fxRooteditor->height());
 #endif
 }
@@ -4695,7 +4708,6 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
 
          #if ROOT_VERSION_CODE < ROOT_VERSION(4,0,8)
 
-//         #if __GO4ROOTVERSION__ < 40008
            TGo4Iter(GetPadSlot(GetCanvas()), true);
            while (iter.next()) {
              TPad* subpad = GetSlotPad(iter.getslot());

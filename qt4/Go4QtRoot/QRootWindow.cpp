@@ -51,7 +51,7 @@ QRootWindow::QRootWindow( QWidget *parent, const char *name, bool designermode) 
    QWidget(parent),
    fxRootwindow(0),
    fbResizeOnPaint(kTRUE)
-   {
+{
    setObjectName( name ? name : "QRootWindow");
 
    // set defaults
@@ -70,7 +70,7 @@ QRootWindow::QRootWindow( QWidget *parent, const char *name, bool designermode) 
       fxRootwindow->Resize();
       if ( parent ) parent->installEventFilter( this );
    }
-   }
+}
 
 void QRootWindow::AddSubFrame(TGFrame* f, TGLayoutHints* l)
 {
@@ -173,14 +173,6 @@ void QRootWindow::paintEvent( QPaintEvent * e)
    QWidget::paintEvent(e);
 }
 
-void QRootWindow::resizeEvent( QResizeEvent *e )
-{
-   //TGo4LockGuard threadlock;
-   QWidget::resizeEvent(e);
-
-}
-
-
 bool QRootWindow ::eventFilter( QObject *o, QEvent *e )
 {
    TGo4LockGuard threadlock;
@@ -203,12 +195,11 @@ bool QRootWindow ::eventFilter( QObject *o, QEvent *e )
    return QWidget::eventFilter( o, e );
 }
 
-void  QRootWindow::closeEvent( QCloseEvent * e){
-
+void  QRootWindow::closeEvent( QCloseEvent * e)
+{
    delete fxRootwindow;
    fxRootwindow = 0;
    e->accept();
-   return;
 }
 
 QRootWindow::~QRootWindow()

@@ -182,7 +182,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void MoveSingleScale( int expandfactor, int action, int naxis, TGo4Picture* opt);
       virtual void TakeFullRangeFromHisto( TH1 * h1, TGo4Picture * padopt, bool isfirsthisto);
       virtual void TakeFullRangeFromGraph( TGraph * gr, TGo4Picture * padopt, bool isfirst);
-      virtual void SetSelectedRangeToHisto( TH1 * h1, THStack* hs, TGo4Picture * padopt, bool ishisto );
+      virtual void SetSelectedRangeToHisto( TPad* pad, TH1 * h1, THStack* hs, TGo4Picture * padopt, bool ishisto );
       virtual bool GetVisibleRange(TPad* pad, int naxis, double & min, double & max);
       virtual void PadRangeAxisChanged( TPad * pad );
       virtual void PadRangeAxisChanged( TPad * pad, double rxmin, double rxmax, double rymin, double rymax );
@@ -261,7 +261,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       bool fbMarkEditorVisible;
       bool fbTypingMode;
       QMenuBar* fMenuBar;
-      TPad* ActivePad;
+      TPad* fxActivePad;
       int fiSkipRedrawCounter;
       bool fbCanvasCrosshair;
       bool fbCanvasEventstatus;

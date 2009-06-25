@@ -3404,20 +3404,6 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
    if (!doasiimage)
       RedrawSpecialObjects(pad, slot);
 
-   if (padopt->HasTitleAttr()) {
-      TPaveText* titl = dynamic_cast<TPaveText*>
-              (pad->GetListOfPrimitives()->FindObject("title"));
-      if (titl==0) {
-         pad->Update();
-         titl = dynamic_cast<TPaveText*>
-                       (pad->GetListOfPrimitives()->FindObject("title"));
-      }
-      if (titl) {
-         padopt->GetTitleAttr(titl);
-         pad->Modified();
-      }
-   }
-
    CallPanelFunc(panel_Updated, pad);
 
    return true;
@@ -3438,7 +3424,7 @@ void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his, bo
    his->SetBit(TH1::kNoTitle, !padopt->IsHisTitle());
    his->Draw(drawopt.Data());
 
-   SetSelectedRangeToHisto(his, 0, padopt, true);
+   SetSelectedRangeToHisto(pad, his, 0, padopt, true);
 }
 
 void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs, bool dosuperimpose, bool scancontent)
@@ -3481,7 +3467,7 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs, bo
       }
    }
 
-   SetSelectedRangeToHisto(framehisto, hs, padopt, false);
+   SetSelectedRangeToHisto(pad, framehisto, hs, padopt, false);
 }
 
 
@@ -3509,7 +3495,7 @@ void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, boo
    }
    gr->Draw(drawopt.Data());
 
-   SetSelectedRangeToHisto(framehisto, 0, padopt, false);
+   SetSelectedRangeToHisto(pad, framehisto, 0, padopt, false);
 }
 
 void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt, TMultiGraph * mg, bool dosuperimpose, bool scancontent)
@@ -3543,7 +3529,7 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt, TMultiGraph
 
    if (framehisto!=0) {
 
-      SetSelectedRangeToHisto(framehisto, 0, padopt, false);
+      SetSelectedRangeToHisto(pad, framehisto, 0, padopt, false);
 
       // this is workaround to prevent recreation of framehistogram in TMultiGraf::Paint
 
@@ -4073,7 +4059,7 @@ void TGo4ViewPanel::TakeFullRangeFromGraph(TGraph * gr, TGo4Picture * padopt, bo
    padopt->ClearFullRange(2);
 }
 
-void TGo4ViewPanel::SetSelectedRangeToHisto(TH1* h1, THStack* hs, TGo4Picture* padopt, bool isthishisto)
+void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs, TGo4Picture* padopt, bool isthishisto)
 {
    // set selected range and stats position for histogram
 
@@ -4241,15 +4227,34 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TH1* h1, THStack* hs, TGo4Picture* p
           stats->UseCurrentStyle();
           stats->SetName("stats");
           h1->GetListOfFunctions()->Add(stats);
-          stats->ConvertNDCtoPad();
+          stats->ConvertNDCtoPad(); // need to bypass TPave init problem
         }
       padopt->GetStatsAttr(stats);
    }
 
-   if (padopt->IsHisTitle() && isthishisto) {
+   if (padopt->IsHisTitle() && padopt->HasTitleAttr()) {
       TPaveText* titl = dynamic_cast<TPaveText*>
-              (h1->GetListOfFunctions()->FindObject("title"));
-      if (titl) padopt->GetTitleAttr(titl);
+              (pad->GetListOfPrimitives()->FindObject("title"));
+      if (titl==0) {
+         titl = new TPaveText(gStyle->GetTitleX()-gStyle->GetTitleW(),
+                              gStyle->GetTitleY()-gStyle->GetTitleH(),
+                              gStyle->GetTitleX(),
+                              gStyle->GetTitleY(),"blNDC");
+         titl->UseCurrentStyle();
+         titl->SetFillColor(gStyle->GetTitleFillColor());
+         titl->SetFillStyle(gStyle->GetTitleStyle());
+         titl->SetName("title");
+         titl->SetBorderSize(gStyle->GetTitleBorderSize());
+         titl->SetTextColor(gStyle->GetTitleTextColor());
+         titl->SetTextFont(gStyle->GetTitleFont(""));
+         if (gStyle->GetTitleFont("")%10 > 2)
+           titl->SetTextSize(gStyle->GetTitleFontSize());
+         titl->AddText(h1->GetTitle());
+         titl->SetBit(kCanDelete);
+         pad->GetListOfPrimitives()->Add(titl);
+         titl->ConvertNDCtoPad(); // need to bypass TPave init problem
+      }
+      padopt->GetTitleAttr(titl);
    }
 }
 

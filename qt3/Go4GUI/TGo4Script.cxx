@@ -913,7 +913,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       fs << "go4->DisconnectAnalysis();" << endl;
    }
 
-   if ((anal!=0) && anal->IsAnalysisRunning())
+   if ((anal!=0) && anal->IsAnalysisRunning() &&  !anal->IsAnalysisServer())
       fs << "go4->StartAnalysis();" << endl;
 
    int npanel=0;

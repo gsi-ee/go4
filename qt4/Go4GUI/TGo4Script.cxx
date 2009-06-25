@@ -908,11 +908,10 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
         fs << "\"" << main->LastTypedPassword() << "\");" << endl;
       fs << "go4->WaitAnalysis(10);" << endl << endl;
    } else {
-
       fs << "go4->DisconnectAnalysis();" << endl;
    }
 
-   if ((anal!=0) && anal->IsAnalysisRunning())
+   if ((anal!=0) && anal->IsAnalysisRunning() && !anal->IsAnalysisServer())
       fs << "go4->StartAnalysis();" << endl;
 
    int npanel=0;

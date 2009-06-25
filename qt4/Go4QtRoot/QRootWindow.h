@@ -41,12 +41,11 @@ class QRootWindow : public QWidget {
    protected:
 
       /** Event filter is used to pass Qt mouse events  root, after
-        * translatein them in MapQMouseEvent. Note that root grabs gui buttons
+        * translating them in MapQMouseEvent. Note that root grabs gui buttons
         * via x11 directly, thus this mechanism is not used for the regular
         *  root widgets! */
       virtual bool eventFilter( QObject *, QEvent * );
       virtual void paintEvent( QPaintEvent *e );
-      virtual void resizeEvent( QResizeEvent *e );
       virtual void closeEvent( QCloseEvent * e);
 
       //virtual QPaintEngine * paintEngine () const {return 0;}
