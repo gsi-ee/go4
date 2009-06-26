@@ -9,8 +9,9 @@ void collectchecked(const char* dirfile, const char* rootfile, unsigned int even
 {
   //gSystem->Load("libGo4UserAnalysis.so"); // if there is no .rootmap file!
 
-  TString fname(filename);
-  UInt_t firstevent=0,lastevent=0,totalevents=0;
+  char filename[256];
+  UInt_t alphas=0,fissions=0,evrs=0,totalevents=0,skippednoY=0;
+  UInt_t offalphas=0,offfissions=0,offtotalevents=0;
   UInt_t maxevents=0;
   if(events == 0)maxevents=0xffffffff;
   else maxevents=events;
@@ -41,26 +42,39 @@ void collectchecked(const char* dirfile, const char* rootfile, unsigned int even
      if(br != 0){
      br->SetAddress(&eve);
      Int_t nentries = oldTree->GetEntries();
-     oldTree->GetEntry(0);
-     firstevent= eve->fiEventNumber;
-     printf("events: %9d first %9d ",nentries,firstevent);
+     printf("%s events: %8d ",filename,nentries);
      for (Int_t i=0;i<nentries;i++) 
      {
        oldTree->GetEntry(i);
-       lastevent= eve->fiEventNumber;
-       newTree->Fill();
-       totalevents ++;
+       if(eve->fisAlpha)alphas++;
+       if(eve->fisFission)fissions++;
+       if(eve->fisEvr)evrs++;
+       if(eve->fisAlpha)alphas++;
+       totalevents++;
+       if(!eve->fisMacro){
+         if(eve->fisAlpha)offalphas++;
+         if(eve->fisFission)offfissions++;
+         if(eve->fisAlpha)offalphas++;
+         offtotalevents++;
+       }
+       // skip alpha without Y and Fission without Y
+       if((eve->fisAlpha&&(eve->fiStopYLhitI<0))||
+	  (eve->fisFission&&(eve->fiStopYHhitI<0))||
+	  (eve->fisEvr&&(eve->fiStopYHhitI<0)))skippednoY++;
+       else newTree->Fill();
        if(totalevents >= maxevents) break;
      }
-     printf("last %9d %d%\n",lastevent,100*nentries/(lastevent-firstevent));
+     printf("(%6d) AL %8d (%6d) SF %8d (%6d) EVR %8d -%8d\n",
+	    offtotalevents,alphas,offalphas,fissions,offfissions,evrs,skippednoY);
      }// branch found
      else
        printf(" no data\n");
      infile.Close(); // close input root file
      if(totalevents >= maxevents) break;
+     skippednoY=0;
    } // one input root file
    // newTree->Print("toponly");
-   cout<<"Total events processed "<<totalevents<<endl;  
+   cout<<"Total events processed "<<totalevents<<" skipped "<<skippednoY<<endl;  
    if(!gROOT->IsBatch()){
      new TBrowser();
      newTree->StartViewer();
