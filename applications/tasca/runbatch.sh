@@ -1,18 +1,21 @@
 #!/usr/bin/ksh
-#
-# first last index 
+# Run GO4 analysis over LMD files of runs
+# Files of a run are copied, processed and deleted
+# first last run index 
 first=$1
 last=$2
+# File prefix
 run=t018f
-
-. lealogin
-. go4login 402-00
-
 # lmd data directory
 TASCALMD=/d/ship02/tasca/t018
 # local disk on lxg0708
 TASCASTORE=/u/tasca/GO4_offline_t018/data/stepdata/checked03
+# GO4 program
 TASCAGO4=/u/tasca/GO4_offline_t018/checked01
+
+. lealogin
+. go4login 402-00
+
 echo "======================================"
 echo "Making directory files from $TASCALMD on $TASCASTORE ..."
 echo "GO4 $TASCAGO4: Unpack, calibrate and check data on $TASCASTORE"
@@ -26,6 +29,7 @@ while (($ii <= $last));do
 echo "======================================"
  cp $files*.lmd .
  lmlmake $run $ii $ii
+cat $lmlfile.lml
 # create the directory files
 # time lmdirmake .
 
@@ -36,7 +40,8 @@ export TASCASTORE
  echo "------------------------------------"
 time ./MainUserAnalysis -f @$TASCASTORE/$lmlfile.lml
 cd $TASCASTORE
- rm *.lml *.lmd
+echo "rm $lmlfile.lml $lmlfile*.lmd"
+ rm $lmlfile.lml $lmlfile*.lmd
  let ii=$ii+1
 done
 
