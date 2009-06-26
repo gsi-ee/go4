@@ -66,6 +66,9 @@ class TGo4EventSource : public TNamed {
    /** Exception thrower. */
     void ThrowError(Int_t creastat, Int_t errstat, const char* message,...);
 
+    /** EOF thrower. */
+     void ThrowEOF(Int_t creastat, Int_t errstat, const char* message,...);
+
    /** text length */
    enum { fguTXTLEN = 256 };
 

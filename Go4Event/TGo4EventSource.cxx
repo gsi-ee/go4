@@ -4,6 +4,7 @@
 #include "snprintf.h"
 
 #include "TGo4EventErrorException.h"
+#include "TGo4EventEndException.h"
 #include "TGo4Log.h"
 
 const Int_t TGo4EventSource::fgiTIMEOUTDEFAULT=1; // source timeout default in seconds
@@ -43,6 +44,24 @@ void TGo4EventSource::ThrowError(Int_t crestat, Int_t errstat, const char* messa
       SetErrMess(txtbuf);
       delete[] txtbuf;
       throw TGo4EventErrorException(this);
+   }
+
+void TGo4EventSource::ThrowEOF(Int_t crestat, Int_t errstat, const char* message,...)
+   {
+      //
+      UInt_t lbuflen = TGo4EventSource::fguTXTLEN;
+      Text_t* txtbuf = new Text_t[lbuflen];
+      va_list args;
+      va_start(args, message);
+      vsnprintf(txtbuf, lbuflen, message, args);
+      va_end(args);
+      if(crestat!=0)
+         SetCreateStatus(crestat);
+      if(errstat!=0)
+         SetEventStatus(errstat);
+      SetErrMess(txtbuf);
+      delete[] txtbuf;
+      throw TGo4EventEndException(this);
    }
 
 void TGo4EventSource::Clear(Option_t* opt)

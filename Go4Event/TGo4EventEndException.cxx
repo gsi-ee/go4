@@ -6,7 +6,7 @@ TGo4EventEndException::TGo4EventEndException (TGo4EventSource* eventsource)
 : TGo4EventSourceException(eventsource)
 {
    TRACE((16,"TGo4EventEndException::TGo4EventEndException (TGo4EventSource*)", __LINE__, __FILE__));
-   fxDescription= " Go4 End Of Eventsource Exception ";
+   fxDescription= "Go4 EventEndException ";
 
 }
 

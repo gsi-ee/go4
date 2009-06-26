@@ -117,14 +117,14 @@ catch(TGo4EventTimeoutException& ex)
    if(TGo4Log::GetIgnoreLevel()<1)
       {
          // only display message if debug output enabled
-         fxAnalysisClient->SendStatusMessage(2,kTRUE,"Analysis %s TIMEOUT for eventsource %s:%s.",
+         fxAnalysisClient->SendStatusMessage(2,kTRUE,"Analysis %s TIMEOUT for event source %s:%s.",
                   fxAnalysisClient->GetName(), ex.GetSourceClass(), ex.GetSourceName());
       } else{}
     return 0;
 }
 catch(TGo4EventEndException& ex)
 {
-fxAnalysisClient->SendStatusMessage(2,kTRUE,"End Of Eventsource %s:%s - %s",
+fxAnalysisClient->SendStatusMessage(2,kTRUE,"End of event source %s:\n     %s - %s",
                                  ex.GetSourceClass(),
                                  ex.GetSourceName(),ex.GetErrMess());
 if(fxAnalysis->IsErrorStopEnabled()) fxAnalysisClient->Stop();
@@ -136,13 +136,13 @@ catch(TGo4EventErrorException& ex)
    if(prio==0)
       {
          // only display message without stop
-         fxAnalysisClient->SendStatusMessage(1,kTRUE,"Eventsource %s:%s - %s",
+         fxAnalysisClient->SendStatusMessage(1,kTRUE,"Event source %s:\n     %s - %s",
                                  ex.GetSourceClass(),
                                  ex.GetSourceName(),ex.GetErrMess());
       }
    else
       {
-      fxAnalysisClient->SendStatusMessage(3,kTRUE,"Analysis %s ERROR: %s from eventsource %s:%s",
+      fxAnalysisClient->SendStatusMessage(3,kTRUE,"Analysis %s ERROR: %s from event source %s:%s",
                            fxAnalysisClient->GetName(),ex.GetErrMess(),
                            ex.GetSourceClass(), ex.GetSourceName());
       if(fxAnalysis->IsErrorStopEnabled()) fxAnalysisClient->Stop();
