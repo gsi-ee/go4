@@ -20,6 +20,7 @@ class TascaEvent : public TObject {
 
       UInt_t fiFileNumber;
       UInt_t fiEventNumber;
+  	  UInt_t fiChainNumber;
       Bool_t fisTof;
       Bool_t fisChopper;
       Bool_t fisMacro;

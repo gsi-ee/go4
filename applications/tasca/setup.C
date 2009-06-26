@@ -17,19 +17,19 @@ void setup(Text_t* AutoSaveFile,
 
 //--------------------------------------------
 // steering parameters to modify:
-  TString unpackProcess("yes");
+  TString unpackProcess("no");
   TString unpackStore("no");
   TString unpackOverWrite("yes");
 
-  TString caliProcess("yes");
-  TString caliStore("yes");
+  TString caliProcess("no");
+  TString caliStore("no");
   TString caliOverWrite("yes");
 
-  TString checkProcess("yes");
-  TString checkStore("yes");
+  TString checkProcess("no");
+  TString checkStore("no");
   TString checkOverWrite("yes");
 
-  TString analysisProcess("no");
+  TString analysisProcess("yes");
   TString analysisStore("no");
   TString analysisOverWrite("yes");
 
@@ -37,7 +37,7 @@ void setup(Text_t* AutoSaveFile,
   UInt_t BufferSize=100000;
   UInt_t Compression=3;
 
-  TString autosave("yes");
+  TString autosave("no");
   Int_t autosaveinterval=0; // after n seconds, 0 = at termination of event loop
 //--------------------------------------------
 

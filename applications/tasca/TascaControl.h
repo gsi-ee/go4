@@ -34,7 +34,8 @@ class TascaControl : public TGo4Parameter {
     	  AnlHisto=kTRUE;
       }
 
-	Bool_t checkTof;
+    Bool_t writeChainTree;
+    Bool_t checkTof;
 	Bool_t checkChopper;
 	Bool_t checkMacro;
 	Bool_t checkMicro;

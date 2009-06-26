@@ -46,6 +46,7 @@ cout<<"      Check Tof:"<<checkTof<<"="<<TofMustbe
 Bool_t TascaControl::UpdateFrom(TGo4Parameter *pp){
   if(pp->InheritsFrom("TascaControl")) {
     TascaControl * from = (TascaControl *) pp;
+    writeChainTree=from->writeChainTree;
     checkTof=from->checkTof;
     TofMustbe=from->TofMustbe;//true equals isTof
     checkChopper=from->checkChopper;

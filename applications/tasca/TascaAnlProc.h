@@ -18,6 +18,8 @@ class TascaAnalysis;
 class TascaEvent;
 class TascaEventStack;
 #include "TList.h"
+#include "TFile.h"
+#include "TTree.h"
 
 class TascaAnlProc : public TGo4EventProcessor {
    public:
@@ -53,8 +55,14 @@ class TascaAnlProc : public TGo4EventProcessor {
   	  TascaEvent *fFissionEvent;
   	  TascaEvent *fAlphaEvent;
   	  TascaEvent *fStackEvent;
+  	  TascaEvent *fEvent;
   	  TObjLink *fStackLinkCurrent;
   	  TObjLink *fStackLinkEntry;
+  	  TFile* fChainFile;
+  	  TTree* fChainTree;
+  	  TBranch* fChainBranch;
+  	  UInt_t fChainNumber;
+  	  Bool_t fChainStore;
       UInt_t i,ii;
       UInt_t fFissions;
       UInt_t fAlphas;
@@ -72,6 +80,7 @@ class TascaAnlProc : public TGo4EventProcessor {
       UInt_t fiEvprocessed;
       UInt_t fiEvprocessedTotal;
       UInt_t fiLastFissionEvent;
+      Text_t cfilename[256];
 
    ClassDef(TascaAnlProc,1)
 };

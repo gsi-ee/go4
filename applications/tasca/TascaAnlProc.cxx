@@ -33,7 +33,10 @@ TascaAnlProc::~TascaAnlProc()
 	  cout << "                  total Fissions "<<fFissions <<" processed "<<fiSFprocessed<<endl;
 	  cout << "                  total Alphas   "<<fAlphas << endl;
 	  cout << "                  total EVRs     "<<fEvrs << endl;
-
+if(fChainFile){
+	fChainFile->Write();
+	fChainFile->Close();
+}
 }
 //***********************************************************
 TascaAnlProc::TascaAnlProc()
@@ -43,7 +46,7 @@ TascaAnlProc::TascaAnlProc()
 //***********************************************************
 // this one is used in TascaAnlFact
 TascaAnlProc::TascaAnlProc(const char* name) :
-  TGo4EventProcessor(name),fInput(0),fFissions(0),fAlphas(0),fEvrs(0)
+  TGo4EventProcessor(name),fInput(0),fChainFile(0),fChainNumber(0),fChainStore(kFALSE),fFissions(0),fAlphas(0),fEvrs(0)
 {
   cout << "Tasca> TascaAnlProc "<<name<<" created" << endl;
   //// init user analysis objects:
@@ -84,25 +87,31 @@ TascaAnlProc::TascaAnlProc(const char* name) :
   fAlphaFound=kFALSE;
   fEvrFound=kFALSE;
   fiLastFissionEvent=0;
+  fChainStore=fControl->writeChainTree;
   }
 //***********************************************************
 void TascaAnlProc::PrintFission(Bool_t store){
-printf(" --Fission %8d: %9d  MevH:%6.2f L: %6.2f Back H: %6.2f L: %6.2f X %3d Y %3d Spill %d\n",
-		fFissions,
+printf(" --SF    %9d MevH: %6.2f  L: %6.2f BH: %6.2f L: %6.2f SF#:%6d X %3d Y %3d Spill %d\n",
 		fFissionEvent->fiEventNumber,
 		fFissionEvent->ffStopXHhitV/1000.,
 		fFissionEvent->ffStopXLhitV/1000.,
 		fFissionEvent->ffBackHhitV/1000.,
 		fFissionEvent->ffBackLhitV/1000.,
+		fFissions,
 		fFissionEvent->fiStopXHhitI,
 		fFissionEvent->fiStopYHhitI,
 		fFissionEvent->fisMacro
 );
 fiEventsWritten++;
+fFissionEvent->fiChainNumber=fChainNumber;
+if(store){
+fChainBranch->SetAddress(&fFissionEvent);
+fChainTree->Fill();
+}
 return;
 }
 void TascaAnlProc::PrintAlpha(Bool_t store){
-printf(" --Alpha %9d      MevL: %6.2f BL: %6.2f toFission [s] %8.3f         X %3d Y %3d Spill %d\n",
+printf(" --Alpha %9d MevL: %6.2f BL: %6.2f toFission [s] %8.3f          X %3d Y %3d Spill %d\n",
 		fStackEvent->fiEventNumber,
 		fStackEvent->ffStopXLhitV/1000.,
 		fStackEvent->ffBackLhitV/1000.,
@@ -112,10 +121,15 @@ printf(" --Alpha %9d      MevL: %6.2f BL: %6.2f toFission [s] %8.3f         X %3
 		fStackEvent->fisMacro
 );
 fiEventsWritten++;
+fStackEvent->fiChainNumber=fChainNumber;
+if(store){
+	fChainBranch->SetAddress(&fStackEvent);
+	fChainTree->Fill();
+	}
 return;
 }
 void TascaAnlProc::PrintEvr(Bool_t store){
-printf("Evr ---- %9d      MevH: %6.2f            toFission [s] %8.3f         X %3d Y %3d Spill %d\n",
+printf("Evr ---- %9d MevH: %6.2f            toFission [s] %8.3f          X %3d Y %3d Spill %d\n",
 		fStackEvent->fiEventNumber,
 		fStackEvent->ffStopXHhitV/1000.,
 		(Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.,
@@ -124,6 +138,11 @@ printf("Evr ---- %9d      MevH: %6.2f            toFission [s] %8.3f         X %
 		fStackEvent->fisMacro
 );
 fiEventsWritten++;
+fStackEvent->fiChainNumber=fChainNumber;
+if(store){
+	fChainBranch->SetAddress(&fStackEvent);
+	fChainTree->Fill();
+	}
 return;
 }
 //-----------------------------------------------------------
@@ -135,6 +154,22 @@ fiEventsProcessed++;
 // Process only if event is valid
 //cout <<"Anl: "<<fInput->fiEventNumber<< endl;
 if(!fInput->IsValid()) return;
+// Check if we should open output tree file
+if(fChainStore){
+if(fChainFile==0){
+	  // open root file for output
+	  strcpy(cfilename,fInput->GetEventSource()->GetActiveName());
+	  char* pc=strstr(cfilename,"_Checked");
+	  *pc=0;
+	  strcat(cfilename,"_Chains.root");
+	  cout<< "Tasca> TascaAnlProc "<<"create Chain file "<<cfilename<<endl;
+	  fChainFile = new TFile(cfilename,"RECREATE");
+	  // create tree
+	  fChainTree = new TTree("SearcherTree","new");
+	  fEvent=new TascaEvent();
+	  // create one branch. The dot adds the event name to each member name
+	  fChainBranch=fChainTree->Branch("Searched.","TascaEvent",&fEvent,100000,1);
+}}
 
 if(fInput->fisFission)fFissions++;
 if(fInput->fisAlpha)fAlphas++;
@@ -157,45 +192,42 @@ fEventStack->used++;
 	fStackEvent=fEventCurrent;  // to step back
 	fTimeDiff=fFissionEvent->fiDeltaTime;
 	fStackLinkEntry=fStackLinkCurrent;
-    	//printf("=============================\n");
-	//PrintFission(kFALSE);
+	// search backwards
 	while((fStackLinkEntry=fStackLinkEntry->Prev())!=0){
 		fStackEvent=(TascaEvent *) fStackLinkEntry->GetObject();
-		if(fTimeDiff <= fParam->Alpha2Tmax){ // in alpha time window
+		//if(fTimeDiff <= fParam->Alpha2Tmax){ // in alpha time window
 		  if(fStackEvent->fisAlpha
 		     &&(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXLhitI)
 		     &&((fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYLhitI)
 		       ||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI)
 		       ||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYLhitI))
 		     ){
-			//PrintAlpha(kFALSE);
 			fAlphaFound=kTRUE;
-		}} // fission in time
-		if(fTimeDiff > (fParam->Fission2Tmax+fParam->Alpha2Tmax))break; // out of time window
+		} //} // fission in time
 		if(fStackEvent->fisEvr
 		   &&(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXHhitI)
 		   &&(fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYHhitI)
 		   ){
 			fEvrFound=kTRUE;
 			fiFileNumber=fStackEvent->fiFileNumber;
-			//PrintEvr(kFALSE);
 		}
+		if(fTimeDiff > (fParam->Fission2Tmax+fParam->Alpha2Tmax))break; // out of time window
 		fTimeDiff += fStackEvent->fiDeltaTime;
 		fiEvprocessed++;
 		fiEvprocessedTotal++;
 	} // while back loop
 	// We go now from here forward up to fission to print correct order
 	fTimeDiff=0;
-	//fEvrFound=kTRUE; // fake for off beam
 	if(fEvrFound&&fAlphaFound){
 		fiSFtaken++;
+		fChainNumber++;
 		if(fStackLinkEntry==0){
 			cout<<"End of stack, entries "<<fEventStack->used<<endl;
 			fStackEvent=(TascaEvent *) fEventStack->First();
 			fStackLinkEntry=fEventStack->FirstLink();
 		}
-		printf("Scope %7.3f sec Run %3d File %4d Stack %d --=========================================\n",
-				(Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.,
+		printf("Chain %4d Scope %7.3f sec Run %3d File %4d Stack %d --=========================================\n",
+				fChainNumber,(Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.,
 				fiFileNumber>>16,fiFileNumber&0xffff,fiEvprocessed);
 		fiEvprocessed=0;
 		fAlphaFound=kFALSE;
@@ -206,16 +238,16 @@ fEventStack->used++;
 					&&(fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYHhitI)
 			){
 				fEvrFound=kTRUE;
-				PrintEvr(kFALSE);
+				PrintEvr(fChainStore);
 			}
 			else if(fStackEvent->fisAlpha
 					&&(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXLhitI)
 					&&((fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYLhitI)
-							||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI)
-							||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYLhitI))
+					||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI)
+					||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYLhitI))
 			){
 				fAlphaFound=kTRUE;
-				PrintAlpha(kFALSE);
+				PrintAlpha(fChainStore);
 			}
 			else if((fStackEvent->fisFission)&&(fiLastFissionEvent==fStackEvent->fiEventNumber))
 				printf("   Fission  %9d double\n",fStackEvent->fiEventNumber);
@@ -224,19 +256,13 @@ fEventStack->used++;
 		} // second while loop forward
 	} // found Alpha or Evr
 	if(fEvrFound&&fAlphaFound){
-		PrintFission(kFALSE);
+		PrintFission(fChainStore);
 		fiLastFissionEvent=fFissionEvent->fiEventNumber;
 	}
-//	fEventStack->used=0;
-//	fEventCurrent=(TascaEvent *) fEventStack->First();
-//	fStackLinkCurrent=fEventStack->FirstLink();
-//	if(fStackfilled)
-//	cout<<"File "<<fInput->fiFileNumber<<" all "<<fEventStack->entries<<" slots cleared."<<endl;
-//	fStackfilled=kFALSE;
-//	return;
 } // fission
 // Note that we have already filled the list with preallocated events.
 // Therefore the iterator runs over all entries.
+ // With return fEventCurrent must point to the next free item.
 fStackLinkCurrent=fStackLinkCurrent->Next();
 if(fStackLinkCurrent==0){
 	if(!fStackfilled)
