@@ -34,7 +34,7 @@ TascaAnlEvent::TascaAnlEvent(const char * name)
 //***********************************************************
 TascaAnlEvent::~TascaAnlEvent()
 {
-    cout << "Tasca> TascaAnlEvent: Deleted"<< endl;
+    //cout << "Tasca> TascaAnlEvent: Deleted"<< endl;
 }
 //***********************************************************
 

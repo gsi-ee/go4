@@ -27,7 +27,7 @@ TascaCaliEvent::TascaCaliEvent(const char* name) :
 //***********************************************************
 TascaCaliEvent::~TascaCaliEvent()
 {
-    cout << "Tasca> TascaCaliEvent: Delete"<< endl;
+    //cout << "Tasca> TascaCaliEvent: Delete"<< endl;
 }
 //***********************************************************
 

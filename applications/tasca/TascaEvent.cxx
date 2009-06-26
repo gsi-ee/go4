@@ -18,7 +18,7 @@ TascaEvent::TascaEvent(const char* name)
 }
 //***********************************************************
 TascaEvent::~TascaEvent(){
-    cout << "Tasca> TascaEvent: " << GetName() << " deleted" << endl;
+    //cout << "Tasca> TascaEvent: " << GetName() << " deleted" << endl;
 }
 //***********************************************************
 

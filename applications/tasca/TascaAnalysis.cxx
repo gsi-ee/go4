@@ -48,7 +48,7 @@ TascaAnalysis::TascaAnalysis()
 //***********************************************************
 TascaAnalysis::~TascaAnalysis()
 {
-  cout << "Tasca> TascaAnalysis: Delete" << endl;
+  //cout << "Tasca> TascaAnalysis: Delete" << endl;
 }
 //***********************************************************
 

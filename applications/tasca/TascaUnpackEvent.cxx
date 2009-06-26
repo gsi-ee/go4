@@ -27,7 +27,7 @@ TascaUnpackEvent::TascaUnpackEvent(const char* name) :
 //***********************************************************
 TascaUnpackEvent::~TascaUnpackEvent()
 {
-    cout << "Tasca> TascaUnpackEvent: Delete"<< endl;
+    //cout << "Tasca> TascaUnpackEvent: Delete"<< endl;
 }
 //***********************************************************
 
