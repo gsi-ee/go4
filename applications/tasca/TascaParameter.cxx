@@ -35,7 +35,7 @@ Save(0),Fill(1),shift(5),EventStackSize(10),Printed(kFALSE)
 }
 //***********************************************************
 TascaParameter::~TascaParameter(){
-    cout << "Tasca> TascaParameter: " << GetName() << " deleted" << endl;
+    //cout << "Tasca> TascaParameter: " << GetName() << " deleted" << endl;
 }
 //***********************************************************
 

@@ -22,7 +22,7 @@ TascaControl::TascaControl(const char* name) : TGo4Parameter(name)
 }
 //***********************************************************
 TascaControl::~TascaControl(){
-    cout << "Tasca> TascaControl: " << GetName() << " deleted" << endl;
+    //cout << "Tasca> TascaControl: " << GetName() << " deleted" << endl;
 }
 //***********************************************************
 

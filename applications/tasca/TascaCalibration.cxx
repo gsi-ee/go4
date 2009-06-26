@@ -24,7 +24,7 @@ TascaCalibration::TascaCalibration(const char* name) : TGo4Parameter(name)
 }
 //***********************************************************
 TascaCalibration::~TascaCalibration(){
-    cout << "Tasca> TascaCalibration: " << GetName() << " deleted" << endl;
+    //cout << "Tasca> TascaCalibration: " << GetName() << " deleted" << endl;
 }
 //-----------------------------------------------------------
 Int_t TascaCalibration::PrintParameter(){
