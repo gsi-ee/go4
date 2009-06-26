@@ -27,7 +27,7 @@ TascaCheckEvent::TascaCheckEvent(const char * name)
 //***********************************************************
 TascaCheckEvent::~TascaCheckEvent()
 {
-    cout << "Tasca> TascaCheckEvent: Deleted"<< endl;
+    //cout << "Tasca> TascaCheckEvent: Deleted"<< endl;
 }
 //***********************************************************
 
