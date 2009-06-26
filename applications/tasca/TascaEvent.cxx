@@ -25,7 +25,7 @@ TascaEvent::~TascaEvent(){
 //-----------------------------------------------------------
 Int_t TascaEvent::PrintEvent(){
 	{
-		printf("Event Chain %4d Run %3d File %4d Evt %9d Tof:%d Off:%d EVR:%d Al:%d FS:%d\n",
+		printf("Event Chain %4d Run %3d File %4d Evt %9d Tof:%d Off:%d EVR:%d Al:%d SF:%d\n",
 				fiChainNumber,fiFileNumber>>16,fiFileNumber&0xffff,fiEventNumber,
 				fisTof,!fisMacro,fisEvr,fisAlpha,fisFission);
 		printf("  [mysec] Sys %9u Gam %9u Adc %9u, d [msec] Sys %6.3f Gam %6.3f Adc %6.3f\n",
