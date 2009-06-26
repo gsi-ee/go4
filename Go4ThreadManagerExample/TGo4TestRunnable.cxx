@@ -197,10 +197,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
                   GetName(),fiMode);
          fxGo4Thread->Sleep(15000);
          TGo4Log::Debug("\t ''%s'' removing first thread", GetName());
-         if(loops==0)
-            {
-               sprintf(buf,"First Thread");
-            }
+
          go4thr=((TGo4ThreadHandler*) fxManager->GetWorkHandler())->GetThread("First Thread");
          ((TGo4ThreadHandler*) fxManager->GetWorkHandler())->RemoveThread("First Thread");
 
