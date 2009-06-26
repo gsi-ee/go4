@@ -111,7 +111,7 @@ Bool_t TGo4FileSource::BuildEvent(TGo4EventElement* dest)
       }  //  if(!fbActivated)
    // end init section ////////////
    fxTree->GetEntry(fiCurrentEvent++);
-   if(fiCurrentEvent>fiMaxEvents) ThrowError(0,44,"END OF TREE at event %d !!!",fiCurrentEvent);
+   if(fiCurrentEvent>fiMaxEvents) ThrowEOF(0,44,"End of tree at event %d !!!",fiCurrentEvent);
    return rev;
 }
 
@@ -130,7 +130,7 @@ Bool_t TGo4FileSource::BuildCompositeEvent(TGo4CompositeEvent* dest){
   fxTree->GetEntry(fiCurrentEvent++);
 
   // !!! Added by S.Linev 20.11.2003
-  if(fiCurrentEvent>fiMaxEvents) ThrowError(0,44,"END OF TREE at event %d !!!",fiCurrentEvent);
+  if(fiCurrentEvent>fiMaxEvents) ThrowEOF(0,44,"End of tree at event %d !!!",fiCurrentEvent);
 
   return kTRUE;
 }

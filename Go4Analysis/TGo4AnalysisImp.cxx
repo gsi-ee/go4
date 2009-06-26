@@ -287,7 +287,7 @@ catch(TGo4EventTimeoutException& ex)
 }
 catch(TGo4EventEndException& ex)
 {
-Message(2,"End Of Eventsource %s:%s - %s",
+Message(2,"End of event source %s:\n     %s - %s",
                                  ex.GetSourceClass(),
                                  ex.GetSourceName(),ex.GetErrMess());
 if(IsErrorStopEnabled())
@@ -305,13 +305,13 @@ catch(TGo4EventErrorException& ex)
    if(prio==0)
       {
          // only display message without stop
-         Message(1,"Eventsource %s:%s - %s",
+         Message(1,"Event source %s:\n     %s - %s",
                                  ex.GetSourceClass(),
                                  ex.GetSourceName(),ex.GetErrMess());
       }
    else
       {
-         Message(3,"Analysis %s ERROR: %s from eventsource %s:%s",
+         Message(3,"Analysis %s ERROR: %s from event source %s:\n     %s",
                            GetName(),ex.GetErrMess(),
                            ex.GetSourceClass(), ex.GetSourceName());
       if(IsErrorStopEnabled())
@@ -427,21 +427,29 @@ try
                         ex.Handle(); // warnings and infos: continue loop after display message
                      }
                }
-             catch(TGo4EventErrorException& ex)
-               {
-                  if(ex.GetPriority()>0)
-                     {
-                        Message(ex.GetPriority(),"%s",ex.GetErrMess());
-                        PostLoop();
-                        throw;   // errors: stop event loop
-                     }
-                  else
-                     {
-                        Message(1,"Eventsource %s:%s %s",ex.GetSourceClass(),
-                                 ex.GetSourceName(),ex.GetErrMess());
-                        ex.Handle(); // infos: continue loop after display message
-                     }
-               }
+            catch(TGo4EventEndException& ex)
+              {
+                      Message(1,"End of event source %s:\n      %s %s",ex.GetSourceClass(),
+                         ex.GetSourceName(),ex.GetErrMess());
+                       PostLoop();
+                       throw;   // errors: stop event loop
+              }
+
+            catch(TGo4EventErrorException& ex)
+              {
+                 if(ex.GetPriority()>0)
+                    {
+                       Message(ex.GetPriority(),"%s",ex.GetErrMess());
+                       PostLoop();
+                       throw;   // errors: stop event loop
+                    }
+                 else
+                    {
+                       Message(1,"Eventsource %s:%s %s",ex.GetSourceClass(),
+                                ex.GetSourceName(),ex.GetErrMess());
+                       ex.Handle(); // infos: continue loop after display message
+                    }
+              }
 
             catch(...)
                {
