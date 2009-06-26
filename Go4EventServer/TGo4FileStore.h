@@ -60,13 +60,13 @@ class TGo4FileStore : public TGo4EventStore {
 
     /** Standard go4 name of the branch used in all treestore
       * and treesource implementations. */
-    static const Text_t fgcEVBRANCHNAME[]; //!
+    static const char* fgcEVBRANCHNAME; //!
 
     /** Standard suffix for file name */
-    static const Text_t fgcFILESUF[]; //!
+    static const char* fgcFILESUF; //!
 
     /** Standard go4 suffix for tree name */
-    static const Text_t fgcTREESUF[]; //!
+    static const char* fgcTREESUF; //!
 
     /** size in bytes for root tree-filesplit mechanism. */
     static const Int_t fgiFILESPLITSIZE;

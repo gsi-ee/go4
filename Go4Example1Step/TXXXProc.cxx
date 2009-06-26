@@ -11,7 +11,6 @@
 #include "TGo4CondArray.h"
 #include "TGo4Picture.h"
 #include "TGo4MbsEvent.h"
-#include "snprintf.h"
 
 #include "TXXXControl.h"
 #include "TXXXEvent.h"

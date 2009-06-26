@@ -2,7 +2,6 @@
 
 #include "Riostream.h"
 #include <stdlib.h>
-#include "snprintf.h"
 
 #include "TGo4EventErrorException.h"
 #include "TGo4EventTimeoutException.h"

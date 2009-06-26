@@ -5,7 +5,6 @@
 #include "TROOT.h"
 #include "TRint.h"
 #include "TApplication.h"
-#include "snprintf.h"
 
 #include "TGo4StepFactory.h"
 #include "TGo4AnalysisStep.h"
@@ -44,7 +43,11 @@ int main(int argc, char **argv)
    if (argc<2) usage("Too few arguments");
 
    int app_argc = 2;
-   char* app_argv[] = { argv[0], (char*)"-b" };
+   char* app_argv[2];
+   app_argv[0] = new char[256];
+   app_argv[1] = new char[256];
+   strncpy(app_argv[0], argv[0], 256);
+   strncpy(app_argv[1], "-b", 256);
    TApplication theApp("Go4App", &app_argc, app_argv);
 
    Bool_t batchMode(kTRUE);  // GUI or Batch

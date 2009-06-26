@@ -5,7 +5,6 @@
 #include "TApplication.h"
 #include "TSystem.h"
 #include "TCondition.h"
-#include "snprintf.h"
 
 #include "TGo4Log.h"
 #include "TGo4ThreadHandler.h"

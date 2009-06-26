@@ -5,7 +5,6 @@
 #include "TH1.h"
 #include "TH2.h"
 #include "TCutG.h"
-#include "snprintf.h"
 
 #include "TGo4MbsEvent.h"
 #include "TGo4WinCond.h"

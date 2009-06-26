@@ -128,17 +128,15 @@ void TGo4MbsHist::PrepareHeader(TH1* source, const char* path, s_his_head* targe
    if(source->InheritsFrom(TH1D::Class()) ||
       source->InheritsFrom(TH1F::Class()) ||
       source->InheritsFrom(TH2D::Class()) ||
-      source->InheritsFrom(TH2F::Class()))
-      {
+      source->InheritsFrom(TH2F::Class())) {
          //cout <<" \tMMMMMMMM Prepare header has float histo" << endl;
-         snprintf(dest->c_dtype,4,"r");
+         strcpy(dest->c_dtype,"r");
       }
    else
    {
       //cout <<" \tMMMMMMMM Prepare header has int histo" << endl;
-      snprintf(dest->c_dtype,4,"i");
+      strcpy(dest->c_dtype,"i");
    }
-   //snprintf(dest->c_dtype,4,"i");// we treat all histograms with integer data
    TTimeStamp now;
    snprintf(dest->c_data_time_cre,28,"%s",now.AsString("l"));    // creation time
    snprintf(dest->c_clear_date,28,"%s",now.AsString("l"));       // clear time, dummy here

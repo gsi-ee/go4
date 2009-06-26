@@ -1,5 +1,7 @@
 #include "TGo4Parameter.h"
 
+#include <string.h>
+
 #include "Riostream.h"
 
 #include "TList.h"
@@ -8,7 +10,6 @@
 #include "TDataMember.h"
 #include "TDataType.h"
 #include "TBaseClass.h"
-#include "snprintf.h"
 
 #include "TGo4Log.h"
 #include "TGo4ParameterMember.h"
@@ -36,24 +37,18 @@ Int_t TGo4Parameter::PrintParameter(Text_t* buffer, Int_t buflen)
 {
    TRACE((12,"TGo4Parameter ::PrintParameter()",__LINE__, __FILE__));
    //
-   if(buflen<=0 && buffer!=0)
-      return 0;
-   Int_t locallen=2048;
-   Text_t localbuf[2048];
-   Int_t size=0;
-   size=snprintf(localbuf, locallen-1,
-                     " Parameter Class %s, name: %s \n",
-                        ClassName(), GetName());
+   if(buflen<=0 && buffer!=0) return 0;
+
+   Int_t size = 0;
+   TString localbuf = Form(" Parameter Class %s, name: %s \n", ClassName(), GetName());
+
    if(buffer==0)
-      {
-          cout << localbuf << endl;
-      }
-   else
-      {
-         if(size>buflen-1)
-            size=buflen-1;
-         strncpy(buffer,localbuf,size);
-      }
+      cout << localbuf << endl;
+   else {
+      size = localbuf.Length();
+      if(size>buflen-1) size = buflen-1;
+      strncpy(buffer,localbuf.Data(), size);
+   }
    return size;
 }
 

@@ -30,7 +30,6 @@
 #include "TMath.h"
 #include "TClass.h"
 #include "TSystem.h"
-#include "snprintf.h"
 
 #include "TGCanvas.h"
 #include "TGTab.h"

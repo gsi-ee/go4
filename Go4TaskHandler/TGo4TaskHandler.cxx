@@ -3,7 +3,6 @@
 #include "Riostream.h"
 #include <stdlib.h>
 #include "TSystem.h"
-#include "snprintf.h"
 
 #include "TGo4Log.h"
 #include "TGo4Thread.h"

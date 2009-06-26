@@ -1,7 +1,6 @@
 #include "TGo4ExportManager.h"
 
 #include <stdexcept>
-#include "snprintf.h"
 
 #include "Riostream.h"
 #include "TSystem.h"
@@ -257,11 +256,9 @@ try{
    TString objectname=histo->GetName();
    TString outname=objectname;
    outname.Append(".hdat");
-   char buffer[256];
-   snprintf(buffer,255,"%s",outname.Data());
    gSystem->cd(fxCurrentDir.Data());
 
-   std::ofstream outfile(buffer);
+   std::ofstream outfile(outname.Data());
    if(!outfile)
     {
       TGo4Log::Message(3,"ExportManager: Error opening outputfile %s",outname.Data());
@@ -336,10 +333,8 @@ try{
    TString objectname=graph->GetName();
    TString outname=objectname;
    outname.Append(".gdat");
-   char buffer[256];
-   snprintf(buffer,255,"%s",outname.Data());
    gSystem->cd(fxCurrentDir.Data());
-   std::ofstream outfile(buffer);
+   std::ofstream outfile(outname.Data());
    if(!outfile) {
       TGo4Log::Message(3,"ExportManager: Error opening outputfile %s",outname.Data());
       return;
@@ -397,9 +392,7 @@ try{
    TString objectname=histo->GetName();
    TString outname=objectname;
    outname.Append(".spe");
-   char buffer[256];
-   snprintf(buffer,255,"%s",outname.Data());
-   TString hname=objectname;
+   TString hname = objectname;
    hname.Append("        ");
    Int_t maxbinX=histo->GetNbinsX();
    Int_t l_chan=maxbinX; // get record size from histo here...
@@ -411,7 +404,7 @@ try{
    l_head[4]=24;
    l_head[5]=l_chan*4; /* record size */
    gSystem->cd(fxCurrentDir.Data());
-   std::ofstream outfile(buffer);
+   std::ofstream outfile(outname.Data());
   if(!outfile)
     {
       TGo4Log::Message(3,"ExportManager: Error opening outputfile %s",outname.Data());

@@ -34,7 +34,6 @@
 #include "TColor.h"
 #include "TLatex.h"
 #include "Riostream.h"
-#include "snprintf.h"
 
 #include "TGo4LockGuard.h"
 
@@ -708,26 +707,26 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
 
          // Get the current value and form it as a text:
 
-         Text_t val[256];
+         TString val;
 
          if (basictype == "char*") {
-            Text_t *tdefval;
+            char *tdefval(0);
             m->GetterMethod()->Execute(object, "", &tdefval);
-            strncpy(val, tdefval, 255);
+            if (tdefval) val = tdefval;
          } else
          if ((basictype == "float") ||
              (basictype == "double")) {
-            Double_t ddefval;
+            Double_t ddefval(0.);
             m->GetterMethod()->Execute(object, "", ddefval);
-            snprintf(val, 255, "%g", ddefval);
+            val = Form("%g", ddefval);
          } else
          if ((basictype == "char") ||
              (basictype == "int")  ||
              (basictype == "long") ||
              (basictype == "short")) {
-            Long_t ldefval;
+            Long_t ldefval(0);
             m->GetterMethod()->Execute(object, "", ldefval);
-            snprintf(val, 255, "%li", ldefval);
+            val = Form("%ld", ldefval);
          }
 
          // Find out whether we have options ...
@@ -739,7 +738,7 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
             return;
          } else {
             // we haven't got options - textfield ...
-            dlg.addArg(argTitle.Data(), val, type.Data());
+            dlg.addArg(argTitle.Data(), val.Data(), type.Data());
          }
       } else {    // if m not found ...
          if ((argDflt.Length() > 1) &&

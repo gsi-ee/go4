@@ -4,7 +4,6 @@
 #include "TH1.h"
 #include "TGraph.h"
 #include "Riostream.h"
-#include "snprintf.h"
 
 #include "TGo4Log.h"
 #include "TGo4Fitter.h"
@@ -21,14 +20,12 @@ TXXXCalibPar::TXXXCalibPar() :
    fxCalibCurve(0),
    fxCalibSpectrum(0)
 {
-   fxDatabase="calilines.txt";
-   Text_t buf[__TEXTMAX__];
+   fxDatabase = "calilines.txt";
    for(Int_t ord=0;ord<__POLORDER__;++ord) fdA[ord]=0;
    for(Int_t ix=0;ix<__LINESNUMBER__;++ix) {
-      fiLinesChannel[ix]=0;
-      ffLinesEnergy[ix]=0;
-      snprintf(buf,__TEXTMAX__,"Defaultline-%d",ix);
-      fxLinesNames[ix]=buf;
+      fiLinesChannel[ix] = 0;
+      ffLinesEnergy[ix] = 0;
+      fxLinesNames[ix] = Form("Defaultline-%d",ix);
    }
 }
 //***********************************************************
@@ -65,23 +62,18 @@ TXXXCalibPar::TXXXCalibPar(const char* name, TH1* spectrum, TGraph* curve) :
    fxCalibrator->AddPolynomX(__GRAPHNAME__,"A",__POLORDER__-1);
    // note that __POLORDER__ is number of polynom parameters here
    // i.e. true order of polynom +1
-   Text_t modname[__TEXTMAX__];
-   for(Int_t i=0; i<__POLORDER__;++i)
-   {
+   for(Int_t i=0; i<__POLORDER__;++i) {
       fdA[i]=1/(i+1);
-      snprintf(modname,__TEXTMAX__,"A_%d",i);
-      TGo4FitModel* mod=fxCalibrator->FindModel(modname);
-      if(mod)
-      {
+      TString modname = Form("A_%d",i);
+      TGo4FitModel* mod=fxCalibrator->FindModel(modname.Data());
+      if(mod) {
          // for the beginning, disable models beyond order 1:
          if(i>1) mod->ClearAssignmentTo(__GRAPHNAME__);
-      }
-      else
-         cout <<"could not find model "<<modname << endl;
+      } else
+         cout <<"could not find model " << modname << endl;
    }
 
-   for(Int_t ix=0;ix<__LINESNUMBER__;++ix)
-   {
+   for(Int_t ix=0;ix<__LINESNUMBER__;++ix) {
       fiLinesChannel[ix]=0;
       ffLinesEnergy[ix]=0;
    }
@@ -198,22 +190,15 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
          fxCalibrator->DoActions();
          fxCalibrator->PrintLines();
          // finally, copy results of calibration to the parameter fields:
-         Text_t modname[__TEXTMAX__];
-         for(Int_t i=0; i<__POLORDER__;++i)
-         {
-            snprintf(modname,__TEXTMAX__,"A_%d",i);
-            TGo4FitModel* mod=fxCalibrator->FindModel(modname);
-            if(mod)
-            {
+         for(Int_t i=0; i<__POLORDER__;++i) {
+            TGo4FitModel* mod=fxCalibrator->FindModel(Form("A_%d",i));
+            if(mod) {
                // check here if component is active or not
                if(mod->IsAssignTo(__GRAPHNAME__))
                   fdA[i]=mod->GetParValue("Ampl");
                else
                   fdA[i]=0;
             }
-            else
-               ;//cout <<"could not find model "<<modname << endl;
-
          }
 
       }

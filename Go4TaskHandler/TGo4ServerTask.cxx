@@ -5,7 +5,6 @@
 #include "TMutex.h"
 #include "TApplication.h"
 #include "TObjArray.h"
-#include "snprintf.h"
 
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"

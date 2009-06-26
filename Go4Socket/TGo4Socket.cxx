@@ -1,8 +1,8 @@
 #include "TGo4Socket.h"
 
-#include "Riostream.h"
+#include <string.h>
 
-#include "snprintf.h"
+#include "Riostream.h"
 #include "TMutex.h"
 #include "TMessage.h"
 #include "TSystem.h"
@@ -396,7 +396,7 @@ Int_t TGo4Socket::Send(const char* name)
       {
          if(fxSocket)
             {
-               snprintf(fxLocalBuffer,TGo4Socket::fgiBUFLENGTH-1, "%s", name);
+               strncpy(fxLocalBuffer,name, TGo4Socket::fgiBUFLENGTH-1);
                rev = fxSocket->SendRaw(fxLocalBuffer,TGo4Socket::fgiBUFLENGTH);
             }
          else

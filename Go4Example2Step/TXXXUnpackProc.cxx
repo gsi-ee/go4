@@ -7,7 +7,6 @@
 #include "TH1.h"
 #include "TH2.h"
 #include "TCutG.h"
-#include "snprintf.h"
 
 #include "s_filhe_swap.h"
 #include "s_bufhe_swap.h"
@@ -24,13 +23,13 @@
 //***********************************************************
 TXXXUnpackProc::TXXXUnpackProc() :
    TGo4EventProcessor()
-   {
-   }
+{
+}
 //***********************************************************
 // this one is used in TXXXUnpackFact.cxx
 TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    TGo4EventProcessor(name)
-   {
+{
    cout << "**** TXXXUnpackProc: Create" << endl;
 
    //// init user analysis objects:

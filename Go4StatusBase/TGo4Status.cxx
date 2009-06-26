@@ -40,25 +40,19 @@ void TGo4Status::Print(Option_t* dummy) const
 Int_t TGo4Status::PrintStatus(Text_t* buffer, Int_t buflen)
 {
    TRACE((12,"TGo4Status::PrintStatus()",__LINE__, __FILE__));
-   //
-   if(buflen<=0 && buffer!=0)
-      return 0;
-   Int_t locallen=2048;
-   Text_t localbuf[2048];
-   Int_t size=0;
-   size=snprintf(localbuf, locallen-1,
-                     "G-OOOO-> Status Class %s, name: %s <-OOOO-G\n",
-                        ClassName(), GetName());
+
+   if(buflen<=0 && buffer!=0) return 0;
+
+   Int_t size = 0;
+   TString localbuf = Form("G-OOOO-> Status Class %s, name: %s <-OOOO-G\n", ClassName(), GetName());
+
    if(buffer==0)
-      {
-          cout << localbuf << endl;
-      }
-   else
-      {
-         if(size>buflen-1)
-            size=buflen-1;
-         strncpy(buffer,localbuf,size);
-      }
+      cout << localbuf << endl;
+   else {
+      size = localbuf.Length();
+      if(size>buflen-1) size = buflen-1;
+      strncpy(buffer,localbuf.Data(), size);
+   }
    return size;
 }
 
@@ -75,7 +69,7 @@ Text_t* TGo4Status::PrintIndent(Text_t* buffer, Int_t& buflen)
    return cursor;
 }
 
-Text_t* TGo4Status::PrintBuffer(Text_t* buffer, Int_t& buflen, const Text_t* text,...)
+Text_t* TGo4Status::PrintBuffer(char* buffer, Int_t& buflen, const char* text,...)
 {
    if(buffer==0 || buflen<0) return 0;
    va_list args;
@@ -83,7 +77,7 @@ Text_t* TGo4Status::PrintBuffer(Text_t* buffer, Int_t& buflen, const Text_t* tex
    Int_t size=vsnprintf(buffer, buflen, text, args);
    va_end(args);
    if(size>buflen || size<0) return 0;
-   Text_t* current= buffer + size;
+   char* current= buffer + size;
    buflen-=size;
    return current;
 }

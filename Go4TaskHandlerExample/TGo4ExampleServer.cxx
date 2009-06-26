@@ -2,8 +2,6 @@
 
 #include "Riostream.h"
 
-#include "snprintf.h"
-
 #include "TGo4Log.h"
 #include "TGo4Status.h"
 #include "TGo4BufferQueue.h"
@@ -25,8 +23,6 @@ TGo4ExampleServer::~TGo4ExampleServer()
 {
    TRACE((15,"TGo4ExampleServer::~TGo4ExampleServer() destructor",__LINE__, __FILE__));
 
-   delete [] fcControlName;
-   delete [] fcLoggingName;
    fxWorkHandler->CancelAll(); // make sure threads wont work on controller instance when its deleted
    delete fxController;
 
@@ -40,25 +36,19 @@ TGo4ExampleServer::TGo4ExampleServer(const char* name,
 
    TGo4Log::Debug(" ExampleServer ''%s'' started ",GetName());
 
-   fcControlName= new Text_t[TGo4ThreadManager::fguTEXTLENGTH];
-   fcLoggingName= new Text_t[TGo4ThreadManager::fguTEXTLENGTH];
-   Text_t namebuffer[TGo4ThreadManager::fguTEXTLENGTH];
+   fxController = new TGo4ExampleController();
 
-   fxController= new TGo4ExampleController();
+   TGo4ControllerRunnable* controlrun= new TGo4ControllerRunnable(Form("ControllerRunnable of %s",GetName()), this);
 
-
-   snprintf(namebuffer,TGo4ThreadManager::fguTEXTLENGTH-1,"ControllerRunnable of %s",GetName());
-   TGo4ControllerRunnable* controlrun= new TGo4ControllerRunnable(namebuffer, this);
-   snprintf(namebuffer,TGo4ThreadManager::fguTEXTLENGTH-1,"LoggerRunnable of %s",GetName());
-   TGo4LoggingRunnable* logrun= new TGo4LoggingRunnable(namebuffer, this);
+   TGo4LoggingRunnable* logrun = new TGo4LoggingRunnable(Form("LoggerRunnable of %s",GetName()), this);
 
       // adding runnables to thread handler who takes over the responsibility...:
 
-   snprintf(fcControlName,TGo4ThreadManager::fguTEXTLENGTH-1,"%s%s",fgcCONTROLTHREAD,GetName());
-   fxWorkHandler->NewThread(fcControlName,controlrun);
+   fcControlName = Form("%s%s",fgcCONTROLTHREAD,GetName());
+   fxWorkHandler->NewThread(fcControlName.Data(), controlrun);
 
-   snprintf(fcLoggingName,TGo4ThreadManager::fguTEXTLENGTH-1,"%s%s",fgcLOGGINGTHREAD,GetName());
-   fxWorkHandler->NewThread(fcLoggingName,logrun);
+   fcLoggingName = Form("%s%s",fgcLOGGINGTHREAD,GetName());
+   fxWorkHandler->NewThread(fcLoggingName.Data(),logrun);
 
    Launch();
 }
@@ -77,7 +67,7 @@ Int_t TGo4ExampleServer::StopWorkThreads()
    TGo4BufferQueue* dataq=GetDataQueue();
    TGo4BufferQueue* statusq=GetStatusQueue();
   // stop my own threads, put dummies into queues to release semaphores
-   threadhandler->Stop(fcControlName);
+   threadhandler->Stop(fcControlName.Data());
    if(dataq)
       {
          dataq->AddBufferFromObject(new TNamed("StopObject","dummy"));
@@ -87,7 +77,7 @@ Int_t TGo4ExampleServer::StopWorkThreads()
       {
          //cout << "NO data queue"<<endl;
       }
-   threadhandler->Stop(fcLoggingName);
+   threadhandler->Stop(fcLoggingName.Data());
    if(statusq)
       {
          statusq->AddBufferFromObject(new TGo4Status("StopStatus"));
@@ -109,8 +99,8 @@ Int_t TGo4ExampleServer::StartWorkThreads()
    Int_t rev=0;
     // start again the  working threads on next current task
    TGo4ThreadHandler* threadhandler= GetWorkHandler();
-   threadhandler->Start(fcControlName);
-   threadhandler->Start(fcLoggingName);
+   threadhandler->Start(fcControlName.Data());
+   threadhandler->Start(fcLoggingName.Data());
    rev=TGo4ServerTask::StartWorkThreads(); // this will set server task internal flag
    return rev;
 

@@ -64,10 +64,10 @@ class TGo4ExampleClient : public TGo4ClientTask {
     TGo4ExampleApplication* fxApplication;//!
 
     /** Remember name of main thread */
-    Text_t* fcMainName; //!
+    TString fcMainName; //!
 
     /** Remember name of watch thread */
-    Text_t* fcWatchName; //!
+    TString fcWatchName; //!
 
   ClassDef(TGo4ExampleClient,1)
 };

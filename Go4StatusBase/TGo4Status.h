@@ -38,7 +38,7 @@ class TGo4Status : public TNamed {
        * buflen shall contain buffer size, it will be decremented by the size of
        * printed text.
        */
-      static Text_t* PrintBuffer(Text_t* buffer, Int_t& buflen, const Text_t* text,...);
+      static Text_t* PrintBuffer(char* buffer, Int_t& buflen, const char* text,...);
 
 
     /** Go4 status bits to be used in object manager to suppress

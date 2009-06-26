@@ -43,10 +43,10 @@ class TGo4ExampleServer : public TGo4ServerTask {
     TGo4ExampleController * fxController;//!
 
     /** remember name of controller thread */
-    Text_t* fcControlName; //!
+    TString fcControlName; //!
 
     /** remember name of logging thread */
-    Text_t* fcLoggingName; //!
+    TString fcLoggingName; //!
 
   ClassDef(TGo4ExampleServer,1)
 };

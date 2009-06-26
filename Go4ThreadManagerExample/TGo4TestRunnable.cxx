@@ -8,7 +8,6 @@
 #include "TCanvas.h"
 #include "TPad.h"
 #include "TThread.h"
-#include "snprintf.h"
 
 #include "TGo4Log.h"
 #include "TGo4Thread.h"
@@ -49,7 +48,6 @@ Int_t TGo4TestRunnable::Run (void* ptr)
 {
    TRACE((12,"TGo4TestRunnable::Run()",__LINE__, __FILE__));
 
-   static Text_t buf[256];
    Int_t i=0;
    static Int_t t=0;
    static Int_t loops=0;
@@ -206,15 +204,15 @@ Int_t TGo4TestRunnable::Run (void* ptr)
          go4thr=((TGo4ThreadHandler*) fxManager->GetWorkHandler())->GetThread("First Thread");
          ((TGo4ThreadHandler*) fxManager->GetWorkHandler())->RemoveThread("First Thread");
 
-         snprintf(buf,255,"NewHistogramMaker1:%d",loops++);
+         TString rname = Form("NewHistogramMaker1:%d",loops++);
          //th1run= new TGo4TestRunnable(buf,fxManager,4);
          //sprintf(buf,"New First Thread:%d",loops++);
          if(loops==1)
             {
                // at first thread is internal
                TGo4Log::Debug("\t ''%s'' creating new first thread", GetName());
-                th1run= new TGo4TestRunnable(buf,fxManager,4);
-                go4thr= new TGo4Thread("First Thread",th1run,kFALSE); // first replacement: new thread
+               th1run= new TGo4TestRunnable(rname.Data(),fxManager,4);
+               go4thr= new TGo4Thread("First Thread",th1run,kFALSE); // first replacement: new thread
             }
          else
             {

@@ -14,9 +14,9 @@
 #include "TGo4Fitter.h"
 #include "TGo4FileStoreParameter.h"
 
-const Text_t TGo4FileStore::fgcTREESUF[] = "xTree";
-const Text_t TGo4FileStore::fgcFILESUF[] = ".root";
-const Text_t TGo4FileStore::fgcEVBRANCHNAME[] = "Go4EventBranch.";
+const char* TGo4FileStore::fgcTREESUF = "xTree";
+const char* TGo4FileStore::fgcFILESUF = ".root";
+const char* TGo4FileStore::fgcEVBRANCHNAME = "Go4EventBranch.";
 const Int_t TGo4FileStore::fgiFILESPLITSIZE = 1000000000;
 
 
@@ -48,7 +48,7 @@ TGo4FileStore::TGo4FileStore(const char* name,
    fiBufsize(bufsize),
    fiFillCount(0)
 {
-   TRACE((15,"TGo4FileStore::TGo4FileStore(Text_t*,...)", __LINE__, __FILE__));
+   TRACE((15,"TGo4FileStore::TGo4FileStore(char*,...)", __LINE__, __FILE__));
    TTree::SetMaxTreeSize(fgiFILESPLITSIZE);
    TString buffer(name);
    if(strstr(buffer.Data(),fgcFILESUF)==0)
@@ -265,7 +265,6 @@ void TGo4FileStore::WriteToStore(TNamed* ob)
    if (ob==0) return;
 
    TDirectory* dsav=gDirectory;
-   Text_t buf[TGo4EventStore::fguTXTLEN];
    TString oldname = ob->GetName();
    ob->SetName(Form("%s_%d" , oldname, fiFillCount));
    if(fxTree) fxFile=fxTree->GetCurrentFile();

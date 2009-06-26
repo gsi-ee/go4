@@ -24,7 +24,6 @@
 #include "TClass.h"
 #include "TMath.h"
 #include "Buttons.h"
-#include "snprintf.h"
 #include "TH1.h"
 #include "TCutG.h"
 #include "TPad.h"
@@ -1075,8 +1074,6 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
           info->AddText(data->GetName());
           info->AddLine(0,0,0,0);
 
-          char t[500], tt[500];
-
           if (LineParsChk->isChecked())
             info->AddText("Line | Ampl | Pos & Width");
 
@@ -1091,25 +1088,23 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
                if (!model->GetPosition(0,pos)) pos = 0.;
                if (!model->GetWidth(0,width)) width = 0.;
 
-               snprintf(tt,500,"%7s | %s%s | %s%s  %s%s",
-                        model->GetName(),
-                        "%",gStyle->GetStatFormat(),
-                        "%",gStyle->GetStatFormat(),
-                        "%",gStyle->GetStatFormat());
+               TString tt = Form("%7s | %s%s | %s%s  %s%s",
+                                 model->GetName(),
+                                 "%",gStyle->GetStatFormat(),
+                                 "%",gStyle->GetStatFormat(),
+                                 "%",gStyle->GetStatFormat());
 
-               snprintf(t,500,tt,ampl,pos,width);
-               info->AddText(t);
+               info->AddText(Form(tt.Data(),ampl,pos,width));
             } else {
                int maxparlen = 7;
                for(Int_t np=0;np<model->NumPars();np++) {
                   int len = strlen(model->GetParFullName(np));
                   if (len>maxparlen) maxparlen = len;
                }
-               snprintf(tt,500,"%s%ds = %s%s","%",maxparlen,"%",gStyle->GetStatFormat());
+               TString tt = Form("%s%ds = %s%s","%",maxparlen,"%",gStyle->GetStatFormat());
 
                for(Int_t np=0;np<model->NumPars();np++) {
-                 snprintf(t,500,tt,model->GetParFullName(np), model->GetPar(np)->GetValue());
-                 info->AddText(t);
+                 info->AddText(Form(tt.Data(),model->GetParFullName(np), model->GetPar(np)->GetValue()));
                }
             }
           }
