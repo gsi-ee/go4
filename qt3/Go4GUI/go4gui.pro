@@ -3,6 +3,15 @@ LANGUAGE	= C++
 
 CONFIG	+= qt warn_off thread
 
+MOC_DIR=.moc
+OBJECTS_DIR=.obj
+
+TARGET = ../../bin/go4
+MOC = $(SYSCONF_MOC)
+IMAGEFILE = images.cpp
+PROJECTNAME = Go4GUI
+
+DEPENDPATH	+= $(ROOTSYS)/include $(GO4SYS)/include
 INCLUDEPATH	+= $(ROOTSYS)/include $(GO4SYS)/include
 
 HEADERS	+= \
@@ -277,12 +286,3 @@ IMAGES	= ../../icons/branch_t.png \
 	../../icons/draw1dhis.png \
 	../../icons/draw1dline.png
 
-MOC_DIR=.moc
-OBJECTS_DIR=.obj
-
-TARGET = ../../bin/go4
-MOC = $(SYSCONF_MOC)
-IMAGEFILE = images.cpp
-PROJECTNAME = Go4GUI
-
-DEPENDPATH	+= $(ROOTSYS)/include $(GO4SYS)/include

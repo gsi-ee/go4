@@ -2,8 +2,8 @@
 
 FITGUI3_DIR         = $(GO4SYS)/qt3/Go4FitGUI
 FITGUI3_QTLIBNAME   = libGo4FitGUI3
-FITGUI3_QTPRO       = $(FITGUI3_DIR)/Go4FitGUI3.pro
-FITGUI3_QTMAKE      = $(FITGUI3_DIR)/Makefile.qt
+FITGUI3_QTPRO       = Go4FitGUI3.pro
+FITGUI3_QTMAKE      = Makefile.qt
 
 FITGUI3_NOTLIBF     =
 
@@ -27,7 +27,7 @@ FITGUI3_PUBH        = $(patsubst $(FITGUI3_DIR)/%.h, $(GO4SYS)/include/%.h, $(FI
 GO4QT3HEADS        += $(FITGUI3_FH) $(FITGUI3_PUBH)
 
 ifdef DOPACKAGE
-DISTRFILES         += $(FITGUI3_FORMS) $(FITGUI3_FORMSI) $(FITGUI3_QTPRO)
+DISTRFILES         += $(FITGUI3_FORMS) $(FITGUI3_FORMSI) $(FITGUI3_DIR)/$(FITGUI3_QTPRO)
 DISTRFILES         += $(FITGUI3_QTH) $(FITGUI3_QTS) 
 DISTRFILES         += $(FITGUI3_DIR)/TGo4FitGuiTypes.h $(FITGUI3_DIR)/Module.mk
 endif
@@ -40,24 +40,20 @@ $(GO4SYS)/include/%.h: $(FITGUI3_DIR)/%.h
 	@cp -f $< $@
 endif
 
-
-# generate makefile only if project is exists
-ifneq ($(wildcard $(FITGUI3_QTPRO)),)
-$(FITGUI3_QTMAKE): $(FITGUI3_QTPRO) $(FITGUI3_FORMS)
+$(FITGUI3_DIR)/$(FITGUI3_QTMAKE): $(FITGUI3_DIR)/$(FITGUI3_QTPRO) $(FITGUI3_FORMS)
 	@echo "Generating Makefile.qt of the Fit GUI..."
-	cd $(FITGUI3_DIR); $(QMAKE) $(FITGUI3_QTPRO) -o $(FITGUI3_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS) "DESTDIR=$(GO4DLLPATH)"
-endif
+	cd $(FITGUI3_DIR); $(QMAKE) $(FITGUI3_QTPRO) -o $(FITGUI3_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS)
 
-qt3-FitGUI: $(FITGUI3_QTMAKE) $(GO4QT3HEADS)
+qt3-FitGUI: $(FITGUI3_DIR)/$(FITGUI3_QTMAKE) $(GO4QT3HEADS)
 	@echo "Generating Qt part of the Fit GUI..."
-	+cd $(FITGUI3_DIR); $(MAKE) -f $(FITGUI3_QTMAKE)
+	+cd $(FITGUI3_DIR); $(MAKE) -f $(FITGUI3_QTMAKE) "GO4SYS=../.."
 
 clean-qt3-FitGUI-bin:
 	@rm -f $(FITGUI3_DIR)/*.o
-ifneq ($(wildcard $(FITGUI3_QTMAKE)),)
-	cd $(FITGUI3_DIR); $(MAKE) -f $(FITGUI3_QTMAKE) clean
+ifneq ($(wildcard $(FITGUI3_DIR)/$(FITGUI3_QTMAKE)),)
+	cd $(FITGUI3_DIR); $(MAKE) -f $(FITGUI3_QTMAKE) clean  "GO4SYS=../.."
 endif
-	@rm -f $(FITGUI3_QTMAKE) $(FITGUI3_FH)
+	@rm -f $(FITGUI3_DIR)/$(FITGUI3_QTMAKE) $(FITGUI3_FH)
 	@rm -rf .obj .moc
 	@echo "Clean qt3 fitgui done"
 

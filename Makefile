@@ -1,5 +1,5 @@
 ifndef GO4SYS
-  GO4SYS = $(CURDIR)
+  GO4SYS = .
 endif
 
 include Makefile.config

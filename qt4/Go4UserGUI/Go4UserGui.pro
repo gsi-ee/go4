@@ -1,14 +1,14 @@
 TEMPLATE	= lib
 LANGUAGE	= C++
 
-CONFIG	+= qt warn_off thread
+CONFIG += qt warn_off thread
 
-INCLUDEPATH	+= $(ROOTSYS)/include $(GO4SYS)/include $(GO4SYS) ../../include
+INCLUDEPATH += $(GO4SYS)/include
 
-DEPENDPATH	+= $(ROOTSYS)/include $(GO4SYS)/include $(GO4SYS) ../../include
+DEPENDPATH += $(GO4SYS)/include
 
-SOURCES	+= QUserPanel.cpp
+SOURCES += QUserPanel.cpp
 
-HEADERS	+= QUserPanel.h 
+HEADERS += QUserPanel.h 
 
-FORMS	= QUserPanel.ui
+FORMS = QUserPanel.ui

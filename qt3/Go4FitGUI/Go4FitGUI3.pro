@@ -1,3 +1,10 @@
+
+TEMPLATE = lib
+CONFIG += qt warn_off thread
+INCLUDEPATH += $(ROOTSYS)/include $(GO4SYS)/include
+DEPENDPATH += $(ROOTSYS)/include $(GO4SYS)/include
+LANGUAGE = C++
+DESTDIR=../../lib
 MOC_DIR=.moc
 OBJECTS_DIR=.obj
 
@@ -35,9 +42,3 @@ FORMS	= TGo4FitPanel.ui \
 	QFitMatrixTransWidget.ui \
 	QFitPeakFinderWidget.ui \
 	QFitRangeCutWidget.ui
-
-TEMPLATE = lib
-CONFIG += qt warn_off thread
-INCLUDEPATH += $(ROOTSYS)/include $(GO4SYS)/include
-DEPENDPATH += $(ROOTSYS)/include $(GO4SYS)/include
-LANGUAGE = C++

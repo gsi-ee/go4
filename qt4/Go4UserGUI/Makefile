@@ -4,6 +4,7 @@ include $(GO4SYS)/Makefile.config
 
 ifdef GO4PACKAGE
 USERGUI4_DIR         = $(GO4SYS)/qt4/Go4UserGUI
+USERGUI4_QFLAGS       = "GO4SYS=../.."
 else
 USERGUI4_DIR         = $(CURDIR)
 endif
@@ -53,7 +54,7 @@ $(USERGUI4_DIR)/$(USERGUI4_QTMAKE): $(USERGUI4_DIR)/$(USERGUI4_QTPRO) $(USERGUI4
 
 $(USERGUI4_QTLIB): $(USERGUI4_DIR)/$(USERGUI4_QTMAKE) $(USERGUI4_QGO4WIDG)
 	@echo "Generating Qt part of the User GUI..."
-	+cd $(USERGUI4_DIR); $(MAKEFORQT) -f $(USERGUI4_QTMAKE)
+	+cd $(USERGUI4_DIR); $(MAKEFORQT) -f $(USERGUI4_QTMAKE) $(USERGUI4_QFLAGS)
 
 ifndef GO4_WIN32
 all-qt4usergui:  $(USERGUI4_QTLIB)
@@ -64,7 +65,7 @@ endif
 
 clean-qt4usergui-bin:
 ifneq ($(wildcard $(USERGUI4_DIR)/$(USERGUI4_QTMAKE)),)
-	cd $(USERGUI4_DIR); $(MAKEFORQT) -f $(USERGUI4_QTMAKE) clean
+	cd $(USERGUI4_DIR); $(MAKEFORQT) -f $(USERGUI4_QTMAKE) clean $(USERGUI4_QFLAGS)
 endif
 	@rm -f $(USERGUI4_DIR)/$(USERGUI4_QTMAKE)
 	@rm -f $(USERGUI4_DIR)/*.o $(USERGUI4_DIR)/moc_*.* $(USERGUI4_DIR)/ui_*.h

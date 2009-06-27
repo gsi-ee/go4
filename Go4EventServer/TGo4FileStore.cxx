@@ -266,12 +266,12 @@ void TGo4FileStore::WriteToStore(TNamed* ob)
 
    TDirectory* dsav=gDirectory;
    TString oldname = ob->GetName();
-   ob->SetName(Form("%s_%d" , oldname, fiFillCount));
-   if(fxTree) fxFile=fxTree->GetCurrentFile();
-   fxFile->cd();
+   ob->SetName(Form("%s_%d" , oldname.Data(), fiFillCount));
+   if(fxTree) fxFile = fxTree->GetCurrentFile();
+   if (fxFile) fxFile->cd();
    ob->Write(0, TObject::kOverwrite);
    ob->SetName(oldname.Data());
-   dsav->cd();
+   if (dsav) dsav->cd();
 }
 
 
