@@ -29,7 +29,7 @@ all::          libs
 
 .PHONY:         all libs clean clean-mainlibs
 
-FASTRULES += clean-mainlibs
+FASTRULES += clean-mainlibs clean-bin
 
 include $(patsubst %,%/Module.mk,$(MODULES))
 
@@ -43,7 +43,7 @@ build/dummy.d: Makefile $(ALLHDRS)
 
 libs::    $(BUILDGO4LIBS)
 
-clean::  clean-mainlibs
+clean::  clean-bin clean-mainlibs
 	@rm -f $(GO4MAP)
 	@echo "Clean go4 taskhandeler done"
 
@@ -52,6 +52,8 @@ clean-mainlibs:
 	@$(CleanLib) $(THRDMNGR_LIBNAME) $(GO4DLLPATH)
 	@$(CleanLib) $(GO4TSKH_LIBNAME) $(GO4DLLPATH)
 
+clean-bin::
+	@echo "Clean binary (generated) files"
 
 GO4BASE_O = $(LOCKGRD_O) $(LOCKGRD_DO) \
             $(GO4LOG_O) $(GO4LOG_DO) \

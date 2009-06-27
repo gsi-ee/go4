@@ -33,6 +33,5 @@ $(GO4SYS)/include/%.h: $(RAWAPI_DIR)/%.h
 	@echo "Copy header $@ ..."
 	@cp -f $< $@
 
-clean::
-	@rm -f $(RAWAPI_O)
-	@rm -f $(RAWAPI_DEP)
+clean-bin::
+	@rm -f $(RAWAPI_O) $(RAWAPI_DEP)

@@ -52,12 +52,16 @@ qt3-FitGUI: $(FITGUI3_QTMAKE) $(GO4QT3HEADS)
 	@echo "Generating Qt part of the Fit GUI..."
 	+cd $(FITGUI3_DIR); $(MAKE) -f $(FITGUI3_QTMAKE)
 
-clean-qt3-FitGUI:
-	@rm -f $(GO4DLLPATH)/$(FITGUI3_QTLIBNAME).$(DllSuf)*
+clean-qt3-FitGUI-bin:
 	@rm -f $(FITGUI3_DIR)/*.o
 ifneq ($(wildcard $(FITGUI3_QTMAKE)),)
-	cd $(FITGUI3_DIR); $(MAKE) -f $(FITGUI3_QTMAKE) distclean
+	cd $(FITGUI3_DIR); $(MAKE) -f $(FITGUI3_QTMAKE) clean
 endif
-	@rm -f $(FITGUI3_QTMAKE) $(FITGUI3_FH) $(FITGUI3_PUBH)
+	@rm -f $(FITGUI3_QTMAKE) $(FITGUI3_FH)
 	@rm -rf .obj .moc
+	@echo "Clean qt3 fitgui done"
+
+clean-qt3-FitGUI: clean-qt3-FitGUI-bin
+	@rm -f $(GO4DLLPATH)/$(FITGUI3_QTLIBNAME).$(DllSuf)*
+	@rm -f $(FITGUI3_PUBH)
 	@echo "Clean qt3 fitgui done"

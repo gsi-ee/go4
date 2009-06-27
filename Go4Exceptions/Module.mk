@@ -32,5 +32,5 @@ $(GO4SYS)/include/%.h: $(EXCEPT_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
-clean::
+clean-bin::
 	@rm -f $(EXCEPT_O) $(EXCEPT_DEP)

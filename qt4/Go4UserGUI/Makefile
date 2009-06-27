@@ -40,6 +40,8 @@ ifdef GO4_QT4
 
 all:: all-qt4usergui
 
+clean-bin:: clean-qt4usergui-bin
+
 clean:: clean-qt4usergui
 
 endif
@@ -60,13 +62,15 @@ all-qt4usergui:
 	@echo "No user gui (yet) under windows"
 endif
 
-clean-qt4usergui:
-	@rm -f $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).$(DllSuf)*
-	@rm -f $(USERGUI4_DIR)/*.o
+clean-qt4usergui-bin:
 ifneq ($(wildcard $(USERGUI4_DIR)/$(USERGUI4_QTMAKE)),)
 	cd $(USERGUI4_DIR); $(MAKEFORQT) -f $(USERGUI4_QTMAKE) clean
 endif
 	@rm -f $(USERGUI4_DIR)/$(USERGUI4_QTMAKE)
+	@rm -f $(USERGUI4_DIR)/*.o $(USERGUI4_DIR)/moc_*.* $(USERGUI4_DIR)/ui_*.h
+
+clean-qt4usergui: clean-qt4usergui-bin
+	@rm -f $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).$(DllSuf)*
 
 clean-qt4:: clean-qt4usergui
 

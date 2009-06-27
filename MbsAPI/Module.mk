@@ -32,6 +32,5 @@ $(GO4SYS)/include/%.h: $(MBSAPI_DIR)/%.h
 	@echo "Copy header $@ ..."
 	@cp -f $< $@
 
-clean::
-	@rm -f $(MBSAPI_O)
-	@rm -f $(MBSAPI_DEP)
+clean-bin::
+	@rm -f $(MBSAPI_O) $(MBSAPI_DEP)

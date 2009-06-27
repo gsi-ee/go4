@@ -46,8 +46,9 @@ $(GO4QUEUE_EXE):  $(BUILDGO4LIBS) $(GO4QUEUE_EXEO)
 
 all:: $(GO4QUEUE_EXE)
 
+clean-bin::
+	@rm -f $(GO4QUEUE_O) $(GO4QUEUE_EXEO)
+	@rm -f $(GO4QUEUE_DEP) $(GO4QUEUE_EDEP)
+
 clean::
-	@rm -f $(GO4QUEUE_O)
-	@rm -f $(GO4QUEUE_EXEO) $(GO4QUEUE_EXE)
-	@rm -f $(GO4QUEUE_DEP)
-	@rm -f $(GO4QUEUE_EDEP)
+	@rm -f $(GO4QUEUE_EXE)

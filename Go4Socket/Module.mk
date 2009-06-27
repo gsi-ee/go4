@@ -31,6 +31,5 @@ $(GO4SYS)/include/%.h: $(GO4SOCKET_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
-clean::
-	@rm -f $(GO4SOCKET_O)
-	@rm -f $(GO4SOCKET_DEP)
+clean-bin::
+	@rm -f $(GO4SOCKET_O) $(GO4SOCKET_DEP)

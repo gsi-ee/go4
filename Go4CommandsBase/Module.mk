@@ -42,6 +42,6 @@ $(GO4SYS)/include/%.h: $(COMBASE_DIR)/%.h
 $(COMBASE_DS): $(COMBASE_H)  $(COMBASE_LINKDEF)
 	@$(ROOTCINTGO4) $(COMBASE_H) $(COMBASE_LINKDEF)
 
-clean::
+clean-bin::
 	@rm -f $(COMBASE_O) $(COMBASE_DO)
 	@rm -f $(COMBASE_DEP) $(COMBASE_DDEP) $(COMBASE_DS) $(COMBASE_DH)

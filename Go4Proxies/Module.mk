@@ -42,6 +42,6 @@ $(GO4SYS)/include/%.h: $(GO4PROX_DIR)/%.h
 $(GO4PROX_DS): $(GO4PROX_H)  $(GO4PROX_LINKDEF)
 	@$(ROOTCINTGO4) $(GO4PROX_H) $(GO4PROX_LINKDEF)
 
-clean::
+clean-bin::
 	@rm -f $(GO4PROX_O) $(GO4PROX_DO)
 	@rm -f $(GO4PROX_DEP) $(GO4PROX_DDEP) $(GO4PROX_DS) $(GO4PROX_DH)

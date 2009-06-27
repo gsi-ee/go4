@@ -55,10 +55,13 @@ $(QT3ROOT_LIB):    $(QT3ROOT_O) $(QT3ROOT_MOCO)
 
 qt3-interface: $(QT3ROOT_LIB)
 
-clean-qt3-interface:
+clean-qt3-interface-bin:
 	@rm -f $(QT3ROOT_O) $(QT3ROOT_MOCO)
+	@rm -f $(QT3ROOT_MOCS) $(QT3ROOT_DEP)
+
+clean-qt3-interface: clean-qt3-interface-bin
 	@$(CleanLib) $(QT3ROOT_LIBNAME) $(GO4DLLPATH)
-	@rm -f $(QT3ROOT_MOCS) $(QT3ROOT_DEP) $(QT3ROOT_PUBH)
+	@rm -f $(QT3ROOT_PUBH)
 
 $(QT3ROOT_MOCS): $(QT3ROOT_DIR)/moc_%.cpp: $(QT3ROOT_DIR)/%.h
 	$(MOC) $< -o $@

@@ -33,9 +33,6 @@ endif
 GO4FIT_LIBNAME  = $(LIB_PREFIX)Go4Fit
 GO4FIT_LIB      = $(GO4DLLPATH)/$(GO4FIT_LIBNAME).$(DllSuf)
 
-GO4OBJM_LIBNAME = $(LIB_PREFIX)Go4ObjMng
-GO4OBJM_LIB     = $(GO4DLLPATH)/$(GO4OBJM_LIBNAME).$(DllSuf)
-
 GO4BASE_LIBNAME = $(LIB_PREFIX)Go4Base
 GO4BASE_LIB     = $(GO4DLLPATH)/$(GO4BASE_LIBNAME).$(DllSuf)
 
@@ -85,7 +82,7 @@ EXMODULES = Go4ExampleSimple Go4Example1Step Go4Example2Step \
                 clean clean-qt3 clean-qt4 clean-bak clean-plugin clean-mainlibs\
                 package $(PACKAGERULES)
 
-FASTRULES    += clean-qt3 clean-qt4 clean-bak clean-dep clean-plugin\
+FASTRULES    += clean-qt3 clean-qt4 clean-bak clean-dep clean-plugin clean-bin \
                 $(PACKAGERULES)
 
 all::           gui 
@@ -111,7 +108,7 @@ gui::           libs
 
 noqt:           all
 
-clean::   clean-mainlibs clean-plugin
+clean::  clean-bin clean-mainlibs clean-plugin
 	@rm -f $(GO4MAP)
 	@rm -f $(GO4SYS)/include/*.h
 	@rm -rf bin lib
@@ -127,6 +124,9 @@ clean-mainlibs:
 	@$(CleanLib) $(GO4AN_LIBNAME) $(GO4DLLPATH)
 	@$(CleanLib) $(VERSION_LIBNAME) $(GO4DLLPATH)
 	@$(CleanLib) $(GO4BGUI_LIBNAME) $(GO4DLLPATH)
+
+clean-bin::
+	@echo "Clean binary (generated) files"
 
 clean-bak:
 	@echo "Delete bak files"

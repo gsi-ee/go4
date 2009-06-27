@@ -40,7 +40,7 @@ $(GO4SYS)/include/%.h: $(DYNLIST_DIR)/%.h
 $(DYNLIST_DS): $(DYNLIST_H)  $(DYNLIST_LINKDEF)
 	@$(ROOTCINTGO4) $(DYNLIST_H) $(DYNLIST_LINKDEF)
 
-clean::
+clean-bin::
 	@rm -f $(DYNLIST_O) $(DYNLIST_DO)
 	@rm -f $(DYNLIST_DEP) $(DYNLIST_DDEP) $(DYNLIST_DS) $(DYNLIST_DH)
 

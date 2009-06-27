@@ -42,6 +42,6 @@ $(GO4SYS)/include/%.h: $(GO4FIT_DIR)/%.h
 $(GO4FIT_DS): $(GO4FIT_H)  $(GO4FIT_LINKDEF)
 	@$(ROOTCINTGO4) $(GO4FIT_H) $(GO4FIT_LINKDEF)
 
-clean::
+clean-bin::
 	@rm -f $(GO4FIT_O) $(GO4FIT_DO)
 	@rm -f $(GO4FIT_DEP) $(GO4FIT_DDEP) $(GO4FIT_DS) $(GO4FIT_DH)

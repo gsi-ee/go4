@@ -30,6 +30,5 @@ $(GO4SYS)/include/%.h: $(GO4DISPL_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
-clean::
-	@rm -f $(GO4DISPL_O)
-	@rm -f $(GO4DISPL_DEP)
+clean-bin::
+	@rm -f $(GO4DISPL_O) $(GO4DISPL_DEP)

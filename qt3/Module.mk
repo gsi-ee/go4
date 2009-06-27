@@ -33,4 +33,5 @@ clean-qt3: clean-qt3-interface clean-qt3-FitGUI clean-qt3-GUI clean-qt3usergui c
 
 clean:: clean-qt3
 
+clean-bin:: clean-qt3-interface-bin clean-qt3-FitGUI-bin clean-qt3-GUI-bin
 

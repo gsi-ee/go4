@@ -42,7 +42,7 @@ $(GO4SYS)/include/%.h: $(GO4LOG_DIR)/%.h
 $(GO4LOG_DS): $(GO4LOG_H)  $(GO4LOG_LINKDEF)
 	@$(ROOTCINTGO4) $(GO4LOG_H) $(GO4LOG_LINKDEF)
 
-clean::
+clean-bin::
 	@rm -f $(GO4LOG_O) $(GO4LOG_DO)
 	@rm -f $(GO4LOG_DEP) $(GO4LOG_DDEP) $(GO4LOG_DS) $(GO4LOG_DH)
 

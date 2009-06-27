@@ -66,9 +66,11 @@ $(ANALCL_DS): $(ANALCL_H)  $(ANALCL_LINKDEF)
 
 all::  $(ANALCL_EXE) $(ANALCL_EXECINT)
 
-clean::
+clean-bin::
 	@rm -f $(ANALCL_O) $(ANALCL_DO)
-	@rm -f $(ANALCL_EXEO) $(ANALCL_EXE)
-	@rm -f $(ANALCL_EXECINTO) $(ANALCL_EXECINT)
+	@rm -f $(ANALCL_EXEO) $(ANALCL_EXECINTO)
 	@rm -f $(ANALCL_DEP) $(ANALCL_DDEP) $(ANALCL_DS) $(ANALCL_DH)
 	@rm -f $(ANALCL_EDEP)
+
+clean::
+	@rm -f $(ANALCL_EXE) $(ANALCL_EXECINT)

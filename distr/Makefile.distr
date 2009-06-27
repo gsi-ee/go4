@@ -17,9 +17,6 @@ GO4PACKAGE = go4
 GO4FIT_LIBNAME  = $(LIB_PREFIX)Go4Fit
 GO4FIT_LIB      = $(GO4DLLPATH)/$(GO4FIT_LIBNAME).$(DllSuf)
 
-GO4OBJM_LIBNAME = $(LIB_PREFIX)Go4ObjMng
-GO4OBJM_LIB     = $(GO4DLLPATH)/$(GO4OBJM_LIBNAME).$(DllSuf)
-
 GO4BASE_LIBNAME = $(LIB_PREFIX)Go4Base
 GO4BASE_LIB     = $(GO4DLLPATH)/$(GO4BASE_LIBNAME).$(DllSuf)
 
@@ -70,7 +67,7 @@ all::      gui
 .SUFFIXES: .cxx .d .h
 
 .PHONY:         all setup libs gui plugin \
-                clean clean-qt3 clean-qt4 clean-mainlibs package clean-plugin
+                clean clean-bin clean-qt3 clean-qt4 clean-mainlibs package clean-plugin
 
 FASTRULES    += clean-qt3 clean-qt4 clean-plugin
 
@@ -95,7 +92,7 @@ gui::           libs
 
 noqt:           all
 
-clean:: clean-mainlibs clean-plugin
+clean:: clean-bin clean-mainlibs clean-plugin
 	@rm -f $(GO4MAP)
 	@rm -f $(GO4SYS)/include/*.h
 	@rm -f build/dummy.d
@@ -110,6 +107,9 @@ clean-mainlibs:
 	@$(CleanLib) $(GO4AN_LIBNAME) $(GO4DLLPATH)
 	@$(CleanLib) $(VERSION_LIBNAME) $(GO4DLLPATH)
 	@$(CleanLib) $(GO4BGUI_LIBNAME) $(GO4DLLPATH)
+
+clean-bin::
+	@echo "Clean binary (generated) files"
 
 GO4BASE_O = $(LOCKGRD_O) $(LOCKGRD_DO) \
             $(GO4LOG_O) $(GO4LOG_DO) \

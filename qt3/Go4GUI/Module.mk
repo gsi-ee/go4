@@ -91,15 +91,18 @@ qt3-GUI: $(GO4QT3HEADS) libs $(GO4SGUI3_LIB) qt3-interface qt3-FitGUI $(GO4GUI3_
 	@echo "Generating Qt3 part of the MainGUI..."
 	+cd $(GO4GUI3_DIR); $(MAKE) -f $(GO4GUI3_QTMAKE)
 
-clean-qt3-GUI:
+clean-qt3-GUI-bin:
 	@rm -f $(GO4GUI3_O) $(GO4GUI3_DO)
-	@$(CleanLib) $(GO4SGUI3_LIBNAME) $(GO4DLLPATH)
 	@rm -f $(GO4GUI3_DIR)/.obj/*.o
-	@rm -f $(GO4SYS)/bin/go4
 	@rm -f $(GO4GUI3_DEP) $(GO4GUI3_DDEP) $(GO4GUI3_DS) $(GO4GUI3_DH)
 ifneq ($(wildcard $(GO4GUI3_QTMAKE)),)
-	cd $(GO4GUI3_DIR); $(MAKE) -f $(GO4GUI3_QTMAKE) distclean
+	cd $(GO4GUI3_DIR); $(MAKE) -f $(GO4GUI3_QTMAKE) clean
 endif
-	@rm -f $(GO4GUI3_QTMAKE) $(GO4GUI3_FH) $(GO4GUI3_PUBH)
+	@rm -f $(GO4GUI3_QTMAKE) $(GO4GUI3_FH)
 	@rm -rf .obj .moc
+
+clean-qt3-GUI: clean-qt3-GUI-bin
+	@$(CleanLib) $(GO4SGUI3_LIBNAME) $(GO4DLLPATH)
+	@rm -f $(GO4SYS)/bin/go4
+	@rm -f $(GO4GUI3_PUBH)
 	@echo "Clean qt3 gui done"

@@ -4,10 +4,6 @@ GO4GUI4_NAME        = Go4GUI
 
 GO4GUI4_DIR         = $(GO4SYS)/qt4/$(GO4GUI4_NAME)
 GO4GUI4_LINKDEF     = $(GO4GUI4_DIR)/$(GO4GUI4_NAME)LinkDef.$(HedSuf)
-GO4GUI4_QTLINKDEF   = $(GO4GUI4_DIR)/Go4QtGUILinkDef.$(HedSuf)
-
-GO4SGUI4_LIBNAME    = $(LIB_PREFIX)Go4GUI4bis
-GO4SGUI4_LIB        = $(GO4DLLPATH)/$(GO4SGUI4_LIBNAME).$(DllSuf)
 
 GO4GUI4_QMAKED1OPT   =
 GO4GUI4_QMAKED2OPT   =
@@ -104,9 +100,6 @@ endif
 $(GO4GUI4_DS): $(GO4GUI4_H)  $(GO4GUI4_LINKDEF)
 	@$(ROOTCINTGO4) $(GO4GUI4_H) $(GO4GUI4_LINKDEF)
 
-$(GO4SGUI4_LIB): $(GO4GUI4_O) $(GO4GUI4_DO)
-	@$(MakeLibrary) $(GO4SGUI4_LIBNAME) "$(GO4GUI4_O) $(GO4GUI4_DO)" $(GO4DLLPATH)
-
 ifneq ($(wildcard $(GO4GUI4_DIR)/$(GO4GUI4_QTPRO)),)
 $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE): $(GO4GUI4_DIR)/$(GO4GUI4_QTPRO) $(GO4GUI4_FORMS) $(GO4GUI4_DS)
 	@echo "Generating $(GO4GUI4_QTMAKE)"
@@ -117,16 +110,18 @@ qt4-GUI: $(GO4QT4HEADS) libs $(GO4GUI4_DS) $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE)
 	@echo "Generating Qt4 part of the MainGUI..."
 	+cd $(GO4GUI4_DIR); $(MAKEFORQT) -f $(GO4GUI4_QTMAKE)
 
-clean-qt4-GUI:
-	@rm -f $(GO4GUI4_O) $(GO4GUI4_DO)
-	@$(CleanLib) $(GO4SGUI4_LIBNAME) $(GO4DLLPATH)
-	@rm -f $(GO4GUI4_DIR)/.obj/*.o
-	@rm -f $(GO4SYS)/bin/go4
-	@rm -f $(GO4GUI4_DEP) $(GO4GUI4_DDEP) $(GO4GUI4_DS) $(GO4GUI4_DH)
+clean-qt4-GUI-bin:
 ifneq ($(wildcard $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE)),)
 	cd $(GO4GUI4_DIR); $(MAKEFORQT) -f $(GO4GUI4_QTMAKE) clean
 endif
-	@rm -f $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE) $(GO4GUI4_PUBH) $(GO4GUI4_GEN_QRC)
+	@rm -f $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE)
+	@rm -f $(GO4GUI4_O) $(GO4GUI4_DEP)
+	@rm -f $(GO4GUI4_DS) $(GO4GUI4_DH) $(GO4GUI4_DO) $(GO4GUI4_DDEP)
 	@rm -rf $(GO4GUI4_DIR)/.obj $(GO4GUI4_DIR)/.moc
-	@rm -f $(GO4GUI4_UI_H)
+	@rm -f $(GO4GUI4_GEN_QRC)
+
+clean-qt4-GUI: clean-qt4-GUI-bin
+	@rm -f $(GO4SYS)/bin/go4
+	@rm -f $(GO4GUI4_UI_H) $(GO4GUI4_PUBH)
 	@echo "Clean qt4 gui done"
+

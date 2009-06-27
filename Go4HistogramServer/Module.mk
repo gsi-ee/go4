@@ -54,8 +54,10 @@ $(HISTSERV_DS): $(HISTSERV_H)  $(HISTSERV_LINKDEF)
 
 all:: $(HISTSERV_EXE)
 
-clean::
+clean-bin::
 	@rm -f $(HISTSERV_O) $(HISTSERV_DO)
-	@rm -f $(HISTSERV_EXEO) $(HISTSERV_EXE)
+	@rm -f $(HISTSERV_EXEO) $(HISTSERV_EDEP)
 	@rm -f $(HISTSERV_DEP) $(HISTSERV_DDEP) $(HISTSERV_DS) $(HISTSERV_DH)
-	@rm -f $(HISTSERV_EDEP)
+
+clean::
+	@rm -f $(HISTSERV_EXE)

@@ -42,6 +42,8 @@ all:: all-qt3usergui
 
 clean:: clean-qt3usergui
 
+clean-bin:: clean-qt3usergui-bin
+
 endif
 
 $(USERGUI3_QTMAKE): $(USERGUI3_QTPRO) $(USERGUI3_FORMS) 
@@ -54,12 +56,14 @@ $(USERGUI3_QTLIB): $(USERGUI3_QTMAKE) $(USERGUI3_FORMSI) $(USERGUI3_QGO4WIDG)
 
 all-qt3usergui:  $(USERGUI3_QTLIB)
 
-clean-qt3usergui:
-	@rm -f $(USERGUI3_LIBDIR)/$(USERGUI3_QTLIBNAME).$(DllSuf)*
+clean-qt3usergui-bin:
 	@rm -f $(USERGUI3_DIR)/*.o
 ifneq ($(wildcard $(USERGUI3_QTMAKE)),)
 	cd $(USERGUI3_DIR); $(MAKE) -f $(USERGUI3_QTMAKE) clean
 endif
 	@rm -f $(USERGUI3_QTMAKE)
+
+clean-qt3usergui: clean-qt3usergui-bin
+	@rm -f $(USERGUI3_LIBDIR)/$(USERGUI3_QTLIBNAME).$(DllSuf)*
 
 include $(GO4SYS)/Makefile.rules

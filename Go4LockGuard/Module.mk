@@ -41,6 +41,6 @@ $(GO4SYS)/include/%.h: $(LOCKGRD_DIR)/%.h
 $(LOCKGRD_DS): $(LOCKGRD_H)  $(LOCKGRD_LINKDEF)
 	@$(ROOTCINTGO4) $(LOCKGRD_H) $(LOCKGRD_LINKDEF)
 
-clean::
+clean-bin::
 	@rm -f $(LOCKGRD_O) $(LOCKGRD_DO)
 	@rm -f $(LOCKGRD_DEP) $(LOCKGRD_DDEP) $(LOCKGRD_DS) $(LOCKGRD_DH)

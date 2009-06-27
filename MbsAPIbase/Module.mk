@@ -29,6 +29,5 @@ $(GO4SYS)/include/%.h: $(MBSAPIBASE_DIR)/%.h
 	@echo "Copy header $@ ..."
 	@cp -f $< $@
 
-clean::
-	@rm -f $(MBSAPIBASE_O)
-	@rm -f $(MBSAPIBASE_DEP)
+clean-bin::
+	@rm -f $(MBSAPIBASE_O) $(MBSAPIBASE_DEP)

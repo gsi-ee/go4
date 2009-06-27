@@ -40,7 +40,7 @@ $(GO4SYS)/include/%.h: $(CMDANAL_DIR)/%.h
 $(CMDANAL_DS): $(CMDANAL_H) $(CMDANAL_LINKDEF)
 	@$(ROOTCINTGO4) $(CMDANAL_H) $(CMDANAL_LINKDEF)
 
-clean::
+clean-bin::
 	@rm -f $(CMDANAL_O) $(CMDANAL_DO)
 	@rm -f $(CMDANAL_DEP) $(CMDANAL_DDEP) $(CMDANAL_DS) $(CMDANAL_DH)
 

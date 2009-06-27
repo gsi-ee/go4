@@ -41,7 +41,6 @@ $(GO4SYS)/include/%.h: $(GO4OBJM_DIR)/%.h
 $(GO4OBJM_DS): $(GO4OBJM_H)  $(GO4OBJM_LINKDEF)
 	@$(ROOTCINTGO4) $(GO4OBJM_H) $(GO4OBJM_LINKDEF)
 
-clean::
+clean-bin::
 	@rm -f $(GO4OBJM_O) $(GO4OBJM_DO)
-	@$(CleanLib) $(GO4OBJM_LIBNAME) $(GO4OBJM_DIR)
 	@rm -f $(GO4OBJM_DEP) $(GO4OBJM_DDEP) $(GO4OBJM_DS) $(GO4OBJM_DH)

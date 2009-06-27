@@ -208,10 +208,13 @@ FITEXDISTRFILES    += $(FITEX_DIR)/histograms.root $(FITEX_DIR)/README
 DISTRFILES         += $(FITEXDISTRFILES) $(FITEX_DIR)/Makefile.standalone
 endif
 
-clean::
-	@rm -f $(FITEX_EXECS) $(FITEX_DLLS) $(FITEX_OBJS) $(FITEX_DIR)/*.$(DllSuf) $(FITEX_DIR)/*.$(ObjSuf)
+clean-bin::
+	@rm -f $(FITEX_OBJS)  $(FITEX_DIR)/*.$(ObjSuf) $(FITEX_DIR)/*Dict.*
+
+clean:: clean-bin
+	@rm -f $(FITEX_EXECS) $(FITEX_DLLS) $(FITEX_DIR)/*.$(DllSuf)
 	@$(CleanLib) $(FITEX2_LIBNAME) $(FITEX_DIR)
 	@$(CleanLib) $(FITEX4_LIBNAME) $(FITEX_DIR)
-	@rm -f $(FITEX_DIR)/*.bak $(FITEX_DIR)/*Dict.* $(FITEX_DIR)/Example*.root 
+	@rm -f $(FITEX_DIR)/*.bak $(FITEX_DIR)/Example*.root 
 
 include $(GO4SYS)/Makefile.rules

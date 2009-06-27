@@ -45,3 +45,5 @@ clean-qt4:: clean-qt4-GUI
 
 clean:: clean-qt4
 
+clean-bin:: clean-qt4-GUI-bin
+
