@@ -36,9 +36,14 @@ void filtercheckedOff(const char* dirfile, const char* rootfile, unsigned int ev
      if(filename[0]=='!') continue;
      printf("%s ",filename);
 // open root file for read
-     TFile infile(filename);
+     TFile* infile=new TFile(rootinfile);
      TTree* oldTree=0;
-     oldTree=(TTree *)infile.Get("CheckerxTree");
+     oldTree=(TTree *)infile->Get("CheckerxTree");
+     if(oldTree==0)oldTree=(TTree *)infile->Get("CheckerTree");
+     if(oldTree==0){
+       cout<<"Tree not found"<<endl;
+       exit(0);
+     }
      TBranch* br=oldTree->GetBranch("Checked.");
      if(br != 0){
      TBranch* brfilter=oldTree->GetBranch("Checked.fisMacro");
@@ -66,7 +71,7 @@ void filtercheckedOff(const char* dirfile, const char* rootfile, unsigned int ev
      }// branch found
      else
        printf(" no data\n");
-     infile.Close(); // close input root file
+     infile->Close(); // close input root file
      if(totalevents >= maxevents) break;
    } // one input root file
    // newTree->Print("toponly");

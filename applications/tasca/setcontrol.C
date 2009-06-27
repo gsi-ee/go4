@@ -11,6 +11,7 @@ void setcontrol()
 TascaControl *fControl = (TascaControl *) go4->GetObject("Controls","Go4");
  if(fControl!=0){
   fControl->writeChainTree =kFALSE; // used by Analyzer
+  //fControl->ChainCounter =0; // used by Analyzer. Without Autosave: will be 0
   fControl->UnpackHisto    =kFALSE; // used by Unpacker
   fControl->CaliHisto      =kFALSE; // used by Calibrator
   fControl->CheckHisto     =kFALSE; // used by Checker

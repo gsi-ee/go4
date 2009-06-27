@@ -1,7 +1,7 @@
 //---------------------------------------------
-// Go4 Tasca analysis 
-// Author: Hans G. Essel 
-//         H.Essel@gsi.de 
+// Go4 Tasca analysis
+// Author: Hans G. Essel
+//         H.Essel@gsi.de
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
@@ -22,13 +22,13 @@ void filterchecked(const char* dirfile, const char* rootfile, unsigned int event
    TascaCheckEvent* eve=new TascaCheckEvent();
 // opne root file for output
    TFile *outfile = new TFile(rootfile,"RECREATE");
-// create tree 
+// create tree
    TTree * newTree = new TTree("CheckerTree","new");
 // create one branch. The dot adds the event name to each member name
    newTree->Branch("Checked.","TascaCheckEvent",&eve,100000,1);
    cout<<"Write "<<rootfile<<endl;
 
-// loop over file names from dirfile 
+// loop over file names from dirfile
 // -------------------------------------------------
    while(fgets(&filename,120,flist)){
      filename[strlen(filename)-1]=0; // strip CR
@@ -39,7 +39,12 @@ void filterchecked(const char* dirfile, const char* rootfile, unsigned int event
      TFile infile(filename);
      TTree* oldTree=0;
      oldTree=(TTree *)infile.Get("CheckerxTree");
-     TBranch* br=oldTree->GetBranch("Checked.");
+     if(oldTree==0)oldTree=(TTree *)infile->Get("CheckerTree");
+     if(oldTree==0){
+       cout<<"Tree not found"<<endl;
+       exit(0);
+     }
+    TBranch* br=oldTree->GetBranch("Checked.");
      if(br != 0){
      TBranch* brfilter=oldTree->GetBranch("Checked.fisMacro");
      if(brfilter != 0){
@@ -48,7 +53,7 @@ void filterchecked(const char* dirfile, const char* rootfile, unsigned int event
      oldTree->GetEntry(0);
      firstevent= eve->fiEventNumber;
      printf("events: %9d first %9d ",nentries,firstevent);
-     for (Int_t i=0;i<nentries;i++) 
+     for (Int_t i=0;i<nentries;i++)
      {
        brfilter->GetEntry(i);
        if(!eve->fisMacro){
@@ -70,7 +75,7 @@ void filterchecked(const char* dirfile, const char* rootfile, unsigned int event
      if(totalevents >= maxevents) break;
    } // one input root file
    // newTree->Print("toponly");
-   cout<<"Total events processed "<<totalevents<<endl;  
+   cout<<"Total events processed "<<totalevents<<endl;
    if(!gROOT->IsBatch()){
      new TBrowser();
      newTree->StartViewer();

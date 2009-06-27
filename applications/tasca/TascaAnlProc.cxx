@@ -88,6 +88,7 @@ TascaAnlProc::TascaAnlProc(const char* name) :
   fEvrFound=kFALSE;
   fiLastFissionEvent=0;
   fChainStore=fControl->writeChainTree;
+  fChainNumber=fControl->ChainCounter;
   }
 //***********************************************************
 void TascaAnlProc::PrintFission(Bool_t store){
@@ -221,6 +222,7 @@ fEventStack->used++;
 	if(fEvrFound&&fAlphaFound){
 		fiSFtaken++;
 		fChainNumber++;
+		fControl->ChainCounter++;
 		if(fStackLinkEntry==0){
 			cout<<"End of stack, entries "<<fEventStack->used<<endl;
 			fStackEvent=(TascaEvent *) fEventStack->First();

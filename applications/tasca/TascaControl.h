@@ -35,6 +35,7 @@ class TascaControl : public TGo4Parameter {
       }
 
     Bool_t writeChainTree;
+    Bool_t clearChainCounter;
     Bool_t checkTof;
 	Bool_t checkChopper;
 	Bool_t checkMacro;
@@ -55,6 +56,7 @@ class TascaControl : public TGo4Parameter {
 	UInt_t MacroTrue;
 	UInt_t MicroChecked;
 	UInt_t MicroTrue;
+	UInt_t ChainCounter;
 	Bool_t Printed;//! not to store
 
    ClassDef(TascaControl,1)

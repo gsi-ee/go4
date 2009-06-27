@@ -15,7 +15,7 @@ TascaControl::TascaControl() : TGo4Parameter()
     init();
 }
 //***********************************************************
-TascaControl::TascaControl(const char* name) : TGo4Parameter(name)
+TascaControl::TascaControl(const char* name) : TGo4Parameter(name),ChainCounter(0)
 {
     cout << "Tasca> TascaControl: " << name << " created" << endl;
     init();
@@ -38,6 +38,7 @@ cout<<"      Check Tof:"<<checkTof<<"="<<TofMustbe
 	<<" Chop:"<<checkChopper<<"="<<ChopperMustbe
 	<<" Macro:"<<checkMacro<<"="<<MacroMustbe
 	<<" Micro:"<<checkMicro<<"="<<MicroMustbe<<endl;
+cout<<" Chain:"<<writeChainTree<<" Counter:"<<ChainCounter<<endl;
 }
   Printed=kTRUE;
   return 0;
@@ -47,6 +48,7 @@ Bool_t TascaControl::UpdateFrom(TGo4Parameter *pp){
   if(pp->InheritsFrom("TascaControl")) {
     TascaControl * from = (TascaControl *) pp;
     writeChainTree=from->writeChainTree;
+    ChainCounter=from->ChainCounter;
     checkTof=from->checkTof;
     TofMustbe=from->TofMustbe;//true equals isTof
     checkChopper=from->checkChopper;

@@ -17,9 +17,14 @@ void printcalievent(const char* rootinfile, unsigned int event)
    cout<<rootinfile<<endl;
 
 // open root file for read
-     TFile infile(rootinfile);
+     TFile* infile=new TFile(rootinfile);
      TTree* oldTree=0;
-     oldTree=(TTree *)infile.Get("CalibratorxTree");
+     oldTree=(TTree *)infile->Get("CalibratorxTree");
+     if(oldTree==0)oldTree=(TTree *)infile->Get("CalibratorTree");
+     if(oldTree==0){
+       cout<<"Tree not found"<<endl;
+       exit(0);
+     }
      TBranch* br=oldTree->GetBranch("Calibrated.");
      if(br != 0){
      TBranch* brfilter=oldTree->GetBranch("Calibrated.fiEventNumber");
@@ -35,6 +40,6 @@ void printcalievent(const char* rootinfile, unsigned int event)
          break;
        }
      }}}
-     infile.Close(); // close input root file
+     infile->Close(); // close input root file
    exit(0);
 }

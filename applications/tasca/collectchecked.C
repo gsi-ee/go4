@@ -35,9 +35,9 @@ void collectchecked(const char* dirfile, const char* rootfile, unsigned int even
      if(filename[0]=='#') continue;
      if(filename[0]=='!') continue;
 // open root file for read
-     TFile infile(filename);
+     TFile* infile=new TFile(rootinfile);
      TTree* oldTree=0;
-     oldTree=(TTree *)infile.Get("CheckerxTree");
+     oldTree=(TTree *)infile->Get("CheckerxTree");
      TBranch* br=oldTree->GetBranch("Checked.");
      if(br != 0){
      br->SetAddress(&eve);
@@ -69,7 +69,7 @@ void collectchecked(const char* dirfile, const char* rootfile, unsigned int even
      }// branch found
      else
        printf(" no data\n");
-     infile.Close(); // close input root file
+     infile->Close(); // close input root file
      if(totalevents >= maxevents) break;
      skippednoY=0;
    } // one input root file

@@ -28,9 +28,14 @@ void filtercheckedY(const char* rootinfile, const char* rootfile, unsigned int e
    cout<<"Copy "<<rootinfile<<" to "<<rootfile<<endl;
 
 // open root file for read
-     TFile infile(rootinfile);
+     TFile* infile=new TFile(rootinfile);
      TTree* oldTree=0;
-     oldTree=(TTree *)infile.Get("CheckerTree");
+     oldTree=(TTree *)infile->Get("CheckerTree");
+     if(oldTree==0)oldTree=(TTree *)infile->Get("CheckerxTree");
+     if(oldTree==0){
+       cout<<"Tree not found"<<endl;
+       exit(0);
+     }
      TBranch* br=oldTree->GetBranch("Checked.");
      if(br != 0){
      TBranch* brfilter=oldTree->GetBranch("Checked.fiStopYHhitI");
@@ -55,7 +60,7 @@ void filtercheckedY(const char* rootinfile, const char* rootfile, unsigned int e
      }// branch found
      else
        printf(" no data\n");
-     infile.Close(); // close input root file
+     infile->Close(); // close input root file
    // newTree->Print("toponly");
    cout<<"Total events processed "<<totalevents<<endl;
    if(!gROOT->IsBatch()){
