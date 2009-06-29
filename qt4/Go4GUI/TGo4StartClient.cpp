@@ -27,6 +27,9 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
    LineEditClientDir->setText(go4sett->getClientDir());
    LineEditClientExec->setText(go4sett->getClientExec());
 
+   if (LineEditClientDir->text().isEmpty())
+      LineEditClientDir->setText(QDir::currentPath());
+
    bool isserver = go4sett->getClientIsServer();
    ServerModeCombo->setCurrentIndex(isserver ? 1 : 0);
    qt_selected->setEnabled(!isserver);
@@ -49,6 +52,10 @@ void TGo4StartClient::SelectDir()
 {
    QFileDialog fd(this, "Select your working dir");
    fd.setFileMode(QFileDialog::DirectoryOnly);
+   QString dir = LineEditClientDir->text();
+   if (dir.isEmpty() || !QDir(dir).exists())
+         dir = QDir::currentPath();
+   fd.setDirectory(dir);
 
    if (fd.exec() != QDialog::Accepted ) return;
 
