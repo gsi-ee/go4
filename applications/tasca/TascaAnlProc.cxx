@@ -159,7 +159,7 @@ if(fChainFile==0){
 if(fControl->AnlHisto){
 	if(fInput->fisFission){
 	fStopXYall->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
-		if(fInput->isMacro)
+		if(fInput->fisMacro)
 		     fStopXYSF->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
 		else fStopXYSFoff->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
 	}
