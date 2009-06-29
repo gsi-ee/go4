@@ -66,11 +66,13 @@ TascaAnlProc::TascaAnlProc(const char* name) :
   gROOT->ProcessLine(".x setparam.C()");
   gROOT->ProcessLine(".x setcontrol.C()");
 
+if(fControl->AnlHisto){
   fStopXYalp=anl->CreateTH2D("Anl","StopXYLhitsAlpha","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
   fStopXYEvr=anl->CreateTH2D("Anl","StopXYHhitsEvr","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
   fStopXYSF =anl->CreateTH2D("Anl","StopXYHhitsSF","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+  fStopXYSFoff =anl->CreateTH2D("Anl","StopXYHhitsSFoff","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
   fStopXYall=anl->CreateTH2D("Anl","StopXYhitsAll","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-
+}
   // print description *********************************************************
   cout<<"*****************************************************************************"<<endl;
   cout<<"      Full stack, All fissions offbeam with Y, Y +-1 Time window fission2 plus alpha2"<<endl;
@@ -154,21 +156,27 @@ if(fChainFile==0){
 	  fChainBranch=fChainTree->Branch("Searched.","TascaEvent",&fEvent,100000,1);
 }}
 
- if(fInput->fisFission){
- fStopXYall->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
- fStopXYSF->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
- fFissions++;
- }
- if(fInput->fisAlpha){
- fStopXYall->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
- fStopXYalp->Fill(fInput->fiStopXLhitI,fInput->fiStopYLhitI%48);
- fAlphas++;
- }
- if(fInput->fisEvr){
- fStopXYall->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
- fStopXYEvr->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
- fEvrs++;
- }
+if(fControl->AnlHisto){
+	if(fInput->fisFission){
+	fStopXYall->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
+		if(fInput->isMacro)
+		     fStopXYSF->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
+		else fStopXYSFoff->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
+	}
+	if(fInput->fisAlpha){
+	fStopXYall->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
+	fStopXYalp->Fill(fInput->fiStopXLhitI,fInput->fiStopYLhitI%48);
+	}
+	if(fInput->fisEvr){
+	fStopXYall->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
+	fStopXYEvr->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
+	}
+return;
+}
+if(fInput->fisFission) fFissions++;
+if(fInput->fisAlpha)   fAlphas++;
+if(fInput->fisEvr)     fEvrs++;
+
 if(fFirstEvent==0)fFirstEvent=fInput->fiEventNumber;
 
 // We assume that fEventCurrent is a valid slot.

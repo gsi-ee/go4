@@ -31,7 +31,7 @@ Save(0),Fill(1),shift(5),EventStackSize(10),Printed(kFALSE)
     AlphaMinL=0;
     AlphaMinH=0;
     Adc80TofMin=0;
-    SystemTimeSecOff=1240000000;
+    SystemTimeSecOff=1243462631;
 }
 //***********************************************************
 TascaParameter::~TascaParameter(){
