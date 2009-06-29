@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v3.0-1 (build 30001)
-                     18-Jan-2006
+         Go4 Release Package v4.3.0 (build 40300)
+                     29-June-2009
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at DVEE department, GSI
@@ -33,31 +33,37 @@ INSTALLATION:
 - Correct pathes to ROOT and Go4 installation should be set in
   go4login.bat init script.
 
-STARTING ROOT:
+STARTING GUI:
 - Run windows command prompt via main windows menu command:
     "Start/Programs/Accessories/Command prompt"
 - Change to directory, where package was extracted
 - Execute go4init.bat batch file
     Q:\> go4init.bat
-- Start ROOT by command
-    Q:\> root
-- All Go4 classes will be accessible in CINT via ROOT map mechanism.
+- Start GUI by command
+    Q:\> go4
+- One can create windows shortcut where all necessary variables are set
+  and go4 gui can be started directly without command prompt
+- Go4 GUI in windows has same functionality as in Linux beside two things:
+  there is no possibility to create user gui (yet) and analysis should be started
+  outside gui in command prompt like "MainUserAnalysis.exe -server"      
 
 STARTING GO4 browser in ROOT
-- Run root like described before
+- Run root from command prompt after go4init.bat was called
+    Q:\> root
 - In CINT shell instantiate TGo4Interface class
     root [0] new TGo4Interface
-- After that two variables will be accessible:
+  All go4 classes are available in ROOT via rootmap mechanism.  
+- After TGo4Interface instance is created, two variables will be accessible:
   go4 (class TGo4Interface) and br (class TGo4BrowserProxy)
 - Connect to running analysis server by command like
     root [1] go4->ConnectAnalysis("lxi001",5000,0,"password");
-- If cunnection is succesfull (see log output), just start ROOT
+- If connection is successful (see log output), just start ROOT
   browser by command
     root [2] new TBrowser
 - In browser new Go4 folder should exists, which represent structure
   of remote analysis. Draw of histogram and picture are possible.
   Via right mouse menu monitoring flag for histograms can be switched
-  on/off and monitorring can be toggled.
+  on/off and monitoring can be toggled.
 - Via go4 instance a various commands can be executed like:
     root [3] go4->StartAnalysis();
     root [4] go4->StopAnalysis();

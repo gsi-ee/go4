@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.02-0 (build 40200)
-                      8-April-2009
+         Go4 Release Package v4.3.0 (build 40300)
+                      29-June-2009
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -23,7 +23,8 @@ in Go4License.txt file which is part of the distribution.
 Changes in Go4 v4.03.00 (June 09)
 1. Remove Q3Support classes completely - now qt4 based GUI is 
    pure Qt4 application. This solves many side effects like crash
-   by style changing or blinking during resize of main window
+   by style changing or blinking during resize of main window.
+   From this version on qt4 GUI is default. 
 2. rootmap files are generated per library - this simplifies make 
    procedure significantly, old user makefiles are still working
 3. Go4 makefile now can better recognize standard installed Qt version
@@ -39,17 +40,32 @@ Changes in Go4 v4.03.00 (June 09)
    which will be loaded automatically
 9. Fix error (reported by Nick) - gui was hanging when 
    non-existing hotstart file was specified.
-10.New MakeTH1, MakeTH2, MakeWinCond, MakePolyCond, MakeParameter 
-   are implemented. They provide easy way to produce analysis objects or 
-   take them from the autosave file. See analysis examples how
-   these methods can be used.
-11.Examples only have Makefile, no Module.mk any more
+10.New MakeTH1, MakeTH2, MakeWinCond, MakePolyCond, MakeParameter methods
+   in TGo4EventProcessor class are implemented. They provide easy way 
+   to produce analysis objects or take them from the autosave file. 
+   See analysis examples how these methods can be used.
+11.Examples only have Makefile, no Module.mk any more.
 12.Make "COL" as default option for 2-D histogram, improves significantly 
    speed for large histograms, one can always goes back to scatter plot 
 13.Analysis, running inside gui, runs without DYSPLAY variable set (ssh -x).
    If any graphics required in analysis, one should run it in separate
-   xterm/konsole application, where ssh -X is done. 
-
+   xterm/konsole application, where ssh -X is done.
+14.After go4 build, one can call "make clean-bin" to remove all object and
+   dependency files, but executables and libraries will remain. Useful 
+   for installation. Now one can compile (but not run) go4 without GO4SYS set. 
+15.Histogram title position is now preserved and restored when histogram is updated.
+16.Solve problem with flickering widgets in qt4 gui.
+17.Make Go4ExampleSimple really simple - no more complex parameters or initialization.
+   Main executable is now more flexible when specifying command line arguments.    
+18.When new view panel is created, it should always fit into current main
+   window - before one can get view panel which two time larger. 
+19.Go4 event loop optimization - simple analysis with gui runs 10-20% faster than before.
+20.Configuration of qt4 gui is stored by default in current directory in go4.conf file.
+   One can do "export GO4SETTINGS=ACCOUNT" to store gui settings in account-wide location. 
+21.Replace "disable" by "enable" check boxes in analysis configuration -  
+   makes configuration more intuitive. Shortcut of each step configuration can
+   be seen together with step name on the top of analysis configuration panel.   
+22.Provide better log output when go4 open/change/closes lmd/root files in analysis.  
 
 Changes in Go4 v4.02.00 (April 09)
 

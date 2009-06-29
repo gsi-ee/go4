@@ -1,5 +1,5 @@
 //---------------------------------------------------------------
-//        Go4 Release Package v4.03-00 (build 40300)
+//        Go4 Release Package v4.3.0 (build 40300)
 //                      19-June-2009
 //---------------------------------------------------------------
 //   The GSI Online Offline Object Oriented (Go4) Project

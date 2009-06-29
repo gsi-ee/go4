@@ -55,7 +55,6 @@ ifneq ($(wildcard $(FITGUI3_DIR)/$(FITGUI3_QTMAKE)),)
 endif
 	@rm -f $(FITGUI3_DIR)/$(FITGUI3_QTMAKE) $(FITGUI3_FH)
 	@rm -rf .obj .moc
-	@echo "Clean qt3 fitgui done"
 
 clean-qt3-FitGUI: clean-qt3-FitGUI-bin
 	@rm -f $(GO4DLLPATH)/$(FITGUI3_QTLIBNAME).$(DllSuf)*
