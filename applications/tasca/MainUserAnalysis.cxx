@@ -192,7 +192,7 @@ else
    }
    if(argc > iarg) maxevents=atoi(argv[iarg]);
 
-   if(maxevents == -1) maxevents = 99999999;
+   if(maxevents == -1) maxevents = 0x7fffffff;
    cout << endl << "Tasca> Input " << serv << " (" << argv[1] << ") ";
    if(strstr(argv[1],"-r")) cout << "port " << sport;
    cout << endl << "       process " << maxevents << " events" << endl;

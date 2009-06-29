@@ -316,6 +316,7 @@ void TascaCaliProc::TascaCalibrate(TascaCaliEvent* poutevt)
   if(poutevt->ffStopYLhitV>fParam->AlphaMaxL)poutevt->ffStopYLhitV=poutevt->ffStopYHhitV;
 
   poutevt->fiTimeStamp=fInput->fiTimeStamp;
+  poutevt->fiSystemmsec=fInput->fiSystemSec;
   poutevt->fiSystemMysec=fInput->fiSystemMysec;
   poutevt->fiGammaMysec = fCalibration->CalibrateGammaT(fInput->fiGammaTime);
 //  for(i=0;i<144;i++){

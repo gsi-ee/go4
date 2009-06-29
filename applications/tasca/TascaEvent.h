@@ -16,6 +16,9 @@ class TascaEvent : public TObject {
       TascaEvent(const char* name);
       virtual ~TascaEvent();
 
+      void PrintFission(Bool_t full, UInt_t nof);
+      void PrintAlpha(Bool_t full, Float_t timeD);
+   	  void PrintEvr(Bool_t full, Float_t timeD);
       Int_t PrintEvent();
 
       UInt_t fiFileNumber;
@@ -29,6 +32,7 @@ class TascaEvent : public TObject {
       Bool_t fisFission;
       Bool_t fisAlpha;
 
+      UInt_t fiSystemmsec;
       UInt_t fiSystemMysec;
       UInt_t fiTimeStamp;
       UInt_t fiGammaMysec;

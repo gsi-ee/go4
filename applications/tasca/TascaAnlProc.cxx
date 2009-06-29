@@ -66,6 +66,11 @@ TascaAnlProc::TascaAnlProc(const char* name) :
   gROOT->ProcessLine(".x setparam.C()");
   gROOT->ProcessLine(".x setcontrol.C()");
 
+  fStopXYalp=anl->CreateTH2D("Anl","StopXYLhitsAlpha","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+  fStopXYEvr=anl->CreateTH2D("Anl","StopXYHhitsEvr","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+  fStopXYSF =anl->CreateTH2D("Anl","StopXYHhitsSF","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+  fStopXYall=anl->CreateTH2D("Anl","StopXYhitsAll","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+
   // print description *********************************************************
   cout<<"*****************************************************************************"<<endl;
   cout<<"      Full stack, All fissions offbeam with Y, Y +-1 Time window fission2 plus alpha2"<<endl;
@@ -92,35 +97,18 @@ TascaAnlProc::TascaAnlProc(const char* name) :
   }
 //***********************************************************
 void TascaAnlProc::PrintFission(Bool_t store){
-printf(" --SF    %9d MevH: %6.2f  L: %6.2f BH: %6.2f L: %6.2f SF#:%6d X %3d Y %3d Spill %d\n",
-		fFissionEvent->fiEventNumber,
-		fFissionEvent->ffStopXHhitV/1000.,
-		fFissionEvent->ffStopXLhitV/1000.,
-		fFissionEvent->ffBackHhitV/1000.,
-		fFissionEvent->ffBackLhitV/1000.,
-		fFissions,
-		fFissionEvent->fiStopXHhitI,
-		fFissionEvent->fiStopYHhitI,
-		fFissionEvent->fisMacro
-);
+fFissionEvent->PrintFission(kFALSE,fFissions);
 fiEventsWritten++;
 fFissionEvent->fiChainNumber=fChainNumber;
 if(store){
-fChainBranch->SetAddress(&fFissionEvent);
-fChainTree->Fill();
+	fChainBranch->SetAddress(&fFissionEvent);
+	fChainTree->Fill();
 }
 return;
 }
 void TascaAnlProc::PrintAlpha(Bool_t store){
-printf(" --Alpha %9d MevL: %6.2f BL: %6.2f toFission [s] %8.3f          X %3d Y %3d Spill %d\n",
-		fStackEvent->fiEventNumber,
-		fStackEvent->ffStopXLhitV/1000.,
-		fStackEvent->ffBackLhitV/1000.,
-		(Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.,
-		fStackEvent->fiStopXLhitI,
-		fStackEvent->fiStopYLhitI,
-		fStackEvent->fisMacro
-);
+fStackEvent->PrintAlpha(kFALSE,
+		(Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.);
 fiEventsWritten++;
 fStackEvent->fiChainNumber=fChainNumber;
 if(store){
@@ -130,14 +118,8 @@ if(store){
 return;
 }
 void TascaAnlProc::PrintEvr(Bool_t store){
-printf("Evr ---- %9d MevH: %6.2f            toFission [s] %8.3f          X %3d Y %3d Spill %d\n",
-		fStackEvent->fiEventNumber,
-		fStackEvent->ffStopXHhitV/1000.,
-		(Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.,
-		fStackEvent->fiStopXHhitI,
-		fStackEvent->fiStopYHhitI,
-		fStackEvent->fisMacro
-);
+fStackEvent->PrintEvr(kFALSE,
+		(Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.);
 fiEventsWritten++;
 fStackEvent->fiChainNumber=fChainNumber;
 if(store){
@@ -161,7 +143,7 @@ if(fChainFile==0){
 	  // open root file for output
 	  strcpy(cfilename,fInput->GetEventSource()->GetActiveName());
 	  char* pc=strstr(cfilename,"_Checked");
-	  *pc=0;
+	  if(pc)*pc=0;
 	  strcat(cfilename,"_Chains.root");
 	  cout<< "Tasca> TascaAnlProc "<<"create Chain file "<<cfilename<<endl;
 	  fChainFile = new TFile(cfilename,"RECREATE");
@@ -172,9 +154,21 @@ if(fChainFile==0){
 	  fChainBranch=fChainTree->Branch("Searched.","TascaEvent",&fEvent,100000,1);
 }}
 
-if(fInput->fisFission)fFissions++;
-if(fInput->fisAlpha)fAlphas++;
-if(fInput->fisEvr)fEvrs++;
+ if(fInput->fisFission){
+ fStopXYall->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
+ fStopXYSF->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
+ fFissions++;
+ }
+ if(fInput->fisAlpha){
+ fStopXYall->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
+ fStopXYalp->Fill(fInput->fiStopXLhitI,fInput->fiStopYLhitI%48);
+ fAlphas++;
+ }
+ if(fInput->fisEvr){
+ fStopXYall->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
+ fStopXYEvr->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
+ fEvrs++;
+ }
 if(fFirstEvent==0)fFirstEvent=fInput->fiEventNumber;
 
 // We assume that fEventCurrent is a valid slot.
@@ -228,6 +222,7 @@ fEventStack->used++;
 			fStackEvent=(TascaEvent *) fEventStack->First();
 			fStackLinkEntry=fEventStack->FirstLink();
 		}
+		printf("t018f%03d%04d.lmd\n",fiFileNumber>>16,fiFileNumber&0xffff);
 		printf("Chain %4d Scope %7.3f sec Run %3d File %4d Stack %d --=========================================\n",
 				fChainNumber,(Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.,
 				fiFileNumber>>16,fiFileNumber&0xffff,fiEvprocessed);

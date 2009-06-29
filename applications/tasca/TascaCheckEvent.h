@@ -41,6 +41,7 @@ class TascaCheckEvent : public TGo4EventElement {
       Bool_t fisFission;
       Bool_t fisAlpha;
 
+      UInt_t fiSystemmsec;
       UInt_t fiSystemMysec;
       UInt_t fiTimeStamp;
       UInt_t fiGammaMysec;

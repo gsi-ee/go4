@@ -54,6 +54,7 @@ class TascaCaliEvent : public TGo4EventElement {
       Bool_t fisVeto;
 
       UInt_t fiSystemMysec;
+      UInt_t fiSystemmsec;
       UInt_t fiTimeStamp;
       UInt_t fiGammaMysec;
 //      Float_t ffStopXL[144]; //! dont store

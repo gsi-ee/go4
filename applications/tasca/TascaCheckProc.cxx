@@ -170,6 +170,7 @@ if(takeEvent){
 	poutevt->ffVetoHhitV =fInput->ffVetoHhitV;
 	poutevt->ffVetoLhitV =fInput->ffVetoLhitV;
 	poutevt->fiTimeStamp=fInput->fiTimeStamp;
+	poutevt->fiSystemmsec=fInput->fiSystemmsec;
 	poutevt->fiSystemMysec=fInput->fiSystemMysec;
 	poutevt->fiGammaMysec = fInput->fiGammaMysec;
 // 	for(Int_t i=0;i<7;i++){
