@@ -1093,6 +1093,7 @@ void TGo4MainWindow::ChangeFontSlot()
 
 void TGo4MainWindow::SetStyleSlot(const QString &style)
 {
+/*
    QString infostring="Style "+style+" was selected.\n";
    infostring += "One can try to apply it immediately, but Qt crashed very often at that place :(\n";
    infostring += "One can save that style in settings and it will be applied next time Go4 is started";
@@ -1102,12 +1103,12 @@ void TGo4MainWindow::SetStyleSlot(const QString &style)
          QMessageBox::Save);
 
    if (res == QMessageBox::Cancel) return;
-
+*/
    // save settings anyway
    go4sett->setAppStyle(style);
    go4sett->Store();
 
-   if (res == QMessageBox::Apply)
+//   if (res == QMessageBox::Apply)
       QApplication::setStyle(style);
 }
 

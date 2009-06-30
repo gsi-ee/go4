@@ -29,8 +29,8 @@
         <widget class="QToolButton" name="Ylin" >
           <property name="maximumSize" >
             <size>
-              <width>12</width>
-              <height>30</height>
+              <width>18</width>
+              <height>36</height>
             </size>
           </property>
           <property name="icon" >
@@ -48,8 +48,8 @@
         <widget class="QToolButton" name="Ylog" >
           <property name="maximumSize" >
             <size>
-              <width>12</width>
-              <height>30</height>
+              <width>18</width>
+              <height>36</height>
             </size>
           </property>
           <property name="icon" >
@@ -67,8 +67,8 @@
         <widget class="QToolButton" name="Zlin" >
           <property name="maximumSize" >
             <size>
-              <width>12</width>
-              <height>30</height>
+              <width>18</width>
+              <height>36</height>
             </size>
           </property>
           <property name="icon" >
@@ -86,8 +86,8 @@
         <widget class="QToolButton" name="Zlog" >
           <property name="maximumSize" >
             <size>
-              <width>12</width>
-              <height>30</height>
+              <width>18</width>
+              <height>36</height>
             </size>
           </property>
           <property name="icon" >
@@ -113,8 +113,8 @@
             <widget class="QToolButton" name="Xlin" >
               <property name="maximumSize" >
                 <size>
-                  <width>30</width>
-                  <height>12</height>
+                  <width>36</width>
+                  <height>14</height>
                 </size>
               </property>
               <property name="icon" >
@@ -132,8 +132,8 @@
             <widget class="QToolButton" name="Xlog" >
               <property name="maximumSize" >
                 <size>
-                  <width>30</width>
-                  <height>12</height>
+                  <width>36</width>
+                  <height>14</height>
                 </size>
               </property>
               <property name="icon" >
@@ -153,8 +153,8 @@
         <widget class="QToolButton" name="LineColor" >
           <property name="maximumSize" >
             <size>
-              <width>24</width>
-              <height>30</height>
+              <width>36</width>
+              <height>36</height>
             </size>
           </property>
           <property name="icon" >
@@ -172,8 +172,8 @@
         <widget class="QToolButton" name="FillColor" >
           <property name="maximumSize" >
             <size>
-              <width>24</width>
-              <height>30</height>
+              <width>36</width>
+              <height>36</height>
             </size>
           </property>
           <property name="icon" >
@@ -191,8 +191,8 @@
         <widget class="QToolButton" name="MarkerColor" >
           <property name="maximumSize" >
             <size>
-              <width>24</width>
-              <height>30</height>
+              <width>36</width>
+              <height>36</height>
             </size>
           </property>
           <property name="icon" >
@@ -218,8 +218,8 @@
             <widget class="QToolButton" name="D1his" >
               <property name="maximumSize" >
                 <size>
-                  <width>30</width>
-                  <height>12</height>
+                  <width>36</width>
+                  <height>14</height>
                 </size>
               </property>
               <property name="icon" >
@@ -237,8 +237,8 @@
             <widget class="QToolButton" name="D1line" >
               <property name="maximumSize" >
                 <size>
-                  <width>30</width>
-                  <height>12</height>
+                  <width>36</width>
+                  <height>14</height>
                 </size>
               </property>
               <property name="icon" >
@@ -258,8 +258,8 @@
         <widget class="QToolButton" name="D2scatter" >
           <property name="maximumSize" >
             <size>
-              <width>20</width>
-              <height>30</height>
+              <width>36</width>
+              <height>36</height>
             </size>
           </property>
           <property name="icon" >
@@ -277,8 +277,8 @@
         <widget class="QToolButton" name="D2pixel" >
           <property name="maximumSize" >
             <size>
-              <width>20</width>
-              <height>30</height>
+              <width>36</width>
+              <height>36</height>
             </size>
           </property>
           <property name="icon" >
@@ -296,8 +296,8 @@
         <widget class="QToolButton" name="D2surfcol" >
           <property name="maximumSize" >
             <size>
-              <width>20</width>
-              <height>30</height>
+              <width>36</width>
+              <height>36</height>
             </size>
           </property>
           <property name="icon" >
@@ -315,8 +315,8 @@
         <widget class="QToolButton" name="D2lego" >
           <property name="maximumSize" >
             <size>
-              <width>20</width>
-              <height>30</height>
+              <width>36</width>
+              <height>36</height>
             </size>
           </property>
           <property name="icon" >
@@ -334,8 +334,8 @@
         <widget class="QToolButton" name="D2contfill" >
           <property name="maximumSize" >
             <size>
-              <width>20</width>
-              <height>30</height>
+              <width>36</width>
+              <height>36</height>
             </size>
           </property>
           <property name="icon" >
@@ -353,8 +353,8 @@
         <widget class="QToolButton" name="D2contline" >
           <property name="maximumSize" >
             <size>
-              <width>20</width>
-              <height>30</height>
+              <width>36</width>
+              <height>36</height>
             </size>
           </property>
           <property name="icon" >
