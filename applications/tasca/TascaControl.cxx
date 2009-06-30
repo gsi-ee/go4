@@ -38,7 +38,7 @@ cout<<"      Check Tof:"<<checkTof<<"="<<TofMustbe
 	<<" Chop:"<<checkChopper<<"="<<ChopperMustbe
 	<<" Macro:"<<checkMacro<<"="<<MacroMustbe
 	<<" Micro:"<<checkMicro<<"="<<MicroMustbe<<endl;
-cout<<" Chain:"<<writeChainTree<<" Counter:"<<ChainCounter<<endl;
+cout<<"      Chain:"<<writeChainTree<<" Counter:"<<ChainCounter<<endl;
 }
   Printed=kTRUE;
   return 0;

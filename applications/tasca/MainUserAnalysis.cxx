@@ -69,50 +69,58 @@ UInt_t iport=5000;        // port number used by GUI
 UInt_t sport=6003;        // remote event server port
 Int_t  iarg;              // argument index
 Text_t macro[1024];         // input name
-Text_t serv[128];         // input name
-Text_t Unpout[128];          // output root events
-Text_t Calout[128];          // output root events
-Text_t Chkout[128];          // output root events
-Text_t Anlout[128];          // output root events
-Text_t ASfile[128];          // auto save file (batch)
+Text_t serv[512];         // input name
+Text_t Unpout[512];          // output root events
+Text_t Calout[512];          // output root events
+Text_t Chkout[512];          // output root events
+Text_t Anlout[512];          // output root events
+Text_t ASfile[512];          // auto save file (batch)
 Text_t filetype[8];       // file type .lmd or .lml
-Text_t odir[64];         // output directory
-Text_t prefix[64];         // name prefix: b for batch, i for interactive
+Text_t odir[128];         // output directory
+Text_t idir[128];         // input directory
+Text_t prefix[128];         // name prefix: b for batch, i for interactive
 Text_t *pc,*tmpname,*outname;
 
 // some defaults:
+strcpy(idir,"");
+strcpy(odir,"");
 strcpy(serv,"Go4AnalysisServer"); // name (servermode only)
 strcpy(Unpout,"Unpacked");
 strcpy(Calout,"Calibrated");
 strcpy(Chkout,"Checked");
 strcpy(Anlout,"Analyzed");
 strcpy(hostname,"localhost");
+// optional output path
 if(getenv("TASCASTORE")!=0){
 	  strcpy(odir,getenv("TASCASTORE"));
 	  if(strlen(odir)>0)strcat(odir,"/");
 }
 else
 strcpy(odir,"");
+// optional input path
+if(getenv("TASCASOURCE")!=0){
+	  strcpy(idir,getenv("TASCASOURCE"));
+	  if(strlen(idir)>0)strcat(idir,"/");
+}
+else
+strcpy(idir,"");
 
 if(strstr(argv[1],"-gui")) {
 	if(argc < 4) {
 		usage(); // too few argument for gui
 		exit(0);
 	}
-	strcpy(prefix,odir);
-	strcat(prefix,"i_");
+	strcpy(prefix,"i_");
 }
 else if(strstr(argv[1],"-server")){
-	strcpy(prefix,odir);
-	strcat(prefix,"s_");
+	strcpy(prefix,"s_");
 }
 else {
 	if(argc < 3) {
 		usage(); // too few argument for batch
 		exit(0);
 	}
-	strcpy(prefix,odir);
-	strcat(prefix,"b_");
+	strcpy(prefix,"b_");
 }
 strcpy(Unpout,prefix);
 strcpy(Calout,prefix);
@@ -143,7 +151,7 @@ strcpy(ASfile,prefix);
    strcat(Chkout,"_Checked"); // append name of output event object
    strncat(Anlout,outname,110);     // output root file
    strcat(Anlout,"_Analysis");   // append name of output event object
-   strncpy(serv,argv[2],110);     // input (file with full path)
+   strncpy(serv,argv[2],120);     // input (file with full path)
 
 if(strstr(argv[1],"-gui"))
 {
@@ -163,7 +171,10 @@ else
 // set up arguments for batch mode
 {
    runningMode = kBatch;
-        if(strstr(argv[1],"-f")){intype=GO4EV_MBS_FILE;strcat(serv,filetype);}
+        if(strstr(argv[1],"-f")){intype=GO4EV_MBS_FILE;
+			strncpy(serv,idir,250);
+			strncat(serv,argv[2],120);     // input (file with full path)
+			strcat(serv,filetype);}
    else if(strstr(argv[1],"-t")) intype=GO4EV_MBS_TRANSPORT;
    else if(strstr(argv[1],"-s")) intype=GO4EV_MBS_STREAM;
    else if(strstr(argv[1],"-e")) intype=GO4EV_MBS_EVENTSERVER;
@@ -201,7 +212,7 @@ else
      runningMode = kGUI;
      cout << "Tasca> Analysis running in server mode. GUIs may connect!" << endl;
    }
- }
+ }//batch
 // Now setup the  analysis itself
 // arguments could be adjusted for other needs
 
@@ -246,7 +257,8 @@ TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages
   analysis->AddAnalysisStep(analysisstep);
 
 // use macros to set up
-  snprintf(macro,1023,".x setup.C(\"%s\",\"%s\",\"%s\",\"%s\",\"%s\")",ASfile,Unpout,Calout,Chkout,Anlout);
+  snprintf(macro,1023,".x setup.C(\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\")",
+		  idir,odir,ASfile,Unpout,Calout,Chkout,Anlout);
   gROOT->ProcessLine(macro);
 
 

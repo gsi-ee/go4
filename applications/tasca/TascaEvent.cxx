@@ -38,7 +38,7 @@ printf(" --SF    %9d MevH: %6.2f  L: %6.2f BH: %6.2f L: %6.2f SF#:%6d   X %3d Y 
 }
 void TascaEvent::PrintAlpha(Bool_t full, Float_t timeD){
 if(full)PrintEvent();else
-printf(" --Alpha %9d MevL: %6.2f BL: %6.2f [ms] %9u toSF [s] %8.3f X %3d Y %3d Spill %d\n",
+printf(" --Alpha %9d MevL: %6.2f BL: %6.2f [ms] %10u toSF [s] %8.3f X %3d Y %3d Spill %d\n",
 		fiEventNumber,
 		ffStopXLhitV/1000.,
 		ffBackLhitV/1000.,
@@ -49,7 +49,7 @@ printf(" --Alpha %9d MevL: %6.2f BL: %6.2f [ms] %9u toSF [s] %8.3f X %3d Y %3d S
 }
 void TascaEvent::PrintEvr(Bool_t full, Float_t timeD){
 if(full)PrintEvent();else
-printf("Evr ---- %9d MevH: %6.2f            [ms] %9u toSF [s] %8.3f X %3d Y %3d Spill %d\n",
+printf("Evr ---- %9d MevH: %6.2f            [ms] %10u toSF [s] %8.3f X %3d Y %3d Spill %d\n",
 		fiEventNumber,
 		ffStopXHhitV/1000.,
 		fiSystemmsec,timeD,
