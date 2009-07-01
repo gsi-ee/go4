@@ -138,7 +138,10 @@ strcpy(ASfile,prefix);
    if((pc=strstr(tmpname,".lmd")) != 0)*pc=0;
    if((pc=strstr(tmpname,".lml")) != 0){*pc=0;strcpy(filetype,".lml");}
    tmpname=argv[2];
-   if((pc=strstr(argv[2],"@")) != 0) tmpname++;
+   if((pc=strstr(argv[2],"@")) != 0){
+	   tmpname++;
+	   strcpy(idir,""); // do not use source path for lml files
+   }
    outname=tmpname; // file name or node name
    if((tmpname=strrchr(outname,'/')) != 0) outname=tmpname+1;
    strncat(ASfile,outname,120);     // auto save file
