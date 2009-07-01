@@ -15,7 +15,7 @@ GO4PACKAGE = go4
 
 # rules which are used to produce packages
 PACKAGERULES    = compress go4-package fit-package \
-                  thrd-package task-package win-bin win-src\
+                  thrd-package task-package win-bin \
                   fast-packages packages 
 
 ifneq ($(findstring $(MAKECMDGOALS), $(PACKAGERULES)),)
@@ -269,6 +269,7 @@ go4-package:
 	@cd $(GO4DISTR_DIR)/etc; mkdir -p win
 	@cp -f distr/go4login.sh $(GO4DISTR_DIR)
 	@cp -f distr/go4init.bat $(GO4DISTR_DIR)/etc/win
+	@cp -f distr/go4login.win $(GO4DISTR_DIR)/etc/win/go4init.sh
 	@cp -f distr/README_win.txt $(GO4DISTR_DIR)/etc/win
 ifndef FASTPACKAGING
 	@for FILENAME in $(HDISTFILES); do . $(GO4SYS)/build/pack.ksh $$FILENAME; done
@@ -287,62 +288,23 @@ WINDISTRFILES = $(filter-out $(GO4SYS)/qt%, $(DISTRFILES))
 
 HWINDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(subst $(GO4SYS),$(WINDISTR_DIR),$(WINDISTRFILES)))
 
-win-src:
-	@echo "Creating package $(WINTAR_NAME) ..."
-	@tar chf $(WINTAR_NAME) Makefile.rules Makefile.config go4.init
-	@tar rhf $(WINTAR_NAME) build/*.sh build/Makefile.*
-	@tar rhf $(WINTAR_NAME) $(patsubst %,%/Module.mk,$(MODULES))
-	@tar rhf $(WINTAR_NAME) $(patsubst %,%/Makefile,$(EXMODULES))
-	@tar rhf $(WINTAR_NAME) $(subst $(GO4SYS),.,$(WINDISTRFILES))
-	@tar rhf $(WINTAR_NAME) CHANGES.txt Go4License.txt
-	@tar rhf $(WINTAR_NAME) etc/*.ksh etc/*.txt etc/*.C
-	@tar rhf $(WINTAR_NAME) docs/*.pdf
-	@tar rhf $(WINTAR_NAME) macros/*.C
-	@tar rhf $(WINTAR_NAME) icons --exclude=*.svn
-	@mkdir -p $(DISTR_DIR); cd $(DISTR_DIR); mkdir -p $(WINPACK_VERS)
-	@mv $(WINTAR_NAME) $(WINDISTR_DIR)
-	@cd $(WINDISTR_DIR); tar xf $(WINTAR_NAME); rm -f $(WINTAR_NAME)
-	@cp -f Makefile $(WINDISTR_DIR)/Makefile
-	@cp -f distr/go4init.bat $(WINDISTR_DIR)
-	@cp -f distr/README_win.txt $(WINDISTR_DIR)/README.txt
-ifndef FASTPACKAGING
-	@for FILENAME in $(HWINDISTFILES); do . $(GO4SYS)/build/pack.ksh $$FILENAME; done
-endif
-	@mkdir -p $(WINDISTR_DIR)/include
-	@touch -f $(WINDISTR_DIR)/include/.dummy
-	@cd $(DISTR_DIR); chmod u+w *; chmod u+w */*; chmod u+w */*/*; tar chf $(WINTAR_NAME) $(WINPACK_VERS) --exclude=$(WINTAR_NAME)*; gzip -f $(WINTAR_NAME)
-	@mkdir -p $(PACKAGE_DIR)
-	@mv -f $(DISTR_DIR)/$(WINTAR_NAME).gz $(PACKAGE_DIR)
-	@rm -f -r $(DISTR_DIR)/*
-	@rmdir $(DISTR_DIR)
-#	@cd $(PACKAGE_DIR); gunzip -f $(WINTAR_NAME).gz
-	@echo "Package $(WINTAR_NAME).gz done in $(PACKAGE_DIR)"
-
 win-bin: 
 	@echo "Creating binary Go4 Windows package ..."
-	@cd ..; zip $(WINBIN_NAME) go4/.rootmap
-	@for MMM in $(EXMODULES); do cd ..; echo "pack $$MMM"; rm -f fff.txt; \
-	ls -dA1 go4/$$MMM/*.$(ObjSuf) go4/$$MMM/*.$(DepSuf) go4/$$MMM/$(DICT_PREFIX)* go4/$$MMM/.localmap > fff.txt 2>/dev/null; \
-	zip -r $(WINBIN_NAME) go4/$$MMM -x@fff.txt; \
-	rm -f fff.txt; cd go4; done
-ifeq ($(wildcard ../root/etc/system.rootmap),)
-	cp .rootmap ../root/etc/system.rootmap
-else
-	mv -f ../root/etc/system.rootmap ../root/etc/system.rootmap.copy
-	cat .rootmap ../root/etc/system.rootmap.copy > ../root/etc/system.rootmap
-endif    
-	cp -f go4init.bat ..
-	cd ..; zip -r $(WINBIN_NAME) \
-	go4init.bat go4/README.txt go4/Go4License.txt \
-	go4/Makefile.config go4/Makefile.rules \
-	go4/include/*.h go4/build go4/images \
-	go4/etc go4/bin go4/lib go4/docs go4/macros root
-	rm -f ../go4init.bat
-ifneq ($(wildcard ../root/etc/system.rootmap.copy),)
-	mv -f ../root/etc/system.rootmap.copy ../root/etc/system.rootmap
-else
-	rm -f ../root/etc/system.rootmap
-endif
+	rm -f ../$(WINBIN_NAME)
+	cp -f distr/go4init.bat ..
+	cp -f distr/go4loginwin.sh ../go4init.sh
+	cp -f distr/README_win.txt .
+	cp -f $(QTDIR)/bin/QtCore4.dll $(QTDIR)/bin/QtGui4.dll bin
+	cp -f distr/README_win.txt .
+	@cd ..; zip $(WINBIN_NAME) go4/Makefile.config go4/Makefile.rules
+	@for MMM in $(EXMODULES); do cd ..; echo "pack $$MMM"; zip $(WINBIN_NAME) go4/$$MMM/* -x *.obj -x *.d -x go4/$$MMM/G__*.*; cd go4; done
+	cd ..; zip $(WINBIN_NAME) \
+	go4init.bat go4/README*.txt go4/Go4License.txt \
+	go4/include/*.h go4/build/* go4/images/* \
+	go4/etc/* go4/bin/* go4/lib/* go4/docs/* go4/macros/*
+	cd ..; zip -r $(WINBIN_NAME) root
+	rm -f ../go4init.bat ../go4init.sh README_win.txt
+	rm -f bin/QtCore4.dll bin/QtGui4.dll
 	@echo "Binary package $(WINBIN_NAME) done"
 
 COMPFILES = $(filter %.h %.cxx %.cpp %.c, $(DISTRFILES))

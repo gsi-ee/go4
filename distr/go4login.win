@@ -1,9 +1,10 @@
 
 # first create symbolik links on the software where spaces are presented, 
 # for instance visual studio or SDK
-# it can be done with mklink utility under admin account. do something like
-#  > mklink /D "C:\Program Files\Visual studio" c:\soft\vc
-# than adjust correct windows pathes and try
+# it can be done with mklink utility (in Vista) under admin account. 
+# Do something like
+#  > mklink /D "C:\Program Files\Visual studio" c:\Soft\VS
+# In WinXP one need extra software to establish such links
 
 VC_PATH="C:\Soft\VS\VC"
 SDK_PATH="C:\Soft\SDK"

@@ -94,6 +94,10 @@ if [ "$GO4_OS" = "Win32" ]; then
   link $SOFLAGS $LDFLAGS -out:$LIBDIR/${LIBNAME}.dll $LIBOBJS \
      $LIBDIR/${LIBNAME}.exp $extralibs $rootlibs $syslibs
 
+  mt -nologo -manifest $LIBDIR/${LIBNAME}.dll.manifest -outputresource:$LIBDIR/${LIBNAME}.dll
+
+  rm -f $LIBDIR/${LIBNAME}.dll.manifest
+
   if [ "x$LINKDEF" != "x" ]; then
      echo $RLIBMAP -r $LIBDIR/$LIBNAME.rootmap -l $LIBDIR/$LIBNAME.dll -d ${DEPLIBS//.lib/.dll} -c $LINKDEF
      $RLIBMAP -r $LIBDIR/$LIBNAME.rootmap -l $LIBDIR/$LIBNAME.dll -d ${DEPLIBS//.lib/.dll} -c $LINKDEF
@@ -101,7 +105,7 @@ if [ "$GO4_OS" = "Win32" ]; then
   fi
   
   if [ "$LIBDIR" == "lib" ]; then
-    if [ "$isgo4lib" = "true" ]; then
+    if [ "$isgo4lib" == "true" ]; then
       echo Copy $LIBDIR/${LIBNAME}.dll to bin directory
       $MV $LIBDIR/${LIBNAME}.dll bin/${LIBNAME}.dll
       if [ "x$LINKDEF" != "x" ]; then

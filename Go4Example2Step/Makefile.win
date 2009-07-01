@@ -28,11 +28,9 @@ CXXFLAGS = -Ox -GR -EHsc -MD -nologo \
            -DWIN32 -DGDK_WIN32 -D_WINDOWS -D_DLL -D_CRT_SECURE_NO_DEPRECATE \
            -I$(ROOTSYS)/include -I$(GO4SYS)/include
 
-LDFLAGS = /NOLOGO /INCREMENTAL:NO /nodefaultlib:libc.lib /nodefaultlib:dfor.lib
+LDFLAGS = /NOLOGO /INCREMENTAL:NO
 
-SYSLIBS = msvcrt.lib oldnames.lib kernel32.lib advapi32.lib \
-          user32.lib gdi32.lib comdlg32.lib winspool.lib \
-          comctl32.lib WSock32.lib
+SYSLIBS = ws2_32.lib
 
 ROOTLIBS = $(ROOTSYS)/lib/libCore.lib \
            $(ROOTSYS)/lib/libCint.lib \
@@ -69,8 +67,7 @@ MODULE_NAME        = Go4Example2Step
 MODULE_LINKDEF     = Go4UserAnalysisLinkDef.$(HedSuf)
 MODULE_LIBNAME     = libGo4UserAnalysis
 MODULE_EXENAME     = MainUserAnalysis
-MODULE_ONLYMAP     = .localmap
-MODULE_MAP         = .rootmap
+MODULE_MAP         = $(MODULE_LIBNAME).rootmap
 
 MODULE_EXEO        = $(MODULE_EXENAME).$(ObjSuf)
 MODULE_EXES        = $(MODULE_EXENAME).$(SrcSuf)
@@ -127,6 +124,8 @@ all:     $(MODULE_LIB) $(MODULE_DLL) $(MODULE_EXE) $(MODULE_MAP)
 
 $(MODULE_EXE):    $(MODULE_EXEO) $(MODULE_LIB)
 	@link $(LDFLAGS) $(MODULE_EXEO) $(LIBS_FULLSET) $(MODULE_LIB) -out:$(MODULE_EXE)
+	@mt -nologo -manifest $(MODULE_EXE).manifest -outputresource:$(MODULE_EXE)
+	@del $(MODULE_EXE).manifest
 	@echo Executable $@ is done
 
 $(MODULE_LIB):   $(MODULE_O) $(MODULE_DO)
@@ -137,6 +136,8 @@ $(MODULE_LIB):   $(MODULE_O) $(MODULE_DO)
 $(MODULE_DLL):  $(MODULE_LIB)
 	@link /DLL $(LDFLAGS) -out:$(MODULE_DLL) $(MODULE_O) $(MODULE_DO) \
             $(MODULE_LIBEXP) $(LIBS_FULLSET)
+	@mt -nologo -manifest $(MODULE_DLL).manifest -outputresource:$(MODULE_DLL)
+	@del $(MODULE_DLL).manifest
 	@echo Dynamic Link Library $@ is produced
 
 $(MODULE_DS): $(MODULE_H)  $(MODULE_LINKDEF)
@@ -144,17 +145,13 @@ $(MODULE_DS): $(MODULE_H)  $(MODULE_LINKDEF)
 	@rootcint -f $(MODULE_DS) -c -I$(GO4SYS)/include $(MODULE_H) $(MODULE_LINKDEF)
 
 $(MODULE_MAP): $(MODULE_LINKDEF) $(MODULE_DLL)
-	@del /f $(MODULE_MAP) dummy.map
-	@rlibmap -r dummy.map -l ./$(MODULE_DLL) -d $(ANAL_LIB_DEP) -c $(MODULE_LINKDEF)
-	@copy "$(GO4SYS)\.rootmap"+dummy.map $(MODULE_MAP)
-	@del /f dummy.map
+	@rlibmap -r $(MODULE_MAP) -l ./$(MODULE_DLL) -d $(ANAL_LIB_DEP) -c $(MODULE_LINKDEF)
 	@echo Map file $(MODULE_MAP) is done
 
 clean:
 	@del /f $(MODULE_O) $(MODULE_DO) *.$(ObjSuf) *.d
 	@del /f $(MODULE_LIBNAME).*
 	@del /f $(MODULE_EXEO) $(MODULE_EXE)
-	@del /f $(MODULE_MAP)
 	@del /f $(MODULE_DICT).* $(DICT_PREFIX)*.*
 	@echo Clean is done
 

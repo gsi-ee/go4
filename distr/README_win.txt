@@ -48,6 +48,7 @@ STARTING GUI:
   outside gui in command prompt like "MainUserAnalysis.exe -server"      
 
 STARTING GO4 browser in ROOT
+
 - Run root from command prompt after go4init.bat was called
     Q:\> root
 - In CINT shell instantiate TGo4Interface class
@@ -71,32 +72,38 @@ STARTING GO4 browser in ROOT
   on htpp://go4.gsi.de site
 
 COMPILE USER ANALYSIS UNDER WINDOWS
+
   First of all, Microsoft VC++ should be installed.
-  There is a free edition of Microsoft Visual C++ Express 2005 on
+  There is a free edition of Microsoft Visual C++ Express 2009 on
        http://msdn.microsoft.com/vstudio/express/visualc/
-  Also appropriate version of MS SDK should be installed.
+  Together with Visual C++ one should also install MS SDK.
   Some more instructions how it is can be installed see on ROOT web page:
        http://root.cern.ch/root/Procedure/
   After VC++ is installed, there are two alternatives, how example can be compiled.
-1. Compile with CYGWIN
-  Here first CYGWIN (http://cygwin.com/) should be installed.
-  This provides Unix like enviroment and allows us to use build scripts,
-  which are widely used in Go4 building procedure. After CYGWIN installed, one of
-  Go4 examples (for instance, Go4Example2Step) should be copied to separate
-  location and modified to specific user requirememnts. The only modification
-  of Makefile is required: GO4SYS should be set as RELATIVE path to Go4
-  installation. For instance, if Go4 in F:\Apps\go4 and user analysis in
-  F:\User\App1, GO4SYS should be "..\..\Apps\go4". Note, that GO4SYS, which is
-  set in command prompt enviroment, should not be changed.
-  To run compilation, change in Windows command prompt to
-  user code directory and run bash like:
-     F:\User\App1> bash
-  And than starts make
-     bash-3.00$ make
-  This should compile example and produce library and executables.
-2. Compile with Windows native nmake.exe tool
-  This requires to have special Makefile, which is suited for nmake.exe
-  tool. There is one example: $GO4SYS\Go4Example2Step\Makefile.win, which
+
+  1. Compile with CYGWIN
+
+  First of all, CYGWIN (http://cygwin.com/) should be installed.
+  This provides Unix like enviroment and allows to use shell-based build scripts.
+  After CYGWIN installed, one should adjust login script 
+  (go4init.sh), where actual location of different components
+  should be specified. Than copy your analysis (or one of Go4 examples, 
+  for instance, Go4Example2Step) to separate location. 
+  Before compile analysis, GO4SYS should be set as relative location
+  to current directory. For instance, if Go4 installed in F:\Apps\go4 
+  and user analysis in F:\User\App1, GO4SYS should be "..\..\Apps\go4". 
+  Run cygwin shell, go to directory with user analysis and compile it with:
+     /cygwin/f/user/app1> . go4init.sh
+     /cygwin/f/user/app1> export GO4SYS=../../Apps/go4
+     /cygwin/f/user/app1> make
+  This should compile analysis and produce library and executable.
+
+  2. Compile with Windows native nmake tool
+
+  First of all, go4init.bat file should be adjusted - one should
+  uncomment several lines, where path to Visual Studio are specified.
+  Second, one need special Makefile, which is suited for nmake.exe tool.
+  There is one example: $GO4SYS\Go4Example2Step\Makefile.win, which
   is written for Go4Example2Step. To addopt it to any other user analysis,
   one should specify correct list of source files in this Makefile. To run
   compilation, just do:
@@ -107,10 +114,11 @@ COMPILATION OF GO4 FROM SOURCE:
   1. Download and install root (ROOT Windows binaries is enough)
   2. Install and configure Cygwin
   3. Configure VC++ as described in http://root.cern.ch/root/Procedure/
-  4. Download go4 sources from http://go4.gsi.de web site.
-  5. Specify correct GO4SYS and ROOTSYS (in windows style
-     like "C:\go4" and "C:\root")
-  6. Set GO4_OS = Win32 in $GO4SYS/Makefile.config file.
-  7. Run make from Cygwin.
+  4. Download Qt 4.x source win tar ball (there is no binary version for VC++)
+     and compile it 
+  5. Download go4 sources from http://go4.gsi.de web site.
+  6. Find and modify $GO4SYS/etc/win/go4init.sh file to actual location of all 
+     components
+  7. Run Cygwin shell, call ". go4init.sh", cd $GO4SYS and call "make"
   8. Hopefully, this will compile Go4 under Windows!
 
