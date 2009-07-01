@@ -57,8 +57,8 @@ class TascaCheckEvent : public TGo4EventElement {
       Int_t fiBackLhitI;
       Int_t fiVetoHhitI;
       Int_t fiVetoLhitI;
-/*       UInt_t fiMultiStopXL; */
-/*       UInt_t fiMultiStopXH; */
+       UInt_t fiMultiStopXL;
+       UInt_t fiMultiStopXH;
 /*       UInt_t fiMultiStopYL; */
 /*       UInt_t fiMultiStopYH; */
 /*       UInt_t fiMultiBackH; */

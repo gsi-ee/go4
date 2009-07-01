@@ -82,6 +82,8 @@ void TascaCheckEvent::CopyTo(TascaEvent *pp){
 	pp->fiVetoHhitI=fiVetoHhitI;
 	pp->fiVetoLhitI=fiVetoLhitI;
 	// value of maximum hit, if we had more than one hit
+    pp->fiMultiStopXL=fiMultiStopXL;
+    pp->fiMultiStopXH=fiMultiStopXL;
 	pp->ffStopXLhitV=ffStopXLhitV;
 	pp->ffStopXHhitV=ffStopXHhitV;
 	pp->ffStopYLhitV=ffStopYLhitV;
@@ -121,5 +123,6 @@ void TascaCheckEvent::PrintEvent()
 			fiBackLhitI,fiBackHhitI,ffBackLhitV/1000.,ffBackHhitV/1000.);
 	printf("  VetoL(H)  i %3d (%3d), [MeV] %7.3f (%7.3f)\n",
 			fiVetoLhitI,fiVetoHhitI,ffVetoLhitV/1000.,ffVetoHhitV/1000.);
-	printf("  Gamma Multi %d, [MeV] Sum %f Max %f \n",fiMultiGamma,ffGammaSum/1000.,ffGammaMax/1000.);
+	printf("  Gamma Multi %d, [MeV] Sum %f Max %f   XMulti %2d (%2d)\n",
+			fiMultiGamma,ffGammaSum/1000.,ffGammaMax/1000.,fiMultiStopXL,fiMultiStopXH);
 }

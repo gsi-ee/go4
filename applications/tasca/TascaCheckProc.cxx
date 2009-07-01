@@ -151,8 +151,8 @@ if(takeEvent){
 	poutevt->fiBackLhitI=fInput->fiBackLhitI;
 	poutevt->fiVetoHhitI=fInput->fiVetoHhitI;
 	poutevt->fiVetoLhitI=fInput->fiVetoLhitI;
-// 	poutevt->fiMultiStopXL=fInput->fiMultiStopXL;
-// 	poutevt->fiMultiStopXH=fInput->fiMultiStopXH;
+ 	poutevt->fiMultiStopXL=fInput->fiMultiStopXL;
+ 	poutevt->fiMultiStopXH=fInput->fiMultiStopXH;
 // 	poutevt->fiMultiStopYL=fInput->fiMultiStopYL;
 // 	poutevt->fiMultiStopYH=fInput->fiMultiStopYH;
 // 	poutevt->fiMultiBackH=fInput->fiMultiBackH;

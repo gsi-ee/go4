@@ -75,7 +75,8 @@ Int_t TascaEvent::PrintEvent(){
 				fiBackLhitI,fiBackHhitI,ffBackLhitV/1000.,ffBackHhitV/1000.);
 		printf("  VetoL(H)  i %3d (%3d), [MeV] %7.3f (%7.3f)\n",
 				fiVetoLhitI,fiVetoHhitI,ffVetoLhitV/1000.,ffVetoHhitV/1000.);
-		printf("  Gamma [MeV] Sum %f Max %f \n",ffGammaSum/1000.,ffGammaMax/1000.);
+		printf("  Gamma [MeV] Sum %f Max %f  XMulti %2d (%2d)\n",
+				ffGammaSum/1000.,ffGammaMax/1000.,fiMultiStopXL,fiMultiStopXH);
 	}
   return 0;
 }

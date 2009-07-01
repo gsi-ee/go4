@@ -195,24 +195,26 @@ fEventStack->used++;
 	fStackEvent=fEventCurrent;  // to step back
 	fTimeDiff=fFissionEvent->fiDeltaTime;
 	fStackLinkEntry=fStackLinkCurrent;
+	fiFileNumber=fFissionEvent->fiFileNumber;
 	// search backwards
 	while((fStackLinkEntry=fStackLinkEntry->Prev())!=0){
 		fStackEvent=(TascaEvent *) fStackLinkEntry->GetObject();
 		//if(fTimeDiff <= fParam->Alpha2Tmax){ // in alpha time window
-		  if(fStackEvent->fisAlpha
-		     &&(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXLhitI)
-		     &&((fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYLhitI)
-		       ||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI)
-		       ||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYLhitI))
-		     ){
-			fAlphaFound=kTRUE;
+		if(fStackEvent->fisAlpha
+		   &&(fFissionEvent->fiStopXHhitI    ==fStackEvent->fiStopXLhitI)
+		   &&((fFissionEvent->fiStopYHhitI   ==fStackEvent->fiStopYLhitI)
+		   ||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI)
+		   ||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYLhitI))
+		 ){
+		fAlphaFound=kTRUE;
 		} //} // fission in time
 		if(fStackEvent->fisEvr
-		   &&(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXHhitI)
-		   &&(fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYHhitI)
+		   &&(fFissionEvent->fiStopXHhitI    ==fStackEvent->fiStopXHhitI)
+		   &&((fFissionEvent->fiStopYHhitI   ==fStackEvent->fiStopYHhitI)
+		   ||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYHhitI)
+		   ||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYHhitI))
 		   ){
 			fEvrFound=kTRUE;
-			fiFileNumber=fStackEvent->fiFileNumber;
 		}
 		if(fTimeDiff > (fParam->Fission2Tmax+fParam->Alpha2Tmax))break; // out of time window
 		fTimeDiff += fStackEvent->fiDeltaTime;
@@ -236,22 +238,28 @@ fEventStack->used++;
 				fiFileNumber>>16,fiFileNumber&0xffff,fiEvprocessed);
 		fiEvprocessed=0;
 		fAlphaFound=kFALSE;
-		fEvrFound=kFALSE; //fake for offbeam
+		fEvrFound=kFALSE; //if set true, fake for offbeam
 		while(fStackEvent!=fFissionEvent){
 			if(fStackEvent->fisEvr
-					&&(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXHhitI)
-					&&(fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYHhitI)
+				&&(fFissionEvent->fiStopXHhitI    ==fStackEvent->fiStopXHhitI)
+				&&((fFissionEvent->fiStopYHhitI   ==fStackEvent->fiStopYHhitI)
+				||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYHhitI)
+				||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYHhitI))
 			){
 				fEvrFound=kTRUE;
+				if(fStackEvent->fiFileNumber!=fiFileNumber)
+					printf("+t018f%03d%04d.lmd\n",fStackEvent->fiFileNumber>>16,fStackEvent->fiFileNumber&0xffff);
 				PrintEvr(fChainStore);
 			}
 			else if(fStackEvent->fisAlpha
-					&&(fFissionEvent->fiStopXHhitI==fStackEvent->fiStopXLhitI)
-					&&((fFissionEvent->fiStopYHhitI==fStackEvent->fiStopYLhitI)
-					||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI)
-					||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYLhitI))
+				&&(fFissionEvent->fiStopXHhitI    ==fStackEvent->fiStopXLhitI)
+				&&((fFissionEvent->fiStopYHhitI   ==fStackEvent->fiStopYLhitI)
+				||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI)
+				||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYLhitI))
 			){
 				fAlphaFound=kTRUE;
+				if(fStackEvent->fiFileNumber!=fiFileNumber)
+					printf("+t018f%03d%04d.lmd\n",fStackEvent->fiFileNumber>>16,fStackEvent->fiFileNumber&0xffff);
 				PrintAlpha(fChainStore);
 			}
 			else if((fStackEvent->fisFission)&&(fiLastFissionEvent==fStackEvent->fiEventNumber))

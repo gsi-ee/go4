@@ -29,7 +29,7 @@ void setup(Text_t* InputPath, Text_t* OutputPath,
   TString checkStore("no");
   TString checkOverWrite("yes");
 
-  TString analysisProcess("no");
+  TString analysisProcess("yes");
   TString analysisStore("no");
   TString analysisOverWrite("yes");
 
