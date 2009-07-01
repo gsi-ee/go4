@@ -90,14 +90,6 @@ class TascaUnpackProc : public TGo4EventProcessor {
       Int_t spillBins[100];
       Bool_t spillOn;
       Bool_t spillTest;
-      Double_t StopXLcross[5];
-      Double_t StopXHcross[5];
-      Double_t StopYLcross[5];
-      Double_t StopYHcross[5];
-      Double_t BackLcross[5];
-      Double_t BackHcross[5];
-      Double_t VetoLcross[5];
-      Double_t VetoHcross[5];
       UInt_t crate, address, channels, header, off;
       UInt_t lwords, multiL, multiH, low;
       UInt_t *pdata,*pbehind,*psubevent;

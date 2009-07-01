@@ -92,16 +92,6 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   TimeLastmysec=0;
   TimeLastadc=0;
   fLastEvent=0;
-  for(i=0;i<5;i++){
-   StopXLcross[5]=0.;
-   StopXHcross[5]=0.;
-   StopYLcross[5]=0.;
-   StopYHcross[5]=0.;
-   BackLcross[5]=0.;
-   BackHcross[5]=0.;
-   VetoLcross[5]=0.;
-   VetoHcross[5]=0.;
-   }
 
 // Creation of histograms:
 // The anl function gets the histogram or creates it
