@@ -234,9 +234,7 @@ packages: go4-package fit-package thrd-package task-package win-src
 
 GO4PACK_VERS     = go4-$(MAJOR).$(MINOR)
 GO4TAR_NAME      = go4-$(MAJOR).$(MINOR).tar
-WINPACK_VERS     = go4
-WINTAR_NAME      = go4win.tar
-WINBIN_NAME      = go4winbin.zip
+WINBIN_NAME      = go4-win-$(MAJOR).$(MINOR).zip
 FITTAR_NAME      = Go4Fit.tar
 QTROOTTAR_NAME   = Go4QtRoot.tar
 THRDTAR_NAME     = threadmgr.tar
@@ -292,7 +290,7 @@ win-bin:
 	@echo "Creating binary Go4 Windows package ..."
 	rm -f ../$(WINBIN_NAME)
 	cp -f distr/go4init.bat ..
-	cp -f distr/go4loginwin.sh ../go4init.sh
+	cp -f distr/go4login.win ../go4init.sh
 	cp -f distr/README_win.txt .
 	cp -f $(QTDIR)/bin/QtCore4.dll $(QTDIR)/bin/QtGui4.dll bin
 	cp -f distr/README_win.txt .
