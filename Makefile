@@ -281,11 +281,6 @@ endif
 	@rmdir $(DISTR_DIR)
 	@echo "Package $(GO4TAR_NAME).gz done in $(PACKAGE_DIR)"
 
-
-WINDISTRFILES = $(filter-out $(GO4SYS)/qt%, $(DISTRFILES))
-
-HWINDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(subst $(GO4SYS),$(WINDISTR_DIR),$(WINDISTRFILES)))
-
 win-bin: 
 	@echo "Creating binary Go4 Windows package ..."
 	rm -f ../$(WINBIN_NAME)

@@ -30,8 +30,8 @@ INSTALLATION:
 - After files are extracted, two top directories will be produced:
      root - binary distribution of ROOT (see http:\root.cern.ch)
      go4  - binary distribution of Go4
-- Correct pathes to ROOT and Go4 installation should be set in
-  go4login.bat init script.
+- Correct paths to ROOT and Go4 installation should be set in
+  go4init.bat script, which is extracted in top directory.
 
 STARTING GUI:
 - Run windows command prompt via main windows menu command:
@@ -104,13 +104,15 @@ COMPILE USER ANALYSIS UNDER WINDOWS
   uncomment several lines, where path to Visual Studio are specified.
   Second, one need special Makefile, which is suited for nmake.exe tool.
   There is one example: $GO4SYS\Go4Example2Step\Makefile.win, which
-  is written for Go4Example2Step. To addopt it to any other user analysis,
-  one should specify correct list of source files in this Makefile. To run
-  compilation, just do:
+  is written for Go4Example2Step. To adopt it for other user analysis,
+  one should specify correct list of source files in this Makefile. 
+  To run compilation, just do:
      F:\User\App1> nmake -f Makefile.win
 
 COMPILATION OF GO4 FROM SOURCE:
-  To compile Go4 from source on Windows, several step should be done.
+
+  To compile Go4 from source on Windows, several steps should be done.
+  
   1. Download and install root (ROOT Windows binaries is enough)
   2. Install and configure Cygwin
   3. Configure VC++ as described in http://root.cern.ch/root/Procedure/
