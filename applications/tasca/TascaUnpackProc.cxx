@@ -10,6 +10,7 @@
 
 #include "Riostream.h"
 #include <time.h>
+#include <stdlib.h>
 
 #include "TRandom.h"
 #include <math.h>
