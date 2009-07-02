@@ -93,9 +93,6 @@ TascaUnpackProc::TascaUnpackProc(const char* name) :
   TimeLastmysec=0;
   TimeLastadc=0;
   fLastEvent=0;
-  totalmsec=0;
-  lastmsec=0;
-  firstmsec=0;
   lastfilenum=0;
 
 // Creation of histograms:
@@ -309,24 +306,19 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   else                      fiDeltaTime=timestamp-TimeLastadc;
   TimeLastadc=timestamp;
   // system time, sec minus offset
+  msec=pUnpackEvent->fiSystemMysec/1000;
   if(TimeLastsec > 0)
     pUnpackEvent->fiSystemMysec += (pUnpackEvent->fiSystemSec-TimeLastsec)*1000000;
   TimeLastsec=pUnpackEvent->fiSystemSec;
-  pUnpackEvent->fiSystemSec = (pUnpackEvent->fiSystemSec-fParam->SystemTimeSecOff)*1000; //msec
-  pUnpackEvent->fiSystemSec=pUnpackEvent->fiSystemSec+(pUnpackEvent->fiSystemMysec/1000);//msec
   if(pUnpackEvent->fiSystemMysec<TimeLastmysec) fiDeltaSystemTime=0xFFFFFFFF-TimeLastmysec+pUnpackEvent->fiSystemMysec+1;
   else                                          fiDeltaSystemTime=pUnpackEvent->fiSystemMysec-TimeLastmysec;
   TimeLastmysec=pUnpackEvent->fiSystemMysec;
+  pUnpackEvent->fiSystemSec = (pUnpackEvent->fiSystemSec-fParam->SystemTimeSecOff)*1000; //msec
+  pUnpackEvent->fiSystemSec += msec;//msec
   // need first and last event in file to determine the time window of the file
   if(lastfilenum!=pUnpackEvent->fiFileNumber){ // file changed, this event is first in file
-	totalmsec += lastmsec-firstmsec;
-	printf("f%4d ms tot %9d first %9d last %9d dt %9d",
-		pUnpackEvent->fiFileNumber,totalmsec,firstmsec,lastmsec,firstmsec-lastmsec);
-	firstmsec=pUnpackEvent->fiSystemSec;
 	lastfilenum=pUnpackEvent->fiFileNumber;
   }
-  lastmsec=pUnpackEvent->fiSystemSec;
-  return;
 
   fSystemTime->Fill(fiDeltaSystemTime);
   fAdcTime->Fill(fiDeltaTime);
