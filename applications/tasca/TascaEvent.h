@@ -19,7 +19,7 @@ class TascaEvent : public TObject {
       void PrintFission(Bool_t full, UInt_t nof);
       void PrintAlpha(Bool_t full, Float_t timeD);
    	  void PrintEvr(Bool_t full, Float_t timeD);
-      Int_t PrintEvent();
+      void PrintEvent(Bool_t full=kTRUE);
 
       UInt_t fiFileNumber;
       UInt_t fiEventNumber;

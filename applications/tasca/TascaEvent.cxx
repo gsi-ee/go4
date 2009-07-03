@@ -57,7 +57,8 @@ printf("Evr ---- %9d MevH: %6.2f            [ms] %10u toSF [s] %8.3f X %3d Y %3d
 		fiStopYHhitI,
 		fisMacro);
 }
-Int_t TascaEvent::PrintEvent(){
+void TascaEvent::PrintEvent(Bool_t full){
+	if(full)
 	{
 		printf("Event Chain %4d Run %3d File %4d Evt %9d Tof:%d Off:%d EVR:%d Al:%d SF:%d\n",
 				fiChainNumber,fiFileNumber>>16,fiFileNumber&0xffff,fiEventNumber,
@@ -78,6 +79,11 @@ Int_t TascaEvent::PrintEvent(){
 		printf("  Gamma [MeV] Sum %f Max %f  XMulti %2d (%2d)\n",
 				ffGammaSum/1000.,ffGammaMax/1000.,fiMultiStopXL,fiMultiStopXH);
 	}
-  return 0;
+	else {
+		if(fisAlpha)PrintAlpha(kFALSE,0);
+		if(fisFission)PrintFission(kFALSE,0);
+		if(fisEvr)PrintEvr(kFALSE,0);
+	}
+  return;
 }
 

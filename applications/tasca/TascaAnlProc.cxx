@@ -67,11 +67,19 @@ TascaAnlProc::TascaAnlProc(const char* name) :
   gROOT->ProcessLine(".x setcontrol.C()");
 
 if(fControl->AnlHisto){
-  fStopXYalp=anl->CreateTH2D("Anl","StopXYLhitsAlpha","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-  fStopXYEvr=anl->CreateTH2D("Anl","StopXYHhitsEvr","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-  fStopXYSF =anl->CreateTH2D("Anl","StopXYHhitsSF","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-  fStopXYSFoff =anl->CreateTH2D("Anl","StopXYHhitsSFoff","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-  fStopXYall=anl->CreateTH2D("Anl","StopXYhitsAll","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYalp   =anl->CreateTH2D("Anl","XYLhitsAlpha","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYEvr   =anl->CreateTH2D("Anl","XYHhitsEvr","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYSF    =anl->CreateTH2D("Anl","XYHhitsSF","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYSFoff =anl->CreateTH2D("Anl","XYHhitsSFoff","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYall   =anl->CreateTH2D("Anl","XYhitsAll","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYcalp  =anl->CreateTH2D("Anl","XYLhitsAlphaCH","Hit counters chain","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYcEvr  =anl->CreateTH2D("Anl","XYHhitsEvrCH","Hit counters chain","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYcSF   =anl->CreateTH2D("Anl","XYHhitsSFCH","Hit counters chain","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYtalp  =anl->CreateTH2D("Anl","XYLhitsAlphaDT","Hit counters before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYtEvr  =anl->CreateTH2D("Anl","XYHhitsEvrDT","Hit counters before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYtSF   =anl->CreateTH2D("Anl","XYHhitsSFDT","Hit counters before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYtSFoff=anl->CreateTH2D("Anl","XYHhitsSFoffDT","Hit counters before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYtall  =anl->CreateTH2D("Anl","XYhitsAllDT","Hit counters before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
 }
   // print description *********************************************************
   cout<<"*****************************************************************************"<<endl;
@@ -135,10 +143,10 @@ void TascaAnlProc::TascaEventAnalysis(TascaAnlEvent* poutevt)
 {
 poutevt->SetValid(kFALSE);       // events are not stored until kTRUE is set
 fInput  = (TascaCheckEvent*) GetInputEvent();
-fiEventsProcessed++;
 // Process only if event is valid
 //cout <<"Anl: "<<fInput->fiEventNumber<< endl;
 if(!fInput->IsValid()) return;
+fiEventsProcessed++;
 // Check if we should open output tree file
 if(fChainStore){
 if(fChainFile==0){
@@ -171,7 +179,6 @@ if(fControl->AnlHisto){
 	fStopXYall->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
 	fStopXYEvr->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
 	}
-return;
 }
 if(fInput->fisFission) fFissions++;
 if(fInput->fisAlpha)   fAlphas++;
@@ -184,10 +191,11 @@ if(fFirstEvent==0)fFirstEvent=fInput->fiEventNumber;
 fInput->CopyTo(fEventCurrent); // copy event data into event entry
 fEventStack->used++;
 // From fission event we go back
- if(fInput->fisFission&&(!fInput->fisMacro)&&(fInput->fiStopYHhitI>=0)){
-// if(fInput->fisFission&&(fInput->fiStopYHhitI>=0)){
-// if(fInput->fisFission&(fInput->ffBackHhitV>10)){
-// if(fInput->fisFission){
+if(fInput->fisFission&&(!fInput->fisMacro)&&(fInput->fiStopYHhitI>=0)){
+	// if(fInput->fisFission&&(fInput->fiStopYHhitI>=0)){
+	// if(fInput->fisFission&(fInput->ffBackHhitV>10)){
+	// if(fInput->fisFission){
+	if(fControl->AnlHisto)fStopXYtSF->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
 	fiSFprocessed++;
 	fAlphaFound=kFALSE;
 	fEvrFound=kFALSE;
@@ -200,21 +208,31 @@ fEventStack->used++;
 	while((fStackLinkEntry=fStackLinkEntry->Prev())!=0){
 		fStackEvent=(TascaEvent *) fStackLinkEntry->GetObject();
 		//if(fTimeDiff <= fParam->Alpha2Tmax){ // in alpha time window
-		if(fStackEvent->fisAlpha
-		   &&(fFissionEvent->fiStopXHhitI    ==fStackEvent->fiStopXLhitI)
-		   &&((fFissionEvent->fiStopYHhitI   ==fStackEvent->fiStopYLhitI)
-		   ||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI)
-		   ||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYLhitI))
-		 ){
-		fAlphaFound=kTRUE;
-		} //} // fission in time
-		if(fStackEvent->fisEvr
-		   &&(fFissionEvent->fiStopXHhitI    ==fStackEvent->fiStopXHhitI)
-		   &&((fFissionEvent->fiStopYHhitI   ==fStackEvent->fiStopYHhitI)
-		   ||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYHhitI)
-		   ||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYHhitI))
-		   ){
-			fEvrFound=kTRUE;
+		if(fStackEvent->fisAlpha){
+			if((fFissionEvent->fiStopXHhitI    ==fStackEvent->fiStopXLhitI)
+					&&((fFissionEvent->fiStopYHhitI   ==fStackEvent->fiStopYLhitI)
+							||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI)
+							||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYLhitI))
+			){
+				if(fControl->AnlHisto)fStopXYcalp->Fill(fStackEvent->fiStopXLhitI,fStackEvent->fiStopYLhitI%48);
+				fAlphaFound=kTRUE;
+			} else {
+				if(fControl->AnlHisto)fStopXYtalp->Fill(fStackEvent->fiStopXLhitI,fStackEvent->fiStopYLhitI%48);
+				if(fControl->AnlHisto)fStopXYtall->Fill(fStackEvent->fiStopXLhitI,fStackEvent->fiStopYLhitI%48);
+			}
+		}
+		if(fStackEvent->fisEvr){
+			if((fFissionEvent->fiStopXHhitI    ==fStackEvent->fiStopXHhitI)
+					&&((fFissionEvent->fiStopYHhitI   ==fStackEvent->fiStopYHhitI)
+							||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYHhitI)
+							||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYHhitI))
+			){
+				if(fControl->AnlHisto)fStopXYcEvr->Fill(fStackEvent->fiStopXHhitI,fStackEvent->fiStopYHhitI%48);
+				fEvrFound=kTRUE;
+			} else {
+				if(fControl->AnlHisto)fStopXYtall->Fill(fStackEvent->fiStopXHhitI,fStackEvent->fiStopYHhitI%48);
+				if(fControl->AnlHisto)fStopXYtEvr->Fill(fStackEvent->fiStopXHhitI,fStackEvent->fiStopYHhitI%48);
+			}
 		}
 		if(fTimeDiff > (fParam->Fission2Tmax+fParam->Alpha2Tmax))break; // out of time window
 		fTimeDiff += fStackEvent->fiDeltaTime;
@@ -224,6 +242,7 @@ fEventStack->used++;
 	// We go now from here forward up to fission to print correct order
 	fTimeDiff=0;
 	if(fEvrFound&&fAlphaFound){
+		if(fControl->AnlHisto)fStopXYcSF->Fill(fFissionEvent->fiStopXHhitI,fFissionEvent->fiStopYHhitI%48);
 		fiSFtaken++;
 		fChainNumber++;
 		fControl->ChainCounter++;
@@ -232,7 +251,7 @@ fEventStack->used++;
 			fStackEvent=(TascaEvent *) fEventStack->First();
 			fStackLinkEntry=fEventStack->FirstLink();
 		}
-		printf("t018f%03d%04d.lmd\n",fiFileNumber>>16,fiFileNumber&0xffff);
+		//printf("t018f%03d%04d.lmd\n",fiFileNumber>>16,fiFileNumber&0xffff);
 		printf("Chain %4d Scope %7.3f sec Run %3d File %4d Stack %d --=========================================\n",
 				fChainNumber,(Float_t)TimeDiff(fFissionEvent->fiTimeStamp,fStackEvent->fiTimeStamp)/1000000.,
 				fiFileNumber>>16,fiFileNumber&0xffff,fiEvprocessed);
@@ -241,10 +260,10 @@ fEventStack->used++;
 		fEvrFound=kFALSE; //if set true, fake for offbeam
 		while(fStackEvent!=fFissionEvent){
 			if(fStackEvent->fisEvr
-				&&(fFissionEvent->fiStopXHhitI    ==fStackEvent->fiStopXHhitI)
-				&&((fFissionEvent->fiStopYHhitI   ==fStackEvent->fiStopYHhitI)
-				||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYHhitI)
-				||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYHhitI))
+					&&(fFissionEvent->fiStopXHhitI    ==fStackEvent->fiStopXHhitI)
+					&&((fFissionEvent->fiStopYHhitI   ==fStackEvent->fiStopYHhitI)
+							||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYHhitI)
+							||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYHhitI))
 			){
 				fEvrFound=kTRUE;
 				if(fStackEvent->fiFileNumber!=fiFileNumber)
@@ -252,10 +271,10 @@ fEventStack->used++;
 				PrintEvr(fChainStore);
 			}
 			else if(fStackEvent->fisAlpha
-				&&(fFissionEvent->fiStopXHhitI    ==fStackEvent->fiStopXLhitI)
-				&&((fFissionEvent->fiStopYHhitI   ==fStackEvent->fiStopYLhitI)
-				||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI)
-				||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYLhitI))
+					&&(fFissionEvent->fiStopXHhitI    ==fStackEvent->fiStopXLhitI)
+					&&((fFissionEvent->fiStopYHhitI   ==fStackEvent->fiStopYLhitI)
+							||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI)
+							||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYLhitI))
 			){
 				fAlphaFound=kTRUE;
 				if(fStackEvent->fiFileNumber!=fiFileNumber)
