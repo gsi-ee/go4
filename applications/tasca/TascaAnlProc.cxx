@@ -73,7 +73,7 @@ if(fControl->AnlHisto){
 	  fStopXYSFoff =anl->CreateTH2D("Anl","XYHhitsSFoff","All hits SF offbeam","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
 	  fStopXYall   =anl->CreateTH2D("Anl","XYhitsAll","All hits","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
 	  fStopXYcalp  =anl->CreateTH2D("Anl","XYLhitsAlphaCH","Alpha hits in chains","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYcall  =anl->CreateTH2D("Anl","XYLhitsAlphaCH","All hits in chains","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYcall  =anl->CreateTH2D("Anl","XYLhitsAllCH","All hits in chains","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
 	  fStopXYcEvr  =anl->CreateTH2D("Anl","XYHhitsEvrCH","Evr hits in chains","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
 	  fStopXYcSF   =anl->CreateTH2D("Anl","XYHhitsSFCH","SF hits in chains","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
 	  fStopXYtalp  =anl->CreateTH2D("Anl","XYLhitsAlphaDT","Alpha hits before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
