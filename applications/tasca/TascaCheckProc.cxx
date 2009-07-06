@@ -91,6 +91,7 @@ TascaCheckProc::TascaCheckProc(const char* name) :
 void TascaCheckProc::TascaEventCheck(TascaCheckEvent* poutevt)
 {
 Bool_t takeEvent=kFALSE;
+Float_t alpha;
 poutevt->SetValid(takeEvent);       // events are not stored until kTRUE is set
 fInput  = (TascaCaliEvent*) GetInputEvent();
 fiEventsProcessed++;
@@ -126,12 +127,11 @@ if(fInput->fisTof){
 		poutevt->fisEvr=kTRUE;
 	}
 } else {
-	if(fwinAlpha->Test(fInput->ffStopXLhitV)) {takeEvent=kTRUE;poutevt->fisAlpha=kTRUE;}
-	if(fwinAlpha1->Test(fInput->ffStopXLhitV)){takeEvent=kTRUE;poutevt->fisAlpha=kTRUE;}
-	if(fwinAlpha2->Test(fInput->ffStopXLhitV)){takeEvent=kTRUE;poutevt->fisAlpha=kTRUE;}
-	if(fwinAlpha->Test(fInput->ffStopXLhitV+fInput->ffBackLhitV)) {takeEvent=kTRUE;poutevt->fisAlpha=kTRUE;}
-	if(fwinAlpha1->Test(fInput->ffStopXLhitV+fInput->ffBackLhitV)){takeEvent=kTRUE;poutevt->fisAlpha=kTRUE;}
-	if(fwinAlpha2->Test(fInput->ffStopXLhitV+fInput->ffBackLhitV)){takeEvent=kTRUE;poutevt->fisAlpha=kTRUE;}
+  alpha=fInput->ffStopXLhitV;
+  if(fInput->ffBackLhitV > 4000)alpha += fInput->ffBackLhitV;
+	if(fwinAlpha->Test(alpha)) {takeEvent=kTRUE;poutevt->fisAlpha=kTRUE;}
+	if(fwinAlpha1->Test(alpha)){takeEvent=kTRUE;poutevt->fisAlpha=kTRUE;}
+	if(fwinAlpha2->Test(alpha)){takeEvent=kTRUE;poutevt->fisAlpha=kTRUE;}
 	if(fwinFission1->Test(fInput->ffStopXHhitV)&
 		fwinBack->Test(fInput->ffBackHhitV))  {takeEvent=kTRUE;poutevt->fisFission=kTRUE;}
 }

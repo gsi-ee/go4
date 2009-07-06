@@ -102,8 +102,11 @@ class TascaUnpackProc : public TGo4EventProcessor {
       char  cfilenum[8];
       char  cfilename[512];
       UInt_t filenum;
-      UInt_t msec;
+      UInt_t totalmsec;
+      UInt_t lastmsec;
+      UInt_t firstmsec;
       UInt_t lastfilenum;
+      UInt_t msec;
 
    ClassDef(TascaUnpackProc,1)
 };

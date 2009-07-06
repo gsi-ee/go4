@@ -46,6 +46,9 @@ TascaUnpackProc::~TascaUnpackProc()
   cout << "Tasca> TascaUnpackProc: Processed "<<fiEventsProcessed<<
   " written "<<fiEventsWritten <<
   " last "<<fLastEvent<<endl;
+    totalmsec += ((lastmsec-firstmsec)/1000);
+     printf("Tasca> TascaUnpackProc: File%04d sec tot %9d first %9d last %9d dt %5d\n",
+	       lastfilenum&0xffff,totalmsec,firstmsec/1000,lastmsec/1000,(lastmsec-firstmsec)/1000);
 }
 //***********************************************************
 TascaUnpackProc::TascaUnpackProc() :
@@ -317,8 +320,13 @@ void TascaUnpackProc::TascaUnpack(TascaUnpackEvent* pUP)
   pUnpackEvent->fiSystemSec += msec;//msec
   // need first and last event in file to determine the time window of the file
   if(lastfilenum!=pUnpackEvent->fiFileNumber){ // file changed, this event is first in file
+    totalmsec += ((lastmsec-firstmsec)/1000);
+     printf("Tasca> TascaUnpackProc: File%04d sec tot %9d first %9d last %9d dt %5d\n",
+	       lastfilenum&0xffff,totalmsec,firstmsec/1000,lastmsec/1000,(lastmsec-firstmsec)/1000);
+	firstmsec=pUnpackEvent->fiSystemSec;
 	lastfilenum=pUnpackEvent->fiFileNumber;
   }
+  lastmsec=pUnpackEvent->fiSystemSec;
 
   fSystemTime->Fill(fiDeltaSystemTime);
   fAdcTime->Fill(fiDeltaTime);
