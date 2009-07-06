@@ -67,19 +67,35 @@ TascaAnlProc::TascaAnlProc(const char* name) :
   gROOT->ProcessLine(".x setcontrol.C()");
 
 if(fControl->AnlHisto){
-	  fStopXYalp   =anl->CreateTH2D("Anl","XYLhitsAlpha","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYEvr   =anl->CreateTH2D("Anl","XYHhitsEvr","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYSF    =anl->CreateTH2D("Anl","XYHhitsSF","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYSFoff =anl->CreateTH2D("Anl","XYHhitsSFoff","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYall   =anl->CreateTH2D("Anl","XYhitsAll","Hit counters","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYcalp  =anl->CreateTH2D("Anl","XYLhitsAlphaCH","Hit counters chain","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYcEvr  =anl->CreateTH2D("Anl","XYHhitsEvrCH","Hit counters chain","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYcSF   =anl->CreateTH2D("Anl","XYHhitsSFCH","Hit counters chain","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYtalp  =anl->CreateTH2D("Anl","XYLhitsAlphaDT","Hit counters before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYtEvr  =anl->CreateTH2D("Anl","XYHhitsEvrDT","Hit counters before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYtSF   =anl->CreateTH2D("Anl","XYHhitsSFDT","Hit counters before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYtSFoff=anl->CreateTH2D("Anl","XYHhitsSFoffDT","Hit counters before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYtall  =anl->CreateTH2D("Anl","XYhitsAllDT","Hit counters before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYalp   =anl->CreateTH2D("Anl","XYLhitsAlpha","All hits Alpha","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYEvr   =anl->CreateTH2D("Anl","XYHhitsEvr","All hits EVR","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYSF    =anl->CreateTH2D("Anl","XYHhitsSF","All hits SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYSFoff =anl->CreateTH2D("Anl","XYHhitsSFoff","All hits SF offbeam","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYall   =anl->CreateTH2D("Anl","XYhitsAll","All hits","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYcalp  =anl->CreateTH2D("Anl","XYLhitsAlphaCH","Alpha hits in chains","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYcall  =anl->CreateTH2D("Anl","XYLhitsAlphaCH","All hits in chains","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYcEvr  =anl->CreateTH2D("Anl","XYHhitsEvrCH","Evr hits in chains","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYcSF   =anl->CreateTH2D("Anl","XYHhitsSFCH","SF hits in chains","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYtalp  =anl->CreateTH2D("Anl","XYLhitsAlphaDT","Alpha hits before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYtEvr  =anl->CreateTH2D("Anl","XYHhitsEvrDT","Evr hits before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYtSF   =anl->CreateTH2D("Anl","XYHhitsSFDT","SF its before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYtSFoff=anl->CreateTH2D("Anl","XYHhitsSFoffDT","SF offbeam hits before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYtall  =anl->CreateTH2D("Anl","XYhitsAllDT","All hits before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYcall->SetBinContent(91,18,100);
+	  fStopXYcall->SetBinContent(103,31,100);
+	  fStopXYcall->SetBinContent(83,18,100);
+	  fStopXYcall->SetBinContent(102,24,100);
+	  fStopXYcall->SetBinContent(110,19,100);
+	  fStopXYcall->SetBinContent(119,29,100);
+	  fStopXYcall->SetBinContent(131,26,100);
+	  fStopXYcall->SetBinContent(22,11,100);
+	  fStopXYcall->SetBinContent(59,24,100);
+	  fStopXYcall->SetBinContent(86,21,100);
+	  fStopXYcall->SetBinContent(89,24,100);
+	  fStopXYcall->SetBinContent(100,5,100);
+	  fStopXYcall->SetBinContent(122,40,100);
+	  fStopXYcall->SetBinContent(59,47,100);
+	  fStopXYcall->SetBinContent(89,0,100);
 }
   // print description *********************************************************
   cout<<"*****************************************************************************"<<endl;
@@ -214,6 +230,7 @@ if(fInput->fisFission&&(!fInput->fisMacro)&&(fInput->fiStopYHhitI>=0)){
 							||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYLhitI)
 							||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYLhitI))
 			){
+				if(fControl->AnlHisto)fStopXYcall->Fill(fStackEvent->fiStopXLhitI,fStackEvent->fiStopYLhitI%48);
 				if(fControl->AnlHisto)fStopXYcalp->Fill(fStackEvent->fiStopXLhitI,fStackEvent->fiStopYLhitI%48);
 				fAlphaFound=kTRUE;
 			} else {
@@ -227,6 +244,7 @@ if(fInput->fisFission&&(!fInput->fisMacro)&&(fInput->fiStopYHhitI>=0)){
 							||((fFissionEvent->fiStopYHhitI+1)==fStackEvent->fiStopYHhitI)
 							||((fFissionEvent->fiStopYHhitI-1)==fStackEvent->fiStopYHhitI))
 			){
+				if(fControl->AnlHisto)fStopXYcall->Fill(fStackEvent->fiStopXHhitI,fStackEvent->fiStopYHhitI%48);
 				if(fControl->AnlHisto)fStopXYcEvr->Fill(fStackEvent->fiStopXHhitI,fStackEvent->fiStopYHhitI%48);
 				fEvrFound=kTRUE;
 			} else {
@@ -243,6 +261,7 @@ if(fInput->fisFission&&(!fInput->fisMacro)&&(fInput->fiStopYHhitI>=0)){
 	fTimeDiff=0;
 	if(fEvrFound&&fAlphaFound){
 		if(fControl->AnlHisto)fStopXYcSF->Fill(fFissionEvent->fiStopXHhitI,fFissionEvent->fiStopYHhitI%48);
+		if(fControl->AnlHisto)fStopXYcall->Fill(fFissionEvent->fiStopXHhitI,fFissionEvent->fiStopYHhitI%48);
 		fiSFtaken++;
 		fChainNumber++;
 		fControl->ChainCounter++;

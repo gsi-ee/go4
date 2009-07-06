@@ -49,6 +49,7 @@ public:
 	TH2D* fStopXYcalp;
 	TH2D* fStopXYcEvr;
 	TH2D* fStopXYcSF ;
+	TH2D* fStopXYcall ;
 	TH2D* fStopXYtalp;
 	TH2D* fStopXYtEvr;
 	TH2D* fStopXYtSF ;
