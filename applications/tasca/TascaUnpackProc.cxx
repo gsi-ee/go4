@@ -532,6 +532,13 @@ for(i=0;i<codec->getVetonoAdc();i++){
 	pUnpackEvent->fiVetoH[n]=H;
 }//Veto
 pUnpackEvent->fisVeto=(multiL>0);
+// f1630738
+ if(pUnpackEvent->fiEventNumber == 35315979){
+   pUnpackEvent->fisVeto=kFALSE;
+  printf("***** File %d Evt %d Veto %d v=%d set to noVeto\n",
+		  pUnpackEvent->fiFileNumber&0xFFFF,pUnpackEvent->fiEventNumber,multiL,pUnpackEvent->fiVetoLhitV);
+ }
+
 pUnpackEvent->fiMultiVetoL=multiL;
 pUnpackEvent->fiMultiVetoH=multiH;
 fMultiVetoL->Fill(multiL);

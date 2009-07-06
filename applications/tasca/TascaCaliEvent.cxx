@@ -65,7 +65,7 @@ void TascaCaliEvent::PrintEvent()
 	printf("CaliEvent Run %3d File %4d Evt %9d Tof:%d Off:%d Veto:%d\n",
 			fiFileNumber>>16,fiFileNumber&0xffff,fiEventNumber,
 			fisTof,!fisMacro,fisVeto);
-	printf("  [ms] %9d [mysec] Sys %9u Gam %9u Adc %9u\n",
+	printf("  [ms] %9u [mysec] Sys %9u Gam %9u Adc %9u\n",
 			fiSystemmsec,fiSystemMysec,fiGammaMysec,fiTimeStamp);
 	printf("  Multi StopXL %d StopXH %d StopYL %d StopYH %d BackL %d BackH %d VetoL %d VetoH %d\n",
 			fiMultiStopXL,fiMultiStopXH,fiMultiStopYL,fiMultiStopYH,

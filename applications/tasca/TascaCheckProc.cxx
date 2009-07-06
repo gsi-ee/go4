@@ -120,6 +120,17 @@ if(fControl->CheckHisto){
 	for(Int_t i=0;i<7;i++) fAlphaGammaL->Fill(fInput->ffStopXLhitV,fInput->ffGammaKev[i]);
 } // fControl->CheckHisto
 
+// These events from file t1630738 and f1790836
+// should be chains, but did not match the conditions
+// if(fInput->fiEventNumber == 35315979)fInput->PrintEvent();
+// if(fInput->fiEventNumber == 35316464)fInput->PrintEvent();
+// if(fInput->fiEventNumber == 35322483)fInput->PrintEvent();
+// if(fInput->fiEventNumber == 35340259)fInput->PrintEvent();
+//
+// if(fInput->fiEventNumber == 223527471)fInput->PrintEvent();
+// if(fInput->fiEventNumber == 223528283)fInput->PrintEvent();
+// if(fInput->fiEventNumber == 223604065)fInput->PrintEvent();
+// if(fInput->fiEventNumber == 223642101)fInput->PrintEvent();
 // Filter out events
 if(fInput->fisTof){
 	if(fInput->fisMacro&fwinEvr->Test(fInput->ffStopXHhitV)){

@@ -110,7 +110,7 @@ void TascaCheckEvent::PrintEvent()
 	printf("CheckEvent Run %3d File %4d Evt %9d Tof:%d Off:%d Veto:%d EVR:%d Al:%d SF:%d\n",
 			fiFileNumber>>16,fiFileNumber&0xffff,fiEventNumber,
 			fisTof,!fisMacro,fisVeto,fisEvr,fisAlpha,fisFission);
-	printf("  [ms] %9d [mysec] Sys %9u Gam %9u Adc %9u, d [msec] Sys %6.3f Gam %6.3f Adc %6.3f\n",
+	printf("  [ms] %9u [mysec] Sys %9u Gam %9u Adc %9u, d [msec] Sys %6.3f Gam %6.3f Adc %6.3f\n",
 			fiSystemmsec,fiSystemMysec,fiGammaMysec,fiTimeStamp,
 			(Float_t)fiDeltaSystemTime/1000,
 			(Float_t)fiDeltaGammaTime/1000,
