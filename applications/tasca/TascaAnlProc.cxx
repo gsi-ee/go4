@@ -96,6 +96,23 @@ if(fControl->AnlHisto){
 	  fStopXYcall->SetBinContent(122,40,100);
 	  fStopXYcall->SetBinContent(59,47,100);
 	  fStopXYcall->SetBinContent(89,0,100);
+
+	  fStopXYtall->SetBinContent(91,18,100);
+	  fStopXYtall->SetBinContent(103,31,100);
+	  fStopXYtall->SetBinContent(83,18,100);
+	  fStopXYtall->SetBinContent(102,24,100);
+	  fStopXYtall->SetBinContent(110,19,100);
+	  fStopXYtall->SetBinContent(119,29,100);
+	  fStopXYtall->SetBinContent(131,26,100);
+	  fStopXYtall->SetBinContent(22,11,100);
+	  fStopXYtall->SetBinContent(59,24,100);
+	  fStopXYtall->SetBinContent(86,21,100);
+	  fStopXYtall->SetBinContent(89,24,100);
+	  fStopXYtall->SetBinContent(100,5,100);
+	  fStopXYtall->SetBinContent(122,40,100);
+	  fStopXYtall->SetBinContent(59,47,100);
+	  fStopXYtall->SetBinContent(89,0,100);
+
 }
   // print description *********************************************************
   cout<<"*****************************************************************************"<<endl;
