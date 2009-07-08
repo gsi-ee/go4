@@ -28,11 +28,27 @@
 //***********************************************************
 TascaAnlProc::~TascaAnlProc()
 {
+  UInt_t i;
+  Double_t dt=(fTimeWindow/1000000)*fiSFprocessed;
 	  cout << "Tasca> TascaAnlProc:    Processed "<<fiEventsProcessed<<" selected "<<fiEventsWritten << endl;
 	  cout << "                  stack Processed "<<fiEvprocessedTotal<<endl;
-	  cout << "                  total Fissions "<<fFissions <<" processed "<<fiSFprocessed<<endl;
+	  cout << "                  total Fissions "<<fFissions <<" processed "<<fiSFprocessed
+	       << " chains "<<fChainNumber
+	       << " sec "<<dt<<endl;
 	  cout << "                  total Alphas   "<<fAlphas << endl;
 	  cout << "                  total EVRs     "<<fEvrs << endl;
+          cout << "                  Timewindow [s] "<<fTimeWindow/1000000<<endl;
+	  dt=dt/1000000;
+if(fControl->AnlHisto){
+  for(i=0;i<fXY;i++)printf("    All   %3d,%3d %5.0f %6.0f 10^-6/s\n",
+			       fX[i],fY[i],fStopXYtall->GetBinContent(fX[i]+1,fY[i]+1),fStopXYtall->GetBinContent(fX[i]+1,fY[i]+1)/dt);
+  for(i=0;i<fXY;i++)printf("    Evr   %3d,%3d %5.0f %6.0f 10^-6/s %2d%%\n",
+			       fX[i],fY[i],fStopXYtEvr->GetBinContent(fX[i]+1,fY[i]+1),fStopXYtEvr->GetBinContent(fX[i]+1,fY[i]+1)/dt
+			   ,(UInt_t)(fStopXYtEvr->GetBinContent(fX[i]+1,fY[i]+1)*100/fStopXYtall->GetBinContent(fX[i]+1,fY[i]+1)));
+  for(i=0;i<fXY;i++)printf("    Alpha %3d,%3d %5.0f %6.0f 10^-6/s %2d%%\n",
+			   fX[i],fY[i],fStopXYtalp->GetBinContent(fX[i]+1,fY[i]+1)-1000,(fStopXYtalp->GetBinContent(fX[i]+1,fY[i]+1)-1000)/dt
+			   ,(UInt_t)((fStopXYtalp->GetBinContent(fX[i]+1,fY[i]+1)-1000)*100/fStopXYtall->GetBinContent(fX[i]+1,fY[i]+1)));
+}
 if(fChainFile){
 	fChainFile->Write();
 	fChainFile->Close();
@@ -48,6 +64,7 @@ TascaAnlProc::TascaAnlProc()
 TascaAnlProc::TascaAnlProc(const char* name) :
   TGo4EventProcessor(name),fInput(0),fChainFile(0),fChainNumber(0),fChainStore(kFALSE),fFissions(0),fAlphas(0),fEvrs(0)
 {
+  UInt_t i;
   cout << "Tasca> TascaAnlProc "<<name<<" created" << endl;
   //// init user analysis objects:
 
@@ -67,56 +84,49 @@ TascaAnlProc::TascaAnlProc(const char* name) :
   gROOT->ProcessLine(".x setcontrol.C()");
 
 if(fControl->AnlHisto){
-	  fStopXYalp   =anl->CreateTH2D("Anl","XYLhitsAlpha","All hits Alpha","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYEvr   =anl->CreateTH2D("Anl","XYHhitsEvr","All hits EVR","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYSF    =anl->CreateTH2D("Anl","XYHhitsSF","All hits SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYSFoff =anl->CreateTH2D("Anl","XYHhitsSFoff","All hits SF offbeam","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYall   =anl->CreateTH2D("Anl","XYhitsAll","All hits","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYcalp  =anl->CreateTH2D("Anl","XYLhitsAlphaCH","Alpha hits in chains","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYcall  =anl->CreateTH2D("Anl","XYLhitsAllCH","All hits in chains","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYcEvr  =anl->CreateTH2D("Anl","XYHhitsEvrCH","Evr hits in chains","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYcSF   =anl->CreateTH2D("Anl","XYHhitsSFCH","SF hits in chains","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYtalp  =anl->CreateTH2D("Anl","XYLhitsAlphaDT","Alpha hits before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYtEvr  =anl->CreateTH2D("Anl","XYHhitsEvrDT","Evr hits before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYtSF   =anl->CreateTH2D("Anl","XYHhitsSFDT","SF its before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYtSFoff=anl->CreateTH2D("Anl","XYHhitsSFoffDT","SF offbeam hits before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYtall  =anl->CreateTH2D("Anl","XYhitsAllDT","All hits before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
-	  fStopXYcall->SetBinContent(91,18,100);
-	  fStopXYcall->SetBinContent(103,31,100);
-	  fStopXYcall->SetBinContent(83,18,100);
-	  fStopXYcall->SetBinContent(102,24,100);
-	  fStopXYcall->SetBinContent(110,19,100);
-	  fStopXYcall->SetBinContent(119,29,100);
-	  fStopXYcall->SetBinContent(131,26,100);
-	  fStopXYcall->SetBinContent(22,11,100);
-	  fStopXYcall->SetBinContent(59,24,100);
-	  fStopXYcall->SetBinContent(86,21,100);
-	  fStopXYcall->SetBinContent(89,24,100);
-	  fStopXYcall->SetBinContent(100,5,100);
-	  fStopXYcall->SetBinContent(122,40,100);
-	  fStopXYcall->SetBinContent(59,47,100);
-	  fStopXYcall->SetBinContent(89,0,100);
-
-	  fStopXYtall->SetBinContent(91,18,10000);
-	  fStopXYtall->SetBinContent(103,31,10000);
-	  fStopXYtall->SetBinContent(83,18,10000);
-	  fStopXYtall->SetBinContent(102,24,10000);
-	  fStopXYtall->SetBinContent(110,19,10000);
-	  fStopXYtall->SetBinContent(119,29,10000);
-	  fStopXYtall->SetBinContent(131,26,10000);
-	  fStopXYtall->SetBinContent(22,11,10000);
-	  fStopXYtall->SetBinContent(59,24,10000);
-	  fStopXYtall->SetBinContent(86,21,10000);
-	  fStopXYtall->SetBinContent(89,24,10000);
-	  fStopXYtall->SetBinContent(100,5,10000);
-	  fStopXYtall->SetBinContent(122,40,10000);
-	  fStopXYtall->SetBinContent(59,47,10000);
-	  fStopXYtall->SetBinContent(89,0,10000);
-
+	  fStopXYalp   =anl->CreateTH2I("Anl","XYLhitsAlpha","All hits Alpha","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYEvr   =anl->CreateTH2I("Anl","XYHhitsEvr","All hits EVR","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYSF    =anl->CreateTH2I("Anl","XYHhitsSF","All hits SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYSFoff =anl->CreateTH2I("Anl","XYHhitsSFoff","All hits SF offbeam","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYall   =anl->CreateTH2I("Anl","XYhitsAll","All hits","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYcalp  =anl->CreateTH2I("Anl","XYLhitsAlphaCH","Alpha hits in chains","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYcall  =anl->CreateTH2I("Anl","XYLhitsAllCH","All hits in chains","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYcEvr  =anl->CreateTH2I("Anl","XYHhitsEvrCH","Evr hits in chains","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYcSF   =anl->CreateTH2I("Anl","XYHhitsSFCH","SF hits in chains","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYtalp  =anl->CreateTH2I("Anl","XYLhitsAlphaDT","Alpha hits before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYtEvr  =anl->CreateTH2I("Anl","XYHhitsEvrDT","Evr hits before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYtSF   =anl->CreateTH2I("Anl","XYHhitsSFDT","SF its before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYtSFoff=anl->CreateTH2I("Anl","XYHhitsSFoffDT","SF offbeam hits before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fStopXYtall  =anl->CreateTH2I("Anl","XYhitsAllDT","All hits before SF","X position [stripe]","Y position [stripe]","Hits",144,0,144,48,0,48);
+	  fXY=15;// number of approved chain positions
+	  i=0;
+	  fX[i]=91; fY[i]=18; i++;
+	  fX[i]=103; fY[i]=31; i++;
+	  fX[i]=83; fY[i]=18; i++;
+	  fX[i]=102; fY[i]=24; i++;
+	  fX[i]=110; fY[i]=19; i++;
+	  fX[i]=119; fY[i]=29; i++;
+	  fX[i]=131; fY[i]=26; i++;
+	  fX[i]=22; fY[i]=11; i++;
+	  fX[i]=59; fY[i]=24; i++;
+	  fX[i]=86; fY[i]=21; i++;
+	  fX[i]=89; fY[i]=24; i++;
+	  fX[i]=100; fY[i]=5; i++;
+	  fX[i]=122; fY[i]=40; i++;
+	  fX[i]=59; fY[i]=47; i++;
+	  fX[i]=89; fY[i]=0; i++;
+	  fX[i]=0; fY[i]=0; i++;
+	  for(i=0;i<fXY;i++){
+	    fStopXYcall->SetBinContent(fX[i]+1,fY[i]+1,100); // bin access must start from 1
+	    fStopXYtalp->SetBinContent(fX[i]+1,fY[i]+1,1000);
+	    // fStopXYtalp->Fill(fX[i],fY[i]);  fills the same bin as set by SetBinContent
+	  }
 }
+  fTimeWindow=fParam->Fission2Tmax+fParam->Alpha2Tmax;
   // print description *********************************************************
   cout<<"*****************************************************************************"<<endl;
-  cout<<"      Full stack, All fissions offbeam with Y, Y +-1 Time window fission2 plus alpha2"<<endl;
+  cout<<"      Full stack, All fissions offbeam with Y, Y +-1"<<endl;
+  cout<<"      Timewindow [s] "<<fTimeWindow/1000000<<endl;
   cout<<"*****************************************************************************"<<endl;
 
   fEventStack=new TascaEventStack(fParam->EventStackSize);
@@ -269,7 +279,7 @@ if(fInput->fisFission&&(!fInput->fisMacro)&&(fInput->fiStopYHhitI>=0)){
 				if(fControl->AnlHisto)fStopXYtEvr->Fill(fStackEvent->fiStopXHhitI,fStackEvent->fiStopYHhitI%48);
 			}
 		}
-		if(fTimeDiff > (fParam->Fission2Tmax+fParam->Alpha2Tmax))break; // out of time window
+		if(fTimeDiff > fTimeWindow)break; // out of time window
 		fTimeDiff += fStackEvent->fiDeltaTime;
 		fiEvprocessed++;
 		fiEvprocessedTotal++;

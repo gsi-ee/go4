@@ -25,7 +25,7 @@ TascaEvent::~TascaEvent(){
 //-----------------------------------------------------------
 void TascaEvent::PrintFission(Bool_t full, UInt_t nof){
 if(full)PrintEvent();else
-printf(" --SF    %9d MevH: %6.2f  L: %6.2f BH: %6.2f L: %6.2f SF#:%6d   X %3d Y %3d Spill %d\n",
+printf(" --SF    %9d MevH: %6.2f  L: %6.2f BH: %6.2f L: %6.2f SF#:%8d X %3d Y %3d Spill %d\n",
 		fiEventNumber,
 		ffStopXHhitV/1000.,
 		ffStopXLhitV/1000.,
