@@ -65,7 +65,7 @@ void TascaEvent::PrintEvent(Bool_t full){
 				fisTof,!fisMacro,fisEvr,fisAlpha,fisFission);
 		printf("  [ms] %9u [mysec] Sys %9u Gam %9u Adc %9u, d [msec] Sys %6.3f Gam %6.3f Adc %6.3f\n",
 				fiSystemmsec,fiSystemMysec,fiGammaMysec,fiTimeStamp,
-				(Float_t)fiDeltaSystemTime/1000,
+				(Float_t)fiDeltaSystemTime,
 				(Float_t)fiDeltaGammaTime/1000,
 				(Float_t)fiDeltaTime/1000);
 		printf("  StopXL(H) i %3d (%3d), [MeV] %7.3f (%7.3f)",
