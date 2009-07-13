@@ -5,14 +5,14 @@
 // GSI, Experiment Electronics, Data Processing
 //---------------------------------------------
 
-void printevent(const char* rootinfile, unsigned int chain)
+void printevent(const char* rootinfile, unsigned int chain, Bool_t verbose)
 {
   //gSystem->Load("libGo4UserAnalysis.so"); // if there is no .rootmap file!
 
 char filename[128];
 TString fname(filename);
 Bool_t select;
-UInt_t run,curchain,lastms;
+ UInt_t run,curchain,lastms,chains=0;;
 Int_t i=0;
 
 // TYasca event
@@ -35,7 +35,7 @@ if(chain>0){
 		brfilter->GetEntry(i);
 		if(eve->fiChainNumber==chain){
 			oldTree->GetEntry(i);
-			eve->PrintEvent();
+			eve->PrintEvent(kTRUE);
 		}
 	}}
 else {
@@ -63,11 +63,12 @@ else {
 				else if((run == 219)&(eve->fiStopXLhitI == 89))curchain=eve->fiChainNumber;
 		else i++;
 		lastms=eve->fiSystemmsec;
+		if(curchain==eve->fiChainNumber)chains++;
 		while(curchain==eve->fiChainNumber){
 			if((eve->fisAlpha)&(eve->ffBackLhitV>4000))eve->ffStopXLhitV += eve->ffBackLhitV;
 			if((eve->fisFission)&(eve->ffBackHhitV>4000))eve->ffStopXHhitV += eve->ffBackHhitV;
 			eve->fiDeltaSystemTime=eve->fiSystemmsec-lastms;
-			eve->PrintEvent(kTRUE);
+			eve->PrintEvent(verbose);
 			lastms=eve->fiSystemmsec;
 		   i++;
 		   if(i==nentries)break;
@@ -77,5 +78,6 @@ else {
 	}
 }
 infile.Close(); // close input root file
+ cout<<"Chains found: "<<chains<<endl;
 exit(0);
 }

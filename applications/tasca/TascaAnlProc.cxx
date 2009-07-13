@@ -215,7 +215,7 @@ if(fControl->AnlHisto){
 		else fStopXYSFoff->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
 	}
 	if(fInput->fisAlpha){
-	fStopXYall->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
+	fStopXYall->Fill(fInput->fiStopXLhitI,fInput->fiStopYLhitI%48);
 	fStopXYalp->Fill(fInput->fiStopXLhitI,fInput->fiStopYLhitI%48);
 	}
 	if(fInput->fisEvr){

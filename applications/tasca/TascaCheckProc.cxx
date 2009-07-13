@@ -57,8 +57,8 @@ TascaCheckProc::TascaCheckProc(const char* name) :
   fParam   = (TascaParameter *) anl->CreateParameter("Parameter","Parameters");
   gROOT->ProcessLine(".x setcontrol.C()");
 
-  fTime      = anl->CreateTH1I ("Check","Time","Time diff",20000,0,20000000);
   if(fControl->CheckHisto){
+  fTime      = anl->CreateTH1I ("Check","Time","Time diff",20000,0,20000000);
   fAlphaGammaL=anl->CreateTH2D("Check","AlphaGammaL","Energies","Alpha [Kev]","Gamma [Kev]","Hits",1000,0,30000,1000,0,2500);
   fAlphaBackL=anl->CreateTH2D("Check","AlphaBackL","Energies","Alpha [Kev]","Back [Kev]","Hits",1000,0,30000,1000,0,10000);
   fAlphaVetoL=anl->CreateTH2D("Check","AlphaVetoL","Energies","Alpha [Kev]","Veto [Kev]","Hits",1000,0,30000,1000,0,4000);
@@ -202,7 +202,7 @@ if(takeEvent){
 		 poutevt->fiDeltaGammaTime=0xFFFFFFFF-TimeLastgamma+fInput->fiGammaMysec+1;
 	else poutevt->fiDeltaGammaTime=fInput->fiGammaMysec-TimeLastgamma;
 	TimeLastgamma=fInput->fiGammaMysec;
-	fTime->Fill(poutevt->fiDeltaTime);
+	if(fControl->CheckHisto)fTime->Fill(poutevt->fiDeltaTime);
 	poutevt->SetValid(kTRUE);       // events are not stored until kTRUE is set
 	fiEventsWritten++;
 }

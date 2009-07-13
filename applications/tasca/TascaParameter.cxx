@@ -31,6 +31,9 @@ Save(0),Fill(1),shift(5),EventStackSize(10),Printed(kFALSE)
     AlphaMinL=0;
     AlphaMinH=0;
     Adc80TofMin=0;
+    AdcThreshold=100;
+    AdcThresholdStop=100;
+    AdcMax=3500;
     SystemTimeSecOff=1243462631;
 }
 //***********************************************************
@@ -43,7 +46,8 @@ TascaParameter::~TascaParameter(){
 Int_t TascaParameter::PrintParameter(){
 if(!Printed){
   cout << "Tasca> TascaParameter " << GetName()<<":" <<endl;
-  printf("      Adc:  80TofMin=%10d Thrs=%10d\n",Adc80TofMin,AdcThreshold);
+  printf("      Timeoffset %d sec\n",SystemTimeSecOff);
+  printf("      Adc:  80TofMin=%10d Thrs=%4d Stop=%4d Max=%4d\n",Adc80TofMin,AdcThreshold,AdcThresholdStop,AdcMax);
   printf("      Alpha:    minL=%10.1f minH=%10.1f\n",AlphaMinL,AlphaMinH);
   printf("      Alpha:    maxL=%10.1f maxH=%10.1f\n",AlphaMaxL,AlphaMaxH);
   printf("      Alpha:    Tmin=%10d Tmax=%10d\n",AlphaTmin,AlphaTmax);

@@ -27,7 +27,9 @@ class TascaParameter : public TGo4Parameter {
       UInt_t EventStackSize;
       Bool_t Printed; //! not to store
       UInt_t Adc80TofMin;
+      UInt_t AdcThresholdStop;
       UInt_t AdcThreshold;
+      UInt_t AdcMax;
       Float_t AlphaMaxL;
       Float_t AlphaMaxH;
       Float_t AlphaMinL;

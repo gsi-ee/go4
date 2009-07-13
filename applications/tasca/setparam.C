@@ -19,7 +19,7 @@ void setparam()
 // Time windows sec
 	Float_t fAlphaTmin   =0.,     fAlphaTmax   = 10.;
 	Float_t fAlpha1Tmin  =0.,     fAlpha1Tmax  = 20.;
-	Float_t fAlpha2Tmin  =0.,     fAlpha2Tmax  =180.;
+	Float_t fAlpha2Tmin  =0.,     fAlpha2Tmax  =180.; //180
 	Float_t fFission1Tmin=0.,     fFission1Tmax=  1.;
 	Float_t fFission2Tmin=0.,     fFission2Tmax= 70.;
 
@@ -31,7 +31,9 @@ if(fp==0) return
 
 	fp->shift=5;               // Unpacker gamma decoder for energies
 	fp->Adc80TofMin=300;       // signals Tof (instead of TOF register)
-	fp->AdcThreshold=100;      // Unpacker uses this is minimum raw value
+	fp->AdcThreshold=100;      // Unpacker uses this as minimum raw value
+	fp->AdcThresholdStop=100;  // Unpacker uses this as minimum raw value
+	fp->AdcMax=3500;           // Unpacker uses this as maximum raw value
 	fp->EventStackSize=100000; // used in Analysis
 	fp->AlphaMaxL=16000.;      // Calibrator take low value up to this limit. Above
 	fp->AlphaMaxH=30000.;      // take high value up to this limit as low
