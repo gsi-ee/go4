@@ -407,8 +407,8 @@ while(adcs > 0){
 		  pUnpackEvent->fiAdc[off+codec->getChan()]=codec->getAdc();
 		  pUnpackEvent->fiMultiAdc++;
 		  if(fControl->UnpackHisto){
-		  fAdcAllRaw->Fill(codec->getAdc());
-		  fContent->Fill(off+codec->getChan());
+			  fAdcAllRaw->Fill(codec->getAdc());
+			  fContent->Fill(off+codec->getChan());
 		  }
 	  }
 	  pdata++; // skip EOB
@@ -457,20 +457,20 @@ pUnpackEvent->fiMultiStopXL=multiL;
 pUnpackEvent->fiMultiStopXH=multiH;
 if(fControl->UnpackHisto) fhStopXiLH->Fill(pUnpackEvent->fiStopXLhitI,pUnpackEvent->fiStopXHhitI);
 // search for second maximum
- L=0;
- H=0;
- if(multiL>0)fMaxiStopXLg->Fill(144);
- if(multiH>0)fMaxiStopXHg->Fill(144);
- if(multiL>1){
-   pUnpackEvent->fiStopXL[pUnpackEvent->fiStopXLhitI]=0;
-   for(i=0;i<144;i++) if(L<pUnpackEvent->fiStopXL[i]){L=pUnpackEvent->fiStopXL[i];k=i;}
-   if(fControl->UnpackHisto)if((L>fParam->AdcThresholdStop)&&(L<fParam->AdcMax))fMaxiStopXLg->Fill(k+144-pUnpackEvent->fiStopXLhitI);
- }
- if(multiH>1){
-   pUnpackEvent->fiStopXH[pUnpackEvent->fiStopXHhitI]=0;
-   for(i=0;i<144;i++) if(H<pUnpackEvent->fiStopXH[i]){H=pUnpackEvent->fiStopXH[i];n=i;}
-   if(fControl->UnpackHisto)if((H>fParam->AdcThreshold)&&(H<fParam->AdcMax))fMaxiStopXHg->Fill(n+144-pUnpackEvent->fiStopXHhitI);
- }
+// L=0;
+// H=0;
+// if(fControl->UnpackHisto)if(multiL>0)fMaxiStopXLg->Fill(144);
+// if(fControl->UnpackHisto)if(multiH>0)fMaxiStopXHg->Fill(144);
+// if(multiL>1){
+//   pUnpackEvent->fiStopXL[pUnpackEvent->fiStopXLhitI]=0;
+//   for(i=0;i<144;i++) if(L<pUnpackEvent->fiStopXL[i]){L=pUnpackEvent->fiStopXL[i];k=i;}
+//   if(fControl->UnpackHisto)if((L>fParam->AdcThresholdStop)&&(L<fParam->AdcMax))fMaxiStopXLg->Fill(k+144-pUnpackEvent->fiStopXLhitI);
+// }
+// if(multiH>1){
+//   pUnpackEvent->fiStopXH[pUnpackEvent->fiStopXHhitI]=0;
+//   for(i=0;i<144;i++) if(H<pUnpackEvent->fiStopXH[i]){H=pUnpackEvent->fiStopXH[i];n=i;}
+//   if(fControl->UnpackHisto)if((H>fParam->AdcThreshold)&&(H<fParam->AdcMax))fMaxiStopXHg->Fill(n+144-pUnpackEvent->fiStopXHhitI);
+// }
 //  if(pUnpackEvent->fiEventNumber == 223528283){
 //  if((multiL>1)&&(L>fParam->AdcThresholdStop)&&(L<fParam->AdcMax)){
 //  if(k > (pUnpackEvent->fiStopXLhitI+1)) printf("File %03d%04d ev %9d XL m1 %3d v1 %5d m2 %3d v2 %5d d %4d\n",
@@ -524,20 +524,20 @@ pUnpackEvent->fiMultiStopYH=multiH;
 if(fControl->UnpackHisto) fhStopYiLH->Fill(pUnpackEvent->fiStopYLhitI,pUnpackEvent->fiStopYHhitI);
 
 // search for second maximum
- L=0;
- H=0;
- if(multiL>0)fMaxiStopYLg->Fill(96);
- if(multiH>0)fMaxiStopYHg->Fill(96);
- if(multiL>1){
-   pUnpackEvent->fiStopYL[pUnpackEvent->fiStopYLhitI]=0;
-   for(i=0;i<96;i++) if(L<pUnpackEvent->fiStopYL[i]){L=pUnpackEvent->fiStopYL[i];k=i;}
-   if(fControl->UnpackHisto)if((L>fParam->AdcThresholdStop)&&(L<fParam->AdcMax))fMaxiStopYLg->Fill(k+96-pUnpackEvent->fiStopYLhitI);
- }
- if(multiH>1){
-   pUnpackEvent->fiStopYH[pUnpackEvent->fiStopYHhitI]=0;
-   for(i=0;i<96;i++) if(H<pUnpackEvent->fiStopYH[i]){H=pUnpackEvent->fiStopYH[i];n=i;}
-   if(fControl->UnpackHisto)if((H>fParam->AdcThreshold)&&(H<fParam->AdcMax))fMaxiStopYHg->Fill(n+96-pUnpackEvent->fiStopYHhitI);
- }
+// L=0;
+// H=0;
+// if(fControl->UnpackHisto)if(multiL>0)fMaxiStopYLg->Fill(96);
+// if(fControl->UnpackHisto)if(multiH>0)fMaxiStopYHg->Fill(96);
+// if(multiL>1){
+//   pUnpackEvent->fiStopYL[pUnpackEvent->fiStopYLhitI]=0;
+//   for(i=0;i<96;i++) if(L<pUnpackEvent->fiStopYL[i]){L=pUnpackEvent->fiStopYL[i];k=i;}
+//   if(fControl->UnpackHisto)if((L>fParam->AdcThresholdStop)&&(L<fParam->AdcMax))fMaxiStopYLg->Fill(k+96-pUnpackEvent->fiStopYLhitI);
+// }
+// if(multiH>1){
+//   pUnpackEvent->fiStopYH[pUnpackEvent->fiStopYHhitI]=0;
+//   for(i=0;i<96;i++) if(H<pUnpackEvent->fiStopYH[i]){H=pUnpackEvent->fiStopYH[i];n=i;}
+//   if(fControl->UnpackHisto)if((H>fParam->AdcThreshold)&&(H<fParam->AdcMax))fMaxiStopYHg->Fill(n+96-pUnpackEvent->fiStopYHhitI);
+// }
 //  if((multiL>1)&&(L>fParam->AdcThresholdStop)&&(L<fParam->AdcMax)){
 //  if(k > (pUnpackEvent->fiStopYLhitI+1)) printf("File %03d%04d ev %9d YL m1 %3d v1 %5d m2 %3d v2 %5d d %4d\n",
 // 					       pUnpackEvent->fiFileNumber>>16,pUnpackEvent->fiFileNumber&0xffff,
