@@ -1,0 +1,8 @@
+! this file contains line names and energies
+! format: name energy channel(initial value)
+Eu1    122 
+Eu2    245 
+Eu3    344 
+Eu4    778 
+Eu5    964
+Eu6   1408
