@@ -663,6 +663,16 @@ TPad* TGo4Script::SelectPad(ViewPanelHandle handle, Int_t number)
    return 0;
 }
 
+TGo4Picture* TGo4Script::GetPadOptions(ViewPanelHandle handle, Int_t padnumber)
+{
+   TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
+   if (panel==0) return 0;
+
+   TPad* pad = panel->GetSubPad(0, padnumber, false);
+   if (pad==0) pad = panel->GetCanvas();
+   return panel->GetPadOptions(pad);
+}
+
 void TGo4Script::SetSuperimpose(ViewPanelHandle handle, Bool_t on)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;

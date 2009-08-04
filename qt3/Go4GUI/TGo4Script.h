@@ -143,6 +143,7 @@ class TGo4Script : public TGo4AbstractInterface {
       void RedrawPanel(ViewPanelHandle handle);
       void DivideViewPanel(ViewPanelHandle panel, Int_t numX, Int_t numY);
       TPad* SelectPad(ViewPanelHandle panel, Int_t number = 0);
+      TGo4Picture* GetPadOptions(ViewPanelHandle panel, Int_t padnumber = 0);
       void SetSuperimpose(ViewPanelHandle panel, Bool_t on = kTRUE);
 
       Bool_t DrawItem(const char* itemname, ViewPanelHandle panel = 0, const char* drawopt = 0);

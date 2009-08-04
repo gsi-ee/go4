@@ -221,7 +221,11 @@ Double_t TGo4PolyCond::GetIntegral(TH1* histo, Option_t* opt)
 //#if __GO4ROOTVERSION__ >= 40008
    //cout <<"Integral with new root" << endl;
    if(fxCut)
+   #if ROOT_VERSION_CODE >= ROOT_VERSION(5,25,2)
+      return (fxCut->IntegralHist(dynamic_cast<TH2*>(histo),opt));
+   #else
       return (fxCut->Integral(dynamic_cast<TH2*>(histo),opt));
+   #endif
    else
       return 0;
 #else
