@@ -91,7 +91,6 @@ CompUnpackProc::CompUnpackProc(const char* name) :
   codec->setMap(false); // set true to get printout
   fiEventsProcessed=0;
   fiEventsWritten=0;
-  TimeLastgamma=0;
   TimeLastsec=0;
   TimeLastmysec=0;
   TimeLastadc=0;
@@ -99,28 +98,8 @@ CompUnpackProc::CompUnpackProc(const char* name) :
   lastfilenum=0;
 
 // Creation of histograms:
-// The anl function gets the histogram or creates it
-  for(i=0;i<codec->SCHANNELS;i++)
-    {
-      snprintf(chis,15,"TraceRaw_%02d",i);
-      snprintf(chead,63,"Raw Data channel %2d",i);
-      fTrace[i] = anl->CreateTH1I ("Unpack/SIS3302/TraceR",chis,chead,codec->SMAX_RAW,0.5,codec->SMAX_RAW+0.5);
-      snprintf(chis,15,"TraceE_%02d",i);
-      snprintf(chead,63,"E Filter channel %2d",i);
-      fTrace_e[i] = anl->CreateTH1I ("Unpack/SIS3302/TraceE",chis,chead,codec->SMAX_E,0.5,codec->SMAX_E+0.5);
-    }
-
   // Optional histograms
   if(fControl->UnpackHisto){
-    for(i=0;i<codec->SCHANNELS;i++)
-      {
-	snprintf(chis,15,"Histo_%02d",i);
-	snprintf(chead,63,"Histo channel %2d",i);
-	fHisto[i] = anl->CreateTH1I ("Unpack/SIS3302/Histo",chis,chead,8192,0.5,8191.5);
-	snprintf(chis,15,"Pileup_%02d",i);
-	snprintf(chead,63,"Pileup channel %2d",i);
-	fPileup[i] = anl->CreateTH1I ("Unpack/SIS3302/Pileup",chis,chead,1024,0.5,1023.5);
-      }
     for(i =0;i<96;i++)
       {
 	snprintf(chis,15,"Adc_%02d",i);
@@ -129,16 +108,6 @@ CompUnpackProc::CompUnpackProc(const char* name) :
 	else            snprintf(chead,63,"Mod 1 chan %2d",i);
 	fAdc[i] = anl->CreateTH1I("Unpack/AllAdc",chis,chead,5000,0.5,5000.5);
       }
-    for(i =0;i<7;i++)
-      {
-	snprintf(chis,15,"GammaE_%d",i);
-	snprintf(chead,63,"Gamma E raw %d",i);
-	fGammaE[i] = anl->CreateTH1I ("Unpack/GammaE",chis,chead,9000,0.5,9000.5);
-	snprintf(chis,15,"GammaT_%d",i);
-	snprintf(chead,63,"Gamma T raw %d",i);
-	fGammaT[i] = anl->CreateTH1I ("Unpack/GammaT",chis,chead,"[10ns]","Counts",1000,0.5,1000.5);
-      }
-    fGammaTime  = anl->CreateTH1I ("Unpack","GammaTimeDelta","Gamma delta time","[mysec]","Events",5000,0.5,20000.5);
     fSystemTime = anl->CreateTH1I ("Unpack","SystemTimeDelta","System delta time","[mysec]","Events",5000,0.5,20000.5);
     fAdcTime    = anl->CreateTH1I ("Unpack","AdcTimeDelta","Adc  delta time","[mysec]","Events",5000,0.5,20000.5);
     fhStopXiLH=anl->CreateTH2I("Unpack","StopXiLvH","Stop X low/high stripe","Low Energy","High Energy","Counts",144,0,144,144,0,144);
@@ -149,33 +118,14 @@ CompUnpackProc::CompUnpackProc(const char* name) :
     fMaxiStopXHg = anl->CreateTH1I ("Unpack","MaxiStopXHgated","Stop XH rel. max. 100-3500",288,0,288);
     fMaxiStopYLg = anl->CreateTH1I ("Unpack","MaxiStopYLgated","Stop YL rel. max. 100-3500",192,0,192);
     fMaxiStopYHg = anl->CreateTH1I ("Unpack","MaxiStopYHgated","Stop YH rel. max. 100-3500",192,0,192);
-    fMultiGamma = anl->CreateTH1I ("Unpack/Multi","MultiGamma","Gamma multiplicity",10,0,10);
     fMultiAdc   = anl->CreateTH1I ("Unpack/Multi","MultiAdc","Adc multiplicity",100,0,100);
     fMultiStopXL = anl->CreateTH1I ("Unpack/Multi","MultiStopXL","Stop XL multiplicity",144,0,144);
     fMultiStopXH = anl->CreateTH1I ("Unpack/Multi","MultiStopXH","Stop XH multiplicity",144,0,144);
     fMultiStopYL = anl->CreateTH1I ("Unpack/Multi","MultiStopYL","Stop YL multiplicity",144,0,144);
     fMultiStopYH = anl->CreateTH1I ("Unpack/Multi","MultiStopYH","Stop YH multiplicity",144,0,144);
-    fMultiBackL = anl->CreateTH1I ("Unpack/Multi","MultiBackL","Back L multiplicity",64,0,64);
-    fMultiBackH = anl->CreateTH1I ("Unpack/Multi","MultiBackH","Back H multiplicity",64,0,64);
-    fMultiVetoL = anl->CreateTH1I ("Unpack/Multi","MultiVetoL","Veto L multiplicity",16,0,16);
-    fMultiVetoH = anl->CreateTH1I ("Unpack/Multi","MultiVetoH","Veto H multiplicity",16,0,16);
     fTof        = anl->CreateTH1I ("Unpack","Tof","Adc[80]",1000,0,4000);
     fTofgated   = anl->CreateTH1I ("Unpack","Tofg","Adc[80] gated with TOF",1000,0,4000);
     // test spectrum
-    //	fTest      = anl->CreateTH1I (0,"Gaussians","Gauss",4000,0.5,4000.5);
-    //	  gRandom->SetSeed(0);
-    //	  for(i=0;i<4000;i++){
-    //		  Double_t v1,v2,s;
-    //		  do{
-    //    	v1 = 2.*gRandom->Rndm()-1.;
-    //    	v2 = 2.*gRandom->Rndm()-1.;
-    //    	s = v1*v1+v2*v2;
-    //      } while (s >= 1.0 || s == 0.0);
-    //	fTest->Fill(30.*v1*(sqrt(-2.*log(s)/s)) + 500.);
-    //	fTest->Fill(40.*v2*(sqrt(-2.*log(s)/s)) + 2000.);
-    //	fTest->Fill(30.*v1*(sqrt(-2.*log(s)/s)) + 1500.);
-    //	fTest->Fill(40.*v2*(sqrt(-2.*log(s)/s)) + 2500.);
-    //	  }
 
     fSize      = anl->CreateTH1I ("Unpack","Size","Netto event size","Size [32bit]","Events",200,0,200);
     fSizeA     = anl->CreateTH1I ("Unpack","SizeA","Netto ADC event size","Size [32bit]","Events",200,0,200);
@@ -207,19 +157,13 @@ CompUnpackProc::CompUnpackProc(const char* name) :
     Int_t m=0;
     // enlarge stats box and position in [0:1] coordinates
     // show only Mean value (ROOT manual "Statistics Display")
-    for(i=0;i<7;i++){
-      anl->SetPicture(Geraw,fGammaE[i],i,0,1);
-      anl->SetPicture(Geraw,fGammaT[i],i,1,1);
-    }
-    anl->SetPicture(Geraw,fGammaTime,7,1,1);
     for(i=0;i<8;i++){ // 8 rows
-      if(fControl->UnpackHisto){
 	for(k=0;k<4;k++){ // 4 columns
 	  anl->SetPicture(M1raw,fAdc[m],i,k,1);
 	  anl->SetPicture(M2raw,fAdc[m+32],i,k,1);
 	  anl->SetPicture(M3raw,fAdc[m+64],i,k,1);
 	  m++;
-	}}
+	}
     }
   }
 }
@@ -559,94 +503,11 @@ if(fControl->UnpackHisto) fhStopYiLH->Fill(pUnpackEvent->fiStopYLhitI,pUnpackEve
 // 						    n,H,pUnpackEvent->fiStopYHhitI-n);
 //  }
 
-// Back:
-multiL=0;
-multiH=0;
-for(i=0;i<codec->getBacknoAdc();i++){
-	k=codec->getBackAdc(i); // ADC channel index, low or high
-	n=codec->getIndex(k);    // from that get stripe index
-	L=pUnpackEvent->fiAdc[2*k];
-	if(L>0){
-		multiL++;
-		if(L>pUnpackEvent->fiBackLhitV){
-			pUnpackEvent->fiBackLhitV=L;
-			pUnpackEvent->fiBackLhitI=n;
-		}
-	}
-	H=pUnpackEvent->fiAdc[2*k+1];
-	if(H>0){
-		multiH++;
-		if(H>pUnpackEvent->fiBackHhitV){
-			pUnpackEvent->fiBackHhitV=H;
-			pUnpackEvent->fiBackHhitI=n;
-		}
-	}
-	pUnpackEvent->fiBackL[n]=L;
-	pUnpackEvent->fiBackH[n]=H;
-}// Back
-pUnpackEvent->fiMultiBackL=multiL;
-pUnpackEvent->fiMultiBackH=multiH;
-// Veto:
-multiL=0;
-multiH=0;
-for(i=0;i<codec->getVetonoAdc();i++){
-	k=codec->getVetoAdc(i); // ADC channel index, low or high
-	n=codec->getIndex(k);    // from that get stripe index
-	L=pUnpackEvent->fiAdc[2*k];
-	if(L>0){
-		multiL++;
-		if(L>pUnpackEvent->fiVetoLhitV){
-			pUnpackEvent->fiVetoLhitV=L;
-			pUnpackEvent->fiVetoLhitI=n;
-		}
-	}
-	H=pUnpackEvent->fiAdc[2*k+1];
-	if(H>0){
-		multiH++;
-		if(H>pUnpackEvent->fiVetoHhitV){
-			pUnpackEvent->fiVetoHhitV=H;
-			pUnpackEvent->fiVetoHhitI=n;
-		}
-	}
-	pUnpackEvent->fiVetoL[n]=L;
-	pUnpackEvent->fiVetoH[n]=H;
-}//Veto
-pUnpackEvent->fisVeto=(multiL>0);
-// f1630738
-//  if(pUnpackEvent->fiEventNumber == 35315979){
-//    pUnpackEvent->fisVeto=kFALSE;
-//   printf("***** File %d Evt %d Veto %d v=%d set to noVeto\n",
-// 		  pUnpackEvent->fiFileNumber&0xFFFF,pUnpackEvent->fiEventNumber,multiL,pUnpackEvent->fiVetoLhitV);
-//  }
-
-pUnpackEvent->fiMultiVetoL=multiL;
-pUnpackEvent->fiMultiVetoH=multiH;
 }// V785 ADCs
 
 if(fControl->UnpackHisto){
   if(spillOn&(pUnpackEvent->fiStopXHhitV>fParam->AlphaMinH))fSpillG->Fill(timediff);
   if(pdata-psubevent) fSizeA->Fill(pdata-psubevent);
-}
-// follows Sis3302
-if(pdata != pbehind){
-  pdata++; // skip first tag word
-  DecodeGamma(pdata,pbehind);
-  takeEvent=kTRUE;
-  for(i=0;i<codec->SCHANNELS-1;i++){
-	if(fControl->UnpackHisto)fGammaE[i]->Fill(pUnpackEvent->fiGammaE[i]);
-	if(pUnpackEvent->fiGammaE[i]>0)
-		pUnpackEvent->fiGammaChannelTime[i]=(Int_t)(fGammaStamps[i]-fGammaStamps[7]);
-	if(fControl->UnpackHisto)fGammaT[i]->Fill(pUnpackEvent->fiGammaChannelTime[i]);
-  }
-  if(pUnpackEvent->fiGammaTime<TimeLastgamma) timediff=0xFFFFFFFF-TimeLastgamma+pUnpackEvent->fiGammaTime+1;
-  else                      timediff=pUnpackEvent->fiGammaTime-TimeLastgamma;
-  TimeLastgamma=pUnpackEvent->fiGammaTime;
-  fiDeltaGammaTime=timediff;
-if(fControl->UnpackHisto){
-  fGammaTime->Fill(fiDeltaGammaTime/100);
-  fMultiGamma->Fill(pUnpackEvent->fiMultiGamma);
-  if(pbehind-pdata)  fSizeG->Fill(pbehind-pdata);
- }
 }
 // optional histogramming
  if(fControl->UnpackHisto){
@@ -656,10 +517,6 @@ if(fControl->UnpackHisto){
    fMultiStopXH->Fill(pUnpackEvent->fiMultiStopXH);
    fMultiStopYL->Fill(pUnpackEvent->fiMultiStopYL);
    fMultiStopYH->Fill(pUnpackEvent->fiMultiStopYH);
-   fMultiBackL->Fill(pUnpackEvent->fiMultiBackL);
-   fMultiBackH->Fill(pUnpackEvent->fiMultiBackH);
-   fMultiVetoL->Fill(pUnpackEvent->fiMultiVetoL);
-   fMultiVetoH->Fill(pUnpackEvent->fiMultiVetoH);
  }
 pUnpackEvent->SetValid(takeEvent); // to store
 if(takeEvent)fiEventsWritten++;
@@ -671,334 +528,5 @@ return;
 //	evcount=0;
 //	}}
 //throw TGo4EventEndException(this); // to stop analysis
-}
-Bool_t CompUnpackProc::DecodeGamma(UInt_t* data, UInt_t* behind)
-{  // called by framework. We dont fill any output event here at all
-
-
-UInt_t *pl_data,
-first_e_sample;
-
-unsigned short *pl_data16,
-first_sample;
-
-long i,
-samples,    // no of samples per trace
-chan,
-card,       // card number
-energy=0,
-trg_cnt,
-ft_cnt,
-trailer;
-
-long buffer_length,  // private header info
-raw_data,
-energy_data;
-
-static long raw_data_old=0;
-
-char index_pat;
-
-long base_sum,
-base2_sum,
-top_sum;
-
-
-pl_data=data;
-//*****************************************************************
-// NEW 13-03-09, skip decimation and sample_frequency header word
-
-pl_data++;
-
-//*****************
-// channel loop
-//*****************
-
-    while(1)
-    {
-      if(pl_data >= behind)return kFALSE;
-
-      //******************************
-	  // 3 (private) header longwords
-	  //******************************
-
-	      buffer_length=(long)*pl_data++;
-      raw_data=(long)*pl_data++;
-      energy_data=(long)*pl_data++;
-
-      //*****************************
-	  // NEW 13-03-09, skip peaking/gap time information
-
-	  pl_data++;
-
-      // NEW 09.03.09 -------------------------------------------------------------------------
-      // leave loop here before sorting of data because of online change in raw_data parameter
-      // otherwise GO4 might crash - still don't know why
-
-      //	if (raw_data != raw_data_old && raw_data_old != 0)
-      //	{
-      //		raw_data_old=raw_data;
-      //		break;
-      //	}
-
-      //------------------------------------------------------------------------------------
-
-      //sleep(1);
-      //printf("buffer_length: 0x%08x\n",(int)buffer_length);
-      //printf("     raw_data: 0x%08x\n",(int)raw_data);
-      //printf(" raw_data_old: 0x%08x\n",(int)raw_data_old);
-      //printf("  energy_data: 0x%08x\n\n",(int)energy_data);
-      //fflush(stdout);
-
-      //*****************************
-	  //  beginning of struck data
-	  //*****************************
-
-	      card=(buffer_length&0xFF000000)>>24;
-      chan=(buffer_length&0x00FF0000)>>16;
-
-      fGammaStamps[chan]=((ULong64_t)*pl_data)<<32;  // high part
-      pl_data++;
-      fGammaStamps[chan]+=*pl_data;  // low part
-      if(chan==7)	{
-	pUnpackEvent->fiGammaTime=*pl_data;
-	return kFALSE;	}
-      pl_data++;
-      //        pl_data16 = (INTS2 *) pl_data;
-
-      //****************
-	  //   Raw Data
-	  //****************
-
-	      if (raw_data)
-	      {
-		raw_data_old = raw_data;   // NEW 09.03.09
-
-		pl_data16 = (unsigned short *) pl_data;
-		samples=raw_data;
-
-		if (raw_data>codec->SMAX_RAW)
-		  {
-		    printf("Raw Data too long!\n");
-		    break;
-		  }
-
-		first_sample = *pl_data16;   // to fill rest of spectrum if longer than number of samples
-
-		for (i=0;i<samples;i++)      // fill spectra with measured raw data samples
-		  {
-		    fTrace[chan]->SetBinContent(i+1,(*pl_data16++));    // raw data
-		  }
-
-		if (samples<codec->SMAX_RAW)
-		  {
-		    for (i=samples;i<codec->SMAX_RAW;i++)     // fill rest of spectrum with baseline
-		      {
-			fTrace[chan]->SetBinContent(i+1,first_sample);    // raw data
-		      }
-		  }
-
-		pl_data = (UInt_t *) pl_data16;
-	      }
-
-      //---------------------------------
-
-      //          e_index1=0;
-      //          e_index2=0;
-      //          e_index3=0;
-
-      //*****************************************************
-	  // Samples of Energy Filter (whole trapezoid or parts)
-	  //*****************************************************
-
-	      if (energy_data & 0x70000)   //  energy data start index(es) set
-	      {
-		//            if (raw_data)
-		//              pl_data = (INTS4 *) pl_data16;
-
-		samples = energy_data & 0xFFFF;
-
-		index_pat=(energy_data & 0x70000)>>16;
-
-
-		//printf("Index pattrn: %d %d %d\n",e_index3,e_index2,e_index1);
-		//printf("Energy Samples: %d\n\n",samples);
-		//break;
-
-		//*************************************
-		    // pat = 001 display whole trapezoid
-		    //*************************************
-
-			if (index_pat==1)
-			{
-			  if (samples>codec->SMAX_E)
-			    {
-			      printf("Energy Samples Trace too long: %d ->return\n",(int)samples);
-			      break;
-			    }
-
-			  first_e_sample = *pl_data;  // to fill rest of spectrum if longer than number of samples
-
-			  for (i=0;i<samples;i++)
-			    {
-			      fTrace_e[chan]->SetBinContent(i+1,(*pl_data++));    // trapezoidal shape
-			    }
-
-			  if (samples<codec->SMAX_E)
-			    {
-			      for (i=samples;i<codec->SMAX_E;i++)
-				{
-				  fTrace_e[chan]->SetBinContent(i+1,first_e_sample);   // fill rest of spectrum with baseline
-				}
-			    }
-
-			  //----------------------------------------------------------------------------------
-			  // calculate energy from Energy Max Value and First Value of Energy Gate (=Baseline)
-
-			  //              energy=*pl_data++;
-			  //        printf("energy: 0x%x\n",(int)energy);
-
-			  //              energy=energy-*pl_data++;    // difference between Emax and Baseline
-
-			  //--- like pat = 000 ----------------------------------------------------------------------------
-			  // NEW 26-02-09 calculate energy from Energy Max Value and First Value of Energy Gate (=Baseline)
-
-			  energy=*pl_data++;
-			  //        printf("energy: 0x%x\n",(int)energy);
-
-			  if (fParam->Fill)
-			    energy=energy-*pl_data++;    // difference between Emax and Baseline
-			  else
-			    pl_data++;
-			}
-
-		//********************************************************
-		    // pat = 011, calculate energy from baseline and top data
-		    //********************************************************
-
-			if (index_pat == 3)    // pat = 011
-			{
-			  base_sum=0;
-			  for(i=0;i<samples;i++)
-			    base_sum=base_sum+(long)*pl_data++;
-
-			  top_sum=0;
-			  for(i=0;i<samples;i++)
-			    top_sum=top_sum+(long)*pl_data++;
-
-			  energy=(top_sum-base_sum)/samples;
-			  //printf("Energy: %d\n",energy);
-
-			  pl_data++;   // skip two data longwords
-			  pl_data++;
-			}
-
-		//***********************************************************************
-		    // pat = 111, calculate energy from baseline (pre and post) and top data
-		    //***********************************************************************
-
-			if (index_pat == 7)    // pat = 111
-			{
-			  base_sum=0;
-			  for(i=0;i<samples;i++)
-			    base_sum=base_sum+(long)*pl_data++;
-
-			  top_sum=0;
-			  for(i=0;i<samples;i++)
-			    top_sum=top_sum+(long)*pl_data++;
-
-			  base2_sum=0;
-			  for(i=0;i<samples;i++)
-			    base2_sum=base2_sum+(long)*pl_data++;
-
-			  base_sum=(base_sum+base2_sum)>>1;
-
-			  energy=(top_sum-base_sum)/samples;
-			  //printf("Energy: %d\n",energy);
-
-			  pl_data++;   // skip two data longwords
-			  pl_data++;
-			}
-
-	      }     // end if(energy_data)
-      else
-	{
-	  //*************************************************************************
-	    // pat = 000  no trapezoidal energy data (except max and 1 baseline value)
-	    //*************************************************************************
-
-	    //----------------------------------------------------------------------------------
-	    // calculate energy from Energy Max Value and First Value of Energy Gate (=Baseline)
-
-	    energy=*pl_data++;
-	  //        printf("energy: 0x%x\n",(int)energy);
-
-	  if (fParam->Fill)
-	    energy=energy-*pl_data++;    // difference between Emax and Baseline
-	  else
-	    pl_data++;
-	}
-
-      //          fHisto[chan]->Fill(energy>>7);  // 7
-
-      //---------------------------------------------------------------------------------------
-
-#ifdef SIS_SPECTRA
-      if((energy>>5)<8192)
-	{
-	  hist_sis[energy>>5]++;
-
-	  if(hist_sis[energy>>5]>5000 && !stop_flg)
-	    {
-	      stop_flg=1;
-
-	      fp=fopen("sis_co60_8k.dat","w");
-
-	      for(i=0;i<8192;i++)
-		fprintf(fp,"%d\n",hist_sis[i]);
-
-	      fclose(fp);
-	    }
-	}
-#endif
-
-      //------------------------------
-
-      // last two data words (pileup flag etc. and 0xDEADBEEF trailer)
-
-      trg_cnt = (long) *pl_data++;
-      trailer = (long) *pl_data++;
-
-      // fill energy histogram dependend from trg_cnt
-
-      // fHisto[chan]->Fill(energy>>fParam->shift);   // 7
-
-      ft_cnt = (trg_cnt & 0x0F000000)>>24;
-
-      if (ft_cnt == 0)                 // no internal trigger (ADC out of range!?)
-	{
-	  pUnpackEvent->fiGammaQ[chan]=2; // quality
-	  //fPileup[chan]->Fill(200);
-	}
-      else if (ft_cnt == 1)                 // good event
-	{
-	  //fPileup[chan]->Fill(400);
-	  pUnpackEvent->fiGammaQ[chan]=0; // quality
-	  pUnpackEvent->fiGammaE[chan]=energy>>fParam->shift;
-	  pUnpackEvent->fiMultiGamma++;
-	  if(fControl->UnpackHisto)fHisto[chan]->Fill(energy>>fParam->shift);
-	}
-      else if (ft_cnt > 1)                  // pileup
-	{
-	  //fPileup[chan]->Fill(600);
-	  pUnpackEvent->fiGammaQ[chan]=1; // quality
-	  pUnpackEvent->fiGammaE[chan]=energy>>fParam->shift;
-	  pUnpackEvent->fiMultiGamma++;
-	  if(fControl->UnpackHisto)fHisto[chan]->Fill(energy>>fParam->shift);
-	}
-
-    }    // end chan loop
-
-return kTRUE;
 }
 

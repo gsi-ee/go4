@@ -21,10 +21,6 @@ void setup(Text_t* InputPath, Text_t* OutputPath,
   TString unpackStore("no");
   TString unpackOverWrite("yes");
 
-  TString caliProcess("no");
-  TString caliStore("no");
-  TString caliOverWrite("yes");
-
   TString checkProcess("no");
   TString checkStore("no");
   TString checkOverWrite("yes");
@@ -51,8 +47,6 @@ void setup(Text_t* InputPath, Text_t* OutputPath,
   Text_t anlout[512];
   strcpy(asout,OutputPath);
   strcpy(unpout,OutputPath);
-  strcpy(calinp,InputPath);
-  strcpy(calout,OutputPath);
   strcpy(chkinp,InputPath);
   strcpy(chkout,OutputPath);
   strcpy(anlinp,InputPath);
@@ -60,9 +54,7 @@ void setup(Text_t* InputPath, Text_t* OutputPath,
 
   strcat(asout,AutoSaveFile);
   strcat(unpout,UnpackedFile);
-  strcat(calinp,UnpackedFile);
-  strcat(calout,CalibratedFile);
-  strcat(chkinp,CalibratedFile);
+  strcat(chkinp,UnpackedFile);
   strcat(chkout,CheckedFile);
   strcat(anlinp,CheckedFile);
   strcat(anlout,AnalyzedFile);
@@ -77,25 +69,10 @@ void setup(Text_t* InputPath, Text_t* OutputPath,
   step1->SetErrorStopEnabled(kTRUE);
 
   // Second step
-  step = go4->GetAnalysisStep("Calibrator");
-  step->SetProcessEnabled(caliProcess.BeginsWith("y"));
-  // if unpack is disabled, get input from file
-  if(unpackProcess.BeginsWith("n")){
-    f2 = new TGo4FileSourceParameter(calinp);
-    step->SetEventSource(f2);
-  }
-  f1 = new TGo4FileStoreParameter(calout,SplitLevel,BufferSize,Compression);
-  f1->SetOverwriteMode(caliOverWrite.BeginsWith("y"));
-  step->SetEventStore(f1);
-  step->SetStoreEnabled(caliStore.BeginsWith("y"));
-  step->SetSourceEnabled(kTRUE);
-  step->SetErrorStopEnabled(kTRUE);
-
-  // Third step
   step = go4->GetAnalysisStep("Checker");
   step->SetProcessEnabled(checkProcess.BeginsWith("y"));
   // if cali is disabled, get input from file
-  if(caliProcess.BeginsWith("n")){
+  if(unpackProcess.BeginsWith("n")){
     f2 = new TGo4FileSourceParameter(chkinp);
     step->SetEventSource(f2);
   }
@@ -106,7 +83,7 @@ void setup(Text_t* InputPath, Text_t* OutputPath,
   step->SetSourceEnabled(kTRUE);
   step->SetErrorStopEnabled(kTRUE);
 
-  // Fourth step
+  // Third step
   step = go4->GetAnalysisStep("Analyzer");
   step->SetProcessEnabled(analysisProcess.BeginsWith("y"));
   // if check is disabled, get input from file
@@ -139,21 +116,12 @@ void setup(Text_t* InputPath, Text_t* OutputPath,
   printf("         Store:     %s file %s\n",unpackStore.Data(),unpout);
   printf("         OverWrite: %s\n",unpackOverWrite.Data());
   }
-  printf("       Calibrator:  %s\n",caliProcess.Data());
-  if(caliProcess.BeginsWith("y")){
-  if(unpackProcess.BeginsWith("n"))
-  printf("         Source:    yes file %s\n",calinp);
-  else
-  printf("         Source:    yes from Unpacker\n");
-  printf("         Store:     %s file %s\n",caliStore.Data(),calout);
-  printf("         OverWrite: %s\n",caliOverWrite.Data());
-  }
   printf("       Checker:     %s\n",checkProcess.Data());
   if(checkProcess.BeginsWith("y")){
   if(caliProcess.BeginsWith("n"))
   printf("         Source:    yes file %s\n",chkinp);
   else
-  printf("         Source:    yes from Calibrator\n");
+  printf("         Source:    yes from Unpacker\n");
   printf("         Store:     %s file %s\n",checkStore.Data(),chkout);
   printf("         OverWrite: %s\n",checkOverWrite.Data());
   }

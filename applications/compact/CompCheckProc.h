@@ -10,10 +10,12 @@
 
 #include "TGo4EventProcessor.h"
 
-class CompCaliEvent;
 class CompControl;
 class CompParameter;
 class CompCheckEvent;
+class CompUnpackEvent;
+class CompCalibration;
+class CompCaliFitter;
 class CompAnalysis;
 
 class CompCheckProc : public TGo4EventProcessor {
@@ -26,7 +28,7 @@ class CompCheckProc : public TGo4EventProcessor {
 
 
 	  CompAnalysis  * anl;
-      CompCaliEvent *fInput;
+      CompUnpackEvent *fInput;
       CompControl  *fControl;
       CompParameter *fParam;
       TGo4WinCond   *fadcKevL;
@@ -43,21 +45,38 @@ class CompCheckProc : public TGo4EventProcessor {
       TH2D *fStopLE[48];
       TH2D *fStopHE[48];
       TH2D *fStopXY;
-      TH2D* fAlphaBackL;
-      TH2D* fAlphaBackH;
-      TH2D* fAlphaGammaL;
-      TH2D* fAlphaGammaH;
-      TH2D* fAlphaVetoL;
-      TH2D* fAlphaVetoH;
       TH1I	*fTime;
-      UInt_t TimeLastgamma;
       UInt_t TimeLastmysec;
       UInt_t TimeLastadc;
-      UInt_t i,ii;
+      UInt_t i,ii,k;
       UInt_t fiEventsProcessed;
       UInt_t fiEventsWritten;
       Int_t fLastEvent;
 
+      TH1I *fhTimeStamp;
+      TH1I *fhStopXL[144];  // 6x 8x6
+      TH1I *fhStopXH[144];
+      TH1I *fhStopYL[96];  // 4x 8x6
+      TH1I *fhStopYH[96];
+      TH1D *fhdStopXL;
+      TH1D *fhdStopXH;
+      TH1D *fhdStopYL;
+      TH1D *fhdStopYH;
+      TH1D *fhdStopYLsum;
+      TH1D *fhdStopYHsum;
+      TH1D *fhdStopXHsum;
+      TH1D *fhdStopXLsum;
+	  CompCalibration 	*fCalibration;
+	  CompCaliFitter 	*fCaliFit;
+      TGraph* 		fCaliGraph;
+      TH2I  *fhStopH;
+      TH2I  *fhStopL;
+      TH2I  *fhStopXLH;
+      TH2I  *fhStopYLH;
+      TGo4Picture   *StopX[6];
+      TGo4Picture   *StopY[4];
+      TGo4Picture   *Sum;
+      TGo4Picture   *Hits;
    ClassDef(CompCheckProc,1)
 };
 #endif //CompCheckPROCESSOR_H

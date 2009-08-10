@@ -23,7 +23,6 @@ class CompUnpackProc : public TGo4EventProcessor {
   CompUnpackProc(const char* name);
   virtual ~CompUnpackProc() ;
   void CompUnpack(CompUnpackEvent* target);
-  Bool_t DecodeGamma(UInt_t* data, UInt_t* behind);
  private:
   void CalcPedestals();
 

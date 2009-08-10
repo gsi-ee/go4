@@ -44,41 +44,22 @@ class CompCheckEvent : public TGo4EventElement {
       UInt_t fiSystemmsec;
       UInt_t fiSystemMysec;
       UInt_t fiTimeStamp;
-      UInt_t fiGammaMysec;
       UInt_t fiDeltaSystemTime;
-      UInt_t fiDeltaGammaTime;
       UInt_t fiDeltaTime;
       // index of maximum hit, if we had more than one hit
       Int_t fiStopXLhitI;
       Int_t fiStopXHhitI;
       Int_t fiStopYLhitI;
       Int_t fiStopYHhitI;
-      Int_t fiBackHhitI;
-      Int_t fiBackLhitI;
-      Int_t fiVetoHhitI;
-      Int_t fiVetoLhitI;
        UInt_t fiMultiStopXL;
        UInt_t fiMultiStopXH;
-/*       UInt_t fiMultiStopYL; */
-/*       UInt_t fiMultiStopYH; */
-/*       UInt_t fiMultiBackH; */
-/*       UInt_t fiMultiBackL; */
-/*       UInt_t fiMultiVetoH; */
-/*       UInt_t fiMultiVetoL; */
-      UInt_t fiMultiGamma;
+       UInt_t fiMultiStopYL;
+       UInt_t fiMultiStopYH;
       // value of maximum hit, if we had more than one hit
       Float_t ffStopXLhitV;
       Float_t ffStopXHhitV;
       Float_t ffStopYLhitV;
       Float_t ffStopYHhitV;
-      Float_t ffBackHhitV;
-      Float_t ffBackLhitV;
-      Float_t ffVetoHhitV;
-      Float_t ffVetoLhitV;
-      Float_t ffGammaMax;
-      Float_t ffGammaSum;
-
-/*       Float_t ffGammaKev[7]; */
 
    private:
       // this object is streamed. Therefore pointers must be excluded!

@@ -51,7 +51,7 @@ Int_t CompAnlEvent::Init()
   // or is it used from Check step as input
   else if(CheckEventSource("TGo4FileSource")){
     fxCompFS = (TGo4FileSource*)GetEventSource();
-    cout << "Comp> CompCaliEvent init for Next step"<< endl;
+    cout << "Comp> CompAnlEvent init for Next step"<< endl;
   }
    else     rev=1;
    return rev;

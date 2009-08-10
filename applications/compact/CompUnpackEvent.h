@@ -36,36 +36,17 @@ class CompUnpackEvent : public TGo4EventElement {
    	   memset((void*) &fiStopXH[0],0, sizeof(fiStopXH));
    	   memset((void*) &fiStopYL[0],0, sizeof(fiStopYL));
    	   memset((void*) &fiStopYH[0],0, sizeof(fiStopYH));
-   	   memset((void*) &fiBackL[0], 0, sizeof(fiBackL));
-   	   memset((void*) &fiBackH[0], 0, sizeof(fiBackH));
-   	   memset((void*) &fiVetoL[0], 0, sizeof(fiVetoL));
-   	   memset((void*) &fiVetoH[0], 0, sizeof(fiVetoH));
-
-	   memset((void*) &fiGammaQ[0], 0, sizeof(fiGammaQ));
-	   memset((void*) &fiGammaE[0], 0, sizeof(fiGammaE));
-	   memset((void*) &fiGammaChannelTime[0], 0, sizeof(fiGammaChannelTime));
        fiFileNumber=0;
        fiEventNumber=0;
-	   fiGammaTime=0;
-	   fiTimeStamp=0;
-	   fiMultiGamma=0;
 	   fiMultiAdc=0;
 	   fiStopXLhitI=-1;
 	   fiStopXHhitI=-1;
 	   fiStopYLhitI=-1;
 	   fiStopYHhitI=-1;
-	   fiBackHhitI=-1;
-	   fiBackLhitI=-1;
-	   fiVetoHhitI=-1;
-	   fiVetoLhitI=-1;
 	   fiStopXLhitV=0;
 	   fiStopXHhitV=0;
 	   fiStopYLhitV=0;
 	   fiStopYHhitV=0;
-	   fiBackHhitV=0;
-	   fiBackLhitV=0;
-	   fiVetoHhitV=0;
-	   fiVetoLhitV=0;
 	   fiSystemSec=0;
 	   fiSystemMysec=0;
 	   fiTimeStamp=0;
@@ -85,49 +66,28 @@ class CompUnpackEvent : public TGo4EventElement {
       UInt_t fiSystemSec;
       UInt_t fiSystemMysec;
       UInt_t fiTimeStamp;
-      UInt_t fiGammaTime;
-      UInt_t fiGammaChannelTime[7];
       // Data fields of detectors
       UInt_t fiStopXL[144];
       UInt_t fiStopXH[144];
       UInt_t fiStopYL[96];
       UInt_t fiStopYH[96];
-      UInt_t fiBackH[64];
-      UInt_t fiBackL[64];
-      UInt_t fiVetoH[16];
-      UInt_t fiVetoL[16];
       // index of maximum hit, if we had more than one hit
       Int_t fiStopXLhitI;
       Int_t fiStopXHhitI;
       Int_t fiStopYLhitI;
       Int_t fiStopYHhitI;
-      Int_t fiBackHhitI;
-      Int_t fiBackLhitI;
-      Int_t fiVetoHhitI;
-      Int_t fiVetoLhitI;
-      UInt_t fiMultiStopXL;
+     UInt_t fiMultiStopXL;
       UInt_t fiMultiStopXH;
       UInt_t fiMultiStopYL;
       UInt_t fiMultiStopYH;
-      UInt_t fiMultiBackH;
-      UInt_t fiMultiBackL;
-      UInt_t fiMultiVetoH;
-      UInt_t fiMultiVetoL;
-      UInt_t fiMultiGamma;
       UInt_t fiMultiAdc;
       // value of maximum hit, if we had more than one hit
       UInt_t fiStopXLhitV;
       UInt_t fiStopXHhitV;
       UInt_t fiStopYLhitV;
       UInt_t fiStopYHhitV;
-      UInt_t fiBackHhitV;
-      UInt_t fiBackLhitV;
-      UInt_t fiVetoHhitV;
-      UInt_t fiVetoLhitV;
 
       UInt_t fiMpxi[40];
-      UInt_t fiGammaE[7];
-      UInt_t fiGammaQ[8];
 
    private:
       CompUnpackProc * fxCompEP;  //! Don't put this to file

@@ -91,15 +91,15 @@ strcpy(Chkout,"Checked");
 strcpy(Anlout,"Analyzed");
 strcpy(hostname,"localhost");
 // optional output path
-if(getenv("TASCASTORE")!=0){
-	  strcpy(odir,getenv("TASCASTORE"));
+if(getenv("COMPSTORE")!=0){
+	  strcpy(odir,getenv("COMPSTORE"));
 	  if(strlen(odir)>0)strcat(odir,"/");
 }
 else
 strcpy(odir,"");
 // optional input path
-if(getenv("TASCASOURCE")!=0){
-	  strcpy(idir,getenv("TASCASOURCE"));
+if(getenv("COMPSOURCE")!=0){
+	  strcpy(idir,getenv("COMPSOURCE"));
 	  if(strlen(idir)>0)strcat(idir,"/");
 }
 else
@@ -238,16 +238,16 @@ TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages
   if(intype==GO4EV_MBS_TRANSPORT)
     unpackstep->SetEventSource(new TGo4MbsTransportParameter(serv));
 
-  TGo4StepFactory*  califactory  = new TGo4StepFactory("CaliFact");
-  califactory->DefEventProcessor("Calibrator","CompCaliProc");// object name, class name
-  califactory->DefInputEvent("Unpacked","CompUnpackEvent"); // object name, class name
-  califactory->DefOutputEvent("Calibrated","CompCaliEvent"); // object name, class name
-  TGo4AnalysisStep* calistep     = new TGo4AnalysisStep("Calibrator",califactory,0,0,0);
-  analysis->AddAnalysisStep(calistep);
+//  TGo4StepFactory*  califactory  = new TGo4StepFactory("CaliFact");
+//  califactory->DefEventProcessor("Calibrator","CompCaliProc");// object name, class name
+//  califactory->DefInputEvent("Unpacked","CompUnpackEvent"); // object name, class name
+//  califactory->DefOutputEvent("Calibrated","CompCaliEvent"); // object name, class name
+//  TGo4AnalysisStep* calistep     = new TGo4AnalysisStep("Calibrator",califactory,0,0,0);
+//  analysis->AddAnalysisStep(calistep);
 
   TGo4StepFactory*  checkfactory  = new TGo4StepFactory("CheckFact");
   checkfactory->DefEventProcessor("Checker","CompCheckProc");// object name, class name
-  checkfactory->DefInputEvent("Calibrated","CompCaliEvent"); // object name, class name
+  checkfactory->DefInputEvent("Unpacked","CompUnpackEvent"); // object name, class name
   checkfactory->DefOutputEvent("Checked","CompCheckEvent"); // object name, class name
   TGo4AnalysisStep* checkstep     = new TGo4AnalysisStep("Checker",checkfactory,0,0,0);
   analysis->AddAnalysisStep(checkstep);

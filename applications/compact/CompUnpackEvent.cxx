@@ -45,7 +45,7 @@ Int_t CompUnpackEvent::Init()
   // or is it used from Cali step as input
   else if(CheckEventSource("TGo4FileSource")){
     fxCompFS = (TGo4FileSource*)GetEventSource();
-    cout << "Comp> CompUnpackEvent init for Calibration step"<< endl;
+    cout << "Comp> CompUnpackEvent init for Checker step"<< endl;
   }
   else          rev=1;
   return rev;

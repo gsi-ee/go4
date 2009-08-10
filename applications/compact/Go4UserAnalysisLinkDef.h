@@ -20,8 +20,6 @@
 #pragma link C++ class CompAnalysis+;
 #pragma link C++ class CompUnpackEvent+;
 #pragma link C++ class CompUnpackProc+;
-#pragma link C++ class CompCaliEvent+;
-#pragma link C++ class CompCaliProc+;
 #pragma link C++ class CompCheckEvent+;
 #pragma link C++ class CompCheckProc+;
 #pragma link C++ class CompAnlEvent+;
