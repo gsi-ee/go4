@@ -289,14 +289,6 @@ lolim=200.;
 hilim=1500.;
 califile=pref+"_StopYL.txt";
 makecali1(rootfile,"Histograms/Cali/StopYL",califile);
-lolim=200.;
-hilim=1500.;
-califile=pref+"_BackL.txt";
-makecali1(rootfile,"Histograms/Cali/BackL",califile);
-lolim=200.;
-hilim=1500.;
-califile=pref+"_VetoL.txt";
-makecali1(rootfile,"Histograms/Cali/VetoL",califile);
 lolim=50.;
 hilim=500.;
 califile=pref+"_StopXH.txt";
@@ -305,14 +297,6 @@ lolim=50.;
 hilim=500.;
 califile=pref+"_StopYH.txt";
 makecali1(rootfile,"Histograms/Cali/StopYH",califile);
-lolim=50.;
-hilim=500.;
-califile=pref+"_BackH.txt";
-makecali1(rootfile,"Histograms/Cali/BackH",califile);
-lolim=50.;
-hilim=500.;
-califile=pref+"_VetoH.txt";
-makecali1(rootfile,"Histograms/Cali/VetoH",califile);
 
 
 //-----------------------------------
