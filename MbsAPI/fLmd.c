@@ -28,8 +28,8 @@
 #include <WTypes.h>
 #include <wchar.h>
 
-#define fgetpos64 fgetpos 
-#define fopen64 fopen 
+#define fgetpos64 fgetpos
+#define fopen64 fopen
 #define fseeko64 fseek
 #define fpos64_t fpos_t
 
@@ -55,14 +55,14 @@ int clock_gettime(int clockid, struct timespec *tp)
    tp->tv_nsec = 0;
 
    GetSystemTimeAsFileTime(&ft);
- 
+
    tmpres |= ft.dwHighDateTime;
    tmpres <<= 32;
    tmpres |= ft.dwLowDateTime;
- 
+
    /*converting file time to unix epoch*/
    tmpres /= 10;  /*convert into microseconds*/
-   tmpres -= DELTA_EPOCH_IN_MICROSECS; 
+   tmpres -= DELTA_EPOCH_IN_MICROSECS;
    tp->tv_sec = (long)(tmpres / 1000000UL);
    tp->tv_nsec = (long)(tmpres % 1000000UL) * 1000;
 
@@ -84,8 +84,8 @@ void     fLmdOffsetElements(sLmdControl *, uint32_t, uint32_t *, uint32_t *);
 
 //===============================================================
 uint32_t fLmdPutOpen(
-sLmdControl *pLmdControl, 
-char    *Filename, 
+sLmdControl *pLmdControl,
+char    *Filename,
 sMbsFileHeader *pBuffHead, // LMD__STANDARD_HEADER (NULL) or address
 uint32_t iBytes,           // LMD__NO_BUFFER (0) or buffer size
 uint32_t iOver,            // LMD__[NO_]OVERWRITE
@@ -155,7 +155,7 @@ return(LMD__SUCCESS);
 
 //===============================================================
 uint32_t fLmdPutElement(
-sLmdControl *pLmdControl, 
+sLmdControl *pLmdControl,
 sMbsHeader *pHeader){
   uint32_t *ps, *pd, i, elements;
   int64_t fileleft,used;
@@ -172,7 +172,7 @@ sMbsHeader *pHeader){
     }
   }
   // save largest size in header
-  if((pHeader->iWords+4) > pLmdControl->pMbsFileHeader->iMaxWords) 
+  if((pHeader->iWords+4) > pLmdControl->pMbsFileHeader->iMaxWords)
       pLmdControl->pMbsFileHeader->iMaxWords=pHeader->iWords+4;
   // no buffer, write element directly
   if(pLmdControl->iBufferWords == 0){
@@ -189,7 +189,7 @@ sMbsHeader *pHeader){
     return(LMD__SUCCESS);
 
   } // end no buffer
-  if((pHeader->iWords+4) > pLmdControl->iLeftWords){ // flash buffer to file  
+  if((pHeader->iWords+4) > pLmdControl->iLeftWords){ // flash buffer to file
     iReturn=fLmdWriteBuffer(pLmdControl, (char *)pLmdControl->pBuffer,
 			    (pLmdControl->iBufferWords-pLmdControl->iLeftWords)*2);
     pLmdControl->iBytes+=iReturn;
@@ -198,8 +198,8 @@ sMbsHeader *pHeader){
   }
   if((pHeader->iWords+4) > pLmdControl->iLeftWords){ // element too big for buffer
     printf("fLmdPutElement: Element too big: %d words\n",pHeader->iWords+4);
-    return(PUTLMD__TOOBIG); 
-  } 
+    return(PUTLMD__TOOBIG);
+  }
   // copy to buffer
   ps=(uint32_t *)pHeader;
   pd=(uint32_t *)pLmdControl->pBuffer+(pLmdControl->iBufferWords-pLmdControl->iLeftWords)/2;
@@ -214,8 +214,8 @@ sMbsHeader *pHeader){
 
 //===============================================================
 uint32_t fLmdPutBuffer(
-sLmdControl *pLmdControl, 
-sMbsHeader *pHeader, 
+sLmdControl *pLmdControl,
+sMbsHeader *pHeader,
 uint32_t Items){
 
   sMbsHeader *pH;
@@ -248,7 +248,7 @@ uint32_t Items){
       Bytes = (4+pH->iWords)*2;
       TotalBytes += Bytes;
       if(pLmdControl->iOffsetEntries)fLmdOffsetSet(pLmdControl,Bytes/4);
-      if((pH->iWords+4) > pLmdControl->pMbsFileHeader->iMaxWords) 
+      if((pH->iWords+4) > pLmdControl->pMbsFileHeader->iMaxWords)
           pLmdControl->pMbsFileHeader->iMaxWords=pH->iWords+4;
       pH=(sMbsHeader *)((int16_t *)pH+Bytes/2);
     }
@@ -281,10 +281,10 @@ sLmdControl *pLmdControl){
       return(LMD__FAILURE);
     }
   }
-  if(pLmdControl->iOffsetEntries) 
+  if(pLmdControl->iOffsetEntries)
     if(fLmdOffsetWrite(pLmdControl) != LMD__SUCCESS)
       pLmdControl->pMbsFileHeader->iTableOffset=0; // table could not be written
-  
+
   // rewind file and rewrite header
   rewind(pLmdControl->fFile);  /* rewind file, rewrite header */
   fLmdWriteBuffer(pLmdControl, (char *)pLmdControl->pMbsFileHeader,
@@ -295,7 +295,7 @@ sLmdControl *pLmdControl){
 #ifndef FILEONLY
 //===============================================================
 uint32_t fLmdConnectMbs(
-sLmdControl *pLmdControl, 
+sLmdControl *pLmdControl,
 char    *Nodename,
 uint32_t iPort,
 uint32_t *iBufferBytes){ // LMD__GET_EVENTS (NULL) or address to return buffer size
@@ -307,6 +307,7 @@ uint32_t *iBufferBytes){ // LMD__GET_EVENTS (NULL) or address to return buffer s
   else pLmdControl->iPort=iPort;
   memset(pLmdControl,0,sizeof(sLmdControl));
   pLmdControl->pTCP=(struct s_tcpcomm *)malloc(sizeof(struct s_tcpcomm));
+  pLmdControl->iTCPowner=1;
   if(pLmdControl->iPort==PORT__TRANS)
   printf("fLmdConnectMbs: Connect to transport server %s port %d\n",Nodename,pLmdControl->iPort);
   if(pLmdControl->iPort==PORT__STREAM)
@@ -333,7 +334,7 @@ uint32_t *iBufferBytes){ // LMD__GET_EVENTS (NULL) or address to return buffer s
   if(sMbs.iStreams > 0){
     printf("fLmdConnectMbs: MBS not in DABC mode!\n");
     fLmdCleanup(pLmdControl);
-    return(LMD__FAILURE); 
+    return(LMD__FAILURE);
   }
   strcpy(pLmdControl->cFile,Nodename);
   if(iBufferBytes == LMD__GET_EVENTS){ // use internal buffer for fLmdGetMbsEvent
@@ -346,7 +347,7 @@ uint32_t *iBufferBytes){ // LMD__GET_EVENTS (NULL) or address to return buffer s
 }
 //===============================================================
 uint32_t fLmdInitMbs(
-sLmdControl *pLmdControl, 
+sLmdControl *pLmdControl,
 char    *Nodename,
 uint32_t iMaxBytes,
 uint32_t iBuffers,
@@ -365,6 +366,7 @@ uint32_t iTimeout){
   pLmdControl->iInternBuffer=1;
   pLmdControl->iTCP=pLmdControl->pTCP->socket;
   pLmdControl->iTcpTimeout=iTimeout;
+  pLmdControl->iTCPowner=0;
   return(LMD__SUCCESS);
 }
 //===============================================================
@@ -377,6 +379,7 @@ uint32_t fLmdCloseMbs(sLmdControl *pLmdControl){
     stat=f_stc_write(cClose,12,pLmdControl->iTCP);
   stat=f_stc_close(pLmdControl->pTCP);
   pLmdControl->pMbsFileHeader = NULL; // was reference only
+  if(pLmdControl->iTCPowner==0)pLmdControl->pTCP=NULL; // was reference only
   fLmdCleanup(pLmdControl);
   return(stat);
 }
@@ -395,7 +398,7 @@ uint32_t fLmdGetMbsEvent(sLmdControl *pLmdControl, sMbsHeader** event){
   }
   pM=pLmdControl->pMbsHeader; // current to be returned
   pLmdControl->iLeftWords -= (pLmdControl->pMbsHeader->iWords+4);
-  pLmdControl->pMbsHeader = 
+  pLmdControl->pMbsHeader =
            (sMbsHeader *)((int16_t *)pLmdControl->pMbsHeader +
            pLmdControl->pMbsHeader->iWords+4);
   pLmdControl->iElements++;
@@ -404,10 +407,10 @@ uint32_t fLmdGetMbsEvent(sLmdControl *pLmdControl, sMbsHeader** event){
 }
 //===============================================================
 uint32_t fLmdGetMbsBuffer(
-sLmdControl *pLmdControl, 
-sMbsBufferHeader *pBuffer, 
-uint32_t iBytes, 
-uint32_t *iElements, 
+sLmdControl *pLmdControl,
+sMbsBufferHeader *pBuffer,
+uint32_t iBytes,
+uint32_t *iElements,
 uint32_t *iBytesUsed){
 
   sMbsHeader *pm;
@@ -461,8 +464,8 @@ uint32_t *iBytesUsed){
 
 //===============================================================
 uint32_t fLmdGetOpen(
-sLmdControl *pLmdControl, 
-char    *Filename, 
+sLmdControl *pLmdControl,
+char    *Filename,
 sMbsFileHeader *pBuffHead, // LMD__INTERNAL_HEADER (NULL) or address of file header
 uint32_t iBytes,           // LMD__NO_BUFFER (0) or LMD__MIN_BUFFER or internal buffersize
 uint32_t iUseOffset){      // LMD__[NO_]INDEX
@@ -541,7 +544,7 @@ uint32_t iUseOffset){      // LMD__[NO_]INDEX
     }
 
   bufferBytes=iBytes;
-  if(bufferBytes < pLmdControl->pMbsFileHeader->iMaxWords*2) 
+  if(bufferBytes < pLmdControl->pMbsFileHeader->iMaxWords*2)
     bufferBytes=pLmdControl->pMbsFileHeader->iMaxWords*2;
   fLmdPrintFileHeader(1,pLmdControl->pMbsFileHeader);
   pLmdControl->pBuffer=(int16_t *)malloc(bufferBytes);
@@ -555,10 +558,10 @@ uint32_t iUseOffset){      // LMD__[NO_]INDEX
 }
 //===============================================================
 uint32_t fLmdGetBuffer(
-sLmdControl *pLmdControl, 
-sMbsHeader *pMbsHeader, 
-uint32_t iBytes, 
-uint32_t *iElements, 
+sLmdControl *pLmdControl,
+sMbsHeader *pMbsHeader,
+uint32_t iBytes,
+uint32_t *iElements,
 uint32_t *iBytesUsed){
 
   sMbsHeader *pm;
@@ -603,33 +606,33 @@ uint32_t *iBytesUsed){
   leftBytes = pLmdControl->iLeftWords*2;
   if(leftBytes>0) {
       if (leftBytes > iBytes) {
-         printf("fLmdGetBuffer: stored peace of data (%u) larger than provided buffer (%u)\n",
+         printf("fLmdGetBuffer: stored piece of data (%u) larger than provided buffer (%u)\n",
                     leftBytes, iBytes);
          return(LMD__FAILURE);
       }
-      
+
       if (pLmdControl->pMbsHeader==0) {
          printf("fLmdGetBuffer: Internal error pMbsHeader==0\n");
          return(LMD__FAILURE);
       }
-      
+
       memcpy(pMbsHeader, pLmdControl->pMbsHeader, leftBytes);
   }
   iReturn = fLmdReadBuffer(pLmdControl,(char *)pMbsHeader+leftBytes, iBytes-leftBytes);
   if(iReturn <= 0) {
     printf("fLmdGetBuffer: EOF: %s\n",pLmdControl->cFile);
-    if (leftBytes>0) 
+    if (leftBytes>0)
        printf("fLmdGetBuffer: EOF while we have some rest data (%u)\n", leftBytes);
     else
        return(GETLMD__EOFILE);
   }
-  
+
   if(iReturn > (iBytes-leftBytes)) {
       printf("fLmdGetBuffer: LMD read error %s - too many bytes read %u wants %u",
             pLmdControl->cFile, iReturn, iBytes-leftBytes);
       return(GETLMD__NOLMDFILE);
   }
-  
+
   if(pLmdControl->iSwap)fLmdSwap4((uint32_t *)pMbsHeader+leftBytes/4,iReturn/4);
   pLmdControl->iBytes += iReturn;
   leftBytes += iReturn; // thats what is in the buffer
@@ -662,7 +665,7 @@ uint32_t *iBytesUsed){
      pLmdControl->pMbsHeader = (sMbsHeader*)pLmdControl->pBuffer;
   else
      pLmdControl->pMbsHeader = 0;
-  
+
   return(LMD__SUCCESS);
 }
 //===============================================================
@@ -675,9 +678,9 @@ uint32_t fLmdGetElement(sLmdControl *pLmdControl, uint32_t iEvent, sMbsHeader **
   if(iEvent == LMD__NO_INDEX) {
      if(pLmdControl->pBuffer==NULL) return(GETLMD__NOBUFFER); // internal buffer needed
      if(pLmdControl->pMbsFileHeader->iElements==0) return(GETLMD__NOMORE);
-     
+
      // check if we need to read extra data
-     if ((pLmdControl->iLeftWords < 4) || 
+     if ((pLmdControl->iLeftWords < 4) ||
          (pLmdControl->pMbsHeader == 0) ||
          (pLmdControl->pMbsHeader->iWords+4 > pLmdControl->iLeftWords)) {
              // first copy old data, if it exists
@@ -685,32 +688,32 @@ uint32_t fLmdGetElement(sLmdControl *pLmdControl, uint32_t iEvent, sMbsHeader **
                 memmove(pLmdControl->pBuffer, pLmdControl->pMbsHeader, pLmdControl->iLeftWords*2);
 //                printf("copy to the begin rest %u bytes", pLmdControl->iLeftWords*2);
              }
-               
-             // second, try to read more bytes  
-             
+
+             // second, try to read more bytes
+
              iReturn = fLmdReadBuffer(pLmdControl,
                     (char *)(pLmdControl->pBuffer+pLmdControl->iLeftWords),
                     (pLmdControl->iBufferWords-pLmdControl->iLeftWords)*2);
 
              if(iReturn <= 0) { printf("fLmdGetElement: EOF\n"); return(GETLMD__EOFILE); }
-             
+
              if(pLmdControl->iSwap) fLmdSwap4((uint32_t *)(pLmdControl->pBuffer+pLmdControl->iLeftWords),iReturn/4);
 
              pLmdControl->iBytes += iReturn;
              pLmdControl->pMbsHeader=(sMbsHeader *)pLmdControl->pBuffer;
              pLmdControl->iLeftWords += iReturn/2;
          }
-         
+
      // check if read buffer enough for event
-     
+
      evsz = (pLmdControl->pMbsHeader->iWords + 4) * 2;
-     
+
      if (evsz > pLmdControl->iLeftWords*2) {
         printf ("fLmdGetElement: Error, full element %u does not fit in buffer %u",
                   evsz, pLmdControl->iLeftWords*2);
-        return (GETLMD__TOOBIG);  
+        return (GETLMD__TOOBIG);
      }
-         
+
      pLmdControl->pMbsFileHeader->iElements--;
      pM = pLmdControl->pMbsHeader;
      pLmdControl->pMbsHeader = (sMbsHeader *) ((char*) pM + evsz);
@@ -831,9 +834,9 @@ sLmdControl * fLmdAllocateControl(){
   return(x);
 }
 //===============================================================
-void fLmdOffsetElements(sLmdControl *pLmdControl, 
-uint32_t bytes, 
-uint32_t *elements, 
+void fLmdOffsetElements(sLmdControl *pLmdControl,
+uint32_t bytes,
+uint32_t *elements,
 uint32_t *used){
   lmdoff_t *off1,*off2;
   uint32_t elem=0,i,*iff1,*iff2;
@@ -1074,10 +1077,10 @@ void fLmdSwap4(uint32_t *array, uint32_t items){
   pp=array;
   for(i=0;i<items;i++){
     //printf("Swap 4 %08x ",*pp);
-     *pp = 
-     (*pp >> 24) + 
+     *pp =
+     (*pp >> 24) +
     ((*pp >>  8)&0x0000ff00) +
-    ((*pp <<  8)&0x00ff0000) +  
+    ((*pp <<  8)&0x00ff0000) +
      (*pp << 24);
      //printf("to %08x \n",*pp);
      pp++;

@@ -53,6 +53,7 @@ typedef struct
   uint32_t iTCP;
   uint32_t iPort;
   uint32_t iTcpTimeout;
+  uint32_t iTCPowner;
 } sLmdControl;
 
 sLmdControl * fLmdAllocateControl();
