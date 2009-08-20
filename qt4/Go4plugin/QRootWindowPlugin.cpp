@@ -24,7 +24,7 @@ QRootWindowPlugin::QRootWindowPlugin(QObject *parent)
 
  QWidget *QRootWindowPlugin::createWidget(QWidget *parent)
  {
-   QRootWindow* widg=new QRootWindow(parent);
+   QRootWindow* widg=new QRootWindow(parent, 0, true);
    QPalette* npal= new QPalette(widg->palette());
    npal->setBrush(QPalette::Window,QPixmap(":/root.png"));
    widg->setPalette(*npal);

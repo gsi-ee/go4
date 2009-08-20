@@ -40,7 +40,7 @@ all-qt4plugin:
 	cp -f $(GO4SYS)/qt4/Go4GUI/QGo4Widget.cpp $(PLUGIN4_DIR)
 	cp -f $(GO4SYS)/qt4/Go4FitGUI/QFitItem.h $(PLUGIN4_DIR)
 	cp -f $(GO4SYS)/qt4/Go4FitGUI/TGo4FitPanel.h $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4FitGUI/ui_TGo4FitPanel.h $(PLUGIN4_DIR)
+	cp -f $(GO4SYS)/qt4/Go4GUI/ui_TGo4FitPanel.h $(PLUGIN4_DIR)
 	cp -f $(GO4SYS)/qt4/Go4FitGUI/QFitWidget.h $(PLUGIN4_DIR)
 	cp -f $(GO4SYS)/qt4/Go4FitGUI/QFitWidget.cpp $(PLUGIN4_DIR)
 	cp -f $(GO4SYS)/qt4/Go4FitGUI/QFitNamedWidget.h $(PLUGIN4_DIR)

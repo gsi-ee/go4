@@ -11,8 +11,8 @@ MOC = $(SYSCONF_MOC)
 IMAGEFILE = images.cpp
 PROJECTNAME = Go4GUI
 
-DEPENDPATH	+= $(ROOTSYS)/include $(GO4SYS)/include
-INCLUDEPATH	+= $(ROOTSYS)/include $(GO4SYS)/include
+DEPENDPATH += ../../include ../Go4FitGUI ../../
+INCLUDEPATH += ../../include ../Go4FitGUI ../../
 
 HEADERS	+= \
 	TGo4QSettings.h \
@@ -79,7 +79,7 @@ FORMS	+= TGo4ViewPanel.ui \
 	TGo4MarkerSettings.ui \
 	TGo4OptStatsSettings.ui
 
-IMAGES	= ../../icons/branch_t.png \
+IMAGES = ../../icons/branch_t.png \
 	../../icons/editcopy.png \
 	../../icons/editcut.png \
 	../../icons/editpaste.png \
@@ -286,3 +286,63 @@ IMAGES	= ../../icons/branch_t.png \
 	../../icons/draw1dhis.png \
 	../../icons/draw1dline.png
 
+SOURCES  += ../Go4FitGUI/QFitItem.cpp \
+            ../Go4FitGUI/QFitWidget.cpp \
+            ../Go4FitGUI/QFitNamedWidget.cpp \
+            ../Go4FitGUI/QFitModelWidget.cpp
+
+HEADERS  += ../Go4FitGUI/QFitItem.h \
+            ../Go4FitGUI/QFitWidget.h \
+            ../Go4FitGUI/QFitNamedWidget.h \
+            ../Go4FitGUI/QFitModelWidget.h
+
+FORMS += ../Go4FitGUI/TGo4FitPanel.ui \
+         ../Go4FitGUI/QFitModelPolynomWidget.ui \
+         ../Go4FitGUI/QFitModelGauss1Widget.ui \
+         ../Go4FitGUI/QFitModelGauss2Widget.ui \
+         ../Go4FitGUI/QFitModelGaussNWidget.ui \
+         ../Go4FitGUI/QFitModelFormulaWidget.ui \
+         ../Go4FitGUI/QFitModelFunctionWidget.ui \
+         ../Go4FitGUI/QFitDataWidget.ui \
+         ../Go4FitGUI/QFitRangeWidget.ui \
+         ../Go4FitGUI/QFitParWidget.ui \
+         ../Go4FitGUI/QFitAmplEstimWidget.ui \
+         ../Go4FitGUI/QFitOutputActionWidget.ui \
+         ../Go4FitGUI/QFitDependencyWidget.ui \
+         ../Go4FitGUI/QFitParCfgWidget.ui \
+         ../Go4FitGUI/QFitMinuitWidget.ui \
+         ../Go4FitGUI/QFitMinuitResWidget.ui \
+         ../Go4FitGUI/QFitSlotWidget.ui \
+         ../Go4FitGUI/QFitterWidget.ui \
+         ../Go4FitGUI/QFitTableWidget.ui \
+         ../Go4FitGUI/QFitPrintWidget.ui \
+         ../Go4FitGUI/QFitLinearTransWidget.ui \
+         ../Go4FitGUI/QFitMatrixTransWidget.ui \
+         ../Go4FitGUI/QFitPeakFinderWidget.ui \
+         ../Go4FitGUI/QFitRangeCutWidget.ui
+
+SOURCES +=  ../Go4QtRoot/qrootapplication.cpp \
+            ../Go4QtRoot/tqrootguifactory.cpp \
+            ../Go4QtRoot/tqcanvasimp.cpp \
+            ../Go4QtRoot/tqcanvasmenu.cpp \
+            ../Go4QtRoot/tqrootcanvas.cpp \
+            ../Go4QtRoot/tqrootwindow.cpp \
+            ../Go4QtRoot/tqrootdialog.cpp \
+            ../Go4QtRoot/tqapplication.cpp \
+            ../Go4QtRoot/qtframe.cpp
+
+HEADERS +=  ../Go4QtRoot/qrootapplication.h \
+            ../Go4QtRoot/tqrootguifactory.h \
+            ../Go4QtRoot/tqcanvasimp.h \
+            ../Go4QtRoot/tqcanvasmenu.h \
+            ../Go4QtRoot/tqrootcanvas.h \
+            ../Go4QtRoot/tqrootwindow.h \
+            ../Go4QtRoot/tqrootdialog.h \
+            ../Go4QtRoot/tqapplication.h \
+            ../Go4QtRoot/qtframe.h
+
+SOURCES += TGo4DrawCloneProxy.cxx \
+           TGo4DrawObjProxy.cxx \
+           TGo4Script.cxx \
+           TGo4WidgetProxy.cxx \
+           G__Go4GUI.cxx

@@ -22,7 +22,7 @@
 #include "tqcanvasimp.h"
 #include "TClass.h"
 #include "TRootCanvas.h"
-#include "lockguard.h"
+#include "TGo4LockGuard.h"
 
 TQCanvasImp::TQCanvasImp(TCanvas *c, const char *name, UInt_t width, UInt_t height){
 
@@ -37,7 +37,7 @@ TQCanvasImp::TQCanvasImp(TCanvas *c, const char *name, Int_t x, Int_t y, UInt_t 
 }
 
 void TQCanvasImp::build(TCanvas *c, const char *name, Int_t x, Int_t y, UInt_t width, UInt_t height){
-//Qtrootlockguard threadlock;
+//TGo4LockGuard threadlock;
 #if DEBUG_LEVEL
   qDebug(" canvas name %i %s %s \n",c,
           c->ClassName(), c->IsA()->GetTitle() );

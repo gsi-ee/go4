@@ -21,7 +21,7 @@
 #include "qobject.h"
 #include "qtimer.h"
 
-#include "lockguard.h"
+#include "TGo4LockGuard.h"
 
 extern void qt_ignore_badwindow();
 extern bool qt_badwindow();
@@ -105,7 +105,7 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll) :
 /*
 // Custom eventFilter   // M.Al-Turany
 bool QRootApplication::eventFilter(QObject *o,QEvent *e){
-Qtrootlockguard Global;
+TGo4LockGuard Global;
    //    if(e->type()== QEvent::Paint) {
    cout << "QRootApplication::eventFilter" <<endl;
    //      return QApplication::eventFilter( o, e );

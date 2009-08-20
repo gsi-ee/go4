@@ -229,12 +229,12 @@ FORMS	= ../Go4FitGUI/TGo4FitPanel.ui \
 	../Go4FitGUI/QFitPeakFinderWidget.ui \
 	../Go4FitGUI/QFitRangeCutWidget.ui
 
-SOURCES	+= ../Go4QtRoot/QRootApplication.cpp \
+SOURCES += ../Go4QtRoot/QRootApplication.cpp \
            ../Go4QtRoot/QRootCanvas.cpp \
            ../Go4QtRoot/QRootDialog.cpp \
            ../Go4QtRoot/QRootWindow.cpp 
 
-HEADERS	+= ../Go4QtRoot/QRootApplication.h \
+HEADERS += ../Go4QtRoot/QRootApplication.h \
            ../Go4QtRoot/QRootCanvas.h \
            ../Go4QtRoot/QRootDialog.h \
            ../Go4QtRoot/QRootWindow.h

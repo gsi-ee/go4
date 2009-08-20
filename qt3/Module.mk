@@ -3,10 +3,6 @@
 GO4QT3HEADS :=
 GO4QT3DEP   :=
 
-include qt3/Go4QtRoot/Module.mk
-
-include qt3/Go4FitGUI/Module.mk
-
 include qt3/Go4GUI/Module.mk
 
 include qt3/Go4UserGUI/Makefile
@@ -29,9 +25,9 @@ endif
 
 FASTRULES += clean-qt3
 
-clean-qt3: clean-qt3-interface clean-qt3-FitGUI clean-qt3-GUI clean-qt3usergui clean-qt3plugin
+clean-qt3: clean-qt3-GUI clean-qt3usergui clean-qt3plugin
 
 clean:: clean-qt3
 
-clean-bin:: clean-qt3-interface-bin clean-qt3-FitGUI-bin clean-qt3-GUI-bin
+clean-bin:: clean-qt3-GUI-bin
 

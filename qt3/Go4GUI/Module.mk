@@ -6,8 +6,7 @@ GO4GUI3_DIR         = $(GO4SYS)/qt3/$(GO4GUI3_NAME)
 GO4GUI3_LINKDEF     = $(GO4GUI3_DIR)/$(GO4GUI3_NAME)LinkDef.$(HedSuf)
 GO4GUI3_QTLINKDEF   = $(GO4GUI3_DIR)/Go4QtGUILinkDef.$(HedSuf)
 
-GO4SGUI3_LIBNAME    = $(LIB_PREFIX)Go4GUI3bis
-GO4SGUI3_LIB        = $(GO4DLLPATH)/$(GO4SGUI3_LIBNAME).$(DllSuf)
+FITGUI3_DIR         = $(GO4SYS)/qt3/Go4FitGUI
 
 GO4GUI3_QMAKED1OPT   =
 GO4GUI3_QMAKED2OPT   =
@@ -48,9 +47,39 @@ GO4GUI3_DDEP        = $(GO4GUI3_DO:.$(ObjSuf)=.$(DepSuf))
 
 GO4GUI3_PUBH        = $(patsubst $(GO4GUI3_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4GUI3_H) $(GO4GUI3_QTH))
 
+
+FITGUI3_FORMS       = $(wildcard $(FITGUI3_DIR)/*.ui)
+FITGUI3_FORMSI      = $(wildcard $(FITGUI3_DIR)/*.ui.h)
+FITGUI3_FH          = $(FITGUI3_FORMS:.ui=.h)
+FITGUI3_FS          = $(FITGUI3_FORMS:.ui=.cpp)
+
+FITGUI3_QTH         = $(FITGUI3_DIR)/QFitItem.h \
+                      $(FITGUI3_DIR)/QFitWidget.h \
+                      $(FITGUI3_DIR)/QFitNamedWidget.h \
+                      $(FITGUI3_DIR)/QFitModelWidget.h
+FITGUI3_QTS         = $(FITGUI3_QTH:.h=.cpp)
+
+
+QT3ROOT_DIR       = $(GO4SYS)/qt3/Go4QtRoot
+
+QT3ROOT_S       =  $(QT3ROOT_DIR)/qrootapplication.cpp \
+                   $(QT3ROOT_DIR)/tqrootguifactory.cpp \
+                   $(QT3ROOT_DIR)/tqcanvasimp.cpp \
+                   $(QT3ROOT_DIR)/tqcanvasmenu.cpp \
+                   $(QT3ROOT_DIR)/tqrootcanvas.cpp \
+                   $(QT3ROOT_DIR)/tqrootwindow.cpp \
+                   $(QT3ROOT_DIR)/tqrootdialog.cpp \
+                   $(QT3ROOT_DIR)/tqapplication.cpp \
+                   $(QT3ROOT_DIR)/qtframe.cpp
+
+QT3ROOT_H       =  $(QT3ROOT_S:.cpp=.$(HedSuf))
+
+QT3ROOT_PUBH    = $(patsubst $(QT3ROOT_DIR)/%.h, $(GO4SYS)/include/%.h, $(QT3ROOT_H))
+
+
 # used in the main Makefile
 
-GO4QT3HEADS         += $(GO4GUI3_FH) $(GO4GUI3_PUBH)
+GO4QT3HEADS         += $(GO4GUI3_FH) $(GO4GUI3_PUBH) $(QT3ROOT_PUBH)
 
 GO4QT3DEP           += $(GO4GUI3_DEP) $(GO4GUI3_DDEP)
 
@@ -60,6 +89,11 @@ DISTRFILES         += $(GO4GUI3_S) $(GO4GUI3_H) $(GO4GUI3_LINKDEF)
 DISTRFILES         += $(GO4GUI3_FORMS) $(GO4GUI3_FORMSI) $(GO4GUI3_DIR)/$(GO4GUI3_QTPRO)
 DISTRFILES         += $(GO4GUI3_QTS) $(GO4GUI3_QTH) $(GO4GUI3_EXES)
 DISTRFILES         += $(GO4GUI3_DIR)/Module.mk
+DISTRFILES         += $(FITGUI3_FORMS) $(FITGUI3_FORMSI)
+DISTRFILES         += $(FITGUI3_QTH) $(FITGUI3_QTS) 
+DISTRFILES         += $(FITGUI3_DIR)/TGo4FitGuiTypes.h
+DISTRFILES         += $(QT3ROOT_H) $(QT3ROOT_S)
+DISTRFILES         += $(QT3ROOT_DIR)/lockguard.h $(QT3ROOT_DIR)/CHANGELOG.txt
 ifndef USEDIM
 DISTRFILES         += $(GO4GUI3_DIR)/TGo4DabcMonitor.ui $(GO4GUI3_DIR)/TGo4DabcMonitor.ui.h
 endif
@@ -73,34 +107,34 @@ ifdef GO4_QT3
 $(GO4SYS)/include/%.h: $(GO4GUI3_DIR)/%.h
 	@echo "Copy header $@ ..."
 	@cp -f $< $@
+
+$(GO4SYS)/include/%.h: $(QT3ROOT_DIR)/%.h
+	@echo "Copy header $@ ..."
+	@cp -f $< $@
 endif
 
 $(GO4GUI3_DS): $(GO4GUI3_H) $(GO4GUI3_LINKDEF)
 	@$(ROOTCINTGO4) $(GO4GUI3_H) $(GO4GUI3_LINKDEF)
 
-$(GO4SGUI3_LIB): $(GO4GUI3_O) $(GO4GUI3_DO)
-	@$(MakeLibrary) $(GO4SGUI3_LIBNAME) "$(GO4GUI3_O) $(GO4GUI3_DO)" $(GO4DLLPATH)
-
 $(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE): $(GO4GUI3_DIR)/$(GO4GUI3_QTPRO) $(GO4GUI3_FORMS)
 	@echo "Generating $(GO4GUI3_QTMAKE)"
-	cd $(GO4GUI3_DIR); $(QMAKE) $(GO4GUI3_QTPRO) -o $(GO4GUI3_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS) $(QMAKELIBFLAGS) "LIBS+=$(LIBS_GUISET) -lGo4GUI3bis -lGo4Qt3Root -lGo4FitGUI3" $(GO4GUI3_QMAKED1OPT) $(GO4GUI3_QMAKED2OPT)
+	cd $(GO4GUI3_DIR); $(QMAKE) $(GO4GUI3_QTPRO) -o $(GO4GUI3_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS) $(QMAKELIBFLAGS) "LIBS+=$(LIBS_GUISET)" $(GO4GUI3_QMAKED1OPT) $(GO4GUI3_QMAKED2OPT)
 
-qt3-GUI: $(GO4QT3HEADS) libs $(GO4SGUI3_LIB) qt3-interface qt3-FitGUI $(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE)
+qt3-GUI: $(GO4QT3HEADS) libs $(GO4GUI3_DS) $(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE)
 	@echo "Generating Qt3 part of the MainGUI..."
 	+cd $(GO4GUI3_DIR); $(MAKE) -f $(GO4GUI3_QTMAKE) "GO4SYS=../.."
 
 clean-qt3-GUI-bin:
-	@rm -f $(GO4GUI3_O) $(GO4GUI3_DO)
+	@rm -f $(GO4GUI3_O) $(GO4GUI3_DEP) 
 	@rm -f $(GO4GUI3_DIR)/.obj/*.o
-	@rm -f $(GO4GUI3_DEP) $(GO4GUI3_DDEP) $(GO4GUI3_DS) $(GO4GUI3_DH)
+	@rm -f $(GO4GUI3_DO) $(GO4GUI3_DDEP) $(GO4GUI3_DS) $(GO4GUI3_DH)
 ifneq ($(wildcard $(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE)),)
 	cd $(GO4GUI3_DIR); $(MAKE) -f $(GO4GUI3_QTMAKE) clean "GO4SYS=../.."
 endif
-	@rm -f $(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE) $(GO4GUI3_FH)
-	@rm -rf .obj .moc
+	@rm -f $(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE) $(GO4GUI3_FH) $(FITGUI3_FH)
+	@rm -rf $(GO4GUI3_DIR)/.obj $(GO4GUI3_DIR)/.moc
 
 clean-qt3-GUI: clean-qt3-GUI-bin
-	@$(CleanLib) $(GO4SGUI3_LIBNAME) $(GO4DLLPATH)
 	@rm -f $(GO4SYS)/bin/go4
-	@rm -f $(GO4GUI3_PUBH)
+	@rm -f $(GO4GUI3_PUBH) $(QT3ROOT_PUBH)
 	@echo "Clean qt3 gui done"

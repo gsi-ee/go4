@@ -11,7 +11,7 @@
 #include "qpainter.h"
 #include "qdragobject.h"
 
-#include "lockguard.h"
+#include "TGo4LockGuard.h"
 
 /** Pseudo root mainframe to wrap root composite frames like TGedEditor */
 class TQRootFrame: public TGCompositeFrame {
@@ -150,7 +150,7 @@ return rev;
 void TQRootWindow::paintEvent( QPaintEvent * )
 {
 
-//Qtrootlockguard threadlock;
+//TGo4LockGuard threadlock;
  if(fxRootwindow){
 //     QPainter p;
 //     p.begin( this);
@@ -164,7 +164,7 @@ void TQRootWindow::paintEvent( QPaintEvent * )
 
 bool TQRootWindow ::eventFilter( QObject *o, QEvent *e )
 {
-//Qtrootlockguard threadlock;
+//TGo4LockGuard threadlock;
   // Filtering of QWidget Events
   //cout <<"TQRootWindow ::eventFilter" << endl;
   QMouseEvent* me=dynamic_cast<QMouseEvent*>(e);

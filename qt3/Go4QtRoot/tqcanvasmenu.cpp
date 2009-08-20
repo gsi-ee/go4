@@ -23,7 +23,7 @@
 #include "TColor.h"
 #include "TLatex.h"
 
-#include "lockguard.h"
+#include "TGo4LockGuard.h"
 #include "tqrootdialog.h"
 
 TQCanvasMenu::TQCanvasMenu(QWidget* parent, TCanvas *canvas)
@@ -52,7 +52,7 @@ TQCanvasMenu::~TQCanvasMenu()
 char* TQCanvasMenu::createDialogTitle( TObject *object, TMethod *method )
 {
  // Create title for dialog box retrieving argument values.
-   Qtrootlockguard threadlock;
+   TGo4LockGuard threadlock;
    static char methodTitle[128];
 
   if (object && method)
@@ -67,7 +67,7 @@ char* TQCanvasMenu::createDialogTitle( TObject *object, TMethod *method )
 char* TQCanvasMenu::createArgumentTitle(TMethodArg *argument)
 {
   // Create string describing argument (for use in dialog box).
-   Qtrootlockguard threadlock;
+   TGo4LockGuard threadlock;
    static Char_t argTitle[128];
   if (argument) {
     snprintf(argTitle, 127, "(%s)  %s", argument->GetTitle(), argument->GetName());
@@ -85,7 +85,7 @@ char* TQCanvasMenu::createArgumentTitle(TMethodArg *argument)
 
 void TQCanvasMenu::popup(TObject *obj, double x, double y, QMouseEvent *e)
 {
-   Qtrootlockguard threadlock;
+   TGo4LockGuard threadlock;
    TClass *klass=obj->IsA();
    int curId=-1;
 
@@ -129,7 +129,7 @@ void TQCanvasMenu::popup(TObject *obj, double x, double y, QMouseEvent *e)
 
 void TQCanvasMenu::execute(int id)
 {
-   Qtrootlockguard threadlock;
+   TGo4LockGuard threadlock;
    QString text("");
    bool ok = FALSE;
    if (id >=100) {
@@ -203,7 +203,7 @@ void TQCanvasMenu::EmitMenuCommandExecuted(TObject* obj, const char* cmdname)
 
 void TQCanvasMenu::dialog(TObject* object, TMethod* method)
 {
-   Qtrootlockguard threadlock;
+   TGo4LockGuard threadlock;
   // Create dialog object with OK and Cancel buttons. This dialog
    // prompts for the arguments of "method".
 
