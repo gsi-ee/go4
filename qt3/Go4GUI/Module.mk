@@ -93,7 +93,7 @@ DISTRFILES         += $(FITGUI3_FORMS) $(FITGUI3_FORMSI)
 DISTRFILES         += $(FITGUI3_QTH) $(FITGUI3_QTS) 
 DISTRFILES         += $(FITGUI3_DIR)/TGo4FitGuiTypes.h
 DISTRFILES         += $(QT3ROOT_H) $(QT3ROOT_S)
-DISTRFILES         += $(QT3ROOT_DIR)/lockguard.h $(QT3ROOT_DIR)/CHANGELOG.txt
+DISTRFILES         += $(QT3ROOT_DIR)/CHANGELOG.txt
 ifndef USEDIM
 DISTRFILES         += $(GO4GUI3_DIR)/TGo4DabcMonitor.ui $(GO4GUI3_DIR)/TGo4DabcMonitor.ui.h
 endif

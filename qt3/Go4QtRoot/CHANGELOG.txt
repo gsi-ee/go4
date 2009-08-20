@@ -1,5 +1,17 @@
 ##########################################################################
 #
+# Go4 Qt&ROOT v4.3.1  release notes
+# Date: 20/08/2009
+# updated: S.Linev
+#
+# NOTE: There is no longer libGo4QtROOT library in Go4 - code is integrated 
+#       into go4 executable. All classes still available from user gui (see example).
+#
+##########################################################################
+
+
+#########################################################################
+#
 # GSI Qt-ROOT interface v3.5.0 (with Go4 extensions)  release notes
 #
 # NOTE: The regular GSI QtROOT interface (maintained by D.Bertini and M.Al-Turany)
