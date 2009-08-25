@@ -187,6 +187,12 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
 
 
    gStyle->SetPalette(1);
+
+   gStyle->SetCanvasColor(10); // no effect, can be set in settings
+   gStyle->SetPadColor(10); // no effect
+   gStyle->SetFrameFillColor(10); // works if not 0
+   gStyle->SetStatColor(0); // works
+
    //gStyle->SetOptStat(11111111);
    gStyle->SetOptStat(go4sett->getOptStat());
 
