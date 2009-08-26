@@ -8,9 +8,9 @@
 
 
 TGo4AnalysisStatusMonitor::TGo4AnalysisStatusMonitor(QWidget *parent, const char* name)
-         : QGo4Widget(parent, name)
+: QGo4Widget(parent, name)
 {
-	setupUi(this);
+   setupUi(this);
    setAcceptDrops(FALSE);
    QString moviepath=":/icons/go4logorun4.gif";
    fxRunMovie= new QMovie(moviepath);
@@ -18,7 +18,7 @@ TGo4AnalysisStatusMonitor::TGo4AnalysisStatusMonitor(QWidget *parent, const char
 
 TGo4AnalysisStatusMonitor::~TGo4AnalysisStatusMonitor()
 {
-	delete fxRunMovie;
+   delete fxRunMovie;
 }
 
 void TGo4AnalysisStatusMonitor::WorkWithRatemeter(TGo4Slot* slot)
@@ -33,22 +33,22 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObj
    SourceLabel->setText(status->GetCurrentSource());
    double Rate = status->GetRate();
    if(Rate>10) LCDCurrentRate->display(floor(Rate));
-          else LCDCurrentRate->display(Rate);
-   QColor color;
+   else LCDCurrentRate->display(Rate);
+
+   const char* color = "background-color:rgb(255,0,0)";
+
    if(!status->IsAnalysisRunning()) {
-      color = QColor(255,0,0);
       Go4Pix->setWindowIcon( QIcon(":/icons/go4logo2.png"));
       fxRunMovie->stop();
    } else {
-       color = QColor(0, 255, 0);
-       Go4Pix->clear();
-       Go4Pix->setMovie(fxRunMovie);
-       fxRunMovie->start();
+      color = "background-color:rgb(0,255,0)";
+      Go4Pix->clear();
+      Go4Pix->setMovie(fxRunMovie);
+      fxRunMovie->start();
    }
 
-   QPalette palette;
-   palette.setColor(LCDCurrentRate->backgroundRole(), color);
-   LCDCurrentRate->setPalette(palette);
+
+   LCDCurrentRate->setStyleSheet(color);
 
    if(status->GetAvRate()>10)
       LCDAverageRate->display(floor(status->GetAvRate()));

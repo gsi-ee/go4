@@ -488,7 +488,7 @@ void TGo4ConfigStep::SetStepControl(bool process, bool source, bool store)
    EnableSourceBox->setChecked(source);
    EnableStoreBox->setChecked(store);
 
-//   StepStateChanged(0);
+   StepStateChanged(0);
 }
 
 void TGo4ConfigStep::GetStepControl(bool& process, bool& source, bool& store)

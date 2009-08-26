@@ -1270,19 +1270,19 @@ Bool_t TGo4AnalysisObjectManager::LoadObjects(TFile* obfile)
       if(top)
       {
          // kept for backward compatibility: read folder struct directly
-         //cout << "found top go4 folder "<< endl;
+         cout << "found top go4 folder "<< endl;
          rev=LoadFolder(top,fxGo4Dir,kFALSE);
       }
       else
       {
          // new: convert directory structure of file into folders
-         //cout <<"LoadObjects with Dirscan..." << endl;
+         cout <<"LoadObjects with Dirscan..." << endl;
          rev=LoadFolder(obfile,fxGo4Dir,kFALSE);
       }
       TGo4PolyCond::CleanupSpecials(); // remove references to file cuts
       ResetCurrentDynList();
-
    }
+
    return rev;
 }
 
@@ -1434,16 +1434,19 @@ Bool_t TGo4AnalysisObjectManager::AddObjectToFolder(TObject * ob,
    }
 
    TObject* oldob=0;
-   if(uniquename)
-   {
+   if(uniquename) {
       // look for object of identical name anywhere in top folder
       oldob=fold->FindObjectAny( ob->GetName() );
-   }
-   else
-   {
-      TString obname = subname + "/" + ob->GetName();
+   } else {
+      TString obname;
+
+      if (subname.Length()>0)
+         obname =  subname + "/" + ob->GetName();
+      else
+         obname = ob->GetName();
+
       // only check for objects that are in given subfolder
-      oldob= fold->FindObjectAny(obname.Data());
+      oldob = fold->FindObjectAny(obname.Data());
    }
 
    // is object already in folder?
@@ -1460,7 +1463,7 @@ Bool_t TGo4AnalysisObjectManager::AddObjectToFolder(TObject * ob,
 
    TFolder* addDir(0);
    if(subfolder)
-      addDir = FindSubFolder(fold,subname,kTRUE);
+      addDir = FindSubFolder(fold, subname, kTRUE);
    if(addDir==0) addDir = fold;
    // if(subfolder)
    addDir->Add(ob);
@@ -1993,11 +1996,11 @@ Bool_t TGo4AnalysisObjectManager::IsMatching(const char* string, const char* exp
 }
 
 
-TObject* TGo4AnalysisObjectManager::FindObjectInFolder(TFolder*      folder,
-      const char* fullname)
+TObject* TGo4AnalysisObjectManager::FindObjectInFolder(TFolder* folder, const char* fullname)
 {
    TRACE((12,"TGo4AnalysisObjectManager::FindObjectInFolder(TFolder*, const char*)",__LINE__, __FILE__));
    TGo4LockGuard  listguard(fxDirMutex);
+
    return folder ? folder->FindObjectAny(fullname) : 0;
 }
 
