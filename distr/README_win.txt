@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.3.0 (build 40300)
-                     29-June-2009
+         Go4 Release Package v4.3.1 (build 40301)
+                     27-August-2009
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at DVEE department, GSI
@@ -84,7 +84,7 @@ COMPILE USER ANALYSIS UNDER WINDOWS
   1. Compile with CYGWIN
 
   First of all, CYGWIN (http://cygwin.com/) should be installed.
-  This provides Unix like enviroment and allows to use shell-based build scripts.
+  This provides Unix like environment and allows to use shell-based build scripts.
   After CYGWIN installed, one should adjust login script 
   (go4init.sh), where actual location of different components
   should be specified. Than copy your analysis (or one of Go4 examples, 
