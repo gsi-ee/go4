@@ -35,13 +35,13 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObj
    if(Rate>10) LCDCurrentRate->display(floor(Rate));
    else LCDCurrentRate->display(Rate);
 
-   const char* color = "background-color:rgb(255,0,0)";
+   const char* color = "QFrame { background-color:rgb(255,0,0) }";
 
    if(!status->IsAnalysisRunning()) {
       Go4Pix->setWindowIcon( QIcon(":/icons/go4logo2.png"));
       fxRunMovie->stop();
    } else {
-      color = "background-color:rgb(0,255,0)";
+      color = "QFrame { background-color:rgb(0,255,0) }";
       Go4Pix->clear();
       Go4Pix->setMovie(fxRunMovie);
       fxRunMovie->start();
