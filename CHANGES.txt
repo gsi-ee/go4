@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.3.0 (build 40300)
-                      29-June-2009
+         Go4 Release Package v4.3.1 (build 40301)
+                      27-August-2009
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -20,7 +20,16 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v4.03.00 (June 09)
+Changes in Go4 v4.3.1 (August 09)
+1. Fix error with connecting DABC/MBS servers second time
+2. Fix error with using autosave files - object was not found correctly there
+3. Set green/red color in analysis status monitor widget
+4. In qt3 version exclude all gui libraries (similar to qt4)
+5. Suppress symbolic links in user gui library to avoid compilation problem
+   on DOS partitions, where links are not supported
+6. Set in gStyle pad frame color        
+
+Changes in Go4 v4.3.0 (June 09)
 1. Remove Q3Support classes completely - now Qt4 based GUI is 
    pure Qt4 application. This solves many side effects like crash
    by style changing or blinking during resize of main window.
