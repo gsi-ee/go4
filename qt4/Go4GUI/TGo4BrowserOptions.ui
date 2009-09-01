@@ -120,6 +120,22 @@
           </item>
         </widget>
       </item>
+      <item>
+        <widget class="QToolButton" name="ClearBtn" >
+          <property name="text" >
+            <string/>
+          </property>
+          <property name="icon" >
+            <iconset>:/icons/clear.png</iconset>
+          </property>
+          <property name="autoRaise" >
+            <bool>true</bool>
+          </property>
+          <property name="toolTip" stdset="0" >
+            <string>Clear histograms and conditions in analysis</string>
+          </property>
+        </widget>
+      </item>
     </layout>
   </widget>
   <layoutdefault spacing="0" margin="0" />
@@ -132,6 +148,12 @@
       <signal>clicked()</signal>
       <receiver>TGo4BrowserOptions</receiver>
       <slot>RefreshBtn_clicked()</slot>
+    </connection>
+    <connection>
+      <sender>ClearBtn</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4BrowserOptions</receiver>
+      <slot>ClearBtn_clicked()</slot>
     </connection>
     <connection>
       <sender>StartMonitorBtn</sender>

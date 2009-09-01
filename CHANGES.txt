@@ -1,5 +1,5 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.3.1 (build 40301)
+         Go4 Release Package v4.3.2 (build 40301)
                       27-August-2009
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
@@ -19,6 +19,9 @@ Contact:            http://Go4.gsi.de
 This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
+
+Changes in Go4 v4.3.2 (September 09)
+1. Add clear histogram and conditions button in gui
 
 Changes in Go4 v4.3.1 (August 09)
 1. Fix error with connecting DABC/MBS servers second time

@@ -4,9 +4,9 @@
 #include "TGo4AnalysisProxy.h"
 
 TGo4BrowserOptions::TGo4BrowserOptions(QWidget *parent, const char* name)
-         : QGo4Widget(parent,name)
+: QGo4Widget(parent,name)
 {
-	setupUi(this);
+   setupUi(this);
 }
 
 void TGo4BrowserOptions::StartWorking()
@@ -34,6 +34,17 @@ void TGo4BrowserOptions::RefreshBtn_clicked()
    if (an!=0) an->RefreshNamesList();
    Browser()->UpdateVisibleAnalysisObjects(false);
 }
+
+void TGo4BrowserOptions::ClearBtn_clicked()
+{
+   TGo4AnalysisProxy* an = Browser()->FindAnalysis();
+   if (an) {
+      an->ClearAnalysisObject("Histograms");
+      an->ClearAnalysisObject("Conditions");
+   }
+   Browser()->UpdateVisibleAnalysisObjects(false);
+}
+
 
 void TGo4BrowserOptions::StartMonitorBtn_clicked()
 {

@@ -36,6 +36,16 @@ void TGo4BrowserOptions::RefreshBtn_clicked()
    Browser()->UpdateVisibleAnalysisObjects(false);
 }
 
+void TGo4BrowserOptions::ClearBtn_clicked()
+{
+   TGo4AnalysisProxy* an = Browser()->FindAnalysis();
+   if (an) {
+      an->ClearAnalysisObject("Histograms");
+      an->ClearAnalysisObject("Conditions");
+   }
+   Browser()->UpdateVisibleAnalysisObjects(false);
+}
+
 void TGo4BrowserOptions::StartMonitorBtn_clicked()
 {
    int period = IntervalSpin->value();
