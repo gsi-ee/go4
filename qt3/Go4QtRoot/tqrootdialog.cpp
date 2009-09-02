@@ -193,6 +193,8 @@ void TQRootDialog::executeMethod()
       gROOT->SetSelectedPad( gPad );
       gROOT->GetSelectedPad()->Update();
    }
+
+   close();
 }
 
 void TQRootDialog::add(const char* argname, const char* value, const char* type)

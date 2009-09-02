@@ -486,6 +486,11 @@ void TGo4MainWindow::AddSettingMenu()
        }
        QAction *a = new QAction( styleStr, QIconSet(), styleAccel, 0, ag, 0, ag->isExclusive() );
        connect( a, SIGNAL( activated() ), styleMapper, SLOT(map()) );
+
+       a->setToggleAction(true);
+       if (go4sett->getAppStyle() == styleStr)
+         a->setOn(true);
+
        styleMapper->setMapping( a, a->text() );
    }
    ag->addTo(style);
