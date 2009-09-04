@@ -1,10 +1,7 @@
 TEMPLATE	= lib
 LANGUAGE	= C++
 
-#suppress symbolic linking when generating library
-QMAKE_LN_SHLIB = @echo suppress linking
-
-CONFIG += qt warn_off thread
+CONFIG += qt warn_off thread plugin
 
 INCLUDEPATH += $(GO4SYS)/include
 
