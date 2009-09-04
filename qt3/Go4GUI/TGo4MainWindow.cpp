@@ -471,6 +471,8 @@ void TGo4MainWindow::AddSettingMenu()
    QDict<int> stylesDict( 117, FALSE );
    for ( QStringList::Iterator it = list.begin(); it != list.end(); ++it ) {
       QString styleStr = *it;
+      if (styleStr == "Check") continue;
+
       QString styleAccel = styleStr;
       if ( stylesDict[styleAccel.left(1)] ) {
          for ( uint i = 0; i < styleAccel.length(); i++ ) {
