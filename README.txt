@@ -36,14 +36,17 @@ REQUIREMENTS:
 
 INSTALLATION:
 
-- Install the ROOT framework Version >=5.22/00
-  (download at http://root.cern.ch)
-  NOTE: choose installation mode for one generic $ROOTSYS directory,
-  DO NOT INSTALL root in "fixed location" as system libraries, i.e.
-  DO NOT use e.g. "--prefix=/usr/local" when configuring root install!
-  set environment variables
-      $(ROOTSYS), $(LD_LIBRARY_PATH), $(PATH)
-      e.g. in a startup script rootlogin
+- Install the ROOT framework Version >=5.22/00. 
+  See instruction how download and compile ROOT on http://root.cern.ch.
+  There are two ways to install ROOT framework on the machine:
+     1) Keep compiled ROOT executables and libraries where they are and
+        correctly setup ROOTSYS, LD_LIBRARY_PATH and PATH variables.
+        Typically one creates "rootlogin" script for that.
+     2) Install ROOT binaries, includes and libraries in default locations 
+        like /usr/lib, /usr/bin, /usr/include. In this case one do not need
+        to specify any environment variable.
+  There are also Linux distributions, where ROOT is available in form of RPM package.
+  In this case it is enough just to install it on the machine with standard tools.
 
 - Prepare Qt on your machine. Most modern Linux distributions provide 
   Qt libraries and include files in default locations like /usr/bin and 
@@ -70,6 +73,8 @@ INSTALLATION:
   correctly to your local installations!
 
 - "gmake all" will start the build of the Go4.
+  If both Qt3 and Qt4 installed on the machine, one can force specific
+  version of qt by calling "make WITHQT=4" or "make WITHQT=3"
 
 - To compile under Win32 or Solaris, one should specify GO4_OS variable respectively.
   For instance, export GO4_OS=Solaris
@@ -91,8 +96,8 @@ INSTALLATION:
   e.g. in $GO4SYS/Go4Example2Step
 
 - Edit your go4login script (see go4login.sh):
-  Define ROOTSYS, QTDIR (optionally) and GO4SYS according to your local
-  installation. You might call your local rootlogin and qtlogin scripts
+  Define ROOTSYS (optionally), QTDIR (optionally) and GO4SYS according 
+  to your local installation. You might call your local rootlogin and qtlogin scripts
   here instead explicitly defining ROOTSYS and QTDIR again. Be sure that
   LD_LIBRARY_PATH contains $ROOTSYS/lib:$QTDIR/lib:$GO4SYS/lib
   and PATH contains $ROOTSYS/bin, $QTDIR/bin and $GO4SYS/bin.

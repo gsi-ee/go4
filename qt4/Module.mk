@@ -27,7 +27,7 @@ DISTRFILES         += $(wildcard $(GO4SYS)/qt4/Go4FitGUI/*.cpp)
 
 
 
-ifdef GO4_QT4
+ifeq ($(GO4_QT), 4)
 
 GO4QTHEADS += $(GO4QT4HEADS)
 
@@ -41,7 +41,8 @@ endif
 
 FASTRULES += clean-qt4
 
-clean-qt4:: clean-qt4-GUI
+clean-qt4:: clean-qt4-GUI clean-qt4usergui clean-qt4plugin
+	@rm -f build/Makefile.gener
 
 clean:: clean-qt4
 

@@ -87,7 +87,7 @@ endif
 
 $(GO4GUI4_O) $(GO4GUI4_DO) $(GO4GUI4_DEP) $(GO4GUI4_DDEP): CXXFLAGS += $(QTCXXFLAGS)
 
-ifdef GO4_QT4
+ifeq ($(GO4_QT), 4)
 $(GO4SYS)/include/%.h: $(GO4GUI4_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@

@@ -90,12 +90,10 @@ libs::          $(BUILDGO4LIBS)
 
 gui::           libs
 
-noqt:           all
-
 clean:: clean-bin clean-mainlibs clean-plugin
 	@rm -f $(GO4MAP)
 	@rm -f $(GO4SYS)/include/*.h
-	@rm -f build/dummy.d
+	@rm -f build/dummy.d build/Makefile.gener
 	@echo "Clean go4 done"
 
 clean-mainlibs:

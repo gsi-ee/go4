@@ -13,15 +13,15 @@ GO4FIT_LIB    = $(Go4FitDir)/libGo4Fit.$(DllSuf)
 
 CXXFLAGS      = -O -fPIC -Wno-deprecated -I$(Go4FitDir) $(shell root-config --cflags)
 
-ROOTLIBMAP    = $(ROOTSYS)/bin/rlibmap
-MAPFILE       = .rootmap
+ROOTEXEPATH = $(shell root-config --exec-prefix)
+ROOTLIBPATH = $(shell root-config --libdir)
 
 LDFLAGS       = -O
 SOFLAGS       = -shared -Wl,-soname,
 
-LIBS          = -L$(Go4FitDir) -lGo4Fit $(shell root-config --nonew --libs) -lMinuit 
+LIBS          = -L$(Go4FitDir) -lGo4Fit $(shell root-config --nonew --libs) -lMinuit
 
-ifneq ($(wildcard $(ROOTSYS)/lib/libSpectrum.*)$(wildcard $(ROOTSYS)/root/lib/libSpectrum.*),)
+ifneq ($(wildcard $(ROOTLIBPATH)/libSpectrum.*),)
 LIBS         += -lSpectrum
 endif
 
@@ -120,6 +120,7 @@ EX4_LINKDEF =  Example4LinkDef.h
 EX4_HED     =  TModelTemplate.$(HedSuf) \
                $(EX4_LINKDEF)
 EX4_DLL     =  libExample4.$(DllSuf)
+EX4_MAP     =  libExample4.rootmap
 
 EX4_O      = Example4.$(ObjSuf)
 EX4_S      = Example4.$(SrcSuf)
@@ -127,17 +128,22 @@ EX4_E      = Example4$(ExeSuf)
 
 $(EX4_DICTS): $(EX4_HED)
 	@echo "Generating dictionary $(EX4_DICTO)..."
-	@$(ROOTSYS)/bin/rootcint -f $(EX4_DICTS) -c -p -I$(Go4FitDir) $(EX4_HED) 
+	@$(ROOTEXEPATH)/bin/rootcint -f $(EX4_DICTS) -c -p -I$(Go4FitDir) $(EX4_HED) 
     
 $(EX4_DLL):  $(EX4_OBJ) $(EX4_DICTO)
 	$(LD) $(SOFLAGS)$(EX4_DLL) $(LDFLAGS) $(EX4_OBJ) $(EX4_DICTO) $(OutPutOpt) $(EX4_DLL)
 	@echo "$(EX4_DLL) done"
 
-$(EX4_E):     $(EX4_O)
+$(EX4_MAP): $(EX4_DLL)
+   @rm -f $(EX4_MAP)
+   @$(ROOTEXEPATH)/bin/rlibmap -r $(EX4_MAP) -l ./$(EX4_DLL) -d $(GO4FIT_LIB) $(ROOTLIBPATH)/libMinuit.so -c $(EX4_LINKDEF)
+   @echo "Fit examples map file done"
+
+$(EX4_E):  $(EX4_O) $(EX4_DLL)
 	$(LD) $(LDFLAGS) $(EX4_O) $(LIBS) -L./ -lExample4 $(OutPutOpt) $(EX4_E)
 	@echo "$(EX4_E) done"      
 
-example4: $(EX4_DLL) $(EX4_E) 
+example4: $(EX4_DLL) $(EX4_MAP) $(EX4_E) 
 
 clean4:
 	@rm -f $(EX4_E) $(EX4_O) $(EX4_DLL) $(EX4_OBJ)
@@ -278,18 +284,6 @@ clean13:
 	@rm -f $(EX13_E) $(EX13_O)
 
 #------------------------------------------------------------------------------
-
-map:
-ifneq ($(wildcard $(ROOTLIBMAP)),)
-ifneq ($(findstring linkdef, $(shell $(ROOTLIBMAP) 2>&1)),)
-	@rm -f $(MAPFILE)
-	@$(ROOTLIBMAP) -r $(MAPFILE) -l $(GO4FIT_LIB) -d $(ROOTSYS)/lib/libMinuit.so -c $(Go4FitDir)/Go4FitLinkDef.h
-	@$(ROOTLIBMAP) -r $(MAPFILE) -l ./$(EX4_DLL) -d $(GO4FIT_LIB) $(ROOTSYS)/lib/libMinuit.so -c $(EX4_LINKDEF)
-	@echo "Fit examples map file done"
-endif
-else
-	@echo "Map of Fit examples classes can not be generated with ROOT $(shell root-config --version)"
-endif
 
 # DO NOT DELETE
 

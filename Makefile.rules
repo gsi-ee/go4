@@ -46,14 +46,14 @@ libs::
 	@$(MakeDepend) $@ "$(CFLAGS)" $*.$(CSuf) > $@
 
 
-ifndef GO4_WITHOUT_QT
+ifdef GO4_QT
 
 #dependency and Qt staff generation works only on linux
 
 %.$(ObjSuf): %.cpp
 	$(CXX) -c $< $(OPTFLAGS) $(CXXFLAGS) $(QTCXXFLAGS) -o $@ 
 
-ifndef GO4_QT4
+ifeq ($(GO4_QT),3)
 
 $(GO4SYS)/%.h: $(GO4SYS)/%.ui
 	@echo "Generate Go4 Qt header $@ ... "

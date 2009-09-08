@@ -37,7 +37,7 @@ endif
 
 ##### local rules #####
 
-ifdef GO4_QT4
+ifeq ($(GO4_QT), 4)
 
 all:: all-qt4usergui
 

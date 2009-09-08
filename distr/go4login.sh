@@ -4,19 +4,18 @@
 # specify your OS : Linux (default), Win32, Solaris 
 # export GO4_OS=Linux
 
+# uncomment following lines, if ROOT installed in non-default location
+# export ROOTSYS=/home/user/root
+# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOTSYS/lib
+# export PATH=$PATH:$ROOTSYS/bin
 
-# change next line to the true location of your root installation
-export ROOTSYS=/home/user/root
+# uncomment following lines, if Qt installed in non-default location
+# export QTDIR=/home/user/qt4
+# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$QTDIR/lib
+# export PATH=$PATH:$QTDIR/bin
 
 #change next line to the location of your go4 system
-export GO4SYS=/home/user/go4
+export GO4SYS=`pwd`
+export LD_LIBRARY_PATH=.:$GO4SYS/lib:$LD_LIBRARY_PATH
+export PATH=$PATH:$GO4SYS/bin
 
-# if QTDIR not yet specified, set correct location of qt installation
-if [ "x$QTDIR" == "x" ]; then
-   export QTDIR=/home/user/qt3
-   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$QTDIR/lib
-   export PATH=$PATH:$QTDIR/bin
-fi
-
-export LD_LIBRARY_PATH=.:$GO4SYS/lib:$ROOTSYS/lib:$LD_LIBRARY_PATH
-export PATH=$GO4SYS/bin:$ROOTSYS/bin:$PATH

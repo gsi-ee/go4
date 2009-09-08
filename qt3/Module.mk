@@ -11,7 +11,7 @@ include qt3/Go4plugin/Module.mk
 
 DISTRFILES         += qt3/Module.mk qt3/etc/go4defaulttoolsrc.txt
 
-ifdef GO4_QT3
+ifeq ($(GO4_QT), 3)
 
 GO4QTHEADS += $(GO4QT3HEADS)
 
@@ -26,6 +26,7 @@ endif
 FASTRULES += clean-qt3
 
 clean-qt3: clean-qt3-GUI clean-qt3usergui clean-qt3plugin
+	@rm -f build/Makefile.gener
 
 clean:: clean-qt3
 

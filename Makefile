@@ -78,7 +78,7 @@ EXMODULES = Go4ExampleSimple Go4Example1Step Go4Example2Step \
             Go4ExampleUserSource Go4ExampleMesh Go4FitExample \
             Go4ThreadManagerExample Go4TaskHandlerExample Go4EventServerExample
 
-.PHONY:         all noqt includes libs gui plugin \
+.PHONY:         all includes libs gui plugin \
                 clean clean-qt3 clean-qt4 clean-bak clean-plugin clean-mainlibs\
                 package $(PACKAGERULES)
 
@@ -95,7 +95,6 @@ include $(patsubst %,%/Makefile, $(EXMODULES))
 
 -include qt4/Module.mk
 
-
 build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
 	@(if [ ! -f $@ ] ; then touch $@; fi)
 	@(if [ ! -f lib ] ; then mkdir -p lib; fi)
@@ -106,13 +105,11 @@ libs::          $(BUILDGO4LIBS)
 
 gui::           libs 
 
-noqt:           all
-
 clean::  clean-bin clean-mainlibs clean-plugin
 	@rm -f $(GO4MAP)
 	@rm -f $(GO4SYS)/include/*.h
 	@rm -rf bin lib
-	@rm -f build/dummy.d
+	@rm -f build/dummy.d build/Makefile.gener
 	@echo "Clean go4 done"
 
 clean-mainlibs:
@@ -220,6 +217,7 @@ $(VERSION_LIB): $(VERSION_O)
 $(GO4BGUI_LIB): $(GO4BGUI_O)
 	@$(MakeLibrary) $(GO4BGUI_LIBNAME) "$(GO4BGUI_O)" $(GO4DLLPATH) "$(GO4BGUI_LINKDEFS)" "$(VERSION_LIB) $(GO4ANBASE_LIB) $(GO4TSKH_LIB) $(THRDMNGR_LIB) $(GO4BASE_LIB) $(GO4FIT_LIB) $(BASIC_LIB_DEP)"
 
+
 ifdef DOPACKAGE
 
 package: go4-package
@@ -230,7 +228,7 @@ endif
 
 fast-packages: packages
 
-packages: go4-package fit-package thrd-package task-package win-src
+packages: go4-package fit-package thrd-package task-package
 
 GO4PACK_VERS     = go4-$(MAJOR).$(MINOR)
 GO4TAR_NAME      = go4-$(MAJOR).$(MINOR).tar
@@ -251,7 +249,7 @@ HDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(subst $(GO4SYS),$(GO4DISTR_DIR),$(DI
 go4-package:
 	@echo "Creating package $(GO4TAR_NAME) ..."
 	@tar chf $(GO4TAR_NAME) Makefile.config Makefile.rules go4.init
-	@tar rhf $(GO4TAR_NAME) build/*.sh build/Makefile.*
+	@tar rhf $(GO4TAR_NAME) build/*.sh build/Makefile.* --exclude=build/Makefile.gener
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Module.mk,$(MODULES))
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Makefile,$(EXMODULES))
 	@tar rhf $(GO4TAR_NAME) $(subst $(GO4SYS),.,$(DISTRFILES))
@@ -340,7 +338,7 @@ thrd-package:
 	@echo "Creating package $(THRDTAR_NAME) ..."
 	@tar chf $(THRDTAR_NAME) Makefile.config
 	@tar rhf $(THRDTAR_NAME) Makefile.rules
-	@tar rhf $(THRDTAR_NAME) ./build/*.sh build/Makefile.*
+	@tar rhf $(THRDTAR_NAME) ./build/*.sh build/Makefile.* --exclude=build/Makefile.gener
 	@tar rhf $(THRDTAR_NAME) $(patsubst %,%/Module.mk,$(THRDMODULES))
 	@tar rhf $(THRDTAR_NAME) $(patsubst %,%/Makefile,$(THRDMODULESEX))
 	@tar rhf $(THRDTAR_NAME) $(subst $(GO4SYS),.,$(THRDDISTRFILES))
@@ -383,7 +381,7 @@ task-package:
 	@echo "Creating package $(TASKTAR_NAME) ..."
 	@tar chf $(TASKTAR_NAME) Makefile.config
 	@tar rhf $(TASKTAR_NAME) Makefile.rules
-	@tar rhf $(TASKTAR_NAME) ./build/*.sh  build/Makefile.*
+	@tar rhf $(TASKTAR_NAME) ./build/*.sh  build/Makefile.* --exclude=build/Makefile.gener
 	@tar rhf $(TASKTAR_NAME) $(patsubst %,%/Module.mk,$(TASKMODULES))
 	@tar rhf $(TASKTAR_NAME) $(patsubst %,%/Makefile,$(TASKMODULESEX))
 	@tar rhf $(TASKTAR_NAME) $(subst $(GO4SYS),.,$(TASKDISTRFILES))

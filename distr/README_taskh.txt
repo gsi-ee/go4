@@ -47,10 +47,11 @@ libraries of the Go4 Project.
 
 
 INSTALLATION:
+-Install ROOT package (see http://root.cern.ch)
+ If necessary, set your ROOT environment variables $ROOTSYS,
+   $LD_LIBRARY_PATH, $PATH.
 -Create a working directory for the taskhandler and unpack
    this tarball there.
--Set your ROOT environment variables $ROOTSYS,
-   $LD_LIBRARY_PATH, $PATH.
 -In the working directory, run the init script
    . go4.init
    This will set $GO4SYS variable required for Makefile
