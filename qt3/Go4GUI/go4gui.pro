@@ -14,8 +14,6 @@ PROJECTNAME = Go4GUI
 DEPENDPATH += ../../include ../Go4FitGUI ../../
 INCLUDEPATH += ../../include ../Go4FitGUI ../../
 
-QMAKE_LFLAGS += -Wl,-rpath,$$GO4LIBDIR -Wl,-rpath,$$ROOTLIBDIR
-
 HEADERS	+= \
 	TGo4QSettings.h \
 	TGo4AnalysisWindow.h \
