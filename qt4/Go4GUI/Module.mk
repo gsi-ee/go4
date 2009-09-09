@@ -29,15 +29,10 @@ GO4GUI4_DH          = $(GO4GUI4_DICT).$(HedSuf)
 GO4GUI4_DS          = $(GO4GUI4_DICT).$(SrcSuf)
 GO4GUI4_DO          = $(GO4GUI4_DICT).$(ObjSuf)
 
-ifeq ($(GO4WITHRPATH), true))
-GO4GUI4_QMAKEFLAGS = "unix:QMAKE_LFLAGS += -Wl,-rpath,$(GO4LIBPATH) -Wl,-rpath,$(ROOTLIBPATH)" 
-endif
+GO4GUI4_QMAKEFLAGS = "unix:QMAKE_LFLAGS += $(LDFLAGS_RPATH)" 
 
 ifdef USEDIM
 GO4GUI4_FORMS       = $(wildcard $(GO4GUI4_DIR)/*.ui)
-ifeq ($(GO4WITHRPATH), true))
-GO4GUI4_QMAKEFLAGS += "unix:QMAKE_LFLAGS += -Wl,-rpath,$(DIMLIBPATH)" 
-endif
 GO4GUI4_QMAKEFLAGS += "FORMS += TGo4DabcMonitor.ui" 
 GO4GUI4_QMAKEFLAGS += "HEADERS += TGo4DabcMonitor.h" 
 GO4GUI4_QMAKEFLAGS += "SOURCES += TGo4DabcMonitor.cpp" 

@@ -28,9 +28,9 @@ MV            = mv
 #### Linker definitions: ####
 LD            = g++
 ifeq ($(GO4WITHRPATH),true)
-LDFLAGS += $(LDRPATHS:%=-Wl,-rpath,%)
+LDFLAGS_RPATH = $(LDRPATHS:%=-Wl,-rpath,%)
 endif
-LDFLAGS       += -O 
+LDFLAGS       += -O $(LDFLAGS_RPATH) 
 SOFLAGS       = -shared -Wl,-soname,
 
 #### Other options: ####

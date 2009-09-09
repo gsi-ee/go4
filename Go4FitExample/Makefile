@@ -28,7 +28,6 @@ FITEX1_E      = $(FITEX_DIR)/Example1$(ExeSuf)
 
 $(FITEX1_E):      $(FITEX_EXEDEP) $(FITEX1_O)
 	$(LD) $(LDFLAGS) $(FITEX1_O) $(FITEX_USEDLIBS) $(OutPutOpt) $(FITEX1_E)
-#	$(LD) $(LDFLAGS) $(EXAMPMESH_EXEO) $(LIBS_FULLSET) $(EXAMPMESH_LIB) $(OutPutOpt) $(EXAMPMESH_EXE)
 
 # ------------------Example2------------------------------------------
 
