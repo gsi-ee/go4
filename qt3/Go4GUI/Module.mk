@@ -24,12 +24,16 @@ GO4GUI3_DH          = $(GO4GUI3_DICT).$(HedSuf)
 GO4GUI3_DS          = $(GO4GUI3_DICT).$(SrcSuf)
 GO4GUI3_DO          = $(GO4GUI3_DICT).$(ObjSuf)
 
+ifeq ($(GO4WITHRPATH), true))
 GO4GUI3_QMAKEFLAGS = "QMAKE_LFLAGS += -Wl,-rpath,$(GO4LIBPATH) -Wl,-rpath,$(ROOTLIBPATH)" 
+endif
 
 ifdef USEDIM
 GO4GUI3_FORMS       = $(wildcard $(GO4GUI3_DIR)/*.ui)
 GO4GUI3_FORMSI      = $(wildcard $(GO4GUI3_DIR)/*.ui.h)
+ifeq ($(GO4WITHRPATH), true))
 GO4GUI3_QMAKEFLAGS += "QMAKE_LFLAGS += -Wl,-rpath,$(DIMLIBPATH)" 
+endif
 GO4GUI3_QMAKEFLAGS += "FORMS += TGo4DabcMonitor.ui" 
 GO4GUI3_QMAKEFLAGS += "INCLUDEPATH += $(DIMINCPATH)"
 else
