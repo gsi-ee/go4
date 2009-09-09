@@ -2,7 +2,7 @@ TASKHAND_NAME        = Go4TaskHandler
 
 ## normally should be like this for every module, but can be specific
 
-TASKHAND_DIR         = $(GO4SYS)/$(TASKHAND_NAME)
+TASKHAND_DIR         = $(TASKHAND_NAME)
 TASKHAND_LINKDEF     = $(TASKHAND_DIR)/$(TASKHAND_NAME)LinkDef.$(HedSuf)
 
 TASKHAND_NOTLIBF     = $(TASKHAND_DIR)/Go4EmergencyCommands.h
@@ -23,7 +23,7 @@ TASKHAND_DDEP        =  $(TASKHAND_DO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(TASKHAND_DIR)/%.h, $(GO4SYS)/include/%.h, $(TASKHAND_H) $(TASKHAND_DIR)/Go4EmergencyCommands.h)
+ALLHDRS +=  $(patsubst $(TASKHAND_DIR)/%.h, include/%.h, $(TASKHAND_H) $(TASKHAND_DIR)/Go4EmergencyCommands.h)
 
 LIBDEPENDENC       += $(TASKHAND_DEP) $(TASKHAND_DDEP)
 
@@ -35,7 +35,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(TASKHAND_DIR)/%.h
+include/%.h: $(TASKHAND_DIR)/%.h
 	@echo "Copy header $@ ..."
 	@cp -f $< $@
 

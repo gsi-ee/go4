@@ -2,7 +2,7 @@ GO4ANAL_NAME        = Go4Analysis
 
 ## normally should be like this for every module, but can be specific
 
-GO4ANAL_DIR         = $(GO4SYS)/$(GO4ANAL_NAME)
+GO4ANAL_DIR         = $(GO4ANAL_NAME)
 GO4ANAL_LINKDEF     = $(GO4ANAL_DIR)/$(GO4ANAL_NAME)LinkDef.$(HedSuf)
 
 VERSION_FILENAME    = TGo4Version
@@ -35,7 +35,7 @@ VERSION_DEP         =  $(VERSION_O:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(GO4ANAL_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4ANAL_H) $(VERSION_H) $(GO4ANAL_DIR)/TGo4Analysis.h)
+ALLHDRS +=  $(patsubst $(GO4ANAL_DIR)/%.h, include/%.h, $(GO4ANAL_H) $(VERSION_H) $(GO4ANAL_DIR)/TGo4Analysis.h)
 
 LIBDEPENDENC       += $(GO4ANAL_DEP) $(VERSION_DEP) $(GO4ANAL_DDEP)
 
@@ -45,7 +45,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(GO4ANAL_DIR)/%.h
+include/%.h: $(GO4ANAL_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 

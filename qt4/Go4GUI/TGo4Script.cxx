@@ -16,6 +16,7 @@
 #include "TGo4DirProxy.h"
 #include "TGo4HServProxy.h"
 #include "TGo4Iter.h"
+#include "TGo4Log.h"
 
 #include "TGo4AnalysisConfiguration.h"
 #include "TGo4ConfigStep.h"
@@ -24,8 +25,6 @@
 #include "TGo4Picture.h"
 #include "TGo4ViewPanel.h"
 #include "TGo4MainWindow.h"
-
-//#include "qwidgetlist.h"
 
 #include "TGo4Slot.h"
 
@@ -708,15 +707,13 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
    fs << "// Automatically generated startup script" << endl;
    fs << "// Do not change it!" << endl << endl;
 
-   TString go4sys, rootsys;
-   if (getenv("GO4SYS") != 0) {
-      go4sys = getenv("GO4SYS");
-      if (go4sys[go4sys.Length()-1] != '/') go4sys+="/";
-   }
-   if (getenv("ROOTSYS") != 0) {
-      rootsys = getenv("ROOTSYS");
+   TString rootsys;
+   if (gSystem->Getenv("ROOTSYS") != 0) {
+      rootsys = gSystem->Getenv("ROOTSYS");
       if (rootsys[rootsys.Length()-1] != '/') rootsys+="/";
    }
+
+   TString go4sys = TGo4Log::GO4SYS();
 
    TString libs = gInterpreter->GetSharedLibs();
    const char* token = strtok((char*) libs.Data(), " ,\t\n");

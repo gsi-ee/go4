@@ -5,7 +5,7 @@ EXUSERSRC_NAME        = Go4ExampleUserSource
 ## normally should be like this for every module, but can be specific
 
 ifdef GO4PACKAGE
-EXUSERSRC_DIR         = $(GO4SYS)/$(EXUSERSRC_NAME)
+EXUSERSRC_DIR         = $(EXUSERSRC_NAME)
 else
 EXUSERSRC_DIR         = .
 endif

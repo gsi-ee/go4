@@ -169,6 +169,7 @@
     <include location="local" impldecl="in implementation">Riostream.h</include>
     <include location="local" impldecl="in implementation">TROOT.h</include>
     <include location="local" impldecl="in implementation">qfiledialog.h</include>
+    <include location="local" impldecl="in implementation">TGo4Log.h</include>
     <include location="local" impldecl="in implementation">TGo4Script.h</include>
     <include location="local" impldecl="in implementation">TGo4MainWindow.h</include>
     <include location="local" impldecl="in implementation">TGo4QSettings.h</include>

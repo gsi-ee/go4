@@ -2,7 +2,7 @@ LOCKGRD_NAME        = Go4LockGuard
 
 ## normally should be like this for every module, but can be specific
 
-LOCKGRD_DIR         = $(GO4SYS)/$(LOCKGRD_NAME)
+LOCKGRD_DIR         = $(LOCKGRD_NAME)
 LOCKGRD_LINKDEF     = $(LOCKGRD_DIR)/$(LOCKGRD_NAME)LinkDef.$(HedSuf)
 
 LOCKGRD_NOTLIBF     =
@@ -23,7 +23,7 @@ LOCKGRD_DDEP        =  $(LOCKGRD_DO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(LOCKGRD_DIR)/%.h, $(GO4SYS)/include/%.h, $(LOCKGRD_H))
+ALLHDRS +=  $(patsubst $(LOCKGRD_DIR)/%.h, include/%.h, $(LOCKGRD_H))
 
 LIBDEPENDENC       += $(LOCKGRD_DEP) $(LOCKGRD_DDEP)
 
@@ -34,7 +34,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(LOCKGRD_DIR)/%.h
+include/%.h: $(LOCKGRD_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 

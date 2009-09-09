@@ -5,7 +5,7 @@ EVENTSERVEXAMP_NAME        = Go4EventServerExample
 ## normally should be like this for every module, but can be specific
 
 ifdef GO4PACKAGE
-EVENTSERVEXAMP_DIR         = $(GO4SYS)/$(EVENTSERVEXAMP_NAME)
+EVENTSERVEXAMP_DIR         = $(EVENTSERVEXAMP_NAME)
 else
 EVENTSERVEXAMP_DIR         = .
 endif

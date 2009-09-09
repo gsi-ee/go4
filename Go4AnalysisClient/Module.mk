@@ -2,7 +2,7 @@ ANALCL_NAME        = Go4AnalysisClient
 
 ## normally should be like this for every module, but can be specific
 
-ANALCL_DIR         = $(GO4SYS)/$(ANALCL_NAME)
+ANALCL_DIR         = $(ANALCL_NAME)
 ANALCL_LINKDEF     = $(ANALCL_DIR)/$(ANALCL_NAME)LinkDef.$(HedSuf)
 ANALCL_EXENAME     = Main$(ANALCL_NAME)
 ANALCL_EXECINTNAME  = go4root
@@ -19,7 +19,7 @@ ANALCL_EXE         = $(ANALCL_DIR)/$(ANALCL_EXENAME)$(ExeSuf)
 
 ANALCL_EXECINTO    = $(ANALCL_DIR)/$(ANALCL_EXECINTNAME).$(ObjSuf)
 ANALCL_EXECINTS    = $(ANALCL_DIR)/$(ANALCL_EXECINTNAME).$(SrcSuf)
-ANALCL_EXECINT     = $(GO4SYS)/bin/$(ANALCL_EXECINTNAME)$(ExeSuf)  
+ANALCL_EXECINT     = $(GO4EXEPATH)/$(ANALCL_EXECINTNAME)$(ExeSuf)  
 
 ANALCL_DICT        = $(ANALCL_DIR)/$(DICT_PREFIX)$(ANALCL_NAME)
 ANALCL_DH          = $(ANALCL_DICT).$(HedSuf)
@@ -36,7 +36,7 @@ ANALCL_EDEP        =  $(ANALCL_EXEO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(ANALCL_DIR)/%.h, $(GO4SYS)/include/%.h, $(ANALCL_H) $(ANALCL_DIR)/TGo4AnalysisClient.h)
+ALLHDRS +=  $(patsubst $(ANALCL_DIR)/%.h, include/%.h, $(ANALCL_H) $(ANALCL_DIR)/TGo4AnalysisClient.h)
 
 LIBDEPENDENC       += $(ANALCL_DEP) $(ANALCL_DDEP)
 EXAMPLEEXECS       += $(ANALCL_EXE) $(ANALCL_EXECINT)
@@ -49,7 +49,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(ANALCL_DIR)/%.h
+include/%.h: $(ANALCL_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 

@@ -2,7 +2,7 @@ GO4DISPL_NAME        = Go4Display
 
 ## normally should be like this for every module, but can be specific
 
-GO4DISPL_DIR         = $(GO4SYS)/$(GO4DISPL_NAME)
+GO4DISPL_DIR         = $(GO4DISPL_NAME)
 
 GO4DISPL_NOTLIBF     =
 
@@ -16,7 +16,7 @@ GO4DISPL_DEP         =  $(GO4DISPL_O:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(GO4DISPL_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4DISPL_H))
+ALLHDRS +=  $(patsubst $(GO4DISPL_DIR)/%.h, include/%.h, $(GO4DISPL_H))
 
 LIBDEPENDENC       += $(GO4DISPL_DEP)
 
@@ -26,7 +26,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(GO4DISPL_DIR)/%.h
+include/%.h: $(GO4DISPL_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 

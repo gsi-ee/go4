@@ -856,19 +856,15 @@ void TGo4MainWindow::UserPanelSlot()
    if (userpanel!=0) return;
 
    // check GO4USERGUI variable
-   QString usergui = getenv("GO4USERGUI");
-   if (usergui.length()>0)
-     if (startUserGUI(usergui)) return;
+   TString usergui = gSystem->Getenv("GO4USERGUI");
+   if (usergui.Length()>0)
+     if (startUserGUI(usergui.Data())) return;
 
    // check from standard LD_LIBRARY_PATHS
    if (startUserGUI(0)) return;
 
-   usergui = getenv("GO4SYS");
-   if (usergui.length()>0) {
-     if (usergui[usergui.length()-1]!='/') usergui+="/";
-     usergui+="qt3/Go4UserGUI";
-     if (startUserGUI(usergui)) return;
-   }
+   usergui = TGo4Log::subGO4SYS("qt3/Go4UserGUI");
+   if (startUserGUI(usergui.Data())) return;
 
    QMessageBox::critical(this,"Starting user GUI", "No suitable libraries found");
 }
@@ -1099,12 +1095,11 @@ void TGo4MainWindow::HelpWindow(const char* filename, const char* msg)
 {
    QApplication::setOverrideCursor( Qt::WaitCursor );
 
-   QString go4sys = getenv("GO4SYS");
-   if (go4sys.length()==0) go4sys = ".";
-   if (go4sys[go4sys.length()-1] != '/') go4sys+='/';
 
-   QProcess info(go4sys + "etc/Go4ShowPdf.ksh");
-   info.addArgument(go4sys + filename);
+   QString cmd = TGo4Log::subGO4SYS("etc/Go4ShowPdf.ksh").Data();
+
+   QProcess info(cmd);
+   info.addArgument(TGo4Log::subGO4SYS(filename).Data());
    bool done = false;
 
    if (info.start()) {

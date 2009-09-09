@@ -260,10 +260,11 @@
 <includes>
     <include location="local" impldecl="in declaration">QGo4Widget.h</include>
     <include location="local" impldecl="in declaration">qmovie.h</include>
+    <include location="global" impldecl="in implementation">math.h</include>
+    <include location="local" impldecl="in implementation">TSystem.h</include>
+    <include location="local" impldecl="in implementation">TGo4Log.h</include>
     <include location="local" impldecl="in implementation">TGo4AnalysisClientStatus.h</include>
     <include location="local" impldecl="in implementation">TGo4BrowserProxy.h</include>
-    <include location="local" impldecl="in implementation">TSystem.h</include>
-    <include location="local" impldecl="in implementation">math.h</include>
     <include location="local" impldecl="in implementation">TGo4AnalysisStatusMonitor.ui.h</include>
 </includes>
 <variables>

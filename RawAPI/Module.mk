@@ -2,7 +2,7 @@ RAWAPI_NAME         = RawAPI
 
 ## normally should be like this for every module, but can be specific
 
-RAWAPI_DIR         = $(GO4SYS)/$(RAWAPI_NAME)
+RAWAPI_DIR         = $(RAWAPI_NAME)
 
 RAWAPI_NOTLIBF     = 
 
@@ -18,7 +18,7 @@ endif
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(RAWAPI_DIR)/%.h, $(GO4SYS)/include/%.h, $(RAWAPI_H))
+ALLHDRS +=  $(patsubst $(RAWAPI_DIR)/%.h, include/%.h, $(RAWAPI_H))
 
 LIBDEPENDENC       += $(RAWAPI_DEP)
 
@@ -29,7 +29,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(RAWAPI_DIR)/%.h
+include/%.h: $(RAWAPI_DIR)/%.h
 	@echo "Copy header $@ ..."
 	@cp -f $< $@
 

@@ -2,7 +2,7 @@ GO4QUEUE_NAME        = Go4Queue
 
 ## normally should be like this for every module, but can be specific
 
-GO4QUEUE_DIR         = $(GO4SYS)/$(GO4QUEUE_NAME)
+GO4QUEUE_DIR         = $(GO4QUEUE_NAME)
 GO4QUEUE_EXENAME     = Main$(GO4QUEUE_NAME)
 
 GO4QUEUE_NOTLIBF     = 
@@ -22,7 +22,7 @@ GO4QUEUE_EDEP        =  $(GO4QUEUE_EXEO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(GO4QUEUE_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4QUEUE_H))
+ALLHDRS +=  $(patsubst $(GO4QUEUE_DIR)/%.h, include/%.h, $(GO4QUEUE_H))
 
 LIBDEPENDENC       += $(GO4QUEUE_DEP)
 EXAMPLEEXECS       += $(GO4QUEUE_EXE)
@@ -36,7 +36,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(GO4QUEUE_DIR)/%.h
+include/%.h: $(GO4QUEUE_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 

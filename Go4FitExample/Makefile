@@ -3,7 +3,7 @@ include $(GO4SYS)/Makefile.config
 FITEX_NAME    = Go4FitExample
 
 ifdef GO4PACKAGE
-FITEX_DIR     = $(GO4SYS)/$(FITEX_NAME)
+FITEX_DIR     = $(FITEX_NAME)
 LIBGO4FIT     = $(GO4PATH) -lGo4Fit
 FITEX_EXEDEP  = $(GO4FIT_LIB)
 else

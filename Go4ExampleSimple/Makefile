@@ -5,7 +5,7 @@ EXAMPSIMP_NAME        = Go4ExampleSimple
 ## normally should be like this for every module, but can be specific
 
 ifdef GO4PACKAGE
-EXAMPSIMP_DIR         = $(GO4SYS)/$(EXAMPSIMP_NAME)
+EXAMPSIMP_DIR         = $(EXAMPSIMP_NAME)
 else
 EXAMPSIMP_DIR         = .
 endif
@@ -52,6 +52,8 @@ endif
 ##### local rules #####
 
 all::  $(EXAMPSIMP_LIB) $(EXAMPSIMP_EXE)
+
+$(EXAMPSIMP_EXE): LDRPATHS += .
 
 $(EXAMPSIMP_EXE):   $(BUILDGO4LIBS) $(EXAMPSIMP_EXEO) $(EXAMPSIMP_LIB)
 	$(LD) $(LDFLAGS) $(EXAMPSIMP_EXEO) $(LIBS_FULLSET) $(EXAMPSIMP_LIB) $(OutPutOpt) $(EXAMPSIMP_EXE)

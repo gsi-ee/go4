@@ -2,7 +2,7 @@ HISTSERV_NAME        = Go4HistogramServer
 
 ## normally should be like this for every module, but can be specific
 
-HISTSERV_DIR         = $(GO4SYS)/$(HISTSERV_NAME)
+HISTSERV_DIR         = $(HISTSERV_NAME)
 HISTSERV_LINKDEF     = $(HISTSERV_DIR)/$(HISTSERV_NAME)LinkDef.$(HedSuf)
 HISTSERV_EXENAME     = MainGo4ObjectClient
 
@@ -29,7 +29,7 @@ HISTSERV_EDEP        =  $(HISTSERV_EXEO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(HISTSERV_DIR)/%.h, $(GO4SYS)/include/%.h, $(HISTSERV_H))
+ALLHDRS +=  $(patsubst $(HISTSERV_DIR)/%.h, include/%.h, $(HISTSERV_H))
 
 LIBDEPENDENC       += $(HISTSERV_DEP) $(HISTSERV_DDEP)
 EXAMPLEEXECS       += $(HISTSERV_EXE)
@@ -41,7 +41,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(HISTSERV_DIR)/%.h
+include/%.h: $(HISTSERV_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 

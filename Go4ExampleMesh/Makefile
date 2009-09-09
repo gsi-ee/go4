@@ -5,7 +5,7 @@ EXAMPMESH_NAME        = Go4ExampleMesh
 ## normally should be like this for every module, but can be specific
 
 ifdef GO4PACKAGE
-EXAMPMESH_DIR         = $(GO4SYS)/$(EXAMPMESH_NAME)
+EXAMPMESH_DIR         = $(EXAMPMESH_NAME)
 else
 EXAMPMESH_DIR         = .
 endif

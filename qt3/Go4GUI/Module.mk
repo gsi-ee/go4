@@ -2,11 +2,11 @@ GO4GUI3_NAME        = Go4GUI
 
 ## normally should be like this for every module, but can be specific
 
-GO4GUI3_DIR         = $(GO4SYS)/qt3/$(GO4GUI3_NAME)
+GO4GUI3_DIR         = qt3/$(GO4GUI3_NAME)
 GO4GUI3_LINKDEF     = $(GO4GUI3_DIR)/$(GO4GUI3_NAME)LinkDef.$(HedSuf)
 GO4GUI3_QTLINKDEF   = $(GO4GUI3_DIR)/Go4QtGUILinkDef.$(HedSuf)
 
-FITGUI3_DIR         = $(GO4SYS)/qt3/Go4FitGUI
+FITGUI3_DIR         = qt3/Go4FitGUI
 
 GO4GUI3_QMAKED1OPT   =
 GO4GUI3_QMAKED2OPT   =
@@ -45,7 +45,7 @@ GO4GUI3_O           = $(GO4GUI3_S:.$(SrcSuf)=.$(ObjSuf))
 GO4GUI3_DEP         = $(GO4GUI3_O:.$(ObjSuf)=.$(DepSuf))
 GO4GUI3_DDEP        = $(GO4GUI3_DO:.$(ObjSuf)=.$(DepSuf))
 
-GO4GUI3_PUBH        = $(patsubst $(GO4GUI3_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4GUI3_H) $(GO4GUI3_QTH))
+GO4GUI3_PUBH        = $(patsubst $(GO4GUI3_DIR)/%.h, include/%.h, $(GO4GUI3_H) $(GO4GUI3_QTH))
 
 
 FITGUI3_FORMS       = $(wildcard $(FITGUI3_DIR)/*.ui)
@@ -60,7 +60,7 @@ FITGUI3_QTH         = $(FITGUI3_DIR)/QFitItem.h \
 FITGUI3_QTS         = $(FITGUI3_QTH:.h=.cpp)
 
 
-QT3ROOT_DIR       = $(GO4SYS)/qt3/Go4QtRoot
+QT3ROOT_DIR       = qt3/Go4QtRoot
 
 QT3ROOT_S       =  $(QT3ROOT_DIR)/qrootapplication.cpp \
                    $(QT3ROOT_DIR)/tqrootguifactory.cpp \
@@ -74,7 +74,7 @@ QT3ROOT_S       =  $(QT3ROOT_DIR)/qrootapplication.cpp \
 
 QT3ROOT_H       =  $(QT3ROOT_S:.cpp=.$(HedSuf))
 
-QT3ROOT_PUBH    = $(patsubst $(QT3ROOT_DIR)/%.h, $(GO4SYS)/include/%.h, $(QT3ROOT_H))
+QT3ROOT_PUBH    = $(patsubst $(QT3ROOT_DIR)/%.h, include/%.h, $(QT3ROOT_H))
 
 
 # used in the main Makefile
@@ -104,11 +104,11 @@ endif
 $(GO4GUI3_O) $(GO4GUI3_DEP) : CXXFLAGS += $(QTCXXFLAGS)
 
 ifeq ($(GO4_QT), 3)
-$(GO4SYS)/include/%.h: $(GO4GUI3_DIR)/%.h
+include/%.h: $(GO4GUI3_DIR)/%.h
 	@echo "Copy header $@ ..."
 	@cp -f $< $@
 
-$(GO4SYS)/include/%.h: $(QT3ROOT_DIR)/%.h
+include/%.h: $(QT3ROOT_DIR)/%.h
 	@echo "Copy header $@ ..."
 	@cp -f $< $@
 endif
@@ -118,7 +118,7 @@ $(GO4GUI3_DS): $(GO4GUI3_H) $(GO4GUI3_LINKDEF)
 
 $(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE): $(GO4GUI3_DIR)/$(GO4GUI3_QTPRO) $(GO4GUI3_FORMS)
 	@echo "Generating $(GO4GUI3_QTMAKE)"
-	cd $(GO4GUI3_DIR); $(QMAKE) $(GO4GUI3_QTPRO) -o $(GO4GUI3_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS) $(QMAKELIBFLAGS) "LIBS+=$(LIBS_GUISET)" $(GO4GUI3_QMAKED1OPT) $(GO4GUI3_QMAKED2OPT)
+	cd $(GO4GUI3_DIR); $(QMAKE) $(GO4GUI3_QTPRO) -o $(GO4GUI3_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS) $(QMAKELIBFLAGS) "GO4LIBDIR=$(CURDIR)/lib" "ROOTLIBDIR=$(ROOTLIBPATH)" "LIBS+=$(LIBS_GUISET)" $(GO4GUI3_QMAKED1OPT) $(GO4GUI3_QMAKED2OPT)
 
 qt3-GUI: $(GO4QT3HEADS) libs $(GO4GUI3_DS) $(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE)
 	@echo "Generating Qt3 part of the MainGUI..."

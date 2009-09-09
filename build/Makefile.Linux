@@ -27,9 +27,11 @@ MV            = mv
 
 #### Linker definitions: ####
 LD            = g++
-LDFLAGS       = -O
+ifeq ($(GO4WITHRPATH),true)
+LDFLAGS += $(LDRPATHS:%=-Wl,-rpath,%)
+endif
+LDFLAGS       += -O 
 SOFLAGS       = -shared -Wl,-soname,
-
 
 #### Other options: ####
 OutPutOpt     = -o 

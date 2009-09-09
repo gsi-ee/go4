@@ -2,10 +2,10 @@ GO4GUI4_NAME        = Go4GUI
 
 ## normally should be like this for every module, but can be specific
 
-GO4GUI4_DIR         = $(GO4SYS)/qt4/$(GO4GUI4_NAME)
+GO4GUI4_DIR         = qt4/$(GO4GUI4_NAME)
 GO4GUI4_LINKDEF     = $(GO4GUI4_DIR)/$(GO4GUI4_NAME)LinkDef.$(HedSuf)
 
-GO4FITGUI4_DIR      = $(GO4SYS)/qt4/Go4FitGUI
+GO4FITGUI4_DIR      = qt4/Go4FitGUI
 
 
 GO4GUI4_QMAKED1OPT   =
@@ -43,7 +43,7 @@ endif
 GO4GUI4_PACKAGE_FORMS = $(wildcard $(GO4GUI4_DIR)/*.ui)
 
 GO4GUI4_FH          = $(GO4GUI4_FORMS:.ui=.h)
-GO4GUI4_UI_H        = $(patsubst $(GO4GUI4_DIR)/%.ui, $(GO4SYS)/include/ui_%.h, $(GO4GUI4_FORMS))
+GO4GUI4_UI_H        = $(patsubst $(GO4GUI4_DIR)/%.ui, include/ui_%.h, $(GO4GUI4_FORMS))
 GO4GUI4_FS          = $(GO4GUI4_FORMS:.ui=.cpp)
 
 GO4GUI4_S           = $(filter-out $(GO4GUI4_DS), $(wildcard $(GO4GUI4_DIR)/*.$(SrcSuf)))
@@ -55,18 +55,18 @@ GO4GUI4_O           = $(GO4GUI4_S:.$(SrcSuf)=.$(ObjSuf))
 GO4GUI4_DEP         = $(GO4GUI4_O:.$(ObjSuf)=.$(DepSuf))
 GO4GUI4_DDEP        = $(GO4GUI4_DO:.$(ObjSuf)=.$(DepSuf))
 
-GO4GUI4_PUBH        = $(patsubst $(GO4GUI4_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4GUI4_H) $(GO4GUI4_QTH) $(GO4GUI4_FH))
+GO4GUI4_PUBH        = $(patsubst $(GO4GUI4_DIR)/%.h, include/%.h, $(GO4GUI4_H) $(GO4GUI4_QTH) $(GO4GUI4_FH))
 
 
 
-QT4ROOT_DIR       = $(GO4SYS)/qt4/Go4QtRoot
+QT4ROOT_DIR       = qt4/Go4QtRoot
 
 QT4ROOT_H         =  $(QT4ROOT_DIR)/QRootApplication.h \
                      $(QT4ROOT_DIR)/QRootCanvas.h \
                      $(QT4ROOT_DIR)/QRootWindow.h \
                      $(QT4ROOT_DIR)/QRootDialog.h
 
-QT4ROOT_PUBH    = $(patsubst $(QT4ROOT_DIR)/%.h, $(GO4SYS)/include/%.h, $(QT4ROOT_H))
+QT4ROOT_PUBH    = $(patsubst $(QT4ROOT_DIR)/%.h, include/%.h, $(QT4ROOT_H))
 
 
 # used in the main Makefile
@@ -88,15 +88,15 @@ endif
 $(GO4GUI4_O) $(GO4GUI4_DO) $(GO4GUI4_DEP) $(GO4GUI4_DDEP): CXXFLAGS += $(QTCXXFLAGS)
 
 ifeq ($(GO4_QT), 4)
-$(GO4SYS)/include/%.h: $(GO4GUI4_DIR)/%.h
+include/%.h: $(GO4GUI4_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 	
-$(GO4SYS)/include/%.h: $(QT4ROOT_DIR)/%.h
+include/%.h: $(QT4ROOT_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 	
-$(GO4SYS)/include/ui_%.h: $(GO4GUI4_DIR)/%.ui
+include/ui_%.h: $(GO4GUI4_DIR)/%.ui
 	@echo "Producing ui file $@ ..." 
 	@$(UIC) $< -o $@
 endif
@@ -125,7 +125,7 @@ endif
 	@rm -f $(GO4GUI4_GEN_QRC)
 
 clean-qt4-GUI: clean-qt4-GUI-bin
-	@rm -f $(GO4SYS)/bin/go4
+	@rm -f bin/go4
 	@rm -f $(GO4GUI4_UI_H) $(GO4GUI4_PUBH)
 	@echo "Clean qt4 gui done"
 

@@ -1,12 +1,7 @@
-#include <math.h>
-
-
 void TGo4AnalysisStatusMonitor::init()
 {
    setAcceptDrops(FALSE);
-   QString moviepath=gSystem->Getenv("GO4SYS");
-   moviepath+="/images/go4logorun4.gif";
-   fxRunMovie=QMovie(moviepath);
+   fxRunMovie = QMovie(TGo4Log::subGO4SYS("images/go4logorun4.gif").Data());
 }
 
 void TGo4AnalysisStatusMonitor::WorkWithRatemeter(TGo4Slot* slot)

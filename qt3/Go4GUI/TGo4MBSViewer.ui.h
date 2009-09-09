@@ -53,9 +53,7 @@ fxHistoEvRatioAccessName="nosuchobject";
 fxServerLabel="NO SERVER";
 fxTimer=new QTimer(this);
 fxMovieResetTimer=new QTimer(this);
-QString moviepath=gSystem->Getenv("GO4SYS");
-moviepath+="/images/mbslogorun.gif";
-fxRunMovie=QMovie(moviepath);
+fxRunMovie = QMovie(TGo4Log::subGO4SYS("images/mbslogorun.gif").Data());
 memset(&fxDaqStat, 0, sizeof(fxDaqStat));
 fxDaqStat.bh_acqui_running=0; // we do not want to startup with running state
 fxDaqStat.l_open_file = 0; // just set initial value

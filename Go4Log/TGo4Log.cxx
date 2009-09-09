@@ -17,6 +17,9 @@ const char* TGo4Log::fgcWARN = "#";
 const char* TGo4Log::fgcERR = "!";
 const char* TGo4Log::fgcDEFAULTLOG = "go4logfile.txt";
 
+TString TGo4Log::fgsGO4SYS = "";
+
+
 char TGo4Log::fgcMessagetext[__MESSAGETEXTLENGTH__];
 Int_t TGo4Log::fgiIgnoreLevel=1;
 Bool_t TGo4Log::fgbOutputEnabled=kTRUE;
@@ -51,6 +54,47 @@ TGo4Log *TGo4Log::Instance()
 
    return fgxInstance;
 }
+
+const char* TGo4Log::GO4SYS()
+{
+   if (fgsGO4SYS.Length()>0) return fgsGO4SYS.Data();
+   const char* go4sys = gSystem->Getenv("GO4SYS");
+#ifdef COMP_GO4SYS
+   if ((go4sys==0) || (strlen(go4sys)==0)) go4sys = COMP_GO4SYS;
+#endif
+   if ((go4sys==0) || (strlen(go4sys)==0)) return "";
+
+   fgsGO4SYS = go4sys;
+   if (fgsGO4SYS.Length() > 0) {
+#ifdef WIN32
+      char lastsymbol = '\';
+#else
+      char lastsymbol = '/';
+#endif
+      if (fgsGO4SYS[fgsGO4SYS.Length() - 1] != lastsymbol) fgsGO4SYS += lastsymbol;
+   }
+
+   return fgsGO4SYS.Length()>0 ? fgsGO4SYS.Data() : "";
+}
+
+TString TGo4Log::subGO4SYS(const char* subdir)
+{
+   const char* go4sys = GO4SYS();
+
+   if ((subdir==0) || (strlen(subdir)==0)) return TString(go4sys);
+
+   TString res = go4sys;
+
+#ifdef WIN32
+   res += TString(subdir).ReplaceAll("/","\\");
+#else
+   res += subdir;
+#endif
+
+   return res;
+}
+
+
 
 const char* TGo4Log::Message(Int_t prio, const char* text,...)
 {

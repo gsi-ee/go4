@@ -2,7 +2,7 @@ THRDMNGR_NAME        = Go4ThreadManager
 
 ## normally should be like this for every module, but can be specific
 
-THRDMNGR_DIR         = $(GO4SYS)/$(THRDMNGR_NAME)
+THRDMNGR_DIR         = $(THRDMNGR_NAME)
 THRDMNGR_LINKDEF     = $(THRDMNGR_DIR)/$(THRDMNGR_NAME)LinkDef.$(HedSuf)
 
 THRDMNGR_NOTLIBF     = $(THRDMNGR_DIR)/Go4ThreadManagerExceptions.h
@@ -23,7 +23,7 @@ THRDMNGR_DDEP        =  $(THRDMNGR_DO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(THRDMNGR_DIR)/%.h, $(GO4SYS)/include/%.h, $(THRDMNGR_H))
+ALLHDRS +=  $(patsubst $(THRDMNGR_DIR)/%.h, include/%.h, $(THRDMNGR_H))
 
 LIBDEPENDENC       += $(THRDMNGR_DEP) $(THRDMNGR_DDEP)
 
@@ -34,7 +34,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(THRDMNGR_DIR)/%.h
+include/%.h: $(THRDMNGR_DIR)/%.h
 	@echo "Copy header $@ ..."
 	@cp -f $< $@
 

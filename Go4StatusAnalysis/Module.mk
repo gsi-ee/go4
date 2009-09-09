@@ -2,7 +2,7 @@ STATANAL_NAME        = Go4StatusAnalysis
 
 ## normally should be like this for every module, but can be specific
 
-STATANAL_DIR         = $(GO4SYS)/$(STATANAL_NAME)
+STATANAL_DIR         = $(STATANAL_NAME)
 STATANAL_LINKDEF     = $(STATANAL_DIR)/$(STATANAL_NAME)LinkDef.$(HedSuf)
 
 STATANAL_NOTLIBF     =
@@ -23,7 +23,7 @@ STATANAL_DDEP        =  $(STATANAL_DO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(STATANAL_DIR)/%.h, $(GO4SYS)/include/%.h, $(STATANAL_H))
+ALLHDRS +=  $(patsubst $(STATANAL_DIR)/%.h, include/%.h, $(STATANAL_H))
 
 LIBDEPENDENC       += $(STATANAL_DEP) $(STATANAL_DDEP)
 
@@ -33,7 +33,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(STATANAL_DIR)/%.h
+include/%.h: $(STATANAL_DIR)/%.h
 	@echo "Copy header $@ ..."
 	@cp -f $< $@
 

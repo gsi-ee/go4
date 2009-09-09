@@ -1,3 +1,5 @@
+GO4PACKAGE = go4
+
 include Makefile.config
 
 Go4_Makefile_Rules = included
@@ -9,8 +11,6 @@ endif
 # uncomment both lines to switch on debugging
 #DOOPTIMIZATION = false
 #QMAKEOPTFLAG = "CONFIG=debug" "QMAKE_CXXFLAGS+=-Wall"
-
-GO4PACKAGE = go4
 
 # new staff concerning big libraries
 
@@ -115,8 +115,6 @@ GO4BASE_O = $(LOCKGRD_O) $(LOCKGRD_DO) \
             $(COMBASE_O) $(COMBASE_DO) \
             $(STATBASE_O) $(STATBASE_DO) \
             $(CONDBASE_O) $(CONDBASE_DO)
-
-$(GO4BASE_O): CXXFLAGS+=-DBUILDING_GO4BASE_DLL
 
 GO4BASE_LINKDEFS = $(LOCKGRD_LINKDEF) \
                    $(GO4LOG_LINKDEF) \

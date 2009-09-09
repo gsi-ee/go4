@@ -3,7 +3,7 @@ GO4EVENTPAR_NAME    = Go4EventPar
 
 ## normally should be like this for every module, but can be specific
 
-GO4EVENT_DIR         = $(GO4SYS)/$(GO4EVENT_NAME)
+GO4EVENT_DIR         = $(GO4EVENT_NAME)
 GO4EVENT_LINKDEF     = $(GO4EVENT_DIR)/$(GO4EVENT_NAME)LinkDef.$(HedSuf)
 GO4EVENTPAR_LINKDEF  = $(GO4EVENT_DIR)/$(GO4EVENTPAR_NAME)LinkDef.$(HedSuf)
 
@@ -37,8 +37,8 @@ GO4EVENTPAR_DDEP     =  $(GO4EVENTPAR_DO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(GO4EVENT_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4EVENT_H))
-ALLHDRS +=  $(patsubst $(GO4EVENT_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4EVENTPAR_H))
+ALLHDRS +=  $(patsubst $(GO4EVENT_DIR)/%.h, include/%.h, $(GO4EVENT_H))
+ALLHDRS +=  $(patsubst $(GO4EVENT_DIR)/%.h, include/%.h, $(GO4EVENTPAR_H))
 
 LIBDEPENDENC       += $(GO4EVENT_DEP) $(GO4EVENT_DDEP)
 LIBDEPENDENC       += $(GO4EVENTPAR_DEP) $(GO4EVENTPAR_DDEP)
@@ -51,7 +51,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(GO4EVENT_DIR)/%.h
+include/%.h: $(GO4EVENT_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 

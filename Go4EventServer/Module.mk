@@ -3,7 +3,7 @@ EVENTSERVPAR_NAME     = Go4EventServerPar
 
 ## normally should be like this for every module, but can be specific
 
-EVENTSERV_DIR         = $(GO4SYS)/$(EVENTSERV_NAME)
+EVENTSERV_DIR         = $(EVENTSERV_NAME)
 EVENTSERV_LINKDEF     = $(EVENTSERV_DIR)/$(EVENTSERV_NAME)LinkDef.$(HedSuf)
 EVENTSERVPAR_LINKDEF  = $(EVENTSERV_DIR)/$(EVENTSERVPAR_NAME)LinkDef.$(HedSuf)
 
@@ -40,8 +40,8 @@ EVENTSERVPAR_DDEP     =  $(EVENTSERVPAR_DO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(EVENTSERV_DIR)/%.h, $(GO4SYS)/include/%.h, $(EVENTSERV_H))
-ALLHDRS +=  $(patsubst $(EVENTSERV_DIR)/%.h, $(GO4SYS)/include/%.h, $(EVENTSERVPAR_H))
+ALLHDRS +=  $(patsubst $(EVENTSERV_DIR)/%.h, include/%.h, $(EVENTSERV_H))
+ALLHDRS +=  $(patsubst $(EVENTSERV_DIR)/%.h, include/%.h, $(EVENTSERVPAR_H))
 
 LIBDEPENDENC       += $(EVENTSERV_DEP) $(EVENTSERV_DDEP) 
 LIBDEPENDENC       += $(EVENTSERVPAR_DEP) $(EVENTSERVPAR_DDEP)
@@ -54,7 +54,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(EVENTSERV_DIR)/%.h
+include/%.h: $(EVENTSERV_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 

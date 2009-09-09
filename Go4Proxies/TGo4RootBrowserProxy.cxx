@@ -13,6 +13,7 @@
 #include "TBrowser.h"
 #include "TGMimeTypes.h"
 
+#include "TGo4Log.h"
 #include "TGo4Slot.h"
 #include "TGo4Iter.h"
 #include "TGo4Picture.h"
@@ -154,8 +155,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
 
       gROOT->GetListOfBrowsables()->Add(topfold);
 
-      TString img = getenv("GO4SYS");
-      img += "/icons/";
+      TString img = TGo4Log::subGO4SYS("icons/");
 
       TGMimeTypes* mt = gClient->GetMimeTypeList();
       mt->AddType("go4/logo", "Go4Logo", img + "go4logo2_big.png", img + "go4logo2.png", "->Draw()");

@@ -144,8 +144,8 @@ II. Using of go4_init.C script
    scan current directory for existing histogram.
 
 Usage:
-   1) Copy $GO4SYS/.rootmap and $GO4SYS/Go4AnalysisClient/go4_init.C
-      files to directory, where other scripts are situated.
+   1) Copy $GO4SYS/Go4AnalysisClient/go4_init.C file to
+      directory, where other scripts are situated.
    2) Add call of go4_init() function to script at the place,
       where histogram are already created, but analysis event loop
       is not yet running. One should avoid to put go4_init() call

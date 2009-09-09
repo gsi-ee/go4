@@ -2,7 +2,7 @@ GO4SOCKET_NAME        = Go4Socket
 
 ## normally should be like this for every module, but can be specific
 
-GO4SOCKET_DIR         = $(GO4SYS)/$(GO4SOCKET_NAME)
+GO4SOCKET_DIR         = $(GO4SOCKET_NAME)
 
 GO4SOCKET_NOTLIBF     =
 
@@ -16,7 +16,7 @@ GO4SOCKET_DEP         =  $(GO4SOCKET_O:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(GO4SOCKET_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4SOCKET_H))
+ALLHDRS +=  $(patsubst $(GO4SOCKET_DIR)/%.h, include/%.h, $(GO4SOCKET_H))
 
 LIBDEPENDENC       += $(GO4SOCKET_DEP)
 
@@ -27,7 +27,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(GO4SOCKET_DIR)/%.h
+include/%.h: $(GO4SOCKET_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 

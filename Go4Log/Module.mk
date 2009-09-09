@@ -2,7 +2,7 @@ GO4LOG_NAME        = Go4Log
 
 ## normally should be like this for every module, but can be specific
 
-GO4LOG_DIR         = $(GO4SYS)/$(GO4LOG_NAME)
+GO4LOG_DIR         = $(GO4LOG_NAME)
 GO4LOG_LINKDEF     = $(GO4LOG_DIR)/$(GO4LOG_NAME)LinkDef.$(HedSuf)
 
 GO4LOG_NOTLIBF     =
@@ -24,7 +24,7 @@ GO4LOG_DDEP        =  $(GO4LOG_DO:.$(ObjSuf)=.$(DepSuf))
 # used in the main Makefile
 
 
-ALLHDRS +=  $(patsubst $(GO4LOG_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4LOG_H))
+ALLHDRS +=  $(patsubst $(GO4LOG_DIR)/%.h, include/%.h, $(GO4LOG_H))
 
 LIBDEPENDENC       += $(GO4LOG_DEP) $(GO4LOG_DDEP)
 
@@ -35,9 +35,13 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(GO4LOG_DIR)/%.h
+include/%.h: $(GO4LOG_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
+
+ifndef GO4_WIN32
+$(GO4LOG_O) : DEFINITIONS += -DCOMP_GO4SYS="\"$(CURDIR)\""
+endif
 
 $(GO4LOG_DS): $(GO4LOG_H)  $(GO4LOG_LINKDEF)
 	@$(ROOTCINTGO4) $(GO4LOG_H) $(GO4LOG_LINKDEF)

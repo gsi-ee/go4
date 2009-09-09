@@ -5,6 +5,7 @@
 
 #include <QFileDialog>
 
+#include "TGo4Log.h"
 #include "TGo4Script.h"
 #include "TGo4MainWindow.h"
 #include "TGo4QSettings.h"
@@ -97,16 +98,16 @@ void TGo4CommandLine::LoadHistory()
     QStringList histlist=go4sett->getCommandsHistoryGUI();
     InputLine->addItems(histlist);
 // prepared pre-loading of system macros:
-    gROOT->ProcessLine(".L $GO4SYS/macros/corrhistos.C");
-    gROOT->ProcessLine(".L $GO4SYS/macros/hishisto.C");
-    gROOT->ProcessLine(".L $GO4SYS/macros/addhistos.C");
-    gROOT->ProcessLine(".L $GO4SYS/macros/divhistos.C");
-    gROOT->ProcessLine(".L $GO4SYS/macros/profileX.C");
-    gROOT->ProcessLine(".L $GO4SYS/macros/profileY.C");
-    gROOT->ProcessLine(".L $GO4SYS/macros/projectionX.C");
-    gROOT->ProcessLine(".L $GO4SYS/macros/projectionY.C");
-    gROOT->ProcessLine(".L $GO4SYS/macros/rebin.C");
-    gROOT->ProcessLine(".L $GO4SYS/macros/scalex.C");
+    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/corrhistos.C").Data()));
+    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/hishisto.C").Data()));
+    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/addhistos.C").Data()));
+    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/divhistos.C").Data()));
+    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/profileX.C").Data()));
+    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/profileY.C").Data()));
+    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/projectionX.C").Data()));
+    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/projectionY.C").Data()));
+    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/rebin.C").Data()));
+    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/scalex.C").Data()));
 }
 
 

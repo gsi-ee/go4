@@ -1,4 +1,4 @@
-PLUGIN4_DIR = $(GO4SYS)/qt4/Go4plugin
+PLUGIN4_DIR = qt4/Go4plugin
 
 ifdef DOPACKAGE
 DISTRFILES         += $(PLUGIN4_DIR)/Module.mk
@@ -32,29 +32,29 @@ DISTRFILES         += $(PLUGIN4_DIR)/scale.png
 endif
 
 all-qt4plugin:
-	cp -f $(GO4SYS)/qt4/Go4GUI/QGo4LineEdit.h $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4GUI/QGo4LineEdit.cpp $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4GUI/QGo4BrowserTreeWidget.h $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4GUI/QGo4BrowserTreeWidget.cpp $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4GUI/QGo4Widget.h $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4GUI/QGo4Widget.cpp $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4FitGUI/QFitItem.h $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4FitGUI/TGo4FitPanel.h $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4GUI/ui_TGo4FitPanel.h $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4FitGUI/QFitWidget.h $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4FitGUI/QFitWidget.cpp $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4FitGUI/QFitNamedWidget.h $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4FitGUI/QFitNamedWidget.cpp $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4FitGUI/QFitModelWidget.h $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4FitGUI/QFitModelWidget.cpp $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4GUI/QGo4CommandsHistory.h $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4GUI/QGo4CommandsHistory.cpp $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4QtRoot/QRootCanvas.h $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4QtRoot/QRootCanvas.cpp $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4QtRoot/QRootDialog.h $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4QtRoot/QRootDialog.cpp $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4QtRoot/QRootWindow.h $(PLUGIN4_DIR)
-	cp -f $(GO4SYS)/qt4/Go4QtRoot/QRootWindow.cpp $(PLUGIN4_DIR)
+	cp -f qt4/Go4GUI/QGo4LineEdit.h $(PLUGIN4_DIR)
+	cp -f qt4/Go4GUI/QGo4LineEdit.cpp $(PLUGIN4_DIR)
+	cp -f qt4/Go4GUI/QGo4BrowserTreeWidget.h $(PLUGIN4_DIR)
+	cp -f qt4/Go4GUI/QGo4BrowserTreeWidget.cpp $(PLUGIN4_DIR)
+	cp -f qt4/Go4GUI/QGo4Widget.h $(PLUGIN4_DIR)
+	cp -f qt4/Go4GUI/QGo4Widget.cpp $(PLUGIN4_DIR)
+	cp -f qt4/Go4FitGUI/QFitItem.h $(PLUGIN4_DIR)
+	cp -f qt4/Go4FitGUI/TGo4FitPanel.h $(PLUGIN4_DIR)
+	cp -f qt4/Go4GUI/ui_TGo4FitPanel.h $(PLUGIN4_DIR)
+	cp -f qt4/Go4FitGUI/QFitWidget.h $(PLUGIN4_DIR)
+	cp -f qt4/Go4FitGUI/QFitWidget.cpp $(PLUGIN4_DIR)
+	cp -f qt4/Go4FitGUI/QFitNamedWidget.h $(PLUGIN4_DIR)
+	cp -f qt4/Go4FitGUI/QFitNamedWidget.cpp $(PLUGIN4_DIR)
+	cp -f qt4/Go4FitGUI/QFitModelWidget.h $(PLUGIN4_DIR)
+	cp -f qt4/Go4FitGUI/QFitModelWidget.cpp $(PLUGIN4_DIR)
+	cp -f qt4/Go4GUI/QGo4CommandsHistory.h $(PLUGIN4_DIR)
+	cp -f qt4/Go4GUI/QGo4CommandsHistory.cpp $(PLUGIN4_DIR)
+	cp -f qt4/Go4QtRoot/QRootCanvas.h $(PLUGIN4_DIR)
+	cp -f qt4/Go4QtRoot/QRootCanvas.cpp $(PLUGIN4_DIR)
+	cp -f qt4/Go4QtRoot/QRootDialog.h $(PLUGIN4_DIR)
+	cp -f qt4/Go4QtRoot/QRootDialog.cpp $(PLUGIN4_DIR)
+	cp -f qt4/Go4QtRoot/QRootWindow.h $(PLUGIN4_DIR)
+	cp -f qt4/Go4QtRoot/QRootWindow.cpp $(PLUGIN4_DIR)
 
 #	cd $(PLUGIN4_DIR); $(QMAKE) go4plugin.pro; make all
 	cd $(PLUGIN4_DIR); $(QMAKE) go4plugin.pro -o Makefile.qt $(QMAKEOPTFLAG) $(QMAKEFLAGS) $(QMAKELIBFLAGS) "LIBS+=$(ROOTGLIBS)" "INCLUDEPATH += $(ROOTINCPATH)" "GO4SYS = ../.."; $(MAKE) -f Makefile.qt

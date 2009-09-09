@@ -2,7 +2,7 @@ CMDTASKHANDL_NAME        = Go4CommandsTaskHandler
 
 ## normally should be like this for every module, but can be specific
 
-CMDTASKHANDL_DIR         = $(GO4SYS)/$(CMDTASKHANDL_NAME)
+CMDTASKHANDL_DIR         = $(CMDTASKHANDL_NAME)
 CMDTASKHANDL_LINKDEF     = $(CMDTASKHANDL_DIR)/$(CMDTASKHANDL_NAME)LinkDef.$(HedSuf)
 
 CMDTASKHANDL_NOTLIBF     =
@@ -23,7 +23,7 @@ CMDTASKHANDL_DDEP        =  $(CMDTASKHANDL_DO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(CMDTASKHANDL_DIR)/%.h, $(GO4SYS)/include/%.h, $(CMDTASKHANDL_H))
+ALLHDRS +=  $(patsubst $(CMDTASKHANDL_DIR)/%.h, include/%.h, $(CMDTASKHANDL_H))
 
 LIBDEPENDENC       += $(CMDTASKHANDL_DEP) $(CMDTASKHANDL_DDEP)
 
@@ -34,7 +34,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(CMDTASKHANDL_DIR)/%.h
+include/%.h: $(CMDTASKHANDL_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 

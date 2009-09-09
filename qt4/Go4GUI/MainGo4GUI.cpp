@@ -105,12 +105,8 @@ int main(int argc, char **argv)
             continue;
          }
 
-      const char* go4sys = getenv("GO4SYS");
-      QString dfltfile = "qt4/go4.conf";
-      if (go4sys!=0)
-         dfltfile = QString(go4sys) + "/" + dfltfile;
-
-      if (gSystem->CopyFile(dfltfile.toAscii(), settfile.toAscii(), kFALSE)) {
+      TString dfltfile = TGo4Log::subGO4SYS("qt4/go4.conf");
+      if (gSystem->CopyFile(dfltfile.Data(), settfile.toAscii(), kFALSE)) {
          cout << "Cannot copy default config file into " << settfile.toAscii().constData() << " , use default location " << endl;
          if (++sett_try>1) break;
          TGo4QSettings::SetSettLocation("");

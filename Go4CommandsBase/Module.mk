@@ -2,7 +2,7 @@ COMBASE_NAME        = Go4CommandsBase
 
 ## normally should be like this for every module, but can be specific
 
-COMBASE_DIR         = $(GO4SYS)/$(COMBASE_NAME)
+COMBASE_DIR         = $(COMBASE_NAME)
 COMBASE_LINKDEF     = $(COMBASE_DIR)/$(COMBASE_NAME)LinkDef.$(HedSuf)
 
 COMBASE_NOTLIBF     = 
@@ -23,7 +23,7 @@ COMBASE_DDEP        =  $(COMBASE_DO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(COMBASE_DIR)/%.h, $(GO4SYS)/include/%.h, $(COMBASE_H))
+ALLHDRS +=  $(patsubst $(COMBASE_DIR)/%.h, include/%.h, $(COMBASE_H))
 
 LIBDEPENDENC       += $(COMBASE_DEP) $(COMBASE_DDEP)
 
@@ -35,7 +35,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(COMBASE_DIR)/%.h
+include/%.h: $(COMBASE_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 

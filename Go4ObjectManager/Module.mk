@@ -2,7 +2,7 @@ GO4OBJM_NAME     = Go4ObjectManager
 
 ## normally should be like this for every module, but can be specific
 
-GO4OBJM_DIR         = $(GO4SYS)/$(GO4OBJM_NAME)
+GO4OBJM_DIR         = $(GO4OBJM_NAME)
 GO4OBJM_LINKDEF     = $(GO4OBJM_DIR)/$(GO4OBJM_NAME)LinkDef.$(HedSuf)
 
 GO4OBJM_NOTLIBF     =
@@ -23,7 +23,7 @@ GO4OBJM_DDEP        =  $(GO4OBJM_DO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(GO4OBJM_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4OBJM_H))
+ALLHDRS +=  $(patsubst $(GO4OBJM_DIR)/%.h, include/%.h, $(GO4OBJM_H))
 
 LIBDEPENDENC       += $(GO4OBJM_DDEP) $(GO4OBJM_DEP)
 
@@ -34,7 +34,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(GO4OBJM_DIR)/%.h
+include/%.h: $(GO4OBJM_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 

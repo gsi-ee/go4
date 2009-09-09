@@ -1,4 +1,4 @@
-// macro for initialisation of Go4 communication classes
+// macro for initialization of Go4 communication classes
 
 void go4Init()
 {

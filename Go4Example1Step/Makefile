@@ -5,7 +5,7 @@ EXAMP1STEP_NAME        = Go4Example1Step
 ## normally should be like this for every module, but can be specific
 
 ifdef GO4PACKAGE
-EXAMP1STEP_DIR         = $(GO4SYS)/$(EXAMP1STEP_NAME)
+EXAMP1STEP_DIR         = $(EXAMP1STEP_NAME)
 else
 EXAMP1STEP_DIR         = .
 endif

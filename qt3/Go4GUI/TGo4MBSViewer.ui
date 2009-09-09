@@ -1044,6 +1044,7 @@
     <include location="local" impldecl="in implementation">Riostream.h</include>
     <include location="local" impldecl="in implementation">TSystem.h</include>
     <include location="local" impldecl="in implementation">TH1.h</include>
+    <include location="local" impldecl="in implementation">TGo4Log.h</include>
     <include location="local" impldecl="in implementation">TGo4Slot.h</include>
     <include location="local" impldecl="in implementation">TGo4BrowserProxy.h</include>
     <include location="local" impldecl="in implementation">TGo4QSettings.h</include>

@@ -3,8 +3,8 @@ include $(GO4SYS)/Makefile.config
 ## normally should be like this for every module, but can be specific
 
 ifdef GO4PACKAGE
-USERGUI4_DIR         = $(GO4SYS)/qt4/Go4UserGUI
-USERGUI4_QFLAGS       = "GO4SYS=../.."
+USERGUI4_DIR         = qt4/Go4UserGUI
+USERGUI4_QFLAGS      = "GO4SYS=../.."
 else
 USERGUI4_DIR         = $(CURDIR)
 endif

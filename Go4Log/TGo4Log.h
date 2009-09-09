@@ -27,6 +27,15 @@ class TGo4Log {
   public:
     static TGo4Log *Instance();
 
+    /** Return GO4SYS environment variable or
+     * Go4 top directory during compile (if GO4SYS) not set.
+     * Always add trailing slash into the end of the string. */
+    static const char* GO4SYS();
+
+    /** Return subdirectory in the GO4SYS.
+     * Always add trailing slash into the end of the string. */
+    static TString subGO4SYS(const char* subdir);
+
     /** Define threshold for output */
     static void SetIgnoreLevel(Int_t level);
 
@@ -157,6 +166,8 @@ class TGo4Log {
 
     /** Name of last logfile set*/
     static TString fgxLogName;    //!
+
+    static TString fgsGO4SYS; //!     value of GO4SYS during run
 
   ClassDef(TGo4Log,1)
 };

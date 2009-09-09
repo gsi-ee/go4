@@ -2,7 +2,7 @@ GO4FIT_NAME        = Go4Fit
 
 ## normally should be like this for every module, but can be specific
 
-GO4FIT_DIR         = $(GO4SYS)/$(GO4FIT_NAME)
+GO4FIT_DIR         = $(GO4FIT_NAME)
 GO4FIT_LINKDEF     = $(GO4FIT_DIR)/$(GO4FIT_NAME)LinkDef.$(HedSuf)
 
 GO4FIT_NOTLIBF     =
@@ -23,7 +23,7 @@ GO4FIT_DDEP        =  $(GO4FIT_DO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(GO4FIT_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4FIT_H))
+ALLHDRS +=  $(patsubst $(GO4FIT_DIR)/%.h, include/%.h, $(GO4FIT_H))
 
 LIBDEPENDENC       += $(GO4FIT_DEP) $(GO4FIT_DDEP)
 
@@ -35,7 +35,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(GO4FIT_DIR)/%.h
+include/%.h: $(GO4FIT_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 

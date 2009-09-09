@@ -2,7 +2,7 @@ CMDANAL_NAME        = Go4CommandsAnalysis
 
 ## normally should be like this for every module, but can be specific
 
-CMDANAL_DIR         = $(GO4SYS)/$(CMDANAL_NAME)
+CMDANAL_DIR         = $(CMDANAL_NAME)
 CMDANAL_LINKDEF     = $(CMDANAL_DIR)/$(CMDANAL_NAME)LinkDef.$(HedSuf)
 
 CMDANAL_NOTLIBF     = $(CMDANAL_DIR)/Go4CommandsAnalysis.h
@@ -23,7 +23,7 @@ CMDANAL_DDEP        =  $(CMDANAL_DO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(CMDANAL_DIR)/%.h, $(GO4SYS)/include/%.h, $(CMDANAL_DIR)/TGo4AnalysisCommandList.h)
+ALLHDRS +=  $(patsubst $(CMDANAL_DIR)/%.h, include/%.h, $(CMDANAL_DIR)/TGo4AnalysisCommandList.h)
 
 LIBDEPENDENC       += $(CMDANAL_DEP) $(CMDANAL_DDEP)
 
@@ -33,7 +33,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(CMDANAL_DIR)/%.h
+include/%.h: $(CMDANAL_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 

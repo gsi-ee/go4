@@ -2,7 +2,7 @@ STATBASE_NAME        = Go4StatusBase
 
 ## normally should be like this for every module, but can be specific
 
-STATBASE_DIR         = $(GO4SYS)/$(STATBASE_NAME)
+STATBASE_DIR         = $(STATBASE_NAME)
 STATBASE_LINKDEF     = $(STATBASE_DIR)/$(STATBASE_NAME)LinkDef.$(HedSuf)
 
 STATBASE_NOTLIBF     =
@@ -23,7 +23,7 @@ STATBASE_DDEP        =  $(STATBASE_DO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(STATBASE_DIR)/%.h, $(GO4SYS)/include/%.h, $(STATBASE_H))
+ALLHDRS +=  $(patsubst $(STATBASE_DIR)/%.h, include/%.h, $(STATBASE_H))
 
 LIBDEPENDENC       += $(STATBASE_DEP) $(STATBASE_DDEP)
 
@@ -35,7 +35,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(STATBASE_DIR)/%.h
+include/%.h: $(STATBASE_DIR)/%.h
 	@cp -f $< $@
 
 $(STATBASE_DS): $(STATBASE_H)  $(STATBASE_LINKDEF)

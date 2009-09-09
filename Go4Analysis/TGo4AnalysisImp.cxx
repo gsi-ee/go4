@@ -141,7 +141,7 @@ TGo4Analysis::TGo4Analysis() :
    }
    // settings for macro execution
    gROOT->ProcessLine("TGo4Analysis *go4 = TGo4Analysis::Instance();");
-   gROOT->ProcessLine(".x $GO4SYS/Go4Analysis/anamacroinit.C");
+   gROOT->ProcessLine(Form(".x %sGo4Analysis/anamacroinit.C", TGo4Log::GO4SYS()));
 }
 
 TGo4Analysis::~TGo4Analysis()
@@ -157,7 +157,7 @@ TGo4Analysis::~TGo4Analysis()
    delete fxSampleEvent;
    TGo4CommandInvoker::UnRegister(this);
    fxInstance=0; // reset static singleton instance pointer
-   //gROOT->ProcessLine(".x $GO4SYS/Go4Analysis/anamacroclose.C");
+   //gROOT->ProcessLine(Form(".x %sGo4Analysis/anamacroclose.C", TGo4Log::GO4SYS()));
    //cout <<"end of dtor" << endl;
 }
 

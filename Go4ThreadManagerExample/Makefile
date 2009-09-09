@@ -5,7 +5,7 @@ THRDMNGREXAMP_NAME        = Go4ThreadManagerExample
 ## normally should be like this for every module, but can be specific
 
 ifdef GO4PACKAGE
-THRDMNGREXAMP_DIR         = $(GO4SYS)/$(THRDMNGREXAMP_NAME)
+THRDMNGREXAMP_DIR         = $(THRDMNGREXAMP_NAME)
 else
 THRDMNGREXAMP_DIR         = .
 endif

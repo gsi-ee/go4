@@ -2,7 +2,7 @@ CONDBASE_NAME        = Go4ConditionsBase
 
 ## normally should be like this for every module, but can be specific
 
-CONDBASE_DIR         = $(GO4SYS)/$(CONDBASE_NAME)
+CONDBASE_DIR         = $(CONDBASE_NAME)
 CONDBASE_LINKDEF     = $(CONDBASE_DIR)/$(CONDBASE_NAME)LinkDef.$(HedSuf)
 
 CONDBASE_NOTLIBF     =
@@ -23,7 +23,7 @@ CONDBASE_DDEP        =  $(CONDBASE_DO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(CONDBASE_DIR)/%.h, $(GO4SYS)/include/%.h, $(CONDBASE_H))
+ALLHDRS +=  $(patsubst $(CONDBASE_DIR)/%.h, include/%.h, $(CONDBASE_H))
 
 LIBDEPENDENC       += $(CONDBASE_DEP) $(CONDBASE_DDEP)
 
@@ -33,7 +33,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(CONDBASE_DIR)/%.h
+include/%.h: $(CONDBASE_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
@@ -43,4 +43,9 @@ $(CONDBASE_DS): $(CONDBASE_H)  $(CONDBASE_LINKDEF)
 clean-bin::
 	@rm -f $(CONDBASE_O) $(CONDBASE_DO)
 	@rm -f $(CONDBASE_DEP) $(CONDBASE_DDEP) $(CONDBASE_DS) $(CONDBASE_DH)
+
+# special handling of win32 problem
+ifdef GO4_WIN32
+$(CONDBASE_DIR)/TGo4Condition.$(ObjSuf) $(CONDBASE_DIR)/TGo4Marker.$(ObjSuf) : DEFINITIONS += -DBUILDING_GO4BASE_DLL
+endif
 

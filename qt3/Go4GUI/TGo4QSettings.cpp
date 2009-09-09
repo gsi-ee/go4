@@ -9,6 +9,7 @@
 #include "qapplication.h"
 #include "qmainwindow.h"
 
+#include "TGo4Log.h"
 #include "TGo4Marker.h"
 #include "TGo4Condition.h"
 #include "TGo4WorkSpace.h"
@@ -407,7 +408,7 @@ void TGo4QSettings::RestoreSettings(QMainWindow* tgt)
      f.close();
      cout <<"Loaded Go4 toolbar settings from "<<fn << endl;
    } else {
-     QString fndefault = QString(getenv("GO4SYS")) + "/qt3/etc/go4defaulttoolsrc.txt";
+     QString fndefault = TGo4Log::subGO4SYS("qt3/etc/go4defaulttoolsrc.txt").Data();
      QFile fdefault( fndefault );
      if (fdefault.open( IO_ReadOnly )) {
        QTextStream ts( &fdefault );

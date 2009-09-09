@@ -53,8 +53,6 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
 	fxServerLabel="NO SERVER";
 	fxTimer=new QTimer(this);
 	fxMovieResetTimer=new QTimer(this);
-	//QString moviepath=gSystem->Getenv("GO4SYS");
-	//moviepath+="Go4GUI/icons/mbslogorun.gif";
 	QString moviepath=":/icons/mbslogorun.gif";
 	fxRunMovie= new QMovie(moviepath);
 	fxDaqStat.bh_acqui_running=0; // we do not want to startup with running state

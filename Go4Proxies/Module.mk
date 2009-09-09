@@ -2,7 +2,7 @@ GO4PROX_NAME        = Go4Proxies
 
 ## normally should be like this for every module, but can be specific
 
-GO4PROX_DIR         = $(GO4SYS)/$(GO4PROX_NAME)
+GO4PROX_DIR         = $(GO4PROX_NAME)
 GO4PROX_LINKDEF     = $(GO4PROX_DIR)/$(GO4PROX_NAME)LinkDef.$(HedSuf)
 
 GO4PROX_NOTLIBF     =
@@ -23,7 +23,7 @@ GO4PROX_DDEP        =  $(GO4PROX_DO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(GO4PROX_DIR)/%.h, $(GO4SYS)/include/%.h, $(GO4PROX_H))
+ALLHDRS +=  $(patsubst $(GO4PROX_DIR)/%.h, include/%.h, $(GO4PROX_H))
 
 LIBDEPENDENC       += $(GO4PROX_DEP) $(GO4PROX_DDEP)
 
@@ -35,7 +35,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(GO4PROX_DIR)/%.h
+include/%.h: $(GO4PROX_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 

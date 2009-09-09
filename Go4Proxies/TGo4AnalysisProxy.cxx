@@ -971,7 +971,7 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
 {
    const char* serverhost = gSystem->HostName();
    const char* sdisplay   = gSystem->Getenv("DISPLAY");
-   const char* go4sys     = gSystem->Getenv("GO4SYS");
+   const char* go4sys     = TGo4Log::GO4SYS();
    const char* rootsys    = gSystem->Getenv("ROOTSYS");
    const char* path       = gSystem->Getenv("PATH");
    const char* ldpath     = gSystem->Getenv("LD_LIBRARY_PATH");
@@ -1017,12 +1017,6 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
    }
 
    launchcmd = "";
-
-// format strings in etc/Go4LaunchClientPrefs.txt have been changed
-// to pass go4sys:rootsys instead of rootsys (9 args only!!!)
-// Accordingly, the startup scripts are changed to set GO4SYS and ROOTSYS from $1
-
-// Change simple syntax back - one can use ${10} to treat arguments number bigger than 9
 
    switch(konsole) {
      case 2: { // xterm

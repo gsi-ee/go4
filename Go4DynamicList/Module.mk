@@ -2,7 +2,7 @@ DYNLIST_NAME        = Go4DynamicList
 
 ## normally should be like this for every module, but can be specific
 
-DYNLIST_DIR         = $(GO4SYS)/$(DYNLIST_NAME)
+DYNLIST_DIR         = $(DYNLIST_NAME)
 DYNLIST_LINKDEF     = $(DYNLIST_DIR)/$(DYNLIST_NAME)LinkDef.$(HedSuf)
 
 DYNLIST_NOTLIBF     = $(DYNLIST_DIR)/TGo4HistoFillAction.h
@@ -23,7 +23,7 @@ DYNLIST_DDEP        =  $(DYNLIST_DO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(DYNLIST_DIR)/%.h, $(GO4SYS)/include/%.h, $(DYNLIST_H))
+ALLHDRS +=  $(patsubst $(DYNLIST_DIR)/%.h, include/%.h, $(DYNLIST_H))
 
 LIBDEPENDENC       += $(DYNLIST_DEP) $(DYNLIST_DDEP)
 
@@ -33,7 +33,7 @@ endif
 
 ##### local rules #####
 
-$(GO4SYS)/include/%.h: $(DYNLIST_DIR)/%.h
+include/%.h: $(DYNLIST_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 

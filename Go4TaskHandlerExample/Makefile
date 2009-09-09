@@ -3,7 +3,7 @@ include $(GO4SYS)/Makefile.config
 TASKHANDEXAMP_NAME        = Go4TaskHandlerExample
 
 ifdef GO4PACKAGE
-TASKHANDEXAMP_DIR         = $(GO4SYS)/$(TASKHANDEXAMP_NAME)
+TASKHANDEXAMP_DIR         = $(TASKHANDEXAMP_NAME)
 else
 TASKHANDEXAMP_DIR         = .
 endif

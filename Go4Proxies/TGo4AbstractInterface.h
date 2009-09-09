@@ -31,7 +31,7 @@ typedef void* ViewPanelHandle;
   * As long as these are two implementation of the same interface, macro, which
   * uses internally only go4 instance, should work similarly in both GUI and non GUI mode.
   *
-  * Typicaly one should use interface, provided by that class, in macro,
+  * Typically one should use interface, provided by that class, in macro,
   * executed inside GUI. Simple example of such macro:
   * {
   *    go4->OpenFile("example.root");
@@ -50,11 +50,11 @@ typedef void* ViewPanelHandle;
   * }
   *
   * There are several examples of GUI macros, which can be found in
-  * $GO4SYS/Go4GUI/scripts directory. Description of each method can be
-  * seen futher in this document. Hot start feature of go4 was implemented
+  * $GO4SYS/macros directory. Description of each method can be
+  * seen further in this document. Hot start feature of go4 was implemented
   * with usage of that class, therefore one can produce hotstart files in Go4 GUI
   * and take some generated code from it directly. For instance,
-  * displaing of complex viewpanels or starting and configuring of analysis.
+  * displaying of complex viewpanels or starting and configuring of analysis.
   *
   **/
 

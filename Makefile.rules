@@ -55,13 +55,8 @@ ifdef GO4_QT
 
 ifeq ($(GO4_QT),3)
 
-$(GO4SYS)/%.h: $(GO4SYS)/%.ui
-	@echo "Generate Go4 Qt header $@ ... "
-	@$(UIC) $< -o $@
-	@cp -f $@ $(GO4SYS)/include
-
 %.h: %.ui
-	@echo "Generate Qt header here $@ ... "
+	@echo "Generate Qt header $@ ... "
 	@$(UIC) $< -o $@
 
 endif

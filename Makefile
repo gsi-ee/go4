@@ -2,6 +2,8 @@ ifndef GO4SYS
   GO4SYS = .
 endif
 
+GO4PACKAGE = go4
+
 include Makefile.config
 
 Go4_Makefile_Rules = included
@@ -9,9 +11,6 @@ Go4_Makefile_Rules = included
 ifdef GO4_WIN32
   GO4SYS = .
 endif   
-
-
-GO4PACKAGE = go4
 
 # rules which are used to produce packages
 PACKAGERULES    = compress go4-package fit-package \
@@ -107,7 +106,7 @@ gui::           libs
 
 clean::  clean-bin clean-mainlibs clean-plugin
 	@rm -f $(GO4MAP)
-	@rm -f $(GO4SYS)/include/*.h
+	@rm -f include/*.h
 	@rm -rf bin lib
 	@rm -f build/dummy.d build/Makefile.gener
 	@echo "Clean go4 done"
@@ -143,9 +142,6 @@ GO4BASE_O = $(LOCKGRD_O) $(LOCKGRD_DO) \
             $(COMBASE_O) $(COMBASE_DO) \
             $(STATBASE_O) $(STATBASE_DO) \
             $(CONDBASE_O) $(CONDBASE_DO)
-
-
-$(GO4BASE_O): CXXFLAGS+=-DBUILDING_GO4BASE_DLL
 
 GO4BASE_LINKDEFS = $(LOCKGRD_LINKDEF) \
                    $(GO4LOG_LINKDEF) \
@@ -244,7 +240,7 @@ WINDISTR_DIR  = $(DISTR_DIR)/$(WINPACK_VERS)
 
 PACKAGE_DIR = ./packages
 
-HDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(subst $(GO4SYS),$(GO4DISTR_DIR),$(DISTRFILES)))
+HDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(DISTRFILES:%=$(GO4DISTR_DIR)/%)
 
 go4-package:
 	@echo "Creating package $(GO4TAR_NAME) ..."
@@ -252,7 +248,8 @@ go4-package:
 	@tar rhf $(GO4TAR_NAME) build/*.sh build/Makefile.* --exclude=build/Makefile.gener
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Module.mk,$(MODULES))
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Makefile,$(EXMODULES))
-	@tar rhf $(GO4TAR_NAME) $(subst $(GO4SYS),.,$(DISTRFILES))
+	@echo "Creating package $(DISTRFILES)"
+	@tar rhf $(GO4TAR_NAME) $(DISTRFILES)
 	@tar rhf $(GO4TAR_NAME) README.txt CHANGES.txt Go4License.txt
 	@tar rhf $(GO4TAR_NAME) etc/*.ksh etc/*.txt etc/*.C
 	@tar rhf $(GO4TAR_NAME) docs/*.pdf
@@ -268,7 +265,7 @@ go4-package:
 	@cp -f distr/go4login.win $(GO4DISTR_DIR)/etc/win/go4init.sh
 	@cp -f distr/README_win.txt $(GO4DISTR_DIR)/etc/win
 ifndef FASTPACKAGING
-	@for FILENAME in $(HDISTFILES); do . $(GO4SYS)/build/pack.ksh $$FILENAME; done
+	@for FILENAME in $(HDISTFILES); do . build/pack.ksh $$FILENAME; done
 endif
 	@mkdir -p $(GO4DISTR_DIR)/include
 	@touch -f $(GO4DISTR_DIR)/include/.dummy
@@ -301,25 +298,25 @@ win-bin:
 COMPFILES = $(filter %.h %.cxx %.cpp %.c, $(DISTRFILES))
 
 compress:
-	@for FILENAME in $(COMPFILES); do . $(GO4SYS)/build/compress.ksh $$FILENAME; done
+	@for FILENAME in $(COMPFILES); do . build/compress.ksh $$FILENAME; done
 	@echo "Compression done"
 
 
-FITHDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(subst $(GO4SYS),$(DISTR_DIR),$(FITDISTRFILES) $(FITEXDISTRFILES)))
+FITHDISTFILES = $(filter %.h %.cxx %.cpp %.c, $(FITDISTRFILES:%=$(DISTR_DIR)/%) $(FITEXDISTRFILES:%=$(DISTR_DIR)/%))
 
 fit-package:
 	@echo "Creating package $(FITTAR_NAME) ..."
 	@tar chf $(FITTAR_NAME) Go4Fit/changes.txt
 	@tar rhf $(FITTAR_NAME) Go4Fit/init_script.sh
-	@tar rhf $(FITTAR_NAME) $(subst $(GO4SYS),.,$(FITDISTRFILES))
-	@tar rhf $(FITTAR_NAME) $(subst $(GO4SYS),.,$(FITEXDISTRFILES))
+	@tar rhf $(FITTAR_NAME) $(FITDISTRFILES)
+	@tar rhf $(FITTAR_NAME) $(FITEXDISTRFILES)
 	@mkdir -p $(DISTR_DIR)
 	@mv $(FITTAR_NAME) $(DISTR_DIR)
 	@cd $(DISTR_DIR); tar xf $(FITTAR_NAME)
 	@cp -f Go4Fit/Makefile.standalone $(DISTR_DIR)/Go4Fit/Makefile
 	@cp -f Go4FitExample/Makefile.standalone $(DISTR_DIR)/Go4FitExample/Makefile
 ifndef FASTPACKAGING
-	@for FILENAME in $(FITHDISTFILES); do . $(GO4SYS)/build/pack.ksh $$FILENAME $(GO4SYS)/Go4Fit/header.txt; done
+	@for FILENAME in $(FITHDISTFILES); do . build/pack.ksh $$FILENAME Go4Fit/header.txt; done
 endif
 	@cd $(DISTR_DIR); rm -f $(FITTAR_NAME); chmod u+w *; chmod u+w */*; tar chf $(FITTAR_NAME) Go4Fit Go4FitExample --exclude=$(FITTAR_NAME)*; gzip -f $(FITTAR_NAME)
 	@mkdir -p $(PACKAGE_DIR)
@@ -332,7 +329,7 @@ THRDMODULES = Go4Exceptions Go4LockGuard Go4Log Go4ThreadManager
 THRDMODULESEX = Go4ThreadManagerExample
 THRDDISTRFILES = $(EXCEPT_DISTRFILES) $(LOCKGRD_DISTRFILES) $(GO4LOG_DISTRFILES) \
                  $(THRDMNGR_DISTRFILES) $(THRDMNGREXAMP_DISTRFILES) 
-THRDHDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(subst $(GO4SYS),$(DISTR_DIR),$(THRDDISTRFILES)))
+THRDHDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(THRDDISTRFILES:%=$(DISTR_DIR)/%))
 
 thrd-package:
 	@echo "Creating package $(THRDTAR_NAME) ..."
@@ -341,9 +338,9 @@ thrd-package:
 	@tar rhf $(THRDTAR_NAME) ./build/*.sh build/Makefile.* --exclude=build/Makefile.gener
 	@tar rhf $(THRDTAR_NAME) $(patsubst %,%/Module.mk,$(THRDMODULES))
 	@tar rhf $(THRDTAR_NAME) $(patsubst %,%/Makefile,$(THRDMODULESEX))
-	@tar rhf $(THRDTAR_NAME) $(subst $(GO4SYS),.,$(THRDDISTRFILES))
-	@tar rhf $(THRDTAR_NAME) ./Go4License.txt
-	@tar rhf $(THRDTAR_NAME) ./etc/Go4ClientStartup.ksh
+	@tar rhf $(THRDTAR_NAME) $(THRDDISTRFILES)
+	@tar rhf $(THRDTAR_NAME) Go4License.txt
+	@tar rhf $(THRDTAR_NAME) etc/Go4ClientStartup.ksh
 	@mkdir -p $(DISTR_DIR)
 	@mv $(THRDTAR_NAME) $(DISTR_DIR)
 	@cd $(DISTR_DIR); tar xf $(THRDTAR_NAME)
@@ -353,7 +350,7 @@ thrd-package:
 	@cp -f distr/go4.taskh.init $(DISTR_DIR)/go4.init
 	@cp -f distr/README_threadm.txt $(DISTR_DIR)/README.txt
 ifndef FASTPACKAGING
-	@for FILENAME in $(THRDHDISTFILES); do . $(GO4SYS)/build/pack.ksh $$FILENAME; done
+	@for FILENAME in $(THRDHDISTFILES); do . build/pack.ksh $$FILENAME; done
 endif
 	@cd $(DISTR_DIR); rm -f $(THRDTAR_NAME); chmod u+w *; chmod u+w */*; tar chf $(THRDTAR_NAME) * */* --exclude=$(THRDTAR_NAME)*; gzip -f $(THRDTAR_NAME)
 	@mkdir -p $(PACKAGE_DIR)
@@ -375,7 +372,7 @@ TASKDISTRFILES = $(EXCEPT_DISTRFILES) $(LOCKGRD_DISTRFILES) $(GO4LOG_DISTRFILES)
                  $(COMBASE_DISTRFILES) $(CMDTASKHANDL_DISTRFILES) \
                  $(TASKHAND_DISTRFILES) $(TASKHANDEXAMP_DISTRFILES)
                  
-TASKHDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(subst $(GO4SYS),$(DISTR_DIR),$(TASKDISTRFILES)))
+TASKHDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(TASKDISTRFILES:%=$(DISTR_DIR)/%))
 
 task-package:
 	@echo "Creating package $(TASKTAR_NAME) ..."
@@ -384,7 +381,7 @@ task-package:
 	@tar rhf $(TASKTAR_NAME) ./build/*.sh  build/Makefile.* --exclude=build/Makefile.gener
 	@tar rhf $(TASKTAR_NAME) $(patsubst %,%/Module.mk,$(TASKMODULES))
 	@tar rhf $(TASKTAR_NAME) $(patsubst %,%/Makefile,$(TASKMODULESEX))
-	@tar rhf $(TASKTAR_NAME) $(subst $(GO4SYS),.,$(TASKDISTRFILES))
+	@tar rhf $(TASKTAR_NAME) $(TASKDISTRFILES)
 	@tar rhf $(TASKTAR_NAME) ./Go4License.txt
 	@tar rhf $(TASKTAR_NAME) ./etc/Go4ClientStartup.ksh
 	@mkdir -p $(DISTR_DIR)
@@ -396,7 +393,7 @@ task-package:
 	@mkdir -p $(DISTR_DIR)/include
 	@touch -f $(DISTR_DIR)/include/.dummy
 ifndef FASTPACKAGING
-	@for FILENAME in $(TASKHDISTFILES); do . $(GO4SYS)/build/pack.ksh $$FILENAME; done
+	@for FILENAME in $(TASKHDISTFILES); do . build/pack.ksh $$FILENAME; done
 endif
 	@cd $(DISTR_DIR); rm -f $(TASKTAR_NAME); chmod u+w *; chmod u+w */*; tar chf $(TASKTAR_NAME)  * */* --exclude=$(TASKTAR_NAME)*; gzip -f $(TASKTAR_NAME)
 	@mkdir -p $(PACKAGE_DIR)

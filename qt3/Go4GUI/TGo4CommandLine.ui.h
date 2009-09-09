@@ -101,16 +101,18 @@ void TGo4CommandLine::LoadHistory()
     QStringList histlist=go4sett->getCommandsHistoryGUI();
     InputLine->insertStringList(histlist);
 // prepared pre-loading of system macros:
-gROOT->ProcessLine(".L $GO4SYS/macros/corrhistos.C");
-gROOT->ProcessLine(".L $GO4SYS/macros/hishisto.C");
-gROOT->ProcessLine(".L $GO4SYS/macros/addhistos.C");
-gROOT->ProcessLine(".L $GO4SYS/macros/divhistos.C");
-gROOT->ProcessLine(".L $GO4SYS/macros/profileX.C");
-gROOT->ProcessLine(".L $GO4SYS/macros/profileY.C");
-gROOT->ProcessLine(".L $GO4SYS/macros/projectionX.C");
-gROOT->ProcessLine(".L $GO4SYS/macros/projectionY.C");
-gROOT->ProcessLine(".L $GO4SYS/macros/rebin.C");
-gROOT->ProcessLine(".L $GO4SYS/macros/scalex.C");
+    TString dir = TGo4Log::subGO4SYS("macros/");
+
+    gROOT->ProcessLine(Form(".L %scorrhistos.C", dir.Data()));
+    gROOT->ProcessLine(Form(".L %shishisto.C", dir.Data()));
+    gROOT->ProcessLine(Form(".L %saddhistos.C", dir.Data()));
+    gROOT->ProcessLine(Form(".L %sdivhistos.C", dir.Data()));
+    gROOT->ProcessLine(Form(".L %sprofileX.C", dir.Data()));
+    gROOT->ProcessLine(Form(".L %sprofileY.C", dir.Data()));
+    gROOT->ProcessLine(Form(".L %sprojectionX.C", dir.Data()));
+    gROOT->ProcessLine(Form(".L %sprojectionY.C", dir.Data()));
+    gROOT->ProcessLine(Form(".L %srebin.C", dir.Data()));
+    gROOT->ProcessLine(Form(".L %sscalex.C", dir.Data()));
 
 }
 
