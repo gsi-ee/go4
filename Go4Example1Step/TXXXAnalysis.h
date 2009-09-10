@@ -10,6 +10,8 @@ class TXXXControl;
 class TXXXAnalysis : public TGo4Analysis {
    public:
       TXXXAnalysis();
+
+
       TXXXAnalysis(const char* input, Int_t type, Int_t port, const char* out, Bool_t enable);
       virtual ~TXXXAnalysis() ;
       virtual Int_t UserPreLoop();

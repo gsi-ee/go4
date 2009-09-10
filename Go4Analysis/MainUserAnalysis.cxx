@@ -2,9 +2,12 @@
 #include <string.h>
 #include <stdlib.h>
 
+// #include "TClassTable.h"
 #include "TROOT.h"
+#include "TClass.h"
 #include "TRint.h"
 #include "TApplication.h"
+#include "TSystem.h"
 
 #include "TGo4StepFactory.h"
 #include "TGo4AnalysisStep.h"
@@ -20,9 +23,9 @@ void usage(const char* err = 0)
    cout << "* GO4  online analysis    " << endl;
    cout << "* H. Essel, GSI, Darmstadt" << endl;
    cout << "* calling:                " << endl;
-   cout << "* MainUserAnalysis -server [CONFIG]              : run analysis in server mode" << endl;
-   cout << "* MainUserAnalysis -gui name guihost guiport [CONFIG] : connect analysis to prepared gui" << endl;
-   cout << "* MainUserAnalysis [CONFIG]                           : run analysis in batch mode" << endl;
+   cout << "* go4run -server [CONFIG]              : run analysis in server mode" << endl;
+   cout << "* go4run -gui name guihost guiport [CONFIG] : connect analysis to prepared gui" << endl;
+   cout << "* go4run [CONFIG]                           : run analysis in batch mode" << endl;
    cout << "* CONFIG : -file filename.lmd   :  open lmd file" << endl;
    cout << "*          -file filename.lml   :  open lml file" << endl;
    cout << "*          -transport server    :  connect to MBS transport server" << endl;
@@ -37,10 +40,81 @@ void usage(const char* err = 0)
    exit(err ? -1 : 0);
 }
 
+TClass* FindDerivedClass(const char* baseclass)
+{
+   TClass* base_cl = gROOT->GetClass(baseclass);
+   if (base_cl==0) usage(Form("Cannot find %s class!"));
+
+   TIter iter(gROOT->GetListOfClasses());
+   Int_t cnt(0);
+   TClass *cl(0), *find_cl(0);
+
+   while ((cl = (TClass*)iter())!=0) {
+      cout << "Class = " << cl->GetName() << endl;
+      if (!cl->InheritsFrom(base_cl) || (cl==base_cl)) continue;
+      if (++cnt == 1) find_cl = cl;
+      else cout <<" Too many classes, derived from " << baseclass << endl;
+   }
+
+   return find_cl;
+}
+
+typedef const char* (UserDefFunc)();
+typedef TGo4Analysis* (UserCreateFunc)();
+
+
 //==================  analysis main program ============================
 int main(int argc, char **argv)
 {
    if (argc<2) usage("Too few arguments");
+
+   const char* libname = "libGo4UserAnalysis";
+
+   if (gSystem->Load(libname)!=0) return -1;
+
+   const char* processor_name = "Processor";
+   const char* processor_classname = 0;
+
+   const char* outputevent_name = "OutputEvent";
+   const char* outputevent_classname = 0;
+
+   UserDefFunc* func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserProcessorClass");
+   if (func!=0) processor_classname = func();
+
+   if (processor_classname!=0) {
+      TClass* proc_cl = TClass::GetClass(processor_classname);
+      if (proc_cl==0) {
+         cerr << "Processor class " << processor_classname << " not found" << endl;
+         return -1;
+      }
+
+      func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserProcessorName");
+
+      if (func!=0) processor_name = func();
+
+      cout << "Event processor " << processor_classname << " of name " << processor_name << endl;
+   }
+
+   func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserOutputEventClass");
+   if (func!=0) outputevent_classname = func();
+   if (outputevent_classname==0) outputevent_classname = "TGo4EventElement";
+
+   if (outputevent_classname!=0) {
+      TClass* event_cl = TClass::GetClass(outputevent_classname);
+      if (event_cl==0) {
+         cerr << "Event class " << outputevent_classname << " not found" << endl;
+         return -1;
+      }
+   }
+
+   func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserOutputEventName");
+
+   if (func!=0) outputevent_name = func();
+
+   cout << "Output event " << outputevent_classname << " of name " << outputevent_name << endl;
+
+//  use class table to find existing classes
+//   TClassTable::PrintTable();
 
    int app_argc = 2;
    char* app_argv[2];
@@ -50,6 +124,12 @@ int main(int argc, char **argv)
    strncpy(app_argv[1], "-b", 256);
    TApplication theApp("Go4App", &app_argc, app_argv);
 
+
+//   gROOT->GetClass("TXXXProc");
+//   gROOT->GetClass("TXXXParam");
+
+
+
    Bool_t batchMode(kTRUE);  // GUI or Batch
 
    Bool_t servermode(kFALSE);            // run analysis as server task
@@ -58,7 +138,7 @@ int main(int argc, char **argv)
 
    Bool_t autorun(kFALSE);   // immediately run analysis on start
    long  maxevents(-1);      // number of events (batch mode)
-   const char* asf(0);       // name of austosave file
+   const char* asf(0);       // name of autosave file
 
    //------ process arguments -------------------------
 
@@ -163,8 +243,8 @@ int main(int argc, char **argv)
    // tell the factory the names of processor and output event
    // both will be created by the framework later
    // Input event is by default an MBS event
-   factory->DefEventProcessor("XXXProc","TXXXProc");// object name, class name
-   factory->DefOutputEvent("XXXEvent","TGo4EventElement"); // object name, class name
+   factory->DefEventProcessor(processor_name, processor_classname);// object name, class name
+   factory->DefOutputEvent(outputevent_name, outputevent_classname); // object name, class name
 
 /*
    if(servermode) {
@@ -176,7 +256,6 @@ int main(int argc, char **argv)
       analysis->SetObserverPassword("XXXview");
    }
 */
-
 
    //------ start the analysis -------------------------
    if(batchMode) {

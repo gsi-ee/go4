@@ -14,6 +14,12 @@
 
 #include "TXXXParam.h"
 
+extern "C" const char* UserProcessorClass() { return "TXXXProc"; }
+extern "C" const char* UserProcessorName() { return "XXXProc"; }
+//extern "C" const char* UserOutputEventCall() { return "TGo4EventElement"; }
+extern "C" const char* UserOutputEventName() { return "XXXOutputEvent"; }
+
+
 //***********************************************************
 TXXXProc::TXXXProc() : TGo4EventProcessor("Proc")
 {

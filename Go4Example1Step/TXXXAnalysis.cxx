@@ -8,6 +8,10 @@
 #include "TGo4AnalysisStep.h"
 #include "TXXXControl.h"
 
+
+extern "C" TGo4Analysis* CreateUserAnalysis() { return new TXXXAnalysis("file.lmd", GO4EV_MBS_FILE, 0, "", kFALSE); }
+
+
 //***********************************************************
 TXXXAnalysis::TXXXAnalysis() : fUserFile(0),fMbsEvent(0){}
 //***********************************************************
