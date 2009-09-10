@@ -240,7 +240,7 @@ WINDISTR_DIR  = $(DISTR_DIR)/$(WINPACK_VERS)
 
 PACKAGE_DIR = ./packages
 
-HDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(DISTRFILES:%=$(GO4DISTR_DIR)/%)
+HDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(DISTRFILES:%=$(GO4DISTR_DIR)/%))
 
 go4-package:
 	@echo "Creating package $(GO4TAR_NAME) ..."
@@ -248,7 +248,6 @@ go4-package:
 	@tar rhf $(GO4TAR_NAME) build/*.sh build/Makefile.* --exclude=build/Makefile.gener
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Module.mk,$(MODULES))
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Makefile,$(EXMODULES))
-	@echo "Creating package $(DISTRFILES)"
 	@tar rhf $(GO4TAR_NAME) $(DISTRFILES)
 	@tar rhf $(GO4TAR_NAME) README.txt CHANGES.txt Go4License.txt
 	@tar rhf $(GO4TAR_NAME) etc/*.ksh etc/*.txt etc/*.C

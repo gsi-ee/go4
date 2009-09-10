@@ -7,13 +7,6 @@ GO4GUI4_LINKDEF     = $(GO4GUI4_DIR)/$(GO4GUI4_NAME)LinkDef.$(HedSuf)
 
 GO4FITGUI4_DIR      = qt4/Go4FitGUI
 
-
-GO4GUI4_QMAKED1OPT   =
-GO4GUI4_QMAKED2OPT   =
-GO4GUI4_QMAKED3OPT   =
-GO4GUI4_QMAKED4OPT   =
-
-
 GO4GUI4_QTPRO       = go4gui.pro
 GO4GUI4_QTMAKE      = Makefile.qt
 GO4GUI4_EXES        = $(GO4GUI4_DIR)/MainGo4GUI.cpp
@@ -37,6 +30,7 @@ GO4GUI4_QMAKEFLAGS += "FORMS += TGo4DabcMonitor.ui"
 GO4GUI4_QMAKEFLAGS += "HEADERS += TGo4DabcMonitor.h" 
 GO4GUI4_QMAKEFLAGS += "SOURCES += TGo4DabcMonitor.cpp" 
 GO4GUI4_QMAKEFLAGS += "INCLUDEPATH += $(DIMINCPATH)"
+$(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE) : LDRPATHS += $(DIMLIBPATH)
 else
 GO4GUI4_FORMS       = $(filter-out $(GO4GUI4_DIR)/TGo4DabcMonitor.ui, $(wildcard $(GO4GUI4_DIR)/*.ui))
 endif
@@ -73,8 +67,6 @@ QT4ROOT_PUBH    = $(patsubst $(QT4ROOT_DIR)/%.h, include/%.h, $(QT4ROOT_H))
 # used in the main Makefile
 
 GO4QT4HEADS        += $(GO4GUI4_UI_H) $(GO4GUI4_PUBH) $(QT4ROOT_PUBH)
-
-#GO4QT4DEP          += $(GO4GUI4_DEP) $(GO4GUI4_DDEP)
 
 ifdef DOPACKAGE
 DISTRFILES         += $(GO4GUI4_S) $(GO4GUI4_H) $(GO4GUI4_FH) $(GO4GUI4_LINKDEF) 

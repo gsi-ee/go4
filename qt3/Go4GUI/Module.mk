@@ -8,9 +8,6 @@ GO4GUI3_QTLINKDEF   = $(GO4GUI3_DIR)/Go4QtGUILinkDef.$(HedSuf)
 
 FITGUI3_DIR         = qt3/Go4FitGUI
 
-GO4GUI3_QMAKED1OPT   =
-GO4GUI3_QMAKED2OPT   =
-
 GO4GUI3_QTPRO       = go4gui.pro
 GO4GUI3_QTMAKE      = Makefile.qt
 GO4GUI3_EXES        = $(GO4GUI3_DIR)/MainGo4GUI.cpp
@@ -31,6 +28,7 @@ GO4GUI3_FORMS       = $(wildcard $(GO4GUI3_DIR)/*.ui)
 GO4GUI3_FORMSI      = $(wildcard $(GO4GUI3_DIR)/*.ui.h)
 GO4GUI3_QMAKEFLAGS += "FORMS += TGo4DabcMonitor.ui" 
 GO4GUI3_QMAKEFLAGS += "INCLUDEPATH += $(DIMINCPATH)"
+$(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE) : LDRPATHS += $(DIMLIBPATH)
 else
 GO4GUI3_FORMS       = $(filter-out $(GO4GUI3_DIR)/TGo4DabcMonitor.ui, $(wildcard $(GO4GUI3_DIR)/*.ui))
 GO4GUI3_FORMSI      = $(filter-out $(GO4GUI3_DIR)/TGo4DabcMonitor.ui.h, $(wildcard $(GO4GUI3_DIR)/*.ui.h))
