@@ -22,6 +22,14 @@ in Go4License.txt file which is part of the distribution.
 
 Changes in Go4 v4.3.2 (September 09)
 1. Add clear histogram and conditions button in gui
+2. System configuration tested once and stored in 
+   $GO4SYS/build/Makefile.gener file. This simplifies compilation
+   of user analysis and excludes missconfiguration.
+3. Makefile logic improved to be able work with system-wide installed 
+   ROOT version - ROOTSYS no longer required to be set
+4. ROOT/Qt/Go4 library paths directly specified in all go4 executables 
+   (go4, user analysis). This speeds up start time and allows to run 
+   gui and analysis without any login scripts.       
 
 Changes in Go4 v4.3.1 (August 09)
 1. Fix error with connecting DABC/MBS servers second time

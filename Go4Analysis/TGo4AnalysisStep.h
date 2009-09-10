@@ -56,7 +56,7 @@ class TGo4AnalysisStep : public TNamed {
 
     virtual ~TGo4AnalysisStep();
 
-    /** Sets the event source parameter which is used on intitialization
+    /** Sets the event source parameter which is used on initialization
       * of this step. The event source will not yet be created;
       * Creation is done by InitEventClasses() method, or by calling
       * the NewEventSource() method on the fly. */
@@ -74,7 +74,7 @@ class TGo4AnalysisStep : public TNamed {
     /** Unregister and close eventsource, if existing. */
     void CloseEventSource();
 
-    /** Sets the event storee parameter which is used on intitialization
+    /** Sets the event storee parameter which is used on initialization
       * of this step. The event store will not yet be created;
       * Creation is done by InitEventClasses() method, or by calling
       * the NewEventStore() method on the fly. */
