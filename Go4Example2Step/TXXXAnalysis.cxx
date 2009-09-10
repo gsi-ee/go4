@@ -20,6 +20,9 @@
 #include "Go4EventServer.h"
 
 
+extern "C" TGo4Analysis* CreateUserAnalysis() { return new TXXXAnalysis("file.lmd", GO4EV_MBS_FILE, 0, "", "", kFALSE, kFALSE); }
+
+
 //***********************************************************
 TXXXAnalysis::TXXXAnalysis()
 : fUserFile(0),fMbsEvent(0),fRawEvent(0),fCalEvent(0)

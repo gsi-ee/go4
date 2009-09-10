@@ -564,6 +564,11 @@ void TGo4AnalysisStep::SetEventSource(TGo4EventSourceParameter* kind)
        fxSourceType=0;
 }
 
+Bool_t TGo4AnalysisStep::IsEventSourceParam() const
+{
+   return fxSourceType!=0;
+}
+
 void TGo4AnalysisStep::SetEventStore(TGo4EventStoreParameter* kind)
 {
    if(kind==fxStoreType) return; // avoid deleting valid parameter
@@ -578,3 +583,7 @@ void TGo4AnalysisStep::SetEventStore(TGo4EventStoreParameter* kind)
          // this might be used to indicate tree name
 }
 
+Bool_t TGo4AnalysisStep::IsEventStoreParam() const
+{
+   return fxStoreType!=0;
+}

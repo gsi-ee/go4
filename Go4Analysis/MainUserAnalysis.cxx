@@ -31,10 +31,14 @@ void usage(const char* err = 0)
    cout << "*          -transport server    :  connect to MBS transport server" << endl;
    cout << "*          -stream server       :  connect to MBS stream server" << endl;
    cout << "*          -evserv server       :  connect to MBS event server" << endl;
-   cout << "*          -revserv server      :  connect to remote event server" << endl;
+   cout << "*          -revserv server port :  connect to remote event server" << endl;
    cout << "*          -random              :  use random generator as input" << endl;
    cout << "*          -number NUMBER       :  process NUMBER events in batch mode" << endl;
    cout << "*          -asf filename        :  write autosave filename, default AnalysisASF.root" << endl;
+   cout << "*          -store filename      :  write step output into the root file" << endl;
+   cout << "*          -backstore name      :  create backstore for online tree draw" << endl;
+   cout << "*          -step name           :  select step for configuration (default: first active step)" << endl;
+   cout << "*          -lib name            :  user library to load, should be very first argument (default: libGo4UserLibrary)" << endl;
    cout << endl;
 
    exit(err ? -1 : 0);
@@ -63,15 +67,8 @@ typedef const char* (UserDefFunc)();
 typedef TGo4Analysis* (UserCreateFunc)();
 
 
-//==================  analysis main program ============================
-int main(int argc, char **argv)
+TGo4Analysis* CreateDefaultAnalysis()
 {
-   if (argc<2) usage("Too few arguments");
-
-   const char* libname = "libGo4UserAnalysis";
-
-   if (gSystem->Load(libname)!=0) return -1;
-
    const char* processor_name = "Processor";
    const char* processor_classname = 0;
 
@@ -85,7 +82,7 @@ int main(int argc, char **argv)
       TClass* proc_cl = TClass::GetClass(processor_classname);
       if (proc_cl==0) {
          cerr << "Processor class " << processor_classname << " not found" << endl;
-         return -1;
+         return 0;
       }
 
       func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserProcessorName");
@@ -93,6 +90,9 @@ int main(int argc, char **argv)
       if (func!=0) processor_name = func();
 
       cout << "Event processor " << processor_classname << " of name " << processor_name << endl;
+   } else {
+      cerr << "Processor class not specifeid" << endl;
+      return 0;
    }
 
    func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserOutputEventClass");
@@ -103,7 +103,7 @@ int main(int argc, char **argv)
       TClass* event_cl = TClass::GetClass(outputevent_classname);
       if (event_cl==0) {
          cerr << "Event class " << outputevent_classname << " not found" << endl;
-         return -1;
+         return 0;
       }
    }
 
@@ -116,6 +116,60 @@ int main(int argc, char **argv)
 //  use class table to find existing classes
 //   TClassTable::PrintTable();
 
+   // We will use only one analysis step (factory)
+   // we use only standard components
+   TGo4Analysis*     analysis = TGo4Analysis::Instance();
+   TGo4StepFactory*  factory  = new TGo4StepFactory("Factory");
+   TGo4AnalysisStep* step     = new TGo4AnalysisStep("Analysis", factory);
+   step->SetStoreEnabled(kFALSE); // disabled, nothing to store up to now
+   step->SetProcessEnabled(kTRUE);
+   step->SetErrorStopEnabled(kTRUE);
+   analysis->AddAnalysisStep(step);
+
+   analysis->SetAutoSaveInterval(0); // after n seconds , 0 = at termination of event loop
+   analysis->SetAutoSave(kFALSE);    // optional
+
+   // tell the factory the names of processor and output event
+   // both will be created by the framework later
+   // Input event is by default an MBS event
+   factory->DefEventProcessor(processor_name, processor_classname);// object name, class name
+   factory->DefOutputEvent(outputevent_name, outputevent_classname); // object name, class name
+
+   return analysis;
+}
+
+
+//==================  analysis main program ============================
+int main(int argc, char **argv)
+{
+   if (argc<2) usage("Too few arguments");
+
+   int narg = 1;
+
+   const char* libname = "libGo4UserAnalysis";
+   if (strcmp(argv[narg],"-lib")==0) {
+      if (++narg < argc) libname = argv[narg++];
+      else usage("library name not specified");
+   }
+
+   if (gSystem->Load(libname)!=0) return -1;
+
+   TGo4Analysis* analysis = 0;
+
+   UserCreateFunc* crfunc = (UserCreateFunc*) gSystem->DynFindSymbol("*", "CreateUserAnalysis");
+   if (crfunc) analysis = crfunc();
+          else analysis = CreateDefaultAnalysis();
+   if (analysis==0) {
+      cerr << "Analysis cannot be created" << endl;
+      return -1;
+   }
+
+   TGo4AnalysisStep* step = analysis->GetAnalysisStep(0);
+   if (step==0) {
+      cerr << "No active step in analysis found" << endl;
+      return -1;
+   }
+
    int app_argc = 2;
    char* app_argv[2];
    app_argv[0] = new char[256];
@@ -123,12 +177,6 @@ int main(int argc, char **argv)
    strncpy(app_argv[0], argv[0], 256);
    strncpy(app_argv[1], "-b", 256);
    TApplication theApp("Go4App", &app_argc, app_argv);
-
-
-//   gROOT->GetClass("TXXXProc");
-//   gROOT->GetClass("TXXXParam");
-
-
 
    Bool_t batchMode(kTRUE);  // GUI or Batch
 
@@ -138,11 +186,9 @@ int main(int argc, char **argv)
 
    Bool_t autorun(kFALSE);   // immediately run analysis on start
    long  maxevents(-1);      // number of events (batch mode)
-   const char* asf(0);       // name of autosave file
 
    //------ process arguments -------------------------
 
-   int narg = 1;
 
    if(strcmp(argv[narg], "-gui") == 0) {
       batchMode = kFALSE;
@@ -165,97 +211,114 @@ int main(int argc, char **argv)
       batchMode = kTRUE;
    }
 
-   TGo4EventSourceParameter* sourcepar(0);
-   TGo4FileStoreParameter*   storepar(0);
-
    while (narg < argc) {
-      if (strstr(argv[narg],"-fi")) {
-         if (++narg < argc)
-            sourcepar = new TGo4MbsFileParameter(argv[narg++]);
-         else
+      if (strcmp(argv[narg],"-step")==0) {
+         if (++narg < argc) {
+            step = analysis->GetAnalysisStep(argv[narg++]);
+            if (step==0) usage("step not found");
+         } else
+            usage("step name not specified");
+      } else
+      if (strcmp(argv[narg],"-file")==0) {
+         if (++narg < argc) {
+            TGo4MbsFileParameter sourcepar(argv[narg++]);
+            step->SetEventSource(&sourcepar);
+            step->SetSourceEnabled(kTRUE);
+         } else
             usage("LMD/LML file name not specified");
       } else
-      if(strstr(argv[narg],"-tr")) {
-         if (++narg < argc)
-            sourcepar = new TGo4MbsTransportParameter(argv[narg++]);
-         else
+      if(strcmp(argv[narg],"-transport")==0) {
+         if (++narg < argc) {
+            TGo4MbsTransportParameter sourcepar(argv[narg++]);
+            step->SetEventSource(&sourcepar);
+            step->SetSourceEnabled(kTRUE);
+         } else
             usage("MBS Transport server name not specified");
       } else
-      if(strstr(argv[narg],"-st")) {
-         if (++narg < argc)
-            sourcepar = new TGo4MbsStreamParameter(argv[narg++]);
-         else
+      if(strcmp(argv[narg],"-stream")==0) {
+         if (++narg < argc) {
+            TGo4MbsStreamParameter sourcepar(argv[narg++]);
+            step->SetEventSource(&sourcepar);
+            step->SetSourceEnabled(kTRUE);
+         } else
             usage("MBS Stream server name not specified");
       } else
-      if(strstr(argv[narg],"-ev")) {
-         if (++narg < argc)
-            sourcepar = new TGo4MbsEventServerParameter(argv[narg++]);
-         else
+      if(strcmp(argv[narg],"-evserv")==0) {
+         if (++narg < argc) {
+            TGo4MbsEventServerParameter sourcepar(argv[narg++]);
+            step->SetEventSource(&sourcepar);
+            step->SetSourceEnabled(kTRUE);
+         } else
             usage("MBS Event server name not specified");
       } else
-      if(strstr(argv[narg],"-ra")) {
+      if(strcmp(argv[narg],"-random")==0) {
          narg++;
-         sourcepar = new TGo4MbsRandomParameter("Random");
+         TGo4MbsRandomParameter sourcepar("Random");
+         step->SetEventSource(&sourcepar);
+         step->SetSourceEnabled(kTRUE);
       } else
-      if(strstr(argv[narg],"-re")) {
-         if (++narg < argc - 1)
-            sourcepar = new TGo4RevServParameter(argv[narg++], atoi(argv[narg++]));
-         else
+      if(strcmp(argv[narg],"-revserv")==0) {
+         if (++narg < argc - 1) {
+            const char* serv_name = argv[narg++];
+            int serv_port = atoi(argv[narg++]);
+            TGo4RevServParameter sourcepar(serv_name, serv_port);
+            step->SetEventSource(&sourcepar);
+         } else
             usage("Remote event server name or port are not specified");
       } else
-      if (strstr(argv[narg],"-nu")) {
+      if(strcmp(argv[narg],"-store")==0) {
+         if (++narg < argc) {
+            TGo4FileStoreParameter storepar(argv[narg++]);
+            step->SetEventStore(&storepar);
+            step->SetStoreEnabled(kTRUE);
+         } else
+            usage("File name for store not specified");
+      } else
+      if(strcmp(argv[narg],"-backstore")==0) {
+         if (++narg < argc) {
+            TGo4BackStoreParameter storepar(argv[narg++]);
+            step->SetEventStore(&storepar);
+            step->SetStoreEnabled(kTRUE);
+         } else
+            usage("Backstore name not specified");
+      } else
+      if (strcmp(argv[narg],"-number")==0) {
          if (++narg < argc) {
             if (sscanf(argv[narg++],"%ld",&maxevents)!=1) maxevents = -1;
          } else
             usage("number of events to process not specified");
       } else
-      if (strstr(argv[narg],"-asf")) {
+      if (strcmp(argv[narg],"-asf")==0) {
          if (++narg < argc)
-            asf = argv[narg++];
+            analysis->SetAutoSaveFile(argv[narg++]);
          else
             usage("name of autosave file not specified");
       } else
          usage(Form("Unknown argument %d %s", narg, argv[narg]));
    }
 
-   if (sourcepar==0)
-      sourcepar = new TGo4MbsFileParameter("/GSI/lea/gauss.lmd");
-   else
+   if (!analysis->IsAutoSaveFileName() && (batchMode || autorun))
+      analysis->SetAutoSaveFile("AnalysisASF.root");
+
+   if (!step->IsEventSourceParam()) {
+      TGo4MbsFileParameter sourcepar("/GSI/lea/gauss.lmd");
+      step->SetEventSource(&sourcepar);
+      step->SetSourceEnabled(kTRUE);
+   } else {
       if (servermode) autorun = kTRUE;
-
-   // We will use only one analysis step (factory)
-   // we use only standard components
-   TGo4Analysis*     analysis = TGo4Analysis::Instance();
-   TGo4StepFactory*  factory  = new TGo4StepFactory("Factory");
-   TGo4AnalysisStep* step     = new TGo4AnalysisStep("Analysis", factory, sourcepar, storepar);
-   step->SetSourceEnabled(kTRUE);
-   step->SetStoreEnabled(kFALSE); // disabled, nothing to store up to now
-   step->SetProcessEnabled(kTRUE);
-   step->SetErrorStopEnabled(kTRUE);
-   analysis->AddAnalysisStep(step);
-
-   if ((asf==0) && (batchMode || autorun)) asf = "AnalysisASF.root";
-
-   analysis->SetAutoSaveFile(asf);   // optional
-   analysis->SetAutoSaveInterval(0); // after n seconds , 0 = at termination of event loop
-   analysis->SetAutoSave(kFALSE);    // optional
-
-   // tell the factory the names of processor and output event
-   // both will be created by the framework later
-   // Input event is by default an MBS event
-   factory->DefEventProcessor(processor_name, processor_classname);// object name, class name
-   factory->DefOutputEvent(outputevent_name, outputevent_classname); // object name, class name
-
-/*
-   if(servermode) {
-      //==================== password settings for gui login (for analysis server only)
-      // note: do not change go4 default passwords for analysis in client mode
-      // autoconnect to gui server will not work then!!!
-      analysis->SetAdministratorPassword("XXXadmin");
-      analysis->SetControllerPassword("XXXctrl");
-      analysis->SetObserverPassword("XXXview");
    }
-*/
+
+
+   //==================== password settings for gui login in server mode
+
+   if(servermode) {
+      UserDefFunc* func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserAdministratorPassword");
+      if (func) analysis->SetAdministratorPassword(func());
+      func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserControllerPassword");
+      if (func) analysis->SetControllerPassword(func());
+      func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserObserverPassword");
+      if (func) analysis->SetObserverPassword(func());
+   }
 
    //------ start the analysis -------------------------
    if(batchMode) {

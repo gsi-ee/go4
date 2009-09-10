@@ -763,12 +763,12 @@ TRACE((11,"TGo4Analysis::UserPostLoop()",__LINE__, __FILE__));
    return 0;
 }
 
-void TGo4Analysis::SetAutoSaveFile(const Text_t * filename, Bool_t overwrite, Int_t compression)
+void TGo4Analysis::SetAutoSaveFile(const char * filename, Bool_t overwrite, Int_t compression)
 {
 //   if(!fbAutoSaveOn) return; // do not set autosave file if disabled!
    //TGo4LockGuard  autoguard(fxAutoSaveMutex);
    Int_t buflen=1024;
-   Text_t buffer[1024];
+   char buffer[1024];
    if(filename)
       {
          strncpy(buffer,filename,buflen);
@@ -787,6 +787,12 @@ void TGo4Analysis::SetAutoSaveFile(const Text_t * filename, Bool_t overwrite, In
    fiAutoSaveCompression=compression;
    fbAutoSaveOverwrite=overwrite;
 }
+
+Bool_t TGo4Analysis::IsAutoSaveFileName() const
+{
+   return fxAutoFileName.Length() > 0;
+}
+
 
 
 Int_t TGo4Analysis::LockAutoSave()
@@ -1168,7 +1174,7 @@ TGo4Condition * TGo4Analysis::GetAnalysisCondition(const Text_t * name)
   return (fxObjectManager->GetAnalysisCondition(name));
 }
 
-TGo4AnalysisStep* TGo4Analysis::GetAnalysisStep(const Text_t* name)
+TGo4AnalysisStep* TGo4Analysis::GetAnalysisStep(const char* name)
 {
   return fxStepManager->GetAnalysisStep(name);
 }

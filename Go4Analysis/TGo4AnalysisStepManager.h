@@ -37,7 +37,8 @@ class TGo4AnalysisStepManager : public TNamed {
         * GetEvent methods; may also be called from UserEventFunc directly. */
       Int_t ProcessAnalysisSteps();
 
-      /** Access to certain analysis step by name. For analysis internal usage. */
+      /** Access to certain analysis step by name. For analysis internal usage.
+       * if name==0, first step is returned */
       TGo4AnalysisStep* GetAnalysisStep(const char* name);
 
       /** Method for user analysis constructor to setup the list

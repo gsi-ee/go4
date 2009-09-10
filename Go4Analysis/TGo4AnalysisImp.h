@@ -425,9 +425,12 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     void SetAutoSaveInterval(Int_t interval=0) { fiAutoSaveInterval=interval; }
 
     /** Set file for autosave action. */
-    void SetAutoSaveFile(const Text_t* filename=0,
+    void SetAutoSaveFile(const char* filename=0,
                          Bool_t overwrite=kFALSE,
                          Int_t compression=5);
+
+    /** Return kTRUE, if autosave file name set. */
+    Bool_t IsAutoSaveFileName() const;
 
     /** Lock the autosave mutex. For usage in analysis client */
     Int_t LockAutoSave();
@@ -613,7 +616,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /** Access to certain analysis step by name. If name=0,
       * this will return the first active step. */
-    TGo4AnalysisStep* GetAnalysisStep(const Text_t* name);
+    TGo4AnalysisStep* GetAnalysisStep(const char* name);
 
   protected:
 

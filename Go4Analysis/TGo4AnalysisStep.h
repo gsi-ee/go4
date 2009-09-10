@@ -62,6 +62,8 @@ class TGo4AnalysisStep : public TNamed {
       * the NewEventSource() method on the fly. */
     void SetEventSource(TGo4EventSourceParameter* kind);
 
+    /** Return kTRUE, if event source parameter specified */
+    Bool_t IsEventSourceParam() const;
 
     /** For lazy initialization of event source. Uses
       * the CreateEventSource method of the specialized event factory.
@@ -79,6 +81,9 @@ class TGo4AnalysisStep : public TNamed {
       * Creation is done by InitEventClasses() method, or by calling
       * the NewEventStore() method on the fly. */
     void SetEventStore(TGo4EventStoreParameter* kind);
+
+    /** Return kTRUE, if event store parameter specified */
+    Bool_t IsEventStoreParam() const;
 
     /** For lazy initialization of event store. Uses
       * the CreateEventStore method of the specialized event factory.
