@@ -30,7 +30,7 @@ LD            = g++
 ifeq ($(GO4WITHRPATH),true)
 LDFLAGS_RPATH = $(LDRPATHS:%=-Wl,-rpath,%)
 endif
-LDFLAGS       += -O $(LDFLAGS_RPATH) 
+LDFLAGS       += $(LDFLAGS_RPATH) -O 
 SOFLAGS       = -shared -Wl,-soname,
 
 #### Other options: ####

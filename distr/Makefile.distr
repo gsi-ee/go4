@@ -83,6 +83,14 @@ build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
 	@(if [ ! -f $@ ] ; then touch $@; fi)
 	@(if [ ! -f lib ] ; then mkdir -p lib; fi)
 	@(if [ ! -f bin ] ; then mkdir -p bin; fi)
+	@(if [ ! -f bin/go4-config ] ; then   \
+		sed -e "s|@go4arch@|$(GO4_OS)|"    \
+		-e "s|@go4vers@|$(VERSSUF)|"       \
+		-e "s|@go4bindir@|$(GO4EXEPATH)|"  \
+		-e "s|@go4libdir@|$(GO4LIBPATH)|"  \
+		-e "s|@go4incdir@|$(GO4INCPATH)|"  \
+		-e "s|@go4topdir@|$(GO4TOPPATH)|"  \
+		< build/go4-config.ini > bin/go4-config; chmod 755 bin/go4-config; fi)
 	@(if [ ! -f include ] ; then mkdir -p include; fi)
 	@(if [ ! -f $(GO4MAP) ] ; then touch $(GO4MAP); fi)
 

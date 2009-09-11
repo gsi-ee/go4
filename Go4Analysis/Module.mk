@@ -56,8 +56,6 @@ include/%.h: $(GO4ANAL_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
-$(GO4ANALEXE): LDRPATHS += .
-
 $(GO4ANALEXE) : $(BUILDGO4LIBS) $(GO4ANALEXE_O) 
 	$(LD) $(LDFLAGS) $(GO4ANALEXE_O) $(LIBS_FULLSET) $(OutPutOpt) $(GO4ANALEXE)
 	@echo "$@  done"
