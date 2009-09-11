@@ -46,6 +46,13 @@ Changes in Go4 v4.3.2 (September 09)
    just provide PATH variable to bin/ subdirectory to be able fully use go4 GUI
    and compile user analysis. To use such installation in old makefiles, GO4SYS variable should 
    be defined and point to share/go4/ subdirectory.
+8. go4 can be started with "-observer", "-controller", "-admin" arguments, 
+   followed by optional hostname [localhost], port number [5000] and 
+   access password [none] which defines running analysis server. 
+   This simplify gui handling when running analysis from other shell.
+   Especially useful when running analysis with go4analysis executable like:
+   "go4analysis -server -stream mbshost" 
+   
 
 Changes in Go4 v4.3.1 (August 09)
 1. Fix error with connecting DABC/MBS servers second time

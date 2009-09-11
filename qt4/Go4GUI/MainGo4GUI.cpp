@@ -32,6 +32,11 @@ int main(int argc, char **argv)
       return -1;
    }
 
+   int dologin = -1;
+   const char* loghost = "localhost";
+   int logport = 5000;
+   const char* logpass = 0;
+
    bool traceon = false;
    bool servermode = true;
    QString hotstart = "";
@@ -49,6 +54,22 @@ int main(int argc, char **argv)
             cout << "G-OOOO-> MainGo4GUI is starting as client." << endl;
             servermode = false;
             if(strstr(argv[narg], "-debug")) traceon = true;
+         } else
+         if((strcmp(argv[narg], "-observer")==0) ||
+            (strcmp(argv[narg], "-controller")==0) ||
+            (strcmp(argv[narg], "-admin")==0)) {
+
+            if(strcmp(argv[narg], "-observer")==0) dologin = 0;
+            if(strcmp(argv[narg], "-controller")==0) dologin = 1;
+            if(strcmp(argv[narg], "-admin")==0) dologin = 2;
+
+            if ((narg+1<argc) && (argv[narg+1][0]!='-'))
+               loghost = argv[++narg];
+
+            if ((narg+1<argc) && (argv[narg+1][0]!='-') && (argv[narg+1][0]>='0') && (argv[narg+1][0]<='9'))
+               logport = atoi(argv[++narg]);
+
+            if ((narg+1<argc) && (argv[narg+1][0]!='-')) logpass = argv[++narg];
          }
       } else
       if (strstr(argv[narg],".root")!=0)
@@ -150,6 +171,14 @@ int main(int argc, char **argv)
 
    if (hotstart.length()>0)
       Go4MainGUI->HotStart(hotstart.toAscii());
+
+   if (dologin>=0) {
+      go4sett->setClientNode(loghost);
+      go4sett->setClientPort(logport);
+      go4sett->setClientDefaultPass(logpass==0);
+      go4sett->setClientControllerMode(dologin);
+      Go4MainGUI->ConnectServerSlot(false, logpass);
+   }
 
    int res = myapp.exec();
    delete go4sett;
