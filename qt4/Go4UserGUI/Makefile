@@ -1,3 +1,7 @@
+ifndef GO4SYS
+GO4SYS = $(shell go4-config --go4sys)
+endif
+
 include $(GO4SYS)/Makefile.config
 
 ## normally should be like this for every module, but can be specific

@@ -40,7 +40,7 @@ include/%.h: $(GO4LOG_DIR)/%.h
 	@cp -f $< $@
 
 ifndef GO4_WIN32
-$(GO4LOG_O) : DEFINITIONS += -DCOMP_GO4SYS="\"$(CURDIR)\""
+$(GO4LOG_O) : DEFINITIONS += -DCOMP_GO4SYS="\"$(GO4TOPPATH)\""
 endif
 
 $(GO4LOG_DS): $(GO4LOG_H)  $(GO4LOG_LINKDEF)

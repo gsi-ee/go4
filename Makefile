@@ -77,11 +77,11 @@ EXMODULES = Go4ExampleSimple Go4Example1Step Go4Example2Step \
             Go4ExampleUserSource Go4ExampleMesh Go4FitExample \
             Go4ThreadManagerExample Go4TaskHandlerExample Go4EventServerExample
 
-.PHONY:         all includes libs gui plugin \
-                clean clean-qt3 clean-qt4 clean-bak clean-plugin clean-mainlibs\
+.PHONY:         all includes libs gui plugin install \
+                clean clean-qt3 clean-qt4 clean-bak clean-plugin clean-mainlibs clean-prefix \
                 package $(PACKAGERULES)
 
-FASTRULES    += clean-qt3 clean-qt4 clean-bak clean-dep clean-plugin clean-bin \
+FASTRULES    += clean-qt3 clean-qt4 clean-bak clean-dep clean-plugin clean-bin clean-prefix\
                 $(PACKAGERULES)
 
 all::           gui 
@@ -111,6 +111,36 @@ build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
 libs::          $(BUILDGO4LIBS)
 
 gui::           libs 
+
+ifndef GO4PREFIX
+install:
+	@echo "Go4 compiled without prefix set - install is not allowed"
+
+uninstall:
+	@echo "Go4 compiled without prefix set - uninstall is not allowed"
+else
+uninstall:
+	@rm -rf $(GO4TOPPATH)
+	@rm -f $(GO4EXEPATH)/go4 $(GO4EXEPATH)/go4analysis $(GO4EXEPATH)/go4-config
+	@rm -f $(GO4LIBPATH)/libGo4*.*
+	@rm -rf $(GO4INCPATH)
+
+install: uninstall
+	@echo "Installing Go4 in directory $(GO4PREFIX)..."
+	@mkdir -p $(GO4EXEPATH); cp bin/go4 bin/go4analysis bin/go4-config $(GO4EXEPATH)
+	@mkdir -p $(GO4LIBPATH); cp lib/* $(GO4LIBPATH)
+	@mkdir -p $(GO4INCPATH); cp include/* $(GO4INCPATH)
+	@mkdir -p $(GO4TOPPATH); cp Makefile.config Makefile.rules $(GO4TOPPATH)
+	@mkdir -p $(GO4TOPPATH)/build; cp build/* $(GO4TOPPATH)/build
+	@mkdir -p $(GO4TOPPATH)/etc; cp etc/* $(GO4TOPPATH)/etc
+	@mkdir -p $(GO4TOPPATH)/macros; cp macros/* $(GO4TOPPATH)/macros
+	@mkdir -p $(GO4TOPPATH)/qt4; cp qt4/go4.conf $(GO4TOPPATH)/qt4
+	@mkdir -p $(GO4TOPPATH)/qt3/etc; cp qt3/etc/* $(GO4TOPPATH)/qt3/etc
+	@mkdir -p $(GO4TOPPATH)/icons; cp icons/* $(GO4TOPPATH)/icons
+	@mkdir -p $(GO4TOPPATH)/Go4Analysis; cp Go4Analysis/TGo4Version.$(ObjSuf) Go4Analysis/*.C $(GO4TOPPATH)/Go4Analysis
+	@echo "Installation completed"
+endif
+
 
 clean::  clean-bin clean-mainlibs clean-plugin
 	@rm -f $(GO4MAP)
@@ -143,6 +173,13 @@ clean-bak:
 clean-dep:
 	@rm -f $(LIBDEPENDENC) $(EXAMPDEPENDENCS)
 	@echo "Delete all dependency files"
+
+clean-prefix:
+	@rm -f Go4Log/TGo4Log.o Go4Log/TGo4Log.d
+	@rm -f qt3/Go4GUI/Makefile.qt qt4/Go4GUI/Makefile.qt 
+	@rm -f build/Makefile.gener
+	@rm -f bin/*
+	@echo "Clean prefix-dependend files done"
 
 GO4BASE_O = $(LOCKGRD_O) $(LOCKGRD_DO) \
             $(GO4LOG_O) $(GO4LOG_DO) \

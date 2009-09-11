@@ -1,3 +1,7 @@
+ifndef GO4SYS
+GO4SYS = $(shell go4-config --go4sys)
+endif
+
 include $(GO4SYS)/Makefile.config
 
 EXAMP1STEP_NAME        = Go4Example1Step
