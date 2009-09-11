@@ -38,7 +38,14 @@ Changes in Go4 v4.3.2 (September 09)
    environment variables like GO4SYS or LD_LIBRARY_PATH. The only requirement is that
    go4-config should be accessible via PATH variable or should be placed in one of 
    the standard locations. Will be the main point to provide go4 install feature.
-
+7. New install capability in makefile. One can compile complete go4 with 
+   command "make prefix=/usr/local", where prefix variable defines installation directory.
+   After compilation completed, "make install" command will copy binaries 
+   in bin/, libraries in lib/, includes in /include/go4 and 
+   other additional staff in share/go4/ subdirectories. After installation it is enough
+   just provide PATH variable to bin/ subdirectory to be able fully use go4 GUI
+   and compile user analysis. To use such installation in old makefiles, GO4SYS variable should 
+   be defined and point to share/go4/ subdirectory.
 
 Changes in Go4 v4.3.1 (August 09)
 1. Fix error with connecting DABC/MBS servers second time

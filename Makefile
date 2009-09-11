@@ -41,9 +41,6 @@ THRDMNGR_LIB    = $(GO4DLLPATH)/$(THRDMNGR_LIBNAME).$(DllSuf)
 GO4TSKH_LIBNAME = $(LIB_PREFIX)Go4TaskHandler
 GO4TSKH_LIB     = $(GO4DLLPATH)/$(GO4TSKH_LIBNAME).$(DllSuf)
 
-VERSION_LIBNAME  = $(LIB_PREFIX)Go4Version
-VERSION_LIB      = $(GO4DLLPATH)/$(VERSION_LIBNAME).$(DllSuf)
-
 GO4ANBASE_LIBNAME = $(LIB_PREFIX)Go4AnalBase
 GO4ANBASE_LIB     = $(GO4DLLPATH)/$(GO4ANBASE_LIBNAME).$(DllSuf)
 
@@ -58,7 +55,6 @@ BUILDGO4LIBS = $(GO4FIT_LIB) \
                $(THRDMNGR_LIB) \
                $(GO4TSKH_LIB) \
                $(GO4ANBASE_LIB) \
-               $(VERSION_LIB) \
                $(GO4AN_LIB) \
                $(GO4BGUI_LIB)
 
@@ -77,11 +73,11 @@ EXMODULES = Go4ExampleSimple Go4Example1Step Go4Example2Step \
             Go4ExampleUserSource Go4ExampleMesh Go4FitExample \
             Go4ThreadManagerExample Go4TaskHandlerExample Go4EventServerExample
 
-.PHONY:         all includes libs gui plugin install \
+.PHONY:         all includes libs gui plugin install uninstall \
                 clean clean-qt3 clean-qt4 clean-bak clean-plugin clean-mainlibs clean-prefix \
                 package $(PACKAGERULES)
 
-FASTRULES    += clean-qt3 clean-qt4 clean-bak clean-dep clean-plugin clean-bin clean-prefix\
+FASTRULES    += clean-qt3 clean-qt4 clean-bak clean-dep clean-plugin clean-bin clean-prefix \
                 $(PACKAGERULES)
 
 all::           gui 
@@ -126,7 +122,7 @@ uninstall:
 	@rm -rf $(GO4INCPATH)
 
 install: uninstall
-	@echo "Installing Go4 in directory $(GO4PREFIX)..."
+	@echo "Installing Go4 in directory $(GO4PREFIX) ..."
 	@mkdir -p $(GO4EXEPATH); cp bin/go4 bin/go4analysis bin/go4-config $(GO4EXEPATH)
 	@mkdir -p $(GO4LIBPATH); cp lib/* $(GO4LIBPATH)
 	@mkdir -p $(GO4INCPATH); cp include/* $(GO4INCPATH)
@@ -137,10 +133,8 @@ install: uninstall
 	@mkdir -p $(GO4TOPPATH)/qt4; cp qt4/go4.conf $(GO4TOPPATH)/qt4
 	@mkdir -p $(GO4TOPPATH)/qt3/etc; cp qt3/etc/* $(GO4TOPPATH)/qt3/etc
 	@mkdir -p $(GO4TOPPATH)/icons; cp icons/* $(GO4TOPPATH)/icons
-	@mkdir -p $(GO4TOPPATH)/Go4Analysis; cp Go4Analysis/TGo4Version.$(ObjSuf) Go4Analysis/*.C $(GO4TOPPATH)/Go4Analysis
 	@echo "Installation completed"
 endif
-
 
 clean::  clean-bin clean-mainlibs clean-plugin
 	@rm -f $(GO4MAP)
@@ -156,7 +150,6 @@ clean-mainlibs:
 	@$(CleanLib) $(GO4TSKH_LIBNAME) $(GO4DLLPATH)
 	@$(CleanLib) $(GO4ANBASE_LIBNAME) $(GO4DLLPATH)
 	@$(CleanLib) $(GO4AN_LIBNAME) $(GO4DLLPATH)
-	@$(CleanLib) $(VERSION_LIBNAME) $(GO4DLLPATH)
 	@$(CleanLib) $(GO4BGUI_LIBNAME) $(GO4DLLPATH)
 
 clean-bin::
@@ -205,7 +198,8 @@ GO4ANBASE_O = $(MBSAPIBASE_O)  \
             $(GO4EVENTPAR_O) $(GO4EVENTPAR_DO) \
             $(EVENTSERVPAR_O) $(EVENTSERVPAR_DO) \
             $(DYNLIST_O) $(DYNLIST_DO) \
-            $(STATANAL_O) $(STATANAL_DO)
+            $(STATANAL_O) $(STATANAL_DO) \
+            $(VERSION_O) 
 
 GO4ANBASE_LINKDEFS = $(GO4EVENTPAR_LINKDEF) \
                      $(EVENTSERVPAR_LINKDEF) \
@@ -247,16 +241,13 @@ $(GO4TSKH_LIB):   $(GO4TSKH_O)
 	@$(MakeLibrary) $(GO4TSKH_LIBNAME) "$(GO4TSKH_O)" $(GO4DLLPATH) "$(GO4TSKH_LINKDEFS)" "$(THRDMNGR_LIB) $(GO4BASE_LIB) $(BASIC_LIB_DEP)"
 
 $(GO4ANBASE_LIB): $(GO4ANBASE_O)
-	@$(MakeLibrary) $(GO4ANBASE_LIBNAME) "$(GO4ANBASE_O)" $(GO4DLLPATH) "$(GO4ANBASE_LINKDEFS)" "$(VERSION_LIB) $(GO4TSKH_LIB) $(THRDMNGR_LIB) $(GO4BASE_LIB) $(GO4FIT_LIB) $(BASIC_LIB_DEP)"
+	@$(MakeLibrary) $(GO4ANBASE_LIBNAME) "$(GO4ANBASE_O)" $(GO4DLLPATH) "$(GO4ANBASE_LINKDEFS)" "$(GO4TSKH_LIB) $(THRDMNGR_LIB) $(GO4BASE_LIB) $(GO4FIT_LIB) $(BASIC_LIB_DEP)"
 
 $(GO4AN_LIB): $(GO4AN_O)
-	@$(MakeLibrary) $(GO4AN_LIBNAME) "$(GO4AN_O)" $(GO4DLLPATH) "$(GO4AN_LINKDEFS)" "$(VERSION_LIB) $(GO4ANBASE_LIB) $(GO4TSKH_LIB) $(THRDMNGR_LIB) $(GO4BASE_LIB) $(GO4FIT_LIB) $(BASIC_LIB_DEP)"
-
-$(VERSION_LIB): $(VERSION_O)
-	@$(MakeLibrary) $(VERSION_LIBNAME) "$(VERSION_O)" $(GO4DLLPATH)
+	@$(MakeLibrary) $(GO4AN_LIBNAME) "$(GO4AN_O)" $(GO4DLLPATH) "$(GO4AN_LINKDEFS)" "$(GO4ANBASE_LIB) $(GO4TSKH_LIB) $(THRDMNGR_LIB) $(GO4BASE_LIB) $(GO4FIT_LIB) $(BASIC_LIB_DEP)"
 
 $(GO4BGUI_LIB): $(GO4BGUI_O)
-	@$(MakeLibrary) $(GO4BGUI_LIBNAME) "$(GO4BGUI_O)" $(GO4DLLPATH) "$(GO4BGUI_LINKDEFS)" "$(VERSION_LIB) $(GO4ANBASE_LIB) $(GO4TSKH_LIB) $(THRDMNGR_LIB) $(GO4BASE_LIB) $(GO4FIT_LIB) $(BASIC_LIB_DEP)"
+	@$(MakeLibrary) $(GO4BGUI_LIBNAME) "$(GO4BGUI_O)" $(GO4DLLPATH) "$(GO4BGUI_LINKDEFS)" "$(GO4ANBASE_LIB) $(GO4TSKH_LIB) $(THRDMNGR_LIB) $(GO4BASE_LIB) $(GO4FIT_LIB) $(BASIC_LIB_DEP)"
 
 
 ifdef DOPACKAGE

@@ -7,9 +7,7 @@ GO4ANAL_LINKDEF     = $(GO4ANAL_DIR)/$(GO4ANAL_NAME)LinkDef.$(HedSuf)
 
 VERSION_FILENAME    = TGo4Version
 
-GO4ANAL_NOTLIBF     = $(GO4ANAL_DIR)/TGo4Analysis.h \
-                      $(GO4ANAL_DIR)/anamacroinit.C \
-                      $(GO4ANAL_DIR)/anamacroclose.C
+GO4ANAL_NOTLIBF     = $(GO4ANAL_DIR)/TGo4Analysis.h
 
 ## must be similar for every module
 

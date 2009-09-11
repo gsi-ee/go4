@@ -26,6 +26,12 @@ int main(int argc, char **argv)
    gEnv->SetValue("X11.XInitThread", 0);   // required to avoid conflicts with Qt4
    //    qt_x11_set_global_double_buffer(false); // improves qtroot canvas update
 #endif
+
+   if (!TGo4Version::Instance()->CheckVersion(__GO4BUILDVERSION__)) {
+      cerr << "Please configure your system correctly and restart go4 again" << endl;
+      return -1;
+   }
+
    bool traceon = false;
    bool servermode = true;
    QString hotstart = "";

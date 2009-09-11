@@ -9,6 +9,7 @@
 #include "TApplication.h"
 #include "TSystem.h"
 
+#include "TGo4Version.h"
 #include "TGo4StepFactory.h"
 #include "TGo4AnalysisStep.h"
 #include "TGo4Analysis.h"
@@ -142,6 +143,12 @@ TGo4Analysis* CreateDefaultAnalysis()
 //==================  analysis main program ============================
 int main(int argc, char **argv)
 {
+   if (!TGo4Version::Instance()->CheckVersion(__GO4BUILDVERSION__)) {
+      cerr << "Please check your system configuration and restart analysis again" << endl;
+      return -1;
+   }
+
+
    if (argc<2) usage("Too few arguments");
 
    int narg = 1;

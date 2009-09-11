@@ -99,8 +99,8 @@ TGo4Analysis::TGo4Analysis() :
 {
    TRACE((15,"TGo4Analysis::TGo4Analysis()",__LINE__, __FILE__));
    //
-   if(! ( TGo4Version::Instance()->CheckVersion(TGo4Analysis::fgiGO4VERSION) ) )
-   {
+
+   if (!TGo4Version::Instance()->CheckVersion(fgiGO4VERSION)) {
       // wrong version number between framework and user executable
       Message(-1,"!!!! Analysis Base class:\n\t User Analysis was built with wrong \t\tGo4 Buildversion %d !!!!!",
             TGo4Version::Instance()->GetBuildVersion());
@@ -115,7 +115,7 @@ TGo4Analysis::TGo4Analysis() :
    {
       // may not disable output of version number:
       Message(-1,"Welcome to Go4 Analysis Framework Release %s (build %d) !",
-            __GO4RELEASE__ , fgiGO4VERSION);
+            __GO4RELEASE__ , __GO4BUILDVERSION__);
    }
    if(fxInstance==0)
    {
@@ -141,7 +141,7 @@ TGo4Analysis::TGo4Analysis() :
    }
    // settings for macro execution
    gROOT->ProcessLine("TGo4Analysis *go4 = TGo4Analysis::Instance();");
-   gROOT->ProcessLine(Form(".x %sGo4Analysis/anamacroinit.C", TGo4Log::GO4SYS()));
+   gROOT->ProcessLine(Form(".x %s", TGo4Log::subGO4SYS("macros/anamacroinit.C").Data()));
 }
 
 TGo4Analysis::~TGo4Analysis()
@@ -156,8 +156,8 @@ TGo4Analysis::~TGo4Analysis()
    delete fxAutoSaveClock;
    delete fxSampleEvent;
    TGo4CommandInvoker::UnRegister(this);
-   fxInstance=0; // reset static singleton instance pointer
-   //gROOT->ProcessLine(Form(".x %sGo4Analysis/anamacroclose.C", TGo4Log::GO4SYS()));
+   fxInstance = 0; // reset static singleton instance pointer
+   gROOT->ProcessLine(Form(".x %s", TGo4Log::subGO4SYS("macros/anamacroclose.C").Data()));
    //cout <<"end of dtor" << endl;
 }
 
