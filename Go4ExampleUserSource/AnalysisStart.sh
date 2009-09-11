@@ -1,4 +1,4 @@
-#!/usr/bin/ksh
+#!/bin/sh
 echo useranalysis startup script
 echo $1
 ./$1 $2 $3 $4 $5 $6

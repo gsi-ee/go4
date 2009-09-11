@@ -28,11 +28,12 @@ These package was tested on
 REQUIREMENTS:
    ROOT version: >=5.19/01
    
-   Qt version: either 3.3.x or 4.4.x
+   Qt version: either 3.3.x or 4.4.x and higher
 
    NEW: this Go4 distribution can be built with Qt3 or Qt4.
         One can set QTDIR variable directly (version will be recognized with qmake),
-        or one can set WITHQT variable to 3,4,no to use globally installed version of Qt. 
+        or one can set WITHQT variable to 3,4,no to use globally installed version of Qt.
+        One also install Go4 in default system locations like /usr or /usr/local 
 
 INSTALLATION:
 
@@ -52,7 +53,11 @@ INSTALLATION:
   Qt libraries and include files in default locations like /usr/bin and 
   /usr/include/qt3. Go4 able to detect major version of such Qt installation 
   and will compile either qt3 or qt4 GUI. In this case it is not necessary
-  to set QTDIR location (sometime it is even does not exists). 
+  to set QTDIR location (sometime it is even does not exists).
+  If both Qt version 3 and 4 installed, use WITHQT makefile flag to select required 
+  version. It is especially necessary for system, where Qt3 installation automatically
+  sets QTDIR variable, therefore to compile Go4 with version Qt4, one should call
+  make WITHQT=4. 
   If there is no Qt installed on your system, or Go4 is not able to use it correctly,
   install Qt graphics library qt-x11-opensource-src-4.5.1
   (download at http://www.qtsoftware.com/downloads).
@@ -87,7 +92,7 @@ INSTALLATION:
   external xterm (ssh mode).
 
 - The analysis startup script $GO4SYS/etc/Go4ClientStartup.ksh specifies
-  in the first line the shell to execute it, i.e "#!/bin/bash". Please
+  in the first line the shell to execute it, i.e "#!/bin/sh". Please
   check if this is the correct location of the ksh executable on your system
   (type "which bash" in shell). If not, you should edit this line to indicate
   the absolute path. If ksh should not be installed at all on your linux, you

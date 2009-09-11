@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # new: use full path and libpath from invoking shell JA
 # $1: GO4SYS
 # $2  ROOTSYS
