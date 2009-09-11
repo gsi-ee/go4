@@ -67,7 +67,7 @@ const char* TGo4Log::GO4SYS()
    fgsGO4SYS = go4sys;
    if (fgsGO4SYS.Length() > 0) {
 #ifdef WIN32
-      char lastsymbol = '\';
+      char lastsymbol = '\\';
 #else
       char lastsymbol = '/';
 #endif

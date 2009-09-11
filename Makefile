@@ -127,8 +127,8 @@ install: uninstall
 	@mkdir -p $(GO4LIBPATH); cp lib/* $(GO4LIBPATH)
 	@mkdir -p $(GO4INCPATH); cp include/* $(GO4INCPATH)
 	@mkdir -p $(GO4TOPPATH); cp Makefile.config Makefile.rules $(GO4TOPPATH)
-	@mkdir -p $(GO4TOPPATH)/build; cp build/* $(GO4TOPPATH)/build
-	@mkdir -p $(GO4TOPPATH)/etc; cp etc/* $(GO4TOPPATH)/etc
+	@mkdir -p $(GO4TOPPATH)/build; cp build/*.sh build/Makefile.* $(GO4TOPPATH)/build
+	@mkdir -p $(GO4TOPPATH)/etc; cp -r etc/* $(GO4TOPPATH)/etc
 	@mkdir -p $(GO4TOPPATH)/macros; cp macros/* $(GO4TOPPATH)/macros
 	@mkdir -p $(GO4TOPPATH)/qt4; cp qt4/go4.conf $(GO4TOPPATH)/qt4
 	@mkdir -p $(GO4TOPPATH)/qt3/etc; cp qt3/etc/* $(GO4TOPPATH)/qt3/etc
@@ -281,7 +281,7 @@ HDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(DISTRFILES:%=$(GO4DISTR_DIR)/%))
 go4-package:
 	@echo "Creating package $(GO4TAR_NAME) ..."
 	@tar chf $(GO4TAR_NAME) Makefile.config Makefile.rules go4.init
-	@tar rhf $(GO4TAR_NAME) build/*.sh build/Makefile.* --exclude=build/Makefile.gener
+	@tar rhf $(GO4TAR_NAME) build/go4-config.ini build/*.sh build/Makefile.* --exclude=build/Makefile.gener
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Module.mk,$(MODULES))
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Makefile,$(EXMODULES))
 	@tar rhf $(GO4TAR_NAME) $(DISTRFILES)
