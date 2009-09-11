@@ -1,3 +1,7 @@
+ifndef GO4SYS
+  GO4SYS = .
+endif
+
 GO4PACKAGE = go4
 
 include Makefile.config
@@ -62,10 +66,10 @@ all::      gui
 
 .SUFFIXES: .cxx .d .h
 
-.PHONY:         all setup libs gui plugin \
-                clean clean-bin clean-qt3 clean-qt4 clean-mainlibs package clean-plugin
+.PHONY:         all setup libs gui plugin install uninstall \
+                clean clean-bin clean-qt3 clean-qt4 clean-mainlibs package clean-plugin clean-prefix
 
-FASTRULES    += clean-qt3 clean-qt4 clean-plugin
+FASTRULES    += clean-qt3 clean-qt4 clean-plugin clean-prefix
 
 include $(patsubst %,%/Module.mk,$(MODULES))
 
@@ -82,17 +86,45 @@ build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
 	@(if [ ! -f bin/go4-config ] ; then   \
 		sed -e "s|@go4arch@|$(GO4_OS)|"    \
 		-e "s|@go4vers@|$(VERSSUF)|"       \
+		-e "s|@go4topdir@|$(GO4TOPPATH)|"  \
 		-e "s|@go4bindir@|$(GO4EXEPATH)|"  \
 		-e "s|@go4libdir@|$(GO4LIBPATH)|"  \
 		-e "s|@go4incdir@|$(GO4INCPATH)|"  \
-		-e "s|@go4topdir@|$(GO4TOPPATH)|"  \
-		< build/go4-config.ini > bin/go4-config; chmod 755 bin/go4-config; fi)
+		< build/go4-config.ini > bin/go4-config; chmod 755 bin/go4-config; echo "create go4-config"; fi)
 	@(if [ ! -f include ] ; then mkdir -p include; fi)
 	@(if [ ! -f $(GO4MAP) ] ; then touch $(GO4MAP); fi)
 
 libs::          $(BUILDGO4LIBS)
 
 gui::           libs
+
+ifndef GO4PREFIX
+install:
+	@echo "Go4 compiled without prefix set - install is not allowed"
+
+uninstall:
+	@echo "Go4 compiled without prefix set - uninstall is not allowed"
+else
+uninstall:
+	@rm -rf $(GO4TOPPATH)
+	@rm -f $(GO4EXEPATH)/go4 $(GO4EXEPATH)/go4analysis $(GO4EXEPATH)/go4-config
+	@rm -f $(GO4LIBPATH)/libGo4*.*
+	@rm -rf $(GO4INCPATH)
+
+install: uninstall
+	@echo "Installing Go4 in directory $(GO4PREFIX) ..."
+	@mkdir -p $(GO4EXEPATH); cp bin/go4 bin/go4analysis bin/go4-config $(GO4EXEPATH)
+	@mkdir -p $(GO4LIBPATH); cp lib/* $(GO4LIBPATH)
+	@mkdir -p $(GO4INCPATH); cp include/* $(GO4INCPATH)
+	@mkdir -p $(GO4TOPPATH); cp Makefile.config Makefile.rules $(GO4TOPPATH)
+	@mkdir -p $(GO4TOPPATH)/build; cp build/* $(GO4TOPPATH)/build
+	@mkdir -p $(GO4TOPPATH)/etc; cp etc/* $(GO4TOPPATH)/etc
+	@mkdir -p $(GO4TOPPATH)/macros; cp macros/* $(GO4TOPPATH)/macros
+	@mkdir -p $(GO4TOPPATH)/qt4; cp qt4/go4.conf $(GO4TOPPATH)/qt4
+	@mkdir -p $(GO4TOPPATH)/qt3/etc; cp qt3/etc/* $(GO4TOPPATH)/qt3/etc
+	@mkdir -p $(GO4TOPPATH)/icons; cp icons/* $(GO4TOPPATH)/icons
+	@echo "Installation completed"
+endif
 
 clean:: clean-bin clean-mainlibs clean-plugin
 	@rm -f $(GO4MAP)
@@ -111,6 +143,14 @@ clean-mainlibs:
 
 clean-bin::
 	@echo "Clean binary (generated) files"
+
+clean-prefix:
+	@rm -f Go4Log/TGo4Log.o Go4Log/TGo4Log.d
+	@rm -f qt3/Go4GUI/Makefile.qt qt4/Go4GUI/Makefile.qt 
+	@rm -f build/Makefile.gener
+	@rm -f bin/*
+	@echo "Clean prefix-dependend files done"
+
 
 GO4BASE_O = $(LOCKGRD_O) $(LOCKGRD_DO) \
             $(GO4LOG_O) $(GO4LOG_DO) \
