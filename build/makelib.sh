@@ -55,13 +55,11 @@ if [ "$GO4_OS" = "Win32" ]; then
     extralibs="libGo4Base.lib"
   elif [ "$LIBNAME" = "libGo4TaskHandler" ]; then
     extralibs="libGo4Base.lib libGo4ThreadManager.lib"
-  elif [ "$LIBNAME" = "libGo4Version" ]; then
-    extralibs=""
   elif [ "$LIBNAME" = "libGo4AnalBase" ]; then
     extralibs="libGo4Base.lib libGo4ThreadManager.lib libGo4TaskHandler.lib"
   elif [ "$LIBNAME" = "libGo4Analysis" ]; then
     extralibs="libGo4Fit.lib libGo4Base.lib libGo4ThreadManager.lib \
-               libGo4TaskHandler.lib libGo4AnalBase.lib libGo4Version.lib"
+               libGo4TaskHandler.lib libGo4AnalBase.lib"
   elif [ "$LIBNAME" = "libGo4GUI" ]; then
     extralibs="libGo4Fit.lib libGo4Base.lib libGo4ThreadManager.lib \
                libGo4TaskHandler.lib libGo4AnalBase.lib libGui.lib"

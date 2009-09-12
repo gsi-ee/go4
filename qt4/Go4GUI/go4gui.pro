@@ -14,7 +14,10 @@ PROJECTNAME = Go4GUI
 
 RESOURCES += go4icons.qrc
 
-win32:QMAKE_LFLAGS  += /nodefaultlib:msvcprt.lib /nodefaultlib:libcmt.lib
+win32:QMAKE_LFLAGS  += /nodefaultlib:msvcprt.lib /nodefaultlib:libcmt.lib /verbose:lib
+
+win32:LIBS += ../../Go4Log/TGo4Log.obj
+
 
 HEADERS	+= \
 	TGo4HServerConnection.h\

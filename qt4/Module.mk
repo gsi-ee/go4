@@ -41,7 +41,7 @@ endif
 
 FASTRULES += clean-qt4
 
-clean-qt4:: clean-qt4-GUI clean-qt4usergui clean-qt4plugin
+clean-qt4:: clean-qt4-GUI clean-qt4usergui
 	@rm -f build/Makefile.gener
 
 clean:: clean-qt4

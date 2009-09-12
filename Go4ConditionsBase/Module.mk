@@ -43,9 +43,3 @@ $(CONDBASE_DS): $(CONDBASE_H)  $(CONDBASE_LINKDEF)
 clean-bin::
 	@rm -f $(CONDBASE_O) $(CONDBASE_DO)
 	@rm -f $(CONDBASE_DEP) $(CONDBASE_DDEP) $(CONDBASE_DS) $(CONDBASE_DH)
-
-# special handling of win32 problem
-ifdef GO4_WIN32
-$(CONDBASE_DIR)/TGo4Condition.$(ObjSuf) $(CONDBASE_DIR)/TGo4Marker.$(ObjSuf) $(CONDBASE_DO) : DEFINITIONS += -DBUILDING_GO4BASE_DLL
-endif
-

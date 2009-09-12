@@ -181,6 +181,10 @@ GO4BASE_O = $(LOCKGRD_O) $(LOCKGRD_DO) \
             $(STATBASE_O) $(STATBASE_DO) \
             $(CONDBASE_O) $(CONDBASE_DO)
 
+ifdef GO4_WIN32
+$(GO4BASE_O): CXXFLAGS += -DBUILDING_GO4BASE_DLL
+endif
+
 GO4BASE_LINKDEFS = $(LOCKGRD_LINKDEF) \
                    $(GO4LOG_LINKDEF) \
                    $(COMBASE_LINKDEF) \
