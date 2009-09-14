@@ -337,7 +337,7 @@ void TGo4QSettings::setClientAddPath(const QString& path)
 
 QString TGo4QSettings::getClientAddPath()
 {
-   getStr("/ClientSetting/PATH", "");
+   return getStr("/ClientSetting/PATH", "");
 }
 
 void TGo4QSettings::setClientAddLDPath(const QString& path)
@@ -347,7 +347,7 @@ void TGo4QSettings::setClientAddLDPath(const QString& path)
 
 QString TGo4QSettings::getClientAddLDPath()
 {
-   getStr("/ClientSetting/LD_LIBRARY_PATH", "");
+   return getStr("/ClientSetting/LD_LIBRARY_PATH", "");
 }
 
 
