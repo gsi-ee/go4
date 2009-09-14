@@ -12,6 +12,7 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
 	setObjectName("Go4StartClient");
 
 	ClientShellGroup = new QButtonGroup(this);
+   ClientShellGroup->addButton(exec_selected, 0);
 	ClientShellGroup->addButton(rsh_selected, 1);
 	ClientShellGroup->addButton(ssh_selected, 2);
    ClientShellGroup->button(go4sett->getClientShellMode())->setChecked(true);

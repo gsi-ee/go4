@@ -106,7 +106,7 @@ class TGo4AnalysisProxy : public TGo4Proxy {
 
       Bool_t LaunchAsClient(TString& launchcmd,
                             TString& killcmd,
-                            Bool_t usessh,
+                            Int_t shellkind, // 0 - exec, 1 - rsh, 2 - ssh
                             Int_t konsole,
                             const char* name,
                             const char* remotehost,
@@ -115,7 +115,7 @@ class TGo4AnalysisProxy : public TGo4Proxy {
 
       static Bool_t LaunchAsServer(TString& launchcmd,
                                    TString& killcmd,
-                                   Bool_t usessh,
+                                   Int_t shellkind, // 0 - exec, 1 - rsh, 2 - ssh
                                    Int_t konsole,
                                    const char* name,
                                    const char* remotehost,
@@ -146,7 +146,7 @@ class TGo4AnalysisProxy : public TGo4Proxy {
       static Bool_t GetLaunchString(TString& launchcmd,
                                     TString& killcmd,
                                     Bool_t server,
-                                    Bool_t usessh,
+                                    Int_t shellkind, // 0 - exec, 1 - rsh, 2 - ssh
                                     Int_t konsole,
                                     const char* name,
                                     const char* remotehost,

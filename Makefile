@@ -81,6 +81,9 @@ FASTRULES    += clean-qt3 clean-qt4 clean-bak clean-dep clean-plugin clean-bin c
                 $(PACKAGERULES)
 
 all::           gui 
+ifdef GO4PREFIX
+	@echo Call make install to copy all binary files into $(GO4PREFIX)
+endif
 
 include $(patsubst %,%/Module.mk,$(MODULES))
 
@@ -130,8 +133,14 @@ install: uninstall
 	@mkdir -p $(GO4TOPPATH)/build; cp build/*.sh build/Makefile.* $(GO4TOPPATH)/build
 	@mkdir -p $(GO4TOPPATH)/etc; cp -r etc/* $(GO4TOPPATH)/etc
 	@mkdir -p $(GO4TOPPATH)/macros; cp macros/* $(GO4TOPPATH)/macros
+ifeq ($(GO4_QT), 4)
 	@mkdir -p $(GO4TOPPATH)/qt4; cp qt4/go4.conf $(GO4TOPPATH)/qt4
+	@mkdir -p $(GO4TOPPATH)/qt4/Go4UserGUI; cp qt4/Go4UserGUI/libGo4UserGui.$(DllSuf) $(GO4TOPPATH)/qt4/Go4UserGUI
+endif
+ifeq ($(GO4_QT), 3)
 	@mkdir -p $(GO4TOPPATH)/qt3/etc; cp qt3/etc/* $(GO4TOPPATH)/qt3/etc
+	@mkdir -p $(GO4TOPPATH)/qt3/Go4UserGUI; cp qt3/Go4UserGUI/libGo4UserGui.$(DllSuf) $(GO4TOPPATH)/qt3/Go4UserGUI
+endif
 	@mkdir -p $(GO4TOPPATH)/icons; cp icons/* $(GO4TOPPATH)/icons
 	@echo "Installation completed"
 endif

@@ -910,7 +910,7 @@ Int_t TGo4AnalysisProxy::ConnectorPort()
 
 Bool_t TGo4AnalysisProxy::LaunchAsClient(TString& launchcmd,
                                          TString& killcmd,
-                                         Bool_t usessh,
+                                         Int_t usessh,
                                          Int_t konsole,
                                          const char* name,
                                          const char* remotehost,
@@ -940,7 +940,7 @@ Bool_t TGo4AnalysisProxy::LaunchAsClient(TString& launchcmd,
 
 Bool_t TGo4AnalysisProxy::LaunchAsServer(TString& launchcmd,
                                          TString& killcmd,
-                                         Bool_t usessh,
+                                         Int_t usessh,
                                          Int_t konsole,
                                          const char* name,
                                          const char* remotehost,
@@ -961,7 +961,7 @@ Bool_t TGo4AnalysisProxy::LaunchAsServer(TString& launchcmd,
 Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
                                           TString& killcmd,
                                           Bool_t server,
-                                          Bool_t usessh,
+                                          Int_t shellkind,
                                           Int_t konsole,
                                           const char* name,
                                           const char* remotehost,
@@ -998,18 +998,30 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
    for(int n=0;n<num;n++)
      launchprefs.getline(formatstring, 1000, '\n' );
 
-   const char* shcom = usessh ? (konsole == 0 ? "ssh -x " : "ssh -X ")  : "rsh -n";
+   const char* sh_com = "";
+   const char* sh_host = remotehost;
    TString serverdisplay = "";
-   if (!usessh) {
-      serverdisplay = "-display ";
-      serverdisplay += sdisplay;
+
+   switch (shellkind) {
+      case 1:
+         sh_com = "rsh -n";
+         serverdisplay = "-display ";
+         serverdisplay += sdisplay;
+         break;
+      case 2:
+         sh_com = (konsole == 0) ? "ssh -x " : "ssh -X ";
+         break;
+      default:
+         sh_com = "";
+         sh_host = "";
+         break;
    }
 
    killcmd = "killall ";
    killcmd += remoteexe;
 
-   if((strcmp(remotehost, gSystem->HostName())!=0) && (strcmp(remotehost,"localhost")!=0)) {
-       TString precmd = shcom;
+   if((shellkind>0) && (strcmp(remotehost, gSystem->HostName())!=0) && (strcmp(remotehost,"localhost")!=0)) {
+       TString precmd = sh_com;
        precmd += " ";
        precmd += remotehost;
        precmd += " ";
@@ -1021,14 +1033,14 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
    switch(konsole) {
      case 2: { // xterm
        launchcmd.Form(formatstring,
-         shcom, remotehost, serverdisplay.Data(), name, remotehost, go4sys, go4sys, rootsys,
+         sh_com, sh_host, serverdisplay.Data(), name, remotehost, go4sys, go4sys, rootsys,
          path, ldpath, remotedir, remoteexe, name, serverhost, guiport, remotehost);
        break;
      }
 
      case 3: { // konsole
        launchcmd.Form(formatstring,
-         shcom, remotehost, name, go4sys, go4sys, rootsys,
+         sh_com, sh_host, name, go4sys, go4sys, rootsys,
          path, ldpath, remotedir, remoteexe, name, serverhost, guiport, remotehost);
        break;
      }
@@ -1036,7 +1048,7 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
      default: {  // Qt
 
       launchcmd.Form(formatstring,
-         shcom, remotehost, go4sys, go4sys, rootsys,
+         sh_com, sh_host, go4sys, go4sys, rootsys,
          path, ldpath, remotedir, remoteexe, name, serverhost, guiport, remotehost);
       break;
      }
@@ -1156,7 +1168,7 @@ Bool_t TGo4AnalysisProxy::HandleTimer(TTimer* timer)
       } else
       if (fxParentSlot!=0) {
          // this will also delete Analysis proxy itself
-         // preactiacally the same as  delete fxParentSlot;
+         // practically the same as  delete fxParentSlot;
          fxParentSlot->Delete();
          //fxParentSlot = 0;
          //fxParentSlot->GetOM()->DeleteObject(fxParentSlot);

@@ -31,7 +31,7 @@ TXXXAnalysis::TXXXAnalysis()
 }
 //***********************************************************
 // this constructor is used
-TXXXAnalysis::TXXXAnalysis(Text_t * input, Int_t type, Int_t port, Text_t * out1, Text_t * out2, Bool_t enable1, Bool_t enable2)
+TXXXAnalysis::TXXXAnalysis(const char* input, Int_t type, Int_t port, const char* out1, const char* out2, Bool_t enable1, Bool_t enable2)
   : fUserFile(0),
     fMbsEvent(0),
     fRawEvent(0),

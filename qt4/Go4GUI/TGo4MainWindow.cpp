@@ -1277,7 +1277,7 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
       TGo4AnalysisProxy* anal = AddAnalysisProxy(false, (termmode==1));
       if (anal!=0)
         res = anal->LaunchAsClient(launchcmd, killcmd,
-                      (shellmode==2),
+                      shellmode,
                       termmode,
                       go4sett->getClientName().toAscii(),
                       go4sett->getClientNode().toAscii(),
@@ -1288,7 +1288,7 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
          anw->StartAnalysisShell(launchcmd.Data());
    } else
       res = TGo4AnalysisProxy::LaunchAsServer(launchcmd, killcmd,
-                      (shellmode==2),
+                      shellmode,
                       termmode,
                       go4sett->getClientName().toAscii(),
                       go4sett->getClientNode().toAscii(),

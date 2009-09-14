@@ -230,8 +230,8 @@ class TGo4AbstractInterface : public TObject {
                           const char* ClientDir,
                           const char* ClientExec,
                           const char* ClientNode,
-                          Int_t ShellMode =  2,      // 1 = rsh  2 = ssh
-                          Int_t TermMode = 1)  {}     // 1 = Qt   2 = Xterm 3 = konsole
+                          Int_t ShellMode =  2,      //   0 = exec, 1 = rsh,  2 = ssh
+                          Int_t TermMode = 1)  {}    //   1 = Qt,   2 = Xterm, 3 = konsole
 
       /** Connect to running analysis server.
         * Parameters:

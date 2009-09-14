@@ -125,6 +125,13 @@
          <number>4</number>
         </property>
         <item>
+         <widget class="QRadioButton" name="exec_selected" >
+          <property name="text" >
+           <string>exec</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QRadioButton" name="rsh_selected" >
           <property name="text" >
            <string>rsh</string>

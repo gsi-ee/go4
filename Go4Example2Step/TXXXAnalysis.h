@@ -14,8 +14,8 @@ class TGo4FitterEnvelope;
 class TXXXAnalysis : public TGo4Analysis  {
    public:
                      TXXXAnalysis();
-                     TXXXAnalysis(Text_t * input, Int_t type, Int_t port
-                                  , Text_t * out1, Text_t * out2, Bool_t en1, Bool_t en2);
+                     TXXXAnalysis(const char* input, Int_t type, Int_t port,
+                                  const char* out1, const char* out2, Bool_t en1, Bool_t en2);
       virtual       ~TXXXAnalysis() ;
       virtual Int_t UserPreLoop();
       virtual Int_t UserEventFunc();
