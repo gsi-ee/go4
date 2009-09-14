@@ -91,7 +91,7 @@ INSTALLATION:
   location. You might have to change this string here to run go4 in the
   external xterm (ssh mode).
 
-- The analysis startup script $GO4SYS/etc/Go4ClientStartup.ksh specifies
+- The analysis startup script $GO4SYS/etc/Go4ClientStartup.sh specifies
   in the first line the shell to execute it, i.e "#!/bin/sh". Please
   check if this is the correct location of the ksh executable on your system
   (type "which bash" in shell). If not, you should edit this line to indicate

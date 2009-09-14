@@ -43,14 +43,14 @@ void TGo4AbstractInterface::Initialize(TGo4ObjectManager* om, TGo4BrowserProxy* 
    gROOT->ProcessLine("TGo4AbstractInterface* go4 = TGo4AbstractInterface::Instance();", &error);
    gROOT->ProcessLine("TGo4ObjectManager* om = TGo4AbstractInterface::Instance()->OM();", &error);
    gROOT->ProcessLine("TGo4BrowserProxy* br = TGo4AbstractInterface::Instance()->Browser();", &error);
-   gROOT->ProcessLine(Form(".x %s", TGo4Log::subGO4SYS("etc/go4macroinit.C").Data()));
+   gROOT->ProcessLine(Form(".x %s", TGo4Log::subGO4SYS("macros/go4macroinit.C").Data()));
 }
 
 TGo4AbstractInterface::~TGo4AbstractInterface()
 {
    FreeHotStartCmds();
 
-   gROOT->ProcessLine(Form(".x %s", TGo4Log::subGO4SYS("etc/go4macroclose.C").Data()));
+   gROOT->ProcessLine(Form(".x %s", TGo4Log::subGO4SYS("macros/go4macroclose.C").Data()));
 
    gInterpreter->DeleteGlobal(fBrowser);
    gInterpreter->DeleteGlobal(fOM);

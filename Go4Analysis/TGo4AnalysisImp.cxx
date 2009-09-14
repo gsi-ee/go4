@@ -57,17 +57,16 @@
 #if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
 #include "TCint.h"
 #endif
-const Int_t TGo4Analysis::fgiGO4VERSION = __GO4BUILDVERSION__;
 
 TGo4Analysis* TGo4Analysis::fxInstance = 0;
 Bool_t TGo4Analysis::fbExists=kFALSE;
 const Int_t TGo4Analysis::fgiAUTOSAVECOUNTS= 500;
 const Int_t TGo4Analysis::fgiDYNLISTINTERVAL= 1000;
 const Int_t TGo4Analysis::fgiMACROSTARTPOLL= 1000; //polling time for macro in WaitForStart
-const Text_t TGo4Analysis::fgcDEFAULTFILENAME[]="Go4AutoSave.root";
-const Text_t TGo4Analysis::fgcDEFAULTSTATUSFILENAME[]="Go4AnalysisPrefs.root";
-const Text_t TGo4Analysis::fgcDEFAULTFILESUF[]=".root";
-const Text_t TGo4Analysis::fgcTOPDYNAMICLIST[]="Go4DynamicList";
+const char* TGo4Analysis::fgcDEFAULTFILENAME="Go4AutoSave.root";
+const char* TGo4Analysis::fgcDEFAULTSTATUSFILENAME="Go4AnalysisPrefs.root";
+const char* TGo4Analysis::fgcDEFAULTFILESUF=".root";
+const char* TGo4Analysis::fgcTOPDYNAMICLIST="Go4DynamicList";
 
 TGo4Analysis* TGo4Analysis::Instance()
 {
@@ -100,12 +99,11 @@ TGo4Analysis::TGo4Analysis() :
    TRACE((15,"TGo4Analysis::TGo4Analysis()",__LINE__, __FILE__));
    //
 
-   if (!TGo4Version::Instance()->CheckVersion(fgiGO4VERSION)) {
+   if (!TGo4Version::Instance()->CheckVersion(__GO4BUILDVERSION__)) {
       // wrong version number between framework and user executable
       Message(-1,"!!!! Analysis Base class:\n\t User Analysis was built with wrong \t\tGo4 Buildversion %d !!!!!",
             TGo4Version::Instance()->GetBuildVersion());
-      Message(-1,"\t Please rebuild your analysis with current \tGo4 Buildversion %d ",
-            fgiGO4VERSION);
+      Message(-1,"\t Please rebuild your analysis with current \tGo4 Buildversion %d ", __GO4BUILDVERSION__);
       Message(-1,"\t >>make clean all<<");
       Message(-1,"Aborting in 20 s...");
       gSystem->Sleep(20000);

@@ -63,10 +63,6 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     /** Definition of default autosave interval. */
     static const Int_t fgiAUTOSAVECOUNTS;        //!
 
-    /** Version Number of the Go4 build. Number 10000 means Version1.00.00.
-      * Will be compared to the Version number in static Version singleton on runtime. */
-    static const Int_t fgiGO4VERSION;            //!
-
     /** This value is the number of events in between subsequent dynamic list processing */
     static const Int_t fgiDYNLISTINTERVAL;       //!
 
@@ -74,16 +70,16 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     static const Int_t fgiMACROSTARTPOLL;
 
     /** standard file name */
-    static const Text_t fgcDEFAULTFILENAME[];    //!
+    static const char* fgcDEFAULTFILENAME;    //!
 
     /** standard file name for analysis settings */
-    static const Text_t fgcDEFAULTSTATUSFILENAME[]; //!
+    static const char* fgcDEFAULTSTATUSFILENAME; //!
 
     /** filename suffix for object file */
-    static const Text_t fgcDEFAULTFILESUF[];     //!
+    static const char* fgcDEFAULTFILESUF;     //!
 
     /** Default name of the default (toplevel) dynamic list */
-    static const Text_t fgcTOPDYNAMICLIST[];     //!
+    static const char* fgcTOPDYNAMICLIST;     //!
 
     static TGo4Analysis* Instance();
 

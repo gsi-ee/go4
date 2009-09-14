@@ -1096,7 +1096,7 @@ void TGo4MainWindow::HelpWindow(const char* filename, const char* msg)
    QApplication::setOverrideCursor( Qt::WaitCursor );
 
 
-   QString cmd = TGo4Log::subGO4SYS("etc/Go4ShowPdf.ksh").Data();
+   QString cmd = TGo4Log::subGO4SYS("etc/Go4ShowPdf.sh").Data();
 
    QProcess info(cmd);
    info.addArgument(TGo4Log::subGO4SYS(filename).Data());

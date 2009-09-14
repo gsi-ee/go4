@@ -1,6 +1,6 @@
-%s  %s  %s/etc/Go4ClientStartup.ksh %s %s %s %s %s %s %s %s %d %s &
-%s  %s   /usr/X11R6/bin/xterm  %s -T Go4Client:%s@%s  -e  %s/etc/Go4ClientStartup.ksh %s %s %s %s %s %s %s %s %d %s &
-%s  %s   /usr/bin/konsole --nomenubar --notoolbar -T Go4Client:%s -e %s/etc/Go4ClientStartup.ksh %s %s %s %s %s %s %s %s %d %s &
-%s  %s  %s/etc/Go4ServerStartup.ksh %s %s %s %s %s %s %s %s %d %s &
-%s  %s   /usr/X11R6/bin/xterm  %s -T Go4Server:%s@%s  -e  %s/etc/Go4ServerStartup.ksh %s %s %s %s %s %s %s %s %d %s &
-%s  %s   /usr/bin/konsole --nomenubar --notoolbar -T Go4Server:%s -e %s/etc/Go4ServerStartup.ksh %s %s %s %s %s %s %s %s %d %s &
+%s  %s  %s/etc/Go4ClientStartup.sh %s %s %s %s %s %s %s %s %d %s &
+%s  %s   /usr/X11R6/bin/xterm  %s -T Go4Client:%s@%s  -e  %s/etc/Go4ClientStartup.sh %s %s %s %s %s %s %s %s %d %s &
+%s  %s   /usr/bin/konsole --nomenubar --notoolbar -T Go4Client:%s -e %s/etc/Go4ClientStartup.sh %s %s %s %s %s %s %s %s %d %s &
+%s  %s  %s/etc/Go4ServerStartup.sh %s %s %s %s %s %s %s %s %d %s &
+%s  %s   /usr/X11R6/bin/xterm  %s -T Go4Server:%s@%s  -e  %s/etc/Go4ServerStartup.sh %s %s %s %s %s %s %s %s %d %s &
+%s  %s   /usr/bin/konsole --nomenubar --notoolbar -T Go4Server:%s -e %s/etc/Go4ServerStartup.sh %s %s %s %s %s %s %s %s %d %s &
