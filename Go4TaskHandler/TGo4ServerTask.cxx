@@ -31,7 +31,7 @@ const UInt_t TGo4ServerTask::fguCONNECTWAITCYCLETIME=200; // time in ms (200)
 const UInt_t TGo4ServerTask::fguCONNECTTIMERPERIOD=100; // time in ms (50)
 
 
-const char* TGo4ServerTask::fgcLAUNCHPREFSFILE = "etc/Go4LaunchClientPrefs.txt";
+const char* TGo4ServerTask::fgcLAUNCHPREFSFILE = "etc/Go4LaunchPrefs.txt";
 
 
 TGo4ServerTask::TGo4ServerTask(const char* name,

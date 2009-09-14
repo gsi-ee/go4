@@ -84,7 +84,7 @@ INSTALLATION:
 - To compile under Win32 or Solaris, one should specify GO4_OS variable respectively.
   For instance, export GO4_OS=Solaris
 
-- The file $GO4SYS/etc/Go4LaunchClientPrefs.txt contains the command format
+- The file $GO4SYS/etc/Go4LaunchPrefs.txt contains the command format
   strings to be used on remote startup of the analysis from the gui.
   Here the call to the xterm (/usr/local/bin/xterm) is specified with
   absolute path. Please check if xterm is installed on your system at this

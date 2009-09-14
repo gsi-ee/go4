@@ -978,11 +978,11 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
 
    if ((go4sys==0) || (strlen(go4sys)==0)) return kFALSE;
 
-   TString filename = go4sys;
-   filename+="/";
-   filename += TGo4ServerTask::Get_fgcLAUNCHPREFSFILE();
+   cout << "Shell kind = " << shellkind << endl;
 
-   ifstream launchprefs(filename);
+   TString filename = TGo4Log::subGO4SYS(TGo4ServerTask::Get_fgcLAUNCHPREFSFILE());
+
+   ifstream launchprefs(filename.Data());
    if(!launchprefs) {
       TGo4Log::Debug("Master -- ERROR: Preferences file %s not existing, could not launch client ",
                   filename.Data());

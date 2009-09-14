@@ -236,9 +236,9 @@ int TGo4QSettings::getClientShellMode()
 {
    QString v = getClientShell();
    int shellmode = 2;
-   if(v.contains("exec")) shellmode=0; else
-   if(v.contains("rsh"))  shellmode=1; else
-   if(v.contains("ssh"))  shellmode=2;
+   if(v.contains("exec")) shellmode = 0; else
+   if(v.contains("rsh"))  shellmode = 1; else
+   if(v.contains("ssh"))  shellmode = 2;
    return shellmode;
 }
 
