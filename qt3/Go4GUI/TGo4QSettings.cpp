@@ -238,6 +238,57 @@ bool TGo4QSettings::getClientIsServer()
    return  value == QString("on");
 }
 
+void TGo4QSettings::setClientExpert(bool on)
+{
+   setBool("/ClientSetting/ExpertMode", on);
+}
+
+bool TGo4QSettings::getClientExpert()
+{
+   return getBool("/ClientSetting/ExpertMode", false);
+}
+
+void TGo4QSettings::setClientGo4SysMode(int mode)
+{
+   setInt("/ClientSetting/Go4SysMode", mode);
+}
+
+int TGo4QSettings::getClientGo4SysMode()
+{
+   return getInt("/ClientSetting/Go4SysMode", 0);
+}
+
+void TGo4QSettings::setClientGo4SysCustom(const QString& path)
+{
+   setStr("/ClientSetting/Go4SysCustom", path);
+}
+
+QString TGo4QSettings::getClientGo4SysCustom()
+{
+   return getStr("/ClientSetting/Go4SysCustom", "");
+}
+
+void TGo4QSettings::setClientRootSysMode(int mode)
+{
+   setInt("/ClientSetting/RootSysMode", mode);
+}
+
+int TGo4QSettings::getClientRootSysMode()
+{
+   return getInt("/ClientSetting/RootSysMode", 0);
+}
+
+void TGo4QSettings::setClientRootSysCustom(const QString& path)
+{
+   setStr("/ClientSetting/RootSysCustom", path);
+}
+
+QString TGo4QSettings::getClientRootSysCustom()
+{
+   return getStr("/ClientSetting/RootSysCustom", "");
+}
+
+
 void TGo4QSettings::setClientPort(int nport)
 {
    writeEntry(GetSettingsName()+"/ClientSetting/ClientPort", nport);

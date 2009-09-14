@@ -19,7 +19,7 @@ export USERDIR
 export LD_LIBRARY_PATH
 export PATH
 export ROOTSYS
-export DISPLAY
+#export DISPLAY
 export GO4SYS
 echo --------- Starting Analysis as Server -----------
 echo Name: $7
