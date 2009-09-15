@@ -17,19 +17,11 @@ class TGo4StartClient : public QDialog, public Ui::TGo4StartClient
 
  public slots:
 
+	virtual void SelectDir();
+
 	virtual void SelectProg();
 
 	virtual void ServerModeCombo_activated(int id);
-
-   virtual void SelectDir();
-
-   virtual void SwitchExpertMode();
-
-   virtual void go4sys_cmb_activated(int id);
-   virtual void go4sys_cmb_textchanged(const QString& txt);
-
-   virtual void rootsys_cmb_activated(int id);
-   virtual void rootsys_cmb_textchanged(const QString& txt);
 
 protected:
 	QButtonGroup* ClientShellGroup;

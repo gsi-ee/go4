@@ -1,322 +1,146 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ui version="4.0">
+<ui version="4.0" >
  <author>Mohammad Al-Turany</author>
  <class>TGo4StartClient</class>
- <widget class="QDialog" name="TGo4StartClient">
-  <property name="geometry">
+ <widget class="QDialog" name="TGo4StartClient" >
+  <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>415</width>
-    <height>356</height>
+    <width>388</width>
+    <height>257</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
-  <property name="windowTitle">
+  <property name="windowTitle" >
    <string>Start Client</string>
   </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>:/icons/go4logo2_big.png</normaloff>:/icons/go4logo2_big.png</iconset>
+  <property name="windowIcon" >
+   <iconset>:/icons/go4logo2_big.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="spacing">
-    <number>3</number>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>1</number>
    </property>
-   <property name="margin">
-    <number>3</number>
+   <property name="spacing" >
+    <number>1</number>
    </property>
-   <item>
-    <layout class="QHBoxLayout">
-     <property name="spacing">
-      <number>3</number>
+   <item row="5" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>6</number>
      </property>
-     <property name="sizeConstraint">
-      <enum>QLayout::SetMinimumSize</enum>
+     <property name="spacing" >
+      <number>6</number>
      </property>
-     <property name="margin">
-      <number>3</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="textLabel1">
-       <property name="text">
-        <string>Operation mode:</string>
-       </property>
-       <property name="wordWrap">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="ServerModeCombo">
-       <item>
-        <property name="text">
-         <string>As client (default)</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>As server</string>
-        </property>
-       </item>
-      </widget>
-     </item>
      <item>
       <spacer>
-       <property name="orientation">
+       <property name="orientation" >
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType">
+       <property name="sizeType" >
         <enum>QSizePolicy::Expanding</enum>
        </property>
-       <property name="sizeHint" stdset="0">
+       <property name="sizeHint" >
         <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout">
-     <property name="spacing">
-      <number>3</number>
-     </property>
-     <property name="sizeConstraint">
-      <enum>QLayout::SetMinimumSize</enum>
-     </property>
-     <property name="margin">
-      <number>3</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="TextLabel2">
-       <property name="minimumSize">
-        <size>
-         <width>30</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::NoFrame</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Plain</enum>
-       </property>
-       <property name="text">
-        <string>Host</string>
-       </property>
-       <property name="wordWrap">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="LineEditClientNode">
-       <property name="text">
-        <string>localhost</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Fixed</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
+         <width>221</width>
          <height>20</height>
         </size>
        </property>
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="TextLabel1">
-       <property name="minimumSize">
+      <widget class="QPushButton" name="PushButtonStartClient" >
+       <property name="sizePolicy" >
+        <sizepolicy>
+         <hsizetype>1</hsizetype>
+         <vsizetype>0</vsizetype>
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize" >
         <size>
-         <width>30</width>
+         <width>70</width>
          <height>0</height>
         </size>
        </property>
-       <property name="frameShape">
-        <enum>QFrame::NoFrame</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Plain</enum>
-       </property>
-       <property name="text">
-        <string>Name</string>
-       </property>
-       <property name="wordWrap">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="LineEditClientName">
-       <property name="text">
-        <string>MyAnalysis</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout">
-     <property name="spacing">
-      <number>3</number>
-     </property>
-     <property name="sizeConstraint">
-      <enum>QLayout::SetMinimumSize</enum>
-     </property>
-     <property name="margin">
-      <number>3</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="TextLabel2_2">
-       <property name="text">
-        <string>Executable</string>
-       </property>
-       <property name="wordWrap">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="LineEditClientExec">
-       <property name="text">
-        <string>MainUserAnalysis</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="ChooseExc">
-       <property name="maximumSize">
+       <property name="maximumSize" >
         <size>
-         <width>35</width>
-         <height>35</height>
+         <width>100</width>
+         <height>32767</height>
         </size>
        </property>
-       <property name="text">
-        <string/>
+       <property name="text" >
+        <string>&amp;Start</string>
        </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>:/icons/findfile.png</normaloff>:/icons/findfile.png</iconset>
+       <property name="shortcut" >
+        <string>Alt+S</string>
        </property>
-       <property name="autoDefault">
-        <bool>false</bool>
+       <property name="default" >
+        <bool>true</bool>
        </property>
       </widget>
      </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout">
-     <property name="spacing">
-      <number>3</number>
-     </property>
-     <property name="sizeConstraint">
-      <enum>QLayout::SetMinimumSize</enum>
-     </property>
-     <property name="margin">
-      <number>3</number>
-     </property>
      <item>
-      <widget class="QLabel" name="TextLabel1_2">
-       <property name="minimumSize">
+      <widget class="QPushButton" name="PushButtonCancel" >
+       <property name="minimumSize" >
         <size>
-         <width>30</width>
+         <width>70</width>
          <height>0</height>
         </size>
        </property>
-       <property name="text">
-        <string>Dir</string>
-       </property>
-       <property name="wordWrap">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="LineEditClientDir">
-       <property name="text">
-        <string>localhost</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="ChooseDir">
-       <property name="maximumSize">
+       <property name="maximumSize" >
         <size>
-         <width>37</width>
-         <height>35</height>
+         <width>100</width>
+         <height>32767</height>
         </size>
        </property>
-       <property name="text">
-        <string/>
+       <property name="text" >
+        <string>&amp;Close</string>
        </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>:/icons/findfile.png</normaloff>:/icons/findfile.png</iconset>
-       </property>
-       <property name="autoDefault">
-        <bool>false</bool>
+       <property name="shortcut" >
+        <string>Alt+C</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item>
-    <layout class="QHBoxLayout">
-     <property name="spacing">
+   <item row="4" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>1</number>
+     </property>
+     <property name="spacing" >
       <number>2</number>
      </property>
-     <property name="sizeConstraint">
-      <enum>QLayout::SetMinimumSize</enum>
-     </property>
-     <property name="margin">
-      <number>3</number>
-     </property>
      <item>
-      <widget class="QGroupBox" name="ClientShellGroupBox">
-       <property name="title">
+      <widget class="QGroupBox" name="ClientShellGroupBox" >
+       <property name="title" >
         <string>Starting mode</string>
        </property>
-       <layout class="QHBoxLayout">
-        <property name="spacing">
-         <number>4</number>
-        </property>
-        <property name="margin">
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
          <number>3</number>
         </property>
+        <property name="spacing" >
+         <number>4</number>
+        </property>
         <item>
-         <widget class="QRadioButton" name="exec_selected">
-          <property name="text">
+         <widget class="QRadioButton" name="exec_selected" >
+          <property name="text" >
            <string>exec</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="rsh_selected">
-          <property name="text">
+         <widget class="QRadioButton" name="rsh_selected" >
+          <property name="text" >
            <string>rsh</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="ssh_selected">
-          <property name="text">
+         <widget class="QRadioButton" name="ssh_selected" >
+          <property name="text" >
            <string>ssh</string>
           </property>
          </widget>
@@ -325,37 +149,34 @@
       </widget>
      </item>
      <item>
-      <widget class="QGroupBox" name="ClientTermGroupBox">
-       <property name="title">
+      <widget class="QGroupBox" name="ClientTermGroupBox" >
+       <property name="title" >
         <string>Shell mode</string>
        </property>
-       <layout class="QHBoxLayout">
-        <property name="spacing">
+       <layout class="QHBoxLayout" >
+        <property name="margin" >
          <number>3</number>
         </property>
-        <property name="sizeConstraint">
-         <enum>QLayout::SetMinimumSize</enum>
-        </property>
-        <property name="margin">
+        <property name="spacing" >
          <number>3</number>
         </property>
         <item>
-         <widget class="QRadioButton" name="qt_selected">
-          <property name="text">
-           <string>Qt Window</string>
+         <widget class="QRadioButton" name="qt_selected" >
+          <property name="text" >
+           <string>Qt window</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="xterm_selected">
-          <property name="text">
-           <string>Xterm</string>
+         <widget class="QRadioButton" name="xterm_selected" >
+          <property name="text" >
+           <string>xterm</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="konsole_selected">
-          <property name="text">
+         <widget class="QRadioButton" name="konsole_selected" >
+          <property name="text" >
            <string>konsole</string>
           </property>
          </widget>
@@ -365,267 +186,253 @@
      </item>
     </layout>
    </item>
-   <item>
-    <widget class="QGroupBox" name="ExpertBox">
-     <property name="title">
-      <string>Expert settings</string>
+   <item row="3" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>6</number>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <property name="sizeConstraint">
-       <enum>QLayout::SetMinimumSize</enum>
-      </property>
-      <property name="margin">
-       <number>3</number>
-      </property>
-      <property name="spacing">
-       <number>3</number>
-      </property>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>GO4SYS</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="go4sys_cmb">
-        <property name="insertPolicy">
-         <enum>QComboBox::InsertAtCurrent</enum>
-        </property>
-        <property name="frame">
-         <bool>true</bool>
-        </property>
-        <item>
-         <property name="text">
-          <string>Same as gui</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>as configured</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>via go4-config</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>-- specify --</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>ROOTSYS</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QComboBox" name="rootsys_cmb">
-        <item>
-         <property name="text">
-          <string>Same as gui</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>as configured</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>via go4-config</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>-- specify --</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>PATH</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="path_edt"/>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>LD_LIBRARY_PATH</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="ldpath_edt"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <property name="sizeConstraint">
-      <enum>QLayout::SetMinimumSize</enum>
+     <property name="spacing" >
+      <number>6</number>
      </property>
      <item>
+      <widget class="QLabel" name="TextLabel1_2" >
+       <property name="minimumSize" >
+        <size>
+         <width>30</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string>Dir</string>
+       </property>
+       <property name="wordWrap" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="LineEditClientDir" >
+       <property name="text" >
+        <string>localhost</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ChooseDir" >
+       <property name="maximumSize" >
+        <size>
+         <width>37</width>
+         <height>35</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="icon" >
+        <iconset>:/icons/findfile.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>6</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="TextLabel2_2" >
+       <property name="text" >
+        <string>Executable</string>
+       </property>
+       <property name="wordWrap" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="LineEditClientExec" >
+       <property name="text" >
+        <string>MainUserAnalysis</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ChooseExc" >
+       <property name="maximumSize" >
+        <size>
+         <width>35</width>
+         <height>35</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="icon" >
+        <iconset>:/icons/findfile.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>6</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="TextLabel2" >
+       <property name="minimumSize" >
+        <size>
+         <width>30</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="frameShape" >
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="frameShadow" >
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="text" >
+        <string>Host</string>
+       </property>
+       <property name="wordWrap" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="LineEditClientNode" >
+       <property name="text" >
+        <string>localhost</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer>
-       <property name="orientation">
+       <property name="orientation" >
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Expanding</enum>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Fixed</enum>
        </property>
-       <property name="sizeHint" stdset="0">
+       <property name="sizeHint" >
         <size>
-         <width>178</width>
+         <width>20</width>
          <height>20</height>
         </size>
        </property>
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="PushButtonExpertMode">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
+      <widget class="QLabel" name="TextLabel1" >
+       <property name="minimumSize" >
         <size>
-         <width>70</width>
-         <height>20</height>
+         <width>30</width>
+         <height>0</height>
         </size>
        </property>
-       <property name="maximumSize">
-        <size>
-         <width>100</width>
-         <height>30</height>
-        </size>
+       <property name="frameShape" >
+        <enum>QFrame::NoFrame</enum>
        </property>
-       <property name="text">
-        <string>&lt;&lt;&amp;Expert</string>
+       <property name="frameShadow" >
+        <enum>QFrame::Plain</enum>
        </property>
-       <property name="shortcut">
-        <string>Alt+S</string>
+       <property name="text" >
+        <string>Name</string>
        </property>
-       <property name="autoDefault">
-        <bool>false</bool>
-       </property>
-       <property name="default">
+       <property name="wordWrap" >
         <bool>false</bool>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="PushButtonStartClient">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>70</width>
-         <height>20</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>100</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>&amp;Start</string>
-       </property>
-       <property name="shortcut">
-        <string>Alt+S</string>
-       </property>
-       <property name="autoDefault">
-        <bool>false</bool>
-       </property>
-       <property name="default">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="PushButtonCancel">
-       <property name="minimumSize">
-        <size>
-         <width>70</width>
-         <height>20</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>100</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>&amp;Close</string>
-       </property>
-       <property name="shortcut">
-        <string>Alt+C</string>
-       </property>
-       <property name="autoDefault">
-        <bool>false</bool>
+      <widget class="QLineEdit" name="LineEditClientName" >
+       <property name="text" >
+        <string>MyAnalysis</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
+   <item row="0" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>6</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="textLabel1" >
+       <property name="text" >
+        <string>Operation mode:</string>
+       </property>
+       <property name="wordWrap" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="ServerModeCombo" >
+       <item>
+        <property name="text" >
+         <string>As client (default)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>As server</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType" >
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
+ <layoutdefault spacing="6" margin="11" />
  <tabstops>
   <tabstop>LineEditClientName</tabstop>
   <tabstop>LineEditClientNode</tabstop>
-  <tabstop>PushButtonExpertMode</tabstop>
   <tabstop>PushButtonStartClient</tabstop>
   <tabstop>PushButtonCancel</tabstop>
  </tabstops>
- <resources/>
  <connections>
-  <connection>
-   <sender>PushButtonExpertMode</sender>
-   <signal>clicked()</signal>
-   <receiver>TGo4StartClient</receiver>
-   <slot>SwitchExpertMode()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>PushButtonCancel</sender>
    <signal>clicked()</signal>
    <receiver>TGo4StartClient</receiver>
    <slot>close()</slot>
    <hints>
-    <hint type="sourcelabel">
+    <hint type="sourcelabel" >
      <x>20</x>
      <y>20</y>
     </hint>
-    <hint type="destinationlabel">
+    <hint type="destinationlabel" >
      <x>20</x>
      <y>20</y>
     </hint>
@@ -637,11 +444,11 @@
    <receiver>TGo4StartClient</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel">
+    <hint type="sourcelabel" >
      <x>20</x>
      <y>20</y>
     </hint>
-    <hint type="destinationlabel">
+    <hint type="destinationlabel" >
      <x>20</x>
      <y>20</y>
     </hint>
@@ -653,11 +460,11 @@
    <receiver>TGo4StartClient</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel">
+    <hint type="sourcelabel" >
      <x>20</x>
      <y>20</y>
     </hint>
-    <hint type="destinationlabel">
+    <hint type="destinationlabel" >
      <x>20</x>
      <y>20</y>
     </hint>
@@ -669,11 +476,11 @@
    <receiver>TGo4StartClient</receiver>
    <slot>SelectDir()</slot>
    <hints>
-    <hint type="sourcelabel">
+    <hint type="sourcelabel" >
      <x>20</x>
      <y>20</y>
     </hint>
-    <hint type="destinationlabel">
+    <hint type="destinationlabel" >
      <x>20</x>
      <y>20</y>
     </hint>
@@ -685,11 +492,11 @@
    <receiver>TGo4StartClient</receiver>
    <slot>SelectProg()</slot>
    <hints>
-    <hint type="sourcelabel">
+    <hint type="sourcelabel" >
      <x>20</x>
      <y>20</y>
     </hint>
-    <hint type="destinationlabel">
+    <hint type="destinationlabel" >
      <x>20</x>
      <y>20</y>
     </hint>
@@ -701,11 +508,11 @@
    <receiver>TGo4StartClient</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel">
+    <hint type="sourcelabel" >
      <x>20</x>
      <y>20</y>
     </hint>
-    <hint type="destinationlabel">
+    <hint type="destinationlabel" >
      <x>20</x>
      <y>20</y>
     </hint>
@@ -717,11 +524,11 @@
    <receiver>TGo4StartClient</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel">
+    <hint type="sourcelabel" >
      <x>20</x>
      <y>20</y>
     </hint>
-    <hint type="destinationlabel">
+    <hint type="destinationlabel" >
      <x>20</x>
      <y>20</y>
     </hint>
@@ -733,11 +540,11 @@
    <receiver>TGo4StartClient</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel">
+    <hint type="sourcelabel" >
      <x>20</x>
      <y>20</y>
     </hint>
-    <hint type="destinationlabel">
+    <hint type="destinationlabel" >
      <x>20</x>
      <y>20</y>
     </hint>
@@ -749,33 +556,11 @@
    <receiver>TGo4StartClient</receiver>
    <slot>ServerModeCombo_activated(int)</slot>
    <hints>
-    <hint type="sourcelabel">
+    <hint type="sourcelabel" >
      <x>20</x>
      <y>20</y>
     </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>go4sys_cmb</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>TGo4StartClient</receiver>
-   <slot>go4sys_cmb_activated(int)</slot>
-  </connection>
-  <connection>
-   <sender>rootsys_cmb</sender>
-   <signal>currentIndexChanged(int)</signal>
-   <receiver>TGo4StartClient</receiver>
-   <slot>rootsys_cmb_activated(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
+    <hint type="destinationlabel" >
      <x>20</x>
      <y>20</y>
     </hint>
