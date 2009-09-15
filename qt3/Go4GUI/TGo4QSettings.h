@@ -87,17 +87,6 @@ class TGo4QSettings : public QSettings {
     void    setClientIsServer(bool on);
     bool    getClientIsServer();
 
-    void    setClientExpert(bool on);
-    bool    getClientExpert();
-    void    setClientGo4SysMode(int mode);
-    int     getClientGo4SysMode();
-    void    setClientGo4SysCustom(const QString&);
-    QString getClientGo4SysCustom();
-    void    setClientRootSysMode(int mode);
-    int     getClientRootSysMode();
-    void    setClientRootSysCustom(const QString&);
-    QString getClientRootSysCustom();
-
     void    setClientPort(int);
     int     getClientPort();
     void    setClientControllerMode(int);

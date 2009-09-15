@@ -1,5 +1,9 @@
 #include "TGo4AnalysisProxy.h"
 
+#include <string>
+#include <map>
+#include <fnmatch.h>
+
 #include "Riostream.h"
 #include "TH1.h"
 #include "TFolder.h"
@@ -7,6 +11,7 @@
 #include "TLeaf.h"
 #include "TTime.h"
 #include "TSystem.h"
+
 
 #include "TGo4Log.h"
 
@@ -256,6 +261,132 @@ class TGo4AnalysisLevelIter : public TGo4LevelIter {
 };
 
 // ********************************************************************
+
+class TGo4Prefs {
+   protected:
+      std::map<std::string, std::string> fPars;
+   public:
+      TGo4Prefs(const char* hostname)
+      {
+         SetPar("hostname", hostname);
+      }
+
+      void AddFile(const char* fname, bool errorout = false)
+      {
+         std::ifstream f(fname);
+         if(!f) {
+            if (errorout) TGo4Log::Debug("ERROR: Preferences file %s not existing",fname);
+            return;
+         }
+
+         std::string hostname = GetPar("hostname");
+
+         bool accept = false;
+
+         char formatstring[4096];
+
+         while (!f.eof()) {
+
+           f.getline(formatstring, sizeof(formatstring), '\n' );
+           if ((f.gcount()==0) || (strlen(formatstring)==0) ||
+               (formatstring[0]==' ') || (formatstring[0]=='#')) continue;
+
+           if (formatstring[0]=='$') {
+              if (strlen(formatstring)>1) {
+                 accept = fnmatch(formatstring+1, hostname.c_str(), FNM_NOESCAPE)==0;
+//                 cout << "Mask = " << formatstring << " accept = " << accept << endl;
+              }
+           } else
+           if (accept) {
+              const char* separ = strchr(formatstring, ':');
+              if (separ!=0) {
+                 std::string name(formatstring, separ-formatstring);
+                 if (!HasPar(name.c_str()))
+                    SetPar(name.c_str(), separ+1);
+//                 else
+//                    cout << "Parameter " << name << " already exists" << endl;
+              }
+           }
+         }
+      }
+
+      /** Return true if more than one parameter exists, first is hostname */
+      bool IsOk() const { return fPars.size()>1; }
+
+      void SetPar(const char* name, const char* value)
+      {
+         std::string dname = Form("%c%s%c",'\%',name, '\%');
+         fPars[dname] = value;
+      }
+
+      const char* GetPar(const char* name)
+      {
+         std::string dname = Form("%c%s%c",'\%',name, '\%');
+         if (fPars.find(dname) == fPars.end()) return 0;
+         return fPars[dname].c_str();
+      }
+
+      bool HasPar(const char* name)
+      {
+         return GetPar(name)!=0;
+      }
+
+      void ReplacePars(std::string& str)
+      {
+         size_t pos;
+         bool isany = false;
+
+         do {
+            isany = false;
+            std::map<std::string,std::string>::iterator iter = fPars.begin();
+            while (iter != fPars.end()) {
+               pos = 0;
+               while ((pos = str.find(iter->first, pos)) != str.npos) {
+                  str.replace(pos, iter->first.length(), iter->second);
+                  isany = true;
+               }
+               iter++;
+            }
+         } while (isany);
+      }
+
+      void ReplaceEnvPars(std::string& str)
+      {
+         size_t pos1, pos2;
+
+         while ((pos1 = str.find("${")) != str.npos) {
+
+            pos2 = str.find("}");
+
+            if ((pos1>pos2) || (pos2==str.npos)) {
+               TGo4Log::Debug("ERROR: Wrong variable parenthesis %s",str.c_str());
+               return;
+            }
+
+            std::string var(str, pos1+2, pos2-pos1-2);
+
+            str.erase(pos1, pos2-pos1+1);
+
+            const char* value = gSystem->Getenv(var.c_str());
+            if (value!=0) str.insert(pos1, value);
+         }
+      }
+
+      /** return option value with parameters replaced */
+      std::string GetOpt(const char* prefix)
+      {
+         const char* opt = GetPar(prefix);
+         if (opt==0) return std::string("");
+         std::string res = opt;
+         ReplacePars(res);
+         ReplaceEnvPars(res);
+         return res;
+      }
+
+};
+
+
+// **********************************************************************
 
 Int_t TGo4AnalysisProxy::fNumberOfWaitingProxyes = 0;
 
@@ -978,7 +1109,53 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
 
    if ((go4sys==0) || (strlen(go4sys)==0)) return kFALSE;
 
-   cout << "Shell kind = " << shellkind << endl;
+// cout << "Shell kind = " << shellkind << endl;
+
+
+   if (gSystem->Getenv("GO4OLDLAUNCH")==0) {
+      TGo4Prefs prefs(remotehost);
+      prefs.AddFile("go4.prefs", false);
+      prefs.AddFile(TGo4Log::subGO4SYS("etc/go4.prefs"), true);
+      if (!prefs.IsOk()) return kFALSE;
+
+      prefs.SetPar("guihost", serverhost);
+      prefs.SetPar("guiport", Form("%d", guiport));
+      prefs.SetPar("guigo4sys", go4sys);
+      prefs.SetPar("clientkind", server ? "Go4Server" : "Go4Client");
+      prefs.SetPar("analysisname", name);
+      prefs.SetPar("workdir", remotedir);
+      prefs.SetPar("exename", remoteexe);
+
+      const char* shellname = "exec";
+      if (shellkind==1) shellname = "rsh"; else
+      if (shellkind==2) shellname = konsole==1 ? "ssh" : "sshX";
+
+      const char* termname = "qtwindow";
+      if (konsole==2) termname = "xterm"; else
+      if (konsole==3) termname = "konsole";
+
+      std::string initcmd = prefs.GetOpt(shellkind==0 ? "execinitcmd" : "shellinitcmd");
+      prefs.SetPar("initcmd", initcmd.c_str());
+
+      std::string progcmd = prefs.GetOpt(server ? "servercmd" : "clientcmd");
+      prefs.SetPar("progcmd", progcmd.c_str());
+
+      std::string hostcmd = prefs.GetOpt(termname);
+      prefs.SetPar("hostcmd", hostcmd.c_str());
+
+      std::string cmd = prefs.GetOpt(shellname);
+      cout << "cmd: " << cmd << endl;
+      launchcmd = cmd.c_str();
+
+      std::string dkill = prefs.GetOpt("kill");
+      prefs.SetPar("hostcmd", dkill.c_str());
+      cmd = prefs.GetOpt(shellname);
+      cout << "killcmd: " << cmd << endl;
+      killcmd = cmd.c_str();
+
+      return kTRUE;
+
+   }
 
    TString filename = TGo4Log::subGO4SYS(TGo4ServerTask::Get_fgcLAUNCHPREFSFILE());
 

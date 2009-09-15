@@ -1,0 +1,65 @@
+### define mask for guihost settings  #####################
+$guihost
+
+shellinitcmd:%guiinitcmd%
+
+
+$localhost
+
+shellinitcmd:%guiinitcmd%
+
+
+### define mask for common settings  #####################
+$*
+
+######################################################################
+# here is remote shell settings
+
+# this is command for ssh without X
+ssh: ssh -x %hostname% "%hostcmd%" &
+
+# this is command for ssh with X enabled
+sshX: ssh -X %hostname% "%hostcmd%" &
+
+# this is common command for rsh (with and without X) 
+rsh: rsh -n %hostname% "%hostcmd%" &
+
+# this is execution on local node without any remote shell  
+exec:sh -c "%hostcmd%" &
+
+######################################################################
+# here is terminal settings, it defines "hostcmd", 
+# which depend from terminal kind: qtwindow/xterm/konsole  
+
+qtwindow:%initcmd% %progcmd%
+
+xterm:%initcmd% xterm -display ${DISPLAY} -T %clientkind%:%analysisname%@%hostname% -e %progcmd% 
+
+konsole:%initcmd% konsole --nomenubar --notoolbar --workdir %workdir% -T %clientkind%:%analysisname% -e %progcmd%
+
+
+##################################################################
+# here is program execution section, defined if analysis should be started as server or client
+
+servercmd:%workdir%/%exename% -server %analysisname%
+
+clientcmd:%workdir%/%exename% -gui %analysisname% %guihost% %guiport%
+
+
+##################################################################
+# here is initialisation is defined, depending from settings,
+# standard 'gui-like', 'as-is' and 'custom' inialisation are supported 
+
+shellinitcmd:%guiinitcmd%
+
+execinitcmd:%asisinitcmd%
+
+guiinitcmd:export GO4SYS=${GO4SYS}; export ROOTSYS=${ROOTSYS}; export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}; export PATH=${PATH}; cd %workdir%; 
+
+asisinitcmd:cd %workdir%; 
+
+####################################################################
+# this is kill cmd, will be combined together with shell login to kill application 
+
+kill:killall %exename%
+ 

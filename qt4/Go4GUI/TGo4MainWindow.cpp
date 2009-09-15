@@ -1273,6 +1273,8 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
    TString launchcmd, killcmd;
    Bool_t res = kFALSE;
 
+   QString workdir = go4sett->getClientDir();
+
    if (!isserver) {
       TGo4AnalysisProxy* anal = AddAnalysisProxy(false, (termmode==1));
       if (anal!=0)
@@ -1281,18 +1283,19 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
                       termmode,
                       go4sett->getClientName().toAscii(),
                       go4sett->getClientNode().toAscii(),
-                      go4sett->getClientDir().toAscii(),
+                      workdir.toAscii(),
                       go4sett->getClientExec().toAscii());
       TGo4AnalysisWindow* anw = FindAnalysisWindow();
-      if (res && (anw!=0) && (termmode==1))
-         anw->StartAnalysisShell(launchcmd.Data());
+      if (res && (anw!=0) && (termmode==1)) {
+         anw->StartAnalysisShell(launchcmd.Data(), (shellmode==0) ? workdir.toAscii().constData() : 0);
+      }
    } else
       res = TGo4AnalysisProxy::LaunchAsServer(launchcmd, killcmd,
                       shellmode,
                       termmode,
                       go4sett->getClientName().toAscii(),
                       go4sett->getClientNode().toAscii(),
-                      go4sett->getClientDir().toAscii(),
+                      workdir.toAscii(),
                       go4sett->getClientExec().toAscii());
 
    if (res) fKillCommand = killcmd.Data();

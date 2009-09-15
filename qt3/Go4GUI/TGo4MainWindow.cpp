@@ -1391,6 +1391,8 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
    TString launchcmd, killcmd;
    Bool_t res = kFALSE;
 
+   QString workdir = go4sett->getClientDir();
+
    if (!isserver) {
       TGo4AnalysisProxy* anal = AddAnalysisProxy(false, (termmode==1));
       if (anal!=0)
@@ -1399,18 +1401,18 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
                       termmode,
                       go4sett->getClientName().latin1(),
                       go4sett->getClientNode().latin1(),
-                      go4sett->getClientDir().latin1(),
+                      workdir.latin1(),
                       go4sett->getClientExec().latin1());
       TGo4AnalysisWindow* anw = FindAnalysisWindow();
       if (res && (anw!=0) && (termmode==1))
-         anw->StartAnalysisShell(launchcmd.Data());
+         anw->StartAnalysisShell(launchcmd.Data(), (shellmode==0) ? workdir.latin1() : 0);
    } else
       res = TGo4AnalysisProxy::LaunchAsServer(launchcmd, killcmd,
                       shellmode,
                       termmode,
                       go4sett->getClientName().latin1(),
                       go4sett->getClientNode().latin1(),
-                      go4sett->getClientDir().latin1(),
+                      workdir.latin1(),
                       go4sett->getClientExec().latin1());
 
    if (res) fKillCommand = killcmd.Data();
@@ -1751,7 +1753,8 @@ void TGo4MainWindow::TerminateAnalysis()
 
    if (fKillCommand.length()>0) {
       QProcess* killprocess = new QProcess;
-      killprocess->setArguments(QStringList::split(" ",fKillCommand));
+      TGo4AnalysisWindow::SetProcessArgs(killprocess, fKillCommand);
+//      killprocess->setArguments(QStringList::split(" ",fKillCommand));
       if (!killprocess->start())
         StatusMessage("Can not start kill command");
       QTimer::singleShot(10000, killprocess, SLOT(deleteLater()));

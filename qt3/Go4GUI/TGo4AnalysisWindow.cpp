@@ -239,16 +239,63 @@ void TGo4AnalysisWindow::scrollToTop()
      fxOutput->setContentsPos( 0, 0 );
 }
 
-void TGo4AnalysisWindow::StartAnalysisShell(const char* text)
+bool TGo4AnalysisWindow::SetProcessArgs(QProcess* proc, const char* args)
+{
+   if ((proc==0) || (args==0)) return false;
+
+   cout << "Set processor args: " << args << endl;
+
+   const char* text = args;
+
+   while (*text!=0) {
+
+      const char* separ = strchr(text, ' ');
+
+      if (*text=='\"') {
+         const char* quote = strchr(text+1, '\"');
+         if (quote==0) {
+            cerr << "Error command format: " << args << endl;
+            return false;
+         }
+         std::string arg(text+1, quote-text-1);
+         if (arg.length()>0) {
+            proc->addArgument(arg.c_str());
+            cout << "Arg: " << arg << endl;
+         }
+         text = quote+1;
+      } else
+      if (separ!=0) {
+         std::string arg(text, separ-text);
+         if (arg.length()>0) {
+            proc->addArgument(arg.c_str());
+            cout << "Arg: " << arg << endl;
+         }
+         text = separ+1;
+      } else {
+         cout << "Arg: " << text << endl;
+         proc->addArgument(text);
+         break;
+      }
+      while (*text==' ') text++;
+   };
+   return true;
+}
+
+
+void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdir)
 {
     if (fAnalysisProcess!=0) delete fAnalysisProcess;
 
     fAnalysisProcess = new QProcess();
     connect(fAnalysisProcess, SIGNAL(readyReadStdout()), this, SLOT(readFromStdout()));
     connect(fAnalysisProcess, SIGNAL(readyReadStderr()), this, SLOT(readFromStderr()));
+    if (workdir!=0) fAnalysisProcess->setWorkingDirectory(QDir(workdir));
 //    connect(fAnalysisProcess, SIGNAL(processExited()),   this, SLOT(scrollToTop()));
 
-    fAnalysisProcess->setArguments(QStringList::split(" ", text));
+    SetProcessArgs(fAnalysisProcess, text);
+
+    // fAnalysisProcess->setArguments(QStringList::split(" ", text));
+
     if (!fAnalysisProcess->start()) {
        cerr << "Fatal error. Could not start the Analysis" << endl;
        TerminateAnalysisProcess();

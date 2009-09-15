@@ -233,13 +233,14 @@ void TGo4AnalysisWindow::AppendOutputBuffer(const QString& value)
     outputBuffer.append(value);
 }
 
-void TGo4AnalysisWindow::StartAnalysisShell(const char* text)
+void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdir)
 {
     if (fAnalysisProcess!=0) delete fAnalysisProcess;
 
     fAnalysisProcess = new QProcess();
     connect(fAnalysisProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readFromStdout()));
     connect(fAnalysisProcess, SIGNAL(readyReadStandardError()), this, SLOT(readFromStderr()));
+    if (workdir!=0) fAnalysisProcess->setWorkingDirectory(workdir);
 
     fAnalysisProcess->start(text);
 
