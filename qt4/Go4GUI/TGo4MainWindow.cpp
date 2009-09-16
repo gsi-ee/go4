@@ -1242,6 +1242,7 @@ void TGo4MainWindow::ChangeDrawDateFlagSlot()
 
 void TGo4MainWindow::LaunchClientSlot(bool interactive)
 {
+/*
 #ifdef WIN32
    QMessageBox::warning(this, "Launch analysis",
                                "Launch analysis does not yet supported under Windows.\n"
@@ -1253,6 +1254,7 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
    return;
 
 #endif
+*/
 
    TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
    if (anal!=0) {

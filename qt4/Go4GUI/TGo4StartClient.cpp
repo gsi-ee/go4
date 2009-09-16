@@ -12,6 +12,20 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
 
 	setObjectName("Go4StartClient");
 
+#ifdef WIN32
+	// enable only exec and qtwindow in WIN32 mode
+	go4sett->setClientShellMode(0);
+	rsh_selected->setEnabled(false);
+	ssh_selected->setEnabled(false);
+
+	go4sett->setClientTermMode(1);
+	xterm_selected->setEnabled(false);
+	konsole_selected->setEnabled(false);
+	go4sett->setClientNode("localhost");
+	LineEditClientNode->setEnabled(false);
+#endif
+
+
 	ClientShellGroup = new QButtonGroup(this);
    ClientShellGroup->addButton(exec_selected, 0);
 	ClientShellGroup->addButton(rsh_selected, 1);
@@ -34,9 +48,11 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
 
    bool isserver = go4sett->getClientIsServer();
    ServerModeCombo->setCurrentIndex(isserver ? 1 : 0);
+#ifndef WIN32
    qt_selected->setEnabled(!isserver);
    if (isserver && ClientTermGroup->checkedId()==1)
       ClientTermGroup->button(2)->setChecked(true);
+#endif
 }
 
 void TGo4StartClient::getResults()
@@ -88,12 +104,15 @@ void TGo4StartClient::SelectProg()
 
 void TGo4StartClient::ServerModeCombo_activated(int id)
 {
+#ifndef WIN32
+
    bool isserver = (id==1);
 
    qt_selected->setEnabled(!isserver);
 
    if (isserver) {
-     if (ClientTermGroup->checkedId()==1)
-       ClientTermGroup->button(2)->setChecked(true);
+      if (ClientTermGroup->checkedId()==1)
+        ClientTermGroup->button(2)->setChecked(true);
    }
+#endif
 }

@@ -300,7 +300,7 @@ go4-package:
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Makefile,$(EXMODULES))
 	@tar rhf $(GO4TAR_NAME) $(DISTRFILES)
 	@tar rhf $(GO4TAR_NAME) README.txt CHANGES.txt Go4License.txt
-	@tar rhf $(GO4TAR_NAME) etc/*.sh etc/*.txt
+	@tar rhf $(GO4TAR_NAME) etc --exclude=*.svn
 	@tar rhf $(GO4TAR_NAME) docs/*.pdf
 	@tar rhf $(GO4TAR_NAME) macros/*.C 
 	@tar rhf $(GO4TAR_NAME) icons --exclude=*.svn

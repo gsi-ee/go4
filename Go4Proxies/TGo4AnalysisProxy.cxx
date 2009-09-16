@@ -342,10 +342,11 @@ class TGo4Prefs {
       /** Return true if more than two parameter exists, hostname and os is default*/
       bool IsOk() const { return fPars.size()>2; }
 
-      void SetPar(const char* name, const char* value)
+      void SetPar(const char* name, const char* value, bool force = true)
       {
          std::string dname = Form("%c%s%c",'\%',name, '\%');
-         fPars[dname] = value;
+         if (force || (fPars.find(dname) == fPars.end()))
+            fPars[dname] = value;
       }
 
       const char* GetPar(const char* name)
@@ -364,6 +365,7 @@ class TGo4Prefs {
       {
          size_t pos;
          bool isany = false;
+         int cnt = 0;
 
          do {
             isany = false;
@@ -375,6 +377,11 @@ class TGo4Prefs {
                   isany = true;
                }
                iter++;
+            }
+            if (cnt++>100000) {
+               cerr << "Syntax error in go4.prefs files - endless recursion" << endl;
+               cerr << "Program abborted, please fix an error" << endl;
+               exit(-1);
             }
          } while (isany);
       }
@@ -1147,13 +1154,13 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
       prefs.AddFile(TGo4Log::subGO4SYS("etc/go4.prefs"), true);
       if (!prefs.IsOk()) return kFALSE;
 
-      prefs.SetPar("guihost", serverhost);
+      prefs.SetPar("guihost", serverhost, false);
       prefs.SetPar("guiport", Form("%d", guiport));
-      prefs.SetPar("guigo4sys", go4sys);
-      prefs.SetPar("clientkind", server ? "Go4Server" : "Go4Client");
-      prefs.SetPar("analysisname", name);
-      prefs.SetPar("workdir", remotedir);
-      prefs.SetPar("exename", remoteexe);
+      prefs.SetPar("guigo4sys", go4sys, false);
+      prefs.SetPar("clientkind", server ? "Go4Server" : "Go4Client", false);
+      prefs.SetPar("analysisname", name, false);
+      prefs.SetPar("workdir", remotedir, false);
+      prefs.SetPar("exename", remoteexe, false);
 
       const char* shellname = "exec";
       if (shellkind==1) shellname = "rsh"; else
