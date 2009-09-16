@@ -4,12 +4,10 @@ endif
 
 include $(GO4SYS)/Makefile.config
 
-EXUSERSRC_NAME        = Go4ExampleUserSource
-
 ## normally should be like this for every module, but can be specific
 
 ifdef GO4PACKAGE
-EXUSERSRC_DIR         = $(EXUSERSRC_NAME)
+EXUSERSRC_DIR         = Go4ExampleUserSource
 else
 EXUSERSRC_DIR         = .
 endif
@@ -27,7 +25,7 @@ EXUSERSRC_EXEO        = $(EXUSERSRC_DIR)/$(EXUSERSRC_EXENAME).$(ObjSuf)
 EXUSERSRC_EXES        = $(EXUSERSRC_DIR)/$(EXUSERSRC_EXENAME).$(SrcSuf)
 EXUSERSRC_EXE         = $(EXUSERSRC_DIR)/$(EXUSERSRC_EXENAME)$(ExeSuf)   
 
-EXUSERSRC_DICT        = $(EXUSERSRC_DIR)/$(DICT_PREFIX)$(EXUSERSRC_NAME)
+EXUSERSRC_DICT        = $(EXUSERSRC_DIR)/$(DICT_PREFIX)YYY
 EXUSERSRC_DH          = $(EXUSERSRC_DICT).$(HedSuf)
 EXUSERSRC_DS          = $(EXUSERSRC_DICT).$(SrcSuf)
 EXUSERSRC_DO          = $(EXUSERSRC_DICT).$(ObjSuf)

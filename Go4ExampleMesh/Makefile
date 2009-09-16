@@ -4,12 +4,10 @@ endif
 
 include $(GO4SYS)/Makefile.config
 
-EXAMPMESH_NAME        = Go4ExampleMesh
-
 ## normally should be like this for every module, but can be specific
 
 ifdef GO4PACKAGE
-EXAMPMESH_DIR         = $(EXAMPMESH_NAME)
+EXAMPMESH_DIR         = Go4ExampleMesh
 else
 EXAMPMESH_DIR         = .
 endif
@@ -23,11 +21,10 @@ EXAMPMESH_NOTLIBF     =
 ## must be similar for every module
 
 EXAMPMESH_EXEO        = $(EXAMPMESH_DIR)/$(EXAMPMESH_EXENAME).$(ObjSuf)
-#EXAMPMESH_EXEH        = $(EXAMPMESH_DIR)/$(EXAMPMESH_EXENAME).$(HedSuf)
 EXAMPMESH_EXES        = $(EXAMPMESH_DIR)/$(EXAMPMESH_EXENAME).$(SrcSuf)
 EXAMPMESH_EXE         = $(EXAMPMESH_DIR)/$(EXAMPMESH_EXENAME)$(ExeSuf)
 
-EXAMPMESH_DICT        = $(EXAMPMESH_DIR)/$(DICT_PREFIX)$(EXAMPMESH_NAME)
+EXAMPMESH_DICT        = $(EXAMPMESH_DIR)/$(DICT_PREFIX)Mesh
 EXAMPMESH_DH          = $(EXAMPMESH_DICT).$(HedSuf)
 EXAMPMESH_DS          = $(EXAMPMESH_DICT).$(SrcSuf)
 EXAMPMESH_DO          = $(EXAMPMESH_DICT).$(ObjSuf)
