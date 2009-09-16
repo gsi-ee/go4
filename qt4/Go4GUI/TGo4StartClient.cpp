@@ -103,17 +103,21 @@ void TGo4StartClient::SelectProg()
    if (ExeModeCombo->currentIndex()==0) {
       caption = "Select your analysis program";
 #ifdef WIN32
-      filters << "Executable (*.exe)";
+      filters << "User analysis (MainUserAnalysis.exe)";
+      filters << "Any executable (*.exe)";
 #else
-      filters << "Executable (*)";
+      filters << "User analysis (MainUserAnalysis)";
+      filters << "Any executable (*)";
 //      filters << "Shell script (*.sh)";
 #endif
    } else {
       caption = "Select your analysis library";
 #ifdef WIN32
-      filters << "Shared library (*.dll)";
+      filters << "User library (libGo4UserAnalysis.dll)";
+      filters << "Any shared library (*.dll)";
 #else
-      filters << "Shared library (*.so)";
+      filters << "User library (libGo4UserAnalysis.so)";
+      filters << "Any shared library (*.so)";
 #endif
    }
 

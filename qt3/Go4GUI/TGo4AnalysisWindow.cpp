@@ -261,7 +261,7 @@ bool TGo4AnalysisWindow::SetProcessArgs(QProcess* proc, const char* args)
          std::string arg(text+1, quote-text-1);
          if (arg.length()>0) {
             proc->addArgument(arg.c_str());
-            cout << "Arg: " << arg << endl;
+//            cout << "Arg: " << arg << endl;
          }
          text = quote+1;
       } else
@@ -269,11 +269,11 @@ bool TGo4AnalysisWindow::SetProcessArgs(QProcess* proc, const char* args)
          std::string arg(text, separ-text);
          if (arg.length()>0) {
             proc->addArgument(arg.c_str());
-            cout << "Arg: " << arg << endl;
+//            cout << "Arg: " << arg << endl;
          }
          text = separ+1;
       } else {
-         cout << "Arg: " << text << endl;
+//         cout << "Arg: " << text << endl;
          proc->addArgument(text);
          break;
       }

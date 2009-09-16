@@ -56,14 +56,20 @@ void TGo4StartClient::SelectProg()
    QFileDialog fd(this, "file name", TRUE);
    fd.setMode(QFileDialog::ExistingFile);
 
+   QString filters;
+
    if (ExeModeCombo->currentItem()==0) {
       fd.setCaption("Select your analysis program");
-      fd.addFilter("Executable (*)");
+      filters="User analysis (MainUserAnalysis);;"
+              "Any executable (*);;";
    } else {
       fd.setCaption("Select your analysis library");
-      fd.addFilter("Shared library (*.so)");
+      filters="User library (libGo4UserAnalysis.so);;"
+              "Any shared library (*.so);;"
+              "Any file (*);;";
    }
 
+   fd.setFilters(filters);
    if (LineEditClientExec->text().length()>0)
       fd.setSelection(LineEditClientExec->text());
 

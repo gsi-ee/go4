@@ -4,9 +4,9 @@ This package contains a running 2 step Go4 analysis.
 There is one name string used for all classes and files: XXX
 You should replace this by your own name by
 
-./rename.sh "XXX" "myname"
+$GO4SYS/build/rename.sh "XXX" "myname"
 Example:
-> ./rename.sh "XXX" "Ship"
+> $GO4SYS/build/rename.sh "XXX" "Ship"
 
 
 Note that "myname" will be part of all filenames! Do not use

@@ -63,6 +63,11 @@ Add class in Go4UserAnalysisLinkDef.h
 Then make all.
 
 Adapt the example
+First of all, it is good idea to rename all classes. 
+For this, go4 rename.sh script can be used:
+
+$GO4SYS/build/rename.sh "XXX" "Myname"
+
 Most probably you will change TXXXParam to keep useful parameters.
 Definitely you will change TXXXProc to create your histograms, conditions,
 pictures, and finally write your analysis function BuildEvent.

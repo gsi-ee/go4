@@ -22,9 +22,9 @@ This package contains a running 1 step Go4 analysis.
 There is one name string used for all classes and files: YYY
 You should replace this by your own name by
 
-./rename.sh "YYY" "myname"
+$GO4SYS/build/rename.sh "YYY" "myname"
 Example:
-> ./rename.sh "YYY" "Ship"
+> $GO4SYS/build/rename.sh "YYY" "Ship"
 
 
 Note that "myname" will be part of all filenames! Do not use
