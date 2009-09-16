@@ -5,7 +5,6 @@
 
 #include "TSystem.h"
 #include "TEnv.h"
-
 #include "TApplication.h"
 #include "QRootApplication.h"
 
@@ -25,6 +24,9 @@ int main(int argc, char **argv)
 #ifndef WIN32
    gEnv->SetValue("X11.XInitThread", 0);   // required to avoid conflicts with Qt4
    //    qt_x11_set_global_double_buffer(false); // improves qtroot canvas update
+   bool iswin32 = false;
+#else
+   bool iswin32 = true;
 #endif
 
    if (!TGo4Version::Instance()->CheckVersion(__GO4BUILDVERSION__)) {
@@ -103,11 +105,15 @@ int main(int argc, char **argv)
    // we may store window geometries to local folder (or into user path, or into account path),
    // the rest is in the account settings since we cannot specify user path anymore
    // (will be in $HOME/.config/GSI/go4.conf)
-   QString settingsenv = getenv("GO4SETTINGS");
+
+   const char* _env = gSystem->Getenv("GO4SETTINGS");
+
+   QString settingsenv;
+   if (_env!=0) settingsenv = _env;
 
    int sett_try = 0;
 
-   if(settingsenv.contains("ACCOUNT")) {
+   if(iswin32 || settingsenv.contains("ACCOUNT")) {
       sett_try++;
       // do nothing, it is default location in .config/GSI/go4.conf
    } else
@@ -119,7 +125,7 @@ int main(int argc, char **argv)
 
    QString settfile = TGo4QSettings::GetSettLoaction();
 
-   while ((settfile.length() > 0) && gSystem->AccessPathName(settfile.toAscii())) {
+   while (!iswin32 && (settfile.length() > 0) && gSystem->AccessPathName(settfile.toAscii())) {
       QString subdir = QFileInfo(settfile).absolutePath();
       if (gSystem->AccessPathName(subdir.toAscii()))
          if (gSystem->mkdir(subdir.toAscii(), kTRUE)==0)

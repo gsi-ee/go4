@@ -39,7 +39,9 @@ include/%.h: $(GO4LOG_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
-ifndef GO4_WIN32
+ifdef GO4_WIN32
+$(GO4LOG_O) : DEFINITIONS += -DCOMP_GO4SYS="\"$(shell cygpath -m $(GO4TOPPATH))\""
+else
 $(GO4LOG_O) : DEFINITIONS += -DCOMP_GO4SYS="\"$(GO4TOPPATH)\""
 endif
 

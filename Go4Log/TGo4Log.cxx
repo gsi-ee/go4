@@ -68,10 +68,13 @@ const char* TGo4Log::GO4SYS()
    if (fgsGO4SYS.Length() > 0) {
 #ifdef WIN32
       char lastsymbol = '\\';
+      fgsGO4SYS.ReplaceAll("/","\\"); // while in cygpath we cannot deliver winodws-like slahes
 #else
       char lastsymbol = '/';
 #endif
       if (fgsGO4SYS[fgsGO4SYS.Length() - 1] != lastsymbol) fgsGO4SYS += lastsymbol;
+     
+      cout << "Go4sys = " << fgsGO4SYS << endl;
    }
 
    return fgsGO4SYS.Length()>0 ? fgsGO4SYS.Data() : "";

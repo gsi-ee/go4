@@ -2,7 +2,6 @@
 
 #include <string>
 #include <map>
-#include <fnmatch.h>
 
 #include "Riostream.h"
 #include "TH1.h"
@@ -11,7 +10,7 @@
 #include "TLeaf.h"
 #include "TTime.h"
 #include "TSystem.h"
-
+#include "TRegexp.h"
 
 #include "TGo4Log.h"
 
@@ -288,12 +287,6 @@ class TGo4Prefs {
 
          char formatstring[4096];
          
-//         if (formatstring[0]=='$') {
-//            if (strlen(formatstring)>1) {
-//               accept = fnmatch(formatstring+1, hostname.c_str(), FNM_NOESCAPE)==0;
-
-         
-
          while (!f.eof()) {
 
            f.getline(formatstring, sizeof(formatstring), '\n' );
@@ -320,10 +313,16 @@ class TGo4Prefs {
                  const char* subvalue = GetPar(subname.c_str());
                  if (subvalue==0) break;
 
-//                 cout << "Check par:" << subname << " value:" << subvalue << "  with mask " << mask << endl;
+                 cout << "Check par:" << subname << " value:" << subvalue << "  with mask " << mask << endl;
 
                  // if mask didnot match, ignore string
-                 if (fnmatch(mask.c_str(), subvalue, FNM_NOESCAPE)!=0) break;
+                 // check mask with regular expresion
+                 TRegexp re(mask.c_str(), kTRUE);
+                 Int_t len(0);
+                 if (re.Index(subvalue, &len)!=0) break;
+                 if (len!=strlen(subvalue)) break;
+
+                 cout << "          Match !!! " << endl;  
 
                  // take rest of buffer for analysis
                  sbuf = separ+1;
@@ -343,14 +342,14 @@ class TGo4Prefs {
 
       void SetPar(const char* name, const char* value, bool force = true)
       {
-         std::string dname = Form("%c%s%c",'\%',name, '\%');
+         std::string dname = Form("%s%s%s", "%", name, "%");
          if (force || (fPars.find(dname) == fPars.end()))
             fPars[dname] = value;
       }
 
       const char* GetPar(const char* name)
       {
-         std::string dname = Form("%c%s%c",'\%',name, '\%');
+         std::string dname = Form("%s%s%s", "%", name, "%");
          if (fPars.find(dname) == fPars.end()) return 0;
          return fPars[dname].c_str();
       }
@@ -1147,13 +1146,14 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
 
    if ((go4sys==0) || (strlen(go4sys)==0)) return kFALSE;
 
-// cout << "Shell kind = " << shellkind << endl;
-
    if (gSystem->Getenv("GO4OLDLAUNCH")==0) {
       TGo4Prefs prefs(remotehost);
       prefs.AddFile("go4.prefs", false);
       prefs.AddFile(TGo4Log::subGO4SYS("etc/go4.prefs"), true);
-      if (!prefs.IsOk()) return kFALSE;
+      if (!prefs.IsOk()) {
+         cout << "Cannot find prefs file" << endl;
+         return kFALSE;
+      }
 
       prefs.SetPar("guihost", serverhost, false);
       if (!server) prefs.SetPar("guiport", Form("%d", guiport));
