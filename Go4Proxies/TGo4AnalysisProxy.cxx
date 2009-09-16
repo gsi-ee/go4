@@ -269,6 +269,12 @@ class TGo4Prefs {
       TGo4Prefs(const char* hostname)
       {
          SetPar("hostname", hostname);
+         #ifdef WIN32
+         SetPar("os", "win32");
+         #else
+         SetPar("os", "Linux");
+         #endif
+
       }
 
       void AddFile(const char* fname, bool errorout = false)
@@ -281,37 +287,60 @@ class TGo4Prefs {
 
          std::string hostname = GetPar("hostname");
 
-         bool accept = false;
-
          char formatstring[4096];
+         
+//         if (formatstring[0]=='$') {
+//            if (strlen(formatstring)>1) {
+//               accept = fnmatch(formatstring+1, hostname.c_str(), FNM_NOESCAPE)==0;
+
+         
 
          while (!f.eof()) {
 
            f.getline(formatstring, sizeof(formatstring), '\n' );
-           if ((f.gcount()==0) || (strlen(formatstring)==0) ||
-               (formatstring[0]==' ') || (formatstring[0]=='#')) continue;
+           if ((f.gcount()==0) || (strlen(formatstring)==0)) continue;
+           
+           const char* sbuf = formatstring;
+           
+           while (*sbuf != 0) {
+              if (*sbuf==' ') { sbuf++; continue; }
+              if (*sbuf=='#') break;
 
-           if (formatstring[0]=='$') {
-              if (strlen(formatstring)>1) {
-                 accept = fnmatch(formatstring+1, hostname.c_str(), FNM_NOESCAPE)==0;
-//                 cout << "Mask = " << formatstring << " accept = " << accept << endl;
+              const char* separ = strchr(sbuf, ':');
+              if (separ==0) break;
+
+              std::string name(sbuf, separ-sbuf);
+
+              size_t pos = name.find('=');
+              if (pos!=name.npos) {
+                 std::string subname(name, 0, pos);
+                 std::string mask(name, pos+1);
+
+                 if ((subname.length()==0) || (mask.length()==0)) break;
+
+                 const char* subvalue = GetPar(subname.c_str());
+                 if (subvalue==0) break;
+
+//                 cout << "Check par:" << subname << " value:" << subvalue << "  with mask " << mask << endl;
+
+                 // if mask didnot match, ignore string
+                 if (fnmatch(mask.c_str(), subvalue, FNM_NOESCAPE)!=0) break;
+
+                 // take rest of buffer for analysis
+                 sbuf = separ+1;
+                 continue;
               }
-           } else
-           if (accept) {
-              const char* separ = strchr(formatstring, ':');
-              if (separ!=0) {
-                 std::string name(formatstring, separ-formatstring);
-                 if (!HasPar(name.c_str()))
-                    SetPar(name.c_str(), separ+1);
-//                 else
-//                    cout << "Parameter " << name << " already exists" << endl;
-              }
+
+              if (!HasPar(name.c_str()))
+                 SetPar(name.c_str(), separ+1);
+
+              break;
            }
          }
       }
 
-      /** Return true if more than one parameter exists, first is hostname */
-      bool IsOk() const { return fPars.size()>1; }
+      /** Return true if more than two parameter exists, hostname and os is default*/
+      bool IsOk() const { return fPars.size()>2; }
 
       void SetPar(const char* name, const char* value)
       {
@@ -1133,6 +1162,10 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
       const char* termname = "qtwindow";
       if (konsole==2) termname = "xterm"; else
       if (konsole==3) termname = "konsole";
+
+      // no need to change into local directory with exec and qtwinow - it happens automatically
+      if ((shellkind==0) && (konsole==1))
+         prefs.SetPar("cd_workdir", "");
 
       std::string initcmd = prefs.GetOpt(shellkind==0 ? "execinitcmd" : "shellinitcmd");
       prefs.SetPar("initcmd", initcmd.c_str());

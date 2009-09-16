@@ -1,16 +1,12 @@
-### define mask for guihost settings  #####################
-$guihost
-
-shellinitcmd:%guiinitcmd%
-
-
-$localhost
-
-shellinitcmd:%guiinitcmd%
-
-
-### define mask for common settings  #####################
-$*
+# ----------- go4.prefs file ------------
+# Syntax is 
+#    param_name: paramerer_value 
+# in value one can use other parameters like
+#    param_name: %param2_name% paramerer_value 
+# One can set condition, based on some parameters valus like os, host
+#    host=lxi*: ssh: ssh -x -P 235 user@%hostname% "%hostcmd%" &
+# Any line started with '#', recognized as comment line
+# One can put go4.prefs file in current directory and redefine some of parameters 
 
 ######################################################################
 # here is remote shell settings
@@ -25,17 +21,21 @@ sshX: ssh -X %hostname% "%hostcmd%" &
 rsh: rsh -n %hostname% "%hostcmd%" &
 
 # this is execution on local node without any remote shell  
-exec:sh -c "%hostcmd%" &
+# for window program itself must be executed, no shell variable or other options will be set   
+os=win32: exec: %hostcmd%
+
+# in normal case execution in gui runs via /bin/sh    
+exec: sh -c "%hostcmd%" &
 
 ######################################################################
 # here is terminal settings, it defines "hostcmd", 
 # which depend from terminal kind: qtwindow/xterm/konsole  
 
-qtwindow:%initcmd% %progcmd%
+qtwindow: %initcmd% %cd_workdir% %progcmd%
 
-xterm:%initcmd% xterm -display ${DISPLAY} -T %clientkind%:%analysisname%@%hostname% -e %progcmd% 
+xterm: %initcmd% %cd_workdir% xterm -display ${DISPLAY} -T %clientkind%:%analysisname%@%hostname% -e %progcmd% 
 
-konsole:%initcmd% konsole --nomenubar --notoolbar --workdir %workdir% -T %clientkind%:%analysisname% -e %progcmd%
+konsole: %initcmd% konsole --nomenubar --notoolbar --workdir %workdir% -T %clientkind%:%analysisname% -e %progcmd%
 
 
 ##################################################################
@@ -47,19 +47,20 @@ clientcmd:%workdir%/%exename% -gui %analysisname% %guihost% %guiport%
 
 
 ##################################################################
-# here is initialisation is defined, depending from settings,
+# here is initialization sequence is defined, depending if from settings,
 # standard 'gui-like', 'as-is' and 'custom' inialisation are supported 
 
 shellinitcmd:%guiinitcmd%
 
 execinitcmd:%asisinitcmd%
 
-guiinitcmd:export GO4SYS=${GO4SYS}; export ROOTSYS=${ROOTSYS}; export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}; export PATH=${PATH}; cd %workdir%; 
+guiinitcmd:export GO4SYS=${GO4SYS}; export ROOTSYS=${ROOTSYS}; export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}; export PATH=${PATH}; 
 
-asisinitcmd:cd %workdir%; 
+asisinitcmd:
+
+cd_workdir:cd %workdir%;
 
 ####################################################################
 # this is kill cmd, will be combined together with shell login to kill application 
 
 kill:killall %exename%
- 
