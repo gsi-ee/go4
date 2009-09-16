@@ -68,11 +68,11 @@ void TGo4StartClient::getResults()
 
 void TGo4StartClient::SelectDir()
 {
-   QFileDialog fd(this, "Select your working dir");
+   QFileDialog fd(this, "Select your working directory");
    fd.setFileMode(QFileDialog::DirectoryOnly);
    QString dir = LineEditClientDir->text();
    if (dir.isEmpty() || !QDir(dir).exists())
-         dir = QDir::currentPath();
+      dir = QDir::currentPath();
    fd.setDirectory(dir);
 
    if (fd.exec() != QDialog::Accepted ) return;
@@ -80,9 +80,17 @@ void TGo4StartClient::SelectDir()
    QStringList flst = fd.selectedFiles();
    if (flst.isEmpty()) return;
 
-   QString fileName = flst[0];
-   LineEditClientDir->setText(fileName);
-   QDir::setCurrent(fileName);
+   LineEditClientDir->setText(flst[0]);
+
+   QString fileName = LineEditClientExec->text();
+   if (fileName.length()==0) return;
+
+   QString exeDirPath = QFileInfo(fileName).path();
+   if (exeDirPath.isEmpty() || ((exeDirPath == QString(".")) && (fileName[0]!='.'))) {
+      fileName = QFileInfo(QDir(flst[0]), fileName).filePath();
+      LineEditClientExec->setText(fileName);
+   }
+
 }
 
 void TGo4StartClient::SelectProg()
@@ -90,15 +98,20 @@ void TGo4StartClient::SelectProg()
    QFileDialog fd(this, "Select your analysis program");
    fd.setFileMode(QFileDialog::ExistingFile);
 
+   QString filename = LineEditClientExec->text();
+   if (filename.length() > 0)
+      fd.selectFile(filename);
+
    if (fd.exec() != QDialog::Accepted) return;
 
    QStringList flst = fd.selectedFiles();
    if (flst.isEmpty()) return;
 
-   QFileInfo fi(flst[0]);
-   LineEditClientExec->setText(fi.fileName());
-   LineEditClientDir->setText(fd.directory().path());
-   QDir::setCurrent(fd.directory().path());
+   LineEditClientExec->setText(flst[0]);
+
+//   QFileInfo fi(flst[0]);
+//   LineEditClientExec->setText(fi.fileName());
+//   LineEditClientDir->setText(fd.directory().path());
 }
 
 

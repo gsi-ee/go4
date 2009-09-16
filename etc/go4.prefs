@@ -45,9 +45,9 @@ konsole_options:--nomenubar --notoolbar -T %clientkind%:%analysisname%
 ##################################################################
 # here is program execution section, defined if analysis should be started as server or client
 
-servercmd:%workdir%/%exename% -server %analysisname%
+servercmd:%exename% -server %analysisname%
 
-clientcmd:%workdir%/%exename% -gui %analysisname% %guihost% %guiport%
+clientcmd:%exename% -gui %analysisname% %guihost% %guiport%
 
 
 ##################################################################

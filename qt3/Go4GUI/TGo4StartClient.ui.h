@@ -29,14 +29,24 @@ void TGo4StartClient::SelectDir()
 {
    QFileDialog fd(this, "file name", TRUE);
    fd.setMode(QFileDialog::DirectoryOnly);
-   fd.setName("Select your working dir");
-   fd.setCaption("Select your working dir");
+   fd.setName("Select your working directory");
+   fd.setCaption("Select your working directory");
+   if (LineEditClientDir->text().length()>0)
+      fd.setDir(LineEditClientDir->text());
 
    if (fd.exec() != QDialog::Accepted ) return;
 
-   QString fileName = fd.selectedFile();
-   LineEditClientDir->setText(fileName);
-   QDir::setCurrent(fileName);
+   QString dirName = fd.selectedFile();
+   LineEditClientDir->setText(dirName);
+
+   QString fileName = LineEditClientExec->text();
+   if (fileName.length()==0) return;
+
+   QString exeDirPath = QFileInfo(fileName).dirPath();
+   if (exeDirPath.isEmpty() || ((exeDirPath == QString(".")) && (fileName[0]!='.'))) {
+      fileName = QFileInfo(QDir(dirName), fileName).filePath();
+      LineEditClientExec->setText(fileName);
+   }
 }
 
 void TGo4StartClient::SelectProg()
@@ -46,12 +56,12 @@ void TGo4StartClient::SelectProg()
    fd.setName("Select your analysis program");
    fd.setCaption("Select your analysis program");
 
+   if (LineEditClientExec->text().length()>0)
+      fd.setSelection(LineEditClientExec->text());
+
    if (fd.exec() != QDialog::Accepted) return;
 
-   QFileInfo fi(fd.selectedFile());
-   LineEditClientExec->setText(fi.fileName());
-   LineEditClientDir->setText(fi.dirPath(TRUE));
-   QDir::setCurrent(fi.dirPath(TRUE));
+   LineEditClientExec->setText(fd.selectedFile());
 }
 
 

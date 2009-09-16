@@ -272,9 +272,8 @@ class TGo4Prefs {
          #ifdef WIN32
          SetPar("os", "win32");
          #else
-         SetPar("os", "Linux");
+         SetPar("os", "linux");
          #endif
-
       }
 
       void AddFile(const char* fname, bool errorout = false)

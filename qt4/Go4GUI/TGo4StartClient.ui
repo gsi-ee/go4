@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>388</width>
-    <height>257</height>
+    <height>235</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -195,15 +195,9 @@
       <number>6</number>
      </property>
      <item>
-      <widget class="QLabel" name="TextLabel1_2" >
-       <property name="minimumSize" >
-        <size>
-         <width>30</width>
-         <height>0</height>
-        </size>
-       </property>
+      <widget class="QLabel" name="TextLabelDir">
        <property name="text" >
-        <string>Dir</string>
+        <string>Dir </string>
        </property>
        <property name="wordWrap" >
         <bool>false</bool>
@@ -221,8 +215,8 @@
       <widget class="QPushButton" name="ChooseDir" >
        <property name="maximumSize" >
         <size>
-         <width>37</width>
-         <height>35</height>
+         <width>25</width>
+         <height>25</height>
         </size>
        </property>
        <property name="text" >
@@ -244,9 +238,9 @@
       <number>6</number>
      </property>
      <item>
-      <widget class="QLabel" name="TextLabel2_2" >
+      <widget class="QLabel" name="TextLabelExe" >
        <property name="text" >
-        <string>Executable</string>
+        <string>Exe </string>
        </property>
        <property name="wordWrap" >
         <bool>false</bool>
@@ -264,8 +258,8 @@
       <widget class="QPushButton" name="ChooseExc" >
        <property name="maximumSize" >
         <size>
-         <width>35</width>
-         <height>35</height>
+         <width>25</width>
+         <height>25</height>
         </size>
        </property>
        <property name="text" >

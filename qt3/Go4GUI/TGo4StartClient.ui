@@ -280,16 +280,10 @@
                 </property>
                 <widget class="QLabel">
                     <property name="name">
-                        <cstring>TextLabel1_2</cstring>
-                    </property>
-                    <property name="minimumSize">
-                        <size>
-                            <width>30</width>
-                            <height>0</height>
-                        </size>
+                        <cstring>TextLabelDir</cstring>
                     </property>
                     <property name="text">
-                        <string>Dir</string>
+                        <string>Dir </string>
                     </property>
                 </widget>
                 <widget class="QLineEdit">
@@ -306,8 +300,8 @@
                     </property>
                     <property name="maximumSize">
                         <size>
-                            <width>37</width>
-                            <height>35</height>
+                            <width>25</width>
+                            <height>25</height>
                         </size>
                     </property>
                     <property name="text">
@@ -329,10 +323,10 @@
                 </property>
                 <widget class="QLabel">
                     <property name="name">
-                        <cstring>TextLabel2_2</cstring>
+                        <cstring>TextLabelExe</cstring>
                     </property>
                     <property name="text">
-                        <string>Executable</string>
+                        <string>Exe </string>
                     </property>
                 </widget>
                 <widget class="QLineEdit">
@@ -349,8 +343,8 @@
                     </property>
                     <property name="maximumSize">
                         <size>
-                            <width>35</width>
-                            <height>35</height>
+                            <width>25</width>
+                            <height>25</height>
                         </size>
                     </property>
                     <property name="text">
