@@ -321,12 +321,19 @@
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLabel">
+                <widget class="QComboBox">
+                    <item>
+                        <property name="text">
+                            <string>Exe</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Lib</string>
+                        </property>
+                    </item>
                     <property name="name">
-                        <cstring>TextLabelExe</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Exe </string>
+                        <cstring>ExeModeCombo</cstring>
                     </property>
                 </widget>
                 <widget class="QLineEdit">

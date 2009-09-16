@@ -1286,7 +1286,8 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
                       go4sett->getClientName().toAscii(),
                       go4sett->getClientNode().toAscii(),
                       workdir.toAscii(),
-                      go4sett->getClientExec().toAscii());
+                      go4sett->getClientExec().toAscii(),
+                      go4sett->getClientExeMode());
       TGo4AnalysisWindow* anw = FindAnalysisWindow();
       if (res && (anw!=0) && (termmode==1)) {
          anw->StartAnalysisShell(launchcmd.Data(), (shellmode==0) ? workdir.toAscii().constData() : 0);
@@ -1298,7 +1299,8 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
                       go4sett->getClientName().toAscii(),
                       go4sett->getClientNode().toAscii(),
                       workdir.toAscii(),
-                      go4sett->getClientExec().toAscii());
+                      go4sett->getClientExec().toAscii(),
+                      go4sett->getClientExeMode());
 
    if (res) fKillCommand = killcmd.Data();
        else fKillCommand = "";

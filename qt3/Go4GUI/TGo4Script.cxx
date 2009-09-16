@@ -319,7 +319,8 @@ void TGo4Script::LaunchAnalysis(const char* ClientName,
                                 const char* ClientExec,
                                 const char* ClientNode,
                                 Int_t ShellMode,
-                                Int_t TermMode)
+                                Int_t TermMode,
+                                Int_t ExeMode)
 {
    go4sett->setClientName(ClientName);
    go4sett->setClientDir(ClientDir);
@@ -327,6 +328,7 @@ void TGo4Script::LaunchAnalysis(const char* ClientName,
    go4sett->setClientNode(ClientNode);
    go4sett->setClientShellMode(ShellMode);
    go4sett->setClientTermMode(TermMode);
+   go4sett->setClientExeMode(ExeMode);
    LaunchAnalysis();
 }
 
@@ -766,7 +768,8 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
                                   << go4sett->getClientExec() << "\", \""
                                   << go4sett->getClientNode() << "\", "
                                   << go4sett->getClientShellMode() << ", "
-                                  << go4sett->getClientTermMode() << ");" << endl;
+                                  << go4sett->getClientTermMode() <<  ", "
+                                  << go4sett->getClientExeMode() << ");" << endl;
    fs << "go4->WaitAnalysis(300);" << endl << endl;
 
    if (confgui==0) return;

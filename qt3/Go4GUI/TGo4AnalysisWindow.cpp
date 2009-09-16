@@ -243,11 +243,12 @@ bool TGo4AnalysisWindow::SetProcessArgs(QProcess* proc, const char* args)
 {
    if ((proc==0) || (args==0)) return false;
 
-   cout << "Set processor args: " << args << endl;
+//   cout << "Set processor args: " << args << endl;
 
    const char* text = args;
 
    while (*text!=0) {
+      if (*text == ' ') { text++; continue; }
 
       const char* separ = strchr(text, ' ');
 

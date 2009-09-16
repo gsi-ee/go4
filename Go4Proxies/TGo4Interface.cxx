@@ -141,11 +141,12 @@ TGo4AnalysisProxy* TGo4Interface::AddAnalysisProxy(Bool_t isserver)
 
 
 void TGo4Interface::LaunchAnalysis(const char* ClientName,
-                                       const char* ClientDir,
-                                       const char* ClientExec,
-                                       const char* ClientNode,
-                                       Int_t ShellMode,
-                                       Int_t TermMode)
+                                   const char* ClientDir,
+                                   const char* ClientExec,
+                                   const char* ClientNode,
+                                   Int_t ShellMode,
+                                   Int_t TermMode,
+                                   Int_t ExeMode)
 {
    TString launchcmd, killcmd;
 
@@ -158,7 +159,8 @@ void TGo4Interface::LaunchAnalysis(const char* ClientName,
                        ClientName,
                        ClientNode,
                        ClientDir,
-                       ClientExec);
+                       ClientExec,
+                       ExeMode);
 
    gSystem->ProcessEvents();
 

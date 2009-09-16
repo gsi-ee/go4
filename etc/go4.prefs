@@ -45,10 +45,16 @@ konsole_options:--nomenubar --notoolbar -T %clientkind%:%analysisname%
 ##################################################################
 # here is program execution section, defined if analysis should be started as server or client
 
-servercmd:%exename% -server %analysisname%
+servercmd:%analysis% -server %analysisname%
 
-clientcmd:%exename% -gui %analysisname% %guihost% %guiport%
+clientcmd:%analysis% -gui %analysisname% %guihost% %guiport%
 
+##################################################################
+# two variants of analysis - as executable and as library
+
+analysis_exe:%exename%
+
+analysis_lib:go4analysis -lib %exename% 
 
 ##################################################################
 # here is initialization sequence is defined, depending if execution performed in 
@@ -67,4 +73,4 @@ cd_workdir:cd %workdir%;
 ####################################################################
 # this is kill cmd, will be combined together with shell login to kill application 
 
-kill:killall %exename%
+kill:killall %killexename%

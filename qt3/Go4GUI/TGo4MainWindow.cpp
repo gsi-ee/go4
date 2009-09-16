@@ -1402,7 +1402,8 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
                       go4sett->getClientName().latin1(),
                       go4sett->getClientNode().latin1(),
                       workdir.latin1(),
-                      go4sett->getClientExec().latin1());
+                      go4sett->getClientExec().latin1(),
+                      go4sett->getClientExeMode());
       TGo4AnalysisWindow* anw = FindAnalysisWindow();
       if (res && (anw!=0) && (termmode==1))
          anw->StartAnalysisShell(launchcmd.Data(), (shellmode==0) ? workdir.latin1() : 0);
@@ -1413,7 +1414,8 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
                       go4sett->getClientName().latin1(),
                       go4sett->getClientNode().latin1(),
                       workdir.latin1(),
-                      go4sett->getClientExec().latin1());
+                      go4sett->getClientExec().latin1(),
+                      go4sett->getClientExeMode());
 
    if (res) fKillCommand = killcmd.Data();
        else fKillCommand = "";

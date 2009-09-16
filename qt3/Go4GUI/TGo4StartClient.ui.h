@@ -6,6 +6,7 @@ void TGo4StartClient::init()
    LineEditClientExec->setText(go4sett->getClientExec());
    ClientShellGroup->setButton(go4sett->getClientShellMode());
    ClientTermGroup->setButton(go4sett->getClientTermMode());
+   ExeModeCombo->setCurrentItem(go4sett->getClientExeMode());
 
    bool isserver = go4sett->getClientIsServer();
    ServerModeCombo->setCurrentItem(isserver ? 1 : 0);
@@ -23,6 +24,7 @@ void TGo4StartClient::getResults()
    go4sett->setClientShellMode(ClientShellGroup->selectedId());
    go4sett->setClientTermMode(ClientTermGroup->selectedId());
    go4sett->setClientIsServer(ServerModeCombo->currentItem()==1);
+   go4sett->setClientExeMode(ExeModeCombo->currentItem());
 }
 
 void TGo4StartClient::SelectDir()
@@ -53,8 +55,14 @@ void TGo4StartClient::SelectProg()
 {
    QFileDialog fd(this, "file name", TRUE);
    fd.setMode(QFileDialog::ExistingFile);
-   fd.setName("Select your analysis program");
-   fd.setCaption("Select your analysis program");
+
+   if (ExeModeCombo->currentItem()==0) {
+      fd.setCaption("Select your analysis program");
+      fd.addFilter("Executable (*)");
+   } else {
+      fd.setCaption("Select your analysis library");
+      fd.addFilter("Shared library (*.so)");
+   }
 
    if (LineEditClientExec->text().length()>0)
       fd.setSelection(LineEditClientExec->text());

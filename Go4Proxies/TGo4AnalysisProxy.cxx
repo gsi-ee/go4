@@ -1081,7 +1081,8 @@ Bool_t TGo4AnalysisProxy::LaunchAsClient(TString& launchcmd,
                                          const char* name,
                                          const char* remotehost,
                                          const char* remotedir,
-                                         const char* remoteexe)
+                                         const char* remoteexe,
+                                         Int_t exe_kind)
 {
    if (fxDisplay==0) return kFALSE;
 
@@ -1094,7 +1095,7 @@ Bool_t TGo4AnalysisProxy::LaunchAsClient(TString& launchcmd,
    if (!GetLaunchString(launchcmd, killcmd,
                        kFALSE, usessh, konsole,
                        name, remotehost, remotedir, remoteexe,
-                       guiport)) return kFALSE;
+                       guiport, exe_kind)) return kFALSE;
 
    tsk->StartConnectorThread();
 
@@ -1111,12 +1112,13 @@ Bool_t TGo4AnalysisProxy::LaunchAsServer(TString& launchcmd,
                                          const char* name,
                                          const char* remotehost,
                                          const char* remotedir,
-                                         const char* remoteexe)
+                                         const char* remoteexe,
+                                         Int_t exe_kind)
 {
    if (!GetLaunchString(launchcmd, killcmd,
                        kTRUE, usessh, konsole,
                        name, remotehost, remotedir, remoteexe,
-                       0)) return kFALSE;
+                       0, exe_kind)) return kFALSE;
 
    if ((konsole==2) || (konsole==3))
       gSystem->Exec(launchcmd.Data());
@@ -1133,7 +1135,8 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
                                           const char* remotehost,
                                           const char* remotedir,
                                           const char* remoteexe,
-                                          Int_t guiport)
+                                          Int_t guiport,
+                                          Int_t exe_kind)
 {
    const char* serverhost = gSystem->HostName();
    const char* sdisplay   = gSystem->Getenv("DISPLAY");
@@ -1146,7 +1149,6 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
 
 // cout << "Shell kind = " << shellkind << endl;
 
-
    if (gSystem->Getenv("GO4OLDLAUNCH")==0) {
       TGo4Prefs prefs(remotehost);
       prefs.AddFile("go4.prefs", false);
@@ -1154,7 +1156,7 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
       if (!prefs.IsOk()) return kFALSE;
 
       prefs.SetPar("guihost", serverhost, false);
-      prefs.SetPar("guiport", Form("%d", guiport));
+      if (!server) prefs.SetPar("guiport", Form("%d", guiport));
       prefs.SetPar("guigo4sys", go4sys, false);
       prefs.SetPar("clientkind", server ? "Go4Server" : "Go4Client", false);
       prefs.SetPar("analysisname", name, false);
@@ -1172,6 +1174,18 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
       // no need to change into local directory with exec and qtwinow - it happens automatically
       if ((shellkind==0) && (konsole==1))
          prefs.SetPar("cd_workdir", "");
+
+      std::string executable = prefs.GetOpt((exe_kind == 0) ? "analysis_exe" : "analysis_lib");
+      prefs.SetPar("analysis", executable.c_str());
+      if (exe_kind==1) prefs.SetPar("killexename", "go4analysis", false); else {
+         #ifdef WIN32
+         char symbol = '\\';
+         #else
+         char symbol = '/';
+         #endif
+         const char* runname = strrchr(remoteexe, symbol);
+         prefs.SetPar("killexename", runname ? runname+1 : remoteexe, false);
+      }
 
       std::string initcmd = prefs.GetOpt(shellkind==0 ? "execinitcmd" : "shellinitcmd");
       prefs.SetPar("initcmd", initcmd.c_str());

@@ -68,7 +68,8 @@ Changes in Go4 v4.3.2 (September 09)
    run go4 analysis on the nodes with completely different OS/software settings.
    Old scheme (via AnalysisStart.sh scripts) can be activated by setting 
    export GO4OLDLAUNCH=yes variable before gui start.       
-
+11.Allow to run analysis, compiled into library, from the gui. 
+   Example simple, 1step and 2step shows how it can be done. 
 
 Changes in Go4 v4.3.1 (August 09)
 1. Fix error with connecting DABC/MBS servers second time

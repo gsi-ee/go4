@@ -238,6 +238,15 @@ bool TGo4QSettings::getClientIsServer()
    return  value == QString("on");
 }
 
+void TGo4QSettings::setClientExeMode(int mode)
+{
+   setInt("/ClientSetting/ExeMode", mode);
+}
+
+int TGo4QSettings::getClientExeMode()
+{
+   return getInt("/ClientSetting/ExeMode", 0);
+}
 
 void TGo4QSettings::setClientPort(int nport)
 {

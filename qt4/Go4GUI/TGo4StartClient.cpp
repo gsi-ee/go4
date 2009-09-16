@@ -46,6 +46,8 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
    if (LineEditClientDir->text().isEmpty())
       LineEditClientDir->setText(QDir::currentPath());
 
+   ExeModeCombo->setCurrentIndex(go4sett->getClientExeMode());
+
    bool isserver = go4sett->getClientIsServer();
    ServerModeCombo->setCurrentIndex(isserver ? 1 : 0);
 #ifndef WIN32
@@ -64,6 +66,7 @@ void TGo4StartClient::getResults()
    go4sett->setClientShellMode(ClientShellGroup->checkedId());
    go4sett->setClientTermMode(ClientTermGroup->checkedId());
    go4sett->setClientIsServer(ServerModeCombo->currentIndex()==1);
+   go4sett->setClientExeMode(ExeModeCombo->currentIndex());
 }
 
 void TGo4StartClient::SelectDir()
@@ -95,8 +98,30 @@ void TGo4StartClient::SelectDir()
 
 void TGo4StartClient::SelectProg()
 {
-   QFileDialog fd(this, "Select your analysis program");
+   const char* caption = 0;
+   QStringList filters;
+   if (ExeModeCombo->currentIndex()==0) {
+      caption = "Select your analysis program";
+#ifdef WIN32
+      filters << "Executable (*.exe)";
+#else
+      filters << "Executable (*)";
+//      filters << "Shell script (*.sh)";
+#endif
+   } else {
+      caption = "Select your analysis library";
+#ifdef WIN32
+      filters << "Shared library (*.dll)";
+#else
+      filters << "Shared library (*.so)";
+#endif
+   }
+
+   filters  << "Any files (*)";
+
+   QFileDialog fd(this, caption);
    fd.setFileMode(QFileDialog::ExistingFile);
+   fd.setNameFilters(filters);
 
    QString filename = LineEditClientExec->text();
    if (filename.length() > 0)
@@ -108,10 +133,6 @@ void TGo4StartClient::SelectProg()
    if (flst.isEmpty()) return;
 
    LineEditClientExec->setText(flst[0]);
-
-//   QFileInfo fi(flst[0]);
-//   LineEditClientExec->setText(fi.fileName());
-//   LineEditClientDir->setText(fd.directory().path());
 }
 
 
