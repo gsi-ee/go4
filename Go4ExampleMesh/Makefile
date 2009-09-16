@@ -14,7 +14,7 @@ else
 EXAMPMESH_DIR         = .
 endif
 
-EXAMPMESH_LINKDEF     = $(EXAMPMESH_DIR)/Go4UserAnalysisLinkDef.$(HedSuf)
+EXAMPMESH_LINKDEF     = $(EXAMPMESH_DIR)/MeshLinkDef.$(HedSuf)
 EXAMPMESH_LIBNAME     = libGo4UserAnalysis
 EXAMPMESH_EXENAME     = MainUserAnalysis
 

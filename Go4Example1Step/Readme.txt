@@ -73,7 +73,7 @@ should be defined to enable the GUI to read the auto save file.
 
 Creating a new class
 Provide the definition and implementation files (.h and .cxx)
-Add class in Makefile and Go4UserAnalysisLinkDef.h
+Add class in Makefile and XXXLinkDef.h
 Then make all.
 
 Adapt the example

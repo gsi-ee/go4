@@ -4,17 +4,15 @@ endif
 
 include $(GO4SYS)/Makefile.config
 
-EXAMP2STEP_NAME        = Go4Example2Step
-
 ## normally should be like this for every module, but can be specific
 
 ifdef GO4PACKAGE
-EXAMP2STEP_DIR         = $(EXAMP2STEP_NAME)
+EXAMP2STEP_DIR         = Go4Example2Step
 else
 EXAMP2STEP_DIR         = .
 endif
 
-EXAMP2STEP_LINKDEF     = $(EXAMP2STEP_DIR)/Go4UserAnalysisLinkDef.$(HedSuf)
+EXAMP2STEP_LINKDEF     = $(EXAMP2STEP_DIR)/XXXLinkDef.$(HedSuf)
 EXAMP2STEP_LIBNAME     = libGo4UserAnalysis
 EXAMP2STEP_EXENAME     = MainUserAnalysis
 
@@ -27,7 +25,7 @@ EXAMP2STEP_EXEO        = $(EXAMP2STEP_DIR)/$(EXAMP2STEP_EXENAME).$(ObjSuf)
 EXAMP2STEP_EXES        = $(EXAMP2STEP_DIR)/$(EXAMP2STEP_EXENAME).$(SrcSuf)
 EXAMP2STEP_EXE         = $(EXAMP2STEP_DIR)/$(EXAMP2STEP_EXENAME)$(ExeSuf)   
 
-EXAMP2STEP_DICT        = $(EXAMP2STEP_DIR)/$(DICT_PREFIX)$(EXAMP2STEP_NAME)
+EXAMP2STEP_DICT        = $(EXAMP2STEP_DIR)/$(DICT_PREFIX)XXX
 EXAMP2STEP_DH          = $(EXAMP2STEP_DICT).$(HedSuf)
 EXAMP2STEP_DS          = $(EXAMP2STEP_DICT).$(SrcSuf)
 EXAMP2STEP_DO          = $(EXAMP2STEP_DICT).$(ObjSuf)

@@ -14,7 +14,7 @@ else
 EXUSERSRC_DIR         = .
 endif
 
-EXUSERSRC_LINKDEF     = $(EXUSERSRC_DIR)/Go4UserAnalysisLinkDef.$(HedSuf)
+EXUSERSRC_LINKDEF     = $(EXUSERSRC_DIR)/YYYLinkDef.$(HedSuf)
 EXUSERSRC_LIBNAME     = libGo4ExampleUserSource
 EXUSERSRC_EXENAME     = MainUserAnalysis
 

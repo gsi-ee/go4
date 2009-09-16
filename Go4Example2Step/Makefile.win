@@ -64,7 +64,7 @@ LIBS_FULLSET = $(GO4LIBS) $(ROOTLIBS) $(SYSLIBS)
 
 MODULE_NAME        = Go4Example2Step
 
-MODULE_LINKDEF     = Go4UserAnalysisLinkDef.$(HedSuf)
+MODULE_LINKDEF     = XXXLinkDef.$(HedSuf)
 MODULE_LIBNAME     = libGo4UserAnalysis
 MODULE_EXENAME     = MainUserAnalysis
 MODULE_MAP         = $(MODULE_LIBNAME).rootmap

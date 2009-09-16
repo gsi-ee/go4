@@ -1,4 +1,4 @@
-#! /usr/local/bin/bash
+#! /bin/sh
 # H.Essel 30.7.2002: three args
 # usage: replace.sh file old new
 FILELIST=$1
