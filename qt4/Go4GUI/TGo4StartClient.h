@@ -26,8 +26,7 @@ class TGo4StartClient : public QDialog, public Ui::TGo4StartClient
 protected:
 	QButtonGroup* ClientShellGroup;
 	QButtonGroup* ClientTermGroup;
-
-
+	int fSelectedFilter;
  };
 
 #endif

@@ -25,6 +25,7 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
 	LineEditClientNode->setEnabled(false);
 #endif
 
+	fSelectedFilter = -1;
 
    ClientShellGroup = new QButtonGroup(this);
    ClientShellGroup->addButton(exec_selected, 0);
@@ -99,33 +100,38 @@ void TGo4StartClient::SelectDir()
 void TGo4StartClient::SelectProg()
 {
    const char* caption = 0;
-   QStringList filters;
-   if (ExeModeCombo->currentIndex()==0) {
-      caption = "Select your analysis program";
-#ifdef WIN32
-      filters << "User analysis (MainUserAnalysis.exe)";
-      filters << "Any executable (*.exe)";
-#else
-      filters << "User analysis (MainUserAnalysis)";
-      filters << "Any executable (*)";
-//      filters << "Shell script (*.sh)";
-#endif
-   } else {
-      caption = "Select your analysis library";
-#ifdef WIN32
-      filters << "User library (libGo4UserAnalysis.dll)";
-      filters << "Any shared library (*.dll)";
-#else
-      filters << "User library (libGo4UserAnalysis.so)";
-      filters << "Any shared library (*.so)";
-#endif
-   }
 
-   filters  << "Any files (*)";
+#ifdef WIN32
+   QString exe1_filter("User analysis (MainUserAnalysis.exe)");
+   QString exe2_filter("Any executable (*.exe)");
+   QString dll1_filter("User library (libGo4UserAnalysis.dll)");
+   QString dll2_filter("Any shared library (*.dll)");
+   QString any_filter("Any files (*.*)");
+#else
+   QString exe1_filter("User analysis (MainUserAnalysis)");
+   QString exe2_filter("Any executable (*)");
+   QString dll1_filter("User library (libGo4UserAnalysis.so)");
+   QString dll2_filter("Any shared library (*.so)");
+   QString any_filter("Any files (*)");
+#endif
+
+   QStringList filters;
+   filters << exe1_filter << exe2_filter << dll1_filter << dll2_filter << any_filter;
 
    QFileDialog fd(this, caption);
    fd.setFileMode(QFileDialog::ExistingFile);
    fd.setNameFilters(filters);
+
+   int select_filer = fSelectedFilter;
+   if (select_filer<0)
+      select_filer= (ExeModeCombo->currentIndex()==0) ? 0 : 2;
+   switch (select_filer) {
+      case 0: fd.selectNameFilter(exe1_filter); break;
+      case 1: fd.selectNameFilter(exe2_filter); break;
+      case 2: fd.selectNameFilter(dll1_filter); break;
+      case 3: fd.selectNameFilter(dll2_filter); break;
+      default: fd.selectNameFilter(any_filter); break;
+   }
 
    QString filename = LineEditClientExec->text();
    if (filename.length() > 0)
@@ -137,6 +143,16 @@ void TGo4StartClient::SelectProg()
    if (flst.isEmpty()) return;
 
    LineEditClientExec->setText(flst[0]);
+
+   select_filer = 4;
+   if (fd.selectedNameFilter()==exe1_filter) select_filer = 0; else
+   if (fd.selectedNameFilter()==exe2_filter) select_filer = 1; else
+   if (fd.selectedNameFilter()==dll1_filter) select_filer = 2; else
+   if (fd.selectedNameFilter()==dll2_filter) select_filer = 3;
+   fSelectedFilter = select_filer;
+
+   if ((select_filer==0) || (select_filer==1)) ExeModeCombo->setCurrentIndex(0); else
+   if ((select_filer==2) || (select_filer==3)) ExeModeCombo->setCurrentIndex(1);
 }
 
 

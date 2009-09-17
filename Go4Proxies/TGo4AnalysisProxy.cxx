@@ -313,16 +313,12 @@ class TGo4Prefs {
                  const char* subvalue = GetPar(subname.c_str());
                  if (subvalue==0) break;
 
-                 cout << "Check par:" << subname << " value:" << subvalue << "  with mask " << mask << endl;
-
                  // if mask didnot match, ignore string
                  // check mask with regular expresion
                  TRegexp re(mask.c_str(), kTRUE);
                  Int_t len(0);
                  if (re.Index(subvalue, &len)!=0) break;
-                 if (len!=strlen(subvalue)) break;
-
-                 cout << "          Match !!! " << endl;  
+                 if (len != (Int_t) strlen(subvalue)) break;
 
                  // take rest of buffer for analysis
                  sbuf = separ+1;
@@ -1162,6 +1158,7 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
       prefs.SetPar("analysisname", name, false);
       prefs.SetPar("workdir", remotedir, false);
       prefs.SetPar("exename", remoteexe, false);
+      prefs.SetPar("exekind", Form("%d", exe_kind), false);
 
       const char* shellname = "exec";
       if (shellkind==1) shellname = "rsh"; else
@@ -1175,7 +1172,9 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
       if ((shellkind==0) && (konsole==1))
          prefs.SetPar("cd_workdir", "");
 
-      std::string executable = prefs.GetOpt((exe_kind == 0) ? "analysis_exe" : "analysis_lib");
+      Bool_t isexec = prefs.GetOpt("exekind") != "1";
+
+      std::string executable = prefs.GetOpt(isexec ? "analysis_exe" : "analysis_lib");
       prefs.SetPar("analysis", executable.c_str());
       if (exe_kind==1) prefs.SetPar("killexename", "go4analysis", false); else {
          #ifdef WIN32
