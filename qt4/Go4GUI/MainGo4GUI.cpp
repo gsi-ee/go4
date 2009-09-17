@@ -13,6 +13,7 @@
 #include "TGo4MainWindow.h"
 #include "TGo4BrowserProxy.h"
 #include "TGo4QSettings.h"
+#include "TGo4AbstractInterface.h"
 
 #ifndef WIN32
 #include "TGX11.h"
@@ -87,6 +88,8 @@ int main(int argc, char **argv)
 
    Q_INIT_RESOURCE(go4icons);
    QRootApplication myapp(argc, argv); // Qt application
+
+   TGo4AbstractInterface::SetInitSharedLibs();
 
    TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages
    TGo4Log::Instance(); // init logger object

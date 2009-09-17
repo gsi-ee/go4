@@ -14,6 +14,7 @@
 #include "TGo4MainWindow.h"
 #include "TGo4QSettings.h"
 #include "TGo4BrowserProxy.h"
+#include "TGo4AbstractInterface.h"
 
 int main(int argc, char **argv)
 {
@@ -76,6 +77,8 @@ int main(int argc, char **argv)
    TQApplication app("uno",&argc,argv); // init ROOT before Qt because of XInitThreads JA
 
    QRootApplication myapp( argc, argv, 0 );
+
+   TGo4AbstractInterface::SetInitSharedLibs();
 
    TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages
    TGo4Log::Instance(); // init logger object

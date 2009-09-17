@@ -711,34 +711,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
    fs << "// Automatically generated startup script" << endl;
    fs << "// Do not change it!" << endl << endl;
 
-   TString rootsys;
-
-   if (gSystem->Getenv("ROOTSYS") != 0) {
-      rootsys = gSystem->Getenv("ROOTSYS");
-      if (rootsys[rootsys.Length()-1] != '/') rootsys+="/";
-   }
-
-   TString go4sys = TGo4Log::GO4SYS();
-
-   TString libs = gInterpreter->GetSharedLibs();
-   const char* token = strtok((char*) libs.Data(), " ,\t\n");
-   while(token != 0) {
-      if ((strstr(token,"libGX11.")==0) &&
-          (strstr(token,"libGX11TTF.")==0) &&
-          (strstr(token,"libHistPainter.")==0)) {
-              fs << "go4->LoadLibrary(\"";
-              if ((go4sys.Length() > 0) && strstr(token, go4sys.Data())==token)
-                 fs << "$GO4SYS/" << (token + go4sys.Length());
-              else
-              if ((rootsys.Length() > 0) && strstr(token, rootsys.Data())==token)
-                 fs << "$ROOTSYS/" << (token + rootsys.Length());
-              else
-                 fs << token;
-
-              fs << "\");" << endl;
-          }
-      token = strtok(NULL, " ,\t\n");
-   }
+   ProduceLoadLibs(fs);
 
    TObjArray prlist;
    br->MakeFilesList(&prlist);

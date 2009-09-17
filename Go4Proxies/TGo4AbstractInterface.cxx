@@ -1,5 +1,7 @@
 #include "TGo4AbstractInterface.h"
 
+#include <string.h>
+
 #include "TROOT.h"
 #include "TSystem.h"
 #include "TInterpreter.h"
@@ -15,6 +17,9 @@
 
 TGo4AbstractInterface* TGo4AbstractInterface::fgInstance = 0;
 
+TString TGo4AbstractInterface::fInitSharedLibs = "";
+
+
 TGo4AbstractInterface* TGo4AbstractInterface::Instance()
 {
    return fgInstance;
@@ -23,6 +28,11 @@ TGo4AbstractInterface* TGo4AbstractInterface::Instance()
 void TGo4AbstractInterface::DeleteInstance()
 {
    if (fgInstance!=0) delete fgInstance;
+}
+
+void TGo4AbstractInterface::SetInitSharedLibs(const char* libs)
+{
+   fInitSharedLibs = libs ? libs : gInterpreter->GetSharedLibs();
 }
 
 TGo4AbstractInterface::TGo4AbstractInterface() :
@@ -268,5 +278,37 @@ const char* TGo4AbstractInterface::NextHotStartCmd()
 void TGo4AbstractInterface::FreeHotStartCmds()
 {
    fxCommands.Delete();
+}
+
+void TGo4AbstractInterface::ProduceLoadLibs(std::ostream& fs)
+{
+   TString rootsys;
+   if (gSystem->Getenv("ROOTSYS") != 0) {
+      rootsys = gSystem->Getenv("ROOTSYS");
+      if (rootsys[rootsys.Length()-1] != '/') rootsys+="/";
+   }
+
+   TString go4sys = TGo4Log::GO4SYS();
+
+   TString libs = gInterpreter->GetSharedLibs();
+   const char* token = strtok((char*) libs.Data(), " ,\t\n");
+   while(token != 0) {
+      if  (fInitSharedLibs.Index(token) == kNPOS) {
+//           (strstr(token,"libGX11.")==0) &&
+//          (strstr(token,"libGX11TTF.")==0) &&
+//          (strstr(token,"libHistPainter.")==0)) {
+              fs << "go4->LoadLibrary(\"";
+              if ((go4sys.Length() > 0) && strstr(token, go4sys.Data())==token)
+                 fs << "$GO4SYS/" << (token + go4sys.Length());
+              else
+              if ((rootsys.Length() > 0) && strstr(token, rootsys.Data())==token)
+                 fs << "$ROOTSYS/" << (token + rootsys.Length());
+              else
+                 fs << token;
+
+              fs << "\");" << endl;
+          }
+      token = strtok(NULL, " ,\t\n");
+   }
 }
 

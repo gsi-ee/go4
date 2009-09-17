@@ -167,10 +167,10 @@ TGo4TaskHandlerCommandList * TGo4Task::GetPrototype()
 
 TGo4Status * TGo4Task::NextStatus(Bool_t wait)
 {
-if(!IsMaster()) return 0;
+   if(!IsMaster()) return 0;
    TObject* obj=0;
    TGo4Status* stat=0;
-   TGo4BufferQueue* statqueue=dynamic_cast<TGo4BufferQueue*> (GetStatusQueue());
+   TGo4BufferQueue* statqueue = dynamic_cast<TGo4BufferQueue*> (GetStatusQueue());
    if(statqueue)
       {
          if(!wait && statqueue->IsEmpty())

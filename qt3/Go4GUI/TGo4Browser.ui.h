@@ -327,7 +327,7 @@ void TGo4Browser::updateListViewItems()
       TClass* itemclass = 0;
 
       if ((classname!=0) && (testedClasses.FindObject(classname)==0)) {
-         itemclass = gROOT->GetClass(classname);
+         itemclass = gROOT->GetClass(classname, kFALSE);
          if (itemclass==0)
            testedClasses.Add(new TNamed(classname,""));
       }

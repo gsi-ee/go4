@@ -618,13 +618,15 @@ void TGo4AnalysisProxy::DeleteSubmittedProxy(TGo4AnalysisObjectAccess* proxytode
 
 void TGo4AnalysisProxy::ReceiveStatus(TGo4Status* status)
 {
+//   cout << "Receive status " << status->GetName() << " class: " << status->ClassName() << endl;
+
    if (dynamic_cast<TGo4AnalysisStatus*> (status)!=0) {
-     SetAnalysisReady(kTRUE);
-     if (SettingsSlot()!=0) {
-        SettingsSlot()->AssignObject(status, kTRUE);
-        status =0;
-     }
-     CallSlotUpdate();
+      SetAnalysisReady(kTRUE);
+      if (SettingsSlot()!=0) {
+         SettingsSlot()->AssignObject(status, kTRUE);
+         status =0;
+      }
+      CallSlotUpdate();
    }
 
    TGo4AnalysisClientStatus* analstatus = dynamic_cast<TGo4AnalysisClientStatus*> (status);
@@ -700,6 +702,7 @@ void TGo4AnalysisProxy::ReceiveObject(TNamed* obj)
 // object should be cleaned
 {
    if (obj==0) return;
+
 //   cout << " TGo4AnalysisProxy::ReceiveObject " << obj
 //        << " name = " << obj->GetName()
 //        << "  class  = " << obj->ClassName() << endl;

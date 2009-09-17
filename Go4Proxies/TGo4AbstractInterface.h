@@ -5,6 +5,7 @@
 
 #include "TString.h"
 #include "TList.h"
+#include <ostream>
 
 class TGo4ObjectManager;
 class TGo4BrowserProxy;
@@ -59,11 +60,17 @@ typedef void* ViewPanelHandle;
   **/
 
 class TGo4AbstractInterface : public TObject {
+   private:
+      TGo4ObjectManager* fOM;
+      TGo4BrowserProxy*  fBrowser;
+      TList              fxCommands;
+
    protected:
       /** Constructor */
       TGo4AbstractInterface();
 
       static TGo4AbstractInterface* fgInstance;
+      static TString                fInitSharedLibs; //! list of shared libraries when application is started
 
       void Initialize(TGo4ObjectManager* om, TGo4BrowserProxy* br);
 
@@ -73,8 +80,13 @@ class TGo4AbstractInterface : public TObject {
       Bool_t IsHotStart();
       const char* NextHotStartCmd();
       void FreeHotStartCmds();
+      static void ProduceLoadLibs(std::ostream& fs);
 
    public:
+
+      /** method to set initial list of shared libraries,
+       * which than will not be included in hostart file */
+      static void SetInitSharedLibs(const char* libs = 0);
 
       /** destructor */
       virtual ~TGo4AbstractInterface();
@@ -476,11 +488,6 @@ class TGo4AbstractInterface : public TObject {
         * Useful for the case, when content of object (histogram, for example)
         * changed directly in script and after that should be updated in viewpanel. */
       virtual void RedrawItem(const char* itemname);
-
-   private:
-      TGo4ObjectManager* fOM;
-      TGo4BrowserProxy* fBrowser;
-      TList  fxCommands;
 
    ClassDef(TGo4AbstractInterface, 1);
 };

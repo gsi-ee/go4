@@ -2,72 +2,68 @@
 #define TGO4ANALYSISCLIENTSTATUS_H
 
 #include "TGo4ClientStatus.h"
+
 #include "TString.h"
 
 class TGo4AnalysisClientStatus : public TGo4ClientStatus {
-  friend class TGo4AnalysisClient;
 
-  public:
+   friend class TGo4AnalysisClient;
 
-    TGo4AnalysisClientStatus();
+   public:
 
-    TGo4AnalysisClientStatus(const char* name);
+      TGo4AnalysisClientStatus();
 
-    virtual ~TGo4AnalysisClientStatus() ;
+      TGo4AnalysisClientStatus(const char* name);
 
-    Double_t GetRate() const { return fdRate; }
+      virtual ~TGo4AnalysisClientStatus() ;
 
-    Double_t GetAvRate() const { return fdAveRate; }
+      Double_t GetRate() const { return fdRate; }
 
-    Double_t GetTime() const { return fdTime; }
+      Double_t GetAvRate() const { return fdAveRate; }
 
-    UInt_t GetCurrentCount() const { return fuCurrentCount; }
+      Double_t GetTime() const { return fdTime; }
 
-    const char* GetDateTime() const { return fxDateString.Data(); }
+      UInt_t GetCurrentCount() const { return fuCurrentCount; }
 
-    const char* GetCurrentSource() const { return fxEventSource.Data(); }
+      const char* GetDateTime() const { return fxDateString.Data(); }
 
-    Bool_t IsAnalysisRunning(){return fbAnalysisRunning;}
+      const char* GetCurrentSource() const { return fxEventSource.Data(); }
 
-    /** basic method to printout status information
-      * on stdout; to be overridden by specific subclass */
-    virtual Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0);
+      Bool_t IsAnalysisRunning(){return fbAnalysisRunning;}
 
-  private:
-    void SetRates(Double_t rate, Double_t average, UInt_t counts, Double_t time);
+      /** basic method to printout status information
+       * on stdout; to be overridden by specific subclass */
+      virtual Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0);
 
-    void SetCurrentSource(const char* name)
-        {
-            fxEventSource=name;
-        }
+   private:
+      void SetRates(Double_t rate, Double_t average, UInt_t counts, Double_t time);
 
-    void SetRunning(Bool_t on)
-        {
-            fbAnalysisRunning=on;
-        }
+      void SetCurrentSource(const char* name) { fxEventSource = name; }
 
-    /** Number of events processed since last start. */
-    UInt_t fuCurrentCount;
+      void SetRunning(Bool_t on) { fbAnalysisRunning = on; }
 
-    /** Current eventrate (events/sec). */
-    Double_t fdRate;
+      /** Number of events processed since last start. */
+      UInt_t fuCurrentCount;
 
-    /** Average eventrate since last reset (events/sec). */
-    Double_t fdAveRate;
+      /** Current eventrate (events/sec). */
+      Double_t fdRate;
 
-    /** Time sum since last reset. in s. */
-    Double_t fdTime;
+      /** Average eventrate since last reset (events/sec). */
+      Double_t fdAveRate;
 
-    /** Time and date of the last update of this status as sql string. */
-    TString fxDateString;
+      /** Time sum since last reset. in s. */
+      Double_t fdTime;
 
-    /** Name of eventsource of first step / current filelist name */
-    TString fxEventSource;
+      /** Time and date of the last update of this status as sql string. */
+      TString fxDateString;
 
-    /** True running state of analysis, independent of event rate*/
-    Bool_t fbAnalysisRunning;
+      /** Name of eventsource of first step / current filelist name */
+      TString fxEventSource;
 
-  ClassDef(TGo4AnalysisClientStatus,1)
+      /** True running state of analysis, independent of event rate*/
+      Bool_t fbAnalysisRunning;
+
+      ClassDef(TGo4AnalysisClientStatus,1)
 };
 
 #endif //TGO4ANALYSISCLIENTSTATUS_H

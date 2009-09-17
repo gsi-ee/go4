@@ -1581,10 +1581,8 @@ void TGo4MainWindow::SubmitAnalysisSettings()
    TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
    if (anal==0) return;
 
-   if (anal!=0) {
-      anal->SubmitAnalysisSettings();
-      anal->RefreshNamesList();
-   }
+   anal->SubmitAnalysisSettings();
+   anal->RefreshNamesList();
    StatusMessage("Press Ctrl+S or choose Analysis->Start from the Menu to start the analysis");
 }
 

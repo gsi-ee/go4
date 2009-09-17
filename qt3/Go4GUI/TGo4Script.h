@@ -10,7 +10,6 @@ class TGo4Picture;
 
 class TGo4Script : public TGo4AbstractInterface {
 
-
    friend class TGo4MainWindow;
 
    protected:

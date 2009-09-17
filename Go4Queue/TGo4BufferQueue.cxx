@@ -1,12 +1,13 @@
 #include "TGo4BufferQueue.h"
 
-#include "Riostream.h"
-
 #include "TROOT.h"
+#include "TClass.h"
 #include "TMutex.h"
 #include "TFile.h"
 #include "TGo4Buffer.h"
 #include "RVersion.h"
+#include "Riostream.h"
+
 
 #include "TGo4Socket.h"
 #include "TGo4RuntimeException.h"
@@ -75,50 +76,46 @@ TBuffer * TGo4BufferQueue::WaitBuffer()
    return rev;
 }
 
-
 TObject * TGo4BufferQueue::WaitObjectFromBuffer()
 {
-TRACE((19,"TGo4BufferQueue::WaitObjectFromBuffer()", __LINE__, __FILE__));
+   TRACE((19,"TGo4BufferQueue::WaitObjectFromBuffer()", __LINE__, __FILE__));
    TObject* obj=0;
    TBuffer* buffer=WaitBuffer();
-   if(buffer)
-       {
-            {
-            TGo4LockGuard mainguard;
-            // lock go4 main mutex for streaming
-            TDirectory* savdir=gDirectory;
-            gROOT->cd(); // be sure to be in the top directory when creating histo
-            buffer->SetReadMode();
-            //cout << "Reading object from buffer..."<< endl;
+   if(buffer) {
+      {
+         TGo4LockGuard mainguard;
+         // lock go4 main mutex for streaming
+         TDirectory* savdir=gDirectory;
+         gROOT->cd(); // be sure to be in the top directory when creating histo
+         buffer->SetReadMode();
+         //cout << "Reading object from buffer..."<< endl;
+         buffer->Reset();
+         buffer->InitMap();
+         // note: root version 3.05/02 crashes again when unknown class
+         // shall be read; this  was working in 3.03/09
+         // therefore, we put in our own check again from revision 1.23
+         TClass* cl = buffer->ReadClass();
+         //cout << "buffer queue "<< GetName() <<" :waitobject, got Class: " << cl << endl;
+         if(cl == (TClass*) -1)
+         {
+            // case of unknown class
+            cout << " Could not receive object of unknown class on buffer queue "<<GetName() <<" !!!" <<endl;
+            obj=0;
+         } else {
+            //                  if(cl)
+            //                     cout << "Classname: " << cl->GetName() << endl;
+            //                  cout << "Reading object from buffer..."<< endl;
             buffer->Reset();
-            buffer->InitMap();
-            // note: root version 3.05/02 crashes again when unknown class
-            // shall be read; this  was working in 3.03/09
-            // therefore, we put in our own check again from revision 1.23
-            TClass* cl = buffer->ReadClass();
-            //cout << "buffer queue "<< GetName() <<" :waitobject, got Class: " << cl << endl;
-            if(cl == (TClass*) -1)
-               {
-                  // case of unknown class
-                  cout << " Could not receive object of unknown class on buffer queue "<<GetName() <<" !!!" <<endl;
-                  obj=0;
-               }
-            else
-               {
-//                  if(cl)
-//                     cout << "Classname: " << cl->GetName() << endl;
-//                  cout << "Reading object from buffer..."<< endl;
-                  buffer->Reset();
-                  obj=buffer->ReadObject(cl);
-              }
-            if(savdir) savdir->cd();
-            } //  TGo4LockGuard
-         FreeBuffer(buffer); // give internal buffer back to queue
-         } // if(buffer)
+            obj = buffer->ReadObject(cl);
+         }
+         if(savdir) savdir->cd();
+      } //  TGo4LockGuard
+      FreeBuffer(buffer); // give internal buffer back to queue
+   } // if(buffer)
    else
-     {
-   //  cout << "WaitObjectFromBuffer got zero buffer in queue "<<GetName() << endl;
-     }
+   {
+      //  cout << "WaitObjectFromBuffer got zero buffer in queue "<<GetName() << endl;
+   }
    return obj;
 }
 
