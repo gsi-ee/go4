@@ -132,24 +132,6 @@ TGo4EventSource * TGo4EventServerFactory::CreateEventSource(TGo4EventSourceParam
 
    TGo4EventSource* rev=0;
 
-   // declarations for Together: scans by pointer type, not by constructor in switch
-   TGo4FileSource* fs=0;
-   TGo4TreeSource* ts=0;
-   TGo4MbsStream* ms=0;
-   TGo4MbsFile* mf=0;
-   TGo4MbsEventServer* es=0;
-   TGo4MbsTransport* mst=0;
-   TGo4RevServ* rs=0;
-   TGo4MbsRandom* rm=0;
-   fs=0;  // suppress compiler warnings
-   ts=0;
-   ms=0;
-   mf=0;
-   es=0;
-   mst=0;
-   rs=0;
-   rm=0;
-
    if(par!=0)
       {
          if(!strcmp(par->ClassName(),"TGo4FileSourceParameter"))

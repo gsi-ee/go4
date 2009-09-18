@@ -10,11 +10,11 @@
 
 #include "TGo4MbsRandomParameter.h"
 
+
 extern "C"
 {
 #include "random-coll.h"
 }
-
 
 double TGo4MbsRandom::fgdPeak[NUM_PEAK]   = { 200., 302., 653., 1024., 2800.};
 double TGo4MbsRandom::fgdSigma[NUM_PEAK]  = {  10.,  22., 153.,  104.,   38.};
@@ -63,18 +63,18 @@ TGo4MbsRandom::~TGo4MbsRandom()
 
 Int_t TGo4MbsRandom::NextEvent()
 {
-TRACE((12,"TGo4MbsRandom::NextEvent()",__LINE__, __FILE__));
-// here we fill mbs event structure at fxEvent ptr.
-void* clearfield=(void*) (fxEvent+1); // we skip header and clear the rest
-size_t clearlen=fiDLen*2 - 8;
-memset(clearfield,0, clearlen); // clear old values
-fxEvent->l_count++;
-//cout <<"Eventcount "<<fxEvent->l_count << endl;
-//cout <<" Cleared "<< clearlen<<" bytes at "<<clearfield << endl;
-// now fill in some new values:
-fxEvent->l_dlen=0;
-s_ves10_1* subevt=(s_ves10_1*) clearfield;
-for(Int_t i=0;i<fiNumSub;++i)
+   TRACE((12,"TGo4MbsRandom::NextEvent()",__LINE__, __FILE__));
+   // here we fill mbs event structure at fxEvent ptr.
+   void* clearfield=(void*) (fxEvent+1); // we skip header and clear the rest
+   size_t clearlen=fiDLen*2 - 8;
+   memset(clearfield,0, clearlen); // clear old values
+   fxEvent->l_count++;
+   //cout <<"Eventcount "<<fxEvent->l_count << endl;
+   //cout <<" Cleared "<< clearlen<<" bytes at "<<clearfield << endl;
+   // now fill in some new values:
+   fxEvent->l_dlen=0;
+   s_ves10_1* subevt=(s_ves10_1*) clearfield;
+   for(Int_t i=0;i<fiNumSub;++i)
    {
       //cout <<"\tSubevt "<<i <<" at "<< subevt<< endl;
       int l_val_num = (int)(get_int(1., 7.)+0.5); // random number for number of data longwords
@@ -93,49 +93,49 @@ for(Int_t i=0;i<fiNumSub;++i)
       Int_t* subdata= (Int_t*) (subevt+1); // data starts after subevt
       //cout <<"\t data="<<subdata << endl;
       for(Int_t j=0;j<l_val_num;++j)
-         {
-             *(subdata+j)=rand_event(j+1); // later use random generator here
-             //cout <<"\t\t"<<"filled "<<j<<" with "<<*(subdata+j) <<"at "<<(subdata+j) << endl;
-         } // for (... numdat ...)
+      {
+         *(subdata+j)=rand_event(j+1); // later use random generator here
+         //cout <<"\t\t"<<"filled "<<j<<" with "<<*(subdata+j) <<"at "<<(subdata+j) << endl;
+      } // for (... numdat ...)
       subevt=(s_ves10_1*) (subdata+l_val_num); // next subheader after last data
    } // for(...numsub)
    fxEvent->l_dlen+=(sizeof(s_ve10_1)-sizeof(s_evhe)+fiNumSub*sizeof(s_ves10_1))/2;
-// finally, add length of headers  to totalevent length
-return 0;
+   // finally, add length of headers  to totalevent length
+   return 0;
 }
 
 
 Int_t TGo4MbsRandom::Open()
 {
-TRACE((12,"TGo4MbsRandom::Open()",__LINE__, __FILE__));
-//
-if(fbIsOpen)
-   return -1;
+   TRACE((12,"TGo4MbsRandom::Open()",__LINE__, __FILE__));
+   //
+   if(fbIsOpen)
+      return -1;
 
-get_rand_seed();
-fiNumSub=2; // number of subevents, fix
-fiNumDat=16; // maximum allocated data longs per subevent
-fiDLen=(sizeof(s_ve10_1)-sizeof(s_evhe)+fiNumSub*(sizeof(s_ves10_1)+fiNumDat*sizeof(Int_t))) / 2 ;
+   get_rand_seed();
+   fiNumSub=2; // number of subevents, fix
+   fiNumDat=16; // maximum allocated data longs per subevent
+   fiDLen=(sizeof(s_ve10_1)-sizeof(s_evhe)+fiNumSub*(sizeof(s_ves10_1)+fiNumDat*sizeof(Int_t))) / 2 ;
    // fiDLen is not in char (=size_t), but short units
-fxEventMem =new Short_t[fiDLen+sizeof(s_evhe)];
-fxEvent= (s_ve10_1*) fxEventMem;
-fxEvent->l_dlen=fiDLen;
-fxEvent->i_subtype=1;
-fxEvent->i_type=10;
-fxEvent->i_trigger=1;
-fxEvent->l_count=0;
-return 0;
+   fxEventMem =new Short_t[fiDLen+sizeof(s_evhe)];
+   fxEvent= (s_ve10_1*) fxEventMem;
+   fxEvent->l_dlen=fiDLen;
+   fxEvent->i_subtype=1;
+   fxEvent->i_type=10;
+   fxEvent->i_trigger=1;
+   fxEvent->l_count=0;
+   return 0;
 }
 
 
 Int_t TGo4MbsRandom::Close()
 {
-TRACE((12,"TGo4MbsRandom::Close()",__LINE__, __FILE__));
-if(!fbIsOpen)
-   return -1;
-delete [] fxEventMem;
-fxEvent=0;
-return 0;
+   TRACE((12,"TGo4MbsRandom::Close()",__LINE__, __FILE__));
+   if(!fbIsOpen)
+      return -1;
+   delete [] fxEventMem;
+   fxEvent=0;
+   return 0;
 }
 
 ////////// functions for random generation:
@@ -203,43 +203,42 @@ double TGo4MbsRandom::get_int(double low, double high)
 
 long TGo4MbsRandom::rand_event(long choice)
 {
-  int cnt;
-  switch(choice)
-    {
-  case 1:
-    cnt = (int)(get_int(0., (double)NUM_PEAK));
-    return ((long)(gauss_rnd(fgdPeak[cnt], fgdSigma[cnt])));
-    break;
-  case 2:
-    cnt = (int)(get_int(0., (double)NUM_PEAK));
-    return ((long)(p_dNormal(fgdPeak2[cnt], fgdSigma2[cnt], &fuSeed)));
-    break;
-  case 3:
-    return ((long)(4096*p_dUniform(&fuSeed)));
-    break;
-  case 4:
-    return ((long)(gauss_rnd(0., -.001)));
-    break;
-  case 5:
-    return ((long)(p_dExponential(100., &fuSeed)));
-    break;
-  case 6:
-    cnt = (int)(get_int(0., (double)NUM_PEAK));
-    return ((long)((p_dExponential(200., &fuSeed)) + gauss_rnd(fgdPeak[cnt], fgdSigma[cnt])));
-    break;
-  case 7:
-    cnt = (int)(get_int(3., (double)NUM_PEAK));
-    return ((long)((4096*p_dUniform(&fuSeed)) + gauss_rnd(fgdPeak[cnt], fgdSigma[cnt])));
-    break;
+   int cnt;
+   switch(choice)
+   {
+      case 1:
+         cnt = (int)(get_int(0., (double)NUM_PEAK));
+         return ((long)(gauss_rnd(fgdPeak[cnt], fgdSigma[cnt])));
+         break;
+      case 2:
+         cnt = (int)(get_int(0., (double)NUM_PEAK));
+         return ((long)(p_dNormal(fgdPeak2[cnt], fgdSigma2[cnt], &fuSeed)));
+         break;
+      case 3:
+         return ((long)(4096*p_dUniform(&fuSeed)));
+         break;
+      case 4:
+         return ((long)(gauss_rnd(0., -.001)));
+         break;
+      case 5:
+         return ((long)(p_dExponential(100., &fuSeed)));
+         break;
+      case 6:
+         cnt = (int)(get_int(0., (double)NUM_PEAK));
+         return ((long)((p_dExponential(200., &fuSeed)) + gauss_rnd(fgdPeak[cnt], fgdSigma[cnt])));
+         break;
+      case 7:
+         cnt = (int)(get_int(3., (double)NUM_PEAK));
+         return ((long)((4096*p_dUniform(&fuSeed)) + gauss_rnd(fgdPeak[cnt], fgdSigma[cnt])));
+         break;
 
-  default:
-    return 0;
-    break;
-    }
+      default:
+         return 0;
+         break;
+   }
 
-  return 0;
+   return 0;
 }
-
 
 s_bufhe * TGo4MbsRandom::GetBufferHeader()
 {

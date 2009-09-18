@@ -34,6 +34,7 @@ void usage(const char* err = 0)
    cout << "*          -evserv server       :  connect to MBS event server" << endl;
    cout << "*          -revserv server port :  connect to remote event server" << endl;
    cout << "*          -random              :  use random generator as input" << endl;
+   cout << "*          -user name           :  connect to user-defined source" << endl;
    cout << "*          -number NUMBER       :  process NUMBER events in batch mode" << endl;
    cout << "*          -asf filename        :  write autosave filename, default AnalysisASF.root" << endl;
    cout << "*          -store filename      :  write step output into the root file" << endl;
@@ -76,6 +77,8 @@ TGo4Analysis* CreateDefaultAnalysis()
    const char* outputevent_name = "OutputEvent";
    const char* outputevent_classname = 0;
 
+   const char* eventsource_classname = 0;
+
    UserDefFunc* func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserProcessorClass");
    if (func!=0) processor_classname = func();
 
@@ -99,6 +102,9 @@ TGo4Analysis* CreateDefaultAnalysis()
    func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserOutputEventClass");
    if (func!=0) outputevent_classname = func();
    if (outputevent_classname==0) outputevent_classname = "TGo4EventElement";
+
+   func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserEventSourceClass");
+   if (func!=0) eventsource_classname = func();
 
    if (outputevent_classname!=0) {
       TClass* event_cl = TClass::GetClass(outputevent_classname);
@@ -135,6 +141,8 @@ TGo4Analysis* CreateDefaultAnalysis()
    // Input event is by default an MBS event
    factory->DefEventProcessor(processor_name, processor_classname);// object name, class name
    factory->DefOutputEvent(outputevent_name, outputevent_classname); // object name, class name
+
+   if (eventsource_classname) factory->DefEventSource(eventsource_classname);
 
    return analysis;
 }
@@ -263,6 +271,14 @@ int main(int argc, char **argv)
          TGo4MbsRandomParameter sourcepar("Random");
          step->SetEventSource(&sourcepar);
          step->SetSourceEnabled(kTRUE);
+      } else
+      if(strcmp(argv[narg],"-user")==0) {
+         if (++narg < argc) {
+            TGo4UserSourceParameter sourcepar("UserSource", argv[narg++]);
+            step->SetEventSource(&sourcepar);
+            step->SetSourceEnabled(kTRUE);
+         } else
+            usage("MBS Event server name not specified");
       } else
       if(strcmp(argv[narg],"-revserv")==0) {
          if (++narg < argc - 1) {

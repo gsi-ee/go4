@@ -11,21 +11,21 @@ class TGo4StepFactory : public TGo4EventServerFactory {
       virtual  TGo4EventElement* CreateInputEvent();
       virtual  TGo4EventElement* CreateOutputEvent();
       virtual  TGo4EventProcessor* CreateEventProcessor(TGo4EventProcessorParameter* par);
+      virtual  TGo4EventSource* CreateEventSource(TGo4EventSourceParameter * par);
       void     DefEventProcessor(const char* Pname, const char* Pclass);
       void     DefInputEvent(const char* Iname, const char* Iclass);
       void     DefOutputEvent(const char* Oname, const char* Oclass);
+      void     DefEventSource(const char* Sclass);
   private:
       TString fnewProcessor;
       TString fProcessorName;
-//      TString fProcessorClass;
       TString fnewOutputEvent;
       TString fOutputEventName;
-//      TString fOutputEventClass;
       TString fnewInputEvent;
       TString fInputEventName;
-//      TString fInputEventClass;
+      TString fnewEventSource;
 
-  ClassDef(TGo4StepFactory,1)
+  ClassDef(TGo4StepFactory,2)
 };
 
 #endif //TUNPACKFACTORY_H
