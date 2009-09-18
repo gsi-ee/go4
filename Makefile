@@ -77,6 +77,7 @@ EXMODULES = Go4ExampleSimple Go4Example1Step Go4Example2Step \
                 clean clean-qt3 clean-qt4 clean-bak clean-plugin clean-mainlibs clean-prefix \
                 package $(PACKAGERULES)
 
+
 FASTRULES    += clean-qt3 clean-qt4 clean-bak clean-dep clean-plugin clean-bin clean-prefix \
                 $(PACKAGERULES)
 
@@ -309,7 +310,6 @@ go4-package:
 	@cd $(GO4DISTR_DIR); tar xf $(GO4TAR_NAME); rm -f $(GO4TAR_NAME)
 	@cp -f distr/Makefile.distr $(GO4DISTR_DIR)/Makefile
 	@cd $(GO4DISTR_DIR)/etc; mkdir -p win
-	@cp -f distr/go4login.sh $(GO4DISTR_DIR)
 	@cp -f distr/go4init.bat $(GO4DISTR_DIR)/etc/win
 	@cp -f distr/go4login.win $(GO4DISTR_DIR)/etc/win/go4init.sh
 	@cp -f distr/README_win.txt $(GO4DISTR_DIR)/etc/win
