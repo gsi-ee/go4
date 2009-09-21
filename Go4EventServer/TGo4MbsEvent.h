@@ -67,7 +67,7 @@ class TGo4MbsEvent : public TGo4EventElement {
 
     /** Set the internal iterator of the subevent array to the beginning of
       * the array. */
-    void ResetIterator();
+    inline void ResetIterator() { fiSubEvIndex = 0; }
 
     /** Iterator for subevent array. If reset is kTRUE, the iteration starts at the
       * first TObjArray slot, otherwise we continue at the position after the last
@@ -127,8 +127,8 @@ class TGo4MbsEvent : public TGo4EventElement {
     /** dynamic array of subevents. */
     TObjArray* fxSubEvArray;
 
-    /** Iterator for array. */
-    TIterator* fxIterator;//!
+    /** Subevent index in array, replacement for Iterator. */
+    Int_t fiSubEvIndex;//!
 
     /** points to mbssource if exists */
     TGo4MbsSource* fxMbsSource; //!

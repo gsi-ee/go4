@@ -15,7 +15,7 @@ TGo4MbsEvent::TGo4MbsEvent() :
    TGo4EventElement(),
    fxHeader(),
    fxSubEvArray(0),
-   fxIterator(0),
+   fiSubEvIndex(0),
    fxMbsSource(0),
    fxTreeSource(0),
    fxFileSource(0)
@@ -27,24 +27,18 @@ TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum, Short_t* subids, UInt_t datasize) :
    TGo4EventElement("MbsEvent-10-1"),
    fxHeader(),
    fxSubEvArray(0),
-   fxIterator(0),
+   fiSubEvIndex(0),
    fxMbsSource(0),
    fxTreeSource(0),
    fxFileSource(0)
 {
    TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(UInt_t, Short_t, UInt_t)",__LINE__, __FILE__));
    fxSubEvArray=new TObjArray(subnum+5);
-         // we choose dimension of array a bit larger
-         // to avoid resize for later added subevts
-   fxIterator = fxSubEvArray->MakeIterator();
-   ResetIterator();
-   TGo4MbsSubEvent* subeve;
-   for (UInt_t t=0;t<subnum;++t)
-      {
-         subeve= new TGo4MbsSubEvent(datasize);
-         fxSubEvArray->AddLast(subeve);
-         subeve->SetProcid(subids[t]);
-       }
+   for (UInt_t t=0;t<subnum;++t) {
+      TGo4MbsSubEvent* subeve = new TGo4MbsSubEvent(datasize);
+      fxSubEvArray->AddLast(subeve);
+      subeve->SetProcid(subids[t]);
+   }
    Clear();
 }
 
@@ -56,33 +50,26 @@ TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum,
    TGo4EventElement("MbsEvent-10-1"),
    fxHeader(),
    fxSubEvArray(0),
-   fxIterator(0),
+   fiSubEvIndex(0),
    fxMbsSource(0),
    fxTreeSource(0),
    fxFileSource(0)
 {
    TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(UInt_t, Char_t*, Char_t*, Short_t* UInt_t)",__LINE__, __FILE__));
-   fxSubEvArray=new TObjArray(subnum+5);
-         // we choose dimension of array a bit larger
-         // to avoid TObjArray resize for later added subevts
-   fxIterator = fxSubEvArray->MakeIterator();
-   ResetIterator();
-   TGo4MbsSubEvent* subeve;
-   for (UInt_t t=0;t<subnum;++t)
-      {
-         subeve= new TGo4MbsSubEvent(datasizes[t]);
-         fxSubEvArray->AddLast(subeve);
-         subeve->SetSubcrate(subcrates[t]);
-         subeve->SetControl(controls[t]);
-         subeve->SetProcid(procids[t]);
-       }
+   fxSubEvArray = new TObjArray(subnum+5);
+   for (UInt_t t=0;t<subnum;++t) {
+      TGo4MbsSubEvent* subeve = new TGo4MbsSubEvent(datasizes[t]);
+      fxSubEvArray->AddLast(subeve);
+      subeve->SetSubcrate(subcrates[t]);
+      subeve->SetControl(controls[t]);
+      subeve->SetProcid(procids[t]);
+   }
    Clear();
 }
 
 TGo4MbsEvent::~TGo4MbsEvent()
 {
    TRACE((12,"TGo4MbsEvent::~TGo4MbsEvent()",__LINE__, __FILE__));
-   delete fxIterator;
    if(fxSubEvArray) fxSubEvArray->Delete();
    delete fxSubEvArray;
 }
@@ -127,21 +114,13 @@ Int_t TGo4MbsEvent::Fill()
    else if(fxFileSource!=0)
       {
          Clear();
-         if(fxFileSource->BuildEvent(this))
-            {
-               delete fxIterator; // need this to prepare correct iterator!
-               if(fxSubEvArray)
-                  fxIterator = fxSubEvArray->MakeIterator();
-               else
-                  fxIterator=0;
-               return 0;
-            }
-         else
-            {
-               // error, may be end of tree..
-               return 1;
-            }
-
+         if(fxFileSource->BuildEvent(this)) {
+            ResetIterator();
+            return 0;
+         } else {
+            // error, may be end of tree..
+            return 1;
+         }
       }
 
    else
@@ -191,15 +170,8 @@ void TGo4MbsEvent::Clear(Option_t *t)
    // here iterate all subevents and clear them
    TGo4MbsSubEvent* sub;
    ResetIterator();
-   while ((sub = NextSubEvent(kTRUE)) !=0)
-      {
-         sub->Clear();
-         //cout<< "cleared subevent"<< sub->GetProcid() << endl;
-      }
-//   fxHeader.Clear();
-//   Set(); // set to default values
+   while ((sub = NextSubEvent(kTRUE)) !=0) sub->Clear();
 }
-
 
 void TGo4MbsEvent::Set(Int_t dlen, Short_t type, Short_t subtype,
                        Short_t dummy, Short_t trigger, Int_t count)
@@ -212,7 +184,8 @@ void TGo4MbsEvent::Set(Int_t dlen, Short_t type, Short_t subtype,
    SetCount(count);
 }
 
-void TGo4MbsEvent::PrintEvent() {
+void TGo4MbsEvent::PrintEvent()
+{
    TGo4EventElement::PrintEvent();
 
 /////////Old style using logger instance:
@@ -243,35 +216,20 @@ cout << "MBS Event printout:"
 
 }
 
-void TGo4MbsEvent::ResetIterator()
-{
-   TRACE((11,"TGo4MbsEvent::ResetIterator()",__LINE__, __FILE__));
-   if(fxIterator!=0)
-      {
-         fxIterator->Reset();
-      }
-   else
-      {
-         if(fxSubEvArray)
-            fxIterator = fxSubEvArray->MakeIterator();
-      }
-}
-
 TGo4MbsSubEvent* TGo4MbsEvent::NextSubEvent(Bool_t all)
 {
    TRACE((11,"TGo4MbsEvent::NextSubEvent()",__LINE__, __FILE__));
-   if(fxIterator==0) return 0;
-   TGo4MbsSubEvent*   sub=0;
-   do
-   {
-      sub= dynamic_cast<TGo4MbsSubEvent*> (fxIterator ->Next());
+
+   if (fxSubEvArray==0) return 0;
+
+   TGo4MbsSubEvent* sub(0);
+   do {
+      if (fiSubEvIndex>fxSubEvArray->GetLast()) return 0;
+      sub = (TGo4MbsSubEvent*) (fxSubEvArray->At(fiSubEvIndex++));
       if(sub==0) break;
-   }while(!all && !sub->IsFilled()); // skip not filled subevents
+   } while(!all && !sub->IsFilled()); // skip not filled subevents
    return sub;
 }
-
-
-
 
 
 TGo4MbsSubEvent * TGo4MbsEvent::GetSubEvent(Char_t subcrate, Char_t ctrl, Short_t procid)
