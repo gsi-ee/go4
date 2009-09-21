@@ -153,7 +153,7 @@ Int_t TGo4EventElement::Init()
 
 Int_t TGo4EventElement::Fill()
 {
-   Int_t res=0;
+   Int_t res(0);
    Clear();
 
    if (fxEventSource) {

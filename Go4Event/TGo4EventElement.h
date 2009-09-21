@@ -44,9 +44,9 @@ public:
    /** Setter for the parent event structure reference. */
    void SetParent(TGo4EventElement * par) { fxParent=par; }
 
-   TGo4EventElement* GetParent() const { return fxParent; }
+   inline TGo4EventElement* GetParent() const { return fxParent; }
 
-   TGo4EventSource * GetEventSource() const { return fxEventSource; }
+   inline TGo4EventSource * GetEventSource() const { return fxEventSource; }
 
    /** Check if event source is valid. Tests the pointer for
      * zero, and if not zero, compares classname of the
@@ -56,7 +56,8 @@ public:
 
    /** Method called by the event owner (analysis step) to fill the
      * event element from the set event source. Event source can
-     * be the source of the analysis step (if this is a raw event) or the event processor (if this is a reduced event).
+     * be the source of the analysis step (if this is a raw event) or
+     * the event processor (if this is a reduced event).
      * Fill method has to specify how the event source writes to the
      * members of this event structure. Either by calling methods of
      * the source (like myevent.a=fxEventSource->GetA(); etc ), or by

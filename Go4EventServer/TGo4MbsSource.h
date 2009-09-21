@@ -57,6 +57,9 @@ class TGo4MbsSource : public TGo4EventSource {
 
     virtual ~TGo4MbsSource();
 
+    /** Fill the destination event dest. */
+    virtual Bool_t BuildEvent(TGo4EventElement* dest);
+
     /** Close the file or connection.  */
     virtual Int_t Close();
 

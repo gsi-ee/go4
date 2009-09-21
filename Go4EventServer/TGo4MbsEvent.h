@@ -130,15 +130,6 @@ class TGo4MbsEvent : public TGo4EventElement {
     /** Subevent index in array, replacement for Iterator. */
     Int_t fiSubEvIndex;//!
 
-    /** points to mbssource if exists */
-    TGo4MbsSource* fxMbsSource; //!
-
-    /** points to treesource if exists */
-    TGo4TreeSource* fxTreeSource; //!
-
-    /** points to filesource if exists */
-    TGo4FileSource* fxFileSource; //!
-
   ClassDef(TGo4MbsEvent,1)
 };
 
