@@ -46,17 +46,6 @@ class TGo4MbsEvent : public TGo4EventElement {
 
     virtual ~TGo4MbsEvent();
 
-    /** Method called by the event owner (analysis step) to fill the
-      * event element from the set event source. Event source can
-      * be the source of the analysis step (if this is a raw event) or the event processor (if this is a reduced event).
-      * Fill method has to specify how the event source writes to the
-      * members of this event structure. Either by calling methods of
-      * the source (like myevent.a=GetEventSource()->GetA(); etc ), or by
-      * direct copy to the member (like GetEventSource()->FillMemoryAt(&myevent.a);) */
-    virtual Int_t Fill();
-
-    virtual Int_t Init();
-
     /** Method called by the event owner (analysis step) to clear the event element. */
     virtual void Clear(Option_t *t="");
 

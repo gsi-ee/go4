@@ -65,41 +65,11 @@ TGo4MbsEvent::~TGo4MbsEvent()
    delete fxSubEvArray;
 }
 
-Int_t TGo4MbsEvent::Fill()
-{
-   TRACE((11,"TGo4MbsEvent::Fill()",__LINE__, __FILE__));
-   // check for different source types
-
-   if (GetEventSource()==0) return 1;
-
-   Clear();
-
-   if (GetEventSource()->BuildEvent(this)) return 0;
-
-   Int_t rev = GetEventSource()->GetEventStatus();
-
-   return rev==0 ? 1 : rev;
-}
-
-Int_t TGo4MbsEvent::Init()
-{
-   TRACE((11,"TGo4MbsEvent::Init()",__LINE__, __FILE__));
-   // Check event sources here and downcast the correct one:
-   // will be called once before event processing is done
-
-   if (GetEventSource()==0) {
-      TGo4Log::Debug(" !!! MbsEvent: Init ERROR:  unknown event source !!! ");
-      return 1;
-   }
-
-   return 0;
-}
-
-void TGo4MbsEvent::Clear(Option_t *t)
+void TGo4MbsEvent::Clear(Option_t *)
 {
    TRACE((11,"TGo4MbsEvent::Clear()",__LINE__, __FILE__));
    // here iterate all subevents and clear them
-   TGo4MbsSubEvent* sub;
+   TGo4MbsSubEvent* sub(0);
    ResetIterator();
    while ((sub = NextSubEvent(kTRUE))!=0) sub->Clear();
 }

@@ -94,8 +94,8 @@ void TGo4EventElement::makeBranch(TBranch *parent)
 
 }
 
-Int_t  TGo4EventElement::activateBranch(TBranch *branch,Int_t splitLevel,Int_t init){
-
+Int_t  TGo4EventElement::activateBranch(TBranch *branch,Int_t splitLevel,Int_t init)
+{
   TString cad=branch->GetName();
   if(!isActivated){
       TTree* tree = branch->GetTree();
@@ -122,9 +122,9 @@ void TGo4EventElement::deactivate()
   cout << "-I- Deactivating elements at location :" << name << endl;
 }
 
-void TGo4EventElement::activate(){
-
-TString name=GetName();
+void TGo4EventElement::activate()
+{
+  TString name=GetName();
   name+=".";
   gTree->SetBranchStatus(name.Data(), 1);
   name+="*";
@@ -138,7 +138,7 @@ void TGo4EventElement::Clear(Option_t *)
 
 Int_t TGo4EventElement::Init()
 {
-   Int_t res=0;
+   Int_t res(0);
    Clear();
    SetValid(kTRUE);
    cout << "**** Event " << GetName();
@@ -153,14 +153,18 @@ Int_t TGo4EventElement::Init()
 
 Int_t TGo4EventElement::Fill()
 {
-   Int_t res(0);
    Clear();
 
-   if (fxEventSource) {
-      if (!fxEventSource->BuildEvent(this)) res = 1;
-   } else
-      res = 1;
+   if (fxEventSource==0) { SetValid(kFALSE); return 1; }
 
-   return res;
+   if (fxEventSource->BuildEvent(this)) {
+      SetValid(kTRUE);
+      return 0;
+   }
+
+   Int_t res = fxEventSource->GetEventStatus();
+
+   SetValid(kFALSE);
+
+   return res==0 ? 1 : res;
 }
-
