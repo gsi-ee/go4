@@ -460,8 +460,8 @@ TGo4PolyCond* TGo4EventProcessor::MakePolyCond(const char* fullname,
 }
 
 TGo4Parameter* TGo4EventProcessor::MakeParameter(const char* fullname,
-                                                       const char* classname,
-                                                       const char* newcmd)
+                                                 const char* classname,
+                                                 const char* newcmd)
 {
    fbObjMade = kFALSE;
    TString foldername, paramname;
@@ -492,7 +492,7 @@ TGo4Parameter* TGo4EventProcessor::MakeParameter(const char* fullname,
    if (newcmd!=0)
       cmd = Form(newcmd, paramname.Data());
    else
-      cmd = Form("new %s(%s)", classname, paramname.Data());
+      cmd = Form("new %s(%s);", classname, paramname.Data());
 
    Long_t res = gInterpreter->ProcessLine(cmd.Data());
 

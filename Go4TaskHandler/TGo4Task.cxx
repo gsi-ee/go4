@@ -123,7 +123,7 @@ void TGo4Task::Terminate (Bool_t termapp)
       TGo4ThreadManager::Terminate(termapp);
 }
 
-void TGo4Task::TerminateFast ()
+void TGo4Task::TerminateFast()
 {
    if(fxSlave)
       fxSlave->TerminateFast();

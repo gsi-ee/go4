@@ -36,6 +36,7 @@ class TGo4EventStore;
 class TGo4EventSource;
 class TGo4EventProcessor;
 class TGo4TreeStructure;
+class TGo4InterruptHandler;
 
 /**
  * The mother of all go4 analyses. Provides services to organize
@@ -57,6 +58,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
   friend class TGo4ComSetObject;
   friend class TGo4HisConnectorRunnable;
   friend class TGo4HistogramServer;
+  friend class TGo4InterruptHandler;
 
   public:
 
@@ -435,7 +437,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     Int_t UnLockAutoSave();
 
     /**  enable/disable functionality of AutoSave method */
-    void SetAutoSave(Bool_t on=kTRUE) {fbAutoSaveOn=on;}
+    void SetAutoSave(Bool_t on=kTRUE) { fbAutoSaveOn=on; }
 
     /** True if autosaving is enabled */
     Bool_t IsAutoSaveOn() const { return fbAutoSaveOn; }
@@ -466,9 +468,6 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * of wait cycles. For slave server controlled cint macros to
       * start/stop execution of explicit user loop. */
     Int_t WaitForStart();
-
-    /** Called by interrupt routine for normal exit from WaitForStart() function */
-    void StopWaiting();
 
     /** True if current analysis step allows stop on error */
     Int_t IsErrorStopEnabled();
@@ -702,10 +701,17 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     /** Close the autosave file if existing. */
     void CloseAutoSaveFile();
 
+    /** Called by interrupt routine for normal exit from program */
+    void StopWorking() { fbDoWorkingFlag = kFALSE; }
+
+    void ResetStopWorking() { fbDoWorkingFlag = kTRUE; }
+
+    Bool_t IsStopWorking() const { return !fbDoWorkingFlag; }
+
     /** Static Pointer to the analysis singleton instance. */
     static TGo4Analysis* fxInstance;             //!
 
-    /** This is used to check from outsid if an analysis is
+    /** This is used to check from outside if an analysis is
       * already there. Useful if one wants to prevent creating
       * a complete analysis instance in the gui task... */
     static Bool_t fbExists; //!
@@ -768,8 +774,11 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       *   @supplierCardinality 1 */
     TGo4AnalysisObjectNames * fxObjectNames;     //!
 
-    /** used for exit from WaitForStart() routine by interrupt */
-    Bool_t fbStopWatingFlag; //!
+    /** used for exit from program by interrupt */
+    Bool_t fbDoWorkingFlag; //!
+
+    /** use to treat Ctrl-C interrupts */
+    TGo4InterruptHandler* fxInterruptHandler; //!
 
   ClassDef(TGo4Analysis,3)
 };

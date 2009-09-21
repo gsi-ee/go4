@@ -154,9 +154,8 @@ else
      else maxevents=atoi(argv[iarg]);
      iarg++;
    }
-   if(argc > iarg) maxevents=atoi(argv[iarg]);
+   if(argc > iarg) maxevents = atoi(argv[iarg]);
 
-   if(maxevents == -1) maxevents = 99999999;
    cout << endl << "**** Input " << serv << " (" << argv[1] << ") ";
    if(strstr(argv[1],"-r")) cout << "port " << sport;
    cout << endl << "     output step1: " << out << ".root";

@@ -30,7 +30,7 @@ class TGo4AnalysisClient : public TGo4Slave {
                        const char* passwd="abcd",
                        Bool_t servermode=kFALSE,
                        Bool_t autorun=kFALSE,
-                       Bool_t clientmode = kFALSE);
+                       Bool_t cintmode = kFALSE);
 
     TGo4AnalysisClient(int argc, char** argv,
                        TGo4Analysis* analysis,
@@ -124,7 +124,7 @@ class TGo4AnalysisClient : public TGo4Slave {
 
     void SetCintMode(Bool_t on=kTRUE);
 
-    Bool_t& IsCintMode(){ return fbCintMode;}
+    Bool_t IsCintMode() const { return fbCintMode; }
 
     /** Lock all go4 mutexes in correct order to avoid deadlocking.
      * to be used from cintlocktimer */
@@ -197,9 +197,6 @@ private:
      * lock within a certain time window, triggered by this
      * timer */
     TTimer* fxCintLockTimer; //!
-
-    /** use to treat Ctrl-C interrupts in CINT mode */
-    TGo4InterruptHandler* fxInterruptHandler; //!
 
     TGo4AnalysisClient();
 

@@ -70,6 +70,10 @@ Changes in Go4 v4.3.2 (September 09)
    export GO4OLDLAUNCH=yes variable before gui start.       
 11.Allow to run analysis, compiled into library, from the gui. 
    Example simple, 1step and 2step shows how it can be done. 
+12.Signal handler is used to normally stop analysis by Ctrl-C
+   pressing from the user - stop processing, close connections, 
+   save autosave file.
+
 
 Changes in Go4 v4.3.1 (August 09)
 1. Fix error with connecting DABC/MBS servers second time

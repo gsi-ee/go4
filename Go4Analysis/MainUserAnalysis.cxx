@@ -274,7 +274,7 @@ int main(int argc, char **argv)
       } else
       if(strcmp(argv[narg],"-user")==0) {
          if (++narg < argc) {
-            TGo4UserSourceParameter sourcepar("UserSource", argv[narg++]);
+            TGo4UserSourceParameter sourcepar(argv[narg++]);
             step->SetEventSource(&sourcepar);
             step->SetSourceEnabled(kTRUE);
          } else
@@ -312,9 +312,10 @@ int main(int argc, char **argv)
             usage("number of events to process not specified");
       } else
       if (strcmp(argv[narg],"-asf")==0) {
-         if (++narg < argc)
+         if (++narg < argc) {
             analysis->SetAutoSaveFile(argv[narg++]);
-         else
+            analysis->SetAutoSave(kTRUE);
+         } else
             usage("name of autosave file not specified");
       } else
          usage(Form("Unknown argument %d %s", narg, argv[narg]));
@@ -348,8 +349,6 @@ int main(int argc, char **argv)
       cout << "**** Main: starting analysis in batch mode ...  " << endl;
       analysis->SetAutoSave(kTRUE);   // optional enable auto-save
       if (analysis->InitEventClasses()) {
-         if (maxevents < 0) maxevents = 1999999999L;
-
          analysis->RunImplicitLoop(maxevents);
          delete analysis;
          cout << "**** Main: Done!"<<endl;

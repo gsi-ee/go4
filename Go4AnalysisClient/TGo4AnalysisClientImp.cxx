@@ -30,40 +30,6 @@
 #include "TGo4Ratemeter.h"
 #include "TGo4TaskStatus.h"
 
-class TGo4InterruptHandler : public TSignalHandler {
-   public:
-      TGo4InterruptHandler(TSignalHandler* old = 0) :
-         TSignalHandler(kSigInterrupt, kFALSE),
-         oldHandler(old),
-         fbActive(kFALSE)
-      {
-      }
-      virtual Bool_t Notify()
-      {
-         if (fbActive) return kTRUE;
-         fbActive = kTRUE;
-         Bool_t res = kTRUE;
-         if (TGo4Analysis::Instance()!=0) {
-            TGo4Analysis::Instance()->StopWaiting();
-         }
-         if (oldHandler!=0) res = oldHandler->Notify();
-         TTimer::SingleShot(3000, ClassName(), this, "Pop()");
-         return res;
-      }
-
-      virtual void Pop()
-      {
-//         cout << "Clear call " << endl;
-         fbActive = kFALSE;
-         TGo4Analysis::Instance()->SetRunning(kFALSE);
-      }
-
-   protected:
-      TSignalHandler* oldHandler;
-      Bool_t fbActive;
-};
-
-
 const char* TGo4AnalysisClient::fgcWATCHTHREAD="WATCH-";
 const char* TGo4AnalysisClient::fgcMAINTHREAD="MAIN-";
 const UInt_t TGo4AnalysisClient::fguSTATUSUPDATE = 1000; // events between two updates
@@ -79,35 +45,27 @@ TGo4AnalysisClient::TGo4AnalysisClient(const char* name,
                                        const char* passwd,
                                        Bool_t servermode,
                                        Bool_t autorun,
-                                       Bool_t clientmode)
-: TGo4Slave(name, servermode, host, negport),
-fdBufferUpdateTime(0), fxHistoServer(0), fbAutoStart(autorun), fbCintMode(kFALSE),fxCintLockTimer(0)
-
+                                       Bool_t cintmode) :
+   TGo4Slave(name, servermode, host, negport),
+   fdBufferUpdateTime(0),
+   fxHistoServer(0),
+   fbAutoStart(autorun),
+   fbCintMode(kFALSE),
+   fxCintLockTimer(0)
 {
    TRACE((15,"TGo4AnalysisClient::TGo4AnalysisClient(const char*,...)",__LINE__, __FILE__));
 
-   if(analysis==0)
-      {
-         TGo4Log::Debug("!!! AnalysisClient ''%s'': no external analysis specified !!",GetName());
-         fxAnalysis=TGo4Analysis::Instance();
-      }
-   else
-      {
-         fxAnalysis=analysis;
-      }
+   if(analysis==0) {
+      TGo4Log::Debug("!!! AnalysisClient ''%s'': no external analysis specified !!",GetName());
+      fxAnalysis=TGo4Analysis::Instance();
+   } else {
+      fxAnalysis=analysis;
+   }
    fxAnalysis->SetAnalysisClient(this);
+
    Constructor(histoserver,basename,passwd);
 
-   SetCintMode(clientmode);
-
-   if (clientmode) {
-      TSignalHandler* oldhandler = gApplication->GetSignalHandler();
-      oldhandler->Remove();
-
-      fxInterruptHandler = new TGo4InterruptHandler(oldhandler);
-      fxInterruptHandler->Add();
-   }
-
+   SetCintMode(cintmode);
 }
 
 TGo4AnalysisClient::TGo4AnalysisClient(int argc, char** argv,
@@ -116,11 +74,13 @@ TGo4AnalysisClient::TGo4AnalysisClient(int argc, char** argv,
                                        const char* basename,
                                        const char* passwd,
                                        Bool_t servermode,
-                                       Bool_t autorun)
-: TGo4Slave(argv[2],servermode,
-            argv[3] , (argc>4) ? atoi(argv[4]) : 5000),
-fdBufferUpdateTime(0), fxHistoServer(0), fbAutoStart(autorun), fbCintMode(kFALSE),fxCintLockTimer(0)
-
+                                       Bool_t autorun) :
+   TGo4Slave(argv[2], servermode, argv[3] , (argc>4) ? atoi(argv[4]) : 5000),
+   fdBufferUpdateTime(0),
+   fxHistoServer(0),
+   fbAutoStart(autorun),
+   fbCintMode(kFALSE),
+   fxCintLockTimer(0)
 {
    TRACE((15,"TGo4AnalysisClient::TGo4AnalysisClient(int, char**...)",__LINE__, __FILE__));
 
@@ -173,25 +133,12 @@ void TGo4AnalysisClient::Constructor(Bool_t starthistserv, const char* basename,
    UpdateStatusBuffer();
    if(starthistserv) StartObjectServer(basename, passwd);
    GetTask()->Launch();
-
-   fxInterruptHandler = 0;
 }
 
 
 TGo4AnalysisClient::~TGo4AnalysisClient()
 {
    TRACE((15,"TGo4AnalysisClient::~TGo4AnalysisClient()",__LINE__, __FILE__));
-   if (fxInterruptHandler!=0) {
-
-      fxInterruptHandler->Remove();
-      delete fxInterruptHandler;
-
-      // restore old ROOT handler
-      TSignalHandler* oldhandler = gApplication->GetSignalHandler();
-      oldhandler->Add();
-   }
-
-
 //   if(GetTask())
 //      {
 //         GetTask()->GetTaskHandler()->DisConnect(); // disconnect before we autosave etc.
@@ -420,6 +367,7 @@ void TGo4AnalysisClient::RestartMain()
 void TGo4AnalysisClient::Stop()
 {
    TRACE((12,"TGo4AnalysisClient::Stop()",__LINE__, __FILE__));
+
    if(MainIsRunning()) fxAnalysis->PostLoop(); // only call postloop once
    TGo4Slave::Stop(); // will stop for command queue wait
    SendStatusMessage(1,kTRUE,"AnalysisClient %s has STOPPED analysis processing.",GetName());
@@ -429,6 +377,14 @@ void TGo4AnalysisClient::Stop()
    UpdateStatusBuffer();
    //   SendStatusBuffer();
    SendAnalysisClientStatus();
+
+   if (fxAnalysis && fxAnalysis->IsStopWorking())
+      if (IsCintMode())
+         fxAnalysis->ResetStopWorking();
+      else {
+         fxAnalysis->CloseAnalysis();
+         exit(0);
+      }
 }
 
 void TGo4AnalysisClient::UpdateRate(Int_t counts)
@@ -484,7 +440,7 @@ void TGo4AnalysisClient::StopObjectServer()
       } else {}
 }
 
-void TGo4AnalysisClient::Terminate (Bool_t termapp)
+void TGo4AnalysisClient::Terminate(Bool_t termapp)
 {
    SetCintMode(kFALSE);
    StopObjectServer(); // shutdown objectserver and its threads properly
@@ -492,18 +448,17 @@ void TGo4AnalysisClient::Terminate (Bool_t termapp)
       GetTask()->TGo4ThreadManager::Terminate(termapp); // stops all remaining threads and sets termination flag
 }
 
-void TGo4AnalysisClient::TerminateFast ()
+void TGo4AnalysisClient::TerminateFast()
 {
    StopObjectServer(); // shutdown objectserver and its threads properly
    TGo4Log::Debug("TGo4AnalysisClient::TerminateFast with delete analysis");
-   if(GetThreadHandler())
-      {
+   if(GetThreadHandler()) {
       GetThreadHandler()->StopAll(); // this will not stop immeadeately, therefor:
       GetThreadHandler()->Cancel(fcWatchName.Data());
       GetThreadHandler()->Cancel(fcMainName.Data()); // maybe we not need this...
       GetThreadHandler()->Cancel(GetTask()->GetTaskHandler()->GetDatName());
       GetThreadHandler()->Cancel(GetTask()->GetTaskHandler()->GetStatName());
-      }
+   }
    delete fxAnalysis;
    gApplication->Terminate();
 }
@@ -573,31 +528,30 @@ Int_t TGo4AnalysisClient::StopWorkThreads()
 
 void TGo4AnalysisClient::SetCintMode(Bool_t on)
 {
-   fbCintMode=on;
-   gROOT->SetBatch(!on);
-   fxAnalysis->SetAutoSave(kFALSE);
+   fbCintMode = on;
+
+   if (fbCintMode) {
+      gROOT->SetBatch(kFALSE);
+      fxAnalysis->SetAutoSave(kFALSE);
+   }
    #if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
 
    //// the mutex blocking timer is only necessary for old root versions
    // new versions will use gCINTMutex to protect streaming JA
 
    #else
-   if(fbCintMode)
-      {
-         if(fxCintLockTimer==0)
-            fxCintLockTimer=new TGo4CintLockTimer(this,fguCINTTIMERPERIOD);
-         fxCintLockTimer->TurnOn();
-
+   if(fbCintMode) {
+      if(fxCintLockTimer==0)
+         fxCintLockTimer=new TGo4CintLockTimer(this,fguCINTTIMERPERIOD);
+      fxCintLockTimer->TurnOn();
+   }
+   else {
+      if (fxCintLockTimer!=0) {
+         fxCintLockTimer->TurnOff();
+         delete fxCintLockTimer;
+         fxCintLockTimer = 0;
       }
-   else
-      {
-         if (fxCintLockTimer!=0) {
-            fxCintLockTimer->TurnOff();
-            delete fxCintLockTimer;
-            fxCintLockTimer = 0;
-         }
-
-      }
+   }
    #endif
 }
 

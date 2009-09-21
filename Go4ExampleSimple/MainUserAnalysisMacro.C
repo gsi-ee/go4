@@ -14,7 +14,7 @@
 #define kGUI   2
 #define kBatch 1
 Int_t   runningMode   = kBatch;               // kGUI or kBatch
-Int_t   maxevents     = 10000;                // number of events for batch mode
+Int_t   maxevents     = 0;                // number of events for batch mode, 0 - endless
 TString inputfile     = "/GSI/lea/gauss.lmd"; // input file
 TString autosavefile  = "gauss_AS.root";      // auto save file
 Bool_t  writeautosave = kTRUE;                // write auto-save file

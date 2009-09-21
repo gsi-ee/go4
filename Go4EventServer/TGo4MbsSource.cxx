@@ -225,6 +225,7 @@ TGo4MbsSubEvent* TGo4MbsSource::BuildMbsSubEvent(TGo4MbsEvent * target, Int_t fu
             // no match, try next subevent
       }
    } // while (subtargetindex...)
+
    if(!subtarget) {
       // we found no matching id, create new TObjArray entry
       subtarget = new TGo4MbsSubEvent(fieldlength);

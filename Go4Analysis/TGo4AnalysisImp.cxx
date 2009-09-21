@@ -58,6 +58,44 @@
 #include "TCint.h"
 #endif
 
+
+
+class TGo4InterruptHandler : public TSignalHandler {
+   protected:
+      Bool_t fbActive;
+   public:
+      TGo4InterruptHandler() :
+         TSignalHandler(kSigInterrupt, kFALSE),
+         fbActive(kFALSE)
+      {
+         Add();
+      }
+
+      virtual Bool_t Notify()
+      {
+         if (fbActive) return kTRUE;
+         fbActive = kTRUE;
+         Bool_t res = kTRUE;
+         if (TGo4Analysis::Exists())
+            TGo4Analysis::Instance()->StopWorking();
+
+         // single shot will only be processed in client mode, when processing root events are done
+         TTimer::SingleShot(10, ClassName(), this, "Pop()");
+
+         return res;
+      }
+
+      virtual void Pop()
+      {
+         fbActive = kFALSE;
+         if (TGo4Analysis::Exists())
+            TGo4Analysis::Instance()->SetRunning(kFALSE);
+      }
+};
+
+// _________________________________________________________________________________
+
+
 TGo4Analysis* TGo4Analysis::fxInstance = 0;
 Bool_t TGo4Analysis::fbExists=kFALSE;
 const Int_t TGo4Analysis::fgiAUTOSAVECOUNTS= 500;
@@ -68,18 +106,14 @@ const char* TGo4Analysis::fgcDEFAULTSTATUSFILENAME="Go4AnalysisPrefs.root";
 const char* TGo4Analysis::fgcDEFAULTFILESUF=".root";
 const char* TGo4Analysis::fgcTOPDYNAMICLIST="Go4DynamicList";
 
+
 TGo4Analysis* TGo4Analysis::Instance()
 {
-TRACE((14,"TGo4Analysis::Instance()",__LINE__, __FILE__));
-   if(fxInstance==0)
-      {
-         fxInstance=new TGo4Analysis;
-         fbExists=kTRUE;
-      }
-   else
-      {
-         // instance already there
-      }
+   TRACE((14,"TGo4Analysis::Instance()",__LINE__, __FILE__));
+   if(fxInstance==0) {
+      fxInstance=new TGo4Analysis;
+      fbExists=kTRUE;
+   }
    return fxInstance;
 }
 
@@ -90,11 +124,24 @@ Bool_t TGo4Analysis::Exists()
 
 
 TGo4Analysis::TGo4Analysis() :
-   TGo4CommandReceiver(), TObject(),
-   fbInitIsDone(kFALSE),fbAutoSaveOn(kTRUE),fxAnalysisSlave(0),
-   fxStepManager(0), fxObjectManager(0),
-   fiAutoSaveCount(0), fiAutoSaveInterval(TGo4Analysis::fgiAUTOSAVECOUNTS), fiAutoSaveCompression(5),
-   fxAutoFile(0), fbAutoSaveOverwrite(kFALSE), fbNewInputFile(kFALSE), fbAutoSaveFileChange(kFALSE), fxSampleEvent(0), fxObjectNames(0)
+   TGo4CommandReceiver(),
+   TObject(),
+   fbInitIsDone(kFALSE),
+   fbAutoSaveOn(kTRUE),
+   fxAnalysisSlave(0),
+   fxStepManager(0),
+   fxObjectManager(0),
+   fiAutoSaveCount(0),
+   fiAutoSaveInterval(TGo4Analysis::fgiAUTOSAVECOUNTS),
+   fiAutoSaveCompression(5),
+   fxAutoFile(0),
+   fbAutoSaveOverwrite(kFALSE),
+   fbNewInputFile(kFALSE),
+   fbAutoSaveFileChange(kFALSE),
+   fxSampleEvent(0),
+   fxObjectNames(0),
+   fbDoWorkingFlag(kTRUE),
+   fxInterruptHandler(0)
 {
    TRACE((15,"TGo4Analysis::TGo4Analysis()",__LINE__, __FILE__));
    //
@@ -108,15 +155,12 @@ TGo4Analysis::TGo4Analysis() :
       Message(-1,"Aborting in 20 s...");
       gSystem->Sleep(20000);
       gApplication->Terminate();
-   }
-   else
-   {
+   } else {
       // may not disable output of version number:
       Message(-1,"Welcome to Go4 Analysis Framework Release %s (build %d) !",
             __GO4RELEASE__ , __GO4BUILDVERSION__);
    }
-   if(fxInstance==0)
-   {
+   if(fxInstance==0) {
       gROOT->SetBatch(kTRUE);
       fxStepManager=new TGo4AnalysisStepManager("Go4 Analysis Step Manager");
       fxObjectManager=new TGo4AnalysisObjectManager("Go4 Central Object Manager");
@@ -131,9 +175,9 @@ TGo4Analysis::TGo4Analysis() :
       TGo4CommandInvoker::Register("Analysis",this); // register as command receiver at the global invoker
       fxInstance=this; // for ctor usage from derived user subclass
       fbExists=kTRUE;
-   }
-   else
-   {
+
+      fxInterruptHandler = new TGo4InterruptHandler();
+   } else {
       // instance already there
       Message(2,"Analysis BaseClass ctor -- analysis singleton already exists !!!");
    }
@@ -144,6 +188,11 @@ TGo4Analysis::TGo4Analysis() :
 
 TGo4Analysis::~TGo4Analysis()
 {
+   if (fxInterruptHandler!=0) {
+      delete fxInterruptHandler;
+      fxInterruptHandler = 0;
+   }
+
    TRACE((15,"TGo4Analysis::~TGo4Analysis()",__LINE__, __FILE__));
    CloseAnalysis();
    //cout <<"after close analysis." << endl;
@@ -400,84 +449,82 @@ return rev;
 
 Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
 {
-TRACE((11,"TGo4Analysis::RunImplicitLoop(Int_t)",__LINE__, __FILE__));
+   TRACE((11,"TGo4Analysis::RunImplicitLoop(Int_t)",__LINE__, __FILE__));
    Int_t i=0; // number of actually processed events
-try
-{
-   PreLoop();
-   Message(-1,"Analysis Implicit Loop for %d cycles is starting...",
-            times);
-   for(i=0; i<times; ++i)
-      {
-            try
-               {
-                  MainCycle();
-               }
-            catch(TGo4UserException& ex)
-               {
-                  if(ex.GetPriority()>2)
-                     {
-                        PostLoop();
-                        throw;   // errors: stop event loop
-                     }
-                  else
-                     {
-                        ex.Handle(); // warnings and infos: continue loop after display message
-                     }
-               }
-            catch(TGo4EventEndException& ex)
-              {
-                      Message(1,"End of event source %s:\n      %s %s",ex.GetSourceClass(),
-                         ex.GetSourceName(),ex.GetErrMess());
-                       PostLoop();
-                       throw;   // errors: stop event loop
-              }
+   try
+   {
+      PreLoop();
+      if (times>0)
+         Message(-1,"Analysis loop for %d cycles is starting...", times);
+      else
+         Message(-1,"Analysis loop is starting...");
 
-            catch(TGo4EventErrorException& ex)
-              {
-                 if(ex.GetPriority()>0)
-                    {
-                       Message(ex.GetPriority(),"%s",ex.GetErrMess());
-                       PostLoop();
-                       throw;   // errors: stop event loop
-                    }
-                 else
-                    {
-                       Message(1,"Eventsource %s:%s %s",ex.GetSourceClass(),
-                                ex.GetSourceName(),ex.GetErrMess());
-                       ex.Handle(); // infos: continue loop after display message
-                    }
-              }
+      while(fbDoWorkingFlag) {
 
-            catch(...)
-               {
-                  PostLoop(); // make sure that postloop is executed for all exceptions
-                  throw;
-               }
-            ////// end inner catch
+         if ((times>0) && (++i>times)) break;
+
+         try
+         {
+            MainCycle();
+         }
+         catch(TGo4UserException& ex)
+         {
+            if(ex.GetPriority()>2)
+            {
+               PostLoop();
+               throw;   // errors: stop event loop
+            }
+            else
+            {
+               ex.Handle(); // warnings and infos: continue loop after display message
+            }
+         }
+         catch(TGo4EventEndException& ex)
+         {
+            Message(1,"End of event source %s:\n %s %s",ex.GetSourceClass(), ex.GetSourceName(),ex.GetErrMess());
+            PostLoop();
+            throw;   // errors: stop event loop
+         }
+
+         catch(TGo4EventErrorException& ex)
+         {
+            if(ex.GetPriority()>0)
+            {
+               Message(ex.GetPriority(),"%s",ex.GetErrMess());
+               PostLoop();
+               throw;   // errors: stop event loop
+            }
+            else
+            {
+               Message(1,"Eventsource %s:%s %s",ex.GetSourceClass(),
+                     ex.GetSourceName(),ex.GetErrMess());
+               ex.Handle(); // infos: continue loop after display message
+            }
+         }
+
+         catch(...)
+         {
+            PostLoop(); // make sure that postloop is executed for all exceptions
+            throw;
+         }
+         ////// end inner catch
       }// for
 
-   Message(-1,"Analysis Implicit Loop has finished after %d cycles.",
-            i);
-   PostLoop();
-} //  try
+      Message(-1,"Analysis Implicit Loop has finished after %d cycles.", i);
+      PostLoop();
+   } //  try
 
-catch(TGo4Exception& ex)
-{
-  Message(-1,"%s appeared after %d cycles.",
-            ex.What(),i);
-  ex.Handle();
-}
-catch(std::exception& ex) // treat standard library exceptions
-{
-  Message(-1,"standard exception %s appeared after %d cycles.",
-            ex.what(),i);
-}
-catch(...)
-{
-  Message(-1,"!!! Unexpected exception after %d cycles !!!",i);
-}
-/////////// end outer catch block
+   catch(TGo4Exception& ex) {
+     Message(-1,"%s appeared after %d cycles.", ex.What(), i);
+     ex.Handle();
+   }
+   catch(std::exception& ex) { // treat standard library exceptions
+     Message(-1,"standard exception %s appeared after %d cycles.", ex.what(),i);
+   }
+   catch(...) {
+      Message(-1,"!!! Unexpected exception after %d cycles !!!",i);
+   }
+   /////////// end outer catch block
    return i;
 }
 
@@ -518,22 +565,16 @@ TRACE((11,"TGo4Analysis::UpdateStatus(TGo4AnalysisStatus*)",__LINE__, __FILE__))
 void TGo4Analysis::SetStatus(TGo4AnalysisStatus * state)
 {
    TRACE((11,"TGo4Analysis::SetStatus(TGo4AnalysisStatus*)",__LINE__, __FILE__));
-   if(state!=0)
-      {
-         // first we close down exisiting  analysis:
-         CloseAnalysis();
-         SetAutoSaveInterval(state->GetAutoSaveInterval());
-         SetAutoSave(state->IsAutoSaveOn());
-         SetAutoSaveFile(state->GetAutoFileName(),
-                         state->IsAutoSaveOverwrite(),
-                         state->GetAutoSaveCompression()
-                                                            );
-         fxStepManager->SetStatus(state);
-      } // if(state!=0)
-   else
-      {
-         // no state to set
-      }
+   if(state!=0) {
+      // first we close down exisiting  analysis:
+      CloseAnalysis();
+      SetAutoSaveInterval(state->GetAutoSaveInterval());
+      SetAutoSave(state->IsAutoSaveOn());
+      SetAutoSaveFile(state->GetAutoFileName(),
+                      state->IsAutoSaveOverwrite(),
+                      state->GetAutoSaveCompression());
+      fxStepManager->SetStatus(state);
+   }
 }
 
 
@@ -698,22 +739,16 @@ TTree* TGo4Analysis::CreateSingleEventTree(const Text_t* name, Bool_t isoutput)
    return CreateSingleEventTree(event);
 }
 
-
-
-
-
 void TGo4Analysis::CloseAnalysis()
 {
-TRACE((14,"TGo4Analysis::CloseAnalysis()",__LINE__, __FILE__));
+   TRACE((14,"TGo4Analysis::CloseAnalysis()",__LINE__, __FILE__));
    //
-   if(fbInitIsDone)
-      {
-         AutoSave();
-         fxStepManager->CloseAnalysis();
-         fxObjectManager->CloseAnalysis();
-         fbInitIsDone=kFALSE;
-      }
-   else {}
+   if(fbInitIsDone) {
+      AutoSave();
+      fxStepManager->CloseAnalysis();
+      fxObjectManager->CloseAnalysis();
+      fbInitIsDone=kFALSE;
+   }
 }
 
 Int_t TGo4Analysis::PreLoop()
@@ -830,7 +865,7 @@ TRACE((12,"TGo4Analysis::UnLockAutoSave()",__LINE__, __FILE__));
 void TGo4Analysis::AutoSave()
 {
    TRACE((12,"TGo4Analysis::AutoSave()",__LINE__, __FILE__));
-   //
+
    if(!fbAutoSaveOn) return;
    TGo4LockGuard  autoguard(fxAutoSaveMutex);
    Message(0,"Analysis  --  AutoSaving....");
@@ -975,12 +1010,11 @@ Bool_t TGo4Analysis::IsRunning()
 
 void TGo4Analysis::SetRunning(Bool_t on)
 {
-if(fxAnalysisSlave==0) return;
-if(on)
-   fxAnalysisSlave->Start();
-else
-   fxAnalysisSlave->Stop();
-
+   if(fxAnalysisSlave==0) return;
+   if(on)
+      fxAnalysisSlave->Start();
+   else
+      fxAnalysisSlave->Stop();
 }
 
 
@@ -989,51 +1023,33 @@ Int_t TGo4Analysis::WaitForStart()
    #if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
    /// test: need to unlock cintmutex here to enable streaming!
    Bool_t unlockedcint=kFALSE;
-   if(gCINTMutex)
-    {
-        gCINTMutex->UnLock();
-        unlockedcint=kTRUE;
-        //cout <<"WWWWWWWait for Start Unlocked cint mutex..." << endl;
-    }
+   if(gCINTMutex) {
+      gCINTMutex->UnLock();
+      unlockedcint=kTRUE;
+   }
    #endif
    /////////
    Int_t cycles=0;
-   fbStopWatingFlag = kFALSE;
    while(!IsRunning())
    {
       //cout <<"WWWWWWWait for Start before Sleep..." << endl;
       gSystem->Sleep(fgiMACROSTARTPOLL);
       cycles++;
-      Bool_t sysret=gSystem->ProcessEvents();
-//      cout <<"  after process events with ret="<<sysret << endl;
-//      cout <<"  stopwatingflag is="<<fbStopWatingFlag << endl;
-      if (sysret || fbStopWatingFlag)
-         {
-            //cout <<"wait sees root IsInterrupted..." << endl;
-            cycles=-1;
-            break;
+      Bool_t sysret = gSystem->ProcessEvents();
+      if (sysret || !fbDoWorkingFlag) {
+         cycles=-1;
+         break;
          // allows cint canvas menu "Interrupt" to get us out of here!
          // additionally, without ProcessEvents no connect/disconnect of Go4
          // would be possible from this wait loop
-         }
+      }
    }
-   //if (fbStopWatingFlag) return -1;
    #if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
-     /// test: need to unlock cintmutex here to enable streaming!
+   /// test: need to lock cintmutex again
    if(gCINTMutex && unlockedcint)
-    {
         gCINTMutex->Lock();
-        //cout <<"WWWWWWWait for Start locked cint mutex..." << endl;
-
-    }
-   /////// end test
    #endif
    return cycles;
-}
-
-void TGo4Analysis::StopWaiting()
-{
-   fbStopWatingFlag = kTRUE;
 }
 
 void TGo4Analysis::StartObjectServer(const Text_t* basename,  const Text_t* passwd)
@@ -1501,7 +1517,3 @@ void TGo4Analysis::SetAdministratorPassword(const char* passwd)
 {
    TGo4TaskHandler::SetAdminAccount(0,passwd);
 }
-
-
-
-

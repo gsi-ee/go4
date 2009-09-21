@@ -75,7 +75,6 @@ int main(int argc, char **argv)
       strncpy(input,argv[1],110); // input file name
       if(argc > 2) maxevents=atoi(argv[2]);
    }
-   if(maxevents == -1) maxevents = 99999999;
 
    // we construct filenames
    char lmd[1024]; // input GSI listmode
