@@ -50,9 +50,9 @@ class TGo4AnalysisStep : public TNamed {
       * i.e. they are deleted by dtor. */
     TGo4AnalysisStep(const char* name,
                      TGo4EventFactory* eventfactory,
-                     TGo4EventSourceParameter* sourcetype=0,
-                     TGo4EventStoreParameter* storetype=0,
-                     TGo4EventProcessorParameter* processortype=0);
+                     TGo4EventSourceParameter* sourcetype = 0,
+                     TGo4EventStoreParameter* storetype = 0,
+                     TGo4EventProcessorParameter* processortype = 0);
 
     virtual ~TGo4AnalysisStep();
 
@@ -67,7 +67,7 @@ class TGo4AnalysisStep : public TNamed {
 
     /** For lazy initialization of event source. Uses
       * the CreateEventSource method of the specialized event factory.
-      * Is called from init eventclasse in the timer initialization of
+      * Is called from init eventclass in the timer initialization of
       * the analysis, or may called on the fly to switch the
       * source from event server to file. Parameter is passed to
       * factory method for user specification of source. */
@@ -76,7 +76,7 @@ class TGo4AnalysisStep : public TNamed {
     /** Unregister and close eventsource, if existing. */
     void CloseEventSource();
 
-    /** Sets the event storee parameter which is used on initialization
+    /** Sets the event store parameter which is used on initialization
       * of this step. The event store will not yet be created;
       * Creation is done by InitEventClasses() method, or by calling
       * the NewEventStore() method on the fly. */
@@ -96,7 +96,7 @@ class TGo4AnalysisStep : public TNamed {
     /** Unregister and close eventstore, if existing. */
     void CloseEventStore();
 
-    /** Sets the event processor parameter which is used on intitialization
+    /** Sets the event processor parameter which is used on initialization
       * of this step. The event processor will not yet be created;
       * Creation is done by InitEventClasses() method, or by calling
       * the NewEventProcessor() method on the fly. */
@@ -156,48 +156,48 @@ class TGo4AnalysisStep : public TNamed {
     void SetPreviousStep(TGo4AnalysisStep * pre) { fxPrevious=pre; }
 
     /** Get previous analysis step. Returns 0 if there is none. */
-    TGo4AnalysisStep* GetPreviousStep() { return fxPrevious; }
+    TGo4AnalysisStep* GetPreviousStep() const { return fxPrevious; }
 
     /** Access to the output event which has been filled last. Is used to
       * pass the output to the next analysis step, or to the main analysis
       * user event function. */
-    TGo4EventElement* GetOutputEvent() { return fxOutputEvent; }
+    TGo4EventElement* GetOutputEvent() const { return fxOutputEvent; }
 
     /** Access to the input event of this step. Useful to
       * pass incoming event from event source to a
       * subsequent step or to user event function,
       * without processing it. */
-    TGo4EventElement* GetInputEvent() { return fxInputEvent; }
+    TGo4EventElement* GetInputEvent() const { return fxInputEvent; }
 
     /** Access to the event processor.
       * Useful if processor has own data to be displayed, e.g. histograms. */
-    TGo4EventProcessor * GetEventProcessor() { return fxEventProcessor; }
+    TGo4EventProcessor * GetEventProcessor() const { return fxEventProcessor; }
 
     /** Access to step factory.
       * Useful in setup macros */
-    TGo4EventFactory * GetStepFactory() {return fxEventFactory; }
+    TGo4EventFactory * GetStepFactory() const { return fxEventFactory; }
 
-    Bool_t IsStoreEnabled() { return fbStoreEnabled; }
+    Bool_t IsStoreEnabled() const { return fbStoreEnabled; }
 
-    Bool_t IsStoreImplemented() { return fbStoreImplemented; }
+    Bool_t IsStoreImplemented() const { return fbStoreImplemented; }
 
-    Bool_t IsSourceImplemented() { return fbSourceImplemented; }
+    Bool_t IsSourceImplemented() const { return fbSourceImplemented; }
 
-    Bool_t IsSourceEnabled() { return fbSourceEnabled; }
+    Bool_t IsSourceEnabled() const { return fbSourceEnabled; }
 
-    Bool_t IsProcessEnabled() { return fbProcessEnabled; }
+    Bool_t IsProcessEnabled() const { return fbProcessEnabled; }
 
     /** True if analsis step has been stopped on error. */
-    Bool_t IsErrorStopped() { return fbErrorStopped; }
+    Bool_t IsErrorStopped() const { return fbErrorStopped; }
 
     /** True if analsis step allows stop on error. */
-    Bool_t IsErrorStopEnabled() { return fbErrorStopEnabled; }
+    Bool_t IsErrorStopEnabled() const { return fbErrorStopEnabled; }
 
     /** Status of the last event. */
-    Int_t GetProcessStatus() { return fiProcessStatus; }
+    Int_t GetProcessStatus() const { return fiProcessStatus; }
 
     /** Status message of last Process() call. */
-    const char* GetStatusMessage() { fcBuffer = fcStatusMessage; return fcBuffer.Data(); }
+    const char* GetStatusMessage() const { return fcStatusMessage.Data(); }
 
     /** Set Status message of last Process() call. */
     void SetStatusMessage(const char* txt) { fcStatusMessage = txt; }
@@ -221,16 +221,16 @@ class TGo4AnalysisStep : public TNamed {
       * event processor into the event store instance. */
     void StoreCalibration();
 
-    /** Saves a parameter correllated with the current event into the storage. */
+    /** Saves a parameter correlated with the current event into the storage. */
     Int_t Store(TGo4Parameter* cali);
 
-    /** Saves a condition correllated with the current event into the storage. */
+    /** Saves a condition correlated with the current event into the storage. */
     Int_t Store(TGo4Condition* conny);
 
-    /** Saves a fitter correllated with the current event into the storage. */
+    /** Saves a fitter correlated with the current event into the storage. */
     Int_t Store(TGo4Fitter* fitter);
 
-    /** Saves a folder correllated with the current event into the storage. */
+    /** Saves a folder correlated with the current event into the storage. */
     Int_t Store(TFolder* fold);
 
     /** The main analysis action which is invoked by the external
@@ -349,9 +349,6 @@ class TGo4AnalysisStep : public TNamed {
 
     /** Most recent status message. May be delivered by eventsource or eventstore. */
     TString fcStatusMessage;   //!
-
-    /** Buffer string for text output */
-    TString fcBuffer; //!
 
   ClassDef(TGo4AnalysisStep,1)
 };

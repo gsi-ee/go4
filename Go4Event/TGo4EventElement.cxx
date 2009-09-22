@@ -142,9 +142,13 @@ Int_t TGo4EventElement::Init()
    Clear();
    SetValid(kTRUE);
    cout << "**** Event " << GetName();
-   if (fxEventSource)
+   if (fxEventSource) {
       cout << " has source " << fxEventSource->GetName() << " class: " << fxEventSource->ClassName() << endl;
-   else {
+      if (!fxEventSource->CheckEventClass(IsA())) {
+         cout << "missmatch between event source and event class " << endl;
+         res = 1;
+      }
+   } else {
       cout << " has no data source" << endl;
       res = 1;
    }

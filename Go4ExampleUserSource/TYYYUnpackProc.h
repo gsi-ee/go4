@@ -12,6 +12,9 @@ class TYYYUnpackProc : public TGo4EventProcessor {
       TYYYUnpackProc(const char* name);
       virtual ~TYYYUnpackProc() ;
 
+      /** This method checks if event class is suited for the source */
+      virtual Bool_t CheckEventClass(TClass* cl);
+
       virtual Bool_t BuildEvent(TGo4EventElement* dest);
    private:
       TH1           *fX;

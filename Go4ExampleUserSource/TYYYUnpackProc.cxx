@@ -2,6 +2,7 @@
 
 #include "Riostream.h"
 
+#include "TClass.h"
 #include "TMath.h"
 #include "TH1.h"
 #include "TH2.h"
@@ -76,6 +77,11 @@ TYYYUnpackProc::~TYYYUnpackProc()
 }
 //***********************************************************
 
+Bool_t TYYYUnpackProc::CheckEventClass(TClass* cl)
+{
+   return cl->InheritsFrom(TYYYUnpackEvent::Class());
+}
+
 
 //-----------------------------------------------------------
 
@@ -83,7 +89,7 @@ Bool_t TYYYUnpackProc::BuildEvent(TGo4EventElement* dest)
 {
    TYYYRawEvent *inp = dynamic_cast<TYYYRawEvent*> (GetInputEvent());
 
-   TYYYUnpackEvent* poutevt = dynamic_cast<TYYYUnpackEvent*> (dest);
+   TYYYUnpackEvent* poutevt = (TYYYUnpackEvent*) (dest);
 
    if ((inp==0) || (poutevt==0)) {
       cout << "YYYUnpackProc: events are not specified!"<< endl;

@@ -27,6 +27,10 @@ class TYYYEventSource : public TGo4EventSource {
       /** Close the file or connection. */
       virtual Int_t Close();
 
+
+      /** This method checks if event class is suited for the source */
+      virtual Bool_t CheckEventClass(TClass* cl);
+
       /** This methods actually fills the target event class which is passed as pointer.
         * Uses the latest event which is referenced
         * by fxEvent or fxBuffer. Does _not_ fetch a new event

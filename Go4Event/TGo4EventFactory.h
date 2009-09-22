@@ -23,25 +23,25 @@ class TGo4EventSourceParameter;
  * @since 1/2001
  */
 class TGo4EventFactory : public TNamed {
- public:
+   public:
 
-   TGo4EventFactory(const char* name);
+      TGo4EventFactory(const char* name);
 
-   TGo4EventFactory();
+      TGo4EventFactory();
 
-   virtual ~TGo4EventFactory();
+      virtual ~TGo4EventFactory();
 
-   virtual TGo4EventElement * CreateInputEvent() =0;
+      virtual TGo4EventElement * CreateInputEvent() = 0;
 
-   virtual TGo4EventSource * CreateEventSource(TGo4EventSourceParameter* par) =0;
+      virtual TGo4EventSource * CreateEventSource(TGo4EventSourceParameter* par) = 0;
 
-   virtual TGo4EventElement * CreateOutputEvent() =0;
+      virtual TGo4EventElement * CreateOutputEvent() = 0;
 
-   virtual TGo4EventStore * CreateEventStore(TGo4EventStoreParameter* par) =0;
+      virtual TGo4EventStore * CreateEventStore(TGo4EventStoreParameter* par) = 0;
 
-   virtual TGo4EventProcessor * CreateEventProcessor(TGo4EventProcessorParameter* par) =0;
+      virtual TGo4EventProcessor * CreateEventProcessor(TGo4EventProcessorParameter* par) = 0;
 
- ClassDef(TGo4EventFactory,1)
+   ClassDef(TGo4EventFactory,1)
 };
 
 #endif //TGO4EVENTFACTORY_H

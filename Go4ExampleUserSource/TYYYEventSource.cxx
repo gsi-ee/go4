@@ -1,5 +1,6 @@
 #include "TYYYEventSource.h"
 
+#include "TClass.h"
 #include "Riostream.h"
 #include <stdlib.h>
 
@@ -49,6 +50,11 @@ TYYYEventSource::TYYYEventSource() :
 TYYYEventSource::~TYYYEventSource()
 {
    Close();
+}
+
+Bool_t TYYYEventSource::CheckEventClass(TClass* cl)
+{
+   return cl->InheritsFrom(TYYYRawEvent::Class());
 }
 
 Bool_t TYYYEventSource::BuildEvent(TGo4EventElement* dest)
