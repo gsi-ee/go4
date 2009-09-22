@@ -74,29 +74,31 @@ TXXXAnlProc::~TXXXAnlProc()
 //***********************************************************
 
 //-----------------------------------------------------------
-void TXXXAnlProc::XXXEventAnalysis(TXXXAnlEvent* poutevt)
-{
-   TXXXUnpackEvent* fInput  = (TXXXUnpackEvent*) GetInputEvent();
 
-   poutevt->SetValid(kFALSE);       // events are not stored until kTRUE is set
-   if(!fInput->IsValid())return;    // do not process unvalid event
-   poutevt->SetValid(kTRUE);       // events are not stored until kTRUE is set
+Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
+{
+   TXXXUnpackEvent* inp_evt  = (TXXXUnpackEvent*) GetInputEvent();
+   TXXXAnlEvent* out_evt = (TXXXAnlEvent*) dest;
+
+   out_evt->SetValid(kFALSE);       // events are not stored until kTRUE is set
+   if((inp_evt==0) || !inp_evt->IsValid()) return kFALSE;    // do not process unvalid event
+   out_evt->SetValid(kTRUE);       // events are not stored until kTRUE is set
    Int_t cnt(0);
    for(Int_t ii=0;ii<4;ii++) {
-      poutevt->frData[cnt] = (Float_t)fInput->fiCrate1[ii];
-      if(fInput->fiCrate1[ii]) fCaliSum1->Fill(fCalipar->Energy(fInput->fiCrate1[ii]));
+      out_evt->frData[cnt] = (Float_t)inp_evt->fiCrate1[ii];
+      if(inp_evt->fiCrate1[ii]) fCaliSum1->Fill(fCalipar->Energy(inp_evt->fiCrate1[ii]));
       cnt++;
    }
    for(Int_t ii=0; ii<4; ii++) {
-      poutevt->frData[cnt]=(Float_t)fInput->fiCrate2[ii];
-      if(fInput->fiCrate2[ii]) fCaliSum1->Fill(fCalipar->Energy(fInput->fiCrate2[ii]));
+      out_evt->frData[cnt]=(Float_t)inp_evt->fiCrate2[ii];
+      if(inp_evt->fiCrate2[ii]) fCaliSum1->Fill(fCalipar->Energy(inp_evt->fiCrate2[ii]));
       cnt++;
    }
    for(Int_t ii=0;ii<8;ii++)
-      if(poutevt->frData[ii]) {
-         if(fWinCon->Test(poutevt->frData[ii])) fSum1->Fill(poutevt->frData[ii]);
-         fSum2->Fill(poutevt->frData[ii]+fParam1->frP1);
-         fSum3->Fill(poutevt->frData[ii]+fParam2->frP1);
+      if(out_evt->frData[ii]) {
+         if(fWinCon->Test(out_evt->frData[ii])) fSum1->Fill(out_evt->frData[ii]);
+         fSum2->Fill(out_evt->frData[ii]+fParam1->frP1);
+         fSum3->Fill(out_evt->frData[ii]+fParam2->frP1);
       }
 
    fFitCounter++;
@@ -124,4 +126,6 @@ void TXXXAnlProc::XXXEventAnalysis(TXXXAnlEvent* poutevt)
          }
       }
    }
-} // BuildCalEvent
+
+   return kTRUE;
+}

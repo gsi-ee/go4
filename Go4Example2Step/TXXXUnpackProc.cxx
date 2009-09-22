@@ -153,17 +153,19 @@ TXXXUnpackProc::~TXXXUnpackProc()
 //***********************************************************
 
 //-----------------------------------------------------------
-void TXXXUnpackProc::XXXUnpack(TXXXUnpackEvent* poutevt)
+Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
 {
-   TGo4MbsEvent* fInput = (TGo4MbsEvent* ) GetInputEvent(); // from this
-   if (fInput==0) {
+   TGo4MbsEvent* inp_evt = (TGo4MbsEvent* ) GetInputEvent(); // from this
+   TXXXUnpackEvent* out_evt = (TXXXUnpackEvent*) dest;
+
+   if (inp_evt==0) {
       cout << "XXXUnpackProc: no input event !"<< endl;
-      return;
+      return kFALSE;
    }
 
    /////////////////////////////////////////////////////////////
    ////// use this if you want access to the mbs file header data:
-   //      s_filhe* head=fInput->GetMbsSourceHeader();
+   //      s_filhe* head=inp_evt->GetMbsSourceHeader();
    //      if(head)
    //         {
    //            cout <<"found filhe structure:" << endl;
@@ -182,7 +184,7 @@ void TXXXUnpackProc::XXXUnpack(TXXXUnpackEvent* poutevt)
 
    /////////////////////////////////////////////////////////////
    ////// use this if you want access to the mbs buffer header data:
-   //      s_bufhe* head=fInput->GetMbsBufferHeader();
+   //      s_bufhe* head=inp_evt->GetMbsBufferHeader();
    //      if(head)
    //         {
    //            cout <<"\nfound bufhe structure:" << endl;
@@ -202,9 +204,9 @@ void TXXXUnpackProc::XXXUnpack(TXXXUnpackEvent* poutevt)
    //////////////////////////////////////////////////////////////////
 
 
-   fInput->ResetIterator();
+   inp_evt->ResetIterator();
    TGo4MbsSubEvent* psubevt(0);
-   while ((psubevt = fInput->NextSubEvent()) != 0) // subevent loop
+   while ((psubevt = inp_evt->NextSubEvent()) != 0) // subevent loop
    {
       if( psubevt->GetSubcrate() == 1)
       {
@@ -219,7 +221,7 @@ void TXXXUnpackProc::XXXUnpack(TXXXUnpackEvent* poutevt)
             if(*pdata != 0)
             {
                fCr1Ch[i]->Fill((Float_t)(*pdata));
-               poutevt->fiCrate1[i] = *pdata; // fill output event
+               out_evt->fiCrate1[i] = *pdata; // fill output event
                if(i == 0) // fill first channel
                {
                   if(fconHis1->Test(*pdata))fHis1gate->Fill((Float_t)(*pdata));
@@ -246,15 +248,17 @@ void TXXXUnpackProc::XXXUnpack(TXXXUnpackEvent* poutevt)
          if(lwords >= 8) lwords=8;
          for(Int_t i = 0; i<lwords; ++i) {
             if(*pdata != 0) {
-               poutevt->fiCrate2[i] = *pdata;
+               out_evt->fiCrate2[i] = *pdata;
                fCr2Ch[i]->Fill((Float_t)(*pdata));
             }
             pdata++;
          } // for SEW LW
       } // if (subcrate)
    }  // while
-   poutevt->SetValid(kTRUE); // to store
+   out_evt->SetValid(kTRUE); // to store
    // throwing this exception stops the event loop
    // Note that subsequent steps are not executed!
    //	throw TGo4EventEndException(this);
+
+   return kTRUE;
 }
