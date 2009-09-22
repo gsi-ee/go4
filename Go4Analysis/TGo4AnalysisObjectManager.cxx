@@ -1235,7 +1235,7 @@ Bool_t TGo4AnalysisObjectManager::RemovePicture(const char * name)
 Bool_t TGo4AnalysisObjectManager::AddCanvas(TCanvas * can, const char* subfolder)
 {
    TRACE((11,"TGo4AnalysisObjectManager::AddCanvas(TCanvas *)",__LINE__, __FILE__));
-   Bool_t rev=AddObjectToFolder(can,fxCanvasDir,subfolder,kFALSE);
+   Bool_t rev = AddObjectToFolder(can,fxCanvasDir,subfolder,kFALSE);
    if(rev && can) gROOT->GetListOfCanvases()->Remove(can);
    // make sure that root has no other reference to our canvas
    return rev;
@@ -1405,11 +1405,11 @@ TFolder* TGo4AnalysisObjectManager::FindSubFolder(TFolder* parent, const char* s
 
 
 Bool_t TGo4AnalysisObjectManager::AddObjectToFolder(TObject * ob,
-      TFolder* fold,
-      const char* subfolder,
-      Bool_t replace,
-      Bool_t uniquename,
-      Bool_t resetbits)
+                                                    TFolder* fold,
+                                                    const char* subfolder,
+                                                    Bool_t replace,
+                                                    Bool_t uniquename,
+                                                    Bool_t resetbits)
 {
    TRACE((11,"TGo4AnalysisObjectManager::AddObjectToFolder(TObject *, TFolder*, const char*, Bool_t)",__LINE__, __FILE__));
 
@@ -1456,6 +1456,9 @@ Bool_t TGo4AnalysisObjectManager::AddObjectToFolder(TObject * ob,
          // remove old reference before adding new one:
          fold->RecursiveRemove(oldob);
          CleanupDynamicLists(oldob);
+
+         cout << "Delete object " <<  oldob << "  name = " << oldob->GetName() << " isgpap = " << (oldob == gPad) << endl;
+
          delete oldob;
       } else
          return kFALSE; // do not overwrite old one
@@ -1548,7 +1551,7 @@ Bool_t TGo4AnalysisObjectManager::LoadFolder(TDirectory* source, TFolder* destin
          return kFALSE;
       }
       //cout <<"Reading key "<<key->GetName() << endl;
-      TObject* ob=key->ReadObj();
+      TObject* ob = key->ReadObj();
       if(ob==0)
       {
          TGo4Analysis::Instance()->Message(2,"Analysis LoadFolder: Retrying to read key %s ...",
@@ -1590,64 +1593,57 @@ Bool_t TGo4AnalysisObjectManager::PutToFolder(TObject* ob, TFolder* destination,
    if(!ob || !destination) return kFALSE;
    Bool_t rev=kTRUE;
    //cout <<"put to folder for "<<ob->GetName() << endl;
-   if (ob->InheritsFrom(TGo4DynamicEntry::Class()))
-   {
+   if (ob->InheritsFrom(TGo4DynamicEntry::Class())) {
       // new autosave file structure will save dynamic entries independently:
       TGo4DynamicEntry* dentry =dynamic_cast<TGo4DynamicEntry*> ( ob->Clone() ); // deep copy of source object!
       AddDynamicEntry(dentry);
       //cout <<"Added dynamic entry from file: "<<dentry->GetName() << endl;
-   }
-
-   else if(ob->InheritsFrom(TGo4Parameter::Class()))
-   {
+   } else
+   if(ob->InheritsFrom(TGo4Parameter::Class())) {
       // parameters never replaced, but updated
-      TGo4Parameter* par =dynamic_cast<TGo4Parameter*>(ob);
+      TGo4Parameter* par = dynamic_cast<TGo4Parameter*>(ob);
       SetParameter(ob->GetName(),par,destination);
-   }
-   else if(ob->InheritsFrom(TGo4Picture::Class()))
-   {
+   } else
+   if(ob->InheritsFrom(TGo4Picture::Class())) {
       // pictures never replaced, but updated
       TGo4Picture* pic =dynamic_cast<TGo4Picture*>(ob);
       //cout <<"LLLLLoad Folder SetsPicture!!!!!" << endl;
       SetPicture(ob->GetName(),pic,destination);
-   }
-   else if(ob->InheritsFrom(TGo4Condition::Class()))
-   {
+   } else
+   if(ob->InheritsFrom(TGo4Condition::Class())) {
       // conditions not replaced, but updated
       TGo4Condition* con =dynamic_cast<TGo4Condition*>(ob);
       SetAnalysisCondition(ob->GetName(),con,kTRUE, destination);
-   }
-   else if(ob->InheritsFrom(TH1::Class()))
-   {
+   } else
+   if(ob->InheritsFrom(TH1::Class())) {
       if(fbSuppressLoadHistograms) return kFALSE;
       // test: do not clone histos, but change dir from asf file to memory
-      TH1* his =dynamic_cast<TH1*>(ob);
-      if(AddObjectToFolder(his,destination,0,replace,kFALSE,kFALSE))
-      {
+      TH1* his = dynamic_cast<TH1*>(ob);
+      if(AddObjectToFolder(his,destination,0,replace,kFALSE,kFALSE)) {
          his->SetDirectory(gROOT); // set directory for histos, needed for TTree::Draw
          TGo4Analysis::Instance()->Message(0,"Analysis LoadFolder: Histogram %s was loaded.",
                his->GetName());
          //cout <<"Changed directory of histo "<<his->GetName() << endl;
       }
-      else
-      {
-         // object already there and noreplace set: do not change dir
-      }
-   }
-   else
-   {
-      TObject* addob =ob->Clone(); // deep copy of source object!
-      if(AddObjectToFolder(addob,destination,0,replace))
-      {
-
-         TGo4Analysis::Instance()->Message(-1,"Analysis LoadFolder: Object %s was loaded.",
-               addob->GetName());
-      }
-      else
-      {
+   } else
+   if(ob->InheritsFrom(TCanvas::Class())) {
+      TObject* addob = ob->Clone(); // deep copy of source object!
+      if(AddObjectToFolder(addob, destination, 0, replace)) {
+         TGo4Analysis::Instance()->Message(-1,"Analysis LoadFolder: Object %s was loaded.", addob->GetName());
+      } else {
          // object already there and noreplace set: delete clone
          delete addob;
-      } // if(AddObjectToFolder(addob,destination,0,replace))
+         if (gPad==addob) gPad = 0;
+      }
+   } else {
+      cout << "Make object clone " << ob->GetName() << "  class = " << ob->ClassName() << endl;
+
+      TObject* addob = ob->Clone(); // deep copy of source object!
+      if(AddObjectToFolder(addob,destination,0,replace)) {
+         TGo4Analysis::Instance()->Message(-1,"Analysis LoadFolder: Object %s was loaded.", addob->GetName());
+      } else {
+         delete addob;
+      }
    }
    return rev;
 }

@@ -221,6 +221,8 @@ TH1* TGo4EventProcessor::MakeTH1(char type, const char* fullname, const char* ti
       case 4: newh = new TH1C(histoname, title, nbinsx, xlow, xup); break;
    }
 
+   newh->SetTitle(title);
+
    if (xtitle) newh->GetXaxis()->SetTitle(xtitle);
    if (ytitle) newh->GetYaxis()->SetTitle(ytitle);
 
@@ -292,6 +294,8 @@ TH2* TGo4EventProcessor::MakeTH2(char type, const char* fullname, const char* ti
       case 3: newh = new TH2S(histoname, title, nbinsx, xlow, xup, nbinsy, ylow, yup); break;
       case 4: newh = new TH2C(histoname, title, nbinsx, xlow, xup, nbinsy, ylow, yup); break;
    }
+
+   newh->SetTitle(title);
 
    if (xtitle) newh->GetXaxis()->SetTitle(xtitle);
    if (ytitle) newh->GetYaxis()->SetTitle(ytitle);

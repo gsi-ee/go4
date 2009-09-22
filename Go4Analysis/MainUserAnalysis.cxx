@@ -24,9 +24,10 @@ void usage(const char* err = 0)
    cout << "* GO4  online analysis    " << endl;
    cout << "* H. Essel, GSI, Darmstadt" << endl;
    cout << "* calling:                " << endl;
-   cout << "* go4run -server [CONFIG]              : run analysis in server mode" << endl;
-   cout << "* go4run -gui name guihost guiport [CONFIG] : connect analysis to prepared gui" << endl;
-   cout << "* go4run [CONFIG]                           : run analysis in batch mode" << endl;
+   cout << "* go4analysis -server [CONFIG]              : run analysis in server mode" << endl;
+   cout << "* go4analysis -gui name guihost guiport [CONFIG] : connect analysis to prepared gui" << endl;
+   cout << "* go4analysis [CONFIG]                           : run analysis in batch mode" << endl;
+   cout << "* go4analysis -lib name ....    :  user library to load, should be very first argument (default: libGo4UserLibrary)" << endl;
    cout << "* CONFIG : -file filename.lmd   :  open lmd file" << endl;
    cout << "*          -file filename.lml   :  open lml file" << endl;
    cout << "*          -transport server    :  connect to MBS transport server" << endl;
@@ -40,7 +41,8 @@ void usage(const char* err = 0)
    cout << "*          -store filename      :  write step output into the root file" << endl;
    cout << "*          -backstore name      :  create backstore for online tree draw" << endl;
    cout << "*          -step name           :  select step for configuration (default: first active step)" << endl;
-   cout << "*          -lib name            :  user library to load, should be very first argument (default: libGo4UserLibrary)" << endl;
+   cout << "*          -run                 :  run analysis in server mode (defualt only run if source specified)" << endl;
+   cout << "*          -norun               :  exlude automatical run" << endl;
    cout << endl;
 
    exit(err ? -1 : 0);
@@ -201,6 +203,7 @@ int main(int argc, char **argv)
 
    Bool_t autorun(kFALSE);   // immediately run analysis on start
    long  maxevents(-1);      // number of events (batch mode)
+   Int_t canrun(0);          // -1 cannot run, 0 - only if source specify, 1 - always
 
    //------ process arguments -------------------------
 
@@ -318,20 +321,29 @@ int main(int argc, char **argv)
          } else
             usage("name of autosave file not specified");
       } else
+      if(strcmp(argv[narg],"-run")==0) {
+         narg++;
+         canrun = 1;
+      } else
+      if(strcmp(argv[narg],"-norun")==0) {
+         narg++;
+         canrun = -1;
+      } else
          usage(Form("Unknown argument %d %s", narg, argv[narg]));
    }
 
-   if (!analysis->IsAutoSaveFileName() && (batchMode || autorun))
-      analysis->SetAutoSaveFile("AnalysisASF.root");
+
 
    if (!step->IsEventSourceParam()) {
       TGo4MbsFileParameter sourcepar("/GSI/lea/gauss.lmd");
       step->SetEventSource(&sourcepar);
       step->SetSourceEnabled(kTRUE);
-   } else {
-      if (servermode) autorun = kTRUE;
-   }
+      autorun = (canrun>0);
+   } else
+      autorun = (canrun>=0);
 
+   if (!analysis->IsAutoSaveFileName() && (batchMode || autorun))
+      analysis->SetAutoSaveFile("AnalysisASF.root");
 
    //==================== password settings for gui login in server mode
 
