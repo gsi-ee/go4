@@ -295,7 +295,7 @@ HDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(DISTRFILES:%=$(GO4DISTR_DIR)/%))
 
 go4-package:
 	@echo "Creating package $(GO4TAR_NAME) ..."
-	@tar chf $(GO4TAR_NAME) Makefile.config Makefile.rules go4.init
+	@tar chf $(GO4TAR_NAME) Makefile.config Makefile.rules
 	@tar rhf $(GO4TAR_NAME) build/go4-config.ini build/*.sh build/Makefile.* --exclude=build/Makefile.gener
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Module.mk,$(MODULES))
 	@tar rhf $(GO4TAR_NAME) $(patsubst %,%/Makefile,$(EXMODULES))
