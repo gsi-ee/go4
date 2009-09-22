@@ -176,12 +176,12 @@ LAUNCH USER ANALYSIS FROM GUI
   compared to default settings. 
   Another purpose of user-defined go4.prefs file is customize settings 
   of the node, where user analysis application should run. Default go4.prefs
-  file supposes, that ROOT/Go4/Aanalysis configuration are similar on
+  file supposes, that ROOT/Go4/Analysis configuration are similar on
   local (gui) node and remote (analysis) node. It is definitely true, when 
   launching analysis on localhost. It is also true on GSI Linux cluster,
   where public Go4/ROOT installation and user home filesystem identical on
   all nodes. But it also may happen, that remote node has other ROOT or Go4 versions,
-  or it may be powerfull 64-bit multicore CPU. To let Go4 GUI apply custom
+  or other filesystem organisation, shell settings and so on. To let Go4 GUI apply custom
   launch settings in such situation, go4.prefs file can be used.
   There one can define host specific settings for any parameter. For instance,
   to run analysis on remote node with node-specific go4 version, one should 
@@ -193,7 +193,7 @@ LAUNCH USER ANALYSIS FROM GUI
       hostname=suse11host: exename:/usr/local/go4/head/Go4ExampleSimple/MainUserAnalysis
       hostname=suse11host: exekind:0
   
-  Here one defines, that before run host-specific go4login script will be executed.
+  Here one defines, that before analysis run host-specific go4login script will be executed.
   Here is also defined, that konsole_options is empty (while SuSE 11.1 konsole does not
   accept several parameters that was available before). One can also strictly define
   working directory and executable name any time when launching ananlys from the gui

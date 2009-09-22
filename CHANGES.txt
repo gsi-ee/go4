@@ -69,7 +69,8 @@ Changes in Go4 v4.3.2 (September 09)
    Old scheme (via AnalysisStart.sh scripts) can be activated by setting 
    export GO4OLDLAUNCH=yes variable before gui start.       
 11.Allow to run analysis, compiled into library, from the gui. 
-   Example simple, 1step and 2step shows how it can be done. 
+   Example simple, 1step and 2step shows how it can be done. From this point on
+   it is no longer necessary to have MainUserAnalysis executable at all.
 12.Signal handler is used to normally stop analysis by Ctrl-C
    pressing from the user - stop processing, close connections, 
    save autosave file.
