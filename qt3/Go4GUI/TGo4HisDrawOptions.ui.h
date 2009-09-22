@@ -9,7 +9,8 @@
 enum { view_Histo1 = 1,
        view_Histo2 = 2,
        view_Histo2ext = 3,
-       view_Graph = 4 };
+       view_Graph = 4,
+       view_Polar = 5 };
 
 void TGo4HisDrawOptions::init()
 {
@@ -51,6 +52,9 @@ void TGo4HisDrawOptions::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid
          TString buf(drawopt);
          buf.ToLower();
 
+         if ((obj!=0) && obj->InheritsFrom("TGraphPolar"))
+            viewtype = view_Polar;
+         else
          if ((obj!=0) && (obj->InheritsFrom("TGraph") || obj->InheritsFrom("TMultiGraph")))
             viewtype = view_Graph;
          else
@@ -172,8 +176,15 @@ void TGo4HisDrawOptions::UpdateView(int viewtype)
          DrawOption->insertItem("B*: smooth + *");
          lines=30;
          break;
+      case view_Polar:
+         DrawOption->insertItem(": opt as is");
+         DrawOption->insertItem("P: polym");
+         DrawOption->insertItem("F: fill");
+         DrawOption->insertItem("PF: P+F");
+         lines = 10;
+         break;
    }
-DrawOption->setSizeLimit(lines);
+   DrawOption->setSizeLimit(lines);
 
    switch(viewtype) {
       case view_Histo1:
@@ -208,6 +219,11 @@ DrawOption->setSizeLimit(lines);
          ErrorBars->insertItem("4: err opt 4");
          ErrorBars->insertItem("[]: asym err");
          break;
+      case view_Polar:
+         ErrorBars->insertItem(": err as is");
+         ErrorBars->insertItem("E: error bars");
+         ErrorBars->insertItem("N: no labels");
+         ErrorBars->insertItem("EN: E+N");
    }
 
    switch(viewtype) {
@@ -227,6 +243,12 @@ DrawOption->setSizeLimit(lines);
          Coordinates->insertItem("AY+: right");
          Coordinates->insertItem("AX+Y+: x & y");
          Coordinates->insertItem("A1: ylow = ymin");
+         break;
+      case view_Polar:
+         Coordinates->insertItem(": axis as is");
+         Coordinates->insertItem("A: force axis");
+         Coordinates->insertItem("O: orthogonal");
+         Coordinates->insertItem("AO: A+O");
          break;
    }
 
@@ -306,6 +328,22 @@ void TGo4HisDrawOptions::DecodeDrawOption(const char* drawopt,
    buf.ToLower();
 
 // check for error options in string:
+
+   if (fiLastView==view_Polar) {
+      if (buf.Contains("p") && buf.Contains("f")) HisDrawStyle = 3; else
+      if (buf.Contains("f")) HisDrawStyle = 2; else
+      if (buf.Contains("p")) HisDrawStyle = 1; else HisDrawStyle = 0;
+
+      if (buf.Contains("a") && buf.Contains("o")) HisCoordStyle = 3; else
+      if (buf.Contains("o")) HisCoordStyle = 2; else
+      if (buf.Contains("a")) HisCoordStyle = 1; else HisCoordStyle = 0;
+
+      if (buf.Contains("e") && buf.Contains("n")) HisErrorStyle = 3; else
+      if (buf.Contains("n")) HisErrorStyle = 2; else
+      if (buf.Contains("e")) HisErrorStyle = 1; else HisErrorStyle = 0;
+
+      return;
+   }
 
    if (fiLastView==view_Graph) {
 
@@ -433,6 +471,30 @@ void TGo4HisDrawOptions::CodeDrawOptions(int HisErrorStyle,
                                          QString& buf)
 {
    buf = "";
+
+   if (fiLastView==view_Polar) {
+      switch (HisDrawStyle) {
+         case 0: buf = ""; break;
+         case 1: buf = "P"; break;
+         case 2: buf = "F"; break;
+         case 3: buf = "PF"; break;
+      }
+
+      switch (HisErrorStyle) {
+         case 0: break;
+         case 1: buf.append("E"); break;
+         case 2: buf.append("N"); break;
+         case 3: buf.append("EN"); break;
+      }
+
+      switch (HisCoordStyle) {
+         case 0: break;
+         case 1: buf.append("A"); break;
+         case 2: buf.append("O"); break;
+         case 3: buf.append("AO"); break;
+      }
+      return;
+   }
 
    if (fiLastView==view_Graph) {
 

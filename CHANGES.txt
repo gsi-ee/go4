@@ -74,6 +74,7 @@ Changes in Go4 v4.3.2 (September 09)
 12.Signal handler is used to normally stop analysis by Ctrl-C
    pressing from the user - stop processing, close connections, 
    save autosave file.
+13.Support TGraphPolar in draw options selection.
 
 
 Changes in Go4 v4.3.1 (August 09)

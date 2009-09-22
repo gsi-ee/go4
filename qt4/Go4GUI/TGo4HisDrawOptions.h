@@ -15,9 +15,10 @@ class TGo4HisDrawOptions : public QWidget, public Ui::TGo4HisDrawOptions
  public:
 
  	enum { view_Histo1 = 1,
-       view_Histo2 = 2,
-       view_Histo2ext = 3,
-       view_Graph = 4 };
+          view_Histo2 = 2,
+          view_Histo2ext = 3,
+          view_Graph = 4,
+          view_Polar = 5 };
 
  	 TGo4HisDrawOptions( QWidget* parent = 0, const char* name = 0, Qt::WFlags fl = 0 );
 
