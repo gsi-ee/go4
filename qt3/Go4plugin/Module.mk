@@ -24,7 +24,7 @@ all-qt3plugin:
 	cp -f qt3/Go4FitGUI/QFitModelWidget.cpp $(PLUGIN3_DIR)
 	cp -f qt3/Go4GUI/QGo4CommandsHistory.h $(PLUGIN3_DIR)
 	cp -f qt3/Go4GUI/QGo4CommandsHistory.cpp $(PLUGIN3_DIR)
-	cd $(PLUGIN3_DIR); $(QMAKE) go4plugin.pro "INCLUDEPATH += $(ROOTINCPATH)" "GO4SYS = ../.."; $(MAKE) all
+	cd $(PLUGIN3_DIR); $(QMAKE) go4plugin.pro "INCLUDEPATH += $(ROOTINCPATH)"; $(MAKE) all
 	@echo ""
 	@echo "==========================================="
 	@echo "Go4 plugin for Qt designer compiled"

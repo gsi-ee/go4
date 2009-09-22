@@ -2,7 +2,7 @@ TEMPLATE = lib
 LANGUAGE = C++
 TARGET   = go4plugin
 CONFIG   += qt warn_on release designer plugin thread
-INCLUDEPATH += $(GO4SYS)/include
+INCLUDEPATH += ../../include
 
 RESOURCES += go4plugin.qrc
 

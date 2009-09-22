@@ -57,7 +57,7 @@ all-qt4plugin:
 	cp -f qt4/Go4QtRoot/QRootWindow.cpp $(PLUGIN4_DIR)
 
 #	cd $(PLUGIN4_DIR); $(QMAKE) go4plugin.pro; make all
-	cd $(PLUGIN4_DIR); $(QMAKE) go4plugin.pro -o Makefile.qt $(QMAKEOPTFLAG) $(QMAKEFLAGS) $(QMAKELIBFLAGS) "LIBS+=$(ROOTGLIBS)" "INCLUDEPATH += $(ROOTINCPATH)" "GO4SYS = ../.."; $(MAKE) -f Makefile.qt
+	cd $(PLUGIN4_DIR); $(QMAKE) go4plugin.pro -o Makefile.qt $(QMAKEOPTFLAG) $(QMAKEFLAGS) $(QMAKELIBFLAGS) "LIBS+=$(ROOTGLIBS)" "INCLUDEPATH += $(ROOTINCPATH)"; $(MAKE) -f Makefile.qt
 
 	@echo ""
 	@echo "==========================================="

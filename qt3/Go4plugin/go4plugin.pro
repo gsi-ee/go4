@@ -3,7 +3,7 @@ LANGUAGE = C++
 TARGET   = go4plugin
 CONFIG   += qt warn_on release plugin thread
 
-INCLUDEPATH += $(GO4SYS)/include  $(GO4SYS)/qt3/Go4FitGUI
+INCLUDEPATH += ../../include  ../Go4FitGUI
 
 SOURCES  = TGo4QtDesignerPlugin.cpp \
            QGo4Widget.cpp \
