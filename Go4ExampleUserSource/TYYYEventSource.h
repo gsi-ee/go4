@@ -27,16 +27,13 @@ class TYYYEventSource : public TGo4EventSource {
       /** Close the file or connection. */
       virtual Int_t Close();
 
-      /** Requests the next event from user event source. */
-      virtual Int_t NextEvent();
-
-
-      /** This methods actually fills the target event class which is passed as pointer. Uses the latest event which is referenced
+      /** This methods actually fills the target event class which is passed as pointer.
+        * Uses the latest event which is referenced
         * by fxEvent or fxBuffer. Does _not_ fetch a new event
         * from source, therefore one source event may be used
         * to fill several TYYYEvent classes. To get a new
         * event call NextEvent() before this method.*/
-      void BuildYYYEvent(TYYYRawEvent * target);
+      virtual Bool_t BuildEvent(TGo4EventElement* dest);
 
       const char* GetArgs() const { return fxArgs.Data(); }
 
@@ -58,9 +55,6 @@ class TYYYEventSource : public TGo4EventSource {
 
       /** file that contains the data in ascii format. */
       std::ifstream* fxFile; //!
-
-      /** contains the next line in your file */
-      TString fxNextline;
 
    ClassDef(TYYYEventSource, 1)
 };

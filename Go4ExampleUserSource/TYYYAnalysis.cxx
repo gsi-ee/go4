@@ -14,6 +14,10 @@
 #include "TYYYParameter.h"
 #include "TYYYRawEvent.h"
 
+
+extern "C" TGo4Analysis* CreateUserAnalysis() { return new TYYYAnalysis("befoil50.scf", "", ""); }
+
+
 //***********************************************************
 TYYYAnalysis::TYYYAnalysis() :
    TGo4Analysis(),
@@ -66,7 +70,8 @@ TYYYAnalysis::TYYYAnalysis(const char* lmd, const char* out1, const char* out2) 
    fPar->frP1 = 100;
    fPar->frP2 = 200;
    AddParameter(fPar);
-   TCanvas* mycan=new TCanvas("TestCanvas","Does this work?");
+
+   TCanvas* mycan = new TCanvas("TestCanvas","Does this work?");
    mycan->Divide(2,2);
    AddCanvas(mycan);
 }

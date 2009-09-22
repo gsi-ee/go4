@@ -10,8 +10,9 @@ class TYYYUnpackProc : public TGo4EventProcessor {
    public:
       TYYYUnpackProc() ;
       TYYYUnpackProc(const char* name);
-      void YYYUnpack(TYYYUnpackEvent* target);
       virtual ~TYYYUnpackProc() ;
+
+      virtual Bool_t BuildEvent(TGo4EventElement* dest);
    private:
       TH1           *fX;
       TH1           *fY;

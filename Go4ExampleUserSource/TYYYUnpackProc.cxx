@@ -33,7 +33,7 @@ TYYYUnpackProc::TYYYUnpackProc(const char* name) :
 
    //// init user analysis objects:
 
-   fParam1   = (TYYYParameter *) GetParameter("YYYPar1");
+   fParam1 = (TYYYParameter *) GetParameter("YYYPar1");
    fParam1->PrintParameter(0,0);
 
    fX = MakeTH1('D', "Position/Xfinal", "Scatt sim x (nm)",1000,-1e7,1e+7);
@@ -76,13 +76,18 @@ TYYYUnpackProc::~TYYYUnpackProc()
 }
 //***********************************************************
 
+
 //-----------------------------------------------------------
-void TYYYUnpackProc::YYYUnpack(TYYYUnpackEvent* poutevt)
+
+Bool_t TYYYUnpackProc::BuildEvent(TGo4EventElement* dest)
 {
    TYYYRawEvent *inp = dynamic_cast<TYYYRawEvent*> (GetInputEvent());
-   if (inp==0) {
-      cout << "YYYUnpackProc: no input event !"<< endl;
-      return;
+
+   TYYYUnpackEvent* poutevt = dynamic_cast<TYYYUnpackEvent*> (dest);
+
+   if ((inp==0) || (poutevt==0)) {
+      cout << "YYYUnpackProc: events are not specified!"<< endl;
+      return kFALSE;
    }
 
    // fill poutevt here:
@@ -118,4 +123,6 @@ void TYYYUnpackProc::YYYUnpack(TYYYUnpackEvent* poutevt)
    fEmitX->Fill(poutevt->fdR[0],poutevt->fdGam[0]);
    fEmitY->Fill(poutevt->fdR[1],poutevt->fdGam[1]);
    fEmitDist->Fill(poutevt->fdEmitt4d);
+
+   return kTRUE;
 }
