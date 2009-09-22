@@ -56,6 +56,8 @@ analysis_exe:%exename%
 
 analysis_lib:go4analysis -lib %exename% 
 
+analysis_dflt:go4analysis 
+
 ##################################################################
 # here is initialization sequence is defined, depending if execution performed in 
 # remote shell or in gui context (via exec) 

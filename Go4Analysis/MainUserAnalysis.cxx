@@ -177,7 +177,11 @@ int main(int argc, char **argv)
    if (crfunc) analysis = crfunc();
           else analysis = CreateDefaultAnalysis();
    if (analysis==0) {
-      cerr << "Analysis cannot be created" << endl;
+      cerr << "!!! Analysis cannot be created" << endl;
+      cerr << "!!! PLEASE check your analysis library " << libname << endl;
+      cerr << "!!! One requires function to create analysis instance CreateUserAnalysis() or " << endl;
+      cerr << "!!!                should specify processor class via UserProcessorClass()" << endl;
+      cerr << "!!! See Go4ExampleSimple, Go4Example1Step or Go4Example2Step for details" << endl;
       return -1;
    }
 

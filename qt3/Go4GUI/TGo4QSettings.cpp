@@ -169,7 +169,7 @@ void TGo4QSettings::setClientExec(const QString& v)
 
 QString TGo4QSettings::getClientExec()
 {
-   return readEntry( GetSettingsName()+"/ClientSetting/Exec", "MainUserAnalysis");
+   return readEntry( GetSettingsName()+"/ClientSetting/Exec", "");
 }
 
 void TGo4QSettings::setClientShellMode(int v)

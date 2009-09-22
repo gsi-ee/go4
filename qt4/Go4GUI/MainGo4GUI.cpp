@@ -116,11 +116,11 @@ int main(int argc, char **argv)
 
    int sett_try = 0;
 
-   if(iswin32 || settingsenv.contains("ACCOUNT")) {
+   if(iswin32 || settingsenv.isEmpty() || settingsenv.contains("ACCOUNT")) {
       sett_try++;
       // do nothing, it is default location in .config/GSI/go4.conf
    } else
-   if(!settingsenv.isEmpty() && !settingsenv.contains("LOCAL")) {
+   if(!settingsenv.contains("LOCAL")) {
       TGo4QSettings::SetSettLocation(settingsenv);
    } else
    if (!gSystem->AccessPathName(QDir::currentPath().toAscii(),kWritePermission))

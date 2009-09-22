@@ -1175,11 +1175,19 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
       if ((shellkind==0) && (konsole==1))
          prefs.SetPar("cd_workdir", "");
 
-      Bool_t isexec = prefs.GetOpt("exekind") != "1";
-
-      std::string executable = prefs.GetOpt(isexec ? "analysis_exe" : "analysis_lib");
+      std::string executable;
+      bool is_exe = false;
+      if (prefs.GetOpt("exename").empty())
+         executable = prefs.GetOpt("analysis_dflt");
+      else
+      if (prefs.GetOpt("exekind") != "1") {
+         executable = prefs.GetOpt("analysis_exe");
+         is_exe = true;
+      } else
+         executable = prefs.GetOpt("analysis_lib");
       prefs.SetPar("analysis", executable.c_str());
-      if (exe_kind==1) prefs.SetPar("killexename", "go4analysis", false); else {
+
+      if (!is_exe) prefs.SetPar("killexename", "go4analysis", false); else {
          #ifdef WIN32
          char symbol = '\\';
          #else
