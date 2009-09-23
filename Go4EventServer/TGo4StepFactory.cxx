@@ -2,11 +2,14 @@
 
 #include "Riostream.h"
 
+#include "TClass.h"
 #include "TROOT.h"
 #include "TString.h"
 
 #include "TGo4EventProcessor.h"
 #include "TGo4EventElement.h"
+#include "TGo4EventSourceParameter.h"
+#include "TGo4UserSourceParameter.h"
 
 //***********************************************************
 TGo4StepFactory::TGo4StepFactory() :
@@ -133,14 +136,14 @@ TGo4EventElement * TGo4StepFactory::CreateInputEvent()
 //-----------------------------------------------------------
 void TGo4StepFactory::DefEventSource(const char* Sclass)
 {
-   fnewEventSource.Form("new %s(%s);", Sclass, "%p");
+   fnewEventSource.Form("new %s((%s*)%s);", Sclass, TGo4UserSourceParameter::Class()->GetName(), "%p");
 }
 
 
 //-----------------------------------------------------------
-TGo4EventSource* TGo4StepFactory::CreateEventSource(TGo4EventSourceParameter * par)
+TGo4EventSource* TGo4StepFactory::CreateEventSource(TGo4EventSourceParameter* par)
 {
-   if (fnewEventSource.Length()>0) {
+   if ((fnewEventSource.Length()>0) && par->InheritsFrom(TGo4UserSourceParameter::Class())) {
 
       cout << "GO4-*> " << GetName() << ": Create input source " << fnewEventSource << endl;
 

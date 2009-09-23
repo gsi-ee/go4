@@ -35,7 +35,7 @@ void usage(const char* err = 0)
    cout << "*          -evserv server       :  connect to MBS event server" << endl;
    cout << "*          -revserv server port :  connect to remote event server" << endl;
    cout << "*          -random              :  use random generator as input" << endl;
-   cout << "*          -user name           :  connect to user-defined source" << endl;
+   cout << "*          -user name           :  create user-defined event source" << endl;
    cout << "*          -number NUMBER       :  process NUMBER events in batch mode" << endl;
    cout << "*          -asf filename        :  write autosave filename, default AnalysisASF.root" << endl;
    cout << "*          -store filename      :  write step output into the root file" << endl;
