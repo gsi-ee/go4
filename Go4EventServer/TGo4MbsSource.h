@@ -57,6 +57,9 @@ class TGo4MbsSource : public TGo4EventSource {
 
     virtual ~TGo4MbsSource();
 
+    /** Check that filled event is a proper class. */
+    virtual Bool_t CheckEventClass(TClass* cl);
+
     /** Fill the destination event dest. */
     virtual Bool_t BuildEvent(TGo4EventElement* dest);
 

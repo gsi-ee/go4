@@ -169,3 +169,71 @@ void TGo4MbsEvent::SetPrintEvent(Int_t num, Int_t sid, Int_t longw, Int_t hexw, 
    TGo4MbsSource* src = dynamic_cast<TGo4MbsSource*> (GetEventSource());
    if(src) src->SetPrintEvent(num,sid,longw,hexw,dataw);
 }
+
+TGo4MbsSubEvent* TGo4MbsEvent::AddSubEvent(Int_t fullID, Short_t* source, Int_t datalength, Bool_t copydata)
+{
+   Int_t fieldlength =0;
+   TGo4MbsSubEvent* subtarget=0; // the subevent in use
+   TGo4MbsSubEvent* subtargetindex=0; // target subevent iterator
+   if(datalength>2)
+      fieldlength = (datalength-2) / (sizeof(Int_t) / sizeof(Short_t)); // field is Int_t
+   else {
+      TGo4Log::Debug(" !!! MbsSource --  EMPTY subevent #%d ", fullID);
+      fieldlength =0; // for empty subevents (<- W.M.)
+   }
+
+   ResetIterator();
+   while ( ( subtargetindex = NextSubEvent(kTRUE) ) !=0 ) {
+      // get pointer to complete id longword in structures:
+      Int_t* subtargetid= &((subtargetindex->fxHeader).fiFullid);
+      if(*subtargetid == fullID) {
+         // subevent ids match:
+         if(!subtargetindex->fbIsFilled) {
+            // this has not been filled before, we fill this one
+            subtarget=subtargetindex;
+            break; // leave the loop, fill later
+         } else {
+            // was already filled in this cycle, continue for next sub
+         }
+      } else {
+         // no match, try next subevent
+      }
+   } // while (subtargetindex...)
+
+   if(!subtarget) {
+      // we found no matching id, create new TObjArray entry
+      subtarget = new TGo4MbsSubEvent(fieldlength);
+      Int_t* newsubtargetid= &((subtarget->fxHeader).fiFullid);
+      if(!copydata) {
+         subtarget->fbIsDataOwner = kFALSE;
+         delete [] (subtarget->fiData); // remove default field
+         subtarget->fiAllocLen=0;
+      }
+      *newsubtargetid = fullID;
+      TGo4Log::Debug(" Created new output subevent for event\n\tpid:%d subcrate:%d ctrl:%d",
+                      subtarget->GetProcid(),subtarget->GetSubcrate(), subtarget->GetControl());
+      fxSubEvArray->AddLast(subtarget);
+   }
+   ////     fill header:
+   subtarget->SetDlen(datalength);
+   void* data = (void*) source;
+   if(copydata) {
+      subtarget->fbIsDataOwner = kTRUE;
+      subtarget->ReAllocate(fieldlength); // reallocate field if necessary
+      //// fill data into target field:
+      if(datalength>2)
+         memcpy((void*) (subtarget->fiData),
+               data, (datalength-2)*sizeof(Short_t));
+   } else {
+      // set reference to external data field in subevent
+      subtarget->fbIsDataOwner=kFALSE;
+      subtarget->fiAllocLen=fieldlength;
+      if(datalength>2)
+         subtarget->fiData= (Int_t*) data;
+      else
+         subtarget->fiData= 0; // reset for empty subevent
+   }// if(fbDataCopyMode)
+   subtarget->fbIsFilled = kTRUE; // remember we filled this one, never overwrite!
+   return subtarget;
+}
+
