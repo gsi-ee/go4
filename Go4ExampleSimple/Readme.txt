@@ -11,23 +11,9 @@ Description of the package
 
 A test file is /GSI/lea/gauss.lmd
 
-Main program: go4analysis from the go4 distribution
-
-The analysis can be started from the Go4 GUI or by command line:
-
-go4analysis -file|-trans|-stream|-evserv|-revserv|-random input [-num events] [-asf output]
-go4analysis -file /GSI/lea/gauss.lmd
-go4analysis -evserv r3f-12
-go4analysis -revserv lxi007 6009
-
-The events can be read from standard GSI lmd files or MBS or event servers.
-For each event the user event processor TXXXProc is called.
-This user event processor fills some histograms from the input MBS event.
-
 All classes are defined and declared in two files (*.h and *.cxx)
 
-The processor:    TXXXProc
-
+The processor class TXXXProc
 The analysis code is in the event processor TXXXProc. Members are
 histogram, condition, and parameter pointers used in the event method
 Event. In the constructor of TXXXProc the histograms, parameters and
@@ -52,6 +38,16 @@ From GUI, objects are loaded from autosave file when Submit button is pressed.
 One can inspect the content of the auto save file with the Go4 GUI.
 Note that GO4USERLIBRARY=/my/analysis/path/libGo4UserAnalysis.so
 should be defined to enable the GUI to read the auto save file.
+
+Run analysis.
+Analysis can be started from the Go4 GUI or by command line:
+   shell> go4analysis -file /GSI/lea/gauss.lmd
+   shell> go4analysis -random
+   shell> go4analysis -stream r3f-12
+The events can be read from standard GSI lmd files or MBS or event servers.
+For each event the user event processor TXXXProc is called. 
+It fills some histograms, taking data from input MBS event.
+The histograms can be stored in autosave file.
 
 Adapt the example
 First of all, it is good idea to rename all classes. 

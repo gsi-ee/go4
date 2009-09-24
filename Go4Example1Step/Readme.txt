@@ -9,26 +9,9 @@ make all
 
 Description of the package
 
-A test file is /s/goofy/gauss.lmd
+A test file is /GSI/lea/gauss.lmd
 
-Main program and analysis:
-MainUserAnalysis and TXXXAnalysis
-
-The main program can be started from the Go4 GUI or by command line:
-
-./MainUserAnalysis -file|-trans|-stream|-evserv|-revserv input [-output] [events]
-./MainUserAnalysis -f myfile.lmd
-./MainUserAnalysis -e r3f-12 1000
-
-The events can be read from standard GSI lmd files or MBS or event servers.
-For each event the user event processor TXXXProc is
-called. This user event processor fills some histograms
-and an output event TXXXEvent (raw event) from the input event.
-The output events can optionally be stored in root files.
-When a root file with raw events exists, it can be viewed by the
-Go4 GUI using the tree viewer. Define a shell variable
-GO4USERLIBRARY=/mypath/libGo4UserAnalysis.so
-that the viewer knows TXXXEvent.
+Analysis class
 
 All classes are defined and declared in two files (*.h and *.cxx)
 In TXXXAnalysis the analysis step is created with the step factory and input and output
@@ -69,6 +52,18 @@ When TXXXAnalysis is created, the autosave file is not yet loaded. Therefore the
 objects created here are overwritten by the objects from autosave file (if any), except histograms.
 From GUI, objects are loaded from autosave file when Submit button is pressed.
 One can inspect the content of the auto save file with the Go4 GUI.
+
+Run analysis.
+Analysis can be started from the Go4 GUI or by command line:
+   shell> go4analysis -file /GSI/lea/gauss.lmd
+   shell> go4analysis -random
+   shell> go4analysis -stream r3f-12
+The events can be read from standard GSI lmd files or MBS or event servers.
+For each event the user event processor TXXXProc is
+called. This user event processor fills some histograms
+and an output event TXXXEvent (raw event) from the input event.
+The output events can optionally be stored in root files.
+
 
 Creating a new class
 Provide the definition and implementation files (.h and .cxx)

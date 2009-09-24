@@ -32,7 +32,8 @@ a string which is already in the filenames.
 
 Then rebuild the package by
 
-make clean all
+make clean 
+make all
 ------------------------------------------------------------
 
 Description:
@@ -74,8 +75,5 @@ This package gives two input files for 3 Mev p+ beam through
 (befoil50.scf, tafoil50.scf), with 500 events each.
 For further information on the simulation see:
 (J.Adamczewski et al., Nucl.Instr.Meth.B 114(1996)p.172).
-
-
-
 
 
