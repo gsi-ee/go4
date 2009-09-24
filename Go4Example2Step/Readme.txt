@@ -19,25 +19,10 @@ make clean all
 
 Description of the package
 
-A test file is /s/goofy/gauss.lmd
+A test file is /GSI/lea/gauss.lmd
 
-Main program and analysis:
-MainUserAnalysis and TXXXAnalysis
 
-The main program can be started from the Go4 GUI or by command line:
-./MainUserAnalysis inputfile [events]
-The events are read from standard GSI lmd files (in the GUI one can
-switch to MBS or event servers). Then the first user event processor is
-called (unpack). This user event processor fills some histograms
-and the first user event (unpacked event) from MBS input event.
-Then the second user event processor is called (analysis).
-This user event processor fills some other histograms and the second
-user event from the first event. The events from
-the first and second step can optionally be stored in root files (from GUI).
-When a root file with unpacked events exists, the first step can be disabled,
-and this file can be selected as input for the second step (from GUI).
-The main program builds the files names needed and creates the TXXXAnalysis.
-Then it either starts the GUI client or the event loop.
+Analysis:  TXXXAnalysis
 
 All classes are defined and declared in two files (*.h and *.cxx)
 In TXXXAnalysis the two steps are created with their factories and input and output
@@ -46,7 +31,6 @@ Two parameter objects are created (TXXXParameter). They can be used in both step
 
 Step one: Unpack
 
-The factory:      TXXXUnpackFact
 The event filled: TXXXUnpackEvent
 The processor:    TXXXUnpackProc
 
@@ -64,7 +48,6 @@ the 2d one with a polygon condition pc1, and the output event members are set.
 
 Step two: Analysis
 
-The factory:      TXXXAnlFact
 The event filled: TXXXAnlEvent
 The processor:    TXXXAnlProc
 
@@ -90,6 +73,29 @@ objects created here overwritten by the objects from autosave file (if any), exc
 The histogram "EventSize" is created in PreLoop of TXXXAnalysis, because at this point
 it is already rebuilt from autosave file (if any).
 From GUI, objects are loaded from autosave file when Submit button is pressed.
+
+
+Run analysis.
+The analysis can be started from the Go4 GUI or by command line:
+
+  shell> go4analysis -file inputfile
+  
+The events are read from standard GSI lmd files (in the GUI one can
+switch to MBS or event servers). Then the first user event processor is
+called (unpack). This user event processor fills some histograms
+and the first user event (unpacked event) from MBS input event.
+Then the second user event processor is called (analysis).
+This user event processor fills some other histograms and the second
+user event from the first event. The events from
+the first and second step can optionally be stored in root files (from GUI).
+When a root file with unpacked events exists, the first step can be disabled,
+and this file can be selected as input for the second step (from GUI).
+The main program builds the files names needed and creates the TXXXAnalysis.
+Then it either starts the GUI client or the event loop.
+
+
+
+
 
 ----------------------------------------------
 Parameter containing fitters for calibration

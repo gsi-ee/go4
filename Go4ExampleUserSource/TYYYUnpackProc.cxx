@@ -17,7 +17,7 @@
 
 //***********************************************************
 TYYYUnpackProc::TYYYUnpackProc() :
-   TGo4EventProcessor("YYYProc"),
+   TGo4EventProcessor(),
    fX(0),fY(0),fZ(0),fVX(0),fVY(0),fVZ(0),fNumScatt(0),
    fXY(0),fVXVY(0), fXYCond(0), fVXVYCond(0), fEmitX(0), fEmitY(0), fEmitDist(0),
    fWinConR(0), fWinConV(0), fPolyConEmit(0),
@@ -25,10 +25,12 @@ TYYYUnpackProc::TYYYUnpackProc() :
 {
 }
 //***********************************************************
-// this one is used in TYYYUnpackFact.cxx
 TYYYUnpackProc::TYYYUnpackProc(const char* name) :
-  TGo4EventProcessor(name)
-
+   TGo4EventProcessor(name),
+   fX(0),fY(0),fZ(0),fVX(0),fVY(0),fVZ(0),fNumScatt(0),
+   fXY(0),fVXVY(0), fXYCond(0), fVXVYCond(0), fEmitX(0), fEmitY(0), fEmitDist(0),
+   fWinConR(0), fWinConV(0), fPolyConEmit(0),
+   fParam1(0)
 {
    cout << "**** TYYYUnpackProc: Create" << endl;
 

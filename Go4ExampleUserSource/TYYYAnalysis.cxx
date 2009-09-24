@@ -9,11 +9,10 @@
 #include "Go4EventServer.h"
 #include "TGo4AnalysisStep.h"
 
-#include "TYYYUnpackFact.h"
 #include "TYYYUnpackEvent.h"
 #include "TYYYParameter.h"
 #include "TYYYRawEvent.h"
-
+#include "TGo4StepFactory.h"
 
 extern "C" TGo4Analysis* CreateUserAnalysis(const char* name) { return new TYYYAnalysis(name); }
 
@@ -47,11 +46,18 @@ TYYYAnalysis::TYYYAnalysis(const char* name) :
    // the step definitions can be changed in the GUI
    // first step definitions:
    // the name of the step can be used later to get event objects
-   TYYYUnpackFact*         factory1 = new TYYYUnpackFact("Unpack-factory");
+   TGo4StepFactory* factory1 = new TGo4StepFactory("Unpack-factory");
+
+   factory1->DefEventSource("TYYYEventSource"); // class name of user event source
+   factory1->DefInputEvent("RawEvent","TYYYRawEvent"); // object name, class name
+   factory1->DefEventProcessor("UnpackProc", "TYYYUnpackProc");// object name, class name
+   factory1->DefOutputEvent("UnpackEvent", "TYYYUnpackEvent"); // object name, class name
+
    TGo4UserSourceParameter* source1  = new TGo4UserSourceParameter("befoil50.scf");
    TGo4FileStoreParameter*  store1   = new TGo4FileStoreParameter(Form("%sOutput", name));
-   TGo4AnalysisStep*        step1    = new TGo4AnalysisStep("Unpack",factory1,source1,store1,0);
    store1->SetOverwriteMode(kTRUE);
+   TGo4AnalysisStep*        step1    = new TGo4AnalysisStep("Unpack",factory1,source1,store1,0);
+
    step1->SetSourceEnabled(kTRUE);
    step1->SetStoreEnabled(kFALSE);  // disable output
    step1->SetProcessEnabled(kTRUE);

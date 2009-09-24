@@ -11,8 +11,7 @@
 #include "TGo4Fitter.h"
 #include "TGo4FitterEnvelope.h"
 #include "TGo4AnalysisStep.h"
-#include "TXXXUnpackFact.h"
-#include "TXXXAnlFact.h"
+#include "TGo4StepFactory.h"
 #include "TXXXParameter.h"
 #include "TXXXUnpackEvent.h"
 #include "TXXXAnlEvent.h"
@@ -51,7 +50,10 @@ TXXXAnalysis::TXXXAnalysis(const char* name) :
    TString out1 = Form("%s_Calibr", name);
    TString out2 = Form("%s_Anl", name);
 
-   TXXXUnpackFact* factory1 = new TXXXUnpackFact("UnpackFactory");
+   TGo4StepFactory* factory1 = new TGo4StepFactory("UnpackFactory");
+   factory1->DefEventProcessor("UnpackProc", "TXXXUnpackProc");// object name, class name
+   factory1->DefOutputEvent("UnpackEvent", "TXXXUnpackEvent"); // object name, class name
+
    TGo4MbsFileParameter* source1 = new TGo4MbsFileParameter(input.Data());
    TGo4FileStoreParameter* store1 = new TGo4FileStoreParameter(out1.Data());
    store1->SetOverwriteMode(kTRUE); // overwrite file
@@ -67,7 +69,10 @@ TXXXAnalysis::TXXXAnalysis(const char* name) :
    // second step definitions:
    // If source is enabled, take output file from step 1 as input.
    // otherwise we use output event from step 1 (set in factory)
-   TXXXAnlFact* factory2 = new TXXXAnlFact("AnalysisFactory");
+   TGo4StepFactory* factory2 = new TGo4StepFactory("AnalysisFactory");
+   factory2->DefInputEvent("UnpackEvent", "TXXXUnpackEvent"); // object name, class name
+   factory2->DefEventProcessor("AnlProc", "TXXXAnlProc"); // object name, class name
+   factory2->DefOutputEvent("AnlEvent", "TXXXAnlEvent"); // object name, class name
    TGo4FileSourceParameter* source2  = new TGo4FileSourceParameter(out1.Data());
    TGo4FileStoreParameter* store2   = new TGo4FileStoreParameter(out2.Data());
    store2->SetOverwriteMode(kTRUE);

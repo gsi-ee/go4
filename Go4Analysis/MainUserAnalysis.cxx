@@ -37,11 +37,13 @@ void usage(const char* err = 0)
    cout << "*          -random              :  use random generator as input" << endl;
    cout << "*          -user name           :  create user-defined event source" << endl;
    cout << "*          -number NUMBER       :  process NUMBER events in batch mode" << endl;
-   cout << "*          -asf filename        :  write autosave filename, default <Name>ASF.root" << endl;
    cout << "*          -source filename     :  read step input from the root file" << endl;
    cout << "*          -store filename      :  write step output into the root file" << endl;
    cout << "*          -backstore name      :  create backstore for online tree draw" << endl;
    cout << "*          -step name           :  select step for configuration (default: first active step)" << endl;
+   cout << "*          -asf filename        :  set autosave filename and enable it, default <Name>ASF.root" << endl;
+   cout << "*          -enable-asf [interval] :  enable store of autosave file, optionally interval in seconds" << endl;
+   cout << "*          -disable-asf         :  disable usage of asf" << endl;
    cout << "*          -run                 :  run analysis in server mode (defualt only run if source specified)" << endl;
    cout << "*          -norun               :  exlude automatical run" << endl;
    cout << "*          -name name           :  specify analysis name for batch mode" << endl;
@@ -370,6 +372,16 @@ int main(int argc, char **argv)
             analysis->SetAutoSave(kTRUE);
          } else
             usage("name of autosave file not specified");
+      } else
+      if (strcmp(argv[narg],"-enable-asf")==0) {
+         narg++;
+         analysis->SetAutoSave(kTRUE);
+         if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
+            analysis->SetAutoSaveInterval(atoi(argv[narg++]));
+      } else
+      if (strcmp(argv[narg],"-disable-asf")==0) {
+         narg++;
+         analysis->SetAutoSave(kFALSE);
       } else
       if(strcmp(argv[narg],"-run")==0) {
          narg++;

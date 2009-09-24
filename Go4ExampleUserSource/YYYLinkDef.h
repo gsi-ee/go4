@@ -10,7 +10,6 @@
 #pragma link C++ class TYYYRawEvent+;
 #pragma link C++ class TYYYUnpackEvent+;
 #pragma link C++ class TYYYUnpackProc+;
-#pragma link C++ class TYYYUnpackFact+;
 
 #endif
 
