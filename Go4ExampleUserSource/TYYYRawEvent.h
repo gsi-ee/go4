@@ -35,6 +35,8 @@ class TYYYRawEvent : public TGo4EventElement {
 
       Double_t * fdData; //[fiColumns]
 
+      Int_t fiAllocated; //! allocated array size
+
    ClassDef(TYYYRawEvent,1)
 };
 
