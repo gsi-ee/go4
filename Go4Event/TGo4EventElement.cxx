@@ -4,7 +4,6 @@
 #include "TTree.h"
 
 #include "TGo4Log.h"
-
 #include "TGo4EventSource.h"
 
 R__EXTERN TTree *gTree;
@@ -43,26 +42,18 @@ TGo4EventElement::TGo4EventElement(const char* aName,
   fIdentifier=aBaseCat;
   isActivated=kFALSE;
   fDebug=kFALSE;
-
 }
 
 TGo4EventElement::~TGo4EventElement()
 {
-
-TRACE((15,"TGo4EventElement::~TGo4EventElement()",__LINE__, __FILE__));
+   TRACE((15,"TGo4EventElement::~TGo4EventElement()",__LINE__, __FILE__));
 }
 
 Bool_t TGo4EventElement::CheckEventSource(const char* classname)
 {
-   TRACE((12,"TGo4EventElement::CheckEventSource(Text_t*)",__LINE__, __FILE__));
-   if(fxEventSource==0)
-      {
-         return kFALSE;
-      }
-   else
-      {
-        return ( fxEventSource->InheritsFrom(classname) );
-      }
+   TRACE((12,"TGo4EventElement::CheckEventSource(const char*)",__LINE__, __FILE__));
+   if(fxEventSource==0) return kFALSE;
+   return fxEventSource->InheritsFrom(classname);
 }
 
 void TGo4EventElement::PrintEvent()

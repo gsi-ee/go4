@@ -4,8 +4,6 @@
 #include "TGo4Analysis.h"
 
 class TH1D;
-class TFile;
-
 class TYYYRawEvent;
 class TYYYUnpackEvent;
 class TYYYParameter;
@@ -13,13 +11,12 @@ class TYYYParameter;
 class TYYYAnalysis : public TGo4Analysis {
    public:
       TYYYAnalysis();
-      TYYYAnalysis(const char* lmd, const char* raw, const char* cal);
+      TYYYAnalysis(const char* name);
       virtual ~TYYYAnalysis() ;
       virtual Int_t UserPreLoop();
       virtual Int_t UserEventFunc();
       virtual Int_t UserPostLoop();
    private:
-      TFile           *fUserFile;
       TYYYRawEvent    *fRawEvent;
       TYYYUnpackEvent *fUnpackEvent;
       TH1D            *fSize;

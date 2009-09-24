@@ -24,11 +24,11 @@ void usage(const char* err = 0)
    cout << "* GO4  online analysis    " << endl;
    cout << "* H. Essel, GSI, Darmstadt" << endl;
    cout << "* calling:                " << endl;
-   cout << "* go4analysis -server [CONFIG]              : run analysis in server mode" << endl;
-   cout << "* go4analysis -gui name guihost guiport [CONFIG] : connect analysis to prepared gui" << endl;
-   cout << "* go4analysis [CONFIG]                           : run analysis in batch mode" << endl;
-   cout << "* go4analysis -lib name ....    :  user library to load, should be very first argument (default: libGo4UserLibrary)" << endl;
-   cout << "* CONFIG : -file filename.lmd   :  open lmd file" << endl;
+   cout << "* go4analysis [RUNMODE] [CONFIG]" << endl;
+   cout << "* RUNMODE: -server [name]       : run analysis in server mode, name - optional analysis name" << endl;
+   cout << "*     -gui name guihost guiport : run analysis in gui mode, used by GUI launch analysis" << endl;
+   cout << "* CONFIG : -lib name            :  user library to load (default: libGo4UserLibrary)" << endl;
+   cout << "*          -file filename.lmd   :  open lmd file" << endl;
    cout << "*          -file filename.lml   :  open lml file" << endl;
    cout << "*          -transport server    :  connect to MBS transport server" << endl;
    cout << "*          -stream server       :  connect to MBS stream server" << endl;
@@ -37,12 +37,14 @@ void usage(const char* err = 0)
    cout << "*          -random              :  use random generator as input" << endl;
    cout << "*          -user name           :  create user-defined event source" << endl;
    cout << "*          -number NUMBER       :  process NUMBER events in batch mode" << endl;
-   cout << "*          -asf filename        :  write autosave filename, default AnalysisASF.root" << endl;
+   cout << "*          -asf filename        :  write autosave filename, default <Name>ASF.root" << endl;
+   cout << "*          -source filename     :  read step input from the root file" << endl;
    cout << "*          -store filename      :  write step output into the root file" << endl;
    cout << "*          -backstore name      :  create backstore for online tree draw" << endl;
    cout << "*          -step name           :  select step for configuration (default: first active step)" << endl;
    cout << "*          -run                 :  run analysis in server mode (defualt only run if source specified)" << endl;
    cout << "*          -norun               :  exlude automatical run" << endl;
+   cout << "*          -name name           :  specify analysis name for batch mode" << endl;
    cout << endl;
 
    exit(err ? -1 : 0);
@@ -68,10 +70,10 @@ TClass* FindDerivedClass(const char* baseclass)
 }
 
 typedef const char* (UserDefFunc)();
-typedef TGo4Analysis* (UserCreateFunc)();
+typedef TGo4Analysis* (UserCreateFunc)(const char* name);
 
 
-TGo4Analysis* CreateDefaultAnalysis()
+TGo4Analysis* CreateDefaultAnalysis(const char* analysis_name)
 {
    const char* processor_name = "Processor";
    const char* processor_classname = 0;
@@ -128,13 +130,19 @@ TGo4Analysis* CreateDefaultAnalysis()
    // We will use only one analysis step (factory)
    // we use only standard components
    TGo4Analysis*     analysis = TGo4Analysis::Instance();
+   analysis->SetAnalysisName(analysis_name);
+
    TGo4StepFactory*  factory  = new TGo4StepFactory("Factory");
    TGo4AnalysisStep* step     = new TGo4AnalysisStep("Analysis", factory);
+
+   step->SetEventStore(new TGo4FileStoreParameter(Form("%sOutput", analysis_name)));
    step->SetStoreEnabled(kFALSE); // disabled, nothing to store up to now
    step->SetProcessEnabled(kTRUE);
    step->SetErrorStopEnabled(kTRUE);
+
    analysis->AddAnalysisStep(step);
 
+   analysis->SetAutoSaveFile(Form("%sASF.root", analysis_name));
    analysis->SetAutoSaveInterval(0); // after n seconds , 0 = at termination of event loop
    analysis->SetAutoSave(kFALSE);    // optional
 
@@ -149,6 +157,22 @@ TGo4Analysis* CreateDefaultAnalysis()
    return analysis;
 }
 
+const char* GetArgValue(int argc, char **argv, const char* argname, int* pos = 0)
+{
+   int n = pos ? *pos : 0;
+
+   while (++n<argc)
+      if (strcmp(argv[n], argname)==0) {
+         if ((n+1<argc) && (argv[n+1][0]!='-')) {
+            if (pos) *pos = n+1;
+            return argv[n+1];
+         }
+      }
+
+   if (pos) *pos = 0;
+   return 0;
+}
+
 
 //==================  analysis main program ============================
 int main(int argc, char **argv)
@@ -161,21 +185,31 @@ int main(int argc, char **argv)
 
    if (argc<2) usage("Too few arguments");
 
-   int narg = 1;
+   const char* analysis_name = GetArgValue(argc, argv, "-server");
+   if (analysis_name==0) analysis_name = GetArgValue(argc, argv, "-gui");
+   if (analysis_name==0) analysis_name = GetArgValue(argc, argv, "-name");
+   if (analysis_name==0) analysis_name = "Go4Analysis";
 
-   const char* libname = "libGo4UserAnalysis";
-   if (strcmp(argv[narg],"-lib")==0) {
-      if (++narg < argc) libname = argv[narg++];
-      else usage("library name not specified");
+   int argpos = 0;
+   bool isanylib = false;
+   const char* libname = 0;
+   while ((libname = GetArgValue(argc, argv, "-lib", &argpos))!=0) {
+      cout << "Reading library: " << libname << endl;
+      if (gSystem->Load(libname)<0) return -1;
+      isanylib = true;
    }
 
-   if (gSystem->Load(libname)!=0) return -1;
+   if (!isanylib) {
+      libname = "libGo4UserAnalysis";
+      cout << "Reading library: " << libname << endl;
+      if (gSystem->Load(libname)<0) return -1;
+   }
 
    TGo4Analysis* analysis = 0;
 
    UserCreateFunc* crfunc = (UserCreateFunc*) gSystem->DynFindSymbol("*", "CreateUserAnalysis");
-   if (crfunc) analysis = crfunc();
-          else analysis = CreateDefaultAnalysis();
+   if (crfunc) analysis = crfunc(analysis_name);
+          else analysis = CreateDefaultAnalysis(analysis_name);
    if (analysis==0) {
       cerr << "!!! Analysis cannot be created" << endl;
       cerr << "!!! PLEASE check your analysis library " << libname << endl;
@@ -200,40 +234,44 @@ int main(int argc, char **argv)
    TApplication theApp("Go4App", &app_argc, app_argv);
 
    Bool_t batchMode(kTRUE);  // GUI or Batch
-
    Bool_t servermode(kFALSE);            // run analysis as server task
    const char* hostname = "localhost";   // gui host name
    Int_t iport(5000);                    // port number used by GUI
 
-   Bool_t autorun(kFALSE);   // immediately run analysis on start
-   long  maxevents(-1);      // number of events (batch mode)
-   Int_t canrun(0);          // -1 cannot run, 0 - only if source specify, 1 - always
+   bool autorun(false);    // immediately run analysis on start
+   long  maxevents(-1);    // number of events (batch mode)
+   Int_t canrun(0);        // -1 cannot run, 0 - only if source specify, 1 - always
 
    //------ process arguments -------------------------
 
-
-   if(strcmp(argv[narg], "-gui") == 0) {
-      batchMode = kFALSE;
-      if (argc <= narg + 3) usage("Not all -gui arguments specified");
-      narg++; // -gui
-      narg++; // name
-      hostname = argv[narg++];
-      if (narg<argc)
-         iport = atoi(argv[narg++]); // port of GUI server
-   } else
-   if(strstr(argv[narg], "-server")) {
-      // set up analysis server mode started from GUI -client
-      batchMode = kFALSE;
-      servermode = kTRUE;
-      narg++;
-      // exclude dummy arguments from gui
-      while ((narg<argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) narg++;
-   } else {
-      // set up arguments for batch mode
-      batchMode = kTRUE;
-   }
+   int narg = 1;
 
    while (narg < argc) {
+      if (strcmp(argv[narg], "-server")==0) {
+         narg++;
+         batchMode = kFALSE;
+         servermode = kTRUE;
+         // skip name, if specified
+         if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) narg++;
+      } else
+      if(strcmp(argv[narg], "-gui") == 0) {
+         batchMode = kFALSE;
+         if (argc <= narg + 3) usage("Not all -gui arguments specified");
+         narg++; // -gui
+         narg++; // name
+         hostname = argv[narg++];
+         iport = atoi(argv[narg++]); // port of GUI server
+      } else
+      if(strcmp(argv[narg], "-lib") == 0) {
+         // skip library name
+         if (++narg >= argc) usage("library name not specified");
+         narg++;
+      } else
+      if(strcmp(argv[narg], "-name") == 0) {
+         // skip analysis name
+         if (++narg >= argc) usage("analysis name not specified");
+         narg++;
+      } else
       if (strcmp(argv[narg],"-step")==0) {
          if (++narg < argc) {
             step = analysis->GetAnalysisStep(argv[narg++]);
@@ -246,6 +284,7 @@ int main(int argc, char **argv)
             TGo4MbsFileParameter sourcepar(argv[narg++]);
             step->SetEventSource(&sourcepar);
             step->SetSourceEnabled(kTRUE);
+            autorun = true;
          } else
             usage("LMD/LML file name not specified");
       } else
@@ -254,6 +293,7 @@ int main(int argc, char **argv)
             TGo4MbsTransportParameter sourcepar(argv[narg++]);
             step->SetEventSource(&sourcepar);
             step->SetSourceEnabled(kTRUE);
+            autorun = true;
          } else
             usage("MBS Transport server name not specified");
       } else
@@ -262,6 +302,7 @@ int main(int argc, char **argv)
             TGo4MbsStreamParameter sourcepar(argv[narg++]);
             step->SetEventSource(&sourcepar);
             step->SetSourceEnabled(kTRUE);
+            autorun = true;
          } else
             usage("MBS Stream server name not specified");
       } else
@@ -270,6 +311,7 @@ int main(int argc, char **argv)
             TGo4MbsEventServerParameter sourcepar(argv[narg++]);
             step->SetEventSource(&sourcepar);
             step->SetSourceEnabled(kTRUE);
+            autorun = true;
          } else
             usage("MBS Event server name not specified");
       } else
@@ -278,12 +320,14 @@ int main(int argc, char **argv)
          TGo4MbsRandomParameter sourcepar("Random");
          step->SetEventSource(&sourcepar);
          step->SetSourceEnabled(kTRUE);
+         autorun = true;
       } else
       if(strcmp(argv[narg],"-user")==0) {
          if (++narg < argc) {
             TGo4UserSourceParameter sourcepar(argv[narg++]);
             step->SetEventSource(&sourcepar);
             step->SetSourceEnabled(kTRUE);
+            autorun = true;
          } else
             usage("MBS Event server name not specified");
       } else
@@ -293,6 +337,8 @@ int main(int argc, char **argv)
             int serv_port = atoi(argv[narg++]);
             TGo4RevServParameter sourcepar(serv_name, serv_port);
             step->SetEventSource(&sourcepar);
+            step->SetSourceEnabled(kTRUE);
+            autorun = true;
          } else
             usage("Remote event server name or port are not specified");
       } else
@@ -327,7 +373,7 @@ int main(int argc, char **argv)
       } else
       if(strcmp(argv[narg],"-run")==0) {
          narg++;
-         canrun = 1;
+         autorun = true;
       } else
       if(strcmp(argv[narg],"-norun")==0) {
          narg++;
@@ -335,19 +381,6 @@ int main(int argc, char **argv)
       } else
          usage(Form("Unknown argument %d %s", narg, argv[narg]));
    }
-
-
-
-   if (!step->IsEventSourceParam()) {
-      TGo4MbsFileParameter sourcepar("/GSI/lea/gauss.lmd");
-      step->SetEventSource(&sourcepar);
-      step->SetSourceEnabled(kTRUE);
-      autorun = (canrun>0);
-   } else
-      autorun = (canrun>=0);
-
-   if (!analysis->IsAutoSaveFileName() && (batchMode || autorun))
-      analysis->SetAutoSaveFile("AnalysisASF.root");
 
    //==================== password settings for gui login in server mode
 
@@ -367,7 +400,7 @@ int main(int argc, char **argv)
       if (analysis->InitEventClasses()) {
          analysis->RunImplicitLoop(maxevents);
          delete analysis;
-         cout << "**** Main: Done!"<<endl;
+         cout << "**** Main: Done!" << endl;
       } else
          cout << "**** Main: Init event classes failed, aborting!"<<endl;
    } else {
@@ -376,6 +409,8 @@ int main(int argc, char **argv)
       if(servermode)  cout << "**** Main: starting analysis in server mode ..." << endl;
       else            cout << "**** Main: starting analysis in slave mode ..." << endl;
       // to start histogram server: kTRUE,"base","password"
+
+      if (canrun<0) autorun = false;
 
       TGo4AnalysisClient* client = new TGo4AnalysisClient("UserClient", analysis, hostname, iport, kFALSE, "", "", servermode, autorun);
 

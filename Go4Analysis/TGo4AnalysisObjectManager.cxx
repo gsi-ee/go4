@@ -896,7 +896,9 @@ TGo4AnalysisObjectNames * TGo4AnalysisObjectManager::CreateNamesList()
    TGo4LockGuard   listguard(fxDirMutex);
    TGo4AnalysisObjectNames* namesobject=0;
    //fxTempFolder->Clear();
-   namesobject= new TGo4AnalysisObjectNames("Go4NamesList");
+   const char* name = TGo4Analysis::Instance()->GetName();
+   if ((name==0) || (strlen(name)==0)) name = "Go4NamesList";
+   namesobject= new TGo4AnalysisObjectNames(name);
    namesobject->fxTopFolder=CreateNamesFolder(fxGo4Dir);
    TGo4PolyCond::CleanupSpecials(); // remove references to cloned TCutG in status
    return namesobject;

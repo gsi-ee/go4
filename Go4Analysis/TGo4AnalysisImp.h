@@ -89,6 +89,10 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     virtual ~TGo4Analysis();
 
+    virtual const char* GetName() const { return fAnalysisName.Data(); }
+
+    void SetAnalysisName(const char* name) { fAnalysisName = name; }
+
     /** The main analysis event cycle. This method is called by the
       * main runnable, or by RunImplicitLoop(). Processes the analysis steps
       * first, then the user event function. Finally, the dynamic list is updated. */
@@ -624,7 +628,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     Bool_t fbAutoSaveOn;
 
     /** Protected constructor for singleton instance. */
-    TGo4Analysis();
+    TGo4Analysis(const char* name = 0);
 
     /** Uses the chain of analysis steps to process the first input
       * event into an output event which then is accessible at
@@ -780,7 +784,10 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     /** use to treat Ctrl-C interrupts */
     TGo4InterruptHandler* fxInterruptHandler; //!
 
-  ClassDef(TGo4Analysis,3)
+    /** returns name of analysis object */
+    TString fAnalysisName;
+
+  ClassDef(TGo4Analysis,4)
 };
 
 #endif

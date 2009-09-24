@@ -5,15 +5,12 @@
 // Changing status in parameter editor is valid only until next
 // submit.
 
-void setfill(Int_t value)
+void setfill(bool value = true)
 {
-  TXXXControl * fCtl;
-  fCtl = (TXXXControl *)(go4->GetParameter("Control"));
-  if(fCtl != 0)
-    {
-      if(value) fCtl->fill = kTRUE;
-      else     fCtl->fill = kFALSE;
+  TXXXControl * fCtl = (TXXXControl *) go4->GetParameter("Control");
+  if(fCtl != 0) {
+      fCtl->fill = value;
       fCtl->SaveMacro();
-    }
-  else cout "Parameter Control not found!" << endl;
+  } else
+     cout << "Parameter Control not found!" << endl;
 }

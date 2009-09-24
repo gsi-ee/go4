@@ -20,124 +20,78 @@
 #include "Go4EventServer.h"
 
 
-extern "C" TGo4Analysis* CreateUserAnalysis() { return new TXXXAnalysis("file.lmd", GO4EV_MBS_FILE, 0, "", "", kFALSE, kFALSE); }
+extern "C" TGo4Analysis* CreateUserAnalysis(const char* name) { return new TXXXAnalysis(name); }
 
+
+extern "C" const char* UserAdministratorPassword() { return "XXXadmin"; }
+extern "C" const char* UserControllerPassword() { return "XXXctrl"; }
+extern "C" const char* UserObserverPassword() { return "XXXview"; }
 
 //***********************************************************
-TXXXAnalysis::TXXXAnalysis()
-: fUserFile(0),fMbsEvent(0),fRawEvent(0),fCalEvent(0)
+TXXXAnalysis::TXXXAnalysis() :
+   TGo4Analysis(),
+   fMbsEvent(0),fRawEvent(0),fCalEvent(0)
 {
   cout << "Wrong constructor TXXXAnalysis()!" << endl;
 }
 //***********************************************************
 // this constructor is used
-TXXXAnalysis::TXXXAnalysis(const char* input, Int_t type, Int_t port, const char* out1, const char* out2, Bool_t enable1, Bool_t enable2)
-  : fUserFile(0),
-    fMbsEvent(0),
-    fRawEvent(0),
-    fCalEvent(0),
-    fSize(0),
-    fEvents(0),
-    fLastEvent(0)
+TXXXAnalysis::TXXXAnalysis(const char* name) :
+   TGo4Analysis(name),
+   fMbsEvent(0),
+   fRawEvent(0),
+   fCalEvent(0),
+   fSize(0),
+   fEvents(0),
+   fLastEvent(0)
 {
-// input: input file name (*.lmd)
-// out1:  output file name of first analysis step  (*.root)
-// out2:  output file name of second analysis step (*.root)
-  cout << "**** TXXXAnalysis: Create" << endl;
+   cout << "**** TXXXAnalysis: Create" << endl;
 
-// the step definitions can be changed in the GUI
-// first step definitions:
-// the name of the step can be used later to get event objects
-// all these parameter objects will be used for the different MBS inputs
-  TGo4MbsFileParameter*        mbsfile;
-  TGo4MbsTransportParameter*   mbstrans;
-  TGo4MbsStreamParameter*      mbsstream;
-  TGo4RevServParameter*        mbsrev;
-  TGo4MbsEventServerParameter* mbsevent;
-  TGo4MbsRandomParameter*      mbsrandom;
-  TGo4FileStoreParameter*      store1;
-  TXXXUnpackFact*              factory1;
-  TGo4AnalysisStep*            step1;
-  TGo4FileSourceParameter*     source2;
-  TGo4FileStoreParameter*      store2;
-  TXXXAnlFact*                 factory2;
-  TGo4AnalysisStep*            step2;
+   TString input = "/GSI/lea/gauss.lmd";
+   TString out1 = Form("%s_Calibr", name);
+   TString out2 = Form("%s_Anl", name);
 
-  factory1 = new TXXXUnpackFact("UnpackFactory");
-  store1   = new TGo4FileStoreParameter(out1);
-  switch (type){
-    case GO4EV_MBS_FILE:
-       mbsfile   = new TGo4MbsFileParameter(input);
-       step1     = new TGo4AnalysisStep("Unpack",factory1,mbsfile,store1,0);
-       cout << "**** Unpack: Create file input " << input << endl;
-       break;
-    case GO4EV_MBS_STREAM:
-       mbsstream = new TGo4MbsStreamParameter(input);
-       step1     = new TGo4AnalysisStep("Unpack",factory1,mbsstream,store1,0);
-       cout << "**** Unpack: Create stream input "  << input << endl;
-       break;
-    case GO4EV_MBS_TRANSPORT:
-       mbstrans  = new TGo4MbsTransportParameter(input);
-       step1     = new TGo4AnalysisStep("Unpack",factory1,mbstrans,store1,0);
-       cout << "**** Unpack: Create transport input " << input  << endl;
-       break;
-    case GO4EV_MBS_REVSERV:
-       mbsrev    = new TGo4RevServParameter(input);
-       mbsrev->SetPort(port);
-       step1     = new TGo4AnalysisStep("Unpack",factory1,mbsrev,store1,0);
-       cout << "**** Unpack: Create remote event server input " << input << " port " << port <<endl;
-       break;
-    case GO4EV_MBS_EVENTSERVER:
-       mbsevent  = new TGo4MbsEventServerParameter(input);
-       step1     = new TGo4AnalysisStep("Unpack",factory1,mbsevent,store1,0);
-       cout << "**** Unpack: Create mbs event server input "  << input << endl;
-       break;
-    case GO4EV_MBS_RANDOM:
-       mbsrandom = new TGo4MbsRandomParameter(input);
-       step1     = new TGo4AnalysisStep("Unpack",factory1,mbsrandom,store1,0);
-       cout << "**** Unpack: Create mbs random input "  << input << endl;
-       break;
-    default:
-       step1     = 0;
-       break;
-  }
-  AddAnalysisStep(step1);
+   TXXXUnpackFact* factory1 = new TXXXUnpackFact("UnpackFactory");
+   TGo4MbsFileParameter* source1 = new TGo4MbsFileParameter(input.Data());
+   TGo4FileStoreParameter* store1 = new TGo4FileStoreParameter(out1.Data());
+   store1->SetOverwriteMode(kTRUE); // overwrite file
+   TGo4AnalysisStep* step1 = new TGo4AnalysisStep("Unpack",factory1,source1,store1,0);
 
-  store1->SetOverwriteMode(kTRUE); // overwrite file
-  step1->SetSourceEnabled(kTRUE);
-  step1->SetStoreEnabled(enable1);
-  step1->SetProcessEnabled(kTRUE);
-  step1->SetErrorStopEnabled(kTRUE);
+   AddAnalysisStep(step1);
 
-// second step definitions:
-// If source is enabled, take output file from step 1 as input.
-// otherwise we use output event from step 1 (set in factory)
-  factory2 = new TXXXAnlFact("AnalysisFactory");
-  source2  = new TGo4FileSourceParameter(out1);
-  store2   = new TGo4FileStoreParameter(out2);
-  step2    = new TGo4AnalysisStep("Analysis",factory2,source2,store2,0);
-  store2->SetOverwriteMode(kTRUE);
-  step2->SetSourceEnabled(kFALSE);  // disable file input (output file of step 1)
-  step2->SetStoreEnabled(enable2);
-  step2->SetProcessEnabled(kTRUE);
-  step2->SetErrorStopEnabled(kTRUE);
-  AddAnalysisStep(step2);
+   step1->SetSourceEnabled(kTRUE);
+   step1->SetStoreEnabled(kFALSE);
+   step1->SetProcessEnabled(kTRUE);
+   step1->SetErrorStopEnabled(kTRUE);
+
+   // second step definitions:
+   // If source is enabled, take output file from step 1 as input.
+   // otherwise we use output event from step 1 (set in factory)
+   TXXXAnlFact* factory2 = new TXXXAnlFact("AnalysisFactory");
+   TGo4FileSourceParameter* source2  = new TGo4FileSourceParameter(out1.Data());
+   TGo4FileStoreParameter* store2   = new TGo4FileStoreParameter(out2.Data());
+   store2->SetOverwriteMode(kTRUE);
+   TGo4AnalysisStep* step2    = new TGo4AnalysisStep("Analysis",factory2,source2,store2,0);
+
+   step2->SetSourceEnabled(kFALSE);  // disable file input (output file of step 1)
+   step2->SetStoreEnabled(kFALSE);
+   step2->SetProcessEnabled(kTRUE);
+   step2->SetErrorStopEnabled(kTRUE);
+   AddAnalysisStep(step2);
 
 
-  //////////////// Parameter //////////////////////////
-  // At this point, autosave file has not yet been read!
-  // Therefore parameter values set here will be overwritten
-  // if an autosave file is there.
-      fPar = new TXXXParameter("XXXPar1");
-      fPar->frP1 = 100;
-      fPar->frP2 = 200;
-      AddParameter(fPar);
-      fPar = new TXXXParameter("XXXPar2");
-      fPar->frP1 = 1000;
-      fPar->frP2 = 2000;
-      AddParameter(fPar);
-
-
+   //////////////// Parameter //////////////////////////
+   // At this point, autosave file has not yet been read!
+   // Therefore parameter values set here will be overwritten
+   // if an autosave file is there.
+   fPar = new TXXXParameter("XXXPar1");
+   fPar->frP1 = 100;
+   fPar->frP2 = 200;
+   AddParameter(fPar);
+   fPar = new TXXXParameter("XXXPar2");
+   fPar->frP1 = 1000;
+   fPar->frP2 = 2000;
+   AddParameter(fPar);
 }
 
 //***********************************************************

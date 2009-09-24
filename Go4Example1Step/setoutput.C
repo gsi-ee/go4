@@ -1,12 +1,6 @@
-
-void setoutput(Int_t true)
+void setoutput(bool enable = true)
 {
-  TGo4AnalysisStep * step;
-  step = go4->GetAnalysisStep("Analysis");
-  if(step != 0)
-    {
-      if(true)step->SetStoreEnabled(kTRUE);  // enable output
-      else    step->SetStoreEnabled(kFALSE); // disable output
-    }
-  else cout "Analysis step not found!" << endl;
+  TGo4AnalysisStep *step = go4->GetAnalysisStep("Analysis");
+  if(step != 0) step->SetStoreEnabled(enable);  // enable/disable output
+           else cout << "Analysis step not found!" << endl;
 }

@@ -7,90 +7,58 @@
 #include "TGo4StepFactory.h"
 #include "TGo4AnalysisStep.h"
 #include "TXXXControl.h"
+#include "TGo4Version.h"
 
 
-extern "C" TGo4Analysis* CreateUserAnalysis() { return new TXXXAnalysis("file.lmd", GO4EV_MBS_FILE, 0, "", kFALSE); }
+extern "C" TGo4Analysis* CreateUserAnalysis(const char* name) { return new TXXXAnalysis(name); }
 
 
 //***********************************************************
-TXXXAnalysis::TXXXAnalysis() : fUserFile(0),fMbsEvent(0){}
-//***********************************************************
-
-// this constructor is used in Main program
-TXXXAnalysis::TXXXAnalysis(const char* input, Int_t type, Int_t port, const char* output, Bool_t enable) :
-   fUserFile(0),
+TXXXAnalysis::TXXXAnalysis() :
    fMbsEvent(0),
+   fCtl(0),
    fEvents(0),
    fLastEvent(0)
 {
-   // input: input  file name (*.lmd)  is overwritten in analysis configuration menu
-   // type:  type of input
-   // output:   output file name (*.root) is overwritten in analysis configuration menu
-   // enable:output
+}
+//***********************************************************
 
-   // all these parameter objects will be used for the different MBS inputs
-   TGo4MbsFileParameter*        mbsfile;
-   TGo4MbsTransportParameter*   mbstrans;
-   TGo4MbsStreamParameter*      mbsstream;
-   TGo4RevServParameter*        mbsrev;
-   TGo4MbsEventServerParameter* mbsevent;
-   TGo4FileStoreParameter*      store;
-   TGo4EventProcessorParameter* proc;
-   // We will use only one analysis step (factory)
-   TGo4StepFactory*             factory;
-   TGo4AnalysisStep*            step;
+// this constructor is used in Main program
+TXXXAnalysis::TXXXAnalysis(const char* name) :
+   TGo4Analysis(name),
+   fMbsEvent(0),
+   fCtl(0),
+   fEvents(0),
+   fLastEvent(0)
+{
+   cout << "**** Create TXXXAnalysis name: " << name << endl;
 
-   factory = new TGo4StepFactory("Factory");
-   store   = new TGo4FileStoreParameter(output);
-   proc    = new TGo4EventProcessorParameter("ProcType",4); // arbitrary number
-   switch (type){
-      case GO4EV_MBS_FILE:
-         mbsfile   = new TGo4MbsFileParameter(input);
-         step      = new TGo4AnalysisStep("Analysis",factory,mbsfile,store,proc);
-         cout << "**** Analysis: Create file input " << input << endl;
-         break;
-      case GO4EV_MBS_STREAM:
-         mbsstream = new TGo4MbsStreamParameter(input);
-         step      = new TGo4AnalysisStep("Analysis",factory,mbsstream,store,proc);
-         cout << "**** Analysis: Create stream input "  << input << endl;
-         break;
-      case GO4EV_MBS_TRANSPORT:
-         mbstrans  = new TGo4MbsTransportParameter(input);
-         step      = new TGo4AnalysisStep("Analysis",factory,mbstrans,store,proc);
-         cout << "**** Analysis: Create transport input " << input  << endl;
-         break;
-      case GO4EV_MBS_REVSERV:
-         mbsrev    = new TGo4RevServParameter(input);
-         mbsrev->SetPort(port);
-         step      = new TGo4AnalysisStep("Analysis",factory,mbsrev,store,proc);
-         cout << "**** Analysis: Create remote event server input " << input << " port " << port <<endl;
-         break;
-      case GO4EV_MBS_EVENTSERVER:
-         mbsevent  = new TGo4MbsEventServerParameter(input);
-         step      = new TGo4AnalysisStep("Analysis",factory,mbsevent,store,proc);
-         cout << "**** Analysis: Create mbs event server input "  << input << endl;
-         break;
-      default:
-         step      = 0;
-         break;
+   if (!TGo4Version::Instance()->CheckVersion(__GO4BUILDVERSION__)) {
+      cout << "****  Go4 version mismatch" << endl;
+      exit(-1);
    }
-   // tell the factory the names of processor and output event
-   // both will be created by the framework later
-   // Input event is by default an MBS event
+
+   TGo4StepFactory* factory = new TGo4StepFactory("Factory");
    factory->DefEventProcessor("XXXProc","TXXXProc");// object name, class name
    factory->DefOutputEvent("XXXEvent","TXXXEvent"); // object name, class name
 
-   store->SetOverwriteMode(kTRUE); // overwrite file
+   TGo4MbsFileParameter* sourcepar = new TGo4MbsFileParameter("/GSI/lea/gauss.lmd");
+
+   TGo4FileStoreParameter* storepar = new TGo4FileStoreParameter(Form("%sOutput", name));
+   storepar->SetOverwriteMode(kTRUE);
+
+   TGo4EventProcessorParameter* procpar = new TGo4EventProcessorParameter("ProcType",4); // arbitrary number
+
+   TGo4AnalysisStep* step = new TGo4AnalysisStep("Analysis", factory, sourcepar, storepar, procpar);
 
    step->SetSourceEnabled(kTRUE);
-   step->SetStoreEnabled(enable);  // en-disable output
+   step->SetStoreEnabled(kFALSE);
    step->SetProcessEnabled(kTRUE);
    step->SetErrorStopEnabled(kTRUE);
 
-   AddAnalysisStep(step);
-
    // Now the first analysis step is set up.
    // Other steps could be created here
+   AddAnalysisStep(step);
 
    //////////////// Parameter //////////////////////////
    // At this point, autosave file has not yet been read!
@@ -112,8 +80,7 @@ Int_t TXXXAnalysis::UserPreLoop()
    cout << "**** TXXXAnalysis: PreLoop" << endl;
    // get pointer to input event (used in postloop and event function):
    fMbsEvent = dynamic_cast<TGo4MbsEvent*> (GetInputEvent("Analysis"));   // of step "Analysis"
-   if(fMbsEvent)
-   {
+   if(fMbsEvent) {
       // fileheader structure (lmd file only):
       s_filhe* fileheader=fMbsEvent->GetMbsSourceHeader();
       if(fileheader)
@@ -151,13 +118,11 @@ Int_t TXXXAnalysis::UserEventFunc()
 {
    // all this is optional:
    // This function is called once for each event after all steps.
-   if(fMbsEvent)
-   {
+   if(fMbsEvent) {
       fEvents++;
       fLastEvent=fMbsEvent->GetCount();
    }
-   if(fEvents == 1 || IsNewInputFile())
-   {
+   if(fEvents == 1 || IsNewInputFile()) {
       cout << "First event #: " << fLastEvent  << endl;
       SetNewInputFile(kFALSE); // we have to reset the newfile flag
    }

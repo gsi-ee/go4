@@ -473,13 +473,13 @@ void TGo4AnalysisProxy::Initialize(TGo4Slot* slot)
 {
    fxParentSlot = slot;
 
-   TGo4Slot* subslot = new TGo4Slot(fxParentSlot, "Settings","Analsys configuration");
+   TGo4Slot* subslot = new TGo4Slot(fxParentSlot, "Settings", "Analysis configuration");
    subslot->SetProxy(new TGo4ObjectProxy());
 
-   subslot = new TGo4Slot(fxParentSlot, "Ratemeter", "Analsys ratemeter");
+   subslot = new TGo4Slot(fxParentSlot, "Ratemeter", "Analysis ratemeter");
    subslot->SetProxy(new TGo4ObjectProxy());
 
-   subslot = new TGo4Slot(fxParentSlot, "Loginfo", "Analsys logging message");
+   subslot = new TGo4Slot(fxParentSlot, "Loginfo", "Analysis logging message");
    subslot->SetProxy(new TGo4ObjectProxy());
 
    subslot = new TGo4Slot(fxParentSlot, "UpdateObject", "Result of update object");
@@ -569,12 +569,19 @@ Bool_t TGo4AnalysisProxy::IsAdministrator()
 
 const char* TGo4AnalysisProxy::GetContainedObjectInfo()
 {
-  switch (GetRole()) {
-     case kGo4ComModeObserver: fInfoStr = "Observer"; break;
-     case kGo4ComModeController: fInfoStr = "Controller"; break;
-     case kGo4ComModeAdministrator: fInfoStr = "Administrator"; break;
-     default: fInfoStr = "Disconnected"; break;
-  }
+   bool disconn = false;
+
+   switch (GetRole()) {
+      case kGo4ComModeObserver: fInfoStr = "Observer"; break;
+      case kGo4ComModeController: fInfoStr = "Controller"; break;
+      case kGo4ComModeAdministrator: fInfoStr = "Administrator"; break;
+      default: fInfoStr = "Disconnected"; disconn = true; break;
+   }
+
+   if (!disconn && (fAnalysisNames!=0) && (strcmp(fAnalysisNames->GetName(),"Go4NamesList")!=0)) {
+      fInfoStr += " name:";
+      fInfoStr += fAnalysisNames->GetName();
+   }
 
    return fInfoStr.Data();
 }
@@ -1143,7 +1150,8 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
    const char* path       = gSystem->Getenv("PATH");
    const char* ldpath     = gSystem->Getenv("LD_LIBRARY_PATH");
 
-   if ((go4sys==0) || (strlen(go4sys)==0)) return kFALSE;
+   if ((name==0) || (strlen(name)==0)) name = "UserAnalysis";
+   if ((serverhost==0) || (strlen(serverhost)==0)) serverhost = "localhost";
 
    if (gSystem->Getenv("GO4OLDLAUNCH")==0) {
       TGo4Prefs prefs(remotehost);
@@ -1219,6 +1227,8 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
       return kTRUE;
 
    }
+
+   if ((go4sys==0) || (strlen(go4sys)==0)) return kFALSE;
 
    TString filename = TGo4Log::subGO4SYS(TGo4ServerTask::Get_fgcLAUNCHPREFSFILE());
 

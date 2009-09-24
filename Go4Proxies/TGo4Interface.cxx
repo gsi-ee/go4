@@ -132,8 +132,8 @@ TGo4AnalysisProxy* TGo4Interface::AddAnalysisProxy(Bool_t isserver)
      anal->SetAnalysisReady(kFALSE);
 
    if ((anal!=0) && (fRootBrowser!=0)) {
-      OM()->AddLink(anal->RatemeterSlot(), fOMEditorsPath.Data(), "AnalRateMeter", "Analyis ratemeter");
-      OM()->AddLink(anal->LoginfoSlot(), fOMEditorsPath.Data(), "AnalLoginfo", "Analyis loginfo");
+      OM()->AddLink(anal->RatemeterSlot(), fOMEditorsPath.Data(), "AnalRateMeter", "Analysis ratemeter");
+      OM()->AddLink(anal->LoginfoSlot(), fOMEditorsPath.Data(), "AnalLoginfo", "Analysis loginfo");
    }
 
    return anal;

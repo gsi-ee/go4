@@ -3,22 +3,18 @@
 
 #include "TGo4Analysis.h"
 
-class TFile;
 class TGo4MbsEvent;
 class TXXXControl;
 
 class TXXXAnalysis : public TGo4Analysis {
    public:
       TXXXAnalysis();
-
-
-      TXXXAnalysis(const char* input, Int_t type, Int_t port, const char* out, Bool_t enable);
+      TXXXAnalysis(const char* name);
       virtual ~TXXXAnalysis() ;
       virtual Int_t UserPreLoop();
       virtual Int_t UserEventFunc();
       virtual Int_t UserPostLoop();
    private:
-      TFile        *fUserFile;
       TGo4MbsEvent *fMbsEvent;
       TXXXControl   *fCtl;
       Int_t         fEvents;

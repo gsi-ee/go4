@@ -4,7 +4,8 @@ This package contains a simple running 1 step Go4 analysis.
 
 Rebuild the package by
 
-make clean all
+make clean
+make all
 
 Description of the package
 
@@ -24,7 +25,7 @@ For each event the user event processor TXXXProc is
 called. This user event processor fills some histograms
 and an output event TXXXEvent (raw event) from the input event.
 The output events can optionally be stored in root files.
-When a root file with raw events exists, it can be viewd by the
+When a root file with raw events exists, it can be viewed by the
 Go4 GUI using the tree viewer. Define a shell variable
 GO4USERLIBRARY=/mypath/libGo4UserAnalysis.so
 that the viewer knows TXXXEvent.
@@ -53,23 +54,21 @@ Then the histograms are filled, the 2d one with polygon conditions.
 
 Parameter class TXXXControl
 This class has one member "fill" which is checked in TXXXProc->Event
-to fill histograms or not. The macro setfill.C(n), n=0,1 can be used
+to fill histograms or not. The macro setfill.C(bool) can be used
 in the GUI to switch the filling on or off. It creates macro histofill.C() which
 is actually used to set filling on or off (when creating TXXXProc). 
 You can modify histofill.C by editor.
+The macro setoutput.C(bool) can also be executed via GUI and allows to switch file output on/off. 
 
 Autosave file mechanism.
 By default autosave is enabled in batch mode, disabled in GUI mode,
-and all objects are saved into this ROOT file
-at the end. At startup the autosave file is read and all objects are restored
+and all objects are saved into this ROOT file at the end. 
+At startup the autosave file is read and all objects are restored
 from that file.
 When TXXXAnalysis is created, the autosave file is not yet loaded. Therefore the
 objects created here are overwritten by the objects from autosave file (if any), except histograms.
 From GUI, objects are loaded from autosave file when Submit button is pressed.
 One can inspect the content of the auto save file with the Go4 GUI.
-Note that
-GO4USERLIBRARY=/mypath/libGo4UserAnalysis.so
-should be defined to enable the GUI to read the auto save file.
 
 Creating a new class
 Provide the definition and implementation files (.h and .cxx)

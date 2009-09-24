@@ -367,8 +367,10 @@ void TGo4Browser::updateListViewItems()
       if ((classname!=0) && (testedClasses.FindObject(classname)==0)) {
 
          itemclass = gROOT->GetClass(classname, kFALSE);
-         if (itemclass==0)
+         if (itemclass==0) {
+           cout << "Cannot find class " << classname << endl;
            testedClasses.Add(new TNamed(classname,""));
+         }
       }
 
       TString pixmap;

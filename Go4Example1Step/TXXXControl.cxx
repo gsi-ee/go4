@@ -48,13 +48,14 @@ void TXXXControl::SaveMacro()
 {
    FILE *pf = fopen("histofill.C","w+");
    if(pf) {
-      fputs("// written by setfill.C macro\n",pf);
-      fputs("// executed in TXXXProc\n",pf);
-      fputs("{\n",pf);
-      fputs("TXXXControl * fCtl;\n",pf);
-      fputs("fCtl = (TXXXControl *)(TGo4Analysis::Instance()->GetParameter(\"Control\"));\n",pf);
-      if(fill)fputs("fCtl->fill=kTRUE;\n",pf);
-      else    fputs("fCtl->fill=kFALSE;\n",pf);
+      fputs("// written by setfill.C macro\n", pf);
+      fputs("// executed in TXXXProc\n", pf);
+      fputs("{\n", pf);
+      fputs("TXXXControl * fCtl;\n", pf);
+      fputs("fCtl = (TXXXControl *)(TGo4Analysis::Instance()->GetParameter(\"Control\"));\n", pf);
+      fputs("if(fCtl!=0) ", pf);
+      if(fill)fputs("fCtl->fill=kTRUE;\n", pf);
+      else    fputs("fCtl->fill=kFALSE;\n", pf);
       fputs("}\n",pf);
       fclose(pf);
       cout << "**** TXXXControl: new histofill.C written" << endl;

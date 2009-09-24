@@ -2,6 +2,6 @@
 // executed in TXXXProc
 {
 TXXXControl * fCtl;
-fCtl = (TXXXControl *)(go4->GetParameter("Control"));
-fCtl->fill=kTRUE;
+fCtl = (TXXXControl *)(TGo4Analysis::Instance()->GetParameter("Control"));
+if(fCtl!=0) fCtl->fill=kTRUE;
 }

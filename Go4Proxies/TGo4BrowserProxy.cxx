@@ -212,6 +212,18 @@ void TGo4BrowserProxy::Initialize(TGo4Slot* slot)
    gROOT->GetClass("TH3I");
    gROOT->GetClass("TH3S");
 
+   gROOT->GetClass("TGo4WinCond");
+   gROOT->GetClass("TGo4PolyCond");
+   gROOT->GetClass("TGo4CondArray");
+
+   gROOT->GetClass("TGo4Fitter");
+   gROOT->GetClass("TGo4Parameter");
+   gROOT->GetClass("TGo4Picture");
+
+   gROOT->GetClass("TGo4DynamicEntry");
+   gROOT->GetClass("TGo4HistogramEntry");
+   gROOT->GetClass("TGo4TreeHistogramEntry");
+
    if (fxOM!=0)
       fxOM->RegisterLink(fxOM->GetSlot(fxDataPath.Data()), slot, kTRUE);
 

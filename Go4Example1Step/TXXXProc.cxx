@@ -33,7 +33,7 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
 
    //// init user analysis objects:
 
-   // Parameters are created in analysis, therefore just take them out
+   // Parameters are created in analysis, therefore just take it out
    fControl = (TXXXControl *) GetParameter("Control");
 
    // This example analysis allows for en-disabling the histogram filling.

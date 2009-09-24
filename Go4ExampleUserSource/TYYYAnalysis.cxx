@@ -15,33 +15,29 @@
 #include "TYYYRawEvent.h"
 
 
-extern "C" TGo4Analysis* CreateUserAnalysis() { return new TYYYAnalysis("befoil50.scf", "", ""); }
+extern "C" TGo4Analysis* CreateUserAnalysis(const char* name) { return new TYYYAnalysis(name); }
 
 
 //***********************************************************
 TYYYAnalysis::TYYYAnalysis() :
    TGo4Analysis(),
-   fUserFile(0),
    fRawEvent(0),
    fUnpackEvent(0),
    fSize(0),
    fPar(0),
-   fEvents(0),
-   fLastEvent(0)
+   fEvents(0)
 {
   cout << "Wrong constructor TYYYAnalysis()!" << endl;
 }
 //***********************************************************
 // this constructor is used
-TYYYAnalysis::TYYYAnalysis(const char* lmd, const char* out1, const char* out2) :
-   TGo4Analysis(),
-   fUserFile(0),
+TYYYAnalysis::TYYYAnalysis(const char* name) :
+   TGo4Analysis(name),
    fRawEvent(0),
    fUnpackEvent(0),
    fSize(0),
    fPar(0),
-   fEvents(0),
-   fLastEvent(0)
+   fEvents(0)
 {
    // lmd: input file name (*.lmd)
    // out1: output file name of first analysis step  (*.root)
@@ -52,12 +48,12 @@ TYYYAnalysis::TYYYAnalysis(const char* lmd, const char* out1, const char* out2) 
    // first step definitions:
    // the name of the step can be used later to get event objects
    TYYYUnpackFact*         factory1 = new TYYYUnpackFact("Unpack-factory");
-   TGo4UserSourceParameter*   source1  = new TGo4UserSourceParameter(lmd);
-   TGo4FileStoreParameter* store1   = new TGo4FileStoreParameter(out1);
-   TGo4AnalysisStep*       step1    = new TGo4AnalysisStep("Unpack",factory1,source1,store1,0);
+   TGo4UserSourceParameter* source1  = new TGo4UserSourceParameter("befoil50.scf");
+   TGo4FileStoreParameter*  store1   = new TGo4FileStoreParameter(Form("%sOutput", name));
+   TGo4AnalysisStep*        step1    = new TGo4AnalysisStep("Unpack",factory1,source1,store1,0);
    store1->SetOverwriteMode(kTRUE);
    step1->SetSourceEnabled(kTRUE);
-   step1->SetStoreEnabled(kFALSE);  // dissable output
+   step1->SetStoreEnabled(kFALSE);  // disable output
    step1->SetProcessEnabled(kTRUE);
    step1->SetErrorStopEnabled(kTRUE);
    AddAnalysisStep(step1);
@@ -91,7 +87,6 @@ Int_t TYYYAnalysis::UserPreLoop()
    fRawEvent = dynamic_cast<TYYYRawEvent*>    (GetInputEvent("Unpack"));   // of step "Unpack"
    fUnpackEvent = dynamic_cast<TYYYUnpackEvent*> (GetOutputEvent("Unpack"));
    fEvents=0;
-   fLastEvent=0;
 
    // create histogram for UserEventFunc
    // At this point, the histogram has been restored from autosave file if any.

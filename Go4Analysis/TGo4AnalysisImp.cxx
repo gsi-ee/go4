@@ -123,7 +123,7 @@ Bool_t TGo4Analysis::Exists()
 }
 
 
-TGo4Analysis::TGo4Analysis() :
+TGo4Analysis::TGo4Analysis(const char* name) :
    TGo4CommandReceiver(),
    TObject(),
    fbInitIsDone(kFALSE),
@@ -141,9 +141,12 @@ TGo4Analysis::TGo4Analysis() :
    fxSampleEvent(0),
    fxObjectNames(0),
    fbDoWorkingFlag(kTRUE),
-   fxInterruptHandler(0)
+   fxInterruptHandler(0),
+   fAnalysisName()
 {
-   TRACE((15,"TGo4Analysis::TGo4Analysis()",__LINE__, __FILE__));
+   if (name!=0) SetAnalysisName(name);
+
+   TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
    //
 
    if (!TGo4Version::Instance()->CheckVersion(__GO4BUILDVERSION__)) {
@@ -154,7 +157,7 @@ TGo4Analysis::TGo4Analysis() :
       Message(-1,"\t >>make clean all<<");
       Message(-1,"Aborting in 20 s...");
       gSystem->Sleep(20000);
-      gApplication->Terminate();
+      exit(-1);
    } else {
       // may not disable output of version number:
       Message(-1,"Welcome to Go4 Analysis Framework Release %s (build %d) !",
@@ -461,7 +464,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
 
       while(fbDoWorkingFlag) {
 
-         if ((times>0) && (++i>times)) break;
+         if ((times>0) && (++i>=times)) break;
 
          try
          {

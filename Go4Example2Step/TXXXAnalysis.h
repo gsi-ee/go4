@@ -3,7 +3,6 @@
 
 #include "TGo4Analysis.h"
 
-class TFile;
 class TH1D;
 class TGo4MbsEvent;
 class TXXXUnpackEvent;
@@ -13,15 +12,13 @@ class TGo4FitterEnvelope;
 
 class TXXXAnalysis : public TGo4Analysis  {
    public:
-                     TXXXAnalysis();
-                     TXXXAnalysis(const char* input, Int_t type, Int_t port,
-                                  const char* out1, const char* out2, Bool_t en1, Bool_t en2);
-      virtual       ~TXXXAnalysis() ;
+      TXXXAnalysis();
+      TXXXAnalysis(const char* name);
+      virtual ~TXXXAnalysis() ;
       virtual Int_t UserPreLoop();
       virtual Int_t UserEventFunc();
       virtual Int_t UserPostLoop();
    private:
-      TFile              *fUserFile;
       TGo4MbsEvent       *fMbsEvent;
       TXXXUnpackEvent    *fRawEvent;
       TXXXAnlEvent       *fCalEvent;
