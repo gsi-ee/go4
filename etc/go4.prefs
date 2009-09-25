@@ -40,7 +40,8 @@ xterm: %initcmd% %cd_workdir% xterm -T %clientkind%:%analysisname%@%hostname% -e
 
 konsole: %initcmd% konsole %konsole_options% --workdir %workdir% -e %progcmd%
 
-konsole_options:--nomenubar --notoolbar -T %clientkind%:%analysisname%
+#konsole_options:--nomenubar --notoolbar -T %clientkind%:%analysisname%
+konsole_options:-caption %clientkind%:%analysisname%
 
 ##################################################################
 # here is program execution section, defined if analysis should be started as server or client
