@@ -134,7 +134,7 @@ TGo4EventElement * TGo4StepFactory::CreateInputEvent()
 }
 
 //-----------------------------------------------------------
-void TGo4StepFactory::DefEventSource(const char* Sclass)
+void TGo4StepFactory::DefUserEventSource(const char* Sclass)
 {
    fnewEventSource.Form("new %s((%s*)%s);", Sclass, TGo4UserSourceParameter::Class()->GetName(), "%p");
 }

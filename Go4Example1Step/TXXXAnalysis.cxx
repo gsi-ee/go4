@@ -33,7 +33,7 @@ TXXXAnalysis::TXXXAnalysis(const char* name) :
 {
    cout << "**** Create TXXXAnalysis name: " << name << endl;
 
-   if (!TGo4Version::Instance()->CheckVersion(__GO4BUILDVERSION__)) {
+   if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
       cout << "****  Go4 version mismatch" << endl;
       exit(-1);
    }
@@ -47,9 +47,7 @@ TXXXAnalysis::TXXXAnalysis(const char* name) :
    TGo4FileStoreParameter* storepar = new TGo4FileStoreParameter(Form("%sOutput", name));
    storepar->SetOverwriteMode(kTRUE);
 
-   TGo4EventProcessorParameter* procpar = new TGo4EventProcessorParameter("ProcType",4); // arbitrary number
-
-   TGo4AnalysisStep* step = new TGo4AnalysisStep("Analysis", factory, sourcepar, storepar, procpar);
+   TGo4AnalysisStep* step = new TGo4AnalysisStep("Analysis", factory, sourcepar, storepar);
 
    step->SetSourceEnabled(kTRUE);
    step->SetStoreEnabled(kFALSE);

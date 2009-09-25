@@ -23,10 +23,10 @@ class TGo4Version {
 
       /** Returns true if Version number matches the
         * argument of the Method. */
-      Bool_t CheckVersion(Int_t version);
+      static Bool_t CheckVersion(Int_t version);
 
       /** Version number at build time of user analysis. */
-      Int_t GetBuildVersion() const;
+      static Int_t GetBuildVersion();
 
    private:
       /** Version Number of the Go4 build. Number 10000 means Version 1.00.00.

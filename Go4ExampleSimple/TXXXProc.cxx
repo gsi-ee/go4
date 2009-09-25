@@ -11,20 +11,48 @@
 #include "TGo4PolyCond.h"
 #include "TGo4CondArray.h"
 #include "TGo4Picture.h"
+#include "TGo4StepFactory.h"
+#include "TGo4Analysis.h"
+#include "TGo4Version.h"
 
 #include "TXXXParam.h"
 
-extern "C" const char* UserProcessorClass() { return "TXXXProc"; }
-extern "C" const char* UserProcessorName() { return "XXXProc"; }
-//extern "C" const char* UserOutputEventCall() { return "TGo4EventElement"; }
-extern "C" const char* UserOutputEventName() { return "XXXOutputEvent"; }
 
+extern "C" TGo4Analysis* CreateUserAnalysis(const char* name)
+{
+   if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
+      cout << "****  Go4 version mismatch" << endl;
+      exit(-1);
+   }
+
+   TGo4Analysis* analysis = TGo4Analysis::Instance();
+   analysis->SetAnalysisName(name);
+
+   TGo4StepFactory* factory = new TGo4StepFactory("Factory");
+   factory->DefEventProcessor("Processor", "TXXXProc");// object name, class name
+   factory->DefOutputEvent("DummyOutput", "TGo4EventElement"); // object name, class name
+
+   TGo4MbsFileParameter* sourcepar = new TGo4MbsFileParameter("/GSI/lea/gauss.lmd");
+
+   TGo4AnalysisStep* step = new TGo4AnalysisStep("Analysis", factory, sourcepar);
+
+   step->SetSourceEnabled(kTRUE);
+   step->SetStoreEnabled(kFALSE);
+   step->SetProcessEnabled(kTRUE);
+   step->SetErrorStopEnabled(kTRUE);
+
+   // Now the first analysis step is set up.
+   // Other steps could be created here
+   analysis->AddAnalysisStep(step);
+
+   return analysis;
+}
 
 //***********************************************************
-TXXXProc::TXXXProc() : TGo4EventProcessor("Proc")
+TXXXProc::TXXXProc() : TGo4EventProcessor()
 {
-   cout << "**** TXXXProc: Create instance " << endl;
 }
+
 //***********************************************************
 TXXXProc::~TXXXProc()
 {

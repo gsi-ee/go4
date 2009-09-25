@@ -74,91 +74,6 @@ TClass* FindDerivedClass(const char* baseclass)
 typedef const char* (UserDefFunc)();
 typedef TGo4Analysis* (UserCreateFunc)(const char* name);
 
-
-TGo4Analysis* CreateDefaultAnalysis(const char* analysis_name)
-{
-   const char* processor_name = "Processor";
-   const char* processor_classname = 0;
-
-   const char* outputevent_name = "OutputEvent";
-   const char* outputevent_classname = 0;
-
-   const char* eventsource_classname = 0;
-
-   UserDefFunc* func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserProcessorClass");
-   if (func!=0) processor_classname = func();
-
-   if (processor_classname!=0) {
-      TClass* proc_cl = TClass::GetClass(processor_classname);
-      if (proc_cl==0) {
-         cerr << "Processor class " << processor_classname << " not found" << endl;
-         return 0;
-      }
-
-      func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserProcessorName");
-
-      if (func!=0) processor_name = func();
-
-      cout << "Event processor " << processor_classname << " of name " << processor_name << endl;
-   } else {
-      cerr << "Processor class not specifeid" << endl;
-      return 0;
-   }
-
-   func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserOutputEventClass");
-   if (func!=0) outputevent_classname = func();
-   if (outputevent_classname==0) outputevent_classname = "TGo4EventElement";
-
-   func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserEventSourceClass");
-   if (func!=0) eventsource_classname = func();
-
-   if (outputevent_classname!=0) {
-      TClass* event_cl = TClass::GetClass(outputevent_classname);
-      if (event_cl==0) {
-         cerr << "Event class " << outputevent_classname << " not found" << endl;
-         return 0;
-      }
-   }
-
-   func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserOutputEventName");
-
-   if (func!=0) outputevent_name = func();
-
-   cout << "Output event " << outputevent_classname << " of name " << outputevent_name << endl;
-
-//  use class table to find existing classes
-//   TClassTable::PrintTable();
-
-   // We will use only one analysis step (factory)
-   // we use only standard components
-   TGo4Analysis*     analysis = TGo4Analysis::Instance();
-   analysis->SetAnalysisName(analysis_name);
-
-   TGo4StepFactory*  factory  = new TGo4StepFactory("Factory");
-   TGo4AnalysisStep* step     = new TGo4AnalysisStep("Analysis", factory);
-
-   step->SetEventStore(new TGo4FileStoreParameter(Form("%sOutput", analysis_name)));
-   step->SetStoreEnabled(kFALSE); // disabled, nothing to store up to now
-   step->SetProcessEnabled(kTRUE);
-   step->SetErrorStopEnabled(kTRUE);
-
-   analysis->AddAnalysisStep(step);
-
-   analysis->SetAutoSaveFile(Form("%sASF.root", analysis_name));
-   analysis->SetAutoSaveInterval(0); // after n seconds , 0 = at termination of event loop
-   analysis->SetAutoSave(kFALSE);    // optional
-
-   // tell the factory the names of processor and output event
-   // both will be created by the framework later
-   // Input event is by default an MBS event
-   factory->DefEventProcessor(processor_name, processor_classname);// object name, class name
-   factory->DefOutputEvent(outputevent_name, outputevent_classname); // object name, class name
-
-   if (eventsource_classname) factory->DefEventSource(eventsource_classname);
-
-   return analysis;
-}
-
 const char* GetArgValue(int argc, char **argv, const char* argname, int* pos = 0)
 {
    int n = pos ? *pos : 0;
@@ -179,7 +94,7 @@ const char* GetArgValue(int argc, char **argv, const char* argname, int* pos = 0
 //==================  analysis main program ============================
 int main(int argc, char **argv)
 {
-   if (!TGo4Version::Instance()->CheckVersion(__GO4BUILDVERSION__)) {
+   if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
       cerr << "Please check your system configuration and restart analysis again" << endl;
       return -1;
    }
@@ -211,12 +126,10 @@ int main(int argc, char **argv)
 
    UserCreateFunc* crfunc = (UserCreateFunc*) gSystem->DynFindSymbol("*", "CreateUserAnalysis");
    if (crfunc) analysis = crfunc(analysis_name);
-          else analysis = CreateDefaultAnalysis(analysis_name);
    if (analysis==0) {
       cerr << "!!! Analysis cannot be created" << endl;
       cerr << "!!! PLEASE check your analysis library " << libname << endl;
-      cerr << "!!! One requires function to create analysis instance CreateUserAnalysis() or " << endl;
-      cerr << "!!!                should specify processor class via UserProcessorClass()" << endl;
+      cerr << "!!! One requires CreateUserAnalysis() function to be defined in user library" << endl;
       cerr << "!!! See Go4ExampleSimple, Go4Example1Step or Go4Example2Step for details" << endl;
       return -1;
    }

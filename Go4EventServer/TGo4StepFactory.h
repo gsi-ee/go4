@@ -15,7 +15,7 @@ class TGo4StepFactory : public TGo4EventServerFactory {
       void     DefEventProcessor(const char* Pname, const char* Pclass);
       void     DefInputEvent(const char* Iname, const char* Iclass);
       void     DefOutputEvent(const char* Oname, const char* Oclass);
-      void     DefEventSource(const char* Sclass);
+      void     DefUserEventSource(const char* Sclass);
   private:
       TString fnewProcessor;
       TString fProcessorName;

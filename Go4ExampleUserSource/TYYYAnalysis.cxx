@@ -8,6 +8,7 @@
 
 #include "Go4EventServer.h"
 #include "TGo4AnalysisStep.h"
+#include "TGo4Version.h"
 
 #include "TYYYUnpackEvent.h"
 #include "TYYYParameter.h"
@@ -38,6 +39,11 @@ TYYYAnalysis::TYYYAnalysis(const char* name) :
    fPar(0),
    fEvents(0)
 {
+   if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
+      cout << "****  Go4 version mismatch" << endl;
+      exit(-1);
+   }
+
    // lmd: input file name (*.lmd)
    // out1: output file name of first analysis step  (*.root)
    // out2: output file name of second analysis step (*.root)
@@ -48,7 +54,7 @@ TYYYAnalysis::TYYYAnalysis(const char* name) :
    // the name of the step can be used later to get event objects
    TGo4StepFactory* factory1 = new TGo4StepFactory("Unpack-factory");
 
-   factory1->DefEventSource("TYYYEventSource"); // class name of user event source
+   factory1->DefUserEventSource("TYYYEventSource"); // class name of user event source
    factory1->DefInputEvent("RawEvent","TYYYRawEvent"); // object name, class name
    factory1->DefEventProcessor("UnpackProc", "TYYYUnpackProc");// object name, class name
    factory1->DefOutputEvent("UnpackEvent", "TYYYUnpackEvent"); // object name, class name

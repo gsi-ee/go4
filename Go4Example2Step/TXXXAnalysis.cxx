@@ -15,9 +15,9 @@
 #include "TXXXParameter.h"
 #include "TXXXUnpackEvent.h"
 #include "TXXXAnlEvent.h"
+#include "TGo4Version.h"
 
 #include "Go4EventServer.h"
-
 
 extern "C" TGo4Analysis* CreateUserAnalysis(const char* name) { return new TXXXAnalysis(name); }
 
@@ -44,6 +44,11 @@ TXXXAnalysis::TXXXAnalysis(const char* name) :
    fEvents(0),
    fLastEvent(0)
 {
+   if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
+      cout << "****  Go4 version mismatch" << endl;
+      exit(-1);
+   }
+
    cout << "**** TXXXAnalysis: Create" << endl;
 
    TString input = "/GSI/lea/gauss.lmd";

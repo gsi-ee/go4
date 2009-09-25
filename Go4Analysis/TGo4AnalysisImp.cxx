@@ -149,7 +149,7 @@ TGo4Analysis::TGo4Analysis(const char* name) :
    TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
    //
 
-   if (!TGo4Version::Instance()->CheckVersion(__GO4BUILDVERSION__)) {
+   if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
       // wrong version number between framework and user executable
       Message(-1,"!!!! Analysis Base class:\n\t User Analysis was built with wrong \t\tGo4 Buildversion %d !!!!!",
             TGo4Version::Instance()->GetBuildVersion());
@@ -453,7 +453,7 @@ return rev;
 Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
 {
    TRACE((11,"TGo4Analysis::RunImplicitLoop(Int_t)",__LINE__, __FILE__));
-   Int_t i=0; // number of actually processed events
+   Int_t cnt = 0; // number of actually processed events
    try
    {
       PreLoop();
@@ -464,7 +464,9 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
 
       while(fbDoWorkingFlag) {
 
-         if ((times>0) && (++i>=times)) break;
+         cnt++;
+
+         if ((times>0) && (cnt>=times)) break;
 
          try
          {
@@ -513,22 +515,22 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
          ////// end inner catch
       }// for
 
-      Message(-1,"Analysis Implicit Loop has finished after %d cycles.", i);
+      Message(-1,"Analysis implicit Loop has finished after %d cycles.", cnt);
       PostLoop();
    } //  try
 
    catch(TGo4Exception& ex) {
-     Message(-1,"%s appeared after %d cycles.", ex.What(), i);
+     Message(-1,"%s appeared after %d cycles.", ex.What(), cnt);
      ex.Handle();
    }
    catch(std::exception& ex) { // treat standard library exceptions
-     Message(-1,"standard exception %s appeared after %d cycles.", ex.what(),i);
+     Message(-1,"standard exception %s appeared after %d cycles.", ex.what(), cnt);
    }
    catch(...) {
-      Message(-1,"!!! Unexpected exception after %d cycles !!!",i);
+      Message(-1,"!!! Unexpected exception after %d cycles !!!", cnt);
    }
    /////////// end outer catch block
-   return i;
+   return cnt;
 }
 
 ////////////////////////////////////////////////////////////

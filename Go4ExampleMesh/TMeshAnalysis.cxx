@@ -8,6 +8,7 @@
 #include "Go4EventServer.h"
 #include "TGo4StepFactory.h"
 #include "TGo4AnalysisStep.h"
+#include "TGo4Version.h"
 
 //***********************************************************
 TMeshAnalysis::TMeshAnalysis() :
@@ -26,6 +27,12 @@ TMeshAnalysis::TMeshAnalysis(const char* input, Int_t type, Int_t port,
    fEvents(0),
    fLastEvent(0)
 {
+
+   if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
+      cout << "****  Go4 version mismatch" << endl;
+      exit(-1);
+   }
+
 // input: input file name (*.lmd)
 // out1:  output file name of first analysis step  (*.root)
 // out2:  output file name of second analysis step (*.root)

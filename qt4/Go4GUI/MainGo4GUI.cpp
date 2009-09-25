@@ -30,7 +30,7 @@ int main(int argc, char **argv)
    bool iswin32 = true;
 #endif
 
-   if (!TGo4Version::Instance()->CheckVersion(__GO4BUILDVERSION__)) {
+   if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
       cerr << "Please configure your system correctly and restart go4 again" << endl;
       return -1;
    }

@@ -4,16 +4,16 @@
 
 const Int_t TGo4Version::fgiGO4VERSION= __GO4BUILDVERSION__;
 
-TGo4Version * TGo4Version::fxInstance= 0;
+TGo4Version* TGo4Version::fxInstance = 0;
 
-TGo4Version * TGo4Version::Instance()
+TGo4Version* TGo4Version::Instance()
 {
    if (fxInstance == 0)
      fxInstance = new TGo4Version();
    return fxInstance;
 }
 
-Int_t TGo4Version::GetBuildVersion() const
+Int_t TGo4Version::GetBuildVersion()
 {
    return fgiGO4VERSION;
 }

@@ -18,7 +18,7 @@
 
 int main(int argc, char **argv)
 {
-   if (!TGo4Version::Instance()->CheckVersion(__GO4BUILDVERSION__)) {
+   if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
       cerr << "Go4 was build with version " << __GO4BUILDVERSION__ << endl;
       cerr << "Loaded go4 libraries has version " << TGo4Version::Instance()->GetBuildVersion() << endl;
       cerr << "Please configure your system correctly and restart go4 again" << endl;
