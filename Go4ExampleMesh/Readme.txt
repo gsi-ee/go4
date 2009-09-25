@@ -166,7 +166,7 @@ provider steps, if necessary. After submitting these settings
 again from the configuration gui,
 the mesh setup is ready.
 Note that once the mesh is configured in this way, the configuration
-can be stored completetely in the analysis preferences and
+can be stored completely in the analysis preferences and
 restored on the next startup.
 
 One could also think of a user defined gui that handles both
@@ -204,7 +204,7 @@ output files.
 5) Change the example code and recompile
 to add another execution branch,
 e.g. with new steps for InputProvider4, Exec4, OutputProvider4,
-and collect the results in the exisiting final step. New
+and collect the results in the existing final step. New
 classes TMeshB4InputEvent, TMeshB4AnlProc, and TMeshB4OutputEvent
 should be defined for this (these can be derived from the
 corresponding classes as existing for the Exec3 branch)

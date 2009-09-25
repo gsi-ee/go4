@@ -58,6 +58,9 @@ TXXXAnalysis::TXXXAnalysis(const char* name) :
    // Other steps could be created here
    AddAnalysisStep(step);
 
+   // uncomment following line to define custom passwords for analysis server
+   // DefineServerPasswords("XXXadmin", "XXXctrl", "XXXview");
+
    //////////////// Parameter //////////////////////////
    // At this point, autosave file has not yet been read!
    // Therefore parameter values set here will be overwritten

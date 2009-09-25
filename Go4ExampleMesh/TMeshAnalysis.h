@@ -9,23 +9,21 @@ class TH1D;
 
 class TMeshAnalysis : public TGo4Analysis {
    public:
-     TMeshAnalysis();
-     TMeshAnalysis(const char* input, Int_t type, Int_t port,
-                   const char* out1, const char* out2, Bool_t en1, Bool_t en2);
+      TMeshAnalysis();
+      TMeshAnalysis(const char* name);
       virtual ~TMeshAnalysis() ;
       virtual Int_t UserPreLoop();
       virtual Int_t UserEventFunc();
       virtual Int_t UserPostLoop();
    private:
 
-
-      TMeshParameter      *fPar;
-      TGo4MbsEvent* fMbsEvent;//!
+      TMeshParameter     *fPar;
+      TGo4MbsEvent       *fMbsEvent;//!
       TH1D               *fSize;
       Int_t               fEvents;
       Int_t               fLastEvent;
 
-ClassDef(TMeshAnalysis,1)
+      ClassDef(TMeshAnalysis,1)
 };
 #endif //TMESHANALYSIS_H
 
