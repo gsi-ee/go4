@@ -1,7 +1,7 @@
 #include "TXXXAnalysis.h"
 
+#include <stdlib.h>
 #include "Riostream.h"
-#include <time.h>
 
 #include "Go4EventServer.h"
 #include "TGo4StepFactory.h"

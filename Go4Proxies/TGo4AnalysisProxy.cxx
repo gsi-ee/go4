@@ -2,6 +2,7 @@
 
 #include <string>
 #include <map>
+#include <stdlib.h>
 
 #include "Riostream.h"
 #include "TH1.h"

@@ -1,5 +1,6 @@
 #include "TYYYAnalysis.h"
 
+#include <stdlib.h>
 #include "Riostream.h"
 
 #include "TCanvas.h"

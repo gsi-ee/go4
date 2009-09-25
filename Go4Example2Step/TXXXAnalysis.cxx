@@ -1,7 +1,7 @@
 #include "TXXXAnalysis.h"
 
+#include <stdlib.h>
 #include "Riostream.h"
-#include <time.h>
 
 #include "TH1.h"
 #include "TFile.h"

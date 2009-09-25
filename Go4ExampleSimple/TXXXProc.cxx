@@ -1,5 +1,6 @@
 #include "TXXXProc.h"
 
+#include <stdlib.h>
 #include "Riostream.h"
 
 #include "TH1.h"
