@@ -15,8 +15,6 @@ endif
 EXAMP1STEP_LINKDEF     = $(EXAMP1STEP_DIR)/XXXLinkDef.$(HedSuf)
 EXAMP1STEP_LIBNAME     = $(GO4_USERLIBNAME)
 
-EXAMP1STEP_NOTLIBF     = 
-
 ## must be similar for every module
 
 EXAMP1STEP_DICT        = $(EXAMP1STEP_DIR)/$(DICT_PREFIX)XXX
@@ -24,8 +22,8 @@ EXAMP1STEP_DH          = $(EXAMP1STEP_DICT).$(HedSuf)
 EXAMP1STEP_DS          = $(EXAMP1STEP_DICT).$(SrcSuf)
 EXAMP1STEP_DO          = $(EXAMP1STEP_DICT).$(ObjSuf)
 
-EXAMP1STEP_H           = $(filter-out $(EXAMP1STEP_EXEH) $(EXAMP1STEP_NOTLIBF) $(EXAMP1STEP_DH) $(EXAMP1STEP_LINKDEF), $(wildcard $(EXAMP1STEP_DIR)/*.$(HedSuf)))
-EXAMP1STEP_S           = $(filter-out $(EXAMP1STEP_EXES) $(EXAMP1STEP_NOTLIBF) $(EXAMP1STEP_DS), $(wildcard $(EXAMP1STEP_DIR)/*.$(SrcSuf)))
+EXAMP1STEP_H           = $(filter-out $(EXAMP1STEP_DH) $(EXAMP1STEP_LINKDEF), $(wildcard $(EXAMP1STEP_DIR)/*.$(HedSuf)))
+EXAMP1STEP_S           = $(filter-out $(EXAMP1STEP_DS), $(wildcard $(EXAMP1STEP_DIR)/*.$(SrcSuf)))
 EXAMP1STEP_O           = $(EXAMP1STEP_S:.$(SrcSuf)=.$(ObjSuf))
 
 EXAMP1STEP_DEP         =  $(EXAMP1STEP_O:.$(ObjSuf)=.$(DepSuf))

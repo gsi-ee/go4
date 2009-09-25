@@ -15,8 +15,6 @@ endif
 EXUSERSRC_LINKDEF     = $(EXUSERSRC_DIR)/YYYLinkDef.$(HedSuf)
 EXUSERSRC_LIBNAME     = $(GO4_USERLIBNAME)
 
-EXUSERSRC_NOTLIBF     = 
-
 ## must be similar for every module
 
 EXUSERSRC_DICT        = $(EXUSERSRC_DIR)/$(DICT_PREFIX)YYY
@@ -24,8 +22,8 @@ EXUSERSRC_DH          = $(EXUSERSRC_DICT).$(HedSuf)
 EXUSERSRC_DS          = $(EXUSERSRC_DICT).$(SrcSuf)
 EXUSERSRC_DO          = $(EXUSERSRC_DICT).$(ObjSuf)
 
-EXUSERSRC_H           = $(filter-out $(EXUSERSRC_EXEH) $(EXUSERSRC_NOTLIBF) $(EXUSERSRC_DH) $(EXUSERSRC_LINKDEF), $(wildcard $(EXUSERSRC_DIR)/*.$(HedSuf)))
-EXUSERSRC_S           = $(filter-out $(EXUSERSRC_EXES) $(EXUSERSRC_NOTLIBF) $(EXUSERSRC_DS), $(wildcard $(EXUSERSRC_DIR)/*.$(SrcSuf)))
+EXUSERSRC_H           = $(filter-out $(EXUSERSRC_DH) $(EXUSERSRC_LINKDEF), $(wildcard $(EXUSERSRC_DIR)/*.$(HedSuf)))
+EXUSERSRC_S           = $(filter-out $(EXUSERSRC_DS), $(wildcard $(EXUSERSRC_DIR)/*.$(SrcSuf)))
 EXUSERSRC_O           = $(EXUSERSRC_S:.$(SrcSuf)=.$(ObjSuf))
 
 EXUSERSRC_DEP         =  $(EXUSERSRC_O:.$(ObjSuf)=.$(DepSuf))
@@ -39,7 +37,7 @@ EXAMPDEPENDENCS    += $(EXUSERSRC_DEP) $(EXUSERSRC_DDEP)
 
 ifdef DOPACKAGE
 DISTRFILES         += $(EXUSERSRC_S) $(EXUSERSRC_H) $(EXUSERSRC_LINKDEF)
-DISTRFILES         += $(EXUSERSRC_DIR)/README.txt
+DISTRFILES         += $(EXUSERSRC_DIR)/Readme.txt
 DISTRFILES         += $(EXUSERSRC_DIR)/befoil50.scf $(EXUSERSRC_DIR)/tafoil50.scf
 endif
 

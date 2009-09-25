@@ -15,8 +15,6 @@ endif
 EXAMPSIMP_LINKDEF     = $(EXAMPSIMP_DIR)/XXXLinkDef.$(HedSuf)
 EXAMPSIMP_LIBNAME     = $(GO4_USERLIBNAME)
 
-EXAMPSIMP_NOTLIBF     = 
-
 ## must be similar for every module
 
 EXAMPSIMP_DICT        = $(EXAMPSIMP_DIR)/$(DICT_PREFIX)XXX
@@ -24,8 +22,8 @@ EXAMPSIMP_DH          = $(EXAMPSIMP_DICT).$(HedSuf)
 EXAMPSIMP_DS          = $(EXAMPSIMP_DICT).$(SrcSuf)
 EXAMPSIMP_DO          = $(EXAMPSIMP_DICT).$(ObjSuf)
 
-EXAMPSIMP_H           = $(filter-out $(EXAMPSIMP_NOTLIBF) $(EXAMPSIMP_DH) $(EXAMPSIMP_LINKDEF), $(wildcard $(EXAMPSIMP_DIR)/*.$(HedSuf)))
-EXAMPSIMP_S           = $(filter-out $(EXAMPSIMP_NOTLIBF) $(EXAMPSIMP_DS), $(wildcard $(EXAMPSIMP_DIR)/*.$(SrcSuf)))
+EXAMPSIMP_H           = $(filter-out $(EXAMPSIMP_DH) $(EXAMPSIMP_LINKDEF), $(wildcard $(EXAMPSIMP_DIR)/*.$(HedSuf)))
+EXAMPSIMP_S           = $(filter-out $(EXAMPSIMP_DS), $(wildcard $(EXAMPSIMP_DIR)/*.$(SrcSuf)))
 EXAMPSIMP_O           = $(EXAMPSIMP_S:.$(SrcSuf)=.$(ObjSuf))
 
 EXAMPSIMP_DEP         = $(EXAMPSIMP_O:.$(ObjSuf)=.$(DepSuf))
