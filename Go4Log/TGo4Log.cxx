@@ -21,21 +21,23 @@ TString TGo4Log::fgsGO4SYS = "";
 
 
 char TGo4Log::fgcMessagetext[__MESSAGETEXTLENGTH__];
-Int_t TGo4Log::fgiIgnoreLevel=1;
-Bool_t TGo4Log::fgbOutputEnabled=kTRUE;
-Bool_t TGo4Log::fgbLogfileEnabled=kTRUE;
-Bool_t TGo4Log::fgbAutoMode=kFALSE;
-void* TGo4Log::fgxLogfile=0;
-TMutex* TGo4Log::fgxMutex=0;
-TGo4Log* TGo4Log::fgxInstance=0;
+Int_t TGo4Log::fgiIgnoreLevel = 1;
+Bool_t TGo4Log::fgbOutputEnabled = kTRUE;
+Bool_t TGo4Log::fgbLogfileEnabled = kFALSE;
+Bool_t TGo4Log::fgbAutoMode = kFALSE;
+void* TGo4Log::fgxLogfile = 0;
+TMutex* TGo4Log::fgxMutex = 0;
+TGo4Log* TGo4Log::fgxInstance = 0;
 
 TString TGo4Log::fgxLogName=TGo4Log::fgcDEFAULTLOG;
 
 TGo4Log::TGo4Log()
 {
+   if (fgxMutex == 0) fgxMutex = new TMutex(kTRUE);
+
+
    // initialization at first time we call logger
    // we use recursive mode for cascading lockguards
-   if(fgxMutex==0) fgxMutex = new TMutex(kTRUE);
    if (IsLogfileEnabled()) {
       OpenLogfile(fgcDEFAULTLOG,"--- This is the default Go4 Message logfile ---");
       LogfileEnable(kFALSE); // after first write disable logfile
@@ -206,7 +208,6 @@ void TGo4Log::OutputEnable(Bool_t on)
 {
    TGo4LockGuard(fxMutex);
    fgbOutputEnabled=on;
-
 }
 
 Bool_t TGo4Log::IsOutputEnabled()
@@ -236,10 +237,7 @@ Bool_t TGo4Log::IsAutoEnabled()
    return fgbAutoMode;
 }
 
-
-void TGo4Log::OpenLogfile(const char* name,
-      const char* headercomment,
-      Bool_t appendmode)
+void TGo4Log::OpenLogfile(const char* name, const char* headercomment, Bool_t appendmode)
 {
    TGo4LockGuard(fxMutex);
    try

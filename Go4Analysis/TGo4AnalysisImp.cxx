@@ -150,7 +150,6 @@ TGo4Analysis::TGo4Analysis(const char* name) :
 
    TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
    //
-
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
       // wrong version number between framework and user executable
       Message(-1,"!!!! Analysis Base class:\n\t User Analysis was built with wrong \t\tGo4 Buildversion %d !!!!!",
@@ -165,6 +164,7 @@ TGo4Analysis::TGo4Analysis(const char* name) :
       Message(-1,"Welcome to Go4 Analysis Framework Release %s (build %d) !",
             __GO4RELEASE__ , __GO4BUILDVERSION__);
    }
+
    if(fxInstance==0) {
       gROOT->SetBatch(kTRUE);
       fxStepManager=new TGo4AnalysisStepManager("Go4 Analysis Step Manager");
@@ -173,13 +173,13 @@ TGo4Analysis::TGo4Analysis(const char* name) :
       fxAutoSaveMutex =   new TMutex(kTRUE);
       fxAutoSaveClock=new TStopwatch;
       fxAutoSaveClock->Stop();
-      fxAutoFileName=fgcDEFAULTFILENAME;
-      fxConfigFilename=fgcDEFAULTSTATUSFILENAME;
+      fxAutoFileName = fgcDEFAULTFILENAME;
+      fxConfigFilename = fgcDEFAULTSTATUSFILENAME;
       TGo4CommandInvoker::Instance(); // make sure we have an invoker instance!
       TGo4CommandInvoker::SetCommandList(new TGo4AnalysisCommandList);
       TGo4CommandInvoker::Register("Analysis",this); // register as command receiver at the global invoker
-      fxInstance=this; // for ctor usage from derived user subclass
-      fbExists=kTRUE;
+      fxInstance = this; // for ctor usage from derived user subclass
+      fbExists = kTRUE;
 
       fxInterruptHandler = new TGo4InterruptHandler();
    } else {
@@ -947,25 +947,22 @@ Message(0,"Analysis BaseClass --  Nameslist updated.");
 
 Bool_t TGo4Analysis::LoadObjects(const char* filename)
 {
-TGo4LockGuard  autoguard(fxAutoSaveMutex);
-Bool_t rev=kTRUE;
-if(filename) fxAutoFileName=filename;
-OpenAutoSaveFile();
-if(fxAutoFile && fxAutoFile->IsOpen())
-   {
-     Message(-1,"Analysis LoadObjects: Loading from autosave file %s ",
-           fxAutoFile->GetName());
-     rev=fxObjectManager->LoadObjects(fxAutoFile);
-   }
-else
-   {
+   TGo4LockGuard  autoguard(fxAutoSaveMutex);
+   Bool_t rev=kTRUE;
+   if(filename) fxAutoFileName=filename;
+   OpenAutoSaveFile();
+   if(fxAutoFile && fxAutoFile->IsOpen()) {
+      Message(-1,"Analysis LoadObjects: Loading from autosave file %s ",
+            fxAutoFile->GetName());
+      rev=fxObjectManager->LoadObjects(fxAutoFile);
+   } else {
       Message(-1,"Analysis LoadObjects: Failed to load from file %s",
-        fxAutoFileName.Data());
+            fxAutoFileName.Data());
       rev=kFALSE;
    }
-CloseAutoSaveFile();
-gROOT->cd();
-return rev;
+   CloseAutoSaveFile();
+   gROOT->cd();
+   return rev;
 }
 
 void TGo4Analysis::Message(Int_t prio, const Text_t* text,...)
@@ -975,24 +972,21 @@ void TGo4Analysis::Message(Int_t prio, const Text_t* text,...)
    va_start(args, text);
    vsnprintf(txtbuf, TGo4Log::fguMESLEN, text, args);
    va_end(args);
-   SendMessageToGUI(prio,kTRUE, txtbuf);
+   SendMessageToGUI(prio, kTRUE, txtbuf);
 }
 
 void TGo4Analysis::SendMessageToGUI(Int_t level, Bool_t printout, const char* text)
 {
-   if(fxAnalysisSlave)
-      {
-         // gui mode: send Text via status channel
-         fxAnalysisSlave->SendStatusMessage(level,printout,text);
-      }
-   else
-      {
-         // batch mode: no gui connection, handle local printout
-         Bool_t previousmode=TGo4Log::IsOutputEnabled();
-         TGo4Log::OutputEnable(printout); // override the messaging state
-         TGo4Log::Message(level,text);
-         TGo4Log::OutputEnable(previousmode);
-      } // if (fxAnalysisSlave)
+   if(fxAnalysisSlave) {
+      // gui mode: send Text via status channel
+      fxAnalysisSlave->SendStatusMessage(level,printout,text);
+   } else {
+      // batch mode: no gui connection, handle local printout
+      Bool_t previousmode = TGo4Log::IsOutputEnabled();
+      TGo4Log::OutputEnable(printout); // override the messaging state
+      TGo4Log::Message(level, text);
+      TGo4Log::OutputEnable(previousmode);
+   } // if (fxAnalysisSlave)
 }
 
 void TGo4Analysis::SendObjectToGUI(TNamed * ob)

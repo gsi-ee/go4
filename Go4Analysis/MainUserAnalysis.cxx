@@ -21,33 +21,46 @@ void usage(const char* err = 0)
 {
    if (err) cout << "Error: " << err << endl;
    cout << endl;
-   cout << "* GO4  online analysis    " << endl;
-   cout << "* H. Essel, GSI, Darmstadt" << endl;
-   cout << "* calling:                " << endl;
-   cout << "* go4analysis [RUNMODE] [CONFIG]" << endl;
-   cout << "* RUNMODE: -server [name]       : run analysis in server mode, name - optional analysis name" << endl;
-   cout << "*     -gui name guihost guiport : run analysis in gui mode, used by GUI launch analysis" << endl;
-   cout << "* CONFIG : -lib name            :  user library to load (default: libGo4UserLibrary)" << endl;
-   cout << "*          -file filename.lmd   :  open lmd file" << endl;
-   cout << "*          -file filename.lml   :  open lml file" << endl;
-   cout << "*          -transport server    :  connect to MBS transport server" << endl;
-   cout << "*          -stream server       :  connect to MBS stream server" << endl;
-   cout << "*          -evserv server       :  connect to MBS event server" << endl;
-   cout << "*          -revserv server port :  connect to remote event server" << endl;
-   cout << "*          -random              :  use random generator as input" << endl;
-   cout << "*          -user name           :  create user-defined event source" << endl;
-   cout << "*          -number NUMBER       :  process NUMBER events in batch mode" << endl;
-   cout << "*          -source filename     :  read step input from the root file" << endl;
-   cout << "*          -store filename      :  write step output into the root file" << endl;
-   cout << "*          -backstore name      :  create backstore for online tree draw" << endl;
-   cout << "*          -step name           :  select step for configuration (default: first active step)" << endl;
-   cout << "*          -asf filename        :  set autosave filename and enable it, default <Name>ASF.root" << endl;
-   cout << "*          -enable-asf [interval] :  enable store of autosave file, optionally interval in seconds" << endl;
-   cout << "*          -disable-asf         :  disable usage of asf" << endl;
-   cout << "*          -name name           :  specify analysis name for batch mode" << endl;
-   cout << "*          -run                 :  run analysis in server mode (defualt only run if source specified)" << endl;
-   cout << "*          -norun               :  exclude automatical run" << endl;
-   cout << "*          -hserver [name [passwd]] :  start histogram server with optional name and password" << endl;
+   cout << "GO4 analysis runnable " << __GO4RELEASE__ << endl;
+   cout << "S. Linev, GSI, Darmstadt" << endl;
+   cout << "calling:                " << endl;
+   cout << "" << endl;
+   cout << "   go4analysis [RUN] [ANALYSIS] [STEP1] [STEP2] ... " << endl;
+   cout << "" << endl;
+   cout << "RUN: configuration, relevant for application run mode" << endl;
+   cout << "  -lib name                   : user library to load (default: libGo4UserLibrary)" << endl;
+   cout << "  -server [name]              : run analysis in server mode, name - optional analysis name" << endl;
+   cout << "  -gui name guihost guiport   : run analysis in gui mode, used by GUI launch analysis" << endl;
+   cout << "  -run                        : run analysis in server mode (defualt only run if source specified)" << endl;
+   cout << "  -norun                      :  exclude automatical run" << endl;
+   cout << "  -number NUMBER              :  process NUMBER events in batch mode" << endl;
+   cout << "  -hserver [name [passwd]]    :  start histogram server with optional name and password" << endl;
+   cout << "  -log [filename]             :  enable log output into filename (default:go4logfile.txt)" << endl;
+   cout << "  -help                       :  show this help" << endl;
+   cout << "" << endl;
+   cout << "ANALYSIS: common analysis configurations" << endl;
+   cout << "  -name name             :  specify analysis instance name" << endl;
+   cout << "  -asf filename          :  set autosave filename and enable it, default <Name>ASF.root" << endl;
+   cout << "  -enable-asf [interval] :  enable store of autosave file, optionally interval in seconds" << endl;
+   cout << "  -disable-asf           :  disable usage of asf" << endl;
+   cout << "" << endl;
+   cout << "STEP: individual step configurations" << endl;
+   cout << "  -step name           :  select step for configuration (default: first active step)" << endl;
+   cout << "  -file filename.lmd   :  use lmd file as event source" << endl;
+   cout << "  -file filename.lml   :  use lml file as event source" << endl;
+   cout << "  -transport server    :  connect to MBS transport server" << endl;
+   cout << "  -stream server       :  connect to MBS stream server" << endl;
+   cout << "  -evserv server       :  connect to MBS event server" << endl;
+   cout << "  -revserv server port :  connect to remote event server" << endl;
+   cout << "  -random              :  use random generator as source" << endl;
+   cout << "  -user name           :  create user-defined event source" << endl;
+   cout << "  -source filename     :  read step input from the root file" << endl;
+   cout << "  -enable-source       :  enable step source" << endl;
+   cout << "  -disable-source      :  disable step source" << endl;
+   cout << "  -store filename      :  write step output into the root file" << endl;
+   cout << "  -backstore name      :  create backstore for online tree draw" << endl;
+   cout << "  -enable-store        :  enable step store" << endl;
+   cout << "  -disable-store       :  disable step store" << endl;
    cout << endl;
 
    exit(err ? -1 : 0);
@@ -100,8 +113,7 @@ int main(int argc, char **argv)
       return -1;
    }
 
-
-   if (argc<2) usage("Too few arguments");
+   if (argc<2) usage();
 
    const char* analysis_name = GetArgValue(argc, argv, "-server");
    if (analysis_name==0) analysis_name = GetArgValue(argc, argv, "-gui");
@@ -300,6 +312,14 @@ int main(int argc, char **argv)
          narg++;
          analysis->SetAutoSave(kFALSE);
       } else
+      if(strcmp(argv[narg],"-log")==0) {
+         narg++;
+         TGo4Log::LogfileEnable(kTRUE);
+         const char* logname = TGo4Log::fgcDEFAULTLOG;
+         if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
+            logname = argv[narg++];
+         TGo4Log::OpenLogfile(logname, " -- This is logfile from go4analysis file --- ", kTRUE);
+      } else
       if(strcmp(argv[narg],"-run")==0) {
          narg++;
          autorun = true;
@@ -307,6 +327,26 @@ int main(int argc, char **argv)
       if(strcmp(argv[narg],"-norun")==0) {
          narg++;
          canrun = -1;
+      } else
+      if(strcmp(argv[narg],"-help")==0) {
+         narg++;
+         usage();
+      } else
+      if(strcmp(argv[narg],"-enable-store")==0) {
+         narg++;
+         step->SetStoreEnabled(kTRUE);
+      } else
+      if(strcmp(argv[narg],"-disable-store")==0) {
+         narg++;
+         step->SetStoreEnabled(kFALSE);
+      } else
+      if(strcmp(argv[narg],"-enable-source")==0) {
+         narg++;
+         step->SetSourceEnabled(kTRUE);
+      } else
+      if(strcmp(argv[narg],"-disable-source")==0) {
+         narg++;
+         step->SetSourceEnabled(kFALSE);
       } else
       if(strcmp(argv[narg],"-hserver")==0) {
          narg++;
@@ -321,7 +361,9 @@ int main(int argc, char **argv)
 
    //------ start the analysis -------------------------
    if(batchMode) {
+
       cout << "**** Main: starting analysis in batch mode ...  " << endl;
+
       analysis->SetAutoSave(kTRUE);   // optional enable auto-save
       if (analysis->InitEventClasses()) {
          analysis->RunImplicitLoop(maxevents);
@@ -344,6 +386,9 @@ int main(int argc, char **argv)
       cout << "**** Main: Run application loop" << endl;
       theApp.Run();
    }
+
+   TGo4Log::CloseLogfile();
+
    //=================  start root application loop ==========================
    return 0;
 }
