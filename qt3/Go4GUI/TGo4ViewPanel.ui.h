@@ -3792,7 +3792,7 @@ void TGo4ViewPanel::SetPadDefaults(TPad* pad)
        Float_t h,l,s;
        normal->GetHLS(h,l,s);
        const char* cname = normal->GetName();
-       Text_t aname[64];
+       char aname[64];
        // assign the color numbers and names for shading:
        Float_t dr, dg, db, lr, lg, lb;
        TColor *dark = gROOT->GetColor(100+padfillcolor);

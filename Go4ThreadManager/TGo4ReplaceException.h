@@ -27,7 +27,7 @@ class TGo4ReplaceException : public TGo4ThreadException {
   public:
       TGo4ReplaceException(const TGo4ReplaceException &right);
 
-      TGo4ReplaceException (TGo4Runnable* runnable, TGo4Runnable* newrunnable = 0, const Text_t* oldthreadname = 0);
+      TGo4ReplaceException (TGo4Runnable* runnable, TGo4Runnable* newrunnable = 0, const char* oldthreadname = 0);
 
       virtual ~TGo4ReplaceException();
 

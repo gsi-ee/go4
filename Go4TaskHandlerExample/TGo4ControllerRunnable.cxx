@@ -10,7 +10,7 @@ const UInt_t TGo4ControllerRunnable::fguCOMMANDINTERVAL=10000;
 TGo4ControllerRunnable::TGo4ControllerRunnable(const char* name, TGo4ExampleServer* serv)
 : TGo4Runnable(name,serv)
 {
-   TRACE((15,"TGo4ControllerRunnable::TGo4ControllerRunnable(Text_t*,TGo4ExampleServer*) constructor",__LINE__, __FILE__));
+   TRACE((15,"TGo4ControllerRunnable::TGo4ControllerRunnable(const char*,TGo4ExampleServer*) constructor",__LINE__, __FILE__));
    fxController=serv->GetController();
    fxServer=serv;
 }

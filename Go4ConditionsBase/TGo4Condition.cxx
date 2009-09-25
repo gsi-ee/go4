@@ -67,7 +67,7 @@ TGo4Condition::TGo4Condition(const char* name, const char* title) :
    fxHisto(0),
    fiIsChanged(0)
 {
-   TRACE((15,"TGo4Condition::TGo4Condition(Text_t*)",__LINE__, __FILE__));
+   TRACE((15,"TGo4Condition::TGo4Condition(const char*)",__LINE__, __FILE__));
    fiDim=0;
    fbEnabled = false;
    fbResult  = true;
@@ -163,42 +163,44 @@ fbFalse = on ^ false;
 }
 
 // ---------------------------------------------------------
-void TGo4Condition::PrintCondition(Bool_t full){
-Float_t perc;
-Text_t line[128];
-Text_t num[64];
-if(fiCounts==0)perc=0.0;
-else perc=100.0/fiCounts*fiTrueCounts;
-cout << "Name:" << GetName()
-     << " type:" << ClassName()
-     << " title:" << GetTitle() << endl;
-if(fbHistogramLink)
-cout << "Connected to histogram " << fxHistoName << endl;
-if(fbEnabled)  strcpy(line,"Is Checked   ");
-else{
-  if(fbResult) strcpy(line,"Always True  ");
-  else         strcpy(line,"Always False ");
-}
-if(fbTrue) strcat(line,"normal  ");
-else       strcat(line,"inverse ");
-snprintf(num,63,", tested: %8d true: %8d is %3.0f%%",fiCounts,fiTrueCounts,perc);
-strcat(line,num);
-cout << line     << endl;
+void TGo4Condition::PrintCondition(Bool_t full)
+{
+   Float_t perc;
+   char line[128];
+   char num[64];
+   if(fiCounts==0)perc=0.0;
+   else perc=100.0/fiCounts*fiTrueCounts;
+   cout << "Name:" << GetName()
+        << " type:" << ClassName()
+        << " title:" << GetTitle() << endl;
+   if(fbHistogramLink)
+      cout << "Connected to histogram " << fxHistoName << endl;
+   if(fbEnabled)  strcpy(line,"Is Checked   ");
+   else{
+      if(fbResult) strcpy(line,"Always True  ");
+      else         strcpy(line,"Always False ");
+   }
+   if(fbTrue) strcat(line,"normal  ");
+   else       strcat(line,"inverse ");
+   snprintf(num,63,", tested: %8d true: %8d is %3.0f%%",fiCounts,fiTrueCounts,perc);
+   strcat(line,num);
+   cout << line     << endl;
 }
 // ---------------------------------------------------------
-void TGo4Condition::PrintBar(){
-Float_t perc;
-Text_t line[128];
-Text_t num[64];
-strcpy(num,"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-Char_t *pc;
-if(fiCounts==0) perc=0.0;
-else            perc=100.0/fiCounts*fiTrueCounts;
-pc=num + (Int_t)perc/2;
-*pc=0;
-snprintf(line,127,"%-24s %8d %3.0f%% |%-50s|",GetName(),fiCounts,perc,num);
-*pc='+';
-cout << line     << endl;
+void TGo4Condition::PrintBar()
+{
+   Float_t perc;
+   char line[128];
+   char num[64];
+   strcpy(num,"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+   Char_t *pc;
+   if(fiCounts==0) perc=0.0;
+   else            perc=100.0/fiCounts*fiTrueCounts;
+   pc=num + (Int_t)perc/2;
+   *pc=0;
+   snprintf(line,127,"%-24s %8d %3.0f%% |%-50s|",GetName(),fiCounts,perc,num);
+   *pc='+';
+   cout << line     << endl;
 }
 // -----------------------------------------------
 void TGo4Condition::Print(Option_t* opt) const{

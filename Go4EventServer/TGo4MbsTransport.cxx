@@ -7,7 +7,7 @@
 TGo4MbsTransport::TGo4MbsTransport(const char* name)
 : TGo4MbsSource(name , GETEVT__TRANS)
 {
-   TRACE((15,"TGo4MbsTransport::TGo4MbsTransport(Text_t*)",__LINE__, __FILE__));
+   TRACE((15,"TGo4MbsTransport::TGo4MbsTransport(const char*)",__LINE__, __FILE__));
    TGo4Log::Debug(" New Event Source MbsTransport %s:  ",name);
    SetTimeout(fgiTIMEOUTDEFAULT);
    Open();

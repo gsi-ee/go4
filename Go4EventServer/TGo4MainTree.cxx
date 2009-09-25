@@ -9,8 +9,8 @@
 
 TGo4MainTree * TGo4MainTree::fxInstance= 0;
 
-const Text_t TGo4MainTree::fgcTREENAME[] = "Main";
-const Text_t TGo4MainTree::fgcFILENAME[] = "Go4MainTree.root";
+const char* TGo4MainTree::fgcTREENAME = "Main";
+const char* TGo4MainTree::fgcFILENAME = "Go4MainTree.root";
 
 const Int_t TGo4MainTree::fgiCOMPRESS = 5;
 const Int_t TGo4MainTree::fgiAUTOSAVESIZE = 10000000;

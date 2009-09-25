@@ -29,7 +29,7 @@ TGo4Thread::TGo4Thread (const char* name, TGo4Runnable* runnable, Bool_t interna
    fbIsWaiting(kFALSE),
    fxThread(0)
 {
-   TRACE((14,"TGo4Thread::TGo4Thread(Text_t*, TGo4Runnable*, Bool_t) constructor",__LINE__, __FILE__));
+   TRACE((14,"TGo4Thread::TGo4Thread(const char*, TGo4Runnable*, Bool_t) constructor",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Go4Thread ``%s'' created ",name);
    fxRunnable = runnable;

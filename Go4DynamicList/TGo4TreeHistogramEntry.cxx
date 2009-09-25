@@ -38,7 +38,7 @@ TGo4TreeHistogramEntry::TGo4TreeHistogramEntry(const char* histogramname,
    fbNewHistogram(kTRUE),
    fiLastEvent(0)
 {
-   TRACE((15,"TGo4TreeHistogramEntry::TGo4TreeHistogramEntry(const Text_t*, const Text_t*, const Text_t*, TCut)",__LINE__, __FILE__));
+   TRACE((15,"TGo4TreeHistogramEntry::TGo4TreeHistogramEntry(const char*, const char*, const char*, const char*)",__LINE__, __FILE__));
    SetName(Form("%s%s",histogramname,fgcENTRYSUF)); // histogram name is different from entryname!
    EnableProcessing(kTRUE);
 

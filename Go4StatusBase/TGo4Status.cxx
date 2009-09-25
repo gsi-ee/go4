@@ -22,7 +22,7 @@ TGo4Status::TGo4Status(const char* name) :
 TGo4Status::TGo4Status(const char* name, const char* title) :
    TNamed(name, title)
 {
-   TRACE((12,"TGo4Status::TGo4Status(Text_t*, Text_t*)",__LINE__, __FILE__));
+   TRACE((12,"TGo4Status::TGo4Status(const char*, const char*)",__LINE__, __FILE__));
 }
 
 TGo4Status::~TGo4Status()

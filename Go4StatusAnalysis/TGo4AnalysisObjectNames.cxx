@@ -16,7 +16,7 @@ TGo4AnalysisObjectNames::TGo4AnalysisObjectNames(const char* name) :
    TGo4Status(name),
    fxTopFolder(0)
 {
-  TRACE((15,"TGo4AnalysisObjectnames::TGo4AnalysisObjectnames(Text_t*)",__LINE__, __FILE__));
+  TRACE((15,"TGo4AnalysisObjectnames::TGo4AnalysisObjectnames(const char*)",__LINE__, __FILE__));
 }
 
 TGo4AnalysisObjectNames::~TGo4AnalysisObjectNames()

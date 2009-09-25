@@ -10,7 +10,7 @@
 TGo4ComGetEnvelope::TGo4ComGetEnvelope(const char* obname, const char* foldername)
 :TGo4AnalysisObjectCommand("ANGetEnvelope","Get an arbitrary object from analysis",obname)
 {
-   TRACE((12,"TGo4ComGetEnvelope::TGo4ComGetEnvelope(const Text_t*) ctor",__LINE__, __FILE__));
+   TRACE((12,"TGo4ComGetEnvelope::TGo4ComGetEnvelope(const char*) ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
    SetFolderName(foldername);
 }

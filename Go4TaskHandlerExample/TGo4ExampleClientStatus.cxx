@@ -8,7 +8,7 @@
 
 TGo4ExampleClientStatus::TGo4ExampleClientStatus(const char* name) : TGo4ClientStatus(name)
 {
-  TRACE((12,"TGo4ExampleClientStatus::TGo4ExampleClientStatus(Text_t*)",__LINE__, __FILE__));
+  TRACE((12,"TGo4ExampleClientStatus::TGo4ExampleClientStatus(const char*)",__LINE__, __FILE__));
 }
 
 void TGo4ExampleClientStatus::SetHistoStatus(TH1* histogram)
@@ -21,7 +21,7 @@ void TGo4ExampleClientStatus::SetHistoStatus(TH1* histogram)
 
 void TGo4ExampleClientStatus::SetNames(const char* main, const char* watch)
 {
-   TRACE((12,"TGo4ClientStatus::SetNames(Text_t*,...)",__LINE__, __FILE__));
+   TRACE((12,"TGo4ClientStatus::SetNames(const char*,...)",__LINE__, __FILE__));
    fxMainName = main;
    fxWatchName = watch;
 }

@@ -24,7 +24,7 @@ TGo4Runnable::TGo4Runnable(const TGo4Runnable &right) :
 TGo4Runnable::TGo4Runnable (const char* name, TGo4ThreadManager* man) :
    TNamed(name,"This is a TGo4Runnable"), fxGo4Thread(0)
 {
-   TRACE((14,"TGo4Runnable::TGo4Runnable(Text_t*,TGo4ThreadManager*) constructor",__LINE__, __FILE__));
+   TRACE((14,"TGo4Runnable::TGo4Runnable(const char*,TGo4ThreadManager*) constructor",__LINE__, __FILE__));
    fxManager=man;
 }
 

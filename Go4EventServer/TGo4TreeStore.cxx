@@ -10,18 +10,18 @@
 #include "TGo4TreeStoreParameter.h"
 #include "TGo4MainTree.h"
 
-const Text_t TGo4TreeStore::fgcFILESUF[] = ".root";
+const char* TGo4TreeStore::fgcFILESUF = ".root";
 
 TGo4TreeStore::TGo4TreeStore(const char* name,
                              TGo4EventElement* event,
                              Int_t splitlevel,
                              Int_t bufsize,
-                             Text_t* filename,
+                             const char* filename,
                              Int_t compression) :
    TGo4EventStore(name),
    fxBranch(0), fxEvent(event), fiSplit(splitlevel), fiBufsize(bufsize)
 {
-   TRACE((15,"TGo4TreeStore::TGo4TreeStore(Text_t*,...)", __LINE__, __FILE__));
+   TRACE((15,"TGo4TreeStore::TGo4TreeStore(const char*,...)", __LINE__, __FILE__));
 
    TString buffer = Form("%s.", name);  // for branches containing the same event structure
    fxSingletonTree = TGo4MainTree::Instance();
@@ -59,7 +59,7 @@ TGo4TreeStore::TGo4TreeStore(TGo4TreeStoreParameter* par, TGo4EventElement* even
 : TGo4EventStore("dummy"),
    fxBranch(0), fxEvent(event), fiSplit(par->fiSplit), fiBufsize(par->fiBufsize)
 {
-   TRACE((15,"TGo4TreeStore::TGo4TreeStore(Text_t*,...)", __LINE__, __FILE__));
+   TRACE((15,"TGo4TreeStore::TGo4TreeStore(const char*,...)", __LINE__, __FILE__));
 
    SetName(par->GetName());
    TString buffer = Form("%s.", par->GetName());

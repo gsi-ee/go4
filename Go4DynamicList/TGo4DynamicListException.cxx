@@ -65,7 +65,7 @@ TGo4DynamicListException::TGo4DynamicListException (TGo4DynamicEntry* entry, con
 
       }
    UInt_t lbuflen=256;
-   Text_t txtbuf[256];
+   char txtbuf[256];
    va_list args;
    va_start(args, message);
    vsnprintf(txtbuf, lbuflen, message, args);

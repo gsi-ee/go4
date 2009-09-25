@@ -145,7 +145,7 @@ void TGo4Slave::SendStatusMessage(Int_t level, Bool_t printout, const char* text
    if(GetTask()==0) return;
    Int_t lbuflen=256;
    // put potential printf arguments in text:
-   Text_t txtbuf[256];
+   char txtbuf[256];
    va_list args;
    va_start(args, text);
    vsnprintf(txtbuf, lbuflen, text, args);

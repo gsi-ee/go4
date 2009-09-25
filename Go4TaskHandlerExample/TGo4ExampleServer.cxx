@@ -11,8 +11,9 @@
 #include "TGo4ControllerRunnable.h"
 #include "TGo4ExampleCommandList.h"
 
-const Text_t TGo4ExampleServer::fgcLOGGINGTHREAD[]="LOGGER-";
-const Text_t TGo4ExampleServer::fgcCONTROLTHREAD[]="CONTROL-";
+const char* TGo4ExampleServer::fgcLOGGINGTHREAD="LOGGER-";
+const char* TGo4ExampleServer::fgcCONTROLTHREAD="CONTROL-";
+
 TGo4ExampleController* TGo4ExampleServer::GetController()
 {
    TRACE((12,"TGo4ExampleServer::GetController()",__LINE__, __FILE__));
@@ -32,7 +33,7 @@ TGo4ExampleServer::TGo4ExampleServer(const char* name,
                                      Bool_t blockingmode)
 : TGo4ServerTask(name, negotiationport, blockingmode,kFALSE)
 {
-   TRACE((15,"TGo4ExampleServer::TGo4ExampleServer(Text_t*, Bool_t) constructor",__LINE__, __FILE__));
+   TRACE((15,"TGo4ExampleServer::TGo4ExampleServer(const char*, Bool_t) constructor",__LINE__, __FILE__));
 
    TGo4Log::Debug(" ExampleServer ''%s'' started ",GetName());
 

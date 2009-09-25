@@ -10,7 +10,7 @@
 TGo4MainRunnable::TGo4MainRunnable(const char* name, TGo4ExampleClient* cli)
 : TGo4Runnable(name,cli)
 {
-   TRACE((15,"TGo4MainRunnable::TGo4MainRunnable(Text_t*,TGo4ExampleClient*) constructor",__LINE__, __FILE__));
+   TRACE((15,"TGo4MainRunnable::TGo4MainRunnable(const char*,TGo4ExampleClient*) constructor",__LINE__, __FILE__));
    fxApplication=cli->GetApplication();
 }
 

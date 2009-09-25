@@ -12,7 +12,7 @@ TGo4EventStoreParameter::~TGo4EventStoreParameter()
 TGo4EventStoreParameter::TGo4EventStoreParameter(const char* name, Int_t id)
 : TGo4Parameter (name), fiID(id)
 {
-   TRACE((12,"TGo4EventStoreParameter::TGo4EventStoreParameter(Text_t*)",__LINE__, __FILE__));
+   TRACE((12,"TGo4EventStoreParameter::TGo4EventStoreParameter(const char*)",__LINE__, __FILE__));
 }
 TGo4EventStoreParameter::TGo4EventStoreParameter()
 : TGo4Parameter ("Default Event Store Parameter"), fiID(0)

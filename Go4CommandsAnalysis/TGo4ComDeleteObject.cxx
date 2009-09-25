@@ -7,7 +7,7 @@
 TGo4ComDeleteObject::TGo4ComDeleteObject(const char* obname)
 :TGo4AnalysisObjectCommand("ANDelete","delete object by name", obname)
 {
-   TRACE((12,"TGo4ComDeleteObject::TGo4ComDeleteObject(Text_t*) ctor",__LINE__, __FILE__));
+   TRACE((12,"TGo4ComDeleteObject::TGo4ComDeleteObject(const char*) ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                        // to send back status message
 

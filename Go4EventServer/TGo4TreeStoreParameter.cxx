@@ -14,7 +14,7 @@ TGo4TreeStoreParameter::TGo4TreeStoreParameter(const char* name,
 : TGo4EventStoreParameter(name, GO4EV_TREE),
    fiSplit(splitlevel), fiBufsize(bufsize), fiCompression(compression)
 {
-   TRACE((14,"TGo4TreeStoreParameter::TGo4TreeStoreParameter(Text_t*,...)", __LINE__, __FILE__));
+   TRACE((14,"TGo4TreeStoreParameter::TGo4TreeStoreParameter(const char*,...)", __LINE__, __FILE__));
    if(filename) fxBranchFile = filename;
           else  fxBranchFile="";
 }

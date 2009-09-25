@@ -126,7 +126,7 @@ const char* TGo4WinCondView::GetName() const
 }
 
 
-void TGo4WinCondView::SetName(const Text_t* nam)
+void TGo4WinCondView::SetName(const char* nam)
 {
    if(fxWinCondition) fxWinCondition->SetName(nam);
 }
@@ -145,6 +145,7 @@ void TGo4WinCondView::SetLabelDraw(Bool_t on)
 {
    if(fxWinCondition) fxWinCondition->SetLabelDraw(on);
 }
+
 void TGo4WinCondView::SetLimitsDraw(Bool_t on)
 {
    if(fxWinCondition) fxWinCondition->SetLimitsDraw(on);

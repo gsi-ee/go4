@@ -44,7 +44,7 @@ TGo4AnalysisStatus::TGo4AnalysisStatus(const char* name) :
    fxAutoFileName(),
    fxConfigFileName()
 {
-  TRACE((15,"TGo4AnalysisStatus::TGo4AnalysisStatus(Text_t*)",__LINE__, __FILE__));
+  TRACE((15,"TGo4AnalysisStatus::TGo4AnalysisStatus(const char*)",__LINE__, __FILE__));
   fxStepArray = new TObjArray;
   fxStepIterator = fxStepArray->MakeIterator();
   fxStepMutex = new TMutex;
@@ -106,9 +106,9 @@ Int_t TGo4AnalysisStatus::PrintStatus(Text_t* buffer, Int_t buflen)
    return size;
 }
 
-TGo4AnalysisStepStatus * TGo4AnalysisStatus::GetStepStatus(const Text_t * name)
+TGo4AnalysisStepStatus * TGo4AnalysisStatus::GetStepStatus(const char* name)
 {
-TRACE((11,"TGo4Analysis::GetAnalysisStep(Text_t *)",__LINE__, __FILE__));
+TRACE((11,"TGo4Analysis::GetAnalysisStep(const char*)",__LINE__, __FILE__));
 if(fxStepArray==0) return 0;
    TGo4AnalysisStepStatus* step=0;
       {
@@ -120,7 +120,7 @@ if(fxStepArray==0) return 0;
 
 TGo4AnalysisStepStatus * TGo4AnalysisStatus::NextStepStatus()
 {
-TRACE((11,"TGo4AnalysisStatus::GetAnalysisStep(Text_t *)",__LINE__, __FILE__));
+TRACE((11,"TGo4AnalysisStatus::NextStepStatus()",__LINE__, __FILE__));
 if(fxStepIterator==0) return 0;
    TGo4AnalysisStepStatus* step=0;
       {

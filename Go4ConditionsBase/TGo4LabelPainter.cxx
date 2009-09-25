@@ -4,23 +4,26 @@
 #include "TVirtualPad.h"
 //#include "iostream.h"
 
-TGo4LabelPainter::TGo4LabelPainter(const Text_t * name, const Text_t * title)
-: TNamed(name, title), fxLabel(0),fdX0(0),fdY0(0),fbIsLabStreamed(kFALSE)
+TGo4LabelPainter::TGo4LabelPainter() :
+   TNamed(),
+   fxLabel(0),
+   fdX0(0),
+   fdY0(0),
+   fbIsLabStreamed(kTRUE)
 {
    InitAttributes();
 }
 
-TGo4LabelPainter::TGo4LabelPainter(const Text_t * name)
-: TNamed(name, "Go4 LabelPainter"), fxLabel(0),fdX0(0),fdY0(0),fbIsLabStreamed(kFALSE)
+TGo4LabelPainter::TGo4LabelPainter(const char* name, const char* title) :
+   TNamed(name, title ? title : "Go4 LabelPainter"),
+   fxLabel(0),
+   fdX0(0),
+   fdY0(0),
+   fbIsLabStreamed(kFALSE)
 {
    InitAttributes();
 }
 
-TGo4LabelPainter::TGo4LabelPainter()
-: TNamed(), fxLabel(0),fdX0(0),fdY0(0),fbIsLabStreamed(kTRUE)
-{
-   InitAttributes();
-}
 
 void TGo4LabelPainter::InitAttributes()
 {

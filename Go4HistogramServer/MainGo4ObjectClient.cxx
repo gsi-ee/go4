@@ -5,8 +5,8 @@
 * connect, like hostname, port,  name of the database, password.
 * This information is set in the class constructor, but can be changed
 * with methods
-*       SetHost(const Text_t*), SetPort(Int_t)
-*       SetBase(const Text_t*), SetPasswd(const Text_t*)
+*       SetHost(const char*), SetPort(Int_t)
+*       SetBase(const char*), SetPasswd(const char*)
 * without destroying the client object.
 * The connection to Go4 object server is established anew at any
 * time an object or the list of names is requested from the server,
@@ -18,7 +18,7 @@
 * has to be deleted by the user of the client object afterwards.
 * Returns 0 in case of error.
 * Method
-*      TObject* TGo4ObjectClient::RequestObject(const Text_t*)
+*      TObject* TGo4ObjectClient::RequestObject(const char*)
 * requests a root object by name from the specified object server
 + and delivers pointer to the object when received. Object
 * has to be deleted by the user of the client afterwards.

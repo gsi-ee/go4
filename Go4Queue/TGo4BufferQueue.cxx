@@ -36,7 +36,7 @@ TGo4BufferQueue::TGo4BufferQueue(const char* name)
 : TGo4Queue(name), fiOverflowcount(0), fiMaxBuffers(10)
 
 {
-   TRACE((14,"TGo4BufferQueue::TGo4BufferQueue(Text_t*)", __LINE__, __FILE__));
+   TRACE((14,"TGo4BufferQueue::TGo4BufferQueue(const char*)", __LINE__, __FILE__));
    InitBuffers();
 }
 

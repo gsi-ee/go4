@@ -32,7 +32,7 @@
 // In case of GO4 GUI condition names are in TList
 // In case of analysis the object pointers are in the TList
 
-void namiter(TFile *f, TString fulldir, Text_t *wildcard, TList* found)
+void namiter(TFile *f, TString fulldir, const char* wildcard, TList* found)
 {
   TString fullname;
   TString curname;
@@ -87,7 +87,7 @@ void namiter(TFile *f, TString fulldir, Text_t *wildcard, TList* found)
 
 // Function to process one condition
 // outside Go4 get condition from file (1st arg)
-Bool_t save1cond(Text_t *rootfile, Text_t *name, Text_t *pref)
+Bool_t save1cond(const char* rootfile, const char* name, const char* pref)
 {
   TGo4Condition* con;
   TGo4WinCond*   win;
@@ -262,18 +262,18 @@ Bool_t save1cond(Text_t *rootfile, Text_t *name, Text_t *pref)
 }
 #ifdef __NOGO4MACRO__
 // Get objects from ROOT file
-void savecond(Text_t *file, Text_t *wildcard, Text_t *pref)
+void savecond(const char* file, const char* wildcard, const char* pref)
 {
  TString fulldir;
  TObject *namo;
  TFile *f = TFile::Open(file,"r");
 #else
-void savecond(Text_t *wildcard, Text_t *pref)
+void savecond(const char* wildcard, const char* pref)
 {
    TString fulldir;
    TObject *namo;
    TFile *f;
-   Text_t *file;
+   const char* file;
 #endif
    TList* list = new TList;
    fulldir.Form("");

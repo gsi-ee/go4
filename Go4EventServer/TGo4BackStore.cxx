@@ -12,8 +12,8 @@
 #include "TGo4EventElement.h"
 #include "TGo4CompositeEvent.h"
 
-const Text_t TGo4BackStore::fgcTREESUF[] = "xTree";
-const Text_t TGo4BackStore::fgcEVBRANCHNAME[] = "Go4EventBranch.";
+const char* TGo4BackStore::fgcTREESUF = "xTree";
+const char* TGo4BackStore::fgcEVBRANCHNAME = "Go4EventBranch.";
 
 const Int_t TGo4BackStore::fgiMAXAUTOBYTES = 100000000;
 

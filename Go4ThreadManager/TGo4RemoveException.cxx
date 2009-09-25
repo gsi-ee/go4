@@ -14,10 +14,10 @@ TGo4RemoveException::TGo4RemoveException(const TGo4RemoveException &right)
    TRACE((14,"TGo4RemoveException::TGo4RemoveException() copy constructor",__LINE__, __FILE__));
 }
 
-TGo4RemoveException::TGo4RemoveException (TGo4Runnable* runnable, const Text_t* threadname)
+TGo4RemoveException::TGo4RemoveException (TGo4Runnable* runnable, const char* threadname)
 : TGo4ThreadException(runnable, threadname)
 {
-   TRACE((14,"TGo4RemoveException::TGo4RemoveException(TGo4Runnable*, const Text_t*) constructor",__LINE__, __FILE__));
+   TRACE((14,"TGo4RemoveException::TGo4RemoveException(TGo4Runnable*, const char*) constructor",__LINE__, __FILE__));
    fxDescription= "!!!-- Go4 Remove Exception --!!!";
 }
 

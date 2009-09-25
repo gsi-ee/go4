@@ -24,7 +24,7 @@ TGo4AnalysisClientStatus::TGo4AnalysisClientStatus(const char* name) :
   fdTime(0),
   fbAnalysisRunning(false)
 {
-   TRACE((12,"TGo4AnalysisClientStatus::TGo4AnalysisClientStatus(Text_t*)",__LINE__, __FILE__));
+   TRACE((12,"TGo4AnalysisClientStatus::TGo4AnalysisClientStatus(const char*)",__LINE__, __FILE__));
 }
 
 TGo4AnalysisClientStatus::~TGo4AnalysisClientStatus()

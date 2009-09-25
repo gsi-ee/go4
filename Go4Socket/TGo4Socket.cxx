@@ -41,7 +41,7 @@ TGo4Socket::TGo4Socket(Bool_t IsClient)
 
    fxBuffer= new TGo4Buffer(TBuffer::kRead, TGo4Socket::fgiBUFINITSIZE);
    fxSignalHandler= new TGo4SocketSignalHandler(SIGWINCH);
-   fxLocalBuffer = new Text_t [TGo4Socket::fgiBUFLENGTH];
+   fxLocalBuffer = new char [TGo4Socket::fgiBUFLENGTH];
    if(fbClientMode)
       {
          TGo4Log::Debug(" Created new Go4Socket in client mode ");
@@ -72,7 +72,7 @@ TGo4Socket::~TGo4Socket()
 
 Int_t TGo4Socket::Open(const char* host, Int_t port, Bool_t keepservsock)
 {
-  TRACE((12,"TGo4Socket::Open(Text_t *host, Int_t port)", __LINE__, __FILE__));
+  TRACE((12,"TGo4Socket::Open(const char* host, Int_t port)", __LINE__, __FILE__));
 
   Int_t rev=0;
   if(!fbOpen)
@@ -99,7 +99,7 @@ Int_t TGo4Socket::Open(const char* host, Int_t port, Bool_t keepservsock)
                } // while()
             if(!fxSocket->IsValid())
                {
-                   TGo4Log::Debug(" Socket: Open(Text_t *host, Int_t port ) as Client failed ");
+                   TGo4Log::Debug(" Socket: Open(const char* host, Int_t port ) as Client failed ");
                    fiPort=0;
                    return -8;
                }
@@ -136,7 +136,7 @@ Int_t TGo4Socket::Open(const char* host, Int_t port, Bool_t keepservsock)
             }
          if(!fxServerSocket->IsValid())
             {
-               TGo4Log::Debug(" Socket: Open(Text_t *host,  Int_t port) as Server failed ");
+               TGo4Log::Debug(" Socket: Open(const char* host,  Int_t port) as Server failed ");
                fiPort=0;
                return -8;
             }
@@ -417,12 +417,12 @@ Int_t TGo4Socket::Send(const char* name)
    return rev;
 }
 
-Text_t* TGo4Socket::RecvRaw(const char* name)
+char* TGo4Socket::RecvRaw(const char* name)
 {
-// note: optional parameter Text_t *name is left for compatibility, has no effect!
-   TRACE((12,"TGo4Socket::RecvRaw(Text_t *name)", __LINE__, __FILE__));
+// note: optional parameter const char* name is left for compatibility, has no effect!
+   TRACE((12,"TGo4Socket::RecvRaw(const char* name)", __LINE__, __FILE__));
 
-   Text_t* revchar;
+   char* revchar;
    if(IsOpen())
       {
          if(fxSocket)
@@ -431,7 +431,7 @@ Text_t* TGo4Socket::RecvRaw(const char* name)
                if(rev<= 0)
                   {
                      // error on receive
-                     TGo4Log::Debug(" !!! Socket: Recv(Text_t*) ERROR # %d !!! ",rev);
+                     TGo4Log::Debug(" !!! Socket: RecvRaw(const char*) ERROR # %d !!! ",rev);
                      revchar=0;
                   }
                else
@@ -457,7 +457,7 @@ Text_t* TGo4Socket::RecvRaw(const char* name)
 
 TObject* TGo4Socket::Recv(const char* name)
 {
-// note: optional parameter Text_t *name is left for compatibility, has no effect!
+// note: optional parameter const char* name is left for compatibility, has no effect!
    TRACE((12,"TGo4Socket::Recv(const char* name)", __LINE__, __FILE__));
 
    TObject* obj=0;

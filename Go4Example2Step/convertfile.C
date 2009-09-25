@@ -1,7 +1,7 @@
 TString CurrentDir;
 TString StartDir;
 
-void convertfile(const Text_t* file)
+void convertfile(const char* file)
 {
 //////////////////////////////////////////////////
 // NOTE: for Go4 Version > 2.8 and ROOT >= 4.00/06,

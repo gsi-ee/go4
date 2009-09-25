@@ -233,26 +233,26 @@ class TGo4TaskHandler : public TNamed {
    static const UInt_t fguCOMMANDQUEUESIZE;      //!
 
     /** Initial string for connect request (raw transport) */
-    static const Text_t fgcCONNECT[];            //!
+    static const char* fgcCONNECT;            //!
 
     /** Initial string for disconnect request (raw transport) */
-    static const Text_t fgcDISCONNECT[];         //!
+    static const char* fgcDISCONNECT;         //!
 
   /** Task identifier for client connect negotiations (raw transport) */
-    static const Text_t fgcMASTER[];              //!
+    static const char* fgcMASTER;              //!
 
   /** Task identifier for client connect negotiations (raw transport) */
-    static const Text_t fgcSLAVE[];              //!
+    static const char* fgcSLAVE;              //!
 
 
    /** Suffix for command thread name */
-   static const Text_t fgcCOMMANDTHREAD[];       //!
+   static const char* fgcCOMMANDTHREAD;       //!
 
    /** Suffix for status thread name */
-   static const Text_t fgcSTATUSTHREAD[];        //!
+   static const char* fgcSTATUSTHREAD;        //!
 
    /** Suffix for data thread name */
-   static const Text_t fgcDATATHREAD[];          //!
+   static const char* fgcDATATHREAD;          //!
 
 
   private:

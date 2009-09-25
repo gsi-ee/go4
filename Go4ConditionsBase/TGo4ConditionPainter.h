@@ -8,8 +8,7 @@ class TGo4Condition;
 class TGo4ConditionPainter : public TGo4LabelPainter {
   public:
     TGo4ConditionPainter();
-    TGo4ConditionPainter(const Text_t * name);
-    TGo4ConditionPainter(const Text_t * name, const Text_t * title);
+    TGo4ConditionPainter(const char* name, const char* title = 0);
     virtual ~TGo4ConditionPainter();
 
     /** Display condition with plain root canvas and in go4 viewpanel */

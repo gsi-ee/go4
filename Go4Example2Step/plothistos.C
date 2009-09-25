@@ -1,4 +1,4 @@
-void plothistos(const Text_t* file, Stat_t lo, Stat_t up, Bool_t ylog)
+void plothistos(const char* file, Stat_t lo, Stat_t up, Bool_t ylog)
 {
   // parameters:
   // file= filename with histograms to display (without ".root")

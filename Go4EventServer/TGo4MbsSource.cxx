@@ -32,7 +32,7 @@ TGo4MbsSource::TGo4MbsSource(TGo4MbsSourceParameter* par, Int_t mode) :
    fiTimeout(par->GetTimeout())
    {
    fxInputChannel=f_evt_control();
-   TRACE((15,"TGo4MbsSource::TGo4MbsSource(Text_t*, Int_t)",__LINE__, __FILE__));
+   TRACE((15,"TGo4MbsSource::TGo4MbsSource(const char*, Int_t)",__LINE__, __FILE__));
    // Open() call will be done by subclasses ctors, so we can overwrite Open() method
    //cout <<"TGo4MbsSource with data copy mode="<<fbDataCopyMode << endl;
    }
@@ -48,7 +48,7 @@ TGo4MbsSource::TGo4MbsSource(const char* name, Int_t mode) :
    fiTimeout(-1)
    {
    fxInputChannel=f_evt_control();
-   TRACE((15,"TGo4MbsSource::TGo4MbsSource(Text_t*, Int_t)",__LINE__, __FILE__));
+   TRACE((15,"TGo4MbsSource::TGo4MbsSource(const char*, Int_t)",__LINE__, __FILE__));
    // Open() call will be done by subclasses ctors, so we can overwrite Open() method
    //cout <<"TGo4MbsSource with data copy mode="<<fbDataCopyMode << endl;
    }
@@ -261,7 +261,7 @@ Int_t TGo4MbsSource::NextEvent()
    }
 
    if(GetEventStatus()!=0) {
-      Text_t buffer[TGo4EventSource::fguTXTLEN];
+      char buffer[TGo4EventSource::fguTXTLEN];
       f_evt_error(GetEventStatus(),buffer,1); // provide text message for later output
       SetErrMess(buffer);
    }
@@ -296,7 +296,7 @@ Int_t TGo4MbsSource::Open()
    f_evt_timeout(fxInputChannel, fiTimeout); // have to set timeout before open now JAM
    Int_t status = f_evt_get_open(
          fiMode,
-         const_cast<Text_t*>( GetName() ),
+         const_cast<char*>( GetName() ),
          fxInputChannel,
          (Char_t**) headptr,
          0,
@@ -305,7 +305,7 @@ Int_t TGo4MbsSource::Open()
    if(GetCreateStatus() !=GETEVT__SUCCESS) {
       //     TGo4Log::Debug(" Mbs Source --  !!! failed to open input from type %d:  %s!!! ",
       //        fiMode, GetName());
-      Text_t buffer[TGo4EventSource::fguTXTLEN];
+      char buffer[TGo4EventSource::fguTXTLEN];
       f_evt_error(GetCreateStatus(),buffer,1); // provide text message for later output
       //
       //   snprintf(buffer,TGo4EventSource::fguTXTLEN-1," Mbs Source --  !!! failed to open input from type %d:  %s!!! ",

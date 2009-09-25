@@ -12,7 +12,7 @@ TGo4ComGetCurrentEvent::TGo4ComGetCurrentEvent(const char* obname)
 :TGo4AnalysisObjectCommand("ANGetEvent","Get current event from analysis",obname),
 fbOutputEvent(kTRUE), fbPrintoutOnly(kFALSE), fbTreeMode(kTRUE)
 {
-   TRACE((12,"TGo4ComGetCurrentEvent::TGo4ComGetCurrentEvent(const Text_t*) ctor",__LINE__, __FILE__));
+   TRACE((12,"TGo4ComGetCurrentEvent::TGo4ComGetCurrentEvent(const char*) ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                        // override default receiver
 }

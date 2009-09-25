@@ -35,7 +35,7 @@ void TGo4EventSource::ThrowError(Int_t crestat, Int_t errstat, const char* messa
 {
    //
    UInt_t lbuflen = TGo4EventSource::fguTXTLEN;
-   Text_t* txtbuf = new Text_t[lbuflen];
+   char* txtbuf = new char[lbuflen];
    va_list args;
    va_start(args, message);
    vsnprintf(txtbuf, lbuflen, message, args);
@@ -53,7 +53,7 @@ void TGo4EventSource::ThrowEOF(Int_t crestat, Int_t errstat, const char* message
 {
    //
    UInt_t lbuflen = TGo4EventSource::fguTXTLEN;
-   Text_t* txtbuf = new Text_t[lbuflen];
+   char* txtbuf = new char[lbuflen];
    va_list args;
    va_start(args, message);
    vsnprintf(txtbuf, lbuflen, message, args);

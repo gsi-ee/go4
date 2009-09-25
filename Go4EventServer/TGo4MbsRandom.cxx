@@ -43,7 +43,7 @@ TGo4MbsRandom::TGo4MbsRandom(const char* name) :
    fiNumDat(0),
    fxEventMem(0)
 {
-   TRACE((15,"TGo4MbsRandom::TGo4MbsRandom(Text_t*)",__LINE__, __FILE__));
+   TRACE((15,"TGo4MbsRandom::TGo4MbsRandom(const char*)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Event Source MbsRandom %s:  ",name);
    Open();

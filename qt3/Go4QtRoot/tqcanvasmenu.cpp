@@ -219,10 +219,10 @@ void TQCanvasMenu::dialog(TObject* object, TMethod* method)
 
    while ((argument = (TMethodArg *) next())) {
      Text_t       *argname    = createArgumentTitle(argument);
-     const Text_t *type       = argument->GetTypeName();
+     const char *type       = argument->GetTypeName();
      TDataType    *datatype   = gROOT->GetType(type);
-     const Text_t *charstar   = "char*";
-     Text_t        basictype [32];
+     const char *charstar   = "char*";
+     char          basictype [32];
 
      if (datatype) {
        strncpy(basictype, datatype->GetTypeName(),31);
@@ -240,16 +240,16 @@ void TQCanvasMenu::dialog(TObject* object, TMethod* method)
       TDataMember *m = argument->GetDataMember();
       if (m && m->GetterMethod()) {
 
-   Text_t gettername[256] = "";
+   char gettername[256];
    strncpy(gettername, m->GetterMethod()->GetMethodName(),255);
    m->GetterMethod()->Init(object->IsA(), gettername, "");
 
    // Get the current value and form it as a text:
 
-   Text_t val[256];
+   char val[256];
 
    if (!strncmp(basictype, "char*", 5)) {
-      Text_t *tdefval;
+      char *tdefval;
       m->GetterMethod()->Execute(object, "", &tdefval);
       strncpy(val, tdefval, 255);
    } else if (!strncmp(basictype, "float", 5) ||
@@ -278,11 +278,11 @@ void TQCanvasMenu::dialog(TObject* object, TMethod* method)
      TIter nextopt(opt);
      TOptionListItem *it = 0;
      while ((it = (TOptionListItem*) nextopt())) {
-       Text_t *name  = it->fOptName;
-       Text_t *label = it->fOptLabel;
+       char *name  = it->fOptName;
+       char *label = it->fOptLabel;
                Long_t value  = it->fValue;
                if (value != -9999) {
-       Text_t val[256];
+       char val[256];
        snprintf(val, 255, "%li", value);
        o->AddItem(name, val);
                }else

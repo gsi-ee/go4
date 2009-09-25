@@ -152,7 +152,7 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
 
       for(Int_t i=0; i<__LINESNUMBER__;++i)
       {
-         const Text_t* linename=fxLinesNames[i];
+         const char* linename=fxLinesNames[i];
          TGo4FitModel* mod=fxLinesFinder->FindModel(linename);
          if(mod)
          {
@@ -214,47 +214,45 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
 
 void TXXXCalibPar::ReadDatabase()
 {
-// read energies from file:
-Text_t nextline[__TEXTMAX__];
-Text_t buf[__TEXTMAX__];
-std::ifstream database(fxDatabase.Data());
-if(database==0)
+   // read energies from file:
+   char nextline[__TEXTMAX__];
+   char buf[__TEXTMAX__];
+   std::ifstream database(fxDatabase.Data());
+   if(database==0)
    {
       TGo4Log::Error("Open error of calibration energy file %s",
-         fxDatabase.Data());
+            fxDatabase.Data());
    }
-else
+   else
    {
       Int_t ix=0;
       while(1){
-          do{
-              database.getline(nextline,__TEXTMAX__,'\n' ); // read whole line
-              if(database.eof() || !database.good())
-                {
-                    break;
-                }
-              //cout <<"read line:"<<nextline << endl;
+         do{
+            database.getline(nextline,__TEXTMAX__,'\n' ); // read whole line
+            if(database.eof() || !database.good())
+            {
+               break;
+            }
+            //cout <<"read line:"<<nextline << endl;
          }while(strstr(nextline,"#") || strstr(nextline,"!") ); // skip any comments
-      if(database.eof() || !database.good()) break;
-      sscanf(nextline,"%s %f %d",buf,
-             &ffLinesEnergy[ix],
-             &fiLinesChannel[ix]);
-      fxLinesNames[ix]=buf;
-//      cout <<"\tname:"<<fxLinesNames[ix].Data() << endl;
-//      cout <<"\te:"<<ffLinesEnergy[ix] << endl;
-//      cout <<"\tch:"<<fiLinesChannel[ix] << endl;
+         if(database.eof() || !database.good()) break;
+         sscanf(nextline,"%s %f %d",buf,
+               &ffLinesEnergy[ix],
+               &fiLinesChannel[ix]);
+         fxLinesNames[ix]=buf;
+         //      cout <<"\tname:"<<fxLinesNames[ix].Data() << endl;
+         //      cout <<"\te:"<<ffLinesEnergy[ix] << endl;
+         //      cout <<"\tch:"<<fiLinesChannel[ix] << endl;
 
-      fxLinesFinder->AddGauss1(__DATANAME__,
-                                 fxLinesNames[ix].Data(),
-                                 fiLinesChannel[ix],
-                                 TMath::Sqrt((Long_t) fiLinesChannel[ix]));
-      ix++;
+         fxLinesFinder->AddGauss1(__DATANAME__,
+               fxLinesNames[ix].Data(),
+               fiLinesChannel[ix],
+               TMath::Sqrt((Long_t) fiLinesChannel[ix]));
+         ix++;
       } // while(1)
       //cout <<"scanned lines:"<<ix << endl;
 
    } // if (database==0)
-
-
 }
 
 

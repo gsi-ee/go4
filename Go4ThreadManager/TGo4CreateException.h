@@ -15,7 +15,7 @@ class TGo4CreateException : public TGo4ThreadException {
   public:
       TGo4CreateException(const TGo4CreateException &right);
 
-      TGo4CreateException (TGo4Runnable* runnable, const Text_t* threadname = 0);
+      TGo4CreateException (TGo4Runnable* runnable, const char* threadname = 0);
 
       virtual ~TGo4CreateException();
 

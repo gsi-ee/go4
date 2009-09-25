@@ -18,8 +18,9 @@ TGo4FitterEnvelope::~TGo4FitterEnvelope()
    if(fxFitter) delete fxFitter;
 }
 
-Int_t TGo4FitterEnvelope::PrintParameter(Text_t * buffer, Int_t buflen){
-  Int_t locallen=128000;
+Int_t TGo4FitterEnvelope::PrintParameter(Text_t * buffer, Int_t buflen)
+{
+   Int_t locallen=128000;
    Text_t localbuf[128000];
    if(buflen<0 && buffer!=0)
       return 0;
@@ -34,15 +35,15 @@ Int_t TGo4FitterEnvelope::PrintParameter(Text_t * buffer, Int_t buflen){
    current=localbuf+size;
    // here we optionally might put printout of fitter if we like...
    if(buffer==0)
-      {
-          cout << localbuf << endl;
-      }
+   {
+      cout << localbuf << endl;
+   }
    else
-      {
-         if(size>buflen-1)
-            size=buflen-1;
-         strncpy(buffer,localbuf,size);
-      }
+   {
+      if(size>buflen-1)
+         size=buflen-1;
+      strncpy(buffer,localbuf,size);
+   }
    return size;
 }
 

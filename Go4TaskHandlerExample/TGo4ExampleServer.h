@@ -28,10 +28,10 @@ class TGo4ExampleServer : public TGo4ServerTask {
     virtual Int_t StopWorkThreads();
 
     /** suffix for controller thread name */
-    static const Text_t fgcCONTROLTHREAD[]; //!
+    static const char* fgcCONTROLTHREAD; //!
 
     /** suffix for logging thread name */
-    static const Text_t fgcLOGGINGTHREAD[];//!
+    static const char* fgcLOGGINGTHREAD;//!
 
   private:
 

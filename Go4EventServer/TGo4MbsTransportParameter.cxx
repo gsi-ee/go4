@@ -6,7 +6,7 @@
 TGo4MbsTransportParameter::TGo4MbsTransportParameter(const char* name) :
    TGo4MbsSourceParameter(name, GO4EV_MBS_TRANSPORT)
 {
-   TRACE((14,"TGo4MbsTransportParameter::TGo4MbsTransportParameter(Text_t*,...)", __LINE__, __FILE__));
+   TRACE((14,"TGo4MbsTransportParameter::TGo4MbsTransportParameter(const char*)", __LINE__, __FILE__));
 }
 
 TGo4MbsTransportParameter::TGo4MbsTransportParameter() :

@@ -8,18 +8,18 @@
 TGo4EventStore::TGo4EventStore(const char* name)
 :TNamed(name, "This is a Go4 Event Store")
 {
-TRACE((15,"TGo4EventStore::TGo4EventStore(Text_t*)",__LINE__, __FILE__));
+   TRACE((15,"TGo4EventStore::TGo4EventStore(const char*)",__LINE__, __FILE__));
 }
 
 TGo4EventStore::TGo4EventStore()
 :TNamed("Default EventStore", "This is a Go4 Event Store")
 {
-TRACE((15,"TGo4EventStore::TGo4EventStore()",__LINE__, __FILE__));
+   TRACE((15,"TGo4EventStore::TGo4EventStore()",__LINE__, __FILE__));
 }
 
 TGo4EventStore::~TGo4EventStore()
 {
-TRACE((15,"TGo4EventStore::~TGo4EventStore()",__LINE__, __FILE__));
+   TRACE((15,"TGo4EventStore::~TGo4EventStore()",__LINE__, __FILE__));
 }
 
 Int_t TGo4EventStore::Store(TGo4Parameter* cali)
@@ -58,7 +58,7 @@ Int_t TGo4EventStore::Store(TFolder* fold)
 
 void TGo4EventStore::Clear(Option_t* opt)
 {
- // dummy clear, may be implemented by user
- cout <<"default clear of eventstore "<<GetName() << endl;
+   // dummy clear, may be implemented by user
+   cout <<"default clear of eventstore "<<GetName() << endl;
 }
 

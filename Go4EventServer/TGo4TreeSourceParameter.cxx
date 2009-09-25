@@ -6,7 +6,7 @@
 TGo4TreeSourceParameter::TGo4TreeSourceParameter(const char* name)
 : TGo4EventSourceParameter(name, GO4EV_TREE)
 {
-  TRACE((14,"TGo4TreeSourceParameter::TGo4TreeSourceParameter(Text_t*,...)", __LINE__, __FILE__));
+  TRACE((14,"TGo4TreeSourceParameter::TGo4TreeSourceParameter(const char*)", __LINE__, __FILE__));
 }
 
 

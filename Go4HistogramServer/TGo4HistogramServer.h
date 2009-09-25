@@ -50,16 +50,16 @@ class TGo4HistogramServer : public TGo4CommandReceiver {
       TGo4Analysis* GetAnalysis() const { return fxAnalysis; }
 
       /** histogram server connector thread name */
-      static const Text_t fgcCONTHREADNAME[]; //!
+      static const char* fgcCONTHREADNAME; //!
 
       /** object server  connector thread name */
-      static const Text_t fgcOBJTHREADNAME[]; //!
+      static const char* fgcOBJTHREADNAME; //!
 
       /** This string is send as histogram name for termination connection */
-      static const Text_t fgcSHUTDOWNNAME[]; //!
+      static const char* fgcSHUTDOWNNAME; //!
 
       /** command string for object server nameslist request */
-      static const Text_t fgcCOMGETLIST[]; //!
+      static const char* fgcCOMGETLIST; //!
 
       /** Period of connector timer, in ms */
       static const UInt_t fguTIMERPERIOD;         //!

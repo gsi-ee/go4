@@ -16,7 +16,7 @@ class TGo4CancelException : public TGo4ThreadException
   public:
       TGo4CancelException(const TGo4CancelException &right);
 
-      TGo4CancelException (TGo4Runnable* runnable, const Text_t* threadname = 0);
+      TGo4CancelException (TGo4Runnable* runnable, const char* threadname = 0);
 
       virtual ~TGo4CancelException();
 

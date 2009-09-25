@@ -20,7 +20,7 @@ TGo4UserException::TGo4UserException (Int_t prio, const char* text,...) :
    TRACE((14,"TGo4UserException:TGo4UserException (TGo4TaskHandler*)", __LINE__, __FILE__));
    fxDescription= "!!!-- Go4 User Exception --!!!";
    // put potential printf arguments in text:
-   Text_t txtbuf[TGo4Log::fguMESLEN];
+   char txtbuf[TGo4Log::fguMESLEN];
    va_list args;
    va_start(args, text);
    vsnprintf(txtbuf, TGo4Log::fguMESLEN, text, args);

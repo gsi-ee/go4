@@ -30,7 +30,7 @@ class TGo4TreeStore : public TGo4EventStore {
                   TGo4EventElement* event,
                   Int_t splitlevel=1,
                   Int_t bufsize=64000,
-                  Text_t* filename=0,
+                  const char* filename=0,
                   Int_t compression=5);
 
     TGo4TreeStore();
@@ -51,7 +51,7 @@ class TGo4TreeStore : public TGo4EventStore {
     virtual Int_t Store(TGo4Parameter* cali);
 
     /** Standard suffix for file name */
-    static const Text_t fgcFILESUF[]; //!
+    static const char* fgcFILESUF; //!
 
   private:
 

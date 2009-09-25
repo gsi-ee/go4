@@ -55,7 +55,7 @@ class TGo4AnalysisStatus : public TGo4Status {
     Int_t IsAutoSaveOn() const { return fbAutoSaveOn; }
 
     /** Access to certain analysis step status by name. */
-    TGo4AnalysisStepStatus* GetStepStatus(const Text_t * name);
+    TGo4AnalysisStepStatus* GetStepStatus(const char* name);
 
     /** Add new step status object to analysis status. */
     Bool_t AddStepStatus(TGo4AnalysisStepStatus * next);

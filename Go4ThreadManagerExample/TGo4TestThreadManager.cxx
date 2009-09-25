@@ -15,7 +15,7 @@ TGo4TestThreadManager::TGo4TestThreadManager(const TGo4TestThreadManager &right)
 TGo4TestThreadManager::TGo4TestThreadManager (const char* name)
    :TGo4ThreadManager(name,kFALSE)
 {
-   TRACE((15,"TGo4TestThreadManager::TGo4TestThreadManager (Text_t* name) constructor",__LINE__, __FILE__));
+   TRACE((15,"TGo4TestThreadManager::TGo4TestThreadManager (const char* name) constructor",__LINE__, __FILE__));
    fxControlRunnable=new TGo4TestRunnable("ControlRunnable",this,1);
    TGo4TestRunnable* th1run= new TGo4TestRunnable("HistogramMaker1",this,4);
    TGo4TestRunnable* th2run= new TGo4TestRunnable("HistogramMaker2",this,4);

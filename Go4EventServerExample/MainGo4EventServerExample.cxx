@@ -46,7 +46,7 @@ int main(int argc, char **argv)
      TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages to file
 
      TBenchmark mybench;
-     Text_t* num=argv[1];
+     const char* num=argv[1];
      Int_t maxevents=atoi(num);
      Int_t value=0;
 

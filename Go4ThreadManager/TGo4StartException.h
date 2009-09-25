@@ -16,7 +16,7 @@ class TGo4StartException : public TGo4ThreadException {
   public:
       TGo4StartException(const TGo4StartException &right);
 
-      TGo4StartException (TGo4Runnable* runnable, const Text_t* threadname = 0);
+      TGo4StartException (TGo4Runnable* runnable, const char* threadname = 0);
 
       virtual ~TGo4StartException();
 

@@ -179,7 +179,7 @@ const char* TGo4PolyCondView::GetName() const
       return 0;
 }
 
-void TGo4PolyCondView::SetName(const Text_t* nam)
+void TGo4PolyCondView::SetName(const char* nam)
 {
    if(fxPolyCondition) fxPolyCondition->SetName(nam);
 }

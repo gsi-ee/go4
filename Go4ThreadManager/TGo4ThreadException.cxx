@@ -14,9 +14,9 @@ TGo4ThreadException::TGo4ThreadException(const TGo4ThreadException &right)
       fxRunnable=right.fxRunnable;
 }
 
-TGo4ThreadException::TGo4ThreadException (TGo4Runnable* runnable, const Text_t* threadname)
+TGo4ThreadException::TGo4ThreadException (TGo4Runnable* runnable, const char* threadname)
 {
-   TRACE((14,"TGo4ThreadException::TGo4ThreadException(TGo4Runnable*, const Text_t*) constructor",__LINE__, __FILE__));
+   TRACE((14,"TGo4ThreadException::TGo4ThreadException(TGo4Runnable*, const char*) constructor",__LINE__, __FILE__));
    fxRunnable=runnable;
    TGo4ThreadManager* man =fxRunnable->GetThreadManager();
    fxThreadHandler=man->GetWorkHandler();
@@ -63,7 +63,7 @@ TGo4ThreadException & TGo4ThreadException::operator=(const TGo4ThreadException &
     }
 }
 
-const Text_t* TGo4ThreadException::GetThreadName ()
+const char* TGo4ThreadException::GetThreadName ()
 {
    TRACE((14,"TGo4ThreadException::GetThreadName ()",__LINE__, __FILE__));
    if(fxThreadName=="0")

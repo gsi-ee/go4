@@ -19,7 +19,7 @@ class TGo4Socket {
      virtual Int_t Send(TObject *obj);
      virtual Int_t Send(const char* name);
      virtual TObject* Recv(const char* name=0);
-     virtual Text_t* RecvRaw(const char* name=0);
+     virtual char* RecvRaw(const char* name=0);
 
      Bool_t IsOpen() const { return fbOpen; }
 
@@ -93,7 +93,7 @@ class TGo4Socket {
     /** Connected port number (of server socket which opened with portnumberscan) */
     Int_t fiPort;
 
-    Text_t* fxLocalBuffer; //!
+    char* fxLocalBuffer; //!
 
     /** @link aggregation
      *   @supplierCardinality 1 */

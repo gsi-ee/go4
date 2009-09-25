@@ -13,10 +13,10 @@ TGo4CreateException::TGo4CreateException(const TGo4CreateException &right)
    TRACE((14,"TGo4CreateException::TGo4CreateException() copy constructor",__LINE__, __FILE__));
 }
 
-TGo4CreateException::TGo4CreateException (TGo4Runnable* runnable, const Text_t* threadname)
+TGo4CreateException::TGo4CreateException (TGo4Runnable* runnable, const char* threadname)
 :TGo4ThreadException(runnable,threadname)
 {
-   TRACE((14,"TGo4CreateException::TGo4CreateException(TGo4Runnable*, const Text_t*) constructor",__LINE__, __FILE__));
+   TRACE((14,"TGo4CreateException::TGo4CreateException(TGo4Runnable*, const char*) constructor",__LINE__, __FILE__));
    fxDescription= "!!!-- Go4 Create Exception --!!!";
 }
 

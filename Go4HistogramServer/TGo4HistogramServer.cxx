@@ -29,11 +29,11 @@ extern "C"
 #include "f_his_hist.h"
 }
 
-const Text_t TGo4HistogramServer::fgcCONTHREADNAME[]="HISTOSERV-";
-const Text_t TGo4HistogramServer::fgcSHUTDOWNNAME[]="__HServLast__";
-const Text_t TGo4HistogramServer::fgcCOMGETLIST[]="__OServNamesList__";
+const char* TGo4HistogramServer::fgcCONTHREADNAME="HISTOSERV-";
+const char* TGo4HistogramServer::fgcSHUTDOWNNAME="__HServLast__";
+const char* TGo4HistogramServer::fgcCOMGETLIST="__OServNamesList__";
 
-const Text_t TGo4HistogramServer::fgcOBJTHREADNAME[]="OBJECTSERV-";
+const char* TGo4HistogramServer::fgcOBJTHREADNAME="OBJECTSERV-";
 const UInt_t TGo4HistogramServer::fguTIMERPERIOD=200; // time in ms (20)
 const Int_t TGo4HistogramServer::fgiOPENWAITCYCLES=100; // wait cycles (100)
 const UInt_t TGo4HistogramServer::fguOPENWAITCYCLETIME=500; // time in ms (20)
@@ -75,7 +75,7 @@ else
                result);
    }
  // start connector thread:
-   const Text_t* ownername;
+   const char* ownername;
    if(fxAnalysisClient)
       {
          fxThreadHandler= fxAnalysisClient->GetThreadHandler();
@@ -264,7 +264,7 @@ Bool_t TGo4HistogramServer::CheckLogin()
    ///////// check connected client:
    // check for basename:
    //cout <<"##### check login " << endl;
-   Text_t* recvchar=0;
+   char* recvchar=0;
    recvchar=fxTransport->RecvRaw("dummy");
    if(recvchar && !strcmp(recvchar,fxServerName.Data()))
       {
@@ -299,20 +299,20 @@ return kTRUE;
 
 Bool_t TGo4HistogramServer::HandleObjectRequest()
 {
-Text_t objectname[TGo4ThreadManager::fguTEXTLENGTH];
-Text_t* recvchar=0;
-// get object name
-recvchar=fxTransport->RecvRaw("dummy");
-if(recvchar==0)
+   char objectname[TGo4ThreadManager::fguTEXTLENGTH];
+   char* recvchar=0;
+   // get object name
+   recvchar=fxTransport->RecvRaw("dummy");
+   if(recvchar==0)
    {
       cerr <<"-----Object server received null character for object request!"<<endl;
       return kFALSE;
    }
-strncpy(objectname, recvchar,TGo4ThreadManager::fguTEXTLENGTH -1); // get the client name
-//cout <<"-----Object server got request for object "<< objectname << endl;
-// check here if object is requested or nameslist? :
-TObject* object=0;
-if(!strcmp(objectname,fgcCOMGETLIST))
+   strncpy(objectname, recvchar,TGo4ThreadManager::fguTEXTLENGTH -1); // get the client name
+   //cout <<"-----Object server got request for object "<< objectname << endl;
+   // check here if object is requested or nameslist? :
+   TObject* object=0;
+   if(!strcmp(objectname,fgcCOMGETLIST))
    {
       // get analysis nameslist object
       TGo4LockGuard mainguard; // protect creation of new nameslist
@@ -320,25 +320,25 @@ if(!strcmp(objectname,fgcCOMGETLIST))
       object=fxAnalysis->GetNamesList();
       //cout <<"---------Retrieving nameslist" << endl;
    }
-else
+   else
    {
       // get object from analysis
       object=fxAnalysis->GetObject(objectname);
       //cout <<"---------Retrieving object" << endl;
    }
-return (SendObject(object));
+   return (SendObject(object));
 }
 
 Bool_t TGo4HistogramServer::SendObject(TObject* object)
 {
 
-Bool_t retval=kTRUE;
-// stream object into TBuffer:
-TBuffer* rootbuffer=0;
-if(object!=0)
+   Bool_t retval=kTRUE;
+   // stream object into TBuffer:
+   TBuffer* rootbuffer=0;
+   if(object!=0)
    {
-   fxTransport->Send(TGo4TaskHandler::Get_fgcOK()); // let client know the object exists
-   TGo4LockGuard mainguard;
+      fxTransport->Send(TGo4TaskHandler::Get_fgcOK()); // let client know the object exists
+      TGo4LockGuard mainguard;
       rootbuffer = new TGo4Buffer(TBuffer::kWrite);
       TFile *filsav = gFile;
       gFile = 0;
@@ -347,28 +347,28 @@ if(object!=0)
       fxTransport->SendBuffer(rootbuffer);
       delete rootbuffer;
    }
-else
+   else
    {
       //cout <<"Error: object not found in analysis!" << endl;
       fxTransport->Send(TGo4TaskHandler::Get_fgcERROR());
       retval=kFALSE;
    }
-Text_t* recvchar=fxTransport->RecvRaw("dummy"); // get exit message
-if(recvchar==0)
+   char* recvchar=fxTransport->RecvRaw("dummy"); // get exit message
+   if(recvchar==0)
    {
-    TGo4Log::Debug(" HistogramServer: null character on finishing object client channel ");
-    retval=kFALSE;
+      TGo4Log::Debug(" HistogramServer: null character on finishing object client channel ");
+      retval=kFALSE;
    }
-else if(strcmp(recvchar,TGo4TaskHandler::Get_fgcOK()))
+   else if(strcmp(recvchar,TGo4TaskHandler::Get_fgcOK()))
    {
       TGo4Log::Debug(" HistogramServer: ERROR on finishing object client channel ");
       retval=kFALSE;
    }
-else
+   else
    {
       //cout <<"##### send object is finished with ok." << endl;
    }
-return retval;
+   return retval;
 }
 
 

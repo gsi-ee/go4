@@ -7,7 +7,7 @@
 TGo4MbsEventServer::TGo4MbsEventServer(const char* name) :
    TGo4MbsSource(name , GETEVT__EVENT)
 {
-   TRACE((15,"TGo4MbsEventServer::TGo4MbsEventServer(Text_t*)",__LINE__, __FILE__));
+   TRACE((15,"TGo4MbsEventServer::TGo4MbsEventServer(const char*)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Event Source MbsEventServer %s:  ",name);
    SetTimeout(fgiTIMEOUTDEFAULT);
@@ -17,7 +17,7 @@ TGo4MbsEventServer::TGo4MbsEventServer(const char* name) :
 TGo4MbsEventServer::TGo4MbsEventServer(TGo4MbsEventServerParameter* par) :
    TGo4MbsSource(par, GETEVT__EVENT)
 {
-   TRACE((15,"TGo4MbsEventServer::TGo4MbsEventServer(TGo4MbsEventServerParameter**)",__LINE__, __FILE__));
+   TRACE((15,"TGo4MbsEventServer::TGo4MbsEventServer(TGo4MbsEventServerParameter*)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Event Source MbsEventServer %s:  ",GetName());
 

@@ -8,7 +8,7 @@ class TGo4CondArrayPainter : public TGo4ConditionPainter {
     TGo4CondArrayPainter();
     virtual ~TGo4CondArrayPainter();
 
-    TGo4CondArrayPainter(const Text_t* name);
+    TGo4CondArrayPainter(const char* name);
 
    /** Display condition with plain root canvas and in go4 viewpanel */
    virtual void PaintCondition(Option_t* opt="");

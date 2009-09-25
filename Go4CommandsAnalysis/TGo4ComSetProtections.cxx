@@ -8,7 +8,7 @@
 TGo4ComSetProtections::TGo4ComSetProtections(const char* obname, const char* flags)
 :TGo4AnalysisObjectCommand("ANSetProtect","Set protection properties for object",obname)
 {
-   TRACE((12,"TGo4ComSetProtections::TGo4ComSetProtections(const Text_t*) ctor",__LINE__, __FILE__));
+   TRACE((12,"TGo4ComSetProtections::TGo4ComSetProtections(const char*) ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                       // override default receiver
    SetFlags(flags);

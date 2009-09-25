@@ -44,16 +44,16 @@ class TGo4MbsFile : public TGo4MbsSource {
     virtual const char* GetActiveName();
 
     /** string to indicate that no lmd tagfile is chosen */
-    static const Text_t fgcNOTAGFILE[];
+    static const char* fgcNOTAGFILE;
 
     /** Filename of default multi input file from wildcard evaluation */
-    static const Text_t fgcWILDFILE[];
+    static const char* fgcWILDFILE;
 
     /** standard suffix for listmode data files */
-    static const Text_t fgcLMDSUF[];
+    static const char* fgcLMDSUF;
 
     /** standard suffix for list of listmode files */
-    static const Text_t fgcFILELISTSUF[];
+    static const char* fgcFILELISTSUF;
 
   private:
 

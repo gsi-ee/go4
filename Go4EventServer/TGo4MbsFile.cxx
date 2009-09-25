@@ -14,10 +14,10 @@
 #include "TGo4EventEndException.h"
 #include "TGo4AnalysisImp.h"
 
-const Text_t TGo4MbsFile::fgcNOTAGFILE[]="GO4-NOLMDTAG";
-const Text_t TGo4MbsFile::fgcWILDFILE[]=".go4inputs";
-const Text_t TGo4MbsFile::fgcLMDSUF[]=".lmd";
-const Text_t TGo4MbsFile::fgcFILELISTSUF[]=".lml";
+const char* TGo4MbsFile::fgcNOTAGFILE="GO4-NOLMDTAG";
+const char* TGo4MbsFile::fgcWILDFILE=".go4inputs";
+const char* TGo4MbsFile::fgcLMDSUF=".lmd";
+const char* TGo4MbsFile::fgcFILELISTSUF=".lml";
 
 TGo4MbsFile::TGo4MbsFile() :
    TGo4MbsSource(),
@@ -36,7 +36,7 @@ TGo4MbsFile::TGo4MbsFile(const char* name) :
    fxMultiFile(0),
    fbFileOpen(kFALSE)
 {
-   TRACE((15,"TGo4MbsFile::TGo4MbsFile(Text_t*)",__LINE__, __FILE__));
+   TRACE((15,"TGo4MbsFile::TGo4MbsFile(const char*)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Event Source MbsFile %s:  ",name);
    fxTagFile=fgcNOTAGFILE;
@@ -108,7 +108,7 @@ try{
    }
 if(GetEventStatus()!=0)
 {
-   Text_t buffer[TGo4EventSource::fguTXTLEN];
+   char buffer[TGo4EventSource::fguTXTLEN];
    f_evt_error(GetEventStatus(),buffer,1); // provide text message for later output
    SetErrMess(buffer);
 }
@@ -318,12 +318,12 @@ fuEventCounter=0;
  // read next name from namesfile
 if(fbMultipleMode && fxMultiFile!=0)
    {
-     Text_t nextline[TGo4EventSource::fguTXTLEN];
-     Text_t nextfile[TGo4EventSource::fguTXTLEN];
-     Text_t nexttag[TGo4EventSource::fguTXTLEN];
-     Text_t* command=0;
-     Text_t* rem1=0;
-     Text_t* rem2=0;
+     char nextline[TGo4EventSource::fguTXTLEN];
+     char nextfile[TGo4EventSource::fguTXTLEN];
+     char nexttag[TGo4EventSource::fguTXTLEN];
+     char* command=0;
+     char* rem1=0;
+     char* rem2=0;
      Int_t convs=0;
      //static int cnt=0;
      do {
@@ -420,14 +420,14 @@ if(!strcmp(tagfile,TGo4MbsFile::fgcNOTAGFILE))
 void* headptr=&fxInfoHeader; // some new compilers may warn if we directly dereference member
 Int_t status    = f_evt_get_tagopen(
                               fxInputChannel,
-                              const_cast<Text_t*>(tagfile) ,
-                              const_cast<Text_t*>( GetCurrentFileName() ),
+                              const_cast<char*>(tagfile) ,
+                              const_cast<char*>( GetCurrentFileName() ),
                               (Char_t**) headptr,
                               0);
 SetCreateStatus(status);
 if(GetCreateStatus() !=GETEVT__SUCCESS)
    {
-      Text_t buffer[TGo4EventSource::fguTXTLEN];
+      char buffer[TGo4EventSource::fguTXTLEN];
       f_evt_error(GetCreateStatus(),buffer,1); // provide text message for later output
       SetErrMess(buffer);
       fbFileOpen=kFALSE;

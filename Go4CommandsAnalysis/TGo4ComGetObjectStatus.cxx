@@ -8,7 +8,7 @@
 TGo4ComGetObjectStatus::TGo4ComGetObjectStatus(const char* obname)
 :TGo4AnalysisObjectCommand("ANObjectStatus","Get an object status from analysis",obname)
 {
-   TRACE((12,"TGo4ComGetObjectStatus::TGo4ComGetObjectStatus(const Text_t*) ctor",__LINE__, __FILE__));
+   TRACE((12,"TGo4ComGetObjectStatus::TGo4ComGetObjectStatus(const char*) ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                        // override default receiver
 }

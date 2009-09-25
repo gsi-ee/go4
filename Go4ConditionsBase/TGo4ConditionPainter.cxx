@@ -9,22 +9,14 @@
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
 
-TGo4ConditionPainter::TGo4ConditionPainter(const Text_t * name, const Text_t * title)
-: TGo4LabelPainter(name, title), fxCondition(0)
-{
-
-}
-
-TGo4ConditionPainter::TGo4ConditionPainter(const Text_t * name)
-: TGo4LabelPainter(name, "Go4 ConditionPainter"), fxCondition(0)
-{
-
-}
-
 TGo4ConditionPainter::TGo4ConditionPainter()
 : TGo4LabelPainter(), fxCondition(0)
 {
+}
 
+TGo4ConditionPainter::TGo4ConditionPainter(const char* name, const char* title)
+: TGo4LabelPainter(name, title ? title : "Go4 ConditionPainter"), fxCondition(0)
+{
 }
 
 TGo4ConditionPainter::~TGo4ConditionPainter()

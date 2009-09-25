@@ -17,13 +17,10 @@ public:
     virtual void Paint(Option_t* opt="");
     virtual void ExecuteEvent(Int_t event, Int_t px, Int_t py);
 
-    void SetCondition(TGo4WinCond* condition)
-        {
-             fxWinCondition=condition;
-        }
-    TGo4WinCond* GetCondition(){return fxWinCondition;}
+    void SetCondition(TGo4WinCond* condition) { fxWinCondition=condition; }
+    TGo4WinCond* GetCondition() { return fxWinCondition; }
     const char* GetName() const;
-    void SetName(const Text_t* nam); // *MENU*
+    void SetName(const char* nam); // *MENU*
     /** Delete condition instead of view: */
     //void DeleteRegion(); // *MENU*
     void SetToLimits(Double_t x1, Double_t x2,Double_t y1=0, Double_t y2=0); // *MENU*

@@ -133,9 +133,9 @@ TRACE((14,"TGo4AnalysisStepManager::InitEventClasses()",__LINE__, __FILE__));
       TGo4Analysis::Instance()->Message(-1,"AnalysisStepManager  --  Initializing EventClasses done.");
       return rev;
 }
-Bool_t TGo4AnalysisStepManager::SetFirstStep(const Text_t* name)
+Bool_t TGo4AnalysisStepManager::SetFirstStep(const char* name)
 {
-TRACE((12,"TGo4AnalysisStepManager::SetFirstStep(const Text_t*)",__LINE__, __FILE__));
+TRACE((12,"TGo4AnalysisStepManager::SetFirstStep(const char*)",__LINE__, __FILE__));
    //
    Bool_t result=kFALSE;
    if(name==0)
@@ -175,9 +175,9 @@ TRACE((12,"TGo4AnalysisStepManager::SetFirstStep(const Text_t*)",__LINE__, __FIL
    }
    return result;
 }
-Bool_t TGo4AnalysisStepManager::SetLastStep(const Text_t* name)
+Bool_t TGo4AnalysisStepManager::SetLastStep(const char* name)
 {
-TRACE((12,"TGo4AnalysisStepManager::SetLastStep(Text_t*)",__LINE__, __FILE__));
+TRACE((12,"TGo4AnalysisStepManager::SetLastStep(const char*)",__LINE__, __FILE__));
    //
    Bool_t result=kTRUE;
    if(name==0)
@@ -224,9 +224,9 @@ TRACE((12,"TGo4AnalysisStepManager::SetLastStep(Text_t*)",__LINE__, __FILE__));
    }
    return result;
 }
-Bool_t TGo4AnalysisStepManager::SetStepStorage(const Text_t* name, Bool_t on)
+Bool_t TGo4AnalysisStepManager::SetStepStorage(const char* name, Bool_t on)
 {
-TRACE((12,"TGo4AnalysisStepManager::SetStepStorage(Text_t*,Bool_t)",__LINE__, __FILE__));
+TRACE((12,"TGo4AnalysisStepManager::SetStepStorage(const char*,Bool_t)",__LINE__, __FILE__));
    Bool_t result=kFALSE;
    TGo4AnalysisStep* step=GetAnalysisStep(name);
    if(step)
@@ -242,9 +242,9 @@ TRACE((12,"TGo4AnalysisStepManager::SetStepStorage(Text_t*,Bool_t)",__LINE__, __
    return result;
 
 }
-Bool_t TGo4AnalysisStepManager::NewStepStore(const Text_t * name, TGo4EventStoreParameter* par)
+Bool_t TGo4AnalysisStepManager::NewStepStore(const char * name, TGo4EventStoreParameter* par)
 {
-TRACE((12,"TGo4AnalysisStepManager::NewStepStore(Text_t *, TGo4EventStoreParameter*)",__LINE__, __FILE__));
+TRACE((12,"TGo4AnalysisStepManager::NewStepStore(const char *, TGo4EventStoreParameter*)",__LINE__, __FILE__));
    Bool_t result=kFALSE;
    TGo4AnalysisStep* step=0;
    if(name==0)
@@ -271,9 +271,9 @@ TRACE((12,"TGo4AnalysisStepManager::NewStepStore(Text_t *, TGo4EventStoreParamet
    return result;
 
 }
-Bool_t TGo4AnalysisStepManager::NewStepSource(const Text_t * name, TGo4EventSourceParameter * par)
+Bool_t TGo4AnalysisStepManager::NewStepSource(const char * name, TGo4EventSourceParameter * par)
 {
-TRACE((12,"TGo4AnalysisStepManager::NewStepSource(const Text_t *, TGo4EventSourceParameter *)",__LINE__, __FILE__));
+TRACE((12,"TGo4AnalysisStepManager::NewStepSource(const char *, TGo4EventSourceParameter *)",__LINE__, __FILE__));
    Bool_t result=kFALSE;
    TGo4AnalysisStep* step=0;
    if(name==0)
@@ -303,9 +303,9 @@ TRACE((12,"TGo4AnalysisStepManager::NewStepSource(const Text_t *, TGo4EventSourc
    return result;
 }
 
-Bool_t TGo4AnalysisStepManager::NewStepProcessor(const Text_t * name, TGo4EventProcessorParameter * par)
+Bool_t TGo4AnalysisStepManager::NewStepProcessor(const char * name, TGo4EventProcessorParameter * par)
 {
-TRACE((12,"TGo4AnalysisStepManager::NewStepProcessor(const Text_t *, TGo4EventProcessorParameter *)",__LINE__, __FILE__));
+TRACE((12,"TGo4AnalysisStepManager::NewStepProcessor(const char *, TGo4EventProcessorParameter *)",__LINE__, __FILE__));
    Bool_t result=kFALSE;
    TGo4AnalysisStep* step=GetAnalysisStep(name);
    if(step)
@@ -322,7 +322,7 @@ TRACE((12,"TGo4AnalysisStepManager::NewStepProcessor(const Text_t *, TGo4EventPr
 }
 
 
-Int_t TGo4AnalysisStepManager::Store(const Text_t * name, TGo4Parameter* par)
+Int_t TGo4AnalysisStepManager::Store(const char * name, TGo4Parameter* par)
 {
    TGo4AnalysisStep* step=GetAnalysisStep(name);
    if(step!=0)
@@ -331,7 +331,7 @@ Int_t TGo4AnalysisStepManager::Store(const Text_t * name, TGo4Parameter* par)
       return 1;
 }
 
-Int_t TGo4AnalysisStepManager::Store(const Text_t * name, TGo4Condition* con)
+Int_t TGo4AnalysisStepManager::Store(const char * name, TGo4Condition* con)
 {
    TGo4AnalysisStep* step=GetAnalysisStep(name);
    if(step!=0)
@@ -340,7 +340,7 @@ Int_t TGo4AnalysisStepManager::Store(const Text_t * name, TGo4Condition* con)
       return 1;
 }
 
-Int_t TGo4AnalysisStepManager::Store(const Text_t * name, TGo4Fitter* fit)
+Int_t TGo4AnalysisStepManager::Store(const char * name, TGo4Fitter* fit)
 {
    TGo4AnalysisStep* step=GetAnalysisStep(name);
    if(step)
@@ -349,7 +349,7 @@ Int_t TGo4AnalysisStepManager::Store(const Text_t * name, TGo4Fitter* fit)
       return 1;
 }
 
-Int_t TGo4AnalysisStepManager::Store(const Text_t * name, TFolder* folder)
+Int_t TGo4AnalysisStepManager::Store(const char * name, TFolder* folder)
 {
    TGo4AnalysisStep* step=GetAnalysisStep(name);
    if(step)
@@ -481,7 +481,7 @@ TRACE((14,"TGo4AnalysisStepManager::AddAnalysisStep(TGo4AnalysisStep*)",__LINE__
 
 TGo4AnalysisStep * TGo4AnalysisStepManager::GetAnalysisStep(const char* name)
 {
-TRACE((11,"TGo4AnalysisStepManager::GetAnalysisStep(Text_t *)",__LINE__, __FILE__));
+TRACE((11,"TGo4AnalysisStepManager::GetAnalysisStep(const char *)",__LINE__, __FILE__));
    TGo4AnalysisStep* step=0;
    if(name==0)
       {
@@ -567,7 +567,7 @@ void TGo4AnalysisStepManager::SetStatus(TGo4AnalysisStatus * state)
                fxStepIterator->Reset();
                while((fxCurrentStep= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) !=0)
                 {
-                   const Text_t* name= fxCurrentStep->GetName();
+                   const char* name= fxCurrentStep->GetName();
                    TGo4AnalysisStepStatus* stepstate= state->GetStepStatus(name);
                    fxCurrentStep->SetStatus(stepstate);
 

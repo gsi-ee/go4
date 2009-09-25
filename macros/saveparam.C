@@ -28,7 +28,7 @@
 // In case of GO4 GUI parameter names are in TList
 // In case of analysis the object pointers are in the TList
 
-void namiter(TFile *f, TString fulldir, Text_t *wildcard, TList* found)
+void namiter(TFile *f, TString fulldir, const char* wildcard, TList* found)
 {
   TString fullname;
   TString curname;
@@ -84,7 +84,7 @@ void namiter(TFile *f, TString fulldir, Text_t *wildcard, TList* found)
 
 // Function to process one parameter
 // outside Go4 get parameter from file (1st arg)
-Bool_t save1param(Text_t *rootfile, Text_t *name, Text_t *pref)
+Bool_t save1param(const char* rootfile, const char* name, const char* pref)
 {
   unsigned long int cloffset=0;
   TString fLine;
@@ -235,18 +235,18 @@ Bool_t save1param(Text_t *rootfile, Text_t *name, Text_t *pref)
 
 #ifdef __NOGO4MACRO__
 // Get objects from ROOT file
-void saveparam(Text_t *file, Text_t *wildcard, Text_t *pref)
+void saveparam(const char* file, const char* wildcard, const char* pref)
 {
   TString fulldir;
   TObject *namo;
   TFile *f = TFile::Open(file,"r");
 #else
-void saveparam(Text_t *wildcard, Text_t *pref)
+void saveparam(const char* wildcard, const char* pref)
 {
   TString fulldir;
   TObject *namo;
   TFile *f;
-  Text_t *file;
+  const char* file;
 #endif
   TList* list = new TList;
   fulldir.Form("");

@@ -49,10 +49,10 @@ class TGo4BackStore : public TGo4EventStore {
 
     /** Standard go4 name of the branch used in all treestore
       * and treesource implementations. */
-    static const Text_t fgcEVBRANCHNAME[]; //!
+    static const char* fgcEVBRANCHNAME; //!
 
     /** Standard go4 suffix for tree name */
-    static const Text_t fgcTREESUF[]; //!
+    static const char* fgcTREESUF; //!
 
     /** Number of bytes for autosave attempt of tree. This specifies when the
       * tree in memory will be reset, since we do not want to autosave anything here. */

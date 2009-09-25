@@ -20,7 +20,7 @@ class TGo4RemoveException : public TGo4ThreadException {
   public:
       TGo4RemoveException(const TGo4RemoveException &right);
 
-      TGo4RemoveException (TGo4Runnable* runnable, const Text_t* threadname = 0);
+      TGo4RemoveException (TGo4Runnable* runnable, const char* threadname = 0);
 
       virtual ~TGo4RemoveException();
 

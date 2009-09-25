@@ -13,10 +13,10 @@ TGo4RestartException::TGo4RestartException(const TGo4RestartException &right)
    TRACE((14,"TGo4RestartException::TGo4RestartException() copy constructor",__LINE__, __FILE__));
 }
 
-TGo4RestartException::TGo4RestartException (TGo4Runnable* runnable, const Text_t* threadname)
+TGo4RestartException::TGo4RestartException (TGo4Runnable* runnable, const char* threadname)
 : TGo4ThreadException(runnable,threadname)
 {
-   TRACE((14,"TGo4RestartException::TGo4RestartException(TGo4Runnable*, const Text_t*) constructor",__LINE__, __FILE__));
+   TRACE((14,"TGo4RestartException::TGo4RestartException(TGo4Runnable*, const char*) constructor",__LINE__, __FILE__));
    fxDescription= "!!!-- Go4 Restart Exception --!!!";
 }
 

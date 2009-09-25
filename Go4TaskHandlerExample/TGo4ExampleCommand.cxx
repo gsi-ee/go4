@@ -27,7 +27,7 @@ TGo4ExampleCommand::~TGo4ExampleCommand()
 TGo4ExampleCommand::TGo4ExampleCommand(const char* name, const char* desc)
 : TGo4Command(name,desc,6)
 {
-   TRACE((12,"TGo4ExampleCommand::TGo4ExampleCommand(Text_t*, Text_t*) ctor",__LINE__, __FILE__));
+   TRACE((12,"TGo4ExampleCommand::TGo4ExampleCommand(const char*, const char*) ctor",__LINE__, __FILE__));
    //fxReceiver=0;
 
    fbIsEnabled=kTRUE;

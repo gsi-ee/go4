@@ -102,138 +102,142 @@ Bool_t TGo4WinCond::IsPolygonType()
    return kFALSE;
 }
 // -----------------------------------------------
-void TGo4WinCond::PrintCondition(Bool_t limits){
-   TGo4Condition::PrintCondition();
-if(limits)
+void TGo4WinCond::PrintCondition(Bool_t limits)
 {
-Text_t line[128];
-if(GetDimension()==1) snprintf(line,127,"[%8.2f,%8.2f]",fLow1,fUp1);
-else         snprintf(line,127,"[%8.2f,%8.2f][%8.2f,%8.2f]",fLow1,fUp1,fLow2,fUp2);
-cout << line     << endl;
-}}
+   TGo4Condition::PrintCondition();
+   if(limits) {
+      char line[128];
+      if(GetDimension()==1) snprintf(line,127,"[%8.2f,%8.2f]",fLow1,fUp1);
+      else         snprintf(line,127,"[%8.2f,%8.2f][%8.2f,%8.2f]",fLow1,fUp1,fLow2,fUp2);
+      cout << line     << endl;
+   }
+}
 
 
 Double_t TGo4WinCond::GetIntegral(TH1* histo, Option_t* opt)
 {
-if(histo==0) return 0;
-Double_t result=0;
-SetHistogramRanges(histo);
-result=histo->Integral(opt);
-RestoreHistogramRanges(histo);
-return result;
+   if(histo==0) return 0;
+   Double_t result=0;
+   SetHistogramRanges(histo);
+   result=histo->Integral(opt);
+   RestoreHistogramRanges(histo);
+   return result;
 }
 
 Double_t TGo4WinCond::GetMean(TH1* histo, Int_t axis)
 {
-if(histo==0) return 0;
-Double_t result=0;
-SetHistogramRanges(histo);
-result=histo->GetMean(axis);
-RestoreHistogramRanges(histo);
-return result;
+   if(histo==0) return 0;
+   Double_t result=0;
+   SetHistogramRanges(histo);
+   result=histo->GetMean(axis);
+   RestoreHistogramRanges(histo);
+   return result;
 }
+
 Double_t TGo4WinCond::GetRMS(TH1* histo, Int_t axis)
 {
-if(histo==0) return 0;
-Double_t result=0;
-SetHistogramRanges(histo);
-result=histo->GetRMS(axis);
-RestoreHistogramRanges(histo);
-return result;
+   if(histo==0) return 0;
+   Double_t result=0;
+   SetHistogramRanges(histo);
+   result=histo->GetRMS(axis);
+   RestoreHistogramRanges(histo);
+   return result;
 }
+
 Double_t TGo4WinCond::GetXMax(TH1* histo)
 {
-if(histo==0) return 0;
-Double_t result=0;
-SetHistogramRanges(histo);
-TAxis* xax=histo->GetXaxis();
-Int_t maxbin=histo->GetMaximumBin();
-if(histo->GetDimension()==1)
+   if(histo==0) return 0;
+   Double_t result=0;
+   SetHistogramRanges(histo);
+   TAxis* xax=histo->GetXaxis();
+   Int_t maxbin=histo->GetMaximumBin();
+   if(histo->GetDimension()==1)
    {
-   result=xax->GetBinCenter(maxbin);
+      result=xax->GetBinCenter(maxbin);
 
    }
-else if (histo->GetDimension()==2)
+   else if (histo->GetDimension()==2)
    {
       Int_t xmaxbin=maxbin%(histo->GetNbinsX()+2);
       result=xax->GetBinCenter(xmaxbin);
    }
-else
+   else
    {
       result=0; // no support for 3d histos at the moment!
    }
-RestoreHistogramRanges(histo);
-return result;
+   RestoreHistogramRanges(histo);
+   return result;
 }
 Double_t TGo4WinCond::GetYMax(TH1* histo)
 {
-if(histo==0) return 0;
-Double_t result=0;
-SetHistogramRanges(histo);
-if(histo->GetDimension()==1)
+   if(histo==0) return 0;
+   Double_t result=0;
+   SetHistogramRanges(histo);
+   if(histo->GetDimension()==1)
    {
       result=histo->GetMaximum();
    }
-else if (histo->GetDimension()==2)
+   else if (histo->GetDimension()==2)
    {
       TAxis* yax=histo->GetYaxis();
       Int_t maxbin=histo->GetMaximumBin();
       Int_t maxybin=maxbin/(histo->GetNbinsX()+2);
       result=yax->GetBinCenter(maxybin);
    }
-else
+   else
    {
       result=0; // no support for 3d histos at the moment!
    }
-RestoreHistogramRanges(histo);
-return result;
+   RestoreHistogramRanges(histo);
+   return result;
 }
+
 Double_t TGo4WinCond::GetCMax(TH1* histo)
 {
-if(histo==0) return 0;
-Double_t result=0;
-SetHistogramRanges(histo);
-result=histo->GetMaximum();
-RestoreHistogramRanges(histo);
-return result;
+   if(histo==0) return 0;
+   Double_t result=0;
+   SetHistogramRanges(histo);
+   result=histo->GetMaximum();
+   RestoreHistogramRanges(histo);
+   return result;
 }
 
 void TGo4WinCond::SetHistogramRanges(TH1* histo)
 {
-if(histo==0) return;
-Double_t xmin=fLow1;
-Double_t xmax=fUp1;
-Double_t ymin=fLow2;
-Double_t ymax=fUp2;
-TAxis* xax=histo->GetXaxis();
-fiSaveXMin=xax->GetFirst();
-fiSaveXMax=xax->GetLast();
-Int_t xminbin=xax->FindBin(xmin);
-Int_t xmaxbin=xax->FindBin(xmax);
-Int_t yminbin=0;
-Int_t ymaxbin=0;
-TAxis* yax=histo->GetYaxis();
-if(yax && histo->GetDimension()>1)
-{
-   fiSaveYMin=yax->GetFirst();
-   fiSaveYMax=yax->GetLast();
-   yminbin=yax->FindBin(ymin);
-   ymaxbin=yax->FindBin(ymax);
-}
-    // set histo range to condition limits
-xax->SetRange(xminbin,xmaxbin);
-if(yax&& histo->GetDimension()>1)
-   yax->SetRange(yminbin,ymaxbin);
+   if(histo==0) return;
+   Double_t xmin=fLow1;
+   Double_t xmax=fUp1;
+   Double_t ymin=fLow2;
+   Double_t ymax=fUp2;
+   TAxis* xax=histo->GetXaxis();
+   fiSaveXMin=xax->GetFirst();
+   fiSaveXMax=xax->GetLast();
+   Int_t xminbin=xax->FindBin(xmin);
+   Int_t xmaxbin=xax->FindBin(xmax);
+   Int_t yminbin=0;
+   Int_t ymaxbin=0;
+   TAxis* yax=histo->GetYaxis();
+   if(yax && histo->GetDimension()>1)
+   {
+      fiSaveYMin=yax->GetFirst();
+      fiSaveYMax=yax->GetLast();
+      yminbin=yax->FindBin(ymin);
+      ymaxbin=yax->FindBin(ymax);
+   }
+   // set histo range to condition limits
+   xax->SetRange(xminbin,xmaxbin);
+   if(yax&& histo->GetDimension()>1)
+      yax->SetRange(yminbin,ymaxbin);
 }
 
 void TGo4WinCond::RestoreHistogramRanges(TH1* histo)
 {
-if(histo==0) return;
-TAxis* xax=histo->GetXaxis();
-TAxis* yax=histo->GetYaxis();
-xax->SetRange(fiSaveXMin,fiSaveXMax);
-if(yax&& histo->GetDimension()>1)
-   yax->SetRange(fiSaveYMin,fiSaveYMax);
+   if(histo==0) return;
+   TAxis* xax=histo->GetXaxis();
+   TAxis* yax=histo->GetYaxis();
+   xax->SetRange(fiSaveXMin,fiSaveXMax);
+   if(yax&& histo->GetDimension()>1)
+      yax->SetRange(fiSaveYMin,fiSaveYMax);
 
 
 }
@@ -245,8 +249,8 @@ Bool_t TGo4WinCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
 {
    if(!TGo4Condition::UpdateFrom(cond,counts)) return kFALSE;
    if(!cond->InheritsFrom(TGo4WinCond::Class())) {
-       cout << "Cannot update " << GetName() << " from " << cond->ClassName() << endl;
-       return kFALSE;
+      cout << "Cannot update " << GetName() << " from " << cond->ClassName() << endl;
+      return kFALSE;
    }
    Int_t dimension=0;
    ((TGo4WinCond*)cond)->GetValues(dimension,fLow1,fUp1,fLow2,fUp2);  // get limits from source
@@ -256,19 +260,19 @@ Bool_t TGo4WinCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
 
 void TGo4WinCond::SetPainter(TGo4ConditionPainter* painter)
 {
-// delete old painter, replace by the new one
-// overwritten method in subclass may check if painter is correct type
-if(painter==0) return;
-if(painter->InheritsFrom(TGo4WinCondPainter::Class()))
+   // delete old painter, replace by the new one
+   // overwritten method in subclass may check if painter is correct type
+   if(painter==0) return;
+   if(painter->InheritsFrom(TGo4WinCondPainter::Class()))
    {
       if(fxPainter) delete fxPainter;
       fxPainter=painter;
       fxPainter->SetCondition(this);
    }
-else
+   else
    {
       TGo4Log::Warn("Could not set painter of class %s for TGo4WinCond %s",
-         painter->ClassName(),GetName());
+            painter->ClassName(),GetName());
    }
 }
 

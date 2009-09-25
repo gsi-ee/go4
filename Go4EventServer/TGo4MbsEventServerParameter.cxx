@@ -12,7 +12,7 @@ TGo4MbsEventServerParameter::TGo4MbsEventServerParameter() :
 TGo4MbsEventServerParameter::TGo4MbsEventServerParameter(const char* name) :
    TGo4MbsSourceParameter(name, GO4EV_MBS_EVENTSERVER)
 {
-  TRACE((14,"TGo4MbsEventServerParameter::TGo4MbsEventServerParameter(Text_t*,...)", __LINE__, __FILE__));
+  TRACE((14,"TGo4MbsEventServerParameter::TGo4MbsEventServerParameter(const char*)", __LINE__, __FILE__));
 }
 
 TGo4MbsEventServerParameter::~TGo4MbsEventServerParameter()

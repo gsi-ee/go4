@@ -36,7 +36,7 @@ public:
     TCutG* CreateCut();
 
     virtual const char* GetName() const;
-    void SetName(const Text_t* nam); // *MENU*
+    void SetName(const char* nam); // *MENU*
      /** Delete condition instead of view: */
     void DeleteRegion(); // *MENU*
     void SetLabelDraw(Bool_t on); // *MENU*

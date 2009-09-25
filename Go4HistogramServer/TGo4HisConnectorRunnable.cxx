@@ -38,114 +38,114 @@ Int_t TGo4HisConnectorRunnable::Run(void*)
    // note: we use the __gsi histogram api__ here
    // instead of the first approach that intended to launch
    // one thread per client which is up permanently until client disconnects.
-Bool_t histofromgraph=kFALSE;
-Int_t action=0;
-Text_t histo[128];
-TH1* his=0;
-TGo4MbsHist* mbshisto=0;
-TGo4Analysis* ana= fxHistogramServer->GetAnalysis();
-Int_t result=f_his_wait(&action,histo);
-//if(! GetThread()->IsRunning()) return 1; // fast stop in case of shutdown
-if(result==COMM__SUCCESS)
+   Bool_t histofromgraph=kFALSE;
+   Int_t action=0;
+   char histo[128];
+   TH1* his=0;
+   TGo4MbsHist* mbshisto=0;
+   TGo4Analysis* ana= fxHistogramServer->GetAnalysis();
+   Int_t result=f_his_wait(&action,histo);
+   //if(! GetThread()->IsRunning()) return 1; // fast stop in case of shutdown
+   if(result==COMM__SUCCESS)
    {
-   switch(action)
+      switch(action)
       {
          case COMM__GETHIST:
             if(!strcmp(histo,TGo4HistogramServer::fgcSHUTDOWNNAME))
-               {
-                  // this is the last connect for shutdown, we do not acquire lockguard!
-                  mbshisto= 0;
-               }
-             else
-               {
+            {
+               // this is the last connect for shutdown, we do not acquire lockguard!
+               mbshisto= 0;
+            }
+            else
+            {
                // normal case: lockguard to protect creation of histogram structure
                TGo4LockGuard mainlock;
-                  his= ana->GetHistogram(histo);
-                  if(his==0)
+               his= ana->GetHistogram(histo);
+               if(his==0)
+               {
+                  TObject* ob=ana->GetObject(histo);
+                  if(ob && ob->InheritsFrom(TH1::Class()))
+                  {
+                     his=dynamic_cast<TH1*>(ob);
+                  }
+                  else if (ob && ob->InheritsFrom(TGraph::Class()))
+                  {
+                     TGraph* gr=dynamic_cast<TGraph*>(ob);
+                     his=gr->GetHistogram();
+                     if(his)
                      {
-                         TObject* ob=ana->GetObject(histo);
-                         if(ob && ob->InheritsFrom(TH1::Class()))
-                            {
-                             his=dynamic_cast<TH1*>(ob);
-                            }
-                         else if (ob && ob->InheritsFrom(TGraph::Class()))
-                           {
-                               TGraph* gr=dynamic_cast<TGraph*>(ob);
-                               his=gr->GetHistogram();
-                               if(his)
-                               {
-                               // this histogram has correct scales,
-                               // but does not have graph points. we fill it:
-                               Int_t maxpoints=gr->GetN();
-                               for(Int_t point=0; point<maxpoints; ++point)
-                                 {
-                                   Double_t xg=0;
-                                   Double_t yg=0;
-                                   gr->GetPoint(point,xg,yg);
-                                   Int_t xbin=his->FindBin(xg);
-                                   his->SetBinContent(xbin,yg);
-                                   histofromgraph=kTRUE;
-                                   // note that this will fail if we have graph that
-                                   // is not injective (i.e. 1d-function). a histogram is not a graph!
-                                 }
-                               }
-                           }
-
+                        // this histogram has correct scales,
+                        // but does not have graph points. we fill it:
+                        Int_t maxpoints=gr->GetN();
+                        for(Int_t point=0; point<maxpoints; ++point)
+                        {
+                           Double_t xg=0;
+                           Double_t yg=0;
+                           gr->GetPoint(point,xg,yg);
+                           Int_t xbin=his->FindBin(xg);
+                           his->SetBinContent(xbin,yg);
+                           histofromgraph=kTRUE;
+                           // note that this will fail if we have graph that
+                           // is not injective (i.e. 1d-function). a histogram is not a graph!
+                        }
                      }
+                  }
 
-                  mbshisto= new TGo4MbsHist(his); // this will create structures
-                  if(his && histofromgraph) his->Reset();
-               }// if(!strcmp(histo,TGo4HistogramServer::fgcSHUTDOWNNAME))
-            const Text_t* hisname;
+               }
+
+               mbshisto= new TGo4MbsHist(his); // this will create structures
+               if(his && histofromgraph) his->Reset();
+            }// if(!strcmp(histo,TGo4HistogramServer::fgcSHUTDOWNNAME))
+            const char* hisname;
             if(his)
-               {
-                  hisname=his->GetName();
-                  ana->Message(0,
-                   "Histogram server is sending histogram %s",
+            {
+               hisname=his->GetName();
+               ana->Message(0,
+                     "Histogram server is sending histogram %s",
                      hisname);
-                  //cout <<"Histogram Server is sending histogram "<< hisname <<endl;
-               }
+               //cout <<"Histogram Server is sending histogram "<< hisname <<endl;
+            }
             else
-               {
-                  hisname="No such histogram";
-               }
+            {
+               hisname="No such histogram";
+            }
             if(mbshisto)
-               {
+            {
                // the normal case: send created histogram structure
-                  result=f_his_sendhis(mbshisto->GetHead(),
-                                 mbshisto->GetHisNum(),
-                                 (CHARS*) hisname,
-                                 (INTS4*) mbshisto->GetBuffer());
-                  delete mbshisto;
-               }
+               result=f_his_sendhis(mbshisto->GetHead(),
+                     mbshisto->GetHisNum(),
+                     (CHARS*) hisname,
+                     (INTS4*) mbshisto->GetBuffer());
+               delete mbshisto;
+            }
             else
-               {
-                // only in case of server shutdown: send dummy to release socket wait
-                  s_his_head header;
-                  INTS4 buffer[128];
-                  result=f_his_sendhis(&header, 1, (CHARS*) hisname, (INTS4*) &buffer);
-               }
+            {
+               // only in case of server shutdown: send dummy to release socket wait
+               s_his_head header;
+               INTS4 buffer[128];
+               result=f_his_sendhis(&header, 1, (CHARS*) hisname, (INTS4*) &buffer);
+            }
             break;
 
          case COMM__GETDIR:
-            {
-               TGo4LockGuard mainlock; // this should lock also dirmutex
-               mbshisto=new TGo4MbsHist(ana->GetObjectFolder(), histo);
-               result=f_his_senddir((s_his_head*) (mbshisto->GetBuffer()), mbshisto->GetHisNum());
-//               cout <<"sending dir buffer :" << endl;
-//               cout <<"\thisnum="<<mbshisto->GetHisNum()<<", buflen="<<mbshisto->GetBufLen() << endl;
-               delete mbshisto;
-            }
-           break;
+         {
+            TGo4LockGuard mainlock; // this should lock also dirmutex
+            mbshisto=new TGo4MbsHist(ana->GetObjectFolder(), histo);
+            result=f_his_senddir((s_his_head*) (mbshisto->GetBuffer()), mbshisto->GetHisNum());
+            //               cout <<"sending dir buffer :" << endl;
+            //               cout <<"\thisnum="<<mbshisto->GetHisNum()<<", buflen="<<mbshisto->GetBufLen() << endl;
+            delete mbshisto;
+         }
+         break;
          default:
             ana->Message(0,"Histogram server: got unknown command");
             //cout <<"Histogram Server: got unknown command" << endl;
-           break;
+            break;
       } // switch
    }
-else
+   else
    {
-         cout <<"Histogram Server: Error on connect request: "<< result << endl;
+      cout <<"Histogram Server: Error on connect request: "<< result << endl;
    } // if(result==COMM__SUCCESS)
 
 return result;

@@ -11,8 +11,8 @@
 #include "TGo4MainRunnable.h"
 #include "TGo4WatchRunnable.h"
 
-const Text_t TGo4ExampleClient::fgcWATCHTHREAD[]="WATCH-";
-const Text_t TGo4ExampleClient::fgcMAINTHREAD[]="MAIN-";
+const char* TGo4ExampleClient::fgcWATCHTHREAD="WATCH-";
+const char* TGo4ExampleClient::fgcMAINTHREAD="MAIN-";
 
 
 TGo4ExampleClient::TGo4ExampleClient(const char* name,
@@ -21,7 +21,7 @@ TGo4ExampleClient::TGo4ExampleClient(const char* name,
                                      Bool_t blockingmode)
 : TGo4ClientTask(name, host, negport , blockingmode, kFALSE)
 {
-   TRACE((15,"TGo4ExampleClient::TGo4ExampleClient(Text_t*, Bool_t) constructor",__LINE__, __FILE__));
+   TRACE((15,"TGo4ExampleClient::TGo4ExampleClient(const char*, const char*, Uint_t, Bool_t) constructor",__LINE__, __FILE__));
    SetMaster(kFALSE);
    TGo4Log::Debug(" ExampleClient ''%s'' started ",GetName());
    fxApplication= new TGo4ExampleApplication( (TGo4BufferQueue*) GetTaskHandler()->GetDataQueue());

@@ -15,7 +15,7 @@ TGo4FileStoreParameter::TGo4FileStoreParameter(const char* name,
    fiSplit(splitlevel), fiBufsize(bufsize),
    fiCompression(compression), fiAutosavesize(autosave), fbOverwrite(1)
 {
-   TRACE((14,"TGo4FileStoreParameter::TGo4FileStoreParameter(Text_t*,...)", __LINE__, __FILE__));
+   TRACE((14,"TGo4FileStoreParameter::TGo4FileStoreParameter(const char*,...)", __LINE__, __FILE__));
    SetTitle(name);
 }
 

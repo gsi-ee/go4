@@ -319,8 +319,7 @@ if(taskhandler!=0)
       if(clientwait)
          {
          // wait for OK string sent by client over connector negotiation port
-         Text_t* revchar=0;
-         revchar=fxTransport->RecvRaw("dummy"); // wait for client close ok
+         char* revchar = fxTransport->RecvRaw("dummy"); // wait for client close ok
          if(!(revchar && !strcmp(revchar,TGo4TaskHandler::Get_fgcOK())))
             {
                TGo4Log::Debug(" TaskManager %s; negotiation ERROR after client disconnect!",GetName());

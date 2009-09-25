@@ -12,7 +12,7 @@ const char* TGo4Command::fgcMODEDESCRIPTION[]=
 TGo4Command::TGo4Command(const char* name, const char* description, Int_t id) :
    TNamed(name, "This is a TGo4Command")
 {
-   TRACE((12,"TGo4Command::TGo4Command(Text_t * name, Text_t * description, Int_t id)", __LINE__, __FILE__));
+   TRACE((12,"TGo4Command::TGo4Command(const char* name, const char* description, Int_t id)", __LINE__, __FILE__));
    SetDescription(description);
    SetReceiverName("NoNameReceiver");
    SetTaskName("NoNameTask");
@@ -72,7 +72,7 @@ Bool_t TGo4Command::IsExclusive() const
 
 const char* TGo4Command::GetReceiverName() const
 {
-  TRACE((10,"const Text_t * TGo4Command::GetReceiverName()", __LINE__, __FILE__));
+  TRACE((10,"const char * TGo4Command::GetReceiverName()", __LINE__, __FILE__));
   return fxReceiverName.Data();
 }
 
@@ -84,7 +84,7 @@ void TGo4Command::SetReceiverName(const char* name)
 
 const char* TGo4Command::GetTaskName() const
 {
-  TRACE((10,"const Text_t * TGo4Command::GetTaskName()", __LINE__, __FILE__));
+  TRACE((10,"const char * TGo4Command::GetTaskName()", __LINE__, __FILE__));
   return fxTaskName.Data();
 }
 
@@ -101,7 +101,7 @@ void TGo4Command::SetDescription(const char* txt)
 }
 const char* TGo4Command::What() const
 {
-  TRACE((10,"const Text_t * TGo4Command::What()", __LINE__, __FILE__));
+  TRACE((10,"const char * TGo4Command::What()", __LINE__, __FILE__));
   return fxDescription.Data();
 }
 

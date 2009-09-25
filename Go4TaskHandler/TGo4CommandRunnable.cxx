@@ -131,7 +131,7 @@ Int_t TGo4CommandRunnable::Run(void* ptr)
    //                  cout << "command runnable: sending buffer via transport" << endl;
                      fxBufferQueue->FreeBuffer(buf);
                      if(stopmode) return 0; // no handshake after stop buffer
-                     Text_t* revchar=fxTransport->RecvRaw("dummy"); // wait for o.k. string
+                     char* revchar=fxTransport->RecvRaw("dummy"); // wait for o.k. string
                      if(revchar==0)
                         {
                            // error, received garbage

@@ -32,10 +32,10 @@ class TGo4MainTree : public TObject {
     virtual ~TGo4MainTree();
 
     /** Standard go4 name of the main tree */
-    static const Text_t fgcTREENAME[]; //!
+    static const char* fgcTREENAME; //!
 
     /** Standard suffix for file name */
-    static const Text_t fgcFILENAME[]; //!
+    static const char* fgcFILENAME; //!
 
     /** Default compression level */
     static const Int_t fgiCOMPRESS; //!

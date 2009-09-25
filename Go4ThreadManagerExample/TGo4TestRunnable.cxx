@@ -34,7 +34,7 @@ TGo4TestRunnable::TGo4TestRunnable(const TGo4TestRunnable &right)
 TGo4TestRunnable::TGo4TestRunnable(const char* name, TGo4ThreadManager* man, Int_t mode)
   :TGo4Runnable(name,man),fxPad(0),fxCanvas(0),fxHisto(0)
 {
-  TRACE((14,"TGo4TestRunnable::TGo4TestRunnable(Text_t*,TGo4ThreadManager*,Int_t) constructor",__LINE__, __FILE__));
+  TRACE((14,"TGo4TestRunnable::TGo4TestRunnable(const char*,TGo4ThreadManager*,Int_t) constructor",__LINE__, __FILE__));
   fiMode=mode;
 }
 

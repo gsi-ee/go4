@@ -71,13 +71,13 @@ class TGo4AnalysisStepManager : public TNamed {
       /** Sets analysis step name as first one to be processed in
         * the chain of steps. First step will read input event from its
         * event source. If name is nullpointer, takes first step in steplist. */
-      Bool_t SetFirstStep(const Text_t* name);
+      Bool_t SetFirstStep(const char* name);
 
       /** Sets analysis step name as last one to be processed in
         * the chain of steps. Last step will write output event into its
         * event store by default, its output event is accessible in the user
         * analysis. If name is nullpointer, takes last step in steplist. */
-      Bool_t SetLastStep(const Text_t* name);
+      Bool_t SetLastStep(const char* name);
 
       /** Enables analysis step of name to write its output event into
         * its event store. By default only the last analysis step
@@ -89,28 +89,28 @@ class TGo4AnalysisStepManager : public TNamed {
         * switch off the storage of the last analysis step output
         * if you only want to use the histograms produced by the
         * final user event function. */
-      Bool_t SetStepStorage(const Text_t* name, Bool_t on);
+      Bool_t SetStepStorage(const char* name, Bool_t on);
 
       /**
        * Shuts down the old analysis step storage and creates a new
        * one specified by parameter par. To be used in online mode to
        * switch output files.
        */
-      Bool_t NewStepStore(const Text_t * name, TGo4EventStoreParameter* par);
+      Bool_t NewStepStore(const char * name, TGo4EventStoreParameter* par);
 
       /**
        * Shuts down the old analysis step event source and creates a new
        * one specified by parameter par. To be used in online mode to
        * switch input.
        */
-      Bool_t NewStepSource(const Text_t * name, TGo4EventSourceParameter * par);
+      Bool_t NewStepSource(const char * name, TGo4EventSourceParameter * par);
 
       /**
        * Shuts down the old analysis step processor and creates a new
        * one specified by parameter par. To be used in online mode to
        * switch event processing.
        */
-      Bool_t NewStepProcessor(const Text_t * name, TGo4EventProcessorParameter * par);
+      Bool_t NewStepProcessor(const char * name, TGo4EventProcessorParameter * par);
 
       /**
        * Write object obj into eventstore of the step specified by name.
@@ -118,7 +118,7 @@ class TGo4AnalysisStepManager : public TNamed {
        * Returns -1 in case of not active eventstore. Returns +1 in case
        * of unknown step.
        */
-      Int_t Store(const Text_t * name, TGo4Parameter* obj);
+      Int_t Store(const char * name, TGo4Parameter* obj);
 
       /**
        * Write condition con into eventstore of the step specified by name.
@@ -126,7 +126,7 @@ class TGo4AnalysisStepManager : public TNamed {
        * Returns -1 in case of not active eventstore. Returns +1 in case
        * of unknown step.
        */
-      Int_t Store(const Text_t * name, TGo4Condition* con);
+      Int_t Store(const char * name, TGo4Condition* con);
 
      /**
        * Write fitter fit into eventstore of the step specified by name.
@@ -134,7 +134,7 @@ class TGo4AnalysisStepManager : public TNamed {
        * Returns -1 in case of not active eventstore. Returns +1 in case
        * of unknown step.
        */
-      Int_t Store(const Text_t * name, TGo4Fitter* fit);
+      Int_t Store(const char * name, TGo4Fitter* fit);
 
     /**
        * Write folder  into eventstore of the step specified by name.
@@ -142,7 +142,7 @@ class TGo4AnalysisStepManager : public TNamed {
        * Returns -1 in case of not active eventstore. Returns +1 in case
        * of unknown step.
        */
-      Int_t Store(const Text_t * name, TFolder* folder);
+      Int_t Store(const char * name, TFolder* folder);
 
       /**
           * Returns the input event structure of analysis step. Argument indicates

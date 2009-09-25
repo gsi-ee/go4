@@ -78,8 +78,7 @@ class TGo4LabelConnector : public TLine {
 class TGo4LabelPainter : public TNamed, public TAttLine, public TAttFill, public TAttText {
   public:
     TGo4LabelPainter();
-    TGo4LabelPainter(const Text_t * name);
-    TGo4LabelPainter(const Text_t * name, const Text_t * title);
+    TGo4LabelPainter(const char* name, const char* title = 0);
     virtual ~TGo4LabelPainter();
 
     /** Draw the label */
@@ -94,13 +93,13 @@ class TGo4LabelPainter : public TNamed, public TAttLine, public TAttFill, public
     /** pop all components to the front of the pad*/
     virtual void DisplayToFront(Option_t* opt="");
 
-    void SetCaption(const Text_t* txt){fxCaption=txt;}
-    void SetX0(Double_t x=0){fdX0=x;}
-    void SetY0(Double_t y=0){fdY0=y;}
-    void SetWidth(Double_t w=0){fdWidth=w;}
-    void SetHeight(Double_t h=0){fdHeight=h;}
+    void SetCaption(const char* txt) { fxCaption=txt; }
+    void SetX0(Double_t x=0) { fdX0=x; }
+    void SetY0(Double_t y=0) { fdY0=y; }
+    void SetWidth(Double_t w=0) { fdWidth=w; }
+    void SetHeight(Double_t h=0) { fdHeight=h; }
 
-    void AddToLabel(const Text_t* txt) { if(fxLabel) fxLabel->AddText(txt); }
+    void AddToLabel(const char* txt) { if(fxLabel) fxLabel->AddText(txt); }
 
     /** Initialize the label attributes */
     void InitAttributes();

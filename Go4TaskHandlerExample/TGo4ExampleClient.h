@@ -30,10 +30,10 @@ class TGo4ExampleClient : public TGo4ClientTask {
    virtual void Stop();
 
    /** Suffix for main thread name */
-   static const Text_t fgcMAINTHREAD[]; //!
+   static const char* fgcMAINTHREAD; //!
 
    /** Suffix for watch thread name */
-   static const Text_t fgcWATCHTHREAD[];  //!
+   static const char* fgcWATCHTHREAD;  //!
 
   protected:
 

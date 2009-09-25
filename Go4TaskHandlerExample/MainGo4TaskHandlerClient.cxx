@@ -23,9 +23,9 @@ int main(int argc, char **argv)
       }
    else
       {
-         Text_t* name=argv[1];
-         Text_t* hostname=argv[2];
-         Text_t* connector=argv[3];
+         const char* name=argv[1];
+         const char* hostname=argv[2];
+         const char* connector=argv[3];
          UInt_t con=atoi(connector);
          cout << "Client:"<<name<<",\tHost:"<<hostname<<",\tConnector:"<<con<<endl;
          TGo4ExampleClient* myclient = new TGo4ExampleClient(name,hostname,con);

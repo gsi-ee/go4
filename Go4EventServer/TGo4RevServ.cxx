@@ -10,7 +10,7 @@ TGo4RevServ::TGo4RevServ(const char* name) :
    TGo4MbsSource(name , GETEVT__REVSERV),
    fiPort(0)
 {
-   TRACE((15,"TGo4RevServ::TGo4RevServ(Text_t*)",__LINE__, __FILE__));
+   TRACE((15,"TGo4RevServ::TGo4RevServ(const char*)",__LINE__, __FILE__));
    TGo4Log::Debug(" New Event Source RevServ %s:  ",name);
    SetTimeout(fgiTIMEOUTDEFAULT);
    Open();
@@ -50,7 +50,7 @@ Int_t TGo4RevServ::Open()
    Int_t status  = f_evt_rev_port(fiPort);
    SetCreateStatus(status);
    if(GetCreateStatus() !=GETEVT__SUCCESS) {
-       Text_t buffer[TGo4EventSource::fguTXTLEN];
+       char buffer[TGo4EventSource::fguTXTLEN];
        f_evt_error(GetCreateStatus(), buffer, 1); // provide text message for later output
        SetErrMess(buffer);
        fbIsOpen = kFALSE;
