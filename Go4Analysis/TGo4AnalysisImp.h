@@ -617,6 +617,9 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * this will return the first active step. */
     TGo4AnalysisStep* GetAnalysisStep(const char* name);
 
+    /** Define passwords, which should be used for analysis access when analysis runs in server mode */
+    void DefineServerPasswords(const char* admin, const char* controller, const char* observer);
+
   protected:
 
     /** True if analysis framework has been initialized and
@@ -786,6 +789,15 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /** returns name of analysis object */
     TString fAnalysisName;
+
+    /** preconfigured password for administrator access */
+    TString fServerAdminPass; //!
+
+    /** preconfigured password for controller access */
+    TString fServerCtrlPass; //!
+
+    /** preconfigured password for observer access */
+    TString fServerObserverPass; //!
 
   ClassDef(TGo4Analysis,4)
 };

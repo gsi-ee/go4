@@ -70,6 +70,9 @@ TYYYAnalysis::TYYYAnalysis(const char* name) :
    step1->SetErrorStopEnabled(kTRUE);
    AddAnalysisStep(step1);
 
+   // uncomment following line to define custom passwords for analysis server
+   // DefineServerPasswords("YYYadmin", "YYYctrl", "YYYview");
+
    //////////////// Parameter //////////////////////////
    // At this point, autosave file has not yet been read!
    // Therefore parameter values set here will be overwritten

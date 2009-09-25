@@ -21,11 +21,6 @@
 
 extern "C" TGo4Analysis* CreateUserAnalysis(const char* name) { return new TXXXAnalysis(name); }
 
-
-extern "C" const char* UserAdministratorPassword() { return "XXXadmin"; }
-extern "C" const char* UserControllerPassword() { return "XXXctrl"; }
-extern "C" const char* UserObserverPassword() { return "XXXview"; }
-
 //***********************************************************
 TXXXAnalysis::TXXXAnalysis() :
    TGo4Analysis(),
@@ -89,6 +84,8 @@ TXXXAnalysis::TXXXAnalysis(const char* name) :
    step2->SetErrorStopEnabled(kTRUE);
    AddAnalysisStep(step2);
 
+   // uncomment following line to define custom passwords for analysis server
+   // DefineServerPasswords("XXXadmin", "XXXctrl", "XXXview");
 
    //////////////// Parameter //////////////////////////
    // At this point, autosave file has not yet been read!

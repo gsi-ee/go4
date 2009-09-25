@@ -224,15 +224,16 @@ TMeshAnalysis::TMeshAnalysis(const char* input, Int_t type, Int_t port,
   step13->SetProcessEnabled(kTRUE);
 
 
+  // uncomment following line to define custom passwords for analysis server
+  // DefineServerPasswords("Meshadmin", "Meshctrl", "Meshview");
+
 
   //////////////// Parameter //////////////////////////
   // At this point, autosave file has not yet been read!
   // Therefore parameter values set here will be overwritten
   // if an autosave file is there.
-      fPar = new TMeshParameter("MeshSetup");
-      AddParameter(fPar);
-
-
+   fPar = new TMeshParameter("MeshSetup");
+   AddParameter(fPar);
 }
 
 //***********************************************************

@@ -122,7 +122,6 @@ Bool_t TGo4Analysis::Exists()
    return fbExists;
 }
 
-
 TGo4Analysis::TGo4Analysis(const char* name) :
    TGo4CommandReceiver(),
    TObject(),
@@ -142,7 +141,10 @@ TGo4Analysis::TGo4Analysis(const char* name) :
    fxObjectNames(0),
    fbDoWorkingFlag(kTRUE),
    fxInterruptHandler(0),
-   fAnalysisName()
+   fAnalysisName(),
+   fServerAdminPass(),
+   fServerCtrlPass(),
+   fServerObserverPass()
 {
    if (name!=0) SetAnalysisName(name);
 
@@ -1507,18 +1509,24 @@ else
    return 2;
 }
 
+void TGo4Analysis::DefineServerPasswords(const char* admin, const char* controller, const char* observer)
+{
+   fServerAdminPass = admin ? admin : "";
+   fServerCtrlPass = controller ? controller : "";
+   fServerObserverPass = observer ? observer : "";
+}
 
 void TGo4Analysis::SetObserverPassword(const char* passwd)
 {
-   TGo4TaskHandler::SetObservAccount(0,passwd);
+   fServerObserverPass = passwd ? passwd : "";
 }
 
 void TGo4Analysis::SetControllerPassword(const char* passwd)
 {
-   TGo4TaskHandler::SetCtrlAccount(0,passwd);
+   fServerCtrlPass = passwd ? passwd : "";
 }
 
 void TGo4Analysis::SetAdministratorPassword(const char* passwd)
 {
-   TGo4TaskHandler::SetAdminAccount(0,passwd);
+   fServerAdminPass = passwd ? passwd : "";
 }

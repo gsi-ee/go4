@@ -45,6 +45,9 @@ extern "C" TGo4Analysis* CreateUserAnalysis(const char* name)
    // Other steps could be created here
    analysis->AddAnalysisStep(step);
 
+   // uncomment following line to define custom passwords for analysis server
+   // analysis->DefineServerPasswords("XXXadmin", "XXXctrl", "XXXview");
+
    return analysis;
 }
 

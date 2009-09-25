@@ -44,9 +44,10 @@ void usage(const char* err = 0)
    cout << "*          -asf filename        :  set autosave filename and enable it, default <Name>ASF.root" << endl;
    cout << "*          -enable-asf [interval] :  enable store of autosave file, optionally interval in seconds" << endl;
    cout << "*          -disable-asf         :  disable usage of asf" << endl;
-   cout << "*          -run                 :  run analysis in server mode (defualt only run if source specified)" << endl;
-   cout << "*          -norun               :  exlude automatical run" << endl;
    cout << "*          -name name           :  specify analysis name for batch mode" << endl;
+   cout << "*          -run                 :  run analysis in server mode (defualt only run if source specified)" << endl;
+   cout << "*          -norun               :  exclude automatical run" << endl;
+   cout << "*          -hserver [name [passwd]] :  start histogram server with optional name and password" << endl;
    cout << endl;
 
    exit(err ? -1 : 0);
@@ -150,6 +151,9 @@ int main(int argc, char **argv)
 
    Bool_t batchMode(kTRUE);  // GUI or Batch
    Bool_t servermode(kFALSE);            // run analysis as server task
+   Bool_t hserver(kFALSE);               // enable histogram server
+   const char* hname  = "";              // namebase for histogram server
+   const char* hpasswd  = "";            // password for histogram server
    const char* hostname = "localhost";   // gui host name
    Int_t iport(5000);                    // port number used by GUI
 
@@ -304,18 +308,15 @@ int main(int argc, char **argv)
          narg++;
          canrun = -1;
       } else
+      if(strcmp(argv[narg],"-hserver")==0) {
+         narg++;
+         hserver = true;
+         if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
+            hname = argv[narg++];
+         if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
+            hpasswd = argv[narg++];
+      } else
          usage(Form("Unknown argument %d %s", narg, argv[narg]));
-   }
-
-   //==================== password settings for gui login in server mode
-
-   if(servermode) {
-      UserDefFunc* func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserAdministratorPassword");
-      if (func) analysis->SetAdministratorPassword(func());
-      func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserControllerPassword");
-      if (func) analysis->SetControllerPassword(func());
-      func = (UserDefFunc*) gSystem->DynFindSymbol("*", "UserObserverPassword");
-      if (func) analysis->SetObserverPassword(func());
    }
 
    //------ start the analysis -------------------------
@@ -337,7 +338,7 @@ int main(int argc, char **argv)
 
       if (canrun<0) autorun = false;
 
-      TGo4AnalysisClient* client = new TGo4AnalysisClient("UserClient", analysis, hostname, iport, kFALSE, "", "", servermode, autorun);
+      TGo4AnalysisClient* client = new TGo4AnalysisClient("UserClient", analysis, hostname, iport, hserver, hname, hpasswd, servermode, autorun);
 
       cout << "**** Main: created AnalysisClient Instance: " << client->GetName() << endl;
       cout << "**** Main: Run application loop" << endl;
