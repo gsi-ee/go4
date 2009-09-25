@@ -385,14 +385,15 @@ void TGo4AnalysisClient::Stop()
    //   SendStatusBuffer();
    SendAnalysisClientStatus();
 
-   if (fxAnalysis && fxAnalysis->IsStopWorking())
-      if (IsCintMode())
+   if (fxAnalysis && fxAnalysis->IsStopWorking()) {
+      if (IsCintMode()) {
          fxAnalysis->ResetStopWorking();
-      else {
+      } else {
          fxAnalysis->CloseAnalysis();
          TGo4Log::CloseLogfile();
          exit(0);
       }
+   }
 }
 
 void TGo4AnalysisClient::UpdateRate(Int_t counts)
