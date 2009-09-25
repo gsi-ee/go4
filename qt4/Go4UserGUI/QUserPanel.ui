@@ -279,18 +279,6 @@ and then just drag &amp; drop object to this label (not to output window).</stri
       <slot>DrawBtn_clicked()</slot>
     </connection>
     <connection>
-      <sender>coutButton</sender>
-      <signal>clicked()</signal>
-      <receiver>stdoutButton</receiver>
-      <slot>toggle()</slot>
-    </connection>
-    <connection>
-      <sender>stdoutButton</sender>
-      <signal>clicked()</signal>
-      <receiver>coutButton</receiver>
-      <slot>toggle()</slot>
-    </connection>
-    <connection>
       <sender>fxDrawCanvas</sender>
       <signal>CanvasDropEvent(QDropEvent*,TPad*)</signal>
       <receiver>QUserPanel</receiver>

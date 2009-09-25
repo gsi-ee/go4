@@ -23,8 +23,10 @@ endif
 
 # comment to switch off debugging
 ifndef GO4_WIN32
+ifndef optimize
 DOOPTIMIZATION = false
 QMAKEOPTFLAG = "CONFIG+=debug" "QMAKE_CXXFLAGS+=-Wall"
+endif
 endif
 
 # new staff concerning big libraries

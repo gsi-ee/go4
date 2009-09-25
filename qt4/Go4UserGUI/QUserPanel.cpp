@@ -10,7 +10,6 @@
 
 #include <sstream>
 #include <stdlib.h>
-using namespace std;
 
 // this function called by Go4 GUI to start user panel
 extern "C" void* StartUserPanel(void* parent)
