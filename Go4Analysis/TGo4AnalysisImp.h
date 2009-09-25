@@ -152,14 +152,14 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * checked against given values. */
     TGo4AnalysisObjectManager* ObjectManager() const { return fxObjectManager; }
 
-    Bool_t AddDynamicHistogram(const Text_t* name,
-                               const Text_t* histo,
-                               const Text_t* hevx, const Text_t* hmemx,
-                               const Text_t* hevy=0, const Text_t* hmemy=0,
-                               const Text_t* hevz=0, const Text_t* hmemz=0,
-                               const Text_t* condition=0,
-                               const Text_t* cevx=0, const Text_t* cmemx=0,
-                               const Text_t* cevy=0, const Text_t* cmemy=0);
+    Bool_t AddDynamicHistogram(const char* name,
+                               const char* histo,
+                               const char* hevx, const char* hmemx,
+                               const char* hevy=0, const char* hmemy=0,
+                               const char* hevz=0, const char* hmemz=0,
+                               const char* condition=0,
+                               const char* cevx=0, const char* cmemx=0,
+                               const char* cevy=0, const char* cmemy=0);
 
 
     /** Set dynamic entry of name "name" to the values specified by external
@@ -171,7 +171,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     /** Remove entry of that name from dynamic list of listname.
       * The referred objects (histograms, conditions..) are still on heap, since
       * they are owned by their special folders. */
-    Bool_t RemoveDynamicEntry(const Text_t* entryname, const Text_t* listname=0);
+    Bool_t RemoveDynamicEntry(const char* entryname, const char* listname=0);
 
     /** Add any external object to the user object folder.
       * Object is owned by go4 aferwards and will be saved automatically.
@@ -179,30 +179,30 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * analysis itself. Subfolder of UserObjects may be specified.
       * If replace is true, old object of same name will be deleted and
       * replaced by the added one. */
-    Bool_t AddObject(TNamed * anything, const Text_t* subfolder=0, Bool_t replace=kTRUE);
+    Bool_t AddObject(TNamed * anything, const char* subfolder=0, Bool_t replace=kTRUE);
 
     /** Searches for object by name in all directories. Returns
       * pointer to object. If
       * object of that name does not exist, null is returned.
       * Optionally, folder may be specified to search in. */
-    TNamed * GetObject(const Text_t* name, const Text_t* folder=0);
+    TNamed * GetObject(const char* name, const char* folder=0);
 
     /** Removes object from user object folder by name. Returns kFALSE if no
       * such histogram. Object is deleted on heap only if del is true.
       * Otherwise, user owns the object afterwords. */
-    Bool_t RemoveObject(const Text_t* name, Bool_t del=kTRUE);
+    Bool_t RemoveObject(const char* name, Bool_t del=kTRUE);
 
     /** Delete object of name, or all objects in folder name, respectively.
       * Objects are only deleted if delete protection is false. Usually,
       * Objects registered from user code are delete protected by default.
       * Objects created dynamically from gui are not delete protected. */
-    Bool_t DeleteObjects(const Text_t * name);
+    Bool_t DeleteObjects(const char * name);
 
     /** Clear (reset) the specified objects. Method will first
       * clear all objects in any folder if it is matching the namestring.
       * If no such folder exists, object of name is searched and cleared.
       * Returns kFALSE in case of not found objects. */
-    Bool_t ClearObjects(const Text_t* name);
+    Bool_t ClearObjects(const char* name);
 
     /** Change protection properties of object name as specified.
       * If object is a folder, change properties of all objects in this folder recursively.
@@ -211,7 +211,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * "+D"/"-D" to enable/disable protection against object deletion
       * For example flags="+C-D", "+C+D", "-D-C", "-C"
       * Properties not appearing in flags are not changed.  */
-    Bool_t ProtectObjects(const Text_t* name, const Option_t* flags);
+    Bool_t ProtectObjects(const char* name, const Option_t* flags);
 
     /** Clear previous events of backstore tree. For reset of dynamic tree histogram
      * If called with clearflag=true, do not reset tree, but only clear
@@ -224,23 +224,23 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * all names with expr. If reset is false, the next object of a
       * previously created matching list is returned. Optionally the
       * search can be limited to a given folder. */
-    TObject* NextMatchingObject(const Text_t* expr=0,
-                                const Text_t* folder=0,
+    TObject* NextMatchingObject(const char* expr=0,
+                                const char* folder=0,
                                 Bool_t reset=kFALSE);
 
     /** Create a tree structure for a certain tree by name */
-    TGo4TreeStructure* CreateTreeStructure(const Text_t* treename);
+    TGo4TreeStructure* CreateTreeStructure(const char* treename);
 
     /** Add external histogram to go4 histogram directory. Histogram will be owned
       * and streamed by go4 histogram list afterwards. */
-    Bool_t AddHistogram(TH1* his , const Text_t* subfolder=0, Bool_t replace=kTRUE);
+    Bool_t AddHistogram(TH1* his , const char* subfolder=0, Bool_t replace=kTRUE);
 
     /** Add reference to a tree in the go4 folder structure.
       * If name of subfolder is given, tree will be assigned
       * to subfolder (e.g. subfolder with analysis step name).
       * If subfolder name is zero,
       * the tree will be put into general tree folder. */
-    Bool_t AddTree(TTree* tree, const Text_t* subfolder=0);
+    Bool_t AddTree(TTree* tree, const char* subfolder=0);
 
     /** Remove reference to a tree in the go4 folder structure.
       * If name of analysis step is given, tree will be assigned
@@ -255,39 +255,39 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     Bool_t AddTreeHistogram(const char* hisname, const char* treename, const char* varexp, const char* cutexp);
 
     /** Search histogram in histogram list (directory). */
-    TH1* GetHistogram(const Text_t* name);
+    TH1* GetHistogram(const char* name);
 
     /** Search tree in tree folder. */
-    TTree * GetTree(const Text_t* name);
+    TTree * GetTree(const char* name);
 
     /** Removes histogram from histogram dir by name. Returns kFALSE if no
       * such index. Histogram object is deleted on heap.
       * Dynamic list entry for that histogram object is also removed. */
-    Bool_t RemoveHistogram(const Text_t* name, Bool_t del=kTRUE);
+    Bool_t RemoveHistogram(const char* name, Bool_t del=kTRUE);
 
     /** Puts a new analysis condition object in corresponding list.
       * Object is owned by list afterwards. Returns false if object
       * of that name already exists in list. */
-    Bool_t AddAnalysisCondition(TGo4Condition * con, const Text_t* subfolder=0);
+    Bool_t AddAnalysisCondition(TGo4Condition * con, const char* subfolder=0);
 
     /** Set existing analysis condition of name to the values
       * of external condition object con. Used to set condition by command
       * from gui, or to update the precompiled condition from the values
       * that were saved to the autosave file. */
-    Bool_t SetAnalysisCondition(const Text_t* name, TGo4Condition* con, Bool_t counter=kTRUE);
+    Bool_t SetAnalysisCondition(const char* name, TGo4Condition* con, Bool_t counter=kTRUE);
 
     /** Retrieves an analysis condition  from list by name. Returns 0 if no
       * such condtion. */
-    TGo4Condition * GetAnalysisCondition(const Text_t* name);
+    TGo4Condition * GetAnalysisCondition(const char* name);
 
     /** Removes analysis condition from list by name. Returns 0 if no
       * such condition. Condition object is deleted on heap. */
-    Bool_t RemoveAnalysisCondition(const Text_t* name);
+    Bool_t RemoveAnalysisCondition(const char* name);
 
     /** Puts a new parameter object in corresponding folder.
       * Object is owned by folder afterwards. Returns false if object
       * of that name already exists in list. */
-    Bool_t AddParameter(TGo4Parameter * par, const Text_t* subfolder=0);
+    Bool_t AddParameter(TGo4Parameter * par, const char* subfolder=0);
 
     /** Set existing parameter of name to the values
       * of external parameter object par. Used to set parameter by command
@@ -303,43 +303,43 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /** Retrieves a parameter object by name from the object folder. Returns 0 if no
       * such paramter. */
-    TGo4Parameter * GetParameter(const Text_t* name);
+    TGo4Parameter * GetParameter(const char* name);
 
     /** Removes parameter by name. Returns 0 if no
       * such parameter. Parameter object is deleted on heap. */
-    Bool_t RemoveParameter(const Text_t* name);
+    Bool_t RemoveParameter(const char* name);
 
     /** Puts a new picture object in corresponding folder.
       * Object is owned by folder afterwards. Returns false if object
       * of that name already exists in list. */
-    Bool_t AddPicture(TGo4Picture * pic, const Text_t* subfolder=0);
+    Bool_t AddPicture(TGo4Picture * pic, const char* subfolder=0);
 
     /** Set existing picture of name to the values
       * of external picture object pic. Used to set picture by command
       * from gui, or to update the precompiled picture from the values
       * that were saved to the autosave file. */
-    Bool_t SetPicture(const Text_t* name, TGo4Picture * pic);
+    Bool_t SetPicture(const char* name, TGo4Picture * pic);
 
     /** Retrieves a picture object by name from the object folder.
       * Returns 0 if no such picture. */
-    TGo4Picture * GetPicture(const Text_t* name);
+    TGo4Picture * GetPicture(const char* name);
 
     /** Removes picture by name. Returns 0 if no
       * such picture. Picture object is deleted on heap. */
-    Bool_t RemovePicture(const Text_t * name);
+    Bool_t RemovePicture(const char * name);
 
     /** Puts a new TCanvas in corresponding folder.
       * Object is owned by folder afterwards. Returns false if object
       * of that name already exist. */
-    Bool_t AddCanvas(TCanvas * can, const Text_t* subfolder=0);
+    Bool_t AddCanvas(TCanvas * can, const char* subfolder=0);
 
     /** Retrieves a TCanvas by name from the Canvases folder.
       * Returns 0 if no such object. */
-    TCanvas * GetCanvas(const Text_t* name);
+    TCanvas * GetCanvas(const char* name);
 
     /** Removes TCanvas by name. Returns 0 if no
       * such canvas. TCanvas object is deleted on heap. */
-    Bool_t RemoveCanvas(const Text_t * name);
+    Bool_t RemoveCanvas(const char * name);
 
     /** Create a copy of the analysis internal state.
       * To be sent to the Display. */
@@ -348,7 +348,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     /** Find Object of name in the folder structure
       * and create a complete status object of it.
       * Used by GUI command to get updated information on certain object. */
-    TGo4ObjectStatus* CreateObjectStatus(const Text_t * name, const Text_t* folder=0);
+    TGo4ObjectStatus* CreateObjectStatus(const char * name, const char* folder=0);
 
     /** Creates a list of names (keys) of all objects in analysis directories. */
     TGo4AnalysisObjectNames * CreateNamesList();
@@ -388,13 +388,13 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     /** Sets analysis step name as first one to be processed in
       * the chain of steps. First step will read input event from its
       * event source. If name is nullpointer, takes first step in steplist. */
-    Bool_t SetFirstStep(const Text_t* name);
+    Bool_t SetFirstStep(const char* name);
 
     /** Sets analysis step name as last one to be processed in
       * the chain of steps. Last step will write output event into its
       * event store by default, its output event is accessible in the user
       * analysis. If name is nullpointer, takes last step in steplist. */
-    Bool_t SetLastStep(const Text_t* name);
+    Bool_t SetLastStep(const char* name);
 
     /** Enables analysis step of name to write its output event into
       * its event store. By default only the last analysis step
@@ -406,22 +406,22 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * switch off the storage of the last analysis step output
       * if you only want to use the histograms produced by the
       * final user event function. */
-    Bool_t SetStepStorage(const Text_t* name, Bool_t on);
+    Bool_t SetStepStorage(const char* name, Bool_t on);
 
     /** Shuts down the old analysis step storage and creates a new
       * one specified by parameter par. To be used in online mode to
       * switch output files. */
-    Bool_t NewStepStore(const Text_t* name, TGo4EventStoreParameter* par);
+    Bool_t NewStepStore(const char* name, TGo4EventStoreParameter* par);
 
     /** Shuts down the old analysis step event source and creates a new
       * one specified by parameter par. To be used in online mode to
       * switch input. */
-    Bool_t NewStepSource(const Text_t* name, TGo4EventSourceParameter * par);
+    Bool_t NewStepSource(const char* name, TGo4EventSourceParameter * par);
 
     /** Shuts down the old analysis step processor and creates a new
       * one specified by parameter par. To be used in online mode to
       * switch event processing. */
-    Bool_t NewStepProcessor(const Text_t* name, TGo4EventProcessorParameter * par);
+    Bool_t NewStepProcessor(const char* name, TGo4EventProcessorParameter * par);
 
     /** Set time interval (in s) for autosave action. */
     void SetAutoSaveInterval(Int_t interval=0) { fiAutoSaveInterval=interval; }
@@ -517,7 +517,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     TGo4EventElement* GetOutputEvent();
 
     /** Search reference to event stucture in  folder. */
-    TGo4EventElement * GetEventStructure(const Text_t * name);
+    TGo4EventElement * GetEventStructure(const char * name);
 
     /** Display a user message. Argument pri defines message priority:
       * <0: display text as info on local terminal and in logfile anyway, independent of ignorelevel
@@ -525,7 +525,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * 1: local terminal and info message in gui log panel (if gui mode)
       * 2: local terminal and warning message in gui log panel (if gui mode)
       * 3: local terminal and error message in gui log panel (if gui mode) */
-    void Message(Int_t prio, const Text_t* text,...);
+    void Message(Int_t prio, const char* text,...);
 
     /** User May send any named object via data channel to the gui.
       * In batch mode, this method is disabled. */
@@ -533,7 +533,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /** Start the object (histogram) server. Existing server will be stopped and replaced
       * by new server with different basename and password. */
-    void StartObjectServer(const Text_t* basename,  const Text_t* passwd);
+    void StartObjectServer(const char* basename,  const char* passwd);
 
     /** Stop the object (histogram) server. */
     void StopObjectServer();
@@ -556,10 +556,10 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     virtual void Print(Option_t* opt="") const;
 
     /** Printout of all histogram statistic counters on the terminal. */
-    void PrintHistograms(const Text_t* expression=0);
+    void PrintHistograms(const char* expression=0);
 
     /** Print all condition counters to the terminal. */
-    void PrintConditions(const Text_t* expression=0);
+    void PrintConditions(const char* expression=0);
 
     /** Print entries of current dynamic list. */
     void PrintDynamicList();
@@ -569,36 +569,36 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * Event is searched by name of analyis step. If isoutput true, then
       * output event of that step is used, otherwise input event.
       * If analysis step not found, event of stepname is searched in registered folders. */
-    void ShowEvent(const Text_t* stepname, Bool_t isoutput=kTRUE);
+    void ShowEvent(const char* stepname, Bool_t isoutput=kTRUE);
 
     /** Write object obj into eventstore of the step specified by name.
       * Current event number will be added to object name in the file.
       * Returns -1 in case of not active eventstore. Returns +1 in case
       * of unknown step. */
-    Int_t StoreParameter(const Text_t * name, TGo4Parameter* par);
+    Int_t StoreParameter(const char * name, TGo4Parameter* par);
 
     /** Write condition con into eventstore of the step specified by name.
       * Current event number will be added to parameter name in the file.
       * Returns -1 in case of not active eventstore. Returns +1 in case
       * of unknown step. */
-    Int_t StoreCondition(const Text_t * name, TGo4Condition* con);
+    Int_t StoreCondition(const char * name, TGo4Condition* con);
 
     /** Write fitter fit into eventstore of the step specified by name.
       * Current event number will be added to parameter name in the file.
       * Returns -1 in case of not active eventstore. Returns +1 in case
       * of unknown step. */
-    Int_t StoreFitter(const Text_t * name, TGo4Fitter* fit);
+    Int_t StoreFitter(const char * name, TGo4Fitter* fit);
 
     /** Write folder into eventstore of the step specified by name.
       * Current event number will be added to parameter name in the file.
       * Returns -1 in case of not active eventstore. Returns +1 in case
       * of unknown step. */
-    Int_t StoreFolder(const Text_t * stepname, TFolder* folder);
+    Int_t StoreFolder(const char * stepname, TFolder* folder);
 
     /** Write registered folder of foldername to the step store of stepname.
       * Returns -1 in case of not active eventstore. Returns +1 in case
       * of unknown step, +2 in case of unknown folder*/
-    Int_t StoreFolder(const Text_t * stepname, const Text_t* foldername);
+    Int_t StoreFolder(const char * stepname, const char* foldername);
 
     /** Perform autosave of all active stores, save existing calibration objects,
       * write known objects into user file. */
@@ -648,7 +648,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * If no analysis step of that name exists, the event is
       * searched by object name in the eventstructure folder
       * of the object manager. */
-    TTree* CreateSingleEventTree(const Text_t* name, Bool_t isoutput=kTRUE);
+    TTree* CreateSingleEventTree(const char* name, Bool_t isoutput=kTRUE);
 
     /** Create a tree that is filled with one single event sample. To be sent to the gui. */
     TTree* CreateSingleEventTree(TGo4EventElement* event);

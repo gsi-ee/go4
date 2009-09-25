@@ -390,6 +390,7 @@ void TGo4AnalysisClient::Stop()
          fxAnalysis->ResetStopWorking();
       else {
          fxAnalysis->CloseAnalysis();
+         TGo4Log::CloseLogfile();
          exit(0);
       }
 }
