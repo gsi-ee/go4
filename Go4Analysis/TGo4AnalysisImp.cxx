@@ -1113,6 +1113,11 @@ TGo4AnalysisStep* TGo4Analysis::GetAnalysisStep(const char* name)
    return fxStepManager->GetAnalysisStep(name);
 }
 
+TGo4AnalysisStep* TGo4Analysis::GetAnalysisStepNum(Int_t number)
+{
+   return fxStepManager->GetAnalysisStepNum(number);
+}
+
 Int_t TGo4Analysis::GetDynListInterval()
 {
    return fxObjectManager->GetDynListInterval();

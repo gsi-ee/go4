@@ -481,19 +481,22 @@ TRACE((14,"TGo4AnalysisStepManager::AddAnalysisStep(TGo4AnalysisStep*)",__LINE__
 
 TGo4AnalysisStep * TGo4AnalysisStepManager::GetAnalysisStep(const char* name)
 {
-TRACE((11,"TGo4AnalysisStepManager::GetAnalysisStep(const char *)",__LINE__, __FILE__));
+   TRACE((11,"TGo4AnalysisStepManager::GetAnalysisStep(const char *)",__LINE__, __FILE__));
    TGo4AnalysisStep* step=0;
    if(name==0)
-      {
-         step=dynamic_cast<TGo4AnalysisStep*>( fxStepList->At(fiFirstStepIndex));
-      }
-      else
-      {
-      //TGo4LockGuard  listguard(fxStepMutex);
-         step = dynamic_cast<TGo4AnalysisStep*>( fxStepList->FindObject(name) );
-      }
+      step=dynamic_cast<TGo4AnalysisStep*>( fxStepList->At(fiFirstStepIndex));
+   else
+      step = dynamic_cast<TGo4AnalysisStep*>( fxStepList->FindObject(name) );
    return step;
 }
+
+TGo4AnalysisStep* TGo4AnalysisStepManager::GetAnalysisStepNum(Int_t number)
+{
+   TRACE((11,"TGo4AnalysisStepManager::GetAnalysisStepNum(Int_t)",__LINE__, __FILE__));
+   if ((number<0) || (number>fxStepList->GetLast())) return 0;
+   return dynamic_cast<TGo4AnalysisStep*>( fxStepList->At(number));
+}
+
 
 Int_t TGo4AnalysisStepManager::ProcessAnalysisSteps()
 {

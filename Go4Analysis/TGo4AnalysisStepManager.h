@@ -41,6 +41,9 @@ class TGo4AnalysisStepManager : public TNamed {
        * if name==0, first step is returned */
       TGo4AnalysisStep* GetAnalysisStep(const char* name);
 
+      /** Access to certain analysis step by number. */
+      TGo4AnalysisStep* GetAnalysisStepNum(Int_t number);
+
       /** Method for user analysis constructor to setup the list
         * of analyisis steps. Each call of this method will add a new
         * analysis step at the end of the list. Caution: user has to take

@@ -1,6 +1,6 @@
-#include "Riostream.h"
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 // #include "TClassTable.h"
 #include "TROOT.h"
@@ -8,6 +8,7 @@
 #include "TRint.h"
 #include "TApplication.h"
 #include "TSystem.h"
+#include "Riostream.h"
 
 #include "TGo4Version.h"
 #include "TGo4StepFactory.h"
@@ -45,7 +46,10 @@ void usage(const char* err = 0)
    cout << "  -disable-asf           :  disable usage of asf" << endl;
    cout << "" << endl;
    cout << "STEP: individual step configurations" << endl;
-   cout << "  -step name           :  select step for configuration (default: first active step)" << endl;
+   cout << "  -step name           :  select step by it's name, if not defined, first step is used" << endl;
+   cout << "  -step number         :  select step by it's number" << endl;
+   cout << "  -enable-step         :  enable step processing" << endl;
+   cout << "  -disable-step        :  disable step processing" << endl;
    cout << "  -file filename.lmd   :  use lmd file as event source" << endl;
    cout << "  -file filename.lml   :  use lml file as event source" << endl;
    cout << "  -transport server    :  connect to MBS transport server" << endl;
@@ -61,6 +65,8 @@ void usage(const char* err = 0)
    cout << "  -backstore name      :  create backstore for online tree draw" << endl;
    cout << "  -enable-store        :  enable step store" << endl;
    cout << "  -disable-store       :  disable step store" << endl;
+   cout << "  -enable-errstop      :  enable stop-on-error mode" << endl;
+   cout << "  -disable-errstop     :  disable stop-on-error mode" << endl;
    cout << endl;
 
    exit(err ? -1 : 0);
@@ -205,10 +211,23 @@ int main(int argc, char **argv)
       } else
       if (strcmp(argv[narg],"-step")==0) {
          if (++narg < argc) {
-            step = analysis->GetAnalysisStep(argv[narg++]);
+            const char* step_name = argv[narg++];
+            int step_number(-1);
+            step = 0;
+            if (sscanf(step_name, "%d", &step_number)==1)
+               if (step_number>=0) step = analysis->GetAnalysisStepNum(step_number);
+            if (step==0) step = analysis->GetAnalysisStep(step_name);
             if (step==0) usage("step not found");
          } else
             usage("step name not specified");
+      } else
+      if(strcmp(argv[narg],"-enable-step")==0) {
+         narg++;
+         step->SetProcessEnabled(kTRUE);
+      } else
+      if(strcmp(argv[narg],"-disable-step")==0) {
+         narg++;
+         step->SetProcessEnabled(kFALSE);
       } else
       if (strcmp(argv[narg],"-file")==0) {
          if (++narg < argc) {
@@ -347,6 +366,14 @@ int main(int argc, char **argv)
       if(strcmp(argv[narg],"-disable-source")==0) {
          narg++;
          step->SetSourceEnabled(kFALSE);
+      } else
+      if(strcmp(argv[narg],"-disable-errstop")==0) {
+         narg++;
+         step->SetErrorStopEnabled(kFALSE);
+      } else
+      if(strcmp(argv[narg],"-enable-errstop")==0) {
+         narg++;
+         step->SetErrorStopEnabled(kTRUE);
       } else
       if(strcmp(argv[narg],"-hserver")==0) {
          narg++;

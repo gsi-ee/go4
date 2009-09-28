@@ -187,10 +187,10 @@ class TGo4AnalysisStep : public TNamed {
 
     Bool_t IsProcessEnabled() const { return fbProcessEnabled; }
 
-    /** True if analsis step has been stopped on error. */
+    /** True if analysis step has been stopped on error. */
     Bool_t IsErrorStopped() const { return fbErrorStopped; }
 
-    /** True if analsis step allows stop on error. */
+    /** True if analysis step allows stop on error. */
     Bool_t IsErrorStopEnabled() const { return fbErrorStopEnabled; }
 
     /** Status of the last event. */
