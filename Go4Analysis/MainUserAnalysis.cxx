@@ -7,6 +7,8 @@
 #include "TClass.h"
 #include "TClassTable.h"
 #include "TMethod.h"
+#include "TMethodArg.h"
+#include "TDataType.h"
 #include "TRint.h"
 #include "TApplication.h"
 #include "TSystem.h"
@@ -39,6 +41,7 @@ void usage(const char* err = 0)
    cout << "  -number NUMBER              :  process NUMBER events in batch mode" << endl;
    cout << "  -hserver [name [passwd]]    :  start histogram server with optional name and password" << endl;
    cout << "  -log [filename]             :  enable log output into filename (default:go4logfile.txt)" << endl;
+   cout << "  -v -v0 -v1 -v2 -v3          :  change log output verbosity (0 - maximum, 1 - info, 2 - warn, 3 - errors)" << endl;
    cout << "  -help                       :  show this help" << endl;
    cout << "" << endl;
    cout << "ANALYSIS: common analysis configurations" << endl;
@@ -77,7 +80,7 @@ void usage(const char* err = 0)
 typedef const char* (UserDefFunc)();
 typedef TGo4Analysis* (UserCreateFunc)(const char* name);
 
-const char* GetArgValue(int argc, char **argv, const char* argname, int* pos = 0)
+const char* GetArgValue(int argc, char **argv, const char* argname, int* pos = 0, bool incomplete = false)
 {
    int n = pos ? *pos : 0;
 
@@ -86,6 +89,10 @@ const char* GetArgValue(int argc, char **argv, const char* argname, int* pos = 0
          if ((n+1<argc) && (argv[n+1][0]!='-')) {
             if (pos) *pos = n+1;
             return argv[n+1];
+         } else
+         if (incomplete) {
+            if (pos) *pos = n+1;
+            return "";
          }
       }
 
@@ -101,13 +108,15 @@ TList* GetClassesList(TList* prev = 0)
    TList* lst = new TList;
    lst->SetOwner(kTRUE);
 
+   if (prev!=0) TGo4Log::Debug("Search user classes in loaded library");
+
    while ((name = TClassTable::Next()) != 0) {
       if (prev && prev->FindObject(name)) continue;
 
       TNamed* obj = new TNamed(name, name);
       lst->Add(obj);
-      if (prev!=0) cout << "New class = " << name << endl;
 
+      if (prev!=0) TGo4Log::Debug("New class %s", name);
    }
    return lst;
 }
@@ -121,7 +130,6 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name)
 
    while ((obj = iter()) != 0) {
       TClass* cl = TClass::GetClass(obj->GetName());
-//      cout << "Check class = " << obj->GetName() << " class = " << cl << endl;
 
       if (cl==0) continue;
 
@@ -137,24 +145,99 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name)
    }
 
    if (an_cl!=0) {
+
+      TGo4Log::Info("Find user analysis class %s", an_cl->GetName());
+
       TMethod* meth = an_cl->GetMethodWithPrototype(an_cl->GetName(), "const char*");
       if (meth!=0) {
-         cout << "Find constructor with prototype char*" << endl;
+         TGo4Log::Info("!!! Find constructor with prototype %s::%s(const char*)", an_cl->GetName(), an_cl->GetName());
 
          TString cmd = Form("new %s(\"%s\");", an_cl->GetName(), name);
          Int_t err = 0;
 
-         cout << "Call: " << cmd << endl;
+         TGo4Log::Info("Process: %s", cmd.Data());
 
          TGo4Analysis* analysis = (TGo4Analysis*) gROOT->ProcessLineFast(cmd.Data(), &err);
 
          if ((analysis!=0) && (err==0)) return analysis;
 
-         cerr << "Cannot create analysis class " << an_cl->GetName() << " with const char* prototype" << endl;
+         TGo4Log::Error("Cannot create analysis class % instance with const char* prototype", an_cl->GetName());
+         TGo4Log::Error("Add CreateUserAnalysis(const char*) function in user library");
          exit(1);
       }
 
-      cerr << "Cannot create analysis class " << an_cl->GetName() << endl;
+      // search for non-default analysis constructor
+      TIter iter(an_cl->GetListOfMethods());
+      while ((meth = (TMethod*) iter()) != 0) {
+         if (strcmp(meth->GetName(), an_cl->GetName()) != 0) continue;
+         if (meth->GetListOfMethodArgs()->GetSize()==0) continue;
+         break;
+      }
+
+      if (meth==0) {
+         TGo4Log::Error("Cannot find non-default constructor for class %s", an_cl->GetName());
+         TGo4Log::Error("Add CreateUserAnalysis(const char*) function in user library");
+         exit(1);
+      }
+
+      TGo4Log::Info("Find constructor with %d arguments", meth->GetListOfMethodArgs()->GetSize());
+
+      TMethodArg *argument = 0;
+      TIter next(meth->GetListOfMethodArgs());
+
+      TString cmd = Form("new %s(", an_cl->GetName());
+
+      int counter = 0;
+
+      while ((argument = (TMethodArg *) next())) {
+
+         if (counter>0) cmd+=", ";
+         counter++;
+
+         TDataType *datatype  = gROOT->GetType(argument->GetTypeName());
+
+         TString basictype = (datatype==0) ? "int" :  datatype->GetTypeName();
+
+         TGo4Log::Debug("Argument %s type %s basictype %s", argument->GetName(), argument->GetTitle(), basictype.Data());
+
+         TString argDflt = argument->GetDefault() ? argument->GetDefault() : "";
+         if (argDflt.Length()>0) {
+            cmd += argDflt;
+            continue;
+         }
+
+         bool isptr = strchr(argument->GetTitle(), '*') != 0;
+
+         if ((datatype==0) && !isptr) {
+            TGo4Log::Error("Cannot specify any value for argument %s of class %s constructor", argument->GetName(), an_cl->GetName());
+            TGo4Log::Error("Add CreateUserAnalysis(const char*) function in user library");
+            exit(1);
+         }
+
+         if (isptr) {
+            if ((basictype == "char") || (basictype="Text_t")) cmd+="\"\"";
+                                                          else cmd+="0";
+         } else {
+            if ((counter==2) && (basictype=="int")) {
+               TGo4Log::Info("Special treatment for second integer argument, suppose MBS input type");
+               cmd+=Form("%d", GO4EV_MBS_FILE);
+            } else
+            if (basictype=="bool") {
+               cmd+="false";
+            } else
+               cmd+="0";
+         }
+      }
+
+      cmd += ");";
+
+      Int_t err = 0;
+      TGo4Log::Info("Process: %s", cmd.Data());
+      TGo4Analysis* analysis = (TGo4Analysis*) gROOT->ProcessLineFast(cmd.Data(), &err);
+      if ((analysis!=0) && (err==0)) return analysis;
+
+      TGo4Log::Error("Cannot create analysis class % instance", an_cl->GetName());
+      TGo4Log::Error("Add CreateUserAnalysis(const char*) function in user library");
 
       exit(1);
    }
@@ -203,6 +286,27 @@ int main(int argc, char **argv)
 
    if (argc<2) usage();
 
+   const char* logfile = GetArgValue(argc, argv, "-log", 0, true);
+   if (logfile!=0) {
+
+      TGo4Log::Instance();
+
+      TGo4Log::LogfileEnable(kTRUE);
+      if (strlen(logfile)==0) logfile = TGo4Log::fgcDEFAULTLOG;
+      TGo4Log::OpenLogfile(logfile, 0, kTRUE);
+
+      TString info = "go4analysis";
+      for (int n=1;n<argc;n++) { info += " "; info += argv[n]; }
+
+      TGo4Log::WriteLogfile(info.Data(), true);
+   }
+
+   if (GetArgValue(argc, argv, "-v", 0, true) || GetArgValue(argc, argv, "-verbose", 0, true)) TGo4Log::SetIgnoreLevel(-1);
+   else if (GetArgValue(argc, argv, "-v0", 0, true)) TGo4Log::SetIgnoreLevel(0);
+   else if (GetArgValue(argc, argv, "-v1", 0, true)) TGo4Log::SetIgnoreLevel(1);
+   else if (GetArgValue(argc, argv, "-v2", 0, true)) TGo4Log::SetIgnoreLevel(2);
+   else if (GetArgValue(argc, argv, "-v3", 0, true)) TGo4Log::SetIgnoreLevel(3);
+
    const char* analysis_name = GetArgValue(argc, argv, "-server");
    if (analysis_name==0) analysis_name = GetArgValue(argc, argv, "-gui");
    if (analysis_name==0) analysis_name = GetArgValue(argc, argv, "-name");
@@ -214,14 +318,14 @@ int main(int argc, char **argv)
    bool isanylib = false;
    const char* libname = 0;
    while ((libname = GetArgValue(argc, argv, "-lib", &argpos))!=0) {
-      cout << "Reading library: " << libname << endl;
+      TGo4Log::Info("Reading library: %s", libname);
       if (gSystem->Load(libname)<0) return -1;
       isanylib = true;
    }
 
    if (!isanylib) {
       libname = "libGo4UserAnalysis";
-      cout << "Reading library: " << libname << endl;
+      TGo4Log::Info("Reading library: %s", libname);
       if (gSystem->Load(libname)<0) return -1;
    }
 
@@ -425,11 +529,10 @@ int main(int argc, char **argv)
       } else
       if(strcmp(argv[narg],"-log")==0) {
          narg++;
-         TGo4Log::LogfileEnable(kTRUE);
-         const char* logname = TGo4Log::fgcDEFAULTLOG;
-         if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
-            logname = argv[narg++];
-         TGo4Log::OpenLogfile(logname, " -- This is logfile from go4analysis file --- ", kTRUE);
+         if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) narg++;
+      } else
+      if((strcmp(argv[narg],"-v")==0) || (strcmp(argv[narg],"-v0")==0) || (strcmp(argv[narg],"-v1")==0) || (strcmp(argv[narg],"-v2")==0) || (strcmp(argv[narg],"-v3")==0)) {
+         narg++;
       } else
       if(strcmp(argv[narg],"-run")==0) {
          narg++;
