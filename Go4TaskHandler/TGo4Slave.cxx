@@ -157,8 +157,9 @@ void TGo4Slave::UpdateStatusBuffer()
 {
    if(GetTask()) GetTask()->UpdateStatusBuffer();
 }
+
 void TGo4Slave::ExecuteString(const char* command)
 {
-   gROOT->ProcessLine(command);
+   gROOT->ProcessLineSync(command);
 }
 

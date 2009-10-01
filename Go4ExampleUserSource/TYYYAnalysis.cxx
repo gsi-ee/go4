@@ -16,8 +16,9 @@
 #include "TYYYRawEvent.h"
 #include "TGo4StepFactory.h"
 
-extern "C" TGo4Analysis* CreateUserAnalysis(const char* name) { return new TYYYAnalysis(name); }
+// !!! uncomment this line if signature of user analysis class constructor will change !!
 
+// extern "C" TGo4Analysis* CreateUserAnalysis(const char* name) { return new TYYYAnalysis(name); }
 
 //***********************************************************
 TYYYAnalysis::TYYYAnalysis() :

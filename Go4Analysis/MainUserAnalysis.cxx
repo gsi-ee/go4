@@ -6,6 +6,7 @@
 #include "TROOT.h"
 #include "TClass.h"
 #include "TClassTable.h"
+#include "TMethod.h"
 #include "TRint.h"
 #include "TApplication.h"
 #include "TSystem.h"
@@ -133,6 +134,29 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name)
       if (cl->InheritsFrom(TGo4Analysis::Class())) {
          if ((cl!=TGo4Analysis::Class()) && (an_cl==0)) an_cl = cl;
       }
+   }
+
+   if (an_cl!=0) {
+      TMethod* meth = an_cl->GetMethodWithPrototype(an_cl->GetName(), "const char*");
+      if (meth!=0) {
+         cout << "Find constructor with prototype char*" << endl;
+
+         TString cmd = Form("new %s(\"%s\");", an_cl->GetName(), name);
+         Int_t err = 0;
+
+         cout << "Call: " << cmd << endl;
+
+         TGo4Analysis* analysis = (TGo4Analysis*) gROOT->ProcessLineFast(cmd.Data(), &err);
+
+         if ((analysis!=0) && (err==0)) return analysis;
+
+         cerr << "Cannot create analysis class " << an_cl->GetName() << " with const char* prototype" << endl;
+         exit(1);
+      }
+
+      cerr << "Cannot create analysis class " << an_cl->GetName() << endl;
+
+      exit(1);
    }
 
    if (proc_cl==0) return 0;

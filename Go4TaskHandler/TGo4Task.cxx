@@ -136,7 +136,7 @@ void TGo4Task::ExecuteString(const char* command)
    if(fxSlave)
       fxSlave->ExecuteString(command);
    else
-      gROOT->ProcessLine(command);
+      gROOT->ProcessLineSync(command);
 
 }
 

@@ -9,7 +9,7 @@
 #include "TCutG.h"
 #include "TArrayD.h"
 #include "TAxis.h"
-#include "TInterpreter.h"
+#include "TROOT.h"
 
 #include "TGo4Log.h"
 #include "TGo4WinCond.h"
@@ -498,7 +498,7 @@ TGo4Parameter* TGo4EventProcessor::MakeParameter(const char* fullname,
    else
       cmd = Form("new %s(%s);", classname, paramname.Data());
 
-   Long_t res = gInterpreter->ProcessLine(cmd.Data());
+   Long_t res = gROOT->ProcessLineFast(cmd.Data());
 
    if (res==0) {
       cout << "Cannot create parameter of class " << classname << endl;

@@ -10,7 +10,10 @@
 #include "TGo4Version.h"
 
 
-extern "C" TGo4Analysis* CreateUserAnalysis(const char* name) { return new TXXXAnalysis(name); }
+
+// !!! uncomment this line if signature of user analysis class constructor will change !!
+
+// extern "C" TGo4Analysis* CreateUserAnalysis(const char* name) { return new TXXXAnalysis(name); }
 
 
 //***********************************************************

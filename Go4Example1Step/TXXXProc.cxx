@@ -40,7 +40,7 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
    // Macro setfill.C creates macro histofill.C to set histogram fill status in parameter "Control".
    // Executed in Analysis terminal input line by .x setfill.C(n) with n=0,1.
    // This macro histofill.C, not the auto save file, will set status.
-   gROOT->ProcessLine(".x histofill.C");
+   gROOT->ProcessLineSync(".x histofill.C");
    fControl->PrintParameter(0,0);
 
    cout << "**** TXXXProc: Produce histograms" << endl;

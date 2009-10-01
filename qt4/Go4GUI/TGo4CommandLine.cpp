@@ -67,7 +67,7 @@ if (InputLine->EnterPressed() && (str!="")) {
       else
         {
             StatusMessage(QString("Executing command: ") + str);
-            gROOT->ProcessLine(str.toAscii());
+            gROOT->ProcessLineSync(str.toAscii());
         }
        SaveHistory();
    }
@@ -98,16 +98,16 @@ void TGo4CommandLine::LoadHistory()
     QStringList histlist=go4sett->getCommandsHistoryGUI();
     InputLine->addItems(histlist);
 // prepared pre-loading of system macros:
-    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/corrhistos.C").Data()));
-    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/hishisto.C").Data()));
-    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/addhistos.C").Data()));
-    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/divhistos.C").Data()));
-    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/profileX.C").Data()));
-    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/profileY.C").Data()));
-    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/projectionX.C").Data()));
-    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/projectionY.C").Data()));
-    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/rebin.C").Data()));
-    gROOT->ProcessLine(Form(".L %s", TGo4Log::subGO4SYS("macros/scalex.C").Data()));
+    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/corrhistos.C").Data()));
+    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/hishisto.C").Data()));
+    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/addhistos.C").Data()));
+    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/divhistos.C").Data()));
+    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/profileX.C").Data()));
+    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/profileY.C").Data()));
+    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/projectionX.C").Data()));
+    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/projectionY.C").Data()));
+    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/rebin.C").Data()));
+    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/scalex.C").Data()));
 }
 
 

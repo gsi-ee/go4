@@ -114,7 +114,7 @@ Bool_t TGo4Script::ContinueExecution()
    if (nextcmd==0) return kFALSE;
 
    Int_t error = 0;
-   gROOT->ProcessLine(nextcmd, &error);
+   gROOT->ProcessLineSync(nextcmd, &error);
 
    if (error!=0) {
       doOutput(Form("Error = %d. CMD: %s", error, nextcmd));

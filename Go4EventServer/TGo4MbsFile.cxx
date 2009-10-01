@@ -348,7 +348,7 @@ if(fbMultipleMode && fxMultiFile!=0)
                command++; // skip @ letter
                TGo4Analysis::Instance()->Message(1,"TGo4MbsFile list:%s-- executing command: %s ", GetName(), command);
                //TGo4Log::Info("TGo4MbsFile list:%s-- executing command: %s ", GetName(), command);
-               gROOT->ProcessLine(command);
+               gROOT->ProcessLineSync(command);
             }
         }
      while(strlen(nextline)==0 || rem1!=0 || rem2!=0 || command!=0); // skip any comments and empty lines, and continue after macro execution

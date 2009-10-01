@@ -663,7 +663,7 @@ void TGo4Interface::ProcessHotStart()
 
    Int_t error = 0;
    fCmdFinished = kFALSE;
-   gROOT->ProcessLine(nextcmd, &error);
+   gROOT->ProcessLineSync(nextcmd, &error);
    fCmdFinished = kTRUE;
 
    if (error!=0)

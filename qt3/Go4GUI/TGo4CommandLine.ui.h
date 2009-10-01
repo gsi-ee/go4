@@ -70,7 +70,7 @@ if (InputLine->EnterPressed() && (str!="")) {
         {
             QTextOStream( &message ) <<"Executing command: "<<str.latin1() << endl;
             StatusMessage(message);
-            gROOT->ProcessLine(str.latin1());
+            gROOT->ProcessLineSync(str.latin1());
         }
        SaveHistory();
    }
@@ -103,19 +103,17 @@ void TGo4CommandLine::LoadHistory()
 // prepared pre-loading of system macros:
     TString dir = TGo4Log::subGO4SYS("macros/");
 
-    gROOT->ProcessLine(Form(".L %scorrhistos.C", dir.Data()));
-    gROOT->ProcessLine(Form(".L %shishisto.C", dir.Data()));
-    gROOT->ProcessLine(Form(".L %saddhistos.C", dir.Data()));
-    gROOT->ProcessLine(Form(".L %sdivhistos.C", dir.Data()));
-    gROOT->ProcessLine(Form(".L %sprofileX.C", dir.Data()));
-    gROOT->ProcessLine(Form(".L %sprofileY.C", dir.Data()));
-    gROOT->ProcessLine(Form(".L %sprojectionX.C", dir.Data()));
-    gROOT->ProcessLine(Form(".L %sprojectionY.C", dir.Data()));
-    gROOT->ProcessLine(Form(".L %srebin.C", dir.Data()));
-    gROOT->ProcessLine(Form(".L %sscalex.C", dir.Data()));
-
+    gROOT->ProcessLineSync(Form(".L %scorrhistos.C", dir.Data()));
+    gROOT->ProcessLineSync(Form(".L %shishisto.C", dir.Data()));
+    gROOT->ProcessLineSync(Form(".L %saddhistos.C", dir.Data()));
+    gROOT->ProcessLineSync(Form(".L %sdivhistos.C", dir.Data()));
+    gROOT->ProcessLineSync(Form(".L %sprofileX.C", dir.Data()));
+    gROOT->ProcessLineSync(Form(".L %sprofileY.C", dir.Data()));
+    gROOT->ProcessLineSync(Form(".L %sprojectionX.C", dir.Data()));
+    gROOT->ProcessLineSync(Form(".L %sprojectionY.C", dir.Data()));
+    gROOT->ProcessLineSync(Form(".L %srebin.C", dir.Data()));
+    gROOT->ProcessLineSync(Form(".L %sscalex.C", dir.Data()));
 }
-
 
 void TGo4CommandLine::PredefinedDialog()
 {

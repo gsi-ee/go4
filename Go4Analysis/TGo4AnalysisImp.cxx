@@ -188,8 +188,8 @@ TGo4Analysis::TGo4Analysis(const char* name) :
       Message(2,"Analysis BaseClass ctor -- analysis singleton already exists !!!");
    }
    // settings for macro execution
-   gROOT->ProcessLine("TGo4Analysis *go4 = TGo4Analysis::Instance();");
-   gROOT->ProcessLine(Form(".x %s", TGo4Log::subGO4SYS("macros/anamacroinit.C").Data()));
+   gROOT->ProcessLineSync("TGo4Analysis *go4 = TGo4Analysis::Instance();");
+   gROOT->ProcessLineSync(Form(".x %s", TGo4Log::subGO4SYS("macros/anamacroinit.C").Data()));
 }
 
 TGo4Analysis::~TGo4Analysis()
@@ -210,7 +210,7 @@ TGo4Analysis::~TGo4Analysis()
    delete fxSampleEvent;
    TGo4CommandInvoker::UnRegister(this);
    fxInstance = 0; // reset static singleton instance pointer
-   gROOT->ProcessLine(Form(".x %s", TGo4Log::subGO4SYS("macros/anamacroclose.C").Data()));
+   gROOT->ProcessLineSync(Form(".x %s", TGo4Log::subGO4SYS("macros/anamacroclose.C").Data()));
    //cout <<"end of dtor" << endl;
 }
 
