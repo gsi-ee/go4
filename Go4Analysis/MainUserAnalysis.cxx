@@ -5,6 +5,7 @@
 // #include "TClassTable.h"
 #include "TROOT.h"
 #include "TClass.h"
+#include "TClassTable.h"
 #include "TRint.h"
 #include "TApplication.h"
 #include "TSystem.h"
@@ -72,25 +73,6 @@ void usage(const char* err = 0)
    exit(err ? -1 : 0);
 }
 
-TClass* FindDerivedClass(const char* baseclass)
-{
-   TClass* base_cl = gROOT->GetClass(baseclass);
-   if (base_cl==0) usage(Form("Cannot find %s class!"));
-
-   TIter iter(gROOT->GetListOfClasses());
-   Int_t cnt(0);
-   TClass *cl(0), *find_cl(0);
-
-   while ((cl = (TClass*)iter())!=0) {
-      cout << "Class = " << cl->GetName() << endl;
-      if (!cl->InheritsFrom(base_cl) || (cl==base_cl)) continue;
-      if (++cnt == 1) find_cl = cl;
-      else cout <<" Too many classes, derived from " << baseclass << endl;
-   }
-
-   return find_cl;
-}
-
 typedef const char* (UserDefFunc)();
 typedef TGo4Analysis* (UserCreateFunc)(const char* name);
 
@@ -110,6 +92,82 @@ const char* GetArgValue(int argc, char **argv, const char* argname, int* pos = 0
    return 0;
 }
 
+TList* GetClassesList(TList* prev = 0)
+{
+   TClassTable::Init();
+   char* name = 0;
+
+   TList* lst = new TList;
+   lst->SetOwner(kTRUE);
+
+   while ((name = TClassTable::Next()) != 0) {
+      if (prev && prev->FindObject(name)) continue;
+
+      TNamed* obj = new TNamed(name, name);
+      lst->Add(obj);
+      if (prev!=0) cout << "New class = " << name << endl;
+
+   }
+   return lst;
+}
+
+TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name)
+{
+   TIter iter(lst);
+   TObject* obj(0);
+
+   TClass *proc_cl(0), *ev_cl(0), *an_cl(0);
+
+   while ((obj = iter()) != 0) {
+      TClass* cl = TClass::GetClass(obj->GetName());
+//      cout << "Check class = " << obj->GetName() << " class = " << cl << endl;
+
+      if (cl==0) continue;
+
+      if (cl->InheritsFrom(TGo4EventProcessor::Class())) {
+         if ((cl!=TGo4EventProcessor::Class()) && (proc_cl==0)) proc_cl = cl;
+      } else
+      if (cl->InheritsFrom(TGo4EventElement::Class())) {
+         if ((cl!=TGo4EventElement::Class()) && (ev_cl==0)) ev_cl = cl;
+      } else
+      if (cl->InheritsFrom(TGo4Analysis::Class())) {
+         if ((cl!=TGo4Analysis::Class()) && (an_cl==0)) an_cl = cl;
+      }
+   }
+
+   if (proc_cl==0) return 0;
+
+   cout << "!!! Create default analysis with processor class " << proc_cl->GetName() << endl;
+   if (ev_cl)
+      cout << "!!! Use class " << ev_cl->GetName() << " as output event" << endl;
+
+   TGo4Analysis* analysis = TGo4Analysis::Instance();
+   analysis->SetAnalysisName(name);
+
+   TGo4StepFactory* factory = new TGo4StepFactory("Factory");
+   factory->DefEventProcessor("Processor", proc_cl->GetName());// object name, class name
+   if (ev_cl!=0)
+      factory->DefOutputEvent("OutputEvent", ev_cl->GetName()); // object name, class name
+   else
+      factory->DefOutputEvent("OutputEvent", "TGo4EventElement"); // object name, class name
+
+   TGo4MbsFileParameter* sourcepar = new TGo4MbsFileParameter("/GSI/lea/gauss.lmd");
+
+   TGo4AnalysisStep* step = new TGo4AnalysisStep("Analysis", factory, sourcepar);
+
+   step->SetSourceEnabled(kTRUE);
+   step->SetStoreEnabled(kFALSE);
+   step->SetProcessEnabled(kTRUE);
+   step->SetErrorStopEnabled(kTRUE);
+
+   // Now the first analysis step is set up.
+   // Other steps could be created here
+   analysis->AddAnalysisStep(step);
+
+   return analysis;
+
+}
+
 
 //==================  analysis main program ============================
 int main(int argc, char **argv)
@@ -126,6 +184,8 @@ int main(int argc, char **argv)
    if (analysis_name==0) analysis_name = GetArgValue(argc, argv, "-name");
    if (analysis_name==0) analysis_name = "Go4Analysis";
 
+   TList* lst0 = GetClassesList();
+
    int argpos = 0;
    bool isanylib = false;
    const char* libname = 0;
@@ -141,10 +201,15 @@ int main(int argc, char **argv)
       if (gSystem->Load(libname)<0) return -1;
    }
 
+   TList* lst1 = GetClassesList(lst0);
+
    TGo4Analysis* analysis = 0;
 
    UserCreateFunc* crfunc = (UserCreateFunc*) gSystem->DynFindSymbol("*", "CreateUserAnalysis");
    if (crfunc) analysis = crfunc(analysis_name);
+          else analysis = CreateDefaultAnalysis(lst1, analysis_name);
+
+
    if (analysis==0) {
       cerr << "!!! Analysis cannot be created" << endl;
       cerr << "!!! PLEASE check your analysis library " << libname << endl;
@@ -152,6 +217,9 @@ int main(int argc, char **argv)
       cerr << "!!! See Go4ExampleSimple, Go4Example1Step or Go4Example2Step for details" << endl;
       return -1;
    }
+
+   delete lst0; lst0 = 0;
+   delete lst1; lst1 = 0;
 
    TGo4AnalysisStep* step = analysis->GetAnalysisStep(0);
    if (step==0) {

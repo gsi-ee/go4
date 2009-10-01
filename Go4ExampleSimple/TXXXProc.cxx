@@ -18,40 +18,6 @@
 
 #include "TXXXParam.h"
 
-
-extern "C" TGo4Analysis* CreateUserAnalysis(const char* name)
-{
-   if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
-      cout << "****  Go4 version mismatch" << endl;
-      exit(-1);
-   }
-
-   TGo4Analysis* analysis = TGo4Analysis::Instance();
-   analysis->SetAnalysisName(name);
-
-   TGo4StepFactory* factory = new TGo4StepFactory("Factory");
-   factory->DefEventProcessor("Processor", "TXXXProc");// object name, class name
-   factory->DefOutputEvent("DummyOutput", "TGo4EventElement"); // object name, class name
-
-   TGo4MbsFileParameter* sourcepar = new TGo4MbsFileParameter("/GSI/lea/gauss.lmd");
-
-   TGo4AnalysisStep* step = new TGo4AnalysisStep("Analysis", factory, sourcepar);
-
-   step->SetSourceEnabled(kTRUE);
-   step->SetStoreEnabled(kFALSE);
-   step->SetProcessEnabled(kTRUE);
-   step->SetErrorStopEnabled(kTRUE);
-
-   // Now the first analysis step is set up.
-   // Other steps could be created here
-   analysis->AddAnalysisStep(step);
-
-   // uncomment following line to define custom passwords for analysis server
-   // analysis->DefineServerPasswords("XXXadmin", "XXXctrl", "XXXview");
-
-   return analysis;
-}
-
 //***********************************************************
 TXXXProc::TXXXProc() : TGo4EventProcessor()
 {
