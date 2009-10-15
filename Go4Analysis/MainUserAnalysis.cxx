@@ -37,15 +37,16 @@ void usage(const char* err = 0)
    cout << "  -server [name]              : run analysis in server mode, name - optional analysis name" << endl;
    cout << "  -gui name guihost guiport   : run analysis in gui mode, used by GUI launch analysis" << endl;
    cout << "  -run                        : run analysis in server mode (defualt only run if source specified)" << endl;
-   cout << "  -norun                      :  exclude automatical run" << endl;
-   cout << "  -number NUMBER              :  process NUMBER events in batch mode" << endl;
-   cout << "  -hserver [name [passwd]]    :  start histogram server with optional name and password" << endl;
-   cout << "  -log [filename]             :  enable log output into filename (default:go4logfile.txt)" << endl;
-   cout << "  -v -v0 -v1 -v2 -v3          :  change log output verbosity (0 - maximum, 1 - info, 2 - warn, 3 - errors)" << endl;
-   cout << "  -help                       :  show this help" << endl;
+   cout << "  -norun                      : exclude automatical run" << endl;
+   cout << "  -number NUMBER              : process NUMBER events in batch mode" << endl;
+   cout << "  -hserver [name [passwd]]    : start histogram server with optional name and password" << endl;
+   cout << "  -log [filename]             : enable log output into filename (default:go4logfile.txt)" << endl;
+   cout << "  -v -v0 -v1 -v2 -v3          : change log output verbosity (0 - maximum, 1 - info, 2 - warn, 3 - errors)" << endl;
+   cout << "  -help                       : show this help" << endl;
    cout << "" << endl;
    cout << "ANALYSIS: common analysis configurations" << endl;
    cout << "  -name name             :  specify analysis instance name" << endl;
+   cout << "  -init macroname [args] :  configure analysis via macro, all following arguments (if any) will be delivered as macro parameters" << endl;
    cout << "  -asf filename          :  set autosave filename and enable it, default <Name>ASF.root" << endl;
    cout << "  -enable-asf [interval] :  enable store of autosave file, optionally interval in seconds" << endl;
    cout << "  -disable-asf           :  disable usage of asf" << endl;
@@ -341,7 +342,7 @@ int main(int argc, char **argv)
    if (analysis==0) {
       cerr << "!!! Analysis cannot be created" << endl;
       cerr << "!!! PLEASE check your analysis library " << libname << endl;
-      cerr << "!!! One requires CreateUserAnalysis() function to be defined in user library" << endl;
+      cerr << "!!! One requires CreateUserAnalysis() function or TGo4Analysis subclass to be defined in user library" << endl;
       cerr << "!!! See Go4ExampleSimple, Go4Example1Step or Go4Example2Step for details" << endl;
       return -1;
    }
@@ -357,10 +358,10 @@ int main(int argc, char **argv)
 
    int app_argc = 2;
    char* app_argv[2];
-   app_argv[0] = new char[256];
-   app_argv[1] = new char[256];
-   strncpy(app_argv[0], argv[0], 256);
-   strncpy(app_argv[1], "-b", 256);
+   app_argv[0] = new char[1024];
+   app_argv[1] = new char[1024];
+   strncpy(app_argv[0], argv[0], 1024);
+   strncpy(app_argv[1], "-b", 1024);
    TApplication theApp("Go4App", &app_argc, app_argv);
 
    Bool_t batchMode(kTRUE);  // GUI or Batch
@@ -516,6 +517,25 @@ int main(int argc, char **argv)
             analysis->SetAutoSave(kTRUE);
          } else
             usage("name of autosave file not specified");
+      } else
+      if (strcmp(argv[narg],"-init")==0) {
+         if (++narg < argc) {
+            const char* macroname = argv[narg++];
+
+            TString process;
+            if (narg == argc)
+               process = Form(".x %s", macroname);
+            else {
+               process = Form(".x %s(%d,(char**)%p)", macroname, argc - narg, argv + narg);
+               narg = argc;
+            }
+            cout << "Executing: " << process << endl;
+
+            Int_t error = 0;
+            gROOT->ProcessLineSync(process.Data(), &error);
+            if (error!=0) usage(Form("%s execution error", macroname));
+         } else
+            usage("name of init macro not specified");
       } else
       if (strcmp(argv[narg],"-enable-asf")==0) {
          narg++;

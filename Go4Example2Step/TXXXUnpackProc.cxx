@@ -36,9 +36,11 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    fParam1   = (TXXXParameter *)   GetParameter("XXXPar1");
    fParam2   = (TXXXParameter *)   GetParameter("XXXPar2");
    fParam1->PrintParameter(0,0);
+
    fParam2->PrintParameter(0,0);
 
    cout << "**** TXXXProc: Produce histograms" << endl;
+
    for(int i=0;i<8;i++) {
       fCr1Ch[i] = MakeTH1('I', Form("Crate1/Cr1Ch%02d",i+1), Form("Crate 1 channel %2d",i+1), 5000, 1., 5001.);
       fCr2Ch[i] = MakeTH1('I', Form("Crate2/Cr2Ch%02d",i+1), Form("Crate 2 channel %2d",i+1), 5000, 1., 5001.);
@@ -90,6 +92,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       cout << "**** TXXXProc: Restore condition from autosave" << endl;
       fConArr2->ResetCounts();
    }
+
    // connect histograms to conditions. will be drawn when condition is edited.
    fWinCon1->Enable();
    fWinCon2->Disable(true); // return always true

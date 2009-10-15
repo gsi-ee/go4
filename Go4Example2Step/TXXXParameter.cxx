@@ -37,7 +37,7 @@ TXXXParameter::TXXXParameter(const char* name) :
    fbEnab=kFALSE;
    fdTest=3.141592665;
    fsTest=6;
-   fcTest=7;
+   fcTest=47;
    flTest=20;
    fuNum=42;
    fuShort=8;
@@ -63,26 +63,26 @@ TXXXParameter::~TXXXParameter()
 Int_t TXXXParameter::PrintParameter(Text_t * n, Int_t)
 {
    cout << "Parameter " << GetName()<<":" <<endl;
-   cout << " P1="<<frP1<<endl;
-   cout << " P2="<<frP2<< endl;
-   cout << " fiNum="<<fiNum<<endl;
-   cout << " fbEnab="<<fbEnab<<endl;
-   cout << " fdTest="<<fdTest<<endl;
-   cout << " fsTest="<<fsTest<<endl;
-   cout << " fcTest="<<fcTest<<endl;
-   cout << " flTest="<<flTest<<endl;
-   cout << " fuNum="<<fuNum<<endl;
-   cout << " fuShort="<<fuShort<<endl;
-   cout << " fuChar="<<fuChar<<endl;
-   cout << " fuLong="<<fuLong<<endl;
+   cout << "  P1="<<frP1<<endl;
+   cout << "  P2="<<frP2<< endl;
+   cout << "  fiNum="<<fiNum<<endl;
+   cout << "  fbEnab="<<fbEnab<<endl;
+   cout << "  fdTest="<<fdTest<<endl;
+   cout << "  fsTest="<<fsTest<<endl;
+   cout << "  fcTest="<<fcTest<<endl;
+   cout << "  flTest="<<flTest<<endl;
+   cout << "  fuNum="<<fuNum<<endl;
+   cout << "  fuShort="<<fuShort<<endl;
+   cout << "  fuChar="<<fuChar<<endl;
+   cout << "  fuLong="<<fuLong<<endl;
    for(Int_t ix=0;ix<__ARRAYSIZE__;++ix)
-      cout << "fiDataArray["<<ix<<"]="<<fiDataArray[ix]<<endl;
+      cout << "  fiDataArray["<<ix<<"]="<<fiDataArray[ix]<<endl;
    for(Int_t u=0;u<__MEVX__;++u)
       for(Int_t v=0;v<__MEVY__;++v)
-         cout << "fdMeV["<<u<<"]["<<v<<"]="<<fdMeV[u][v]<<endl;
+         cout << "  fdMeV["<<u<<"]["<<v<<"]="<<fdMeV[u][v]<<endl;
    for(Int_t x=0;x<__MEVX__;++x)
-      cout << "fdTestarr["<<x<<"]="<<fdTestarr[x]<<endl;
-   cout <<" fxInputfile="<<fxInputfile.Data()  << endl;
+      cout << "  fdTestarr["<<x<<"]="<<fdTestarr[x]<<endl;
+   cout <<"  fxInputfile="<<fxInputfile.Data()  << endl;
    return 0;
 }
 //-----------------------------------------------------------
