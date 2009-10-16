@@ -142,14 +142,53 @@ TGo4Analysis::TGo4Analysis(const char* name) :
    fbDoWorkingFlag(kTRUE),
    fxInterruptHandler(0),
    fAnalysisName(),
+   fBatchLoopCount(-1),
    fServerAdminPass(),
    fServerCtrlPass(),
    fServerObserverPass()
 {
+   TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
+
    if (name!=0) SetAnalysisName(name);
 
+   Constructor();
+}
+
+
+TGo4Analysis::TGo4Analysis(int argc, char** argv) :
+   TGo4CommandReceiver(),
+   TObject(),
+   fbInitIsDone(kFALSE),
+   fbAutoSaveOn(kTRUE),
+   fxAnalysisSlave(0),
+   fxStepManager(0),
+   fxObjectManager(0),
+   fiAutoSaveCount(0),
+   fiAutoSaveInterval(TGo4Analysis::fgiAUTOSAVECOUNTS),
+   fiAutoSaveCompression(5),
+   fxAutoFile(0),
+   fbAutoSaveOverwrite(kFALSE),
+   fbNewInputFile(kFALSE),
+   fbAutoSaveFileChange(kFALSE),
+   fxSampleEvent(0),
+   fxObjectNames(0),
+   fbDoWorkingFlag(kTRUE),
+   fxInterruptHandler(0),
+   fAnalysisName(),
+   fBatchLoopCount(-1),
+   fServerAdminPass(),
+   fServerCtrlPass(),
+   fServerObserverPass()
+{
    TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
-   //
+
+   if ((argc>0) && (argv[0]!=0)) SetAnalysisName(argv[0]);
+
+   Constructor();
+}
+
+void TGo4Analysis::Constructor()
+{
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
       // wrong version number between framework and user executable
       Message(-1,"!!!! Analysis Base class:\n\t User Analysis was built with wrong \t\tGo4 Buildversion %d !!!!!",
@@ -174,7 +213,7 @@ TGo4Analysis::TGo4Analysis(const char* name) :
       fxAutoSaveClock=new TStopwatch;
       fxAutoSaveClock->Stop();
       fxAutoFileName = fgcDEFAULTFILENAME;
-      if ((name!=0) && (strlen(name)!=0)) fxAutoFileName = Form("%sASF.root", name);
+      if (fAnalysisName.Length()>0) fxAutoFileName = Form("%sASF.root", fAnalysisName.Data());
       fxConfigFilename = fgcDEFAULTSTATUSFILENAME;
       TGo4CommandInvoker::Instance(); // make sure we have an invoker instance!
       TGo4CommandInvoker::SetCommandList(new TGo4AnalysisCommandList);
@@ -191,6 +230,7 @@ TGo4Analysis::TGo4Analysis(const char* name) :
    gROOT->ProcessLineSync("TGo4Analysis *go4 = TGo4Analysis::Instance();");
    gROOT->ProcessLineSync(Form(".x %s", TGo4Log::subGO4SYS("macros/anamacroinit.C").Data()));
 }
+
 
 TGo4Analysis::~TGo4Analysis()
 {
@@ -456,6 +496,9 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
 {
    TRACE((11,"TGo4Analysis::RunImplicitLoop(Int_t)",__LINE__, __FILE__));
    Int_t cnt = 0; // number of actually processed events
+
+   if (times < 0) times = fBatchLoopCount;
+
    try
    {
       PreLoop();

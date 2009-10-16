@@ -13,7 +13,7 @@ class TGo4FitterEnvelope;
 class TXXXAnalysis : public TGo4Analysis  {
    public:
       TXXXAnalysis();
-      TXXXAnalysis(const char* name);
+      TXXXAnalysis(int argc, char** argv);
       virtual ~TXXXAnalysis() ;
       virtual Int_t UserPreLoop();
       virtual Int_t UserEventFunc();

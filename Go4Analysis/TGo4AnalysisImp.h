@@ -623,6 +623,10 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     /** Define passwords, which should be used for analysis access when analysis runs in server mode */
     void DefineServerPasswords(const char* admin, const char* controller, const char* observer);
 
+    /** Set number of event loop count, executed in batch mode */
+    void SetBatchLoopCount(Int_t cnt = -1) { fBatchLoopCount = cnt; }
+
+
   protected:
 
     /** True if analysis framework has been initialized and
@@ -635,6 +639,13 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /** Protected constructor for singleton instance. */
     TGo4Analysis(const char* name = 0);
+
+    /** Another variant for analysis constructor. */
+    TGo4Analysis(int argc, char** argv);
+
+    /** Method to create all necessary object in the real constructor */
+    void Constructor();
+
 
     /** Uses the chain of analysis steps to process the first input
       * event into an output event which then is accessible at
@@ -790,8 +801,11 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     /** use to treat Ctrl-C interrupts */
     TGo4InterruptHandler* fxInterruptHandler; //!
 
-    /** returns name of analysis object */
+    /** name of analysis object */
     TString fAnalysisName;
+
+    /** exact number of loop counts in batch mode */
+    Int_t fBatchLoopCount;
 
     /** preconfigured password for administrator access */
     TString fServerAdminPass; //!

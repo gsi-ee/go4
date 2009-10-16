@@ -46,18 +46,18 @@ void usage(const char* err = 0)
    cout << "" << endl;
    cout << "ANALYSIS: common analysis configurations" << endl;
    cout << "  -name name             :  specify analysis instance name" << endl;
-   cout << "  -init macroname [args] :  configure analysis via macro, all following arguments (if any) will be delivered as macro parameters" << endl;
-   cout << "  -asf filename          :  set autosave filename and enable it, default <Name>ASF.root" << endl;
+   cout << "  -asf [filename]        :  enable store autosave file and set autosave filename (if specified,  default <Name>ASF.root)" << endl;
    cout << "  -enable-asf [interval] :  enable store of autosave file, optionally interval in seconds" << endl;
    cout << "  -disable-asf           :  disable usage of asf" << endl;
+   cout << "  -args [userargs]       :  create user analysis with constructor (int argc, char** argv) signature" << endl;
+   cout << "                            all following arguments will be provided as array of strings, first argument - analysis name" << endl;
    cout << "" << endl;
    cout << "STEP: individual step configurations" << endl;
    cout << "  -step name           :  select step by it's name, if not defined, first step is used" << endl;
    cout << "  -step number         :  select step by it's number" << endl;
    cout << "  -enable-step         :  enable step processing" << endl;
    cout << "  -disable-step        :  disable step processing" << endl;
-   cout << "  -file filename.lmd   :  use lmd file as event source" << endl;
-   cout << "  -file filename.lml   :  use lml file as event source" << endl;
+   cout << "  -file filename       :  use file filename (lmd or lml) as MBS event source" << endl;
    cout << "  -transport server    :  connect to MBS transport server" << endl;
    cout << "  -stream server       :  connect to MBS stream server" << endl;
    cout << "  -evserv server       :  connect to MBS event server" << endl;
@@ -80,6 +80,14 @@ void usage(const char* err = 0)
 
 typedef const char* (UserDefFunc)();
 typedef TGo4Analysis* (UserCreateFunc)(const char* name);
+
+int FindArg(int argc, char **argv, const char* argname)
+{
+   if ((argname==0) || (strlen(argname)==0)) return -1;
+   for (int n=0;n<argc;n++)
+      if (strcmp(argv[n], argname)==0) return n;
+   return -1;
+}
 
 const char* GetArgValue(int argc, char **argv, const char* argname, int* pos = 0, bool incomplete = false)
 {
@@ -122,7 +130,7 @@ TList* GetClassesList(TList* prev = 0)
    return lst;
 }
 
-TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name)
+TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc, char** user_argv)
 {
    TIter iter(lst);
    TObject* obj(0);
@@ -149,7 +157,33 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name)
 
       TGo4Log::Info("Find user analysis class %s", an_cl->GetName());
 
-      TMethod* meth = an_cl->GetMethodWithPrototype(an_cl->GetName(), "const char*");
+      TMethod* meth = an_cl->GetMethodWithPrototype(an_cl->GetName(), "int,char**");
+      if (meth!=0) {
+         TGo4Log::Info("!!! Find constructor with prototype %s::%s(int, char**)", an_cl->GetName(), an_cl->GetName());
+
+         if ((user_argc>0) && (user_argv!=0))
+            user_argv[0] = (char*) name;
+         else {
+            user_argc = 1;
+            user_argv = (char**) &name;
+         }
+
+         TString cmd = Form("new %s(%d, (char**)%p);", an_cl->GetName(), user_argc, user_argv);
+         Int_t err = 0;
+
+         TGo4Log::Info("Process: %s", cmd.Data());
+
+         TGo4Analysis* analysis = (TGo4Analysis*) gROOT->ProcessLineFast(cmd.Data(), &err);
+
+         if ((analysis!=0) && (err==0)) return analysis;
+
+         TGo4Log::Error("Cannot create analysis class %s instance with (int, char**) prototype", an_cl->GetName());
+         TGo4Log::Error("Implement correct analysis constructor with such signature in user library");
+         exit(1);
+      }
+
+
+      meth = an_cl->GetMethodWithPrototype(an_cl->GetName(), "const char*");
       if (meth!=0) {
          TGo4Log::Info("!!! Find constructor with prototype %s::%s(const char*)", an_cl->GetName(), an_cl->GetName());
 
@@ -162,8 +196,8 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name)
 
          if ((analysis!=0) && (err==0)) return analysis;
 
-         TGo4Log::Error("Cannot create analysis class % instance with const char* prototype", an_cl->GetName());
-         TGo4Log::Error("Add CreateUserAnalysis(const char*) function in user library");
+         TGo4Log::Error("Cannot create analysis class % instance with (const char*) prototype", an_cl->GetName());
+         TGo4Log::Error("Implement correct analysis constructor with such signature in user library");
          exit(1);
       }
 
@@ -177,7 +211,8 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name)
 
       if (meth==0) {
          TGo4Log::Error("Cannot find non-default constructor for class %s", an_cl->GetName());
-         TGo4Log::Error("Add CreateUserAnalysis(const char*) function in user library");
+         TGo4Log::Error("Implement analysis constructor with (const char*) or (int,char**) signature");
+         TGo4Log::Error("Or define TGo4Analysis* CreateUserAnalysis(const char*) function in user library");
          exit(1);
       }
 
@@ -285,7 +320,19 @@ int main(int argc, char **argv)
       return -1;
    }
 
-   if (argc<2) usage();
+   if ((argc<2) || (FindArg(argc, argv, "-help")>0)) usage();
+
+   int user_argc = 0;
+   char** user_argv = 0;
+
+   int userargspos = FindArg(argc, argv, "-args");
+   if (userargspos<0) userargspos = FindArg(argc, argv, "-x");
+   if (userargspos>0) {
+      user_argc = argc - userargspos;
+      user_argv = argv + userargspos;
+      // hide user-defined arguments
+      argc = userargspos;
+   }
 
    const char* logfile = GetArgValue(argc, argv, "-log", 0, true);
    if (logfile!=0) {
@@ -302,11 +349,11 @@ int main(int argc, char **argv)
       TGo4Log::WriteLogfile(info.Data(), true);
    }
 
-   if (GetArgValue(argc, argv, "-v", 0, true) || GetArgValue(argc, argv, "-verbose", 0, true)) TGo4Log::SetIgnoreLevel(-1);
-   else if (GetArgValue(argc, argv, "-v0", 0, true)) TGo4Log::SetIgnoreLevel(0);
-   else if (GetArgValue(argc, argv, "-v1", 0, true)) TGo4Log::SetIgnoreLevel(1);
-   else if (GetArgValue(argc, argv, "-v2", 0, true)) TGo4Log::SetIgnoreLevel(2);
-   else if (GetArgValue(argc, argv, "-v3", 0, true)) TGo4Log::SetIgnoreLevel(3);
+   if ((FindArg(argc, argv, "-v")>0) || (FindArg(argc, argv, "-verbose")>0)) TGo4Log::SetIgnoreLevel(-1);
+   else if (FindArg(argc, argv, "-v0")>0) TGo4Log::SetIgnoreLevel(0);
+   else if (FindArg(argc, argv, "-v1")>0) TGo4Log::SetIgnoreLevel(1);
+   else if (FindArg(argc, argv, "-v2")>0) TGo4Log::SetIgnoreLevel(2);
+   else if (FindArg(argc, argv, "-v3")>0) TGo4Log::SetIgnoreLevel(3);
 
    const char* analysis_name = GetArgValue(argc, argv, "-server");
    if (analysis_name==0) analysis_name = GetArgValue(argc, argv, "-gui");
@@ -336,13 +383,13 @@ int main(int argc, char **argv)
 
    UserCreateFunc* crfunc = (UserCreateFunc*) gSystem->DynFindSymbol("*", "CreateUserAnalysis");
    if (crfunc) analysis = crfunc(analysis_name);
-          else analysis = CreateDefaultAnalysis(lst1, analysis_name);
-
+          else analysis = CreateDefaultAnalysis(lst1, analysis_name, user_argc, user_argv);
 
    if (analysis==0) {
-      cerr << "!!! Analysis cannot be created" << endl;
+      cerr << "!!! Analysis instance cannot be created" << endl;
       cerr << "!!! PLEASE check your analysis library " << libname << endl;
-      cerr << "!!! One requires CreateUserAnalysis() function or TGo4Analysis subclass to be defined in user library" << endl;
+      cerr << "!!! One requires user subclass for TGo4Analysis class in user library" << endl;
+      cerr << "!!! Alternatively, CreateUserAnalysis(const char*) function can be implemented" << endl;
       cerr << "!!! See Go4ExampleSimple, Go4Example1Step or Go4Example2Step for details" << endl;
       return -1;
    }
@@ -512,30 +559,10 @@ int main(int argc, char **argv)
             usage("number of events to process not specified");
       } else
       if (strcmp(argv[narg],"-asf")==0) {
-         if (++narg < argc) {
+         narg++;
+         analysis->SetAutoSave(kTRUE);
+         if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
             analysis->SetAutoSaveFile(argv[narg++]);
-            analysis->SetAutoSave(kTRUE);
-         } else
-            usage("name of autosave file not specified");
-      } else
-      if (strcmp(argv[narg],"-init")==0) {
-         if (++narg < argc) {
-            const char* macroname = argv[narg++];
-
-            TString process;
-            if (narg == argc)
-               process = Form(".x %s", macroname);
-            else {
-               process = Form(".x %s(%d,(char**)%p)", macroname, argc - narg, argv + narg);
-               narg = argc;
-            }
-            cout << "Executing: " << process << endl;
-
-            Int_t error = 0;
-            gROOT->ProcessLineSync(process.Data(), &error);
-            if (error!=0) usage(Form("%s execution error", macroname));
-         } else
-            usage("name of init macro not specified");
       } else
       if (strcmp(argv[narg],"-enable-asf")==0) {
          narg++;
@@ -561,10 +588,6 @@ int main(int argc, char **argv)
       if(strcmp(argv[narg],"-norun")==0) {
          narg++;
          canrun = -1;
-      } else
-      if(strcmp(argv[narg],"-help")==0) {
-         narg++;
-         usage();
       } else
       if(strcmp(argv[narg],"-enable-store")==0) {
          narg++;
@@ -603,10 +626,7 @@ int main(int argc, char **argv)
 
    //------ start the analysis -------------------------
    if(batchMode) {
-
       cout << "**** Main: starting analysis in batch mode ...  " << endl;
-
-      analysis->SetAutoSave(kTRUE);   // optional enable auto-save
       if (analysis->InitEventClasses()) {
          analysis->RunImplicitLoop(maxevents);
          delete analysis;

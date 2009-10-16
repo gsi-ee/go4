@@ -14,7 +14,8 @@ a string which is already in the filenames.
 
 Then rebuild the package by
 
-make clean all
+make clean 
+make all
 
 
 Description of the package
@@ -80,8 +81,15 @@ The analysis can be started from the Go4 GUI or by command line:
 
   shell> go4analysis -file inputfile
   
-The events are read from standard GSI lmd files (in the GUI one can
-switch to MBS or event servers). Then the first user event processor is
+When starting from command line, user-specific arguments can be specified:
+
+  shell> go4analysis -args customname
+
+All arguments, placed after "-args" string will be delivered to TXXXAnalysis
+constructor and can be freely interpreted by user. In the example argument
+is used to configure input and output file names.    
+The MBS events are read from one of standard event sources (lmd files,
+or MBS servers, or random generator). Then the first user event processor is
 called (unpack). This user event processor fills some histograms
 and the first user event (unpacked event) from MBS input event.
 Then the second user event processor is called (analysis).

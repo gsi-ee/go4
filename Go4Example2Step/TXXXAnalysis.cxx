@@ -30,10 +30,11 @@ TXXXAnalysis::TXXXAnalysis() :
 {
   cout << "Wrong constructor TXXXAnalysis()!" << endl;
 }
+
 //***********************************************************
 // this constructor is used
-TXXXAnalysis::TXXXAnalysis(const char* name) :
-   TGo4Analysis(name),
+TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
+   TGo4Analysis(argc, argv),
    fMbsEvent(0),
    fRawEvent(0),
    fCalEvent(0),
@@ -48,9 +49,25 @@ TXXXAnalysis::TXXXAnalysis(const char* name) :
 
    cout << "**** TXXXAnalysis: Create" << endl;
 
-   TString input = "/GSI/lea/gauss.lmd";
-   TString out1 = Form("%s_Calibr", name);
-   TString out2 = Form("%s_Anl", name);
+   TString input, out1, out2;
+
+   // this is a way to get user-specific arguments in batch mode, like:
+   //   shell> go4analysis -args inputname
+   // in this case argv[0] will be analysis name (default is "Go4Analysis")
+   //              argv[1] will be "inputname"
+   // any kind of additional arguments can be supplied
+
+   if (argc>1) {
+      cout << "**** Configure with user-specified parameters ****" << endl;
+      input = Form("%s.lmd", argv[1]);
+      out1 = Form("%s_Calibr", argv[1]);
+      out2 = Form("%s_Anl", argv[1]);
+   } else {
+      cout << "**** Configure with default parameters ****" << endl;
+      input = "/GSI/lea/gauss.lmd";
+      out1 = "Output_Calibr";
+      out2 = "Output_Anl";
+   }
 
    TGo4StepFactory* factory1 = new TGo4StepFactory("UnpackFactory");
    factory1->DefEventProcessor("UnpackProc", "TXXXUnpackProc");// object name, class name
