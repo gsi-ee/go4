@@ -1,9 +1,10 @@
-#include "Riostream.h"
 #include <stdlib.h>
+#include <qglobal.h>
 #include <QDir>
 #include <QStringList>
 
 #include "TSystem.h"
+#include "RVersion.h"
 #include "TEnv.h"
 #include "TApplication.h"
 #include "QRootApplication.h"
@@ -14,6 +15,8 @@
 #include "TGo4BrowserProxy.h"
 #include "TGo4QSettings.h"
 #include "TGo4AbstractInterface.h"
+
+#include "Riostream.h"
 
 #ifndef WIN32
 #include "TGX11.h"
@@ -157,11 +160,10 @@ int main(int argc, char **argv)
 
    /////// end settings setup ///////////////////////////////
    if(traceon) TGo4Log::SetIgnoreLevel(0);
-   else TGo4Log::SetIgnoreLevel(1);
+          else TGo4Log::SetIgnoreLevel(1);
 
-   if (argc<2)
-      cout << "G-OOOO->  Started go4gui. "  << endl;
-   cout << "   Go4 " << __GO4RELEASE__ << endl;
+   cout << "   Go4 " << __GO4RELEASE__
+        << ",   build with ROOT " << ROOT_RELEASE << " and Qt " << QT_VERSION_STR << endl;
    // create instance, which should be used everywhere
 
    TGo4MainWindow* Go4MainGUI = new TGo4MainWindow(&myapp, servermode);

@@ -2,9 +2,10 @@
 
 #include <qdir.h>
 #include <qstringlist.h>
+#include <qglobal.h>
 
-#include "Riostream.h"
 #include "TSystem.h"
+#include "RVersion.h"
 
 #include "tqapplication.h"
 #include "qrootapplication.h"
@@ -15,6 +16,8 @@
 #include "TGo4QSettings.h"
 #include "TGo4BrowserProxy.h"
 #include "TGo4AbstractInterface.h"
+
+#include "Riostream.h"
 
 int main(int argc, char **argv)
 {
@@ -144,12 +147,10 @@ int main(int argc, char **argv)
    }
    /////// end settings setup ///////////////////////////////
    if(traceon) TGo4Log::SetIgnoreLevel(0);
-   else TGo4Log::SetIgnoreLevel(1);
+          else TGo4Log::SetIgnoreLevel(1);
 
-   if (argc<2)
-      cout << "G-OOOO->  Started go4gui. "  << endl;
-
-   cout << "   Go4 " << __GO4RELEASE__ << endl;
+   cout << "   Go4 " << __GO4RELEASE__
+        << ",   build with ROOT " << ROOT_RELEASE << " and Qt " << QT_VERSION_STR << endl;
 
    // create instance, which should be used everywhere
    go4sett = new TGo4QSettings();
