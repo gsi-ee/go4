@@ -9,6 +9,8 @@
 //     saveparam.C(wildcard,prefix)
 // Wildcard applies only to parameter name without folders
 // H.G.Essel July 2006
+// Use TGo4Parameter::MakeScript method to convert parameter values into macro 
+// S.Linev October 2009
 
 #ifndef __GO4MACRO__
 #ifndef __GO4ANAMACRO__
@@ -135,29 +137,7 @@ Bool_t save1param(const char* rootfile, const char* name, const char* pref)
   fLine.Form("   cout << \"Set parameter %s as saved by saveparam.C at %s\" << endl;\n\n",
                     sName.Data(),datime.AsString());  WO ;
 
-  TObjArray *fitems = new TObjArray();
-  fitems->SetOwner(kTRUE);
-  param->GetMemberValues(fitems);
-  
-  TGo4ParameterMember* info = 0;
-  TIter iter(fitems);
-  
-  TString buf;
-  
-  while ((info = (TGo4ParameterMember*) iter()) !=0 ) {
-     if (info->GetTypeId()==TGo4ParameterMember::kTGo4Fitter_t) continue;
-     
-     fLine.Form("   param->%s = ", info->GetFullName(buf));
-     
-     if (info->GetTypeId()==TGo4ParameterMember::kTString_t)
-        fData.Form("\"%s\";\n", info->GetStrValue());
-     else
-        fData.Form("%s;\n", info->GetStrValue());
-     
-     fLine.Append(fData); WO ;	
-  }
-  
-  delete fitems;
+  param->MakeScript(xout, "param->", 3);
 
   fLine.Form("\n");  WO ;
   fLine.Form("   return kTRUE;\n");  WO ;

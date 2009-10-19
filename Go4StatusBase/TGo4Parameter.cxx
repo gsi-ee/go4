@@ -252,3 +252,52 @@ Bool_t TGo4Parameter::SetMemberValues(TIterator* fItems, TClass* cl, char* ptr, 
 
    return kTRUE;
 }
+
+void TGo4Parameter::MakeScript(ostream& out, const char* varprefix, Int_t tab)
+{
+   TObjArray *fitems = new TObjArray();
+   fitems->SetOwner(kTRUE);
+   GetMemberValues(fitems);
+
+   TGo4ParameterMember* info = 0;
+   TIter iter(fitems);
+
+   TString prefix;
+   for (Int_t n=0;n<tab;n++) prefix.Append(" ");
+   prefix.Append(varprefix);
+
+   TString line, membername;
+
+   while ((info = (TGo4ParameterMember*) iter()) !=0 ) {
+      if (info->GetTypeId()==TGo4ParameterMember::kTGo4Fitter_t) continue;
+
+      info->GetFullName(membername);
+
+      if (info->GetTypeId()==TGo4ParameterMember::kTString_t)
+         line.Form("%s%s = \"%s\";\n", prefix.Data(), membername.Data(), info->GetStrValue());
+      else
+      if (info->GetTypeId()==kBool_t)
+         line.Form("%s%s = %s;\n", prefix.Data(), membername.Data(), (atoi(info->GetStrValue()) ? "kTRUE" : "kFALSE"));
+      else
+         line.Form("%s%s = %s;\n", prefix.Data(), membername.Data(), info->GetStrValue());
+
+      out << line;
+   }
+
+   delete fitems;
+}
+
+void TGo4Parameter::SavePrimitive(ostream& fs, Option_t* )
+{
+   fs << endl << "// Store of parameter in form of macro" << endl;
+   TString line;
+   line.Form("%s* %s = new %s;", ClassName(), GetName(), ClassName());
+   fs << line << endl;
+   line.Form("%s->SetName(\"%s\");", GetName(), GetName());
+   fs << line << endl;
+   line.Form("%s->SetTitle(\"%s\");", GetName(), GetTitle());
+   fs << line << endl;
+   line.Form("%s->", GetName());
+   MakeScript(fs, line.Data(), 0);
+}
+
