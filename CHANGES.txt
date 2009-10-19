@@ -80,7 +80,9 @@ Changes in Go4 v4.3.2 (September 09)
 15.Simplify event source handling in user code. It is no longer required that
    event class 'knows' all its possible sources - only source itself decides 
    which event class and how it fill. Cleanup all sources class in go4 and 
-   examples. Old code will work as is.       
+   examples. Old code will work as is.
+16.Improve saveparam.C macro - with use of TGo4ParameterMember class code
+   become clear and more reliable.
 
 
 Changes in Go4 v4.3.1 (August 09)
