@@ -36,6 +36,7 @@ void namiter(TFile *f, TString fulldir, const char* wildcard, TList* found)
    TString curname;
    TRegexp wild(wildcard,kTRUE);
 #ifdef __GO4MACRO__
+   found->SetOwner(kTRUE);
    TGo4BrowserProxy *brow = go4->Browser();
    TGo4Slot *slot = brow->BrowserSlot("Analysis");
    TGo4Iter *iter = new TGo4Iter(slot,kFALSE);
@@ -43,7 +44,7 @@ void namiter(TFile *f, TString fulldir, const char* wildcard, TList* found)
       if(!iter->isfolder()) {
          curname.Form(iter->getname());
          if(curname.Index(wild) != kNPOS)
-           found->Add((TObject *)new TObjString(curname));
+            found->Add((TObject *)new TObjString(curname));
       }
    }
 #endif
@@ -55,6 +56,7 @@ void namiter(TFile *f, TString fulldir, const char* wildcard, TList* found)
    }
 #endif
 #ifdef __NOGO4MACRO__
+   found->SetOwner(kTRUE);
    TKey *key;
    TString curdir;
    TIter next(gDirectory->GetListOfKeys());
@@ -151,30 +153,27 @@ Bool_t save1param(const char* rootfile, const char* name, const char* pref)
 
 #ifdef __NOGO4MACRO__
 // Get objects from ROOT file
-void saveparam(const char* file, const char* wildcard="*", const char* pref="save")
+void saveparam(const char* file, const char* wildcard = "*", const char* pref = "save")
 {
-  TString fulldir;
-  TObject *namo;
   TFile *f = TFile::Open(file,"r");
 #else
-void saveparam(const char* wildcard="*", const char* pref="save")
+void saveparam(const char* wildcard = "*", const char* pref = "save")
 {
+  TFile *f = 0;
+  const char* file = 0;
+#endif
+  TList lst;
   TString fulldir;
-  TObject *namo;
-  TFile *f;
-  const char* file;
-#endif
-  TList* list = new TList;
-  fulldir.Form("");
-  namiter(f,fulldir,wildcard,list);
-  TListIter *iter = list->MakeIterator();
-#ifdef __NOGO4MACRO__
-  f->Close();
-#endif
-  while(namo = iter->Next())
-    {
-      save1param(file,namo->GetName(),pref);
-    }
+  namiter(f, fulldir, wildcard, &lst);
+  if (f!=0) { delete f; f = 0; }
+
+  TIter next(&lst);
+
+  TObject* namo = 0;
+  while((namo = next()) != 0)
+     save1param(file, namo->GetName(), pref);
+
+  lst.Clear();
 }
 
 

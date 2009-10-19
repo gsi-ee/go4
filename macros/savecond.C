@@ -34,55 +34,49 @@
 
 void namiter(TFile *f, TString fulldir, const char* wildcard, TList* found)
 {
-  TString fullname;
-  TString curname;
-  TRegexp wild(wildcard,kTRUE);
+   TString fullname;
+   TString curname;
+   TRegexp wild(wildcard,kTRUE);
 #ifdef __GO4MACRO__
-    TGo4BrowserProxy *brow = go4->Browser();
-    TGo4Slot *slot = brow->BrowserSlot("Analysis");
-    TGo4Iter *iter = new TGo4Iter(slot,kFALSE);
-    while(iter->next())
-      {
-   if(!iter->isfolder())
-     {
-       curname.Form(iter->getname());
-       if(curname.Index(wild) != kNPOS)
-         found->Add((TObject *)new TObjString(curname));
-     }
+   found->SetOwner(kTRUE);
+   TGo4BrowserProxy *brow = go4->Browser();
+   TGo4Slot *slot = brow->BrowserSlot("Analysis");
+   TGo4Iter *iter = new TGo4Iter(slot,kFALSE);
+   while(iter->next()) {
+      if(!iter->isfolder()) {
+         curname.Form(iter->getname());
+         if(curname.Index(wild) != kNPOS)
+            found->Add((TObject *)new TObjString(curname));
       }
+   }
 #endif
 #ifdef __GO4ANAMACRO__
-    Bool_t reset=kTRUE;
-    while((obj=go4->NextMatchingObject(wildcard,"Go4",reset))!=0)
-      {
-         reset=kFALSE;
-    found->Add(obj);
-      }
+   Bool_t reset=kTRUE;
+   while((obj=go4->NextMatchingObject(wildcard,"Go4",reset))!=0) {
+      reset=kFALSE;
+      found->Add(obj);
+   }
 #endif
 #ifdef __NOGO4MACRO__
-  TKey *key;
-  TString curdir;
-  TIter next(gDirectory->GetListOfKeys());
-  while((key=(TKey*)next()))
-    {
-      if(strcmp(key->GetClassName(),"TDirectory")==0)
-   {
-     curdir.Form(fulldir.Data());
-     curdir.Append(key->GetName());
-     curdir.Append("/");
-     f->cd(curdir.Data());
-     namiter(f,curdir,wildcard,found);
-    }
-      else
-   {
-     curname.Form("%s",key->GetName());
-     fullname.Form("%s%s",fulldir.Data(),key->GetName());
-     if(curname.Index(wild) != kNPOS)
-         found->Add((TObject *)new TObjString(fullname));
+   found->SetOwner(kTRUE);
+   TKey *key;
+   TString curdir;
+   TIter next(gDirectory->GetListOfKeys());
+   while((key=(TKey*)next())) {
+      if(strcmp(key->GetClassName(),"TDirectory")==0) {
+         curdir.Form(fulldir.Data());
+         curdir.Append(key->GetName());
+         curdir.Append("/");
+         f->cd(curdir.Data());
+         namiter(f,curdir,wildcard,found);
+      } else {
+         curname.Form("%s",key->GetName());
+         fullname.Form("%s%s",fulldir.Data(),key->GetName());
+         if(curname.Index(wild) != kNPOS)
+            found->Add((TObject *)new TObjString(fullname));
+      }
    }
-    }
 #endif
-  return;
 }
 
 // Function to process one condition
@@ -95,7 +89,6 @@ Bool_t save1cond(const char* rootfile, const char* name, const char* pref)
   TGo4CondArray* ar;
   TObject*       obj=0;
   TCutG*         cut;
-  TDatime*       datime;
   Double_t       xl,xu,yl,yu,x[200],y[200];
   Double_t*      xs,*ys;
   Bool_t         enabled,last,mark,result,vtrue,vfalse,reset=kTRUE;
@@ -108,7 +101,7 @@ Bool_t save1cond(const char* rootfile, const char* name, const char* pref)
   TString setcon;
 
 #ifdef __NOGO4MACRO__
-  TFile *f=TFile::Open(rootfile,"r");
+  TFile *f = TFile::Open(rootfile,"r");
   if(f == 0)
     {
       cout <<"saveparam could not open file " << rootfile << endl;
@@ -140,32 +133,32 @@ Bool_t save1cond(const char* rootfile, const char* name, const char* pref)
   cout << "Write macro " << setcon.Data() << endl;
   ofstream xout(setcon.Data());
   TClass *conclass = con->IsA();
-  datime=new TDatime();
-  fLine.Form("// written by macro savecond.C at %s\n",datime->AsString());  WO ;
+  TDatime datime;
+  fLine.Form("// written by macro savecond.C at %s\n",datime.AsString());  WO ;
   fLine.Form("#include \"Riostream.h\"\n");  WO ;
-  fLine.Form("Bool_t %s_%s(Bool_t flags, Bool_t counters, Bool_t reset)\n",pref,sName.Data());  WO ;
+  fLine.Form("Bool_t %s_%s(Bool_t flags = kTRUE, Bool_t counters = kTRUE, Bool_t reset = kTRUE)\n",pref,sName.Data());  WO ;
   fLine.Form("{\n");  WO ;
-  fLine.Form("TGo4Analysis*  anl;\n");  WO ;
-  fLine.Form("TGo4Condition* con;\n");  WO ;
-  fLine.Form("TGo4WinCond*   win;\n");  WO ;
-  fLine.Form("TGo4PolyCond*  pol;\n");  WO ;
-  fLine.Form("TGo4CondArray* ar;\n");  WO ;
-  fLine.Form("Double_t  x[200],y[200];\n");  WO ;
+  fLine.Form("   TGo4Analysis*  anl;\n");  WO ;
+  fLine.Form("   TGo4WinCond*   win;\n");  WO ;
+  fLine.Form("   TGo4PolyCond*  pol;\n");  WO ;
+  fLine.Form("   TGo4CondArray* ar;\n");  WO ;
+  fLine.Form("   Double_t  x[200],y[200];\n");  WO ;
   fLine.Form("#ifndef __GO4ANAMACRO__\n");  WO ;
-  fLine.Form("cout << \"Macro %s_%s can execute only in analysis\" << endl;\n",
-             pref,sName.Data());  WO ;
-  fLine.Form("return kFALSE;\n");  WO ;
+  fLine.Form("   cout << \"Macro %s_%s can execute only in analysis\" << endl;\n", pref,sName.Data());  WO ;
+  fLine.Form("   return kFALSE;\n");  WO ;
   fLine.Form("#endif\n");  WO ;
-  fLine.Form("con=(TGo4Condition *)go4->GetObject(\"%s\",\"Go4\");\n",sName.Data());  WO ;
-  fLine.Form("if(!con){\n");  WO ;
-  fLine.Form("cout << \"%s: could not find %s\" << endl;\n",setcon.Data(),sName.Data());  WO ;
-  fLine.Form("return kFALSE;}\n");  WO ;
-  fLine.Form("if(strcmp(con->ClassName(),\"%s\")){\n",con->ClassName());  WO ;
-  fLine.Form("cout << \"%s: %s has wrong class \" << con->ClassName() << endl;\n",
+  fLine.Form("   TGo4Condition* con = (TGo4Condition*) go4->GetObject(\"%s\",\"Go4\");\n",sName.Data());  WO ;
+  fLine.Form("   if(con==0) {\n");  WO ;
+  fLine.Form("      cout << \"%s: could not find %s\" << endl;\n",setcon.Data(),sName.Data());  WO ;
+  fLine.Form("      return kFALSE;\n");  WO ;
+  fLine.Form("   }\n\n");  WO ;
+  fLine.Form("   if(strcmp(con->ClassName(),\"%s\")) {\n",con->ClassName());  WO ;
+  fLine.Form("   cout << \"%s: %s has wrong class \" << con->ClassName() << endl;\n",
              setcon.Data(),sName.Data());  WO ;
-  fLine.Form("return kFALSE;}\n");  WO ;
-  fLine.Form("cout << \"Set condition %s as saved by savecond.C at %s\" << endl;\n",
-             sName.Data(),datime->AsString()); WO ;
+  fLine.Form("   return kFALSE;\n");  WO ;
+  fLine.Form("   }\n");  WO ;
+  fLine.Form("   cout << \"Set condition %s as saved by savecond.C at %s\" << endl;\n",
+             sName.Data(),datime.AsString()); WO ;
   fLine.Form("// SetFlags(enabled,last,mark,result,vtrue,vfalse);\n"); WO ;
 
 // Array -----------------------------------------------
@@ -252,38 +245,37 @@ Bool_t save1cond(const char* rootfile, const char* name, const char* pref)
    }
    fLine.Form("pol->SetValues(x,y,%d);\n",points); WO ;
  } // end polygon
- fLine.Form("return kTRUE;\n}\n");  WO ;
- xout.close();
 
-#ifdef __NOGO4MACRO__
- f->Close();
-#endif
- return kTRUE;
-}
-#ifdef __NOGO4MACRO__
-// Get objects from ROOT file
-void savecond(const char* file, const char* wildcard, const char* pref)
-{
- TString fulldir;
- TObject *namo;
- TFile *f = TFile::Open(file,"r");
-#else
-void savecond(const char* wildcard, const char* pref)
-{
-   TString fulldir;
-   TObject *namo;
-   TFile *f;
-   const char* file;
-#endif
-   TList* list = new TList;
-   fulldir.Form("");
-   namiter(f,fulldir,wildcard,list);
-   TListIter *iter = list->MakeIterator();
+   fLine.Form("return kTRUE;\n}\n");  WO ;
+   xout.close();
+
 #ifdef __NOGO4MACRO__
    f->Close();
 #endif
-   while(namo = iter->Next())
-     {
-          save1cond(file,namo->GetName(),pref);
-     }
- }
+   return kTRUE;
+}
+
+#ifdef __NOGO4MACRO__
+// Get objects from ROOT file
+void savecond(const char* file, const char* wildcard="*", const char* pref="save")
+{
+   TFile *f = TFile::Open(file,"r");
+#else
+void savecond(const char* wildcard="*", const char* pref="save")
+{
+   TFile *f = 0;
+   const char* file = 0;
+#endif
+   TList lst;
+   TString fulldir;
+   namiter(f, fulldir, wildcard, &lst);
+   if (f!=0) { delete f; f = 0; }
+
+   TIter next(&lst);
+
+   TObject* namo = 0;
+   while((namo = next()) != 0)
+      save1cond(file, namo->GetName(), pref);
+
+   lst.Clear();
+}
