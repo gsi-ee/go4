@@ -77,6 +77,8 @@ class TGo4WinCond : public TGo4Condition {
 
       virtual Int_t GetMemorySize();
 
+      virtual void MakeScript(ostream& out, const char* varprefix, Int_t tab = 3, Bool_t savecondscript = kFALSE);
+
    private:
 
       /** inclusive lower limit */

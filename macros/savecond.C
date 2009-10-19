@@ -83,30 +83,14 @@ void namiter(TFile *f, TString fulldir, const char* wildcard, TList* found)
 // outside Go4 get condition from file (1st arg)
 Bool_t save1cond(const char* rootfile, const char* name, const char* pref)
 {
-  TGo4Condition* con;
-  TGo4WinCond*   win;
-  TGo4PolyCond*  pol;
-  TGo4CondArray* ar;
-  TObject*       obj=0;
-  TCutG*         cut;
-  Double_t       xl,xu,yl,yu,x[200],y[200];
-  Double_t*      xs,*ys;
-  Bool_t         enabled,last,mark,result,vtrue,vfalse,reset=kTRUE;
-  Int_t          dim,counts,tcounts,maxi,ii,ip,points;
-  TString fLine;
-  TString fValue;
-  TString fData;
-  TString fName;
-  TString sName;
-  TString setcon;
+  TString fLine, fName, sName, setcon;
 
 #ifdef __NOGO4MACRO__
   TFile *f = TFile::Open(rootfile,"r");
-  if(f == 0)
-    {
-      cout <<"saveparam could not open file " << rootfile << endl;
-      return kFALSE;
-    }
+  if(f == 0) {
+     cout <<"saveparam could not open file " << rootfile << endl;
+     return kFALSE;
+   }
   // get condition from file
   TGo4Condition* cond=f->Get(name);
 #endif
@@ -124,130 +108,43 @@ Bool_t save1cond(const char* rootfile, const char* name, const char* pref)
   // get condition from Go4 analysis
   TGo4Condition* cond=go4->GetObject(name,"Go4");
 #endif
-  con=cond;
-  if(con && con->InheritsFrom("TGo4Condition"))
-    sName=con->GetName();
+  if(cond && cond->InheritsFrom("TGo4Condition"))
+    sName=cond->GetName();
   else return kFALSE;
 
   setcon.Form("%s_%s.C",pref,sName.Data());
   cout << "Write macro " << setcon.Data() << endl;
   ofstream xout(setcon.Data());
-  TClass *conclass = con->IsA();
+  TClass *conclass = cond->IsA();
   TDatime datime;
   fLine.Form("// written by macro savecond.C at %s\n",datime.AsString());  WO ;
   fLine.Form("#include \"Riostream.h\"\n");  WO ;
   fLine.Form("Bool_t %s_%s(Bool_t flags = kTRUE, Bool_t counters = kTRUE, Bool_t reset = kTRUE)\n",pref,sName.Data());  WO ;
   fLine.Form("{\n");  WO ;
-  fLine.Form("   TGo4Analysis*  anl;\n");  WO ;
-  fLine.Form("   TGo4WinCond*   win;\n");  WO ;
-  fLine.Form("   TGo4PolyCond*  pol;\n");  WO ;
-  fLine.Form("   TGo4CondArray* ar;\n");  WO ;
-  fLine.Form("   Double_t  x[200],y[200];\n");  WO ;
   fLine.Form("#ifndef __GO4ANAMACRO__\n");  WO ;
   fLine.Form("   cout << \"Macro %s_%s can execute only in analysis\" << endl;\n", pref,sName.Data());  WO ;
   fLine.Form("   return kFALSE;\n");  WO ;
-  fLine.Form("#endif\n");  WO ;
-  fLine.Form("   TGo4Condition* con = (TGo4Condition*) go4->GetObject(\"%s\",\"Go4\");\n",sName.Data());  WO ;
+  fLine.Form("#endif\n\n");  WO ;
+  fLine.Form("   %s* con = (%s*) go4->GetObject(\"%s\",\"Go4\");\n",
+                  cond->ClassName(), cond->ClassName(), sName.Data());  WO ;
   fLine.Form("   if(con==0) {\n");  WO ;
   fLine.Form("      cout << \"%s: could not find %s\" << endl;\n",setcon.Data(),sName.Data());  WO ;
   fLine.Form("      return kFALSE;\n");  WO ;
   fLine.Form("   }\n\n");  WO ;
-  fLine.Form("   if(strcmp(con->ClassName(),\"%s\")) {\n",con->ClassName());  WO ;
-  fLine.Form("   cout << \"%s: %s has wrong class \" << con->ClassName() << endl;\n",
+  fLine.Form("   if(strcmp(con->ClassName(),\"%s\")) {\n", cond->ClassName());  WO ;
+  fLine.Form("      cout << \"%s: %s has wrong class \" << con->ClassName() << endl;\n",
              setcon.Data(),sName.Data());  WO ;
-  fLine.Form("   return kFALSE;\n");  WO ;
-  fLine.Form("   }\n");  WO ;
+  fLine.Form("      return kFALSE;\n");  WO ;
+  fLine.Form("   }\n\n");  WO ;
   fLine.Form("   cout << \"Set condition %s as saved by savecond.C at %s\" << endl;\n",
              sName.Data(),datime.AsString()); WO ;
-  fLine.Form("// SetFlags(enabled,last,mark,result,vtrue,vfalse);\n"); WO ;
+  fLine.Form("   // SetFlags(enabled,last,mark,result,vtrue,vfalse);\n\n"); WO ;
 
-// Array -----------------------------------------------
-  if(strcmp(con->ClassName(),"TGo4CondArray") == 0)
-  {
-   fLine.Form("\nar=(TGo4CondArray *) con;\n"); WO ;
-   ar=(TGo4CondArray *)con;
+  cond->MakeScript(xout, "con->", 3, kTRUE);
 
-   if(ar->IsPolygonType())for(ii=0;ii<ar->GetNumber();ii++)
-     {
-       pol=(TGo4PolyCond *)ar->At(ii);
-       counts=pol->Counts();
-       tcounts=pol->TrueCounts();
-       pol->GetFlags(&enabled, &last, &mark, &result, &vtrue, &vfalse);
-       cut=pol->GetCut(kFALSE); // no owner
-       xs=cut->GetX();ys=cut->GetY();points=cut->GetN();
-       fLine.Form("\npol=(TGo4PolyCond *)ar->At(%d);\n",ii); WO ;
-       fLine.Form("if(flags)   pol->SetFlags(%d,%d,%d,%d,%d,%d);\n",
-                 enabled,last,mark,result,vtrue,vfalse); WO ;
-       fLine.Form("if(counters)pol->SetCounts(%d,%d);\n",tcounts,counts); WO ;
-       fLine.Form("if(reset)   pol->ResetCounts();\n"); WO ;
-       for(ip=0;ip<points;ip++)
-    {
-      fLine.Form("   x[%d] = %f; y[%d] = %f;\n",ip,*xs,ip,*ys); WO ;
-      x[ip] = *xs; y[ip] = *ys;
-      xs++; ys++;
-    }
-       fLine.Form("pol->SetValues(x,y,%d);\n",points); WO ;
-     } // end polygon
-
-   else for(ii=0;ii<ar->GetNumber();ii++)
-     {
-       win=(TGo4WinCond *)ar->At(ii);
-       win->GetValues(dim,xl,xu,yl,yu);
-       counts=win->Counts();
-       tcounts=win->TrueCounts();
-       win->GetFlags(&enabled, &last, &mark, &result, &vtrue, &vfalse);
-       win->SetFlags(enabled,last,mark,result,vtrue,vfalse);
-       win->SetCounts(tcounts,counts);
-       fLine.Form("\nwin=(TGo4WinCond *)ar->At(%d);\n",ii); WO ;
-       fLine.Form("if(flags)   win->SetFlags(%d,%d,%d,%d,%d,%d);\n",
-                 enabled,last,mark,result,vtrue,vfalse); WO ;
-       fLine.Form("if(counters)win->SetCounts(%d,%d);\n",tcounts,counts); WO ;
-       fLine.Form("if(reset)   win->ResetCounts();\n"); WO ;
-       if(dim==1){fLine.Form("win->SetValues(%f,%f);\n",xl,xu); WO ;}
-       if(dim==2){fLine.Form("win->SetValues(%f,%f,%f,%f);\n",xl,xu,yl,yu); WO ;}
-     } // end window
- } // end array
-
- if(strcmp(con->ClassName(),"TGo4WinCond")   == 0)
- {
-   win=(TGo4WinCond *)con;
-   win->GetValues(dim,xl,xu,yl,yu);
-   counts=win->Counts();
-   tcounts=win->TrueCounts();
-   win->GetFlags(&enabled, &last, &mark, &result, &vtrue, &vfalse);
-   fLine.Form("\nwin=(TGo4WinCond *) con;\n"); WO ;
-   fLine.Form("if(flags)   win->SetFlags(%d,%d,%d,%d,%d,%d);\n",
-             enabled,last,mark,result,vtrue,vfalse); WO ;
-   fLine.Form("if(counters)win->SetCounts(%d,%d);\n",tcounts,counts); WO ;
-   fLine.Form("if(reset)   win->ResetCounts();\n"); WO ;
-   if(dim==1){fLine.Form("win->SetValues(%f,%f);\n",xl,xu); WO ;}
-   if(dim==2){fLine.Form("win->SetValues(%f,%f,%f,%f);\n",xl,xu,yl,yu); WO ;}
- } // end window
-
- if(strcmp(con->ClassName(),"TGo4PolyCond")  == 0)
-{
-   pol=(TGo4PolyCond *)con;
-   counts=pol->Counts();
-   tcounts=pol->TrueCounts();
-   pol->GetFlags(&enabled, &last, &mark, &result, &vtrue, &vfalse);
-   cut=pol->GetCut(kFALSE); // no owner
-   xs=cut->GetX();ys=cut->GetY();points=cut->GetN();
-   fLine.Form("\npol=(TGo4PolyCond *) con;\n"); WO ;
-   fLine.Form("if(flags)   pol->SetFlags(%d,%d,%d,%d,%d,%d);\n",
-               enabled,last,mark,result,vtrue,vfalse); WO ;
-   fLine.Form("if(counters)pol->SetCounts(%d,%d);\n",tcounts,counts); WO ;
-   fLine.Form("if(reset)   pol->ResetCounts();\n"); WO ;
-   for(ip=0;ip<points;ip++)
-   {
-   fLine.Form("   x[%d] = %f; y[%d] = %f;\n",ip,*xs,ip,*ys); WO ;
-   x[ip] = *xs; y[ip] = *ys;
-   xs++; ys++;
-   }
-   fLine.Form("pol->SetValues(x,y,%d);\n",points); WO ;
- } // end polygon
-
-   fLine.Form("return kTRUE;\n}\n");  WO ;
-   xout.close();
+  fLine.Form("\n   return kTRUE;\n");  WO ;
+  fLine.Form("}\n");  WO ;
+  xout.close();
 
 #ifdef __NOGO4MACRO__
    f->Close();

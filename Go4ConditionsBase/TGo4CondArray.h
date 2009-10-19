@@ -216,6 +216,8 @@ class TGo4CondArray : public TGo4Condition {
 
     virtual Int_t GetMemorySize();
 
+    virtual void MakeScript(ostream& out, const char* varprefix, Int_t tab = 3, Bool_t savecondscript = kFALSE);
+
   private:
     /** The object array of conditions */
     TObjArray* condarr;

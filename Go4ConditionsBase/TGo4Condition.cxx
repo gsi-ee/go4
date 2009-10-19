@@ -649,3 +649,42 @@ void TGo4Condition::DeletePainter()
       fxPainter = 0;
    }
 }
+
+void TGo4Condition::MakeScript(ostream& out, const char* varprefix, Int_t tab, Bool_t savecondscript)
+{
+   TString prefix, line;
+   for (int n=0;n<tab;n++) prefix+=" ";
+
+   Bool_t enabled,last,mark,result,vtrue,vfalse;
+
+   GetFlags(&enabled, &last, &mark, &result, &vtrue, &vfalse);
+
+   Int_t counts = Counts();
+   Int_t tcounts = TrueCounts();
+
+   line.Form("%s%s%sSetFlags(%s, %s, %s, %s, %s, %s);",
+             prefix.Data(),
+             savecondscript ? "if (flags) " : "",
+             varprefix,
+             enabled ? "kTRUE" : "kFALSE",
+             last ? "kTRUE" : "kFALSE",
+             mark ? "kTRUE" : "kFALSE",
+             result ? "kTRUE" : "kFALSE",
+             vtrue ? "kTRUE" : "kFALSE",
+             vfalse ? "kTRUE" : "kFALSE");
+   out << line << endl;
+
+   line.Form("%s%s%sSetCounts(%d, %d);",
+              prefix.Data(),
+              savecondscript ? "if (counters) " : "",
+              varprefix,
+              tcounts, counts);
+   out << line << endl;
+
+
+   if (savecondscript) {
+      line.Form("%sif (reset) %sResetCounts();", prefix.Data(), varprefix);
+      out << line << endl;
+   }
+}
+

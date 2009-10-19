@@ -383,3 +383,34 @@ Int_t TGo4PolyCond::GetMemorySize()
    }
    return size;
 }
+
+void TGo4PolyCond::MakeScript(ostream& out, const char* varprefix, Int_t tab, Bool_t savecondscript)
+{
+   TGo4Condition::MakeScript(out, varprefix, tab, savecondscript);
+
+   TString prefix, line;
+   for (int n=0;n<tab;n++) prefix+=" ";
+
+   if ((fxCut==0) || (fxCut->GetN()==0))
+      line.Form("%s%sSetValues(0, 0, 0);", prefix.Data(), varprefix);
+   else {
+      TString xname = varprefix, yname;
+      xname.ReplaceAll("->","_");
+      xname.ReplaceAll(".","_");
+      xname.ReplaceAll("(","_");
+      xname.ReplaceAll(")","_");
+      yname = xname + "pnty";
+      xname = xname + "pntx";
+      line.Form("%sDouble_t %s[%d], %s[%d];", prefix.Data(), xname.Data(), fxCut->GetN(), yname.Data(), fxCut->GetN());
+      out << line << endl;
+      for (Int_t n=0;n<fxCut->GetN();n++) {
+         Double_t x,y;
+         fxCut->GetPoint(n, x, y);
+         line.Form("%s%s[%d] = %f; %s[%d] = %f;", prefix.Data(), xname.Data(), n, x, yname.Data(), n, y);
+         out << line << endl;
+      }
+      line.Form("%s%sSetValues(%s, %s, %d);", prefix.Data(), varprefix, xname.Data(), yname.Data(), fxCut->GetN());
+   }
+
+   out << line << endl;
+}

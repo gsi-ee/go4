@@ -1107,3 +1107,13 @@ Int_t TGo4CondArray::GetMemorySize()
 
    return size;
 }
+
+void TGo4CondArray::MakeScript(ostream& out, const char* varprefix, Int_t tab, Bool_t savecondscript)
+{
+   for (int n=0; n<GetNumber(); n++) {
+      TString subname;
+      subname.Form("%sAt(%d)->", varprefix, n);
+      At(n)->MakeScript(out, subname.Data(), tab, savecondscript);
+      out << endl;
+   }
+}

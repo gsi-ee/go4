@@ -91,6 +91,8 @@ class TGo4PolyCond : public TGo4Condition {
 
       virtual Int_t GetMemorySize();
 
+      virtual void MakeScript(ostream& out, const char* varprefix, Int_t tab = 3, Bool_t savecondscript = kFALSE);
+
       /** Remove all references to any TCutGs from ROOT list of specials.
         * To be used after loading condition from file, updating contition, or setting of cut. */
       static void CleanupSpecials();
