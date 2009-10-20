@@ -21,7 +21,6 @@
 #include <fstream.h>
 #include <Riostream.h>
 #include "RVersion.h"
-#define kndGo4Param 4
 #define WO xout.write(fLine.Data(),fLine.Length())
 
 // Recoursive iterator to build a TList of all found objects
@@ -99,7 +98,7 @@ Bool_t save1param(const char* rootfile, const char* name, const char* pref)
   // Get parameter from GO4 GUI
   TGo4BrowserProxy *brow = go4->Browser();
   TString fName = go4->FindItem(name);
-  if(brow->ItemKind(fName.Data())!=kndGo4Param) return kFALSE;
+  if(brow->ItemKind(fName.Data())!=TGo4Access::kndGo4Param) return kFALSE;
   go4->FetchItem(fName.Data(),1000);
   TGo4Parameter *param = go4->GetObject(fName);
 #endif

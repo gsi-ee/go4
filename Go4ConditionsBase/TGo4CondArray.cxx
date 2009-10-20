@@ -1108,12 +1108,19 @@ Int_t TGo4CondArray::GetMemorySize()
    return size;
 }
 
-void TGo4CondArray::MakeScript(ostream& out, const char* varprefix, Int_t tab, Bool_t savecondscript)
+void TGo4CondArray::SavePrimitive(ostream& out, Option_t* opt)
 {
+   static int cnt = 0;
+   TString varname = MakeScript(out, Form("condarr%d", cnt++), opt, kTRUE);
+
+   // exclude name: options
+   TString options = opt;
+   const char* subname = strstr(opt, "name:");
+   if (subname!=0) options.Resize(subname - opt);
+
    for (int n=0; n<GetNumber(); n++) {
-      TString subname;
-      subname.Form("%sAt(%d)->", varprefix, n);
-      At(n)->MakeScript(out, subname.Data(), tab, savecondscript);
+      TString subopt = options + Form(" name:%s->At(%d)", varname.Data(), n);
+      At(n)->SavePrimitive(out, subopt.Data());
       out << endl;
    }
 }

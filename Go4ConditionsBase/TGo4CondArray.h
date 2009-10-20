@@ -216,7 +216,8 @@ class TGo4CondArray : public TGo4Condition {
 
     virtual Int_t GetMemorySize();
 
-    virtual void MakeScript(ostream& out, const char* varprefix, Int_t tab = 3, Bool_t savecondscript = kFALSE);
+    /** Standard way to store parameter in form of macro */
+    virtual void SavePrimitive(ostream& fs, Option_t* = "");
 
   private:
     /** The object array of conditions */

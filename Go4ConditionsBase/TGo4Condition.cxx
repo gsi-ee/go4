@@ -650,41 +650,52 @@ void TGo4Condition::DeletePainter()
    }
 }
 
-void TGo4Condition::MakeScript(ostream& out, const char* varprefix, Int_t tab, Bool_t savecondscript)
+const char* TGo4Condition::MakeScript(ostream& out, const char* varname, Option_t* opt, Bool_t isarr)
 {
-   TString prefix, line;
-   for (int n=0;n<tab;n++) prefix+=" ";
+   Bool_t savemacro = (opt!=0) && (strstr(opt,"savemacro")!=0);
+   Bool_t saveprefix = savemacro;
 
-   Bool_t enabled,last,mark,result,vtrue,vfalse;
+   const char* subname = strstr(opt, "name:");
+   if (subname != 0) { varname = subname + 5; saveprefix = kFALSE; }
 
-   GetFlags(&enabled, &last, &mark, &result, &vtrue, &vfalse);
-
-   Int_t counts = Counts();
-   Int_t tcounts = TrueCounts();
-
-   line.Form("%s%s%sSetFlags(%s, %s, %s, %s, %s, %s);",
-             prefix.Data(),
-             savecondscript ? "if (flags) " : "",
-             varprefix,
-             enabled ? "kTRUE" : "kFALSE",
-             last ? "kTRUE" : "kFALSE",
-             mark ? "kTRUE" : "kFALSE",
-             result ? "kTRUE" : "kFALSE",
-             vtrue ? "kTRUE" : "kFALSE",
-             vfalse ? "kTRUE" : "kFALSE");
-   out << line << endl;
-
-   line.Form("%s%s%sSetCounts(%d, %d);",
-              prefix.Data(),
-              savecondscript ? "if (counters) " : "",
-              varprefix,
-              tcounts, counts);
-   out << line << endl;
-
-
-   if (savecondscript) {
-      line.Form("%sif (reset) %sResetCounts();", prefix.Data(), varprefix);
-      out << line << endl;
+   if (saveprefix) {
+      out << Form("   %s* %s = (%s*) go4->GetObject(\"%s\",\"Go4\");",
+                   ClassName(), varname, ClassName(), GetName()) << endl;
+      out << Form("   if (%s==0) {", varname) << endl;
+      out << Form("      cout << \"Could not find %s\" << endl;", GetName()) << endl;
+      out << Form("      return kFALSE;") << endl;
+      out << Form("   }") << endl << endl;
+      out << Form("   if (strcmp(%s->ClassName(), \"%s\")) {", varname, ClassName()) << endl;
+      out << Form("      cout << \"Condition %s has wrong class \" << %s->ClassName() << endl;", GetName(), varname) << endl;
+      out << Form("      return kFALSE;") << endl;
+      out << Form("   }") << endl << endl;
+      out << Form("   cout << \"Set condition %s as saved at %s\" << endl;",
+                         GetName(),TDatime().AsString()) << endl << endl;
    }
-}
 
+   if (!isarr) {
+
+      Bool_t enabled,last,mark,result,vtrue,vfalse;
+      GetFlags(&enabled, &last, &mark, &result, &vtrue, &vfalse);
+
+      out << "   // SetFlags(enabled,last,mark,result,vtrue,vfalse);" << endl;
+
+      out << Form("   %s%s->SetFlags(%s, %s, %s, %s, %s, %s);",
+                  savemacro ? "if (flags) " : "", varname,
+                  enabled ? "kTRUE" : "kFALSE",
+                  last ? "kTRUE" : "kFALSE",
+                  mark ? "kTRUE" : "kFALSE",
+                  result ? "kTRUE" : "kFALSE",
+                  vtrue ? "kTRUE" : "kFALSE",
+                  vfalse ? "kTRUE" : "kFALSE") << endl;
+
+      out << Form("   %s%s->SetCounts(%d, %d);",
+                 savemacro ? "if (counters) " : "", varname,
+                 TrueCounts(), Counts()) << endl;
+
+      if (savemacro)
+         out << Form("   if (reset) %s->ResetCounts();", varname) << endl;
+   }
+
+   return varname;
+}

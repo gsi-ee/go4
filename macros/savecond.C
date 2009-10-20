@@ -13,6 +13,8 @@
 // flags, counters, reset
 // to control if flags and counters have to be restored.
 // H.G.Essel July 2006
+// Implement macro using TGo4Condition::SavePrimitive() methods
+// S.Linev October 2009
 
 #ifndef __GO4MACRO__
 #ifndef __GO4ANAMACRO__
@@ -23,7 +25,6 @@
 #include <fstream.h>
 #include <Riostream.h>
 #include "RVersion.h"
-#define kndGo4Param 4
 #define WO xout.write(fLine.Data(),fLine.Length())
 
 // Recoursive iterator to build a TList of all found objects
@@ -83,8 +84,6 @@ void namiter(TFile *f, TString fulldir, const char* wildcard, TList* found)
 // outside Go4 get condition from file (1st arg)
 Bool_t save1cond(const char* rootfile, const char* name, const char* pref)
 {
-  TString fLine, fName, sName, setcon;
-
 #ifdef __NOGO4MACRO__
   TFile *f = TFile::Open(rootfile,"r");
   if(f == 0) {
@@ -97,7 +96,7 @@ Bool_t save1cond(const char* rootfile, const char* name, const char* pref)
 #ifdef __GO4MACRO__
   // Get condition from GO4 GUI
   TGo4BrowserProxy *brow = go4->Browser();
-  fName = go4->FindItem(name);
+  TString fName = go4->FindItem(name);
   TClass *cc = brow->ItemClass(fName.Data());
   if(!cc) return kFALSE;
   if(!cc->InheritsFrom("TGo4Condition")) return kFALSE;
@@ -108,39 +107,21 @@ Bool_t save1cond(const char* rootfile, const char* name, const char* pref)
   // get condition from Go4 analysis
   TGo4Condition* cond=go4->GetObject(name,"Go4");
 #endif
-  if(cond && cond->InheritsFrom("TGo4Condition"))
-    sName=cond->GetName();
-  else return kFALSE;
+  if((cond==0) || !cond->InheritsFrom("TGo4Condition")) return kFALSE;
 
-  setcon.Form("%s_%s.C",pref,sName.Data());
+  TString fLine, setcon = Form("%s_%s.C", pref, cond->GetName());
   cout << "Write macro " << setcon.Data() << endl;
   ofstream xout(setcon.Data());
-  TClass *conclass = cond->IsA();
-  TDatime datime;
-  fLine.Form("// written by macro savecond.C at %s\n",datime.AsString());  WO ;
+  fLine.Form("// written by macro savecond.C at %s\n", TDatime().AsString());  WO ;
   fLine.Form("#include \"Riostream.h\"\n");  WO ;
-  fLine.Form("Bool_t %s_%s(Bool_t flags = kTRUE, Bool_t counters = kTRUE, Bool_t reset = kTRUE)\n",pref,sName.Data());  WO ;
+  fLine.Form("Bool_t %s_%s(Bool_t flags = kTRUE, Bool_t counters = kTRUE, Bool_t reset = kTRUE)\n", pref, cond->GetName());  WO ;
   fLine.Form("{\n");  WO ;
   fLine.Form("#ifndef __GO4ANAMACRO__\n");  WO ;
-  fLine.Form("   cout << \"Macro %s_%s can execute only in analysis\" << endl;\n", pref,sName.Data());  WO ;
+  fLine.Form("   cout << \"Macro %s_%s can execute only in analysis\" << endl;\n", pref, cond->GetName());  WO ;
   fLine.Form("   return kFALSE;\n");  WO ;
   fLine.Form("#endif\n\n");  WO ;
-  fLine.Form("   %s* con = (%s*) go4->GetObject(\"%s\",\"Go4\");\n",
-                  cond->ClassName(), cond->ClassName(), sName.Data());  WO ;
-  fLine.Form("   if(con==0) {\n");  WO ;
-  fLine.Form("      cout << \"%s: could not find %s\" << endl;\n",setcon.Data(),sName.Data());  WO ;
-  fLine.Form("      return kFALSE;\n");  WO ;
-  fLine.Form("   }\n\n");  WO ;
-  fLine.Form("   if(strcmp(con->ClassName(),\"%s\")) {\n", cond->ClassName());  WO ;
-  fLine.Form("      cout << \"%s: %s has wrong class \" << con->ClassName() << endl;\n",
-             setcon.Data(),sName.Data());  WO ;
-  fLine.Form("      return kFALSE;\n");  WO ;
-  fLine.Form("   }\n\n");  WO ;
-  fLine.Form("   cout << \"Set condition %s as saved by savecond.C at %s\" << endl;\n",
-             sName.Data(),datime.AsString()); WO ;
-  fLine.Form("   // SetFlags(enabled,last,mark,result,vtrue,vfalse);\n\n"); WO ;
 
-  cond->MakeScript(xout, "con->", 3, kTRUE);
+  cond->SavePrimitive(xout, "savemacro");
 
   fLine.Form("\n   return kTRUE;\n");  WO ;
   fLine.Form("}\n");  WO ;

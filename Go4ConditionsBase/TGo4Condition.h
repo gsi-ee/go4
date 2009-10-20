@@ -299,8 +299,6 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
 
     void DeletePainter();
 
-    virtual void MakeScript(ostream& out, const char* varprefix, Int_t tab = 3, Bool_t savecondscript = kFALSE);
-
     /** default setting for all conditions for label draw on/off flag. */
     static Bool_t fgbLABELDRAW;
 
@@ -345,6 +343,8 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
 
     void SetPainted(Bool_t on) { fbIsPainted=on; }
     Bool_t IsPainted() const { return fbIsPainted; }
+
+    const char* MakeScript(ostream& out, const char* varname, Option_t* opt = "", Bool_t isarr = kFALSE);
 
   private:
 

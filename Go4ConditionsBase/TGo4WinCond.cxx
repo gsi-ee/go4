@@ -291,21 +291,18 @@ Int_t TGo4WinCond::GetMemorySize()
    return size;
 }
 
-void TGo4WinCond::MakeScript(ostream& out, const char* varprefix, Int_t tab, Bool_t savecondscript)
+void TGo4WinCond::SavePrimitive(ostream& out, Option_t* opt)
 {
-   TGo4Condition::MakeScript(out, varprefix, tab, savecondscript);
+   static int cnt = 0;
 
-   TString prefix, line;
-   for (int n=0;n<tab;n++) prefix+=" ";
+   TString varname = MakeScript(out, Form("wincond%d", cnt++), opt);
 
    Int_t dim;
    Double_t  xl,xu,yl,yu;
    GetValues(dim,xl,xu,yl,yu);
 
-   if(dim==1) line.Form("%s%sSetValues(%f, %f);", prefix.Data(), varprefix, xl, xu);
-         else line.Form("%s%sSetValues(%f, %f, %f, %f);", prefix.Data(), varprefix, xl, xu, yl, yu);
-
-   out << line << endl;
+   if(dim==1) out << Form("   %s->SetValues(%f, %f);", varname.Data(), xl, xu) << endl;
+         else out << Form("   %s->SetValues(%f, %f, %f, %f);", varname.Data(), xl, xu, yl, yu) << endl;
 }
 
 
