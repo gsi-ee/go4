@@ -344,7 +344,7 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     void SetPainted(Bool_t on) { fbIsPainted=on; }
     Bool_t IsPainted() const { return fbIsPainted; }
 
-    const char* MakeScript(ostream& out, const char* varname, Option_t* opt = "", Bool_t isarr = kFALSE);
+    const char* MakeScript(ostream& out, const char* varname, Option_t* opt = "", const char* arrextraargs = 0);
 
   private:
 

@@ -14,7 +14,7 @@ class TGo4PolyCond : public TGo4Condition {
 
       virtual ~TGo4PolyCond();
 
-      /** Factory method to generate the subclass implentation for painter */
+      /** Factory method to generate the subclass implementation for painter */
       virtual TGo4ConditionPainter* CreatePainter();
 
       /** Replace default painter of this condition by external one.

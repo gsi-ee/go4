@@ -650,7 +650,7 @@ void TGo4Condition::DeletePainter()
    }
 }
 
-const char* TGo4Condition::MakeScript(ostream& out, const char* varname, Option_t* opt, Bool_t isarr)
+const char* TGo4Condition::MakeScript(ostream& out, const char* varname, Option_t* opt, const char* arrextraargs)
 {
    Bool_t savemacro = (opt!=0) && (strstr(opt,"savemacro")!=0);
    Bool_t saveprefix = savemacro;
@@ -671,9 +671,12 @@ const char* TGo4Condition::MakeScript(ostream& out, const char* varname, Option_
       out << Form("   }") << endl << endl;
       out << Form("   cout << \"Set condition %s as saved at %s\" << endl;",
                          GetName(),TDatime().AsString()) << endl << endl;
+   } else
+   if (!savemacro && ((opt==0) || (strstr(opt, "nocreate")==0))) {
+      out << Form("   %s* %s = new %s(\"%s\"%s);", ClassName(), varname, ClassName(), GetName(), (arrextraargs ? arrextraargs : "")) << endl << endl;
    }
 
-   if (!isarr) {
+   if (arrextraargs==0) {
 
       Bool_t enabled,last,mark,result,vtrue,vfalse;
       GetFlags(&enabled, &last, &mark, &result, &vtrue, &vfalse);

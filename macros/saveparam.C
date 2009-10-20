@@ -22,98 +22,87 @@
 #include <Riostream.h>
 #include "RVersion.h"
 
-// Recoursive iterator to build a TList of all found objects
+// Recursive iterator to build a TList of all found objects
 // In case of CINT full names are in the TList (needed for Get)
 // File must be open
 // In case of GO4 GUI parameter names are in TList
 // In case of analysis the object pointers are in the TList
 
-void namiter(TFile *f, TString fulldir, const char* wildcard, TList* found)
+void paramiter(TDirectory *dir, const char* wildcard, TList* found)
 {
-   TString fullname;
-   TString curname;
-   TRegexp wild(wildcard,kTRUE);
 #ifdef __GO4MACRO__
-   found->SetOwner(kTRUE);
-   TGo4BrowserProxy *brow = go4->Browser();
-   TGo4Slot *slot = brow->BrowserSlot("Analysis");
-   TGo4Iter *iter = new TGo4Iter(slot,kFALSE);
-   while(iter->next()) {
-      if(!iter->isfolder()) {
-         curname.Form(iter->getname());
-         if(curname.Index(wild) != kNPOS)
-            found->Add((TObject *)new TObjString(curname));
+   TRegexp wild(wildcard, kTRUE);
+   TGo4Iter iter(go4->Browser()->BrowserSlot("Analysis"), kFALSE);
+   while(iter.next()) {
+      if(!iter.isfolder() && (TString(iter.getname()).Index(wild) != kNPOS)) {
+         TString itemname = Form("Analysis/%s", iter.getfullname());
+         if (go4->Browser()->ItemKind(itemname.Data()) == TGo4Access::kndGo4Param) {
+            go4->FetchItem(itemname.Data(), 1000);
+            TObject* obj = go4->GetObject(itemname.Data());
+            if (obj) found->Add(obj);
+         }
       }
    }
 #endif
 #ifdef __GO4ANAMACRO__
-   Bool_t reset=kTRUE;
-   while((obj=go4->NextMatchingObject(wildcard,"Go4",reset))!=0) {
-      reset=kFALSE;
-      found->Add(obj);
+   Bool_t reset = kTRUE;
+   TObject* obj = 0;
+   while((obj = go4->NextMatchingObject(wildcard,"Go4",reset))!=0) {
+      reset = kFALSE;
+      if (obj->InheritsFrom("TGo4Parameter")) found->Add(obj);
    }
 #endif
 #ifdef __NOGO4MACRO__
-   found->SetOwner(kTRUE);
-   TKey *key;
-   TString curdir;
-   TIter next(gDirectory->GetListOfKeys());
+   if (dir==0) return;
+   // found->SetOwner(kTRUE);
+   TRegexp wild(wildcard, kTRUE);
+   TIter next(dir->GetListOfKeys());
+   TKey *key = 0;
    while((key=(TKey*)next())) {
-      if(strcmp(key->GetClassName(),"TDirectory")==0) {
-         curdir.Form(fulldir.Data());
-         curdir.Append(key->GetName());
-         curdir.Append("/");
-         f->cd(curdir.Data());
-         namiter(f,curdir,wildcard,found);
-      } else {
-         curname.Form("%s",key->GetName());
-         fullname.Form("%s%s",fulldir.Data(),key->GetName());
-         if(curname.Index(wild) != kNPOS)
-            found->Add((TObject *)new TObjString(fullname));
-      }
+      if(strcmp(key->GetClassName(),"TDirectoryFile")==0)
+         paramiter(dir->GetDirectory(key->GetName()), wildcard, found);
+      else
+         if (TString(key->GetName()).Index(wild) != kNPOS) {
+            TClass* cl = TClass::GetClass(key->GetClassName());
+            if ((cl!=0) && cl->InheritsFrom("TGo4Parameter")) {
+                TObject* obj = dir->Get(key->GetName());
+                if (obj) found->Add(obj);
+            }
+         }
    }
 #endif
 }
 
+TString MakeFuncName(const char* main, const char* objname)
+{
+   TString subfunc = Form("%s_%s", main, objname);
+   subfunc.ReplaceAll("#","_");
+   subfunc.ReplaceAll("(","_");
+   subfunc.ReplaceAll(")","_");
+   subfunc.ReplaceAll("*","_");
+   subfunc.ReplaceAll("@","_");
+   return subfunc;
+}
 
 // Function to process one parameter
 // outside Go4 get parameter from file (1st arg)
-Bool_t save1param(const char* rootfile, const char* name, const char* pref)
+Bool_t save1param(TObject* obj, const char* prefix)
 {
-#ifdef __NOGO4MACRO__
-  TFile *f = TFile::Open(rootfile,"r");
-  if(f == 0) {
-      cout <<"saveparam could not open file " << rootfile << endl;
-      return kFALSE;
-  }
-  // get parameter from file
-  TGo4Parameter* param = f->Get(name);
-#endif
-#ifdef __GO4MACRO__
-  // Get parameter from GO4 GUI
-  TGo4BrowserProxy *brow = go4->Browser();
-  TString fName = go4->FindItem(name);
-  if(brow->ItemKind(fName.Data())!=TGo4Access::kndGo4Param) return kFALSE;
-  go4->FetchItem(fName.Data(),1000);
-  TGo4Parameter *param = go4->GetObject(fName);
-#endif
-#ifdef __GO4ANAMACRO__
-  // get parameter from Go4 analysis
-  TGo4Parameter *param = go4->GetObject(name,"Go4");
-#endif
-  if ((param==0) || !param->InheritsFrom("TGo4Parameter")) return kFALSE;
+  if ((obj==0) || !obj->InheritsFrom("TGo4Parameter")) return kFALSE;
 
-  TString fLine, setpar = Form("%s_%s.C", pref, param->GetName());
-  cout << "Write macro " << setpar.Data() << endl;
-  ofstream xout(setpar.Data());
+  TGo4Parameter* param = (TGo4Parameter*) obj;
+
+  TString funcname = MakeFuncName(prefix, param->GetName());
+
+  cout << "Write macro " << funcname << endl;
+  ofstream xout(funcname+".C");
 
   xout << Form("// written by macro saveparam.C at %s",TDatime().AsString()) << endl;
   xout << Form("#include \"Riostream.h\"") << endl;
-  xout << Form("Bool_t %s_%s()", pref, param->GetName()) << endl;
+  xout << Form("Bool_t %s()", funcname.Data()) << endl;
   xout << Form("{") << endl;
   xout << Form("#ifndef __GO4ANAMACRO__") << endl;
-  xout << Form("   cout << \"Macro %s_%s can execute only in analysis\" << endl;",
-        pref, param->GetName()) << endl;;
+  xout << Form("   cout << \"Macro %s can execute only in analysis\" << endl;", funcname.Data()) << endl;
   xout << Form("   return kFALSE;") << endl;
   xout << Form("#endif") << endl;
 
@@ -123,33 +112,30 @@ Bool_t save1param(const char* rootfile, const char* name, const char* pref)
   xout << "   return kTRUE;" << endl;
   xout << "}" << endl;
   xout.close();
-#ifdef __NOGO4MACRO__
-  f->Close();
-#endif
   return kTRUE;
 }
 
 #ifdef __NOGO4MACRO__
 // Get objects from ROOT file
-void saveparam(const char* file, const char* wildcard = "*", const char* pref = "save")
+void saveparam(const char* file, const char* wildcard = "*", const char* prefix = "save")
 {
   TFile *f = TFile::Open(file,"r");
 #else
-void saveparam(const char* wildcard = "*", const char* pref = "save")
+void saveparam(const char* wildcard = "*", const char* prefix = "save")
 {
   TFile *f = 0;
   const char* file = 0;
 #endif
+
   TList lst;
-  TString fulldir;
-  namiter(f, fulldir, wildcard, &lst);
+  paramiter(f, wildcard, &lst);
   if (f!=0) { delete f; f = 0; }
 
   TIter next(&lst);
 
-  TObject* namo = 0;
-  while((namo = next()) != 0)
-     save1param(file, namo->GetName(), pref);
+  TObject* obj = 0;
+  while((obj = next()) != 0)
+     save1param(obj, prefix);
 
   lst.Clear();
 }

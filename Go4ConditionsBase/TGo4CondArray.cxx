@@ -1111,7 +1111,8 @@ Int_t TGo4CondArray::GetMemorySize()
 void TGo4CondArray::SavePrimitive(ostream& out, Option_t* opt)
 {
    static int cnt = 0;
-   TString varname = MakeScript(out, Form("condarr%d", cnt++), opt, kTRUE);
+   TString extraargs = Form(", %d, \"%s\"", GetNumber(), GetType());
+   TString varname = MakeScript(out, Form("condarr%d", cnt++), opt, extraargs.Data());
 
    // exclude name: options
    TString options = opt;
@@ -1119,7 +1120,7 @@ void TGo4CondArray::SavePrimitive(ostream& out, Option_t* opt)
    if (subname!=0) options.Resize(subname - opt);
 
    for (int n=0; n<GetNumber(); n++) {
-      TString subopt = options + Form(" name:%s->At(%d)", varname.Data(), n);
+      TString subopt = options + Form(" nocreate name:%s->At(%d)", varname.Data(), n);
       At(n)->SavePrimitive(out, subopt.Data());
       out << endl;
    }

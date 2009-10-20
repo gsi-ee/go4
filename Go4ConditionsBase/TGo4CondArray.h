@@ -11,7 +11,7 @@ class TGo4CondArray : public TGo4Condition {
   public:
     TGo4CondArray();
 
-   /** Constructor. type can be "TGO4WinCond" or "TGO4PolyCond" */
+   /** Constructor. type can be "TGo4WinCond" or "TGo4PolyCond" */
     TGo4CondArray(const char* name, Int_t elements, const char* type);
 
     /** Constructor. contype can be kWINDOW or kPOLYGON */
