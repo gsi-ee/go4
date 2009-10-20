@@ -21,7 +21,6 @@
 #include <fstream.h>
 #include <Riostream.h>
 #include "RVersion.h"
-#define WO xout.write(fLine.Data(),fLine.Length())
 
 // Recoursive iterator to build a TList of all found objects
 // In case of CINT full names are in the TList (needed for Get)
@@ -81,10 +80,6 @@ void namiter(TFile *f, TString fulldir, const char* wildcard, TList* found)
 // outside Go4 get parameter from file (1st arg)
 Bool_t save1param(const char* rootfile, const char* name, const char* pref)
 {
-  TString fLine;
-  TString fData;
-  TString sName;
-  TString setpar;
 #ifdef __NOGO4MACRO__
   TFile *f = TFile::Open(rootfile,"r");
   if(f == 0) {
@@ -106,43 +101,27 @@ Bool_t save1param(const char* rootfile, const char* name, const char* pref)
   // get parameter from Go4 analysis
   TGo4Parameter *param = go4->GetObject(name,"Go4");
 #endif
-  if(param && param->InheritsFrom("TGo4Parameter"))
-       sName=param->GetName();
-  else return kFALSE;
+  if ((param==0) || !param->InheritsFrom("TGo4Parameter")) return kFALSE;
 
-  setpar.Form("%s_%s.C",pref,sName.Data());
+  TString fLine, setpar = Form("%s_%s.C", pref, param->GetName());
   cout << "Write macro " << setpar.Data() << endl;
   ofstream xout(setpar.Data());
-  TClass *parclass = param->IsA();
-  TDatime datime;
-  fLine.Form("// written by macro saveparam.C at %s\n",datime.AsString());  WO ;
-  fLine.Form("#include \"Riostream.h\"\n");  WO ;
-  fLine.Form("Bool_t %s_%s()\n",pref,sName.Data());  WO ;
-  fLine.Form("{\n");  WO ;
-  fLine.Form("#ifndef __GO4ANAMACRO__\n");  WO ;
-  fLine.Form("   cout << \"Macro %s_%s can execute only in analysis\" << endl;\n",
-        pref,sName.Data());  WO ;
-  fLine.Form("   return kFALSE;\n");  WO ;
-  fLine.Form("#endif\n");  WO ;
-  fLine.Form("   %s* param = (%s*) go4->GetObject(\"%s\",\"Go4\");\n\n",
-             parclass->GetName(),parclass->GetName(),sName.Data());  WO ;
-  fLine.Form("   if(param==0) {\n");  WO ;
-  fLine.Form("      cout << \"%s: could not find %s\" << endl;\n",setpar.Data(),sName.Data());  WO ;
-  fLine.Form("      return kFALSE;\n");  WO ;
-  fLine.Form("   }\n\n");  WO ;
-  fLine.Form("   if(strcmp(param->ClassName(),\"%s\")!=0) {\n",param->ClassName());  WO ;
-  fLine.Form("      cout << \"%s: %s has wrong class \" << param->ClassName() << endl;\n",
-        setpar.Data(),sName.Data());  WO ;
-  fLine.Form("      return kFALSE;\n");  WO ;
-  fLine.Form("   }\n\n");  WO ;
-  fLine.Form("   cout << \"Set parameter %s as saved by saveparam.C at %s\" << endl;\n\n",
-                    sName.Data(),datime.AsString());  WO ;
 
-  param->MakeScript(xout, "param->", 3);
+  xout << Form("// written by macro saveparam.C at %s",TDatime().AsString()) << endl;
+  xout << Form("#include \"Riostream.h\"") << endl;
+  xout << Form("Bool_t %s_%s()", pref, param->GetName()) << endl;
+  xout << Form("{") << endl;
+  xout << Form("#ifndef __GO4ANAMACRO__") << endl;
+  xout << Form("   cout << \"Macro %s_%s can execute only in analysis\" << endl;",
+        pref, param->GetName()) << endl;;
+  xout << Form("   return kFALSE;") << endl;
+  xout << Form("#endif") << endl;
 
-  fLine.Form("\n");  WO ;
-  fLine.Form("   return kTRUE;\n");  WO ;
-  fLine.Form("}\n");  WO ;
+  param->SavePrimitive(xout, "savemacro");
+
+  xout << endl;
+  xout << "   return kTRUE;" << endl;
+  xout << "}" << endl;
   xout.close();
 #ifdef __NOGO4MACRO__
   f->Close();

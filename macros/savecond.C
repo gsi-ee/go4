@@ -25,7 +25,6 @@
 #include <fstream.h>
 #include <Riostream.h>
 #include "RVersion.h"
-#define WO xout.write(fLine.Data(),fLine.Length())
 
 // Recoursive iterator to build a TList of all found objects
 // In case of CINT full names are in the TList (needed for Get)
@@ -112,19 +111,20 @@ Bool_t save1cond(const char* rootfile, const char* name, const char* pref)
   TString fLine, setcon = Form("%s_%s.C", pref, cond->GetName());
   cout << "Write macro " << setcon.Data() << endl;
   ofstream xout(setcon.Data());
-  fLine.Form("// written by macro savecond.C at %s\n", TDatime().AsString());  WO ;
-  fLine.Form("#include \"Riostream.h\"\n");  WO ;
-  fLine.Form("Bool_t %s_%s(Bool_t flags = kTRUE, Bool_t counters = kTRUE, Bool_t reset = kTRUE)\n", pref, cond->GetName());  WO ;
-  fLine.Form("{\n");  WO ;
-  fLine.Form("#ifndef __GO4ANAMACRO__\n");  WO ;
-  fLine.Form("   cout << \"Macro %s_%s can execute only in analysis\" << endl;\n", pref, cond->GetName());  WO ;
-  fLine.Form("   return kFALSE;\n");  WO ;
-  fLine.Form("#endif\n\n");  WO ;
+  xout << Form("// written by macro savecond.C at %s", TDatime().AsString()) << endl;
+  xout << Form("#include \"Riostream.h\"") << endl;
+  xout << Form("Bool_t %s_%s(Bool_t flags = kTRUE, Bool_t counters = kTRUE, Bool_t reset = kTRUE)", pref, cond->GetName()) << endl;
+  xout << Form("{") << endl;
+  xout << Form("#ifndef __GO4ANAMACRO__") << endl;
+  xout << Form("   cout << \"Macro %s_%s can execute only in analysis\" << endl;", pref, cond->GetName()) << endl;
+  xout << Form("   return kFALSE;") << endl;
+  xout << Form("#endif") << endl << endl;
 
   cond->SavePrimitive(xout, "savemacro");
 
-  fLine.Form("\n   return kTRUE;\n");  WO ;
-  fLine.Form("}\n");  WO ;
+  xout << endl;
+  xout << "   return kTRUE;" << endl;
+  xout << "}" << endl;
   xout.close();
 
 #ifdef __NOGO4MACRO__

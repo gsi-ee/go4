@@ -45,14 +45,10 @@ class TGo4Parameter : public TNamed {
       void GetMemberValues(TObjArray* fItems);
       Bool_t SetMemberValues(TObjArray* fItems);
 
-      /** Write values of parameter in form of macro.
-       * See saveparam.C macro for example for use this macro.
-       * \param varprefix defines variable name prefix like "param->" or "par."
-       * \param tab specifies number of spaces for formatting */
-      void MakeScript(ostream& out, const char* varprefix, Int_t tab = 3);
-
-      /** Standard way to store parameter in form of macro */
-      virtual void SavePrimitive(ostream& fs, Option_t* = "");
+      /** Standard way to store parameter in form of macro,
+       * If \param opt == "savemacro", parameter saved in form of macro,
+       * which can be rerun in analysis-  see saveparam.C macro for example */
+      virtual void SavePrimitive(ostream& fs, Option_t* opt= "");
 
    protected:
 

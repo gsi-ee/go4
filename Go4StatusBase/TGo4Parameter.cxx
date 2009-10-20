@@ -10,6 +10,7 @@
 #include "TDataMember.h"
 #include "TDataType.h"
 #include "TBaseClass.h"
+#include "TDatime.h"
 
 #include "TGo4Log.h"
 #include "TGo4ParameterMember.h"
@@ -253,51 +254,52 @@ Bool_t TGo4Parameter::SetMemberValues(TIterator* fItems, TClass* cl, char* ptr, 
    return kTRUE;
 }
 
-void TGo4Parameter::MakeScript(ostream& out, const char* varprefix, Int_t tab)
+void TGo4Parameter::SavePrimitive(ostream& out, Option_t* opt)
 {
+   static int cnt = 0;
+   TString varname = Form("param%d", cnt++);
+   Bool_t savemacro = (opt!=0) && (strstr(opt,"savemacro")!=0);
+
+   if (savemacro) {
+      out << Form("   %s* %s = (%s*) go4->GetObject(\"%s\",\"Go4\");",
+                 ClassName(), varname.Data(), ClassName(), GetName()) << endl << endl;
+      out << Form("   if (%s==0) {", varname.Data()) << endl;
+      out << Form("      cout << \"Could not find parameter %s\" << endl;", GetName()) << endl;
+      out << Form("      return kFALSE;") << endl;
+      out << Form("   }") << endl << endl;
+      out << Form("   if (strcmp(%s->ClassName(), \"%s\") != 0) {", varname.Data(), ClassName()) << endl;
+      out << Form("      cout << \"Parameter %s has wrong class \" << %s->ClassName() << endl;", GetName(), varname.Data()) << endl;
+      out << Form("      return kFALSE;") << endl;
+      out << Form("   }") << endl << endl;
+      out << Form("   cout << \"Set parameter %s as saved at %s\" << endl;", GetName(), TDatime().AsString()) << endl << endl;
+   } else {
+      out << Form("   %s* %s = new %s;", ClassName(), varname.Data(), ClassName()) << endl;
+      out << Form("   %s->SetName(\"%s\");", varname.Data(), GetName()) << endl;
+      out << Form("   %s->SetTitle(\"%s\");", varname.Data(), GetTitle()) << endl;
+   }
+
    TObjArray *fitems = new TObjArray();
    fitems->SetOwner(kTRUE);
    GetMemberValues(fitems);
 
-   TGo4ParameterMember* info = 0;
    TIter iter(fitems);
-
-   TString prefix;
-   for (Int_t n=0;n<tab;n++) prefix.Append(" ");
-   prefix.Append(varprefix);
-
-   TString line, membername;
+   TGo4ParameterMember* info = 0;
 
    while ((info = (TGo4ParameterMember*) iter()) !=0 ) {
       if (info->GetTypeId()==TGo4ParameterMember::kTGo4Fitter_t) continue;
 
+      TString membername;
       info->GetFullName(membername);
 
       if (info->GetTypeId()==TGo4ParameterMember::kTString_t)
-         line.Form("%s%s = \"%s\";\n", prefix.Data(), membername.Data(), info->GetStrValue());
+         out << Form("   %s->%s = \"%s\";", varname.Data(), membername.Data(), info->GetStrValue()) << endl;
       else
       if (info->GetTypeId()==kBool_t)
-         line.Form("%s%s = %s;\n", prefix.Data(), membername.Data(), (atoi(info->GetStrValue()) ? "kTRUE" : "kFALSE"));
+         out << Form("   %s->%s = %s;", varname.Data(), membername.Data(), (atoi(info->GetStrValue()) ? "kTRUE" : "kFALSE")) << endl;
       else
-         line.Form("%s%s = %s;\n", prefix.Data(), membername.Data(), info->GetStrValue());
-
-      out << line;
+         out << Form("   %s->%s = %s;", varname.Data(), membername.Data(), info->GetStrValue()) << endl;
    }
 
    delete fitems;
-}
-
-void TGo4Parameter::SavePrimitive(ostream& fs, Option_t* )
-{
-   fs << endl << "// Store of parameter in form of macro" << endl;
-   TString line;
-   line.Form("%s* %s = new %s;", ClassName(), GetName(), ClassName());
-   fs << line << endl;
-   line.Form("%s->SetName(\"%s\");", GetName(), GetName());
-   fs << line << endl;
-   line.Form("%s->SetTitle(\"%s\");", GetName(), GetTitle());
-   fs << line << endl;
-   line.Form("%s->", GetName());
-   MakeScript(fs, line.Data(), 0);
 }
 
