@@ -34,11 +34,11 @@ class TGo4AnalysisWindow : public QGo4Widget {
       void RequestTerminate();
       void ClearAnalysisOutput();
       void SaveAnalysisOutput();
-      void HistActivated(const QString& str);
       void FileDialog_Macro();
       void PrintHistograms();
       void PrintConditions();
       void PrintEvent();
+      void CommandSlot();
 
       void updateTerminalOutput();
 

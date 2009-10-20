@@ -15,7 +15,6 @@ TGo4CommandLine::TGo4CommandLine(QWidget *parent, const char* name)
          : QGo4Widget(parent, name)
 {
 	setupUi(this);
-   fiHistoryDepth=50;
    LoadHistory();
 }
 
@@ -40,62 +39,35 @@ void TGo4CommandLine::FileSearchDialog()
 }
 
 
-void TGo4CommandLine::SelectCommand( const QString & str )
+void TGo4CommandLine::enterPressedSlot()
 {
-if (InputLine->EnterPressed() && (str!="")) {
-      InputLine->ResetEnterPressed();
-      InputLine->removeItem(InputLine->currentIndex()); // remove possible duplicate
-      int pos = -1;
-      for (int i=0;i<InputLine->count();i++){
-            if (InputLine->itemText(i)=="") pos = i;
-        }
-        if (pos>=0) InputLine->removeItem(pos); // clear previous blank line
-      InputLine->addItem(str); // put last command on top of history
-      InputLine->addItem(""); // insert blank line on top
-      if (InputLine->currentIndex()!=0)
-        InputLine->setCurrentIndex(0); // provide free line
-      QString message;
-       if(str.contains("help") || str.contains(".go4h"))
-        {
-            PrintHelp();
-        }
-      else if(str.contains(".hotstart") && !str.contains(".x"))
-        {
-            StatusMessage(QString("Executing hotstart script: ") + str);
-            fxMainWindow->HotStart(str.toAscii());
-        }
-      else
-        {
-            StatusMessage(QString("Executing command: ") + str);
-            gROOT->ProcessLineSync(str.toAscii());
-        }
-       SaveHistory();
+   QString str = InputLine->currentText();
+   if (str.length()==0) return;
+
+   if(str.contains("help") || str.contains(".go4h")) {
+      PrintHelp();
+   } else
+   if(str.contains(".hotstart") && !str.contains(".x")) {
+      StatusMessage(QString("Executing hotstart script: ") + str);
+      fxMainWindow->HotStart(str.toAscii());
+   } else {
+      StatusMessage(QString("Executing command: ") + str);
+      gROOT->ProcessLineSync(str.toAscii());
    }
+
+   go4sett->setCommandsHistoryGUI(InputLine->getHistory(50));
 }
 
 
 void TGo4CommandLine::setMainWindow( TGo4MainWindow * win )
 {
-    fxMainWindow=win;
+   fxMainWindow = win;
 }
-
-
-void TGo4CommandLine::SaveHistory()
-{
-    QStringList histlist;
-    for(int i=0;( (i<InputLine->count() ) && (i<fiHistoryDepth) ); ++i)
-        {
-            //cout <<"\n Save history saved "<<InputLine->text(i) << endl;
-            histlist.append(InputLine->itemText(i));
-        }
-    go4sett->setCommandsHistoryGUI(histlist);
-}
-
 
 void TGo4CommandLine::LoadHistory()
 {
 // read command history from settings:
-    QStringList histlist=go4sett->getCommandsHistoryGUI();
+    QStringList histlist = go4sett->getCommandsHistoryGUI();
     InputLine->addItems(histlist);
 // prepared pre-loading of system macros:
     gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/corrhistos.C").Data()));

@@ -1,4 +1,5 @@
 #include "QGo4CommandsHistory.h"
+
 #include <QKeyEvent>
 
 QGo4CommandsHistory::QGo4CommandsHistory(QWidget* w, const char* name) :
@@ -10,17 +11,27 @@ QGo4CommandsHistory::QGo4CommandsHistory(QWidget* w, const char* name) :
    setDuplicatesEnabled(FALSE);
    setAutoCompletion(TRUE);
    setEditable(true);
-   fiEnterPressed = 0;
 }
 
 QGo4CommandsHistory::~QGo4CommandsHistory()
 {
-
 }
 
 void QGo4CommandsHistory::keyPressEvent(QKeyEvent* e)
 {
    if (e->key()==Qt::Key_Return)
-     fiEnterPressed = (fiEnterPressed+1) % 2;
+      emit enterPressedSingal();
+
    QComboBox::keyPressEvent(e);
+}
+
+QStringList QGo4CommandsHistory::getHistory(int max)
+{
+   QStringList lst;
+   if (max>count()) max = count();
+
+   for(int i=0; i<max; i++)
+      lst.append(itemText(i));
+
+    return lst;
 }

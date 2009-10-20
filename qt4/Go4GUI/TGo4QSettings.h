@@ -184,9 +184,13 @@ class TGo4QSettings {
       void    setDabcMonitorBackwardsTrending(bool on = true);
       bool    getDabcMonitorBackwardsTrending();
 
-      /** implement history for gui commandline*/
+      /** implement history for gui command line */
       QStringList getCommandsHistoryGUI();
       void setCommandsHistoryGUI(const QStringList & commands);
+
+      /** implement history for analysis command line */
+      QStringList getCommandsHistoryAnalysis();
+      void setCommandsHistoryAnalysis(const QStringList & commands);
 
    private:
 

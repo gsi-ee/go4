@@ -87,8 +87,11 @@ void TGo4AnalysisWindow::CreateCmdLine(QHBoxLayout* box)
 {
    fxCmdHist = new QGo4CommandsHistory(this, "commandslist");
    fxCmdHist->setToolTip("CINT command for analysis process. Note: '@' means 'TGo4Analysis::Instance()->' .");
-   connect(fxCmdHist, SIGNAL(activated(const QString&)),  this, SLOT(HistActivated(const QString&)));
+   connect(fxCmdHist, SIGNAL(enterPressedSingal()), this, SLOT(CommandSlot()));
    fxCmdHist->setMinimumSize( QSize( 220, 25 ) );
+
+   QStringList histlist = go4sett->getCommandsHistoryAnalysis();
+   fxCmdHist->addItems(histlist);
 
    box->addWidget(fxCmdHist, HasOutput() ? 3 : 1);
 
@@ -294,25 +297,18 @@ void TGo4AnalysisWindow::SaveAnalysisOutput()
    NewFile.close();
 }
 
-void TGo4AnalysisWindow::HistActivated(const QString& str)
+void TGo4AnalysisWindow::CommandSlot()
 {
-   if (fxCmdHist->EnterPressed() && (str!="")) {
-      fxCmdHist->ResetEnterPressed();
-      int pos = -1;
-      for (int i=0;i<fxCmdHist->count();i++)
-        if (fxCmdHist->itemText(i)=="") pos = i;
+   QString cmd = fxCmdHist->currentText();
+   if (cmd.length()==0) return;
 
-      if (pos>0) fxCmdHist->removeItem(pos);
-      if (pos!=0) fxCmdHist->insertItem(0, "");
-
-      if (fxCmdHist->currentIndex()!=0)
-        fxCmdHist->setCurrentIndex(0);
-
-      TGo4AnalysisProxy* anal = GetAnalysis();
-      if (anal!=0)
-        anal->ExecuteLine(str.toAscii());
+   TGo4AnalysisProxy* anal = GetAnalysis();
+   if (anal!=0) {
+     anal->ExecuteLine(cmd.toAscii());
+     go4sett->setCommandsHistoryAnalysis(fxCmdHist->getHistory(50));
    }
 }
+
 
 void TGo4AnalysisWindow::FileDialog_Macro()
 {
@@ -328,25 +324,25 @@ void TGo4AnalysisWindow::FileDialog_Macro()
 
    QString cmd = QString(".x ") + flst[0];
    if(!cmd.endsWith(".C")) cmd.append(".C");
+
    fxCmdHist->addItem(cmd);
+   fxCmdHist->setCurrentIndex(fxCmdHist->findText(cmd));
 }
 
 void TGo4AnalysisWindow::PrintHistograms()
 {
-   const QString com="@PrintHistograms()";
-   fxCmdHist->addItem(com);
-   fxCmdHist->SetEnterPressed(1);
-   HistActivated(com);
-   fxCmdHist->SetEnterPressed(0);
+   const QString cmd = "@PrintHistograms()";
+   fxCmdHist->addItem(cmd);
+   fxCmdHist->setCurrentIndex(fxCmdHist->findText(cmd));
+   CommandSlot();
 }
 
 void TGo4AnalysisWindow::PrintConditions()
 {
-   const QString com="@PrintConditions()";
-   fxCmdHist->addItem(com);
-   fxCmdHist->SetEnterPressed(1);
-   HistActivated(com);
-   fxCmdHist->SetEnterPressed(0);
+   const QString cmd = "@PrintConditions()";
+   fxCmdHist->addItem(cmd);
+   fxCmdHist->setCurrentIndex(fxCmdHist->findText(cmd));
+   CommandSlot();
 }
 
 void TGo4AnalysisWindow::PrintEvent()

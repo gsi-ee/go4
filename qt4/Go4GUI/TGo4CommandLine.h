@@ -18,15 +18,12 @@ class TGo4CommandLine : public QGo4Widget, public Ui::TGo4CommandLine
 	
 	virtual void setMainWindow( TGo4MainWindow * win );
  
- public slots:
-
+ public Q_SLOTS:
 
 	virtual void FileSearchDialog();
 	
-	virtual void SelectCommand( const QString & str );
+	virtual void enterPressedSlot();
 	
-	virtual void SaveHistory();
-		
 	virtual void LoadHistory();
 	
 	virtual void PredefinedDialog();
@@ -36,8 +33,6 @@ class TGo4CommandLine : public QGo4Widget, public Ui::TGo4CommandLine
  protected:
  
     TGo4MainWindow* fxMainWindow;
-    int fiHistoryDepth;
-	
 	
  };
  

@@ -121,9 +121,9 @@
     </connection>
     <connection>
       <sender>InputLine</sender>
-      <signal>activated(QString)</signal>
+      <signal>enterPressedSingal()</signal>
       <receiver>TGo4CommandLine</receiver>
-      <slot>SelectCommand(QString)</slot>
+      <slot>enterPressedSlot()</slot>
     </connection>
     <connection>
       <sender>PredefinedBut</sender>

@@ -758,7 +758,15 @@ QStringList TGo4QSettings::getCommandsHistoryGUI()
 
 void TGo4QSettings::setCommandsHistoryGUI(const QStringList & commands)
 {
-   sett->setValue(  "/CommandsHistoryGUI", commands);
-
+   sett->setValue("/CommandsHistoryGUI", commands);
 }
 
+QStringList TGo4QSettings::getCommandsHistoryAnalysis()
+{
+   return sett->value("/CommandsHistoryAnalysis").toStringList();
+}
+
+void TGo4QSettings::setCommandsHistoryAnalysis(const QStringList & commands)
+{
+   sett->setValue("/CommandsHistoryAnalysis", commands);
+}
