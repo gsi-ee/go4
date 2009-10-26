@@ -20,7 +20,7 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v4.3.2 (September 09)
+Changes in Go4 v4.4.0 (October 09)
 1. Add clear histogram and conditions button in gui
 2. System configuration tested once and stored in 
    $GO4SYS/build/Makefile.gener file. This simplifies compilation
@@ -34,7 +34,7 @@ Changes in Go4 v4.3.2 (September 09)
    option, during compilation call "make rpath=false"       
 5. Introduce standard go4analysis executable, which can be used to launch
    any user analysis, loading it from the user (typically libGo4UserAnalysis) library. 
-   Minimum changes required - user should implement CreateUserAnalysis() function.
+   Minimum changes (if any) required to old user code.
    ExampleSimple, Example1Step, Example2Step adjusted to this scheme.  
 6. Introduced go4-config utility, which provide possibility to use go4 without setting
    environment variables like GO4SYS or LD_LIBRARY_PATH. The only requirement is that
@@ -46,9 +46,9 @@ Changes in Go4 v4.3.2 (September 09)
    in bin/, libraries in lib/, includes in /include/go4 and 
    other additional staff in share/go4/ subdirectories. After installation it is enough
    just provide PATH variable to bin/ subdirectory to be able fully use go4 GUI
-   and compile user analysis. To use such installation in old makefiles, GO4SYS variable should 
-   be defined and point to share/go4/ subdirectory. Or one can 
-   slightly modify old makefile, specifying there 
+   and compile user analysis. To use such installation in old makefiles, 
+   GO4SYS variable should be defined and point to share/go4/ subdirectory. 
+   Or one can slightly modify old makefile, specifying there 
    GO4SYS=$(shell go4-config --go4sys) - see standard examples.  
 8. go4 gui can be started with "-observer", "-controller", "-admin" arguments, 
    followed by optional hostname [localhost], port number [5000] and 
@@ -56,9 +56,10 @@ Changes in Go4 v4.3.2 (September 09)
    This simplify gui handling when running analysis from other shell.
    Especially useful when running analysis with go4analysis executable like:
    "go4analysis -server -stream mbshost" 
-9. From gui one can launch analysis without shell, just with simple exec command.
-   This solves problem, when ssh requires running DNS even when launching analysis 
-   on the same node. This also allows to launch analysis from windows gui.  
+9. From gui one can launch analysis without remote shell (ssh or rsh), but just 
+   with simple exec command. This solves problem, when ssh requires running 
+   DNS even when launching analysis on the same node. 
+   This also allows to launch analysis from windows gui.  
 10.Logic how analysis started from the gui is completely changed. 
    Instead of two intermediate shell scripts analysis executable called directly. 
    All shell/terminal/initialization settings for such command collected
@@ -69,28 +70,36 @@ Changes in Go4 v4.3.2 (September 09)
    Old scheme (via AnalysisStart.sh scripts) can be activated by setting 
    export GO4OLDLAUNCH=yes variable before gui start.       
 11.Allow to run analysis, compiled into library, from the gui. 
-   Example simple, 1step and 2step shows how it can be done. From this point on
-   it is no longer necessary to have MainUserAnalysis executable at all.
+   From this point on it is no longer necessary to have 
+   MainUserAnalysis executable at all - it is removed from all examples. 
 12.Signal handler is used to normally stop analysis by Ctrl-C
    pressing from the user - stop processing, close connections, 
    save autosave file.
 13.Support TGraphPolar in draw options selection.
-14.Make default location for setting account wide, one should define 
-   export GO4SETTINGS=LOCAL to store/use gui settings from current directory.
+14.Make default location for gui settings account wide, one should define 
+   export GO4SETTINGS=LOCAL to store/use gui settings in current directory.
 15.Simplify event source handling in user code. It is no longer required that
    event class 'knows' all its possible sources - only source itself decides 
-   which event class and how it fill. Cleanup all sources class in go4 and 
+   which event class and how it fills. Cleanup all sources class in go4 and 
    examples. Old code will work as is.
-16.Improve saveparam.C macro - with use of TGo4ParameterMember class code
-   become clear and more reliable.
-
+16.go4analysis executable search user library for new classes and create user
+   analysis instance, using predefined signatures: (const char*) or (int, char**). 
+   Constructor  signature (int, char**) like for main() function allows to
+   deliver arbitrary arguments to user code (see Example2Step).
+   If standard signature not found, any non-default constructor will be tried - 
+   most old examples and codes should work. Alternatively, one can define
+   CreateUserAnalisys(const char*) function to create analysis instance.  
+17.Improve saveparam.C and savecond.C macros - better readable code. 
+   SavePrimitive() methods are used, implemented for parameter and condition classes. 
+   New saveall.C macro to store all conditions and parameters in single macro file.
 
 Changes in Go4 v4.3.1 (August 09)
 1. Fix error with connecting DABC/MBS servers second time
 2. Fix error (introduced in v4.3.0) with using autosave files - 
    object was not found correctly there
 3. Set green/red color in analysis status monitor widget
-4. In qt3 version exclude all 3 gui libraries, integrating code in executable (similar to qt4)
+4. In qt3 version exclude all 3 gui libraries, integrating code 
+   in executable (similar to qt4)
 5. Suppress symbolic links in user gui library to avoid compilation problem
    on DOS partitions, where links are not supported
 6. Set in gStyle pad frame color

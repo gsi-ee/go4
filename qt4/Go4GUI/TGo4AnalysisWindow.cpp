@@ -170,7 +170,6 @@ bool TGo4AnalysisWindow::HasOutput()
    return fxOutput!=0;
 }
 
-
 void TGo4AnalysisWindow::SetHistorySize(int sz)
 {
    fiMaxOuputSize = sz;
