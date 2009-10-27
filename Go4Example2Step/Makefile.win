@@ -12,7 +12,6 @@
 ObjSuf        = obj
 SrcSuf        = cxx
 HedSuf        = h 
-ExeSuf        = .exe
 DllSuf        = dll
 LibSuf        = lib
 DefSuf        = def
@@ -52,7 +51,6 @@ GO4LIBS = $(GO4SYS)/lib/libGo4Fit.lib \
 
 ANAL_LIB_DEP = $(GO4SYS)/lib/libGo4Analysis.dll \
                $(GO4SYS)/lib/libGo4AnalBase.dll \
-               $(GO4SYS)/lib/libGo4Version.dll \
                $(GO4SYS)/lib/libGo4TaskHandler.dll \
                $(GO4SYS)/lib/libGo4ThreadManager.dll \
                $(GO4SYS)/lib/libGo4Base.dll \
@@ -66,21 +64,12 @@ MODULE_NAME        = Go4Example2Step
 
 MODULE_LINKDEF     = XXXLinkDef.$(HedSuf)
 MODULE_LIBNAME     = libGo4UserAnalysis
-MODULE_EXENAME     = MainUserAnalysis
 MODULE_MAP         = $(MODULE_LIBNAME).rootmap
-
-MODULE_EXEO        = $(MODULE_EXENAME).$(ObjSuf)
-MODULE_EXES        = $(MODULE_EXENAME).$(SrcSuf)
-MODULE_EXE         = $(MODULE_EXENAME)$(ExeSuf)   
 
 MODULE_DICT        = $(DICT_PREFIX)$(MODULE_NAME)
 MODULE_DH          = $(MODULE_DICT).$(HedSuf)
 MODULE_DS          = $(MODULE_DICT).$(SrcSuf)
 MODULE_DO          = $(MODULE_DICT).$(ObjSuf)
-
-### MODULE_H           = $(filter-out $(MODULE_DH) $(MODULE_LINKDEF), $(wildcard *.$(HedSuf)))
-### MODULE_S           = $(filter-out $(MODULE_EXES) $(MODULE_DS), $(wildcard *.$(SrcSuf)))
-### MODULE_O           = $(MODULE_S:.$(SrcSuf)=.$(ObjSuf))
 
 MODULE_H           = TXXXAnalysis.h \
                      TXXXAnlEvent.h \
@@ -91,7 +80,6 @@ MODULE_H           = TXXXAnalysis.h \
                      TXXXUnpackFact.h \
                      TXXXParameter.h \
                      TXXXCalibPar.h
-
 
 MODULE_S           = TXXXAnalysis.cxx \
                      TXXXAnlEvent.cxx \
@@ -119,14 +107,8 @@ MODULE_LIBEXP      =  $(MODULE_LIBNAME).$(ExpSuf)
 MODULE_LIB         =  $(MODULE_LIBNAME).$(LibSuf)
 MODULE_DLL         =  $(MODULE_LIBNAME).$(DllSuf)
 
-all:     $(MODULE_LIB) $(MODULE_DLL) $(MODULE_EXE) $(MODULE_MAP)
+all:     $(MODULE_LIB) $(MODULE_DLL) $(MODULE_MAP)
 
-
-$(MODULE_EXE):    $(MODULE_EXEO) $(MODULE_LIB)
-	@link $(LDFLAGS) $(MODULE_EXEO) $(LIBS_FULLSET) $(MODULE_LIB) -out:$(MODULE_EXE)
-	@mt -nologo -manifest $(MODULE_EXE).manifest -outputresource:$(MODULE_EXE)
-	@del $(MODULE_EXE).manifest
-	@echo Executable $@ is done
 
 $(MODULE_LIB):   $(MODULE_O) $(MODULE_DO)
 	@bindexplib $(MODULE_LIBNAME) $(MODULE_O) $(MODULE_DO) > $(MODULE_LIBDEF)
@@ -151,7 +133,6 @@ $(MODULE_MAP): $(MODULE_LINKDEF) $(MODULE_DLL)
 clean:
 	@del /f $(MODULE_O) $(MODULE_DO) *.$(ObjSuf) *.d
 	@del /f $(MODULE_LIBNAME).*
-	@del /f $(MODULE_EXEO) $(MODULE_EXE)
 	@del /f $(MODULE_DICT).* $(DICT_PREFIX)*.*
 	@echo Clean is done
 
