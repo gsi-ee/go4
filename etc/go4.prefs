@@ -4,7 +4,7 @@
 # in value one can use other parameters like
 #    param_name: %param2_name% paramerer_value 
 # One can set condition, based on some parameters valus like os, hostname
-#    host=lxi*: ssh: ssh -x -P 235 user@%hostname% "%hostcmd%" &
+#    hostname=lxi*: ssh: ssh -x -P 235 user@%hostname% "%hostcmd%" &
 # It can be useful when set host/os specific configurations like here
 #    hostname=somehost*: shellinitcmd: . go4login; 
 #    hostname=somehost*: konsole_options:

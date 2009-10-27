@@ -58,15 +58,15 @@ ROOT INSTALLATION
 QT INSTALLATION
 
   This Go4 distribution can be built with Qt 3.3.x or Qt 4.4.x and higher.
-  Most modern Linux distributions provide 
-  Qt libraries and include files in default locations. 
-  Go4 able to detect major version of such Qt installation 
+  Most modern Linux distributions provide Qt libraries, utilities and include files.
+  Typically one should install libqt4 and libqt4-devel packages (or libqt3 and libqt3-devel).  
+  Normally Go4 able to detect major version of such Qt installation 
   and will compile either qt4 or qt3 based GUI. In this case it is not necessary
   to set QTDIR location (sometime it is even does not exists).
   If both qt3 and qt4 version are installed, use WITHQT makefile flag to select required 
   version. It is especially necessary for system, where Qt3 installation automatically
-  sets QTDIR variable, therefore to compile Go4 with version Qt4, one should call
-  make WITHQT=4. It is recommended to use Qt4 version of GUI. 
+  sets QTDIR variable, therefore to compile Go4 with version Qt4, 
+  one should call "make WITHQT=4". It is recommended to use Qt4 version of GUI. 
   
   If there is no Qt installed on your system, or Go4 is not able to use it correctly,
   one should compile Qt from the source package. For that download from
@@ -86,11 +86,11 @@ GO4 COMPILATION
 
   Unpack this Go4 distribution in any suitable directory.
   
-     shell> tar xzf go4-4.3.2.tar.gz
+     shell> tar xzf go4-4.4.0.tar.gz
   
-  This will create subdirectory go4-4.3.2. To compile go4, do:
+  This will create subdirectory go4-4.4.0. To compile go4, do:
   
-     shell> cd go4-4.3.2
+     shell> cd go4-4.4.0
      shell> make all
   
   In most cases it will be enough to compile go4 libraries, gui and
