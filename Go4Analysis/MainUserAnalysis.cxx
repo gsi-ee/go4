@@ -340,7 +340,7 @@ int main(int argc, char **argv)
       TGo4Log::Instance();
 
       TGo4Log::LogfileEnable(kTRUE);
-      if (strlen(logfile)==0) logfile = TGo4Log::fgcDEFAULTLOG;
+      if (strlen(logfile)==0) logfile = "go4logfile.txt"; //TGo4Log::fgcDEFAULTLOG;
       TGo4Log::OpenLogfile(logfile, 0, kTRUE);
 
       TString info = "go4analysis";
