@@ -1,6 +1,7 @@
 #include "TXXXAnalysis.h"
 
 #include <stdlib.h>
+#include <time.h>
 #include "Riostream.h"
 
 #include "TH1.h"
@@ -211,8 +212,7 @@ Int_t TXXXAnalysis::UserPostLoop()
          {
             cout <<"Last Buffer:"<<endl;
             cout <<"\tNumber: "<<bufheader->l_buf << endl;
-            void* timptr=&(bufheader->l_time[0]); // satisfy compiler warning
-            cout <<"\tTime: "<<ctime((const time_t*) timptr);
+            cout <<"\tTime: " << ctime((const time_t*) (void*) &(bufheader->l_time[0]));
             cout << "\t\t\t + "<<bufheader->l_time[1] << " µs"<<endl;
          }
 
@@ -300,9 +300,8 @@ Int_t TXXXAnalysis::UserEventFunc()
          if(bufheader) {
             cout <<"First Buffer:"<<endl;
             cout <<"\tNumber: "<<bufheader->l_buf << endl;
-            void* timptr=&(bufheader->l_time[0]); // satisfy compiler warning
-            cout <<"\tTime: "<<ctime((const time_t*) timptr);
-            cout << "\t\t\t + "<<bufheader->l_time[1] << " µs"<<endl;
+            cout <<"\tTime: " << ctime((const time_t*) (void*) &(bufheader->l_time[0]));
+            cout << "\t\t\t + "<< bufheader->l_time[1] << " µs"<<endl;
          }
       }
       SetNewInputFile(kFALSE); // we have to reset the newfile flag

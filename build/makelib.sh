@@ -26,21 +26,23 @@ DEPLIBS=${15}
 
 if [ "$GO4_OS" = "Win32" ]; then
 
+  ROOTLIBDIR=`root-config --libdir`
+
   syslibs="ws2_32.lib"
-  
+
   rootlibs="libCore.lib libCint.lib libMatrix.lib \
             libHist.lib libGraf.lib libMinuit.lib libMathCore.lib \
             libGpad.lib libThread.lib libTree.lib libXMLIO.lib"
   
-  if [[ -a $ROOTSYS/lib/libSpectrum.lib ]]; then
+  if [[ -a $ROOTLIBDIR/libSpectrum.lib ]]; then
      rootlibs="$rootlibs libSpectrum.lib"
   fi
   
-  if [[ -a $ROOTSYS/lib/libRIO.lib ]]; then
+  if [[ -a $ROOTLIBDIR/libRIO.lib ]]; then
      rootlibs="$rootlibs libRIO.lib"
   fi
   
-  if [[ -a $ROOTSYS/lib/libNet.lib ]]; then
+  if [[ -a $ROOTLIBDIR/libNet.lib ]]; then
      rootlibs="$rootlibs libNet.lib"
   fi
   
