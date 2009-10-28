@@ -6,13 +6,11 @@
 #include <QFileDialog>
 
 #include "TGo4Log.h"
-#include "TGo4Script.h"
-#include "TGo4MainWindow.h"
 #include "TGo4QSettings.h"
 #include "TGo4MacroDialog.h"
 
-TGo4CommandLine::TGo4CommandLine(QWidget *parent, const char* name)
-         : QGo4Widget(parent, name)
+TGo4CommandLine::TGo4CommandLine(QWidget *parent, const char* name) :
+   QGo4Widget(parent, name)
 {
 	setupUi(this);
    LoadHistory();
@@ -35,9 +33,9 @@ void TGo4CommandLine::FileSearchDialog()
       cmd = flst[0];
    else
       cmd = QString(".x ") + flst[0];
-   InputLine->addItem(cmd);
+   if (InputLine->findText(cmd)<0) InputLine->addItem(cmd);
+   InputLine->setCurrentIndex(InputLine->findText(cmd));
 }
-
 
 void TGo4CommandLine::enterPressedSlot()
 {
@@ -49,19 +47,13 @@ void TGo4CommandLine::enterPressedSlot()
    } else
    if(str.contains(".hotstart") && !str.contains(".x")) {
       StatusMessage(QString("Executing hotstart script: ") + str);
-      fxMainWindow->HotStart(str.toAscii());
+      StartHotstart(str.toAscii());
    } else {
       StatusMessage(QString("Executing command: ") + str);
       gROOT->ProcessLineSync(str.toAscii());
    }
 
    go4sett->setCommandsHistoryGUI(InputLine->getHistory(50));
-}
-
-
-void TGo4CommandLine::setMainWindow( TGo4MainWindow * win )
-{
-   fxMainWindow = win;
 }
 
 void TGo4CommandLine::LoadHistory()
@@ -94,33 +86,33 @@ void TGo4CommandLine::PredefinedDialog()
 
 void TGo4CommandLine::PrintHelp()
 {
-cout <<"\n--- Go4 GUI command line short help --- " << endl;
-cout <<"- execute any command by pressing RETURN (Enter key)" << endl;
-cout <<"--" << endl;
-cout <<"- use '.h' for help concerning ROOT commands" << endl;
-cout <<"--" << endl;
-cout <<"- use 'go4->...' to access TGo4AbstractInterface for gui commands" << endl;
-cout <<"--" << endl;
-cout <<"- Some useful Go4 GUI command functions:" << endl;
+   cout <<"\n--- Go4 GUI command line short help --- " << endl;
+   cout <<"- execute any command by pressing RETURN (Enter key)" << endl;
+   cout <<"--" << endl;
+   cout <<"- use '.h' for help concerning ROOT commands" << endl;
+   cout <<"--" << endl;
+   cout <<"- use 'go4->...' to access TGo4AbstractInterface for gui commands" << endl;
+   cout <<"--" << endl;
+   cout <<"- Some useful Go4 GUI command functions:" << endl;
 
-cout <<"\t- TObject* go4->GetObject(const char* itemname);"<< endl;
-cout <<"\t\t: get browser object by full pathname. " << endl;
-cout <<"\t- TString go4->FindItem(const char* name); " << endl;
-cout <<"\t\t: get full pathname of browser object by name " << endl;
-cout <<"\t- TString go4->SaveToMemory(const char* path, TObject* obj, Bool_t ownership = kFALSE);"<< endl;
-cout <<"\t\t: Put object obj into workspace memory under subfolder path. Returns full item pathname. " << endl;
-cout <<"\t- ViewPanelHandle go4->StartViewPanel()"<< endl;
-cout <<"\t\t: Open new Go4 viewpanel with default size. Returns handle of new panel." << endl;
-cout <<"\t- Bool_t go4->DrawItem(const char* itemname, ViewPanelHandle panel = 0, const char* drawopt = 0);"<< endl;
-cout <<"\t\t: Draw object of full name itemname onto viewpanel panel. Will open new viewpanel if panel not specified. \n\t  ROOT drawoption may be set. " << endl;
-cout <<"\t- go4->OpenFile(const char* fname)" << endl;
-cout <<"\t\t: open ROOT file of fname in Go4 browser " << endl;
-cout <<"\t- go4->LaunchAnalysis()" << endl;
-cout <<"\t\t: Start Go4 analysis process with previous set up " << endl;
-cout <<"--" << endl;
-cout <<"---- Please: note the Go4 helpwindow with TGo4AbstractInterface full method documentation!" << endl;
-cout <<"----         see example scripts at $GO4SYS/macros !" << endl;
-cout <<"----         visit our website at: \t http://go4.gsi.de !" << endl;
-cout <<"------ " << endl;
-HelpWindow("docs/Go4Reference.pdf", "Show Go4 Reference manual...");
+   cout <<"\t- TObject* go4->GetObject(const char* itemname);"<< endl;
+   cout <<"\t\t: get browser object by full pathname. " << endl;
+   cout <<"\t- TString go4->FindItem(const char* name); " << endl;
+   cout <<"\t\t: get full pathname of browser object by name " << endl;
+   cout <<"\t- TString go4->SaveToMemory(const char* path, TObject* obj, Bool_t ownership = kFALSE);"<< endl;
+   cout <<"\t\t: Put object obj into workspace memory under subfolder path. Returns full item pathname. " << endl;
+   cout <<"\t- ViewPanelHandle go4->StartViewPanel()"<< endl;
+   cout <<"\t\t: Open new Go4 viewpanel with default size. Returns handle of new panel." << endl;
+   cout <<"\t- Bool_t go4->DrawItem(const char* itemname, ViewPanelHandle panel = 0, const char* drawopt = 0);"<< endl;
+   cout <<"\t\t: Draw object of full name itemname onto viewpanel panel. Will open new viewpanel if panel not specified. \n\t  ROOT drawoption may be set. " << endl;
+   cout <<"\t- go4->OpenFile(const char* fname)" << endl;
+   cout <<"\t\t: open ROOT file of fname in Go4 browser " << endl;
+   cout <<"\t- go4->LaunchAnalysis()" << endl;
+   cout <<"\t\t: Start Go4 analysis process with previous set up " << endl;
+   cout <<"--" << endl;
+   cout <<"---- Please: note the Go4 helpwindow with TGo4AbstractInterface full method documentation!" << endl;
+   cout <<"----         see example scripts at $GO4SYS/macros !" << endl;
+   cout <<"----         visit our website at: \t http://go4.gsi.de !" << endl;
+   cout <<"------ " << endl;
+   HelpWindow("docs/Go4Reference.pdf", "Show Go4 Reference manual...");
 }

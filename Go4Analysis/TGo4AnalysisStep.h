@@ -73,6 +73,9 @@ class TGo4AnalysisStep : public TNamed {
       * factory method for user specification of source. */
     void NewEventSource(TGo4EventSourceParameter * kind);
 
+    /** Return current event source parameter */
+    TGo4EventSourceParameter* GetEventSource() const { return fxSourceType; }
+
     /** Unregister and close eventsource, if existing. */
     void CloseEventSource();
 
@@ -81,6 +84,9 @@ class TGo4AnalysisStep : public TNamed {
       * Creation is done by InitEventClasses() method, or by calling
       * the NewEventStore() method on the fly. */
     void SetEventStore(TGo4EventStoreParameter* kind);
+
+    /** Return current event store parameter */
+    TGo4EventStoreParameter* GetEventStore() const { return fxStoreType; }
 
     /** Return kTRUE, if event store parameter specified */
     Bool_t IsEventStoreParam() const;

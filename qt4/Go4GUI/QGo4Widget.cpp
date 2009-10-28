@@ -326,6 +326,11 @@ void QGo4Widget::HelpWindow(const char* filename, const char* msg)
    emit widgetService(this, service_HelpWindow, filename, (void*)msg);
 }
 
+void QGo4Widget::StartHotstart(const char* filename)
+{
+   emit widgetService(this, service_HotStart, filename, 0);
+}
+
 TGo4ViewPanel* QGo4Widget::LastActivePanel()
 {
    TGo4ViewPanel* res = 0;

@@ -68,6 +68,7 @@ class QDESIGNER_WIDGET_EXPORT  QGo4Widget : public QWidget {
              service_General          = 40,
              service_PanelTimer       = 41,
              service_HelpWindow       = 42,
+             service_HotStart         = 43,
              panel_Activated         = 101,
              panel_Modified          = 102,
              panel_Updated           = 103,
@@ -153,6 +154,7 @@ class QDESIGNER_WIDGET_EXPORT  QGo4Widget : public QWidget {
       bool UpdateItemInAnalysis(const char* itemname, TObject* obj = 0);
       void InformThatObjectCreated(const char* itemname, TClass* cl);
       TGo4AnalysisProxy* GetAnalysis(const char* itemname = 0);
+      void StartHotstart(const char* filename);
 
       /** connect pad axis change signals to react on such signals */
       void ConnectPad(TPad* pad);

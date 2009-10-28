@@ -16,10 +16,6 @@
 #include "TYYYRawEvent.h"
 #include "TGo4StepFactory.h"
 
-// !!! uncomment this line if signature of user analysis class constructor will change !!
-
-// extern "C" TGo4Analysis* CreateUserAnalysis(const char* name) { return new TYYYAnalysis(name); }
-
 //***********************************************************
 TYYYAnalysis::TYYYAnalysis() :
    TGo4Analysis(),
@@ -33,8 +29,8 @@ TYYYAnalysis::TYYYAnalysis() :
 }
 //***********************************************************
 // this constructor is used
-TYYYAnalysis::TYYYAnalysis(const char* name) :
-   TGo4Analysis(name),
+TYYYAnalysis::TYYYAnalysis(int argc, char** argv) :
+   TGo4Analysis(argc, argv),
    fRawEvent(0),
    fUnpackEvent(0),
    fSize(0),
@@ -62,7 +58,7 @@ TYYYAnalysis::TYYYAnalysis(const char* name) :
    factory1->DefOutputEvent("UnpackEvent", "TYYYUnpackEvent"); // object name, class name
 
    TGo4UserSourceParameter* source1  = new TGo4UserSourceParameter("befoil50.scf");
-   TGo4FileStoreParameter*  store1   = new TGo4FileStoreParameter(Form("%sOutput", name));
+   TGo4FileStoreParameter*  store1   = new TGo4FileStoreParameter(Form("%sOutput", argv[0]));
    store1->SetOverwriteMode(kTRUE);
    TGo4AnalysisStep*        step1    = new TGo4AnalysisStep("Unpack",factory1,source1,store1,0);
 

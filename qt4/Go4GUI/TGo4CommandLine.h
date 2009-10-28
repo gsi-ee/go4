@@ -7,33 +7,25 @@
 #include "QGo4CommandsHistory.h"
 
 
-class TGo4MainWindow;
-
 class TGo4CommandLine : public QGo4Widget, public Ui::TGo4CommandLine
- {
-     Q_OBJECT
+{
+   Q_OBJECT
 
- public:
-    TGo4CommandLine(QWidget *parent = 0, const char* name=0);
-	
-	virtual void setMainWindow( TGo4MainWindow * win );
- 
- public Q_SLOTS:
+   public:
+      TGo4CommandLine(QWidget *parent = 0, const char* name=0);
 
-	virtual void FileSearchDialog();
+   public Q_SLOTS:
+
+      virtual void FileSearchDialog();
+
+      virtual void enterPressedSlot();
+
+      virtual void LoadHistory();
+
+      virtual void PredefinedDialog();
+
+      virtual void PrintHelp();
 	
-	virtual void enterPressedSlot();
-	
-	virtual void LoadHistory();
-	
-	virtual void PredefinedDialog();
-		
-	virtual void PrintHelp();
-	
- protected:
- 
-    TGo4MainWindow* fxMainWindow;
-	
- };
+};
  
 #endif

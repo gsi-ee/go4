@@ -20,20 +20,18 @@
 
 #include "Go4EventServer.h"
 
-// !!! uncomment this line if signature of user analysis class constructor will change !!
-
-// extern "C" TGo4Analysis* CreateUserAnalysis(const char* name) { return new TXXXAnalysis(name); }
-
 //***********************************************************
 TXXXAnalysis::TXXXAnalysis() :
    TGo4Analysis(),
-   fMbsEvent(0),fRawEvent(0),fCalEvent(0)
+   fMbsEvent(0),
+   fRawEvent(0),
+   fCalEvent(0)
 {
   cout << "Wrong constructor TXXXAnalysis()!" << endl;
 }
 
 //***********************************************************
-// this constructor is used
+// this constructor is called by go4analysis executable
 TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    TGo4Analysis(argc, argv),
    fMbsEvent(0),

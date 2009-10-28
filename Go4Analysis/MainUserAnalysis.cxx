@@ -340,7 +340,7 @@ int main(int argc, char **argv)
       TGo4Log::Instance();
 
       TGo4Log::LogfileEnable(kTRUE);
-      if (strlen(logfile)==0) logfile = "go4logfile.txt"; //TGo4Log::fgcDEFAULTLOG;
+      if (strlen(logfile)==0) logfile = TGo4Log::GetDefaultLogname();
       TGo4Log::OpenLogfile(logfile, 0, kTRUE);
 
       TString info = "go4analysis";
@@ -543,6 +543,18 @@ int main(int argc, char **argv)
             step->SetStoreEnabled(kTRUE);
          } else
             usage("File name for store not specified");
+      } else
+      if(strcmp(argv[narg],"-overwrite-store")==0) {
+         narg++;
+         TGo4FileStoreParameter* par = dynamic_cast<TGo4FileStoreParameter*> (step->GetEventStore());
+         if (par) par->SetOverwriteMode(kTRUE);
+            else usage("No file-store parameter available");
+      } else
+      if(strcmp(argv[narg],"-append-store")==0) {
+         narg++;
+         TGo4FileStoreParameter* par = dynamic_cast<TGo4FileStoreParameter*> (step->GetEventStore());
+         if (par) par->SetOverwriteMode(kFALSE);
+            else usage("No file-store parameter available");
       } else
       if(strcmp(argv[narg],"-backstore")==0) {
          if (++narg < argc) {

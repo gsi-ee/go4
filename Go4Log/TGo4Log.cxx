@@ -204,6 +204,11 @@ const char* TGo4Log::GetLogname()
    return fgxLogName.Data();
 }
 
+const char* TGo4Log::GetDefaultLogname()
+{
+   return fgcDEFAULTLOG;
+}
+
 void TGo4Log::OutputEnable(Bool_t on)
 {
    TGo4LockGuard(fxMutex);
@@ -294,8 +299,6 @@ void TGo4Log::WriteLogfile(const char* text, Bool_t withtime)
       cerr <<"!!! Unexpected exception in TGo4Log::WriteLogfile !!!" << endl;
    } // catch
 }
-
-
 
 void TGo4Log::CloseLogfile()
 {

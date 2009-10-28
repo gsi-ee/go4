@@ -262,7 +262,6 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
    QToolBar* commandlinebar = addToolBar("Go4 Command Line");
    commandlinebar->setObjectName("CommandLineDock");
    TGo4CommandLine* cli = new TGo4CommandLine(this, "CommandLine");
-   cli->setMainWindow(this);
    ConnectGo4Widget(cli);
    commandlinebar->addWidget(cli);
 
@@ -2727,6 +2726,11 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_HelpWindow: {
          HelpWindow(str, (const char*) par);
+         break;
+      }
+
+      case QGo4Widget::service_HotStart: {
+         HotStart(str);
          break;
       }
 

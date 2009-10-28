@@ -9,16 +9,16 @@ class TXXXControl;
 class TXXXAnalysis : public TGo4Analysis {
    public:
       TXXXAnalysis();
-      TXXXAnalysis(const char* name);
+      TXXXAnalysis(int argc, char** argv);
       virtual ~TXXXAnalysis() ;
       virtual Int_t UserPreLoop();
       virtual Int_t UserEventFunc();
       virtual Int_t UserPostLoop();
    private:
-      TGo4MbsEvent *fMbsEvent;
-      TXXXControl   *fCtl;
-      Int_t         fEvents;
-      Int_t         fLastEvent;
+      TGo4MbsEvent*  fMbsEvent;
+      TXXXControl*   fCtl;
+      Int_t          fEvents;
+      Int_t          fLastEvent;
 
    ClassDef(TXXXAnalysis,1)
 };

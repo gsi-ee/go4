@@ -41,17 +41,17 @@ ROOT INSTALLATION
      2) Install ROOT binaries, includes and libraries in some default locations 
         like /usr/local/bin, /usr/local/lib, /usr/local/include. 
         For that "./configure --prefix=/usr/local" should be called. 
-        Prefix location can be any..
+        Prefix location can be any.
      3) Install ROOT from RPM packages. There are Linux distributions, where ROOT 
         is available in form of precompiled package. Normally it should be enough 
         to install such package on the system.
   Check, that ROOT installed correctly, by calling:
-  
+
      shell> root-config --version
-      
+
   If actual version is printed, such ROOT installation can be used for go4.
   If command fails, one should add path to that script into PATH environment variable like
-  
+
      shell> export PATH=$PATH:/usr/local/bin
 
 
@@ -59,14 +59,13 @@ QT INSTALLATION
 
   This Go4 distribution can be built with Qt 3.3.x or Qt 4.4.x and higher.
   Most modern Linux distributions provide Qt libraries, utilities and include files.
-  Typically one should install libqt4 and libqt4-devel packages (or libqt3 and libqt3-devel).  
+  Typically one should install libqt4 and libqt4-devel packages (or libqt3 and libqt3-devel).
   Normally Go4 able to detect major version of such Qt installation 
-  and will compile either qt4 or qt3 based GUI. In this case it is not necessary
-  to set QTDIR location (sometime it is even does not exists).
-  If both qt3 and qt4 version are installed, use WITHQT makefile flag to select required 
+  and will compile either Qt4 (or Qt3) based GUI.
+  If both Qt3 and Qt4 version are installed, use "withqt" makefile flag to select required 
   version. It is especially necessary for system, where Qt3 installation automatically
   sets QTDIR variable, therefore to compile Go4 with version Qt4, 
-  one should call "make WITHQT=4". It is recommended to use Qt4 version of GUI. 
+  one should call "make withqt=4". It is recommended to use Qt4 version of GUI. 
   
   If there is no Qt installed on your system, or Go4 is not able to use it correctly,
   one should compile Qt from the source package. For that download from
@@ -95,7 +94,7 @@ GO4 COMPILATION
   
   In most cases it will be enough to compile go4 libraries, gui and
   several analysis examples, included in distribution. Go4 makefile
-  has additional capabilities, which are listed in the end of this README.  
+  has additional capabilities, which are listed in the end of this README.
   
   
 RUNNING GO4 GUI  
@@ -111,12 +110,12 @@ RUNNING GO4 GUI
   
      shell> . go4login
      
-  After that go4 gui and user analysis can be started from any directory.    
+  After that go4 gui and user analysis can be started from any directory.
 
   Please read the Go4 Manual $GO4SYS/docs/Go4Introduction.pdf for further 
   information on adopting your analysis and how to use the GUI.
 
-  Please read the ROOT Users guide (available at  http://root.cern.ch) 
+  Please read the ROOT Users guide (available at http://root.cern.ch) 
   for any questions concerning the ROOT system itself.
 
   Please contact the Go4 developer team for any bug reports and wishes!
@@ -130,23 +129,23 @@ ADVANCED MAKE OPTIONS
   prefix=<location>  compiles go4 in the mode, that it can be installed in
                      specified location. Directory <location> should exists.
                      It can be /usr/local or /usr. After compilation one can
-                     install go4 with "make install" path. If directory 
+                     install go4 with "make install" command. If directory 
                      <location>/bin included in PATH variable, no any extra
                      login script is required to use go4 later. 
 
-  WITHQT=3|4|no   Specifies version of qt, which should be used for gui compilation.
+  withqt=3|4|no   Specifies version of qt, which should be used for gui compilation.
                   Qt installation will be tested with pkg-config utility.
-                  If WITHQT not specified, QTDIR variable will be tested.
-                  if none WITHQT and QTDIR are set, first qt4 and than qt3 will
+                  If 'withqt' not specified, QTDIR variable will be tested.
+                  If none 'withqt' and QTDIR are set, first Qt4 and than Qt3 will
                   be tried to used by go4.
-                     
+
   GO4_OS=Linux|Solaris|Win32 Defines platform, on which go4 will be compiled.
-                             Default is Linux
-                             
+                  If not defined, tested via 'uname'. Default is Linux.
+
   rpath=true|false  Use -rpath option of linker to include absolute library pathes, 
                     where go4 executables should search for libraries. Default is true.
                     This option allows to use go4 executable without any additional 
-                    LD_LIBRARY_PATH variable settings
+                    LD_LIBRARY_PATH variable settings.
 
   All flags, specified to the make, will be stored together with some environment settings
   in build/Makefile.gener. This allow to reuse same settings for user analysis compilation.
@@ -154,48 +153,9 @@ ADVANCED MAKE OPTIONS
   After compilation completed, several more make commands can be executed:
 
   "make install"    Copy binaries, libraries and shared files into location,
-                    specified by prefix option.                         
-   
+                    specified by prefix option.
+
   "make clean"      Cleanup all generated files from the disk
-  
+
   "make clean-bin"  Cleanup object/dependency files so that only go4 binaries 
                     and source files are remained
-                    
-
-LAUNCH USER ANALYSIS FROM GUI
-
-  Go4 GUI provides ability to launch analysis on local or remote nodes.
-  For that either exec call (for local nodes) or ssh/rsh for local and remote
-  nodes are used. For terminal output either qtwindow or xterm or KDE konsole
-  are used. Go4 includes etc/go4.prefs file, where different initialization
-  and run parameters for all this application are listed. Values for that 
-  parameters adjusted for current GSI Linux distribution (Debian Etch) and 
-  may not fit to other Linux flavors. 
-  One can customize value, either editing this file or creating go4.prefs
-  file in current directory and setting those variables, which should be changed
-  compared to default settings. 
-  Another purpose of user-defined go4.prefs file is customize settings 
-  of the node, where user analysis application should run. Default go4.prefs
-  file supposes, that ROOT/Go4/Analysis configuration are similar on
-  local (gui) node and remote (analysis) node. It is definitely true, when 
-  launching analysis on localhost. It is also true on GSI Linux cluster,
-  where public Go4/ROOT installation and user home filesystem identical on
-  all nodes. But it also may happen, that remote node has other ROOT or Go4 versions,
-  or other filesystem organisation, shell settings and so on. To let Go4 GUI apply custom
-  launch settings in such situation, go4.prefs file can be used.
-  There one can define host specific settings for any parameter. For instance,
-  to run analysis on remote node with node-specific go4 version, one should 
-  redefine several parameters with following syntax:
-  
-      hostname=suse11host: shellinitcmd:. go4login; 
-      hostname=suse11host: konsole_options:
-      hostname=suse11host: workdir:/usr/local/go4/head/Go4ExampleSimple
-      hostname=suse11host: exename:/usr/local/go4/head/Go4ExampleSimple/MainUserAnalysis
-      hostname=suse11host: exekind:0
-  
-  Here one defines, that before analysis run host-specific go4login script will be executed.
-  Here is also defined, that konsole_options is empty (while SuSE 11.1 konsole does not
-  accept several parameters that was available before). One can also strictly define
-  working directory and executable name any time when launching ananlys from the gui
-  on this node. 
-  For meaning of each parameter see main go4.prefs file and comments there.

@@ -10,7 +10,7 @@ class TH1D;
 class TMeshAnalysis : public TGo4Analysis {
    public:
       TMeshAnalysis();
-      TMeshAnalysis(const char* name);
+      TMeshAnalysis(int argc, char** argv);
       virtual ~TMeshAnalysis() ;
       virtual Int_t UserPreLoop();
       virtual Int_t UserEventFunc();

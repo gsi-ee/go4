@@ -1,15 +1,23 @@
 # ----------- go4.prefs file ------------
 # Syntax is 
 #    param_name: paramerer_value 
-# in value one can use other parameters like
+#
+# For value one can use other parameters like
 #    param_name: %param2_name% paramerer_value 
-# One can set condition, based on some parameters valus like os, hostname
+#
+# One can set condition, based on some parameters values like os, hostname:
 #    hostname=lxi*: ssh: ssh -x -P 235 user@%hostname% "%hostcmd%" &
-# It can be useful when set host/os specific configurations like here
-#    hostname=somehost*: shellinitcmd: . go4login; 
-#    hostname=somehost*: konsole_options:
+#
 # Any line started with '#', recognized as comment line
-# One can put go4.prefs file in current directory and redefine some of parameters 
+# One can create go4.prefs file in current gui directory and redefine some of parameters
+# For instance, file with following content allows to start analysis on SuSE 11 node:
+#
+#     hostname=suse11host: shellinitcmd:. go4login; 
+#     hostname=suse11host: konsole_options:
+#     hostname=suse11host: workdir:/usr/local/go4/head/Go4ExampleSimple
+#     hostname=suse11host: exename:/usr/local/go4/head/Go4ExampleSimple/libGo4UserAnalysis.so
+#     hostname=suse11host: exekind:1
+# 
 
 ######################################################################
 # here is remote shell settings

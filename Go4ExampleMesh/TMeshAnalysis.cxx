@@ -11,10 +11,6 @@
 #include "TGo4AnalysisStep.h"
 #include "TGo4Version.h"
 
-// !!! uncomment this line if signature of user analysis class constructor will change !!
-
-// extern "C" TGo4Analysis* CreateUserAnalysis(const char* name) { return new TMeshAnalysis(name); }
-
 //***********************************************************
 TMeshAnalysis::TMeshAnalysis() :
    TGo4Analysis(),
@@ -27,8 +23,8 @@ TMeshAnalysis::TMeshAnalysis() :
 }
 //***********************************************************
 // this constructor is used
-TMeshAnalysis::TMeshAnalysis(const char* name) :
-   TGo4Analysis(name),
+TMeshAnalysis::TMeshAnalysis(int argc, char** argv) :
+   TGo4Analysis(argc, argv),
    fMbsEvent(0),
    fSize(0),
    fEvents(0),

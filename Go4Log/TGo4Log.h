@@ -24,152 +24,152 @@ class TMutex;
  */
 
 class TGo4Log {
-  public:
-    static TGo4Log *Instance();
+   public:
+      static TGo4Log *Instance();
 
-    /** Return GO4SYS environment variable or
-     * Go4 top directory during compile (if GO4SYS) not set.
-     * Always add trailing slash into the end of the string. */
-    static const char* GO4SYS();
+      /** Return GO4SYS environment variable or
+       * Go4 top directory during compile (if GO4SYS) not set.
+       * Always add trailing slash into the end of the string. */
+      static const char* GO4SYS();
 
-    /** Return subdirectory in the GO4SYS.
-     * Always add trailing slash into the end of the string. */
-    static TString subGO4SYS(const char* subdir);
+      /** Return subdirectory in the GO4SYS.
+       * Always add trailing slash into the end of the string. */
+      static TString subGO4SYS(const char* subdir);
 
-    /** Define threshold for output */
-    static void SetIgnoreLevel(Int_t level);
+      /** Define threshold for output */
+      static void SetIgnoreLevel(Int_t level);
 
-    /** Get threshold for output */
-    static Int_t GetIgnoreLevel();
+      /** Get threshold for output */
+      static Int_t GetIgnoreLevel();
 
-    /** switch output on or off */
-    static void OutputEnable(Bool_t on=kTRUE);
+      /** switch output on or off */
+      static void OutputEnable(Bool_t on=kTRUE);
 
-    /** get current output state */
-    static Bool_t IsOutputEnabled();
+      /** get current output state */
+      static Bool_t IsOutputEnabled();
 
-    /** switch writing to logfile on or off */
-    static void LogfileEnable(Bool_t on=kTRUE);
+      /** switch writing to logfile on or off */
+      static void LogfileEnable(Bool_t on=kTRUE);
 
-    /** get current logfile state */
-    static Bool_t IsLogfileEnabled();
+      /** get current logfile state */
+      static Bool_t IsLogfileEnabled();
 
-    /** set boolean for  user action */
-    static void AutoEnable(Bool_t on=kTRUE);
+      /** set boolean for  user action */
+      static void AutoEnable(Bool_t on=kTRUE);
 
-    /** get current user boolean */
-    static Bool_t IsAutoEnabled();
+      /** get current user boolean */
+      static Bool_t IsAutoEnabled();
 
-   /** Open file of name for logmessage output. If name=0, use
-    *  defaultname containing pid. Optionally, headercomment text
-    *  is set at beginning of file. If appendmode is true, existing
-    *  file of same name is reused and extended by new messages.*/
-    static void OpenLogfile(const char* name=0,
-                            const char* headercomment=0,
-                            Bool_t appendmode=kFALSE);
+      /** Open file of name for logmessage output. If name=0, use
+       *  defaultname containing pid. Optionally, headercomment text
+       *  is set at beginning of file. If appendmode is true, existing
+       *  file of same name is reused and extended by new messages.*/
+      static void OpenLogfile(const char* name=0,
+            const char* headercomment=0,
+            Bool_t appendmode=kFALSE);
 
-    /**  Close logfile if existing*/
-    static void CloseLogfile();
+      /**  Close logfile if existing*/
+      static void CloseLogfile();
 
-    /**  get name of last opened logfile*/
-    static const char* GetLogname();
+      /**  get name of last opened logfile*/
+      static const char* GetLogname();
 
-  /** Display a message. Argument pri defines message priority:
-    * 0: debug / trace output
-    * 1: info message
-    * 2: warning message
-    * >=3: error message
-    * Method returns formatted message string as printed out for further use */
-   static const char* Message(Int_t prio, const char* text,...);
+      /** Display a message. Argument pri defines message priority:
+       * 0: debug / trace output
+       * 1: info message
+       * 2: warning message
+       * >=3: error message
+       * Method returns formatted message string as printed out for further use */
+      static const char* Message(Int_t prio, const char* text,...);
 
-   /** User shortcut for message with prio 0 */
-   static void Debug(const char* text,...);
+      /** User shortcut for message with prio 0 */
+      static void Debug(const char* text,...);
 
-   /** User shortcut for message with prio 1 */
-   static void Info(const char* text,...);
+      /** User shortcut for message with prio 1 */
+      static void Info(const char* text,...);
 
-   /** User shortcut for message with prio 2 */
-   static void Warn(const char* text,...);
+      /** User shortcut for message with prio 2 */
+      static void Warn(const char* text,...);
 
-   /** User shortcut for message with prio 3 */
-   static void Error(const char* text,...);
+      /** User shortcut for message with prio 3 */
+      static void Error(const char* text,...);
 
-
-    /** Write text to current logfile if this is open. Prefix current
+      /** Write text to current logfile if this is open. Prefix current
       datime in each line if "withtime" is true */
-    static void WriteLogfile(const char* text,
-                             Bool_t withtime=kTRUE);
+      static void WriteLogfile(const char* text, Bool_t withtime=kTRUE);
 
-    /** dummy for compatibility */
-    static void set_trace_level(int) {}
+      /** dummy for compatibility */
+      static void set_trace_level(int) {}
 
-    /** dummy for compatibility */
-    static void SetTracePriority(int) {}
+      /** dummy for compatibility */
+      static void SetTracePriority(int) {}
 
-    /** For backward compatibility */
-    static void StartTracing(){Instance(); SetIgnoreLevel(0);}
+      /** For backward compatibility */
+      static void StartTracing() { Instance(); SetIgnoreLevel(0); }
 
-    /** For backward compatibility */
-    static void StopTracing(){Instance(); SetIgnoreLevel(1);}
+      /** For backward compatibility */
+      static void StopTracing() { Instance(); SetIgnoreLevel(1); }
 
-    /** Prompt character left side */
-    static const char* fgcLEFT; //!
+      static const char* GetDefaultLogname();
 
-    /** Prompt character right  side */
-    static const char* fgcRIGHT;//!
+      /** Prompt character left side */
+      static const char* fgcLEFT; //!
 
-    /** System debug message indicator */
-    static const char* fgcDEBUG; //!
+      /** Prompt character right  side */
+      static const char* fgcRIGHT;//!
 
-    /** Info message indicator */
-    static const char* fgcINFO; //!
+      /** System debug message indicator */
+      static const char* fgcDEBUG; //!
 
-    /** Warning message indicator */
-    static const char* fgcWARN;//!
+      /** Info message indicator */
+      static const char* fgcINFO; //!
 
-    /** Error message indicator */
-    static const char* fgcERR; //!
+      /** Warning message indicator */
+      static const char* fgcWARN;//!
 
-    /** Name of default logfile */
-    static const char* fgcDEFAULTLOG; //!
+      /** Error message indicator */
+      static const char* fgcERR; //!
 
-    /** Maximum message length allowd */
-    enum { fguMESLEN = __MESSAGETEXTLENGTH__ };
+      /** Name of default logfile */
+      static const char* fgcDEFAULTLOG; //!
 
-    virtual ~TGo4Log();
+      /** Maximum message length allowd */
+      enum { fguMESLEN = __MESSAGETEXTLENGTH__ };
 
-  private:
-    TGo4Log();
+      virtual ~TGo4Log();
 
-    static TGo4Log* fgxInstance; //!
+   private:
+      TGo4Log();
 
-    /** we use own mutex to protect the logging instance */
-    static TMutex* fgxMutex; //!
+      static TGo4Log* fgxInstance; //!
 
-    /** all Messages with lower level are suppressed */
-    static Int_t fgiIgnoreLevel;  //!
+      /** we use own mutex to protect the logging instance */
+      static TMutex* fgxMutex; //!
 
-    /** General switch on/off log output */
-    static Bool_t fgbOutputEnabled;   //!
+      /** all Messages with lower level are suppressed */
+      static Int_t fgiIgnoreLevel;  //!
 
-    /** General switch on/off log file output */
-    static Bool_t fgbLogfileEnabled;   //!
+      /** General switch on/off log output */
+      static Bool_t fgbOutputEnabled;   //!
 
-    /** User boolean to write log on demand or not */
-    static Bool_t fgbAutoMode;    //!
+      /** General switch on/off log file output */
+      static Bool_t fgbLogfileEnabled;   //!
 
-    /** Keeps latest message with all format indicators */
-    static char fgcMessagetext[__MESSAGETEXTLENGTH__]; //!
+      /** User boolean to write log on demand or not */
+      static Bool_t fgbAutoMode;    //!
 
-    /** optional logfile to store messages with time */
-    static void* fgxLogfile;   //!
+      /** Keeps latest message with all format indicators */
+      static char fgcMessagetext[__MESSAGETEXTLENGTH__]; //!
 
-    /** Name of last logfile set*/
-    static TString fgxLogName;    //!
+      /** optional logfile to store messages with time */
+      static void* fgxLogfile;   //!
 
-    static TString fgsGO4SYS; //!     value of GO4SYS during run
+      /** Name of last logfile set*/
+      static TString fgxLogName;    //!
 
-  ClassDef(TGo4Log,1)
+      static TString fgsGO4SYS; //!     value of GO4SYS during run
+
+   ClassDef(TGo4Log,1)
 };
 
 /* for backward compatibility in user code: */

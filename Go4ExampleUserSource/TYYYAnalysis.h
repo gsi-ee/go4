@@ -11,7 +11,7 @@ class TYYYParameter;
 class TYYYAnalysis : public TGo4Analysis {
    public:
       TYYYAnalysis();
-      TYYYAnalysis(const char* name);
+      TYYYAnalysis(int argc, char** argv);
       virtual ~TYYYAnalysis() ;
       virtual Int_t UserPreLoop();
       virtual Int_t UserEventFunc();

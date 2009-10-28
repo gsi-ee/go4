@@ -74,30 +74,24 @@ MODULE_DO          = $(MODULE_DICT).$(ObjSuf)
 MODULE_H           = TXXXAnalysis.h \
                      TXXXAnlEvent.h \
                      TXXXAnlProc.h \
-                     TXXXAnlFact.h \
                      TXXXUnpackEvent.h \
                      TXXXUnpackProc.h \
-                     TXXXUnpackFact.h \
                      TXXXParameter.h \
                      TXXXCalibPar.h
 
 MODULE_S           = TXXXAnalysis.cxx \
                      TXXXAnlEvent.cxx \
                      TXXXAnlProc.cxx \
-                     TXXXAnlFact.cxx \
                      TXXXUnpackEvent.cxx \
                      TXXXUnpackProc.cxx \
-                     TXXXUnpackFact.cxx \
                      TXXXParameter.cxx \
                      TXXXCalibPar.cxx
 
 MODULE_O           = TXXXAnalysis.obj \
                      TXXXAnlEvent.obj \
                      TXXXAnlProc.obj \
-                     TXXXAnlFact.obj \
                      TXXXUnpackEvent.obj \
                      TXXXUnpackProc.obj \
-                     TXXXUnpackFact.obj \
                      TXXXParameter.obj \
                      TXXXCalibPar.obj
 

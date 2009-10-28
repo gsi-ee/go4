@@ -9,13 +9,6 @@
 #include "TXXXControl.h"
 #include "TGo4Version.h"
 
-
-
-// !!! uncomment this line if signature of user analysis class constructor will change !!
-
-// extern "C" TGo4Analysis* CreateUserAnalysis(const char* name) { return new TXXXAnalysis(name); }
-
-
 //***********************************************************
 TXXXAnalysis::TXXXAnalysis() :
    fMbsEvent(0),
@@ -26,15 +19,15 @@ TXXXAnalysis::TXXXAnalysis() :
 }
 //***********************************************************
 
-// this constructor is used in Main program
-TXXXAnalysis::TXXXAnalysis(const char* name) :
-   TGo4Analysis(name),
+// this constructor is called by go4analysis executable
+TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
+   TGo4Analysis(argc, argv),
    fMbsEvent(0),
    fCtl(0),
    fEvents(0),
    fLastEvent(0)
 {
-   cout << "**** Create TXXXAnalysis name: " << name << endl;
+   cout << "**** Create TXXXAnalysis name: " << argv[0] << endl;
 
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
       cout << "****  Go4 version mismatch" << endl;
@@ -45,9 +38,10 @@ TXXXAnalysis::TXXXAnalysis(const char* name) :
    factory->DefEventProcessor("XXXProc","TXXXProc");// object name, class name
    factory->DefOutputEvent("XXXEvent","TXXXEvent"); // object name, class name
 
-   TGo4MbsFileParameter* sourcepar = new TGo4MbsFileParameter("/GSI/lea/gauss.lmd");
+   // TGo4EventSourceParameter* sourcepar = new TGo4MbsTransportParameter("r3b");
+   TGo4EventSourceParameter* sourcepar = new TGo4MbsFileParameter("/GSI/lea/gauss.lmd");
 
-   TGo4FileStoreParameter* storepar = new TGo4FileStoreParameter(Form("%sOutput", name));
+   TGo4FileStoreParameter* storepar = new TGo4FileStoreParameter(Form("%sOutput", argv[0]));
    storepar->SetOverwriteMode(kTRUE);
 
    TGo4AnalysisStep* step = new TGo4AnalysisStep("Analysis", factory, sourcepar, storepar);
@@ -71,6 +65,7 @@ TXXXAnalysis::TXXXAnalysis(const char* name) :
    fCtl = new TXXXControl("Control");
    AddParameter(fCtl);
 }
+
 //***********************************************************
 TXXXAnalysis::~TXXXAnalysis()
 {
