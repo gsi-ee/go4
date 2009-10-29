@@ -236,14 +236,14 @@ class TGo4EventProcessor : public TGo4EventSource {
        * title - histogram title
        * nbinsx, xlow, xup - range arguments for X axis
        * nbinsy, ylow, yup - range arguments for Y axis
-       * xtitle, ytitle - title for X and Y axis of histogram
+       * xtitle, ytitle, ztitle - title for X, Y and Z axis of histogram
        * If histogram exactly with same name and type already exists in  autosave file,
        * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
        */
       TH2* MakeTH2(char type, const char* fullname, const char* title,
                    Int_t nbinsx, Double_t xlow, Double_t xup,
                    Int_t nbinsy, Double_t ylow, Double_t yup,
-                   const char* xtitle = 0, const char* ytitle = 0);
+                   const char* xtitle = 0, const char* ytitle = 0, const char* ztitle = 0);
 
       /** Create 1D window condition.
        * fullname specifies name of condition (optionally with subfolder name)

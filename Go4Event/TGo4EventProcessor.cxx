@@ -257,7 +257,7 @@ TH1* TGo4EventProcessor::MakeTH1(char type, const char* fullname, const char* ti
 TH2* TGo4EventProcessor::MakeTH2(char type, const char* fullname, const char* title,
                                      Int_t nbinsx, Double_t xlow, Double_t xup,
                                      Int_t nbinsy, Double_t ylow, Double_t yup,
-                                     const char* xtitle, const char* ytitle)
+                                     const char* xtitle, const char* ytitle, const char* ztitle)
 {
    fbObjMade = kFALSE;
    TString foldername, histoname;
@@ -312,6 +312,7 @@ TH2* TGo4EventProcessor::MakeTH2(char type, const char* fullname, const char* ti
 
    if (xtitle) newh->GetXaxis()->SetTitle(xtitle);
    if (ytitle) newh->GetYaxis()->SetTitle(ytitle);
+   if (ztitle) newh->GetZaxis()->SetTitle(ztitle);
 
    if (oldh) {
       if ((oldh->GetDimension()==2) && fbMakeWithAutosave) newh->Add(oldh);
