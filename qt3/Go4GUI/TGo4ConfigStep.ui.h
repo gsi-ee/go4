@@ -227,7 +227,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
     SpinBoxStopEvent->setEnabled(false);
     SpinBoxInterEvent->setEnabled(false);
     SpinBoxTimeout->setEnabled(false);
-    LineEditArgumentsIn_2->setEnabled(false);
+    LineEditArgumentsIn->setEnabled(false);
     FileNameInput->setEnabled(false);
     MbsMonitorBtn->setEnabled(false);
     if(k==0) {            // root file with one tree
@@ -306,10 +306,10 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
      if (k==7) {     // user source
        TGo4UserSourceParameter *newpar9 = new TGo4UserSourceParameter(SourceNameEdit->text().latin1());
        newpar9->SetPort(LineEditPortNumber->text().toInt());
-       newpar9->SetExpression(LineEditArgumentsIn_2->text().stripWhiteSpace().latin1());
+       newpar9->SetExpression(LineEditArgumentsIn->text().stripWhiteSpace().latin1());
        fStepStatus->SetSourcePar(newpar9);
        LineEditPortNumber->setEnabled(true);
-       LineEditArgumentsIn_2->setEnabled(true);
+       LineEditArgumentsIn->setEnabled(true);
        SpinBoxTimeout->setEnabled(true);
        FileNameInput->setEnabled(true);
        delete newpar9;
@@ -520,7 +520,7 @@ void TGo4ConfigStep::ResetSourceWidgets(const QString& name, int timeout, int st
     SpinBoxInterEvent->setValue(interval);
 
     LineEditPortNumber->setEnabled(false);
-    LineEditArgumentsIn_2->setEnabled(false);
+    LineEditArgumentsIn->setEnabled(false);
     LineEditTagfile->setEnabled(false);
     SpinBoxStartEvent->setEnabled(false);
     SpinBoxStopEvent->setEnabled(false);
@@ -576,7 +576,7 @@ void TGo4ConfigStep::SetMbsRevServSource(int port)
    PortNo.setNum(port);
    LineEditPortNumber->setText(PortNo);
    LineEditPortNumber->setEnabled(true);
-   LineEditArgumentsIn_2->setEnabled(true);
+   LineEditArgumentsIn->setEnabled(true);
    SourceComboHighlighted(5);
 }
 
@@ -592,9 +592,9 @@ void TGo4ConfigStep::SetUserSource(int port, QString expr)
    QString PortNo;
    PortNo.setNum(port);
    LineEditPortNumber->setText(PortNo);
-   LineEditArgumentsIn_2->setText(expr);
+   LineEditArgumentsIn->setText(expr);
    LineEditPortNumber->setEnabled(true);
-   LineEditArgumentsIn_2->setEnabled(true);
+   LineEditArgumentsIn->setEnabled(true);
    SpinBoxTimeout->setEnabled(true);
    FileNameInput->setEnabled(true);
    SourceComboHighlighted(7);
@@ -624,14 +624,14 @@ void TGo4ConfigStep::GetMbsRevServSource(int& port)
 void TGo4ConfigStep::GetUserSource(int& port, QString& expr)
 {
    port = LineEditPortNumber->text().toInt();
-   expr = LineEditArgumentsIn_2->text();
+   expr = LineEditArgumentsIn->text();
 }
 
 void TGo4ConfigStep::SetFileStore(QString name, bool overwrite, int bufsize, int splitlevel, int compression)
 {
    StoreNameEdit->setEnabled(TRUE);
    StoreNameEdit->setText(name);
-   Output_Combo_1_2->setCurrentItem(0);
+   OutputCombo->setCurrentItem(0);
    StoreOverwriteMode->setChecked(overwrite);
    StoreOverwriteMode->setEnabled(TRUE);
    BufferSize->setValue(bufsize/1000);
@@ -646,7 +646,7 @@ void TGo4ConfigStep::SetBackStore(QString name, int bufsize, int splitlevel)
 {
    StoreNameEdit->setEnabled(FALSE);
    StoreNameEdit->setText(GetBackStoreName());
-   Output_Combo_1_2->setCurrentItem(1);
+   OutputCombo->setCurrentItem(1);
    BufferSize->setValue(bufsize/1000);
    SplitLevel->setValue(splitlevel);
    StoreOverwriteMode->setEnabled(FALSE);
@@ -664,7 +664,7 @@ QString TGo4ConfigStep::GetBackStoreName()
 
 int TGo4ConfigStep::GetStoreSetup(QString& name)
 {
-   int typ = Output_Combo_1_2->currentItem();
+   int typ = OutputCombo->currentItem();
    if (typ==1) name = GetBackStoreName();
           else name = StoreNameEdit->text();
    return typ;

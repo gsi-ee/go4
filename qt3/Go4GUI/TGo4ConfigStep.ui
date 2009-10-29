@@ -354,7 +354,7 @@
                                 </widget>
                                 <widget class="QLineEdit">
                                     <property name="name">
-                                        <cstring>LineEditArgumentsIn_2</cstring>
+                                        <cstring>LineEditArgumentsIn</cstring>
                                     </property>
                                     <property name="sizePolicy">
                                         <sizepolicy>
@@ -569,7 +569,7 @@
                         </property>
                     </item>
                     <property name="name">
-                        <cstring>Output_Combo_1_2</cstring>
+                        <cstring>OutputCombo</cstring>
                     </property>
                     <property name="sizePolicy">
                         <sizepolicy>
@@ -833,7 +833,7 @@
         <slot>SourceComboHighlighted(int)</slot>
     </connection>
     <connection>
-        <sender>Output_Combo_1_2</sender>
+        <sender>OutputCombo</sender>
         <signal>activated(int)</signal>
         <receiver>TGo4ConfigStep</receiver>
         <slot>StoreComboHighlighted(int)</slot>
@@ -881,7 +881,7 @@
         <slot>InputPort(const QString&amp;)</slot>
     </connection>
     <connection>
-        <sender>LineEditArgumentsIn_2</sender>
+        <sender>LineEditArgumentsIn</sender>
         <signal>textChanged(const QString&amp;)</signal>
         <receiver>TGo4ConfigStep</receiver>
         <slot>InputArguments(const QString&amp;)</slot>
