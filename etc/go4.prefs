@@ -15,8 +15,8 @@
 #     hostname=suse11host: shellinitcmd:. go4login; 
 #     hostname=suse11host: konsole_options:
 #     hostname=suse11host: workdir:/usr/local/go4/head/Go4ExampleSimple
-#     hostname=suse11host: exename:/usr/local/go4/head/Go4ExampleSimple/libGo4UserAnalysis.so
 #     hostname=suse11host: exekind:1
+#     hostname=suse11host: libname:/usr/local/go4/head/Go4ExampleSimple/libGo4UserAnalysis.so
 # 
 
 ######################################################################
@@ -60,12 +60,17 @@ clientcmd:%analysis% -gui %analysisname% %guihost% %guiport%
 
 ##################################################################
 # two variants of analysis - as executable and as library
+# defined by parameter 'exekind' (specified in gui)  0-executable, 1-library
+# if executable parameter 'exename' is configured via gui, for library - 'libname'
+# if appropriate name parameter empty, default executable name will be taken 
 
 analysis_exe:%exename%
 
-analysis_lib:go4analysis -lib %exename% 
+analysis_default_exe:MainUserAnalysis
 
-analysis_dflt:go4analysis 
+analysis_lib:go4analysis -lib %libname% 
+
+analysis_default_lib:go4analysis 
 
 ##################################################################
 # here is initialization sequence is defined, depending if execution performed in 

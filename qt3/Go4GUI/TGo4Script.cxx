@@ -324,11 +324,11 @@ void TGo4Script::LaunchAnalysis(const char* ClientName,
 {
    go4sett->setClientName(ClientName);
    go4sett->setClientDir(ClientDir);
+   go4sett->setClientExeMode(ExeMode);
    go4sett->setClientExec(ClientExec);
    go4sett->setClientNode(ClientNode);
    go4sett->setClientShellMode(ShellMode);
    go4sett->setClientTermMode(TermMode);
-   go4sett->setClientExeMode(ExeMode);
    LaunchAnalysis();
 }
 

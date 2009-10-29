@@ -39,6 +39,8 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
    ClientTermGroup->addButton(konsole_selected, 3);
    ClientTermGroup->button(go4sett->getClientTermMode())->setChecked(true);
 
+   ExeModeCombo->setCurrentIndex(go4sett->getClientExeMode());
+
    LineEditClientName->setText(go4sett->getClientName());
    LineEditClientNode->setText(go4sett->getClientNode());
    LineEditClientDir->setText(go4sett->getClientDir());
@@ -47,10 +49,13 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
    if (LineEditClientDir->text().isEmpty())
       LineEditClientDir->setText(QDir::currentPath());
 
-   ExeModeCombo->setCurrentIndex(go4sett->getClientExeMode());
-
    bool isserver = go4sett->getClientIsServer();
+#ifdef WIN32
+   isserver = false;
+   ServerModeCombo->setEnabled(false);
+#endif
    ServerModeCombo->setCurrentIndex(isserver ? 1 : 0);
+
 #ifndef WIN32
    qt_selected->setEnabled(!isserver);
    if (isserver && ClientTermGroup->checkedId()==1)
@@ -58,16 +63,21 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
 #endif
 }
 
+void TGo4StartClient::ExeMode_changed(int id)
+{
+   LineEditClientExec->setText(go4sett->getClientExec(id));
+}
+
 void TGo4StartClient::getResults()
 {
    go4sett->setClientName(LineEditClientName->text());
    go4sett->setClientNode(LineEditClientNode->text());
    go4sett->setClientDir(LineEditClientDir->text());
+   go4sett->setClientExeMode(ExeModeCombo->currentIndex());
    go4sett->setClientExec(LineEditClientExec->text());
    go4sett->setClientShellMode(ClientShellGroup->checkedId());
    go4sett->setClientTermMode(ClientTermGroup->checkedId());
    go4sett->setClientIsServer(ServerModeCombo->currentIndex()==1);
-   go4sett->setClientExeMode(ExeModeCombo->currentIndex());
 }
 
 void TGo4StartClient::SelectDir()

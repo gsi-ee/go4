@@ -1169,7 +1169,7 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
       prefs.SetPar("clientkind", server ? "Go4Server" : "Go4Client", false);
       prefs.SetPar("analysisname", name, false);
       prefs.SetPar("workdir", remotedir, false);
-      prefs.SetPar("exename", remoteexe, false);
+      prefs.SetPar(exe_kind==0 ? "exename" : "libname", remoteexe, false);
       prefs.SetPar("exekind", Form("%d", exe_kind), false);
 
       const char* shellname = "exec";
@@ -1185,15 +1185,18 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
          prefs.SetPar("cd_workdir", "");
 
       std::string executable;
-      bool is_exe = false;
-      if (prefs.GetOpt("exename").empty())
-         executable = prefs.GetOpt("analysis_dflt");
-      else
-      if (prefs.GetOpt("exekind") != "1") {
-         executable = prefs.GetOpt("analysis_exe");
-         is_exe = true;
-      } else
-         executable = prefs.GetOpt("analysis_lib");
+      bool is_exe = prefs.GetOpt("exekind") != "1";
+      if (is_exe) {
+         if (prefs.GetOpt("exename").empty())
+            executable = prefs.GetOpt("analysis_default_exe");
+         else
+            executable = prefs.GetOpt("analysis_exe");
+      } else {
+         if (prefs.GetOpt("libname").empty())
+            executable = prefs.GetOpt("analysis_default_lib");
+         else
+            executable = prefs.GetOpt("analysis_lib");
+      }
       prefs.SetPar("analysis", executable.c_str());
 
       if (!is_exe) prefs.SetPar("killexename", "go4analysis", false); else {

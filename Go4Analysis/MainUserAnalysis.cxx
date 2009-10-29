@@ -22,6 +22,13 @@
 #include "Go4EventServer.h"
 #include "Go4EventServerTypes.h"
 
+void showerror(const char* msg)
+{
+   cerr << "Error: " << msg << endl;
+   cerr << "Call  'go4analysis -help'  to see list of available arguments" << endl;
+   exit(1);
+}
+
 void usage(const char* err = 0)
 {
    if (err) cout << "Error: " << err << endl;
@@ -36,7 +43,7 @@ void usage(const char* err = 0)
    cout << "  -lib name                   : user library to load (default: libGo4UserLibrary)" << endl;
    cout << "  -server [name]              : run analysis in server mode, name - optional analysis name" << endl;
    cout << "  -gui name guihost guiport   : run analysis in gui mode, used by GUI launch analysis" << endl;
-   cout << "  -run                        : run analysis in server mode (defualt only run if source specified)" << endl;
+   cout << "  -run                        : run analysis in server mode (default only run if source specified)" << endl;
    cout << "  -norun                      : exclude automatical run" << endl;
    cout << "  -number NUMBER              : process NUMBER events in batch mode" << endl;
    cout << "  -hserver [name [passwd]]    : start histogram server with optional name and password" << endl;
@@ -68,6 +75,8 @@ void usage(const char* err = 0)
    cout << "  -enable-source       :  enable step source" << endl;
    cout << "  -disable-source      :  disable step source" << endl;
    cout << "  -store filename      :  write step output into the root file" << endl;
+   cout << "  -overwrite-store     :  overwrite file, when store output" << endl;
+   cout << "  -append-store        :  append to file, when store output" << endl;
    cout << "  -backstore name      :  create backstore for online tree draw" << endl;
    cout << "  -enable-store        :  enable step store" << endl;
    cout << "  -disable-store       :  disable step store" << endl;
@@ -75,10 +84,9 @@ void usage(const char* err = 0)
    cout << "  -disable-errstop     :  disable stop-on-error mode" << endl;
    cout << endl;
 
-   exit(err ? -1 : 0);
+   exit(0);
 }
 
-typedef const char* (UserDefFunc)();
 typedef TGo4Analysis* (UserCreateFunc)(const char* name);
 
 int FindArg(int argc, char **argv, const char* argname)
@@ -437,7 +445,7 @@ int main(int argc, char **argv)
       } else
       if(strcmp(argv[narg], "-gui") == 0) {
          batchMode = kFALSE;
-         if (argc <= narg + 3) usage("Not all -gui arguments specified");
+         if (argc <= narg + 3) showerror("Not all -gui arguments specified");
          narg++; // -gui
          narg++; // name
          hostname = argv[narg++];
@@ -445,12 +453,12 @@ int main(int argc, char **argv)
       } else
       if(strcmp(argv[narg], "-lib") == 0) {
          // skip library name
-         if (++narg >= argc) usage("library name not specified");
+         if (++narg >= argc) showerror("library name not specified");
          narg++;
       } else
       if(strcmp(argv[narg], "-name") == 0) {
          // skip analysis name
-         if (++narg >= argc) usage("analysis name not specified");
+         if (++narg >= argc) showerror("analysis name not specified");
          narg++;
       } else
       if (strcmp(argv[narg],"-step")==0) {
@@ -461,9 +469,9 @@ int main(int argc, char **argv)
             if (sscanf(step_name, "%d", &step_number)==1)
                if (step_number>=0) step = analysis->GetAnalysisStepNum(step_number);
             if (step==0) step = analysis->GetAnalysisStep(step_name);
-            if (step==0) usage("step not found");
+            if (step==0) showerror("step not found");
          } else
-            usage("step name not specified");
+            showerror("step name not specified");
       } else
       if(strcmp(argv[narg],"-enable-step")==0) {
          narg++;
@@ -480,7 +488,7 @@ int main(int argc, char **argv)
             step->SetSourceEnabled(kTRUE);
             autorun = true;
          } else
-            usage("LMD/LML file name not specified");
+            showerror("LMD/LML file name not specified");
       } else
       if(strcmp(argv[narg],"-transport")==0) {
          if (++narg < argc) {
@@ -489,7 +497,7 @@ int main(int argc, char **argv)
             step->SetSourceEnabled(kTRUE);
             autorun = true;
          } else
-            usage("MBS Transport server name not specified");
+            showerror("MBS Transport server name not specified");
       } else
       if(strcmp(argv[narg],"-stream")==0) {
          if (++narg < argc) {
@@ -498,7 +506,7 @@ int main(int argc, char **argv)
             step->SetSourceEnabled(kTRUE);
             autorun = true;
          } else
-            usage("MBS Stream server name not specified");
+            showerror("MBS Stream server name not specified");
       } else
       if(strcmp(argv[narg],"-evserv")==0) {
          if (++narg < argc) {
@@ -507,7 +515,7 @@ int main(int argc, char **argv)
             step->SetSourceEnabled(kTRUE);
             autorun = true;
          } else
-            usage("MBS Event server name not specified");
+            showerror("MBS Event server name not specified");
       } else
       if(strcmp(argv[narg],"-random")==0) {
          narg++;
@@ -523,7 +531,7 @@ int main(int argc, char **argv)
             step->SetSourceEnabled(kTRUE);
             autorun = true;
          } else
-            usage("MBS Event server name not specified");
+            showerror("MBS Event server name not specified");
       } else
       if(strcmp(argv[narg],"-revserv")==0) {
          if (++narg < argc - 1) {
@@ -534,7 +542,7 @@ int main(int argc, char **argv)
             step->SetSourceEnabled(kTRUE);
             autorun = true;
          } else
-            usage("Remote event server name or port are not specified");
+            showerror("Remote event server name or port are not specified");
       } else
       if(strcmp(argv[narg],"-store")==0) {
          if (++narg < argc) {
@@ -542,19 +550,19 @@ int main(int argc, char **argv)
             step->SetEventStore(&storepar);
             step->SetStoreEnabled(kTRUE);
          } else
-            usage("File name for store not specified");
+            showerror("File name for store not specified");
       } else
       if(strcmp(argv[narg],"-overwrite-store")==0) {
          narg++;
          TGo4FileStoreParameter* par = dynamic_cast<TGo4FileStoreParameter*> (step->GetEventStore());
          if (par) par->SetOverwriteMode(kTRUE);
-            else usage("No file-store parameter available");
+            else showerror("No file-store parameter available");
       } else
       if(strcmp(argv[narg],"-append-store")==0) {
          narg++;
          TGo4FileStoreParameter* par = dynamic_cast<TGo4FileStoreParameter*> (step->GetEventStore());
          if (par) par->SetOverwriteMode(kFALSE);
-            else usage("No file-store parameter available");
+            else showerror("No file-store parameter available");
       } else
       if(strcmp(argv[narg],"-backstore")==0) {
          if (++narg < argc) {
@@ -562,13 +570,13 @@ int main(int argc, char **argv)
             step->SetEventStore(&storepar);
             step->SetStoreEnabled(kTRUE);
          } else
-            usage("Backstore name not specified");
+            showerror("Backstore name not specified");
       } else
       if (strcmp(argv[narg],"-number")==0) {
          if (++narg < argc) {
             if (sscanf(argv[narg++],"%ld",&maxevents)!=1) maxevents = -1;
          } else
-            usage("number of events to process not specified");
+            showerror("number of events to process not specified");
       } else
       if (strcmp(argv[narg],"-asf")==0) {
          narg++;
@@ -633,7 +641,7 @@ int main(int argc, char **argv)
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
             hpasswd = argv[narg++];
       } else
-         usage(Form("Unknown argument %d %s", narg, argv[narg]));
+         showerror(Form("Unknown argument %d %s", narg, argv[narg]));
    }
 
    //------ start the analysis -------------------------

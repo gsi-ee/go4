@@ -553,6 +553,12 @@
         <receiver>TGo4StartClient</receiver>
         <slot>ServerModeCombo_activated(int)</slot>
     </connection>
+    <connection>
+        <sender>ExeModeCombo</sender>
+        <signal>activated(int)</signal>
+        <receiver>TGo4StartClient</receiver>
+        <slot>ExeModeCombo_activated(int)</slot>
+    </connection>
 </connections>
 <tabstops>
     <tabstop>LineEditClientName</tabstop>
@@ -571,6 +577,7 @@
     <slot>SelectDir()</slot>
     <slot>SelectProg()</slot>
     <slot>ServerModeCombo_activated( int )</slot>
+    <slot>ExeModeCombo_activated(int)</slot>
 </slots>
 <functions>
     <function>init()</function>

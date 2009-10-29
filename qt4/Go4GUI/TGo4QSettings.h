@@ -63,8 +63,10 @@ class TGo4QSettings {
       QString getClientNode();
       void    setClientDir(const QString&);
       QString getClientDir();
+      void    setClientExeMode(int mode);
+      int     getClientExeMode();
       void    setClientExec(const QString&);
-      QString getClientExec();
+      QString getClientExec(int mode = -1);
       void    setClientShellMode(int);
       QString getClientShell();
       int     getClientShellMode();
@@ -73,8 +75,6 @@ class TGo4QSettings {
       QString getClientTerm();
       void    setClientIsServer(bool on);
       bool    getClientIsServer();
-      void    setClientExeMode(int mode);
-      int     getClientExeMode();
 
       void    setClientPort(int);
       int     getClientPort();

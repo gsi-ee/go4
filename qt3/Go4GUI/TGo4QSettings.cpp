@@ -162,14 +162,30 @@ QString TGo4QSettings::getClientDir()
    return readEntry(GetSettingsName()+"/ClientSetting/Dir", QDir::currentDirPath());
 }
 
-void TGo4QSettings::setClientExec(const QString& v)
+void TGo4QSettings::setClientExeMode(int mode)
 {
-   writeEntry( GetSettingsName()+"/ClientSetting/Exec", v);
+   setInt("/ClientSetting/ExeMode", mode);
 }
 
-QString TGo4QSettings::getClientExec()
+int TGo4QSettings::getClientExeMode()
 {
-   return readEntry( GetSettingsName()+"/ClientSetting/Exec", "");
+   return getInt("/ClientSetting/ExeMode", 0);
+}
+
+void TGo4QSettings::setClientExec(const QString& v)
+{
+   if (getClientExeMode()==0)
+      writeEntry( GetSettingsName()+"/ClientSetting/Exec", v);
+   else
+      writeEntry( GetSettingsName()+"/ClientSetting/Lib", v);
+}
+
+QString TGo4QSettings::getClientExec(int mode)
+{
+   if (mode<0) mode = getClientExeMode();
+
+   return (mode==0) ? readEntry( GetSettingsName()+"/ClientSetting/Exec", "./MainUserAnalysis") :
+                      readEntry( GetSettingsName()+"/ClientSetting/Lib", "libGo4UserAnalysis");
 }
 
 void TGo4QSettings::setClientShellMode(int v)
@@ -236,16 +252,6 @@ bool TGo4QSettings::getClientIsServer()
 {
    QString value = readEntry(GetSettingsName()+"/ClientSetting/IsServer", "off");
    return  value == QString("on");
-}
-
-void TGo4QSettings::setClientExeMode(int mode)
-{
-   setInt("/ClientSetting/ExeMode", mode);
-}
-
-int TGo4QSettings::getClientExeMode()
-{
-   return getInt("/ClientSetting/ExeMode", 0);
 }
 
 void TGo4QSettings::setClientPort(int nport)
