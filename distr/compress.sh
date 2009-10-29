@@ -8,8 +8,8 @@ sed 's/[	]/   /g' <dummy.txt >dummy2.txt
 diff $1 dummy2.txt >dummy.txt
 SIZE=`ls -s dummy.txt | sed 's/ //g'`
 #echo "aa$SIZE aa"
-cat distr/header.txt dummy2.txt > $1
-svn propset svn:keywords "Id" $1
+#cat distr/header.txt dummy2.txt > $1
+#svn propset svn:keywords "Id" $1
 rm -f dummy.txt
 if [ "$SIZE" != "0dummy.txt" ]; then
   echo "File changed"
