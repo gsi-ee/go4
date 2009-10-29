@@ -61,7 +61,7 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
 
    cout << "**** TXXXAnalysis: Create" << endl;
 
-   TString input, out1, out2;
+   TString input, out1, out2, setup;
 
    // this is a way to get user-specific arguments in batch mode, like:
    //   shell> go4analysis -args inputname
@@ -130,6 +130,11 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    fPar->frP1 = 1000;
    fPar->frP2 = 2000;
    AddParameter(fPar);
+// execute setup macro
+   if (argc>1) {
+   setup = Form(".x setup.C(\"%s\")", argv[1]);
+   gROOT->ProcessLine(setup);
+   }
 }
 
 //***********************************************************
