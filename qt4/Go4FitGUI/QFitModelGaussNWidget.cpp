@@ -1,3 +1,29 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "QFitModelGaussNWidget.h"
 
 #include "TGo4FitModelGaussN.h"
@@ -30,7 +56,7 @@ void QFitModelGaussNWidget::SetAxisTable()
    AxisTable->setRowCount(num);
    for(int n=0;n<num;n++)
      AxisTable->setItem(n,0,
-   	new QTableWidgetItem(QString::number(GetGaussN()->GetAxisForIndex(n))));
+      new QTableWidgetItem(QString::number(GetGaussN()->GetAxisForIndex(n))));
 }
 
 void QFitModelGaussNWidget::AxisNumberSpin_valueChanged( int num)

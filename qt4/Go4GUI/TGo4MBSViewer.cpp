@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "TGo4MBSViewer.h"
 #include <QTimer>
 #include <QDateTime>
@@ -13,66 +26,66 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
    QGo4Widget(parent,name),
    fxRunMovie(0)
 {
-	setupUi(this);
-	fbIsMonitoring=false;
-	fbWarningState=false;
-	fbRunning=false;
-	fbGetSetup=false;
-	fbGetSetML=false;
-	fbGetSetMO=false;
-	fbTrending=false;
-	fbTrendingInit=true;
-	fbShowMore=false;
-	fbSingleRefresh=false;
-	fbTrendingForward=false; // define moving direction of trend histograms
-	fiTrendBins=1000;
-	// now overwrite some settings:
-	SetNode(go4sett->getMbsMonitorNode());
-	fbTrending=go4sett->getMbsMonitorTrend();
-	TrendCheck->setChecked(fbTrending);
-	fiTrendBins=go4sett->getMbsMonitorBins();
-	TrendBinsBox->setValue(fiTrendBins);
-	fbShowMore=go4sett->getMbsMonitorMore();
-	MoreBox->setChecked(fbShowMore);
-	FrequencyBox->setValue(go4sett->getMbsMonitorFreq());
-	fbTrendingForward=!(go4sett->getMbsMonitorBackwardsTrending());
+   setupUi(this);
+   fbIsMonitoring=false;
+   fbWarningState=false;
+   fbRunning=false;
+   fbGetSetup=false;
+   fbGetSetML=false;
+   fbGetSetMO=false;
+   fbTrending=false;
+   fbTrendingInit=true;
+   fbShowMore=false;
+   fbSingleRefresh=false;
+   fbTrendingForward=false; // define moving direction of trend histograms
+   fiTrendBins=1000;
+   // now overwrite some settings:
+   SetNode(go4sett->getMbsMonitorNode());
+   fbTrending=go4sett->getMbsMonitorTrend();
+   TrendCheck->setChecked(fbTrending);
+   fiTrendBins=go4sett->getMbsMonitorBins();
+   TrendBinsBox->setValue(fiTrendBins);
+   fbShowMore=go4sett->getMbsMonitorMore();
+   MoreBox->setChecked(fbShowMore);
+   FrequencyBox->setValue(go4sett->getMbsMonitorFreq());
+   fbTrendingForward=!(go4sett->getMbsMonitorBackwardsTrending());
 
-	StateGroup = new QButtonGroup(this);
-	StateGroup->setExclusive(false);
-	StateGroup->addButton(StatusRadio, 0);
-	StateGroup->addButton(SetupRadio, 1);
-	StateGroup->addButton(SetupMLRadio, 2);
-	StateGroup->addButton(SetupMORadio, 3);
-	StateGroup->button(0)->setChecked(true);
-	connect(StateGroup, SIGNAL(buttonClicked(int)), this, SLOT(StateGroup_clicked(int)));
+   StateGroup = new QButtonGroup(this);
+   StateGroup->setExclusive(false);
+   StateGroup->addButton(StatusRadio, 0);
+   StateGroup->addButton(SetupRadio, 1);
+   StateGroup->addButton(SetupMLRadio, 2);
+   StateGroup->addButton(SetupMORadio, 3);
+   StateGroup->button(0)->setChecked(true);
+   connect(StateGroup, SIGNAL(buttonClicked(int)), this, SLOT(StateGroup_clicked(int)));
 
 
-	fxHistoAccessName="nosuchobject";
-	fxHistokBAccessName="nosuchobject";
-	fxHistoEvRatioAccessName="nosuchobject";
-	fxServerLabel="NO SERVER";
-	fxTimer=new QTimer(this);
-	fxMovieResetTimer=new QTimer(this);
-	QString moviepath=":/icons/mbslogorun.gif";
-	fxRunMovie= new QMovie(moviepath);
-	fxDaqStat.bh_acqui_running=0; // we do not want to startup with running state
-	fxDaqStat.l_open_file = 0; // just set initial value
-	memset(&fxDaqStat, 0, sizeof(fxDaqStat));
-	fiCalcedEventRate=0;
-	fiCalcedDataRate=0;
-	fiCalcedServDataRate=0;
-	fiLastServDataNum=0;
-	fiLastEventNum=0;
-	fiLastDataNum=0;
-	connect( fxTimer, SIGNAL(timeout()), this, SLOT(Refresh()) );
-	connect( fxMovieResetTimer, SIGNAL(timeout()), this, SLOT(ResetRunIcon()) );
-	Display();
+   fxHistoAccessName="nosuchobject";
+   fxHistokBAccessName="nosuchobject";
+   fxHistoEvRatioAccessName="nosuchobject";
+   fxServerLabel="NO SERVER";
+   fxTimer=new QTimer(this);
+   fxMovieResetTimer=new QTimer(this);
+   QString moviepath=":/icons/mbslogorun.gif";
+   fxRunMovie= new QMovie(moviepath);
+   fxDaqStat.bh_acqui_running=0; // we do not want to startup with running state
+   fxDaqStat.l_open_file = 0; // just set initial value
+   memset(&fxDaqStat, 0, sizeof(fxDaqStat));
+   fiCalcedEventRate=0;
+   fiCalcedDataRate=0;
+   fiCalcedServDataRate=0;
+   fiLastServDataNum=0;
+   fiLastEventNum=0;
+   fiLastDataNum=0;
+   connect( fxTimer, SIGNAL(timeout()), this, SLOT(Refresh()) );
+   connect( fxMovieResetTimer, SIGNAL(timeout()), this, SLOT(ResetRunIcon()) );
+   Display();
 
 }
 
 TGo4MBSViewer::~TGo4MBSViewer()
 {
-	delete fxRunMovie;
+   delete fxRunMovie;
 }
 
 

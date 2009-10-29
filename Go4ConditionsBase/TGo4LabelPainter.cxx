@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "TGo4LabelPainter.h"
 
 #include "TROOT.h"
@@ -126,7 +139,7 @@ Bool_t TGo4LabelPainter::CheckLabel()
       return kTRUE;
    }
 
-   if(TGo4Label::fxLastDeleted==(char*) fxLabel) 
+   if(TGo4Label::fxLastDeleted==(char*) fxLabel)
       {
          // our label was deleted by user mouse menu just before
          TGo4Label::fxLastDeleted=0;

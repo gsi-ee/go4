@@ -1,3 +1,29 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #ifndef TGO4PARAEDIT_H
 #define TGO4PARAEDIT_H
 
@@ -20,12 +46,12 @@ class TGo4ParaEdit : public QGo4Widget, public Ui::TGo4ParaEdit
 
  public:
 
-  	enum ParEditColumns { fiColName=0, fiColType=1, fiColValue=2, fiColComment=3 };
+     enum ParEditColumns { fiColName=0, fiColType=1, fiColValue=2, fiColComment=3 };
 
     TGo4ParaEdit(QWidget *parent = 0, const char* name=0);
-	virtual ~TGo4ParaEdit();
+   virtual ~TGo4ParaEdit();
 
-	virtual bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);
+   virtual bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);
     virtual void DropItem(const char* itemname, TClass* cl, int kind);
     virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
     virtual void linkedObjectRemoved( const char * linkname );
@@ -38,7 +64,7 @@ class TGo4ParaEdit : public QGo4Widget, public Ui::TGo4ParaEdit
 
 
  public slots:
-	virtual void clearTextFields();
+   virtual void clearTextFields();
     virtual void ChangedTable( int row, int col );
     virtual void TableDoubleClick( int row, int col );
     virtual void ContextMenu( const QPoint& );

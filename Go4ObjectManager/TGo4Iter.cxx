@@ -1,5 +1,18 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "TGo4Iter.h"
-      
+
 #include "TGo4Slot.h"
 #include "TGo4Proxy.h"
 
@@ -32,13 +45,13 @@ TGo4Iter::~TGo4Iter()
 Bool_t TGo4Iter::next(Bool_t goesinto)
 {
    fLevelChange = 0;
-   
+
    if (fStatus==1) return kFALSE;
-   
+
    Int_t lastlevel = level();
 
    TGo4LevelIter* iter = 0;
-   
+
    Bool_t wasfolder = kFALSE;
 
    if (fStatus==-1) {
@@ -46,9 +59,9 @@ Bool_t TGo4Iter::next(Bool_t goesinto)
       if (iter!=0) fLevels.Add(iter);
    } else {
      iter = (TGo4LevelIter*) fLevels.Last();
-     
+
      wasfolder = fOnlySlots ? iter->isslotsfolder() : iter->isfolder();
-     
+
      if ((iter!=0) && wasfolder && goesinto) {
        TGo4LevelIter* subiter = iter->subiterator();
        if (subiter!=0) {
@@ -57,81 +70,81 @@ Bool_t TGo4Iter::next(Bool_t goesinto)
        }
      }
    }
-   
+
   while ((iter!=0) && !iter->next()) {
     fLevels.Remove(iter);
     delete iter;
     iter = (TGo4LevelIter*) fLevels.Last();
   }
-  
+
   fFullName="";
-  
-  if (iter!=0) 
+
+  if (iter!=0)
     for(int n=0;n<=fLevels.GetLast();n++) {
       TGo4LevelIter* it = (TGo4LevelIter*) fLevels.At(n);
       if (n>0) fFullName.Append("/");
       fFullName.Append(it->name());
     }
-    
-  fStatus = (iter!=0) ? 0 : 1;  
-  
+
+  fStatus = (iter!=0) ? 0 : 1;
+
   fLevelChange = level() - lastlevel;
-  
+
   Bool_t isfolder = kFALSE;
   if (iter!=0) isfolder = fOnlySlots ? iter->isslotsfolder() : iter->isfolder();
-  
+
 //  if (isfolder && wasfolder) fLevelChange--;
   if (wasfolder) fLevelChange--;
-    
+
   return (fStatus==0);
 }
 
 Bool_t TGo4Iter::nextobj()
 {
-   while (next()) 
+   while (next())
       if (!isfolder()) return kTRUE;
    return kFALSE;
 }
-      
+
 Bool_t TGo4Iter::isfolder()
 {
-  TGo4LevelIter* iter = currentiter(); 
+  TGo4LevelIter* iter = currentiter();
   return (iter==0) ? kFALSE : (fOnlySlots ? iter->isslotsfolder() : iter->isfolder());
 }
 
 const char* TGo4Iter::getname()
 {
-   TGo4LevelIter* iter = currentiter(); 
+   TGo4LevelIter* iter = currentiter();
    return iter==0 ? 0 : iter->name();
 }
 
 const char* TGo4Iter::getinfo()
 {
-   TGo4LevelIter* iter = currentiter(); 
+   TGo4LevelIter* iter = currentiter();
    return iter==0 ? 0 : iter->info();
 }
 
 Int_t TGo4Iter::getsizeinfo()
 {
-   TGo4LevelIter* iter = currentiter(); 
+   TGo4LevelIter* iter = currentiter();
    return iter==0 ? 0 : iter->sizeinfo();
 }
 
-Int_t TGo4Iter::getflag(const char* flagname) 
+Int_t TGo4Iter::getflag(const char* flagname)
 {
-   TGo4LevelIter* iter = currentiter(); 
+   TGo4LevelIter* iter = currentiter();
    return ((iter==0) || (flagname==0)) ? -1 : iter->getflag(flagname);
 }
 
 Int_t TGo4Iter::getkindofitem()
 {
-   TGo4LevelIter* iter = currentiter(); 
+   TGo4LevelIter* iter = currentiter();
    return iter==0 ? -1 : iter->GetKind();
 }
 
 const char* TGo4Iter::getclassname()
 {
-   TGo4LevelIter* iter = currentiter(); 
+   TGo4LevelIter* iter = currentiter();
    return iter==0 ? 0 : iter->GetClassName();
 }
 

@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "TGo4DabcMonitor.h"
 
 #include "TGo4QSettings.h"
@@ -51,7 +64,7 @@ void TGo4DabcRateInfo::infoHandler()
 TGo4DabcMonitor::TGo4DabcMonitor( QWidget* parent, const char* name)
    : QGo4Widget(parent,name)
 {
-	setupUi(this);
+   setupUi(this);
 
 
 strncpy(gNolinkStateRecord.status,"not available",16);
@@ -295,7 +308,7 @@ TGo4LockGuard gard;
 // get index from table:
 QString ixtext;
 if (NodeTable->item(row,  DABCMON_NODE_INDEXCOL))
-	ixtext = NodeTable->item(row,  DABCMON_NODE_INDEXCOL)->text();
+   ixtext = NodeTable->item(row,  DABCMON_NODE_INDEXCOL)->text();
 int ix=ixtext.toInt();
 
 if(column==DABCMON_NODE_CHECKCOL)
@@ -318,7 +331,7 @@ if(column==DABCMON_NODE_CHECKCOL)
     }
 else if (column==DABCMON_NODE_LOGCOL)
     {
-    	  QTableWidgetItem* checkitem = NodeTable->item(row,  DABCMON_NODE_LOGCOL);
+         QTableWidgetItem* checkitem = NodeTable->item(row,  DABCMON_NODE_LOGCOL);
         bool on=false;
         if(checkitem)
            on = (checkitem->checkState() == Qt::Checked);
@@ -568,7 +581,7 @@ else
             if(recreate)
                 {
                     //std::cout<<"+++ creating state service: " << stateservice <<std::endl;
-                    TGo4DabcStateInfo* sinfo=	 new TGo4DabcStateInfo(stateservice.toAscii(), 0,  &gNolinkStateRecord, 	sizeof(dabc::StatusRec), this);
+                    TGo4DabcStateInfo* sinfo=    new TGo4DabcStateInfo(stateservice.toAscii(), 0,  &gNolinkStateRecord,    sizeof(dabc::StatusRec), this);
                     fxStates[index]=sinfo;
                 } //if recreate
         } // if(!stateservice.isEmpty())
@@ -945,7 +958,7 @@ if(fbRebuildNodeTable)
     {
         //std::cout<<"*********                               - rebuild table" <<std::endl;
         // first case: create table completely new
-	     NodeTable->setRowCount(0);
+        NodeTable->setRowCount(0);
         int maxnodes = fxDabcNodes.size();
         NodeTable->setRowCount(maxnodes);
         for(int ix=0; ix<maxnodes; ++ix)
@@ -970,7 +983,7 @@ else
                     {
                         QString ixtext;
                         if (NodeTable->item(j,  DABCMON_NODE_INDEXCOL))
-                        	ixtext = NodeTable->item(j,  DABCMON_NODE_INDEXCOL)->text();
+                           ixtext = NodeTable->item(j,  DABCMON_NODE_INDEXCOL)->text();
                         int tix=ixtext.toInt();
                         if(tix==ix)
                             {
@@ -1010,8 +1023,8 @@ void TGo4DabcMonitor::fillNodeTableRow( int tableindex, int nodeindex, bool crea
   item->setFlags(item->flags() & ~Qt::ItemIsEditable);
   NodeTable->setItem(tableindex, DABCMON_NODE_STATECOL, item);
   if(createnew) {
-	     item = new QTableWidgetItem(QString::number(nodeindex));
-	     item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+        item = new QTableWidgetItem(QString::number(nodeindex));
+        item->setFlags(item->flags() & ~Qt::ItemIsEditable);
         NodeTable->setItem(tableindex,  DABCMON_NODE_INDEXCOL, item);
 
         item = new QTableWidgetItem("Show" );
@@ -1024,7 +1037,7 @@ void TGo4DabcMonitor::fillNodeTableRow( int tableindex, int nodeindex, bool crea
         item->setCheckState(fxShowLogFlags[nodeindex] ? Qt::Checked : Qt::Unchecked);
         NodeTable->setItem(tableindex,DABCMON_NODE_LOGCOL, item);
    } else {
-	     QTableWidgetItem* checkitem= NodeTable->item(tableindex,  DABCMON_NODE_CHECKCOL);
+        QTableWidgetItem* checkitem= NodeTable->item(tableindex,  DABCMON_NODE_CHECKCOL);
         if(checkitem)
             checkitem->setCheckState(fxShowRateFlags[nodeindex] ? Qt::Checked : Qt::Unchecked);
         else
@@ -1059,7 +1072,7 @@ if(fbRebuildRateTable)
         //std::cout<<"*********                               - rebuild table" <<std::endl;
         // first case: create table completely new
        //std::cout<<"*                    inserting "<<numrates<<" rows" <<std::endl;
-	     RateTable->setRowCount(0);
+        RateTable->setRowCount(0);
         RateTable->setRowCount(numrates);
         int tableindex=0;
         // now fill table with services:
@@ -1195,7 +1208,7 @@ void TGo4DabcMonitor::fillRateTableRow( int tableindex, int nodeindex, int ratei
         item->setFlags(item->flags() & ~Qt::ItemIsEditable);
         RateTable->setItem( tableindex,DABCMON_RATE_STATSCOL, item);
     } else {
-	     QTableWidgetItem* trendcheckitem= RateTable->item(tableindex,  DABCMON_RATE_TRENDCOL);
+        QTableWidgetItem* trendcheckitem= RateTable->item(tableindex,  DABCMON_RATE_TRENDCOL);
         if(trendcheckitem)
             trendcheckitem->setCheckState(fxTrendingFlags[nodeindex].at(rateindex) ? Qt::Checked : Qt::Unchecked);
         else
@@ -1211,7 +1224,7 @@ void TGo4DabcMonitor::fillRateTableRow( int tableindex, int nodeindex, int ratei
 
 bool TGo4DabcMonitor::getRateIndices( int tablerow, int & nodeix, int & rateix )
 {
-	if (RateTable->item(tablerow,  DABCMON_RATE_INDEXCOL)==0) return false;
+   if (RateTable->item(tablerow,  DABCMON_RATE_INDEXCOL)==0) return false;
 
    QString ixtext= RateTable->item(tablerow,  DABCMON_RATE_INDEXCOL)->text();
    QString nstring=ixtext.section( ':', 0,0);

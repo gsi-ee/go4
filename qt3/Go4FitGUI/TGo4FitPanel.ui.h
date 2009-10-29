@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 
 #include "Riostream.h"
 
@@ -2343,7 +2356,7 @@ void TGo4FitPanel::UpdateWizModelsList(bool changestack)
           if (strcmp(model->GetName(), fxWizModelName.latin1())==0) selindx = indx;
           indx++;
        }
-       
+
        Wiz_ModelList->setSelected(selindx, TRUE);
        if (selindx>=0)
           Wiz_ModelList->setCurrentItem(selindx);
@@ -2416,7 +2429,7 @@ void TGo4FitPanel::UpdateWizStackWidget()
        case 1: {
           TGo4FitModel* model = Wiz_SelectedModel();
           if (model==0) break;
-          
+
           target = Wiz_ModelPage;
 
           QString modelinfo;
@@ -2601,7 +2614,7 @@ void TGo4FitPanel::Wiz_DataList_highlighted( int indx)
 void TGo4FitPanel::Wiz_ModelListSelect(int indx, bool ontext)
 {
   if (fbFillingWidget) return;
-  
+
   QString name = Wiz_ModelList->text(indx);
 
   bool needupdate = ( (name != fxWizModelName.latin1()) ||
@@ -3345,7 +3358,7 @@ void TGo4FitPanel::FindersTab_currentChanged( QWidget * )
 void TGo4FitPanel::Wiz_ModelList_clicked( QListBoxItem * item, const QPoint & pnt)
 {
   if (item==0) return;
-  
+
   QRect rect = Wiz_ModelList->itemRect(item);
   QPoint pnt2 = Wiz_ModelList->viewport()->mapFromGlobal(pnt);
 

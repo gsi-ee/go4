@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "TGo4MainWindow.h"
 
 #include "qaction.h"
@@ -384,13 +397,13 @@ void TGo4MainWindow::AddSettingMenu()
    QMenu* prefMenu = settMenu->addMenu("&Preferences");
 
    faFetchWhenDraw = AddChkAction(prefMenu, "Fetch when drawing",
-		                go4sett->getFetchDataWhenDraw(), this, SLOT(ChangeFetchWhenDrawSlot()));
+                      go4sett->getFetchDataWhenDraw(), this, SLOT(ChangeFetchWhenDrawSlot()));
 
    faFetchWhenCopy = AddChkAction(prefMenu, "Fetch when copying",
-		              go4sett->getFetchDataWhenCopy(), this, SLOT(ChangeFetchWhenCopySlot()));
+                    go4sett->getFetchDataWhenCopy(), this, SLOT(ChangeFetchWhenCopySlot()));
 
    faFetchWhenSave = AddChkAction(prefMenu, "Fetch when saving",
-		              go4sett->getFetchDataWhenSave(), this, SLOT(ChangeFetchWhenSaveSlot()));
+                    go4sett->getFetchDataWhenSave(), this, SLOT(ChangeFetchWhenSaveSlot()));
 
    QMenu* panelMenu = settMenu->addMenu("&Panel defaults");
 
@@ -399,24 +412,24 @@ void TGo4MainWindow::AddSettingMenu()
    panelMenu->addAction("Statistics box...", this, SLOT(OptStatsSlot()));
 
    faCrosshair = AddChkAction(panelMenu, "Cross(&X)hair mode",
-		         go4sett->getPadCrosshair(), this, SLOT(CrosshairSlot()));
+               go4sett->getPadCrosshair(), this, SLOT(CrosshairSlot()));
 
    faEventstatus = AddChkAction(panelMenu, "Show Event Status",
-		             go4sett->getPadEventStatus(), this, SLOT(EventStatusSlot()));
+                   go4sett->getPadEventStatus(), this, SLOT(EventStatusSlot()));
 
    faClone = AddChkAction(panelMenu, "Objects cloning",
-		      go4sett->getCloneFlag(), this, SLOT(ChangeCloneFlagSlot()));
+            go4sett->getCloneFlag(), this, SLOT(ChangeCloneFlagSlot()));
 
    faDrawTime = AddChkAction(panelMenu, "Draw time",
-		     go4sett->getDrawTimeFlag(), this, SLOT(ChangeDrawTimeFlagSlot()));
+           go4sett->getDrawTimeFlag(), this, SLOT(ChangeDrawTimeFlagSlot()));
    faDrawTime->setEnabled(go4sett->getCloneFlag());
 
    faDrawDate = AddChkAction(panelMenu, "Draw date",
-		           go4sett->getDrawDateFlag(), this, SLOT(ChangeDrawDateFlagSlot()));
+                 go4sett->getDrawDateFlag(), this, SLOT(ChangeDrawDateFlagSlot()));
    faDrawDate->setEnabled(go4sett->getCloneFlag());
 
    faDrawItem = AddChkAction(panelMenu, "Draw item name",
-		      go4sett->getDrawItemFlag(), this, SLOT(ChangeDrawItemFlagSlot()));
+            go4sett->getDrawItemFlag(), this, SLOT(ChangeDrawItemFlagSlot()));
    panelMenu->addAction(faDrawItem);
    faDrawItem->setEnabled(go4sett->getCloneFlag());
 
@@ -455,7 +468,7 @@ void TGo4MainWindow::AddSettingMenu()
        QAction *act = new QAction(styleAccel, this);
        act->setCheckable(true);
        if (go4sett->getAppStyle() == styleStr)
-    	   act->setChecked(true);
+          act->setChecked(true);
 
        connect( act, SIGNAL(triggered()), styleMapper, SLOT(map()) );
        styleMapper->setMapping(act, styleStr);
@@ -1049,10 +1062,10 @@ void TGo4MainWindow::FitHelpSlot()
 
 void TGo4MainWindow::SaveSettingsSlot()
 {
-	go4sett->storeGeometry(this);
+   go4sett->storeGeometry(this);
 
-	go4sett->setBasicSettings();
-	go4sett->setAppFont(QApplication::font());
+   go4sett->setBasicSettings();
+   go4sett->setAppFont(QApplication::font());
 
    go4sett->setAppStyle(QApplication::style()->objectName());
 
@@ -1083,7 +1096,7 @@ void TGo4MainWindow::ChangeFontSlot()
    go4sett->Store();
 
    if (res == QMessageBox::Apply)
-   	QApplication::setFont(font);
+      QApplication::setFont(font);
 }
 
 void TGo4MainWindow::SetStyleSlot(const QString &style)

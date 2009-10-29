@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "TGo4QtDesignerPlugin.h"
 
 #include "QGo4Widget.h"
@@ -168,7 +181,7 @@ QString TGo4QtDesignerPlugin::includeFile(const QString& classname) const
    if ( classname == "QGo4LineEdit" )
       return "QGo4LineEdit.h";
    if ( classname == "QGo4Table" )
-      return "QGo4Table.h";      
+      return "QGo4Table.h";
    if (classname == "QGo4BrowserListView")
       return "QGo4BrowserListView.h";
    if (classname == "QGo4RootCanvas")
@@ -191,7 +204,7 @@ QString TGo4QtDesignerPlugin::toolTip(const QString& classname) const
    if ( classname == "QGo4LineEdit" )
       return "Go4 QLineEdit";
    if ( classname == "QGo4Table" )
-      return "Go4 QTable";      
+      return "Go4 QTable";
    if (classname == "QGo4BrowserListView")
       return "Go4browser list view";
    if (classname == "QGo4RootCanvas")

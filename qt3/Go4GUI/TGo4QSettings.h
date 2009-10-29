@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #ifndef TGO4QSETTINGS_H
 #define TGO4QSETTINGS_H
 
@@ -186,7 +199,7 @@ class TGo4QSettings : public QSettings {
     bool    getMbsMonitorMonitorActive();
     void    setMbsMonitorBackwardsTrending(bool on = true);
     bool    getMbsMonitorBackwardsTrending();
-    
+
     /**some things for the DABC monitor dockwindow: */
     void    setDabcMonitorNode(const QString& name);
     QString getDabcMonitorNode();
@@ -196,7 +209,7 @@ class TGo4QSettings : public QSettings {
     int     getDabcMonitorBins();
     void    setDabcMonitorBackwardsTrending(bool on = true);
     bool    getDabcMonitorBackwardsTrending();
-    
+
     /** implement history for gui commandline*/
     QStringList getCommandsHistoryGUI();
     void setCommandsHistoryGUI(QStringList & commands);

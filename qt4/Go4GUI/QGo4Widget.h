@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #ifndef QGO4WIDGET_H
 #define QGO4WIDGET_H
 
@@ -187,14 +200,14 @@ class QDESIGNER_WIDGET_EXPORT  QGo4Widget : public QWidget {
 };
 
 extern QAction* AddChkAction(QMenu* menu,
-		const QString& text, bool checked,
-		QObject* recv, const char* member);
+      const QString& text, bool checked,
+      QObject* recv, const char* member);
 
 extern QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
-		const QString& text, int id, int enabled = -1, int checked = -1);
+      const QString& text, int id, int enabled = -1, int checked = -1);
 
 extern QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
-		const QIcon& icon, const QString& text, int id, int enabled = -1, int checked = -1);
+      const QIcon& icon, const QString& text, int id, int enabled = -1, int checked = -1);
 
 QAction* SetIdAction(QSignalMapper* map, int id, int enabled = -1, int checked = -1);
 

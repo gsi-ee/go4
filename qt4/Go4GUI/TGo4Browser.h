@@ -1,3 +1,29 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #ifndef TGO4BROWSER_H
 #define TGO4BROWSER_H
 
@@ -16,65 +42,65 @@ class TGo4Browser : public QGo4Widget, public Ui::TGo4Browser
 
 
 
-	void StartWorking();
+   void StartWorking();
 
 
-	void linkedObjectUpdated(const char* linkname, TObject* obj);
+   void linkedObjectUpdated(const char* linkname, TObject* obj);
 
 
 
-	void ResetWidget();
+   void ResetWidget();
 
-	TGo4BrowserProxy* BrowserProxy();
+   TGo4BrowserProxy* BrowserProxy();
 
-	QString FullItemName(QTreeWidgetItem* item);
+   QString FullItemName(QTreeWidgetItem* item);
 
-	QTreeWidgetItem* FindItemFor(TGo4Slot* slot);
+   QTreeWidgetItem* FindItemFor(TGo4Slot* slot);
 
-	void SetViewItemProperties(TGo4Slot* itemslot, QTreeWidgetItem* item);
+   void SetViewItemProperties(TGo4Slot* itemslot, QTreeWidgetItem* item);
 
-	void checkVisisbilityFlags(bool showall);
+   void checkVisisbilityFlags(bool showall);
 
-	void DisplaySelectedItems();
+   void DisplaySelectedItems();
 
-	void SuperImposeSelectedItems();
+   void SuperImposeSelectedItems();
 
-	bool canDrawItem(QTreeWidgetItem* item);
+   bool canDrawItem(QTreeWidgetItem* item);
 
-	void ShootUpdateTimer();
+   void ShootUpdateTimer();
 
-	void SaveSelectedItems();
+   void SaveSelectedItems();
 
-	void ExportSelectedItems(const char* filtername);
+   void ExportSelectedItems(const char* filtername);
 
-	void ExportSelectedItems(const char* filename, const char* filedir, const char* format, const char* description);
+   void ExportSelectedItems(const char* filename, const char* filedir, const char* format, const char* description);
 
 public slots:
 
-	void RequestDragObjectSlot(QDrag**);
+   void RequestDragObjectSlot(QDrag**);
 
-	void ItemDropAcceptSlot(void* item, void* mime, bool* res);
+   void ItemDropAcceptSlot(void* item, void* mime, bool* res);
 
-	void ItemDropProcessSlot(void* item, void* e);
+   void ItemDropProcessSlot(void* item, void* e);
 
-	void updateListViewItems();
+   void updateListViewItems();
 
-	void ListView_doubleClicked(QTreeWidgetItem* item, int ncol);
+   void ListView_doubleClicked(QTreeWidgetItem* item, int ncol);
 
-	void ListView_customContextMenuRequested(const QPoint&);
+   void ListView_customContextMenuRequested(const QPoint&);
 
-	void Header_customContextMenuRequested(const QPoint &);
+   void Header_customContextMenuRequested(const QPoint &);
 
-	void ColumnToggled(int indx);
+   void ColumnToggled(int indx);
 
-	void HeaderSectionResizedSlot(int, int, int);
+   void HeaderSectionResizedSlot(int, int, int);
 
-	void ContextMenuActivated(int id);
+   void ContextMenuActivated(int id);
 
 protected:
 
-	bool fbUpdateTimerActive;
-	bool fVisibleColumns[7];
+   bool fbUpdateTimerActive;
+   bool fVisibleColumns[7];
 };
 
 

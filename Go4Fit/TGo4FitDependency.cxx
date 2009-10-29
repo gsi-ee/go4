@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "TGo4FitDependency.h"
 
 #include "Riostream.h"
@@ -25,18 +38,18 @@ void TGo4FitDependency::SetParameter(const char* iParameter) {
   fxParameter = iParameter;
 }
 
-void TGo4FitDependency::SetInitValue(Double_t InitValue) 
+void TGo4FitDependency::SetInitValue(Double_t InitValue)
 {
   fxExpression.Remove(0);
   fdInitValue = InitValue;
 
 }
-void TGo4FitDependency::SetExpression(const char* iExpression) 
+void TGo4FitDependency::SetExpression(const char* iExpression)
 {
   fxExpression = iExpression;
 }
 
-void TGo4FitDependency::Initialize(Int_t iNumPar, const char* iFormula) 
+void TGo4FitDependency::Initialize(Int_t iNumPar, const char* iFormula)
 {
     fiNumPar = iNumPar;
     if (iFormula) {
@@ -45,7 +58,7 @@ void TGo4FitDependency::Initialize(Int_t iNumPar, const char* iFormula)
     } else fxFormula=0;
 }
 
-Double_t TGo4FitDependency::ExecuteDependency(Double_t* Params) 
+Double_t TGo4FitDependency::ExecuteDependency(Double_t* Params)
 {
     Double_t res = (fxFormula!=0) ? fxFormula->EvalPar(0,Params) : fdInitValue;
     if (fiNumPar>=0) Params[fiNumPar] = res;

@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "TGo4StartClient.h"
 
 #include <QDir>
@@ -8,24 +21,24 @@
 TGo4StartClient::TGo4StartClient( QWidget* parent )
     : QDialog( parent )
 {
-	setupUi(this);
+   setupUi(this);
 
-	setObjectName("Go4StartClient");
+   setObjectName("Go4StartClient");
 
 #ifdef WIN32
-	// enable only exec and qtwindow in WIN32 mode
-	go4sett->setClientShellMode(0);
-	rsh_selected->setEnabled(false);
-	ssh_selected->setEnabled(false);
+   // enable only exec and qtwindow in WIN32 mode
+   go4sett->setClientShellMode(0);
+   rsh_selected->setEnabled(false);
+   ssh_selected->setEnabled(false);
 
-	go4sett->setClientTermMode(1);
-	xterm_selected->setEnabled(false);
-	konsole_selected->setEnabled(false);
-	go4sett->setClientNode("localhost");
-	LineEditClientNode->setEnabled(false);
+   go4sett->setClientTermMode(1);
+   xterm_selected->setEnabled(false);
+   konsole_selected->setEnabled(false);
+   go4sett->setClientNode("localhost");
+   LineEditClientNode->setEnabled(false);
 #endif
 
-	fSelectedFilter = -1;
+   fSelectedFilter = -1;
 
    ClientShellGroup = new QButtonGroup(this);
    ClientShellGroup->addButton(exec_selected, 0);

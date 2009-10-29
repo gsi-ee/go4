@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "TGo4AnalysisProxy.h"
 
 #include <string>
@@ -287,14 +300,14 @@ class TGo4Prefs {
          std::string hostname = GetPar("hostname");
 
          char formatstring[4096];
-         
+
          while (!f.eof()) {
 
            f.getline(formatstring, sizeof(formatstring), '\n' );
            if ((f.gcount()==0) || (strlen(formatstring)==0)) continue;
-           
+
            const char* sbuf = formatstring;
-           
+
            while (*sbuf != 0) {
               if (*sbuf==' ') { sbuf++; continue; }
               if (*sbuf=='#') break;

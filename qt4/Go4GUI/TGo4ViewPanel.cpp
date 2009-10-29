@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "TGo4ViewPanel.h"
 
 #include <math.h>
@@ -83,7 +96,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
 {
    setupUi(this);;
 
-	fPanelName = objectName();
+   fPanelName = objectName();
 
    fxActivePad = 0;
 
@@ -2720,7 +2733,7 @@ void TGo4ViewPanel::UpdatePanelCaption()
       if (selected==TGo4Picture::PictureIndex)
          SetIdAction(fSelectMap, MasterSelectId, true, true);
       else
-    	 SetIdAction(fSelectMap, FirstSelectId+selected, true, true);
+        SetIdAction(fSelectMap, FirstSelectId+selected, true, true);
    }
 
    if (fulllist.length()>0) {

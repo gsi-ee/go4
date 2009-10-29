@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #ifndef TGO4COUNTERCOND_H
 #define TGO4COUNTERCOND_H
 
@@ -15,7 +28,7 @@ class TGo4CounterCond : public TGo4Condition {
 //    virtual void SetValues(Double_t low1, Double_t up1, Double_t low2, Double_t up2) {}
 //    virtual void SetValues(TCutG * newcut) {}
 //    virtual void SetValues(Double_t * x, Double_t * y, Int_t len) {}
-    
+
 //    virtual Bool_t Test() { return true; }
 //    virtual Bool_t Test(Double_t x) { return true; }
 //    virtual Bool_t Test(Double_t x, Double_t y) { return true; }

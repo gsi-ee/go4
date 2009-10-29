@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 //Author : Denis Bertini 01.11.2000
 
 /**************************************************************************
@@ -168,15 +181,15 @@ void TQRootDialog::executeMethod()
      } else {
        // here call cint call
         qDebug("TCint::Execute called !\n");
-        
+
         fCurObj->Execute(fCurMethod, &tobjlist);
 
         if (fCurObj->TestBit(TObject::kNotDeleted)) {
            if (fMenu!=0)
               fMenu->EmitMenuCommandExecuted(fCurObj, fCurMethod->GetName());
         } else {
-           deletion = TRUE; 
-           fCurObj = 0; 
+           deletion = TRUE;
+           fCurObj = 0;
         }
      }
 
@@ -200,7 +213,7 @@ void TQRootDialog::executeMethod()
 void TQRootDialog::add(const char* argname, const char* value, const char* type)
 {
    TGo4LockGuard threadlock;
-   
+
    new QLabel(argname,fArgBox);
    QLineEdit* le = new  QLineEdit(fArgBox);
    le->setGeometry(10,10, 130, 30);

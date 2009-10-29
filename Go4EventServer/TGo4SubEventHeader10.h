@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #ifndef TGO4SUBEVENTHEADER10_H
 #define TGO4SUBEVENTHEADER10_H
 
@@ -37,7 +50,7 @@ class TGo4SubEventHeader10 : public TObject {
             Int_t fiFullid;
         struct
             {
-            #if MBS_ENDIAN == 1     
+            #if MBS_ENDIAN == 1
 
             /** Processor type code. */
             Char_t fcControl;
@@ -47,9 +60,9 @@ class TGo4SubEventHeader10 : public TObject {
 
             /** Processor ID [from setup] */
             Short_t fsProcid;
-    
+
             #else
-                
+
             /** Processor ID [from setup] */
             Short_t fsProcid;
 
@@ -58,9 +71,9 @@ class TGo4SubEventHeader10 : public TObject {
 
             /** Processor type code. */
             Char_t fcControl;
-            
+
             #endif
-            
+
             };
         };
 

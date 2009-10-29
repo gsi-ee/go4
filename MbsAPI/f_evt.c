@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "typedefs.h"
 #include "f_stccomm.h"
 
@@ -144,7 +157,7 @@ static INTS4 l_st_ochannel[5]={0,0,0,0,0};
 #define PUT__CRT_OPT "rfm=fix"
 #endif
 
-#if MBS_ENDIAN == 1     
+#if MBS_ENDIAN == 1
 #include "s_filhe_swap.h"
 #else
 #include "s_filhe.h"
@@ -632,12 +645,12 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
          return(GETEVT__NOLMDFILE);
        }
 // DABC
-	ps_chan->pLmd=NULL;
+   ps_chan->pLmd=NULL;
       if((*((INTS4 *)(c_temp+4)) == LMD__TYPE_FILE_HEADER_101_1)||
          (*((INTS4 *)(c_temp+4)) == 0x65000100)){
-	    close(ps_chan->l_channel_no);
-	    ps_chan->pLmd=fLmdAllocateControl();
-	    fLmdGetOpen(ps_chan->pLmd,c_file,NULL,LMD__BUFFER,LMD__NO_INDEX);
+       close(ps_chan->l_channel_no);
+       ps_chan->pLmd=fLmdAllocateControl();
+       fLmdGetOpen(ps_chan->pLmd,c_file,NULL,LMD__BUFFER,LMD__NO_INDEX);
         ps_chan->l_server_type=l_mode;
         return GETEVT__SUCCESS;
       }
@@ -650,7 +663,7 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
          ps_chan->l_channel_no=-1;
          return(GETEVT__NOLMDFILE);
        }
-       
+
        /* read file header and first buffer and check for goosy header */
        if(l_filehead == 1) {
          lseek(ps_chan->l_channel_no, 0, SEEK_SET);  /* rewind file */
@@ -738,13 +751,13 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
 
       ps_chan->l_io_buf_size=(ps_chan->l_buf_size)*(ps_chan->l_bufs_in_stream);
 // DABC
-	ps_chan->pLmd=NULL;
+   ps_chan->pLmd=NULL;
       if(*((INTS4 *)(c_temp+12)) == 0) {
         ps_chan->pLmd=fLmdAllocateControl();
         ps_chan->pLmd->pTCP=&s_tcpcomm_st_evt;
         fLmdInitMbs(ps_chan->pLmd,pc_server,ps_chan->l_buf_size,ps_chan->l_bufs_in_stream,0,PORT__STREAM_SERV,ps_chan->l_timeout);
         printf("f_evt_get_open for STREAM: setting timeout=%d  n",ps_chan->l_timeout);
-       
+
         ps_chan->l_server_type=l_mode;
         return GETEVT__SUCCESS;
       }
@@ -768,7 +781,7 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
       /* # buffers per stream */
       ps_chan->l_io_buf_size=ps_chan->l_buf_size;
 // DABC
-	ps_chan->pLmd=NULL;
+   ps_chan->pLmd=NULL;
       if(*((INTS4 *)(c_temp+12)) == 0) {
         ps_chan->pLmd=fLmdAllocateControl();
         ps_chan->pLmd->pTCP=&s_tcpcomm_st_evt;
@@ -940,17 +953,17 @@ INTS4 f_evt_get_event(s_evt_channel *ps_chan, INTS4 **ppl_buffer, INTS4 **ppl_go
        l_stat=fLmdGetMbsEvent(ps_chan->pLmd, &pevt);
      else if(ps_chan->l_server_type == GETEVT__FILE)
        l_stat=fLmdGetElement(ps_chan->pLmd,LMD__NO_INDEX, &pevt);
-       
+
 // any error, then pointer is null
 if(pevt==NULL){
      if (ps_chan->l_server_type == GETEVT__FILE){
-     	 if(l_stat == GETLMD__NOMORE) return(GETEVT__NOMORE);
-     	 if(l_stat == GETLMD__EOFILE) return(GETEVT__NOMORE);
-     	 if(l_stat == GETLMD__NOBUFFER) return(GETEVT__FAILURE);
-	     return(GETEVT__RDERR);
+         if(l_stat == GETLMD__NOMORE) return(GETEVT__NOMORE);
+         if(l_stat == GETLMD__EOFILE) return(GETEVT__NOMORE);
+         if(l_stat == GETLMD__NOBUFFER) return(GETEVT__FAILURE);
+        return(GETEVT__RDERR);
      } else {
-     	if(l_stat == LMD__TIMEOUT) return(GETEVT__TIMEOUT);
-     	else return (GETEVT__RDERR);
+        if(l_stat == LMD__TIMEOUT) return(GETEVT__TIMEOUT);
+        else return (GETEVT__RDERR);
      }
 }
 // OK
@@ -998,7 +1011,7 @@ if(pevt==NULL){
       while (ps_chan->l_buf_posi >= ps_chan->l_buf_lmt)
       {
          /* if this i/o buffer is read to end */
-         /* end of this read_buffer which may contain several GOOSY buffers*/ 
+         /* end of this read_buffer which may contain several GOOSY buffers*/
          if(ps_chan->l_io_buf_posi>=ps_chan->l_io_buf_size)
          {
             if((l_temp=f_evt_get_newbuf(ps_chan))!=GETEVT__SUCCESS) return(l_temp);
@@ -1008,7 +1021,7 @@ if(pevt==NULL){
          l_prev_ok = (ps_chan->l_buf_no == (ps_chan->ps_bufhe->l_buf-1));
          ps_chan->l_buf_no = ps_chan->ps_bufhe->l_buf;
          if(ps_chan->ps_bufhe->i_type == 2000) {   /* file header */
-         	printf("Unsolicited file header found!\n");
+            printf("Unsolicited file header found!\n");
             ps_chan->l_io_buf_posi += ps_chan->l_buf_size;
             ps_chan->l_buf_posi = ps_chan->l_io_buf_posi;
             ps_chan->l_buf_lmt  = ps_chan->l_io_buf_posi;
@@ -1036,7 +1049,7 @@ if(pevt==NULL){
 
       /* if ps_chan->l_buf_posi is not start of an event and ps_chan->l_first_buf =1  *
        * then skip to next event                                   */
-      if((ps_chan->ps_bufhe->h_end==1)&&((ps_chan->l_first_buf==1) || (l_prev_ok == 0))) {      
+      if((ps_chan->ps_bufhe->h_end==1)&&((ps_chan->l_first_buf==1) || (l_prev_ok == 0))) {
          /* if the first buffer is spanned at begin, then skip */
          ps_chan->l_first_buf=0; /* 24-Apr-1996 */
          l_prev_ok=1; /* 2001 HE */
@@ -1290,7 +1303,7 @@ sd_string.dsc$a_pointer = (char *) &s_varstr_file;
    if((ps_chan->l_channel_no=open(c_file,PUT__OPEN_APD_FLAG) )!= -1)
       return(PUTEVT__FILE_EXIST);
    else
-   {      
+   {
       if((ps_chan->l_channel_no=open(c_file,PUT__CRT_FLAG,
          DEF_FILE_ACCE) )== -1)
          return(PUTEVT__FAILURE);

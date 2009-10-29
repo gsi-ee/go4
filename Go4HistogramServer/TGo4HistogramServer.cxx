@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "TGo4HistogramServer.h"
 
 #include "Riostream.h"
@@ -142,7 +155,7 @@ if(fbUseObjectServer && fxThreadHandler) fxThreadHandler->Stop(ConnectorName());
 INTS4 * pl_all =NULL;
 s_his_head * ps_his_head=NULL;
 INTS4 l_size=0;
-f_his_gethis((char*)"localhost", 
+f_his_gethis((char*)"localhost",
              fiServerPort ,
             (char*) fxServerName.Data(),
             (char*) fxServerPass.Data(),

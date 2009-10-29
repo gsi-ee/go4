@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "QGo4Widget.h"
 #include <QtCore/QTimer>
 #include <QtGui/QAction>
@@ -103,7 +116,7 @@ void QGo4Widget::dragMoveEvent(QDragMoveEvent*)
 
 void QGo4Widget::dropEvent(QDropEvent* e)
 {
-	cout << "Drop event " << endl;
+   cout << "Drop event " << endl;
 
    emit widgetService(this, service_DropEvent, 0, e);
 }
@@ -396,7 +409,7 @@ void QGo4Widget::ServiceCall(const char* name, void* par)
 
 QAction* AddChkAction(QMenu* menu,
                       const QString& text, bool checked,
-		              QObject* recv, const char* member)
+                    QObject* recv, const char* member)
 {
    QAction* act = new QAction(text, menu);
    act->setCheckable(true);
@@ -407,7 +420,7 @@ QAction* AddChkAction(QMenu* menu,
 }
 
 QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
-                	const QString& text, int id, int enabled, int checked)
+                   const QString& text, int id, int enabled, int checked)
 {
    QAction* act = new QAction(text, menu);
    if (checked!=-1) {
@@ -436,15 +449,15 @@ QAction* SetIdAction(QSignalMapper* map, int id, int enabled, int checked)
 }
 
 QAction* AddIdAction(QMenu* menu, QSignalMapper* map,
-		const QIcon& icon, const QString& text, int id, int enabled, int checked)
+      const QIcon& icon, const QString& text, int id, int enabled, int checked)
 {
    QAction* act = new QAction(icon, text, menu);
    if (checked!=-1) {
-	  act->setCheckable(true);
-	  act->setChecked(checked > 0);
+     act->setCheckable(true);
+     act->setChecked(checked > 0);
    }
    if (enabled!=-1)
-	  act->setEnabled(enabled > 0);
+     act->setEnabled(enabled > 0);
    map->connect (act, SIGNAL(triggered()), map, SLOT(map()));
    menu->addAction(act);
    map->setMapping(act, id);

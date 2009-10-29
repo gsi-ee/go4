@@ -1,10 +1,23 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 //////////////////////////////////////////////////////////////
 ////// DABC structures:
 //////////////////////////////////////////////////////////////
 // later include this from DABCSYS?
 
-//#ifdef __GO4DIM__   
- 
+//#ifdef __GO4DIM__
+
 
 
 #define DABCMON_NODE_NODECOL 0
@@ -31,7 +44,7 @@ typedef struct{
 
 
  typedef struct{
-      float value; 
+      float value;
       int displaymode; // one of the DISPLAY_x
       float lower; // limit. If limits are equal, use autoscale
       float upper; // limit
@@ -41,19 +54,19 @@ typedef struct{
       char alarmcolor[16]; // (color name: Red, Green, Blue, Cyan, Yellow, Magenta)
       char units[16];
    } RateRec;
- 
- 
- 
 
-   enum RateDisplayMode { 
+
+
+
+   enum RateDisplayMode {
         DISPLAY_ARC = 0,
         DISPLAY_BAR = 1,
         DISPLAY_TREND = 2,
         DISPLAY_STAT = 3 };
 } // end namespace dabc
 
-static dabc::RateRec gNolinkRateRecord;  
-static dabc::StatusRec gNolinkStateRecord;  
+static dabc::RateRec gNolinkRateRecord;
+static dabc::StatusRec gNolinkStateRecord;
 
 //////////////////////////////////////////////////////////////
 ////// Subclasses of DimStampledInfo:
@@ -65,20 +78,20 @@ class TGo4DabcInfo : public DimStampedInfo {
        TGo4DabcInfo(const char* name, int time, void* nolink, int size, const char* type, TGo4DabcMonitor* owner)
           : fxOwner(owner), fxType(type),DimStampedInfo (name, time, nolink, size) {;}
        TGo4DabcInfo(const char* name, int time, int nolink, TGo4DabcMonitor* owner)
-               : fxOwner(owner), fxType("int"),DimStampedInfo (name, time, nolink) {;} 
+               : fxOwner(owner), fxType("int"),DimStampedInfo (name, time, nolink) {;}
        TGo4DabcInfo(const char* name, int time, float nolink, TGo4DabcMonitor* owner)
                : fxOwner(owner), fxType("float"),DimStampedInfo (name, time, nolink) {;}
          TGo4DabcInfo(const char* name, int time, double nolink, TGo4DabcMonitor* owner)
                : fxOwner(owner), fxType("double"),DimStampedInfo (name, time, nolink) {;}
 
       virtual ~TGo4DabcInfo(){;}
-   
+
       virtual void infoHandler()
         {
-            fxOwner->infoUpdated(this);   
+            fxOwner->infoUpdated(this);
         }
       const QString& getServiceType(){return fxType;}
-   protected: 
+   protected:
     TGo4DabcMonitor* fxOwner;
     QString fxType;
 
@@ -88,48 +101,48 @@ class TGo4DabcNodesInfo : public TGo4DabcInfo{
     public:
       TGo4DabcNodesInfo(const char* name, int time, char* nolink, TGo4DabcMonitor* owner):TGo4DabcInfo(name,time,nolink,owner){;}
       virtual ~TGo4DabcNodesInfo(){;}
-   
+
       virtual void infoHandler()
         {
-            fxOwner->nodesUpdated(this);   
+            fxOwner->nodesUpdated(this);
         }
-    
+
 };
 
 class TGo4DabcServiceInfo : public TGo4DabcInfo{
     public:
       TGo4DabcServiceInfo(const char* name, int time, char* nolink, TGo4DabcMonitor* owner):TGo4DabcInfo(name,time,nolink,owner){;}
       virtual ~TGo4DabcServiceInfo(){;}
-   
+
       virtual void infoHandler()
         {
-            fxOwner->servicesUpdated(this);   
+            fxOwner->servicesUpdated(this);
         }
-    
+
 };
 
 class TGo4DabcStateInfo : public TGo4DabcInfo{
     public:
       TGo4DabcStateInfo(const char* name, int time, void* nolink, int size, TGo4DabcMonitor* owner):TGo4DabcInfo(name, time, nolink, size, "StateInfo", owner){;}
       virtual ~TGo4DabcStateInfo(){;}
-   
+
       virtual void infoHandler()
         {
-            fxOwner->stateUpdated(this);   
+            fxOwner->stateUpdated(this);
         }
-    
+
 };
- 
+
 class TGo4DabcRateInfo : public TGo4DabcInfo{
     public:
       TGo4DabcRateInfo(const char* name, int time, void* nolink, int size, TGo4DabcMonitor* owner):TGo4DabcInfo(name, time, nolink, size, "RateInfo" , owner){;}
       virtual ~TGo4DabcRateInfo(){;}
-   
+
       virtual void infoHandler()
         {
-            fxOwner->rateUpdated(this);   
+            fxOwner->rateUpdated(this);
         }
-    
+
 };
 
 //////////////////////////////////////////////////////////////
@@ -149,11 +162,11 @@ public:
     }
     int fxSeverity;
     QString fxState;
-    QString fxColor;    
+    QString fxColor;
 };
 
 class TGo4DabcRate{
-    
+
 public:
     TGo4DabcRate():fxRate(-1),fxName("not defined"), fxColor("Black"){;}
     TGo4DabcRate(dabc::RateRec* rec, const QString& name)
@@ -173,7 +186,7 @@ public:
         fxUnits.truncate(16);
         fxName=name;
     }
-      float fxRate; 
+      float fxRate;
       int fxDisplaymode; // one of the DISPLAY_x
       float fxLower; // limit. If limits are equal, use autoscale
       float fxUpper; // limit
@@ -208,9 +221,9 @@ fbRateTableLocked=false;
 NodeTable->setLeftMargin(0);
 NodeTable->hideColumn ( DABCMON_NODE_INDEXCOL) ;
 NodeTable->setColumnWidth ( DABCMON_NODE_INDEXCOL,1) ;
-NodeTable->setColumnReadOnly (DABCMON_NODE_NODECOL,true ); 
-NodeTable->setColumnReadOnly (DABCMON_NODE_STATECOL,true ); 
-NodeTable->setColumnReadOnly (DABCMON_NODE_INDEXCOL,true ); 
+NodeTable->setColumnReadOnly (DABCMON_NODE_NODECOL,true );
+NodeTable->setColumnReadOnly (DABCMON_NODE_STATECOL,true );
+NodeTable->setColumnReadOnly (DABCMON_NODE_INDEXCOL,true );
 NodeTable->horizontalHeader()->setLabel( DABCMON_NODE_NODECOL, tr( "Context" ) );
 NodeTable->horizontalHeader()->setLabel( DABCMON_NODE_STATECOL, tr( "State" ) );
 NodeTable->horizontalHeader()->setLabel( DABCMON_NODE_CHECKCOL , tr( "Ratemeters" ) );
@@ -219,7 +232,7 @@ NodeTable->horizontalHeader()->setLabel(DABCMON_NODE_LOGCOL, tr( "Service list" 
 RateTable->setLeftMargin(0);
 RateTable->hideColumn ( DABCMON_RATE_INDEXCOL) ;
 RateTable->setColumnWidth ( DABCMON_RATE_INDEXCOL,1) ;
-RateTable->setColumnReadOnly (DABCMON_RATE_NAMECOL,true ); 
+RateTable->setColumnReadOnly (DABCMON_RATE_NAMECOL,true );
 RateTable->setColumnReadOnly (DABCMON_RATE_RATECOL,true );
 RateTable->setColumnReadOnly (DABCMON_RATE_INDEXCOL,true );
 RateTable->horizontalHeader()->setLabel( DABCMON_RATE_NAMECOL, tr( "Name" ) );
@@ -232,7 +245,7 @@ dimServiceFilterEdit->setDisabled(true);
 
 
 
-fxDabcNodes.clear(); 
+fxDabcNodes.clear();
 fxServices.clear();
 fxRates.clear();
 fxStates.clear();
@@ -275,9 +288,9 @@ fbTrendingForward=!(go4sett->getMbsMonitorBackwardsTrending());
 
 
 
-controlBox->setShown(false); 
+controlBox->setShown(false);
 
-//std::cout<<"found settings: node="<<node<<", bins="<<fiTrendBins<<", forward="<<fbTrendingForward <<std::endl; 
+//std::cout<<"found settings: node="<<node<<", bins="<<fiTrendBins<<", forward="<<fbTrendingForward <<std::endl;
 
 //polish();
 //update();
@@ -292,7 +305,7 @@ controlBox->setShown(false);
 
 void TGo4DabcMonitor::storeSettings()
 {
-//std::cout<<"storeSettings" <<std::endl;    
+//std::cout<<"storeSettings" <<std::endl;
 go4sett->setDabcMonitorNode(fxDnsNode);
 go4sett->setDabcMonitorBins(fiTrendBins);
 go4sett->setDabcMonitorFreq(FrequencyBox->value());
@@ -313,31 +326,31 @@ delete fxServerInfo;
 FullPrintDIMButton->setDisabled(true);
 dimServiceFilterEdit->setDisabled(true);
 fxServerInfo=new TGo4DabcNodesInfo("DIS_DNS/SERVER_LIST",0,"Name server not available", this);
-storeSettings();       
-    
+storeSettings();
+
 }
 
 
 void TGo4DabcMonitor::logDIMSlot()
 {
-TGo4LockGuard gard;    
+TGo4LockGuard gard;
 //std::cout<<"logDIMSlot()" <<std::endl;
 for(int nix=0; nix<fxDabcNodes.size(); ++nix)
     {
         if(fxShowLogFlags[nix] )
-            {        
+            {
 //                std::cout<<std::endl<< "retrieving current DIM variables from node "<<fxDabcNodes[nix]<<" ..." <<std::endl;
-                createLogServices(nix);    
-            }    
-    }	
+                createLogServices(nix);
+            }
+    }
 }
 
 
 void TGo4DabcMonitor::histogramCheckToggled( bool val )
 {
-TGo4LockGuard gard;    
+TGo4LockGuard gard;
 //std::cout <<"---------------- histogramCheckToggled to "<<val<< std::endl;
-fbHistogramming=val;	
+fbHistogramming=val;
 // better: reset all existing init flags of services!
 if(val)
     {
@@ -350,7 +363,7 @@ if(val)
                         for (int hisix=0; hisix<hisvec.size();++hisix) // histogram index
                             {
                                 hisvec[hisix]=val;
-                            }            
+                            }
                     }
             }
          for(int nodeix=0;nodeix<fbStatsInit.size();++nodeix)
@@ -362,9 +375,9 @@ if(val)
                         for (int hisix=0; hisix<hisvec.size();++hisix)
                             {
                                 hisvec[hisix]=val;
-                            }            
+                            }
                     }
-            }  
+            }
     } // if val
 // reset average counters:
 for (int nodeix=0;nodeix<fxRateSum.size();++nodeix)
@@ -382,7 +395,7 @@ for(int nodeix=0;nodeix<fxRateCount.size();++nodeix)
             {
                 nodevec[rateix]=0;
             }
-    }    
+    }
 TrendBinsBox->setDisabled(val);
 storeSettings();
 }
@@ -397,14 +410,14 @@ if(val)
         //std::cout <<"---------------- start timer here"<< std::endl;
         float milsecs=1000*FrequencyBox->value();
         fxAverageTimer->start(milsecs);
-        
+
     }
 else
     {
         //std::cout <<"---------------- stop timer here"<< std::endl;
         fxAverageTimer->stop();
     }
-storeSettings();       
+storeSettings();
 }
 
 
@@ -422,10 +435,10 @@ void TGo4DabcMonitor::binsizeChanged( int val )
 
 void TGo4DabcMonitor::nodeTableChangedSlot( int row, int column )
 {
-TGo4LockGuard gard;    
+TGo4LockGuard gard;
     //std::cout<<"nodeTableChangedSlot for " << row<<","<<column <<std::endl;
 // get index from table:
-QString ixtext= NodeTable->text(row,  DABCMON_NODE_INDEXCOL); 
+QString ixtext= NodeTable->text(row,  DABCMON_NODE_INDEXCOL);
 int ix=ixtext.toInt();
 
 if(column==DABCMON_NODE_CHECKCOL)
@@ -437,7 +450,7 @@ if(column==DABCMON_NODE_CHECKCOL)
            on=checkitem->isChecked();
         else
            std::cout<<"!!!!!!!!!! NEVER COME HERE: wrong rate checktableitem at tablerow "<<row <<std::endl;
-        
+
         // set value to vector
         fxShowRateFlags[ix]=on;
         // now create/delete rate services for this node:
@@ -449,7 +462,7 @@ if(column==DABCMON_NODE_CHECKCOL)
 else if (column==DABCMON_NODE_LOGCOL)
     {
         QCheckTableItem* checkitem= dynamic_cast<QCheckTableItem*>(NodeTable->item(row,  DABCMON_NODE_LOGCOL));
-        bool on=false;  
+        bool on=false;
         if(checkitem)
            on=checkitem->isChecked();
         else
@@ -468,7 +481,7 @@ else if (column==DABCMON_NODE_LOGCOL)
             }
          FullPrintDIMButton->setDisabled(disablebutton);
          dimServiceFilterEdit->setDisabled(disablebutton);
-        
+
     }
 
 }
@@ -476,7 +489,7 @@ else if (column==DABCMON_NODE_LOGCOL)
 
 void TGo4DabcMonitor::rateTableChangedSlot(int row, int column)
 {
-TGo4LockGuard gard;    
+TGo4LockGuard gard;
     //std::cout<<"rateTableChangedSlot for " << row<<","<<column <<std::endl;
 if(column==DABCMON_RATE_TRENDCOL)
     {
@@ -511,7 +524,7 @@ else if(column==DABCMON_RATE_STATSCOL)
         int rix=0;
         if(!getRateIndices(row, nix, rix))
              std::cout<<"!!!!!!!!!! NEVER COME HERE: get RateIndices could not get indices for row "<<row <<std::endl;
-        // set value to vector        
+        // set value to vector
         fxStatsFlags[nix].at(rix)=on;
         //std::cout<<"  rrrrrrrrrrrr set fxStatsFlags["<<nix<<"]["<<rix<<"] to" << on<<std::endl;
          fbStatsInit[nix].at(rix).at(0)=on; // direct sample
@@ -531,7 +544,7 @@ void TGo4DabcMonitor::infoUpdated( TGo4DabcInfo * info )
 TGo4LockGuard gard;
 //std::cout<"iiiiiiiiiii infoUpdated() for " << info->getName() <<std::endl;
 QDateTime timestamp;
-timestamp.setTime_t (info->getTimestamp());     
+timestamp.setTime_t (info->getTimestamp());
 std::cout<<"DIM service " << info->getName() <<":"<<std::endl;
     //" at "<<timestamp.toString()<<":" <<std::endl;
 if(info->getServiceType()=="int")
@@ -541,7 +554,7 @@ else if (info->getServiceType()=="float")
 else if (info->getServiceType()=="double")
     std::cout<<"  - "<< info->getDouble();//<<std::endl;
 else if (info->getServiceType()=="char")
-    std::cout<<"  - "<< info->getString();//<<std::endl; 
+    std::cout<<"  - "<< info->getString();//<<std::endl;
 else
     {
          // service is structure, parse the format string:
@@ -550,10 +563,10 @@ else
          QString format=info->getServiceType();
          std::cout<<" - structure of format " << format<<std::endl;
          QStringList elements=QStringList::split(";",format);
-         for ( QStringList::Iterator it = elements.begin(); it != elements.end(); ++it ) 
+         for ( QStringList::Iterator it = elements.begin(); it != elements.end(); ++it )
              {
                  QString component=*it;
-                 QString type=component.section(':',0,0); 
+                 QString type=component.section(':',0,0);
                  QString slen=component.section(':',1,1);
                  int length=slen.toInt();
                  //std::cout<<" - found member:"  <<type<<" of length "<<slen<<" (value="<<length<<")"<<std::endl;
@@ -564,7 +577,7 @@ else
                          content=ptr;
                          content.truncate(length);
                          ptr+=length;
-                         
+
                      }
                  else if(type=="L")
                      {
@@ -575,7 +588,7 @@ else
                                  content+= val.setNum(*cursor,10); // decimal base
                                  cursor++;
                              }
-                         ptr= (char*) cursor;   
+                         ptr= (char*) cursor;
                      }
                  else if(type=="F")
                      {
@@ -586,9 +599,9 @@ else
                                  content+= val.setNum( *cursor, 'g',5);
                                  cursor++;
                              }
-                         ptr= (char*) cursor;   
+                         ptr= (char*) cursor;
                      }
-                 
+
                  else
                      {
                          // treat unknown type as list of char values:
@@ -598,16 +611,16 @@ else
                                  content+= val.setNum(*ptr,10);
                                  content+=":";
                                  ptr++;
-                             }                 
+                             }
                      }// if(type==)
-                 std::cout<<prompt<<content<< "< "<<std::endl;;             
+                 std::cout<<prompt<<content<< "< "<<std::endl;;
                  int currentposition= (long) ptr - (long) info->getData();
                  if(currentposition > size)
                      {
                          std::cout<<"    !!!!!!!!!!!!!!!! structure iterator exceeds service size "<<size <<std::endl;
                          break;
                      }
-            }//  for ( QStringList::Iterator it     
+            }//  for ( QStringList::Iterator it
     }//   if(info->getType()=="int")
 std::cout<<" - (timestamp:"<<timestamp.toString()<<")" <<std::endl;
 delete info; // discard service after first update!
@@ -623,7 +636,7 @@ fxNodelist=QStringList::split("|",servers);
 refreshNodes();
 fbDisplayNodeTable=true;
 fbDisplayRateTable=true;
-  
+
 }
 
 void TGo4DabcMonitor::servicesUpdated( TGo4DabcServiceInfo * info )
@@ -634,47 +647,47 @@ TGo4LockGuard gard;
 unsigned int index=-1;
 for(unsigned int ix=0; ix<fxServices.size(); ++ix)
     {
-        if(info==fxServices[ix]) 
-            { 
-                index=ix; 
+        if(info==fxServices[ix])
+            {
+                index=ix;
                 break;
             }
     }
 if(index<0)
     {
-        std::cout<<"!!!!!!!!!!!servicesUpdated: unknown service info" << (int*) info<<std::endl;   
+        std::cout<<"!!!!!!!!!!!servicesUpdated: unknown service info" << (int*) info<<std::endl;
     }
 else
     {
     if(index>fxStates.size() )
         {
-            std::cout<<"!!!!!!!!!!!NEVER COME HERE: services updated out of bounds, index=" << index<<std::endl;   
+            std::cout<<"!!!!!!!!!!!NEVER COME HERE: services updated out of bounds, index=" << index<<std::endl;
             return;
         }
-    QString services=info->getString(); 
+    QString services=info->getString();
      //std::cout<<"+++ got service list: " << services <<std::endl;
-           
+
                // find full name of nodestate in services:
     QStringList servlist=QStringList::split(0x0A,services); // separator is return
     QString stateservice="";
-    for ( QStringList::Iterator sit = servlist.begin(); sit != servlist.end(); ++sit ) 
+    for ( QStringList::Iterator sit = servlist.begin(); sit != servlist.end(); ++sit )
         {
             QString service=*sit;
             //std::cout<<"++++++ scanning service" << service <<std::endl;
-            if(service.contains("RunStatus") || service.contains("Acquisition/State")) 
+            if(service.contains("RunStatus") || service.contains("Acquisition/State"))
                 {
                     stateservice=service.section('|',0,0); // strip additional service info from name
-                    break;          
+                    break;
                 }
         } // for
     // now create info for node's state:
     if(!stateservice.isEmpty())
-        { 
-            // check if we already have state info for index:        
-            bool recreate=false; 
+        {
+            // check if we already have state info for index:
+            bool recreate=false;
             if(fxStates[index]!=0)
                 {
-                    //std::cout<<"found existing state service("<<index<<"): " << fxStates[index]->getName() <<std::endl;	
+                    //std::cout<<"found existing state service("<<index<<"): " << fxStates[index]->getName() <<std::endl;
                     if(stateservice==fxStates[index]->getName())
                     {
                         //std::cout<<"-------Name is the same, do nothing."<<std::endl;
@@ -682,27 +695,27 @@ else
                     }
                     else
                     {
-                        //std::cout<<"-------Name has changed, recreate service!"<<std::endl; 
+                        //std::cout<<"-------Name has changed, recreate service!"<<std::endl;
                         delete fxStates[index];
                         fxStates[index]=0;
                         recreate=true;
                     }
-                                     
+
                 }
             else
                 {
                     //std::cout<<"------ Service not existing, create it!."<<std::endl;
                     recreate= true;
                 } // if(fxStates[index]!=0)
-                       
+
             if(recreate)
                 {
                     //std::cout<<"+++ creating state service: " << stateservice <<std::endl;
-                    TGo4DabcStateInfo* sinfo=	 new TGo4DabcStateInfo(stateservice, 0,  &gNolinkStateRecord, 	sizeof(dabc::StatusRec), this);
+                    TGo4DabcStateInfo* sinfo=    new TGo4DabcStateInfo(stateservice, 0,  &gNolinkStateRecord,    sizeof(dabc::StatusRec), this);
                     fxStates[index]=sinfo;
                 } //if recreate
         } // if(!stateservice.isEmpty())
-    else	
+    else
         {
             //std::cout<<"+++ empty state service for index  " << index<<", ignored."<<std::endl;
             //std::cout<<"+++ empty state service for index  " << index<<", clear old entry" <<std::endl;
@@ -712,9 +725,9 @@ else
         }  // if(!stateservice.isEmpty())
 }//if(index<0)
 }
-    
-    
-     
+
+
+
 
 
 
@@ -726,9 +739,9 @@ TGo4LockGuard gard;
 unsigned int index=-1;
 for(unsigned int ix=0; ix<fxStates.size(); ++ix)
     {
-        if(info==fxStates[ix]) 
-            { 
-                index=ix; 
+        if(info==fxStates[ix])
+            {
+                index=ix;
                 break;
             }
     }
@@ -742,19 +755,19 @@ else
         dabc::StatusRec* currentstate=(dabc::StatusRec*) info->getData();
         if(index>fxStateRecords.size())
             {
-                std::cout<<"!!!!!!!!!!!NEVER COME HERE: state updated out of bounds, index=" << index<<std::endl;   
+                std::cout<<"!!!!!!!!!!!NEVER COME HERE: state updated out of bounds, index=" << index<<std::endl;
                 return;
             }
         fxStateRecords[index]=TGo4DabcState(currentstate);
         fbDisplayNodeTable=true;
         fxLastTimestamp=info->getTimestamp( );
-    }	    
+    }
 }
 
 
 void TGo4DabcMonitor::rateUpdated( TGo4DabcRateInfo * info )
 {
-TGo4LockGuard gard;    
+TGo4LockGuard gard;
 //std::cout<<"rateUpdated() for " << info->getName() <<std::endl;
 
 // first find out indexes for this rate info
@@ -765,14 +778,14 @@ for(unsigned int ix=0; ix<fxRates.size(); ++ix)
     std::vector<TGo4DabcRateInfo*> & rvec=fxRates[ix];
     for(unsigned int rix=0;rix< rvec.size();++rix)
     {
- 
-        if(info==rvec[rix]) 
-            { 
+
+        if(info==rvec[rix])
+            {
                 nodeindex=ix;
                 rateindex=rix;
                 break;
             }
-    } // for rix    
+    } // for rix
 }// for ix
 //std::cout<<"- state index= " << index  <<std::endl;
 if(nodeindex<0)
@@ -784,13 +797,13 @@ else
         dabc::RateRec* currentrate=(dabc::RateRec*) info->getData();
         if(nodeindex>fxRateRecords.size())
             {
-                std::cout<<"!!!!!!!!!!!NEVER COME HERE: rate updated out of bounds, nodeindex=" << nodeindex<<std::endl;   
+                std::cout<<"!!!!!!!!!!!NEVER COME HERE: rate updated out of bounds, nodeindex=" << nodeindex<<std::endl;
                 return;
             }
         std::vector<TGo4DabcRate> & recordvec= fxRateRecords[nodeindex];
         if(rateindex>recordvec.size())
             {
-                std::cout<<"!!!!!!!!!!!NEVER COME HERE: rate updated out of bounds, rateindex=" << rateindex<<std::endl;   
+                std::cout<<"!!!!!!!!!!!NEVER COME HERE: rate updated out of bounds, rateindex=" << rateindex<<std::endl;
                 return;
             }
          recordvec[rateindex]=TGo4DabcRate(currentrate, info->getName());
@@ -801,7 +814,7 @@ else
                 std::vector< std::deque <float> > & qvec= fxRateQueues[nodeindex];
                 if(rateindex>qvec.size())
                     {
-                        std::cout<<"!!!!!!!!!!!NEVER COME HERE: rate queue vector out of bounds, rateindex=" << rateindex<<std::endl;   
+                        std::cout<<"!!!!!!!!!!!NEVER COME HERE: rate queue vector out of bounds, rateindex=" << rateindex<<std::endl;
                         return;
                     }
                 qvec[rateindex].push_back(currentrate->value); // aquire values, display later!
@@ -820,17 +833,17 @@ else
 void TGo4DabcMonitor::refreshNodes()
 {
 TGo4LockGuard gard;
-//fbNodeTableLocked=true; 
+//fbNodeTableLocked=true;
 
-//std::cout<<"*********refreshNodes()" <<std::endl; 
+//std::cout<<"*********refreshNodes()" <<std::endl;
 fbRebuildNodeTable=true;
 fbRebuildRateTable=true;
 fxDabcNodes.clear();
 
 clearRates();
 clearServices();
-clearStates();  
-for ( QStringList::Iterator it = fxNodelist.begin(); it != fxNodelist.end(); ++it ) 
+clearStates();
+for ( QStringList::Iterator it = fxNodelist.begin(); it != fxNodelist.end(); ++it )
     {
         QString current=*it;
         if(current.contains("DIS_DNS")) continue; // skip name server
@@ -843,12 +856,12 @@ for ( QStringList::Iterator it = fxNodelist.begin(); it != fxNodelist.end(); ++i
         if(prefix==current)
             {
                 // no dabcnode (i.e. mbs)
-                reducednode=current.section('@',0,0);;                
+                reducednode=current.section('@',0,0);;
             }
         //std::cout<<"++++ found reduced node "<<reducednode <<std::endl;
 
                 //std::cout<<"++++ found DABC prefix " <<std::endl;
-                
+
                 fxDabcNodes.push_back(reducednode);
                 // get full service list for this node:
                 QString sinfoname=current.section('@',0,0) + "/SERVICE_LIST";
@@ -856,7 +869,7 @@ for ( QStringList::Iterator it = fxNodelist.begin(); it != fxNodelist.end(); ++i
                 TGo4DabcServiceInfo* servinfo= new TGo4DabcServiceInfo(sinfoname, 0, "not available", this);
                 fxServices.push_back(servinfo);
                 fxStates.push_back(0); // make sure that for our index a slot in state service vector exists!
-                fxStateRecords.push_back(TGo4DabcState()); // dito for state record vector            	   
+                fxStateRecords.push_back(TGo4DabcState()); // dito for state record vector
                 // provide empty vectors of rateinfos and raterecords etc for this node:
                 std::vector<TGo4DabcRateInfo*> rinfovec;
                 rinfovec.clear();
@@ -872,11 +885,11 @@ for ( QStringList::Iterator it = fxNodelist.begin(); it != fxNodelist.end(); ++i
                 std::vector<bool> trendvec;
                 trendvec.clear();
                 fxTrendingFlags.push_back(trendvec);
-                std::vector <std::vector<bool> >initvec;              
+                std::vector <std::vector<bool> >initvec;
                 fbTrendingInit.push_back(initvec);
                 fxStatsFlags.push_back(trendvec);
-                fbStatsInit.push_back(initvec);                
-                std::vector < std::vector <QString>  >namesvec;                
+                fbStatsInit.push_back(initvec);
+                std::vector < std::vector <QString>  >namesvec;
                 fxTrendHistoRefnames.push_back(namesvec);
                 fxStatHistoRefnames.push_back(namesvec);
                 fxShowLogFlags.push_back(false);
@@ -900,7 +913,7 @@ TGo4LockGuard gard;
 std::vector<TGo4DabcStateInfo*>::iterator iter;
 for(iter=fxStates.begin(); iter!=fxStates.end(); ++iter)
     {
-     delete *iter;            
+     delete *iter;
     }
 fxStates.clear();
 fxStateRecords.clear();
@@ -910,12 +923,12 @@ fxShowLogFlags.clear();
 
 void TGo4DabcMonitor::clearServices()
 {
-TGo4LockGuard gard;  
+TGo4LockGuard gard;
 std::vector<TGo4DabcServiceInfo*>::iterator iter;
 for(iter=fxServices.begin(); iter!=fxServices.end(); ++iter)
     {
-      delete *iter;            
-    }		
+      delete *iter;
+    }
 fxServices.clear();
 }
 
@@ -924,15 +937,15 @@ void TGo4DabcMonitor::clearRates()
 {
 TGo4LockGuard gard;
 //fbRateTableLocked=true;
-std::vector<std::vector<TGo4DabcRateInfo*> >::iterator nodeiter; 
+std::vector<std::vector<TGo4DabcRateInfo*> >::iterator nodeiter;
 for(nodeiter=fxRates.begin(); nodeiter!=fxRates.end(); ++nodeiter)
     {
         std::vector<TGo4DabcRateInfo*> nodevec=*nodeiter; // each node has vector of rate services!
         std::vector<TGo4DabcRateInfo*>::iterator iter;
         for(iter=nodevec.begin(); iter!=nodevec.end(); ++iter)
             {
-              delete *iter;            
-            }		    
+              delete *iter;
+            }
     }
 fxRates.clear();
 fxTrendingFlags.clear();
@@ -955,36 +968,36 @@ TGo4LockGuard gard;
 //fbRateTableLocked=true;
 //std::cout<<"rrrrrrrr createRateServices for "<<nodeindex <<std::endl;
 //search the service list for our node for all rate services:
-QString services=fxServices[nodeindex]->getString(); 
+QString services=fxServices[nodeindex]->getString();
  //std::cout<<"+++ createRateServices got service list: " << services <<std::endl;
-       
+
            // find full name of nodestate in services:
 QStringList servlist=QStringList::split(0x0A,services); // separator is return
 QString rateservice="";
-for ( QStringList::Iterator sit = servlist.begin(); sit != servlist.end(); ++sit ) 
+for ( QStringList::Iterator sit = servlist.begin(); sit != servlist.end(); ++sit )
     {
         QString service=*sit;
         //std::cout<<"++++++ scanning service" << service <<std::endl;
         //if(service.contains("F:1;L:1;F:1;F:1;F:1;F:1;C:16;C:16;C:16")
-          if(service.contains("F:1;L:1;F:1;F:1;F:1;F:1;C:16;C:16;C")) //check for dabc rate structure info     
+          if(service.contains("F:1;L:1;F:1;F:1;F:1;F:1;C:16;C:16;C")) //check for dabc rate structure info
             {
-            // provide slots for aux vectors first, since dim info may call update on creation time!    
+            // provide slots for aux vectors first, since dim info may call update on creation time!
                 fxRateRecords[nodeindex].push_back(TGo4DabcRate()); // need initial dummy record
                 std::deque <float> ratequeue;
                 fxRateQueues[nodeindex].push_back(ratequeue);
                 fxRateSum[nodeindex].push_back(0); // init average rate variables
                 fxRateCount[nodeindex].push_back(0);
-                
+
                 fxTrendingFlags[nodeindex].push_back(false); // initial value for trending flag
                 std::vector <bool> hisvec;
                 hisvec.push_back(false); // flags for 2 histograms each rate
                 hisvec.push_back(false);
                 fbTrendingInit[nodeindex].push_back(hisvec);
                 std::vector <QString> namesvec;
-                namesvec.push_back("undefined histogram"); // dito for reference names                
+                namesvec.push_back("undefined histogram"); // dito for reference names
                 namesvec.push_back("undefined histogram");
                 fxTrendHistoRefnames[nodeindex].push_back(namesvec);
-                
+
                 fxStatsFlags[nodeindex].push_back(false); // initial value for statistic hisot flag
                 fbStatsInit[nodeindex].push_back(hisvec);
                 fxStatHistoRefnames[nodeindex].push_back(namesvec);
@@ -1003,12 +1016,12 @@ void TGo4DabcMonitor::deleteRateServices( int nodeindex )
 TGo4LockGuard gard;
 //fbRateTableLocked=true;
 //std::cout<<"rrrrrrrr deleteRateServices for "<<nodeindex <<std::endl;
-std::vector<TGo4DabcRateInfo*> &  nodevec=fxRates[nodeindex];    
+std::vector<TGo4DabcRateInfo*> &  nodevec=fxRates[nodeindex];
 std::vector<TGo4DabcRateInfo*>::iterator iter;
 for(iter=nodevec.begin(); iter!=nodevec.end(); ++iter)
     {
-      delete *iter;            
-    }		
+      delete *iter;
+    }
 nodevec.clear();
 fxTrendingFlags[nodeindex].clear();
 fbTrendingInit[nodeindex].clear();
@@ -1020,7 +1033,7 @@ fxRateRecords[nodeindex].clear();
 fxRateSum[nodeindex].clear();
 fxRateCount[nodeindex].clear();
 //fbRateTableLocked=false;
-fbDisplayRateTable=true; // update view in case of last service is gone! 
+fbDisplayRateTable=true; // update view in case of last service is gone!
 
 }
 
@@ -1033,13 +1046,13 @@ filter.setWildcard(true); // use simple wildcard matching, like shell
 std::cout<<std::endl<< "---- Retrieving current DIM variables from node "<<fxDabcNodes[nodeindex]<<" with filter:"<<filter.pattern() <<std::endl;
 
 //search the service list for our node for all rate services:
-QString services=fxServices[nodeindex]->getString(); 
+QString services=fxServices[nodeindex]->getString();
 //std::cout<<"+++ createLogServices got service list: " << services <<std::endl;
-   
+
        // find full name of nodestate in services:
 QStringList servlist=QStringList::split(0x0A,services); // separator is return
 QString logservice="";
-for ( QStringList::Iterator sit = servlist.begin(); sit != servlist.end(); ++sit ) 
+for ( QStringList::Iterator sit = servlist.begin(); sit != servlist.end(); ++sit )
     {
         QString service=*sit;
         QString sformat=service.section('|',1,1);
@@ -1048,7 +1061,7 @@ for ( QStringList::Iterator sit = servlist.begin(); sit != servlist.end(); ++sit
         if(sname.contains("SERVICE_LIST")) continue; // skip service list
         if(scom.contains("CMD")) continue; // skip command services
         if(filter.search(sname)<0) continue; // regexp does not match name, skip
-        
+
         //std::cout<<"++++++ creating log info " << sname <<" for format "<<sformat <<std::endl;
         if(sformat=="C")
             {
@@ -1086,37 +1099,37 @@ if(fbRebuildNodeTable)
         // first case: create table completely new
         int tablesize  =NodeTable->numRows();
         for(int row=0; row< tablesize;++row)
-            {         
+            {
                 NodeTable->removeRow(0);
             }
         int maxnodes=fxDabcNodes.size();
-        NodeTable->insertRows(0,maxnodes);       
+        NodeTable->insertRows(0,maxnodes);
         for(int ix=0; ix<maxnodes; ++ix)
             {
-            fillNodeTableRow(ix, ix, true);                    
+            fillNodeTableRow(ix, ix, true);
             }
-        fbRebuildNodeTable=false; 
+        fbRebuildNodeTable=false;
     } //    if(fbRebuildNodeTable)
 else
     {
         //std::cout<<"*********                               - update table contents" <<std::endl;
-        int tablesize  =NodeTable->numRows();  
+        int tablesize  =NodeTable->numRows();
         int maxnodes=fxDabcNodes.size();
         if(maxnodes!=tablesize)
             {
              std::cout<<"!!!!!!!!!! NEVER COME HERE: table size "<<tablesize<<" does not match number of nodes "<<maxnodes <<std::endl;
-                return;                 
+                return;
             }
-        
+
         for(int ix=0; ix<maxnodes; ++ix)
             {
                 int tableindex=-1;
                 for(int j=0; j<tablesize;++j)
                     {
-                        QString ixtext= NodeTable->text(j,  DABCMON_NODE_INDEXCOL); 
+                        QString ixtext= NodeTable->text(j,  DABCMON_NODE_INDEXCOL);
                         int tix=ixtext.toInt();
                         if(tix==ix)
-                            { 
+                            {
                                 tableindex=j;
                                 break;
                             }
@@ -1130,9 +1143,9 @@ else
                     {
                          //std::cout<<"***********tableindex for "<<ix<<" is "<<tableindex <<std::endl;
                     }
-               fillNodeTableRow(tableindex, ix, false);    
-            }//for(int ix=0; ix<maxnodes; ++ix)        
-    }//if(fbRebuildNodeTable)     
+               fillNodeTableRow(tableindex, ix, false);
+            }//for(int ix=0; ix<maxnodes; ++ix)
+    }//if(fbRebuildNodeTable)
 polish();
 update();
 show();
@@ -1141,26 +1154,26 @@ show();
 
 void TGo4DabcMonitor::fillNodeTableRow( int tableindex, int nodeindex, bool createnew )
 {
-NodeTable->setText(tableindex, DABCMON_NODE_NODECOL ,fxDabcNodes[nodeindex]);          
-NodeTable->setText(tableindex, DABCMON_NODE_STATECOL,fxStateRecords[nodeindex].fxState);                  
+NodeTable->setText(tableindex, DABCMON_NODE_NODECOL ,fxDabcNodes[nodeindex]);
+NodeTable->setText(tableindex, DABCMON_NODE_STATECOL,fxStateRecords[nodeindex].fxState);
 QImage img=QImage::fromMimeSource( "eventitem.png" );
 QPixmap pixmap = img.scaleHeight( NodeTable->rowHeight(tableindex) );
 QString col =fxStateRecords[nodeindex].fxColor.lower();
-//////////////////// optional check if color name is known:                
+//////////////////// optional check if color name is known:
 //                QStringList knowncols=QColor::colorNames();
 //                QString listcolor="black";
-//                 for ( QStringList::Iterator sit = knowncols.begin(); sit != knowncols.end(); ++sit ) 
+//                 for ( QStringList::Iterator sit = knowncols.begin(); sit != knowncols.end(); ++sit )
 //                {
 //                     //std::cout <<" ... fillNodetableRow compares color "<<*sit <<" with "<<col << std::endl;
-//                     if(*sit==col) {listcolor=*sit; break;}                     
-//                 }        
+//                     if(*sit==col) {listcolor=*sit; break;}
+//                 }
 //                pixmap.fill(listcolor);
-///////////////////////                
+///////////////////////
 pixmap.fill(fxStateRecords[nodeindex].fxColor.lower());
-NodeTable->setPixmap (tableindex, DABCMON_NODE_STATECOL, pixmap); 
+NodeTable->setPixmap (tableindex, DABCMON_NODE_STATECOL, pixmap);
 if(createnew)
-    {    
-        NodeTable->setText(tableindex,  DABCMON_NODE_INDEXCOL ,QString::number(nodeindex));                 
+    {
+        NodeTable->setText(tableindex,  DABCMON_NODE_INDEXCOL ,QString::number(nodeindex));
         QCheckTableItem* checkitem= new QCheckTableItem (NodeTable, "Show" );
         checkitem->setChecked(fxShowRateFlags[nodeindex]);
         NodeTable->setItem( tableindex,DABCMON_NODE_CHECKCOL,checkitem);
@@ -1181,7 +1194,7 @@ else
         else
             std::cout<<"!!!!!!!!!! NEVER COME HERE: wrong logchecktableitem at index "<<nodeindex <<std::endl;
     }
-    
+
 }
 
 
@@ -1195,7 +1208,7 @@ TGo4LockGuard gard;
 int numrates=0;
 int maxnodes=fxRateRecords.size();
 for(int ix=0; ix<maxnodes; ++ix)
-    {            
+    {
         numrates+=fxRateRecords[ix].size();
     }
 int tablesize  =RateTable->numRows();
@@ -1203,29 +1216,29 @@ int tablecursor=-1;
 if(fbRebuildRateTable)
     {
         //std::cout<<"*********                               - rebuild table" <<std::endl;
-        // first case: create table completely new      
+        // first case: create table completely new
         for(int row=0; row< tablesize;++row)
-            {         
+            {
                 RateTable->removeRow(0);
             }
        //std::cout<<"*                    inserting "<<numrates<<" rows" <<std::endl;
-        RateTable->insertRows(0,numrates);      
+        RateTable->insertRows(0,numrates);
         int tableindex=0;
         // now fill table with services:
         for(int ix=0; ix<maxnodes; ++ix)
-            {     
+            {
                 std::vector<TGo4DabcRate> & rvec=fxRateRecords[ix];
                 //std::cout<<"*                    looping rvec[ "<<ix<<"] with "<<rvec.size()<<" rate entries" <<std::endl;
                 for(int rix=0; rix<rvec.size();++rix)
-                    {                
+                    {
                         //std::cout<<"*                    found rvec[ "<<ix<<"]["<<rix <<"] with name "<< rvec[rix].fxName<< std::endl;
                         fillRateTableRow(tableindex, ix, rix, true);
                         tableindex++;
                         //std::cout<<"*                    tableindex gets "<<tableindex<<std::endl;
-                    } // for rix                        
+                    } // for rix
             }// for ix
        //std::cout<<"*                    after loop over maxnodes="<<maxnodes<<std::endl;
-        fbRebuildRateTable=false; 
+        fbRebuildRateTable=false;
     } //    if(fbRebuildRateTable)
 else
     {
@@ -1236,7 +1249,7 @@ else
                  int diff=numrates-tablesize;
                  tablecursor=tablesize;
                  //std::cout<<"*                    inserting "<<diff<<" rows" <<std::endl;
-                 RateTable->insertRows(tablesize,diff);             
+                 RateTable->insertRows(tablesize,diff);
             }
         else if(numrates<tablesize)
             {
@@ -1247,11 +1260,11 @@ else
             {
                 // size is the same, do nothing
             }
-        tablesize=RateTable->numRows();        
+        tablesize=RateTable->numRows();
         bool usedrows[tablesize]; // keep track of unused table rows for cleanup
         for(int t=0;t<tablesize;++t){usedrows[t]=false;}
         for(int nix=0; nix<maxnodes; ++nix)
-            {     
+            {
                 std::vector<TGo4DabcRate> & rvec=fxRateRecords[nix];
                 for(int rix=0; rix<rvec.size();++rix)
                     {
@@ -1263,7 +1276,7 @@ else
                             int tablerateix=-1;
                             if(!getRateIndices(j, tablenodeix, tablerateix)) continue; // skip newly created empty rows
                                  if(tablenodeix==nix && tablerateix==rix)
-                                    { 
+                                    {
                                         tableindex=j;
                                         break;
                                     }
@@ -1279,19 +1292,19 @@ else
                                     }
                                 fillRateTableRow(tablecursor, nix, rix, true);
                                 usedrows[tablecursor]=true;
-                                tablecursor++;        
+                                tablecursor++;
                             }
                          else
                             {
                                  //std::cout<<"***********tableindex for ("<<nix<<","<<rix<<") was "<<tableindex <<std::endl;
                                  usedrows[tableindex]=true;
                                  fillRateTableRow(tableindex, nix, rix, false);
-                             } //  if(tableindex<0) 
-                    }// for rix            
+                             } //  if(tableindex<0)
+                    }// for rix
             }// for nix
         int offset=0;
         for(int rownum=0;rownum<tablesize;++rownum)
-            {	           
+            {
                 if(usedrows[rownum]==false)
                     {
                         //std::cout<<"***********displayRateTable found unused row "<<rownum<<", remove it!"<<std::endl;
@@ -1308,35 +1321,35 @@ show();
 
 void TGo4DabcMonitor::fillRateTableRow( int tableindex, int nodeindex, int rateindex, bool createnew )
 {
-    //std::cout<<":fillRateTableRow for "<<tableindex<<std::endl;    
-std::vector<TGo4DabcRate> & rvec=fxRateRecords[nodeindex];                  
+    //std::cout<<":fillRateTableRow for "<<tableindex<<std::endl;
+std::vector<TGo4DabcRate> & rvec=fxRateRecords[nodeindex];
 QString val;
-val.setNum(rvec[rateindex].fxRate);//setNum ( float n, char f = 'g', int prec = 6 ) 
+val.setNum(rvec[rateindex].fxRate);//setNum ( float n, char f = 'g', int prec = 6 )
 val+=" "+rvec[rateindex].fxUnits;
 RateTable->setText(tableindex,  DABCMON_RATE_RATECOL , val);
 if(rvec[rateindex].fxRate<0)
     {
         QImage img=QImage::fromMimeSource( "info1.png" );
         QPixmap pix = img.scaleHeight( RateTable->rowHeight(tableindex) );
-        RateTable->setPixmap (tableindex, DABCMON_RATE_RATECOL, pix); 
+        RateTable->setPixmap (tableindex, DABCMON_RATE_RATECOL, pix);
     }
 else
-    {    
-        RateTable->setPixmap (tableindex, DABCMON_RATE_RATECOL, QPixmap() ); 
+    {
+        RateTable->setPixmap (tableindex, DABCMON_RATE_RATECOL, QPixmap() );
     }
 if(createnew)
     {
         QString namestring=rvec[rateindex].fxName.section('/',1); // strip DABC prefix
-        RateTable->setText(tableindex,  DABCMON_RATE_NAMECOL , namestring);      
-        QString indexstring=QString::number(nodeindex)+":"+QString::number(rateindex);  
-        RateTable->setText(tableindex,  DABCMON_RATE_INDEXCOL,indexstring);           
+        RateTable->setText(tableindex,  DABCMON_RATE_NAMECOL , namestring);
+        QString indexstring=QString::number(nodeindex)+":"+QString::number(rateindex);
+        RateTable->setText(tableindex,  DABCMON_RATE_INDEXCOL,indexstring);
         QCheckTableItem* trendcheckitem= new QCheckTableItem (RateTable, "histogram" );
         trendcheckitem->setChecked(fxTrendingFlags[nodeindex].at(rateindex));
         RateTable->setItem( tableindex,DABCMON_RATE_TRENDCOL,trendcheckitem);
         QCheckTableItem* statcheckitem= new QCheckTableItem (RateTable, "histogram" );
         statcheckitem->setChecked(fxStatsFlags[nodeindex].at(rateindex));
         RateTable->setItem( tableindex,DABCMON_RATE_STATSCOL,statcheckitem);
-    } 
+    }
 else
     {
         QCheckTableItem* trendcheckitem= dynamic_cast<QCheckTableItem*>(RateTable->item(tableindex,  DABCMON_RATE_TRENDCOL));
@@ -1355,13 +1368,13 @@ else
 
 bool TGo4DabcMonitor::getRateIndices( int tablerow, int & nodeix, int & rateix )
 {
-QString ixtext= RateTable->text(tablerow,  DABCMON_RATE_INDEXCOL); 
+QString ixtext= RateTable->text(tablerow,  DABCMON_RATE_INDEXCOL);
 QString nstring=ixtext.section( ':', 0,0);
 if(nstring.isEmpty()) return false; // for newly created empty row, we would get 0,0 indices!
 nodeix=nstring.toInt();
 QString rstring=ixtext.section( ':', 1,1);
 rateix=rstring.toInt();
-return true;    
+return true;
 }
 
 
@@ -1377,7 +1390,7 @@ for(int nodeix=0;nodeix<fxTrendingFlags.size();++nodeix)
         if(nodeix>fxStatsFlags.size())
             {
                 std::cout <<"--NEVER COME HERE: node index mismatch in displaySampleHistograms for nix="<< nodeix<<std::endl;
-                return; 
+                return;
             }
         std::vector<bool> & statsvec=fxStatsFlags[nodeix];
         for(int rateix=0; rateix<trendvec.size();++rateix)
@@ -1388,14 +1401,14 @@ for(int nodeix=0;nodeix<fxTrendingFlags.size();++nodeix)
                         std::cout <<"--NEVER COME HERE: rate index mismatch in displaySampleHistograms for rix)"<< rateix<<std::endl;;
                         return;
                     }
-                bool statisting=statsvec[rateix];               
+                bool statisting=statsvec[rateix];
                 if(trending ||  statisting)
-                    {                    
+                    {
                         // check if value queue for this index exists
                         if(nodeix>fxRateQueues.size())
                             {
                                 std::cout <<"--NEVER COME HERE: node index mismatch in displaySampleHistograms queues for nix="<< nodeix<<std::endl;
-                                return; 
+                                return;
                             }
                         std::vector< std::deque <float> > & qvec =fxRateQueues[nodeix];
                         if(rateix>qvec.size())
@@ -1411,12 +1424,12 @@ for(int nodeix=0;nodeix<fxTrendingFlags.size();++nodeix)
                                  ratequeue.pop_front();
                                  //  sum value and update counter:
                                  fxRateSum[nodeix].at(rateix)+=val;
-                                 fxRateCount[nodeix].at(rateix)++;                                          
+                                 fxRateCount[nodeix].at(rateix)++;
                                  if(!TrendSampleCheck->isChecked()) continue; // clear queue, but do not display sample histograms
                                  if(trending)
                                       updateTrending(nodeix,rateix, 0, val);
                                  if(statisting)
-                                     updateStats(nodeix,rateix,0, val);                                 
+                                     updateStats(nodeix,rateix,0, val);
                              }// while ratequeue
                     } // if trending or statisting
             } // for rateix
@@ -1435,7 +1448,7 @@ for(int nodeix=0;nodeix<fxTrendingFlags.size();++nodeix)
         if(nodeix>fxStatsFlags.size())
             {
                 std::cout <<"--NEVER COME HERE: node index mismatch in displaySampleHistograms for nix="<< nodeix<<std::endl;
-                return; 
+                return;
             }
         std::vector<bool> & statsvec=fxStatsFlags[nodeix];
         for(int rateix=0; rateix<trendvec.size();++rateix)
@@ -1446,21 +1459,21 @@ for(int nodeix=0;nodeix<fxTrendingFlags.size();++nodeix)
                     std::cout <<"--NEVER COME HERE: rate index mismatch in displaySampleHistograms for rix)"<< rateix<<std::endl;;
                     return;
                 }
-                bool statisting=statsvec[rateix];               
+                bool statisting=statsvec[rateix];
                 if(trending ||  statisting)
-                    {   
-                        float val=-2;  
+                    {
+                        float val=-2;
                         float sum= fxRateSum[nodeix].at(rateix);
                         unsigned int count= fxRateCount[nodeix].at(rateix);
                         if(count!=0) val=sum/count;
                         fxRateSum[nodeix].at(rateix)=0.;
-                        fxRateCount[nodeix].at(rateix)=0;                        
+                        fxRateCount[nodeix].at(rateix)=0;
                         if(trending)
                          updateTrending(nodeix,rateix,1, val);
                         if(statisting)
-                         updateStats(nodeix,rateix,1,val);                         
+                         updateStats(nodeix,rateix,1,val);
                     }
-            }// for rateix    
+            }// for rateix
     }// for nodeix
 }
 
@@ -1470,27 +1483,27 @@ void TGo4DabcMonitor::displayAll()
 {
     //std::cout<<"ttttttt timer fired displayAll()" <<std::endl;
 QDateTime timestamp;
-timestamp.setTime_t (fxLastTimestamp); 
-//DateLabel->setText(timestamp.toString(Qt::ISODate));    
-DateLabel->setText(timestamp.toString());     
+timestamp.setTime_t (fxLastTimestamp);
+//DateLabel->setText(timestamp.toString(Qt::ISODate));
+DateLabel->setText(timestamp.toString());
 //if(fbDisplayNodeTable && !fbNodeTableLocked)
-if(fbDisplayNodeTable)    
+if(fbDisplayNodeTable)
     {
         displayNodeTable();
         fbDisplayNodeTable=false;
     }
 //if(fbDisplayRateTable && !fbRateTableLocked)
-if(fbDisplayRateTable)    
+if(fbDisplayRateTable)
     {
         displayRateTable();
         fbDisplayRateTable=false;
-    } 
+    }
 
 // now treat direct sample histograms:
 if(fbDisplayHistograms)
     {
-        displaySampleHistograms();        
-        fbDisplayHistograms=false;   
+        displaySampleHistograms();
+        fbDisplayHistograms=false;
     }
 
 }
@@ -1511,14 +1524,14 @@ name.replace( QChar('/'), "-" );
 switch(hisix)
     {
         case 0:
-        default: 
+        default:
             name=name+"-TrendingFast";
-            break;            
-        case 1:          
+            break;
+        case 1:
             name=name+"-TrendingAverage";
             break;
-    };  
-foldername.replace( QChar('/'), "-" );                   
+    };
+foldername.replace( QChar('/'), "-" );
 QString  & title=fxRateRecords[nodeix].at(rateix).fxUnits;
 
 //std::cout<<"    val="<<value<<", name="<<name<<", refname="<<refname <<", folder="<<foldername<<std::endl;
@@ -1534,26 +1547,26 @@ if(histoslot==0)
                 switch(hisix)
                     {
                         case 0:
-                        default:      
+                        default:
                             up=1*fiTrendBins;
-                            break;            
-                        case 1:                
+                            break;
+                        case 1:
                             up=1*fiTrendBins*FrequencyBox->value();
                             break;
-                    };  
+                    };
             }
         else
             {
                  switch(hisix)
                     {
                         case 0:
-                        default:      
+                        default:
                             lo=-1*fiTrendBins;
-                            break;            
-                        case 1:              
+                            break;
+                        case 1:
                             lo=-1*fiTrendBins*FrequencyBox->value();
                             break;
-                    };  
+                    };
                  up=0;
             }
         his=new TH1F(name,title,fiTrendBins,lo,up);
@@ -1561,13 +1574,13 @@ if(histoslot==0)
         switch(hisix)
             {
                 case 0:
-                default:     
+                default:
                     xax->SetTitle("updates");
-                    break;            
-                case 1:       
+                    break;
+                case 1:
                     xax->SetTitle("s");
                     break;
-            };  
+            };
         xax->CenterTitle();
         //xax->SetLimits(0,lo,up);
 
@@ -1579,7 +1592,7 @@ if(histoslot==0)
         else
             {
                 //QString folder="Dabc/"+fxNodelist[nodeix];
-                QString folder="DABC/"+foldername; 
+                QString folder="DABC/"+foldername;
                 refname=Browser()->SaveToMemory(folder, his, true);
             }
         histoslot=Browser()->BrowserSlot(refname);
@@ -1634,15 +1647,15 @@ name.replace( QChar('/'), "-" );
 switch(hix)
     {
         case 0:
-        default:  
+        default:
             name=name+"-StatsFast";
-            break;            
-        case 1:        
+            break;
+        case 1:
             name=name+"-StatsAverage";
             break;
-    };  
+    };
 foldername.replace( QChar('/'), "-" );
-QString title="counts";                   
+QString title="counts";
 QString  & xtitle=fxRateRecords[nodeix].at(rateix).fxUnits;
 //std::cout<<"    val="<<value<<", name="<<name<<", refname="<<refname <<", folder="<<foldername<<std::endl;
 TH1* his=0;
@@ -1661,7 +1674,7 @@ if(histoslot==0)
             }
         his=new TH1F(name,title,fiStatBins,lo,up);
         TAxis* xax=his->GetXaxis();
-        xax->SetTitle(xtitle); 
+        xax->SetTitle(xtitle);
         xax->CenterTitle();
         TGo4Slot* hisdataslot=Browser()->DataSlot(refname);
         if(hisdataslot)
@@ -1671,7 +1684,7 @@ if(histoslot==0)
         else
             {
                 //QString folder="Dabc/"+fxNodelist[nodeix];
-                QString folder="DABC/"+foldername; 
+                QString folder="DABC/"+foldername;
                 refname=Browser()->SaveToMemory(folder, his, true);
             }
         histoslot=Browser()->BrowserSlot(refname);
@@ -1685,7 +1698,7 @@ if(histoslot)
     {
         histoslot->ForwardEvent(histoslot, TGo4Slot::evObjUpdated);
         Browser()->SetItemTimeDate(histoslot);
-        fbStatsInit[nodeix].at(rateix).at(hix)=false;     
+        fbStatsInit[nodeix].at(rateix).at(hix)=false;
     }
 }
 

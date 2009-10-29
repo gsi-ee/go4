@@ -1,3 +1,29 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "TGo4FitPanel.h"
 
 #include "qevent.h"
@@ -373,16 +399,16 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name)
 TGo4FitPanel::~TGo4FitPanel()
 {
    // discards messages from deleted items
-	fbFillingWidget = true;
+   fbFillingWidget = true;
 
-	fxCurrentItem = 0;
+   fxCurrentItem = 0;
    FitList->clear();
 
    delete fxParsTableList;
    delete fxWizSlots;
    delete fxWizPars;
 
-	RemovePrimitives();
+   RemovePrimitives();
    RemoveDrawObjects();
    CloseDrawPanel();
 
@@ -1600,7 +1626,7 @@ void TGo4FitPanel::Cmd_MoveAction(QFitItem* item, int dir)
       UpdateItem(parent, TRUE);
       item = FindItem(action, -1, 0);
       if (item!=0)
-      	FitList->setCurrentItem(item, QItemSelectionModel::Select);
+         FitList->setCurrentItem(item, QItemSelectionModel::Select);
    }
 }
 
@@ -1863,7 +1889,7 @@ void TGo4FitPanel::Cmd_UpdateAllSlots(QFitItem* item)
   UpdateObjectReferenceInSlots();
 
   for (int n=0; n < item->childCount(); n++)
-	  UpdateItem(dynamic_cast<QFitItem*>(item->child(n)), TRUE);
+     UpdateItem(dynamic_cast<QFitItem*>(item->child(n)), TRUE);
 }
 
 
@@ -1881,7 +1907,7 @@ void TGo4FitPanel::FitList_customContextMenuRequested(const QPoint & pnt)
    QMenu menu(this);
 
    if (FillPopupForItem(fititem, &menu, &map)) {
-	   CurrFitItem = fititem;
+      CurrFitItem = fititem;
       menu.exec(FitList->viewport()->mapToGlobal(pnt));
       CurrFitItem = 0;
    }
@@ -1890,7 +1916,7 @@ void TGo4FitPanel::FitList_customContextMenuRequested(const QPoint & pnt)
 
 void TGo4FitPanel::FitList_currentItemChanged(QTreeWidgetItem* curr, QTreeWidgetItem*)
 {
-	if (fbFillingWidget) return;
+   if (fbFillingWidget) return;
 
    QFitItem* fititem = dynamic_cast<QFitItem*> (curr);
    if (fititem==0) return;
@@ -2090,7 +2116,7 @@ void TGo4FitPanel::AboutToShowFitterMenu()
 
    AddIdAction(FitterMenu, FitterMap, "Save to &browser", 21, (fitter!=0));
    if (fiPanelMode==FitGui::pm_Expert)
-	   AddIdAction(FitterMenu, FitterMap, "&Workspace", 23, WorkingWithPanel());
+      AddIdAction(FitterMenu, FitterMap, "&Workspace", 23, WorkingWithPanel());
    AddIdAction(FitterMenu, FitterMap, "&Update references", 24, (fitter!=0));
    AddIdAction(FitterMenu, FitterMap, "&Print parameters", 25, (fitter!=0) && fbParsWidgetShown);
    AddIdAction(FitterMenu, FitterMap, "&Rollback parameters", 26, (fitter!=0) && fitter->CanRollbackPars());
@@ -2330,8 +2356,8 @@ void TGo4FitPanel::UpdateWizDataList()
        TGo4FitData* data = fitter->GetData(n);
        QListWidgetItem* item = new QListWidgetItem(data->GetName());
        if (strcmp(data->GetName(), fxWizDataName.toAscii())==0) {
-      	 selindx = n;
-      	 item->setSelected(true);
+          selindx = n;
+          item->setSelected(true);
        }
        Wiz_DataList->addItem(item);
      }
@@ -2393,8 +2419,8 @@ void TGo4FitPanel::UpdateWizModelsList(bool changestack)
           QListWidgetItem* item = new QListWidgetItem(model->GetName());
           item->setCheckState(assign ? Qt::Checked : Qt::Unchecked );
           if (strcmp(model->GetName(), fxWizModelName.toAscii())==0) {
-         	 selindx = indx;
-         	 item->setSelected(true);
+             selindx = indx;
+             item->setSelected(true);
           }
           Wiz_ModelList->addItem(item);
           indx++;
@@ -2546,7 +2572,7 @@ void TGo4FitPanel::UpdateWizStackWidget()
               Wiz_DataSlotsTable->setItem(n, 1, new QTableWidgetItem(slot->GetClass()->GetName()));
               Wiz_DataSlotsTable->setItem(n, 2, new QTableWidgetItem("false"));
            } else {
-         	  Wiz_DataSlotsTable->setItem(n, 0, new QTableWidgetItem(obj->GetName()));
+              Wiz_DataSlotsTable->setItem(n, 0, new QTableWidgetItem(obj->GetName()));
               Wiz_DataSlotsTable->setItem(n, 1, new QTableWidgetItem(obj->ClassName()));
               if (slot->GetOwned()) Wiz_DataSlotsTable->setItem(n, 2, new QTableWidgetItem("true"));
                                else Wiz_DataSlotsTable->setItem(n, 2, new QTableWidgetItem("false"));
@@ -2693,7 +2719,7 @@ void TGo4FitPanel::Wiz_AddDataBtn_clicked()
 
    int id = 0;
    for(id=0;id<100;id++)
-	  if (act == (QAction*) map.mapping(id)) break;
+     if (act == (QAction*) map.mapping(id)) break;
 
    TGo4FitData* data = Wiz_CreateNewData(id);
    if (data) {
@@ -2735,7 +2761,7 @@ void TGo4FitPanel::Wiz_AddModelBtn_clicked()
 
    int id = 0;
    for(id=0;id<100;id++)
-	  if (act == (QAction*) map.mapping(id)) break;
+     if (act == (QAction*) map.mapping(id)) break;
 
    TGo4FitModel* model = Wiz_CreateNewModel(id);
    if (model) fxWizModelName = model->GetName();
@@ -3022,11 +3048,11 @@ void TGo4FitPanel::FillParsTable(QTableWidget* table, TGo4Fitter* fitter, TGo4Fi
 
 /*   for (int nr=0;nr<table->rowCount();nr++)
      for (int nc=0;nc<table->columnCount();nc++) {
-   	  QTableWidgetItem* item = table->item(nr,nc);
-   	  if (item) {
-   		  item->setFlags(item->flags() | Qt::ItemIsEnabled);
-   		  if (nc==0) item->setText("");
-   	  }
+        QTableWidgetItem* item = table->item(nr,nc);
+        if (item) {
+           item->setFlags(item->flags() | Qt::ItemIsEnabled);
+           if (nc==0) item->setText("");
+        }
      }
 */
 
@@ -3078,7 +3104,7 @@ void TGo4FitPanel::FillParsTable(QTableWidget* table, TGo4Fitter* fitter, TGo4Fi
 
         QTableWidgetItem* item0 = new QTableWidgetItem(QString::number(m->GetAmplValue()));
         if (!m->GetAmplPar())
-      	  item0->setFlags(item0->flags() & ~Qt::ItemIsEnabled);
+           item0->setFlags(item0->flags() & ~Qt::ItemIsEnabled);
         table->setItem(n, 0, item0);
 
         if (fiIntegralMode>0) {
@@ -3117,7 +3143,7 @@ void TGo4FitPanel::FillParsTable(QTableWidget* table, TGo4Fitter* fitter, TGo4Fi
             QTableWidgetItem* item;
 
             if (m->GetPosition(naxis,pos)) {
-            	item = new QTableWidgetItem(QString::number(pos));
+               item = new QTableWidgetItem(QString::number(pos));
             } else {
               item = new QTableWidgetItem("---");
               item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
@@ -3126,7 +3152,7 @@ void TGo4FitPanel::FillParsTable(QTableWidget* table, TGo4Fitter* fitter, TGo4Fi
             table->setItem(n, nfcol+naxis*2, item);
 
             if (m->GetWidth(naxis,width)) {
-            	item = new QTableWidgetItem(QString::number(width*widthk));
+               item = new QTableWidgetItem(QString::number(width*widthk));
             } else {
                item = new QTableWidgetItem("---");
                item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
@@ -3167,7 +3193,7 @@ void TGo4FitPanel::FillParsTable(QTableWidget* table, TGo4Fitter* fitter, TGo4Fi
 
        QTableWidgetItem* item = new QTableWidgetItem(QString::number(par->GetValue()));
        if (par->GetFixed())
-      	 item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
+          item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
        table->setItem(n, 1, item);
 
        table->setItem(n, 2, new QTableWidgetItem(QString::number(par->GetError())));
@@ -3226,12 +3252,12 @@ void TGo4FitPanel::ParsTableChanged(QTableWidget* table, int nrow, int ncol, boo
 
        switch (ncol) {
          case 0: {
-         	if (table->item(nrow,0)->checkState()==Qt::Checked) par->SetFixed(kTRUE); else
-          	if (table->item(nrow,0)->checkState()==Qt::Unchecked) par->SetFixed(kFALSE);
-         	if (par->GetFixed())
-         		table->item(nrow,1)->setFlags(table->item(nrow,1)->flags() & ~Qt::ItemIsEnabled);
-         	else
-         		table->item(nrow,1)->setFlags(table->item(nrow,1)->flags() | Qt::ItemIsEnabled);
+            if (table->item(nrow,0)->checkState()==Qt::Checked) par->SetFixed(kTRUE); else
+             if (table->item(nrow,0)->checkState()==Qt::Unchecked) par->SetFixed(kFALSE);
+            if (par->GetFixed())
+               table->item(nrow,1)->setFlags(table->item(nrow,1)->flags() & ~Qt::ItemIsEnabled);
+            else
+               table->item(nrow,1)->setFlags(table->item(nrow,1)->flags() | Qt::ItemIsEnabled);
             break;
          }
          case 1: {
@@ -3311,10 +3337,10 @@ void TGo4FitPanel::ParsTableChanged(QTableWidget* table, int nrow, int ncol, boo
               fbFillingWidget = true;
               table->item(nrow,0)->
                  setCheckState(par->GetFixed() ? Qt::Checked : Qt::Unchecked);
-           	  if (par->GetFixed())
-           		  table->item(nrow,1)->setFlags(table->item(nrow,1)->flags() & ~Qt::ItemIsEnabled);
-           	  else
-           		  table->item(nrow,1)->setFlags(table->item(nrow,1)->flags() | Qt::ItemIsEnabled);
+                if (par->GetFixed())
+                   table->item(nrow,1)->setFlags(table->item(nrow,1)->flags() & ~Qt::ItemIsEnabled);
+                else
+                   table->item(nrow,1)->setFlags(table->item(nrow,1)->flags() | Qt::ItemIsEnabled);
               table->item(nrow,1)->setText(QString::number(par->GetValue()));
               fbFillingWidget = false;
            }
@@ -3586,26 +3612,26 @@ bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* 
   if((item==0) || (menu==0)) return false;
 
   if(item->PopupMenuType() == FitGui::mt_empty) {
-	 AddIdAction(menu, map, "Create empty fitter", 8);
+    AddIdAction(menu, map, "Create empty fitter", 8);
      if (WorkingWithPanel())
-    	AddIdAction(menu, map, "Create appropriate fitter", 9);
+       AddIdAction(menu, map, "Create appropriate fitter", 9);
   }
 
   if(item->PopupMenuType() == FitGui::mt_fitter) {
      AddIdAction(menu, map,"Delete fitter", 1);
-	 AddIdAction(menu, map,"Clear fitter", 2);
-	 AddIdAction(menu, map,"Save fitter", 3);
-	 AddIdAction(menu, map,"Save fitter as ...", 4);
-	 AddIdAction(menu, map,"Print ...", 5);
-	 AddIdAction(menu, map,"Draw", 6);
-	 AddIdAction(menu, map,"Memorize parameters", 706);
-	 AddIdAction(menu, map,"Remember parameters", 707);
+    AddIdAction(menu, map,"Clear fitter", 2);
+    AddIdAction(menu, map,"Save fitter", 3);
+    AddIdAction(menu, map,"Save fitter as ...", 4);
+    AddIdAction(menu, map,"Print ...", 5);
+    AddIdAction(menu, map,"Draw", 6);
+    AddIdAction(menu, map,"Memorize parameters", 706);
+    AddIdAction(menu, map,"Remember parameters", 707);
 
   }
 
   if(item->PopupMenuType() == FitGui::mt_data) {
      if (!WorkingWithPanel())
-    	 AddIdAction(menu, map, QString("Remove ")+item->Object()->GetName(), 101);
+        AddIdAction(menu, map, QString("Remove ")+item->Object()->GetName(), 101);
      AddIdAction(menu, map, "Remove assosiated models", 102);
      AddIdAction(menu, map, "Draw", 105);
      AddIdAction(menu, map, "Print", 5);
@@ -3613,20 +3639,20 @@ bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* 
 
   if(item->PopupMenuType() == FitGui::mt_datalist)
     if (WorkingWithPanel()) {
-    	AddIdAction(menu, map, "Rebuild data list", 108);
+       AddIdAction(menu, map, "Rebuild data list", 108);
     } else {
        AddIdAction(menu, map, "Delete all data", 107);
        FillDataTypesList(menu, map, 110);
     }
 
   if(item->PopupMenuType() == FitGui::mt_model) {
-	 AddIdAction(menu, map, QString("Remove ")+item->Object()->GetName(), 201);
-	 AddIdAction(menu, map, "Clone", 203);
-	 AddIdAction(menu, map, "Print", 5);
+    AddIdAction(menu, map, QString("Remove ")+item->Object()->GetName(), 201);
+    AddIdAction(menu, map, "Clone", 203);
+    AddIdAction(menu, map, "Print", 5);
   }
 
   if(item->PopupMenuType() == FitGui::mt_modellist) {
-	AddIdAction(menu, map, "Delete all models", 202);
+   AddIdAction(menu, map, "Delete all models", 202);
     FillModelTypesList(menu, map, 210, TRUE);
   }
 
@@ -3634,23 +3660,23 @@ bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* 
       TGo4Fitter* fitter = GetFitter();
       TGo4FitModel* model = dynamic_cast<TGo4FitModel*> (item->Object());
       if (fitter && model) {
-    	 AddIdAction(menu, map, "Clear all assignments", 301);
-    	 AddIdAction(menu, map, "Assign to all data", 302);
+        AddIdAction(menu, map, "Clear all assignments", 301);
+        AddIdAction(menu, map, "Assign to all data", 302);
          menu->addSeparator();
         for(Int_t n=0; n<fitter->GetNumData();n++)
           if(!model->IsAssignTo(fitter->GetDataName(n)))
-        	  AddIdAction(menu, map, QString("Assign to: ") + fitter->GetDataName(n), 310+n);
+             AddIdAction(menu, map, QString("Assign to: ") + fitter->GetDataName(n), 310+n);
       }
   }
 
   if(item->PopupMenuType() == FitGui::mt_ass)
-	  AddIdAction(menu, map, QString("Clear assignment to ") + item->text(0), 303);
+     AddIdAction(menu, map, QString("Clear assignment to ") + item->text(0), 303);
 
   if(item->PopupMenuType() == FitGui::mt_range)
-	  AddIdAction(menu, map, "Remove range condition", 401);
+     AddIdAction(menu, map, "Remove range condition", 401);
 
   if(item->PopupMenuType() == FitGui::mt_rangecut)
-	  AddIdAction(menu, map, "Remove range condition", 401);
+     AddIdAction(menu, map, "Remove range condition", 401);
 
   if(item->PopupMenuType() == FitGui::mt_rangelist) {
      TGo4FitComponent* comp = dynamic_cast<TGo4FitComponent*> (item->Object());
@@ -3669,11 +3695,11 @@ bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* 
   }
 
   if(item->PopupMenuType() == FitGui::mt_action) {
-	  AddIdAction(menu, map,"Delete action", 501);
-	  AddIdAction(menu, map,"Move action up", 502);
-	  AddIdAction(menu, map,"Move action down", 503);
-	  AddIdAction(menu, map,"Print", 5);
-	  AddIdAction(menu, map,"Execute", 508);
+     AddIdAction(menu, map,"Delete action", 501);
+     AddIdAction(menu, map,"Move action up", 502);
+     AddIdAction(menu, map,"Move action down", 503);
+     AddIdAction(menu, map,"Print", 5);
+     AddIdAction(menu, map,"Execute", 508);
   }
 
   if(item->PopupMenuType() == FitGui::mt_actlist) {
@@ -3695,34 +3721,34 @@ bool TGo4FitPanel::FillPopupForItem(QFitItem* item, QMenu* menu, QSignalMapper* 
   }
 
   if(item->PopupMenuType() == FitGui::mt_depend)
-	  AddIdAction(menu, map, "Delete item", 601);
+     AddIdAction(menu, map, "Delete item", 601);
 
   if(item->PopupMenuType() == FitGui::mt_deplist) {
-	  AddIdAction(menu, map, "Delete all items", 602);
-	  AddIdAction(menu, map, "Insert new item", 603);
+     AddIdAction(menu, map, "Delete all items", 602);
+     AddIdAction(menu, map, "Insert new item", 603);
   }
 
   if(item->PopupMenuType() == FitGui::mt_newpars) {
-	 AddIdAction(menu, map, "Delete all items", 701);
-	 AddIdAction(menu, map, "Insert new item", 702);
+    AddIdAction(menu, map, "Delete all items", 701);
+    AddIdAction(menu, map, "Insert new item", 702);
   }
 
   if(item->PopupMenuType() == FitGui::mt_parcfg)
-	  AddIdAction(menu, map, "Delete item", 703);
+     AddIdAction(menu, map, "Delete item", 703);
 
   if(item->PopupMenuType() == FitGui::mt_par) {
-	 AddIdAction(menu, map, "Memorize value", 704);
-	 AddIdAction(menu, map, "Restore value", 705);
+    AddIdAction(menu, map, "Memorize value", 704);
+    AddIdAction(menu, map, "Restore value", 705);
   }
 
   if((item->PopupMenuType() == FitGui::mt_parslist)) {
-	 AddIdAction(menu, map, "Memorize parameters", 706);
-	 AddIdAction(menu, map, "Remember parameters", 707);
+    AddIdAction(menu, map, "Memorize parameters", 706);
+    AddIdAction(menu, map, "Remember parameters", 707);
   }
 
   if(item->PopupMenuType() == FitGui::mt_minuitres) {
-	 AddIdAction(menu, map,"Delete result entry", 801);
-	 AddIdAction(menu, map,"Print", 5);
+    AddIdAction(menu, map,"Delete result entry", 801);
+    AddIdAction(menu, map,"Print", 5);
   }
 
   if(item->PopupMenuType() == FitGui::mt_slot) {
@@ -3744,10 +3770,10 @@ bool TGo4FitPanel::FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu, QSignalMappe
    if ((slot==0) || (menu==0)) return false;
 
    if(!slot->GetOwned() && slot->IsObject())
-	  AddIdAction(menu, map, "Clone object in slot", 1000);
+     AddIdAction(menu, map, "Clone object in slot", 1000);
 
    if(slot->IsObject())
-	  AddIdAction(menu, map, "Clear object in slot", 1001);
+     AddIdAction(menu, map, "Clear object in slot", 1001);
 
    if (FindPadForSlot(slot)!=0)
       AddIdAction(menu, map, QString("Update from ") + Wiz_GetSlotSourceInfo(slot), 1002);
@@ -3755,13 +3781,13 @@ bool TGo4FitPanel::FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu, QSignalMappe
    if (!menu->isEmpty()) menu->addSeparator();
 
    if (slot->GetConnectedSlot())
-	   AddIdAction(menu, map, "Brake connection to slot", 1004);
+      AddIdAction(menu, map, "Brake connection to slot", 1004);
    TGo4Fitter* fitter = GetFitter();
    if (fitter)
      for(Int_t n=0;n<fitter->NumSlots();n++) {
         TGo4FitSlot* sl = fitter->GetSlot(n);
         if (slot->CanConnectToSlot(sl) && (slot->GetConnectedSlot()!=sl))
-      	   AddIdAction(menu, map, QString("Connect to ") + sl->GetFullName(), 1400 + n);
+            AddIdAction(menu, map, QString("Connect to ") + sl->GetFullName(), 1400 + n);
      }
 
    if (!menu->isEmpty()) menu->addSeparator();
@@ -3769,8 +3795,8 @@ bool TGo4FitPanel::FillPopupForSlot(TGo4FitSlot* slot, QMenu* menu, QSignalMappe
    if (slot->GetClass() == TGo4FitData::Class()) FillDataTypesList(menu, map, 1100); else
    if (slot->GetClass() == TGo4FitModel::Class()) FillModelTypesList(menu, map, 1200, FALSE); else
    if (slot->GetClass() == TGo4FitAxisTrans::Class()) {
-	  AddIdAction(menu, map, TGo4FitLinearTrans::Class()->GetName(), 1300);
-	  AddIdAction(menu, map, TGo4FitMatrixTrans::Class()->GetName(), 1301);
+     AddIdAction(menu, map, TGo4FitLinearTrans::Class()->GetName(), 1300);
+     AddIdAction(menu, map, TGo4FitMatrixTrans::Class()->GetName(), 1301);
    }
 
    return ! menu->isEmpty();
@@ -4122,8 +4148,8 @@ void TGo4FitPanel::UpdateItemsOfType(int typ, QFitItem* parent)
    if (parent==0) parent = GetFitterItem();
 
    if (parent==0) {
-   	cout << "Did not found " << endl;
-   	return;
+      cout << "Did not found " << endl;
+      return;
    }
 
    QTreeWidgetItemIterator iter(parent);
@@ -4220,7 +4246,7 @@ bool TGo4FitPanel::ShowItemAsText(QFitItem* item, bool force)
    }
 
    if (widget!=0) {
-   	fxCurrentItemWidget = widget;
+      fxCurrentItemWidget = widget;
       widget->SetItem(this, widgetitem);
       ListStack->addWidget(widget);
       ListStack->setCurrentWidget(widget);
@@ -4289,7 +4315,7 @@ bool TGo4FitPanel::ShowItemAsGraph(QFitItem* item, bool force)
       if (pad!=0) {
         for(int nrange=0;nrange<comp->GetNumRangeCondition();nrange++) {
            QFitItem* child = dynamic_cast<QFitItem*> (gritem->child(nrange));
-      	  if (child==0) return false;
+           if (child==0) return false;
            PaintRange(comp, nrange, pad, child);
         }
         return true;
@@ -4348,12 +4374,12 @@ void TGo4FitPanel::FillModelTypesList(QMenu* menu, QSignalMapper* map, int id, b
 {
   if (! menu->isEmpty()) menu->addSeparator();
   if (extend) {
-	 AddIdAction(menu, map,"Add gaussian", id+20);
-	 AddIdAction(menu, map,"Add lorenzian", id+24);
-	 AddIdAction(menu, map,"Add exponent", id+25);
-	 AddIdAction(menu, map,"Add 1-order polynom", id+21);
-	 AddIdAction(menu, map,"Add 3-order polynom", id+22);
-	 AddIdAction(menu, map,"Add 7-order polynom", id+23);
+    AddIdAction(menu, map,"Add gaussian", id+20);
+    AddIdAction(menu, map,"Add lorenzian", id+24);
+    AddIdAction(menu, map,"Add exponent", id+25);
+    AddIdAction(menu, map,"Add 1-order polynom", id+21);
+    AddIdAction(menu, map,"Add 3-order polynom", id+22);
+    AddIdAction(menu, map,"Add 7-order polynom", id+23);
      menu->addSeparator();
   }
 

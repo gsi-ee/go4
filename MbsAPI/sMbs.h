@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #ifndef MbsStruct
 #define MbsStruct
 
@@ -29,7 +42,7 @@
 
 #include "s_stdint.h"
 
-typedef  uint64_t lmdoff_t; 
+typedef  uint64_t lmdoff_t;
 
 // must #include <stdint.h>
 // on Lynx, define int32_t, uint32_t, int16_t
@@ -39,10 +52,10 @@ typedef  uint64_t lmdoff_t;
 //--------------------------------------------------
 // Structure maps the MBS transport info buffer
 typedef struct{
-  uint32_t iEndian;      // byte order. Set to 1 by sender 
-  uint32_t iMaxBytes;    // maximum buffer size                   
+  uint32_t iEndian;      // byte order. Set to 1 by sender
+  uint32_t iMaxBytes;    // maximum buffer size
   uint32_t iBuffers;     // buffers per stream
-  uint32_t iStreams;     // number of streams                   
+  uint32_t iStreams;     // number of streams
 } sMbsTransportInfo;
 
 //--------------------------------------------------
@@ -82,8 +95,8 @@ typedef struct{
 
 //--------------------------------------------------
 typedef struct{
-  uint32_t iMaxWords; 
-  uint32_t iType; 
+  uint32_t iMaxWords;
+  uint32_t iType;
   uint32_t iTimeSpecSec;
   uint32_t iTimeSpecNanoSec;
 } sMbsTimeStamp;
@@ -109,6 +122,6 @@ typedef struct{
 typedef struct{
   uint32_t iWords;       // data words + 2
   uint32_t iType;        // compatible with s_ves10_1, low=type (=10), high=subtype
-  uint32_t iSubeventID;  // 2 low bytes=procid, next byte=subcrate, high byte control 
+  uint32_t iSubeventID;  // 2 low bytes=procid, next byte=subcrate, high byte control
 } sMbsSubeventHeader;
 #endif

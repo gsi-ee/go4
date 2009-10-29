@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "TGo4Browser.h"
 
 #include <QFileDialog>
@@ -33,22 +46,22 @@ const int ColumnAllign[NColumns] = { Qt::AlignLeft, Qt::AlignLeft, Qt::AlignLeft
 
 QTreeWidgetItem* nextSibling(QTreeWidgetItem* item)
 {
-	if (item==0) return 0;
+   if (item==0) return 0;
 
    QTreeWidgetItem* prnt = item->parent();
    if (prnt==0) prnt = item->treeWidget()->invisibleRootItem();
-	if (prnt==0) return 0;
+   if (prnt==0) return 0;
 
-	int indx = prnt->indexOfChild(item) + 1;
-	if (indx >= prnt->childCount()) return 0;
-	return prnt->child(indx);
+   int indx = prnt->indexOfChild(item) + 1;
+   if (indx >= prnt->childCount()) return 0;
+   return prnt->child(indx);
 }
 
 
 TGo4Browser::TGo4Browser(QWidget *parent, const char* name)
          : QGo4Widget(parent,name)
 {
-	setupUi(this);
+   setupUi(this);
 
    setAcceptDrops(false);
    setCanDestroyWidget(FALSE);
@@ -70,12 +83,12 @@ TGo4Browser::TGo4Browser(QWidget *parent, const char* name)
       width = go4sett->getBrowserColumn(ColumnNames[indx], width);
       fVisibleColumns[indx] = width>0;
 
-   	ListView->headerItem()->setText(indx, ColumnNames[indx]);
+      ListView->headerItem()->setText(indx, ColumnNames[indx]);
 
-   	ListView->header()->setSectionHidden(indx, ! fVisibleColumns[indx]);
-   	ListView->headerItem()->setTextAlignment(indx, ColumnAllign[indx]);
+      ListView->header()->setSectionHidden(indx, ! fVisibleColumns[indx]);
+      ListView->headerItem()->setTextAlignment(indx, ColumnAllign[indx]);
 
-   	ListView->header()->resizeSection(indx, width>0 ? width : ColumnWidths[indx]);
+      ListView->header()->resizeSection(indx, width>0 ? width : ColumnWidths[indx]);
    }
 
    // not in .ui file while designer brakes this connection
@@ -128,17 +141,17 @@ void TGo4Browser::linkedObjectUpdated(const char* linkname, TObject* obj)
 
 void TGo4Browser::RequestDragObjectSlot(QDrag** res)
 {
-	*res = 0;
+   *res = 0;
 
    if (ListView->currentItem()==0) return;
 
    QString fullname = FullItemName(ListView->currentItem());
 
-	*res = new QDrag(this);
-	QMimeData *mimeData = new QMimeData;
-	mimeData->setText(fullname);
+   *res = new QDrag(this);
+   QMimeData *mimeData = new QMimeData;
+   mimeData->setText(fullname);
 
-	(*res)->setMimeData(mimeData);
+   (*res)->setMimeData(mimeData);
 }
 
 void TGo4Browser::ItemDropAcceptSlot(void* item, void* d, bool* res)
@@ -232,7 +245,7 @@ void TGo4Browser::SetViewItemProperties(TGo4Slot* itemslot, QTreeWidgetItem* ite
    if (TGo4BrowserProxy::CanDragItem(cando))
       item->setFlags(item->flags() | Qt::ItemIsDragEnabled);
    else
-   	item->setFlags(item->flags() & ~Qt::ItemIsDragEnabled);
+      item->setFlags(item->flags() & ~Qt::ItemIsDragEnabled);
 
    item->setFlags(item->flags() & ~Qt::ItemIsDropEnabled);
    if (kind==TGo4Access::kndFolder) {
@@ -303,7 +316,7 @@ void TGo4Browser::updateListViewItems()
    // first update list of visible columns
 
    for(int indx=0;indx<NColumns;indx++)
-   	ListView->header()->setSectionHidden(indx, !fVisibleColumns[indx]);
+      ListView->header()->setSectionHidden(indx, !fVisibleColumns[indx]);
 
    TGo4BrowserProxy* br = BrowserProxy();
    if (br==0) return;
@@ -420,7 +433,7 @@ void TGo4Browser::updateListViewItems()
 
 void TGo4Browser::checkVisisbilityFlags(bool showall)
 {
-	QTreeWidgetItemIterator it(ListView);
+   QTreeWidgetItemIterator it(ListView);
    for ( ; *it; ++it ) {
       QTreeWidgetItem* item = *it;
       if (showall || (item->parent()==0))
@@ -438,7 +451,7 @@ void TGo4Browser::DisplaySelectedItems()
    int npads = 0;
 
    {
-   	QTreeWidgetItemIterator it(ListView);
+      QTreeWidgetItemIterator it(ListView);
       for ( ; *it; ++it )
        if ((*it)->isSelected() &&
            canDrawItem(*it)) npads++;
@@ -450,7 +463,7 @@ void TGo4Browser::DisplaySelectedItems()
    TPad* subpad = 0;
 
    int cnt = 0;
-	QTreeWidgetItemIterator it(ListView);
+   QTreeWidgetItemIterator it(ListView);
    for ( ; *it; ++it )
      if ( (*it)->isSelected() && canDrawItem(*it)) {
         QString itemname = FullItemName(*it);
@@ -468,7 +481,7 @@ void TGo4Browser::SuperImposeSelectedItems()
 {
    TGo4ViewPanel* newpanel = 0;
 
-	QTreeWidgetItemIterator it(ListView);
+   QTreeWidgetItemIterator it(ListView);
    for ( ; *it; ++it )
      if ( (*it)->isSelected() && canDrawItem(*it)) {
         if (newpanel==0) {
@@ -512,8 +525,8 @@ void TGo4Browser::Header_customContextMenuRequested(const QPoint & pos)
    QSignalMapper map;
 
    for(int indx=1;indx<NColumns;indx++)
-   	 AddIdAction(&menu, &map,
-    			     ColumnNames[indx], indx, true, fVisibleColumns[indx]);
+       AddIdAction(&menu, &map,
+                  ColumnNames[indx], indx, true, fVisibleColumns[indx]);
    connect(&map, SIGNAL(mapped(int)), this, SLOT(ColumnToggled(int)));
 
    menu.exec(ListView->header()->mapToGlobal(pos));
@@ -522,17 +535,17 @@ void TGo4Browser::Header_customContextMenuRequested(const QPoint & pos)
 
 void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 {
-	QTreeWidgetItem* item = ListView->itemAt(pos);
+   QTreeWidgetItem* item = ListView->itemAt(pos);
 
-	int col = ListView->header()->logicalIndexAt(pos);
+   int col = ListView->header()->logicalIndexAt(pos);
 
    QMenu menu;
    QSignalMapper map;
 
-	if (col!=0) {
+   if (col!=0) {
       for(int indx=1;indx<NColumns;indx++)
-    	 AddIdAction(&menu, &map,
-    			     ColumnNames[indx], indx, true, fVisibleColumns[indx]);
+        AddIdAction(&menu, &map,
+                  ColumnNames[indx], indx, true, fVisibleColumns[indx]);
       connect(&map, SIGNAL(mapped(int)), this, SLOT(ColumnToggled(int)));
 
       menu.exec(ListView->viewport()->mapToGlobal(pos));
@@ -566,7 +579,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
    int ndelete = 0;
    int nassigned = 0;
 
-	QTreeWidgetItemIterator it(ListView);
+   QTreeWidgetItemIterator it(ListView);
    for ( ; *it; ++it )
       if ((*it)->isSelected()) {
          QString fullname = FullItemName(*it);
@@ -804,7 +817,7 @@ void TGo4Browser::ContextMenuActivated(int id)
    if (id==19)
      QApplication::setOverrideCursor(Qt::WaitCursor);
 
-	QTreeWidgetItemIterator it(ListView);
+   QTreeWidgetItemIterator it(ListView);
    for ( ; *it; ++it )
       if ((*it)->isSelected()) {
          QString itemname = FullItemName(*it);
@@ -1023,14 +1036,14 @@ void TGo4Browser::ExportSelectedItems(const char* filtername)
 void TGo4Browser::ExportSelectedItems(const char* filename, const char* filedir, const char* format, const char* description)
 {
    TObjArray items;
-  	QTreeWidgetItemIterator it(ListView);
-  	for ( ; *it; ++it )
-  		if ((*it)->isSelected()) {
-  			QString fullname = FullItemName(*it);
-  			items.Add(new TObjString(fullname.toAscii()));
-  		}
+     QTreeWidgetItemIterator it(ListView);
+     for ( ; *it; ++it )
+        if ((*it)->isSelected()) {
+           QString fullname = FullItemName(*it);
+           items.Add(new TObjString(fullname.toAscii()));
+        }
 
-  	BrowserProxy()->ExportItemsTo(&items, go4sett->getFetchDataWhenSave(), filename, filedir, format, description);
+     BrowserProxy()->ExportItemsTo(&items, go4sett->getFetchDataWhenSave(), filename, filedir, format, description);
 
-  	items.Delete();
+     items.Delete();
 }

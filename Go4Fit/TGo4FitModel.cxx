@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "TGo4FitModel.h"
 
 #include "Riostream.h"
@@ -276,7 +289,7 @@ Double_t TGo4FitModel::EvaluateAndIntegrate(Int_t NumScales, const Double_t* Sca
 
          // check stop condition for integrations depth
          stopcondition = kFALSE;
-         if (IntegrDepth>=fiMinIntegrDepth) { 
+         if (IntegrDepth>=fiMinIntegrDepth) {
               if (IntegrDepth>=fiMaxIntegrDepth) stopcondition = kTRUE; else {
                  Double_t v1 = TotalSum/TotalNumPnt;
                  Double_t v2 = Sum/NumPnt;

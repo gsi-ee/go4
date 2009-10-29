@@ -1,3 +1,16 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "TGo4FitterAbstract.h"
 
 #include "Riostream.h"
@@ -135,7 +148,7 @@ Bool_t TGo4FitterAbstract::InitializeDependencies(TObjArray& Dependencies, Bool_
 
 void TGo4FitterAbstract::RunDependenciesList(TObjArray& Dependencies, Double_t* pars)
 {
-   for(Int_t i=0;i<=Dependencies.GetLast();i++) 
+   for(Int_t i=0;i<=Dependencies.GetLast();i++)
      ((TGo4FitDependency*) Dependencies[i]) -> ExecuteDependency(pars);
 }
 

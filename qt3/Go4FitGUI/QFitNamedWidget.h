@@ -1,8 +1,21 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 /****************************************************************************
 ** Form interface generated from reading ui file '/misc/linev/go4.3/Go4FitGUI/QFitNamedWidget.ui'
 **
 ** Created: Fri Apr 22 13:10:38 2005
-**      by: The User Interface Compiler ($Id: QFitNamedWidget.h,v 1.3 2007/07/03 07:06:32 linev Exp $)
+**      by: The User Interface Compiler ($Id$)
 **
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/

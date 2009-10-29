@@ -1,3 +1,29 @@
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
+// $Id$
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #ifndef TGO4MBSVIEWER_H
 #define TGO4MBSVIEWER_H
 
@@ -33,58 +59,58 @@ class TGo4MBSViewer : public QGo4Widget, public Ui::TGo4MBSViewer
 
  public:
      TGo4MBSViewer(QWidget *parent = 0 , const char* name=0);
-	 virtual ~TGo4MBSViewer();
+    virtual ~TGo4MBSViewer();
 
- 	TH1* TrendHisto( QString & refname ,const QString & name, const QString & title, int value);
+    TH1* TrendHisto( QString & refname ,const QString & name, const QString & title, int value);
 
 
 
  public slots:
 
 
-	virtual void StoreSettings();
+   virtual void StoreSettings();
 
-	virtual void TimerStart();
+   virtual void TimerStart();
 
-	virtual void TimerStop();
+   virtual void TimerStop();
 
-	virtual void Display();
+   virtual void Display();
 
-	virtual void Refresh();
+   virtual void Refresh();
 
-	virtual void NodeEditEnter();
+   virtual void NodeEditEnter();
 
-	virtual void NodeChanged( const QString & txt );
+   virtual void NodeChanged( const QString & txt );
 
-	virtual void ShowStatus();
+   virtual void ShowStatus();
 
-	virtual void StateGroup_clicked( int id);
+   virtual void StateGroup_clicked( int id);
 
-	virtual void PrintStatus();
+   virtual void PrintStatus();
 
-	virtual void TrendSwitched( bool on );
+   virtual void TrendSwitched( bool on );
 
-	virtual void UpdateTrending();
+   virtual void UpdateTrending();
 
-	virtual void IncTrending( TH1 * histo, int value, bool forwards );
+   virtual void IncTrending( TH1 * histo, int value, bool forwards );
 
-	virtual void FrequencyBox_valueChanged( int );
+   virtual void FrequencyBox_valueChanged( int );
 
-	virtual void MoreBox_toggled( bool on);
+   virtual void MoreBox_toggled( bool on);
 
-	virtual void TrendBinsBox_valueChanged( int i);
+   virtual void TrendBinsBox_valueChanged( int i);
 
-	virtual void RefreshButtonClick();
+   virtual void RefreshButtonClick();
 
-	virtual void SetNode( const QString & txt );
+   virtual void SetNode( const QString & txt );
 
-	virtual void ResetRunIcon();
+   virtual void ResetRunIcon();
 
-	virtual void StartMovieReset();
+   virtual void StartMovieReset();
 
 protected:
 
-	bool fbSingleRefresh;
+   bool fbSingleRefresh;
     int fiLastDataNum;
     int fiLastEventNum;
     int fiCalcedEventRate;
