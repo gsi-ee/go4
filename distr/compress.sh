@@ -10,9 +10,10 @@ SIZE=`ls -s dummy.txt | sed 's/ //g'`
 #echo "aa$SIZE aa"
 rm -f dummy.txt
 if [ "$SIZE" != "0dummy.txt" ]; then
-  #echo "File changed"
-  mv -f dummy2.txt $1
+  echo "File changed"
+  #mv -f dummy2.txt $1
+  rm -f dummy2.txt
 else
-  #echo "File did not changed"
+  echo "File did not changed"
   rm -f dummy2.txt
 fi
