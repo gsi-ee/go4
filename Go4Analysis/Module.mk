@@ -23,7 +23,7 @@ VERSION_O           = $(GO4ANAL_DIR)/$(VERSION_FILENAME).$(ObjSuf)
 GO4ANALEXE_S        = $(GO4ANAL_DIR)/MainUserAnalysis.$(SrcSuf)
 GO4ANALEXE_O        = $(GO4ANAL_DIR)/MainUserAnalysis.$(ObjSuf)
 
-GO4ANALEXE          = bin/go4analysis
+GO4ANALEXE          = bin/go4analysis$(ExeSuf)
 
 GO4ANAL_H          := $(filter-out $(GO4ANAL_NOTLIBF) $(VERSION_H) $(GO4ANAL_DH) $(GO4ANAL_LINKDEF) $(GO4ANAL_OTHERF), $(wildcard $(GO4ANAL_DIR)/*.$(HedSuf)))
 GO4ANAL_S          := $(filter-out $(GO4ANAL_NOTLIBF) $(GO4ANALEXE_S) $(VERSION_S) $(GO4ANAL_DS), $(wildcard $(GO4ANAL_DIR)/*.$(SrcSuf)))
