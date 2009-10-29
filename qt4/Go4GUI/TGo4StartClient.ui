@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Start Client</string>
+   <string>Launch analysis</string>
   </property>
   <property name="windowIcon" >
    <iconset>:/icons/go4logo2_big.png</iconset>

@@ -14,7 +14,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Start Client</string>
+        <string>Launch analysis</string>
     </property>
     <property name="icon">
         <pixmap>go4logo2_big.png</pixmap>
