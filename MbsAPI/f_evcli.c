@@ -593,9 +593,9 @@ struct s_clnt_filter *p_clnt_filter;
 
       if (p_opc1->h_flt_len == 0)
       {
-    i_fltcnt = i;
-    p_opc1->h_next_fltblk    = 0;    /* no next descriptor              */
-    p_flt_descr->h_nextdescr = 0;    /* no next descriptor              */
+         i_fltcnt = i;
+         p_opc1->h_next_fltblk    = 0;    /* no next descriptor              */
+         p_flt_descr->h_nextdescr = 0;    /* no next descriptor              */
          break;              /* no more filter                  */
       } /* if (p_opc1->h_next_fltblk == 0) */
 
@@ -611,7 +611,7 @@ struct s_clnt_filter *p_clnt_filter;
     i_fltblkcnt++;
     i_flt_len     = p_opc1->h_flt_len;
     i_next_fltblk = i + i_flt_len;
-         i_fltblkbeg   = i;
+    i_fltblkbeg   = i;
     i_fltblkend   = i_next_fltblk - 1;
 
     if (p_opc1->b1_selwrt == 1)
@@ -637,7 +637,7 @@ struct s_clnt_filter *p_clnt_filter;
        /* save write block values */
        p_clnt_filter->if_wrtevt = (p_opc1->b1_evtsev == 1) ? 1 : 0;
        p_clnt_filter->if_wrtsev = (p_opc1->b1_evtsev != 1) ? 1 : 0;
-         } /* if (p_opc1->b1_selwrt == 1) */
+    } /* if (p_opc1->b1_selwrt == 1) */
 
     if (p_opc1->b1_selflt == 1)
          {                            /* filter block              */

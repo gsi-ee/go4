@@ -85,9 +85,11 @@ void usage(const char* err = 0)
    cout << "  -random              :  use random generator as source" << endl;
    cout << "  -user name           :  create user-defined event source" << endl;
    cout << "  -source filename     :  read step input from the root file" << endl;
+   cout << "  -mbs-select first last step : select events interval from mbs source" << endl;
+   cout << "  -timeout tm          :  specify timeout parameter for event source" << endl;
    cout << "  -enable-source       :  enable step source" << endl;
    cout << "  -disable-source      :  disable step source" << endl;
-   cout << "  -store filename      :  write step output into the root file" << endl;
+   cout << "  -store filename [split buffersize compression] :  write step output into the root file" << endl;
    cout << "  -overwrite-store     :  overwrite file, when store output" << endl;
    cout << "  -append-store        :  append to file, when store output" << endl;
    cout << "  -backstore name      :  create backstore for online tree draw" << endl;
@@ -557,13 +559,53 @@ int main(int argc, char **argv)
          } else
             showerror("Remote event server name or port are not specified");
       } else
+      if(strcmp(argv[narg],"-mbs-select")==0) {
+         narg++;
+         TGo4MbsSourceParameter* param = dynamic_cast<TGo4MbsSourceParameter*> (step->GetEventSource());
+         if (param==0) showerror("only in MBS source parameters can be selected");
+         unsigned cnt=0;
+         while ((cnt<3) && (narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) {
+            unsigned value(0);
+            if ((cnt==1) && (strcmp(argv[narg],"all")==0)) value = 0; else
+            if (sscanf(argv[narg],"%u",&value)!=1)
+               showerror(Form("Value error %s", argv[narg]));
+            if (cnt==0) param->SetStartEvent(value); else
+            if (cnt==1) param->SetStopEvent(value); else
+            if (cnt==2) param->SetEventInterval(value);
+            narg++; cnt++;
+         }
+      } else
       if(strcmp(argv[narg],"-store")==0) {
-         if (++narg < argc) {
-            TGo4FileStoreParameter storepar(argv[narg++]);
-            step->SetEventStore(&storepar);
-            step->SetStoreEnabled(kTRUE);
-         } else
-            showerror("File name for store not specified");
+         if (++narg >= argc) showerror("Store name not specified");
+
+         const char* sourcename = argv[narg++];
+         int splitlevel = 1;
+         int buffersize = 64000;
+         int compression = 5;
+
+         unsigned cnt=0;
+         while ((cnt<3) && (narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) {
+            int value(0);
+            if (sscanf(argv[narg],"%d",&value)!=1)
+               showerror(Form("Value error %s", argv[narg]));
+            if (cnt==0) splitlevel = value; else
+            if (cnt==1) buffersize = value; else
+            if (cnt==2) compression = value;
+            narg++; cnt++;
+         }
+
+         TGo4FileStoreParameter storepar(sourcename, splitlevel, buffersize, compression);
+         step->SetEventStore(&storepar);
+         step->SetStoreEnabled(kTRUE);
+      } else
+      if(strcmp(argv[narg],"-timeout")==0) {
+         if (++narg >= argc) showerror("Timeout value not specified");
+         if (step->GetEventSource()==0) showerror("No source parameter configured");
+         int value(0);
+         if (sscanf(argv[narg],"%d",&value)!=1)
+           showerror(Form("Timeout value error %s", argv[narg]));
+         narg++;
+         step->GetEventSource()->SetTimeout(value);
       } else
       if(strcmp(argv[narg],"-overwrite-store")==0) {
          narg++;

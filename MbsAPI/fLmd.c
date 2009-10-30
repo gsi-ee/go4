@@ -241,12 +241,11 @@ uint32_t Items){
     elements=pLmdControl->iElements+Items+2;
     used=pLmdControl->iBytes/4;
     fileleft=0xffffffff - used - (4+elements); // size of table
-    for(i=0;i<Items;i++)
-      {
-   Bytes = (4+pH->iWords)*2;
-   TotalBytes += Bytes;
-   pH=(sMbsHeader *)((int16_t *)pH+Bytes/2);
-      }
+    for(i=0;i<Items;i++) {
+       Bytes = (4+pH->iWords)*2;
+       TotalBytes += Bytes;
+       pH=(sMbsHeader *)((int16_t*)pH + Bytes/2);
+    }
     if((int64_t)TotalBytes/4 > fileleft){
       printf("fLmdPutElement: File size exceed\n");
       return(PUTLMD__EXCEED);
@@ -984,6 +983,7 @@ lmdoff_t fLmdOffsetGet(sLmdControl *pLmdControl, uint32_t index){
     return(*(pLmdControl->pOffset8+index));
   if(pLmdControl->pOffset4)
     return((lmdoff_t)*(pLmdControl->pOffset4+index));
+  return 0;
 }
 //===============================================================
 void fLmdOffsetResize(sLmdControl *pLmdControl, uint32_t firstValue){
