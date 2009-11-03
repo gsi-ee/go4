@@ -88,14 +88,14 @@ Int_t TXXXParameter::PrintParameter(Text_t * n, Int_t)
    cout << "  fuShort="<<fuShort<<endl;
    cout << "  fuChar="<<fuChar<<endl;
    cout << "  fuLong="<<fuLong<<endl;
-   for(Int_t ix=0;ix<__ARRAYSIZE__;++ix)
-      cout << "  fiDataArray["<<ix<<"]="<<fiDataArray[ix]<<endl;
-   for(Int_t u=0;u<__MEVX__;++u)
-      for(Int_t v=0;v<__MEVY__;++v)
-         cout << "  fdMeV["<<u<<"]["<<v<<"]="<<fdMeV[u][v]<<endl;
-   for(Int_t x=0;x<__MEVX__;++x)
-      cout << "  fdTestarr["<<x<<"]="<<fdTestarr[x]<<endl;
-   cout <<"  fxInputfile="<<fxInputfile.Data()  << endl;
+//   for(Int_t ix=0;ix<__ARRAYSIZE__;++ix)
+//      cout << "  fiDataArray["<<ix<<"]="<<fiDataArray[ix]<<endl;
+//   for(Int_t u=0;u<__MEVX__;++u)
+//      for(Int_t v=0;v<__MEVY__;++v)
+//         cout << "  fdMeV["<<u<<"]["<<v<<"]="<<fdMeV[u][v]<<endl;
+//   for(Int_t x=0;x<__MEVX__;++x)
+//      cout << "  fdTestarr["<<x<<"]="<<fdTestarr[x]<<endl;
+//   cout <<"  fxInputfile="<<fxInputfile.Data()  << endl;
    return 0;
 }
 //-----------------------------------------------------------

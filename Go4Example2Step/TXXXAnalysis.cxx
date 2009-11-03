@@ -152,6 +152,8 @@ TXXXAnalysis::~TXXXAnalysis()
 Int_t TXXXAnalysis::UserPreLoop()
 {
   cout << "**** TXXXAnalysis: PreLoop" << endl;
+  Print(); // printout the step settings
+  cout << "**************************************" << endl;
    // we update the pointers to the current event structures here:
    fMbsEvent = dynamic_cast<TGo4MbsEvent*>    (GetInputEvent("Unpack"));   // of step "Unpack"
    fRawEvent = dynamic_cast<TXXXUnpackEvent*> (GetOutputEvent("Unpack"));
