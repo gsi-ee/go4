@@ -66,9 +66,11 @@ void usage(const char* err = 0)
    cout << "" << endl;
    cout << "ANALYSIS: common analysis configurations" << endl;
    cout << "  -name name             :  specify analysis instance name" << endl;
-   cout << "  -asf [filename]        :  enable store autosave file and set autosave filename (if specified,  default <Name>ASF.root)" << endl;
+   cout << "  -asf [filename]        :  enable store autosave file and set autosave filename (default <Name>ASF.root)" << endl;
    cout << "  -enable-asf [interval] :  enable store of autosave file, optionally interval in seconds" << endl;
    cout << "  -disable-asf           :  disable usage of asf" << endl;
+   cout << "  -prefs [filename]      :  load preferences (analysis configuration) from specified file (default Go4AnalysisPrefs.root)" << endl;
+   cout << "  -no-prefs              :  disable preferences loading" << endl;
    cout << "  -args [userargs]       :  create user analysis with constructor (int argc, char** argv) signature" << endl;
    cout << "                            all following arguments will be provided as array of strings, first argument - analysis name" << endl;
    cout << "" << endl;
@@ -437,6 +439,7 @@ int main(int argc, char **argv)
    Bool_t batchMode(kTRUE);  // GUI or Batch
    Bool_t servermode(kFALSE);            // run analysis as server task
    Bool_t hserver(kFALSE);               // enable histogram server
+   Bool_t loadprefs(kTRUE);              // loading preferences by client
    const char* hname  = "";              // namebase for histogram server
    const char* hpasswd  = "";            // password for histogram server
    const char* hostname = "localhost";   // gui host name
@@ -649,6 +652,18 @@ int main(int argc, char **argv)
          narg++;
          analysis->SetAutoSave(kFALSE);
       } else
+      if (strcmp(argv[narg],"-prefs")==0) {
+         narg++;
+         const char* fname = 0;
+         if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
+            fname = argv[narg++];
+         analysis->LoadStatus(fname);
+         loadprefs = kFALSE;
+      } else
+      if (strcmp(argv[narg],"-no-prefs")==0) {
+         narg++;
+         loadprefs = kFALSE;
+      } else
       if(strcmp(argv[narg],"-log")==0) {
          narg++;
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) narg++;
@@ -717,7 +732,7 @@ int main(int argc, char **argv)
 
       if (canrun<0) autorun = false;
 
-      TGo4AnalysisClient* client = new TGo4AnalysisClient("UserClient", analysis, hostname, iport, hserver, hname, hpasswd, servermode, autorun);
+      TGo4AnalysisClient* client = new TGo4AnalysisClient("UserClient", analysis, hostname, iport, hserver, hname, hpasswd, servermode, autorun, kFALSE, loadprefs);
 
       cout << "**** Main: created AnalysisClient Instance: " << client->GetName() << endl;
       cout << "**** Main: Run application loop" << endl;

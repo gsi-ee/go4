@@ -19,6 +19,7 @@
 
 #include "TH1.h"
 #include "TFile.h"
+#include "TSystem.h"
 
 #include "s_filhe_swap.h"
 #include "s_bufhe_swap.h"
@@ -132,8 +133,12 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    AddParameter(fPar);
 
    // execute setup macro, if user arguments (-args value) was provided to go4analysis
+   // check that file setup.C is existsing in current directory
    if (argc>1)
-      gROOT->ProcessLine(Form(".x setup.C(\"%s\")", argv[1]));
+      if (!gSystem->AccessPathName("setup.C"))
+         gROOT->ProcessLine(Form(".x setup.C(\"%s\")", argv[1]));
+      else
+         cout << "**** Cannot find setup.C script in current directory ! ****" << endl;
 }
 
 //***********************************************************

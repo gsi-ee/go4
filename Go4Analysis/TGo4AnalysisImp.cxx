@@ -670,8 +670,7 @@ Bool_t TGo4Analysis::LoadStatus(const char* filename)
       }   // if(state)
       delete statusfile;
    } else {
-      Message(3,"Analysis LoadStatus: Failed to open file %s",
-            buffer);
+      Message(3,"Analysis LoadStatus: Failed to open file %s", buffer);
       rev=kFALSE;
       delete statusfile;
    }  //  if(statusfile && statusfile->IsOpen())

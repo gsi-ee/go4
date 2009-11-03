@@ -58,13 +58,15 @@ TGo4AnalysisClient::TGo4AnalysisClient(const char* name,
                                        const char* passwd,
                                        Bool_t servermode,
                                        Bool_t autorun,
-                                       Bool_t cintmode) :
+                                       Bool_t cintmode,
+                                       Bool_t loadprefs) :
    TGo4Slave(name, servermode, host, negport),
    fdBufferUpdateTime(0),
    fxHistoServer(0),
    fbAutoStart(autorun),
    fbCintMode(kFALSE),
-   fxCintLockTimer(0)
+   fxCintLockTimer(0),
+   fbLoadPrefs(loadprefs)
 {
    TRACE((15,"TGo4AnalysisClient::TGo4AnalysisClient(const char*,...)",__LINE__, __FILE__));
 
@@ -93,7 +95,8 @@ TGo4AnalysisClient::TGo4AnalysisClient(int argc, char** argv,
    fxHistoServer(0),
    fbAutoStart(autorun),
    fbCintMode(kFALSE),
-   fxCintLockTimer(0)
+   fxCintLockTimer(0),
+   fbLoadPrefs(kTRUE)
 {
    TRACE((15,"TGo4AnalysisClient::TGo4AnalysisClient(int, char**...)",__LINE__, __FILE__));
 
@@ -179,68 +182,56 @@ TGo4AnalysisClient::~TGo4AnalysisClient()
 
 Int_t TGo4AnalysisClient::Initialization()
 {
-TGo4LockGuard mainguard; // threads are already up, protect next actions!
-SendStatusMessage(1,kTRUE,"AnalysisClient %s starting initialization...",GetName());
+   TGo4LockGuard mainguard; // threads are already up, protect next actions!
+   SendStatusMessage(1,kTRUE,"AnalysisClient %s starting initialization...",GetName());
 
-if(!fbAutoStart) // normal mode: load last prefs and wait for submit
-   {
+   if(!fbAutoStart) { // normal mode: load last prefs and wait for submit
 
-   // startup of analysis: get last saved status
-   if(fxAnalysis->LoadStatus()) // will load, close analysis and set the new status
-      {
-         // we have a status from file, i.e. go4 analysis: wait with init until gui command
-         SendStatusMessage(1,kTRUE,"AnalysisClient %s: Status loaded from %s",
-               GetName(), TGo4Analysis::fgcDEFAULTSTATUSFILENAME);
+      // startup of analysis: get last saved status
+
+      if (fbLoadPrefs) {
+         if(fxAnalysis->LoadStatus()) { // will load, close analysis and set the new status
+            // we have a status from file, i.e. go4 analysis: wait with init until gui command
+            SendStatusMessage(1,kTRUE,"AnalysisClient %s: Status loaded from %s",
+                  GetName(), TGo4Analysis::fgcDEFAULTSTATUSFILENAME);
+         } else {
+            SendStatusMessage(2,kTRUE,"AnalysisClient %s: Could not load status from %s",
+                  GetName(), TGo4Analysis::fgcDEFAULTSTATUSFILENAME);
+         }
       }
-   else
-      {
-         SendStatusMessage(2,kTRUE,"AnalysisClient %s: Could not load status from %s",
-               GetName(), TGo4Analysis::fgcDEFAULTSTATUSFILENAME);
-      }
-   // recover objects and dynamic list links from last autosave file:
-   if(fxAnalysis->LoadObjects())
-      {
+      // recover objects and dynamic list links from last autosave file:
+      if(fxAnalysis->LoadObjects()) {
          SendStatusMessage(1,kTRUE,"AnalysisClient %s: Objects loaded.",GetName());
-      }
-   else
-      {
-          //TGo4Log::Debug(" !!! Analysis Client Initialization --  Could not load dynamic list!!! ");
+      } else {
+         //TGo4Log::Debug(" !!! Analysis Client Initialization --  Could not load dynamic list!!! ");
          SendStatusMessage(2,kTRUE,"AnalysisClient %s: Initialization could not load analysis objects!",GetName());
       }
 
-   SendStatusMessage(1,kTRUE,"Analysis Slave %s waiting for submit and start commands...",GetName());
-   TGo4Slave::Stop(); // wait for command from master for start.
-   }
-else
-   {
+      SendStatusMessage(1,kTRUE,"Analysis Slave %s waiting for submit and start commands...",GetName());
+      TGo4Slave::Stop(); // wait for command from master for start.
+   } else {
       // in server mode, analysis slave will begin with analysis run
       // before the master is connected. May not need master anyway!
       // note: we do not recover preferences from file here anymore, all left to command line pars
       SendStatusMessage(1,kTRUE,"AnalysisSlave %s initializing analysis...",GetName());
-      if(fxAnalysis->InitEventClasses())
-         {
-           if(IsCintMode())
-               {
-                  SendStatusMessage(1,kTRUE,"Analysis CINTServer %s in MainCycle suspend mode.",GetName());
-                  TGo4Slave::Stop(); // no UserPostLoop
-               }
-            else
-               {
-                  SendStatusMessage(1,kTRUE,"AnalysisSlave %s starting analysis...",GetName());
-                  Start(); // UserPreLoop execution here!
-               }
+      if(fxAnalysis->InitEventClasses()) {
+         if(IsCintMode()) {
+            SendStatusMessage(1,kTRUE,"Analysis CINTServer %s in MainCycle suspend mode.",GetName());
+            TGo4Slave::Stop(); // no UserPostLoop
+         } else {
+            SendStatusMessage(1,kTRUE,"AnalysisSlave %s starting analysis...",GetName());
+            Start(); // UserPreLoop execution here!
          }
-      else
-         {
-            SendStatusMessage(2,kTRUE,"AnalysisSlave %s failed initializing analysis!",GetName());
-            TGo4Slave::Stop();
-         }
+      } else {
+         SendStatusMessage(2,kTRUE,"AnalysisSlave %s failed initializing analysis!",GetName());
+         TGo4Slave::Stop();
+      }
    } // if(!fbAutoStart)
-SendAnalysisStatus(); // only send status if connections are up!
-UpdateStatusBuffer();   // we need this for gui
-SendAnalysisClientStatus();
-SendStatusMessage(1,kFALSE,"AnalysisClient %s has finished initialization.",GetName());
-return 0;
+   SendAnalysisStatus(); // only send status if connections are up!
+   UpdateStatusBuffer();   // we need this for gui
+   SendAnalysisClientStatus();
+   SendStatusMessage(1,kFALSE,"AnalysisClient %s has finished initialization.",GetName());
+   return 0;
 }
 
 

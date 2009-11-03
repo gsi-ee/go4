@@ -43,7 +43,8 @@ class TGo4AnalysisClient : public TGo4Slave {
                        const char* passwd="abcd",
                        Bool_t servermode=kFALSE,
                        Bool_t autorun=kFALSE,
-                       Bool_t cintmode = kFALSE);
+                       Bool_t cintmode = kFALSE,
+                       Bool_t loadprefs = kTRUE);
 
     TGo4AnalysisClient(int argc, char** argv,
                        TGo4Analysis* analysis,
@@ -210,6 +211,10 @@ private:
      * lock within a certain time window, triggered by this
      * timer */
     TTimer* fxCintLockTimer; //!
+
+    /** If true, this slave load preferences for analysis from default file. */
+    Bool_t fbLoadPrefs; //!
+
 
     TGo4AnalysisClient();
 
