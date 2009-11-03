@@ -80,6 +80,8 @@ class TGo4QSettings {
       int     getClientExeMode();
       void    setClientExec(const QString&);
       QString getClientExec(int mode = -1);
+      void    setClientArgs(const QString&);
+      QString getClientArgs();
       void    setClientShellMode(int);
       QString getClientShell();
       int     getClientShellMode();

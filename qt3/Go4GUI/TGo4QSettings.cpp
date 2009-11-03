@@ -201,6 +201,16 @@ QString TGo4QSettings::getClientExec(int mode)
                       readEntry( GetSettingsName()+"/ClientSetting/Lib", "libGo4UserAnalysis");
 }
 
+void TGo4QSettings::setClientArgs(const QString& v)
+{
+   writeEntry( GetSettingsName()+"/ClientSetting/Args", v);
+}
+
+QString TGo4QSettings::getClientArgs()
+{
+   readEntry( GetSettingsName()+"/ClientSetting/Args", "");
+}
+
 void TGo4QSettings::setClientShellMode(int v)
 {
    QString res = "ssh";

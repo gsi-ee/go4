@@ -54,9 +54,9 @@ konsole_options:-caption %clientkind%:%analysisname%
 ##################################################################
 # here is program execution section, defined if analysis should be started as server or client
 
-servercmd:%analysis% -server %analysisname%
+servercmd:%analysis% -server %analysisname% %exeargs%
 
-clientcmd:%analysis% -gui %analysisname% %guihost% %guiport%
+clientcmd:%analysis% -gui %analysisname% %guihost% %guiport% %exeargs%
 
 ##################################################################
 # two variants of analysis - as executable and as library

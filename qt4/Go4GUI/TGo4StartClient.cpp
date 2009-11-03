@@ -58,6 +58,7 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
    LineEditClientNode->setText(go4sett->getClientNode());
    LineEditClientDir->setText(go4sett->getClientDir());
    LineEditClientExec->setText(go4sett->getClientExec());
+   LineEditArgs->setText(go4sett->getClientArgs());
 
    if (LineEditClientDir->text().isEmpty())
       LineEditClientDir->setText(QDir::currentPath());
@@ -88,6 +89,7 @@ void TGo4StartClient::getResults()
    go4sett->setClientDir(LineEditClientDir->text());
    go4sett->setClientExeMode(ExeModeCombo->currentIndex());
    go4sett->setClientExec(LineEditClientExec->text());
+   go4sett->setClientArgs(LineEditArgs->text());
    go4sett->setClientShellMode(ClientShellGroup->checkedId());
    go4sett->setClientTermMode(ClientTermGroup->checkedId());
    go4sett->setClientIsServer(ServerModeCombo->currentIndex()==1);

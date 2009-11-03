@@ -240,6 +240,16 @@ QString TGo4QSettings::getClientExec(int mode)
    return mode==0 ? getStr("/ClientSetting/Exec", "./MainUserAnalysis") : getStr("/ClientSetting/Lib", "libGo4UserAnalysis");
 }
 
+void TGo4QSettings::setClientArgs(const QString& v)
+{
+   setStr("/ClientSetting/Args", v);
+}
+
+QString TGo4QSettings::getClientArgs()
+{
+   return getStr("/ClientSetting/Args", "");
+}
+
 void TGo4QSettings::setClientShellMode(int v)
 {
    const char* name = "ssh";

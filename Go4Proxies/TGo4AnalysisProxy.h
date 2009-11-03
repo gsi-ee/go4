@@ -125,7 +125,8 @@ class TGo4AnalysisProxy : public TGo4Proxy {
                             const char* remotehost,
                             const char* remotedir,
                             const char* remoteexe,
-                            Int_t exe_kind = 0);
+                            Int_t exe_kind = 0,
+                            const char* exeargs = 0);
 
       static Bool_t LaunchAsServer(TString& launchcmd,
                                    TString& killcmd,
@@ -135,7 +136,8 @@ class TGo4AnalysisProxy : public TGo4Proxy {
                                    const char* remotehost,
                                    const char* remotedir,
                                    const char* remoteexe,
-                                   Int_t exe_kind = 0);
+                                   Int_t exe_kind = 0,
+                                   const char* exeargs = 0);
 
       Bool_t ConnectToServer(const char* remotehost,
                              Int_t remoteport,
@@ -168,7 +170,8 @@ class TGo4AnalysisProxy : public TGo4Proxy {
                                     const char* remotedir,
                                     const char* remoteexe,
                                     Int_t guiport,
-                                    Int_t exe_kind = 0); // 0 - executable, 1 - user library
+                                    Int_t exe_kind = 0, // 0 - executable, 1 - user library
+                                    const char* exeargs = 0);
 
       TGo4AnalysisObjectAccess* FindSubmittedProxy(const char* pathname, const char* objname);
       void DeleteSubmittedProxy(TGo4AnalysisObjectAccess* proxy);

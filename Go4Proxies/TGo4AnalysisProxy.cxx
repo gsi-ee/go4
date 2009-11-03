@@ -1101,7 +1101,8 @@ Bool_t TGo4AnalysisProxy::LaunchAsClient(TString& launchcmd,
                                          const char* remotehost,
                                          const char* remotedir,
                                          const char* remoteexe,
-                                         Int_t exe_kind)
+                                         Int_t exe_kind,
+                                         const char* exeargs)
 {
    if (fxDisplay==0) return kFALSE;
 
@@ -1114,7 +1115,7 @@ Bool_t TGo4AnalysisProxy::LaunchAsClient(TString& launchcmd,
    if (!GetLaunchString(launchcmd, killcmd,
                        kFALSE, usessh, konsole,
                        name, remotehost, remotedir, remoteexe,
-                       guiport, exe_kind)) return kFALSE;
+                       guiport, exe_kind, exeargs)) return kFALSE;
 
    tsk->StartConnectorThread();
 
@@ -1132,12 +1133,13 @@ Bool_t TGo4AnalysisProxy::LaunchAsServer(TString& launchcmd,
                                          const char* remotehost,
                                          const char* remotedir,
                                          const char* remoteexe,
-                                         Int_t exe_kind)
+                                         Int_t exe_kind,
+                                         const char* exeargs)
 {
    if (!GetLaunchString(launchcmd, killcmd,
                        kTRUE, usessh, konsole,
                        name, remotehost, remotedir, remoteexe,
-                       0, exe_kind)) return kFALSE;
+                       0, exe_kind, exeargs)) return kFALSE;
 
    if ((konsole==2) || (konsole==3))
       gSystem->Exec(launchcmd.Data());
@@ -1155,7 +1157,8 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
                                           const char* remotedir,
                                           const char* remoteexe,
                                           Int_t guiport,
-                                          Int_t exe_kind)
+                                          Int_t exe_kind,
+                                          const char* exeargs)
 {
    const char* serverhost = gSystem->HostName();
    const char* sdisplay   = gSystem->Getenv("DISPLAY");
@@ -1184,6 +1187,7 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
       prefs.SetPar("workdir", remotedir, false);
       prefs.SetPar(exe_kind==0 ? "exename" : "libname", remoteexe, false);
       prefs.SetPar("exekind", Form("%d", exe_kind), false);
+      prefs.SetPar("exeargs", exeargs ? exeargs : "", false);
 
       const char* shellname = "exec";
       if (shellkind==1) shellname = "rsh"; else

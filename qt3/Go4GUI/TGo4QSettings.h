@@ -91,6 +91,8 @@ class TGo4QSettings : public QSettings {
     QString getClientDir();
     void    setClientExec(const QString&);
     QString getClientExec(int mode = -1);
+    void    setClientArgs(const QString&);
+    QString getClientArgs();
     void    setClientShellMode(int);
     QString getClientShell();
     int     getClientShellMode();
