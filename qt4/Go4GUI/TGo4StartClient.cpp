@@ -165,8 +165,6 @@ void TGo4StartClient::SelectProg()
    QStringList flst = fd.selectedFiles();
    if (flst.isEmpty()) return;
 
-   LineEditClientExec->setText(flst[0]);
-
    select_filer = 4;
    if (fd.selectedNameFilter()==exe1_filter) select_filer = 0; else
    if (fd.selectedNameFilter()==exe2_filter) select_filer = 1; else
@@ -176,6 +174,8 @@ void TGo4StartClient::SelectProg()
 
    if ((select_filer==0) || (select_filer==1)) ExeModeCombo->setCurrentIndex(0); else
    if ((select_filer==2) || (select_filer==3)) ExeModeCombo->setCurrentIndex(1);
+
+   LineEditClientExec->setText(flst[0]);
 }
 
 
