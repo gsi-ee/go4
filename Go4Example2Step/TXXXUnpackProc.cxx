@@ -162,6 +162,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
 //***********************************************************
 TXXXUnpackProc::~TXXXUnpackProc()
 {
+   cout << "**** TXXXUnpackProc: Delete" << endl;
    fWinCon1->PrintCondition(true);
    fPolyCon1->PrintCondition(true);
 }
