@@ -20,6 +20,7 @@
 // go4 commands for analysis framework
 #pragma link C++ class TGo4AnalysisCommand+;
 #pragma link C++ class TGo4ComInitAnalysis+;
+#pragma link C++ class TGo4ComCloseAnalysis+;
 #pragma link C++ class TGo4ComGetNamesList+;
 
 #pragma link C++ class TGo4AnalysisObjectCommand+;

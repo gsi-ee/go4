@@ -332,6 +332,51 @@
               </property>
             </spacer>
           </item>
+          <item>
+            <widget class="QPushButton" name="ClosePushButton" >
+              <property name="sizePolicy" >
+                <sizepolicy>
+                  <hsizetype>0</hsizetype>
+                  <vsizetype>0</vsizetype>
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                </sizepolicy>
+              </property>
+              <property name="minimumSize" >
+                <size>
+                  <width>100</width>
+                  <height>30</height>
+                </size>
+              </property>
+              <property name="maximumSize" >
+                <size>
+                  <width>100</width>
+                  <height>30</height>
+                </size>
+              </property>
+              <property name="focusPolicy" >
+                <enum>Qt::StrongFocus</enum>
+              </property>
+              <property name="text" >
+                <string>  &amp;Close</string>
+              </property>
+              <property name="shortcut" >
+                <string>Alt+C</string>
+              </property>
+              <property name="autoDefault" >
+                <bool>true</bool>
+              </property>
+              <property name="default" >
+                <bool>true</bool>
+              </property>
+              <property name="icon" >
+                <iconset>:/icons/left.png</iconset>
+              </property>
+              <property name="toolTip" stdset="0" >
+                <string>Close analysis - close all input/output files and destroys steps processors Alt-C.</string>
+              </property>
+            </widget>
+          </item>
         </layout>
       </item>
       <item row="1" column="0" >
@@ -655,6 +700,12 @@
       <signal>clicked()</signal>
       <receiver>TGo4AnalysisConfiguration</receiver>
       <slot>SubmitAndStart()</slot>
+    </connection>
+    <connection>
+      <sender>ClosePushButton</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4AnalysisConfiguration</receiver>
+      <slot>CloseAnalysis()</slot>
     </connection>
   </connections>
 </ui>

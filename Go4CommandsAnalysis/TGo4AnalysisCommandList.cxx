@@ -14,6 +14,7 @@
 #include "TGo4AnalysisCommandList.h"
 
 #include "TGo4ComInitAnalysis.h"
+#include "TGo4ComCloseAnalysis.h"
 
 #include "TGo4AnalysisObjectCommand.h"
 #include "TGo4ComClearObject.h"
@@ -44,6 +45,7 @@ TGo4AnalysisCommandList::TGo4AnalysisCommandList() :
     // add all application specific commands here:
 
     AddCommand (new TGo4ComInitAnalysis);
+    AddCommand (new TGo4ComCloseAnalysis);
 
     AddCommand (new TGo4ComGetAnalysisStatus);
     AddCommand (new TGo4ComSetAnalysisStatus);

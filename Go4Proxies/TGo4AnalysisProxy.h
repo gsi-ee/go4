@@ -98,6 +98,7 @@ class TGo4AnalysisProxy : public TGo4Proxy {
 
       void RequestAnalysisSettings();
       void SubmitAnalysisSettings();
+      void CloseAnalysisSettings();
 
       void RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot);
       void RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot);

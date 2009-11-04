@@ -11,36 +11,23 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TGO4STARTCLIENT_H
-#define TGO4STARTCLIENT_H
+#ifndef TGO4COMCLOSEANALYSIS_H
+#define TGO4COMCLOSEANALYSIS_H
 
-#include <QDialog>
-#include "ui_TGo4StartClient.h"
+#include "TGo4AnalysisCommand.h"
 
-class QButtonGroup;
+/** Executes the CloseAnalysis Method of TGo4Analysis framework. */
 
-class TGo4StartClient : public QDialog, public Ui::TGo4StartClient {
-   Q_OBJECT
-
+class TGo4ComCloseAnalysis : public TGo4AnalysisCommand {
    public:
 
-      TGo4StartClient(QWidget* parent = 0);
-      void getResults();
+      TGo4ComCloseAnalysis();
 
-   public slots:
+      virtual ~TGo4ComCloseAnalysis();
 
-      virtual void SelectDir();
+      Int_t ExeCom();
 
-      virtual void SelectProg();
-
-      virtual void ServerModeCombo_activated(int);
-
-      virtual void ExeMode_changed(int);
-
-   protected:
-      QButtonGroup* ClientShellGroup;
-      QButtonGroup* ClientTermGroup;
-      int fSelectedFilter;
+   ClassDef(TGo4ComCloseAnalysis,1)
 };
 
-#endif
+#endif //TGO4COMCLOSEANALYSIS_H

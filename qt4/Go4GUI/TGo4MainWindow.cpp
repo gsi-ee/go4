@@ -2671,6 +2671,14 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
            SubmitAnalysisSettings();
         } else
 
+        if (strcmp(str,"CloseAnalysisSettings")==0) {
+           TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
+           if (anal!=0) {
+              anal->CloseAnalysisSettings();
+              anal->RefreshNamesList();
+           }
+        } else
+
         if (strcmp(str,"SubmitStartAnalysis")==0) {
            SubmitStartAnalysisSlot();
         } else

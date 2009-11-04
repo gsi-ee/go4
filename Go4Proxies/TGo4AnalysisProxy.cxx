@@ -1072,6 +1072,14 @@ void TGo4AnalysisProxy::SubmitAnalysisSettings()
    }
 }
 
+void TGo4AnalysisProxy::CloseAnalysisSettings()
+{
+   SetAnalysisSettingsReady(kFALSE);
+
+   fxDisplay->SubmitCommand("ANClose");
+}
+
+
 void TGo4AnalysisProxy::PrintDynListEntry(const char* fullpath)
 {
    TString foldername, objectname;
