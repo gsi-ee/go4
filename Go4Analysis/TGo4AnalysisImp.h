@@ -19,6 +19,7 @@
 #include "TString.h"
 
 class TH1;
+class TH2;
 class TTree;
 class TCanvas;
 class TFolder;
@@ -36,6 +37,8 @@ class TGo4AnalysisClient;
 class TGo4HistogramStatus;
 class TGo4DynamicEntry;
 class TGo4Condition;
+class TGo4WinCond;
+class TGo4PolyCond;
 class TGo4Parameter;
 class TGo4ParameterStatus;
 class TGo4Picture;
@@ -639,6 +642,93 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     /** Set number of event loop count, executed in batch mode */
     void SetBatchLoopCount(Int_t cnt = -1) { fBatchLoopCount = cnt; }
 
+    /** Set flag to use data from autosave file in Make... methods (default true) */
+    void SetMakeWithAutosave(Bool_t on = kTRUE) { fbMakeWithAutosave = on; }
+
+    /** Returns kTRUE if object in last Make... call was created,
+     * kFALSE when object was retrieved from autosavefile */
+    Bool_t IsObjMade() { return fbObjMade; }
+
+    /** Create one dimensional histogram of specified type. Type can be:
+     * 'I', 'i' for TH1I - Int_t as bin content (default)
+     * 'F', 'f' for TH1F - Float_t as bin content
+     * 'D', 'd' for TH1D - Double_t as bin content
+     * 'S', 's' for TH1S - Short_t as bin content
+     * 'C', 'c' for TH1C - Char_t as bin content
+     * fullname specifies name of histogram (optionally with subfolder name)
+     * title - histogram title
+     * nbinsx, xlow, xup - range arguments for X axis
+     * xtitle, ytitle - title for X and Y axis of histogram
+     * If histogram exactly with same name and type already exists in  autosave file,
+     * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
+     */
+    TH1* MakeTH1(char type, const char* fullname, const char* title,
+                 Int_t nbinsx, Double_t xlow, Double_t xup,
+                 const char* xtitle = 0, const char* ytitle = 0);
+
+    /** Create two dimensional histogram of specified type. Type can be:
+     * 'I', 'i' for TH2I - Int_t as bin content (default)
+     * 'F', 'f' for TH2F - Float_t as bin content
+     * 'D', 'd' for TH2D - Double_t as bin content
+     * 'S', 's' for TH2S - Short_t as bin content
+     * 'C', 'c' for TH1C - Char_t as bin content
+     * fullname specifies name of histogram (optionally with subfolder name)
+     * title - histogram title
+     * nbinsx, xlow, xup - range arguments for X axis
+     * nbinsy, ylow, yup - range arguments for Y axis
+     * xtitle, ytitle, ztitle - title for X, Y and Z axis of histogram
+     * If histogram exactly with same name and type already exists in  autosave file,
+     * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
+     */
+    TH2* MakeTH2(char type, const char* fullname, const char* title,
+                 Int_t nbinsx, Double_t xlow, Double_t xup,
+                 Int_t nbinsy, Double_t ylow, Double_t yup,
+                 const char* xtitle = 0, const char* ytitle = 0, const char* ztitle = 0);
+
+    /** Create 1D window condition.
+     * fullname specifies name of condition (optionally with subfolder name)
+     * xmin, xmax - condition range
+     * HistoName - name of histogram, to which condition is assigned
+     */
+    TGo4WinCond* MakeWinCond(const char* fullname,
+                             Double_t xmin, Double_t xmax,
+                             const char* HistoName = 0);
+
+    /** Create 2D window condition.
+     * fullname specifies name of condition (optionally with subfolder name)
+     * xmin, xmax - X condition range
+     * ymin, ymax - Y condition range
+     * HistoName - name of histogram, to which condition is assigned
+     */
+    TGo4WinCond* MakeWinCond(const char* fullname,
+                             Double_t xmin, Double_t xmax,
+                             Double_t ymin, Double_t ymax,
+                             const char* HistoName = 0);
+
+    /** Create polygon condition.
+     * fullname specifies name of condition (optionally with subfolder name)
+     * npoints - number of points in in polygon condition
+     * points - (X,Y) points
+     * HistoName - name of histogram, to which condition is assigned
+     * To use method, array should be declared as following:
+     * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
+     * cond = MakePolyCond("Folder/CondName", 4, points);
+     */
+    TGo4PolyCond* MakePolyCond(const char* fullname,
+                                 Int_t npoints,
+                                 Double_t (*points) [2],
+                                 const char* HistoName = 0);
+
+    /** Create parameter of specified class,
+     * fullname specifies name of condition (optionally with subfolder name)
+     * classname - name of required parameter class, it should be known to ROOT.
+     * newcmd - command to create parameter like "new UserParameter(%s, 1000, 2000)",
+     *          where %s is place for parameter name.  Should be specified, if parameter
+     *          constructor contains more parameters as only parameter name
+     */
+    TGo4Parameter* MakeParameter(const char* fullname,
+                                    const char* classname,
+                                    const char* newcmd = 0);
 
   protected:
 
@@ -828,6 +918,12 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /** preconfigured password for observer access */
     TString fServerObserverPass; //!
+
+    /** If false, do not use data from autosave file in Make... methods */
+    Bool_t fbMakeWithAutosave; //!
+
+    /** indicate if object was created by last Make... operation */
+    Bool_t fbObjMade; //!
 
   ClassDef(TGo4Analysis,4)
 };

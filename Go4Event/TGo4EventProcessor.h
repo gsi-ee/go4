@@ -203,11 +203,11 @@ class TGo4EventProcessor : public TGo4EventSource {
       virtual void Clear(Option_t* opt="");
 
       /** Set flag to use data from autosave file in Make... methods (default true) */
-      void SetMakeWithAutosave(Bool_t on = kTRUE) { fbMakeWithAutosave = on; }
+      void SetMakeWithAutosave(Bool_t on = kTRUE);
 
       /** Returns kTRUE if object in last Make... call was created,
        * kFALSE when object was retrieved from autosavefile */
-      Bool_t IsObjMade() const { return fbObjMade; }
+      Bool_t IsObjMade();
 
       /** Create one dimensional histogram of specified type. Type can be:
        * 'I', 'i' for TH1I - Int_t as bin content (default)
@@ -302,12 +302,6 @@ class TGo4EventProcessor : public TGo4EventSource {
 
       /** @link aggregation */
       TGo4EventCalibration * fxCalibration;
-
-      /** If false, do not use data from autosave file in Make... methods */
-      Bool_t fbMakeWithAutosave; //!
-
-      /** Indicates, if object was created by last Make... method call */
-      Bool_t fbObjMade; //!
 
    ClassDef(TGo4EventProcessor,2)
 };
