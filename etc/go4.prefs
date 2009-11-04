@@ -54,9 +54,9 @@ konsole_options:-caption %clientkind%:%analysisname%
 ##################################################################
 # here is program execution section, defined if analysis should be started as server or client
 
-servercmd:%analysis% -server %analysisname% %exeargs%
+servercmd:%analysis% -server %analysisname% %userargs%
 
-clientcmd:%analysis% -gui %analysisname% %guihost% %guiport% %exeargs%
+clientcmd:%analysis% -gui %analysisname% %guihost% %guiport% %userargs%
 
 ##################################################################
 # two variants of analysis - as executable and as library
@@ -68,9 +68,9 @@ analysis_exe:%exename%
 
 analysis_default_exe:MainUserAnalysis
 
-analysis_lib:go4analysis -lib %libname% 
+analysis_lib:go4analysis -lib %libname%
 
-analysis_default_lib:go4analysis 
+analysis_default_lib:go4analysis
 
 ##################################################################
 # here is initialization sequence is defined, depending if execution performed in 

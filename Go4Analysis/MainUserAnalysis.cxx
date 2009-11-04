@@ -15,7 +15,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// #include "TClassTable.h"
 #include "TROOT.h"
 #include "TClass.h"
 #include "TClassTable.h"

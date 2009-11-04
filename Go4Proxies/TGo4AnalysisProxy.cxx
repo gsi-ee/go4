@@ -325,10 +325,11 @@ class TGo4Prefs {
                  if ((subname.length()==0) || (mask.length()==0)) break;
 
                  const char* subvalue = GetPar(subname.c_str());
+
                  if (subvalue==0) break;
 
                  // if mask didnot match, ignore string
-                 // check mask with regular expresion
+                 // check mask with regular expression
                  TRegexp re(mask.c_str(), kTRUE);
                  Int_t len(0);
                  if (re.Index(subvalue, &len)!=0) break;
@@ -388,7 +389,7 @@ class TGo4Prefs {
             }
             if (cnt++>100000) {
                cerr << "Syntax error in go4.prefs files - endless recursion" << endl;
-               cerr << "Program abborted, please fix an error" << endl;
+               cerr << "Program aborted, please fix an error" << endl;
                exit(-1);
             }
          } while (isany);
@@ -1195,7 +1196,11 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
       prefs.SetPar("workdir", remotedir, false);
       prefs.SetPar(exe_kind==0 ? "exename" : "libname", remoteexe, false);
       prefs.SetPar("exekind", Form("%d", exe_kind), false);
-      prefs.SetPar("exeargs", exeargs ? exeargs : "", false);
+
+      if ((exe_kind==1) && (exeargs!=0) && (strlen(exeargs)>0))
+         prefs.SetPar("userargs", Form("-args %s", exeargs), false);
+      else
+         prefs.SetPar("userargs", "", false);
 
       const char* shellname = "exec";
       if (shellkind==1) shellname = "rsh"; else
