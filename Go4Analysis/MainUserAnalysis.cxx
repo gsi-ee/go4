@@ -49,7 +49,7 @@ void usage(const char* err = 0)
    cout << "S. Linev, GSI, Darmstadt" << endl;
    cout << "calling:                " << endl;
    cout << "" << endl;
-   cout << "   go4analysis [RUN] [ANALYSIS] [STEP1] [STEP2] ... " << endl;
+   cout << "   go4analysis [RUN] [ANALYSIS] [STEP1] [STEP2] ... [USER]" << endl;
    cout << "" << endl;
    cout << "RUN: configuration, relevant for application run mode" << endl;
    cout << "  -lib name                   : user library to load (default: libGo4UserLibrary)" << endl;
@@ -70,8 +70,6 @@ void usage(const char* err = 0)
    cout << "  -disable-asf           :  disable usage of asf" << endl;
    cout << "  -prefs [filename]      :  load preferences (analysis configuration) from specified file (default Go4AnalysisPrefs.root)" << endl;
    cout << "  -no-prefs              :  disable preferences loading" << endl;
-   cout << "  -args [userargs]       :  create user analysis with constructor (int argc, char** argv) signature" << endl;
-   cout << "                            all following arguments will be provided as array of strings, first argument - analysis name" << endl;
    cout << "" << endl;
    cout << "STEP: individual step configurations" << endl;
    cout << "  -step name           :  select step by it's name, if not defined, first step is used" << endl;
@@ -98,6 +96,10 @@ void usage(const char* err = 0)
    cout << "  -disable-store       :  disable step store" << endl;
    cout << "  -enable-errstop      :  enable stop-on-error mode" << endl;
    cout << "  -disable-errstop     :  disable stop-on-error mode" << endl;
+   cout << endl;
+   cout << "USER: user-defined arguments" << endl;
+   cout << "  -args [userargs]     :  create user analysis with constructor (int argc, char** argv) signature" << endl;
+   cout << "                          all following arguments will be provided as array of strings, first argument - analysis name" << endl;
    cout << endl;
 
    exit(0);
