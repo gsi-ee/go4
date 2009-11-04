@@ -1,0 +1,138 @@
+# Author: S.Linev 17-10-2005
+
+# This file can be used to compile example by VC++ nmake
+# Just type in windows command prompt:
+# > nmake -f Makefile.win
+# This Makefile can be adopted to other Go4 examples
+# Usually only files list MODULE_H, MODULE_S and MODULE_O 
+# should be updated 
+
+
+#### File suffixes: ###
+ObjSuf        = obj
+SrcSuf        = cxx
+HedSuf        = h 
+DllSuf        = dll
+LibSuf        = lib
+DefSuf        = def
+ExpSuf        = exp
+
+DICT_PREFIX = G__
+
+CXX = cl
+
+LD = link
+
+CXXFLAGS = -Ox -GR -EHsc -MD -nologo \
+           -DWIN32 -DGDK_WIN32 -D_WINDOWS -D_DLL -D_CRT_SECURE_NO_DEPRECATE \
+           -I$(ROOTSYS)/include -I$(GO4SYS)/include
+
+LDFLAGS = /NOLOGO /INCREMENTAL:NO
+
+SYSLIBS = ws2_32.lib
+
+ROOTLIBS = $(ROOTSYS)/lib/libCore.lib \
+           $(ROOTSYS)/lib/libCint.lib \
+           $(ROOTSYS)/lib/libMatrix.lib \
+           $(ROOTSYS)/lib/libHist.lib \
+           $(ROOTSYS)/lib/libGraf.lib \
+           $(ROOTSYS)/lib/libMinuit.lib \
+           $(ROOTSYS)/lib/libGpad.lib \
+           $(ROOTSYS)/lib/libThread.lib \
+           $(ROOTSYS)/lib/libTree.lib
+
+GO4LIBS = $(GO4SYS)/lib/libGo4Fit.lib \
+          $(GO4SYS)/lib/libGo4Base.lib \
+          $(GO4SYS)/lib/libGo4ThreadManager.lib \
+          $(GO4SYS)/lib/libGo4TaskHandler.lib \
+          $(GO4SYS)/lib/libGo4AnalBase.lib \
+          $(GO4SYS)/lib/libGo4Analysis.lib 
+
+
+ANAL_LIB_DEP = $(GO4SYS)/lib/libGo4Analysis.dll \
+               $(GO4SYS)/lib/libGo4AnalBase.dll \
+               $(GO4SYS)/lib/libGo4TaskHandler.dll \
+               $(GO4SYS)/lib/libGo4ThreadManager.dll \
+               $(GO4SYS)/lib/libGo4Base.dll \
+               $(GO4SYS)/lib/libGo4Fit.dll \
+               $(ROOTSYS)/lib/libThread.dll \
+               $(ROOTSYS)/lib/libMinuit.dll
+
+LIBS_FULLSET = $(GO4LIBS) $(ROOTLIBS) $(SYSLIBS) 
+
+MODULE_NAME        = Go4Example2Step
+
+MODULE_LINKDEF     = XXXLinkDef.$(HedSuf)
+MODULE_LIBNAME     = libGo4UserAnalysis
+MODULE_MAP         = $(MODULE_LIBNAME).rootmap
+
+MODULE_DICT        = $(DICT_PREFIX)$(MODULE_NAME)
+MODULE_DH          = $(MODULE_DICT).$(HedSuf)
+MODULE_DS          = $(MODULE_DICT).$(SrcSuf)
+MODULE_DO          = $(MODULE_DICT).$(ObjSuf)
+
+MODULE_H           = TXXXAnalysis.h \
+                     TXXXAnlEvent.h \
+                     TXXXAnlProc.h \
+                     TXXXUnpackEvent.h \
+                     TXXXUnpackProc.h \
+                     TXXXParameter.h \
+                     TXXXCalibPar.h
+
+MODULE_S           = TXXXAnalysis.cxx \
+                     TXXXAnlEvent.cxx \
+                     TXXXAnlProc.cxx \
+                     TXXXUnpackEvent.cxx \
+                     TXXXUnpackProc.cxx \
+                     TXXXParameter.cxx \
+                     TXXXCalibPar.cxx
+
+MODULE_O           = TXXXAnalysis.obj \
+                     TXXXAnlEvent.obj \
+                     TXXXAnlProc.obj \
+                     TXXXUnpackEvent.obj \
+                     TXXXUnpackProc.obj \
+                     TXXXParameter.obj \
+                     TXXXCalibPar.obj
+
+
+MODULE_LIBDEF      =  $(MODULE_LIBNAME).$(DefSuf)
+MODULE_LIBEXP      =  $(MODULE_LIBNAME).$(ExpSuf)
+MODULE_LIB         =  $(MODULE_LIBNAME).$(LibSuf)
+MODULE_DLL         =  $(MODULE_LIBNAME).$(DllSuf)
+
+all:     $(MODULE_LIB) $(MODULE_DLL) $(MODULE_MAP)
+
+
+$(MODULE_LIB):   $(MODULE_O) $(MODULE_DO)
+	@bindexplib $(MODULE_LIBNAME) $(MODULE_O) $(MODULE_DO) > $(MODULE_LIBDEF)
+	@link -LIB -nologo -MACHINE:IX86 \
+            -out:$(MODULE_LIB) $(MODULE_O) $(MODULE_DO) -def:$(MODULE_LIBDEF)
+
+$(MODULE_DLL):  $(MODULE_LIB)
+	@link /DLL $(LDFLAGS) -out:$(MODULE_DLL) $(MODULE_O) $(MODULE_DO) \
+            $(MODULE_LIBEXP) $(LIBS_FULLSET)
+	@mt -nologo -manifest $(MODULE_DLL).manifest -outputresource:$(MODULE_DLL)
+	@del $(MODULE_DLL).manifest
+	@echo Dynamic Link Library $@ is produced
+
+$(MODULE_DS): $(MODULE_H)  $(MODULE_LINKDEF)
+	@echo Generating $@ dictionary ...
+	@rootcint -f $(MODULE_DS) -c -I$(GO4SYS)/include $(MODULE_H) $(MODULE_LINKDEF)
+
+$(MODULE_MAP): $(MODULE_LINKDEF) $(MODULE_DLL)
+	@rlibmap -r $(MODULE_MAP) -l ./$(MODULE_DLL) -d $(ANAL_LIB_DEP) -c $(MODULE_LINKDEF)
+	@echo Map file $(MODULE_MAP) is done
+
+clean:
+	@del /f $(MODULE_O) $(MODULE_DO) *.$(ObjSuf) *.d
+	@del /f $(MODULE_LIBNAME).*
+	@del /f $(MODULE_DICT).* $(DICT_PREFIX)*.*
+	@echo Clean is done
+
+
+.SUFFIXES: .$(SrcSuf)
+
+
+%.$(ObjSuf): %.(SrcSuf)
+	cl -c $< $(CXXFLAGS) -out:$@ 
