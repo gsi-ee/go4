@@ -30,9 +30,9 @@ ANALCL_H           = $(filter-out $(ANALCL_NOTLIBF) $(ANALCL_DH) $(ANALCL_LINKDE
 ANALCL_S           = $(filter-out $(ANALCL_EXES) $(ANALCL_NOTLIBF) $(ANALCL_DS), $(wildcard $(ANALCL_DIR)/*.$(SrcSuf)))
 ANALCL_O           = $(ANALCL_S:.$(SrcSuf)=.$(ObjSuf))
 
-ANALCL_DEP         =  $(ANALCL_O:.$(ObjSuf)=.$(DepSuf))
+ANALCL_DEP         =  $(ANALCL_O:.$(ObjSuf)=.$(DepSuf)) $(ANALCL_EXECINTO:.$(ObjSuf)=.$(DepSuf))
 ANALCL_DDEP        =  $(ANALCL_DO:.$(ObjSuf)=.$(DepSuf))
-ANALCL_EDEP        =  $(ANALCL_EXEO:.$(ObjSuf)=.$(DepSuf))
+ANALCL_EDEP        =  $(ANALCL_EXEO:.$(ObjSuf)=.$(DepSuf)) 
 
 # used in the main Makefile
 
