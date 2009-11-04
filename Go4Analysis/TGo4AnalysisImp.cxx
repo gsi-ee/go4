@@ -466,7 +466,8 @@ Int_t TGo4Analysis::Process()
    {
       //{TGo4LockGuard global;
       //ex.Handle();}
-      Message(ex.GetPriority(), ex.GetMessage() );
+	  if(ex.GetMessage()!=0)
+		  Message(ex.GetPriority(), ex.GetMessage() );
       if(IsErrorStopEnabled() && ex.GetPriority()>2)
       {
          if(fxAnalysisSlave) fxAnalysisSlave->Stop(); // only stop for errors, warnings and infos continue loop!
