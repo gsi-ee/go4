@@ -203,7 +203,7 @@
               <property name="minimumSize" >
                 <size>
                   <width>30</width>
-                  <height>30</height>
+                  <height>25</height>
                 </size>
               </property>
               <property name="maximumSize" >
@@ -238,8 +238,8 @@
               </property>
               <property name="minimumSize" >
                 <size>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>50</width>
+                  <height>25</height>
                 </size>
               </property>
               <property name="maximumSize" >
@@ -252,16 +252,16 @@
                 <enum>Qt::StrongFocus</enum>
               </property>
               <property name="text" >
-                <string>   S&amp;ubmit</string>
+                <string> S&amp;ubmit</string>
               </property>
               <property name="shortcut" >
                 <string>Alt+U</string>
               </property>
               <property name="autoDefault" >
-                <bool>true</bool>
+                <bool>false</bool>
               </property>
               <property name="default" >
-                <bool>true</bool>
+                <bool>false</bool>
               </property>
               <property name="icon" >
                 <iconset>:/icons/left.png</iconset>
@@ -283,8 +283,8 @@
               </property>
               <property name="minimumSize" >
                 <size>
-                  <width>140</width>
-                  <height>30</height>
+                  <width>100</width>
+                  <height>25</height>
                 </size>
               </property>
               <property name="maximumSize" >
@@ -320,8 +320,8 @@
             <spacer name="Spacer123" >
               <property name="sizeHint" >
                 <size>
-                  <width>100</width>
-                  <height>20</height>
+                  <width>5</width>
+                  <height>25</height>
                 </size>
               </property>
               <property name="sizeType" >
@@ -344,13 +344,13 @@
               </property>
               <property name="minimumSize" >
                 <size>
-                  <width>100</width>
-                  <height>30</height>
+                  <width>50</width>
+                  <height>25</height>
                 </size>
               </property>
               <property name="maximumSize" >
                 <size>
-                  <width>100</width>
+                  <width>1000</width>
                   <height>30</height>
                 </size>
               </property>
@@ -358,19 +358,19 @@
                 <enum>Qt::StrongFocus</enum>
               </property>
               <property name="text" >
-                <string>  &amp;Close</string>
+                <string> &amp;Close</string>
               </property>
               <property name="shortcut" >
                 <string>Alt+C</string>
               </property>
               <property name="autoDefault" >
-                <bool>true</bool>
+                <bool>false</bool>
               </property>
               <property name="default" >
-                <bool>true</bool>
+                <bool>false</bool>
               </property>
               <property name="icon" >
-                <iconset>:/icons/left.png</iconset>
+                <iconset>:/icons/close.png</iconset>
               </property>
               <property name="toolTip" stdset="0" >
                 <string>Close analysis - close all input/output files and destroys steps processors Alt-C.</string>

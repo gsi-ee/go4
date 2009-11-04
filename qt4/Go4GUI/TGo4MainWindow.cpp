@@ -605,7 +605,7 @@ void TGo4MainWindow::AddAnalysisMenu()
              this, SLOT(DisconnectAnalysisSlot()), CTRL+Key_M);
 
    faShutdownAnal =
-      anMenu->addAction(QIcon(":/icons/shutanal.png"), "Shutdown analysis server",
+      anMenu->addAction(QIcon(":/icons/shutanal.png"), "Shutdown analysis",
              this, SLOT(ShutdownAnalysisSlot()), CTRL+Key_M);
 
    faSumbStartAnal =

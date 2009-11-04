@@ -247,6 +247,11 @@ void TGo4AnalysisConfiguration::SubmitAndStart()
    hide();
 }
 
+void TGo4AnalysisConfiguration::CloseAnalysisSettings()
+{
+   ServiceCall("CloseAnalysisSettings");
+}
+
 void TGo4AnalysisConfiguration::SetAutoSaveInterval(int t)
 {
    TGo4AnalysisStatus* status =

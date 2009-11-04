@@ -236,7 +236,7 @@
                     <property name="minimumSize">
                         <size>
                             <width>30</width>
-                            <height>30</height>
+                            <height>25</height>
                         </size>
                     </property>
                     <property name="maximumSize">
@@ -272,8 +272,8 @@
                     </property>
                     <property name="minimumSize">
                         <size>
-                            <width>100</width>
-                            <height>30</height>
+                            <width>80</width>
+                            <height>25</height>
                         </size>
                     </property>
                     <property name="maximumSize">
@@ -293,7 +293,7 @@
                         <enum>StrongFocus</enum>
                     </property>
                     <property name="text">
-                        <string>   S&amp;ubmit</string>
+                        <string> S&amp;ubmit</string>
                     </property>
                     <property name="accel">
                         <string>Alt+U</string>
@@ -325,8 +325,8 @@
                     </property>
                     <property name="minimumSize">
                         <size>
-                            <width>140</width>
-                            <height>30</height>
+                            <width>100</width>
+                            <height>25</height>
                         </size>
                     </property>
                     <property name="maximumSize">
@@ -376,11 +376,57 @@
                     </property>
                     <property name="sizeHint">
                         <size>
-                            <width>100</width>
-                            <height>20</height>
+                            <width>10</width>
+                            <height>25</height>
                         </size>
                     </property>
                 </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>CloseButton</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>50</width>
+                            <height>25</height>
+                        </size>
+                    </property>
+                    <property name="maximumSize">
+                        <size>
+                            <width>140</width>
+                            <height>30</height>
+                        </size>
+                    </property>
+                    <property name="focusPolicy">
+                        <enum>StrongFocus</enum>
+                    </property>
+                    <property name="text">
+                        <string> &amp;Close</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+C</string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>false</bool>
+                    </property>
+                    <property name="default">
+                        <bool>false</bool>
+                    </property>
+                    <property name="iconSet">
+                        <iconset>close.png</iconset>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Close analysis - close all input/output files and destroys steps processors Alt-C.</string>
+                    </property>
+                </widget>
             </hbox>
         </widget>
         <widget class="QGroupBox" row="1" column="0">
@@ -714,10 +760,18 @@
         <receiver>TGo4AnalysisConfiguration</receiver>
         <slot>SubmitAndStart()</slot>
     </connection>
+    <connection>
+        <sender>CloseButton</sender>
+        <signal>clicked()</signal>
+        <receiver>TGo4AnalysisConfiguration</receiver>
+        <slot>CloseAnalysisSettings()</slot>
+    </connection>
 </connections>
 <tabstops>
-    <tabstop>SubmitPushButton</tabstop>
     <tabstop>GetActiveConfigButton</tabstop>
+    <tabstop>SubmitPushButton</tabstop>
+    <tabstop>SubmitAndStartButton</tabstop>
+    <tabstop>CloseButton</tabstop>
     <tabstop>TabSteps</tabstop>
     <tabstop>SaveNowB</tabstop>
     <tabstop>AutoSaveFileName</tabstop>
@@ -762,6 +816,7 @@
     <slot>SetAutoSaveOverwrite( bool Overwrite )</slot>
     <slot>WriteAutoSave()</slot>
     <slot>EnableAutoSaveSlot( bool disabled )</slot>
+    <slot>CloseAnalysisSettings()</slot>
 </slots>
 <functions>
     <function>init()</function>
