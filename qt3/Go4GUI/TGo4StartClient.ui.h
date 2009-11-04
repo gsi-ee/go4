@@ -18,6 +18,7 @@ void TGo4StartClient::init()
    LineEditClientDir->setText(go4sett->getClientDir());
    ExeModeCombo->setCurrentItem(go4sett->getClientExeMode());
    LineEditClientExec->setText(go4sett->getClientExec());
+   LineEditClientArgs->setText(go4sett->getClientArgs());
    ClientShellGroup->setButton(go4sett->getClientShellMode());
    ClientTermGroup->setButton(go4sett->getClientTermMode());
 
@@ -40,6 +41,7 @@ void TGo4StartClient::getResults()
    go4sett->setClientDir(LineEditClientDir->text());
    go4sett->setClientExeMode(ExeModeCombo->currentItem());
    go4sett->setClientExec(LineEditClientExec->text());
+   go4sett->setClientArgs(LineEditClientArgs->text());
    go4sett->setClientShellMode(ClientShellGroup->selectedId());
    go4sett->setClientTermMode(ClientTermGroup->selectedId());
    go4sett->setClientIsServer(ServerModeCombo->currentItem()==1);

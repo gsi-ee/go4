@@ -159,7 +159,8 @@ void TGo4Interface::LaunchAnalysis(const char* ClientName,
                                    const char* ClientNode,
                                    Int_t ShellMode,
                                    Int_t TermMode,
-                                   Int_t ExeMode)
+                                   Int_t ExeMode,
+                                   const char* UserArgs)
 {
    TString launchcmd, killcmd;
 
@@ -173,7 +174,8 @@ void TGo4Interface::LaunchAnalysis(const char* ClientName,
                        ClientNode,
                        ClientDir,
                        ClientExec,
-                       ExeMode);
+                       ExeMode,
+                       UserArgs);
 
    gSystem->ProcessEvents();
 

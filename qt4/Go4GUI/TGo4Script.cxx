@@ -331,12 +331,14 @@ void TGo4Script::LaunchAnalysis(const char* ClientName,
                                 const char* ClientNode,
                                 Int_t ShellMode,
                                 Int_t TermMode,
-                                Int_t ExeMode)
+                                Int_t ExeMode,
+                                const char* UserArgs)
 {
    go4sett->setClientName(ClientName);
    go4sett->setClientDir(ClientDir);
    go4sett->setClientExeMode(ExeMode);
    go4sett->setClientExec(ClientExec);
+   go4sett->setClientArgs(UserArgs);
    go4sett->setClientNode(ClientNode);
    go4sett->setClientShellMode(ShellMode);
    go4sett->setClientTermMode(TermMode);
@@ -750,10 +752,23 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
    fs << "go4->LaunchAnalysis(\"" << go4sett->getClientName().toStdString() << "\", \""
                                   << go4sett->getClientDir().toStdString() <<  "\", \""
                                   << go4sett->getClientExec().toStdString() << "\", \""
-                                  << go4sett->getClientNode().toStdString() << "\", "
-                                  << go4sett->getClientShellMode() << ", "
-                                  << go4sett->getClientTermMode() <<  ", "
-                                  << go4sett->getClientExeMode() << ");" << endl;
+                                  << go4sett->getClientNode().toStdString() << "\", ";
+
+   if (go4sett->getClientShellMode() == Go4_rsh) fs << "Go4_rsh, "; else
+   if (go4sett->getClientShellMode() == Go4_ssh) fs << "Go4_ssh, "; else fs << "Go4_sh, ";
+
+   if (go4sett->getClientTermMode() == Go4_xterm) fs << "Go4_xtrem, "; else
+   if (go4sett->getClientTermMode() == Go4_konsole) fs << "Go4_konsole, "; else fs << "Go4_qt, ";
+
+   if (go4sett->getClientExeMode() == Go4_lib) fs << "Go4_lib"; else fs << "Go4_exe";
+
+//                                  << go4sett->getClientShellMode() << ", "
+//                                  << go4sett->getClientTermMode() <<  ", "
+//                                  << go4sett->getClientExeMode();
+   if (go4sett->getClientArgs().length()>0)
+      fs << ", \"" << go4sett->getClientArgs().toStdString() << "\"";
+   fs  << ");" << endl;
+
    fs << "go4->WaitAnalysis(300);" << endl << endl;
 
    if (confgui==0) return;

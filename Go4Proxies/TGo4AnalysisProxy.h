@@ -25,6 +25,10 @@ class TGo4AnalysisObjectAccess;
 class TGo4Status;
 class TGo4Display;
 
+enum EGo4ShellKind { Go4_sh = 0, Go4_rsh = 1, Go4_ssh = 2 };
+enum EGo4ConsoleKind { Go4_qt = 1, Go4_xterm = 2, Go4_konsole = 3 };
+enum EGo4AnalysisCodeKind { Go4_exe = 0, Go4_lib = 1 };
+
 class TGo4AnalysisProxy : public TGo4Proxy {
    public:
       TGo4AnalysisProxy(Bool_t isserver = kFALSE);
@@ -119,24 +123,24 @@ class TGo4AnalysisProxy : public TGo4Proxy {
 
       Bool_t LaunchAsClient(TString& launchcmd,
                             TString& killcmd,
-                            Int_t shellkind, // 0 - exec, 1 - rsh, 2 - ssh
-                            Int_t konsole,
+                            Int_t shellkind, // Go4_sh = 0, Go4_rsh = 1, Go4_ssh = 2
+                            Int_t konsole,   // Go4_qt = 0, Go4_xterm = 1, Go4_konsole = 2
                             const char* name,
                             const char* remotehost,
                             const char* remotedir,
                             const char* remoteexe,
-                            Int_t exe_kind = 0,
+                            Int_t exe_kind = 0, //   Go4_exe = 0, Go4_lib = 1
                             const char* exeargs = 0);
 
       static Bool_t LaunchAsServer(TString& launchcmd,
                                    TString& killcmd,
-                                   Int_t shellkind, // 0 - exec, 1 - rsh, 2 - ssh
-                                   Int_t konsole,
+                                   Int_t shellkind, // Go4_sh = 0, Go4_rsh = 1, Go4_ssh = 2
+                                   Int_t konsole,   // Go4_qt = 0, Go4_xterm = 1, Go4_konsole = 2
                                    const char* name,
                                    const char* remotehost,
                                    const char* remotedir,
                                    const char* remoteexe,
-                                   Int_t exe_kind = 0,
+                                   Int_t exe_kind = 0,   //   Go4_exe = 0, Go4_lib = 1
                                    const char* exeargs = 0);
 
       Bool_t ConnectToServer(const char* remotehost,
