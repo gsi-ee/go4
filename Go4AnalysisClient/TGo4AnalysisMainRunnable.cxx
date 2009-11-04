@@ -187,7 +187,7 @@ catch(TGo4AnalysisStepException& ex)
 catch(TGo4UserException& ex)
 {
    //ex.Handle();
-   if(ex.GetMessage()!=0)
+   if(strlen(ex.GetMessage())!=0)
 	   fxAnalysisClient->SendStatusMessage(ex.GetPriority(),kTRUE,  ex.GetMessage() );
    if(fxAnalysis->IsErrorStopEnabled() && ex.GetPriority()>2)
          fxAnalysisClient->Stop(); // only stop for errors, warnings and infos continue loop!

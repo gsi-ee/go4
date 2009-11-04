@@ -466,7 +466,7 @@ Int_t TGo4Analysis::Process()
    {
       //{TGo4LockGuard global;
       //ex.Handle();}
-	  if(ex.GetMessage()!=0)
+	  if(strlen(ex.GetMessage())!=0)
 		  Message(ex.GetPriority(), ex.GetMessage() );
       if(IsErrorStopEnabled() && ex.GetPriority()>2)
       {
