@@ -65,82 +65,65 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    TString input, out1, out2;
 
    // this is a way to get user-specific arguments in batch mode, like:
-   //   shell> go4analysis -args inputname
+   //   shell> go4analysis -x -f|-t name
    // in this case argv[0] will be analysis name (default is "Go4Analysis")
-   //              argv[1] will be "inputname"
+   //              argv[1] should be -file or -transport
+   //              argv[2] should be "name" of file or MBS node
    // any kind of additional arguments can be supplied
 
    if (argc>1) {
       cout << "**** Configure with user-specified parameters ****" << endl;
-      input = Form("%s.lmd", argv[1]);
-      out1 = Form("%s_Calibr", argv[1]);
+    	  input = Form("%s", argv[1]);
+      out1 = Form("%s_Calib", argv[1]);
       out2 = Form("%s_Anl", argv[1]);
    } else {
-      cout << "**** Configure with default parameters ****" << endl;
-      input = "/GSI/lea/gauss.lmd";
-      out1 = "Output_Calibr";
+	      cout << "**** Arguments: name ****" << endl;
+	      cout << "**** Configure with default parameters ****" << endl;
+      input = "gauss";
+      out1 = "Output_Calib";
       out2 = "Output_Anl";
    }
-
+// Create step 1 Unpack.
    TGo4StepFactory* factory1 = new TGo4StepFactory("UnpackFactory");
    factory1->DefEventProcessor("UnpackProc", "TXXXUnpackProc");// object name, class name
    factory1->DefOutputEvent("UnpackEvent", "TXXXUnpackEvent"); // object name, class name
-
-   TGo4MbsFileParameter* source1 = new TGo4MbsFileParameter(input.Data());
-   TGo4FileStoreParameter* store1 = new TGo4FileStoreParameter(out1.Data());
-   store1->SetOverwriteMode(kTRUE); // overwrite file
-   TGo4AnalysisStep* step1 = new TGo4AnalysisStep("Unpack",factory1,source1,store1,0);
-
+   TGo4AnalysisStep* step1 = new TGo4AnalysisStep("Unpack",factory1,0,0,0);
+   step1->SetErrorStopEnabled(kTRUE);
    AddAnalysisStep(step1);
-
+// These settings will be overwritten by setup.C
    step1->SetSourceEnabled(kTRUE);
    step1->SetStoreEnabled(kFALSE);
    step1->SetProcessEnabled(kTRUE);
-   step1->SetErrorStopEnabled(kTRUE);
 
-   // second step definitions:
-   // If source is enabled, take output file from step 1 as input.
-   // otherwise we use output event from step 1 (set in factory)
+// Create step 2 Analysis.
    TGo4StepFactory* factory2 = new TGo4StepFactory("AnalysisFactory");
    factory2->DefInputEvent("UnpackEvent", "TXXXUnpackEvent"); // object name, class name
    factory2->DefEventProcessor("AnlProc", "TXXXAnlProc"); // object name, class name
    factory2->DefOutputEvent("AnlEvent", "TXXXAnlEvent"); // object name, class name
-   TGo4FileSourceParameter* source2  = new TGo4FileSourceParameter(out1.Data());
-   TGo4FileStoreParameter* store2   = new TGo4FileStoreParameter(out2.Data());
-   store2->SetOverwriteMode(kTRUE);
-   TGo4AnalysisStep* step2    = new TGo4AnalysisStep("Analysis",factory2,source2,store2,0);
-
-   step2->SetSourceEnabled(kFALSE);  // disable file input (output file of step 1)
-   step2->SetStoreEnabled(kFALSE);
-   step2->SetProcessEnabled(kTRUE);
+   TGo4AnalysisStep* step2    = new TGo4AnalysisStep("Analysis",factory2,0,0,0);
    step2->SetErrorStopEnabled(kTRUE);
    AddAnalysisStep(step2);
+// These settings will be overwritten by setup.C
+   step2->SetSourceEnabled(kFALSE);
+   step2->SetStoreEnabled(kFALSE);
+   step2->SetProcessEnabled(kTRUE);
 
-   // uncomment following line to define custom passwords for analysis server
-   // DefineServerPasswords("XXXadmin", "XXXctrl", "XXXview");
 
    //////////////// Parameter //////////////////////////
-   // At this point, autosave file has not yet been read!
+   // At this point, auto-save file has not yet been read!
    // Therefore parameter values set here will be overwritten
-   // if an autosave file is there.
+   // if an auto-save file is there.
    fPar = new TXXXParameter("XXXPar1");
-   fPar->frP1 = 100;
-   fPar->frP2 = 200;
    AddParameter(fPar);
    fPar = new TXXXParameter("XXXPar2");
-   fPar->frP1 = 1000;
-   fPar->frP2 = 2000;
    AddParameter(fPar);
 
-   // execute setup macro, if user arguments (-args value) was provided to go4analysis
-   // check that file setup.C is existsing in current directory
-   if (argc>1)
-      if (!gSystem->AccessPathName("setup.C"))
-         gROOT->ProcessLine(Form(".x setup.C(\"%s\")", argv[1]));
-      else
-         cout << "**** Cannot find setup.C script in current directory ! ****" << endl;
+   // check that file setup.C is existing in current directory
+   if (!gSystem->AccessPathName("setup.C"))
+   gROOT->ProcessLine(Form(".x setup.C(\"%s\")", input.Data()));
+   else
+      cout << "**** Cannot find setup.C script in current directory ! ****" << endl;
 }
-
 //***********************************************************
 TXXXAnalysis::~TXXXAnalysis()
 {
@@ -171,34 +154,6 @@ Int_t TXXXAnalysis::UserPreLoop()
       fSize = new TH1D ("Eventsize", "Event size [b]",160,1,160);
       AddHistogram(fSize);
     }
-  // we use a fitter envelope parameters to exchange fit results:
-  fFitEnvSize=(TGo4FitterEnvelope*) GetParameter("sizefitter");
-  if(fFitEnvSize==0)
-   {
-     TGo4Fitter* fitter=new TGo4Fitter("Gaussfit", TGo4Fitter::ff_ML_Poisson, kTRUE);;
-      // add histogram to fitter, which should be fitted
-      fitter->AddH1("data1", fSize, kFALSE);
-      // create polynom of first order
-      //fitter->AddPolynomX("data1", "Pol", 1);
-      // create gaussian
-      fitter->AddGauss1("data1", "Gauss1",15,5,1000);
-      fFitEnvSize=new TGo4FitterEnvelope("sizefitter",fitter);
-      AddParameter(fFitEnvSize);
-   }
-   fFitEnvSpectrum=(TGo4FitterEnvelope*) GetParameter("specfitter");
-   if(fFitEnvSpectrum==0)
-   {
-     TGo4Fitter* fitter=new TGo4Fitter("Multilines", TGo4Fitter::ff_ML_Poisson, kTRUE);;
-      // add histogram to fitter, which should be fitted
-      fitter->AddH1("spectrum", fSize, kFALSE);
-      // create polynom of first order
-      fitter->AddPolynomX("spectrum", "Pol", 1);
-      // create gaussian
-      fitter->AddGauss1("spectrum", "Gauss1",500,20,1000);
-      fFitEnvSpectrum=new TGo4FitterEnvelope("specfitter",fitter);
-      AddParameter(fFitEnvSpectrum);
-   }
-
    return 0;
 }
 //-----------------------------------------------------------
@@ -240,63 +195,6 @@ Int_t TXXXAnalysis::UserPostLoop()
 
 
     }
-
-////////////////////////////////////////////////
-// Uncomment this if you want to perform a fit
-// each time analysis stops:
-////////// first fitter:
-//  if(fFitEnvSize)
-//     {
-//         cout <<"Fitting event size..." << endl;
-//         TGo4Fitter* fitter=fFitEnvSize->GetFitter();
-//         if(fitter)
-//         {
-//            //cout <<"Fitter setting histogram and fitting..." << endl;
-//            fitter->SetObject("data1", fSize, kFALSE);
-//            fitter->DoActions();
-//            fitter->PrintLines();
-//         }
-//     }
-////////////////////////////////////////////////
-// second fitter:
-//   if(fFitEnvSpectrum)
-//     {
-//         cout <<"Fitting sum spectrum..." << endl;
-//         TGo4Fitter* fitter=fFitEnvSpectrum->GetFitter();
-//         if(fitter)
-//         {
-//            //cout <<"Fitter setting histogram and fitting..." << endl;
-//            TH1* his=GetHistogram("Sum2");
-//            fitter->SetObject("spectrum", his, kFALSE);
-//            fitter->DoActions();
-//            fitter->PrintLines();
-//         }
-//     }
-//////////////////////////////////////////////
-
-
-//////////////////////////////////////////////////////
-//////// This section is example how to store objects together with events tree:
-//   cout <<"Storing parameter fPar to Unpack:" << endl;
-//   StoreParameter("Unpack",fPar);
-//   cout <<"Storing parameter fPar to Analysis:" << endl;
-//   StoreParameter("Analysis",fPar);
-//   if(fFitEnvSpectrum)
-//     {
-//         cout <<"Storing fitter"<<fFitEnvSpectrum->GetName() <<" to analysis" << endl;
-//         TGo4Fitter* fitter=fFitEnvSpectrum->GetFitter();
-//         StoreFitter("Analysis",fitter);
-//     }
-//
-//   TGo4Condition* winar=GetAnalysisCondition("winconar");
-//   if(winar)
-//      {
-//         cout <<"Storing condition"<< winar->GetName()<<"to analysis" << endl;
-//         StoreCondition("Analysis",winar);
-//      }
-//   cout <<"Storing all conditions to unpack." << endl;
-//   StoreFolder("Unpack","Conditions");
-//////////////////////////////////////////////////////////////////////
 
    fMbsEvent = 0; // reset to avoid invalid pointer if analysis is changed in between
    fRawEvent = 0;

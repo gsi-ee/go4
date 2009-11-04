@@ -16,6 +16,7 @@
 
 #include "Riostream.h"
 #include <time.h>
+#include "TROOT.h"
 
 #include "TH1.h"
 #include "TH2.h"
@@ -48,11 +49,9 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    //// init user analysis objects:
    fParam1   = (TXXXParameter *)   GetParameter("XXXPar1");
    fParam2   = (TXXXParameter *)   GetParameter("XXXPar2");
-   fParam1->PrintParameter(0,0);
+   gROOT->ProcessLine(".x setparam.C(1)");
 
-   fParam2->PrintParameter(0,0);
-
-   cout << "**** TXXXProc: Produce histograms" << endl;
+   cout << "**** TXXXUnpackProc: Produce histograms" << endl;
 
    for(int i=0;i<8;i++) {
       fCr1Ch[i] = MakeTH1('I', Form("Crate1/Cr1Ch%02d",i+1), Form("Crate 1 channel %2d",i+1), 5000, 1., 5001.);
@@ -65,7 +64,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    fHis1gate = MakeTH1('I', "His1g","Gated histogram", 5000, 1., 5001.);
    fHis2gate = MakeTH1('I', "His2g","Gated histogram", 5000, 1., 5001.);
 
-   cout << "**** TXXXProc: Produce conditions" << endl;
+   cout << "**** TXXXUnpackProc: Produce conditions" << endl;
    fWinCon1 = MakeWinCond("wincon1", 50, 2000);
    fWinCon2 = MakeWinCond("wincon2", 50, 70, 90, 120);
    fconHis1 = MakeWinCond("cHis1", 100, 2000, "His1");
@@ -92,7 +91,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    fConArr2 = (TGo4CondArray*)GetAnalysisCondition("polyconar");
    if(fConArr2==0) {
       // This is example how to create condition array
-      cout << "**** TXXXProc: Create condition" << endl;
+      cout << "**** TXXXUnpackProc: Create condition" << endl;
       Double_t xvalues[4] = { 1000, 2000, 1500, 1000 };
       Double_t yvalues[4] = { 1000, 1000, 3000, 1000 };
       TCutG* mycut = new TCutG("cut2", 4, xvalues, yvalues);
@@ -102,7 +101,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       delete mycut; // mycat has been copied into the conditions
       AddAnalysisCondition(fConArr2);
    } else {
-      cout << "**** TXXXProc: Restore condition from autosave" << endl;
+      cout << "**** TXXXUnpackProc: Restore condition from autosave" << endl;
       fConArr2->ResetCounts();
    }
 

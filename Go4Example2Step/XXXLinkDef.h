@@ -23,7 +23,6 @@
 #pragma link C++ class TXXXUnpackProc+;
 #pragma link C++ class TXXXAnlEvent+;
 #pragma link C++ class TXXXAnlProc+;
-#pragma link C++ class TXXXCalibPar+;
 
 #endif
 

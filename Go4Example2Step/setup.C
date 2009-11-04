@@ -5,9 +5,10 @@
 void setup(Text_t* name)
 {
 // steering parameters to modify:
-  TString inpath("."); // input directory
+  TString inpath("/GSI/lea"); // input directory
   TString outpath(".");// output directory
 
+  TString unpackSource("file"); // file or transport
   TString unpackProcess("yes");
   TString unpackStore("no");
   TString unpackOverWrite("yes");
@@ -30,14 +31,24 @@ void setup(Text_t* name)
   Text_t unpout[512];// unpack output
   Text_t anlinp[512];// analysis input
   Text_t anlout[512];// analysis output
+  strcpy(unpinp,name);
   sprintf(asout,"%s/%s_AS.root",outpath.Data(),name);
-  sprintf(unpinp,"%s/%s.lmd",inpath.Data(),name);
   sprintf(unpout,"%s/%s_unpacked.root",outpath.Data(),name);
   sprintf(anlout,"%s/%s_analyzed.root",outpath.Data(),name);
   sprintf(anlinp,"%s/%s_unpacked.root",outpath.Data(),name);
   // First step
   TGo4AnalysisStep * step1 = go4->GetAnalysisStep("Unpack");
-  step1->SetProcessEnabled(unpackProcess.BeginsWith("y"));
+  step1->SetProcessEnabled(kFALSE);
+  if(unpackProcess.BeginsWith("y")){
+     step1->SetProcessEnabled(kTRUE);
+  // Specify input here, output in setup.C
+     if(unpackSource.BeginsWith("f")){
+    	  sprintf(unpinp,"%s/%s.lmd",inpath.Data(),name);
+    	  step1->SetEventSource(new TGo4MbsFileParameter(unpinp));
+     }
+     if(unpackSource.BeginsWith("t"))
+     step1->SetEventSource(new TGo4MbsTransportParameter(name));
+  }
   TGo4FileStoreParameter * f1 = new TGo4FileStoreParameter(unpout,SplitLevel,BufferSize,Compression);
   f1->SetOverwriteMode(unpackOverWrite.BeginsWith("y"));
   step1->SetEventStore(f1);
@@ -47,17 +58,16 @@ void setup(Text_t* name)
   // Second step
   TGo4AnalysisStep * step2 = go4->GetAnalysisStep("Analysis");
   step2->SetProcessEnabled(analysisProcess.BeginsWith("y"));
-  // if unpack is disabled, get input from file
-  // otherwise from output event of unpack.
-  if(unpackProcess.BeginsWith("n")){
+  step2->SetSourceEnabled(kFALSE); // from unpack
+  if(unpackProcess.BeginsWith("n")){ // no unpack: from file
 	TGo4FileSourceParameter * f2 = new TGo4FileSourceParameter(anlinp);
     step2->SetEventSource(f2);
+    step2->SetSourceEnabled(kTRUE);
   }
   f1 = new TGo4FileStoreParameter(anlout,SplitLevel,BufferSize,Compression);
   f1->SetOverwriteMode(analysisOverWrite.BeginsWith("y"));
   step2->SetEventStore(f1);
   step2->SetStoreEnabled(analysisStore.BeginsWith("y"));
-  step2->SetSourceEnabled(kTRUE);
   step2->SetErrorStopEnabled(kTRUE);
 
   // Autosafe
@@ -75,16 +85,17 @@ void setup(Text_t* name)
   printf("       Autosave:    off\n");
   printf("         Unpack:    %s\n",unpackProcess.Data());
   if(unpackProcess.BeginsWith("y")){
-  printf("         Store:     %s file %s\n",unpackStore.Data(),unpout);
-  printf("         OverWrite: %s\n",unpackOverWrite.Data());
+	  printf("         Input:     %s \n",unpinp);
+	  printf("         Store:     %s, file %s\n",unpackStore.Data(),unpout);
+	  printf("         OverWrite: %s\n",unpackOverWrite.Data());
   }
   printf("       Analysis:    %s\n",analysisProcess.Data());
   if(analysisProcess.BeginsWith("y")){
   if(unpackProcess.BeginsWith("n"))
-  printf("         Source:    yes file %s\n",anlinp);
+  printf("         Source:    yes, file %s\n",anlinp);
   else
   printf("         Source:    yes from Unpack\n");
-  printf("         Store:     %s file %s\n",analysisStore.Data(),anlout);
+  printf("         Store:     %s, file %s\n",analysisStore.Data(),anlout);
   printf("         OverWrite: %s\n",analysisOverWrite.Data());
   }
   printf("       Splitlevel:  %d\n",SplitLevel);
