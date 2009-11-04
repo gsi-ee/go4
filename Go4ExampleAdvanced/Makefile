@@ -7,61 +7,61 @@ include $(GO4SYS)/Makefile.config
 ## normally should be like this for every module, but can be specific
 
 ifdef GO4PACKAGE
-EXAMP2STEP_DIR         = Go4Example2Step
+EXAMPADVANC_DIR         = Go4ExampleAdvanced
 else
-EXAMP2STEP_DIR         = .
+EXAMPADVANC_DIR         = .
 endif
 
-EXAMP2STEP_LINKDEF     = $(EXAMP2STEP_DIR)/XXXLinkDef.$(HedSuf)
-EXAMP2STEP_LIBNAME     = $(GO4_USERLIBNAME)
+EXAMPADVANC_LINKDEF     = $(EXAMPADVANC_DIR)/XXXLinkDef.$(HedSuf)
+EXAMPADVANC_LIBNAME     = $(GO4_USERLIBNAME)
 
 ## must be similar for every module
 
-EXAMP2STEP_DICT        = $(EXAMP2STEP_DIR)/$(DICT_PREFIX)XXX
-EXAMP2STEP_DH          = $(EXAMP2STEP_DICT).$(HedSuf)
-EXAMP2STEP_DS          = $(EXAMP2STEP_DICT).$(SrcSuf)
-EXAMP2STEP_DO          = $(EXAMP2STEP_DICT).$(ObjSuf)
+EXAMPADVANC_DICT        = $(EXAMPADVANC_DIR)/$(DICT_PREFIX)XXX
+EXAMPADVANC_DH          = $(EXAMPADVANC_DICT).$(HedSuf)
+EXAMPADVANC_DS          = $(EXAMPADVANC_DICT).$(SrcSuf)
+EXAMPADVANC_DO          = $(EXAMPADVANC_DICT).$(ObjSuf)
 
-EXAMP2STEP_H           = $(filter-out $(EXAMP2STEP_DH) $(EXAMP2STEP_LINKDEF), $(wildcard $(EXAMP2STEP_DIR)/*.$(HedSuf)))
-EXAMP2STEP_S           = $(filter-out $(EXAMP2STEP_DS), $(wildcard $(EXAMP2STEP_DIR)/*.$(SrcSuf)))
-EXAMP2STEP_O           = $(EXAMP2STEP_S:.$(SrcSuf)=.$(ObjSuf))
+EXAMPADVANC_H           = $(filter-out $(EXAMPADVANC_DH) $(EXAMPADVANC_LINKDEF), $(wildcard $(EXAMPADVANC_DIR)/*.$(HedSuf)))
+EXAMPADVANC_S           = $(filter-out $(EXAMPADVANC_DS), $(wildcard $(EXAMPADVANC_DIR)/*.$(SrcSuf)))
+EXAMPADVANC_O           = $(EXAMPADVANC_S:.$(SrcSuf)=.$(ObjSuf))
 
-EXAMP2STEP_DEP         =  $(EXAMP2STEP_O:.$(ObjSuf)=.$(DepSuf))
-EXAMP2STEP_DDEP        =  $(EXAMP2STEP_DO:.$(ObjSuf)=.$(DepSuf))
+EXAMPADVANC_DEP         =  $(EXAMPADVANC_O:.$(ObjSuf)=.$(DepSuf))
+EXAMPADVANC_DDEP        =  $(EXAMPADVANC_DO:.$(ObjSuf)=.$(DepSuf))
 
-EXAMP2STEP_LIB         =  $(EXAMP2STEP_DIR)/$(EXAMP2STEP_LIBNAME).$(DllSuf)
+EXAMPADVANC_LIB         =  $(EXAMPADVANC_DIR)/$(EXAMPADVANC_LIBNAME).$(DllSuf)
 
 # used in the main Makefile
 
-EXAMPDEPENDENCS    += $(EXAMP2STEP_DEP) $(EXAMP2STEP_DDEP)
+EXAMPDEPENDENCS    += $(EXAMPADVANC_DEP) $(EXAMPADVANC_DDEP)
 
 ifdef DOPACKAGE
-DISTRFILES         += $(EXAMP2STEP_S) $(EXAMP2STEP_H) $(EXAMP2STEP_LINKDEF)
-DISTRFILES         += $(EXAMP2STEP_DIR)/Readme.txt $(EXAMP2STEP_DIR)/Makefile.win
-DISTRFILES         += $(EXAMP2STEP_DIR)/calilines.txt
-DISTRFILES         += $(EXAMP2STEP_DIR)/gaussfiles.lml
-DISTRFILES         += $(EXAMP2STEP_DIR)/convertfile.C
-DISTRFILES         += $(EXAMP2STEP_DIR)/findobjects.C
-DISTRFILES         += $(EXAMP2STEP_DIR)/browse.C
-DISTRFILES         += $(EXAMP2STEP_DIR)/plothistos.C
-#DISTRFILES         += $(wildcard $(EXAMP2STEP_DIR)/*.C)
+DISTRFILES         += $(EXAMPADVANC_S) $(EXAMPADVANC_H) $(EXAMPADVANC_LINKDEF)
+DISTRFILES         += $(EXAMPADVANC_DIR)/Readme.txt $(EXAMPADVANC_DIR)/Makefile.win
+DISTRFILES         += $(EXAMPADVANC_DIR)/calilines.txt
+DISTRFILES         += $(EXAMPADVANC_DIR)/gaussfiles.lml
+DISTRFILES         += $(EXAMPADVANC_DIR)/convertfile.C
+DISTRFILES         += $(EXAMPADVANC_DIR)/findobjects.C
+DISTRFILES         += $(EXAMPADVANC_DIR)/browse.C
+DISTRFILES         += $(EXAMPADVANC_DIR)/plothistos.C
+#DISTRFILES         += $(wildcard $(EXAMPADVANC_DIR)/*.C)
 endif
 
 ##### local rules #####
 
-all::  $(EXAMP2STEP_LIB)
+all::  $(EXAMPADVANC_LIB)
 
-$(EXAMP2STEP_LIB):   $(EXAMP2STEP_O) $(EXAMP2STEP_DO)
-	@$(MakeLibrary) $(EXAMP2STEP_LIBNAME) "$(EXAMP2STEP_O) $(EXAMP2STEP_DO)" $(EXAMP2STEP_DIR) $(EXAMP2STEP_LINKDEF) "$(ANAL_LIB_DEP)"
+$(EXAMPADVANC_LIB):   $(EXAMPADVANC_O) $(EXAMPADVANC_DO)
+	@$(MakeLibrary) $(EXAMPADVANC_LIBNAME) "$(EXAMPADVANC_O) $(EXAMPADVANC_DO)" $(EXAMPADVANC_DIR) $(EXAMPADVANC_LINKDEF) "$(ANAL_LIB_DEP)"
 
-$(EXAMP2STEP_DS): $(EXAMP2STEP_H)  $(EXAMP2STEP_LINKDEF)
-	@$(ROOTCINTGO4) $(EXAMP2STEP_H) $(EXAMP2STEP_LINKDEF)
+$(EXAMPADVANC_DS): $(EXAMPADVANC_H)  $(EXAMPADVANC_LINKDEF)
+	@$(ROOTCINTGO4) $(EXAMPADVANC_H) $(EXAMPADVANC_LINKDEF)
 
 clean-bin::
-	@rm -f $(EXAMP2STEP_O) $(EXAMP2STEP_DO)
-	@rm -f $(EXAMP2STEP_DEP) $(EXAMP2STEP_DDEP) $(EXAMP2STEP_DS) $(EXAMP2STEP_DH)
+	@rm -f $(EXAMPADVANC_O) $(EXAMPADVANC_DO)
+	@rm -f $(EXAMPADVANC_DEP) $(EXAMPADVANC_DDEP) $(EXAMPADVANC_DS) $(EXAMPADVANC_DH)
 
 clean:: clean-bin
-	@$(CleanLib) $(EXAMP2STEP_LIBNAME) $(EXAMP2STEP_DIR)
+	@$(CleanLib) $(EXAMPADVANC_LIBNAME) $(EXAMPADVANC_DIR)
 
 include $(GO4SYS)/Makefile.rules
