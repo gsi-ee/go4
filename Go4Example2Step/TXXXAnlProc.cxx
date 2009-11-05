@@ -31,7 +31,7 @@
 TXXXAnlProc::TXXXAnlProc() :
    TGo4EventProcessor(),
    fSum1(0),fSum2(0),fSum3(0),
-   fParam1(0),fParam2(0),fWinCon(0)
+   fParam1(0),fWinCon(0)
 {
 }
 //***********************************************************
@@ -41,23 +41,28 @@ TXXXAnlProc::TXXXAnlProc(const char* name) :
 {
    cout << "**** TXXXAnlProc: Create" << endl;
    //// init user analysis objects:
-   fParam1 = (TXXXParameter*)  GetParameter("XXXPar1");
-   fParam2 = (TXXXParameter*)  GetParameter("XXXPar2");
+   fParam1 = (TXXXParameter*)  GetParameter("XXXParameter");
+   // if unpack was enabled, parameters have been printed already
    if(TGo4Analysis::Instance()->GetAnalysisStep("Unpack")->IsProcessEnabled())
-	   gROOT->ProcessLine(".x setparam.C(0)");
+	    gROOT->ProcessLine(".x setparam.C(0)");
    else gROOT->ProcessLine(".x setparam.C(1)");
 
-   fWinCon = (TGo4WinCond *)   GetAnalysisCondition("wincon1");
-
+   if(fParam1->fbHisto){
+// this one is created in TXXXAnalysis, because it is used in both steps
+   fWinCon = (TGo4WinCond *) GetAnalysisCondition("wincon1");
+   fWinCon->PrintCondition(true);
    fSum1     = MakeTH1('I', "Sum1", "Sum over 8 channels", 5000, 1., 5001.);
    fSum2     = MakeTH1('I', "Sum2", "Sum over 8 channels shift 1", 5000, 1., 5001.);
    fSum3     = MakeTH1('I', "Sum3", "Sum over 8 channels shift 2", 5000, 1., 5001.);
-
+   }
 }
 //***********************************************************
 TXXXAnlProc::~TXXXAnlProc()
 {
-}
+	   cout << "**** TXXXAnlProc: Delete" << endl;
+	   if(fParam1->fbHisto){
+	   fWinCon->PrintCondition(true);
+}}
 //***********************************************************
 
 //-----------------------------------------------------------
@@ -76,16 +81,17 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
       cnt++;
    }
    for(Int_t ii=0; ii<4; ii++) {
-      out_evt->frData[cnt]=(Float_t)inp_evt->fiCrate2[ii];
+      out_evt->frData[cnt] = (Float_t)inp_evt->fiCrate2[ii];
       cnt++;
    }
+   if(fParam1->fbHisto){ // histogramming
    for(Int_t ii=0;ii<8;ii++)
       if(out_evt->frData[ii]) {
          if(fWinCon->Test(out_evt->frData[ii])) fSum1->Fill(out_evt->frData[ii]);
          fSum2->Fill(out_evt->frData[ii]+fParam1->frP1);
-         fSum3->Fill(out_evt->frData[ii]+fParam2->frP1);
+         fSum3->Fill(out_evt->frData[ii]+fParam1->frP2);
       }
-
+   }
 
    return kTRUE;
 }

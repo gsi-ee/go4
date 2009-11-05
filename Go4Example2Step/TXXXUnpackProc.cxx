@@ -47,9 +47,10 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    cout << "**** TXXXUnpackProc: Create" << endl;
 
    //// init user analysis objects:
-   fParam1   = (TXXXParameter *)   GetParameter("XXXPar1");
-   fParam2   = (TXXXParameter *)   GetParameter("XXXPar2");
-   gROOT->ProcessLine(".x setparam.C(1)");
+   fParam1   = (TXXXParameter *)   GetParameter("XXXParameter");
+   gROOT->ProcessLine(".x setparam.C(1)"); // print
+
+   if(fParam1->fbHisto){
 
    cout << "**** TXXXUnpackProc: Produce histograms" << endl;
 
@@ -65,7 +66,9 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    fHis2gate = MakeTH1('I', "His2g","Gated histogram", 5000, 1., 5001.);
 
    cout << "**** TXXXUnpackProc: Produce conditions" << endl;
-   fWinCon1 = MakeWinCond("wincon1", 50, 2000);
+// this one is created in TXXXAnalysis, because it is used in both steps
+   fWinCon1 = (TGo4WinCond *) GetAnalysisCondition("wincon1");
+   fWinCon1->PrintCondition(true);
    fWinCon2 = MakeWinCond("wincon2", 50, 70, 90, 120);
    fconHis1 = MakeWinCond("cHis1", 100, 2000, "His1");
    fconHis2 = MakeWinCond("cHis2", 100, 2000, "His2");
@@ -140,32 +143,70 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    fPicture1 = GetPicture("Picture1");
    if (fPicture1 == 0) {
       fPicture1 = new TGo4Picture("Picture1","Picture example");
-      fPicture1->SetLinesDivision(3, 2,3,1);
+      fPicture1->SetLinesDivision(3, 2,3,1); // three rows, cols per row
+      // top row
       fPicture1->LPic(0,0)->AddObject(fCr1Ch[0]);
       fPicture1->LPic(0,0)->SetFillAtt(5, 3001); // pattern
       fPicture1->LPic(0,0)->SetLineAtt(5,1,1);
+      fPicture1->LPic(0,0)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
+      fPicture1->LPic(0,0)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
+      fPicture1->LPic(0,0)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
+      fPicture1->LPic(0,0)->SetHisTitle(false);
+      fPicture1->LPic(0,0)->SetTitleAttr(0.1,0.75,0.7,0.9);
+
       fPicture1->LPic(0,1)->AddObject(fCr1Ch[1]);
       fPicture1->LPic(0,1)->SetFillAtt(4, 3001); // pattern
       fPicture1->LPic(0,1)->SetLineAtt(4,1,1);
+      fPicture1->LPic(0,1)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
+      fPicture1->LPic(0,1)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
+      fPicture1->LPic(0,1)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
+      fPicture1->LPic(0,1)->SetHisTitle(false);
+      fPicture1->LPic(0,1)->SetTitleAttr(0.1,0.75,0.7,0.9);
+// middle row
       fPicture1->LPic(1,0)->AddObject(fCr1Ch[2]);
       fPicture1->LPic(1,0)->SetFillAtt(6, 1001); // solid
       fPicture1->LPic(1,0)->SetLineAtt(6,1,1);
+      fPicture1->LPic(1,0)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
+      fPicture1->LPic(1,0)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
+      fPicture1->LPic(1,0)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
+      fPicture1->LPic(1,0)->SetHisTitle(false);
+      fPicture1->LPic(1,0)->SetTitleAttr(0.1,0.75,0.7,0.9);
+
       fPicture1->LPic(1,1)->AddObject(fCr1Ch[3]);
       fPicture1->LPic(1,1)->SetFillAtt(7, 1001); // solid
       fPicture1->LPic(1,1)->SetLineAtt(7,1,1);
+      fPicture1->LPic(1,1)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
+      fPicture1->LPic(1,1)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
+      fPicture1->LPic(1,1)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
+      fPicture1->LPic(1,1)->SetHisTitle(false);
+      fPicture1->LPic(1,1)->SetTitleAttr(0.1,0.75,0.7,0.9);
+
       fPicture1->LPic(1,2)->AddObject(fCr1Ch[4]);
-      fPicture1->LPic(3,0)->AddObject(fCr1Ch1x2);
-      fPicture1->LPic(3,0)->SetDrawOption("CONT");
+      fPicture1->LPic(1,2)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
+      fPicture1->LPic(1,2)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
+      fPicture1->LPic(1,2)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
+      fPicture1->LPic(1,2)->SetHisTitle(false);
+      fPicture1->LPic(1,2)->SetTitleAttr(0.1,0.75,0.7,0.9);
+// bottom row
+      fPicture1->LPic(2,0)->AddObject(fCr1Ch1x2);
+      fPicture1->LPic(2,0)->SetDrawOption("CONT");
+      fPicture1->LPic(2,0)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
+      fPicture1->LPic(2,0)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
+      fPicture1->LPic(2,0)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
+      fPicture1->LPic(2,0)->SetHisTitle(false);
+      fPicture1->LPic(2,0)->SetTitleAttr(0.1,0.75,0.7,0.9);
       AddPicture(fPicture1);
    }
+   } // create histograms
 }
 //***********************************************************
 TXXXUnpackProc::~TXXXUnpackProc()
 {
    cout << "**** TXXXUnpackProc: Delete" << endl;
+   if(fParam1->fbHisto){
    fWinCon1->PrintCondition(true);
    fPolyCon1->PrintCondition(true);
-}
+}}
 //***********************************************************
 
 //-----------------------------------------------------------
@@ -236,8 +277,9 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
             // Int_t value = (*pdata>>16)&0xfff; // in case high word is data
             if(*pdata != 0)
             {
-               fCr1Ch[i]->Fill((Float_t)(*pdata));
                out_evt->fiCrate1[i] = *pdata; // fill output event
+               if(fParam1->fbHisto){ // fill histograms
+               fCr1Ch[i]->Fill((Float_t)(*pdata));
                if(i == 0) // fill first channel
                {
                   if(fconHis1->Test(*pdata))fHis1gate->Fill((Float_t)(*pdata));
@@ -252,6 +294,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
                   if(((*fConArr2)[0])->Test(*pdata,lastvalue))fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
                   if(((*fConArr2)[1])->Test(*pdata,lastvalue))fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
                }
+               }
             }
             lastvalue = *pdata; // save for 2d histogram
             pdata++;
@@ -265,7 +308,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
          for(Int_t i = 0; i<lwords; ++i) {
             if(*pdata != 0) {
                out_evt->fiCrate2[i] = *pdata;
-               fCr2Ch[i]->Fill((Float_t)(*pdata));
+               if(fParam1->fbHisto)fCr2Ch[i]->Fill((Float_t)(*pdata));
             }
             pdata++;
          } // for SEW LW

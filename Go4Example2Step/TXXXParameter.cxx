@@ -20,7 +20,7 @@ TXXXParameter::TXXXParameter() :
 {
    frP1=0;
    frP2=0;
-   fbEnab=kFALSE;
+   fbHisto=kTRUE;
 }
 //***********************************************************
 TXXXParameter::TXXXParameter(const char* name) :
@@ -28,7 +28,7 @@ TXXXParameter::TXXXParameter(const char* name) :
 {
    frP1=10;
    frP2=20;
-   fbEnab=kFALSE;
+   fbHisto=kTRUE;
 }
 //***********************************************************
 TXXXParameter::~TXXXParameter()
@@ -41,7 +41,7 @@ Int_t TXXXParameter::PrintParameter(Text_t * n, Int_t)
    cout << "Parameter " << GetName()<<":" <<endl;
    cout << "  P1="<<frP1<<endl;
    cout << "  P2="<<frP2<< endl;
-   cout << "  fbEnab="<<fbEnab<<endl;
+   cout << "  fbHisto="<<fbHisto<<endl;
    return 0;
 }
 //-----------------------------------------------------------
@@ -55,7 +55,7 @@ Bool_t TXXXParameter::UpdateFrom(TGo4Parameter *pp)
    cout << "Parameter " << GetName() << " updated from auto-save file!" << endl;
    frP1=from->frP1;
    frP2=from->frP2;
-   fbEnab=from->fbEnab;
+   fbHisto=from->fbHisto;
   return kTRUE;
 }
 

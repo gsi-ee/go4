@@ -113,10 +113,10 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    // At this point, auto-save file has not yet been read!
    // Therefore parameter values set here will be overwritten
    // if an auto-save file is there.
-   fPar = new TXXXParameter("XXXPar1");
-   AddParameter(fPar);
-   fPar = new TXXXParameter("XXXPar2");
-   AddParameter(fPar);
+   fPar = (TXXXParameter *)MakeParameter("XXXParameter","TXXXParameter");
+   // This condition is used in both steps.
+   // Therfore we create it here
+   fWinCon1 = MakeWinCond("wincon1", 50, 2000);
 
    // check that file setup.C is existing in current directory
    if (!gSystem->AccessPathName("setup.C"))
@@ -144,16 +144,10 @@ Int_t TXXXAnalysis::UserPreLoop()
    fEvents=0;
    fLastEvent=0;
 
-
-
    // create histogram for UserEventFunc
-   // At this point, the histogram has been restored from autosave file if any.
-  fSize=(TH1D*)GetHistogram("Eventsize");
-  if(fSize==0)
-    { // no autosave read, create new and register
-      fSize = new TH1D ("Eventsize", "Event size [b]",160,1,160);
-      AddHistogram(fSize);
-    }
+   // At this point, the histogram has been restored
+   // from auto-save file if any.
+   fSize = (TH1D*) MakeTH1('D',"Eventsize", "Event size [b]",160,1,160);
    return 0;
 }
 //-----------------------------------------------------------

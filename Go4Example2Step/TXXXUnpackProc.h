@@ -41,7 +41,6 @@ class TXXXUnpackProc : public TGo4EventProcessor {
       TGo4CondArray *fConArr1;
       TGo4CondArray *fConArr2;
       TXXXParameter *fParam1;
-      TXXXParameter *fParam2;
       TGo4Picture   *fPicture1;
       TGo4Picture   *fcondSet;
 

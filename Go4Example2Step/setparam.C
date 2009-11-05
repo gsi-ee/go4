@@ -4,25 +4,15 @@
 void setparam(Bool_t print)
 {
 // set here values -----------
-Float_t Par1P1   = 100;
-Float_t Par1P2   = 200;
-Bool_t  Par1Enab = kTRUE;
-Float_t Par2P1   = 1000;
-Float_t Par2P2   = 2000;
-Bool_t  Par2Enab = kTRUE;
+Float_t P1   = 100;
+Float_t P2   = 200;
+Bool_t  Histo = kTRUE; // enable/disable histogramming
 //-----------------------------
-
 	TXXXParameter *fp;
-	fp = (TXXXParameter *) go4->GetObject("Parameters/XXXPar1","Go4");
+	fp = (TXXXParameter *) go4->GetObject("Parameters/XXXParameter","Go4");
 	if(fp==0) return;
-	fp->frP1 = Par1P1;
-	fp->frP2 = Par1P2;
-	fp->fbEnab=Par1Enab;
-	if(print)fp->Print();
-	fp = (TXXXParameter *) go4->GetObject("Parameters/XXXPar2","Go4");
-	if(fp==0) return;
-	fp->frP1 = Par2P1;
-	fp->frP2 = Par2P2;
-	fp->fbEnab=Par2Enab;
+	fp->frP1    = P1;
+	fp->frP2    = P2;
+	fp->fbHisto = Histo;
 	if(print)fp->Print();
 }

@@ -31,7 +31,7 @@ class TXXXParameter : public TGo4Parameter {
       Bool_t UpdateFrom(TGo4Parameter *);
       Float_t frP1;
       Float_t frP2;
-      Bool_t fbEnab;
+      Bool_t fbHisto;
 
    ClassDef(TXXXParameter,1)
 };
