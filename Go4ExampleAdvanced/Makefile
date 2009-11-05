@@ -44,7 +44,6 @@ DISTRFILES         += $(EXAMPADVANC_DIR)/convertfile.C
 DISTRFILES         += $(EXAMPADVANC_DIR)/findobjects.C
 DISTRFILES         += $(EXAMPADVANC_DIR)/browse.C
 DISTRFILES         += $(EXAMPADVANC_DIR)/plothistos.C
-#DISTRFILES         += $(wildcard $(EXAMPADVANC_DIR)/*.C)
 endif
 
 ##### local rules #####

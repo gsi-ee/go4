@@ -38,13 +38,8 @@ EXAMPDEPENDENCS    += $(EXAMP2STEP_DEP) $(EXAMP2STEP_DDEP)
 ifdef DOPACKAGE
 DISTRFILES         += $(EXAMP2STEP_S) $(EXAMP2STEP_H) $(EXAMP2STEP_LINKDEF)
 DISTRFILES         += $(EXAMP2STEP_DIR)/Readme.txt $(EXAMP2STEP_DIR)/Makefile.win
-DISTRFILES         += $(EXAMP2STEP_DIR)/calilines.txt
-DISTRFILES         += $(EXAMP2STEP_DIR)/gaussfiles.lml
-DISTRFILES         += $(EXAMP2STEP_DIR)/convertfile.C
-DISTRFILES         += $(EXAMP2STEP_DIR)/findobjects.C
-DISTRFILES         += $(EXAMP2STEP_DIR)/browse.C
-DISTRFILES         += $(EXAMP2STEP_DIR)/plothistos.C
-#DISTRFILES         += $(wildcard $(EXAMP2STEP_DIR)/*.C)
+DISTRFILES         += $(EXAMP2STEP_DIR)/setparam.C
+DISTRFILES         += $(EXAMP2STEP_DIR)/setup.C
 endif
 
 ##### local rules #####

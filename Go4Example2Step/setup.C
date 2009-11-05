@@ -2,7 +2,7 @@
 // Go4 2 step analysis
 //---------------------------------------------
 
-void setup(Text_t* name)
+void setup(const char* name)
 {
 // steering parameters to modify:
   TString inpath("/GSI/lea"); // input directory
