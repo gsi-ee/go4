@@ -49,13 +49,14 @@ void setup(Text_t* name)
   step2->SetProcessEnabled(analysisProcess.BeginsWith("y"));
   // if unpack is disabled, get input from file
   // otherwise from output event of unpack.
+  step2->SetSourceEnabled(kFALSE);
   if(unpackProcess.BeginsWith("n")){
 	TGo4FileSourceParameter * f2 = new TGo4FileSourceParameter(anlinp);
     step2->SetEventSource(f2);
+    step2->SetSourceEnabled(kTRUE);
   }
   f1 = new TGo4FileStoreParameter(anlout,SplitLevel,BufferSize,Compression);
   f1->SetOverwriteMode(analysisOverWrite.BeginsWith("y"));
-  step2->SetSourceEnabled(kTRUE);
   step2->SetEventStore(f1);
   step2->SetStoreEnabled(analysisStore.BeginsWith("y"));
   step2->SetErrorStopEnabled(kTRUE);

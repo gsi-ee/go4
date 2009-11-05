@@ -102,7 +102,7 @@ Changes in Go4 v4.3.1 (August 09)
    in executable (similar to qt4)
 5. Suppress symbolic links in user gui library to avoid compilation problem
    on DOS partitions, where links are not supported
-6. Set in gStyle pad frame color
+6. Set in gStyle pad frame color white
 7. Workaround for TCutG API changes in ROOT 5.25.1 and further         
 
 Changes in Go4 v4.3.0 (June 09)
