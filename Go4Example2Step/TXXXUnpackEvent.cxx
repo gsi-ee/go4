@@ -13,6 +13,7 @@
 
 #include "TXXXUnpackEvent.h"
 
+#include <string.h>
 
 //***********************************************************
 TXXXUnpackEvent::TXXXUnpackEvent() :
@@ -31,13 +32,8 @@ TXXXUnpackEvent::~TXXXUnpackEvent()
 //***********************************************************
 void  TXXXUnpackEvent::Clear(Option_t *t)
 {
-   void* destfield;
-   destfield = (void*) &fiCrate1[0];
-   memset(destfield, 0, sizeof(fiCrate1));
-   destfield = (void*) &fiCrate2[0];
-   memset(destfield, 0, sizeof(fiCrate2));
-   destfield = (void*) &fiCrate3[0];
-   memset(destfield, 0, sizeof(fiCrate3));
-   destfield = (void*) &fiCrate4[0];
-   memset(destfield, 0, sizeof(fiCrate4));
+   memset(fiCrate1, 0, sizeof(fiCrate1));
+   memset(fiCrate2, 0, sizeof(fiCrate2));
+   memset(fiCrate3, 0, sizeof(fiCrate3));
+   memset(fiCrate4, 0, sizeof(fiCrate4));
 }

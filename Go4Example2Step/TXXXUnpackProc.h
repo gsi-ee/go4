@@ -25,7 +25,7 @@ class TXXXUnpackProc : public TGo4EventProcessor {
       TXXXUnpackProc(const char* name);
       virtual ~TXXXUnpackProc();
       virtual Bool_t BuildEvent(TGo4EventElement* dest);
-  private:
+   private:
       TH1           *fCr1Ch[8];
       TH1           *fCr2Ch[8];
       TH2           *fCr1Ch1x2;

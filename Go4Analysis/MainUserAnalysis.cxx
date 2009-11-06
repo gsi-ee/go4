@@ -346,7 +346,7 @@ int main(int argc, char **argv)
       return -1;
    }
 
-   if ((argc<2) || (FindArg(argc, argv, "-help")>0)) usage();
+   if ((FindArg(argc, argv, "-help")>0) || (FindArg(argc, argv, "-h")>0)) usage();
 
    int user_argc = 0;
    char** user_argv = 0;

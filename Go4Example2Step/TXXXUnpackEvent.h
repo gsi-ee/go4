@@ -26,7 +26,7 @@ class TXXXUnpackEvent : public TGo4EventElement {
        * Method called by the event owner (analysis step) to clear the
        * event element.
        */
-      void Clear(Option_t *t="");
+      virtual void Clear(Option_t *t="");
 
       Int_t fiCrate1[16];
       Int_t fiCrate2[16];

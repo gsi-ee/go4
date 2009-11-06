@@ -34,13 +34,12 @@
 #include "TXXXParameter.h"
 #include "TXXXUnpackEvent.h"
 
-//***********************************************************
+//-----------------------------------------------------------
 TXXXUnpackProc::TXXXUnpackProc() :
    TGo4EventProcessor()
 {
 }
-//***********************************************************
-// this one is used in TXXXUnpackFact.cxx
+//-----------------------------------------------------------
 TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    TGo4EventProcessor(name)
 {
@@ -52,163 +51,162 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
 
    if(fParam1->fbHisto){
 
-   cout << "**** TXXXUnpackProc: Produce histograms" << endl;
+      cout << "**** TXXXUnpackProc: Produce histograms" << endl;
 
-   for(int i=0;i<8;i++) {
-      fCr1Ch[i] = MakeTH1('I', Form("Crate1/Cr1Ch%02d",i+1), Form("Crate 1 channel %2d",i+1), 5000, 1., 5001.);
-      fCr2Ch[i] = MakeTH1('I', Form("Crate2/Cr2Ch%02d",i+1), Form("Crate 2 channel %2d",i+1), 5000, 1., 5001.);
-   }
+      for(int i=0;i<8;i++) {
+         fCr1Ch[i] = MakeTH1('I', Form("Crate1/Cr1Ch%02d",i+1), Form("Crate 1 channel %2d",i+1), 5000, 1., 5001.);
+         fCr2Ch[i] = MakeTH1('I', Form("Crate2/Cr2Ch%02d",i+1), Form("Crate 2 channel %2d",i+1), 5000, 1., 5001.);
+      }
 
-   fCr1Ch1x2 = MakeTH2('I', "Cr1Ch1x2","Crate 1 channel 1x2", 200, 1., 5001., 200, 1., 5001.);
-   fHis1 = MakeTH1('I', "His1","Condition histogram", 5000, 1., 5001.);
-   fHis2 = MakeTH1('I', "His2","Condition histogram", 5000, 1., 5001.);
-   fHis1gate = MakeTH1('I', "His1g","Gated histogram", 5000, 1., 5001.);
-   fHis2gate = MakeTH1('I', "His2g","Gated histogram", 5000, 1., 5001.);
+      fCr1Ch1x2 = MakeTH2('I', "Cr1Ch1x2","Crate 1 channel 1x2", 200, 1., 5001., 200, 1., 5001.);
+      fHis1 = MakeTH1('I', "His1","Condition histogram", 5000, 1., 5001.);
+      fHis2 = MakeTH1('I', "His2","Condition histogram", 5000, 1., 5001.);
+      fHis1gate = MakeTH1('I', "His1g","Gated histogram", 5000, 1., 5001.);
+      fHis2gate = MakeTH1('I', "His2g","Gated histogram", 5000, 1., 5001.);
 
-   cout << "**** TXXXUnpackProc: Produce conditions" << endl;
-// this one is created in TXXXAnalysis, because it is used in both steps
-   fWinCon1 = (TGo4WinCond *) GetAnalysisCondition("wincon1");
-   fWinCon1->PrintCondition(true);
-   fWinCon2 = MakeWinCond("wincon2", 50, 70, 90, 120);
-   fconHis1 = MakeWinCond("cHis1", 100, 2000, "His1");
-   fconHis2 = MakeWinCond("cHis2", 100, 2000, "His2");
+      cout << "**** TXXXUnpackProc: Produce conditions" << endl;
+      // this one is created in TXXXAnalysis, because it is used in both steps
+      fWinCon1 = (TGo4WinCond *) GetAnalysisCondition("wincon1");
+      fWinCon1->PrintCondition(true);
+      fWinCon2 = MakeWinCond("wincon2", 50, 70, 90, 120);
+      fconHis1 = MakeWinCond("cHis1", 100, 2000, "His1");
+      fconHis2 = MakeWinCond("cHis2", 100, 2000, "His2");
 
-   Double_t cutpnts[3][2] = { {400, 800}, {700, 900}, {600, 1100} };
-   fPolyCon1 = MakePolyCond("polycon", 3, cutpnts);
+      Double_t cutpnts[3][2] = { {400, 800}, {700, 900}, {600, 1100} };
+      fPolyCon1 = MakePolyCond("polycon", 3, cutpnts);
 
 
-   fConArr1 = (TGo4CondArray*)GetAnalysisCondition("winconar");
-   if (fConArr1==0) {
-      fConArr1 = new TGo4CondArray("winconar",30,"TGo4WinCond");
-      fConArr1->SetValues(100,500);
-      fConArr1->Disable(true);
-      ((*fConArr1)[0])->SetValues(200,400);
-      ((*fConArr1)[1])->SetValues(700,1000);
-      ((*fConArr1)[2])->SetValues(1500,2000);
-      fConArr1->SetHistogram("Sum3");
-      AddAnalysisCondition(fConArr1);
-   } else {
-      fConArr1->ResetCounts();
-   }
+      fConArr1 = (TGo4CondArray*)GetAnalysisCondition("winconar");
+      if (fConArr1==0) {
+         fConArr1 = new TGo4CondArray("winconar",30,"TGo4WinCond");
+         fConArr1->SetValues(100,500);
+         fConArr1->Disable(true);
+         ((*fConArr1)[0])->SetValues(200,400);
+         ((*fConArr1)[1])->SetValues(700,1000);
+         ((*fConArr1)[2])->SetValues(1500,2000);
+         fConArr1->SetHistogram("Sum3");
+         AddAnalysisCondition(fConArr1);
+      } else {
+         fConArr1->ResetCounts();
+      }
 
-   fConArr2 = (TGo4CondArray*)GetAnalysisCondition("polyconar");
-   if(fConArr2==0) {
-      // This is example how to create condition array
-      cout << "**** TXXXUnpackProc: Create condition" << endl;
-      Double_t xvalues[4] = { 1000, 2000, 1500, 1000 };
-      Double_t yvalues[4] = { 1000, 1000, 3000, 1000 };
-      TCutG* mycut = new TCutG("cut2", 4, xvalues, yvalues);
-      fConArr2 = new TGo4CondArray("polyconar",4,"TGo4PolyCond");
-      fConArr2->SetValues(mycut);
-      fConArr2->Disable(true);   // means: condition check always returns true
-      delete mycut; // mycat has been copied into the conditions
-      AddAnalysisCondition(fConArr2);
-   } else {
-      cout << "**** TXXXUnpackProc: Restore condition from autosave" << endl;
-      fConArr2->ResetCounts();
-   }
+      fConArr2 = (TGo4CondArray*)GetAnalysisCondition("polyconar");
+      if(fConArr2==0) {
+         // This is example how to create condition array
+         cout << "**** TXXXUnpackProc: Create condition" << endl;
+         Double_t xvalues[4] = { 1000, 2000, 1500, 1000 };
+         Double_t yvalues[4] = { 1000, 1000, 3000, 1000 };
+         TCutG* mycut = new TCutG("cut2", 4, xvalues, yvalues);
+         fConArr2 = new TGo4CondArray("polyconar",4,"TGo4PolyCond");
+         fConArr2->SetValues(mycut);
+         fConArr2->Disable(true);   // means: condition check always returns true
+         delete mycut; // mycat has been copied into the conditions
+         AddAnalysisCondition(fConArr2);
+      } else {
+         cout << "**** TXXXUnpackProc: Restore condition from autosave" << endl;
+         fConArr2->ResetCounts();
+      }
 
-   // connect histograms to conditions. will be drawn when condition is edited.
-   fWinCon1->Enable();
-   fWinCon2->Disable(true); // return always true
-   fWinCon2->Invert(kTRUE);
-   fWinCon1->PrintCondition(true);
-   fconHis1->PrintCondition(true);
-   fconHis2->PrintCondition(true);
-   fPolyCon1->Enable();
-   fPolyCon1->PrintCondition(true);
-   ((*fConArr2)[0])->Enable();
-   ((*fConArr2)[1])->Enable(); // 2 and 3 remain disabled
+      // connect histograms to conditions. will be drawn when condition is edited.
+      fWinCon1->Enable();
+      fWinCon2->Disable(true); // return always true
+      fWinCon2->Invert(kTRUE);
+      fWinCon1->PrintCondition(true);
+      fconHis1->PrintCondition(true);
+      fconHis2->PrintCondition(true);
+      fPolyCon1->Enable();
+      fPolyCon1->PrintCondition(true);
+      ((*fConArr2)[0])->Enable();
+      ((*fConArr2)[1])->Enable(); // 2 and 3 remain disabled
 
-   fcondSet = GetPicture("condSet");
-   if (fcondSet==0) {
-      // in the upper two pads, the condition limits can be set,
-      // in the lower two pads, the resulting histograms are shown
-      fcondSet = new TGo4Picture("condSet","Set conditions");
-      fcondSet->SetDivision(2,2);
-      fcondSet->Pic(0,0)->AddObject(fHis1);
-      fcondSet->Pic(0,1)->AddObject(fHis2);
-      fcondSet->Pic(0,0)->AddCondition(fconHis1);
-      fcondSet->Pic(0,1)->AddCondition(fconHis2);
-      fcondSet->Pic(1,0)->AddObject(fHis1gate);
-      fcondSet->Pic(1,1)->AddObject(fHis2gate);
-      fcondSet->Pic(1,0)->SetFillAtt(4, 1001); // solid
-      fcondSet->Pic(1,0)->SetLineAtt(4,1,1);
-      fcondSet->Pic(1,1)->SetFillAtt(9, 1001); // solid
-      fcondSet->Pic(1,1)->SetLineAtt(9,1,1);
-      fcondSet->Pic(0,0)->SetTitleAttr(0.05, 0.85, 0.8, 0.95);
-      AddPicture(fcondSet);
-   }
+      fcondSet = GetPicture("condSet");
+      if (fcondSet==0) {
+         // in the upper two pads, the condition limits can be set,
+         // in the lower two pads, the resulting histograms are shown
+         fcondSet = new TGo4Picture("condSet","Set conditions");
+         fcondSet->SetDivision(2,2);
+         fcondSet->Pic(0,0)->AddObject(fHis1);
+         fcondSet->Pic(0,1)->AddObject(fHis2);
+         fcondSet->Pic(0,0)->AddCondition(fconHis1);
+         fcondSet->Pic(0,1)->AddCondition(fconHis2);
+         fcondSet->Pic(1,0)->AddObject(fHis1gate);
+         fcondSet->Pic(1,1)->AddObject(fHis2gate);
+         fcondSet->Pic(1,0)->SetFillAtt(4, 1001); // solid
+         fcondSet->Pic(1,0)->SetLineAtt(4,1,1);
+         fcondSet->Pic(1,1)->SetFillAtt(9, 1001); // solid
+         fcondSet->Pic(1,1)->SetLineAtt(9,1,1);
+         fcondSet->Pic(0,0)->SetTitleAttr(0.05, 0.85, 0.8, 0.95);
+         AddPicture(fcondSet);
+      }
 
-   fPicture1 = GetPicture("Picture1");
-   if (fPicture1 == 0) {
-      fPicture1 = new TGo4Picture("Picture1","Picture example");
-      fPicture1->SetLinesDivision(3, 2,3,1); // three rows, cols per row
-      // top row
-      fPicture1->LPic(0,0)->AddObject(fCr1Ch[0]);
-      fPicture1->LPic(0,0)->SetFillAtt(5, 3001); // pattern
-      fPicture1->LPic(0,0)->SetLineAtt(5,1,1);
-      fPicture1->LPic(0,0)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
-      fPicture1->LPic(0,0)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
-      fPicture1->LPic(0,0)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
-      fPicture1->LPic(0,0)->SetHisTitle(false);
-      fPicture1->LPic(0,0)->SetTitleAttr(0.1,0.75,0.7,0.9);
+      fPicture1 = GetPicture("Picture1");
+      if (fPicture1 == 0) {
+         fPicture1 = new TGo4Picture("Picture1","Picture example");
+         fPicture1->SetLinesDivision(3, 2,3,1); // three rows, cols per row
+         // top row
+         fPicture1->LPic(0,0)->AddObject(fCr1Ch[0]);
+         fPicture1->LPic(0,0)->SetFillAtt(5, 3001); // pattern
+         fPicture1->LPic(0,0)->SetLineAtt(5,1,1);
+         fPicture1->LPic(0,0)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
+         fPicture1->LPic(0,0)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
+         fPicture1->LPic(0,0)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
+         fPicture1->LPic(0,0)->SetHisTitle(false);
+         fPicture1->LPic(0,0)->SetTitleAttr(0.1,0.75,0.7,0.9);
 
-      fPicture1->LPic(0,1)->AddObject(fCr1Ch[1]);
-      fPicture1->LPic(0,1)->SetFillAtt(4, 3001); // pattern
-      fPicture1->LPic(0,1)->SetLineAtt(4,1,1);
-      fPicture1->LPic(0,1)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
-      fPicture1->LPic(0,1)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
-      fPicture1->LPic(0,1)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
-      fPicture1->LPic(0,1)->SetHisTitle(false);
-      fPicture1->LPic(0,1)->SetTitleAttr(0.1,0.75,0.7,0.9);
-// middle row
-      fPicture1->LPic(1,0)->AddObject(fCr1Ch[2]);
-      fPicture1->LPic(1,0)->SetFillAtt(6, 1001); // solid
-      fPicture1->LPic(1,0)->SetLineAtt(6,1,1);
-      fPicture1->LPic(1,0)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
-      fPicture1->LPic(1,0)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
-      fPicture1->LPic(1,0)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
-      fPicture1->LPic(1,0)->SetHisTitle(false);
-      fPicture1->LPic(1,0)->SetTitleAttr(0.1,0.75,0.7,0.9);
+         fPicture1->LPic(0,1)->AddObject(fCr1Ch[1]);
+         fPicture1->LPic(0,1)->SetFillAtt(4, 3001); // pattern
+         fPicture1->LPic(0,1)->SetLineAtt(4,1,1);
+         fPicture1->LPic(0,1)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
+         fPicture1->LPic(0,1)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
+         fPicture1->LPic(0,1)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
+         fPicture1->LPic(0,1)->SetHisTitle(false);
+         fPicture1->LPic(0,1)->SetTitleAttr(0.1,0.75,0.7,0.9);
+         // middle row
+         fPicture1->LPic(1,0)->AddObject(fCr1Ch[2]);
+         fPicture1->LPic(1,0)->SetFillAtt(6, 1001); // solid
+         fPicture1->LPic(1,0)->SetLineAtt(6,1,1);
+         fPicture1->LPic(1,0)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
+         fPicture1->LPic(1,0)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
+         fPicture1->LPic(1,0)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
+         fPicture1->LPic(1,0)->SetHisTitle(false);
+         fPicture1->LPic(1,0)->SetTitleAttr(0.1,0.75,0.7,0.9);
 
-      fPicture1->LPic(1,1)->AddObject(fCr1Ch[3]);
-      fPicture1->LPic(1,1)->SetFillAtt(7, 1001); // solid
-      fPicture1->LPic(1,1)->SetLineAtt(7,1,1);
-      fPicture1->LPic(1,1)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
-      fPicture1->LPic(1,1)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
-      fPicture1->LPic(1,1)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
-      fPicture1->LPic(1,1)->SetHisTitle(false);
-      fPicture1->LPic(1,1)->SetTitleAttr(0.1,0.75,0.7,0.9);
+         fPicture1->LPic(1,1)->AddObject(fCr1Ch[3]);
+         fPicture1->LPic(1,1)->SetFillAtt(7, 1001); // solid
+         fPicture1->LPic(1,1)->SetLineAtt(7,1,1);
+         fPicture1->LPic(1,1)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
+         fPicture1->LPic(1,1)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
+         fPicture1->LPic(1,1)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
+         fPicture1->LPic(1,1)->SetHisTitle(false);
+         fPicture1->LPic(1,1)->SetTitleAttr(0.1,0.75,0.7,0.9);
 
-      fPicture1->LPic(1,2)->AddObject(fCr1Ch[4]);
-      fPicture1->LPic(1,2)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
-      fPicture1->LPic(1,2)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
-      fPicture1->LPic(1,2)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
-      fPicture1->LPic(1,2)->SetHisTitle(false);
-      fPicture1->LPic(1,2)->SetTitleAttr(0.1,0.75,0.7,0.9);
-// bottom row
-      fPicture1->LPic(2,0)->AddObject(fCr1Ch1x2);
-      fPicture1->LPic(2,0)->SetDrawOption("CONT");
-      fPicture1->LPic(2,0)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
-      fPicture1->LPic(2,0)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
-      fPicture1->LPic(2,0)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
-      fPicture1->LPic(2,0)->SetHisTitle(false);
-      fPicture1->LPic(2,0)->SetTitleAttr(0.1,0.75,0.7,0.9);
-      AddPicture(fPicture1);
-   }
+         fPicture1->LPic(1,2)->AddObject(fCr1Ch[4]);
+         fPicture1->LPic(1,2)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
+         fPicture1->LPic(1,2)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
+         fPicture1->LPic(1,2)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
+         fPicture1->LPic(1,2)->SetHisTitle(false);
+         fPicture1->LPic(1,2)->SetTitleAttr(0.1,0.75,0.7,0.9);
+         // bottom row
+         fPicture1->LPic(2,0)->AddObject(fCr1Ch1x2);
+         fPicture1->LPic(2,0)->SetDrawOption("CONT");
+         fPicture1->LPic(2,0)->SetStatsAttr(0.1,0.6,0.4,0.9,101); // mean and name
+         fPicture1->LPic(2,0)->SetAxisLabelFontSize(0, 0.07, 0); // Go4 v4.2
+         fPicture1->LPic(2,0)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
+         fPicture1->LPic(2,0)->SetHisTitle(false);
+         fPicture1->LPic(2,0)->SetTitleAttr(0.1,0.75,0.7,0.9);
+         AddPicture(fPicture1);
+      }
    } // create histograms
 }
-//***********************************************************
+//-----------------------------------------------------------
 TXXXUnpackProc::~TXXXUnpackProc()
 {
    cout << "**** TXXXUnpackProc: Delete" << endl;
    if(fParam1->fbHisto){
-   fWinCon1->PrintCondition(true);
-   fPolyCon1->PrintCondition(true);
-}}
-//***********************************************************
-
+      fWinCon1->PrintCondition(true);
+      fPolyCon1->PrintCondition(true);
+   }
+}
 //-----------------------------------------------------------
 Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
 {
@@ -278,22 +276,22 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
             if(*pdata != 0)
             {
                out_evt->fiCrate1[i] = *pdata; // fill output event
-               if(fParam1->fbHisto){ // fill histograms
-               fCr1Ch[i]->Fill((Float_t)(*pdata));
-               if(i == 0) // fill first channel
-               {
-                  if(fconHis1->Test(*pdata))fHis1gate->Fill((Float_t)(*pdata));
-                  fHis1->Fill((Float_t)(*pdata));
-               }
-               if(i == 1)
-               {
-                  if(fconHis2->Test(*pdata))fHis2gate->Fill((Float_t)(*pdata));
-                  fHis2->Fill((Float_t)(*pdata));
-                  // fill Cr1Ch1x2 for three polygons:
-                  if(fPolyCon1->Test(*pdata,lastvalue))       fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
-                  if(((*fConArr2)[0])->Test(*pdata,lastvalue))fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
-                  if(((*fConArr2)[1])->Test(*pdata,lastvalue))fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
-               }
+               if(fParam1->fbHisto) { // fill histograms
+                  fCr1Ch[i]->Fill((Float_t)(*pdata));
+                  if(i == 0) // fill first channel
+                  {
+                     if(fconHis1->Test(*pdata))fHis1gate->Fill((Float_t)(*pdata));
+                     fHis1->Fill((Float_t)(*pdata));
+                  }
+                  if(i == 1)
+                  {
+                     if(fconHis2->Test(*pdata))fHis2gate->Fill((Float_t)(*pdata));
+                     fHis2->Fill((Float_t)(*pdata));
+                     // fill Cr1Ch1x2 for three polygons:
+                     if(fPolyCon1->Test(*pdata,lastvalue))       fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
+                     if(((*fConArr2)[0])->Test(*pdata,lastvalue))fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
+                     if(((*fConArr2)[1])->Test(*pdata,lastvalue))fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
+                  }
                }
             }
             lastvalue = *pdata; // save for 2d histogram
@@ -308,7 +306,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
          for(Int_t i = 0; i<lwords; ++i) {
             if(*pdata != 0) {
                out_evt->fiCrate2[i] = *pdata;
-               if(fParam1->fbHisto)fCr2Ch[i]->Fill((Float_t)(*pdata));
+               if(fParam1->fbHisto) fCr2Ch[i]->Fill((Float_t)(*pdata));
             }
             pdata++;
          } // for SEW LW

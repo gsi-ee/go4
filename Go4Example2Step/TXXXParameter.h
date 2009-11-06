@@ -16,11 +16,6 @@
 
 #include "TGo4Parameter.h"
 
-#define __ARRAYSIZE__ 100
-#define __MEVX__ 5
-#define __MEVY__ 10
-
-
 class TXXXParameter : public TGo4Parameter {
    public:
       TXXXParameter();
