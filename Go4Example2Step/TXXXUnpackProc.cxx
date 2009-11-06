@@ -12,7 +12,7 @@
 //-----------------------------------------------------------------------
 
 #include "TXXXUnpackProc.h"
-#include "TGo4EventEndException.h"
+#include "TGo4UserException.h"
 
 #include "Riostream.h"
 #include <time.h>
@@ -213,10 +213,32 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
    TGo4MbsEvent* inp_evt = (TGo4MbsEvent* ) GetInputEvent(); // from this
    TXXXUnpackEvent* out_evt = (TXXXUnpackEvent*) dest;
 
+
    if (inp_evt==0) {
       cout << "XXXUnpackProc: no input event !"<< endl;
       return kFALSE;
    }
+	////////////////////////////////////////////////////
+	// Some examples how to skip event processing or stop analysis by exception
+	// for convenience, we provide  GO4_ macros to invoke appropriate exception throws
+	// NOTE: You need to #include "TGo4UserException.h" for this feature
+    //	 static UInt_t count=0;
+	//	 if((count++ % 100000)==0 && count>1) // user may put a real analysis condition here
+	//		 {
+	//			 // this macro will skip event and send specified message to gui log window:
+	//			 // GO4_SKIP_EVENT_MESSAGE("Skipped Event %d",count-1)
+	//
+	//			 // this macro will skip event without message:
+	//			 GO4_SKIP_EVENT
+	//
+	//			// this macro will stop analysis and send specified message to gui log window:
+	//			 //GO4_STOP_ANALYSIS_MESSAGE("Stopped after Event %d",count-1)
+	//
+	//			// this macro will stop analysis without message
+	//			//GO4_STOP_ANALYSIS
+	//		 }
+	////////////////////////////////////////////////////
+
 
    /////////////////////////////////////////////////////////////
    ////// use this if you want access to the mbs file header data:
@@ -312,10 +334,10 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
          } // for SEW LW
       } // if (subcrate)
    }  // while
+
+
+
    out_evt->SetValid(kTRUE); // to store
-   // throwing this exception stops the event loop
-   // Note that subsequent steps are not executed!
-   //   throw TGo4EventEndException(this);
 
    return kTRUE;
 }

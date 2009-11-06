@@ -18,6 +18,21 @@
 
 #include "TString.h"
 
+/* will skip subsequent steps for this event silently and start next event */
+#define GO4_SKIP_EVENT throw TGo4UserException(1,"");
+
+/* will skip subsequent steps for this event and start next event,
+ * will send printf style message to gui */
+#define GO4_SKIP_EVENT_MESSAGE(...) throw TGo4UserException(1,__VA_ARGS__);
+
+/* will stop analysis without message to gui */
+#define GO4_STOP_ANALYSIS throw TGo4UserException(3,"");
+
+/* will stop analysis with a printf style message to gui */
+#define GO4_STOP_ANALYSIS_MESSAGE(...) throw TGo4UserException(3,__VA_ARGS__);
+
+
+
 /**
  * Exception to be thrown by analysis user.
  * @author J. Adamczewski
