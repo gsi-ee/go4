@@ -225,10 +225,10 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
     //	 static UInt_t count=0;
 	//	 if((count++ % 100000)==0 && count>1) // user may put a real analysis condition here
 	//		 {
-	//			 // this macro will skip event and send specified message to gui log window:
+	//			 // this macro will skip event and subsequent analysis steps and send specified message to gui log window:
 	//			 // GO4_SKIP_EVENT_MESSAGE("Skipped Event %d",count-1)
 	//
-	//			 // this macro will skip event without message:
+	//			 // this macro will skip event and subsequent analysis steps without message:
 	//			 GO4_SKIP_EVENT
 	//
 	//			// this macro will stop analysis and send specified message to gui log window:
