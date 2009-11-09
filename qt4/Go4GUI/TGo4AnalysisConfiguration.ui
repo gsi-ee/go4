@@ -317,22 +317,6 @@
             </widget>
           </item>
           <item>
-            <spacer name="Spacer123" >
-              <property name="sizeHint" >
-                <size>
-                  <width>5</width>
-                  <height>25</height>
-                </size>
-              </property>
-              <property name="sizeType" >
-                <enum>QSizePolicy::Expanding</enum>
-              </property>
-              <property name="orientation" >
-                <enum>Qt::Horizontal</enum>
-              </property>
-            </spacer>
-          </item>
-          <item>
             <widget class="QPushButton" name="ClosePushButton" >
               <property name="sizePolicy" >
                 <sizepolicy>
@@ -376,6 +360,22 @@
                 <string>Close analysis - close all input/output files and destroys steps processors Alt-C.</string>
               </property>
             </widget>
+          </item>
+          <item>
+            <spacer name="Spacer123" >
+              <property name="sizeHint" >
+                <size>
+                  <width>5</width>
+                  <height>25</height>
+                </size>
+              </property>
+              <property name="sizeType" >
+                <enum>QSizePolicy::Expanding</enum>
+              </property>
+              <property name="orientation" >
+                <enum>Qt::Horizontal</enum>
+              </property>
+            </spacer>
           </item>
         </layout>
       </item>

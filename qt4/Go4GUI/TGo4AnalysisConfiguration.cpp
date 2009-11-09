@@ -58,6 +58,11 @@ void TGo4AnalysisConfiguration::linkedObjectUpdated(const char* linkname, TObjec
      show();
      if (isMinimized()) showNormal();
      RefreshWidget();
+
+     TGo4AnalysisProxy* anal =
+       dynamic_cast<TGo4AnalysisProxy*>(GetLinked("Analysis", 0));
+     if (anal!=0)
+        anal->RefreshNamesList();
    }
 }
 

@@ -364,23 +364,6 @@
                         <string>Submit configuration to analysis and start execution (panel will be closed)</string>
                     </property>
                 </widget>
-                <spacer>
-                    <property name="name">
-                        <cstring>Spacer123</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>10</width>
-                            <height>25</height>
-                        </size>
-                    </property>
-                </spacer>
                 <widget class="QPushButton">
                     <property name="name">
                         <cstring>CloseButton</cstring>
@@ -427,6 +410,23 @@
                         <string>Close analysis - close all input/output files and destroys steps processors Alt-C.</string>
                     </property>
                 </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>Spacer123</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>10</width>
+                            <height>25</height>
+                        </size>
+                    </property>
+                </spacer>
             </hbox>
         </widget>
         <widget class="QGroupBox" row="1" column="0">
