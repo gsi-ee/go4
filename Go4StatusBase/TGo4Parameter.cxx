@@ -14,6 +14,7 @@
 #include "TGo4Parameter.h"
 
 #include <string.h>
+#include <stdlib.h>
 
 #include "Riostream.h"
 
