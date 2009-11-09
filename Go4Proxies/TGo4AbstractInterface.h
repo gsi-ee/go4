@@ -72,6 +72,9 @@ typedef void* ViewPanelHandle;
   *
   **/
 
+enum EGo4ViewPanelMode { Go4_hidden = -1, Go4_minimized = 0, Go4_normal = 1, Go4_maximized = 2 };
+
+
 class TGo4AbstractInterface : public TObject {
    private:
       TGo4ObjectManager* fOM;

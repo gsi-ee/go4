@@ -948,10 +948,11 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       QPoint pos = panel->parentWidget()->pos();
       panel->parentWidget()->mapToParent(pos);
       QSize size = panel->parentWidget()->size();
-      int mode = 1;
-      if (panel->isHidden()) mode = -1; else
-      if (panel->isMinimized()) mode = 0; else
-      if (panel->isMaximized()) mode = 2;
+
+      const char* mode = "Go4_normal";
+      if (panel->isHidden()) mode = "Go4_hidden"; else
+      if (panel->isMinimized()) mode = "Go4_minimized"; else
+      if (panel->isMaximized()) mode = "Go4_maximized";
 
       fs << "go4->StartViewPanel("
          << pos.x() << ", "

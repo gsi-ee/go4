@@ -20,6 +20,7 @@
 #pragma link C++ enum EGo4ShellKind;
 #pragma link C++ enum EGo4ConsoleKind;
 #pragma link C++ enum EGo4AnalysisCodeKind;
+#pragma link C++ enum EGo4ViewPanelMode;
 
 #pragma link C++ class TGo4AnalysisProxy+;
 #pragma link C++ class TGo4BrowserProxy+;
