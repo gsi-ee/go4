@@ -1285,13 +1285,13 @@ Bool_t TGo4AnalysisObjectManager::LoadObjects(TFile* obfile)
       if(top)
       {
          // kept for backward compatibility: read folder struct directly
-         cout << "found top go4 folder "<< endl;
+         //cout << "found top go4 folder "<< endl;
          rev=LoadFolder(top,fxGo4Dir,kFALSE);
       }
       else
       {
          // new: convert directory structure of file into folders
-         cout <<"LoadObjects with Dirscan..." << endl;
+         //cout <<"LoadObjects with Dirscan..." << endl;
          rev=LoadFolder(obfile,fxGo4Dir,kFALSE);
       }
       TGo4PolyCond::CleanupSpecials(); // remove references to file cuts

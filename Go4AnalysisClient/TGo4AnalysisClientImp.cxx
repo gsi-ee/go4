@@ -200,9 +200,14 @@ Int_t TGo4AnalysisClient::Initialization()
          }
       }
       // recover objects and dynamic list links from last autosave file:
-      if(fxAnalysis->LoadObjects()) {
+      if(!fxAnalysis->IsAutoSaveOn()){
+          SendStatusMessage(1,kTRUE,"AnalysisClient %s: AUTOSAVE is DISABLED, Initialization did NOT load analysis objects!",
+                GetName());
+      }
+      else if(fxAnalysis->LoadObjects()) {
          SendStatusMessage(1,kTRUE,"AnalysisClient %s: Objects loaded.",GetName());
-      } else {
+      }
+      else {
          //TGo4Log::Debug(" !!! Analysis Client Initialization --  Could not load dynamic list!!! ");
          SendStatusMessage(2,kTRUE,"AnalysisClient %s: Initialization could not load analysis objects!",GetName());
       }

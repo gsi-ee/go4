@@ -950,6 +950,12 @@ void TGo4Analysis::UpdateNamesList()
 
 Bool_t TGo4Analysis::LoadObjects(const char* filename)
 {
+    if(!fbAutoSaveOn)
+    {
+          Message(-1,"Analysis LoadObjects: AUTOSAVE file is DISABLED, did NOT read objects back from file %s",
+                fxAutoFileName.Data());
+          return kFALSE;
+    }
    TGo4LockGuard  autoguard(fxAutoSaveMutex);
    Bool_t rev=kTRUE;
    if(filename) fxAutoFileName=filename;

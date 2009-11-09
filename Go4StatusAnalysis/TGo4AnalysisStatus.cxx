@@ -85,14 +85,16 @@ Int_t TGo4AnalysisStatus::PrintStatus(Text_t* buffer, Int_t buflen)
    Text_t localbuf[512000];
    Text_t* current=localbuf;
    Int_t restlen=locallen;
+
    current=PrintBuffer(current,restlen, "----------------------------------------------  \n");
    current=PrintBuffer(current,restlen, "++++++ Status of %s ++++++\n", GetName());
    current=PrintBuffer(current,restlen, "First Analysis Step index: \t%d\n",GetFirstStepIndex());
    current=PrintBuffer(current,restlen, "Last Analysis Step index: \t%d\n",GetLastStepIndex());
    current=PrintBuffer(current,restlen, "Autosave Interval: \t\t%d s\n",GetAutoSaveInterval());
-   current=PrintBuffer(current,restlen, "Autosave File: \t\t\t%s \n",GetAutoFileName());
+   current=PrintBuffer(current,restlen, "Autosave File: \t\t%s \n",GetAutoFileName());
    current=PrintBuffer(current,restlen, "Autosave File compression: \t%d \n",GetAutoSaveCompression());
    current=PrintBuffer(current,restlen, "Autosave overwrite mode: \t%d \n",IsAutoSaveOverwrite());
+   current=PrintBuffer(current,restlen, "Autosave enabled: \t\t%d \n",IsAutoSaveOn());
    current=PrintBuffer(current,restlen, "----------------------------------------------  \n");
    TROOT::IncreaseDirLevel();
    ResetStepIterator();
