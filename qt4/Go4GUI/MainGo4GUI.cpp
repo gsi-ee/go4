@@ -13,6 +13,7 @@
 
 #include <stdlib.h>
 #include <qglobal.h>
+#include <locale.h>
 #include <QDir>
 #include <QStringList>
 
@@ -30,6 +31,7 @@
 #include "TGo4AbstractInterface.h"
 
 #include "Riostream.h"
+#include "TROOT.h"
 
 #ifndef WIN32
 #include "TGX11.h"
@@ -38,6 +40,8 @@
 
 int main(int argc, char **argv)
 {
+   setlocale(LC_ALL, "C");
+
 #ifndef WIN32
    gEnv->SetValue("X11.XInitThread", 0);   // required to avoid conflicts with Qt4
    //    qt_x11_set_global_double_buffer(false); // improves qtroot canvas update
@@ -103,7 +107,11 @@ int main(int argc, char **argv)
    TApplication app("uno", &argc, argv); // ROOT application
 
    Q_INIT_RESOURCE(go4icons);
+
    QRootApplication myapp(argc, argv); // Qt application
+
+   // qt4.4 sets local settings not to "C", but to system-depended values
+   setlocale(LC_ALL, "C");
 
    TGo4AbstractInterface::SetInitSharedLibs();
 
