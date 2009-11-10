@@ -51,6 +51,7 @@ win-bin:
 	@echo "Creating binary Go4 Windows package ..."
 	rm -f ../$(WINBIN_NAME)
 	cp -f distr/go4init.bat ..
+	cp -f distr/go4.bat ..
 	cp -f distr/go4login.win ../go4init.sh
 	cp -f distr/README_win.txt .
 	cp -f $(QTDIR)/bin/QtCore4.dll $(QTDIR)/bin/QtGui4.dll bin
@@ -62,7 +63,7 @@ win-bin:
 	go4/include/*.h go4/build/* go4/images/* \
 	go4/etc/* go4/bin/* go4/lib/* go4/docs/* go4/macros/*
 	cd ..; zip -r $(WINBIN_NAME) root
-	rm -f ../go4init.bat ../go4init.sh README_win.txt
+	rm -f ../go4init.bat ../go4.bat ../go4init.sh README_win.txt
 	rm -f bin/QtCore4.dll bin/QtGui4.dll
 	@echo "Binary package $(WINBIN_NAME) done"
 

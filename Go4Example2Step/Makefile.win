@@ -76,24 +76,21 @@ MODULE_H           = TXXXAnalysis.h \
                      TXXXAnlProc.h \
                      TXXXUnpackEvent.h \
                      TXXXUnpackProc.h \
-                     TXXXParameter.h \
-                     TXXXCalibPar.h
+                     TXXXParameter.h
 
 MODULE_S           = TXXXAnalysis.cxx \
                      TXXXAnlEvent.cxx \
                      TXXXAnlProc.cxx \
                      TXXXUnpackEvent.cxx \
                      TXXXUnpackProc.cxx \
-                     TXXXParameter.cxx \
-                     TXXXCalibPar.cxx
+                     TXXXParameter.cxx
 
 MODULE_O           = TXXXAnalysis.obj \
                      TXXXAnlEvent.obj \
                      TXXXAnlProc.obj \
                      TXXXUnpackEvent.obj \
                      TXXXUnpackProc.obj \
-                     TXXXParameter.obj \
-                     TXXXCalibPar.obj
+                     TXXXParameter.obj
 
 
 MODULE_LIBDEF      =  $(MODULE_LIBNAME).$(DefSuf)

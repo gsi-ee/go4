@@ -145,7 +145,7 @@ clean::  clean-bin clean-mainlibs clean-plugin
 	@rm -f $(GO4MAP)
 	@rm -f include/*.h
 	@rm -rf bin lib
-	@rm -f build/dummy.d build/Makefile.gener
+	@rm -f build/dummy.d build/Makefile.gener go4login go4login.bat go4.bat
 	@echo "Clean go4 done"
 
 clean-mainlibs:
@@ -175,7 +175,7 @@ clean-dep:
 clean-prefix:
 	@rm -f Go4Log/TGo4Log.o Go4Log/TGo4Log.d
 	@rm -f qt3/Go4GUI/Makefile.qt qt4/Go4GUI/Makefile.qt 
-	@rm -f build/Makefile.gener
+	@rm -f build/Makefile.gener go4login go4login.bat go4.bat
 	@rm -f bin/*
 	@echo "Clean prefix-dependend files done"
 
