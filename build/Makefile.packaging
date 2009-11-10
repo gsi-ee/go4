@@ -34,10 +34,6 @@ go4-package:
 	@mkdir -p $(DISTR_DIR); cd $(DISTR_DIR); mkdir -p $(GO4PACK_VERS)
 	@mv $(GO4TAR_NAME) $(GO4DISTR_DIR)
 	@cd $(GO4DISTR_DIR); tar xf $(GO4TAR_NAME); rm -f $(GO4TAR_NAME)
-	@cd $(GO4DISTR_DIR)/etc; mkdir -p win
-	@cp -f distr/go4init.bat distr/go4.bat $(GO4DISTR_DIR)/etc/win
-	@cp -f distr/go4login.win $(GO4DISTR_DIR)/etc/win/go4init.sh
-	@cp -f distr/README_win.txt $(GO4DISTR_DIR)/etc/win
 	@mkdir -p $(GO4DISTR_DIR)/include
 	@touch -f $(GO4DISTR_DIR)/include/.dummy
 	@cd $(DISTR_DIR); chmod u+w *; chmod u+w */*; chmod u+w */*/*; tar chf $(GO4TAR_NAME) $(GO4PACK_VERS) ; gzip -f $(GO4TAR_NAME)
@@ -50,20 +46,19 @@ go4-package:
 win-bin: 
 	@echo "Creating binary Go4 Windows package ..."
 	rm -f ../$(WINBIN_NAME)
-	cp -f distr/go4init.bat ..
-	cp -f distr/go4.bat ..
-	cp -f distr/go4login.win ../go4login
-	cp -f distr/README_win.txt .
+	cp -f etc/win32/*go4init.bat ..
+	cp -f etc/win32/go4.bat ..
+	cp -f etc/win32/go4login ..
+	cp -f etc/win32/README.txt ..
 	cp -f $(QTDIR)/bin/QtCore4.dll $(QTDIR)/bin/QtGui4.dll bin
-	cp -f distr/README_win.txt .
 	@cd ..; zip $(WINBIN_NAME) go4/Makefile.config go4/Makefile.rules
 	@for MMM in $(EXMODULES); do cd ..; echo "pack $$MMM"; zip $(WINBIN_NAME) go4/$$MMM/* -x *.obj -x *.d -x go4/$$MMM/G__*.*; cd go4; done
 	cd ..; zip $(WINBIN_NAME) \
-	go4init.bat go4.bat go4login go4/README*.txt go4/Go4License.txt \
+	go4init.bat go4.bat go4login README.txt go4/README.txt go4/Go4License.txt \
 	go4/include/*.h go4/build/* go4/images/* \
 	go4/etc/* go4/bin/* go4/lib/* go4/docs/* go4/macros/*
 	cd ..; zip -r $(WINBIN_NAME) root
-	rm -f ../go4init.bat ../go4.bat ../go4login README_win.txt
+	rm -f ../go4init.bat ../go4.bat ../go4login ../README.txt
 	rm -f bin/QtCore4.dll bin/QtGui4.dll
 	@echo "Binary package $(WINBIN_NAME) done"
 
@@ -98,7 +93,6 @@ THRDMODULES = Go4Exceptions Go4LockGuard Go4Log Go4ThreadManager
 THRDMODULESEX = Go4ThreadManagerExample
 THRDDISTRFILES = $(EXCEPT_DISTRFILES) $(LOCKGRD_DISTRFILES) $(GO4LOG_DISTRFILES) \
                  $(THRDMNGR_DISTRFILES) $(THRDMNGREXAMP_DISTRFILES) 
-THRDHDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(THRDDISTRFILES:%=$(DISTR_DIR)/%))
 
 thrd-package:
 	@echo "Creating package $(THRDTAR_NAME) ..."
@@ -115,10 +109,10 @@ thrd-package:
 	@cd $(DISTR_DIR); tar xf $(THRDTAR_NAME)
 	@mkdir -p $(DISTR_DIR)/include
 	@touch -f $(DISTR_DIR)/include/.dummy
-	@cp -f distr/Makefile_threadmanager $(DISTR_DIR)/Makefile
-	@cp -f distr/go4.taskh.init $(DISTR_DIR)/go4.init
-	@cp -f distr/README_threadm.txt $(DISTR_DIR)/README.txt
-	@cd $(DISTR_DIR); rm -f $(THRDTAR_NAME); chmod u+w *; chmod u+w */*; tar chf $(THRDTAR_NAME) * */* --exclude=$(THRDTAR_NAME)*; gzip -f $(THRDTAR_NAME)
+	@cp -f etc/taskh/Makefile $(DISTR_DIR)
+	@cp -f etc/taskh/taskh.init $(DISTR_DIR)/go4.init
+	@cp -f etc/taskh/README.txt $(DISTR_DIR)
+	@cd $(DISTR_DIR); rm -f $(THRDTAR_NAME); chmod u+w *; chmod u+w */*; tar chf $(THRDTAR_NAME) . --exclude=$(THRDTAR_NAME)*; gzip -f $(THRDTAR_NAME)
 	@mkdir -p $(PACKAGE_DIR)
 	@mv -f $(DISTR_DIR)/$(THRDTAR_NAME).gz $(PACKAGE_DIR)
 	@rm -f -r $(DISTR_DIR)/*
@@ -138,8 +132,6 @@ TASKDISTRFILES = $(EXCEPT_DISTRFILES) $(LOCKGRD_DISTRFILES) $(GO4LOG_DISTRFILES)
                  $(COMBASE_DISTRFILES) $(CMDTASKHANDL_DISTRFILES) \
                  $(TASKHAND_DISTRFILES) $(TASKHANDEXAMP_DISTRFILES)
                  
-TASKHDISTFILES = $(filter %.h %.cxx %.cpp %.c,$(TASKDISTRFILES:%=$(DISTR_DIR)/%))
-
 task-package:
 	@echo "Creating package $(TASKTAR_NAME) ..."
 	@tar chf $(TASKTAR_NAME) Makefile.config
@@ -153,12 +145,12 @@ task-package:
 	@mkdir -p $(DISTR_DIR)
 	@mv $(TASKTAR_NAME) $(DISTR_DIR)
 	@cd $(DISTR_DIR); tar xf $(TASKTAR_NAME)
-	@cp -f distr/Makefile_taskhandler $(DISTR_DIR)/Makefile
-	@cp -f distr/go4.taskh.init $(DISTR_DIR)/go4.init
-	@cp -f distr/README_taskh.txt $(DISTR_DIR)/README.txt
+	@cp -f etc/thrdmgr/Makefile $(DISTR_DIR)
+	@cp -f etc/thrdmgr/thrdmgr.init $(DISTR_DIR)/go4.init
+	@cp -f etc/thrdmgr/README.txt $(DISTR_DIR)
 	@mkdir -p $(DISTR_DIR)/include
 	@touch -f $(DISTR_DIR)/include/.dummy
-	@cd $(DISTR_DIR); rm -f $(TASKTAR_NAME); chmod u+w *; chmod u+w */*; tar chf $(TASKTAR_NAME)  * */* --exclude=$(TASKTAR_NAME)*; gzip -f $(TASKTAR_NAME)
+	@cd $(DISTR_DIR); rm -f $(TASKTAR_NAME); chmod u+w *; chmod u+w */*; tar chf $(TASKTAR_NAME) . --exclude=$(TASKTAR_NAME)*; gzip -f $(TASKTAR_NAME)
 	@mkdir -p $(PACKAGE_DIR)
 	@mv -f $(DISTR_DIR)/$(TASKTAR_NAME).gz $(PACKAGE_DIR)
 	@rm -f -r $(DISTR_DIR)/*

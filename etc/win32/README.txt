@@ -28,7 +28,7 @@ together with Microsoft Visual C++ 2008 Express Edition and CYGWIN.
 - Extract content of binary Go4 archive. Full path name, where package
   is extracted, SHOULD NOT content any spaces. Therefore location like
   "C:\Program files" should not be used. Best if package will be extracted
-  on top directory like "C:\".
+  on top directory like "C:\" (default is "Q:\").
 - After files are extracted, two top directories will be produced:
      root - binary distribution of ROOT (see http:\root.cern.ch)
      go4  - binary distribution of Go4
@@ -54,7 +54,7 @@ together with Microsoft Visual C++ 2008 Express Edition and CYGWIN.
 - Open in Windows Explorer folder, where package was extracted
 - Double click on "go4.bat" script to start gui
 - Main windows should appear. One can use "Connect to running server"
-  button for connection with analysism, running in server mode.
+  button for connection with analysis, running in server mode.
 - Go4 GUI in Windows has same functionality as in Linux beside two things:
     * there is no possibility to create user gui (yet)
     * analysis should be started outside gui in command prompt 
@@ -91,9 +91,6 @@ together with Microsoft Visual C++ 2008 Express Edition and CYGWIN.
   First of all, Microsoft VC++ should be installed.
   There is a free edition of Microsoft Visual C++ Express 2008 on
        http://msdn.microsoft.com/vstudio/express/visualc/
-  Together with Visual C++ one should also install MS SDK.
-  Some more instructions how it is can be installed see on ROOT web page:
-       http://root.cern.ch/root/Procedure/
   After VC++ is installed, there are two alternatives, 
   how example can be compiled.
 
@@ -115,11 +112,9 @@ together with Microsoft Visual C++ 2008 Express Edition and CYGWIN.
 
   5.2. Compile with Windows native nmake tool
 
-  This method does not require CYGWIN.
-  First of all, go4init.bat file should be adjusted - one should
-  uncomment several lines, where path to Visual Studio are specified.
-  Second, one need special Makefile, which is suited for nmake.exe tool.
-  There is one example: $GO4SYS\Go4Example2Step\Makefile.win, which
+  This method does not require CYGWIN. One should adjust go4init.bat
+  (as described before) and prepare special Makefile for nmake tool.
+  There is example: $GO4SYS\Go4Example2Step\Makefile.win, which
   is written for Go4Example2Step. To adopt it for other user analysis,
   one should specify correct list of source files in this Makefile. 
   To run compilation, just do:
@@ -134,9 +129,9 @@ together with Microsoft Visual C++ 2008 Express Edition and CYGWIN.
 6. COMPILATION OF GO4 FROM SOURCE
 
 - Download and install root (ROOT Windows binaries are enough)
-- Install and configure Cygwin
-- Configure VC++ as described in http://root.cern.ch/root/Procedure/
-- Download Qt 4.x source win tar ball (there is no binary version for VC++)
+- Install and configure CYGWIN
+- Install Microsoft VC++
+- Download Qt 4.5.x source win tar ball (there is no binary version for VC++)
   and compile it 
 - Download go4 sources from http://go4.gsi.de web site.
 - Find and modify $GO4SYS/etc/win/go4login file to actual location of all 
