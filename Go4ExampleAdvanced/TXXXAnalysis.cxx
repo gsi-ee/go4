@@ -134,11 +134,12 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
 
    // execute setup macro, if user arguments (-args value) was provided to go4analysis
    // check that file setup.C is existing in current directory
-   if (argc>1)
+   if (argc>1){
       if (!gSystem->AccessPathName("setup.C"))
          gROOT->ProcessLine(Form(".x setup.C(\"%s\")", argv[1]));
       else
          cout << "**** Cannot find setup.C script in current directory ! ****" << endl;
+   }
 }
 
 //***********************************************************
