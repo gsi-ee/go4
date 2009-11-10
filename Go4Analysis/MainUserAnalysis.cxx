@@ -193,8 +193,12 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
             user_argc = 1;
             user_argv = (char**) &name;
          }
-
+	 
+	 #ifdef WIN32
+         TString cmd = Form("new %s(%d, (char**)0x%x);", an_cl->GetName(), user_argc, user_argv);
+         #else
          TString cmd = Form("new %s(%d, (char**)%p);", an_cl->GetName(), user_argc, user_argv);
+	 #endif    
          Int_t err = 0;
 
          TGo4Log::Info("Process: %s", cmd.Data());
