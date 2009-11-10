@@ -210,14 +210,19 @@ TXXXUnpackProc::~TXXXUnpackProc()
 //-----------------------------------------------------------
 Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
 {
+   Bool_t isValid=kFALSE; // validity of output event
+
    TGo4MbsEvent* inp_evt = (TGo4MbsEvent* ) GetInputEvent(); // from this
    TXXXUnpackEvent* out_evt = (TXXXUnpackEvent*) dest;
 
-
    if (inp_evt==0) {
       cout << "XXXUnpackProc: no input event !"<< endl;
-      return kFALSE;
+      out_evt->SetValid(isValid); // to store or not to store
+      // default calling Fill method will set validity of out_evt to return value!
+      return isValid;
    }
+   isValid=kTRUE;
+
 	////////////////////////////////////////////////////
 	// Some examples how to skip event processing or stop analysis by exception
 	// for convenience, we provide  GO4_ macros to invoke appropriate exception throws
@@ -335,9 +340,9 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
       } // if (subcrate)
    }  // while
 
-
-
-   out_evt->SetValid(kTRUE); // to store
-
-   return kTRUE;
+   out_evt->SetValid(isValid); // to store or not to store
+   // default calling Fill method will set validity of out_evt to return value!
+   return isValid; // this will overwrite out_evt->SetValid
+   // except one would have a Fill method implemented in the output event class!
+   // In this case the return value can be handled differently there.
 }

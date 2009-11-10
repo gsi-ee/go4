@@ -66,12 +66,18 @@ TXXXAnlProc::~TXXXAnlProc()
 //-----------------------------------------------------------
 Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
 {
+	Bool_t isValid=kFALSE; // validity of output event
+
    TXXXUnpackEvent* inp_evt  = (TXXXUnpackEvent*) GetInputEvent();
    TXXXAnlEvent* out_evt = (TXXXAnlEvent*) dest;
 
-   out_evt->SetValid(kFALSE);       // events are not stored until kTRUE is set
-   if((inp_evt==0) || !inp_evt->IsValid()) return kFALSE;    // do not process invalid event
-   out_evt->SetValid(kTRUE);       // events are not stored until kTRUE is set
+   // see comments in UnpackProc
+   if((inp_evt==0) || !inp_evt->IsValid()){ // input invalid
+	  out_evt->SetValid(isValid); // invalid
+	  return isValid; // must be same is for SetValid
+   }
+   isValid=kTRUE;
+
    Int_t cnt(0);
    for(Int_t ii=0;ii<4;ii++) {
       out_evt->frData[cnt] = (Float_t)inp_evt->fiCrate1[ii];
@@ -90,5 +96,7 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
          }
    }
 
-   return kTRUE;
+   // see comments in UnpackProc
+   out_evt->SetValid(isValid);
+   return isValid;
 }
