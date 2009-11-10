@@ -6,4 +6,4 @@
 @set PATH=%ROOTSYS%\bin;%GO4SYS%\bin;%PATH%
 @set LIB=.;%ROOTSYS%\lib;%GO4SYS%\lib;%LIB%
 
-go4.exe
+start go4.exe

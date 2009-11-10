@@ -1034,11 +1034,12 @@ void TGo4MainWindow::HelpWindow(const char* filename, const char* msg)
    QApplication::setOverrideCursor( Qt::WaitCursor );
 
 #ifdef WIN32
-   TString arg = TGo4Log::subGO4SYS(filename);
+   TString arg = "explorer ";
 #else
-   TString arg = TGo4Log::subGO4SYS("etc/Go4ShowPdf.sh ") + TGo4Log::subGO4SYS(filename);
+   TString arg = TGo4Log::subGO4SYS("etc/Go4ShowPdf.sh ");
 #endif
 
+   arg += TGo4Log::subGO4SYS(filename);
    QProcess info;
    info.start(arg.Data());
    if (info.waitForFinished(10000) && (info.exitCode()==0))
