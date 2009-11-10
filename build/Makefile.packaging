@@ -35,7 +35,7 @@ go4-package:
 	@mv $(GO4TAR_NAME) $(GO4DISTR_DIR)
 	@cd $(GO4DISTR_DIR); tar xf $(GO4TAR_NAME); rm -f $(GO4TAR_NAME)
 	@cd $(GO4DISTR_DIR)/etc; mkdir -p win
-	@cp -f distr/go4init.bat $(GO4DISTR_DIR)/etc/win
+	@cp -f distr/go4init.bat distr/go4.bat $(GO4DISTR_DIR)/etc/win
 	@cp -f distr/go4login.win $(GO4DISTR_DIR)/etc/win/go4init.sh
 	@cp -f distr/README_win.txt $(GO4DISTR_DIR)/etc/win
 	@mkdir -p $(GO4DISTR_DIR)/include
@@ -52,18 +52,18 @@ win-bin:
 	rm -f ../$(WINBIN_NAME)
 	cp -f distr/go4init.bat ..
 	cp -f distr/go4.bat ..
-	cp -f distr/go4login.win ../go4init.sh
+	cp -f distr/go4login.win ../go4login
 	cp -f distr/README_win.txt .
 	cp -f $(QTDIR)/bin/QtCore4.dll $(QTDIR)/bin/QtGui4.dll bin
 	cp -f distr/README_win.txt .
 	@cd ..; zip $(WINBIN_NAME) go4/Makefile.config go4/Makefile.rules
 	@for MMM in $(EXMODULES); do cd ..; echo "pack $$MMM"; zip $(WINBIN_NAME) go4/$$MMM/* -x *.obj -x *.d -x go4/$$MMM/G__*.*; cd go4; done
 	cd ..; zip $(WINBIN_NAME) \
-	go4init.bat go4/README*.txt go4/Go4License.txt \
+	go4init.bat go4.bat go4login go4/README*.txt go4/Go4License.txt \
 	go4/include/*.h go4/build/* go4/images/* \
 	go4/etc/* go4/bin/* go4/lib/* go4/docs/* go4/macros/*
 	cd ..; zip -r $(WINBIN_NAME) root
-	rm -f ../go4init.bat ../go4.bat ../go4init.sh README_win.txt
+	rm -f ../go4init.bat ../go4.bat ../go4login README_win.txt
 	rm -f bin/QtCore4.dll bin/QtGui4.dll
 	@echo "Binary package $(WINBIN_NAME) done"
 
