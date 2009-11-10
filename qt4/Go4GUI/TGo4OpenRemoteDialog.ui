@@ -120,35 +120,62 @@
               </property>
             </spacer>
           </item>
-          <item>
-            <widget class="QPushButton" name="buttonCancel" >
-              <property name="text" >
-                <string>&amp;Cancel</string>
-              </property>
-              <property name="shortcut" >
-                <string/>
-              </property>
-              <property name="autoDefault" >
-                <bool>true</bool>
-              </property>
-            </widget>
-          </item>
-          <item>
-            <widget class="QPushButton" name="buttonOk" >
-              <property name="text" >
-                <string>&amp;OK</string>
-              </property>
-              <property name="shortcut" >
-                <string/>
-              </property>
+	     <item>
+	      <widget class="QPushButton" name="buttonOk">
+	       <property name="minimumSize" >
+	        <size>
+	         <width>30</width>
+	         <height>30</height>
+	        </size>
+	       </property>
+	       <property name="maximumSize" >
+	        <size>
+	         <width>30</width>
+	         <height>30</height>
+	        </size>
+	       </property>
               <property name="autoDefault" >
                 <bool>true</bool>
               </property>
               <property name="default" >
                 <bool>true</bool>
               </property>
-            </widget>
-          </item>
+	       <property name="icon" >
+	         <pixmap>:/icons/OK16.png</pixmap>
+	       </property>
+	        <property name="toolTip" stdset="0">
+	            <string>Open remote file.</string>
+	        </property>
+	      </widget>
+	     </item>
+	     <item>
+	      <widget class="QPushButton" name="buttonCancel">
+	       <property name="minimumSize" >
+	        <size>
+	         <width>30</width>
+	         <height>30</height>
+	        </size>
+	       </property>
+	       <property name="maximumSize" >
+	        <size>
+	         <width>30</width>
+	         <height>30</height>
+	        </size>
+	       </property>
+              <property name="autoDefault" >
+                <bool>true</bool>
+              </property>
+              <property name="default" >
+                <bool>false</bool>
+              </property>
+	       <property name="icon" >
+	         <pixmap>:/icons/close16.png</pixmap>
+	       </property>
+	        <property name="toolTip" stdset="0">
+	            <string>Close panel.</string>
+	        </property>
+	      </widget>
+	     </item>
         </layout>
       </item>
     </layout>

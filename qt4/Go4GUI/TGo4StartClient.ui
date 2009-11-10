@@ -338,55 +338,58 @@
      </item>
      <item>
       <widget class="QPushButton" name="PushButtonStartClient">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
+       <property name="minimumSize" >
         <size>
-         <width>70</width>
-         <height>0</height>
+         <width>30</width>
+         <height>30</height>
         </size>
        </property>
-       <property name="maximumSize">
+       <property name="maximumSize" >
         <size>
-         <width>100</width>
-         <height>32767</height>
+         <width>30</width>
+         <height>30</height>
         </size>
        </property>
-       <property name="text">
-        <string>&amp;Start</string>
+       <property name="text" >
+        <string/>
        </property>
-       <property name="shortcut">
-        <string>Alt+S</string>
+       <property name="shortcut" >
+        <string/>
        </property>
-       <property name="default">
-        <bool>true</bool>
+       <property name="icon" >
+         <pixmap>:/icons/OK16.png</pixmap>
        </property>
+        <property name="toolTip" stdset="0">
+            <string>Start analysis client.</string>
+        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="PushButtonCancel">
-       <property name="minimumSize">
+       <property name="minimumSize" >
         <size>
-         <width>70</width>
-         <height>0</height>
+         <width>30</width>
+         <height>30</height>
         </size>
        </property>
-       <property name="maximumSize">
+       <property name="maximumSize" >
         <size>
-         <width>100</width>
-         <height>32767</height>
+         <width>30</width>
+         <height>30</height>
         </size>
        </property>
-       <property name="text">
-        <string>&amp;Close</string>
+       <property name="text" >
+        <string/>
        </property>
-       <property name="shortcut">
-        <string>Alt+C</string>
+       <property name="shortcut" >
+        <string/>
        </property>
+       <property name="icon" >
+         <pixmap>:/icons/close16.png</pixmap>
+       </property>
+        <property name="toolTip" stdset="0">
+            <string>Close panel.</string>
+        </property>
       </widget>
      </item>
     </layout>
