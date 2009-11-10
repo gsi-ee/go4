@@ -285,7 +285,7 @@
                         <string></string>
                     </property>
                     <property name="iconSet">
-                        <iconset>closewindow.png</iconset>
+                        <iconset>close16.png</iconset>
                     </property>
                 </widget>
             </hbox>

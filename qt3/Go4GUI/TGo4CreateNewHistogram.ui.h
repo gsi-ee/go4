@@ -43,7 +43,7 @@ void TGo4CreateNewHistogram::init()
 
 void TGo4CreateNewHistogram::SetAnalysisAvaliable(bool on)
 {
-    CearteRemote->setEnabled(on);
+    CreateRemote->setEnabled(on);
 }
 
 void TGo4CreateNewHistogram::SetLocalAvaliable(bool on)

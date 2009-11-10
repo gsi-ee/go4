@@ -20,6 +20,7 @@
      <file>../../icons/clear.png</file>
      <file>../../icons/close1.png</file>
      <file>../../icons/close.png</file>
+     <file>../../icons/close16.png</file>
      <file>../../icons/closewindow.png</file>
      <file>../../icons/color.png</file>
      <file>../../icons/col.png</file>
@@ -116,6 +117,7 @@
      <file>../../icons/metal.xpm</file>
      <file>../../icons/monitor.png</file>
      <file>../../icons/network.png</file>
+     <file>../../icons/OK16.png</file>
      <file>../../icons/ObjBrowserD.png</file>
      <file>../../icons/ObjBrowserL.png</file>
      <file>../../icons/ObjBrowser.png</file>

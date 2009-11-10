@@ -224,7 +224,7 @@
                         <string></string>
                     </property>
                     <property name="iconSet">
-                        <iconset>closewindow.png</iconset>
+                        <iconset>close16.png</iconset>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>Close editor without change.</string>

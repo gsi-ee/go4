@@ -338,16 +338,22 @@
        <property name="shortcut" >
         <string>Alt+L</string>
        </property>
+        <property name="toolTip" stdset="0">
+            <string>Create histogram in local workspace.</string>
+        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="CearteRemote" >
+      <widget class="QPushButton" name="CreateRemote" >
        <property name="text" >
         <string>Create &amp;Remote</string>
        </property>
        <property name="shortcut" >
         <string>Alt+R</string>
        </property>
+        <property name="toolTip" stdset="0">
+            <string>Create histogram in remote analysis.</string>
+        </property>
       </widget>
      </item>
      <item>
@@ -387,7 +393,7 @@
         <string/>
        </property>
        <property name="icon" >
-         <pixmap>:/icons/delete.png</pixmap>
+         <pixmap>:/icons/close16.png</pixmap>
        </property>
       </widget>
      </item>
@@ -478,7 +484,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>CearteRemote</sender>
+   <sender>CreateRemote</sender>
    <signal>clicked()</signal>
    <receiver>TGo4CreateNewHistogram</receiver>
    <slot>CreateRemoteHis()</slot>

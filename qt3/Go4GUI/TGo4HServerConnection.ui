@@ -230,7 +230,7 @@
                         <string></string>
                     </property>
                     <property name="pixmap">
-                        <pixmap>closewindow.png</pixmap>
+                        <pixmap>close16.png</pixmap>
                     </property>
                     <property name="accel">
                         <string></string>

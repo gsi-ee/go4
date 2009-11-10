@@ -284,7 +284,9 @@ IMAGES = ../../icons/branch_t.png \
 	../../icons/scalezlin.png \
 	../../icons/scalezlog.png \
 	../../icons/draw1dhis.png \
-	../../icons/draw1dline.png
+	../../icons/draw1dline.png \
+	../../icons/close16.png \
+	../../icons/OK16.png
 
 SOURCES  += ../Go4FitGUI/QFitItem.cpp \
             ../Go4FitGUI/QFitWidget.cpp \

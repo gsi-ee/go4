@@ -47,16 +47,22 @@
                     <property name="accel">
                         <string>Alt+L</string>
                     </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Create histogram in local workspace.</string>
+                    </property>
                 </widget>
                 <widget class="QPushButton">
                     <property name="name">
-                        <cstring>CearteRemote</cstring>
+                        <cstring>CreateRemote</cstring>
                     </property>
                     <property name="text">
                         <string>Create &amp;Remote</string>
                     </property>
                     <property name="accel">
                         <string>Alt+R</string>
+                    </property>
+                    <property name="toolTip" stdset="0">
+                        <string>Create histogram in remote analysis.</string>
                     </property>
                 </widget>
                 <spacer>
@@ -590,7 +596,7 @@
         <slot>CreateLocalHist()</slot>
     </connection>
     <connection>
-        <sender>CearteRemote</sender>
+        <sender>CreateRemote</sender>
         <signal>clicked()</signal>
         <receiver>TGo4CreateNewHistogram</receiver>
         <slot>CreateRemoteHis()</slot>

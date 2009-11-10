@@ -256,7 +256,7 @@
                 <string/>
               </property>
               <property name="icon" >
-                <iconset>:/icons/closewindow.png</iconset>
+                <iconset>:/icons/close16.png</iconset>
               </property>
             </widget>
           </item>
