@@ -17,8 +17,6 @@ LibSuf        = lib
 DefSuf        = def
 ExpSuf        = exp
 
-DICT_PREFIX = G__
-
 CXX = cl
 
 LD = link
@@ -66,7 +64,7 @@ MODULE_LINKDEF     = XXXLinkDef.$(HedSuf)
 MODULE_LIBNAME     = libGo4UserAnalysis
 MODULE_MAP         = $(MODULE_LIBNAME).rootmap
 
-MODULE_DICT        = $(DICT_PREFIX)$(MODULE_NAME)
+MODULE_DICT        = G__XXX
 MODULE_DH          = $(MODULE_DICT).$(HedSuf)
 MODULE_DS          = $(MODULE_DICT).$(SrcSuf)
 MODULE_DO          = $(MODULE_DICT).$(ObjSuf)
@@ -85,13 +83,7 @@ MODULE_S           = TXXXAnalysis.cxx \
                      TXXXUnpackProc.cxx \
                      TXXXParameter.cxx
 
-MODULE_O           = TXXXAnalysis.obj \
-                     TXXXAnlEvent.obj \
-                     TXXXAnlProc.obj \
-                     TXXXUnpackEvent.obj \
-                     TXXXUnpackProc.obj \
-                     TXXXParameter.obj
-
+MODULE_O           = $(MODULE_S:.cxx=.obj)
 
 MODULE_LIBDEF      =  $(MODULE_LIBNAME).$(DefSuf)
 MODULE_LIBEXP      =  $(MODULE_LIBNAME).$(ExpSuf)
@@ -124,7 +116,7 @@ $(MODULE_MAP): $(MODULE_LINKDEF) $(MODULE_DLL)
 clean:
 	@del /f $(MODULE_O) $(MODULE_DO) *.$(ObjSuf) *.d
 	@del /f $(MODULE_LIBNAME).*
-	@del /f $(MODULE_DICT).* $(DICT_PREFIX)*.*
+	@del /f $(MODULE_DICT).*
 	@echo Clean is done
 
 

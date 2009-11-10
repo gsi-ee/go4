@@ -56,7 +56,7 @@ win-bin:
 	cd ..; zip $(WINBIN_NAME) \
 	go4init.bat go4.bat go4login README.txt go4/README.txt go4/Go4License.txt \
 	go4/include/*.h go4/build/* go4/images/* \
-	go4/etc/* go4/bin/* go4/lib/* go4/docs/* go4/macros/*
+	go4/etc/go4.prefs go4/bin/* go4/lib/* go4/docs/* go4/macros/*
 	cd ..; zip -r $(WINBIN_NAME) root
 	rm -f ../go4init.bat ../go4.bat ../go4login ../README.txt
 	rm -f bin/QtCore4.dll bin/QtGui4.dll
