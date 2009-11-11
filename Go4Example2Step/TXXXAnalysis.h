@@ -22,7 +22,6 @@ class TGo4WinCond;
 class TXXXUnpackEvent;
 class TXXXAnlEvent;
 class TXXXParameter;
-class TGo4FitterEnvelope;
 
 class TXXXAnalysis : public TGo4Analysis  {
    public:
@@ -38,8 +37,6 @@ class TXXXAnalysis : public TGo4Analysis  {
       TXXXAnlEvent       *fCalEvent;
       TXXXParameter      *fPar;
       TGo4WinCond        *fWinCon1;
-      TGo4FitterEnvelope *fFitEnvSize;
-      TGo4FitterEnvelope *fFitEnvSpectrum;
       TH1D               *fSize;
       Int_t               fEvents;
       Int_t               fLastEvent;
