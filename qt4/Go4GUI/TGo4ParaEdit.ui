@@ -20,10 +20,10 @@
     </property>
     <layout class="QGridLayout" >
       <property name="margin" >
-        <number>2</number>
+        <number>0</number>
       </property>
       <property name="spacing" >
-        <number>1</number>
+        <number>0</number>
       </property>
       <item row="1" column="0" >
         <widget class="QGroupBox" name="TitleBox" >
@@ -386,7 +386,7 @@
       </item>
     </layout>
   </widget>
-  <layoutdefault spacing="6" margin="11" />
+  <layoutdefault spacing="0" margin="6" />
   <includes>
     <include location="local">QGo4Widget.h</include>
   </includes>
