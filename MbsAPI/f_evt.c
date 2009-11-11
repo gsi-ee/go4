@@ -68,7 +68,7 @@ static INTS4 l_st_ochannel[5]={0,0,0,0,0};
 #include <sys/stat.h>
 #include <fcntl.h>
 #define DEF_FILE_ACCE S_IREAD|S_IWRITE  /* rw */
-#define GET__OPEN_FLAG O_RDONLY
+#define GET__OPEN_FLAG O_RDONLY|O_BINARY
 #define PUT__OPEN_APD_FLAG O_RDWR|O_APPEND
 #define PUT__CRT_FLAG O_CREAT|O_RDWR
 #define PUT__CRT_OPT ""
@@ -2593,8 +2593,15 @@ INTS4 f_evt_get_tagopen(s_evt_channel *ps_chan,CHARS *pc_tag,CHARS *pc_lmd, CHAR
   ps_chan->ps_tag = NULL; /* tagfile buffer */
   ps_chan->ps_taghe = NULL;
   if(l_prihe)printf("LMD file %s, TAG file %s\n",pc_lmd,pc_tag);
+
+  /* if tag file name not specified, do not try to open it SL:11.11.09*/
+  if ((pc_tag==0) || (*pc_tag==0)) 
+     ps_chan->l_tagfile_no = -1; 
+  else
+     ps_chan->l_tagfile_no = open(pc_tag, GET__OPEN_FLAG);
+
   /* open tag file and read header */
-  if((ps_chan->l_tagfile_no=open(pc_tag,GET__OPEN_FLAG))== -1)
+  if(ps_chan->l_tagfile_no == -1)
   {
     /* no tag file, use normal open */
   /*=============================================*/
