@@ -126,12 +126,14 @@ TGo4AnalysisClient::TGo4AnalysisClient(int argc, char** argv,
 
 void TGo4AnalysisClient::Constructor(Bool_t starthistserv, const char* basename,  const char* passwd)
 {
-   if (fxAnalysis->fServerObserverPass.Length()>0)
-      TGo4TaskHandler::SetObservAccount(0, fxAnalysis->fServerObserverPass.Data());
-   if (fxAnalysis->fServerCtrlPass.Length()>0)
-      TGo4TaskHandler::SetCtrlAccount(0, fxAnalysis->fServerCtrlPass.Data());
-   if (fxAnalysis->fServerAdminPass.Length()>0)
-      TGo4TaskHandler::SetAdminAccount(0, fxAnalysis->fServerAdminPass.Data());
+   if (IsServer()) {
+      if (fxAnalysis->fServerObserverPass.Length()>0)
+         TGo4TaskHandler::SetObservAccount(0, fxAnalysis->fServerObserverPass.Data());
+      if (fxAnalysis->fServerCtrlPass.Length()>0)
+         TGo4TaskHandler::SetCtrlAccount(0, fxAnalysis->fServerCtrlPass.Data());
+      if (fxAnalysis->fServerAdminPass.Length()>0)
+         TGo4TaskHandler::SetAdminAccount(0, fxAnalysis->fServerAdminPass.Data());
+   }
 
    fxRatemeter = new TGo4Ratemeter;
    TGo4Log::Debug(" AnalysisClient ''%s'' started ",GetName());
