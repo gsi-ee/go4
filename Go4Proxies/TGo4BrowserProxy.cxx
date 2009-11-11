@@ -2015,6 +2015,8 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
 
       if (histo->GetDimension()!=histo2->GetDimension()) return kFALSE;
 
+      histo->SetTitle(histo2->GetTitle());
+
       Int_t rebinx = 1, rebiny = 1;
 
       rebinx = CompareAxis(histo->GetXaxis(), histo2->GetXaxis());
@@ -2120,6 +2122,8 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
       TGraph* newgr = dynamic_cast<TGraph*> (newobj);
       if ((gr==0) || (newgr==0)) return kFALSE;
 
+      gr->SetTitle(newgr->GetTitle());
+
       Int_t npoints = newgr->GetN();
       gr->Set(npoints);
       Double_t xp, yp, exh, exl, eyh, eyl;
@@ -2142,6 +2146,8 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
       TGraph* newgr = dynamic_cast<TGraph*> (newobj);
       if ((gr==0) || (newgr==0)) return kFALSE;
 
+      gr->SetTitle(newgr->GetTitle());
+
       Int_t npoints = newgr->GetN();
       gr->Set(npoints);
       Double_t xp, yp, ex, ey;
@@ -2159,6 +2165,8 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
       TGraph* gr = dynamic_cast<TGraph*> (obj);
       TGraph* newgr = dynamic_cast<TGraph*> (newobj);
       if ((gr==0) || (newgr==0)) return kFALSE;
+
+      gr->SetTitle(newgr->GetTitle());
 
       Int_t npoints = newgr->GetN();
       gr->Set(npoints);
