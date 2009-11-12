@@ -8,9 +8,10 @@
 #  > mklink /D "C:\Program Files\Visual studio" c:\soft\vc
 # Than adjust windows pathes
 
-VC_PATH="E:\Soft\VS\VC"
-SDK_PATH="E:\Soft\SDK"
-IDE_PATH="E:\Soft\VS\Common7\IDE"
+export VC_PATH="E:\Soft\VS\VC"
+export SDK_PATH="E:\Soft\SDK"
+export IDE_PATH="E:\Soft\VS\Common7\IDE"
+
 ROOT_PATH="F:\Soft\root"
 GO4_PATH="F:\Soft\go4"
 QT_PATH="E:\Soft\Qt451"

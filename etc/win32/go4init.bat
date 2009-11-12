@@ -11,10 +11,9 @@
 :: if one need to compile user anaysis, following lines should be 
 :: uncommented and adjusted to actual location of MS Visual C++, SDK and IDE
 
-:: set VC_PATH=E:\Soft\VS\VC
-:: set SDK_PATH=E:\Soft\SDK
-:: set IDE_PATH=E:\Soft\VS\Common7\IDE
-:: set GO4_OS=Win32
+:: set VC_PATH=C:\Program Files\Microsoft Visual Studio 9.0\VC
+:: set SDK_PATH=C:\Program files\Microsoft SDKs\Windows\v6.0A
+:: set IDE_PATH=C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE
 :: set INCLUDE=%VC_PATH%\include;%SDK_PATH%\include;
 :: set LIB=%LIB%;%VC_PATH%\lib;%SDK_PATH%\Lib
 :: set PATH=%PATH%;%VC_PATH%\bin;%SDK_PATH%\bin;%IDE_PATH%
