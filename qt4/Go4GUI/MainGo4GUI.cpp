@@ -27,6 +27,7 @@
 #include "TGo4Version.h"
 #include "TGo4MainWindow.h"
 #include "TGo4BrowserProxy.h"
+#include "TGo4BufferQueue.h"
 #include "TGo4QSettings.h"
 #include "TGo4AbstractInterface.h"
 
@@ -48,6 +49,13 @@ int main(int argc, char **argv)
    bool iswin32 = false;
 #else
    bool iswin32 = true;
+   {
+      // work around for client connection problem in windows
+      // One should create several buffers and call WriteObjects before
+      // any kind of connection will be done
+      TGo4BufferQueue dummy("dummyQueue");
+   }   
+
 #endif
 
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
