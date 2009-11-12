@@ -23,7 +23,7 @@
 # here is remote shell settings
 
 # this is command for ssh without X (inside qtwindow)
-ssh: ssh -x %hostname% "%hostcmd%"
+ssh: ssh -X %hostname% "%hostcmd%"
 
 # this is command for ssh with X enabled
 sshX: ssh -X %hostname% "%hostcmd%" &
