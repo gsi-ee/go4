@@ -1993,11 +1993,9 @@ void TGo4MainWindow::ConnectGo4Widget(QGo4Widget* editor)
 TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char* itemname, TGo4ViewPanel* panel, TPad* pad, bool activate, int updatelevel, const char* drawopt)
 {
    TGo4BrowserProxy* br = Browser();
-   if ((br==0) || (itemname==0)) return 0;
+    if ((br==0) || (itemname==0) || strlen(itemname)==0 ) return 0;
 
    TGo4Slot* guislot = br->BrowserSlot(itemname);
-
-//   cout << "Draw item " << itemname << " slot = " << guislot << endl;
 
    if (guislot==0) return 0;
    if (guislot->GetProxy()==0) {
@@ -2332,7 +2330,6 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_WhereItemDrawn: {
          TGo4ViewPanel** res = (TGo4ViewPanel**) par;
          *res = 0;
-
          TGo4Slot* topslot = fxOM->GetSlot(fOMEditorsPath.toAscii());
          for (int n=0;n<topslot->NumChilds();n++) {
             TGo4Slot* subslot = topslot->GetChild(n);
