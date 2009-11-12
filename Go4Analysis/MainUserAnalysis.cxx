@@ -25,6 +25,8 @@
 #include "TApplication.h"
 #include "TSystem.h"
 #include "Riostream.h"
+#include "RVersion.h"
+#include "TSysEvtHandler.h"
 
 #include "TGo4Version.h"
 #include "TGo4StepFactory.h"
@@ -433,15 +435,12 @@ int main(int argc, char **argv)
       return -1;
    }
 
-   int app_argc = 1;
-//   char* app_argv[] = { argv[0], "-b" };
-//   app_argv[0] = new char[1024];
-//   app_argv[1] = new char[1024];
-//   strncpy(app_argv[0], argv[0], 1024);
-//   strncpy(app_argv[1], "-b", 1024);
-//   TApplication theApp("Go4App", &app_argc, app_argv);
+//   int app_argc = 1;
+//   TApplication theApp("Go4App", &app_argc, argv);
 
-   TApplication theApp("Go4App", &app_argc, argv);
+   int app_argc = 2;
+   char* app_argv[] = { argv[0], "-b" };
+   TApplication theApp("Go4App", &app_argc, app_argv);
 
    Bool_t batchMode(kTRUE);  // GUI or Batch
    Bool_t servermode(kFALSE);            // run analysis as server task
@@ -743,6 +742,14 @@ int main(int argc, char **argv)
 
       cout << "**** Main: created AnalysisClient Instance: " << client->GetName() << endl;
       cout << "**** Main: Run application loop" << endl;
+
+#ifndef WIN32
+#if ROOT_VERSION_CODE <= ROOT_VERSION(5,25,2)
+      // workaround TUnixSystem::DispatchOneEvent problem
+      gSystem->AddFileHandler(new TFileHandler(0, TFileHandler::kRead));
+#endif
+#endif
+
       theApp.Run();
    }
 
