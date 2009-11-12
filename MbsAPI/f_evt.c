@@ -545,11 +545,15 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
    } s_varstr_file;
    INTS4 l_status,ll;
 
-   if((pc_temp=strchr(pc_server,':')) != NULL)
-     {
+
+#ifndef GSI__WINNT
+// disable automatic detection of RFIO on Windows while file name can contain ":"
+   if((pc_temp=strchr(pc_server,':')) != NULL) {
        l_mode=GETEVT__RFIO;
        /*       printf("rfio file %s\n",pc_server);*/
      }
+#endif
+
 #ifndef RFIO
    if(l_mode == GETEVT__RFIO)
      {
