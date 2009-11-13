@@ -490,7 +490,7 @@ void TGo4MainWindow::AddFileMenu()
    fileMenu->addAction(QIcon( ":/icons/network.png" ), "Open &Remote...",
              this, SLOT(OpenRemoteFileSlot()), CTRL+Key_R );
    fileMenu->addAction(QIcon( ":/icons/histserv.png" ), "Open &HServer...",
-             this, SLOT(ConnectHServerSlot()), CTRL+Key_H );
+             this, SLOT(ConnectHServerSlot()) );
    fileMenu->addAction(QIcon( ":/icons/filesave.png" ), "Save memor&y...",
              this, SLOT(SaveFileSlot()), CTRL+Key_Y );
    fileMenu->addAction(QIcon( ":/icons/close.png" ),"Close all files",
@@ -537,8 +537,8 @@ void TGo4MainWindow::AddToolsMenu()
                this, SLOT(CreateNewHistSlot()), CTRL+Key_I );
    toolMenu->addAction(QIcon(":/icons/condlist.png" ),"C&ondition properties...",
                this, SLOT(StartConditionInfo()));
-   toolMenu->addAction(QIcon(":/icons/condcre.png" ),"&Condition Editor...",
-               this, SLOT(CreateNewConditionSlot()), CTRL+Key_C);
+   toolMenu->addAction(QIcon(":/icons/condcre.png" ),"Create new &Condition...",
+               this, SLOT(CreateNewConditionSlot()));
    toolMenu->addAction(QIcon(":/icons/zoom.png" ),"&Event Printout...",
                this, SLOT(StartEventInfo()));
    toolMenu->addAction(QIcon(":/icons/dynlist.png" ),"Create &Dyn. List entry ...",
@@ -598,7 +598,7 @@ void TGo4MainWindow::AddAnalysisMenu()
 
    faPrepareAnal =
       anMenu->addAction(QIcon(":/icons/connect.png" ), "&Prepare for client connection...",
-             this, SLOT(PrepareForClientConnectionSlot()), CTRL+Key_C);
+             this, SLOT(PrepareForClientConnectionSlot()));
 
    faDisconnectAnal =
       anMenu->addAction(QIcon(":/icons/disconnect.png"), "Disconnect from analysis",

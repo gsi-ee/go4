@@ -522,7 +522,7 @@ void TGo4MainWindow::AddFileMenu()
      FileMenu->insertItem(QPixmap::fromMimeSource( "network.png" ), "Open &Remote...",
              this, SLOT(OpenRemoteFileSlot()), CTRL+Key_R );
      FileMenu->insertItem(QPixmap::fromMimeSource( "histserv.png" ), "Open &HServer...",
-             this, SLOT(ConnectHServerSlot()), CTRL+Key_H );
+             this, SLOT(ConnectHServerSlot()) );
      FileMenu->insertItem(QPixmap::fromMimeSource( "filesave.png" ), "Save memor&y...",
              this, SLOT(SaveFileSlot()), CTRL+Key_Y );
      FileMenu->insertItem(QPixmap::fromMimeSource( "close.png" ),"Close all files",
@@ -583,8 +583,8 @@ void TGo4MainWindow::AddToolsMenu()
                this, SLOT(CreateNewHistSlot()), CTRL+Key_I );
    Go4ToolMenu->insertItem( QPixmap::fromMimeSource( "condlist.png" ),"C&ondition properties...",
                this, SLOT(StartConditionInfo()));
-   Go4ToolMenu->insertItem( QPixmap::fromMimeSource( "condcre.png" ),"&Condition Editor...",
-               this, SLOT(CreateNewConditionSlot()), CTRL+Key_C);
+   Go4ToolMenu->insertItem( QPixmap::fromMimeSource( "condcre.png" ),"Create new &Condition...",
+               this, SLOT(CreateNewConditionSlot()));
    Go4ToolMenu->insertItem( QPixmap::fromMimeSource( "zoom.png" ),"&Event Printout...",
                this, SLOT(StartEventInfo()));
    Go4ToolMenu->insertItem( QPixmap::fromMimeSource( "dynlist.png" ),"Create &Dyn. List entry ...",
