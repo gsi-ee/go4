@@ -1,6 +1,6 @@
 --------------------------------------------------------------
          Go4 Release Package v4.4.0 (build 40400)
-                      30-September-2009
+                      13-November-2009
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -20,7 +20,7 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v4.4.0 (October 09)
+Changes in Go4 v4.4.0 (November 09)
 1. Add clear histogram and conditions button in gui
 2. System configuration tested once and stored in 
    $GO4SYS/build/Makefile.gener file. This simplifies compilation
