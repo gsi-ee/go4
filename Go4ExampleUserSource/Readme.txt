@@ -63,8 +63,6 @@ to the meanings of the columns. These are copied to corresponding
 members of the TYYYRawEvent, and some histograms are filled.
 Thus TYYYUnpackEvent and TYYYUnpackProc have to be modified
 if other ascii data shall be processed.
-Note that the default inputfile suffix for batchmode (here: .scf)
-can be defined in the MainUserAnalysis.cxx.
 
 In this example, the input files were produced by
 multiple scattering simulation SCATT, giving the resulting radius and

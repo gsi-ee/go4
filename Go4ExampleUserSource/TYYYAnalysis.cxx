@@ -55,9 +55,7 @@ TYYYAnalysis::TYYYAnalysis(int argc, char** argv) :
       exit(-1);
    }
 
-   // lmd: input file name (*.lmd)
-   // out1: output file name of first analysis step  (*.root)
-   // out2: output file name of second analysis step (*.root)
+
    cout << "**** TYYYAnalysis: Create" << endl;
 
    // the step definitions can be changed in the GUI
