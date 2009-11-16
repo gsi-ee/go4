@@ -560,7 +560,7 @@ struct s_clnt_filter *p_clnt_filter;
    short              i, i_flt_len,
                       i_fltblkbeg, i_fltblkend, j;
    short              if_newfltblk = 1;
-   short              i_next_fltblk;
+   short              i_next_fltblk = 0; // SL 16.11.2009 add initialization to 0
    short              i_descr;        /* test */
    int               l_evtdescr, *pl_evtdescr, *pl_sev1descr, *pl_sev2descr;
    short              i_lasevtflt, i_1stsevflt;

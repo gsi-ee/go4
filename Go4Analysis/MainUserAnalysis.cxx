@@ -439,7 +439,7 @@ int main(int argc, char **argv)
 //   TApplication theApp("Go4App", &app_argc, argv);
 
    int app_argc = 2;
-   char* app_argv[] = { argv[0], "-b" };
+   char* app_argv[] = { argv[0], (char*) "-b" };
    TApplication theApp("Go4App", &app_argc, app_argv);
 
    Bool_t batchMode(kTRUE);  // GUI or Batch

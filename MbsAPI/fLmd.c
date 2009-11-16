@@ -238,6 +238,7 @@ uint32_t Items){
 
   // check if total buffer fits in file
   if(pLmdControl->iOffsetEntries && (pLmdControl->iOffsetSize == 4)){
+     pH=pHeader; // SL 16.11.2009 - pH was not initialized in this branch
     elements=pLmdControl->iElements+Items+2;
     used=pLmdControl->iBytes/4;
     fileleft=0xffffffff - used - (4+elements); // size of table
