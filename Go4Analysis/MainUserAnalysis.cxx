@@ -59,7 +59,7 @@ void usage(const char* err = 0)
    cout << "  -gui name guihost guiport   : run analysis in gui mode, used by GUI launch analysis" << endl;
    cout << "  -run                        : run analysis in server mode (default only run if source specified)" << endl;
    cout << "  -norun                      : exclude automatical run" << endl;
-   cout << "  -number NUMBER              : process NUMBER events in batch mode" << endl;
+   cout << "  -events NUMBER              : process NUMBER events in batch mode" << endl;
    cout << "  -hserver [name [passwd]]    : start histogram server with optional name and password" << endl;
    cout << "  -log [filename]             : enable log output into filename (default:go4logfile.txt)" << endl;
    cout << "  -v -v0 -v1 -v2 -v3          : change log output verbosity (0 - maximum, 1 - info, 2 - warn, 3 - errors)" << endl;
@@ -636,7 +636,7 @@ int main(int argc, char **argv)
          } else
             showerror("Backstore name not specified");
       } else
-      if (strcmp(argv[narg],"-number")==0) {
+      if ((strcmp(argv[narg],"-events")==0) || (strcmp(argv[narg],"-number")==0)) {
          if (++narg < argc) {
             if (sscanf(argv[narg++],"%ld",&maxevents)!=1) maxevents = -1;
          } else
