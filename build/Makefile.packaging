@@ -36,7 +36,7 @@ go4-package:
 	@cd $(GO4DISTR_DIR); tar xf $(GO4TAR_NAME); rm -f $(GO4TAR_NAME)
 	@mkdir -p $(GO4DISTR_DIR)/include
 	@touch -f $(GO4DISTR_DIR)/include/.dummy
-	@cd $(DISTR_DIR); chmod u+w *; chmod u+w */*; chmod u+w */*/*; tar chf $(GO4TAR_NAME) $(GO4PACK_VERS) ; gzip -f $(GO4TAR_NAME)
+	@cd $(DISTR_DIR); chmod u+w --recursive $(GO4PACK_VERS); chmod go+rX --recursive $(GO4PACK_VERS); tar chf $(GO4TAR_NAME) $(GO4PACK_VERS) ; gzip -f $(GO4TAR_NAME)
 	@mkdir -p $(PACKAGE_DIR)
 	@mv -f $(DISTR_DIR)/$(GO4TAR_NAME).gz $(PACKAGE_DIR)
 	@rm -f -r $(DISTR_DIR)/*
@@ -82,7 +82,7 @@ fit-package:
 	@cd $(DISTR_DIR); tar xf $(FITTAR_NAME)
 	@cp -f Go4Fit/Makefile.standalone $(DISTR_DIR)/Go4Fit/Makefile
 	@cp -f Go4FitExample/Makefile.standalone $(DISTR_DIR)/Go4FitExample/Makefile
-	@cd $(DISTR_DIR); rm -f $(FITTAR_NAME); chmod u+w *; chmod u+w */*; tar chf $(FITTAR_NAME) Go4Fit Go4FitExample --exclude=$(FITTAR_NAME)*; gzip -f $(FITTAR_NAME)
+	@cd $(DISTR_DIR); rm -f $(FITTAR_NAME); chmod u+w --recursive *; chmod go+rX --recursive *; tar chf $(FITTAR_NAME) Go4Fit Go4FitExample; gzip -f $(FITTAR_NAME)
 	@mkdir -p $(PACKAGE_DIR)
 	@mv -f $(DISTR_DIR)/$(FITTAR_NAME).gz $(PACKAGE_DIR)
 	@rm -f -r $(DISTR_DIR)/*
@@ -112,7 +112,7 @@ thrd-package:
 	@cp -f etc/taskh/Makefile $(DISTR_DIR)
 	@cp -f etc/taskh/taskh.init $(DISTR_DIR)/go4.init
 	@cp -f etc/taskh/README.txt $(DISTR_DIR)
-	@cd $(DISTR_DIR); rm -f $(THRDTAR_NAME); chmod u+w *; chmod u+w */*; tar chf $(THRDTAR_NAME) . --exclude=$(THRDTAR_NAME)*; gzip -f $(THRDTAR_NAME)
+	@cd $(DISTR_DIR); rm -f $(THRDTAR_NAME); chmod u+w --recursive *; chmod go+rX --recursive *; tar chf $(THRDTAR_NAME) . --exclude=$(THRDTAR_NAME)*; gzip -f $(THRDTAR_NAME)
 	@mkdir -p $(PACKAGE_DIR)
 	@mv -f $(DISTR_DIR)/$(THRDTAR_NAME).gz $(PACKAGE_DIR)
 	@rm -f -r $(DISTR_DIR)/*
@@ -150,7 +150,7 @@ task-package:
 	@cp -f etc/thrdmgr/README.txt $(DISTR_DIR)
 	@mkdir -p $(DISTR_DIR)/include
 	@touch -f $(DISTR_DIR)/include/.dummy
-	@cd $(DISTR_DIR); rm -f $(TASKTAR_NAME); chmod u+w *; chmod u+w */*; tar chf $(TASKTAR_NAME) . --exclude=$(TASKTAR_NAME)*; gzip -f $(TASKTAR_NAME)
+	@cd $(DISTR_DIR); rm -f $(TASKTAR_NAME); chmod u+w --recursive *; chmod go+rX --recursive *; tar chf $(TASKTAR_NAME) . --exclude=$(TASKTAR_NAME)*; gzip -f $(TASKTAR_NAME)
 	@mkdir -p $(PACKAGE_DIR)
 	@mv -f $(DISTR_DIR)/$(TASKTAR_NAME).gz $(PACKAGE_DIR)
 	@rm -f -r $(DISTR_DIR)/*
