@@ -22,7 +22,6 @@ class TXXXControl : public TGo4Parameter {
       virtual ~TXXXControl();
       virtual Int_t    PrintParameter(Text_t * n, Int_t);
       virtual Bool_t   UpdateFrom(TGo4Parameter *);
-      void     SaveMacro();
 
       // control filling of histograms
 

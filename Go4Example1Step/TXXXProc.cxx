@@ -50,8 +50,7 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
    fControl = (TXXXControl *) GetParameter("Control");
 
    // This example analysis allows for en-disabling the histogram filling.
-   // Macro setfill.C creates macro histofill.C to set histogram fill status in parameter "Control".
-   // Executed in Analysis terminal input line by .x setfill.C(n) with n=0,1.
+   // Macro histofill.C sets histogram fill status in parameter "Control".
    // This macro histofill.C, not the auto save file, will set status.
    gROOT->ProcessLineSync(".x histofill.C");
    fControl->PrintParameter(0,0);

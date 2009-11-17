@@ -37,11 +37,11 @@ Then the histograms are filled, the 2d one with polygon conditions.
 
 Parameter class TXXXControl
 This class has one member "fill" which is checked in TXXXProc->Event
-to fill histograms or not. The macro setfill.C(bool) can be used
-in the GUI to switch the filling on or off. It creates macro histofill.C() which
+to fill histograms or not. The macro histofill.C
 is actually used to set filling on or off (when creating TXXXProc). 
-You can modify histofill.C by editor.
-The macro setoutput.C(bool) can also be executed via GUI and allows to switch file output on/off. 
+You can modify histofill.C by editor. This is an example how parameter 
+members can be modified by macros at runtime, independent from the autosave file 
+settings.
 
 Autosave file mechanism.
 By default autosave is enabled in batch mode, disabled in GUI mode,
