@@ -163,7 +163,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
    TIter iter(lst);
    TObject* obj(0);
 
-   TClass *proc_cl(0), *ev_cl(0), *an_cl(0);
+   TClass *proc_cl(0), *ev_cl(0), *an_cl(0), *evsrc_cl(0);
 
    while ((obj = iter()) != 0) {
       TClass* cl = TClass::GetClass(obj->GetName());
@@ -172,6 +172,9 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
       if (cl->InheritsFrom(TGo4EventProcessor::Class())) {
          if ((cl!=TGo4EventProcessor::Class()) && (proc_cl==0)) proc_cl = cl;
+      } else
+      if (cl->InheritsFrom(TGo4EventSource::Class())) {
+         if ((cl!=TGo4EventSource::Class()) && (evsrc_cl==0)) evsrc_cl = cl;
       } else
       if (cl->InheritsFrom(TGo4EventElement::Class())) {
          if ((cl!=TGo4EventElement::Class()) && (ev_cl==0)) ev_cl = cl;
@@ -325,6 +328,9 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
       factory->DefOutputEvent("OutputEvent", ev_cl->GetName()); // object name, class name
    else
       factory->DefOutputEvent("OutputEvent", "TGo4EventElement"); // object name, class name
+
+   if (evsrc_cl!=0)
+      factory->DefUserEventSource(evsrc_cl->GetName());
 
    TGo4MbsFileParameter* sourcepar = new TGo4MbsFileParameter("/GSI/lea/gauss.lmd");
 
