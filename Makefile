@@ -6,6 +6,13 @@ GO4PACKAGE = go4
 
 include Makefile.config
 
+ifdef QTPATH
+ifeq ($(wildcard $(QTPATH)/*),)
+$(error No files found in $(QTPATH), check your Qt installation)
+endif
+endif
+
+
 Go4_Makefile_Rules = included
 
 ifdef GO4_WIN32
