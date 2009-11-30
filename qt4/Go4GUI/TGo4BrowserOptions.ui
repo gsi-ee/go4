@@ -93,6 +93,9 @@
           <property name="icon" >
             <iconset>:/icons/Stop.png</iconset>
           </property>
+          <property name="autoRaise" >
+            <bool>true</bool>
+          </property>
           <property name="toolTip" stdset="0" >
             <string>Stop monitoring</string>
           </property>
