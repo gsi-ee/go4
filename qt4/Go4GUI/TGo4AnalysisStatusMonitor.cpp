@@ -44,6 +44,7 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObj
    TGo4AnalysisClientStatus* status = dynamic_cast<TGo4AnalysisClientStatus*> (obj);
    if (status==0) return;
    SourceLabel->setText(status->GetCurrentSource());
+
    double Rate = status->GetRate();
    if(Rate>10) LCDCurrentRate->display(floor(Rate));
    else LCDCurrentRate->display(Rate);
@@ -59,7 +60,6 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObj
       Go4Pix->setMovie(fxRunMovie);
       fxRunMovie->start();
    }
-
 
    LCDCurrentRate->setStyleSheet(color);
 
