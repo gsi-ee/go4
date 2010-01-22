@@ -13,7 +13,8 @@
 
 #ifndef TMODELTEMPLATE_H
 #define TMODELTEMPLATE_H
-#include "../Go4Fit/TGo4FitModel.h"
+
+#include "TGo4FitModel.h"
 
 class TModelTemplate : public TGo4FitModel {
    public:

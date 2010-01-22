@@ -10,7 +10,7 @@ mkdepend         = g++
 ROOTEXEPATH = $(shell root-config --exec-prefix)
 ROOTLIBPATH = $(shell root-config --libdir)
 
-CXXFLAGS         = -O -fPIC -Wno-deprecated $(shell root-config --cflags)
+CXXFLAGS         = -O2 -fPIC -Wno-deprecated $(shell root-config --cflags)
 SOFLAGS          = -shared -Wl,-soname,
 LDFLAGS          = -O
 
@@ -41,19 +41,9 @@ $(GO4FIT_DS) $(GO4FIT_DH): $(GO4FIT_H) $(GO4FIT_LINKDEF)
 	@$(ROOTEXEPATH)/bin/rootcint -f $(GO4FIT_DS) -c -p -I. $(GO4FIT_H) $(GO4FIT_LINKDEF)
 
 $(GO4FIT_MAP): $(GO4FIT_LIB)
-   @rm -f $(GO4FIT_MAP)
-   @$(ROOTEXEPATH)/bin/rlibmap -r $(GO4FIT_MAP) -l ./$(GO4FIT_LIB) -d $(ROOTLIBPATH)/libMinuit.so -c $(GO4FIT_LINKDEF)
-   @echo "Fit map file done"
-
-ifeq ($(findstring $(MAKECMDGOALS), clean),)
-
-Makefile.depend: $(GO4FIT_S) $(GO4FIT_H)
-	@echo "Generating dependency"
-	$(mkdepend) $(CXXFLAGS) -MM $(GO4FIT_S) > Makefile.depend
-
--include Makefile.depend
-
-endif
+	@rm -f $(GO4FIT_MAP)
+	@$(ROOTEXEPATH)/bin/rlibmap -r $(GO4FIT_MAP) -l ./$(GO4FIT_LIB) -d $(ROOTLIBPATH)/libMinuit.so -c $(GO4FIT_LINKDEF)
+	@echo "Fit map file done"
 
 .SUFFIXES: .$(SrcSuf)
 

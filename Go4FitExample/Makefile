@@ -1,9 +1,11 @@
+ifndef GO4SYS
+GO4SYS = $(shell go4-config --go4sys)
+endif
+
 include $(GO4SYS)/Makefile.config
 
-FITEX_NAME    = Go4FitExample
-
 ifdef GO4PACKAGE
-FITEX_DIR     = $(FITEX_NAME)
+FITEX_DIR     = Go4FitExample
 LIBGO4FIT     = $(GO4PATH) -lGo4Fit
 FITEX_EXEDEP  = $(GO4FIT_LIB)
 else
@@ -18,7 +20,7 @@ else
 FITEX_USEDLIBS = $(ROOTLIBS) -lMinuit $(if $(USESPECTRUM),-lSpectrum,) $(LIBGO4FIT)
 endif
 
-all::  $(FITEX_DLLS) $(FITEX_EXECS)
+all::  fitexampletargets
 
 # ------------------Example1------------------------------------------
  
@@ -87,7 +89,7 @@ FITEX4_S      = $(FITEX_DIR)/Example4.$(SrcSuf)
 FITEX4_E      = $(FITEX_DIR)/Example4$(ExeSuf)
 
 $(FITEX4_DICTS): $(FITEX4_HED)
-	@rootcint -f $(FITEX4_DICTS) -c $(FITEX4_HED) $(FITEX4_LINKDEF)
+	@$(ROOTCINTGO4) $(FITEX4_HED) $(FITEX4_LINKDEF)
     
 $(FITEX4_LIB):  $(FITEX4_OBJ) $(FITEX4_DICTO)
 	@$(MakeLibrary) $(FITEX4_LIBNAME) "$(FITEX4_OBJ) $(FITEX4_DICTO)" $(FITEX_DIR) $(FITEX4_LINKDEF) "$(GO4FIT_LIB) $(ROOTLIBPATH)/libMinuit.$(DllSuf)"
@@ -206,6 +208,8 @@ FITEXDISTRFILES    += $(FITEX4_LINKDEF) $(FITEX4_SRC) $(FITEX4_HED)
 FITEXDISTRFILES    += $(FITEX_DIR)/histograms.root $(FITEX_DIR)/README
 DISTRFILES         += $(FITEXDISTRFILES) $(FITEX_DIR)/Makefile.standalone
 endif
+
+fitexampletargets: $(FITEX_DLLS) $(FITEX_EXECS)
 
 clean-bin::
 	@rm -f $(FITEX_OBJS)  $(FITEX_DIR)/*.$(ObjSuf) $(FITEX_DIR)/*Dict.*

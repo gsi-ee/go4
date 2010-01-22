@@ -25,14 +25,16 @@
 #include "TModelTemplate.h"
 
 TModelTemplate::TModelTemplate(const char* iName, Int_t iNPars, Bool_t AddAmplitude) :
-   TGo4FitModel(iName,"Template for user model",AddAmplitude) {
+   TGo4FitModel(iName,"Template for user model",AddAmplitude) 
+{
    for (Int_t n=0;n<iNPars;n++) {
        TString s("Par"); s+=n;
        NewParameter(s.Data(),"model template parameter",0.);
    }
 }
 
-Double_t TModelTemplate::UserFunction(Double_t* Coordinates, Double_t* Parameters) {
+Double_t TModelTemplate::UserFunction(Double_t* Coordinates, Double_t* Parameters) 
+{
    Double_t pos = Parameters[0];
    Double_t width = Parameters[1];
    Double_t x = Coordinates[0];

@@ -135,9 +135,9 @@ $(EX4_DLL):  $(EX4_OBJ) $(EX4_DICTO)
 	@echo "$(EX4_DLL) done"
 
 $(EX4_MAP): $(EX4_DLL)
-   @rm -f $(EX4_MAP)
-   @$(ROOTEXEPATH)/bin/rlibmap -r $(EX4_MAP) -l ./$(EX4_DLL) -d $(GO4FIT_LIB) $(ROOTLIBPATH)/libMinuit.so -c $(EX4_LINKDEF)
-   @echo "Fit examples map file done"
+	@rm -f $(EX4_MAP)
+	@$(ROOTEXEPATH)/bin/rlibmap -r $(EX4_MAP) -l ./$(EX4_DLL) -d $(GO4FIT_LIB) $(ROOTLIBPATH)/libMinuit.so -c $(EX4_LINKDEF)
+	@echo "Fit examples map file done"
 
 $(EX4_E):  $(EX4_O) $(EX4_DLL)
 	$(LD) $(LDFLAGS) $(EX4_O) $(LIBS) -L./ -lExample4 $(OutPutOpt) $(EX4_E)
@@ -146,7 +146,7 @@ $(EX4_E):  $(EX4_O) $(EX4_DLL)
 example4: $(EX4_DLL) $(EX4_MAP) $(EX4_E) 
 
 clean4:
-	@rm -f $(EX4_E) $(EX4_O) $(EX4_DLL) $(EX4_OBJ)
+	@rm -f $(EX4_E) $(EX4_O) $(EX4_DLL) $(EX4_OBJ) $(EX4_MAP)
 
 # ------------------Example5------------------------------------------
 
