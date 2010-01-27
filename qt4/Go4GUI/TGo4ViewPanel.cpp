@@ -1106,6 +1106,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
    Double_t y = pad->PadtoY(pad->AbsPixeltoY(py));
    bool docreate = GetSelectedMarkerName(pad).length()==0;
    bool docheck = false;
+   bool iscreated = false;
 
    switch(fiMouseMode) {
      case kMouseROOT: {
@@ -1131,6 +1132,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
           mark->SetMarkerColor((ix)%6 +2);
           mark->SetHistogram(GetPadHistogram(pad));
           if (!fbPickAgain) fiMouseMode=kMouseROOT; // reset pick
+          mark->Draw("");
         } else {
           TGo4Marker* mark = dynamic_cast<TGo4Marker*> (GetActiveObj(pad, kind_Marker));
           if(mark!=0) {
@@ -1139,8 +1141,10 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
           }
           if (!fbPickAgain) fiMouseMode=kMouseROOT; // reset pick
         }
+       pad->Modified();
+       pad->Update();
 
-        RedrawPanel(pad, true);
+//        RedrawPanel(pad, true);
         break;
      }
 
@@ -1156,6 +1160,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
               int ix = GetNumMarkers(pad, kind_Window);
               QString name = "Region " + QString::number(ix+1);
               conny = new TGo4WinCond(name.toAscii());
+              iscreated = true;
               if(fbTwoDimRegion)
                  conny->SetValues(0,0,0,0);
               else
@@ -1180,7 +1185,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
            xmin = conny->GetXLow();
            ymin = conny->GetYLow();
            fiPickCounter=0;
-           if(!fbPickAgain)  fiMouseMode=kMouseROOT;
+           if(!fbPickAgain) fiMouseMode=kMouseROOT;
            docheck = true;
         } else {
            cout <<"TGo4ViewPanel:MouseClick() NEVER COME HERE" << endl;
@@ -1199,8 +1204,11 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
         }
 
         conny->SetChanged(kTRUE);
+        if (iscreated) conny->Draw("");
 
-        RedrawPanel(pad, true);
+        pad->Modified();
+        pad->Update();
+        // RedrawPanel(pad, true);
         break;
      }
 
@@ -1215,6 +1223,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
               int ix = GetNumMarkers(pad, kind_Poly);
               QString name = "Polygon " + QString::number(ix+1);
               cond = new TGo4PolyCond(name.toAscii());
+              iscreated = true;
               AddMarkerObj(pad, kind_Poly, cond);
               cond->SetWorkHistogram(hist);
            } else {
@@ -1261,7 +1270,11 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
            if (maincond!=0) maincond->SetChanged(kTRUE);
         }
 
-        RedrawPanel(pad, true);
+        if (iscreated) cond->Draw("");
+
+        pad->Modified();
+        pad->Update();
+        // RedrawPanel(pad, true);
         break;
      }
 
@@ -1278,6 +1291,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
               latex->SetName(name.toAscii());
               latex->SetTitle(txt.toAscii());
               AddMarkerObj(pad, kind_Latex, latex);
+              latex->Draw();
            } else {
               fiMouseMode=kMouseROOT;
            }
@@ -1289,7 +1303,10 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
            }
         }
         if(!fbPickAgain) fiMouseMode=kMouseROOT; // reset pick
-        RedrawPanel(pad, true);
+
+        pad->Modified();
+        pad->Update();
+//        RedrawPanel(pad, true);
         break;
      }
 
@@ -1297,9 +1314,10 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
         gROOT->SetEditorMode("");
         if(fiPickCounter==0) {
            // pick the first time after enabling limits record:
-           TArrow* arrow = new TArrow(x,y,x,y);
+           TArrow* arrow = new TArrow(x,y,x,y,0.02);
            AddMarkerObj(pad, kind_Arrow, arrow);
            fiPickCounter++;
+           arrow->Draw("");
         } else
         if (fiPickCounter==1) {
            TArrow* arrow = dynamic_cast<TArrow*> (GetActiveObj(pad, kind_Arrow));
@@ -1314,7 +1332,10 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
            return;
         }
         // do not change original condition dimension
-        RedrawPanel(pad, true);
+        pad->Modified();
+        pad->Update();
+
+        // RedrawPanel(pad, true);
         break;
      }
    }
@@ -1358,8 +1379,9 @@ void TGo4ViewPanel::CheckActionAtTheEnd(TPad* pad)
 bool TGo4ViewPanel::CompleteMarkerEdit(TPad* pad)
 {
    bool res = false;
-   bool needredraw = false;
-   bool needrefresh = false;
+   bool needredraw = false; // complete repaint
+   bool needupdate = false; // only pad update
+   bool needrefresh = false; // refresh buttons
    bool docheck = false;
    bool candelete = !IsConditionSelected(pad);
 
@@ -1401,10 +1423,12 @@ bool TGo4ViewPanel::CompleteMarkerEdit(TPad* pad)
                cond->SetFillStyle(3002);
             }
 
-            if (delcond && candelete)
-              DeleteDrawObject(pad, cond);
-
-            needredraw = true;
+            if (delcond && candelete) {
+               DeleteDrawObject(pad, cond);
+               needredraw = true;
+            } else {
+               needupdate = true;
+            }
          }
          if(!fbPickAgain) fiMouseMode=kMouseROOT;
          fiPickCounter = 0;
@@ -1420,8 +1444,8 @@ bool TGo4ViewPanel::CompleteMarkerEdit(TPad* pad)
         if (fiPickCounter>0) {
            TArrow* arrow = dynamic_cast<TArrow*> (GetActiveObj(pad, kind_Arrow));
            if (arrow!=0) {
-             DeleteDrawObject(pad, arrow);
-             needredraw = true;
+              DeleteDrawObject(pad, arrow);
+              needredraw = true;
            }
            fiPickCounter = 0;
            if(!fbPickAgain) fiMouseMode=kMouseROOT;
@@ -1430,8 +1454,14 @@ bool TGo4ViewPanel::CompleteMarkerEdit(TPad* pad)
         break;
      }
    }
-   if (needredraw) RedrawPanel(pad, true); else
-   if (needrefresh) RefreshButtons();
+   if (needredraw) RedrawPanel(pad, true); else {
+      if (needupdate) {
+         pad->Modified();
+         pad->Update();
+      }
+      if (needrefresh) RefreshButtons();
+   }
+
 
    if (docheck) CheckActionAtTheEnd(pad);
 
