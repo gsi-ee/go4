@@ -1122,14 +1122,14 @@ Bool_t TGo4AnalysisObjectManager::SetParameter(const char* name, TGo4Parameter *
 
    Bool_t rev(kFALSE);
    TFolder* topfolder = parent ? parent : fxParameterDir;
-   TGo4Parameter* oldpar= dynamic_cast<TGo4Parameter *> (topfolder->FindObjectAny(name));
+   TGo4Parameter* oldpar= dynamic_cast<TGo4Parameter*> (topfolder->FindObjectAny(name));
    if(oldpar!=0) {
       // update existing parameter of given name
       rev = oldpar->UpdateFrom(par);
       //cout << "++++ Updated parameter "<< name<<" from parameter "<< par->GetName() << endl;
       //oldpar->PrintParameter();
    } else {
-      // parameter not yet exisiting, add external paramter as a copy:
+      // parameter not yet existing, add external parameter as a copy:
       TGo4Parameter* clonedpar=dynamic_cast<TGo4Parameter*>(par->Clone());
 
       const char* separ = strrchr(name, '/');
@@ -1755,15 +1755,14 @@ Int_t TGo4AnalysisObjectManager::PrintFolder(TFolder* fold, Option_t* opt, const
       if(ob->InheritsFrom(TFolder::Class()))
          totalsize+=PrintFolder(dynamic_cast<TFolder*>(ob),opt,expression);
       else
-
          if(IsMatching(ob->GetName(),expression)) {
             TROOT::IndentLevel();
             ob->Print(opt);
-            TGo4ObjectStatus* temp=CreateObjectStatus(ob);
-            if(temp!=0) totalsize+=temp->GetObjectSize();
+            TGo4ObjectStatus* temp = CreateObjectStatus(ob);
+            if(temp!=0) totalsize += temp->GetObjectSize();
             delete temp;
          }
-   }// while
+   } // while
    TROOT::DecreaseDirLevel();
    TROOT::IndentLevel();
    cout <<"++++End "<<fold->GetName()<<"++++++++++" << endl;
@@ -1918,20 +1917,28 @@ void TGo4AnalysisObjectManager::CleanupDynamicLists(TObject* oldobject)
 
 void TGo4AnalysisObjectManager::PrintConditions(const char* expression)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::PrintConditions()",__LINE__, __FILE__));
-   Int_t totalsize=PrintFolder(fxConditionDir,"*",expression);
-   cout<<"___________________________________________________________"<<endl;
-   cout << "Total size of all conditions is: "<<totalsize<<" bytes."<<endl;
+   TRACE((11,"TGo4AnalysisObjectManager::PrintConditions(const char*)",__LINE__, __FILE__));
+   Int_t totalsize = PrintFolder(fxConditionDir, "*", expression);
+   cout << "___________________________________________________________" << endl;
+   cout << "Total size of all conditions is: " << totalsize << " bytes." << endl;
 }
 
 void TGo4AnalysisObjectManager::PrintHistograms(const char* expression)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::PrintHistograms()",__LINE__, __FILE__));
-   Int_t totalsize=PrintFolder(fxHistogramDir,"*",expression);
-   cout<<"___________________________________________________________"<<endl;
-   cout << "Total size of all histograms is: "<<totalsize<<" bytes."<<endl;
-
+   TRACE((11,"TGo4AnalysisObjectManager::PrintHistograms(const char*)",__LINE__, __FILE__));
+   Int_t totalsize = PrintFolder(fxHistogramDir, "*", expression);
+   cout << "___________________________________________________________" << endl;
+   cout << "Total size of all histograms is: " << totalsize << " bytes." << endl;
 }
+
+void TGo4AnalysisObjectManager::PrintParameters(const char* expression)
+{
+   TRACE((11,"TGo4AnalysisObjectManager::PrintParameters(const char*)",__LINE__, __FILE__));
+   Int_t totalsize = PrintFolder(fxParameterDir, "*", expression);
+   cout << "___________________________________________________________" << endl;
+   cout << "Total size of all parameters is: " << totalsize << " bytes." << endl;
+}
+
 
 TObject* TGo4AnalysisObjectManager::NextMatchingObject(const char* expr,
       const char* folder,

@@ -12,17 +12,9 @@
 //-----------------------------------------------------------------------
 
 #include "TXXXParameter.h"
+
 #include "Riostream.h"
 
-//-----------------------------------------------------------
-TXXXParameter::TXXXParameter() :
-   TGo4Parameter()
-{
-   frP1=0;
-   frP2=0;
-   fbHisto=kTRUE;
-}
-//-----------------------------------------------------------
 TXXXParameter::TXXXParameter(const char* name) :
    TGo4Parameter(name)
 {
@@ -30,20 +22,11 @@ TXXXParameter::TXXXParameter(const char* name) :
    frP2=20;
    fbHisto=kTRUE;
 }
-//-----------------------------------------------------------
+
 TXXXParameter::~TXXXParameter()
 {
 }
-//-----------------------------------------------------------
-Int_t TXXXParameter::PrintParameter(Text_t * n, Int_t)
-{
-   cout << "Parameter " << GetName() << ":" << endl;
-   cout << "  P1=" << frP1 << endl;
-   cout << "  P2=" << frP2 << endl;
-   cout << "  fbHisto=" << fbHisto<<endl;
-   return 0;
-}
-//-----------------------------------------------------------
+
 Bool_t TXXXParameter::UpdateFrom(TGo4Parameter *pp)
 {
    TXXXParameter* from = dynamic_cast<TXXXParameter*> (pp);

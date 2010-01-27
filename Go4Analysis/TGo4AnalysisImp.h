@@ -572,10 +572,13 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     virtual void Print(Option_t* opt="") const;
 
     /** Printout of all histogram statistic counters on the terminal. */
-    void PrintHistograms(const char* expression=0);
+    void PrintHistograms(const char* expression = 0);
 
     /** Print all condition counters to the terminal. */
-    void PrintConditions(const char* expression=0);
+    void PrintConditions(const char* expression = 0);
+
+    /** Printout of all parameters on the terminal. */
+    void PrintParameters(const char* expression = 0);
 
     /** Print entries of current dynamic list. */
     void PrintDynamicList();
@@ -621,11 +624,11 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     void AutoSave();
 
     /** Method for user analysis constructor to setup the list
-      * of analyisis steps. Each call of this method will add a new
+      * of analysis steps. Each call of this method will add a new
       * analysis step at the end of the list. Caution: user has to take
       * care that output and input event types of subsequent steps
       * are matching! Analysis steps cannot be removed, since the
-      * steplist is not intended to be dynamic. This is a pure creational method.
+      * steplist is not intended to be dynamic. This is a pure creation method.
       * Analysis steps are owned by the steplist once they have been added. */
     Bool_t AddAnalysisStep(TGo4AnalysisStep* next);
 

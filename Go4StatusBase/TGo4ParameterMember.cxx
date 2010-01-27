@@ -13,9 +13,12 @@
 
 #include "TGo4ParameterMember.h"
 
-#include "RVersion.h"
-#include "TDataType.h"
 #include <stdlib.h>
+
+#include "RVersion.h"
+#include "Riostream.h"
+#include "TROOT.h"
+#include "TDataType.h"
 
 TGo4ParameterMember::TGo4ParameterMember() :
    TNamed(),
@@ -105,35 +108,67 @@ void TGo4ParameterMember::SetObject(TObject* obj, Bool_t owner)
    fObjectOwner = owner;
 }
 
+void TGo4ParameterMember::SetToZero()
+{
+   if ((fObject!=0) && fObjectOwner) {
+      delete fObject;
+      fObject = 0;
+   }
+
+   fValue = "";
+   fObject = 0;
+   fObjectOwner = kFALSE;
+
+   switch (fTypeId) {
+      case kUInt_t:
+      case kInt_t:
+      case kULong_t:
+      case kLong_t:
+      case kULong64_t:
+      case kLong64_t:
+      case kUShort_t:
+      case kShort_t:
+      case kUChar_t:
+      case kChar_t:
+#if ROOT_VERSION_CODE >= ROOT_VERSION(4,3,2)
+      case kBool_t:
+#endif
+      case kFloat_t:
+      case kDouble_t:
+      case kDouble32_t: fValue = "0"; break;
+      case kTString_t:  break;
+      case kTGo4Fitter_t: break;
+   }
+}
 
 void TGo4ParameterMember::SetValue(char* addr)
 {
- fValue = "";
- switch (fTypeId) {
-   case kUInt_t:     fValue.Form("%u", *((UInt_t*)addr)); break;
-   case kInt_t:      fValue.Form("%d", *((Int_t*)addr)); break;
-   case kULong_t:    fValue.Form("%lu", *((ULong_t*)addr)); break;
-   case kLong_t:     fValue.Form("%ld", *((Long_t*)addr)); break;
-   case kULong64_t:  fValue.Form("%llu", *((ULong64_t*)addr)); break;
-   case kLong64_t:   fValue.Form("%lld", *((Long64_t*)addr)); break;
-   case kUShort_t:   fValue.Form("%hu", *((UShort_t*)addr)); break;
-   case kShort_t:    fValue.Form("%hd", *((Short_t*)addr)); break;
-   case kUChar_t:    fValue.Form("%u", *((UChar_t*)addr)); break;
-   case kChar_t:     fValue.Form("%d", *((Char_t*)addr)); break;
+   fValue = "";
+   switch (fTypeId) {
+      case kUInt_t:     fValue.Form("%u", *((UInt_t*)addr)); break;
+      case kInt_t:      fValue.Form("%d", *((Int_t*)addr)); break;
+      case kULong_t:    fValue.Form("%lu", *((ULong_t*)addr)); break;
+      case kLong_t:     fValue.Form("%ld", *((Long_t*)addr)); break;
+      case kULong64_t:  fValue.Form("%llu", *((ULong64_t*)addr)); break;
+      case kLong64_t:   fValue.Form("%lld", *((Long64_t*)addr)); break;
+      case kUShort_t:   fValue.Form("%hu", *((UShort_t*)addr)); break;
+      case kShort_t:    fValue.Form("%hd", *((Short_t*)addr)); break;
+      case kUChar_t:    fValue.Form("%u", *((UChar_t*)addr)); break;
+      case kChar_t:     fValue.Form("%d", *((Char_t*)addr)); break;
 #if ROOT_VERSION_CODE >= ROOT_VERSION(4,3,2)
-   case kBool_t:     fValue.Form("%d", *((Bool_t*)addr)); break;
+      case kBool_t:     fValue.Form("%d", *((Bool_t*)addr)); break;
 #endif
-   case kFloat_t:    fValue.Form("%f", *((Float_t*)addr)); break;
-   case kDouble_t:   fValue.Form("%f", *((Double_t*)addr)); break;
-   case kDouble32_t: fValue.Form("%f", *((Double32_t*)addr)); break;
-   case kTString_t:  fValue = *((TString*)addr); break;
-   case kTGo4Fitter_t: {
-       TObject** f = (TObject**)addr;
-       fObject = *f;
-       fObjectOwner = kFALSE;
-       break;
+      case kFloat_t:    fValue.Form("%f", *((Float_t*)addr)); break;
+      case kDouble_t:   fValue.Form("%f", *((Double_t*)addr)); break;
+      case kDouble32_t: fValue.Form("%f", *((Double32_t*)addr)); break;
+      case kTString_t:  fValue = *((TString*)addr); break;
+      case kTGo4Fitter_t: {
+         TObject** f = (TObject**) addr;
+         fObject = *f;
+         fObjectOwner = kFALSE;
+         break;
+      }
    }
- }
 }
 
 void TGo4ParameterMember::GetValue(char* addr)
@@ -164,4 +199,51 @@ void TGo4ParameterMember::GetValue(char* addr)
        break;
      }
    }
+}
+
+Int_t TGo4ParameterMember::PrintMember(Text_t* buffer, Int_t buflen) const
+{
+   if ((buffer!=0) && (buflen<=0)) return 0;
+
+   Int_t size = 0;
+
+   TString name;
+   if ((fIndex1<0) && (fIndex2<0)) name += GetName(); else
+   if (fIndex2<0) name += Form("%s[%d]", GetName(), fIndex1); else
+      name += Form("%s[%d][%d]", GetName(), fIndex1, fIndex2);
+
+   name += " = ";
+
+   if (fObject) name += Form("Obj:%p Class:%s", fObject, fObject->ClassName()); else
+#if ROOT_VERSION_CODE >= ROOT_VERSION(4,3,2)
+      if (fTypeId==kBool_t) name += ((fValue=="0") ? "kFALSE" : "kTRUE"); else
+#endif
+         name += fValue;
+
+   if (GetTitle() != 0) { name += " // "; name += GetTitle(); }
+
+   name += "\n";
+
+   if(buffer==0) {
+      TROOT::IndentLevel();
+      cout << name;
+   } else {
+      size = name.Length();
+      if(size>buflen) size = buflen;
+      strncpy(buffer, name.Data(), size);
+   }
+
+   return size;
+
+}
+
+
+void TGo4ParameterMember::Clear(Option_t* opt)
+{
+   SetToZero();
+}
+
+void TGo4ParameterMember::Print(Option_t* dummy) const
+{
+   PrintMember();
 }

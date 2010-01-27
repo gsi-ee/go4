@@ -1358,6 +1358,11 @@ void TGo4Analysis::PrintHistograms(const char* expression)
    fxObjectManager->PrintHistograms(expression);
 }
 
+void TGo4Analysis::PrintParameters(const char* expression)
+{
+   fxObjectManager->PrintParameters(expression);
+}
+
 void TGo4Analysis::PrintDynamicList()
 {
    fxObjectManager->PrintDynamicList();

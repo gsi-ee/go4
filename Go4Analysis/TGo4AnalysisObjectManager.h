@@ -574,24 +574,30 @@ class TGo4AnalysisObjectManager : public TNamed
     */
    Bool_t AddTreeHistogram(const char* hisname, const char* treename, const char* varexp, const char* cutexp);
 
-
-  /**
+   /**
     * Printout of all histogram statistic counters on the terminal.
     * Expression may filter only objects with names matching.
     */
    void PrintHistograms(const char* expression=0);
+
    /**
     * Print all condition counters to the terminal.
     * Expression may filter only objects with names matching.
     */
    void PrintConditions(const char* expression=0);
-/**
+
+   /**
+    * Print all parameters to the terminal.
+    * Expression may filter only objects with names matching.
+    */
+   void PrintParameters(const char* expression=0);
+
+   /**
     * Print entries of current dynamic list.
     */
    void PrintDynamicList();
 
-
-/**
+   /**
     * Clear (reset) the specified objects. Method will first
     * clear all objects in any folder if it is matching the namestring.
     * If no such folder exists, object of name is searched and cleared.

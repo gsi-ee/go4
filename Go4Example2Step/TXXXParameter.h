@@ -18,12 +18,10 @@
 
 class TXXXParameter : public TGo4Parameter {
    public:
-      TXXXParameter();
-      TXXXParameter(const char* name);
+      TXXXParameter(const char* name = 0);
       virtual ~TXXXParameter();
 
-      Int_t PrintParameter(Text_t * n=0, Int_t t=0);
-      Bool_t UpdateFrom(TGo4Parameter *);
+      virtual Bool_t UpdateFrom(TGo4Parameter *);
 
       Float_t frP1; // Offset for calibration
       Float_t frP2; // Factor for Calibration

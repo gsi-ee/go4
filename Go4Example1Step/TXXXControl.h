@@ -19,14 +19,10 @@
 class TXXXControl : public TGo4Parameter {
    public:
       TXXXControl(const char* name = 0);
-      virtual ~TXXXControl();
-      virtual Int_t    PrintParameter(Text_t * n, Int_t);
-      virtual Bool_t   UpdateFrom(TGo4Parameter *);
 
-      // control filling of histograms
+      Bool_t   fill; // control filling of histograms
 
-      Bool_t   fill;
    ClassDef(TXXXControl,1)
 };
 
-#endif //SCONTROL_H
+#endif // TXXXControl_H

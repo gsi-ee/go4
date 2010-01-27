@@ -39,7 +39,7 @@ class TGo4Parameter : public TNamed {
 
       virtual void Print(Option_t* dummy="") const;
 
-      /** Update contents of paramter class with external object.
+      /** Update contents of parameter class with external object.
         * to be implemented in subclass */
       virtual Bool_t UpdateFrom(TGo4Parameter* rhs);
 

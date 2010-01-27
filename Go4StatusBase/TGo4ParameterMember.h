@@ -51,6 +51,12 @@ class TGo4ParameterMember : public TNamed {
       void SetValue(char* addr);
       void GetValue(char* addr);
 
+      void SetToZero();
+      Int_t PrintMember(Text_t* buffer = 0, Int_t buflen = 0) const;
+
+      virtual void Clear(Option_t* opt="");
+
+      virtual void Print(Option_t* dummy="") const;
 
    protected:
 

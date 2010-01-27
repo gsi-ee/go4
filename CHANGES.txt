@@ -20,6 +20,12 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
+Changes in Go4 v4.4.1 (January 10)
+1. Default implementation for TGo4Parameter methods are provided. 
+   Now Clear(), PrintParameter() and UpdateFrom() methods has meaningful
+   functionality and can be used as is in user derived classes.
+   Thus, it is possible to declare user parameter class without any additional methods.
+
 Changes in Go4 v4.4.0 (November 09)
 1. Add clear histogram and conditions button in gui
 2. System configuration tested once and stored in 

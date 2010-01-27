@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef SPAR_H
-#define SPAR_H
+#ifndef TYYYParameter_H
+#define TYYYParameter_H
 
 #define __ARRAYSIZE__ 5
 
@@ -36,7 +36,7 @@ class TYYYParameter : public TGo4Parameter {
    ClassDef(TYYYParameter,1)
 };
 
-#endif //SPAR_H
+#endif //TYYYParameter_H
 
 
 

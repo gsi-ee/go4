@@ -41,6 +41,7 @@ TXXXProc::~TXXXProc()
 {
    cout << "**** TXXXProc: Delete instance " << endl;
 }
+
 //***********************************************************
 // this one is used in standard factory
 TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)

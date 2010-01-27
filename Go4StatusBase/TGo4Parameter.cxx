@@ -21,6 +21,7 @@
 #include "TList.h"
 #include "TObjArray.h"
 #include "TClass.h"
+#include "TROOT.h"
 #include "TDataMember.h"
 #include "TDataType.h"
 #include "TBaseClass.h"
@@ -54,16 +55,37 @@ Int_t TGo4Parameter::PrintParameter(Text_t* buffer, Int_t buflen)
    //
    if(buflen<=0 && buffer!=0) return 0;
 
-   Int_t size = 0;
-   TString localbuf = Form(" Parameter Class %s, name: %s \n", ClassName(), GetName());
+   TObjArray items;
+   GetMemberValues(&items);
 
-   if(buffer==0)
-      cout << localbuf << endl;
-   else {
+   Int_t size = 0;
+   TString localbuf = Form("Parameter name: %s class %s\n", GetName(), ClassName());
+
+   if(buffer==0) {
+      cout << localbuf;
+   } else {
       size = localbuf.Length();
-      if(size>buflen-1) size = buflen-1;
-      strncpy(buffer,localbuf.Data(), size);
+      if(size>buflen) size = buflen;
+      strncpy(buffer, localbuf.Data(), size);
+      buflen -= size;
+      buffer += size;
    }
+
+   TIter iter(&items);
+   TGo4ParameterMember* info = 0;
+
+   TROOT::IncreaseDirLevel();
+
+   while ((info = (TGo4ParameterMember*) iter()) !=0 ) {
+      Int_t size1 = info->PrintMember(buffer, buflen);
+
+      size += size1;
+      buflen -= size1;
+      buffer += size1;
+   }
+
+   TROOT::DecreaseDirLevel();
+
    return size;
 }
 
@@ -74,21 +96,38 @@ TGo4Parameter::~TGo4Parameter()
 
 Bool_t TGo4Parameter::UpdateFrom(TGo4Parameter* rhs)
 {
-   if (rhs) return kFALSE;
-   // this method should better be pure virtual.
-   // however, we have to implement dummy for root
-   // to let it clone and stream this with baseclass type
-   cout << "GO4> !!! ERROR: TGo4Parameter::UpdateFrom() not implemented!!!" << endl;
-   cout << "GO4> Please overwrite virtual method in your class: " << this->ClassName() << endl;
-   return kFALSE;
+   if (rhs==0) return kFALSE;
+
+   if (rhs->IsA() != IsA()) {
+      cout << "GO4> !!! ERROR: Wrong parameter class is used in TGo4Parameter::UpdateFrom() method!!!" << endl;
+      cout << "GO4> !!! ERROR: One cannot update " << IsA()->GetName() << " class from " << rhs->IsA()->GetName() << endl;
+      cout << "GO4> !!! ERROR: Implement your custom UpdateFrom() method" << endl;
+      return kFALSE;
+   }
+
+   TObjArray items;
+
+   rhs->GetMemberValues(&items);
+
+   return SetMemberValues(&items);
 }
 
 void TGo4Parameter::Clear(Option_t* opt)
 {
  // dummy clear, may be implemented by user
-  cout << "GO4> !!! ERROR: TGo4Parameter::Clear() not implemented!!!" << endl;
-  cout << "GO4> Please overwrite virtual method in your class: ";
-  cout << this->ClassName() << endl;
+  cout << "GO4> !!! Default TGo4Parameter::Clear() method is used." <<  endl;
+  cout << "GO4> !!! You probably need to overwrite Clear() method for your class" << IsA()->GetName() << endl;
+
+  TObjArray items;
+
+  GetMemberValues(&items);
+
+  TIter iter(&items);
+  TGo4ParameterMember* info = 0;
+
+  while ((info = (TGo4ParameterMember*) iter()) !=0 ) info->SetToZero();
+
+  SetMemberValues(&items);
 }
 
 void TGo4Parameter::GetMemberValues(TObjArray* fItems)

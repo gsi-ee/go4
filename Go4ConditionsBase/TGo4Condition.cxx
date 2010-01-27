@@ -213,29 +213,30 @@ void TGo4Condition::PrintBar()
    *pc=0;
    snprintf(line,127,"%-24s %8d %3.0f%% |%-50s|",GetName(),fiCounts,perc,num);
    *pc='+';
-   cout << line     << endl;
+   cout << line << endl;
 }
 // -----------------------------------------------
-void TGo4Condition::Print(Option_t* opt) const{
+void TGo4Condition::Print(Option_t* opt) const
+{
    //cout <<"MyPrint:"<<GetName() << endl;
-TGo4Condition* localthis=const_cast<TGo4Condition*>(this);
-TString option=opt;
-option.ToLower();
-if(option.IsNull() || option=="*")
+   TGo4Condition* localthis=const_cast<TGo4Condition*>(this);
+   TString option=opt;
+   option.ToLower();
+   if(option.IsNull() || option=="*")
    {
-       // old default: we print bar graphics to cout
+      // old default: we print bar graphics to cout
       localthis->PrintBar();
    }
-else
+   else
    {
       // new printout of condition with different options:
-   TString textbuffer="\nCondition ";
-   textbuffer+=localthis->GetName();
-   if(localthis->IsPolygonType())
+      TString textbuffer="\nCondition ";
+      textbuffer+=localthis->GetName();
+      if(localthis->IsPolygonType())
       {
          textbuffer+=" (Polygon type, 2-dim)";
       }
-   else
+      else
       {
          textbuffer+=" (Window type,";
          if(localthis->GetActiveCondition()->GetDimension()>1)
@@ -245,51 +246,53 @@ else
       }
 
 
-   //textbuffer+="\n";
-   if(option.Contains("limits"))
-      textbuffer +=
-         Form("\n!  Xlow: \t\tXup: \t\tYlow: \t\tYup:\n   %.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t",
-               localthis->GetXLow(),localthis->GetXUp(),localthis->GetYLow(),localthis->GetYUp());
+      //textbuffer+="\n";
+      if(option.Contains("limits"))
+         textbuffer +=
+               Form("\n!  Xlow: \t\tXup: \t\tYlow: \t\tYup:\n   %.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t",
+                     localthis->GetXLow(),localthis->GetXUp(),localthis->GetYLow(),localthis->GetYUp());
 
-   if(option.Contains("flags"))
-      textbuffer +=
-         Form("\n!  Status:\n!  Enab.: \tVis.: \tRes.: \tTrue: \tCnts: \tTrueCnts:\n   %d\t\t%d\t%d\t%d\t%d\t%d",
-               localthis->fbEnabled, localthis->IsVisible(), localthis->fbResult, localthis->fbTrue,
-               localthis->Counts(), localthis->TrueCounts());
+      if(option.Contains("flags"))
+         textbuffer +=
+               Form("\n!  Status:\n!  Enab.: \tVis.: \tRes.: \tTrue: \tCnts: \tTrueCnts:\n   %d\t\t%d\t%d\t%d\t%d\t%d",
+                     localthis->fbEnabled, localthis->IsVisible(), localthis->fbResult, localthis->fbTrue,
+                     localthis->Counts(), localthis->TrueCounts());
 
-   if(option.Contains("stats"))
+      if(option.Contains("stats"))
       {
          // output of region statistics
 
          textbuffer+="\n!  with";
          TH1* hist=localthis->GetWorkHistogram();
          if(hist)
-            {
-               textbuffer+=" histogram: ";
-               textbuffer+=hist->GetName();
-               textbuffer +=
+         {
+            textbuffer+=" histogram: ";
+            textbuffer+=hist->GetName();
+            textbuffer +=
                   Form("\n!   Int:\t\tXmax:\t\tYmax:\t\tCmax:\t\tXmean:\t\tYmean:\t\tXrms:\t\tYrms:\n    %.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f",
                         localthis->GetIntegral(hist), localthis->GetXMax(hist),localthis->GetYMax(hist), localthis->GetCMax(hist),
                         localthis->GetMean(hist,1), localthis->GetMean(hist,2), localthis->GetRMS(hist,1), localthis->GetRMS(hist,2));
-            }
+         }
          else
-            {
-               textbuffer+="out histogram";
-            }
+         {
+            textbuffer+="out histogram";
+         }
       }
-   // now check output mode:
-   if(option.Contains("go4log"))
+      // now check output mode:
+      if(option.Contains("go4log"))
       {
          TGo4Log::Message(1,textbuffer.Data());
       }
-   else
+      else
       {
          cout << textbuffer.Data() << endl;
       }
    } //if(option.IsNull())
 }
+
 // ---------------------------------------------------------
-Bool_t TGo4Condition::UpdateFrom(TGo4Condition * cond, Bool_t counts){
+Bool_t TGo4Condition::UpdateFrom(TGo4Condition * cond, Bool_t counts)
+{
     fbTrue    = cond->TGo4Condition::IsTrue();
     fbFalse   = cond->TGo4Condition::IsFalse();
     fbResult  = cond->TGo4Condition::FixedResult();

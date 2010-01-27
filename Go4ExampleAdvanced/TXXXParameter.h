@@ -23,12 +23,8 @@
 
 class TXXXParameter : public TGo4Parameter {
    public:
-      TXXXParameter();
-      TXXXParameter(const char* name);
-      virtual ~TXXXParameter();
+      TXXXParameter(const char* name = 0);
 
-      Int_t PrintParameter(Text_t * n, Int_t);
-      Bool_t UpdateFrom(TGo4Parameter *);
       Float_t frP1;
       Float_t frP2;
       Int_t fiNum;

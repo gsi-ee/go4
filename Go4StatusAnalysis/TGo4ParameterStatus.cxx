@@ -98,34 +98,28 @@ TGo4Parameter* TGo4ParameterStatus::CreateParameter()
 Int_t TGo4ParameterStatus::PrintStatus(Text_t* buffer, Int_t buflen)
 {
    TRACE((12,"TGo4ParameterStatus::PrintStatus()",__LINE__, __FILE__));
-   if(buflen<=0 && buffer!=0)
-      return 0;
-   Int_t locallen=128000;
+   if(buflen<=0 && buffer!=0) return 0;
+   Int_t locallen = 128000;
    Text_t localbuf[128000];
    Int_t size=0;
-   Text_t* current=localbuf;
-   Int_t restlen=locallen;
-   Int_t delta   = TGo4ObjectStatus::PrintStatus(current,restlen);
-   restlen-=delta;
-   current+=delta;
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, "G-OOOO-> Parameter Status Class Printout <-OOOO-G\n");
-   current=PrintIndent(current,restlen);
-   current=PrintBuffer(current,restlen, "G-OOOO-> ---------------------------------------------- <-OOOO-G\n");
+   Text_t* current = localbuf;
+   Int_t restlen = locallen;
+   Int_t delta = TGo4ObjectStatus::PrintStatus(current,restlen);
+   restlen -= delta;
+   current += delta;
+   current = PrintIndent(current, restlen);
+   current = PrintBuffer(current, restlen, "G-OOOO-> Parameter Status Class Printout <-OOOO-G\n");
+   current = PrintIndent(current, restlen);
+   current = PrintBuffer(current, restlen, "G-OOOO-> ---------------------------------------------- <-OOOO-G\n");
    // put printout of condition infos here:
 
    ////
-  if(buffer==0)
-      {
-          cout << localbuf << endl;
-      }
-   else
-      {
-         size=locallen-restlen;
-         if(size>buflen-1)
-               size=buflen-1;
-         strncpy(buffer,localbuf,size);
-      }
+   if(buffer==0) {
+      cout << localbuf << endl;
+   } else {
+      size = locallen-restlen;
+      if(size>buflen-1) size = buflen-1;
+      strncpy(buffer,localbuf,size);
+   }
    return size;
 }
-
