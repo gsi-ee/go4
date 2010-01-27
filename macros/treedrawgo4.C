@@ -26,7 +26,7 @@ go4->CloseAnalysis(); // make this macro reentrant: cleanup dynamic list, etc
 go4->InitEventClasses(); // dito, initialize compiled analysis if there is one
 
 //gROOT->SetBatch(kFALSE); // when not running in cint server
-//TFile* myfile= new TFile("Example2StepAnl.root");
+//TFile* myfile= TFile::Open("Example2StepAnl.root");
 TFile myfile(fname.Data());
 //myfile.ls();
 TTree* theTree=0;

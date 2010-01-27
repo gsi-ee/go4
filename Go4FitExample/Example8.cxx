@@ -22,12 +22,12 @@
 #include "TCutG.h"
 #include "TApplication.h"
 
-#include "../Go4Fit/TGo4FitMinuit.h"
-#include "../Go4Fit/TGo4Fitter.h"
-#include "../Go4Fit/TGo4FitDataHistogram.h"
-#include "../Go4Fit/TGo4FitModelPolynom.h"
-#include "../Go4Fit/TGo4FitModelGauss2.h"
-#include "../Go4Fit/TGo4FitModelGaussN.h"
+#include "TGo4FitMinuit.h"
+#include "TGo4Fitter.h"
+#include "TGo4FitDataHistogram.h"
+#include "TGo4FitModelPolynom.h"
+#include "TGo4FitModelGauss2.h"
+#include "TGo4FitModelGaussN.h"
 
 void Example8();
 
@@ -44,21 +44,24 @@ int main(int argc, char **argv)
 
 #endif
 
-void DrawHistogram(TH1* histo, const char* CanvasName, const char* DrawOption) {
+void DrawHistogram(TH1* histo, const char* CanvasName, const char* DrawOption)
+{
    TCanvas *fCanvas = new TCanvas(CanvasName,"Draw of histogram",3);
    fCanvas->cd();
    histo->Draw(DrawOption);
    fCanvas->Update();
 }
 
-void AddRangeCut(TGo4FitComponent* comp) {
+void AddRangeCut(TGo4FitComponent* comp)
+{
    Double_t x[] = { 2,3,8,7,2 };
    Double_t y[] = { 8,3,2,7,8 };
    TCutG* cut = new TCutG("cut1",5,x,y);
    comp->AddRangeCut(cut);
 }
 
-void Example8() {
+void Example8()
+{
 // create fitter
    TGo4Fitter *fitter = new TGo4Fitter("Fitter","Example fitter object");
 

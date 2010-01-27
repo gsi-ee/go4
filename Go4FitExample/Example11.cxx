@@ -20,13 +20,13 @@
 #include "TFile.h"
 #include "TApplication.h"
 
-#include "../Go4Fit/TGo4Fitter.h"
-#include "../Go4Fit/TGo4FitPeakFinder.h"
+#include "TGo4Fitter.h"
+#include "TGo4FitPeakFinder.h"
 
 void Example11();
 
-int main(int argc, char **argv) {
-
+int main(int argc, char **argv)
+{
    TApplication theApp("Application", 0, 0);
 
    Example11();
@@ -39,14 +39,17 @@ int main(int argc, char **argv) {
 #endif
 
 // routine to read histogram from examples file
-TH1D* GetHistogram(const char* HistogramName) {
-   TFile f1("histograms.root");
-   TH1D* histo = (TH1D*) f1.Get(HistogramName);
-   histo->SetDirectory(0);
+TH1D* GetHistogram(const char* HistogramName)
+{
+   TFile* f1 = TFile::Open("histograms.root");
+   if (f1==0) return 0;
+   TH1D* histo = (TH1D*) f1->Get(HistogramName);
+   if (histo) histo->SetDirectory(0);
    return histo;
 }
 
-void Example11() {
+void Example11()
+{
 // create fitter, select fit function and not add standard actions list
    TGo4Fitter fitter("Fitter", TGo4Fitter::ff_ML_Poisson, kTRUE);
 
@@ -54,8 +57,8 @@ void Example11() {
    fitter.AddH1("data1", GetHistogram("hDeg120_P_c"), kTRUE, 2200., 2900.);
 
 
-// Add peak finder for data1, which not remove previous models and will use 1-order
-// polynom for background
+// Add peak finder for data1, which not remove previous models and
+// will use 1-order polynom for background
    TGo4FitPeakFinder* finder = new TGo4FitPeakFinder("Finder", "data1", kFALSE, 1);
 
 // setup parameters for first peak finder.

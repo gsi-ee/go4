@@ -660,7 +660,7 @@ Bool_t TGo4Analysis::LoadStatus(const char* filename)
    if(!strstr(buffer,fgcDEFAULTFILESUF))
       strcat(buffer,fgcDEFAULTFILESUF); // file suffix if not given by user
 
-   TFile* statusfile = new TFile(buffer,"READ");
+   TFile* statusfile = TFile::Open(buffer, "READ");
    if(statusfile && statusfile->IsOpen()) {
       TGo4AnalysisStatus* state=
             dynamic_cast<TGo4AnalysisStatus*>( statusfile->Get( GetName() ) );
@@ -698,7 +698,7 @@ Bool_t TGo4Analysis::SaveStatus(const char* filename)
       strncpy(buffer,fgcDEFAULTSTATUSFILENAME, sizeof(buffer)-100);
    if(!strstr(buffer,fgcDEFAULTFILESUF))
       strcat(buffer,fgcDEFAULTFILESUF); // file suffix if not given by user
-   TFile* statusfile = new TFile(buffer,"RECREATE");
+   TFile* statusfile = TFile::Open(buffer,"RECREATE");
    if(statusfile && statusfile->IsOpen()) {
       fxConfigFilename=buffer; // remember name of status
       statusfile->cd();
@@ -806,8 +806,8 @@ Int_t TGo4Analysis::PostLoop()
    TGo4LockGuard  autoguard(fxAutoSaveMutex);
    Int_t rev=0;
    ////////////////////////Test of single event tree
-   //   TTree* mytree=CreateSingleEventTree("Unpack");
-   //   TFile* myfile=new TFile("eventsample.root","RECREATE");
+   //   TTree* mytree = CreateSingleEventTree("Unpack");
+   //   TFile* myfile = TFile::Open("eventsample.root","RECREATE");
    //   mytree->SetDirectory(myfile);
    //   mytree->Write();
    //   delete myfile;
@@ -906,11 +906,11 @@ void TGo4Analysis::OpenAutoSaveFile()
    gROOT->cd();
    if(fbAutoSaveOverwrite) {
       delete fxAutoFile;
-      fxAutoFile = new TFile(fxAutoFileName.Data() ,"RECREATE");
+      fxAutoFile = TFile::Open(fxAutoFileName.Data() ,"RECREATE");
       Message(-1,"Opening AutoSave file %s , RECREATE mode",fxAutoFileName.Data());
    } else {
       if(fxAutoFile==0) {
-         fxAutoFile = new TFile(fxAutoFileName.Data(),"UPDATE");
+         fxAutoFile = TFile::Open(fxAutoFileName.Data(),"UPDATE");
          Message(-1,"Opening AutoSave file %s , UPDATE mode",fxAutoFileName.Data());
       } else {
          Message(-1,"Reusing AutoSave file %s , UPDATE mode",fxAutoFileName.Data());

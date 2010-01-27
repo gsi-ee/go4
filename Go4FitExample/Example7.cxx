@@ -12,7 +12,7 @@
 //-----------------------------------------------------------------------
 
 /* Go4Fit Example N7
-   Simultanious fit of two histogram
+   Simultaneous fit of two histogram
 */
 
 #ifndef __CINT__
@@ -22,14 +22,14 @@
 #include "TCollection.h"
 #include "TApplication.h"
 
-#include "../Go4Fit/TGo4FitMinuit.h"
-#include "../Go4Fit/TGo4Fitter.h"
-#include "../Go4Fit/TGo4FitDataHistogram.h"
-#include "../Go4Fit/TGo4FitModelPolynom.h"
-#include "../Go4Fit/TGo4FitModelGauss1.h"
-#include "../Go4Fit/TGo4FitAxisTrans.h"
-#include "../Go4Fit/TGo4FitLinearTrans.h"
-#include "../Go4Fit/TGo4FitterOutput.h"
+#include "TGo4FitMinuit.h"
+#include "TGo4Fitter.h"
+#include "TGo4FitDataHistogram.h"
+#include "TGo4FitModelPolynom.h"
+#include "TGo4FitModelGauss1.h"
+#include "TGo4FitAxisTrans.h"
+#include "TGo4FitLinearTrans.h"
+#include "TGo4FitterOutput.h"
 
 void Example7();
 
@@ -47,22 +47,26 @@ int main(int argc, char **argv)
 #endif
 
 // routine to read histogram from examples file
-TH1D* GetHistogram(const char* HistogramName) {
-   TFile f1("histograms.root");
-   TH1D* histo = (TH1D*) f1.Get(HistogramName);
-   histo->SetDirectory(0);
+TH1D* GetHistogram(const char* HistogramName)
+{
+   TFile* f1 = TFile::Open("histograms.root");
+   if (f1==0) return 0;
+   TH1D* histo = (TH1D*) f1->Get(HistogramName);
+   if (histo) histo->SetDirectory(0);
    return histo;
 }
 
-// constrcut transformation object, which recalculate bin numbers to new scale values
+// construct transformation object, which recalculate bin numbers to new scale values
 // here simple linear transformation  is used
-TGo4FitAxisTrans* ConstructTrans() {
+TGo4FitAxisTrans* ConstructTrans()
+{
    TGo4FitLinearTrans* trans = new TGo4FitLinearTrans("trans","linear axis transformation");
    trans->SetCoefByRange(3800,0.,3.8);
    return trans;
 }
 
-TGo4Fitter* BuildFitter() {
+TGo4Fitter* BuildFitter()
+{
 // create fitter and select function to fit
    TGo4Fitter *fitter = new TGo4Fitter("Fitter", TGo4Fitter::ff_ML_Poisson, kFALSE);
 
@@ -115,21 +119,24 @@ TGo4Fitter* BuildFitter() {
 }
 
 // store fitter with all supplied objects
-void StoreFitter(TGo4Fitter* fitter) {
-    TFile *f = new TFile("Example7.root","recreate");
-    fitter->Write("Fitter");
-    delete f;
+void StoreFitter(TGo4Fitter* fitter)
+{
+   TFile* f = TFile::Open("Example7.root","recreate");
+   if (f!=0) fitter->Write("Fitter");
+   delete f;
 }
 
 // read fitter from file
-TGo4Fitter* RestoreFitter() {
-    TFile *f = new TFile("Example7.root");
-    TGo4Fitter* fitter = (TGo4Fitter*) f->Get("Fitter");
-    delete f;
-    return fitter;
+TGo4Fitter* RestoreFitter()
+{
+   TFile* f = TFile::Open("Example7.root");
+   TGo4Fitter* fitter = (TGo4Fitter*) (f ? f->Get("Fitter") : 0);
+   delete f;
+   return fitter;
 }
 
-void Example7() {
+void Example7()
+{
 // create fitter
    TGo4Fitter* fitter = BuildFitter();
 

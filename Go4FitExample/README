@@ -14,25 +14,13 @@ While Example3 is uses FORTRAN code for function calculations,
 it will be compiled only when f77 and libg2c.so installed in the system.
 
 All examples (except 3-rd one) also can be used in CINT directly.
-To use them in CINT, just run root, load Go4Fit library:
+To use them in CINT, just run root and specify macro name:
 
-  [root] gSystem->Load("libGo4Fit.so");
-
-and then run any of them:
-
-  [root] .x Example1.cxx
+  [shell] root -l Example1.cxx
 
 For the forth example appropriate library should be loaded first:
 
   [root] gSystem->Load("libExample4.so");
 
-Another possibility to automatically load required libraries
-in ROOT CINT is to create .rootmap file. After compilation type:
-
-   > make map
-
-This works starting from ROOT 4.00/08.
-
 Detailed description of Go4Fit package can be found
 on Go4 web site http://go4.gsi.de.
-

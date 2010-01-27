@@ -20,9 +20,9 @@
 #include "TFile.h"
 #include "TApplication.h"
 
-#include "../Go4Fit/TGo4Fitter.h"
-#include "../Go4Fit/TGo4FitModelFunction.h"
-#include "../Go4Fit/TGo4FitModelFormula.h"
+#include "TGo4Fitter.h"
+#include "TGo4FitModelFunction.h"
+#include "TGo4FitModelFormula.h"
 
 void Example2();
 
@@ -40,14 +40,17 @@ int main(int argc, char **argv) {
 #endif
 
 // routine to read histogram from examples file
-TH1D* GetHistogram(const char* HistogramName) {
-   TFile f1("histograms.root");
-   TH1D* histo = (TH1D*) f1.Get(HistogramName);
-   histo->SetDirectory(0);
+TH1D* GetHistogram(const char* HistogramName)
+{
+   TFile* f1 = TFile::Open("histograms.root");
+   if (f1==0) return 0;
+   TH1D* histo = (TH1D*) f1->Get(HistogramName);
+   if (histo) histo->SetDirectory(0);
    return histo;
 }
 
-void Example2() {
+void Example2()
+{
 // create fitter, select fit function and add standard actions list
    TGo4Fitter fitter("Fitter", TGo4Fitter::ff_ML_Poisson, kTRUE);
 

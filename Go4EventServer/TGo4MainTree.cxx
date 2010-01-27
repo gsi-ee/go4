@@ -36,23 +36,18 @@ TGo4MainTree::TGo4MainTree() :
 {
    TRACE((15,"TGo4MainTree::TGo4MainTree()", __LINE__, __FILE__));
 
-   fxFile = new TFile(fgcFILENAME, "UPDATE");
+   fxFile = TFile::Open(fgcFILENAME, "UPDATE", "File for main Go4 tree", fgiCOMPRESS);
    TGo4Log::Info("TGo4MainTree: Open file %s UPDATE", fgcFILENAME);
-   fxFile->SetCompressionLevel(fgiCOMPRESS);
    // check if tree already exists...
-   fxTree= dynamic_cast<TTree*> (fxFile->Get(fgcTREENAME));
-   if(fxTree)
-      {
-         TGo4Log::Debug(" MainTree has been found in file %s ",fgcFILENAME);
-      }
-   else
-      {
-         fxTree = new TTree(fgcTREENAME, "The Go4 Tree");
-         fxTree->SetAutoSave(fgiAUTOSAVESIZE);
-         TGo4Log::Debug(" MainTree has been created in file %s ",fgcFILENAME);
-      }
-    fiMaxIndex= (Int_t ) fxTree->GetEntries();
-
+   fxTree = dynamic_cast<TTree*> (fxFile->Get(fgcTREENAME));
+   if(fxTree) {
+      TGo4Log::Debug(" MainTree has been found in file %s ",fgcFILENAME);
+   } else {
+      fxTree = new TTree(fgcTREENAME, "The Go4 Tree");
+      fxTree->SetAutoSave(fgiAUTOSAVESIZE);
+      TGo4Log::Debug(" MainTree has been created in file %s ",fgcFILENAME);
+   }
+   fiMaxIndex = (Int_t) fxTree->GetEntries();
 }
 
 TGo4MainTree::~TGo4MainTree()

@@ -74,7 +74,7 @@ TGo4Parameter::~TGo4Parameter()
 
 Bool_t TGo4Parameter::UpdateFrom(TGo4Parameter* rhs)
 {
-   if(rhs) return kFALSE;
+   if (rhs) return kFALSE;
    // this method should better be pure virtual.
    // however, we have to implement dummy for root
    // to let it clone and stream this with baseclass type

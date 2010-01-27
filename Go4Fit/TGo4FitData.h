@@ -27,7 +27,7 @@ class TGo4FitAxisTrans;
 class TGo4FitDataIter;
 
 /**
- * Basic abtract class for representing data, which should be fitted.
+ * Basic abstract class for representing data, which should be fitted.
  */
 class TGo4FitData : public TGo4FitComponent {
    public:
@@ -40,7 +40,7 @@ class TGo4FitData : public TGo4FitComponent {
 
       /**
        * Creates TGo4FitData object with given name and title.
-       * Type of data (histogramic or points) and usage of amplitude can be specified.
+       * Type of data (histogram or points) and usage of amplitude can be specified.
        * TGo4FitData object should not be created directly. Implementation of this class like TGo4FitDataHistogram,
        * TGo4FitDataGraph and so on should be used.
        */
@@ -52,7 +52,7 @@ class TGo4FitData : public TGo4FitComponent {
       virtual ~TGo4FitData();
 
       /**
-       * Returns type of data source. 0 - histogramic, 1 - points (scale values have no width)
+       * Returns type of data source. 0 - histogram, 1 - points (scale values have no width)
        */
       const Int_t GetDataType() { return fiDataType; }
 
@@ -78,7 +78,7 @@ class TGo4FitData : public TGo4FitComponent {
        * Possible values are:
        *   0 - no sigma sources;
        *   1 - sigma should be taken from data source object;
-       *   2 - sigma is constant and defined by GetSigmaValue() funcion.
+       *   2 - sigma is constant and defined by GetSigmaValue() function.
        */
       Int_t GetSigmaSource() const { return fiTakeSigmasFrom; }
 
@@ -97,7 +97,7 @@ class TGo4FitData : public TGo4FitComponent {
 
       /**
        * Set constant sigma value.
-       * Value wil be used, if GetSigmaSource()==2.
+       * Value will be used, if GetSigmaSource()==2.
        */
       void SetSigmaValue(Double_t SigmaValue) { fdSigmaValue = SigmaValue; }
 
@@ -137,7 +137,7 @@ class TGo4FitData : public TGo4FitComponent {
 
       /**
        * Sets transformation object for given slot.
-       * If not enougth slots was reserved, SetNumberOfTransSlots(nslot+1) will be called first.
+       * If not enough slots was reserved, SetNumberOfTransSlots(nslot+1) will be called first.
        */
       void SetAxisTrans(Int_t nslot, TGo4FitAxisTrans* Trans, Bool_t TransOwned = kFALSE);
 
@@ -148,7 +148,7 @@ class TGo4FitData : public TGo4FitComponent {
       void AddAxisTrans(TGo4FitAxisTrans* Trans, Bool_t TransOwned = kFALSE);
 
       /**
-       * Specified, when iNeeded = kTRUE, that trsnaformation object should always be provided to data.
+       * Specified, when iNeeded = kTRUE, that transformation object should always be provided to data.
        */
       void SetAxisTransNeeded(Int_t nslot, Bool_t iNeeded = kFALSE);
 
@@ -166,7 +166,7 @@ class TGo4FitData : public TGo4FitComponent {
 
       /**
        * Creates object, which can be drawn on canvas by ROOT.
-       * This method creates either TH1 (in case of histogramic data) or TGraph object and fills bins by content of data.
+       * This method creates either TH1 (in case of histogram data) or TGraph object and fills bins by content of data.
        */
       TObject* CreateDrawObject(const char* ObjName);
 
@@ -183,8 +183,8 @@ class TGo4FitData : public TGo4FitComponent {
       Int_t DefineDimensions();
 
       /**
-       * Define number of selected bins in data
-       * Create iterator and secuantially checks all points
+       * Defines number of selected bins in data
+       * Creates iterator and sequentially checks all points
        */
       Int_t DefineBinsSize();
 
@@ -223,7 +223,7 @@ class TGo4FitData : public TGo4FitComponent {
        * This routine should be used to allocate memory for internal buffers.
        * Its automatically calls in DoActions() routine of fitter.
        * if UseBuffers>0 or ( GetUseBuffers() && UseBuffers<0) internal buffers will be created.
-       * Concuming more memory may dramaticaly decrease time for fitting.
+       * Consuming more memory may dramatically decrease time for fitting.
        */
       virtual Bool_t Initialize(Int_t UseBuffers = -1);
 
@@ -318,7 +318,6 @@ class TGo4FitData : public TGo4FitComponent {
        */
       Double_t fdExcludeLessThen;
 
-
       /**
        * Array of slots for scale transformation objects.
        */
@@ -362,7 +361,7 @@ class TGo4FitData : public TGo4FitComponent {
       Double_t* fxValues;                    //!
 
       /**
-       * Buffer for standard devations of bins values.
+       * Buffer for standard deviations of bins values.
        */
       Double_t* fxStandDev;                  //!
 
@@ -406,11 +405,11 @@ class TGo4FitData : public TGo4FitComponent {
 };
 
  /**
-  * Iterator calss for data object.
+  * Iterator class for data object.
   * The main aim of TGo4FitDataIter class is provide an sequential access to data, containing in appropriate data object.
   * Each new class of data object should provide also it's own implementation for TGo4FitDataIrter class. To create iterator, MakeIter() method of data object should be used.
   * Iterator has two main methods: Reset() and Next(). First method resets all internal buffers of iterator and positioning pointer on first data point. Next() method shifts to next data pointer.
-  * As argument of these methods usage of bins selection meachanizm via range conditions or amplitude threshold can be specified.
+  * As argument of these methods usage of bins selection mechanism via range conditions or amplitude threshold can be specified.
   * Typical usage of iterator:
   *
   *    TGo4FitDataIter* iter = data->MakeIter();
@@ -436,7 +435,7 @@ class TGo4FitDataIter : public TObject {
 
       /**
        * Initialize iterator and positioning pointer on first point.
-       * If UseRanges = kTRUE (default), selection meachanizm of data points via range conditions or amplitude threshold will be involved.
+       * If UseRanges = kTRUE (default), selection mechanism of data points via range conditions or amplitude threshold will be involved.
        * Most of iterator routines should be used only after Reset() command.
        */
       virtual Bool_t Reset(Bool_t UseRanges = kTRUE);
@@ -444,7 +443,7 @@ class TGo4FitDataIter : public TObject {
       /**
        * Shift pointer to next data point.
        * Return kTRUE, if next points exist.
-       * If UseRanges = kTRUE (default), selection meachanizm of data points via range conditions or amplitude threshold will be involved.
+       * If UseRanges = kTRUE (default), selection mechanism of data points via range conditions or amplitude threshold will be involved.
        * Most of iterator routines should be used only after Reset() command.
        */
       virtual Bool_t Next(Bool_t UseRanges = kTRUE);
@@ -537,13 +536,13 @@ class TGo4FitDataIter : public TObject {
 
       /**
        * Checks, if iterator already reach end of data object.
-       * This heppens, when Next() method return kFALSE value.
+       * This happens, when Next() method return kFALSE value.
        */
       Bool_t ReachEnd() const { return fbReachEnd; }
 
       /**
        * Create histogram (if possible) with appropriate to data object dimensions number and size.
-       * If UseRanges specified, data point selection mechanizm will be involved.
+       * If UseRanges specified, data point selection mechanism will be involved.
        * If SetBins specified, bin content will be copied to histogram.
        */
       TH1* CreateHistogram(const char* HistoName, Bool_t UseRanges = kFALSE, Bool_t SetBins = kFALSE);
@@ -552,7 +551,7 @@ class TGo4FitDataIter : public TObject {
        * Create TGraph object with appropriate to data object size.
        * If more than one scales values exists, only first will be used as X-coordinate of TGraph.
        * Bin content (Value()) will be used as Y-coordinate in TGraph.
-       * If UseRanges specified, data point selection mechanizm will be involved.
+       * If UseRanges specified, data point selection mechanism will be involved.
        * If SetBins specified, bin content will be copied to histogram.
        */
       TGraph* CreateGraph(const char* GraphName, Bool_t UseRanges = kFALSE, Bool_t SetBins = kFALSE);
@@ -571,7 +570,7 @@ class TGo4FitDataIter : public TObject {
      virtual TGo4FitData* GetData() const = 0;
 
       /**
-       * Reset pointer and other specific values to the beggining of data.
+       * Reset pointer and other specific values to the beginning of data.
        * Should be implemented in derived classes.
        */
      virtual Bool_t StartReset() = 0;
@@ -601,7 +600,7 @@ class TGo4FitDataIter : public TObject {
 
       /**
        * Converts scale values.
-       * Involved when usage of binary number insted scales or axis calibration objects specified to data.
+       * Involved when usage of binary number instead scales or axis calibration objects specified to data.
        */
      Bool_t ProduceScales(const Int_t* index, const Double_t* ownscales, const Double_t* ownwidths);
 

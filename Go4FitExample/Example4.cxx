@@ -23,7 +23,7 @@
 #include "TFile.h"
 #include "TApplication.h"
 
-#include "../Go4Fit/TGo4Fitter.h"
+#include "TGo4Fitter.h"
 #include "TModelTemplate.h"
 
 void Example4();
@@ -42,14 +42,17 @@ int main(int argc, char **argv)
 #endif
 
 // routine to read histogram from examples file
-TH1D* GetHistogram(const char* HistogramName) {
-   TFile f1("histograms.root");
-   TH1D* histo = (TH1D*) f1.Get(HistogramName);
-   histo->SetDirectory(0);
+TH1D* GetHistogram(const char* HistogramName)
+{
+   TFile* f1 = TFile::Open("histograms.root");
+   if (f1==0) return 0;
+   TH1D* histo = (TH1D*) f1->Get(HistogramName);
+   if (histo) histo->SetDirectory(0);
    return histo;
 }
 
-void Example4() {
+void Example4()
+{
 // create fitter, select fit function and add standard actions
   TGo4Fitter fitter("Fitter", TGo4Fitter::ff_ML_Poisson, kTRUE);
 

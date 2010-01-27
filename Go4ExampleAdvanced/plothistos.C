@@ -91,7 +91,7 @@ void plothistos(const char* file, Stat_t lo, Stat_t up, Bool_t ylog)
  mycan->Divide(DivX,DivY);
  TString filename=file;
  TString filenameroot = filename+".root";
- TFile* myfile = new TFile(filenameroot.Data(),"READ");
+ TFile* myfile = TFile::Open(filenameroot.Data(),"READ");
  TH1* his[NUMHIS];
  TString hname[NUMHIS];
  for(Int_t i=0; i<NUMHIS; ++i)

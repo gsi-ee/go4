@@ -16,7 +16,7 @@ CXXFLAGS      = -O -fPIC -Wno-deprecated -I$(Go4FitDir) $(shell root-config --cf
 ROOTEXEPATH = $(shell root-config --exec-prefix)
 ROOTLIBPATH = $(shell root-config --libdir)
 
-LDFLAGS       = -O
+LDFLAGS       = -Wl,-rpath,$(Go4FitDir) -O
 SOFLAGS       = -shared -Wl,-soname,
 
 LIBS          = -L$(Go4FitDir) -lGo4Fit $(shell root-config --nonew --libs) -lMinuit

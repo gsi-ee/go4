@@ -22,12 +22,12 @@
 #include "TCanvas.h"
 #include "TApplication.h"
 
-#include "../Go4Fit/TGo4FitMinuit.h"
-#include "../Go4Fit/TGo4Fitter.h"
-#include "../Go4Fit/TGo4FitDataHistogram.h"
-#include "../Go4Fit/TGo4FitModelPolynom.h"
-#include "../Go4Fit/TGo4FitModelGauss1.h"
-#include "../Go4Fit/TGo4FitModelFromData.h"
+#include "TGo4FitMinuit.h"
+#include "TGo4Fitter.h"
+#include "TGo4FitDataHistogram.h"
+#include "TGo4FitModelPolynom.h"
+#include "TGo4FitModelGauss1.h"
+#include "TGo4FitModelFromData.h"
 
 void Example10();
 
@@ -45,14 +45,17 @@ int main(int argc, char **argv)
 #endif
 
 // routine to read histogram from examples file
-TH1D* GetHistogram(const char* HistogramName) {
-   TFile f1("histograms.root");
-   TH1D* histo = (TH1D*) f1.Get(HistogramName);
-   histo->SetDirectory(0);
+TH1D* GetHistogram(const char* HistogramName)
+{
+   TFile* f1 = TFile::Open("histograms.root");
+   if (f1==0) return 0;
+   TH1D* histo = (TH1D*) f1->Get(HistogramName);
+   if (histo) histo->SetDirectory(0);
    return histo;
 }
 
-void Example10() {
+void Example10()
+{
 // create fitter and select function to fit
    TGo4Fitter fitter("Fitter", TGo4Fitter::ff_ML_Poisson, kTRUE);
 

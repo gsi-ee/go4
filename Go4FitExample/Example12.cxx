@@ -19,13 +19,13 @@
 #include "TGraph.h"
 #include "TApplication.h"
 
-#include "../Go4Fit/TGo4Fitter.h"
-#include "../Go4Fit/TGo4FitDataGraph.h"
+#include "TGo4Fitter.h"
+#include "TGo4FitDataGraph.h"
 
 void Example12();
 
-int main(int argc, char **argv) {
-
+int main(int argc, char **argv)
+{
    TApplication theApp("Application", 0, 0);
 
    Example12();
@@ -38,7 +38,8 @@ int main(int argc, char **argv) {
 #endif
 
 // routine to generate example graph function
-TGraph* MakeGraph() {
+TGraph* MakeGraph()
+{
   TGraph* gr = new TGraph(40);
   for(Int_t i=0;i<40;i++) {
     Double_t x = (i+1.)/40.;
@@ -51,17 +52,18 @@ TGraph* MakeGraph() {
 
 }
 
-void Example12() {
+void Example12()
+{
 // create fitter, select fit function and add standard actions list
    TGo4Fitter fitter("Fitter", TGo4Fitter::ff_ML_Poisson, kTRUE);
 
 // add histogram to fitter, which should be fitted
    fitter.AddGraph("data1", MakeGraph(), kTRUE);
 
-// add polynom of 2 order for backgroud approx
+// add polynom of 2 order for background approx
    fitter.AddPolynomX("data1", "BackgrPol", 2);
 
-// add polynom of 2 order for backgroud approx
+// add polynom of 2 order for background approx
    fitter.AddPolynomX("data1", "LinePol", 2, 123, 0.3, 0.7);
 
 // perform all actions

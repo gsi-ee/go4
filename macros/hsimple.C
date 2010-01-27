@@ -29,7 +29,7 @@ gROOT->Reset();
 // This file is now becoming the current directory.
 
   TFile *hfile = (TFile*)gROOT->FindObject("hsimple.root"); if (hfile) hfile->Close();
-  hfile = new TFile("hsimple.root","RECREATE","Demo ROOT file with histograms");
+  hfile = TFile::Open("hsimple.root","RECREATE","Demo ROOT file with histograms");
 
 // Create some histograms, a profile histogram and an ntuple
   hpx    = new TH1F("hpx","This is the px distribution",100,-4,4);

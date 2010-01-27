@@ -53,8 +53,7 @@ TGo4TreeStore::TGo4TreeStore(const char* name,
       } // if(fxBranch)
       if(filename) {
          buffer = Form("%s%s", filename, fgcFILESUF);
-         fxFile = new TFile(buffer.Data(), "UPDATE");
-         fxFile->SetCompressionLevel(compression);
+         fxFile = TFile::Open(buffer.Data(), "UPDATE", "Go4 tree store", compression);
          fxBranch->SetFile(fxFile);
          TGo4Log::Debug(" TreeStore: Set branch to file %s ", filename);
          TGo4Log::Info("TGo4TreeStore: Open file tree %s UPDATE", buffer.Data());
@@ -93,8 +92,7 @@ TGo4TreeStore::TGo4TreeStore(TGo4TreeStoreParameter* par, TGo4EventElement* even
       if(!par->fxBranchFile.IsNull())
       {
          buffer = Form("%s%s", par->fxBranchFile.Data(), fgcFILESUF);
-         fxFile = new TFile(buffer.Data(), "UPDATE");
-         fxFile->SetCompressionLevel(par->fiCompression);
+         fxFile = TFile::Open(buffer.Data(), "UPDATE", "Go4 tree store", par->fiCompression);
          fxBranch->SetFile(fxFile);
          TGo4Log::Debug(" TreeStore: Set branch to file %s ", buffer.Data());
          TGo4Log::Info("TGo4TreeStore: Open file tree %s UPDATE", buffer.Data());

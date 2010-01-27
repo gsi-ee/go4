@@ -330,7 +330,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
 
       /**
        * Calculates first and second momentum for specified data
-       * Usage of ranges and substraction of model can be specified
+       * Usage of ranges and subtraction of model can be specified
        */
       Bool_t CalculatesMomentums(const char* DataName, Bool_t UseRanges, Bool_t SubstractModels, Double_t& first, Double_t& second);
 
@@ -364,7 +364,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
 
       /**
        * Copy pointer on drawn object after last command to specified TObjArray.
-       * From this moment user should take care about proper destroyment of this objects.
+       * From this moment user should take care about proper destroying of this objects.
        */
       void ProvideLastDrawObjects(TObjArray& lst);
 

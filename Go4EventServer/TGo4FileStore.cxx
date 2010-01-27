@@ -64,29 +64,23 @@ TGo4FileStore::TGo4FileStore(const char* name,
    TRACE((15,"TGo4FileStore::TGo4FileStore(char*,...)", __LINE__, __FILE__));
    TTree::SetMaxTreeSize(fgiFILESPLITSIZE);
    TString buffer(name);
-   if(strstr(buffer.Data(),fgcFILESUF)==0)
-         buffer+=fgcFILESUF;
-   if(overwrite)
-      {
-         fxFile = new TFile(buffer.Data(), "RECREATE");
-         TGo4Log::Info("TGo4FileStore: Open file %s RECREATE", buffer.Data());
-      }
-   else
-      {
-         fxFile = new TFile(buffer.Data(), "UPDATE");
-         TGo4Log::Info("TGo4FileStore: Open file %s UPDATE", buffer.Data());
-      }
-   fxFile->SetCompressionLevel(compression);
+   if(strstr(buffer.Data(), fgcFILESUF)==0) buffer.Append(fgcFILESUF);
+   if(overwrite) {
+      fxFile = TFile::Open(buffer.Data(), "RECREATE", "Go4 file store", compression);
+      TGo4Log::Info("TGo4FileStore: Open file %s RECREATE", buffer.Data());
+   } else {
+      fxFile = TFile::Open(buffer.Data(), "UPDATE", "Go4 file store", compression);
+      TGo4Log::Info("TGo4FileStore: Open file %s UPDATE", buffer.Data());
+   }
 
    // strip any path information from treename:
    const char* lastname=name;
    const char* oldname=name;
    lastname=strstr(oldname,"/");
-   while(lastname!=0)
-      {
-         oldname=lastname+1;
-         lastname=strstr(oldname,"/");
-      }
+   while(lastname!=0) {
+      oldname=lastname+1;
+      lastname=strstr(oldname,"/");
+   }
    buffer = oldname;
    buffer += fgcTREESUF;
    fxTree= dynamic_cast<TTree*> (fxFile->Get(buffer.Data()));
@@ -129,13 +123,12 @@ TGo4FileStore::TGo4FileStore(TGo4FileStoreParameter* par) :
    SetName(buffer.Data());
    if(!buffer.Contains(fgcFILESUF)) buffer.Append(fgcFILESUF);
    if(par->IsOverwriteMode()) {
-      fxFile = new TFile(buffer.Data(), "RECREATE");
+      fxFile = TFile::Open(buffer.Data(), "RECREATE", "Go4 file store", par->GetCompression());
       TGo4Log::Info("TGo4FileStore: Open file %s RECREATE", buffer.Data());
    } else {
-      fxFile = new TFile(buffer.Data(), "UPDATE");
+      fxFile = TFile::Open(buffer.Data(), "UPDATE", "Go4 file store", par->GetCompression());
       TGo4Log::Info("TGo4FileStore: Open file %s UPDATE", buffer.Data());
    }
-   fxFile->SetCompressionLevel(par->GetCompression());
 
      // strip any path information from treename (could be identical with filename!)
    const char* lastname = par->GetTitle();

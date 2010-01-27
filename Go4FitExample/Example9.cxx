@@ -21,12 +21,12 @@
 #include "TCanvas.h"
 #include "TApplication.h"
 
-#include "../Go4Fit/TGo4FitMinuit.h"
-#include "../Go4Fit/TGo4Fitter.h"
-#include "../Go4Fit/TGo4FitDataHistogram.h"
-#include "../Go4Fit/TGo4FitModelPolynom.h"
-#include "../Go4Fit/TGo4FitModelGauss2.h"
-#include "../Go4Fit/TGo4FitModelGaussN.h"
+#include "TGo4FitMinuit.h"
+#include "TGo4Fitter.h"
+#include "TGo4FitDataHistogram.h"
+#include "TGo4FitModelPolynom.h"
+#include "TGo4FitModelGauss2.h"
+#include "TGo4FitModelGaussN.h"
 
 
 void Example9();
@@ -44,18 +44,20 @@ int main(int argc, char **argv)
 
 #endif
 
-void DrawHistogram(TH1* histo, const char* CanvasName, const char* DrawOption) {
+void DrawHistogram(TH1* histo, const char* CanvasName, const char* DrawOption)
+{
    TCanvas *fCanvas = new TCanvas(CanvasName,"Draw of histogram",3);
    fCanvas->cd();
    histo->Draw(DrawOption);
    fCanvas->Update();
 }
 
-void Example9() {
+void Example9()
+{
    // create fitter
    TGo4Fitter *fitter = new TGo4Fitter("Fitter","Example fitter object");
 
-   // create dummy histogram and set with owneship flag
+   // create dummy histogram and set with ownership flag
    TH2D *histo = new TH2D("histo","dummy histogram",1000,0.,10.,1000,0.,10.);
    TGo4FitData* data = fitter->AddData(new TGo4FitDataHistogram("data",histo,kTRUE));
    data->SetRange(0,1.,3.); data->SetRange(0,7.,9.);

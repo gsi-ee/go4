@@ -25,15 +25,15 @@
 #include "TApplication.h"
 #include "TRandom.h"
 
-#include "../Go4Fit/TGo4Fitter.h"
-#include "../Go4Fit/TGo4FitDataHistogram.h"
-#include "../Go4Fit/TGo4FitDataRidge.h"
-#include "../Go4Fit/TGo4FitModelFormula.h"
+#include "TGo4Fitter.h"
+#include "TGo4FitDataHistogram.h"
+#include "TGo4FitDataRidge.h"
+#include "TGo4FitModelFormula.h"
 
 void Example13();
 
-int main(int argc, char **argv) {
-
+int main(int argc, char **argv)
+{
    TApplication theApp("Application", 0, 0);
 
    Example13();
@@ -46,7 +46,8 @@ int main(int argc, char **argv) {
 #endif
 
 void AddRidge(TH2D* histo, double a, double k, double b,
-                           double xstart, int numsteps, int numpoints, double deviation) {
+              double xstart, int numsteps, int numpoints, double deviation)
+{
   TRandom rnd(1234);
 
   double x = xstart;
@@ -65,7 +66,8 @@ void AddRidge(TH2D* histo, double a, double k, double b,
   }
 }
 
-TH2D* MakeRidgeHistogram() {
+TH2D* MakeRidgeHistogram()
+{
   TH2D* histo = new TH2D("Histo","Ridge y = a*exp(k*x)+b",100,0.,10.,100,0.,10.);
 
   cout << "Generating histogram " << endl;
@@ -81,22 +83,24 @@ TH2D* MakeRidgeHistogram() {
   return histo;
 }
 
-TCutG* MakeCut() {
+TCutG* MakeCut()
+{
    Float_t xx[7] = { 1.0, 4.0, 9.0, 9.5, 5.0, 2.0, 1.0 };
    Float_t yy[7] = { 8.0, 2.5, 2.0, 4.0, 6.0, 9.5, 8.0 };
-   return new TCutG("RangeCut",7,xx,yy);
+   return new TCutG("RangeCut", 7, xx, yy);
 }
 
-void Example13() {
+void Example13()
+{
 // model histogram with ridge with exponential function
    TH2D* histo = MakeRidgeHistogram();
    new TCanvas("Canvas1");
-   histo->Draw("LEGO");
+   histo->Draw("LEGO2");
 
 // create fitter, select fit function and not add standard actions list
    TGo4Fitter fitter("Fitter", TGo4Fitter::ff_chi_square, kFALSE);
 
-// crete data object to represent of two-dimentional histogram
+// create data object to represent of two-dimensional histogram
 // bins, which are less then 3 are excluded
 // select middle ridge by TCutG object
    TGo4FitDataHistogram* datah = new TGo4FitDataHistogram("histogram",histo);

@@ -21,8 +21,8 @@
 #include "TFile.h"
 #include "TApplication.h"
 
-#include "../Go4Fit/TGo4Fitter.h"
-#include "../Go4Fit/TGo4FitModelFunction.h"
+#include "TGo4Fitter.h"
+#include "TGo4FitModelFunction.h"
 
 void Example3();
 
@@ -40,14 +40,17 @@ int main(int argc, char **argv)
 extern "C" Double_t gaussian_(Double_t *axis, Double_t *pars);
 
 // routine to read histogram from examples file
-TH1D* GetHistogram(const char* HistogramName) {
-   TFile f1("histograms.root");
-   TH1D* histo = (TH1D*) f1.Get(HistogramName);
-   histo->SetDirectory(0);
+TH1D* GetHistogram(const char* HistogramName)
+{
+   TFile* f1 = TFile::Open("histograms.root");
+   if (f1==0) return 0;
+   TH1D* histo = (TH1D*) f1->Get(HistogramName);
+   if (histo) histo->SetDirectory(0);
    return histo;
 }
 
-void Example3() {
+void Example3()
+{
 // create fitter, select fit function and add standard actions list
    TGo4Fitter fitter("Fitter", TGo4Fitter::ff_ML_Poisson, kTRUE);
 
@@ -77,8 +80,9 @@ void Example3() {
 
 #else
 
-void Example3() {
-   cout << "This example uses linked FORTRAN libraray," << endl;
+void Example3()
+{
+   cout << "This example uses linked FORTRAN library," << endl;
    cout << "therefore it can not be run in CINT" << endl;
 }
 
