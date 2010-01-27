@@ -259,30 +259,4 @@ and then just drag &amp; drop object to this label (not to output window).</stri
     <include location="local">QGo4Widget.h</include>
     <include location="local">QRootCanvas.h</include>
   </includes>
-  <connections>
-    <connection>
-      <sender>InfoBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>QUserPanel</receiver>
-      <slot>InfoBtn_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>EditBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>QUserPanel</receiver>
-      <slot>EditBtn_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>DrawBtn</sender>
-      <signal>clicked()</signal>
-      <receiver>QUserPanel</receiver>
-      <slot>DrawBtn_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>fxDrawCanvas</sender>
-      <signal>CanvasDropEvent(QDropEvent*,TPad*)</signal>
-      <receiver>QUserPanel</receiver>
-      <slot>CanvasDropEventSlot(QDropEvent*,TPad*)</slot>
-    </connection>
-  </connections>
 </ui>

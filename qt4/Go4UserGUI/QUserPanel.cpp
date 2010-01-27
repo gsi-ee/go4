@@ -59,6 +59,11 @@ QUserPanel::QUserPanel( QWidget* parent,  const char* name )
    DragKindLbl->setText("");
 
    PrintLbl->setText("");
+
+   QObject::connect(InfoBtn, SIGNAL(clicked()), this, SLOT(InfoBtn_clicked()));
+   QObject::connect(EditBtn, SIGNAL(clicked()), this, SLOT(EditBtn_clicked()));
+   QObject::connect(DrawBtn, SIGNAL(clicked()), this, SLOT(DrawBtn_clicked()));
+   QObject::connect(fxDrawCanvas, SIGNAL(CanvasDropEvent(QDropEvent*,TPad*)), this, SLOT(CanvasDropEventSlot(QDropEvent*,TPad*)));
 }
 
 QUserPanel::~QUserPanel()
