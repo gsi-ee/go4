@@ -2047,13 +2047,24 @@ bool TGo4MainWindow::SaveBrowserItemToFile(const char* itemname, const char* sub
    }
 
    if (!res) {
-      QFileDialog fd(this, QString("Save ") + itemname + " in root file",
-                     fLastFileDir, "ROOT (*.root);;ROOT XML (*.xml)");
-      fd.setFileMode( QFileDialog::AnyFile);
+      QString root_fmt = "ROOT (*.root)";
+      QString xml_fmt = "ROOT XML (*.xml)";
+
+      QFileDialog fd(this, QString("Save ") + itemname + " in root file", fLastFileDir);
+      fd.setFileMode(QFileDialog::AnyFile);
+      fd.setAcceptMode(QFileDialog::AcceptSave);
+      fd.setFilters(QStringList() << root_fmt << xml_fmt);
+
       if (fd.exec() == QDialog::Accepted) {
          QStringList flst = fd.selectedFiles();
          if (!flst.isEmpty()) {
-            res = br->SaveItemToFile(itemname, flst[0].toAscii(), subfolder);
+            QString filename = flst[0];
+            if (fd.selectedFilter()==xml_fmt) {
+               if (!filename.endsWith(".xml")) filename.append(".xml");
+            } else {
+               if (!filename.endsWith(".root")) filename.append(".root");
+            }
+            res = br->SaveItemToFile(itemname, filename.toAscii(), subfolder);
             fLastFileDir = fd.directory().path();
          }
       }

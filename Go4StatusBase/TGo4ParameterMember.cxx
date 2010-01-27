@@ -220,7 +220,7 @@ Int_t TGo4ParameterMember::PrintMember(Text_t* buffer, Int_t buflen) const
 #endif
          name += fValue;
 
-   if (GetTitle() != 0) { name += " // "; name += GetTitle(); }
+   if ((GetTitle() != 0) && (strlen(GetTitle())>0)) { name += " // "; name += GetTitle(); }
 
    name += "\n";
 

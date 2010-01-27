@@ -105,6 +105,7 @@ void TGo4AnalysisWindow::CreateCmdLine(QHBoxLayout* box)
 
    QStringList histlist = go4sett->getCommandsHistoryAnalysis();
    fxCmdHist->addItems(histlist);
+   fxCmdHist->setEditText(QString());
 
    box->addWidget(fxCmdHist, HasOutput() ? 3 : 1);
 

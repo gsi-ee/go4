@@ -18,6 +18,7 @@
 #include <QtGui/QMenu>
 #include <QtCore/QSignalMapper>
 #include <QToolTip>
+
 #include "TH1.h"
 #include "TCutG.h"
 #include "TClass.h"
