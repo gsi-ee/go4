@@ -1637,6 +1637,50 @@ void TGo4Picture::AddSpecialObjectXml(const char* xmlcode, Option_t* drawopt)
    #endif
 }
 
+Long_t TGo4Picture::GetTotalSize()
+{
+   Long_t sz = IsA()->Size();
+
+   if (fxNames) {
+      sz += TObjArray::Class()->Size() + fxNames->GetSize() * sizeof(void*);
+      for (int n=0;n<=fxNames->GetLast();n++) {
+         TObjString* str = (TObjString*) fxNames->At(n);
+         if (str) sz += str->IsA()->Size() + str->GetString().Length();
+      }
+   }
+
+   if (fxSubPictures)
+      sz += TObjArray::Class()->Size() + fxSubPictures->GetSize() * sizeof(void*);
+
+   if (fxOptObjects) {
+      sz += TObjArray::Class()->Size() + fxOptObjects->GetSize() * sizeof(void*);
+      for (int n=0;n<=fxOptObjects->GetLast();n++) {
+         TObject* obj = fxOptObjects->At(n);
+         if (obj) sz += obj->IsA()->Size();
+      }
+   }
+
+   if (fxSpecialObjects) {
+      sz += TList::Class()->Size();
+      TListIter iter(fxSpecialObjects);
+      TObject* obj = 0;
+
+      while ((obj = iter()) != 0)
+         sz += sizeof(TObjLink) + obj->IsA()->Size();
+   }
+
+   sz += fxOptIndex.GetSize() * sizeof(Long_t);
+   sz += fxOptValue.GetSize() * sizeof(Long_t);
+
+   if (IsDivided())
+      for(int ny=0;ny<GetDivY();ny++)
+         for(int nx=0;nx<GetDivX();nx++)
+            sz += Pic(ny,nx)->GetTotalSize();
+
+   return sz;
+}
+
+
 #if ROOT_VERSION_CODE > ROOT_VERSION(5,11,6)
 void TGo4Picture::SavePrimitive(ostream& fs, Option_t*)
 #else

@@ -20,6 +20,9 @@
 #include "TH1.h"
 #include "TH2.h"
 #include "TCutG.h"
+#include "TArrow.h"
+#include "TLatex.h"
+#include "TLine.h"
 
 #include "s_filhe_swap.h"
 #include "s_bufhe_swap.h"
@@ -157,6 +160,9 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       fPicture1->LPic(1,2)->AddObject(fCr1Ch[4]);
       fPicture1->LPic(3,0)->AddObject(fCr1Ch1x2);
       fPicture1->LPic(3,0)->SetDrawOption("CONT");
+      fPicture1->LPic(3,0)->AddSpecialObject(new TArrow(3500., 3500, 2000., 1500., 0.02));
+      fPicture1->LPic(3,0)->AddSpecialObject(new TLatex(1500, 3500, "Example of text label in the picture"));
+//      fPicture1->LPic(3,0)->AddSpecialObject(new TLine(2500., 2500, 3500., 1500.));
       AddPicture(fPicture1);
    }
 }

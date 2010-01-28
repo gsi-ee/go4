@@ -306,10 +306,10 @@ void TGo4AbstractInterface::ProduceLoadLibs(std::ostream& fs)
    TString libs = gInterpreter->GetSharedLibs();
    const char* token = strtok((char*) libs.Data(), " ,\t\n");
    while(token != 0) {
-      if  (fInitSharedLibs.Index(token) == kNPOS) {
+      if ((fInitSharedLibs.Index(token) == kNPOS)
 //           (strstr(token,"libGX11.")==0) &&
 //          (strstr(token,"libGX11TTF.")==0) &&
-//          (strstr(token,"libHistPainter.")==0)) {
+           && (strstr(token,"libHistPainter.")==0)) {
               fs << "go4->LoadLibrary(\"";
               if ((go4sys.Length() > 0) && strstr(token, go4sys.Data())==token)
                  fs << "$GO4SYS/" << (token + go4sys.Length());

@@ -14,11 +14,11 @@
 #include "TGo4ObjectStatus.h"
 
 #include "Riostream.h"
-
 #include "TDatime.h"
 #include "TClass.h"
 
 #include "TGo4Log.h"
+#include "TGo4Picture.h"
 
 TGo4ObjectStatus::TGo4ObjectStatus() :
    TGo4Status(),
@@ -42,10 +42,12 @@ TGo4ObjectStatus::TGo4ObjectStatus(TObject* object, Bool_t withtime) :
    if(object) {
       SetName(object->GetName());
       SetTitle(object->GetTitle());
-      fxObjectClass=object->ClassName();
-      fiObjectSize=object->IsA()->Size();
-      fbDeleteProtect=   !object->TestBit(TGo4Status::kGo4CanDelete);
-      fbResetProtect =   object->TestBit(TGo4Status::kGo4NoReset);
+      fxObjectClass = object->ClassName();
+      fiObjectSize = object->IsA()->Size();
+      if (object->InheritsFrom(TGo4Picture::Class()))
+         fiObjectSize = ((TGo4Picture*) object)->GetTotalSize();
+      fbDeleteProtect = !object->TestBit(TGo4Status::kGo4CanDelete);
+      fbResetProtect = object->TestBit(TGo4Status::kGo4NoReset);
    } else {
       SetName("Unknown Name");
       SetTitle("Unknown Title");

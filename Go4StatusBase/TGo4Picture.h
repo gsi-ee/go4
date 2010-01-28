@@ -46,7 +46,6 @@ class TGo4Picture : public TNamed {
       TGo4Picture(const char* name, const char* title, Int_t ndivy = 1, Int_t ndivx = 1);
       virtual ~TGo4Picture();
 
-
       // ====== USER FUNCTIONS to setup picture =====================
 
       void SetDrawHeader(Bool_t draw = kTRUE);
@@ -134,9 +133,9 @@ class TGo4Picture : public TNamed {
       Int_t GetRebinY(Int_t index = UndefIndex);
       void ClearRebin(Int_t index = UndefIndex);
 
-      // copy all avaliable attributes from object to picture
+      // copy all available attributes from object to picture
       void SetDrawAttributes(TObject* obj, Int_t index = UndefIndex);
-      // assign all avliable attributes from picture to object
+      // assign all available attributes from picture to object
       void GetDrawAttributes(TObject* obj, Int_t index = UndefIndex);
 
       // set string draw options
@@ -144,7 +143,9 @@ class TGo4Picture : public TNamed {
       {
          SetDrawOption(option, UndefIndex);
       }
+
       virtual void SetDrawOption(Option_t* option, Int_t index);
+
       virtual Option_t* GetDrawOption()
       {
          return GetDrawOption(UndefIndex);
@@ -227,7 +228,7 @@ class TGo4Picture : public TNamed {
       const char* GetObjName(Int_t n);
       Bool_t IsObjNames();
 
-      // manipution with special objects,
+      // manipulation with special objects,
       // which must be drawn on the panel / canvas
       // This must be objects like markers, labels and so on
       void AddSpecialObject(TObject* obj, Option_t* drawopt = 0);
@@ -288,6 +289,9 @@ class TGo4Picture : public TNamed {
       void ClearRange(Int_t naxis = -1);
 
       void ChangeDrawOption(Int_t kind, Int_t value);
+
+      /** Returns total size, used by picture in memory */
+      Long_t GetTotalSize();
 
       static void Add(TString& s, const char* buf) { s+=buf; }
 

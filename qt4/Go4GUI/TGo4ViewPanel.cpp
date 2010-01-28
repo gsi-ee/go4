@@ -1978,19 +1978,17 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
       TClass* cl = Browser()->ItemClass(itemname);
       if ((cl!=0) && cl->InheritsFrom(TGo4Condition::Class()))
         UndrawItem(itemname);
-//        if (WhereItemDrawn(itemname)!=0) return 0;
 
-//      tgtslot = AddLink(itemname, padslot);
-     TGo4Slot* brslot = Browser()->BrowserSlot(itemname);
+      TGo4Slot* brslot = Browser()->BrowserSlot(itemname);
 
-     if (brslot!=0) {
-        tgtslot = AddNewSlot(brslot->GetName(), padslot);
-        SetLinkedName(tgtslot, itemname);
-        if (fbCloneFlag)
-          tgtslot->SetProxy(new TGo4DrawCloneProxy(brslot, this));
-        else
-          tgtslot->SetProxy(new TGo4LinkProxy(brslot));
-     }
+      if (brslot!=0) {
+         tgtslot = AddNewSlot(brslot->GetName(), padslot);
+         SetLinkedName(tgtslot, itemname);
+         if (fbCloneFlag)
+           tgtslot->SetProxy(new TGo4DrawCloneProxy(brslot, this));
+         else
+           tgtslot->SetProxy(new TGo4LinkProxy(brslot));
+      }
    } else {
       QString newslotname = itemname;
       if ((newslotname.length()==0) || (padslot->FindChild(newslotname.toAscii())!=0)) {
@@ -3096,6 +3094,8 @@ void TGo4ViewPanel::ProcessPictureRedraw(const char* picitemname, TPad* pad, TGo
       else
       if (dynamic_cast<TPaveLabel*>(obj)!=0)
          AddDrawObject(pad, kind_Specials, obj->GetName(), obj->Clone(), kTRUE, drawopt ? drawopt : "br");
+      else
+         AddDrawObject(pad, kind_Specials, obj->GetName(), obj->Clone(), kTRUE, drawopt);
    }
 
    padopt->SetPadModified();

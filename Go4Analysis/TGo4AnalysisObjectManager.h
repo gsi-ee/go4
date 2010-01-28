@@ -377,7 +377,7 @@ class TGo4AnalysisObjectManager : public TNamed
 
    /**
     * Retrieves a parameter object by name from the object folder. Returns 0 if no
-    * such paramter.
+    * such parameter.
     */
       TGo4Parameter * GetParameter(const char * name);
 

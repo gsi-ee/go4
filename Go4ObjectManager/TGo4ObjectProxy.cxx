@@ -19,6 +19,7 @@
 #include "TTree.h"
 
 #include "TGo4Slot.h"
+#include "TGo4Picture.h"
 #include "TGo4ObjectManager.h"
 
 TGo4ObjectAccess::TGo4ObjectAccess(TObject* obj) :
@@ -214,6 +215,10 @@ Long_t TGo4ObjectProxy::DefineObjectSize(TObject* obj)
    if (obj->InheritsFrom(TTree::Class())) {
       TTree* t = (TTree*) obj;
       sz += t->GetZipBytes();
+   } else
+   if (obj->InheritsFrom(TGo4Picture::Class())) {
+      TGo4Picture* pic = (TGo4Picture*) obj;
+      sz = pic->GetTotalSize();
    }
 
    return sz;

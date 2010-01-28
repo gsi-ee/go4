@@ -3040,6 +3040,8 @@ void TGo4ViewPanel::ProcessPictureRedraw(const char* picitemname, TPad* pad, TGo
       else
       if (dynamic_cast<TPaveLabel*>(obj)!=0)
          AddDrawObject(pad, kind_Specials, obj->GetName(), obj->Clone(), kTRUE, drawopt ? drawopt : "br");
+      else
+         AddDrawObject(pad, kind_Specials, obj->GetName(), obj->Clone(), kTRUE, drawopt);
    }
 
    padopt->SetPadModified();

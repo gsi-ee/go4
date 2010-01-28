@@ -881,26 +881,17 @@ TGo4ObjectStatus * TGo4AnalysisObjectManager::CreateObjectStatus(const char * na
    return CreateObjectStatus(object);
 }
 
-TGo4ObjectStatus * TGo4AnalysisObjectManager::CreateObjectStatus(TObject* ob, Bool_t fullinfo)
+TGo4ObjectStatus * TGo4AnalysisObjectManager::CreateObjectStatus(TObject* obj, Bool_t fullinfo)
 {
-   if(ob==0) return 0;
-   TGo4ObjectStatus* state=0;
-   if(ob->InheritsFrom(TH1::Class()))
-   {
-      // found histogram
-      TH1* his= dynamic_cast<TH1*> (ob);
-      state=new TGo4HistogramStatus(his,fullinfo);
-   }
-   else if(ob->InheritsFrom(TGo4Parameter::Class()))
-   {
-      TGo4Parameter* par= dynamic_cast<TGo4Parameter*> (ob);
-      state=new TGo4ParameterStatus(par, fullinfo);
-   }
-   else
-   {
-      state=new TGo4ObjectStatus(dynamic_cast<TNamed*> (ob) );
-   }
-   return state;
+   if(obj==0) return 0;
+
+   if(obj->InheritsFrom(TH1::Class()))
+      return new TGo4HistogramStatus(dynamic_cast<TH1*> (obj),fullinfo);
+
+   if(obj->InheritsFrom(TGo4Parameter::Class()))
+      return new TGo4ParameterStatus(dynamic_cast<TGo4Parameter*> (obj), fullinfo);
+
+   return new TGo4ObjectStatus(obj);
 }
 
 TGo4AnalysisObjectNames * TGo4AnalysisObjectManager::CreateNamesList()
