@@ -1314,7 +1314,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
         gROOT->SetEditorMode("");
         if(fiPickCounter==0) {
            // pick the first time after enabling limits record:
-           TArrow* arrow = new TArrow(x,y,x,y,0.02);
+           TArrow* arrow = new TArrow(x,y,x,y,0.02 );
            AddMarkerObj(pad, kind_Arrow, arrow);
            fiPickCounter++;
            arrow->Draw("");

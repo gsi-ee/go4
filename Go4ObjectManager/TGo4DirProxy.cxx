@@ -178,9 +178,11 @@ class TGo4DirLevelIter : public TGo4LevelIter {
             TKey* key = (TKey*) fCurrent;
             cl = (TClass*) gROOT->GetListOfClasses()->FindObject(key->GetClassName());
             sz = key->GetNbytes();
+            TObject* obj = fDir->FindObject(key->GetName());
+            if (obj) sz = TGo4ObjectProxy::DefineObjectSize(obj);
          } else {
             cl = fCurrent->IsA();
-            sz = cl->Size();
+            sz = TGo4ObjectProxy::DefineObjectSize(fCurrent);
          }
          bool isdir = (cl!=0) && cl->InheritsFrom(TDirectory::Class());
          return isdir ? 0 : sz;

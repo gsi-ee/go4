@@ -587,19 +587,15 @@ void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
 
    TString varexp(Xexp);
 
-   int drawdim = 1;
-
-   if(strlen(Yexp)==0)
-      drawdim=1;
-   else {
-      varexp=TString(Yexp)+TString(":")+varexp;
-      if(strlen(Zexp)==0)
-         drawdim=2;
-      else {
-         varexp=TString(Zexp)+TString(":")+varexp;
-         drawdim=3;
-      }
+   if(strlen(Yexp)>0) {
+      varexp = TString(Yexp) + TString(":") + varexp;
+      if(strlen(Zexp)>0)
+         varexp = TString(Zexp) + TString(":") + varexp;
    }
+
+   int drawdim = varexp.CountChar(':') + 1;
+   if (drawdim>3) drawdim = 3;
+
 
    if (IsItemRemote(treename)) {
       TString objname;
@@ -641,17 +637,20 @@ void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
 
    if ((hslot!=0) && !IsItemRemote(hslot)) {
        histo = dynamic_cast<TH1*> (GetBrowserObject(hname, 1));
-       if ((histo!=0) && (drawdim!=histo->GetDimension())) histo = 0;
+       if ((histo!=0) && (drawdim!=histo->GetDimension())) {
+          histo = 0;
+          histoname = "";
+       }
    }
 
-   // find non used entry in memoty subfolder
+   // find non used entry in memory subfolder
    int cnt = 0;
    if ((histo==0) && (histoname.Length()==0))
      do {
        histoname = fxMemoryPath;
        histoname += "/hTreeDraw_";
        histoname += cnt++;
-       BrowserSlotName( + histoname, hslotname);
+       BrowserSlotName(histoname, hslotname);
        hslot = fxOM->GetSlot(hslotname.Data());
      } while (hslot!=0);
 
@@ -1955,7 +1954,7 @@ Bool_t TGo4BrowserProxy::CompareAxisValues(Double_t v1, Double_t v2, Double_t sc
 Int_t TGo4BrowserProxy::CompareAxis(TAxis* ax1, TAxis* ax2)
 {
    // return rebin factor
-   // 0 - axis are differents
+   // 0 - axis are different
    // 1 - both axis the same
    // >1 - rebin factor than ax2->Rebin(n) will produce ax1
 

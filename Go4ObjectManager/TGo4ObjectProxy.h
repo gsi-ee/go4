@@ -56,6 +56,8 @@ class TGo4ObjectProxy : public TGo4Proxy {
       virtual Bool_t AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner);
       virtual TObject* GetAssignedObject();
 
+      static Long_t DefineObjectSize(TObject* obj);
+
    protected:
 
       TObject*      fObject;   //!

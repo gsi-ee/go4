@@ -16,6 +16,7 @@
 #include "TH1.h"
 #include "TDirectory.h"
 #include "TClass.h"
+#include "TTree.h"
 
 #include "TGo4Slot.h"
 #include "TGo4ObjectManager.h"
@@ -157,26 +158,7 @@ const char* TGo4ObjectProxy::GetContainedObjectInfo()
 Int_t TGo4ObjectProxy::GetObjectSizeInfo()
 {
    Int_t sz = TGo4Proxy::GetObjectSizeInfo();
-   if (fObject!=0) {
-      sz = fObject->IsA()->Size();
-
-      TH1* histo = dynamic_cast<TH1*> (fObject);
-      if (histo!=0) {
-          Int_t nbins = histo->GetNbinsX()+2;
-          if (histo->GetDimension()>1)
-             nbins = nbins*(histo->GetNbinsY()+2);
-          if (histo->GetDimension()>2)
-             nbins = nbins * (histo->GetNbinsZ()+2);
-          Int_t binsize = 1;
-          if (strchr(histo->ClassName(),'S')!=0) binsize = sizeof(Short_t); else
-          if (strchr(histo->ClassName(),'D')!=0) binsize = sizeof(Double_t); else
-          if (strchr(histo->ClassName(),'F')!=0) binsize = sizeof(Float_t); else
-          if (strchr(histo->ClassName(),'I')!=0) binsize = sizeof(Int_t); else
-          if (strchr(histo->ClassName(),'C')!=0) binsize = sizeof(Char_t);
-          sz += binsize * nbins;
-      }
-   }
-
+   if (fObject!=0) sz = DefineObjectSize(fObject);
    return sz;
 }
 
@@ -197,8 +179,6 @@ Bool_t TGo4ObjectProxy::AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner)
 
    Initialize(slot);
 
-//   cout << "Issue messgae " << TGo4Slot::evObjAssigned << endl;
-
    slot->ForwardEvent(slot, TGo4Slot::evObjAssigned);
 
    return kTRUE;
@@ -207,4 +187,35 @@ Bool_t TGo4ObjectProxy::AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner)
 TObject* TGo4ObjectProxy::GetAssignedObject()
 {
    return fObject;
+}
+
+
+Long_t TGo4ObjectProxy::DefineObjectSize(TObject* obj)
+{
+   if (obj==0) return 0;
+
+   Long_t sz = obj->IsA()->Size();
+
+   if (obj->InheritsFrom(TH1::Class())) {
+      TH1* histo = dynamic_cast<TH1*> (obj);
+      Int_t nbins = histo->GetNbinsX()+2;
+      if (histo->GetDimension()>1)
+         nbins = nbins*(histo->GetNbinsY()+2);
+      if (histo->GetDimension()>2)
+         nbins = nbins * (histo->GetNbinsZ()+2);
+      Int_t binsize = 1;
+      if (strchr(histo->ClassName(),'S')!=0) binsize = sizeof(Short_t); else
+      if (strchr(histo->ClassName(),'D')!=0) binsize = sizeof(Double_t); else
+      if (strchr(histo->ClassName(),'F')!=0) binsize = sizeof(Float_t); else
+      if (strchr(histo->ClassName(),'I')!=0) binsize = sizeof(Int_t); else
+      if (strchr(histo->ClassName(),'C')!=0) binsize = sizeof(Char_t);
+      sz += binsize * nbins;
+   } else
+   if (obj->InheritsFrom(TTree::Class())) {
+      TTree* t = (TTree*) obj;
+      sz += t->GetZipBytes();
+   }
+
+   return sz;
+
 }
