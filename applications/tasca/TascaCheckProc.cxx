@@ -107,10 +107,13 @@ if(fControl->CheckHisto){
 	Bool_t YL=fadcKevL->Test(fInput->ffStopYLhitV);
 	Bool_t XL=fadcKevL->Test(fInput->ffStopXLhitV);
 	Bool_t XH=fadcKevH->Test(fInput->ffStopXHhitV);
+	if(fInput->fiStopYLhitI >= 0)
 	if(YL) fStopLE[fInput->fiStopYLhitI%48]->Fill(fInput->fiStopXLhitI,fInput->ffStopXLhitV);
 
+	if(fInput->fiStopYHhitI >= 0)
 	if(YH) fStopHE[fInput->fiStopYHhitI%48]->Fill(fInput->fiStopXHhitI,fInput->ffStopXHhitV);
 
+	if(fInput->fiStopYHhitI >= 0)
 	if(XH & YH & XL & YL) fStopXY->Fill(fInput->fiStopXHhitI,fInput->fiStopYHhitI%48);
 
 	fAlphaBackL->Fill(fInput->ffStopXLhitV,fInput->ffBackLhitV);
