@@ -1,3 +1,16 @@
+// $Id: s_daqst.h 478 2009-10-29 12:26:09Z linev $
+//-----------------------------------------------------------------------
+//       The GSI Online Offline Object Oriented (Go4) Project
+//         Experiment Data Processing at EE department, GSI
+//-----------------------------------------------------------------------
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+//                     Planckstr. 1, 64291 Darmstadt, Germany
+// Contact:            http://go4.gsi.de
+//-----------------------------------------------------------------------
+// This software can be used under the license agreements as stated
+// in Go4License.txt file which is part of the distribution.
+//-----------------------------------------------------------------------
+
 #include "typedefs.h"
 /*
  * N. Kurz
@@ -5,7 +18,6 @@
  * sorted for better byte swap  /HE
  * 30.05.2000 replaced run_start by histo_port /HE
  * 25.10.2005 added spill, event building, and pipe status /HE
- * 23.6.2008 DABC support /HE
  */
 
 /* After allocating s_daqst, set by calling f_ut_status_ini */
@@ -77,9 +89,6 @@ typedef struct
   INTU4 bl_n_trig[SBS__N_TRG_TYP];   /* Trigger counter (read_cam_slav or read_meb) */
   INTU4 bl_n_si  [SBS__N_TRG_TYP];   /* Invalid subevents (collector) */
   INTU4 bl_n_evt [SBS__N_TRG_TYP];   /* Valid triggers (collector) */
-  INTU4 bl_r_trig[SBS__N_TRG_TYP];   /* Rate Trigger counter (read_cam_slav or read_meb) */
-  INTU4 bl_r_si  [SBS__N_TRG_TYP];   /* Rate Invalid subevents (collector) */
-  INTU4 bl_r_evt [SBS__N_TRG_TYP];   /* Rate Valid triggers (collector) */
   INTU4 bh_running[SYS__N_MAX_PROCS];/* run bit for tasks */
   INTU4 l_pid[SYS__N_MAX_PROCS];     /* pid table */
   INTU4 l_type[SYS__N_MAX_PROCS];    /* Type number defined in sys_def.h */
@@ -116,12 +125,6 @@ typedef struct
   INTU4 bl_spill_on;                 /* Spill on/off */
   INTU4 bl_delayed_eb_ena;           /* Delayed event building enabled/disab.*/
   INTU4 bl_event_build_on;           /* Event building on/off */
-  INTU4 bl_dabc_enabled;             /* DABC event builder mode off/on */
-  INTU4 bl_trans_ready;              /* transport server ready */
-  INTU4 bl_trans_connected;          /* Client to transport connected */
-  INTU4 bl_no_streams;               /* Number of streams */
-  INTU4 bl_user[16];                /* for user */
-  INTU4 bl_filler[192];              /* filler */
   CHARS c_user[SBS__STR_LEN_64];     /* username */
   CHARS c_date[SBS__STR_LEN_64];     /* date of last update (m_daq_rate) */
   CHARS c_exprun[SBS__STR_LEN_64];   /* run name */
@@ -137,7 +140,7 @@ typedef struct
   CHARS c_pathstr[SBS__STR_LEN_64];        /* path string */
   CHARS c_devname[SBS__STR_LEN_64];        /* Name of tape device */
   CHARS c_tape_label[SBS__STR_LEN_64];     /* current tape label */
-  CHARS c_file_name[256];                  /* current file name */
+  CHARS c_file_name[SBS__STR_LEN_64];      /* current file name */
   CHARS c_out_chan[SBS__STR_LEN_64];       /* active ouput media */
   /* ------------------ end of fixed block --------------------------*/
   CHARS c_pname[SYS__N_MAX_PROCS][SBS__STR_LEN_64]; /* as pprio */

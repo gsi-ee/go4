@@ -68,8 +68,6 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
    fxMovieResetTimer=new QTimer(this);
    QString moviepath=":/icons/mbslogorun.gif";
    fxRunMovie= new QMovie(moviepath);
-   fxDaqStat.bh_acqui_running=0; // we do not want to startup with running state
-   fxDaqStat.l_open_file = 0; // just set initial value
    memset(&fxDaqStat, 0, sizeof(fxDaqStat));
    fiCalcedEventRate=0;
    fiCalcedDataRate=0;
@@ -182,7 +180,9 @@ show();
 void TGo4MBSViewer::Refresh()
 {
 // for the ratemeter and running state, we always get status block
-if(fxNode.isEmpty()) return;
+if(fxNode.isEmpty()) {
+	return;
+}
 int state=f_mbs_status(const_cast<char*>(fxNode.toStdString().c_str()), &fxDaqStat);
 if(state!=STC__SUCCESS)
 {
@@ -302,6 +302,7 @@ if(fbTrending && !fbWarningState && fbIsMonitoring)
     UpdateTrending();
 StartMovieReset();
 Display();
+//f_ut_seg_show (&fxDaqStat,0,0,0);
 }
 
 
@@ -328,44 +329,32 @@ void TGo4MBSViewer::ShowStatus()
           cout <<fxMessage.toStdString()  << endl;
     }
   else
-    {
-      cout <<"\n------------------------------------------------" << endl;
-      if(fbGetSetup)
-                f_ut_seg_show (0,&fxSetup,0,0);
-            else if(fbGetSetML)
-                f_ut_seg_show (0,0,&fxSetupML,0);
-            else if(fbGetSetMO)
-                f_ut_seg_show (0,0,0,&fxSetupMO);
-            else
-                f_ut_seg_show (&fxDaqStat,0,0,0);
-   }
+  {
+	  cout <<"\n------------------------------------------------" << endl;
+	  if(StateGroup->button(0)->isChecked())
+		  f_ut_seg_show (&fxDaqStat,0,0,0);
+	  if(fbGetSetup)
+		  f_ut_seg_show (0,&fxSetup,0,0);
+	  else if(fbGetSetML)
+		  f_ut_seg_show (0,0,&fxSetupML,0);
+	  else if(fbGetSetMO)
+		  f_ut_seg_show (0,0,0,&fxSetupMO);
+  }
 
 }
 
 void TGo4MBSViewer::StateGroup_clicked( int id)
 {
-  switch(id){
-    case 1:
-        fbGetSetup=true;
-        fbGetSetML=false;
-        fbGetSetMO=false;
-        break;
-    case 2:
-         fbGetSetup=false;
-        fbGetSetML=true;
-        fbGetSetMO=false;
-        break;
-    case 3:
-        fbGetSetup=false;
-        fbGetSetML=false;
-        fbGetSetMO=true;
-        break;
-    default:
-        fbGetSetup=false;
-        fbGetSetML=false;
-        fbGetSetMO=false;
-        break;
-  };
+	// only one of these can be enabled
+	fbGetSetup=StateGroup->button(1)->isChecked();
+	fbGetSetML=StateGroup->button(2)->isChecked();
+	fbGetSetMO=StateGroup->button(3)->isChecked();
+	// if status is wanted, do not print setups:
+//	if(fbGetSetup=StateGroup->button(0)->isChecked()){
+//        fbGetSetup=false;
+//        fbGetSetML=false;
+//        fbGetSetMO=false;
+//	}
 }
 
 

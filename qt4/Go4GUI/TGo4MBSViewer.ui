@@ -848,6 +848,12 @@
   </includes>
   <connections>
     <connection>
+      <sender>FullPrintButton</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4MBSViewer</receiver>
+      <slot>PrintStatus()</slot>
+    </connection>
+    <connection>
       <sender>MonitorButton</sender>
       <signal>clicked()</signal>
       <receiver>TGo4MBSViewer</receiver>

@@ -49,7 +49,7 @@ INTS4 f_ut_seg_show (s_daqst *ps_daqst, s_setup *ps_setup, s_set_ml *ps_set_ml, 
     INTS4 i,j;
 CHARS c_time[32];
 CHARS c_line[128];
-CHARS *ps_master[16]={"CVC","E6","E7","AEB","CBV","CVI","CAV","RIO2","PC","RIO3","nn","nn","nn","nn","nn","nn"};
+CHARS *ps_master[16]={"CVC","E6","E7","AEB","CBV","CVI","CAV","RIO2","PC","RIO3","V32C32","RIO4","nn","nn","nn","nn"};
 
 sprintf(c_line,"%s",f_ut_time(c_time));LOUT;
 if(ps_daqst != NULL)
@@ -111,6 +111,8 @@ i,ps_daqst->bl_n_trig[i],ps_daqst->bl_n_si[i],ps_daqst->bl_n_evt[i]);   LOUT;
 }
 sprintf(c_line," bl_spill_on   _______%d bl_delayed_eb_ena   ___%d bl_event_build_on   %d",
 ps_daqst->bl_spill_on,           ps_daqst->bl_delayed_eb_ena,           ps_daqst->bl_event_build_on);LOUT;
+sprintf(c_line," bl_trans_ready   ___%2d bl_trans_connected   _%2d bl_dabc_enabled  _%3d",
+ps_daqst->bl_trans_ready,         ps_daqst->bl_trans_connected,           ps_daqst->bl_dabc_enabled);LOUT;
 
 sprintf(c_line," bl_strsrv_scale   __%2d bl_strsrv_sync   ______%d bl_strsrv_keep   ___%d",
 ps_daqst->bl_strsrv_scale,         ps_daqst->bl_strsrv_sync,           ps_daqst->bl_strsrv_keep);LOUT;

@@ -143,7 +143,7 @@ return l_status;
 /*1- C Procedure *************+****************************************/
 INTS4 f_ut_status_r(s_daqst *ps_daqst, INTS4 l_tcp)
 {
-  INTS4 l_swap=0;
+  INTS4 l_swap=0, len_64, n_trg, max_proc;
   INTS4 l_cmd;
   INTS4 i,k;
   INTS4 l_status;
@@ -155,42 +155,59 @@ INTS4 f_ut_status_r(s_daqst *ps_daqst, INTS4 l_tcp)
   l_status = f_stc_read (&ps_daqst->l_endian,28,l_tcp,-1); if (l_status != STC__SUCCESS) return(-1);
   if(ps_daqst->l_endian != 1) l_swap = 1;
   if(l_swap == 1) l_status = f_swaplw(&ps_daqst->l_endian,7,NULL);
+  len_64=ps_daqst->l_sbs__str_len_64;
+  n_trg=ps_daqst->l_sbs__n_trg_typ;
+  max_proc=ps_daqst->l_sys__n_max_procs;
   if(ps_daqst->l_version == 1)
-    {
-  if(ps_daqst->l_daqst_lw > 1000) // or version > 1 (MBS v44)
-    { // read till maxcli
-      k=(ps_daqst->l_fix_lw-7)*4-16 * SBS__STR_LEN_64;
-      l_status = f_stc_read (&ps_daqst->bh_daqst_initalized, k , l_tcp,-1);
-      if(l_swap == 1) l_status = f_swaplw(&ps_daqst->bh_daqst_initalized, k/4,NULL);
-      // read from c_user
-      l_status = f_stc_read (&ps_daqst->c_user, 16 * SBS__STR_LEN_64 , l_tcp,-1);
-    }
-  else // (MBS v43)
-    { // bh_verbose_flg to bl_esosrv_maxcli is 17 LWs. fix_lw is 526 LWs for MBS v44, 476 for v43
-      k = 17 + 5*ps_daqst->l_sys__n_max_procs + 3*ps_daqst->l_sbs__n_trg_typ + 16*ps_daqst->l_sbs__str_len_64/4;
-      l_status = f_stc_read (&ps_daqst->bh_daqst_initalized,(ps_daqst->l_fix_lw-7-k)*4 , l_tcp,-1);
-      l_status = f_stc_read (&ps_daqst->bl_n_trig[0],        ps_daqst->l_sbs__n_trg_typ*4 , l_tcp,-1);
-      l_status = f_stc_read (&ps_daqst->bl_n_si  [0],        ps_daqst->l_sbs__n_trg_typ*4 , l_tcp,-1);
-      l_status = f_stc_read (&ps_daqst->bl_n_evt [0],        ps_daqst->l_sbs__n_trg_typ*4 , l_tcp,-1);
-      l_status = f_stc_read (&ps_daqst->bh_running[0],       ps_daqst->l_sys__n_max_procs*4 , l_tcp,-1);
-      l_status = f_stc_read (&ps_daqst->l_pid[0],            ps_daqst->l_sys__n_max_procs*4 , l_tcp,-1);
-      l_status = f_stc_read (&ps_daqst->l_type[0],           ps_daqst->l_sys__n_max_procs*4 , l_tcp,-1);
-      l_status = f_stc_read (&ps_daqst->l_pprio[0],          ps_daqst->l_sys__n_max_procs*4 , l_tcp,-1);
-      l_status = f_stc_read (&ps_daqst-> bh_pact[0],         ps_daqst->l_sys__n_max_procs*4 , l_tcp,-1);
-      l_status = f_stc_read (&ps_daqst->bh_verbose_flg,      17*4 , l_tcp,-1);
-      k = 17 + 5*SYS__N_MAX_PROCS + 3*SBS__N_TRG_TYP + 55 -7; // for swapping we need actual structure sizes
-      if(l_swap == 1) l_status = f_swaplw(&ps_daqst->bh_daqst_initalized,k,NULL);
-      l_status = f_stc_read (&ps_daqst->c_user, 16 * SBS__STR_LEN_64 , l_tcp,-1);
-    }
-    }
+  {
+	  return(-1);
+	  if(ps_daqst->l_daqst_lw > 1000) // or version > 1 (MBS v44)
+	  { // read till maxcli
+		  k=(ps_daqst->l_fix_lw-7)*4-16 * SBS__STR_LEN_64;
+		  l_status = f_stc_read (&ps_daqst->bh_daqst_initalized, k , l_tcp,-1);
+		  if(l_swap == 1) l_status = f_swaplw(&ps_daqst->bh_daqst_initalized, k/4,NULL);
+		  // read from c_user
+		  l_status = f_stc_read (&ps_daqst->c_user, 16 * SBS__STR_LEN_64 , l_tcp,-1);
+	  }
+	  else // (MBS v43)
+	  { // bh_verbose_flg to bl_esosrv_maxcli is 17 LWs. fix_lw is 526 LWs for MBS v44, 476 for v43
+		  k = 17 + 5*ps_daqst->l_sys__n_max_procs + 3*ps_daqst->l_sbs__n_trg_typ + 16*ps_daqst->l_sbs__str_len_64/4;
+		  l_status = f_stc_read (&ps_daqst->bh_daqst_initalized,(ps_daqst->l_fix_lw-7-k)*4 , l_tcp,-1);
+		  l_status = f_stc_read (&ps_daqst->bl_n_trig[0],        ps_daqst->l_sbs__n_trg_typ*4 , l_tcp,-1);
+		  l_status = f_stc_read (&ps_daqst->bl_n_si  [0],        ps_daqst->l_sbs__n_trg_typ*4 , l_tcp,-1);
+		  l_status = f_stc_read (&ps_daqst->bl_n_evt [0],        ps_daqst->l_sbs__n_trg_typ*4 , l_tcp,-1);
+		  l_status = f_stc_read (&ps_daqst->bh_running[0],       ps_daqst->l_sys__n_max_procs*4 , l_tcp,-1);
+		  l_status = f_stc_read (&ps_daqst->l_pid[0],            ps_daqst->l_sys__n_max_procs*4 , l_tcp,-1);
+		  l_status = f_stc_read (&ps_daqst->l_type[0],           ps_daqst->l_sys__n_max_procs*4 , l_tcp,-1);
+		  l_status = f_stc_read (&ps_daqst->l_pprio[0],          ps_daqst->l_sys__n_max_procs*4 , l_tcp,-1);
+		  l_status = f_stc_read (&ps_daqst-> bh_pact[0],         ps_daqst->l_sys__n_max_procs*4 , l_tcp,-1);
+		  l_status = f_stc_read (&ps_daqst->bh_verbose_flg,      17*4 , l_tcp,-1);
+		  k = 17 + 5*SYS__N_MAX_PROCS + 3*SBS__N_TRG_TYP + 55 -7; // for swapping we need actual structure sizes
+		  if(l_swap == 1) l_status = f_swaplw(&ps_daqst->bh_daqst_initalized,k,NULL);
+		  l_status = f_stc_read (&ps_daqst->c_user, 16 * SBS__STR_LEN_64 , l_tcp,-1);
+	  }
+  }
   if(ps_daqst->l_version == 2)
     {
+	  k=(48+n_trg*3)*4; // up to bl_n_evt inclusive
+      l_status = f_stc_read (&ps_daqst->bh_daqst_initalized, k , l_tcp,-1);
+	  k=(24+max_proc*5)*4; // bh_running up to bl_event_build_on inclusive
+      l_status = f_stc_read (&ps_daqst->bh_running[0], k , l_tcp,-1);
+	  k=len_64*15; // strings up to c_file_name inclusive
+      l_status = f_stc_read (&ps_daqst->c_user[0], k , l_tcp,-1);
+      l_status = f_stc_read (&ps_daqst->c_out_chan[0], len_64 , l_tcp,-1);
+      ps_daqst->l_fix_lw += n_trg*3 + 212 + len_64/4*3;
+      if(l_swap == 1)
+    	  l_status = f_swaplw(&ps_daqst->bh_daqst_initalized, (ps_daqst->l_fix_lw-7) - (19 * len_64/4),NULL);
+    }
+  if(ps_daqst->l_version == 51)
+    {
       l_status = f_stc_read (&ps_daqst->bh_daqst_initalized, (ps_daqst->l_fix_lw-7)*4 , l_tcp,-1);
-      if(l_swap == 1) l_status = f_swaplw(&ps_daqst->bh_daqst_initalized, (ps_daqst->l_fix_lw-7) - (16 * SBS__STR_LEN_64/4),NULL);
+      if(l_swap == 1)
+    	  l_status = f_swaplw(&ps_daqst->bh_daqst_initalized, (ps_daqst->l_fix_lw-7) - (19 * len_64/4),NULL);
     }
 
-
-  l_status = f_stc_read (&ps_daqst->c_pname[0], ps_daqst->l_procs_run * ps_daqst->l_sbs__str_len_64 , l_tcp,-1);
+  l_status = f_stc_read (&ps_daqst->c_pname[0], ps_daqst->l_procs_run * len_64 , l_tcp,-1);
   return l_status;
 }
 
