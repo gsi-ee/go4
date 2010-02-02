@@ -505,12 +505,10 @@ if(fControl->UnpackHisto) fhStopYiLH->Fill(pUnpackEvent->fiStopYLhitI,pUnpackEve
 
 }// V785 ADCs
 
+  // optional histogramming
 if(fControl->UnpackHisto){
   if(spillOn&(pUnpackEvent->fiStopXHhitV>fParam->AlphaMinH))fSpillG->Fill(timediff);
   if(pdata-psubevent) fSizeA->Fill(pdata-psubevent);
-}
-// optional histogramming
- if(fControl->UnpackHisto){
    for(i=0;i<96;i++) fAdc[i]->Fill(pUnpackEvent->fiAdc[i]);
    fMultiAdc->Fill(pUnpackEvent->fiMultiAdc);
    fMultiStopXL->Fill(pUnpackEvent->fiMultiStopXL);
