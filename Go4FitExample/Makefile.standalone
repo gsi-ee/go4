@@ -30,7 +30,7 @@ endif
 all: example1 example2 example3 example4 example5 example6 example7 example8 example9 example10 example11 example12 example13
 
 clean: clean1 clean2 clean3 clean4 clean5 clean6 clean7 clean8 clean9 clean10 clean11 clean12 clean13
-	@rm -f *.bak *Dict.* *.so 
+	@rm -f *.bak *Dict.* *.so *.d 
 
 # ------------------Example1------------------------------------------
  

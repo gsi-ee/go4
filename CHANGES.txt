@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.4.0 (build 40400)
-                      17-November-2009
+         Go4 Release Package v4.4.1 (build 40401)
+                      28-January-2010
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -25,6 +25,7 @@ Changes in Go4 v4.4.1 (January 10)
    Now Clear(), PrintParameter() and UpdateFrom() methods has meaningful
    functionality and can be used as is in user derived classes.
    Thus, it is possible to declare user parameter class without any additional methods.
+   See Go4ExampleSimple and Go4Example1Step. 
 2. Add support of arbitrary objects in TGo4Picture::AddSpecialObject, 
    show real picture size in the browser   
 
@@ -196,7 +197,6 @@ Changes in Go4 v4.02.00 (April 09)
    SetTitleAttr(xLeft,yBottom,xRight,yTop);
    
 
-
 Changes in Go4 v4.01.01 (November08)
 
 1. Maintenance: code adjustments for compilers gcc 4.3.x
@@ -255,8 +255,6 @@ However, the main window toolbar setup may still be saved locally
 by setting environment variable Go4SETTINGS="ACCOUNT".
 
 
-  
-
 
 
 Changes in Go4 v4.00.03 (June08)
@@ -277,6 +275,7 @@ Changes in Go4 v4.00.02 (May08)
 4. Bugfix: GUI TreeViewer swapped x/y/z coordinates, convention is TTree::Draw("z:y:x"))
 5. Bugfix: GUI Viewpanel: "Produce Picture" did not save all draw options to picture 
 
+
 Changes in Go4 v4.00.01 (Mar08)
 
 1. Bugfix: Adjustments for modifications in ROOT signal-slot mechanism
@@ -285,6 +284,7 @@ Changes in Go4 v4.00.01 (Mar08)
 2. Bugfix: Mismatch between Go4 viewpanel range (full visible range)
    and ROOT user range (referring to low edges of bins) could cause slight
    shift of x axis range on canvas refresh.
+
 
 Changes in Go4 v4.00.00 (Feb08)
 

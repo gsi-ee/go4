@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.4.0 (build 40400)
-                      17-November-2009
+         Go4 Release Package v4.4.1 (build 40401)
+                      28-January-2010
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at DVEE department, GSI
@@ -131,7 +131,7 @@ together with Microsoft Visual C++ 2008 Express Edition and CYGWIN.
 - Download and install root (ROOT Windows binaries are enough)
 - Install and configure CYGWIN
 - Install Microsoft VC++
-- Download Qt 4.5.x source win tar ball (there is no binary version for VC++)
+- Download Qt 4.6.x source win tar ball (there is no binary version for VC++)
   and compile it 
 - Download go4 sources from http://go4.gsi.de web site.
 - Find and modify $GO4SYS/etc/win/go4login file to actual location of all 

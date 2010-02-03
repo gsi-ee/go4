@@ -1,12 +1,12 @@
 --------------------------------------------------------------
-              Go4 Threadmanager v4.4.0 (build 40400)
-                      30-September-2009
+              Go4 Threadmanager v4.4.1 (build 40401)
+                      28-January-2010
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at DVEE department, GSI
 ------------------------------------------------------------
 authors:
-   Joern Adamczewski-Musch   (1999-2008)
+   Joern Adamczewski-Musch   (1999-2010)
    Marc Hemberger         	  (1999-2000)
 ---------------------------------------------------------------
 

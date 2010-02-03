@@ -5,7 +5,6 @@ DllSuf           = so
 
 CXX              = g++
 LD               = g++
-mkdepend         = g++
 
 ROOTEXEPATH = $(shell root-config --exec-prefix)
 ROOTLIBPATH = $(shell root-config --libdir)
@@ -30,7 +29,7 @@ GO4FIT_MAP         = libGo4Fit.rootmap
 all: $(GO4FIT_LIB) $(GO4FIT_MAP)
 
 clean:
-	@rm -f $(GO4FIT_LIB) $(GO4FIT_MAP) $(GO4FIT_O) $(GO4FIT_DO) $(GO4FIT_DH) $(GO4FIT_DS) *.bak Makefile.depend
+	@rm -f $(GO4FIT_LIB) $(GO4FIT_MAP) $(GO4FIT_O) $(GO4FIT_DO) $(GO4FIT_DH) $(GO4FIT_DS) *.d
 
 $(GO4FIT_LIB):  $(GO4FIT_O) $(GO4FIT_DO)
 	$(LD) $(SOFLAGS)$(GO4FIT_LIB) $(LDFLAGS) $(GO4FIT_O) $(GO4FIT_DO) -o $(GO4FIT_LIB)

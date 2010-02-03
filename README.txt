@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.4.0 (build 40400)
-                      17-November-2009
+         Go4 Release Package v4.4.1 (build 40401)
+                      28-January-2010
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -69,10 +69,18 @@ QT INSTALLATION
   
   If there is no Qt installed on your system, or Go4 is not able to use it correctly,
   one should compile Qt from the source package. For that download from
-  http://www.qtsoftware.com/downloads package like qt-x11-opensource-src-4.5.2.tar.gz.
+  http://www.qtsoftware.com/downloads package like qt-everywhere-opensource-src-4.6.1.tar.gz
   Configure it with following flags:
   
-     shell> ./configure -prefix $PWD -shared 
+     shell> ./configure -prefix $PWD 
+     
+  To compile Qt, call:
+  
+     shell> gmake
+     
+  Optionally, one can cleanup all intermediate files to save at least 1.5G disk space:
+     
+     shell> gmake clean
      
   After compilation set environment variables e.g.
   
@@ -85,11 +93,11 @@ GO4 COMPILATION
 
   Unpack this Go4 distribution in any suitable directory.
   
-     shell> tar xzf go4-4.4.0.tar.gz
+     shell> tar xzf go4-4.4.1.tar.gz
   
-  This will create subdirectory go4-4.4.0. To compile go4, do:
+  This will create subdirectory go4-4.4.1. To compile go4, do:
   
-     shell> cd go4-4.4.0
+     shell> cd go4-4.4.1
      shell> make all
   
   In most cases it will be enough to compile go4 libraries, gui and
