@@ -520,6 +520,15 @@ int main(int argc, char **argv)
          } else
             showerror("LMD/LML file name not specified");
       } else
+      if (strcmp(argv[narg],"-source")==0) {
+         if (++narg < argc) {
+            TGo4FileSourceParameter sourcepar(argv[narg++]);
+            step->SetEventSource(&sourcepar);
+            step->SetSourceEnabled(kTRUE);
+            autorun = true;
+         } else
+            showerror("Input file name not specified");
+      } else
       if(strcmp(argv[narg],"-transport")==0) {
          if (++narg < argc) {
             TGo4MbsTransportParameter sourcepar(argv[narg++]);
