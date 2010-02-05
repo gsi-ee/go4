@@ -109,9 +109,9 @@ build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
 		< build/go4-config.ini > bin/go4-config; chmod 755 bin/go4-config; echo "create go4-config"; fi)
 	@(if [ ! -f $(GO4MAP) ] ; then touch $(GO4MAP); fi)
 
-libs::          $(BUILDGO4LIBS)
+libs::    $(BUILDGO4LIBS)
 
-gui::           libs 
+gui::      libs 
 
 ifndef GO4PREFIX
 install:

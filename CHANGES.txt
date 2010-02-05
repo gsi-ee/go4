@@ -28,6 +28,11 @@ Changes in Go4 v4.4.1 (January 10)
    See Go4ExampleSimple and Go4Example1Step. 
 2. Add support of arbitrary objects in TGo4Picture::AddSpecialObject, 
    show real picture size in the browser   
+3. Add possibility to specify wildcard in TGo4EventSource class - 
+   allow to treat many subsequent root files, improve wildcard treatment in TGo4MbsFile,
+   provide wildcard functionality for Windows
+4. Fix (implement) "-source" argument for go4analysis      
+
 
 Changes in Go4 v4.4.0 (November 09)
 1. Add clear histogram and conditions button in gui
