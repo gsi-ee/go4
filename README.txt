@@ -134,26 +134,32 @@ ADVANCED MAKE OPTIONS
   Compare to default options, there are additional flags, which can be specified 
   to the make:
   
-  prefix=<location>  compiles go4 in the mode, that it can be installed in
-                     specified location. Directory <location> should exists.
-                     It can be /usr/local or /usr. After compilation one can
-                     install go4 with "make install" command. If directory 
-                     <location>/bin included in PATH variable, no any extra
-                     login script is required to use go4 later. 
+  prefix=<location>  
+     Compiles go4 in the mode, that it can be installed in specified location. 
+     Directory <location> should exists. It can be /usr/local or /usr. 
+     After compilation one can install go4 with "make install" command. 
+     If directory <location>/bin included in PATH variable, no any extra
+     login script is required to use go4 later. 
 
-  withqt=3|4|no   Specifies version of qt, which should be used for gui compilation.
-                  Qt installation will be tested with pkg-config utility.
-                  If 'withqt' not specified, QTDIR variable will be tested.
-                  If none 'withqt' and QTDIR are set, first Qt4 and than Qt3 will
-                  be tried to used by go4.
+  withqt=3|4|no   
+     Specifies version of qt, which should be used for gui compilation.
+     Qt installation will be tested with pkg-config utility.
+     If 'withqt' not specified, QTDIR variable will be tested.
+     If none 'withqt' and QTDIR are set, first Qt4 and than Qt3 will
+     be tried to used by go4.
 
-  GO4_OS=Linux|Solaris|Win32 Defines platform, on which go4 will be compiled.
-                  If not defined, tested via 'uname'. Default is Linux.
+  GO4_OS=Linux|Solaris|Win32 
+     Defines platform, on which go4 will be compiled.
+     If not defined, tested via 'uname'. Default is Linux.
 
-  rpath=true|false  Use -rpath option of linker to include absolute library pathes, 
-                    where go4 executables should search for libraries. Default is true.
-                    This option allows to use go4 executable without any additional 
-                    LD_LIBRARY_PATH variable settings.
+  rpath=true|false  
+     Use -rpath option of linker to include absolute library pathes, 
+     where go4 executables should search for libraries. Default is true.
+     This option allows to use go4 executable without any additional 
+     LD_LIBRARY_PATH variable settings.
+                    
+  debug=1     
+     Build all libraries with debug symbols. Default is off.                       
 
   All flags, specified to the make, will be stored together with some environment settings
   in build/Makefile.gener. This allow to reuse same settings for user analysis compilation.

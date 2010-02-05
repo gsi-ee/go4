@@ -109,9 +109,9 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
    }
    for(Int_t ii=0;ii<8;ii++)
       if(out_evt->frData[ii]) {
-         if(fWinCon->Test(out_evt->frData[ii])) fSum1->Fill(out_evt->frData[ii]);
-         fSum2->Fill(out_evt->frData[ii]+fParam1->frP1);
-         fSum3->Fill(out_evt->frData[ii]+fParam2->frP1);
+         if(fWinCon && fWinCon->Test(out_evt->frData[ii])) fSum1->Fill(out_evt->frData[ii]);
+         if (fParam1) fSum2->Fill(out_evt->frData[ii] + fParam1->frP1);
+         if (fParam2) fSum3->Fill(out_evt->frData[ii] + fParam2->frP1);
       }
 
    fFitCounter++;
