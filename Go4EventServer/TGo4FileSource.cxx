@@ -146,9 +146,10 @@ Bool_t TGo4FileSource::OpenNextFile()
 
    if ((fxFilesNames==0) || (fxFilesNames->GetSize()==0)) return kFALSE;
 
-   fxCurrentFileName = fxFilesNames->First()->GetName();
-
+   TObject* obj = fxFilesNames->First();
+   fxCurrentFileName = obj->GetName();
    fxFilesNames->Remove(fxFilesNames->FirstLink());
+   delete obj;
 
    fxFile = TFile::Open(fxCurrentFileName.Data(), "READ"); // in such way rfio etc is also supported!
    if(fxFile==0) ThrowError(66,0,Form("!!! ERROR: FILE %s not found !!!", fxCurrentFileName.Data()));

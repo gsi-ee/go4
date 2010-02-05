@@ -305,9 +305,10 @@ Int_t TGo4MbsFile::NextFile()
             throw TGo4EventEndException(this);
          }
 
-         nextline = fxMultiFile->First()->GetName();
-
+         TObject* obj = fxMultiFile->First();
+         nextline = obj->GetName();
          fxMultiFile->Remove(fxMultiFile->FirstLink());
+         delete obj;
 
          rem1 = strstr(nextline.Data(), "!");
          rem2 = strstr(nextline.Data(), "#");
