@@ -20,6 +20,7 @@
 
 class TFile;
 class TTree;
+class TList;
 class TGo4FileSourceParameter;
 class TGo4EventElement;
 class TGo4CompositeEvent;
@@ -54,6 +55,8 @@ class TGo4FileSource : public TGo4EventSource {
       * to correctly sync and read Go4 composite event */
     Bool_t BuildCompositeEvent(TGo4CompositeEvent *dest);
 
+    static TList* ProducesFilesList(const char* mask);
+
   private:
 
     TFile* fxFile; //!
@@ -62,11 +65,13 @@ class TGo4FileSource : public TGo4EventSource {
 
     /** Number of events stored in the Tree. Used to check if
       * the complete tree is already read. */
-    Int_t fiMaxEvents;
+    Long64_t fiMaxEvents;
 
-    /** Number of events stored in the Tree. Used to check if
-      * the complete tree is already read. */
-    Int_t fiCurrentEvent;
+    /** Event number in current tree. */
+    Long64_t fiCurrentEvent;
+
+    /** Global event number, starting from the first tree. */
+    long int fiGlobalEvent;   //!
 
     /** name of tree branch to be activated */
     TString fxBranchName;
@@ -77,8 +82,17 @@ class TGo4FileSource : public TGo4EventSource {
     /** pointer to top branch event */
     TObject* fxTopEvent; //!
 
-    /** Open file. To be used by all constructors. */
-    Int_t Open();
+    /** list of files names */
+    TList* fxFilesNames; //!
+
+    /** current name of the file */
+    TString fxCurrentFileName;  //!
+
+    /** Open next file from the files list. */
+    Bool_t OpenNextFile();
+
+    /** Close currently open file. */
+    Bool_t CloseCurrentFile();
 
   ClassDef(TGo4FileSource,1)
 };

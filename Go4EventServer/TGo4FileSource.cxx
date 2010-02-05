@@ -18,6 +18,10 @@
 #include "TKey.h"
 #include "TFile.h"
 #include "TTree.h"
+#include "TList.h"
+#include "TSystem.h"
+#include "TObjString.h"
+#include "TRegexp.h"
 
 #include "TGo4FileSourceParameter.h"
 #include "TGo4CompositeEvent.h"
@@ -27,126 +31,239 @@
 R__EXTERN TTree *gTree;
 
 TGo4FileSource::TGo4FileSource(const char* name) :
-   TGo4EventSource(name), fxFile(0), fxTree(0), fiMaxEvents(0), fiCurrentEvent(0),fbActivated(kFALSE),
-   fxTopEvent(0)
+   TGo4EventSource(name),
+   fxFile(0),
+   fxTree(0),
+   fiMaxEvents(0),
+   fiCurrentEvent(0),
+   fiGlobalEvent(0),
+   fbActivated(kFALSE),
+   fxTopEvent(0),
+   fxFilesNames(0)
 {
-   Open();
+   fxFilesNames = ProducesFilesList(GetName());
+
+   if (!OpenNextFile())
+      ThrowError(66,0, Form("!!! ERROR: Cannot open source %s!!!", GetName()));
 }
 
 TGo4FileSource::TGo4FileSource(TGo4FileSourceParameter* par) :
-   TGo4EventSource(par->GetName()), fxFile(0), fxTree(0), fiMaxEvents(0),
-   fiCurrentEvent(0), fbActivated(kFALSE),
-   fxTopEvent(0)
+   TGo4EventSource(par->GetName()),
+   fxFile(0),
+   fxTree(0),
+   fiMaxEvents(0),
+   fiCurrentEvent(0),
+   fiGlobalEvent(0),
+   fbActivated(kFALSE),
+   fxTopEvent(0),
+   fxFilesNames(0)
 {
-   Open();
+   fxFilesNames = ProducesFilesList(GetName());
+
+   if (!OpenNextFile())
+      ThrowError(66,0, Form("!!! ERROR: Cannot open source %s!!!", GetName()));
 }
 
 
 TGo4FileSource::TGo4FileSource() :
-   TGo4EventSource("Go4FileSource"), fxFile(0), fxTree(0), fiMaxEvents(0),
-   fiCurrentEvent(0), fbActivated(kFALSE),
-   fxTopEvent(0)
+   TGo4EventSource("Go4FileSource"),
+   fxFile(0),
+   fxTree(0),
+   fiMaxEvents(0),
+   fiCurrentEvent(0),
+   fiGlobalEvent(0),
+   fbActivated(kFALSE),
+   fxTopEvent(0),
+   fxFilesNames(0)
 {
    // for streamer, do not open here!
 }
 
-Int_t TGo4FileSource::Open()
+TGo4FileSource::~TGo4FileSource()
 {
-   TString buffer(GetName());
-   if(strstr(buffer.Data(),TGo4FileStore::fgcFILESUF)==0)
-      buffer+=TGo4FileStore::fgcFILESUF;
-   fxFile = TFile::Open(buffer.Data(), "READ"); // in such way rfio etc is also supported!
-   if(! ( fxFile && fxFile->IsOpen() )) ThrowError(66,0,"!!! ERROR: FILE not found !!!");
+   CloseCurrentFile();
 
-   TKey* kee=0;
+   if (fxFilesNames) {
+      delete fxFilesNames;
+      fxFilesNames = 0;
+   }
+}
+
+TList* TGo4FileSource::ProducesFilesList(const char* mask)
+{
+   if ((mask==0) || (strlen(mask)==0)) return 0;
+
+   TString dirname, basename(mask);
+
+   if (!basename.MaybeWildcard()) {
+      TList* lst = new TList();
+      lst->SetOwner(kTRUE);
+      lst->Add(new TObjString(mask));
+      return lst;
+   }
+
+   Bool_t withdir = kFALSE;
+   Int_t slash = basename.Last('/');
+   if (slash>=0) {
+      dirname = basename(0, slash);
+      basename.Remove(0, slash+1);
+      withdir = kTRUE;
+   } else {
+      dirname = gSystem->WorkingDirectory();
+   }
+
+   void *dir = gSystem->OpenDirectory(gSystem->ExpandPathName(dirname.Data()));
+
+   if (dir==0) return 0;
+
+   TList* lst = 0;
+
+   TRegexp re(basename, kTRUE);
+   const char* file = 0;
+   while ((file = gSystem->GetDirEntry(dir)) != 0) {
+      if (!strcmp(file,".") || !strcmp(file,"..")) continue;
+      TString s = file;
+      if ( (basename!=s) && s.Index(re) == kNPOS) continue;
+      if (lst==0) {
+         lst = new TList;
+         lst->SetOwner(kTRUE);
+      }
+      if (withdir)
+         lst->Add(new TObjString(dirname + "/" + file));
+      else
+         lst->Add(new TObjString(file));
+   }
+   gSystem->FreeDirectory(dir);
+
+   lst->Sort();
+
+   return lst;
+}
+
+Bool_t TGo4FileSource::OpenNextFile()
+{
+   CloseCurrentFile();
+
+   if ((fxFilesNames==0) || (fxFilesNames->GetSize()==0)) return kFALSE;
+
+   fxCurrentFileName = fxFilesNames->First()->GetName();
+
+   fxFilesNames->Remove(fxFilesNames->FirstLink());
+
+   fxFile = TFile::Open(fxCurrentFileName.Data(), "READ"); // in such way rfio etc is also supported!
+   if(fxFile==0) ThrowError(66,0,Form("!!! ERROR: FILE %s not found !!!", fxCurrentFileName.Data()));
+   if (!fxFile->IsOpen()) ThrowError(66,0,Form("!!! ERROR: FILE %s cannot open !!!", fxCurrentFileName.Data()));
+
+   TKey* kee = 0;
    TIter iter(fxFile->GetListOfKeys());
-   while ( ( kee=dynamic_cast<TKey*>(iter()) ) !=0 ) {
+   while ( (kee=dynamic_cast<TKey*>(iter())) !=0 ) {
       fxTree = dynamic_cast<TTree*>(kee->ReadObj());
-      if (fxTree)
-         break; // we take first Tree in file, disregarding its name...
+      if (fxTree) break; // we take first Tree in file, disregarding its name...
    }
    if (fxTree==0) {
       ThrowError(77,0,"!!! ERROR: Tree not found !!!");
    } else {
       SetCreateStatus(0);
-      fiMaxEvents= (Int_t )fxTree->GetEntries();
+      fiMaxEvents = fxTree->GetEntries();
    }
-   TGo4Log::Info("TGo4FileSource: Open file %s", buffer.Data());
 
-   return 0;
+   return kTRUE;
 }
 
-TGo4FileSource::~TGo4FileSource()
+
+Bool_t TGo4FileSource::CloseCurrentFile()
 {
-   delete fxFile;
+   if (fxFile) {
+      delete fxFile;
+      TGo4Log::Info("TGo4FileSource: Close file %s", fxCurrentFileName.Data());
+   }
+
+   fxFile = 0;
+   fxTree = 0;
+   fiMaxEvents = 0;
+   fiCurrentEvent = 0;
+   fxBranchName = "";
+   fxTopEvent = 0;
+   fbActivated = kFALSE;
+   fxCurrentFileName = "";
+
+   return kTRUE;
 }
 
 Bool_t TGo4FileSource::BuildEvent(TGo4EventElement* dest)
 {
-   Bool_t rev=kTRUE;
    if(dest==0) ThrowError(0,22,"!!! ERROR BuildEvent: no destination event!!!");
    if (fxTree==0) ThrowError(0,33,"!!! ERROR BuildEvent: no Tree !!!");
-   if(!fbActivated)
-      {
-         // Event dest should be full event as filled into the tree
-         // the name of the event element may indicate the subpart
-         //(tree branchname) that should be read partially only
-         TString topname;
-         Bool_t masterbranch=kFALSE;
-         fxBranchName=dest->GetName();
-         if(!fxBranchName.Contains("."))
-            {
-               fxBranchName+="."; // for master branch, add dot. Subbranch names with dot separators do not get final dot
-               masterbranch=kTRUE;
-            }
-         TObjArray* blist = fxTree->GetListOfBranches();
-         TBranch* topb= (TBranch*) blist->At(0);
-         if(topb)
-            {
-               topname=topb->GetName();
-               //cout <<"Activating top branch "<<topname.Data() << endl;
-               fxTopEvent=dest;
-               fxTree->SetBranchAddress(topname.Data(),&fxTopEvent);
-               //topb->SetAddress(&fxTopEvent); // this will not set address of possible cloned tree. we use the set address of the tree
-             }
-         fxTree->SetBranchStatus("*",0); // note: only deactivate subleafs _after_ address of top branch is set!
-         fxTree->SetBranchStatus(topname.Data(),1); // required to process any of the subbranches!
-         TString wildbranch=fxBranchName;
-         wildbranch+="*";
-         fxTree->SetBranchStatus(wildbranch.Data(),1);
-         //cout <<"Build event activates: "<<wildbranch.Data() << endl;
-         wildbranch=fxBranchName;
-         if(!masterbranch) wildbranch+=".";
-         wildbranch+="*";
-         fxTree->SetBranchStatus(wildbranch.Data(),1);
-         //cout <<"Build event activates: "<<wildbranch.Data() << endl;
-         fbActivated=kTRUE;
-      }  //  if(!fbActivated)
+
+   if(fiCurrentEvent >= fiMaxEvents) {
+      if (!OpenNextFile())
+         ThrowEOF(0,44,"End at event %ld !!!", fiGlobalEvent);
+   }
+
+   if(!fbActivated) {
+      // Event dest should be full event as filled into the tree
+      // the name of the event element may indicate the subpart
+      //(tree branchname) that should be read partially only
+      TString topname;
+      Bool_t masterbranch=kFALSE;
+      fxBranchName = dest->GetName();
+      if(!fxBranchName.Contains("."))  {
+         fxBranchName+="."; // for master branch, add dot. Subbranch names with dot separators do not get final dot
+         masterbranch=kTRUE;
+      }
+      TObjArray* blist = fxTree->GetListOfBranches();
+      TBranch* topb = (TBranch*) blist->At(0);
+      if(topb) {
+         topname = topb->GetName();
+         //cout <<"Activating top branch "<<topname.Data() << endl;
+         fxTopEvent = dest;
+         fxTree->SetBranchAddress(topname.Data(),&fxTopEvent);
+         //topb->SetAddress(&fxTopEvent); // this will not set address of possible cloned tree. we use the set address of the tree
+      }
+      fxTree->SetBranchStatus("*",0); // note: only deactivate subleafs _after_ address of top branch is set!
+      fxTree->SetBranchStatus(topname.Data(),1); // required to process any of the subbranches!
+      TString wildbranch = fxBranchName;
+      wildbranch += "*";
+      fxTree->SetBranchStatus(wildbranch.Data(),1);
+      //cout <<"Build event activates: "<<wildbranch.Data() << endl;
+      wildbranch = fxBranchName;
+      if(!masterbranch) wildbranch+=".";
+      wildbranch+="*";
+      fxTree->SetBranchStatus(wildbranch.Data(),1);
+      //cout <<"Build event activates: "<<wildbranch.Data() << endl;
+      fbActivated = kTRUE;
+
+      TGo4Log::Info("TGo4FileSource: Open file %s", fxCurrentFileName.Data());
+   }  //  if(!fbActivated)
    // end init section ////////////
-   fxTree->GetEntry(fiCurrentEvent++);
-   if(fiCurrentEvent>fiMaxEvents) ThrowEOF(0,44,"End of tree at event %d !!!",fiCurrentEvent);
-   return rev;
+
+   fiGlobalEvent++;
+
+   return fxTree->GetEntry(fiCurrentEvent++) > 0;
 }
 
-Bool_t TGo4FileSource::BuildCompositeEvent(TGo4CompositeEvent* dest){
-  if(dest==0) ThrowError(0,22,"!!! ERROR BuildEvent: no destination event!!!");
-  if (fxTree==0) ThrowError(0,33,"!!! ERROR BuildEvent: no Tree !!!");
+Bool_t TGo4FileSource::BuildCompositeEvent(TGo4CompositeEvent* dest)
+{
+   if(dest==0) ThrowError(0,22,"!!! ERROR BuildEvent: no destination event!!!");
+   if(fxTree==0) ThrowError(0,33,"!!! ERROR BuildEvent: no Tree !!!");
 
-  // added by S.Linev 21.11.2003   This is important for Composite event activation/deactivation
-  // of course better, if event do not use gTree pointer
-  gTree = fxTree;
+   // !!! Added by S.Linev 20.11.2003
+   if(fiCurrentEvent >= fiMaxEvents) {
+      if (!OpenNextFile())
+         ThrowEOF(0,44,"End at event %ld !!!", fiGlobalEvent);
+   }
 
-  if (!fbActivated ){
-    dest->synchronizeWithTree( fxTree );
-   fbActivated = kTRUE;
-  }
-  fxTree->GetEntry(fiCurrentEvent++);
+   // added by S.Linev 21.11.2003   This is important for Composite event activation/deactivation
+   // of course better, if event do not use gTree pointer
+   gTree = fxTree;
 
-  // !!! Added by S.Linev 20.11.2003
-  if(fiCurrentEvent>fiMaxEvents) ThrowEOF(0,44,"End of tree at event %d !!!",fiCurrentEvent);
+   if(!fbActivated ) {
+      dest->synchronizeWithTree(fxTree);
+      fbActivated = kTRUE;
+      TGo4Log::Info("TGo4FileSource: Open file %s", fxCurrentFileName.Data());
+   }
 
-  return kTRUE;
+   fiGlobalEvent++;
+
+   return fxTree->GetEntry(fiCurrentEvent++) > 0;
 }
-
-
-

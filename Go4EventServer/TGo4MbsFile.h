@@ -17,6 +17,8 @@
 #include "TGo4MbsSource.h"
 
 class TGo4MbsFileParameter;
+class TList;
+
 
 /**
  * Implements the gsi mbs stream server into the
@@ -59,9 +61,6 @@ class TGo4MbsFile : public TGo4MbsSource {
     /** string to indicate that no lmd tagfile is chosen */
     static const char* fgcNOTAGFILE;
 
-    /** Filename of default multi input file from wildcard evaluation */
-    static const char* fgcWILDFILE;
-
     /** standard suffix for listmode data files */
     static const char* fgcLMDSUF;
 
@@ -96,20 +95,14 @@ class TGo4MbsFile : public TGo4MbsSource {
     /** Currently processed multiple input filename (for multiple input mode) */
     TString fxMultiName;
 
-    /** kTRUE if multiple input mode is active */
-    Bool_t fbMultipleMode;
-
-    /** kTRUE if wildcard input mode is active */
-    Bool_t fbWildcardMode;
-
     /** file that contains the list of mbs filenames.
       * format should be: "filename.lmd tagfilename" for each line. */
-    std::ifstream* fxMultiFile; //!
+    TList* fxMultiFile; //!
 
     /** This indicates if the current file is open or not */
     Bool_t fbFileOpen;
 
-  ClassDef(TGo4MbsFile, 2)
+  ClassDef(TGo4MbsFile, 3)
 };
 
 #endif //TGO4MBSFILE_H

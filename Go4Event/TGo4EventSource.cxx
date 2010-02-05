@@ -80,10 +80,10 @@ void TGo4EventSource::ThrowEOF(Int_t crestat, Int_t errstat, const char* message
    throw TGo4EventEndException(this);
 }
 
-void TGo4EventSource::Clear(Option_t* opt)
+void TGo4EventSource::Clear(Option_t*)
 {
- // dummy clear, may be implemented by user
- cout <<"default clear of eventsource "<<GetName() << endl;
+   // dummy clear, may be implemented by user
+   cout <<"default clear of eventsource " << GetName() << endl;
 }
 
 

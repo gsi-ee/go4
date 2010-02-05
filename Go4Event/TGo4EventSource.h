@@ -15,7 +15,6 @@
 #define TGO4EVENTSOURCE_H
 
 #include "TNamed.h"
-#include "TString.h"
 
 /** The abstract interface class for the raw event source.
  * Raw events are delivered from the raw event source, may be stored in a raw event store, and are processed

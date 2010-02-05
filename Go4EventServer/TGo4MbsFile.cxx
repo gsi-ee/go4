@@ -13,11 +13,14 @@
 
 #include "TGo4MbsFile.h"
 
+#include <string.h>
+
 #include "Riostream.h"
 #include "Riosfwd.h"
 #include "TSystem.h"
 #include "TROOT.h"
-#include "string.h"
+#include "TList.h"
+#include "TObjString.h"
 
 #include "TGo4Log.h"
 
@@ -25,17 +28,16 @@
 #include "TGo4EventErrorException.h"
 #include "TGo4EventTimeoutException.h"
 #include "TGo4EventEndException.h"
+#include "TGo4FileSource.h"
 #include "TGo4AnalysisImp.h"
 
 const char* TGo4MbsFile::fgcNOTAGFILE="GO4-NOLMDTAG";
-const char* TGo4MbsFile::fgcWILDFILE=".go4inputs";
 const char* TGo4MbsFile::fgcLMDSUF=".lmd";
 const char* TGo4MbsFile::fgcFILELISTSUF=".lml";
 
 TGo4MbsFile::TGo4MbsFile() :
    TGo4MbsSource(),
-   fbMultipleMode(kFALSE),
-   fbWildcardMode(kFALSE),
+   fxMultiName(),
    fxMultiFile(0),
    fbFileOpen(kFALSE)
 {
@@ -44,23 +46,21 @@ TGo4MbsFile::TGo4MbsFile() :
 
 TGo4MbsFile::TGo4MbsFile(const char* name) :
    TGo4MbsSource(name , GETEVT__FILE),
-   fbMultipleMode(kFALSE),
-   fbWildcardMode(kFALSE),
+   fxMultiName(),
    fxMultiFile(0),
    fbFileOpen(kFALSE)
 {
    TRACE((15,"TGo4MbsFile::TGo4MbsFile(const char*)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Event Source MbsFile %s:  ",name);
-   fxTagFile=fgcNOTAGFILE;
+   fxTagFile = fgcNOTAGFILE;
    Open();
 }
 
 
 TGo4MbsFile::TGo4MbsFile(TGo4MbsFileParameter* par) :
    TGo4MbsSource(par , GETEVT__FILE),
-   fbMultipleMode(kFALSE),
-   fbWildcardMode(kFALSE),
+   fxMultiName(),
    fxMultiFile(0),
    fbFileOpen(kFALSE)
 {
@@ -72,208 +72,164 @@ TGo4MbsFile::TGo4MbsFile(TGo4MbsFileParameter* par) :
    Open();
 }
 
-
 TGo4MbsFile::~TGo4MbsFile()
 {
-TRACE((15,"TGo4MbsFile::~TGo4MbsFile()",__LINE__, __FILE__));
-Close();
+  TRACE((15,"TGo4MbsFile::~TGo4MbsFile()",__LINE__, __FILE__));
+  Close();
 }
 
 Int_t TGo4MbsFile::NextEvent()
 {
-TRACE((12,"TGo4MbsFile::NextEvent()",__LINE__, __FILE__));
-try{
-   Int_t skip=0;
-   // test if we had reached the last event:
-   if(fuStopEvent!=0 && fuEventCounter>=fuStopEvent)
-      {
+   TRACE((12,"TGo4MbsFile::NextEvent()",__LINE__, __FILE__));
+   try{
+      Int_t skip = 0;
+      // test if we had reached the last event:
+      if(fuStopEvent!=0 && fuEventCounter>=fuStopEvent) {
          SetEventStatus(GETEVT__NOMORE);
-      }
-   else
-   {
-      if(fbFirstEvent)
-         {
-            if(fuStartEvent>0)
-               { // we want to work with "real" event number for first event
-                  skip=(Int_t) fuStartEvent-1;
-                  if(skip) fuEventCounter++; // need to correct for init value of event counter below!
-               }
-            else
-               {
-                  skip=0;
-               }
+      } else {
+         if(fbFirstEvent) {
+            if(fuStartEvent>0) {
+               // we want to work with "real" event number for first event
+               skip = (Int_t) fuStartEvent-1;
+               if(skip) fuEventCounter++; // need to correct for init value of event counter below!
+            } else {
+               skip = 0;
+            }
             fbFirstEvent=kFALSE;
+         } else {
+            skip= (Int_t) fuEventInterval;
          }
-      else
-         {
-               skip= (Int_t) fuEventInterval;
-         }
-      void* evptr=&fxEvent; // some new compilers may warn if we directly dereference member variable in function argument
-      Int_t status=f_evt_get_tagnext(
-                                     fxInputChannel,
-                                     skip,
-                                    (Int_t **) evptr);
-      if(skip)
-         fuEventCounter+=skip;
-      else
-         fuEventCounter++;
-      SetEventStatus(status);
-   }
-if(GetEventStatus()!=0)
-{
-   char buffer[TGo4EventSource::fguTXTLEN];
-   f_evt_error(GetEventStatus(),buffer,1); // provide text message for later output
-   SetErrMess(buffer);
-}
-
-if(GetEventStatus() ==GETEVT__NOMORE)
-   throw TGo4EventEndException(this);
-else if(GetEventStatus()!=0)
-   throw TGo4EventErrorException(this);
-else
-   ;
-return GetEventStatus();
-
-} // try
-
-catch(TGo4EventEndException& ex)
-{
-   if(fbMultipleMode)
-      {
-         ex.Handle(); // display message
-        // catch here the end of file case only
-        // try to open next file in list:
-        while(NextFile()<0){;}
-                   //skip filenames with open error until a file
-                   // in the list opens properly (retval==0)
-            SetErrMess(Form("\n       Eventsource   Open file: %s tagfile:%s first:%lu last:%lu delta:%lu",
-               GetCurrentFileName(),GetCurrentTagName(), fuStartEvent,fuStopEvent, fuEventInterval));
-            NewFileAction();
-            throw TGo4EventErrorException(this,0);
-                     // priority 0 means do not stop analysis
-                // we (mis-)use an error exception with no stop to
-               // skip the processing of the previous event  in the
-               // subsequent analysis for a second time
-            // note that NextFile() throws an exception itself
-            // if list of files is at end
+         void* evptr = &fxEvent; // some new compilers may warn if we directly dereference member variable in function argument
+         Int_t status = f_evt_get_tagnext(fxInputChannel, skip, (Int_t **) evptr);
+         if(skip)
+            fuEventCounter+=skip;
+         else
+            fuEventCounter++;
+         SetEventStatus(status);
       }
-   else
-      {
+      if(GetEventStatus()!=0) {
+         char buffer[TGo4EventSource::fguTXTLEN];
+         f_evt_error(GetEventStatus(),buffer,1); // provide text message for later output
+         SetErrMess(buffer);
+      }
+
+      if(GetEventStatus() == GETEVT__NOMORE) throw TGo4EventEndException(this);
+      else  if(GetEventStatus()!=0) throw TGo4EventErrorException(this);
+
+      return GetEventStatus();
+
+   } // try
+
+   catch(TGo4EventEndException& ex) {
+      if(fxMultiFile) {
+         ex.Handle(); // display message
+         // catch here the end of file case only
+         // try to open next file in list:
+         while(NextFile()<0);
+         //skip filenames with open error until a file
+         // in the list opens properly (retval==0)
+         SetErrMess(Form("\n       Eventsource   Open file: %s tagfile:%s first:%lu last:%lu delta:%lu",
+               GetCurrentFileName(),GetCurrentTagName(), fuStartEvent,fuStopEvent, fuEventInterval));
+         NewFileAction();
+         throw TGo4EventErrorException(this,0);
+         // priority 0 means do not stop analysis
+         // we (mis-)use an error exception with no stop to
+         // skip the processing of the previous event  in the
+         // subsequent analysis for a second time
+         // note that NextFile() throws an exception itself
+         // if list of files is at end
+      } else {
          throw;  // normal end of input for one file
       }
+   }
 }
 
-
-
-
-
-}
 
 Int_t TGo4MbsFile::Close()
 {
    TRACE((12,"TGo4MbsFile::Close()",__LINE__, __FILE__));
    if(!fbIsOpen) return -1;
-   //cout << "Close of TGo4MbsFile"<< endl;
+
    Int_t rev = GetCreateStatus();
    // close connection/file
    if(CloseFile() == GETEVT__SUCCESS) fbIsOpen = kFALSE;
 
    if(fxMultiFile) { delete fxMultiFile; fxMultiFile=0; }
 
-   if(fbWildcardMode)
-      gSystem->Exec(Form("rm %s",fxMultiName.Data()));
-
    return rev;
 }
 
 Int_t TGo4MbsFile::Open()
 {
-TRACE((12,"TGo4MbsFile::Open()",__LINE__, __FILE__));
-//
-if(fbIsOpen)
-   return -1;
-const char* multiname=0;
-// evaluate wildcard input:
-if(*GetName()=='@') // old style: filelist name starts with @
-   {
-      //cout <<"Multiple mode with @" << endl;
+   TRACE((12,"TGo4MbsFile::Open()",__LINE__, __FILE__));
+
+   if(fbIsOpen) return -1;
+
+   bool read_multi = false;
+
+   // evaluate wildcard input:
+   if(*GetName()=='@') { // old style: filelist name starts with @
       // name indicates steering file
-      fbMultipleMode=kTRUE;
-      fbWildcardMode=kFALSE;
-      multiname=strstr(GetName(),"@");
-      multiname++; // skip at character
-      fxMultiName=multiname;
-   }
-else if(fName.EndsWith(fgcFILELISTSUF))// new style: list mode list
-   {
-      //cout <<"Multiple mode for .lml " << endl;
-      fbMultipleMode=kTRUE;
-      fbWildcardMode=kFALSE;
-      fxMultiName=GetName();
-   }
-else if(strstr(GetName(),"*") || strstr(GetName(),"?"))
-   {
-      //cout <<"Wildcard mode" << endl;
+      fxMultiName = GetName() + 1;
+      read_multi = true;
+   } else
+   if(fName.EndsWith(fgcFILELISTSUF)) { // new style: list mode list
+      fxMultiName = GetName();
+      read_multi = true;
+   } else
+   if(strstr(GetName(),"*") || strstr(GetName(),"?")) {
       // name indicates wildcard expression
-      fbWildcardMode=kTRUE;
-      fbMultipleMode=kTRUE;
-      multiname = fgcWILDFILE;
-      // evaluate expression here and create input file:
-      TString wildexpr;
-      if(!strstr(GetName(),fgcLMDSUF))
-         wildexpr = Form("%s%s",GetName(),fgcLMDSUF);
-      else
-         wildexpr = GetName();
+      fxMultiName = GetName();
+      fxMultiFile = TGo4FileSource::ProducesFilesList(GetName());
 
-      const char* homedir = gSystem->Getenv("HOME");
-      fxMultiName = Form("%s/%s", homedir, multiname);
+      if (fxMultiFile==0) {
+         SetCreateStatus(GETEVT__NOFILE);
+         SetErrMess(Form("No lmd file with mask %s",GetName()));
+         throw TGo4EventErrorException(this);
+      }
 
-      TString command = Form("ls -1 %s > %s",wildexpr.Data(), fxMultiName.Data());
-      //cout <<"Executing command "<<command << endl;
-      gSystem->Exec(command.Data()); // write input file from wildcard expression
-
-   }
-else
-   {
+   } else {
       // name is name of single input lmd file
-      //cout <<"Simple mode" << endl;
-      fbMultipleMode=kFALSE;
-      fbWildcardMode=kFALSE;
    }
 
 
-/////////////////////////////
-// now treat different input modes:
-if(fbMultipleMode)
-   {
-      //cout <<"Opening multiple file "<<fxMultiName.Data() << endl;
-      fxMultiFile=new std::ifstream(fxMultiName.Data());
-      if(fxMultiFile==0)
-         {
-            SetCreateStatus(GETEVT__NOFILE);
-            SetErrMess(Form("Eror opening multiple infile:%s",fxMultiName.Data()));
-            throw TGo4EventErrorException(this);
-         }
-      while(NextFile()<0) {;} // skip invalid filenames
-       // note that TGo4EventEndException will break this loop if no valid file in list
-      fbIsOpen=kTRUE;
+    /////////////////////////////
+   // now treat different input modes:
+   if(read_multi) {
+      std::ifstream ff(fxMultiName.Data());
+      if(!ff) {
+         SetCreateStatus(GETEVT__NOFILE);
+         SetErrMess(Form("Error opening multiple file:%s",fxMultiName.Data()));
+         throw TGo4EventErrorException(this);
+      }
+
+      fxMultiFile = new TList;
+      fxMultiFile->SetOwner(kTRUE);
+
+      char nextline[TGo4EventSource::fguTXTLEN];
+
+      while (!ff.eof()) {
+         ff.getline(nextline,TGo4EventSource::fguTXTLEN, '\n');
+         fxMultiFile->Add(new TObjString(nextline));
+      }
+
+      while(NextFile()<0); // skip invalid filenames
+      // note that TGo4EventEndException will break this loop if no valid file in list
+      fbIsOpen = kTRUE;
       NewFileAction(kFALSE);
       TGo4Analysis::Instance()->Message(1,Form(
             "Eventsource TGo4MbsFile:%s \n       Eventsource   Open file: %s tag:%s first:%lu last:%lu delta:%lu",
-                  GetName(),GetCurrentFileName(),GetCurrentTagName(), fuStartEvent,fuStopEvent, fuEventInterval));
-   }
-else
-   {
+            GetName(),GetCurrentFileName(),GetCurrentTagName(), fuStartEvent,fuStopEvent, fuEventInterval));
+   } else {
       //cout <<"Open in single mode" << endl;
-       if(NextFile()<0)
-          fbIsOpen=kFALSE; // only for single mode the
-                           // error result of first NextFile()
-                           // will indicate that open failed
-       else {
-          fbIsOpen=kTRUE;
-          TGo4Log::Info("TGo4MbsFile: Open file %s", GetCurrentFileName());
-       }
-
+      if(NextFile()<0)
+         fbIsOpen=kFALSE; // only for single mode the
+      // error result of first NextFile()
+      // will indicate that open failed
+      else {
+         fbIsOpen=kTRUE;
+         TGo4Log::Info("TGo4MbsFile: Open file %s", GetCurrentFileName());
+      }
 
    }
    // note that open flag indicates state of complete mbssource,
@@ -320,168 +276,147 @@ else
 //// finally, add length of headers  to totalevent length
 /////// end dummy event
 
-return 0;
+   return 0;
 }
 
 
 Int_t TGo4MbsFile::NextFile()
 {
-CloseFile();
-fuEventCounter=0;
- // read next name from namesfile
-if(fbMultipleMode && fxMultiFile!=0)
-   {
-     char nextline[TGo4EventSource::fguTXTLEN];
-     char nextfile[TGo4EventSource::fguTXTLEN];
-     char nexttag[TGo4EventSource::fguTXTLEN];
-     char* command=0;
-     char* rem1=0;
-     char* rem2=0;
-     Int_t convs=0;
-     //static int cnt=0;
-     do {
-        fxMultiFile->getline(nextline,TGo4EventSource::fguTXTLEN, '\n' ); // read whole line
-        //cout <<"read line "<<cnt++<<" : "<<nextline << endl;
-        //if(fxMultiFile->rdstate()==ios::eofbit)
-        if(fxMultiFile->eof() || !fxMultiFile->good())
-          {
-              // reached last filename, or read error?
-              SetCreateStatus(GETEVT__NOFILE);
-              SetErrMess(Form("End of multiple input namesfile %s", fxMultiName.Data()));
-              //throw TGo4EventErrorException(this,3);
-              throw TGo4EventEndException(this);
-          }
-        rem1=strstr(nextline,"!");
-        rem2=strstr(nextline,"#");
-        command=strstr(nextline,"@");
-        if(command!=0 && !(rem1!=0 && rem1<command) && !(rem2!=0 && rem2<command))
+   CloseFile();
+   fuEventCounter=0;
+   // read next name from namesfile
+   if(fxMultiFile!=0) {
+      TString nextline;
+      char nextfile[TGo4EventSource::fguTXTLEN];
+      char nexttag[TGo4EventSource::fguTXTLEN];
+      const char* command=0;
+      const char* rem1=0;
+      const char* rem2=0;
+      Int_t convs=0;
+      //static int cnt=0;
+      do {
+         //cout <<"read line "<<cnt++<<" : "<<nextline << endl;
+         //if(fxMultiFile->rdstate()==ios::eofbit)
+         if((fxMultiFile==0) || (fxMultiFile->GetSize()==0)) {
+            // reached last filename, or read error?
+            SetCreateStatus(GETEVT__NOFILE);
+            SetErrMess(Form("End of files list %s", fxMultiName.Data()));
+            //throw TGo4EventErrorException(this,3);
+            throw TGo4EventEndException(this);
+         }
+
+         nextline = fxMultiFile->First()->GetName();
+
+         fxMultiFile->Remove(fxMultiFile->FirstLink());
+
+         rem1 = strstr(nextline.Data(), "!");
+         rem2 = strstr(nextline.Data(), "#");
+         command = strstr(nextline.Data(), "@");
+         if(command!=0 && !(rem1!=0 && rem1<command) && !(rem2!=0 && rem2<command)) {
             // keycharacter indicates we want to execute a root macro
             // treat the case that @command is commented out before!
-            {
-               command++; // skip @ letter
-               TGo4Analysis::Instance()->Message(1,"TGo4MbsFile list:%s-- executing command: %s ", GetName(), command);
-               //TGo4Log::Info("TGo4MbsFile list:%s-- executing command: %s ", GetName(), command);
-               gROOT->ProcessLineSync(command);
-            }
-        }
-     while(strlen(nextline)==0 || rem1!=0 || rem2!=0 || command!=0); // skip any comments and empty lines, and continue after macro execution
-     convs=sscanf(nextline,"%s %s %lu %lu %lu",nextfile,nexttag,
-              &fuStartEvent, &fuStopEvent, &fuEventInterval);
-     if(convs<2) {
+            command++; // skip @ letter
+            TGo4Analysis::Instance()->Message(1,"TGo4MbsFile list:%s-- executing command: %s ", GetName(), command);
+            //TGo4Log::Info("TGo4MbsFile list:%s-- executing command: %s ", GetName(), command);
+            gROOT->ProcessLineSync(command);
+         }
+      } while((nextline.Length()==0) || rem1!=0 || rem2!=0 || command!=0); // skip any comments and empty lines, and continue after macro execution
+      convs = sscanf(nextline.Data(),"%s %s %lu %lu %lu",nextfile,nexttag,
+                     &fuStartEvent, &fuStopEvent, &fuEventInterval);
+      if(convs<2) {
          // line contained not all parameters, reset remaining
          fuStartEvent=0;
          fuStopEvent=0;
          fuEventInterval=0;
          strncpy(nexttag, TGo4MbsFile::fgcNOTAGFILE, TGo4EventSource::fguTXTLEN);
-        }
-//     cout <<"Read next filename "<<nextfile<<" and tag "<<nexttag << endl;
-//     cout <<"Got Start:"<<fuStartEvent<<". stop:"<<fuStopEvent,
-//     cout <<", interval:" <<fuEventInterval<< endl;
-     fxCurrentFile=nextfile;
-     if(!strcmp(nexttag,"0") || !strcmp(nexttag,""))
-       {
+      }
+      //     cout <<"Read next filename "<<nextfile<<" and tag "<<nexttag << endl;
+      //     cout <<"Got Start:"<<fuStartEvent<<". stop:"<<fuStopEvent,
+      //     cout <<", interval:" <<fuEventInterval<< endl;
+      fxCurrentFile = nextfile;
+      if(!strcmp(nexttag,"0") || !strcmp(nexttag,""))
          fxCurrentTag=TGo4MbsFile::fgcNOTAGFILE; // no tagfile if no name
-       }
-    else
-       {
+      else
          fxCurrentTag=nexttag;
-       }
-   }
-else
-   {
+   } else {
       //no multiple file: use default names
-      fxCurrentTag=GetTagName();
-      fxCurrentFile=GetName();
+      fxCurrentTag = GetTagName();
+      fxCurrentFile = GetName();
    }
 
-try
-{
-   OpenFile();
-   return 0;
-}// try
+   try {
+      OpenFile();
+      return 0;
+   }// try
 
-catch(TGo4EventErrorException& ex)
-{
-   if(fbMultipleMode)
-      {
+   catch(TGo4EventErrorException& ex)
+   {
+      if(fxMultiFile) {
          // something went wrong opening next file, skip it
          ex.Handle();
          CloseFile();
          return -1;
-      }
-   else
-      {
-          throw;
+      } else {
+         throw;
       }
 
-}
-
-
+   }
 }
 
 Int_t TGo4MbsFile::OpenFile()
 {
-if(fbFileOpen)
-   return -1;
+   if(fbFileOpen) return -1;
 
    const char* tagfile = GetCurrentTagName();
-if(!strcmp(tagfile,TGo4MbsFile::fgcNOTAGFILE))
-   {
+   if(!strcmp(tagfile,TGo4MbsFile::fgcNOTAGFILE)) {
       tagfile=0;
       fxCurrentTag="none"; // looks better in display message
    }
-void* headptr=&fxInfoHeader; // some new compilers may warn if we directly dereference member
-Int_t status    = f_evt_get_tagopen(
-                              fxInputChannel,
-                              const_cast<char*>(tagfile) ,
-                              const_cast<char*>( GetCurrentFileName() ),
-                              (Char_t**) headptr,
-                              0);
-SetCreateStatus(status);
-if(GetCreateStatus() !=GETEVT__SUCCESS)
-   {
+   void* headptr=&fxInfoHeader; // some new compilers may warn if we directly dereference member
+   Int_t status = f_evt_get_tagopen(fxInputChannel,
+                                    const_cast<char*>(tagfile),
+                                    const_cast<char*>(GetCurrentFileName()),
+                                    (Char_t**) headptr, 0);
+   SetCreateStatus(status);
+   if(GetCreateStatus() !=GETEVT__SUCCESS) {
       char buffer[TGo4EventSource::fguTXTLEN];
       f_evt_error(GetCreateStatus(),buffer,1); // provide text message for later output
       SetErrMess(buffer);
-      fbFileOpen=kFALSE;
+      fbFileOpen = kFALSE;
       throw TGo4EventErrorException(this);
-   }
-else
-   {
-      fbFileOpen=kTRUE;
-      fbFirstEvent=kTRUE;
+   } else {
+      fbFileOpen = kTRUE;
+      fbFirstEvent = kTRUE;
       TGo4Log::Debug(" Mbs File -- opened %s ", GetName());
    }
-return status;
+   return status;
 }
 
 
 
 Int_t TGo4MbsFile::CloseFile()
 {
-if(!fbFileOpen)
-   return -1;
-Int_t rev=f_evt_get_tagclose(fxInputChannel);
-if(rev == GETEVT__SUCCESS) fbFileOpen=kFALSE;
-return rev;
+   if(!fbFileOpen) return -1;
+   Int_t rev = f_evt_get_tagclose(fxInputChannel);
+   if(rev == GETEVT__SUCCESS) fbFileOpen = kFALSE;
+   return rev;
 }
 
 Int_t TGo4MbsFile::NewFileAction(Bool_t dosave)
 {
-TGo4Analysis* ana=TGo4Analysis::Instance();
-ana->SetNewInputFile(kTRUE);
-if(ana->IsAutoSaveFileChange())
-    {
-        TString fname=GetCurrentFileName();
-        fname.ReplaceAll(".lmd",4,"_ASF",4);
-        if(dosave) ana->AutoSave();
-        ana->ClearObjects("Histograms");
-        TString asfname=fname+".root";
-        cout <<"Setting autosavefile to name "<<asfname << endl;
-        ana->SetAutoSaveFile(asfname.Data());
-        if(dosave) ana->AutoSave();
-    }
-return 0;
+   TGo4Analysis* ana=TGo4Analysis::Instance();
+   ana->SetNewInputFile(kTRUE);
+   if(ana->IsAutoSaveFileChange()) {
+      TString fname=GetCurrentFileName();
+      fname.ReplaceAll(".lmd",4,"_ASF",4);
+      if(dosave) ana->AutoSave();
+      ana->ClearObjects("Histograms");
+      TString asfname=fname+".root";
+      cout <<"Setting autosavefile to name "<<asfname << endl;
+      ana->SetAutoSaveFile(asfname.Data());
+      if(dosave) ana->AutoSave();
+   }
+   return 0;
 }
 
 const char* TGo4MbsFile::GetActiveName()
