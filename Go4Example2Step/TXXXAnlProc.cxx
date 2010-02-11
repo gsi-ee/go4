@@ -49,7 +49,7 @@ TXXXAnlProc::TXXXAnlProc(const char* name) :
    if(fParam1->fbHisto){
       // this one is created in TXXXAnalysis, because it is used in both steps
       fWinCon = (TGo4WinCond *) GetAnalysisCondition("wincon1");
-      fWinCon->PrintCondition(true);
+      if (fWinCon) fWinCon->PrintCondition(true);
       fSum1     = MakeTH1('I', "Sum1", "Sum over 8 channels", 5000, 1., 5001.);
       fSum2     = MakeTH1('I', "Sum2", "Sum over 8 channels shift 1", 5000, 1., 5001.);
       fSum3     = MakeTH1('I', "Sum3", "Sum over 8 channels shift 2", 5000, 1., 5001.);
@@ -60,7 +60,7 @@ TXXXAnlProc::~TXXXAnlProc()
 {
    cout << "**** TXXXAnlProc: Delete" << endl;
    if(fParam1->fbHisto){
-      fWinCon->PrintCondition(true);
+      if (fWinCon) fWinCon->PrintCondition(true);
    }
 }
 //-----------------------------------------------------------
