@@ -2,7 +2,7 @@
 // Go4 2 step analysis
 //---------------------------------------------
 
-void setup(const char* name)
+void setup(const char* kind, const char* name)
 {
 // name is either:
 // MBS node, or
@@ -20,7 +20,7 @@ void setup(const char* name)
   //TString inpath("."); // input directory
   TString outpath(".");       // output directory
 
-  TString unpackSource("random"); // file, stream, transport, random
+  TString unpackSource(kind); // file, stream, transport, random
   TString unpackProcess("yes");
   TString unpackStore("no");
   TString unpackOverWrite("yes");

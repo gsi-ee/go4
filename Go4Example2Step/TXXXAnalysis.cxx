@@ -62,23 +62,25 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
 
    cout << "**** TXXXAnalysis: Create" << endl;
 
-   TString input, out1, out2;
+   TString kind, input, out1, out2;
 
    // this is a way to get user-specific arguments in batch mode, like:
-   //   shell> go4analysis -x -f|-t name
+   //   shell> go4analysis -x file|transport|stream|random name
    // in this case argv[0] will be analysis name (default is "Go4Analysis")
-   //              argv[1] should be -file or -transport
+   //              argv[1] should be type of source
    //              argv[2] should be "name" of file or MBS node
    // any kind of additional arguments can be supplied
 
-   if (argc>1) {
+   if (argc>2) {
       cout << "**** Configure with user-specified parameters ****" << endl;
-    	  input = Form("%s", argv[1]);
-      out1 = Form("%s_Calib", argv[1]);
-      out2 = Form("%s_Anl", argv[1]);
+      kind = Form("%s", argv[1]);
+      input = Form("%s", argv[2]);
+      out1 = Form("%s_Calib", argv[2]);
+      out2 = Form("%s_Anl", argv[2]);
    } else {
-	      cout << "**** Arguments: name ****" << endl;
-	      cout << "**** Configure with default parameters ****" << endl;
+	  cout << "**** Arguments: name ****" << endl;
+	  cout << "**** Configure with default parameters ****" << endl;
+	  kind = "file";
       input = "gauss";
       out1 = "Output_Calib";
       out2 = "Output_Anl";
@@ -120,7 +122,7 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
 
    // check that file setup.C is existing in current directory
    if (!gSystem->AccessPathName("setup.C"))
-   gROOT->ProcessLine(Form(".x setup.C(\"%s\")", input.Data()));
+   gROOT->ProcessLine(Form(".x setup.C(\"%s\",\"%s\")", kind.Data(), input.Data()));
    else
       cout << "**** Cannot find setup.C script in current directory ! ****" << endl;
 }
