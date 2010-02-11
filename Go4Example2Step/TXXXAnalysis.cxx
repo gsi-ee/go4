@@ -71,12 +71,18 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    //              argv[2] should be "name" of file or MBS node
    // any kind of additional arguments can be supplied
 
-   if (argc>2) {
+   if (argc == 2) {
       cout << "**** Configure with user-specified parameters ****" << endl;
-      kind = Form("%s", argv[1]);
-      input = Form("%s", argv[2]);
-      out1 = Form("%s_Calib", argv[2]);
-      out2 = Form("%s_Anl", argv[2]);
+      kind = "file";
+      input = Form("%s", argv[1]);
+      out1 = Form("%s_Calib", argv[1]);
+      out2 = Form("%s_Anl", argv[1]);
+   } else if (argc == 3) {
+	  cout << "**** Configure with user-specified parameters ****" << endl;
+	  kind = Form("%s", argv[1]);
+	  input = Form("%s", argv[2]);
+	  out1 = Form("%s_Calib", argv[2]);
+	  out2 = Form("%s_Anl", argv[2]);
    } else {
 	  cout << "**** Arguments: name ****" << endl;
 	  cout << "**** Configure with default parameters ****" << endl;
