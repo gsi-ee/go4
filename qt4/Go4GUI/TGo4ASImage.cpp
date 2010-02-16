@@ -109,8 +109,6 @@ void TGo4ASImage::Zoom(UInt_t offX, UInt_t offY, UInt_t width, UInt_t height)
    if (fxPanel!=0)
       fxPanel->PadRangeAxisChanged(fxPad, rxmin, rxmax, rymin, rymax);
 }
-PadRangeAxisChanged
-
 
 void TGo4ASImage::UnZoom()
 {

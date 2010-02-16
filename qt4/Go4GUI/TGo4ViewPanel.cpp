@@ -3458,8 +3458,7 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
        if(drawobj->InheritsFrom(TMultiGraph::Class())) {
           TMultiGraph* mg = (TMultiGraph*) drawobj;
           RedrawMultiGraph(pad, padopt, mg, dosuperimpose, updatecontent);
-       }
-       else
+       } else
        if(dynamic_cast<TGo4ASImage*>(drawobj)!=0) {
           TGo4ASImage* ai = (TGo4ASImage*) drawobj;
           RedrawImage(pad, padopt, ai, asihisto, updatecontent);
