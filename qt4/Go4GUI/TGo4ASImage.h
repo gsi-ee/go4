@@ -23,7 +23,7 @@ class TGo4ViewPanel;
 #include "TASImage.h"
 
   /** Special ASImage for display of 2d histograms in go4 viewpanel.
-    * has backpointer to viewpanel and reacts explicitely when user select
+    * has backpointer to viewpanel and reacts explicitly when user select
     * new range in image
     * @author J. Adamczewski
     * @author S. Linev
@@ -68,6 +68,9 @@ class TGo4ASImage : public TASImage {
       double        fxMaxX;  //!
       double        fxMinY;  //!
       double        fxMaxY;  //!
+
+      double        fdWidth;  //!  original width of image (histogram)
+      double        fdHeight; //!  original height of image (histogram)
 
 };
 

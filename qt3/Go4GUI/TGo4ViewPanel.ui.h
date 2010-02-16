@@ -4425,8 +4425,6 @@ void TGo4ViewPanel::PadRangeAxisChanged(TPad* pad, double rxmin, double rxmax, d
 
    if (IsRedrawBlocked() || (pad==0)) return;
 
-   cout << "PadRangeAxisChanged pad = " << pad->GetName() << endl;
-
    TGo4Picture* padopt = GetPadOptions(pad);
    if (padopt==0) return;
 

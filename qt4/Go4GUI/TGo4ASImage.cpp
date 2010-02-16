@@ -26,7 +26,9 @@ TGo4ASImage::TGo4ASImage() :
    fxMinX(0),
    fxMaxX(1),
    fxMinY(0),
-   fxMaxY(1)
+   fxMaxY(1),
+   fdWidth(0),
+   fdHeight(0)
 {
    SetConstRatio(kFALSE);
 }
@@ -48,6 +50,9 @@ void TGo4ASImage::SetHistogramContent(TH2* histo)
 
    SetImage(arr,width);
    SetName(histo->GetName());
+
+   fdWidth = width;
+   fdHeight = arsize / width;
 }
 
 void TGo4ASImage::SetDrawData(TH2* histo, TGo4ViewPanel* panel, TPad* pad)
@@ -72,38 +77,40 @@ void TGo4ASImage::SetSelectedRange(double rxmin, double rxmax, double rymin, dou
 
    UInt_t offX = 0;
    UInt_t offY = 0;
-   UInt_t width = GetWidth();
-   UInt_t height = GetHeight();
+   UInt_t width = UInt_t(fdWidth);
+   UInt_t height = UInt_t(fdHeight);
 
    if ((rxmin<rxmax) && (fxMinX<fxMaxX)) {
       if (rxmin>=fxMinX)
-        offX = UInt_t((rxmin-fxMinX)/(fxMaxX-fxMinX)*GetWidth());
+        offX = UInt_t((rxmin-fxMinX)/(fxMaxX-fxMinX)*fdWidth);
       if (rxmax<=fxMaxX)
-        width = UInt_t((rxmax-fxMinX)/(fxMaxX-fxMinX)*GetWidth()) - offX;
+        width = UInt_t((rxmax-fxMinX)/(fxMaxX-fxMinX)*fdWidth) - offX;
    }
 
    if ((rymin<rymax) && (fxMinY<fxMaxY)) {
       if (rymin>=fxMinY)
-        offY = UInt_t((rymin-fxMinY)/(fxMaxY-fxMinY)*GetHeight());
+        offY = UInt_t((rymin-fxMinY)/(fxMaxY-fxMinY)*fdHeight);
       if (rymax<=fxMaxY)
-        height = UInt_t((rymax-fxMinY)/(fxMaxY-fxMinY)*GetHeight()) - offY;
+        height = UInt_t((rymax-fxMinY)/(fxMaxY-fxMinY)*fdHeight) - offY;
    }
 
    TASImage::Zoom(offX, offY, width, height);
 }
-
 
 void TGo4ASImage::Zoom(UInt_t offX, UInt_t offY, UInt_t width, UInt_t height)
 {
    TASImage::Zoom(offX, offY, width, height);
 
-   double rxmin = 1.*offX/GetWidth()*(fxMaxX-fxMinX)+fxMinX;
-   double rxmax = 1.*(offX+width)/GetWidth()*(fxMaxX-fxMinX)+fxMinX;
-   double rymin = 1.*offY/GetHeight()*(fxMaxY-fxMinY)+fxMinY;
-   double rymax = 1.*(offY+height)/GetHeight()*(fxMaxY-fxMinY)+fxMinY;
+   double rxmin = fZoomOffX/fdWidth*(fxMaxX-fxMinX)+fxMinX;
+   double rxmax = (fZoomOffX+fZoomWidth)/fdWidth*(fxMaxX-fxMinX)+fxMinX;
+   double rymin = fZoomOffY/fdHeight*(fxMaxY-fxMinY)+fxMinY;
+   double rymax = (fZoomOffY+fZoomHeight)/fdHeight*(fxMaxY-fxMinY)+fxMinY;
+
    if (fxPanel!=0)
       fxPanel->PadRangeAxisChanged(fxPad, rxmin, rxmax, rymin, rymax);
 }
+PadRangeAxisChanged
+
 
 void TGo4ASImage::UnZoom()
 {

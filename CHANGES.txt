@@ -20,7 +20,7 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v4.4.1 (January 10)
+Changes in Go4 v4.4.1 (February 10)
 1. Default implementation for TGo4Parameter methods are provided. 
    Now Clear(), PrintParameter() and UpdateFrom() methods has meaningful
    functionality and can be used as is in user derived classes.
@@ -31,7 +31,8 @@ Changes in Go4 v4.4.1 (January 10)
 3. Add possibility to specify wildcard in TGo4EventSource class - 
    allow to treat many subsequent root files, improve wildcard treatment in TGo4MbsFile,
    provide wildcard functionality for Windows
-4. Fix (implement) "-source" argument for go4analysis      
+4. Fix (implement) "-source" argument for go4analysis
+5. Fix problem with zooming with TASImage   
 
 
 Changes in Go4 v4.4.0 (November 09)

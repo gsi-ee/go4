@@ -69,6 +69,10 @@ class TGo4ASImage : public TASImage {
       double        fxMinY;  //!
       double        fxMaxY;  //!
 
+      double        fdWidth;  //!  original width of image (histogram)
+      double        fdHeight; //!  original height of image (histogram)
+
+
 };
 
 #else
