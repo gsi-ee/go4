@@ -605,7 +605,7 @@ void TGo4HisDrawOptions::CodeDrawOptions(int HisErrorStyle,
        case 17: buf="box";   break;
        case 18: buf="text";  break;
 #ifndef __NOGO4ASI__
-       case 19: buf="asimage"; return; break;
+       case 19: buf="asimage"; break;
 #else
        case 19: buf=""; break;
 #endif

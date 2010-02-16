@@ -2154,7 +2154,7 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot* padslot, TGo4Picture* p
       while (newopt.BeginsWith(NoStackDrawOption, TString::kIgnoreCase))
          newopt.Remove(0, strlen(NoStackDrawOption));
 
-      if (oldopt!="asimage")
+      if (!oldopt.Contains("asimage"))
       if ((newopt.Length()!=oldopt.Length()) ||
           (newopt.CompareTo(oldopt, TString::kIgnoreCase)!=0)) {
            optchanged = true;
@@ -3630,10 +3630,14 @@ void TGo4ViewPanel::RedrawImage(TPad *pad, TGo4Picture* padopt, TGo4ASImage* im,
    if(scancontent)
       TakeFullRangeFromHisto(asihisto, padopt, true);
 
+   TString drawopt(padopt->GetDrawOption(0));
+
    double uminx, umaxx, uminy, umaxy;
    padopt->GetRange(0, uminx, umaxx);
    padopt->GetRange(1, uminy, umaxy);
    im->SetSelectedRange(uminx, umaxx, uminy, umaxy);
+
+   im->SetPaletteEnabled(drawopt.Contains("Z"));
 
    im->Draw();
 }

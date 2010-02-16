@@ -32,7 +32,7 @@ Changes in Go4 v4.4.1 (February 10)
    allow to treat many subsequent root files, improve wildcard treatment in TGo4MbsFile,
    provide wildcard functionality for Windows
 4. Fix (implement) "-source" argument for go4analysis
-5. Fix problem with zooming with TASImage   
+5. Fix problem with TASImage zooming, allow to switch palette on/off in asimage mode    
 
 
 Changes in Go4 v4.4.0 (November 09)

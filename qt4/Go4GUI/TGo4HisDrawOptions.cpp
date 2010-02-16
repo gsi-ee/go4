@@ -338,7 +338,7 @@ void TGo4HisDrawOptions::DecodeDrawOption(const char* drawopt,
    HisDrawStyle = 0;
    HisErrorStyle = 0;
    HisCoordStyle = 0;
-   if (fiLastView==view_Histo2) HisDrawStyle =  1;
+   if (fiLastView==view_Histo2) HisDrawStyle = 1;
 
    if ((drawopt==0) || (*drawopt==0)) return;
 
@@ -477,7 +477,7 @@ void TGo4HisDrawOptions::DecodeDrawOption(const char* drawopt,
       if(buf.Contains("arr"))   HisDrawStyle = 16; else
       if(buf.Contains("box"))   HisDrawStyle = 17; else
       if(buf.Contains("text"))  HisDrawStyle = 18; else
-      if(buf.Contains("asimage")) HisDrawStyle=19;
+      if(buf.Contains("asimage")) HisDrawStyle = 19;
    }
    //cout << *drawopt << " Decode " << buf << " Error " << HisErrorStyle
    //     << " Coord " << HisCoordStyle  << " Draw " <<HisDrawStyle<<endl;
@@ -611,7 +611,7 @@ void TGo4HisDrawOptions::CodeDrawOptions(int HisErrorStyle,
        case 17: buf="box";   break;
        case 18: buf="text";  break;
 #ifndef __NOGO4ASI__
-       case 19: buf="asimage"; return; break;
+       case 19: buf="asimage"; break;
 #else
        case 19: buf=""; break;
 #endif
