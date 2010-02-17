@@ -34,7 +34,7 @@ class TGo4FitSlot : public TGo4FitNamed {
 
       /**
        * Creates TGo4FitSlot object.
-       * This constructor should be called in default constrcutor of object, where slot situated.
+       * This constructor should be called in default constructor of object, where slot situated.
        * Constructor only sets owner of slot, desired class of object and if this object should be always owned.
        * The rest values (name, title, object and so on) should be restored by streamer, which typically calls default constructor.
        */
@@ -42,7 +42,7 @@ class TGo4FitSlot : public TGo4FitNamed {
 
       /**
        * Creates TGo4FitSlot object.
-       * This constrcutor should be placed in normal constructor of object, where slot is situated.
+       * This constructor should be placed in normal constructor of object, where slot is situated.
        * Constructor sets name and title of slot, owner of slot, desired class of object and if this object always should be owned.
        * Optionally, requirements of object (is it always needed or not, default - not), pointer on object and ownership flag can be specified.
        */
@@ -155,7 +155,7 @@ class TGo4FitSlot : public TGo4FitNamed {
       Bool_t GetOwned() { return fbOwned; }
 
       /**
-       * Explicity sets ownership flag.
+       * Explicitly sets ownership flag.
        * Normally should not be called by user.
        */
       void SetOwned(Bool_t iOwned = kTRUE) { fbOwned = iOwned; }
@@ -204,7 +204,7 @@ class TGo4FitSlot : public TGo4FitNamed {
 
       /**
        * Sets up ownership relation between object and owner of slot.
-       * If object owned by slot and object drived from TGo4FitNamed class, the owner of slot becames the owned of object.
+       * If object owned by slot and object derived from TGo4FitNamed class, the owner of slot becomes the owned of object.
        * This gives an ability to combine FullName of TGo4FitNamed object according ownership relation.
        */
       void CheckOwnership();
@@ -262,7 +262,7 @@ class TGo4FitSlotList {
 
      /**
       * Return pointer in TObjArray with list of all slots in list.
-      * This list should be permanenetly updated in inherited class by SetUpdateSlotList()
+      * This list should be permanently updated in inherited class by SetUpdateSlotList()
       * method to keep list of slots actual.
       */
      const TObjArray* GetSlotList(Bool_t ForceUpdate = kFALSE);

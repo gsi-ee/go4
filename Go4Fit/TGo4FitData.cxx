@@ -72,16 +72,19 @@ Bool_t TGo4FitData::SetNumberOfTransSlots(Int_t nslots) {
   return kTRUE;
 }
 
-TGo4FitSlot* TGo4FitData::GetAxisTransSlot(Int_t nslot) {
+TGo4FitSlot* TGo4FitData::GetAxisTransSlot(Int_t nslot)
+{
    return (nslot>=0) && (nslot<=fxAxisTrans.GetLast()) ? dynamic_cast<TGo4FitSlot*> (fxAxisTrans[nslot]) : 0;
 }
 
-TGo4FitAxisTrans* TGo4FitData::GetAxisTrans(Int_t nslot) {
-  TGo4FitSlot* slot = GetAxisTransSlot(nslot);
-  return (slot==0) ? 0 : dynamic_cast<TGo4FitAxisTrans*> (slot->GetObject());
+TGo4FitAxisTrans* TGo4FitData::GetAxisTrans(Int_t nslot)
+{
+   TGo4FitSlot* slot = GetAxisTransSlot(nslot);
+   return (slot==0) ? 0 : dynamic_cast<TGo4FitAxisTrans*> (slot->GetObject());
 }
 
-void TGo4FitData::SetAxisTrans(Int_t nslot, TGo4FitAxisTrans *Trans, Bool_t TransOwned) {
+void TGo4FitData::SetAxisTrans(Int_t nslot, TGo4FitAxisTrans *Trans, Bool_t TransOwned)
+{
   if (nslot<0) return;
   if(nslot>=GetNumberOfTransSlots())
     SetNumberOfTransSlots(nslot+1);
@@ -236,32 +239,37 @@ Int_t TGo4FitData::DefineDimensions() {
   return res;
 }
 
-Int_t TGo4FitData::DefineBinsSize() {
-  TGo4FitDataIter* iter = MakeIter();
-  if (iter==0) return 0;
+Int_t TGo4FitData::DefineBinsSize()
+{
+   TGo4FitDataIter* iter = MakeIter();
+   if (iter==0) return 0;
 
-  Int_t res = iter->CountPoints(kTRUE);
-  delete iter;
+   Int_t res = iter->CountPoints(kTRUE);
+   delete iter;
 
-  return res;
+   return res;
 }
 
-const Double_t* TGo4FitData::GetScaleValues(const Int_t nbin) {
-  if(fxFullScale) return &(fxFullScale[nbin*GetScalesSize()]);
-             else return 0;
+const Double_t* TGo4FitData::GetScaleValues(const Int_t nbin)
+{
+   if(fxFullScale) return &(fxFullScale[nbin*GetScalesSize()]);
+              else return 0;
 }
 
-const Double_t* TGo4FitData::GetWidthValues(const Int_t nbin) {
+const Double_t* TGo4FitData::GetWidthValues(const Int_t nbin)
+{
   if(fxFullWidth) return &(fxFullWidth[nbin*GetScalesSize()]);
              else return 0;
 }
 
-const Int_t* TGo4FitData::GetFullIndex(Int_t nbin) {
+const Int_t* TGo4FitData::GetFullIndex(Int_t nbin)
+{
   if (fxFullIndex) return &(fxFullIndex[nbin*GetIndexesSize()]);
               else return 0;
 }
 
-Bool_t TGo4FitData::IsCompatibleData(TGo4FitData* data) {
+Bool_t TGo4FitData::IsCompatibleData(TGo4FitData* data)
+{
    if (data==0) return kFALSE;
    TGo4FitDataIter* iter = data->MakeIter();
    if (iter==0) return kFALSE;
@@ -273,7 +281,8 @@ Bool_t TGo4FitData::IsCompatibleData(TGo4FitData* data) {
    return res;
 }
 
-void TGo4FitData::ApplyRangesForModelMask(TGo4FitComponent* model, Char_t* ModelMask) {
+void TGo4FitData::ApplyRangesForModelMask(TGo4FitComponent* model, Char_t* ModelMask)
+{
 
   if (ModelMask==0) return;
 
@@ -296,13 +305,15 @@ void TGo4FitData::ApplyRangesForModelMask(TGo4FitComponent* model, Char_t* Model
   }
 }
 
-void TGo4FitData::FillSlotList(TSeqCollection* list) {
+void TGo4FitData::FillSlotList(TSeqCollection* list)
+{
    TGo4FitComponent::FillSlotList(list);
    for(Int_t n=0;n<=fxAxisTrans.GetLast();n++)
      list->Add(fxAxisTrans[n]);
 }
 
-void TGo4FitData::Print(Option_t* option) const {
+void TGo4FitData::Print(Option_t* option) const
+{
    TGo4FitComponent::Print(option);
    cout << "   Data type: ";
    switch(fiDataType) {
@@ -318,11 +329,12 @@ void TGo4FitData::Print(Option_t* option) const {
       case 2: cout << "const value " << GetSigmaValue() << endl; break;
    }
    cout << "   Exclude bins less then: " << GetExcludeLessThen() << endl;
-   cout << "   Axis transfromation data: " << endl;
+   cout << "   Axis transformation data: " << endl;
    fxAxisTrans.Print(option);
 }
 
-void TGo4FitData::Streamer(TBuffer& b) {
+void TGo4FitData::Streamer(TBuffer& b)
+{
    if (b.IsReading()) {
 
      TGo4FitData::Class()->ReadBuffer(b, this);
@@ -366,7 +378,8 @@ Bool_t TGo4FitDataIter::ReserveArrays(Int_t NumDimen, Int_t NumOwnAxis, Bool_t H
    return kTRUE;
 }
 
-void TGo4FitDataIter::TransformScales(Double_t* scales) {
+void TGo4FitDataIter::TransformScales(Double_t* scales)
+{
   TGo4FitData* data = GetData();
   for(Int_t nslot=0;nslot<data->GetNumberOfTransSlots();nslot++) {
      TGo4FitAxisTrans* trans = data->GetAxisTrans(nslot);
@@ -374,7 +387,8 @@ void TGo4FitDataIter::TransformScales(Double_t* scales) {
   }
 }
 
-Bool_t TGo4FitDataIter::ProduceScales(const Int_t* index, const Double_t* ownscales, const Double_t* ownwidths) {
+Bool_t TGo4FitDataIter::ProduceScales(const Int_t* index, const Double_t* ownscales, const Double_t* ownwidths)
+{
    TGo4FitData* data = GetData();
    if (data==0) return kFALSE;
 

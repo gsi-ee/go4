@@ -65,7 +65,8 @@ TGo4FitDataHistogramIter::TGo4FitDataHistogramIter(TGo4FitDataHistogram* data) :
 TGo4FitDataHistogramIter::~TGo4FitDataHistogramIter() {
 }
 
-Bool_t TGo4FitDataHistogramIter::StartReset() {
+Bool_t TGo4FitDataHistogramIter::StartReset()
+{
   if (fxData==0) return kFALSE;
   TH1* histo = fxData->GetHistogram();
   if (histo==0) return kFALSE;
@@ -82,7 +83,8 @@ Bool_t TGo4FitDataHistogramIter::StartReset() {
   return ReserveArrays(NumDimen, NumDimen, kTRUE);
 }
 
-Bool_t TGo4FitDataHistogramIter::ReadCurrentPoint() {
+Bool_t TGo4FitDataHistogramIter::ReadCurrentPoint()
+{
   if (fxData==0) return kFALSE;
   TH1* histo = fxData->GetHistogram();
   if (histo==0) return kFALSE;

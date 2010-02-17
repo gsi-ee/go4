@@ -503,7 +503,8 @@ void TGo4FitPanel::WorkWithFitter(const char* itemname, TGo4ViewPanel* panel, TP
    RemoveFitterLink();
    AddLink(itemname, "Fitter");
 
-   TObject* obj = GetLinked("Fitter",2);
+   // just take object
+   GetLinked("Fitter", 2);
 
    UpdateObjectReferenceInSlots();
 
@@ -982,9 +983,9 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
      for(Int_t n=0;n<fitter->GetNumData();n++) {
        TGo4FitData* data = fitter->GetData(n);
        if (selecteddata && (data!=selecteddata)) continue;
-
-       if (data->IsAnyDataTransform())
+       if (data->IsAnyDataTransform()) {
           UseSamePads = FALSE;
+       }
 
        if (FindPadWhereData(data)==0)
           UseSamePads = FALSE;
@@ -1043,8 +1044,8 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
        panel->ShootRepaintTimer();
 
        if (!UseSamePads) {
-           TObject* obj = fitter->CreateDrawObject("Data", data->GetName(), kFALSE);
-           panel->AddDrawObject(pad, TGo4ViewPanel::kind_FitModels, "::Data", obj, true, drawopt);
+          TObject* obj = fitter->CreateDrawObject("Data", data->GetName(), kFALSE);
+          panel->AddDrawObject(pad, TGo4ViewPanel::kind_FitModels, "::Data", obj, true, drawopt);
        }
 
        if (!fbDrawInfoOnPad)
@@ -4983,13 +4984,9 @@ int TGo4FitPanel::DefineModelWidgetType(TObject* obj)
 
 void TGo4FitPanel::CreateFitSlotLink(TGo4FitSlot* slot, const char * itemname)
 {
-   cout << "****** CreateFitSlotLink " << slot->GetName() << "  " << itemname << endl;
-
    if ((slot==0) || (itemname==0)) return;
 
    int slotindex = GetPadIndexForSlot(slot);
-
-   cout << "Slot index = " << slotindex << endl;
 
    if (slotindex<0) return;
 
@@ -5059,9 +5056,11 @@ bool TGo4FitPanel::UpdateObjectReferenceInSlots()
       RemoveLinksMasked("data_");
 
   // here new links will be create, which are connect widget with datasources
-  for(Int_t n = 0; n<fitter->NumSlots();n++) {
+  for(Int_t n=0; n<fitter->NumSlots(); n++) {
      TGo4FitSlot* slot = fitter->GetSlot(n);
-     res = res && UpdateObjectReferenceInSlot(slot, true);
+     if (slot->GetClass()->InheritsFrom(TH1::Class()) ||
+         slot->GetClass()->InheritsFrom(TGraph::Class()))
+           res = res && UpdateObjectReferenceInSlot(slot, true);
   }
 
 //  cout << "UpdateObjectReferenceInSlots() done res = " << res << endl;
@@ -5071,16 +5070,19 @@ bool TGo4FitPanel::UpdateObjectReferenceInSlots()
 
 void TGo4FitPanel::ClearObjectReferenceInSlots()
 {
-  if (!WorkingWithPanel()) return;
+   if (!WorkingWithPanel()) return;
 
-  TGo4Fitter* fitter = GetFitter();
-  if (fitter==0) return;
+   TGo4Fitter* fitter = GetFitter();
+   if (fitter==0) return;
 
-  for(Int_t n = 0; n<fitter->NumSlots();n++) {
-     TGo4FitSlot* slot = fitter->GetSlot(n);
-     if (!slot->GetOwned())
-        slot->SetObject(0, kFALSE);
-  }
+   for(Int_t n = 0; n<fitter->NumSlots();n++) {
+      TGo4FitSlot* slot = fitter->GetSlot(n);
+
+      if (slot->GetClass()->InheritsFrom(TH1::Class()) ||
+          slot->GetClass()->InheritsFrom(TGraph::Class()))
+          if (!slot->GetOwned())
+              slot->SetObject(0, kFALSE);
+   }
 }
 
 void TGo4FitPanel::RemoveDrawObjects()

@@ -14,39 +14,64 @@
 #include "TGo4FitSlot.h"
 
 #include "Riostream.h"
-
 #include "TClass.h"
 #include "TH1.h"
 #include "TSeqCollection.h"
 #include "TObjArray.h"
 
-TGo4FitSlot::TGo4FitSlot() : TGo4FitNamed(), fxClass(0), fiSaveFlag(0), fbOwned(kFALSE), fbNeeded(kFALSE), fxObject(0),
-    fiSaveSlot(-1), fiSaveOwnership(-1) {
+TGo4FitSlot::TGo4FitSlot() :
+   TGo4FitNamed(),
+   fxClass(0),
+   fiSaveFlag(0),
+   fbOwned(kFALSE),
+   fbNeeded(kFALSE),
+   fxObject(0),
+   fiSaveSlot(-1),
+   fiSaveOwnership(-1)
+{
 }
 
 TGo4FitSlot::TGo4FitSlot(TNamed* iOwner, TClass* iClass) :
-    TGo4FitNamed(), fxClass(iClass), fiSaveFlag(0), fbOwned(kFALSE), fbNeeded(kFALSE), fxObject(0),
-    fiSaveSlot(-1), fiSaveOwnership(-1)  {
-      SetOwner(iOwner);
+   TGo4FitNamed(),
+   fxClass(iClass),
+   fiSaveFlag(0),
+   fbOwned(kFALSE),
+   fbNeeded(kFALSE),
+   fxObject(0),
+   fiSaveSlot(-1),
+   fiSaveOwnership(-1)
+{
+   SetOwner(iOwner);
 }
 
 TGo4FitSlot::TGo4FitSlot(const char* iName, const char* iTitle,
                          TNamed* iOwner, TClass* iClass,
                          Bool_t iNeeded, TObject* iObject, Bool_t iOwned) :
-    TGo4FitNamed(iName,iTitle, iOwner), fxClass(iClass),
-    fiSaveFlag(0), fbOwned(iOwned), fbNeeded(iNeeded), fxObject(iObject),
-    fiSaveSlot(-1), fiSaveOwnership(-1) {
+    TGo4FitNamed(iName,iTitle, iOwner),
+    fxClass(iClass),
+    fiSaveFlag(0),
+    fbOwned(iOwned),
+    fbNeeded(iNeeded),
+    fxObject(iObject),
+    fiSaveSlot(-1),
+    fiSaveOwnership(-1)
+{
 }
 
-TGo4FitSlot::~TGo4FitSlot() {
+TGo4FitSlot::~TGo4FitSlot()
+{
    if (fbOwned && fxObject)
        delete fxObject;
 }
 
 void TGo4FitSlot::SetDefaults(TNamed* iOwner, TClass* iClass)
- { SetOwner(iOwner); fxClass = iClass; }
+{
+   SetOwner(iOwner);
+   fxClass = iClass;
+}
 
-Bool_t TGo4FitSlot::ConnectToSlot(TGo4FitSlot* slot) {
+Bool_t TGo4FitSlot::ConnectToSlot(TGo4FitSlot* slot)
+{
   if (!CanConnectToSlot(slot)) return kFALSE;
   if (fbOwned && fxObject) delete fxObject;
   fxObject = slot;
@@ -54,7 +79,8 @@ Bool_t TGo4FitSlot::ConnectToSlot(TGo4FitSlot* slot) {
   return kTRUE;
 }
 
-Bool_t TGo4FitSlot::CanConnectToSlot(TGo4FitSlot* slot) {
+Bool_t TGo4FitSlot::CanConnectToSlot(TGo4FitSlot* slot)
+{
   if ((slot==0) || (slot==this)) return kFALSE;
   if (!GetClass()->InheritsFrom(slot->GetClass())) return kFALSE;
   TGo4FitSlot* conn = slot;
@@ -63,7 +89,8 @@ Bool_t TGo4FitSlot::CanConnectToSlot(TGo4FitSlot* slot) {
   return kTRUE;
 }
 
-void TGo4FitSlot::ClearConnectionToSlot() {
+void TGo4FitSlot::ClearConnectionToSlot()
+{
    if (IsConnectedToSlot()) {
      fxObject = 0;
      fbOwned = kFALSE;
@@ -84,7 +111,8 @@ Bool_t TGo4FitSlot::IsSuitableClass(TClass* cl)
                        else return cl->InheritsFrom(GetClass());
 }
 
-Bool_t TGo4FitSlot::SetObject(TObject* iObject, Bool_t iOwned, Bool_t CheckClass) {
+Bool_t TGo4FitSlot::SetObject(TObject* iObject, Bool_t iOwned, Bool_t CheckClass)
+{
    if (IsConnectedToSlot())
      return GetConnectedSlot()->SetObject(iObject, iOwned, CheckClass);
 
@@ -92,30 +120,34 @@ Bool_t TGo4FitSlot::SetObject(TObject* iObject, Bool_t iOwned, Bool_t CheckClass
      if (!iObject->InheritsFrom(GetClass())) return kFALSE;
 
    if (fbOwned && fxObject) delete fxObject;
+
    fxObject = iObject;
    fbOwned = iOwned;
    CheckOwnership();
    return kTRUE;
 }
 
-TObject* TGo4FitSlot::GetObject() const {
-  if (IsConnectedToSlot()) return GetConnectedSlot()->GetObject();
-                      else return fxObject;
+TObject* TGo4FitSlot::GetObject() const
+{
+   return IsConnectedToSlot() ? GetConnectedSlot()->GetObject() : fxObject;
 }
 
-const char* TGo4FitSlot::GetObjectName() const {
+const char* TGo4FitSlot::GetObjectName() const
+{
    TObject* obj = GetObject();
    if (obj && obj->InheritsFrom(TNamed::Class())) return obj->GetName();
                                                   else return 0;
 }
 
-TObject* TGo4FitSlot::CloneObject(const char* newname) {
+TObject* TGo4FitSlot::CloneObject(const char* newname)
+{
    TObject* obj = GetObject();
    if (obj) return obj->Clone(newname);
        else return 0;
 }
 
-void TGo4FitSlot::Print(Option_t* option) const {
+void TGo4FitSlot::Print(Option_t* option) const
+{
    cout << "Slot: " << GetName() << " for class: " << fxClass->GetName()
         << "  needed:" << fbNeeded << "  owned:" << fbOwned;
    if (IsConnectedToSlot()) {
@@ -129,7 +161,8 @@ void TGo4FitSlot::Print(Option_t* option) const {
    } else cout << " no object. " << endl;
 }
 
-void TGo4FitSlot::CheckOwnership() {
+void TGo4FitSlot::CheckOwnership()
+{
   if(fbOwned && !IsConnectedToSlot()) {
      TNamed* master = dynamic_cast<TNamed*> (GetOwner());
      TGo4FitNamed* slave = dynamic_cast<TGo4FitNamed*> (fxObject);
@@ -137,20 +170,24 @@ void TGo4FitSlot::CheckOwnership() {
   }
 }
 
-Bool_t TGo4FitSlot::WillBeSaved() {
+Bool_t TGo4FitSlot::WillBeSaved()
+{
    return (fiSaveFlag==1) || ((fiSaveFlag==0) && fbOwned);
 }
 
-void TGo4FitSlot::SetSaveSettings(Int_t save, Int_t ownership) {
+void TGo4FitSlot::SetSaveSettings(Int_t save, Int_t ownership)
+{
    fiSaveSlot = save;
    fiSaveOwnership = ownership;
 }
 
-Bool_t TGo4FitSlot::HasSaveSettings() {
+Bool_t TGo4FitSlot::HasSaveSettings()
+{
   return (fiSaveSlot>=0) && (fiSaveOwnership>=0);
 }
 
-void TGo4FitSlot::Streamer(TBuffer& b) {
+void TGo4FitSlot::Streamer(TBuffer& b)
+{
    if (b.IsReading()) {
 
      TGo4FitSlot::Class()->ReadBuffer(b, this);
@@ -159,6 +196,7 @@ void TGo4FitSlot::Streamer(TBuffer& b) {
      b >> fbOwned;
      Bool_t saveflag = kFALSE;
      b >> saveflag;
+
      if (saveflag) {
        b >> fxObject;
        if (fxObject->InheritsFrom(TH1::Class()))
@@ -191,24 +229,29 @@ void TGo4FitSlot::Streamer(TBuffer& b) {
 
 //********************************************************************************
 
-TGo4FitSlotList::TGo4FitSlotList() {
+TGo4FitSlotList::TGo4FitSlotList()
+{
    fxSlotList = 0;
    fbUpdateSlotList = kFALSE;
 }
 
-TGo4FitSlotList::~TGo4FitSlotList() {
+TGo4FitSlotList::~TGo4FitSlotList()
+{
    if (fxSlotList) delete fxSlotList;
 }
 
-void TGo4FitSlotList::FillSlotList(TSeqCollection* lst) {
+void TGo4FitSlotList::FillSlotList(TSeqCollection* lst)
+{
    if(lst==0) return;
 }
 
-void TGo4FitSlotList::SetUpdateSlotList() {
+void TGo4FitSlotList::SetUpdateSlotList()
+{
    fbUpdateSlotList = kTRUE;
 }
 
-const TObjArray* TGo4FitSlotList::GetSlotList(Bool_t ForceUpdate) {
+const TObjArray* TGo4FitSlotList::GetSlotList(Bool_t ForceUpdate)
+{
    if (fxSlotList==0) {
      fxSlotList= new TObjArray(10);
      FillSlotList(fxSlotList);
@@ -221,16 +264,19 @@ const TObjArray* TGo4FitSlotList::GetSlotList(Bool_t ForceUpdate) {
    return fxSlotList;
 }
 
-Int_t TGo4FitSlotList::NumSlots() {
+Int_t TGo4FitSlotList::NumSlots()
+{
   return GetSlotList()->GetLast()+1;
 }
 
-TGo4FitSlot* TGo4FitSlotList::GetSlot(Int_t nslot) {
-  const TObjArray* lst = GetSlotList();
-  return (nslot>=0) && (nslot<=lst->GetLast()) ? dynamic_cast<TGo4FitSlot*> (lst->At(nslot)) : 0;
+TGo4FitSlot* TGo4FitSlotList::GetSlot(Int_t nslot)
+{
+   const TObjArray* lst = GetSlotList();
+   return (nslot>=0) && (nslot<=lst->GetLast()) ? dynamic_cast<TGo4FitSlot*> (lst->At(nslot)) : 0;
 }
 
-TGo4FitSlot* TGo4FitSlotList::FindSlot(const char* FullSlotName) {
+TGo4FitSlot* TGo4FitSlotList::FindSlot(const char* FullSlotName)
+{
    const TObjArray* lst = GetSlotList();
    for(Int_t i=0;i<=lst->GetLast();i++) {
       TGo4FitSlot* slot = dynamic_cast<TGo4FitSlot*> (lst->At(i));
@@ -239,16 +285,19 @@ TGo4FitSlot* TGo4FitSlotList::FindSlot(const char* FullSlotName) {
    return 0;
 }
 
-Bool_t TGo4FitSlotList::ConnectSlots(TGo4FitSlot* slot1, TGo4FitSlot* slot2) {
+Bool_t TGo4FitSlotList::ConnectSlots(TGo4FitSlot* slot1, TGo4FitSlot* slot2)
+{
   if ((slot1==0) || (slot2==0)) return kFALSE;
   return slot1->ConnectToSlot(slot2);
 }
 
-Bool_t TGo4FitSlotList::ConnectSlots(const char* Slot1FullName, const char* Slot2FullName) {
+Bool_t TGo4FitSlotList::ConnectSlots(const char* Slot1FullName, const char* Slot2FullName)
+{
    return ConnectSlots(FindSlot(Slot1FullName), FindSlot(Slot2FullName));
 }
 
-TGo4FitSlot* TGo4FitSlotList::SetObject(TObject* obj, Bool_t iOwned) {
+TGo4FitSlot* TGo4FitSlotList::SetObject(TObject* obj, Bool_t iOwned)
+{
    if (obj==0) return 0;
 
    const TObjArray* lst = GetSlotList();
@@ -265,7 +314,8 @@ TGo4FitSlot* TGo4FitSlotList::SetObject(TObject* obj, Bool_t iOwned) {
    return 0;
 }
 
-TGo4FitSlot* TGo4FitSlotList::SetObject(const char* PlaceName, TObject* obj, Bool_t iOwned) {
+TGo4FitSlot* TGo4FitSlotList::SetObject(const char* PlaceName, TObject* obj, Bool_t iOwned)
+{
    if (obj==0) return 0;
 
    if (PlaceName==0) return SetObject(obj, iOwned);
@@ -300,7 +350,8 @@ TGo4FitSlot* TGo4FitSlotList::SetObject(const char* PlaceName, TObject* obj, Boo
    return 0;
 }
 
-TGo4FitSlot* TGo4FitSlotList::IsObjectInSlots(TObject* obj) {
+TGo4FitSlot* TGo4FitSlotList::IsObjectInSlots(TObject* obj)
+{
    if (obj==0) return 0;
 
    const TObjArray* lst = GetSlotList();
@@ -318,7 +369,8 @@ TGo4FitSlot* TGo4FitSlotList::IsObjectInSlots(TObject* obj) {
    return last;
 }
 
-Bool_t TGo4FitSlotList::CheckObjects(Bool_t MakeOut) {
+Bool_t TGo4FitSlotList::CheckObjects(Bool_t MakeOut)
+{
    Bool_t res = kTRUE;
    const TObjArray* lst = GetSlotList();
    for(Int_t i=0;i<=lst->GetLast();i++) {
@@ -329,7 +381,7 @@ Bool_t TGo4FitSlotList::CheckObjects(Bool_t MakeOut) {
            cout << "Required data not provided" << endl <<
                    "   Name: " << slot->GetName() << endl <<
                    "   Class: " << slot->GetClass()->GetName() << endl <<
-                   "   Desription: " << slot->GetTitle() << endl <<
+                   "   Description: " << slot->GetTitle() << endl <<
                    "   For object: " << slot->GetOwnerFullName() << endl;
          res = kFALSE;
        }
@@ -337,7 +389,8 @@ Bool_t TGo4FitSlotList::CheckObjects(Bool_t MakeOut) {
    return res;
 }
 
-Bool_t TGo4FitSlotList::IsEmptySlots() {
+Bool_t TGo4FitSlotList::IsEmptySlots()
+{
    TObjArray list;
    const TObjArray* lst = GetSlotList();
    for(Int_t i=0;i<=lst->GetLast();i++) {
@@ -349,7 +402,8 @@ Bool_t TGo4FitSlotList::IsEmptySlots() {
 }
 
 
-void TGo4FitSlotList::ClearObjects(const char* PlaceName, Bool_t NonOwned) {
+void TGo4FitSlotList::ClearObjects(const char* PlaceName, Bool_t NonOwned)
+{
    const TObjArray* lst = GetSlotList();
 
    for(Int_t i=0;i<=lst->GetLast();i++) {
@@ -364,7 +418,8 @@ void TGo4FitSlotList::ClearObjects(const char* PlaceName, Bool_t NonOwned) {
    }
 }
 
-void TGo4FitSlotList::ClearSlot(TGo4FitSlot* slot, Bool_t NonOwned) {
+void TGo4FitSlotList::ClearSlot(TGo4FitSlot* slot, Bool_t NonOwned)
+{
    if (slot==0) return;
 
    while(slot->GetConnectedSlot())
@@ -391,7 +446,8 @@ void TGo4FitSlotList::ClearSlot(TGo4FitSlot* slot, Bool_t NonOwned) {
    slot->Clear();
 }
 
-void TGo4FitSlotList::SetSaveFlagForObjects(Int_t iSaveFlag, const char* PlaceName) {
+void TGo4FitSlotList::SetSaveFlagForObjects(Int_t iSaveFlag, const char* PlaceName)
+{
    const TObjArray* lst = GetSlotList();
 
    for(Int_t i=0;i<=lst->GetLast();i++) {
@@ -406,7 +462,8 @@ void TGo4FitSlotList::SetSaveFlagForObjects(Int_t iSaveFlag, const char* PlaceNa
    }
 }
 
-void TGo4FitSlotList::CheckDuplicatesOnSlot() {
+void TGo4FitSlotList::CheckDuplicatesOnSlot()
+{
    const TObjArray* lst = GetSlotList();
 
    for(Int_t n1=lst->GetLast();n1>0;n1--) {
@@ -421,7 +478,8 @@ void TGo4FitSlotList::CheckDuplicatesOnSlot() {
    }
 }
 
-void TGo4FitSlotList::PrepareSlotsForWriting() {
+void TGo4FitSlotList::PrepareSlotsForWriting()
+{
    const TObjArray* lst = GetSlotList();
 
    for(Int_t n1=0; n1<=lst->GetLast(); n1++) {

@@ -5067,7 +5067,9 @@ bool TGo4FitPanel::UpdateObjectReferenceInSlots()
   // here new links will be create, which are connect widget with datasources
   for(Int_t n = 0; n<fitter->NumSlots();n++) {
      TGo4FitSlot* slot = fitter->GetSlot(n);
-     res = res && UpdateObjectReferenceInSlot(slot, true);
+     if (slot->GetClass()->InheritsFrom(TH1::Class()) ||
+         slot->GetClass()->InheritsFrom(TGraph::Class()))
+        res = res && UpdateObjectReferenceInSlot(slot, true);
   }
 
 //  cout << "UpdateObjectReferenceInSlots() done res = " << res << endl;
@@ -5084,8 +5086,11 @@ void TGo4FitPanel::ClearObjectReferenceInSlots()
 
   for(Int_t n = 0; n<fitter->NumSlots();n++) {
      TGo4FitSlot* slot = fitter->GetSlot(n);
-     if (!slot->GetOwned())
-        slot->SetObject(0, kFALSE);
+
+     if (slot->GetClass()->InheritsFrom(TH1::Class()) ||
+         slot->GetClass()->InheritsFrom(TGraph::Class()))
+         if (!slot->GetOwned())
+             slot->SetObject(0, kFALSE);
   }
 }
 

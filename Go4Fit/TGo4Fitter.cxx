@@ -38,28 +38,35 @@
 #include "TGo4FitSlot.h"
 #include "TGo4FitMinuit.h"
 
-TGo4Fitter::TGo4Fitter() : TGo4FitterAbstract(), fxDatas(), fxModels(), fiFitFunctionType(0), fiMemoryUsage(0),
-     fxUserFitFunction(0), fxDrawObjs(0) {
+TGo4Fitter::TGo4Fitter() :
+   TGo4FitterAbstract(),
+   fxDatas(), fxModels(), fiFitFunctionType(0), fiMemoryUsage(0),
+   fxUserFitFunction(0), fxDrawObjs(0)
+{
 }
 
-TGo4Fitter::TGo4Fitter(const char* iName, const char* iTitle) : TGo4FitterAbstract(iName,iTitle),
-  fxDatas(), fxModels(), fiFitFunctionType(0), fiMemoryUsage(0), fxUserFitFunction(0), fxDrawObjs(0) {
+TGo4Fitter::TGo4Fitter(const char* iName, const char* iTitle) :
+   TGo4FitterAbstract(iName, iTitle),
+   fxDatas(), fxModels(), fiFitFunctionType(0), fiMemoryUsage(0), fxUserFitFunction(0), fxDrawObjs(0)
+{
    fxDatas.SetOwner(kTRUE);
    fxModels.SetOwner(kTRUE);
 }
 
 TGo4Fitter::TGo4Fitter(const char* iName, Int_t iFitFunctionType, Bool_t IsAddStandardActions) :
-  TGo4FitterAbstract(iName,"TGo4Fitter object"),
-  fxDatas(), fxModels(), fiFitFunctionType(0), fiMemoryUsage(100), fxUserFitFunction(0), fxDrawObjs(0)  {
+   TGo4FitterAbstract(iName,"TGo4Fitter object"),
+   fxDatas(), fxModels(), fiFitFunctionType(0), fiMemoryUsage(100), fxUserFitFunction(0), fxDrawObjs(0)
+{
    fxDatas.SetOwner(kTRUE);
    fxModels.SetOwner(kTRUE);
    SetFitFunctionType(iFitFunctionType);
    if (IsAddStandardActions) AddStandardActions();
 }
 
-TGo4Fitter::~TGo4Fitter() {
-  CheckDuplicatesOnSlot();
-  MoveDrawObjectsToROOT();
+TGo4Fitter::~TGo4Fitter()
+{
+   CheckDuplicatesOnSlot();
+   MoveDrawObjectsToROOT();
 }
 
 void TGo4Fitter::SetMemoryUsage(Int_t iMemoryUsage)
@@ -86,7 +93,8 @@ void TGo4Fitter::CollectAllPars()
    }
 }
 
-void TGo4Fitter::Clear(Option_t* option) {
+void TGo4Fitter::Clear(Option_t* option)
+{
    TGo4FitterAbstract::Clear(option);
    DeleteAllData();
    DeleteAllModels();
@@ -115,36 +123,39 @@ TGo4FitData* TGo4Fitter::AddData(TGo4FitData* data)
    return data;
 }
 
-TGo4FitDataHistogram* TGo4Fitter::AddH1(const char* DataName, TH1* histo, Bool_t Owned, Double_t lrange, Double_t rrange) {
+TGo4FitDataHistogram* TGo4Fitter::AddH1(const char* DataName, TH1* histo, Bool_t Owned, Double_t lrange, Double_t rrange)
+{
    TGo4FitDataHistogram *data = new TGo4FitDataHistogram(DataName, histo, Owned);
    if ((lrange<rrange) || (rrange!=0.)) data->SetRange(0,lrange,rrange);
    AddData(data);
    return data;
 }
 
-TGo4FitDataHistogram* TGo4Fitter::SetH1(const char* DataName, TH1* histo, Bool_t Owned) {
+TGo4FitDataHistogram* TGo4Fitter::SetH1(const char* DataName, TH1* histo, Bool_t Owned)
+{
    TGo4FitDataHistogram* data = dynamic_cast<TGo4FitDataHistogram*> (FindData(DataName));
    if (data!=0) data->SetHistogram(histo, Owned);
    return data;
 }
 
 
-TGo4FitDataGraph* TGo4Fitter::AddGraph(const char* DataName, TGraph* gr, Bool_t Owned, Double_t lrange, Double_t rrange) {
+TGo4FitDataGraph* TGo4Fitter::AddGraph(const char* DataName, TGraph* gr, Bool_t Owned, Double_t lrange, Double_t rrange)
+{
    TGo4FitDataGraph *data = new TGo4FitDataGraph(DataName, gr, Owned);
    if ((lrange<rrange) || (rrange!=0.)) data->SetRange(0,lrange,rrange);
    AddData(data);
    return data;
 }
 
-TGo4FitDataGraph* TGo4Fitter::SetGraph(const char* DataName, TGraph* gr, Bool_t Owned) {
+TGo4FitDataGraph* TGo4Fitter::SetGraph(const char* DataName, TGraph* gr, Bool_t Owned)
+{
    TGo4FitDataGraph *data = dynamic_cast<TGo4FitDataGraph*> (FindData(DataName));
    if (data!=0) data->SetGraph(gr, Owned);
    return data;
 }
 
-
-
-void TGo4Fitter::CheckSlotsBeforeDelete(TGo4FitComponent* comp) {
+void TGo4Fitter::CheckSlotsBeforeDelete(TGo4FitComponent* comp)
+{
   if (comp)
     for (Int_t n=0;n<comp->NumSlots();n++) {
        TGo4FitSlot* slot = comp->GetSlot(n);
@@ -158,7 +169,8 @@ void TGo4Fitter::CheckSlotsBeforeDelete(TGo4FitComponent* comp) {
     }
 }
 
-TGo4FitData* TGo4Fitter::RemoveData(const char* DataName, Bool_t IsDel) {
+TGo4FitData* TGo4Fitter::RemoveData(const char* DataName, Bool_t IsDel)
+{
    TGo4FitData* dat = FindData(DataName);
    if (dat) {
       SetParsListChange();
@@ -247,7 +259,8 @@ void TGo4Fitter::AddPolynomX(const char* DataName, const char* NamePrefix, Int_t
    } while (flag);
 }
 
-void TGo4Fitter::AddPolynomX(const char* DataName, const char* NamePrefix, TArrayD& Coef, Int_t GroupIndex) {
+void TGo4Fitter::AddPolynomX(const char* DataName, const char* NamePrefix, TArrayD& Coef, Int_t GroupIndex)
+{
    if (DataName==0) return;
 
    Bool_t flag = kFALSE;
@@ -281,7 +294,8 @@ void TGo4Fitter::AddPolynomX(const char* DataName, const char* NamePrefix, TArra
    } while(flag);
 }
 
-void TGo4Fitter::AddPolynoms(const char* DataName, const char* NamePrefix, Int_t MaxOrder, Int_t NumAxis, Int_t GroupIndex) {
+void TGo4Fitter::AddPolynoms(const char* DataName, const char* NamePrefix, Int_t MaxOrder, Int_t NumAxis, Int_t GroupIndex)
+{
    if (DataName==0) return;
    TArrayD Orders(NumAxis);
    Orders.Reset(0.);
@@ -373,14 +387,16 @@ TGo4FitModel* TGo4Fitter::RemoveModel(const char * ModelName, Bool_t IsDel)
    return mod;
 }
 
-Int_t TGo4Fitter::NumModelsAssosiatedTo(const char* DataName) {
+Int_t TGo4Fitter::NumModelsAssosiatedTo(const char* DataName)
+{
    Int_t res = 0;
    for (Int_t n=0;n<GetNumModel();n++)
       if (GetModel(n)->IsAssignTo(DataName)) res++;
    return res;
 }
 
-void TGo4Fitter::DeleteModelsAssosiatedTo(const char* DataName) {
+void TGo4Fitter::DeleteModelsAssosiatedTo(const char* DataName)
+{
    Int_t n=0;
    while (n<GetNumModel()) {
       TGo4FitModel* model = GetModel(n++);
@@ -397,7 +413,8 @@ void TGo4Fitter::DeleteModelsAssosiatedTo(const char* DataName) {
    }
 }
 
-void TGo4Fitter::DeleteAllModels() {
+void TGo4Fitter::DeleteAllModels()
+{
    fxModels.Delete();
    fxModels.Compress();
    SetParsListChange();
@@ -428,12 +445,14 @@ void TGo4Fitter::ClearModelAssignmentTo(const char* ModelName, const char* DataN
    SetParsListChange();
 }
 
-void TGo4Fitter::ChangeDataNameInAssignments(const char* oldname, const char* newname) {
+void TGo4Fitter::ChangeDataNameInAssignments(const char* oldname, const char* newname)
+{
    for(Int_t n=0;n<GetNumModel();n++)
      GetModel(n)->ChangeDataNameInAssignments(oldname,newname);
 }
 
-Bool_t TGo4Fitter::InitFitterData() {
+Bool_t TGo4Fitter::InitFitterData()
+{
 
    Int_t dbuf = -1, mbuf = -1;
    switch (GetMemoryUsage()) {
@@ -464,13 +483,15 @@ Bool_t TGo4Fitter::InitFitterData() {
    return kTRUE;
 }
 
-void TGo4Fitter::FinalizeFitterData() {
-  for(Int_t i=0;i<GetNumData();i++) GetData(i)->Finalize();
+void TGo4Fitter::FinalizeFitterData()
+{
+   for(Int_t i=0;i<GetNumData();i++) GetData(i)->Finalize();
 
-  for(Int_t i=0;i<GetNumModel();i++) GetModel(i)->Finalize();
+   for(Int_t i=0;i<GetNumModel();i++) GetModel(i)->Finalize();
 }
 
-Double_t TGo4Fitter::PointFitFunction(Int_t FitFunctionType, Double_t value, Double_t modelvalue, Double_t standdev) {
+Double_t TGo4Fitter::PointFitFunction(Int_t FitFunctionType, Double_t value, Double_t modelvalue, Double_t standdev)
+{
    switch (FitFunctionType) {
       case ff_least_squares: {
         Double_t zn1 = (value-modelvalue);
@@ -501,7 +522,8 @@ Double_t TGo4Fitter::PointFitFunction(Int_t FitFunctionType, Double_t value, Dou
    }
 }
 
-Double_t TGo4Fitter::CalculateFCN(Int_t FitFunctionType, TGo4FitData* selectdata) {
+Double_t TGo4Fitter::CalculateFCN(Int_t FitFunctionType, TGo4FitData* selectdata)
+{
 
   if (GetMemoryUsage()>0)  RebuildAll();
 
@@ -560,7 +582,8 @@ Double_t TGo4Fitter::CalculateFCN(Int_t FitFunctionType, TGo4FitData* selectdata
   return fSum;
 }
 
-Double_t TGo4Fitter::CalculateFitFunction(Double_t* pars, Int_t FitFunctionType, const char* DataName) {
+Double_t TGo4Fitter::CalculateFitFunction(Double_t* pars, Int_t FitFunctionType, const char* DataName)
+{
 
    if (FitFunctionType<0) FitFunctionType = GetFitFunctionType();
 
@@ -572,7 +595,8 @@ Double_t TGo4Fitter::CalculateFitFunction(Double_t* pars, Int_t FitFunctionType,
    return CalculateFCN(FitFunctionType, FindData(DataName));
 }
 
-Int_t TGo4Fitter::CalculateNDF(const char* DataName) {
+Int_t TGo4Fitter::CalculateNDF(const char* DataName)
+{
    TGo4FitData* selectdata = FindData(DataName);
 
    Int_t NDF = 0;
@@ -593,83 +617,98 @@ Int_t TGo4Fitter::CalculateNDF(const char* DataName) {
    return NDF;
 }
 
-Double_t TGo4Fitter::DoCalculation() {
-  return CalculateFCN(fiFitFunctionType);
+Double_t TGo4Fitter::DoCalculation()
+{
+   return CalculateFCN(fiFitFunctionType);
 }
 
-Int_t TGo4Fitter::DoNDFCalculation() {
-  return CalculateNDF(0);
+Int_t TGo4Fitter::DoNDFCalculation()
+{
+   return CalculateNDF(0);
 }
 
-void TGo4Fitter::RebuildAll(Bool_t ForceBuild) {
-  for(Int_t i2=0;i2<GetNumModel();i2++)
-    GetModel(i2)->RebuildShape(ForceBuild);
+void TGo4Fitter::RebuildAll(Bool_t ForceBuild)
+{
+   for(Int_t i2=0;i2<GetNumModel();i2++)
+      GetModel(i2)->RebuildShape(ForceBuild);
 
-  for(Int_t i1=0;i1<GetNumData();i1++) {
-    TGo4FitData* data = GetData(i1);
-    if (!data->BuffersAllocated()) continue;
+   for(Int_t i1=0;i1<GetNumData();i1++) {
+      TGo4FitData* data = GetData(i1);
+      if (!data->BuffersAllocated()) continue;
 
-    Int_t size = data->GetBinsSize();
-    Double_t* result = data->GetBinsResult();
-    for (Int_t nbin=0;nbin<size;nbin++) result[nbin] = 0.;
+      Int_t size = data->GetBinsSize();
+      Double_t* result = data->GetBinsResult();
+      for (Int_t nbin=0;nbin<size;nbin++) result[nbin] = 0.;
 
-    for(Int_t i2=0;i2<GetNumModel();i2++) {
-      TGo4FitModel *model = GetModel(i2);
-      if (model->IsAssignTo(data->GetName()))
-          model->AddModelToDataResult(data);
-    }
-  }
+      for(Int_t i2=0;i2<GetNumModel();i2++) {
+         TGo4FitModel *model = GetModel(i2);
+         if (model->IsAssignTo(data->GetName()))
+            model->AddModelToDataResult(data);
+      }
+   }
 }
 
-void TGo4Fitter::EstimateAmplitudes(Int_t NumIters) {
+void TGo4Fitter::EstimateAmplitudes(Int_t NumIters)
+{
    TGo4FitAmplEstimation abc("this",NumIters);
    abc.DoAction(this);
 }
 
-void TGo4Fitter::AddAmplEstimation(Int_t NumIters) {
+void TGo4Fitter::AddAmplEstimation(Int_t NumIters)
+{
    AddAction(new TGo4FitAmplEstimation("AmplEstim",NumIters));
 }
 
-void TGo4Fitter::AddStandardActions() {
+void TGo4Fitter::AddStandardActions()
+{
    AddAmplEstimation();
    AddSimpleMinuit();
 }
 
-void TGo4Fitter::FillSlotList(TSeqCollection* list) {
+void TGo4Fitter::FillSlotList(TSeqCollection* list)
+{
    TGo4FitterAbstract::FillSlotList(list);
    for(Int_t i=0;i<GetNumComp();i++)
      GetComp(i)->FillSlotList(list);
 }
 
-Bool_t TGo4Fitter::ModelBuffersAllocated(TGo4FitModel* model) {
+Bool_t TGo4Fitter::ModelBuffersAllocated(TGo4FitModel* model)
+{
   return model==0 ? kFALSE : model->BuffersAllocated();
 }
 
-Bool_t TGo4Fitter::DataBuffersAllocated(TGo4FitData* data) {
+Bool_t TGo4Fitter::DataBuffersAllocated(TGo4FitData* data)
+{
   return data==0 ? kFALSE : data->BuffersAllocated();
 }
 
-Int_t TGo4Fitter::GetDataBinsSize(TGo4FitData* data) {
+Int_t TGo4Fitter::GetDataBinsSize(TGo4FitData* data)
+{
    return (data==0) ? 0 : data->GetBinsSize();
 }
 
-Double_t* TGo4Fitter::GetDataBinsValues(TGo4FitData* data) {
+Double_t* TGo4Fitter::GetDataBinsValues(TGo4FitData* data)
+{
    return (data==0) ? 0 : data->GetBinsValues();
 }
 
-Double_t* TGo4Fitter::GetDataBinsDevs(TGo4FitData* data) {
+Double_t* TGo4Fitter::GetDataBinsDevs(TGo4FitData* data)
+{
    return (data==0) ? 0 : data->GetBinsDevs();
 }
 
-Double_t* TGo4Fitter::GetDataBinsResult(TGo4FitData* data) {
+Double_t* TGo4Fitter::GetDataBinsResult(TGo4FitData* data)
+{
    return (data==0) ? 0 : data->GetBinsResult();
 }
 
-Double_t* TGo4Fitter::GetModelBinsValues(TGo4FitModel* model, const char* DataName) {
+Double_t* TGo4Fitter::GetModelBinsValues(TGo4FitModel* model, const char* DataName)
+{
    return (model==0) ? 0 : model->GetModelBins(DataName);
 }
 
-void TGo4Fitter::Print(Option_t* option) const {
+void TGo4Fitter::Print(Option_t* option) const
+{
    TString Opt(option);
    if (Opt=="Ampls") { PrintAmpls(); return; } else
    if (Opt=="Pars") { PrintPars(); return; } else
@@ -693,7 +732,8 @@ void TGo4Fitter::Print(Option_t* option) const {
    fxModels.Print(option);
 }
 
-Bool_t TGo4Fitter::CalculatesMomentums(const char* DataName, Bool_t UseRanges, Bool_t SubstractModels, Double_t& first, Double_t& second) {
+Bool_t TGo4Fitter::CalculatesMomentums(const char* DataName, Bool_t UseRanges, Bool_t SubstractModels, Double_t& first, Double_t& second)
+{
   TGo4FitData* data = FindData(DataName);
   if (data==0) return kFALSE;
 
@@ -768,7 +808,8 @@ Bool_t TGo4Fitter::CalculatesMomentums(const char* DataName, Bool_t UseRanges, B
   return kTRUE;
 }
 
-Double_t TGo4Fitter::CalculatesIntegral(const char* DataName, const char* ModelName, Bool_t onlycounts) {
+Double_t TGo4Fitter::CalculatesIntegral(const char* DataName, const char* ModelName, Bool_t onlycounts)
+{
     TGo4FitData* data = FindData(DataName);
     if (data==0) return 0.;
 
@@ -805,13 +846,15 @@ Double_t TGo4Fitter::CalculatesIntegral(const char* DataName, const char* ModelN
     return sum;
 }
 
-Double_t TGo4Fitter::CalculatesModelIntegral(const char* ModelName, Bool_t OnlyCounts) {
+Double_t TGo4Fitter::CalculatesModelIntegral(const char* ModelName, Bool_t OnlyCounts)
+{
    TGo4FitModel* model = FindModel(ModelName);
    if (model==0) return 0.;
    return CalculatesIntegral(model->AssignmentName(0), ModelName, OnlyCounts);
 }
 
-TObject* TGo4Fitter::CreateDrawObject(const char* ResName, const char* DataName, Bool_t IsModel, const char* ModelName) {
+TObject* TGo4Fitter::CreateDrawObject(const char* ResName, const char* DataName, Bool_t IsModel, const char* ModelName)
+{
     TGo4FitData* data = FindData(DataName);
     if (data==0) return 0;
 
@@ -851,7 +894,6 @@ TObject* TGo4Fitter::CreateDrawObject(const char* ResName, const char* DataName,
     Int_t ndim = 0;
     TGraph* gr = 0;
     Bool_t UseRanges = kTRUE;
-
 
     if (iter->HasIndexes() && (iter->IndexesSize()==iter->ScalesSize()) && iter->HasWidths()) {
        histo = iter->CreateHistogram(ResName, kFALSE, !IsModel);
@@ -930,7 +972,7 @@ TObject* TGo4Fitter::CreateDrawObject(const char* ResName, const char* DataName,
 
 /*   valid format for draw options
 
-   "" - draw all datas
+   "" - draw all data
    "*" - draw all data with models
    "**" - draw all data with models and all components
    "DataName" - draw select data with model
@@ -941,7 +983,8 @@ TObject* TGo4Fitter::CreateDrawObject(const char* ResName, const char* DataName,
    "ModelName" - draw model component and correspondent data
 */
 
-void TGo4Fitter::Draw(Option_t* option) {
+void TGo4Fitter::Draw(Option_t* option)
+{
    TString opt(option);
 
    TCanvas *fCanvas = 0;
@@ -1084,7 +1127,8 @@ void TGo4Fitter::Draw(Option_t* option) {
    if (fCanvas!=0) fCanvas->Update();
 }
 
-void TGo4Fitter::PrintAmpls() const {
+void TGo4Fitter::PrintAmpls() const
+{
    cout << endl << "*** LIST OF AMPLITUDES VALUE ***" << endl;
    for(Int_t n=0;n<GetNumComp();n++) {
        TGo4FitComponent* comp = ((TGo4Fitter*) this)->GetComp(n);
@@ -1093,7 +1137,8 @@ void TGo4Fitter::PrintAmpls() const {
    }
 }
 
-void TGo4Fitter::PrintLines() const {
+void TGo4Fitter::PrintLines() const
+{
   cout << endl << "    *** LIST OF LINES PARAMETERS ***" << endl;
 
   int MaxAxis = 0;
@@ -1129,41 +1174,44 @@ void TGo4Fitter::PrintLines() const {
 }
 
 
-void TGo4Fitter::ProvideLastDrawObjects(TObjArray& lst) {
-  if (fxDrawObjs) {
-    lst.AddAll(fxDrawObjs);
-    delete fxDrawObjs;
-    fxDrawObjs = 0;
-  }
+void TGo4Fitter::ProvideLastDrawObjects(TObjArray& lst)
+{
+   if (fxDrawObjs) {
+      lst.AddAll(fxDrawObjs);
+      delete fxDrawObjs;
+      fxDrawObjs = 0;
+   }
 }
 
-void TGo4Fitter::MoveDrawObjectsToROOT() {
-  if (fxDrawObjs) {
-    for(Int_t n=0;n<=fxDrawObjs->GetLast();n++)
-      gROOT->Add(fxDrawObjs->At(n));
-    delete fxDrawObjs;
-    fxDrawObjs = 0;
-  }
+void TGo4Fitter::MoveDrawObjectsToROOT()
+{
+   if (fxDrawObjs) {
+      for(Int_t n=0;n<=fxDrawObjs->GetLast();n++)
+         gROOT->Add(fxDrawObjs->At(n));
+      delete fxDrawObjs;
+      fxDrawObjs = 0;
+   }
 }
 
-TString TGo4Fitter::FindNextName(const char* Head, Int_t start, Bool_t isModel) {
-   TString(name);
+TString TGo4Fitter::FindNextName(const char* Head, Int_t start, Bool_t isModel)
+{
+   TString name;
    Int_t n = start;
    do {
-     name=Head;
-     name+=n++;
+     name = Form("%s%d", Head, n++);
    } while (isModel ? FindModel(name.Data())!=0 : FindData(name.Data())!=0 );
    return name;
 }
 
-void TGo4Fitter::Streamer(TBuffer& b) {
+void TGo4Fitter::Streamer(TBuffer& b)
+{
    if (b.IsReading()) {
-     TGo4Fitter::Class()->ReadBuffer(b, this);
-     CheckDuplicatesOnSlot();
-     SetParsListChange();
-     SetUpdateSlotList();
+      TGo4Fitter::Class()->ReadBuffer(b, this);
+      CheckDuplicatesOnSlot();
+      SetParsListChange();
+      SetUpdateSlotList();
    } else {
-     PrepareSlotsForWriting();
-     TGo4Fitter::Class()->WriteBuffer(b, this);
+      PrepareSlotsForWriting();
+      TGo4Fitter::Class()->WriteBuffer(b, this);
    }
 }
