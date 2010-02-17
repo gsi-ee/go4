@@ -42,17 +42,19 @@ void TGo4ASImage::SetHistogramContent(TH2* histo)
 {
    if (histo==0) return;
 
-   Int_t arsize = (histo->GetNbinsX()+2) * (histo->GetNbinsY()+2);
-   Int_t width = histo->GetNbinsX()+2;
-   TArrayD arr(arsize);
-   for(int n=0;n<arsize;n++)
-      arr[n] = histo->GetBinContent(n);
+   Int_t numx = histo->GetNbinsX();
+   Int_t numy = histo->GetNbinsY();
 
-   SetImage(arr,width);
+   TArrayD arr(numx*numy);
+   for (int x=1; x<=numx; x++)
+      for (int y=1; y<=numy; y++)
+         arr[(y-1)*numx + (x-1)] = histo->GetBinContent(x, y);
+
+   SetImage(arr, numx);
    SetName(histo->GetName());
 
-   fdWidth = width;
-   fdHeight = arsize / width;
+   fdWidth = numx;
+   fdHeight = numy;
 }
 
 void TGo4ASImage::SetDrawData(TH2* histo, TGo4ViewPanel* panel, TPad* pad)
