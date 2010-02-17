@@ -186,7 +186,8 @@ if(fxNode.isEmpty()) {
 int state=f_mbs_status(const_cast<char*>(fxNode.toStdString().c_str()), &fxDaqStat);
 if(state!=STC__SUCCESS)
 {
-    fxMessage.sprintf("MBS Status refresh returned error %d at ",state);
+    fxMessage.sprintf("MBS Status refresh node %s returned error %d at ",
+    		const_cast<char*>(fxNode.toStdString().c_str()),state);
     fxMessage+=QDateTime::currentDateTime().toString();
     fbWarningState=true;
 }
