@@ -14,15 +14,18 @@
 #include "TXXXAnalysis.h"
 
 #include <stdlib.h>
-#include <time.h>
 #include "Riostream.h"
 
 #include "TH1.h"
 #include "TFile.h"
 #include "TSystem.h"
 
-#include "s_filhe_swap.h"
-#include "s_bufhe_swap.h"
+extern "C" {
+   #include "s_filhe_swap.h"
+   #include "s_bufhe_swap.h"
+   #include "f_ut_utime.h"
+}
+
 #include "TGo4Fitter.h"
 #include "TGo4FitterEnvelope.h"
 #include "TGo4AnalysisStep.h"
@@ -231,13 +234,13 @@ Int_t TXXXAnalysis::UserPostLoop()
 
       // mbs buffer header structure:
       s_bufhe* bufheader=fMbsEvent->GetMbsBufferHeader();
-      if(bufheader)
-         {
-            cout <<"Last Buffer:"<<endl;
-            cout <<"\tNumber: "<<bufheader->l_buf << endl;
-            cout <<"\tTime: " << ctime((const time_t*) (void*) &(bufheader->l_time[0]));
-            cout << "\t\t\t + "<<bufheader->l_time[1] << " µs"<<endl;
-         }
+      if(bufheader) {
+         char sbuf[1000];
+         f_ut_utime(bufheader->l_time[0], bufheader->l_time[1], sbuf);
+         cout <<"Last Buffer:"<<endl;
+         cout <<"\tNumber: "<<bufheader->l_buf << endl;
+         cout <<"\tTime: " << sbuf << endl;
+      }
 
 
     }
@@ -321,10 +324,11 @@ Int_t TXXXAnalysis::UserEventFunc()
          cout << "\nFirst event #: " << count  << endl;
          s_bufhe* bufheader=fMbsEvent->GetMbsBufferHeader();
          if(bufheader) {
+            char sbuf[1000];
+            f_ut_utime(bufheader->l_time[0], bufheader->l_time[1], sbuf);
             cout <<"First Buffer:"<<endl;
             cout <<"\tNumber: "<<bufheader->l_buf << endl;
-            cout <<"\tTime: " << ctime((const time_t*) (void*) &(bufheader->l_time[0]));
-            cout << "\t\t\t + "<< bufheader->l_time[1] << " µs"<<endl;
+            cout <<"\tTime: " << sbuf << endl;
          }
       }
       SetNewInputFile(kFALSE); // we have to reset the newfile flag

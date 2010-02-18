@@ -19,8 +19,10 @@
 #include "TROOT.h"
 
 #include "TH1.h"
+#include "TF1.h"
 #include "TH2.h"
 #include "TCutG.h"
+#include "TArc.h"
 
 #include "s_filhe_swap.h"
 #include "s_bufhe_swap.h"
@@ -136,6 +138,13 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
          fcondSet->Pic(1,1)->SetFillAtt(9, 1001); // solid
          fcondSet->Pic(1,1)->SetLineAtt(9,1,1);
          fcondSet->Pic(0,0)->SetTitleAttr(0.05, 0.85, 0.8, 0.95);
+
+         TF1 *fa1 = new TF1("fa1","1000*sin(x)/x",0,1000);
+         fcondSet->Pic(0,0)->AddSpecialObject(fa1, "same");
+
+         TArc* arc = new TArc(0,0, 1000);
+         fcondSet->Pic(0,1)->AddSpecialObject(arc);
+
          AddPicture(fcondSet);
       }
 
@@ -267,15 +276,14 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
    /////////////////////////////////////////////////////////////
    ////// use this if you want access to the mbs buffer header data:
    //      s_bufhe* head=inp_evt->GetMbsBufferHeader();
-   //      if(head)
-   //         {
+   //      if(head) {
    //            cout <<"\nfound bufhe structure:" << endl;
    //            cout <<"\tbuffernumber: "<<head->l_buf << endl;
    //            cout <<"\tdatalen: "<<head->l_dlen << endl;
    //            cout <<"\ttime lo: "<<head->l_time[0] << endl; // seconds since epoch 1970
    //            cout <<"\ttime hi: "<<head->l_time[1] << endl; // microseconds since time lo
-   //            cout <<"\ttimestring: "<<ctime((const time_t*) &(head->l_time[0]));
-   //            cout << "\t\t + "<<head->l_time[1] << " µs"<<endl;
+   //            char sbuf[1000]; f_ut_utime(head->l_time[0], head->l_time[1], sbuf);
+   //            cout <<"\ttimestring: " << sbuf <<endl;
    //            cout <<"\ttype: "<<head->i_type << endl;
    //            cout <<"\tsubtype: "<<head->i_subtype << endl;
    //         }

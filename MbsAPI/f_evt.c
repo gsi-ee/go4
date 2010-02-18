@@ -1339,8 +1339,8 @@ sd_string.dsc$a_pointer = (char *) &s_varstr_file;
             strcpy(ps_file_head->filhe_file, c_file);
             strcpy(ps_file_head->filhe_user, getenv("USER"));/* user name */
             ps_file_head->filhe_user_l=strlen(ps_file_head->filhe_user);
-            time(&s_timet);/* get calender time */
-       strcpy(c_mode,ctime(&s_timet));
+            time(&s_timet);/* get calendar time */
+       strcpy(c_mode, ctime(&s_timet));
             strcpy(ps_file_head->filhe_time, &c_mode[4]);
             ps_file_head->filhe_time[20]=' ';
 #ifdef VMS

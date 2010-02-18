@@ -11,7 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#include "typedefs.h"
+#include "f_ut_utime.h"
+
 /*****************+***********+****************************************/
 /*                                                                    */
 /*   GSI, Gesellschaft fuer Schwerionenforschung mbH                  */

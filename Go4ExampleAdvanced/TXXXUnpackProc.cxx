@@ -207,15 +207,14 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
    /////////////////////////////////////////////////////////////
    ////// use this if you want access to the mbs buffer header data:
    //      s_bufhe* head=inp_evt->GetMbsBufferHeader();
-   //      if(head)
-   //         {
+   //      if(head) {
    //            cout <<"\nfound bufhe structure:" << endl;
    //            cout <<"\tbuffernumber: "<<head->l_buf << endl;
    //            cout <<"\tdatalen: "<<head->l_dlen << endl;
    //            cout <<"\ttime lo: "<<head->l_time[0] << endl; // seconds since epoch 1970
    //            cout <<"\ttime hi: "<<head->l_time[1] << endl; // microseconds since time lo
-   //            cout <<"\ttimestring: "<<ctime((const time_t*) &(head->l_time[0]));
-   //            cout << "\t\t + "<<head->l_time[1] << " µs"<<endl;
+   //            char sbuf[1000]; f_ut_utime(head->l_time[0], head->l_time[1], sbuf);
+   //            cout <<"\ttimestring: " << sbuf <<endl;
    //            cout <<"\ttype: "<<head->i_type << endl;
    //            cout <<"\tsubtype: "<<head->i_subtype << endl;
    //         }
