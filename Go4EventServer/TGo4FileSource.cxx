@@ -104,6 +104,11 @@ TList* TGo4FileSource::ProducesFilesList(const char* mask)
 
    Bool_t withdir = kFALSE;
    Int_t slash = basename.Last('/');
+
+#ifdef WIN32
+   if (slash<0) slash = basename.Last('\\');
+#endif
+
    if (slash>=0) {
       dirname = basename(0, slash);
       basename.Remove(0, slash+1);
