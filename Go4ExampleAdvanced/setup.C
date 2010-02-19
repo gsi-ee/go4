@@ -2,12 +2,27 @@
 // Go4 2 step analysis
 //---------------------------------------------
 
-void setup(Text_t* name)
+void setup(const char* kind, const char* name)
 {
-// steering parameters to modify:
-  TString inpath("."); // input directory
-  TString outpath(".");// output directory
+// kind: -file|-trans|-stream|-rand
+// name is either:
+// MBS node, or
+// LMD file name without .lmd or
+// LML file starting with @ without .lml
+// output file names are are built like:
+// idir/name.lmd
+// @idir/name.lml
+// odir/name_AS
+// odir/name_unpacked
+// odir/name_analyzed
+  Text_t sourcedir[512]; // source directory
 
+// steering parameters to modify:
+  sprintf(sourcedir,"%s/data",getenv("GO4SYS"));
+  TString inpath(sourcedir);  // input directory
+  TString outpath("."); // output directory
+
+  TString unpackSource(kind); // -file, -stream, -transport, -random
   TString unpackProcess("yes");
   TString unpackStore("no");
   TString unpackOverWrite("yes");
@@ -21,23 +36,42 @@ void setup(Text_t* name)
   UInt_t Compression=3;
 
   TString autosave("no");
+  TString autosaveOverWrite("yes");
   Int_t autosaveinterval=0; // after n seconds, 0 = at termination of event loop
 // End of settings
 
-//--------------------------------------------
+// programmer part ----------------------------------------
+  TString source(name);
   Text_t asout[512]; // autosave file
   Text_t unpinp[512];// unpack input
   Text_t unpout[512];// unpack output
   Text_t anlinp[512];// analysis input
   Text_t anlout[512];// analysis output
-  sprintf(asout,"%s/%s_AS.root",outpath.Data(),name);
-  sprintf(unpinp,"%s/%s.lmd",inpath.Data(),name);
-  sprintf(unpout,"%s/%s_unpacked.root",outpath.Data(),name);
-  sprintf(anlout,"%s/%s_analyzed.root",outpath.Data(),name);
-  sprintf(anlinp,"%s/%s_unpacked.root",outpath.Data(),name);
+  Text_t nameonly[512];// name only
+  strcpy(unpinp,name);
+  strcpy(nameonly,source.Strip(TString::kLeading,'@').Data());
+  sprintf(asout,"%s/%s_AS.root",outpath.Data(),nameonly);
+  sprintf(unpout,"%s/%s_unpacked.root",outpath.Data(),nameonly);
+  sprintf(anlout,"%s/%s_analyzed.root",outpath.Data(),nameonly);
+  sprintf(anlinp,"%s/%s_unpacked.root",outpath.Data(),nameonly);
   // First step
   TGo4AnalysisStep * step1 = go4->GetAnalysisStep("Unpack");
-  step1->SetProcessEnabled(unpackProcess.BeginsWith("y"));
+  step1->SetProcessEnabled(kFALSE);
+  if(unpackProcess.BeginsWith("y")){
+     step1->SetProcessEnabled(kTRUE);
+     if(unpackSource.BeginsWith("-f")){
+    	 if(source.BeginsWith("@"))
+       	      sprintf(unpinp,"@%s/%s.lml",inpath.Data(),nameonly);
+    	 else sprintf(unpinp,"%s/%s.lmd",inpath.Data(),name);
+    	  step1->SetEventSource(new TGo4MbsFileParameter(unpinp));
+     }
+     else if(unpackSource.BeginsWith("-t"))
+     step1->SetEventSource(new TGo4MbsTransportParameter(name));
+     else if(unpackSource.BeginsWith("-s"))
+     step1->SetEventSource(new TGo4MbsStreamParameter(name));
+     else if(unpackSource.BeginsWith("-r"))
+     step1->SetEventSource(new TGo4MbsRandomParameter(name));
+  }
   TGo4FileStoreParameter * f1 = new TGo4FileStoreParameter(unpout,SplitLevel,BufferSize,Compression);
   f1->SetOverwriteMode(unpackOverWrite.BeginsWith("y"));
   step1->SetEventStore(f1);
@@ -47,14 +81,9 @@ void setup(Text_t* name)
   // Second step
   TGo4AnalysisStep * step2 = go4->GetAnalysisStep("Analysis");
   step2->SetProcessEnabled(analysisProcess.BeginsWith("y"));
-  // if unpack is disabled, get input from file
-  // otherwise from output event of unpack.
-  step2->SetSourceEnabled(kFALSE);
-  if(unpackProcess.BeginsWith("n")){
-	TGo4FileSourceParameter * f2 = new TGo4FileSourceParameter(anlinp);
-    step2->SetEventSource(f2);
-    step2->SetSourceEnabled(kTRUE);
-  }
+  TGo4FileSourceParameter * f2 = new TGo4FileSourceParameter(anlinp);
+  step2->SetEventSource(f2);
+  step2->SetSourceEnabled(unpackProcess.BeginsWith("n"));
   f1 = new TGo4FileStoreParameter(anlout,SplitLevel,BufferSize,Compression);
   f1->SetOverwriteMode(analysisOverWrite.BeginsWith("y"));
   step2->SetEventStore(f1);
@@ -62,11 +91,11 @@ void setup(Text_t* name)
   step2->SetErrorStopEnabled(kTRUE);
 
   // Autosafe
-  go4->SetAutoSaveFile(asout);   // optional
+  go4->SetAutoSaveFile(asout,autosaveOverWrite.BeginsWith("y"));   // optional
   go4->SetAutoSaveInterval(autosaveinterval);
   go4->SetAutoSave(autosave.BeginsWith("y"));    // optional
 
-  printf("Example2Step> setup.C: Setup analysis\n");
+  printf("ExampleAdvanced> setup.C: Setup analysis\n");
   if(go4->IsAutoSaveOn()){
 	  if(autosaveinterval==0)
 		  printf("       Autosave:    %s once file %s\n",autosave.Data(),asout);
@@ -74,18 +103,19 @@ void setup(Text_t* name)
 		  printf("       autosave:    %s every %ds file %s\n",autosave.Data(),autosaveinterval,asout);
   } else
   printf("       Autosave:    off\n");
-  printf("         Unpack:    %s\n",unpackProcess.Data());
+  printf("       Unpack:      %s\n",unpackProcess.Data());
   if(unpackProcess.BeginsWith("y")){
-  printf("         Store:     %s file %s\n",unpackStore.Data(),unpout);
-  printf("         OverWrite: %s\n",unpackOverWrite.Data());
+	  printf("         Input:     %s %s \n",unpackSource.Data(),unpinp);
+	  printf("         Store:     %s, file %s\n",unpackStore.Data(),unpout);
+	  printf("         OverWrite: %s\n",unpackOverWrite.Data());
   }
   printf("       Analysis:    %s\n",analysisProcess.Data());
   if(analysisProcess.BeginsWith("y")){
   if(unpackProcess.BeginsWith("n"))
-  printf("         Source:    yes file %s\n",anlinp);
+  printf("         Source:    yes, file %s\n",anlinp);
   else
-  printf("         Source:    yes from Unpack\n");
-  printf("         Store:     %s file %s\n",analysisStore.Data(),anlout);
+  printf("         Source:    from Unpack (no, file %s) \n",anlinp);
+  printf("         Store:     %s, file %s\n",analysisStore.Data(),anlout);
   printf("         OverWrite: %s\n",analysisOverWrite.Data());
   }
   printf("       Splitlevel:  %d\n",SplitLevel);

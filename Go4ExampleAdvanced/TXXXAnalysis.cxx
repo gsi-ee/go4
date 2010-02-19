@@ -63,61 +63,65 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
       exit(-1);
    }
 
-   cout << "**** TXXXAnalysis: Create" << endl;
+   cout << "**** TXXXAnalysis: Create " << argv[0] << endl;
 
-   TString input, out1, out2;
+   TString kind, input, out1, out2;
 
    // this is a way to get user-specific arguments in batch mode, like:
-   //   shell> go4analysis -args inputname
+   //   shell> go4analysis -x -file|-transport|-stream|-random name
    // in this case argv[0] will be analysis name (default is "Go4Analysis")
-   //              argv[1] will be "inputname"
+   //              argv[1] should be type of source
+   //              argv[2] should be "name" of file or MBS node
    // any kind of additional arguments can be supplied
 
-   if (argc>1) {
-      cout << "**** Configure with user-specified parameters ****" << endl;
-      input = Form("%s.lmd", argv[1]);
-      out1 = Form("%s_Calibr", argv[1]);
-      out2 = Form("%s_Anl", argv[1]);
-   } else {
-      cout << "**** Configure with default parameters ****" << endl;
-      input = "/GSI/lea/gauss.lmd";
-      out1 = "Output_Calibr";
-      out2 = "Output_Anl";
-   }
+switch(argc){
+case 1: cout << "**** Configure with default parameters ****" << endl;
+		kind = "-file";
+		input = "test";
+		out1 = "Output_Calib";
+		out2 = "Output_Anl";
+		break;
 
+case 2: // default kind
+	   cout << "**** Configure with user-specified parameters ****" << endl;
+	   kind = "-file";
+	   input = Form("%s", argv[1]);
+	   out1 = Form("%s_Calib", argv[1]);
+	   out2 = Form("%s_Anl", argv[1]);
+	   break;
+case 3:
+default:
+	   cout << "**** Configure with user-specified parameters ****" << endl;
+	   kind = Form("%s", argv[1]);
+	   input = Form("%s", argv[2]);
+	   out1 = Form("%s_Calib", argv[2]);
+	   out2 = Form("%s_Anl", argv[2]);
+	   break;
+}
+// Create step 1 Unpack.
    TGo4StepFactory* factory1 = new TGo4StepFactory("UnpackFactory");
    factory1->DefEventProcessor("UnpackProc", "TXXXUnpackProc");// object name, class name
    factory1->DefOutputEvent("UnpackEvent", "TXXXUnpackEvent"); // object name, class name
-
-   TGo4MbsFileParameter* source1 = new TGo4MbsFileParameter(input.Data());
-   TGo4FileStoreParameter* store1 = new TGo4FileStoreParameter(out1.Data());
-   store1->SetOverwriteMode(kTRUE); // overwrite file
-   TGo4AnalysisStep* step1 = new TGo4AnalysisStep("Unpack",factory1,source1,store1,0);
-
+   TGo4AnalysisStep* step1 = new TGo4AnalysisStep("Unpack",factory1,0,0,0);
+   step1->SetErrorStopEnabled(kTRUE);
    AddAnalysisStep(step1);
-
+// These settings will be overwritten by setup.C
    step1->SetSourceEnabled(kTRUE);
    step1->SetStoreEnabled(kFALSE);
    step1->SetProcessEnabled(kTRUE);
-   step1->SetErrorStopEnabled(kTRUE);
 
-   // second step definitions:
-   // If source is enabled, take output file from step 1 as input.
-   // otherwise we use output event from step 1 (set in factory)
+// Create step 2 Analysis.
    TGo4StepFactory* factory2 = new TGo4StepFactory("AnalysisFactory");
    factory2->DefInputEvent("UnpackEvent", "TXXXUnpackEvent"); // object name, class name
    factory2->DefEventProcessor("AnlProc", "TXXXAnlProc"); // object name, class name
    factory2->DefOutputEvent("AnlEvent", "TXXXAnlEvent"); // object name, class name
-   TGo4FileSourceParameter* source2  = new TGo4FileSourceParameter(out1.Data());
-   TGo4FileStoreParameter* store2   = new TGo4FileStoreParameter(out2.Data());
-   store2->SetOverwriteMode(kTRUE);
-   TGo4AnalysisStep* step2    = new TGo4AnalysisStep("Analysis",factory2,source2,store2,0);
-
-   step2->SetSourceEnabled(kFALSE);  // disable file input (if input file was given)
-   step2->SetStoreEnabled(kFALSE);
-   step2->SetProcessEnabled(kTRUE);
+   TGo4AnalysisStep* step2    = new TGo4AnalysisStep("Analysis",factory2,0,0,0);
    step2->SetErrorStopEnabled(kTRUE);
    AddAnalysisStep(step2);
+// These settings will be overwritten by setup.C
+   step2->SetSourceEnabled(kFALSE);
+   step2->SetStoreEnabled(kFALSE);
+   step2->SetProcessEnabled(kTRUE);
 
    // uncomment following line to define custom passwords for analysis server
    // DefineServerPasswords("XXXadmin", "XXXctrl", "XXXview");
@@ -135,14 +139,11 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    fPar->frP2 = 2000;
    AddParameter(fPar);
 
-   // execute setup macro, if user arguments (-args value) was provided to go4analysis
    // check that file setup.C is existing in current directory
-   if (argc>1){
-      if (!gSystem->AccessPathName("setup.C"))
-         gROOT->ProcessLine(Form(".x setup.C(\"%s\")", argv[1]));
-      else
-         cout << "**** Cannot find setup.C script in current directory ! ****" << endl;
-   }
+   if (!gSystem->AccessPathName("setup.C"))
+   gROOT->ProcessLine(Form(".x setup.C(\"%s\",\"%s\")", kind.Data(), input.Data()));
+   else
+	  cout << "**** Cannot find setup.C script in current directory ! ****" << endl;
 }
 
 //***********************************************************

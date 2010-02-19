@@ -51,8 +51,10 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    factory->DefEventProcessor("XXXProc","TXXXProc");// object name, class name
    factory->DefOutputEvent("XXXEvent","TXXXEvent"); // object name, class name
 
+   Text_t lmdfile[512]; // source file
+   sprintf(lmdfile,"%s/data/test.lmd",getenv("GO4SYS"));
    // TGo4EventSourceParameter* sourcepar = new TGo4MbsTransportParameter("r3b");
-   TGo4EventSourceParameter* sourcepar = new TGo4MbsFileParameter("/GSI/lea/gauss.lmd");
+   TGo4EventSourceParameter* sourcepar = new TGo4MbsFileParameter(lmdfile);
 
    TGo4FileStoreParameter* storepar = new TGo4FileStoreParameter(Form("%sOutput", argv[0]));
    storepar->SetOverwriteMode(kTRUE);

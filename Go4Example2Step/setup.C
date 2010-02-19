@@ -4,6 +4,7 @@
 
 void setup(const char* kind, const char* name)
 {
+// kind: -file|-trans|-stream|-rand
 // name is either:
 // MBS node, or
 // LMD file name without .lmd or
@@ -14,13 +15,14 @@ void setup(const char* kind, const char* name)
 // odir/name_AS
 // odir/name_unpacked
 // odir/name_analyzed
+  Text_t sourcedir[512]; // source directory
 
 // steering parameters to modify:
-  TString inpath("/GSI/lea"); // input directory
-  //TString inpath("."); // input directory
-  TString outpath(".");       // output directory
+  sprintf(sourcedir,"%s/data",getenv("GO4SYS"));
+  TString inpath(sourcedir);  // input directory
+  TString outpath("."); // output directory
 
-  TString unpackSource(kind); // file, stream, transport, random
+  TString unpackSource(kind); // -file, -stream, -transport, -random
   TString unpackProcess("yes");
   TString unpackStore("no");
   TString unpackOverWrite("yes");
@@ -57,17 +59,17 @@ void setup(const char* kind, const char* name)
   step1->SetProcessEnabled(kFALSE);
   if(unpackProcess.BeginsWith("y")){
      step1->SetProcessEnabled(kTRUE);
-     if(unpackSource.BeginsWith("f")){
+     if(unpackSource.BeginsWith("-f")){
     	 if(source.BeginsWith("@"))
        	      sprintf(unpinp,"@%s/%s.lml",inpath.Data(),nameonly);
     	 else sprintf(unpinp,"%s/%s.lmd",inpath.Data(),name);
     	  step1->SetEventSource(new TGo4MbsFileParameter(unpinp));
      }
-     else if(unpackSource.BeginsWith("t"))
+     else if(unpackSource.BeginsWith("-t"))
      step1->SetEventSource(new TGo4MbsTransportParameter(name));
-     else if(unpackSource.BeginsWith("s"))
+     else if(unpackSource.BeginsWith("-s"))
      step1->SetEventSource(new TGo4MbsStreamParameter(name));
-     else if(unpackSource.BeginsWith("r"))
+     else if(unpackSource.BeginsWith("-r"))
      step1->SetEventSource(new TGo4MbsRandomParameter(name));
   }
   TGo4FileStoreParameter * f1 = new TGo4FileStoreParameter(unpout,SplitLevel,BufferSize,Compression);
