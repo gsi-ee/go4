@@ -2891,7 +2891,7 @@ void TGo4MainWindow::HotStart(const char* fname)
 
    if (!exec->StartScriptExecution(fname)) return;
 
-   QTimer::singleShot(TGo4Script::DelayMillisec(), this, SLOT(ProcessHotStart()));
+   QTimer::singleShot(TGo4AbstractInterface::DelayMillisec(), this, SLOT(ProcessHotStart()));
 }
 
 void TGo4MainWindow::ProcessHotStart()
@@ -2905,7 +2905,7 @@ void TGo4MainWindow::ProcessHotStart()
    } while(res && !exec->IsWaitSomething());
 
    if (res) {
-      QTimer::singleShot(TGo4Script::DelayMillisec(), this, SLOT(ProcessHotStart()));
+      QTimer::singleShot(TGo4AbstractInterface::DelayMillisec(), this, SLOT(ProcessHotStart()));
       if (QApplication::overrideCursor()==0)
         QApplication::setOverrideCursor(Qt::WaitCursor);
    } else {
@@ -2923,7 +2923,7 @@ void TGo4MainWindow::StopGUIScriptSlot()
 
 void TGo4MainWindow::CreateGUIScriptSlot()
 {
-   QString ext = TGo4Script::FileExtension();
+   QString ext = TGo4AbstractInterface::FileExtension();
    QString fileName = QFileDialog::getSaveFileName(
         fLastFileDir, QString("GUI hotstart script (*") + ext + ")", this,
         "Create GUI script dialog", "Choose a file to be created");
@@ -2941,7 +2941,7 @@ void TGo4MainWindow::CreateGUIScriptSlot()
 
 void TGo4MainWindow::ProcessQtEvents()
 {
-   if (fApp!=0) fApp->processEvents(TGo4Script::DelayMillisec());
+   if (fApp!=0) fApp->processEvents(TGo4AbstractInterface::DelayMillisec());
 }
 
 TGo4ViewPanel* TGo4MainWindow::FindViewPanel(const char* name)

@@ -43,25 +43,10 @@
 
 #include "TGo4Slot.h"
 
-const char* TGo4Script::fgFileExtension = ".hotstart";
-Int_t TGo4Script::fgDellayMillisec = 20;
-
-
 TGo4Script* TGo4Script::ScriptInstance()
 {
    return dynamic_cast<TGo4Script*> (Instance());
 }
-
-const char* TGo4Script::FileExtension()
-{
-   return fgFileExtension;
-}
-
-Int_t TGo4Script::DelayMillisec()
-{
-   return fgDellayMillisec;
-}
-
 
 TGo4Script::TGo4Script(TGo4MainWindow* mainwin) :
    TGo4AbstractInterface(),
@@ -616,6 +601,9 @@ ViewPanelHandle TGo4Script::StartViewPanel(int x, int y, int width, int height, 
 
    if (pic!=0) {
       panel->ProcessPictureRedraw("", panel->GetCanvas(), pic);
+      if (TString(fDefaultPicTitle) != pic->GetTitle())
+         panel->SetFreezedTitle(pic->GetTitle());
+
       panel->ShootRepaintTimer();
    }
 
@@ -937,7 +925,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       npanel++;
       TString picname = "pic";
       picname+=npanel;
-      TGo4Picture pic(picname.Data(),"temporary object to setup viewpanel");
+      TGo4Picture pic(picname.Data(), fDefaultPicTitle);
 
       panel->MakePictureForPad(&pic, panel->GetCanvas(), true);
 

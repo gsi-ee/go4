@@ -843,6 +843,7 @@
     <variable>TVirtualPadEditor* fxPeditor</variable>
     <variable>TQRootWindow* fxRooteditor</variable>
     <variable>bool fbFreezeTitle</variable>
+    <variable>QString fFreezedTitle</variable>
     <variable>bool fbMarkEditorVisible</variable>
     <variable>bool fbTypingMode</variable>
     <variable>QMenuBar* fMenuBar</variable>
@@ -1010,6 +1011,7 @@
     <function returnType="TObject*">GetSelectedObject( TPad * pad, const char** drawopt )</function>
     <function returnType="bool">ShiftSelectedObjectToEnd(TPad * pad)</function>
     <function returnType="const char *">GetSpecialDrawOption( TGo4Slot * slot )</function>
+    <function>SetFreezedTitle(const QString&amp; title)</function>
     <function>CheckForSpecialObjects( TPad * pad, TGo4Slot * padslot )</function>
     <function>CheckObjectsAssigments( TPad * pad, TGo4Slot * padslot )</function>
     <function>ProcessPictureRedraw( const char* picitemname, TPad * pad, TGo4Picture * pic )</function>

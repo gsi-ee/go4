@@ -212,6 +212,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual bool IsRepaintTimerActive();
       virtual void ShootRepaintTimer(TPad * pad);
       virtual void PadDeleted( TPad * pad );
+      virtual void SetFreezedTitle(const QString& title);
 
    public slots:
 
@@ -271,6 +272,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       TVirtualPadEditor* fxPeditor;
       QRootWindow* fxRooteditor;
       bool fbFreezeTitle;
+      QString fFreezedTitle;
       bool fbMarkEditorVisible;
       bool fbTypingMode;
       QMenuBar* fMenuBar;

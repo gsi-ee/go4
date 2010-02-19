@@ -34,6 +34,7 @@ Changes in Go4 v4.4.1 (February 10)
 4. Fix (implement) "-source" argument for go4analysis
 5. Fix problem with TASImage zooming, allow to switch palette on/off in asimage mode    
 6. Improvements in fitpanel, that it can correctly display fitters, produced by examples
+7. Keep and restore panel name in hotstart file. 
 
 Changes in Go4 v4.4.0 (November 09)
 1. Add clear histogram and conditions button in gui

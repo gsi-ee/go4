@@ -32,6 +32,12 @@ TGo4AbstractInterface* TGo4AbstractInterface::fgInstance = 0;
 
 TString TGo4AbstractInterface::fInitSharedLibs = "";
 
+const char* TGo4AbstractInterface::fDefaultPicTitle = "temporary object to setup viewpanel";
+
+const char* TGo4AbstractInterface::fgFileExtension = ".hotstart";
+
+Int_t TGo4AbstractInterface::fgDellayMillisec = 20;
+
 
 TGo4AbstractInterface* TGo4AbstractInterface::Instance()
 {
@@ -41,6 +47,16 @@ TGo4AbstractInterface* TGo4AbstractInterface::Instance()
 void TGo4AbstractInterface::DeleteInstance()
 {
    if (fgInstance!=0) delete fgInstance;
+}
+
+const char* TGo4AbstractInterface::FileExtension()
+{
+   return fgFileExtension;
+}
+
+Int_t TGo4AbstractInterface::DelayMillisec()
+{
+   return fgDellayMillisec;
 }
 
 void TGo4AbstractInterface::SetInitSharedLibs(const char* libs)

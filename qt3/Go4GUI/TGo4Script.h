@@ -32,8 +32,6 @@ class TGo4Script : public TGo4AbstractInterface {
       TGo4Script(TGo4MainWindow* mainwin);
       virtual ~TGo4Script();
 
-      static const char* FileExtension();
-
       // general purpose
       void Wait(double tm_sec);
 
@@ -165,7 +163,6 @@ class TGo4Script : public TGo4AbstractInterface {
    protected:
 
       static TGo4Script* ScriptInstance();
-      static Int_t DelayMillisec();
 
       Bool_t StartScriptExecution(const char* fname);
       Bool_t ContinueExecution();
@@ -189,9 +186,6 @@ class TGo4Script : public TGo4AbstractInterface {
       TString   fStrBuf;               //!
       TGo4MainWindow* fMainWin;        //!
       Bool_t    fErrorFlag;            //!
-
-      static const char* fgFileExtension; //!
-      static Int_t fgDellayMillisec;
 
    ClassDef(TGo4Script, 1);
 };

@@ -85,8 +85,13 @@ class TGo4AbstractInterface : public TObject {
       /** Constructor */
       TGo4AbstractInterface();
 
-      static TGo4AbstractInterface* fgInstance;
-      static TString                fInitSharedLibs; //! list of shared libraries when application is started
+      static TGo4AbstractInterface* fgInstance;        //!
+      static TString                fInitSharedLibs;   //! list of shared libraries when application is started
+      static const char*            fDefaultPicTitle;  //!
+      static const char*            fgFileExtension;   //!
+      static Int_t                  fgDellayMillisec;  //!
+
+
 
       void Initialize(TGo4ObjectManager* om, TGo4BrowserProxy* br);
 
@@ -114,6 +119,12 @@ class TGo4AbstractInterface : public TObject {
 
       /** Delete instance of interface class */
       static void DeleteInstance();
+
+      /** Returns default hotstart file extension */
+      static const char* FileExtension();
+
+      /** Default delay during hotstart file extension */
+      static Int_t DelayMillisec();
 
       /** Returns pointer on object manager.
         * TGo4ObjectManager class should only be used when standard interface

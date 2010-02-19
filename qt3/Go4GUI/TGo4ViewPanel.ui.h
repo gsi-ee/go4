@@ -184,6 +184,7 @@ void TGo4ViewPanel::init()
    fxRepaintTimerPad = 0;
    fxDoubleClickTimerPad = 0;
    fbFreezeTitle = false;
+   fFreezedTitle = "";
    fbApplyToAllFlag = false;
    fbCanvasCrosshair = false;
    fbCanvasEventstatus = false;
@@ -1536,6 +1537,9 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemn
 
    pic->CopyOptionsFrom(padopt);
 
+   if (pad==GetCanvas() && fbFreezeTitle)
+      pic->SetTitle(fFreezedTitle.ascii());
+
    int objnamenum = 0;
 
    for(int n=0;n<slot->NumChilds();n++) {
@@ -2869,6 +2873,16 @@ void TGo4ViewPanel::CheckObjectsAssigments( TPad * pad, TGo4Slot * padslot )
    }
 }
 
+void TGo4ViewPanel::SetFreezedTitle(const QString& title)
+{
+   QString mycaption = GetPanelName();
+   mycaption += ": ";
+   mycaption += title;
+   setCaption(mycaption);
+   fbFreezeTitle = true;
+   fFreezedTitle = title;
+}
+
 void TGo4ViewPanel::CheckForSpecialObjects(TPad *pad, TGo4Slot* padslot)
 {
    if ((pad==0) || (padslot==0)) return;
@@ -2921,13 +2935,7 @@ void TGo4ViewPanel::CheckForSpecialObjects(TPad *pad, TGo4Slot* padslot)
 
       ProcessPictureRedraw(GetLinkedName(picslot), pad, pic);
 
-      if (pad==GetCanvas()) {
-         QString mycaption = GetPanelName();
-         mycaption += ": ";
-         mycaption += pic->GetTitle();
-         setCaption(mycaption);
-         fbFreezeTitle = true;
-      }
+      if (pad==GetCanvas()) SetFreezedTitle(pic->GetTitle());
 
       // remove picture from the pad
       delete picslot;
@@ -4802,13 +4810,7 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
          QString text = QInputDialog::getText(
                           GetPanelName(), "Enter Viewpanel Title:", QLineEdit::Normal,
                          oldtitle, &ok, this );
-         if ( ok && !text.isEmpty() ) {
-            QString mycaption = GetPanelName();
-            mycaption += ": ";
-            mycaption += text;
-            setCaption(mycaption);
-            fbFreezeTitle = true;
-         }
+         if ( ok && !text.isEmpty() ) SetFreezedTitle(mycaption);
          break;
       }
 
