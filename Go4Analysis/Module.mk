@@ -67,7 +67,7 @@ all:: $(GO4ANALEXE)
 
 clean-bin::
 	@rm -f $(GO4ANALEXE_O) $(GO4ANALEXE_DEP)
-	@rm -f $(GO4ANAL_O) $(GO4ANAL_DO) $(VERSION_DEP)
+	@rm -f $(GO4ANAL_O) $(GO4ANAL_DO) $(VERSION_O) $(VERSION_DEP)
 	@rm -f $(GO4ANAL_DEP) $(GO4ANAL_DDEP) $(GO4ANAL_DS) $(GO4ANAL_DH)
 
 clean::

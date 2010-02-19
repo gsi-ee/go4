@@ -4,6 +4,16 @@ ifeq ($(Go4_Makefile_Rules),)
 
 Go4_Makefile_Rules = included
 
+## one can exclude dependency generation, calling "make nodepend=1"
+## it is only work when build go4 package, not with examples
+
+ifndef GO4PACKAGE
+GO4WITHOUTDEPEND=
+endif
+
+
+ifndef GO4WITHOUTDEPEND
+
 ifdef LIBDEPENDENC
 ifeq ($(findstring $(MAKECMDGOALS), examples $(FASTRULES)),)
 -include $(LIBDEPENDENC)
@@ -15,6 +25,9 @@ ifeq ($(findstring $(MAKECMDGOALS), libs gui $(FASTRULES)),)
 -include $(EXAMPDEPENDENCS)
 endif
 endif
+
+endif
+
 
 ifeq ($(DOOPTIMIZATION), false)
 OPTFLAGS = $(DEBUGMODE)

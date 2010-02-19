@@ -152,14 +152,17 @@ ADVANCED MAKE OPTIONS
      Defines platform, on which go4 will be compiled.
      If not defined, tested via 'uname'. Default is Linux.
 
-  rpath=true|false  
+  rpath=true|false
      Use -rpath option of linker to include absolute library pathes, 
      where go4 executables should search for libraries. Default is true.
      This option allows to use go4 executable without any additional 
      LD_LIBRARY_PATH variable settings.
                     
   debug=1     
-     Build all libraries with debug symbols. Default is off.                       
+     Build all libraries with debug symbols. Default is off.
+
+  nodepend=1
+     Build go4 without dependencies - makes build process faster.
 
   All flags, specified to the make, will be stored together with some environment settings
   in build/Makefile.gener. This allow to reuse same settings for user analysis compilation.
