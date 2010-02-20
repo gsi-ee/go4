@@ -87,11 +87,6 @@ class TGo4AbstractInterface : public TObject {
 
       static TGo4AbstractInterface* fgInstance;        //!
       static TString                fInitSharedLibs;   //! list of shared libraries when application is started
-      static const char*            fDefaultPicTitle;  //!
-      static const char*            fgFileExtension;   //!
-      static Int_t                  fgDellayMillisec;  //!
-
-
 
       void Initialize(TGo4ObjectManager* om, TGo4BrowserProxy* br);
 
@@ -102,6 +97,10 @@ class TGo4AbstractInterface : public TObject {
       const char* NextHotStartCmd();
       void FreeHotStartCmds();
       static void ProduceLoadLibs(std::ostream& fs);
+
+      /** Returns default hotstart file extension */
+      static const char* DefaultPicTitle();
+
 
    public:
 

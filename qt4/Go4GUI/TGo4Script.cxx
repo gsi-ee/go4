@@ -599,7 +599,7 @@ ViewPanelHandle TGo4Script::StartViewPanel(int x, int y, int width, int height, 
 
    if (pic!=0) {
       panel->ProcessPictureRedraw("", panel->GetCanvas(), pic);
-      if (TString(fDefaultPicTitle) != pic->GetTitle())
+      if (TString(DefaultPicTitle()) != pic->GetTitle())
          panel->SetFreezedTitle(pic->GetTitle());
 
       panel->ShootRepaintTimer();
@@ -924,7 +924,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       npanel++;
       TString picname = "pic";
       picname+=npanel;
-      TGo4Picture pic(picname.Data(), fDefaultPicTitle);
+      TGo4Picture pic(picname.Data(), DefaultPicTitle());
 
       panel->MakePictureForPad(&pic, panel->GetCanvas(), true);
 
