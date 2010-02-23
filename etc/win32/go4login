@@ -5,7 +5,7 @@
 # installed in directories whithout spaces in their names.
 # If not, one should create symbolik links to such directories,
 # using mklink utility under admin account. Do something like
-#  > mklink /D "C:\Program Files\Visual studio" c:\soft\vc
+#  > mklink /D c:\soft\vc "C:\Program Files\Visual studio" 
 # Than adjust windows pathes
 
 export VC_PATH="E:\Soft\VS\VC"
@@ -17,7 +17,7 @@ GO4_PATH="F:\Soft\go4"
 QT_PATH="E:\Soft\Qt451"
 
 export GO4_OS=Win32
-export GO4SYS=`cygpath $GO4_PATH`
+# export GO4SYS=`cygpath $GO4_PATH`
 
 export ROOTSYS=`cygpath $ROOT_PATH`
 export QTDIR=`cygpath $QT_PATH`

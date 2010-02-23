@@ -131,11 +131,11 @@ together with Microsoft Visual C++ 2008 Express Edition and CYGWIN.
 - Download and install root (ROOT Windows binaries are enough)
 - Install and configure CYGWIN
 - Install Microsoft VC++
-- Download Qt 4.6.x source win tar ball (there is no binary version for VC++)
-  and compile it 
+- Install Qt 4.6.x binaries package for MS VS2008 compiler like
+    qt-win-opensource-4.6.2-vs2008.exe 
 - Download go4 sources from http://go4.gsi.de web site.
 - Find and modify $GO4SYS/etc/win/go4login file to actual location of all 
   components, copy it to home cygwin directory
-- Run Cygwin shell, call ". go4login", cd $GO4SYS and call "make"
+- Run Cygwin shell, call ". go4login", change to go4 directory and call "make"
 - Hopefully, this will compile Go4 under Windows!
 
