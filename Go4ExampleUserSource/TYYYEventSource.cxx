@@ -18,6 +18,7 @@
 #include <stdlib.h>
 
 #include "TGo4EventErrorException.h"
+#include "TGo4EventEndException.h"
 #include "TGo4EventTimeoutException.h"
 #include "TGo4UserSourceParameter.h"
 #include "TYYYRawEvent.h"
@@ -85,7 +86,7 @@ Bool_t TYYYEventSource::BuildEvent(TGo4EventElement* dest)
          SetCreateStatus(1);
          SetErrMess(Form("End of input file %s", GetName()));
          SetEventStatus(1);
-         throw TGo4EventErrorException(this);
+         throw TGo4EventEndException(this);
       }
    } while(strstr(sbuf,"#") || strstr(sbuf,"!") ); // skip any comments
 
