@@ -112,14 +112,17 @@ clean-qt4-GUI-bin:
 ifneq ($(wildcard $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE)),)
 	cd $(GO4GUI4_DIR); $(MAKEFORQT) -f $(GO4GUI4_QTMAKE) clean
 endif
-	@rm -f $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE)
-	@rm -f $(GO4GUI4_O) $(GO4GUI4_DEP)
-	@rm -f $(GO4GUI4_DS) $(GO4GUI4_DH) $(GO4GUI4_DO) $(GO4GUI4_DDEP)
-	@rm -rf $(GO4GUI4_DIR)/.obj $(GO4GUI4_DIR)/.moc
-	@rm -f $(GO4GUI4_GEN_QRC)
+	@$(RM) $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE)*
+	@$(RM) $(GO4GUI4_O) $(GO4GUI4_DEP)
+	@$(RM) $(GO4GUI4_DS) $(GO4GUI4_DH) $(GO4GUI4_DO) $(GO4GUI4_DDEP)
+	@$(RMDIR) $(GO4GUI4_DIR)/.obj $(GO4GUI4_DIR)/.moc
+	@$(RM) $(GO4GUI4_GEN_QRC)
+ifeq ($(GO4_OS),Win32)
+	$(RMDIR) $(GO4GUI4_DIR)/release $(GO4GUI4_DIR)/debug 
+endif
 
 clean-qt4-GUI: clean-qt4-GUI-bin
-	@rm -f bin/go4
-	@rm -f $(GO4GUI4_UI_H) $(GO4GUI4_PUBH)
+	@$(RM) bin/go4
+	@$(RM) $(GO4GUI4_UI_H) $(GO4GUI4_PUBH)
 	@echo "Clean qt4 gui done"
 

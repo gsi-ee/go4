@@ -36,7 +36,23 @@ class TMutex;
  * @since 17-jun-2003
  */
 
+
+#ifdef __CINT__
+
 class TGo4Log {
+
+#else
+
+#ifdef GO4_EXPORT
+#define TGO4LOG_CLASS_IMPORT  __declspec(dllimport)
+#else
+#define TGO4LOG_CLASS_IMPORT
+#endif
+
+class TGO4LOG_CLASS_IMPORT TGo4Log {
+
+#endif
+
    public:
       static TGo4Log *Instance();
 

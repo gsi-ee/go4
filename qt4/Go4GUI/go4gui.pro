@@ -14,9 +14,7 @@ PROJECTNAME = Go4GUI
 
 RESOURCES += go4icons.qrc
 
-win32:QMAKE_LFLAGS  += /nodefaultlib:msvcprt.lib /nodefaultlib:libcmt.lib /verbose:lib
-
-win32:LIBS += ../../Go4Log/TGo4Log.obj
+win32:QMAKE_LFLAGS  += /nodefaultlib:msvcrt.lib /verbose:lib
 
 win32:DEFINES += GO4_EXPORT
 

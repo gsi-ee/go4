@@ -23,6 +23,7 @@ OPTIMIZEMODE  = -O2
 #### File system operations: ####
 LN            = ln -sf
 RM            = rm -f
+RMDIR         = rm -rf
 MV            = mv
 
 #### Linker definitions: ####

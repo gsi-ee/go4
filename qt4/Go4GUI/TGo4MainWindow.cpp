@@ -788,13 +788,7 @@ void TGo4MainWindow::UserPanelSlot()
    // check from standard LD_LIBRARY_PATHS
    if (startUserGUI(0)) return;
 
-#ifdef WIN32
-   TString stdguidir = TGo4Log::subGO4SYS("qt4/Go4UserGUI/release"); 
-#else
-   TString stdguidir = TGo4Log::subGO4SYS("qt4/Go4UserGUI"); 
-#endif
-
-   if (startUserGUI(stdguidir.Data())) return;
+   if (startUserGUI(TGo4Log::subGO4SYS("qt4/Go4UserGUI").Data())) return;
 
    QMessageBox::critical(this,"Starting user GUI", "No suitable libraries found");
 }
