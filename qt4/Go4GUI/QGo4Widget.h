@@ -34,7 +34,22 @@ class QAction;
 class QSignalMapper;
 
 #ifdef WIN32
-class QGo4Widget : public QWidget {
+
+#ifdef GO4_EXPORT
+#define GO4_CLASS_EXPORT  __declspec(dllexport)
+#else
+#define GO4_CLASS_EXPORT  __declspec(dllimport)
+#endif
+
+#else
+
+#define GO4_CLASS_EXPORT
+
+#endif
+
+
+#ifdef WIN32
+class GO4_CLASS_EXPORT QGo4Widget : public QWidget {
 #else
 #include <QtDesigner/QDesignerExportWidget>
 class QDESIGNER_WIDGET_EXPORT  QGo4Widget : public QWidget {

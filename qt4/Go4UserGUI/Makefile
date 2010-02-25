@@ -60,12 +60,7 @@ $(USERGUI4_QTLIB): $(USERGUI4_DIR)/$(USERGUI4_QTMAKE) $(USERGUI4_QGO4WIDG)
 	@echo "Generating Qt part of the User GUI..."
 	+cd $(USERGUI4_DIR); $(MAKEFORQT) -f $(USERGUI4_QTMAKE) $(USERGUI4_QFLAGS)
 
-ifndef GO4_WIN32
 all-qt4usergui:  $(USERGUI4_QTLIB)
-else
-all-qt4usergui:
-	@echo "No user gui (yet) under windows"
-endif
 
 clean-qt4usergui-bin:
 ifneq ($(wildcard $(USERGUI4_DIR)/$(USERGUI4_QTMAKE)),)

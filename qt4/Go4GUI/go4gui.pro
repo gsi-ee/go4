@@ -18,6 +18,8 @@ win32:QMAKE_LFLAGS  += /nodefaultlib:msvcprt.lib /nodefaultlib:libcmt.lib /verbo
 
 win32:LIBS += ../../Go4Log/TGo4Log.obj
 
+win32:DEFINES += GO4_EXPORT
+
 
 HEADERS	+= \
 	TGo4HServerConnection.h\
@@ -247,9 +249,4 @@ SOURCES += TGo4DrawCloneProxy.cxx \
            TGo4Script.cxx \
            TGo4WidgetProxy.cxx \
            G__Go4GUI.cxx
-
-#HEADERS += TGo4DrawCloneProxy.h \
-#           TGo4DrawObjProxy.h \
-#           TGo4Script.h \
-#           TGo4WidgetProxy.h
 	

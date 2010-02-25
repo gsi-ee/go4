@@ -736,13 +736,13 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
 
    bool defaultnames = libname.length()==0;
    if (defaultnames)
-     libname = "libGo4UserGui.so";
+     libname = "libGo4UserGui";
 
    TStartUserGuiFunc startfunc = 0;
 
    libname = dirname + libname;
 
-   cout << "Try : " << libname.toAscii().constData() << endl;
+   cout << "Try usergui: " << libname.toAscii().constData() << endl;
 
    bool loaded = false;
 
@@ -788,7 +788,13 @@ void TGo4MainWindow::UserPanelSlot()
    // check from standard LD_LIBRARY_PATHS
    if (startUserGUI(0)) return;
 
-   if (startUserGUI(TGo4Log::subGO4SYS("qt4/Go4UserGUI").Data())) return;
+#ifdef WIN32
+   TString stdguidir = TGo4Log::subGO4SYS("qt4/Go4UserGUI/release"); 
+#else
+   TString stdguidir = TGo4Log::subGO4SYS("qt4/Go4UserGUI"); 
+#endif
+
+   if (startUserGUI(stdguidir.Data())) return;
 
    QMessageBox::critical(this,"Starting user GUI", "No suitable libraries found");
 }

@@ -16,8 +16,24 @@
 
 #include <QtGui/QWidget>
 
+
 #ifdef WIN32
-#define QDESIGNER_WIDGET_EXPORT
+
+#ifdef GO4_EXPORT
+#define GO4_CLASS_EXPORT  __declspec(dllexport)
+#else
+#define GO4_CLASS_EXPORT  __declspec(dllimport)
+#endif
+
+#else
+
+#define GO4_CLASS_EXPORT
+
+#endif
+
+
+#ifdef WIN32
+#define QDESIGNER_WIDGET_EXPORT GO4_CLASS_EXPORT
 #else
 #include <QtDesigner/QDesignerExportWidget>
 #endif
