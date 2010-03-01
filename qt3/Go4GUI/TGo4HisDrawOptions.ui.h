@@ -125,7 +125,7 @@ void TGo4HisDrawOptions::UpdateView(int viewtype)
          DrawOption->insertItem(QPixmap::fromMimeSource(""),           "B    barchart",    6);
          DrawOption->insertItem(QPixmap::fromMimeSource(""),           "P    polymarkers", 7);
          DrawOption->insertItem(QPixmap::fromMimeSource(""),           "P0   polymarkers", 8);
-         DrawOption->insertItem(QPixmap::fromMimeSource(""),           "9    high resol",  9);
+         DrawOption->insertItem(QPixmap::fromMimeSource(""),           "9H   high resol",  9);
          DrawOption->insertItem(QPixmap::fromMimeSource(""),           "][   no right",   10);
          DrawOption->insertItem(QPixmap::fromMimeSource(""),           "TEXT digits b/w", 11);
          DrawOption->insertItem(QPixmap::fromMimeSource(""),           "BAR  barchart",   12);
@@ -434,7 +434,7 @@ void TGo4HisDrawOptions::DecodeDrawOption(const char* drawopt,
       if(buf.Contains("bar"))   HisDrawStyle = 12; else
       if(buf.Contains("text"))  HisDrawStyle = 11; else
       if(buf.Contains("]["))    HisDrawStyle = 10; else
-      if(buf.Contains("9"))     HisDrawStyle =  9; else
+      if(buf.Contains("9h"))    HisDrawStyle =  9; else
       if(buf.Contains("p0"))    HisDrawStyle =  8; else
       if(*drawopt == 'p')       HisDrawStyle =  7; else
       if(*drawopt == 'P')       HisDrawStyle =  7; else
@@ -566,7 +566,7 @@ void TGo4HisDrawOptions::CodeDrawOptions(int HisErrorStyle,
        case  6: buf="b";     break;
        case  7: buf="p";     break;
        case  8: buf="p0";    break;
-       case  9: buf="9";     break;
+       case  9: buf="9h";    break;
        case 10: buf="][";    break;
        case 11: buf="text";  break;
        case 12: buf="bar";   break;

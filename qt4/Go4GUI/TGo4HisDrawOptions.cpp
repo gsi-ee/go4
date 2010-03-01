@@ -128,7 +128,7 @@ void TGo4HisDrawOptions::UpdateView(int viewtype)
          DrawOption->addItem( QIcon(""),           "B    barchart");
          DrawOption->addItem( QIcon(""),           "P    polymarkers");
          DrawOption->addItem( QIcon(""),           "P0   polymarkers");
-         DrawOption->addItem( QIcon(""),           "9    high resol");
+         DrawOption->addItem( QIcon(""),           "9H   high resol");
          DrawOption->addItem( QIcon(""),           "][   no right");
          DrawOption->addItem( QIcon(""),           "TEXT digits b/w");
          DrawOption->addItem( QIcon(""),           "BAR  barchart");
@@ -439,7 +439,7 @@ void TGo4HisDrawOptions::DecodeDrawOption(const char* drawopt,
       if(buf.Contains("bar"))   HisDrawStyle = 12; else
       if(buf.Contains("text"))  HisDrawStyle = 11; else
       if(buf.Contains("]["))    HisDrawStyle = 10; else
-      if(buf.Contains("9"))     HisDrawStyle =  9; else
+      if(buf.Contains("9h"))    HisDrawStyle =  9; else
       if(buf.Contains("p0"))    HisDrawStyle =  8; else
       if(*drawopt == 'p')       HisDrawStyle =  7; else
       if(*drawopt == 'P')       HisDrawStyle =  7; else
@@ -572,7 +572,7 @@ void TGo4HisDrawOptions::CodeDrawOptions(int HisErrorStyle,
        case  6: buf="b";     break;
        case  7: buf="p";     break;
        case  8: buf="p0";    break;
-       case  9: buf="9";     break;
+       case  9: buf="9h";    break;
        case 10: buf="][";    break;
        case 11: buf="text";  break;
        case 12: buf="bar";   break;
