@@ -70,15 +70,15 @@ clean-qt4usergui-bin:
 ifneq ($(wildcard $(USERGUI4_DIR)/$(USERGUI4_QTMAKE)),)
 	cd $(USERGUI4_DIR); $(MAKEFORQT) -f $(USERGUI4_QTMAKE) clean $(USERGUI4_QFLAGS)
 endif
-	@rm -f $(USERGUI4_DIR)/$(USERGUI4_QTMAKE)*
-	@rm -f $(USERGUI4_DIR)/*.o $(USERGUI4_DIR)/moc_*.* $(USERGUI4_DIR)/ui_*.h
+	@$(RM) $(USERGUI4_DIR)/$(USERGUI4_QTMAKE)*
+	@$(RM) $(USERGUI4_DIR)/*.o $(USERGUI4_DIR)/moc_*.* $(USERGUI4_DIR)/ui_*.h
 ifeq ($(GO4_OS),Win32)
-	$(RM) $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).exp $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).lib
-	$(RMDIR) $(USERGUI4_DIR)/release $(USERGUI4_DIR)/debug 
+	@$(RM) $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).exp $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).lib
+	@$(RMDIR) $(USERGUI4_DIR)/release $(USERGUI4_DIR)/debug 
 endif
 
 clean-qt4usergui: clean-qt4usergui-bin
-	$(RM) $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).*
+	@$(RM) $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).*
 
 clean-qt4:: clean-qt4usergui
 
