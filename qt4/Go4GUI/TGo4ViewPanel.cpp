@@ -3491,7 +3491,11 @@ void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his, bo
       TakeFullRangeFromHisto(his, padopt, true);
 
    TString drawopt(padopt->GetDrawOption(0));
-   if (drawopt.Length()==0) drawopt = (his->GetDimension()==2) ? "col" : "hist";
+   if (drawopt.Length()==0)
+      if (his->GetDimension()==1) drawopt = go4sett->getTH1DrawOpt().toAscii().constData(); else
+      if (his->GetDimension()==2) drawopt = go4sett->getTH2DrawOpt().toAscii().constData(); else
+      if (his->GetDimension()==3) drawopt = go4sett->getTH3DrawOpt().toAscii().constData();
+
    drawopt.ToUpper();
 
    his->SetStats(padopt->IsHisStats());
@@ -3558,7 +3562,7 @@ void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, boo
 
    TString drawopt(padopt->GetDrawOption(0));
 
-   if (drawopt.Length()==0) drawopt="AP";
+   if (drawopt.Length()==0) drawopt = go4sett->getTGraphDrawOpt().toAscii().constData();
 
    TH1* framehisto = gr->GetHistogram();
    if (framehisto==0) {
@@ -3592,7 +3596,7 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt, TMultiGraph
 
    Int_t drawoptindx = dosuperimpose ? TGo4Picture::PictureIndex : 0;
    TString drawopt(padopt->GetDrawOption(drawoptindx));
-   if (drawopt.Length()==0) drawopt="AP";
+   if (drawopt.Length()==0) drawopt = go4sett->getTGraphDrawOpt().toAscii().constData();
    if (dosuperimpose) drawopt = "";
 
    // never draw statistics with multigraph

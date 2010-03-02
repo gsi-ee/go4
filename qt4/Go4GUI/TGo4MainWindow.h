@@ -117,6 +117,11 @@ class TGo4MainWindow : public QMainWindow {
       void ChangeDrawDateFlagSlot();
       void ChangeDrawItemFlagSlot();
 
+      void TH1DrawOptSlot();
+      void TH2DrawOptSlot();
+      void TH3DrawOptSlot();
+      void TGraphDrawOptSlot();
+
       void PrepareForClientConnectionSlot();
       void LaunchClientSlot(bool interactive = true);
       void ConnectServerSlot(bool interactive = true, const char* password = "");

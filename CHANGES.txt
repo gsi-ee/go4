@@ -20,7 +20,7 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v4.4.1 (February 10)
+Changes in Go4 v4.4.1 (March 10)
 1. Default implementation for TGo4Parameter methods are provided. 
    Now Clear(), PrintParameter() and UpdateFrom() methods has meaningful
    functionality and can be used as is in user derived classes.
@@ -36,6 +36,7 @@ Changes in Go4 v4.4.1 (February 10)
 6. Improvements in fitpanel, that it can correctly display fitters, produced by examples
 7. Keep and restore panel name in hotstart file. 
 8. Support UserGUI in Win32, solve windows export/import problems
+9. Allow to configure default draw options for classes like TH1/2/3, TGraph
 
 Changes in Go4 v4.4.0 (November 09)
 1. Add clear histogram and conditions button in gui

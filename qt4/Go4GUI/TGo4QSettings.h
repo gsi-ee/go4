@@ -140,6 +140,18 @@ class TGo4QSettings {
       void    setDrawItemFlag(bool on = true);
       bool    getDrawItemFlag();
 
+      void    setTH1DrawOpt(const QString& value);
+      QString getTH1DrawOpt();
+
+      void    setTH2DrawOpt(const QString& value);
+      QString getTH2DrawOpt();
+
+      void    setTH3DrawOpt(const QString& value);
+      QString getTH3DrawOpt();
+
+      void    setTGraphDrawOpt(const QString& value);
+      QString getTGraphDrawOpt();
+
       void    storeGeometry(QMainWindow* w);
       void    restoreGeometry(QMainWindow* w);
 

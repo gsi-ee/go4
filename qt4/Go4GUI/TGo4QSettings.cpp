@@ -469,6 +469,47 @@ bool TGo4QSettings::getDrawItemFlag()
    return getBool("/ViewPanel/DrawItem");
 }
 
+void  TGo4QSettings::setTH1DrawOpt(const QString& v)
+{
+   setStr("/ViewPanel/TH1DrawOpt", v);
+}
+
+QString TGo4QSettings::getTH1DrawOpt()
+{
+   return getStr("/ViewPanel/TH1DrawOpt", "hist");
+}
+
+void  TGo4QSettings::setTH2DrawOpt(const QString& v)
+{
+   setStr("/ViewPanel/TH2DrawOpt", v);
+}
+
+QString TGo4QSettings::getTH2DrawOpt()
+{
+   return getStr("/ViewPanel/TH2DrawOpt", "col");
+}
+
+void  TGo4QSettings::setTH3DrawOpt(const QString& v)
+{
+   setStr("/ViewPanel/TH3DrawOpt", v);
+}
+
+QString TGo4QSettings::getTH3DrawOpt()
+{
+   return getStr("/ViewPanel/TH3DrawOpt", "hist");
+}
+
+void  TGo4QSettings::setTGraphDrawOpt(const QString& v)
+{
+   setStr("/ViewPanel/TGraphDrawOpt", v);
+}
+
+QString TGo4QSettings::getTGraphDrawOpt()
+{
+   return getStr("/ViewPanel/TGraphDrawOpt", "ap");
+}
+
+
 void TGo4QSettings::RestoreSettings(QMainWindow* tgt)
 {
    tgt->restoreState(sett->value("/MainWindow/State", QByteArray::fromHex(MainWindowDefaultState)).toByteArray());

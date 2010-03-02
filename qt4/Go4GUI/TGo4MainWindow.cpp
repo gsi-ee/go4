@@ -433,6 +433,11 @@ void TGo4MainWindow::AddSettingMenu()
    panelMenu->addAction(faDrawItem);
    faDrawItem->setEnabled(go4sett->getCloneFlag());
 
+   panelMenu->addAction("TH1 draw opt ...", this, SLOT(TH1DrawOptSlot()));
+   panelMenu->addAction("TH2 draw opt ...", this, SLOT(TH2DrawOptSlot()));
+   panelMenu->addAction("TH3 draw opt ...", this, SLOT(TH3DrawOptSlot()));
+   panelMenu->addAction("TGraph draw opt ...", this, SLOT(TGraphDrawOptSlot()));
+
    settMenu->addAction("&Log actions...", this, SLOT(LogSettingsSlot()));
 
    settMenu->addAction("Generate &hotstart", this, SLOT(CreateGUIScriptSlot()));
@@ -1255,6 +1260,47 @@ void TGo4MainWindow::ChangeDrawDateFlagSlot()
 {
    go4sett->setDrawDateFlag(faDrawDate->isChecked());
 }
+
+void TGo4MainWindow::TH1DrawOptSlot()
+{
+   bool ok = false;
+   QString str = QInputDialog::getText(this,
+                     "Default draw options for TH1 class",
+                     "Input draw options",
+                     QLineEdit::Normal, go4sett->getTH1DrawOpt(), &ok);
+   if (ok) go4sett->setTH1DrawOpt(str);
+}
+
+void TGo4MainWindow::TH2DrawOptSlot()
+{
+   bool ok = false;
+   QString str = QInputDialog::getText(this,
+                     "Default draw options for TH2 class",
+                     "Input draw options",
+                     QLineEdit::Normal, go4sett->getTH2DrawOpt(), &ok);
+   if (ok) go4sett->setTH2DrawOpt(str);
+}
+
+void TGo4MainWindow::TH3DrawOptSlot()
+{
+   bool ok = false;
+   QString str = QInputDialog::getText(this,
+                     "Default draw options for TH3 class",
+                     "Input draw options",
+                     QLineEdit::Normal, go4sett->getTH3DrawOpt(), &ok);
+   if (ok) go4sett->setTH3DrawOpt(str);
+}
+
+void TGo4MainWindow::TGraphDrawOptSlot()
+{
+   bool ok = false;
+   QString str = QInputDialog::getText(this,
+                     "Default draw options for TGraph class",
+                     "Input draw options",
+                     QLineEdit::Normal, go4sett->getTGraphDrawOpt(), &ok);
+   if (ok) go4sett->setTGraphDrawOpt(str);
+}
+
 
 
 void TGo4MainWindow::LaunchClientSlot(bool interactive)
