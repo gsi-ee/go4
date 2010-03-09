@@ -72,6 +72,11 @@
 #define GPS__ENV_ENDIAN  0x0
 #endif
 
+#ifdef Darwin        /* Mac OS X */
+#define GPS__ENV_ENDIAN  0x0
+#endif
+
+
 
 /* + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + */
 /* big endian  (bit0 on the left side)  IBM, HP, 68xxx...        */

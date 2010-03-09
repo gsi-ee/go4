@@ -1,6 +1,6 @@
 --------------------------------------------------------------
          Go4 Release Package v4.4.1 (build 40401)
-                      28-January-2010
+                      9-March-2010
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -37,6 +37,7 @@ Changes in Go4 v4.4.1 (March 10)
 7. Keep and restore panel name in hotstart file. 
 8. Support UserGUI in Win32, solve windows export/import problems
 9. Allow to configure default draw options for classes like TH1/2/3, TGraph
+10.Support of MacOS X 10.6 (Darwin)
 
 Changes in Go4 v4.4.0 (November 09)
 1. Add clear histogram and conditions button in gui

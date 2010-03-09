@@ -53,6 +53,15 @@ typedef unsigned long ADDRS;
 typedef unsigned long ADDRS;
 #endif
 
+
+#ifdef Darwin
+#define MBS_ENDIAN 0 /* little endian               */
+#define GSI__LINUX
+#define GSI__UNIX
+typedef unsigned long ADDRS;
+#endif
+
+
 #ifdef _AIX
 #define MBS_ENDIAN 1 /* big    endian */
 #define GSI__AIX

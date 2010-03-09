@@ -37,6 +37,26 @@
 #include <sys/timeb.h>
 #endif
 
+#ifdef Darwin /* Max OS X */
+#include <unistd.h>
+#include <pwd.h>
+#include <sys/timeb.h>
+#define fgetpos64 fgetpos
+#define fopen64 fopen
+#define fseeko64 fseek
+#define fpos64_t fpos_t
+
+/* just some dummies for compilation, we will never write lmd with time header in go4*/
+#define CLOCK_REALTIME 1
+int clock_gettime(int clockid, struct timespec *tp)
+{
+return 0;
+}
+
+#endif
+
+
+
 #ifdef WIN32
 #include <WTypes.h>
 #include <wchar.h>

@@ -34,6 +34,10 @@
 #ifdef Solaris
 #define LOUT printf("%s\n",c_line);
 #endif
+#ifdef Darwin
+#define LOUT printf("%s\n",c_line);
+#endif
+
 #ifdef WIN32
 #define LOUT printf("%s\n",c_line);
 #endif

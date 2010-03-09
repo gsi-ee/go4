@@ -119,6 +119,27 @@ static INTS4 l_st_ochannel[5]={0,0,0,0,0};
 #define PUT__CRT_OPT ""
 #endif
 
+#ifdef Darwin /* MaxOS X */
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <string.h>
+#include <unistd.h>
+#include <memory.h>
+#include <pwd.h>
+#include <sys/time.h>
+#include <sys/timeb.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#define DEF_FILE_ACCE S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH  /* rw-r--r-- */
+#define GET__OPEN_FLAG O_RDONLY
+#define PUT__OPEN_APD_FLAG O_RDWR|O_APPEND
+#define PUT__CRT_FLAG O_CREAT|O_RDWR
+#define PUT__CRT_OPT ""
+#endif
+
+
+
 #ifdef _AIX
 #include <stdio.h>
 #include <stdlib.h>

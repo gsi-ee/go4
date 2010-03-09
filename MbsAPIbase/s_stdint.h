@@ -57,5 +57,9 @@ typedef unsigned long  uint64_t;
 #include <stdint.h>
 #endif
 
+#ifdef Darwin
+#include <stdint.h>
+#endif
+
 
 #endif

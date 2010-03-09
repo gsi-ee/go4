@@ -7,6 +7,8 @@ win32: TARGET = libGo4UserGui
 
 win32: LIBS += $(GO4BINDIR)/go4.lib libCore.lib
 
+macx: QMAKE_LFLAGS +=  -undefined dynamic_lookup
+
 INCLUDEPATH += $(GO4INCDIR)
 
 DEPENDPATH += $(GO4INCDIR)

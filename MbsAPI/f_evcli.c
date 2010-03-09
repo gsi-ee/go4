@@ -87,6 +87,11 @@
 #define UNIXENV 1                           /* switch UNIX or VMS          */
 #endif
 
+#ifdef Darwin     /* +++++++++++++++++ Max OS X ++++++++++++++++++++++++ */
+#define UNIXENV 1                           /* switch UNIX or VMS          */
+#endif
+
+
 #ifdef GSI__WINNT  /* +++++++++++++++++ Windows NT ++++++++++++++++++++++++ */
 #define UNIXENV 1                           /* switch UNIX or VMS          */
 #define _ALL_SOURCE                     /* for types.h typedef u_char...  */

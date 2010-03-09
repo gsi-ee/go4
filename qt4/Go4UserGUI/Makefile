@@ -64,7 +64,17 @@ ifeq ($(GO4_OS),Win32)
 	$(MV) $(USERGUI4_DIR)/release/$(USERGUI4_QTLIBNAME).* $(USERGUI4_DIR)
 endif
 
+
+#ifneq ($(GO4_OS),Darwin)
+
 all-qt4usergui:  $(USERGUI4_QTLIB)
+
+#else
+#all-qt4usergui:
+#	@echo "No user gui (yet) under Darwin"
+#endif
+
+
 
 clean-qt4usergui-bin:
 ifneq ($(wildcard $(USERGUI4_DIR)/$(USERGUI4_QTMAKE)),)

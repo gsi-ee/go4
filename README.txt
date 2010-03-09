@@ -1,6 +1,6 @@
 --------------------------------------------------------------
          Go4 Release Package v4.4.1 (build 40401)
-                      28-January-2010
+                      9-March-2010
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -25,6 +25,7 @@ These package was tested on
     compilers: gcc 3.3.5, gcc 4.1.2, gcc 4.3.x
     SunOS 5.2 (Solaris) with CC 5.8
     Windows XP, 7
+    MacOSX Darwin (10.6) with gcc 4.2.1
 
 REQUIREMENTS: ROOT and Qt3 or Qt4
 
@@ -69,10 +70,15 @@ QT INSTALLATION
   
   If there is no Qt installed on your system, or Go4 is not able to use it correctly,
   one should compile Qt from the source package. For that download from
-  http://www.qtsoftware.com/downloads package like qt-everywhere-opensource-src-4.6.1.tar.gz
+  http://www.qtsoftware.com/downloads package like qt-everywhere-opensource-src-4.6.2.tar.gz
   Configure it with following flags:
   
      shell> ./configure -prefix $PWD 
+  
+  Note for MacOSX 10.6 (Darwin): Tested with Qt 4.6.2.: 
+  Requires Qt configuration for deployment target 10.5 (cocoa framework):
+     shell> ./configure -prefix $PWD -cocoa
+  NO Qt3 support for MacOS!
      
   To compile Qt, call:
   
@@ -87,6 +93,7 @@ QT INSTALLATION
      shell> export QTDIR=$PWD 
      shell> export PATH=$PATH:$QTDIR/bin
      shell> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$QTDIR/lib
+ Note for MacOSX (Darwin): Variable name is DYLD_LIBRARY_PATH instead LD_LIBRARY_PATH
 
 
 GO4 COMPILATION
@@ -148,7 +155,7 @@ ADVANCED MAKE OPTIONS
      If none 'withqt' and QTDIR are set, first Qt4 and than Qt3 will
      be tried to used by go4.
 
-  GO4_OS=Linux|Solaris|Win32 
+  GO4_OS=Linux|Solaris|Win32|Darwin 
      Defines platform, on which go4 will be compiled.
      If not defined, tested via 'uname'. Default is Linux.
 
