@@ -189,9 +189,13 @@ void TGo4StartClient::ServerModeCombo_activated(int id)
 
    qt_selected->setEnabled(!isserver);
 
-   if (isserver) {
+   if (isserver) { // if Qt was selected, select Xterm
       if (ClientTermGroup->checkedId()==1)
         ClientTermGroup->button(2)->setChecked(true);
+   }
+   else { // if Xterm was selected, select Qt
+	  if (ClientTermGroup->checkedId()==2)
+		ClientTermGroup->button(1)->setChecked(true);
    }
 #endif
 }
