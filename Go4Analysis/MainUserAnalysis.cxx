@@ -393,6 +393,10 @@ int main(int argc, char **argv)
    else if (FindArg(argc, argv, "-v2")>0) TGo4Log::SetIgnoreLevel(2);
    else if (FindArg(argc, argv, "-v3")>0) TGo4Log::SetIgnoreLevel(3);
 
+   TGo4Analysis::SetRunningMode(0);
+   if (FindArg(argc, argv, "-gui")>0) TGo4Analysis::SetRunningMode(1); else
+   if (FindArg(argc, argv, "-server")>0) TGo4Analysis::SetRunningMode(2);
+
    const char* analysis_name = GetArgValue(argc, argv, "-server");
    if (analysis_name==0) analysis_name = GetArgValue(argc, argv, "-gui");
    if (analysis_name==0) analysis_name = GetArgValue(argc, argv, "-name");

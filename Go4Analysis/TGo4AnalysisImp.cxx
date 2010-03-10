@@ -114,7 +114,8 @@ class TGo4InterruptHandler : public TSignalHandler {
 
 
 TGo4Analysis* TGo4Analysis::fxInstance = 0;
-Bool_t TGo4Analysis::fbExists=kFALSE;
+Bool_t TGo4Analysis::fbExists = kFALSE;
+Int_t TGo4Analysis::fiRunningMode = 0;
 const Int_t TGo4Analysis::fgiAUTOSAVECOUNTS= 500;
 const Int_t TGo4Analysis::fgiDYNLISTINTERVAL= 1000;
 const Int_t TGo4Analysis::fgiMACROSTARTPOLL= 1000; //polling time for macro in WaitForStart

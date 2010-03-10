@@ -103,6 +103,17 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     static Bool_t Exists();
 
+    /** Return kTRUE if analysis will run in batch (without connection to GUI) */
+    static Bool_t IsBatchMode() { return fiRunningMode == 0; }
+
+    /** Return kTRUE if analysis will run in gui mode, connected to gui as client */
+    static Bool_t IsClientMode() { return fiRunningMode == 1; }
+
+    /** Return kTRUE if analysis will run in server mode and gui can connect to the analysis */
+    static Bool_t IsServerMode() { return fiRunningMode == 2; }
+
+    static void SetRunningMode(int mode) { fiRunningMode = mode; }
+
     virtual ~TGo4Analysis();
 
     virtual const char* GetName() const { return fAnalysisName.Data(); }
@@ -842,6 +853,10 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * already there. Useful if one wants to prevent creating
       * a complete analysis instance in the gui task... */
     static Bool_t fbExists; //!
+
+    /** This is used to identify running mode of analysis:
+      * 0 - batch, 1 - client, 2 - server */
+    static Int_t fiRunningMode; //!
 
     /** Optional backpointer to analysis client if running in gui mode.*/
     TGo4AnalysisClient* fxAnalysisSlave;            //!

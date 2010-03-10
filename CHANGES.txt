@@ -38,6 +38,10 @@ Changes in Go4 v4.4.1 (March 10)
 8. Support UserGUI in Win32, solve windows export/import problems
 9. Allow to configure default draw options for classes like TH1/2/3, TGraph
 10.Support of MacOS X 10.6 (Darwin)
+11.Add to TGo4Analysis static methods IsBatchMode(), IsClientMode(), IsServerMode(), 
+   returning running mode of the analysis. Variable set in go4analysis program 
+   and therefore methods can be used already in user analysis constructor.
+
 
 Changes in Go4 v4.4.0 (November 09)
 1. Add clear histogram and conditions button in gui
