@@ -96,9 +96,14 @@ TList* TGo4FileSource::ProducesFilesList(const char* mask)
    TString dirname, basename(mask);
 
    if (!basename.MaybeWildcard()) {
+
+      // add default suffix
+      if(strstr(basename.Data(),TGo4FileStore::fgcFILESUF)==0)
+         basename += TGo4FileStore::fgcFILESUF;
+
       TList* lst = new TList();
       lst->SetOwner(kTRUE);
-      lst->Add(new TObjString(mask));
+      lst->Add(new TObjString(basename));
       return lst;
    }
 
