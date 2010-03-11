@@ -38,7 +38,7 @@ cat $lmlfile.lml
 #echo @$TASCASTORE/$lmlfile.lml
 export TASCASTORE
  echo "------------------------------------"
-time ./MainUserAnalysis -f @$TASCASTORE/$lmlfile.lml
+time go4analysis -x -f @$TASCASTORE/$lmlfile.lml
 cd $TASCASTORE
 echo "rm $lmlfile.lml $lmlfile*.lmd"
  rm $lmlfile.lml $lmlfile*.lmd

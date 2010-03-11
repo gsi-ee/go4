@@ -9,7 +9,7 @@ else
 TASCA_DIR         = .
 endif
 
-TASCA_LINKDEF     = $(TASCA_DIR)/Go4UserAnalysisLinkDef.$(HedSuf)
+TASCA_LINKDEF     = $(TASCA_DIR)/TascaLinkDef.$(HedSuf)
 TASCA_LIBNAME     = libGo4UserAnalysis
 TASCA_EXENAME     = MainUserAnalysis
 TASCA_ONLYMAP     = $(TASCA_DIR)/.localmap
