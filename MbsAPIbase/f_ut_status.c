@@ -10,6 +10,12 @@
 // This software can be used under the license agreements as stated
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
+//
+// NOTE !!!!!!!
+// To avoid hanging sockets on Lynx, we read one byte less than MBS sends.
+// This byte is the last of process name table, so never used.
+// In MBS the problem can be fixed. Then this workaround can be rolled back.
+// Reason is that client must close socket before server.
 
 #include "typedefs.h"
 #include <stdlib.h>
@@ -185,7 +191,9 @@ INTS4 f_ut_status_r(s_daqst *ps_daqst, INTS4 l_tcp)
     	  l_status = f_swaplw(&ps_daqst->bh_daqst_initalized, (ps_daqst->l_fix_lw-7) - (19 * len_64/4),NULL);
     }
 
-  l_status = f_stc_read (&ps_daqst->c_pname[0], ps_daqst->l_procs_run * len_64 , l_tcp,-1);
+  //l_status = f_stc_read (&ps_daqst->c_pname[0], ps_daqst->l_procs_run * len_64, l_tcp,-1);
+  // workaround:
+  l_status = f_stc_read (&ps_daqst->c_pname[0], ps_daqst->l_procs_run * len_64 -1, l_tcp,-1);
   return l_status;
 }
 
