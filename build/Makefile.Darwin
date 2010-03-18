@@ -35,6 +35,16 @@ RM            = rm -f
 MV            = mv
 
 #### Linker definitions: ####
+LD            = g++
+ifeq ($(GO4WITHRPATH),true)
+LDFLAGS_RPATH = $(LDRPATHS:%=-Wl,-rpath,%)
+endif
+
+LDFLAGS       += $(LDFLAGS_RPATH)
+
+
+
+
 FORCELINK     = yes
 NEEDFINK      = yes
 
