@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.4.1 (build 40401)
-                      9-March-2010
+         Go4 Release Package v4.4.1 prerelease (build 40401)
+                      18-March-2010
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -75,9 +75,9 @@ QT INSTALLATION
   
      shell> ./configure -prefix $PWD 
   
-  Note for MacOSX 10.6 (Darwin): Tested with Qt 4.6.2.: 
-  Requires Qt configuration for deployment target 10.5 (cocoa framework):
-     shell> ./configure -prefix $PWD -cocoa
+  Note for MacOSX 10.6 (Darwin): Tested with Qt 4.5.2.: 
+  !!! Go4 QtROOT GUI does not work for Qt build with native MacOSX graphics (carbon or cocoa) !!!
+  You need to install Qt4 using X11 graphics on Mac (fink package qt4-x11)
   NO Qt3 support for MacOS!
      
   To compile Qt, call:
