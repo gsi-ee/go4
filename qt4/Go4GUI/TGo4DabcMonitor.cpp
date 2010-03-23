@@ -544,7 +544,7 @@ else
         {
             QString service=*sit;
             //std::cout<<"++++++ scanning service" << service <<std::endl;
-            if(service.contains("RunStatus") || service.contains("Acquisition/State"))
+            if(service.contains("RunStatus") || service.contains("Acquisition") )
                 {
                     stateservice=service.section('|',0,0); // strip additional service info from name
                     break;

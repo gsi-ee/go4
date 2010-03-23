@@ -65,14 +65,14 @@ ifeq ($(GO4_OS),Win32)
 endif
 
 
-#ifneq ($(GO4_OS),Darwin)
+ifneq ($(GO4_OS),Darwin)
 
 all-qt4usergui:  $(USERGUI4_QTLIB)
 
-#else
-#all-qt4usergui:
-#	@echo "No user gui (yet) under Darwin"
-#endif
+else
+all-qt4usergui:
+	@echo "No user gui (yet) under Darwin"
+endif
 
 
 
