@@ -91,8 +91,11 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
 // event function
 Bool_t TXXXProc::BuildEvent(TGo4EventElement*)
 {  // called by framework. We dont fill any output event here at all
-
-   TGo4MbsEvent* evnt = (TGo4MbsEvent* ) GetInputEvent();
+   TGo4MbsEvent* evnt=0;
+   // check if we have the correct input class:
+   TGo4EventElement* evntx =  GetInputEvent();
+   if(TString(evntx->ClassName()).CompareTo("TGo4MbsEvent")==0)
+      evnt = (TGo4MbsEvent* ) evntx;
    if(evnt == 0) {
       cout << "AnlProc: no input event !"<< endl;
       return kFALSE;
