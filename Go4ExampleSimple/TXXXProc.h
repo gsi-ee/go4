@@ -24,7 +24,7 @@ class TXXXProc : public TGo4EventProcessor {
       TXXXProc(const char* name);
       virtual ~TXXXProc() ;
 
-      Bool_t BuildEvent(TGo4EventElement* target); // event processing function
+      Bool_t BuildEvent(TGo4EventElement*); // event processing function
 
    private:
       TH1           *fCr1Ch[8];

@@ -225,6 +225,7 @@ TGo4MbsSubEvent* TGo4MbsEvent::AddSubEvent(Int_t fullID, Short_t* source, Int_t 
       *newsubtargetid = fullID;
       TGo4Log::Debug(" Created new output subevent for event\n\tpid:%d subcrate:%d ctrl:%d",
                       subtarget->GetProcid(),subtarget->GetSubcrate(), subtarget->GetControl());
+      if (fxSubEvArray == 0) fxSubEvArray = new TObjArray(5);
       fxSubEvArray->AddLast(subtarget);
    }
    ////     fill header:
