@@ -539,11 +539,11 @@ TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(const char* membrfoldern
 
       switch(mem->GetArrayDim()) {
          case 1:
-            sbuf = Form("%s[%d]", mem->GetName(),mem->GetMaxIndex(0));
+            sbuf = TString::Format("%s[%d]", mem->GetName(), mem->GetMaxIndex(0));
             break;
 
          case 2:
-            sbuf = Form("%s[%d][%d]", mem->GetName(),mem->GetMaxIndex(0),mem->GetMaxIndex(1));
+            sbuf = TString::Format("%s[%d][%d]", mem->GetName(), mem->GetMaxIndex(0), mem->GetMaxIndex(1));
             break;
 
          default:

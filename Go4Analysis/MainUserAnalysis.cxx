@@ -200,9 +200,9 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
          }
 	 
 	 #ifdef WIN32
-         TString cmd = Form("new %s(%d, (char**)0x%x);", an_cl->GetName(), user_argc, user_argv);
-         #else
-         TString cmd = Form("new %s(%d, (char**)%p);", an_cl->GetName(), user_argc, user_argv);
+         TString cmd = TString::Format("new %s(%d, (char**)0x%x);", an_cl->GetName(), user_argc, user_argv);
+    #else
+         TString cmd = TString::Format("new %s(%d, (char**)%p);", an_cl->GetName(), user_argc, user_argv);
 	 #endif    
          Int_t err = 0;
 
@@ -222,7 +222,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
       if (meth!=0) {
          TGo4Log::Info("!!! Find constructor with prototype %s::%s(const char*)", an_cl->GetName(), an_cl->GetName());
 
-         TString cmd = Form("new %s(\"%s\");", an_cl->GetName(), name);
+         TString cmd = TString::Format("new %s(\"%s\");", an_cl->GetName(), name);
          Int_t err = 0;
 
          TGo4Log::Info("Process: %s", cmd.Data());
@@ -256,7 +256,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
       TMethodArg *argument = 0;
       TIter next(meth->GetListOfMethodArgs());
 
-      TString cmd = Form("new %s(", an_cl->GetName());
+      TString cmd = TString::Format("new %s(", an_cl->GetName());
 
       int counter = 0;
 
@@ -291,12 +291,12 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
          } else {
             if ((counter==2) && (basictype=="int")) {
                TGo4Log::Info("Special treatment for second integer argument, suppose MBS input type");
-               cmd+=Form("%d", GO4EV_MBS_FILE);
+               cmd += TString::Format("%d", GO4EV_MBS_FILE);
             } else
             if (basictype=="bool") {
-               cmd+="false";
+               cmd += "false";
             } else
-               cmd+="0";
+               cmd += "0";
          }
       }
 
@@ -753,7 +753,6 @@ int main(int argc, char **argv)
 
       if(servermode)  cout << "**** Main: starting analysis in server mode ..." << endl;
       else            cout << "**** Main: starting analysis in slave mode ..." << endl;
-      // to start histogram server: kTRUE,"base","password"
 
       if (canrun<0) autorun = false;
 

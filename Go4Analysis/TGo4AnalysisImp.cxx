@@ -228,14 +228,14 @@ void TGo4Analysis::Constructor()
 
    if(fxInstance==0) {
       gROOT->SetBatch(kTRUE);
-      fxStepManager=new TGo4AnalysisStepManager("Go4 Analysis Step Manager");
-      fxObjectManager=new TGo4AnalysisObjectManager("Go4 Central Object Manager");
+      fxStepManager = new TGo4AnalysisStepManager("Go4 Analysis Step Manager");
+      fxObjectManager = new TGo4AnalysisObjectManager("Go4 Central Object Manager");
       SetDynListInterval(TGo4Analysis::fgiDYNLISTINTERVAL);
-      fxAutoSaveMutex =   new TMutex(kTRUE);
-      fxAutoSaveClock=new TStopwatch;
+      fxAutoSaveMutex = new TMutex(kTRUE);
+      fxAutoSaveClock = new TStopwatch;
       fxAutoSaveClock->Stop();
       fxAutoFileName = fgcDEFAULTFILENAME;
-      if (fAnalysisName.Length()>0) fxAutoFileName = Form("%sASF.root", fAnalysisName.Data());
+      if (fAnalysisName.Length()>0) fxAutoFileName = TString::Format("%sASF.root", fAnalysisName.Data());
       fxConfigFilename = fgcDEFAULTSTATUSFILENAME;
       TGo4CommandInvoker::Instance(); // make sure we have an invoker instance!
       TGo4CommandInvoker::SetCommandList(new TGo4AnalysisCommandList);
@@ -1841,9 +1841,9 @@ TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
 
    TString cmd;
    if (newcmd!=0)
-      cmd = Form(newcmd, paramname.Data());
+      cmd = TString::Format(newcmd, paramname.Data());
    else
-      cmd = Form("new %s(%s);", classname, paramname.Data());
+      cmd = TString::Format("new %s(%s);", classname, paramname.Data());
 
    Long_t res = gROOT->ProcessLineFast(cmd.Data());
 
