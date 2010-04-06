@@ -32,33 +32,28 @@ TGo4Master::TGo4Master(const char* name, Bool_t isserver, const char* serverhost
 {
    TGo4CommandInvoker::Instance(); // make sure a command invoker exists
    TGo4CommandInvoker::Register("MasterTask", this);
-   TGo4Task* task=0;
+   TGo4Task* task(0);
    if(IsServer())
-      {
-         task=new TGo4ServerTask(name, negotport,
-               kFALSE, //blockingmode
-               kFALSE, //standalone
-               kTRUE,  //autostart
-               kTRUE,  //autocreate
-               kTRUE   //ismaster
-               );
-      }
+      task = new TGo4ServerTask(name, negotport,
+                                kFALSE, //blockingmode
+                                kFALSE, //standalone
+                                kTRUE,  //autostart
+                                kTRUE,  //autocreate
+                                kTRUE);   //ismaster
    else
-      {
-         task=new TGo4ClientTask(name, serverhost, negotport,
-                     kFALSE, //blockingmode
-                     kFALSE, //standalone
-                     kFALSE, //autostart
-                     kTRUE,  //autocreate
-                     kTRUE, //ismaster
-                     kFALSE); // autoconnect
-      }
+      task = new TGo4ClientTask(name, serverhost, negotport,
+                                kFALSE, //blockingmode
+                                kFALSE, //standalone
+                                kFALSE, //autostart
+                                kTRUE,  //autocreate
+                                kTRUE, //ismaster
+                                kFALSE); // autoconnect
    SetTask(task);
 }
 
 TGo4Master::~TGo4Master()
 {
-TGo4CommandInvoker::UnRegister(this);
+   TGo4CommandInvoker::UnRegister(this);
 }
 
 TGo4TaskHandlerCommandList* TGo4Master::CreateCommandList()
@@ -68,43 +63,38 @@ TGo4TaskHandlerCommandList* TGo4Master::CreateCommandList()
 
 Bool_t TGo4Master::SubmitCommand(const char* name)
 {
-   if(GetTask()==0) return kFALSE;
-   return (GetTask()->SubmitCommand(name));
+   if (GetTask()==0) return kFALSE;
+   return GetTask()->SubmitCommand(name);
 }
 
 Bool_t TGo4Master::SubmitEmergencyCommand(Go4EmergencyCommand_t val)
 {
-   if(GetTask()==0) return kFALSE;
-   return (GetTask()->SubmitEmergencyCommand(val));
+   if (GetTask()==0) return kFALSE;
+   return GetTask()->SubmitEmergencyCommand(val);
 }
 
 Bool_t TGo4Master::SubmitCommand(TGo4Command* com)
 {
-   if(GetTask()==0) return kFALSE;
-   return (GetTask()->SubmitCommand(com));
+   if (GetTask()==0) return kFALSE;
+   return GetTask()->SubmitCommand(com);
 }
 
 Bool_t TGo4Master::DisconnectSlave(const char* name, Bool_t waitforslave)
 {
-Bool_t rev=kTRUE;
-if(IsServer())
-   {
-      TGo4ServerTask* server=dynamic_cast<TGo4ServerTask*> (GetTask());
+   Bool_t rev=kTRUE;
+   if(IsServer()) {
+      TGo4ServerTask* server = dynamic_cast<TGo4ServerTask*> (GetTask());
       if(server)
          rev=server->RemoveClient(name, waitforslave); //waitforclient
       else
          rev=kFALSE;
-   }
-else
-   {
-      TGo4ClientTask* client=dynamic_cast<TGo4ClientTask*> (GetTask());
-      if(client)
-         {
-            rev=client->DisconnectServer();
-            client->Terminate(kFALSE); // terminate taskowner (TGo4Display), but not application
-         }
-      else
+   } else {
+      TGo4ClientTask* client = dynamic_cast<TGo4ClientTask*> (GetTask());
+      if(client) {
+         rev=client->DisconnectServer();
+         client->Terminate(kFALSE); // terminate taskowner (TGo4Display), but not application
+      } else
          rev=kFALSE;
    }
-return rev;
+   return rev;
 }

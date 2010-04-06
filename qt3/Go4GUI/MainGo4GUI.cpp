@@ -47,7 +47,7 @@ int main(int argc, char **argv)
    const char* logpass = 0;
 
    bool traceon = false;
-   bool servermode = true;
+   bool prepare_for_client = false;
    QString hotstart = "";
    QStringList files;
 
@@ -59,11 +59,6 @@ int main(int argc, char **argv)
             cout << "G-OOOO-> MainGo4GUI switched on debug output" << endl;
             traceon = true;
          } else
-         if(strstr(argv[narg], "-client")) {
-            cout << "G-OOOO-> MainGo4GUI is starting as client." << endl;
-            servermode = false;
-            if(strstr(argv[narg], "-debug")) traceon = true;
-         }
          if((strcmp(argv[narg], "-observer")==0) ||
             (strcmp(argv[narg], "-controller")==0) ||
             (strcmp(argv[narg], "-admin")==0)) {
@@ -79,6 +74,9 @@ int main(int argc, char **argv)
                logport = atoi(argv[++narg]);
 
             if ((narg+1<argc) && (argv[narg+1][0]!='-')) logpass = argv[++narg];
+         } else
+         if (strcmp(argv[narg], "-prepare")==0) {
+            prepare_for_client = true;
          }
       } else
          if (strstr(argv[narg],".root")!=0)
@@ -168,7 +166,7 @@ int main(int argc, char **argv)
    // create instance, which should be used everywhere
    go4sett = new TGo4QSettings();
 
-   TGo4MainWindow* Go4MainGUI = new TGo4MainWindow(&myapp, servermode);
+   TGo4MainWindow* Go4MainGUI = new TGo4MainWindow(&myapp);
 
 
    myapp.setMainWidget(Go4MainGUI);
@@ -190,6 +188,9 @@ int main(int argc, char **argv)
       go4sett->setClientDefaultPass(logpass==0);
       go4sett->setClientControllerMode(dologin);
       Go4MainGUI->ConnectServerSlot(false, logpass);
+   } else
+   if (prepare_for_client) {
+      Go4MainGUI->PrepareForClientConnectionSlot(false);
    }
 
    int res = myapp.exec();

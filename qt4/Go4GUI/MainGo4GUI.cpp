@@ -68,8 +68,9 @@ int main(int argc, char **argv)
    int logport = 5000;
    const char* logpass = 0;
 
+   bool prepare_for_client = false;
+
    bool traceon = false;
-   bool servermode = true;
    QString hotstart = "";
    QStringList files;
 
@@ -80,11 +81,6 @@ int main(int argc, char **argv)
          if(!strcmp(argv[narg], "-debug")) {
             cout << "G-OOOO-> MainGo4GUI switched on debug output" << endl;
             traceon = true;
-         } else
-         if(strstr(argv[narg], "-client")) {
-            cout << "G-OOOO-> MainGo4GUI is starting as client." << endl;
-            servermode = false;
-            if(strstr(argv[narg], "-debug")) traceon = true;
          } else
          if((strcmp(argv[narg], "-observer")==0) ||
             (strcmp(argv[narg], "-controller")==0) ||
@@ -101,6 +97,9 @@ int main(int argc, char **argv)
                logport = atoi(argv[++narg]);
 
             if ((narg+1<argc) && (argv[narg+1][0]!='-')) logpass = argv[++narg];
+         } else
+         if (strcmp(argv[narg], "-prepare")==0) {
+            prepare_for_client = true;
          }
       } else
       if (strstr(argv[narg],".root")!=0)
@@ -195,7 +194,7 @@ int main(int argc, char **argv)
         << ",   build with ROOT " << ROOT_RELEASE << " and Qt " << QT_VERSION_STR << endl;
    // create instance, which should be used everywhere
 
-   TGo4MainWindow* Go4MainGUI = new TGo4MainWindow(&myapp, servermode);
+   TGo4MainWindow* Go4MainGUI = new TGo4MainWindow(&myapp);
    Go4MainGUI->setGeometry (20, 20, 1152, 864);
 
    myapp.connect(&myapp, SIGNAL(lastWindowClosed()), &myapp, SLOT(quit()));
@@ -218,6 +217,9 @@ int main(int argc, char **argv)
       go4sett->setClientDefaultPass(logpass==0);
       go4sett->setClientControllerMode(dologin);
       Go4MainGUI->ConnectServerSlot(false, logpass);
+   } else
+   if (prepare_for_client) {
+      Go4MainGUI->PrepareForClientConnectionSlot(false);
    }
 
    int res = myapp.exec();

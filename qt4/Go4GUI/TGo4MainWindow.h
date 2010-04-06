@@ -55,7 +55,7 @@ class TGo4MainWindow : public QMainWindow {
    Q_OBJECT
 
    public:
-      TGo4MainWindow(QApplication*, bool);
+      TGo4MainWindow(QApplication*);
       virtual ~TGo4MainWindow();
 
       void HotStart(const char* fname);
@@ -122,7 +122,7 @@ class TGo4MainWindow : public QMainWindow {
       void TH3DrawOptSlot();
       void TGraphDrawOptSlot();
 
-      void PrepareForClientConnectionSlot();
+      void PrepareForClientConnectionSlot(bool interactive = true);
       void LaunchClientSlot(bool interactive = true);
       void ConnectServerSlot(bool interactive = true, const char* password = "");
       void DisconnectAnalysisSlot(bool interactive = true);
@@ -195,7 +195,6 @@ class TGo4MainWindow : public QMainWindow {
       QMenu*             windowsMenu;
       QSignalMapper*     winMapper;
       TGo4WorkSpace*     fxWorkSpace;
-      bool               fbServerMode;
 
       TGo4ObjectManager* fxOM;
       QString            fOMDataPath;

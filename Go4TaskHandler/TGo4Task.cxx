@@ -278,40 +278,33 @@ void TGo4Task::SendObject(TObject * obj, const char* receiver)
 
 void TGo4Task::SendStatus(TGo4Status * stat, const char* receiver)
 {
-   if(IsMaster()) return ;
-   if(stat)
-      {
-         // object exists, put it into status queue
-         TGo4BufferQueue * statq=GetStatusQueue(receiver);
-         if(statq)
-            {
-               TGo4Log::Debug(" Task - sending status %s ", stat->ClassName());
-               statq->AddBufferFromObject(stat);
-            }
-         else
-            {
-               TGo4Log::Debug(" !!! Task - ERROR sending status: no status queue !!! ");
-            }
+   if(IsMaster()) return;
+   if(stat) {
+      // object exists, put it into status queue
+      TGo4BufferQueue * statq=GetStatusQueue(receiver);
+      if(statq) {
+         TGo4Log::Debug(" Task - sending status %s ", stat->ClassName());
+         statq->AddBufferFromObject(stat);
+      } else {
+         TGo4Log::Debug(" !!! Task - ERROR sending status: no status queue !!! ");
       }
-   else
-      {
-         // TGo4Log::Debug(" !!! Task - ERROR sending status: no such object!!! ");
-
-      }
-
-
+   } else {
+      // TGo4Log::Debug(" !!! Task - ERROR sending status: no such object!!! ");
+   }
 }
+
 void TGo4Task::SendStatusBuffer()
 {
-if(IsMaster()) return;
+   if(IsMaster()) return;
    TGo4LockGuard statguard(fxStatusMutex); // do not send during buffer update
    TGo4Log::Debug(" Task - sending status buffer ");
    TGo4BufferQueue * statq=GetStatusQueue();
    if(statq) statq->AddBuffer(fxStatusBuffer,kTRUE);
 }
+
 void TGo4Task::SendStatusMessage(Int_t level, Bool_t printout, const char* text,...)
 {
-if(IsMaster()) return;
+   if(IsMaster()) return;
    Int_t lbuflen=256;
    // put potential printf arguments in text:
    char txtbuf[256];
@@ -341,11 +334,10 @@ if(IsMaster()) return;
    TGo4Log::OutputEnable(printout); // override the messaging state
    const char* go4mess=TGo4Log::Message(level,curs);
    TGo4Log::OutputEnable(previousmode); // restore old state of messageing
-   if(level>0 && go4mess!=0)
-   {
+   if((level>0) && (go4mess!=0))  {
       // do not send debug-level output to gui, and do not send supressed messages as empty string!
-      TGo4Status* message= new TGo4Status(go4mess);
-      SendStatus(message,dest);
+      TGo4Status* message = new TGo4Status(go4mess);
+      SendStatus(message, dest);
       delete message;
    }
 }

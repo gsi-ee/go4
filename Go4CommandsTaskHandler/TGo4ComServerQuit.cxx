@@ -13,13 +13,11 @@
 
 #include "TGo4ComServerQuit.h"
 
-#include "Riostream.h"
-
 #include "TGo4Log.h"
 #include "TGo4ServerTask.h"
 
-TGo4ComServerQuit::TGo4ComServerQuit()
-:TGo4TaskHandlerCommand("SVQuit","quits the server and the whole application")
+TGo4ComServerQuit::TGo4ComServerQuit() :
+   TGo4TaskHandlerCommand("SVQuit","quits the server and the whole application")
 {
    SetReceiverName("ServerTask"); // sets the receiver name checked by command invoker
                                   // receiver name neednt be class name!

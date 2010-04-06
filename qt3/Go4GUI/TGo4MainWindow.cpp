@@ -152,10 +152,9 @@ enum { fiFetchWhenDrawId = 111,
        fiAnalConfig = 209,
        fiAnalTermin = 210 };
 
-TGo4MainWindow::TGo4MainWindow(QApplication* app, bool server) :
+TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    QMainWindow(0, "MainWindow"),
-   fApp(app),
-   fbServerMode(server)
+   fApp(app)
 {
    setDockWindowsMovable(TRUE);
    statusBar();
@@ -799,7 +798,6 @@ void TGo4MainWindow::windowsMenuActivated( int id )
       w->showNormal();
       w->setFocus();
    }
-
 }
 
 typedef void* (*TStartUserGuiFunc)(QWidget* parent);
@@ -940,6 +938,8 @@ void TGo4MainWindow::closeEvent( QCloseEvent* ce)
 
    CloseAllFilesSlot();
 
+   StopGUIScriptSlot();
+
    if(!RemoveAnalysisProxy(30)) {
       fCloseCounter = 100; // gui waits about 10 second to close analysis
       statusBar()->message("Exit....  please wait");
@@ -953,7 +953,8 @@ void TGo4MainWindow::closeEvent( QCloseEvent* ce)
 
 void TGo4MainWindow::ForseCloseSlot()
 {
-   if (!RemoveAnalysisProxy(30) && (fCloseCounter>0)) {
+//   if (!RemoveAnalysisProxy(30) && (fCloseCounter>0)) {
+   if ((Browser()->FindAnalysis()!=0) && (fCloseCounter>0)) {
       fCloseCounter--;
       QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
       return;
@@ -1441,10 +1442,10 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
      ConnectServerSlot(true, "");
 }
 
-void TGo4MainWindow::PrepareForClientConnectionSlot()
+void TGo4MainWindow::PrepareForClientConnectionSlot(bool interactive)
 {
    TGo4AnalysisProxy* ana = AddAnalysisProxy(false, false);
-   if (ana!=0)
+   if ((ana!=0) && interactive)
      QMessageBox::information(this,"Prepare for client connection",
       "Now you can start client from other shell (node) and connect to port " +
        QString::number(ana->ConnectorPort()), "Ok");

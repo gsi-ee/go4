@@ -32,9 +32,11 @@ TGo4ClientTask::TGo4ClientTask(const char* name,
                                Bool_t autostart,
                                Bool_t autocreate,
                                Bool_t ismaster,
-                               Bool_t autoconnect)
-   : TGo4Task(name,blockingmode,autostart,autocreate,ismaster),
-            fxTaskHandler(0),fbAutoConnect(autoconnect),fbServerConnected(kFALSE)
+                               Bool_t autoconnect) :
+   TGo4Task(name,blockingmode,autostart,autocreate,ismaster),
+   fxTaskHandler(0),
+   fbAutoConnect(autoconnect),
+   fbServerConnected(kFALSE)
 {
    fxServerHostname=serverhost;
    TString nomen("TaskHandler of "); nomen+=name;
@@ -42,18 +44,14 @@ TGo4ClientTask::TGo4ClientTask(const char* name,
    fxCommandQ=dynamic_cast<TGo4BufferQueue*> (GetTaskHandler()->GetCommandQueue());
    fxStatusQ=dynamic_cast<TGo4BufferQueue*> (GetTaskHandler()->GetStatusQueue());
    fxDataQ=dynamic_cast<TGo4BufferQueue*> (GetTaskHandler()->GetDataQueue());
-   if(standalone)
-      {
-         Launch(); // create threads, start application control timer
-      }
-   else
-      {
+   if(standalone) {
+       Launch(); // create threads, start application control timer
+   } else {
          // subclass must call Launch at end of its ctor
-      }
+   }
 }
 
 TGo4ClientTask::~TGo4ClientTask()
-
 {
    DisconnectServer();
    delete fxTaskHandler;
@@ -176,7 +174,9 @@ void TGo4ClientTask::Quit()
 {
    TGo4Log::Debug(" ClientTask''%s'' is quitting... ",GetName());
    SendStatusMessage(2,kTRUE,"ClientTask %s  is terminating...",GetName());
+
    DisconnectServer(kTRUE);
+
    Terminate(!IsMaster()); // never terminate master process
 }
 
