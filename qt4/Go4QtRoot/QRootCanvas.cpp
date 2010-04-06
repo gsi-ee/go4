@@ -690,10 +690,10 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
    TIter next(method->GetListOfMethodArgs());
 
    while ((argument = (TMethodArg *) next())) {
-      TString argTitle = Form("(%s)  %s", argument->GetTitle(), argument->GetName());
+      TString argTitle = TString::Format("(%s)  %s", argument->GetTitle(), argument->GetName());
       TString argDflt = argument->GetDefault() ? argument->GetDefault() : "";
       if (argDflt.Length()>0)
-         argTitle += Form(" [default: %s]", argDflt.Data());
+         argTitle += TString::Format(" [default: %s]", argDflt.Data());
       TString type       = argument->GetTypeName();
       TDataType    *datatype   = gROOT->GetType(type);
       TString       basictype;
@@ -731,7 +731,7 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
              (basictype == "double")) {
             Double_t ddefval(0.);
             m->GetterMethod()->Execute(object, "", ddefval);
-            val = Form("%g", ddefval);
+            val = TString::Format("%g", ddefval);
          } else
          if ((basictype == "char") ||
              (basictype == "int")  ||
@@ -739,7 +739,7 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
              (basictype == "short")) {
             Long_t ldefval(0);
             m->GetterMethod()->Execute(object, "", ldefval);
-            val = Form("%ld", ldefval);
+            val = TString::Format("%ld", ldefval);
          }
 
          // Find out whether we have options ...

@@ -160,7 +160,7 @@ TGo4EventSource* TGo4StepFactory::CreateEventSource(TGo4EventSourceParameter* pa
 
       cout << "GO4-*> " << GetName() << ": Create input source " << fnewEventSource << endl;
 
-      TString arg = Form(fnewEventSource.Data(), par);
+      TString arg = TString::Format(fnewEventSource.Data(), par);
 
       TGo4EventSource* source = (TGo4EventSource*) gROOT->ProcessLineSync(arg.Data());
 

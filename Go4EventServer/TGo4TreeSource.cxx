@@ -68,7 +68,7 @@ Int_t TGo4TreeSource::Open()
    TRACE((15,"TGo4TreeSource::Open()",__LINE__, __FILE__));
 
    // for branches containing the same event structure
-   TString buffer = Form("%s.",GetName());
+   TString buffer = TString::Format("%s.",GetName());
 
    fxSingletonTree = TGo4MainTree::Instance();
    fxTree = fxSingletonTree->GetTree();

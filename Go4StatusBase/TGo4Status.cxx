@@ -57,7 +57,7 @@ Int_t TGo4Status::PrintStatus(Text_t* buffer, Int_t buflen)
    if(buflen<=0 && buffer!=0) return 0;
 
    Int_t size = 0;
-   TString localbuf = Form("G-OOOO-> Status Class %s, name: %s <-OOOO-G\n", ClassName(), GetName());
+   TString localbuf = TString::Format("G-OOOO-> Status Class %s, name: %s <-OOOO-G\n", ClassName(), GetName());
 
    if(buffer==0)
       cout << localbuf << endl;

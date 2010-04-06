@@ -130,11 +130,11 @@ Int_t TGo4ComSetObject::ExeSetParStatus(TGo4ParameterStatus* par)
    if (par==0) return -1;
    TString buf;
    if(fxAna->SetParameterStatus(GetObjectName(),par)) {
-      buf = Form("Parameter %s was set to new values.", GetObjectName());
+      buf = TString::Format("Parameter %s was set to new values.", GetObjectName());
       fxClient->SendStatusMessage(1, kTRUE, buf.Data());
       fxResult->SetAction(kGo4ActionEdit);
    } else {
-      buf = Form("SetObject - ERROR: failed to set parameter %s",GetObjectName());
+      buf = TString::Format("SetObject - ERROR: failed to set parameter %s",GetObjectName());
       fxClient->SendStatusMessage(3, kTRUE, buf.Data());
       fxResult->SetAction(kGo4ActionError);
    }
@@ -148,11 +148,11 @@ Int_t TGo4ComSetObject::ExeSetPar(TGo4Parameter* par)
    if(par==0) return -1;
    TString buf;
    if(fxAna->SetParameter(GetObjectName(),par)) {
-      buf = Form("Parameter %s was set to new values.", GetObjectName());
+      buf = TString::Format("Parameter %s was set to new values.", GetObjectName());
       fxClient->SendStatusMessage(1, kTRUE, buf.Data());
       fxResult->SetAction(kGo4ActionEdit);
    } else {
-      buf = Form("SetObject - ERROR: failed to set parameter %s",GetObjectName());
+      buf = TString::Format("SetObject - ERROR: failed to set parameter %s",GetObjectName());
       fxClient->SendStatusMessage(3, kTRUE, buf.Data());
       fxResult->SetAction(kGo4ActionError);
    }
@@ -166,11 +166,11 @@ Int_t TGo4ComSetObject::ExeSetCon(TGo4Condition* conny)
    if(conny==0) return -1;
    TString buf;
    if(fxAna->SetAnalysisCondition(GetObjectName(),conny, kFALSE)) {
-      buf = Form("Condition %s was set to new values.", GetObjectName());
+      buf = TString::Format("Condition %s was set to new values.", GetObjectName());
       fxClient->SendStatusMessage(1, kTRUE, buf.Data());
       fxResult->SetAction(kGo4ActionEdit);
    } else {
-      buf = Form("SetCondition - ERROR: failed to set %s", GetObjectName());
+      buf = TString::Format("SetCondition - ERROR: failed to set %s", GetObjectName());
       fxClient->SendStatusMessage(3, kTRUE, buf.Data());
       fxResult->SetAction(kGo4ActionError);
    }
@@ -186,10 +186,10 @@ Int_t TGo4ComSetObject::ExeSetHis(TH1* his)
    if(fxAna->AddHistogram(his)) {
       his->SetBit(TGo4Status::kGo4CanDelete); // dynamic objects may be deleted from gui
       fxResult->SetAction(kGo4ActionPlot);
-      buf = Form("Added new histogram %s to Go4 folders.", GetObjectName());
+      buf = TString::Format("Added new histogram %s to Go4 folders.", GetObjectName());
       fxClient->SendStatusMessage(1, kFALSE, buf.Data());
    } else {
-      buf = Form("ERROR on adding new histogram %s ", GetObjectName());
+      buf = TString::Format("ERROR on adding new histogram %s ", GetObjectName());
       fxClient->SendStatusMessage(3, kFALSE, buf.Data());
       fxResult->SetAction(kGo4ActionError);
       delete his;
@@ -207,10 +207,10 @@ Int_t TGo4ComSetObject::ExeSetDyn(TGo4DynamicEntry* dyn)
       if ((tentry!=0) && tentry->IsEnabledProcessing())
          fxAna->SetDynListInterval(tentry->GetDynListInterval());
       fxResult->SetAction(kGo4ActionEdit);
-      buf = Form("Set new status for entry  %s of dynamic list %s.", GetObjectName(), GetFolderName());
+      buf = TString::Format("Set new status for entry  %s of dynamic list %s.", GetObjectName(), GetFolderName());
       fxClient->SendStatusMessage(1, kTRUE, buf.Data());
    } else {
-      buf = Form("Could not set status for entry %s of dynamic list %s !!!", GetObjectName(), GetFolderName());
+      buf = TString::Format("Could not set status for entry %s of dynamic list %s !!!", GetObjectName(), GetFolderName());
       fxResult->SetAction(kGo4ActionError);
       fxClient->SendStatusMessage(2, kTRUE, buf.Data());
    }
@@ -225,10 +225,10 @@ Int_t TGo4ComSetObject::ExeSetPic(TGo4Picture* pic)
    TString buf;
    if(fxAna->SetPicture(GetObjectName(),pic)) {
       fxResult->SetAction(kGo4ActionPlot);
-      buf = Form("Picture %s was set to new values.", GetObjectName());
+      buf = TString::Format("Picture %s was set to new values.", GetObjectName());
       fxClient->SendStatusMessage(1, kFALSE, buf.Data());
    } else {
-      buf = Form("SetPicture - ERROR: failed to set %s",GetObjectName());
+      buf = TString::Format("SetPicture - ERROR: failed to set %s",GetObjectName());
       fxClient->SendStatusMessage(3, kFALSE, buf.Data());
       fxResult->SetAction(kGo4ActionError);
    }
@@ -243,11 +243,11 @@ Int_t TGo4ComSetObject::ExeSetObj(TObject* ob)
    TString buf;
    if(fxAna->AddObject(dynamic_cast<TNamed*>(ob))) {
       fxResult->SetAction(kGo4ActionRefresh);
-      buf = Form("Added new object %s to Go4 folders.", GetObjectName());
+      buf = TString::Format("Added new object %s to Go4 folders.", GetObjectName());
       fxClient->SendStatusMessage(1, kFALSE, buf.Data());
    } else {
       fxResult->SetAction(kGo4ActionError);
-      buf = Form("ERROR on adding new object %s ", GetObjectName());
+      buf = TString::Format("ERROR on adding new object %s ", GetObjectName());
       fxClient->SendStatusMessage(3, kFALSE, buf.Data());
       delete ob;
    }

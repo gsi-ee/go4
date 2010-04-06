@@ -214,7 +214,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
          go4thr=((TGo4ThreadHandler*) fxManager->GetWorkHandler())->GetThread("First Thread");
          ((TGo4ThreadHandler*) fxManager->GetWorkHandler())->RemoveThread("First Thread");
 
-         TString rname = Form("NewHistogramMaker1:%d",loops++);
+         TString rname = TString::Format("NewHistogramMaker1:%d",loops++);
          //th1run= new TGo4TestRunnable(buf,fxManager,4);
          //sprintf(buf,"New First Thread:%d",loops++);
          if(loops==1)

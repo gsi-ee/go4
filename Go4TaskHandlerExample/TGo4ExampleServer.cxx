@@ -58,10 +58,10 @@ TGo4ExampleServer::TGo4ExampleServer(const char* name,
 
       // adding runnables to thread handler who takes over the responsibility...:
 
-   fcControlName = Form("%s%s",fgcCONTROLTHREAD,GetName());
+   fcControlName.Form("%s%s",fgcCONTROLTHREAD,GetName());
    fxWorkHandler->NewThread(fcControlName.Data(), controlrun);
 
-   fcLoggingName = Form("%s%s",fgcLOGGINGTHREAD,GetName());
+   fcLoggingName.Form("%s%s",fgcLOGGINGTHREAD,GetName());
    fxWorkHandler->NewThread(fcLoggingName.Data(),logrun);
 
    Launch();

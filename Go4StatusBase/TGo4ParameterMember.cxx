@@ -209,12 +209,12 @@ Int_t TGo4ParameterMember::PrintMember(Text_t* buffer, Int_t buflen) const
 
    TString name;
    if ((fIndex1<0) && (fIndex2<0)) name += GetName(); else
-   if (fIndex2<0) name += Form("%s[%d]", GetName(), fIndex1); else
-      name += Form("%s[%d][%d]", GetName(), fIndex1, fIndex2);
+   if (fIndex2<0) name += TString::Format("%s[%d]", GetName(), fIndex1); else
+      name += TString::Format("%s[%d][%d]", GetName(), fIndex1, fIndex2);
 
    name += " = ";
 
-   if (fObject) name += Form("Obj:%p Class:%s", fObject, fObject->ClassName()); else
+   if (fObject) name += TString::Format("Obj:%p Class:%s", fObject, fObject->ClassName()); else
 #if ROOT_VERSION_CODE >= ROOT_VERSION(4,3,2)
       if (fTypeId==kBool_t) name += ((fValue=="0") ? "kFALSE" : "kTRUE"); else
 #endif

@@ -138,8 +138,8 @@ void TGo4AnalysisClient::Constructor(Bool_t starthistserv, const char* basename,
    fxRatemeter = new TGo4Ratemeter;
    TGo4Log::Debug(" AnalysisClient ''%s'' started ",GetName());
 
-   fcMainName = Form("%s%s", fgcMAINTHREAD, GetName());
-   fcWatchName = Form("%s%s", fgcWATCHTHREAD, GetName());
+   fcMainName = TString::Format("%s%s", fgcMAINTHREAD, GetName());
+   fcWatchName = TString::Format("%s%s", fgcWATCHTHREAD, GetName());
 
    TGo4AnalysisMainRunnable* mainrun =
       new TGo4AnalysisMainRunnable(Form("MainRunnable of %s",GetName()), this);
@@ -489,9 +489,9 @@ void TGo4AnalysisClient::ExecuteString(const char* command)
    if(strstr(command,"ANHServStart")) {
       TString buffer = command;
       strtok((char*) buffer.Data(), ":"); // first find the command itself
-      TString base = Form("%s",strtok(0,":"));
-      TString pass = Form("%s",strtok(0,":"));
-      cout <<"ExecuteString found base "<< base<<",  passwd "<<pass << endl;
+      TString base = strtok(0,":");
+      TString pass = strtok(0,":");
+      cout << "ExecuteString found base " << base << ",  passwd " << pass << endl;
       StartObjectServer(base.Data(), pass.Data());
    } else
    if (!strcmp(command,"ANHServStop")) {
@@ -503,7 +503,7 @@ void TGo4AnalysisClient::ExecuteString(const char* command)
       do
       {
          Ssiz_t len=strlen(cursor);
-         at=strstr(cursor,"@");
+         at = strstr(cursor,"@");
          if(at)
          {
             //cout <<"Found at: "<<at << endl;

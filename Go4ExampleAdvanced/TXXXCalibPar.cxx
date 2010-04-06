@@ -38,7 +38,7 @@ TXXXCalibPar::TXXXCalibPar() :
    for(Int_t ix=0;ix<__LINESNUMBER__;++ix) {
       fiLinesChannel[ix] = 0;
       ffLinesEnergy[ix] = 0;
-      fxLinesNames[ix] = Form("Defaultline-%d",ix);
+      fxLinesNames[ix] = TString::Format("Defaultline-%d",ix);
    }
 }
 //***********************************************************
@@ -77,7 +77,7 @@ TXXXCalibPar::TXXXCalibPar(const char* name, TH1* spectrum, TGraph* curve) :
    // i.e. true order of polynom +1
    for(Int_t i=0; i<__POLORDER__;++i) {
       fdA[i]=1/(i+1);
-      TString modname = Form("A_%d",i);
+      TString modname = TString::Format("A_%d",i);
       TGo4FitModel* mod=fxCalibrator->FindModel(modname.Data());
       if(mod) {
          // for the beginning, disable models beyond order 1:

@@ -59,7 +59,7 @@ Int_t TGo4Parameter::PrintParameter(Text_t* buffer, Int_t buflen)
    GetMemberValues(&items);
 
    Int_t size = 0;
-   TString localbuf = Form("Parameter name: %s class %s\n", GetName(), ClassName());
+   TString localbuf = TString::Format("Parameter name: %s class %s\n", GetName(), ClassName());
 
    if(buffer==0) {
       cout << localbuf;
@@ -310,7 +310,7 @@ Bool_t TGo4Parameter::SetMemberValues(TIterator* fItems, TClass* cl, char* ptr, 
 void TGo4Parameter::SavePrimitive(ostream& out, Option_t* opt)
 {
    static int cnt = 0;
-   TString varname = Form("param%d", cnt++);
+   TString varname = TString::Format("param%d", cnt++);
    Bool_t savemacro = (opt!=0) && (strstr(opt,"savemacro")!=0);
 
    if (savemacro) {

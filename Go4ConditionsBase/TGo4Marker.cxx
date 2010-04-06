@@ -237,7 +237,7 @@ void TGo4Marker::PrintMarker(Option_t* opt)
    } else
       textbuffer+="out histogram";
 
-   textbuffer += Form("\n    X:  \t\tY:  \t\tXbin:\t\tYbin:\t\tCounts:\n    %.2f\t\t%.2f\t\t%d\t\t%d\t\t%d",
+   textbuffer += TString::Format("\n    X:  \t\tY:  \t\tXbin:\t\tYbin:\t\tCounts:\n    %.2f\t\t%.2f\t\t%d\t\t%d\t\t%d",
          GetX(), GetY(), GetXbin(),GetYbin(),GetCont());
    if(option.Contains("go4log"))
       TGo4Log::Message(1,textbuffer.Data());

@@ -1198,7 +1198,7 @@ TString TGo4Fitter::FindNextName(const char* Head, Int_t start, Bool_t isModel)
    TString name;
    Int_t n = start;
    do {
-     name = Form("%s%d", Head, n++);
+     name.Form("%s%d", Head, n++);
    } while (isModel ? FindModel(name.Data())!=0 : FindData(name.Data())!=0 );
    return name;
 }

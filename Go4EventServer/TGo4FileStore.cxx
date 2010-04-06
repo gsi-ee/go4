@@ -194,7 +194,7 @@ Int_t TGo4FileStore::Store(TGo4EventElement* event)
       // first call of Store, create new branch
       //cout << "**********************Creating new branch!"<< endl;
       if(fxEvent) {
-         TString topbranchname = Form("%s.", fxEvent->GetName());
+         TString topbranchname = TString::Format("%s.", fxEvent->GetName());
          TBranch*  go4branch = fxTree->GetBranch(topbranchname.Data());
          if(go4branch) {
             // tree already had branch of our name, check it

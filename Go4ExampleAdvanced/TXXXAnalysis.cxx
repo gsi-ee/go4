@@ -85,17 +85,17 @@ case 1: cout << "**** Configure with default parameters ****" << endl;
 case 2: // default kind
 	   cout << "**** Configure with user-specified parameters ****" << endl;
 	   kind = "-file";
-	   input = Form("%s", argv[1]);
-	   out1 = Form("%s_Calib", argv[1]);
-	   out2 = Form("%s_Anl", argv[1]);
+	   input = TString::Format("%s", argv[1]);
+	   out1 = TString::Format("%s_Calib", argv[1]);
+	   out2 = TString::Format("%s_Anl", argv[1]);
 	   break;
 case 3:
 default:
 	   cout << "**** Configure with user-specified parameters ****" << endl;
-	   kind = Form("%s", argv[1]);
-	   input = Form("%s", argv[2]);
-	   out1 = Form("%s_Calib", argv[2]);
-	   out2 = Form("%s_Anl", argv[2]);
+	   kind = TString::Format("%s", argv[1]);
+	   input = TString::Format("%s", argv[2]);
+	   out1 = TString::Format("%s_Calib", argv[2]);
+	   out2 = TString::Format("%s_Anl", argv[2]);
 	   break;
 }
 // Create step 1 Unpack.

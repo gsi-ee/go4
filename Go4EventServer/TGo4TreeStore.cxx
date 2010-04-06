@@ -36,7 +36,7 @@ TGo4TreeStore::TGo4TreeStore(const char* name,
 {
    TRACE((15,"TGo4TreeStore::TGo4TreeStore(const char*,...)", __LINE__, __FILE__));
 
-   TString buffer = Form("%s.", name);  // for branches containing the same event structure
+   TString buffer = TString::Format("%s.", name);  // for branches containing the same event structure
    fxSingletonTree = TGo4MainTree::Instance();
    if(fxEvent) {
       fcEventClass = fxEvent->ClassName();
@@ -52,7 +52,7 @@ TGo4TreeStore::TGo4TreeStore(const char* name,
          TGo4Log::Debug(" TreeStore: Created new branch %s ", name);
       } // if(fxBranch)
       if(filename) {
-         buffer = Form("%s%s", filename, fgcFILESUF);
+         buffer = TString::Format("%s%s", filename, fgcFILESUF);
          fxFile = TFile::Open(buffer.Data(), "UPDATE", "Go4 tree store", compression);
          fxBranch->SetFile(fxFile);
          TGo4Log::Debug(" TreeStore: Set branch to file %s ", filename);
@@ -74,7 +74,7 @@ TGo4TreeStore::TGo4TreeStore(TGo4TreeStoreParameter* par, TGo4EventElement* even
    TRACE((15,"TGo4TreeStore::TGo4TreeStore(const char*,...)", __LINE__, __FILE__));
 
    SetName(par->GetName());
-   TString buffer = Form("%s.", par->GetName());
+   TString buffer = TString::Format("%s.", par->GetName());
    fxSingletonTree = TGo4MainTree::Instance();
    if(fxEvent) {
       fcEventClass = fxEvent->ClassName();
@@ -91,7 +91,7 @@ TGo4TreeStore::TGo4TreeStore(TGo4TreeStoreParameter* par, TGo4EventElement* even
       } // if(fxBranch)
       if(!par->fxBranchFile.IsNull())
       {
-         buffer = Form("%s%s", par->fxBranchFile.Data(), fgcFILESUF);
+         buffer = TString::Format("%s%s", par->fxBranchFile.Data(), fgcFILESUF);
          fxFile = TFile::Open(buffer.Data(), "UPDATE", "Go4 tree store", par->fiCompression);
          fxBranch->SetFile(fxFile);
          TGo4Log::Debug(" TreeStore: Set branch to file %s ", buffer.Data());

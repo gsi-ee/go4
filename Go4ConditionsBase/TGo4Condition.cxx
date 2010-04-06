@@ -249,12 +249,12 @@ void TGo4Condition::Print(Option_t* opt) const
       //textbuffer+="\n";
       if(option.Contains("limits"))
          textbuffer +=
-               Form("\n!  Xlow: \t\tXup: \t\tYlow: \t\tYup:\n   %.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t",
-                     localthis->GetXLow(),localthis->GetXUp(),localthis->GetYLow(),localthis->GetYUp());
+           TString::Format("\n!  Xlow: \t\tXup: \t\tYlow: \t\tYup:\n   %.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t",
+                           localthis->GetXLow(),localthis->GetXUp(),localthis->GetYLow(),localthis->GetYUp());
 
       if(option.Contains("flags"))
          textbuffer +=
-               Form("\n!  Status:\n!  Enab.: \tVis.: \tRes.: \tTrue: \tCnts: \tTrueCnts:\n   %d\t\t%d\t%d\t%d\t%d\t%d",
+               TString::Format("\n!  Status:\n!  Enab.: \tVis.: \tRes.: \tTrue: \tCnts: \tTrueCnts:\n   %d\t\t%d\t%d\t%d\t%d\t%d",
                      localthis->fbEnabled, localthis->IsVisible(), localthis->fbResult, localthis->fbTrue,
                      localthis->Counts(), localthis->TrueCounts());
 
@@ -269,7 +269,7 @@ void TGo4Condition::Print(Option_t* opt) const
             textbuffer+=" histogram: ";
             textbuffer+=hist->GetName();
             textbuffer +=
-                  Form("\n!   Int:\t\tXmax:\t\tYmax:\t\tCmax:\t\tXmean:\t\tYmean:\t\tXrms:\t\tYrms:\n    %.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f",
+                  TString::Format("\n!   Int:\t\tXmax:\t\tYmax:\t\tCmax:\t\tXmean:\t\tYmean:\t\tXrms:\t\tYrms:\n    %.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f\t\t%.2f",
                         localthis->GetIntegral(hist), localthis->GetXMax(hist),localthis->GetYMax(hist), localthis->GetCMax(hist),
                         localthis->GetMean(hist,1), localthis->GetMean(hist,2), localthis->GetRMS(hist,1), localthis->GetRMS(hist,2));
          }
