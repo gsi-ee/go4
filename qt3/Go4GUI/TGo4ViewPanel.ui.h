@@ -3092,9 +3092,7 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad* tgtpad, TPad* srcpad, const char* s
 
       TPad* srcsubpad = dynamic_cast<TPad*> (obj);
 
-      TString itemname(srcpaditemname);
-      itemname+="/";
-      itemname+=obj->GetName();
+      TString itemname = TString::Format("%s/%s", srcpaditemname, obj->GetName());
 
       if (srcsubpad!=0) {
          nsubpads++;

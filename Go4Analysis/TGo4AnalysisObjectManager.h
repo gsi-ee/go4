@@ -73,17 +73,27 @@ class TGo4AnalysisObjectManager : public TNamed
 
       /**
        * Searches for object by name in all go4 folders. Returns
-       * pointer to object. If
+       * pointer to TNamed object. If
        * object of that name does not exist, null is returned
        * Optionally, name of folder may be specified; object is
-       * only searched within that folder then. D
+       * only searched within that folder then.
        */
       TNamed * GetObject(const char * name, const char* folder=0);
+
+      /**
+       * Searches for object by name in all go4 folders. Returns
+       * pointer to TObject object. If
+       * object of that name does not exist, null is returned
+       * Optionally, name of folder may be specified; object is
+       * only searched within that folder then.
+       */
+      TObject* GetAsTObject(const char * name, const char* folder=0);
+
 
      /**
        * Removes object from user object folder by name. Returns kFALSE if no
        * such histogram. Object is deleted on heap only if del is true.
-       * Otherwise, user owns the object afterwords.
+       * Otherwise, user owns the object afterwards.
        */
       Bool_t RemoveObject(const char * name, Bool_t del=kTRUE);
 
@@ -91,7 +101,7 @@ class TGo4AnalysisObjectManager : public TNamed
 
       /**
        * Delete object of name, or all objects in folder name, respectively.
-       * Objects are only deleted if delete protection is false. Usuallay,
+       * Objects are only deleted if delete protection is false. Usually,
        * Objects registered from user code are delete protected by default.
        * Objects created dynamically from gui are not delete protected.
        */
@@ -100,7 +110,7 @@ class TGo4AnalysisObjectManager : public TNamed
   /**
     * Delivers pointer to next object of the Go4 folder structure
     * with a name matching the expression expr. If reset is true,
-    * The list of matchint objects will be created anew by comparing
+    * The list of matching objects will be created anew by comparing
     * all names with expr. If reset is false, the next object of a
     * previously created matching list is returned. Optionally the
     * search can be limited to a given folder.

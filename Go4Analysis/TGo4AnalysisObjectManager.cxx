@@ -179,20 +179,16 @@ Bool_t TGo4AnalysisObjectManager::RemoveObject(const char * name, Bool_t del)
 }
 
 
-
-TNamed * TGo4AnalysisObjectManager::GetObject(const char * name, const char* folder)
+TObject* TGo4AnalysisObjectManager::GetAsTObject(const char * name, const char* folder)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::GetObject(char *)",__LINE__, __FILE__));
+   TRACE((11,"TGo4AnalysisObjectManager::GetAsTObject(const char*, const char*)",__LINE__, __FILE__));
    //
-   TNamed* ob=0;
-   TFolder* searchfold;
-   if(folder==0 || !strcmp(folder,fgcTOPFOLDER))
-      searchfold=fxGo4Dir; // default: search topfolder
-   else
-      searchfold=FindSubFolder(fxGo4Dir, folder, kFALSE);
-   if(searchfold)
-   {
-      ob= dynamic_cast<TNamed*> (FindObjectInFolder(searchfold, name));
+   TObject* ob(0);
+   TFolder* searchfold(fxGo4Dir);
+   if((folder!=0) && (strcmp(folder,fgcTOPFOLDER)!=0))
+      searchfold = FindSubFolder(fxGo4Dir, folder, kFALSE);
+   if(searchfold) {
+      ob = FindObjectInFolder(searchfold, name);
       //cout << "found object in top folder :" << ob  <<endl;
       if(ob && ob->InheritsFrom(TTree::Class())) ob=0; // disable sending tree to gui!
       if(ob && ob->InheritsFrom(TFolder::Class())) ob=0; // disable sending complete folder
@@ -201,23 +197,22 @@ TNamed * TGo4AnalysisObjectManager::GetObject(const char * name, const char* fol
       if(ob && ob->InheritsFrom(TGo4EventStore::Class())) ob=0; // disable events
       if(ob && ob->InheritsFrom(TGo4EventProcessor::Class())) ob=0; // disable events
    }
-   else
-   {
-      ob=0;
-   }
-   if(ob)
-   {
+   if(ob) {
       TGo4Analysis::Instance()->Message(0,"AnalysisObjectManager - found object %s of class %s",
             ob->GetName(), ob->ClassName());
-   }
-   else
-   {
+   } else {
       TGo4Analysis::Instance()->Message(0,"!!! AnalysisObjectManager - no such object %s !!!",
             name);
    }
    return ob;
 }
 
+
+
+TNamed * TGo4AnalysisObjectManager::GetObject(const char * name, const char* folder)
+{
+   return dynamic_cast<TNamed*> (GetAsTObject(name, folder));
+}
 
 
 Bool_t TGo4AnalysisObjectManager::ClearObjects(const char * name)

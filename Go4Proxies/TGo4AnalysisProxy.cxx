@@ -117,7 +117,7 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
       }
 
    protected:
-      TGo4AnalysisProxy*  fxAnalProxy;      //!
+      TGo4AnalysisProxy*      fxAnalProxy;      //!
       Int_t                   fProxyKind;       //!
       TString                 fxObjName;        //!
       TString                 fxObjClassName;   //!
@@ -830,18 +830,16 @@ Bool_t TGo4AnalysisProxy::SubmitProxy(TGo4AnalysisObjectAccess* proxy)
    proxy->SetSubmitTime();
 
    if (proxy->ProxyKind()==cmdEnvelope) {
-
       //TGo4ComGetEnvelope* com = new TGo4ComGetEnvelope(proxy->GetObjectName(), proxy->GetPathName());
       TGo4RemoteCommand* com = new TGo4RemoteCommand("ANGetEnvelope");
-      com->SetString(proxy->GetObjectName(),0);
-      com->SetString(proxy->GetPathName(),1);
+      com->SetString(proxy->GetObjectName(), 0);
+      com->SetString(proxy->GetPathName(), 1);
       fxDisplay->SubmitCommand(com);
    } else
    if (proxy->ProxyKind()==cmdStatus) {
-
 //      TGo4ComGetObjectStatus *com = new TGo4ComGetObjectStatus(proxy->GetObjectName());
 //      com->SetFolderName(proxy->GetPathName());
-      TGo4RemoteCommand* com= new TGo4RemoteCommand("ANObjectStatus");
+      TGo4RemoteCommand* com = new TGo4RemoteCommand("ANObjectStatus");
       com->SetString(proxy->GetObjectName(),0);
       com->SetString(proxy->GetPathName(),1);
       TString rcvname = proxy->GetObjectName();

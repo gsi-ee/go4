@@ -826,7 +826,6 @@ Bool_t TGo4BrowserProxy::UpdateAnalysisItem(const char* itemname, TObject* obj)
    return an==0 ? kFALSE : an->UpdateAnalysisObject(analysisname, obj);
 }
 
-
 void TGo4BrowserProxy::FetchItem(const char* itemname, Int_t wait_time)
 {
    TGo4Slot* itemslot = ItemSlot(itemname);

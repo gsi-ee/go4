@@ -506,7 +506,7 @@ void TGo4ObjectManager::DeleteSlot(const char* pathname)
 
 Int_t TGo4ObjectManager::RequestObject(const char* source, const char* targetslot, Int_t waittime_millisec)
 // returns 0 when error
-//         1 when object assigned immidiatly
+//         1 when object assigned immediately
 //         2 when object will be obtained later
 {
    TGo4Slot* tgtslot = GetSlot(targetslot);

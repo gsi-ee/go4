@@ -304,7 +304,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     Bool_t SetAnalysisCondition(const char* name, TGo4Condition* con, Bool_t counter=kTRUE);
 
     /** Retrieves an analysis condition  from list by name. Returns 0 if no
-      * such condtion. */
+      * such condition. */
     TGo4Condition * GetAnalysisCondition(const char* name);
 
     /** Removes analysis condition from list by name. Returns 0 if no

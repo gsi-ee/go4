@@ -1970,7 +1970,7 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
       return 0;
    }
 
-//    out << "Add object = " << (obj ? obj->ClassName() : "---") << " pad = " << pad->GetName() << endl;
+   // cout << "Add object = " << (obj ? obj->ClassName() : "---") << " pad = " << pad->GetName() << endl;
 
    // clear only if link is added
    if (kind<100)
@@ -1982,6 +1982,8 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
       TClass* cl = Browser()->ItemClass(itemname);
       if ((cl!=0) && cl->InheritsFrom(TGo4Condition::Class()))
         UndrawItem(itemname);
+
+//      cout << "Item " << itemname << " class = " << (cl ? cl->GetName() : "null") << endl;
 
       TGo4Slot* brslot = Browser()->BrowserSlot(itemname);
 
@@ -2260,6 +2262,7 @@ void TGo4ViewPanel::CollectMainDrawObjects(TGo4Slot* slot, TObjArray* objs, TObj
       if ((kind<=0) || (kind>=kind_Additional)) continue;
 
       TObject* obj = subslot->GetAssignedObject();
+
       if (obj==0) continue;
 
       int objtype = 0;
@@ -3146,9 +3149,9 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad* tgtpad, TPad* srcpad, const char* s
 
       TPad* srcsubpad = dynamic_cast<TPad*> (obj);
 
-      TString itemname(srcpaditemname);
-      itemname+="/";
-      itemname+=obj->GetName();
+      TString itemname = TString::Format("%s/%s", srcpaditemname, obj->GetName());
+
+//      cout << "subitemname = " << itemname << " obj = " << obj << " class = " << (obj ? obj->ClassName() : "---") << endl;
 
       if (srcsubpad!=0) {
          nsubpads++;
@@ -3334,6 +3337,8 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
         lastdrawnpad = 0;
 
    Int_t subpadindx = 0;
+
+//   cout << "ProcessPadRedraw " << pad->GetName() << " numchilds = " << slot->NumChilds() << endl;
 
    // first redraw all subpads
    for(int n=0;n<slot->NumChilds();n++) {
