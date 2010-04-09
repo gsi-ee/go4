@@ -58,7 +58,7 @@
 #include "TGo4ParameterStatus.h"
 #include "TGo4MemberStatus.h"
 
-enum { cmdEnvelope, cmdStatus, cmdEvStatus };
+enum { cmdEnvelope, cmdStatus, cmdEvStatus, cmdDefualtEnvelope };
 
 
 class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
@@ -77,7 +77,8 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
           fxObjClassName(classname),
           fxFullPath(fullpath),
           fxReceiver(0),
-          fPermanentProxy(kFALSE)
+          fxReceiverPath(),
+          fxSubmitTime()
       {
       }
 
@@ -111,9 +112,25 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
           return (res<0) || (res > millisec);
       }
 
-      void ReceiveObject(TObject* obj, Bool_t owner)
+      void ReceiveObject(TObject* obj, const char* objfolder, const char* objname, Bool_t owner)
       {
-         DoObjectAssignement(fxReceiver, fxReceiverPath.Data(), obj, owner);
+         if (fProxyKind == cmdDefualtEnvelope) {
+            TString path = fxReceiverPath;
+            if ((objfolder!=0) && (strlen(objfolder)!=0)) {
+               path += objfolder; path += "/";
+            }
+            if ((objname!=0) && (strlen(objname)!=0)) path += objname;
+            DoObjectAssignement(fxReceiver, path.Data(), obj, owner);
+
+         } else {
+            DoObjectAssignement(fxReceiver, fxReceiverPath.Data(), obj, owner);
+         }
+      }
+
+      void SetDefaultReceiver(TGo4ObjectReceiver* rcv, const char* path)
+      {
+         fxReceiver = rcv;
+         fxReceiverPath = path;
       }
 
    protected:
@@ -125,7 +142,6 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
       TGo4ObjectReceiver*     fxReceiver;       //!
       TString                 fxReceiverPath;   //!
       TTime                   fxSubmitTime;     //!
-      Bool_t                  fPermanentProxy;  //!
 };
 
 
@@ -441,6 +457,7 @@ TGo4AnalysisProxy::TGo4AnalysisProxy(Bool_t isserver) :
    fAnalysisNames(0),
    fxParentSlot(0),
    fxSubmittedProxy(),
+   fxDefaultProxy(0),
    fbNamesListReceived(kFALSE),
    fbAnalysisReady(kFALSE),
    fbAnalysisSettingsReady(kFALSE),
@@ -468,6 +485,8 @@ TGo4AnalysisProxy::~TGo4AnalysisProxy()
 
    fNumberOfWaitingProxyes -= fxSubmittedProxy.GetEntries();
    fxSubmittedProxy.Delete();
+
+   delete fxDefaultProxy; fxDefaultProxy = 0;
 
    delete fAnalysisNames;
 
@@ -721,23 +740,24 @@ void TGo4AnalysisProxy::ReceiveStatus(TGo4Status* status)
 }
 
 void TGo4AnalysisProxy::ReceiveObject(TNamed* obj)
-// object should be cleaned
 {
-   if (obj==0) return;
+   // object should be cleaned at the end
 
-//   cout << " TGo4AnalysisProxy::ReceiveObject " << obj
-//        << " name = " << obj->GetName()
-//        << "  class  = " << obj->ClassName() << endl;
+   if (obj==0) return;
 
    TGo4ObjEnvelope* envelope = dynamic_cast<TGo4ObjEnvelope*> (obj);
    if (envelope!=0) {
       TGo4AnalysisObjectAccess* proxy = FindSubmittedProxy(envelope->GetObjFolder(), envelope->GetObjName());
+      if (proxy==0) proxy = fxDefaultProxy;
+
       if (proxy!=0) {
          TObject* envelopeobj = envelope->TakeObject();
          if ((envelopeobj!=0) && envelopeobj->InheritsFrom(TH1::Class()))
             ((TH1*) envelopeobj)->SetDirectory(0);
-         proxy->ReceiveObject(envelopeobj, kTRUE);
-         DeleteSubmittedProxy(proxy);
+         proxy->ReceiveObject(envelopeobj, envelope->GetObjFolder(), envelope->GetObjName(), kTRUE);
+
+
+         if (proxy != fxDefaultProxy) DeleteSubmittedProxy(proxy);
       }
       delete envelope;
       return;
@@ -751,12 +771,10 @@ void TGo4AnalysisProxy::ReceiveObject(TNamed* obj)
 
    TGo4AnalysisObjectAccess* proxy = FindSubmittedProxy(0, obj->GetName());
    if (proxy!=0) {
-      proxy->ReceiveObject(obj, kTRUE);
+      proxy->ReceiveObject(obj, 0, obj->GetName(), kTRUE);
       DeleteSubmittedProxy(proxy);
       return;
    }
-
-//   cout << "Object without receiver " << obj->GetName() << endl;
 
    delete obj;
 }
@@ -1459,4 +1477,14 @@ Bool_t TGo4AnalysisProxy::HandleTimer(TTimer* timer)
    }
 
    return kFALSE;
+}
+
+void TGo4AnalysisProxy::SetDefaultReceiver(TGo4ObjectReceiver* rcv, const char* path)
+{
+   if (rcv==0) {
+      delete fxDefaultProxy; fxDefaultProxy = 0;
+   } else {
+      if (fxDefaultProxy==0) fxDefaultProxy = new TGo4AnalysisObjectAccess(this, cmdDefualtEnvelope, "", "", "");
+      fxDefaultProxy->SetDefaultReceiver(rcv, path);
+   }
 }

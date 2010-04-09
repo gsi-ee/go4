@@ -2032,3 +2032,33 @@ TObject* TGo4AnalysisObjectManager::TestObject(TFolder*     folder,
    fbCreatedinMake = (obj==0);
    return obj;
 }
+
+Bool_t TGo4AnalysisObjectManager::FindObjectPathName(TObject* obj, TString& pathname, TFolder* fold)
+{
+   if (obj==0) return kFALSE;
+
+   if (fold==0) fold = fxGo4Dir;
+
+   if (fold->GetListOfFolders()->FindObject(obj)==obj) {
+      pathname = "";
+      return kTRUE;
+   }
+
+   TIter iter(fold->GetListOfFolders());
+   TObject* sub = 0;
+
+   while ((sub = iter())!=0) {
+      if (!sub->InheritsFrom(TFolder::Class())) continue;
+      if (FindObjectPathName(obj, pathname, (TFolder*) sub)) {
+         if (pathname.Length()==0)
+            pathname = sub->GetName();
+         else
+            pathname = TString(sub->GetName()) + "/" + pathname;
+         return kTRUE;
+      }
+   }
+
+   return kFALSE;
+
+}
+

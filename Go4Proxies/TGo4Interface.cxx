@@ -136,6 +136,7 @@ TGo4AnalysisProxy* TGo4Interface::AddAnalysisProxy(Bool_t isserver)
       TGo4AnalysisProxy* anal = new TGo4AnalysisProxy(isserver);
       OM()->AddProxy(fOMDataPath.Data(), anal, analisysitem, "Analysis proxy");
       analslot = Browser()->DataSlot(analisysitem);
+      anal->SetDefaultReceiver(OM(), TString("gui/") + analisysitem + "/");
    }
 
    TGo4AnalysisProxy* anal = (analslot==0) ? 0 :

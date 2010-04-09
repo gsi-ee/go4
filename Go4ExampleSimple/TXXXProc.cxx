@@ -19,6 +19,8 @@
 #include "TH1.h"
 #include "TH2.h"
 #include "TCutG.h"
+#include "TCanvas.h"
+#include "TLine.h"
 
 #include "TGo4MbsEvent.h"
 #include "TGo4WinCond.h"
@@ -79,29 +81,42 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
       fcondSet->Pic(0,1)->AddCondition(fconHis2);
       fcondSet->Pic(1,0)->AddObject(fHis1gate);
       fcondSet->Pic(1,1)->AddObject(fHis2gate);
+
       fcondSet->Pic(1,0)->SetFillAtt(4, 1001); // solid
       fcondSet->Pic(1,0)->SetLineAtt(4,1,1);
       fcondSet->Pic(1,1)->SetFillAtt(9, 1001); // solid
       fcondSet->Pic(1,1)->SetLineAtt(9,1,1);
       AddPicture(fcondSet);
    }
+
+/*
+   cout << "Creating canvas " << endl;
+   TCanvas* mycan = new TCanvas("TestCanvas","Does this work?", 3);
+   cout << "Did Creating canvas " << endl;
+   mycan->Divide(2,2);
+   mycan->cd(1);
+   fHis1->Draw();
+   mycan->cd(2);
+   fHis2->Draw();
+   AddCanvas(mycan);
+*/
+
 }
 
 //-----------------------------------------------------------
 // event function
 Bool_t TXXXProc::BuildEvent(TGo4EventElement*)
 {  // called by framework. We dont fill any output event here at all
-   TGo4MbsEvent* evnt=0;
-   // check if we have the correct input class:
-   TGo4EventElement* evntx =  GetInputEvent();
-   if(TString(evntx->ClassName()).CompareTo("TGo4MbsEvent")==0)
-      evnt = (TGo4MbsEvent* ) evntx;
-   if(evnt == 0) {
-      cout << "AnlProc: no input event !"<< endl;
+
+   if ((GetInputEvent()==0) || (GetInputEvent()->IsA() != TGo4MbsEvent::Class())) {
+      cout << "TXXXProc: no input MBS event found!" << endl;
       return kFALSE;
    }
+
+   TGo4MbsEvent* evnt = (TGo4MbsEvent*) GetInputEvent();
+
    if(evnt->GetTrigger() > 11) {
-      cout << "**** TXXXProc: Skip trigger event"<<endl;
+      cout << "**** TXXXProc: Skip trigger event" << endl;
       return kFALSE;
    }
    // first we fill the arrays fCrate1,2 with data from MBS source
@@ -118,6 +133,11 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement*)
       Crate1[i] = 0.;
       Crate2[i] = 0.;
    }
+
+
+   // uncomment this lines to update histogram on the gui periodically without activating monitoring
+   //static int cnt =0;
+   // if ((cnt++ % 100000) == 0) SendObjectToGUI(fHis1);
 
    evnt->ResetIterator();
    TGo4MbsSubEvent *psubevt(0);

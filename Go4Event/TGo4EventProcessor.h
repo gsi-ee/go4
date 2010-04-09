@@ -78,7 +78,7 @@ class TGo4EventProcessor : public TGo4EventSource {
       /**
        * Access to external raw event which is set as association member.
        */
-      TGo4EventElement * GetInputEvent()
+      inline TGo4EventElement * GetInputEvent()
       {
          return fxInputEvent;
       }

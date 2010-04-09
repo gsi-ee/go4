@@ -1398,6 +1398,7 @@ TGo4AnalysisProxy* TGo4MainWindow::AddAnalysisProxy(bool isserver, bool needoutp
       TGo4AnalysisProxy* anal = new TGo4AnalysisProxy(isserver);
       fxOM->AddProxy(fOMDataPath.toAscii(), anal, analisysitem, "Analysis proxy");
       analslot = Browser()->DataSlot(analisysitem);
+      anal->SetDefaultReceiver(fxOM, TString("gui/") + analisysitem + "/");
    }
 
    TGo4AnalysisProxy* anal = (analslot==0) ? 0 :

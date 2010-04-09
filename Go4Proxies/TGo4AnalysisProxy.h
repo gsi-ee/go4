@@ -163,6 +163,9 @@ class TGo4AnalysisProxy : public TGo4Proxy {
 
       virtual Bool_t HandleTimer(TTimer* timer);
 
+      /**  Set receiver for object envelopes, which coming from analysis without request  */
+      void SetDefaultReceiver(TGo4ObjectReceiver* rcv, const char* path);
+
    protected:
 
       static Bool_t GetLaunchString(TString& launchcmd,
@@ -185,16 +188,17 @@ class TGo4AnalysisProxy : public TGo4Proxy {
 
       void CallSlotUpdate();
 
-      Bool_t                    fIsServer;  //!
-      TGo4AnalysisDummySlot*    fDummySlot;        //!
-      TGo4AnalysisObjectNames*  fAnalysisNames;    //!
-      TGo4Slot*                 fxParentSlot;      //!
-      TObjArray                 fxSubmittedProxy;  //!
+      Bool_t                    fIsServer;           //!
+      TGo4AnalysisDummySlot*    fDummySlot;          //!
+      TGo4AnalysisObjectNames*  fAnalysisNames;      //!
+      TGo4Slot*                 fxParentSlot;        //!
+      TObjArray                 fxSubmittedProxy;    //!
+      TGo4AnalysisObjectAccess* fxDefaultProxy;      //!
       Bool_t                    fbNamesListReceived; //!
       Bool_t                    fbAnalysisReady;     //!
       Bool_t                    fbAnalysisSettingsReady; //!
       Bool_t                    fbAnalysisRunning;    //!
-      Int_t                     fDisconectCounter; //!
+      Int_t                     fDisconectCounter;   //!
       TGo4Display*              fxDisplay;          //!
       TString                   fInfoStr;           //!
       Int_t                     fActualRole;        //!

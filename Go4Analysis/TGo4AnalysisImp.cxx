@@ -57,6 +57,7 @@
 #include "TGo4Picture.h"
 #include "TGo4Fitter.h"
 #include "TGo4ObjectStatus.h"
+#include "TGo4ObjEnvelope.h"
 #include "TGo4EventStoreParameter.h"
 #include "TGo4EventSourceParameter.h"
 #include "TGo4EventProcessorParameter.h"
@@ -999,12 +1000,25 @@ void TGo4Analysis::SendMessageToGUI(Int_t level, Bool_t printout, const char* te
    } // if (fxAnalysisSlave)
 }
 
-void TGo4Analysis::SendObjectToGUI(TNamed * ob)
+void TGo4Analysis::SendObjectToGUI(TObject* ob)
 {
-   if(fxAnalysisSlave)
-      fxAnalysisSlave->SendObject(ob);
-   else
-      Message(2,"Could not send object %s to GUI in batch mode.", (ob ? ob->GetName() : "-null-"));
+   if (ob==0) return;
+
+   if(fxAnalysisSlave==0) {
+      Message(2,"Could not send object %s to GUI in batch mode.", ob->GetName());
+      return;
+   }
+
+   TString pathname;
+
+   if (ObjectManager()->FindObjectPathName(ob, pathname)) {
+      TGo4ObjEnvelope* envelope = new TGo4ObjEnvelope(ob, ob->GetName(), pathname.Data());
+      fxAnalysisSlave->SendObject(envelope);
+      delete envelope;
+      return;
+   }
+
+   fxAnalysisSlave->SendObject(dynamic_cast<TNamed*>(ob));
 }
 
 Bool_t TGo4Analysis::IsRunning()

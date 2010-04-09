@@ -41,7 +41,10 @@ Changes in Go4 v4.4.1 (March 18)
 11.Add to TGo4Analysis static methods IsBatchMode(), IsClientMode(), IsServerMode(), 
    returning running mode of the analysis. Variable set in go4analysis program 
    and therefore methods can be used already in user analysis constructor.
-
+12.Provide meaningful implementation for TGo4Analysis::SendObjectToGUI method. 
+   Now user can send any registered object (histogram, graph, condition) to gui, 
+   where it will be automatically updated. If object displayed, viewpanel will be updated.
+   This allows do histogram monitoring without activating monitoring mode.    
 
 
 Changes in Go4 v4.4.0 (November 09)

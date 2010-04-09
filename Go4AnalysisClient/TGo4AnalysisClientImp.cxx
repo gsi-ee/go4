@@ -551,7 +551,7 @@ void TGo4AnalysisClient::SetCintMode(Bool_t on)
    fbCintMode = on;
 
    if (fbCintMode) {
-//      gROOT->SetBatch(kFALSE);
+      gROOT->SetBatch(kFALSE);
       fxAnalysis->SetAutoSave(kFALSE);
    }
    #if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)

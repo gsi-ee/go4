@@ -89,7 +89,7 @@ TGo4EventProcessor * TGo4StepFactory::CreateEventProcessor(TGo4EventProcessorPar
       cout << "No event processor was specified!" << endl;
    else
       // create event processor by macro
-      proc=(TGo4EventProcessor *)gROOT->ProcessLineSync(fnewProcessor.Data());
+      proc=(TGo4EventProcessor *)gROOT->ProcessLineFast(fnewProcessor.Data());
    if(proc == 0)
       cout << "Cannot find event processor: " << fProcessorName << endl;
    return proc;

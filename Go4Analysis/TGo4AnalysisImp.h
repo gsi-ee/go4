@@ -556,7 +556,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /** User May send any named object via data channel to the gui.
       * In batch mode, this method is disabled. */
-    void SendObjectToGUI(TNamed* ob);
+    void SendObjectToGUI(TObject* ob);
 
     /** Start the object (histogram) server. Existing server will be stopped and replaced
       * by new server with different basename and password. */
