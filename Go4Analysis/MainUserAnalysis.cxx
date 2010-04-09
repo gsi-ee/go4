@@ -358,6 +358,8 @@ int main(int argc, char **argv)
       return -1;
    }
 
+   //TGo4Log::StartTracing();
+
    if ((FindArg(argc, argv, "-help")>0) || (FindArg(argc, argv, "-h")>0)) usage();
 
    int user_argc = 0;

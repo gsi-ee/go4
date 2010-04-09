@@ -115,7 +115,7 @@ TString TGo4Log::subGO4SYS(const char* subdir)
 const char* TGo4Log::Message(Int_t prio, const char* text,...)
 {
    Instance();
-   TGo4LockGuard(fxMutex);
+   //TGo4LockGuard(fxMutex);
    if(prio>-1 && prio<fgiIgnoreLevel) return 0;
    char txtbuf[fguMESLEN];
    va_list args;
@@ -153,7 +153,7 @@ void TGo4Log::Debug(const char* text,...)
 {
    if(fgiIgnoreLevel>0) return;
    Instance();
-   TGo4LockGuard(fxMutex);
+   //TGo4LockGuard(fxMutex);
    char txtbuf[fguMESLEN];
    va_list args;
    va_start(args, text);
@@ -166,7 +166,7 @@ void TGo4Log::Info(const char* text,...)
 {
    if(fgiIgnoreLevel>1) return;
    Instance();
-   TGo4LockGuard(fxMutex);
+   //TGo4LockGuard(fxMutex);
    char txtbuf[fguMESLEN];
    va_list args;
    va_start(args, text);
@@ -179,7 +179,7 @@ void TGo4Log::Warn(const char* text,...)
 {
    if(fgiIgnoreLevel>2) return;
    Instance();
-   TGo4LockGuard(fxMutex);
+   //TGo4LockGuard(fxMutex);
    char txtbuf[fguMESLEN];
    va_list args;
    va_start(args, text);
@@ -191,7 +191,7 @@ void TGo4Log::Warn(const char* text,...)
 void TGo4Log::Error(const char* text,...)
 {
    Instance();
-   TGo4LockGuard(fxMutex);
+   //TGo4LockGuard(fxMutex);
    char txtbuf[fguMESLEN];
    va_list args;
    va_start(args, text);
@@ -203,7 +203,7 @@ void TGo4Log::Error(const char* text,...)
 
 void TGo4Log::SetIgnoreLevel(Int_t level)
 {
-   TGo4LockGuard(fxMutex);
+   //TGo4LockGuard(fxMutex);
    fgiIgnoreLevel=level;
 }
 
@@ -224,7 +224,7 @@ const char* TGo4Log::GetDefaultLogname()
 
 void TGo4Log::OutputEnable(Bool_t on)
 {
-   TGo4LockGuard(fxMutex);
+   //TGo4LockGuard(fxMutex);
    fgbOutputEnabled=on;
 }
 
@@ -235,7 +235,7 @@ Bool_t TGo4Log::IsOutputEnabled()
 
 void TGo4Log::LogfileEnable(Bool_t on)
 {
-   TGo4LockGuard(fxMutex);
+   //TGo4LockGuard(fxMutex);
    fgbLogfileEnabled=on;
 }
 
@@ -246,7 +246,7 @@ Bool_t TGo4Log::IsLogfileEnabled()
 
 void TGo4Log::AutoEnable(Bool_t on)
 {
-   TGo4LockGuard(fxMutex);
+   //TGo4LockGuard(fxMutex);
    fgbAutoMode=on;
 }
 
@@ -257,7 +257,7 @@ Bool_t TGo4Log::IsAutoEnabled()
 
 void TGo4Log::OpenLogfile(const char* name, const char* headercomment, Bool_t appendmode)
 {
-   TGo4LockGuard(fxMutex);
+   //TGo4LockGuard(fxMutex);
    try
    {
       CloseLogfile();
@@ -294,7 +294,7 @@ void TGo4Log::OpenLogfile(const char* name, const char* headercomment, Bool_t ap
 
 void TGo4Log::WriteLogfile(const char* text, Bool_t withtime)
 {
-   TGo4LockGuard(fxMutex);
+   //TGo4LockGuard(fxMutex);
    if((text==0) || !fgbLogfileEnabled || (fgxLogfile==0)) return;
    try {
       if(withtime) {
@@ -315,7 +315,7 @@ void TGo4Log::WriteLogfile(const char* text, Bool_t withtime)
 
 void TGo4Log::CloseLogfile()
 {
-   TGo4LockGuard(fxMutex);
+   //TGo4LockGuard(fxMutex);
    if(fgxLogfile!=0)
    {
       try

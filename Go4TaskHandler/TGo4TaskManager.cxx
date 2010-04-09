@@ -215,12 +215,13 @@ TString passwd;
 char* recvchar=fxTransport->RecvRaw("dummy"); // first receive OK string
 if(recvchar && !strcmp(recvchar,TGo4TaskHandler::Get_fgcOK()))
 {
-   //return kGo4ComModeController; // old protocol: no password
+	//return kGo4ComModeController; // old protocol: no password
    ///
    TGo4Log::Debug(" TaskManager::ClientLogin getting login...");
    recvchar=fxTransport->RecvRaw("dummy"); // get purpose of client (master or slave)
    if(recvchar==0) return kGo4ComModeRefused;
    purpose=recvchar;
+   //cout <<"ClientLogin got purpose "<<purpose.Data() << endl;
    recvchar=fxTransport->RecvRaw("dummy"); // login account
    if(recvchar==0) return kGo4ComModeRefused;
    account=recvchar;

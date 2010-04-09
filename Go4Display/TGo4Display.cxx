@@ -74,6 +74,9 @@ void TGo4Display::DisplayLog(TGo4Status * Status)
 
 Bool_t TGo4Display::DisconnectSlave(const char* name, Bool_t waitforslave)
 {
+   // cout <<"+++++++++ TGo4Display::DisconnectSlave..." << endl;
+
+
 // Note: taskhandlerabortexception and shutdown of analysis server
 // both will schedule a TGo4ComDisconnectSlave into local command queue
 // of master task, calling TGo4Master::DisconnectSlave()

@@ -123,6 +123,7 @@ Bool_t TGo4ServerTask::RemoveClient(const char* name, Bool_t clientwait, Bool_t 
          {
          // normal mode: handshake with client to be removed
 
+
             // send quit command to client, client will send dummy objects back
             // to release waiting sockets
             // then client will request a disconnect action from the connector runnable
@@ -611,10 +612,23 @@ void TGo4ServerTask::Quit()
 {
    TGo4Log::Debug(" ServerTask Quit -- removing all connected clients ");
    SendStatusMessage(2,kTRUE,"ServerTask %s is shutting down now! All clients are removed...",GetName());
+   TGo4Slave* slave=GetSlave();
+   if(slave)
+	 {
+	   TGo4Log::Debug(" ServerTask Quit is stopping slave...");
+	   slave->Stop(); // to execute analysis postloop if still running
+	 }
+   if(!IsMaster())
+	   {
+		   //cout <<"mmmmmmmmm quit is unlocking taskmanager mutex" << endl;
+		   fxTaskManager->GetMutex()->UnLock(); // JAM avoid deadlocking of analysis server main thread with connector thread that actually performs the remove
+	   }
    RemoveAllClients();
    //StopWorkThreads(); // are re-started after last client is removed...
    WakeCommandQueue(TGo4Task::Get_fgiTERMID()); // will stop local command thread, and remote
    Terminate(!IsMaster()); // terminate only slave server here!
+   if(!IsMaster())
+	   fxTaskManager->GetMutex()->Lock(); // avoid conflicts with lockguard outside
 }
 
 
@@ -622,19 +636,24 @@ void TGo4ServerTask::Shutdown()
 {
    TGo4Log::Debug(" ServerTask Shutdown without disconnect waiting");
    SendStatusMessage(2,kTRUE,"ServerTask %s is shutting down now! All clients are removed...",GetName());
+   fxTaskManager->GetMutex()->UnLock(); // avoid possible deadlock between main thread and connector thread
    TGo4Thread::Sleep(10*fguCONNECTTIMERPERIOD); // wait 1 s to broadcast shutdown message before terminating...
    StopWorkThreads();
    WakeCommandQueue(TGo4Task::Get_fgiTERMID()); // will stop local command thread, and remote
+
    RemoveAllClients(true);
+
    TGo4Slave* slave=GetSlave();
    if(slave)
       {
+	     TGo4Log::Debug(" ServerTask Shutdown stopping slave...");
          slave->Stop(); // to execute analysis postloop.
                         // We are within main thread here, i.e. it never stops before termination!
          slave->SetTask(0,kFALSE); // otherwise owner dtor will delete us...
          delete slave;   //call dtors of analysis framework
          //SetOwner(0);
       }
+   fxTaskManager->GetMutex()->Lock();
    gApplication->Terminate(); // do not wait until appctrl timer terminates us
 }
 
