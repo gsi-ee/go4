@@ -1,6 +1,6 @@
 --------------------------------------------------------------
          Go4 Release Package v4.4.1 prerelease (build 40401)
-                      18-March-2010
+                      9-April-2010
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI

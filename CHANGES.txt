@@ -1,6 +1,6 @@
 --------------------------------------------------------------
          Go4 Release Package v4.4.1 (build 40401)
-                      18-March-2010
+                      9-April-2010
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -20,7 +20,7 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v4.4.1 (March 18)
+Changes in Go4 v4.4.1 (April 2010)
 1. Default implementation for TGo4Parameter methods are provided. 
    Now Clear(), PrintParameter() and UpdateFrom() methods has meaningful
    functionality and can be used as is in user derived classes.
@@ -44,7 +44,8 @@ Changes in Go4 v4.4.1 (March 18)
 12.Provide meaningful implementation for TGo4Analysis::SendObjectToGUI method. 
    Now user can send any registered object (histogram, graph, condition) to gui, 
    where it will be automatically updated. If object displayed, viewpanel will be updated.
-   This allows do histogram monitoring without activating monitoring mode.    
+   This allows do histogram monitoring without activating monitoring mode. 
+13.Bugfix in shutdown of analysis server (did crash or deadlock sometimes due to fast disconnect of guis)       
 
 
 Changes in Go4 v4.4.0 (November 09)
