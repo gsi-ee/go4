@@ -93,14 +93,13 @@ class TGo4InterruptHandler : public TSignalHandler {
       {
          if (fbActive) return kTRUE;
          fbActive = kTRUE;
-         Bool_t res = kTRUE;
          if (TGo4Analysis::Exists())
             TGo4Analysis::Instance()->StopWorking();
 
          // single shot will only be processed in client mode, when processing root events are done
          TTimer::SingleShot(10, ClassName(), this, "Pop()");
 
-         return res;
+         return kTRUE;
       }
 
       virtual void Pop()

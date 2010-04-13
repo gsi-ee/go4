@@ -20,9 +20,9 @@ TGo4ComServerQuit::TGo4ComServerQuit() :
    TGo4TaskHandlerCommand("SVQuit","quits the server and the whole application")
 {
    SetReceiverName("ServerTask"); // sets the receiver name checked by command invoker
-                                  // receiver name neednt be class name!
-   fbIsSynchron=kFALSE;
-   fbIsLocal=kFALSE; // we misuse this old command to send it to analysis server for shutdown
+                                  // receiver name need to be class name!
+   fbIsSynchron = kFALSE;
+   fbIsLocal = kFALSE; // we misuse this old command to send it to analysis server for shutdown
    SetProtection(kGo4ComModeAdministrator);
 }
 
@@ -32,17 +32,13 @@ TGo4ComServerQuit::~TGo4ComServerQuit()
 
 Int_t TGo4ComServerQuit::ExeCom()
 {
-   TGo4ServerTask* server=dynamic_cast<TGo4ServerTask*>(fxReceiverBase);
-   if (server!=0)
-      {
-         server->Quit(); // Quit will disconnect clients one by one
-         //server->Shutdown(); // Shutdown will terminate without waiting for clients removed properly
-         return 0;
-      }
-   else
-      {
-         TGo4Log::Debug(" !!! ComServerQuit ''%s'': NO RECEIVER ERROR!!!",GetName());
-         return 1;
-      }
-   return -1;
+   TGo4ServerTask* server = dynamic_cast<TGo4ServerTask*>(fxReceiverBase);
+   if (server!=0) {
+      server->Quit(); // Quit will disconnect clients one by one
+      //server->Shutdown(); // Shutdown will terminate without waiting for clients removed properly
+      return 0;
+   }
+
+   TGo4Log::Debug(" !!! ComServerQuit ''%s'': NO RECEIVER ERROR!!!",GetName());
+   return 1;
 }

@@ -22,7 +22,7 @@
 #include "TMethodArg.h"
 #include "TDataType.h"
 #include "TRint.h"
-#include "TApplication.h"
+//#include "TApplication.h"
 #include "TSystem.h"
 #include "Riostream.h"
 #include "RVersion.h"
@@ -447,12 +447,11 @@ int main(int argc, char **argv)
       return -1;
    }
 
-//   int app_argc = 1;
-//   TApplication theApp("Go4App", &app_argc, argv);
+//   int app_argc = 2;
+//   char* app_argv[] = { argv[0], (char*) "-b" };
+//   TApplication theApp("Go4App", &app_argc, app_argv);
 
-   int app_argc = 2;
-   char* app_argv[] = { argv[0], (char*) "-b" };
-   TApplication theApp("Go4App", &app_argc, app_argv);
+   gROOT->SetBatch(kTRUE);
 
    Bool_t batchMode(kTRUE);  // GUI or Batch
    Bool_t servermode(kFALSE);            // run analysis as server task
@@ -770,7 +769,15 @@ int main(int argc, char **argv)
 #endif
 #endif
 
-      theApp.Run();
+      while (TGo4Analysis::Exists()) {
+         gSystem->ProcessEvents();
+
+         gSystem->Sleep(20);
+      }
+
+      cout << "**** Main: no analysis found - exit" << endl;
+
+//      theApp.Run();
    }
 
    TGo4Log::CloseLogfile();

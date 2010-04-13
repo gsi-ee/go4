@@ -13,8 +13,6 @@
 
 #include "TGo4AnalysisWatchRunnable.h"
 
-#include "Riostream.h"
-
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
 #include "TGo4Thread.h"
@@ -27,10 +25,10 @@
 const UInt_t TGo4AnalysisWatchRunnable::fguWATCHINTERVAL=1000;
 //const UInt_t TGo4AnalysisWatchRunnable::fguWATCHINTERVAL=50;
 
-TGo4AnalysisWatchRunnable::TGo4AnalysisWatchRunnable(const char* name, TGo4AnalysisClient* cli)
-: TGo4Runnable(name,cli->GetTask()), fxAnalysisClient(cli)
+TGo4AnalysisWatchRunnable::TGo4AnalysisWatchRunnable(const char* name, TGo4AnalysisClient* cli) :
+   TGo4Runnable(name,cli->GetTask()), fxAnalysisClient(cli)
 {
-   fxAnalysis=cli->GetAnalysis();
+   fxAnalysis = cli->GetAnalysis();
 }
 
 TGo4AnalysisWatchRunnable::~TGo4AnalysisWatchRunnable()
