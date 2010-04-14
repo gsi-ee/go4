@@ -41,9 +41,6 @@
 #define TERMCOUNTS 10000
 // x PROCESSLOOPDELAY termination wait time
 
-unsigned int termcounter=0;
-
-
 void showerror(const char* msg)
 {
    cerr << "Error: " << msg << endl;
@@ -777,26 +774,26 @@ int main(int argc, char **argv)
 #endif
 #endif
 
+      int termcounter=0;
+
       while (TGo4Analysis::Exists()) {
          gSystem->ProcessEvents();
          gSystem->Sleep(PROCESSLOOPDELAY);
-         if(client->IsBeingQuit())
-			 {
-				 if(termcounter==0)
-					 {
-						 termcounter=TERMCOUNTS;
-						 cout << "**** Found Quit state: starting termination counter with "<< termcounter <<"" << endl;
-					 }
-				 else if(termcounter>0)
-					 {
-						 if(--termcounter == 0)
-							 {
-								 cout << "**** Reached end of termination counter after "<<  PROCESSLOOPDELAY * TERMCOUNTS <<"ms, terminating."<< endl;
-								 break;
-								 //exit(0);
-							 }
-					 }
-			 }
+         if(client->IsBeingQuit()) {
+            if(termcounter == 0) {
+               termcounter = TERMCOUNTS;
+               cout << "**** Found Quit state: starting termination counter with "<< PROCESSLOOPDELAY * TERMCOUNTS / 1000 << " s" << endl;
+            } else
+            if (termcounter>0) {
+               termcounter--;
+               if (termcounter == 0) {
+                  cout << "**** Reached end of termination counter after "<<  PROCESSLOOPDELAY * TERMCOUNTS / 1000 <<" s, terminating."<< endl;
+                 break;
+               }
+               if ((termcounter % (10000 / PROCESSLOOPDELAY)) == 0)
+                  cout << "**** Counting termination counter down, remains " << PROCESSLOOPDELAY * termcounter / 1000 << " s" << endl;
+            }
+         }
       }
 
       //cout << "**** Main: no analysis found - exit" << endl;
