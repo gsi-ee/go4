@@ -70,6 +70,7 @@ Int_t TGo4CommandRunnable::Run(void* ptr)
                 {
                 case kComQuit:
                    if(fxTaskHandler->GetRole()==kGo4ComModeObserver) break;
+                   fxManager->SetBeingQuit(kTRUE); // flag for the application that we expect to be quit soon
                    TGo4Log::Debug(" Command runnable executing direct command QUIT... ");
                    //cli->Quit();
                    // note: need execution of quit in local command thread,

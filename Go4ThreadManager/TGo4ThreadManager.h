@@ -71,6 +71,13 @@ class TGo4ThreadManager : public TNamed {
       /** Returns true if threadmanager works in root system blocking mode **/
       Bool_t IsAppBlocking() const { return fbAppBlocking; }
 
+
+      /** Returns true if threadmanager works in root system blocking mode **/
+      Bool_t IsBeingQuit() const { return fbBeingQuit; }
+
+      void SetBeingQuit(Bool_t on) {fbBeingQuit=on;}
+
+
       /** This Method has to be called to create the startup threads and to
         * turn on the application control timer.
         * Usually this is done at the end of the user's threadmanager constructor.
@@ -117,6 +124,11 @@ class TGo4ThreadManager : public TNamed {
         * started automatically on Initialization. If false, TThreads may be running, but
         * workfunctions suspend in condition wait. */
       Bool_t fbAutoStart;
+
+      /* flag that can be set at begin of application quit sequence.
+       * Can be optionally used by application to implement a quit timeout
+       * that will terminate if regular shutdown hangs up*/
+      Int_t fbBeingQuit;
 
       /** Composition of Application control timer.
         * @link aggregationByValue

@@ -36,6 +36,14 @@
 #include "Go4EventServer.h"
 #include "Go4EventServerTypes.h"
 
+#define PROCESSLOOPDELAY 20
+// milliseconds
+#define TERMCOUNTS 10000
+// x PROCESSLOOPDELAY termination wait time
+
+unsigned int termcounter=0;
+
+
 void showerror(const char* msg)
 {
    cerr << "Error: " << msg << endl;
@@ -771,17 +779,33 @@ int main(int argc, char **argv)
 
       while (TGo4Analysis::Exists()) {
          gSystem->ProcessEvents();
-
-         gSystem->Sleep(20);
+         gSystem->Sleep(PROCESSLOOPDELAY);
+         if(client->IsBeingQuit())
+			 {
+				 if(termcounter==0)
+					 {
+						 termcounter=TERMCOUNTS;
+						 cout << "**** Found Quit state: starting termination counter with "<< termcounter <<"" << endl;
+					 }
+				 else if(termcounter>0)
+					 {
+						 if(--termcounter == 0)
+							 {
+								 cout << "**** Reached end of termination counter after "<<  PROCESSLOOPDELAY * TERMCOUNTS <<"ms, terminating."<< endl;
+								 break;
+								 //exit(0);
+							 }
+					 }
+			 }
       }
 
-      cout << "**** Main: no analysis found - exit" << endl;
+      //cout << "**** Main: no analysis found - exit" << endl;
 
 //      theApp.Run();
    }
-
+   cout << "**** before TGo4Log::CloseLogfile..."<<endl;
    TGo4Log::CloseLogfile();
-
+   cout << "**** THE END ***"<<endl;
    //=================  start root application loop ==========================
    return 0;
 }

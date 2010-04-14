@@ -40,7 +40,8 @@ TGo4ThreadManager::TGo4ThreadManager (const char* name, Bool_t blockingmode, Boo
    :TNamed(name,"This is a TGo4ThreadManager"),
       fbInitDone(kFALSE),
       fbTerminating(kFALSE),
-      fbTerminateApplication(kFALSE)
+      fbTerminateApplication(kFALSE),
+      fbBeingQuit(kFALSE)
 {
    TRACE((15,"TGo4ThreadManager::TGo4ThreadManager (const char*, Bool_t, Bool_t, Bool_t) constructor",__LINE__, __FILE__));
 

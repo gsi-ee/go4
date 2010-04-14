@@ -99,6 +99,16 @@ else
 
 }
 
+
+Bool_t TGo4TaskOwner::IsBeingQuit()
+{
+	if(fxTask)
+		return fxTask->IsBeingQuit();
+	else
+		return kFALSE;
+}
+
+
 TMutex* TGo4TaskOwner::GetTaskManagerMutex()
 {
 if(IsServer())
