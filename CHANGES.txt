@@ -46,7 +46,7 @@ Changes in Go4 v4.4.1 (April 2010)
    where it will be automatically updated. If object displayed, viewpanel will be updated.
    This allows do histogram monitoring without activating monitoring mode. 
 13.Bugfix in shutdown of analysis server (did crash or deadlock sometimes due to fast disconnect of guis)       
-
+14.Optional polygon condition in projection macros.
 
 Changes in Go4 v4.4.0 (November 09)
 1. Add clear histogram and conditions button in gui
