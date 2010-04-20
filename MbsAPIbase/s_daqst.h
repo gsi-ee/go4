@@ -121,7 +121,9 @@ typedef struct
   INTU4 bl_trans_connected;          /* Client to transport connected */
   INTU4 bl_no_streams;               /* Number of streams */
   INTU4 bl_user[16];                /* for user */
-  INTU4 bl_filler[192];              /* filler */
+  INTU4 bl_filler[190];              /* filler */
+  INTU4 bl_no_stream_buf;             /* bufs per stream */
+  INTU4 bl_rfio_connected;           /* RFIO connected */
   CHARS c_user[SBS__STR_LEN_64];     /* username */
   CHARS c_date[SBS__STR_LEN_64];     /* date of last update (m_daq_rate) */
   CHARS c_exprun[SBS__STR_LEN_64];   /* run name */
