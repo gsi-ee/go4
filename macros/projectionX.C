@@ -13,7 +13,7 @@
 // The draw flag switches if the results are displayed each time this makro is called
 // if display is switched off, the result histogram is just updated in browser and existing displays
 ///////
-Bool_t projectionX(const char* name1, Int_t firstybin, Int_t lastybin, Bool_t draw)
+Bool_t projectionX(const char* name1, const char* polyname, Int_t firstybin, Int_t lastybin, Bool_t draw)
 {
 if(TGo4AbstractInterface::Instance()==0 || go4!=TGo4AbstractInterface::Instance())
    {
@@ -23,21 +23,37 @@ if(TGo4AbstractInterface::Instance()==0 || go4!=TGo4AbstractInterface::Instance(
 TString fullname1 = go4->FindItem(name1);
 TObject* ob1=go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
 TH2* his1=0;
-if(ob1 && ob1->InheritsFrom("TH2"))
-   his1 = (TH2*) ob1;
+if(ob1 && ob1->InheritsFrom("TH2"))   his1 = (TH2*) ob1;
 if(his1==0)
    {
       cout <<"projectionX could not get 2d histogram "<<fullname1 << endl;
       return kFALSE;
    }
-
+TGo4PolyCond* poly=0;
+if(strlen(polyname)>0){
+TString fullname2 = go4->FindItem(polyname);
+TObject* ob2=go4->GetObject(fullname2,1000); // 1000=timeout to get object from analysis in ms
+if(ob2 && ob2->InheritsFrom("TGo4Condition"))   poly = (TGo4PolyCond*) ob2;
+if(poly==0)
+   {
+      cout <<"projectionX could not get polygon condition "<<polyname << endl;
+      return kFALSE;
+   }
+}
 TString n1=his1->GetName();
 TString t1=his1->GetTitle();
-TString operator;
-operator.Form("(ylo=%d, yup=%d)",firstybin,lastybin);
+TString oper;
+oper.Form("(ylo=%d, yup=%d)",firstybin,lastybin);
 TString finalname="X-Projection of "+n1;
-TString finaltitle="X-Proj."+operator+" of "+t1;
-TH1* result=his1->ProjectionX(finalname.Data(),firstybin,lastybin);
+TString finaltitle="X-Proj."+oper+" of "+t1;
+TString options("");
+if(poly){
+	TCutG *newcut = poly->GetCut(kFALSE); // reference only
+	TCutG *cut = newcut->Clone("tempcut");  // therefore create clone
+	options.Form("[%s]",cut->GetName());
+}
+TH1* result=his1->ProjectionX(finalname.Data(),firstybin,lastybin,options.Data());
+if(poly) delete cut; // clone
 result->SetTitle(finaltitle);
 result->SetDirectory(0);
 rname = go4->SaveToMemory("Projections", result, kTRUE);
