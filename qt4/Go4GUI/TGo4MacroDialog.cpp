@@ -39,9 +39,9 @@ void TGo4MacroDialog::setCommand( const QString & selection )
     }
      else if (selection.contains("Rebin"))
     {
-        fxCommand="rebin(\"\",2,kTRUE);";
-        SyntaxLabel->setText("Bool_t rebin(const char* histo, int ngroup, Bool_t draw)");
-        setToolTip("Rebin histogram histo by mergin ngroup neighboured channels together. \n If draw=true, display in new viewpanel, otherwise just update existing displays ");
+        fxCommand="rebin(\"\",2,0,kTRUE);";
+        SyntaxLabel->setText("Bool_t rebin(const char* histo, int ngroupX, int ngroupY, Bool_t draw)");
+        setToolTip("Rebin histogram histo by merging ngroup neighboured channels together. \n If draw=true, display in new viewpanel, otherwise just update existing displays ");
     }
     else if (selection.contains("Projection X"))
     {

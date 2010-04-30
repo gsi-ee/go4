@@ -11,7 +11,7 @@
 // The draw flag switches if the results are displayed each time this makro is called
 // if display is switched off, the result histogram is just updated in browser and existing displays
 ///////
-Bool_t rebin(const char* name1, Int_t ngroup = 2, Bool_t draw)
+Bool_t rebin(const char* name1, Int_t ngroup1 = 2, Int_t ngroup2 = 0,Bool_t draw)
 {
 if(TGo4AbstractInterface::Instance()==0 || go4!=TGo4AbstractInterface::Instance())
    {
@@ -20,31 +20,44 @@ if(TGo4AbstractInterface::Instance()==0 || go4!=TGo4AbstractInterface::Instance(
    }
 TString fullname1 = go4->FindItem(name1);
 TObject* ob1=go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
-TH1* his1=0;
-if(ob1 && ob1->InheritsFrom("TH1"))
-   his1 = (TH1*)ob1;
-if(his1==0)
-   {
-      cout <<"rebin could not get histogram "<<fullname1 << endl;
-      return kFALSE;
-   }
-
-TString n1=his1->GetName();
-TString t1=his1->GetTitle();
-TString operator;
-operator.Form("_rebinned_%d",ngroup);
-TString finalname=n1+operator;
-TString finaltitle=t1+operator;
-TH1* result= his1->Rebin(ngroup,finalname);
+if(ngroup2 ==0){ // 1d rebin
+	TH1* his1=0;
+	if(ob1 && ob1->InheritsFrom("TH1")) his1 = (TH1*)ob1;
+	if(his1==0) {
+	  cout <<"rebin could not get 1D histogram "<<fullname1 << endl;
+	  return kFALSE;
+	}
+	TString n1=his1->GetName();
+	TString t1=his1->GetTitle();
+	TString newname;
+	newname.Form("_rebinned_%d",ngroup1);
+	TString finalname=n1+newname;
+	TString finaltitle=t1+newname;
+	TH1* result= his1->Rebin(ngroup1,finalname);
+} else { // 2d rebin
+	TH2* his1=0;
+	if(ob1 && ob1->InheritsFrom("TH2")) his1 = (TH2*)ob1;
+	if(his1==0) {
+	  cout <<"rebin could not get 2D histogram "<<fullname1 << endl;
+	  return kFALSE;
+	}
+	TString n1=his1->GetName();
+	TString t1=his1->GetTitle();
+	TString newname;
+	newname.Form("_rebinned_%d_%d",ngroup1,ngroup2);
+	TString finalname=n1+newname;
+	TString finaltitle=t1+newname;
+	TH2* result= his1->Rebin2D(ngroup1,ngroup2,finalname);
+}
 result->SetTitle(finaltitle);
 result->SetDirectory(0);
-rname = go4->SaveToMemory("Rebins", result, kTRUE);
+rname = go4->SaveToMemory("Rebinned", result, kTRUE);
 cout<< "Saved result histogram to " << rname.Data() <<endl;
-if(!draw) return kTRUE;
-ViewPanelHandle vpanel = go4->StartViewPanel();
-go4->SetSuperimpose(vpanel,kTRUE);
-go4->DrawItem(fullname1, vpanel);
-go4->DrawItem(rname, vpanel);
-//go4->DrawItem(rname);
+if(draw){
+	ViewPanelHandle vpanel = go4->StartViewPanel();
+	go4->SetSuperimpose(vpanel,kTRUE);
+	go4->DrawItem(fullname1, vpanel);
+	go4->DrawItem(rname, vpanel);
+}
 return kTRUE;
 }

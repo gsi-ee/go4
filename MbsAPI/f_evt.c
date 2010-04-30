@@ -49,12 +49,6 @@
 #ifdef unix   /* DEC OSF/1 */
 #define AIX_DEC
 #endif
-#ifdef GSI__VMS   /* open vms */
-#include <descrip.h>
-static struct dsc$descriptor_vs sd_string;
-static INTS4 l_st_ichannel[5]={0,0,0,0,0};
-static INTS4 l_st_ochannel[5]={0,0,0,0,0};
-#endif
 
 #ifdef GSI__WINNT
 #include <time.h>
@@ -157,25 +151,6 @@ static INTS4 l_st_ochannel[5]={0,0,0,0,0};
 #define PUT__OPEN_APD_FLAG O_RDWR|O_APPEND
 #define PUT__CRT_FLAG O_CREAT|O_RDWR
 #define PUT__CRT_OPT ""
-#endif
-
-#ifdef VMS
-#include <unixio.h>
-#include <unixlib.h>
-#include <file.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <string.h>
-#include <sys/time.h>
-#include <sys/timeb.h>
-#include <sys/types.h>
-#include <unistd.h>
-#define DEF_FILE_ACCE 644          /* rw-r--r-- */
-#define GET__OPEN_FLAG O_RDONLY
-#define PUT__OPEN_APD_FLAG O_RDWR|O_APPEND
-#define PUT__CRT_FLAG O_CREAT|O_WRONLY
-#define PUT__CRT_OPT "rfm=fix"
 #endif
 
 #if MBS_ENDIAN == 1
@@ -596,68 +571,7 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
           if((strcmp(pc_temp,".LMD") != 0) &&
              (strcmp(pc_temp,".lmd") != 0)) strcat(c_file,".lmd");
        }
-#ifdef VMS
-        pc_temp = c_temp;
-   sd_string.dsc$w_maxstrlen = 128;
-   sd_string.dsc$b_dtype = DSC$K_DTYPE_VT;
-   sd_string.dsc$b_class = DSC$K_CLASS_VS;
-   sd_string.dsc$a_pointer = (char *) &s_varstr_file;
-   strcpy(s_varstr_file.c_varstr,c_file);
-   s_varstr_file.i_varstr = strlen(c_file);
-   ps_chan->l_buf_size = MAX_BUF_LGTH;
-   ps_chan->l_channel_no=-1;
-   for(ll=1;ll<5;ll++)
-   {
-     if(l_st_ichannel[ll] == 0)
-     {
-       ps_chan->l_channel_no=ll;
-       l_st_ichannel[ll] = 1;
-       break;
-     }
-   }
-   if(ps_chan->l_channel_no==-1)return(GETEVT__NOCHANNEL);
-   l_status = i$opilf(&ps_chan->l_channel_no,&sd_string,&ps_chan->l_buf_size);
-   if((l_status&1) != 1)
-   {
-       printf("%s: open error %d\n",pc_server,l_status);
-       l_st_ichannel[ps_chan->l_channel_no]=-1;
-       return(GETEVT__NOFILE);
-    }
-         l_status = i$gtslf(&ps_chan->l_channel_no,&pc_temp,&ps_chan->l_buf_size);
-     if((l_status&1) != 1)
-    {
-       printf("read error %d\n",l_status);
-       l_status = i$clilf(&ps_chan->l_channel_no);
-       l_st_ichannel[ps_chan->l_channel_no]=-1;
-       return(GETEVT__RDERR);
-    }
-         l_is_goosybuf = -1;
-         f_evt_check_buf(c_temp, &l_size, &l_is_goosybuf, &l_swap, &l_filehead);
-         if(ps_info != NULL) /* if user want file header be returned */
-         {
-           if( l_is_goosybuf == 0) /* file header */
-           {
-             if(l_swap)
-             {
-         l_status = i$clilf(&ps_chan->l_channel_no);
-           l_status = i$opilf(&ps_chan->l_channel_no,&sd_string,&ps_chan->l_buf_size);
-              l_status = i$gtslf(&ps_chan->l_channel_no,&pc_temp,&ps_chan->l_buf_size);
-         ps_filhe=(s_filhe *)c_temp;
-              f_evt_swap_filhe((s_bufhe *)ps_filhe);
-             }
-             *ps_info=c_temp; /* now , get file header and return */
-      }
-           else
-      {
-        *ps_info=NULL; /* not find header and return nothing */
-      }
-        }
-        if( l_is_goosybuf == 1) /* no file header, reopen */
-        {
-     l_status = i$clilf(&ps_chan->l_channel_no);
-       l_status = i$opilf(&ps_chan->l_channel_no,&sd_string,&ps_chan->l_buf_size);
-        }
-#else
+
        if((ps_chan->l_channel_no=open(c_file,GET__OPEN_FLAG))== -1)
        {
           return(GETEVT__NOFILE);
@@ -752,7 +666,6 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
 
       /* points to a real buffer start */
       /* and read header buffer, if there */
-#endif
        ps_chan->l_io_buf_size=ps_chan->l_buf_size;
        /* may larger, but must multiplexed */
        break;
@@ -1002,9 +915,9 @@ if(pevt==NULL){
       *ppl_goobuf = NULL;
       if(f_evcli_evt(ps_chan) != STC__SUCCESS) /* no more event, get new buffer */
       {
-      l_stat=f_evcli_buf(ps_chan);
-      if(l_stat == STC__TIMEOUT) return(GETEVT__TIMEOUT);
-      if(l_stat != STC__SUCCESS) return(GETEVT__FAILURE);
+		  l_stat=f_evcli_buf(ps_chan);
+		  if(l_stat == STC__TIMEOUT) return(GETEVT__TIMEOUT);
+		  if(l_stat != STC__SUCCESS) return(GETEVT__FAILURE);
       }
       *ppl_buffer = (INTS4 *) ps_chan->pc_evt_buf;
       return(GETEVT__SUCCESS);
@@ -1174,12 +1087,7 @@ INTS4 f_evt_get_close(s_evt_channel * ps_chan)
    switch(ps_chan->l_server_type)
    {
    case GETEVT__FILE :
-#ifdef VMS
-      l_status = i$clilf(&ps_chan->l_channel_no);
-      l_st_ichannel[ps_chan->l_channel_no]=0;
-#else
       if(close(ps_chan->l_channel_no)==-1)                     l_close_failure=1;
-#endif
       if(ps_chan->pc_io_buf  != NULL)free(ps_chan->pc_io_buf);
       if(ps_chan->pc_evt_buf != NULL)free(ps_chan->pc_evt_buf);
       break;
@@ -1276,12 +1184,6 @@ INTS4 f_evt_put_open(CHARS *pc_file, INTS4 l_size, INTS4 l_stream,
      return(l_status);
    }
 // -- DABC
-#ifdef VMS
-sd_string.dsc$w_maxstrlen = 128;
-sd_string.dsc$b_dtype = DSC$K_DTYPE_VT;
-sd_string.dsc$b_class = DSC$K_CLASS_VS;
-sd_string.dsc$a_pointer = (char *) &s_varstr_file;
-#endif
 
    ps_chan->l_first_put=1;
 
@@ -1304,27 +1206,6 @@ sd_string.dsc$a_pointer = (char *) &s_varstr_file;
     if((strcmp(pc_temp,".LMD") != 0) &&
       (strcmp(pc_temp,".lmd") != 0)) strcat(c_file,".lmd");
   }
-#ifdef VMS
-   strcpy(s_varstr_file.c_varstr,c_file);
-   s_varstr_file.i_varstr = strlen(c_file);
-   ps_chan->l_buf_size = (INTS2) l_size;
-   ps_chan->l_channel_no=-1;
-   for(ll=1;ll<5;ll++)
-   {
-     if(l_st_ochannel[ll] == 0)
-     {
-       ps_chan->l_channel_no=ll;
-       l_st_ochannel[ll] = 1;
-       break;
-     }
-   }
-   if(ps_chan->l_channel_no==-1)return(PUTEVT__NOCHANNEL);
-   l_status = i$opolf(&ps_chan->l_channel_no,&sd_string,&ps_chan->l_buf_size);
-   if((l_status&1) != 1)   return(PUTEVT__FAILURE);
-   else
-   {
-     if((l_status&1) != 1)   return(PUTEVT__FAILURE);
-#else
    if((ps_chan->l_channel_no=open(c_file,PUT__OPEN_APD_FLAG) )!= -1)
       return(PUTEVT__FILE_EXIST);
    else
@@ -1332,7 +1213,6 @@ sd_string.dsc$a_pointer = (char *) &s_varstr_file;
       if((ps_chan->l_channel_no=open(c_file,PUT__CRT_FLAG,
          DEF_FILE_ACCE) )== -1)
          return(PUTEVT__FAILURE);
-#endif
       /* open OK */
       else
       {
@@ -1364,14 +1244,9 @@ sd_string.dsc$a_pointer = (char *) &s_varstr_file;
        strcpy(c_mode, ctime(&s_timet));
             strcpy(ps_file_head->filhe_time, &c_mode[4]);
             ps_file_head->filhe_time[20]=' ';
-#ifdef VMS
-         l_status = i$ptslf(&ps_chan->l_channel_no,&ps_file_head,&ps_chan->l_buf_size);
-         l_write_size=l_size;
-#else
          l_write_size=write(ps_chan->l_channel_no,(CHARS *)ps_file_head,
             ps_chan->l_buf_size);
-#endif
-         if(l_write_size==-1)
+        if(l_write_size==-1)
          {
             return(PUTEVT__WRERR);
          }
@@ -1451,12 +1326,7 @@ INTS4 f_evt_put_event(s_evt_channel *ps_chan, INTS4 *pl_evt_buf)
     ps_bufhe=(s_bufhe *)pc_addr;
     if(ps_bufhe->l_evt>0)/* do not write empty buffers */
     {
-#ifdef VMS
-           l_status = i$ptslf(&ps_chan->l_channel_no,&pc_addr,&ps_chan->l_buf_size);
-           l_write_size = (INTS4)ps_chan->l_buf_size;
-#else
            l_write_size=write(ps_chan->l_channel_no, pc_addr,ps_chan->l_buf_size);
-#endif
            if(l_write_size==-1)                  return(PUTEVT__WRERR);
            if(l_write_size!=ps_chan->l_buf_size) return(PUTEVT__TOOBIG);
     }
@@ -1567,12 +1437,7 @@ INTS4 f_evt_put_buffer(s_evt_channel *ps_chan, s_bufhe *ps_bufhe)
 // -- DABC
    ps_chan->l_io_buf_posi = ps_chan->l_buf_size;
    ps_chan->l_io_buf_size = ps_chan->l_buf_size;
-#ifdef VMS
-         l_status = i$ptslf(&ps_chan->l_channel_no,&ps_bufhe,&ps_chan->l_buf_size);
-         l_write_size = (INTS4)ps_chan->l_buf_size;
-#else
          l_write_size=write(ps_chan->l_channel_no, (CHARS *) ps_bufhe, ps_chan->l_buf_size);
-#endif
          if(l_write_size==-1)
          {
             return(PUTEVT__WRERR);
@@ -1651,14 +1516,8 @@ INTS4 f_evt_put_close(s_evt_channel *ps_chan)
       for(l_temp=0;l_temp<l_write_size;l_temp+=ps_chan->l_buf_size){
 /* why use this loop instead of write the whole io_buf out? because in
    VMS side, the record can only be l_buf_size big, not l_write_size big */
-#ifdef VMS
-         pc_addr = ps_chan->pc_io_buf+l_temp;
-         l_status = i$ptslf(&ps_chan->l_channel_no,&pc_addr,&ps_chan->l_buf_size);
-         l_temp2 = (INTS4)ps_chan->l_buf_size;
-#else
          l_temp2=write(ps_chan->l_channel_no, ps_chan->pc_io_buf+l_temp,
             ps_chan->l_buf_size);
-#endif
          if(l_temp2==-1)
          {
             return(PUTEVT__WRERR);
@@ -1674,17 +1533,10 @@ g_close:
    free(ps_chan->pc_io_buf);
    /* free io buffer Memory */
 
-#ifdef VMS
-      l_status = i$clolf(&ps_chan->l_channel_no);
-      l_st_ochannel[ps_chan->l_channel_no]=0;
-      ps_chan->l_channel_no=-1;
-      return PUTEVT__SUCCESS;
-#else
       l_status=close(ps_chan->l_channel_no);
       ps_chan->l_channel_no=-1;
    if(l_status == -1) return(PUTEVT__CLOSE_ERR);
    else               return PUTEVT__SUCCESS;
-#endif
 } /* end of f_evt_put_close */
 
 /*1+ C Main ****************+******************************************/
@@ -1828,15 +1680,6 @@ INTS4 f_evt_get_buffer(s_evt_channel *ps_chan, INTS4 *ps_buffer)
    switch(ps_chan->l_server_type)
    {
    case GETEVT__FILE :
-#ifdef VMS
-     l_status = i$gtslf(&ps_chan->l_channel_no,&ps_buffer,&ps_chan->l_buf_size);
-     if((l_status&1) != 1)
-     {
-       ps_chan->l_io_buf_size = 0;
-       return(GETEVT__NOMORE);
-     }
-      ps_chan->l_io_buf_size = (INTS4) ps_chan->l_buf_size;
-#else
       l_temp=read(ps_chan->l_channel_no,ps_buffer, ps_chan->l_buf_size);
       if(l_temp == 0)
       /* if end of file, then exit */
@@ -1849,7 +1692,6 @@ INTS4 f_evt_get_buffer(s_evt_channel *ps_chan, INTS4 *ps_buffer)
          ps_chan->l_io_buf_size = 0;
          return(GETEVT__RDERR);
       }
-#endif
      break;
    case GETEVT__RFIO     :
       l_temp=RFIO_read(ps_chan->l_channel_no,(CHARS *)ps_buffer, ps_chan->l_buf_size);
@@ -1924,21 +1766,12 @@ INTS4 f_evt_skip_buffer(s_evt_channel *ps_chan, INTS4 l_buffer)
    switch(ps_chan->l_server_type)
    {
    case GETEVT__FILE :
-#ifdef VMS
-     for(ii=0;ii<l_buffer;ii++)
-     {
-       l_status = i$gtslf(&ps_chan->l_channel_no,&ps_chan->pc_io_buf,&ps_chan->l_buf_size);
-       if((l_status&1) != 1) return(GETEVT__NOMORE);
-     }
-     ps_chan->l_io_buf_size = (INTS4) ps_chan->l_buf_size;
-#else
       l_temp=lseek(ps_chan->l_channel_no,l_buffer*ps_chan->l_buf_size,SEEK_CUR);
       if(l_temp == -1)
       /* if end of file, then exit */
       {
          return(GETEVT__NOMORE);
       }
-#endif
      break;
    case GETEVT__RFIO     :
       l_temp=RFIO_lseek(ps_chan->l_channel_no,l_buffer*ps_chan->l_buf_size,SEEK_CUR);
@@ -2106,15 +1939,6 @@ INTS4 f_evt_get_newbuf(s_evt_channel *ps_chan)
    switch(ps_chan->l_server_type)
    {
    case GETEVT__FILE :
-#ifdef VMS
-     l_status = i$gtslf(&ps_chan->l_channel_no,&ps_chan->pc_io_buf,&ps_chan->l_buf_size);
-     if((l_status&1) != 1)
-     {
-       ps_chan->l_io_buf_size = 0;
-       return(GETEVT__NOMORE);
-     }
-      ps_chan->l_io_buf_size = (INTS4) ps_chan->l_buf_size;
-#else
      while(1){
       l_temp=read(ps_chan->l_channel_no,pc_temp, ps_chan->l_io_buf_size);
       if(l_temp == 0)                    return(GETEVT__NOMORE);
@@ -2122,7 +1946,6 @@ INTS4 f_evt_get_newbuf(s_evt_channel *ps_chan)
       if(l_temp < ps_chan->l_io_buf_size)return(GETEVT__RDERR);
       break; /* skip out while(1) */
      } /* end of while(1) */
-#endif
      break;
    case GETEVT__STREAM :
       if(f_stc_write("GETEVT", 12, ps_chan->l_channel_no)!=STC__SUCCESS)
@@ -2138,12 +1961,20 @@ INTS4 f_evt_get_newbuf(s_evt_channel *ps_chan)
          pc_temp+=ps_chan->l_buf_size;
       }
       /* if first buffer is empty, all are empty */
-      if( ((s_bufhe *)(ps_chan->pc_io_buf))->l_evt == 0) {printf("empy stream\n");return(GETEVT__TIMEOUT);}
+      if( ((s_bufhe *)(ps_chan->pc_io_buf))->l_evt == 0) return(GETEVT__TIMEOUT);
+      if( ((s_bufhe *)(ps_chan->pc_io_buf))->l_evt < 0){
+     	  f_evt_get_close(ps_chan);
+    	  return(GETEVT__RDERR);
+      }
       break;
    case GETEVT__TRANS  :
          l_status=f_stc_read(pc_temp, ps_chan->l_buf_size, ps_chan->l_channel_no,ps_chan->l_timeout);
          if(l_status == STC__TIMEOUT) return(GETEVT__TIMEOUT);
          if(l_status != STC__SUCCESS) return(GETEVT__RDERR);
+         if( ((s_bufhe *)(ps_chan->pc_io_buf))->l_evt < 0) {
+        	 f_evt_get_close(ps_chan);
+        	 return(GETEVT__RDERR);
+         }
       break;
    case GETEVT__RFIO     :
       l_temp=RFIO_read(ps_chan->l_channel_no,pc_temp, ps_chan->l_io_buf_size);
@@ -2620,8 +2451,8 @@ INTS4 f_evt_get_tagopen(s_evt_channel *ps_chan,CHARS *pc_tag,CHARS *pc_lmd, CHAR
   if(l_prihe)printf("LMD file %s, TAG file %s\n",pc_lmd,pc_tag);
 
   /* if tag file name not specified, do not try to open it SL:11.11.09*/
-  if ((pc_tag==0) || (*pc_tag==0)) 
-     ps_chan->l_tagfile_no = -1; 
+  if ((pc_tag==0) || (*pc_tag==0))
+     ps_chan->l_tagfile_no = -1;
   else
      ps_chan->l_tagfile_no = open(pc_tag, GET__OPEN_FLAG);
 
