@@ -1960,21 +1960,29 @@ INTS4 f_evt_get_newbuf(s_evt_channel *ps_chan)
          if(l_status != STC__SUCCESS) return(GETEVT__RDERR);
          pc_temp+=ps_chan->l_buf_size;
       }
-      /* if first buffer is empty, all are empty */
-      if( ((s_bufhe *)(ps_chan->pc_io_buf))->l_evt == 0) return(GETEVT__TIMEOUT);
-      if( ((s_bufhe *)(ps_chan->pc_io_buf))->l_evt < 0){
+ 	 l_temp=((s_bufhe *)(ps_chan->pc_io_buf))->l_evt;
+      if( ((s_bufhe *)(ps_chan->pc_io_buf))->l_free[0] !=1) // swap
+     	 f_evt_swap((CHARS *)&l_temp,4);
+      if(l_temp < 0) {// server will shutdown
+     	 printf("**** I-f_evt: Stream server request for disconnect!\n");
      	  f_evt_get_close(ps_chan);
     	  return(GETEVT__RDERR);
       }
+      /* if first buffer is empty, all are empty */
+      if( ((s_bufhe *)(ps_chan->pc_io_buf))->l_evt == 0) return(GETEVT__TIMEOUT);
       break;
    case GETEVT__TRANS  :
          l_status=f_stc_read(pc_temp, ps_chan->l_buf_size, ps_chan->l_channel_no,ps_chan->l_timeout);
-         if(l_status == STC__TIMEOUT) return(GETEVT__TIMEOUT);
-         if(l_status != STC__SUCCESS) return(GETEVT__RDERR);
-         if( ((s_bufhe *)(ps_chan->pc_io_buf))->l_evt < 0) {
+    	 l_temp=((s_bufhe *)(ps_chan->pc_io_buf))->l_evt;
+         if( ((s_bufhe *)(ps_chan->pc_io_buf))->l_free[0] !=1) // swap
+        	 f_evt_swap((CHARS *)&l_temp,4);
+         if(l_temp < 0) {// server will shutdown
+         	 printf("**** I-f_evt: Transport server request for disconnect!\n");
         	 f_evt_get_close(ps_chan);
         	 return(GETEVT__RDERR);
          }
+         if(l_status == STC__TIMEOUT) return(GETEVT__TIMEOUT);
+         if(l_status != STC__SUCCESS) return(GETEVT__RDERR);
       break;
    case GETEVT__RFIO     :
       l_temp=RFIO_read(ps_chan->l_channel_no,pc_temp, ps_chan->l_io_buf_size);
@@ -1988,8 +1996,7 @@ INTS4 f_evt_get_newbuf(s_evt_channel *ps_chan)
       return(GETEVT__FAILURE);
    }    /* end of switch */
 
-   /* swap */
-   if( ((s_bufhe *)(ps_chan->pc_io_buf))->l_free[0] !=1)
+   if( ((s_bufhe *)(ps_chan->pc_io_buf))->l_free[0] !=1) // swap
       f_evt_swap(ps_chan->pc_io_buf, ps_chan->l_io_buf_size);
 
    return(GETEVT__SUCCESS);
