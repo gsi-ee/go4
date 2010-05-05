@@ -156,6 +156,8 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
 #ifndef __NOGO4GED__
    AddChkAction(editMenu, "Show &ROOT Attributes Editor", fbEditorFrameVisible, this, SLOT(StartRootEditor()));
 #endif
+// must get fbCanvasEventstatus from
+   fbCanvasEventstatus = go4sett->getPadEventStatus();
    AddChkAction(editMenu, "Show &Event Status", fbCanvasEventstatus, this, SLOT(ShowEventStatus()));
 
    editMenu->addAction("Start &condition editor", this, SLOT(StartConditionEditor()));
@@ -1857,7 +1859,6 @@ void TGo4ViewPanel::SelectMenuItemActivated(int id)
 void TGo4ViewPanel::ShowEventStatus()
 {
    fbCanvasEventstatus = !fbCanvasEventstatus;
-
 
    fxQCanvas->setShowEventStatus(fbCanvasEventstatus);
    CanvasStatus->setVisible(fbCanvasEventstatus);
