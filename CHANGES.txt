@@ -1,6 +1,6 @@
 --------------------------------------------------------------
          Go4 Release Package v4.4.1 (build 40401)
-                      9-April-2010
+                      6-May-2010
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -20,7 +20,7 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v4.4.1 (April 2010)
+Changes in Go4 v4.4.1 (May 2010)
 1. Default implementation for TGo4Parameter methods are provided. 
    Now Clear(), PrintParameter() and UpdateFrom() methods has meaningful
    functionality and can be used as is in user derived classes.
