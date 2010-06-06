@@ -13,10 +13,14 @@
 
 #include "TGo4QSettings.h"
 
-#include <QtCore/QSettings>
+#include <stdlib.h>
 
 #include "Riostream.h"
-#include <stdlib.h>
+#include "TSystem.h"
+
+
+#include <QtCore/QSettings>
+
 
 #include <QtCore/QFile>
 #include <QtCore/QDir>
@@ -702,7 +706,7 @@ void TGo4QSettings::setPrinterSett(const QString& name, const QString& cmd)
 
 void TGo4QSettings::getPrinterSett(QString& name, QString& cmd)
 {
-   name = getStr( "/Printer/Name", getenv("PRINTER"));
+   name = getStr( "/Printer/Name", gSystem->Getenv("PRINTER"));
    cmd  = getStr( "/Printer/Prog","lpr");
 }
 

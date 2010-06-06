@@ -309,7 +309,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    helpMenu->addAction("About R&OOT", this, SLOT(aboutROOT()), Key_F3);
    helpMenu->addAction("About &Go4", this, SLOT(about()), Key_F4);
 
-   const char* libs = getenv("GO4USERLIBRARY");
+   const char* libs = gSystem->Getenv("GO4USERLIBRARY");
 
    if (libs!=0) {
       QStringList LibList = QString(libs).split(":",QString::SkipEmptyParts);
@@ -772,7 +772,7 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
       if (dirname.length()>0)
          cout << dirname.toStdString() << endl;
       else
-         cout << "$LD_LIBRARY_PATH=" << ::getenv("LD_LIBRARY_PATH") << endl;
+         cout << "$LD_LIBRARY_PATH=" << gSystem->Getenv("LD_LIBRARY_PATH") << endl;
    } else {
       if (loaded) gSystem->Unload(libname.toAscii());
    }
