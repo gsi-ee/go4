@@ -109,8 +109,10 @@ qt4-GUI: $(GO4QT4HEADS) libs $(GO4GUI4_DS) $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE)
 	+cd $(GO4GUI4_DIR); $(MAKEFORQT) -f $(GO4GUI4_QTMAKE)
 
 clean-qt4-GUI-bin:
+ifneq ($(MAKEFORQT),)
 ifneq ($(wildcard $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE)),)
 	cd $(GO4GUI4_DIR); $(MAKEFORQT) -f $(GO4GUI4_QTMAKE) clean
+endif
 endif
 	@$(RM) $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE)*
 	@$(RM) $(GO4GUI4_O) $(GO4GUI4_DEP)
