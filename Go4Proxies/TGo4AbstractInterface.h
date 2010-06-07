@@ -127,18 +127,18 @@ class TGo4AbstractInterface : public TObject {
 
       /** Returns pointer on object manager.
         * TGo4ObjectManager class should only be used when standard interface
-        * does not provide required functionality. Can be accessed direcly via "om" variable. */
+        * does not provide required functionality. Can be accessed directly via "om" variable. */
       TGo4ObjectManager* OM() const { return fOM; }
 
       /** Returns pointer on browser proxy.
         * TGo4BrowserProxy class provides complete interface to Go4 browser functionality.
         * Should only be used when interface does not provide required functionality.
-        * Can be accessed direcly via "br" variable. */
+        * Can be accessed directly via "br" variable. */
       TGo4BrowserProxy* Browser() const { return fBrowser; }
 
       /** Returns pointer on analysis proxy.
         * TGo4AnalysisProxy class provide access to analysis controlling instance in program.
-        * Noramlly should not be used in GUI script. */
+        * Normally should not be used in GUI script. */
       TGo4AnalysisProxy* Analysis();
 
       /** Executes hotstart file, generated in go4 GUI.
@@ -191,13 +191,14 @@ class TGo4AbstractInterface : public TObject {
       virtual TObject* GetObject(const char* itemname, Int_t updatelevel = 1);
 
       /** Save object in browser workspace.
-        * Object of any type can be saved in browser. It will appiar in browser folder
+        * Object of any type can be saved in browser. It will appear in browser folder
         * "Workspace", where local memory objects are placed.
         * Parameters:
         *   path  - subpath in "Workspace" folder, where object should be placed
         *   obj   - pointer ob object
         *   ownership - is browser becomes owner of that object
-        * If item of that name exists in browser, it will be overwritten by new object */
+        * If item of that name exists in browser, it will be overwritten by new object
+        * Returns path to stored object in browser workspace */
       virtual TString SaveToMemory(const char* path, TObject* obj, Bool_t ownership = kFALSE);
 
       /** Save specified browser item to file.
