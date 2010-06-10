@@ -905,19 +905,26 @@ void TGo4Analysis::OpenAutoSaveFile()
    if(!fbAutoSaveOn) return;
    TGo4LockGuard  autoguard(fxAutoSaveMutex);
    gROOT->cd();
-   if(fbAutoSaveOverwrite) {
+   if (fbAutoSaveOverwrite) {
       delete fxAutoFile;
       fxAutoFile = TFile::Open(fxAutoFileName.Data() ,"RECREATE");
-      Message(-1,"Opening AutoSave file %s , RECREATE mode",fxAutoFileName.Data());
+      if (fxAutoFile==0)
+         Message(3,"Fail to open AutoSave file %s", fxAutoFileName.Data());
+      else
+         Message(-1,"Opening AutoSave file %s , RECREATE mode",fxAutoFileName.Data());
    } else {
       if(fxAutoFile==0) {
          fxAutoFile = TFile::Open(fxAutoFileName.Data(),"UPDATE");
-         Message(-1,"Opening AutoSave file %s , UPDATE mode",fxAutoFileName.Data());
+         if (fxAutoFile==0)
+            Message(3,"Fail to open AutoSave file %s", fxAutoFileName.Data());
+         else
+            Message(-1,"Opening AutoSave file %s , UPDATE mode",fxAutoFileName.Data());
+
       } else {
          Message(-1,"Reusing AutoSave file %s , UPDATE mode",fxAutoFileName.Data());
       }
    } // if(fbAutoSaveOverwrite)
-   fxAutoFile->SetCompressionLevel(fiAutoSaveCompression);
+   if (fxAutoFile) fxAutoFile->SetCompressionLevel(fiAutoSaveCompression);
    gROOT->cd();
 }
 
