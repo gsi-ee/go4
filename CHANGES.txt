@@ -22,7 +22,8 @@ in Go4License.txt file which is part of the distribution.
 
 Changes in Go4 v4.4.2 (Summer 2010)
 1. Fix analysis crash when autosave file cannot be created in specified locations. 
-
+2. Add handling of event timeout exception to analysis, running in batch mode.
+   Prevents unexpectable break of analysis due to low data rate.  
 
 Changes in Go4 v4.4.1 (May 2010)
 1. Default implementation for TGo4Parameter methods are provided. 

@@ -575,6 +575,11 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
             }
          }
 
+         catch(TGo4EventTimeoutException& ex)
+         {
+            ex.Handle(); // just show timeout message, continue event loop
+         }
+
          catch(...)
          {
             PostLoop(); // make sure that postloop is executed for all exceptions
