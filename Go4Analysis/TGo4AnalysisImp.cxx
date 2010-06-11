@@ -140,6 +140,28 @@ Bool_t TGo4Analysis::Exists()
    return fbExists;
 }
 
+Bool_t TGo4Analysis::IsBatchMode() 
+{ 
+   return fiRunningMode == 0; 
+}
+
+Bool_t TGo4Analysis::IsClientMode() 
+{ 
+   return fiRunningMode == 1; 
+}
+
+Bool_t TGo4Analysis::IsServerMode() 
+{ 
+   return fiRunningMode == 2; 
+}
+
+void TGo4Analysis::SetRunningMode(int mode) 
+{ 
+   fiRunningMode = mode; 
+}
+
+
+
 TGo4Analysis::TGo4Analysis(const char* name) :
    TGo4CommandReceiver(),
    TObject(),

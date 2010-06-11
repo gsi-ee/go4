@@ -121,6 +121,7 @@ endif
 	@$(RM) $(GO4GUI4_GEN_QRC)
 ifeq ($(GO4_OS),Win32)
 	$(RMDIR) $(GO4GUI4_DIR)/release $(GO4GUI4_DIR)/debug 
+	@$(RM) $(GO4GUI4_DIR)/go4_resource.rc
 endif
 
 clean-qt4-GUI: clean-qt4-GUI-bin

@@ -104,15 +104,15 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     static Bool_t Exists();
 
     /** Return kTRUE if analysis will run in batch (without connection to GUI) */
-    static Bool_t IsBatchMode() { return fiRunningMode == 0; }
+    static Bool_t IsBatchMode();
 
     /** Return kTRUE if analysis will run in gui mode, connected to gui as client */
-    static Bool_t IsClientMode() { return fiRunningMode == 1; }
+    static Bool_t IsClientMode();
 
     /** Return kTRUE if analysis will run in server mode and gui can connect to the analysis */
-    static Bool_t IsServerMode() { return fiRunningMode == 2; }
+    static Bool_t IsServerMode();
 
-    static void SetRunningMode(int mode) { fiRunningMode = mode; }
+    static void SetRunningMode(int mode);
 
     virtual ~TGo4Analysis();
 
