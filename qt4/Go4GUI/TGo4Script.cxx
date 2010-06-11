@@ -791,22 +791,11 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       QString srcname;
       int timeout, start, stop, interval;
       int nsrc = stepconf->GetSourceSetup(srcname, timeout, start, stop, interval);
-      TString srcargs = "(\"";
-      srcargs += stepconf->GetStepName().toStdString();
-      srcargs += "\", \"";
-      srcargs += srcname.toStdString();
-      srcargs += "\", ";
-      srcargs += timeout;
 
-      TString inter_args;
-      if ((start!=0) || (stop!=0) || (interval!=0)) {
-         inter_args += ", ";
-         inter_args += start;
-         inter_args += ", ";
-         inter_args += stop;
-         inter_args += ", ";
-         inter_args += interval;
-      }
+      TString srcargs, inter_args;
+      srcargs.Form("(\"%s\", \"%s\", %d", stepconf->GetStepName().toStdString(), srcname.toStdString(), timeout);
+      if ((start!=0) || (stop!=0) || (interval!=0))
+         inter_args.Form(", %d, %d, %d", start, stop, interval);
 
       switch(nsrc) {
          case 0:
@@ -922,9 +911,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (windows.at(i));
       if (panel==0) continue;
 
-      npanel++;
-      TString picname = "pic";
-      picname+=npanel;
+      TString picname = TString::Format("pic%d", ++npanel);
       TGo4Picture pic(picname.Data(), DefaultPicTitle());
 
       panel->MakePictureForPad(&pic, panel->GetCanvas(), true);

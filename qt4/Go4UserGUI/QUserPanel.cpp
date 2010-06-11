@@ -14,6 +14,10 @@
 
 #include "QUserPanel.h"
 
+#include <stdlib.h>
+#include <stdio.h>
+
+
 #include "Riostream.h"
 #include "Rstrstream.h"
 #include "TClass.h"
@@ -22,7 +26,6 @@
 #include "QRootCanvas.h"
 
 #include <sstream>
-#include <stdlib.h>
 
 // this function called by Go4 GUI to start user panel
 extern "C" Q_DECL_EXPORT void* StartUserPanel(void* parent)
