@@ -714,9 +714,7 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
       TDataMember *m = argument->GetDataMember();
       if (m && m->GetterMethod()) {
 
-         char gettername[256];
-         strncpy(gettername, m->GetterMethod()->GetMethodName(), 255);
-         m->GetterMethod()->Init(object->IsA(), gettername, "");
+         m->GetterMethod()->Init(object->IsA(), m->GetterMethod()->GetMethodName(), "");
 
          // Get the current value and form it as a text:
 
