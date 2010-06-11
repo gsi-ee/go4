@@ -52,6 +52,9 @@
 
 #include "QRootDialog.h"
 
+#include <cstring>
+
+
 QRootCanvas::QRootCanvas(QWidget *parent) :
    QWidget(parent),
    fMaskDoubleClick(false),
@@ -701,12 +704,12 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
       if (datatype) {
          basictype = datatype->GetTypeName();
       } else {
-         if (strncmp(type.Data(), "enum", 4) != 0)
+         if (type.CompareTo("enum") != 0)
             cout << "*** Warning in Dialog(): data type is not basic type, assuming (int)\n";
          basictype = "int";
       }
 
-      if (strchr(argument->GetTitle(), '*')) {
+      if (TString(argument->GetTitle()).Index("*")!=kNPOS) {
          basictype += "*";
          type = "char*";
       }

@@ -76,7 +76,7 @@ void qMessageOutput( QtMsgType type, const char *msg )
          break;
       case QtFatalMsg:
           std::cerr << "QtRoot-Fatal: " << msg << std::endl;
-          abort();
+          gSystem->Abort();
       case QtCriticalMsg:
           std::cerr << "QtRoot-Critical: " << msg << std::endl;
           break;

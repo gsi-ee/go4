@@ -119,7 +119,7 @@ int main(int argc, char **argv)
    QRootApplication myapp(argc, argv); // Qt application
 
    // qt4.4 sets local settings not to "C", but to system-depended values
-   setlocale(LC_ALL, "C");
+   ::setlocale(LC_ALL, "C");
 
    TGo4AbstractInterface::SetInitSharedLibs();
 
