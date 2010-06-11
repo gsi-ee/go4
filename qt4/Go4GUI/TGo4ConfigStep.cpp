@@ -14,8 +14,10 @@
 #include "TGo4ConfigStep.h"
 
 #include <QFileDialog>
+
 #include "TClass.h"
 #include "Riostream.h"
+
 #include "TGo4AnalysisStepStatus.h"
 #include "TGo4EventStoreParameter.h"
 #include "TGo4EventSourceParameter.h"
@@ -608,7 +610,7 @@ void TGo4ConfigStep::SetMbsFileSource(QString TagFile)
    TextLabelTagfile->setShown(true);
 
    FileNameInput->setEnabled(true);
-   if(!strstr(TagFile.toAscii(),TGo4MbsFile__fgcNOTAGFILE))
+   if(!TagFile.contains(TGo4MbsFile__fgcNOTAGFILE))
       LineEditTagfile->setText(TagFile);
    else
       LineEditTagfile->setText("");

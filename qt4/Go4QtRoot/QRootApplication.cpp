@@ -67,21 +67,21 @@ void qMessageOutput( QtMsgType type, const char *msg )
 {
    switch ( type ) {
       case QtDebugMsg:
-       if(QRootApplication::fDebug)
-          fprintf( stderr, "QtRoot-Debug: \n %s\n", msg );
-          break;
+         if(QRootApplication::fDebug)
+            std::cerr << "QtRoot-Debug: " << msg << std::endl;
+         break;
       case QtWarningMsg:
-       if(QRootApplication::fWarning)
-          fprintf( stderr, "QtRoot-Warning: \n %s\n", msg );
-          break;
+         if(QRootApplication::fWarning)
+            std::cerr << "QtRoot-Warning: " << msg << std::endl;
+         break;
       case QtFatalMsg:
-          fprintf( stderr, "QtRoot-Fatal: \n %s\n", msg );
-          abort();         // dump core on purpose
+          std::cerr << "QtRoot-Fatal: " << msg << std::endl;
+          abort();
       case QtCriticalMsg:
-          fprintf( stderr, "QtRoot-Critical: \n %s\n", msg );
+          std::cerr << "QtRoot-Critical: " << msg << std::endl;
           break;
       default:
-          fprintf( stderr, "QtRoot-Other: \n %s\n", msg );
+          std::cerr << "QtRoot-Other: " << msg << std::endl;
           break;
    }
 }
@@ -134,6 +134,6 @@ void QRootApplication::execute()
 
 void QRootApplication::quit()
 {
-   cout <<"QRootApplication::quit()" << endl;
+   std::cout <<"QRootApplication::quit()" << std::endl;
 //   gSystem->Exit( 0 );
 }

@@ -13,6 +13,9 @@
 
 #include "TGo4FitPanel.h"
 
+#include <stdio.h>
+
+
 #include "qevent.h"
 #include "qheaderview.h"
 
@@ -30,6 +33,7 @@
 #include <QtGui/QInputDialog>
 
 #include "TStyle.h"
+#include "TString.h"
 #include "TObject.h"
 #include "TObjArray.h"
 #include "TArrayI.h"
@@ -43,6 +47,7 @@
 #include "TCanvas.h"
 #include "TPaveStats.h"
 #include "TFile.h"
+#include "Riostream.h"
 
 #include "TGo4LockGuard.h"
 #include "TGo4Slot.h"
@@ -107,7 +112,6 @@
 #include "QFitLinearTransWidget.h"
 #include "QFitMatrixTransWidget.h"
 #include "TGo4FitGuiTypes.h"
-#include "Riostream.h"
 
 
 // ********************************************************************
@@ -1568,8 +1572,7 @@ void TGo4FitPanel::Cmd_AddRangeCondition(QFitItem* item, int id)
    if (id==2) comp->SetRangeMin(0, minx);  else
    if (id==3) comp->SetRangeMax(0, maxx); else
    if (id==4) {
-      TString name("Cut");
-      name+=comp->GetNumRangeCut();
+      TString name = TString::Format("Cut%d", comp->GetNumRangeCut());
       TCutG* cut = new TCutG(name, 5);
       cut->SetTitle("range cut of X and Y axis");
       cut->SetPoint(0, minx, miny);
@@ -1820,12 +1823,10 @@ void TGo4FitPanel::Cmd_AddNewPar(QFitItem* item)
    if (pars==0) return;
 
    TString name;
-   int num = 0;
+   int num(0);
    do {
-      name = "Par";
-      name += num;
-      num++;
-   } while (pars->FindPar(name));
+      name = TString::Format("Par%d", num++);
+   } while (pars->FindPar(name.Data()));
    pars->CreatePar(name.Data(),"additional parameter",0.);
 
    UpdateItem(item, TRUE);

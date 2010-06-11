@@ -13,8 +13,8 @@
 
 #include "TGo4Script.h"
 
-#include "Riostream.h"
 #include <stdlib.h>
+
 #include "TString.h"
 #include "TROOT.h"
 #include "TSystem.h"
@@ -38,8 +38,9 @@
 #include "TGo4Picture.h"
 #include "TGo4ViewPanel.h"
 #include "TGo4MainWindow.h"
-
 #include "TGo4Slot.h"
+
+#include "Riostream.h"
 
 TGo4Script* TGo4Script::ScriptInstance()
 {
@@ -982,9 +983,6 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
          if (br->BrowserItemName(subslot, sbuf))
            fs << "go4->MonitorItem(\"" << sbuf << "\");" << endl;
       }
-
-//      cout << "Test subslot: " << subslot->GetFullName() <<
-//             " monitor= " << (goinside ? "false" : "true") << endl;
 
    }
 

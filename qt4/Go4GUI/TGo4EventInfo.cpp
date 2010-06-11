@@ -43,7 +43,7 @@ void TGo4EventInfo::WorkWithEvent(const char* itemname)
 {
    EventLbl->setText(itemname);
 
-   bool ismbs = strstr(itemname,defMbsEventName)!=0;
+   bool ismbs = QString(itemname).contains(defMbsEventName);
 
    MbsPrintBox->setEnabled(ismbs);
    TString mbsitem = Browser()->FindItemInAnalysis(defMbsEventName);

@@ -12,6 +12,7 @@
 //-----------------------------------------------------------------------
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <qglobal.h>
 #include <locale.h>
 #include <QDir>
@@ -94,7 +95,7 @@ int main(int argc, char **argv)
                loghost = argv[++narg];
 
             if ((narg+1<argc) && (argv[narg+1][0]!='-') && (argv[narg+1][0]>='0') && (argv[narg+1][0]<='9'))
-               logport = atoi(argv[++narg]);
+               logport = QString(argv[++narg]).toInt();
 
             if ((narg+1<argc) && (argv[narg+1][0]!='-')) logpass = argv[++narg];
          } else
