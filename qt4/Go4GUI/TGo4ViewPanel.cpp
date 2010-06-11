@@ -894,7 +894,7 @@ void TGo4ViewPanel::SelectedMarkerCmb_activated(int indx)
      int selindex = -1;
      int p = selname.indexOf("/Sub");
      if (p>0) {
-        selindex = atoi(selname.toAscii().constData()+p+4);
+        selindex = selname.mid(p+4).toInt();
         selname.truncate(p);
      } else
         selindex = -1;

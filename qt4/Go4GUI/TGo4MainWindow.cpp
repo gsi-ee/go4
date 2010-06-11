@@ -2370,7 +2370,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_CreateItem: {
          TClass* cl = (TClass*) par;
-         int id = str!=0 ? atoi(str) : 0;
+         int id = str!=0 ? QString(str).toInt() : 0;
          if (cl!=0)
            if (cl->InheritsFrom(TH1::Class()))
               CreateNewHistSlot(id);
@@ -2528,7 +2528,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_CreateViewPanel: {
          TGo4ViewPanel** res = (TGo4ViewPanel**) par;
-         *res = MakeNewPanel(atoi(str));
+         *res = MakeNewPanel(QString(str).toInt());
          break;
       }
 
