@@ -102,12 +102,12 @@ int main(int argc, char **argv)
             prepare_for_client = true;
          }
       } else
-      if (strstr(argv[narg],".root")!=0)
+      if (QString(argv[narg]).contains(".root"))
          files.append(argv[narg]);
       else
          if (hotstart.length()==0) {
             hotstart = argv[narg];
-            if(!strstr(argv[narg], ".hotstart")) hotstart.append(".hotstart");
+            if(!QString(argv[narg]).contains(".hotstart")) hotstart.append(".hotstart");
          }
    }
 

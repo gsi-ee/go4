@@ -3406,7 +3406,7 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 
    Bool_t doasiimage = (drawopt!=0) && !dosuperimpose && objs.Last()->InheritsFrom(TH2::Class());
    if (doasiimage)
-      doasiimage = strstr(drawopt,"asimage")!=0;
+      doasiimage = TString(drawopt).Contains("asimage");
 
    if (dosuperimpose) {
      if (sislot==0)
