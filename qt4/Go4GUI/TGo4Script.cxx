@@ -793,7 +793,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       int nsrc = stepconf->GetSourceSetup(srcname, timeout, start, stop, interval);
 
       TString srcargs, inter_args;
-      srcargs.Form("(\"%s\", \"%s\", %d", stepconf->GetStepName().toStdString(), srcname.toStdString(), timeout);
+      srcargs.Form("(\"%s\", \"%s\", %d", stepconf->GetStepName().toAscii().constData(), srcname.toAscii().constData(), timeout);
       if ((start!=0) || (stop!=0) || (interval!=0))
          inter_args.Form(", %d, %d, %d", start, stop, interval);
 
