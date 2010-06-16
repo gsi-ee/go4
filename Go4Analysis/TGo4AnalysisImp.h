@@ -495,6 +495,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
      * conditions. */
     void SetRunning(Bool_t on=kTRUE);
 
+
     /** Poll on the IsRunning state with sleep delay, returns number
       * of wait cycles. For slave server controlled cint macros to
       * start/stop execution of explicit user loop. */
@@ -845,6 +846,10 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     void ResetStopWorking() { fbDoWorkingFlag = kTRUE; }
 
     Bool_t IsStopWorking() const { return !fbDoWorkingFlag; }
+
+    /* for signal handler to shutdown analysis server, if existing*/
+    void ShutdownServer();
+
 
     /** Static Pointer to the analysis singleton instance. */
     static TGo4Analysis* fxInstance;             //!

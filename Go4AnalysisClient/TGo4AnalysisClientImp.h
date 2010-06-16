@@ -132,6 +132,10 @@ class TGo4AnalysisClient : public TGo4Slave {
     /** Overwrites the Threadmanager TerminateFast to shutdown the objectserver properly */
     virtual void TerminateFast ();
 
+    /* submit a analysis server shutdown into local command queue.
+     * used by ctrl-c handler of analysis server*/
+    void SubmitShutdown();
+
     /** Execute string command. Overrides base class implementation
       * to decouple some commands from analysis client. */
     virtual void ExecuteString(const char* command);

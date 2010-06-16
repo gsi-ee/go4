@@ -72,6 +72,8 @@
 #include "TGo4AnalysisStepException.h"
 #include "TGo4TreeStructure.h"
 
+
+
 #if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
 #include "TCint.h"
 #endif
@@ -80,34 +82,42 @@
 
 class TGo4InterruptHandler : public TSignalHandler {
    protected:
-      Bool_t fbActive;
+      UInt_t fCallCount;
    public:
       TGo4InterruptHandler() :
          TSignalHandler(kSigInterrupt, kFALSE),
-         fbActive(kFALSE)
+         fCallCount(0)
       {
          Add();
       }
 
       virtual Bool_t Notify()
       {
-         if (fbActive) return kTRUE;
-         fbActive = kTRUE;
          if (TGo4Analysis::Exists())
-            TGo4Analysis::Instance()->StopWorking();
+			 {
+				 switch(fCallCount++)
+				 {
+					 case 0:
+						 TGo4Analysis::Instance()->StopWorking();    // for batch mode and server mode
+						 TGo4Analysis::Instance()->ShutdownServer(); // only for server mode
+						 break;
+					 case 1:
+						 // if shutdown should hang, we do second try closing the files directly
+						 TGo4Analysis::Instance()->CloseAnalysis();
+						 TGo4Analysis::Instance()->CloseAutoSaveFile();
+						 TGo4Log::CloseLogfile();
+						 gApplication->Terminate();
+						 break;
+					 case 2:
+					 default:
+						 exit(0); // the hard way if nothing helps
+						 break;
 
-         // single shot will only be processed in client mode, when processing root events are done
-         TTimer::SingleShot(10, ClassName(), this, "Pop()");
-
+				 };
+			 }
          return kTRUE;
       }
 
-      virtual void Pop()
-      {
-         fbActive = kFALSE;
-         if (TGo4Analysis::Exists())
-            TGo4Analysis::Instance()->SetRunning(kFALSE);
-      }
 };
 
 // _________________________________________________________________________________
@@ -1119,10 +1129,22 @@ void TGo4Analysis::StopObjectServer()
 {
    if(fxAnalysisSlave) {
       //fxAnalysisSlave->StopObjectServer();
-      Message(1,"Start object server not yet enabled.");
+      Message(1,"Stop object server not yet enabled.");
    } else {
       Message(2,"Could not stop object server in batch mode.");
    }
+}
+
+void TGo4Analysis::ShutdownServer()
+{
+// this method to be called from ctrl-c signal handler of analysis server
+//cout <<"######### TGo4Analysis::ShutdownServer()" << endl;
+if(fxAnalysisSlave)
+	  {
+		TGo4Log::Message(1,"Analysis server is initiating shutdown after ctrl-c, please wait!!\n");
+		fxAnalysisSlave->SubmitShutdown(); // shutdown will be performed in local command thread
+	  }
+
 }
 
 

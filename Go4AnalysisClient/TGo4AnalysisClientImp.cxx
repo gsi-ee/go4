@@ -25,6 +25,7 @@
 
 #include "TGo4CommandInvoker.h"
 #include "TGo4AnalysisCommandList.h"
+#include "TGo4ComServerQuit.h"
 #include "TGo4ThreadHandler.h"
 #include "TGo4ThreadManager.h"
 #include "TGo4Task.h"
@@ -396,15 +397,19 @@ void TGo4AnalysisClient::Stop()
    //   SendStatusBuffer();
    SendAnalysisClientStatus();
 
-   if (fxAnalysis && fxAnalysis->IsStopWorking()) {
-      if (IsCintMode()) {
-         fxAnalysis->ResetStopWorking();
-      } else {
-         fxAnalysis->CloseAnalysis();
-         TGo4Log::CloseLogfile();
-         exit(0);
-      }
-   }
+//   if (fxAnalysis && fxAnalysis->IsStopWorking()) {
+//      if (IsCintMode()) {
+//         fxAnalysis->ResetStopWorking();
+//      }
+////      else {
+//    	 cout <<"TGo4AnalysisClient::Stop() before close analysis" << endl;
+//         TGo4Log::StartTracing(); // debug
+//    	 fxAnalysis->CloseAnalysis();
+//         cout <<"TGo4AnalysisClient::Stop() after close analysis" << endl;
+//         TGo4Log::CloseLogfile();
+//         exit(0);
+//      }
+//   }
 }
 
 void TGo4AnalysisClient::UpdateRate(Int_t counts)
@@ -481,6 +486,17 @@ void TGo4AnalysisClient::TerminateFast()
    }
    delete fxAnalysis;
    gApplication->Terminate();
+}
+
+void TGo4AnalysisClient::SubmitShutdown()
+{
+	if(GetTask())
+	{
+		TGo4ComServerQuit* com= new TGo4ComServerQuit();
+		//TGo4Log::StartTracing(); // debug
+		GetTask()->SubmitLocalCommand(com); // shutdown will be performed in local command thread
+	}
+
 }
 
 

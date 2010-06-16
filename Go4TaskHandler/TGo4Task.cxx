@@ -551,7 +551,7 @@ TGo4Command* TGo4Task::MakeCommand(const char* name)
 Bool_t TGo4Task::SubmitLocalCommand(TGo4Command* com)
 {
    if(com==0) return kFALSE;
-   com->SetMode(kGo4ComModeController);
+   com->SetMode(kGo4ComModeAdministrator); // everything is allowed here...
    fxWorkHandler->Start(GetCommanderName()); // for non autostart mode
    TGo4ObjectQueue* lqueue=GetLocalCommandQueue();
    if(lqueue!=0)

@@ -627,8 +627,8 @@ void TGo4ServerTask::Quit()
    //StopWorkThreads(); // are re-started after last client is removed...
    WakeCommandQueue(TGo4Task::Get_fgiTERMID()); // will stop local command thread, and remote
    Terminate(!IsMaster()); // terminate only slave server here!
-   if(!IsMaster())
-	   fxTaskManager->GetMutex()->Lock(); // avoid conflicts with lockguard outside
+//   if(!IsMaster())
+//	   fxTaskManager->GetMutex()->Lock(); // avoid conflicts with lockguard outside
 }
 
 
