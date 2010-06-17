@@ -1615,7 +1615,7 @@ INTS4 f_evt_error( INTS4 l_error , CHARS *pc_dest , INTS4 l_out )
      sprintf(c_line,"-I-f_evt: success");
      break;
    case PUTEVT__FILE_EXIST   :
-     sprintf(c_line,"-I-f_evt: output file alread exist");
+     sprintf(c_line,"-I-f_evt: output file already exist");
      break;
    case PUTEVT__WRERR    :
      sprintf(c_line,"-I-f_evt: write file error");

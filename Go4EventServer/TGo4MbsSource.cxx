@@ -276,7 +276,7 @@ Int_t TGo4MbsSource::NextEvent()
    if(GetEventStatus()!=0) {
       char buffer[TGo4EventSource::fguTXTLEN];
       f_evt_error(GetEventStatus(),buffer,1); // provide text message for later output
-      SetErrMess(buffer);
+      SetErrMess(Form("%s name:%s", buffer, GetName()));
    }
 
    switch(GetEventStatus()) {
@@ -323,7 +323,7 @@ Int_t TGo4MbsSource::Open()
       //
       //   snprintf(buffer,TGo4EventSource::fguTXTLEN-1," Mbs Source --  !!! failed to open input from type %d:  %s!!! ",
       //        fiMode, GetName());
-      SetErrMess(buffer);
+      SetErrMess(Form("%s name:%s", buffer, GetName()));
       fbIsOpen = kFALSE;
       throw TGo4EventErrorException(this);
    } else {

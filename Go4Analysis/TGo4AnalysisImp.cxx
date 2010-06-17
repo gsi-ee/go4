@@ -315,14 +315,19 @@ Bool_t TGo4Analysis::InitEventClasses()
 {
    TRACE((14,"TGo4Analysis::InitEventClasses()",__LINE__, __FILE__));
    //
-   Bool_t rev=kTRUE;
+   Bool_t rev = kTRUE;
    if(!fbInitIsDone) {
-      Message(0,"Analysis BaseClass --  Initializing EventClasses...");
-      LoadObjects(); // always use autosave file to get last objects list
-      rev = fxStepManager->InitEventClasses();
-      UpdateNamesList();
-      Message(-1,"Analysis BaseClass --  Initializing EventClasses done.");
-      fbInitIsDone = kTRUE;
+      try {
+         Message(0,"Analysis BaseClass --  Initializing EventClasses...");
+         LoadObjects(); // always use autosave file to get last objects list
+         rev = fxStepManager->InitEventClasses();
+         UpdateNamesList();
+         Message(-1,"Analysis BaseClass --  Initializing EventClasses done.");
+         fbInitIsDone = kTRUE;
+      } catch(TGo4EventErrorException& ex) {
+         Message(ex.GetPriority(), ex.GetErrMess());
+         rev = kFALSE;
+      }
    } else
       Message(-1,"Analysis BaseClass --  EventClasses were already initialized.");
    return rev;

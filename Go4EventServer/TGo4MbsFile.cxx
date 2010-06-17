@@ -110,7 +110,7 @@ Int_t TGo4MbsFile::NextEvent()
       if(GetEventStatus()!=0) {
          char buffer[TGo4EventSource::fguTXTLEN];
          f_evt_error(GetEventStatus(),buffer,1); // provide text message for later output
-         SetErrMess(buffer);
+         SetErrMess(Form("%s file:%s", buffer, GetCurrentFileName()));
       }
 
       if(GetEventStatus() == GETEVT__NOMORE) throw TGo4EventEndException(this);
@@ -382,7 +382,7 @@ Int_t TGo4MbsFile::OpenFile()
    if(GetCreateStatus() !=GETEVT__SUCCESS) {
       char buffer[TGo4EventSource::fguTXTLEN];
       f_evt_error(GetCreateStatus(),buffer,1); // provide text message for later output
-      SetErrMess(buffer);
+      SetErrMess(Form("%s file:%s", buffer, GetCurrentFileName()));
       fbFileOpen = kFALSE;
       throw TGo4EventErrorException(this);
    } else {

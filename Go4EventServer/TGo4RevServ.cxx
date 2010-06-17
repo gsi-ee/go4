@@ -65,7 +65,7 @@ Int_t TGo4RevServ::Open()
    if(GetCreateStatus() !=GETEVT__SUCCESS) {
        char buffer[TGo4EventSource::fguTXTLEN];
        f_evt_error(GetCreateStatus(), buffer, 1); // provide text message for later output
-       SetErrMess(buffer);
+       SetErrMess(Form("%s name:%s port:%d", buffer, GetName(), fiPort));
        fbIsOpen = kFALSE;
        throw TGo4EventErrorException(this);
     }

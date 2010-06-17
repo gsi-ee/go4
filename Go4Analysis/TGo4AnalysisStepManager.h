@@ -217,9 +217,6 @@ class TGo4AnalysisStepManager : public TNamed {
         * the maincycle from start to end index to process the active steps. */
       TObjArray* fxStepList;
 
-      /** Mutex protecting the analysis step list. */
-      TMutex* fxStepMutex;
-
       /** Iterator used for analysis step list. */
       TIterator* fxStepIterator; //!
 
