@@ -202,18 +202,18 @@
       <property name="spacing" >
        <number>3</number>
       </property>
-      <item row="0" column="4" >
-       <widget class="QLabel" name="TextLabel6_2" >
+      <item row="0" column="0" >
+       <widget class="QLabel" name="TextLabel4_2" >
         <property name="text" >
-         <string>Max.</string>
+         <string>No. of Bins :</string>
         </property>
         <property name="wordWrap" >
          <bool>false</bool>
         </property>
        </widget>
       </item>
-      <item row="0" column="5" >
-       <widget class="QLineEdit" name="Ymax" >
+      <item row="0" column="1" >
+       <widget class="QLineEdit" name="YNoOfBins" >
         <property name="text" >
          <string>10</string>
         </property>
@@ -236,18 +236,18 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="TextLabel4_2" >
+      <item row="0" column="4" >
+       <widget class="QLabel" name="TextLabel6_2" >
         <property name="text" >
-         <string>No. of Bins :</string>
+         <string>Max.</string>
         </property>
         <property name="wordWrap" >
          <bool>false</bool>
         </property>
        </widget>
       </item>
-      <item row="0" column="1" >
-       <widget class="QLineEdit" name="YNoOfBins" >
+      <item row="0" column="5" >
+       <widget class="QLineEdit" name="Ymax" >
         <property name="text" >
          <string>10</string>
         </property>
@@ -408,96 +408,36 @@
    <signal>toggled(bool)</signal>
    <receiver>YAxisGroup</receiver>
    <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>TH1_b</sender>
    <signal>toggled(bool)</signal>
    <receiver>ZAxisGroup</receiver>
    <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>TH2_b</sender>
    <signal>toggled(bool)</signal>
    <receiver>ZAxisGroup</receiver>
    <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Close</sender>
    <signal>clicked()</signal>
    <receiver>TGo4CreateNewHistogram</receiver>
    <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>CreateHistogram</sender>
    <signal>clicked()</signal>
    <receiver>TGo4CreateNewHistogram</receiver>
    <slot>CreateLocalHist()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>CreateRemote</sender>
    <signal>clicked()</signal>
    <receiver>TGo4CreateNewHistogram</receiver>
    <slot>CreateRemoteHis()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
  </connections>
 </ui>

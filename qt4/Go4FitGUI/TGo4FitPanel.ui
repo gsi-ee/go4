@@ -1346,928 +1346,348 @@ You can do one of the following:&lt;br>
    <signal>customContextMenuRequested(const QPoint &amp;)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>FitList_customContextMenuRequested(const QPoint &amp;)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>FitList</sender>
    <signal>currentItemChanged ( QTreeWidgetItem *, QTreeWidgetItem * )</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>FitList_currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_AddDataBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_AddDataBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_DelDataBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_DelDataBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_AddModelBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_AddModelBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_DelModelBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_DelModelBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_CloneModelBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_CloneModelBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_ShowAllMod</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_ShowAllMod_toggled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_FitFuncCmb</sender>
    <signal>activated(int)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_FitFuncCmb_activated(int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_FitNameEdt</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_FitNameEdt_textChanged(QString)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_ParTable</sender>
    <signal>cellChanged(int,int)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_ParTable_valueChanged(int,int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_ModelList</sender>
    <signal>itemDoubleClicked(QListWidgetItem*)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_ModelList_doubleClicked(QListWidgetItem*)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_RebuildDataBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_RebuildDataBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_DataBufChk</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_DataBufChk_toggled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_UseAmplEstimChk</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_UseAmplEstimChk_toggled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_MigradIterSpin</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_MigradIterSpin_valueChanged(int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_DataSlotsTable</sender>
    <signal>customContextMenuRequested(const QPoint &amp;)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_DataSlotsTable_contextMenuRequested(const QPoint &amp;)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_DataUseRangeBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_DataUseRangeBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_DataClearRangesBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_DataClearRangesBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_DrawDataBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_DrawDataBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>MainAttachBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>MainAttachBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>MainFitBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>MainFitBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>MainDrawBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>MainDrawBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>MainFindBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>MainFindBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_DataList</sender>
    <signal>itemDoubleClicked(QListWidgetItem*)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_DataList_doubleClicked(QListWidgetItem*)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_DataList</sender>
    <signal>itemClicked(QListWidgetItem*)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_DataListSelect(QListWidgetItem*)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_DataList</sender>
    <signal>itemChanged(QListWidgetItem*)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_DataListSelect(QListWidgetItem*)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_DataList</sender>
    <signal>itemPressed(QListWidgetItem*)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_DataListSelect(QListWidgetItem*)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_ModelList</sender>
    <signal>itemClicked(QListWidgetItem*)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_ModelListSelect(QListWidgetItem*)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_ModelList</sender>
    <signal>itemChanged(QListWidgetItem*)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_ModelListSelect(QListWidgetItem*)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>MainParsBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>MainParsBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>LineParsChk</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>LineParsChk_toggled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>ParsTable</sender>
    <signal>cellChanged(int,int)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>ParsTable_valueChanged(int,int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_ModelBufChk</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_ModelBufChk_toggled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_PFSetupBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_PFSetupBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_PFUsePolynChk</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_PFUsePolynChk_toggled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_PFPolynSpin</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_PFPolynSpin_valueChanged(int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>PF_MinWidthEdt</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>PF_MinWidthEdt_textChanged(QString)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>PF_MaxWidthEdt</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>PF_MaxWidthEdt_textChanged(QString)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>PF_AmplSlider</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>PF_AmplSlider_valueChanged(int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>PF_AmplSlider</sender>
    <signal>sliderReleased()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>PF_AmplSlider_sliderReleased()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>PF_WidthEdit</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>PF_WidthEdit_textChanged(QString)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>PF_RelNoiseSlider</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>PF_RelNoiseSlider_valueChanged(int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>PF_RelNoiseSlider</sender>
    <signal>sliderReleased()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>PF_RelNoiseSlider_sliderReleased()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>PF_MinNoiseEdit</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>PF_MinNoiseEdit_textChanged(QString)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>PF_SumUpSpin</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>PF_SumUpSpin_valueChanged(int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Smp_PolynomBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Smp_PolynomBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Smp_GaussianBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Smp_GaussianBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Smp_LorenzBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Smp_LorenzBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Smp_ExponentBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Smp_ExponentBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Smp_ClearBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Smp_ClearBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_MinSetupBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_MinSetupBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>FindersTab</sender>
    <signal>currentChanged(int)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>FindersTab_currentChanged(int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Wiz_BackgroundChk</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_BackgroundChk_toggled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>PF_MinWidthEdt</sender>
    <signal>returnPressed()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>PF_MinWidthEdt_returnPressed()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>PF_MaxWidthEdt</sender>
    <signal>returnPressed()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>PF_MaxWidthEdt_returnPressed()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>PF_WidthEdit</sender>
    <signal>returnPressed()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>PF_WidthEdit_returnPressed()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>PF_MinNoiseEdit</sender>
    <signal>returnPressed()</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>PF_MinNoiseEdit_returnPressed()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
  </connections>
 </ui>

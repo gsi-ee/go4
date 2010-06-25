@@ -509,128 +509,48 @@
    <signal>clicked()</signal>
    <receiver>TGo4DabcMonitor</receiver>
    <slot>refreshDIMSlot()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>189</x>
-     <y>37</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>FullPrintDIMButton</sender>
    <signal>clicked()</signal>
    <receiver>TGo4DabcMonitor</receiver>
    <slot>logDIMSlot()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>189</x>
-     <y>142</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>NodeTable</sender>
    <signal>cellChanged(int,int)</signal>
    <receiver>TGo4DabcMonitor</receiver>
    <slot>nodeTableChangedSlot(int,int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>249</x>
-     <y>53</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>RateTable</sender>
    <signal>cellChanged(int,int)</signal>
    <receiver>TGo4DabcMonitor</receiver>
    <slot>rateTableChangedSlot(int,int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>648</x>
-     <y>53</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>HistogramCheck</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4DabcMonitor</receiver>
    <slot>histogramCheckToggled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>38</x>
-     <y>176</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>TrendAverageCheck</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4DabcMonitor</receiver>
    <slot>averageCheckToggled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>39</x>
-     <y>264</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>TrendBinsBox</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4DabcMonitor</receiver>
    <slot>binsizeChanged(int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>39</x>
-     <y>205</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>MoreCheck</sender>
    <signal>toggled(bool)</signal>
    <receiver>controlBox</receiver>
    <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>23</x>
-     <y>87</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>97</x>
-     <y>109</y>
-    </hint>
-   </hints>
   </connection>
  </connections>
 </ui>

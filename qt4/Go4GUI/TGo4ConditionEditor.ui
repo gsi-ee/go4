@@ -1111,480 +1111,180 @@
    <signal>textChanged(QString)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>LimitsChanged(QString)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Win1_up</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>LimitsChanged(QString)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Win2_low</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>LimitsChanged(QString)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Win2_up</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>LimitsChanged(QString)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>CondLimits</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetDrawLimits(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>CondLabel</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetLabel(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>IntBox</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetIntDraw(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>MaxXBox</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetXMaxDraw(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>MaxYBox</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetYMaxDraw(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>MaxCBox</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetCMaxDraw(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>ArrayAllButton</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>ArrayAll()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>PrintLog</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>PrintConditionLog()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>SaveCon</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SaveCondition()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Win1_low</sender>
    <signal>returnPressed()</signal>
    <receiver>Win1_up</receiver>
    <slot>selectAll()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Win1_up</sender>
    <signal>returnPressed()</signal>
    <receiver>Win2_low</receiver>
    <slot>selectAll()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Win2_low</sender>
    <signal>returnPressed()</signal>
    <receiver>Win2_up</receiver>
    <slot>selectAll()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Win2_up</sender>
    <signal>returnPressed()</signal>
    <receiver>Win1_low</receiver>
    <slot>selectAll()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Win1_low</sender>
    <signal>returnPressed()</signal>
    <receiver>Win1_up</receiver>
    <slot>setFocus()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Win1_up</sender>
    <signal>returnPressed()</signal>
    <receiver>Win2_low</receiver>
    <slot>setFocus()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Win2_low</sender>
    <signal>returnPressed()</signal>
    <receiver>Win2_up</receiver>
    <slot>setFocus()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>Win2_up</sender>
    <signal>returnPressed()</signal>
    <receiver>Win1_low</receiver>
    <slot>setFocus()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>XMeanBox</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetXMeanDraw(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>YMeanBox</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetYMeanDraw(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>XRMSBox</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetXRMSDraw(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>YRMSBox</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetYRMSDraw(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>CondVisibleChk</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetCondVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>ModifyButton</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>ModifyButton_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>NPointsSpin</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>NPointsSpin_valueChanged(int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>CutTable</sender>
    <signal>cellChanged(int,int)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>CutTable_valueChanged(int,int)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>CutTable</sender>
    <signal>customContextMenuRequested(const QPoint &amp;)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>CutTable_contextMenuRequested(const QPoint &amp;)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
  </connections>
 </ui>

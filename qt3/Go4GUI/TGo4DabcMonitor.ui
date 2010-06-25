@@ -702,8 +702,6 @@
 <includehints>
     <includehint>QGo4Widget.h</includehint>
     <includehint>QGo4Table.h</includehint>
-    <includehint>QGo4Table.h</includehint>
-    <includehint>QGo4LineEdit.h</includehint>
     <includehint>QGo4LineEdit.h</includehint>
 </includehints>
 </UI>

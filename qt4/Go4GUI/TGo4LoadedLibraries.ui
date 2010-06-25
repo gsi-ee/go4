@@ -227,64 +227,24 @@
    <signal>clicked()</signal>
    <receiver>TGo4LoadedLibraries</receiver>
    <slot>LoadNewLibrary()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>UnloadLibBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4LoadedLibraries</receiver>
    <slot>UnloadLibrary()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>RefreshBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4LoadedLibraries</receiver>
    <slot>RefreshLibs()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>CloseBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4LoadedLibraries</receiver>
    <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
  </connections>
 </ui>

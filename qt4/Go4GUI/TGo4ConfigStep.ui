@@ -703,320 +703,120 @@
    <signal>stateChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>StepStateChanged(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>EnableSourceBox</sender>
    <signal>stateChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>InputStateChanged(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>EnableStoreBox</sender>
    <signal>stateChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>OutputStateChanged(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>SourceNameEdit</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>InputSourceText(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>EventSourceCombo</sender>
    <signal>activated(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>SourceComboHighlighted(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>OutputCombo</sender>
    <signal>activated(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>StoreComboHighlighted(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>StoreNameEdit</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>OutputNameText(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>FileNameOutput</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>OutputFileDialog()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>CompLevel</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>StoreCompLevel(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>BufferSize</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>StoreBufferSize(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>SplitLevel</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>StoreSplitLevel(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>StoreOverwriteMode</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>StoreOverWrite(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>LineEditArgs</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>InputArguments(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>LineEditTagfile</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>InputTagfile(QString)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>SpinBoxStartEvent</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>StoreStartEvent(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>SpinBoxStopEvent</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>StoreStopEvent(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>FileNameInput</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>InputFileDialog()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>SpinBoxInterEvent</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>StoreEventInterval(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>SpinBoxTimeout</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>StoreTimeout(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>MbsMonitorBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>MbsMonitorBtn_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
  </connections>
 </ui>
