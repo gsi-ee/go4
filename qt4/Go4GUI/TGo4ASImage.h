@@ -89,6 +89,10 @@ class TGo4ASImage : public TObject {
       void SetDrawData(TH2*, TGo4ViewPanel*, TPad*) {}
 
       void SetSelectedRange(double, double, double, double) {}
+
+      void SetPaletteEnabled(bool) {}
+
+
 };
 
 #endif // ASImage disable switch
