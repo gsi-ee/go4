@@ -1106,13 +1106,19 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
                if (!model->GetPosition(0,pos)) pos = 0.;
                if (!model->GetWidth(0,width)) width = 0.;
 
+               bool recalculatew = (model->InheritsFrom(TGo4FitModelGauss1::Class()) ||
+                                    model->InheritsFrom(TGo4FitModelGauss2::Class()) ||
+                                    model->InheritsFrom(TGo4FitModelGaussN::Class())) &&
+                                    fbRecalculateGaussWidth;
+               double widthk = recalculatew ? 2.3548 : 1.0;
+
                TString tt = TString::Format("%7s | %s%s | %s%s  %s%s",
                                  model->GetName(),
                                  "%",gStyle->GetStatFormat(),
                                  "%",gStyle->GetStatFormat(),
                                  "%",gStyle->GetStatFormat());
 
-               info->AddText(Form(tt.Data(),ampl,pos,width));
+               info->AddText(Form(tt.Data(),ampl,pos,width*widthk));
             } else {
                int maxparlen = 7;
                for(Int_t np=0;np<model->NumPars();np++) {
