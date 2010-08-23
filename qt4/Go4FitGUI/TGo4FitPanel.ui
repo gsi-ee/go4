@@ -1511,13 +1511,7 @@ You can do one of the following:&lt;br>
   </connection>
   <connection>
    <sender>Wiz_ModelList</sender>
-   <signal>itemClicked(QListWidgetItem*)</signal>
-   <receiver>TGo4FitPanel</receiver>
-   <slot>Wiz_ModelListSelect(QListWidgetItem*)</slot>
-  </connection>
-  <connection>
-   <sender>Wiz_ModelList</sender>
-   <signal>itemChanged(QListWidgetItem*)</signal>
+   <signal>currentItemChanged(QListWidgetItem*,QListWidgetItem*)</signal>
    <receiver>TGo4FitPanel</receiver>
    <slot>Wiz_ModelListSelect(QListWidgetItem*)</slot>
   </connection>
