@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.4.1 (build 40401)
-                      6-May-2010
+         Go4 Release Package v4.4.2 (build 40402)
+                      24-August-2010
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -29,7 +29,13 @@ Changes in Go4 v4.4.2 (Summer 2010)
    After second Ctrl-C it tries immediately store autosave file and exit.
    All consequent Ctrl-C will just terminate analysis.
 4. Add in go4analysis event source exception handling, 
-   display more info with MBS source errors. 
+   display more info with MBS source errors.
+5. Small fixes in fitpanel - info pad displays FWHM of the line, 
+   list of models in wizard is navigated correctly
+6. Solve problem that after loading of user library, classes from it was not 
+   available automatically to the gui. Now one again can use custom histogram
+   classes in the gui if appropriate library is loaded.
+7. Support of new RFIO v6.0.               
        
 
 Changes in Go4 v4.4.1 (May 2010)
