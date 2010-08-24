@@ -33,6 +33,10 @@ endif
 
 ##### local rules #####
 
+ifeq ($(shell uname -m),x86_64)
+$(RAWAPI_O) : DEFINITIONS += -DSYSTEM64
+endif
+
 include/%.h: $(RAWAPI_DIR)/%.h
 	@echo "Copy header $@ ..."
 	@cp -f $< $@
