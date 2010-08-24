@@ -24,6 +24,7 @@
 
 #include "Riostream.h"
 #include "TClass.h"
+#include "TClassTable.h"
 #include "TROOT.h"
 #include "TObjString.h"
 #include "TCanvas.h"
@@ -379,7 +380,12 @@ void TGo4Browser::updateListViewItems()
 
       if ((classname!=0) && (testedClasses.FindObject(classname)==0)) {
 
-         itemclass = gROOT->GetClass(classname, kFALSE);
+         itemclass = gROOT->GetClass(classname, kFALSE, kTRUE);
+
+         // if dictionary existing (library is loaded) force creation of TClass object
+         if ((itemclass==0) && TClassTable::GetDict(classname))
+            itemclass = gROOT->LoadClass(classname, kTRUE);
+
          if (itemclass==0)
            testedClasses.Add(new TNamed(classname,""));
       }

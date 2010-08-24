@@ -60,6 +60,7 @@
     <include location="local" impldecl="in implementation">qapplication.h</include>
     <include location="local" impldecl="in implementation">Riostream.h</include>
     <include location="local" impldecl="in implementation">TClass.h</include>
+    <include location="local" impldecl="in implementation">TClassTable.h</include>
     <include location="local" impldecl="in implementation">TROOT.h</include>
     <include location="local" impldecl="in implementation">TObjString.h</include>
     <include location="local" impldecl="in implementation">TCanvas.h</include>
