@@ -22,8 +22,7 @@ endif
 
 # used in the main Makefile
 
-### we do not need RawAPI headers in include directory
-#ALLHDRS +=  $(patsubst $(RAWAPI_DIR)/%.h, include/%.h, $(RAWAPI_H))
+ALLHDRS +=  $(patsubst $(RAWAPI_DIR)/%.h, include/%.h, $(RAWAPI_H))
 
 LIBDEPENDENC       += $(RAWAPI_DEP)
 
@@ -34,9 +33,9 @@ endif
 
 ##### local rules #####
 
-#include/%.h: $(RAWAPI_DIR)/%.h
-#	@echo "Copy header $@ ..."
-#	@cp -f $< $@
+include/%.h: $(RAWAPI_DIR)/%.h
+	@echo "Copy header $@ ..."
+	@cp -f $< $@
 
 clean-bin::
 	@rm -f $(RAWAPI_O) $(RAWAPI_DEP)
