@@ -1,3 +1,7 @@
+## all RFIO API files copied from /GSI/staging/adsm/v60/ directory
+## when using RFIO inside gsi, filename should look like:
+##  rfio:lxgstore:/arch_name/file_name.lmd 
+
 RAWAPI_NAME         = RawAPI
 
 ## normally should be like this for every module, but can be specific
@@ -18,7 +22,8 @@ endif
 
 # used in the main Makefile
 
-ALLHDRS +=  $(patsubst $(RAWAPI_DIR)/%.h, include/%.h, $(RAWAPI_H))
+### we do not need RawAPI headers in include directory
+#ALLHDRS +=  $(patsubst $(RAWAPI_DIR)/%.h, include/%.h, $(RAWAPI_H))
 
 LIBDEPENDENC       += $(RAWAPI_DEP)
 
@@ -29,9 +34,9 @@ endif
 
 ##### local rules #####
 
-include/%.h: $(RAWAPI_DIR)/%.h
-	@echo "Copy header $@ ..."
-	@cp -f $< $@
+#include/%.h: $(RAWAPI_DIR)/%.h
+#	@echo "Copy header $@ ..."
+#	@cp -f $< $@
 
 clean-bin::
 	@rm -f $(RAWAPI_O) $(RAWAPI_DEP)

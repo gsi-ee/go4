@@ -1,26 +1,13 @@
-// $Id$
-//-----------------------------------------------------------------------
-//       The GSI Online Offline Object Oriented (Go4) Project
-//         Experiment Data Processing at EE department, GSI
-//-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
-//                     Planckstr. 1, 64291 Darmstadt, Germany
-// Contact:            http://go4.gsi.de
-//-----------------------------------------------------------------------
-// This software can be used under the license agreements as stated
-// in Go4License.txt file which is part of the distribution.
-//-----------------------------------------------------------------------
-
 /*********************************************************************
  * Copyright:
  *   GSI, Gesellschaft fuer Schwerionenforschung mbH
  *   Planckstr. 1
- *   D-64291 Darmstadt
+ *   D-64291 Darmstadt  
  *   Germany
  * created 26. 1.1996 by Horst Goeringer
  *********************************************************************
  * rconnect.c
- * open connection to specified server
+ * open connection to specified server 
  *********************************************************************
  *  7. 4.1999, H.G.: return error number in case of failure
  *                   pass max time for retries of connect()
@@ -29,46 +16,39 @@
  *  7. 3.2000, H.G.: renamed form rawConnect to rconnect
  * 31.10.2001, H.G.: ported to W2000
  * 14.10.2002, H.G.: ported to Lynx
+ *  1. 2.2005, H.G.: ported to Linux and gcc322
+ *  7.10.2008, H.G.: improved retry loops
+ *  3.11.2008, H.G.: correct include files for AIX
  *********************************************************************
- */
-
+ */  
+ 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
 #ifdef WIN32          /* Windows */
 #include <sys\types.h>
-#include <winsock.h>
-#include <windows.h>
-#include <process.h>
-#else                 /* Unix */
-
-#ifdef Lynx
+#include <winsock.h>  
+#include <windows.h>  
+#include <process.h>  
+#else                 /* all Unix */
 #include <sys/types.h>
-#else
-#include <sys/types.h>
-#endif
-
-#include <sys/socket.h>
 #include <errno.h>
+#include <unistd.h>
 #include <netdb.h>
 
-#ifdef Linux
-//#include <linux/in.h>
-//#include <linux/inet.h>
-#elif Lynx
+#ifdef Lynx           /* Lynx */
 #include <netinet/in.h>
-#else               /* _AIX */
-#include <in.h>
+#include <socket.h>
+#elif Linux          /* Linux */
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#else               /* AIX */
+#include <netinet/in.h>
+#include <sys/socket.h>
 #endif
 
-#endif              /* end Unix */
-
-#if defined(VMS)
-#include <inet.h>
-#include <signal.h>
-#include <unixio.h>
-#endif
+#endif              /* all Unix */
 
 extern int imySigS;                      /* if = 1: CTL C specified */
 
@@ -84,10 +64,10 @@ int rconnect( char *cNode,        /* input:  name of remote host */
               int *piSocket)      /* output: socket number */
 {
    char cModule[32] = "rconnect";
-   int iDebug = 0;
-   int iSocket = 0;
-   int iMaxTime = *piMaxTime;
-   int iTime = 0;
+   int iDebug = 0; 
+   int iSocket = 0; 
+   int iMaxTime = *piMaxTime; 
+   int iTime = 0; 
    int iError;
    int iSleep = 0;
    int iMaxSleep = 10;             /* max sleep time */
@@ -97,34 +77,46 @@ int rconnect( char *cNode,        /* input:  name of remote host */
    struct sockaddr_in sSockAddr;
    unsigned long lAddr;
 
-   if ( ( pHE = gethostbyname(cNode) ) == NULL )
+   if (iDebug)
+   {
+      printf("\n-D- begin %s: try connection to %s:%d",
+         cModule, cNode, iPort); 
+      if (iMaxTime < 0)
+         printf(" (1 trial)\n");
+      else if (iMaxTime == 0)
+         printf(" (until success)\n");
+      else
+         printf(" (for %d sec)\n", iMaxTime);
+   }
+
+   if ( ( pHE = gethostbyname(cNode) ) == NULL ) 
    {
       lAddr = inet_addr(cNode);
-      if ( ( pHE = gethostbyaddr(
+      if ( ( pHE = gethostbyaddr( 
                (char *)&lAddr, sizeof(lAddr), AF_INET ) ) == NULL )
       {
          fprintf(stderr,"-E- %s: unknown host %s\n", cModule, cNode );
          iError = -1;
          goto gError;
       }
-      if (iDebug)
+      if (iDebug) 
          printf("-D- %s: gethostbyaddr succeeded\n", cModule);
    }
-   else if (iDebug)
+   else if (iDebug) 
       printf("-D- %s: gethostbyname succeeded\n", cModule);
    sHE = *pHE;                                        /* safe copy */
 
 gRetryConnect:;
-
    /* create the socket */
-   if ( ( iSocket = socket(
+   if ( ( iSocket = socket( 
             AF_INET, SOCK_STREAM, IPPROTO_TCP ) ) == -1 )
    {
       perror("-E- rconnect(socket)");
       iError = errno;
+      printf("    %s\n", strerror(errno));
       goto gError;
    }
-
+ 
    sSockAddr.sin_family = AF_INET;
    sSockAddr.sin_port   = 0;
    sSockAddr.sin_addr.s_addr = INADDR_ANY;
@@ -135,9 +127,10 @@ gRetryConnect:;
    {
       perror("-E- rconnect(bind)");
       iError = errno;
+      printf("    %s\n", strerror(errno));
       goto gError;
    }
-
+ 
    sSockAddr.sin_family = AF_INET;
    sSockAddr.sin_port   = htons( (short) iPort );
    sSockAddr.sin_addr = * ( (struct in_addr *) sHE.h_addr );
@@ -146,6 +139,14 @@ gRetryConnect:;
                  (struct sockaddr *) &sSockAddr,
                  sizeof(sSockAddr) ) == -1 )
    {
+#ifdef WIN32
+      iError = -1;           /* errno, perror indicate NO error! */
+#else
+      perror("-E- rconnect(connect)");
+      iError = errno;
+      printf("    %s\n", strerror(errno));
+#endif
+
       /* if not successful, retry.  Possibly server not yet up. */
 #ifdef WIN32
       if ( (iTime < iMaxTime) || (iMaxTime == -1) )
@@ -153,39 +154,43 @@ gRetryConnect:;
          closesocket(iSocket);
          iSocket = -1;
 #else
-      if ( (errno == ECONNREFUSED) &&
-           ( (iTime < iMaxTime) || (iMaxTime == -1) ) )
+      if ( (iTime < iMaxTime) || (iMaxTime == -1) )
       {
-         close(iSocket);
+         close(iSocket); 
          iSocket = -1;
-         if (imySigS) goto gError;            /* CTL C specified */
+         if (imySigS)                         /* CTL C specified */
+            goto gError;
 #endif
 
-         if (iSleep < iMaxSleep) iSleep++;
+         if (iMaxTime == -1)                   /* only one trial */
+            goto gError;
+
+         if (iSleep < iMaxSleep)
+            iSleep++;
          iTime += iSleep;
-         if (iDebug)
-            printf("    still trying (after %d sec) ...\n",iSleep);
+
+         if (iDebug) printf(
+            "    time %d of %d, sleep %d\n",
+            iTime, iMaxTime, iSleep);
 #ifdef WIN32
          Sleep(iSleep*1000);
 #else
-         sleep(iSleep);
+         sleep((unsigned) iSleep);
 #endif
          goto gRetryConnect;
       }
-#ifdef WIN32
-      iError = -1;           /* errno, perror indicate NO error! */
-#else
-      perror("-E- rconnect(connect)");
-      iError = errno;
-#endif
+
       goto gError;
    }
 
    *piMaxTime = iTime;         /* return time needed for connect */
    *piSocket = iSocket;        /* return socket number */
+   if (iDebug)
+      printf("-D- end %s (success after %d sec)\n\n", cModule, *piMaxTime); 
+
    return(0);                  /* no error */
 
-gError:
+gError: 
    if (iSocket)
    {
       shutdown(iSocket, 2);
@@ -197,7 +202,19 @@ gError:
    }
 
    *piSocket = -1;
-   *piMaxTime = -1;
+   if (iMaxTime >= 0)
+      *piMaxTime = iTime;          /* return time needed for trials */
+   else
+      *piMaxTime = 0;
+
+   if (iDebug)
+   {
+      printf("-D- end %s", cModule); 
+      if (iMaxTime >= 0)
+         printf(" (after %d sec)\n\n", iTime); 
+      else
+         printf("\n\n"); 
+   }
+
    return iError;
 }
-

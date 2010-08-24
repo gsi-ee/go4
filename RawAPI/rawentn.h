@@ -1,16 +1,3 @@
-// $Id$
-//-----------------------------------------------------------------------
-//       The GSI Online Offline Object Oriented (Go4) Project
-//         Experiment Data Processing at EE department, GSI
-//-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
-//                     Planckstr. 1, 64291 Darmstadt, Germany
-// Contact:            http://go4.gsi.de
-//-----------------------------------------------------------------------
-// This software can be used under the license agreements as stated
-// in Go4License.txt file which is part of the distribution.
-//-----------------------------------------------------------------------
-
 /*********************************************************************
  * Copyright:
  *   GSI, Gesellschaft fuer Schwerionenforschung mbH
@@ -28,6 +15,18 @@
  *                   rawGetLLName: pass object and delimiter as argument
  * 13. 2.2003, H.G.: mod arg list rawDelList
  * 14. 2.2003, H.G.: mod arg list rawCheckFilelist
+ * 25.11.2004, H.G.: rawQueryFile: add new arg no. 2
+ *  7.12.2006, H.G.: mod arg list rawDelList
+ *  5.11.2008, H.G.: mod arg lists rawRecvError, rawRecvHead,
+ *                   rawRecvStatus for (char ** -> char *)
+ * 11.11.2008, H.G.: rawGetLLName: 'const char' for delimiter
+ * 18.12.2008, H.G.: rawCheckObjlist: additional argument (int)
+ * 15. 6.2009, H.G.: rawSortValues: new entry
+ * 22. 6.2008, H.G.: replace long->int if 64bit client (ifdef SYSTEM64)
+ * 30.11.2009, H.G.: rawCheckFilelist: add 'char *' (archive name)
+ * 11. 2.2010, H.G.: rename rawTestFilePath -> rawCheckClientFile
+ * 22. 2.2010, H.G.: add rawGetPathName
+ * 26. 2.2010, H.G.: rawQueryString: add parameter (len output string)
  *********************************************************************
  */
 
@@ -36,20 +35,21 @@ unsigned long ielpst(unsigned long, unsigned long *);
 
 int rawCheckAuth( char *, char *,
                   char *, char *, int,
-                  char **);
+                  char *);
    /* check if client authorized for requested action */
 #endif
 
-int rawCheckFilelist( char **, char **, char *);
+int rawCheckFilelist( char **, char **, char *, char *);
    /* remove objects already archived from file list */
 
-int rawCheckObjlist(int, char **, char **, char **);
-   /* remove existing files from object and file list */
+int rawCheckObjlist(int, int, char **, char **, char **);
+   /* compress and sort entries in object and file list */
 
 int rawDelFile( int, srawComm *);
    /* delete object in archive */
 
-int rawDelList( int, srawDataMoverAttr *, srawComm *, char **, char **);
+int rawDelList( int, int, srawDataMoverAttr *, srawComm *,
+                char **, char **);
    /* delete list of objects in archive */
 
 int rawGetCmdParms(int , char **, char **);
@@ -61,11 +61,25 @@ unsigned long rawGetFileAttr(char *, int **);
 
 int rawGetFilelist( char *, char **);
    /* get list of full file names from generic input */
+#else /* Unix */
+
+#ifdef SYSTEM64
+int rawGetFileAttr(char *, unsigned int *);
+   /* get file attributes (size in bytes), return rc */
 #else
 int rawGetFileAttr(char *, unsigned long *);
    /* get file attributes (size in bytes), return rc */
+#endif
 
 int rawGetFilelist( char *, int, char **);
+   /* get list of full file names from generic input */
+#endif /* Unix */
+
+#ifdef SYSTEM64
+int rawGetFileSize( char *, unsigned int *, unsigned int *);
+   /* get list of full file names from generic input */
+#else
+int rawGetFileSize( char *, unsigned long *, unsigned long *);
    /* get list of full file names from generic input */
 #endif
 
@@ -81,38 +95,58 @@ char *rawGetHLName( char *);
 int rawGetHostConn();
    /* get network connection type of client host */
 
-int rawGetLLName( char *, char *, char *);
+int rawGetLLName( char *, const char *, char *);
    /* get low level object name from file name    */
+
+char *rawGetPathName( char *);
+   /* get path name from high level object name */
 
 char *rawGetUserid();
    /* get user identification */
 
-int rawQueryFile( int, srawComm *, void **);
+int rawQueryFile( int, int, srawComm *, void **);
    /* query for single object in archive */
 
 void rawQueryPrint(srawObjAttr *, int);
    /* print query results for one object */
 
-int rawQueryString(srawObjAttr *, int, char *);
+int rawQueryString(srawObjAttr *, int, int, char *);
    /* print query results for one object */
 
-int rawRecvError( int, int, char **);
+int rawRecvError( int, int, char *);
    /* receive error message */
 
-int rawRecvHead( int, char **);
+int rawRecvHead( int, char *);
    /* receive common buffer header */
 
-int rawRecvStatus( int, char **);
+int rawRecvHeadC( int, char *, int, int, char *);
+   /* receive common buffer header and check header values */
+
+int rawRecvStatus( int, char *);
    /* receive common buffer header and error msg */
+
+int rawSendRequest( int, int, int, int);
+   /* send request buffer */
 
 int rawSendStatus( int, int, char *);
    /* send status buffer */
 
+int rawSortValues( int *, int, int, int, int *, int *);
+   /* sort indexed list of numbers */
+
+#ifdef SYSTEM64
+int rawTapeFile( char *, char *, int, int *, unsigned int *);
+   /* send status buffer */
+#else
 int rawTapeFile( char *, char *, int, int *, unsigned long *);
    /* send status buffer */
+#endif
 
-int rawTestFilePath( char *, char **, char **);
-   /* verify file path, get tape drive name */
+int rawTestFileName( char *);
+   /* verify that specified name is valid */
+
+int rawCheckClientFile( char *, char **, char **);
+   /* check client file name, get tape drive name */
 
 #ifdef VMS
 int rawCheckDevice (char *, char **, char **);
@@ -124,13 +158,11 @@ int rawGetTapeInfo( char *, char **, sTapeFileList **);
 int rawSyncFilelist( char *, sTapeFileList **, int);
    /* synchronize both filelist buffers */
 
-char *rawVMSName( char *, int);
+char *rawVMSName( char *, int);   
    /* check if valid VMS name; if not change it to valid VMS name */
 
 #endif
 
 int rconnect( char *, int, int *, int *);
    /* open connection to specified server */
-
-
 

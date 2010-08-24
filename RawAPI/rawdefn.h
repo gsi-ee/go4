@@ -1,16 +1,3 @@
-// $Id$
-//-----------------------------------------------------------------------
-//       The GSI Online Offline Object Oriented (Go4) Project
-//         Experiment Data Processing at EE department, GSI
-//-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
-//                     Planckstr. 1, 64291 Darmstadt, Germany
-// Contact:            http://go4.gsi.de
-//-----------------------------------------------------------------------
-// This software can be used under the license agreements as stated
-// in Go4License.txt file which is part of the distribution.
-//-----------------------------------------------------------------------
-
 /*********************************************************************
  * Copyright:
  *   GSI, Gesellschaft fuer Schwerionenforschung mbH
@@ -31,55 +18,54 @@
  * 14.10.2002, H.G.: ported to Lynx
  * 31. 1.2003, H.G.: created from rawdef.h, default master: depc134
  *  6.10.2003, H.G.: cNodeServ ("depc134") => cNodeMasterC ("gsitsma")
+ * 29. 3.2006, H.G.: cNodeMasterC: gsitsma -> lxgstore
+ * 28. 4.2006, H.G.: remove node/port of entry server (-> rawcommn.h)
+ * 11.11.2008, H.G.: declarations 'char *' -> 'const char *'
+ *  3.12.2008, H.G.: pcDevDelim: 'char *' -> 'const char *'
  *********************************************************************
  */
 
 #define CMDLEN 256      /* max length of commands (shell or clients) */
 #define BUFSIZE 256     /* buffer size reading temporary (pipe) data */
 
-static char cNodeMasterC[16] = "gsitsma";        /* for m_tsm.c only */
-static int iPortServ = 1996;
-
-static char *pcDevDelim = ":";
+static const char *pcDevDelim = ":";
 #ifdef VMS
-   static char *pcFileDelim = "]";
-   static char *pcFileDelim0 = "[";
-   static char *pcFileDelim2 = ":";
-   static char *pcObjDelim = "/";
-   static char *pcObjDelimAlt = "\\";
+   static const char *pcFileDelim = "]";
+   static const char *pcFileDelim0 = "[";
+   static const char *pcFileDelim2 = ":";
+   static const char *pcObjDelim = "/";
+   static const char *pcObjDelimAlt = "\\";
 #endif
 
 #ifdef _AIX
-   static char *pcFileDelim = "/";
-   static char *pcObjDelim = "/";
-   static char *pcObjDelimAlt = "\\";
+   static const char *pcFileDelim = "/";
+   static const char *pcObjDelim = "/";
+   static const char *pcObjDelimAlt = "\\";
 #endif
 
 #ifdef Linux
-   static char *pcFileDelim = "/";
-   static char *pcObjDelim = "/";
-   static char *pcObjDelimAlt = "\\";
+   static const char *pcFileDelim = "/";
+   static const char *pcObjDelim = "/";
+   static const char *pcObjDelimAlt = "\\";
 #endif
 
 #ifdef Lynx
-   static char *pcFileDelim = "/";
-   static char *pcObjDelim = "/";
-   static char *pcObjDelimAlt = "\\";
+   static const char *pcFileDelim = "/";
+   static const char *pcObjDelim = "/";
+   static const char *pcObjDelimAlt = "\\";
 #endif
 
 #ifdef WIN32
-   static char *pcFileDelim = "\\";
-   static char *pcObjDelim = "\\";
-   static char *pcObjDelimAlt = "/";
+   static const char *pcFileDelim = "\\";
+   static const char *pcObjDelim = "\\";
+   static const char *pcObjDelimAlt = "/";
 #endif
 
-static char *pcStar = "*", *pcQM = "?";     /* wildcard characters in ADSM */
-static char *pcPerc = "%";                  /* used for ? in user interface */
-static char *pcOpt1 = "-";                      /* command option marker 1 */
-static char *pcOpt2 = "/";            /* command option marker 2 (VMS only) */
-static int iOptm = 1;                            /* length of option marker */
-static int iOpt = 1;                   /* length of option (without marker) */
-
-
-
+static const char *pcStar = "*";             /* wildcard char in TSM */
+static const char *pcQM = "?";               /* wildcard char in TSM */
+static const char *pcPerc = "%";             /* wildcard char in VMS */
+static const char *pcOpt1 = "-";          /* command option marker 1 */
+static const char *pcOpt2 = "/";    /* command option marker 2 (VMS) */
+static int iOptm = 1;                     /* length of option marker */
+static int iOpt = 1;            /* length of option (without marker) */
 
