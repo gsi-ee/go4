@@ -380,11 +380,11 @@ void TGo4Browser::updateListViewItems()
 
       if ((classname!=0) && (testedClasses.FindObject(classname)==0)) {
 
-         itemclass = gROOT->GetClass(classname, kFALSE, kTRUE);
+         itemclass = gROOT->GetClass(classname, kFALSE);
 
          // if dictionary existing (library is loaded) force creation of TClass object
          if ((itemclass==0) && TClassTable::GetDict(classname))
-            itemclass = gROOT->LoadClass(classname, kTRUE);
+            itemclass = gROOT->LoadClass(classname);
 
          if (itemclass==0)
            testedClasses.Add(new TNamed(classname,""));
