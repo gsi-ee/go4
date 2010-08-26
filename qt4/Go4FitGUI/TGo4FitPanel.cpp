@@ -46,6 +46,7 @@
 #include "TPad.h"
 #include "TCanvas.h"
 #include "TPaveStats.h"
+#include "TLegend.h"
 #include "TFile.h"
 #include "Riostream.h"
 
@@ -977,7 +978,7 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
 {
    TGo4Fitter* fitter = GetFitter();
    if ((fitter==0) ||
-       (!fbDrawModels && !fbDrawComponents && !fbDrawBackground)) {
+       (!fbDrawModels && !fbDrawComponents && !fbDrawBackground && !fbDrawInfoOnPad)) {
            RemoveDrawObjects();
            return;
         }
@@ -1059,13 +1060,28 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
           Double_t y2 = 0.5;
           Double_t x1 = x2 - gStyle->GetStatW();
           Double_t y1 = y2 - gStyle->GetStatH();
+
+          if (LineParsChk->isChecked()) {
+             x1 = 0.6; x2 = 0.95;
+             y1 = 0.8; y2 = 0.88;
+          }
+
           TPaveStats* stats = dynamic_cast<TPaveStats*> (pad->GetPrimitive("stats"));
           if (stats) {
-            x1 = stats->GetX1NDC();
-            x2 = stats->GetX2NDC();
-            y2 = stats->GetY1NDC() - 0.05;
-            y1 = y2 - (stats->GetY2NDC() - stats->GetY1NDC());
-            if (y1<0.02) y1 = 0.02;
+             x1 = stats->GetX1NDC();
+             x2 = stats->GetX2NDC();
+             y2 = stats->GetY1NDC() - 0.03;
+             y1 = y2 - (stats->GetY2NDC() - stats->GetY1NDC());
+             if (y1<0.02) y1 = 0.02;
+          }
+
+          TLegend* leg = dynamic_cast<TLegend*> (pad->GetPrimitive("fitlegend"));
+          if (leg) {
+             x1 = leg->GetX1NDC();
+             x2 = leg->GetX2NDC();
+             y2 = leg->GetY1NDC() - 0.03;
+             y1 = y2 - (leg->GetY2NDC() - leg->GetY1NDC());
+             if (y1<0.02) y1 = 0.02;
           }
 
           TPaveStats* info = dynamic_cast<TPaveStats*>
@@ -1073,8 +1089,11 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
 
           bool infocreated = false;
 
-          if (info!=0) info->Clear("*"); else {
+          if (info!=0)
+             info->Clear("*");
+          else {
              infocreated = true;
+
              info = new TPaveStats(x1,y1,x2,y2,"brNDC");
              info->SetFillColor(gStyle->GetStatColor());
              info->SetFillStyle(gStyle->GetStatStyle());
@@ -1093,7 +1112,7 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
           info->AddLine(0,0,0,0);
 
           if (LineParsChk->isChecked())
-            info->AddText("Line | Ampl | Pos & Width");
+            info->AddText(TString::Format("Line | Ampl | Pos & %s", (fbRecalculateGaussWidth ? "FWHM" : "Width")));
 
           for(Int_t m=0;m<fitter->GetNumModel();m++) {
             TGo4FitModel* model = fitter->GetModel(m);
@@ -1112,7 +1131,7 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
                                     fbRecalculateGaussWidth;
                double widthk = recalculatew ? 2.3548 : 1.0;
 
-               TString tt = TString::Format("%7s | %s%s | %s%s  %s%s",
+               TString tt = TString::Format("%7s | %s%s | %s%s %s%s",
                                  model->GetName(),
                                  "%",gStyle->GetStatFormat(),
                                  "%",gStyle->GetStatFormat(),

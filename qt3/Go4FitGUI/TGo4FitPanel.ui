@@ -1910,6 +1910,7 @@ create a fitter with the "Use pad" button.&lt;br&gt;
     <include location="local" impldecl="in implementation">TPad.h</include>
     <include location="local" impldecl="in implementation">TCanvas.h</include>
     <include location="local" impldecl="in implementation">TPaveStats.h</include>
+    <include location="local" impldecl="in implementation">TLegend.h</include>
     <include location="local" impldecl="in implementation">TFile.h</include>
     <include location="local" impldecl="in implementation">TGo4LockGuard.h</include>
     <include location="local" impldecl="in implementation">TGo4Slot.h</include>

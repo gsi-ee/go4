@@ -2363,6 +2363,7 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Picture* padopt, TGo4Slot* 
       if (legend == 0) {
          legend = new TLegend(0.6,0.91,0.95,0.995);
          legend->SetBorderSize(2);
+         legend->SetName("fitlegend");
          legslot->SetProxy(new TGo4ObjectProxy(legend, kTRUE));
       } else
         legend->Clear();
@@ -4464,6 +4465,7 @@ void TGo4ViewPanel::SetAutoScale(bool on, TPad* selpad)
 
    bool modified = false;
    bool applytoall = false;
+   bool redraw_immediately = (selpad == 0);
 
    if (selpad==0) {
       applytoall = IsApplyToAllFlag();
@@ -4490,7 +4492,7 @@ void TGo4ViewPanel::SetAutoScale(bool on, TPad* selpad)
       }
    }
 
-   if (modified) RedrawPanel(selpad, false);
+   if (modified && redraw_immediately) RedrawPanel(selpad, false);
 }
 
 void TGo4ViewPanel::SetSelectedRange(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax)
