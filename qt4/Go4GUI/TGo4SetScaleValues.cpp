@@ -143,6 +143,10 @@ void TGo4SetScaleValues::ApplyValues()
    double Zmin = ZminV->text().toDouble();
    double Zmax = ZmaxV->text().toDouble();
 
+   if ((Xmin==0.) && (Xmax==0.)) { Xmin=-1.; Xmax=-1.; }
+   if ((Ymin==0.) && (Ymax==0.)) { Ymin=-1.; Ymax=-1.; }
+   if ((Zmin==0.) && (Zmax==0.)) { Zmin=-1.; Zmax=-1.; }
+
    fbDoingRefresh = true;
    panel->SetSelectedRange(Xmin, Xmax, Ymin, Ymax, Zmin, Zmax);
    fbDoingRefresh = false;

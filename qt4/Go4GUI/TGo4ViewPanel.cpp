@@ -4345,9 +4345,7 @@ bool TGo4ViewPanel::GetVisibleRange(TPad* pad, int naxis, double& min, double& m
 
 bool TGo4ViewPanel::TakeSelectedAxisRange(int naxis, TGo4Picture* padopt, double selmin, double selmax, bool force)
 {
-   if ((selmin==-1) && (selmax==-1)) return false;
-
-//   cout << "TakeSelectedAxisRange " << naxis << "  min = " << selmin << "  max = " << selmax << endl;
+   if ((selmin==-1.) && (selmax==-1.)) return false;
 
    double min, max, umin, umax;
 
