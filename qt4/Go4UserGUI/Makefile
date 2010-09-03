@@ -9,7 +9,7 @@ include $(GO4SYS)/Makefile.config
 ifdef GO4PACKAGE
 USERGUI4_DIR         = qt4/Go4UserGUI
 USERGUI4_QFLAGS      = GO4INCDIR=../../include GO4BINDIR=../../bin
-USERGUI4_QGO4WIDG    = ../../include/QGo4Widget.h
+USERGUI4_QGO4WIDG    = include/QGo4Widget.h
 else
 USERGUI4_DIR         = $(CURDIR)
 USERGUI4_QFLAGS      = GO4INCDIR=$(shell go4-config --nativeincdir) GO4BINDIR=$(shell go4-config --nativebindir)
