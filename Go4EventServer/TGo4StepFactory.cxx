@@ -67,14 +67,8 @@ TGo4StepFactory::~TGo4StepFactory()
 //-----------------------------------------------------------
 void TGo4StepFactory::DefEventProcessor(const char* Pname, const char* Pclass)
 {
-   TString ptrname=Pname;   // if processorname(eventname) matches tree subbranchname, we
-   ptrname.ReplaceAll(".",1,"x",1); //  have to exchange dots in variable name.
-   //cout <<"DefEventProcessor has pointername: "<<ptrname.Data() << endl;
-   //fnewProcessor.Form("%s * %s = new %s(\"%s\");gROOT->Add(%s);",Pclass,ptrname.Data(),Pclass,Pname,ptrname.Data());
-   // need not to register object, because it is done by Go4 framework
-   fnewProcessor.Form("new %s(\"%s\");",Pclass,ptrname.Data(),Pclass,Pname);
+   fnewProcessor.Form("new %s(\"%s\");", Pclass, Pname);
    fProcessorName = Pname;
-   //    fProcessorClass = Pclass;
 }
 
 //-----------------------------------------------------------
@@ -91,7 +85,7 @@ TGo4EventProcessor * TGo4StepFactory::CreateEventProcessor(TGo4EventProcessorPar
       // create event processor by macro
       proc=(TGo4EventProcessor *)gROOT->ProcessLineFast(fnewProcessor.Data());
    if(proc == 0)
-      cout << "Cannot find event processor: " << fProcessorName << endl;
+      cout << "Cannot create event processor: " << fProcessorName << endl;
    return proc;
 }
 
@@ -99,9 +93,8 @@ TGo4EventProcessor * TGo4StepFactory::CreateEventProcessor(TGo4EventProcessorPar
 void TGo4StepFactory::DefOutputEvent(const char* Oname, const char* Oclass)
 {
    // need not to register object, because it is done by Go4 framework
-   fnewOutputEvent.Form("new %s(\"%s\");",Oclass,Oname,Oclass,Oname);
+   fnewOutputEvent.Form("new %s(\"%s\");",Oclass,Oname);
    fOutputEventName = Oname;
-   // fOutputEventClass = Oclass;
 }
 
 //-----------------------------------------------------------
@@ -114,22 +107,17 @@ TGo4EventElement * TGo4StepFactory::CreateOutputEvent()
    if(fnewOutputEvent.Length() == 0)
       cout << "No output event was specified!" << endl;
    else
-      Oevent=(TGo4EventElement *)gROOT->ProcessLineSync(fnewOutputEvent.Data());
+      Oevent = (TGo4EventElement*) gROOT->ProcessLineSync(fnewOutputEvent.Data());
    if(Oevent == 0)
-      cout << "Cannot find output event: " << fOutputEventName << endl;
+      cout << "Cannot create output event: " << fOutputEventName << endl;
    return Oevent;
 }
 
 //-----------------------------------------------------------
 void TGo4StepFactory::DefInputEvent(const char* Iname, const char* Iclass)
 {
-   TString ptrname=Iname;    // if eventname matches tree subbranchname, we
-   ptrname.ReplaceAll(".",1,"x",1); //  have to exchange dots in variable name.
-   //cout <<"DefInputEvent has pointername: "<<ptrname.Data() << endl;
-   // need not to register object, because it is done by Go4 framework
-   fnewInputEvent.Form("new %s(\"%s\");",Iclass,ptrname.Data(),Iclass,Iname);
+   fnewInputEvent.Form("new %s(\"%s\");", Iclass, Iname);
    fInputEventName = Iname;
-   //    fInputEventClass = Iclass;
 }
 
 //-----------------------------------------------------------
@@ -141,8 +129,8 @@ TGo4EventElement * TGo4StepFactory::CreateInputEvent()
    if(fnewInputEvent.Length() == 0)
       return (TGo4EventElement*) TGo4EventServerFactory::CreateInputEvent();
 
-   Ievent=(TGo4EventElement *)gROOT->ProcessLineSync(fnewInputEvent.Data());
-   if(Ievent == 0) cout << "Cannot find input event: " << fInputEventName << endl;
+   Ievent = (TGo4EventElement *)gROOT->ProcessLineSync(fnewInputEvent.Data());
+   if(Ievent == 0) cout << "Cannot create input event: " << fInputEventName << endl;
    return Ievent;
 }
 
