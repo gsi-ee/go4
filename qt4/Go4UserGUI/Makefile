@@ -9,16 +9,17 @@ include $(GO4SYS)/Makefile.config
 ifdef GO4PACKAGE
 USERGUI4_DIR         = qt4/Go4UserGUI
 USERGUI4_QFLAGS      = GO4INCDIR=../../include GO4BINDIR=../../bin
+USERGUI4_QGO4WIDG    = ../../include/QGo4Widget.h
 else
 USERGUI4_DIR         = $(CURDIR)
 USERGUI4_QFLAGS      = GO4INCDIR=$(shell go4-config --nativeincdir) GO4BINDIR=$(shell go4-config --nativebindir)
+USERGUI4_QGO4WIDG    = $(GO4INCPATH)/QGo4Widget.h
 endif
 
 USERGUI4_LIBDIR      = $(USERGUI4_DIR)
 USERGUI4_QTLIBNAME   = libGo4UserGui
 USERGUI4_QTPRO       = Go4UserGui.pro
 USERGUI4_QTMAKE      = Makefile.qt
-USERGUI4_QGO4WIDG    = $(GO4INCPATH)/QGo4Widget.h
 
 USERGUI4_NOTLIBF     =
 
