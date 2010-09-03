@@ -35,7 +35,9 @@ Changes in Go4 v4.4.2 (Summer 2010)
 6. Solve problem that after loading of user library, classes from it was not 
    available automatically to the gui. Now one again can use custom histogram
    classes in the gui if appropriate library is loaded.
-7. Support of new RFIO v6.0.               
+7. Support of new RFIO v6.0.
+8. Check with gcc 4.5.0
+9. Fix error with user source example under Windows.
        
 
 Changes in Go4 v4.4.1 (May 2010)

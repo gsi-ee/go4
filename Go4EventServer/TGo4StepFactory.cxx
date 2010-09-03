@@ -149,7 +149,13 @@ TGo4EventElement * TGo4StepFactory::CreateInputEvent()
 //-----------------------------------------------------------
 void TGo4StepFactory::DefUserEventSource(const char* Sclass)
 {
-   fnewEventSource.Form("new %s((%s*)%s);", Sclass, TGo4UserSourceParameter::Class()->GetName(), "%p");
+   #ifdef WIN32
+   const char* ptr_arg = "0x%x";
+   #else
+   const char* ptr_arg = "%p";
+   #endif
+
+   fnewEventSource.Form("new %s((%s*)%s);", Sclass, TGo4UserSourceParameter::Class()->GetName(), ptr_arg);
 }
 
 
