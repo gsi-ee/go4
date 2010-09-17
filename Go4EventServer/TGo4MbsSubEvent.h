@@ -88,8 +88,9 @@ class TGo4MbsSubEvent : public TGo4EventElement {
        * For subsequent subevents of identical header ids, prevents overwriting. */
       Bool_t fbIsFilled;
 
-      /** True if subevent owns data field.*/
-      Bool_t fbIsDataOwner;
+      /** True if subevent owns data field.
+       * note that this should not be streamed to root file!*/
+      Bool_t fbIsDataOwner; //!
 
       /** @link aggregationByValue */
       TGo4SubEventHeader10 fxHeader;
@@ -110,7 +111,7 @@ class TGo4MbsSubEvent : public TGo4EventElement {
        * of the incoming subevent of this type. */
       Int_t* fiData; //[fiAllocLen]
 
-   ClassDef(TGo4MbsSubEvent,1)
+   ClassDef(TGo4MbsSubEvent,2)
 };
 
 #endif //TGO4MBSSUBEVENT_H

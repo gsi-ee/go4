@@ -28,19 +28,23 @@ TGo4MbsEvent::TGo4MbsEvent() :
    TGo4EventElement(),
    fxHeader(),
    fxSubEvArray(0),
-   fiSubEvIndex(0)
+   fiSubEvIndex(0),
+   fbIsReference(kFALSE)
 {
    TRACE((12,"TGo4MbsEvent::TGo4MbsEvent()",__LINE__, __FILE__));
+   //TGo4Log::Info( "MBS Event default ctor");
 }
 
 TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum, Short_t* subids, UInt_t datasize) :
-   TGo4EventElement("MbsEvent-10-1"),
+   TGo4EventElement("MbsEvent101"),
    fxHeader(),
    fxSubEvArray(0),
-   fiSubEvIndex(0)
+   fiSubEvIndex(0),
+   fbIsReference(kFALSE)
 {
    TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(UInt_t, Short_t, UInt_t)",__LINE__, __FILE__));
    fxSubEvArray=new TObjArray(subnum+5);
+   fxSubEvArray->SetOwner(kTRUE); // important for streamer
    for (UInt_t t=0;t<subnum;++t) {
       TGo4MbsSubEvent* subeve = new TGo4MbsSubEvent(datasize);
       fxSubEvArray->AddLast(subeve);
@@ -54,13 +58,15 @@ TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum,
                            Char_t* controls,
                            Short_t* procids,
                            UInt_t* datasizes) :
-   TGo4EventElement("MbsEvent-10-1"),
+   TGo4EventElement("MbsEvent101"),
    fxHeader(),
    fxSubEvArray(0),
-   fiSubEvIndex(0)
+   fiSubEvIndex(0),
+   fbIsReference(kFALSE)
 {
    TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(UInt_t, Char_t*, Char_t*, Short_t* UInt_t)",__LINE__, __FILE__));
    fxSubEvArray = new TObjArray(subnum+5);
+   fxSubEvArray->SetOwner(kTRUE); // important for streamer
    for (UInt_t t=0;t<subnum;++t) {
       TGo4MbsSubEvent* subeve = new TGo4MbsSubEvent(datasizes[t]);
       fxSubEvArray->AddLast(subeve);
@@ -71,21 +77,95 @@ TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum,
    Clear();
 }
 
+
+TGo4MbsEvent::TGo4MbsEvent(const char* ) :
+TGo4EventElement("MbsEvent101"), // note that name parameter is dummy to be consistent with file source!
+   fxHeader(),
+   fxSubEvArray(0),
+   fiSubEvIndex(0),
+   fbIsReference(kFALSE)
+{
+   TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(const char)",__LINE__, __FILE__));
+   SimpleInit();
+}
+
+void TGo4MbsEvent::SimpleInit()
+{
+	fxSubEvArray = new TObjArray(5);
+	fxSubEvArray->SetOwner(kTRUE); // important for streamer
+	// we just add one arbitrary subevent to the array.
+	// actually subevents will be appended dynamically later
+	TGo4MbsSubEvent* subeve = new TGo4MbsSubEvent(1024);
+	fxSubEvArray->AddLast(subeve);
+	subeve->SetSubcrate(0);
+	subeve->SetControl(0);
+	subeve->SetProcid(0);
+	Set();
+    Clear();
+
+}
+
 TGo4MbsEvent::~TGo4MbsEvent()
 {
    TRACE((12,"TGo4MbsEvent::~TGo4MbsEvent()",__LINE__, __FILE__));
-   if(fxSubEvArray) fxSubEvArray->Delete();
-   delete fxSubEvArray;
+   //TGo4Log::Info( "MBS Event dtor...");
+   if(!fbIsReference)
+   {
+	   if(fxSubEvArray) fxSubEvArray->Delete();
+	   delete fxSubEvArray;
+	   //TGo4Log::Info( "MBS Event dtor deleted obj array");
+   }
 }
 
 void TGo4MbsEvent::Clear(Option_t *)
 {
    TRACE((11,"TGo4MbsEvent::Clear()",__LINE__, __FILE__));
-   // here iterate all subevents and clear them
-   TGo4MbsSubEvent* sub(0);
-   ResetIterator();
-   while ((sub = NextSubEvent(kTRUE))!=0) sub->Clear();
+   if(!fbIsReference)
+      {
+	   // here iterate all subevents and clear them
+	   TGo4MbsSubEvent* sub(0);
+	   ResetIterator();
+	   while ((sub = NextSubEvent(kTRUE))!=0) sub->Clear();
+      }
 }
+
+void TGo4MbsEvent::AssignReference(TGo4MbsEvent* ref)
+{
+if(!ref) return;
+if(!fbIsReference)
+	{
+	// clean up previous data if exisiting
+	if(fxSubEvArray) fxSubEvArray->Delete();
+	   delete fxSubEvArray;
+	}
+fbIsReference=true;
+// copy event headers:
+fxHeader.fiCount=ref->fxHeader.fiCount;
+fxHeader.fsDummy=ref->fxHeader.fsDummy;
+fxHeader.fsTrigger=ref->fxHeader.fsTrigger;
+fxHeader.fxGSIHeader.fiDlen=ref->fxHeader.fxGSIHeader.fiDlen;
+fxHeader.fxGSIHeader.fsSubtype=ref->fxHeader.fxGSIHeader.fsSubtype;
+fxHeader.fxGSIHeader.fsType=ref->fxHeader.fxGSIHeader.fsType;
+
+//assign external array:
+fxSubEvArray=ref->fxSubEvArray;
+
+
+
+
+}
+
+void TGo4MbsEvent::RemoveReference()
+{
+if(fbIsReference)
+	{
+		SimpleInit();
+	}
+fbIsReference=kFALSE;
+
+}
+
+
 
 void TGo4MbsEvent::Set(Int_t dlen, Short_t type, Short_t subtype,
                        Short_t dummy, Short_t trigger, Int_t count)

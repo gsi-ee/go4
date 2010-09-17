@@ -54,10 +54,27 @@ class TGo4MbsEvent : public TGo4EventElement {
        * each subevent data field. */
       TGo4MbsEvent(UInt_t subnum, Char_t* subcrates, Char_t* controls, Short_t* procids, UInt_t* datasizes);
 
+
+      /** Ctor expecting just a name. Auxiliary to support
+       * mbs event in the generic step factory. */
+      TGo4MbsEvent(const char* name);
+
       virtual ~TGo4MbsEvent();
 
       /** Method called by the event owner (analysis step) to clear the event element. */
       virtual void Clear(Option_t *t="");
+
+      /* Declare this mbs event object as "reference" to another.
+       * This will just set event header accordingly and will use
+       * reference to subevents of original mbs event. No ownership is adopted!
+       * Use case: Mbsevent as Go4 output event that just uses input event data
+       * without copying, purpose: store to Go4 event store (root file)*/
+      void AssignReference(TGo4MbsEvent* ref);
+
+      /* remove reference to external mbsevent object
+       * afterwars, this object will contain new subevtarray*/
+      void RemoveReference();
+
 
       void Set(Int_t dlen=0, Short_t type=10, Short_t subtype=1,
             Short_t dummy=0, Short_t trigger=0, Int_t count=0);
@@ -139,7 +156,13 @@ class TGo4MbsEvent : public TGo4EventElement {
       /** Subevent index in array, replacement for Iterator. */
       Int_t fiSubEvIndex;//!
 
-   ClassDef(TGo4MbsEvent,1)
+      /** Indicates if this object is mere reference to another mbs event*/
+      Bool_t fbIsReference; //!
+
+      /* initialize this event with a simple dummy subevent*/
+      void SimpleInit();
+
+   ClassDef(TGo4MbsEvent,2)
 };
 
 #endif //TGO4MBSEVENT_H

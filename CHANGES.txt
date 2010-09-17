@@ -38,7 +38,11 @@ Changes in Go4 v4.4.2 (Summer 2010)
 7. Support of new RFIO v6.0.
 8. Check with gcc 4.5.0
 9. Fix error with user source example under Windows.
-       
+10. Added possibility that output event of first analysis step can be declared as MbsEvent and
+    just save the incoming mbs event into ROOT tree without copying the data: 
+    added method TGo4MbsEvent::AssignReference() allows to use TGo4MbsEvent as a "reference" to another 
+    TGo4MbsEvent; added constructor TGo4MbsEvent(const char*) to use it with standard factory
+11. Bugfix in TGo4MbsEvent: memory leak in subevent array when reading back from TTree
 
 Changes in Go4 v4.4.1 (May 2010)
 1. Default implementation for TGo4Parameter methods are provided. 

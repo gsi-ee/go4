@@ -22,12 +22,13 @@
 TGo4MbsSubEvent::TGo4MbsSubEvent() :
    TGo4EventElement(),
    fbIsFilled(kFALSE),
-   fbIsDataOwner(kFALSE),
+   fbIsDataOwner(kTRUE),
    fxHeader(),
    fiAllocLen(0),
    fiData(0)
 {
    TRACE((12,"TGo4MbstSubEvent::TGo4MbsSubEvent()",__LINE__, __FILE__));
+   //TGo4Log::Info( "MBS SubEvent default ctor.");
 }
 
 TGo4MbsSubEvent::TGo4MbsSubEvent(Int_t datasize) :
@@ -39,6 +40,7 @@ TGo4MbsSubEvent::TGo4MbsSubEvent(Int_t datasize) :
    fiData(0)
 {
    TRACE((12,"TGo4MbsSubEvent::TGo4MbsSubEvent(UInt_t)",__LINE__, __FILE__));
+   //TGo4Log::Info( "MBS SubEvent normal ctor.");
    if(fbIsDataOwner) {
       fiData= new Int_t[datasize];
       fiAllocLen=datasize;
@@ -49,12 +51,14 @@ TGo4MbsSubEvent::~TGo4MbsSubEvent()
 {
    TRACE((12,"TGo4MbsSubEvent::~TGo4MbsSubEvent()",__LINE__, __FILE__));
    // check if Clear with only the used field elements worked correctly
+   //TGo4Log::Info( "MBS SubEvent dtor...");
    Clear();
    if(fbIsDataOwner) {
       for(Int_t t=0; t<GetAllocatedLength(); t++)
          if(fiData[t]!=0)
             TGo4Log::Debug( " MBS SubEvent dtor WARNING: Data(%d) not zero after Clear !!!  ",t);
       delete [] fiData;
+      //TGo4Log::Info( "MBS SubEvent dtor deleted data field");
    }
 }
 
