@@ -63,6 +63,9 @@ class TGo4MbsSubEvent : public TGo4EventElement {
       void  SetControl(Char_t control) { fxHeader.fcControl = control; }
       Char_t GetControl() const { return fxHeader.fcControl; }
 
+      void SetFullId(Int_t fullid) { fxHeader.fiFullid = fullid; }
+      Int_t GetFullId() const { return fxHeader.fiFullid; }
+
       /** Return length of allocated memory for data field. */
       Int_t GetAllocatedLength() const { return fiAllocLen; }
 
