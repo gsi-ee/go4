@@ -27,6 +27,7 @@
 #include "TCanvas.h"
 #include "TFolder.h"
 #include "TFile.h"
+#include "TKey.h"
 #include "TMutex.h"
 #include "TROOT.h"
 #include "TCutG.h"
@@ -694,38 +695,44 @@ Bool_t TGo4Analysis::LoadStatus(const char* filename)
    TRACE((11,"TGo4Analysis::LoadStatus(const char*)",__LINE__, __FILE__));
    //
    Bool_t rev=kFALSE;
-   char buffer[1024];
-   if(filename)
-      strncpy(buffer,filename, sizeof(buffer)-100);
-   else
-      strncpy(buffer,fgcDEFAULTSTATUSFILENAME, sizeof(buffer)-100);
+   TString fname = filename ? filename : fgcDEFAULTSTATUSFILENAME;
 
-   if(!strstr(buffer,fgcDEFAULTFILESUF))
-      strcat(buffer,fgcDEFAULTFILESUF); // file suffix if not given by user
+   // file suffix if not given by user
+   if(!fname.Contains(fgcDEFAULTFILESUF)) fname.Append(fgcDEFAULTFILESUF);
 
-   TFile* statusfile = TFile::Open(buffer, "READ");
+   TFile* statusfile = TFile::Open(fname.Data(), "READ");
    if(statusfile && statusfile->IsOpen()) {
       TGo4AnalysisStatus* state=
             dynamic_cast<TGo4AnalysisStatus*>( statusfile->Get( GetName() ) );
+      if (state==0) {
+         TIter iter(statusfile->GetListOfKeys());
+         TKey* key = 0;
+         while ((key = (TKey*)iter()) != 0) {
+            if (strcmp(key->GetClassName(),"TGo4AnalysisStatus")==0) break;
+         }
+
+         if (key!=0) state = dynamic_cast<TGo4AnalysisStatus*>( statusfile->Get( key->GetName() ) );
+      }
+
       // name of status object is name of analysis itself
       if(state) {
-         Message(1,"Analysis: Found status object in file %s: %s",
-               buffer,GetName());
+         Message(1,"Analysis %s: Found status object %s in file %s",
+               GetName(), state->GetName(), fname.Data());
          SetStatus(state);
-         fxConfigFilename=buffer; // remember last configuration file name
+         fxConfigFilename = fname; // remember last configuration file name
          Message(0,"Analysis: New analysis state is set.");
          rev=kTRUE;
       } else {
          Message(3,"Analysis LoadStatus: Could not find status %s in file %s",
-               GetName(),buffer);
+               GetName(), fname.Data());
          rev=kFALSE;
       }   // if(state)
-      delete statusfile;
    } else {
-      Message(3,"Analysis LoadStatus: Failed to open file %s", buffer);
-      rev=kFALSE;
-      delete statusfile;
+      Message(3,"Analysis LoadStatus: Failed to open file %s", fname.Data());
+      rev = kFALSE;
    }  //  if(statusfile && statusfile->IsOpen())
+
+   delete statusfile;
 
    return rev;
 }

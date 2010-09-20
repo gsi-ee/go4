@@ -43,6 +43,8 @@ Changes in Go4 v4.4.2 (Summer 2010)
     added method TGo4MbsEvent::AssignReference() allows to use TGo4MbsEvent as a "reference" to another 
     TGo4MbsEvent; added constructor TGo4MbsEvent(const char*) to use it with standard factory
 11. Bugfix in TGo4MbsEvent: memory leak in subevent array when reading back from TTree
+12. Bug fix: when loading analysis preference file, check all appropriate keys in the file.
+    Before analysis object name was fixed and name of status object also was fixed.
 
 Changes in Go4 v4.4.1 (May 2010)
 1. Default implementation for TGo4Parameter methods are provided. 
