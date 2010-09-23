@@ -75,11 +75,11 @@ EXMODULES = Go4ExampleSimple Go4Example1Step Go4Example2Step Go4ExampleAdvanced 
             Go4ThreadManagerExample Go4TaskHandlerExample Go4EventServerExample
 
 .PHONY:         all includes libs gui plugin install uninstall \
-                clean clean-qt3 clean-qt4 clean-bak clean-plugin clean-mainlibs clean-prefix \
+                clean clean-qt3 clean-qt4 clean-bak clean-plugin clean-mainlibs clean-prefix clean-svn \
                 package $(PACKAGERULES)
 
 
-FASTRULES    += clean-qt3 clean-qt4 clean-bak clean-dep clean-plugin clean-bin clean-prefix \
+FASTRULES    += clean-qt3 clean-qt4 clean-bak clean-dep clean-plugin clean-bin clean-prefix clean-svn \
                 $(PACKAGERULES)
 
 all::           gui 
@@ -185,6 +185,10 @@ clean-prefix:
 	@rm -f build/Makefile.gener go4login go4login.bat go4.bat
 	@rm -f bin/*
 	@echo "Clean prefix-dependend files done"
+
+clean-svn:
+	find . -name ".svn" -type d -exec rm -rf {} \;
+	@echo "Clean svn-specific files done"
 
 GO4BASE_O = $(LOCKGRD_O) $(LOCKGRD_DO) \
             $(GO4LOG_O) $(GO4LOG_DO) \

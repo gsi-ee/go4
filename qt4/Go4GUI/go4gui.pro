@@ -207,7 +207,7 @@ HEADERS	+= ../Go4FitGUI/TGo4FitPanel.h \
             ../Go4FitGUI/QFitPeakFinderWidget.h \
             ../Go4FitGUI/QFitRangeCutWidget.h
 
-FORMS	= ../Go4FitGUI/TGo4FitPanel.ui \
+FORMS	+= ../Go4FitGUI/TGo4FitPanel.ui \
 	../Go4FitGUI/QFitModelPolynomWidget.ui \
 	../Go4FitGUI/QFitModelGauss1Widget.ui \
 	../Go4FitGUI/QFitModelGauss2Widget.ui \
