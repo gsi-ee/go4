@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -887,17 +887,15 @@ void TGo4Analysis::SetAutoSaveFile(const char * filename, Bool_t overwrite, Int_
 {
 //   if(!fbAutoSaveOn) return; // do not set autosave file if disabled!
    //TGo4LockGuard  autoguard(fxAutoSaveMutex);
-   char buffer[1024];
-   if(filename)
-      strncpy(buffer,filename, sizeof(buffer));
-   else
-      strncpy(buffer,fgcDEFAULTFILENAME, sizeof(buffer));
-   if(!strstr(buffer,fgcDEFAULTFILESUF))
-      strncat(buffer,fgcDEFAULTFILESUF, sizeof(buffer)-1); // file suffix if not given by user
+   TString buffer;
+   if(filename) buffer = filename;
+           else buffer = fgcDEFAULTFILENAME;
+   if(!buffer.Contains(fgcDEFAULTFILESUF))
+      buffer.Append(fgcDEFAULTFILESUF); // file suffix if not given by user
    // new: just set parameters, do not open file here:
-   fxAutoFileName=buffer;
-   fiAutoSaveCompression=compression;
-   fbAutoSaveOverwrite=overwrite;
+   fxAutoFileName = buffer;
+   fbAutoSaveOverwrite = overwrite;
+   fiAutoSaveCompression = compression;
 }
 
 Bool_t TGo4Analysis::IsAutoSaveFileName() const
@@ -940,40 +938,38 @@ void TGo4Analysis::AutoSave()
    Message(0,"Analysis  --  AutoSaving....");
    //UpdateNamesList();
    fxStepManager->AutoSave();
-   Bool_t oldmode=fbAutoSaveOverwrite;
-   fbAutoSaveOverwrite=kTRUE; // force overwriting old file when saving
-   OpenAutoSaveFile();
+   OpenAutoSaveFile(true);
    fxObjectManager->SaveObjects(fxAutoFile);
    CloseAutoSaveFile();
-   fbAutoSaveOverwrite=oldmode;
    Message(0,"Analysis  --  AutoSave done.");
 }
 
-void TGo4Analysis::OpenAutoSaveFile()
+void TGo4Analysis::OpenAutoSaveFile(bool for_writing)
 {
    if(!fbAutoSaveOn) return;
    TGo4LockGuard  autoguard(fxAutoSaveMutex);
    gROOT->cd();
-   if (fbAutoSaveOverwrite) {
+   if (for_writing) {
       delete fxAutoFile;
       fxAutoFile = TFile::Open(fxAutoFileName.Data() ,"RECREATE");
       if (fxAutoFile==0)
          Message(3,"Fail to open AutoSave file %s", fxAutoFileName.Data());
       else
          Message(-1,"Opening AutoSave file %s , RECREATE mode",fxAutoFileName.Data());
+      if (fxAutoFile) fxAutoFile->SetCompressionLevel(fiAutoSaveCompression);
    } else {
       if(fxAutoFile==0) {
-         fxAutoFile = TFile::Open(fxAutoFileName.Data(),"UPDATE");
+         fxAutoFile = TFile::Open(fxAutoFileName.Data(), "READ");
          if (fxAutoFile==0)
             Message(3,"Fail to open AutoSave file %s", fxAutoFileName.Data());
          else
-            Message(-1,"Opening AutoSave file %s , UPDATE mode",fxAutoFileName.Data());
+            Message(-1,"Opening AutoSave file %s , READ mode",fxAutoFileName.Data());
 
       } else {
-         Message(-1,"Reusing AutoSave file %s , UPDATE mode",fxAutoFileName.Data());
+         Message(-1,"Reusing AutoSave file %s , READ mode",fxAutoFileName.Data());
       }
    } // if(fbAutoSaveOverwrite)
-   if (fxAutoFile) fxAutoFile->SetCompressionLevel(fiAutoSaveCompression);
+
    gROOT->cd();
 }
 
@@ -1007,16 +1003,21 @@ void TGo4Analysis::UpdateNamesList()
 
 Bool_t TGo4Analysis::LoadObjects(const char* filename)
 {
-    if(!fbAutoSaveOn)
-    {
-          Message(-1,"Analysis LoadObjects: AUTOSAVE file is DISABLED, did NOT read objects back from file %s",
-                fxAutoFileName.Data());
-          return kFALSE;
-    }
    TGo4LockGuard  autoguard(fxAutoSaveMutex);
+   if(filename) fxAutoFileName = filename;
+
+   if(!fbAutoSaveOn) {
+      Message(-1,"Analysis LoadObjects: AUTOSAVE file is DISABLED, did NOT read objects back from file %s", fxAutoFileName.Data());
+      return kFALSE;
+   }
+
+   if (fbAutoSaveOverwrite) {
+      Message(-1,"Analysis LoadObjects: AUTOSAVE is in overwrite mode - no objects will be loaded from %s", fxAutoFileName.Data());
+      return kTRUE;
+   }
+
    Bool_t rev=kTRUE;
-   if(filename) fxAutoFileName=filename;
-   OpenAutoSaveFile();
+   OpenAutoSaveFile(false);
    if(fxAutoFile && fxAutoFile->IsOpen()) {
       Message(-1,"Analysis LoadObjects: Loading from autosave file %s ",
             fxAutoFile->GetName());
