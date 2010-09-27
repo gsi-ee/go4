@@ -70,7 +70,11 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObj
 
    LCDTime->display((int)status->GetTime());
 
-   LCDProcessedEvents->display((int)status->GetCurrentCount());
+   QString scnt = QString("%1").arg(status->GetCurrentCount());
+   if (scnt.length() > LCDProcessedEvents->numDigits())
+      LCDProcessedEvents->setNumDigits(scnt.length());
+
+   LCDProcessedEvents->display(scnt);
 
    DateLabel->setText(status->GetDateTime());
 }

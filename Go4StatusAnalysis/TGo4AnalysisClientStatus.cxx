@@ -81,7 +81,7 @@ Int_t TGo4AnalysisClientStatus::PrintStatus(Text_t* buffer, Int_t buflen)
    return size;
 }
 
-void TGo4AnalysisClientStatus::SetRates(Double_t rate, Double_t average, UInt_t counts, Double_t time)
+void TGo4AnalysisClientStatus::SetRates(Double_t rate, Double_t average, ULong64_t counts, Double_t time)
 {
    TRACE((12,"TGo4AnalysisClientStatus::SetRates(...)",__LINE__, __FILE__));
    fdRate=rate;

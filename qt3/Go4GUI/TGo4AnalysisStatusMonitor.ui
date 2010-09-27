@@ -217,7 +217,7 @@
                         </font>
                     </property>
                     <property name="numDigits">
-                        <number>10</number>
+                        <number>9</number>
                     </property>
                     <property name="segmentStyle">
                         <enum>Flat</enum>

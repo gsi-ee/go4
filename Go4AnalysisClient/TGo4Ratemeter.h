@@ -34,7 +34,7 @@ class TGo4Ratemeter : public TObject {
 
       Double_t GetTime() const { return fdTime; }
 
-      UInt_t GetCurrentCount() const { return fuCurrentCount; }
+      ULong64_t GetCurrentCount() const { return fuCurrentCount; }
 
       /** Update counter and rate values. Parameter increment may specify the
         * number of counts to add before the new rate is calculated. */
@@ -52,10 +52,10 @@ class TGo4Ratemeter : public TObject {
    private:
 
       /** Number of events processed since last start. */
-      UInt_t fuCurrentCount;
+      ULong64_t fuCurrentCount;
 
       /** Number of events processed at last ratemeter update. */
-      UInt_t fuLastCount;
+      ULong64_t fuLastCount;
 
       /** Current eventrate (events/sec). */
       Double_t fdRate;

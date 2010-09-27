@@ -36,7 +36,7 @@ class TGo4AnalysisClientStatus : public TGo4ClientStatus {
 
       Double_t GetTime() const { return fdTime; }
 
-      UInt_t GetCurrentCount() const { return fuCurrentCount; }
+      ULong64_t GetCurrentCount() const { return fuCurrentCount; }
 
       const char* GetDateTime() const { return fxDateString.Data(); }
 
@@ -49,14 +49,14 @@ class TGo4AnalysisClientStatus : public TGo4ClientStatus {
       virtual Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0);
 
    private:
-      void SetRates(Double_t rate, Double_t average, UInt_t counts, Double_t time);
+      void SetRates(Double_t rate, Double_t average, ULong64_t counts, Double_t time);
 
       void SetCurrentSource(const char* name) { fxEventSource = name; }
 
       void SetRunning(Bool_t on) { fbAnalysisRunning = on; }
 
       /** Number of events processed since last start. */
-      UInt_t fuCurrentCount;
+      ULong64_t fuCurrentCount;
 
       /** Current eventrate (events/sec). */
       Double_t fdRate;
@@ -76,7 +76,7 @@ class TGo4AnalysisClientStatus : public TGo4ClientStatus {
       /** True running state of analysis, independent of event rate*/
       Bool_t fbAnalysisRunning;
 
-      ClassDef(TGo4AnalysisClientStatus,1)
+      ClassDef(TGo4AnalysisClientStatus,2)
 };
 
 #endif //TGO4ANALYSISCLIENTSTATUS_H

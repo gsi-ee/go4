@@ -249,28 +249,20 @@ void TGo4AnalysisClient::UpdateStatus(TGo4TaskStatus * state)
    TRACE((12,"TGo4AnalysisClient::UpdateStatus(TGo4ClientStatus*)",__LINE__, __FILE__));
    TGo4Slave::UpdateStatus(state); // fill superclass attributes
    TGo4AnalysisClientStatus* anstate= dynamic_cast<TGo4AnalysisClientStatus*> (state);
-   if (anstate)
-      {
-         Double_t rate=fxRatemeter->GetRate();
-         Double_t avrate=fxRatemeter->GetAvRate();
-         UInt_t n=fxRatemeter->GetCurrentCount();
-         Double_t t=fxRatemeter->GetTime();
-         anstate->SetRates(rate, avrate, n,t);
-       // new: set true running state
-         anstate->SetRunning(fxAnalysis->IsRunning());
-       // new: set name of current eventsource
-        TGo4AnalysisStep* firststep=fxAnalysis->GetAnalysisStep(0);
-        // <-note that stepname=0 will return the first active step
-        if(firststep)
+   if (anstate) {
+      anstate->SetRates(fxRatemeter->GetRate(), fxRatemeter->GetAvRate(), fxRatemeter->GetCurrentCount(),fxRatemeter->GetTime());
+      // new: set true running state
+      anstate->SetRunning(fxAnalysis->IsRunning());
+      // new: set name of current eventsource
+      TGo4AnalysisStep* firststep=fxAnalysis->GetAnalysisStep(0);
+      // <-note that stepname=0 will return the first active step
+      if(firststep)
          anstate->SetCurrentSource(firststep->GetEventSourceName());
-        else
+      else
          anstate->SetCurrentSource("- No event source -");
-      }
-   else
-      {
-         // dynamic cast failed! we have a different status class (never come here...)
-      }
+   }
 }
+
 TGo4TaskStatus* TGo4AnalysisClient::CreateStatus()
 {
    TRACE((12,"TGo4AnalysisClient::CreateStatus()",__LINE__, __FILE__));
