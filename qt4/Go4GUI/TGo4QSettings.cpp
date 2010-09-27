@@ -182,6 +182,19 @@ void TGo4QSettings::getAppFont()
    QApplication::setFont(font);
 }
 
+void  TGo4QSettings::setTermFont(const QFont& font)
+{
+   setStr("/TermFont", font.toString());
+
+}
+QFont TGo4QSettings::getTermFont()
+{
+   QFont font;
+//   font.fromString(getStr("/TermFont", "Arial,11,-1,5,50,0,0,0,0,0"));
+   font.fromString(getStr("/TermFont", ""));
+   return font;
+}
+
 void TGo4QSettings::setAppStyle(const QString& v)
 {
    setStr("/Style/AppStyle", v);

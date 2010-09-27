@@ -57,6 +57,8 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
 
     setWindowTitle("Analysis Terminal");
 
+    setFont(go4sett->getTermFont());
+
     if (needoutput) {
 
        resize(700, 400);

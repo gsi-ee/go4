@@ -67,6 +67,9 @@ class TGo4QSettings {
       void    setAppFont(const QFont&);
       void    getAppFont();
 
+      void    setTermFont(const QFont&);
+      QFont   getTermFont();
+
       void    setAppStyle(const QString&);
       QString getAppStyle();
 

@@ -100,6 +100,7 @@ class TGo4MainWindow : public QMainWindow {
       void MinAllWindows();
       void SaveSettingsSlot();
       void ChangeFontSlot();
+      void ChangeTerminalFontSlot();
       void SetStyleSlot(const QString&);
       void windowsMenuActivated( int id );
       void ForseCloseSlot();

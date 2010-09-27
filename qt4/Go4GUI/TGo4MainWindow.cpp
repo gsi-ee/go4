@@ -443,6 +443,7 @@ void TGo4MainWindow::AddSettingMenu()
    settMenu->addAction("&Break hotstart execution", this, SLOT(StopGUIScriptSlot()));
 
    settMenu->addAction("&Terminal history", this, SLOT(InputTerminalParametersSlot()));
+   settMenu->addAction("&Terminal font...", this, SLOT(ChangeTerminalFontSlot()));
 
    settMenu->addAction("&Save Settings", this, SLOT(SaveSettingsSlot()));
 
@@ -1095,21 +1096,22 @@ void TGo4MainWindow::ChangeFontSlot()
    QFont font= QFontDialog::getFont(&ok, QApplication::font(), this);
    if (!ok) return;
 
-   QString infostring="Style " + font.toString() + "  was selected.\n";
-   infostring += "One can try to apply it immediately, but Qt4 crashed often at that place :(\n";
-   infostring += "One can save that font in settings and it will be applied next time Go4 is started";
-
-   int res = QMessageBox::question( this, "Go4 GUI", infostring,
-         QMessageBox::Apply | QMessageBox::Save | QMessageBox::Cancel ,
-         QMessageBox::Save);
-
-   if (res == QMessageBox::Cancel) return;
-
    go4sett->setAppFont(font);
-   go4sett->Store();
 
-   if (res == QMessageBox::Apply)
-      QApplication::setFont(font);
+   QApplication::setFont(font);
+}
+
+void TGo4MainWindow::ChangeTerminalFontSlot()
+{
+
+   bool ok = false;
+   QFont font= QFontDialog::getFont(&ok, go4sett->getTermFont(), this);
+   if (!ok) return;
+
+   go4sett->setTermFont(font);
+
+   TGo4AnalysisWindow* anw = FindAnalysisWindow();
+   if (anw) anw->setFont(font);
 }
 
 void TGo4MainWindow::SetStyleSlot(const QString &style)
