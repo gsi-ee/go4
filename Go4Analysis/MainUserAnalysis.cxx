@@ -87,7 +87,7 @@ void usage(const char* err = 0)
    cout << "  -transport server    :  connect to MBS transport server" << endl;
    cout << "  -stream server       :  connect to MBS stream server" << endl;
    cout << "  -evserv server       :  connect to MBS event server" << endl;
-   cout << "  -revserv server port :  connect to remote event server" << endl;
+   cout << "  -revserv server [port] :  connect to remote event server" << endl;
    cout << "  -random              :  use random generator as source" << endl;
    cout << "  -user name           :  create user-defined event source" << endl;
    cout << "  -source filename     :  read step input from the root file" << endl;
@@ -583,9 +583,11 @@ int main(int argc, char **argv)
             showerror("MBS Event server name not specified");
       } else
       if(strcmp(argv[narg],"-revserv")==0) {
-         if (++narg < argc - 1) {
+         if (++narg < argc) {
             const char* serv_name = argv[narg++];
-            int serv_port = atoi(argv[narg++]);
+            int serv_port = 0;
+            if ((narg < argc) && (argv[narg][0] != '-'))
+               serv_port = atoi(argv[narg++]);
             TGo4RevServParameter sourcepar(serv_name, serv_port);
             step->SetEventSource(&sourcepar);
             step->SetSourceEnabled(kTRUE);

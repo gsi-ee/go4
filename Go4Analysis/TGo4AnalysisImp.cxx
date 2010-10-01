@@ -580,8 +580,6 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
          }
          catch(TGo4UserException& ex)
          {
-            printf("user execpt\n");
-
             if(ex.GetPriority()>2)
             {
                PostLoop();
@@ -594,8 +592,6 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
          }
          catch(TGo4EventEndException& ex)
          {
-            printf("end execpt\n");
-
             Message(1,"End of event source %s:\n %s %s",ex.GetSourceClass(), ex.GetSourceName(),ex.GetErrMess());
             PostLoop();
             throw;   // errors: stop event loop
@@ -603,8 +599,6 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
 
          catch(TGo4EventErrorException& ex)
          {
-            printf("error exception\n");
-
             if(ex.GetPriority()>0)
             {
                Message(ex.GetPriority(),"%s",ex.GetErrMess());
@@ -621,13 +615,11 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
 
          catch(TGo4EventTimeoutException& ex)
          {
-            printf("timeout exception\n");
             ex.Handle(); // just show timeout message, continue event loop
          }
 
          catch(...)
          {
-            printf("postloop exception\n");
             PostLoop(); // make sure that postloop is executed for all exceptions
             throw;
          }
