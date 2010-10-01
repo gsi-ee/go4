@@ -572,7 +572,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
 
          cnt++;
 
-         if ((times>0) && (cnt>=times)) break;
+         if ((times>0) && (cnt>times)) break;
 
          try
          {
