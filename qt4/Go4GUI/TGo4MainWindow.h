@@ -182,7 +182,7 @@ class TGo4MainWindow : public QMainWindow {
       bool SaveBrowserItemToFile(const char* itemname, const char* subfolder);
 
       void UpdateDockAnalysisWindow();
-      void TerminateAnalysis();
+      void TerminateAnalysis(bool interactive = true);
 
       void ToggleMbsMonitor(const char* nodename);
       TGo4SetScaleValues*  ToggleScaleValues();

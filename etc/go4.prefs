@@ -44,7 +44,7 @@ exec: sh -c "%hostcmd%" &
 
 qtwindow: %initcmd% %cd_workdir% %progcmd%
 
-xterm: %initcmd% %cd_workdir% xterm -T %clientkind%:%analysisname%@%hostname% -e %progcmd% 
+xterm: %initcmd% %cd_workdir% xterm -T %clientkind%:%analysisname%@%hostname% -e \"export LD_LIBRARY_PATH=$LD_LIBRARY_PATH; %progcmd%\"
 
 konsole: %initcmd% konsole %konsole_options% --workdir %workdir% -e %progcmd%
 

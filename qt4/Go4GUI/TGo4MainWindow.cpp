@@ -341,9 +341,9 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
 
 TGo4MainWindow::~TGo4MainWindow()
 {
-    TGo4Script::DeleteInstance();
+   TGo4Script::DeleteInstance();
 
-    delete fxOM;
+   delete fxOM;
 }
 
 const char* TGo4MainWindow::LastTypedPassword() const
@@ -847,7 +847,7 @@ void TGo4MainWindow::closeEvent( QCloseEvent* ce)
    if (fCloseCounter!=0) return;
 
 // new for Qt4:
- if(QMessageBox::question( this, "Go4 GUI", "Really Exit Go4?",
+   if(QMessageBox::question( this, "Go4 GUI", "Really Exit Go4?",
          QMessageBox::Yes | QMessageBox::No ,
          QMessageBox::Yes) != QMessageBox::Yes )
             {
@@ -885,11 +885,41 @@ void TGo4MainWindow::closeEvent( QCloseEvent* ce)
 void TGo4MainWindow::ForseCloseSlot()
 {
    //   if (!RemoveAnalysisProxy(30) && (fCloseCounter>0)) {
-   if ((Browser()->FindAnalysis()!=0) && (fCloseCounter>0)) {
-      fCloseCounter--;
-      QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
-      return;
+
+   if (Browser()->FindAnalysis()!=0) {
+
+      if (fCloseCounter>0) {
+         fCloseCounter--;
+         QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
+         return;
+      }
+
+      QMessageBox box(QMessageBox::Critical, "Exit GUI", "Analysis is not (yet) shutdown correctly");
+      QPushButton *wait_btn = box.addButton("Wait 10 s more", QMessageBox::AcceptRole);
+      QAbstractButton *kill_btn = box.addButton("Kill analysis", QMessageBox::DestructiveRole);
+      QAbstractButton *exit_btn = box.addButton("Exit immediately", QMessageBox::DestructiveRole);
+      QAbstractButton *cancel_btn = box.addButton("Cancel quit", QMessageBox::RejectRole);
+      box.setDefaultButton(wait_btn);
+
+      box.exec();
+
+      if (box.clickedButton() == wait_btn) {
+         fCloseCounter = 100;
+         QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
+         return;
+      }
+
+      if ((box.clickedButton() == cancel_btn) || (box.clickedButton() == 0)) {
+         cout << "Keep GUI running, press exit once again" << endl;
+         return;
+      }
+
+      if (box.clickedButton() == kill_btn) {
+         cout << "Killing analysis" << endl;
+         TerminateAnalysis(false);
+      }
    }
+
    gSystem->Exit( 0 );
 }
 
@@ -1684,14 +1714,16 @@ void TGo4MainWindow::StopAnalysisSlot()
       anal->StopAnalysis();
 }
 
-void TGo4MainWindow::TerminateAnalysis()
+void TGo4MainWindow::TerminateAnalysis(bool interactive)
 {
-   int res = QMessageBox::warning(this, "Kill analysis process",
-             QString("Kill analysis by shell command: ") +fKillCommand + " ?",
-             QString("Kill"),
-             QString("Cancel"),
-             QString::null, 0);
-   if (res!=0) return;
+   if (interactive) {
+      int res = QMessageBox::warning(this, "Kill analysis process",
+                QString("Kill analysis by shell command: ") +fKillCommand + " ?",
+                QString("Kill"),
+                QString("Cancel"),
+                QString::null, 0);
+      if (res!=0) return;
+   }
 
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
    if (anw!=0) anw->TerminateAnalysisProcess();
@@ -2757,7 +2789,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
         } else
 
         if (strcmp(str,"TerminateAnalysis")==0) {
-           TerminateAnalysis();
+           TerminateAnalysis(true);
         } else
 
         if (strcmp(str,"UpdateGuiLayout")==0) {

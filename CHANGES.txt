@@ -55,6 +55,11 @@ Changes in Go4 v4.4.2 (Summer 2010)
     Display correctly number of processed events in gui.
 15. Add possibility to select font in analysis window. Sometime it is useful to
     set fixed-size font there to see better formatted output from analysis.        
+16. When closing GUI with running analysis, sometimes analysis was hanging with 100%
+    CPU consumption. In most cases it happens when running analysis in qt terminal.
+    Now GUI suggest to wait more time that analysis can shutdown normally or user can
+    kill analysis.   
+     
 
 Changes in Go4 v4.4.1 (May 2010)
 1. Default implementation for TGo4Parameter methods are provided. 
