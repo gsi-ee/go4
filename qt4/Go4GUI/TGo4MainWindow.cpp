@@ -918,6 +918,11 @@ void TGo4MainWindow::ForseCloseSlot()
          cout << "Killing analysis" << endl;
          TerminateAnalysis(false);
       }
+
+      if (box.clickedButton() == exit_btn) {
+         cout << "GUI closed with analysis still running - may lead to analysis task running forever" << endl;
+         cout << "Please check running processes with \"ps\" and probably, kill analysis with \"killall go4analysis\" command" << endl;
+      }
    }
 
    gSystem->Exit( 0 );

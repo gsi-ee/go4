@@ -954,11 +954,39 @@ void TGo4MainWindow::closeEvent( QCloseEvent* ce)
 void TGo4MainWindow::ForseCloseSlot()
 {
 //   if (!RemoveAnalysisProxy(30) && (fCloseCounter>0)) {
-   if ((Browser()->FindAnalysis()!=0) && (fCloseCounter>0)) {
-      fCloseCounter--;
-      QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
-      return;
+   if (Browser()->FindAnalysis()!=0) {
+
+      if (fCloseCounter>0) {
+         fCloseCounter--;
+         QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
+         return;
+      }
+
+
+      QMessageBox box("Exit GUI", "Analysis is not (yet) shutdown correctly", QMessageBox::Critical,
+            QMessageBox::Yes | QMessageBox::Default, QMessageBox::No, QMessageBox::Cancel | QMessageBox::Escape);
+
+      box.setButtonText(QMessageBox::Yes, "Wait 10 s more");
+      box.setButtonText(QMessageBox::No, "Kill analysis");
+      box.setButtonText(QMessageBox::Cancel, "Exit immediately");
+
+      switch (box.exec()) {
+         case QMessageBox::Yes:
+            fCloseCounter = 100;
+            QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
+            return;
+         case QMessageBox::No:
+            cout << "Killing analysis" << endl;
+            TerminateAnalysis(false);
+            break;
+         case QMessageBox::Cancel:
+            cout << "GUI closed with analysis still running - may lead to analysis task running forever" << endl;
+            cout << "Please check running processes with \"ps\" and probably, kill analysis with \"killall go4analysis\" command" << endl;
+            break;
+      }
    }
+
+
    delete this;
 }
 
@@ -1749,14 +1777,16 @@ void TGo4MainWindow::StopAnalysisSlot()
       anal->StopAnalysis();
 }
 
-void TGo4MainWindow::TerminateAnalysis()
+void TGo4MainWindow::TerminateAnalysis(bool interactive)
 {
-   int res = QMessageBox::warning(this, "Kill analysis process",
-             QString("Kill analysis by shell command: ") +fKillCommand + " ?",
-             QString("Kill"),
-             QString("Cancel"),
-             QString::null, 0);
-   if (res!=0) return;
+   if (interactive) {
+      int res = QMessageBox::warning(this, "Kill analysis process",
+                QString("Kill analysis by shell command: ") +fKillCommand + " ?",
+                QString("Kill"),
+                QString("Cancel"),
+                QString::null, 0);
+      if (res!=0) return;
+   }
 
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
    if (anw!=0) anw->TerminateAnalysisProcess();
@@ -2806,7 +2836,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
         } else
 
         if (strcmp(str,"TerminateAnalysis")==0) {
-           TerminateAnalysis();
+           TerminateAnalysis(true);
         } else
 
         if (strcmp(str,"UpdateGuiLayout")==0) {
