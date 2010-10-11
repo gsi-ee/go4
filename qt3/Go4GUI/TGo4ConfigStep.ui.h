@@ -230,15 +230,28 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
     LineEditArgumentsIn->setEnabled(false);
     FileNameInput->setEnabled(false);
     MbsMonitorBtn->setEnabled(false);
+    
+    // evaluate previous source if existing:
+   Bool_t wasfilesource=kFALSE;
+   TGo4EventSourceParameter* srcpar = fStepStatus->GetSourcePar();
+   TGo4MbsFileParameter* mbsfilpar=dynamic_cast<TGo4MbsFileParameter*>(srcpar);
+   TGo4FileSourceParameter* rootfilpar=dynamic_cast<TGo4FileSourceParameter*>(srcpar);
+   TGo4UserSourceParameter* usersrc=dynamic_cast<TGo4UserSourceParameter*>(srcpar);
+   TGo4MbsRandomParameter* randsrc=dynamic_cast<TGo4MbsRandomParameter*>(srcpar);
+   if(mbsfilpar!=0 || rootfilpar!=0) wasfilesource=kTRUE;
+   
+   
     if(k==0) {            // root file with one tree
        TGo4FileSourceParameter* newpar1 = new TGo4FileSourceParameter(SourceNameEdit->text().latin1());
        fStepStatus->SetSourcePar(newpar1);
        FileNameInput->setEnabled(true);
+       if(rootfilpar==0) SourceNameEdit->clear();
        delete newpar1;
     } else
     if (k==1) {    // mbs listmode file (input only)
        TGo4MbsFileParameter* newpar4 = new TGo4MbsFileParameter(SourceNameEdit->text().latin1());
        fStepStatus->SetSourcePar(newpar4);
+       
        if(SourceNameEdit->text().contains(TGo4MbsFile__fgcFILELISTSUF)) // case of *.lml
         {
            // case of *.lml file: disable start/stop event fields
@@ -256,6 +269,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
            SpinBoxInterEvent->setEnabled(true);
         }
        FileNameInput->setEnabled(true);
+       if(mbsfilpar==0) SourceNameEdit->clear();
        delete newpar4;
      } else
      if (k==2) {  // mbs stream server (input only)
@@ -266,6 +280,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
        SpinBoxStartEvent->setEnabled(true);
        SpinBoxStopEvent->setEnabled(true);
        SpinBoxInterEvent->setEnabled(true);
+       if(wasfilesource || randsrc!=0 ) SourceNameEdit->clear();  
        delete newpar5;
      } else
      if (k==3) {       // mbs transport server (input only)
@@ -276,6 +291,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
        SpinBoxStartEvent->setEnabled(true);
        SpinBoxStopEvent->setEnabled(true);
        SpinBoxInterEvent->setEnabled(true);
+       if(wasfilesource || randsrc!=0) SourceNameEdit->clear();
        delete newpar6;
      }else
      if (k==4) {     // mbs event server  (input only)
@@ -286,6 +302,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
        SpinBoxStartEvent->setEnabled(true);
        SpinBoxStopEvent->setEnabled(true);
        SpinBoxInterEvent->setEnabled(true);
+       if(wasfilesource || randsrc!=0) SourceNameEdit->clear();       
        delete newpar7;
      } else
      if (k==5) {     //    rev serv
@@ -296,11 +313,13 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
        SpinBoxStartEvent->setEnabled(true);
        SpinBoxStopEvent->setEnabled(true);
        SpinBoxInterEvent->setEnabled(true);
+       if(wasfilesource || randsrc!=0) SourceNameEdit->clear();
        delete newpar8;
      } else
      if (k==6) {     //    mbs random
        TGo4MbsRandomParameter* newpar8 = new TGo4MbsRandomParameter(SourceNameEdit->text().latin1());
        fStepStatus->SetSourcePar(newpar8);
+       SourceNameEdit->setText("RandomEvents");
        delete newpar8;
      } else
      if (k==7) {     // user source
@@ -312,6 +331,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
        LineEditArgumentsIn->setEnabled(true);
        SpinBoxTimeout->setEnabled(true);
        FileNameInput->setEnabled(true);
+       if(usersrc==0) SourceNameEdit->clear();       
        delete newpar9;
      }
 }

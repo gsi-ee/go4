@@ -1,6 +1,6 @@
 --------------------------------------------------------------
          Go4 Release Package v4.4.2 (build 40402)
-                      24-August-2010
+                      11-October-2010
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -20,7 +20,7 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v4.4.2 (Summer 2010)
+Changes in Go4 v4.4.2 (October 2010)
 1. Fix analysis crash when autosave file cannot be created in specified locations. 
 2. Add handling of event timeout exception to analysis, running in batch mode.
    Prevents unexpectable break of analysis due to low data rate.
@@ -58,7 +58,9 @@ Changes in Go4 v4.4.2 (Summer 2010)
 16. When closing GUI with running analysis, sometimes analysis was hanging with 100%
     CPU consumption. In most cases it happens when running analysis in qt terminal.
     Now GUI suggest to wait more time that analysis can shutdown normally or user can
-    kill analysis and exit immediately.   
+    kill analysis and exit immediately.
+17. Analysis configuration window: automatic clear of eventsource names when switching
+    type of source. Bugfix: filename filter for listmode files did not work.       
      
 
 Changes in Go4 v4.4.1 (May 2010)

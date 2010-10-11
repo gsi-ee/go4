@@ -270,18 +270,28 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
    FileNameInput->setEnabled(false);
    MbsMonitorBtn->setEnabled(false);
 
+   // evaluate previous source if existing:
+   Bool_t wasfilesource=kFALSE;
+   TGo4EventSourceParameter* srcpar = fStepStatus->GetSourcePar();
+   TGo4MbsFileParameter* mbsfilpar=dynamic_cast<TGo4MbsFileParameter*>(srcpar);
+   TGo4FileSourceParameter* rootfilpar=dynamic_cast<TGo4FileSourceParameter*>(srcpar);
+   TGo4UserSourceParameter* usersrc=dynamic_cast<TGo4UserSourceParameter*>(srcpar);
+   TGo4MbsRandomParameter* randsrc=dynamic_cast<TGo4MbsRandomParameter*>(srcpar);
+   if(mbsfilpar!=0 || rootfilpar!=0) wasfilesource=kTRUE;
+
+
    switch (k) {
       case 0: {            // root file with one tree
          TGo4FileSourceParameter newpar(SourceNameEdit->text().toAscii());
          fStepStatus->SetSourcePar(&newpar);
          FileNameInput->setEnabled(true);
+         if(rootfilpar==0) SourceNameEdit->clear();
          break;
       }
       case 1: {    // mbs listmode file (input only)
          TGo4MbsFileParameter newpar(SourceNameEdit->text().toAscii());
          fStepStatus->SetSourcePar(&newpar);
          bool islml = SourceNameEdit->text().contains(TGo4MbsFile__fgcFILELISTSUF);
-
          // case of *.lml file: disable start/stop event fields
          LineEditTagfile->setShown(!islml);
          TextLabelTagfile->setShown(!islml);
@@ -290,6 +300,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
          SpinBoxStopEvent->setEnabled(!islml);
          SpinBoxInterEvent->setEnabled(!islml);
          FileNameInput->setEnabled(true);
+         if(mbsfilpar==0) SourceNameEdit->clear();
          break;
       }
       case 2: {  // mbs stream server (input only)
@@ -300,6 +311,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
          SpinBoxStartEvent->setEnabled(true);
          SpinBoxStopEvent->setEnabled(true);
          SpinBoxInterEvent->setEnabled(true);
+         if(wasfilesource || randsrc!=0 ) SourceNameEdit->clear();
          break;
       }
       case 3: {       // mbs transport server (input only)
@@ -310,6 +322,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
          SpinBoxStartEvent->setEnabled(true);
          SpinBoxStopEvent->setEnabled(true);
          SpinBoxInterEvent->setEnabled(true);
+         if(wasfilesource || randsrc!=0) SourceNameEdit->clear();
          break;
       }
       case 4: {     // mbs event server  (input only)
@@ -320,6 +333,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
          SpinBoxStartEvent->setEnabled(true);
          SpinBoxStopEvent->setEnabled(true);
          SpinBoxInterEvent->setEnabled(true);
+         if(wasfilesource || randsrc!=0) SourceNameEdit->clear();
          break;
       }
       case 5: {     //    rev serv
@@ -331,11 +345,13 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
          SpinBoxStartEvent->setEnabled(true);
          SpinBoxStopEvent->setEnabled(true);
          SpinBoxInterEvent->setEnabled(true);
+         if(wasfilesource || randsrc!=0) SourceNameEdit->clear();
          break;
       }
       case 6: {     //    mbs random
          TGo4MbsRandomParameter newpar(SourceNameEdit->text().toAscii());
          fStepStatus->SetSourcePar(&newpar);
+         SourceNameEdit->setText("RandomEvents");
          break;
       }
       case 7: {     // user source
@@ -351,6 +367,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
 
          SpinBoxTimeout->setEnabled(true);
          FileNameInput->setEnabled(true);
+         if(usersrc==0) SourceNameEdit->clear();
          break;
       }
    }
@@ -499,13 +516,14 @@ void TGo4ConfigStep::InputFileDialog()
        else
        if (sourcepar->InheritsFrom(TGo4MbsFileParameter::Class())) {
            mbsfilemode=true;
-           QString filters="Go4MbsFile  (*";
+           filters="Go4MbsFile (*";
            filters+=TGo4MbsFile__fgcLMDSUF;
            filters+=" *";
            filters+=QString(TGo4MbsFile__fgcLMDSUF).toUpper();
            filters+=");;Go4 list mode list (*";
            filters+=TGo4MbsFile__fgcFILELISTSUF;
            filters+=")";
+
        }
        else
        if (sourcepar->InheritsFrom(TGo4UserSourceParameter::Class())) {
@@ -515,7 +533,7 @@ void TGo4ConfigStep::InputFileDialog()
           cout <<"Unknown sourcepar " <<sourcepar->ClassName() << endl;
    }
 
-
+    //cout <<"FFFFFFFF chose filter-"<< filters.toStdString() <<"-" <<endl;
     QFileDialog fd( this, "Select file name for step input",
                           fxPanel->GetSourcePath(), filters);
     fd.setFileMode(QFileDialog::ExistingFile);
