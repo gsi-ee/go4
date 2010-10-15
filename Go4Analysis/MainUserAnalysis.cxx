@@ -176,7 +176,8 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
       if (cl==0) continue;
 
       if (cl->InheritsFrom(TGo4EventProcessor::Class())) {
-         if ((cl!=TGo4EventProcessor::Class()) && (proc_cl==0)) proc_cl = cl;
+         // if several processor classes are existing, take higher in hierarchy
+         if ((cl!=TGo4EventProcessor::Class()) && ((proc_cl==0) || cl->InheritsFrom(proc_cl))) proc_cl = cl;
       } else
       if (cl->InheritsFrom(TGo4EventSource::Class())) {
          if ((cl!=TGo4EventSource::Class()) && (evsrc_cl==0)) evsrc_cl = cl;
