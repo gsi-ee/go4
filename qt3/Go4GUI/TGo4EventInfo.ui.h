@@ -11,7 +11,7 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-const char* defMbsEventName = "MbsEvent-10-1";
+const char* defMbsEventName = "MbsEvent101";
 
 
 void TGo4EventInfo::init()

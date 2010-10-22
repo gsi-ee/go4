@@ -17,7 +17,7 @@
 #include "TGo4Slot.h"
 #include "TGo4BrowserProxy.h"
 
-const char* defMbsEventName = "MbsEvent-10-1";
+const char* defMbsEventName = "MbsEvent101";
 
 
 TGo4EventInfo::TGo4EventInfo(QWidget *parent, const char* name)
