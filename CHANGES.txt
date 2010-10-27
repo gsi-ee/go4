@@ -60,7 +60,9 @@ Changes in Go4 v4.4.2 (October 2010)
     Now GUI suggest to wait more time that analysis can shutdown normally or user can
     kill analysis and exit immediately.
 17. Analysis configuration window: automatic clear of eventsource names when switching
-    type of source. Bugfix: filename filter for listmode files did not work.       
+    type of source. Bugfix: filename filter for listmode files did not work.
+18. Bugfix/workaround: when disconnecting analysis client task, 
+	send close analysis command explicitely	to avoid hanging analysis thread (see 16.)           
      
 
 Changes in Go4 v4.4.1 (May 2010)
