@@ -170,11 +170,6 @@ void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4Analysi
     TGo4EventSourceParameter* srcpar = StepStatus->GetSourcePar();
     TGo4MbsSourceParameter* mbspar = dynamic_cast<TGo4MbsSourceParameter*> (srcpar);
 
-    ResetSourceWidgets(srcpar->GetName(), srcpar->GetTimeout(),
-                       mbspar ? mbspar->GetStartEvent() : 0,
-                       mbspar ? mbspar->GetStopEvent() : 0,
-                       mbspar ? mbspar->GetEventInterval() : 0);
-
     switch(srcpar->GetID()) {
        case GO4EV_FILE: {
           SetFileSource();
@@ -217,6 +212,10 @@ void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4Analysi
 
     } // SourcePar->GetID()
 
+    ResetSourceWidgets(srcpar->GetName(), srcpar->GetTimeout(),
+                       mbspar ? mbspar->GetStartEvent() : 0,
+                       mbspar ? mbspar->GetStopEvent() : 0,
+                       mbspar ? mbspar->GetEventInterval() : 0);
 
 
     //----------------------------------------------------//

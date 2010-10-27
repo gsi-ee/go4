@@ -459,8 +459,8 @@ void TGo4Script::StepFileSource(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
-      step->ResetSourceWidgets(sourcename, timeout, 0, 0, 0);
       step->SetFileSource();
+      step->ResetSourceWidgets(sourcename, timeout, 0, 0, 0);
    }
 }
 
@@ -474,8 +474,8 @@ void TGo4Script::StepMbsFileSource(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
-      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
       step->SetMbsFileSource(TagFile);
+      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
    }
 }
 
@@ -488,8 +488,8 @@ void TGo4Script::StepMbsStreamSource(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
-      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
       step->SetMbsStreamSource();
+      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
    }
 }
 
@@ -502,8 +502,8 @@ void TGo4Script::StepMbsTransportSource(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
-      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
       step->SetMbsTransportSource();
+      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
    }
 }
 
@@ -516,8 +516,8 @@ void TGo4Script::StepMbsEventServerSource(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
-      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
       step->SetMbsEventServerSource();
+      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
    }
 }
 
@@ -531,8 +531,8 @@ void TGo4Script::StepMbsRevServSource(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
-      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
       step->SetMbsRevServSource(port);
+      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
    }
 }
 
@@ -542,8 +542,8 @@ void TGo4Script::StepRandomSource(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
-      step->ResetSourceWidgets(sourcename, timeout, 0, 0, 0);
       step->SetRandomSource();
+      step->ResetSourceWidgets(sourcename, timeout, 0, 0, 0);
    }
 }
 
@@ -555,8 +555,8 @@ void TGo4Script::StepUserSource(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
-      step->ResetSourceWidgets(sourcename, timeout, 0, 0, 0);
       step->SetUserSource(port, expr);
+      step->ResetSourceWidgets(sourcename, timeout, 0, 0, 0);
    }
 }
 
