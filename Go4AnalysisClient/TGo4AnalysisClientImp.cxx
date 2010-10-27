@@ -457,6 +457,15 @@ void TGo4AnalysisClient::StopObjectServer()
       } else {}
 }
 
+void TGo4AnalysisClient::Quit()
+{
+  //cout <<"--------TGo4AnalysisClient::Quit() closing analysis" << endl;
+	  Stop();
+	  fxAnalysis->CloseAnalysis();
+}
+
+
+
 void TGo4AnalysisClient::Terminate(Bool_t termapp)
 {
    SetCintMode(kFALSE);

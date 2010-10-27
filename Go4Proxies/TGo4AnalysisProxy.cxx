@@ -1406,20 +1406,12 @@ void TGo4AnalysisProxy::DisconnectAnalysis(Int_t waittime, Bool_t servershutdown
 {
    if (fDisconectCounter>0) return;
 
-   if (fxDisplay != 0) {
-		if (servershutdown) {
-			fxDisplay->SubmitCommand("SVQuit");
-		} else {
-			if (!IsAnalysisServer())
-			// if analysis is not server, we will close it first to avoid 99% cpu hangups
-			{
-				//cout <<"DisconnectAnalysis with MRquit- sending close" << endl;
-				fxDisplay->SubmitCommand("ANClose");
-				gSystem->Sleep(1000); // TODO: better mechanism to find out when its closed?
-			}
-			fxDisplay->SubmitCommand("MRQuit");
-		}
-	}
+   if (fxDisplay!=0) {
+      if (servershutdown)
+         fxDisplay->SubmitCommand("SVQuit");
+      else
+         fxDisplay->SubmitCommand("MRQuit");
+   }
 
    fDisconectCounter = waittime*10;
 

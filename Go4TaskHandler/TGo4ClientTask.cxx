@@ -174,7 +174,7 @@ void TGo4ClientTask::Quit()
 {
    TGo4Log::Debug(" ClientTask''%s'' is quitting... ",GetName());
    SendStatusMessage(2,kTRUE,"ClientTask %s  is terminating...",GetName());
-
+   TGo4Task::Quit();
    DisconnectServer(kTRUE);
 
    Terminate(!IsMaster()); // never terminate master process

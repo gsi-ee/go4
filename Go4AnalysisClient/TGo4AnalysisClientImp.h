@@ -62,6 +62,8 @@ class TGo4AnalysisClient : public TGo4Slave {
 
     virtual void Stop();
 
+    virtual void Quit();
+
     /** Kill the main thread; method to be called from
       * command, should be overridden in user implementation */
     virtual void KillMain();
