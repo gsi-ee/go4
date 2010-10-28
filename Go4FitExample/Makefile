@@ -54,15 +54,19 @@ endif
 
 # -----------------Example3-----------------------------------------------
 
-ifneq ($(shell which f77 2>/dev/null),)
-ifneq ($(wildcard /usr/lib/libg2c.*)$(wildcard /usr/local/lib/libg2c.*),)
-
 FITEX3_FUNCS   =  $(FITEX_DIR)/Example3Func.f
 FITEX3_FUNCO   =  $(FITEX_DIR)/Example3Func.$(ObjSuf)
 
-FITEX3_O      = $(FITEX_DIR)/Example3.$(ObjSuf)
-FITEX3_S      = $(FITEX_DIR)/Example3.$(SrcSuf)
-FITEX3_E      = $(FITEX_DIR)/Example3$(ExeSuf)
+FITEX3_O       = $(FITEX_DIR)/Example3.$(ObjSuf)
+FITEX3_S       = $(FITEX_DIR)/Example3.$(SrcSuf)
+FITEX3_E       = $(FITEX_DIR)/Example3$(ExeSuf)
+
+ifneq ($(shell which f77 2>/dev/null),)
+ifneq ($(wildcard /usr/lib/libg2c.*)$(wildcard /usr/local/lib/libg2c.*),)
+
+FITEX_EXECS    += $(FITEX3_E)
+
+FITEX_OBJS     += $(FITEX3_O) $(FITEX3_FUNCO)
 
 $(FITEX3_FUNCO):  $(FITEX3_FUNCS)
 	f77 -c $(FITEX3_FUNCS) -o $(FITEX3_FUNCO)
@@ -189,13 +193,12 @@ $(FITEX13_E):      $(FITEX_EXEDEP) $(FITEX13_O)
 
 # used in the main Makefile
 
-FITEX_DLLS         = $(FITEX2_LIB) $(FITEX4_LIB)
+FITEX_DLLS        += $(FITEX2_LIB) $(FITEX4_LIB)
 
-FITEX_EXECS        = $(FITEX1_E) $(FITEX2_E) $(FITEX3_E) $(FITEX4_E) $(FITEX5_E) $(FITEX6_E) $(FITEX7_E) \
+FITEX_EXECS       += $(FITEX1_E) $(FITEX2_E) $(FITEX4_E) $(FITEX5_E) $(FITEX6_E) $(FITEX7_E) \
                      $(FITEX8_E) $(FITEX9_E) $(FITEX10_E) $(FITEX11_E) $(FITEX12_E) $(FITEX13_E)
 
-FITEX_OBJS         = $(FITEX1_O) $(FITEX2_O) $(FITEX2_FO) \
-                     $(FITEX3_O) $(FITEX3_FUNCO) \
+FITEX_OBJS        += $(FITEX1_O) $(FITEX2_O) $(FITEX2_FO) \
                      $(FITEX4_O) $(FITEX4_OBJ) $(FITEX4_DICTO) \
                      $(FITEX5_O) $(FITEX6_O) $(FITEX7_O) \
                      $(FITEX8_O) $(FITEX9_O) $(FITEX10_O) $(FITEX11_O) $(FITEX12_O) $(FITEX13_O)
