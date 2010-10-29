@@ -50,7 +50,7 @@ II. How to edit example in qt designer?
    
    This will create libgo4plugin.so library in $GO4SYS/Go4plugin directory.
    This file should be copied to $QTDIR/plugins/designer directory 
-   (this may require root priveleges).
+   (this may require root privileges).
 
 III. How to modify standard example?
 
@@ -63,7 +63,7 @@ III. How to modify standard example?
    function, which called by main gui once when library is loaded.
    This function should create main user widget and return its pointer
    back. In provided example this function situated in the beginning
-   of QUserPanel.ui.h file.
+   of QUserPanel.cpp file.
    
 3. Some more ?
          

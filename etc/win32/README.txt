@@ -47,7 +47,7 @@ together with Microsoft Visual C++ 2008 Express Edition and CYGWIN.
     Q:\> cd go4\Go4ExampleSimple
 - Start analysis by command:
     Q:\go4\Go4ExampleSimple> go4analysis -server -random
-
+- Also one can start analysis directly from the GUI
 
 3. STARTING GUI
 
@@ -55,10 +55,11 @@ together with Microsoft Visual C++ 2008 Express Edition and CYGWIN.
 - Double click on "go4.bat" script to start gui
 - Main windows should appear. One can use "Connect to running server"
   button for connection with analysis, running in server mode.
-- Go4 GUI in Windows has same functionality as in Linux beside two things:
-    * there is no possibility to create user gui (yet)
-    * analysis should be started outside gui in command prompt 
-      like "go4analysis -server"      
+- Or one can start analysis directly from the GUI via 
+  "Launch analysis" menu command.    
+- Go4 GUI in Windows has mostly the same functionality as in Linux 
+  beside the fact that analysis cannot be started from the GUI on 
+  other node as is possible under Linux via ssh
 
 
 4. STARTING GO4 browser in ROOT
