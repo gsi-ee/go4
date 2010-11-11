@@ -133,7 +133,15 @@ void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4Analysi
 
     TGo4EventSourceParameter* srcpar = StepStatus->GetSourcePar();
 
+
+
     TGo4MbsSourceParameter* mbspar = dynamic_cast<TGo4MbsSourceParameter*> (srcpar);
+
+      ResetSourceWidgets(srcpar->GetName(), srcpar->GetTimeout(),
+                          mbspar ? mbspar->GetStartEvent() : 0,
+                          mbspar ? mbspar->GetStopEvent() : 0,
+                          mbspar ? mbspar->GetEventInterval() : 0);
+     FileNameInput->setEnabled(false); // JAM move out from ResetSourceWidgets to avoid conflict with hotstart
 
     switch(srcpar->GetID()) {
        case GO4EV_FILE: {
@@ -177,10 +185,6 @@ void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4Analysi
 
     } // SourcePar->GetID()
 
-    ResetSourceWidgets(srcpar->GetName(), srcpar->GetTimeout(),
-                        mbspar ? mbspar->GetStartEvent() : 0,
-                        mbspar ? mbspar->GetStopEvent() : 0,
-                        mbspar ? mbspar->GetEventInterval() : 0);
 
     //----------------------------------------------------//
     //Store
@@ -544,7 +548,7 @@ void TGo4ConfigStep::ResetSourceWidgets(const QString& name, int timeout, int st
     SpinBoxStopEvent->setEnabled(false);
     SpinBoxInterEvent->setEnabled(false);
     SpinBoxTimeout->setEnabled(false);
-    FileNameInput->setEnabled(false);
+    //FileNameInput->setEnabled(false);
 }
 
 void TGo4ConfigStep::SetFileSource()
