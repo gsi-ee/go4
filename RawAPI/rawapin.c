@@ -20,8 +20,8 @@
  * rfio_write:      write remote file in GSI mass storage
  * rfio_close:      close remote file and connection to GSI mass storage
  * rfio_lseek:      move read/write file pointer in remote file
- * rfio_stat:       get file status (file size)
- * rfio_stat64:     get file status (file size)
+ * rfio_stat:       get file status (32 bit file size)
+ * rfio_stat64:     get file status (64 bit file size)
  * rfio_cache_stat: ! returns cache status of file
  *
  * rfio_fopen_gsidaq_dm: ! open remote file in gStore and lustre,
@@ -33,8 +33,8 @@
  * rfio_fread:      read remote file in GSI mass storage
  * rfio_fwrite:     write remote file in GSI mass storage
  * rfio_fclose:     close remote file and connection to GSI mass storage
- * rfio_fstat:      get file status (file size)
- * rfio_fstat64:    get file status (file size)
+ * rfio_fstat:      get file status (32 bit file size)
+ * rfio_fstat64:    get file status (64 bit file size)
  *
  * implemented only as dummy:
  *
@@ -136,6 +136,10 @@
  * 23. 4.2010, H.G.: new entry rfio_fopen_gsidaq_dm
  *                   rfio_open_gsidaq: clean control block after error
  *                      copy fraction 0 specified: assume 1
+ * 22. 9.2010, H.G.: handle nodename 'lxgstore.gsi.de'
+ * 24. 9.2010, H.G.: handle 64 bit filesizes, now also in
+ *                      rfio_fstat64, rfio_stat64
+ * 23.11.2010, H.G.: gStore files >=4GB: inhibit read, incomplete query
  **********************************************************************
  */
 
@@ -156,6 +160,7 @@ FILE *fLogClient = NULL;                               /* client log */
 #define MAX_LOG_FILE 64        /* max length of client log file name */
 static char cLogClient[MAX_LOG_FILE] = "";
 static int iLogFile = 1;              /* default: client log to file */
+static int iOS64 = 0;    /* =0: 4 byte filesize, =1: 8 byte filesize */
 
 #ifdef Lynx
 #include "error_mac.h"
@@ -234,14 +239,24 @@ int rfio_open64(const char *pcFile,                     /* file name */
    char cModule[32] = "rfio_open64";
    int iDebug = 0;
    int iFileId = -1;
+   int ii;
 
-   if (iDebug) printf(
+   if (iDebug) fprintf(fLogClient,
       "\n-D- begin %s: file %s, flags %d, mode %d\n",
       cModule, pcFile, iFlags, iMode);
    
+   ii = sizeof(long);
+   if (ii < 8)
+   {
+      fprintf(fLogClient,
+         "-E- 32 bit client: %s not supported\n", cModule);
+
+      return -1;
+   }
+
    iFileId = rfio_open(pcFile, iFlags, iMode);
 
-   if (iDebug) printf(
+   if (iDebug) fprintf(fLogClient,
       "-D- end %s: iFileId(rfio_open) = %d\n\n", cModule, iFileId);
 
    return iFileId;
@@ -355,10 +370,13 @@ int rfio_open_gsidaq(
    pid_t pstr;
 #endif
 
+   unsigned long *plFileSizeC;          /* ptr to file size in sComm */
    int iObjInit = 1;   /* default: gStore object will be initialized */
-   int iMassSto = -1;/* =1: connect to GSI mass storage (ArchivePool)
-                        =2: connect to GSI mass storage (DAQPool)
-                        =0: connect to RFIO read/write server        */
+   int iMassSto = -1;
+         /* >0: connect to gStore
+                =2: from DAQ to DAQPool (prefix contains rfiodaq:)
+                =1: to other pools (RC or ArchivePool/WC)
+            =0: connect to RFIO read/write server */
    int iStage = 0;                        /* = 1: file in stage pool */
    int iCache = 0;                       /* = 1: file in write cache */
    int iStatus = 0;
@@ -370,8 +388,9 @@ int rfio_open_gsidaq(
    int iStatusOkay = 0;
    int iStatusLoop = 0;    /* current iteration no. receiving status */
 
-   int iPoolType = 0;
-      /* =1: RetrievePool =2: StagePool =3: ArchivePool  =4: DaqPool */
+   int iPoolId = 0;
+        /* for cmd buffer read  action: =2 (StagePool)
+           for cmd buffer write action: =3: ArchivePool  =4: DaqPool */
    int iAction = 0;                           /* =1: read, =2: write */
    int iError = 0;
    int iSendEOS = 0;
@@ -442,9 +461,16 @@ int rfio_open_gsidaq(
       strcpy(cAccess, "write");
    }
 
+   ii = sizeof(long);
+   if (ii == 8)
+      iOS64 = 1;
+   else if (ii != 4) printf(
+      "-W- unexpected size of long integer: %d byte\n", ii);
+
    if (iDebug)
    {
-      printf("\n-D- begin %s", cModule);
+      ii *= 8;                              /* size of 'long' in bit */
+      printf("\n-D- begin %s (%d bit OS)", cModule, ii);
       if (iFileCount)
          printf(", %d remote files currently open", iFileCount);
       printf("\n");
@@ -545,6 +571,11 @@ int rfio_open_gsidaq(
    pCommAPI = &(pcurAPIFile->sCommAPI);
    pCommAPI->iIdent = IDENT_COMM;
    pCommAPI->iCommLen = irawComm - HEAD_LEN;
+   if (iOS64)
+      pCommAPI->iClient32 = 0;
+   else
+      pCommAPI->iClient32 = 1;
+
    pQueryAPI = &(pcurAPIFile->sQueryAPI);
    pCommServ = &(pcurAPIFile->sCommServ);
    pCopyCacheServ = &(pcurAPIFile->sCopyCacheServ);
@@ -590,7 +621,17 @@ int rfio_open_gsidaq(
 
    /* cTemp contains now prefix: and/or node: in small letters */
    if (iDebug)
-      printf("    prefix:node: in small letters: '%s'\n", cTemp);
+      printf("    URL in small letters: '%s'\n", cTemp);
+
+   /* remove trailing '.gsi.de', if specified */
+   pcc = strstr(cTemp, ".gsi.de");
+   if (pcc)
+   {
+      strncpy(pcc++, ":", 1);
+      strncpy(pcc, "\0", 1);
+      if (iDebug)
+         printf("    remove trailing '.gsi.de': %s\n", cTemp);
+   }
 
    /* rfiocopy: or rfiodaq: or rfio: */
    if (strncmp(cTemp, "rfio", 4) == 0)
@@ -639,22 +680,25 @@ int rfio_open_gsidaq(
 
          iMassSto = 2;                                    /* DAQPool */
          strcpy(cServer, "gStore entry server");
-         iPoolType = 4;                                /* DAQPool */
+         iPoolId = 4;
       }
       else if (strncmp(cTemp, "rfio:", 5) == 0)
       {
          iMassSto = 1;                                /* ArchivePool */
          strcpy(cServer, "gStore entry server");
          if (iAction == 1)
-            iPoolType = 1;                           /* RetrievePool */
-         else
-            iPoolType = 3;                            /* ArchivePool */
+         {
+            if (iOnlyQuery == 0)
+               iPoolId = 2;                             /* StagePool */
+         }
+         else if (iAction == 2)
+            iPoolId = 3;                              /* ArchivePool */
       }
       else if (strncmp(cTemp, "rfiocopy:", 9) == 0)
       {
          iMassSto = 0;
          strcpy(cServer, "RFIO server");
-         iPoolType = 0;                            /* not applicable */
+         iPoolId = 0;                              /* not applicable */
          iPortMaster = PORT_RFIO_SERV;
          iPortMover = PORT_RFIO_SERV;
       }
@@ -696,9 +740,12 @@ int rfio_open_gsidaq(
       iMassSto = 1;
       strcpy(cServer, "gStore entry server");
       if (iAction == 1)
-         iPoolType = 1;                              /* RetrievePool */
-      else
-         iPoolType = 3;                               /* ArchivePool */
+      {
+         if (iOnlyQuery == 0)
+            iPoolId = 2;                                /* StagePool */
+      }
+      else if (iAction == 2)
+         iPoolId = 3;                                 /* ArchivePool */
 
       strncpy(pcc, "\0", 1);           /* terminates after node name */
       strcpy(cNodePrefix, cTemp);
@@ -717,8 +764,14 @@ int rfio_open_gsidaq(
    }
 
    pcurAPIFile->iMassSto = iMassSto;
-   if (iDebug) printf(
-      "    %s, pool type %d\n", cServer, iPoolType);
+   if (iDebug)
+   {
+      if ( (iAction == 2) ||
+           ((iAction == 1) && (iOnlyQuery == 0)) )
+         printf("    %s, request poolId %d\n", cServer, iPoolId);
+      else
+         printf("    %s\n", cServer);
+   }
 
    /******************** now handle object name **********************/
 
@@ -1180,8 +1233,10 @@ int rfio_open_gsidaq(
       else
          strcpy(cNodeMaster, cNodePrefix);
 
-      if (iDebug)
-         printf("    entry server %s (URL %s)\n", cNodeMaster, cNodePrefix);
+      if (iDebug) printf(
+         "    gStore entry server %s (node in URL %s)\n",
+         cNodeMaster, cNodePrefix);
+      fflush(stdout);
    }
    else
       strcpy(cNodeMaster, cNodePrefix);
@@ -1221,22 +1276,20 @@ int rfio_open_gsidaq(
       else
       {
          if (iObjInit) printf(
-            "    %s node %s:%d, TSM object %s%s%s",
+            "    %s %s:%d, TSM object %s%s%s",
             cServer, cNodeMaster, iPortMaster,
             pcNamefs, pcNamehl, pcNamell);
          else printf(
-            "    %s node '%s:%d'", cServer, cNodeMaster, iPortMaster);
+            "    %s %s:%d", cServer, cNodeMaster, iPortMaster);
       }
-      if (iPoolType)
+      if (iPoolId)
       {
-         if (iPoolType == 1)
-            printf(", read cache\n");
-         else if (iPoolType == 3)
-            printf(", ArchivePool\n");
-         else if (iPoolType == 4)
-            printf(", DaqPool\n");
-         else
-            printf("\n-W- unexpected pool type %d\n", iPoolType);
+         if (iPoolId == 2)
+            printf(", request StagePool\n");
+         else if (iPoolId == 3)
+            printf(", request ArchivePool\n");
+         else if (iPoolId == 4)
+            printf(", request DaqPool\n");
       }
       else
          printf("\n");
@@ -1263,9 +1316,9 @@ int rfio_open_gsidaq(
       goto gError;
    }
 
-   if (iDebug)
-      printf("    user %s on node %s, platform %s\n",
-             cOwner, cliNode, cOS);            /* cOS from rawcli.h */
+   if (iDebug) printf(
+      "    user %s on node %s, platform %s\n",
+      cOwner, cliNode, cOS);                   /* cOS from rawcli.h */
 
 #ifndef Lynx
    iLogFile = 0;                         /* client output to stdout */
@@ -1330,19 +1383,19 @@ int rfio_open_gsidaq(
 
    if (iAction == 2)
    {
-      pCommAPI->iPoolIdWC = iPoolType;
+      pCommAPI->iPoolIdWC = iPoolId;
       pCommAPI->iPoolIdRC = 0;
       strcpy(pCommAPI->cNodeRC, "");
       pCommAPI->iStageFSid = 0;
 
-      if (iPoolType == 4)
+      if (iPoolId == 4)
          pCommAPI->iArchDev = ARCH_DAQ_DISK;
       else
          pCommAPI->iArchDev = ARCH_DISK;
    }
    else
    {
-      pCommAPI->iPoolIdRC = iPoolType;
+      pCommAPI->iPoolIdRC = iPoolId;
       pCommAPI->iPoolIdWC = 0;
       pCommAPI->iArchDev = RETR_STAGE_TEMP;
    }
@@ -1350,10 +1403,10 @@ int rfio_open_gsidaq(
    if (iDebug)
    {
       if (iAction == 2)
-         printf("    WC pool %d, device %d\n",
+         printf("    request WC poolId %d, device %d\n",
             pCommAPI->iPoolIdWC, pCommAPI->iArchDev);
-      else
-         printf("    RC pool %d, device %d\n",
+      else if (iOnlyQuery == 0)
+         printf("    request RC poolId %d, device %d\n",
             pCommAPI->iPoolIdRC, pCommAPI->iArchDev);
    }
 
@@ -1380,11 +1433,12 @@ int rfio_open_gsidaq(
    pCommServ->iPoolIdRC = htonl(pCommAPI->iPoolIdRC);
    pCommServ->iStageFSid = htonl(pCommAPI->iStageFSid);
    pCommServ->iPoolIdRC = htonl(pCommAPI->iPoolIdRC);
+   pCommServ->iClient32 = htonl(pCommAPI->iClient32);
 
    /******************* connect to entry server **********************/
 
    if (iDebug) printf(
-      "-D- connecting to %s %s:%d\n",
+      "    connecting to %s %s:%d\n",
       cServer, cNodeMaster, iPortMaster);
 
    iRC = rconnect(cNodeMaster, iPortMaster, &iMaxConnect, &iSockMaster);
@@ -1414,12 +1468,14 @@ int rfio_open_gsidaq(
       pCommServ->iFileType = htonl(STREAM);
       pCommServ->iBufsizeFile = htonl(0);
       pCommServ->iFileSize = htonl(0);
+      pCommServ->iFileSize2 = htonl(0);
       pCommServ->iStageFSid = htonl(0);
 
       /* provide query infos to other API procedures */
       pCommAPI->iFileType = ntohl(pCommServ->iFileType);
       pCommAPI->iBufsizeFile = ntohl(pCommServ->iBufsizeFile);
       pCommAPI->iFileSize = ntohl(pCommServ->iFileSize);
+      pCommAPI->iFileSize2 = ntohl(pCommServ->iFileSize2);
       pCommAPI->iStageFSid = ntohl(pCommServ->iStageFSid);
 
       /* rfiocopy: master and mover identical */
@@ -1516,7 +1572,22 @@ int rfio_open_gsidaq(
          }
          else
          {
-            if (iAction == 2)                               /* write */
+            if ( (iAction == 1) &&                           /* read */
+                 (iOnlyQuery == 0) )                     /* get data */
+            {
+               if ( (pQAttr->iFileSize2) && (iOS64 == 0) )
+               {
+                  sprintf(rfio_errmsg,
+                     "-E- filesize of %s >= 4 GB, cannot be read with 32 bit client\n",
+                     pcFile);
+                  fprintf(fLogClient, "%s", rfio_errmsg);
+
+                  iSendEOS = 1;
+                  iError = 1;
+                  goto gClose;
+               }
+            }
+            else if (iAction == 2)                          /* write */
             {
                sprintf(rfio_errmsg,
                   "-E- file %s already available in gStore\n", pcFile);
@@ -1870,6 +1941,7 @@ gReceivedDM:
          pCommServ->iFileType = pQAttr->iFileType;  /* is net format */
          pCommServ->iBufsizeFile = pQAttr->iBufsizeFile;
          pCommServ->iFileSize = pQAttr->iFileSize;
+         pCommServ->iFileSize2 = pQAttr->iFileSize2;
          pCommServ->iObjHigh = pQAttr->iObjHigh;
          pCommServ->iObjLow = pQAttr->iObjLow;
          
@@ -1894,6 +1966,7 @@ gReceivedDM:
          pCommServ->iFileType = htonl(STREAM);
          pCommServ->iBufsizeFile = htonl(0);
          pCommServ->iFileSize = htonl(0);
+         pCommServ->iFileSize2 = htonl(0);
          pCommServ->iObjHigh = htonl(0);
          pCommServ->iObjLow = htonl(0);
          pCommServ->iStageFSid = htonl(0);
@@ -1905,6 +1978,7 @@ gReceivedDM:
       pCommAPI->iFileType = ntohl(pCommServ->iFileType);
       pCommAPI->iBufsizeFile = ntohl(pCommServ->iBufsizeFile);
       pCommAPI->iFileSize = ntohl(pCommServ->iFileSize);
+      pCommAPI->iFileSize2 = ntohl(pCommServ->iFileSize2);
       pCommAPI->iObjHigh = ntohl(pCommServ->iObjHigh);
       pCommAPI->iObjLow = ntohl(pCommServ->iObjLow);
       pCommAPI->iStageFSid = ntohl(pCommServ->iStageFSid);
@@ -1929,7 +2003,7 @@ gReceivedDM:
       if (iOnlyQuery == 0)
       {
          if (iDebug) printf(
-            "-D- connecting to data mover %s:%d\n",
+            "    connecting to data mover %s:%d\n",
             cNodeMover, iPortMover);
 
          iRC = rconnect(cNodeMover, iPortMover,
@@ -2031,15 +2105,22 @@ gNextCmdOpen:
             ntohl(pCommServ->iCommLen));
          if (iMassSto)
          {
-            printf("    file size %d bytes, record size %d",
-               ntohl(pCommServ->iFileSize),
-               ntohl(pCommServ->iBufsizeFile));
+            pCommServ->iFileSize = ntohl(pCommServ->iFileSize);
+            pCommServ->iFileSize2 = ntohl(pCommServ->iFileSize2);
+            plFileSizeC = (unsigned long *) &(pCommServ->iFileSize);
+
+            printf("    filesize %lu bytes, record size %d",
+               *plFileSizeC, ntohl(pCommServ->iBufsizeFile));
             if (iAction == 1) printf(
                ", poolIdRC %d, poolIdWC %d, obj id %d-%d\n",
                ntohl(pCommServ->iPoolIdRC), ntohl(pCommServ->iPoolIdWC),
                ntohl(pCommServ->iObjHigh), ntohl(pCommServ->iObjLow));
             else
                printf(", poolId %d\n", ntohl(pCommServ->iPoolIdWC));
+
+            /* reconvert to net format */
+            pCommServ->iFileSize = htonl(pCommServ->iFileSize);
+            pCommServ->iFileSize2 = htonl(pCommServ->iFileSize2);
          }
       }
 
@@ -3113,8 +3194,8 @@ int rfio_newfile(int iFileId,
    /* pcc points now to 1st '/' */
    if (iMassSto)
    {
-      if (strlen(pcc) > MAX_OBJ_FS)
-         strncpy(pcNamefs, pcc, MAX_OBJ_FS);
+      if (strlen(pcc) > MAX_OBJ_FS - 1)
+         strncpy(pcNamefs, pcc, MAX_OBJ_FS-1);
       else
          strcpy(pcNamefs, pcc);
 
@@ -3160,6 +3241,7 @@ int rfio_newfile(int iFileId,
          iError = -1;
          goto gEndNewFile;
       }
+
       pcc = (char *) strchr(cTemp, *pcObjDelim);        /* full name */
       pcc++;                             /* skip '/' in archive name */
       pcc2 = (char *) strchr(pcc, *pcObjDelim);
@@ -3778,14 +3860,23 @@ int rfio_preseek64(
    int iDebug = 0;
    int iRC = 0;
 
-   if (iDebug) printf(
+   if (iDebug) fprintf(fLogClient,
       "\n-D- begin %s: iFileId %d\n", cModule, iFileId);
+
+   ii = sizeof(long);
+   if (ii < 8)
+   {
+      fprintf(fLogClient,
+         "-E- 32 bit client: %s not supported\n", cModule);
+
+      return -1;
+   }
 
    fprintf(fLogClient, 
       "-W- %s not yet implemented for gStore\n", cModule);
 
    if (iDebug)
-      printf("-D- end %s\n\n", cModule);
+      fprintf(fLogClient, "-D- end %s\n\n", cModule);
 
    return iRC;
    
@@ -3808,17 +3899,27 @@ int64_t rfio_lseek64(
    int iDebug = 0;
    int iRC;
    int ilocOffset;
+   int ii;
 
-   if (iDebug) printf(
+   ii = sizeof(long);
+   if (ii < 8)
+   {
+      fprintf(fLogClient,
+         "-E- 32 bit client: %s not supported\n", cModule);
+
+      return -1;
+   }
+
+   if (iDebug) fprintf(fLogClient,
       "\n-D- begin %s: iFileId %d, Offset %lld, SeekMode %d\n",
-      cModule, iFileId, (unsigned long long int) i64locOffset, ilocSeekMode);
+      cModule, iFileId, (unsigned long) i64locOffset, ilocSeekMode);
 
    ilocOffset = (int) i64locOffset;
 
    iRC = rfio_lseek(iFileId, ilocOffset, ilocSeekMode);
 
-   if (iDebug)
-      printf("-D- end %s: rc(rfio_lseek) = %d \n\n", cModule, iRC);
+   if (iDebug) fprintf(fLogClient,
+      "-D- end %s: rc(rfio_lseek) = %d \n\n", cModule, iRC);
 
    return (int64_t) iRC;
    
@@ -4448,23 +4549,83 @@ gEndAccess:
  *********************************************************************
  */
 
-int rfio_fstat64(
-    int iFileId,
-    struct stat64 *p64StatBuf)        /* buffer with file statistics */
+int rfio_fstat64(int iFileId,
+                 struct stat64 *pStatBuf64)/* file statistics buffer */
 {
    char cModule[32] = "rfio_fstat64";
    int iDebug = 0;
    int iRC = 0;
-   struct stat *pStatBuf;
+   int ii;
+
+   unsigned long *plFileSizeC;          /* ptr to file size in sComm */
+   srawComm *pComm;
 
    if (iDebug)
-      printf("\n-D- begin %s: file %d\n", cModule, iFileId);
+   {
+      fprintf(fLogClient, "\n-D- begin %s: file %d\n", cModule, iFileId);
+      if (iFileCount)
+         fprintf(fLogClient, ", %d remote files currently open\n", iFileCount);
+      else
+         fprintf(fLogClient, "\n");
+   }
 
-   pStatBuf = (struct stat *) p64StatBuf;
-   iRC = rfio_fstat(iFileId, pStatBuf);
-   
+   ii = sizeof(long);
+   if (ii < 8)
+   {
+      fprintf(fLogClient,
+         "-E- 32 bit client: %s not supported\n", cModule);
+
+      return -1;
+   }
+
+   ii = 0;
+   if (iFileCount > 0) while (ii <= iFileMax)
+   {
+      if (pAPIFile[ii] != NULL)
+      {
+         if (pAPIFile[ii]->iFileId == iFileId)
+            break;
+      }
+
+      ii++;
+   }
+
+   if ( (ii > iFileMax) || (iFileCount == 0) )
+   {
+      fprintf(fLogClient, "-E- %s: specified remote fileId %d not found\n",
+         cModule, iFileId);
+      if (iDebug)
+         fprintf(fLogClient, "-D- end %s\n\n", cModule);
+
+      return -1;
+   }
+
+   pComm = &(pAPIFile[ii]->sCommAPI);
+   plFileSizeC = (unsigned long *) &(pComm->iFileSize);
+
    if (iDebug)
-      printf("-D- end %s: irc(rfio_fstat) = %d\n", cModule, iRC);
+   {
+      fprintf(fLogClient, "    specified remote fileId %d found:\n", iFileId);
+      fprintf(fLogClient, "    object %s%s%s, filesize %lu byte\n",
+         pComm->cNamefs, pComm->cNamehl, pComm->cNamell, *plFileSizeC);
+   }
+
+   /* initialize stat structure with parameters of local stream stdin */
+   iRC = fstat64(0, pStatBuf64);
+   if (iRC)
+   {
+      fprintf(fLogClient, "-E- %s: fstat64() failed, rc = %d\n", cModule, iRC);
+      if (iDebug)
+         printf("-D- end %s\n\n", cModule);
+
+      return -1;
+   }
+ 
+   /* now set correct file size */
+   pStatBuf64->st_size = *plFileSizeC;
+
+   if (iDebug) fprintf(fLogClient,
+      "-D- end %s: irc(fstat64) = %d\n", cModule, iRC);
 
    return iRC;
 
@@ -4525,8 +4686,8 @@ int rfio_fstat(int iFileId,                               /* file id */
    if (iDebug)
    {
       printf("    specified remote fileId %d found:\n", iFileId);
-      printf("    object %s%s%s, size %ld byte\n",
-         pComm->cNamefs, pComm->cNamehl, pComm->cNamell, 
+      printf("    object %s%s%s, filesize %u byte\n",
+         pComm->cNamefs, pComm->cNamehl, pComm->cNamell,
          pComm->iFileSize);
    }
 
@@ -4793,21 +4954,106 @@ int rfio_closedir(void *dirp)
  ********************************************************************
  */
 
-int rfio_stat64(const char *pcFile, struct stat64 *p64StatBuf)
+int rfio_stat64(const char *pcFile, struct stat64 *pStatBuf64)
 {
    char cModule[32] = "rfio_stat64";
    int iDebug = 0;
    int iRC;
-   struct stat *pStatBuf;
+
+   int iMapFound = 0;             /* =1: specified file already open */
+   int iFileId = -1;
+   int iRC;
+   int ii;
+   char *pcc;
+   char cObject[MAX_FULL_FILE] = "";
+
+   srawComm *pComm;
+   unsigned long *plFileSizeC;          /* ptr to file size in sComm */
 
    if (iDebug)
-      printf("\n-D- begin %s: file %s\n", cModule, pcFile);
+      fprintf(fLogClient, "\n-D- begin %s: file %s\n", cModule, pcFile);
 
-   pStatBuf = (struct stat *) p64StatBuf;
-   iRC = rfio_stat(pcFile, pStatBuf);
-   
+   ii = sizeof(long);
+   if (ii < 8)
+   {
+      fprintf(fLogClient,
+         "-E- 32 bit client: %s not supported\n", cModule);
+
+      return -1;
+   }
+
+   iOnlyQuery = 1;                                /* no DM selection */
+   ii = 0;
+   if (iFileCount > 0)
+      while (ii <= iFileMax)
+   {
+      if (pAPIFile[ii] != NULL)
+      {
+         pComm = &(pAPIFile[ii]->sCommAPI);
+         strcpy(cObject, pComm->cNamefs);
+         strcat(cObject, pComm->cNamehl);
+         strcat(cObject, pComm->cNamell);
+
+         if (iDebug) fprintf(fLogClient,
+            "    %d: %s already open\n", ii, cObject);
+
+         pcc = strstr(pcFile, cObject);
+         if (pcc != NULL)
+         {
+            iMapFound = 1;
+            if (iDebug)
+               fprintf(fLogClient, "    %d: %s maps\n", ii, cObject);
+            break;
+         }
+      }
+      else if (iDebug) fprintf(fLogClient,
+         "    %d: no (more) open file found\n", ii);
+
+      ii++;
+   }
+
+   if (iMapFound == 0)
+   {
+      if (iDebug) fprintf(fLogClient,
+         "    remote file %s not yet open\n", pcFile);
+
+      iFileId = rfio_open( (char *) pcFile, O_RDONLY, -1);
+      if (iFileId < 0) fprintf(fLogClient,
+         "-E- %s: open for remote file %s failed\n", cModule, pcFile);
+   }
+   else
+   {
+      iFileId = pAPIFile[ii]->iFileId;
+      if (iFileId < 0) fprintf(fLogClient,
+         "-E- %s: invalid handle (%d) for remote file %s found\n",
+         cModule, iFileId, pcFile);
+   }
+
+   /* info still available, must be freed here */
+   if (iFileId >= 0)
+   {
+      pComm = &(pAPIFile[ii]->sCommAPI);
+      plFileSizeC = (unsigned long *) &(pComm->iFileSize);
+
+      if (iDebug)
+      {
+         fprintf(fLogClient, "    remote fileId %d:\n", iFileId);
+         fprintf(fLogClient, "    object %s%s%s, filesize %lu byte\n",
+            pComm->cNamefs, pComm->cNamehl, pComm->cNamell, 
+            *plFileSizeC);
+      }
+
+      /* for caller */
+      pStatBuf64->st_size = *plFileSizeC;
+
+      free(pAPIFile[iFileId]);
+      pAPIFile[iFileId] = NULL;
+      iFileCount--;
+   }
+
+
    if (iDebug)
-      printf("-D- end %s: irc(rfio_stat) = %d\n", cModule, iRC);
+      fprintf(fLogClient, "-D- end %s\n\n", cModule);
 
    return iRC;
 
@@ -4894,7 +5140,7 @@ int rfio_stat(const char *pcFile, struct stat *pStatBuf)
       if (iDebug)
       {
          printf("    remote fileId %d:\n", iFileId);
-         printf("    object %s%s%s, size %ld byte\n",
+         printf("    object %s%s%s, filesize %ld byte\n",
             pComm->cNamefs, pComm->cNamehl, pComm->cNamell, 
             pComm->iFileSize);
       }

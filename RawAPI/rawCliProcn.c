@@ -112,6 +112,9 @@
  * 19. 5.2010, H.G.: rawCheckObjlist: streamline filelist handling
  * 18. 8.2010, H.G.: rawGetFilelistEntries: stricter limit check,
  *                      remove trailing '/' in global path, if specified
+ *  6. 9.2010, H.G.: replace print formats for 'int': %lu -> %u
+ * 24. 9.2010, H.G.: rawQueryPrint, rawQueryString: 64 bit filesizes
+ * 26.11.2010, H.G.: use string cTooBig for filesizes>=4GB
  **********************************************************************
  */
 
@@ -652,15 +655,15 @@ gNextObjUnstage:
    /************* allocate local file/object buffers *****************/
 
    iFileBufComp = sizeof(int) + iFileComp*sizeof(srawFileList);
-   if ((pcFileComp = (char *) calloc((unsigned) iFileBufComp, sizeof(char) ) ) == NULL)
+   if ((pcFileComp = (char *) calloc(
+           (unsigned) iFileBufComp, sizeof(char) ) ) == NULL)
    {
       fprintf(fLogFile,
-         "-E- %s: allocating filelist buffer (Comp)\n", cModule);
+         "-E- %s: allocating filelist buffer (Comp, %d byte)\n",
+         cModule, iFileBufComp);
       if (errno)
-      {
-         sprintf(cMsg, "    %s\n", strerror(errno));
-         fprintf(fLogFile, cMsg);
-      }
+         fprintf(fLogFile, "    %s\n", strerror(errno));
+      perror("-E- allocating filelist buffer (Comp)");
 
       return -2;
    }
@@ -672,15 +675,15 @@ gNextObjUnstage:
    psFileComp = (srawFileList *) ++piflcomp;           /* first file */
    psFileComp0 = psFileComp;
 
-   if ( (pcFileSort = (char *) calloc((unsigned) iFileBufComp, sizeof(char)) ) == NULL)
+   if ( (pcFileSort = (char *) calloc(
+            (unsigned) iFileBufComp, sizeof(char)) ) == NULL)
    {
       fprintf(fLogFile,
-         "-E- %s: allocating filelist buffer (Sort)\n", cModule);
+         "-E- %s: allocating filelist buffer (Sort, %d byte)\n",
+         cModule, iFileBufComp);
       if (errno)
-      {
-         sprintf(cMsg, "    %s\n", strerror(errno));
-         fprintf(fLogFile, cMsg);
-      }
+         fprintf(fLogFile, "    %s\n", strerror(errno));
+      perror("-E- allocating filelist buffer (Sort)");
 
       return(-2);
    }
@@ -693,15 +696,15 @@ gNextObjUnstage:
    psFileSort0 = psFileSort;
 
    iObjBufComp = sizeof(int) + iFileComp*sizeof(srawRetrList);
-   if ( (pcObjSort = (char *) calloc((unsigned) iObjBufComp, sizeof(char)) ) == NULL )
+   if ( (pcObjSort = (char *) calloc(
+            (unsigned) iObjBufComp, sizeof(char)) ) == NULL )
    {
       fprintf(fLogFile,
-         "-E- %s: allocating objectlist buffer\n", cModule);
+         "-E- %s: allocating objectlist buffer (%d byte)\n",
+         cModule, iObjBufComp);
       if (errno)
-      {
-         sprintf(cMsg, "    %s\n", strerror(errno));
-         fprintf(fLogFile, cMsg);
-      }
+         fprintf(fLogFile, "    %s\n", strerror(errno));
+      perror("-E- allocating objlist buffer");
 
       return(-3);
    }
@@ -770,7 +773,7 @@ gNextObjUnstage:
          if (iDebug)
          {
             fprintf(fLogFile,
-               "%d: read cache obj %s%s (objId %lu-%lu) copied (Comp)\n",
+               "%d: read cache obj %s%s (objId %u-%u) copied (Comp)\n",
                iReadCache, psObjComp->cNamehl, psObjComp->cNamell,
                psObjComp->iObjHigh, psObjComp->iObjLow);
             fprintf(fLogFile,
@@ -807,7 +810,7 @@ gNextObjUnstage:
          if (iDebug)
          {
             fprintf(fLogFile,
-               "%d: write cache obj %s%s (%lu-%lu) copied (Sort)\n",
+               "%d: write cache obj %s%s (%u-%u) copied (Sort)\n",
                iWriteCache, psObjSort->cNamehl, psObjSort->cNamell,
                psObjSort->iObjHigh, psObjSort->iObjLow);
             
@@ -893,7 +896,7 @@ gNextValue:
    } /* loop over all objects */
 
    if (iDebug) fprintf(fLogFile,
-      "    usage of restore fields: %lu-%lu-%lu-%lu-%lu\n",
+      "    usage of restore fields: %u-%u-%u-%u-%u\n",
       iRestoTop, iRestoHiHi, iRestoHiLo, iRestoLoHi, iRestoLoLo);
 
    /**** copy WC entries to final destination (behind RC entries) ****/
@@ -1133,7 +1136,7 @@ gNextObjCompress:
          for (jj=iisort1; jj<=iisort2; jj++)
          {
             fprintf(fLogFile,
-               "    %d: index %d, values: %lu-%lu-%lu-%lu-%lu\n",
+               "    %d: index %d, values: %u-%u-%u-%u-%u\n",
                jj, iaIndNew[jj], iaValTop[jj],
                iaValHiHi[jj], iaValHiLo[jj],
                iaValLoHi[jj], iaValLoLo[jj]);
@@ -1242,7 +1245,7 @@ gNextObjCompress:
                   for (jj=iitop1; jj<=iitop2; jj++)
                   {
                      fprintf(fLogFile,
-                        "       %d: index %d, values: %lu-%lu-%lu-%lu-%lu\n",
+                        "       %d: index %d, values: %u-%u-%u-%u-%u\n",
                         jj, iaIndNew[jj], iaValTop[jj],
                         iaValHiHi[jj], iaValHiLo[jj],
                         iaValLoHi[jj], iaValLoLo[jj]);
@@ -1355,7 +1358,7 @@ gNextObjCompress:
                         for (jj=iihilo1; jj<=iihilo2; jj++)
                         {
                            fprintf(fLogFile,
-                              "          %d: index %d, values: %lu-%lu-%lu-%lu-%lu\n",
+                              "          %d: index %d, values: %u-%u-%u-%u-%u\n",
                               jj, iaIndNew[jj], iaValTop[jj],
                               iaValHiHi[jj], iaValHiLo[jj],
                               iaValLoHi[jj], iaValLoLo[jj]);
@@ -1395,7 +1398,7 @@ gNextObjCompress:
       {
          ii = iaIndex[jj];
          fprintf(fLogFile,
-            "    %d: index %d, values: %lu-%lu-%lu-%lu-%lu\n",
+            "    %d: index %d, values: %u-%u-%u-%u-%u\n",
             jj, iaIndex[jj], iaCompValue[ii][1], iaCompValue[ii][2],
             iaCompValue[ii][3], iaCompValue[ii][4], iaCompValue[ii][5]);
       }
@@ -1448,7 +1451,7 @@ gNextObjCompress:
       if (iDebug == 2)
       {
          fprintf(fLogFile,
-            "    %d(%d): obj %s%s (objId %lu-%lu) copied (Comp), retrId %lu-%lu-%lu-%lu-%lu\n",
+            "    %d(%d): obj %s%s (objId %u-%u) copied (Comp), retrId %u-%u-%u-%u-%u\n",
             iiObj, jj, psObjSort->cNamehl, psObjSort->cNamell,
             psObjSort->iObjHigh, psObjSort->iObjLow,
             psObjSort->iRestoHigh, psObjSort->iRestoHighHigh,
@@ -1538,7 +1541,7 @@ gNextCopy2Temp:
       if (iDebug == 2)
       {
          fprintf(fLogFile,
-            "    %d: TSM obj %s%s (index %d, objId %lu-%lu) copied (Comp), retrId %lu-%lu-%lu-%lu-%lu\n",
+            "    %d: TSM obj %s%s (index %d, objId %u-%u) copied (Comp), retrId %u-%u-%u-%u-%u\n",
             jj, psObjSort->cNamehl, psObjSort->cNamell, ii2,
             psObjSort->iObjHigh, psObjSort->iObjLow,
             psObjSort->iRestoHigh, psObjSort->iRestoHighHigh,
@@ -1562,7 +1565,7 @@ gNextCopy2Temp:
       for (jj=1; jj<=iFileAll; jj++)
       {
          fprintf(fLogFile,
-            "    %d: obj %s%s, file %s, objId %lu-%lu, retrId %lu-%lu-%lu-%lu-%lu",
+            "    %d: obj %s%s, file %s, objId %u-%u, retrId %u-%u-%u-%u-%u",
             jj, psObjComp->cNamehl, psObjComp->cNamell, psFileComp->cFile,
             psObjComp->iObjHigh, psObjComp->iObjLow,
             psObjComp->iRestoHigh, psObjComp->iRestoHighHigh,
@@ -1630,7 +1633,7 @@ int rawDelFile( int iSocket, srawComm *psComm)
 
    if (iDebug)
    {
-      printf("    object %s%s%s found (objId %lu-%lu)", 
+      printf("    object %s%s%s found (objId %u-%u)", 
          psComm->cNamefs, psComm->cNamehl, psComm->cNamell, 
          ntohl(psComm->iObjHigh), ntohl(psComm->iObjLow));
       if (iFSidRC) printf(
@@ -1644,15 +1647,17 @@ int rawDelFile( int iSocket, srawComm *psComm)
    psComm->iAction = htonl(REMOVE); 
 
    pcc = (char *) psComm;
-   if ( (iRC = send( iSocket, pcc, (unsigned) iBufComm, 0 )) < 0 )
+   if ( (iRC = send( iSocket, pcc, (unsigned) iBufComm, 0 )) < iBufComm)
    {
-      printf("-E- %s: sending delete request for file %s\n",
-         cModule, psComm->cNamell);
+      if (iRC < 0) printf(
+         "-E- %s: sending delete request for file %s (%d byte)\n",
+         cModule, psComm->cNamell, iBufComm);
+      else printf(
+         "-E- %s: delete request for file %s (%d byte) incompletely sent (%d byte)\n",
+         cModule, psComm->cNamell, iBufComm, iRC);
       if (errno)
-      {
-         sprintf(cMsg, "    %s\n", strerror(errno));
-         printf(cMsg);
-      }
+         printf("    %s\n", strerror(errno));
+      perror("-E- sending delete request");
 
       return -1;
    }
@@ -2063,10 +2068,8 @@ int rawGetFilelistEntries( char *pcFileName,
       fprintf(fLogFile, "-E- %s: opening filelist %s\n",
          cModule, pcFileName);
       if (errno)
-      {
-         sprintf(cMsg, "    %s\n", strerror(errno));
-         fprintf(fLogFile, cMsg);
-      }
+         fprintf(fLogFile, "    %s\n", strerror(errno));
+      perror("-E- opening filelist");
 
       iError = -1;
       goto gErrorFilelist;
@@ -2196,17 +2199,16 @@ int rawGetFilelistEntries( char *pcFileName,
 
             iSizeBuffer = iMaxEntries*MAX_FULL_FILE + sizeof(int);
             piFilelisto = piFilelist;
-            piFilelist = (int *) calloc((unsigned) iSizeBuffer, sizeof(char) );
+            piFilelist = (int *) calloc(
+               (unsigned) iSizeBuffer, sizeof(char) );
             if (piFilelist == NULL)
             {
                fprintf(fLogFile,
                   "-E- %s: reallocating filelist buffer (size %d)\n",
                   cModule, iSizeBuffer);
                if (errno)
-               {
-                  sprintf(cMsg, "    %s\n", strerror(errno));
-                  fprintf(fLogFile, cMsg);
-               }
+                  fprintf(fLogFile, "    %s\n", strerror(errno));
+               perror("-E- reallocating filelist buffer");
 
                iError = -1;
                goto gErrorFilelist;
@@ -2408,17 +2410,15 @@ int rawGetFilelistEntries( char *pcFileName,
 
       /* create buffer for sorted entries */
       iSizeBuffer = iEntries*MAX_FULL_FILE + sizeof(int);
-      piFilelist = (int *) calloc((unsigned) iSizeBuffer, sizeof(char) );
+      piFilelist = (int *) calloc((unsigned) iSizeBuffer, sizeof(char));
       if (piFilelist == NULL)
       {
          fprintf(fLogFile,
             "-E- %s: allocating ordered filelist buffer (size %d)\n",
             cModule, iSizeBuffer);
          if (errno)
-         {
-            sprintf(cMsg, "    %s\n", strerror(errno));
-            fprintf(fLogFile, cMsg);
-         }
+            fprintf(fLogFile, "    %s\n", strerror(errno));
+         perror("-E- allocating ordered filelist buffer");
 
          iError = -1;
          goto gErrorFilelist;
@@ -2521,10 +2521,8 @@ gErrorFilelist:
          fprintf(fLogFile, "-E- %s: closing filelist %s\n",
             cModule, pcFileName);
          if (errno)
-         {
-            sprintf(cMsg, "    %s\n", strerror(errno));
-            fprintf(fLogFile, cMsg);
-         }
+            fprintf(fLogFile, "    %s\n", strerror(errno));
+         perror("-E- closing filelist");
       }
    }
 
@@ -2729,24 +2727,20 @@ int rawGetWSInfo( srawCliActionComm *pCliActionComm,
       iBuf = iBufPool;
       while(iBuf > 0)
       {
-         if ( (iRC = recv( iSocket, pcc, (unsigned) iBuf, 0 )) < 0 )
+         if ( (iRC = recv( iSocket, pcc, (unsigned) iBuf, 0 )) <= 0)
          {
-            printf("-E- %s: receiving pool info\n", cModule);
-            if (errno)
+            if (iRC < 0) printf(
+               "-E- %s: receiving pool info\n", cModule);
+            else
             {
-               sprintf(cMsg, "    %s\n", strerror(errno));
-               printf(cMsg);
+               ii = iBufPool - iBuf;
+               printf(
+                  "-E- %s: connection to entry server broken, %d byte of pool info (%d byte) received\n",
+                  cModule, ii, iBufPool);
             }
-
-            return -1;
-         }
-
-         if (iRC == 0)
-         {
-            ii = iBufPool - iBuf;
-            printf(
-               "-E- %s: connection to sender broken, %d byte of pool info (%d byte) received\n",
-               cModule, ii, iBufPool);
+            if (errno)
+               printf("    %s\n", strerror(errno));
+            perror("-E- receiving pool info");
 
             return -1;
          }
@@ -2931,27 +2925,23 @@ int rawGetWSInfo( srawCliActionComm *pCliActionComm,
       pcc += HEAD_LEN;
       while(iBuf > 0)
       {
-         if ( (iRC = recv( iSocket, pcc, (unsigned) iBuf, 0 )) < 0 )
+         if ( (iRC = recv( iSocket, pcc, (unsigned) iBuf, 0 )) <= 0)
          {
-            printf("-E- %s: receiving work space info\n", cModule);
-            if (errno)
+            if (iRC < 0) printf(
+               "-E- %s: receiving work space info (%d byte)\n",
+               cModule, iAttrLen);
+            else
             {
-               sprintf(cMsg, "    %s\n", strerror(errno));
-               printf(cMsg);
+               ii = iAttrLen - iBuf;
+               printf("-E- %s: connection to sender broken, %d byte of work space info (%d byte) received\n",
+                  cModule, ii, iAttrLen);
             }
+            if (errno)
+               printf("    %s\n", strerror(errno));
+            perror("-E- receiving work space info");
 
             return -1;
          } 
-
-         if (iRC == 0)
-         {
-            ii = iAttrLen - iBuf;
-            printf(
-               "-E- %s: connection to sender broken, %d byte of work space info (%d byte) received\n",
-               cModule, ii, iAttrLen);
-
-            return -1;
-         }
 
          iBuf -= iRC;
          pcc += iRC;
@@ -3294,6 +3284,8 @@ void rawQueryPrint(
    int iFileType = -1;
    int iMediaClass = 0;
 
+   unsigned long *plFileSizeC;                    /* 8 byte filesize */
+   unsigned long lFileSize;                       /* 8 byte filesize */
    int iVersionObjAttr = 0;
           /* version no. of srawObjAttr:
              =3: 288 byte, 2 restore fields
@@ -3335,10 +3327,10 @@ void rawQueryPrint(
    switch(iMediaClass)
    {
       case MEDIA_FIXED:
-         strcpy(cMClass, "DISK");
+         strcpy(cMClass, "DISK ");
          break;
       case MEDIA_LIBRARY:
-         strcpy(cMClass, "TAPE");
+         strcpy(cMClass, "TAPE ");
          break;
       case MEDIA_NETWORK:
          strcpy(cMClass, "NETWORK");
@@ -3408,8 +3400,24 @@ void rawQueryPrint(
       pQAttr->cNamefs, cPath, pQAttr->cNamell, 
       pQAttr->cOwner, pQAttr->cDateCreate, cMClass);
 
-   if (ntohl(pQAttr->iFileSize)) 
-      fprintf(fLogFile, "  %10d", ntohl(pQAttr->iFileSize)); 
+   pQAttr->iFileSize = ntohl(pQAttr->iFileSize);
+   pQAttr->iFileSize2 = ntohl(pQAttr->iFileSize2);
+   plFileSizeC = (unsigned long *) &(pQAttr->iFileSize);
+   lFileSize = *plFileSizeC;
+
+   if (lFileSize)
+   {
+      if ( (pQAttr->iFileSize2 == 0) ||
+           (sizeof(long) == 8) )
+         fprintf(fLogFile, "  %12lu", lFileSize); 
+      else
+         fprintf(fLogFile, "    %s   ", cTooBig);
+   }
+
+   /* reconvert to net format */
+   pQAttr->iFileSize = htonl(pQAttr->iFileSize);
+   pQAttr->iFileSize2 = htonl(pQAttr->iFileSize2);
+
    if (iStage)
       fprintf(fLogFile, "  %s  %s", pQAttr->cNode, pQAttr->cStageUser);
    if (iCache)
@@ -3423,14 +3431,14 @@ void rawQueryPrint(
             cStatus, pQAttr->cNode, ntohl(pQAttr->iFS),
             ntohl(pQAttr->iPoolId));
       fprintf(fLogFile,
-         "    obj-Id: %lu-%lu, restore order: %lu-%lu-%lu-%lu-%lu\n",
-         (unsigned int) ntohl(pQAttr->iObjHigh),
-         (unsigned int) ntohl(pQAttr->iObjLow),
-         (unsigned int) ntohl(pQAttr->iRestoHigh),
-         (unsigned int) ntohl(pQAttr->iRestoHighHigh),
-         (unsigned int) ntohl(pQAttr->iRestoHighLow),
-         (unsigned int) ntohl(pQAttr->iRestoLowHigh),
-         (unsigned int) ntohl(pQAttr->iRestoLow) );
+         "    obj-Id: %u-%u, restore order: %u-%u-%u-%u-%u\n",
+         ntohl(pQAttr->iObjHigh),
+         ntohl(pQAttr->iObjLow),
+         ntohl(pQAttr->iRestoHigh),
+         ntohl(pQAttr->iRestoHighHigh),
+         ntohl(pQAttr->iRestoHighLow),
+         ntohl(pQAttr->iRestoLowHigh),
+         ntohl(pQAttr->iRestoLow) );
       fprintf(fLogFile,
          "    owner: %s, OS: %.8s, mgmt-class: %s, file set %d\n",
          pQAttr->cOwner,
@@ -3473,6 +3481,8 @@ int rawQueryString(
    int iFileType = -1;
    int iMediaClass = 0;
 
+   unsigned long *plFileSizeC;                    /* 8 byte filesize */
+   unsigned long lFileSize;                       /* 8 byte filesize */
    int iVersionObjAttr = 0;
           /* version no. of srawObjAttr:
              =3: 288 byte, 2 restore fields
@@ -3514,10 +3524,10 @@ int rawQueryString(
    switch(iMediaClass)
    {
       case MEDIA_FIXED:
-         strcpy(cMClass, "DISK");
+         strcpy(cMClass, "DISK ");
          break;
       case MEDIA_LIBRARY:
-         strcpy(cMClass, "TAPE");
+         strcpy(cMClass, "TAPE ");
          break;
       case MEDIA_NETWORK:
          strcpy(cMClass, "NETWORK");
@@ -3578,9 +3588,22 @@ int rawQueryString(
       pQAttr->cNamefs, cPath, pQAttr->cNamell, 
       pQAttr->cOwner, pQAttr->cDateCreate, cMClass);
 
-   if (ntohl(pQAttr->iFileSize))
+   pQAttr->iFileSize = ntohl(pQAttr->iFileSize);
+   pQAttr->iFileSize2 = ntohl(pQAttr->iFileSize2);
+   plFileSizeC = (unsigned long *) &(pQAttr->iFileSize);
+   lFileSize = *plFileSizeC;
+
+   /* reconvert to net format */
+   pQAttr->iFileSize = htonl(pQAttr->iFileSize);
+   pQAttr->iFileSize2 = htonl(pQAttr->iFileSize2);
+
+   if (lFileSize) 
    {
-      sprintf(cMsg1, "  %10d", ntohl(pQAttr->iFileSize) );
+      if ( (pQAttr->iFileSize2 == 0) ||
+           (sizeof(long) == 8) )
+         sprintf(cMsg1, "  %12lu", lFileSize);
+      else
+         sprintf(cMsg1, "    %s   ", cTooBig); 
       strcat(cMsg, cMsg1);
    }
    if (iStage)
@@ -3607,14 +3630,14 @@ int rawQueryString(
       }
 
       sprintf(cMsg1,
-         "    obj-Id: %lu-%lu, restore order: %lu-%lu-%lu-%lu-%lu\n",
-         (unsigned int) ntohl(pQAttr->iObjHigh),
-         (unsigned int) ntohl(pQAttr->iObjLow),
-         (unsigned int) ntohl(pQAttr->iRestoHigh),
-         (unsigned int) ntohl(pQAttr->iRestoHighHigh),
-         (unsigned int) ntohl(pQAttr->iRestoHighLow),
-         (unsigned int) ntohl(pQAttr->iRestoLowHigh),
-         (unsigned int) ntohl(pQAttr->iRestoLow) );
+         "    obj-Id: %u-%u, restore order: %u-%u-%u-%u-%u\n",
+         ntohl(pQAttr->iObjHigh),
+         ntohl(pQAttr->iObjLow),
+         ntohl(pQAttr->iRestoHigh),
+         ntohl(pQAttr->iRestoHighHigh),
+         ntohl(pQAttr->iRestoHighLow),
+         ntohl(pQAttr->iRestoLowHigh),
+         ntohl(pQAttr->iRestoLow) );
       strcat(cMsg, cMsg1);
 
       sprintf(cMsg1,
@@ -3631,7 +3654,7 @@ int rawQueryString(
       fprintf(fLogFile,
          "-W- %s: output string provided too short (%d byte), %d byte needed\n",
         cModule, iOut, iMsg);
-      strncpy(pcOut, cMsg, (unsigned) iOut);
+      strncpy(pcOut, cMsg, (unsigned) iOut-1);
       strcat(pcOut, "\0");
       
       fprintf(fLogFile,

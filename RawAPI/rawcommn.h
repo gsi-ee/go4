@@ -129,7 +129,7 @@
  *                   (replaces srawArchList in rawclin.h)
  * 19. 5.2008, H.G.: remove old declarations: cNodeMaster1,
  *                   cNodeMaster2A, cNodeMaster2B
- *  2. 6.2008, H.G.: replace long->int if 64bit client (ifdef SYSTEM64)
+ *  2. 6.2008, H.G.: replace long->int if 64 bit client (ifdef SYSTEM64)
  *                   server still 32 bit
  *  3. 6.2008, H.G.: replace MBUF_API (unused) by MBUF_RFIO
  * 19. 6.2008, H.G.: new ident: IDENT_CACHE_STATUS
@@ -183,6 +183,12 @@
  *                      sizes (also in V1, V2 metadata structures) 
  * 16. 4.2010, H.G.: srawDataMoverAttr: iSynchId -> iATLServer
  *  9. 6.2010, H.G.: IDENT_PROC_INFO, MAX_ITEM added
+ *  3. 9.2010, H.G.: srawComm: enable 8 byte filesize in 64 bit OS
+ *                      new iFileSize2, MAX_APPLTYPE: 32 -> 28
+ * 10. 9.2010, H.G.: discard SYSTEM64, srawObjAttrOld: 4 byte iFileSize 
+ *  6.10.2010, H.G.: srawComm: new iClient32
+ *                   new definition: MAX_FILE_SIZE_U
+ * 26.11.2010, H.G.: string cTooBig: substitute for filesizes >= 4 GB
  * *********************************************************************
  */
 
@@ -209,8 +215,12 @@
 #define MAXLOOP_CACHE_FULL 3  /* max no of iter, if write cache full */
 
 #define DEF_FILESIZE  2044000000   /* assume <2GByte, if unavailable */
-#define MAX_FILE_SIZE 2147483647          /* max filesize 2GByte - 1 */
+#define MAX_FILE_SIZE 2147483647   /* max filesize 2GByte-1 (signed) */
+#define MAX_FILE_SIZE_U 4294967295   /* max size 4GByte-1 (unsigned) */
 #define MAX_FILE_NO 1024         /* max number of file names in list */
+
+static const char cTooBig[8] = "(>=4GB)";
+               /* for 32 bit clients: substitute for filesize >= 4GB */
 
 #define MAX_NODE    16                       /* max length node name */
 static char cNodeMaster0[MAX_NODE] = "lxgstore";     /* entry server */
@@ -266,7 +276,7 @@ static char cOS[MAX_OS] = "VMS    ";
 #define MAX_MC_O     12          /* max length Management class name */
 
 #define MAX_DATE     20          /* max length archive date and time */
-#define MAX_APPLTYPE 32               /* max length application type */
+#define MAX_APPLTYPE 28               /* max length application type */
 #define MAX_ITEM     32                /* max length of process item */
 
 #define HEAD_OFFSET   3           /* offset common pre-header (ints) */
@@ -299,6 +309,7 @@ static char cOS[MAX_OS] = "VMS    ";
 #define IDENT_COPY_CACHE   -21    /* copy DAQ stream data from cache */
 #define IDENT_ARCHIVE_LIST -22              /* list of archive names */
 #define IDENT_PROC_INFO    -23     /* get/update proc no. in cacheDB */
+#define IDENT_COMM64       -24       /* communication control buffer */
 
 enum ARCH_DEVICE                           /* logical archive device */
 {
@@ -381,7 +392,7 @@ typedef struct                                 /* info for file list */
    char cFile[MAX_FULL_FILE];           /* fully qualified file name */
 } srawFileList;
 
-/* command buffer with object attributes */
+/* command buffer with object attributes, used only for 32 bit OS */
 typedef struct
 {
    int iIdent;               /* IDENT_COMM identifies command buffer */
@@ -395,11 +406,8 @@ typedef struct
    char cApplType[MAX_APPLTYPE];                 /* application type */
    int iFileType;                      /* see definition of FILETYPE */
    int iBufsizeFile;                             /* buffer size file */
-#ifdef SYSTEM64                     /* 64 bit client - 32 bit server */
-   unsigned int iFileSize;                  /* size of file in bytes */
-#else                                        /* 32 bit client/server */
-   unsigned long iFileSize;                 /* size of file in bytes */
-#endif
+   unsigned int iFileSize; /* file size (byte), overlaid with 'long' */
+   unsigned int iFileSize2;                  /* both together 8 byte */
    int iArchDev;                     /* = ARCH_DEVICE or RETR_DEVICE */
    unsigned int iObjHigh;              /* upper four bytes object Id */
    unsigned int iObjLow;               /* lower four bytes object Id */
@@ -423,6 +431,7 @@ typedef struct
    int iFSidFC; /* FS no. on file server cache node (= 0: not in FC) */
    int iDataFS;          /* =1: retrieve directly to central data FS */
    char cDataFS[MAX_FULL_FILE];      /* full path in central data FS */
+   int iClient32;                   /* =1: 32 bit gstore/RFIO client */
    int iReservation; /* >0: current object belongs to workspace with
                                  specified  space reservation number */
 } srawComm;
@@ -485,11 +494,7 @@ typedef struct                 /* object attribute buffer version 4 */
    char cNamell[MAX_OBJ_LL_O]; /* file name / object low level name  */
    int iFileType;              /* see definition of FILETYPE */
    int iBufsizeFile;           /* buffer size file */
-#ifdef SYSTEM64                  /* 64 bit client - 32 bit server */
-   unsigned int iFileSize;     /* size of file in bytes */
-#else                                     /* 32 bit client/server */
-   unsigned long iFileSize;    /* size of file in bytes */
-#endif
+   unsigned int iFileSize;   /* file size in bytes, old: 4 byte okay */
    char cDate[MAX_DATE];       /* archive date and time */
    char cOwner[MAX_OWNER];     /* account name of owner */
    char cOS[MAX_OS];           /* operating system archiving client */
@@ -519,8 +524,8 @@ typedef struct /* query info of gStore object version 5 from server,
    char cNamell[MAX_OBJ_LL];   /* file name / object low level name  */
    int iFileType;                      /* see definition of FILETYPE */
    int iBufsizeFile;                                  /* buffer size */
-   unsigned int  iFileSize;                    /* file size in bytes */
-   unsigned int  iFileSize2;    /* dummy for future length in 64 bit */
+   unsigned int iFileSize; /* file size (byte), overlaid with 'long' */
+   unsigned int iFileSize2;                  /* both together 8 byte */
    char cDateCreate[MAX_DATE];       /* creation date/time in gStore */
    char cOwner[MAX_OWNER];                  /* account name of owner */
    char cOS[MAX_OS];            /* operating system archiving client */

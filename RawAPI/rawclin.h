@@ -57,6 +57,10 @@
  *                   cNamehl (MAX_OBJ_HL -> MAX_OBJ_HL_N)
  * 18.12.2009, H.G.: MAX_OBJ_HL_N -> MAX_OBJ_HL, 
  *                   MAX_OBJ_LL_N -> MAX_OBJ_LL
+ * 13. 9.2010, H.G.: srawCliActionComm: new iOS64
+ *                   srawRetrList: 'long' iFileSize -> 2* 'int'
+ * 15. 9.2010, H.G.: discard flag SYSTEM64,
+ *                   srawTapeFileList: iFileSize 'long' -> 'int'
  *********************************************************************
  * */
 
@@ -71,13 +75,8 @@ static int iPathPrefix = 0;        /* >0: path for files in filelist */
 typedef struct                  /* list of tape file names and sizes */
 {
    char cFileName[MAX_TAPE_FILE+1];
-#ifdef SYSTEM64                     /* 64 bit client - 32 bit server */
-   unsigned int iFileSize;
+   unsigned int iFileSize; /* file size (byte), clitape: 4 byte okay */
    int iBufferSize;
-#else                                        /* 32 bit client/server */
-   unsigned long iFileSize;
-   long iBufferSize;
-#endif
    void *pNext;
 } srawTapeFileList;
 
@@ -109,6 +108,7 @@ typedef struct
    int iFilesIgnore;                  /* 1st files in list to ignore */
    int iATLServer;                /* =1 aixtsm1, =2 gsitsma, =0 both */
    char cMsg[STATUS_LEN];                /* message in case of error */
+   int iOS64;            /* =0: 4 byte filesize, =1: 8 byte filesize */
 } srawCliActionComm;
 
 typedef struct                           /* info for TSM object list */
@@ -125,14 +125,10 @@ typedef struct                           /* info for TSM object list */
    unsigned int iRestoLow;         /* lo_lo four bytes restore order */
    int iFileType;                     /* fixed record or stream file */
    int iBufsizeFile;                                /* record length */
-#ifdef SYSTEM64                     /* 64 bit client - 32 bit server */
-   unsigned long iFileSize;           /* 64 bit file size (in bytes) */
-#else                                        /* 32 bit client/server */
-   unsigned long iFileSize;           /* 32 bit file size (in bytes) */
-   unsigned long iFileSize2; /* dummy for unique length in 32/64 bit */
-#endif
+   unsigned int iFileSize; /* file size (byte), overlaid with 'long' */
+   unsigned int iFileSize2;                  /* both in total 8 byte */
    int iATLServer;           /* ATL server: =1: aixtsm1, =2: gsitsma */
-   int iPoolId;                              /* disk pool identifier */
+   int iPoolId;/* from query: RC poolId (staged), WC poolId (cached) */
    char cMoverStage[MAX_NODE];     /* node name data mover if staged */
    int iStageFS;                /* > 0: in StagePool, no. of StageFS */
    char cMoverCache[MAX_NODE];  /* name data mover if in write cache */

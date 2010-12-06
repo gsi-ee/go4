@@ -27,6 +27,7 @@
  * 11. 2.2010, H.G.: rename rawTestFilePath -> rawCheckClientFile
  * 22. 2.2010, H.G.: add rawGetPathName
  * 26. 2.2010, H.G.: rawQueryString: add parameter (len output string)
+ * 23. 8.2010, H.G.: remove SYSTEM64 flag: allow "long" in 64 bit OS
  *********************************************************************
  */
 
@@ -63,25 +64,15 @@ int rawGetFilelist( char *, char **);
    /* get list of full file names from generic input */
 #else /* Unix */
 
-#ifdef SYSTEM64
-int rawGetFileAttr(char *, unsigned int *);
-   /* get file attributes (size in bytes), return rc */
-#else
 int rawGetFileAttr(char *, unsigned long *);
    /* get file attributes (size in bytes), return rc */
-#endif
 
 int rawGetFilelist( char *, int, char **);
    /* get list of full file names from generic input */
 #endif /* Unix */
 
-#ifdef SYSTEM64
-int rawGetFileSize( char *, unsigned int *, unsigned int *);
+int rawGetFileSize( char *, unsigned long *, unsigned int *);
    /* get list of full file names from generic input */
-#else
-int rawGetFileSize( char *, unsigned long *, unsigned long *);
-   /* get list of full file names from generic input */
-#endif
 
 char *rawGetFSName( char *);
    /* get file space name from user identification */
@@ -134,13 +125,8 @@ int rawSendStatus( int, int, char *);
 int rawSortValues( int *, int, int, int, int *, int *);
    /* sort indexed list of numbers */
 
-#ifdef SYSTEM64
-int rawTapeFile( char *, char *, int, int *, unsigned int *);
-   /* send status buffer */
-#else
 int rawTapeFile( char *, char *, int, int *, unsigned long *);
    /* send status buffer */
-#endif
 
 int rawTestFileName( char *);
    /* verify that specified name is valid */

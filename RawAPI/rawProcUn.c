@@ -54,6 +54,13 @@
  * 12. 8.2010, H.G.: rawGetDirEntryList: increase filelist, if too small
  * 16. 8.2010, H.G.: rawGetDirEntryList: handle (xfs) filesystems
  *                   providing entry type "DT_UNKNOWN"
+ * 23. 8.2010, H.G.: rawGetFileAttr, rawGetFileList:
+ *                      remove SYSTEM64 (allow "long")
+ *                   rawGetUserid: lr: long -> int
+ *  5.11.2010, H.G.: replace perror by strerror(errno),
+ *                   reset errno after error
+ * 26.11.2010, H.G.: rawGetFileAttr, rawGetFileList:
+ *                      reset errno after successful!! pclose
  *********************************************************************
  */
 
@@ -109,8 +116,13 @@ int rawGetDirEntries(char *pcStageFS)
    if (pDir == NULL)
    {
       fprintf(fLogFile,
-         "-E- cannot open directory %s\n", pcStageFS);
-      perror("    ");
+         "-E- %s: cannot open directory %s\n", cModule, pcStageFS);
+      if (errno)
+      {
+         fprintf(fLogFile, "    %s\n", strerror(errno));
+         errno = 0;
+      }
+
       return -1;
    }
 
@@ -413,7 +425,10 @@ int rawGetDirEntryList(
       fprintf(fLogFile,
          "-E- %s: cannot open directory %s\n", cModule, pcDirName);
       if (errno)
+      {
          fprintf(fLogFile, "%s\n", strerror(errno));
+         errno = 0;
+      }
 
       iRCE = -1;
       goto gEndDirEntryList;
@@ -445,14 +460,16 @@ int rawGetDirEntryList(
          {
             if (errno)
             {
-               fprintf(fLogFile, "-E- %s: %s\n",
-                  pEntry->d_name, strerror(errno));
-               if (strncmp(strerror(errno),
-                  "Value too large for defined data type", 37) == 0)
+               fprintf(fLogFile, "-E- stat %s: %s\n",
+                  cTemp, strerror(errno));
+
+               /* only valid for 32 bit OS */
+               if (strcmp(strerror(errno),
+                  "Value too large for defined data type") == 0)
                {
                   fprintf(fLogFile,
-                     "-W- %s: file size of %s > 2 GByte: not yet supported\n",
-                     cModule, pEntry->d_name);
+                     "-E- %s: filesize of %s > 2 GByte: use 64 bit gStore client\n",
+                     cModule, cTemp);
 
                   errno = 0;
                   return -99;
@@ -563,10 +580,13 @@ int rawGetDirEntryList(
                if ((pcFileList2 = (char *) calloc((unsigned) ii, 1)) == NULL)
                {
                   fprintf(fLogFile,
-                     "-E- allocating new filelist buffer (%d byte, %d entries)\n",
-                     ii, iFileEntryMax);
+                     "-E- %s: allocating new filelist buffer (%d byte, %d entries)\n",
+                     cModule, ii, iFileEntryMax);
                   if (errno)
+                  {
                      fprintf(fLogFile, "    %s\n", strerror(errno));
+                     errno = 0;
+                  }
 
                   iRCE = -1;
                   goto gEndDirEntryList;
@@ -734,8 +754,14 @@ int rawGetFSEntries(char *pcStageFS)
    if (iRC < 0 )
    {
       fprintf(fLogFile,
-         "-E- calling system function scandir, rc=%d\n", iRC);
-      perror("    ");
+         "-E- %s: calling system function scandir, rc=%d\n",
+         cModule, iRC);
+      if (errno)
+      {
+         fprintf(fLogFile, "    %s\n", strerror(errno));
+         errno = 0;
+      }
+
       return -1;
    }
 
@@ -829,11 +855,17 @@ int rawGetFSfree(char *pcStageFS)
    fPipe = fopen(cTempFile, "r");
    if (fPipe == NULL)
    {
-      fprintf(fLogFile, "-W- %s: opening file %s\n",
-              cModule, cTempFile);
-      perror("    ");
+      fprintf(fLogFile, "-E- %s: opening file %s\n",
+         cModule, cTempFile);
+      if (errno)
+      {
+         fprintf(fLogFile, "    %s\n", strerror(errno));
+         errno = 0;
+      }
+
       return -1;
    }
+
    if (iDebug)
       fprintf(fLogFile, "    file %s opened\n", cTempFile);
 
@@ -842,9 +874,15 @@ int rawGetFSfree(char *pcStageFS)
    iBuf = fread(pBuf, itemsize, itemno, fPipe);
    if (iBuf <= 0)
    {
-      fprintf(fLogFile, "-W- %s: fread, rc = %d\n", cModule, iBuf);
-      perror("    ");
+      fprintf(fLogFile, "-E- %s: fread, rc = %d\n", cModule, iBuf);
+      if (errno)
+      {
+         fprintf(fLogFile, "    %s\n", strerror(errno));
+         errno = 0;
+      }
+
       fprintf(fLogFile, "    NO status buffer sent\n");
+
    } /* (iBuf <= 0) */
    else
    {
@@ -859,20 +897,31 @@ int rawGetFSfree(char *pcStageFS)
    iRC = fclose(fPipe);
    if (iRC)
    {
-      fprintf(fLogFile, "-W- %s: rc = %d closing file\n",
-              cModule, iRC);
-      if (ferror(fPipe)) perror("    ");
+      fprintf(fLogFile, "-E- %s: rc = %d closing file\n",
+         cModule, iRC);
+      if (errno)
+      {
+         fprintf(fLogFile, "    %s\n", strerror(errno));
+         errno = 0;
+      }
+
       return(-1);
    }
+
    if (iDebug)
       fprintf(fLogFile, "    file %s closed\n", cTempFile);
 
    iRC = remove(cTempFile);
    if (iRC)
    {
-      fprintf(fLogFile, "-W- %s: rc = %d removing file %s\n",
-              cModule, iRC, cTempFile);
-      if (ferror(fPipe)) perror("    ");
+      fprintf(fLogFile, "-E- %s: rc = %d removing file %s\n",
+         cModule, iRC, cTempFile);
+      if (errno)
+      {
+         fprintf(fLogFile, "    %s\n", strerror(errno));
+         errno = 0;
+      }
+
       return -1;
    }
    if (iDebug)
@@ -881,8 +930,10 @@ int rawGetFSfree(char *pcStageFS)
    if (iDebug)
       fprintf(fLogFile, "-D- end %s\n\n", cModule);
 
-   if (iBuf <= 0) return -1;
-   else return(iFree);
+   if (iBuf <= 0)
+      return -1;
+   else
+      return(iFree);
 
 } /* rawGetFSfree */
 
@@ -922,8 +973,14 @@ int rawGetFSSpace(char *pcFileSystem,
    if (iRC)
    {
       fprintf(fLogFile,
-         "-E- calling system function statfs, rc=%d\n", iRC);
-      perror("    ");
+         "-E- %s: calling system function statfs, rc=%d\n",
+         cModule, iRC);
+      if (errno)
+      {
+         fprintf(fLogFile, "    %s\n", strerror(errno));
+         errno = 0;
+      }
+
       return -1;
    }
 
@@ -985,24 +1042,15 @@ int rawGetFSSpace(char *pcFileSystem,
 /* created 17.4.96, Horst Goeringer                                   */
 /**********************************************************************/
 
-#ifdef SYSTEM64
-int rawGetFileAttr(char *pcFile, unsigned int *piFileSize)
-#else
-int rawGetFileAttr(char *pcFile, unsigned long *piFileSize)
-#endif
+int rawGetFileAttr(char *pcFile, unsigned long *plFileSize)
 {
    char cModule[32] = "rawGetFileAttr";
    int iDebug = 0;
 
    FILE *f_ifile;
    int iRC;
-#ifdef SYSTEM64
-   unsigned int iFileSize;
-   unsigned int lr;
-#else
-   unsigned long iFileSize;
+   unsigned long lFileSize;
    unsigned long lr;
-#endif
    int iReclen;
 
    int ilocSize = 5;               /* token no. 5 contains file size */
@@ -1132,29 +1180,33 @@ int rawGetFileAttr(char *pcFile, unsigned long *piFileSize)
          strcpy(ctoken, "2000000000");
          pctoken = &ctoken;
        */
-         if ( ( iRC = sscanf( pctoken, "%lu", &iFileSize) ) <= 0 )
+         if ( ( iRC = sscanf( pctoken, "%lu", &lFileSize) ) <= 0 )
          {
-            fprintf(fLogFile,
-                    "-E- %s: file size %lu (%s) invalid\n",
-                    cModule, iFileSize, pctoken);
-            perror("    ");
+            fprintf(fLogFile, "-E- %s: filesize %lu (%s) invalid\n",
+               cModule, lFileSize, pctoken);
+            if (errno)
+            {
+               fprintf(fLogFile, "    %s\n", strerror(errno));
+               errno = 0;
+            }
             pclose(f_ifile);
+
             return(-1);
          }
          if (iDebug)
          {
-            fprintf(fLogFile, "    file size %lu\n", iFileSize);
+            fprintf(fLogFile, "    file size %lu\n", lFileSize);
             fflush(fLogFile);
          }
 
-         if ( (iFileSize == 0) && (iDebug) )
+         if ( (lFileSize == 0) && (iDebug) )
             fprintf(fLogFile, "    file %s empty\n", pcFile);
 
-         if (iFileSize > MAX_FILE_SIZE)
+         if (lFileSize > MAX_FILE_SIZE)
          {
             fprintf(fLogFile,
                "-E- %s: file %s too large (%lu byte), max allowed 2GB -1\n",
-               cModule, pcFile, iFileSize);
+               cModule, pcFile, lFileSize);
             pclose(f_ifile);
             return(-1);
          }
@@ -1176,7 +1228,12 @@ int rawGetFileAttr(char *pcFile, unsigned long *piFileSize)
    } /* while ... */
 
    pclose(f_ifile);
-   *piFileSize = iFileSize;
+
+   /* pclose provides "No child processes" only if iRC=0 */
+   if (errno)
+      errno = 0;
+
+   *plFileSize = lFileSize;
    if (iDebug) 
    {
       fprintf(fLogFile, "-D- end %s\n\n", cModule);
@@ -1200,7 +1257,7 @@ int rawGetFileList( char *pcFile,
                     char **ppFileList)
 {
    char cModule[32] = "rawGetFileList";
-   int iDebug = 1;
+   int iDebug = 0;
 
    int iRC = 0;
    int iRCE = 0;
@@ -1212,11 +1269,7 @@ int rawGetFileList( char *pcFile,
    int *piFileList;              /* points to first file in filelist */
 
    char *pcc, *pcc0, *ploc;
-#ifdef SYSTEM64
-   unsigned int lr;
-#else
    unsigned long lr;
-#endif
 
    FILE *f_ifile;
 
@@ -1561,15 +1614,23 @@ gFinishList:
    {
       if (iRC)
       {
-         fprintf(fLogFile, "    %s: iRC = %d closing pipe\n",
+         fprintf(fLogFile, "-E- %s: iRC = %d closing pipe\n",
             cModule, iRC);
-         perror("    ");
+         if (errno)
+         {
+            fprintf(fLogFile, "    %s\n", strerror(errno));
+            errno = 0;
+         }
       }
       else
          fprintf(fLogFile, "    pipe closed\n");
 
       fprintf(fLogFile, "-D- end %s\n\n", cModule);
    }
+
+   /* pclose provides "No child processes" only if iRC=0 */
+   if (errno)
+      errno = 0;
 
    if (iRCE)
       return iRCE;
@@ -1768,11 +1829,7 @@ char *rawGetUserid()
    char cModule[32] = "rawGetUserid";
    int iDebug = 0;
 
-#ifdef SYSTEM64
    unsigned int lr;
-#else
-   unsigned long lr;
-#endif
    FILE *f_ifile;
 
    char cCmd[CMDLEN] = "whoami";

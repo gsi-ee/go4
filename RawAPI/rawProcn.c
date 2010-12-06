@@ -83,7 +83,7 @@
  * 16. 5.2008, H.G.: rawGetHLName: remove './' and trailing '/.' in path
  * 28. 8.2008, H.G.: rawQueryPrint, rawQueryString:
  *                   remove ATL server no. in query output
- *  6.10.2008, H.G.: replace perror -> errno, improve msgs
+ *  6.10.2008, H.G.: replace perror by strerr(errno), improve msgs
  *                   rawRecvRequest: better handling rc=0 from recv()
  * 30.10.2008, H.G.: rawQueryFile,rawQueryList: better: rc=0 from recv()
  *  5.11.2008, H.G.: rawRecvError: better handling rc=0 from recv()
@@ -115,6 +115,11 @@
  *                   rawCheckClientFile: all checks of local file name
  *                      concerning gStore conventions are done here
  *  3. 5.2010, H.G.: rawGetFileSize: specific error msg if filesize>2GB
+ * 23. 8.2010, H.G.: rawGetFileSize, rawTestFileName:
+ *                   remove SYSTEM64, allow "long"
+ *  5.11.2010, H.G.: reset errno after error,
+ *                   better error handling after recv/send
+ * 18.11.2010, H.G.: rawRecvError: provide also incomplete msg
  **********************************************************************
  */
 
@@ -778,26 +783,16 @@ int rawGetLLName( char *pcFile, const char *pcDelimiter,
  **********************************************************************
  */
 
-#ifdef SYSTEM64
-int rawGetFileSize(char *pcFile,
-                   unsigned int *piSize,
-                   unsigned int *piRecl)      /* needed only for VMS */
-#else
 int rawGetFileSize(char *pcFile,
                    unsigned long *piSize,
-                   unsigned long *piRecl)     /* needed only for VMS */
-#endif
+                   unsigned int *piRecl)      /* needed only for VMS */
 {
    char cModule[32] = "rawGetFileSize";
    int iDebug = 0;
 
    int iRC;
    int iRecl = 0;
-#ifdef SYSTEM64
-   unsigned int iSize = 0;
-#else
    unsigned long iSize = 0;
-#endif
 
 #ifdef WIN32          /* Windows */
    struct _stat sFileStatus, *pFileStatus;
@@ -817,14 +812,18 @@ int rawGetFileSize(char *pcFile,
 #endif
    if (iRC)
    {
+      fprintf(fLogFile,
+         "-E- %s: file %s unavailable (stat)\n", cModule, pcFile);
       if (errno)
       {
-         fprintf(fLogFile, "-E- %s: %s\n", pcFile, strerror(errno));
-         if (strncmp(strerror(errno),
-                     "Value too large for defined data type", 37) == 0)
+         fprintf(fLogFile, "    %s\n", strerror(errno));
+
+         /* valid only for 32 bit OS */
+         if (strcmp(strerror(errno),
+               "Value too large for defined data type") == 0)
          {
             fprintf(fLogFile,
-               "-E- %s: file size of %s > 2 GByte: not yet supported\n",
+               "-E- %s: file size of %s > 2 GByte: use 64 bit gStore client\n",
                cModule, pcFile);
 
             errno = 0;
@@ -832,8 +831,6 @@ int rawGetFileSize(char *pcFile,
          }
          errno = 0;
       }
-      else fprintf(fLogFile,
-         "-E- %s: file %s unavailable\n", cModule, pcFile);
 
       return -1;
    }
@@ -852,7 +849,7 @@ int rawGetFileSize(char *pcFile,
    {
       iRC = 0;
       if (iDebug) fprintf(fLogFile,
-         "    file %s: size %lu, recl %d (byte)\n",
+         "    file %s: size %u, recl %d (byte)\n",
          pcFile, iSize, iRecl);
    }
    else
@@ -861,7 +858,7 @@ int rawGetFileSize(char *pcFile,
       {
          iRC = 1;
          if (iDebug) fprintf(fLogFile,
-            "-W- %s is a directory, size %lu\n", pcFile, iSize);
+            "-W- %s is a directory, size %u\n", pcFile, iSize);
       }
 #ifndef WIN32
 #ifndef VMS
@@ -869,7 +866,7 @@ int rawGetFileSize(char *pcFile,
       {
          iRC = 2;
          if (iDebug) fprintf(fLogFile,
-            "-W- %s is a symbolic link, size %lu\n", pcFile, iSize);
+            "-W- %s is a symbolic link, size %u\n", pcFile, iSize);
       }
 #endif
 #endif
@@ -877,7 +874,7 @@ int rawGetFileSize(char *pcFile,
       {
          iRC = 3;
          if (iDebug) fprintf(fLogFile,
-            "-W- unexpected item %s, size %lu\n", pcFile, iSize);
+            "-W- unexpected item %s, size %u\n", pcFile, iSize);
       }
    }
 
@@ -1010,13 +1007,22 @@ int rawQueryFile(
    }
 
    pcc = (char *) pComm;
-   if ( (iRC = send( iSocket, pcc, (unsigned) iBufComm, 0 )) < 0 )
+   iRC = send(iSocket, pcc, (unsigned) iBufComm, 0);
+   if (iRC < iBufComm)
    {
-      fprintf(fLogFile,
+      if (iRC < 0) fprintf(fLogFile,
          "-E- %s: sending command buffer for query file %s\n",
          cModule, pComm->cNamell);
+      else fprintf(fLogFile,
+         "-E- %s: query command buffer incompletely sent (%d of %d byte)\n",
+         cModule, iRC, iBufComm);
+
       if (errno)
+      {
          fprintf(fLogFile, "    %s\n", strerror(errno));
+         errno = 0;
+      }
+
       iQuery = -1;
       goto gEndQueryFile;
    }
@@ -1113,45 +1119,48 @@ gNextReply:
          iBuf = iAttrLen;        /* only space for one object buffer */
          while(iBuf > 0)
          {
-            if ( (iRC = recv( iSocket, pcc, (unsigned) iBuf, 0 )) < 0 )
+            if ( (iRC = recv( iSocket, pcc, (unsigned) iBuf, 0 )) <= 0 )
             {
-               fprintf(fLogFile,
-                  "-E- %s: receiving buffer %d with query results\n",
-                  cModule, ii);
-               if (errno)
-                  fprintf(fLogFile, "    %s\n", strerror(errno));
-               iQuery = -1;
-               iQueryAll -= iQuery;
-
-               goto gEndQueryFile;
-            }
-
-            if (iRC == 0)
-            {
-               jj = iAttrLen - iBuf;
-               fprintf(fLogFile,
-                  "-E- %s: connection to server broken, only %d bytes of query object %d (%d byte) received\n",
-                  cModule, jj, ii, iAttrLen);
-               if (errno)
-                  fprintf(fLogFile, "    %s\n", strerror(errno));
-
-               if (ii == 1)
+               if (iRC < 0)
                {
+                  fprintf(fLogFile,
+                     "-E- %s: receiving buffer %d with query results\n",
+                     cModule, ii);
+
                   iQuery = -1;
                   iQueryAll -= iQuery;
                }
                else
                {
+                  jj = iAttrLen - iBuf;
                   fprintf(fLogFile,
-                     "-E- %s: only %d of %d objects received\n",
-                     cModule, --ii, iQuery);
-                  iQueryAll -= iQuery - ii;
-                  iQuery = ii;
+                     "-E- %s: connection to server broken, only %d bytes of query object %d (%d byte) received\n",
+                     cModule, jj, ii, iAttrLen);
+
+                  if (ii == 1)
+                  {
+                     iQuery = -1;
+                     iQueryAll -= iQuery;
+                  }
+                  else
+                  {
+                     fprintf(fLogFile,
+                        "-E- %s: only %d of %d objects received\n",
+                        cModule, --ii, iQuery);
+                     iQueryAll -= iQuery - ii;
+                     iQuery = ii;
+                  }
+               }
+            
+               if (errno)
+               {
+                  fprintf(fLogFile, "    %s\n", strerror(errno));
+                  errno = 0;
                }
 
                goto gEndQueryFile;
             }
-            
+
             iBuf -= iRC;
             pcc += iRC;
 
@@ -1292,36 +1301,47 @@ int rawRecvError(int iSocket, int iLen, char *pcMsg)
    iBufs = iBuf;
    while(iBuf > 0)
    {
-      if ( (iRC = recv(iSocket, pcc, (unsigned) iBuf, 0 )) < 0 )
+      if ( (iRC = recv(iSocket, pcc, (unsigned) iBuf, 0 )) <= 0 )
       {
-         fprintf(fLogFile,
-            "-E- %s: receiving error message\n", cModule);
-         if (errno)
-            fprintf(fLogFile, "    %s\n", strerror(errno));
-         return -9;
-      }
-
-      if (iRC == 0)
-      {
-         ii = iLen - iBuf;
-         if (ii) /* append delimiters after part of message received */
+         if (iRC < 0)
          {
-            *pcc = '\0';                   /* delimit message string */
-            pcc++;
-            *pcc = '\n';
-            pcc++;
-            if (iDebug) fprintf(fLogFile, 
-               "-E- incomplete error message received:\n    %s", pcMsg);
+            fprintf(fLogFile,
+               "-E- %s: receiving error message\n", cModule);
+
+            if (errno)
+            {
+               fprintf(fLogFile, "    %s\n", strerror(errno));
+               errno = 0;
+            }
+
+            iRC = -9;
+            break;
          }
+         else
+         {
+            ii = iLen - iBuf;
+            if (ii) /* append delimiters after part of message received */
+            {
+               *pcc = '\0';                   /* delimit message string */
+               pcc++;
+               *pcc = '\n';
+               pcc++;
+               if (iDebug) fprintf(fLogFile, 
+                  "-E- incomplete error message received:\n    %s", pcMsg);
+            }
+            fprintf(fLogFile,
+               "-E- %s: connection to sender broken, %d byte of error message (%d byte) received\n",
+               cModule, ii, iLen);
 
-         fprintf(fLogFile,
-            "-E- %s: connection to sender broken, %d byte of error message (%d byte) received\n",
-            cModule, ii, iLen);
-         if (errno)
-            fprintf(fLogFile, "    %s\n", strerror(errno));
+            if (errno)
+            {
+               fprintf(fLogFile, "    %s\n", strerror(errno));
+               errno = 0;
+            }
 
-         iRC = -9;
-         break;
+            iRC = -8;
+            break;
+         }
       }
 
       iBuf -= iRC;
@@ -1334,15 +1354,24 @@ int rawRecvError(int iSocket, int iLen, char *pcMsg)
       fprintf(fLogFile,
          "-E- %s: more error data received than expected:\n     %s",
          pcMsg, cModule);
-      return -2;
+      iRC = -2;
    }
 
    if (iRC == -9)
+   {
+      if (iDebug)
+         fprintf(fLogFile, "-D- end %s\n\n", cModule);
+
       return iRC;
+   }
    else
    {
       /* also okay if no message (iLen = 0) */
       *pcc = '\0';                         /* delimit message string */
+
+      /* only msg part received */
+      if (iRC == -8)
+         iBufs = ii;
 
       if (iDebug)
       {
@@ -1389,25 +1418,24 @@ int rawRecvHead( int iSocket, char *pcBuf)
    iBufs = iBuf;
    while(iBuf > 0)
    {
-      iRC = recv( iSocket, pcc, (unsigned) iBuf, 0 );
-      if (iRC < 0)
+      iRC = recv(iSocket, pcc, (unsigned) iBuf, 0);
+      if (iRC <= 0)
       {
-         fprintf(fLogFile,
+         if (iRC < 0) fprintf(fLogFile,
             "-E- %s: receiving buffer header\n", cModule);
-         if (errno)
-            fprintf(fLogFile, "    %s\n", strerror(errno));
+         else
+         {
+            ii = iBufs - iBuf;
+            fprintf(fLogFile,
+               "-E- %s: connection to sender broken, %d byte of buffer header (%d byte) received\n",
+               cModule, ii, iBufs);
+         }
 
-         return -1;
-      }
-
-      if (iRC == 0)
-      {
-         ii = iBufs - iBuf;
-         fprintf(fLogFile,
-            "-W- %s: connection to sender broken, %d byte of buffer header (%d byte) received\n",
-            cModule, ii, iBufs);
          if (errno)
+         {
             fprintf(fLogFile, "    %s\n", strerror(errno));
+            errno = 0;
+         }
 
          return -1;
       }
@@ -1477,7 +1505,7 @@ int rawRecvHeadC(int iSocket,
    int iStatus;
    int iDataLen;
 
-   char cMsg[STATUS_LEN] = "";   /* for error message to be received */
+   char cMsg1[STATUS_LEN] = "";
 
    int iRC, ii;
    int iBuf, iBufs;
@@ -1512,25 +1540,27 @@ int rawRecvHeadC(int iSocket,
          {
             sprintf(pcMsg, "-E- %s: receiving buffer header\n",
                cModule);
-            if (iDebug)
-               fprintf(fLogFile, pcMsg);
-            if (errno)
-               fprintf(fLogFile, "    %s\n", strerror(errno));
-
             iRC = -1;
-            goto gEndRecvHeadC;
+         }
+         else
+         {
+            ii = iBufs - iBuf;
+            sprintf(pcMsg,
+               "-E- %s: connection to sender broken, %d byte of buffer header (%d byte) received\n",
+               cModule, ii, iBufs);
+            iRC = -2;
          }
 
-         ii = iBufs - iBuf;
-         sprintf(pcMsg,
-            "-W- %s: connection to sender broken, %d byte of buffer header (%d byte) received\n",
-            cModule, ii, iBufs);
+         if (errno)
+         {
+            sprintf(cMsg1, "    %s\n", strerror(errno));
+            strcat(pcMsg, cMsg1);
+            errno = 0;
+         }
+
          if (iDebug)
             fprintf(fLogFile, pcMsg);
-         if (errno)
-            fprintf(fLogFile, "    %s\n", strerror(errno));
 
-         iRC = -2;
          goto gEndRecvHeadC;
       }
 
@@ -1569,12 +1599,12 @@ int rawRecvHeadC(int iSocket,
            ((iStatus == STA_ERROR) || (iStatus == STA_ERROR_EOF) ||
             (iStatus == STA_CACHE_FULL)) )
       {
-         pcc = cMsg;
+         pcc = cMsg1;
          iRC = rawRecvError(iSocket, iDataLen, pcc);
          if (iRC < 0)
          {
             sprintf(pcMsg, "-E- %s: receiving error msg, rc=%d\n",
-                    cModule, iRC);
+               cModule, iRC);
             if (iDebug)
                fprintf(fLogFile, pcMsg);
 
@@ -1607,8 +1637,8 @@ int rawRecvHeadC(int iSocket,
       if (iIdent != iIdentReq)
       {
          sprintf(pcMsg,
-                 "-E- %s: unexpected header (ident %d) received\n",
-                 cModule, iIdent);
+            "-E- %s: unexpected header (ident %d) received\n",
+            cModule, iIdent);
          if (iDebug)
             fprintf(fLogFile, pcMsg);
 
@@ -1688,27 +1718,23 @@ int rawRecvRequest(int iSocket,
    iimax = HEAD_LEN;
    while(iBuf > 0)
    {
-      if ( (iRC = recv( iSocket, pcc, (unsigned) iBuf, 0 )) < 0 )
+      if ( (iRC = recv( iSocket, pcc, (unsigned) iBuf, 0 )) <= 0 )
       {
-         fprintf(fLogFile,
-            "-E- %s: receiving buffer header\n", cModule);
-         if (errno)
-            fprintf(fLogFile, "    %s\n", strerror(errno));
+         if (iRC < 0)
+         {
+            fprintf(fLogFile,
+               "-E- %s: receiving buffer header\n", cModule);
+            iError = -1;
+         }
+         else
+         {
+            ii = iimax - iBuf;
+            fprintf(fLogFile,
+               "-W- %s: connection to sender broken, %d byte of buffer header (%d byte) received\n",
+               cModule, ii, iimax);
+            iError = -5;
+         }
 
-         iError = -1;
-         goto gErrorRecvRequest;
-      }
-
-      if (iRC == 0)
-      {
-         ii = iimax - iBuf;
-         fprintf(fLogFile,
-            "-W- %s: connection to sender broken, %d byte of buffer header (%d byte) received\n",
-            cModule, ii, iimax);
-         if (errno)
-            fprintf(fLogFile, "    %s\n", strerror(errno));
-
-         iError = -5;
          goto gErrorRecvRequest;
       }
       
@@ -1722,14 +1748,15 @@ int rawRecvRequest(int iSocket,
       fprintf(fLogFile,
          "-E- %s: more buffer header data received than expected\n",
          cModule);
+
       iError = -2;
       goto gErrorRecvRequest;
    }
 
    pRequest->iIdent = ntohl(pRequest->iIdent);
    if (iDebug) fprintf(fLogFile,
-      "    %s: buffer header received (%d bytes, id %d)\n",
-      cModule, iimax, pRequest->iIdent);
+      "    buffer header received (%d bytes, id %d)\n",
+      iimax, pRequest->iIdent);
 
    if ( (pRequest->iIdent != IDENT_NEXT_BUFFER) &&
         (pRequest->iIdent != IDENT_STATUS) )
@@ -1749,27 +1776,29 @@ int rawRecvRequest(int iSocket,
 
    while(iBuf > 0)
    {
-      if ( (iRC = recv( iSocket, pcc, (unsigned) iBuf, 0 )) < 0 )
+      if ( (iRC = recv( iSocket, pcc, (unsigned) iBuf, 0 )) <= 0 )
       {
-         fprintf(fLogFile,
-            "-E- %s: receiving buffer data\n", cModule);
+         if (iRC < 0)
+         {
+            fprintf(fLogFile,
+               "-E- %s: receiving buffer data\n", cModule);
+            iError = -1;
+         }
+         else
+         {
+            ii = iBuf0 - iBuf;
+            fprintf(fLogFile,
+               "-W- %s: connection to sender broken, %d byte of data (%d byte) received\n",
+               cModule, ii, iBuf0);
+            iError = -5;
+         }
+
          if (errno)
+         {
             fprintf(fLogFile, "    %s\n", strerror(errno));
+            errno = 0;
+         }
 
-         iError = -1;
-         goto gErrorRecvRequest;
-      }
-
-      if (iRC == 0)
-      {
-         ii = iBuf0 - iBuf;
-         fprintf(fLogFile,
-            "-W- %s: connection to sender broken, %d byte of data (%d byte) received\n",
-            cModule, ii, iBuf0);
-         if (errno)
-            fprintf(fLogFile, "    %s\n", strerror(errno));
-
-         iError = -5;
          goto gErrorRecvRequest;
       }
       
@@ -1781,7 +1810,7 @@ int rawRecvRequest(int iSocket,
    if (iBuf < 0) 
    {
       fprintf(fLogFile, "-E- %s: more data received than expected\n",
-              cModule);
+         cModule);
       iError = -2;
       goto gErrorRecvRequest;
    }
@@ -1882,39 +1911,38 @@ int rawRecvStatus( int iSocket, char *pcBuf)
    char *pcc;
    srawStatus *pStatus;
 
+   if (iDebug)
+      fprintf(fLogFile, "\n-D- begin %s\n", cModule);
+
    pcc = pcBuf;         /* points now to buffer in calling procedure */
    pStatus = (srawStatus *) pcc;
    memset(pcc, 0x00, sizeof(HEAD_LEN));
    iBuf = HEAD_LEN;
    iBufs = iBuf;
 
-   if (iDebug)
-      fprintf(fLogFile, "\n-D- begin %s\n", cModule);
-
    while(iBuf > 0)
    {
-      if ( (iRC = recv( iSocket, pcc, (unsigned) iBuf, 0 )) < 0 )
+      if ( (iRC = recv( iSocket, pcc, (unsigned) iBuf, 0 )) <= 0 )
       {
-         fprintf(fLogFile, "-E- %s: receiving status header\n",
-            cModule);
-         if (errno)
-            fprintf(fLogFile, "    %s\n", strerror(errno));
-
-         return -1;
-      }
-
-      if (iRC == 0)
-      {
-         ii = iBufs - iBuf;
-         fprintf(fLogFile,
-            "-W- %s: connection to sender broken, %d byte of status header (%d byte) received\n",
-            cModule, ii, iBufs);
-         if (errno)
-            fprintf(fLogFile, "    %s\n", strerror(errno));
-
-         return -1;
-      }
+         if (iRC < 0) fprintf(fLogFile,
+            "-E- %s: receiving status header\n", cModule);
+         else
+         {
+            ii = iBufs - iBuf;
+            fprintf(fLogFile,
+               "-E- %s: connection to sender broken, %d byte of status header (%d byte) received\n",
+               cModule, ii, iBufs);
+         }
       
+         if (errno)
+         {
+            fprintf(fLogFile, "    %s\n", strerror(errno));
+            errno = 0;
+         }
+
+         return -1;
+      }
+
       iBuf -= iRC;
       pcc += iRC;
 
@@ -1955,28 +1983,27 @@ int rawRecvStatus( int iSocket, char *pcBuf)
       iBufs += iBuf;
       while(iBuf > 0)
       {
-         if ( (iRC = recv( iSocket, pcc, (unsigned) iBuf, 0 )) < 0 )
+         if ( (iRC = recv( iSocket, pcc, (unsigned) iBuf, 0 )) <= 0 )
          {
-            fprintf(fLogFile, "-E- %s: receiving status message\n",
-               cModule);
-            if (errno)
-               fprintf(fLogFile, "    %s\n", strerror(errno));
-
-            return -4;
-         }
-
-         if (iRC == 0)
-         {
-            ii = iLen - iBuf;
-            fprintf(fLogFile,
-               "-W- %s: connection to sender broken, %d byte of status message (%d byte) received\n",
-               cModule, ii, iLen);
-            if (errno)
-               fprintf(fLogFile, "    %s\n", strerror(errno));
-
-            return -4;
-         }
+            if (iRC < 0) fprintf(fLogFile,
+               "-E- %s: receiving status message\n", cModule);
+            else
+            {
+               ii = iLen - iBuf;
+               fprintf(fLogFile,
+                  "-E- %s: connection to sender broken, %d byte of status message (%d byte) received\n",
+                  cModule, ii, iLen);
+            }
       
+            if (errno)
+            {
+               fprintf(fLogFile, "    %s\n", strerror(errno));
+               errno = 0;
+            }
+
+            return -4;
+         }
+
          iBuf -= iRC;
          pcc += iRC;
 
@@ -2048,12 +2075,21 @@ int rawSendRequest(int iSocket,
 
    iBuf = iRequSize;
    pcc = (char *) &sRequest;
-   if ( (iRC = send( iSocket, pcc, (unsigned) iBuf, 0 )) < 0 )
+   iRC = send(iSocket, pcc, (unsigned) iBuf, 0);
+   if (iRC < iBuf)
    {
-      fprintf(fLogFile,
+      if (iRC < 0) fprintf(fLogFile,
          "-E- %s: sending request buffer\n", cModule);
+      else fprintf(fLogFile,
+         "-E- %s: request buffer incompletely sent (%d of %d byte)\n",
+         cModule, iRC, iBuf);
+
       if (errno)
+      {
          fprintf(fLogFile, "    %s\n", strerror(errno));
+         errno = 0;
+      }
+
       return -1;
    }
 
@@ -2115,12 +2151,21 @@ int rawSendStatus( int iSocket, int iStatus, char *pcMsg)
       fflush(fLogFile);
    }
 
-   if ( (iRC = send( iSocket, pcc, (unsigned) iBuf, 0 )) < 0 )
+   iRC = send(iSocket, pcc, (unsigned) iBuf, 0);
+   if (iRC < iBuf)
    {
-      fprintf(fLogFile,
+      if (iRC < 0) fprintf(fLogFile,
          "-E- %s: sending status buffer\n", cModule);
+      else fprintf(fLogFile,
+         "-E- %s: status buffer incompletely sent (%d of %d byte)\n",
+         cModule, iRC, iBuf);
+
       if (errno)
+      {
          fprintf(fLogFile, "    %s\n", strerror(errno));
+         errno = 0;
+      }
+
       return -1;
    }
 
@@ -2147,11 +2192,8 @@ int rawTestFileName( char *pcFile)
    int iRC;
    int ilen;
    int iError = 0;
-#ifdef SYSTEM64
-   unsigned int iFileSize, iSize;      /* dummies for rawGetFileSize */
-#else
-   unsigned long iFileSize, iSize;     /* dummies for rawGetFileSize */
-#endif
+   unsigned long lFileSize = 0;          /* dummy for rawGetFileSize */
+   int iSize = 0;                        /* dummy for rawGetFileSize */
    char *pdir;
 
    if (iDebug) fprintf(fLogFile,
@@ -2197,11 +2239,7 @@ int rawTestFileName( char *pcFile)
          fprintf(fLogFile, "    rel name %s okay\n", pcFile);
    }
 
-#ifdef SYSTEM64
-   iRC = rawGetFileSize(pcFile, &iFileSize, (unsigned int *) &iSize);
-#else
-   iRC = rawGetFileSize(pcFile, &iFileSize, (unsigned long *) &iSize);
-#endif
+   iRC = rawGetFileSize(pcFile, &lFileSize, &iSize);
    if (iDebug) fprintf(fLogFile,
       "    after rawGetFileSize, rc = %d\n", iRC);
 

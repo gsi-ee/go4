@@ -19,6 +19,7 @@
  *  1. 2.2005, H.G.: ported to Linux and gcc322
  *  7.10.2008, H.G.: improved retry loops
  *  3.11.2008, H.G.: correct include files for AIX
+ *  5.11.2010, H.G.: replace perror by strerror(errno)
  *********************************************************************
  */  
  
@@ -95,15 +96,15 @@ int rconnect( char *cNode,        /* input:  name of remote host */
       if ( ( pHE = gethostbyaddr( 
                (char *)&lAddr, sizeof(lAddr), AF_INET ) ) == NULL )
       {
-         fprintf(stderr,"-E- %s: unknown host %s\n", cModule, cNode );
+         printf("-E- %s: unknown host %s\n", cModule, cNode );
          iError = -1;
          goto gError;
       }
       if (iDebug) 
-         printf("-D- %s: gethostbyaddr succeeded\n", cModule);
+         printf("    %s: gethostbyaddr succeeded\n", cModule);
    }
    else if (iDebug) 
-      printf("-D- %s: gethostbyname succeeded\n", cModule);
+      printf("    %s: gethostbyname succeeded\n", cModule);
    sHE = *pHE;                                        /* safe copy */
 
 gRetryConnect:;
@@ -111,9 +112,14 @@ gRetryConnect:;
    if ( ( iSocket = socket( 
             AF_INET, SOCK_STREAM, IPPROTO_TCP ) ) == -1 )
    {
-      perror("-E- rconnect(socket)");
-      iError = errno;
-      printf("    %s\n", strerror(errno));
+      printf("-E- %s: socket failed\n", cModule);
+      if (errno)
+      {
+         printf("    %s\n", strerror(errno));
+         errno = 0;
+      }
+
+      iError = -1;
       goto gError;
    }
  
@@ -125,9 +131,14 @@ gRetryConnect:;
                (struct sockaddr *) &sSockAddr,
                sizeof(sSockAddr) ) == -1 )
    {
-      perror("-E- rconnect(bind)");
-      iError = errno;
-      printf("    %s\n", strerror(errno));
+      printf("-E- %s: bind failed\n", cModule);
+      if (errno)
+      {
+         printf("    %s\n", strerror(errno));
+         errno = 0;
+      }
+
+      iError = -1;
       goto gError;
    }
  
@@ -142,20 +153,21 @@ gRetryConnect:;
 #ifdef WIN32
       iError = -1;           /* errno, perror indicate NO error! */
 #else
-      perror("-E- rconnect(connect)");
-      iError = errno;
-      printf("    %s\n", strerror(errno));
+      printf("-E- %s: connect to %s:%d failed\n", cModule, cNode, iPort);
+      if (errno)
+      {
+         printf("    %s\n", strerror(errno));
+         errno = 0;
+      }
 #endif
 
       /* if not successful, retry.  Possibly server not yet up. */
-#ifdef WIN32
       if ( (iTime < iMaxTime) || (iMaxTime == -1) )
       {
+#ifdef WIN32
          closesocket(iSocket);
          iSocket = -1;
 #else
-      if ( (iTime < iMaxTime) || (iMaxTime == -1) )
-      {
          close(iSocket); 
          iSocket = -1;
          if (imySigS)                         /* CTL C specified */
