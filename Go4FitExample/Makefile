@@ -61,21 +61,21 @@ FITEX3_O       = $(FITEX_DIR)/Example3.$(ObjSuf)
 FITEX3_S       = $(FITEX_DIR)/Example3.$(SrcSuf)
 FITEX3_E       = $(FITEX_DIR)/Example3$(ExeSuf)
 
-ifneq ($(shell which f77 2>/dev/null),)
-ifneq ($(wildcard /usr/lib/libg2c.*)$(wildcard /usr/local/lib/libg2c.*),)
-
-FITEX_EXECS    += $(FITEX3_E)
-
-FITEX_OBJS     += $(FITEX3_O) $(FITEX3_FUNCO)
-
-$(FITEX3_FUNCO):  $(FITEX3_FUNCS)
-	f77 -c $(FITEX3_FUNCS) -o $(FITEX3_FUNCO)
-
-$(FITEX3_E):   $(FITEX_EXEDEP) $(FITEX3_O) $(FITEX3_FUNCO)
-	$(LD) $(LDFLAGS) $(FITEX3_O) $(FITEX3_FUNCO) $(FITEX_USEDLIBS) -lg2c $(OutPutOpt) $(FITEX3_E)
-
-endif
-endif
+#ifneq ($(shell which f77 2>/dev/null),)
+#ifneq ($(wildcard /usr/lib/libg2c.*)$(wildcard /usr/local/lib/libg2c.*),)
+#
+#FITEX_EXECS    += $(FITEX3_E)
+#
+#FITEX_OBJS     += $(FITEX3_O) $(FITEX3_FUNCO)
+#
+#$(FITEX3_FUNCO):  $(FITEX3_FUNCS)
+#	f77 -c $(FITEX3_FUNCS) -o $(FITEX3_FUNCO)
+#
+#$(FITEX3_E):   $(FITEX_EXEDEP) $(FITEX3_O) $(FITEX3_FUNCO)
+#	$(LD) $(LDFLAGS) $(FITEX3_O) $(FITEX3_FUNCO) $(FITEX_USEDLIBS) -lg2c $(OutPutOpt) $(FITEX3_E)
+#
+#endif
+#endif
 
 # ------------------Example4---------------------------------------------
 
