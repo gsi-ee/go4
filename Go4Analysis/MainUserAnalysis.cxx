@@ -183,7 +183,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
          if ((cl!=TGo4EventSource::Class()) && (evsrc_cl==0)) evsrc_cl = cl;
       } else
       if (cl->InheritsFrom(TGo4EventElement::Class())) {
-         if ((cl!=TGo4EventElement::Class()) && (ev_cl==0)) ev_cl = cl;
+         if ((cl!=TGo4EventElement::Class()) && ((ev_cl==0) || cl->InheritsFrom(ev_cl))) ev_cl = cl;
       } else
       if (cl->InheritsFrom(TGo4Analysis::Class())) {
          if ((cl!=TGo4Analysis::Class()) && (an_cl==0)) an_cl = cl;

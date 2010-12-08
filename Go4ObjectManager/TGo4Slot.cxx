@@ -112,30 +112,30 @@ TGo4Slot::~TGo4Slot()
    // are informed and we can remove object (with clean proxy), delete childs
    // and remove parameters
 
-   if (gDebug>1) Info("~TGo4Slot","%x Starting name = %s", this, GetFullName().Data());
+   if (gDebug>1) Info("~TGo4Slot","%p Starting name = %s", this, GetFullName().Data());
 
    SetBit(kStartDelete, kTRUE);
 
-   if (gDebug>1) Info("~TGo4Slot","%x CleanProxy()", this);
+   if (gDebug>1) Info("~TGo4Slot","%p CleanProxy()", this);
    CleanProxy();
 
-   if (gDebug>1) Info("~TGo4Slot","%x Event(this, evDelete)", this);
+   if (gDebug>1) Info("~TGo4Slot","%p Event(this, evDelete)", this);
    Event(this, evDelete);
 
-   if (gDebug>1) Info("~TGo4Slot","%x DeleteChilds()", this);
+   if (gDebug>1) Info("~TGo4Slot","%p DeleteChilds()", this);
    DeleteChilds();
 
-   if (gDebug>1) Info("~TGo4Slot","%x Dettach from parent", this);
+   if (gDebug>1) Info("~TGo4Slot","%p Detach from parent", this);
    if (fParent!=0) {
       fParent->RemoveChild(this);
       fParent = 0;
    }
 
-   if (gDebug>1) Info("~TGo4Slot","%x fPars.Delete()", this);
+   if (gDebug>1) Info("~TGo4Slot","%p fPars.Delete()", this);
    fPars.Delete();
 
    if (fChilds!=0) {
-      if (gDebug>1) Info("~TGo4Slot","%x Dettach rest childs", this);
+      if (gDebug>1) Info("~TGo4Slot","%p Detach rest children", this);
       for (Int_t n=0;n<=fChilds->GetLast();n++) {
          TGo4Slot* child = (TGo4Slot*) fChilds->At(n);
          if (child==0) continue;
@@ -147,7 +147,7 @@ TGo4Slot::~TGo4Slot()
       fChilds = 0;
    }
 
-   if (gDebug>1) Info("~TGo4Slot","%x Finish", this);
+   if (gDebug>1) Info("~TGo4Slot","%p Finish", this);
 
 
 // *********************************************************************

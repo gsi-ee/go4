@@ -343,7 +343,7 @@ void TGo4ObjectManager::RetranslateEvent(TGo4Slot* source, Int_t id, void* param
          TGo4Slot* target = link->GetTarget();
 
          if (gDebug>2)
-            Info("RetranslateEvent","src = %x %s tgt = %x %s id = %d", source, source->GetFullName().Data(), target, target->GetFullName().Data(), id);
+            Info("RetranslateEvent","src = %p %s tgt = %p %s id = %d", source, source->GetFullName().Data(), target, target->GetFullName().Data(), id);
 
          target->Event(source, id, param);
       }
