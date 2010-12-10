@@ -193,7 +193,7 @@ class TGo4FitModel : public TGo4FitComponent {
       virtual Double_t Evaluate(Double_t* v, Int_t ndim);
 
       /**
-       * Calculates intagral of model component
+       * Calculates integral of model component
        */
       virtual Double_t Integral();
 

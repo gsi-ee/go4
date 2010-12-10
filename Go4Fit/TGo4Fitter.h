@@ -229,7 +229,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       TGo4FitModelGauss1* AddGauss1(const char* DataName, const char* ModelName, Double_t iPosition, Double_t iWidth, Double_t iAmpl = 1., Int_t Axis = 0);
 
       /**
-       * Counts models assosiated with specific data.
+       * Counts models associated with specific data.
        */
       Int_t NumModelsAssosiatedTo(const char* DataName);
 
@@ -246,7 +246,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       TGo4FitModel* RemoveModel(const char* ModelName, Bool_t IsDel = kFALSE);
 
       /**
-       * Remove models assosiated with specific data.
+       * Remove models associated with specific data.
        */
       void DeleteModelsAssosiatedTo(const char* DataName);
 
