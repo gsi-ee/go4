@@ -90,9 +90,11 @@ if [ "$GO4_OS" = "Win32" ]; then
   #      $LIBDIR/${LIBNAME}.exp $extralibs $rootlibs $syslibs
   
   echo Link $LIBDIR/${LIBNAME}.dll
-  
-  link $SOFLAGS $LDFLAGS -out:$LIBDIR/${LIBNAME}.dll $LIBOBJS \
+
+  link /MANIFEST $SOFLAGS $LDFLAGS -out:$LIBDIR/${LIBNAME}.dll $LIBOBJS \
      $LIBDIR/${LIBNAME}.exp $extralibs $rootlibs $syslibs
+
+  echo Process manifest $LIBDIR/${LIBNAME}.dll.manifest
 
   mt -nologo -manifest $LIBDIR/${LIBNAME}.dll.manifest -outputresource:$LIBDIR/${LIBNAME}.dll
 

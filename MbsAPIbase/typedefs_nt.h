@@ -14,7 +14,13 @@
 /* This file called in typedefs.h defines data types for NT */
 
 #ifdef WIN32
-#define EWOULDBLOCK             WSAEWOULDBLOCK
+
+
+#define ESOCKTNOSUPPORT         WSAESOCKTNOSUPPORT
+
+
+
+/* #define EWOULDBLOCK             WSAEWOULDBLOCK
 #define EINPROGRESS             WSAEINPROGRESS
 #define EALREADY                WSAEALREADY
 #define ENOTSOCK                WSAENOTSOCK
@@ -42,14 +48,21 @@
 #define ETIMEDOUT               WSAETIMEDOUT
 #define ECONNREFUSED            WSAECONNREFUSED
 #define ELOOP                   WSAELOOP
+*/
+
 /*#define ENAMETOOLONG            WSAENAMETOOLONG*/
+
+/*
 #define EHOSTDOWN               WSAEHOSTDOWN
 #define EHOSTUNREACH            WSAEHOSTUNREACH
+*/
 /*#define ENOTEMPTY               WSAENOTEMPTY*/
+/*
 #define EPROCLIM                WSAEPROCLIM
 #define EUSERS                  WSAEUSERS
 #define EDQUOT                  WSAEDQUOT
 #define ESTALE                  WSAESTALE
 #define EREMOTE                 WSAEREMOTE
+*/
 #endif
 

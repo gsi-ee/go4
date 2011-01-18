@@ -14,7 +14,9 @@ PROJECTNAME = Go4GUI
 
 RESOURCES += go4icons.qrc
 
-win32:QMAKE_LFLAGS  += /nodefaultlib:msvcrt /verbose:lib
+win32:QMAKE_LFLAGS  += /nodefaultlib:msvcrt /verbose:lib msvcrt.lib
+
+win32:QMAKE_CXXFLAGS  += -MD
 
 win32:DEFINES += GO4_EXPORT
 

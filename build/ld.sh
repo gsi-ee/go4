@@ -18,7 +18,7 @@ done
 
 echo "Producing $exename"
 
-link $args
+link /MANIFEST $args
 
 if [ $? != 0 ]; then exit $?; fi
 

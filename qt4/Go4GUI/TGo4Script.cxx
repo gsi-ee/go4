@@ -14,6 +14,7 @@
 #include "TGo4Script.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "TString.h"
 #include "TROOT.h"
