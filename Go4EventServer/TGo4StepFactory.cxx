@@ -78,7 +78,7 @@ TGo4EventProcessor * TGo4StepFactory::CreateEventProcessor(TGo4EventProcessorPar
 
    // par is the object specified as last argument creating the step in TAnalysis
    // only info we can get is an ID
-   cout << "GO4-*> " << GetName() << ": Create event processor " << fProcessorName << endl;
+   cout << "GO4-*> " << GetName() << ": Create event processor " << fProcessorName.Data() << endl;
    if(fnewProcessor.Length() == 0)
       cout << "No event processor was specified!" << endl;
    else
@@ -102,14 +102,14 @@ TGo4EventElement * TGo4StepFactory::CreateOutputEvent()
 {
    TGo4EventElement * Oevent = 0;
 
-   cout << "GO4-*> " << GetName() << ": Create output event " << fOutputEventName << endl;
+   cout << "GO4-*> " << GetName() << ": Create output event " << fOutputEventName.Data() << endl;
 
    if(fnewOutputEvent.Length() == 0)
       cout << "No output event was specified!" << endl;
    else
       Oevent = (TGo4EventElement*) gROOT->ProcessLineSync(fnewOutputEvent.Data());
    if(Oevent == 0)
-      cout << "Cannot create output event: " << fOutputEventName << endl;
+      cout << "Cannot create output event: " << fOutputEventName.Data() << endl;
    return Oevent;
 }
 
@@ -121,16 +121,18 @@ void TGo4StepFactory::DefInputEvent(const char* Iname, const char* Iclass)
 }
 
 //-----------------------------------------------------------
-TGo4EventElement * TGo4StepFactory::CreateInputEvent()
+TGo4EventElement* TGo4StepFactory::CreateInputEvent()
 {
    TGo4EventElement * Ievent = 0;
 
-   cout << "GO4-*> " << GetName() << ": Create input event " << fInputEventName << endl;
-   if(fnewInputEvent.Length() == 0)
-      return (TGo4EventElement*) TGo4EventServerFactory::CreateInputEvent();
+   cout << "GO4-*> " << GetName() << ": Create input event " << fInputEventName.Data() << endl;
 
-   Ievent = (TGo4EventElement *)gROOT->ProcessLineSync(fnewInputEvent.Data());
-   if(Ievent == 0) cout << "Cannot create input event: " << fInputEventName << endl;
+
+   if(fnewInputEvent.Length() == 0)
+      return TGo4EventServerFactory::CreateInputEvent();
+
+   Ievent = (TGo4EventElement*) gROOT->ProcessLineSync(fnewInputEvent.Data());
+   if(Ievent == 0) cout << "Cannot create input event: " << fInputEventName.Data() << endl;
    return Ievent;
 }
 
