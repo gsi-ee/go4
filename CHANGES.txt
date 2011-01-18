@@ -20,6 +20,10 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
+Changes in Go4 v4.4.3 (Winter 2011)
+1. Implement proper Ctrl-C handler for Windows platform
+
+
 Changes in Go4 v4.4.2 (October 2010)
 1. Fix analysis crash when autosave file cannot be created in specified locations. 
 2. Add handling of event timeout exception to analysis, running in batch mode.

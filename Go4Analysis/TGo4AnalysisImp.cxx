@@ -82,44 +82,30 @@
 
 
 class TGo4InterruptHandler : public TSignalHandler {
-   protected:
-      UInt_t fCallCount;
    public:
       TGo4InterruptHandler() :
-         TSignalHandler(kSigInterrupt, kFALSE),
-         fCallCount(0)
+         TSignalHandler(kSigInterrupt, kFALSE)
       {
-         Add();
       }
 
       virtual Bool_t Notify()
       {
          if (TGo4Analysis::Exists())
-			 {
-				 switch(fCallCount++)
-				 {
-					 case 0:
-						 TGo4Analysis::Instance()->StopWorking();    // for batch mode and server mode
-						 TGo4Analysis::Instance()->ShutdownServer(); // only for server mode
-						 break;
-					 case 1:
-						 // if shutdown should hang, we do second try closing the files directly
-						 TGo4Analysis::Instance()->CloseAnalysis();
-						 TGo4Analysis::Instance()->CloseAutoSaveFile();
-						 TGo4Log::CloseLogfile();
-						 gApplication->Terminate();
-						 break;
-					 case 2:
-					 default:
-						 exit(0); // the hard way if nothing helps
-						 break;
+             TGo4Analysis::Instance()->ProcessCrtlCSignal();
 
-				 };
-			 }
          return kTRUE;
       }
-
 };
+
+
+#ifdef WIN32
+
+namespace {
+   void InstallGo4CtrlCHandler(bool on);
+}
+
+#endif
+
 
 // _________________________________________________________________________________
 
@@ -198,7 +184,8 @@ TGo4Analysis::TGo4Analysis(const char* name) :
    fServerCtrlPass(),
    fServerObserverPass(),
    fbMakeWithAutosave(kTRUE),
-   fbObjMade(kFALSE)
+   fbObjMade(kFALSE),
+   fNumCtrlC(0)
 {
    TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
 
@@ -277,6 +264,12 @@ void TGo4Analysis::Constructor()
       fbExists = kTRUE;
 
       fxInterruptHandler = new TGo4InterruptHandler();
+      fxInterruptHandler->Add();     
+
+#ifdef WIN32
+      InstallGo4CtrlCHandler(true);
+#endif
+
    } else {
       // instance already there
       Message(2,"Analysis BaseClass ctor -- analysis singleton already exists !!!");
@@ -289,10 +282,17 @@ void TGo4Analysis::Constructor()
 
 TGo4Analysis::~TGo4Analysis()
 {
+
+#ifdef WIN32
+   InstallGo4CtrlCHandler(false);  
+#endif
+
    if (fxInterruptHandler!=0) {
       delete fxInterruptHandler;
       fxInterruptHandler = 0;
    }
+
+
 
    TRACE((15,"TGo4Analysis::~TGo4Analysis()",__LINE__, __FILE__));
    CloseAnalysis();
@@ -308,6 +308,30 @@ TGo4Analysis::~TGo4Analysis()
    gROOT->ProcessLineSync(Form(".x %s", TGo4Log::subGO4SYS("macros/anamacroclose.C").Data()));
    //cout <<"end of dtor" << endl;
 }
+
+
+
+void TGo4Analysis::ProcessCrtlCSignal()
+{
+   switch(fNumCtrlC++) {
+      case 0:
+	 StopWorking();    // for batch mode and server mode
+	 ShutdownServer(); // only for server mode
+         break;
+     case 1:
+        // if shutdown should hang, we do second try closing the files directly
+	CloseAnalysis();
+	CloseAutoSaveFile();
+	TGo4Log::CloseLogfile();
+	if (gApplication) gApplication->Terminate();
+	break;
+     case 2:
+     default:
+        exit(1); // the hard way if nothing helps
+        break;
+   }
+}
+
 
 ////////////////////////////////////////////////////
 // Initialization and analysis defining methods:
@@ -511,12 +535,11 @@ Int_t TGo4Analysis::Process()
 
    catch(TGo4UserException& ex)
    {
-      //{TGo4LockGuard global;
-      //ex.Handle();}
-	  if(strlen(ex.GetMessage())!=0)
-		  Message(ex.GetPriority(), ex.GetMessage() );
-      if(IsErrorStopEnabled() && ex.GetPriority()>2)
-      {
+      // { TGo4LockGuard global; ex.Handle(); }
+
+      if(strlen(ex.GetMessage())!=0)
+          Message(ex.GetPriority(), ex.GetMessage());
+      if(IsErrorStopEnabled() && (ex.GetPriority() > 2)) {
          if(fxAnalysisSlave) fxAnalysisSlave->Stop(); // only stop for errors, warnings and infos continue loop!
          //return -1;
          rev=-1;
@@ -1945,3 +1968,42 @@ TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
 
    return param;
 }
+
+
+
+#ifdef WIN32
+
+#include "windows.h"
+
+
+namespace {
+
+   static BOOL Go4ConsoleSigHandler(DWORD sig)
+   {
+      // WinNT signal handler.
+
+      switch (sig) {
+         case CTRL_C_EVENT:
+           if (TGo4Analysis::Exists())
+               TGo4Analysis::Instance()->ProcessCrtlCSignal();
+            return TRUE;
+         case CTRL_BREAK_EVENT:
+         case CTRL_LOGOFF_EVENT:
+         case CTRL_SHUTDOWN_EVENT:
+         case CTRL_CLOSE_EVENT:
+         default:
+            printf(" non CTRL-C signal - ignore\n");
+            return TRUE;
+      }
+   }
+
+   void InstallGo4CtrlCHandler(bool on)
+   {
+      ::SetConsoleCtrlHandler((PHANDLER_ROUTINE)Go4ConsoleSigHandler, on);
+   }
+
+}
+
+
+
+#endif

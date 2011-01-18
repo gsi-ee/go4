@@ -74,7 +74,6 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
   friend class TGo4ComSetObject;
   friend class TGo4HisConnectorRunnable;
   friend class TGo4HistogramServer;
-  friend class TGo4InterruptHandler;
 
   public:
 
@@ -745,6 +744,9 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
                                     const char* classname,
                                     const char* newcmd = 0);
 
+    /** Method called from Ctrl-C handler */
+    void ProcessCrtlCSignal();
+
   protected:
 
     /** True if analysis framework has been initialized and
@@ -947,6 +949,9 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /** indicate if object was created by last Make... operation */
     Bool_t fbObjMade; //!
+
+    /** number Ctrl-C handler called */
+    Int_t fNumCtrlC; //!
 
   ClassDef(TGo4Analysis,4)
 };
