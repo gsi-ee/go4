@@ -799,11 +799,8 @@ int main(int argc, char **argv)
          }
       }
 
-      //cout << "**** Main: no analysis found - exit" << endl;
-
-//      theApp.Run();
    }
-   cout << "**** before TGo4Log::CloseLogfile..."<<endl;
+
    TGo4Log::CloseLogfile();
    cout << "**** THE END ***"<<endl;
    //=================  start root application loop ==========================
