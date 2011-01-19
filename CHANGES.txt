@@ -22,7 +22,9 @@ in Go4License.txt file which is part of the distribution.
 
 Changes in Go4 v4.4.3 (Winter 2011)
 1. Implement proper Ctrl-C handler for Windows platform
-
+2. Fix several problems with settings savings. There is 
+   known issue with dockable widgets (http://bugreports.qt.nokia.com/browse/QTBUG-16252),
+   therefore qt4.7.0 and 4.7.1 has a problem to correctly restore browser/logger position. 
 
 Changes in Go4 v4.4.2 (October 2010)
 1. Fix analysis crash when autosave file cannot be created in specified locations. 

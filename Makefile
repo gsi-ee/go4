@@ -137,7 +137,7 @@ install: uninstall
 	@mkdir -p $(GO4TOPPATH)/macros; cp macros/* $(GO4TOPPATH)/macros
 	@mkdir -p $(GO4TOPPATH)/docs; cp docs/* $(GO4TOPPATH)/docs
 ifeq ($(GO4_QT), 4)
-	@mkdir -p $(GO4TOPPATH)/qt4; cp qt4/go4.conf $(GO4TOPPATH)/qt4
+	@mkdir -p $(GO4TOPPATH)/qt4
 	@mkdir -p $(GO4TOPPATH)/qt4/Go4UserGUI; cp qt4/Go4UserGUI/libGo4UserGui.$(DllSuf) $(GO4TOPPATH)/qt4/Go4UserGUI
 endif
 ifeq ($(GO4_QT), 3)

@@ -143,49 +143,22 @@ int main(int argc, char **argv)
 
    const char* _env = gSystem->Getenv("GO4SETTINGS");
 
-   QString settingsenv;
-   if (_env!=0) settingsenv = _env;
+   QString settfile;
+   if (_env!=0) settfile = _env;
 
-   int sett_try = 0;
-
-   if(iswin32 || settingsenv.isEmpty() || settingsenv.contains("ACCOUNT")) {
-      sett_try++;
+   if(iswin32 || settfile.isEmpty() || settfile.contains("ACCOUNT")) {
+      settfile = "";
       // do nothing, it is default location in .config/GSI/go4.conf
-   } else
-   if(!settingsenv.contains("LOCAL")) {
-      TGo4QSettings::SetSettLocation(settingsenv);
-   } else
-   if (!gSystem->AccessPathName(QDir::currentPath().toAscii(),kWritePermission))
-       TGo4QSettings::SetSettLocation(QDir::currentPath() + "/go4.conf");
-
-   QString settfile = TGo4QSettings::GetSettLoaction();
-
-   while (!iswin32 && (settfile.length() > 0) && gSystem->AccessPathName(settfile.toAscii())) {
+   } else {
+      if (settfile.contains("LOCAL")) settfile = QDir::currentPath() + "/go4.conf";
       QString subdir = QFileInfo(settfile).absolutePath();
-      if (gSystem->AccessPathName(subdir.toAscii()))
-         if (gSystem->mkdir(subdir.toAscii(), kTRUE)==0)
-            cout << "Create subdirectory " << subdir.toAscii().constData() << " for config file" << endl;
-         else {
-            cout << "Cannot create subdirectory " << subdir.toAscii().constData() << " for config file, use default locations" << endl;
-            if (++sett_try>1) break;
-            TGo4QSettings::SetSettLocation("");
-            settfile = TGo4QSettings::GetSettLoaction();
-            continue;
-         }
-
-      TString dfltfile = TGo4Log::subGO4SYS("qt4/go4.conf");
-      if (gSystem->CopyFile(dfltfile.Data(), settfile.toAscii(), kFALSE)) {
-         cout << "Cannot copy default config file into " << settfile.toAscii().constData() << " , use default location " << endl;
-         if (++sett_try>1) break;
-         TGo4QSettings::SetSettLocation("");
-         settfile = TGo4QSettings::GetSettLoaction();
-      } else {
-         cout << "Copied default config file into " << settfile.toAscii().constData() << endl;
-         break;
-      }
+      // if there is no write access to directory where setting file should be placed,
+      // default directory will be used
+      if (gSystem->AccessPathName(subdir.toAscii().constData(),kWritePermission))
+         settfile = "";
    }
 
-   go4sett = new TGo4QSettings();
+   go4sett = new TGo4QSettings(settfile);
 
    /////// end settings setup ///////////////////////////////
    if(traceon) TGo4Log::SetIgnoreLevel(0);
@@ -196,12 +169,12 @@ int main(int argc, char **argv)
    // create instance, which should be used everywhere
 
    TGo4MainWindow* Go4MainGUI = new TGo4MainWindow(&myapp);
-   Go4MainGUI->setGeometry (20, 20, 1152, 864);
 
    myapp.connect(&myapp, SIGNAL(lastWindowClosed()), &myapp, SLOT(quit()));
 
    Go4MainGUI->ensurePolished();
    Go4MainGUI->show();
+
    myapp.connect( &myapp, SIGNAL( lastWindowClosed() ), &myapp, SLOT( quit() ) );
    QApplication::setDoubleClickInterval(400); //ms, for Qt>=3.3 avoid very fast defaults!
    QApplication::setStartDragTime(150); // ms

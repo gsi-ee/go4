@@ -202,7 +202,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
 
    UpdateCaptionButtons();
 
-   QDockWidget* MBSDockWin = new QDockWidget("MBS monitor", this, Qt::Widget);
+   QDockWidget* MBSDockWin = new QDockWidget("MBS monitor", this);
    MBSDockWin->setObjectName("MbsViewerDock");
    TGo4MBSViewer* mbs = new TGo4MBSViewer(MBSDockWin, "MBSViewer");
    mbs->setWindowFlags(Qt::Widget);
@@ -212,7 +212,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    MBSDockWin->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
    addDockWidget(Qt::BottomDockWidgetArea, MBSDockWin);
 
-   QDockWidget* BrowserDockWin = new QDockWidget("Browser", this, Qt::Widget);
+   QDockWidget* BrowserDockWin = new QDockWidget("Browser", this);
    BrowserDockWin->setObjectName("BrowserDock");
    TGo4Browser* browser = new TGo4Browser(BrowserDockWin,"Browser");
    browser->setWindowFlags(Qt::Widget);
@@ -223,9 +223,13 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    BrowserDockWin->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
    addDockWidget(Qt::LeftDockWidgetArea, BrowserDockWin);
 
+#if (QT_VERSION >= 0x040700) && (QT_VERSION <= 0x040701)
+   browser->setMinimumWidth(230);
+#endif
+
 
 #ifdef __GO4DIM__
-   QDockWidget* DABCDockWin = new QDockWidget("DABC monitor", this, Qt::Widget);
+   QDockWidget* DABCDockWin = new QDockWidget("DABC monitor", this);
    DABCDockWin->setObjectName("DABCMonitorDock");
    TGo4DabcMonitor* dabc = new TGo4DabcMonitor(DABCDockWin, "DabcMonitor");
    dabc->setWindowFlags(Qt::Widget);
@@ -318,9 +322,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
           gSystem->Load((*it).toAscii());
    }
 
-   go4sett->RestoreSettings(this);
-
-   go4sett->restoreGeometry(this);
+   go4sett->restoreMainWindowState(this);
 
    QApplication::setStyle(go4sett->getAppStyle());
 
@@ -333,7 +335,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    // start mbs monitoring only after browser etc. is fully there:
    if(go4sett->getMbsMonitorMonitorActive()) mbs->TimerStart();
 
-   cout <<"Using Qt Settings at "<< TGo4QSettings::GetSettLoaction().toAscii().constData() << endl;
+   cout <<"Using Qt settings at "<< go4sett->GetSettLoaction().toAscii().constData() << endl;
 
    statusBar()->showMessage("Ready");
    statusBar()->setSizeGripEnabled(TRUE);
@@ -1111,18 +1113,16 @@ void TGo4MainWindow::FitHelpSlot()
 
 void TGo4MainWindow::SaveSettingsSlot()
 {
-   go4sett->storeGeometry(this);
-
    go4sett->setBasicSettings();
    go4sett->setAppFont(QApplication::font());
 
    go4sett->setAppStyle(QApplication::style()->objectName());
 
-   go4sett->StoreSettings(this);
+   go4sett->storeMainWindowState(this);
 
    go4sett->Store();
 
-   cout <<"Using Qt Settings at "<< TGo4QSettings::GetSettLoaction().toAscii().constData() << endl;
+   cout <<"Save Qt settings to "<< go4sett->GetSettLoaction().toAscii().constData() << endl;
 }
 
 void TGo4MainWindow::ChangeFontSlot()

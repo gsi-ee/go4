@@ -20,74 +20,68 @@
 
 class TGo4BrowserProxy;
 
-class TGo4Browser : public QGo4Widget, public Ui::TGo4Browser
- {
-     Q_OBJECT
+class TGo4Browser : public QGo4Widget, public Ui::TGo4Browser {
+   Q_OBJECT
 
- public:
-     TGo4Browser(QWidget *parent = 0, const char* name=0);
+   protected:
 
+      bool fbUpdateTimerActive;
+      bool fVisibleColumns[7];
 
+   public:
+      TGo4Browser(QWidget *parent = 0, const char* name=0);
 
-   void StartWorking();
+      void StartWorking();
 
+      void linkedObjectUpdated(const char* linkname, TObject* obj);
 
-   void linkedObjectUpdated(const char* linkname, TObject* obj);
+      void ResetWidget();
 
+      TGo4BrowserProxy* BrowserProxy();
 
+      QString FullItemName(QTreeWidgetItem* item);
 
-   void ResetWidget();
+      QTreeWidgetItem* FindItemFor(TGo4Slot* slot);
 
-   TGo4BrowserProxy* BrowserProxy();
+      void SetViewItemProperties(TGo4Slot* itemslot, QTreeWidgetItem* item);
 
-   QString FullItemName(QTreeWidgetItem* item);
+      void checkVisisbilityFlags(bool showall);
 
-   QTreeWidgetItem* FindItemFor(TGo4Slot* slot);
+      void DisplaySelectedItems();
 
-   void SetViewItemProperties(TGo4Slot* itemslot, QTreeWidgetItem* item);
+      void SuperImposeSelectedItems();
 
-   void checkVisisbilityFlags(bool showall);
+      bool canDrawItem(QTreeWidgetItem* item);
 
-   void DisplaySelectedItems();
+      void ShootUpdateTimer();
 
-   void SuperImposeSelectedItems();
+      void SaveSelectedItems();
 
-   bool canDrawItem(QTreeWidgetItem* item);
+      void ExportSelectedItems(const char* filtername);
 
-   void ShootUpdateTimer();
+      void ExportSelectedItems(const char* filename, const char* filedir, const char* format, const char* description);
 
-   void SaveSelectedItems();
+   public slots:
 
-   void ExportSelectedItems(const char* filtername);
+      void RequestDragObjectSlot(QDrag**);
 
-   void ExportSelectedItems(const char* filename, const char* filedir, const char* format, const char* description);
+      void ItemDropAcceptSlot(void* item, void* mime, bool* res);
 
-public slots:
+      void ItemDropProcessSlot(void* item, void* e);
 
-   void RequestDragObjectSlot(QDrag**);
+      void updateListViewItems();
 
-   void ItemDropAcceptSlot(void* item, void* mime, bool* res);
+      void ListView_doubleClicked(QTreeWidgetItem* item, int ncol);
 
-   void ItemDropProcessSlot(void* item, void* e);
+      void ListView_customContextMenuRequested(const QPoint&);
 
-   void updateListViewItems();
+      void Header_customContextMenuRequested(const QPoint &);
 
-   void ListView_doubleClicked(QTreeWidgetItem* item, int ncol);
+      void ColumnToggled(int indx);
 
-   void ListView_customContextMenuRequested(const QPoint&);
+      void HeaderSectionResizedSlot(int, int, int);
 
-   void Header_customContextMenuRequested(const QPoint &);
-
-   void ColumnToggled(int indx);
-
-   void HeaderSectionResizedSlot(int, int, int);
-
-   void ContextMenuActivated(int id);
-
-protected:
-
-   bool fbUpdateTimerActive;
-   bool fVisibleColumns[7];
+      void ContextMenuActivated(int id);
 };
 
 

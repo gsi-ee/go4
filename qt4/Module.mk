@@ -16,7 +16,7 @@ include qt4/Go4plugin/Module.mk
 
 endif
 
-DISTRFILES         += qt4/Module.mk qt4/go4.conf
+DISTRFILES         += qt4/Module.mk
 
 DISTRFILES         += qt4/Go4QtRoot/CHANGELOG.txt
 DISTRFILES         += $(wildcard qt4/Go4QtRoot/*.h)

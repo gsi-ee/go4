@@ -32,21 +32,25 @@ class QSettings;
  * the user home directory, and the current directory */
 
 class TGo4QSettings {
+   private:
+
+      /** Currently opened settings */
+      QSettings* sett;
+
+      /** This is the name of the file with settings, if empty - default qt location will be used */
+      QString fSettFileName;
+
+      /** Read settings from the file/registry */
+
       void Open();
    public:
 
-      static void SetSettLocation(const QString& filename);
-
-      static QString GetSettLoaction();
-
-      TGo4QSettings();
+      TGo4QSettings(const QString& filename);
       virtual ~TGo4QSettings();
 
+      QString GetSettLoaction();
+
       void Store();
-
-      void RestoreSettings(QMainWindow* tgt);
-
-      void StoreSettings(QMainWindow* src);
 
       // set generic function
 
@@ -155,9 +159,6 @@ class TGo4QSettings {
       void    setTGraphDrawOpt(const QString& value);
       QString getTGraphDrawOpt();
 
-      void    storeGeometry(QMainWindow* w);
-      void    restoreGeometry(QMainWindow* w);
-
       void    storePanelSize(QWidget* w);
       QSize   lastPanelSize();
 
@@ -222,14 +223,9 @@ class TGo4QSettings {
       QStringList getCommandsHistoryAnalysis();
       void setCommandsHistoryAnalysis(const QStringList & commands);
 
-   private:
-
-      /** Currently opened settings */
-      QSettings* sett;
-
-      /** This is the name of the file with settings, if empty - default qt location will be used */
-      static QString fgSettFileName;
-
+      /** main window state/geometry */
+      void restoreMainWindowState(QMainWindow* tgt);
+      void storeMainWindowState(QMainWindow* src);
 };
 
 
