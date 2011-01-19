@@ -73,29 +73,29 @@ class TGo4BufferQueue : public TGo4Queue {
 
       virtual ~TGo4BufferQueue() ;
 
-    /**
-     * Create a root buffer that contains a single value val.
-     * This feature is used to wrap direct (emergency) commands
-     * into a TBuffer to send it via the taskhandler queues and
-     * sockets. Also used to indicate disconnect mode for
-     * the taskhandler threads.
-     */
-    static TBuffer* CreateValueBuffer(UInt_t val);
+      /**
+       * Create a root buffer that contains a single value val.
+       * This feature is used to wrap direct (emergency) commands
+       * into a TBuffer to send it via the taskhandler queues and
+       * sockets. Also used to indicate disconnect mode for
+       * the taskhandler threads.
+       */
+      static TBuffer* CreateValueBuffer(UInt_t val);
 
-     /**
-     * Extract value from buffer that was created by
-     * CreateValueBuffer method. Used to decode a
-     * direct command or disconnect value that is
-     * received from queue or socket connection.
-     * Negative value means no valid value buffer.
-     */
-    static Int_t DecodeValueBuffer(TBuffer* buf);
+      /**
+       * Extract value from buffer that was created by
+       * CreateValueBuffer method. Used to decode a
+       * direct command or disconnect value that is
+       * received from queue or socket connection.
+       * Negative value means no valid value buffer.
+       */
+      static Int_t DecodeValueBuffer(TBuffer* buf);
 
 
-    /**
-    *.we emulate the protected owner flag of the TBuffer class, needed for reallocation!
-   */
-    static const Int_t fgiISOWNER;
+      /**
+       *.we emulate the protected owner flag of the TBuffer class, needed for reallocation!
+       */
+      static const Int_t fgiISOWNER;
 
    private:
       /**
@@ -103,12 +103,12 @@ class TGo4BufferQueue : public TGo4Queue {
        */
       void InitBuffers();
 
-     /**
+      /**
        * Reallocate buffer of TBuffer to newsize.
        */
       void Realloc(TBuffer* buffer, Int_t oldsize, Int_t newsize);
 
-    /**
+      /**
        * Create dummy buffer for queue.
        */
       TBuffer* NewEntry();
@@ -132,9 +132,6 @@ class TGo4BufferQueue : public TGo4Queue {
       TList* fxFreeList;   //!
       TMutex * fxBufferMutex; //!
       Int_t fiOverflowcount;
-
-      /** Iterator for fxBufferList. */
-      TIterator * fxBufferIterator; //!
 
       /**
        * Number of preallocated buffer TBuffers

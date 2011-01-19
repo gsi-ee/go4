@@ -58,25 +58,24 @@ void TGo4BufferQueue::InitBuffers()
 {
    TRACE((14,"TGo4BufferQueue::InitBuffers()", __LINE__, __FILE__));
    TGo4LockGuard mainguard;
-   fxBufferList=new TList; // list owning all buffers
-   fxFreeList=new TList;    // list indicating the free buffers
-   fxBufferIterator=fxFreeList->MakeIterator();
-   fxBufferMutex=new TMutex;
-   for (Int_t i=0; i< fiMaxBuffers; ++i)
-      {
-          TBuffer* buf=NewEntry();
-          fxBufferList->Add(buf);
-          fxFreeList->Add(buf);
-      }
+   fxBufferList = new TList; // list owning all buffers
+   fxFreeList = new TList;    // list indicating the free buffers
+   fxBufferMutex = new TMutex;
+   for (Int_t i=0; i< fiMaxBuffers; ++i) {
+      TBuffer* buf=NewEntry();
+      fxBufferList->Add(buf);
+      fxFreeList->Add(buf);
+   }
 }
 
 TGo4BufferQueue::~TGo4BufferQueue()
 {
    TRACE((14,"TGo4BufferQueue::~TTGo4BufferQueue()", __LINE__, __FILE__));
 
-   delete fxBufferIterator;
    fxBufferList->Delete();
    TCollection::EmptyGarbageCollection();
+
+   delete fxFreeList;
    delete fxBufferList;
    delete fxBufferMutex;
 }

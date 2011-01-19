@@ -245,7 +245,7 @@ void TGo4QSettings::setClientExeMode(int mode)
 
 int TGo4QSettings::getClientExeMode()
 {
-   return getInt("/ClientSetting/ExeMode", 0);
+   return getInt("/ClientSetting/ExeMode", 1);
 }
 
 void TGo4QSettings::setClientExec(const QString& v)
@@ -272,7 +272,7 @@ QString TGo4QSettings::getClientArgs()
 
 void TGo4QSettings::setClientShellMode(int v)
 {
-   const char* name = "ssh";
+   const char* name = "exec";
    switch (v) {
       case 0: name = "exec"; break;
       case 1: name = "rsh"; break;
@@ -284,7 +284,7 @@ void TGo4QSettings::setClientShellMode(int v)
 
 QString TGo4QSettings::getClientShell()
 {
-   return getStr("/ClientSetting/Shell", "ssh");
+   return getStr("/ClientSetting/Shell", "exec");
 }
 
 int TGo4QSettings::getClientShellMode()
