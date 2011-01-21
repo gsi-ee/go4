@@ -72,9 +72,9 @@ void QFitParCfgWidget::ParNameEdit_textChanged( const QString & name)
   if(!fbFillWidget && GetPar() && (name.length()>0)) {
       TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (GetItem()->Parent()->Object());
       if (pars==0) return;
-      if (pars->FindPar(name.toAscii())) return;
-      GetPar()->SetName(name.toAscii());
-      GetItem()->setText(0,name.toAscii());
+      if (pars->FindPar(name.toStdString().c_str())) return;
+      GetPar()->SetName(name.toStdString().c_str());
+      GetItem()->setText(0,name.toStdString().c_str());
   }
 }
 

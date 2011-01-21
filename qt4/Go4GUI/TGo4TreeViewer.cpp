@@ -89,7 +89,7 @@ void TGo4TreeViewer::ProcessDropEvent(QGo4LineEdit* edt, bool caninit)
       }
 
       TString treename;
-      if (!br->DefineTreeName(value.toAscii(), treename)) {
+      if (!br->DefineTreeName(value.toStdString().c_str(), treename)) {
           StatusMessage(QString("Invalid tree ") + value);
           edt->setText("");
           return;
@@ -102,7 +102,7 @@ void TGo4TreeViewer::ProcessDropEvent(QGo4LineEdit* edt, bool caninit)
    }
 
    TString leafname;
-   if (!br->DefineLeafName(value.toAscii(), fxTreeName.toAscii(), leafname)) {
+   if (!br->DefineLeafName(value.toStdString().c_str(), fxTreeName.toStdString().c_str(), leafname)) {
       edt->setText("");
       StatusMessage(QString("Invalid leaf name ") + value);
       return;
@@ -136,22 +136,22 @@ void TGo4TreeViewer::TreeDrawBtn_clicked()
 
    TString createdh;
 
-   br->PerformTreeDraw(fxTreeName.toAscii(),
-                       XFieldEdt->text().toAscii(),
-                       YFieldEdt->text().toAscii(),
-                       ZFieldEdt->text().toAscii(),
-                       CutEdt->text().toAscii(),
-                       HistNameEdt->text().toAscii(),
+   br->PerformTreeDraw(fxTreeName.toStdString().c_str(),
+                       XFieldEdt->text().toStdString().c_str(),
+                       YFieldEdt->text().toStdString().c_str(),
+                       ZFieldEdt->text().toStdString().c_str(),
+                       CutEdt->text().toStdString().c_str(),
+                       HistNameEdt->text().toStdString().c_str(),
                        createdh);
 
     if (createdh.Length()>0) {
        HistNameEdt->setText(createdh.Data());
        DrawItem(createdh.Data());
     } else {
-        if (WhereItemDrawn(HistNameEdt->text().toAscii())==0)
+        if (WhereItemDrawn(HistNameEdt->text().toStdString().c_str())==0)
            DrawItem(HistNameEdt->text());
         else
-           br->RequestBrowserObject(HistNameEdt->text().toAscii());
+           br->RequestBrowserObject(HistNameEdt->text().toStdString().c_str());
     }
 
    QApplication::restoreOverrideCursor();
@@ -165,7 +165,7 @@ void TGo4TreeViewer::TreeClearBtn_clicked()
 void TGo4TreeViewer::NewHistBtn_clicked()
 {
    if (fxTreeName.length()>0)
-     AskToCreateObject(TH1::Class(), BrowserItemRemote(fxTreeName.toAscii()) ? 1 : 0);
+     AskToCreateObject(TH1::Class(), BrowserItemRemote(fxTreeName.toStdString().c_str()) ? 1 : 0);
 }
 
 void TGo4TreeViewer::requestedObjectCreated(const char* itemname, TClass* cl)

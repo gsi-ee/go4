@@ -169,7 +169,7 @@ SetupRadio->setEnabled(fxDaqStat.bh_setup_loaded);
 SetupMLRadio->setEnabled(fxDaqStat.bh_set_ml_loaded);
 SetupMORadio->setEnabled(fxDaqStat.bh_set_mo_loaded);
 if(fbWarningState)
-    cerr <<fxMessage.toStdString() << endl;
+    cerr <<fxMessage.toStdString().c_str() << endl;
 
 ensurePolished();
 update();
@@ -327,7 +327,7 @@ void TGo4MBSViewer::ShowStatus()
 {
   if(fbWarningState)
     {
-          cout <<fxMessage.toStdString()  << endl;
+          cout <<fxMessage.toStdString().c_str() << endl;
     }
   else
   {
@@ -461,7 +461,7 @@ TH1* TGo4MBSViewer::TrendHisto( QString & refname ,const QString & name, const Q
 {
 TH1* his=0;
 TGo4Slot* histoslot=0;
-if(!fbTrendingInit) histoslot=Browser()->BrowserSlot(refname.toAscii());
+if(!fbTrendingInit) histoslot=Browser()->BrowserSlot(refname.toStdString().c_str());
 if(histoslot==0)
     {
         Axis_t lo,up;
@@ -475,13 +475,13 @@ if(histoslot==0)
                 lo=-1*fiTrendBins*FrequencyBox->value();
                 up=0;
             }
-        his=new TH1F(name.toAscii(), title.toAscii() ,fiTrendBins,lo,up);
+        his=new TH1F(name.toStdString().c_str(), title.toStdString().c_str() ,fiTrendBins,lo,up);
         TAxis* xax=his->GetXaxis();
         xax->SetTitle("s");
         xax->CenterTitle();
         //xax->SetLimits(0,lo,up);
 
-        TGo4Slot* hisdataslot=Browser()->DataSlot(refname.toAscii());
+        TGo4Slot* hisdataslot=Browser()->DataSlot(refname.toStdString().c_str());
         if(hisdataslot)
             {
                 hisdataslot->AssignObject(his,true);
@@ -490,7 +490,7 @@ if(histoslot==0)
             {
                 refname=Browser()->SaveToMemory("Mbs", his, true);
             }
-        histoslot=Browser()->BrowserSlot(refname.toAscii());
+        histoslot=Browser()->BrowserSlot(refname.toStdString().c_str());
     }
 else
     {

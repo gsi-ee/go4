@@ -52,7 +52,7 @@ void QFitDependencyWidget::FillSpecificData() {
 void QFitDependencyWidget::ParamEdit_textChanged( const QString & param)
 {
   if(!fbFillWidget && GetDepen() && (param.length()>0)) {
-     GetDepen()->SetParameter(param.toAscii());
+     GetDepen()->SetParameter(param.toStdString().c_str());
      SetWidgetItemText(true);
   }
 }
@@ -64,7 +64,7 @@ void QFitDependencyWidget::ExpressionEdt_textChanged( const QString & value)
      bool ok = FALSE;
      double zn = value.toDouble(&ok);
      if (ok) GetDepen()->SetInitValue(zn);
-        else GetDepen()->SetExpression(value.toAscii());
+        else GetDepen()->SetExpression(value.toStdString().c_str());
      SetWidgetItemText(true);
   }
 }

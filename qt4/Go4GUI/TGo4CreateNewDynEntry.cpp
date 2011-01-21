@@ -40,8 +40,8 @@ TGo4DynamicEntry* TGo4CreateNewDynEntry::MakeEntry()
 
    if (entry!=0) {
      entry->EnableProcessing(kFALSE);
-     entry->SetName(EntryName->text().toAscii());
-     entry->SetTitle(EntryTitle->text().toAscii());
+     entry->SetName(EntryName->text().toStdString().c_str());
+     entry->SetTitle(EntryTitle->text().toStdString().c_str());
    }
 
    return entry;

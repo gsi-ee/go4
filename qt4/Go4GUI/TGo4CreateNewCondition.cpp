@@ -33,7 +33,7 @@ TGo4CreateNewCondition::TGo4CreateNewCondition( QWidget* parent)
 
 TGo4Condition* TGo4CreateNewCondition::MakeCondition()
 {
-   QByteArray ba = CondName->text().toAscii();
+   QByteArray ba = CondName->text().toStdString().c_str();
    if (ba.length()==0) return 0;
 
    const char* cname = ba.constData();

@@ -135,7 +135,7 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
         buffer += "  y = ";
         buffer += QString::number(py);
      }
-     QByteArray ba = buffer.toAscii();
+     QByteArray ba = buffer.toStdString().c_str();
      emit CanvasStatusEvent(ba.constData());
   }
 }
@@ -313,7 +313,7 @@ void QRootCanvas::processRepaintTimer()
       // need to adjust the ROOT X access:
       delete fCanvas; // should also remove old x windows!
       fRootWindowId = gVirtualX->AddWindow((ULong_t)newid, width(), height());
-      fCanvas = new TCanvas(objectName().toAscii(), width(), height(), fRootWindowId);
+      fCanvas = new TCanvas(objectName().toStdString().c_str(), width(), height(), fRootWindowId);
       fQtWindowId = newid;
    }
 
@@ -782,8 +782,8 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
    TObjArray tobjlist(method->GetListOfMethodArgs()->LastIndex() + 1);
    for (int n=0; n<=method->GetListOfMethodArgs()->LastIndex(); n++) {
       QString s = dlg.getArg(n);
-      qDebug( "** QString values (first ) :%s \n", s.toAscii().constData() );
-      TObjString *t = new TObjString(s.toAscii().constData());
+      qDebug( "** QString values (first ) :%s \n", s.toStdString().c_str() );
+      TObjString *t = new TObjString(s.toStdString().c_str());
       tobjlist.AddLast(t) ;
    }
 
@@ -852,7 +852,7 @@ void QRootCanvas::executeMenu(int id)
                                          tr( "Please enter your text" ),
                                          QLineEdit::Normal, QString::null, &ok);
             //if (ok && !text.isEmpty())
-            fxLatex->DrawLatex(fMousePosX, fMousePosY, text.toAscii());
+            fxLatex->DrawLatex(fMousePosX, fMousePosY, text.toStdString().c_str());
             emit MenuCommandExecuted(fxLatex, "DrawLatex");
             break;
         }

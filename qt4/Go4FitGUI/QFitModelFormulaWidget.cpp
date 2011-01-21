@@ -39,7 +39,7 @@ void QFitModelFormulaWidget::FillSpecificData()
 void QFitModelFormulaWidget::ExprEdt_textChanged( const QString & str)
 {
   if(!fbFillWidget && GetFormula())
-    GetFormula()->SetExpression(str.toAscii());
+    GetFormula()->SetExpression(str.toStdString().c_str());
 }
 
 void QFitModelFormulaWidget::NumParSpin_valueChanged( int num)
