@@ -614,7 +614,7 @@ TString TGo4Script::GetViewPanelName(ViewPanelHandle handle)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
    if (panel==0) return TString();
-   return TString(panel->objectName().toStdString().c_str());
+   return TString(panel->objectName().toAscii().constData());
 }
 
 ViewPanelHandle TGo4Script::FindViewPanel(const char* name)
@@ -739,10 +739,10 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
 
    if ((anal!=0) && anal->IsAnalysisReady() && !anal->IsAnalysisServer()) {
 // start analysis configuration
-   fs << "go4->LaunchAnalysis(\"" << go4sett->getClientName().toStdString().c_str() << "\", \""
-                                  << go4sett->getClientDir().toStdString().c_str()  <<  "\", \""
-                                  << go4sett->getClientExec().toStdString().c_str() << "\", \""
-                                  << go4sett->getClientNode().toStdString().c_str() << "\", ";
+   fs << "go4->LaunchAnalysis(\"" << go4sett->getClientName().toStdString() << "\", \""
+                                  << go4sett->getClientDir().toStdString() <<  "\", \""
+                                  << go4sett->getClientExec().toStdString() << "\", \""
+                                  << go4sett->getClientNode().toStdString() << "\", ";
 
    if (go4sett->getClientShellMode() == Go4_rsh) fs << "Go4_rsh, "; else
    if (go4sett->getClientShellMode() == Go4_ssh) fs << "Go4_ssh, "; else fs << "Go4_sh, ";
@@ -756,7 +756,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
 //                                  << go4sett->getClientTermMode() <<  ", "
 //                                  << go4sett->getClientExeMode();
    if (go4sett->getClientArgs().length()>0)
-      fs << ", \"" << go4sett->getClientArgs().toStdString().c_str() << "\"";
+      fs << ", \"" << go4sett->getClientArgs().toStdString() << "\"";
    fs  << ");" << endl;
 
    fs << "go4->WaitAnalysis(300);" << endl << endl;
@@ -769,22 +769,22 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
    bool asenabled, asoverwrite;
 
    confgui->GetAutoSaveConfig(fname, interval, compression, asenabled, asoverwrite);
-   fs << "go4->AnalysisAutoSave(\"" << fname.toStdString().c_str() << "\", "
+   fs << "go4->AnalysisAutoSave(\"" << fname.toStdString() << "\", "
                                     << interval << ", "
                                     << compression << ", "
                                     << (asenabled ? "kTRUE" : "kFALSE") << ", "
                                     << (asoverwrite ? "kTRUE" : "kFALSE") << ");" << endl;
 
    confgui->GetAnalysisConfigFile(fname);
-   fs << "go4->AnalysisConfigName(\"" << fname.toStdString().c_str() << "\");" << endl << endl;
+   fs << "go4->AnalysisConfigName(\"" << fname.toStdString() << "\");" << endl << endl;
 
    for(int nstep=0;nstep<confgui->GetNumSteps();nstep++) {
       TGo4ConfigStep* stepconf = confgui->GetStepConfig(nstep);
-      fs << "// step " << stepconf->GetStepName().toStdString().c_str() << endl;
+      fs << "// step " << stepconf->GetStepName().toStdString() << endl;
 
       bool process, source, store;
       stepconf->GetStepControl(process, source, store);
-      fs << "go4->ConfigStep(\"" << stepconf->GetStepName().toStdString().c_str() << "\", "
+      fs << "go4->ConfigStep(\"" << stepconf->GetStepName().toStdString() << "\", "
                                  << (process ? "kTRUE" : "kFALSE") << ", "
                                  << (source ? "kTRUE" : "kFALSE") << ", "
                                  << (store ? "kTRUE" : "kFALSE") << ");" << endl;
@@ -794,7 +794,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       int nsrc = stepconf->GetSourceSetup(srcname, timeout, start, stop, interval);
 
       TString srcargs, inter_args;
-      srcargs.Form("(\"%s\", \"%s\", %d", stepconf->GetStepName().toStdString().c_str(), srcname.toStdString().c_str(), timeout);
+      srcargs.Form("(\"%s\", \"%s\", %d", stepconf->GetStepName().toAscii().constData(), srcname.toAscii().constData(), timeout);
       if ((start!=0) || (stop!=0) || (interval!=0))
          inter_args.Form(", %d, %d, %d", start, stop, interval);
 
@@ -806,7 +806,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
            QString TagFile;
            stepconf->GetMbsFileSource(TagFile);
            fs << "go4->StepMbsFileSource" << srcargs << ", \""
-                                          << TagFile.toStdString().c_str() << "\""
+                                          << TagFile.toStdString() << "\""
                                           << inter_args;
            break;
          }
@@ -833,7 +833,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
            QString expr;
            stepconf->GetUserSource(port, expr);
            fs << "go4->StepUserSource" << srcargs << ", " << port << ", \""
-                                       << expr.toStdString().c_str() << "\"";
+                                       << expr.toStdString() << "\"";
            break;
          }
 
@@ -847,8 +847,8 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
             bool overwrite;
             int bufsize, splitlevel, compression;
             stepconf->GetFileStore(overwrite, bufsize, splitlevel, compression);
-            fs << "go4->StepFileStore(\"" << stepconf->GetStepName().toStdString().c_str() << "\", \""
-                                          << storename.toStdString().c_str() << "\", "
+            fs << "go4->StepFileStore(\"" << stepconf->GetStepName().toStdString() << "\", \""
+                                          << storename.toStdString() << "\", "
                                           << (overwrite ? "kTRUE" : "kFALSE") << ", "
                                           << bufsize << ", "
                                           << splitlevel << ", "
@@ -859,8 +859,8 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
          case 1: {
             int bufsize, splitlevel;
             stepconf->GetBackStore(bufsize, splitlevel);
-            fs << "go4->StepBackStore(\"" << stepconf->GetStepName().toStdString().c_str() << "\", \""
-                                          << storename.toStdString().c_str() << "\", "
+            fs << "go4->StepBackStore(\"" << stepconf->GetStepName().toStdString() << "\", \""
+                                          << storename.toStdString() << "\", "
                                           << bufsize << ", "
                                           << splitlevel << ");" << endl;
             break;
@@ -890,7 +890,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
    } else
    if ((anal!=0) && anal->IsAnalysisReady() && anal->IsAnalysisServer()) {
       fs << "go4->ConnectAnalysis(\""
-         << go4sett->getClientNode().toStdString().c_str() << "\", "
+         << go4sett->getClientNode().toStdString() << "\", "
          << go4sett->getClientPort() << ", "
          << go4sett->getClientControllerMode() << ", ";
       if (go4sett->getClientDefaultPass())

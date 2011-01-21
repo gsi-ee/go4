@@ -319,7 +319,7 @@ void TGo4AnalysisWindow::CommandSlot()
 
    TGo4AnalysisProxy* anal = GetAnalysis();
    if (anal!=0) {
-     anal->ExecuteLine(cmd.toStdString().c_str());
+     anal->ExecuteLine(cmd.toAscii());
      go4sett->setCommandsHistoryAnalysis(fxCmdHist->getHistory(50));
    }
 }

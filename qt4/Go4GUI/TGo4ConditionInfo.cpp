@@ -51,7 +51,7 @@ void TGo4ConditionInfo::linkedObjectUpdated(const char* linkname, TObject* obj)
 
 void TGo4ConditionInfo::ConInfoButton_clicked()
 {
-   WorkWithCondition(CondnameLbl->text().toStdString().c_str());
+   WorkWithCondition(CondnameLbl->text().toAscii());
 }
 
 void TGo4ConditionInfo::ConPrintButton_clicked()
@@ -91,7 +91,7 @@ void TGo4ConditionInfo::PrintLog_clicked()
     textbuffer+=" Status received at: ";
     textbuffer+=PropertyBox->item(CONTIME)->text();
 
-    TGo4Log::Message(1, textbuffer.toStdString().c_str());
+    TGo4Log::Message(1, textbuffer.toAscii());
 }
 
 void TGo4ConditionInfo::WorkWithCondition(const char* itemname)

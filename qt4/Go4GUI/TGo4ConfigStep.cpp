@@ -65,7 +65,7 @@ void TGo4ConfigStep::InputArguments(const QString& Arg)
     if (ParId==GO4EV_USER){                    // user defined source class
         TGo4UserSourceParameter* usrpar=dynamic_cast<TGo4UserSourceParameter*>(SourcePar);
         if (usrpar!=0)
-           usrpar->SetExpression(Arg.trimmed().toStdString().c_str());
+           usrpar->SetExpression(Arg.trimmed().toAscii());
     }
 }
 
@@ -98,7 +98,7 @@ void TGo4ConfigStep::InputPort(const QString& fxPort)
 
 void TGo4ConfigStep::InputSourceText(const QString& Name)
 {
-    fStepStatus->GetSourcePar()->SetName(Name.trimmed().toStdString().c_str());
+    fStepStatus->GetSourcePar()->SetName(Name.trimmed().toAscii());
 }
 
 void TGo4ConfigStep::OutputStateChanged(int )
@@ -119,7 +119,7 @@ void TGo4ConfigStep::OutputStateChanged(int )
 
 void TGo4ConfigStep::OutputNameText(const QString& Name)
 {
-   fStepStatus->GetStorePar()->SetName(Name.trimmed().toStdString().c_str());
+   fStepStatus->GetStorePar()->SetName(Name.trimmed().toAscii());
 }
 
 void TGo4ConfigStep::StepStateChanged(int )
@@ -284,14 +284,14 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
 
    switch (k) {
       case 0: {            // root file with one tree
-         TGo4FileSourceParameter newpar(SourceNameEdit->text().toStdString().c_str());
+         TGo4FileSourceParameter newpar(SourceNameEdit->text().toAscii());
          fStepStatus->SetSourcePar(&newpar);
          FileNameInput->setEnabled(true);
          if(rootfilpar==0) SourceNameEdit->clear();
          break;
       }
       case 1: {    // mbs listmode file (input only)
-         TGo4MbsFileParameter newpar(SourceNameEdit->text().toStdString().c_str());
+         TGo4MbsFileParameter newpar(SourceNameEdit->text().toAscii());
          fStepStatus->SetSourcePar(&newpar);
          bool islml = SourceNameEdit->text().contains(TGo4MbsFile__fgcFILELISTSUF);
          // case of *.lml file: disable start/stop event fields
@@ -306,7 +306,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
          break;
       }
       case 2: {  // mbs stream server (input only)
-         TGo4MbsStreamParameter newpar(SourceNameEdit->text().toStdString().c_str());
+         TGo4MbsStreamParameter newpar(SourceNameEdit->text().toAscii());
          fStepStatus->SetSourcePar(&newpar);
          SpinBoxTimeout->setEnabled(true);
          MbsMonitorBtn->setEnabled(true);
@@ -317,7 +317,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
          break;
       }
       case 3: {       // mbs transport server (input only)
-         TGo4MbsTransportParameter newpar(SourceNameEdit->text().toStdString().c_str());
+         TGo4MbsTransportParameter newpar(SourceNameEdit->text().toAscii());
          fStepStatus->SetSourcePar(&newpar);
          SpinBoxTimeout->setEnabled(true);
          MbsMonitorBtn->setEnabled(true);
@@ -328,7 +328,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
          break;
       }
       case 4: {     // mbs event server  (input only)
-         TGo4MbsEventServerParameter newpar(SourceNameEdit->text().toStdString().c_str());
+         TGo4MbsEventServerParameter newpar(SourceNameEdit->text().toAscii());
          fStepStatus->SetSourcePar(&newpar);
          SpinBoxTimeout->setEnabled(true);
          MbsMonitorBtn->setEnabled(true);
@@ -339,7 +339,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
          break;
       }
       case 5: {     //    rev serv
-         TGo4RevServParameter newpar(SourceNameEdit->text().toStdString().c_str());
+         TGo4RevServParameter newpar(SourceNameEdit->text().toAscii());
          newpar.SetPort(SpinBoxPortNumber->value());
          fStepStatus->SetSourcePar(&newpar);
          SpinBoxPortNumber->setShown(true);
@@ -351,15 +351,15 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
          break;
       }
       case 6: {     //    mbs random
-         TGo4MbsRandomParameter newpar(SourceNameEdit->text().toStdString().c_str());
+         TGo4MbsRandomParameter newpar(SourceNameEdit->text().toAscii());
          fStepStatus->SetSourcePar(&newpar);
          SourceNameEdit->setText("RandomEvents");
          break;
       }
       case 7: {     // user source
-         TGo4UserSourceParameter newpar(SourceNameEdit->text().toStdString().c_str());
+         TGo4UserSourceParameter newpar(SourceNameEdit->text().toAscii());
          newpar.SetPort(SpinBoxPortNumber->value());
-         newpar.SetExpression(LineEditArgs->text().trimmed().toStdString().c_str());
+         newpar.SetExpression(LineEditArgs->text().trimmed().toAscii());
          fStepStatus->SetSourcePar(&newpar);
          SpinBoxPortNumber->setShown(true);
          TextLabelPortNumber->setShown(true);
@@ -383,7 +383,7 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
 {
    if(k==0) {
       StoreNameEdit->setDisabled(FALSE);
-      TGo4FileStoreParameter* newpar1 = new TGo4FileStoreParameter(StoreNameEdit->text().toStdString().c_str());
+      TGo4FileStoreParameter* newpar1 = new TGo4FileStoreParameter(StoreNameEdit->text().toAscii());
       fStepStatus->SetStorePar(newpar1);
       delete newpar1;
       CompLevel->setDisabled(FALSE);
@@ -392,7 +392,7 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
    } else
    if(k==1) {
       StoreNameEdit->setDisabled(TRUE);
-      TGo4BackStoreParameter *newpar3 = new TGo4BackStoreParameter(GetBackStoreName().toStdString().c_str());
+      TGo4BackStoreParameter *newpar3 = new TGo4BackStoreParameter(GetBackStoreName().toAscii());
       fStepStatus->SetStorePar(newpar3);
       delete newpar3;
       CompLevel->setDisabled(TRUE);
@@ -473,7 +473,7 @@ void TGo4ConfigStep::InputTagfile( const QString & tag )
    if(tag.isEmpty())
       filpar->SetTagName(TGo4MbsFile__fgcNOTAGFILE);
    else
-      filpar->SetTagName(tag.trimmed().toStdString().c_str());
+      filpar->SetTagName(tag.trimmed().toAscii());
 }
 
 void TGo4ConfigStep::StoreStartEvent( int num )
@@ -535,7 +535,7 @@ void TGo4ConfigStep::InputFileDialog()
           cout <<"Unknown sourcepar " <<sourcepar->ClassName() << endl;
    }
 
-    //cout <<"FFFFFFFF chose filter-"<< filters.toStdString().c_str() <<"-" <<endl;
+    //cout <<"FFFFFFFF chose filter-"<< filters.toStdString() <<"-" <<endl;
     QFileDialog fd( this, "Select file name for step input",
                           fxPanel->GetSourcePath(), filters);
     fd.setFileMode(QFileDialog::ExistingFile);
@@ -596,7 +596,7 @@ void TGo4ConfigStep::ResetSourceWidgets(const QString& name,
                                         int timeout,
                                         int start, int stop, int interval)
 {
-	//cout <<"TGo4ConfigStep::ResetSourceWidgests for "<< name.toStdString().c_str() << endl;
+	//cout <<"TGo4ConfigStep::ResetSourceWidgests for "<< name.toStdString()<< endl;
     SourceNameEdit->setText(name);
     SpinBoxTimeout->setValue(timeout);
     SpinBoxStartEvent->setValue(start);

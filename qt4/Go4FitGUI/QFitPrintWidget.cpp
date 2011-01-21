@@ -46,7 +46,7 @@ void QFitPrintWidget::FillSpecificData()
 
       cout.rdbuf(strout.rdbuf());
 
-      GetObject()->Print(fxDrawOption.toStdString().c_str());
+      GetObject()->Print(fxDrawOption.toAscii());
 
       cout << endl;
 

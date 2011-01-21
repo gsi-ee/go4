@@ -72,11 +72,11 @@ void QFitNamedWidget::ChangeName(const QString & name)
 void QFitNamedWidget::NameEdt_textChanged(const QString & name)
 {
   if (!fbFillWidget && (fxPanel!=0))
-    fxPanel->ChangeObjectName(this, name.toStdString().c_str());
+    fxPanel->ChangeObjectName(this, name.toAscii());
 }
 
 void QFitNamedWidget::TitleEdt_textChanged(const QString & title)
 {
    if(!fbFillWidget && (fxPanel!=0))
-      fxPanel->ChangeObjectTitle(this, title.toStdString().c_str());
+      fxPanel->ChangeObjectTitle(this, title.toAscii());
 }

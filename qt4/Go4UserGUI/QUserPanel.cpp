@@ -217,7 +217,7 @@ void QUserPanel::CanvasDropEventSlot(QDropEvent* event, TPad* pad)
    if (!event->mimeData()->hasText()) return;
    QString eventstr = event->mimeData()->text();
    event->acceptProposedAction();
-   DrawObjectOnCanvas(eventstr.toStdString().c_str());
+   DrawObjectOnCanvas(eventstr.toAscii());
 }
 
 void QUserPanel::DrawObjectOnCanvas(const char* itemname)

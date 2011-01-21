@@ -54,7 +54,7 @@ void QFitPeakFinderWidget::FillSpecificData() {
 void QFitPeakFinderWidget::DataNameEdt_textChanged( const QString & name)
 {
   if (!fbFillWidget && GetPF())
-    GetPF()->SetDataName(name.toStdString().c_str());
+    GetPF()->SetDataName(name.toAscii());
 }
 
 

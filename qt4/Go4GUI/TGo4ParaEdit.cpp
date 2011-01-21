@@ -299,7 +299,7 @@ void TGo4ParaEdit::ChangedTable( int row, int col )
    if ((col==fiColValue) && !fFillingTable) {
       QString txt = MemberTable->item(row, col)->text();
       TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(row);
-      info->SetStrValue(txt.toStdString().c_str());
+      info->SetStrValue(txt.toAscii());
       PleaseUpdateLabel->setVisible(true);
    }
 }
@@ -445,7 +445,7 @@ void TGo4ParaEdit::saveFile()
             PleaseUpdateLabel->setVisible(false);
    } else
    if (fItemName.length()>0) {
-      const char* parclass = Browser()->ItemClassName(fItemName.toStdString().c_str());
+      const char* parclass = Browser()->ItemClassName(fItemName.toAscii());
       if (parclass==0) return;
       if (gROOT->GetClass(parclass)==0) {
          QMessageBox::warning(this, "Parameter editor",
@@ -453,7 +453,7 @@ void TGo4ParaEdit::saveFile()
          return;
       }
       TString foldname, parname;
-      TGo4Slot::ProduceFolderAndName(fItemName.toStdString().c_str(), foldname, parname);
+      TGo4Slot::ProduceFolderAndName(fItemName.toAscii(), foldname, parname);
 
       TGo4ParameterStatus status(parname, parclass, (TObjArray*)fItems->Clone());
 
@@ -475,7 +475,7 @@ void TGo4ParaEdit::saveFile()
       QStringList flst = fd.selectedFiles();
       if (flst.isEmpty()) return;
 
-      TFile* f = TFile::Open(flst[0].toStdString().c_str(),"UPDATE");
+      TFile* f = TFile::Open(flst[0].toAscii(),"UPDATE");
       if (f!=0) {
          f->WriteTObject(par, par->GetName(), "WriteDelete") > 0;
          delete f;
@@ -485,7 +485,7 @@ void TGo4ParaEdit::saveFile()
 
 void TGo4ParaEdit::RefreshClicked()
 {
-   WorkWithParameter(ParamNameLbl->text().toStdString().c_str(), true);
+   WorkWithParameter(ParamNameLbl->text().toAscii(), true);
 }
 
 void TGo4ParaEdit::ApplyClicked()
@@ -495,15 +495,15 @@ void TGo4ParaEdit::ApplyClicked()
    if ((fItemName.length()==0) || (fItems==0)) return;
 
    TString foldname, parname;
-   TGo4Slot::ProduceFolderAndName(fItemName.toStdString().c_str(), foldname, parname);
+   TGo4Slot::ProduceFolderAndName(fItemName.toAscii(), foldname, parname);
 
-   const char* parclass = Browser()->ItemClassName(fItemName.toStdString().c_str());
+   const char* parclass = Browser()->ItemClassName(fItemName.toAscii());
    if (parclass==0) return;
 
    TGo4ParameterStatus status(parname, parclass, (TObjArray*)fItems->Clone());
 
-   if (UpdateItemInAnalysis(fItemName.toStdString().c_str(), &status))
-     if (BrowserItemRemote(fItemName.toStdString().c_str()))
+   if (UpdateItemInAnalysis(fItemName.toAscii(), &status))
+     if (BrowserItemRemote(fItemName.toAscii()))
         RefreshClicked();
      else
         PleaseUpdateLabel->setVisible(false);

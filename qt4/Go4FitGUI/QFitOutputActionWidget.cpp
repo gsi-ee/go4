@@ -41,7 +41,7 @@ void QFitOutputActionWidget::FillSpecificData()
 void QFitOutputActionWidget::OptionsEdit_textChanged( const QString & str)
 {
   if(!fbFillWidget && GetOutAct())
-    GetOutAct()->SetOptions(str.toStdString().c_str());
+    GetOutAct()->SetOptions(str.toAscii());
 }
 
 void QFitOutputActionWidget::CommandCombo_activated( int n)

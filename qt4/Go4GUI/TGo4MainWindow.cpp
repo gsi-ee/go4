@@ -155,11 +155,11 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    winMapper = 0;
 
     // create mount point for all data sources
-   fxOM->MakeFolder(fOMDataPath.toStdString().c_str());
+   fxOM->MakeFolder(fOMDataPath.toAscii());
 
    // create entry for browser
-   TGo4BrowserProxy* br = new TGo4BrowserProxy(fOMDataPath.toStdString().c_str(), fOMEditorsPath.toStdString().c_str(), kFALSE);
-   fxOM->AddProxy("", br, fOMBrowserPath.toStdString().c_str(), "Place for gui slots");
+   TGo4BrowserProxy* br = new TGo4BrowserProxy(fOMDataPath.toAscii(), fOMEditorsPath.toAscii(), kFALSE);
+   fxOM->AddProxy("", br, fOMBrowserPath.toAscii(), "Place for gui slots");
    br->CreateMemoryFolder();
 
    TH1I* h1 = new TH1I("histo1","histo title", 100, -10., 10.);
@@ -319,7 +319,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
       QStringList LibList = QString(libs).split(":",QString::SkipEmptyParts);
 
       for (QStringList::Iterator it=LibList.begin(); it!=LibList.end(); ++it)
-          gSystem->Load((*it).toStdString().c_str());
+          gSystem->Load((*it).toAscii());
    }
 
    go4sett->restoreMainWindowState(this);
@@ -335,7 +335,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    // start mbs monitoring only after browser etc. is fully there:
    if(go4sett->getMbsMonitorMonitorActive()) mbs->TimerStart();
 
-   cout <<"Using Qt settings at "<< go4sett->GetSettLoaction().toStdString().c_str() << endl;
+   cout <<"Using Qt settings at "<< go4sett->GetSettLoaction().toAscii().constData() << endl;
 
    statusBar()->showMessage("Ready");
    statusBar()->setSizeGripEnabled(TRUE);
@@ -350,7 +350,7 @@ TGo4MainWindow::~TGo4MainWindow()
 
 const char* TGo4MainWindow::LastTypedPassword() const
 {
-   return fLastPassword.toStdString().c_str();
+   return fLastPassword.toAscii();
 }
 
 
@@ -749,13 +749,13 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
 
    libname = dirname + libname;
 
-   cout << "Try usergui: " << libname.toStdString().c_str() << endl;
+   cout << "Try usergui: " << libname.toAscii().constData() << endl;
 
    bool loaded = false;
 
-   if (gSystem->Load(libname.toStdString().c_str())>=0) {
+   if (gSystem->Load(libname.toAscii().constData())>=0) {
       loaded = true;
-      startfunc = (TStartUserGuiFunc) gSystem->DynFindSymbol(libname.toStdString().c_str(), "StartUserPanel");
+      startfunc = (TStartUserGuiFunc) gSystem->DynFindSymbol(libname.toAscii().constData(), "StartUserPanel");
    }
 
    if (startfunc!=0) {
@@ -773,11 +773,11 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
    if (result) {
       cout << "Start user GUI from ";
       if (dirname.length()>0)
-         cout << dirname.toStdString().c_str() << endl;
+         cout << dirname.toAscii().constData() << endl;
       else
          cout << "$LD_LIBRARY_PATH=" << gSystem->Getenv("LD_LIBRARY_PATH") << endl;
    } else {
-      if (loaded) gSystem->Unload(libname.toStdString().c_str());
+      if (loaded) gSystem->Unload(libname.toAscii().constData());
    }
 
    return result;
@@ -805,15 +805,15 @@ TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
 {
    QString name;
 
-   TGo4Slot* edslot = fxOM->GetSlot(fOMEditorsPath.toStdString().c_str());
+   TGo4Slot* edslot = fxOM->GetSlot(fOMEditorsPath.toAscii());
 
    int n = 0;
    do {
      n++;
      name = QString("Panel") + QString::number(n);
-   } while ((edslot!=0) && (edslot->FindChild(name.toStdString().c_str())!=0));
+   } while ((edslot!=0) && (edslot->FindChild(name.toAscii())!=0));
 
-   TGo4ViewPanel* panel = new TGo4ViewPanel(fxWorkSpace, name.toStdString().c_str());
+   TGo4ViewPanel* panel = new TGo4ViewPanel(fxWorkSpace, name.toAscii());
    fxWorkSpace->addWindow(panel); // warning: Qt may exchange the winId here!
    // panel->GetQCanvas()->performResize(); // may register new winId for TCanvas here
    ConnectGo4Widget(panel);
@@ -946,7 +946,7 @@ void TGo4MainWindow::OpenFileSlot()
    while( it != list.end() ) {
       QString fileName = *it;
       fLastFileDir = QFileInfo(fileName).absolutePath();
-      Browser()->OpenFile(fileName.toStdString().c_str());
+      Browser()->OpenFile(fileName.toAscii());
       ++it;
    }
 }
@@ -983,7 +983,7 @@ void TGo4MainWindow::OpenRemoteFileSlot()
 
    fileName = urlpath + fileName;
 
-   fxOM->AddFile(fOMDataPath.toStdString().c_str(), fileName.toStdString().c_str());
+   fxOM->AddFile(fOMDataPath.toAscii(), fileName.toAscii());
 }
 
 void TGo4MainWindow::ConnectHServerSlot()
@@ -1002,11 +1002,11 @@ void TGo4MainWindow::ConnectHServerSlot()
    go4sett->setHServFilter(dlg.FilterList->text());
    go4sett->setHServPort(dlg.PortNumberSpin->value());
 
-   if (!Browser()->ConnectHServer(dlg.ServerName->text().toStdString().c_str(),
+   if (!Browser()->ConnectHServer(dlg.ServerName->text().toAscii(),
                                   dlg.PortNumberSpin->value(),
-                                  dlg.BaseName->text().toStdString().c_str(),
-                                  dlg.UserPassEdt->text().toStdString().c_str(),
-                                  dlg.FilterList->text().toStdString().c_str()))
+                                  dlg.BaseName->text().toAscii(),
+                                  dlg.UserPassEdt->text().toAscii(),
+                                  dlg.FilterList->text().toAscii()))
      QMessageBox::warning(0, "HServer", "Cannot connect to histogram server");
 }
 
@@ -1031,13 +1031,13 @@ void TGo4MainWindow::SaveFileSlot()
    fLastFileDir = fd.directory().path();
    if (fname.indexOf(".root", 0, Qt::CaseInsensitive)<0) fname+=".root";
 
-   if (!Browser()->SaveBrowserToFile(fname.toStdString().c_str(), go4sett->getFetchDataWhenSave()))
+   if (!Browser()->SaveBrowserToFile(fname.toAscii(), go4sett->getFetchDataWhenSave()))
      QMessageBox::warning(this, "Save data to file", "Specified file can not be created");
 }
 
 void TGo4MainWindow::CloseAllFilesSlot()
 {
-   fxOM->CloseFiles(fOMDataPath.toStdString().c_str());
+   fxOM->CloseFiles(fOMDataPath.toAscii());
 }
 
 void TGo4MainWindow::InputTerminalParametersSlot()
@@ -1067,7 +1067,7 @@ void TGo4MainWindow::LogSettingsSlot()
    if (dlg.exec() != QDialog::Accepted) return;
 
    if(dlg.LogfileWrite->isChecked())
-      TGo4Log::OpenLogfile(dlg.LogfileName->text().toStdString().c_str(), "Logfile for Go4 GUI", true);
+      TGo4Log::OpenLogfile(dlg.LogfileName->text().toAscii(), "Logfile for Go4 GUI", true);
 
    TGo4Log::LogfileEnable(dlg.LogfileWrite->isChecked());
    TGo4Log::OutputEnable(dlg.LogfilePrint->isChecked());
@@ -1122,7 +1122,7 @@ void TGo4MainWindow::SaveSettingsSlot()
 
    go4sett->Store();
 
-   cout <<"Save Qt settings to "<< go4sett->GetSettLoaction().toStdString().c_str() << endl;
+   cout <<"Save Qt settings to "<< go4sett->GetSettLoaction().toAscii().constData() << endl;
 }
 
 void TGo4MainWindow::ChangeFontSlot()
@@ -1177,7 +1177,7 @@ void TGo4MainWindow::StatusMessage(const QString& mess)
    output.append(mess);
    statusBar()->showMessage(output, 3000);
    if(TGo4Log::IsAutoEnabled())
-      TGo4Log::Message(1,output.toStdString().c_str());
+      TGo4Log::Message(1,output.toAscii());
 
    UpdateCaptionButtons();
 }
@@ -1386,26 +1386,26 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
         res = anal->LaunchAsClient(launchcmd, killcmd,
                       shellmode,
                       termmode,
-                      go4sett->getClientName().toStdString().c_str(),
-                      go4sett->getClientNode().toStdString().c_str(),
-                      workdir.toStdString().c_str(),
-                      go4sett->getClientExec().toStdString().c_str(),
+                      go4sett->getClientName().toAscii(),
+                      go4sett->getClientNode().toAscii(),
+                      workdir.toAscii(),
+                      go4sett->getClientExec().toAscii(),
                       go4sett->getClientExeMode(),
-                      go4sett->getClientArgs().toStdString().c_str());
+                      go4sett->getClientArgs().toAscii());
       TGo4AnalysisWindow* anw = FindAnalysisWindow();
       if (res && (anw!=0) && (termmode==1)) {
-         anw->StartAnalysisShell(launchcmd.Data(), (shellmode==0) ? workdir.toStdString().c_str() : 0);
+         anw->StartAnalysisShell(launchcmd.Data(), (shellmode==0) ? workdir.toAscii().constData() : 0);
       }
    } else
       res = TGo4AnalysisProxy::LaunchAsServer(launchcmd, killcmd,
                       shellmode,
                       termmode,
-                      go4sett->getClientName().toStdString().c_str(),
-                      go4sett->getClientNode().toStdString().c_str(),
-                      workdir.toStdString().c_str(),
-                      go4sett->getClientExec().toStdString().c_str(),
+                      go4sett->getClientName().toAscii(),
+                      go4sett->getClientNode().toAscii(),
+                      workdir.toAscii(),
+                      go4sett->getClientExec().toAscii(),
                       go4sett->getClientExeMode(),
-                      go4sett->getClientArgs().toStdString().c_str());
+                      go4sett->getClientArgs().toAscii());
 
    if (res) fKillCommand = killcmd.Data();
        else fKillCommand = "";
@@ -1433,7 +1433,7 @@ TGo4AnalysisProxy* TGo4MainWindow::AddAnalysisProxy(bool isserver, bool needoutp
 
    if (analslot==0) {
       TGo4AnalysisProxy* anal = new TGo4AnalysisProxy(isserver);
-      fxOM->AddProxy(fOMDataPath.toStdString().c_str(), anal, analisysitem, "Analysis proxy");
+      fxOM->AddProxy(fOMDataPath.toAscii(), anal, analisysitem, "Analysis proxy");
       analslot = Browser()->DataSlot(analisysitem);
       anal->SetDefaultReceiver(fxOM, TString("gui/") + analisysitem + "/");
    }
@@ -1597,7 +1597,7 @@ void TGo4MainWindow::ConnectServerSlot(bool interactive, const char* password)
    if (interactive) {
       TGo4ConnectServer dlg;
       if (fLastPassword.length()>0)
-        dlg.setPassword(fLastPassword.toStdString().c_str());
+        dlg.setPassword(fLastPassword.toAscii());
       if (dlg.exec()!=QDialog::Accepted) return;
       pass = dlg.getInput();
    }
@@ -1607,10 +1607,10 @@ void TGo4MainWindow::ConnectServerSlot(bool interactive, const char* password)
    if (!def) fLastPassword = pass;
 
    if (anal!=0)
-     anal->ConnectToServer(go4sett->getClientNode().toStdString().c_str(),
+     anal->ConnectToServer(go4sett->getClientNode().toAscii(),
                            go4sett->getClientPort(),
                            go4sett->getClientControllerMode(),
-                           def ? 0 : pass.toStdString().c_str());
+                           def ? 0 : pass.toAscii().constData());
    StatusMessage("Connecting running analysis....  Please wait");
 
    // wait about 4 sec that analysis is connected
@@ -1758,7 +1758,7 @@ QGo4Widget* TGo4MainWindow::FindGo4Widget(const char* name, bool activate)
 {
    if (fxOM==0) return 0;
 
-   TGo4Slot* slot = fxOM->GetSlot(fOMEditorsPath.toStdString().c_str());
+   TGo4Slot* slot = fxOM->GetSlot(fOMEditorsPath.toAscii());
 
    TGo4Slot* widgslot = slot==0 ? 0 : slot->FindChild(name);
    if (widgslot==0) return 0;
@@ -2153,7 +2153,7 @@ bool TGo4MainWindow::SaveBrowserItemToFile(const char* itemname, const char* sub
             } else {
                if (!filename.endsWith(".root")) filename.append(".root");
             }
-            res = br->SaveItemToFile(itemname, filename.toStdString().c_str(), subfolder);
+            res = br->SaveItemToFile(itemname, filename.toAscii(), subfolder);
             fLastFileDir = fd.directory().path();
          }
       }
@@ -2286,7 +2286,7 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
 
    //TString oldname = thiscanvas->GetName();
    //thiscanvas->SetName("Canvas");
-   can->Print(filename.toStdString().c_str(), opt);
+   can->Print(filename.toAscii(), opt);
 }
 
 TGo4ObjectManager* TGo4MainWindow::OM()
@@ -2296,7 +2296,7 @@ TGo4ObjectManager* TGo4MainWindow::OM()
 
 TGo4BrowserProxy* TGo4MainWindow::Browser()
 {
-   return (TGo4BrowserProxy*) fxOM->GetProxy(fOMBrowserPath.toStdString().c_str());
+   return (TGo4BrowserProxy*) fxOM->GetProxy(fOMBrowserPath.toAscii());
 }
 
 TGo4Slot* TGo4MainWindow::GetWidgetTopSlot(QGo4Widget* widget, bool force)
@@ -2308,10 +2308,10 @@ TGo4Slot* TGo4MainWindow::GetWidgetTopSlot(QGo4Widget* widget, bool force)
    QString editorslotname = fOMEditorsPath;
    editorslotname += "/";
    editorslotname += EditorName;
-   TGo4Slot* edslot = fxOM->GetSlot(editorslotname.toStdString().c_str());
+   TGo4Slot* edslot = fxOM->GetSlot(editorslotname.toAscii());
    if ((edslot==0) && force) {
-      fxOM->AddProxy(fOMEditorsPath.toStdString().c_str(), new TGo4WidgetProxy(widget), EditorName.toStdString().c_str(), "Links for Go4 widget");
-      edslot = fxOM->GetSlot(editorslotname.toStdString().c_str());
+      fxOM->AddProxy(fOMEditorsPath.toAscii(), new TGo4WidgetProxy(widget), EditorName.toAscii(), "Links for Go4 widget");
+      edslot = fxOM->GetSlot(editorslotname.toAscii());
    }
    return edslot;
 }
@@ -2331,7 +2331,7 @@ void TGo4MainWindow::checkPanelRepaintSlot()
    if (fbPanelTimerActive) return;
 
    // now check if any other panel shold be repainted
-   TGo4Slot* topslot = fxOM->GetSlot(fOMEditorsPath.toStdString().c_str());
+   TGo4Slot* topslot = fxOM->GetSlot(fOMEditorsPath.toAscii());
    for (int n=0;n<topslot->NumChilds();n++) {
       TGo4Slot* subslot = topslot->GetChild(n);
 
@@ -2373,9 +2373,9 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
          bool accept = false;
          if (event->source()==FindGo4Widget("Browser",false)) {
-            int kind = Browser()->ItemKind(eventstr.toStdString().c_str());
-            TClass* cl = Browser()->ItemClass(eventstr.toStdString().c_str());
-            accept = editor->IsAcceptDrag(eventstr.toStdString().c_str(), cl, kind);
+            int kind = Browser()->ItemKind(eventstr.toAscii());
+            TClass* cl = Browser()->ItemClass(eventstr.toAscii());
+            accept = editor->IsAcceptDrag(eventstr.toAscii(), cl, kind);
          }
 
          if (accept) event->acceptProposedAction();
@@ -2391,18 +2391,18 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
          event->acceptProposedAction();
 
          if (event->source()==FindGo4Widget("Browser",false)) {
-             int kind = Browser()->ItemKind(eventstr.toStdString().c_str());
-             TClass* cl = Browser()->ItemClass(eventstr.toStdString().c_str());
+             int kind = Browser()->ItemKind(eventstr.toAscii());
+             TClass* cl = Browser()->ItemClass(eventstr.toAscii());
 
              TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (editor);
              TGo4FitPanel* fitpanel = dynamic_cast<TGo4FitPanel*> (editor);
              if (panel!=0)
-                panel->DropOnPad((TPad*)str, eventstr.toStdString().c_str(), cl, kind);
+                panel->DropOnPad((TPad*)str, eventstr.toAscii(), cl, kind);
              else
              if (fitpanel!=0)
-                fitpanel->DropOnPanel(event, eventstr.toStdString().c_str(), cl, kind);
+                fitpanel->DropOnPanel(event, eventstr.toAscii(), cl, kind);
              else
-                editor->DropItem(eventstr.toStdString().c_str(), cl, kind);
+                editor->DropItem(eventstr.toAscii(), cl, kind);
          }
          break;
       }
@@ -2430,7 +2430,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_WhereItemDrawn: {
          TGo4ViewPanel** res = (TGo4ViewPanel**) par;
          *res = 0;
-         TGo4Slot* topslot = fxOM->GetSlot(fOMEditorsPath.toStdString().c_str());
+         TGo4Slot* topslot = fxOM->GetSlot(fOMEditorsPath.toAscii());
          for (int n=0;n<topslot->NumChilds();n++) {
             TGo4Slot* subslot = topslot->GetChild(n);
 
@@ -2451,7 +2451,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_UndrawItem: {
-         TGo4Slot* topslot = fxOM->GetSlot(fOMEditorsPath.toStdString().c_str());
+         TGo4Slot* topslot = fxOM->GetSlot(fOMEditorsPath.toAscii());
 
          for (int n=0;n<topslot->NumChilds();n++) {
             TGo4Slot* subslot = topslot->GetChild(n);
@@ -2602,7 +2602,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_AddEditorLink: {
          TGo4Slot* brslot = Browser()->BrowserSlot((const char*)par);
 
-         QByteArray ba = editor->objectName().toStdString().c_str();
+         QByteArray ba = editor->objectName().toAscii();
 
          if (str==0) str = ba.constData();
 
@@ -2616,7 +2616,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_AddDirectLink: {
          //cout << " QGo4Widget::service_AddDirectLink " << endl;
-         QByteArray ba = editor->objectName().toStdString().c_str();
+         QByteArray ba = editor->objectName().toAscii();
          if (str==0) str = ba.constData();
          TGo4Slot* slot = (TGo4Slot*) par;
          if (slot!=0) {
@@ -2717,7 +2717,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_ObjectCreated: {
-         TGo4Slot* slot = fxOM->GetSlot(fOMEditorsPath.toStdString().c_str());
+         TGo4Slot* slot = fxOM->GetSlot(fOMEditorsPath.toAscii());
          for (int n=0;n<slot->NumChilds();n++) {
             TGo4Slot* subslot = slot->GetChild(n);
             if (edslot==subslot) continue;
@@ -2932,7 +2932,7 @@ void TGo4MainWindow::CreateGUIScriptSlot()
 
    StatusMessage(QString("Generate script ")+fileName);
 
-   TGo4Script::ProduceScript(fileName.toStdString().c_str(), this);
+   TGo4Script::ProduceScript(fileName.toAscii(), this);
 }
 
 void TGo4MainWindow::ProcessQtEvents()
@@ -2948,7 +2948,7 @@ TGo4ViewPanel* TGo4MainWindow::FindViewPanel(const char* name)
 
    if (panel!=0) return panel;
 
-   TGo4Slot* slot = fxOM->GetSlot(fOMEditorsPath.toStdString().c_str());
+   TGo4Slot* slot = fxOM->GetSlot(fOMEditorsPath.toAscii());
 
    for (Int_t n=0;n<slot->NumChilds();n++) {
       TGo4Slot* widgslot = slot->GetChild(n);
