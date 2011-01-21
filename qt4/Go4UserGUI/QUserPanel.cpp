@@ -30,6 +30,7 @@
 // this function called by Go4 GUI to start user panel
 extern "C" Q_DECL_EXPORT void* StartUserPanel(void* parent)
 {
+
    return new QUserPanel((QWidget*) parent);
 
 //  Use this code to hide main go4 window and show only user gui

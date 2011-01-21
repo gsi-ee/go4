@@ -46,10 +46,11 @@ go4-package:
 win-bin: 
 	@echo "Creating binary Go4 Windows package ..."
 	rm -f ../$(WINBIN_NAME)
-	cp -f etc/win32/*go4init.bat ..
+	cp -f etc/win32/go4init.bat ..
 	cp -f etc/win32/go4.bat ..
 	cp -f etc/win32/go4login ..
 	cp -f etc/win32/README.txt ..
+	cp -f /cygdrive/e/WINDOWS/system32/msvcr100.dll /cygdrive/e/WINDOWS/system32/msvcp100.dll bin
 	cp -f $(QTDIR)/bin/QtCore4.dll $(QTDIR)/bin/QtGui4.dll bin
 	@cd ..; zip $(WINBIN_NAME) go4/Makefile.config go4/Makefile.rules
 	@for MMM in $(EXMODULES); do cd ..; echo "pack $$MMM"; zip $(WINBIN_NAME) go4/$$MMM/* -x *.obj -x *.d -x go4/$$MMM/G__*.*; cd go4; done
@@ -60,7 +61,7 @@ win-bin:
 	go4/qt4/Go4UserGUI/libGo4UserGui.* go4/qt4/Go4UserGUI/*.pro go4/qt4/Go4UserGUI/QUserPanel.* go4/qt4/Go4UserGUI/Makefile go4/qt4/Go4UserGUI/README.txt 
 	cd ..; zip -r $(WINBIN_NAME) root
 	rm -f ../go4init.bat ../go4.bat ../go4login ../README.txt
-	rm -f bin/QtCore4.dll bin/QtGui4.dll
+	rm -f bin/QtCore4.dll bin/QtGui4.dll bin/msvcr100.dll bin/msvcp100.dll
 	@echo "Binary package $(WINBIN_NAME) done"
 
 COMPFILES = $(filter %.h %.cxx %.cpp %.c, $(DISTRFILES))

@@ -21,7 +21,7 @@ in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
 This package is compiled and tested under Windows XP SP2 and Windows 7
-together with Microsoft Visual C++ 2008 Express Edition and CYGWIN.
+together with Microsoft Visual C++ 2010 Express Edition and CYGWIN.
 
 1. INSTALLATION
 
@@ -90,7 +90,7 @@ together with Microsoft Visual C++ 2008 Express Edition and CYGWIN.
 5. COMPILE USER ANALYSIS UNDER WINDOWS
 
   First of all, Microsoft VC++ should be installed.
-  There is a free edition of Microsoft Visual C++ Express 2008 on
+  There is a free edition of Microsoft Visual C++ Express 2010 on
        http://msdn.microsoft.com/vstudio/express/visualc/
   After VC++ is installed, there are two alternatives, 
   how example can be compiled.
@@ -132,8 +132,8 @@ together with Microsoft Visual C++ 2008 Express Edition and CYGWIN.
 - Download and install root (ROOT Windows binaries are enough)
 - Install and configure CYGWIN
 - Install Microsoft VC++
-- Install Qt 4.6.x binaries package for MS VS2008 compiler like
-    qt-win-opensource-4.6.2-vs2008.exe 
+- Install Qt 4.7.x binaries package for MS VS2008 compiler like
+    qt-win-opensource-4.7.1-vs2008.exe 
 - Download go4 sources from http://go4.gsi.de web site.
 - Find and modify $GO4SYS/etc/win/go4login file to actual location of all 
   components, copy it to home cygwin directory

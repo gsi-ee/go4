@@ -753,9 +753,9 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
 
    bool loaded = false;
 
-   if (gSystem->Load(libname.toAscii())>=0) {
+   if (gSystem->Load(libname.toAscii().constData())>=0) {
       loaded = true;
-      startfunc = (TStartUserGuiFunc) gSystem->DynFindSymbol(libname.toAscii(), "StartUserPanel");
+      startfunc = (TStartUserGuiFunc) gSystem->DynFindSymbol(libname.toAscii().constData(), "StartUserPanel");
    }
 
    if (startfunc!=0) {
@@ -773,11 +773,11 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
    if (result) {
       cout << "Start user GUI from ";
       if (dirname.length()>0)
-         cout << dirname.toStdString() << endl;
+         cout << dirname.toAscii().constData() << endl;
       else
          cout << "$LD_LIBRARY_PATH=" << gSystem->Getenv("LD_LIBRARY_PATH") << endl;
    } else {
-      if (loaded) gSystem->Unload(libname.toAscii());
+      if (loaded) gSystem->Unload(libname.toAscii().constData());
    }
 
    return result;
