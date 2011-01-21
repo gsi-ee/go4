@@ -14,6 +14,8 @@
 /* This file called in typedefs.h defines data types for NT */
 
 
+#include <errno.h>
+
 #ifndef ESOCKTNOSUPPORT
 #define ESOCKTNOSUPPORT         WSAESOCKTNOSUPPORT
 #endif
@@ -165,5 +167,3 @@
 #ifndef EREMOTE
 #define EREMOTE                 WSAEREMOTE
 #endif
-
-
