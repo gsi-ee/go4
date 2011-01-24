@@ -285,7 +285,7 @@ void QGo4Widget::AskToCreateObject(TClass* cl, int isremote)
 {
    fWaitsForObjectCreation = (isremote>=0);
    QString str = QString::number(isremote);
-   emit widgetService(this, service_CreateItem, str.toAscii(), (void*) cl);
+   emit widgetService(this, service_CreateItem, str.toAscii().constData(), (void*) cl);
 }
 
 void QGo4Widget::InformThatObjectCreated(const char* itemname, TClass* cl)
@@ -307,7 +307,7 @@ TGo4ViewPanel* QGo4Widget::CreateViewPanel(int ndiv)
 {
    QString str = QString::number(ndiv);
    TGo4ViewPanel* res = 0;
-   emit widgetService(this, service_CreateViewPanel, str.toAscii(), (void*)&res);
+   emit widgetService(this, service_CreateViewPanel, str.toAscii().constData(), (void*)&res);
    return res;
 }
 
