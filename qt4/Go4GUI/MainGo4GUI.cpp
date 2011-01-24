@@ -180,10 +180,10 @@ int main(int argc, char **argv)
    QApplication::setStartDragTime(150); // ms
 
    for (int i = 0; i < files.size(); ++i)
-      Go4MainGUI->Browser()->OpenFile(files.at(i).toAscii());
+      Go4MainGUI->Browser()->OpenFile(files.at(i).toAscii().constData());
 
    if (hotstart.length()>0)
-      Go4MainGUI->HotStart(hotstart.toAscii());
+      Go4MainGUI->HotStart(hotstart.toAscii().constData());
 
    if (dologin>=0) {
       go4sett->setClientNode(loghost);
