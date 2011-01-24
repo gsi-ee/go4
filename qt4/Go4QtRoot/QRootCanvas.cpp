@@ -135,8 +135,7 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
         buffer += "  y = ";
         buffer += QString::number(py);
      }
-     QByteArray ba = buffer.toAscii();
-     emit CanvasStatusEvent(ba.constData());
+     emit CanvasStatusEvent(buffer.toAscii().constData());
   }
 }
 
@@ -313,7 +312,7 @@ void QRootCanvas::processRepaintTimer()
       // need to adjust the ROOT X access:
       delete fCanvas; // should also remove old x windows!
       fRootWindowId = gVirtualX->AddWindow((ULong_t)newid, width(), height());
-      fCanvas = new TCanvas(objectName().toAscii(), width(), height(), fRootWindowId);
+      fCanvas = new TCanvas(objectName().toAscii().constData(), width(), height(), fRootWindowId);
       fQtWindowId = newid;
    }
 
@@ -852,7 +851,7 @@ void QRootCanvas::executeMenu(int id)
                                          tr( "Please enter your text" ),
                                          QLineEdit::Normal, QString::null, &ok);
             //if (ok && !text.isEmpty())
-            fxLatex->DrawLatex(fMousePosX, fMousePosY, text.toAscii());
+            fxLatex->DrawLatex(fMousePosX, fMousePosY, text.toAscii().constData());
             emit MenuCommandExecuted(fxLatex, "DrawLatex");
             break;
         }
