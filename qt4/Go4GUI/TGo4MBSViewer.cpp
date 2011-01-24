@@ -169,7 +169,7 @@ SetupRadio->setEnabled(fxDaqStat.bh_setup_loaded);
 SetupMLRadio->setEnabled(fxDaqStat.bh_set_ml_loaded);
 SetupMORadio->setEnabled(fxDaqStat.bh_set_mo_loaded);
 if(fbWarningState)
-    cerr <<fxMessage.toStdString() << endl;
+    cerr <<fxMessage.toAscii().constData() << endl;
 
 ensurePolished();
 update();
@@ -183,11 +183,11 @@ void TGo4MBSViewer::Refresh()
 if(fxNode.isEmpty()) {
 	return;
 }
-int state=f_mbs_status(const_cast<char*>(fxNode.toStdString().c_str()), &fxDaqStat);
+int state=f_mbs_status(const_cast<char*>(fxNode.toAscii().constData()), &fxDaqStat);
 if(state!=STC__SUCCESS)
 {
     fxMessage.sprintf("MBS Status refresh node %s returned error %d at ",
-    		const_cast<char*>(fxNode.toStdString().c_str()),state);
+    		const_cast<char*>(fxNode.toAscii().constData()),state);
     fxMessage+=QDateTime::currentDateTime().toString();
     fbWarningState=true;
 }
@@ -327,7 +327,7 @@ void TGo4MBSViewer::ShowStatus()
 {
   if(fbWarningState)
     {
-          cout <<fxMessage.toStdString()  << endl;
+          cout <<fxMessage.toAscii().constData()  << endl;
     }
   else
   {
@@ -366,7 +366,7 @@ if(fbGetSetup)
 {
     // request setup if selected
 
-    int state=f_mbs_setup(const_cast<char*>(fxNode.toStdString().c_str()), &fxSetup);
+    int state=f_mbs_setup(const_cast<char*>(fxNode.toAscii().constData()), &fxSetup);
     if(state!=0)
         {
             fxMessage.sprintf("MBS Setup refresh returned error %d at ",state);
@@ -380,7 +380,7 @@ if(fbGetSetup)
 else if(fbGetSetML)
 {
     // request setup multilayer if selected
-    int state=f_mbs_ml_setup(const_cast<char*>(fxNode.toStdString().c_str()), &fxSetupML);
+    int state=f_mbs_ml_setup(const_cast<char*>(fxNode.toAscii().constData()), &fxSetupML);
     if(state!=0)
     {
         fxMessage.sprintf("MBS Setup ML refresh returned error %d at",state);
@@ -393,7 +393,7 @@ else if(fbGetSetML)
 else if(fbGetSetMO)
 {
     // request setup MO if selected
-    int state=f_mbs_mo_setup(const_cast<char*>(fxNode.toStdString().c_str()), &fxSetupMO);
+    int state=f_mbs_mo_setup(const_cast<char*>(fxNode.toAscii().constData()), &fxSetupMO);
     if(state!=0)
     {
         fxMessage.sprintf("MBS Setup MO refresh returned error %d at",state);

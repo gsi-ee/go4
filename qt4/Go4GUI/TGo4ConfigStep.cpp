@@ -535,7 +535,7 @@ void TGo4ConfigStep::InputFileDialog()
           cout <<"Unknown sourcepar " <<sourcepar->ClassName() << endl;
    }
 
-    //cout <<"FFFFFFFF chose filter-"<< filters.toStdString() <<"-" <<endl;
+    //cout <<"FFFFFFFF chose filter-"<< filters.toAscii().constData() <<"-" <<endl;
     QFileDialog fd( this, "Select file name for step input",
                           fxPanel->GetSourcePath(), filters);
     fd.setFileMode(QFileDialog::ExistingFile);
@@ -596,7 +596,7 @@ void TGo4ConfigStep::ResetSourceWidgets(const QString& name,
                                         int timeout,
                                         int start, int stop, int interval)
 {
-	//cout <<"TGo4ConfigStep::ResetSourceWidgests for "<< name.toStdString()<< endl;
+	//cout <<"TGo4ConfigStep::ResetSourceWidgests for "<< name.toAscii().constData()<< endl;
     SourceNameEdit->setText(name);
     SpinBoxTimeout->setValue(timeout);
     SpinBoxStartEvent->setValue(start);
