@@ -33,7 +33,7 @@ GO4QTHEADS += $(GO4QT4HEADS)
 
 LIBDEPENDENC += $(GO4QT4DEP)
 
-gui:: libs qt4-GUI all-qt4usergui
+gui:: libs qt4-GUI qt4-heads all-qt4usergui
 
 plugin:: all-qt4plugin
 

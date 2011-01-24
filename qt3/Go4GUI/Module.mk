@@ -41,13 +41,9 @@ GO4GUI3_S           = $(filter-out $(GO4GUI3_DS), $(wildcard $(GO4GUI3_DIR)/*.$(
 GO4GUI3_H           = $(GO4GUI3_S:.$(SrcSuf)=.$(HedSuf))
 GO4GUI3_QTS         = $(filter-out $(GO4GUI3_EXES) $(GO4GUI3_FS) $(GO4GUI3_DIR)/qmake_image_collection.cpp, $(wildcard $(GO4GUI3_DIR)/*.cpp))
 GO4GUI3_QTH         = $(GO4GUI3_QTS:.cpp=.h)
-GO4GUI3_O           = $(GO4GUI3_S:.$(SrcSuf)=.$(ObjSuf))
-
-GO4GUI3_DEP         = $(GO4GUI3_O:.$(ObjSuf)=.$(DepSuf))
-GO4GUI3_DDEP        = $(GO4GUI3_DO:.$(ObjSuf)=.$(DepSuf))
 
 GO4GUI3_PUBH        = $(patsubst $(GO4GUI3_DIR)/%.h, include/%.h, $(GO4GUI3_H) $(GO4GUI3_QTH))
-
+GO4GUI3_FPUBH       = $(patsubst $(GO4GUI3_DIR)/%.h, include/%.h, $(GO4GUI3_FH))
 
 FITGUI3_FORMS       = $(wildcard $(FITGUI3_DIR)/*.ui)
 FITGUI3_FORMSI      = $(wildcard $(FITGUI3_DIR)/*.ui.h)
@@ -80,9 +76,7 @@ QT3ROOT_PUBH    = $(patsubst $(QT3ROOT_DIR)/%.h, include/%.h, $(QT3ROOT_H))
 
 # used in the main Makefile
 
-GO4QT3HEADS         += $(GO4GUI3_FH) $(GO4GUI3_PUBH) $(QT3ROOT_PUBH)
-
-GO4QT3DEP           += $(GO4GUI3_DEP) $(GO4GUI3_DDEP)
+GO4QT3HEADS         += $(GO4GUI3_PUBH) $(QT3ROOT_PUBH)
 
 
 ifdef DOPACKAGE
@@ -102,9 +96,10 @@ endif
 
 ##### local rules #####
 
-$(GO4GUI3_O) $(GO4GUI3_DEP) : CXXFLAGS += $(QTCXXFLAGS)
-
 ifeq ($(GO4_QT), 3)
+
+$(GO4GUI3_FH) : | qt3-GUI 
+
 include/%.h: $(GO4GUI3_DIR)/%.h
 	@echo "Copy header $@ ..."
 	@cp -f $< $@
@@ -125,8 +120,9 @@ qt3-GUI: $(GO4QT3HEADS) libs $(GO4GUI3_DS) $(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE)
 	@echo "Generating Qt3 part of the MainGUI..."
 	+cd $(GO4GUI3_DIR); $(MAKE) -f $(GO4GUI3_QTMAKE) "GO4SYS=../.."
 
+qt3-heads: $(GO4GUI3_FPUBH)
+
 clean-qt3-GUI-bin:
-	@rm -f $(GO4GUI3_O) $(GO4GUI3_DEP) 
 	@rm -f $(GO4GUI3_DIR)/.obj/*.o
 	@rm -f $(GO4GUI3_DO) $(GO4GUI3_DDEP) $(GO4GUI3_DS) $(GO4GUI3_DH)
 ifneq ($(wildcard $(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE)),)

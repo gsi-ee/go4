@@ -60,6 +60,7 @@ libs::
 
 
 ifdef GO4_QT
+ifndef GO4PACKAGE
 
 #dependency and Qt staff generation works only on linux
 
@@ -79,5 +80,7 @@ endif
 	@$(MakeDepend) $@ "$(CXXFLAGS) $(QTCXXFLAGS)" $*.cpp > $@
 
 endif
+endif
+
 
 endif

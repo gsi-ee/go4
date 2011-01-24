@@ -11,8 +11,8 @@ MOC = $(SYSCONF_MOC)
 IMAGEFILE = images.cpp
 PROJECTNAME = Go4GUI
 
-DEPENDPATH += ../../include ../Go4FitGUI ../../
-INCLUDEPATH += ../../include ../Go4FitGUI ../../
+DEPENDPATH += . ../../include ../Go4FitGUI ../..
+INCLUDEPATH += . ../../include ../Go4FitGUI ../..
 
 HEADERS	+= \
 	TGo4QSettings.h \

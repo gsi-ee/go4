@@ -5,8 +5,8 @@ OBJECTS_DIR =.obj
 
 CONFIG	+= qt warn_off thread
 
-INCLUDEPATH += ../../include ../Go4FitGUI ../../
-DEPENDPATH  += ../../include ../Go4FitGUI ../../
+INCLUDEPATH += . ../../include ../Go4FitGUI ../../
+DEPENDPATH  += . ../../include ../Go4FitGUI ../../
 
 TARGET      = go4
 DESTDIR     = ../../bin

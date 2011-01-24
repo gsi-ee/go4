@@ -17,7 +17,7 @@ GO4QTHEADS += $(GO4QT3HEADS)
 
 LIBDEPENDENC += $(GO4QT3DEP)
 
-gui:: libs qt3-GUI all-qt3usergui
+gui:: libs qt3-GUI qt3-heads all-qt3usergui
 
 plugin:: all-qt3plugin
 
