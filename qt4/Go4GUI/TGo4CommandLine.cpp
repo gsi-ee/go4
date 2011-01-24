@@ -60,10 +60,10 @@ void TGo4CommandLine::enterPressedSlot()
    } else
    if(str.contains(".hotstart") && !str.contains(".x")) {
       StatusMessage(QString("Executing hotstart script: ") + str);
-      StartHotstart(str.toAscii());
+      StartHotstart(str.toAscii().constData());
    } else {
       StatusMessage(QString("Executing command: ") + str);
-      gROOT->ProcessLineSync(str.toAscii());
+      gROOT->ProcessLineSync(str.toAscii().constData());
    }
 
    go4sett->setCommandsHistoryGUI(InputLine->getHistory(50));

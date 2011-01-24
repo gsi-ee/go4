@@ -267,7 +267,7 @@ TGo4ViewPanel::~TGo4ViewPanel()
 
 const char* TGo4ViewPanel::GetPanelName()
 {
-   fbaPanelName = fPanelName.toAscii();
+   fbaPanelName = fPanelName.toAscii().constData();
    return fbaPanelName.constData();
 }
 
@@ -566,7 +566,7 @@ void TGo4ViewPanel::SetSelectedMarker(TPad* pad, const QString& selname, int sel
       SetSpecialDrawOption(oldsel, 0);
 
    if (selname.length()>0)
-      padslot->SetPar("::SelMarker", selname.toAscii());
+      padslot->SetPar("::SelMarker", selname.toAscii().constData());
    else
       padslot->RemovePar("::SelMarker");
 
@@ -582,7 +582,7 @@ void TGo4ViewPanel::SetSelectedMarker(TPad* pad, const QString& selname, int sel
    if ((selindex>=0) && (newselslot!=0)) {
       QString drawopt("sel=");
       drawopt += QString::number(selindex);
-      SetSpecialDrawOption(newselslot, drawopt.toAscii());
+      SetSpecialDrawOption(newselslot, drawopt.toAscii().constData());
    }
 
    if (((oldselindex!=selindex) || (oldselname!=selname)) &&
@@ -1162,7 +1162,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
               bool fbTwoDimRegion=(hist!=0) && (hist->GetDimension()>1);
               int ix = GetNumMarkers(pad, kind_Window);
               QString name = "Region " + QString::number(ix+1);
-              conny = new TGo4WinCond(name.toAscii());
+              conny = new TGo4WinCond(name.toAscii().constData());
               iscreated = true;
               if(fbTwoDimRegion)
                  conny->SetValues(0,0,0,0);
@@ -1225,7 +1225,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
               TH1* hist = GetPadHistogram(pad);
               int ix = GetNumMarkers(pad, kind_Poly);
               QString name = "Polygon " + QString::number(ix+1);
-              cond = new TGo4PolyCond(name.toAscii());
+              cond = new TGo4PolyCond(name.toAscii().constData());
               iscreated = true;
               AddMarkerObj(pad, kind_Poly, cond);
               cond->SetWorkHistogram(hist);
@@ -1290,9 +1290,9 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
            QString txt = QInputDialog::getText(this, "Enter new LaTeX label text:",
                          name, QLineEdit::Normal, QString::null, &ok);
            if (ok && (txt.length()>0)) {
-              TLatex* latex = new TLatex(x,y, name.toAscii());
-              latex->SetName(name.toAscii());
-              latex->SetTitle(txt.toAscii());
+              TLatex* latex = new TLatex(x,y, name.toAscii().constData());
+              latex->SetName(name.toAscii().constData());
+              latex->SetTitle(txt.toAscii().constData());
               AddMarkerObj(pad, kind_Latex, latex);
               latex->Draw();
            } else {
@@ -1611,7 +1611,7 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemn
    pic->CopyOptionsFrom(padopt);
 
    if (pad==GetCanvas() && fbFreezeTitle)
-      pic->SetTitle(fFreezedTitle.toAscii());
+      pic->SetTitle(fFreezedTitle.toAscii().constData());
 
    int objnamenum = 0;
 
@@ -1700,9 +1700,9 @@ void TGo4ViewPanel::PrintCanvas()
                     " " + outfile;
    QString DelCmd = QString("rm -f ") + outfile;
 
-   GetCanvas()->Print(outfile.toAscii());
-   gSystem->Exec(PrnCmd.toAscii());
-   gSystem->Exec(DelCmd.toAscii());
+   GetCanvas()->Print(outfile.toAscii().constData());
+   gSystem->Exec(PrnCmd.toAscii().constData());
+   gSystem->Exec(DelCmd.toAscii().constData());
 }
 
 void TGo4ViewPanel::StartRootEditor()
@@ -1998,7 +1998,7 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
       }
    } else {
       QString newslotname = itemname;
-      if ((newslotname.length()==0) || (padslot->FindChild(newslotname.toAscii())!=0)) {
+      if ((newslotname.length()==0) || (padslot->FindChild(newslotname.toAscii().constData())!=0)) {
          int cnt = 0;
          do {
            if ((itemname==0) || (*itemname==0))
@@ -2006,9 +2006,9 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
            else
               newslotname = itemname;
            newslotname += QString::number(cnt++);
-         } while (padslot->FindChild(newslotname.toAscii())!=0);
+         } while (padslot->FindChild(newslotname.toAscii().constData())!=0);
       }
-      tgtslot = AddNewSlot(newslotname.toAscii(), padslot);
+      tgtslot = AddNewSlot(newslotname.toAscii().constData(), padslot);
       tgtslot->SetProxy(new TGo4ObjectProxy(obj, owner));
    }
    if (tgtslot==0) return 0;
@@ -3166,7 +3166,7 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad* tgtpad, TPad* srcpad, const char* s
          srcsubpad->GetPadPar(xlow, ylow, xup, yup);
 
          tgtpad->cd();
-         TPad* tgtsubpad = new TPad(subpadname.toAscii(), srcsubpad->GetName(), xlow, ylow, xup, yup);
+         TPad* tgtsubpad = new TPad(subpadname.toAscii().constData(), srcsubpad->GetName(), xlow, ylow, xup, yup);
          tgtsubpad->SetNumber(nsubpads);
          tgtsubpad->Draw();
 
@@ -4705,9 +4705,9 @@ void TGo4ViewPanel::AddMarkerObj(TPad* pad, int kind, TObject* obj)
    int cnt = 0;
    do {
      slotname = basename + QString::number(cnt++);
-   } while (padslot->FindChild(slotname.toAscii())!=0);
+   } while (padslot->FindChild(slotname.toAscii().constData())!=0);
 
-   TGo4Slot* objslot = AddDrawObject(pad, kind, slotname.toAscii(), obj, true, 0);
+   TGo4Slot* objslot = AddDrawObject(pad, kind, slotname.toAscii().constData(), obj, true, 0);
 
    SetActiveObj(pad, kind, objslot);
 }

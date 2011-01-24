@@ -189,7 +189,7 @@ TGo4LockGuard gard;
 // first get list of dabc nodes from DIM server
 fxDnsNode=dimDnsNodeEdit->text().trimmed();
 if(fxDnsNode.isEmpty()) return; // avoid crash of DIM with fatal error ;-)
-DimClient::setDnsNode(fxDnsNode.toAscii());
+DimClient::setDnsNode(fxDnsNode.toAscii().constData());
 delete fxServerInfo;
 FullPrintDIMButton->setDisabled(true);
 dimServiceFilterEdit->setDisabled(true);
@@ -581,7 +581,7 @@ else
             if(recreate)
                 {
                     //std::cout<<"+++ creating state service: " << stateservice <<std::endl;
-                    TGo4DabcStateInfo* sinfo=    new TGo4DabcStateInfo(stateservice.toAscii(), 0,  &gNolinkStateRecord,    sizeof(dabc::StatusRec), this);
+                    TGo4DabcStateInfo* sinfo=    new TGo4DabcStateInfo(stateservice.toAscii().constData(), 0,  &gNolinkStateRecord,    sizeof(dabc::StatusRec), this);
                     fxStates[index]=sinfo;
                 } //if recreate
         } // if(!stateservice.isEmpty())
@@ -726,7 +726,7 @@ for ( QStringList::Iterator it = fxNodelist.begin(); it != fxNodelist.end(); ++i
                 // no dabcnode (i.e. mbs)
                 reducednode=current.section('@',0,0);;
             }
-        //std::cout<<"++++ found reduced node "<<reducednode.toAscii() <<std::endl;
+        //std::cout<<"++++ found reduced node "<<reducednode.toAscii().constData() <<std::endl;
 
                 //std::cout<<"++++ found DABC prefix " <<std::endl;
 
@@ -734,7 +734,7 @@ for ( QStringList::Iterator it = fxNodelist.begin(); it != fxNodelist.end(); ++i
                 // get full service list for this node:
                 QString sinfoname=current.section('@',0,0) + "/SERVICE_LIST";
                 //std::cout<<"++++ creating service info "<<sinfoname <<std::endl;
-                TGo4DabcServiceInfo* servinfo= new TGo4DabcServiceInfo(sinfoname.toAscii(), 0, "not available", this);
+                TGo4DabcServiceInfo* servinfo= new TGo4DabcServiceInfo(sinfoname.toAscii().constData(), 0, "not available", this);
                 fxServices.push_back(servinfo);
                 fxStates.push_back(0); // make sure that for our index a slot in state service vector exists!
                 fxStateRecords.push_back(TGo4DabcState()); // dito for state record vector
@@ -867,7 +867,7 @@ for ( QStringList::Iterator sit = servlist.begin(); sit != servlist.end(); ++sit
                 fxStatHistoRefnames[nodeindex].push_back(namesvec);
                 QString rname=service.section('|',0,0); // strip additional service info from name
                 //std::cout<<"++++++ creating rate info " << rname <<std::endl;
-                TGo4DabcRateInfo* rinfo=new TGo4DabcRateInfo(rname.toAscii(), 0,  &gNolinkRateRecord , sizeof(dabc:: RateRec), this);
+                TGo4DabcRateInfo* rinfo=new TGo4DabcRateInfo(rname.toAscii().constData(), 0,  &gNolinkRateRecord , sizeof(dabc:: RateRec), this);
                 fxRates[nodeindex].push_back(rinfo); // keep dim info here
             }
     } // for
@@ -926,15 +926,15 @@ for ( QStringList::Iterator sit = servlist.begin(); sit != servlist.end(); ++sit
         //std::cout<<"++++++ creating log info " << sname <<" for format "<<sformat <<std::endl;
         if(sformat=="C")
             {
-                TGo4DabcInfo* info= new TGo4DabcInfo(sname.toAscii(),1,"not available", this);
+                TGo4DabcInfo* info= new TGo4DabcInfo(sname.toAscii().constData(),1,"not available", this);
             }
         else if(sformat=="L")
             {
-                TGo4DabcInfo* info= new TGo4DabcInfo(sname.toAscii(),1, (int) -1, this);
+                TGo4DabcInfo* info= new TGo4DabcInfo(sname.toAscii().constData(),1, (int) -1, this);
             }
         else
             {
-                TGo4DabcInfo* info= new TGo4DabcInfo(sname.toAscii(),1,  &gNolinkRateRecord , sizeof(dabc:: RateRec), sformat.toAscii(), this);
+                TGo4DabcInfo* info= new TGo4DabcInfo(sname.toAscii().constData(),1,  &gNolinkRateRecord , sizeof(dabc:: RateRec), sformat.toAscii().constData(), this);
             }
     } //   for ( QStringList::Iterator sit =
 }
@@ -1393,7 +1393,7 @@ QString  & title=fxRateRecords[nodeix].at(rateix).fxUnits;
 //std::cout<<"    val="<<value<<", name="<<name<<", refname="<<refname <<", folder="<<foldername<<std::endl;
 TH1* his=0;
 TGo4Slot* histoslot=0;
-if(!fbTrendingInit[nodeix].at(rateix).at(hisix)) histoslot=Browser()->BrowserSlot(refname.toAscii());
+if(!fbTrendingInit[nodeix].at(rateix).at(hisix)) histoslot=Browser()->BrowserSlot(refname.toAscii().constData());
 if(histoslot==0)
     {
         Axis_t lo,up;
@@ -1425,7 +1425,7 @@ if(histoslot==0)
                     };
                  up=0;
             }
-        his=new TH1F(name.toAscii(), title.toAscii(), fiTrendBins,lo,up);
+        his=new TH1F(name.toAscii().constData(), title.toAscii().constData(), fiTrendBins,lo,up);
         TAxis* xax=his->GetXaxis();
         switch(hisix)
             {
@@ -1440,7 +1440,7 @@ if(histoslot==0)
         xax->CenterTitle();
         //xax->SetLimits(0,lo,up);
 
-        TGo4Slot* hisdataslot=Browser()->DataSlot(refname.toAscii());
+        TGo4Slot* hisdataslot=Browser()->DataSlot(refname.toAscii().constData());
         if(hisdataslot)
             {
                 hisdataslot->AssignObject(his,true);
@@ -1449,9 +1449,9 @@ if(histoslot==0)
             {
                 //QString folder="Dabc/"+fxNodelist[nodeix];
                 QString folder="DABC/"+foldername;
-                refname=Browser()->SaveToMemory(folder.toAscii(), his, true);
+                refname=Browser()->SaveToMemory(folder.toAscii().constData(), his, true);
             }
-        histoslot=Browser()->BrowserSlot(refname.toAscii());
+        histoslot=Browser()->BrowserSlot(refname.toAscii().constData());
     }
 else
     {
@@ -1515,7 +1515,7 @@ QString  & xtitle=fxRateRecords[nodeix].at(rateix).fxUnits;
 //std::cout<<"    val="<<value<<", name="<<name<<", refname="<<refname <<", folder="<<foldername<<std::endl;
 TH1* his=0;
 TGo4Slot* histoslot=0;
-if(! fbStatsInit[nodeix].at(rateix).at(hix)) histoslot=Browser()->BrowserSlot(refname.toAscii());
+if(! fbStatsInit[nodeix].at(rateix).at(hix)) histoslot=Browser()->BrowserSlot(refname.toAscii().constData());
 if(histoslot==0)
     {
         Axis_t lo,up;
@@ -1525,13 +1525,13 @@ if(histoslot==0)
             {
                 lo=0;
                 up=100;
-                //std::cout <<"using default histogram range for name: "<<name.toAscii()<<" ["<<lo<<","<<up<<"]" << std::endl;
+                //std::cout <<"using default histogram range for name: "<<name.toAscii().constData()<<" ["<<lo<<","<<up<<"]" << std::endl;
             }
-        his=new TH1F(name.toAscii(),title.toAscii(),fiStatBins,lo,up);
+        his=new TH1F(name.toAscii().constData(),title.toAscii().constData(),fiStatBins,lo,up);
         TAxis* xax=his->GetXaxis();
-        xax->SetTitle(xtitle.toAscii());
+        xax->SetTitle(xtitle.toAscii().constData());
         xax->CenterTitle();
-        TGo4Slot* hisdataslot=Browser()->DataSlot(refname.toAscii());
+        TGo4Slot* hisdataslot=Browser()->DataSlot(refname.toAscii().constData());
         if(hisdataslot)
             {
                 hisdataslot->AssignObject(his,true);
@@ -1540,9 +1540,9 @@ if(histoslot==0)
             {
                 //QString folder="Dabc/"+fxNodelist[nodeix];
                 QString folder="DABC/"+foldername;
-                refname=Browser()->SaveToMemory(folder.toAscii(), his, true);
+                refname=Browser()->SaveToMemory(folder.toAscii().constData(), his, true);
             }
-        histoslot=Browser()->BrowserSlot(refname.toAscii());
+        histoslot=Browser()->BrowserSlot(refname.toAscii().constData());
     }
 else
     {

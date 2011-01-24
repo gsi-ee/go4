@@ -98,7 +98,7 @@ void TGo4EventInfo::RefreshClicked()
 
    TGo4BrowserProxy* br = Browser();
    if (br!=0)
-      br->RequestEventStatus(evname.toAscii(), istree, tgtslot);
+      br->RequestEventStatus(evname.toAscii().constData(), istree, tgtslot);
 }
 
 void TGo4EventInfo::PrintEventClicked()
@@ -106,9 +106,9 @@ void TGo4EventInfo::PrintEventClicked()
    if (EventLbl->text().length()==0) return;
 
    TString folder, name;
-   TGo4Slot::ProduceFolderAndName(EventLbl->text().toAscii(), folder, name);
+   TGo4Slot::ProduceFolderAndName(EventLbl->text().toAscii().constData(), folder, name);
 
-   TGo4AnalysisProxy* anal  = GetAnalysis(EventLbl->text().toAscii());
+   TGo4AnalysisProxy* anal  = GetAnalysis(EventLbl->text().toAscii().constData());
 
    if (anal!=0)
      anal->RemotePrintEvent(name.Data(),

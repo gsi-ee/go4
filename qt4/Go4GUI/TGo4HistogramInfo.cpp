@@ -42,7 +42,7 @@ void TGo4HistogramInfo::HisDrawButton_clicked()
 
 void TGo4HistogramInfo::HisInfoButton_clicked()
 {
-   WorkWithHistogram(HisnameLbl->text().toAscii());
+   WorkWithHistogram(HisnameLbl->text().toAscii().constData());
 }
 
 bool TGo4HistogramInfo::IsAcceptDrag(const char* itemname, TClass* cl, int kind)
@@ -194,5 +194,5 @@ void TGo4HistogramInfo::PrintLog_clicked()
    textbuffer+=PropertyBox->item(HISSIZE)->text();
    textbuffer+=" Status received at: ";
    textbuffer+=PropertyBox->item(HISTIME)->text();
-   TGo4Log::Message(1,textbuffer.toAscii());
+   TGo4Log::Message(1,textbuffer.toAscii().constData());
 }

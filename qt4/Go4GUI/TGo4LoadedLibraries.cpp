@@ -40,7 +40,7 @@ void TGo4LoadedLibraries::LoadNewLibrary()
   QStringList list = fd.selectedFiles();
   QStringList::Iterator it = list.begin();
   while( it != list.end() ) {
-     gSystem->Load((*it).toAscii());
+     gSystem->Load((*it).toAscii().constData());
      ++it;
   }
 
@@ -52,7 +52,7 @@ void TGo4LoadedLibraries::UnloadLibrary()
    QTreeWidgetItemIterator it(LoadedLibsD);
    while(*it) {
      if ( (*it)->isSelected() )
-        gSystem->Unload((*it)->text(0).toAscii());
+        gSystem->Unload((*it)->text(0).toAscii().constData());
      it++;
    }
 

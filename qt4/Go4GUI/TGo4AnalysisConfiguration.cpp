@@ -119,7 +119,7 @@ void TGo4AnalysisConfiguration::RefreshWidget()
       TGo4AnalysisStepStatus* stepstatus = status->GetStepStatus(i);
       if (stepstatus==0) continue;
       QString StepName = stepstatus->GetName();
-      TGo4ConfigStep* NewStep = new TGo4ConfigStep(TabSteps, StepName.toAscii());
+      TGo4ConfigStep* NewStep = new TGo4ConfigStep(TabSteps, StepName.toAscii().constData());
       NewStep->SetStepStatus(this, stepstatus, status->GetNumberOfSteps() > 1 ? i : -1);
       TabSteps->insertTab(i, NewStep, NewStep->GetTabTitle());
     }
@@ -217,7 +217,7 @@ void TGo4AnalysisConfiguration::LineEdit_AutoSaveFile()
    TGo4AnalysisStatus* status =
      dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
    if ((status!=0) && fbTypingMode)
-     status->SetAutoFileName(fname.toAscii());
+     status->SetAutoFileName(fname.toAscii().constData());
 }
 
 void TGo4AnalysisConfiguration::SetCompressionLevel( int t)
@@ -234,7 +234,7 @@ void TGo4AnalysisConfiguration::LoadConfiguration()
    TGo4AnalysisProxy* anal =
      dynamic_cast<TGo4AnalysisProxy*>(GetLinked("Analysis", 0));
    if (anal!=0)
-     anal->LoadConfigFile(fname.toAscii());
+     anal->LoadConfigFile(fname.toAscii().constData());
    RequestAnalysisStatus();
 }
 
@@ -244,7 +244,7 @@ void TGo4AnalysisConfiguration::SaveConfiguration()
    TGo4AnalysisProxy* anal =
      dynamic_cast<TGo4AnalysisProxy*>(GetLinked("Analysis", 0));
    if (anal!=0)
-     anal->SaveConfigFile(fname.toAscii());
+     anal->SaveConfigFile(fname.toAscii().constData());
 }
 
 void TGo4AnalysisConfiguration::SubmitConfiguration()
