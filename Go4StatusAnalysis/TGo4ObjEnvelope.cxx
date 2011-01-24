@@ -36,7 +36,7 @@ TGo4ObjEnvelope::TGo4ObjEnvelope(TObject* obj, const char* name, const char* fol
 TGo4ObjEnvelope::~TGo4ObjEnvelope()
 {
    if (fbOwner && fxObject) {
-      cout << "Delete object in envelope" << fxObject->GetName() << endl;
+      // cout << "Delete object in envelope" << fxObject->GetName() << endl;
       delete fxObject;
    }
 }

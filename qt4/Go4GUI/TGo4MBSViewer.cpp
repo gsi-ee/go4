@@ -180,130 +180,126 @@ show();
 void TGo4MBSViewer::Refresh()
 {
 // for the ratemeter and running state, we always get status block
-if(fxNode.isEmpty()) {
-	return;
-}
-int state=f_mbs_status(const_cast<char*>(fxNode.toAscii().constData()), &fxDaqStat);
-if(state!=STC__SUCCESS)
-{
-    fxMessage.sprintf("MBS Status refresh node %s returned error %d at ",
-    		const_cast<char*>(fxNode.toAscii().constData()),state);
-    fxMessage+=QDateTime::currentDateTime().toString();
-    fbWarningState=true;
-}
-else
-    fbWarningState=false;
-//fxRefTime=QDateTime::currentDateTime ().toString();
-fxRefTime=fxDaqStat.c_date;
-fbRunning=fxDaqStat.bh_acqui_running;
-int deltat=FrequencyBox->value();
-if(fbIsMonitoring)
-{
-    // only in monitoring mode: calculate rates ourselves, independent of mbs ratemter:
-    if(fiLastEventNum && deltat)
-          fiCalcedEventRate=(fxDaqStat.bl_n_events-fiLastEventNum)/deltat;
-    else
-        fiCalcedEventRate=0;
-    fiLastEventNum=fxDaqStat.bl_n_events;
+   if(fxNode.isEmpty()) return;
+   int state=f_mbs_status(const_cast<char*>(fxNode.toAscii().constData()), &fxDaqStat);
+   if(state!=STC__SUCCESS) {
+      fxMessage.sprintf("MBS Status refresh node %s returned error %d at ",
+            fxNode.toAscii().constData(), state);
+      fxMessage += QDateTime::currentDateTime().toString();
+      fbWarningState = true;
+   } else
+      fbWarningState = false;
+   //fxRefTime=QDateTime::currentDateTime ().toString();
+   fxRefTime=fxDaqStat.c_date;
+   fbRunning=fxDaqStat.bh_acqui_running;
+   int deltat=FrequencyBox->value();
+   if(fbIsMonitoring)
+   {
+      // only in monitoring mode: calculate rates ourselves, independent of mbs ratemter:
+      if(fiLastEventNum && deltat)
+         fiCalcedEventRate=(fxDaqStat.bl_n_events-fiLastEventNum)/deltat;
+      else
+         fiCalcedEventRate=0;
+      fiLastEventNum=fxDaqStat.bl_n_events;
 
-    if(fiLastDataNum && deltat)
-          {
-            fiDataDelta=(fxDaqStat.bl_n_kbyte-fiLastDataNum);
-            fiCalcedDataRate=fiDataDelta/deltat;
-          }
-    else
-        {
-            fiDataDelta=0;
-            fiCalcedDataRate=0;
-        }
-    fiLastDataNum=fxDaqStat.bl_n_kbyte;
-//    cout <<"Data rate:"<<fiCalcedDataRate << endl;
-//    cout <<"Data total:"<<fiLastDataNum << endl;
-}
-else
-{
-    // single refresh on button press: use momentary mbs rate
-    fiCalcedEventRate=fxDaqStat.bl_r_events;
-    fiCalcedDataRate=fxDaqStat.bl_r_kbyte;
-}
+      if(fiLastDataNum && deltat)
+      {
+         fiDataDelta=(fxDaqStat.bl_n_kbyte-fiLastDataNum);
+         fiCalcedDataRate=fiDataDelta/deltat;
+      }
+      else
+      {
+         fiDataDelta=0;
+         fiCalcedDataRate=0;
+      }
+      fiLastDataNum=fxDaqStat.bl_n_kbyte;
+      //    cout <<"Data rate:"<<fiCalcedDataRate << endl;
+      //    cout <<"Data total:"<<fiLastDataNum << endl;
+   }
+   else
+   {
+      // single refresh on button press: use momentary mbs rate
+      fiCalcedEventRate = fxDaqStat.bl_r_events;
+      fiCalcedDataRate = fxDaqStat.bl_r_kbyte;
+   }
 
-if(fxDaqStat.bh_running[SYS__stream_serv])
-    {
-    fxServerLabel.sprintf("streamserver %d%s",
-        (fxDaqStat.bl_strsrv_scale!=0 ? 100/fxDaqStat.bl_strsrv_scale : 0),"%");
-    if(fbIsMonitoring)
-        {
-            // own rate calculation for monitoring on:
-            if(fiLastServDataNum && deltat)
-              {
-                fiServDataDelta=(fxDaqStat.bl_n_strserv_kbytes-fiLastServDataNum);
-                fiCalcedServDataRate=fiServDataDelta/deltat;
-              }
-            else
-              {
-                fiServDataDelta=0;
-                fiCalcedServDataRate=0;
-              }
-//            cout <<"Streamserver rate:"<<fiCalcedServDataRate << endl;
-//            cout <<"Streamserver data:"<<fxDaqStat.bl_n_strserv_kbytes << endl;
-//            cout <<"Streamserver last data:"<<fiLastServDataNum << endl;
-//            cout <<"dt:"<<deltat << endl;
-            fiLastServDataNum=fxDaqStat.bl_n_strserv_kbytes;
-        }
-    else
-        {
-            // single refresh: use ratio from current mbs calculated rates
-            fiCalcedServDataRate=fxDaqStat.bl_r_strserv_kbytes;
-            fiDataDelta=0;
-        }
-    //fiEvRatio= (fiCalcedDataRate!=0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
-    //int curentratio=(fiCalcedDataRate!=0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
-    fiEvRatio= (fiDataDelta!=0 ? 100* fiServDataDelta /fiDataDelta : 0);
-    //cout<<"Eventratio="<<fiEvRatio<<" , currentratio="<<curentratio<<endl;
-    }
-else if(fxDaqStat.bh_running[SYS__event_serv])
-    {
-    // calculate momentary rate for eventserver:
+   if(fxDaqStat.bh_running[SYS__stream_serv])
+   {
+      fxServerLabel.sprintf("streamserver %d%s",
+            (fxDaqStat.bl_strsrv_scale!=0 ? 100/fxDaqStat.bl_strsrv_scale : 0),"%");
+      if(fbIsMonitoring)
+      {
+         // own rate calculation for monitoring on:
+         if(fiLastServDataNum && deltat)
+         {
+            fiServDataDelta=(fxDaqStat.bl_n_strserv_kbytes-fiLastServDataNum);
+            fiCalcedServDataRate=fiServDataDelta/deltat;
+         }
+         else
+         {
+            fiServDataDelta=0;
+            fiCalcedServDataRate=0;
+         }
+         //            cout <<"Streamserver rate:"<<fiCalcedServDataRate << endl;
+         //            cout <<"Streamserver data:"<<fxDaqStat.bl_n_strserv_kbytes << endl;
+         //            cout <<"Streamserver last data:"<<fiLastServDataNum << endl;
+         //            cout <<"dt:"<<deltat << endl;
+         fiLastServDataNum=fxDaqStat.bl_n_strserv_kbytes;
+      }
+      else
+      {
+         // single refresh: use ratio from current mbs calculated rates
+         fiCalcedServDataRate=fxDaqStat.bl_r_strserv_kbytes;
+         fiDataDelta=0;
+      }
+      //fiEvRatio= (fiCalcedDataRate!=0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
+      //int curentratio=(fiCalcedDataRate!=0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
+      fiEvRatio= (fiDataDelta!=0 ? 100* fiServDataDelta /fiDataDelta : 0);
+      //cout<<"Eventratio="<<fiEvRatio<<" , currentratio="<<curentratio<<endl;
+   }
+   else if(fxDaqStat.bh_running[SYS__event_serv])
+   {
+      // calculate momentary rate for eventserver:
 
-    fxServerLabel.sprintf("eventserver %s %d%s",
-        (fxDaqStat.bh_event_serv_ready ? "R" : "S"),
-        (fxDaqStat.bl_evtsrv_scale!=0 ? 100/fxDaqStat.bl_evtsrv_scale : 0),"%");
-    if(fbIsMonitoring)
-        {
-            // own rate calculation for monitoring on:
-            if(fiLastServDataNum && deltat)
-              {
-                fiServDataDelta=(fxDaqStat.bl_n_evserv_kbytes-fiLastServDataNum);
-                fiCalcedServDataRate=fiServDataDelta/deltat;
-              }
-            else
-              {
-                fiServDataDelta=0;
-                fiCalcedServDataRate=0;
-              }
-            fiLastServDataNum=fxDaqStat.bl_n_evserv_kbytes;
-        }
-    else
-        {
-            // single refresh: use ratio from current mbs calculated rates
-            fiCalcedServDataRate=fxDaqStat.bl_r_evserv_kbytes;
-            fiDataDelta=0;
-        }
-    //fiEvRatio= (fiCalcedDataRate!=0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
-    fiEvRatio= (fiDataDelta!=0 ? 100* fiServDataDelta /fiDataDelta : 0);
+      fxServerLabel.sprintf("eventserver %s %d%s",
+            (fxDaqStat.bh_event_serv_ready ? "R" : "S"),
+            (fxDaqStat.bl_evtsrv_scale!=0 ? 100/fxDaqStat.bl_evtsrv_scale : 0),"%");
+      if(fbIsMonitoring)
+      {
+         // own rate calculation for monitoring on:
+         if(fiLastServDataNum && deltat)
+         {
+            fiServDataDelta=(fxDaqStat.bl_n_evserv_kbytes-fiLastServDataNum);
+            fiCalcedServDataRate=fiServDataDelta/deltat;
+         }
+         else
+         {
+            fiServDataDelta=0;
+            fiCalcedServDataRate=0;
+         }
+         fiLastServDataNum=fxDaqStat.bl_n_evserv_kbytes;
+      }
+      else
+      {
+         // single refresh: use ratio from current mbs calculated rates
+         fiCalcedServDataRate=fxDaqStat.bl_r_evserv_kbytes;
+         fiDataDelta=0;
+      }
+      //fiEvRatio= (fiCalcedDataRate!=0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
+      fiEvRatio= (fiDataDelta!=0 ? 100* fiServDataDelta /fiDataDelta : 0);
 
-  }
-else
-    {
-        fxServerLabel="NO SERVER";
-        fiEvRatio=0;
-    }
+   }
+   else
+   {
+      fxServerLabel="NO SERVER";
+      fiEvRatio=0;
+   }
 
-if(fbTrending && !fbWarningState && fbIsMonitoring)
-    UpdateTrending();
-StartMovieReset();
-Display();
-//f_ut_seg_show (&fxDaqStat,0,0,0);
+   if(fbTrending && !fbWarningState && fbIsMonitoring)
+      UpdateTrending();
+   StartMovieReset();
+   Display();
+   //f_ut_seg_show (&fxDaqStat,0,0,0);
 }
 
 

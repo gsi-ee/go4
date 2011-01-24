@@ -1458,7 +1458,7 @@ Bool_t TGo4AnalysisObjectManager::AddObjectToFolder(TObject * ob,
          fold->RecursiveRemove(oldob);
          CleanupDynamicLists(oldob);
 
-         cout << "Delete object " <<  oldob << "  name = " << oldob->GetName() << " isgpap = " << (oldob == gPad) << endl;
+         // cout << "Delete object " <<  oldob << "  name = " << oldob->GetName() << " isgpad = " << (oldob == gPad) << endl;
 
          delete oldob;
       } else

@@ -212,12 +212,12 @@ QTreeWidgetItem* TGo4Browser::FindItemFor(TGo4Slot* slot)
 
    TString itemname;
    if (!br->BrowserItemName(slot, itemname)) return 0;
-   const char* iname = itemname.Data();
+   QString iname = itemname.Data();
 
    QTreeWidgetItemIterator it(ListView);
    for ( ; *it; ++it ) {
       QString fullname = FullItemName(*it);
-      if (strcmp(fullname.toAscii().constData(), iname)==0) return *it;
+      if (fullname == iname) return *it;
    }
    return 0;
 }

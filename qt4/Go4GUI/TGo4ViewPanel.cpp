@@ -267,7 +267,7 @@ TGo4ViewPanel::~TGo4ViewPanel()
 
 const char* TGo4ViewPanel::GetPanelName()
 {
-   fbaPanelName = fPanelName.toAscii().constData();
+   fbaPanelName = fPanelName.toAscii();
    return fbaPanelName.constData();
 }
 

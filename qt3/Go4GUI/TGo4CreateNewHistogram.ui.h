@@ -14,7 +14,7 @@
 void TGo4CreateNewHistogram::init()
 {
    HisName->setText(go4sett->getHistName());
-   HisTitle->setText("histogram title");
+   HisTitle->setText(go4sett->getHistTitle());
 
    int htype = go4sett->getHistType();
    HisClassType->setButton(htype / 10);
@@ -74,6 +74,7 @@ TH1* TGo4CreateNewHistogram::MakeHistogram()
    double zmax = Zmax->text().toDouble();
 
    go4sett->setHistName(hname);
+   go4sett->setHistTitle(htitle);
    go4sett->setHistType(htype);
    go4sett->setHistAxisPars(0, nxbins, xmin, xmax);
    go4sett->setHistAxisPars(1, nybins, ymin, ymax);

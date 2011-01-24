@@ -168,6 +168,9 @@ class TGo4QSettings {
       void    setHistName(const QString& value);
       QString getHistName();
 
+      void    setHistTitle(const QString& value);
+      QString getHistTitle();
+
       void    setHistType(int value);
       int     getHistType();
 

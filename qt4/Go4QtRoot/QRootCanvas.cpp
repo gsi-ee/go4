@@ -782,8 +782,7 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
    for (int n=0; n<=method->GetListOfMethodArgs()->LastIndex(); n++) {
       QString s = dlg.getArg(n);
       qDebug( "** QString values (first ) :%s \n", s.toAscii().constData() );
-      TObjString *t = new TObjString(s.toAscii().constData());
-      tobjlist.AddLast(t) ;
+      tobjlist.AddLast(new TObjString(s.toAscii().constData())) ;
    }
 
    // handle command if existing object

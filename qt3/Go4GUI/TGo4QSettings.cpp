@@ -566,6 +566,16 @@ QString TGo4QSettings::getHistName()
    return readEntry(GetSettingsName()+"/NewHist/Name", "histo1");
 }
 
+void  TGo4QSettings::setHistTitle(const QString& value)
+{
+   writeEntry(GetSettingsName()+"/NewHist/Title", value);
+}
+
+QString TGo4QSettings::getHistTitle()
+{
+   return readEntry(GetSettingsName()+"/NewHist/Title", "histogram title");
+}
+
 void TGo4QSettings::setHistType(int value)
 {
    writeEntry(GetSettingsName()+"/NewHist/HType", value);
@@ -573,11 +583,8 @@ void TGo4QSettings::setHistType(int value)
 
 int TGo4QSettings::getHistType()
 {
-   return readNumEntry(GetSettingsName()+"/NewHist/HType", 11);
+   return readNumEntry(GetSettingsName()+"/NewHist/HType", 14);
 }
-
-
-
 
 void TGo4QSettings::setHistAxisPars(int naxis, int npoints, double min, double max)
 {

@@ -2602,7 +2602,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::service_AddEditorLink: {
          TGo4Slot* brslot = Browser()->BrowserSlot((const char*)par);
 
-         QByteArray ba = editor->objectName().toAscii().constData();
+         QByteArray ba = editor->objectName().toAscii();
 
          if (str==0) str = ba.constData();
 
@@ -2616,7 +2616,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_AddDirectLink: {
          //cout << " QGo4Widget::service_AddDirectLink " << endl;
-         QByteArray ba = editor->objectName().toAscii().constData();
+         QByteArray ba = editor->objectName().toAscii();
          if (str==0) str = ba.constData();
          TGo4Slot* slot = (TGo4Slot*) par;
          if (slot!=0) {

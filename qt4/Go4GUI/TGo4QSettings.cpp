@@ -609,12 +609,22 @@ bool TGo4QSettings::getStatBoxErrors()
 
 void  TGo4QSettings::setHistName(const QString& value)
 {
-   setStr( "/NewHist/Name", value);
+   setStr("/NewHist/Name", value);
 }
 
 QString TGo4QSettings::getHistName()
 {
-   return getStr( "/NewHist/Name", "histo1");
+   return getStr("/NewHist/Name", "histo1");
+}
+
+void  TGo4QSettings::setHistTitle(const QString& value)
+{
+   setStr("/NewHist/Title", value);
+}
+
+QString TGo4QSettings::getHistTitle()
+{
+   return getStr("/NewHist/Title", "histogram title");
 }
 
 void TGo4QSettings::setHistType(int value)
@@ -624,7 +634,7 @@ void TGo4QSettings::setHistType(int value)
 
 int TGo4QSettings::getHistType()
 {
-   return getInt( "/NewHist/HType", 11);
+   return getInt( "/NewHist/HType", 14);
 }
 
 void TGo4QSettings::setHistAxisPars(int naxis, int npoints, double min, double max)

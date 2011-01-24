@@ -2692,8 +2692,7 @@ void TGo4FitPanel::Wiz_ModelListSelect(QListWidgetItem* item)
 
   QString name = item->text();
 
-  bool needupdate = ( (name != fxWizModelName.toAscii().constData()) ||
-                      (fiWizPageIndex != 1) );
+  bool needupdate = ( (name != fxWizModelName) || (fiWizPageIndex != 1) );
 
   fxWizModelName = name;
   fiWizPageIndex = 1;

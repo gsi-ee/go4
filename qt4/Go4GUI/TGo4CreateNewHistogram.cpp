@@ -27,7 +27,7 @@ TGo4CreateNewHistogram::TGo4CreateNewHistogram( QWidget* parent)
    setObjectName("Go4CreateNewHistogram");
    setupUi(this);
    HisName->setText(go4sett->getHistName());
-   HisTitle->setText("histogram title");
+   HisTitle->setText(go4sett->getHistTitle());
 
    HisClassGrp = new QButtonGroup(this);
    HisClassGrp->addButton(TH1_b, 1);
@@ -83,10 +83,11 @@ int TGo4CreateNewHistogram::GetSelectedCmd()
 
 TH1* TGo4CreateNewHistogram::MakeHistogram()
 {
-   QByteArray ba_hname = HisName->text().toAscii().constData();
-   QByteArray ba_htitle = HisTitle->text().toAscii().constData();
-   const char* hname = ba_hname.constData();
-   const char* htitle = ba_htitle.constData();
+   QByteArray bname = HisName->text().toAscii();
+   QByteArray btitle = HisTitle->text().toAscii();
+
+   const char* hname = bname.constData();
+   const char* htitle = btitle.constData();
 
    int htype = HisClassGrp->checkedId()*10 + HisTypeGrp->checkedId();
 
@@ -102,6 +103,7 @@ TH1* TGo4CreateNewHistogram::MakeHistogram()
    double zmax = Zmax->text().toDouble();
 
    go4sett->setHistName(hname);
+   go4sett->setHistTitle(htitle);
    go4sett->setHistType(htype);
    go4sett->setHistAxisPars(0, nxbins, xmin, xmax);
    go4sett->setHistAxisPars(1, nybins, ymin, ymax);
