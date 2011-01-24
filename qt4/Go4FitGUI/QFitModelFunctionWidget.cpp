@@ -39,13 +39,13 @@ void QFitModelFunctionWidget::FillSpecificData() {
 void QFitModelFunctionWidget::LibNameEdt_textChanged( const QString & name)
 {
    if(!fbFillWidget && GetFunction())
-     GetFunction()->SetLibraryName(name.toAscii());
+     GetFunction()->SetLibraryName(name.toAscii().constData());
 }
 
 void QFitModelFunctionWidget::FuncNameEdt_textChanged( const QString & name)
 {
    if(!fbFillWidget && GetFunction())
-      GetFunction()->SetFunctionName(name.toAscii());
+      GetFunction()->SetFunctionName(name.toAscii().constData());
 }
 
 void QFitModelFunctionWidget::NumParSpin_valueChanged( int num)
