@@ -36,7 +36,7 @@ TQRootCanvas::TQRootCanvas( QWidget *parent, const char *name, TCanvas *c ) :
    fResizeFlag(2),
    fMaskDoubleClick(false)
 {
-  TGo4LockGuard threadlock;
+  TGo4LockGuard threadlock(0,true);
   // set defaults
   setUpdatesEnabled( true );
   setMouseTracking(true);
@@ -75,7 +75,7 @@ TQRootCanvas::TQRootCanvas( QWidget *parent, QWidget* tabWin, const char *name, 
    fResizeFlag(2),
    fMaskDoubleClick(false)
 {
-   TGo4LockGuard threadlock;
+   TGo4LockGuard threadlock(0,true);
   // set defaults
      setUpdatesEnabled( true );
      setMouseTracking(true);
@@ -146,7 +146,7 @@ void TQRootCanvas::performResize()
 
 void TQRootCanvas::mouseMoveEvent(QMouseEvent *e)
 {
-  TGo4LockGuard threadlock;
+  TGo4LockGuard threadlock(0,true);
   if (fCanvas!=0) {
      if (e->state() & LeftButton)
        fCanvas->HandleInput(kButton1Motion, e->x(), e->y());
@@ -158,7 +158,7 @@ void TQRootCanvas::mouseMoveEvent(QMouseEvent *e)
 
 void TQRootCanvas::mousePressEvent( QMouseEvent *e )
 {
-   TGo4LockGuard threadlock;
+   TGo4LockGuard threadlock(0,true);
 
    TObjLink* pickobj = 0;
    TPad* pad = fCanvas->Pick(e->x(), e->y(), pickobj);
@@ -204,7 +204,7 @@ void TQRootCanvas::mousePressEvent( QMouseEvent *e )
 
 void TQRootCanvas::mouseReleaseEvent( QMouseEvent *e )
 {
-   TGo4LockGuard threadlock;
+   TGo4LockGuard threadlock(0,true);
    switch(e->button()) {
       case LeftButton :
          fCanvas->HandleInput(kButton1Up, e->x(), e->y());
@@ -224,7 +224,7 @@ void TQRootCanvas::mouseReleaseEvent( QMouseEvent *e )
 
 void TQRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
 {
-   TGo4LockGuard threadlock;
+   TGo4LockGuard threadlock(0,true);
    switch(e->button()) {
       case LeftButton : {
          if (!fMaskDoubleClick)
@@ -269,7 +269,7 @@ void TQRootCanvas::paintEvent( QPaintEvent * )
 
 void TQRootCanvas::leaveEvent( QEvent *e )
 {
-   TGo4LockGuard threadlock;
+   TGo4LockGuard threadlock(0,true);
    if (fCanvas!=0)
       fCanvas->HandleInput(kMouseLeave, 0, 0);
 }
@@ -343,14 +343,14 @@ bool TQRootCanvas::eventFilter( QObject *o, QEvent *e )
 
 void TQRootCanvas::dragEnterEvent( QDragEnterEvent *e )
 {
-//TGo4LockGuard threadlock;
+//TGo4LockGuard threadlock(0,true);
   if ( QTextDrag::canDecode(e ))
     e->accept();
 }
 
 void TQRootCanvas::dropEvent( QDropEvent *Event )
 {
-   TGo4LockGuard threadlock;
+   TGo4LockGuard threadlock(0,true);
    QString str;
 
     if ( QTextDrag::decode( Event, str ) ) {

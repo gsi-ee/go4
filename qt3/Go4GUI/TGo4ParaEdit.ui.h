@@ -405,7 +405,7 @@ void TGo4ParaEdit::GetFitterFromEditor()
 
 void TGo4ParaEdit::saveFile()
 {
-   TGo4LockGuard lock;
+   TGo4LockGuard lock(0,true);
 
    if (fItems==0) return;
 
@@ -463,7 +463,7 @@ void TGo4ParaEdit::RefreshClicked()
 
 void TGo4ParaEdit::ApplyClicked()
 {
-   TGo4LockGuard lock;
+   TGo4LockGuard lock(0,true);
 
    if ((fItemName.length()==0) || (fItems==0)) return;
 

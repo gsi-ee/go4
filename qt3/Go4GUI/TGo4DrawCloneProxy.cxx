@@ -40,7 +40,7 @@ TGo4DrawCloneProxy::~TGo4DrawCloneProxy()
 
 Bool_t TGo4DrawCloneProxy::AssignClone(TObject* obj, TGo4Slot* slot)
 {
-   TGo4LockGuard lock;
+   TGo4LockGuard lock(0,true);
 
    CleanupClone(slot);
    if (obj==0) return kFALSE;

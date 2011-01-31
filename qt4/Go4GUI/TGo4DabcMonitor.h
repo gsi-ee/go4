@@ -244,6 +244,10 @@ protected:
     bool fbRebuildRateTable;
     bool fbTrendingForward;
 
+    bool fbTableBeingCreated;
+
+
+
     unsigned int fxLastTimestamp;
     QStringList fxNodelist;
     QString fxDnsNode;

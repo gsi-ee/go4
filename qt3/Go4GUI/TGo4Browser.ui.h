@@ -253,7 +253,7 @@ void TGo4Browser::SetViewItemProperties(TGo4Slot* itemslot, QListViewItem* item)
 
 void TGo4Browser::updateListViewItems()
 {
-   TGo4LockGuard lock;
+   TGo4LockGuard lock(0,true);
 
    fbUpdateTimerActive = false;
 

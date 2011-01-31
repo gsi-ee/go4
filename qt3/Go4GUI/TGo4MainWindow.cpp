@@ -2400,7 +2400,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 {
    if (editor==0) return;
 
-   TGo4LockGuard lock;
+   TGo4LockGuard lock(0,true);
 
    TGo4Slot* edslot = GetWidgetTopSlot(editor, false);
    if (edslot==0) return;

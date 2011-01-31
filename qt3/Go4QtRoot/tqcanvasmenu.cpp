@@ -65,7 +65,7 @@ TQCanvasMenu::~TQCanvasMenu()
 char* TQCanvasMenu::createDialogTitle( TObject *object, TMethod *method )
 {
  // Create title for dialog box retrieving argument values.
-   TGo4LockGuard threadlock;
+   TGo4LockGuard threadlock(0,true);
    static char methodTitle[128];
 
   if (object && method)
@@ -80,7 +80,7 @@ char* TQCanvasMenu::createDialogTitle( TObject *object, TMethod *method )
 char* TQCanvasMenu::createArgumentTitle(TMethodArg *argument)
 {
   // Create string describing argument (for use in dialog box).
-   TGo4LockGuard threadlock;
+   TGo4LockGuard threadlock(0,true);
    static Char_t argTitle[128];
   if (argument) {
     snprintf(argTitle, 127, "(%s)  %s", argument->GetTitle(), argument->GetName());
@@ -98,7 +98,7 @@ char* TQCanvasMenu::createArgumentTitle(TMethodArg *argument)
 
 void TQCanvasMenu::popup(TObject *obj, double x, double y, QMouseEvent *e)
 {
-   TGo4LockGuard threadlock;
+   TGo4LockGuard threadlock(0,true);
    TClass *klass=obj->IsA();
    int curId=-1;
 
@@ -142,7 +142,7 @@ void TQCanvasMenu::popup(TObject *obj, double x, double y, QMouseEvent *e)
 
 void TQCanvasMenu::execute(int id)
 {
-   TGo4LockGuard threadlock;
+   TGo4LockGuard threadlock(0,true);
    QString text("");
    bool ok = FALSE;
    if (id >=100) {
@@ -216,7 +216,7 @@ void TQCanvasMenu::EmitMenuCommandExecuted(TObject* obj, const char* cmdname)
 
 void TQCanvasMenu::dialog(TObject* object, TMethod* method)
 {
-   TGo4LockGuard threadlock;
+   TGo4LockGuard threadlock(0,true);
   // Create dialog object with OK and Cancel buttons. This dialog
    // prompts for the arguments of "method".
 

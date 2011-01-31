@@ -22,6 +22,7 @@ class TGo4LockGuard
 {
 public:
     TGo4LockGuard(): dummy(0){};
+    TGo4LockGuard(int i, bool force=false): dummy(i){};
 
 private:
     int dummy;

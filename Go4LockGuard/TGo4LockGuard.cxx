@@ -21,9 +21,11 @@ TMutex* TGo4LockGuard::fgxMainMutex=0;
 Int_t TGo4LockGuard::fgiLockCount=0;
 
 
-TGo4LockGuard::TGo4LockGuard (TMutex* mutex)
+TGo4LockGuard::TGo4LockGuard (TMutex* mutex, Bool_t forcelock) : fbForceLock(forcelock)
 {
    // first call: create main mutex
+	//  cout <<"G-----TGo4LockGuard ctor" << endl;
+	//
    if(fgxMainMutex==0)
       fgxMainMutex= new TMutex(kTRUE); // we use recursive mode for cascading lockguards
    if(mutex==0)
@@ -39,25 +41,24 @@ TGo4LockGuard::TGo4LockGuard (TMutex* mutex)
          fbIsMainMutex=kFALSE;
       }
 
-   if (TThread::Exists()>0)
-      {
-         // UInt_t id = TThread::SelfId();
+   if (fbForceLock || TThread::Exists()>0)
+    {
+         UInt_t id = TThread::SelfId();
          fxMutex->Lock();
          fbIsLocked=kTRUE;
          if(!fbIsMainMutex)
             {
 //             if(TGo4Log::GetIgnoreLevel()>5)
 //                {
-//                  cout <<"G-----{ Local Mutex "<< fxMutex << " acquired by thread id: "<<id << endl;
-//                }
+
             }
          else
             {
                fgiLockCount++;
                //if(TGo4Log::GetIgnoreLevel()>5)
 //                   {
-//                     cout <<"G-----{ Global Mutex "<< fxMutex << "acquired by thread id: "<<id;
-//                     cout<< ", count:"<< fgiLockCount << endl;
+//                    cout <<"G-----{ Global Mutex "<< fxMutex << "acquired by thread id: "<<id;
+//                    cout<< ", count:"<< fgiLockCount << endl;
 //                   }
             }
       }
@@ -72,12 +73,12 @@ TGo4LockGuard::~TGo4LockGuard()
 {
    if (fbIsLocked)
       {
-        //UInt_t id = TThread::SelfId();
+        UInt_t id = TThread::SelfId();
         if(!fbIsMainMutex)
            {
 //              if(TGo4Log::GetIgnoreLevel()>5)
 //                   {
-//                     cout <<"}-----G Local Mutex "<< fxMutex << "released by thread id: "<<id << endl;
+//                    cout <<"}-----G Local Mutex "<< fxMutex << "released by thread id: "<<id << endl;
 //                   }
            }
         else
