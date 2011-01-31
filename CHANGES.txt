@@ -26,6 +26,11 @@ Changes in Go4 v4.4.3 (Winter 2011)
    known issue with dockable widgets (http://bugreports.qt.nokia.com/browse/QTBUG-16252),
    therefore qt4.7.0 and 4.7.1 has a problem to correctly restore browser/logger position. 
 3. Adjust to Miscrosoft Visual Studio 2010.
+4. Bugfix in dabc monitor: table of DAQ nodes were set up with sorting enabled.
+   Added some flags to protect table rendering
+5. Extension of TGo4LockGuard class to force locking even when no ROOT thread exists.
+   Important when race condition code shall be protected against foreign pthreads (e.g. DIM)  
+6. Adjusted to new version of gSTORE RFIO/ lmd event input
 
 Changes in Go4 v4.4.2 (October 2010)
 1. Fix analysis crash when autosave file cannot be created in specified locations. 
