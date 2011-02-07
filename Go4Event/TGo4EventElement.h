@@ -82,8 +82,7 @@ public:
      * to a subclass pointer. */
    virtual Int_t Init();
 
-   /** Method called by the event owner (analysis step) to clear the
-    * event element. */
+   /** Method prints content of the event */
    virtual void PrintEvent();
 
    virtual TGo4CompositeEvent* getSubEventElement() { return 0; }

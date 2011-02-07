@@ -75,7 +75,6 @@ class TGo4MbsEvent : public TGo4EventElement {
        * afterwars, this object will contain new subevtarray*/
       void RemoveReference();
 
-
       void Set(Int_t dlen=0, Short_t type=10, Short_t subtype=1,
             Short_t dummy=0, Short_t trigger=0, Int_t count=0);
 

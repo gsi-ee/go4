@@ -68,6 +68,7 @@ void usage(const char* err = 0)
    cout << "  -hserver [name [passwd]]    : start histogram server with optional name and password" << endl;
    cout << "  -log [filename]             : enable log output into filename (default:go4logfile.txt)" << endl;
    cout << "  -v -v0 -v1 -v2 -v3          : change log output verbosity (0 - maximum, 1 - info, 2 - warn, 3 - errors)" << endl;
+   cout << "  -print                      : create analysis with only event-printing processor" << endl;
    cout << "  -help                       : show this help" << endl;
    cout << "" << endl;
    cout << "ANALYSIS: common analysis configurations" << endl;
@@ -103,6 +104,8 @@ void usage(const char* err = 0)
    cout << "  -disable-store       :  disable step store" << endl;
    cout << "  -enable-errstop      :  enable stop-on-error mode" << endl;
    cout << "  -disable-errstop     :  disable stop-on-error mode" << endl;
+   cout << "  -inpevt-class name   :  (re)define class name of input event" << endl;
+   cout << "  -outevt-class name   :  (re)define class name of output event" << endl;
    cout << endl;
    cout << "USER: user-defined arguments" << endl;
    cout << "  -args [userargs]     :  create user analysis with constructor (int argc, char** argv) signature" << endl;
@@ -111,6 +114,33 @@ void usage(const char* err = 0)
 
    exit(0);
 }
+
+class TGo4PrintProcessor : public TGo4EventProcessor {
+   public:
+      TGo4PrintProcessor(const char* name) : TGo4EventProcessor(name) {}
+
+      virtual Bool_t BuildEvent(TGo4EventElement* dest)
+      {
+         TGo4EventElement* evnt = GetInputEvent();
+
+         TGo4MbsEvent* mbs = dynamic_cast<TGo4MbsEvent*> (evnt);
+         if (mbs) mbs->PrintEvent();
+             else evnt->PrintEvent();
+
+         return kTRUE;
+      }
+};
+
+
+class TGo4PrintFactory : public TGo4StepFactory {
+   public:
+      TGo4PrintFactory(const char* name) : TGo4StepFactory(name) {}
+      TGo4EventProcessor* CreateEventProcessor(TGo4EventProcessorParameter* par)
+      {
+         return new TGo4PrintProcessor("PrintProc");
+      }
+};
+
 
 typedef TGo4Analysis* (UserCreateFunc)(const char* name);
 
@@ -163,12 +193,14 @@ TList* GetClassesList(TList* prev = 0)
    return lst;
 }
 
-TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc, char** user_argv)
+TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc, char** user_argv, bool doprint)
 {
    TIter iter(lst);
    TObject* obj(0);
 
-   TClass *proc_cl(0), *ev_cl(0), *an_cl(0), *evsrc_cl(0);
+   TObjArray evnt_classes; // list of found event classes
+
+   TClass *proc_cl(0), *an_cl(0), *evsrc_cl(0);
 
    while ((obj = iter()) != 0) {
       TClass* cl = TClass::GetClass(obj->GetName());
@@ -183,11 +215,15 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
          if ((cl!=TGo4EventSource::Class()) && (evsrc_cl==0)) evsrc_cl = cl;
       } else
       if (cl->InheritsFrom(TGo4EventElement::Class())) {
-         if ((cl!=TGo4EventElement::Class()) && ((ev_cl==0) || cl->InheritsFrom(ev_cl))) ev_cl = cl;
+         if (cl!=TGo4EventElement::Class()) evnt_classes.Add(cl);
       } else
       if (cl->InheritsFrom(TGo4Analysis::Class())) {
          if ((cl!=TGo4Analysis::Class()) && (an_cl==0)) an_cl = cl;
       }
+   }
+
+   if (doprint) {
+      an_cl = 0;
    }
 
    if (an_cl!=0) {
@@ -319,19 +355,106 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
       exit(1);
    }
 
-   if (proc_cl==0) return 0;
+   TClass *outev_cl(0), *inpev_cl(0);
 
-   cout << "!!! Create default analysis with processor class " << proc_cl->GetName() << endl;
-   if (ev_cl)
-      cout << "!!! Use class " << ev_cl->GetName() << " as output event" << endl;
+   const char* inp_evnt_classname = GetArgValue(user_argc, user_argv, "-inpevt-class");
+   const char* out_evnt_classname = GetArgValue(user_argc, user_argv, "-outevt-class");
+
+   if (inp_evnt_classname!=0) {
+      inpev_cl = gROOT->GetClass(inp_evnt_classname);
+      if (inpev_cl==0) {
+         TGo4Log::Error("Class %s not exists", inp_evnt_classname);
+         exit(1);
+      }
+
+      if (!inpev_cl->InheritsFrom(TGo4EventElement::Class())) {
+         TGo4Log::Error("Class %s cannot be used as input event", inp_evnt_classname);
+         exit(1);
+      }
+
+      evnt_classes.Remove(inpev_cl);
+      evnt_classes.Compress();
+   }
+
+   if (out_evnt_classname!=0) {
+      outev_cl = gROOT->GetClass(out_evnt_classname);
+      if (outev_cl==0) {
+         TGo4Log::Error("Class %s not exists", out_evnt_classname);
+         exit(1);
+      }
+
+      if (!outev_cl->InheritsFrom(TGo4EventElement::Class())) {
+         TGo4Log::Error("Class %s cannot be used as output event", out_evnt_classname);
+         exit(1);
+      }
+
+      evnt_classes.Remove(outev_cl);
+      evnt_classes.Compress();
+   }
+
+   // check if user event source requires special event class
+   // create instance only if we have something to check
+   if ((evsrc_cl!=0) && (inpev_cl==0) && (evnt_classes.GetLast() >= 0)) {
+      TGo4EventSource* src = (TGo4EventSource*) evsrc_cl->New();
+
+      // if special input event is required, try to detect it
+      if ((src!=0) && !src->CheckEventClass(TGo4MbsEvent::Class())) {
+         for (int n=0; n<=evnt_classes.GetLast(); n++) {
+            TClass* cl = (TClass*) evnt_classes.At(n);
+            if (!src->CheckEventClass(cl)) continue;
+
+            // if more than two classes are suited - ignore any of them
+            if (inpev_cl!=0) { inpev_cl = 0; break; }
+
+            inpev_cl = cl;
+         }
+      }
+
+      delete src;
+
+      if (inpev_cl!=0) {
+         evnt_classes.Remove(inpev_cl);
+         evnt_classes.Compress();
+      }
+   }
+
+   // as very last, try to define best-suitable output event
+   if (outev_cl==0)
+      for (int n=0; n<=evnt_classes.GetLast(); n++) {
+         TClass* cl = (TClass*) evnt_classes.At(n);
+         if ((outev_cl==0) || cl->InheritsFrom(outev_cl)) outev_cl = cl;
+      }
+
+   if (doprint) {
+      cout << "!!! Create default analysis with print-processor class" << endl;
+      outev_cl = 0;
+   } else {
+      if (proc_cl==0) return 0;
+      cout << "!!! Create default analysis with processor class " << proc_cl->GetName() << endl;
+      if (outev_cl)
+         cout << "!!! Use class " << outev_cl->GetName() << " as output event" << endl;
+   }
+
+   if (inpev_cl!=0)
+      cout << "!!! Use class " << inpev_cl->GetName() << " as input event" << endl;
 
    TGo4Analysis* analysis = TGo4Analysis::Instance();
    analysis->SetAnalysisName(name);
 
-   TGo4StepFactory* factory = new TGo4StepFactory("Factory");
-   factory->DefEventProcessor("Processor", proc_cl->GetName());// object name, class name
-   if (ev_cl!=0)
-      factory->DefOutputEvent("OutputEvent", ev_cl->GetName()); // object name, class name
+   TGo4StepFactory* factory = 0;
+
+   if (doprint) {
+      factory = new TGo4PrintFactory("Factory");
+   } else {
+      factory = new TGo4StepFactory("Factory");
+      factory->DefEventProcessor("Processor", proc_cl->GetName());// object name, class name
+   }
+
+   if (inpev_cl!=0)
+      factory->DefInputEvent("InputEvent", inpev_cl->GetName()); // object name, class name
+
+   if (outev_cl!=0)
+      factory->DefOutputEvent("OutputEvent", outev_cl->GetName()); // object name, class name
    else
       factory->DefOutputEvent("OutputEvent", "TGo4EventElement"); // object name, class name
 
@@ -352,9 +475,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
    analysis->AddAnalysisStep(step);
 
    return analysis;
-
 }
-
 
 //==================  analysis main program ============================
 int main(int argc, char **argv)
@@ -379,6 +500,8 @@ int main(int argc, char **argv)
       // hide user-defined arguments
       argc = userargspos;
    }
+
+   bool doprint = (FindArg(argc, argv, "-print") > 0);
 
    const char* logfile = GetArgValue(argc, argv, "-log", 0, true);
    if (logfile!=0) {
@@ -421,7 +544,8 @@ int main(int argc, char **argv)
       isanylib = true;
    }
 
-   if (!isanylib) {
+   // we should try to load library if for printing -user argument specified - means user input
+   if (!isanylib && (!doprint || GetArgValue(argc, argv, "-user"))) {
       libname = "libGo4UserAnalysis";
       TGo4Log::Info("Reading library: %s", libname);
       if (gSystem->Load(libname)<0) return -1;
@@ -433,7 +557,7 @@ int main(int argc, char **argv)
 
    UserCreateFunc* crfunc = (UserCreateFunc*) gSystem->DynFindSymbol("*", "CreateUserAnalysis");
    if (crfunc) analysis = crfunc(analysis_name);
-          else analysis = CreateDefaultAnalysis(lst1, analysis_name, user_argc, user_argv);
+          else analysis = CreateDefaultAnalysis(lst1, analysis_name, user_argc, user_argv, doprint);
 
    if (analysis==0) {
       cerr << "!!! Analysis instance cannot be created" << endl;
@@ -713,6 +837,9 @@ int main(int argc, char **argv)
          narg++;
          canrun = -1;
       } else
+      if(strcmp(argv[narg],"-print")==0) {
+         narg++;
+      } else
       if(strcmp(argv[narg],"-enable-store")==0) {
          narg++;
          step->SetStoreEnabled(kTRUE);
@@ -736,6 +863,18 @@ int main(int argc, char **argv)
       if(strcmp(argv[narg],"-enable-errstop")==0) {
          narg++;
          step->SetErrorStopEnabled(kTRUE);
+      } else
+      if(strcmp(argv[narg],"-inpevt-class")==0) {
+         // these arguments used only in simple analysis with single step and
+         // processed when analysis created
+         narg++;
+         if (narg < argc) narg++;
+      } else
+      if(strcmp(argv[narg],"-outevt-class")==0) {
+         // these arguments used only in simple analysis with single step and
+         // processed when analysis created
+         narg++;
+         if (narg < argc) narg++;
       } else
       if(strcmp(argv[narg],"-hserver")==0) {
          narg++;

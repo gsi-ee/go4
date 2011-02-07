@@ -31,6 +31,11 @@ Changes in Go4 v4.4.3 (Winter 2011)
 5. Extension of TGo4LockGuard class to force locking even when no ROOT thread exists.
    Important when race condition code shall be protected against foreign pthreads (e.g. DIM)  
 6. Adjusted to new version of gSTORE RFIO/ lmd event input
+7. Implement -print argument for go4analysis program. This allows to print any kind
+   of event on the terminal - even without actual user analysis. For instance:
+      go4analysis -stream r4-4 -number 10
+   will print 10 events from MBS stream server r4-4. Print also works with user source.
+
 
 Changes in Go4 v4.4.2 (October 2010)
 1. Fix analysis crash when autosave file cannot be created in specified locations. 

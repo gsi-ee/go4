@@ -127,7 +127,6 @@ TGo4EventElement* TGo4StepFactory::CreateInputEvent()
 
    cout << "GO4-*> " << GetName() << ": Create input event " << fInputEventName.Data() << endl;
 
-
    if(fnewInputEvent.Length() == 0)
       return TGo4EventServerFactory::CreateInputEvent();
 
@@ -147,7 +146,6 @@ void TGo4StepFactory::DefUserEventSource(const char* Sclass)
 
    fnewEventSource.Form("new %s((%s*)%s);", Sclass, TGo4UserSourceParameter::Class()->GetName(), ptr_arg);
 }
-
 
 //-----------------------------------------------------------
 TGo4EventSource* TGo4StepFactory::CreateEventSource(TGo4EventSourceParameter* par)

@@ -86,21 +86,19 @@ TGo4MbsSource::~TGo4MbsSource()
    if(fxInputChannel)free(fxInputChannel);
 }
 
-void TGo4MbsSource::SetPrintEvent(Int_t num, Int_t sid, Int_t longw,
-      Int_t hexw, Int_t dataw)
+void TGo4MbsSource::SetPrintEvent(Int_t num, Int_t sid, Int_t longw, Int_t hexw, Int_t dataw)
 {
-   fxPrEventPar.fiNum=num;
-   fxPrEventPar.fiSid=sid;
-   fxPrEventPar.fiLong=longw;
-   fxPrEventPar.fiHex=hexw;
-   fxPrEventPar.fiData=dataw;
+   fxPrEventPar.fiNum = num;
+   fxPrEventPar.fiSid = sid;
+   fxPrEventPar.fiLong = longw;
+   fxPrEventPar.fiHex = hexw;
+   fxPrEventPar.fiData = dataw;
 }
 
 Bool_t TGo4MbsSource::CheckEventClass(TClass* cl)
 {
    return cl->InheritsFrom(TGo4MbsEvent::Class());
 }
-
 
 Bool_t TGo4MbsSource::BuildEvent(TGo4EventElement* dest)
 {
