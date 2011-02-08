@@ -43,7 +43,7 @@ TGo4LockGuard::TGo4LockGuard (TMutex* mutex, Bool_t forcelock) : fbForceLock(for
 
    if (fbForceLock || TThread::Exists()>0)
     {
-         UInt_t id = TThread::SelfId();
+//         UInt_t id = TThread::SelfId();
          fxMutex->Lock();
          fbIsLocked=kTRUE;
          if(!fbIsMainMutex)
@@ -73,7 +73,7 @@ TGo4LockGuard::~TGo4LockGuard()
 {
    if (fbIsLocked)
       {
-        UInt_t id = TThread::SelfId();
+//        UInt_t id = TThread::SelfId();
         if(!fbIsMainMutex)
            {
 //              if(TGo4Log::GetIgnoreLevel()>5)
