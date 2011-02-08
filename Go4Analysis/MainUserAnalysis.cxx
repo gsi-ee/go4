@@ -48,12 +48,74 @@ void showerror(const char* msg)
    exit(1);
 }
 
-void usage(const char* err = 0)
+void printsources()
 {
-   if (err) cout << "Error: " << err << endl;
+   cout << "  -file filename       :  use file filename (lmd or lml) as MBS event source (short: -f)" << endl;
+   cout << "  -transport server    :  connect to MBS transport server (short: -tr)" << endl;
+   cout << "  -stream server       :  connect to MBS stream server (short: -st)" << endl;
+   cout << "  -evserv server       :  connect to MBS event server (short: -ev)" << endl;
+   cout << "  -revserv server [port] :  connect to remote event server (short: -rev)" << endl;
+   cout << "  -random              :  use random generator as source (short: -rnd)" << endl;
+   cout << "  -user name           :  create user-defined event source" << endl;
+   cout << "  -timeout tm          :  specify timeout parameter for event source" << endl;
+   cout << "  -mbs-select first last step : select events interval from mbs source " << endl;
+   cout << "         first: sequence number of the first event (starts from 0)" << endl;
+   cout << "         last: sequence number of the last event" << endl;
+   cout << "         step: step over several events, 1 means all events are used" << endl;
+
+}
+
+void usage(const char* subtopic = 0)
+{
    cout << endl;
    cout << "GO4 analysis runnable " << __GO4RELEASE__ << endl;
    cout << "S. Linev, GSI, Darmstadt" << endl;
+
+   if ((subtopic!=0) && (strlen(subtopic)>0)) {
+      const char* sub = subtopic;
+      if (*sub=='-') sub++;
+
+      if ((strcmp(subtopic, "sources")==0) || (strcmp(subtopic, "src")==0) || (strcmp(subtopic, "src")==0)) {
+         cout << "These are arguments of go4analysis which allows to specify event source" << endl;
+         printsources();
+         exit(0);
+      } else
+      if ((strcmp(sub, "print")==0) || (strcmp(sub, "pr")==0) ||
+          (strcmp(sub, "type")==0) || (strcmp(sub, "ty")==0)) {
+         cout << "Usage of go4analysis -print command." << endl;
+         cout << endl;
+         cout << "   go4analysis -print|-pr|-type|-ty [PROPT] [SOURCE] [MISC]" << endl;
+         cout << endl;
+         cout << "PROPT: print options, right after -print command" << endl;
+         cout << "   hex          : print data in hexadecimal format" << endl;
+         cout << "   dec          : print data in decimal format" << endl;
+         cout << "   long         : print data in long (4 bytes) form (default)" << endl;
+         cout << "   short        : print data in short (2 bytes) form" << endl;
+         cout << "   sub=N        : select subevent id N (default all subevents are shown)" << endl;
+         cout << "SOURCE: event source print options" << endl;
+         printsources();
+         cout << "MISC: other options, which may be relevant for \"print\" command" << endl;
+         cout << "   -number M    : print M events, default is 1 (short: -num)" << endl;
+         cout << "   -lib name    : load library, may be required for user-defined sources" << endl;
+         cout << "   -v           : enable verbose mode to see some debug output (default: -v2)" << endl;
+         cout << endl;
+         cout << "  Print event header from MBS stream server" << endl;
+         cout << "     go4analysis -stream r4-4 -print " << endl;
+         cout << endl;
+         cout << "  Print event data in hexadecimal form from MBS event server" << endl;
+         cout << "     go4analysis -ev r2-1 -pr hex" << endl;
+         cout << endl;
+         cout << "  Print 5 events with subevent id=1 in decimal form from MBS transport server" << endl;
+         cout << "     go4analysis -tr r2-2 -num 5 -ty dec sub=1 " << endl;
+         cout << endl;
+         exit(0);
+      } else {
+         cout << "No help for topic: \""<< subtopic << "\"" << endl;
+         cout << "Available: print, sources" << endl;
+         exit(0);
+      }
+   }
+
    cout << "calling:                " << endl;
    cout << "" << endl;
    cout << "   go4analysis [RUN] [ANALYSIS] [STEP1] [STEP2] ... [USER]" << endl;
@@ -64,12 +126,12 @@ void usage(const char* err = 0)
    cout << "  -gui name guihost guiport   : run analysis in gui mode, used by GUI launch analysis" << endl;
    cout << "  -run                        : run analysis in server mode (default only run if source specified)" << endl;
    cout << "  -norun                      : exclude automatical run" << endl;
-   cout << "  -events NUMBER              : process NUMBER events in batch mode" << endl;
+   cout << "  -number NUMBER              : process NUMBER events in batch mode" << endl;
    cout << "  -hserver [name [passwd]]    : start histogram server with optional name and password" << endl;
    cout << "  -log [filename]             : enable log output into filename (default:go4logfile.txt)" << endl;
    cout << "  -v -v0 -v1 -v2 -v3          : change log output verbosity (0 - maximum, 1 - info, 2 - warn, 3 - errors)" << endl;
-   cout << "  -print [sub=N] [hex|dec]    : create analysis with only event-printing processor" << endl;
-   cout << "  -help                       : show this help" << endl;
+   cout << "  -print [sub=N] [hex|dec]    : print events, see -help print for more info" << endl;
+   cout << "  -help [topic]               : show this help or for selected topic" << endl;
    cout << "" << endl;
    cout << "ANALYSIS: common analysis configurations" << endl;
    cout << "  -name name             :  specify analysis instance name" << endl;
@@ -436,17 +498,18 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
       }
 
    if (doprint) {
-      cout << "!!! Create default analysis with print-processor class" << endl;
+      TGo4Log::Info("Create default analysis with print-processor class");
       outev_cl = 0;
    } else {
       if (proc_cl==0) return 0;
-      cout << "!!! Create default analysis with processor class " << proc_cl->GetName() << endl;
-      if (outev_cl)
-         cout << "!!! Use class " << outev_cl->GetName() << " as output event" << endl;
+      TGo4Log::Info("Create default analysis with processor class %s", proc_cl->GetName());
+      if (outev_cl!=0)
+         TGo4Log::Info("Use class %s as output event", outev_cl->GetName());
    }
 
+
    if (inpev_cl!=0)
-      cout << "!!! Use class " << inpev_cl->GetName() << " as input event" << endl;
+      TGo4Log::Info("Use class %s as input event", inpev_cl->GetName());
 
    TGo4Analysis* analysis = TGo4Analysis::Instance();
    analysis->SetAnalysisName(name);
@@ -495,9 +558,13 @@ int main(int argc, char **argv)
       return -1;
    }
 
-   //TGo4Log::StartTracing();
+   if (argc==1) usage();
 
-   if ((FindArg(argc, argv, "-help")>0) || (FindArg(argc, argv, "-h")>0)) usage();
+   int phelp = FindArg(argc, argv, "-help");
+   if (phelp < 0) phelp = FindArg(argc, argv, "-h") > 0;
+   if (phelp > 0) {
+      usage(phelp < argc-1 ? argv[phelp+1] : 0);
+   }
 
    int user_argc = 0;
    char** user_argv = 0;
@@ -511,7 +578,9 @@ int main(int argc, char **argv)
       argc = userargspos;
    }
 
-   bool doprint = (FindArg(argc, argv, "-print") > 0);
+   bool doprint = (FindArg(argc, argv, "-print") > 0) || (FindArg(argc, argv, "-type") > 0) ||
+                  (FindArg(argc, argv, "-pr") > 0) || (FindArg(argc, argv, "-ty") > 0);
+   if (doprint) TGo4Log::SetIgnoreLevel(2);
 
    const char* logfile = GetArgValue(argc, argv, "-log", 0, true);
    if (logfile!=0) {
@@ -606,6 +675,11 @@ int main(int argc, char **argv)
    long  maxevents(-1);    // number of events (batch mode)
    Int_t canrun(0);        // -1 cannot run, 0 - only if source specify, 1 - always
 
+   if (doprint) {
+      maxevents = 1;
+      analysis->SetAutoSave(kFALSE);
+   }
+
    //------ process arguments -------------------------
 
    int narg = 1;
@@ -656,7 +730,7 @@ int main(int argc, char **argv)
          narg++;
          step->SetProcessEnabled(kFALSE);
       } else
-      if (strcmp(argv[narg],"-file")==0) {
+      if ((strcmp(argv[narg],"-file")==0) || (strcmp(argv[narg],"-f")==0)) {
          if (++narg < argc) {
             TGo4MbsFileParameter sourcepar(argv[narg++]);
             step->SetEventSource(&sourcepar);
@@ -674,7 +748,7 @@ int main(int argc, char **argv)
          } else
             showerror("Input file name not specified");
       } else
-      if(strcmp(argv[narg],"-transport")==0) {
+      if ((strcmp(argv[narg],"-transport")==0) || (strcmp(argv[narg],"-tr")==0)) {
          if (++narg < argc) {
             TGo4MbsTransportParameter sourcepar(argv[narg++]);
             step->SetEventSource(&sourcepar);
@@ -683,7 +757,7 @@ int main(int argc, char **argv)
          } else
             showerror("MBS Transport server name not specified");
       } else
-      if(strcmp(argv[narg],"-stream")==0) {
+      if ((strcmp(argv[narg],"-stream")==0) || (strcmp(argv[narg],"-st")==0)) {
          if (++narg < argc) {
             TGo4MbsStreamParameter sourcepar(argv[narg++]);
             step->SetEventSource(&sourcepar);
@@ -692,7 +766,7 @@ int main(int argc, char **argv)
          } else
             showerror("MBS Stream server name not specified");
       } else
-      if(strcmp(argv[narg],"-evserv")==0) {
+      if ((strcmp(argv[narg],"-evserv")==0) || (strcmp(argv[narg],"-ev")==0))  {
          if (++narg < argc) {
             TGo4MbsEventServerParameter sourcepar(argv[narg++]);
             step->SetEventSource(&sourcepar);
@@ -701,14 +775,14 @@ int main(int argc, char **argv)
          } else
             showerror("MBS Event server name not specified");
       } else
-      if(strcmp(argv[narg],"-random")==0) {
+      if ((strcmp(argv[narg],"-random")==0) || (strcmp(argv[narg],"-rnd")==0)) {
          narg++;
          TGo4MbsRandomParameter sourcepar("Random");
          step->SetEventSource(&sourcepar);
          step->SetSourceEnabled(kTRUE);
          autorun = true;
       } else
-      if(strcmp(argv[narg],"-user")==0) {
+      if (strcmp(argv[narg],"-user")==0) {
          if (++narg < argc) {
             TGo4UserSourceParameter sourcepar(argv[narg++]);
             step->SetEventSource(&sourcepar);
@@ -717,7 +791,7 @@ int main(int argc, char **argv)
          } else
             showerror("MBS Event server name not specified");
       } else
-      if(strcmp(argv[narg],"-revserv")==0) {
+      if ((strcmp(argv[narg],"-revserv")==0) || (strcmp(argv[narg],"-rev")==0)) {
          if (++narg < argc) {
             const char* serv_name = argv[narg++];
             int serv_port = 0;
@@ -769,7 +843,7 @@ int main(int argc, char **argv)
          step->SetEventStore(&storepar);
          step->SetStoreEnabled(kTRUE);
       } else
-      if(strcmp(argv[narg],"-timeout")==0) {
+      if (strcmp(argv[narg], "-timeout")==0) {
          if (++narg >= argc) showerror("Timeout value not specified");
          if (step->GetEventSource()==0) showerror("No source parameter configured");
          int value(0);
@@ -778,13 +852,13 @@ int main(int argc, char **argv)
          narg++;
          step->GetEventSource()->SetTimeout(value);
       } else
-      if(strcmp(argv[narg],"-overwrite-store")==0) {
+      if (strcmp(argv[narg],"-overwrite-store")==0) {
          narg++;
          TGo4FileStoreParameter* par = dynamic_cast<TGo4FileStoreParameter*> (step->GetEventStore());
          if (par) par->SetOverwriteMode(kTRUE);
             else showerror("No file-store parameter available");
       } else
-      if(strcmp(argv[narg],"-append-store")==0) {
+      if (strcmp(argv[narg],"-append-store")==0) {
          narg++;
          TGo4FileStoreParameter* par = dynamic_cast<TGo4FileStoreParameter*> (step->GetEventStore());
          if (par) par->SetOverwriteMode(kFALSE);
@@ -798,7 +872,7 @@ int main(int argc, char **argv)
          } else
             showerror("Backstore name not specified");
       } else
-      if ((strcmp(argv[narg],"-events")==0) || (strcmp(argv[narg],"-number")==0)) {
+      if ((strcmp(argv[narg],"-events")==0) || (strcmp(argv[narg],"-number")==0) || (strcmp(argv[narg],"-num")==0)) {
          if (++narg < argc) {
             if (sscanf(argv[narg++],"%ld",&maxevents)!=1) maxevents = -1;
          } else
@@ -847,18 +921,34 @@ int main(int argc, char **argv)
          narg++;
          canrun = -1;
       } else
-      if(strcmp(argv[narg],"-print")==0) {
+      if ((strcmp(argv[narg],"-print")==0) || (strcmp(argv[narg],"-type")==0) || (strcmp(argv[narg],"-ty")==0) || (strcmp(argv[narg],"-pr")==0)) {
          narg++;
-
          while ((narg<argc) && (argv[narg][0]!='-')) {
-            if (strncmp(argv[narg],"sub=",4)==0)
+            if (strncmp(argv[narg],"sub=",4)==0) {
                TGo4PrintProcessor::fSubId = atoi(argv[narg] + 4);
-            else
-            if (strcmp(argv[narg],"hex")==0)
+            } else
+            if (strcmp(argv[narg],"hex")==0) {
                TGo4PrintProcessor::fHex = kTRUE;
-            else
-            if (strcmp(argv[narg],"dec")==0)
+               TGo4PrintProcessor::fData = kTRUE;
+            } else
+            if (strcmp(argv[narg],"dec")==0) {
                TGo4PrintProcessor::fHex = kFALSE;
+               TGo4PrintProcessor::fData = kTRUE;
+            } else
+            if (strcmp(argv[narg],"long")==0) {
+               TGo4PrintProcessor::fLong = kTRUE;
+               TGo4PrintProcessor::fData = kTRUE;
+            } else
+            if (strcmp(argv[narg],"short")==0) {
+               TGo4PrintProcessor::fLong = kFALSE;
+               TGo4PrintProcessor::fData = kTRUE;
+            } else
+            if (strcmp(argv[narg],"data")==0) {
+               TGo4PrintProcessor::fData = kTRUE;
+            } else
+            if (strcmp(argv[narg],"nodata")==0) {
+               TGo4PrintProcessor::fData = kFALSE;
+            }
             narg++;
          }
       } else
@@ -911,25 +1001,25 @@ int main(int argc, char **argv)
 
    //------ start the analysis -------------------------
    if(batchMode) {
-      cout << "**** Main: starting analysis in batch mode ...  " << endl;
+      TGo4Log::Info("Main: starting analysis in batch mode ...  ");
       if (analysis->InitEventClasses()) {
          analysis->RunImplicitLoop(maxevents);
          delete analysis;
-         cout << "**** Main: Done!" << endl;
+         TGo4Log::Info("Main: analysis batch done");
       } else
-         cout << "**** Main: Init event classes failed, aborting!"<<endl;
+         TGo4Log::Error("Main: Init event classes failed, aborting!");
    } else {
       if (hostname==0) hostname = "localhost";
 
-      if(servermode)  cout << "**** Main: starting analysis in server mode ..." << endl;
-      else            cout << "**** Main: starting analysis in slave mode ..." << endl;
+      if(servermode)  TGo4Log::Info("Main: starting analysis in server mode ...");
+      else            TGo4Log::Info("Main: starting analysis in slave mode ...");
 
       if (canrun<0) autorun = false;
 
       TGo4AnalysisClient* client = new TGo4AnalysisClient("UserClient", analysis, hostname, iport, hserver, hname, hpasswd, servermode, autorun, kFALSE, loadprefs);
 
-      cout << "**** Main: created AnalysisClient Instance: " << client->GetName() << endl;
-      cout << "**** Main: Run application loop" << endl;
+      TGo4Log::Info("Main: created AnalysisClient instance: %s", client->GetName());
+      TGo4Log::Info("Main: Run application loop");
 
 #ifndef WIN32
 #if ROOT_VERSION_CODE <= ROOT_VERSION(5,25,2)
@@ -946,24 +1036,24 @@ int main(int argc, char **argv)
          if(client->IsBeingQuit()) {
             if(termcounter == 0) {
                termcounter = TERMCOUNTS;
-               cout << "**** Found Quit state: starting termination counter with "<< PROCESSLOOPDELAY * TERMCOUNTS / 1000 << " s" << endl;
+               TGo4Log::Info("Found Quit state: starting termination counter with %d s", PROCESSLOOPDELAY * TERMCOUNTS / 1000);
             } else
             if (termcounter>0) {
                termcounter--;
                if (termcounter == 0) {
-                  cout << "**** Reached end of termination counter after "<<  PROCESSLOOPDELAY * TERMCOUNTS / 1000 <<" s, terminating."<< endl;
-                 break;
+                  TGo4Log::Info("Reached end of termination counter after %d s, terminating.", PROCESSLOOPDELAY * TERMCOUNTS / 1000);
+                  break;
                }
                if ((termcounter % (10000 / PROCESSLOOPDELAY)) == 0)
-                  cout << "**** Counting termination counter down, remains " << PROCESSLOOPDELAY * termcounter / 1000 << " s" << endl;
+                  TGo4Log::Info("Counting termination counter down, remains %d s", PROCESSLOOPDELAY * termcounter / 1000);
             }
          }
       }
 
    }
 
+   TGo4Log::Info("Main: THE END");
    TGo4Log::CloseLogfile();
-   cout << "**** THE END ***"<<endl;
-   //=================  start root application loop ==========================
+
    return 0;
 }

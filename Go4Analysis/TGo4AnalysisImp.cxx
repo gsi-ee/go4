@@ -343,18 +343,18 @@ Bool_t TGo4Analysis::InitEventClasses()
    Bool_t rev = kTRUE;
    if(!fbInitIsDone) {
       try {
-         Message(0,"Analysis BaseClass --  Initializing EventClasses...");
+         TGo4Log::Debug("Analysis --  Initializing EventClasses...");
          LoadObjects(); // always use autosave file to get last objects list
          rev = fxStepManager->InitEventClasses();
          UpdateNamesList();
-         Message(-1,"Analysis BaseClass --  Initializing EventClasses done.");
+         TGo4Log::Info("Analysis --  Initializing EventClasses done.");
          fbInitIsDone = kTRUE;
       } catch(TGo4EventErrorException& ex) {
          Message(ex.GetPriority(), ex.GetErrMess());
          rev = kFALSE;
       }
    } else
-      Message(-1,"Analysis BaseClass --  EventClasses were already initialized.");
+      TGo4Log::Info("Analysis BaseClass --  EventClasses were already initialized.");
    return rev;
 }
 
@@ -587,9 +587,9 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
    {
       PreLoop();
       if (times>0)
-         Message(-1,"Analysis loop for %d cycles is starting...", times);
+         TGo4Log::Info("Analysis loop for %d cycles is starting...", times);
       else
-         Message(-1,"Analysis loop is starting...");
+         TGo4Log::Info("Analysis loop is starting...");
 
       while(fbDoWorkingFlag) {
 
@@ -649,19 +649,19 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
          ////// end inner catch
       }// for
 
-      Message(-1,"Analysis implicit Loop has finished after %d cycles.", cnt);
+      TGo4Log::Info("Analysis implicit Loop has finished after %d cycles.", cnt);
       PostLoop();
    } //  try
 
    catch(TGo4Exception& ex) {
-     Message(-1,"%s appeared after %d cycles.", ex.What(), cnt);
-     ex.Handle();
+      TGo4Log::Info("%s appeared after %d cycles.", ex.What(), cnt);
+      ex.Handle();
    }
    catch(std::exception& ex) { // treat standard library exceptions
-     Message(-1,"standard exception %s appeared after %d cycles.", ex.what(), cnt);
+      TGo4Log::Info("standard exception %s appeared after %d cycles.", ex.what(), cnt);
    }
    catch(...) {
-      Message(-1,"!!! Unexpected exception after %d cycles !!!", cnt);
+      TGo4Log::Info("!!! Unexpected exception after %d cycles !!!", cnt);
    }
    /////////// end outer catch block
    return cnt;
@@ -1030,24 +1030,22 @@ Bool_t TGo4Analysis::LoadObjects(const char* filename)
    if(filename) fxAutoFileName = filename;
 
    if(!fbAutoSaveOn) {
-      Message(-1,"Analysis LoadObjects: AUTOSAVE file is DISABLED, did NOT read objects back from file %s", fxAutoFileName.Data());
+      TGo4Log::Info("Analysis LoadObjects: AUTOSAVE file is DISABLED, did NOT read objects back from file %s", fxAutoFileName.Data());
       return kFALSE;
    }
 
    if (fbAutoSaveOverwrite) {
-      Message(-1,"Analysis LoadObjects: AUTOSAVE is in overwrite mode - no objects will be loaded from %s", fxAutoFileName.Data());
+      TGo4Log::Info("Analysis LoadObjects: AUTOSAVE is in overwrite mode - no objects will be loaded from %s", fxAutoFileName.Data());
       return kTRUE;
    }
 
    Bool_t rev=kTRUE;
    OpenAutoSaveFile(false);
    if(fxAutoFile && fxAutoFile->IsOpen()) {
-      Message(-1,"Analysis LoadObjects: Loading from autosave file %s ",
-            fxAutoFile->GetName());
+      TGo4Log::Info("Analysis LoadObjects: Loading from autosave file %s ", fxAutoFile->GetName());
       rev=fxObjectManager->LoadObjects(fxAutoFile);
    } else {
-      Message(-1,"Analysis LoadObjects: Failed to load from file %s",
-            fxAutoFileName.Data());
+      TGo4Log::Info("Analysis LoadObjects: Failed to load from file %s", fxAutoFileName.Data());
       rev=kFALSE;
    }
    CloseAutoSaveFile();

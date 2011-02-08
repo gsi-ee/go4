@@ -317,25 +317,22 @@ void TGo4Task::SendStatusMessage(Int_t level, Bool_t printout, const char* text,
    char* curs=txtbuf;
    TString receiver=txtbuf;
    Ssiz_t pos=receiver.Index("::",2,0,TString::kExact);
-   if(pos!=kNPOS)
-      {
-       // before this we have receiver:
-       receiver.Resize(pos);
-       dest=receiver.Data();
-       curs += ((size_t) pos);
-       curs +=2; // skip separator
-      }
-   else
-      {
-         dest=0;
-      }
+   if(pos!=kNPOS) {
+      // before this we have receiver:
+      receiver.Resize(pos);
+      dest=receiver.Data();
+      curs += ((size_t) pos);
+      curs +=2; // skip separator
+   } else {
+      dest = 0;
+   }
    //cout <<"SSSSSSendStatusMessage has receiver "<<dest <<" and message "<<curs << endl;
-   Bool_t previousmode=TGo4Log::IsOutputEnabled();
+   Bool_t previousmode = TGo4Log::IsOutputEnabled();
    TGo4Log::OutputEnable(printout); // override the messaging state
-   const char* go4mess=TGo4Log::Message(level,curs);
-   TGo4Log::OutputEnable(previousmode); // restore old state of messageing
+   const char* go4mess = TGo4Log::Message(level, curs);
+   TGo4Log::OutputEnable(previousmode); // restore old state of messaging
    if((level>0) && (go4mess!=0))  {
-      // do not send debug-level output to gui, and do not send supressed messages as empty string!
+      // do not send debug-level output to gui, and do not send suppressed messages as empty string!
       TGo4Status* message = new TGo4Status(go4mess);
       SendStatus(message, dest);
       delete message;
@@ -343,7 +340,7 @@ void TGo4Task::SendStatusMessage(Int_t level, Bool_t printout, const char* text,
 }
 void TGo4Task::UpdateStatusBuffer()
 {
-if(IsMaster()) return;
+   if(IsMaster()) return;
    TGo4LockGuard statguard(fxStatusMutex); // do not update during sending
    TGo4LockGuard main; // protect root streaming
    TFile *filsav = gFile;
@@ -361,7 +358,7 @@ if(IsMaster()) return;
 }
 TGo4Command* TGo4Task::NextCommand()
 {
-if(IsMaster()) return 0;
+   if(IsMaster()) return 0;
    TGo4Command* com=0;
    TObject* obj=0;
    TGo4BufferQueue * comq=GetCommandQueue();

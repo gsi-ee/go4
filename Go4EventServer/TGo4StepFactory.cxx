@@ -13,8 +13,6 @@
 
 #include "TGo4StepFactory.h"
 
-#include "Riostream.h"
-
 #include "TClass.h"
 #include "TROOT.h"
 #include "TString.h"
@@ -35,9 +33,8 @@ TGo4StepFactory::TGo4StepFactory() :
    fInputEventName(),
    fnewEventSource()
 {
-   cout << "**** Create factory " << endl;
+   TGo4Log::Debug("Create factory");
 }
-
 
 //***********************************************************
 TGo4StepFactory::TGo4StepFactory(const char* name) :
@@ -49,7 +46,7 @@ TGo4StepFactory::TGo4StepFactory(const char* name) :
    fnewInputEvent(),
    fInputEventName()
 {
-   cout << "GO4-*> Create factory " << name << endl;
+   TGo4Log::Debug("Create factory %s", name);
    fnewInputEvent = "";
    fnewOutputEvent = "";
    fnewProcessor = "";
@@ -61,7 +58,7 @@ TGo4StepFactory::TGo4StepFactory(const char* name) :
 //***********************************************************
 TGo4StepFactory::~TGo4StepFactory()
 {
-   cout << "GO4-*> Delete factory " << GetName() << endl;
+   TGo4Log::Debug("Delete factory %s", GetName());
 }
 
 //-----------------------------------------------------------
@@ -78,14 +75,14 @@ TGo4EventProcessor * TGo4StepFactory::CreateEventProcessor(TGo4EventProcessorPar
 
    // par is the object specified as last argument creating the step in TAnalysis
    // only info we can get is an ID
-   cout << "GO4-*> " << GetName() << ": Create event processor " << fProcessorName.Data() << endl;
+   TGo4Log::Info("%s: Create event processor %s", GetName(), fProcessorName.Data());
    if(fnewProcessor.Length() == 0)
-      cout << "No event processor was specified!" << endl;
+      TGo4Log::Error("No event processor was specified!");
    else
       // create event processor by macro
       proc=(TGo4EventProcessor *)gROOT->ProcessLineFast(fnewProcessor.Data());
    if(proc == 0)
-      cout << "Cannot create event processor: " << fProcessorName << endl;
+      TGo4Log::Error("Cannot create event processor: %s", fProcessorName.Data());
    return proc;
 }
 
@@ -102,14 +99,14 @@ TGo4EventElement * TGo4StepFactory::CreateOutputEvent()
 {
    TGo4EventElement * Oevent = 0;
 
-   cout << "GO4-*> " << GetName() << ": Create output event " << fOutputEventName.Data() << endl;
+   TGo4Log::Info("%s: Create output event %s", GetName(), fOutputEventName.Data());
 
    if(fnewOutputEvent.Length() == 0)
-      cout << "No output event was specified!" << endl;
+      TGo4Log::Error("No output event was specified!");
    else
       Oevent = (TGo4EventElement*) gROOT->ProcessLineSync(fnewOutputEvent.Data());
    if(Oevent == 0)
-      cout << "Cannot create output event: " << fOutputEventName.Data() << endl;
+      TGo4Log::Error("Cannot create output event: %s", fOutputEventName.Data());
    return Oevent;
 }
 
@@ -125,13 +122,14 @@ TGo4EventElement* TGo4StepFactory::CreateInputEvent()
 {
    TGo4EventElement * Ievent = 0;
 
-   cout << "GO4-*> " << GetName() << ": Create input event " << fInputEventName.Data() << endl;
+   TGo4Log::Info("%s: Create input event %s", GetName(), fInputEventName.Data());
 
    if(fnewInputEvent.Length() == 0)
       return TGo4EventServerFactory::CreateInputEvent();
 
    Ievent = (TGo4EventElement*) gROOT->ProcessLineSync(fnewInputEvent.Data());
-   if(Ievent == 0) cout << "Cannot create input event: " << fInputEventName.Data() << endl;
+   if(Ievent == 0)
+      TGo4Log::Error("Cannot create input event: %s", fInputEventName.Data());
    return Ievent;
 }
 
@@ -152,7 +150,7 @@ TGo4EventSource* TGo4StepFactory::CreateEventSource(TGo4EventSourceParameter* pa
 {
    if ((fnewEventSource.Length()>0) && par->InheritsFrom(TGo4UserSourceParameter::Class())) {
 
-      cout << "GO4-*> " << GetName() << ": Create input source " << fnewEventSource << endl;
+      TGo4Log::Info("%s: Create input source %s", GetName(), fnewEventSource.Data());
 
       TString arg = TString::Format(fnewEventSource.Data(), par);
 
@@ -160,9 +158,8 @@ TGo4EventSource* TGo4StepFactory::CreateEventSource(TGo4EventSourceParameter* pa
 
       if (source) return source;
 
-      cout << "Cannot create event source with cmd: " << fnewEventSource << endl;
+      TGo4Log::Error("Cannot create event source with cmd: %s", fnewEventSource.Data());
    }
 
    return TGo4EventServerFactory::CreateEventSource(par);
-
 }

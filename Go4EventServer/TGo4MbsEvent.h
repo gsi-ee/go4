@@ -54,7 +54,6 @@ class TGo4MbsEvent : public TGo4EventElement {
        * each subevent data field. */
       TGo4MbsEvent(UInt_t subnum, Char_t* subcrates, Char_t* controls, Short_t* procids, UInt_t* datasizes);
 
-
       /** Ctor expecting just a name. Auxiliary to support
        * mbs event in the generic step factory. */
       TGo4MbsEvent(const char* name);
@@ -86,7 +85,7 @@ class TGo4MbsEvent : public TGo4EventElement {
        * \param longw - data in long format (4 bytes)
        * \param hexw  - print in hex format
        * \param dataw - print raw data */
-      void PrintMbsEvent(Int_t subid = -1, Bool_t longw = kTRUE, Bool_t hexw = kTRUE, Bool_t dataw = kFALSE);
+      void PrintMbsEvent(Int_t subid = -1, Bool_t longw = kTRUE, Bool_t hexw = kTRUE, Bool_t dataw = kTRUE);
 
       /** Set the internal iterator of the subevent array to the beginning of
        * the array. */

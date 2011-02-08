@@ -46,7 +46,7 @@ class TGo4MbsSubEvent : public TGo4EventElement {
        * \param longw - data in long format (4 bytes)
        * \param hexw  - print in hex format
        * \param dataw - print raw data */
-      void PrintMbsSubevent(Bool_t longw = kTRUE, Bool_t hexw = kTRUE, Bool_t dataw = kFALSE);
+      void PrintMbsSubevent(Bool_t longw = kTRUE, Bool_t hexw = kTRUE, Bool_t dataw = kTRUE);
 
       void Set(Int_t dlen, Short_t type=10, Short_t subtype=1,
             Short_t procid=0, Char_t subcrate=0, Char_t ctrl=0);

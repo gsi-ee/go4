@@ -94,8 +94,6 @@ void TGo4MbsSubEvent::PrintEvent()
 
 void TGo4MbsSubEvent::PrintMbsSubevent(Bool_t longw, Bool_t hexw, Bool_t dataw)
 {
-   if (longw || hexw) dataw = kTRUE;
-
    // print header
    printf("  SubEv ID %6d Type/Subtype %5d %5d Length %5d[w] Control %2d Subcrate %2d\n",
          GetProcid(), GetType(), GetSubtype(), GetDlen(), GetControl(), GetSubcrate());

@@ -59,14 +59,14 @@ void TGo4AnalysisStepManager::CloseAnalysis()
 {
    TRACE((14,"TGo4AnalysisStepManager::CloseAnalysis()",__LINE__, __FILE__));
    //
-   TGo4Analysis::Instance()->Message(0,"Analysis Step Manager  --  Closing Analysis Steps...");
+   TGo4Log::Debug("Analysis Step Manager  --  closing analysis steps...");
    TGo4AnalysisStep* step=0;
    fxStepIterator->Reset();
    while((step= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) !=0)
    {
       step->Close();
    }
-   TGo4Analysis::Instance()->Message(-1,"Analysis Step Manager  --  Analysis Steps were closed.");
+   TGo4Log::Debug("Analysis Step Manager  --  analysis steps were closed.");
 }
 
 Bool_t TGo4AnalysisStepManager::InitEventClasses()
@@ -76,7 +76,7 @@ Bool_t TGo4AnalysisStepManager::InitEventClasses()
    Bool_t rev=kTRUE;
    Bool_t firststepfound=kFALSE;
    Bool_t laststepfound=kFALSE;
-   TGo4Analysis::Instance()->Message(0,"Analysis StepManager --  Initializing EventClasses...");
+   TGo4Log::Debug("Analysis StepManager --  Initializing EventClasses...");
    TGo4AnalysisStep* step=0;
    fxStepIterator->Reset();
    fiCurrentStepIndex=0;
@@ -131,7 +131,8 @@ Bool_t TGo4AnalysisStepManager::InitEventClasses()
          }
       } // while
    }//if(IsStepChecking())
-   TGo4Analysis::Instance()->Message(-1,"AnalysisStepManager  --  Initializing EventClasses done.");
+
+   TGo4Log::Debug("AnalysisStepManager  --  Initializing EventClasses done.");
    return rev;
 }
 
@@ -404,7 +405,7 @@ Bool_t  TGo4AnalysisStepManager::AddAnalysisStep(TGo4AnalysisStep* next)
          }
          fiLastStepIndex=ix;
          rev=kTRUE;
-         TGo4Analysis::Instance()->Message(-1,"Analysis: Added analysis step %s",
+         TGo4Analysis::Instance()->Message(1,"Analysis: Added analysis step %s",
                next->GetName());
       }
       else
@@ -412,7 +413,7 @@ Bool_t  TGo4AnalysisStepManager::AddAnalysisStep(TGo4AnalysisStep* next)
          // yes, do nothing
          TRACE((12,"TGo4AnalysisStepManager::AddAnalysisStep -- Analysis step was already there",__LINE__, __FILE__));
          rev=kFALSE;
-         TGo4Analysis::Instance()->Message(-1,"Analysis: WARNING - analysis step %s was already in steplist",
+         TGo4Analysis::Instance()->Message(2,"Analysis: WARNING - analysis step %s was already in steplist",
                next->GetName() );
       }
    } //  if(next)
@@ -420,7 +421,7 @@ Bool_t  TGo4AnalysisStepManager::AddAnalysisStep(TGo4AnalysisStep* next)
    {
       TRACE((12,"TGo4AnalysisStepManager::AddAnalysisStep -- Zero Analysis step pointer",__LINE__, __FILE__));
       rev=kFALSE;
-      TGo4Analysis::Instance()->Message(-1,"Analysis: WARNING - did not add zero analysis step pointer to steplist");
+      TGo4Analysis::Instance()->Message(2,"Analysis: WARNING - did not add zero analysis step pointer to steplist");
    }
    return rev;
 }
