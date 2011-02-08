@@ -292,15 +292,12 @@ TGo4Analysis::~TGo4Analysis()
       fxInterruptHandler = 0;
    }
 
-
-
    TRACE((15,"TGo4Analysis::~TGo4Analysis()",__LINE__, __FILE__));
    CloseAnalysis();
-   //cout <<"after close analysis." << endl;
    CloseAutoSaveFile();
    delete fxStepManager;
    delete fxObjectManager;
-   if(fxObjectNames) delete fxObjectNames;
+   delete fxObjectNames;
    delete fxAutoSaveClock;
    delete fxSampleEvent;
    TGo4CommandInvoker::UnRegister(this);

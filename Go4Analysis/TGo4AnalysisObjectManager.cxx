@@ -134,7 +134,6 @@ fbCreatedinMake(kFALSE), fbSuppressLoadHistograms(kFALSE)
 
 TGo4AnalysisObjectManager::~TGo4AnalysisObjectManager()
 {
-
    delete fxMatchIterator;
    delete fxMatchList;
    //delete fxDirMutex;
@@ -151,7 +150,10 @@ TGo4AnalysisObjectManager::~TGo4AnalysisObjectManager()
    fxUserDir->Clear();
    fxTreeDir->Clear();
    fxPictureDir->Clear();
-   fxCanvasDir->Clear();
+
+   //   disable canvas clear - does not work for some reasons
+   //   fxCanvasDir->Clear();
+
    fxEventDir->Clear();
    fxProcessorDir->Clear();
    fxStoreDir->Clear();
@@ -1257,9 +1259,6 @@ Bool_t TGo4AnalysisObjectManager::RemoveCanvas(const char * name)
 }
 
 
-
-
-
 Bool_t TGo4AnalysisObjectManager::LoadObjects(TFile* obfile)
 {
    TRACE((11,"TGo4AnalysisObjectManager::LoadObjects(TFile*)",__LINE__, __FILE__));
@@ -1482,12 +1481,12 @@ Bool_t TGo4AnalysisObjectManager::RemoveObjectFromFolder(const char* fullname, T
    //
    if(fold==0) return kFALSE;
    TGo4LockGuard  dirguard(fxDirMutex);
-   TNamed* obj = 0;
-   Int_t buflen=fguSUBFOLDERMAXLEN;
+   TObject* obj = 0;
+   Int_t buflen = fguSUBFOLDERMAXLEN;
    char buffer[fguSUBFOLDERMAXLEN];
    if(fullname) {
       strncpy(buffer,fullname,buflen-10);
-      obj = dynamic_cast<TNamed*> (fold->FindObjectAny(buffer));
+      obj = fold->FindObjectAny(buffer);
    }
 
    if(obj!=0) {
