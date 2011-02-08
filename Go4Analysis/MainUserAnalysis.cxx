@@ -58,6 +58,7 @@ void printsources()
    cout << "  -random              :  use random generator as source (short: -rnd)" << endl;
    cout << "  -user name           :  create user-defined event source" << endl;
    cout << "  -timeout tm          :  specify timeout parameter for event source" << endl;
+   cout << "  -skip num            :  skip num first events in mbs event source" << endl;
    cout << "  -mbs-select first last step : select events interval from mbs source " << endl;
    cout << "         first: sequence number of the first event (starts from 0)" << endl;
    cout << "         last: sequence number of the last event" << endl;
@@ -154,6 +155,7 @@ void usage(const char* subtopic = 0)
    cout << "  -random              :  use random generator as source" << endl;
    cout << "  -user name           :  create user-defined event source" << endl;
    cout << "  -source filename     :  read step input from the root file" << endl;
+   cout << "  -skip num            :  skip num first events in mbs event source" << endl;
    cout << "  -mbs-select first last step : select events interval from mbs source" << endl;
    cout << "  -timeout tm          :  specify timeout parameter for event source" << endl;
    cout << "  -enable-source       :  enable step source" << endl;
@@ -804,10 +806,22 @@ int main(int argc, char **argv)
          } else
             showerror("Remote event server name or port are not specified");
       } else
-      if(strcmp(argv[narg],"-mbs-select")==0) {
+      if (strcmp(argv[narg],"-skip")==0) {
          narg++;
          TGo4MbsSourceParameter* param = dynamic_cast<TGo4MbsSourceParameter*> (step->GetEventSource());
-         if (param==0) showerror("only in MBS source parameters can be selected");
+         if (param==0) showerror("only in MBS source events can be skipped");
+         if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) {
+            unsigned value=0;
+            if (sscanf(argv[narg],"%u",&value)!=1)
+               showerror(Form("Value error %s", argv[narg]));
+            param->SetStartEvent(value);
+            narg++;
+         }
+      } else
+      if (strcmp(argv[narg],"-mbs-select")==0) {
+         narg++;
+         TGo4MbsSourceParameter* param = dynamic_cast<TGo4MbsSourceParameter*> (step->GetEventSource());
+         if (param==0) showerror("only in MBS source events can be selected");
          unsigned cnt=0;
          while ((cnt<3) && (narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) {
             unsigned value(0);
