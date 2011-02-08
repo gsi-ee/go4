@@ -30,7 +30,7 @@ class TGo4MbsSubEvent;
 
 /**
  * Wrapper for the standard gsi event structure as
- * deliverd from mbs.
+ * delivered from mbs.
  */
 class TGo4MbsEvent : public TGo4EventElement {
 
@@ -72,13 +72,21 @@ class TGo4MbsEvent : public TGo4EventElement {
       void AssignReference(TGo4MbsEvent* ref);
 
       /* remove reference to external mbsevent object
-       * afterwars, this object will contain new subevtarray*/
+       * afterwards, this object will contain new subevtarray*/
       void RemoveReference();
 
       void Set(Int_t dlen=0, Short_t type=10, Short_t subtype=1,
             Short_t dummy=0, Short_t trigger=0, Int_t count=0);
 
-      void PrintEvent();
+      /** Print event with default settings */
+      virtual void PrintEvent();
+
+      /** Print MBS event
+       * \param subid - select subevent id, -1 - print all subevents
+       * \param longw - data in long format (4 bytes)
+       * \param hexw  - print in hex format
+       * \param dataw - print raw data */
+      void PrintMbsEvent(Int_t subid = -1, Bool_t longw = kTRUE, Bool_t hexw = kTRUE, Bool_t dataw = kFALSE);
 
       /** Set the internal iterator of the subevent array to the beginning of
        * the array. */
@@ -111,9 +119,9 @@ class TGo4MbsEvent : public TGo4EventElement {
        * /param copydata if true data will be copied into internal allocated buffer,
        *        otherwise pointer on provided buffer will be used */
       TGo4MbsSubEvent* AddSubEvent(Int_t fullID,
-            Short_t* source,
-            Int_t datalength,
-            Bool_t copydata = kFALSE);
+                                   Short_t* source,
+                                   Int_t datalength,
+                                   Bool_t copydata = kFALSE);
 
       void SetDlen(Int_t dlen) { fxHeader.fxGSIHeader.fiDlen = dlen; }
       Int_t GetDlen() const { return fxHeader.fxGSIHeader.fiDlen; }
@@ -140,10 +148,6 @@ class TGo4MbsEvent : public TGo4EventElement {
       /** Access to the buffer header of the current event */
       s_bufhe * GetMbsBufferHeader();
 
-      /** Set the "printout event" mode for the current mbs source.
-       * See TGo4MbsSource::SetPrintEvent for parameter description. */
-      void SetPrintEvent(Int_t num=1, Int_t sid=-1, Int_t longw=1, Int_t hexw=1, Int_t dataw=0);
-
    private:
 
       /** @link aggregationByValue */
@@ -161,7 +165,9 @@ class TGo4MbsEvent : public TGo4EventElement {
       /* initialize this event with a simple dummy subevent*/
       void SimpleInit();
 
-   ClassDef(TGo4MbsEvent,2)
+
+
+   ClassDef(TGo4MbsEvent,3)
 };
 
 #endif //TGO4MBSEVENT_H

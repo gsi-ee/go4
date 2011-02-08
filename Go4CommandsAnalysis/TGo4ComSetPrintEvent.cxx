@@ -16,7 +16,8 @@
 #include "TGo4Log.h"
 #include "TGo4AnalysisClientImp.h"
 #include "TGo4AnalysisImp.h"
-#include "TGo4MbsEvent.h"
+#include "TGo4EventElement.h"
+#include "TGo4MbsSource.h"
 #include "TGo4RemoteCommand.h"
 
 TGo4ComSetPrintEvent::TGo4ComSetPrintEvent(const char* obname)
@@ -49,53 +50,41 @@ void TGo4ComSetPrintEvent::Set(TGo4RemoteCommand* remcom)
 
 Int_t TGo4ComSetPrintEvent::ExeCom()
 {
-   TGo4Log::Debug(" Executing %s : Printou for %s requested for %d events of subid %d, long:%d, hex:%d, data:%d",
-         GetObjectName(),
-         fxPrintPar.fiNum,
-            fxPrintPar.fiSid,
-            fxPrintPar.fiLong,
-            fxPrintPar.fiHex,
-            fxPrintPar.fiData);
+   TGo4Log::Debug(" Executing %s : Printout for %s requested for %d events of subid %d, long:%d, hex:%d, data:%d",
+         GetObjectName(), fxPrintPar.fiNum, fxPrintPar.fiSid, fxPrintPar.fiLong, fxPrintPar.fiHex, fxPrintPar.fiData);
    TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if (cli!=0)
-      {
-         TGo4Analysis* ana=TGo4Analysis::Instance();
-         if(ana==0)
-             {
-                    // never come here
-                    cli->SendStatusMessage(3, kTRUE," %s ERROR no analysis ",GetName());
-                    return -2;
-             } else {}
-         // request for event by name from folder
-         TGo4EventElement* eve=ana->GetEventStructure(GetObjectName());
-         if(eve)
-            {
 
-            if(eve->InheritsFrom(TGo4MbsEvent::Class()))
-               {
-                   TGo4MbsEvent* mbseve=dynamic_cast<TGo4MbsEvent*>(eve);
-                   mbseve->SetPrintEvent(fxPrintPar.fiNum,
-                                          fxPrintPar.fiSid,
-                                          fxPrintPar.fiLong,
-                                          fxPrintPar.fiHex,
-                                          fxPrintPar.fiData);
-               }
-            else
-               {
-                  // later we might put printout functionality in baseclass, for now:
-                  cli->SendStatusMessage(2, kTRUE," Event %s of class %s is not yet supported for printevent mode!",GetObjectName(), eve->ClassName());
-               }
-            }
-         else
-            {
-               cli->SendStatusMessage(2, kTRUE," Event %s was not found to set printout mode!",GetObjectName());
-            }
-      }
-   else
-       {
+   if (cli==0) {
       TRACE((11,"TGo4ComSetPrintEvent::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
-         TGo4Log::Debug(" !!! %s : NO or WRONG RECEIVER ERROR!!!",GetName());
-         return 1;
-      }
+      TGo4Log::Debug(" !!! %s : NO or WRONG RECEIVER ERROR!!!",GetName());
+      return 1;
+   }
+
+   TGo4Analysis* ana = TGo4Analysis::Instance();
+   if(ana==0) {
+      // never come here
+      cli->SendStatusMessage(3, kTRUE," %s ERROR no analysis ",GetName());
+      return -2;
+   }
+
+   // request for event by name from folder
+   TGo4EventElement* eve = ana->GetEventStructure(GetObjectName());
+   if (eve == 0) {
+      cli->SendStatusMessage(2, kTRUE," Event %s was not found to set printout mode!",GetObjectName());
+      return -1;
+   }
+
+   TGo4MbsSource* mbs_src = dynamic_cast<TGo4MbsSource*> (eve->GetEventSource());
+
+   if (mbs_src==0) {
+      cli->SendStatusMessage(2, kTRUE," Source of event %s of class %s is not yet supported for printevent mode!", GetObjectName(), eve->ClassName());
+      return -1;
+   }
+
+   mbs_src->SetPrintEvent(fxPrintPar.fiNum,
+                          fxPrintPar.fiSid,
+                          fxPrintPar.fiLong,
+                          fxPrintPar.fiHex,
+                          fxPrintPar.fiData);
    return -1;
 }

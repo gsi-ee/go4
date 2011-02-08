@@ -66,37 +66,9 @@ TGo4MbsSubEvent::~TGo4MbsSubEvent()
 void TGo4MbsSubEvent::PrintEvent()
 {
    TRACE((11,"TGo4MbsSubEvent::PrintEvent()",__LINE__, __FILE__));
-//////// old style using logger instance:
-//   TGo4Log::Info( " MBS SubEvent Header printout: ");
-//   TGo4Log::Info( "\tl_dlen    %d ", GetDlen() );
-//   TGo4Log::Info( "\ti_type    %d", GetType() );
-//   TGo4Log::Info( "\ti_subtype %d", GetSubtype() );
-//   TGo4Log::Info( "\ti_procid   %d", GetProcid() );
-//   TGo4Log::Info( "\th_subcrate %d", GetSubcrate() );
-//   TGo4Log::Info( "\th_control  %d", GetControl() );
-//   TGo4Log::Info( "\tAllocatedLen  %d", GetAllocatedLength() );
-//   TGo4Log::Info( "\tIsFilled  %d", IsFilled() );
-//   TGo4Log::Info( "\tDatafield:");
-//   for(Int_t i=0; i<GetAllocatedLength();++i)
-//      {
-//         if(i+10>GetAllocatedLength())
-//           TGo4Log::Info("\t   %d",fiData[i]);
-//         else
-//            TGo4Log::Info("\t   %d %d %d %d %d %d %d %d %d %d",
-//               fiData[i++],
-//               fiData[i++],
-//               fiData[i++],
-//               fiData[i++],
-//               fiData[i++],
-//               fiData[i++],
-//               fiData[i++],
-//               fiData[i++],
-//               fiData[i++],
-//               fiData[i]);
-//      }
 
    //// new style just with cout:
-   Bool_t printhexa=kFALSE;
+/*   Bool_t printhexa=kFALSE;
    Int_t* pData = (Int_t *) GetDataField();
    cout << "   Mbs Subevent    t/s "
         <<      dec << setw(4) << (Int_t)GetType()
@@ -113,6 +85,48 @@ void TGo4MbsSubEvent::PrintEvent()
       pData++;
    }
    cout << endl;
+*/
+
+   // very new style just using printf
+   PrintMbsSubevent();
+}
+
+
+void TGo4MbsSubEvent::PrintMbsSubevent(Bool_t longw, Bool_t hexw, Bool_t dataw)
+{
+   if (longw || hexw) dataw = kTRUE;
+
+   // print header
+   printf("  SubEv ID %6d Type/Subtype %5d %5d Length %5d[w] Control %2d Subcrate %2d\n",
+         GetProcid(), GetType(), GetSubtype(), GetDlen(), GetControl(), GetSubcrate());
+
+   if(!dataw) return;
+   // print data
+
+   Int_t *pl_data = GetDataField();
+   Int_t ll = GetIntLen();
+
+   if(longw | hexw) {
+      /* In this case we assume data as one longword per channel */
+      for(Int_t l=0; l<ll; l++) {
+         if(l%8 == 0) printf("  ");
+         if(hexw != 0) printf("%04x.%04x ",(*pl_data>>16) & 0xffff, *pl_data & 0xffff);
+                   else printf("%8d ",*pl_data);
+         pl_data++;
+         if(l%8 == 7) printf("\n");
+      }
+
+      if (ll%8 != 0) printf("\n");
+   } else {
+      /* In this case we assume data as two words per channel */
+      for(Int_t l=0;l<ll;l++) {
+         if(l%4 == 0) printf("  ");
+         printf("%8d%8d",*pl_data&0xffff, (*pl_data>>16)&0xffff);
+         pl_data++;
+         if(l%4 == 3) printf("\n");
+      }
+      if(ll%4 == 0) printf("\n");
+   }
 }
 
 void TGo4MbsSubEvent::Set(Int_t dlen,

@@ -300,174 +300,176 @@ INTS4 f_evt_get_subevent(s_ve10_1 *ps_ve10_1, INTS4 l_subevent, INTS4 **pl_se, I
 /*1- C Procedure *************+****************************************/
 INTS4 f_evt_type(s_bufhe *ps_bufhe,s_evhe *ps_evhe, INTS4 l_subid,INTS4 l_long,INTS4 l_hex,INTS4 l_data)
 {
-  s_ves10_1 *ps_ves10_1;
-  s_ve10_1  *ps_ve10_1;
-  s_filhe *ps_filhe;
-  INTS2     *pi_data;
-  INTS4     *pl_data;
-  INTS4      l_mode,l_s;
-  INTS4      l,ll,l_status,l_ldata,l_used;
-  CHARS c_line[132];
-  CHARS c_full[132];
-  CHARS c_time[32];
+   s_ves10_1 *ps_ves10_1;
+   s_ve10_1  *ps_ve10_1;
+   s_filhe *ps_filhe;
+   INTS2     *pi_data;
+   INTS4     *pl_data;
+   INTS4      l_mode,l_s;
+   INTS4      l,ll,l_status,l_ldata,l_used;
+   CHARS c_line[132];
+   CHARS c_full[132];
+   CHARS c_time[32];
 
-  strcpy(c_full,"  ");
-  l_ldata=l_data;
-  if((l_hex+l_long) > 0) l_ldata=1;
+   strcpy(c_full,"  ");
+   l_ldata=l_data;
+   if((l_hex+l_long) > 0) l_ldata=1;
 
-/* Print buffer header (file header) */
-if(ps_bufhe != NULL)
-{
-  sprintf(c_line,"--------------------------------------------------------");
-  printf("%s\n",c_line);
-  /* calculate real buffer size */
-  ll=ps_bufhe->l_dlen*2;
-  if(ll%512 > 0)ll += 512-ll%512;
-  /* file header */
-  l_status = f_ut_utime(ps_bufhe->l_time[0],ps_bufhe->l_time[1],c_time);
-  if(ps_bufhe->i_type == 2000)
-  {
-    ps_filhe=(s_filhe *)ps_bufhe;
-    sprintf(c_line,"File header info:");
-    printf("%s\n",c_line);
-    sprintf(c_line,"Size:    %d [%d b], used %d [b]",ps_filhe->filhe_dlen,ll,ps_filhe->filhe_used*2);
-    printf("%s\n",c_line);
-    sprintf(c_line,"Label:   %s",ps_filhe->filhe_label);
-    printf("%s\n",c_line);
-    sprintf(c_line,"File:    %s",ps_filhe->filhe_file);
-    printf("%s\n",c_line);
-    sprintf(c_line,"User:    %s",ps_filhe->filhe_user);
-    printf("%s\n",c_line);
-    sprintf(c_line,"Time:    %s",ps_filhe->filhe_time);
-    printf("%s\n",c_line);
-    sprintf(c_line,"Run:     %s",ps_filhe->filhe_run);
-    printf("%s\n",c_line);
-    sprintf(c_line,"Exp:     %s",ps_filhe->filhe_exp);
-    printf("%s\n",c_line);
-    for(ll=0;ll<ps_filhe->filhe_lines;ll++)
-    {
-      sprintf(c_line,"comment: %s",ps_filhe->s_strings[ll].string);
+   /* Print buffer header (file header) */
+   if(ps_bufhe != NULL)
+   {
+      sprintf(c_line,"--------------------------------------------------------");
       printf("%s\n",c_line);
-    }
-  }
-  else
-  {
-   l_used=ps_bufhe->i_used;
-   if(ps_bufhe->l_dlen > MAX__DLEN)l_used=ps_bufhe->l_free[2];
-   sprintf(c_line,"Buffer  %9d, Length %5d[w] Size %5d[b] used %5d[w] %s",
-        ps_bufhe->l_buf,
-        ps_bufhe->l_dlen,
-         ll,l_used,
-        c_time);
-    printf("%s\n",c_line);
-    sprintf(c_line,"       Events %3d Type/Subtype %5d %5d FragEnd=%d FragBegin=%d Total %5d[w]",
-        ps_bufhe->l_evt,
-        ps_bufhe->i_type,
-        ps_bufhe->i_subtype,
-        ps_bufhe->h_end,
-        ps_bufhe->h_begin,
-        ps_bufhe->l_free[1]);
-    printf("%s\n",c_line);
-  }
-  sprintf(c_line,"--------------------------------------------------------");
-  printf("%s\n",c_line);
-}
-
-if(ps_evhe == NULL) return(0);
-
-/* print event 4,x or 6,x */
-if(ps_evhe->i_type != 10)
-{
-  sprintf(c_line,"Event type %d, subtype %d, data longwords %d",
-          ps_evhe->i_type,ps_evhe->i_subtype,ps_evhe->l_dlen/2);
-  printf("%s\n",c_line);
-  if((l_ldata != 0) & ((ps_evhe->i_type == 4)|(ps_evhe->i_type == 6)))
-  { /* output data, assume data as longword */
-    pl_data = (INTS4 *)ps_evhe;
-    pl_data += 2;
-    for(l=0;l<ps_evhe->l_dlen/2;l++)
-    {
-      sprintf(c_line,"%08x ",*pl_data);
-      strcat(c_full,c_line);
-      pl_data++;
-      if(l%8 == 7)
+      /* calculate real buffer size */
+      ll=ps_bufhe->l_dlen*2;
+      if(ll%512 > 0)ll += 512-ll%512;
+      /* file header */
+      l_status = f_ut_utime(ps_bufhe->l_time[0],ps_bufhe->l_time[1],c_time);
+      if(ps_bufhe->i_type == 2000)
       {
-        printf("%s\n",c_full);
-        strcpy(c_full,"  ");
+         ps_filhe=(s_filhe *)ps_bufhe;
+         sprintf(c_line,"File header info:");
+         printf("%s\n",c_line);
+         sprintf(c_line,"Size:    %d [%d b], used %d [b]",ps_filhe->filhe_dlen,ll,ps_filhe->filhe_used*2);
+         printf("%s\n",c_line);
+         sprintf(c_line,"Label:   %s",ps_filhe->filhe_label);
+         printf("%s\n",c_line);
+         sprintf(c_line,"File:    %s",ps_filhe->filhe_file);
+         printf("%s\n",c_line);
+         sprintf(c_line,"User:    %s",ps_filhe->filhe_user);
+         printf("%s\n",c_line);
+         sprintf(c_line,"Time:    %s",ps_filhe->filhe_time);
+         printf("%s\n",c_line);
+         sprintf(c_line,"Run:     %s",ps_filhe->filhe_run);
+         printf("%s\n",c_line);
+         sprintf(c_line,"Exp:     %s",ps_filhe->filhe_exp);
+         printf("%s\n",c_line);
+         for(ll=0;ll<ps_filhe->filhe_lines;ll++)
+         {
+            sprintf(c_line,"comment: %s",ps_filhe->s_strings[ll].string);
+            printf("%s\n",c_line);
+         }
       }
-    }
-    if(strlen(c_full) > 2)printf("%s\n",c_full);
+      else
+      {
+         l_used=ps_bufhe->i_used;
+         if(ps_bufhe->l_dlen > MAX__DLEN)l_used=ps_bufhe->l_free[2];
+         sprintf(c_line,"Buffer  %9d, Length %5d[w] Size %5d[b] used %5d[w] %s",
+               ps_bufhe->l_buf,
+               ps_bufhe->l_dlen,
+               ll,l_used,
+               c_time);
+         printf("%s\n",c_line);
+         sprintf(c_line,"       Events %3d Type/Subtype %5d %5d FragEnd=%d FragBegin=%d Total %5d[w]",
+               ps_bufhe->l_evt,
+               ps_bufhe->i_type,
+               ps_bufhe->i_subtype,
+               ps_bufhe->h_end,
+               ps_bufhe->h_begin,
+               ps_bufhe->l_free[1]);
+         printf("%s\n",c_line);
+      }
+      sprintf(c_line,"--------------------------------------------------------");
+      printf("%s\n",c_line);
    }
-   return(0);
-}
 
-/* Print event 10,1 */
-  ps_ve10_1 = (s_ve10_1 *)ps_evhe;
-/* Print event header */
-  sprintf(c_line,"Event   %9d Type/Subtype %5d %5d Length %5d[w] Trigger %2d",
-        ps_ve10_1->l_count,
-        ps_ve10_1->i_type,
-        ps_ve10_1->i_subtype,
-        ps_ve10_1->l_dlen,
-        ps_ve10_1->i_trigger);
-  printf("%s\n",c_line);
+   if(ps_evhe == NULL) return(0);
 
-/********************/
-l_s=0;
-l_status=0;
-while(l_status == 0)
-{
-  l_s++;
-  l_status=f_evt_get_subevent(ps_ve10_1,l_s,(INTS4 **)&ps_ves10_1,(INTS4 **)&pl_data,(INTS4 *)&ll);
-  if(l_status == 0)
-    {
-    if((l_subid < 0)|(l_subid == ps_ves10_1->i_procid))
-    {
-      sprintf(c_line,"  SubEv ID %6d Type/Subtype %5d %5d Length %5d[w] Control %2d Subcrate %2d",
-            ps_ves10_1->i_procid,
-            ps_ves10_1->i_type,
-            ps_ves10_1->i_subtype,
-            ps_ves10_1->l_dlen,
-            ps_ves10_1->h_control,
-            ps_ves10_1->h_subcrate);
-    printf("%s\n",c_line);
-      if(l_ldata != 0)
-      { /* output data  */
-        if((l_long != 0) | (l_hex != 0))
-        { /* In this case we assume data as one longword per channel */
-          for(l=0;l<ll;l++)
-          {
-            if(l_hex != 0) sprintf(c_line,"%04x.%04x ",(*pl_data>>16)&0xffff,*pl_data&0xffff);
-            else           sprintf(c_line,"%8d ",*pl_data);
-       strcat(c_full,c_line);
-            pl_data++;
-            if(l%8 == 7)
-       {
-              printf("%s\n",c_full);
-              strcpy(c_full,"  ");
-       }
-          }
-          if(strlen(c_full) > 2)printf("%s\n",c_full);
-          strcpy(c_full,"  ");
-        }
-        else
-        { /* In this case we assume data as two words per channel */
-          for(l=0;l<ll;l++)
-          {
-            sprintf(c_line,"%8d%8d",*pl_data&0xffff,(*pl_data>>16)&0xffff);
+   /* print event 4,x or 6,x */
+   if(ps_evhe->i_type != 10)
+   {
+      sprintf(c_line,"Event type %d, subtype %d, data longwords %d",
+            ps_evhe->i_type,ps_evhe->i_subtype,ps_evhe->l_dlen/2);
+      printf("%s\n",c_line);
+      if((l_ldata != 0) & ((ps_evhe->i_type == 4)|(ps_evhe->i_type == 6)))
+      { /* output data, assume data as longword */
+         pl_data = (INTS4 *)ps_evhe;
+         pl_data += 2;
+         for(l=0;l<ps_evhe->l_dlen/2;l++)
+         {
+            sprintf(c_line,"%08x ",*pl_data);
             strcat(c_full,c_line);
             pl_data++;
-            if(l%4 == 3)
-       {
-              printf("%s\n",c_full);
-              strcpy(c_full,"  ");
-       }
-          }
-          if(strlen(c_full) > 2)printf("%s\n",c_full);
-          strcpy(c_full,"  ");
-   }}}
-}}
-return(0);
+            if(l%8 == 7) {
+               printf("%s\n",c_full);
+               strcpy(c_full,"  ");
+            }
+         }
+         if(strlen(c_full) > 2) printf("%s\n",c_full);
+      }
+      return(0);
+   }
+
+   /* Print event 10,1 */
+   ps_ve10_1 = (s_ve10_1 *)ps_evhe;
+   /* Print event header */
+   sprintf(c_line,"Event   %9d Type/Subtype %5d %5d Length %5d[w] Trigger %2d",
+         ps_ve10_1->l_count,
+         ps_ve10_1->i_type,
+         ps_ve10_1->i_subtype,
+         ps_ve10_1->l_dlen,
+         ps_ve10_1->i_trigger);
+   printf("%s\n",c_line);
+
+   /********************/
+   l_s=0;
+   l_status=0;
+   while(l_status == 0)
+   {
+      l_s++;
+      l_status=f_evt_get_subevent(ps_ve10_1,l_s,(INTS4 **)&ps_ves10_1,(INTS4 **)&pl_data,(INTS4 *)&ll);
+      if(l_status == 0)
+      {
+         if((l_subid < 0)|(l_subid == ps_ves10_1->i_procid))
+         {
+            sprintf(c_line,"  SubEv ID %6d Type/Subtype %5d %5d Length %5d[w] Control %2d Subcrate %2d",
+                  ps_ves10_1->i_procid,
+                  ps_ves10_1->i_type,
+                  ps_ves10_1->i_subtype,
+                  ps_ves10_1->l_dlen,
+                  ps_ves10_1->h_control,
+                  ps_ves10_1->h_subcrate);
+            printf("%s\n",c_line);
+            if(l_ldata != 0)
+            { /* output data  */
+               if((l_long != 0) | (l_hex != 0))
+               { /* In this case we assume data as one longword per channel */
+                  for(l=0;l<ll;l++)
+                  {
+                     if(l_hex != 0) sprintf(c_line,"%04x.%04x ",(*pl_data>>16)&0xffff,*pl_data&0xffff);
+                     else           sprintf(c_line,"%8d ",*pl_data);
+                     strcat(c_full,c_line);
+                     pl_data++;
+                     if(l%8 == 7)
+                     {
+                        printf("%s\n",c_full);
+                        strcpy(c_full,"  ");
+                     }
+                  }
+                  if(strlen(c_full) > 2)printf("%s\n",c_full);
+                  strcpy(c_full,"  ");
+               }
+               else
+               { /* In this case we assume data as two words per channel */
+                  for(l=0;l<ll;l++)
+                  {
+                     sprintf(c_line,"%8d%8d",*pl_data&0xffff,(*pl_data>>16)&0xffff);
+                     strcat(c_full,c_line);
+                     pl_data++;
+                     if(l%4 == 3)
+                     {
+                        printf("%s\n",c_full);
+                        strcpy(c_full,"  ");
+                     }
+                  }
+                  if(strlen(c_full) > 2)printf("%s\n",c_full);
+                  strcpy(c_full,"  ");
+               }
+            }
+         }
+      }
+   }
+   return(0);
 }
 /*1+ C Main ****************+******************************************/
 /*+ Module      : f_evt_rev_port                                      */

@@ -128,7 +128,7 @@ class TGo4MbsSource : public TGo4EventSource {
     static const UInt_t fguEVHEBYCHAR;//!
 
     /** Set mbs source into printout (verbose) mode for the next num
-      * events. Subevent id sid may be specifiec (-1 is all subevents).
+      * events. Subevent id sid may be specific (-1 is all subevents).
       * Parameters longw, hexw, dataw switch output data formats.
       * See MbsAPI function f_evt_type().*/
     void SetPrintEvent(Int_t num=1, Int_t sid=-1, Int_t longw=1, Int_t hexw=1, Int_t dataw=0);

@@ -68,7 +68,7 @@ void usage(const char* err = 0)
    cout << "  -hserver [name [passwd]]    : start histogram server with optional name and password" << endl;
    cout << "  -log [filename]             : enable log output into filename (default:go4logfile.txt)" << endl;
    cout << "  -v -v0 -v1 -v2 -v3          : change log output verbosity (0 - maximum, 1 - info, 2 - warn, 3 - errors)" << endl;
-   cout << "  -print                      : create analysis with only event-printing processor" << endl;
+   cout << "  -print [sub=N] [hex|dec]    : create analysis with only event-printing processor" << endl;
    cout << "  -help                       : show this help" << endl;
    cout << "" << endl;
    cout << "ANALYSIS: common analysis configurations" << endl;
@@ -119,17 +119,27 @@ class TGo4PrintProcessor : public TGo4EventProcessor {
    public:
       TGo4PrintProcessor(const char* name) : TGo4EventProcessor(name) {}
 
+      static Int_t  fSubId;
+      static Bool_t fHex;
+      static Bool_t fLong;
+      static Bool_t fData;
+
       virtual Bool_t BuildEvent(TGo4EventElement* dest)
       {
          TGo4EventElement* evnt = GetInputEvent();
 
          TGo4MbsEvent* mbs = dynamic_cast<TGo4MbsEvent*> (evnt);
-         if (mbs) mbs->PrintEvent();
+         if (mbs) mbs->PrintMbsEvent(fSubId, fLong, fHex, fData);
              else evnt->PrintEvent();
 
          return kTRUE;
       }
 };
+
+Int_t TGo4PrintProcessor::fSubId = -1;
+Bool_t TGo4PrintProcessor::fHex = kTRUE;
+Bool_t TGo4PrintProcessor::fLong = kTRUE;
+Bool_t TGo4PrintProcessor::fData = kFALSE;
 
 
 class TGo4PrintFactory : public TGo4StepFactory {
@@ -839,6 +849,18 @@ int main(int argc, char **argv)
       } else
       if(strcmp(argv[narg],"-print")==0) {
          narg++;
+
+         while ((narg<argc) && (argv[narg][0]!='-')) {
+            if (strncmp(argv[narg],"sub=",4)==0)
+               TGo4PrintProcessor::fSubId = atoi(argv[narg] + 4);
+            else
+            if (strcmp(argv[narg],"hex")==0)
+               TGo4PrintProcessor::fHex = kTRUE;
+            else
+            if (strcmp(argv[narg],"dec")==0)
+               TGo4PrintProcessor::fHex = kFALSE;
+            narg++;
+         }
       } else
       if(strcmp(argv[narg],"-enable-store")==0) {
          narg++;

@@ -79,7 +79,7 @@ TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum,
 
 
 TGo4MbsEvent::TGo4MbsEvent(const char* ) :
-TGo4EventElement("MbsEvent101"), // note that name parameter is dummy to be consistent with file source!
+   TGo4EventElement("MbsEvent101"), // note that name parameter is dummy to be consistent with file source!
    fxHeader(),
    fxSubEvArray(0),
    fiSubEvIndex(0),
@@ -91,18 +91,17 @@ TGo4EventElement("MbsEvent101"), // note that name parameter is dummy to be cons
 
 void TGo4MbsEvent::SimpleInit()
 {
-	fxSubEvArray = new TObjArray(5);
-	fxSubEvArray->SetOwner(kTRUE); // important for streamer
-	// we just add one arbitrary subevent to the array.
-	// actually subevents will be appended dynamically later
-	TGo4MbsSubEvent* subeve = new TGo4MbsSubEvent(1024);
-	fxSubEvArray->AddLast(subeve);
-	subeve->SetSubcrate(0);
-	subeve->SetControl(0);
-	subeve->SetProcid(0);
-	Set();
-    Clear();
-
+   fxSubEvArray = new TObjArray(5);
+   fxSubEvArray->SetOwner(kTRUE); // important for streamer
+   // we just add one arbitrary subevent to the array.
+   // actually subevents will be appended dynamically later
+   TGo4MbsSubEvent* subeve = new TGo4MbsSubEvent(1024);
+   fxSubEvArray->AddLast(subeve);
+   subeve->SetSubcrate(0);
+   subeve->SetControl(0);
+   subeve->SetProcid(0);
+   Set();
+   Clear();
 }
 
 TGo4MbsEvent::~TGo4MbsEvent()
@@ -111,61 +110,50 @@ TGo4MbsEvent::~TGo4MbsEvent()
    //TGo4Log::Info( "MBS Event dtor...");
    if(!fbIsReference)
    {
-	   if(fxSubEvArray) fxSubEvArray->Delete();
-	   delete fxSubEvArray;
-	   //TGo4Log::Info( "MBS Event dtor deleted obj array");
+      if(fxSubEvArray) fxSubEvArray->Delete();
+      delete fxSubEvArray;
+      //TGo4Log::Info( "MBS Event dtor deleted obj array");
    }
 }
 
 void TGo4MbsEvent::Clear(Option_t *)
 {
    TRACE((11,"TGo4MbsEvent::Clear()",__LINE__, __FILE__));
-   if(!fbIsReference)
-      {
-	   // here iterate all subevents and clear them
-	   TGo4MbsSubEvent* sub(0);
-	   ResetIterator();
-	   while ((sub = NextSubEvent(kTRUE))!=0) sub->Clear();
-      }
+   if(!fbIsReference) {
+      // here iterate all subevents and clear them
+      TGo4MbsSubEvent* sub(0);
+      ResetIterator();
+      while ((sub = NextSubEvent(kTRUE))!=0) sub->Clear();
+   }
 }
 
 void TGo4MbsEvent::AssignReference(TGo4MbsEvent* ref)
 {
-if(!ref) return;
-if(!fbIsReference)
-	{
-	// clean up previous data if exisiting
-	if(fxSubEvArray) fxSubEvArray->Delete();
-	   delete fxSubEvArray;
-	}
-fbIsReference=true;
-// copy event headers:
-fxHeader.fiCount=ref->fxHeader.fiCount;
-fxHeader.fsDummy=ref->fxHeader.fsDummy;
-fxHeader.fsTrigger=ref->fxHeader.fsTrigger;
-fxHeader.fxGSIHeader.fiDlen=ref->fxHeader.fxGSIHeader.fiDlen;
-fxHeader.fxGSIHeader.fsSubtype=ref->fxHeader.fxGSIHeader.fsSubtype;
-fxHeader.fxGSIHeader.fsType=ref->fxHeader.fxGSIHeader.fsType;
+   if(!ref) return;
+   if(!fbIsReference) {
+      // clean up previous data if existing
+      if(fxSubEvArray) fxSubEvArray->Delete();
+      delete fxSubEvArray;
+   }
+   fbIsReference = true;
+   // copy event headers:
+   fxHeader.fiCount=ref->fxHeader.fiCount;
+   fxHeader.fsDummy=ref->fxHeader.fsDummy;
+   fxHeader.fsTrigger=ref->fxHeader.fsTrigger;
+   fxHeader.fxGSIHeader.fiDlen=ref->fxHeader.fxGSIHeader.fiDlen;
+   fxHeader.fxGSIHeader.fsSubtype=ref->fxHeader.fxGSIHeader.fsSubtype;
+   fxHeader.fxGSIHeader.fsType=ref->fxHeader.fxGSIHeader.fsType;
 
-//assign external array:
-fxSubEvArray=ref->fxSubEvArray;
-
-
-
-
+   //assign external array:
+   fxSubEvArray=ref->fxSubEvArray;
 }
 
 void TGo4MbsEvent::RemoveReference()
 {
-if(fbIsReference)
-	{
-		SimpleInit();
-	}
-fbIsReference=kFALSE;
-
+   if(fbIsReference)
+      SimpleInit();
+   fbIsReference = kFALSE;
 }
-
-
 
 void TGo4MbsEvent::Set(Int_t dlen, Short_t type, Short_t subtype,
                        Short_t dummy, Short_t trigger, Int_t count)
@@ -180,29 +168,44 @@ void TGo4MbsEvent::Set(Int_t dlen, Short_t type, Short_t subtype,
 
 void TGo4MbsEvent::PrintEvent()
 {
-   TGo4EventElement::PrintEvent();
-
-/////////Old style using logger instance:
-//   TGo4Log::Info( " MBS Event Header printout: ");
-//   TGo4Log::Info( "\tl_dlen    %d ", GetDlen() );
-//   TGo4Log::Info( "\ti_type    %d", GetType() );
-//   TGo4Log::Info( "\ti_subtype %d", GetSubtype() );
-//   TGo4Log::Info( "\ti_dummy   %d", GetDummy() );
-//   TGo4Log::Info( "\th_trigger %d", GetTrigger() );
-//   TGo4Log::Info( "\th_count  %d", GetCount() );
-
 ///// new style just using cout:
-   cout << "MBS Event printout:"
-        << dec      << setw(8) << (Int_t) GetCount()
-        << " t/s "  << setw(4) << (Int_t) GetType()
-        << " "      << setw(4) << (Int_t) GetSubtype()
-        << " len "  << setw(8) << (Int_t) GetDlen()
-        << " trig   " << setw(4) << (Int_t) GetTrigger()
-        << endl;
+//   TGo4EventElement::PrintEvent();
+//
+//   cout << "MBS Event printout:"
+//        << dec      << setw(8) << (Int_t) GetCount()
+//        << " t/s "  << setw(4) << (Int_t) GetType()
+//        << " "      << setw(4) << (Int_t) GetSubtype()
+//        << " len "  << setw(8) << (Int_t) GetDlen()
+//        << " trig   " << setw(4) << (Int_t) GetTrigger()
+//        << endl;
+//   TGo4MbsSubEvent *sub(0);
+//   ResetIterator();
+//   while ((sub=NextSubEvent())!=0) sub->PrintEvent();
+
+   // very new style - just using printf
+   PrintMbsEvent();
+}
+
+void TGo4MbsEvent::PrintMbsEvent(Int_t subid, Bool_t longw, Bool_t hexw, Bool_t dataw)
+{
+   if (GetType()==10) {
+      printf("Event   %9d Type/Subtype %5d %5d Length %5d[w] Trigger %2d\n",
+               GetCount(), GetType(), GetSubtype(), GetDlen(), GetTrigger());
+   } else {
+      printf("Event type %d, subtype %d, data longwords %d",
+               GetType(), GetSubtype(), GetDlen()/2);
+   }
+
    TGo4MbsSubEvent *sub(0);
    ResetIterator();
-   while ((sub=NextSubEvent())!=0) sub->PrintEvent();
+   while ((sub=NextSubEvent())!=0) {
+
+      if ((subid>=0) && (sub->GetProcid()!=subid)) continue;
+
+      sub->PrintMbsSubevent(longw, hexw, dataw);
+   }
 }
+
 
 TGo4MbsSubEvent* TGo4MbsEvent::NextSubEvent(Bool_t all)
 {
@@ -254,13 +257,6 @@ s_bufhe * TGo4MbsEvent::GetMbsBufferHeader()
 {
    TGo4MbsSource* src = dynamic_cast<TGo4MbsSource*> (GetEventSource());
    return src ? src->GetBufferHeader() : 0;
-}
-
-
-void TGo4MbsEvent::SetPrintEvent(Int_t num, Int_t sid, Int_t longw, Int_t hexw, Int_t dataw)
-{
-   TGo4MbsSource* src = dynamic_cast<TGo4MbsSource*> (GetEventSource());
-   if(src) src->SetPrintEvent(num,sid,longw,hexw,dataw);
 }
 
 TGo4MbsSubEvent* TGo4MbsEvent::AddSubEvent(Int_t fullID, Short_t* source, Int_t datalength, Bool_t copydata)

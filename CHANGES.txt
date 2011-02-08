@@ -33,7 +33,7 @@ Changes in Go4 v4.4.3 (Winter 2011)
 6. Adjusted to new version of gSTORE RFIO/ lmd event input
 7. Implement -print argument for go4analysis program. This allows to print any kind
    of event on the terminal - even without actual user analysis. For instance:
-      go4analysis -stream r4-4 -number 10
+      go4analysis -stream r4-4 -number 10 -print
    will print 10 events from MBS stream server r4-4. Print also works with user source.
 
 
