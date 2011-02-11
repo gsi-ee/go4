@@ -196,6 +196,7 @@ void QUserPanel::PrintObject(TObject* obj)
        memset(sbuf, 0, 30000);
        std::setvbuf(stdout, sbuf, _IOFBF, 30000);
        obj->Print("");
+       fflush(stdout);
        std::setvbuf(stdout, 0, _IONBF, 0);
        PrintEdit->setText(sbuf);
     } else {
