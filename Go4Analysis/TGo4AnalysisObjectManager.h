@@ -514,7 +514,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       Bool_t RemoveEventStructure(TGo4EventElement * ev);
 
       /**
-       * Search reference to event stucture in  folder.
+       * Search reference to event structure in  folder.
        */
       TGo4EventElement * GetEventStructure(const char * name);
 
@@ -575,7 +575,7 @@ class TGo4AnalysisObjectManager : public TNamed {
 
 
       /**
-       * Add Histogram into the dynamic list wich is linked to a tree.
+       * Add Histogram into the dynamic list which is linked to a tree.
        * If Histogram of hisname already exists, this histogram will taken.
        * if not, the histogram will be created on first TTree::Draw.
        * Strings varexp and selection are used for applying cuts and variables
@@ -642,6 +642,9 @@ class TGo4AnalysisObjectManager : public TNamed {
       Bool_t FindObjectPathName(TObject* obj, TString& pathname, TFolder* fold = 0);
 
       Bool_t CreatedInMake() const { return fbCreatedinMake; }
+
+      /** Method used in case when object is cleaned up by the ROOT */
+      virtual void RecursiveRemove(TObject* obj);
 
       /** Default name of the default (toplevel) dynamic list  */
       static const char* fgcTOPDYNAMICLIST;

@@ -91,9 +91,11 @@ TYYYAnalysis::TYYYAnalysis(int argc, char** argv) :
    fPar->frP2 = 200;
    AddParameter(fPar);
 
-   TCanvas* mycan = new TCanvas("TestCanvas","Does this work?");
-   mycan->Divide(2,2);
-   AddCanvas(mycan);
+   if (GetCanvas("TestCanvas")==0) {
+      TCanvas* mycan =  new TCanvas("TestCanvas","Does this work?");
+      mycan->Divide(2,2);
+      AddCanvas(mycan);
+   }
 }
 
 //***********************************************************
@@ -129,12 +131,12 @@ Int_t TYYYAnalysis::UserPostLoop()
 {
    cout << "**** TYYYAnalysis: PostLoop" << endl;
    cout << " Total events: " << fEvents << endl;
-   TCanvas* can=GetCanvas("TestCanvas");
-   TH1* hx=GetHistogram("Xfinal");
-   TH1* hy=GetHistogram("Yfinal");
-   TH1* hvx=GetHistogram("Vxfinal");
-   TH1* hvy=GetHistogram("Vyfinal");
+   TCanvas* can = GetCanvas("TestCanvas");
    if(can) {
+      TH1* hx=GetHistogram("Xfinal");
+      TH1* hy=GetHistogram("Yfinal");
+      TH1* hvx=GetHistogram("Vxfinal");
+      TH1* hvy=GetHistogram("Vyfinal");
       can->cd(1);
       if(hx) hx->Draw();
       can->cd(2);
@@ -144,7 +146,6 @@ Int_t TYYYAnalysis::UserPostLoop()
       can->cd(4);
       if(hvy) hvy->Draw();
    }
-
 
    fUnpackEvent = 0; // reset to avoid invalid pointer if analysis is changed in between
    fRawEvent = 0;

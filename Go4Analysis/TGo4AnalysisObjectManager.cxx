@@ -80,13 +80,15 @@ const char* TGo4AnalysisObjectManager::fgcTMPFOLDER="Go4-tmp";
 
 #define fguSUBFOLDERMAXLEN 1024
 
-TGo4AnalysisObjectManager::TGo4AnalysisObjectManager(const char* name)
-:TNamed(name,"The Go4 Analysis Object Manager"),
-fxGo4Dir(0),fxHistogramDir(0),fxConditionDir(0), fxParameterDir(0),
-fxDynListDir(0),fxUserDir(0), fxAnalysisDir(0), fxTempFolder(0),
-fxMatchList(0), fxMatchIterator(0),
-fiDynListCount(0), fiDynListInterval(0),
-fbCreatedinMake(kFALSE), fbSuppressLoadHistograms(kFALSE)
+TGo4AnalysisObjectManager::TGo4AnalysisObjectManager(const char* name) :
+   TNamed(name,"The Go4 Analysis Object Manager"),
+   fxGo4Dir(0),fxHistogramDir(0),fxConditionDir(0), fxParameterDir(0),
+   fxDynListDir(0),fxUserDir(0), fxTreeDir(0), fxPictureDir(0), fxCanvasDir(0),
+   fxStoreDir(0), fxSourceDir(0), fxProcessorDir(0), fxEventDir(0),
+   fxAnalysisDir(0), fxTempFolder(0),
+   fxMatchList(0), fxMatchIterator(0),
+   fiDynListCount(0), fiDynListInterval(0),
+   fbCreatedinMake(kFALSE), fbSuppressLoadHistograms(kFALSE)
 {
    fxDirMutex=new TMutex(kTRUE);
    fxGo4Dir=gROOT->GetRootFolder()->AddFolder(fgcTOPFOLDER,"The Go4 Object folder");
@@ -120,20 +122,29 @@ fbCreatedinMake(kFALSE), fbSuppressLoadHistograms(kFALSE)
    fxGo4Dir->SetOwner(kFALSE);
    fxTempFolder=gROOT->GetRootFolder()->AddFolder(fgcTMPFOLDER,"The Go4 temporary object folder");
    fxTempFolder->SetOwner(kFALSE);
+
+   gROOT->GetListOfCleanups()->Add(this);
 }
 
-TGo4AnalysisObjectManager::TGo4AnalysisObjectManager()
-:fxGo4Dir(0),fxHistogramDir(0),fxConditionDir(0),
-fxDynListDir(0),fxUserDir(0), fxAnalysisDir(0), fxTempFolder(0),
-fiDynListCount(0), fiDynListInterval(0),
-fbCreatedinMake(kFALSE), fbSuppressLoadHistograms(kFALSE)
+TGo4AnalysisObjectManager::TGo4AnalysisObjectManager() :
+   TNamed(),
+   fxGo4Dir(0),fxHistogramDir(0),fxConditionDir(0),
+   fxDynListDir(0), fxUserDir(0), fxTreeDir(0), fxPictureDir(0), fxCanvasDir(0),
+   fxStoreDir(0), fxSourceDir(0), fxProcessorDir(0), fxEventDir(0),
+   fxAnalysisDir(0), fxTempFolder(0),
+   fiDynListCount(0), fiDynListInterval(0),
+   fbCreatedinMake(kFALSE), fbSuppressLoadHistograms(kFALSE)
 {
    // ctor for streamer only!
+
+   gROOT->GetListOfCleanups()->Add(this);
 }
 
 
 TGo4AnalysisObjectManager::~TGo4AnalysisObjectManager()
 {
+   gROOT->GetListOfCleanups()->Remove(this);
+
    delete fxMatchIterator;
    delete fxMatchList;
    //delete fxDirMutex;
@@ -143,6 +154,9 @@ TGo4AnalysisObjectManager::~TGo4AnalysisObjectManager()
    gROOT->GetRootFolder()->Remove(fxTempFolder);
    gROOT->GetRootFolder()->Remove(fxGo4Dir);
 
+   //   disable canvas clear - does not work for some reasons
+   fxCanvasDir->Clear();
+
    fxHistogramDir->Clear();
    fxConditionDir->Clear();
    fxParameterDir->Clear();
@@ -151,8 +165,6 @@ TGo4AnalysisObjectManager::~TGo4AnalysisObjectManager()
    fxTreeDir->Clear();
    fxPictureDir->Clear();
 
-   //   disable canvas clear - does not work for some reasons
-   //   fxCanvasDir->Clear();
 
    fxEventDir->Clear();
    fxProcessorDir->Clear();
@@ -165,6 +177,15 @@ TGo4AnalysisObjectManager::~TGo4AnalysisObjectManager()
    //cout <<"deleted temporary folder" << endl;
    delete fxGo4Dir;
    //cout <<"deleted top folder" << endl;
+
+}
+
+void TGo4AnalysisObjectManager::RecursiveRemove(TObject* obj)
+{
+   if ((obj!=0) && (obj!=this)) {
+      // remove objects from canvas folder - it may happen that canvas automatically deleted
+      if (fxCanvasDir) fxCanvasDir->RecursiveRemove(obj);
+   }
 }
 
 
@@ -1238,9 +1259,14 @@ Bool_t TGo4AnalysisObjectManager::RemovePicture(const char * name)
 Bool_t TGo4AnalysisObjectManager::AddCanvas(TCanvas * can, const char* subfolder)
 {
    TRACE((11,"TGo4AnalysisObjectManager::AddCanvas(TCanvas *)",__LINE__, __FILE__));
+
    Bool_t rev = AddObjectToFolder(can,fxCanvasDir,subfolder,kFALSE);
-   if(rev && can) gROOT->GetListOfCanvases()->Remove(can);
-   // make sure that root has no other reference to our canvas
+
+   if (rev && can) can->SetBit(kMustCleanup);
+
+   // do not remove canvas from global list - it has effect on normal ROOT methods
+//   if(rev && can) gROOT->GetListOfCanvases()->Remove(can);
+
    return rev;
 }
 
@@ -1460,8 +1486,12 @@ Bool_t TGo4AnalysisObjectManager::AddObjectToFolder(TObject * ob,
          // cout << "Delete object " <<  oldob << "  name = " << oldob->GetName() << " isgpad = " << (oldob == gPad) << endl;
 
          delete oldob;
-      } else
+      } else {
+
+         cout << "Find old object " << oldob << " name = " << oldob->GetName() <<  endl;
+
          return kFALSE; // do not overwrite old one
+      }
    }
 
    TFolder* addDir(0);

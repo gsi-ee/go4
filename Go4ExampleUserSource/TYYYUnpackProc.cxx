@@ -85,10 +85,11 @@ TYYYUnpackProc::TYYYUnpackProc(const char* name) :
    fWinConR->PrintCondition(true);
    fPolyConEmit->PrintCondition(true);
 
-   TCanvas* mycan = new TCanvas("TestCanvas2","Does this work2?");
-   mycan->Divide(2,2);
-   AddCanvas(mycan);
-
+   if (GetCanvas("TestCanvas2")==0) {
+      TCanvas* mycan = new TCanvas("TestCanvas2","Does this work2?");
+      mycan->Divide(2,2);
+      AddCanvas(mycan);
+   }
 }
 //***********************************************************
 TYYYUnpackProc::~TYYYUnpackProc()
