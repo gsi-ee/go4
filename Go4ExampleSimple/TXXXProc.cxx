@@ -13,8 +13,7 @@
 
 #include "TXXXProc.h"
 
-#include <stdlib.h>
-#include "Riostream.h"
+//#include <stdlib.h>
 
 #include "TH1.h"
 #include "TH2.h"
@@ -34,14 +33,14 @@ TXXXProc::TXXXProc() : TGo4EventProcessor()
 //***********************************************************
 TXXXProc::~TXXXProc()
 {
-   cout << "**** TXXXProc: Delete instance " << endl;
+   TGo4Log::Info("TXXXProc: Delete instance");
 }
 
 //***********************************************************
 // this one is used in standard factory
 TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
 {
-   cout << "**** TXXXProc: Create instance " << name << endl;
+   TGo4Log::Info("TXXXProc: Create instance");
 
    fParam = (TXXXParam*) MakeParameter("Par1", "TXXXParam");
 
