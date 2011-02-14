@@ -437,7 +437,7 @@ Bool_t TGo4AnalysisClient::TestBufferUpdateConditions()
 
 void TGo4AnalysisClient::StartObjectServer(const char* basename,  const char* passwd)
 {
-    StopObjectServer(); // shutdown exisiting one with old basename/passwd
+    StopObjectServer(); // shutdown existing one with old basename/passwd
     fxHistoServer= new TGo4HistogramServer(this,basename,passwd,kFALSE);
       // switch last boolean true if you want to use Go4 object server support
       // default will only enable gsi histogram server JA 9/2005
@@ -448,13 +448,12 @@ void TGo4AnalysisClient::StartObjectServer(const char* basename,  const char* pa
 void TGo4AnalysisClient::StopObjectServer()
 {
    //cout <<"--------StopObjectServer entered." << endl;
-   if(fxHistoServer)
-      {
-         delete fxHistoServer;
-         fxHistoServer=0;
-         //cout <<"---------old histoserver is deleted!!!" << endl;
-         //SendStatusMessage(1,kTRUE,"AnalysisClient %s: Object server was stopped.",GetName());
-      } else {}
+   if(fxHistoServer) {
+      delete fxHistoServer;
+      fxHistoServer=0;
+      //cout <<"---------old histoserver is deleted!!!" << endl;
+      //SendStatusMessage(1,kTRUE,"AnalysisClient %s: Object server was stopped.",GetName());
+   }
 }
 
 void TGo4AnalysisClient::Quit()
@@ -594,12 +593,12 @@ void TGo4AnalysisClient::SetCintMode(Bool_t on)
 
 void TGo4AnalysisClient::LockAll()
 {
-TGo4Task* task=GetTask();
-if(task) task->LockAll();
+   TGo4Task* task=GetTask();
+   if(task) task->LockAll();
 }
 
 void TGo4AnalysisClient::UnLockAll()
 {
-TGo4Task* task=GetTask();
-if(task) task->UnLockAll();
+   TGo4Task* task=GetTask();
+   if(task) task->UnLockAll();
 }

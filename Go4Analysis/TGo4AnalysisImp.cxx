@@ -588,15 +588,15 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
       else
          TGo4Log::Info("Analysis loop is starting...");
 
-      while(fbDoWorkingFlag) {
+      while (fbDoWorkingFlag) {
 
          if ((times>0) && (cnt>=times)) break;
-
-         cnt++;
 
          try
          {
             MainCycle();
+
+            cnt++; // account completely executed cycles
          }
          catch(TGo4UserException& ex)
          {
@@ -651,14 +651,14 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
    } //  try
 
    catch(TGo4Exception& ex) {
-      TGo4Log::Info("%s appeared after %d cycles.", ex.What(), cnt);
+      TGo4Log::Info("%s appeared in %d cycle.", ex.What(), cnt);
       ex.Handle();
    }
    catch(std::exception& ex) { // treat standard library exceptions
-      TGo4Log::Info("standard exception %s appeared after %d cycles.", ex.what(), cnt);
+      TGo4Log::Info("standard exception %s appeared in %d cycle.", ex.what(), cnt);
    }
    catch(...) {
-      TGo4Log::Info("!!! Unexpected exception after %d cycles !!!", cnt);
+      TGo4Log::Info("!!! Unexpected exception in %d cycle !!!", cnt);
    }
    /////////// end outer catch block
    return cnt;
@@ -837,12 +837,11 @@ TTree* TGo4Analysis::CreateSingleEventTree(const char* name, Bool_t isoutput)
    TRACE((11,"TGo4Analysis::CreateSingleEventTree(const char*, Bool_t)",__LINE__, __FILE__));
    //
    TGo4EventElement* event=0;
-   if(isoutput) event=GetOutputEvent(name);
-   else event=GetInputEvent(name);
-   if(event==0) {
+   if(isoutput) event = GetOutputEvent(name);
+           else event = GetInputEvent(name);
+   if(event==0)
       // event step of name does not exists, we search event in folder:
       event=GetEventStructure(name);
-   }
    return CreateSingleEventTree(event);
 }
 
@@ -897,7 +896,7 @@ Int_t TGo4Analysis::UserPreLoop()
 
 Int_t TGo4Analysis::UserPostLoop()
 {
-TRACE((11,"TGo4Analysis::UserPostLoop()",__LINE__, __FILE__));
+   TRACE((11,"TGo4Analysis::UserPostLoop()",__LINE__, __FILE__));
    //
    Message(0,"Analysis BaseClass --  executing default User Postloop");
    return 0;
@@ -938,16 +937,12 @@ Int_t TGo4Analysis::LockAutoSave()
 Int_t TGo4Analysis::UnLockAutoSave()
 {
    TRACE((12,"TGo4Analysis::UnLockAutoSave()",__LINE__, __FILE__));
-   Int_t rev;
+   Int_t rev(-1);
    if(TThread::Exists()>0 && fxAutoSaveMutex)
-      rev=fxAutoSaveMutex->UnLock();
-   else
-      rev=-1;
+      rev = fxAutoSaveMutex->UnLock();
 
    return rev;
 }
-
-
 
 void TGo4Analysis::AutoSave()
 {
@@ -1005,7 +1000,6 @@ void TGo4Analysis::CloseAutoSaveFile()
 }
 
 
-
 void TGo4Analysis::UpdateNamesList()
 {
    TRACE((11,"TGo4Analysis::UpdateNamesList()",__LINE__, __FILE__));
@@ -1018,7 +1012,6 @@ void TGo4Analysis::UpdateNamesList()
    // debug:
    //   fxObjectNames->PrintStatus();
 }
-
 
 
 Bool_t TGo4Analysis::LoadObjects(const char* filename)
@@ -1099,8 +1092,8 @@ Bool_t TGo4Analysis::IsRunning()
 {
    if(fxAnalysisSlave)
       return fxAnalysisSlave->MainIsRunning();
-   else
-      return TGo4Analysis::fbExists; // should be kTRUE
+
+   return TGo4Analysis::fbExists; // should be kTRUE
 }
 
 void TGo4Analysis::SetRunning(Bool_t on)
