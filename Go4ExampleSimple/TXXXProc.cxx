@@ -18,18 +18,11 @@
 
 #include "TH1.h"
 #include "TH2.h"
-#include "TCutG.h"
-#include "TCanvas.h"
-#include "TLine.h"
 
 #include "TGo4MbsEvent.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
-#include "TGo4CondArray.h"
 #include "TGo4Picture.h"
-#include "TGo4StepFactory.h"
-#include "TGo4Analysis.h"
-#include "TGo4Version.h"
 
 #include "TXXXParam.h"
 
