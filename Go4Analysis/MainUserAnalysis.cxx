@@ -141,6 +141,7 @@ void usage(const char* subtopic = 0)
    cout << "  -disable-asf           :  disable usage of asf" << endl;
    cout << "  -prefs [filename]      :  load preferences (analysis configuration) from specified file (default Go4AnalysisPrefs.root)" << endl;
    cout << "  -no-prefs              :  disable preferences loading" << endl;
+   cout << "  -maxtreesize value     :  define maximum tree size, value can be: 2g, 1900m, 1900000000" << endl;
    cout << "" << endl;
    cout << "STEP: individual step configurations" << endl;
    cout << "  -step name           :  select step by it's name, if not defined, first step is used" << endl;
@@ -934,6 +935,24 @@ int main(int argc, char **argv)
       if(strcmp(argv[narg],"-norun")==0) {
          narg++;
          canrun = -1;
+      } else
+      if(strcmp(argv[narg],"-maxtreesize")==0) {
+         narg++;
+         long long maxtreesize = 1900000000;
+         if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) {
+            char sbuf[1000];
+            strncpy(sbuf, argv[narg], sizeof(sbuf));
+            long long mult(1), val(1);
+            int len = strlen(sbuf);
+            if ((sbuf[len-1]=='g') || (sbuf[len-1]=='G')) { mult = 1000000000; sbuf[len-1] = 0; } else
+            if ((sbuf[len-1]=='m') || (sbuf[len-1]=='M')) { mult = 1000000; sbuf[len-1] = 0; } else
+            if ((sbuf[len-1]=='k') || (sbuf[len-1]=='K')) { mult = 1000; sbuf[len-1] = 0; }
+
+            if (sscanf(sbuf, "%lld", &val)==1) maxtreesize = val*mult;
+            narg++;
+         }
+         TGo4Log::Info("Set tree file size limit to %lld bytes", maxtreesize);
+         TGo4FileStore::SetMaxTreeSize(maxtreesize);
       } else
       if ((strcmp(argv[narg],"-print")==0) || (strcmp(argv[narg],"-type")==0) || (strcmp(argv[narg],"-ty")==0) || (strcmp(argv[narg],"-pr")==0)) {
          narg++;

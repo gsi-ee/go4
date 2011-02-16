@@ -30,7 +30,7 @@
 const char* TGo4FileStore::fgcTREESUF = "xTree";
 const char* TGo4FileStore::fgcFILESUF = ".root";
 const char* TGo4FileStore::fgcEVBRANCHNAME = "Go4EventBranch.";
-const Int_t TGo4FileStore::fgiFILESPLITSIZE = 1000000000;
+Long64_t TGo4FileStore::fgiFILESPLITSIZE = 1900000000;
 
 
 TGo4FileStore::TGo4FileStore() :

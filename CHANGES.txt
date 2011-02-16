@@ -35,7 +35,8 @@ Changes in Go4 v4.4.3 (Winter 2011)
    of event on the terminal - even without actual user analysis. For instance:
       go4analysis -stream r4-4 -number 10 -print
    will print 10 events from MBS stream server r4-4. Print also works with user source.
-
+8. Implement TGo4FileStore::SetMaxTreeSize method to let configure size of created tree.
+   Add -maxtreesize argument to go4analysis to change value in batch.
 
 Changes in Go4 v4.4.2 (October 2010)
 1. Fix analysis crash when autosave file cannot be created in specified locations. 
