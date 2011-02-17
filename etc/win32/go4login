@@ -1,12 +1,12 @@
 # This is example of login script, required for compilation 
-# of complerte Go4 and user analysises under CYGWIN environment
+# of complete Go4 and user analysis under CYGWIN environment
 #
 # First ensure that all software components (MS VC, SDK, IDE)
-# installed in directories whithout spaces in their names.
+# installed in directories without spaces in their names.
 # If not, one should create symbolik links to such directories,
 # using mklink utility under admin account. Do something like
-#  > mklink /D c:\soft\vc "C:\Program Files\Visual studio" 
-# Than adjust windows pathes
+#  > mklink /D c:\soft\vs "C:\Program Files\Visual studio" 
+# Than adjust windows paths
 
 export VC_PATH="E:\Soft\VS\VC"
 export SDK_PATH="E:\Soft\SDK"

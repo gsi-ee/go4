@@ -135,7 +135,7 @@ together with Microsoft Visual C++ 2010 Express Edition and CYGWIN.
 - Install Qt 4.7.x binaries package for MS VS2008 compiler like
     qt-win-opensource-4.7.1-vs2008.exe 
 - Download go4 sources from http://go4.gsi.de web site.
-- Find and modify $GO4SYS/etc/win/go4login file to actual location of all 
+- Find and modify $GO4SYS/etc/win32/go4login file to actual location of all 
   components, copy it to home cygwin directory
 - Run Cygwin shell, call ". go4login", change to go4 directory and call "make"
 - Hopefully, this will compile Go4 under Windows!
