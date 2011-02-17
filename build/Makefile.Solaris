@@ -9,17 +9,16 @@ DllSuf        = so
 CXX           = CC
 CC            = cc
 
-#### Compiler optimisation flags: ####
+#### Compiler optimization flags: ####
 OPTIONS       = -KPIC -errtags=yes
 DEFINITIONS   = -DSolaris
 #EXTRACOPTIONS =
 EXTRACXXOPTIONS = -features=extensions -erroff=hidevf 
 
-## This two copiler flags are alternative. 
+## This two compiler flags are alternative. 
 ## When DOOPTIMIZATION = false, first is used otherwise second 
 DEBUGMODE     = -g 
 OPTIMIZEMODE  = -O 
-# OPTIMIZEMODE  = -O3 fails for some gcc (TString seekoff overload)
 
 #### File system operations: ####
 LN            = ln -sf

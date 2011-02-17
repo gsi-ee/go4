@@ -9,14 +9,14 @@ DllSuf        = so
 CXX           = g++
 CC            = gcc
 
-#### Compiler optimisation flags: ####
+#### Compiler optimization flags: ####
 OPTIONS       = -fPIC
 DEFINITIONS   = -DLinux
 EXTRACXXOPTIONS = -Wall
 
-## This two copiler flags are alternative. 
+## This two compiler flags are alternative. 
 ## When DOOPTIMIZATION = false, first is used otherwise second 
-DEBUGMODE     = -g -O2
+DEBUGMODE     = -g
 OPTIMIZEMODE  = -O2 
 # OPTIMIZEMODE  = -O3 fails for some gcc (TString seekoff overload)
 
