@@ -122,6 +122,7 @@ class TGo4MainWindow : public QMainWindow {
       void TH2DrawOptSlot();
       void TH3DrawOptSlot();
       void TGraphDrawOptSlot();
+      void GStyleStatFormatSlot();
 
       void PrepareForClientConnectionSlot(bool interactive = true);
       void LaunchClientSlot(bool interactive = true);

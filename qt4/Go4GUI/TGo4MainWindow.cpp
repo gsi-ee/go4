@@ -339,6 +339,9 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
 
    statusBar()->showMessage("Ready");
    statusBar()->setSizeGripEnabled(TRUE);
+
+   QString sfmt = go4sett->getGStyleStatFormat();
+   if (!sfmt.isEmpty()) gStyle->SetStatFormat(sfmt.toAscii().constData());
 }
 
 TGo4MainWindow::~TGo4MainWindow()
@@ -438,6 +441,8 @@ void TGo4MainWindow::AddSettingMenu()
    panelMenu->addAction("TH2 draw opt ...", this, SLOT(TH2DrawOptSlot()));
    panelMenu->addAction("TH3 draw opt ...", this, SLOT(TH3DrawOptSlot()));
    panelMenu->addAction("TGraph draw opt ...", this, SLOT(TGraphDrawOptSlot()));
+   panelMenu->addAction("Printf format ...", this, SLOT(GStyleStatFormatSlot()));
+
 
    settMenu->addAction("&Log actions...", this, SLOT(LogSettingsSlot()));
 
@@ -1338,9 +1343,29 @@ void TGo4MainWindow::TGraphDrawOptSlot()
                      "Default draw options for TGraph class",
                      "Input draw options",
                      QLineEdit::Normal, go4sett->getTGraphDrawOpt(), &ok);
-   if (ok) go4sett->setTGraphDrawOpt(str);
+   if (ok)
+      go4sett->setTGraphDrawOpt(str);
 }
 
+
+void TGo4MainWindow::GStyleStatFormatSlot()
+{
+   bool ok = false;
+   QString s0 = go4sett->getGStyleStatFormat();
+   if (s0.isEmpty()) s0 = gStyle->GetStatFormat();
+
+   QString str = QInputDialog::getText(this,
+                     "Printf argument for float values - gStyle->GetStatFormat()",
+                     "Input format string like 6.4g (empty - ROOT default)",
+                     QLineEdit::Normal, s0, &ok);
+   if (ok) {
+      go4sett->setGStyleStatFormat(str);
+      if (str.isEmpty())
+         gStyle->SetStatFormat();
+      else
+         gStyle->SetStatFormat(str.toAscii().constData());
+   }
+}
 
 
 void TGo4MainWindow::LaunchClientSlot(bool interactive)

@@ -159,6 +159,9 @@ class TGo4QSettings {
       void    setTGraphDrawOpt(const QString& value);
       QString getTGraphDrawOpt();
 
+      void    setGStyleStatFormat(const QString&);
+      QString getGStyleStatFormat();
+
       void    storePanelSize(QWidget* w);
       QSize   lastPanelSize();
 

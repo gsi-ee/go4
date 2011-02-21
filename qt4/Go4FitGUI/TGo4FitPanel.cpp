@@ -1133,11 +1133,11 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
 
                TString tt = TString::Format("%7s | %s%s | %s%s %s%s",
                                  model->GetName(),
-                                 "%",gStyle->GetStatFormat(),
-                                 "%",gStyle->GetStatFormat(),
-                                 "%",gStyle->GetStatFormat());
+                                 "%", gStyle->GetStatFormat(),
+                                 "%", gStyle->GetStatFormat(),
+                                 "%", gStyle->GetStatFormat());
 
-               info->AddText(Form(tt.Data(),ampl,pos,width*widthk));
+               info->AddText(Form(tt.Data(), ampl, pos, width*widthk));
             } else {
                int maxparlen = 7;
                for(Int_t np=0;np<model->NumPars();np++) {
@@ -1146,9 +1146,8 @@ void TGo4FitPanel::Button_FitterDraw(TGo4FitData* selecteddata)
                }
                TString tt = TString::Format("%s%ds = %s%s","%",maxparlen,"%",gStyle->GetStatFormat());
 
-               for(Int_t np=0;np<model->NumPars();np++) {
+               for(Int_t np=0;np<model->NumPars();np++)
                  info->AddText(Form(tt.Data(),model->GetParFullName(np), model->GetPar(np)->GetValue()));
-               }
             }
           }
 

@@ -37,6 +37,9 @@ Changes in Go4 v4.4.3 (Winter 2011)
    will print 10 events from MBS stream server r4-4. Print also works with user source.
 8. Implement TGo4FileStore::SetMaxTreeSize method to let configure size of created tree.
    Add -maxtreesize argument to go4analysis to change value in batch.
+9. Use gStyle->GetStatFormat() for formatting of fitter parameters output.
+   Add possibility to configure this format from GUI via Settings/Panel defaults/Printf menu.
+   Implemented in qt3/qt4 versions. 
 
 Changes in Go4 v4.4.2 (October 2010)
 1. Fix analysis crash when autosave file cannot be created in specified locations. 

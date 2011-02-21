@@ -189,6 +189,9 @@ class TGo4QSettings : public QSettings {
     void    setPrinterSett(const QString& name, const QString& cmd);
     void    getPrinterSett(QString& name, QString& cmd);
 
+    void    setGStyleStatFormat(const QString&);
+    QString getGStyleStatFormat();
+
     /**some things for the mbs monitor dockwindow: */
     void    setMbsMonitorNode(const QString& name);
     QString getMbsMonitorNode();

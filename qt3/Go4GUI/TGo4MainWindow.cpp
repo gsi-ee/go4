@@ -374,6 +374,9 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    if(go4sett->getMbsMonitorMonitorActive()) mbs->TimerStart();
 
    go4sett->DumpSettingsLocation();
+
+   QString sfmt = go4sett->getGStyleStatFormat();
+   if (!sfmt.isEmpty()) gStyle->SetStatFormat(sfmt.ascii());
 }
 
 TGo4MainWindow::~TGo4MainWindow()
@@ -464,6 +467,9 @@ void TGo4MainWindow::AddSettingMenu()
    PanelMenu->insertItem("Draw item name", this, SLOT(ChangeDrawItemFlagSlot()), 0, fiDrawItemId);
    PanelMenu->setItemChecked(fiDrawItemId, go4sett->getDrawItemFlag());
    PanelMenu->setItemEnabled(fiDrawItemId, go4sett->getCloneFlag());
+
+   PanelMenu->insertItem("Printf arguments...", this, SLOT(StatFormatSlot()));
+
 
    SettingMenu->insertItem("&Log actions...",this, SLOT(LogSettingsSlot()));
 
@@ -1364,7 +1370,23 @@ void TGo4MainWindow::OptStatsSlot()
    // all work is done inside dialog.
 }
 
+void TGo4MainWindow::StatFormatSlot()
+{
+   bool ok = false;
+   QString s0 = go4sett->getGStyleStatFormat();
+   if (s0.isEmpty()) s0 = gStyle->GetStatFormat();
 
+   QString str = QInputDialog::getText("Printf argument for float values - gStyle->GetStatFormat()",
+                                       "Input format string like 6.4g (empty - ROOT default)",
+                                       QLineEdit::Normal, s0, &ok, this);
+   if (ok) {
+      go4sett->setGStyleStatFormat(str);
+      if (str.isEmpty())
+         gStyle->SetStatFormat();
+      else
+         gStyle->SetStatFormat(str.ascii());
+   }
+}
 
 void TGo4MainWindow::CrosshairSlot()
 {

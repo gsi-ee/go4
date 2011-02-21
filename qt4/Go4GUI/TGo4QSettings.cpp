@@ -529,6 +529,17 @@ QString TGo4QSettings::getTGraphDrawOpt()
    return getStr("/ViewPanel/TGraphDrawOpt", "ap");
 }
 
+void TGo4QSettings::setGStyleStatFormat(const QString& v)
+{
+   setStr("/ViewPanel/GStyleStatFormat", v);
+
+}
+
+QString TGo4QSettings::getGStyleStatFormat()
+{
+   return getStr("/ViewPanel/GStyleStatFormat", "");
+}
+
 void TGo4QSettings::restoreMainWindowState(QMainWindow* tgt)
 {
    tgt->restoreState(sett->value("/MainWindow/State", QByteArray::fromHex(MainWindowDefaultState)).toByteArray());
@@ -605,7 +616,6 @@ bool TGo4QSettings::getStatBoxErrors()
 {
    return getBool( "/HistStatsBox/Errors", false);
 }
-
 
 void  TGo4QSettings::setHistName(const QString& value)
 {

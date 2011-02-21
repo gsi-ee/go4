@@ -644,6 +644,16 @@ bool TGo4QSettings::getFetchDataWhenSave()
    return readNumEntry( GetSettingsName()+"/preferences/FetchWhenSave", 0) != 0;
 }
 
+void  TGo4QSettings::setGStyleStatFormat(const QString& v)
+{
+   writeEntry(GetSettingsName() + "/preferences/StatFormat", v);
+}
+
+QString TGo4QSettings::getGStyleStatFormat()
+{
+   return readEntry(GetSettingsName() + "/preferences/StatFormat", "");
+}
+
 void TGo4QSettings::setRemoteFileSett(const QString& hostname, const QString& filename, const QString& protocol)
 {
    writeEntry(GetSettingsName()+"/OpenRemoteFile/Host", hostname);
@@ -780,8 +790,6 @@ bool    TGo4QSettings::getDabcMonitorBackwardsTrending()
 {
    return readNumEntry( GetSettingsName()+"/DabcMonitor/BackwardsTrending", 1) != 0;
 }
-
-
 
 
 void    TGo4QSettings::setBool(const QString& name, bool value)

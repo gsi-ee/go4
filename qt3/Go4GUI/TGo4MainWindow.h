@@ -107,6 +107,7 @@ class TGo4MainWindow : public QMainWindow {
       void EventStatusSlot();
       void MarkerSettingsSlot();
       void OptStatsSlot();
+      void StatFormatSlot();
       void ChangeCloneFlagSlot();
       void ChangeDrawTimeFlagSlot();
       void ChangeDrawDateFlagSlot();
