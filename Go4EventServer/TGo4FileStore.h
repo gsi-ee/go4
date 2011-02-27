@@ -71,9 +71,9 @@ class TGo4FileStore : public TGo4EventStore {
     /** Set the tree autosave byte interval. May be changed on the fly. */
     void SetAutoSave(Int_t bytesinterval);
 
-    static void SetMaxTreeSize(Long64_t sz) { fgiFILESPLITSIZE = sz; }
+    static void SetMaxTreeSize(Long64_t sz);
 
-    static Long64_t GetMaxTreeSize() { return fgiFILESPLITSIZE; }
+    static Long64_t GetMaxTreeSize();
 
     /** Standard go4 name of the branch used in all treestore
       * and treesource implementations. */

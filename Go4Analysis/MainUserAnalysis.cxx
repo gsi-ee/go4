@@ -35,6 +35,7 @@
 #include "TGo4AnalysisClient.h"
 #include "Go4EventServer.h"
 #include "Go4EventServerTypes.h"
+#include "TGo4FileStore.h"
 
 #define PROCESSLOOPDELAY 20
 // milliseconds

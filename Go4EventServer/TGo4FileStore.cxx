@@ -281,3 +281,13 @@ void TGo4FileStore::WriteToStore(TNamed* ob)
 }
 
 
+void TGo4FileStore::SetMaxTreeSize(Long64_t sz) 
+{ 
+   fgiFILESPLITSIZE = sz; 
+}
+
+Long64_t TGo4FileStore::GetMaxTreeSize() 
+{ 
+   return fgiFILESPLITSIZE; 
+}
+
