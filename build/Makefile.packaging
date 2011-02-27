@@ -50,7 +50,9 @@ win-bin:
 	cp -f etc/win32/go4.bat ..
 	cp -f etc/win32/go4login ..
 	cp -f etc/win32/README.txt ..
+ifneq ($(wildcard /cygdrive/e/WINDOWS/system32/msvcr100.dll),)
 	cp -f /cygdrive/e/WINDOWS/system32/msvcr100.dll /cygdrive/e/WINDOWS/system32/msvcp100.dll bin
+endif
 	cp -f $(QTDIR)/bin/QtCore4.dll $(QTDIR)/bin/QtGui4.dll bin
 	@cd ..; zip $(WINBIN_NAME) go4/Makefile.config go4/Makefile.rules
 	@for MMM in $(EXMODULES); do cd ..; echo "pack $$MMM"; zip $(WINBIN_NAME) go4/$$MMM/* -x *.obj -x *.d -x go4/$$MMM/G__*.*; cd go4; done
