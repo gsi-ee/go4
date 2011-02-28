@@ -478,7 +478,7 @@ void TGo4MainWindow::AddSettingMenu()
 
    SettingMenu->insertItem("&Terminal history", this, SLOT(InputTerminalParametersSlot()));
 
-   SettingMenu->insertItem("&Save Settings", this, SLOT(SaveSettingsSlot()));
+   SettingMenu->insertItem("&Save settings", this, SLOT(SaveSettingsSlot()));
 
    QActionGroup *ag = new QActionGroup( this, 0 );
    ag->setExclusive( TRUE );
@@ -578,23 +578,23 @@ void TGo4MainWindow::AddToolsMenu()
    QPopupMenu * Go4ToolMenu = new QPopupMenu(this);
    menuBar()->insertItem( "&Tools", Go4ToolMenu);
 
-   Go4ToolMenu->insertItem(QPixmap::fromMimeSource( "chart.png" ), "&View Panel",
+   Go4ToolMenu->insertItem(QPixmap::fromMimeSource( "chart.png" ), "&View panel",
                 this, SLOT(MakeNewPanel()), CTRL+Key_V );
-   Go4ToolMenu->insertItem(QPixmap::fromMimeSource( "fitpanel.png" ), "&Fit Panel...",
+   Go4ToolMenu->insertItem(QPixmap::fromMimeSource( "fitpanel.png" ), "&Fit panel...",
                 this, SLOT(StartFitPanel()), CTRL+Key_F );
    Go4ToolMenu->insertItem( QPixmap::fromMimeSource( "hislist.png" ),"&Histogram properties...",
                this, SLOT(StartHistogramInfo()));
-   Go4ToolMenu->insertItem(QPixmap::fromMimeSource( "hiscre.png" ), "Create New H&is...",
+   Go4ToolMenu->insertItem(QPixmap::fromMimeSource( "hiscre.png" ), "Create new h&istogram...",
                this, SLOT(CreateNewHistSlot()), CTRL+Key_I );
    Go4ToolMenu->insertItem( QPixmap::fromMimeSource( "condlist.png" ),"C&ondition properties...",
                this, SLOT(StartConditionInfo()));
-   Go4ToolMenu->insertItem( QPixmap::fromMimeSource( "condcre.png" ),"Create new &Condition...",
+   Go4ToolMenu->insertItem( QPixmap::fromMimeSource( "condcre.png" ),"Create new &condition...",
                this, SLOT(CreateNewConditionSlot()));
-   Go4ToolMenu->insertItem( QPixmap::fromMimeSource( "zoom.png" ),"&Event Printout...",
+   Go4ToolMenu->insertItem( QPixmap::fromMimeSource( "zoom.png" ),"&Event printout...",
                this, SLOT(StartEventInfo()));
-   Go4ToolMenu->insertItem( QPixmap::fromMimeSource( "dynlist.png" ),"Create &Dyn. List entry ...",
+   Go4ToolMenu->insertItem( QPixmap::fromMimeSource( "dynlist.png" ),"Create &dyn. list entry ...",
                this, SLOT(CreateNewDynEntrySlot()), CTRL+Key_D);
-   Go4ToolMenu->insertItem(QPixmap::fromMimeSource( "dllicon.png" ), "Load Li&braries ...",
+   Go4ToolMenu->insertItem(QPixmap::fromMimeSource( "dllicon.png" ), "Load li&braries ...",
                this, SLOT(LoadLibrarySlot()), CTRL+Key_B);
    Go4ToolMenu->insertItem(QPixmap::fromMimeSource( "user.png" ), "&User GUI ...",
                this, SLOT(UserPanelSlot()), CTRL+Key_U);

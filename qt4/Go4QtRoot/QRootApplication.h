@@ -58,6 +58,8 @@ class QRootApplication : public QApplication {
       static bool fDebug;
       static bool fWarning;
 
+      static bool IsRootCanvasMenuEnabled();
+
    public slots:
 
      void execute();
@@ -66,6 +68,11 @@ class QRootApplication : public QApplication {
    protected:
      QTimer*   timer;
      TTimer*   rtimer;
+
+     /** Variable defines if menu methods, which creating new canvas, are enabled.
+      *  Introduced for win32 version, where sometime new Canvas causes crash :(
+      */
+     static bool fRootCanvasMenusEnabled;
 };
 
 #endif

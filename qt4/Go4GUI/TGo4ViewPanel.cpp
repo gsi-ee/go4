@@ -62,6 +62,10 @@
 #include <QtGui/QMenu>
 #include <QtCore/QSignalMapper>
 
+#include "QRootWindow.h"
+#include "QRootCanvas.h"
+#include "QRootApplication.h"
+
 #include "TGo4Picture.h"
 #include "TGo4Fitter.h"
 #include "TGo4Marker.h"
@@ -72,7 +76,6 @@
 #include "TGo4WinCondView.h"
 #include "TGo4PolyCondView.h"
 #include "TGo4LockGuard.h"
-#include "QRootWindow.h"
 #include "TGo4WorkSpace.h"
 #include "TGo4ASImage.h"
 #include "TGo4PrintWidget.h"
@@ -85,7 +88,6 @@
 #include "TGo4Iter.h"
 #include "TGo4ObjectManager.h"
 #include "TGo4BrowserProxy.h"
-#include "QRootCanvas.h"
 #include "TGo4QSettings.h"
 
 const char* NoStackDrawOption = "nostack, ";
@@ -152,22 +154,27 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
     //Edit Menu
    QMenu* editMenu = fMenuBar->addMenu("&Edit");
 
-   AddChkAction(editMenu, "Show Marker &editor", fbMarkEditorVisible, this, SLOT(SetMarkerPanel()));
-#ifndef __NOGO4GED__
-   AddChkAction(editMenu, "Show &ROOT Attributes Editor", fbEditorFrameVisible, this, SLOT(StartRootEditor()));
+   AddChkAction(editMenu, "Show marker &editor", fbMarkEditorVisible, this, SLOT(SetMarkerPanel()));
+
+   QAction* act = AddChkAction(editMenu, "Show &ROOT attributes editor", fbEditorFrameVisible, this, SLOT(StartRootEditor()));
+#ifdef __NOGO4GED__
+   act->setEnabled(false);
+#else
+   act->setEnabled(QRootApplication::IsRootCanvasMenuEnabled());
 #endif
-// must get fbCanvasEventstatus from
+
+   // must get fbCanvasEventstatus from
    fbCanvasEventstatus = go4sett->getPadEventStatus();
-   AddChkAction(editMenu, "Show &Event Status", fbCanvasEventstatus, this, SLOT(ShowEventStatus()));
+   AddChkAction(editMenu, "Show &event status", fbCanvasEventstatus, this, SLOT(ShowEventStatus()));
 
    editMenu->addAction("Start &condition editor", this, SLOT(StartConditionEditor()));
    editMenu->addSeparator();
    editMenu->addAction("&1:1 coordinates ratio", this, SLOT(RectangularRatio()));
    editMenu->addAction("&Default pad margins", this, SLOT(DefaultPadMargin()));
    editMenu->addSeparator();
-   editMenu->addAction("Clear &Markers", this, SLOT(ClearAllMarkers()));
-   editMenu->addAction("Clear &Pad", this, SLOT(ClearActivePad()));
-   editMenu->addAction("Clear C&anvas", this, SLOT(ClearCanvas()));
+   editMenu->addAction("Clear &markers", this, SLOT(ClearAllMarkers()));
+   editMenu->addAction("Clear &pad", this, SLOT(ClearActivePad()));
+   editMenu->addAction("Clear c&anvas", this, SLOT(ClearCanvas()));
 
    fSelectMap = new QSignalMapper(this);
    connect(fSelectMap, SIGNAL(mapped(int)), this, SLOT(SelectMenuItemActivated(int)));

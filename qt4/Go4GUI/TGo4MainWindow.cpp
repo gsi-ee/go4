@@ -443,7 +443,6 @@ void TGo4MainWindow::AddSettingMenu()
    panelMenu->addAction("TGraph draw opt ...", this, SLOT(TGraphDrawOptSlot()));
    panelMenu->addAction("Printf format ...", this, SLOT(GStyleStatFormatSlot()));
 
-
    settMenu->addAction("&Log actions...", this, SLOT(LogSettingsSlot()));
 
    settMenu->addAction("Generate &hotstart", this, SLOT(CreateGUIScriptSlot()));
@@ -452,7 +451,7 @@ void TGo4MainWindow::AddSettingMenu()
    settMenu->addAction("&Terminal history", this, SLOT(InputTerminalParametersSlot()));
    settMenu->addAction("&Terminal font...", this, SLOT(ChangeTerminalFontSlot()));
 
-   settMenu->addAction("&Save Settings", this, SLOT(SaveSettingsSlot()));
+   settMenu->addAction("&Save settings", this, SLOT(SaveSettingsSlot()));
 
    QActionGroup *ag = new QActionGroup(this);
    ag->setExclusive( TRUE );
@@ -539,23 +538,23 @@ void TGo4MainWindow::AddToolsMenu()
 {
    QMenu* toolMenu = menuBar()->addMenu("&Tools");
 
-   toolMenu->addAction(QIcon(":/icons/chart.png" ), "&View Panel",
+   toolMenu->addAction(QIcon(":/icons/chart.png" ), "&View panel",
                 this, SLOT(MakeNewPanel()), CTRL+Key_V );
-   toolMenu->addAction(QIcon(":/icons/fitpanel.png" ), "&Fit Panel...",
+   toolMenu->addAction(QIcon(":/icons/fitpanel.png" ), "&Fit panel...",
                 this, SLOT(StartFitPanel()), CTRL+Key_F );
    toolMenu->addAction(QIcon(":/icons/hislist.png" ),"&Histogram properties...",
                this, SLOT(StartHistogramInfo()));
-   toolMenu->addAction(QIcon(":/icons/hiscre.png" ), "Create New H&is...",
+   toolMenu->addAction(QIcon(":/icons/hiscre.png" ), "Create New H&istogram...",
                this, SLOT(CreateNewHistSlot()), CTRL+Key_I );
    toolMenu->addAction(QIcon(":/icons/condlist.png" ),"C&ondition properties...",
                this, SLOT(StartConditionInfo()));
-   toolMenu->addAction(QIcon(":/icons/condcre.png" ),"Create new &Condition...",
+   toolMenu->addAction(QIcon(":/icons/condcre.png" ),"Create new &condition...",
                this, SLOT(CreateNewConditionSlot()));
-   toolMenu->addAction(QIcon(":/icons/zoom.png" ),"&Event Printout...",
+   toolMenu->addAction(QIcon(":/icons/zoom.png" ),"&Event printout...",
                this, SLOT(StartEventInfo()));
-   toolMenu->addAction(QIcon(":/icons/dynlist.png" ),"Create &Dyn. List entry ...",
+   toolMenu->addAction(QIcon(":/icons/dynlist.png" ),"Create &dyn. list entry ...",
                this, SLOT(CreateNewDynEntrySlot()), CTRL+Key_D);
-   toolMenu->addAction(QIcon(":/icons/dllicon.png" ), "Load Li&braries ...",
+   toolMenu->addAction(QIcon(":/icons/dllicon.png" ), "Load li&braries ...",
                this, SLOT(LoadLibrarySlot()), CTRL+Key_B);
    toolMenu->addAction(QIcon(":/icons/user.png" ), "&User GUI ...",
                this, SLOT(UserPanelSlot()), CTRL+Key_U);

@@ -60,8 +60,9 @@ static int qt_x11_errhandler( Display *dpy, XErrorEvent *err )
 
 #endif
 
-bool QRootApplication::fDebug=false;
-bool QRootApplication::fWarning=false;
+bool QRootApplication::fDebug = false;
+bool QRootApplication::fWarning = false;
+bool QRootApplication::fRootCanvasMenusEnabled = true;
 
 void qMessageOutput( QtMsgType type, const char *msg )
 {
@@ -117,8 +118,20 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll)
 
   // use Qt-specific XError Handler (moved this call here from tqapplication JA)
 
-#ifndef WIN32
+  const char* env = gSystem->Getenv("ROOT_CANVAS");
+  int flag = 0;
+  if (env!=0) {
+     if ((strcmp(env,"yes")==0) || (strcmp(env,"YES")==0)) flag = 1; else
+     if ((strcmp(env,"no")==0) || (strcmp(env,"NO")==0)) flag = -1;
+  }
+
+#ifdef WIN32
+  // under Windows one should explicit enable these methods
+  fRootCanvasMenusEnabled = (flag == 1);
+#else
    XSetErrorHandler( qt_x11_errhandler );
+   // under Unix one should explicit disable these methods
+   fRootCanvasMenusEnabled = (flag != -1);
 #endif
 }
 
@@ -136,4 +149,9 @@ void QRootApplication::quit()
 {
    std::cout <<"QRootApplication::quit()" << std::endl;
 //   gSystem->Exit( 0 );
+}
+
+bool QRootApplication::IsRootCanvasMenuEnabled()
+{
+   return fRootCanvasMenusEnabled;
 }

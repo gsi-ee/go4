@@ -51,6 +51,7 @@
 #include "TGo4LockGuard.h"
 
 #include "QRootDialog.h"
+#include "QRootApplication.h"
 
 #include <cstring>
 
@@ -830,10 +831,25 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
 
 QAction* QRootCanvas::addMenuAction(QMenu* menu, QSignalMapper* map, const QString& text, int id)
 {
+   bool enabled = QRootApplication::IsRootCanvasMenuEnabled();
+
    QAction* act = new QAction(text, menu);
+
+   if (!enabled)
+      if ((text.compare("DrawClone")==0) ||
+          (text.compare("DrawClass")==0) ||
+          (text.compare("Inspect")==0) ||
+          (text.compare("SetShowProjectionX")==0) ||
+          (text.compare("SetShowProjectionY")==0) ||
+          (text.compare("DrawPanel")==0) ||
+          (text.compare("FitPanel")==0))
+            act->setEnabled(false);
+
    map->connect (act, SIGNAL(triggered()), map, SLOT(map()));
    menu->addAction(act);
    map->setMapping(act, id);
+
+
    return act;
 }
 

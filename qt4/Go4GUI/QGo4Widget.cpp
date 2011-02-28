@@ -409,7 +409,7 @@ void QGo4Widget::ServiceCall(const char* name, void* par)
 
 QAction* AddChkAction(QMenu* menu,
                       const QString& text, bool checked,
-                    QObject* recv, const char* member)
+                      QObject* recv, const char* member)
 {
    QAction* act = new QAction(text, menu);
    act->setCheckable(true);
