@@ -325,7 +325,7 @@ void TGo4ViewPanel::linkedUpdated(TGo4Slot* slot, TObject* obj)
    TGo4Slot* padslot = slot;
    if (kind!=kind_PadSlot) padslot = slot->GetParent();
 
-   if (((kind>0) && (kind<100)) || (kind==kind_Condition)) {
+   if (((kind>0) && (kind<100)) || (kind==kind_Condition) || (kind==kind_Latex)) {
       TGo4Picture* padopt = GetPadOptions(padslot);
 
       if (padopt!=0) {
@@ -473,9 +473,8 @@ TGo4Slot* TGo4ViewPanel::GetSelectedSlot(TPad* pad, int* selkind, TObject** selo
       int drawkind = GetDrawKind(subslot);
       TObject* obj = subslot->GetAssignedObject();
 
-      if (drawkind==kind_Link) {
-         if ((obj!=0) && (dynamic_cast<TGo4Condition*> (obj)!=0))
-            drawkind = kind_Condition;
+      if ((drawkind==kind_Link) && (obj!=0)) {
+         if (obj->InheritsFrom(TGo4Condition::Class())) drawkind = kind_Condition;
       }
 
       if ((drawkind==kind_Marker) || (drawkind==kind_Window) ||
@@ -1978,7 +1977,7 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
       return 0;
    }
 
-   // cout << "Add object = " << (obj ? obj->ClassName() : "---") << " pad = " << pad->GetName() << endl;
+    cout << "Add object = " << (obj ? obj->ClassName() : "---") << " pad = " << pad->GetName() << " kind = " << kind << endl;
 
    // clear only if link is added
    if (kind<100)
@@ -1989,7 +1988,7 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
    if (kind==kind_Link) {
       TClass* cl = Browser()->ItemClass(itemname);
       if ((cl!=0) && cl->InheritsFrom(TGo4Condition::Class()))
-        UndrawItem(itemname);
+         UndrawItem(itemname);
 
 //      cout << "Item " << itemname << " class = " << (cl ? cl->GetName() : "null") << endl;
 
@@ -2004,6 +2003,7 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
            tgtslot->SetProxy(new TGo4LinkProxy(brslot));
       }
    } else {
+
       QString newslotname = itemname;
       if ((newslotname.length()==0) || (padslot->FindChild(newslotname.toAscii().constData())!=0)) {
          int cnt = 0;
@@ -2084,7 +2084,7 @@ void TGo4ViewPanel::CollectSpecialObjects(TPad* pad, TObjArray* objs, int select
    TGo4Slot* slot = GetPadSlot(pad);
    if ((slot==0) || (objs==0)) return;
 
-   for(int n=0;n<slot->NumChilds();n++) {
+   for(int n=0; n<slot->NumChilds(); n++) {
       TGo4Slot* subslot = slot->GetChild(n);
       Int_t kind = GetDrawKind(subslot);
       if (kind<0) continue;
@@ -2970,14 +2970,19 @@ void TGo4ViewPanel::CheckForSpecialObjects(TPad *pad, TGo4Slot* padslot)
 
       if ((kind<0) || (kind>=100)) continue;
 
-      TGo4Condition* cond = dynamic_cast<TGo4Condition*>(obj);
       // change drawkind of condition which is drawn as normal object
-      if (cond!=0) {
+      if (obj->InheritsFrom(TGo4Condition::Class())) {
          numcond++;
+         TGo4Condition* cond = static_cast<TGo4Condition*>(obj);
          cond->SetLineColor(numcond+1);
          cond->SetFillColor(numcond+1);
          cond->SetFillStyle(3444);
          SetDrawKind(subslot, kind_Condition);
+         continue;
+      }
+
+      if (obj->InheritsFrom(TLatex::Class())) {
+         SetDrawKind(subslot, kind_Latex);
          continue;
       }
 
@@ -3398,7 +3403,10 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
       delete legslot;
       delete asislot;
 
+      RedrawSpecialObjects(pad, slot);
+
       CallPanelFunc(panel_Updated, pad);
+
       // indicate that nothing is happen
       return true;
    }

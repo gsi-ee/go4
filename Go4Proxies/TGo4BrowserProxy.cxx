@@ -37,6 +37,7 @@
 #include "TObjString.h"
 #include "TDatime.h"
 #include "TObjectTable.h"
+#include "TLatex.h"
 
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
@@ -236,6 +237,7 @@ void TGo4BrowserProxy::Initialize(TGo4Slot* slot)
    gROOT->GetClass("TGo4DynamicEntry");
    gROOT->GetClass("TGo4HistogramEntry");
    gROOT->GetClass("TGo4TreeHistogramEntry");
+   gROOT->GetClass("TLatex");
 
    if (fxOM!=0)
       fxOM->RegisterLink(fxOM->GetSlot(fxDataPath.Data()), slot, kTRUE);
@@ -1912,7 +1914,9 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
         if (cl->InheritsFrom(TGo4PolyCond::Class())) { cando = 101011; pixmap = "polycond.png"; } else
         if (cl->InheritsFrom(TGo4CondArray::Class())) { cando = 101011; pixmap = "windcondarray.png"; } else
         if (cl->InheritsFrom(TGo4TreeHistogramEntry::Class())) { cando = 1011; pixmap = "dynentryx.png"; } else
-        if (cl->InheritsFrom(TGo4HistogramEntry::Class())) { cando = 1011; pixmap = "dynentryx.png"; }
+        if (cl->InheritsFrom(TGo4HistogramEntry::Class())) { cando = 1011; pixmap = "dynentryx.png"; } else
+        if (cl->InheritsFrom(TLatex::Class())) { cando = 110; pixmap = "canvas.png"; }
+
       }
    } else
    if (kind==TGo4Access::kndFolder) {
@@ -2173,6 +2177,15 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
         newgr->GetPoint(n,xp,yp);
         gr->SetPoint(n,xp,yp);
       }
+
+      return kTRUE;
+   } else
+   if (obj->InheritsFrom(TLatex::Class())) {
+      TLatex* l0 = dynamic_cast<TLatex*> (obj);
+      TLatex* l1 = dynamic_cast<TLatex*> (newobj);
+      if ((l1==0) || (l0==0)) return kFALSE;
+
+      l0->SetTitle(l1->GetTitle());
 
       return kTRUE;
    }

@@ -98,7 +98,7 @@ void TGo4ViewPanel::linkedUpdated(TGo4Slot* slot, TObject* obj)
    TGo4Slot* padslot = slot;
    if (kind!=kind_PadSlot) padslot = slot->GetParent();
 
-   if (((kind>0) && (kind<100)) || (kind==kind_Condition)) {
+   if (((kind>0) && (kind<100)) || (kind==kind_Condition) || (kind==kind_Latex)) {
       TGo4Picture* padopt = GetPadOptions(padslot);
 
       if (padopt!=0) {
@@ -2905,14 +2905,19 @@ void TGo4ViewPanel::CheckForSpecialObjects(TPad *pad, TGo4Slot* padslot)
 
       if ((kind<0) || (kind>=100)) continue;
 
-      TGo4Condition* cond = dynamic_cast<TGo4Condition*>(obj);
       // change drawkind of condition which is drawn as normal object
-      if (cond!=0) {
+      if (obj->InheritsFrom(TGo4Condition::Class())) {
          numcond++;
+         TGo4Condition* cond = static_cast<TGo4Condition*>(obj);
          cond->SetLineColor(numcond+1);
          cond->SetFillColor(numcond+1);
          cond->SetFillStyle(3444);
          SetDrawKind(subslot, kind_Condition);
+         continue;
+      }
+
+      if (obj->InheritsFrom(TLatex::Class())) {
+         SetDrawKind(subslot, kind_Latex);
          continue;
       }
 
@@ -3328,6 +3333,8 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
       delete sislot;
       delete legslot;
       delete asislot;
+
+      RedrawSpecialObjects(pad, slot);
 
       CallPanelFunc(panel_Updated, pad);
 
