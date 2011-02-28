@@ -148,6 +148,14 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
          AddPicture(fcondSet);
       }
 
+
+      fLaText= new TLatex(0.5,0.5,"-- demo text --");
+      fLaText->SetName("LatexObjectDemo");
+      fLaText->SetNDC();
+      AddObject(fLaText); // will replace old one of same name
+
+
+
       fPicture1 = GetPicture("Picture1");
       if (fPicture1 == 0) {
          fPicture1 = new TGo4Picture("Picture1","Picture example");
@@ -161,6 +169,8 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
          fPicture1->LPic(0,0)->SetAxisLabelFontSize(1, 0.07, 0); // Go4 v4.2
          fPicture1->LPic(0,0)->SetHisTitle(false);
          fPicture1->LPic(0,0)->SetTitleAttr(0.1,0.75,0.7,0.9);
+
+         fPicture1->LPic(0,0)->AddSpecialObject(fLaText);
 
          fPicture1->LPic(0,1)->AddObject(fCr1Ch[1]);
          fPicture1->LPic(0,1)->SetFillAtt(4, 3001); // pattern
@@ -348,8 +358,21 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
       } // if (subcrate)
    }  // while
 
+
+   TString latext;
+   latext.Form("#scale[3.0]{#color[2]{Event number:%d}}",inp_evt->GetCount());
+   //latext.Form("Event number:%d",inp_evt->GetCount());
+   fLaText->SetText(0.5,0.5,latext.Data());
+
+
+
    out_evt->SetValid(isValid); // to store or not to store
    // default calling Fill method will set validity of out_evt to return value!
+
+
+
+
+
    return isValid; // this will overwrite out_evt->SetValid
    // except one would have a Fill method implemented in the output event class!
    // In this case the return value can be handled differently there.

@@ -14,7 +14,10 @@
 #ifndef TXXXUNPACKPROCESSOR_H
 #define TXXXUNPACKPROCESSOR_H
 
+
 #include "TGo4EventProcessor.h"
+
+#include "TLatex.h"
 
 class TXXXParameter;
 class TXXXUnpackEvent;
@@ -43,6 +46,8 @@ class TXXXUnpackProc : public TGo4EventProcessor {
       TXXXParameter *fParam1;
       TGo4Picture   *fPicture1;
       TGo4Picture   *fcondSet;
+      TLatex* fLaText;
+
 
    ClassDef(TXXXUnpackProc,1)
 };
