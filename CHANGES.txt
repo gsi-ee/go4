@@ -8,7 +8,7 @@
 Authors: Joern Adamczewski-Musch      (1999-)
          Mohammad Al-Turany           (2000-2004)
          Denis Bertini                (2001-2004)
-         Hans Georg Essel             (1999-)
+         Hans Georg Essel             (1999-2010)
          Marc Hemberger               (1999-2000)
          Sergey Linev                 (2002-)
 ---------------------------------------------------------------

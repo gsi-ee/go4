@@ -8,7 +8,7 @@
 Authors: Joern Adamczewski      (1999-)
          Mohammad Al-Turany     (2000-2004)
          Denis Bertini          (2001-2004)
-         Hans Georg Essel       (1999-)
+         Hans Georg Essel       (1999-2010)
          Marc Hemberger         (1999-2000)
          Sergey Linev           (2002-)
 ---------------------------------------------------------------
@@ -22,6 +22,7 @@ in Go4License.txt file which is part of the distribution.
 
 This package is compiled and tested under Windows XP SP2 and Windows 7
 together with Microsoft Visual C++ 2010 Express Edition and CYGWIN.
+
 
 1. INSTALLATION
 
@@ -48,6 +49,7 @@ together with Microsoft Visual C++ 2010 Express Edition and CYGWIN.
 - Start analysis by command:
     Q:\go4\Go4ExampleSimple> go4analysis -server -random
 - Also one can start analysis directly from the GUI
+
 
 3. STARTING GUI
 
