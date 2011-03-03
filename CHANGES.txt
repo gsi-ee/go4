@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.4.2 (build 40402)
-                      27-October-2010
+         Go4 Release Package v4.4.3 (build 40403)
+                      3-March-2011
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -20,7 +20,7 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v4.4.3 (Winter 2011)
+Changes in Go4 v4.4.3 (March 2011)
 1. Implement proper Ctrl-C handler for Windows platform
 2. Fix several problems with settings savings. There is 
    known issue with dockable widgets (http://bugreports.qt.nokia.com/browse/QTBUG-16252),
