@@ -14,18 +14,7 @@
 #include "typedefs.h"
 #include "f_stccomm.h"
 
-#ifdef RFIO
-#define RFIO_open  rfio_open
-#define RFIO_close rfio_close
-#define RFIO_read  rfio_read
-#define RFIO_lseek rfio_lseek
-#include "rawapin.h"        /* RFIO stuff */
-#else
-#define RFIO_open  open
-#define RFIO_close close
-#define RFIO_read  read
-#define RFIO_lseek lseek
-#endif
+
 
 #ifdef GSI__LYNX
 #undef unix
@@ -158,6 +147,22 @@
 #else
 #include "s_filhe.h"
 #endif
+
+
+#ifdef RFIO
+#define RFIO_open  rfio_open
+#define RFIO_close rfio_close
+#define RFIO_read  rfio_read
+#define RFIO_lseek rfio_lseek
+#include "rawapin.h"        /* RFIO stuff */
+#else
+#define RFIO_open  open
+#define RFIO_close close
+#define RFIO_read  read
+#define RFIO_lseek lseek
+#endif
+
+
 
 // DABC
 #include "fLmd.h"
