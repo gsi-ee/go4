@@ -1659,18 +1659,18 @@ Bool_t TGo4AnalysisObjectManager::PutToFolder(TObject* ob, TFolder* destination,
    if(ob->InheritsFrom(TCanvas::Class())) {
       TObject* addob = ob->Clone(); // deep copy of source object!
       if(AddObjectToFolder(addob, destination, 0, replace)) {
-         TGo4Analysis::Instance()->Message(-1,"Analysis LoadFolder: Object %s was loaded.", addob->GetName());
+         TGo4Analysis::Instance()->Message(0,"Analysis LoadFolder: Object %s was loaded.", addob->GetName());
       } else {
          // object already there and noreplace set: delete clone
          delete addob;
          if (gPad==addob) gPad = 0;
       }
    } else {
-      cout << "Make object clone " << ob->GetName() << "  class = " << ob->ClassName() << endl;
+      //cout << "Make object clone " << ob->GetName() << "  class = " << ob->ClassName() << endl;
 
       TObject* addob = ob->Clone(); // deep copy of source object!
       if(AddObjectToFolder(addob,destination,0,replace)) {
-         TGo4Analysis::Instance()->Message(-1,"Analysis LoadFolder: Object %s was loaded.", addob->GetName());
+         TGo4Analysis::Instance()->Message(0,"Analysis LoadFolder: Object %s was loaded.", addob->GetName());
       } else {
          delete addob;
       }

@@ -170,7 +170,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
          fPicture1->LPic(0,0)->SetHisTitle(false);
          fPicture1->LPic(0,0)->SetTitleAttr(0.1,0.75,0.7,0.9);
 
-         fPicture1->LPic(0,0)->AddSpecialObject(fLaText);
+         fPicture1->LPic(0,0)->AddObject(fLaText);
 
          fPicture1->LPic(0,1)->AddObject(fCr1Ch[1]);
          fPicture1->LPic(0,1)->SetFillAtt(4, 3001); // pattern

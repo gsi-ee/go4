@@ -131,7 +131,7 @@ void TGo4ViewPanel::linkedRemoved(TGo4Slot* slot, TObject* obj)
 
    CheckObjectsAssigments(GetSlotPad(padslot), padslot);
 
-   if (((kind>0) && (kind<100)) || (kind==kind_Condition)) {
+   if (((kind>0) && (kind<100)) || (kind==kind_Condition)  || (kind==kind_Latex)) {
       CleanupGedEditor();
       TGo4Picture* padopt = GetPadOptions(padslot);
       if (padopt!=0) {
@@ -457,7 +457,7 @@ TPad* TGo4ViewPanel::FindPadWithItem(const char* itemname)
    while (iter.next()) {
       TGo4Slot* subslot = iter.getslot();
       int drawkind = GetDrawKind(subslot);
-      if ((drawkind==kind_Link) || (drawkind==kind_Condition)) {
+      if ((drawkind==kind_Link) || (drawkind==kind_Condition)  || (kind==kind_Latex)) {
          const char* linkname = GetLinkedName(subslot);
          if (linkname!=0)
             if (strcmp(linkname, itemname)==0) return GetSlotPad(subslot->GetParent());
@@ -476,7 +476,7 @@ void TGo4ViewPanel::UndrawItemOnPanel(const char* itemname)
    while (iter.next()) {
       TGo4Slot* subslot = iter.getslot();
       int drawkind = GetDrawKind(subslot);
-      if ((drawkind==kind_Link) || (drawkind==kind_Condition)) {
+      if ((drawkind==kind_Link) || (drawkind==kind_Condition)  || (kind==kind_Latex)) {
          const char* linkname = GetLinkedName(subslot);
          if ((linkname!=0) && (strcmp(linkname, itemname)==0)) {
             delslots.Add(subslot);
@@ -1558,7 +1558,35 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemn
             if (mark!=0) mark->DeletePainter();
             TGo4Condition* cond = dynamic_cast<TGo4Condition*> (obj);
             if (cond!=0) cond->DeletePainter();
-            pic->AddSpecialObject(obj, drawopt);
+            TLatex* lat= dynamic_cast<TLatex*> (obj);
+		   if(lat!=0)
+			{
+					// test here if we have local latex or monitored remote one
+					TGo4Proxy* prox=subslot->GetProxy();
+					TGo4ObjectProxy* oprox=dynamic_cast<TGo4ObjectProxy*> (prox);
+					TGo4LinkProxy* lprox=dynamic_cast<TGo4LinkProxy*> (prox);
+					if (oprox!=0)
+						{
+							//cout <<"MakePictureForPad adding local latex object "<< obj->GetName()<<endl;
+							pic->AddSpecialObject(obj, drawopt);
+						}
+					else if (lprox)
+						{
+							const char* itemname = GetLinkedName(subslot);
+							//cout <<"MakePictureForPad adding linnked latex object "<<itemname<<endl;
+							if (itemname!=0) pic->AddObjName(itemname, drawopt);
+							delete obj; // remove initial clone which is not registered
+						}
+					else
+						{
+							// cout <<"MakePictureForPad NEVER COME HERE unknown proxy:"<< (int) prox<<endl;
+
+						}
+			} // if latex
+		   else
+			{
+				pic->AddSpecialObject(obj, drawopt);
+			}
          }
          continue;
       }
@@ -3580,6 +3608,7 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt, TMultiGraph
       }
    }
    mg->Draw(drawopt.Data());
+   SetSelectedRangeToHisto(pad, framehisto, 0, padopt, false); // avoid flicker in full range?
 }
 
 void TGo4ViewPanel::RedrawImage(TPad *pad, TGo4Picture* padopt, TGo4ASImage* im, TH2* asihisto, bool scancontent)

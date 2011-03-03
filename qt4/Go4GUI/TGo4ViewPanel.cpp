@@ -358,7 +358,7 @@ void TGo4ViewPanel::linkedRemoved(TGo4Slot* slot, TObject* obj)
 
    CheckObjectsAssigments(GetSlotPad(padslot), padslot);
 
-   if (((kind>0) && (kind<100)) || (kind==kind_Condition)) {
+   if (((kind>0) && (kind<100)) || (kind==kind_Condition) || (kind==kind_Latex) ) {
       CleanupGedEditor();
       TGo4Picture* padopt = GetPadOptions(padslot);
       if (padopt!=0) {
@@ -520,7 +520,7 @@ TPad* TGo4ViewPanel::FindPadWithItem(const char* itemname)
    while (iter.next()) {
       TGo4Slot* subslot = iter.getslot();
       int drawkind = GetDrawKind(subslot);
-      if ((drawkind==kind_Link) || (drawkind==kind_Condition)) {
+      if ((drawkind==kind_Link) || (drawkind==kind_Condition) || (drawkind==kind_Latex)) {
          const char* linkname = GetLinkedName(subslot);
          if (linkname!=0)
             if (strcmp(linkname, itemname)==0) return GetSlotPad(subslot->GetParent());
@@ -539,7 +539,7 @@ void TGo4ViewPanel::UndrawItemOnPanel(const char* itemname)
    while (iter.next()) {
       TGo4Slot* subslot = iter.getslot();
       int drawkind = GetDrawKind(subslot);
-      if ((drawkind==kind_Link) || (drawkind==kind_Condition)) {
+      if ((drawkind==kind_Link) || (drawkind==kind_Condition) || (drawkind==kind_Latex)) {
          const char* linkname = GetLinkedName(subslot);
          if ((linkname!=0) && (strcmp(linkname, itemname)==0)) {
             delslots.Add(subslot);
@@ -1636,8 +1636,36 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemn
             if (mark!=0) mark->DeletePainter();
             TGo4Condition* cond = dynamic_cast<TGo4Condition*> (obj);
             if (cond!=0) cond->DeletePainter();
-            pic->AddSpecialObject(obj, drawopt);
-         }
+            TLatex* lat= dynamic_cast<TLatex*> (obj);
+            if(lat!=0)
+				{
+						// test here if we have local latex or monitored remote one
+						TGo4Proxy* prox=subslot->GetProxy();
+						TGo4ObjectProxy* oprox=dynamic_cast<TGo4ObjectProxy*> (prox);
+						TGo4LinkProxy* lprox=dynamic_cast<TGo4LinkProxy*> (prox);
+						if (oprox!=0)
+							{
+								//cout <<"MakePictureForPad adding local latex object "<< obj->GetName()<<endl;
+								pic->AddSpecialObject(obj, drawopt);
+							}
+						else if (lprox)
+							{
+								const char* itemname = GetLinkedName(subslot);
+								//cout <<"MakePictureForPad adding linnked latex object "<<itemname<<endl;
+								if (itemname!=0) pic->AddObjName(itemname, drawopt);
+								delete obj; // remove initial clone which is not registered
+							}
+						else
+							{
+								// cout <<"MakePictureForPad NEVER COME HERE unknown proxy:"<< (int) prox<<endl;
+
+							}
+				} // if latex
+            else
+				{
+					pic->AddSpecialObject(obj, drawopt);
+				}
+		}
          continue;
       }
 
@@ -1977,7 +2005,7 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
       return 0;
    }
 
-    cout << "Add object = " << (obj ? obj->ClassName() : "---") << " pad = " << pad->GetName() << " kind = " << kind << endl;
+   // cout << "Add object = " << (obj ? obj->ClassName() : "---") << " pad = " << pad->GetName() << " kind = " << kind << endl;
 
    // clear only if link is added
    if (kind<100)
@@ -3621,10 +3649,10 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt, TMultiGraph
    if (drawopt.Length()==0) drawopt = go4sett->getTGraphDrawOpt().toAscii().constData();
    if (dosuperimpose) drawopt = "";
 
-   // never draw statistics with multigraph
-   TH1* framehisto = (dosuperimpose && (firstgr!=0)) ? firstgr->GetHistogram() : mg->GetHistogram();
 
+   TH1* framehisto = (dosuperimpose && (firstgr!=0)) ? firstgr->GetHistogram() : mg->GetHistogram();
    if (framehisto==0) {
+	  // this is workaround to prevent recreation of framehistogram in TMultiGraf::Paint
       mg->Draw(drawopt.Data());
       framehisto = (dosuperimpose && (firstgr!=0)) ? firstgr->GetHistogram() : mg->GetHistogram();
    }
@@ -3632,16 +3660,14 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt, TMultiGraph
    if (framehisto!=0) {
 
       SetSelectedRangeToHisto(pad, framehisto, 0, padopt, false);
-
-      // this is workaround to prevent recreation of framehistogram in TMultiGraf::Paint
-
+      // avoid flicker of range when in fullscale: set range before and after draw
       Double_t miny, maxy, selmin, selmax;
       if (padopt->GetFullRange(1, miny, maxy) && !padopt->GetRangeY(selmin, selmax)) {
          framehisto->SetMaximum(maxy);
          framehisto->SetMinimum(miny);
       }
 
-      framehisto->SetStats(kFALSE);
+      framehisto->SetStats(kFALSE); // never draw statistics with multigraph
       framehisto->SetBit(TH1::kNoTitle, !padopt->IsHisTitle());
 
       // set title of first TGraph to TMultiGraph and frame histo
@@ -3651,8 +3677,12 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt, TMultiGraph
          framehisto->GetXaxis()->SetTitle(firstgr->GetXaxis()->GetTitle());
          framehisto->GetYaxis()->SetTitle(firstgr->GetYaxis()->GetTitle());
       }
+      mg->Draw(drawopt.Data());
+
+
    }
-   mg->Draw(drawopt.Data());
+   SetSelectedRangeToHisto(pad, framehisto, 0, padopt, false);
+
 }
 
 void TGo4ViewPanel::RedrawImage(TPad *pad, TGo4Picture* padopt, TGo4ASImage* im, TH2* asihisto, bool scancontent)
@@ -4141,7 +4171,6 @@ void TGo4ViewPanel::TakeFullRangeFromGraph(TGraph * gr, TGo4Picture * padopt, bo
    if ((gr==0) || (padopt==0)) return;
 
    Double_t minx(0), maxx(0), miny(0), maxy(0), xx, yy;
-
    if (isfirst) {
       if (gr->GetN()>0) {
          gr->GetPoint(0, minx, miny);
