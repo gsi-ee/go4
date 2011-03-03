@@ -457,7 +457,7 @@ TPad* TGo4ViewPanel::FindPadWithItem(const char* itemname)
    while (iter.next()) {
       TGo4Slot* subslot = iter.getslot();
       int drawkind = GetDrawKind(subslot);
-      if ((drawkind==kind_Link) || (drawkind==kind_Condition)  || (kind==kind_Latex)) {
+      if ((drawkind==kind_Link) || (drawkind==kind_Condition)  || (drawkind==kind_Latex)) {
          const char* linkname = GetLinkedName(subslot);
          if (linkname!=0)
             if (strcmp(linkname, itemname)==0) return GetSlotPad(subslot->GetParent());
@@ -476,7 +476,7 @@ void TGo4ViewPanel::UndrawItemOnPanel(const char* itemname)
    while (iter.next()) {
       TGo4Slot* subslot = iter.getslot();
       int drawkind = GetDrawKind(subslot);
-      if ((drawkind==kind_Link) || (drawkind==kind_Condition)  || (kind==kind_Latex)) {
+      if ((drawkind==kind_Link) || (drawkind==kind_Condition)  || (drawkind==kind_Latex)) {
          const char* linkname = GetLinkedName(subslot);
          if ((linkname!=0) && (strcmp(linkname, itemname)==0)) {
             delslots.Add(subslot);
