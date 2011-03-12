@@ -223,7 +223,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    BrowserDockWin->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
    addDockWidget(Qt::LeftDockWidgetArea, BrowserDockWin);
 
-#if (QT_VERSION >= 0x040700) && (QT_VERSION <= 0x040701)
+#if (QT_VERSION >= 0x040700) && (QT_VERSION <= 0x040909)
    browser->setMinimumWidth(230);
 #endif
 
