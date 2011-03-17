@@ -75,7 +75,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
        *    TGo4Fitter:ff_ML_Poisson     = 5  -2Ln from maximum likelihood function for Poisson statistic
        *    TGo4Fitter:ff_user           = 6  user function
        * User function type should not be specified directly, but using SetUserFitFunction() method.
-       * More informtation about fit function types can be found in Go4Fit tutorial.
+       * More information about fit function types can be found in Go4Fit tutorial.
        */
       void SetFitFunctionType(Int_t iFitFunctionType) { fiFitFunctionType = iFitFunctionType; }
 
@@ -99,7 +99,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        *  Set value of memory usage.
        *  This parameter can be:
-       *  0 - no aditional memory will be allocated in buffers
+       *  0 - no additional memory will be allocated in buffers
        *  1 - buffers will be allocated only for data objects
        *  2 - buffers will be used for all data and models objects
        *  3 - individual setup for data and model objects will be used for memory allocaions
@@ -107,7 +107,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       void SetMemoryUsage(Int_t iMemoryUsage);
 
       /**
-       * Retrurn value of memory usage parameter.
+       * Return value of memory usage parameter.
        * See SetMemoryUsage for detailed description.
        */
       Int_t GetMemoryUsage() { return fiMemoryUsage; }
@@ -210,7 +210,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Construct 1-dim polynom with specified polynom coefficients
        * NamePrefix sets prefix of model name for each polynom component.
-       * GroupIndex sets index of models group for all polyn components (default = 0 - background group)
+       * GroupIndex sets index of models group for all polynomial components (default = 0 - background group)
        */
        void AddPolynomX(const char* DataName, const char* NamePrefix, TArrayD& Coef, Int_t GroupIndex = 0);
 
@@ -219,7 +219,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
        * NamePrefix sets prefix of model name for each polynom component.
        * MaxOrder sets maximum order of polynom (default =1 )
        * NumAxis sets number of axis, for which polynom will be sets
-       * GroupIndex sets index of models group for all polyn components (default = 0 - background group)
+       * GroupIndex sets index of models group for all polynomial components (default = 0 - background group)
        */
       void AddPolynoms(const char* DataName, const char* NamePrefix, Int_t MaxOrder = 1, Int_t NumAxis = 1, Int_t GroupIndex = 0);
 
@@ -258,7 +258,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       /**
        * Assign model to specified data object.
        * When model assigns to more then one data, additional "Ratio1", "Ratio2" and so on parameters will be created.
-       * They means ratio in amplitude of model component in this data to ampltute of this component in data, to wich model was assigned first. By default, this ratio is 1. and not fixed.
+       * They means ratio in amplitude of model component in this data to amplitude of this component in data, to wich model was assigned first. By default, this ratio is 1. and not fixed.
        */
       void AssignModelTo(const char* ModelName, const char* DataName, Double_t RatioValue = 1., Bool_t FixRatio = kFALSE);
 
@@ -396,7 +396,7 @@ class TGo4Fitter : public TGo4FitterAbstract {
       Double_t* GetModelBinsValues(TGo4FitModel* model, const char* DataName);
 
       /**
-       * Update all data objects and model components acording to current parameters values.
+       * Update all data objects and model components according to current parameters values.
        * Only those objects will be recalculated, which parameters were changed after last recalculation.
        * If ForceBuild flag is set (default = kFALSE), all objects will be recalculated anyway.
        */

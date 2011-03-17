@@ -343,7 +343,7 @@ class TGo4FitSlotList {
 
       /**
        * Set save flag for object(s), assigned to fitter.
-       * If save flag set to 0, object(s) wil be saved, if it owned by slot.
+       * If save flag set to 0, object(s) will be saved, if it owned by slot.
        * If save flag set to 1, object(s) will be saved in any case.
        * If save flag set to 2, object(s) will never be saved.
        * PlaceName define exact slot name or owner name
