@@ -27,7 +27,7 @@ class TGo4FitterOutput;
 
 /**
  * Abstract fitter class.
- * This is abstract class, which implement a general behaviour of fitter.
+ * This is abstract class, which implement a general behavior of fitter.
  * It has a list of all parameters (class inherited from TGo4FitParsList) and function, which should be fitted.
  * It has a list of action, which may be performed on the fitter.
  * The specific things, like list of data and list of models, are implemented in inherited TGo4Fitter class.
@@ -240,7 +240,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
       void PrintResults() const;
 
       /**
-       * Print information about fitter to standar output.
+       * Print information about fitter to standard output.
        */
       virtual void Print(Option_t* option) const;
 
@@ -307,7 +307,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
       void FinalizeDependencies(TObjArray& Dependencies);
 
       /**
-       * Execute dependenices in currently associated configuration (if exist).
+       * Execute dependencies in currently associated configuration (if exist).
        */
       void ExecuteDependencies(Double_t* pars);
 
@@ -326,7 +326,7 @@ class TGo4FitterAbstract : public TGo4FitParsList, public TGo4FitSlotList {
       virtual void FinalizeFitterData() { return; }
 
       /**
-       * Array of actions onkects (inherited from TGo4FitterAction).
+       * Array of actions objects (inherited from TGo4FitterAction).
        */
       TObjArray fxActions;
 
