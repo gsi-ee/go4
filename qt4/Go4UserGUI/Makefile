@@ -11,7 +11,7 @@ USERGUI4_DIR         = qt4/Go4UserGUI
 USERGUI4_QFLAGS      = GO4INCDIR=../../include GO4BINDIR=../../bin
 USERGUI4_QGO4WIDG    = include/QGo4Widget.h
 USERGUI4_DEPRULES    = | qt4-GUI qt4-heads
-USERGUI4_QGO4WIDGET  = $(GO4INCPATH)/QGo4Widget.h 
+# USERGUI4_QGO4WIDGET  = include/QGo4Widget.h 
 else
 USERGUI4_DIR         = $(CURDIR)
 USERGUI4_QFLAGS      = GO4INCDIR=$(shell go4-config --nativeincdir) GO4BINDIR=$(shell go4-config --nativebindir)
