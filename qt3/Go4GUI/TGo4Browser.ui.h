@@ -339,7 +339,7 @@ void TGo4Browser::updateListViewItems()
       Int_t itemkind = br->ItemKind(curslot);
       TClass* itemclass = 0;
 
-      if ((classname!=0) && (testedClasses.FindObject(classname)==0)) {
+      if ((classname!=0) && (strlen(classname)>0) && (testedClasses.FindObject(classname)==0)) {
          itemclass = gROOT->GetClass(classname, kFALSE);
 
          // if dictionary existing (library is loaded) force creation of TClass object

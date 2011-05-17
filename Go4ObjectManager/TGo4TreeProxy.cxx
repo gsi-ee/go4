@@ -28,7 +28,7 @@ class TGo4BranchAccess : public TGo4Access {
         { return fBranch->GetName(); }
 
       virtual const char* GetObjectClassName() const
-        { return fBranch->GetClassName(); }
+        { return fBranch->ClassName(); }
 
    private:
       TBranch*   fBranch;  //!
@@ -96,8 +96,9 @@ class TGo4TreeLevelIter : public TGo4LevelIter {
 
       virtual const char* GetClassName()
       {
-         return fCurrent->GetClassName();
+         return fCurrent->ClassName();
       }
+
    protected:
       TIterator*     fIter;     //!
       TBranch*       fCurrent;  //!
