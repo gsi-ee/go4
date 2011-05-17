@@ -33,6 +33,9 @@ void TGo4BrowserOptions::UpdateView()
    int interval = Browser()->MonitoringPeriod()/1000;
    StartMonitorBtn->setEnabled(interval<=0);
    StopMonitorBtn->setEnabled(interval>0);
+
+   if ((interval>1) && (IntervalSpin->value()!=interval))
+      IntervalSpin->setValue(interval);
 }
 
 void TGo4BrowserOptions::linkedObjectUpdated(const char* linkname, TObject* obj)
