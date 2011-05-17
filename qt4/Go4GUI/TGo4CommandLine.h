@@ -33,6 +33,8 @@ class TGo4CommandLine : public QGo4Widget, public Ui::TGo4CommandLine
 
       virtual void enterPressedSlot();
 
+      virtual void ExecuteSlot();
+
       virtual void LoadHistory();
 
       virtual void PredefinedDialog();

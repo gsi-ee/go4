@@ -261,6 +261,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    DrawOptionPanel->setObjectName("DrawOptionsDock");
    TGo4HisDrawOptions* drawopt = new TGo4HisDrawOptions(this, "DrawOptions");
    DrawOptionPanel->addWidget(drawopt);
+   DrawOptionPanel->adjustSize();
 
    QToolBar* DrawOptionShortPanel = addToolBar("Hist Draw Options");
    DrawOptionShortPanel->setObjectName("HisDrawOptionsDock");

@@ -13,11 +13,6 @@
   <property name="windowTitle" >
    <string>Loaded Libraries</string>
   </property>
-  <property name="windowIcon" >
-   <iconset>
-    <normaloff/>
-   </iconset>
-  </property>
   <layout class="QGridLayout" >
    <property name="margin" >
     <number>11</number>

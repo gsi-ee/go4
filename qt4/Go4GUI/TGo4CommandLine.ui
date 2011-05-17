@@ -1,135 +1,174 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>TGo4CommandLine</class>
- <widget class="QGo4Widget" name="TGo4CommandLine" >
-  <property name="geometry" >
+ <widget class="QGo4Widget" name="TGo4CommandLine">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>432</width>
-    <height>37</height>
+    <width>503</width>
+    <height>43</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+  <property name="windowTitle">
    <string>GUI Command line</string>
   </property>
-  <property name="windowIcon" >
-   <iconset>:/icons/go4logo2_big.png</iconset>
+  <property name="windowIcon">
+    <iconset>:/icons/go4logo2_big.png</iconset>
   </property>
-  <layout class="QHBoxLayout" >
-   <property name="margin" >
-    <number>1</number>
-   </property>
-   <property name="spacing" >
-    <number>1</number>
-   </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QLabel" name="GUILabel" >
-     <property name="font" >
+    <widget class="QLabel" name="GUILabel">
+     <property name="font">
       <font>
        <pointsize>10</pointsize>
        <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>GUI command:</string>
      </property>
-     <property name="wordWrap" >
+     <property name="wordWrap">
       <bool>false</bool>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QGo4CommandsHistory" name="InputLine" >
-     <property name="minimumSize" >
+    <widget class="QGo4CommandsHistory" name="InputLine" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>3</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
       <size>
        <width>300</width>
        <height>0</height>
       </size>
      </property>
-     <property name="maxCount" >
-       <number>100</number>
-     </property>
      <property name="toolTip">
-       <string>Type root or go4 command here ("go4->" to access go4 command interface functions). Return key will start execution</string>
+      <string>Type root or go4 command here (&quot;go4-&gt;&quot; to access go4 command interface functions). Return key will start execution</string>
+     </property>
+     <property name="maxCount" stdset="0">
+      <number>100</number>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QToolButton" name="PredefinedBut" >
-     <property name="minimumSize" >
+    <widget class="QToolButton" name="ExecuteBut">
+     <property name="minimumSize">
       <size>
        <width>30</width>
        <height>25</height>
       </size>
      </property>
-     <property name="maximumSize" >
+     <property name="maximumSize">
       <size>
        <width>30</width>
        <height>25</height>
       </size>
      </property>
-     <property name="toolTip" >
-      <string>Select predefined macro statement. Then drag and drop histograms from browser to empty string arguments. Edit other arguments in command line.</string>
+     <property name="toolTip">
+      <string>Execute command line.</string>
      </property>
-     <property name="text" >
+     <property name="text">
       <string/>
      </property>
-     <property name="icon" >
+     <property name="icon">
+      <pixmap>:/icons/OK16.png</pixmap>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QToolButton" name="PredefinedBut">
+     <property name="minimumSize">
+      <size>
+       <width>30</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>30</width>
+       <height>25</height>
+      </size>
+     </property>
+     <property name="toolTip">
+      <string>Select predefined macro statement. Then drag and drop histograms from browser to empty string arguments. Edit other arguments in command line.</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
       <iconset>:/icons/macro_t.png</iconset>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QToolButton" name="FileSearchBut" >
-     <property name="minimumSize" >
+    <widget class="QToolButton" name="FileSearchBut">
+     <property name="minimumSize">
       <size>
        <width>30</width>
        <height>25</height>
       </size>
      </property>
-     <property name="maximumSize" >
+     <property name="maximumSize">
       <size>
        <width>30</width>
        <height>25</height>
       </size>
      </property>
-     <property name="toolTip" >
+     <property name="toolTip">
       <string>Browse for macro to execute</string>
      </property>
-     <property name="text" >
+     <property name="text">
       <string/>
      </property>
-     <property name="icon" >
+     <property name="icon">
       <iconset>:/icons/findfile.png</iconset>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
-  <includes>
-    <include location="local">QGo4Widget.h</include>
-    <include location="local">QGo4CommandsHistory.h</include>
-  </includes>
-  <connections>
-    <connection>
-      <sender>FileSearchBut</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4CommandLine</receiver>
-      <slot>FileSearchDialog()</slot>
-    </connection>
-    <connection>
-      <sender>InputLine</sender>
-      <signal>enterPressedSingal()</signal>
-      <receiver>TGo4CommandLine</receiver>
-      <slot>enterPressedSlot()</slot>
-    </connection>
-    <connection>
-      <sender>PredefinedBut</sender>
-      <signal>clicked()</signal>
-      <receiver>TGo4CommandLine</receiver>
-      <slot>PredefinedDialog()</slot>
-    </connection>
-  </connections>
+ <layoutdefault spacing="2" margin="2"/>
+ <includes>
+  <include location="local">QGo4Widget.h</include>
+  <include location="local">QGo4CommandsHistory.h</include>
+ </includes>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>InputLine</sender>
+   <signal>enterPressedSingal()</signal>
+   <receiver>TGo4CommandLine</receiver>
+   <slot>enterPressedSlot()</slot>
+  </connection>
+  <connection>
+   <sender>ExecuteBut</sender>
+   <signal>clicked()</signal>
+   <receiver>TGo4CommandLine</receiver>
+   <slot>ExecuteSlot()</slot>
+  </connection>
+  <connection>
+   <sender>PredefinedBut</sender>
+   <signal>clicked()</signal>
+   <receiver>TGo4CommandLine</receiver>
+   <slot>PredefinedDialog()</slot>
+  </connection>
+  <connection>
+   <sender>FileSearchBut</sender>
+   <signal>clicked()</signal>
+   <receiver>TGo4CommandLine</receiver>
+   <slot>FileSearchDialog()</slot>
+  </connection>
+ </connections>
 </ui>

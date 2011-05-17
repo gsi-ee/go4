@@ -174,8 +174,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset>
-            <normaloff>:/icons/findfile.png</normaloff>:/icons/findfile.png</iconset>
+           <iconset>:/icons/findfile.png</iconset>
           </property>
          </widget>
         </item>
@@ -407,8 +406,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset>
-            <normaloff>:/icons/mbslogo.png</normaloff>:/icons/mbslogo.png</iconset>
+           <iconset>:/icons/mbslogo.png</iconset>
           </property>
          </widget>
         </item>
@@ -472,8 +470,7 @@
            <string/>
           </property>
           <property name="icon">
-           <iconset>
-            <normaloff>:/icons/findfile.png</normaloff>:/icons/findfile.png</iconset>
+           <iconset>:/icons/findfile.png</iconset>
           </property>
          </widget>
         </item>

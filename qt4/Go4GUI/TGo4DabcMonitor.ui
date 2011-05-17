@@ -67,8 +67,7 @@
            <string/>
           </property>
           <property name="icon" >
-           <iconset>
-            <normaloff>:/icons/refresh.png</normaloff>:/icons/refresh.png</iconset>
+           <iconset>:/icons/refresh.png</iconset>
           </property>
          </widget>
         </item>
@@ -356,8 +355,7 @@
            <string/>
           </property>
           <property name="icon" >
-           <iconset>
-            <normaloff>:/icons/log.png</normaloff>:/icons/log.png</iconset>
+           <iconset>:/icons/log.png</iconset>
           </property>
          </widget>
         </item>

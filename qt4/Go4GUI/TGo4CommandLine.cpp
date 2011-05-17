@@ -50,6 +50,12 @@ void TGo4CommandLine::FileSearchDialog()
    InputLine->setCurrentIndex(InputLine->findText(cmd));
 }
 
+void TGo4CommandLine::ExecuteSlot()
+{
+   enterPressedSlot();
+}
+
+
 void TGo4CommandLine::enterPressedSlot()
 {
    QString str = InputLine->currentText();
