@@ -14,6 +14,8 @@
 #ifndef TXXXEVENT_H
 #define TXXXEVENT_H
 
+#define XXX_NUM_CHAN 8
+
 #include "TGo4EventElement.h"
 
 class TXXXUnpackEvent : public TGo4EventElement {
@@ -28,10 +30,10 @@ class TXXXUnpackEvent : public TGo4EventElement {
        */
       virtual void Clear(Option_t *t="");
 
-      Int_t fiCrate1[16];
-      Int_t fiCrate2[16];
-      Int_t fiCrate3[16];
-      Int_t fiCrate4[16];
+      Int_t fiCrate1[XXX_NUM_CHAN];
+      Int_t fiCrate2[XXX_NUM_CHAN];
+      Int_t fiCrate3[XXX_NUM_CHAN];
+      Int_t fiCrate4[XXX_NUM_CHAN];
 
    ClassDef(TXXXUnpackEvent,1)
 };

@@ -67,37 +67,6 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
 
    TString kind, input, out1, out2;
 
-   // this is a way to get user-specific arguments in batch mode, like:
-   //   shell> go4analysis -x -file|-transport|-stream|-random name
-   // in this case argv[0] will be analysis name (default is "Go4Analysis")
-   //              argv[1] should be type of source
-   //              argv[2] should be "name" of file or MBS node
-   // any kind of additional arguments can be supplied
-
-switch(argc){
-case 1: cout << "**** Configure with default parameters ****" << endl;
-		kind = "-file";
-		input = "test";
-		out1 = "Output_Calib";
-		out2 = "Output_Anl";
-		break;
-
-case 2: // default kind
-	   cout << "**** Configure with user-specified parameters ****" << endl;
-	   kind = "-file";
-	   input = TString::Format("%s", argv[1]);
-	   out1 = TString::Format("%s_Calib", argv[1]);
-	   out2 = TString::Format("%s_Anl", argv[1]);
-	   break;
-case 3:
-default:
-	   cout << "**** Configure with user-specified parameters ****" << endl;
-	   kind = TString::Format("%s", argv[1]);
-	   input = TString::Format("%s", argv[2]);
-	   out1 = TString::Format("%s_Calib", argv[2]);
-	   out2 = TString::Format("%s_Anl", argv[2]);
-	   break;
-}
 // Create step 1 Unpack.
    TGo4StepFactory* factory1 = new TGo4StepFactory("UnpackFactory");
    factory1->DefEventProcessor("UnpackProc", "TXXXUnpackProc");// object name, class name
@@ -133,11 +102,7 @@ default:
    // Therfore we create it here
    fWinCon1 = MakeWinCond("wincon1", 50, 2000);
 
-   // check that file setup.C is existing in current directory
-   if (!gSystem->AccessPathName("setup.C"))
-   gROOT->ProcessLine(Form(".x setup.C(\"%s\",\"%s\")", kind.Data(), input.Data()));
-   else
-      cout << "**** Cannot find setup.C script in current directory ! ****" << endl;
+
 }
 //***********************************************************
 TXXXAnalysis::~TXXXAnalysis()

@@ -21,8 +21,6 @@ class TXXXParameter : public TGo4Parameter {
       TXXXParameter(const char* name = 0);
       virtual ~TXXXParameter();
 
-      virtual Bool_t UpdateFrom(TGo4Parameter *);
-
       Float_t frP1; // Offset for calibration
       Float_t frP2; // Factor for Calibration
       Bool_t fbHisto; // Enable Histogramming

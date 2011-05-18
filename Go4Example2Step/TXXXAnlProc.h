@@ -14,7 +14,11 @@
 #ifndef TXXXANLPROCESSOR_H
 #define TXXXANLPROCESSOR_H
 
+
+
 #include "TGo4EventProcessor.h"
+
+#include "TXXXUnpackEvent.h"
 
 class TXXXParameter;
 class TXXXAnlEvent;

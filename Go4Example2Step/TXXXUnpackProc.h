@@ -22,6 +22,8 @@
 class TXXXParameter;
 class TXXXUnpackEvent;
 
+#include "TXXXUnpackEvent.h"
+
 class TXXXUnpackProc : public TGo4EventProcessor {
    public:
       TXXXUnpackProc();
@@ -29,8 +31,8 @@ class TXXXUnpackProc : public TGo4EventProcessor {
       virtual ~TXXXUnpackProc();
       virtual Bool_t BuildEvent(TGo4EventElement* dest);
    private:
-      TH1           *fCr1Ch[8];
-      TH1           *fCr2Ch[8];
+      TH1           *fCr1Ch[XXX_NUM_CHAN];
+      TH1           *fCr2Ch[XXX_NUM_CHAN];
       TH2           *fCr1Ch1x2;
       TH1           *fHis1;
       TH1           *fHis1gate;

@@ -27,16 +27,3 @@ TXXXParameter::~TXXXParameter()
 {
 }
 
-Bool_t TXXXParameter::UpdateFrom(TGo4Parameter *pp)
-{
-   TXXXParameter* from = dynamic_cast<TXXXParameter*> (pp);
-   if (from==0) {
-      cout << "Wrong parameter object: " << pp->ClassName() << endl;
-      return kFALSE;
-   }
-   cout << "Updating parameter " << GetName() << " values!" << endl;
-   frP1 = from->frP1;
-   frP2 = from->frP2;
-   fbHisto = from->fbHisto;
-   return kTRUE;
-}

@@ -15,6 +15,7 @@
 #define TXXXANLEVENT_H
 
 #include "TGo4EventElement.h"
+#include "TXXXUnpackEvent.h"
 
 class TXXXAnlEvent : public TGo4EventElement {
    public:
@@ -23,7 +24,7 @@ class TXXXAnlEvent : public TGo4EventElement {
       virtual ~TXXXAnlEvent() ;
       virtual void  Clear(Option_t *t="");
 
-      Float_t frData[16];
+      Float_t frData[XXX_NUM_CHAN];
 
    ClassDef(TXXXAnlEvent,1)
 };

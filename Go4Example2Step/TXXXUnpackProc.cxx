@@ -49,13 +49,14 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
 
    //// init user analysis objects:
    fParam1   = (TXXXParameter *)   GetParameter("XXXParameter");
-   gROOT->ProcessLine(".x setparam.C(1)"); // print
+   // uncomment this if you want to use external macro to set paramter values:
+   //gROOT->ProcessLine(".x setparam.C(1)"); // print
 
    if(fParam1->fbHisto){
 
       cout << "**** TXXXUnpackProc: Produce histograms" << endl;
 
-      for(int i=0;i<8;i++) {
+      for(int i=0;i<XXX_NUM_CHAN;i++) {
          fCr1Ch[i] = MakeTH1('I', Form("Crate1/Cr1Ch%02d",i+1), Form("Crate 1 channel %2d",i+1), 5000, 1., 5001.);
          fCr2Ch[i] = MakeTH1('I', Form("Crate2/Cr2Ch%02d",i+1), Form("Crate 2 channel %2d",i+1), 5000, 1., 5001.);
       }
@@ -139,11 +140,11 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
          fcondSet->Pic(1,1)->SetLineAtt(9,1,1);
          fcondSet->Pic(0,0)->SetTitleAttr(0.05, 0.85, 0.8, 0.95);
 
-         TF1 *fa1 = new TF1("fa1","1000*sin(x)/x",0,1000);
-         fcondSet->Pic(0,0)->AddSpecialObject(fa1, "same");
-
-         TArc* arc = new TArc(0,0, 1000);
-         fcondSet->Pic(0,1)->AddSpecialObject(arc);
+//         TF1 *fa1 = new TF1("fa1","1000*sin(x)/x",0,1000);
+//         fcondSet->Pic(0,0)->AddSpecialObject(fa1, "same");
+//
+//         TArc* arc = new TArc(0,0, 1000);
+//         fcondSet->Pic(0,1)->AddSpecialObject(arc);
 
          AddPicture(fcondSet);
       }
@@ -312,7 +313,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
       {
          Int_t* pdata = psubevt->GetDataField();
          Int_t lwords = psubevt->GetIntLen();
-         if(lwords >= 8) lwords=8; // take only first 8 lwords
+         if(lwords > XXX_NUM_CHAN) lwords=XXX_NUM_CHAN; // take only first 8 lwords
          Int_t lastvalue = 0;
          for(Int_t i = 0; i<lwords; ++i)
          {
@@ -347,7 +348,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
       {
          Int_t* pdata = psubevt->GetDataField();
          Int_t lwords = (psubevt->GetDlen() -2) * sizeof(Short_t)/sizeof(Int_t);
-         if(lwords >= 8) lwords=8;
+         if(lwords > XXX_NUM_CHAN) lwords=XXX_NUM_CHAN;
          for(Int_t i = 0; i<lwords; ++i) {
             if(*pdata != 0) {
                out_evt->fiCrate2[i] = *pdata;

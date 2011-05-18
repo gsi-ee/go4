@@ -41,10 +41,13 @@ TXXXAnlProc::TXXXAnlProc(const char* name) :
    cout << "**** TXXXAnlProc: Create" << endl;
    //// init user analysis objects:
    fParam1 = (TXXXParameter*)  GetParameter("XXXParameter");
-   // if unpack was enabled, parameters have been printed already
-   if(TGo4Analysis::Instance()->GetAnalysisStep("Unpack")->IsProcessEnabled())
-	    gROOT->ProcessLine(".x setparam.C(0)");
-   else gROOT->ProcessLine(".x setparam.C(1)");
+////////////////////////////////////////////////////
+// uncomment following lines if you want to use external macro to set parameter values:
+//   // if unpack was enabled, parameters have been printed already
+//   if(TGo4Analysis::Instance()->GetAnalysisStep("Unpack")->IsProcessEnabled())
+//	    gROOT->ProcessLine(".x setparam.C(0)");
+//   else gROOT->ProcessLine(".x setparam.C(1)");
+///////////////////////////////////////////////////
 
    if(fParam1->fbHisto){
       // this one is created in TXXXAnalysis, because it is used in both steps
@@ -79,16 +82,16 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
    isValid=kTRUE;
 
    Int_t cnt(0);
-   for(Int_t ii=0;ii<4;ii++) {
+   for(Int_t ii=0;ii<XXX_NUM_CHAN/2;ii++) {
       out_evt->frData[cnt] = (Float_t)inp_evt->fiCrate1[ii];
       cnt++;
    }
-   for(Int_t ii=0; ii<4; ii++) {
+   for(Int_t ii=0; ii<XXX_NUM_CHAN/2; ii++) {
       out_evt->frData[cnt] = (Float_t)inp_evt->fiCrate2[ii];
       cnt++;
    }
    if(fParam1->fbHisto) { // histogramming
-      for(Int_t ii=0;ii<8;ii++)
+      for(Int_t ii=0;ii<XXX_NUM_CHAN;ii++)
          if(out_evt->frData[ii]) {
             if(fWinCon && fWinCon->Test(out_evt->frData[ii])) fSum1->Fill(out_evt->frData[ii]);
             if (fParam1) fSum2->Fill(out_evt->frData[ii] + fParam1->frP1);
