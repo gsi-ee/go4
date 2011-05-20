@@ -19,7 +19,7 @@
 class TXXXParameter : public TGo4Parameter {
    public:
       TXXXParameter(const char* name = 0);
-      virtual ~TXXXParameter();
+      virtual ~TXXXParameter() {}
 
       Float_t frP1; // Offset for calibration
       Float_t frP2; // Factor for Calibration

@@ -19,9 +19,10 @@
 
 class TXXXAnlEvent : public TGo4EventElement {
    public:
-      TXXXAnlEvent() ;
-      TXXXAnlEvent(const char* name) ;
-      virtual ~TXXXAnlEvent() ;
+      TXXXAnlEvent() : TGo4EventElement() {}
+      TXXXAnlEvent(const char* name) : TGo4EventElement(name) {}
+      virtual ~TXXXAnlEvent() {}
+
       virtual void  Clear(Option_t *t="");
 
       Float_t frData[XXX_NUM_CHAN];

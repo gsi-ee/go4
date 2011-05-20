@@ -13,27 +13,12 @@
 
 #include "TXXXUnpackEvent.h"
 
-#include <string.h>
-
-//***********************************************************
-TXXXUnpackEvent::TXXXUnpackEvent() :
-   TGo4EventElement()
+void TXXXUnpackEvent::Clear(Option_t *t)
 {
-}
-//***********************************************************
-TXXXUnpackEvent::TXXXUnpackEvent(const char* name) :
-   TGo4EventElement(name)
-{
-}
-//***********************************************************
-TXXXUnpackEvent::~TXXXUnpackEvent()
-{
-}
-//***********************************************************
-void  TXXXUnpackEvent::Clear(Option_t *t)
-{
-   memset(fiCrate1, 0, sizeof(fiCrate1));
-   memset(fiCrate2, 0, sizeof(fiCrate2));
-   memset(fiCrate3, 0, sizeof(fiCrate3));
-   memset(fiCrate4, 0, sizeof(fiCrate4));
+   for (int i=0;i<XXX_NUM_CHAN;i++) {
+      fiCrate1[i] = 0;
+      fiCrate2[i] = 0;
+      fiCrate3[i] = 0;
+      fiCrate4[i] = 0;
+   }
 }

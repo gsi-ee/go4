@@ -49,7 +49,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
 
    //// init user analysis objects:
    fParam1   = (TXXXParameter *)   GetParameter("XXXParameter");
-   // uncomment this if you want to use external macro to set paramter values:
+   // uncomment this if you want to use external macro to set parameter values:
    //gROOT->ProcessLine(".x setparam.C(1)"); // print
 
    if(fParam1->fbHisto){
@@ -140,11 +140,15 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
          fcondSet->Pic(1,1)->SetLineAtt(9,1,1);
          fcondSet->Pic(0,0)->SetTitleAttr(0.05, 0.85, 0.8, 0.95);
 
-//         TF1 *fa1 = new TF1("fa1","1000*sin(x)/x",0,1000);
-//         fcondSet->Pic(0,0)->AddSpecialObject(fa1, "same");
-//
-//         TArc* arc = new TArc(0,0, 1000);
-//         fcondSet->Pic(0,1)->AddSpecialObject(arc);
+
+         /** this is example how arbitrary objects can be add to
+          * the picture and than displayed in the gui */
+
+//       TF1 *fa1 = new TF1("fa1","1000*sin(x)/x",0,1000);
+//       fcondSet->Pic(0,0)->AddSpecialObject(fa1, "same");
+
+//       TArc* arc = new TArc(0,0, 1000);
+//       fcondSet->Pic(0,1)->AddSpecialObject(arc);
 
          AddPicture(fcondSet);
       }
@@ -154,8 +158,6 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       fLaText->SetName("LatexObjectDemo");
       fLaText->SetNDC();
       AddObject(fLaText); // will replace old one of same name
-
-
 
       fPicture1 = GetPicture("Picture1");
       if (fPicture1 == 0) {
@@ -365,14 +367,8 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
    //latext.Form("Event number:%d",inp_evt->GetCount());
    fLaText->SetText(0.5,0.5,latext.Data());
 
-
-
    out_evt->SetValid(isValid); // to store or not to store
    // default calling Fill method will set validity of out_evt to return value!
-
-
-
-
 
    return isValid; // this will overwrite out_evt->SetValid
    // except one would have a Fill method implemented in the output event class!

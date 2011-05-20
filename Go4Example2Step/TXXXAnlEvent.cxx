@@ -13,23 +13,8 @@
 
 #include "TXXXAnlEvent.h"
 
-#include <string.h>
-
-//***********************************************************
-TXXXAnlEvent::TXXXAnlEvent() : TGo4EventElement()
-{
-}
-//***********************************************************
-TXXXAnlEvent::TXXXAnlEvent(const char * name) : TGo4EventElement(name)
-{
-}
-//***********************************************************
-TXXXAnlEvent::~TXXXAnlEvent()
-{
-}
-
-//-----------------------------------------------------------
 void TXXXAnlEvent::Clear(Option_t *t)
 {
-   memset(frData, 0, sizeof(frData));
+   for (int i=0;i<XXX_NUM_CHAN;i++)
+      frData[i] = 0.;
 }

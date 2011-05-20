@@ -20,9 +20,9 @@
 
 class TXXXUnpackEvent : public TGo4EventElement {
    public:
-      TXXXUnpackEvent();
-      TXXXUnpackEvent(const char* name) ;
-      virtual ~TXXXUnpackEvent() ;
+      TXXXUnpackEvent() : TGo4EventElement() {}
+      TXXXUnpackEvent(const char* name) : TGo4EventElement(name) {}
+      virtual ~TXXXUnpackEvent() {}
 
       /**
        * Method called by the event owner (analysis step) to clear the

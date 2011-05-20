@@ -14,8 +14,6 @@
 #ifndef TXXXANLPROCESSOR_H
 #define TXXXANLPROCESSOR_H
 
-
-
 #include "TGo4EventProcessor.h"
 
 #include "TXXXUnpackEvent.h"
@@ -25,7 +23,7 @@ class TXXXAnlEvent;
 
 class TXXXAnlProc : public TGo4EventProcessor {
    public:
-      TXXXAnlProc() ;
+      TXXXAnlProc();
       TXXXAnlProc(const char * name);
       virtual ~TXXXAnlProc();
 
