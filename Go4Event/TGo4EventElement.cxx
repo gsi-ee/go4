@@ -24,39 +24,36 @@ TGo4EventElement::TGo4EventElement() :
    TNamed("Go4Element","This is a Go4 EventElement"),
    fbIsValid(kTRUE),
    fxParent(0),
-   fxEventSource(0)
+   fxEventSource(0),
+   fIdentifier(-1),
+   isActivated(kFALSE),
+   fDebug(kFALSE)
 {
 
    TRACE((15,"TGo4EventElement::TGo4EventElement()",__LINE__, __FILE__));
-   fIdentifier=-1;
-   isActivated=kFALSE;
-   fDebug=kFALSE;
 }
 
 TGo4EventElement::TGo4EventElement(const char* name) :
    TNamed(name,"This is a Go4 EventElement"),
    fbIsValid(kTRUE),
    fxParent(0),
-   fxEventSource(0)
+   fxEventSource(0),
+   fIdentifier(-1),
+   isActivated(kFALSE),
+   fDebug(kFALSE)
 {
    TRACE((15,"TGo4EventElement::TGo4EventElement(const char*)",__LINE__, __FILE__));
-   fIdentifier=-1;
-   isActivated=kFALSE;
-   fDebug=kFALSE;
 }
 
-TGo4EventElement::TGo4EventElement(const char* aName,
-                                   const char* aTitle,
-                                   Short_t aBaseCat)
+TGo4EventElement::TGo4EventElement(const char* aName, const char* aTitle, Short_t aBaseCat) :
+   TNamed(aName,aTitle),
+   fbIsValid(kTRUE),
+   fxParent(0),
+   fxEventSource(0),
+   fIdentifier(aBaseCat),
+   isActivated(kFALSE),
+   fDebug(kFALSE)
 {
-//Allocates a new event Element with name aName and title aTitle
-// aBaseCat could be the identifier of the Element for fast
-// retrieval of objects in the composite structure
-   SetName(aName);
-   SetTitle(aTitle);
-   fIdentifier=aBaseCat;
-   isActivated=kFALSE;
-   fDebug=kFALSE;
 }
 
 TGo4EventElement::~TGo4EventElement()
@@ -96,7 +93,7 @@ void TGo4EventElement::Print(Option_t* option) const
 
 void TGo4EventElement::makeBranch(TBranch *parent)
 {
-  // method for recursive branching algorithm
+   // method for recursive branching algorithm
 
 }
 
@@ -120,22 +117,22 @@ Int_t  TGo4EventElement::activateBranch(TBranch *branch,Int_t splitLevel,Int_t i
 
 void TGo4EventElement::deactivate()
 {
-  TString name = GetName();
-  name+=".";
-  gTree->SetBranchStatus(name.Data(), 0);
-  name+="*";
-  gTree->SetBranchStatus(name.Data(), 0);
-  TGo4Log::Info("-I- Deactivating elements at location : %s", name.Data());
+   TString name = GetName();
+   name+=".";
+   gTree->SetBranchStatus(name.Data(), 0);
+   name+="*";
+   gTree->SetBranchStatus(name.Data(), 0);
+   TGo4Log::Info("-I- Deactivating elements at location : %s", name.Data());
 }
 
 void TGo4EventElement::activate()
 {
-  TString name=GetName();
-  name+=".";
-  gTree->SetBranchStatus(name.Data(), 1);
-  name+="*";
-  gTree->SetBranchStatus(name.Data(), 1);
-  TGo4Log::Info("-I- Activating elements at location : %s", name.Data());
+   TString name=GetName();
+   name+=".";
+   gTree->SetBranchStatus(name.Data(), 1);
+   name+="*";
+   gTree->SetBranchStatus(name.Data(), 1);
+   TGo4Log::Info("-I- Activating elements at location : %s", name.Data());
 }
 
 void TGo4EventElement::Clear(Option_t *)
