@@ -20,6 +20,10 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
+Changes in Go4 v4.4.4 (June 2011)
+1. Fix problem with Ctrl-C handler. Now in batch in all cases
+   analysis will be stopped correctly. 
+
 Changes in Go4 v4.4.3 (March 2011)
 1. Implement proper Ctrl-C handler for Windows platform
 2. Fix several problems with settings savings. There is 

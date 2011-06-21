@@ -220,7 +220,8 @@ TGo4Analysis::TGo4Analysis(int argc, char** argv) :
    fServerCtrlPass(),
    fServerObserverPass(),
    fbMakeWithAutosave(kTRUE),
-   fbObjMade(kFALSE)
+   fbObjMade(kFALSE),
+   fNumCtrlC(0)
 {
    TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
 
@@ -307,21 +308,20 @@ TGo4Analysis::~TGo4Analysis()
 }
 
 
-
 void TGo4Analysis::ProcessCrtlCSignal()
 {
    switch(fNumCtrlC++) {
       case 0:
-	 StopWorking();    // for batch mode and server mode
-	 ShutdownServer(); // only for server mode
+         StopWorking();    // for batch mode and server mode
+         ShutdownServer(); // only for server mode
          break;
      case 1:
         // if shutdown should hang, we do second try closing the files directly
-	CloseAnalysis();
-	CloseAutoSaveFile();
-	TGo4Log::CloseLogfile();
-	if (gApplication) gApplication->Terminate();
-	break;
+        CloseAnalysis();
+        CloseAutoSaveFile();
+        TGo4Log::CloseLogfile();
+        if (gApplication) gApplication->Terminate();
+        break;
      case 2:
      default:
         exit(1); // the hard way if nothing helps
@@ -1161,13 +1161,13 @@ void TGo4Analysis::StopObjectServer()
 
 void TGo4Analysis::ShutdownServer()
 {
-// this method to be called from ctrl-c signal handler of analysis server
-//cout <<"######### TGo4Analysis::ShutdownServer()" << endl;
-if(fxAnalysisSlave)
-	  {
-		TGo4Log::Message(1,"Analysis server is initiating shutdown after ctrl-c, please wait!!\n");
-		fxAnalysisSlave->SubmitShutdown(); // shutdown will be performed in local command thread
-	  }
+   // this method to be called from ctrl-c signal handler of analysis server
+   //cout <<"######### TGo4Analysis::ShutdownServer()" << endl;
+   if(fxAnalysisSlave)
+   {
+      TGo4Log::Message(1,"Analysis server is initiating shutdown after ctrl-c, please wait!!\n");
+      fxAnalysisSlave->SubmitShutdown(); // shutdown will be performed in local command thread
+   }
 
 }
 
