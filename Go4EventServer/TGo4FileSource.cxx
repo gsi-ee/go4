@@ -145,7 +145,7 @@ TList* TGo4FileSource::ProducesFilesList(const char* mask)
    }
    gSystem->FreeDirectory(dir);
 
-   lst->Sort();
+   if (lst) lst->Sort();
 
    return lst;
 }
