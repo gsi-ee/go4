@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.4.3 (build 40403)
-                      3-March-2011
+         Go4 Release Package v4.5.0 (build 40500)
+                      22-June-2011
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -20,9 +20,12 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v4.4.4 (June 2011)
+Changes in Go4 v4.5.0 (June 2011)
 1. Fix problem with Ctrl-C handler. Now in batch in all cases
-   analysis will be stopped correctly. 
+   analysis will be stopped correctly.
+2. Significant changes in event classes. Reincarnation of TGo4CompositeEvent.
+   It is now can be used again as output/input of any step. Many errors are fixed.
+         
 
 Changes in Go4 v4.4.3 (March 2011)
 1. Implement proper Ctrl-C handler for Windows platform

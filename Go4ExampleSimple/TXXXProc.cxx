@@ -18,6 +18,7 @@
 #include "TH1.h"
 #include "TH2.h"
 
+#include "TGo4Log.h"
 #include "TGo4MbsEvent.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"

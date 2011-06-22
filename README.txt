@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.4.3 (build 40403)
-                      3-March-2011
+         Go4 Release Package v4.5.0 (build 40500)
+                      22-Jube-2011
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -20,14 +20,14 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 These package was tested on
-    Suse 10.2 (x86_64), SuSe 11.1 (x86_64)
-    Debian 3.1, Debian 4.0 (32 bit and 64bit)
-    compilers: gcc 3.3.5, gcc 4.1.2, gcc 4.3.x
+    Suse 10.2 (x86_64), SuSe 11.x (x86_64)
+    Debian 3.1, Debian 4.0, Debian 5.0 (32 bit and 64bit)
+    compilers: gcc 3.3.5, gcc 4.1.2, gcc 4.3.x, gcc 4.4.x
     SunOS 5.2 (Solaris) with CC 5.8
     Windows XP, 7
     MacOSX Darwin (10.6) with gcc 4.2.1
 
-REQUIREMENTS: ROOT and Qt3 or Qt4
+REQUIREMENTS: ROOT and Qt4 (or Qt3) 
 
 
 ROOT INSTALLATION
@@ -58,7 +58,7 @@ ROOT INSTALLATION
 
 QT INSTALLATION
 
-  This Go4 distribution can be built with Qt 3.3.x or Qt 4.4.x and higher.
+  This Go4 distribution can be built with Qt 4.4.x and higher (also with Qt 3.3.x)
   Most modern Linux distributions provide Qt libraries, utilities and include files.
   Typically one should install libqt4 and libqt4-devel packages (or libqt3 and libqt3-devel).
   Normally Go4 able to detect major version of such Qt installation 
@@ -100,11 +100,11 @@ GO4 COMPILATION
 
   Unpack this Go4 distribution in any suitable directory.
   
-     shell> tar xzf go4-4.4.2.tar.gz
+     shell> tar xzf go4-4.5.0.tar.gz
   
-  This will create subdirectory go4-4.4.2. To compile go4, do:
+  This will create subdirectory go4-4.5.0. To compile go4, do:
   
-     shell> cd go4-4.4.2
+     shell> cd go4-4.5.0
      shell> make all
   
   In most cases it will be enough to compile go4 libraries, gui and

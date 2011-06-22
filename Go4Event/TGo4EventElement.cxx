@@ -26,7 +26,6 @@ TGo4EventElement::TGo4EventElement() :
    fxParent(0),
    fxEventSource(0),
    fIdentifier(-1),
-   isActivated(kFALSE),
    fDebug(kFALSE)
 {
 
@@ -39,7 +38,6 @@ TGo4EventElement::TGo4EventElement(const char* name) :
    fxParent(0),
    fxEventSource(0),
    fIdentifier(-1),
-   isActivated(kFALSE),
    fDebug(kFALSE)
 {
    TRACE((15,"TGo4EventElement::TGo4EventElement(const char*)",__LINE__, __FILE__));
@@ -51,7 +49,6 @@ TGo4EventElement::TGo4EventElement(const char* aName, const char* aTitle, Short_
    fxParent(0),
    fxEventSource(0),
    fIdentifier(aBaseCat),
-   isActivated(kFALSE),
    fDebug(kFALSE)
 {
 }
@@ -97,21 +94,81 @@ void TGo4EventElement::makeBranch(TBranch *parent)
 
 }
 
-Int_t  TGo4EventElement::activateBranch(TBranch *branch,Int_t splitLevel,Int_t init)
+void TGo4EventElement::synchronizeWithTree(TTree *tree, TGo4EventElement** var_ptr)
 {
-   TString cad=branch->GetName();
-   if(!isActivated){
-      TTree* tree = branch->GetTree();
-      TGo4EventElement *dump = this;
-      tree->SetBranchAddress(cad.Data(), &dump );
+   // try to find branch with the same name as event
 
-      tree->SetBranchStatus(cad.Data(), 1);
-      cad+="*";
-      tree->SetBranchStatus(cad.Data(), 1);
-      isActivated=kTRUE;
+   if (tree==0) return;
+
+   TBranch* topb = 0;
+   TString searchname = GetName();
+   if (searchname.Length()>0) {
+      if (searchname[searchname.Length()-1]!='.') searchname += ".";
+      topb = tree->FindBranch(searchname.Data());
    }
 
-   branch->GetEntry(0);
+   if (topb==0) topb = (TBranch*) tree->GetListOfBranches()->First();
+
+   Int_t index = tree->GetListOfBranches()->IndexOf(topb);
+
+   // FIXME SL: this is old comment, do we need at all to disable all branches from the beginning ???
+   // note: only deactivate subleafs _after_ address of top branch is set!
+
+   // tree->SetBranchStatus("*",0);
+
+   activateBranch(topb, index, var_ptr);
+}
+
+/** THIS WAS OLD CODE FROM TGo4FileSource
+
+void TGo4EventElement::synchronizeWithTree(TTree *tree, TGo4EventElement** var_ptr)
+
+TString topname;
+Bool_t masterbranch=kFALSE;
+TString branchName = dest->GetName();
+if(!fxBranchName.Contains("."))  {
+   fxBranchName+="."; // for master branch, add dot. Subbranch names with dot separators do not get final dot
+   masterbranch=kTRUE;
+}
+TObjArray* blist = tree->GetListOfBranches();
+TBranch* topb = (TBranch*) blist->At(0);
+if(topb) {
+   topname = topb->GetName();
+   //cout <<"Activating top branch "<<topname.Data() << endl;
+   tree->SetBranchAddress(topname.Data(),(void**) var_ptr);
+   //topb->SetAddress(&fxTopEvent); // this will not set address of possible cloned tree. we use the set address of the tree
+}
+tree->SetBranchStatus("*",0); // note: only deactivate subleafs _after_ address of top branch is set!
+tree->SetBranchStatus(topname.Data(),1); // required to process any of the subbranches!
+TString wildbranch = branchName;
+wildbranch += "*";
+tree->SetBranchStatus(wildbranch.Data(),1);
+//cout <<"Build event activates: "<<wildbranch.Data() << endl;
+wildbranch = branchName;
+if(!masterbranch) wildbranch+=".";
+wildbranch+="*";
+tree->SetBranchStatus(wildbranch.Data(),1);
+//cout <<"Build event activates: "<<wildbranch.Data() << endl;
+fbActivated = kTRUE;
+
+*/
+
+
+Int_t TGo4EventElement::activateBranch(TBranch *branch, Int_t init, TGo4EventElement** var_ptr)
+{
+   if (branch==0) return 0;
+
+   TString cad = branch->GetName();
+
+   TTree* tree = branch->GetTree();
+
+   if (var_ptr!=0)
+      tree->SetBranchAddress(cad.Data(), (void**)var_ptr);
+
+   tree->SetBranchStatus(cad.Data(), 1);
+   cad+="*";
+   tree->SetBranchStatus(cad.Data(), 1);
+
    return 0;
 }
 

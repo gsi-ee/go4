@@ -16,12 +16,10 @@
 
 #include "TNamed.h"
 
-// dummy include, to be removed later
-#include "TGo4Log.h"
-
 class TGo4EventSource;
 class TGo4CompositeEvent;
 class TBranch;
+class TTree;
 
 /** The abstract base class for the data elements of which the
  * unpacked events (or detector structure data, resp) are composed.
@@ -35,6 +33,7 @@ class TBranch;
  * @interface
  * @author J. Adamczewski
  * @since 12/2000*/
+
 class TGo4EventElement : public TNamed {
    public:
 
@@ -87,18 +86,22 @@ class TGo4EventElement : public TNamed {
 
       virtual TGo4CompositeEvent* getSubEventElement() { return 0; }
       virtual void makeBranch(TBranch *parent);
-      virtual Int_t activateBranch(TBranch *branch,Int_t splitLevel, Int_t init=0);
       virtual void deactivate();
       virtual void activate();
 
       virtual void Clear(Option_t *t="");
-      virtual void clearAll(Int_t ){;}
+      virtual void clearAll(Int_t) {}
       virtual Bool_t isComposed() { return kFALSE; }
       virtual Short_t getId() { return fIdentifier;}
       virtual void setDebug (Bool_t debug) { fDebug=debug;}
       virtual TGo4EventElement& operator[](Int_t){ return *this; }
 
       virtual void Print(Option_t* option = "") const;
+
+      /** Use this method to map event structure with the Tree branch(es) */
+      virtual void synchronizeWithTree(TTree *tree, TGo4EventElement** var_ptr = 0);
+
+      virtual Int_t activateBranch(TBranch *branch, Int_t index=0, TGo4EventElement** var_ptr = 0);
 
    private:
 
@@ -120,7 +123,6 @@ class TGo4EventElement : public TNamed {
 
    protected:
       Short_t fIdentifier; // Identifier
-      Bool_t isActivated; //! IO synchrone flag
       Bool_t fDebug; //! Debug level
 
    ClassDef(TGo4EventElement,2)

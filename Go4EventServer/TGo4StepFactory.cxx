@@ -17,6 +17,7 @@
 #include "TROOT.h"
 #include "TString.h"
 
+#include "TGo4Log.h"
 #include "TGo4EventProcessor.h"
 #include "TGo4EventElement.h"
 #include "TGo4EventSourceParameter.h"

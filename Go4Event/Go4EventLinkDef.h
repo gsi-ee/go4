@@ -24,7 +24,7 @@
 #pragma link C++ class TGo4EventFactory+;
 #pragma link C++ class TGo4EventCalibration+;
 
-#pragma link C++ class TGo4CompositeEvent-;
+#pragma link C++ class TGo4CompositeEvent+;
 
 #endif
 

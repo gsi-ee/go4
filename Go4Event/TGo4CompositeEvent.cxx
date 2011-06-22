@@ -19,7 +19,9 @@
 #include "TROOT.h"
 #include "TObjArray.h"
 
-R__EXTERN TTree *gTree;
+#include "TGo4Log.h"
+
+// R__EXTERN TTree *gTree;
 
 TGo4CompositeEvent::TGo4CompositeEvent() :
    TGo4EventElement(),
@@ -33,20 +35,17 @@ TGo4CompositeEvent::TGo4CompositeEvent(const char*aName, const char* aTitle, Sho
    fNElements(0),
    fEventElements(0)
 {
-   fEventElements = new TObjArray(12);
 }
 
 TGo4CompositeEvent::~TGo4CompositeEvent()
 {
    if(fEventElements!=0) {
 
-      // SL: why it is here ????
-      fEventElements->Sort();
-
-      if(!fEventElements->IsEmpty())
-         fEventElements->Delete();
+      fEventElements->Delete();
 
       delete fEventElements;
+
+      fEventElements = 0;
    }
 }
 
@@ -57,49 +56,54 @@ void TGo4CompositeEvent::makeBranch(TBranch *parent)
       for(Int_t i=0; i<=fEventElements->GetLast();i++) {
          TGo4EventElement** par = (TGo4EventElement**) &((*fEventElements)[i]);
          if (par && *par) {
-            TBranch *b = gTree->TTree::Branch(Form("%s.",(*par)->GetName()), (*par)->ClassName(),par,4000,99);
+            TBranch *b = parent->GetTree()->TTree::Branch(Form("%s.",(*par)->GetName()), (*par)->ClassName(),par,4000,99);
             (*par)->makeBranch(b);
          }
       }
-   TGo4EventElement::makeBranch( parent );
+
+   TGo4EventElement::makeBranch(parent);
 }
 
 
-Int_t  TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t splitLevel, Int_t init)
+Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventElement** var_ptr)
 {
+   // first read event itself
+   TGo4EventElement::activateBranch(branch, init, var_ptr);
 
-   // synchronize with TTree for Composite Event
-   if (branch) {
-      TString cad = branch->GetName();
-      TTree *tree = branch->GetTree();
+   if (branch==0) return fNElements;
 
-      TGo4CompositeEvent *dump=this;
-      tree->SetBranchStatus(cad.Data(),1);
-      tree->SetBranchAddress(cad.Data(), &dump);
-      cad+="*";
-      tree->SetBranchStatus(cad.Data(),1);
+   // we need to call GetEntry here to get value of fNElements
+   branch->GetEntry(0);
 
-      TGo4EventElement::activateBranch(branch, splitLevel);
+   printf("Total number of elements = %d\n", fNElements);
+
+   if (fDebug)
+      printf("##### TGo4CompositeEvent::activateBranch called from obj:%s \n",this->GetName());
+
+   TTree* tree = branch->GetTree();
+   TObjArray *br = tree->GetListOfBranches();
+
+   Int_t i = init;
+   Int_t all_branches = fNElements;
+
+   if (fDebug)
+      printf("-I-TGo4CompositeEvent::activateBranch from obj:%s bname:%s Elements:%d  index:%d\n",
+            this->GetName(), branch->GetName(), fNElements, init);
+
+   while (i < init + all_branches) {
+      i++;
+      TBranch* b = (TBranch*) br->At(i);
+      Bool_t readentry = kFALSE;
+      if (b==0) continue;
+
+      TString sub = b->GetName();
+      sub.Remove(sub.Length()-1);
+      TGo4EventElement* par = getEventElement(sub.Data());
 
       if (fDebug)
-         printf("##### TGo4CompositeEvent::activateBranch called from obj:%s \n",this->GetName());
+         printf("-I TGo4CompositeEvent::activateBranch use subbranch %s\n", b->GetName());
 
-      TObjArray *br = tree->GetListOfBranches();
-
-      Int_t i = init;
-
-      if (fDebug)
-         printf("-I-TGo4CompositeEvent::activateBranch from obj:%s bname%s Elements :%d  index:%d\n",
-               this->GetName(),cad.Data(), fNElements,init);
-
-      while (i < init+fNElements) {
-         i++;
-         TBranch* b = (TBranch*) br->At(i);
-         if (b==0) continue;
-
-         if (fDebug)
-            printf("-I TGo4CompositeEvent::activateBranch from obj:%s (while) bname:%s cname:%s init:%d elem:%d \n",
-                  this->GetName(), b->GetName(), b->GetClassName(), init, fNElements);
+      if (par==0) {
 
          TClass* cl = gROOT->GetClass(b->GetClassName());
          if (cl==0) {
@@ -107,143 +111,91 @@ Int_t  TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t splitLevel, Int
             continue;
          }
 
-         TGo4EventElement* par = (TGo4EventElement*) cl->New();
+         par = (TGo4EventElement*) cl->New();
 
-         if(par==0) {
+         if (par==0) {
             printf("-I class %s instance cannot be created\n", b->GetClassName());
             continue;
-
          }
 
-         Int_t offset = par->activateBranch(b, splitLevel, i);
-         if (fDebug)
-            printf("-I activate from obj:%s elems:%d index:%d adding:%s\n",
-                  this->GetName(), init+fNElements, i, par->GetName());
+         readentry = !par->isComposed();
+      }
 
-         addEventElement(par,1);
-         i+=offset;
-         fNElements+=offset;
-         if (fDebug)
-            printf("-I from obj:%s activate indexing after offset:%d index:%d elems:%d\n",
-                  this->GetName(), offset,i,init+fNElements);
+      // TODO: could we put element in the elements array BEFORE we activate branch
+      //  in this case activate branch will set correct address from the beginning
+      Int_t offset = par->activateBranch(b, i, &par);
 
-      } //!while
-      Clear();
-   }//!branch
+      if (fDebug)
+         printf("-I activate from obj:%s elems:%d index:%d adding:%s\n",
+               this->GetName(), init+fNElements, i, par->GetName());
+
+      // we need to getentry only when new object was created to get its id
+      if (readentry) b->GetEntry(0);
+
+      if (fDebug)
+         printf("Add branch %s event %s offset %d\n", b->GetName(), par->GetName(), offset);
+
+      if (addEventElement(par, kTRUE)) {
+         TGo4EventElement** par_ptr = (TGo4EventElement**) &((*fEventElements)[par->getId()]);
+         tree->SetBranchAddress(b->GetName(), par_ptr);
+         if (fDebug)
+            printf("Set address to actual variable from obj array\n");
+      }
+
+      i+=offset;
+      all_branches+=offset;
+      if (fDebug)
+         printf("-I from obj:%s activate indexing after offset:%d index:%d max:%d\n",
+               this->GetName(), offset, i, init+all_branches);
+   } //!while
+
+   // FIXME: do we need clear method here ????
+   // Clear();
 
    if (fDebug)
       printf("-I activate return value from obj:%s offset:%i \n", this->GetName(), fNElements);
 
-   return fNElements;
+   return all_branches;
 }
 
+/***
+ *
+ * No need for the own method - it is similar to that in TGo4EventElement
 
-void  TGo4CompositeEvent::synchronizeWithTree(TTree *tree, Int_t splitLevel)
+void TGo4CompositeEvent::synchronizeWithTree(TTree *tree, TGo4EventElement** var_ptr)
 {
    // synchronize with TTree for composite Event
    // FIXME !
    // should <test> the differents splitlevel?
 
+   printf("Sync with tree %p\n", tree);
+
    if (tree==0) return;
 
-   if (fEventElements==0)
-      fEventElements = new TObjArray(12);
+   // SL 22.06.2011: here was absolutely the same code as in activateBranch, let use it
+   activateBranch((TBranch*) tree->GetListOfBranches()->First(), 0, var_ptr);
 
-   TGo4CompositeEvent *dump = this;
-
-   //-- Initialize the global Branch structure
-   TObjArray *br = tree->GetListOfBranches();
-   TBranch* b = (TBranch*) br->At(0);
-   TString cad = b->GetName();
-
-   // SL: why it is here, absolutely same code is in the TGo4EventElement::activateBranch
-
-   tree->SetBranchStatus(cad.Data(),1);
-   tree->SetBranchAddress(cad.Data(), &dump);
-   cad+="*";
-   tree->SetBranchStatus(cad.Data(),1);
-
-   // Initialize underlying  TTree
-
-   // SL: normally at this moment one should get first entry from tree-
-   //     means normal event instance plus all its fields, including number of branches
-   //     But WHY fNElements+=offset later, it means reconstructed event has other number than
-   //     event which was normally stored in the tree. In my mind, ABSOLUTE NONSENSE
-   //     The only explanation - one wants to map hierarchical structure into flat structure of
-   //     only top-levels branches in the ROOT tree. But than one should do it in different means.
-   //     And one in no case could change fNElements value. If it remains unchanged one could
-   //     fold/unfold complete hierarchy of composite event. In no case fEventElements should be
-   //     streamed into the tree.
-   TGo4EventElement::activateBranch(b,splitLevel);
-
-   if(fDebug)
-      printf("-I- TGo4CompositeEvent::synchronize(tree): Elements :%i Id:%i branch:%s \n", fNElements ,fIdentifier,cad.Data());
-
-   //-- Rebuild the Elements array
-   Int_t i=0;
-   while (i<fNElements) {
-      i++;
-      b = (TBranch*) br->At(i);
-      if(b == 0) continue;
-
-      if (fDebug)
-         printf("-I TGo4CompositeEvent::synchronize(tree) bname:%s cname:%s Elem:%i\n",
-               b->GetName(), b->GetClassName(), fNElements);
-
-      TClass* cl = gROOT->GetClass(b->GetClassName());
-      if (cl==0) { printf("-I missing class\n"); continue; }
-
-      TGo4EventElement* par = (TGo4EventElement*) cl->New();
-      if (par==0) { printf("-I missing instance\n"); continue; }
-
-      Int_t offset = par->activateBranch(b, splitLevel, i);
-      if (fDebug)
-         printf("-I synchronize index:%i from:%s adding:%s\n",
-                  i, this->GetName(), par->GetName());
-      addEventElement(par, 1);
-      i+=offset;
-      fNElements+=offset;
-
-      if (fDebug)
-         printf("-I synchronize indexing after offset:%i index:%i elem:%i \n",
-                 offset,i,fNElements);
-
-   } //!while
-   Clear();
+   // SL: do we need clear here ???
+   // Clear();
    //-- Resynchronize all branches with the TTree (needed once)
-   //TGo4LockGuard Glob2;
-   tree->GetEntry(0);
+   // SL: why again GetEntry(0) ???
+   // tree->GetEntry(0);
 }
+*/
 
-
-void TGo4CompositeEvent::Clear(Option_t *)
+void TGo4CompositeEvent::Clear(Option_t *opt)
 {
    //Clears the data in the event (i.e. clears the internal buffers...)
+
+   TGo4EventElement::Clear(opt);
+
    TIter next(fEventElements);
    TGo4EventElement *ev;
    while ( (ev=(TGo4EventElement *)next())!=0)
-      ev->Clear();
+      ev->Clear(opt);
 }
 
-void TGo4CompositeEvent::clearAll(Int_t level)
-{
-   // Clears the data in the event and the event structure (list of subevents...)
-   // FIXME
-   // Levels are to be defined
-
-   if (level==0) {
-      // if (fEventElements) fEventElements->Delete();
-   } else {
-      TIter next(fEventElements);
-      TGo4EventElement *ev;
-      while ((ev=( TGo4EventElement *)next())!=0) {
-         ev->clearAll(level);
-      }
-   }
-}
-
-
-void TGo4CompositeEvent::addEventElement( TGo4EventElement* aElement, Int_t reading)
+Bool_t TGo4CompositeEvent::addEventElement(TGo4EventElement* aElement, Bool_t reading)
 {
    // if Identifiers  are needed for fast retrieval of elements
    // one should use:
@@ -251,28 +203,39 @@ void TGo4CompositeEvent::addEventElement( TGo4EventElement* aElement, Int_t read
    // Note: When reading from file, adding elements should not be
    // incremented
 
-   if (getEventElement(aElement->GetName(),1)){
-      printf("-E-1 <TGo4CompositeEvent::addEventElement> object:%s already in structure => not added ! \n",
+   // when trying to add same element second time do nothing
+   if (reading && fEventElements && fEventElements->FindObject(aElement)) return kTRUE;
+
+   if (getEventElement(aElement->GetName(),1)) {
+      TGo4Log::Error("<TGo4CompositeEvent::addEventElement> object:%s already in structure => not added !",
             aElement->GetName());
-      return;
+      return kFALSE;
    }
 
    if ( aElement->getId() < 0 ) {
-      printf("-E-2 <TGo4CompositeEvent::addEventElement> object:%s with invalid Id:%i   => not added ! \n",
+      TGo4Log::Error("<TGo4CompositeEvent::addEventElement> object:%s with invalid Id:%i   => not added !",
             aElement->GetName(), aElement->getId());
-      return;
+      return kFALSE;
    }
 
-   if ( getEventElement( aElement->getId() ) ){
-      printf("-E-3 <TGo4CompositeEvent::addEventElement> object:%s with Id:%i already used => not added ! \n",
+   if (getEventElement(aElement->getId()) != 0) {
+      TGo4Log::Error("<TGo4CompositeEvent::addEventElement> object:%s with Id:%i already used => not added !",
             aElement->GetName(), aElement->getId());
+      return kFALSE;
    }
 
    if (fDebug)
       printf("-I adding element in :%s :%p at location:%i \n",GetName(),aElement, aElement->getId());
 
+   if (fEventElements==0) {
+      Int_t size = 4;
+      if (aElement->getId() >= size ) size = aElement->getId() + 1;
+      fEventElements = new TObjArray(size);
+   }
+
    fEventElements->AddAtAndExpand (aElement, aElement->getId());
-   if(reading == 0) fNElements++;
+   if(!reading) fNElements++;
+   return kTRUE;
 }
 
 
@@ -280,8 +243,8 @@ TGo4EventElement* TGo4CompositeEvent::getEventElement(Int_t idx)
 {
    // Returns a pointer to the partial event with number idx.
 
-   if ( idx > fEventElements->GetLast() ) return NULL;
-   return ( ( TGo4EventElement*) fEventElements->At(idx) );
+   if ((fEventElements==0) || (idx<0) || (idx > fEventElements->GetLast())) return NULL;
+   return ( TGo4EventElement*) fEventElements->At(idx);
 }
 
 
@@ -297,12 +260,14 @@ TGo4EventElement* TGo4CompositeEvent::getEventElement(const char* name, Int_t fi
       }
    }
    if(final==0)
-      printf("-E- TGo4CompositeEvent => Element:%s not found in Composite:%s \n",name,this->GetName());
+      TGo4Log::Error("TGo4CompositeEvent => Element:%s not found in Composite:%s",name,this->GetName());
    return NULL;
 }
 
 void TGo4CompositeEvent::deactivate()
 {
+   TGo4EventElement::deactivate();
+
    TIter next(fEventElements);
    TGo4EventElement *ev(0);
 
@@ -312,6 +277,8 @@ void TGo4CompositeEvent::deactivate()
 
 void TGo4CompositeEvent::activate()
 {
+   TGo4EventElement::activate();
+
    TIter next(fEventElements);
    TGo4EventElement *ev(0);
 
@@ -335,7 +302,7 @@ TObjArray* TGo4CompositeEvent::getListOfComposites(Bool_t toplevel)
 
          comp->AddAll(dump);
 
-         // SL: memory leask, list should be removed
+         // SL: memory leak, list should be removed
          delete dump;
       }
    }
@@ -345,8 +312,17 @@ TObjArray* TGo4CompositeEvent::getListOfComposites(Bool_t toplevel)
 
 TGo4EventElement& TGo4CompositeEvent::operator[]( Int_t i )
 {
-   return *dynamic_cast<TGo4EventElement*> ((*fEventElements)[i]);
+   if ((fEventElements==0) || (i<0) || (i>fEventElements->GetLast())) {
+      TGo4Log::Error("Wrong index %d in TGo4CompositeEvent::operator[]", i);
+      return *this;
+   }
+
+   return * ((TGo4EventElement*) (fEventElements->At(i)));
 }
+
+/*
+
+SL: this is wrong code, one cannot work that way
 
 void TGo4CompositeEvent::Streamer(TBuffer &R__b)
 {
@@ -371,5 +347,5 @@ void TGo4CompositeEvent::Streamer(TBuffer &R__b)
    }
 }
 
-
+*/
 

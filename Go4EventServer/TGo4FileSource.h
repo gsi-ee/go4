@@ -49,11 +49,7 @@ class TGo4FileSource : public TGo4EventSource {
     /** Fill the destination event dest from the tree.
       * If end of tree is reached, the current event counter
       * is reset and a kFALSE value is returned. */
-    Bool_t BuildEvent(TGo4EventElement* dest);
-
-    /** Use this method instead of BuildEvent
-      * to correctly sync and read Go4 composite event */
-    Bool_t BuildCompositeEvent(TGo4CompositeEvent *dest);
+    virtual Bool_t BuildEvent(TGo4EventElement* dest);
 
     static TList* ProducesFilesList(const char* mask);
 
@@ -73,14 +69,11 @@ class TGo4FileSource : public TGo4EventSource {
     /** Global event number, starting from the first tree. */
     long int fiGlobalEvent;   //!
 
-    /** name of tree branch to be activated */
-    TString fxBranchName;
-
     /** This flag is used for lazy init of tree in Eventbuilding methods. */
     Bool_t fbActivated; //!
 
     /** pointer to top branch event */
-    TObject* fxTopEvent; //!
+    TGo4EventElement* fxTopEvent; //!
 
     /** list of files names */
     TList* fxFilesNames; //!
@@ -94,7 +87,7 @@ class TGo4FileSource : public TGo4EventSource {
     /** Close currently open file. */
     Bool_t CloseCurrentFile();
 
-  ClassDef(TGo4FileSource,1)
+  ClassDef(TGo4FileSource,2)
 };
 
 #endif //TGO4FILESOURCE_H
