@@ -13,8 +13,6 @@
 
 #include "TGo4CompositeEvent.h"
 
-#include "Riostream.h"
-
 #include "TTree.h"
 #include "TROOT.h"
 #include "TObjArray.h"
@@ -75,10 +73,8 @@ Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventE
    // we need to call GetEntry here to get value of fNElements
    branch->GetEntry(0);
 
-   printf("Total number of elements = %d\n", fNElements);
-
    if (fDebug)
-      printf("##### TGo4CompositeEvent::activateBranch called from obj:%s \n",this->GetName());
+      TGo4Log::Debug("##### TGo4CompositeEvent::activateBranch called from obj:%s",this->GetName());
 
    TTree* tree = branch->GetTree();
    TObjArray *br = tree->GetListOfBranches();
@@ -87,8 +83,8 @@ Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventE
    Int_t all_branches = fNElements;
 
    if (fDebug)
-      printf("-I-TGo4CompositeEvent::activateBranch from obj:%s bname:%s Elements:%d  index:%d\n",
-            this->GetName(), branch->GetName(), fNElements, init);
+      TGo4Log::Debug("-I-TGo4CompositeEvent::activateBranch from obj:%s bname:%s Elements:%d  index:%d",
+                     GetName(), branch->GetName(), fNElements, init);
 
    while (i < init + all_branches) {
       i++;
@@ -101,20 +97,20 @@ Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventE
       TGo4EventElement* par = getEventElement(sub.Data());
 
       if (fDebug)
-         printf("-I TGo4CompositeEvent::activateBranch use subbranch %s\n", b->GetName());
+         TGo4Log::Debug("-I TGo4CompositeEvent::activateBranch use subbranch %s", b->GetName());
 
       if (par==0) {
 
          TClass* cl = gROOT->GetClass(b->GetClassName());
          if (cl==0) {
-            printf("-I class %s cannot be reconstructed\n", b->GetClassName());
+            TGo4Log::Debug("-I class %s cannot be reconstructed", b->GetClassName());
             continue;
          }
 
          par = (TGo4EventElement*) cl->New();
 
          if (par==0) {
-            printf("-I class %s instance cannot be created\n", b->GetClassName());
+            TGo4Log::Error("-I class %s instance cannot be created", b->GetClassName());
             continue;
          }
 
@@ -126,26 +122,24 @@ Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventE
       Int_t offset = par->activateBranch(b, i, &par);
 
       if (fDebug)
-         printf("-I activate from obj:%s elems:%d index:%d adding:%s\n",
+         TGo4Log::Debug("-I activate from obj:%s elems:%d index:%d adding:%s",
                this->GetName(), init+fNElements, i, par->GetName());
 
       // we need to getentry only when new object was created to get its id
       if (readentry) b->GetEntry(0);
 
       if (fDebug)
-         printf("Add branch %s event %s offset %d\n", b->GetName(), par->GetName(), offset);
+         TGo4Log::Debug("Add branch %s event %s offset %d", b->GetName(), par->GetName(), offset);
 
       if (addEventElement(par, kTRUE)) {
          TGo4EventElement** par_ptr = (TGo4EventElement**) &((*fEventElements)[par->getId()]);
          tree->SetBranchAddress(b->GetName(), par_ptr);
-         if (fDebug)
-            printf("Set address to actual variable from obj array\n");
       }
 
       i+=offset;
       all_branches+=offset;
       if (fDebug)
-         printf("-I from obj:%s activate indexing after offset:%d index:%d max:%d\n",
+         TGo4Log::Debug("-I from obj:%s activate indexing after offset:%d index:%d max:%d",
                this->GetName(), offset, i, init+all_branches);
    } //!while
 
@@ -153,35 +147,10 @@ Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventE
    // Clear();
 
    if (fDebug)
-      printf("-I activate return value from obj:%s offset:%i \n", this->GetName(), fNElements);
+      TGo4Log::Debug("-I activate return value from obj:%s offset:%i", GetName(), all_branches);
 
    return all_branches;
 }
-
-/***
- *
- * No need for the own method - it is similar to that in TGo4EventElement
-
-void TGo4CompositeEvent::synchronizeWithTree(TTree *tree, TGo4EventElement** var_ptr)
-{
-   // synchronize with TTree for composite Event
-   // FIXME !
-   // should <test> the differents splitlevel?
-
-   printf("Sync with tree %p\n", tree);
-
-   if (tree==0) return;
-
-   // SL 22.06.2011: here was absolutely the same code as in activateBranch, let use it
-   activateBranch((TBranch*) tree->GetListOfBranches()->First(), 0, var_ptr);
-
-   // SL: do we need clear here ???
-   // Clear();
-   //-- Resynchronize all branches with the TTree (needed once)
-   // SL: why again GetEntry(0) ???
-   // tree->GetEntry(0);
-}
-*/
 
 void TGo4CompositeEvent::Clear(Option_t *opt)
 {
@@ -225,7 +194,7 @@ Bool_t TGo4CompositeEvent::addEventElement(TGo4EventElement* aElement, Bool_t re
    }
 
    if (fDebug)
-      printf("-I adding element in :%s :%p at location:%i \n",GetName(),aElement, aElement->getId());
+      TGo4Log::Debug("-I adding element in :%s :%p at location:%i",GetName(),aElement, aElement->getId());
 
    if (fEventElements==0) {
       Int_t size = 4;
@@ -309,7 +278,6 @@ TObjArray* TGo4CompositeEvent::getListOfComposites(Bool_t toplevel)
    return comp;
 }
 
-
 TGo4EventElement& TGo4CompositeEvent::operator[]( Int_t i )
 {
    if ((fEventElements==0) || (i<0) || (i>fEventElements->GetLast())) {
@@ -319,33 +287,3 @@ TGo4EventElement& TGo4CompositeEvent::operator[]( Int_t i )
 
    return * ((TGo4EventElement*) (fEventElements->At(i)));
 }
-
-/*
-
-SL: this is wrong code, one cannot work that way
-
-void TGo4CompositeEvent::Streamer(TBuffer &R__b)
-{
-   // Stream an object of class TGo4CompositeEvent.
-   //  char buffer[255];
-   //
-
-   // SL: definitely WRONG, one should use normal streamer, where only fNElements is stored
-
-   if (R__b.IsReading()) {
-      // printf("TGo4CompositeEvent::Streamer reading \n");
-      Version_t R__v = R__b.ReadVersion(); if (R__v) { }
-      TGo4EventElement::Streamer(R__b);
-      R__b >> fEventElements;
-      R__b >> fNElements;
-
-   } else {
-      //   printf("TGo4CompositeEvent::Streamer writing \n");
-      TGo4EventElement::Streamer(R__b);
-      R__b << fEventElements;
-      R__b << fNElements;
-   }
-}
-
-*/
-

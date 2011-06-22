@@ -17,7 +17,6 @@
 #include "TNamed.h"
 
 class TGo4EventSource;
-class TGo4CompositeEvent;
 class TBranch;
 class TTree;
 
@@ -37,7 +36,7 @@ class TTree;
 class TGo4EventElement : public TNamed {
    public:
 
-      TGo4EventElement(void);
+      TGo4EventElement();
 
       TGo4EventElement(const char* name);
       TGo4EventElement(const char* aName, const char* aTitle, Short_t aBaseCat=0);
@@ -84,7 +83,6 @@ class TGo4EventElement : public TNamed {
       /** Method prints content of the event */
       virtual void PrintEvent();
 
-      virtual TGo4CompositeEvent* getSubEventElement() { return 0; }
       virtual void makeBranch(TBranch *parent);
       virtual void deactivate();
       virtual void activate();
@@ -107,7 +105,7 @@ class TGo4EventElement : public TNamed {
 
       /** Indicates if this event is valid or not. If false, the event store
        * will not write the event. */
-      Bool_t fbIsValid;
+      Bool_t fbIsValid;  //!
 
       /** The higher level event element that owns this instance
        * @supplierCardinality 1 */

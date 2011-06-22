@@ -96,24 +96,24 @@ void TGo4EventElement::makeBranch(TBranch *parent)
 
 void TGo4EventElement::synchronizeWithTree(TTree *tree, TGo4EventElement** var_ptr)
 {
-   // try to find branch with the same name as event
 
    if (tree==0) return;
 
    TBranch* topb = 0;
    TString searchname = GetName();
    if (searchname.Length()>0) {
-      if (searchname[searchname.Length()-1]!='.') searchname += ".";
+      searchname += ".";
       topb = tree->FindBranch(searchname.Data());
    }
 
+   // if no appropriate branches found, use first branch for the event
+   // TODO: should we check class name of the branch?
    if (topb==0) topb = (TBranch*) tree->GetListOfBranches()->First();
 
    Int_t index = tree->GetListOfBranches()->IndexOf(topb);
 
-   // FIXME SL: this is old comment, do we need at all to disable all branches from the beginning ???
+   // FIXME SL: should we activate other branches, reading not working when all branches disabled in the beginning
    // note: only deactivate subleafs _after_ address of top branch is set!
-
    // tree->SetBranchStatus("*",0);
 
    activateBranch(topb, index, var_ptr);
