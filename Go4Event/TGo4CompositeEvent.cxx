@@ -182,13 +182,13 @@ Bool_t TGo4CompositeEvent::addEventElement(TGo4EventElement* aElement, Bool_t re
    }
 
    if ( aElement->getId() < 0 ) {
-      TGo4Log::Error("<TGo4CompositeEvent::addEventElement> object:%s with invalid Id:%i   => not added !",
+      TGo4Log::Error("<TGo4CompositeEvent::addEventElement> object:%s with invalid Id:%d   => not added !",
             aElement->GetName(), aElement->getId());
       return kFALSE;
    }
 
    if (getEventElement(aElement->getId()) != 0) {
-      TGo4Log::Error("<TGo4CompositeEvent::addEventElement> object:%s with Id:%i already used => not added !",
+      TGo4Log::Error("<TGo4CompositeEvent::addEventElement> object:%s with Id:%d already used => not added !",
             aElement->GetName(), aElement->getId());
       return kFALSE;
    }
@@ -229,7 +229,7 @@ TGo4EventElement* TGo4CompositeEvent::getEventElement(const char* name, Int_t fi
       }
    }
    if(final==0)
-      TGo4Log::Error("TGo4CompositeEvent => Element:%s not found in Composite:%s",name,this->GetName());
+      TGo4Log::Error("TGo4CompositeEvent => Element:%s not found in Composite:%s", name, GetName());
    return NULL;
 }
 

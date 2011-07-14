@@ -393,8 +393,7 @@ if(han->Connect(host,fxTransport))
     }
 else
    {
-      TGo4Log::Error(" TaskManager: ERROR on connecting new client %s (host %s)  ",
-               client,host);
+      TGo4Log::Error(" TaskManager: ERROR on connecting new client %s (host %s)", client, host);
       RemoveTaskHandler(client);
       return kFALSE;
    }

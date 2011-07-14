@@ -349,7 +349,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 
          if ((analysis!=0) && (err==0)) return analysis;
 
-         TGo4Log::Error("Cannot create analysis class % instance with (const char*) prototype", an_cl->GetName());
+         TGo4Log::Error("Cannot create analysis class %s instance with (const char*) prototype", an_cl->GetName());
          TGo4Log::Error("Implement correct analysis constructor with such signature in user library");
          exit(1);
       }
@@ -425,7 +425,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
       TGo4Analysis* analysis = (TGo4Analysis*) gROOT->ProcessLineFast(cmd.Data(), &err);
       if ((analysis!=0) && (err==0)) return analysis;
 
-      TGo4Log::Error("Cannot create analysis class % instance", an_cl->GetName());
+      TGo4Log::Error("Cannot create analysis class %s instance", an_cl->GetName());
       TGo4Log::Error("Add CreateUserAnalysis(const char*) function in user library");
 
       exit(1);
