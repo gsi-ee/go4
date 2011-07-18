@@ -97,16 +97,24 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
    if((inp_evt==0) || !inp_evt->IsValid()) return kFALSE;    // do not process unvalid event
    out_evt->SetValid(kTRUE);       // events are not stored until kTRUE is set
    Int_t cnt(0);
-   for(Int_t ii=0;ii<4;ii++) {
-      out_evt->frData[cnt] = (Float_t)inp_evt->fiCrate1[ii];
-      if(inp_evt->fiCrate1[ii]) fCaliSum1->Fill(fCalipar->Energy(inp_evt->fiCrate1[ii]));
-      cnt++;
+   TXXXUnpackEvent& ev=*inp_evt; // ref instead pointer for array syntax below
+   for(Int_t cr=1;cr<3;cr++)
+   	   {
+	   // loop over first filled crates 1 and 2
+	   for(Int_t ii=0;ii<4;ii++)
+	   {
+		   // get first channels of each crate
+		   TXXXModule* mod=dynamic_cast<TXXXModule*>( &ev[cr][ii]); // 2d array with composite event operator[]
+		   if(mod==0) continue;
+		   Float_t val= mod->GetData();
+		   out_evt->frData[cnt] = val;
+		   if(val) fCaliSum1->Fill(fCalipar->Energy(val));
+		   cnt++;
+	   }
    }
-   for(Int_t ii=0; ii<4; ii++) {
-      out_evt->frData[cnt]=(Float_t)inp_evt->fiCrate2[ii];
-      if(inp_evt->fiCrate2[ii]) fCaliSum1->Fill(fCalipar->Energy(inp_evt->fiCrate2[ii]));
-      cnt++;
-   }
+
+
+
    for(Int_t ii=0;ii<8;ii++)
       if(out_evt->frData[ii]) {
          if(fWinCon && fWinCon->Test(out_evt->frData[ii])) fSum1->Fill(out_evt->frData[ii]);

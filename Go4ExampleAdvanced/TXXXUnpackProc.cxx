@@ -229,52 +229,70 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
    TGo4MbsSubEvent* psubevt(0);
    while ((psubevt = inp_evt->NextSubEvent()) != 0) // subevent loop
    {
-      if( psubevt->GetSubcrate() == 1)
-      {
-         Int_t* pdata = psubevt->GetDataField();
-         Int_t lwords = psubevt->GetIntLen();
-         if(lwords >= 8) lwords=8; // take only first 8 lwords
-         Int_t lastvalue = 0;
-         for(Int_t i = 0; i<lwords; ++i)
-         {
-            // Int_t index =  *pdata&0xfff;      // in case low word is index
-            // Int_t value = (*pdata>>16)&0xfff; // in case high word is data
-            if(*pdata != 0)
-            {
-               fCr1Ch[i]->Fill((Float_t)(*pdata));
-               out_evt->fiCrate1[i] = *pdata; // fill output event
-               if(i == 0) // fill first channel
-               {
-                  if(fconHis1->Test(*pdata))fHis1gate->Fill((Float_t)(*pdata));
-                  fHis1->Fill((Float_t)(*pdata));
-               }
-               if(i == 1)
-               {
-                  if(fconHis2->Test(*pdata))fHis2gate->Fill((Float_t)(*pdata));
-                  fHis2->Fill((Float_t)(*pdata));
-                  // fill Cr1Ch1x2 for three polygons:
-                  if(fPolyCon1->Test(*pdata,lastvalue))       fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
-                  if(((*fConArr2)[0])->Test(*pdata,lastvalue))fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
-                  if(((*fConArr2)[1])->Test(*pdata,lastvalue))fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
-               }
-            }
-            lastvalue = *pdata; // save for 2d histogram
-            pdata++;
-         } // for SEW LW
-      } // if (subcrate)
-      if( psubevt->GetSubcrate() == 2)
-      {
-         Int_t* pdata = psubevt->GetDataField();
-         Int_t lwords = (psubevt->GetDlen() -2) * sizeof(Short_t)/sizeof(Int_t);
-         if(lwords >= 8) lwords=8;
-         for(Int_t i = 0; i<lwords; ++i) {
-            if(*pdata != 0) {
-               out_evt->fiCrate2[i] = *pdata;
-               fCr2Ch[i]->Fill((Float_t)(*pdata));
-            }
-            pdata++;
-         } // for SEW LW
-      } // if (subcrate)
+	 Int_t* pdata = psubevt->GetDataField();
+	 Int_t lwords = psubevt->GetIntLen();
+	 Int_t subcrate=psubevt->GetSubcrate();
+	 if(subcrate<0 || subcrate> XXX_NUM_CRATES)
+	 	 {
+		 	 cout << "XXXUnpackProc: skip invalid subcrate "<<subcrate<< endl;
+		 	 continue; // try next subevent if any
+	 	 }
+
+	 if(lwords >= 8) lwords=8; // take only first 8 lwords
+	 Int_t lastvalue = 0;
+	 for(Int_t i = 0; i<lwords; ++i)
+	 {
+		// Int_t index =  *pdata&0xfff;      // in case low word is index
+		// Int_t value = (*pdata>>16)&0xfff; // in case high word is data
+
+
+		   // first copy data of crate and channel into corresponding module:
+		   TXXXUnpackEvent& ev=*out_evt; // ref instead pointer for array syntax:
+		   TXXXModule* mod=dynamic_cast<TXXXModule*>(&ev[subcrate][i]); // 2d array with composite event operator[]
+		   if(mod)
+		   {
+			   if(*pdata != 0)
+				   mod->SetData(*pdata); // zero suppressed data
+			   else
+				   mod->SetAux(i); // account count zero value data channel for each subevent
+
+			   mod->SetTest(*pdata); // record any data here
+		   }
+			else
+			{
+			   cout << "XXXUnpackProc: WARNING: no output event module for crate"<<subcrate<<", channel"<<i<< endl;
+
+			}
+		   if(*pdata != 0)
+		   		{
+				   // process crate specific histograming here:
+				   if( subcrate == 1)
+						{
+						   fCr1Ch[i]->Fill((Float_t)(*pdata));
+
+						   if(i == 0) // fill first channel
+						   {
+							  if(fconHis1->Test(*pdata))fHis1gate->Fill((Float_t)(*pdata));
+							  fHis1->Fill((Float_t)(*pdata));
+						   }
+						   if(i == 1)
+						   {
+							  if(fconHis2->Test(*pdata))fHis2gate->Fill((Float_t)(*pdata));
+							  fHis2->Fill((Float_t)(*pdata));
+							  // fill Cr1Ch1x2 for three polygons:
+							  if(fPolyCon1->Test(*pdata,lastvalue))       fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
+							  if(((*fConArr2)[0])->Test(*pdata,lastvalue))fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
+							  if(((*fConArr2)[1])->Test(*pdata,lastvalue))fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
+						   }
+						   lastvalue = *pdata; // save for 2d histogram
+						}
+				   else if ( subcrate == 2)
+						{
+							fCr2Ch[i]->Fill((Float_t)(*pdata));
+						}
+		   		}
+		pdata++;
+	 }// for SEW LW
    }  // while
    out_evt->SetValid(kTRUE); // to store
    // throwing this exception stops the event loop
