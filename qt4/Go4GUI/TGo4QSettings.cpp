@@ -705,6 +705,16 @@ bool TGo4QSettings::getFetchDataWhenSave()
    return getBool("/preferences/FetchWhenSave", false);
 }
 
+void TGo4QSettings::setHideTGo4EventElement(bool on)
+{
+   setBool("/preferences/HideEventElement", on);
+}
+
+bool TGo4QSettings::getHideTGo4EventElement()
+{
+   return getBool("/preferences/HideEventElement", false);
+}
+
 void TGo4QSettings::setRemoteFileSett(const QString& hostname, const QString& filename, const QString& protocol)
 {
    setStr( "/OpenRemoteFile/Host", hostname);

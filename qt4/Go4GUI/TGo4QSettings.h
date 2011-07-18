@@ -189,6 +189,9 @@ class TGo4QSettings {
       void    setFetchDataWhenSave(bool on = true);
       bool    getFetchDataWhenSave();
 
+      void    setHideTGo4EventElement(bool on = true);
+      bool    getHideTGo4EventElement();
+
       void    setRemoteFileSett(const QString& hostname, const QString& filename, const QString& protocol);
       void    getRemoteFileSett(QString& hostname, QString& filename, QString& protocol);
 

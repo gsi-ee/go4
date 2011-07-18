@@ -43,7 +43,7 @@ class TGo4WidgetProxy;
 
  /** This is the Go4 Main Window
    * @author Mohammad Al-Turany, modifications J.Adamczewski, S.Linev
-   * @version 1.0
+   * @version 4.5
    * @since 15.05.2002 */
 
 class TGo4MainWindow : public QMainWindow {
@@ -102,6 +102,7 @@ class TGo4MainWindow : public QMainWindow {
       void ChangeFetchWhenDrawSlot();
       void ChangeFetchWhenCopySlot();
       void ChangeFetchWhenSaveSlot();
+      void ChangeHideEventElement();
       void CanvasColorSlot();
       void CrosshairSlot();
       void EventStatusSlot();
@@ -180,6 +181,8 @@ class TGo4MainWindow : public QMainWindow {
       void SavePanelCanvas(TGo4ViewPanel* panel);
 
       void HelpWindow(const char* filename, const char* msg = 0);
+
+      void UpdateBrowser();
 
       QApplication*      fApp;
 

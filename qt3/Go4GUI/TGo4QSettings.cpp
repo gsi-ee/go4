@@ -644,6 +644,16 @@ bool TGo4QSettings::getFetchDataWhenSave()
    return readNumEntry( GetSettingsName()+"/preferences/FetchWhenSave", 0) != 0;
 }
 
+void TGo4QSettings::setHideTGo4EventElement(bool on)
+{
+   writeEntry( GetSettingsName()+"/preferences/HideEventElement", on ? 1 : 0);
+}
+
+bool TGo4QSettings::getHideTGo4EventElement()
+{
+   return readNumEntry( GetSettingsName()+"/preferences/HideEventElement", 0) != 0;
+}
+
 void  TGo4QSettings::setGStyleStatFormat(const QString& v)
 {
    writeEntry(GetSettingsName() + "/preferences/StatFormat", v);

@@ -410,6 +410,9 @@ void TGo4MainWindow::AddSettingMenu()
    faFetchWhenSave = AddChkAction(prefMenu, "Fetch when saving",
                     go4sett->getFetchDataWhenSave(), this, SLOT(ChangeFetchWhenSaveSlot()));
 
+   faHideEventElement = AddChkAction(prefMenu, "Hide TGo4EventElement",
+                    go4sett->getHideTGo4EventElement(), this, SLOT(ChangeHideEventElement()));
+
    QMenu* panelMenu = settMenu->addMenu("&Panel defaults");
 
    panelMenu->addAction("&Canvas color...", this, SLOT(CanvasColorSlot()));
@@ -1251,6 +1254,13 @@ void TGo4MainWindow::ChangeFetchWhenSaveSlot()
    go4sett->setFetchDataWhenSave(faFetchWhenSave->isChecked());
 }
 
+void TGo4MainWindow::ChangeHideEventElement()
+{
+   go4sett->setHideTGo4EventElement(faHideEventElement->isChecked());
+
+   UpdateBrowser();
+}
+
 void TGo4MainWindow::CanvasColorSlot()
 {
    QColor c = QColorDialog::getColor();
@@ -1852,9 +1862,16 @@ void TGo4MainWindow::LoadLibrarySlot()
 {
    TGo4LoadedLibraries llib(this);
    llib.exec();
+
+   UpdateBrowser();
+}
+
+void TGo4MainWindow::UpdateBrowser()
+{
    TGo4Browser* br = (TGo4Browser*) FindGo4Widget("Browser", false);
    if (br!=0) br->ShootUpdateTimer();
 }
+
 
 TGo4ParaEdit* TGo4MainWindow::StartParaEdit(const char* itemname)
 {

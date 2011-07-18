@@ -135,6 +135,7 @@
 enum { fiFetchWhenDrawId = 111,
        fiFetchWhenCopyId = 112,
        fiFetchWhenSaveId = 113,
+       fiHideEventElementId = 114,
        fiCrosshairId = 123,
        fiEventstatusId = 124,
        fiCloneId = 125,
@@ -444,6 +445,8 @@ void TGo4MainWindow::AddSettingMenu()
    PrefMenu->setItemChecked(fiFetchWhenCopyId, go4sett->getFetchDataWhenCopy());
    PrefMenu->insertItem("Fetch when saving", this, SLOT(ChangeFetchWhenSaveSlot()), 0, fiFetchWhenSaveId);
    PrefMenu->setItemChecked(fiFetchWhenSaveId, go4sett->getFetchDataWhenSave());
+   PrefMenu->insertItem("Hide TGo4EventElement", this, SLOT(ChangeHideEventElement()), 0, fiHideEventElementId);
+   PrefMenu->setItemChecked(fiHideEventElementId, go4sett->getHideTGo4EventElement());
 
    QPopupMenu* PanelMenu = new QPopupMenu( this );
    SettingMenu->insertItem( "&Panel defaults", PanelMenu);
@@ -1349,6 +1352,16 @@ void TGo4MainWindow::ChangeFetchWhenSaveSlot()
    go4sett->setFetchDataWhenSave(s);
 }
 
+void TGo4MainWindow::ChangeHideEventElement()
+{
+   bool s = !menuBar()->isItemChecked(fiHideEventElementId);
+   menuBar()->setItemChecked(fiHideEventElementId, s);
+   go4sett->setHideTGo4EventElement(s);
+
+   UpdateBrowser();
+}
+
+
 void TGo4MainWindow::CanvasColorSlot()
 {
    QColor c = QColorDialog::getColor();
@@ -1907,9 +1920,15 @@ void TGo4MainWindow::LoadLibrarySlot()
 {
    TGo4LoadedLibraries llib(this);
    llib.exec();
+   UpdateBrowser();
+}
+
+void TGo4MainWindow::UpdateBrowser()
+{
    TGo4Browser* br = (TGo4Browser*) FindGo4Widget("Browser", false);
    if (br!=0) br->ShootUpdateTimer();
 }
+
 
 TGo4ParaEdit* TGo4MainWindow::StartParaEdit(const char* itemname)
 {

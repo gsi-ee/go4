@@ -407,6 +407,11 @@ void TGo4Browser::updateListViewItems()
       if ((pixmap.Length()>0) && curitem->icon(0).isNull())
         curitem->setIcon(0, QIcon(pixmap.Data()));
 
+      if ((curitem->text(0).contains(".TGo4EventElement") && (itemkind==TGo4Access::kndTreeBranch)) ||
+          ((curitem->text(0)=="TGo4EventElement") && (itemkind==TGo4Access::kndFolder))) {
+         curitem->setHidden(go4sett->getHideTGo4EventElement());
+      }
+
       SetViewItemProperties(curslot, curitem);
 
       if (iter.isfolder()) {
