@@ -37,7 +37,14 @@ The processor:    TXXXUnpackProc
 
 The factory TXXXUnpackFact normally need not to be changed. The TXXXUnpackEvent
 contains the data members to be filled from the input event (MBS 10,1).
-Only the Clear method must be changed to clear all these members.
+Here class TXXXUnpackEvent shows how to use a TGo4CompositeEvent:
+Each TXXXUnpackEvent consists of up to 4 TXXXCrate components. Each TXXXCrate can have 
+up to 16 TXXXModules that contain the actual data channels (3 different integer values here).
+The maximum number of crates and modules can be set by definitions 
+XXX_NUM_CRATES and XXX_NUM_MODULES in TXXXUnpackEvent.h. The actual setup how many modules
+exists in each crate is steered by define NR_MODULES which is evaluated as static
+array Config_Crates[] within the loops of the unpacking code.    
+
 The unpacking code is in the event processor TXXXUnpackProc. Members are
 histograms, conditions, and parameter pointers used in the event method
 XXXUnpack. In the constructor of TXXXUnpackProc the histograms and
