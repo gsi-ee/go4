@@ -152,7 +152,7 @@ class TGo4AnalysisObjectManager : public TNamed {
       TGo4TreeStructure * CreateTreeStructure(const char* treename);
 
       /** Create a folder with members of this class */
-      TFolder* CreateMembersFolder(const char* membrfoldername, TClass* cl);
+      TFolder* CreateMembersFolder(TObject* obj, const char* membrfoldername, TClass* cl);
 
 
       /**

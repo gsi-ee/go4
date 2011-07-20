@@ -546,10 +546,30 @@ TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(const char* t
 }
 
 
-TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(const char* membrfoldername, TClass* cl)
+TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject* obj, const char* membrfoldername, TClass* cl)
 {
    if(cl==0) return 0;
    TList* nameslist= new TList;
+
+   // now process baseclasses of event:
+   TIter biter(cl->GetListOfBases());
+   TObject* bob=0;
+   while((bob=biter()) !=0) {
+      TBaseClass* baseclass = dynamic_cast<TBaseClass*>(bob);
+      if(baseclass==0) continue;
+
+      // we have a baseclass
+      TClass* bclass=baseclass->GetClassPointer();
+      if(bclass==0) continue;
+
+      if(!strcmp(bclass->GetName(),"TNamed")) continue; // suppress bases above
+
+      // recursively find out members of all baseclasses
+      TFolder* subfold = CreateMembersFolder(0, bclass->GetName(), bclass);
+      if(subfold!=0)
+         nameslist->AddLast(subfold);
+   } // while((bob=baseiter->Next()) !=0)
+
    TIter miter(cl->GetListOfDataMembers());
    TObject* nob=0;
    // scan members of this event class:
@@ -577,24 +597,19 @@ TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(const char* membrfoldern
       nameslist->AddLast(state);
    } // while
 
-   // now process baseclasses of event:
-   TIter biter(cl->GetListOfBases());
-   TObject* bob=0;
-   while((bob=biter()) !=0) {
-      TBaseClass* baseclass = dynamic_cast<TBaseClass*>(bob);
-      if(baseclass==0) continue;
+   // now process components of composite event
+   if ((obj!=0) && (obj->InheritsFrom(TGo4CompositeEvent::Class()))) {
 
-      // we have a baseclass
-      TClass* bclass=baseclass->GetClassPointer();
-      if(bclass==0) continue;
+      TObjArray* arr =((TGo4CompositeEvent*)obj)->getElements();
 
-      if(!strcmp(bclass->GetName(),"TNamed")) continue; // suppress bases above
-
-      // recursively find out members of all baseclasses
-      TFolder* subfold = CreateMembersFolder(bclass->GetName(), bclass);
-      if(subfold!=0)
-         nameslist->AddLast(subfold);
-   } // while((bob=baseiter->Next()) !=0)
+      for (Int_t n=0;n<=arr->GetLast();n++) {
+         TGo4EventElement* elem = (TGo4EventElement*) arr->At(n);
+         if (elem==0) continue;
+         TFolder* subfold = CreateMembersFolder(elem, elem->GetName(), elem->IsA());
+         if(subfold!=0)
+            nameslist->AddLast(subfold);
+      }
+   }
 
    TFolder* memberfolder = fxTempFolder->AddFolder(membrfoldername, TString("Object of class ") + cl->GetName(), nameslist);
    fxTempFolder->Remove(memberfolder);
@@ -934,38 +949,35 @@ TFolder * TGo4AnalysisObjectManager::CreateNamesFolder(TFolder * objectfolder)
    TList* nameslist= new TList;
    TIter listiter(objectfolder->GetListOfFolders());
    TObject* entry;
-   while((entry=listiter()) !=0)
-   {
-      if(entry->InheritsFrom(TFolder::Class()))
-      {
+   while((entry=listiter())!=0) {
+      if(entry->InheritsFrom(TFolder::Class())) {
          // found subfolder, process it recursively
          //cout <<"##### parsing folder "<< entry->GetName() << endl;
          TFolder* subobj= dynamic_cast<TFolder*> (entry);
-         TFolder* subnames=CreateNamesFolder(subobj);
+         TFolder* subnames = CreateNamesFolder(subobj);
          nameslist->AddLast(subnames);
-      }
-      else if (entry->InheritsFrom(TTree::Class()))
-      {
+      } else
+
+      if (entry->InheritsFrom(TTree::Class())) {
          // treestructure should be ObjectStatus?
          TTree* subobj= dynamic_cast<TTree*> (entry);
          TGo4TreeStructure* treestruct=CreateTreeStructure(subobj);
          nameslist->AddLast(treestruct);
-      }
-      else if(entry->InheritsFrom(TGo4EventElement::Class()))
-      {
-         TFolder* evfolder = CreateMembersFolder(entry->GetName(), entry->IsA());
+      } else
+
+      if(entry->InheritsFrom(TGo4EventElement::Class())) {
+         TFolder* evfolder = CreateMembersFolder(entry, entry->GetName(), entry->IsA());
          if (evfolder!=0)
             nameslist->AddLast(evfolder);
-      }
-      else
-      {
+      } else {
+
          TGo4ObjectStatus*state = CreateObjectStatus(entry,kFALSE); // do not use full status info for nameslist
          if(state!=0)
             nameslist->AddLast(state);
       }
    } // while
 
-   TFolder* namesfolder=fxTempFolder->AddFolder(objectfolder->GetName(),objectfolder->GetTitle(),nameslist);
+   TFolder* namesfolder = fxTempFolder->AddFolder(objectfolder->GetName(),objectfolder->GetTitle(),nameslist);
    fxTempFolder->Remove(namesfolder);
    namesfolder->SetOwner(kTRUE);
 

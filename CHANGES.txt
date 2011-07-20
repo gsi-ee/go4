@@ -28,7 +28,8 @@ Changes in Go4 v4.5.0 (June 2011)
 3. Add possibility to hide TGo4EventElement members from tree viewer and event
    viewer. This makes look of data structures, especially in composite events,
    much more clean. Default is off, can be changed via Settings->Preferences menu.
-   Implemented for both qt3 and qt4 version.          
+   Implemented for both qt3 and qt4 version.
+4. Correctly display structure of composite event in the analysis browser.
 
 Changes in Go4 v4.4.3 (March 2011)
 1. Implement proper Ctrl-C handler for Windows platform
