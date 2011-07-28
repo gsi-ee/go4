@@ -8,7 +8,6 @@ gSystem->Load("$GO4SYS/lib/libGo4Base.so");
 gSystem->Load("$GO4SYS/lib/libGo4Fit.so");
 gSystem->Load("$GO4SYS/lib/libGo4ThreadManager.so");
 gSystem->Load("$GO4SYS/lib/libGo4TaskHandler.so");
-gSystem->Load("$GO4SYS/lib/libGo4Version.so");
 gSystem->Load("$GO4SYS/lib/libGo4AnalBase.so");
 gSystem->Load("$GO4SYS/lib/libGo4Analysis.so");
 go4StartServer();
