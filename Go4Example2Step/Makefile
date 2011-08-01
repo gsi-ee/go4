@@ -39,7 +39,6 @@ ifdef DOPACKAGE
 DISTRFILES         += $(EXAMP2STEP_S) $(EXAMP2STEP_H) $(EXAMP2STEP_LINKDEF)
 DISTRFILES         += $(EXAMP2STEP_DIR)/Readme.txt $(EXAMP2STEP_DIR)/Makefile.win
 DISTRFILES         += $(EXAMP2STEP_DIR)/setparam.C
-DISTRFILES         += $(EXAMP2STEP_DIR)/setup.C
 endif
 
 ##### local rules #####
