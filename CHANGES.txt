@@ -31,6 +31,8 @@ Changes in Go4 v4.5.0 (August 2011)
    Implemented for both qt3 and qt4 version.
 4. Correctly display structure of composite event in the analysis browser.
 5. Added composite event example in Go4ExampleAdvanced
+6. Bugfix in help window display: Sometimes QProcess did not launch 
+pdf viewer script correctly. Workaround: use detached QProcess
 
 Changes in Go4 v4.4.3 (March 2011)
 1. Implement proper Ctrl-C handler for Windows platform

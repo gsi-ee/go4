@@ -1095,9 +1095,10 @@ void TGo4MainWindow::HelpWindow(const char* filename, const char* msg)
 
    arg += TGo4Log::subGO4SYS(filename);
    QProcess info;
-   info.start(arg.Data());
-   if (info.waitForFinished(10000) && (info.exitCode()==0))
-      StatusMessage(msg ? QString(msg) : QString("Show ") + filename);
+   bool result=info.startDetached(arg.Data());
+   //if (info.waitForStarted(10000) && (info.exitCode()==0))
+   if(result)
+    StatusMessage(msg ? QString(msg) : QString("Show ") + filename);
    else
       StatusMessage(QString("Fail to display ") + filename);
 
