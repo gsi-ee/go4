@@ -1,6 +1,6 @@
 --------------------------------------------------------------
          Go4 Release Package v4.5.0 (build 40500)
-                      22-June-2011
+                      01-Aug-2011
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -20,7 +20,7 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v4.5.0 (June 2011)
+Changes in Go4 v4.5.0 (August 2011)
 1. Fix problem with Ctrl-C handler. Now in batch in all cases
    analysis will be stopped correctly.
 2. Significant changes in event classes. Reincarnation of TGo4CompositeEvent.
@@ -30,6 +30,7 @@ Changes in Go4 v4.5.0 (June 2011)
    much more clean. Default is off, can be changed via Settings->Preferences menu.
    Implemented for both qt3 and qt4 version.
 4. Correctly display structure of composite event in the analysis browser.
+5. Added composite event example in Go4ExampleAdvanced
 
 Changes in Go4 v4.4.3 (March 2011)
 1. Implement proper Ctrl-C handler for Windows platform
