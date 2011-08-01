@@ -1500,7 +1500,7 @@ Bool_t TGo4AnalysisObjectManager::AddObjectToFolder(TObject * ob,
          delete oldob;
       } else {
 
-         cout << "Find old object " << oldob << " name = " << oldob->GetName() <<  endl;
+         //cout << "Find old object " << oldob << " name = " << oldob->GetName() <<  endl;
 
          return kFALSE; // do not overwrite old one
       }
