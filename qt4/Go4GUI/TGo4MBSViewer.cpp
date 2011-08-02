@@ -195,14 +195,15 @@ void TGo4MBSViewer::Refresh()
    fbRunning=fxDaqStat.bh_acqui_running;
    int deltat=FrequencyBox->value();
    int numperiods=1;
+   int deltamilsecs=deltat*1000.0; // default
    if(fbIsMonitoring)
    {
       // only in monitoring mode: calculate rates ourselves, independent of mbs ratemter:
 	   // NEW: first check real time diff since last call and correct rates:
-	   int deltamilsecs=fxDeltaClock.elapsed();
+	   deltamilsecs=fxDeltaClock.elapsed();
 	   //cout <<"******* found ms:"<<deltamilsecs << endl;
 	   fxDeltaClock.restart();
-	   int deltasecs=deltamilsecs/1000;
+	   int deltasecs=deltamilsecs/1000;	   
 	   if(!fbTrendingInit && (deltasecs>=deltat*2))
 	   //if((deltasecs>=deltat*2)) // this one was for testing JAM
 		   {
@@ -212,16 +213,16 @@ void TGo4MBSViewer::Refresh()
 			   numperiods=(deltat/ (int) FrequencyBox->value());
 			   cout <<" Correcting number of measuring periods to:"<<numperiods << endl;
 		   }
-	  if(fiLastEventNum && deltat)
-         fiCalcedEventRate=(fxDaqStat.bl_n_events-fiLastEventNum)/deltat;
+	  if(fiLastEventNum && deltamilsecs)
+         fiCalcedEventRate=1000.*(fxDaqStat.bl_n_events-fiLastEventNum)/deltamilsecs;
       else
          fiCalcedEventRate=0;
       fiLastEventNum=fxDaqStat.bl_n_events;
 
-      if(fiLastDataNum && deltat)
+      if(fiLastDataNum && deltamilsecs)
       {
          fiDataDelta=(fxDaqStat.bl_n_kbyte-fiLastDataNum);
-         fiCalcedDataRate=fiDataDelta/deltat;
+         fiCalcedDataRate=1000.*fiDataDelta/deltamilsecs;;
       }
       else
       {
@@ -246,10 +247,10 @@ void TGo4MBSViewer::Refresh()
       if(fbIsMonitoring)
       {
          // own rate calculation for monitoring on:
-         if(fiLastServDataNum && deltat)
+         if(fiLastServDataNum && deltamilsecs)
          {
             fiServDataDelta=(fxDaqStat.bl_n_strserv_kbytes-fiLastServDataNum);
-            fiCalcedServDataRate=fiServDataDelta/deltat;
+            fiCalcedServDataRate=1000.*fiServDataDelta/deltamilsecs;
          }
          else
          {
@@ -283,10 +284,10 @@ void TGo4MBSViewer::Refresh()
       if(fbIsMonitoring)
       {
          // own rate calculation for monitoring on:
-         if(fiLastServDataNum && deltat)
+         if(fiLastServDataNum && deltamilsecs)
          {
             fiServDataDelta=(fxDaqStat.bl_n_evserv_kbytes-fiLastServDataNum);
-            fiCalcedServDataRate=fiServDataDelta/deltat;
+            fiCalcedServDataRate=1000.0*fiServDataDelta/deltamilsecs;
          }
          else
          {
