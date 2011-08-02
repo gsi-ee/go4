@@ -1,6 +1,6 @@
 --------------------------------------------------------------
          Go4 Release Package v4.5.0 (build 40500)
-                      01-Aug-2011
+                      02-Aug-2011
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -33,6 +33,9 @@ Changes in Go4 v4.5.0 (August 2011)
 5. Added composite event example in Go4ExampleAdvanced
 6. Bugfix in help window display: Sometimes QProcess did not launch 
 pdf viewer script correctly. Workaround: use detached QProcess
+7. Bugfix/workaround in MBS monitor: sometimes it appeared that timer was skipped, resulting in
+wrong data/event rates as calculated by Go4. Introduced check of real time against timer period
+to correct rate and trend histogram if necessary.
 
 Changes in Go4 v4.4.3 (March 2011)
 1. Implement proper Ctrl-C handler for Windows platform

@@ -188,9 +188,26 @@ else
 fxRefTime=fxDaqStat.c_date;
 fbRunning=fxDaqStat.bh_acqui_running;
 int deltat=FrequencyBox->value();
-if(fbIsMonitoring)
-{
-    // only in monitoring mode: calculate rates ourselves, independent of mbs ratemter:
+int numperiods=1;
+  if(fbIsMonitoring)
+  {
+     // only in monitoring mode: calculate rates ourselves, independent of mbs ratemter:
+	   // NEW: first check real time diff since last call and correct rates:
+	   int deltamilsecs=fxDeltaClock.elapsed();
+	   //cout <<"******* found ms:"<<deltamilsecs << endl;
+	   fxDeltaClock.restart();
+	   int deltasecs=deltamilsecs/1000;
+	   if(!fbTrendingInit && (deltasecs>=deltat*2))
+	   //if((deltasecs>=deltat*2)) // this one was for testing JAM
+		   {
+			   cout <<"Warning: MBS monitor found measuring interval:"<<deltasecs<<" s ("<<deltamilsecs <<" ms) exceeding timer period "<<deltat<<" s" << endl;
+			   cout <<" Maybe timer was skipped?" << endl;
+			   deltat=deltasecs;
+			   numperiods=(deltat/ (int) FrequencyBox->value());
+			   cout <<" Correcting number of measuring periods to:"<<numperiods << endl;
+		   }
+
+
     if(fiLastEventNum && deltat)
           fiCalcedEventRate=(fxDaqStat.bl_n_events-fiLastEventNum)/deltat;
     else
@@ -291,7 +308,14 @@ else
     }
 
 if(fbTrending && !fbWarningState && fbIsMonitoring)
-    UpdateTrending();
+{
+ while((numperiods--) > 0)
+   	   {
+   		   UpdateTrending(); // use same values for all skipped periods
+   		   //cout <<"Update trending with numperiods:"<<numperiods << endl;
+   	   }
+}
+
 StartMovieReset();
 Display();
 }

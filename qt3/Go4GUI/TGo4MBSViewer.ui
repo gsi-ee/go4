@@ -1038,8 +1038,8 @@
     <include location="local" impldecl="in declaration">QGo4Widget.h</include>
     <include location="local" impldecl="in declaration">QGo4LineEdit.h</include>
     <include location="local" impldecl="in declaration">s_set_mo.h</include>
+    <include location="local" impldecl="in declaration">qdatetime.h</include>  
     <include location="local" impldecl="in implementation">qtimer.h</include>
-    <include location="local" impldecl="in implementation">qdatetime.h</include>
     <include location="local" impldecl="in implementation">f_stccomm.h</include>
     <include location="local" impldecl="in implementation">Riostream.h</include>
     <include location="local" impldecl="in implementation">TSystem.h</include>
@@ -1092,6 +1092,7 @@
     <variable>int fiCalcedServDataRate;</variable>
     <variable>int fiDataDelta;</variable>
     <variable>int fiServDataDelta;</variable>
+    <variable>QTime fxDeltaClock;</variable> 
 </variables>
 <slots>
     <slot>init()</slot>
