@@ -99,7 +99,9 @@ $(MODULE_LIB):   $(MODULE_O) $(MODULE_DO)
             -out:$(MODULE_LIB) $(MODULE_O) $(MODULE_DO) -def:$(MODULE_LIBDEF)
 
 $(MODULE_DLL):  $(MODULE_LIB)
-	@link /DLL $(LDFLAGS) -out:$(MODULE_DLL) $(MODULE_O) $(MODULE_DO) \
+	@link /DLL $(LDFLAGS) -MACHINE:IX86 -out:$(MODULE_DLL) $(MODULE_O) $(MODULE_DO) \
+            -def:$(MODULE_LIBNAME).$(DefSuf) $(LIBS_FULLSET)
+	@link /MANIFEST $(LDFLAGS) -out:$(MODULE_DLL) $(MODULE_O) $(MODULE_DO) \
             $(MODULE_LIBEXP) $(LIBS_FULLSET)
 	@mt -nologo -manifest $(MODULE_DLL).manifest -outputresource:$(MODULE_DLL)
 	@del $(MODULE_DLL).manifest
