@@ -11,6 +11,10 @@ CC            = gcc
 
 #### Compiler optimization flags: ####
 OPTIONS       = -fPIC
+ifdef force32
+OPTIONS      += -m32
+endif
+
 DEFINITIONS   = -DLinux
 EXTRACXXOPTIONS = -Wall
 

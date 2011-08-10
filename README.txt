@@ -170,6 +170,10 @@ ADVANCED MAKE OPTIONS
 
   nodepend=1
      Build go4 without dependencies - makes build process faster.
+     
+  force32=1
+     Forces 32-bit compilation and linking on 64-bit platform. Implemented
+     for such kind of MacOS machines, not tested (probably, not required) on Linux. 
 
   All flags, specified to the make, will be stored together with some environment settings
   in build/Makefile.gener. This allow to reuse same settings for user analysis compilation.

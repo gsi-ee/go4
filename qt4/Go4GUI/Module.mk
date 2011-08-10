@@ -25,6 +25,12 @@ $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE) : LDRPATHS += $(if $(USEDIM), $(DIMLIBPATH),)
 
 GO4GUI4_QMAKEFLAGS = "unix:QMAKE_LFLAGS += $(LDFLAGS_RPATH)" 
 
+ifdef force32
+ifeq ($(GO4_OS),Darwin)
+GO4GUI4_QMAKEFLAGS = "unix:QMAKE_LFLAGS += -Wl,-arch,i386"
+endif
+endif
+
 ifdef USEDIM
 GO4GUI4_FORMS       = $(wildcard $(GO4GUI4_DIR)/*.ui)
 GO4GUI4_QMAKEFLAGS += "FORMS += TGo4DabcMonitor.ui" 

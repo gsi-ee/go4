@@ -20,6 +20,10 @@ CC            = gcc
 
 #### Compiler optimisation flags: ####
 OPTIONS       = -fPIC
+ifdef force32
+OPTIONS      += -m32 
+endif
+
 DEFINITIONS   = -DDarwin
 EXTRACOPTIONS = -Wall
 
@@ -41,8 +45,9 @@ LDFLAGS_RPATH = $(LDRPATHS:%=-Wl,-rpath,%)
 endif
 
 LDFLAGS       += $(LDFLAGS_RPATH)
-
-
+ifdef force32
+LDFLAGS       += -Wl,-arch,i386
+endif
 
 
 FORCELINK     = yes
