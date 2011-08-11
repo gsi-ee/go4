@@ -168,7 +168,7 @@ void TGo4ViewPanel::DropOnPad(TPad* pad,  const char * itemname, TClass * cl, in
 
    ShootRepaintTimer();
 
-   Browser()->GetBrowserObject(itemname, 2);
+   Browser()->GetBrowserObject(itemname, go4sett->getFetchDataWhenDraw() ? 2 : 1);
 }
 
 // ****************************************************************
@@ -3043,7 +3043,7 @@ void TGo4ViewPanel::ProcessPictureRedraw(const char* picitemname, TPad* pad, TGo
 
       if (brcont->DefineRelatedObject(picitemname, objname, drawname)) {
          TGo4Slot* slot = AddDrawObject(pad, kind_Link, drawname.Data(), 0, false, 0);
-         brcont->GetBrowserObject(drawname.Data(), 2);
+         brcont->GetBrowserObject(drawname.Data(), go4sett->getFetchDataWhenDraw() ? 2 : 1);
          ndraw++;
 
          if (pic->GetRebinX(n)>1) {
