@@ -101,10 +101,22 @@ together with Microsoft Visual C++ 2010 Express Edition and CYGWIN.
 
   First of all, CYGWIN (http://cygwin.com/) should be installed.
   This provides Unix like environment and allows to use shell-based 
-  build scripts. After CYGWIN installed, one should adjust "go4login" script, 
-  where actual location of different components should be specified. 
-  Than copy your analysis (or one of Go4 examples, 
-  for instance, Go4Example2Step) to separate location.
+  build scripts. To be able use VisualC from cygwin, one should call
+  vcvarsall.bat file from the Cygwin.bat before bash is started. 
+  One should add line like this:
+     call E:\Soft\VC2010\VC\vcvarsall.bat"
+
+  One also must ensure that link.exe from VisualC is used. 
+  Problem description and several solutions can be found here:
+     https://developer.mozilla.org/en/Windows_build_prerequisites_using_cygwin#Fix_cygwin_path
+  Simplest solution - just delete or rename link.exe from cygwin;
+  preferable - change sequence of $PATH. 
+
+  After CYGWIN installed and configured, one should adjust "go4login" script, 
+  specifying where ROOT, Qt and Go4 are installed. One must avoid pathes with spaces,
+  therefore location "C:\Program Files\root" will not work.
+   
+  Than copy your analysis (or one of Go4 examples, for instance, Go4Example2Step) to separate location.
   To compile example:
      /cygdrive/q> . go4login
      /cygdrive/q> cd /cygdrive/f/user/app1
@@ -134,7 +146,7 @@ together with Microsoft Visual C++ 2010 Express Edition and CYGWIN.
 - Download and install root (ROOT Windows binaries are enough)
 - Install and configure CYGWIN
 - Install Microsoft VC++
-- Install Qt 4.7.x binaries package for MS VS2008 compiler like
+- Install Qt 4.7.x binaries package for MS VC compiler like
     qt-win-opensource-4.7.1-vs2008.exe 
 - Download go4 sources from http://go4.gsi.de web site.
 - Find and modify $GO4SYS/etc/win32/go4login file to actual location of all 

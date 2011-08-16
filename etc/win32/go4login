@@ -1,36 +1,41 @@
 # This is example of login script, required for compilation 
-# of complete Go4 and user analysis under CYGWIN environment
+# of complete Go4 and user analysises under CYGWIN environment
 #
-# First ensure that all software components (MS VC, SDK, IDE)
-# installed in directories without spaces in their names.
-# If not, one should create symbolik links to such directories,
-# using mklink utility under admin account. Do something like
-#  > mklink /D c:\soft\vs "C:\Program Files\Visual studio" 
-# Than adjust windows paths
-
-export VC_PATH="E:\Soft\VS\VC"
-export SDK_PATH="E:\Soft\SDK"
-export IDE_PATH="E:\Soft\VS\Common7\IDE"
+# First ensure that all software components: CYGWIN, Microsoft VisualC, ROOT and Qt are installed.
+#
+# Qt package should be compiled with VisualC - like qt-win-opensource-4.7.3-vs2008.exe. 
+# Do not try to install MinGW version - it uses unsuitable compiler version.
+# Install Qt into the path without spaces.
+#
+# To be able use VisualC from cygwin, one should call
+#  vcvarsall.bat file from the Cygwin.bat. 
+#  Insert following line into Cygwin.bat before bash:
+#     call E:\Soft\VC2010\VC\vcvarsall.bat"
+#
+#  One also must ensure that link.exe from VisualC is used. 
+#  Problem description and several solutions can be found here:
+#     https://developer.mozilla.org/en/Windows_build_prerequisites_using_cygwin#Fix_cygwin_path
+#  Simplest solution - just delete or rename link.exe from cygwin;
+#  preferable - change sequence of $PATH. 
+#
+#                                          
+# Adjust windows pathes for VC, ROOT, Qt and Go4
 
 ROOT_PATH="F:\Soft\root"
 GO4_PATH="F:\Soft\go4"
-QT_PATH="E:\Soft\Qt451"
+QT_PATH="E:\Soft\qt471"
+
+GO4CYGPATH=`cygpath $GO4_PATH`
 
 export GO4_OS=Win32
-# export GO4SYS=`cygpath $GO4_PATH`
 
 export ROOTSYS=`cygpath $ROOT_PATH`
 export QTDIR=`cygpath $QT_PATH`
-export LD_LIBRARY_PATH=$ROOTSYS/lib:$GO4SYS/lib:$QTDIR/lib:$LD_LIBRARY_PATH
-export PATH=$ROOTSYS/bin:$GO4SYS/bin:$QTDIR/bin:$PATH
-export INCLUDE="$VC_PATH\include;$SDK_PATH\Include;$QT_PATH\include"
+export LD_LIBRARY_PATH=$ROOTSYS/lib:$GO4CYGPATH/lib:$QTDIR/lib:$LD_LIBRARY_PATH
+export PATH=$ROOTSYS/bin:$GO4CYGPATH/bin:$QTDIR/bin:$PATH
 
-export LIB="$ROOT_PATH\lib;$GO4_PATH\lib;$VC_PATH\lib;$SDK_PATH\Lib;$QT_PATH\lib"
-export PATH=`cygpath $VC_PATH`/bin:$PATH
+export LIB="$ROOT_PATH\lib;$GO4_PATH\lib;$QT_PATH\lib;$LIB"
 
-#this is required by MS cl compiler to find some dlls
-export PATH=`cygpath $IDE_PATH`:$PATH
+export QMAKESPEC=win32-msvc2010
 
-export PATH=`cygpath $SDK_PATH/bin`:$PATH
-
-export QMAKESPEC=win32-msvc2008
+echo "Configure enviroment to compile go4 in $GO4CYGPATH"

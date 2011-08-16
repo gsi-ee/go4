@@ -27,6 +27,7 @@ Changes in Go4 v4.5.1 (Fall 2011)
 2. Correctly treat "fetch when drawing" option in all cases. Before in some 
    situations (like double-click on multipad panel or drag-and-drop) object
    was fetched even if flag was disabled. Fixed in qt3/qt4 versions.
+3. Adjust init scripts and README how to compile go4 in Windows.
    
 
 Changes in Go4 v4.5.0 (August 2011)

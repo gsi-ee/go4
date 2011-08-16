@@ -7,15 +7,15 @@
 @set LIB=.;%ROOTSYS%\lib;%GO4SYS%\lib;%LIB%
 
 
+:: uncommented and adjusted actual location of Qt (required to run go4, compiled from source)
+
+:: set QTDIR=E:\Soft\Qt471
+:: @set LIB=%LIB%;%QTDIR%\lib
+:: @set PATH=%PATH%;%QTDIR%\bin
 
 :: if one need to compile user anaysis, following lines should be 
-:: uncommented and adjusted to actual location of MS Visual C++, SDK and IDE
+:: uncommented and adjusted to actual location of MS Visual C++
 
-:: set VC_PATH=C:\Program Files\Microsoft Visual Studio 9.0\VC
-:: set SDK_PATH=C:\Program files\Microsoft SDKs\Windows\v6.0A
-:: set IDE_PATH=C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE
-:: set INCLUDE=%VC_PATH%\include;%SDK_PATH%\include;
-:: set LIB=%LIB%;%VC_PATH%\lib;%SDK_PATH%\Lib
-:: set PATH=%PATH%;%VC_PATH%\bin;%SDK_PATH%\bin;%IDE_PATH%
+:: call E:\Soft\VC2010\VC\vcvarsall.bat
 
  
