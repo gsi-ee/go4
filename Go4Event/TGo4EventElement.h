@@ -104,8 +104,9 @@ class TGo4EventElement : public TNamed {
    private:
 
       /** Indicates if this event is valid or not. If false, the event store
-       * will not write the event. */
-      Bool_t fbIsValid;  //!
+       * will not write the event.
+       * We still stream this, since it may be used to flag validity of composite sub events*/
+      Bool_t fbIsValid;
 
       /** The higher level event element that owns this instance
        * @supplierCardinality 1 */

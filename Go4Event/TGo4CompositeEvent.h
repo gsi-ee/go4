@@ -22,16 +22,20 @@ class TTree;
 /** Base type for object composition */
 class TGo4CompositeEvent : public TGo4EventElement {
   protected:
+
     /** Number of Elements in composite */
     Short_t fNElements;
 
     /** Sub-Events list for this event */
     TObjArray *fEventElements; //!
 
+    /** Maximum index (i.e. array size to provide when reading back tree) */
+    Short_t fMaxIndex;
+
   public:
      TGo4CompositeEvent();
      TGo4CompositeEvent(const char* aName, const char* aTitle, Short_t aBaseCat=0);
-     ~TGo4CompositeEvent();
+     virtual ~TGo4CompositeEvent();
 
      void makeBranch(TBranch *parent);
 
@@ -41,18 +45,23 @@ class TGo4CompositeEvent : public TGo4EventElement {
      virtual void activate();
 
      Bool_t addEventElement(TGo4EventElement* aElement, Bool_t reading = kFALSE);
+
      TGo4EventElement *getEventElement(Int_t idx);
      TGo4EventElement *getEventElement(const char* name,Int_t final=0);
      void Clear(Option_t *opt="");
      Short_t getNElements() const { return fNElements; }
-
+     Short_t getMaxIndex() const { return fMaxIndex; }
      virtual Bool_t isComposed() { return kTRUE; }
      TObjArray* getElements() { return fEventElements;}
      TObjArray* getListOfComposites(Bool_t toplevel=kTRUE);
      TGo4EventElement& operator[]( Int_t i );
 
+  protected:
 
-  ClassDef(TGo4CompositeEvent,1)
+     void ProvideArray();
+
+
+  ClassDef(TGo4CompositeEvent,2)
 };
 
 #endif

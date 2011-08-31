@@ -24,14 +24,16 @@
 TGo4CompositeEvent::TGo4CompositeEvent() :
    TGo4EventElement(),
    fNElements(0),
-   fEventElements(0)
+   fEventElements(0),
+   fMaxIndex(0)
 {
 }
 
 TGo4CompositeEvent::TGo4CompositeEvent(const char*aName, const char* aTitle, Short_t aBaseCat) :
    TGo4EventElement(aName,aTitle, aBaseCat),
    fNElements(0),
-   fEventElements(0)
+   fEventElements(0),
+   fMaxIndex(0)
 {
 }
 
@@ -70,7 +72,7 @@ Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventE
 
    if (branch==0) return fNElements;
 
-   // we need to call GetEntry here to get value of fNElements
+   // we need to call GetEntry here to get value of fNElements  and fMaxIndex
    branch->GetEntry(0);
 
    if (fDebug)
@@ -81,6 +83,10 @@ Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventE
 
    Int_t i = init;
    Int_t all_branches = fNElements;
+
+   // expand object array to final size before setting branch addresses:
+   ProvideArray();
+
 
    if (fDebug)
       TGo4Log::Debug("-I-TGo4CompositeEvent::activateBranch from obj:%s bname:%s Elements:%d  index:%d",
@@ -108,6 +114,11 @@ Int_t TGo4CompositeEvent::activateBranch(TBranch *branch, Int_t init, TGo4EventE
          }
 
          par = (TGo4EventElement*) cl->New();
+         // need to set correct object name:
+         par->SetName(sub.Data());
+         if(fDebug)
+        	 TGo4Log::Debug("-I Created new instance of class %s, name:%s", cl->GetName(), par->GetName());
+
 
          if (par==0) {
             TGo4Log::Error("-I class %s instance cannot be created", b->GetClassName());
@@ -193,28 +204,29 @@ Bool_t TGo4CompositeEvent::addEventElement(TGo4EventElement* aElement, Bool_t re
       return kFALSE;
    }
 
+   ProvideArray();
+
    if (fDebug)
-      TGo4Log::Debug("-I adding element in :%s :%p at location:%i",GetName(),aElement, aElement->getId());
+      TGo4Log::Debug("-I adding element in :%s :%p of id:%i",GetName(),aElement, aElement->getId());
 
-   if (fEventElements==0) {
-      Int_t size = 4;
-      if (aElement->getId() >= size ) size = aElement->getId() + 1;
-      fEventElements = new TObjArray(size);
-   }
-
-   fEventElements->AddAtAndExpand (aElement, aElement->getId());
+   fEventElements->AddAtAndExpand(aElement,aElement->getId());
    if(!reading) fNElements++;
+   if(aElement->getId()>fMaxIndex) fMaxIndex=aElement->getId();
+   if (fDebug)
+              TGo4Log::Debug("-I fNElements:%d fMaxIndex:%d",fNElements, fMaxIndex);
+
    return kTRUE;
 }
 
 
 TGo4EventElement* TGo4CompositeEvent::getEventElement(Int_t idx)
 {
-   // Returns a pointer to the partial event with number idx.
+   // Returns a pointer to the partial event with array location idx.
 
    if ((fEventElements==0) || (idx<0) || (idx > fEventElements->GetLast())) return NULL;
    return ( TGo4EventElement*) fEventElements->At(idx);
 }
+
 
 
 TGo4EventElement* TGo4CompositeEvent::getEventElement(const char* name, Int_t final)
@@ -229,7 +241,7 @@ TGo4EventElement* TGo4CompositeEvent::getEventElement(const char* name, Int_t fi
       }
    }
    if(final==0)
-      TGo4Log::Error("TGo4CompositeEvent => Element:%s not found in Composite:%s", name, GetName());
+      TGo4Log::Debug("TGo4CompositeEvent => Element:%s not found in Composite:%s", name, GetName());
    return NULL;
 }
 
@@ -286,4 +298,20 @@ TGo4EventElement& TGo4CompositeEvent::operator[]( Int_t i )
    }
 
    return * ((TGo4EventElement*) (fEventElements->At(i)));
+}
+
+
+void TGo4CompositeEvent::ProvideArray()
+{
+	if (fEventElements==0) {
+	      Int_t size = fMaxIndex+1;
+	      fEventElements = new TObjArray(size);
+	      if (fDebug)
+	           TGo4Log::Debug("-I creating TObjArray of size %i",size);
+	   }
+	if(fMaxIndex+1 >fEventElements->GetSize()){
+			fEventElements->Expand(fMaxIndex+1);
+			if (fDebug)
+				TGo4Log::Debug("-I Expanded component array to size %i",fEventElements->GetSize());
+		}
 }
