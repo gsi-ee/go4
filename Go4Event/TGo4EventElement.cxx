@@ -221,7 +221,7 @@ Int_t TGo4EventElement::Fill()
    if (fxEventSource==0) { SetValid(kFALSE); return 1; }
 
    if (fxEventSource->BuildEvent(this)) {
-      SetValid(kTRUE);
+      //SetValid(kTRUE); // JAM: do not override event validity as specified by user
       return 0;
    }
 

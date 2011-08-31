@@ -124,7 +124,7 @@ class TGo4EventElement : public TNamed {
       Short_t fIdentifier; // Identifier
       Bool_t fDebug; //! Debug level
 
-   ClassDef(TGo4EventElement,2)
+   ClassDef(TGo4EventElement,3)
 };
 
 #endif //TGO4EVENTELEMENT_H
