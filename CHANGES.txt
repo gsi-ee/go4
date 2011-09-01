@@ -28,6 +28,12 @@ Changes in Go4 v4.5.1 (Fall 2011)
    situations (like double-click on multipad panel or drag-and-drop) object
    was fetched even if flag was disabled. Fixed in qt3/qt4 versions.
 3. Adjust init scripts and README how to compile go4 in Windows.
+4. Bugfix in composite event: When reading from TTree, setting the branch addresses 
+   to the subcomponents failed in case that more subcomponents were in file than preallocated.
+   Now we store the complete length of TObjArray with composite event and ensure that array 
+   is not re-allocated during the tree read.
+5. Bugfix/change in default TGo4EventElement::Fill() - valid flag was always
+   set depending on BuildEvent() return value, did overrule user settings. Disabled this.   
    
 
 Changes in Go4 v4.5.0 (August 2011)
