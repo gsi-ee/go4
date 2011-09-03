@@ -80,19 +80,19 @@ void TGo4ConfigStep::InputStateChanged(int )
    fxPanel->ChangeTabTitle(this, fStepNumber);
 }
 
-void TGo4ConfigStep::InputPort(const QString& fxPort)
+void TGo4ConfigStep::InputPortChanged(int port)
 {
    TGo4EventSourceParameter* SourcePar = fStepStatus->GetSourcePar();
    int ParId=SourcePar->GetID();
    if (ParId==GO4EV_MBS_REVSERV) {              // remote event server (input only)
       TGo4RevServParameter* revpar=dynamic_cast<TGo4RevServParameter*>(SourcePar);
       if (revpar!=0)
-         revpar->SetPort(fxPort.toInt());
+         revpar->SetPort(port);
    } else
    if (ParId==GO4EV_USER) {                    // user defined source class
       TGo4UserSourceParameter* usrpar=dynamic_cast<TGo4UserSourceParameter*>(SourcePar);
       if (usrpar!=0)
-         usrpar->SetPort(fxPort.toInt());
+         usrpar->SetPort(port);
    }
 }
 

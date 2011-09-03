@@ -815,5 +815,11 @@
    <receiver>TGo4ConfigStep</receiver>
    <slot>MbsMonitorBtn_clicked()</slot>
   </connection>
+  <connection>
+   <sender>SpinBoxPortNumber</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>TGo4ConfigStep</receiver>
+   <slot>InputPortChanged(int)</slot>
+  </connection>
  </connections>
 </ui>

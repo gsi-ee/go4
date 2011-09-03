@@ -58,7 +58,7 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
 
       virtual void InputArguments( const QString & Arg );
       virtual void InputStateChanged( int );
-      virtual void InputPort( const QString & fxPort );
+      virtual void InputPortChanged( int );
       virtual void InputSourceText( const QString & Name );
       virtual void OutputStateChanged( int );
       virtual void OutputNameText( const QString & Name );
