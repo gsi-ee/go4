@@ -22,7 +22,6 @@ TGo4MbsTransport::TGo4MbsTransport(const char* name)
 {
    TRACE((15,"TGo4MbsTransport::TGo4MbsTransport(const char*)",__LINE__, __FILE__));
    TGo4Log::Debug(" New Event Source MbsTransport %s:  ",name);
-   SetTimeout(fgiTIMEOUTDEFAULT);
    Open();
 }
 

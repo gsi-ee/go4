@@ -23,7 +23,7 @@ TGo4MbsEventServer::TGo4MbsEventServer(const char* name) :
    TRACE((15,"TGo4MbsEventServer::TGo4MbsEventServer(const char*)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Event Source MbsEventServer %s:  ",name);
-   SetTimeout(fgiTIMEOUTDEFAULT);
+
    Open();
 }
 

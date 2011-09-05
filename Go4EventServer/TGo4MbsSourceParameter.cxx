@@ -61,6 +61,8 @@ Int_t TGo4MbsSourceParameter::PrintParameter(Text_t* buffer, Int_t buflen)
    current=TGo4Status::PrintBuffer(current,restlen, "\t Stopevent: \t%d \n",GetStopEvent());
    current=TGo4Status::PrintIndent(current,restlen);
    current=TGo4Status::PrintBuffer(current,restlen, "  Event interval: \t%d\n",GetEventInterval());
+   if (GetPort()>0)
+      current=TGo4Status::PrintBuffer(current,restlen, "  Server port: \t%d \n",GetPort());
    if(buffer==0)
       {
           cout << localbuf << endl;
@@ -85,6 +87,7 @@ Bool_t TGo4MbsSourceParameter::UpdateFrom(TGo4Parameter* rhs)
       SetStartEvent(mbspar->GetStartEvent());
       SetStopEvent(mbspar->GetStopEvent());
       SetEventInterval(mbspar->GetEventInterval());
+      SetPort(mbspar->GetPort());
       return kTRUE;
    }
    return kFALSE;

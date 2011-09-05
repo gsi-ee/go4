@@ -19,10 +19,9 @@
 TGo4MbsStream::TGo4MbsStream(const char* name) :
    TGo4MbsSource(name , GETEVT__STREAM)
 {
-TRACE((15,"TGo4MbsStream::TGo4MbsStream(const char*)",__LINE__, __FILE__));
+   TRACE((15,"TGo4MbsStream::TGo4MbsStream(const char*)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Event Source MbsStream %s:  ",name);
-   SetTimeout(fgiTIMEOUTDEFAULT);
    Open();
 }
 

@@ -42,13 +42,14 @@ TGo4MbsSource::TGo4MbsSource(TGo4MbsSourceParameter* par, Int_t mode) :
    fuStartEvent(par->GetStartEvent()) ,
    fuStopEvent(par->GetStopEvent()),
    fuEventInterval(par->GetEventInterval()),
-   fiTimeout(par->GetTimeout())
-   {
+   fiTimeout(par->GetTimeout()),
+   fiPort(par->GetPort())
+{
    fxInputChannel=f_evt_control();
    TRACE((15,"TGo4MbsSource::TGo4MbsSource(const char*, Int_t)",__LINE__, __FILE__));
    // Open() call will be done by subclasses ctors, so we can overwrite Open() method
    //cout <<"TGo4MbsSource with data copy mode="<<fbDataCopyMode << endl;
-   }
+}
 
 
 TGo4MbsSource::TGo4MbsSource(const char* name, Int_t mode) :
@@ -58,26 +59,29 @@ TGo4MbsSource::TGo4MbsSource(const char* name, Int_t mode) :
    fbIsOpen(kFALSE), fbDataCopyMode(kFALSE),
    fuEventCounter(0), fbFirstEvent(kTRUE),
    fuStartEvent(0) ,fuStopEvent(0), fuEventInterval(0),
-   fiTimeout(-1)
-   {
-   fxInputChannel=f_evt_control();
+   fiTimeout(-1), fiPort(0)
+{
+   fxInputChannel = f_evt_control();
    TRACE((15,"TGo4MbsSource::TGo4MbsSource(const char*, Int_t)",__LINE__, __FILE__));
+
+   SetTimeout(fgiTIMEOUTDEFAULT);
+
    // Open() call will be done by subclasses ctors, so we can overwrite Open() method
    //cout <<"TGo4MbsSource with data copy mode="<<fbDataCopyMode << endl;
-   }
+}
 
 
 TGo4MbsSource::TGo4MbsSource() :
    TGo4EventSource("default mbs source"),
    fiMode(0),
    fxEvent(0), fxBuffer(0), fxInfoHeader(0),
-   fbIsOpen(kFALSE),fbDataCopyMode(kFALSE),
+   fbIsOpen(kFALSE), fbDataCopyMode(kFALSE),
    fuEventCounter(0), fbFirstEvent(kTRUE),
-   fuStartEvent(0) ,fuStopEvent(0), fuEventInterval(0), fiTimeout(-1)
-   {
+   fuStartEvent(0) ,fuStopEvent(0), fuEventInterval(0), fiTimeout(-1), fiPort(0)
+{
    fxInputChannel=f_evt_control();
    TRACE((15,"TGo4MbsSource::TGo4MbsSource()",__LINE__, __FILE__));
-   }
+}
 
 TGo4MbsSource::~TGo4MbsSource()
 {
@@ -300,12 +304,24 @@ Int_t TGo4MbsSource::Open()
 {
    TRACE((12,"TGo4MbsSource::Open()",__LINE__, __FILE__));
 
+
+
    if(fbIsOpen) return -1;
    //cout << "Open of TGo4MbsSource"<< endl;
    // open connection/file
+
+   Int_t status  = f_evt_source_port(fiPort);
+   SetCreateStatus(status);
+   if(GetCreateStatus() !=GETEVT__SUCCESS) {
+       char buffer[TGo4EventSource::fguTXTLEN];
+       f_evt_error(GetCreateStatus(), buffer, 1); // provide text message for later output
+       SetErrMess(Form("%s name:%s port:%d", buffer, GetName(), fiPort));
+       throw TGo4EventErrorException(this);
+    }
+
    void* headptr= &fxInfoHeader; // suppress type-punned pointer warning
    f_evt_timeout(fxInputChannel, fiTimeout); // have to set timeout before open now JAM
-   Int_t status = f_evt_get_open(
+   status = f_evt_get_open(
          fiMode,
          const_cast<char*>( GetName() ),
          fxInputChannel,

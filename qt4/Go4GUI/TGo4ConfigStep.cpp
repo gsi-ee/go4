@@ -83,16 +83,30 @@ void TGo4ConfigStep::InputStateChanged(int )
 void TGo4ConfigStep::InputPortChanged(int port)
 {
    TGo4EventSourceParameter* SourcePar = fStepStatus->GetSourcePar();
-   int ParId=SourcePar->GetID();
-   if (ParId==GO4EV_MBS_REVSERV) {              // remote event server (input only)
-      TGo4RevServParameter* revpar=dynamic_cast<TGo4RevServParameter*>(SourcePar);
-      if (revpar!=0)
-         revpar->SetPort(port);
-   } else
-   if (ParId==GO4EV_USER) {                    // user defined source class
-      TGo4UserSourceParameter* usrpar=dynamic_cast<TGo4UserSourceParameter*>(SourcePar);
-      if (usrpar!=0)
-         usrpar->SetPort(port);
+
+   switch (SourcePar->GetID()) {
+
+      case GO4EV_MBS_TRANSPORT:
+      case GO4EV_MBS_STREAM:
+      case GO4EV_MBS_EVENTSERVER:
+      case GO4EV_MBS_REVSERV: {
+         TGo4MbsSourceParameter* par = dynamic_cast<TGo4MbsSourceParameter*>(SourcePar);
+         if (par!=0)
+            par->SetPort(port);
+         break;
+      }
+
+      case GO4EV_USER: { // user defined source class
+         TGo4UserSourceParameter* usrpar=dynamic_cast<TGo4UserSourceParameter*>(SourcePar);
+         if (usrpar!=0)
+            usrpar->SetPort(port);
+         break;
+      }
+
+      default: {
+         // do nothing
+         break;
+      }
    }
 }
 
@@ -307,8 +321,11 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
       }
       case 2: {  // mbs stream server (input only)
          TGo4MbsStreamParameter newpar(SourceNameEdit->text().toAscii().constData());
+         newpar.SetPort(SpinBoxPortNumber->value());
          fStepStatus->SetSourcePar(&newpar);
          SpinBoxTimeout->setEnabled(true);
+         TextLabelPortNumber->setShown(true);
+         SpinBoxPortNumber->setShown(true);
          MbsMonitorBtn->setEnabled(true);
          SpinBoxStartEvent->setEnabled(true);
          SpinBoxStopEvent->setEnabled(true);
@@ -318,8 +335,11 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
       }
       case 3: {       // mbs transport server (input only)
          TGo4MbsTransportParameter newpar(SourceNameEdit->text().toAscii().constData());
+         newpar.SetPort(SpinBoxPortNumber->value());
          fStepStatus->SetSourcePar(&newpar);
          SpinBoxTimeout->setEnabled(true);
+         TextLabelPortNumber->setShown(true);
+         SpinBoxPortNumber->setShown(true);
          MbsMonitorBtn->setEnabled(true);
          SpinBoxStartEvent->setEnabled(true);
          SpinBoxStopEvent->setEnabled(true);
@@ -331,6 +351,8 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
          TGo4MbsEventServerParameter newpar(SourceNameEdit->text().toAscii().constData());
          fStepStatus->SetSourcePar(&newpar);
          SpinBoxTimeout->setEnabled(true);
+         SpinBoxPortNumber->setShown(true);
+         TextLabelPortNumber->setShown(true);
          MbsMonitorBtn->setEnabled(true);
          SpinBoxStartEvent->setEnabled(true);
          SpinBoxStopEvent->setEnabled(true);
@@ -363,10 +385,8 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
          fStepStatus->SetSourcePar(&newpar);
          SpinBoxPortNumber->setShown(true);
          TextLabelPortNumber->setShown(true);
-
          LineEditArgs->setShown(true);
          TextLabelArgs->setShown(true);
-
          SpinBoxTimeout->setEnabled(true);
          FileNameInput->setEnabled(true);
          if(usersrc==0) SourceNameEdit->clear();

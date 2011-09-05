@@ -27,27 +27,15 @@ class TGo4RevServParameter;
 class TGo4RevServ : public TGo4MbsSource {
   public:
 
-    TGo4RevServ(const char* name);
-
     TGo4RevServ();
+
+    TGo4RevServ(const char* name);
 
     TGo4RevServ(TGo4RevServParameter* par);
 
     ~TGo4RevServ();
 
-    /** Open the file or connection. */
-    virtual Int_t Open();
-
-    void SetPort(Int_t port) { fiPort=port; }
-
-    /** default remote eventserver portnumber */
-    static const Int_t fgiDEFAULTPORT;
-
-  private:
-    /** Port number for remote event server only.  */
-    Int_t fiPort;
-
-  ClassDef(TGo4RevServ,2)
+  ClassDef(TGo4RevServ,3)
 };
 
 #endif //TGO4REVSERV_H

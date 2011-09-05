@@ -181,7 +181,7 @@ INTS4 f_ut_utime(INTS4, INTS4, CHARS *);
 
 static struct s_tcpcomm s_tcpcomm_st_evt;
 static CHARS c_temp[MAX_BUF_LGTH];
-static int l_gl_rev_port = PORT__EVENT_SERV;
+static int l_gl_source_port = 0;
 static int l_gl_evt_check = 0;
 
 /*1+ C Procedure *************+****************************************/
@@ -476,6 +476,30 @@ INTS4 f_evt_type(s_bufhe *ps_bufhe,s_evhe *ps_evhe, INTS4 l_subid,INTS4 l_long,I
    }
    return(0);
 }
+
+/*1+ C Main ****************+******************************************/
+/*+ Module      : f_evt_source_port                                      */
+/*--------------------------------------------------------------------*/
+/*+ CALLING     : f_evt_source_port(long l_port)                         */
+/*--------------------------------------------------------------------*/
+/*                                                                    */
+/*+ PURPOSE     : f_evt_source_port sets port number for event source  */
+/*+ ARGUMENTS   :                                                     */
+/*+   l_port    : Port number:                                        */
+/*+ Return type : int.                                                */
+/*+ Status codes:                                                     */
+/*-               GETEVT__SUCCESS   : success.                        */
+/*+ Declaration :                                                     */
+/*                INTS4 f_evt_source_port(INTS4); */
+/*1- C Main ****************+******************************************/
+INTS4 f_evt_source_port(INTS4 l_port)
+{
+  l_gl_source_port=l_port;
+  if (l_port>0) printf("Use MBS source port %d\n",l_port);
+  return 0;
+}
+
+
 /*1+ C Main ****************+******************************************/
 /*+ Module      : f_evt_rev_port                                      */
 /*--------------------------------------------------------------------*/
@@ -493,10 +517,11 @@ INTS4 f_evt_type(s_bufhe *ps_bufhe,s_evhe *ps_evhe, INTS4 l_subid,INTS4 l_long,I
 /*1- C Main ****************+******************************************/
 INTS4 f_evt_rev_port(INTS4 l_port)
 {
-  l_gl_rev_port=l_port;
-  printf("Use remote event server port %d\n",l_port);
+  l_gl_source_port=l_port;
+  if (l_port>0) printf("Use MBS source port %d\n",l_port);
   return 0;
 }
+
 /*1+ C Main ****************+******************************************/
 /*+ Module      : f_evt_get_open                                      */
 /*--------------------------------------------------------------------*/
@@ -537,7 +562,7 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
    CHARS **ps_info, INTS4 l_sample, INTS4 l_param)
 {
 
-   INTS4 l_swap, l_swap_head, l_is_goosybuf, l_filehead=0, l_size, l_size_head, l_dummy, l_header_size;
+   INTS4 l_swap, l_swap_head, l_is_goosybuf, l_filehead=0, l_size, l_size_head, l_dummy, l_header_size, l_port;
    INTS2 *pi;
    CHARS c_file[256], *pc_temp;
    s_filhe *ps_filhe;
@@ -547,6 +572,8 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
      CHARS c_varstr[128];
    } s_varstr_file;
    INTS4 l_status,ll;
+
+   l_port = l_gl_source_port;
 
 
 #ifndef GSI__WINNT
@@ -677,8 +704,11 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
        /* may larger, but must multiplexed */
        break;
     case GETEVT__STREAM :
+
+       if (l_port<=0) l_port = PORT__STREAM_SERV;
+
       /* initialize connection with stream server                  */
-      if(f_stc_connectserver(pc_server,PORT__STREAM_SERV,&ps_chan->l_channel_no,
+      if(f_stc_connectserver(pc_server,l_port,&ps_chan->l_channel_no,
          &s_tcpcomm_st_evt)!=STC__SUCCESS)
       {
          return(GETEVT__NOSERVER);
@@ -700,7 +730,7 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
       if(*((INTS4 *)(c_temp+12)) == 0) {
         ps_chan->pLmd=fLmdAllocateControl();
         ps_chan->pLmd->pTCP=&s_tcpcomm_st_evt;
-        fLmdInitMbs(ps_chan->pLmd,pc_server,ps_chan->l_buf_size,ps_chan->l_bufs_in_stream,0,PORT__STREAM_SERV,ps_chan->l_timeout);
+        fLmdInitMbs(ps_chan->pLmd,pc_server,ps_chan->l_buf_size,ps_chan->l_bufs_in_stream,0,l_port,ps_chan->l_timeout);
         printf("f_evt_get_open for STREAM: setting timeout=%d  n",ps_chan->l_timeout);
 
         ps_chan->l_server_type=l_mode;
@@ -709,8 +739,11 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
 // -- DABC
       break;
    case GETEVT__TRANS  :
+
+      if (l_port<=0) l_port = PORT__TRANSPORT;
+
       /* initialize connection with stream server                  */
-      if(f_stc_connectserver(pc_server,PORT__TRANSPORT,&ps_chan->l_channel_no,
+      if(f_stc_connectserver(pc_server,l_port,&ps_chan->l_channel_no,
          &s_tcpcomm_st_evt)!=STC__SUCCESS)
       {
          return(GETEVT__NOSERVER);
@@ -730,20 +763,22 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
       if(*((INTS4 *)(c_temp+12)) == 0) {
         ps_chan->pLmd=fLmdAllocateControl();
         ps_chan->pLmd->pTCP=&s_tcpcomm_st_evt;
-        fLmdInitMbs(ps_chan->pLmd,pc_server,ps_chan->l_buf_size,ps_chan->l_bufs_in_stream,0,PORT__TRANSPORT,ps_chan->l_timeout);
+        fLmdInitMbs(ps_chan->pLmd,pc_server,ps_chan->l_buf_size,ps_chan->l_bufs_in_stream,0,l_port,ps_chan->l_timeout);
         ps_chan->l_server_type=l_mode;
         return GETEVT__SUCCESS;
       }
 // -- DABC
       break;
    case GETEVT__REVSERV  :
-      if(f_evcli_con(ps_chan, pc_server, l_gl_rev_port, -1, l_sample)!=STC__SUCCESS)
+      if (l_port<=0) l_port = PORT__EVENT_SERV;
+      if(f_evcli_con(ps_chan, pc_server, l_port, -1, l_sample)!=STC__SUCCESS)
       {
          return(GETEVT__NOSERVER);
       }
       break;
    case GETEVT__EVENT  :
-      if(f_evcli_con(ps_chan, pc_server, l_gl_rev_port, -1, l_sample)!=STC__SUCCESS)
+      if (l_port<=0) l_port = PORT__EVENT_SERV;
+      if(f_evcli_con(ps_chan, pc_server, l_port, -1, l_sample)!=STC__SUCCESS)
       {
          return(GETEVT__NOSERVER);
       }

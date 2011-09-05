@@ -116,7 +116,8 @@ INTS4 f_evt_put_close(s_evt_channel *);
 INTS4 f_evt_type(s_bufhe *,s_evhe *,INTS4,INTS4,INTS4,INTS4);
 INTS4 f_evt_error( INTS4 , CHARS * , INTS4 );
 INTS4 f_evt_timeout(s_evt_channel *, INTS4 );
-INTS4 f_evt_rev_port(INTS4);
+INTS4 f_evt_source_port(INTS4 l_port);
+INTS4 f_evt_rev_port(INTS4); /* obsolete */
 INTS4 f_evt_swap(CHARS *, INTS4);
 s_evt_channel * f_evt_control();
 

@@ -44,6 +44,12 @@ class TGo4MbsSourceParameter : public TGo4EventSourceParameter {
     /** Returns event interval */
     UInt_t GetEventInterval() const { return fuEventInterval; }
 
+    /** Set optional port number, 0 or negative value means that default port number will be used */
+    void SetPort(Int_t port) { fiPort=port; }
+
+    /** Return optional port number, 0 or negative value means that default port number will be used */
+    Int_t GetPort() const { return fiPort; }
+
     /** basic method to printout status information
       * on stdout; to be overridden by specific subclass */
     virtual Int_t PrintParameter(Text_t* buffer=0, Int_t buflen=0);
@@ -62,7 +68,10 @@ class TGo4MbsSourceParameter : public TGo4EventSourceParameter {
     /** Number of events to skip from file in between two read events  */
     UInt_t fuEventInterval;
 
-  ClassDef(TGo4MbsSourceParameter,1)
+    /** Port number .  */
+    Int_t fiPort;
+
+  ClassDef(TGo4MbsSourceParameter,2)
 
 };
 

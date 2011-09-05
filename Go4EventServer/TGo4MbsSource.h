@@ -109,6 +109,9 @@ class TGo4MbsSource : public TGo4EventSource {
 
     void SetTimeout(Int_t time) { fiTimeout=time; }
 
+    void SetPort(Int_t port) { fiPort=port; }
+
+
     /** User access to info header. May contain additional run information */
     s_filhe * GetInfoHeader() { return fxInfoHeader; }
 
@@ -178,10 +181,13 @@ class TGo4MbsSource : public TGo4EventSource {
     /** Timeout in seconds for mbs getevent. If -1, no timeout (default)  */
     Int_t fiTimeout;
 
+    /** Optional port parameter, if non-positive default port number for transport will be used  */
+    Int_t fiPort;
+
     /** This structure keeps parameters for printevent mode */
     TGo4MbsSourcePrintPar fxPrEventPar; //!
 
-  ClassDef(TGo4MbsSource, 2)
+  ClassDef(TGo4MbsSource, 3)
 
 };
 
