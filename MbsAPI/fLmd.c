@@ -331,20 +331,21 @@ uint32_t fLmdConnectMbs(
 sLmdControl *pLmdControl,
 char    *Nodename,
 uint32_t iPort,
-uint32_t *iBufferBytes){ // LMD__GET_EVENTS (NULL) or address to return buffer size
+uint32_t *iBufferBytes) // LMD__GET_EVENTS (NULL) or address to return buffer size
+{
 
   int32_t stat;
   sMbsTransportInfo sMbs;
 
-  if(iPort == 0) pLmdControl->iPort=PORT__TRANS;
-  else pLmdControl->iPort=iPort;
+  if(iPort==0) pLmdControl->iPort=PORT__TRANS;
+          else pLmdControl->iPort=iPort;
   memset(pLmdControl,0,sizeof(sLmdControl));
   pLmdControl->pTCP=(struct s_tcpcomm *)malloc(sizeof(struct s_tcpcomm));
   pLmdControl->iTCPowner=1;
   if(pLmdControl->iPort==PORT__TRANS)
-  printf("fLmdConnectMbs: Connect to transport server %s port %d\n",Nodename,pLmdControl->iPort);
+    printf("fLmdConnectMbs: Connect to transport server %s port %d\n",Nodename,pLmdControl->iPort);
   if(pLmdControl->iPort==PORT__STREAM)
-  printf("fLmdConnectMbs: Connect to stream server %s port %d\n",Nodename,pLmdControl->iPort);
+    printf("fLmdConnectMbs: Connect to stream server %s port %d\n",Nodename,pLmdControl->iPort);
   stat=f_stc_connectserver(Nodename,pLmdControl->iPort,&pLmdControl->iTCP,pLmdControl->pTCP);
   if (stat != STC__SUCCESS) {
     printf ("fLmdConnectMbs: Error connect to %s \n",Nodename);
@@ -406,10 +407,13 @@ uint32_t iTimeout){
 uint32_t fLmdCloseMbs(sLmdControl *pLmdControl){
 
   int32_t stat;
-  const char cClose[12] = "CLOSE";
+  char cClose[12];
   // send request buffer for stream server
-  if(pLmdControl->iPort == PORT__STREAM)
-    stat=f_stc_write(cClose,12,pLmdControl->iTCP);
+  if(pLmdControl->iPort == PORT__STREAM) {
+     memset(cClose,0,sizeof(cClose));
+     strcpy(cClose, "CLOSE");
+     stat=f_stc_write(cClose,12,pLmdControl->iTCP);
+  }
   stat=f_stc_close(pLmdControl->pTCP);
   pLmdControl->pMbsFileHeader = NULL; // was reference only
   if(pLmdControl->iTCPowner==0)pLmdControl->pTCP=NULL; // was reference only
@@ -417,26 +421,27 @@ uint32_t fLmdCloseMbs(sLmdControl *pLmdControl){
   return(stat);
 }
 //===============================================================
-uint32_t fLmdGetMbsEvent(sLmdControl *pLmdControl, sMbsHeader** event){
-  uint32_t stat;
-  sMbsHeader *pM;
-  *event=NULL;
-  if(pLmdControl->iLeftWords == 0){ // get new buffer
-    stat=fLmdGetMbsBuffer(pLmdControl,NULL,0,NULL,NULL);
-    if(stat != LMD__SUCCESS){
-      return(stat);
-    }
-    // first event behind header:
-    pLmdControl->pMbsHeader=(sMbsHeader *)(pLmdControl->pBuffer+sizeof(sMbsBufferHeader)/2);
-  }
-  pM=pLmdControl->pMbsHeader; // current to be returned
-  pLmdControl->iLeftWords -= (pLmdControl->pMbsHeader->iWords+4);
-  pLmdControl->pMbsHeader =
-           (sMbsHeader *)((int16_t *)pLmdControl->pMbsHeader +
-           pLmdControl->pMbsHeader->iWords+4);
-  pLmdControl->iElements++;
-  *event=pM;
-  return(LMD__SUCCESS);
+uint32_t fLmdGetMbsEvent(sLmdControl *pLmdControl, sMbsHeader** event)
+{
+   uint32_t stat;
+   sMbsHeader *pM;
+   *event=NULL;
+   if(pLmdControl->iLeftWords == 0){ // get new buffer
+      stat=fLmdGetMbsBuffer(pLmdControl,NULL,0,NULL,NULL);
+      if(stat != LMD__SUCCESS){
+         return(stat);
+      }
+      // first event behind header:
+      pLmdControl->pMbsHeader=(sMbsHeader *)(pLmdControl->pBuffer+sizeof(sMbsBufferHeader)/2);
+   }
+   pM=pLmdControl->pMbsHeader; // current to be returned
+   pLmdControl->iLeftWords -= (pLmdControl->pMbsHeader->iWords+4);
+   pLmdControl->pMbsHeader =
+         (sMbsHeader *)((int16_t *)pLmdControl->pMbsHeader +
+               pLmdControl->pMbsHeader->iWords+4);
+   pLmdControl->iElements++;
+   *event=pM;
+   return(LMD__SUCCESS);
 }
 //===============================================================
 uint32_t fLmdGetMbsBuffer(
@@ -450,7 +455,7 @@ uint32_t *iBytesUsed){
   sMbsBufferHeader *pBuf;
   uint32_t *ps, *pd, i,ii, elem=0, size=0, usedBytes=0,leftBytes=0;
   int32_t iReturn;
-  const char cRequest[12] = "GETEVT";
+  char cRequest[12];;
 
   leftBytes=iBytes;
   pBuf=pBuffer;
@@ -468,8 +473,11 @@ uint32_t *iBytesUsed){
     return(LMD__FAILURE);
   }
   // send request buffer for stream server
-  if(pLmdControl->iPort == PORT__STREAM)
-    iReturn=f_stc_write(cRequest,12,pLmdControl->iTCP);
+  if(pLmdControl->iPort == PORT__STREAM) {
+     memset(cRequest,0,sizeof(cRequest));
+     strcpy(cRequest, "GETEVT");
+     iReturn=f_stc_write(cRequest,12,pLmdControl->iTCP);
+  }
   iReturn=f_stc_read((int32_t *)pBuf,sizeof(sMbsBufferHeader),pLmdControl->iTCP,pLmdControl->iTcpTimeout);
   if(iReturn == STC__TIMEOUT) return(LMD__TIMEOUT);
   if(iReturn != STC__SUCCESS) return(LMD__FAILURE);

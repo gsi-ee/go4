@@ -730,8 +730,9 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
       if(*((INTS4 *)(c_temp+12)) == 0) {
         ps_chan->pLmd=fLmdAllocateControl();
         ps_chan->pLmd->pTCP=&s_tcpcomm_st_evt;
-        fLmdInitMbs(ps_chan->pLmd,pc_server,ps_chan->l_buf_size,ps_chan->l_bufs_in_stream,0,l_port,ps_chan->l_timeout);
-        printf("f_evt_get_open for STREAM: setting timeout=%d  n",ps_chan->l_timeout);
+        // SL: we should deliver default portnumber while it is used only to identify transport
+        fLmdInitMbs(ps_chan->pLmd,pc_server,ps_chan->l_buf_size,ps_chan->l_bufs_in_stream,0,PORT__STREAM_SERV,ps_chan->l_timeout);
+        printf("f_evt_get_open for STREAM: port=%d timeout=%d  \n",l_port, ps_chan->l_timeout);
 
         ps_chan->l_server_type=l_mode;
         return GETEVT__SUCCESS;
@@ -763,7 +764,8 @@ INTS4 f_evt_get_open(INTS4 l_mode, CHARS *pc_server, s_evt_channel *ps_chan,
       if(*((INTS4 *)(c_temp+12)) == 0) {
         ps_chan->pLmd=fLmdAllocateControl();
         ps_chan->pLmd->pTCP=&s_tcpcomm_st_evt;
-        fLmdInitMbs(ps_chan->pLmd,pc_server,ps_chan->l_buf_size,ps_chan->l_bufs_in_stream,0,l_port,ps_chan->l_timeout);
+        fLmdInitMbs(ps_chan->pLmd,pc_server,ps_chan->l_buf_size,ps_chan->l_bufs_in_stream,0,PORT__TRANSPORT,ps_chan->l_timeout);
+        printf("f_evt_get_open for TRANSPORT: port=%d timeout=%d  \n",l_port, ps_chan->l_timeout);
         ps_chan->l_server_type=l_mode;
         return GETEVT__SUCCESS;
       }
@@ -1750,10 +1752,10 @@ INTS4 f_evt_get_buffer(s_evt_channel *ps_chan, INTS4 *ps_buffer)
      break;
    case GETEVT__STREAM :
       if(ps_chan->l_stream_bufs == 0)
-      if(f_stc_write("GETEVT", 12, ps_chan->l_channel_no)!=STC__SUCCESS)
-      {
-         return(GETEVT__FAILURE);
-      }
+         if(f_stc_write("GETEVT", 12, ps_chan->l_channel_no)!=STC__SUCCESS)
+         {
+            return(GETEVT__FAILURE);
+         }
 
       l_status=f_stc_read(ps_buffer, ps_chan->l_buf_size, ps_chan->l_channel_no,ps_chan->l_timeout);
       if(l_status == STC__TIMEOUT) return(GETEVT__TIMEOUT);
