@@ -425,7 +425,7 @@ class TGo4AbstractInterface : public TObject {
       virtual void StepMbsRevServSource(const char* stepname,
                                 const char* sourcename,
                                 int timeout,
-                                int port,
+                                int port = 0,
                                 int start = 0,
                                 int stop = 0,
                                 int interval = 0) {}
@@ -434,6 +434,10 @@ class TGo4AbstractInterface : public TObject {
       virtual void StepRandomSource(const char* stepname,
                             const char* sourcename,
                             int timeout) {}
+
+      /** Set custom port number for MBS source like stream or transport server */
+      virtual void StepMbsPort(const char* stepname,
+                              int port) {}
 
       /** Set user data source as step data source */
       virtual void StepUserSource(const char* stepname,

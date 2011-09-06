@@ -169,6 +169,13 @@ void TGo4AnalysisStepStatus::SetSourcePar(TGo4EventSourceParameter* kind)
         fxSourceType=0;
 }
 
+TGo4EventSourceParameter* TGo4AnalysisStepStatus::TakeSourcePar()
+{
+   TGo4EventSourceParameter* res = fxSourceType;
+   fxSourceType = 0;
+   return res;
+}
+
 void TGo4AnalysisStepStatus::SetStorePar(TGo4EventStoreParameter* kind)
 {
     if(fxStoreType) delete fxStoreType;

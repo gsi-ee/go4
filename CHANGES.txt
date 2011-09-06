@@ -34,7 +34,11 @@ Changes in Go4 v4.5.1 (Fall 2011)
    is not re-allocated during the tree read.
 5. Bugfix/change in default TGo4EventElement::Fill() - valid flag was always
    set depending on BuildEvent() return value, did overrule user settings. Disabled this.   
-   
+6. Bugfix in gui - user source port number, specified in analysis configuration gui, 
+   was not delivered to the user source constructor
+7. New feature - possibility to specify optional port number for any MBS servers.
+   Necessary for working with DABC where port number can be changed freely. Useful
+   for virtual machines, where ports around 6000 are blocked.   
 
 Changes in Go4 v4.5.0 (August 2011)
 1. Fix problem with Ctrl-C handler. Now in batch in all cases

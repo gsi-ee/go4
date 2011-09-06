@@ -45,21 +45,33 @@ void TGo4ConfigStep::InputStateChanged(int )
    SourceBox->setEnabled(stepon && on);
 }
 
-void TGo4ConfigStep::InputPort(const QString& fxPort)
+void TGo4ConfigStep::PortNumberChanged(int nport)
 {
-    TGo4EventSourceParameter* SourcePar=fStepStatus->GetSourcePar();
-    int ParId=SourcePar->GetID();
-    if (ParId==GO4EV_MBS_REVSERV){              // remote event server (input only)
-           TGo4RevServParameter* revpar=dynamic_cast<TGo4RevServParameter*>(SourcePar);
-        if (revpar!=0){
-                revpar->SetPort(fxPort.toInt());
-        }
-    }else if (ParId==GO4EV_USER){                    // user defined source class
-        TGo4UserSourceParameter* usrpar=dynamic_cast<TGo4UserSourceParameter*>(SourcePar);
-        if (usrpar!=0){
-                usrpar->SetPort(fxPort.toInt());
+    TGo4EventSourceParameter* SourcePar = fStepStatus->GetSourcePar();
 
-        }
+    switch (SourcePar->GetID()) {
+
+       case GO4EV_MBS_TRANSPORT:
+       case GO4EV_MBS_STREAM:
+       case GO4EV_MBS_EVENTSERVER:
+       case GO4EV_MBS_REVSERV: {
+          TGo4MbsSourceParameter* par = dynamic_cast<TGo4MbsSourceParameter*>(SourcePar);
+          if (par!=0)
+             par->SetPort(nport);
+          break;
+       }
+
+       case GO4EV_USER: { // user defined source class
+          TGo4UserSourceParameter* usrpar = dynamic_cast<TGo4UserSourceParameter*>(SourcePar);
+          if (usrpar!=0)
+             usrpar->SetPort(nport);
+          break;
+       }
+
+       default: {
+          // do nothing
+          break;
+       }
     }
 }
 
@@ -99,12 +111,6 @@ void TGo4ConfigStep::StepStateChanged(int )
    OutputStateChanged(0);
 }
 
-void TGo4ConfigStep::OutArguments(const QString&)
-{
-
-}
-
-
 void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4AnalysisStepStatus* StepStatus)
 {
     if (StepStatus==0) return;
@@ -119,29 +125,26 @@ void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4Analysi
     Qt use following order to display the source parameter:
 
     0)  root file with one tree                 TGo4FileSourceParameter
-    1)  branch of singleton tree                TGo4TreeSourceParameter
-    2)  mbs listmode file (input only)          TGo4MbsFileParameter
-    3)  mbs stream server (input only)          TGo4MbsStreamParameter
-    4)  mbs transport server (input only)       TGo4MbsTransportParameter
-    5)  mbs event server  (input only)          TGo4MbsEventServerParameter
-    6)  rev serv                                TGo4RevServParameter
-    7)  mbs random generator                    TGo4MbsRandomParameter
-    8)  user source                             TGo4UserSourceParameter
+    1)  mbs listmode file (input only)          TGo4MbsFileParameter
+    2)  mbs stream server (input only)          TGo4MbsStreamParameter
+    3)  mbs transport server (input only)       TGo4MbsTransportParameter
+    4)  mbs event server  (input only)          TGo4MbsEventServerParameter
+    5)  rev serv                                TGo4RevServParameter
+    6)  mbs random generator                    TGo4MbsRandomParameter
+    7)  user source                             TGo4UserSourceParameter
 
     */
 
 
     TGo4EventSourceParameter* srcpar = StepStatus->GetSourcePar();
 
-
-
     TGo4MbsSourceParameter* mbspar = dynamic_cast<TGo4MbsSourceParameter*> (srcpar);
 
-      ResetSourceWidgets(srcpar->GetName(), srcpar->GetTimeout(),
-                          mbspar ? mbspar->GetStartEvent() : 0,
-                          mbspar ? mbspar->GetStopEvent() : 0,
-                          mbspar ? mbspar->GetEventInterval() : 0);
-     FileNameInput->setEnabled(false); // JAM move out from ResetSourceWidgets to avoid conflict with hotstart
+    ResetSourceWidgets(srcpar->GetName(), srcpar->GetTimeout(),
+                       mbspar ? mbspar->GetStartEvent() : 0,
+                       mbspar ? mbspar->GetStopEvent() : 0,
+                       mbspar ? mbspar->GetEventInterval() : 0,
+                       mbspar ? mbspar->GetPort() : 0);
 
     switch(srcpar->GetID()) {
        case GO4EV_FILE: {
@@ -223,15 +226,15 @@ void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4Analysi
 
 void TGo4ConfigStep::SourceComboHighlighted(int k)
 {
-    LineEditPortNumber->setEnabled(false);
-    LineEditTagfile->setEnabled(false);
-    SpinBoxStartEvent->setEnabled(false);
-    SpinBoxStopEvent->setEnabled(false);
-    SpinBoxInterEvent->setEnabled(false);
-    SpinBoxTimeout->setEnabled(false);
-    LineEditArgumentsIn->setEnabled(false);
-    FileNameInput->setEnabled(false);
-    MbsMonitorBtn->setEnabled(false);
+   SpinBoxPortNumber->setEnabled(false);
+   LineEditTagfile->setEnabled(false);
+   SpinBoxStartEvent->setEnabled(false);
+   SpinBoxStopEvent->setEnabled(false);
+   SpinBoxInterEvent->setEnabled(false);
+   SpinBoxTimeout->setEnabled(false);
+   LineEditArgumentsIn->setEnabled(false);
+   FileNameInput->setEnabled(false);
+   MbsMonitorBtn->setEnabled(false);
     
     // evaluate previous source if existing:
    Bool_t wasfilesource=kFALSE;
@@ -242,12 +245,11 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
    TGo4MbsRandomParameter* randsrc=dynamic_cast<TGo4MbsRandomParameter*>(srcpar);
    if(mbsfilpar!=0 || rootfilpar!=0) wasfilesource=kTRUE;
    
-   
     if(k==0) {            // root file with one tree
        TGo4FileSourceParameter* newpar1 = new TGo4FileSourceParameter(SourceNameEdit->text().latin1());
        fStepStatus->SetSourcePar(newpar1);
        FileNameInput->setEnabled(true);
-       if(rootfilpar==0) SourceNameEdit->clear();
+//       if(rootfilpar==0) SourceNameEdit->clear();
        delete newpar1;
     } else
     if (k==1) {    // mbs listmode file (input only)
@@ -271,51 +273,57 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
            SpinBoxInterEvent->setEnabled(true);
         }
        FileNameInput->setEnabled(true);
-       if(mbsfilpar==0) SourceNameEdit->clear();
+//       if(mbsfilpar==0) SourceNameEdit->clear();
        delete newpar4;
      } else
      if (k==2) {  // mbs stream server (input only)
        TGo4MbsStreamParameter* newpar5 = new TGo4MbsStreamParameter(SourceNameEdit->text().latin1());
+       newpar5->SetPort(SpinBoxPortNumber->value());
        fStepStatus->SetSourcePar(newpar5);
        SpinBoxTimeout->setEnabled(true);
        MbsMonitorBtn->setEnabled(true);
+       SpinBoxPortNumber->setEnabled(true);
        SpinBoxStartEvent->setEnabled(true);
        SpinBoxStopEvent->setEnabled(true);
        SpinBoxInterEvent->setEnabled(true);
-       if(wasfilesource || randsrc!=0 ) SourceNameEdit->clear();  
+//       if(wasfilesource || randsrc!=0 ) SourceNameEdit->clear();
        delete newpar5;
      } else
      if (k==3) {       // mbs transport server (input only)
        TGo4MbsTransportParameter* newpar6 = new TGo4MbsTransportParameter(SourceNameEdit->text().latin1());
+       newpar6->SetPort(SpinBoxPortNumber->value());
        fStepStatus->SetSourcePar(newpar6);
        SpinBoxTimeout->setEnabled(true);
        MbsMonitorBtn->setEnabled(true);
+       SpinBoxPortNumber->setEnabled(true);
        SpinBoxStartEvent->setEnabled(true);
        SpinBoxStopEvent->setEnabled(true);
        SpinBoxInterEvent->setEnabled(true);
-       if(wasfilesource || randsrc!=0) SourceNameEdit->clear();
+//       if(wasfilesource || randsrc!=0) SourceNameEdit->clear();
        delete newpar6;
-     }else
+     } else
      if (k==4) {     // mbs event server  (input only)
        TGo4MbsEventServerParameter* newpar7 = new TGo4MbsEventServerParameter(SourceNameEdit->text().latin1());
+       newpar7->SetPort(SpinBoxPortNumber->value());
        fStepStatus->SetSourcePar(newpar7);
        SpinBoxTimeout->setEnabled(true);
        MbsMonitorBtn->setEnabled(true);
+       SpinBoxPortNumber->setEnabled(true);
        SpinBoxStartEvent->setEnabled(true);
        SpinBoxStopEvent->setEnabled(true);
        SpinBoxInterEvent->setEnabled(true);
-       if(wasfilesource || randsrc!=0) SourceNameEdit->clear();       
+//       if(wasfilesource || randsrc!=0) SourceNameEdit->clear();
        delete newpar7;
      } else
      if (k==5) {     //    rev serv
        TGo4RevServParameter* newpar8 = new TGo4RevServParameter(SourceNameEdit->text().latin1());
-       newpar8->SetPort(LineEditPortNumber->text().toInt());
+       newpar8->SetPort(SpinBoxPortNumber->value());
        fStepStatus->SetSourcePar(newpar8);
-       LineEditPortNumber->setEnabled(true);
+       SpinBoxPortNumber->setEnabled(true);
        SpinBoxStartEvent->setEnabled(true);
        SpinBoxStopEvent->setEnabled(true);
        SpinBoxInterEvent->setEnabled(true);
-       if(wasfilesource || randsrc!=0) SourceNameEdit->clear();
+//       if(wasfilesource || randsrc!=0) SourceNameEdit->clear();
        delete newpar8;
      } else
      if (k==6) {     //    mbs random
@@ -326,14 +334,14 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
      } else
      if (k==7) {     // user source
        TGo4UserSourceParameter *newpar9 = new TGo4UserSourceParameter(SourceNameEdit->text().latin1());
-       newpar9->SetPort(LineEditPortNumber->text().toInt());
+       newpar9->SetPort(SpinBoxPortNumber->value());
        newpar9->SetExpression(LineEditArgumentsIn->text().stripWhiteSpace().latin1());
        fStepStatus->SetSourcePar(newpar9);
-       LineEditPortNumber->setEnabled(true);
+       SpinBoxPortNumber->setEnabled(true);
        LineEditArgumentsIn->setEnabled(true);
        SpinBoxTimeout->setEnabled(true);
        FileNameInput->setEnabled(true);
-       if(usersrc==0) SourceNameEdit->clear();       
+//       if(usersrc==0) SourceNameEdit->clear();
        delete newpar9;
      }
 }
@@ -432,7 +440,7 @@ void TGo4ConfigStep::InputTagfile( const QString & tag )
       filpar->SetTagName(tag.stripWhiteSpace().latin1());
 }
 
-void TGo4ConfigStep::StoreStartEvent( int num )
+void TGo4ConfigStep::ChangeStartEvent( int num )
 {
    // only for mbs sources
    TGo4MbsSourceParameter* par =
@@ -440,7 +448,7 @@ void TGo4ConfigStep::StoreStartEvent( int num )
    if (par!=0) par->SetStartEvent(num);
 }
 
-void TGo4ConfigStep::StoreStopEvent( int num )
+void TGo4ConfigStep::ChangeStopEvent( int num )
 {
    // only for mbs sources
    TGo4MbsSourceParameter* par =
@@ -448,7 +456,7 @@ void TGo4ConfigStep::StoreStopEvent( int num )
    if (par!=0) par->SetStopEvent(num);
 }
 
-void TGo4ConfigStep::StoreEventInterval( int num )
+void TGo4ConfigStep::ChangeEventInterval( int num )
 {
    // only for mbs sources
    TGo4MbsSourceParameter* par =
@@ -456,7 +464,7 @@ void TGo4ConfigStep::StoreEventInterval( int num )
    if (par!=0) par->SetEventInterval(num);
 }
 
-void TGo4ConfigStep::StoreTimeout( int tim )
+void TGo4ConfigStep::ChangeSourceTimeout( int tim )
 {
    TGo4EventSourceParameter* sourcepar = fStepStatus->GetSourcePar();
    if (sourcepar!=0)
@@ -533,22 +541,23 @@ void TGo4ConfigStep::GetStepControl(bool& process, bool& source, bool& store)
    store = EnableStoreBox->isChecked();
 }
 
-void TGo4ConfigStep::ResetSourceWidgets(const QString& name, int timeout, int start, int stop, int interval)
+void TGo4ConfigStep::ResetSourceWidgets(const QString& name, int timeout, int start, int stop, int interval, int port)
 {
     SourceNameEdit->setText(name);
     SpinBoxTimeout->setValue(timeout);
     SpinBoxStartEvent->setValue(start);
     SpinBoxStopEvent->setValue(stop);
     SpinBoxInterEvent->setValue(interval);
+    SpinBoxPortNumber->setValue(port);
 
-    LineEditPortNumber->setEnabled(false);
+    SpinBoxPortNumber->setEnabled(false);
     LineEditArgumentsIn->setEnabled(false);
     LineEditTagfile->setEnabled(false);
     SpinBoxStartEvent->setEnabled(false);
     SpinBoxStopEvent->setEnabled(false);
     SpinBoxInterEvent->setEnabled(false);
     SpinBoxTimeout->setEnabled(false);
-    //FileNameInput->setEnabled(false);
+    FileNameInput->setEnabled(false);
 }
 
 void TGo4ConfigStep::SetFileSource()
@@ -574,6 +583,7 @@ void TGo4ConfigStep::SetMbsStreamSource()
 {
    InputKindCombo->setCurrentItem(2);
    SpinBoxTimeout->setEnabled(true);
+   SpinBoxPortNumber->setEnabled(true);
    SourceComboHighlighted(2);
 }
 
@@ -581,6 +591,7 @@ void TGo4ConfigStep::SetMbsTransportSource()
 {
    InputKindCombo->setCurrentItem(3);
    SpinBoxTimeout->setEnabled(true);
+   SpinBoxPortNumber->setEnabled(true);
    SourceComboHighlighted(3);
 }
 
@@ -588,18 +599,22 @@ void TGo4ConfigStep::SetMbsEventServerSource()
 {
    InputKindCombo->setCurrentItem(4);
    SpinBoxTimeout->setEnabled(true);
+   SpinBoxPortNumber->setEnabled(true);
    SourceComboHighlighted(4);
 }
 
 void TGo4ConfigStep::SetMbsRevServSource(int port)
 {
    InputKindCombo->setCurrentItem(5);
-   QString PortNo;
-   PortNo.setNum(port);
-   LineEditPortNumber->setText(PortNo);
-   LineEditPortNumber->setEnabled(true);
+   SpinBoxPortNumber->setValue(port);
+   SpinBoxPortNumber->setEnabled(true);
    LineEditArgumentsIn->setEnabled(true);
    SourceComboHighlighted(5);
+}
+
+void TGo4ConfigStep::SetMbsPort(int port)
+{
+   SpinBoxPortNumber->setValue(port);
 }
 
 void TGo4ConfigStep::SetRandomSource()
@@ -611,24 +626,33 @@ void TGo4ConfigStep::SetRandomSource()
 void TGo4ConfigStep::SetUserSource(int port, QString expr)
 {
    InputKindCombo->setCurrentItem(7);
-   QString PortNo;
-   PortNo.setNum(port);
-   LineEditPortNumber->setText(PortNo);
+   SpinBoxPortNumber->setValue(port);
    LineEditArgumentsIn->setText(expr);
-   LineEditPortNumber->setEnabled(true);
+   SpinBoxPortNumber->setEnabled(true);
    LineEditArgumentsIn->setEnabled(true);
    SpinBoxTimeout->setEnabled(true);
    FileNameInput->setEnabled(true);
    SourceComboHighlighted(7);
 }
 
-int TGo4ConfigStep::GetSourceSetup(QString& name, int& timeout, int& start, int& stop, int& interval)
+int TGo4ConfigStep::GetSourceSetup(QString& name, int& timeout, int& start, int& stop, int& interval, int& nport)
 {
    name = SourceNameEdit->text();
    timeout = SpinBoxTimeout->value();
    start = SpinBoxStartEvent->value();
    stop = SpinBoxStopEvent->value();
    interval = SpinBoxInterEvent->value();
+   nport = -1;
+   switch (fStepStatus->GetSourcePar()->GetID()) {
+      case GO4EV_MBS_TRANSPORT:
+      case GO4EV_MBS_STREAM:
+      case GO4EV_MBS_EVENTSERVER:
+      case GO4EV_MBS_REVSERV: {
+         TGo4MbsSourceParameter* par = dynamic_cast<TGo4MbsSourceParameter*>(fStepStatus->GetSourcePar());
+         if (par!=0) nport = SpinBoxPortNumber->value();
+         break;
+      }
+   }
    return InputKindCombo->currentItem();
 }
 
@@ -638,14 +662,9 @@ void TGo4ConfigStep::GetMbsFileSource(QString& TagFile)
 //   if (TagFile.length()==0) TagFile = TGo4MbsFile__fgcNOTAGFILE;
 }
 
-void TGo4ConfigStep::GetMbsRevServSource(int& port)
-{
-   port = LineEditPortNumber->text().toInt();
-}
-
 void TGo4ConfigStep::GetUserSource(int& port, QString& expr)
 {
-   port = LineEditPortNumber->text().toInt();
+   port = SpinBoxPortNumber->value();
    expr = LineEditArgumentsIn->text();
 }
 

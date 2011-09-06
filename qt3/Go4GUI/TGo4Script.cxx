@@ -459,8 +459,8 @@ void TGo4Script::StepFileSource(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
+      step->ResetSourceWidgets(sourcename, timeout, 0, 0, 0, 0);
       step->SetFileSource();
-      step->ResetSourceWidgets(sourcename, timeout, 0, 0, 0);
    }
 }
 
@@ -474,8 +474,8 @@ void TGo4Script::StepMbsFileSource(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
+      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval, 0);
       step->SetMbsFileSource(TagFile);
-      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
    }
 }
 
@@ -488,8 +488,8 @@ void TGo4Script::StepMbsStreamSource(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
+      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval, 0);
       step->SetMbsStreamSource();
-      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
    }
 }
 
@@ -502,8 +502,8 @@ void TGo4Script::StepMbsTransportSource(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
+      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval, 0);
       step->SetMbsTransportSource();
-      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
    }
 }
 
@@ -516,8 +516,8 @@ void TGo4Script::StepMbsEventServerSource(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
+      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval, 0);
       step->SetMbsEventServerSource();
-      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
    }
 }
 
@@ -531,8 +531,8 @@ void TGo4Script::StepMbsRevServSource(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
+      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval, port);
       step->SetMbsRevServSource(port);
-      step->ResetSourceWidgets(sourcename, timeout, start, stop, interval);
    }
 }
 
@@ -543,7 +543,7 @@ void TGo4Script::StepRandomSource(const char* stepname,
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
       step->SetRandomSource();
-      step->ResetSourceWidgets(sourcename, timeout, 0, 0, 0);
+      step->ResetSourceWidgets(sourcename, timeout, 0, 0, 0, 0);
    }
 }
 
@@ -555,9 +555,16 @@ void TGo4Script::StepUserSource(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) {
+      step->ResetSourceWidgets(sourcename, timeout, 0, 0, 0, 0);
       step->SetUserSource(port, expr);
-      step->ResetSourceWidgets(sourcename, timeout, 0, 0, 0);
    }
+}
+
+void TGo4Script::StepMbsPort(const char* stepname,
+                             int port)
+{
+   TGo4ConfigStep* step = GetStepGUI(stepname);
+   if (step) step->SetMbsPort(port);
 }
 
 void TGo4Script::StepFileStore(const char* stepname,
@@ -787,8 +794,8 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
                                  << (store ? "kTRUE" : "kFALSE") << ");" << endl;
 
       QString srcname;
-      int timeout, start, stop, interval;
-      int nsrc = stepconf->GetSourceSetup(srcname, timeout, start, stop, interval);
+      int timeout, start, stop, interval, nport;
+      int nsrc = stepconf->GetSourceSetup(srcname, timeout, start, stop, interval, nport);
       TString srcargs = "(\"";
       srcargs += stepconf->GetStepName();
       srcargs += "\", \"";
@@ -805,7 +812,6 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
          inter_args += ", ";
          inter_args += interval;
       }
-
 
       switch(nsrc) {
          case 0:
@@ -828,12 +834,14 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
          case 4:
            fs << "go4->StepMbsEventServerSource" << srcargs << inter_args;
            break;
-         case 5: {
-           int port;
-           stepconf->GetMbsRevServSource(port);
-           fs << "go4->StepMbsRevServSource" << srcargs << ", " << port << inter_args;
+         case 5:
+           fs << "go4->StepMbsRevServSource" << srcargs;
+           if ((nport > 0) || (inter_args.Length()>0)) {
+              fs << ", " << (nport > 0 ? nport : 0);
+              nport = -1;
+           }
+           fs << inter_args;
            break;
-         }
          case 6:
            fs << "go4->StepRandomSource" << srcargs;
            break;
@@ -848,6 +856,11 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
 
       } //  switch(nsrc)
       fs << ");" << endl;
+
+      if (nport>0) {
+         srcargs.Form("(\"%s\",%d)",stepconf->GetStepName().ascii(), nport);
+         fs << "go4->StepMbsPort" << srcargs << ";" << endl;
+      }
 
       QString storename;
       int nstore = stepconf->GetStoreSetup(storename);

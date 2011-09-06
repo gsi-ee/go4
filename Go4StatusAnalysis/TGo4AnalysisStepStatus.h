@@ -47,6 +47,10 @@ class TGo4AnalysisStepStatus : public TGo4Status {
       * put into this status object. */
     TGo4EventSourceParameter* GetSourcePar() const { return fxSourceType; }
 
+    /** Removes source parameter from the step and return it back to the user
+     * User is responsible to cleanup this object */
+    TGo4EventSourceParameter* TakeSourcePar();
+
     /** Sets the event store parameter which is used on intitialization
       * of this step. */
     void SetStorePar(TGo4EventStoreParameter* kind);

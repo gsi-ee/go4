@@ -20,6 +20,7 @@
 
 class TGo4AnalysisConfiguration;
 class TGo4AnalysisStepStatus;
+class TGo4EventSourceParameter;
 
 class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
 {
@@ -27,23 +28,25 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
 
    public:
       TGo4ConfigStep( QWidget* parent = 0, const char* name = 0, Qt::WFlags fl = 0 );
+      virtual ~TGo4ConfigStep();
       virtual void SetStepStatus( TGo4AnalysisConfiguration * panel, TGo4AnalysisStepStatus * StepStatus, int number = -1 );
       virtual QString GetStepName();
       virtual QString GetTabTitle();
       virtual void SetStepControl( bool process, bool source, bool store );
       virtual void GetStepControl( bool & process, bool & source, bool & store );
-      virtual void ResetSourceWidgets( const QString & name, int timeout, int start = 0, int stop = 0, int interval = 0);
+      virtual void SetSourceWidgets(const QString & name, int timeout);
+      virtual void SetMbsSourceWidgets(int start, int stop, int interval, int port = 0);
       virtual void SetFileSource();
-      virtual void SetMbsFileSource( QString TagFile );
+      virtual void SetMbsFileSource(const QString& TagFile );
       virtual void SetMbsStreamSource();
       virtual void SetMbsTransportSource();
       virtual void SetMbsEventServerSource();
       virtual void SetMbsRevServSource( int port );
+      virtual void SetMbsPort(int port);
       virtual void SetRandomSource();
       virtual void SetUserSource( int port, QString expr );
-      virtual int GetSourceSetup( QString & name, int & timeout, int & start, int & stop, int & interval );
+      virtual int GetSourceSetup( QString & name, int & timeout, int & start, int & stop, int & interval, int & port);
       virtual void GetMbsFileSource( QString & TagFile );
-      virtual void GetMbsRevServSource( int & port );
       virtual void GetUserSource( int & port, QString & expr );
       virtual void SetFileStore( QString name, bool overwrite, int bufsize, int splitlevel, int compression );
       virtual void SetBackStore( QString name, int bufsize, int splitlevel );
@@ -51,7 +54,6 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       virtual int GetStoreSetup( QString & name );
       virtual void GetFileStore( bool & overwrite, int & bufsize, int & splitlevel, int & compression );
       virtual void GetBackStore( int & bufsize, int & splitlevel );
-
 
 
    public slots:
@@ -63,8 +65,7 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       virtual void OutputStateChanged( int );
       virtual void OutputNameText( const QString & Name );
       virtual void StepStateChanged( int );
-      virtual void OutArguments( const QString & );
-      virtual void SourceComboHighlighted( int k );
+      virtual void SourceComboHighlighted( int kind );
       virtual void StoreComboHighlighted( int k );
       virtual void OutputFileDialog();
       virtual void StoreBufferSize( int t );
@@ -72,10 +73,10 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       virtual void StoreCompLevel( int t );
       virtual void StoreOverWrite( bool overwrite );
       virtual void InputTagfile( const QString & tag );
-      virtual void StoreStartEvent( int num );
-      virtual void StoreStopEvent( int num );
-      virtual void StoreEventInterval( int num );
-      virtual void StoreTimeout( int tim );
+      virtual void ChangeStartEvent( int num );
+      virtual void ChangeStopEvent( int num );
+      virtual void ChangeEventInterval( int num );
+      virtual void ChangeSourceTimeout( int tim );
       virtual void InputFileDialog();
       virtual void MbsMonitorBtn_clicked();
 
@@ -83,7 +84,15 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       TGo4AnalysisConfiguration* fxPanel;
       TGo4AnalysisStepStatus* fStepStatus;
       int fStepNumber;
+      int fLastSrcKind; // last selected kind of source parameter
+      int fBlocked;    // indicates if all value-modified slots are blocked
 
+      enum { ParsSize = 8 };
+
+      TGo4EventSourceParameter* fPars[ParsSize]; // array of parameters which are used to preserved once edited values
+
+      void ChangeSourceParameter(int kind);
+      int CurrentSourceKind();
 };
 
 #endif

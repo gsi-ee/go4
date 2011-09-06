@@ -304,21 +304,31 @@
                                         <string>Port:</string>
                                     </property>
                                 </widget>
-                                <widget class="QLineEdit">
-                                    <property name="name">
-                                        <cstring>LineEditPortNumber</cstring>
-                                    </property>
-                                    <property name="sizePolicy">
-                                        <sizepolicy>
-                                            <hsizetype>3</hsizetype>
-                                            <vsizetype>0</vsizetype>
-                                            <horstretch>0</horstretch>
-                                            <verstretch>0</verstretch>
-                                        </sizepolicy>
-                                    </property>
-                                    <property name="toolTip" stdset="0">
-                                        <string>Port for remote event server (6003).</string>
-                                    </property>
+                                
+                                <widget class="QSpinBox">
+                                   <property name="name">
+                                      <cstring>SpinBoxPortNumber</cstring>
+                                   </property>
+                                   <property name="sizePolicy">
+                                       <sizepolicy>
+                                           <hsizetype>3</hsizetype>
+                                           <vsizetype>0</vsizetype>
+                                           <horstretch>0</horstretch>
+                                           <verstretch>0</verstretch>
+                                       </sizepolicy>
+                                   </property>
+                                   <property name="specialValueText">
+                                      <string>default</string>
+                                   </property>
+                                   <property name="minValue">
+                                      <number>0</number>
+                                   </property>
+                                   <property name="maxValue">
+                                      <number>99999</number>
+                                   </property>
+                                   <property name="toolTip" stdset="0">
+                                       <string>Custom port for event source (0 - default) </string>
+                                   </property>
                                 </widget>
                             </hbox>
                         </widget>
@@ -875,10 +885,10 @@
         <slot>StoreOverWrite(bool)</slot>
     </connection>
     <connection>
-        <sender>LineEditPortNumber</sender>
-        <signal>textChanged(const QString&amp;)</signal>
+        <sender>SpinBoxPortNumber</sender>
+        <signal>valueChanged(int)</signal>
         <receiver>TGo4ConfigStep</receiver>
-        <slot>InputPort(const QString&amp;)</slot>
+        <slot>PortNumberChanged(int)</slot>
     </connection>
     <connection>
         <sender>LineEditArgumentsIn</sender>
@@ -896,13 +906,13 @@
         <sender>SpinBoxStartEvent</sender>
         <signal>valueChanged(int)</signal>
         <receiver>TGo4ConfigStep</receiver>
-        <slot>StoreStartEvent(int)</slot>
+        <slot>ChangeStartEvent(int)</slot>
     </connection>
     <connection>
         <sender>SpinBoxStopEvent</sender>
         <signal>valueChanged(int)</signal>
         <receiver>TGo4ConfigStep</receiver>
-        <slot>StoreStopEvent(int)</slot>
+        <slot>ChangeStopEvent(int)</slot>
     </connection>
     <connection>
         <sender>FileNameInput</sender>
@@ -914,13 +924,13 @@
         <sender>SpinBoxInterEvent</sender>
         <signal>valueChanged(int)</signal>
         <receiver>TGo4ConfigStep</receiver>
-        <slot>StoreEventInterval(int)</slot>
+        <slot>ChangeEventInterval(int)</slot>
     </connection>
     <connection>
         <sender>SpinBoxTimeout</sender>
         <signal>valueChanged(int)</signal>
         <receiver>TGo4ConfigStep</receiver>
-        <slot>StoreTimeout(int)</slot>
+        <slot>ChangeSourceTimeout(int)</slot>
     </connection>
     <connection>
         <sender>MbsMonitorBtn</sender>
@@ -961,12 +971,11 @@
 <slots>
     <slot>InputArguments( const QString &amp; Arg )</slot>
     <slot>InputStateChanged( int )</slot>
-    <slot>InputPort( const QString &amp; fxPort )</slot>
+    <slot>PortNumberChanged( int )</slot>
     <slot>InputSourceText( const QString &amp; Name )</slot>
     <slot>OutputStateChanged( int )</slot>
     <slot>OutputNameText( const QString &amp; Name )</slot>
     <slot>StepStateChanged( int )</slot>
-    <slot>OutArguments( const QString &amp; )</slot>
     <slot>SourceComboHighlighted( int k )</slot>
     <slot>StoreComboHighlighted( int k )</slot>
     <slot>OutputFileDialog()</slot>
@@ -975,10 +984,10 @@
     <slot>StoreCompLevel( int t )</slot>
     <slot>StoreOverWrite( bool overwrite )</slot>
     <slot>InputTagfile( const QString &amp; tag )</slot>
-    <slot>StoreStartEvent( int num )</slot>
-    <slot>StoreStopEvent( int num )</slot>
-    <slot>StoreEventInterval( int num )</slot>
-    <slot>StoreTimeout( int tim )</slot>
+    <slot>ChangeStartEvent( int num )</slot>
+    <slot>ChangeStopEvent( int num )</slot>
+    <slot>ChangeEventInterval( int num )</slot>
+    <slot>ChangeSourceTimeout( int tim )</slot>
     <slot>InputFileDialog()</slot>
     <slot>MbsMonitorBtn_clicked()</slot>
 </slots>
@@ -989,18 +998,18 @@
     <function returnType="QString">GetStepName()</function>
     <function>SetStepControl( bool process, bool source, bool store )</function>
     <function>GetStepControl( bool &amp; process, bool &amp; source, bool &amp; store )</function>
-    <function>ResetSourceWidgets( const QString &amp; name, int timeout, int start, int stop, int interval)</function>
+    <function>ResetSourceWidgets( const QString &amp; name, int timeout, int start, int stop, int interval, int port)</function>
     <function>SetFileSource()</function>
     <function>SetMbsFileSource( QString TagFile)</function>
     <function>SetMbsStreamSource()</function>
     <function>SetMbsTransportSource()</function>
     <function>SetMbsEventServerSource()</function>
     <function>SetMbsRevServSource( int port )</function>
+    <function>SetMbsPort( int port )</function>
     <function>SetRandomSource()</function>
     <function>SetUserSource( int port, QString expr )</function>
-    <function returnType="int">GetSourceSetup( QString &amp; name, int &amp; timeout, int &amp; start, int &amp; stop, int &amp; interval )</function>
+    <function returnType="int">GetSourceSetup( QString &amp; name, int &amp; timeout, int &amp; start, int &amp; stop, int &amp; interval, int &amp; nport)</function>
     <function>GetMbsFileSource( QString &amp; TagFile)</function>
-    <function>GetMbsRevServSource( int &amp; port )</function>
     <function>GetUserSource( int &amp; port, QString &amp; expr )</function>
     <function>SetFileStore( QString name, bool overwrite, int bufsize, int splitlevel, int compression )</function>
     <function>SetBackStore( QString name, int bufsize, int splitlevel )</function>

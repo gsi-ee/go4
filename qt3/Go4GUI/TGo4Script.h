@@ -117,7 +117,7 @@ class TGo4Script : public TGo4AbstractInterface {
       void StepMbsRevServSource(const char* stepname,
                                 const char* sourcename,
                                 int timeout,
-                                int port,
+                                int port=0,
                                 int start = 0,
                                 int stop = 0,
                                 int interval = 0);
@@ -131,6 +131,9 @@ class TGo4Script : public TGo4AbstractInterface {
                           int timeout,
                           int port,
                           const char* expr);
+
+      void StepMbsPort(const char* stepname,
+                       int port);
 
       void StepFileStore(const char* stepname,
                          const char* storename,
