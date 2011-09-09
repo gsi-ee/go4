@@ -23,8 +23,6 @@ plugin:: all-qt3plugin
 
 endif
 
-FASTRULES += clean-qt3
-
 clean-qt3: clean-qt3-GUI clean-qt3usergui clean-qt3plugin
 	@rm -f build/Makefile.gener
 

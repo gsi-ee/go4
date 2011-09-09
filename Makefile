@@ -4,7 +4,22 @@ endif
 
 GO4PACKAGE = go4
 
+# rules which are used to produce packages
+PACKAGERULES    = compress go4-package fit-package \
+                  thrd-package task-package win-bin \
+                  fast-packages packages 
+
+ifneq ($(findstring $(MAKECMDGOALS), $(PACKAGERULES)),)
+DOPACKAGE = true
+endif
+
+FASTRULES   += clean-qt3 clean-qt4 clean-bak clean-dep \
+               clean-plugin clean-bin clean-prefix clean-svn \
+               $(PACKAGERULES)
+
+
 include Makefile.config
+
 
 ifdef QTPATH
 ifeq ($(wildcard $(QTPATH)/*),)
@@ -18,15 +33,6 @@ Go4_Makefile_Rules = included
 ifdef GO4_WIN32
   GO4SYS = .
 endif   
-
-# rules which are used to produce packages
-PACKAGERULES    = compress go4-package fit-package \
-                  thrd-package task-package win-bin \
-                  fast-packages packages 
-
-ifneq ($(findstring $(MAKECMDGOALS), $(PACKAGERULES)),)
-DOPACKAGE = true
-endif
 
 # new staff concerning big libraries
 
@@ -78,9 +84,6 @@ EXMODULES = Go4ExampleSimple Go4Example1Step Go4Example2Step Go4ExampleAdvanced 
                 clean clean-qt3 clean-qt4 clean-bak clean-plugin clean-mainlibs clean-prefix clean-svn \
                 package $(PACKAGERULES)
 
-
-FASTRULES    += clean-qt3 clean-qt4 clean-bak clean-dep clean-plugin clean-bin clean-prefix clean-svn \
-                $(PACKAGERULES)
 
 all::           gui 
 ifdef GO4PREFIX

@@ -39,8 +39,6 @@ plugin:: all-qt4plugin
 
 endif
 
-FASTRULES += clean-qt4
-
 clean-qt4:: clean-qt4-GUI clean-qt4usergui
 	@rm -f build/Makefile.gener
 
