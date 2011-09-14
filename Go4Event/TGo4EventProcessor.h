@@ -62,8 +62,8 @@ class TGo4EventProcessor : public TGo4EventSource {
 
       TGo4EventProcessor(const char* name);
 
-
-      ~TGo4EventProcessor();
+      
+      virtual ~TGo4EventProcessor();
 
       /**
        * Sets reference to external raw event which is used by
@@ -293,7 +293,7 @@ class TGo4EventProcessor : public TGo4EventSource {
    protected:
 
       /** Default ctor for root streamer. */
-      TGo4EventProcessor(){}
+      TGo4EventProcessor():fxCalibration(0){}
 
    private:
 
