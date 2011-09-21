@@ -747,9 +747,11 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
 
          TList *opt;
          if ((opt = m->GetOptions()) != 0) {
-            cout << "*** Warning in Dialog(): option menu not yet implemented " << opt << endl;
+            //cout << "*** Warning in Dialog(): option menu not yet implemented " << opt << endl;
             // should stop dialog
-            return;
+            // workaround JAM: do not stop dialog, use textfield (for time display toggle)
+            dlg.addArg(argTitle.Data(), val.Data(), type.Data());
+            //return;
          } else {
             // we haven't got options - textfield ...
             dlg.addArg(argTitle.Data(), val.Data(), type.Data());

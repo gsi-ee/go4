@@ -283,9 +283,11 @@ void TQCanvasMenu::dialog(TObject* object, TMethod* method)
 
    TList *opt;
    if ((opt = m->GetOptions())) {
-     cout << "*** Warning in Dialog(): option menu not yet implemented " << opt << endl;
+     //cout << "*** Warning in Dialog(): option menu not yet implemented " << opt << endl;
      // should stop dialog
-     return;
+     // workaround JAM: do not stop dialog, use textfield (for time display toggle)
+                fDialog->add(argname, val, type);
+     //return;
 #if 0
      TMotifOptionMenu *o= new TMotifOptionMenu(argname);
      TIter nextopt(opt);
