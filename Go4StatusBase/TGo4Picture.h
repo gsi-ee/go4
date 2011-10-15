@@ -260,6 +260,13 @@ class TGo4Picture : public TNamed {
                       Int_t bits,
                       Int_t index = UndefIndex);
 
+      // for the moment, use separate function to define x axis time format JAM
+      void SetXAxisAttTime(Bool_t timedisplay, const char* format, Int_t index = UndefIndex);
+
+      Bool_t IsXAxisTimeDisplay();
+
+      const char* GetXAxisTimeFormat();
+
       void SetPadAtt(Int_t BorderMode,
                      Int_t BorderSize,
                      Int_t Gridx,

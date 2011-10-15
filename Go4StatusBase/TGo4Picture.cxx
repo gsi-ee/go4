@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -102,12 +102,17 @@ enum OptionsIdentifiers {
    op_TitleY2     = 92,
    op_TitleTextSz = 93,
 
+   op_TimeAxisX	  = 200,
+   //op_TimeAxisXFmt= 201, // must be larger han op_ObjsBound for SetStrOption?
+   	   	   	   	   	   	   // check reason for this later JAM
+
    op_ObjsBound   = 0x4000,
 
    op_Style        = op_ObjsBound,
    op_Draw         = op_ObjsBound+1,
    op_HisStatsOptF = op_ObjsBound+2,
-   op_HisStatsFitF = op_ObjsBound+3
+   op_HisStatsFitF = op_ObjsBound+3,
+   op_TimeAxisXFmt= op_ObjsBound+4
 
 };
 
@@ -643,7 +648,6 @@ void TGo4Picture::GetDrawAttributes(TObject* obj, Int_t index)
 {
    if (obj==0) return;
    CheckIndex(index);
-//   cout << "TGo4Picture::GetDrawAttributes( " << index << "  obj = " << obj->GetName() << endl;
    GetLineAtt((TAttLine*) Cast(obj, TAttLine::Class()), index);
    GetFillAtt((TAttFill*) Cast(obj, TAttFill::Class()), index);
    GetMarkerAtt((TAttMarker*) Cast(obj, TAttMarker::Class()), index);
@@ -655,7 +659,6 @@ void TGo4Picture::SetDrawAttributes(TObject* obj, Int_t index)
 {
    if (obj==0) return;
    CheckIndex(index);
-//   cout << "TGo4Picture::SetDrawAttributes " << obj->GetName() << "  indx = " << index << endl;
    SetLineAtt((TAttLine*) Cast(obj, TAttLine::Class()), index);
    SetFillAtt((TAttFill*) Cast(obj, TAttFill::Class()), index);
    SetMarkerAtt((TAttMarker*) Cast(obj, TAttMarker::Class()), index);
@@ -702,6 +705,30 @@ void TGo4Picture::SetAxisTitleFontSize(Int_t naxis, Float_t TitleSize, Int_t ind
    if (naxis==2) op = op_AxisZ;
 
    SetOptionF(index, op+10, TitleSize);
+}
+
+void TGo4Picture::SetXAxisAttTime(Bool_t timedisplay, const char* format, Int_t index)
+{
+     //cout <<"SetXAxisAttTime: "<<timedisplay<<", format:"<<format << endl;
+	 CheckIndex(index);
+	 SetOption (index, op_TimeAxisX, timedisplay);
+	 SetStrOption(index, op_TimeAxisXFmt, format);
+
+}
+
+Bool_t  TGo4Picture::IsXAxisTimeDisplay()
+{
+	Long_t value=0;
+	GetOption(PictureIndex, op_TimeAxisX,value);
+	//cout <<"IsXAxisTimeDisplay is "<<value << endl;
+	return value;
+
+}
+
+const char* TGo4Picture::GetXAxisTimeFormat()
+{
+	//cout <<"GetXAxisTimeFormat: "<<GetStrOption(PictureIndex, op_TimeAxisXFmt , "%H:%M:%S")<< endl;
+	return GetStrOption(PictureIndex, op_TimeAxisXFmt , "%H:%M:%S");
 }
 
 void TGo4Picture::SetAxisAtt(Int_t naxis,
@@ -766,6 +793,11 @@ void TGo4Picture::SetAxisAtt(Int_t naxis, TAxis* axis, Int_t index)
               axis->GetTicks(),
               axis->TestBits(0x0ff0),
               index);
+   if(naxis==0)
+   	   {
+	   	   // support time format only for x axis for the moment
+	   	   SetXAxisAttTime(axis->GetTimeDisplay(), axis->GetTimeFormat(), index);
+   	   }
 }
 
 void TGo4Picture::GetAxisAtt(Int_t naxis, TAxis* axis, Int_t index)
@@ -801,6 +833,14 @@ void TGo4Picture::GetAxisAtt(Int_t naxis, TAxis* axis, Int_t index)
          axis->SetBit(mask, (lv & mask) != 0);
       }
    }
+
+   if(naxis==0)
+   {
+	   // time format x axis
+	   if (GetOption (index, op_TimeAxisX, lv)) axis->SetTimeDisplay(lv);
+	   axis->SetTimeFormat(GetStrOption(index, op_TimeAxisXFmt , "%H:%M:%S"));
+   }
+
 }
 
 void TGo4Picture::SetPadAtt(Int_t BorderMode,
@@ -1744,6 +1784,10 @@ void TGo4Picture::MakeAxisScript(ostream& fs, const char* name, Int_t index, Int
       fs << "kTRUE, \"+\", 0, ";
 
    fs << index << ");" << endl;
+
+   // TODO: add this to script
+   //SetXAxisAttTime(axis->GetTimeDisplay(), axis->GetTimeFormat(), index);
+
 }
 
 void TGo4Picture::MakeScript(ostream& fs, const char* name)

@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -2204,6 +2204,13 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot* padslot, TGo4Picture* p
          }
 
       TH1* h1 = dynamic_cast<TH1*> (link->GetObject());
+      // access axis properties of graphs
+      if(h1==0){
+    	  TGraph* gr=dynamic_cast<TGraph*> (link->GetObject());
+    	  if(gr) h1=gr->GetHistogram();
+      }
+
+
       if (h1!=0) {
          TPaveStats* stats = dynamic_cast<TPaveStats*>
            (h1->GetListOfFunctions()->FindObject("stats"));
@@ -2213,7 +2220,13 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot* padslot, TGo4Picture* p
             pic->SetHisStats(kTRUE);
             pic->SetStatsAttr(stats);
          }
-      }
+           // test: set here time display
+  		 TAxis* xax=h1->GetXaxis();
+       	pic->SetXAxisAttTime(xax->GetTimeDisplay(), xax->GetTimeFormat() ,TGo4Picture::PictureIndex);
+       	//cout <<"Set time attributes to pad options" <<endl;
+         }
+
+
    }
 
    if (pad->GetLogx()!=pic->GetLogScale(0)) {
@@ -4370,6 +4383,14 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs, TGo
       }
       padopt->GetTitleAttr(titl);
    }
+
+   // add here setting the time format properties:
+   TAxis* xax=h1->GetXaxis();
+   xax->SetTimeDisplay(padopt->IsXAxisTimeDisplay());
+   xax->SetTimeFormat(padopt->GetXAxisTimeFormat());
+   //cout <<"SetSelectedRange to histo: timeformat "<< padopt->IsXAxisTimeDisplay()<<", form:"<<padopt->GetXAxisTimeFormat()<< endl;
+
+
 }
 
 bool TGo4ViewPanel::GetVisibleRange(TPad* pad, int naxis, double& min, double& max)
