@@ -23,7 +23,8 @@ TGo4MbsSourceParameter::TGo4MbsSourceParameter() :
     TGo4EventSourceParameter("MbsSource", 0),
     fuStartEvent(0),
     fuStopEvent(0),
-    fuEventInterval(0)
+    fuEventInterval(0),
+    fiPort(0)
 {
    TRACE((14,"TGo4MbsSourceParameter::TGo4MbsSourceParameter()", __LINE__, __FILE__));
 }
@@ -32,7 +33,8 @@ TGo4MbsSourceParameter::TGo4MbsSourceParameter(const char* name, Int_t id) :
    TGo4EventSourceParameter(name, id),
    fuStartEvent(0),
    fuStopEvent(0),
-   fuEventInterval(0)
+   fuEventInterval(0),
+   fiPort(0)
 {
    TRACE((14,"TGo4MbsSourceParameter::TGo4MbsSourceParameter(const char*,...)", __LINE__, __FILE__));
 }
