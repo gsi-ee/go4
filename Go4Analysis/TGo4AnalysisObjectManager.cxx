@@ -1838,9 +1838,9 @@ Bool_t TGo4AnalysisObjectManager::ClearObject(TObject* ob)
       {
          TGraph* gr= dynamic_cast<TGraph*>(ob);
          if (gr) {
-            Int_t pn=gr->GetN();
+            //Int_t pn=gr->GetN();
             gr->Set(0); // clear array of points
-            gr->Set(pn); // this should set all to 0
+            //gr->Set(pn); // this should set all to 0 (JAM we don't want this for time plots!)
          }
       }
       else if(ob->InheritsFrom(TMultiGraph::Class()))

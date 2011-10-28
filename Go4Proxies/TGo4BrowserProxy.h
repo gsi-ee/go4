@@ -27,6 +27,7 @@ class TGo4HServProxy;
 class TGo4Picture;
 class TAxis;
 class TVirtualTreePlayer;
+class TGraph;
 
 class TGo4BrowserProxy : public TGo4Proxy {
    public:
@@ -219,6 +220,9 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       void CheckPictureMonitor(TGo4Slot* slot);
       void CheckPictureMonitor(TGo4Picture* pic, const char* picitemname);
+
+      static void SaveAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format);
+      static void RestoreAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format);
 
       TString            fxDataPath;    //!
       TString            fxBrowserPath; //!

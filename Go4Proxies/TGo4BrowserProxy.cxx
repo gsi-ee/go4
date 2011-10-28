@@ -2009,8 +2009,10 @@ Int_t TGo4BrowserProxy::CompareAxis(TAxis* ax1, TAxis* ax2)
 Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_t* hasrebinx, Int_t* hasrebiny)
 {
 //   return kFALSE;
-
-   if (obj->InheritsFrom(TH1::Class())) {
+//cout <<"TGo4BrowserProxy::UpdateObjectContent, old="<<hex<<(int) obj<<", new="<<(int)newobj<<dec << endl;
+Bool_t tdisp=kFALSE;
+TString tform;
+if (obj->InheritsFrom(TH1::Class())) {
       TH1* histo = dynamic_cast<TH1*> (obj);
       TH1* histo2 = dynamic_cast<TH1*> (newobj);
       if ((histo==0) || (histo2==0)) return kFALSE;
@@ -2125,7 +2127,7 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
       TGraphAsymmErrors* gr = dynamic_cast<TGraphAsymmErrors*> (obj);
       TGraph* newgr = dynamic_cast<TGraph*> (newobj);
       if ((gr==0) || (newgr==0)) return kFALSE;
-
+      SaveAxisTimeProperties(gr,tdisp,tform);
       gr->SetTitle(newgr->GetTitle());
 
       Int_t npoints = newgr->GetN();
@@ -2142,14 +2144,14 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
         gr->SetPointError(n, exl, exh, eyl, eyh);
 #endif
       }
-
+      RestoreAxisTimeProperties(gr,tdisp,tform);
       return kTRUE;
    } else
    if (obj->InheritsFrom(TGraphErrors::Class())) {
       TGraphErrors* gr = dynamic_cast<TGraphErrors*> (obj);
       TGraph* newgr = dynamic_cast<TGraph*> (newobj);
       if ((gr==0) || (newgr==0)) return kFALSE;
-
+      SaveAxisTimeProperties(gr,tdisp,tform);
       gr->SetTitle(newgr->GetTitle());
 
       Int_t npoints = newgr->GetN();
@@ -2162,6 +2164,8 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
         ey = newgr->GetErrorY(n);
         gr->SetPointError(n, ex, ey);
       }
+      RestoreAxisTimeProperties(gr,tdisp,tform);
+
 
       return kTRUE;
    } else
@@ -2169,6 +2173,9 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
       TGraph* gr = dynamic_cast<TGraph*> (obj);
       TGraph* newgr = dynamic_cast<TGraph*> (newobj);
       if ((gr==0) || (newgr==0)) return kFALSE;
+      // JAM: save axis time properties of currently displayed histo
+      SaveAxisTimeProperties(gr,tdisp,tform);
+
 
       gr->SetTitle(newgr->GetTitle());
 
@@ -2179,6 +2186,7 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
         newgr->GetPoint(n,xp,yp);
         gr->SetPoint(n,xp,yp);
       }
+      RestoreAxisTimeProperties(gr,tdisp,tform);
 
       return kTRUE;
    } else
@@ -2194,6 +2202,32 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
 
    return kFALSE;
 }
+
+
+void TGo4BrowserProxy::SaveAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format)
+{
+	if(gr==0) return;
+    TH1* h1=gr->GetHistogram();
+	TAxis* xax=h1->GetXaxis();
+	timedisplay=xax->GetTimeDisplay();
+	format=xax->GetTimeFormat();
+	//cout <<"SaveAxisTimeProperties got time attributes from actual graph: display:"<<xax->GetTimeDisplay()<<", format:"<< xax->GetTimeFormat()<<", histo:"<<hex<<(int) h1<<",axis:"<<(int) xax <<endl;
+
+
+}
+void TGo4BrowserProxy::RestoreAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format)
+{
+	if(gr==0) return;
+	TH1*h1=gr->GetHistogram();
+	TAxis* xax=h1->GetXaxis();
+	//cout <<"axis time display before- display:"<<xax->GetTimeDisplay()<<", format:"<< xax->GetTimeFormat()<<", histo:"<<hex<<(int) h1<<",axis:"<<(int) xax<<endl;
+	 xax->SetTimeDisplay(timedisplay);
+	 xax->SetTimeFormat(format.Data());
+	 //cout <<"RestoreAxisTimeProperties Recovered time display for histogram:"<<hex<<(int) h1<<endl;
+}
+
+
+
 
 void TGo4BrowserProxy::AddWaitingList(TGo4Slot* itemslot, const char* destination)
 {

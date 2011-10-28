@@ -2005,7 +2005,7 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
       return 0;
    }
 
-   // cout << "Add object = " << (obj ? obj->ClassName() : "---") << " pad = " << pad->GetName() << " kind = " << kind << endl;
+    //cout << "Add object = " << (obj ? obj->ClassName() : "---") << " pad = " << pad->GetName() << " kind = " << kind << endl;
 
    // clear only if link is added
    if (kind<100)
@@ -2223,7 +2223,7 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot* padslot, TGo4Picture* p
            // test: set here time display
   		 TAxis* xax=h1->GetXaxis();
        	pic->SetXAxisAttTime(xax->GetTimeDisplay(), xax->GetTimeFormat() ,TGo4Picture::PictureIndex);
-       	//cout <<"Set time attributes to pad options" <<endl;
+       	//cout <<"Set time attributes to pad options: display:"<<xax->GetTimeDisplay()<<", format:"<< xax->GetTimeFormat()<<endl;
          }
 
 
@@ -3394,7 +3394,7 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 
    Int_t subpadindx = 0;
 
-//   cout << "ProcessPadRedraw " << pad->GetName() << " numchilds = " << slot->NumChilds() << endl;
+   //cout << "ProcessPadRedraw " << pad->GetName() << " numchilds = " << slot->NumChilds() << endl;
 
    // first redraw all subpads
    for(int n=0;n<slot->NumChilds();n++) {
@@ -3618,7 +3618,7 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs, bo
 void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, bool scancontent)
 {
    if((pad==0) || (padopt==0) || (gr==0)) return;
-
+//cout <<"RedrawGraph for "<< hex<< (int) gr<< dec << endl;
    if (scancontent) {
       TakeFullRangeFromGraph(gr, padopt, true);
       gr->SetEditable(kFALSE);
