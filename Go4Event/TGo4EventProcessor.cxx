@@ -36,7 +36,7 @@ TGo4EventProcessor::TGo4EventProcessor(const char* name) :
    fxInputEvent(0),
    fxCalibration(0),
    fbKeepInputEvent(kFALSE),
-   fbKeepOutputEvent(kFALSE),
+   fbKeepOutputEvent(kFALSE)
 {
 TRACE((15,"TGo4EventProcessor::TGo4EventProcessor()",__LINE__, __FILE__));
 }
