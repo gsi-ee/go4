@@ -139,6 +139,9 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
    fMenuBar = new QMenuBar(MenuFrame);
    fMenuBar->setMinimumWidth(50);
 
+#if (QT_VERSION >= 0x040600)
+   fMenuBar->setNativeMenuBar(kFALSE); // disable putting this to screen menu. for MAC style WMs
+#endif
 
    QMenu* fileMenu = fMenuBar->addMenu("F&ile");
    fileMenu->addAction("&Save as...", this, SLOT(SaveCanvas()));
@@ -195,6 +198,9 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name)
    AddIdAction(fOptionsMenu, fOptionsMap, "Draw Time", DrawTimeId);
    AddIdAction(fOptionsMenu, fOptionsMap, "Draw Date", DrawDateId);
    AddIdAction(fOptionsMenu, fOptionsMap, "Draw item name", DrawItemnameId);
+   fOptionsMenu->addSeparator();
+   AddIdAction(fOptionsMenu, fOptionsMap, "&X-Axis displays time", AxisTimeDisplayId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Set X-Axis time format...", SetTimeFormatId);
    fOptionsMenu->addSeparator();
    AddIdAction(fOptionsMenu, fOptionsMap, "&Keep Viewpanel Title", FreezeTitleId);
    AddIdAction(fOptionsMenu, fOptionsMap, "Set &Viewpanel Title...", SetTitleTextId);
@@ -1857,6 +1863,7 @@ void TGo4ViewPanel::AboutToShowOptionsMenu()
    SetIdAction(fOptionsMap, FreezeTitleId, true, fbFreezeTitle);
    SetIdAction(fOptionsMap, CrosshairId, true, fbCanvasCrosshair);
    SetIdAction(fOptionsMap, SetLegendId, true, padopt->IsLegendDraw());
+   SetIdAction(fOptionsMap, AxisTimeDisplayId, true, padopt->IsXAxisTimeDisplay());
 }
 
 void TGo4ViewPanel::SelectMenuItemActivated(int id)
@@ -3803,6 +3810,12 @@ void TGo4ViewPanel::ChangeDrawOptionForPad(TGo4Slot* padslot, int kind, int valu
          subopt->SetPadModified();
          break;
       }
+      case 16:{
+    	// this is for setting time axis format:
+    	  subopt->SetXAxisTimeFormat(drawopt);
+    	  subopt->SetPadModified();
+      break;
+      }
       default:
         subopt->ChangeDrawOption(kind, value);
    }
@@ -4868,6 +4881,26 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
          if ( ok && !text.isEmpty() ) SetFreezedTitle(text);
          break;
       }
+
+      case SetTimeFormatId:  {
+              bool ok = false;
+              QString mycaption = windowTitle();
+              TPad* pad = GetActivePad();
+              if (pad==0) pad = GetCanvas();
+              TGo4Picture *padopt = GetPadOptions(pad);
+              QString oldfmt=padopt->GetXAxisTimeFormat();
+              QString text = QInputDialog::getText(this,
+                               GetPanelName(), "Enter Axis time format:", QLineEdit::Normal,
+                              oldfmt, &ok);
+              if ( ok && !text.isEmpty() ) {
+            	  //cout <<"changed time format to"<<(const char*)text.toAscii() << endl;
+            	  //padopt->SetXAxisTimeFormat(text.toAscii());
+            	  //padopt->SetPadModified();
+            	  ChangeDrawOption(id-1000, 0, text.toAscii());
+              }
+              break;
+           }
+
 
       default:
         if (id>1000) {

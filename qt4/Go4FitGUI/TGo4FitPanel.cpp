@@ -322,6 +322,9 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name)
    MenuBar = new QMenuBar(MenuFrame);
    // MenuBar->setMinimumWidth(100);
    // MenuBar->setFrameShape(QMenuBar::NoFrame);
+#if (QT_VERSION >= 0x040600)
+   MenuBar->setNativeMenuBar(kFALSE); // disable putting this to screen menu. for MAC style WMs
+#endif
 
 
    FitterMap = new QSignalMapper(this);

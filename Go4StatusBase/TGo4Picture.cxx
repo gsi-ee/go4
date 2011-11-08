@@ -716,6 +716,18 @@ void TGo4Picture::SetXAxisAttTime(Bool_t timedisplay, const char* format, Int_t 
 
 }
 
+void TGo4Picture::SetXAxisTimeDisplay(Bool_t on)
+{
+	//cout <<"SetXAxisTimeDisplay: "<<on<<endl;
+	SetOption (PictureIndex, op_TimeAxisX, on);
+}
+
+void TGo4Picture::SetXAxisTimeFormat(const char* format)
+{
+	//cout <<"SetXAxisTimeFormat: "<<format<<endl;
+	 SetStrOption(PictureIndex, op_TimeAxisXFmt, format);
+}
+
 Bool_t  TGo4Picture::IsXAxisTimeDisplay()
 {
 	Long_t value=0;
@@ -727,7 +739,7 @@ Bool_t  TGo4Picture::IsXAxisTimeDisplay()
 
 const char* TGo4Picture::GetXAxisTimeFormat()
 {
-	//cout <<"GetXAxisTimeFormat: "<<GetStrOption(PictureIndex, op_TimeAxisXFmt , "%H:%M:%S")<< endl;
+	//cout <<"GetXAxisTimeFormat: "<<GetStrOption(PictureIndex, op_TimeAxisXFmt , "%H:%M:%S")<<endl;
 	return GetStrOption(PictureIndex, op_TimeAxisXFmt , "%H:%M:%S");
 }
 
@@ -1181,6 +1193,7 @@ void TGo4Picture::ChangeDrawOption(Int_t kind, Int_t value)
       case 12: SetTitleTime(value!=0); break;
       case 13: SetTitleDate(value!=0); break;
       case 14: SetTitleItem(value!=0); break;
+      case 15: SetXAxisTimeDisplay(value!=0); break;
    }
    SetPadModified();
 }
@@ -1786,7 +1799,20 @@ void TGo4Picture::MakeAxisScript(ostream& fs, const char* name, Int_t index, Int
    fs << index << ");" << endl;
 
    // TODO: add this to script
-   //SetXAxisAttTime(axis->GetTimeDisplay(), axis->GetTimeFormat(), index);
+// note: take this attribute independent of displayed object
+// this is necessary to correctly restore TGraph axis
+//SetXAxisAttTime(axis->GetTimeDisplay(), axis->GetTimeFormat(), index);
+//   if (naxis==0)
+//   {
+//	   Bool_t tdisp=kFALSE;
+//	   if (GetOption (index, op_TimeAxisX, lv) && lv) tdisp=kTRUE;
+//	   TString format=GetStrOption(index, op_TimeAxisXFmt , "%H:%M:%S");
+//	   fs << name <<  "SetXAxisAttTime(";
+//	   fs << tdisp << ", ";
+//	   fs << "\"" << format.Data()<< "\"" <<", ";
+//	   //fs << index << ");" << endl; // does not work?
+//	   fs << PictureIndex << ");" << endl; // this works
+//   }
 
 }
 
@@ -1886,6 +1912,16 @@ void TGo4Picture::MakeScript(ostream& fs, const char* name)
    const char* drawopt = GetDrawOption(PictureIndex);
    if (drawopt!=0)
       fs << name << "SetDrawOption(\"" << drawopt << "\", " << PictureIndex << ");" << endl;
+
+   // export x axis time attribute independent of objects. needed for TGraph pads
+   Bool_t tdisp=kFALSE;
+   if (GetOption (PictureIndex, op_TimeAxisX, lv) && lv) tdisp=kTRUE;
+   TString format=GetStrOption(PictureIndex, op_TimeAxisXFmt , "%H:%M:%S");
+   fs << name <<  "SetXAxisAttTime(";
+   fs << tdisp << ", ";
+   fs << "\"" << format.Data()<< "\"" <<", ";
+   fs << PictureIndex << ");" << endl;
+
 
    for(Int_t indx=0;indx<GetNumObjNames();indx++) {
       const char* objname = GetObjName(indx);

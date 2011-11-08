@@ -265,6 +265,10 @@ class TGo4Picture : public TNamed {
 
       Bool_t IsXAxisTimeDisplay();
 
+      void SetXAxisTimeDisplay(Bool_t on);
+
+      void SetXAxisTimeFormat(const char* format);
+
       const char* GetXAxisTimeFormat();
 
       void SetPadAtt(Int_t BorderMode,

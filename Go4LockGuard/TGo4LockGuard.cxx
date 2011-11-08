@@ -40,9 +40,14 @@ TGo4LockGuard::TGo4LockGuard (TMutex* mutex, Bool_t forcelock) : fbForceLock(for
          fxMutex=mutex;
          fbIsMainMutex=kFALSE;
       }
-
-   if (fbForceLock || TThread::Exists()>0)
-    {
+#if ROOT_VERSION_CODE < ROOT_VERSION(5,31,0)
+if (fbForceLock || TThread::Exists()>0)
+#else
+// JAM for the moment, we disable check for existing threads until problem with ROOT > 5.31 is solved
+// suspect this is due to changed library linkage in root build
+if(1)
+#endif
+   {
 //         UInt_t id = TThread::SelfId();
          fxMutex->Lock();
          fbIsLocked=kTRUE;

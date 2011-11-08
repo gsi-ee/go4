@@ -58,6 +58,8 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
          DrawTimeId       = 1012,
          DrawDateId       = 1013,
          DrawItemnameId   = 1014,
+         AxisTimeDisplayId= 1015,
+         SetTimeFormatId  = 1016,
          BringToFrontId   = 4998,
          MasterSelectId   = 4999,
          FirstSelectId    = 5000 };
