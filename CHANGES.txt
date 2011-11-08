@@ -20,7 +20,7 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v4.5.1 (Fall 2011)
+Changes in Go4 v4.5.1 (November 2011)
 1. Add force32=true flag to the Makefile, done to force 32 bit compilation and
    linking on 64-bit platform. Done to support such kind of MacOS machine,
    not tested (probably, not required) on Linux. 
@@ -43,7 +43,14 @@ Changes in Go4 v4.5.1 (Fall 2011)
    "X-Axis displays time" and "Set xaxis time format" 
 9. Adjusted build system for gcc 4.6.1 (Ubuntu 10.11)
 10. Bugfix in Qt4 GUI: on MacOs and gnome desktops, window menus were all put to screen system
-menu. This caused main window menu to disappear after opening first viewpanel.         
+    menu. This caused main window menu to disappear after opening first viewpanel.
+11. Introduced event processor API methods SetKeepInputEvent() and SetKeepOutputEvent() to 
+    provide "1 to n" and "n to 1" event building functionality. To be used if input event contains
+    several output event data sets, or vice versa if several input events must be processed to
+    gain one output event. Each time these methods are called in event processor, the next analysis cycle
+    will skip all previous, or all subsequent analysis steps, resp, and will reprocess the input, or continue
+    filling the output event data, resp.       
+
 
 Changes in Go4 v4.5.0 (August 2011)
 1. Fix problem with Ctrl-C handler. Now in batch in all cases

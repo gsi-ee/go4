@@ -55,195 +55,189 @@ class TGo4EventCalibration;
  * @author J. Adamczewski
  * @since 1/2001 */
 
-class TGo4EventProcessor : public TGo4EventSource {
-   friend class TGo4EventElement;
+class TGo4EventProcessor: public TGo4EventSource {
+	friend class TGo4EventElement;
 
-   public:
+public:
 
-      TGo4EventProcessor(const char* name);
+	TGo4EventProcessor(const char* name);
 
-      
-      virtual ~TGo4EventProcessor();
+	virtual ~TGo4EventProcessor();
 
-      /**
-       * Sets reference to external raw event which is used by
-       * the concrete processor to unpack the interesting
-       * information.
-       */
-      void SetInputEvent(TGo4EventElement * raw)
-      {
-         fxInputEvent=raw;
-      }
+	/**
+	 * Sets reference to external raw event which is used by
+	 * the concrete processor to unpack the interesting
+	 * information.
+	 */
+	void SetInputEvent(TGo4EventElement * raw) {
+		fxInputEvent = raw;
+	}
 
-      /**
-       * Access to external raw event which is set as association member.
-       */
-      inline TGo4EventElement * GetInputEvent()
-      {
-         return fxInputEvent;
-      }
+	/**
+	 * Access to external raw event which is set as association member.
+	 */
+	inline TGo4EventElement * GetInputEvent() {
+		return fxInputEvent;
+	}
 
-      /**
-       * Check if input event is valid. Tests the pointer for
-       * zero, and if not zero, compares classname of the
-       * input event with given string. To be used from the
-       * Fill method and from the analysis method  init event classes.
-       */
-      virtual Bool_t CheckInputEvent(const char* classname);
+	/**
+	 * Check if input event is valid. Tests the pointer for
+	 * zero, and if not zero, compares classname of the
+	 * input event with given string. To be used from the
+	 * Fill method and from the analysis method  init event classes.
+	 */
+	virtual Bool_t CheckInputEvent(const char* classname);
 
-      /**
-       * Sets reference to external raw event which is used by
-       * the concrete processor to unpack the interesting
-       * information.
-       */
-      void SetCalibration(TGo4EventCalibration * cali)
-      {
-         fxCalibration=cali;
-      }
+	/**
+	 * Sets reference to external raw event which is used by
+	 * the concrete processor to unpack the interesting
+	 * information.
+	 */
+	void SetCalibration(TGo4EventCalibration * cali) {
+		fxCalibration = cali;
+	}
 
-      /**
-       * Access to external calibration object.
-       */
-      TGo4EventCalibration * GetCalibration()
-      {
-         return fxCalibration;
-      }
+	/**
+	 * Access to external calibration object.
+	 */
+	TGo4EventCalibration * GetCalibration() {
+		return fxCalibration;
+	}
 
-      /**
-       * Check if calibration class  is valid. Tests the pointer for
-       * zero, and if not zero, compares classname of the
-       * calibration instance with given string. To be used from the
-       * Fill method and from the analysis method  init event classes.
-       */
-      virtual Bool_t CheckCalibration(const char* classname);
+	/**
+	 * Check if calibration class  is valid. Tests the pointer for
+	 * zero, and if not zero, compares classname of the
+	 * calibration instance with given string. To be used from the
+	 * Fill method and from the analysis method  init event classes.
+	 */
+	virtual Bool_t CheckCalibration(const char* classname);
 
+	/** Register user object to go4 framework. Shortcut forwarded to analysis instance */
+	Bool_t AddObject(TNamed * anything, const char* subfolder = 0);
 
-      /** Register user object to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddObject(TNamed * anything, const char* subfolder=0);
+	/** Register histogram to go4 framework. Shortcut forwarded to analysis instance */
+	Bool_t AddHistogram(TH1* his, const char* subfolder = 0, Bool_t replace =
+			kTRUE);
 
-      /** Register histogram to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddHistogram(TH1* his, const char* subfolder=0, Bool_t replace=kTRUE);
+	/** Register parameter to go4 framework. Shortcut forwarded to analysis instance */
+	Bool_t AddParameter(TGo4Parameter* par, const char* subfolder = 0);
 
-      /** Register parameter to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddParameter(TGo4Parameter* par, const char* subfolder=0);
+	/** Register condition to go4 framework. Shortcut forwarded to analysis instance */
+	Bool_t AddAnalysisCondition(TGo4Condition* con, const char* subfolder = 0);
 
-      /** Register condition to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t  AddAnalysisCondition(TGo4Condition* con, const char* subfolder=0);
+	/** Register picture to go4 framework. Shortcut forwarded to analysis instance */
+	Bool_t AddPicture(TGo4Picture* pic, const char* subfolder = 0);
 
-      /** Register picture to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddPicture(TGo4Picture* pic, const char* subfolder=0);
+	/** Register TCanvas to go4 framework. Shortcut forwarded to analysis instance */
+	Bool_t AddCanvas(TCanvas* can, const char* subfolder = 0);
 
-      /** Register TCanvas to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddCanvas(TCanvas* can, const char* subfolder=0);
+	/** UnRegister histogram from go4 framework and delete it. Shortcut forwarded to analysis instance */
+	Bool_t RemoveHistogram(const char* name);
 
+	/** UnRegister parameter from go4 framework and delete it. Shortcut forwarded to analysis instance */
+	Bool_t RemoveParameter(const char* name);
 
-      /** UnRegister histogram from go4 framework and delete it. Shortcut forwarded to analysis instance */
-      Bool_t RemoveHistogram(const char* name);
+	/** UnRegister condition from go4 framework and delete it. Shortcut forwarded to analysis instance */
+	Bool_t RemoveAnalysisCondition(const char* name);
 
-      /** UnRegister parameter from go4 framework and delete it. Shortcut forwarded to analysis instance */
-      Bool_t RemoveParameter(const char* name);
+	/** UnRegister picture from go4 framework and delete it. Shortcut forwarded to analysis instance */
+	Bool_t RemovePicture(const char* name);
 
-      /** UnRegister condition from go4 framework and delete it. Shortcut forwarded to analysis instance */
-      Bool_t RemoveAnalysisCondition(const char* name);
+	/** UnRegister canvas from go4 framework and delete it. Shortcut forwarded to analysis instance */
+	Bool_t RemoveCanvas(const char* name);
 
-      /** UnRegister picture from go4 framework and delete it. Shortcut forwarded to analysis instance */
-      Bool_t RemovePicture(const char* name);
+	/** Get any object from go4 framework. Shortcut forwarded to analysis instance */
+	TNamed * GetObject(const char* name, const char* folder = 0);
 
-      /** UnRegister canvas from go4 framework and delete it. Shortcut forwarded to analysis instance */
-      Bool_t RemoveCanvas(const char* name);
+	/** Get histogram from go4 framework. Shortcut forwarded to analysis instance */
+	TH1* GetHistogram(const char* name);
 
-      /** Get any object from go4 framework. Shortcut forwarded to analysis instance */
-      TNamed * GetObject(const char* name, const char* folder=0);
+	/** Get parameter from go4 framework. Shortcut forwarded to analysis instance */
+	TGo4Parameter* GetParameter(const char* name);
 
-      /** Get histogram from go4 framework. Shortcut forwarded to analysis instance */
-      TH1* GetHistogram(const char* name);
+	/** Get condition from go4 framework. Shortcut forwarded to analysis instance */
+	TGo4Condition* GetAnalysisCondition(const char* name);
 
-      /** Get parameter from go4 framework. Shortcut forwarded to analysis instance */
-      TGo4Parameter* GetParameter(const char* name);
+	/** Get picture from go4 framework. Shortcut forwarded to analysis instance */
+	TGo4Picture* GetPicture(const char* name);
 
-      /** Get condition from go4 framework. Shortcut forwarded to analysis instance */
-      TGo4Condition*  GetAnalysisCondition(const char* name);
+	/** Get TCanvas from go4 framework. Shortcut forwarded to analysis instance */
+	TCanvas* GetCanvas(const char* name);
 
-      /** Get picture from go4 framework. Shortcut forwarded to analysis instance */
-      TGo4Picture* GetPicture(const char* name);
+	/**
+	 * Returns the input event structure of analysis step. Argument indicates
+	 * the step by name. Shortcut forwarded to analysis instance
+	 */
+	TGo4EventElement* GetInputEvent(const char* stepname);
 
-      /** Get TCanvas from go4 framework. Shortcut forwarded to analysis instance */
-      TCanvas* GetCanvas(const char* name);
+	/**
+	 * Returns the output event structure of analysis step. Argument indicates
+	 * the step by name. Shortcut forwarded to analysis instance
+	 */
+	TGo4EventElement* GetOutputEvent(const char* stepname);
 
-      /**
-       * Returns the input event structure of analysis step. Argument indicates
-       * the step by name. Shortcut forwarded to analysis instance
-       */
-      TGo4EventElement* GetInputEvent(const char* stepname);
+	/**
+	 * Display a user message. Argument pri defines message priority:
+	 * <0: display raw text on local terminal like plain printf
+	 * 0: display on local terminal only;  if debug output is enabled
+	 * 1: local terminal and info message in gui log panel (if gui mode)
+	 * 2: local terminal and warning message in gui log panel (if gui mode)
+	 * 3: local terminal and error message in gui log panel (if gui mode)
+	 */
+	void Message(Int_t prio, const char* text, ...);
 
-      /**
-       * Returns the output event structure of analysis step. Argument indicates
-       * the step by name. Shortcut forwarded to analysis instance
-       */
-      TGo4EventElement* GetOutputEvent(const char* stepname);
+	/** Send any object as copy to gui. Shortcut forwarded to analysis instance */
+	void SendObjectToGUI(TNamed* ob);
 
-      /**
-       * Display a user message. Argument pri defines message priority:
-       * <0: display raw text on local terminal like plain printf
-       * 0: display on local terminal only;  if debug output is enabled
-       * 1: local terminal and info message in gui log panel (if gui mode)
-       * 2: local terminal and warning message in gui log panel (if gui mode)
-       * 3: local terminal and error message in gui log panel (if gui mode)
-       */
-      void Message(Int_t prio, const char* text,...);
+	/* We overwrite the default TNamed::Clear that would
+	 *  erase our name and title!
+	 * Implement this method in your parameter class
+	 * if you would like to reset any values with the
+	 * eraser button in the gui remote browser*/
+	virtual void Clear(Option_t* opt="");
 
-      /** Send any object as copy to gui. Shortcut forwarded to analysis instance */
-      void SendObjectToGUI(TNamed* ob);
+	/** Set flag to use data from autosave file in Make... methods (default true) */
+	void SetMakeWithAutosave(Bool_t on = kTRUE);
 
-      /* We overwrite the default TNamed::Clear that would
-       *  erase our name and title!
-       * Implement this method in your parameter class
-       * if you would like to reset any values with the
-       * eraser button in the gui remote browser*/
-      virtual void Clear(Option_t* opt="");
+	/** Returns kTRUE if object in last Make... call was created,
+	 * kFALSE when object was retrieved from autosavefile */
+	Bool_t IsObjMade();
 
-      /** Set flag to use data from autosave file in Make... methods (default true) */
-      void SetMakeWithAutosave(Bool_t on = kTRUE);
+	/** Create one dimensional histogram of specified type. Type can be:
+	 * 'I', 'i' for TH1I - Int_t as bin content (default)
+	 * 'F', 'f' for TH1F - Float_t as bin content
+	 * 'D', 'd' for TH1D - Double_t as bin content
+	 * 'S', 's' for TH1S - Short_t as bin content
+	 * 'C', 'c' for TH1C - Char_t as bin content
+	 * fullname specifies name of histogram (optionally with subfolder name)
+	 * title - histogram title
+	 * nbinsx, xlow, xup - range arguments for X axis
+	 * xtitle, ytitle - title for X and Y axis of histogram
+	 * If histogram exactly with same name and type already exists in  autosave file,
+	 * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
+	 */
+	TH1* MakeTH1(char type, const char* fullname, const char* title,
+			Int_t nbinsx, Double_t xlow, Double_t xup,
+			const char* xtitle = 0, const char* ytitle = 0);
 
-      /** Returns kTRUE if object in last Make... call was created,
-       * kFALSE when object was retrieved from autosavefile */
-      Bool_t IsObjMade();
-
-      /** Create one dimensional histogram of specified type. Type can be:
-       * 'I', 'i' for TH1I - Int_t as bin content (default)
-       * 'F', 'f' for TH1F - Float_t as bin content
-       * 'D', 'd' for TH1D - Double_t as bin content
-       * 'S', 's' for TH1S - Short_t as bin content
-       * 'C', 'c' for TH1C - Char_t as bin content
-       * fullname specifies name of histogram (optionally with subfolder name)
-       * title - histogram title
-       * nbinsx, xlow, xup - range arguments for X axis
-       * xtitle, ytitle - title for X and Y axis of histogram
-       * If histogram exactly with same name and type already exists in  autosave file,
-       * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
-       */
-      TH1* MakeTH1(char type, const char* fullname, const char* title,
-                   Int_t nbinsx, Double_t xlow, Double_t xup,
-                   const char* xtitle = 0, const char* ytitle = 0);
-
-      /** Create two dimensional histogram of specified type. Type can be:
-       * 'I', 'i' for TH2I - Int_t as bin content (default)
-       * 'F', 'f' for TH2F - Float_t as bin content
-       * 'D', 'd' for TH2D - Double_t as bin content
-       * 'S', 's' for TH2S - Short_t as bin content
-       * 'C', 'c' for TH1C - Char_t as bin content
-       * fullname specifies name of histogram (optionally with subfolder name)
-       * title - histogram title
-       * nbinsx, xlow, xup - range arguments for X axis
-       * nbinsy, ylow, yup - range arguments for Y axis
-       * xtitle, ytitle, ztitle - title for X, Y and Z axis of histogram
-       * If histogram exactly with same name and type already exists in  autosave file,
-       * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
-       */
-      TH2* MakeTH2(char type, const char* fullname, const char* title,
-                   Int_t nbinsx, Double_t xlow, Double_t xup,
-                   Int_t nbinsy, Double_t ylow, Double_t yup,
-                   const char* xtitle = 0, const char* ytitle = 0, const char* ztitle = 0);
+	/** Create two dimensional histogram of specified type. Type can be:
+	 * 'I', 'i' for TH2I - Int_t as bin content (default)
+	 * 'F', 'f' for TH2F - Float_t as bin content
+	 * 'D', 'd' for TH2D - Double_t as bin content
+	 * 'S', 's' for TH2S - Short_t as bin content
+	 * 'C', 'c' for TH1C - Char_t as bin content
+	 * fullname specifies name of histogram (optionally with subfolder name)
+	 * title - histogram title
+	 * nbinsx, xlow, xup - range arguments for X axis
+	 * nbinsy, ylow, yup - range arguments for Y axis
+	 * xtitle, ytitle, ztitle - title for X, Y and Z axis of histogram
+	 * If histogram exactly with same name and type already exists in  autosave file,
+	 * it will be return. With SetMakeWithAutosave(kFALSE) one can exclude data from autosave.
+	 */
+	TH2* MakeTH2(char type, const char* fullname, const char* title,
+			Int_t nbinsx, Double_t xlow, Double_t xup,
+			Int_t nbinsy, Double_t ylow, Double_t yup,
+			const char* xtitle = 0, const char* ytitle = 0, const char* ztitle =0);
 
       /** Create 1D window condition.
        * fullname specifies name of condition (optionally with subfolder name)
@@ -290,7 +284,37 @@ class TGo4EventProcessor : public TGo4EventSource {
                                       const char* classname,
                                       const char* newcmd = 0);
 
+      /* if true, processor wants to continue with current content of input event
+       * event is not refilled from event source, and all previous analysis steps are suspended*/
+      Bool_t IsKeepInputEvent(){
+    	  return fbKeepInputEvent;
+      }
+
+      /* Mark current input event for reprocessing in next cycle
+       * In this case, all previous analysis steps are skipped until this is done*/
+      void SetKeepInputEvent(Bool_t val=kTRUE)
+      {
+    	  fbKeepInputEvent=val;
+      }
+
+      /* if true, processor wants to continue filling current output event
+       * Event is not stored, and all subsequent analysis steps are skipped*/
+       Bool_t IsKeepOutputEvent(){
+         	  return fbKeepOutputEvent;
+           }
+
+           /* Mark current input event for reprocessing in next cycle
+            * In this case, all previous analysis steps are skipped until this is done*/
+       void SetKeepOutputEvent(Bool_t val=kTRUE)
+           {
+         	  fbKeepOutputEvent=val;
+           }
+
+
+
    protected:
+
+
 
       /** Default ctor for root streamer. */
       TGo4EventProcessor():fxCalibration(0){}
@@ -303,7 +327,13 @@ class TGo4EventProcessor : public TGo4EventSource {
       /** @link aggregation */
       TGo4EventCalibration * fxCalibration;
 
-   ClassDef(TGo4EventProcessor,2)
+      /** flag to steer reprocessing of same input event */
+      Bool_t fbKeepInputEvent; //!
+
+      /** flag to steer continue filling of same output event */
+      Bool_t fbKeepOutputEvent; //!
+
+   ClassDef(TGo4EventProcessor,3)
 };
 
 #endif //TGO4EVENTPROCESSOR_H

@@ -103,31 +103,37 @@ void TGo4AnalysisStep::Process()
    TRACE((12,"TGo4AnalysisStep::Process()",__LINE__, __FILE__));
    if(!fbProcessEnabled) return;
    //cout <<"Processing Step " <<GetName() << endl;
+   if(fxEventProcessor==0) {
+         SetStatusMessage("! AnalysisStep -- Process Error: no event processor !");
+         throw TGo4AnalysisStepException(this);
+      }
+
+
    TGo4EventElement* input(0);
    fiProcessStatus = 0;
    ////////// source part:
    if (fbSourceEnabled && (fxEventSource!=0)) {
       // fill input event from own source
       fxInputEvent->SetEventSource(fxEventSource);
-      fxInputEvent->Fill();
+      if(!fxEventProcessor->IsKeepInputEvent())
+    	  fxInputEvent->Fill(); // do not overwrite current input event contents
       input = fxInputEvent;
    } else
      // get input event structure from previous step
      input = fxOwner->GetOutputEvent();
 
    ///////////// processor part:
-   if(fxEventProcessor==0) {
-      SetStatusMessage("! AnalysisStep -- Process Error: no event processor !");
-      throw TGo4AnalysisStepException(this);
-   }
+   if(!fxEventProcessor->IsKeepInputEvent())
+	   fxEventProcessor->SetInputEvent(input); // do not change current input event reference
 
-   fxEventProcessor->SetInputEvent(input);
+   fxEventProcessor->SetKeepInputEvent(kFALSE); // automatic reset of keep input flags before processor execution
+   fxEventProcessor->SetKeepOutputEvent(kFALSE); // automatic reset of keep output flags before processor execution
 
    if(fxOutputEvent!=0) {
       fxOutputEvent->SetEventSource(fxEventProcessor);
-      fxOutputEvent->Fill();
+      fxOutputEvent->Fill(); // this calls processor build event
       fxOwner->SetOutputEvent(fxOutputEvent);
-      if(fbStoreEnabled && (fxEventStore!=0) && fxOutputEvent->IsValid())
+      if(fbStoreEnabled && (fxEventStore!=0) && fxOutputEvent->IsValid() && !fxEventProcessor->IsKeepOutputEvent())
          fxEventStore->Store(fxOutputEvent);
    } else {
       SetStatusMessage("! AnalysisStep -- Process Error: no output event !");

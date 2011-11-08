@@ -452,6 +452,19 @@ Int_t TGo4AnalysisStepManager::ProcessAnalysisSteps()
    fxCurrentStep = 0;
    fiCurrentStepIndex = 0;
    Bool_t isfirststep = kTRUE;
+   // first evaluate actual beginning index for "keep input event" mode:
+   Int_t repeatinputstart=-1;
+   for(fiCurrentStepIndex = fiFirstStepIndex; fiCurrentStepIndex<=fiLastStepIndex;fiCurrentStepIndex++)
+   	   {
+	   	   fxCurrentStep = (TGo4AnalysisStep*) (fxStepList->UncheckedAt(fiCurrentStepIndex));
+	   	   if(fxCurrentStep->IsKeepInputEvent())
+	   	   	   {
+	   		   	   repeatinputstart=fiCurrentStepIndex;
+	   		   	   break;
+	   	   	   }
+   	   }
+
+
    SetOutputEvent(0); // make sure that first step wont take output of last one
    for(fiCurrentStepIndex = fiFirstStepIndex; fiCurrentStepIndex<=fiLastStepIndex;fiCurrentStepIndex++) {
       fxCurrentStep = (TGo4AnalysisStep*) (fxStepList->UncheckedAt(fiCurrentStepIndex));
@@ -466,7 +479,9 @@ Int_t TGo4AnalysisStepManager::ProcessAnalysisSteps()
             throw TGo4AnalysisStepException(fxCurrentStep);
          }
       }
+      if(fiCurrentStepIndex<repeatinputstart) continue; // skip steps before a step which is reprocessing same input event
       fxCurrentStep->Process();
+      if(fxCurrentStep->IsKeepOutputEvent()) break; // skip all steps after incomplete output event
    } // for(...)
    // finally, we update maintree header if the steps use treesource/store instances:
    if(TGo4MainTree::Exists()) TGo4MainTree::Instance()->Update();

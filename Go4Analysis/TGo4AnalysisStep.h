@@ -36,7 +36,8 @@ class TGo4EventElement;
 class TGo4EventFactory;
 class TGo4EventSource;
 class TGo4EventStore;
-class TGo4EventProcessor;
+//class TGo4EventProcessor;
+#include "TGo4EventProcessor.h"
 
 /**
  * Contains a single step of the analysis. Each analysis step
@@ -205,6 +206,11 @@ class TGo4AnalysisStep : public TNamed {
     Bool_t IsSourceEnabled() const { return fbSourceEnabled; }
 
     Bool_t IsProcessEnabled() const { return fbProcessEnabled; }
+
+
+    Bool_t IsKeepInputEvent() { return fxEventProcessor->IsKeepInputEvent();}
+
+    Bool_t IsKeepOutputEvent() { return fxEventProcessor->IsKeepOutputEvent();}
 
     /** True if analysis step has been stopped on error. */
     Bool_t IsErrorStopped() const { return fbErrorStopped; }
