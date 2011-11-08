@@ -55,6 +55,8 @@ class TGo4EventElement : public TNamed {
       /** Setter for the parent event structure reference. */
       void SetParent(TGo4EventElement * par) { fxParent=par; }
 
+      void SetKeepContents(Bool_t on=kTRUE) {fbKeepContents=on;}
+
       inline TGo4EventElement* GetParent() const { return fxParent; }
 
       inline TGo4EventSource * GetEventSource() const { return fxEventSource; }
@@ -120,9 +122,14 @@ class TGo4EventElement : public TNamed {
        * @supplierCardinality 0..1*/
       TGo4EventSource * fxEventSource; //!
 
+
+
    protected:
       Short_t fIdentifier; // Identifier
       Bool_t fDebug; //! Debug level
+
+      /** helper flag to supress Clear if event shall be kept*/
+      Bool_t fbKeepContents; //!
 
    ClassDef(TGo4EventElement,3)
 };

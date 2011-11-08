@@ -26,7 +26,8 @@ TGo4EventElement::TGo4EventElement() :
    fxParent(0),
    fxEventSource(0),
    fIdentifier(-1),
-   fDebug(kFALSE)
+   fDebug(kFALSE),
+   fbKeepContents(kFALSE)
 {
 
    TRACE((15,"TGo4EventElement::TGo4EventElement()",__LINE__, __FILE__));
@@ -38,7 +39,8 @@ TGo4EventElement::TGo4EventElement(const char* name) :
    fxParent(0),
    fxEventSource(0),
    fIdentifier(-1),
-   fDebug(kFALSE)
+   fDebug(kFALSE),
+   fbKeepContents(kFALSE)
 {
    TRACE((15,"TGo4EventElement::TGo4EventElement(const char*)",__LINE__, __FILE__));
 }
@@ -216,8 +218,8 @@ Int_t TGo4EventElement::Init()
 
 Int_t TGo4EventElement::Fill()
 {
-   Clear();
-
+	if (!fbKeepContents) Clear();
+   fbKeepContents=kFALSE;
    if (fxEventSource==0) { SetValid(kFALSE); return 1; }
 
    if (fxEventSource->BuildEvent(this)) {

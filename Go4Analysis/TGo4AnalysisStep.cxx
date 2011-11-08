@@ -127,10 +127,11 @@ void TGo4AnalysisStep::Process()
 	   fxEventProcessor->SetInputEvent(input); // do not change current input event reference
 
    fxEventProcessor->SetKeepInputEvent(kFALSE); // automatic reset of keep input flags before processor execution
-   fxEventProcessor->SetKeepOutputEvent(kFALSE); // automatic reset of keep output flags before processor execution
 
    if(fxOutputEvent!=0) {
       fxOutputEvent->SetEventSource(fxEventProcessor);
+      if(fxEventProcessor->IsKeepInputEvent()) fxOutputEvent->SetKeepContents(kTRUE); // suppress inplicit Clear()
+      fxEventProcessor->SetKeepOutputEvent(kFALSE); // automatic reset of keep output flags before processor execution
       fxOutputEvent->Fill(); // this calls processor build event
       fxOwner->SetOutputEvent(fxOutputEvent);
       if(fbStoreEnabled && (fxEventStore!=0) && fxOutputEvent->IsValid() && !fxEventProcessor->IsKeepOutputEvent())
