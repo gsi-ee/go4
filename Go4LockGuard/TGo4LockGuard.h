@@ -60,7 +60,7 @@ class TGo4LockGuard {
 
       /** If true, lock anyway even if no ROOT thread exists.
        *  required to protect against foreign pthreads, e.g. from DIM */
-      Bool_t fbForceLock; //!
+      //Bool_t fbForceLock; //!
 
       /** True if the mutex of this lockguard instance is
         * the global go4 main mutex. */

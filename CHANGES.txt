@@ -1,6 +1,6 @@
 --------------------------------------------------------------
          Go4 Release Package v4.5.1 (build 40501)
-                      08-Nov-2011
+                      10-Nov-2011
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -49,7 +49,9 @@ Changes in Go4 v4.5.1 (November 2011)
     several output event data sets, or vice versa if several input events must be processed to
     gain one output event. Each time these methods are called in event processor, the next analysis cycle
     will skip all previous, or all subsequent analysis steps, resp, and will reprocess the input, or continue
-    filling the output event data, resp.       
+    filling the output event data, resp.
+12. Changed Go4LockGuard: do not use TThread::Exists() anymore. Because of ROOT internal mutex, 
+    this call will not save any mutex lock, but introduce additional one.           
 
 
 Changes in Go4 v4.5.0 (August 2011)

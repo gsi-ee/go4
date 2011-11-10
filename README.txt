@@ -1,6 +1,6 @@
 --------------------------------------------------------------
          Go4 Release Package v4.5.1 (build 40501)
-                      08-Nov-2011
+                      10-Nov-2011
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -21,8 +21,9 @@ in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 These package was tested on
     Suse 10.2 (x86_64), SuSe 11.x (x86_64)
-    Debian 3.1, Debian 4.0, Debian 5.0 (32 bit and 64bit)
-    compilers: gcc 3.3.5, gcc 4.1.2, gcc 4.3.x, gcc 4.4.x
+    Debian 3.1, Debian 4.0, Debian 5.0, Debian 6.0 (32 bit and 64bit)
+    Ubuntu 11.10
+    compilers: gcc 3.3.5, gcc 4.1.2, gcc 4.3.x, gcc 4.4.x, gcc 4.5.1, gcc 4.6.1
     SunOS 5.2 (Solaris) with CC 5.8
     Windows XP, 7
     MacOSX Darwin (10.6) with gcc 4.2.1
@@ -100,11 +101,11 @@ GO4 COMPILATION
 
   Unpack this Go4 distribution in any suitable directory.
   
-     shell> tar xzf go4-4.5.0.tar.gz
+     shell> tar xzf go4-4.5.1.tar.gz
   
-  This will create subdirectory go4-4.5.0. To compile go4, do:
+  This will create subdirectory go4-4.5.1. To compile go4, do:
   
-     shell> cd go4-4.5.0
+     shell> cd go4-4.5.1
      shell> make all
   
   In most cases it will be enough to compile go4 libraries, gui and

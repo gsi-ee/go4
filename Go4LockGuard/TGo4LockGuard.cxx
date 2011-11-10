@@ -21,7 +21,8 @@ TMutex* TGo4LockGuard::fgxMainMutex=0;
 Int_t TGo4LockGuard::fgiLockCount=0;
 
 
-TGo4LockGuard::TGo4LockGuard (TMutex* mutex, Bool_t forcelock) : fbForceLock(forcelock)
+TGo4LockGuard::TGo4LockGuard (TMutex* mutex, Bool_t)
+//: fbForceLock(forcelock)
 {
    // first call: create main mutex
 	//  cout <<"G-----TGo4LockGuard ctor" << endl;
@@ -40,13 +41,18 @@ TGo4LockGuard::TGo4LockGuard (TMutex* mutex, Bool_t forcelock) : fbForceLock(for
          fxMutex=mutex;
          fbIsMainMutex=kFALSE;
       }
-#if ROOT_VERSION_CODE < ROOT_VERSION(5,31,0)
-if (fbForceLock || TThread::Exists()>0)
-#else
+
+//#if ROOT_VERSION_CODE < ROOT_VERSION(5,31,0)
+//if (fbForceLock || TThread::Exists()>0)
+//#else
 // JAM for the moment, we disable check for existing threads until problem with ROOT > 5.31 is solved
 // suspect this is due to changed library linkage in root build
-if(1)
-#endif
+// note: was solved after ROOT version 5.32.00-rc1
+//if(1)
+//#endif
+
+// NOTE2: since TThread::Exists() will use internal mutex lock anyway, we do not gain anything here
+// this did save a lock in the old days only! JAM
    {
 //         UInt_t id = TThread::SelfId();
          fxMutex->Lock();
@@ -67,11 +73,11 @@ if(1)
 //                   }
             }
       }
-   else
-      {
-         // no thread, no lock
-         fbIsLocked=kFALSE;
-      }
+//   else
+//      {
+//         // no thread, no lock
+//         fbIsLocked=kFALSE;
+//      }
 }
 
 TGo4LockGuard::~TGo4LockGuard()
