@@ -949,7 +949,7 @@ void TGo4MainWindow::closeEvent( QCloseEvent* ce)
 
    StopGUIScriptSlot();
   int waitsecs=180;
-   if(!RemoveAnalysisProxy(waitsecs) {
+   if(!RemoveAnalysisProxy(waitsecs)) {
        fCloseCounter = (waitsecs+10) *10; 
       statusBar()->message("Exit....  please wait");
       QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
