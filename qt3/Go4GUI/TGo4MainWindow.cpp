@@ -948,9 +948,9 @@ void TGo4MainWindow::closeEvent( QCloseEvent* ce)
    CloseAllFilesSlot();
 
    StopGUIScriptSlot();
-
-   if(!RemoveAnalysisProxy(30)) {
-      fCloseCounter = 100; // gui waits about 10 second to close analysis
+  int waitsecs=180;
+   if(!RemoveAnalysisProxy(waitsecs) {
+       fCloseCounter = (waitsecs+10) *10; 
       statusBar()->message("Exit....  please wait");
       QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
    } else {
@@ -994,9 +994,8 @@ void TGo4MainWindow::ForseCloseSlot()
             break;
       }
    }
-
-
-   delete this;
+ cout << "----- Exiting Go4 GUI now -----" << endl;
+ gSystem->Exit( 0 ); 
 }
 
 void TGo4MainWindow::OpenFileSlot()

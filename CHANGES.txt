@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.5.1 (build 40501)
-                      10-Nov-2011
+         Go4 Release Package v4.5.x (build 40501)
+                      30-Nov-2011
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -19,6 +19,12 @@ Contact:            http://Go4.gsi.de
 This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
+
+Changes in Go4 v4.5.x (Winter 2011/12)
+1. Bugfix in gui shutdown: circular deletion of mainwindow and timer could lead to crash on suse 12.1
+   Also changed details of shutdown mechanism, hope to fix the "hanging analysis with 99% cpu" problems
+   (this may happen when gui terminates before analysis was properly disconnected).
+
 
 Changes in Go4 v4.5.1 (November 2011)
 1. Add force32=true flag to the Makefile, done to force 32 bit compilation and

@@ -1457,25 +1457,38 @@ void TGo4AnalysisProxy::CallSlotUpdate()
 
 Bool_t TGo4AnalysisProxy::HandleTimer(TTimer* timer)
 {
-   if (timer==fxRefreshTimer) {
+   if (timer == fxRefreshTimer) {
       RefreshNamesList();
    } else
+   if (timer == fxConnectionTimer) {
+      //cout << " TGo4AnalysisProxy::HandleTimer for connection timer" << endl;
+      if (fxDisplay != 0) {
+         // this is emergency handling only if display did not shutdown and deleted our proxy before.
+         if (fDisconectCounter > 0) {
+            fDisconectCounter--;
+            fxConnectionTimer->Start(100, kTRUE);
+            //cout<< " TGo4AnalysisProxy::HandleTimer has restarted connection timer, discon counter="<< fDisconectCounter << endl;
+         } else {
+            // this is an emergency disconnect! regularly, the TGo4Display will destroy us now
 
-   if (timer==fxConnectionTimer) {
-      if ((fxDisplay!=0) && (fDisconectCounter>0)) {
-         fDisconectCounter--;
-         fxConnectionTimer->Start(100, kTRUE);
-      } else
-      if (fxParentSlot!=0) {
-         // this will also delete Analysis proxy itself
-         // practically the same as  delete fxParentSlot;
-         fxParentSlot->Delete();
-         //fxParentSlot = 0;
-         //fxParentSlot->GetOM()->DeleteObject(fxParentSlot);
-      }
-         else delete this;
+            cout<< " TGo4AnalysisProxy::HandleTimer still sees not that display is gone. Cleanup myself!"<< endl;
+            fxConnectionTimer->TurnOff();
+            fxConnectionTimer = 0; // avoid that timer is deleted in dtor, since this function runs within timer notify!
+            if (fxParentSlot != 0) {
+               // this will also delete Analysis proxy itself
+               // practically the same as  delete fxParentSlot;
+//               cout
+//                     << " TGo4AnalysisProxy::HandleTimer will delete parent slot "
+//                     << fxParentSlot->GetFullName() << endl;
+               fxParentSlot->Delete();
+               //fxParentSlot = 0;
+               //fxParentSlot->GetOM()->DeleteObject(fxParentSlot);
+            } else {
+               delete this;
+            }
+         } // if(fDisconectCounter>0)
+      } //if fxDisplay!=0
    }
-
    return kFALSE;
 }
 

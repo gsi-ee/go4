@@ -24,6 +24,8 @@
 #include "TGo4Status.h"
 
 #include "TGo4AnalysisProxy.h"
+#include "TGo4Slot.h"
+
 
 TGo4Display::TGo4Display(Bool_t isserver)
    : TGo4Master("Display",
@@ -51,9 +53,19 @@ TGo4Display::~TGo4Display()
       GetTask()->GetWorkHandler()->CancelAll();
    delete fxDrawTimer;
    delete fxLogTimer;
-   if (fxAnalysis!=0)
-     fxAnalysis->DisplayDeleted(this);
-//   cout <<"------- TGO4DISPLAY DESTRUCTOR FINISHED. ------" << endl;
+   if (fxAnalysis != 0) {
+      fxAnalysis->DisplayDeleted(this); // will also clear back referenc to us
+      TGo4Slot* pslot = fxAnalysis->ParentSlot();
+      if (pslot) {
+         //cout <<"TGo4Display dtor will delete analysis proxy parent slot" << endl;
+         pslot->Delete();
+      } else {
+         //cout <<"TGo4Display dtor will delete analysis proxy directly" << endl;
+         delete fxAnalysis; // regularly, we cleanup the analysis proxy.
+      }
+
+   }
+   cout <<"------- TGO4DISPLAY DESTRUCTOR FINISHED. ------" << endl;
 }
 
 void TGo4Display::DisplayData(TObject* data)

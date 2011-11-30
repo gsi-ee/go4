@@ -873,21 +873,23 @@ void TGo4MainWindow::closeEvent( QCloseEvent* ce)
    CloseAllFilesSlot();
 
    StopGUIScriptSlot();
+   int waitsecs=180;
+   if(!RemoveAnalysisProxy(waitsecs)) {
+        //cout <<"closeEvent - RemoveAnalysisProxy returned false, using close counter" << endl;
+        fCloseCounter = (waitsecs+10) *10; // was 100 gui waits about 10 second to close analysis
+        statusBar()->showMessage("Exit....  please wait");
+        QApplication::setOverrideCursor(Qt::WaitCursor);
+        QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
+        //cout <<"TGo4MainWindow::closeEvent after QTimer, ignore close event" << endl;
+         ce->ignore();
+     } else {
+        statusBar()->showMessage("Closing GUI...");
+        //cout <<"closeEvent does exit" << endl;
+        ce->accept();
+        gSystem->Exit( 0 );
+     }
 
-   //cout <<"TGo4MainWindow::closeEvent after CloseAllFilesSlot" << endl;
-   if(!RemoveAnalysisProxy(30)) {
-      fCloseCounter = 100; // was 100 gui waits about 10 second to close analysis
-      statusBar()->showMessage("Exit....  please wait");
-      QApplication::setOverrideCursor(Qt::WaitCursor);
-      QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
-       //cout <<"TGo4MainWindow::closeEvent after QTimer, ignore close event" << endl;
-       ce->ignore();
-   } else {
-      statusBar()->showMessage("Closing GUI...");
 
-      ce->accept();
-      gSystem->Exit( 0 );
-   }
       //cout <<"TGo4MainWindow::closeEvent is finished." << endl;
 
 }
@@ -934,7 +936,7 @@ void TGo4MainWindow::ForseCloseSlot()
          cout << "Please check running processes with \"ps\" and probably, kill analysis with \"killall go4analysis\" command" << endl;
       }
    }
-
+   cout << "----- Exiting Go4 GUI now -----" << endl;
    gSystem->Exit( 0 );
 }
 
