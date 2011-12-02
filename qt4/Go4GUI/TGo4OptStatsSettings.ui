@@ -198,33 +198,15 @@
                 </property>
               </widget>
             </item>
-            <item rowspan="1" row="3" column="0" colspan="3" >
-              <layout class="QHBoxLayout" >
-                <item>
-                  <widget class="QCheckBox" name="DrawErrorsButton" >
-                    <property name="text" >
-                      <string>Display Errors</string>
-                    </property>
-                  </widget>
-                </item>
-                <item>
-                  <spacer name="spacer3" >
-                    <property name="sizeHint" >
-                      <size>
-                        <width>181</width>
-                        <height>20</height>
-                      </size>
-                    </property>
-                    <property name="sizeType" >
-                      <enum>QSizePolicy::Expanding</enum>
-                    </property>
-                    <property name="orientation" >
-                      <enum>Qt::Horizontal</enum>
-                    </property>
-                  </spacer>
-                </item>
-              </layout>
+            
+            <item row="3" column="0">
+              <widget class="QCheckBox" name="DrawErrorsButton" >
+                <property name="text" >
+                  <string>Display Errors</string>
+                </property>
+              </widget>
             </item>
+            
             <item row="1" column="2" >
               <widget class="QCheckBox" name="DrawOverflowButton" >
                 <property name="text" >
@@ -232,6 +214,76 @@
                 </property>
               </widget>
             </item>
+            
+     <item row="3" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="StatWidthLbl">
+          <property name="text">
+           <string>Width</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDoubleSpinBox" name="StatWidthBox">
+          <property name="specialValueText">
+           <string>dflt</string>
+          </property>
+          <property name="decimals">
+           <number>2</number>
+          </property>
+          <property name="minimum">
+           <double>0.0</double>
+          </property>
+          <property name="maximum">
+           <double>1.0</double>
+          </property>
+          <property name="value">
+           <double>0.0</double>
+          </property>
+          <property name="singleStep">
+           <double>0.1</double>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     <item row="3" column="2">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="StatHeightLbl">
+          <property name="text">
+           <string>Height</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDoubleSpinBox" name="StatHeightBox">
+          <property name="specialValueText">
+           <string>dflt</string>
+          </property>
+          <property name="decimals">
+           <number>2</number>
+          </property>
+          <property name="minimum">
+           <double>0.0</double>
+          </property>
+          <property name="maximum">
+           <double>1.0</double>
+          </property>
+          <property name="value">
+           <double>0.0</double>
+          </property>
+          <property name="singleStep">
+           <double>0.1</double>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+            
+            
+            
           </layout>
         </widget>
       </item>

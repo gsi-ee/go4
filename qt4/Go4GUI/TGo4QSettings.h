@@ -129,6 +129,12 @@ class TGo4QSettings {
       void    setOptStat(int value);
       int     getOptStat();
 
+      void    setOptStatW(int value);
+      int     getOptStatW();
+
+      void    setOptStatH(int value);
+      int     getOptStatH();
+
       void    setStatBoxVisible(bool on = true);
       bool    getStatBoxVisible();
 

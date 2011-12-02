@@ -4260,9 +4260,11 @@ void TGo4ViewPanel::SetPadDefaults(TPad* pad)
 {
    TGo4LockGuard lock(0, true);
 
-   if (pad == 0)
-      return;
+   if (pad == 0) return;
    gStyle->SetOptStat(go4sett->getOptStat());
+   if (go4sett->getOptStatW()>0) gStyle->SetStatW(go4sett->getOptStatW()*0.01);
+   if (go4sett->getOptStatH()>0) gStyle->SetStatH(go4sett->getOptStatH()*0.01);
+
    fbCanvasCrosshair = go4sett->getPadCrosshair();
    fbCanvasEventstatus = go4sett->getPadEventStatus();
 

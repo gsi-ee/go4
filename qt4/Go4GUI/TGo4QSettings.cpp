@@ -597,6 +597,26 @@ int TGo4QSettings::getOptStat()
    return getInt( "/HistStatsBox/OptStats", 11111111);
 }
 
+void TGo4QSettings::setOptStatW(int value)
+{
+   setInt( "/HistStatsBox/OptStatsW", value);
+}
+
+int TGo4QSettings::getOptStatW()
+{
+   return getInt( "/HistStatsBox/OptStatsW", 0);
+}
+
+void TGo4QSettings::setOptStatH(int value)
+{
+   setInt( "/HistStatsBox/OptStatsH", value);
+}
+
+int TGo4QSettings::getOptStatH()
+{
+   return getInt( "/HistStatsBox/OptStatsH", 0);
+}
+
 void TGo4QSettings::setStatBoxVisible(bool on)
 {
    setBool( "/HistStatsBox/Visible", on);

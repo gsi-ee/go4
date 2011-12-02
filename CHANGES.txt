@@ -26,8 +26,9 @@ Changes in Go4 v4.5.x (Winter 2011/12)
    (this may happen when gui terminates before analysis was properly disconnected).
 2. Adjusted Makefile.config for suse 12.1
 3. Add in MakeParameter method possibility to execute setup macro
-4. In GetParameter method one could optionally specify class name, which will be verified    
+4. In GetParameter method one could optionally specify class name, which will be verified
 5. Adjust savecond.C and saveparam.C macros
+6. Add possibility to change default position of stat box (only for qt4 gui)
 
 Changes in Go4 v4.5.1 (November 2011)
 1. Add force32=true flag to the Makefile, done to force 32 bit compilation and
