@@ -59,6 +59,8 @@ class TGo4EventElement : public TNamed {
 
       inline TGo4EventElement* GetParent() const { return fxParent; }
 
+      virtual TGo4EventElement* GetChild(const char* name);
+
       inline TGo4EventSource * GetEventSource() const { return fxEventSource; }
 
       /** Check if event source is valid. Tests the pointer for
@@ -92,9 +94,9 @@ class TGo4EventElement : public TNamed {
       virtual void Clear(Option_t *t="");
       virtual void clearAll(Int_t) {}
       virtual Bool_t isComposed() { return kFALSE; }
-      virtual Short_t getId() { return fIdentifier;}
-      virtual void setDebug (Bool_t debug) { fDebug=debug;}
-      virtual TGo4EventElement& operator[](Int_t){ return *this; }
+      virtual Short_t getId() { return fIdentifier; }
+      virtual void setDebug (Bool_t debug) { fDebug=debug; }
+      virtual TGo4EventElement& operator[](Int_t) { return *this; }
 
       virtual void Print(Option_t* option = "") const;
 

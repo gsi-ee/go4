@@ -37,6 +37,8 @@ class TGo4CompositeEvent : public TGo4EventElement {
      TGo4CompositeEvent(const char* aName, const char* aTitle, Short_t aBaseCat=0);
      virtual ~TGo4CompositeEvent();
 
+     virtual TGo4EventElement* GetChild(const char* name);
+
      void makeBranch(TBranch *parent);
 
      virtual Int_t activateBranch(TBranch *branch, Int_t init = 0, TGo4EventElement** var_ptr = 0);

@@ -93,8 +93,19 @@ void TGo4EventElement::Print(Option_t* option) const
 void TGo4EventElement::makeBranch(TBranch *parent)
 {
    // method for recursive branching algorithm
-
 }
+
+TGo4EventElement* TGo4EventElement::GetChild(const char* name)
+{
+   if ((name==0) || (strlen(name)==0)) return this;
+
+   if (strcmp(name,".")==0) return this;
+
+   if (strcmp(name,"..")==0) return GetParent();
+
+   return 0;
+}
+
 
 void TGo4EventElement::synchronizeWithTree(TTree *tree, TGo4EventElement** var_ptr)
 {

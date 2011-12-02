@@ -180,8 +180,10 @@ QString TGo4EditDynEntry::GetEventName(const QString& itemname)
 {
    TString folder, name;
    TGo4Slot::ProduceFolderAndName(itemname.toAscii().constData(), folder, name);
-   int pos = folder.Index("/");
-   if (pos>0) folder.Resize(pos);
+// SL 2.12.2011 Disable this code while it was used to remove parent class names from event name
+// now parent class names could remain while in case of composite event it may be important information
+//   int pos = folder.Index("/");
+//   if (pos>0) folder.Resize(pos);
    return QString(folder.Data());
 }
 

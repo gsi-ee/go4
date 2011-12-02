@@ -29,6 +29,7 @@ Changes in Go4 v4.5.x (Winter 2011/12)
 4. In GetParameter method one could optionally specify class name, which will be verified
 5. Adjust savecond.C and saveparam.C macros
 6. Add possibility to change default position of stat box (only for qt4 gui)
+7. Add support of composite events in dynamic list editor (qt3/qt4)
 
 Changes in Go4 v4.5.1 (November 2011)
 1. Add force32=true flag to the Makefile, done to force 32 bit compilation and

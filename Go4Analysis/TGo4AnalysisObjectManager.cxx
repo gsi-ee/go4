@@ -1078,10 +1078,40 @@ Bool_t TGo4AnalysisObjectManager::RemoveEventStructure(TGo4EventElement * ev)
    }
    return rev;
 }
+
 TGo4EventElement * TGo4AnalysisObjectManager::GetEventStructure(const char * name)
 {
    TRACE((11,"TGo4AnalysisObjectManager::GetEvenStructure(char *)",__LINE__, __FILE__));
-   return dynamic_cast<TGo4EventElement*> (FindObjectInFolder(fxEventDir, name));
+
+   if ((name==0) || (strlen(name)==0)) return 0;
+
+   TString path(name);
+   TGo4EventElement* curr(0);
+
+   while (path.Length()>0) {
+      Int_t pos = path.Index("/");
+      if (pos==0) { path.Remove(0, 1); continue; }
+
+      TString sub = path;
+      if (pos>0) { sub.Resize(pos); path.Remove(0, pos+1); }
+            else { path.Clear(); }
+
+      if (curr==0)
+         curr = dynamic_cast<TGo4EventElement*> (FindObjectInFolder(fxEventDir, sub.Data()));
+      else {
+         TGo4EventElement* chld = curr->GetChild(sub.Data());
+         // this is artefact of folder structures in go4 browser
+         // event can have subfolder which corresponds to the subevent
+         // but it also could have subfolder which corresponds to parent class
+         // in second case just ignore all other artificial subfolders
+         if ((chld==0) && curr->InheritsFrom(sub.Data())) return curr;
+         curr = chld;
+      }
+
+      if (curr==0) return 0;
+   }
+
+   return curr;
 }
 
 Bool_t TGo4AnalysisObjectManager::AddDynamicEntry(TGo4DynamicEntry* entry)

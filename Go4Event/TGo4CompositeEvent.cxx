@@ -49,6 +49,16 @@ TGo4CompositeEvent::~TGo4CompositeEvent()
    }
 }
 
+TGo4EventElement* TGo4CompositeEvent::GetChild(const char* name)
+{
+   TGo4EventElement* res = TGo4EventElement::GetChild(name);
+
+   if ((res==0) && (fEventElements!=0))
+      res = dynamic_cast<TGo4EventElement*> (fEventElements->FindObject(name));
+
+   return res;
+}
+
 
 void TGo4CompositeEvent::makeBranch(TBranch *parent)
 {
