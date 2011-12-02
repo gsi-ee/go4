@@ -47,10 +47,10 @@ class TXXXUnpackProc : public TGo4EventProcessor {
       TGo4PolyCond  *fPolyCon1;
       TGo4CondArray *fConArr1;
       TGo4CondArray *fConArr2;
-      TXXXParameter *fParam1;
+      TXXXParameter *fParam;
       TGo4Picture   *fPicture1;
       TGo4Picture   *fcondSet;
-      TLatex* fLaText;
+      TLatex        *fLaText;
 
 
    ClassDef(TXXXUnpackProc,1)

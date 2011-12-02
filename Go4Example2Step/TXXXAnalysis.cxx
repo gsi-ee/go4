@@ -26,6 +26,7 @@ extern "C" {
    #include "f_ut_utime.h"
 }
 
+#include "TGo4Log.h"
 #include "TGo4Fitter.h"
 #include "TGo4FitterEnvelope.h"
 #include "TGo4AnalysisStep.h"
@@ -59,11 +60,11 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    fLastEvent(0)
 {
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
-      cout << "****  Go4 version mismatch" << endl;
+      TGo4Log::Error("Go4 version mismatch");
       exit(-1);
    }
 
-   cout << "**** TXXXAnalysis: Create " << argv[0] << endl;
+   TGo4Log::Info("TXXXAnalysis: Create %s", argv[0]);
 
    TString kind, input, out1, out2;
 
@@ -92,14 +93,8 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    step2->SetStoreEnabled(kFALSE);
    step2->SetProcessEnabled(kTRUE);
 
-
-   //////////////// Parameter //////////////////////////
-   // At this point, auto-save file has not yet been read!
-   // Therefore parameter values set here will be overwritten
-   // if an auto-save file is there.
-   fPar = (TXXXParameter *)MakeParameter("XXXParameter","TXXXParameter");
    // This condition is used in both steps.
-   // Therfore we create it here
+   // Therefore we create it here
    fWinCon1 = MakeWinCond("wincon1", 50, 2000);
 
 
@@ -107,16 +102,16 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
 //***********************************************************
 TXXXAnalysis::~TXXXAnalysis()
 {
-  cout << "**** TXXXAnalysis: Delete" << endl;
+   TGo4Log::Info("TXXXAnalysis: Delete");
 }
 //***********************************************************
 
 //-----------------------------------------------------------
 Int_t TXXXAnalysis::UserPreLoop()
 {
-  cout << "**** TXXXAnalysis: PreLoop" << endl;
-  Print(); // printout the step settings
-  cout << "**************************************" << endl;
+   TGo4Log::Info("TXXXAnalysis: PreLoop");
+   Print(); // printout the step settings
+   cout << "**************************************" << endl;
    // we update the pointers to the current event structures here:
    fMbsEvent = dynamic_cast<TGo4MbsEvent*>    (GetInputEvent("Unpack"));   // of step "Unpack"
    fRawEvent = dynamic_cast<TXXXUnpackEvent*> (GetOutputEvent("Unpack"));
@@ -133,18 +128,17 @@ Int_t TXXXAnalysis::UserPreLoop()
 //-----------------------------------------------------------
 Int_t TXXXAnalysis::UserPostLoop()
 {
-  cout << "**** TXXXAnalysis: PostLoop" << endl;
-  cout << "Last event: " << fLastEvent << " Total events: " << fEvents << endl;
-  if(fMbsEvent)
-    {
+   TGo4Log::Info("TXXXAnalysis: PostLoop");
+   TGo4Log::Info("Last event: %d, total events: %d", fLastEvent, fEvents);
+   if(fMbsEvent) {
       // we can check some properties of last event here:
       //fMbsEvent->PrintEvent(); // header and data content
 
       // fileheader structure:
-      s_filhe* fileheader=fMbsEvent->GetMbsSourceHeader();
+      s_filhe* fileheader = fMbsEvent->GetMbsSourceHeader();
       if(fileheader) {
            cout <<"\nInput file was: "<<fileheader->filhe_file << endl;
-           cout <<"Tapelabel:\t" << fileheader->filhe_label<<endl;
+           cout <<"Tapelabel:\t" << fileheader->filhe_label << endl;
            cout <<"UserName:\t" << fileheader->filhe_user<<endl;
            cout <<"RunID:\t" << fileheader->filhe_run<<endl;
            cout <<"\tExplanation: "<<fileheader->filhe_exp <<endl;
@@ -155,7 +149,7 @@ Int_t TXXXAnalysis::UserPostLoop()
          }
 
       // mbs buffer header structure:
-      s_bufhe* bufheader=fMbsEvent->GetMbsBufferHeader();
+      s_bufhe* bufheader = fMbsEvent->GetMbsBufferHeader();
       if(bufheader) {
          char sbuf[1000];
          f_ut_utime(bufheader->l_time[0], bufheader->l_time[1], sbuf);
@@ -163,8 +157,6 @@ Int_t TXXXAnalysis::UserPostLoop()
          cout <<"\tNumber: " << bufheader->l_buf << endl;
          cout <<"\tTime: " << sbuf << endl;
        }
-
-
     }
 
    fMbsEvent = 0; // reset to avoid invalid pointer if analysis is changed in between

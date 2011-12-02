@@ -98,18 +98,16 @@ Bool_t save1param(TObject* obj, const char* prefix)
   ofstream xout(funcname+".C");
 
   xout << Form("// written by macro saveparam.C at %s",TDatime().AsString()) << endl;
-  xout << Form("#include \"Riostream.h\"") << endl;
-  xout << Form("Bool_t %s()", funcname.Data()) << endl;
+  xout << Form("void %s()", funcname.Data()) << endl;
   xout << Form("{") << endl;
   xout << Form("#ifndef __GO4ANAMACRO__") << endl;
   xout << Form("   cout << \"Macro %s can execute only in analysis\" << endl;", funcname.Data()) << endl;
-  xout << Form("   return kFALSE;") << endl;
+  xout << Form("   return;") << endl;
   xout << Form("#endif") << endl;
 
   param->SavePrimitive(xout, "savemacro");
 
   xout << endl;
-  xout << "   return kTRUE;" << endl;
   xout << "}" << endl;
   xout.close();
   return kTRUE;
@@ -117,11 +115,11 @@ Bool_t save1param(TObject* obj, const char* prefix)
 
 #ifdef __NOGO4MACRO__
 // Get objects from ROOT file
-void saveparam(const char* file, const char* wildcard = "*", const char* prefix = "save")
+void saveparam(const char* file, const char* wildcard = "*", const char* prefix = "set")
 {
   TFile *f = TFile::Open(file,"r");
 #else
-void saveparam(const char* wildcard = "*", const char* prefix = "save")
+void saveparam(const char* wildcard = "*", const char* prefix = "set")
 {
   TFile *f = 0;
   const char* file = 0;

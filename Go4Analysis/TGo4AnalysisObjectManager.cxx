@@ -813,12 +813,16 @@ Bool_t TGo4AnalysisObjectManager::SetAnalysisCondition(const char * name, TGo4Co
    return rev;
 }
 
-TGo4Condition * TGo4AnalysisObjectManager::GetAnalysisCondition(const char * name)
+TGo4Condition * TGo4AnalysisObjectManager::GetAnalysisCondition(const char * name, const char* cond_cl)
 {
    TRACE((11,"TGo4AnalysisObjectManager::GetAnalysisCondition(char*)",__LINE__, __FILE__));
-   TGo4Condition* cond = dynamic_cast<TGo4Condition *> (FindObjectInFolder(fxConditionDir, name));
-   if(cond==0) cond=dynamic_cast<TGo4Condition *> (FindObjectInFolder(fxUserDir, name));
+   TGo4Condition* cond = dynamic_cast<TGo4Condition*> (FindObjectInFolder(fxConditionDir, name));
    // some users have their conditions rather in user folder...
+   if(cond==0) cond = dynamic_cast<TGo4Condition*> (FindObjectInFolder(fxUserDir, name));
+
+   if ((cond!=0) && (cond_cl!=0))
+      if(!cond->InheritsFrom(cond_cl)) cond = 0;
+
    return cond;
 }
 

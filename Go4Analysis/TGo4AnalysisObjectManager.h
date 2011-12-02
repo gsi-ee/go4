@@ -274,9 +274,9 @@ class TGo4AnalysisObjectManager : public TNamed {
 
       /**
        * Retrieves an analysis condition  from list by name. Returns 0 if no
-       * such condtion.
+       * such condition.
        */
-      TGo4Condition * GetAnalysisCondition(const char * name);
+      TGo4Condition * GetAnalysisCondition(const char * name, const char* cond_cl = 0);
 
       /**
        * Removes analysis condition from list by name. Returns 0 if no

@@ -302,9 +302,10 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * that were saved to the autosave file. */
     Bool_t SetAnalysisCondition(const char* name, TGo4Condition* con, Bool_t counter=kTRUE);
 
-    /** Retrieves an analysis condition  from list by name. Returns 0 if no
-      * such condition. */
-    TGo4Condition * GetAnalysisCondition(const char* name);
+    /** Retrieves an analysis condition  from list by name.
+     * Optionally, condition could be checked if it inherits from specified class.
+     * Returns 0 if no such condition found. */
+    TGo4Condition * GetAnalysisCondition(const char* name, const char* cond_cl = 0);
 
     /** Removes analysis condition from list by name. Returns 0 if no
       * such condition. Condition object is deleted on heap. */

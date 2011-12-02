@@ -35,7 +35,6 @@ class TXXXAnalysis : public TGo4Analysis  {
       TGo4MbsEvent       *fMbsEvent;
       TXXXUnpackEvent    *fRawEvent;
       TXXXAnlEvent       *fCalEvent;
-      TXXXParameter      *fPar;
       TGo4WinCond        *fWinCon1;
       TH1D               *fSize;
       Int_t               fEvents;

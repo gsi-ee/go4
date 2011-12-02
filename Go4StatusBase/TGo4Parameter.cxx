@@ -314,17 +314,13 @@ void TGo4Parameter::SavePrimitive(ostream& out, Option_t* opt)
    Bool_t savemacro = (opt!=0) && (strstr(opt,"savemacro")!=0);
 
    if (savemacro) {
-      out << Form("   %s* %s = (%s*) go4->GetObject(\"%s\",\"Go4\");",
-                 ClassName(), varname.Data(), ClassName(), GetName()) << endl << endl;
+      out << Form("   %s* %s = (%s*) go4->GetParameter(\"%s\",\"%s\");",
+                 ClassName(), varname.Data(), ClassName(), GetName(), ClassName()) << endl << endl;
       out << Form("   if (%s==0) {", varname.Data()) << endl;
-      out << Form("      cout << \"Could not find parameter %s\" << endl;", GetName()) << endl;
-      out << Form("      return kFALSE;") << endl;
+      out << Form("      TGo4Log::Error(\"Could not find parameter %s of class %s\");", GetName(), ClassName()) << endl;
+      out << Form("      return;") << endl;
       out << Form("   }") << endl << endl;
-      out << Form("   if (strcmp(%s->ClassName(), \"%s\") != 0) {", varname.Data(), ClassName()) << endl;
-      out << Form("      cout << \"Parameter %s has wrong class \" << %s->ClassName() << endl;", GetName(), varname.Data()) << endl;
-      out << Form("      return kFALSE;") << endl;
-      out << Form("   }") << endl << endl;
-      out << Form("   cout << \"Set parameter %s as saved at %s\" << endl;", GetName(), TDatime().AsString()) << endl << endl;
+      out << Form("   TGo4Log::Info(\"Set parameter %s as saved at %s\");", GetName(), TDatime().AsString()) << endl << endl;
    } else {
       out << Form("   %s* %s = new %s;", ClassName(), varname.Data(), ClassName()) << endl;
       out << Form("   %s->SetName(\"%s\");", varname.Data(), GetName()) << endl;

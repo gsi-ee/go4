@@ -675,17 +675,13 @@ const char* TGo4Condition::MakeScript(ostream& out, const char* varname, Option_
    if (subname != 0) { varname = subname + 5; saveprefix = kFALSE; }
 
    if (saveprefix) {
-      out << Form("   %s* %s = (%s*) go4->GetObject(\"%s\",\"Go4\");",
-                   ClassName(), varname, ClassName(), GetName()) << endl;
+      out << Form("   %s* %s = (%s*) go4->GetAnalysisCondition(\"%s\",\"%s\");",
+                   ClassName(), varname, ClassName(), GetName(), ClassName()) << endl;
       out << Form("   if (%s==0) {", varname) << endl;
-      out << Form("      cout << \"Could not find %s\" << endl;", GetName()) << endl;
-      out << Form("      return kFALSE;") << endl;
+      out << Form("      TGo4Log::Error(\"Could not find condition %s of class %s\");", GetName(), ClassName()) << endl;
+      out << Form("      return;") << endl;
       out << Form("   }") << endl << endl;
-      out << Form("   if (strcmp(%s->ClassName(), \"%s\")) {", varname, ClassName()) << endl;
-      out << Form("      cout << \"Condition %s has wrong class \" << %s->ClassName() << endl;", GetName(), varname) << endl;
-      out << Form("      return kFALSE;") << endl;
-      out << Form("   }") << endl << endl;
-      out << Form("   cout << \"Set condition %s as saved at %s\" << endl;",
+      out << Form("   TGo4Log::Info(\"Set condition %s as saved at %s\");",
                          GetName(),TDatime().AsString()) << endl << endl;
    } else
    if (!savemacro && ((opt==0) || (strstr(opt, "nocreate")==0))) {

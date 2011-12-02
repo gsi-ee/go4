@@ -1267,9 +1267,9 @@ Bool_t TGo4Analysis::AddAnalysisCondition(TGo4Condition * con, const char* subfo
    return fxObjectManager->AddAnalysisCondition(con,subfolder);
 }
 
-TGo4Condition * TGo4Analysis::GetAnalysisCondition(const char * name)
+TGo4Condition * TGo4Analysis::GetAnalysisCondition(const char * name, const char* cond_cl)
 {
-   return fxObjectManager->GetAnalysisCondition(name);
+   return fxObjectManager->GetAnalysisCondition(name, cond_cl);
 }
 
 TGo4AnalysisStep* TGo4Analysis::GetAnalysisStep(const char* name)

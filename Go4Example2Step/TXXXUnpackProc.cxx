@@ -14,7 +14,6 @@
 #include "TXXXUnpackProc.h"
 #include "TGo4UserException.h"
 
-#include "Riostream.h"
 #include <time.h>
 #include "TROOT.h"
 
@@ -27,6 +26,7 @@
 #include "s_filhe_swap.h"
 #include "s_bufhe_swap.h"
 
+#include "TGo4Log.h"
 #include "TGo4MbsEvent.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
@@ -38,23 +38,67 @@
 
 //-----------------------------------------------------------
 TXXXUnpackProc::TXXXUnpackProc() :
-   TGo4EventProcessor()
+   TGo4EventProcessor(),
+   fCr1Ch1x2(0),
+   fHis1(0),
+   fHis1gate(0),
+   fHis2(0),
+   fHis2gate(0),
+   fconHis1(0),
+   fconHis2(0),
+   fWinCon1(0),
+   fWinCon2(0),
+   fPolyCon1(0),
+   fConArr1(0),
+   fConArr2(0),
+   fParam(0),
+   fPicture1(0),
+   fcondSet(0),
+   fLaText(0)
 {
+   for (int n=0;n<XXX_NUM_CHAN;n++) {
+      fCr1Ch[n] = 0;
+      fCr2Ch[n] = 0;
+   }
 }
 //-----------------------------------------------------------
 TXXXUnpackProc::TXXXUnpackProc(const char* name) :
-   TGo4EventProcessor(name)
+   TGo4EventProcessor(name),
+   fCr1Ch1x2(0),
+   fHis1(0),
+   fHis1gate(0),
+   fHis2(0),
+   fHis2gate(0),
+   fconHis1(0),
+   fconHis2(0),
+   fWinCon1(0),
+   fWinCon2(0),
+   fPolyCon1(0),
+   fConArr1(0),
+   fConArr2(0),
+   fParam(0),
+   fPicture1(0),
+   fcondSet(0),
+   fLaText(0)
 {
-   cout << "**** TXXXUnpackProc: Create" << endl;
+   for (int n=0;n<XXX_NUM_CHAN;n++) {
+      fCr1Ch[n] = 0;
+      fCr2Ch[n] = 0;
+   }
+
+   TGo4Log::Info("TXXXUnpackProc: Create");
 
    //// init user analysis objects:
-   fParam1   = (TXXXParameter *)   GetParameter("XXXParameter");
-   // uncomment this if you want to use external macro to set parameter values:
-   //gROOT->ProcessLine(".x setparam.C(1)"); // print
+   // create and load parameter here
+   // set_Par.C macro executed after parameter load from auto-save file
+   fParam = (TXXXParameter*) MakeParameter("XXXParameter","TXXXParameter" ,"set_Par.C");
 
-   if(fParam1->fbHisto){
+   // this one is created in TXXXAnalysis, because it is used in both steps
+   fWinCon1 = (TGo4WinCond *) GetAnalysisCondition("wincon1", "TGo4WinCond");
 
-      cout << "**** TXXXUnpackProc: Produce histograms" << endl;
+   if(fParam->fbHisto){
+
+      TGo4Log::Info("TXXXUnpackProc: Produce histograms");
 
       for(int i=0;i<XXX_NUM_CHAN;i++) {
          fCr1Ch[i] = MakeTH1('I', Form("Crate1/Cr1Ch%02d",i+1), Form("Crate 1 channel %2d",i+1), 5000, 1., 5001.);
@@ -67,17 +111,15 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       fHis1gate = MakeTH1('I', "His1g","Gated histogram", 5000, 1., 5001.);
       fHis2gate = MakeTH1('I', "His2g","Gated histogram", 5000, 1., 5001.);
 
-      cout << "**** TXXXUnpackProc: Produce conditions" << endl;
-      // this one is created in TXXXAnalysis, because it is used in both steps
-      fWinCon1 = (TGo4WinCond *) GetAnalysisCondition("wincon1");
-      fWinCon1->PrintCondition(true);
+      TGo4Log::Info("TXXXUnpackProc: Produce conditions");
+      // fWinCon1->PrintCondition(true);
+
       fWinCon2 = MakeWinCond("wincon2", 50, 70, 90, 120);
       fconHis1 = MakeWinCond("cHis1", 100, 2000, "His1");
       fconHis2 = MakeWinCond("cHis2", 100, 2000, "His2");
 
       Double_t cutpnts[3][2] = { {400, 800}, {700, 900}, {600, 1100} };
       fPolyCon1 = MakePolyCond("polycon", 3, cutpnts);
-
 
       fConArr1 = (TGo4CondArray*)GetAnalysisCondition("winconar");
       if (fConArr1==0) {
@@ -96,7 +138,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       fConArr2 = (TGo4CondArray*)GetAnalysisCondition("polyconar");
       if(fConArr2==0) {
          // This is example how to create condition array
-         cout << "**** TXXXUnpackProc: Create condition" << endl;
+         TGo4Log::Info("TXXXUnpackProc: Create condition polyconar");
          Double_t xvalues[4] = { 1000, 2000, 1500, 1000 };
          Double_t yvalues[4] = { 1000, 1000, 3000, 1000 };
          TCutG* mycut = new TCutG("cut2", 4, xvalues, yvalues);
@@ -106,7 +148,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
          delete mycut; // mycat has been copied into the conditions
          AddAnalysisCondition(fConArr2);
       } else {
-         cout << "**** TXXXUnpackProc: Restore condition from autosave" << endl;
+         TGo4Log::Info("TXXXUnpackProc: Restore condition polyconar from autosave");
          fConArr2->ResetCounts();
       }
 
@@ -154,7 +196,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       }
 
 
-      fLaText= new TLatex(0.5,0.5,"-- demo text --");
+      fLaText = new TLatex(0.5,0.5,"-- demo text --");
       fLaText->SetName("LatexObjectDemo");
       fLaText->SetNDC();
       AddObject(fLaText); // will replace old one of same name
@@ -223,8 +265,8 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
 //-----------------------------------------------------------
 TXXXUnpackProc::~TXXXUnpackProc()
 {
-   cout << "**** TXXXUnpackProc: Delete" << endl;
-   if(fParam1->fbHisto){
+   TGo4Log::Info("TXXXUnpackProc: Delete");
+   if(fParam->fbHisto){
       fWinCon1->PrintCondition(true);
       fPolyCon1->PrintCondition(true);
    }
@@ -315,7 +357,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
       {
          Int_t* pdata = psubevt->GetDataField();
          Int_t lwords = psubevt->GetIntLen();
-         if(lwords > XXX_NUM_CHAN) lwords=XXX_NUM_CHAN; // take only first 8 lwords
+         if(lwords > XXX_NUM_CHAN) lwords = XXX_NUM_CHAN; // take only first 8 lwords
          Int_t lastvalue = 0;
          for(Int_t i = 0; i<lwords; ++i)
          {
@@ -324,21 +366,23 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
             if(*pdata != 0)
             {
                out_evt->fiCrate1[i] = *pdata; // fill output event
-               if(fParam1->fbHisto) { // fill histograms
-                  fCr1Ch[i]->Fill((Float_t)(*pdata));
+
+               if (fCr1Ch[i]) fCr1Ch[i]->Fill(*pdata);
+
+               if(fParam->fbHisto) { // fill histograms
                   if(i == 0) // fill first channel
                   {
-                     if(fconHis1->Test(*pdata))fHis1gate->Fill((Float_t)(*pdata));
-                     fHis1->Fill((Float_t)(*pdata));
+                     if(fconHis1->Test(*pdata)) fHis1gate->Fill(*pdata);
+                     fHis1->Fill(*pdata);
                   }
                   if(i == 1)
                   {
-                     if(fconHis2->Test(*pdata))fHis2gate->Fill((Float_t)(*pdata));
-                     fHis2->Fill((Float_t)(*pdata));
+                     if(fconHis2->Test(*pdata)) fHis2gate->Fill(*pdata);
+                     fHis2->Fill(*pdata);
                      // fill Cr1Ch1x2 for three polygons:
-                     if(fPolyCon1->Test(*pdata,lastvalue))       fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
-                     if(((*fConArr2)[0])->Test(*pdata,lastvalue))fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
-                     if(((*fConArr2)[1])->Test(*pdata,lastvalue))fCr1Ch1x2->Fill((Float_t)(*pdata),(Float_t)lastvalue);
+                     if(fPolyCon1->Test(*pdata,lastvalue))        fCr1Ch1x2->Fill(*pdata, lastvalue);
+                     if(((*fConArr2)[0])->Test(*pdata,lastvalue)) fCr1Ch1x2->Fill(*pdata, lastvalue);
+                     if(((*fConArr2)[1])->Test(*pdata,lastvalue)) fCr1Ch1x2->Fill(*pdata, lastvalue);
                   }
                }
             }
@@ -349,12 +393,12 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
       if( psubevt->GetSubcrate() == 2)
       {
          Int_t* pdata = psubevt->GetDataField();
-         Int_t lwords = (psubevt->GetDlen() -2) * sizeof(Short_t)/sizeof(Int_t);
+         Int_t lwords = psubevt->GetIntLen();
          if(lwords > XXX_NUM_CHAN) lwords=XXX_NUM_CHAN;
          for(Int_t i = 0; i<lwords; ++i) {
             if(*pdata != 0) {
                out_evt->fiCrate2[i] = *pdata;
-               if(fParam1->fbHisto) fCr2Ch[i]->Fill((Float_t)(*pdata));
+               if(fCr2Ch[i]) fCr2Ch[i]->Fill((Float_t)(*pdata));
             }
             pdata++;
          } // for SEW LW
@@ -362,10 +406,8 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
    }  // while
 
 
-   TString latext;
-   latext.Form("#scale[3.0]{#color[2]{Event number:%d}}",inp_evt->GetCount());
-   //latext.Form("Event number:%d",inp_evt->GetCount());
-   fLaText->SetText(0.5,0.5,latext.Data());
+   if (fLaText)
+      fLaText->SetText(0.5,0.5,Form("#scale[3.0]{#color[2]{Event number:%d}}",inp_evt->GetCount()));
 
    out_evt->SetValid(isValid); // to store or not to store
    // default calling Fill method will set validity of out_evt to return value!

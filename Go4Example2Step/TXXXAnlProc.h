@@ -33,7 +33,7 @@ class TXXXAnlProc : public TGo4EventProcessor {
       TH1              *fSum2;
       TH1              *fSum3;
 
-      TXXXParameter    *fParam1;
+      TXXXParameter    *fParam;
       TGo4WinCond      *fWinCon;
 
 

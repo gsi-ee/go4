@@ -31,28 +31,28 @@
 TXXXAnlProc::TXXXAnlProc() :
    TGo4EventProcessor(),
    fSum1(0), fSum2(0), fSum3(0),
-   fParam1(0), fWinCon(0)
+   fParam(0), fWinCon(0)
 {
 }
+
 //-----------------------------------------------------------
 TXXXAnlProc::TXXXAnlProc(const char* name) :
-   TGo4EventProcessor(name)
+   TGo4EventProcessor(name),
+   fSum1(0), fSum2(0), fSum3(0),
+   fParam(0), fWinCon(0)
 {
-   cout << "**** TXXXAnlProc: Create" << endl;
+   TGo4Log::Info("TXXXAnlProc: Create");
    //// init user analysis objects:
-   fParam1 = (TXXXParameter*)  GetParameter("XXXParameter");
-////////////////////////////////////////////////////
-// uncomment following lines if you want to use external macro to set parameter values:
-//   // if unpack was enabled, parameters have been printed already
-//   if(TGo4Analysis::Instance()->GetAnalysisStep("Unpack")->IsProcessEnabled())
-//	    gROOT->ProcessLine(".x setparam.C(0)");
-//   else gROOT->ProcessLine(".x setparam.C(1)");
-///////////////////////////////////////////////////
 
-   if(fParam1->fbHisto){
-      // this one is created in TXXXAnalysis, because it is used in both steps
-      fWinCon = (TGo4WinCond *) GetAnalysisCondition("wincon1");
-      if (fWinCon) fWinCon->PrintCondition(true);
+   // here already exisitng parameter will be returned
+   // one not need to specify macro here - it is already executed in first step
+   fParam = (TXXXParameter*) MakeParameter("XXXParameter", "TXXXParameter");
+
+   // this one is created in TXXXAnalysis, because it is used in both steps
+   fWinCon = (TGo4WinCond *) GetAnalysisCondition("wincon1", "TGo4WinCond");
+   if (fWinCon) fWinCon->PrintCondition(true);
+
+   if(fParam->fbHisto) {
       fSum1     = MakeTH1('I', "Sum1", "Sum over 8 channels", 5000, 1., 5001.);
       fSum2     = MakeTH1('I', "Sum2", "Sum over 8 channels shift 1", 5000, 1., 5001.);
       fSum3     = MakeTH1('I', "Sum3", "Sum over 8 channels shift 2", 5000, 1., 5001.);
@@ -61,8 +61,8 @@ TXXXAnlProc::TXXXAnlProc(const char* name) :
 //-----------------------------------------------------------
 TXXXAnlProc::~TXXXAnlProc()
 {
-   cout << "**** TXXXAnlProc: Delete" << endl;
-   if(fParam1->fbHisto){
+   TGo4Log::Info("TXXXAnlProc: Delete");
+   if(fParam->fbHisto){
       if (fWinCon) fWinCon->PrintCondition(true);
    }
 }
@@ -82,20 +82,18 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
    isValid=kTRUE;
 
    Int_t cnt(0);
-   for(Int_t ii=0;ii<XXX_NUM_CHAN/2;ii++) {
-      out_evt->frData[cnt] = (Float_t)inp_evt->fiCrate1[ii];
-      cnt++;
-   }
-   for(Int_t ii=0; ii<XXX_NUM_CHAN/2; ii++) {
-      out_evt->frData[cnt] = (Float_t)inp_evt->fiCrate2[ii];
-      cnt++;
-   }
-   if(fParam1->fbHisto) { // histogramming
+   for(Int_t ii=0;ii<XXX_NUM_CHAN/2;ii++)
+      out_evt->frData[cnt++] = inp_evt->fiCrate1[ii];
+
+   for(Int_t ii=0; ii<XXX_NUM_CHAN/2; ii++)
+      out_evt->frData[cnt++] = inp_evt->fiCrate2[ii];
+
+   if(fParam->fbHisto) { // histogramming
       for(Int_t ii=0;ii<XXX_NUM_CHAN;ii++)
          if(out_evt->frData[ii]) {
             if(fWinCon && fWinCon->Test(out_evt->frData[ii])) fSum1->Fill(out_evt->frData[ii]);
-            if (fParam1) fSum2->Fill(out_evt->frData[ii] + fParam1->frP1);
-            if (fParam1) fSum3->Fill(out_evt->frData[ii] + fParam1->frP2);
+            fSum2->Fill(out_evt->frData[ii] + fParam->frP1);
+            fSum3->Fill(out_evt->frData[ii] + fParam->frP2);
          }
    }
 

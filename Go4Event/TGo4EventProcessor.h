@@ -156,7 +156,7 @@ public:
 	TGo4Parameter* GetParameter(const char* name, const char* par_class = 0);
 
 	/** Get condition from go4 framework. Shortcut forwarded to analysis instance */
-	TGo4Condition* GetAnalysisCondition(const char* name);
+	TGo4Condition* GetAnalysisCondition(const char* name, const char* cond_cl = 0);
 
 	/** Get picture from go4 framework. Shortcut forwarded to analysis instance */
 	TGo4Picture* GetPicture(const char* name);
