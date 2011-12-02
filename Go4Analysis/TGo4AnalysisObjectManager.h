@@ -384,11 +384,10 @@ class TGo4AnalysisObjectManager : public TNamed {
        */
       Bool_t SetParameterStatus(const char* name, TGo4ParameterStatus* par, TFolder* parent=0);
 
-      /**
-       * Retrieves a parameter object by name from the object folder. Returns 0 if no
-       * such parameter.
-       */
-      TGo4Parameter * GetParameter(const char * name);
+      /** Retrieves a parameter object by name from the object folder.
+        * Optionally expected class of parameter object could be specified.
+        * Returns 0 if no such parameter found (or class not match). */
+      TGo4Parameter * GetParameter(const char* name, const char* parameter_class = 0);
 
       /**
        * Removes parameter by name. Returns 0 if no

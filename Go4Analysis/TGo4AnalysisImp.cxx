@@ -1302,9 +1302,9 @@ TNamed * TGo4Analysis::GetObject(const char * name, const char* folder)
    return fxObjectManager->GetObject(name,folder);
 }
 
-TGo4Parameter * TGo4Analysis::GetParameter(const char * name)
+TGo4Parameter * TGo4Analysis::GetParameter(const char * name, const char* par_class)
 {
-   return fxObjectManager->GetParameter(name);
+   return fxObjectManager->GetParameter(name, par_class);
 }
 
 TGo4Picture * TGo4Analysis::GetPicture(const char * name)
@@ -1924,35 +1924,50 @@ TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
    TGo4Parameter* param = GetParameter(fullname);
 
    if (param!=0) {
-      if (param->InheritsFrom(classname)) return param;
-      cout << "There is parameter " << fullname << " with type " << param->ClassName() << " other than specified "
-           << classname << ", rebuild" << endl;
-      RemoveParameter(fullname);
+      if (!param->InheritsFrom(classname)) {
+         cout << "There is parameter " << fullname << " with type " << param->ClassName() << " other than specified "
+              << classname << ", rebuild" << endl;
+         RemoveParameter(fullname);
+         param = 0;
+      }
    }
 
-   paramname = TString("\"") + paramname + TString("\"");
+   if (param==0) {
+      paramname = TString("\"") + paramname + TString("\"");
 
-   TString cmd;
-   if (newcmd!=0)
-      cmd = TString::Format(newcmd, paramname.Data());
-   else
-      cmd = TString::Format("new %s(%s);", classname, paramname.Data());
+      TString cmd;
+      if ((newcmd!=0) && (strstr(newcmd,"new ")==newcmd))
+         cmd = TString::Format(newcmd, paramname.Data());
+      else
+         cmd = TString::Format("new %s(%s);", classname, paramname.Data());
 
-   Long_t res = gROOT->ProcessLineFast(cmd.Data());
+      Long_t res = gROOT->ProcessLineFast(cmd.Data());
 
-   if (res==0) {
-      cout << "Cannot create parameter of class " << classname << endl;
-      return 0;
+      if (res==0) {
+         cout << "Cannot create parameter of class " << classname << endl;
+         return 0;
+      }
+
+      param = (TGo4Parameter*) res;
+
+      if (foldername.Length() > 0)
+         AddParameter(param, foldername.Data());
+      else
+         AddParameter(param);
+
+      fbObjMade = kTRUE;
    }
 
-   param = (TGo4Parameter*) res;
+   if ((newcmd!=0) && (strstr(newcmd,"set_")==newcmd)) {
+      // executing optional set macro
 
-   if (foldername.Length() > 0)
-      AddParameter(param, foldername.Data());
-   else
-      AddParameter(param);
-
-   fbObjMade = kTRUE;
+      if (!gSystem->AccessPathName(newcmd)) {
+         TGo4Log::Info("Executing setup script %s for parameter %s", newcmd, fullname);
+         gROOT->ProcessLine(Form(".x %s", newcmd));
+      } else {
+         TGo4Log::Error("Not found setup script %s for parameter %s", newcmd, fullname);
+      }
+   }
 
    return param;
 }

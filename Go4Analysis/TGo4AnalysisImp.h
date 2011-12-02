@@ -327,9 +327,10 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * that were saved to the autosave file. */
     Bool_t SetParameterStatus(const char* name, TGo4ParameterStatus* par);
 
-    /** Retrieves a parameter object by name from the object folder. Returns 0 if no
-      * such paramter. */
-    TGo4Parameter * GetParameter(const char* name);
+    /** Retrieves a parameter object by name from the object folder.
+      * Optionally expected class of parameter object could be specified.
+      * Returns 0 if no such parameter found (or class not match). */
+    TGo4Parameter * GetParameter(const char* name, const char* parameter_class = 0);
 
     /** Removes parameter by name. Returns 0 if no
       * such parameter. Parameter object is deleted on heap. */
@@ -729,20 +730,25 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
      * cond = MakePolyCond("Folder/CondName", 4, points);
      */
     TGo4PolyCond* MakePolyCond(const char* fullname,
-                                 Int_t npoints,
-                                 Double_t (*points) [2],
-                                 const char* HistoName = 0);
+                               Int_t npoints,
+                               Double_t (*points) [2],
+                               const char* HistoName = 0);
 
     /** Create parameter of specified class,
      * fullname specifies name of condition (optionally with subfolder name)
      * classname - name of required parameter class, it should be known to ROOT.
-     * newcmd - command to create parameter like "new UserParameter(%s, 1000, 2000)",
-     *          where %s is place for parameter name.  Should be specified, if parameter
-     *          constructor contains more parameters as only parameter name
+     * cmd - optional argument, can be used for two purposes:
+     *    1) as new command to create parameter like "new UserParameter(%s, 1000, 2000)",
+     *       where %s is place for parameter name.  Should be specified, if parameter
+     *       constructor contains more parameters as only parameter name. Such argument
+     *       should be always started with 'new ' command.
+     *    2) macro name to set parameter value. Macro executed immediately after parameter
+     *       creation (or loading from auto-save file) and thus overwrites parameters value.
+     *       Macro name should be always starting with "set_"
      */
     TGo4Parameter* MakeParameter(const char* fullname,
-                                    const char* classname,
-                                    const char* newcmd = 0);
+                                 const char* classname,
+                                 const char* cmd = 0);
 
     /** Method called from Ctrl-C handler */
     void ProcessCrtlCSignal();

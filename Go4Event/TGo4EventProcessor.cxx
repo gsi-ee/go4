@@ -64,98 +64,97 @@ Bool_t TGo4EventProcessor::CheckCalibration(const char* classname)
 
 Bool_t TGo4EventProcessor::AddObject(TNamed* any, const char* subfolder)
 {
-   return (TGo4Analysis::Instance()->AddObject(any,subfolder));
+   return TGo4Analysis::Instance()->AddObject(any,subfolder);
 }
 
 Bool_t TGo4EventProcessor::AddHistogram(TH1* his, const char* subfolder, Bool_t replace)
 {
-   return (TGo4Analysis::Instance()->AddHistogram(his,subfolder,replace));
+   return TGo4Analysis::Instance()->AddHistogram(his,subfolder,replace);
 }
 
 Bool_t TGo4EventProcessor::AddParameter(TGo4Parameter* par,const char* subfolder)
 {
-  return (TGo4Analysis::Instance()->AddParameter(par,subfolder));
+   return TGo4Analysis::Instance()->AddParameter(par,subfolder);
 }
 
 Bool_t TGo4EventProcessor::AddPicture(TGo4Picture* pic,const char* subfolder)
 {
-  return (TGo4Analysis::Instance()->AddPicture(pic,subfolder));
+   return TGo4Analysis::Instance()->AddPicture(pic,subfolder);
 }
 
 Bool_t TGo4EventProcessor::AddCanvas(TCanvas* can, const char* subfolder)
 {
-  return (TGo4Analysis::Instance()->AddCanvas(can,subfolder));
+   return TGo4Analysis::Instance()->AddCanvas(can,subfolder);
 }
 
 Bool_t  TGo4EventProcessor::AddAnalysisCondition(TGo4Condition* con,const char* subfolder)
 {
-  return (TGo4Analysis::Instance()->AddAnalysisCondition(con,subfolder));
+   return TGo4Analysis::Instance()->AddAnalysisCondition(con,subfolder);
 }
 
 Bool_t TGo4EventProcessor::RemoveHistogram(const char* name)
 {
-  return (TGo4Analysis::Instance()->RemoveHistogram(name));
+   return TGo4Analysis::Instance()->RemoveHistogram(name);
 }
 
 Bool_t TGo4EventProcessor::RemoveParameter(const char* name)
 {
-  return (TGo4Analysis::Instance()->RemoveParameter(name));
+   return TGo4Analysis::Instance()->RemoveParameter(name);
 }
 
 Bool_t TGo4EventProcessor::RemovePicture(const char* name)
 {
-  return (TGo4Analysis::Instance()->RemovePicture(name));
+   return TGo4Analysis::Instance()->RemovePicture(name);
 }
 
 Bool_t TGo4EventProcessor::RemoveCanvas(const char* name)
 {
-  return (TGo4Analysis::Instance()->RemoveCanvas(name));
+   return TGo4Analysis::Instance()->RemoveCanvas(name);
 }
 
 Bool_t TGo4EventProcessor::RemoveAnalysisCondition(const char* name)
 {
-  return (TGo4Analysis::Instance()->RemoveAnalysisCondition(name));
+   return TGo4Analysis::Instance()->RemoveAnalysisCondition(name);
 }
 
 TNamed* TGo4EventProcessor::GetObject(const char* name, const char* folder)
 {
-   return (TGo4Analysis::Instance()->GetObject(name,folder));
+   return TGo4Analysis::Instance()->GetObject(name,folder);
 }
-
 
 TH1* TGo4EventProcessor::GetHistogram(const char* name)
 {
-   return (TGo4Analysis::Instance()->GetHistogram(name));
+   return TGo4Analysis::Instance()->GetHistogram(name);
 }
 
-TGo4Parameter* TGo4EventProcessor::GetParameter(const char* name)
+TGo4Parameter* TGo4EventProcessor::GetParameter(const char* name, const char* par_class)
 {
-   return (TGo4Analysis::Instance()->GetParameter(name));
+   return TGo4Analysis::Instance()->GetParameter(name, par_class);
 }
 
 TGo4Picture* TGo4EventProcessor::GetPicture(const char* name)
 {
-   return (TGo4Analysis::Instance()->GetPicture(name));
+   return TGo4Analysis::Instance()->GetPicture(name);
 }
 
 TCanvas* TGo4EventProcessor::GetCanvas(const char* name)
 {
-   return (TGo4Analysis::Instance()->GetCanvas(name));
+   return TGo4Analysis::Instance()->GetCanvas(name);
 }
 
 TGo4Condition*  TGo4EventProcessor::GetAnalysisCondition(const char* name)
 {
-   return (TGo4Analysis::Instance()->GetAnalysisCondition(name));
+   return TGo4Analysis::Instance()->GetAnalysisCondition(name);
 }
 
 TGo4EventElement* TGo4EventProcessor::GetInputEvent(const char* stepname)
 {
-   return (TGo4Analysis::Instance()->GetInputEvent(stepname) );
+   return TGo4Analysis::Instance()->GetInputEvent(stepname);
 }
 
 TGo4EventElement* TGo4EventProcessor::GetOutputEvent(const char* stepname)
 {
-   return (TGo4Analysis::Instance()->GetOutputEvent(stepname) );
+   return TGo4Analysis::Instance()->GetOutputEvent(stepname);
 }
 
 void TGo4EventProcessor::Message(Int_t prio, const char* text,...)
@@ -172,7 +171,6 @@ void TGo4EventProcessor::SendObjectToGUI(TNamed* ob)
 {
    return (TGo4Analysis::Instance()->SendObjectToGUI(ob ) );
 }
-
 
 void TGo4EventProcessor::Clear(Option_t* opt)
 {
