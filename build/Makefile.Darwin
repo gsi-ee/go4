@@ -5,10 +5,6 @@ MACOSX_MINOR := $(shell sw_vers | sed -n 's/ProductVersion://p' | cut -d . -f 2)
 #MACOSX_MINOR := 4
 FINK_DIR     := $(shell which fink 2>&1 | sed -ne "s/\/bin\/fink//p")
 
-
-
-
-
 #### File suffixes: ####
 ObjSuf        = o
 ExeSuf        =
@@ -81,28 +77,11 @@ endif
 endif
 endif
 
-
 ifeq ($(subst $(MACOSX_MINOR),,1234),1234)
 DllSuf        = so
-
 else
 DllSuf        = dylib
 endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 LD            = g++
 ifeq ($(GO4WITHRPATH),true)
@@ -112,3 +91,7 @@ LDFLAGS       += $(LDFLAGS_RPATH) -O
 
 #### Other options: ####
 OutPutOpt     = -o 
+
+GO4_WITH_RFIO = false
+LINKX11 = true
+USERT  = false

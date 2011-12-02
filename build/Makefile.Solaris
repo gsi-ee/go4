@@ -33,3 +33,6 @@ SOFLAGS       = -G
 
 #### Other options: ####
 OutPutOpt     = -o 
+
+GO4_WITH_RFIO = false
+USERT  = true

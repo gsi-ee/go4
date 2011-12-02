@@ -41,3 +41,10 @@ SOFLAGS       = -shared -Wl,-soname,
 
 #### Other options: ####
 OutPutOpt     = -o 
+
+GO4_WITH_RFIO = true
+
+# required for new Linux to get X11 errors
+LINKX11 = true
+USERT  = true
+
