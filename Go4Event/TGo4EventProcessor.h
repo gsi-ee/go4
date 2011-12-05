@@ -114,8 +114,7 @@ class TGo4EventProcessor: public TGo4EventSource {
       Bool_t AddObject(TNamed * anything, const char* subfolder = 0);
 
       /** Register histogram to go4 framework. Shortcut forwarded to analysis instance */
-      Bool_t AddHistogram(TH1* his, const char* subfolder = 0, Bool_t replace =
-            kTRUE);
+      Bool_t AddHistogram(TH1* his, const char* subfolder = 0, Bool_t replace = kTRUE);
 
       /** Register parameter to go4 framework. Shortcut forwarded to analysis instance */
       Bool_t AddParameter(TGo4Parameter* par, const char* subfolder = 0);
@@ -284,7 +283,8 @@ class TGo4EventProcessor: public TGo4EventSource {
 
       /* if true, processor wants to continue with current content of input event
        * event is not refilled from event source, and all previous analysis steps are suspended*/
-      Bool_t IsKeepInputEvent(){
+      Bool_t IsKeepInputEvent()
+      {
          return fbKeepInputEvent;
       }
 
@@ -292,12 +292,13 @@ class TGo4EventProcessor: public TGo4EventSource {
        * In this case, all previous analysis steps are skipped until this is done*/
       void SetKeepInputEvent(Bool_t val=kTRUE)
       {
-         fbKeepInputEvent=val;
+         fbKeepInputEvent = val;
       }
 
       /* if true, processor wants to continue filling current output event
        * Event is not stored, and all subsequent analysis steps are skipped*/
-      Bool_t IsKeepOutputEvent(){
+      Bool_t IsKeepOutputEvent()
+      {
          return fbKeepOutputEvent;
       }
 
@@ -305,17 +306,13 @@ class TGo4EventProcessor: public TGo4EventSource {
        * In this case, all previous analysis steps are skipped until this is done*/
       void SetKeepOutputEvent(Bool_t val=kTRUE)
       {
-         fbKeepOutputEvent=val;
+         fbKeepOutputEvent = val;
       }
-
-
 
    protected:
 
-
-
       /** Default ctor for root streamer. */
-      TGo4EventProcessor():fxCalibration(0){}
+      TGo4EventProcessor() : fxInputEvent(0), fxCalibration(0), fbKeepInputEvent(kFALSE), fbKeepOutputEvent(kFALSE) {}
 
    private:
 

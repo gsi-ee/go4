@@ -45,11 +45,9 @@ Bool_t TGo4CompositeProcessor::BuildEvent(TGo4EventElement* outevnt)
    InitEvent(outevnt); // for plain subclass mode
 
    // first need to call SetEvent of all subprocessors to set the input/output structures:
-   TGo4EventProcessor* proc=0;
 
-   TIter iter(&fSubProcessors);
-   while((proc= dynamic_cast<TGo4EventProcessor*> (iter())) !=0)
-   {
+   for (Int_t n=0;n<=fSubProcessors.GetLast();n++) {
+      TGo4EventProcessor* proc = (TGo4EventProcessor*) fSubProcessors[n];
       proc->SetInputEvent(GetInputEvent()); //forward input to subprocessors
       proc->InitEvent(outevnt); // subprocessors may set own eventpointers here
    } // while
@@ -75,11 +73,9 @@ Bool_t TGo4CompositeProcessor::BuildEvent(TGo4EventElement* outevnt)
       { // loop over subevents
          ProcessSubevent(psubevt); // process in our own subclass, if implemented
 
-         iter.Reset();
+         for (Int_t n=0;n<=fSubProcessors.GetLast();n++) {
 
-         while((proc= dynamic_cast<TGo4EventProcessor*> (iter())) !=0) {
-
-            TGo4CompositeProcessor* subcomp = dynamic_cast<TGo4CompositeProcessor*> (proc);
+            TGo4CompositeProcessor* subcomp = dynamic_cast<TGo4CompositeProcessor*> (fSubProcessors[n]);
 
             if (subcomp) {
                subcomp->fMbsTriggerNumber = fMbsTriggerNumber;
@@ -96,9 +92,8 @@ Bool_t TGo4CompositeProcessor::BuildEvent(TGo4EventElement* outevnt)
    // for first step processors, this can be used to do actions after all subevents are done
    FinalizeEvent(); // process in our own subclass, if implemented
 
-   iter.Reset();
-   while((proc= dynamic_cast<TGo4EventProcessor*> (iter())) !=0)
-   {
+   for (Int_t n=0;n<=fSubProcessors.GetLast();n++) {
+      TGo4EventProcessor* proc = (TGo4EventProcessor*) fSubProcessors[n];
       proc->FinalizeEvent(); // actions implemented in component subclass
    } // while proc
 
