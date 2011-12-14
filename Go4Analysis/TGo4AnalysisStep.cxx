@@ -130,7 +130,7 @@ void TGo4AnalysisStep::Process()
 
    if(fxOutputEvent!=0) {
       fxOutputEvent->SetEventSource(fxEventProcessor);
-      if(fxEventProcessor->IsKeepInputEvent()) fxOutputEvent->SetKeepContents(kTRUE); // suppress inplicit Clear()
+      if(fxEventProcessor->IsKeepOutputEvent()) fxOutputEvent->SetKeepContents(kTRUE); // suppress inplicit Clear()
       fxEventProcessor->SetKeepOutputEvent(kFALSE); // automatic reset of keep output flags before processor execution
       fxOutputEvent->Fill(); // this calls processor build event
       fxOwner->SetOutputEvent(fxOutputEvent);
