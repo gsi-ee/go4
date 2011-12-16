@@ -43,9 +43,10 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       virtual void SetMbsEventServerSource();
       virtual void SetMbsRevServSource( int port );
       virtual void SetMbsPort(int port);
+      virtual void SetMbsRetryCnt(int retry);
       virtual void SetRandomSource();
       virtual void SetUserSource( int port, QString expr );
-      virtual int GetSourceSetup( QString & name, int & timeout, int & start, int & stop, int & interval, int & port);
+      virtual int GetSourceSetup( QString & name, int & timeout, int & start, int & stop, int & interval, int & port, int & nretry);
       virtual void GetMbsFileSource( QString & TagFile );
       virtual void GetUserSource( int & port, QString & expr );
       virtual void SetFileStore( QString name, bool overwrite, int bufsize, int splitlevel, int compression );
@@ -61,6 +62,7 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       virtual void InputArguments( const QString & Arg );
       virtual void InputStateChanged( int );
       virtual void InputPortChanged( int );
+      virtual void RetryCntChanged( int );
       virtual void InputSourceText( const QString & Name );
       virtual void OutputStateChanged( int );
       virtual void OutputNameText( const QString & Name );

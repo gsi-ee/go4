@@ -541,6 +541,16 @@ void TGo4Script::StepMbsRevServSource(const char* stepname,
    }
 }
 
+void TGo4Script::StepMbsSelection(const char* stepname,
+                                  int start,
+                                  int stop,
+                                  int interval)
+{
+   TGo4ConfigStep* step = GetStepGUI(stepname);
+   if (step)
+      step->SetMbsSourceWidgets(start, stop, interval);
+}
+
 void TGo4Script::StepRandomSource(const char* stepname,
                                   const char* sourcename,
                                   int timeout)
@@ -557,6 +567,13 @@ void TGo4Script::StepMbsPort(const char* stepname,
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step) step->SetMbsPort(port);
+}
+
+void TGo4Script::StepMbsRetryCnt(const char* stepname,
+                                 int cnt)
+{
+   TGo4ConfigStep* step = GetStepGUI(stepname);
+   if (step) step->SetMbsRetryCnt(cnt);
 }
 
 void TGo4Script::StepUserSource(const char* stepname,
@@ -802,13 +819,11 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
                                  << (store ? "kTRUE" : "kFALSE") << ");" << endl;
 
       QString srcname;
-      int timeout, start, stop, interval, nport;
-      int nsrc = stepconf->GetSourceSetup(srcname, timeout, start, stop, interval, nport);
+      int timeout(0), start(0), stop(0), interval(0), nport(0), nretry(0);
+      int nsrc = stepconf->GetSourceSetup(srcname, timeout, start, stop, interval, nport, nretry);
 
-      TString srcargs, inter_args;
+      TString srcargs;
       srcargs.Form("(\"%s\", \"%s\", %d", stepconf->GetStepName().toAscii().constData(), srcname.toAscii().constData(), timeout);
-      if ((start!=0) || (stop!=0) || (interval!=0))
-         inter_args.Form(", %d, %d, %d", start, stop, interval);
 
       switch(nsrc) {
          case 0:
@@ -818,30 +833,24 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
            QString TagFile;
            stepconf->GetMbsFileSource(TagFile);
            fs << "go4->StepMbsFileSource" << srcargs << ", \""
-                                          << TagFile.toAscii().constData() << "\""
-                                          << inter_args;
+                                          << TagFile.toAscii().constData() << "\"";
            break;
          }
          case 2:
-           fs << "go4->StepMbsStreamSource" << srcargs << inter_args;
+           fs << "go4->StepMbsStreamSource" << srcargs;
            break;
          case 3:
-           fs << "go4->StepMbsTransportSource" << srcargs << inter_args;
+           fs << "go4->StepMbsTransportSource" << srcargs;
            break;
          case 4:
-           fs << "go4->StepMbsEventServerSource" << srcargs << inter_args;
+           fs << "go4->StepMbsEventServerSource" << srcargs;
            break;
          case 5:
             fs << "go4->StepMbsRevServSource" << srcargs;
-            if ((nport > 0) || (inter_args.Length()>0)) {
-               fs << ", " << (nport > 0 ? nport : 0);
-               nport = -1;
-            }
-            fs << inter_args;
             break;
          case 6:
-           fs << "go4->StepRandomSource" << srcargs;
-           break;
+            fs << "go4->StepRandomSource" << srcargs;
+            break;
          case 7: {
            int port;
            QString expr;
@@ -854,9 +863,19 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       } //  switch(nsrc)
       fs << ");" << endl;
 
+      if ((start!=0) || (stop!=0) || (interval>1)) {
+         srcargs.Form("(\"%s\", %d, %d ,%d)",stepconf->GetStepName().toAscii().constData(), start, stop, interval);
+         fs << "go4->StepMbsSelection" << srcargs << ";" << endl;
+      }
+
       if (nport>0) {
-         srcargs.Form("(\"%s\",%d)",stepconf->GetStepName().toAscii().constData(),nport);
+         srcargs.Form("(\"%s\", %d)",stepconf->GetStepName().toAscii().constData(), nport);
          fs << "go4->StepMbsPort" << srcargs << ";" << endl;
+      }
+
+      if (nretry>0) {
+         srcargs.Form("(\"%s\", %d)",stepconf->GetStepName().toAscii().constData(), nretry);
+         fs << "go4->StepMbsRetryCnt" << srcargs << ";" << endl;
       }
 
       QString storename;

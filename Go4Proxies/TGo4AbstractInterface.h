@@ -430,6 +430,12 @@ class TGo4AbstractInterface : public TObject {
                                 int stop = 0,
                                 int interval = 0) {}
 
+      /** Set event selection for MBS source */
+      virtual void StepMbsSelection(const char* stepname,
+                                    int start,
+                                    int stop,
+                                    int interval) {}
+
       /** Set random generator as step data source */
       virtual void StepRandomSource(const char* stepname,
                             const char* sourcename,
@@ -438,6 +444,10 @@ class TGo4AbstractInterface : public TObject {
       /** Set custom port number for MBS source like stream or transport server */
       virtual void StepMbsPort(const char* stepname,
                               int port) {}
+
+      /** Set retry number for MBS source like stream or transport server */
+      virtual void StepMbsRetryCnt(const char* stepname,
+                                   int cnt) {}
 
       /** Set user data source as step data source */
       virtual void StepUserSource(const char* stepname,

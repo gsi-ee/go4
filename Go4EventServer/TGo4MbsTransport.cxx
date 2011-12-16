@@ -18,7 +18,7 @@
 
 
 TGo4MbsTransport::TGo4MbsTransport(const char* name)
-: TGo4MbsSource(name , GETEVT__TRANS)
+: TGo4MbsSource(name, GETEVT__TRANS)
 {
    TRACE((15,"TGo4MbsTransport::TGo4MbsTransport(const char*)",__LINE__, __FILE__));
    TGo4Log::Debug(" New Event Source MbsTransport %s:  ",name);

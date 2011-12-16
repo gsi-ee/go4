@@ -517,6 +517,7 @@
           </item>
          </layout>
         </item>
+        
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
@@ -571,6 +572,62 @@
           </item>
          </layout>
         </item>
+        
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout17">
+          <item>
+           <widget class="QLabel" name="TextLabelRetryNumber">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Retr:</string>
+            </property>
+            <property name="wordWrap">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="SpinBoxRetryNumber">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>1</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="specialValueText">
+             <string>never</string>
+            </property>
+            <property name="minimum">
+             <number>0</number>
+            </property>
+            <property name="maximum">
+             <number>9999</number>
+            </property>
+            <property name="toolTip">
+             <string>How many times source will rerty to connect with server, 0 - never</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        
         <item>
          <layout class="QHBoxLayout">
           <property name="spacing">
@@ -829,6 +886,12 @@
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>InputPortChanged(int)</slot>
+  </connection>
+  <connection>
+   <sender>SpinBoxRetryNumber</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>TGo4ConfigStep</receiver>
+   <slot>RetryCntChanged(int)</slot>
   </connection>
  </connections>
 </ui>

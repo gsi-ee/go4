@@ -143,6 +143,11 @@ class TGo4MbsSource : public TGo4EventSource {
     /** Mode of operation   */
     Int_t fiMode;
 
+    Int_t fiRetryCnt;   //! number of allowed reconnect retries
+
+    Int_t GetMode() const { return fiMode; }
+
+
   protected:
 
     /** Event channel structure used by event source. */

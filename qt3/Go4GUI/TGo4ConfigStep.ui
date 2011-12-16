@@ -280,6 +280,8 @@
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
+                        
+                        
                         <widget class="QLayoutWidget">
                             <property name="name">
                                 <cstring>layout20</cstring>
@@ -332,6 +334,61 @@
                                 </widget>
                             </hbox>
                         </widget>
+
+                        <widget class="QLayoutWidget">
+                            <property name="name">
+                                <cstring>layout333</cstring>
+                            </property>
+                            <hbox>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <widget class="QLabel">
+                                    <property name="name">
+                                        <cstring>TextLabelRetryNumber</cstring>
+                                    </property>
+                                    <property name="sizePolicy">
+                                        <sizepolicy>
+                                            <hsizetype>1</hsizetype>
+                                            <vsizetype>5</vsizetype>
+                                            <horstretch>0</horstretch>
+                                            <verstretch>0</verstretch>
+                                        </sizepolicy>
+                                    </property>
+                                    <property name="text">
+                                        <string>Retry:</string>
+                                    </property>
+                                </widget>
+                                
+                                <widget class="QSpinBox">
+                                   <property name="name">
+                                      <cstring>SpinBoxRetryNumber</cstring>
+                                   </property>
+                                   <property name="sizePolicy">
+                                       <sizepolicy>
+                                           <hsizetype>3</hsizetype>
+                                           <vsizetype>0</vsizetype>
+                                           <horstretch>0</horstretch>
+                                           <verstretch>0</verstretch>
+                                       </sizepolicy>
+                                   </property>
+                                   <property name="specialValueText">
+                                      <string>never</string>
+                                   </property>
+                                   <property name="minValue">
+                                      <number>0</number>
+                                   </property>
+                                   <property name="maxValue">
+                                      <number>99999</number>
+                                   </property>
+                                   <property name="toolTip" stdset="0">
+                                       <string>How many times source will rerty to connect with server, 0 - never</string>
+                                   </property>
+                                </widget>
+                            </hbox>
+                        </widget>
+                        
+                        
                         <widget class="QLayoutWidget">
                             <property name="name">
                                 <cstring>Layout15_3</cstring>
@@ -891,6 +948,12 @@
         <slot>PortNumberChanged(int)</slot>
     </connection>
     <connection>
+        <sender>SpinBoxRetryNumber</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>TGo4ConfigStep</receiver>
+        <slot>RetryNumberChanged(int)</slot>
+    </connection>
+    <connection>
         <sender>LineEditArgumentsIn</sender>
         <signal>textChanged(const QString&amp;)</signal>
         <receiver>TGo4ConfigStep</receiver>
@@ -972,6 +1035,7 @@
     <slot>InputArguments( const QString &amp; Arg )</slot>
     <slot>InputStateChanged( int )</slot>
     <slot>PortNumberChanged( int )</slot>
+    <slot>RetryNumberChanged( int )</slot>
     <slot>InputSourceText( const QString &amp; Name )</slot>
     <slot>OutputStateChanged( int )</slot>
     <slot>OutputNameText( const QString &amp; Name )</slot>
@@ -998,7 +1062,8 @@
     <function returnType="QString">GetStepName()</function>
     <function>SetStepControl( bool process, bool source, bool store )</function>
     <function>GetStepControl( bool &amp; process, bool &amp; source, bool &amp; store )</function>
-    <function>ResetSourceWidgets( const QString &amp; name, int timeout, int start, int stop, int interval, int port)</function>
+    <function>ResetSourceWidgets( const QString &amp; name, int timeout, int start, int stop, int interval, int port, int nretry)</function>
+    <function>SetMbsSelection(int start, int stop, int interval)</function>
     <function>SetFileSource()</function>
     <function>SetMbsFileSource( QString TagFile)</function>
     <function>SetMbsStreamSource()</function>
@@ -1006,9 +1071,10 @@
     <function>SetMbsEventServerSource()</function>
     <function>SetMbsRevServSource( int port )</function>
     <function>SetMbsPort( int port )</function>
+    <function>SetMbsRetryCnt( int nretry)</function>
     <function>SetRandomSource()</function>
     <function>SetUserSource( int port, QString expr )</function>
-    <function returnType="int">GetSourceSetup( QString &amp; name, int &amp; timeout, int &amp; start, int &amp; stop, int &amp; interval, int &amp; nport)</function>
+    <function returnType="int">GetSourceSetup( QString &amp; name, int &amp; timeout, int &amp; start, int &amp; stop, int &amp; interval, int &amp; nport, int &amp; nretry)</function>
     <function>GetMbsFileSource( QString &amp; TagFile)</function>
     <function>GetUserSource( int &amp; port, QString &amp; expr )</function>
     <function>SetFileStore( QString name, bool overwrite, int bufsize, int splitlevel, int compression )</function>

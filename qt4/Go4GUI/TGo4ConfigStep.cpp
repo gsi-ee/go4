@@ -63,6 +63,9 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char* name, Qt::WFlags fl
 
    SpinBoxPortNumber->setShown(false);
    TextLabelPortNumber->setShown(false);
+   SpinBoxRetryNumber->setShown(false);
+   TextLabelRetryNumber->setShown(false);
+
    LineEditArgs->setShown(false);
    TextLabelArgs->setShown(false);
    LineEditTagfile->setShown(false);
@@ -128,6 +131,31 @@ void TGo4ConfigStep::InputPortChanged(int port)
          TGo4UserSourceParameter* usrpar=dynamic_cast<TGo4UserSourceParameter*>(SourcePar);
          if (usrpar!=0)
             usrpar->SetPort(port);
+         break;
+      }
+
+      default: {
+         // do nothing
+         break;
+      }
+   }
+}
+
+void TGo4ConfigStep::RetryCntChanged(int cnt)
+{
+   if (fBlocked) return;
+
+   TGo4EventSourceParameter* SourcePar = fStepStatus->GetSourcePar();
+
+   switch (SourcePar->GetID()) {
+
+      case GO4EV_MBS_TRANSPORT:
+      case GO4EV_MBS_STREAM:
+      case GO4EV_MBS_EVENTSERVER:
+      case GO4EV_MBS_REVSERV: {
+         TGo4MbsSourceParameter* par = dynamic_cast<TGo4MbsSourceParameter*>(SourcePar);
+         if (par!=0)
+            par->SetRetryCnt(cnt);
          break;
       }
 
@@ -396,6 +424,8 @@ void TGo4ConfigStep::SetMbsSourceWidgets(int start, int stop, int interval, int 
    SpinBoxStopEvent->setValue(stop);
    SpinBoxInterEvent->setValue(interval);
    SpinBoxPortNumber->setValue(port);
+   SpinBoxRetryNumber->setValue(0);
+
 }
 
 void TGo4ConfigStep::SourceComboHighlighted(int kind)
@@ -409,6 +439,8 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
 
    SpinBoxPortNumber->setShown(false);
    TextLabelPortNumber->setShown(false);
+   SpinBoxRetryNumber->setShown(false);
+   TextLabelRetryNumber->setShown(false);
    LineEditArgs->setShown(false);
    TextLabelArgs->setShown(false);
    LineEditTagfile->setShown(false);
@@ -435,6 +467,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
       SpinBoxStopEvent->setValue(mbspar->GetStopEvent());
       SpinBoxInterEvent->setValue(mbspar->GetEventInterval());
       SpinBoxPortNumber->setValue(mbspar->GetPort());
+      SpinBoxRetryNumber->setValue(mbspar->GetRetryCnt());
    }
 
    TGo4MbsFileParameter* mbsfilpar = dynamic_cast<TGo4MbsFileParameter*>(srcpar);
@@ -467,6 +500,8 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
          SpinBoxTimeout->setEnabled(true);
          TextLabelPortNumber->setShown(true);
          SpinBoxPortNumber->setShown(true);
+         TextLabelRetryNumber->setShown(true);
+         SpinBoxRetryNumber->setShown(true);
          MbsMonitorBtn->setEnabled(kind != kind_MbsREvent);
          SpinBoxStartEvent->setEnabled(true);
          SpinBoxStopEvent->setEnabled(true);
@@ -760,6 +795,12 @@ void TGo4ConfigStep::SetMbsPort(int port)
    SpinBoxPortNumber->setValue(port > 0 ? port : 0);
 }
 
+void TGo4ConfigStep::SetMbsRetryCnt(int retry)
+{
+   SpinBoxRetryNumber->setValue(retry > 0 ? retry : 0);
+}
+
+
 void TGo4ConfigStep::SetRandomSource()
 {
    EventSourceCombo->setCurrentIndex(kind_MbsRandom);
@@ -773,7 +814,7 @@ void TGo4ConfigStep::SetUserSource(int port, QString expr)
    LineEditArgs->setText(expr);
 }
 
-int TGo4ConfigStep::GetSourceSetup(QString& name, int& timeout, int& start, int& stop, int& interval, int& nport)
+int TGo4ConfigStep::GetSourceSetup(QString& name, int& timeout, int& start, int& stop, int& interval, int& nport, int & nretry)
 {
    name = SourceNameEdit->text();
    timeout = SpinBoxTimeout->value();
@@ -781,13 +822,17 @@ int TGo4ConfigStep::GetSourceSetup(QString& name, int& timeout, int& start, int&
    stop = SpinBoxStopEvent->value();
    interval = SpinBoxInterEvent->value();
    nport = -1;
+   nretry = 0;
    switch (fStepStatus->GetSourcePar()->GetID()) {
       case GO4EV_MBS_TRANSPORT:
       case GO4EV_MBS_STREAM:
       case GO4EV_MBS_EVENTSERVER:
       case GO4EV_MBS_REVSERV: {
          TGo4MbsSourceParameter* par = dynamic_cast<TGo4MbsSourceParameter*>(fStepStatus->GetSourcePar());
-         if (par!=0) nport = SpinBoxPortNumber->value();
+         if (par!=0) {
+            nport = SpinBoxPortNumber->value();
+            nretry = SpinBoxRetryNumber->value();
+         }
          break;
       }
    }

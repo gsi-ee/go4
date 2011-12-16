@@ -36,6 +36,7 @@ const UInt_t TGo4MbsSource::fguEVHEBYCHAR  = sizeof(s_evhe) /  sizeof(Char_t);
 TGo4MbsSource::TGo4MbsSource(TGo4MbsSourceParameter* par, Int_t mode) :
    TGo4EventSource(par->GetName()),
    fiMode(mode),
+   fiRetryCnt(par->GetRetryCnt()),
    fxEvent(0), fxBuffer(0), fxInfoHeader(0),
    fbIsOpen(kFALSE), fbDataCopyMode(kFALSE),
    fuEventCounter(0), fbFirstEvent(kTRUE),
@@ -55,6 +56,7 @@ TGo4MbsSource::TGo4MbsSource(TGo4MbsSourceParameter* par, Int_t mode) :
 TGo4MbsSource::TGo4MbsSource(const char* name, Int_t mode) :
    TGo4EventSource(name),
    fiMode(mode),
+   fiRetryCnt(0),
    fxEvent(0), fxBuffer(0), fxInfoHeader(0),
    fbIsOpen(kFALSE), fbDataCopyMode(kFALSE),
    fuEventCounter(0), fbFirstEvent(kTRUE),
@@ -74,6 +76,7 @@ TGo4MbsSource::TGo4MbsSource(const char* name, Int_t mode) :
 TGo4MbsSource::TGo4MbsSource() :
    TGo4EventSource("default mbs source"),
    fiMode(0),
+   fiRetryCnt(0),
    fxEvent(0), fxBuffer(0), fxInfoHeader(0),
    fbIsOpen(kFALSE), fbDataCopyMode(kFALSE),
    fuEventCounter(0), fbFirstEvent(kTRUE),
@@ -240,6 +243,9 @@ TGo4MbsSubEvent* TGo4MbsSource::BuildMbsSubEvent(TGo4MbsEvent * target, Int_t fu
 
 Int_t TGo4MbsSource::NextEvent()
 {
+
+frombegin:
+
    TRACE((12,"TGo4MbsSource::NextEvent()",__LINE__, __FILE__));
    // skip and sample mode introduced without changed gsievt functions for first tests
    ULong_t eventstep;
@@ -291,20 +297,45 @@ Int_t TGo4MbsSource::NextEvent()
       case GETEVT__NOMORE:
          throw TGo4EventEndException(this);
          break;
-      default:
+      default: {
+         if (((fiMode==GETEVT__STREAM) || (fiMode==GETEVT__TRANS) || (fiMode==GETEVT__REVSERV) || (fiMode==GETEVT__EVENT)) && (fiRetryCnt>0)) {
+
+            printf("Error code %d mess %s\n", GetEventStatus(), GetErrMess());
+
+            Close();
+            Int_t cnt = fiRetryCnt;
+
+            while (cnt-->0) {
+               sleep(1);
+
+               //if (TGo4Analysis::Instance())
+               //   if (TGo4Analysis::Instance()->IsStopWorking()) return GetEventStatus();
+               try {
+                  Open();
+                  if (fbIsOpen) {
+                     printf("Retry %d successful\n", cnt);
+                     fflush(stdout);
+                     goto frombegin;
+                  }
+               } catch (TGo4EventErrorException e) {
+               }
+               printf("Retry %d failed\n", cnt);
+               fflush(stdout);
+            }
+         }
+
          throw TGo4EventErrorException(this);
          break;
+      }
    }
 
-   cout << "MbsSource::NextEvent --  NEVER COME HERE" << endl;
+   TGo4Log::Error("MbsSource::NextEvent --  NEVER COME HERE");
    return GetEventStatus();
 }
 
 Int_t TGo4MbsSource::Open()
 {
    TRACE((12,"TGo4MbsSource::Open()",__LINE__, __FILE__));
-
-
 
    if(fbIsOpen) return -1;
    //cout << "Open of TGo4MbsSource"<< endl;

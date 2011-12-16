@@ -24,7 +24,8 @@ TGo4MbsSourceParameter::TGo4MbsSourceParameter() :
     fuStartEvent(0),
     fuStopEvent(0),
     fuEventInterval(0),
-    fiPort(0)
+    fiPort(0),
+    fiRetryCnt(0)
 {
    TRACE((14,"TGo4MbsSourceParameter::TGo4MbsSourceParameter()", __LINE__, __FILE__));
 }
@@ -34,7 +35,8 @@ TGo4MbsSourceParameter::TGo4MbsSourceParameter(const char* name, Int_t id) :
    fuStartEvent(0),
    fuStopEvent(0),
    fuEventInterval(0),
-   fiPort(0)
+   fiPort(0),
+   fiRetryCnt(0)
 {
    TRACE((14,"TGo4MbsSourceParameter::TGo4MbsSourceParameter(const char*,...)", __LINE__, __FILE__));
 }
@@ -65,6 +67,9 @@ Int_t TGo4MbsSourceParameter::PrintParameter(Text_t* buffer, Int_t buflen)
    current=TGo4Status::PrintBuffer(current,restlen, "  Event interval: \t%d\n",GetEventInterval());
    if (GetPort()>0)
       current=TGo4Status::PrintBuffer(current,restlen, "  Server port: \t%d \n",GetPort());
+   if (GetRetryCnt()>0)
+      current=TGo4Status::PrintBuffer(current,restlen, "  Retry cnt: \t%d \n",GetRetryCnt());
+
    if(buffer==0)
       {
           cout << localbuf << endl;
@@ -90,6 +95,7 @@ Bool_t TGo4MbsSourceParameter::UpdateFrom(TGo4Parameter* rhs)
       SetStopEvent(mbspar->GetStopEvent());
       SetEventInterval(mbspar->GetEventInterval());
       SetPort(mbspar->GetPort());
+      SetRetryCnt(mbspar->GetRetryCnt());
       return kTRUE;
    }
    return kFALSE;

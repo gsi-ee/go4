@@ -122,6 +122,11 @@ class TGo4Script : public TGo4AbstractInterface {
                                 int stop = 0,
                                 int interval = 0);
 
+      void StepMbsSelection(const char* stepname,
+                            int start,
+                            int stop,
+                            int interval);
+
       void StepRandomSource(const char* stepname,
                             const char* sourcename,
                             int timeout);
@@ -134,6 +139,10 @@ class TGo4Script : public TGo4AbstractInterface {
 
       void StepMbsPort(const char* stepname,
                        int port);
+
+      void StepMbsRetryCnt(const char* stepname,
+                           int cnt);
+
 
       void StepFileStore(const char* stepname,
                          const char* storename,

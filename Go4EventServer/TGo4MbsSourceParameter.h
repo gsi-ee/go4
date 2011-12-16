@@ -50,6 +50,12 @@ class TGo4MbsSourceParameter : public TGo4EventSourceParameter {
     /** Return optional port number, 0 or negative value means that default port number will be used */
     Int_t GetPort() const { return fiPort; }
 
+    /** Set number of allowed reconnection retries */
+    void SetRetryCnt(Int_t cnt) { fiRetryCnt = cnt; }
+
+    /** Return allowed number of reconnection retries */
+    Int_t GetRetryCnt() const { return fiRetryCnt; }
+
     /** basic method to printout status information
       * on stdout; to be overridden by specific subclass */
     virtual Int_t PrintParameter(Text_t* buffer=0, Int_t buflen=0);
@@ -71,7 +77,10 @@ class TGo4MbsSourceParameter : public TGo4EventSourceParameter {
     /** Port number .  */
     Int_t fiPort;
 
-  ClassDef(TGo4MbsSourceParameter,2)
+    /** Allowed number of retries when connection lost */
+    Int_t fiRetryCnt;
+
+  ClassDef(TGo4MbsSourceParameter,3)
 
 };
 

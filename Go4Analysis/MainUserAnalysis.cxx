@@ -155,6 +155,7 @@ void usage(const char* subtopic = 0)
    cout << "  -evserv server       :  connect to MBS event server" << endl;
    cout << "  -revserv server [port] :  connect to remote event server" << endl;
    cout << "  -port number         :  select custom port number for event source" << endl;
+   cout << "  -retry number        :  select number of retries when connection to source was lost" << endl;
    cout << "  -random              :  use random generator as source" << endl;
    cout << "  -user name           :  create user-defined event source" << endl;
    cout << "  -source filename     :  read step input from the root file" << endl;
@@ -835,7 +836,17 @@ int main(int argc, char **argv)
          TGo4UserSourceParameter* user = dynamic_cast<TGo4UserSourceParameter*> (step->GetEventSource());
          if (user) user->SetPort(port);
       } else
-
+      if (strcmp(argv[narg],"-retry")==0) {
+         narg++;
+         int nretry(0);
+         if ((narg < argc) && (argv[narg][0]!='-')) {
+            if (sscanf(argv[narg],"%d",&nretry)!=1)
+               showerror(Form("Value error %s", argv[narg]));
+            narg++;
+         }
+         TGo4MbsSourceParameter* param = dynamic_cast<TGo4MbsSourceParameter*> (step->GetEventSource());
+         if (param) param->SetRetryCnt(nretry);
+      } else
       if (strcmp(argv[narg],"-mbs-select")==0) {
          narg++;
          TGo4MbsSourceParameter* param = dynamic_cast<TGo4MbsSourceParameter*> (step->GetEventSource());

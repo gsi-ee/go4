@@ -17,7 +17,7 @@
 #include "TGo4RevServParameter.h"
 
 TGo4RevServ::TGo4RevServ(const char* name) :
-   TGo4MbsSource(name , GETEVT__REVSERV)
+   TGo4MbsSource(name, GETEVT__REVSERV)
 {
    TRACE((15,"TGo4RevServ::TGo4RevServ(const char*)",__LINE__, __FILE__));
    TGo4Log::Debug(" New Event Source RevServ %s:  ",name);

@@ -18,7 +18,7 @@
 
 
 TGo4MbsEventServer::TGo4MbsEventServer(const char* name) :
-   TGo4MbsSource(name , GETEVT__EVENT)
+   TGo4MbsSource(name, GETEVT__EVENT)
 {
    TRACE((15,"TGo4MbsEventServer::TGo4MbsEventServer(const char*)",__LINE__, __FILE__));
 
