@@ -253,6 +253,8 @@ frombegin:
    if (fbFirstEvent) {
       fbFirstEvent = kFALSE;
       eventstep = fuStartEvent + 1;
+      printf("First event first = %lu step = %lu\n", fuStartEvent, fuEventInterval);
+
    } else
       if(fuEventInterval > 0)
          eventstep = fuEventInterval;
@@ -271,9 +273,9 @@ frombegin:
       }
       while (eventstep > 0) {
          // retrieve the event, skip all events until end of the step
-         Int_t status=f_evt_get_event(fxInputChannel,
-               (Int_t **) (void*) &fxEvent,
-               (Int_t **) (void*) &fxBuffer);
+         Int_t status = f_evt_get_event(fxInputChannel,
+                                         (Int_t **) (void*) &fxEvent,
+                                         (Int_t **) (void*) &fxBuffer);
          SetEventStatus(status);
          if(status!=0) break;
          eventstep--;

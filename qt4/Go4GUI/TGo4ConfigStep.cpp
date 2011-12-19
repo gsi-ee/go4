@@ -496,7 +496,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
       case kind_MbsStream:       // mbs stream server (input only)
       case kind_MbsTransport:    // mbs transport server (input only)
       case kind_MbsEvent:        // mbs event server  (input only)
-      case kind_MbsREvent:       //    rev serv
+      case kind_MbsREvent:       // rev serv
          SpinBoxTimeout->setEnabled(true);
          TextLabelPortNumber->setShown(true);
          SpinBoxPortNumber->setShown(true);
@@ -597,18 +597,18 @@ void TGo4ConfigStep::StoreSplitLevel( int t)
 void TGo4ConfigStep::StoreCompLevel( int t)
 {
    if(fStepStatus->GetStorePar()->InheritsFrom(TGo4FileStoreParameter::Class())) {
-       TGo4FileStoreParameter *StorePar=(TGo4FileStoreParameter *)fStepStatus->GetStorePar();
-       StorePar->SetCompression(t);
+      TGo4FileStoreParameter *StorePar=(TGo4FileStoreParameter *)fStepStatus->GetStorePar();
+      StorePar->SetCompression(t);
    }
 }
 
 void TGo4ConfigStep::StoreOverWrite( bool overwrite)
 {
    if(fStepStatus->GetStorePar()->InheritsFrom(TGo4FileStoreParameter::Class())){
-        TGo4FileStoreParameter *StorePar=dynamic_cast <TGo4FileStoreParameter *> (fStepStatus->GetStorePar());
-         if(overwrite)StorePar->SetOverwriteMode(kTRUE);
-         else StorePar->SetOverwriteMode(kFALSE);
-    }
+      TGo4FileStoreParameter *StorePar=dynamic_cast <TGo4FileStoreParameter *> (fStepStatus->GetStorePar());
+      if(overwrite)StorePar->SetOverwriteMode(kTRUE);
+      else StorePar->SetOverwriteMode(kFALSE);
+   }
 }
 
 
@@ -635,7 +635,7 @@ void TGo4ConfigStep::ChangeStartEvent( int num )
 
    // only for mbs sources
    TGo4MbsSourceParameter* par =
-      dynamic_cast<TGo4MbsFileParameter*>(fStepStatus->GetSourcePar());
+      dynamic_cast<TGo4MbsSourceParameter*>(fStepStatus->GetSourcePar());
    if (par!=0) par->SetStartEvent(num);
 }
 
@@ -645,7 +645,7 @@ void TGo4ConfigStep::ChangeStopEvent( int num )
 
   // only for mbs sources
   TGo4MbsSourceParameter* par =
-     dynamic_cast<TGo4MbsFileParameter*>(fStepStatus->GetSourcePar());
+     dynamic_cast<TGo4MbsSourceParameter*>(fStepStatus->GetSourcePar());
   if (par!=0) par->SetStopEvent(num);
 }
 
@@ -655,7 +655,7 @@ void TGo4ConfigStep::ChangeEventInterval( int num )
 
    // only for mbs sources
    TGo4MbsSourceParameter* par =
-      dynamic_cast<TGo4MbsFileParameter*>(fStepStatus->GetSourcePar());
+      dynamic_cast<TGo4MbsSourceParameter*>(fStepStatus->GetSourcePar());
    if (par!=0) par->SetEventInterval(num);
 }
 

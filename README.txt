@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.5.1 (build 40501)
-                      10-Nov-2011
+         Go4 Release Package v4.5.2 (build 40502)
+                      19-Dec-2011
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -33,7 +33,7 @@ REQUIREMENTS: ROOT and Qt4 (or Qt3)
 
 ROOT INSTALLATION
 
-  Install the ROOT framework Version >=5.22/00 (older version up to 5.17 
+  Install the ROOT framework Version >=5.28/00 (older version up to 5.17 
   can also be used, but not recommended). 
   See instruction how download and compile ROOT on http://root.cern.ch.
   There are several ways to install ROOT framework on the machine:

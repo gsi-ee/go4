@@ -703,7 +703,7 @@
         <item>
          <widget class="QSpinBox" name="SpinBoxInterEvent">
           <property name="toolTip">
-           <string>Skipping interval between two events to be processed.</string>
+           <string>Skipping interval between two events to be processed (1 is every event analyzed)</string>
           </property>
           <property name="minimum">
            <number>1</number>
@@ -712,7 +712,7 @@
            <number>999999999</number>
           </property>
           <property name="singleStep">
-           <number>1000</number>
+           <number>1</number>
           </property>
          </widget>
         </item>

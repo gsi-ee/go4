@@ -39,10 +39,10 @@
             </attribute>
             <layout class="QGridLayout" >
               <property name="margin" >
-                <number>11</number>
+                <number>3</number>
               </property>
               <property name="spacing" >
-                <number>6</number>
+                <number>1</number>
               </property>
             </layout>
           </widget>
@@ -55,10 +55,10 @@
           </property>
           <layout class="QHBoxLayout" >
             <property name="margin" >
-              <number>7</number>
+              <number>3</number>
             </property>
             <property name="spacing" >
-              <number>3</number>
+              <number>1</number>
             </property>
             <item>
               <layout class="QHBoxLayout" >
@@ -386,10 +386,10 @@
           </property>
           <layout class="QGridLayout" >
             <property name="margin" >
-              <number>7</number>
+              <number>3</number>
             </property>
             <property name="spacing" >
-              <number>3</number>
+              <number>1</number>
             </property>
             <item row="0" column="0" >
               <layout class="QHBoxLayout" >

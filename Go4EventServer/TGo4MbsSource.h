@@ -42,8 +42,8 @@ class TGo4MbsSourceParameter;
 class TGo4MbsSourcePrintPar : public TObject {
 
   public:
-    TGo4MbsSourcePrintPar():fiNum(0), fiSid(0), fiLong(0),fiHex(0), fiData(0){}
-    virtual ~TGo4MbsSourcePrintPar(){}
+    TGo4MbsSourcePrintPar() : TObject(), fiNum(0), fiSid(0), fiLong(0), fiHex(0), fiData(0) {}
+    virtual ~TGo4MbsSourcePrintPar() {}
     /** Counter for events to be printed */
     Int_t fiNum;
     /** subevent id (-1 is all) */
@@ -70,10 +70,10 @@ class TGo4MbsSource : public TGo4EventSource {
 
     virtual ~TGo4MbsSource();
 
-    /** Check that filled event is a proper class. */
+    /** Check that filled event is a proper class */
     virtual Bool_t CheckEventClass(TClass* cl);
 
-    /** Fill the destination event dest. */
+    /** Fill the destination event \param dest */
     virtual Bool_t BuildEvent(TGo4EventElement* dest);
 
     /** Close the file or connection.  */
@@ -92,13 +92,10 @@ class TGo4MbsSource : public TGo4EventSource {
       * event call NextEvent() before this method.*/
     void BuildMbsEvent(TGo4MbsEvent * target);
 
-
     /** Auxiliary function to fill datalength words (Short_t) from source
      * into the next subevent of target with matching header fullID longword.
-     * Returns handle to this subevent.
-      */
+     * Returns handle to this subevent. */
     TGo4MbsSubEvent* BuildMbsSubEvent(TGo4MbsEvent * target, Int_t fullID, Short_t* source, Int_t datalength);
-
 
     /** Define the Start index for the NextEvent */
     void SetStartEvent(UInt_t firstindex) { fuStartEvent=firstindex; }
@@ -110,7 +107,6 @@ class TGo4MbsSource : public TGo4EventSource {
     void SetTimeout(Int_t time) { fiTimeout=time; }
 
     void SetPort(Int_t port) { fiPort=port; }
-
 
     /** User access to info header. May contain additional run information */
     s_filhe * GetInfoHeader() { return fxInfoHeader; }
@@ -146,7 +142,6 @@ class TGo4MbsSource : public TGo4EventSource {
     Int_t fiRetryCnt;   //! number of allowed reconnect retries
 
     Int_t GetMode() const { return fiMode; }
-
 
   protected:
 

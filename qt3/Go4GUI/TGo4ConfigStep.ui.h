@@ -479,7 +479,7 @@ void TGo4ConfigStep::ChangeStartEvent( int num )
 {
    // only for mbs sources
    TGo4MbsSourceParameter* par =
-      dynamic_cast<TGo4MbsFileParameter*>(fStepStatus->GetSourcePar());
+      dynamic_cast<TGo4MbsSourceParameter*>(fStepStatus->GetSourcePar());
    if (par!=0) par->SetStartEvent(num);
 }
 
@@ -487,7 +487,7 @@ void TGo4ConfigStep::ChangeStopEvent( int num )
 {
    // only for mbs sources
    TGo4MbsSourceParameter* par =
-      dynamic_cast<TGo4MbsFileParameter*>(fStepStatus->GetSourcePar());
+      dynamic_cast<TGo4MbsSourceParameter*>(fStepStatus->GetSourcePar());
    if (par!=0) par->SetStopEvent(num);
 }
 
@@ -495,7 +495,7 @@ void TGo4ConfigStep::ChangeEventInterval( int num )
 {
    // only for mbs sources
    TGo4MbsSourceParameter* par =
-      dynamic_cast<TGo4MbsFileParameter*>(fStepStatus->GetSourcePar());
+      dynamic_cast<TGo4MbsSourceParameter*>(fStepStatus->GetSourcePar());
    if (par!=0) par->SetEventInterval(num);
 }
 

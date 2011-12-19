@@ -196,7 +196,7 @@
                                 <number>1000</number>
                             </property>
                             <property name="toolTip" stdset="0">
-                                <string>First event to process.</string>
+                                <string>First event to process</string>
                             </property>
                         </widget>
                         <widget class="QSpinBox">
@@ -213,7 +213,7 @@
                                 <number>1000</number>
                             </property>
                             <property name="toolTip" stdset="0">
-                                <string>Last event to process.</string>
+                                <string>Last event to process</string>
                             </property>
                         </widget>
                         <widget class="QSpinBox">
@@ -227,10 +227,10 @@
                                 <number>1</number>
                             </property>
                             <property name="lineStep">
-                                <number>1000</number>
+                                <number>1</number>
                             </property>
                             <property name="toolTip" stdset="0">
-                                <string>Skipping interval between two events to be processed.</string>
+                                <string>Skipping interval between two events to be processed (1 is every event analyzed)</string>
                             </property>
                         </widget>
                         <spacer>
