@@ -297,6 +297,7 @@ public slots:
     virtual void Wiz_ParTable_valueChanged( int nrow, int ncol );
     virtual void Wiz_DataList_doubleClicked(QListWidgetItem*);
     virtual void Wiz_ModelList_doubleClicked(QListWidgetItem*);
+    virtual void Wiz_ModelList_itemChanged(QListWidgetItem*);
     virtual void Wiz_RebuildDataBtn_clicked();
     virtual void Wiz_DataBufChk_toggled( bool zn );
     virtual void Wiz_UseAmplEstimChk_toggled( bool chk );

@@ -2906,6 +2906,39 @@ void TGo4FitPanel::Wiz_ModelList_doubleClicked(QListWidgetItem*)
    }
 }
 
+void TGo4FitPanel::Wiz_ModelList_itemChanged(QListWidgetItem* item)
+{
+   if (fbFillingWidget) return;
+
+   QString name = item->text();
+
+   bool checked = (item->checkState() == Qt::Checked);
+
+   bool needupdate = ( (name != fxWizModelName) || (fiWizPageIndex != 1) );
+
+   fxWizModelName = name;
+   fiWizPageIndex = 1;
+
+   TGo4Fitter* fitter = GetFitter();
+   TGo4FitModel* model = Wiz_SelectedModel();
+   TGo4FitData* data = Wiz_SelectedData();
+   if ((fitter!=0) && (data!=0) && (model!=0)) {
+      bool wasassigned = model->IsAssignTo(data->GetName());
+
+      if (wasassigned!=checked) {
+        if (wasassigned) fitter->ClearModelAssignmentTo(model->GetName(), data->GetName());
+                    else fitter->AssignModelTo(model->GetName(), data->GetName());
+        needupdate = TRUE;
+     }
+   }
+
+   if (needupdate) {
+      UpdateWizModelsBtns();
+      UpdateWizStackWidget();
+      UpdateWizPaint(2);
+   }
+}
+
 void TGo4FitPanel::Wiz_RebuildDataBtn_clicked()
 {
    Wiz_RebuildDataList();

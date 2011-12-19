@@ -1414,6 +1414,12 @@ You can do one of the following:&lt;br>
    <slot>Wiz_ModelList_doubleClicked(QListWidgetItem*)</slot>
   </connection>
   <connection>
+   <sender>Wiz_ModelList</sender>
+   <signal>itemChanged(QListWidgetItem*)</signal>
+   <receiver>TGo4FitPanel</receiver>
+   <slot>Wiz_ModelList_itemChanged(QListWidgetItem*)</slot>
+  </connection>
+  <connection>
    <sender>Wiz_RebuildDataBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4FitPanel</receiver>

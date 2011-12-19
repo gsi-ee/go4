@@ -35,7 +35,8 @@ Changes in Go4 v4.5.x (Winter 2011/12)
    be switched off very often for short time. Implemented in source classed,
    can be configured in go4analysis, qt3/at4 gui, hotstart.
 9. Fix error in event selection of MBS sources like stream server, 
-   make more compact event source selection in the gui (qt4 only)   
+   make more compact event source selection in the gui (qt4 only)
+10.Fix error in fitgui - in wizard mode model assignment to the data was not working (only qt4 version)   
 
 Changes in Go4 v4.5.1 (November 2011)
 1. Add force32=true flag to the Makefile, done to force 32 bit compilation and
