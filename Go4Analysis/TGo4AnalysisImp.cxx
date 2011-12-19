@@ -460,11 +460,9 @@ Int_t TGo4Analysis::Process()
    }
    catch(TGo4EventEndException& ex)
    {
-      Message(2,"End of event source %s:\n     %s - %s",
-            ex.GetSourceClass(),
-            ex.GetSourceName(),ex.GetErrMess());
-      if(IsErrorStopEnabled())
-      {
+      Message(2,"End of event source %s:  name:%s - msg:%s",
+                 ex.GetSourceClass(), ex.GetSourceName(), ex.GetErrMess());
+      if(IsErrorStopEnabled()) {
          if(fxAnalysisSlave) fxAnalysisSlave->Stop();
          //return -1;
          rev=-1;
@@ -477,10 +475,9 @@ Int_t TGo4Analysis::Process()
       Int_t prio=ex.GetPriority();
       if(prio==0)
       {
-         // only display message without stop
-         Message(1,"Event source %s:\n     %s - %s",
-               ex.GetSourceClass(),
-               ex.GetSourceName(),ex.GetErrMess());
+         // SL:12.2011 even erre display can be skipped, continue without stop
+         // Message(1,"Event source %s: %s - %s",
+         //      ex.GetSourceClass(), ex.GetSourceName(),ex.GetErrMess());
       }
       else
       {
@@ -612,7 +609,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
          }
          catch(TGo4EventEndException& ex)
          {
-            Message(1,"End of event source %s:\n %s %s",ex.GetSourceClass(), ex.GetSourceName(),ex.GetErrMess());
+            Message(1,"End of event source %s: name:%s msg:%s",ex.GetSourceClass(), ex.GetSourceName(),ex.GetErrMess());
             PostLoop();
             throw;   // errors: stop event loop
          }
@@ -627,8 +624,9 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
             }
             else
             {
-               Message(1,"Eventsource %s:%s %s",ex.GetSourceClass(),
-                     ex.GetSourceName(),ex.GetErrMess());
+               // SL:12.2011 even erre display can be skipped, continue without stop
+               // Message(1,"Eventsource %s:%s %s",ex.GetSourceClass(),
+               //      ex.GetSourceName(),ex.GetErrMess());
                ex.Handle(); // infos: continue loop after display message
             }
          }

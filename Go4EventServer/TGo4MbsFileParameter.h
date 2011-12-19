@@ -17,6 +17,7 @@
 #include "TGo4MbsSourceParameter.h"
 
 #include "TString.h"
+#include "TObjArray.h"
 
 class TGo4MbsFileParameter : public TGo4MbsSourceParameter {
   public:
@@ -39,12 +40,24 @@ class TGo4MbsFileParameter : public TGo4MbsSourceParameter {
     /** update contents of paramter class with external object. */
     virtual Bool_t UpdateFrom(TGo4Parameter* rhs);
 
+    /** Add more file names in to the parameter */
+    void AddMoreFile(const char* more);
+
+    /** Number of more file names in parameter */
+    Int_t NumMoreFiles() const { return fxMoreFiles.GetLast()+1; }
+
+    /** Returns name of extra files names, configured in the parameter */
+    const char* GetMoreName(Int_t n) const;
+
   private:
 
     /** Name of the tagfile associated with the listmode event file. */
     TString fxTagFile;
 
-  ClassDef(TGo4MbsFileParameter, 2)
+    /** List of extra files names, specified in the go4analysis */
+    TObjArray fxMoreFiles;
+
+  ClassDef(TGo4MbsFileParameter, 3)
 
 };
 

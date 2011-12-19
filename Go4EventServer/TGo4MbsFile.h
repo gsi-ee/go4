@@ -69,6 +69,8 @@ class TGo4MbsFile : public TGo4MbsSource {
 
   private:
 
+    void AddFileName(const char* name, const char* tagname = 0, bool isonly = kFALSE);
+
     /** For multiple input mode: Open next file in list. */
     Int_t NextFile();
 
@@ -92,15 +94,15 @@ class TGo4MbsFile : public TGo4MbsSource {
     /** Currently processed tagfile (for multiple input mode) */
     TString fxCurrentTag;
 
-    /** Currently processed multiple input filename (for multiple input mode) */
-    TString fxMultiName;
-
     /** file that contains the list of mbs filenames.
       * format should be: "filename.lmd tagfilename" for each line. */
     TList* fxMultiFile; //!
 
     /** This indicates if the current file is open or not */
     Bool_t fbFileOpen;
+
+    /** Indicates if mbs file should show information about new open file */
+    Bool_t fbShowInfo; //!
 
   ClassDef(TGo4MbsFile, 3)
 };

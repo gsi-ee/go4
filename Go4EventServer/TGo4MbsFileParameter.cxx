@@ -14,6 +14,7 @@
 #include "TGo4MbsFileParameter.h"
 
 #include "Riostream.h"
+#include "TObjString.h"
 
 #include "TGo4Log.h"
 #include "TGo4Status.h"
@@ -23,7 +24,8 @@ const char* TGo4MbsFile__fgcNOTAGFILE = "GO4-NOLMDTAG";
 
 TGo4MbsFileParameter::TGo4MbsFileParameter() :
     TGo4MbsSourceParameter(),
-    fxTagFile()
+    fxTagFile(),
+    fxMoreFiles()
 {
    TRACE((14,"TGo4MbsFileParameter::TGo4MbsFileParameter()", __LINE__, __FILE__));
    SetTagName(TGo4MbsFile__fgcNOTAGFILE);
@@ -31,7 +33,8 @@ TGo4MbsFileParameter::TGo4MbsFileParameter() :
 
 TGo4MbsFileParameter::TGo4MbsFileParameter(const char* name) :
    TGo4MbsSourceParameter(name, GO4EV_MBS_FILE),
-   fxTagFile()
+   fxTagFile(),
+   fxMoreFiles()
 {
    TRACE((14,"TGo4MbsFileParameter::TGo4MbsFileParameter(const char*,...)", __LINE__, __FILE__));
    SetTagName(TGo4MbsFile__fgcNOTAGFILE);
@@ -42,6 +45,20 @@ TGo4MbsFileParameter::~TGo4MbsFileParameter()
    TRACE((14,"TGo4MbsFileParameter::~TGo4MbsFileParameter()", __LINE__, __FILE__));
 }
 
+void TGo4MbsFileParameter::AddMoreFile(const char* more)
+{
+   TGo4Log::Debug("Add more lmd file %s", more);
+
+   fxMoreFiles.SetOwner(kTRUE);
+   fxMoreFiles.Add(new TObjString(more));
+}
+
+const char* TGo4MbsFileParameter::GetMoreName(Int_t n) const
+{
+   return (n>=0) && (n<=fxMoreFiles.GetLast()) ? fxMoreFiles.At(n)->GetName() : 0;
+}
+
+
 Int_t TGo4MbsFileParameter::PrintParameter(Text_t* buffer, Int_t buflen)
 {
    TRACE((12,"TGo4MbsFileParameter::PrintParameter()",__LINE__, __FILE__));
@@ -50,10 +67,10 @@ Int_t TGo4MbsFileParameter::PrintParameter(Text_t* buffer, Int_t buflen)
    if(buflen<0 && buffer!=0)
       return 0;
    Int_t size=0;
-   Int_t restlen=locallen;
-   Text_t* current=localbuf;
+   Int_t restlen = locallen;
+   Text_t* current = localbuf;
 
-   Int_t delta=TGo4MbsSourceParameter::PrintParameter(current,restlen);
+   Int_t delta = TGo4MbsSourceParameter::PrintParameter(current,restlen);
    restlen-=delta;
    current+= delta;
    current=TGo4Status::PrintBuffer(current,restlen, "Tagfile: %s \n",GetTagName());

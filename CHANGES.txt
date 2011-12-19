@@ -42,7 +42,11 @@ Changes in Go4 v4.5.x (Winter 2011/12)
    data component was not working (only qt4 version)
 11.Allow to use TArrayI and TArrayD in the parameter and parameter editor.
    Now parameter elements of such classes will be automatically recognized 
-
+12.Allow to specify several files in row as argument of command go4analysis -file ...
+   It is very useful in the case when wildcard characters are used. Shell 
+   automatically expands all wildcards itself and therefore previous go4 versions
+   get errors. Now following command is valid: go4analysis -file *.lmd. 
+   Make debug output of the analysis more clear when processing many files. 
 
 Changes in Go4 v4.5.1 (November 2011)
 1. Add force32=true flag to the Makefile, done to force 32 bit compilation and

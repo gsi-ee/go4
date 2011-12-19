@@ -739,6 +739,9 @@ int main(int argc, char **argv)
       if ((strcmp(argv[narg],"-file")==0) || (strcmp(argv[narg],"-f")==0)) {
          if (++narg < argc) {
             TGo4MbsFileParameter sourcepar(argv[narg++]);
+            // this is case when many files are specified at once
+            while ((narg<argc) && (argv[narg][0]!='-'))
+               sourcepar.AddMoreFile(argv[narg++]);
             step->SetEventSource(&sourcepar);
             step->SetSourceEnabled(kTRUE);
             autorun = true;
