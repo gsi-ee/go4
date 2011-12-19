@@ -61,21 +61,23 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char* name, Qt::WFlags fl
    fxPanel = 0;
    fStepStatus = 0;
 
-   SpinBoxPortNumber->setShown(false);
-   TextLabelPortNumber->setShown(false);
-   SpinBoxRetryNumber->setShown(false);
-   TextLabelRetryNumber->setShown(false);
+   SpinBoxPortNumber->setVisible(false);
+   TextLabelPortNumber->setVisible(false);
+   SpinBoxRetryNumber->setVisible(false);
+   TextLabelRetryNumber->setVisible(false);
 
-   LineEditArgs->setShown(false);
-   TextLabelArgs->setShown(false);
-   LineEditTagfile->setShown(false);
-   TextLabelTagfile->setShown(false);
+   LineEditArgs->setVisible(false);
+   TextLabelArgs->setVisible(false);
+   LineEditTagfile->setVisible(false);
+   TextLabelTagfile->setVisible(false);
 
    for (int n=0;n<ParsSize;n++)
       fPars[n]=0;
 
    fLastSrcKind = -1;
    fBlocked = 0;
+   fExtra = false;
+   ExtraBtn->setText(fExtra ? "-" : "+");
 }
 
 TGo4ConfigStep::~TGo4ConfigStep()
@@ -175,8 +177,8 @@ void TGo4ConfigStep::InputSourceText(const QString& name)
 
    if (EventSourceCombo->currentIndex() == kind_MbsFile) {
       bool islml = name.contains(TGo4MbsFile__fgcFILELISTSUF);
-      LineEditTagfile->setShown(!islml);
-      TextLabelTagfile->setShown(!islml);
+      LineEditTagfile->setVisible(!islml);
+      TextLabelTagfile->setVisible(!islml);
 
       SpinBoxStartEvent->setEnabled(!islml);
       SpinBoxStopEvent->setEnabled(!islml);
@@ -437,19 +439,20 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
 
    // first disable everything which can be disabled
 
-   SpinBoxPortNumber->setShown(false);
-   TextLabelPortNumber->setShown(false);
-   SpinBoxRetryNumber->setShown(false);
-   TextLabelRetryNumber->setShown(false);
-   LineEditArgs->setShown(false);
-   TextLabelArgs->setShown(false);
-   LineEditTagfile->setShown(false);
-   TextLabelTagfile->setShown(false);
+   SpinBoxPortNumber->setVisible(false);
+   TextLabelPortNumber->setVisible(false);
+   SpinBoxRetryNumber->setVisible(false);
+   TextLabelRetryNumber->setVisible(false);
+   LineEditArgs->setVisible(false);
+   TextLabelArgs->setVisible(false);
+   LineEditTagfile->setVisible(false);
+   TextLabelTagfile->setVisible(false);
 
-   SpinBoxStartEvent->setEnabled(false);
-   SpinBoxStopEvent->setEnabled(false);
-   SpinBoxInterEvent->setEnabled(false);
-   SpinBoxTimeout->setEnabled(false);
+   SpinBoxStartEvent->setVisible(false);
+   SpinBoxStopEvent->setVisible(false);
+   SpinBoxInterEvent->setVisible(false);
+   SpinBoxTimeout->setVisible(false);
+   TextLabelTimeout->setVisible(false);
    FileNameInput->setEnabled(false);
    MbsMonitorBtn->setEnabled(false);
 
@@ -468,6 +471,9 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
       SpinBoxInterEvent->setValue(mbspar->GetEventInterval());
       SpinBoxPortNumber->setValue(mbspar->GetPort());
       SpinBoxRetryNumber->setValue(mbspar->GetRetryCnt());
+
+//      if ((mbspar->GetPort()!=0) || (mbspar->GetRetryCnt()>0) ||
+//          (mbspar->GetStartEvent()!=0) || (mbspar->GetStopEvent()!=0) || (mbspar->GetEventInterval()>1)) fExtra = true;
    }
 
    TGo4MbsFileParameter* mbsfilpar = dynamic_cast<TGo4MbsFileParameter*>(srcpar);
@@ -481,47 +487,55 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
          // in this special case spin boxes will be enabled/disabled when file name is changed
          FileNameInput->setEnabled(true);
 
-         LineEditTagfile->setShown(true);
-         TextLabelTagfile->setShown(true);
-
          QString tagfile = mbsfilpar->GetTagName();
 
-         if(!tagfile.contains(TGo4MbsFile__fgcNOTAGFILE))
+         if(!tagfile.contains(TGo4MbsFile__fgcNOTAGFILE)) {
             LineEditTagfile->setText(tagfile);
-         else
+//            fExtra = true;
+         } else
             LineEditTagfile->setText("");
 
+         LineEditTagfile->setVisible(fExtra);
+         TextLabelTagfile->setVisible(fExtra);
+
+         SpinBoxStartEvent->setVisible(fExtra);
+         SpinBoxStopEvent->setVisible(fExtra);
+         SpinBoxInterEvent->setVisible(fExtra);
          break;
       }
       case kind_MbsStream:       // mbs stream server (input only)
       case kind_MbsTransport:    // mbs transport server (input only)
       case kind_MbsEvent:        // mbs event server  (input only)
       case kind_MbsREvent:       // rev serv
-         SpinBoxTimeout->setEnabled(true);
-         TextLabelPortNumber->setShown(true);
-         SpinBoxPortNumber->setShown(true);
-         TextLabelRetryNumber->setShown(true);
-         SpinBoxRetryNumber->setShown(true);
+         TextLabelTimeout->setVisible(fExtra);
+         SpinBoxTimeout->setVisible(fExtra);
+         TextLabelPortNumber->setVisible(fExtra);
+         SpinBoxPortNumber->setVisible(fExtra);
+         TextLabelRetryNumber->setVisible(fExtra);
+         SpinBoxRetryNumber->setVisible(fExtra);
          MbsMonitorBtn->setEnabled(kind != kind_MbsREvent);
-         SpinBoxStartEvent->setEnabled(true);
-         SpinBoxStopEvent->setEnabled(true);
-         SpinBoxInterEvent->setEnabled(true);
+         SpinBoxStartEvent->setVisible(fExtra);
+         SpinBoxStopEvent->setVisible(fExtra);
+         SpinBoxInterEvent->setVisible(fExtra);
          break;
 
       case kind_MbsRandom:       //    mbs random
          break;
 
       case kind_UserSource:      // user source
+         FileNameInput->setEnabled(true);
          SpinBoxPortNumber->setValue(userpar->GetPort());
          LineEditArgs->setText(userpar->GetExpression());
-         SpinBoxPortNumber->setShown(true);
-         TextLabelPortNumber->setShown(true);
-         LineEditArgs->setShown(true);
-         TextLabelArgs->setShown(true);
-         SpinBoxTimeout->setEnabled(true);
-         FileNameInput->setEnabled(true);
+         SpinBoxPortNumber->setVisible(fExtra);
+         TextLabelPortNumber->setVisible(fExtra);
+         LineEditArgs->setVisible(fExtra);
+         TextLabelArgs->setVisible(fExtra);
+         TextLabelTimeout->setVisible(fExtra);
+         SpinBoxTimeout->setVisible(fExtra);
          break;
    }
+
+//   ExtraBtn->setText(fExtra ? "-" : "+");
 
    fBlocked--;
 
@@ -553,24 +567,23 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
     }
 }
 
-
 void TGo4ConfigStep::OutputFileDialog()
 {
-    QFileDialog fd( this, "Select file name for step output",
-          fxPanel->GetStorePath(), "Go4FileStore  (*.root)");
-    fd.setFileMode( QFileDialog::AnyFile);
-    if ( fd.exec() != QDialog::Accepted ) return;
+   QFileDialog fd( this, "Select file name for step output",
+         fxPanel->GetStorePath(), "Go4FileStore  (*.root)");
+   fd.setFileMode( QFileDialog::AnyFile);
+   if ( fd.exec() != QDialog::Accepted ) return;
 
-    QStringList flst = fd.selectedFiles();
-    if (flst.isEmpty()) return;
+   QStringList flst = fd.selectedFiles();
+   if (flst.isEmpty()) return;
 
-    QString fileName = flst[0];
-    fxPanel->SetStorePath(fd.directory().path());
-    if(!fileName.endsWith(".root")) fileName.append(".root");
-    StoreNameEdit->setText(fileName);
+   QString fileName = flst[0];
+   fxPanel->SetStorePath(fd.directory().path());
+   if(!fileName.endsWith(".root")) fileName.append(".root");
+   StoreNameEdit->setText(fileName);
 }
 
-void TGo4ConfigStep::StoreBufferSize( int t )
+void TGo4ConfigStep::StoreBufferSize(int t)
 {
    if(fStepStatus->GetStorePar()->InheritsFrom(TGo4FileStoreParameter::Class())){
        TGo4FileStoreParameter *StorePar=(TGo4FileStoreParameter *)fStepStatus->GetStorePar();
@@ -582,7 +595,7 @@ void TGo4ConfigStep::StoreBufferSize( int t )
    }
 }
 
-void TGo4ConfigStep::StoreSplitLevel( int t)
+void TGo4ConfigStep::StoreSplitLevel(int t)
 {
    if(fStepStatus->GetStorePar()->InheritsFrom(TGo4FileStoreParameter::Class())) {
       TGo4FileStoreParameter *StorePar=(TGo4FileStoreParameter *)fStepStatus->GetStorePar();
@@ -712,8 +725,8 @@ void TGo4ConfigStep::InputFileDialog()
     if(mbsfilemode) {
        bool islml = fd.selectedNameFilter().contains(TGo4MbsFile__fgcFILELISTSUF);
 
-       LineEditTagfile->setShown(!islml);
-       TextLabelTagfile->setShown(!islml);
+       LineEditTagfile->setVisible(!islml);
+       TextLabelTagfile->setVisible(!islml);
        SpinBoxStartEvent->setEnabled(!islml);
        SpinBoxStopEvent->setEnabled(!islml);
        SpinBoxInterEvent->setEnabled(!islml);
@@ -912,4 +925,23 @@ void TGo4ConfigStep::MbsMonitorBtn_clicked()
 {
    if (fxPanel!=0)
      fxPanel->DisplayMbsMonitor(SourceNameEdit->text());
+}
+
+void TGo4ConfigStep::ExtraBtn_clicked()
+{
+   fExtra = !fExtra;
+   ExtraBtn->setText(fExtra ? "-" : "+");
+
+   fBlocked++;
+
+   SourceComboHighlighted(EventSourceCombo->currentIndex());
+
+   fBlocked--;
+
+/*
+   adjustSize();
+   parentWidget()->adjustSize();
+   parentWidget()->parentWidget()->adjustSize();
+   parentWidget()->parentWidget()->parentWidget()->adjustSize();
+*/
 }

@@ -81,6 +81,7 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       virtual void ChangeSourceTimeout( int tim );
       virtual void InputFileDialog();
       virtual void MbsMonitorBtn_clicked();
+      virtual void ExtraBtn_clicked();
 
    protected:
       TGo4AnalysisConfiguration* fxPanel;
@@ -88,6 +89,7 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       int fStepNumber;
       int fLastSrcKind; // last selected kind of source parameter
       int fBlocked;    // indicates if all value-modified slots are blocked
+      bool fExtra;     // show extra properties for event source
 
       enum { ParsSize = 8 };
 
