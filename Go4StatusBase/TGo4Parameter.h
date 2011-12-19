@@ -18,10 +18,11 @@
 
 class TObjArray;
 class TIterator;
+class TDataMember;
 
 /** Base class for all parameter aggregations,
   * e.g. calibration data.
-  * @author J. Adamczewski
+  * @author J. Adamczewski / S. Linev
   * @since Jun-2002 */
 
 class TGo4Parameter : public TNamed {
@@ -67,7 +68,9 @@ class TGo4Parameter : public TNamed {
 
       void GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, unsigned long int cloffset);
 
-      Bool_t SetMemberValues(TIterator* fItems, TClass* cl, char* ptr, unsigned long int cloffset);
+      Bool_t SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass* cl, char* ptr, unsigned long int cloffset);
+
+      Int_t FindArrayLength(TObjArray* items, Int_t itemsindx, TDataMember* member);
 
    ClassDef(TGo4Parameter,1)
 };

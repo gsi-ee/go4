@@ -65,6 +65,12 @@ TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char* name, Qt::WFlags fl
    TextLabelPortNumber->setVisible(false);
    SpinBoxRetryNumber->setVisible(false);
    TextLabelRetryNumber->setVisible(false);
+   SpinBoxTimeout->setVisible(false);
+   TextLabelTimeout->setVisible(false);
+
+   SpinBoxStartEvent->setVisible(false);
+   SpinBoxStopEvent->setVisible(false);
+   SpinBoxInterEvent->setVisible(false);
 
    LineEditArgs->setVisible(false);
    TextLabelArgs->setVisible(false);
@@ -427,7 +433,6 @@ void TGo4ConfigStep::SetMbsSourceWidgets(int start, int stop, int interval, int 
    SpinBoxInterEvent->setValue(interval);
    SpinBoxPortNumber->setValue(port);
    SpinBoxRetryNumber->setValue(0);
-
 }
 
 void TGo4ConfigStep::SourceComboHighlighted(int kind)
@@ -453,7 +458,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
    SpinBoxInterEvent->setVisible(false);
    SpinBoxTimeout->setVisible(false);
    TextLabelTimeout->setVisible(false);
-   FileNameInput->setEnabled(false);
+   FileNameBtn->setEnabled(false);
    MbsMonitorBtn->setEnabled(false);
 
    // evaluate previous source if existing
@@ -481,19 +486,20 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
 
    switch (kind) {
       case kind_RootFile:            // root file with one tree
-         FileNameInput->setEnabled(true);
+         FileNameBtn->setEnabled(true);
          break;
       case kind_MbsFile: {            // mbs listmode file (input only)
          // in this special case spin boxes will be enabled/disabled when file name is changed
-         FileNameInput->setEnabled(true);
+         FileNameBtn->setEnabled(true);
 
          QString tagfile = mbsfilpar->GetTagName();
 
          if(!tagfile.contains(TGo4MbsFile__fgcNOTAGFILE)) {
             LineEditTagfile->setText(tagfile);
 //            fExtra = true;
-         } else
+         } else {
             LineEditTagfile->setText("");
+         }
 
          LineEditTagfile->setVisible(fExtra);
          TextLabelTagfile->setVisible(fExtra);
@@ -523,7 +529,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
          break;
 
       case kind_UserSource:      // user source
-         FileNameInput->setEnabled(true);
+         FileNameBtn->setEnabled(true);
          SpinBoxPortNumber->setValue(userpar->GetPort());
          LineEditArgs->setText(userpar->GetExpression());
          SpinBoxPortNumber->setVisible(fExtra);

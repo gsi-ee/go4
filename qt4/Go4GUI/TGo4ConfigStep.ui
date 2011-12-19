@@ -474,7 +474,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="FileNameInput">
+         <widget class="QToolButton" name="FileNameBtn">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -913,7 +913,7 @@
    <slot>ChangeStopEvent(int)</slot>
   </connection>
   <connection>
-   <sender>FileNameInput</sender>
+   <sender>FileNameBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>InputFileDialog()</slot>

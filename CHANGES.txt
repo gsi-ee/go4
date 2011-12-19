@@ -21,22 +21,28 @@ in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
 Changes in Go4 v4.5.x (Winter 2011/12)
-1. Bugfix in gui shutdown: circular deletion of mainwindow and timer could lead to crash on suse 12.1
-   Also changed details of shutdown mechanism, hope to fix the "hanging analysis with 99% cpu" problems
-   (this may happen when gui terminates before analysis was properly disconnected).
+1. Bugfix in gui shutdown: circular deletion of mainwindow and timer could 
+   lead to crash on suse 12.1. Also changed details of shutdown mechanism, 
+   hope to fix the "hanging analysis with 99% cpu" problems (this may happen 
+   when gui terminates before analysis was properly disconnected).
 2. Adjusted Makefile.config for suse 12.1
 3. Add in MakeParameter method possibility to execute setup macro
-4. In GetParameter method one could optionally specify class name, which will be verified
+4. In GetParameter method one could optionally specify class name, 
+   which will be verified
 5. Adjust savecond.C and saveparam.C macros
 6. Add possibility to change default position of stat box (only for qt4 gui)
 7. Add support of composite events in dynamic list editor (qt3/qt4)
 8. Add retry counter for some MBS sources - let reconnect server if
    it was down for some time. Useful for online analysis when server can
-   be switched off very often for short time. Implemented in source classed,
+   be switched off/on very often for short time. Implemented in source class,
    can be configured in go4analysis, qt3/at4 gui, hotstart.
 9. Fix error in event selection of MBS sources like stream server, 
    make more compact event source selection in the gui (qt4 only)
-10.Fix error in fitgui - in wizard mode model assignment to the data was not working (only qt4 version)   
+10.Fix error in fitgui - in wizard mode model assignment to the 
+   data component was not working (only qt4 version)
+11.Allow to use TArrayI and TArrayD in the parameter and parameter editor.
+   Now parameter elements of such classes will be automatically recognized 
+
 
 Changes in Go4 v4.5.1 (November 2011)
 1. Add force32=true flag to the Makefile, done to force 32 bit compilation and

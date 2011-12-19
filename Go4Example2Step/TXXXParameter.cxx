@@ -13,11 +13,13 @@
 
 #include "TXXXParameter.h"
 
-TXXXParameter::TXXXParameter(const char* name) :
-   TGo4Parameter(name)
-{
-   frP1=10;
-   frP2=20;
-   fbHisto=kTRUE;
-}
+#include "Riostream.h"
 
+TXXXParameter::TXXXParameter(const char* name) :
+   TGo4Parameter(name),
+   fArr()
+{
+   frP1 = 10;
+   frP2 = 20;
+   fbHisto = kTRUE;
+}

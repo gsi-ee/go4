@@ -260,7 +260,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
    SpinBoxInterEvent->setEnabled(false);
    SpinBoxTimeout->setEnabled(false);
    LineEditArgumentsIn->setEnabled(false);
-   FileNameInput->setEnabled(false);
+   FileNameBtn->setEnabled(false);
    MbsMonitorBtn->setEnabled(false);
     
     // evaluate previous source if existing:
@@ -275,7 +275,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
     if(k==0) {            // root file with one tree
        TGo4FileSourceParameter* newpar1 = new TGo4FileSourceParameter(SourceNameEdit->text().latin1());
        fStepStatus->SetSourcePar(newpar1);
-       FileNameInput->setEnabled(true);
+       FileNameBtn->setEnabled(true);
 //       if(rootfilpar==0) SourceNameEdit->clear();
        delete newpar1;
     } else
@@ -299,7 +299,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
            SpinBoxStopEvent->setEnabled(true);
            SpinBoxInterEvent->setEnabled(true);
         }
-       FileNameInput->setEnabled(true);
+       FileNameBtn->setEnabled(true);
 //       if(mbsfilpar==0) SourceNameEdit->clear();
        delete newpar4;
      } else
@@ -375,7 +375,7 @@ void TGo4ConfigStep::SourceComboHighlighted(int k)
        SpinBoxPortNumber->setEnabled(true);
        LineEditArgumentsIn->setEnabled(true);
        SpinBoxTimeout->setEnabled(true);
-       FileNameInput->setEnabled(true);
+       FileNameBtn->setEnabled(true);
 //       if(usersrc==0) SourceNameEdit->clear();
        delete newpar9;
      }
@@ -594,7 +594,7 @@ void TGo4ConfigStep::ResetSourceWidgets(const QString& name, int timeout, int st
     SpinBoxStopEvent->setEnabled(false);
     SpinBoxInterEvent->setEnabled(false);
     SpinBoxTimeout->setEnabled(false);
-    FileNameInput->setEnabled(false);
+    FileNameBtn->setEnabled(false);
 }
 
 void TGo4ConfigStep::SetMbsSelection(int start, int stop, int interval)
@@ -608,7 +608,7 @@ void TGo4ConfigStep::SetMbsSelection(int start, int stop, int interval)
 void TGo4ConfigStep::SetFileSource()
 {
    InputKindCombo->setCurrentItem(0);
-   FileNameInput->setEnabled(true);
+   FileNameBtn->setEnabled(true);
    SourceComboHighlighted(0);
 }
 
@@ -616,7 +616,7 @@ void TGo4ConfigStep::SetMbsFileSource(QString TagFile)
 {
    InputKindCombo->setCurrentItem(1);
    LineEditTagfile->setEnabled(true);
-   FileNameInput->setEnabled(true);
+   FileNameBtn->setEnabled(true);
    if(!strstr(TagFile.latin1(),TGo4MbsFile__fgcNOTAGFILE))
       LineEditTagfile->setText(TagFile);
    else
@@ -685,7 +685,7 @@ void TGo4ConfigStep::SetUserSource(int port, QString expr)
    SpinBoxPortNumber->setEnabled(true);
    LineEditArgumentsIn->setEnabled(true);
    SpinBoxTimeout->setEnabled(true);
-   FileNameInput->setEnabled(true);
+   FileNameBtn->setEnabled(true);
    SourceComboHighlighted(7);
 }
 

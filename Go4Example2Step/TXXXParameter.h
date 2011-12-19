@@ -16,6 +16,8 @@
 
 #include "TGo4Parameter.h"
 
+#include "TArrayI.h"
+
 class TXXXParameter : public TGo4Parameter {
    public:
       TXXXParameter(const char* name = 0);
@@ -24,6 +26,8 @@ class TXXXParameter : public TGo4Parameter {
       Float_t frP1; // Offset for calibration
       Float_t frP2; // Factor for Calibration
       Bool_t fbHisto; // Enable Histogramming
+
+      TArrayI fArr;  // example of usage of array in the parameter
 
    ClassDef(TXXXParameter,1)
 };
