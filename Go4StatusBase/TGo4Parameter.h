@@ -70,7 +70,7 @@ class TGo4Parameter : public TNamed {
 
       Bool_t SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass* cl, char* ptr, unsigned long int cloffset);
 
-      Int_t FindArrayLength(TObjArray* items, Int_t itemsindx, TDataMember* member);
+      Int_t FindArrayLength(TObjArray* items, Int_t& itemsindx, TDataMember* member);
 
    ClassDef(TGo4Parameter,1)
 };

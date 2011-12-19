@@ -19,7 +19,7 @@
 class TGo4ParameterMember : public TNamed {
    public:
 
-      enum { kTString_t = 10001, kTGo4Fitter_t = 10002 };
+      enum { kTString_t = 10001, kTGo4Fitter_t = 10002, kTArray_t = 10003 };
 
       TGo4ParameterMember();
       TGo4ParameterMember(const char* name, const char* title);
@@ -34,8 +34,10 @@ class TGo4ParameterMember : public TNamed {
       Int_t GetMemberId() const { return fMemberId; }
 
       void SetStrValue(const char* value) { fValue = value; }
+      void SetIntValue(Int_t value) { fValue.Form("%d", value); }
       const char* GetStrValue() const { return fValue.Data(); }
-      Bool_t CanStrEdit() const { return fTypeId!=kTGo4Fitter_t; }
+      Int_t GetIntValue() const { return fValue.Atoi();  };
+      Bool_t CanStrEdit() const { return (fTypeId!=kTGo4Fitter_t) && (fTypeId!=kTArray_t); }
 
       void SetArrayIndexes(Int_t ndim=0, Int_t indx1 = -1, Int_t indx2 = -1);
       Bool_t CheckArrayIndexes(Int_t ndim, Int_t indx1, Int_t indx2);

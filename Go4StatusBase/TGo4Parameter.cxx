@@ -167,11 +167,10 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
       if(strcmp(memtypename,"TClass*")==0) continue;
       // skip for a moment all types which are not basic types
 
-      Int_t unitsize = member->GetUnitSize();
       Int_t arraydim = member->GetArrayDim();
+      if (arraydim>2) continue;
 
-      Int_t maxindex1 = 1;
-      Int_t maxindex2 = 1;
+      Int_t maxindex1(1), maxindex2(1);
 
       switch(arraydim) {
         case 1:
@@ -214,6 +213,20 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
          memtypeid = member->GetDataType()->GetType();
       }
 
+      // add extra filed with array size
+      if (arri || arrd) {
+         TGo4ParameterMember* info = new TGo4ParameterMember(member->GetName(), member->GetTitle());
+
+         info->SetMemberId(lastmemberid++);
+
+         info->SetType("TArray", TGo4ParameterMember::kTArray_t);
+         info->SetVisible(kFALSE);
+         //info->SetArrayIndexes(0, 0, 0);
+         info->SetIntValue(maxindex1);
+
+         fItems->Add(info);
+      }
+
       lastmemberid++;
 
       for(Int_t ix1=0;ix1<maxindex1;ix1++)
@@ -229,7 +242,7 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
 
           info->SetArrayIndexes(arraydim, ix1, ix2);
 
-          char* addr = ptr + cloffset + member->GetOffset() + (ix1*maxindex2 + ix2) * unitsize;
+          char* addr = ptr + cloffset + member->GetOffset() + (ix1*maxindex2 + ix2) * member->GetUnitSize();
           if (arri) addr = (char*) (arri->GetArray() + ix1);
           if (arrd) addr = (char*) (arrd->GetArray() + ix1);
 
@@ -251,18 +264,14 @@ void TGo4Parameter::GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, un
    }
 }
 
-Int_t TGo4Parameter::FindArrayLength(TObjArray* items, Int_t itemsindx, TDataMember* member)
+Int_t TGo4Parameter::FindArrayLength(TObjArray* items, Int_t& itemsindx, TDataMember* member)
 {
-   Int_t maxindex = 0;
-   while (itemsindx<=items->GetLast()) {
-      TGo4ParameterMember* info = dynamic_cast<TGo4ParameterMember*> (items->At(itemsindx++));
-      if (info==0) break;
-      if (strcmp(info->GetName(), member->GetName())!=0) break;
-      if (strcmp(info->GetTitle(), member->GetTitle())!=0) break;
-      maxindex++;
-   }
-
-   return maxindex;
+   TGo4ParameterMember* info = dynamic_cast<TGo4ParameterMember*> (items->At(itemsindx++));
+   if (info==0) return -1;
+   if (strcmp(info->GetName(), member->GetName())!=0) return -1;
+   if (strcmp(info->GetTitle(), member->GetTitle())!=0) return -1;
+   if (info->GetTypeId() != TGo4ParameterMember::kTArray_t) return -1;
+   return info->GetIntValue();
 }
 
 
@@ -283,11 +292,10 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
       if(strcmp(memtypename,"TClass*")==0) continue;
       // skip for a moment all types which are not basic types
 
-      Int_t unitsize = member->GetUnitSize();
       Int_t arraydim = member->GetArrayDim();
+      if (arraydim>2) continue;
 
-      Int_t maxindex1 = 1;
-      Int_t maxindex2 = 1;
+      Int_t maxindex1(1), maxindex2(1);
 
       switch(arraydim) {
         case 1:
@@ -316,6 +324,7 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
          arraydim = 1;
          maxindex1 = FindArrayLength(items, itemsindx, member); // here we need to define index ourself
          maxindex2 = 1;
+         if (maxindex1<0) return kFALSE;
          if (arri->GetSize()!=maxindex1) arri->Set(maxindex1);
       } else
       if (strcmp(memtypename,"TArrayD")==0) {
@@ -326,6 +335,7 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
          arraydim = 1;
          maxindex1 = FindArrayLength(items, itemsindx, member); // here we need to define index ourself
          maxindex2 = 1;
+         if (maxindex1<0) return kFALSE;
          if (arrd->GetSize()!=maxindex1) arrd->Set(maxindex1);
       } else {
         if (!member->IsBasic()) continue;
@@ -347,7 +357,7 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
 
           if (!info->CheckArrayIndexes(arraydim, ix1, ix2)) return kFALSE;
 
-          char* addr = ptr + cloffset + member->GetOffset() + (ix1*maxindex2 + ix2) * unitsize;
+          char* addr = ptr + cloffset + member->GetOffset() + (ix1*maxindex2 + ix2) * member->GetUnitSize();
           if (arri) addr = (char*) (arri->GetArray() + ix1);
           if (arrd) addr = (char*) (arrd->GetArray() + ix1);
 
@@ -404,13 +414,23 @@ void TGo4Parameter::SavePrimitive(ostream& out, Option_t* opt)
       TString membername;
       info->GetFullName(membername);
 
-      if (info->GetTypeId()==TGo4ParameterMember::kTString_t)
-         out << Form("   %s->%s = \"%s\";", varname.Data(), membername.Data(), info->GetStrValue()) << endl;
-      else
-      if (info->GetTypeId()==kBool_t)
-         out << Form("   %s->%s = %s;", varname.Data(), membername.Data(), (atoi(info->GetStrValue()) ? "kTRUE" : "kFALSE")) << endl;
-      else
-         out << Form("   %s->%s = %s;", varname.Data(), membername.Data(), info->GetStrValue()) << endl;
+      switch (info->GetTypeId()) {
+         case TGo4ParameterMember::kTString_t:
+            out << Form("   %s->%s = \"%s\";", varname.Data(), membername.Data(), info->GetStrValue()) << endl;
+            break;
+         case TGo4ParameterMember::kTGo4Fitter_t:
+            out << Form("   // fitter %s->%s ignored", varname.Data(), membername.Data()) << endl;
+            break;
+         case TGo4ParameterMember::kTArray_t:
+            out << Form("   %s->%s.Set(%d);", varname.Data(), membername.Data(), info->GetIntValue()) << endl;
+            break;
+         case kBool_t:
+            out << Form("   %s->%s = %s;", varname.Data(), membername.Data(), (info->GetIntValue() ? "kTRUE" : "kFALSE")) << endl;
+            break;
+         default:
+            out << Form("   %s->%s = %s;", varname.Data(), membername.Data(), info->GetStrValue()) << endl;
+            break;
+      }
    }
 
    delete fitems;
