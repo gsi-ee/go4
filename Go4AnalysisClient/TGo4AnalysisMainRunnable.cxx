@@ -71,138 +71,138 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
 {
    //TRACE((12,"TGo4AnalysisMainRunnable::Run()",__LINE__, __FILE__));
    //
-try
+   try
    {
-   TGo4Command* com=fxAnalysisClient->NextCommand();
-   //if(com== (TGo4Command*) -1) return 0; // for command memleak debug: no execute, no mainloop
-   if(com)
-     {
+      TGo4Command* com=fxAnalysisClient->NextCommand();
+      //if(com== (TGo4Command*) -1) return 0; // for command memleak debug: no execute, no mainloop
+      if(com)
+      {
          if( com->GetCommandID() != TGo4Task::Get_fgiTERMID() )
-            {
-                // normal operation if we have not a terminate dummy command
-               ////////////
-               //// note JA: mutex order needs to be preserved in any thread:
-               //// statusmutex,taskmanagermutex,queuemutex(locally in each queue),   mainmutex(root streamer etc.)
-               TMutex* smutex=fxAnalysisClient->GetTask()->GetStatusBufferMutex();
-               TGo4LockGuard buflock(smutex); // protect deadlocking status buffer
-               TMutex* tmutex=fxAnalysisClient->GetTaskManagerMutex();
-               TGo4LockGuard tasklock(tmutex); //  protect deadlocking taskmanger mutex, if we are server task
-                  // if tmutex or smutex==0, these will be just a dummy mainmutex
-               TGo4LockGuard mainlock; // protect command invocation!
-               /////////////
-                  TGo4CommandInvoker::Instance()->Invoke(com); // execute command by invoker
-                  delete com;
-            } // end mutexes scope
+         {
+            // normal operation if we have not a terminate dummy command
+            ////////////
+            //// note JA: mutex order needs to be preserved in any thread:
+            //// statusmutex,taskmanagermutex,queuemutex(locally in each queue),   mainmutex(root streamer etc.)
+            TMutex* smutex=fxAnalysisClient->GetTask()->GetStatusBufferMutex();
+            TGo4LockGuard buflock(smutex); // protect deadlocking status buffer
+            TMutex* tmutex=fxAnalysisClient->GetTaskManagerMutex();
+            TGo4LockGuard tasklock(tmutex); //  protect deadlocking taskmanger mutex, if we are server task
+            // if tmutex or smutex==0, these will be just a dummy mainmutex
+            TGo4LockGuard mainlock; // protect command invocation!
+            /////////////
+            TGo4CommandInvoker::Instance()->Invoke(com); // execute command by invoker
+            delete com;
+         } // end mutexes scope
          else
-            {
-               // terminate dummy command: do not execute, but stop this thread
-               //cout <<"Analysis main runnable got termid command" << endl;
-               GetThread()->Stop();
-            }
+         {
+            // terminate dummy command: do not execute, but stop this thread
+            //cout <<"Analysis main runnable got termid command" << endl;
+            GetThread()->Stop();
+         }
 
-     }
-   else  // if(com)
-     {
-        // zero object means proceed with analysis...
-      // for analysis as server, we have to check running state again
-      // (no command queue means no wait for next command)
-      if(fxAnalysisClient->MainIsRunning())
+      }
+      else  // if(com)
+      {
+         // zero object means proceed with analysis...
+         // for analysis as server, we have to check running state again
+         // (no command queue means no wait for next command)
+         if(fxAnalysisClient->MainIsRunning())
          {
             //TGo4LockGuard mainguard; // global lock main actions inside MainCycle now
-              if(!fxAnalysisClient->IsCintMode())
-                 fxAnalysis->MainCycle();
+            if(!fxAnalysisClient->IsCintMode())
+               fxAnalysis->MainCycle();
          }
-      else
+         else
          {
             //cout <<"main runnable: analysis is not running" << endl;
             TGo4Thread::Sleep(fguPOLLINTERVAL);
          }
 
       }  // if(com)
-   return 0;
-} // try
+      return 0;
+   } // try
 
-/////////////////////////////////////////////////////////////////////////////////
-// begin catch block
-catch(TGo4EventTimeoutException& ex)
-{
-   ex.Handle(); // display exception on terminal in case of debug
-   if(TGo4Log::GetIgnoreLevel()<1)
+   /////////////////////////////////////////////////////////////////////////////////
+   // begin catch block
+   catch(TGo4EventTimeoutException& ex)
+   {
+      ex.Handle(); // display exception on terminal in case of debug
+      if(TGo4Log::GetIgnoreLevel()<1)
       {
          // only display message if debug output enabled
          fxAnalysisClient->SendStatusMessage(2,kTRUE,"Analysis %s TIMEOUT for event source %s:%s.",
-                  fxAnalysisClient->GetName(), ex.GetSourceClass(), ex.GetSourceName());
+               fxAnalysisClient->GetName(), ex.GetSourceClass(), ex.GetSourceName());
       } else{}
-    return 0;
-}
-catch(TGo4EventEndException& ex)
-{
-fxAnalysisClient->SendStatusMessage(2,kTRUE,"End of event source %s:\n     %s - %s",
-                                 ex.GetSourceClass(),
-                                 ex.GetSourceName(),ex.GetErrMess());
-if(fxAnalysis->IsErrorStopEnabled()) fxAnalysisClient->Stop();
-}
-catch(TGo4EventErrorException& ex)
-{
-   //ex.Handle();
-   Int_t prio=ex.GetPriority();
-   if(prio==0)
+      return 0;
+   }
+   catch(TGo4EventEndException& ex)
+   {
+      fxAnalysisClient->SendStatusMessage(2,kTRUE,"End of event source %s:\n     %s - %s",
+            ex.GetSourceClass(),
+            ex.GetSourceName(),ex.GetErrMess());
+      if(fxAnalysis->IsErrorStopEnabled()) fxAnalysisClient->Stop();
+   }
+   catch(TGo4EventErrorException& ex)
+   {
+      //ex.Handle();
+      Int_t prio=ex.GetPriority();
+      if(prio==0)
       {
          // only display message without stop
          fxAnalysisClient->SendStatusMessage(1,kTRUE,"Event source %s:\n     %s - %s",
-                                 ex.GetSourceClass(),
-                                 ex.GetSourceName(),ex.GetErrMess());
+               ex.GetSourceClass(),
+               ex.GetSourceName(),ex.GetErrMess());
       }
-   else
+      else
       {
-      fxAnalysisClient->SendStatusMessage(3,kTRUE,"Analysis %s ERROR: %s from event source %s:%s",
-                           fxAnalysisClient->GetName(),ex.GetErrMess(),
-                           ex.GetSourceClass(), ex.GetSourceName());
-      if(fxAnalysis->IsErrorStopEnabled()) fxAnalysisClient->Stop();
+         fxAnalysisClient->SendStatusMessage(3,kTRUE,"Analysis %s ERROR: %s from event source %s:%s",
+               fxAnalysisClient->GetName(),ex.GetErrMess(),
+               ex.GetSourceClass(), ex.GetSourceName());
+         if(fxAnalysis->IsErrorStopEnabled()) fxAnalysisClient->Stop();
       }
-   return 0;
-}
+      return 0;
+   }
 
-catch(TGo4DynamicListException& ex)
-{
-   ex.Handle();
-   fxAnalysisClient->SendStatusMessage(3,kTRUE,"Analysis %s ERROR: %s from dynamic list entry %s:%s",
-                           fxAnalysisClient->GetName(),ex.GetStatusMessage(),
-                           ex.GetEntryName(), ex.GetEntryClass());
-   if(fxAnalysis->IsErrorStopEnabled())
-      fxAnalysisClient->Stop();
-   return 0;
-}
-
-catch(TGo4AnalysisStepException& ex)
-{
-   ex.Handle();
-   fxAnalysisClient->SendStatusMessage(3,kTRUE,"Analysis %s ERROR: %s in Analysis Step %s",
-                           fxAnalysisClient->GetName(), ex.GetStatusMessage(), ex.GetStepName());
-   if(fxAnalysis->IsErrorStopEnabled())
+   catch(TGo4DynamicListException& ex)
+   {
+      ex.Handle();
+      fxAnalysisClient->SendStatusMessage(3,kTRUE,"Analysis %s ERROR: %s from dynamic list entry %s:%s",
+            fxAnalysisClient->GetName(),ex.GetStatusMessage(),
+            ex.GetEntryName(), ex.GetEntryClass());
+      if(fxAnalysis->IsErrorStopEnabled())
          fxAnalysisClient->Stop();
-   return 0;
-}
+      return 0;
+   }
 
-catch(TGo4UserException& ex)
-{
-   //ex.Handle();
-   if(strlen(ex.GetMessage())!=0)
-	   fxAnalysisClient->SendStatusMessage(ex.GetPriority(),kTRUE,  ex.GetMessage() );
-   if(fxAnalysis->IsErrorStopEnabled() && ex.GetPriority()>2)
+   catch(TGo4AnalysisStepException& ex)
+   {
+      ex.Handle();
+      fxAnalysisClient->SendStatusMessage(3,kTRUE,"Analysis %s ERROR: %s in Analysis Step %s",
+            fxAnalysisClient->GetName(), ex.GetStatusMessage(), ex.GetStepName());
+      if(fxAnalysis->IsErrorStopEnabled())
+         fxAnalysisClient->Stop();
+      return 0;
+   }
+
+   catch(TGo4UserException& ex)
+   {
+      //ex.Handle();
+      if(strlen(ex.GetMessage())!=0)
+         fxAnalysisClient->SendStatusMessage(ex.GetPriority(),kTRUE,  ex.GetMessage() );
+      if(fxAnalysis->IsErrorStopEnabled() && ex.GetPriority()>2)
          fxAnalysisClient->Stop(); // only stop for errors, warnings and infos continue loop!
-   return 0;
-}
+      return 0;
+   }
 
-catch(std::exception& ex) // treat standard library exceptions
-{
-   fxAnalysisClient->SendStatusMessage(3,kTRUE,"Analysis %s got standard exception %s",
-                           fxAnalysisClient->GetName(), ex.what());
-   if(fxAnalysis->IsErrorStopEnabled())
+   catch(std::exception& ex) // treat standard library exceptions
+   {
+      fxAnalysisClient->SendStatusMessage(3,kTRUE,"Analysis %s got standard exception %s",
+            fxAnalysisClient->GetName(), ex.what());
+      if(fxAnalysis->IsErrorStopEnabled())
          fxAnalysisClient->Stop();
+      return 0;
+   }
+   // end catch block
+   ////////////////////////////////////////////////////////////////////////////////
    return 0;
-}
-// end catch block
-////////////////////////////////////////////////////////////////////////////////
-return 0;
 }

@@ -409,14 +409,15 @@ void TGo4AnalysisClient::UpdateRate(Int_t counts)
    TRACE((12,"TGo4AnalysisClient::UpdateRate(Int_t)",__LINE__, __FILE__));
    fxRatemeter->Update(counts);
 }
+
 UInt_t TGo4AnalysisClient::GetCurrentCount()
 {
-   return (fxRatemeter->GetCurrentCount());
+   return fxRatemeter->GetCurrentCount();
 }
 
 Bool_t TGo4AnalysisClient::TestRatemeter()
 {
-   return (fxRatemeter->TestUpdate());
+   return fxRatemeter->TestUpdate();
 }
 
 Bool_t TGo4AnalysisClient::TestBufferUpdateConditions()

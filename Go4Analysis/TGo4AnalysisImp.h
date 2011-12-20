@@ -155,8 +155,9 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     virtual Int_t UserPostLoop();
 
     /** Processes the UserEventFunc in an implicit loop for "times" times.
-      * For non-threaded usage of the analysis class. */
-    Int_t RunImplicitLoop(Int_t times);
+      * For non-threaded usage of the analysis class.
+      * \param times specified how many events should be processed, 0 - all */
+    Int_t RunImplicitLoop(Int_t times, Bool_t showrate = kFALSE);
 
     /** Finish the analysis run and close all event sources/storages.
       * The analysis instance and the setup of the analysis steps is not deleted. */

@@ -13,37 +13,41 @@
 
 #include "TGo4Ratemeter.h"
 
-#include "TStopwatch.h"
-
 const Double_t TGo4Ratemeter::fgdUPDATEINTERVAL= 1.0; // time in s
 
 
-TGo4Ratemeter::TGo4Ratemeter()
-: fuCurrentCount(0), fuLastCount(0), fdRate(0), fdAveRate(0),  fdTime(0), fdLastTime(0),fdDeltaTime(0)
+TGo4Ratemeter::TGo4Ratemeter() :
+   TObject(),
+   fuCurrentCount(0),
+   fuLastCount(0),
+   fdRate(0),
+   fdTime(0),
+   fLastTm(),
+   fbUpdateDone(kFALSE),
+   fuNextCheckCnt(0),
+   fuCheckInterval(1),
+   fdUpdateInterval(fgdUPDATEINTERVAL)
 {
-   fxClock = new TStopwatch;
-   fxClock->Stop();
 }
 
 TGo4Ratemeter::~TGo4Ratemeter()
 {
-   delete fxClock;
 }
 
 void TGo4Ratemeter::Reset()
 {
    fdTime = 0;
-   fdDeltaTime = 0;
    fdRate = 0;
-   fdAveRate = 0;
    fuLastCount = 0;
-   fdLastTime = 0;
    fuCurrentCount = 0;
-   fxClock->RealTime();
-   fxClock->Start(kTRUE);
+
+   fLastTm.Set();
+   fbUpdateDone = kFALSE;
+   fuNextCheckCnt = 0;
+   fuCheckInterval = 1; // in the beginning check every event
 }
 
-void TGo4Ratemeter::Update(Int_t increment)
+Bool_t TGo4Ratemeter::Update(Int_t increment)
 {
    if(increment<0) {
       if(increment==-2)
@@ -51,28 +55,39 @@ void TGo4Ratemeter::Update(Int_t increment)
       else
          fdRate=0; // case of stopped analysis: zero rate
       // keep last values of time, average rate, eventnumber
-   } else {
-      // normal operation
-      fdTime = fxClock->RealTime();
-      fxClock->Continue();
-      fdDeltaTime = fdTime - fdLastTime; // difference since last update
-      fuCurrentCount += (UInt_t) increment;
-      UInt_t deltacount = fuCurrentCount - fuLastCount;
-      if(fdDeltaTime > TGo4Ratemeter::fgdUPDATEINTERVAL) {
-         // we reach the update point, calculate the rate
-         if(fdDeltaTime>0. && deltacount>0)
-            fdRate = deltacount/fdDeltaTime;
-         else
-            fdRate=0.; // reset rate in case of stopped analysis
-         if(fdTime>0)
-            fdAveRate = fuCurrentCount/fdTime;
-         fdLastTime = fdTime; // remember updata time and count
-         fuLastCount = fuCurrentCount;
-      } else {
-         // too short time since last update, we do not calculate...
-      } // if( fdDeltaTime > TGo4Ratemeter::fgdUPDATEINTERVAL)
-   } //if(increment<0)
+      fbUpdateDone = kTRUE; // tell watch thread we did the update
+      return kTRUE;
+   }
+
+   fuCurrentCount += (UInt_t) increment;
+
+   // check time if update count specified as 0
+   if ((increment>0) && (fuCurrentCount < fuNextCheckCnt)) return kFALSE;
+
+   TTimeStamp now;
+
+   Double_t dist = now.AsDouble() - fLastTm.AsDouble();
+
+   if (dist<fdUpdateInterval) {
+      fuNextCheckCnt = fuCurrentCount + fuCheckInterval;
+      return kFALSE;
+   }
+
+   fdRate = (fuCurrentCount - fuLastCount) / dist;
+
+   fdTime += dist;
+
+   fLastTm = now;
+   fuLastCount = fuCurrentCount;
+
+   double check = fdRate * fdUpdateInterval * 0.1; // check about 10 times before next update
+   if (check<2) fuCheckInterval = 1; else
+   if (check>1000) fuCheckInterval = 1000; else fuCheckInterval = (ULong64_t) check;
+
+   fuNextCheckCnt = fuCurrentCount + fuCheckInterval;
+
    fbUpdateDone = kTRUE; // tell watch thread we did the update
+   return kTRUE;
 }
 
 Bool_t TGo4Ratemeter::TestUpdate()
@@ -81,4 +96,3 @@ Bool_t TGo4Ratemeter::TestUpdate()
    fbUpdateDone = kFALSE;
    return rev;
 }
-

@@ -14,6 +14,7 @@
 #include "TGo4Log.h"
 
 #include "Riostream.h"
+#include "TDataType.h"
 #include "TDatime.h"
 #include "TMutex.h"
 #include "TSystem.h"
@@ -222,6 +223,21 @@ const char* TGo4Log::GetDefaultLogname()
    return fgcDEFAULTLOG;
 }
 
+const char* TGo4Log::GetPrintfArg(Int_t type_id)
+{
+   switch (type_id) {
+      case kInt_t: return "%d";
+      case kUInt_t: return "%u";
+      case kLong_t: return "%ld";
+      case kULong_t: return "%lu";
+      case kLong64_t: return sizeof(long long int)==8 ? "%lld" : "%ld";
+      case kULong64_t: return sizeof(long long unsigned)==8 ? "%llu" : "%lu";
+   }
+
+   return "%d";
+}
+
+
 void TGo4Log::OutputEnable(Bool_t on)
 {
    //TGo4LockGuard(fxMutex);
@@ -332,5 +348,4 @@ void TGo4Log::CloseLogfile()
          cerr <<"!!! Unexpected exception in TGo4Log::CloseLogfile !!!" << endl;
       } //
    }
-
 }

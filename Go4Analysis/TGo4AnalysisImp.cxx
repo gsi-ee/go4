@@ -32,12 +32,14 @@
 #include "TROOT.h"
 #include "TCutG.h"
 #include "TStopwatch.h"
+#include "TTimeStamp.h"
 #include "snprintf.h"
 
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
 #include "TGo4Thread.h"
 #include "TGo4CommandInvoker.h"
+#include "TGo4Ratemeter.h"
 #include "TGo4AnalysisCommandList.h"
 #include "TGo4UserException.h"
 #include "TGo4TaskHandler.h"
@@ -434,7 +436,7 @@ Int_t TGo4Analysis::Process()
          //return -1;
          else
          {
-            TDirectory* savdir=gDirectory;
+            TDirectory* savdir = gDirectory;
             gROOT->cd(); // necessary for dynamic list scope
             MainCycle();
             savdir->cd();
@@ -570,12 +572,20 @@ Int_t TGo4Analysis::Process()
 
 
 
-Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
+Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate)
 {
    TRACE((11,"TGo4Analysis::RunImplicitLoop(Int_t)",__LINE__, __FILE__));
    Int_t cnt = 0; // number of actually processed events
 
    if (times < 0) times = fBatchLoopCount;
+
+   TGo4Ratemeter rate;
+   TString ratefmt;
+   if (showrate) {
+      rate.SetUpdateInterval(1.);
+      ratefmt.Form("\rCnt = %s  Rate = %s Ev/s", TGo4Log::GetPrintfArg(kULong64_t),"%5.*f");
+      rate.Reset();
+   }
 
    try
    {
@@ -588,6 +598,14 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
       while (fbDoWorkingFlag) {
 
          if ((times>0) && (cnt>=times)) break;
+
+         if (showrate && rate.Update(1)) {
+            int width(1);
+            if (rate.GetRate()>1e4) width=0; else
+            if (rate.GetRate()<1.) width = 3;
+            printf(ratefmt.Data(), rate.GetCurrentCount(), width, rate.GetRate());
+            fflush(stdout);
+         }
 
          try
          {
@@ -624,7 +642,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
             }
             else
             {
-               // SL:12.2011 even erre display can be skipped, continue without stop
+               // SL:12.2011 even error display can be skipped, continue without stop
                // Message(1,"Eventsource %s:%s %s",ex.GetSourceClass(),
                //      ex.GetSourceName(),ex.GetErrMess());
                ex.Handle(); // infos: continue loop after display message
@@ -658,6 +676,11 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times)
    catch(...) {
       TGo4Log::Info("!!! Unexpected exception in %d cycle !!!", cnt);
    }
+
+   if (showrate) {
+      printf("\n"); fflush(stdout);
+   }
+
    /////////// end outer catch block
    return cnt;
 }

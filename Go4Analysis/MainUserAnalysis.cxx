@@ -132,6 +132,7 @@ void usage(const char* subtopic = 0)
    cout << "  -hserver [name [passwd]]    : start histogram server with optional name and password" << endl;
    cout << "  -log [filename]             : enable log output into filename (default:go4logfile.txt)" << endl;
    cout << "  -v -v0 -v1 -v2 -v3          : change log output verbosity (0 - maximum, 1 - info, 2 - warn, 3 - errors)" << endl;
+   cout << "  -rate                       : display rate information during run" << endl;
    cout << "  -print [sub=N] [hex|dec]    : print events, see -help print for more info" << endl;
    cout << "  -help [topic]               : show this help or for selected topic" << endl;
    cout << "" << endl;
@@ -668,10 +669,11 @@ int main(int argc, char **argv)
 
    gROOT->SetBatch(kTRUE);
 
-   Bool_t batchMode(kTRUE);  // GUI or Batch
+   Bool_t batchMode(kTRUE);              // GUI or Batch
    Bool_t servermode(kFALSE);            // run analysis as server task
    Bool_t hserver(kFALSE);               // enable histogram server
    Bool_t loadprefs(kTRUE);              // loading preferences by client
+   Bool_t showrate(kFALSE);              // display event rate
    const char* hname  = "";              // namebase for histogram server
    const char* hpasswd  = "";            // password for histogram server
    const char* hostname = "localhost";   // gui host name
@@ -1040,6 +1042,14 @@ int main(int argc, char **argv)
          narg++;
          step->SetErrorStopEnabled(kTRUE);
       } else
+      if(strcmp(argv[narg],"-rate")==0) {
+         narg++;
+         showrate = kTRUE;
+      } else
+      if(strcmp(argv[narg],"-norate")==0) {
+         narg++;
+         showrate = kFALSE;
+      } else
       if(strcmp(argv[narg],"-inpevt-class")==0) {
          // these arguments used only in simple analysis with single step and
          // processed when analysis created
@@ -1067,7 +1077,7 @@ int main(int argc, char **argv)
    if(batchMode) {
       TGo4Log::Info("Main: starting analysis in batch mode ...  ");
       if (analysis->InitEventClasses()) {
-         analysis->RunImplicitLoop(maxevents);
+         analysis->RunImplicitLoop(maxevents, showrate);
          delete analysis;
          TGo4Log::Info("Main: analysis batch done");
       } else
