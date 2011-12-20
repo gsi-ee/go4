@@ -44,7 +44,8 @@ class TGo4AnalysisClient : public TGo4Slave {
                        Bool_t servermode=kFALSE,
                        Bool_t autorun=kFALSE,
                        Bool_t cintmode = kFALSE,
-                       Bool_t loadprefs = kTRUE);
+                       Bool_t loadprefs = kTRUE,
+                       Bool_t showrate = kFALSE);
 
     TGo4AnalysisClient(int argc, char** argv,
                        TGo4Analysis* analysis,
@@ -221,6 +222,8 @@ private:
     /** If true, this slave load preferences for analysis from default file. */
     Bool_t fbLoadPrefs; //!
 
+    /** Then enabled, show current rate on the analysis terminal window */
+    Bool_t fbShowRate; //!
 
     TGo4AnalysisClient();
 

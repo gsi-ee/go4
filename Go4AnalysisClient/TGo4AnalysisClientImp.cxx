@@ -18,6 +18,7 @@
 #include "Riostream.h"
 #include "TApplication.h"
 #include "TTimeStamp.h"
+#include "TDataType.h"
 #include "TROOT.h"
 
 #include "TGo4Log.h"
@@ -60,14 +61,16 @@ TGo4AnalysisClient::TGo4AnalysisClient(const char* name,
                                        Bool_t servermode,
                                        Bool_t autorun,
                                        Bool_t cintmode,
-                                       Bool_t loadprefs) :
+                                       Bool_t loadprefs,
+                                       Bool_t showrate) :
    TGo4Slave(name, servermode, host, negport),
    fdBufferUpdateTime(0),
    fxHistoServer(0),
    fbAutoStart(autorun),
    fbCintMode(kFALSE),
    fxCintLockTimer(0),
-   fbLoadPrefs(loadprefs)
+   fbLoadPrefs(loadprefs),
+   fbShowRate(showrate)
 {
    TRACE((15,"TGo4AnalysisClient::TGo4AnalysisClient(const char*,...)",__LINE__, __FILE__));
 
@@ -97,7 +100,8 @@ TGo4AnalysisClient::TGo4AnalysisClient(int argc, char** argv,
    fbAutoStart(autorun),
    fbCintMode(kFALSE),
    fxCintLockTimer(0),
-   fbLoadPrefs(kTRUE)
+   fbLoadPrefs(kTRUE),
+   fbShowRate(kFALSE)
 {
    TRACE((15,"TGo4AnalysisClient::TGo4AnalysisClient(int, char**...)",__LINE__, __FILE__));
 
@@ -319,6 +323,7 @@ void TGo4AnalysisClient::SendAnalysisStatus()
       }
 }
 
+
 void TGo4AnalysisClient::SendAnalysisClientStatus()
 {
    TRACE((12,"TGo4AnalysisClient::SendAnalysisClientStatus()",__LINE__, __FILE__));
@@ -407,7 +412,16 @@ void TGo4AnalysisClient::Stop()
 void TGo4AnalysisClient::UpdateRate(Int_t counts)
 {
    TRACE((12,"TGo4AnalysisClient::UpdateRate(Int_t)",__LINE__, __FILE__));
-   fxRatemeter->Update(counts);
+   if (fxRatemeter->Update(counts))
+      if (fbShowRate) {
+         TString ratefmt;
+         ratefmt.Form("\rCnt = %s  Rate = %s Ev/s", TGo4Log::GetPrintfArg(kULong64_t),"%5.*f");
+         int width(1);
+         if (fxRatemeter->GetRate()>1e4) width=0; else
+         if (fxRatemeter->GetRate()<1.) width = 3;
+         printf(ratefmt.Data(), fxRatemeter->GetCurrentCount(), width, fxRatemeter->GetRate());
+         fflush(stdout);
+      }
 }
 
 UInt_t TGo4AnalysisClient::GetCurrentCount()

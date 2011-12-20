@@ -1090,7 +1090,7 @@ int main(int argc, char **argv)
 
       if (canrun<0) autorun = false;
 
-      TGo4AnalysisClient* client = new TGo4AnalysisClient("UserClient", analysis, hostname, iport, hserver, hname, hpasswd, servermode, autorun, kFALSE, loadprefs);
+      TGo4AnalysisClient* client = new TGo4AnalysisClient("UserClient", analysis, hostname, iport, hserver, hname, hpasswd, servermode, autorun, kFALSE, loadprefs, showrate);
 
       TGo4Log::Info("Main: created AnalysisClient instance: %s", client->GetName());
       TGo4Log::Info("Main: Run application loop");
