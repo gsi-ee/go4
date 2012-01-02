@@ -18,6 +18,7 @@
 #include "Riostream.h"
 #include "TObjArray.h"
 #include "TClass.h"
+#include "TSystem.h"
 
 #include "TGo4MbsEvent.h"
 #include "TGo4MbsSubEvent.h"
@@ -308,7 +309,7 @@ frombegin:
             Int_t cnt = fiRetryCnt;
 
             while (cnt-->0) {
-               sleep(1);
+               gSystem->Sleep(1000);
 
                //if (TGo4Analysis::Instance())
                //   if (TGo4Analysis::Instance()->IsStopWorking()) return GetEventStatus();
