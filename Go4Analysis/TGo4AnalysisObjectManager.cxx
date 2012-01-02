@@ -119,7 +119,10 @@ TGo4AnalysisObjectManager::TGo4AnalysisObjectManager(const char* name) :
    fxEventDir=fxAnalysisDir->AddFolder(fgcEVENTFOLDER,"References to event structures");
    fxEventDir->SetOwner(kFALSE); // event  classes dir does not own objects,
    fxUserDir=fxGo4Dir->AddFolder(fgcUSRFOLDER,"For User Objects");
+
+   // FIXME: SL, 2.01.2012  why owner flag is disabled here, causes memory leak when destroyed
    fxGo4Dir->SetOwner(kFALSE);
+
    fxTempFolder=gROOT->GetRootFolder()->AddFolder(fgcTMPFOLDER,"The Go4 temporary object folder");
    fxTempFolder->SetOwner(kFALSE);
 
@@ -147,7 +150,6 @@ TGo4AnalysisObjectManager::~TGo4AnalysisObjectManager()
 
    delete fxMatchIterator;
    delete fxMatchList;
-   //delete fxDirMutex;
    gROOT->GetListOfBrowsables()->Remove(fxGo4Dir);
    //cout <<"Removed all folders from list of browsables" << endl;
 
@@ -165,19 +167,20 @@ TGo4AnalysisObjectManager::~TGo4AnalysisObjectManager()
    fxTreeDir->Clear();
    fxPictureDir->Clear();
 
-
    fxEventDir->Clear();
    fxProcessorDir->Clear();
    fxStoreDir->Clear();
    fxSourceDir->Clear();
    fxGo4Dir->Clear();
    fxTempFolder->Clear();
+
    //cout <<"Cleared all folders" << endl;
    delete fxTempFolder;
    //cout <<"deleted temporary folder" << endl;
    delete fxGo4Dir;
    //cout <<"deleted top folder" << endl;
 
+   delete fxDirMutex;
 }
 
 void TGo4AnalysisObjectManager::RecursiveRemove(TObject* obj)
@@ -506,10 +509,7 @@ TFolder * TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray* bran
    fold->SetOwner(kTRUE);
    fxTempFolder->Remove(fold);
    return fold;
-
 }
-
-
 
 TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(TTree* thetree)
 {
@@ -2136,6 +2136,4 @@ Bool_t TGo4AnalysisObjectManager::FindObjectPathName(TObject* obj, TString& path
    }
 
    return kFALSE;
-
 }
-

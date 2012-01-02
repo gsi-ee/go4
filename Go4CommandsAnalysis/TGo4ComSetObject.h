@@ -63,8 +63,8 @@ class TGo4ComSetObject : public TGo4AnalysisObjectCommand {
     TObject* fxObject;
 
     TGo4AnalysisClient* fxClient; //!
-    TGo4Analysis* fxAna;//!
 
+    TGo4Analysis* fxAna;//!
 
      /** structure to keep result of setting action */
     TGo4AnalysisObjectResult* fxResult; //!

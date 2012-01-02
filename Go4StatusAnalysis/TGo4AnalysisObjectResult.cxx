@@ -14,10 +14,12 @@
 #include "TGo4AnalysisObjectResult.h"
 
 #include "Riostream.h"
-
 #include "TROOT.h"
 
 #include "TGo4Log.h"
+
+#include "TGo4AnalysisObjectNames.h"
+
 
 TGo4AnalysisObjectResult::TGo4AnalysisObjectResult() :
    TGo4Status(),
@@ -30,6 +32,7 @@ TGo4AnalysisObjectResult::TGo4AnalysisObjectResult() :
 
 TGo4AnalysisObjectResult::TGo4AnalysisObjectResult(const char* name) :
    TGo4Status(name),
+   fxNamesList(0),
    fxFullName(),
    fiAction(kGo4ActionNul),
    fxMessage()
@@ -38,13 +41,14 @@ TGo4AnalysisObjectResult::TGo4AnalysisObjectResult(const char* name) :
 
 TGo4AnalysisObjectResult::~TGo4AnalysisObjectResult()
 {
-//      delete fxNamesList;
-//      fxNamesList=0;
+   // names list is not owned by the result object
+   //  delete fxNamesList;
+   // fxNamesList=0;
 }
 
 TGo4AnalysisObjectNames* TGo4AnalysisObjectResult::GetNamesList(Bool_t chown)
 {
-   TGo4AnalysisObjectNames* reval=fxNamesList;
+   TGo4AnalysisObjectNames* reval = fxNamesList;
    if(chown) fxNamesList=0;
    return reval;
 }
@@ -62,12 +66,11 @@ Int_t TGo4AnalysisObjectResult::PrintStatus(Text_t* buffer, Int_t buflen)
    current=PrintBuffer(localbuf,restlen,"G-OOOO-> Analysis Object Result Printout <-OOOO-G\n");
    current=PrintBuffer(current,restlen, "G-OOOO-> ---------------------------------------------- <-OOOO-G\n");
 
-   if(fxNamesList)
-      {
-         Int_t delta=fxNamesList->PrintStatus(current,restlen);
-         restlen-=delta;
-         current+= delta;
-      }
+   if(fxNamesList) {
+      Int_t delta=fxNamesList->PrintStatus(current,restlen);
+      restlen-=delta;
+      current+= delta;
+   }
    current=PrintIndent(current,restlen);
    current=PrintBuffer(current,restlen, " Full object name: \t%s\n",GetObjectFullName());
    current=PrintIndent(current,restlen);

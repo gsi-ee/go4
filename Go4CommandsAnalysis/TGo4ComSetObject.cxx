@@ -30,23 +30,31 @@
 #include "TGo4Picture.h"
 
 
-TGo4ComSetObject::TGo4ComSetObject(const char* obname)
-:TGo4AnalysisObjectCommand("ANSetObject","Set existing object to new values or create new object",obname),
-fxObject(0),fxClient(0), fxAna(0),fxResult(0)
+TGo4ComSetObject::TGo4ComSetObject() :
+   TGo4AnalysisObjectCommand("ANSetObject","Set existing object to new values or create new object","mypara"),
+   fxObject(0),
+   fxClient(0),
+   fxAna(0),
+   fxResult(0)
+ {
+   SetReceiverName("AnalysisClient");  // this command needs client as receiver
+                                                 // override default receiver
+   SetProtection(kGo4ComModeController);
+}
+
+
+TGo4ComSetObject::TGo4ComSetObject(const char* obname) :
+   TGo4AnalysisObjectCommand("ANSetObject","Set existing object to new values or create new object",obname),
+   fxObject(0),
+   fxClient(0),
+   fxAna(0),
+   fxResult(0)
 {
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                                  // override default receiver
    SetProtection(kGo4ComModeController);
 }
 
-TGo4ComSetObject::TGo4ComSetObject()
-:TGo4AnalysisObjectCommand("ANSetObject","Set existing object to new values or create new object","mypara"),
-fxObject(0),fxClient(0), fxAna(0),fxResult(0)
- {
-   SetReceiverName("AnalysisClient");  // this command needs client as receiver
-                                                 // override default receiver
-   SetProtection(kGo4ComModeController);
-}
 
 TGo4ComSetObject::~TGo4ComSetObject()
 {
@@ -67,61 +75,48 @@ void TGo4ComSetObject::Set(TGo4RemoteCommand* remcom)
 
 Int_t TGo4ComSetObject::ExeCom()
 {
-   fxClient=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if (fxClient!=0)
-      {
-         if(fxObject==0)
-            {
-               fxClient->SendStatusMessage(3, kTRUE,"SetObject - ERROR:  no source object specified for  %s",
-                                                GetObjectName());
-               return 0;
-            } else {}
-         SetObjectName(fxObject->GetName()); // override target name...
-         TGo4Log::Debug(" %s : Setting object %s  ",
-            GetName(), GetObjectName());
-         fxAna = TGo4Analysis::Instance();
-         fxResult = new TGo4AnalysisObjectResult(GetObjectName());
-         Bool_t isdynentry = kFALSE;
-         // evaluate object type here:
-         if(ExeSetParStatus(dynamic_cast<TGo4ParameterStatus*>(fxObject))==0)
-            ;
-         else if(ExeSetPar(dynamic_cast<TGo4Parameter*>(fxObject))==0)
-            ;
-         else if(ExeSetCon(dynamic_cast<TGo4Condition*>(fxObject))==0)
-            ;
-         else if(ExeSetDyn(dynamic_cast<TGo4DynamicEntry*>(fxObject))==0)
-            isdynentry = kTRUE;
-         else if(ExeSetHis(dynamic_cast<TH1*>(fxObject))==0)
-            ;
-         else if(ExeSetPic(dynamic_cast<TGo4Picture*>(fxObject))==0)
-            ;
-         else
-            ExeSetObj(fxObject);
+   fxClient = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
+   if (fxClient==0) {
+      TRACE((11,"TGo4ComSetObject::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
+      TGo4Log::Debug(" !!! %s : NO RECEIVER ERROR!!!",GetName());
+      return 1;
+   }
 
-         fxAna->UpdateNamesList();
-         TGo4AnalysisObjectNames* state = fxAna->GetNamesList();
-         fxResult->SetNamesList(state); // note: nameslist is not owned by result object!
-         if(fxResult->Action()!=kGo4ActionError) {
-             TString fullname;
-//             if (isdynentry) {
-//                fullname = "DynamicLists/Go4DynamicList/";
-//                fullname += GetObjectName();
-//             } else {
-                TFolder* top = fxAna->GetObjectFolder();
-                fullname = top->FindFullPathName(GetObjectName());
-                fullname.Remove(0, 6); // remove //Go4/ top folder name
-//             }
+   if(fxObject==0) {
+      fxClient->SendStatusMessage(3, kTRUE, "SetObject - ERROR:  no source object specified for  %s", GetObjectName());
+      return 0;
+   }
 
-             fxResult->SetObjectFullName(fullname);
-         }
-         fxClient->SendStatus(fxResult);
-      }
+   SetObjectName(fxObject->GetName()); // override target name...
+   TGo4Log::Debug(" %s : Setting object %s  ", GetName(), GetObjectName());
+   fxAna = TGo4Analysis::Instance();
+   fxResult = new TGo4AnalysisObjectResult(GetObjectName());
+   // evaluate object type here:
+   if(ExeSetParStatus(dynamic_cast<TGo4ParameterStatus*>(fxObject))==0)
+      ;
+   else if(ExeSetPar(dynamic_cast<TGo4Parameter*>(fxObject))==0)
+      ;
+   else if(ExeSetCon(dynamic_cast<TGo4Condition*>(fxObject))==0)
+      ;
+   else if(ExeSetDyn(dynamic_cast<TGo4DynamicEntry*>(fxObject))==0)
+      ;
+   else if(ExeSetHis(dynamic_cast<TH1*>(fxObject))==0)
+      ;
+   else if(ExeSetPic(dynamic_cast<TGo4Picture*>(fxObject))==0)
+      ;
    else
-      {
-         TRACE((11,"TGo4ComSetObject::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
-         TGo4Log::Debug(" !!! %s : NO RECEIVER ERROR!!!",GetName());
-         return 1;
-      }
+      ExeSetObj(fxObject);
+
+   fxAna->UpdateNamesList();
+   TGo4AnalysisObjectNames* state = fxAna->GetNamesList();
+   fxResult->SetNamesList(state); // note: nameslist is not owned by result object!
+   if(fxResult->Action()!=kGo4ActionError) {
+      TFolder* top = fxAna->GetObjectFolder();
+      TString fullname = top->FindFullPathName(GetObjectName());
+      fullname.Remove(0, 6); // remove //Go4/ top folder name
+      fxResult->SetObjectFullName(fullname);
+   }
+   fxClient->SendStatus(fxResult);
    return -1;
 }
 

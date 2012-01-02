@@ -29,10 +29,20 @@ extern "C"
 #include "random-coll.h"
 }
 
-double TGo4MbsRandom::fgdPeak[NUM_PEAK]   = { 200., 302., 653., 1024., 2800.};
-double TGo4MbsRandom::fgdSigma[NUM_PEAK]  = {  10.,  22., 153.,  104.,   38.};
-double TGo4MbsRandom::fgdPeak2[NUM_PEAK]  = { 300., 402., 853., 2000., 3024.};
-double TGo4MbsRandom::fgdSigma2[NUM_PEAK] = {  22., 153., 104.,  100.,   20.};
+double TGo4MbsRandom::fgdPeak[]   = { 200., 302., 653., 1024., 2800.};
+double TGo4MbsRandom::fgdSigma[]  = {  10.,  22., 153.,  104.,   38.};
+double TGo4MbsRandom::fgdPeak2[]  = { 300., 402., 853., 2000., 3024.};
+double TGo4MbsRandom::fgdSigma2[] = {  22., 153., 104.,  100.,   20.};
+
+TGo4MbsRandom::TGo4MbsRandom() :
+   TGo4MbsSource(),
+   fiDLen(0),
+   fiNumSub(0),
+   fiNumDat(0),
+   fxEventMem(0)
+{
+   TRACE((15,"TGo4MbsRandom::TGo4MbsRandom()",__LINE__, __FILE__));
+}
 
 
 TGo4MbsRandom::TGo4MbsRandom(TGo4MbsRandomParameter* par) :
@@ -60,11 +70,6 @@ TGo4MbsRandom::TGo4MbsRandom(const char* name) :
 
    TGo4Log::Debug(" New Event Source MbsRandom %s:  ",name);
    Open();
-}
-
-TGo4MbsRandom::TGo4MbsRandom()
-{
-   TRACE((15,"TGo4MbsRandom::TGo4MbsRandom()",__LINE__, __FILE__));
 }
 
 
@@ -122,21 +127,23 @@ Int_t TGo4MbsRandom::Open()
 {
    TRACE((12,"TGo4MbsRandom::Open()",__LINE__, __FILE__));
    //
-   if(fbIsOpen)
-      return -1;
+   if(fbIsOpen) return -1;
 
    get_rand_seed();
-   fiNumSub=2; // number of subevents, fix
-   fiNumDat=16; // maximum allocated data longs per subevent
-   fiDLen=(sizeof(s_ve10_1)-sizeof(s_evhe)+fiNumSub*(sizeof(s_ves10_1)+fiNumDat*sizeof(Int_t))) / 2 ;
+   fiNumSub = 2; // number of subevents, fix
+   fiNumDat = 16; // maximum allocated data longs per subevent
+   fiDLen = (sizeof(s_ve10_1)-sizeof(s_evhe)+fiNumSub*(sizeof(s_ves10_1)+fiNumDat*sizeof(Int_t))) / 2 ;
    // fiDLen is not in char (=size_t), but short units
-   fxEventMem =new Short_t[fiDLen+sizeof(s_evhe)];
-   fxEvent= (s_ve10_1*) fxEventMem;
+   fxEventMem = new Short_t[fiDLen+sizeof(s_evhe)];
+   fxEvent = (s_ve10_1*) fxEventMem;
    fxEvent->l_dlen=fiDLen;
    fxEvent->i_subtype=1;
    fxEvent->i_type=10;
    fxEvent->i_trigger=1;
    fxEvent->l_count=0;
+
+   fbIsOpen = kTRUE;
+
    return 0;
 }
 
@@ -144,10 +151,11 @@ Int_t TGo4MbsRandom::Open()
 Int_t TGo4MbsRandom::Close()
 {
    TRACE((12,"TGo4MbsRandom::Close()",__LINE__, __FILE__));
-   if(!fbIsOpen)
-      return -1;
+   if(!fbIsOpen) return -1;
    delete [] fxEventMem;
-   fxEvent=0;
+   fxEventMem = 0;
+   fxEvent = 0;
+   fbIsOpen = kFALSE;
    return 0;
 }
 
