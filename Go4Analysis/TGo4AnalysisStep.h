@@ -207,10 +207,9 @@ class TGo4AnalysisStep : public TNamed {
 
     Bool_t IsProcessEnabled() const { return fbProcessEnabled; }
 
+    Bool_t IsKeepInputEvent() { return fxEventProcessor ? fxEventProcessor->IsKeepInputEvent() : kFALSE; }
 
-    Bool_t IsKeepInputEvent() { return fxEventProcessor->IsKeepInputEvent();}
-
-    Bool_t IsKeepOutputEvent() { return fxEventProcessor->IsKeepOutputEvent();}
+    Bool_t IsKeepOutputEvent() { return fxEventProcessor ? fxEventProcessor->IsKeepOutputEvent() : kFALSE; }
 
     /** True if analysis step has been stopped on error. */
     Bool_t IsErrorStopped() const { return fbErrorStopped; }
