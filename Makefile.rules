@@ -16,12 +16,14 @@ ifndef GO4WITHOUTDEPEND
 
 ifdef LIBDEPENDENC
 ifeq ($(findstring $(MAKECMDGOALS), examples $(FASTRULES)),)
+$(LIBDEPENDENC) : $(GO4QTHEADS) $(ALLHDRS)
 -include $(LIBDEPENDENC)
 endif
 endif
 
 ifdef EXAMPDEPENDENCS
 ifeq ($(findstring $(MAKECMDGOALS), libs gui $(FASTRULES)),)
+$(EXAMPDEPENDENCS) : $(GO4QTHEADS) $(ALLHDRS)
 -include $(EXAMPDEPENDENCS)
 endif
 endif

@@ -276,8 +276,8 @@ void TGo4FitterAbstract::Finalize()
      GetParsValues(fxResults.GetArray());
    }
 
-   fxResults[fxResults.GetSize()-2] = FF;
-   fxResults[fxResults.GetSize()-1] = NDF;
+   fxResults.SetAt(FF, fxResults.GetSize()-2);
+   fxResults.SetAt(NDF, fxResults.GetSize()-1);
 
    if (fxCurrentConfig!=0)
      ApplyConfig(0);
@@ -530,20 +530,20 @@ void TGo4FitterAbstract::SetPad(Int_t indx, TVirtualPad* pad)
 
 Double_t TGo4FitterAbstract::GetResultValue(Int_t n) const
 {
-  if ((n>=0) && (n<GetNumResults())) return fxResults[n];
+  if ((n>=0) && (n<GetNumResults())) return fxResults.At(n);
                                 else return 0.;
-}
-
-Double_t TGo4FitterAbstract::GetResultFF() const
-{
-  if (fxResults.GetSize()>1) return fxResults[fxResults.GetSize()-2];
-                        else return 0;
 }
 
 Int_t TGo4FitterAbstract::GetResultNDF() const
 {
-  if (fxResults.GetSize()>1) return Int_t(fxResults[fxResults.GetSize()-1]);
-                        else return 0;
+   if (fxResults.GetSize()<2) return 0;
+   return fxResults.GetArray()[fxResults.GetSize()-1];
+}
+
+Double_t TGo4FitterAbstract::GetResultFF() const
+{
+  if (fxResults.GetSize()<2) return 0.;
+  return fxResults.GetArray()[fxResults.GetSize()-2];
 }
 
 void TGo4FitterAbstract::PrintResults() const
