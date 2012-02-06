@@ -1,4 +1,4 @@
-// $Id: TGo4CompositeEvent.h 815 2011-12-02 16:34:08Z linev $
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
