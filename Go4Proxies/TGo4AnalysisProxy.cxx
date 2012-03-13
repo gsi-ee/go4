@@ -1197,6 +1197,14 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
 
    if (gSystem->Getenv("GO4OLDLAUNCH")==0) {
       TGo4Prefs prefs(remotehost);
+
+      const char* shellname = "exec";
+      if (shellkind==1) shellname = "rsh"; else
+      if (shellkind==2) shellname = konsole==1 ? "ssh" : "sshX";
+      prefs.SetPar("shellkind", shellname, false);
+      prefs.SetPar("exekind", Form("%d", exe_kind), false);
+      prefs.SetPar("clientkind", server ? "Go4Server" : "Go4Client", false);
+
       prefs.AddFile("go4.prefs", false);
       prefs.AddFile(TGo4Log::subGO4SYS("etc/go4.prefs"), true);
       if (!prefs.IsOk()) {
@@ -1207,20 +1215,16 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
       prefs.SetPar("guihost", serverhost, false);
       if (!server) prefs.SetPar("guiport", Form("%d", guiport));
       prefs.SetPar("guigo4sys", go4sys, false);
-      prefs.SetPar("clientkind", server ? "Go4Server" : "Go4Client", false);
       prefs.SetPar("analysisname", name, false);
       prefs.SetPar("workdir", remotedir, false);
       prefs.SetPar(exe_kind==0 ? "exename" : "libname", remoteexe, false);
-      prefs.SetPar("exekind", Form("%d", exe_kind), false);
+
 
       if ((exe_kind==1) && (exeargs!=0) && (strlen(exeargs)>0))
          prefs.SetPar("userargs", Form("-args %s", exeargs), false);
       else
          prefs.SetPar("userargs", "", false);
 
-      const char* shellname = "exec";
-      if (shellkind==1) shellname = "rsh"; else
-      if (shellkind==2) shellname = konsole==1 ? "ssh" : "sshX";
 
       const char* termname = "qtwindow";
       if (konsole==2) termname = "xterm"; else

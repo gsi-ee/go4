@@ -53,6 +53,11 @@ konsole_options:-caption %clientkind%:%analysisname%
 
 ##################################################################
 # here is program execution section, defined if analysis should be started as server or client
+#for linux use always localhost for guihost
+
+#for exec mode (and ssh localhost) always use loop-back address for connection with gui 
+shellkind=exec: guihost: 127.0.0.1
+shellkind=ssh*: hostname=localhost: guihost: 127.0.0.1
 
 servercmd:%analysis% -server %analysisname% %userargs%
 

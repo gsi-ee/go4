@@ -48,7 +48,11 @@ Changes in Go4 v4.5.x (Winter 2011/12)
    get errors. Now following command is valid: "go4analysis -file *.lmd". 
    Make debug output of the analysis more clear when processing many files. 
 13.Add -rate argument to the go4analysis executable. Enables output of current
-   rate in batch mode.  
+   rate in batch mode.
+14.Force loop-back address (127.0.0.1) as gui host name for connection 
+   from analysis to gui when running analysis with exec mode or with ssh localhost mode. 
+   Solves problem to run go4 without properly configured network. Changed only in
+   etc/go4.prefs file, can be adjusted by user.   
 
 Changes in Go4 v4.5.1 (November 2011)
 1. Add force32=true flag to the Makefile, done to force 32 bit compilation and
