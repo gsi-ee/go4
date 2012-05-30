@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.5.2 (build 40502)
-                      13-Apr-2012
+         Go4 Release Package v4.5.3 (build 40503)
+                      Summer-2012
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -19,6 +19,11 @@ Contact:            http://Go4.gsi.de
 This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
+
+
+Changes in Go4 v4.5.3 (Summer 2012)
+1. Added macro fft.C for fast fourier transform of histograms into gui command line.
+
 
 Changes in Go4 v4.5.2 (April 2012)
 1. Bugfix in gui shutdown: circular deletion of mainwindow and timer could 
