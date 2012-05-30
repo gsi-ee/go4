@@ -85,6 +85,14 @@ void TGo4MacroDialog::setCommand( const QString & selection )
         SyntaxLabel->setText("Bool_t scalex(const char* histo, Double_t a1, Double_t a0, Bool_t draw)");
         setToolTip(" Scale x axis of histogram histo by linear function. \n Parameters: x'= a1*x + a0. \n If draw==true, display in new viewpanel, otherwise just update existing displays ");
     }
+     else if (selection.contains("Fourier"))
+        {
+            fxCommand="fft(\"\",\"R2C M\",kTRUE);";
+            SyntaxLabel->setText("Bool_t fft(const char* histo, Option_t opt, Bool_t draw)");
+            setToolTip(" Do fast fourier transform of 1d histogram. \n Parameters: option string of TVirtualFFT::FFT() \n If draw==true, display in new viewpanel, otherwise just update existing displays ");
+        }
+
+
     else
     {
        fxCommand="unknown macro function" ;

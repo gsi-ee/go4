@@ -87,6 +87,11 @@
                             <string>Scale X axis</string>
                         </property>
                     </item>
+                     <item>
+                        <property name="text">
+                            <string>Fast Fourier Transform</string>
+                        </property>
+                    </item>
                     <property name="name">
                         <cstring>MacroListBox</cstring>
                     </property>

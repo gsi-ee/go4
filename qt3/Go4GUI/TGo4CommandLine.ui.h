@@ -126,6 +126,7 @@ void TGo4CommandLine::LoadHistory()
     gROOT->ProcessLineSync(Form(".L %sprojectionY.C", dir.Data()));
     gROOT->ProcessLineSync(Form(".L %srebin.C", dir.Data()));
     gROOT->ProcessLineSync(Form(".L %sscalex.C", dir.Data()));
+    gROOT->ProcessLineSync(Form(".L %sfft.C", dir.Data()));
 }
 
 void TGo4CommandLine::PredefinedDialog()

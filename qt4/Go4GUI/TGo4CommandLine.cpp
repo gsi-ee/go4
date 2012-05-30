@@ -91,6 +91,8 @@ void TGo4CommandLine::LoadHistory()
     gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/projectionY.C").Data()));
     gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/rebin.C").Data()));
     gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/scalex.C").Data()));
+    gROOT->ProcessLineSync(Form(".L %s", TGo4Log::subGO4SYS("macros/fft.C").Data()));
+
 }
 
 
