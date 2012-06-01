@@ -138,7 +138,7 @@ V1.0 31 May 2012
   - added setup macro set_HadaqPar.C to change setup without recompiling (gui parameter editor is not usable for 3 dimensional arrays)   
   - some improvements defining the mcp maps
   
- V1.1 1 June 2012 
+V1.1 1 June 2012 
   - added setup array SET_TRBS to use only trb board indices that are available
   - reduced granularity of some coarse time histograms for improved memory consumption. Changed range of coarse time histograms.   
   - bugfix with trb index (begins with 1 in data). index 1 is mapped to 0 in go4!
