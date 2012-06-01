@@ -858,16 +858,24 @@ THadaqUnpackProc::ProcessTimeTestV3(Hadaq_Subevent* hadsubevent)
       if((dlen--) > 0) istdchead=kFALSE; // suppress "false" headers in data stream
       if (istdchead)
         {
+
+
+
+        tdc = (data & 0xF);
 #ifdef  HAD_USE_MULTITRB
          trb=   ((data >> 4 ) & 0xF);
-         trb-=1; // indices begin with 1 in this format
+         tdc-=1; // indices begin with 1 in this format
 #endif
 
-          tdc = (data & 0xF);
+
           dlen = (data >> 16);
           EPRINT(
               "***  --- tdc header: 0x%x, trb=%d tdc=%d, data length=%d\n", data, trb, tdc, dlen);
+#ifdef  HAD_USE_MULTITRB
+          if (tdc == 0)
+#else
           if (tdc == 5)
+#endif
             {
               totlen = dlen;
               EPRINT("***  found tdc subevt data length=%d\n", totlen);
