@@ -2,10 +2,7 @@
 #include "THadaqParam.h"
 #include "Riostream.h"
 
-#define TRBID1 3
-#define TRBID2 5
-#define TRBID3 8
-#define TRBID4 9
+
 
 // mcp mapping doc:
 //1. Die Gerade nummerte Kanäle sind immer die Rising Edge und die Ungerade
@@ -90,30 +87,30 @@ THadaqParam::THadaqParam(const char* name) :
 
 // NOTE: mappings in ctor are overridden by setup script!
    // here mcp mappings (JAM 1-June2012):
-//   for (Short_t mcp = 0; mcp < HAD_TIME_NUMMCP; ++mcp) {
-//      Int_t trb = trbids[mcp];
-//      if (!THadaqUnpackEvent::AssertTRB(trb))
-//             continue;
-//      for (Int_t tdc = 0; tdc < HAD_TIME_NUMTDC; ++tdc) {
-//         Short_t row = 1;
-//         Short_t deltarow = +1;
-//         Short_t col = 2 * (tdc + 1);
-//         for (Int_t ch = 0; ch < HAD_TIME_CHANNELS; ++ch) {
-//            if (ch == 0 || (ch % 2) != 0)
-//               continue;
-//            imageMCP[trb][tdc][ch] = mcp;
-//            imageRow[trb][tdc][ch] = row;
-//            imageCol[trb][tdc][ch] = col;
-//            printf(" **** Mapped trb %d, tdc %d, ch %d to mcp %d row %d col %d \n",trb,tdc,ch,mcp,row,col);
-//            row += deltarow;
-//            if (row > 8) {
-//               row = 8;
-//               deltarow = -1;
-//               col -= 1;
-//            }
-//         }
-//      }
-//   } // mcp
+   for (Short_t mcp = 0; mcp < HAD_TIME_NUMMCP; ++mcp) {
+      Int_t trb = trbids[mcp];
+      if (!THadaqUnpackEvent::AssertTRB(trb))
+             continue;
+      for (Int_t tdc = 0; tdc < HAD_TIME_NUMTDC; ++tdc) {
+         Short_t row = 1;
+         Short_t deltarow = +1;
+         Short_t col = 2 * (tdc + 1);
+         for (Int_t ch = 0; ch < HAD_TIME_CHANNELS; ++ch) {
+            if (ch == 0 || (ch % 2) != 0)
+               continue;
+            imageMCP[trb][tdc][ch] = mcp;
+            imageRow[trb][tdc][ch] = row;
+            imageCol[trb][tdc][ch] = col;
+            printf(" **** Mapped trb %d, tdc %d, ch %d to mcp %d row %d col %d \n",trb,tdc,ch,mcp,row,col);
+            row += deltarow;
+            if (row > 8) {
+               row = 8;
+               deltarow = -1;
+               col -= 1;
+            }
+         }
+      }
+   } // mcp
 // cout << endl;
 
 #endif
@@ -136,24 +133,24 @@ Bool_t THadaqParam::UpdateFrom(TGo4Parameter *pp)
 
 // exclude this for the moment, is not handled correctly by go4 gui JAM
 // we therefore need to implement UpdateFrom and suppress changing of these arrays from gui
-    for (int trb = 0; trb < HAD_TIME_NUMBOARDS; ++trb)
-    {
-      if(!THadaqUnpackEvent::AssertTRB(trb)) continue;
-      for (int tdc = 0; tdc < HAD_TIME_NUMTDC; ++tdc)
-        {
-          for (int ch = 0; ch < HAD_TIME_CHANNELS; ++ch)
-            {
-
-              deltaChannels[trb][tdc][ch] = from->deltaChannels[trb][tdc][ch];
-              deltaTDC[trb][tdc][ch] = from->deltaTDC[trb][tdc][ch];
-              deltaTRB[trb][tdc][ch] = from->deltaTRB[trb][tdc][ch];
-              imageMCP[trb][tdc][ch] = from->imageMCP[trb][tdc][ch];
-              imageRow[trb][tdc][ch] = from->imageRow[trb][tdc][ch];
-              imageCol[trb][tdc][ch] = from->imageCol[trb][tdc][ch];
-
-            }
-        }
-    }
+//    for (int trb = 0; trb < HAD_TIME_NUMBOARDS; ++trb)
+//    {
+//      if(!THadaqUnpackEvent::AssertTRB(trb)) continue;
+//      for (int tdc = 0; tdc < HAD_TIME_NUMTDC; ++tdc)
+//        {
+//          for (int ch = 0; ch < HAD_TIME_CHANNELS; ++ch)
+//            {
+//
+//              deltaChannels[trb][tdc][ch] = from->deltaChannels[trb][tdc][ch];
+//              deltaTDC[trb][tdc][ch] = from->deltaTDC[trb][tdc][ch];
+//              deltaTRB[trb][tdc][ch] = from->deltaTRB[trb][tdc][ch];
+//              imageMCP[trb][tdc][ch] = from->imageMCP[trb][tdc][ch];
+//              imageRow[trb][tdc][ch] = from->imageRow[trb][tdc][ch];
+//              imageCol[trb][tdc][ch] = from->imageCol[trb][tdc][ch];
+//
+//            }
+//        }
+//    }
 #endif
 
 

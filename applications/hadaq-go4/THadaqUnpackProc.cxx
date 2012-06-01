@@ -842,14 +842,7 @@ THadaqUnpackProc::ProcessTimeTestV3(Hadaq_Subevent* hadsubevent)
       if (totlen && ix >= totlen)
         break; // ignore data after tdc block
       Int_t data = hadsubevent->Data(ix);
-//        // we see two additional words in front of data, meaning?
-//        // assume some internal header reflecting trigger count
-//        if (ix < 2) {
-//           Int_t header = hadsubevent->Data(ix);
-//           EPRINT("***  --- Local subheader: 0x%x\n", header);
-//           continue;
-//        }
-      // TODO: unpacking of V3 data format
+
 #ifdef  HAD_USE_MULTITRB
       Bool_t istdchead = ((data >> 8) & 0xFF) == 0xC0;
 #else
@@ -969,10 +962,10 @@ THadaqUnpackProc::ProcessTimeTestV3(Hadaq_Subevent* hadsubevent)
         continue;
       for (int t = 0; t < HAD_TIME_NUMTDC; ++t)
         {
-          for (int c = 0; c < HAD_TIME_CHANNELS; ++c)
-            {
+//          for (int c = 0; c < HAD_TIME_CHANNELS; ++c)
+//            {
               hTriggerCount[b][t]->Fill(0); // account this event for all tdcs which may have fired
-            }
+//            }
         }
     }
 
@@ -1201,8 +1194,13 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
               i) * HAD_TIME_COARSEUNIT;
           hLeadingCoarseAll[board][tdc]->Fill(val); // for condition display
 	       hImagingMCP[mcp]->Fill(row, col); // filling up the imaging histogram
-	       printf ("++++ fill leading mcp%d, row %d, col %d from trb:%d, tdc:%d, ch%d \n",mcp,row,col,board,tdc,ch);
-          if (cLeadingCoarseTimeGate[board][tdc]->Test(val))
+	       //if(ch>0)printf ("++++ fill leading mcp%d, row %d, col %d from trb:%d, tdc:%d, ch%d \n",mcp,row,col,board,tdc,ch);
+	       //printf(" **** array content of parameter 0x%x is: mcp %d row %d col %d \n",
+//	                          fPar,
+//	                          imageMCP[board][tdc][ch],
+//	                          imageRow[board][tdc][ch],
+//	                          imageCol[board][tdc][ch]);
+	       if (cLeadingCoarseTimeGate[board][tdc]->Test(val))
             {
               hLeadingCoarse[board][tdc][ch]->Fill(val);
               hLeadingCoarseAllChans[board][tdc]->Fill(ch, val);
