@@ -864,6 +864,11 @@ THadaqUnpackProc::ProcessTimeTestV3(Hadaq_Subevent* hadsubevent)
 #endif
           dlen = (data >> 16);
 
+
+          EPRINT(
+                       "***  --- tdc header: 0x%x, trb=%d tdc=%d, data length=%d\n", data, trb, tdc, dlen);
+
+
 #ifdef  HAD_USE_MULTITRB
           if (tdc == 0)
 #else
@@ -874,14 +879,17 @@ THadaqUnpackProc::ProcessTimeTestV3(Hadaq_Subevent* hadsubevent)
               EPRINT("***  found tdc subevt data length=%d\n", totlen);
               dlen=0;
             }
+#ifdef  HAD_USE_MULTITRB
+          else
+          {
+                tdc-=1; // indices begin with 1 in this format
+          }
+#endif
+
+
 
           continue;
 
-#ifdef  HAD_USE_MULTITRB
-      if (tdc != 0) tdc-=1; // indices begin with 1 in this format
-#endif
-       EPRINT(
-              "***  --- tdc header: 0x%x, trb=%d tdc=%d, data length=%d\n", data, trb, tdc, dlen);
 
         }
 
@@ -1180,13 +1188,19 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
       Short_t mcp = fPar->imageMCP[board][tdc][ch];
       Short_t row = fPar->imageRow[board][tdc][ch];
       Short_t col = fPar->imageCol[board][tdc][ch];
+      if(mcp>=HAD_TIME_NUMMCP)
+         {
+         GO4_STOP_ANALYSIS_MESSAGE(
+                "mcp index %d out of range, max is %d!",mcp, HAD_TIME_NUMMCP-1);
+
+         }
 
       for (unsigned int i = 0; i < fOutEvent->fLeadingCoarseTime[board][tdc][ch].size(); i++)
         {
           Double_t val = fOutEvent->fLeadingCoarseTime[board][tdc][ch].at(
               i) * HAD_TIME_COARSEUNIT;
           hLeadingCoarseAll[board][tdc]->Fill(val); // for condition display
-	  hImagingMCP[mcp]->Fill(row, col); // filling up the imaging histogram
+	       hImagingMCP[mcp]->Fill(row, col); // filling up the imaging histogram
           if (cLeadingCoarseTimeGate[board][tdc]->Test(val))
             {
               hLeadingCoarse[board][tdc][ch]->Fill(val);

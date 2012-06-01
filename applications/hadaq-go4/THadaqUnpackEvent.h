@@ -22,7 +22,7 @@
 
 
 #define HAD_TIME_CHANNELS 16
-#define HAD_TIME_NUMTDC 5
+#define HAD_TIME_NUMTDC 4
 #define HAD_TIME_NUMBOARDS 10
 // trb id:                 0  1  2  3  4  5  6  7  8  9 
 //                         |  |  |  |  |  |  |  |  |  |
@@ -34,7 +34,7 @@
 #define HAD_TIME_FINEBINS 0x258
 #define HAD_TIME_DELTAHISTBINS 200 * HAD_TIME_FINEBINS
 
-#define HAD_TIME_NUMMCP  4
+#define HAD_TIME_NUMMCP  5
 #define HAD_TIME_MCPBINS 9
 #define HAD_TIME_MCPRANGE 9
 

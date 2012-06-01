@@ -18,9 +18,10 @@ THadaqParam::THadaqParam(const char* name) :
          {
 		deltaTDC[b][t][i]=t;// by default, channels refer to self tdc
 		deltaTRB[b][t][i]=b;// by default, channels refer to self trb
-		imageMCP[b][t][i]=t+1;
-		imageRow[b][t][i]=i+1;
-		imageCol[b][t][i]=i+1;
+
+//		imageMCP[b][t][i]=t+1;
+//		imageRow[b][t][i]=i+1;
+//		imageCol[b][t][i]=i+1;
 
                  if((i%2)==0)
                          deltaChannels[b][t][i]=i+1;
