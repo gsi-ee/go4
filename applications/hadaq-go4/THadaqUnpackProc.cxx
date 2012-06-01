@@ -858,19 +858,12 @@ THadaqUnpackProc::ProcessTimeTestV3(Hadaq_Subevent* hadsubevent)
       if((dlen--) > 0) istdchead=kFALSE; // suppress "false" headers in data stream
       if (istdchead)
         {
-
-
-
-        tdc = (data & 0xF);
+         tdc = (data & 0xF);
 #ifdef  HAD_USE_MULTITRB
          trb=   ((data >> 4 ) & 0xF);
-         tdc-=1; // indices begin with 1 in this format
 #endif
-
-
           dlen = (data >> 16);
-          EPRINT(
-              "***  --- tdc header: 0x%x, trb=%d tdc=%d, data length=%d\n", data, trb, tdc, dlen);
+
 #ifdef  HAD_USE_MULTITRB
           if (tdc == 0)
 #else
@@ -883,7 +876,15 @@ THadaqUnpackProc::ProcessTimeTestV3(Hadaq_Subevent* hadsubevent)
             }
 
           continue;
+
+#ifdef  HAD_USE_MULTITRB
+      if (tdc != 0) tdc-=1; // indices begin with 1 in this format
+#endif
+       EPRINT(
+              "***  --- tdc header: 0x%x, trb=%d tdc=%d, data length=%d\n", data, trb, tdc, dlen);
+
         }
+
 
       Bool_t isdataheader = ((data >> 29) & 0x7) == 0x1;
       if (isdataheader)
@@ -917,7 +918,7 @@ THadaqUnpackProc::ProcessTimeTestV3(Hadaq_Subevent* hadsubevent)
       Bool_t isdata = ((data >> 31) & 0x1) == 0x1;
       if (isdata)
         {
-	  UShort_t res = (data >> 28) & 0x7;
+	      UShort_t res = (data >> 28) & 0x7;
           UChar_t chan = (data >> 22) & 0x3F;
           UShort_t tcoarse = data & 0x7FF;
           UShort_t tfine = (data >> 12) & 0x3FF;

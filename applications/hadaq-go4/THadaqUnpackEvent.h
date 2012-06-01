@@ -22,11 +22,11 @@
 
 
 #define HAD_TIME_CHANNELS 16
-#define HAD_TIME_NUMTDC 4
-#define HAD_TIME_NUMBOARDS 9
-// trb id:                 0  1  2  3  4  5  6  7  8
-//                         |  |  |  |  |  |  |  |  |
-#define SET_TRBS           {0, 1, 0, 1, 0, 0, 1, 1, 0 }
+#define HAD_TIME_NUMTDC 5
+#define HAD_TIME_NUMBOARDS 10
+// trb id:                 0  1  2  3  4  5  6  7  8  9 
+//                         |  |  |  |  |  |  |  |  |  |
+#define SET_TRBS           {0, 0, 0, 1, 0, 1, 0, 0, 1, 1}
 
 #define HAD_TIME_COARSEBINS 0x10000
 #define HAD_TIME_COARSEUNIT 5000
