@@ -5,7 +5,7 @@ void set_HadaqPar()
    cout << "Macro set_HadaqPar can execute only in analysis" << endl;
    return;
 #endif
-   THadaqParam* param0 = (THadaqParam*) go4->GetParameter("HadaqPar","THadaqParam");
+   THadaqParam* param0 = (THadaqParam*) go4->GetParameter("HadaqPar");
 
    if (param0==0) {
       TGo4Log::Error("Could not find parameter HadaqPar of class THadaqParam");
