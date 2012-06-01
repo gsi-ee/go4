@@ -1,4 +1,10 @@
-// written by macro saveparam.C at Thu May 31 11:27:30 2012
+
+
+#define HAD_TIME_CHANNELS 32
+#define HAD_TIME_NUMTDC 4
+#define HAD_TIME_NUMBOARDS 10
+#define HAD_TIME_NUMMCP  4
+
 void set_HadaqPar()
 {
 #ifndef __GO4ANAMACRO__
@@ -12,7 +18,7 @@ void set_HadaqPar()
       return;
    }
 
-   TGo4Log::Info("Set parameter HadaqPar from saveparam.C");
+   TGo4Log::Info("Set parameter HadaqPar from set_HadaqPar.C");
 
    param0->fillRaw = kTRUE;
    param0->printEvent = kFALSE;
@@ -20,38 +26,45 @@ void set_HadaqPar()
    param0->continuousCalibration = kFALSE;
    param0->calibrationPeriod = 10000;
 
-   // default settings in loop:
-   for (int b = 0; b < 9; ++b)
-        {
-       if(!THadaqUnpackEvent::AssertTRB(b)) continue;
-     for(int t=0; t<4; ++t)
-        {
-           for(int i=0; i<16; ++i)
-           {
-               param0->deltaTDC[b][t][i]=t;// by default, channels refer to self tdc
-               param0->deltaTRB[b][t][i]=b;// by default, channels refer to self trb
-               param0->imageMCP[b][t][i]=t+1;
-               param0->imageRow[b][t][i]=i+1;
-               param0->imageCol[b][t][i]=i+1;
-
-                   if((i%2)==0)
-                     param0->deltaChannels[b][t][i]=i+1;
-                   else
-                     param0->deltaChannels[b][t][i]=-1;
-           }
+   for (int b = 0; b < HAD_TIME_NUMBOARDS; ++b) {
+       if (!THadaqUnpackEvent::AssertTRB(b))
+          continue;
+       for (int t = 0; t < HAD_TIME_NUMTDC; ++t) {
+          for (int i = 0; i < HAD_TIME_CHANNELS; ++i) {
+             param0->deltaTDC[b][t][i] = t; // by default, channels refer to self tdc
+             param0->deltaTRB[b][t][i] = b; // by default, channels refer to self trb
+             param0->deltaChannels[b][t][i] = 0; // reference channel is 0
+          }
        }
-     }
+    }
 
 
+    // here mcp mappings (JAM 1-June2012):
+   Int_t trbids[HAD_TIME_NUMMCP]={3,5,8,9}; // assign mcps 0..3 to trbs
 
-   // indices: [trb][tdc][channel]
-   param0->deltaTDC[0][0][0]=0;
-   param0->deltaTRB[0][0][0]=0;
-   param0->deltaChannels[0][0][0]=7;
-   param0->imageMCP[0][0][0]=0;
-   param0->imageRow[0][0][0]=1;
-   param0->imageCol[0][0][0]=1;
-
-   // add here mapping of MCP and delta channels:
+    for (Int_t mcp = 0; mcp < HAD_TIME_NUMMCP; ++mcp) {
+       Int_t trb = trbids[mcp];
+       if (!THadaqUnpackEvent::AssertTRB(trb))
+              continue;
+       for (Int_t tdc = 0; tdc < HAD_TIME_NUMTDC; ++tdc) {
+          Int_t row = 1;
+          Int_t deltarow = +1;
+          Int_t col = 2 * (tdc + 1);
+          for (Int_t ch = 0; ch < HAD_TIME_CHANNELS; ++ch) {
+             if (ch == 0 || (ch % 2) != 0)
+                continue;
+             param0->imageMCP[trb][tdc][ch] = mcp;
+             param0->imageRow[trb][tdc][ch] = row;
+             param0->imageCol[trb][tdc][ch] = col;
+             printf(" **** Mapped trb %d, tdc %d, ch %d to mcp %d row %d col %d \n",trb,tdc,ch,mcp,row,col);
+             row += deltarow;
+             if (row > 8) {
+                row = 8;
+                deltarow = -1;
+                col -= 1;
+             }
+          }
+       }
+    } // mcp
 
 }

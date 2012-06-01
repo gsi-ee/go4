@@ -17,9 +17,12 @@
 #include "TGo4Parameter.h"
 #include "THadaqUnpackEvent.h"
 
+#pragma pack(push, 1)
+
 class THadaqParam : public TGo4Parameter {
    public:
-      THadaqParam(const char* name = 0);
+      THadaqParam(const char* name);
+      THadaqParam() {}
 
       Bool_t   fillRaw;  // control filling of raw histograms
       Bool_t printEvent; // control printout of event contents
@@ -28,16 +31,17 @@ class THadaqParam : public TGo4Parameter {
       Short_t deltaTDC[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC][HAD_TIME_CHANNELS]; // reference tdc for each channel for delta time
       Short_t deltaTRB[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC][HAD_TIME_CHANNELS]; // reference trb board for each channel for delta time
 
-      Short_t imageMCP[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC][HAD_TIME_CHANNELS]; // relative MCP for data imaging for each channel
-      Short_t imageRow[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC][HAD_TIME_CHANNELS]; // relative row for data imaginf for each channel
-      Short_t imageCol[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC][HAD_TIME_CHANNELS]; // relative column for data imaginf for each channel
+      Int_t imageMCP[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC][HAD_TIME_CHANNELS]; // relative MCP for data imaging for each channel
+      Int_t imageRow[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC][HAD_TIME_CHANNELS]; // relative row for data imaginf for each channel
+      Int_t imageCol[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC][HAD_TIME_CHANNELS]; // relative column for data imaginf for each channel
       Bool_t generalCalibration; // switch calibration of time bins on
       Bool_t continuousCalibration; // continuous calibration with doublebuffered table
       UInt_t calibrationPeriod; // number of events between 2 time calibrations
 #endif
-      Bool_t UpdateFrom(TGo4Parameter *pp);
+     Bool_t UpdateFrom(TGo4Parameter *pp);
 
    ClassDef(THadaqParam,1)
 };
 
+#pragma pack(pop)
 #endif // THadaqParam_H

@@ -1185,9 +1185,9 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
   for (int ch = 0; ch < HAD_TIME_CHANNELS; ++ch)
     {
 
-      Short_t mcp = fPar->imageMCP[board][tdc][ch];
-      Short_t row = fPar->imageRow[board][tdc][ch];
-      Short_t col = fPar->imageCol[board][tdc][ch];
+      Int_t mcp = fPar->imageMCP[board][tdc][ch];
+      Int_t row = fPar->imageRow[board][tdc][ch];
+      Int_t col = fPar->imageCol[board][tdc][ch];
       if(mcp>=HAD_TIME_NUMMCP)
          {
          GO4_STOP_ANALYSIS_MESSAGE(
@@ -1201,6 +1201,7 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
               i) * HAD_TIME_COARSEUNIT;
           hLeadingCoarseAll[board][tdc]->Fill(val); // for condition display
 	       hImagingMCP[mcp]->Fill(row, col); // filling up the imaging histogram
+	       printf ("++++ fill leading mcp%d, row %d, col %d from trb:%d, tdc:%d, ch%d \n",mcp,row,col,board,tdc,ch);
           if (cLeadingCoarseTimeGate[board][tdc]->Test(val))
             {
               hLeadingCoarse[board][tdc][ch]->Fill(val);
@@ -1227,7 +1228,9 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
           Double_t val = fOutEvent->fTrailingCoarseTime[board][tdc][ch].at(
               i) * HAD_TIME_COARSEUNIT;
           hTrailingCoarseAll[board][tdc]->Fill(val); // for condition display
-	  hImagingMCP[mcp]->Fill(row, col); // filling up the imaging histogram
+	       hImagingMCP[mcp]->Fill(row, col); // filling up the imaging histogram
+	       printf ("++++ fill trailing mcp%d, row %d, col %d from trb:%d, tdc:%d, ch%d \n",mcp,row,col,board,tdc,ch);
+
           if (cTrailingCoarseTimeGate[board][tdc]->Test(val))
             {
               hTrailingCoarse[board][tdc][ch]->Fill(val);
