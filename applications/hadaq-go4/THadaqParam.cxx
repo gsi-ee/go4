@@ -96,12 +96,25 @@ THadaqParam::THadaqParam(const char* name) :
          Short_t deltarow = +1;
          Short_t col = 2 * (tdc + 1);
          for (Int_t ch = 0; ch < HAD_TIME_CHANNELS; ++ch) {
-            if (ch == 0 || (ch % 2) != 0)
-               continue;
-            imageMCP[trb][tdc][ch] = mcp;
+		 imageMCP[trb][tdc][ch] = mcp;
+  		 imageRow[trb][tdc][ch] = 0; // initialize everything to 0
+            	 imageCol[trb][tdc][ch] = 0;
+           if ((ch==0) || (ch % 2) != 0)
+   		continue;
             imageRow[trb][tdc][ch] = row;
             imageCol[trb][tdc][ch] = col;
             printf(" **** Mapped trb %d, tdc %d, ch %d to mcp %d row %d col %d \n",trb,tdc,ch,mcp,row,col);
+            // add here mapping of trailing channels to same pixels:
+		Int_t chn=ch+1;
+	    if(chn<HAD_TIME_CHANNELS)
+		{
+            		imageRow[trb][tdc][chn] = row;
+            		imageCol[trb][tdc][chn] = col;
+            		printf(" **** Mapped trb %d, tdc %d, ch %d to mcp %d row %d col %d \n",trb,tdc,chn,mcp,row,col);
+		}
+
+
+
             row += deltarow;
             if (row > 8) {
                row = 8;

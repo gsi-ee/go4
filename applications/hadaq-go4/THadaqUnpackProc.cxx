@@ -839,8 +839,8 @@ THadaqUnpackProc::ProcessTimeTestV3(Hadaq_Subevent* hadsubevent)
   //Bool_t hasdata = kFALSE;
   for (int ix = 0; ix < ixlen; ++ix)
     {
-      if (totlen && ix >= totlen)
-        break; // ignore data after tdc block
+      //if (totlen && ix >= totlen)
+      //  break; // ignore data after tdc block
       Int_t data = hadsubevent->Data(ix);
 
 #ifdef  HAD_USE_MULTITRB
