@@ -13,7 +13,7 @@
 
 #include "TGo4ExampleClient.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TGo4Log.h"
 #include "TGo4TaskHandler.h"

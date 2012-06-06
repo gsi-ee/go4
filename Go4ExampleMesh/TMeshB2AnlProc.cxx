@@ -13,7 +13,7 @@
 
 #include "TMeshB2AnlProc.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TGo4UserException.h"
 

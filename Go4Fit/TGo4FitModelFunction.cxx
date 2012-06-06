@@ -13,7 +13,7 @@
 
 #include "TGo4FitModelFunction.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #ifndef _WINDOWS
 #include <dlfcn.h>

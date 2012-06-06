@@ -12,7 +12,7 @@
 //-----------------------------------------------------------------------
 
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 
 class TGo4FitGuiArrow : public TArrow {

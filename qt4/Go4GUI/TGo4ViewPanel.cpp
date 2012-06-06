@@ -21,7 +21,7 @@
 #include "TVirtualPadEditor.h"
 #include "TVirtualX.h"
 #include "RVersion.h"
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "THStack.h"
 #include "TGraph.h"
 #include "TMultiGraph.h"

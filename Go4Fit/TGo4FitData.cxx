@@ -13,7 +13,7 @@
 
 #include "TGo4FitData.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TMath.h"
 #include "TObjArray.h"

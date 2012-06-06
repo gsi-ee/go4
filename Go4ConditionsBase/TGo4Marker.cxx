@@ -13,7 +13,7 @@
 
 #include "TGo4Marker.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TH1.h"
 #include "TROOT.h"

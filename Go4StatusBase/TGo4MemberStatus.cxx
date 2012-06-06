@@ -13,7 +13,7 @@
 
 #include "TGo4MemberStatus.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 TGo4MemberStatus::TGo4MemberStatus() :
    TGo4ObjectStatus()

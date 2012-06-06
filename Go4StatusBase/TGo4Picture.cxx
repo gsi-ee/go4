@@ -13,7 +13,7 @@
 
 #include "TGo4Picture.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TClass.h"
 #include "TObjArray.h"
 #include "TObjString.h"

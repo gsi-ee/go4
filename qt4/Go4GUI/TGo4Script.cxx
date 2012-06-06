@@ -41,7 +41,7 @@
 #include "TGo4MainWindow.h"
 #include "TGo4Slot.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 TGo4Script* TGo4Script::ScriptInstance()
 {

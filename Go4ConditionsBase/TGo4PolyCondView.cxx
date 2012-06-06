@@ -13,7 +13,7 @@
 
 #include "TGo4PolyCondView.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TCutG.h"
 #include "TPad.h"

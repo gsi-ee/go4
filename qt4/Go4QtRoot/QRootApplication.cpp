@@ -27,7 +27,7 @@
 
 #include <stdlib.h>
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TTimer.h"
 #include "TSystem.h"
 

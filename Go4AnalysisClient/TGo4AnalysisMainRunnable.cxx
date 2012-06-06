@@ -13,7 +13,7 @@
 
 #include "TGo4AnalysisMainRunnable.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include <stdexcept>
 
 #include "TGo4Log.h"

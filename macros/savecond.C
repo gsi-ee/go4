@@ -24,6 +24,8 @@
 
 #include <fstream.h>
 #include <Riostream.h>
+using namespace std;
+
 #include "RVersion.h"
 
 // Recursive iterator to build a TList of all found objects

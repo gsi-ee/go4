@@ -17,7 +17,7 @@
 #include <sstream>
 using namespace std;
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TGo4Log.h"
 #include "TGo4Thread.h"
 #include "TGo4BufferQueue.h"

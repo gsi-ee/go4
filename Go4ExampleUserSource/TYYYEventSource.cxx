@@ -14,7 +14,7 @@
 #include "TYYYEventSource.h"
 
 #include "TClass.h"
-#include "Riostream.h"
+#include "go4iostream.h"
 #include <stdlib.h>
 
 #include "TGo4EventErrorException.h"

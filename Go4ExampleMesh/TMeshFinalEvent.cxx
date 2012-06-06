@@ -13,7 +13,7 @@
 
 #include "TMeshFinalEvent.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TGo4FileSource.h"
 #include "TMeshFinalProc.h"

@@ -13,7 +13,7 @@
 
 #include "TGo4CommandLine.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TROOT.h"
 
 #include <QFileDialog>

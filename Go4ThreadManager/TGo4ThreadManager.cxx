@@ -13,7 +13,7 @@
 
 #include "TGo4ThreadManager.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TApplication.h"
 #include "TSystem.h"

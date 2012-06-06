@@ -13,7 +13,7 @@
 
 #include "TGo4Thread.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TThread.h"
 #include "TSystem.h"

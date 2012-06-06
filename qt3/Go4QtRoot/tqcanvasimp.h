@@ -42,7 +42,7 @@
 * @version 2.0
 */
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TCanvasImp.h"
 #include "TInterpreter.h"

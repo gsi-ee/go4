@@ -855,7 +855,7 @@ void TGo4BrowserProxy::RedrawItem(const char* itemname)
    }
 }
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 TObject* TGo4BrowserProxy::GetBrowserObject(const char* name, int update)
 // update=0 - without update,

@@ -13,7 +13,7 @@
 
 #include "TGo4DynamicList.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include <stdexcept>
 #include <stdlib.h>
 #include "TFolder.h"

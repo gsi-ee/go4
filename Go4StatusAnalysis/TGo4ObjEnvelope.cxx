@@ -13,7 +13,7 @@
 
 #include "TGo4ObjEnvelope.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 TGo4ObjEnvelope::TGo4ObjEnvelope() :
    TNamed(),

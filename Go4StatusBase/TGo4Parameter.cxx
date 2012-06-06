@@ -16,7 +16,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TList.h"
 #include "TObjArray.h"

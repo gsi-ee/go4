@@ -13,7 +13,7 @@
 
 #include "TGo4CondArray.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include <stdlib.h>
 #include "TROOT.h"
 #include "TClass.h"

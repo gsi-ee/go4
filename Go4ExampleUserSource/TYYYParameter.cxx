@@ -13,7 +13,7 @@
 
 #include "TYYYParameter.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TGo4Fitter.h"
 

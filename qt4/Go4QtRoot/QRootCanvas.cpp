@@ -46,7 +46,7 @@
 #include "TMethodArg.h"
 #include "TColor.h"
 #include "TLatex.h"
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TGo4LockGuard.h"
 

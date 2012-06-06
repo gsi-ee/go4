@@ -13,7 +13,7 @@
 
 #include "TMeshB1InputEvent.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TMeshUnpackProc.h"
 #include "TGo4FileSource.h"

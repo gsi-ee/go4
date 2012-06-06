@@ -12,7 +12,7 @@
 //-----------------------------------------------------------------------
 
 #include "TGo4FitMinuitResult.h"
-#include "Riostream.h"
+#include "go4iostream.h"
 
 TGo4FitMinuitResult::TGo4FitMinuitResult() :
     TNamed(),

@@ -13,7 +13,7 @@
 
 #include "TGo4FitMinuit.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TMinuit.h"
 #include "TArrayD.h"

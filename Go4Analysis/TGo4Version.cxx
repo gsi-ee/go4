@@ -13,7 +13,7 @@
 
 #include "TGo4Version.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 const Int_t TGo4Version::fgiGO4VERSION= __GO4BUILDVERSION__;
 

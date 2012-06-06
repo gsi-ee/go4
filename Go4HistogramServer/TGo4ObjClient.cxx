@@ -14,7 +14,7 @@
 #include "TGo4ObjClient.h"
 
 #include <signal.h>
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TROOT.h"
 #include "TClass.h"

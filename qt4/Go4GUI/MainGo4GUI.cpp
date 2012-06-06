@@ -32,7 +32,7 @@
 #include "TGo4QSettings.h"
 #include "TGo4AbstractInterface.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TROOT.h"
 
 #ifndef WIN32

@@ -22,7 +22,7 @@
 #include <QSignalMapper>
 #include <QHeaderView>
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TClass.h"
 #include "TClassTable.h"
 #include "TROOT.h"

@@ -22,7 +22,7 @@
 ** These will automatically be called by the form's constructor and
 ** destructor.
 *****************************************************************************/
-//#include "Riostream.h"
+//#include "go4iostream.h"
 
 void TGo4OptStatsSettings::init()
 {

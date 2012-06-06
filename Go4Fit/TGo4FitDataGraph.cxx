@@ -13,7 +13,7 @@
 
 #include "TGo4FitDataGraph.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TGraph.h"
 #include "TGraphErrors.h"

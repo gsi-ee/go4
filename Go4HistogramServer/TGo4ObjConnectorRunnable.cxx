@@ -13,7 +13,7 @@
 
 #include "TGo4ObjConnectorRunnable.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TGo4Thread.h"
 #include "TGo4Task.h"

@@ -13,7 +13,7 @@
 
 #include "TGo4FitAmplEstimation.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TMath.h"
 #include "TMatrixD.h"

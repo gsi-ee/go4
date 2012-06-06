@@ -13,7 +13,7 @@
 
 #include "TGo4FitMatrixTrans.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TArrayD.h"
 #include "TString.h"

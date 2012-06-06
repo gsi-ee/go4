@@ -12,7 +12,7 @@
 //-----------------------------------------------------------------------
 
 #include "TGo4FitNamed.h"
-#include "Riostream.h"
+#include "go4iostream.h"
 
 TGo4FitNamed::TGo4FitNamed() : TNamed(), fxOwner(0), fxFullName() {
 }

@@ -14,7 +14,7 @@
 #include "TXXXAnalysis.h"
 
 #include <stdlib.h>
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "Go4EventServer.h"
 #include "TGo4StepFactory.h"

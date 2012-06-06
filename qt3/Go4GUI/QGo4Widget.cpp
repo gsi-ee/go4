@@ -13,7 +13,7 @@
 
 #include "QGo4Widget.h"
 #include "qtimer.h"
-#include "Riostream.h"
+#include "go4iostream.h"
 
 QGo4Widget::QGo4Widget(QWidget * parent, const char * name, WFlags f) :
    QWidget(parent, name, f),

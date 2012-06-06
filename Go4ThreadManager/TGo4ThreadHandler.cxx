@@ -13,7 +13,7 @@
 
 #include "TGo4ThreadHandler.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TGo4Thread.h"
 #include "TIterator.h"

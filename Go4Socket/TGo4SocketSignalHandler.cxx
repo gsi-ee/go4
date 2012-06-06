@@ -13,7 +13,7 @@
 
 #include "TGo4SocketSignalHandler.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 
 Int_t TGo4SocketSignalHandler::fgiLastSignal = 0; // unix signal id

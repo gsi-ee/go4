@@ -14,7 +14,7 @@
 #include "TGo4Status.h"
 
 #include <stdarg.h>
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TROOT.h"
 #include "snprintf.h"

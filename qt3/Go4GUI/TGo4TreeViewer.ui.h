@@ -11,7 +11,7 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TObjArray.h"
 #include "TObjString.h"
 void TGo4TreeViewer::init()

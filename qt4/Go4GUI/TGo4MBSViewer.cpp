@@ -14,7 +14,7 @@
 #include "TGo4MBSViewer.h"
 #include <QTimer>
 #include <QDateTime>
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TSystem.h"
 #include "TH1.h"
 #include "TGo4Slot.h"

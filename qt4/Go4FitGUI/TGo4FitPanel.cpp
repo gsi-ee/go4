@@ -48,7 +48,7 @@
 #include "TPaveStats.h"
 #include "TLegend.h"
 #include "TFile.h"
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TGo4LockGuard.h"
 #include "TGo4Slot.h"

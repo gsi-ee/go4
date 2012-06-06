@@ -16,7 +16,7 @@
 #include "TMath.h"
 #include "TH1.h"
 #include "TGraph.h"
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TGo4Log.h"
 #include "TGo4Fitter.h"

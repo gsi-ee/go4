@@ -14,7 +14,7 @@
 #include "TGo4EventSource.h"
 
 #include "TClass.h"
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "snprintf.h"
 
 #include "TGo4EventElement.h"

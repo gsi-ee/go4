@@ -14,7 +14,7 @@
 #include "TXXXUnpackProc.h"
 #include "TGo4EventEndException.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include <time.h>
 
 #include "TH1.h"

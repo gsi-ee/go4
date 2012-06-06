@@ -13,7 +13,7 @@
 
 #include "QFitItem.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TObject.h"
 #include "TGo4FitPanel.h"

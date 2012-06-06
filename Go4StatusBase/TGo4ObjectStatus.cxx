@@ -13,7 +13,7 @@
 
 #include "TGo4ObjectStatus.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TDatime.h"
 #include "TClass.h"
 

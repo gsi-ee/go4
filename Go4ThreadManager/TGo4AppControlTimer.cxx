@@ -13,7 +13,7 @@
 
 #include "TGo4AppControlTimer.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TCondition.h"
 #include "TApplication.h"

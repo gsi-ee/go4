@@ -13,7 +13,7 @@
 
 #include "TGo4TreeStoreParameter.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "Go4EventServerTypes.h"
 #include "TGo4Status.h"

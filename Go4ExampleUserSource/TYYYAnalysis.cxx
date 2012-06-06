@@ -14,7 +14,7 @@
 #include "TYYYAnalysis.h"
 
 #include <stdlib.h>
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TCanvas.h"
 #include "TH1.h"

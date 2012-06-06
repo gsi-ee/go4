@@ -13,7 +13,7 @@
 
 #include "TYYYUnpackProc.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TClass.h"
 #include "TCanvas.h"

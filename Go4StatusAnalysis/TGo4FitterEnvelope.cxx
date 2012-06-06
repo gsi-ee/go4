@@ -13,7 +13,7 @@
 
 #include "TGo4FitterEnvelope.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 TGo4FitterEnvelope::TGo4FitterEnvelope()
 : TGo4Parameter("Fitter envelope"), fxFitter(0)

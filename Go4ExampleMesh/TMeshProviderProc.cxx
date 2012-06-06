@@ -13,7 +13,7 @@
 
 #include "TMeshProviderProc.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TGo4Analysis.h"
 #include "TGo4EventElement.h"

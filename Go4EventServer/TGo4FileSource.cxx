@@ -13,7 +13,7 @@
 
 #include "TGo4FileSource.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TKey.h"
 #include "TFile.h"

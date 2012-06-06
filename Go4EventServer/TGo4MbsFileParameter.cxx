@@ -13,7 +13,7 @@
 
 #include "TGo4MbsFileParameter.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TObjString.h"
 
 #include "TGo4Log.h"

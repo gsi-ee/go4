@@ -13,7 +13,7 @@
 
 #include "TGo4TaskOwner.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TGo4Log.h"
 #include "TGo4Task.h"

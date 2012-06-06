@@ -13,7 +13,7 @@
 
 #include "TGo4FitModelFormula.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TFormula.h"
 #include "TGo4FitParameter.h"

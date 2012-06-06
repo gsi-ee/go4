@@ -13,7 +13,7 @@
 
 #include "TGo4TaskManager.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TObjArray.h"
 #include "TMutex.h"

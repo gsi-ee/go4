@@ -15,7 +15,7 @@
 
 #include <stdlib.h>
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TObjArray.h"
 #include "TClass.h"
 #include "TSystem.h"

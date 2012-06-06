@@ -15,7 +15,7 @@
 
 #include <stdlib.h>
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TApplication.h"
 #include "TTimeStamp.h"
 #include "TDataType.h"

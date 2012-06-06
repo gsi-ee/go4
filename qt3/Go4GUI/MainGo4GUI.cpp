@@ -30,7 +30,7 @@
 #include "TGo4BrowserProxy.h"
 #include "TGo4AbstractInterface.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 int main(int argc, char **argv)
 {

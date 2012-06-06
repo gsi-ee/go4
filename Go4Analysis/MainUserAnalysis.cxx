@@ -24,7 +24,7 @@
 #include "TRint.h"
 //#include "TApplication.h"
 #include "TSystem.h"
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "RVersion.h"
 #include "TSysEvtHandler.h"
 

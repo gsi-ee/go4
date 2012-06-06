@@ -13,7 +13,7 @@
 
 #include "TGo4ScaleOptions.h"
 #include <QLineEdit>
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TGo4WorkSpace.h"
 #include "TGo4ViewPanel.h"
 #include "TGo4SetScaleValues.h"

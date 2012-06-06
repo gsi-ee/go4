@@ -15,7 +15,7 @@
 
 #include <stdexcept>
 #include "stdio.h"
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TSystem.h"
 #include "TInterpreter.h"

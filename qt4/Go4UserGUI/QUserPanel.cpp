@@ -18,7 +18,7 @@
 #include <stdio.h>
 
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "Rstrstream.h"
 #include "TClass.h"
 #include "TCanvas.h"

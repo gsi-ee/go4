@@ -14,7 +14,7 @@
 #include "TGo4MbsRandom.h"
 
 //#include <sys/time.h>
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TRandom.h"
 #include <math.h>

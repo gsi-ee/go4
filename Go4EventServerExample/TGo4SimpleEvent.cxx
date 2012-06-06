@@ -13,7 +13,7 @@
 
 #include "TGo4SimpleEvent.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "Go4EventServer.h"
 

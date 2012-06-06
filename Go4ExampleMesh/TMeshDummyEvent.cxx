@@ -13,7 +13,7 @@
 
 #include "TMeshDummyEvent.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TMeshProviderProc.h"
 

@@ -14,7 +14,7 @@
 #ifndef TGO4MBSEVENT_H
 #define TGO4MBSEVENT_H
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TGo4EventElement.h"
 

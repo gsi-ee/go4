@@ -15,7 +15,7 @@
 
 #include <string.h>
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TMutex.h"
 #include "TMessage.h"
 #include "TSystem.h"

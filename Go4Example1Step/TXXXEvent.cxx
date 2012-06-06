@@ -13,7 +13,7 @@
 
 #include "TXXXEvent.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 //***********************************************************
 TXXXEvent::TXXXEvent() :

@@ -19,7 +19,7 @@
 #include "TH2.h"
 #include "TGraph.h"
 #include "TMultiGraph.h"
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TGo4WinCond.h"
 #include "TGo4Fitter.h"

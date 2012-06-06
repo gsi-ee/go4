@@ -13,7 +13,7 @@
 
 #include "TGo4TaskHandlerAbortException.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TApplication.h"
 

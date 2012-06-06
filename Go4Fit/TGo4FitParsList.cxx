@@ -13,7 +13,7 @@
 
 #include "TGo4FitParsList.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TClass.h"
 #include "TStyle.h"
 #include "TString.h"

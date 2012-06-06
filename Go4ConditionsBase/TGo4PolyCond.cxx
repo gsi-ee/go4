@@ -13,7 +13,7 @@
 
 #include "TGo4PolyCond.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "RVersion.h"
 
 #include "TMath.h"

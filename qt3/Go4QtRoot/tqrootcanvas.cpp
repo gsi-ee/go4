@@ -17,7 +17,7 @@
 
 #include "tqrootcanvas.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "qpainter.h"
 #include "qdragobject.h"

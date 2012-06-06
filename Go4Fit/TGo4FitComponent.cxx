@@ -13,7 +13,7 @@
 
 #include "TGo4FitComponent.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TCutG.h"
 #include "TGo4FitParameter.h"

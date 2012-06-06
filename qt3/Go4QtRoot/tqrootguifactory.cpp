@@ -35,7 +35,7 @@
 
 #include "tqrootguifactory.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TGuiFactory.h"
 #include "TRootCanvas.h"

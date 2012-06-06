@@ -14,7 +14,7 @@
 #include "TGo4AnalysisWindow.h"
 
 #include "TSystem.h"
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "qmime.h"
 #include "qlayout.h"

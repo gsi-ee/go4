@@ -13,7 +13,7 @@
 
 #include "TGo4CommandInvoker.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TMutex.h"
 #include "TString.h"

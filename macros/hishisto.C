@@ -14,6 +14,8 @@
 // if display is switched off, result is lost
 ///////
 #include "Riostream.h"
+using namespace std;
+
 
 #ifdef __GO4MACRO__
 // Get histograms from GO4 GUI

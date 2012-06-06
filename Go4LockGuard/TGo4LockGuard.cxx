@@ -13,7 +13,7 @@
 
 #include "TGo4LockGuard.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TMutex.h"
 
 TMutex* TGo4LockGuard::fgxMainMutex=0;

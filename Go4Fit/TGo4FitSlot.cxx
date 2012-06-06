@@ -13,7 +13,7 @@
 
 #include "TGo4FitSlot.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TClass.h"
 #include "TH1.h"
 #include "TSeqCollection.h"

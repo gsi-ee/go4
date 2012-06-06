@@ -13,7 +13,7 @@
 
 #include "TGo4ExampleController.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TObject.h"
 #include "TCanvas.h"

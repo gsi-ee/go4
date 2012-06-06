@@ -13,7 +13,7 @@
 
 #include "TGo4AnalysisObjectManager.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TRegexp.h"
 #include "TMultiGraph.h"
@@ -286,92 +286,6 @@ Bool_t TGo4AnalysisObjectManager::ProtectObjects(const char* name, const Option_
          rev=ProtectObject(ob, flags);
    }
    return rev;
-}
-
-TFolder * TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray* branchlist,
-      const char* name,
-      const char* title,
-      Bool_t istopbranch)
-{
-   TRACE((11,"TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray*)",__LINE__, __FILE__));
-   if (branchlist==0) return 0;
-
-   TList* nameslist= new TList;
-   TGo4ObjectStatus* state;
-   Int_t cursor=0;
-   TObject* entry = 0;
-   TIter iter(branchlist);
-   while((entry=iter()) !=0) {
-      if(entry->InheritsFrom(TBranch::Class())) {
-         // found subfolder, process it recursively
-         TBranch* subbranch= dynamic_cast<TBranch*> (entry);
-         TObjArray* subbranchlist = subbranch->GetListOfBranches();
-         if(subbranchlist!=0) {
-            if(subbranchlist->IsEmpty()) {
-               // subbranchlist is empty, add status object to folder
-               state=new TGo4BranchStatus(subbranch);
-               nameslist->AddLast(state);
-            } else {
-               // found subbranchlist
-               // test for composite event:
-
-               TFolder* subnames = 0;
-
-               TClass* cl = gROOT->GetClass(subbranch->GetClassName());
-               if((cl!=0) && cl->InheritsFrom(TGo4CompositeEvent::Class()) && istopbranch) {
-                  // search for composite event of that name in Go4 (only if top level call)
-                  TGo4CompositeEvent* cevent=0;
-                  TString branchname(subbranch->GetName());
-                  Ssiz_t leng = branchname.Length();
-                  branchname.Resize(leng-1); // strip dot from branchname
-                  //cout <<"searching for composite event "<< branchname.Data() << endl;
-                  cevent = dynamic_cast<TGo4CompositeEvent*> (GetEventStructure(branchname.Data()));
-                  if(cevent!=0) {
-                     //cout <<"found top comp event" << endl;
-                     Int_t skippedentries=0;
-                     // we pass complete top branchlist to method
-                     subnames = CreateCompositeBranchFolder(
-                           branchlist,cevent,cursor+1,
-                           &skippedentries,
-                           cevent->GetName(),
-                           cevent->GetTitle());
-                     // skip comp subelements in iterator:
-                     //cout <<"top skipped:"<<skippedentries<< endl;
-                     // now process subbranchlist  of top compevent,
-                     // add members of this folder to existing folder subnames!
-                     TFolder* temp = CreateBranchFolder(subbranchlist, "dummy","dummy");
-                     subnames->GetListOfFolders()->AddAll(temp->GetListOfFolders());
-                     for(Int_t t=0;t<skippedentries;++t) {
-                        iter();
-                        cursor++;
-                     }
-                  } else {
-                     //cout <<"not found top comp event" << endl;
-                     subnames=CreateBranchFolder(subbranchlist,
-                           subbranch->GetName(),
-                           subbranch->GetTitle());
-                  }
-               } else {
-                  //cout <<"no class or not top branch" << endl;
-                  subnames=CreateBranchFolder(subbranchlist,
-                        subbranch->GetName(), subbranch->GetTitle());
-               }
-               nameslist->AddLast(subnames);
-            } // if(subbranchlist->IsEmpty())
-         } else {
-            // no subbranchlist, should not happen...
-            // add status object to folder
-            state=new TGo4BranchStatus(subbranch);
-            nameslist->AddLast(state);
-         } // if(subbranchlist)
-      }
-      cursor++;
-   } // while((entry=iter()) !=0)
-
-   TFolder* fold = fxTempFolder->AddFolder(name,title,nameslist);
-   fold->SetOwner(kTRUE);
-   fxTempFolder->Remove(fold);
-   return fold;
 }
 
 TFolder * TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray* branchlist,
@@ -716,6 +630,92 @@ TH2* TGo4AnalysisObjectManager::MakeTH2(const char* histotype,
    if (ytitle) histo->SetYTitle(ytitle);
    AddHistogram(histo, foldername);
    return histo;
+}
+
+TFolder * TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray* branchlist,
+      const char* name,
+      const char* title,
+      Bool_t istopbranch)
+{
+   TRACE((11,"TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray*)",__LINE__, __FILE__));
+   if (branchlist==0) return 0;
+
+   TList* nameslist= new TList;
+   TGo4ObjectStatus* state;
+   Int_t cursor=0;
+   TObject* entry = 0;
+   TIter iter(branchlist);
+   while((entry=iter()) !=0) {
+      if(entry->InheritsFrom(TBranch::Class())) {
+         // found subfolder, process it recursively
+         TBranch* subbranch= dynamic_cast<TBranch*> (entry);
+         TObjArray* subbranchlist = subbranch->GetListOfBranches();
+         if(subbranchlist!=0) {
+            if(subbranchlist->IsEmpty()) {
+               // subbranchlist is empty, add status object to folder
+               state=new TGo4BranchStatus(subbranch);
+               nameslist->AddLast(state);
+            } else {
+               // found subbranchlist
+               // test for composite event:
+
+               TFolder* subnames = 0;
+
+               TClass* cl = gROOT->GetClass(subbranch->GetClassName());
+               if((cl!=0) && cl->InheritsFrom(TGo4CompositeEvent::Class()) && istopbranch) {
+                  // search for composite event of that name in Go4 (only if top level call)
+                  TGo4CompositeEvent* cevent=0;
+                  TString branchname(subbranch->GetName());
+                  Ssiz_t leng = branchname.Length();
+                  branchname.Resize(leng-1); // strip dot from branchname
+                  //cout <<"searching for composite event "<< branchname.Data() << endl;
+                  cevent = dynamic_cast<TGo4CompositeEvent*> (GetEventStructure(branchname.Data()));
+                  if(cevent!=0) {
+                     //cout <<"found top comp event" << endl;
+                     Int_t skippedentries=0;
+                     // we pass complete top branchlist to method
+                     subnames = CreateCompositeBranchFolder(
+                           branchlist,cevent,cursor+1,
+                           &skippedentries,
+                           cevent->GetName(),
+                           cevent->GetTitle());
+                     // skip comp subelements in iterator:
+                     //cout <<"top skipped:"<<skippedentries<< endl;
+                     // now process subbranchlist  of top compevent,
+                     // add members of this folder to existing folder subnames!
+                     TFolder* temp = CreateBranchFolder(subbranchlist, "dummy","dummy");
+                     subnames->GetListOfFolders()->AddAll(temp->GetListOfFolders());
+                     for(Int_t t=0;t<skippedentries;++t) {
+                        iter();
+                        cursor++;
+                     }
+                  } else {
+                     //cout <<"not found top comp event" << endl;
+                     subnames=CreateBranchFolder(subbranchlist,
+                           subbranch->GetName(),
+                           subbranch->GetTitle());
+                  }
+               } else {
+                  //cout <<"no class or not top branch" << endl;
+                  subnames=CreateBranchFolder(subbranchlist,
+                        subbranch->GetName(), subbranch->GetTitle());
+               }
+               nameslist->AddLast(subnames);
+            } // if(subbranchlist->IsEmpty())
+         } else {
+            // no subbranchlist, should not happen...
+            // add status object to folder
+            state=new TGo4BranchStatus(subbranch);
+            nameslist->AddLast(state);
+         } // if(subbranchlist)
+      }
+      cursor++;
+   } // while((entry=iter()) !=0)
+
+   TFolder* fold = fxTempFolder->AddFolder(name,title,nameslist);
+   fold->SetOwner(kTRUE);
+   fxTempFolder->Remove(fold);
+   return fold;
 }
 
 Bool_t TGo4AnalysisObjectManager::AddTree(TTree* tree, const char* subfolder)
@@ -1181,7 +1181,7 @@ Bool_t TGo4AnalysisObjectManager::SetParameter(const char* name, TGo4Parameter *
    if(oldpar!=0) {
       // update existing parameter of given name
       rev = oldpar->UpdateFrom(par);
-      //cout << "++++ Updated parameter "<< name<<" from parameter "<< par->GetName() << endl;
+      cout << "++++ Updated parameter "<< name<<" from parameter "<< par->GetName() << endl;
       //oldpar->PrintParameter();
    } else {
       // parameter not yet existing, add external parameter as a copy:
@@ -1191,7 +1191,7 @@ Bool_t TGo4AnalysisObjectManager::SetParameter(const char* name, TGo4Parameter *
       if (separ!=0) {
          TString fname(name, separ-name);
          rev=AddObjectToFolder(clonedpar,topfolder, fname.Data(), kTRUE);
-         //cout << "++++ Added new parameter "<< clonedpar->GetName()<<" to folder "<<topfolder->GetName()<<"/"<< subfolder << endl;
+         cout << "++++ Added new parameter "<< clonedpar->GetName()<<" to folder "<<topfolder->GetName()<<"/"<< fname.Data() << endl;
       } else
          rev=AddObjectToFolder(clonedpar,topfolder,0,kTRUE);
    }

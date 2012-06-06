@@ -13,7 +13,7 @@
 
 #include "TGo4FitterAbstract.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TArrayD.h"
 #include "TArrayI.h"

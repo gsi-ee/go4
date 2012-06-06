@@ -13,7 +13,7 @@
 
 #include "TXXXParameter.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 TXXXParameter::TXXXParameter(const char* name) :
    TGo4Parameter(name),

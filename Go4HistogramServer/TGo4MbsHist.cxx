@@ -13,7 +13,7 @@
 
 #include "TGo4MbsHist.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include <string.h>
 
 #include "TGraph.h"

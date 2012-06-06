@@ -13,7 +13,7 @@
 
 #include "TGo4MbsEvent.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TObjArray.h"
 
 #include "TGo4Log.h"

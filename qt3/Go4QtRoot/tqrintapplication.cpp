@@ -27,7 +27,7 @@
 #include "TUnixSystem.h"
 #include "qrintapplication.h"
 #include "qrootguifactory.h"
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TROOT.h"
 #include "TClass.h"

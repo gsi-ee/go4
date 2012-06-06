@@ -14,7 +14,7 @@
 #include "TGo4MainWindow.h"
 
 #include <dlfcn.h>
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "qdockarea.h"
 #include "qcolor.h"

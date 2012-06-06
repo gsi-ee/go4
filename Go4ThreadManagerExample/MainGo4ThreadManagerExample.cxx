@@ -18,7 +18,7 @@
 // On calling theApp.Run(), the threads are started.
 // (J.Adamczewski, GSI)
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TApplication.h"
 

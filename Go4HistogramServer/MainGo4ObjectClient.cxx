@@ -51,7 +51,7 @@
 #include <string>
 #include <stdlib.h>
 
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TROOT.h"
 #include "TApplication.h"
 #include "TCanvas.h"

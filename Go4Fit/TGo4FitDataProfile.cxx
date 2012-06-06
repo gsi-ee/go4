@@ -13,7 +13,7 @@
 
 #include "TGo4FitDataProfile.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TProfile.h"
 #include "TArrayD.h"

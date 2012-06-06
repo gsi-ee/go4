@@ -14,7 +14,7 @@
 #include "TGo4HisDrawOptions.h"
 
 //#include <QLineEdit>
-#include "Riostream.h"
+#include "go4iostream.h"
 #include "TROOT.h"
 #include "TColor.h"
 #include "TAttLine.h"

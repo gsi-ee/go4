@@ -13,7 +13,7 @@
 
 #include "TMeshParameter.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TGo4AnalysisStep.h"
 #include "TGo4Analysis.h"

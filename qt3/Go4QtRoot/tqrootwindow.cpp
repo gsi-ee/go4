@@ -13,7 +13,7 @@
 
 #include "tqrootwindow.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TVirtualX.h"
 #include "TSystem.h"

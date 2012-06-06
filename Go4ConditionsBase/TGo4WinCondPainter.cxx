@@ -13,7 +13,7 @@
 
 #include "TGo4WinCondPainter.h"
 
-#include "Riostream.h"
+#include "go4iostream.h"
 
 #include "TVirtualPad.h"
 #include "RVersion.h"
