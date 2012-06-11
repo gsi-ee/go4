@@ -15,6 +15,7 @@
 #define TGO4PICTURE_H
 
 #include "TNamed.h"
+#include "go4iostream.h"
 
 #include "TArrayL.h"
 #include "TArrayF.h"
