@@ -15,7 +15,7 @@
 #define TGO4PARAMETER_H
 
 #include "TNamed.h"
-
+#include "go4iostream.h"
 class TObjArray;
 class TIterator;
 class TDataMember;
