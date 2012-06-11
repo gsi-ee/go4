@@ -23,6 +23,7 @@ in Go4License.txt file which is part of the distribution.
 
 Changes in Go4 v4.5.3 (Summer 2012)
 1. Added macro fft.C for fast fourier transform of histograms into gui command line.
+2. Adjustments for new root versions >5.99 (wrapper go4iostream.h)
 
 
 Changes in Go4 v4.5.2 (April 2012)
