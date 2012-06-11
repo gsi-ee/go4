@@ -17,6 +17,7 @@
 #include "TNamed.h"
 #include "TAttLine.h"
 #include "TAttFill.h"
+#include "go4iostream.h"
 
 #define kCOPYCOUNTS true
 #define kNOCOPYCOUNTS false
