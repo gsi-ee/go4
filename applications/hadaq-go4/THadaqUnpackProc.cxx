@@ -1,7 +1,9 @@
 #include "THadaqUnpackProc.h"
-
+#if __GO4BUILDVERSION__ > 40502
+#include "go4iostream.h"
+#else
 #include "Riostream.h"
-
+#endif
 #include "TClass.h"
 #include "TROOT.h"
 #include "TSystem.h"
@@ -750,7 +752,13 @@ THadaqUnpackProc::BuildEvent(TGo4EventElement* dest)
               "Problem: subevent length 0x%x not big enough for hadaq event header!!", lwords*sizeof(Int_t));
         }
       char* cursor = (char*) pdata;
+      char* datastart = (char*) pdata;	
+       EPRINT("*** Start cursor #0x%x\n",  (unsigned) cursor);
+	
 
+      Int_t bufbytes=lwords*sizeof(Int_t);
+      while(bufbytes>0)
+        {
       // here the full hadaq event is available at pdata:
       Hadaq_Event* hadevent = (Hadaq_Event*) (cursor);
       EPRINT(
@@ -759,6 +767,7 @@ THadaqUnpackProc::BuildEvent(TGo4EventElement* dest)
       cursor += sizeof(Hadaq_Event);
       int evlen = hadevent->GetSize();
       evlen -= sizeof(Hadaq_Event);
+      bufbytes -= sizeof(Hadaq_Event);
       int sub = 0; // subevent index for Go4 output event
       while (evlen > 0)
         {
@@ -768,25 +777,24 @@ THadaqUnpackProc::BuildEvent(TGo4EventElement* dest)
           ProcessSubevent(hadsubevent);
           cursor += hadsubevent->GetSize();
           evlen -= hadsubevent->GetSize();
+          bufbytes -= hadsubevent->GetSize();
           /* skip possible padding bytes before next subevent:*/
-          while ((((long) cursor) % 8) != 0)
+          while (((((long) cursor - (long) datastart)) % 8) != 0) // hadaq padding is relative to begin of payload data field!
             {
-              EPRINT("*** --- skipping padding byte..\n");
+              EPRINT("*** --- skipping subevent padding byte..\n");
               cursor++;
               evlen--;
-              if (evlen <= 0)
-                {
-                  EPRINT(" skip padding bytes reached end of event!!!\n");
-                  break;
-                }
+              bufbytes--;
             }
           sub++;
 
         }
-      //cout <<"HadaqUnpackProc - subevent of id "<< (int) psubevt->GetSubcrate() << endl;
-      // fill poutevt here:
 
-    } // while
+
+      //cout <<"HadaqUnpackProc - subevent of id "<< (int) psubevt->GetSubcrate() << endl;
+        } // while bufbytes>0
+
+    } // while next subevent
   return kTRUE;
 }
 
@@ -919,7 +927,7 @@ THadaqUnpackProc::ProcessTimeTestV3(Hadaq_Subevent* hadsubevent)
       Bool_t isdata = ((data >> 31) & 0x1) == 0x1;
       if (isdata)
         {
-	      UShort_t res = (data >> 28) & 0x7;
+	  UShort_t res = (data >> 28) & 0x7;
           UChar_t chan = (data >> 22) & 0x3F;
           UShort_t tcoarse = data & 0x7FF;
           UShort_t tfine = (data >> 12) & 0x3FF;

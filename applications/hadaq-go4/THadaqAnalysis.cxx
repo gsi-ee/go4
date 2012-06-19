@@ -2,7 +2,13 @@
 #include "THadaqAnalysis.h"
 
 #include <stdlib.h>
+
+#if __GO4BUILDVERSION__ > 40502
+#include "go4iostream.h"
+#else
 #include "Riostream.h"
+#endif
+
 
 #include "TCanvas.h"
 #include "TH1.h"

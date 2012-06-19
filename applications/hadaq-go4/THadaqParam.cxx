@@ -1,6 +1,10 @@
 
 #include "THadaqParam.h"
+#if __GO4BUILDVERSION__ > 40502
+#include "go4iostream.h"
+#else
 #include "Riostream.h"
+#endif
 
 
 
