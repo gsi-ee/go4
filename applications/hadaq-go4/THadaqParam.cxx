@@ -1,10 +1,6 @@
 
 #include "THadaqParam.h"
-#if __GO4BUILDVERSION__ > 40502
-#include "go4iostream.h"
-#else
 #include "Riostream.h"
-#endif
 
 
 
@@ -76,7 +72,8 @@ THadaqParam::THadaqParam(const char* name) :
          for (int i = 0; i < HAD_TIME_CHANNELS; ++i) {
             deltaTDC[b][t][i] = t; // by default, channels refer to self tdc
             deltaTRB[b][t][i] = b; // by default, channels refer to self trb
-            deltaChannels[b][t][i] = 0; // reference channel is 0
+	    if (i%2 == 0)
+	      deltaChannels[b][t][i] = i+1; // reference channel is 0
          }
       }
    }
@@ -91,43 +88,77 @@ THadaqParam::THadaqParam(const char* name) :
 
 // NOTE: mappings in ctor are overridden by setup script!
    // here mcp mappings (JAM 1-June2012):
-   for (Short_t mcp = 0; mcp < HAD_TIME_NUMMCP; ++mcp) {
-      Int_t trb = trbids[mcp];
-      if (!THadaqUnpackEvent::AssertTRB(trb))
-             continue;
-      for (Int_t tdc = 0; tdc < HAD_TIME_NUMTDC; ++tdc) {
-         Short_t row = 1;
-         Short_t deltarow = +1;
-         Short_t col = 2 * (tdc + 1);
-         for (Int_t ch = 0; ch < HAD_TIME_CHANNELS; ++ch) {
-		 imageMCP[trb][tdc][ch] = mcp;
-  		 imageRow[trb][tdc][ch] = 0; // initialize everything to 0
-            	 imageCol[trb][tdc][ch] = 0;
-           if ((ch==0) || (ch % 2) != 0)
+    for (Short_t mcp = 0; mcp < HAD_TIME_NUMMCP; ++mcp) {
+    Int_t trb = trbids[mcp];
+    if (!THadaqUnpackEvent::AssertTRB(trb))
+           continue;
+    for (Int_t tdc = 0; tdc < HAD_TIME_NUMTDC; ++tdc) {
+        Short_t row = 1;
+        Short_t deltarow = +1;
+        Short_t col = 2 * (4 - tdc);
+        for (Int_t ch = 0; ch < HAD_TIME_CHANNELS; ++ch) {
+   	 imageMCP[trb][tdc][ch] = mcp;
+   		 imageRow[trb][tdc][ch] = 0; // initialize everything to 0
+          	 imageCol[trb][tdc][ch] = 0;
+         if ((ch==0) || (ch % 2) != 0)
    		continue;
-            imageRow[trb][tdc][ch] = row;
-            imageCol[trb][tdc][ch] = col;
-            printf(" **** Mapped trb %d, tdc %d, ch %d to mcp %d row %d col %d \n",trb,tdc,ch,mcp,row,col);
-            // add here mapping of trailing channels to same pixels:
-		Int_t chn=ch+1;
-	    if(chn<HAD_TIME_CHANNELS)
-		{
-            		imageRow[trb][tdc][chn] = row;
-            		imageCol[trb][tdc][chn] = col;
-            		printf(" **** Mapped trb %d, tdc %d, ch %d to mcp %d row %d col %d \n",trb,tdc,chn,mcp,row,col);
-		}
-
-
-
-            row += deltarow;
-            if (row > 8) {
-               row = 8;
-               deltarow = -1;
-               col -= 1;
-            }
-         }
-      }
+          imageRow[trb][tdc][ch] = row;
+          imageCol[trb][tdc][ch] = col;
+          printf(" **** Mapped trb %d, tdc %d, ch %d to mcp %d row %d col %d \n",trb,tdc,ch,mcp,row,col);
+          // add here mapping of trailing channels to same pixels:
+   		Int_t chn=ch+1;
+   	    if(chn<HAD_TIME_CHANNELS)
+   		{
+          		imageRow[trb][tdc][chn] = row;
+          		imageCol[trb][tdc][chn] = col;
+          		printf(" **** Mapped trb %d, tdc %d, ch %d to mcp %d row %d col %d \n",trb,tdc,chn,mcp,row,col);
+   		}
+               row += deltarow;
+          if (row > 8) {
+             row = 8;
+             deltarow = -1;
+             col -= 1;
+          }
+       }
+    }
    } // mcp
+
+
+// for (Short_t mcp = 0; mcp < HAD_TIME_NUMMCP; ++mcp) {
+   // Int_t trb = trbids[mcp];
+   //   if (!THadaqUnpackEvent::AssertTRB(trb))
+   //     continue;
+   //   for (Int_t tdc = 0; tdc < HAD_TIME_NUMTDC; ++tdc) {
+   //     Short_t row = 1;
+   //     Short_t col = 2 * (tdc + 1);
+   //     for (Int_t ch = 0; ch < HAD_TIME_CHANNELS; ++ch) {
+   //       imageMCP[trb][tdc][ch] = mcp;
+   //       imageRow[trb][tdc][ch] = 0; // initialize everything to 0
+   //       imageCol[trb][tdc][ch] = 0;
+   //       if ((ch==0) || (ch % 2) != 0)
+   //	 continue;
+   //       imageRow[trb][tdc][ch] = row;
+   //       imageCol[trb][tdc][ch] = col;
+   //       printf(" **** Mapped trb %d, tdc %d, ch %d to mcp %d row %d col %d \n",trb,tdc,ch,mcp,row,col);
+   //       // add here mapping of trailing channels to same pixels:
+   //       Int_t chn=ch+1;
+   //       if(chn<HAD_TIME_CHANNELS)
+   //	 {
+   //	   imageRow[trb][tdc][chn] = row;
+   //	   imageCol[trb][tdc][chn] = col;
+   //	   printf(" **** Mapped trb %d, tdc %d, ch %d to mcp %d row %d col %d \n",trb,tdc,chn,mcp,row,col);
+   //	 }
+   //
+   //       if ((ch % 4) == 0){
+   //	 row += 1;
+   //	 col += 1;
+   //       }
+   //       else if((ch % 2) == 0)
+   //	 col -= 1;
+   //     }
+   //   }
+   // } // mcp
+ 
 // cout << endl;
 
 #endif
