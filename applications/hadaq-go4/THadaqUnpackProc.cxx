@@ -753,7 +753,7 @@ THadaqUnpackProc::BuildEvent(TGo4EventElement* dest)
         }
       char* cursor = (char*) pdata;
       char* datastart = (char*) pdata;	
-       EPRINT("*** Start cursor #0x%x\n",  (unsigned) cursor);
+       EPRINT("*** Start cursor #0x%x\n",  (unsigned long) cursor);
 	
 
       Int_t bufbytes=lwords*sizeof(Int_t);
