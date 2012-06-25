@@ -57,8 +57,10 @@ THadaqUnpackProc::THadaqUnpackProc(const char* name) :
   TString hname;
   TString leadingcoarseallname = "LeadingCoarseAllChans";
   TString leadingfineallname = "LeadingFineAllChans";
+  TString leadingdeltafineallname = "LeadingDeltaFineAllChans";
   TString trailingcoarseallname = "TrailingCoarseAllChans";
   TString trailingfineallname = "TrailingFineAllChans";
+  TString trailingdeltafineallname = "TrailingDeltaFineAllChans";
 
   Int_t tbins = 0, trange = 0;
 
@@ -71,6 +73,12 @@ THadaqUnpackProc::THadaqUnpackProc(const char* name) :
        tbins = HAD_TIME_MCPBINS; // 9
        trange = HAD_TIME_MCPRANGE; // 9
        hImagingMCP[m] = MakeTH2('I', obname.Data(), obtitle.Data(), tbins, 0, trange, tbins, 0, trange, legendx.Data(), legendy.Data());
+
+       obname.Form("MCP/MCPGated_%d",m);
+       obtitle.Form("Hit Image under time diff condition of MCP %d",m);
+       hImagingMCPGated[m] = MakeTH2('I', obname.Data(), obtitle.Data(), tbins, 0, trange, tbins, 0, trange, legendx.Data(), legendy.Data());
+
+
       }
 
 
@@ -102,6 +110,19 @@ THadaqUnpackProc::THadaqUnpackProc(const char* name) :
           hLeadingFineAll[b][t] = MakeTH1('I', obname.Data(), obtitle.Data(),
               tbins, 0, trange, "t (bin) ");
 
+
+
+          obname.Form("%s/%s_%02d_%02d", dirname.Data(), leadingdeltafineallname.Data(),
+                        b,t);
+          obtitle.Form("Leading Delta Fine time (calibr.) TRB %02d TDC %02d all channels", b,t);
+          tbins = HAD_TIME_DELTAHISTBINS;
+          //tbins=8 * HAD_TIME_FINEBINS;
+          trange = 500 * HAD_TIME_COARSEUNIT; // scale to ns?
+          //trange=4 * HAD_TIME_COARSEUNIT; // scale to ns?
+          hLeadingDeltaFineAll[b][t] = MakeTH1('I', obname.Data(),
+                            obtitle.Data(), tbins, -trange / 2, trange / 2, "t (ps)");
+
+
           obname.Form("%s/%s_%02d_%02d", dirname.Data(),
               trailingcoarseallname.Data(), b, t);
           obtitle.Form("Trailing Coarse time TRB %02d TDC %02d all channels", b,t);
@@ -117,6 +138,19 @@ THadaqUnpackProc::THadaqUnpackProc(const char* name) :
           trange = HAD_TIME_FINEBINS; // scale to ns?
           hTrailingFineAll[b][t] = MakeTH1('I', obname.Data(), obtitle.Data(),
               tbins, 0, trange, "t (bin) ");
+
+          obname.Form("%s/%s_%02d_%02d", dirname.Data(), trailingdeltafineallname.Data(),
+                                  b,t);
+          obtitle.Form("Trailing Delta Fine time (calibr.) TRB %02d TDC %02d all channels", b,t);
+          tbins = HAD_TIME_DELTAHISTBINS;
+          //tbins=8 * HAD_TIME_FINEBINS;
+          trange = 500 * HAD_TIME_COARSEUNIT; // scale to ns?
+          //trange=4 * HAD_TIME_COARSEUNIT; // scale to ns?
+          hTrailingDeltaFineAll[b][t] = MakeTH1('I', obname.Data(),
+                                      obtitle.Data(), tbins, -trange / 2, trange / 2, "t (ps)");
+
+
+
 
           for (Int_t i = 0; i < HAD_TIME_CHANNELS; ++i)
             {
@@ -391,6 +425,20 @@ THadaqUnpackProc::THadaqUnpackProc(const char* name) :
           hname.Form("%s_%02d_%02d", trailingfineallname.Data(), b, t);
           cTrailingFineTimeGate[b][t] = MakeWinCond(obname.Data(), 0, trange,
               hname.Data());
+
+
+          obname.Form("%s/LeadingDeltaFineTimeGate_%02d_%02d", dirname.Data(), b, t);
+
+          trange = 500 * HAD_TIME_COARSEUNIT; // scale to ns?
+          hname.Form("%s_%02d_%02d", leadingdeltafineallname.Data(), b, t);
+          cLeadingDeltaFineTimeGate[b][t] = MakeWinCond(obname.Data(), -trange / 2, trange/2,
+                        hname.Data());
+          obname.Form("%s/TrailingDeltaFineTimeGate_%02d_%02d", dirname.Data(), b, t);
+          trange = 500 * HAD_TIME_COARSEUNIT; // scale to ns?
+          hname.Form("%s_%02d_%02d", trailingdeltafineallname.Data(), b, t);
+                   cTrailingFineTimeGate[b][t] = MakeWinCond(obname.Data(), -trange / 2, trange/2,
+                       hname.Data());
+
 
           // pictures:
 // NOTE: displaying this picture in GO4 may crash the X-server
@@ -1273,6 +1321,19 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
 
   for (int ch = 0; ch < HAD_TIME_CHANNELS; ++ch)
     {
+        // need to get mcp mapping again for second loop:
+        Int_t mcp = fPar->imageMCP[board][tdc][ch];
+        Int_t row = fPar->imageRow[board][tdc][ch];
+        Int_t col = fPar->imageCol[board][tdc][ch];
+        if(mcp>=HAD_TIME_NUMMCP)
+             {
+             GO4_STOP_ANALYSIS_MESSAGE(
+                    "mcp index %d out of range, max is %d!",mcp, HAD_TIME_NUMMCP-1);
+
+             }
+
+
+
       // calculate delta ts with setup
       Short_t ref = fPar->deltaChannels[board][tdc][ch];
       if (ref < 0)
@@ -1325,7 +1386,12 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
 
           delta_cal = cdelta - fdelta_cal;
           if (delta_cal)
-            hLeadingDeltaCal[board][tdc][ch]->Fill(delta_cal);
+             {
+                hLeadingDeltaCal[board][tdc][ch]->Fill(delta_cal);
+                hLeadingDeltaFineAll[board][tdc]->Fill(delta_cal);
+                if(cLeadingDeltaFineTimeGate[board][tdc]->Test(delta_cal))
+                   hImagingMCPGated[mcp]->Fill(row, col); //
+             }
 
           hLeadingCorrelFine[board][tdc][ch]->Fill(binindex, rbinindex);
 
@@ -1371,8 +1437,12 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
 
           delta_cal = cdelta - fdelta_cal;
           if (delta_cal)
-            hTrailingDeltaCal[board][tdc][ch]->Fill(delta_cal);
-
+             {
+                hTrailingDeltaCal[board][tdc][ch]->Fill(delta_cal);
+                hTrailingDeltaFineAll[board][tdc]->Fill(delta_cal);
+                if(cLeadingDeltaFineTimeGate[board][tdc]->Test(delta_cal))
+                                   hImagingMCPGated[mcp]->Fill(row, col); //
+             }
           hTrailingCorrelFine[board][tdc][ch]->Fill(binindex, rbinindex);
 
         } // for i trailing

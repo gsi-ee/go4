@@ -72,8 +72,10 @@ class THadaqUnpackProc : public TGo4EventProcessor {
 
       TH1* hLeadingCoarseAll[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC];
       TH1* hLeadingFineAll[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC];
+      TH1* hLeadingDeltaFineAll[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC];
       TH1* hTrailingCoarseAll[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC];
       TH1* hTrailingFineAll[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC];
+      TH1* hTrailingDeltaFineAll[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC];
 
       TH1* hLeadingCoarse[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC][HAD_TIME_CHANNELS];
       TH1* hLeadingFine[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC][HAD_TIME_CHANNELS];
@@ -99,14 +101,17 @@ class THadaqUnpackProc : public TGo4EventProcessor {
       TH2* hTrailingFineAllChans[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC];
 
       TH2* hImagingMCP[HAD_TIME_NUMMCP];
+      TH2* hImagingMCPGated[HAD_TIME_NUMMCP];
 
-
+      /* conditions on the absolute times:*/
       TGo4WinCond* cLeadingFineTimeGate[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC];
       TGo4WinCond* cLeadingCoarseTimeGate[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC];
       TGo4WinCond* cTrailingFineTimeGate[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC];
       TGo4WinCond* cTrailingCoarseTimeGate[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC];
 
-
+      /* conditions on the calibrated delta times:*/
+      TGo4WinCond* cLeadingDeltaFineTimeGate[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC];
+      TGo4WinCond* cTrailingDeltaFineTimeGate[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC];
 
       /* better keep correction arrays inside histograms, will be stored */
       TH1* hCalcBinWidth[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC][HAD_TIME_CHANNELS];
