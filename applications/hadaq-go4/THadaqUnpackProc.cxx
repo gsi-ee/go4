@@ -57,10 +57,10 @@ THadaqUnpackProc::THadaqUnpackProc(const char* name) :
   TString hname;
   TString leadingcoarseallname = "LeadingCoarseAllChans";
   TString leadingfineallname = "LeadingFineAllChans";
-  TString leadingdeltafineallname = "LeadingDeltaFineAllChans";
+  TString leadingdeltacalallname = "LeadingDeltaCalAllChans";
   TString trailingcoarseallname = "TrailingCoarseAllChans";
   TString trailingfineallname = "TrailingFineAllChans";
-  TString trailingdeltafineallname = "TrailingDeltaFineAllChans";
+  TString trailingdeltacalallname = "TrailingDeltaCalAllChans";
 
   Int_t tbins = 0, trange = 0;
 
@@ -108,14 +108,17 @@ THadaqUnpackProc::THadaqUnpackProc(const char* name) :
 
 
 
-          obname.Form("%s/%s_%02d_%02d", dirname.Data(), leadingdeltafineallname.Data(),
+          obname.Form("%s/%s_%02d_%02d", dirname.Data(), leadingdeltacalallname.Data(),
                         b,t);
-          obtitle.Form("Leading Delta Fine time (calibr.) TRB %02d TDC %02d all channels", b,t);
+          obtitle.Form("Leading Delta time (calibr.) TRB %02d TDC %02d all channels", b,t);
+
+
+
           tbins = HAD_TIME_DELTAHISTBINS;
           //tbins=8 * HAD_TIME_FINEBINS;
           trange = 500 * HAD_TIME_COARSEUNIT; // scale to ns?
           //trange=4 * HAD_TIME_COARSEUNIT; // scale to ns?
-          hLeadingDeltaFineAll[b][t] = MakeTH1('I', obname.Data(),
+          hLeadingDeltaCalAll[b][t] = MakeTH1('I', obname.Data(),
                             obtitle.Data(), tbins, -trange / 2, trange / 2, "t (ps)");
 
 
@@ -135,14 +138,14 @@ THadaqUnpackProc::THadaqUnpackProc(const char* name) :
           hTrailingFineAll[b][t] = MakeTH1('I', obname.Data(), obtitle.Data(),
               tbins, 0, trange, "t (bin) ");
 
-          obname.Form("%s/%s_%02d_%02d", dirname.Data(), trailingdeltafineallname.Data(),
+          obname.Form("%s/%s_%02d_%02d", dirname.Data(), trailingdeltacalallname.Data(),
                                   b,t);
-          obtitle.Form("Trailing Delta Fine time (calibr.) TRB %02d TDC %02d all channels", b,t);
+          obtitle.Form("Trailing Delta Ftime (calibr.) TRB %02d TDC %02d all channels", b,t);
           tbins = HAD_TIME_DELTAHISTBINS;
           //tbins=8 * HAD_TIME_FINEBINS;
           trange = 500 * HAD_TIME_COARSEUNIT; // scale to ns?
           //trange=4 * HAD_TIME_COARSEUNIT; // scale to ns?
-          hTrailingDeltaFineAll[b][t] = MakeTH1('I', obname.Data(),
+          hTrailingDeltaCalAll[b][t] = MakeTH1('I', obname.Data(),
                                       obtitle.Data(), tbins, -trange / 2, trange / 2, "t (ps)");
 
 
@@ -423,17 +426,20 @@ THadaqUnpackProc::THadaqUnpackProc(const char* name) :
               hname.Data());
 
 
-          obname.Form("%s/LeadingDeltaFineTimeGate_%02d_%02d", dirname.Data(), b, t);
+          obname.Form("%s/LeadingDeltaCalTimeGate_%02d_%02d", dirname.Data(), b, t);
 
           trange = 500 * HAD_TIME_COARSEUNIT; // scale to ns?
-          hname.Form("%s_%02d_%02d", leadingdeltafineallname.Data(), b, t);
-          cLeadingDeltaFineTimeGate[b][t] = MakeWinCond(obname.Data(), -trange / 2, trange/2,
+          hname.Form("%s_%02d_%02d", leadingdeltacalallname.Data(), b, t);
+          cLeadingDeltaCalTimeGate[b][t] = MakeWinCond(obname.Data(), -trange / 2, trange/2,
                         hname.Data());
-          obname.Form("%s/TrailingDeltaFineTimeGate_%02d_%02d", dirname.Data(), b, t);
+          cLeadingDeltaCalTimeGate[b][t]->SetValues(105000,106000); // reasonable init for mainz beam?
+
+          obname.Form("%s/TrailingDeltaCalTimeGate_%02d_%02d", dirname.Data(), b, t);
           trange = 500 * HAD_TIME_COARSEUNIT; // scale to ns?
-          hname.Form("%s_%02d_%02d", trailingdeltafineallname.Data(), b, t);
-                   cTrailingFineTimeGate[b][t] = MakeWinCond(obname.Data(), -trange / 2, trange/2,
+          hname.Form("%s_%02d_%02d", trailingdeltacalallname.Data(), b, t);
+          cTrailingDeltaCalTimeGate[b][t] = MakeWinCond(obname.Data(), -trange / 2, trange/2,
                        hname.Data());
+          cTrailingDeltaCalTimeGate[b][t]->SetValues(105000,106000); // reasonable init for mainz beam?
 
 
           // pictures:
@@ -1384,8 +1390,8 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
           if (delta_cal)
              {
                 hLeadingDeltaCal[board][tdc][ch]->Fill(delta_cal);
-                hLeadingDeltaFineAll[board][tdc]->Fill(delta_cal);
-                if(cLeadingDeltaFineTimeGate[board][tdc]->Test(delta_cal))
+                hLeadingDeltaCalAll[board][tdc]->Fill(delta_cal);
+                if(cLeadingDeltaCalTimeGate[board][tdc]->Test(delta_cal))
                    hImagingMCPGated[mcp]->Fill(col, row); //
              }
 
@@ -1435,8 +1441,8 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
           if (delta_cal)
              {
                 hTrailingDeltaCal[board][tdc][ch]->Fill(delta_cal);
-                hTrailingDeltaFineAll[board][tdc]->Fill(delta_cal);
-                if(cLeadingDeltaFineTimeGate[board][tdc]->Test(delta_cal))
+                hTrailingDeltaCalAll[board][tdc]->Fill(delta_cal);
+                if(cTrailingDeltaCalTimeGate[board][tdc]->Test(delta_cal))
                                    hImagingMCPGated[mcp]->Fill(col, row); //
              }
           hTrailingCorrelFine[board][tdc][ch]->Fill(binindex, rbinindex);
