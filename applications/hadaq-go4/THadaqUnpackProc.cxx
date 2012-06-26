@@ -72,16 +72,12 @@ THadaqUnpackProc::THadaqUnpackProc(const char* name) :
        legendy.Form("Column");
        tbins = HAD_TIME_MCPBINS; // 9
        trange = HAD_TIME_MCPRANGE; // 9
-       hImagingMCP[m] = MakeTH2('I', obname.Data(), obtitle.Data(), tbins, 0, trange, tbins, 0, trange, legendx.Data(), legendy.Data());
+       hImagingMCP[m] = MakeTH2('I', obname.Data(), obtitle.Data(), tbins, 1, trange, tbins, 1, trange, legendx.Data(), legendy.Data());
 
        obname.Form("MCP/MCPGated_%d",m);
        obtitle.Form("Hit Image under time diff condition of MCP %d",m);
-       hImagingMCPGated[m] = MakeTH2('I', obname.Data(), obtitle.Data(), tbins, 0, trange, tbins, 0, trange, legendx.Data(), legendy.Data());
-
-
+       hImagingMCPGated[m] = MakeTH2('I', obname.Data(), obtitle.Data(), tbins, 1, trange, tbins, 1, trange, legendx.Data(), legendy.Data());
       }
-
-
 
   for (Int_t b = 0; b < HAD_TIME_NUMBOARDS; ++b)
     {
@@ -1249,7 +1245,7 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
           Double_t val = fOutEvent->fLeadingCoarseTime[board][tdc][ch].at(
               i) * HAD_TIME_COARSEUNIT;
           hLeadingCoarseAll[board][tdc]->Fill(val); // for condition display
-	       hImagingMCP[mcp]->Fill(row, col); // filling up the imaging histogram
+	       hImagingMCP[mcp]->Fill(col, row); // filling up the imaging histogram
 	       //if(ch>0)printf ("++++ fill leading mcp%d, row %d, col %d from trb:%d, tdc:%d, ch%d \n",mcp,row,col,board,tdc,ch);
 	       //printf(" **** array content of parameter 0x%x is: mcp %d row %d col %d \n",
 //	                          fPar,
@@ -1282,7 +1278,7 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
           Double_t val = fOutEvent->fTrailingCoarseTime[board][tdc][ch].at(
               i) * HAD_TIME_COARSEUNIT;
           hTrailingCoarseAll[board][tdc]->Fill(val); // for condition display
-	       hImagingMCP[mcp]->Fill(row, col); // filling up the imaging histogram
+	       hImagingMCP[mcp]->Fill(col, row); // filling up the imaging histogram
 	       printf ("++++ fill trailing mcp%d, row %d, col %d from trb:%d, tdc:%d, ch%d \n",mcp,row,col,board,tdc,ch);
 
           if (cTrailingCoarseTimeGate[board][tdc]->Test(val))
@@ -1390,7 +1386,7 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
                 hLeadingDeltaCal[board][tdc][ch]->Fill(delta_cal);
                 hLeadingDeltaFineAll[board][tdc]->Fill(delta_cal);
                 if(cLeadingDeltaFineTimeGate[board][tdc]->Test(delta_cal))
-                   hImagingMCPGated[mcp]->Fill(row, col); //
+                   hImagingMCPGated[mcp]->Fill(col, row); //
              }
 
           hLeadingCorrelFine[board][tdc][ch]->Fill(binindex, rbinindex);
@@ -1441,7 +1437,7 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
                 hTrailingDeltaCal[board][tdc][ch]->Fill(delta_cal);
                 hTrailingDeltaFineAll[board][tdc]->Fill(delta_cal);
                 if(cLeadingDeltaFineTimeGate[board][tdc]->Test(delta_cal))
-                                   hImagingMCPGated[mcp]->Fill(row, col); //
+                                   hImagingMCPGated[mcp]->Fill(col, row); //
              }
           hTrailingCorrelFine[board][tdc][ch]->Fill(binindex, rbinindex);
 

@@ -77,13 +77,13 @@ THadaqParam::THadaqParam(const char* name) :
          for (int i = 0; i < HAD_TIME_CHANNELS; ++i) {
             deltaTDC[b][t][i] = t; // by default, channels refer to self tdc
             deltaTRB[b][t][i] = b; // by default, channels refer to self trb
-	    if (i%2 == 0)
-	      deltaChannels[b][t][i] = i+1; // reference channel is 0
+	    //if (i%2 == 0)
+	      deltaChannels[b][t][i] = 0; // reference channel is 0
          }
       }
    }
 // may modify default setup for testing here:
-  //   deltaChannels[0][0][0]=7; // first test setup
+//   deltaChannels[0][0][0]=7; // first test setup
 //   deltaTDC[0][0][0]=1;  // refer to tdc1, channel 7
 //   deltaChannels[0][1][7]=0;
 //   deltaTDC[0][1][7]=0; // back reference
