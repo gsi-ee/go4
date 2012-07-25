@@ -24,7 +24,23 @@ in Go4License.txt file which is part of the distribution.
 Changes in Go4 v4.5.3 (Summer 2012)
 1. Added macro fft.C for fast fourier transform of histograms into gui command line.
 2. Adjustments for new root versions >5.99 (wrapper go4iostream.h)
-
+3. Added some keyboard shortcuts for histogram display manipulation:
+    Ctrl-Left/Ctrl-Right: Expand/Unexpand range on x axis 
+	Shift-Left/Shift-Right:  Move Histogram left/right on x axis (only if range was expanded)
+	Ctrl-Up/Ctrl-Down: Expand/Unexpand range on y axis (toggles autoscale off)	
+	Shift-Up/Shift-Down: Move Histogram up/down on y axis (only if range was expanded)
+    Ctrl-Minus: Unzoom ranges totally
+    Ctrl-Plus: Show/hide range settings window
+    Ctrl-Page Up: Y axis in logarithmic scale
+    Ctrl-Page Down: Y axis in linear scale    
+    Shift-R: Refresh display of all remote Histograms
+    Shift-C: Clear all remote Histograms _remotely_
+    Shift-M: Start monitoring timer 
+    Shift-N: Stop  monitoring timer
+    Note: All these shortcuts do work only if the corresponding toolboxes 
+    (zoom tools, browser options, short histogram draw options) are active!
+    
+   
 
 Changes in Go4 v4.5.2 (April 2012)
 1. Bugfix in gui shutdown: circular deletion of mainwindow and timer could 

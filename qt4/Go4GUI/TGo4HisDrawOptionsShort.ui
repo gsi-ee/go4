@@ -36,11 +36,14 @@
           <property name="icon" >
             <iconset>:/icons/scaleylin.png</iconset>
           </property>
+          <property name="shortcut">
+            <string>Ctrl+PgDown</string>
+          </property>
           <property name="autoRaise" >
             <bool>true</bool>
           </property>
           <property name="toolTip" stdset="0" >
-            <string>Y linear</string>
+            <string>Y linear. Keyboard:(Ctrl+PageDown)</string>
           </property>
         </widget>
       </item>
@@ -55,11 +58,14 @@
           <property name="icon" >
             <iconset>:/icons/scaleylog.png</iconset>
           </property>
+          <property name="shortcut">
+              <string>Ctrl+PgUp</string>
+          </property>
           <property name="autoRaise" >
             <bool>true</bool>
           </property>
           <property name="toolTip" stdset="0" >
-            <string>Y logarithmic</string>
+            <string>Y logarithmic. Keyboard:(Ctrl+PageUp)</string>
           </property>
         </widget>
       </item>

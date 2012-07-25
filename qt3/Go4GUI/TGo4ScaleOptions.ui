@@ -104,11 +104,14 @@
             <property name="iconSet">
                 <iconset>zoomxin.png</iconset>
             </property>
+            <property name="accel">
+                <string>Ctrl+Left</string>
+            </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Zoom X axis.</string>
+                <string>Zoom X axis. Keyboard: Ctrl+Left</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="3">
@@ -141,11 +144,14 @@
             <property name="iconSet">
                 <iconset>shiftleft.png</iconset>
             </property>
+            <property name="accel">
+                <string>Shift+Left</string>
+            </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Shift graph down X.</string>
+                <string>Shift graph down X. Keyboard:(Shift+Left)</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="4">
@@ -178,11 +184,14 @@
             <property name="iconSet">
                 <iconset>shiftright.png</iconset>
             </property>
+            <property name="accel">
+                <string>Shift+Right</string>
+            </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Shift graph up X.</string>
+                <string>Shift graph up X. Keyboard:(Shift+Right)</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="5">
@@ -215,11 +224,14 @@
             <property name="iconSet">
                 <iconset>zoomxout.png</iconset>
             </property>
+             <property name="accel">
+                <string>Ctrl+Right</string>
+            </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Unzoom X axis.</string>
+                <string>Unzoom X axis. Keyboard:(Ctrl+Right)</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="6">
@@ -252,11 +264,14 @@
             <property name="iconSet">
                 <iconset>zoomyin.png</iconset>
             </property>
+             <property name="accel">
+                <string>Ctrl+Down</string>
+            </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Zoom Y axis.</string>
+                <string>Zoom Y axis. Keyboard:(Ctrl+Down)</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="7">
@@ -289,11 +304,14 @@
             <property name="iconSet">
                 <iconset>shiftdown.png</iconset>
             </property>
+            <property name="accel">
+                <string>Shift+Down</string>
+            </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Shift graph down Y.</string>
+                <string>Shift graph down Y. Keyboard:(Shift+Down)</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="8">
@@ -326,11 +344,14 @@
             <property name="iconSet">
                 <iconset>shiftup.png</iconset>
             </property>
+             <property name="accel">
+                <string>Shift+Up</string>
+            </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Shift graph up Y.</string>
+                <string>Shift graph up Y. Keyboard:(Shift+Up)</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="9">
@@ -363,11 +384,14 @@
             <property name="iconSet">
                 <iconset>zoomyout.png</iconset>
             </property>
+              <property name="accel">
+                <string>Ctrl+Up</string>
+            </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Unzoom Y axis.</string>
+                <string>Unzoom Y axis. Keyboard:(Ctrl+Up)</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="10">
@@ -543,11 +567,14 @@
             <property name="iconSet">
                 <iconset>zoomoff.png</iconset>
             </property>
+             <property name="accel">
+                <string>Ctrl+-</string>
+            </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Unzoom to full ranges.</string>
+                <string>Unzoom to full ranges. Keyboard: Ctrl+Minus</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="15">
@@ -569,11 +596,14 @@
             <property name="iconSet">
                 <iconset>zoomlim.png</iconset>
             </property>
+              <property name="accel">
+                <string>Ctrl++</string>
+            </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Open zoom and autoscale window.</string>
+                <string>Open zoom and autoscale window. Keyboard: Ctrl+Plus</string>
             </property>
         </widget>
    </grid>

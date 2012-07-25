@@ -49,11 +49,14 @@
             <property name="iconSet">
                 <iconset>scaleylin.png</iconset>
             </property>
+            <property name="accel">
+                <string>Ctrl+PgDown</string>
+            </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Y linear</string>
+                <string>Y linear. Keyboard:(Ctrl+PageDown)</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="1">
@@ -69,11 +72,14 @@
             <property name="iconSet">
                 <iconset>scaleylog.png</iconset>
             </property>
+             <property name="accel">
+                <string>Ctrl+PgUp</string>
+            </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Y logarithmic</string>
+                <string>Y logarithmic. Keyboard:(Ctrl+PageUp)</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="2">

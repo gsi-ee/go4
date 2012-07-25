@@ -41,11 +41,14 @@
             <property name="iconSet">
                 <iconset>refresh.png</iconset>
             </property>
+             <property name="accel">
+                <string>Shift+R</string>
+            </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Update browser content (request list of objecs from analysis)</string>
+                <string>Update browser content (request list of objecs from analysis), Keyboard: Shift+R</string>
             </property>
         </widget>
         <widget class="QToolButton">
@@ -58,11 +61,14 @@
             <property name="iconSet">
                 <iconset>startselected.png</iconset>
             </property>
+             <property name="accel">
+              <string>Shift+M</string>
+           </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Start monitoring of visible objects</string>
+            <string>Start monitoring of visible objects. Keyboard: Shift+M</string>
             </property>
         </widget>
         <widget class="QSpinBox">
@@ -101,8 +107,11 @@
             <property name="iconSet">
                 <iconset>Stop.png</iconset>
             </property>
+            <property name="accel">
+              <string>Shift+N</string>
+             </property>            
             <property name="toolTip" stdset="0">
-                <string>Stop monitoring</string>
+            <string>Stop monitoring. Keyboard: Shift+N</string>
             </property>
         </widget>
         <widget class="QComboBox">
@@ -138,11 +147,14 @@
             <property name="iconSet">
                 <iconset>clear.png</iconset>
             </property>
+             <property name="accel">
+                <string>Shift+C</string>
+            </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Clear histograms and conditions in analysis</string>
+                <string>Clear histograms and conditions in analysis. Keyboard: Shift+C</string>
             </property>
         </widget>
     </hbox>
