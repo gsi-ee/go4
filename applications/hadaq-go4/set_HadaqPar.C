@@ -18,7 +18,7 @@ void set_HadaqPar()
       return;
    }
 
-   TGo4Log::Info("Set parameter HadaqPar (pointer %x) from set_HadaqPar.C",param0);
+   TGo4Log::Info("Set parameter HadaqPar from set_HadaqPar.C");
 
    param0->fillRaw = kTRUE;
    param0->printEvent = kFALSE;
@@ -71,33 +71,6 @@ void set_HadaqPar()
 //          }
 //       }
 //    } // mcp
-
-   // condition block:
-   TString obname;
-   for (int b = 0; b < HAD_TIME_NUMBOARDS; ++b) {
-      if (!THadaqUnpackEvent::AssertTRB(b))
-         continue;
-      for (int t = 0; t < HAD_TIME_NUMTDC; ++t) {
-         obname.Form("LeadingDeltaCalTimeGate_%02d_%02d", b, t);
-         TGo4WinCond* leadconny = (TGo4WinCond*) go4->GetAnalysisCondition(obname.Data(), "TGo4WinCond");
-         if (leadconny == 0) {
-            TGo4Log::Error("Could not find condition %s", obname.Data());
-            continue;
-         }
-
-         leadconny->SetValues(106500, 107500); // reasonable init for mainz beam?
-         TGo4Log::Info("Set condition %s", obname.Data());
-         obname.Form("TrailingDeltaCalTimeGate_%02d_%02d", b, t);
-         TGo4WinCond* trailconny = (TGo4WinCond*) go4->GetAnalysisCondition(obname.Data(), "TGo4WinCond");
-         if (trailconny == 0) {
-            TGo4Log::Error("Could not find condition %s", obname.Data());
-            continue;
-         }
-         trailconny->SetValues(106500, 107500); // reasonable init for mainz beam?
-         TGo4Log::Info("Set condition %s", obname.Data());
-      }
-
-   }
 
 
 }
