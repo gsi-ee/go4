@@ -37,13 +37,13 @@
             <iconset>:/icons/refresh.png</iconset>
           </property>
           <property name="shortcut">
-                <string>Shift+R</string>
+                <string>F5</string>
           </property>
           <property name="autoRaise" >
             <bool>true</bool>
           </property>
           <property name="toolTip" stdset="0" >
-                <string>Update browser content (request list of objecs from analysis), Keyboard: Shift+R</string>
+                <string>Update browser content (request list of objecs from analysis), Keyboard: F5</string>
           </property>
         </widget>
       </item>

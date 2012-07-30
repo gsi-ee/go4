@@ -346,7 +346,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    menuBar()->insertSeparator();
    QPopupMenu *HelpMenu = new QPopupMenu(this);
    menuBar()->insertItem( "&Help",HelpMenu);
-   HelpMenu->insertItem("&Introduction (user manual)", this, SLOT(IntroHelpSlot()));
+   HelpMenu->insertItem("&Introduction (user manual)", this, SLOT(IntroHelpSlot()), Key_F1);
    HelpMenu->insertItem("&Reference manual", this, SLOT(RefHelpSlot()));
    HelpMenu->insertItem("&Fit Tutorial", this, SLOT(FitHelpSlot()));
    HelpMenu->insertSeparator();

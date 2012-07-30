@@ -145,13 +145,13 @@
                 <iconset>shiftleft.png</iconset>
             </property>
             <property name="accel">
-                <string>Shift+Left</string>
+                <string>Left</string>
             </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Shift graph down X. Keyboard:(Shift+Left)</string>
+                <string>Shift graph down X. Keyboard:(Left)</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="4">
@@ -185,13 +185,13 @@
                 <iconset>shiftright.png</iconset>
             </property>
             <property name="accel">
-                <string>Shift+Right</string>
+                <string>Right</string>
             </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Shift graph up X. Keyboard:(Shift+Right)</string>
+                <string>Shift graph up X. Keyboard:(Right)</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="5">
@@ -265,13 +265,13 @@
                 <iconset>zoomyin.png</iconset>
             </property>
              <property name="accel">
-                <string>Ctrl+Down</string>
+                <string>Down</string>
             </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Zoom Y axis. Keyboard:(Ctrl+Down)</string>
+                <string>Zoom Y axis. Keyboard:(Down)</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="7">
@@ -385,13 +385,13 @@
                 <iconset>zoomyout.png</iconset>
             </property>
               <property name="accel">
-                <string>Ctrl+Up</string>
+                <string>Up</string>
             </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Unzoom Y axis. Keyboard:(Ctrl+Up)</string>
+                <string>Unzoom Y axis. Keyboard:(Up)</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="10">
@@ -424,11 +424,14 @@
             <property name="iconSet">
                 <iconset>zoomzin.png</iconset>
             </property>
+             <property name="accel">
+                <string>Ctrl+End</string>
+           </property>
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Zoom Z axis.</string>
+            <string>Zoom Z axis. Keyboard: (Ctrl+End)</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="11">
@@ -461,11 +464,14 @@
             <property name="iconSet">
                 <iconset>shiftzdown.png</iconset>
             </property>
+            <property name="accel">
+                <string>Shift+End</string>
+           </property>            
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Shift graph down Z.</string>
+            <string>Shift graph down Z. Keyboard:(Shift+End)</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="12">
@@ -492,6 +498,9 @@
             <property name="pixmap">
                 <pixmap>shiftzup.png</pixmap>
             </property>
+            <property name="accel">
+                <string>Shift+Home</string>
+           </property>            
             <property name="autoRepeat">
                 <bool>true</bool>
             </property>
@@ -502,7 +511,7 @@
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Shift graph up Z.</string>
+            <string>Shift graph up Z. Keyboard:(Shift+Home)</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="13">
@@ -535,11 +544,14 @@
             <property name="iconSet">
                 <iconset>zoomzout.png</iconset>
             </property>
+           <property name="accel">
+                <string>Ctrl+Home</string>
+           </property>           
             <property name="autoRaise">
                 <bool>true</bool>
             </property>
             <property name="toolTip" stdset="0">
-                <string>Unzoom Z axis.</string>
+            <string>Unzoom Z axis. Keyboard:(Ctrl+Home)</string>
             </property>
         </widget>
         <widget class="QToolButton" row="0" column="14">

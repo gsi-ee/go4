@@ -130,13 +130,13 @@
             <iconset>:/icons/shiftleft.png</iconset>
           </property>
             <property name="shortcut">
-                <string>Shift+Left</string>
+                <string>Left</string>
             </property>
           <property name="autoRaise" >
             <bool>true</bool>
           </property>
           <property name="toolTip" stdset="0" >
-                <string>Shift graph down X. Keyboard:(Shift+Left)</string>
+                <string>Shift graph down X. Keyboard:(Left)</string>
           </property>
         </widget>
       </item>
@@ -169,13 +169,13 @@
             <iconset>:/icons/shiftright.png</iconset>
           </property>
           <property name="shortcut">
-                <string>Shift+Right</string>
+                <string>Right</string>
             </property>
           <property name="autoRaise" >
             <bool>true</bool>
           </property>
           <property name="toolTip" stdset="0" >
-                <string>Shift graph up X. Keyboard:(Shift+Right)</string>
+                <string>Shift graph up X. Keyboard:(Right)</string>
           </property>
         </widget>
       </item>
@@ -247,13 +247,13 @@
             <iconset>:/icons/zoomyin.png</iconset>
           </property>
           <property name="shortcut">
-                <string>Ctrl+Down</string>
+                <string>Down</string>
           </property>          
           <property name="autoRaise" >
             <bool>true</bool>
           </property>
           <property name="toolTip" stdset="0" >
-                <string>Zoom Y axis. Keyboard:(Ctrl+Down)</string>
+                <string>Zoom Y axis. Keyboard:(Down)</string>
           </property>
         </widget>
       </item>
@@ -364,13 +364,13 @@
             <iconset>:/icons/zoomyout.png</iconset>
           </property>
           <property name="shortcut">
-               <string>Ctrl+Up</string>
+               <string>Up</string>
           </property>          
           <property name="autoRaise" >
             <bool>true</bool>
           </property>
           <property name="toolTip" stdset="0" >
-             <string>Unzoom Y axis. Keyboard:(Ctrl+Up)</string>
+             <string>Unzoom Y axis. Keyboard:(Up)</string>
           </property>
         </widget>
       </item>
@@ -402,11 +402,14 @@
           <property name="icon" >
             <iconset>:/icons/zoomzin.png</iconset>
           </property>
+          <property name="shortcut">
+                <string>Ctrl+End</string>
+           </property>
           <property name="autoRaise" >
             <bool>true</bool>
           </property>
           <property name="toolTip" stdset="0" >
-            <string>Zoom Z axis.</string>
+            <string>Zoom Z axis. Keyboard: (Ctrl+End)</string>
           </property>
         </widget>
       </item>
@@ -438,11 +441,14 @@
           <property name="icon" >
             <iconset>:/icons/shiftzdown.png</iconset>
           </property>
+            <property name="shortcut">
+                <string>Shift+End</string>
+           </property>
           <property name="autoRaise" >
             <bool>true</bool>
           </property>
           <property name="toolTip" stdset="0" >
-            <string>Shift graph down Z.</string>
+            <string>Shift graph down Z. Keyboard:(Shift+End)</string>
           </property>
         </widget>
       </item>
@@ -468,6 +474,9 @@
           <property name="icon" >
             <pixmap>:/icons/shiftzup.png</pixmap>
           </property>
+           <property name="shortcut">
+                <string>Shift+Home</string>
+           </property>
           <property name="autoRepeat" >
             <bool>true</bool>
           </property>
@@ -478,7 +487,7 @@
             <bool>true</bool>
           </property>
           <property name="toolTip" stdset="0" >
-            <string>Shift graph up Z.</string>
+            <string>Shift graph up Z. Keyboard:(Shift+Home)</string>
           </property>
         </widget>
       </item>
@@ -510,11 +519,14 @@
           <property name="icon" >
             <iconset>:/icons/zoomzout.png</iconset>
           </property>
+           <property name="shortcut">
+                <string>Ctrl+Home</string>
+           </property>
           <property name="autoRaise" >
             <bool>true</bool>
           </property>
           <property name="toolTip" stdset="0" >
-            <string>Unzoom Z axis.</string>
+            <string>Unzoom Z axis. Keyboard:(Ctrl+Home)</string>
           </property>
         </widget>
       </item>
