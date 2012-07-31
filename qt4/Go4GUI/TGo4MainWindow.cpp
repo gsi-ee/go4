@@ -202,15 +202,8 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
 
    UpdateCaptionButtons();
 
-   QDockWidget* MBSDockWin = new QDockWidget("MBS monitor", this);
-   MBSDockWin->setObjectName("MbsViewerDock");
-   TGo4MBSViewer* mbs = new TGo4MBSViewer(MBSDockWin, "MBSViewer");
-   mbs->setWindowFlags(Qt::Widget);
-   ConnectGo4Widget(mbs);
-   MBSDockWin->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable);
-   MBSDockWin->setWidget(mbs);
-   MBSDockWin->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
-   addDockWidget(Qt::BottomDockWidgetArea, MBSDockWin);
+
+
 
    QDockWidget* BrowserDockWin = new QDockWidget("Browser", this);
    BrowserDockWin->setObjectName("BrowserDock");
@@ -223,9 +216,38 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    BrowserDockWin->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
    addDockWidget(Qt::LeftDockWidgetArea, BrowserDockWin);
 
+   QAction* BrowserDockAction=BrowserDockWin->toggleViewAction();
+   BrowserDockAction->setShortcut(QKeySequence("F6"));
+
+
 #if (QT_VERSION >= 0x040700) && (QT_VERSION <= 0x040909)
    browser->setMinimumWidth(230);
 #endif
+
+   QDockWidget* LogDockWin = new QDockWidget("Log window", this);
+   LogDockWin->setObjectName("LogInfoDock");
+   TGo4LogInfo* loginfo = new TGo4LogInfo(this, "LogInfo");
+   ConnectGo4Widget(loginfo);
+   LogDockWin->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable);
+   LogDockWin->setWidget(loginfo);
+   LogDockWin->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+   addDockWidget(Qt::BottomDockWidgetArea, LogDockWin);
+
+   QAction* LogDockWinAction=LogDockWin->toggleViewAction();
+   LogDockWinAction->setShortcut(QKeySequence("F7"));
+
+   QDockWidget* MBSDockWin = new QDockWidget("MBS monitor", this);
+    MBSDockWin->setObjectName("MbsViewerDock");
+    TGo4MBSViewer* mbs = new TGo4MBSViewer(MBSDockWin, "MBSViewer");
+    mbs->setWindowFlags(Qt::Widget);
+    ConnectGo4Widget(mbs);
+    MBSDockWin->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable);
+    MBSDockWin->setWidget(mbs);
+    MBSDockWin->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+    addDockWidget(Qt::BottomDockWidgetArea, MBSDockWin);
+
+    QAction* MBSDockAction=MBSDockWin->toggleViewAction();
+    MBSDockAction->setShortcut(QKeySequence("F8"));
 
 
 #ifdef __GO4DIM__
@@ -238,6 +260,10 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    DABCDockWin->setWidget(dabc);
    DABCDockWin->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
    addDockWidget(Qt::BottomDockWidgetArea, DABCDockWin);
+   QAction* DABCDockWinAction=DABCDockWin->toggleViewAction();
+   DABCDockWinAction->setShortcut(QKeySequence("F9"));
+
+
 #endif
 
    QToolBar* DividePanelBar = addToolBar("Canvas Tools");
@@ -288,14 +314,17 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    ConnectGo4Widget(tviewer);
    tviewerdock->addWidget(tviewer);
 
-   QDockWidget* LogDockWin = new QDockWidget("Log window", this);
-   LogDockWin->setObjectName("LogInfoDock");
-   TGo4LogInfo* loginfo = new TGo4LogInfo(this, "LogInfo");
-   ConnectGo4Widget(loginfo);
-   LogDockWin->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable);
-   LogDockWin->setWidget(loginfo);
-   LogDockWin->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
-   addDockWidget(Qt::BottomDockWidgetArea, LogDockWin);
+
+
+
+   // test: can we implement shortcuts to enable specific dock windows JAM?
+//   QMenu* dockMenu = menuBar()->addMenu("&Docks");
+//   dockMenu->addAction(BrowserDockAction);
+//   dockMenu->addAction(LogDockWinAction);
+//   dockMenu->addAction(MBSDockAction);
+// do not need this, since shortcuts also work in default dock menu :)
+
+
 
    // make it here while only here exists all toolbars and dock widgets
    AddSettingMenu();
@@ -306,7 +335,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    menuBar()->addSeparator();
 
    QMenu* helpMenu = menuBar()->addMenu("&Help");
-   helpMenu->addAction("&Introduction (user manual)", this, SLOT(IntroHelpSlot()));
+   helpMenu->addAction("&Introduction (user manual)", this, SLOT(IntroHelpSlot()), Key_F1);
    helpMenu->addAction("&Reference manual", this, SLOT(RefHelpSlot()));
    helpMenu->addAction("&Fit Tutorial", this, SLOT(FitHelpSlot()));
    helpMenu->addSeparator();

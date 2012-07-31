@@ -41,6 +41,9 @@ Changes in Go4 v4.5.3 (Summer 2012)
     Shift-N: Stop  monitoring timer
     Note: All these shortcuts do work only if the corresponding toolboxes 
     (zoom tools, browser options, short histogram draw options) are active!
+4. Added shortcut F1 to display the Go4 Introduction Manual as Help. 
+5. Added shortcuts F6,F7,F8 to toggle visibility of 
+    browser, logger, and mbs monitor dock windows (F9 for DABC monitor if compiled with DIM)    
     
    
 

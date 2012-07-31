@@ -59,7 +59,14 @@
 #include "qstyle.h"
 
 //////// root includes;
-#include "TSystem.h"
+#include "TSystem.h"  int dockid=0;
+//    dockid=windowsMenu->insertItem("Toggle Browser", this, SLOT(ToggleBrowserDock()), Key_F6);
+//    windowsMenu->setItemChecked(dockid, BrowserDockWin->isShown());
+//    dockid=windowsMenu->insertItem("Toggle Logwindow", this, SLOT(ToggleLoggerDock()), Key_F7);
+//    windowsMenu->setItemChecked(dockid, lidock->isShown());
+//    dockid=windowsMenu->insertItem("Toggle MBS monitor", this, SLOT(ToggleMbsDock()), Key_F8);
+//    windowsMenu->setItemChecked(dockid, MBSDockWin->isShown());
+
 #include "TROOT.h"
 #include "TMath.h"
 #include "TStyle.h"
@@ -234,7 +241,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    statusBar()->message("Ready");
    statusBar()->setSizeGripEnabled(TRUE);
 
-   QDockWindow* BrowserDockWin = new QDockWindow();
+   BrowserDockWin = new QDockWindow();
    BrowserDockWin->setResizeEnabled(TRUE);
    BrowserDockWin->setCaption("Browser");
    setAppropriate(BrowserDockWin, true);
@@ -245,7 +252,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    addDockWindow(BrowserDockWin, Qt::DockRight);
    BrowserDockWin->show();
 
-   QDockWindow* MBSDockWin = new QDockWindow();
+   MBSDockWin = new QDockWindow();
    MBSDockWin->setResizeEnabled(TRUE);
    MBSDockWin->setCaption("MBS monitor");
    setAppropriate(MBSDockWin, true);
@@ -254,6 +261,8 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    MBSDockWin->setWidget(mbs);
    addDockWindow(MBSDockWin, Qt::DockBottom);
    MBSDockWin->show();
+
+
 #ifdef __GO4DIM__
    QDockWindow* DABCDockWin = new QDockWindow();
    DABCDockWin->setResizeEnabled(TRUE);
@@ -333,7 +342,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    addDockWindow(tviewerdock, Qt::DockBottom);
    tviewerdock->show();
 
-   QDockWindow* lidock = new QDockWindow();
+   lidock = new QDockWindow();
    lidock->setResizeEnabled( TRUE );
    lidock->setCaption("Log Window");
    setAppropriate(lidock, true);
@@ -344,6 +353,22 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    lidock->show();
 
    menuBar()->insertSeparator();
+
+   // JAM workaround for Qt3 to capture toggle of main dock windows.
+   QPopupMenu* dockMenu =  new QPopupMenu(this);
+   menuBar()->insertItem( "&Docks",dockMenu);
+   int dockid=0;
+     dockid=dockMenu->insertItem("Toggle Browser", this, SLOT(ToggleBrowserDock()), Key_F6);
+     dockMenu->setItemChecked(dockid, BrowserDockWin->isShown());
+     dockid=dockMenu->insertItem("Toggle Logwindow", this, SLOT(ToggleLoggerDock()), Key_F7);
+     dockMenu->setItemChecked(dockid, lidock->isShown());
+     dockid=dockMenu->insertItem("Toggle MBS monitor", this, SLOT(ToggleMbsDock()), Key_F8);
+     dockMenu->setItemChecked(dockid, MBSDockWin->isShown());
+
+
+
+   menuBar()->insertSeparator();
+
    QPopupMenu *HelpMenu = new QPopupMenu(this);
    menuBar()->insertItem( "&Help",HelpMenu);
    HelpMenu->insertItem("&Introduction (user manual)", this, SLOT(IntroHelpSlot()), Key_F1);
@@ -763,8 +788,22 @@ void TGo4MainWindow::windowsMenuAboutToShow()
         windowsMenu->setItemEnabled(minallId, FALSE);
     }
 
+    windowsMenu->insertSeparator();
+
+// JAM: if we put dock toggles here, keyboard shortcut will be no sooner available then first mouse activation of windows menu!
+//    int dockid=0;
+//    dockid=windowsMenu->insertItem("Toggle Browser", this, SLOT(ToggleBrowserDock()), Key_F6);
+//    windowsMenu->setItemChecked(dockid, BrowserDockWin->isShown());
+//    dockid=windowsMenu->insertItem("Toggle Logwindow", this, SLOT(ToggleLoggerDock()), Key_F7);
+//    windowsMenu->setItemChecked(dockid, lidock->isShown());
+//    dockid=windowsMenu->insertItem("Toggle MBS monitor", this, SLOT(ToggleMbsDock()), Key_F8);
+//    windowsMenu->setItemChecked(dockid, MBSDockWin->isShown());
+/////// better: separate main menu
+
     QGo4Widget* loginfo = FindGo4Widget("LogInfo", false);
     QGo4Widget* anw = FindGo4Widget("AnalysisWindow", false);
+
+
 
     windowsMenu->insertSeparator();
     int savelogId  = windowsMenu->insertItem("Save L&ogwindow", loginfo, SLOT(SaveLogInfo()));
@@ -2086,6 +2125,35 @@ TGo4SetScaleValues* TGo4MainWindow::ToggleScaleValues()
    }
    return scl;
 }
+
+void TGo4MainWindow::ToggleBrowserDock()
+{
+   if(BrowserDockWin==0) return;
+   if(BrowserDockWin->isShown())
+      BrowserDockWin->hide();
+   else
+      BrowserDockWin->show();
+}
+void TGo4MainWindow::ToggleLoggerDock()
+{
+   if(lidock==0) return;
+      if(lidock->isShown())
+         lidock->hide();
+      else
+         lidock->show();
+}
+
+void TGo4MainWindow::ToggleMbsDock()
+{
+   if(MBSDockWin==0) return;
+    if(MBSDockWin->isShown())
+       MBSDockWin->hide();
+    else
+       MBSDockWin->show();
+
+}
+
+
 
 void TGo4MainWindow::CreateNewHistSlot(int isremote)
 {

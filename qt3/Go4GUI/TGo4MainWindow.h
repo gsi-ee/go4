@@ -123,6 +123,10 @@ class TGo4MainWindow : public QMainWindow {
       void ToggleAnalysisWindow();
       void CloseAnalysisWindow();
 
+      void ToggleBrowserDock();
+      void ToggleLoggerDock();
+      void ToggleMbsDock();
+
       void SubmitAnalysisSettings();
       void SubmitStartAnalysisSlot();
       void StartAnalysisSlot();
@@ -188,6 +192,9 @@ class TGo4MainWindow : public QMainWindow {
 
       QPopupMenu*        windowsMenu;
       TGo4WorkSpace*     fxTGo4WorkSpace;
+      QDockWindow* BrowserDockWin;
+      QDockWindow* MBSDockWin;
+      QDockWindow* lidock;
 
       TGo4ObjectManager* fxOM;
       QString            fOMDataPath;
