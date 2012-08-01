@@ -98,7 +98,7 @@ THadaqParam::THadaqParam(const char* name) :
     if (!THadaqUnpackEvent::AssertTRB(trb))
            continue;
     for (Int_t tdc = 0; tdc < HAD_TIME_NUMTDC; ++tdc) {
-        Short_t row = 1;
+        Short_t row = 8;
         Short_t deltarow = +1;
         Short_t col = 2 * (4 - tdc);
         for (Int_t ch = 0; ch < HAD_TIME_CHANNELS; ++ch) {
@@ -118,9 +118,9 @@ THadaqParam::THadaqParam(const char* name) :
           		imageCol[trb][tdc][chn] = col;
           		printf(" **** Mapped trb %d, tdc %d, ch %d to mcp %d row %d col %d \n",trb,tdc,chn,mcp,row,col);
    		}
-               row += deltarow;
-          if (row > 8) {
-             row = 8;
+               row -= deltarow;
+          if (row < 1) {
+             row = 1;
              deltarow = -1;
              col -= 1;
           }
