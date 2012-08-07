@@ -50,6 +50,7 @@ THadaqUnpackProc::THadaqUnpackProc(const char* name) :
 
   fEventCount = 0;
   //// histograms:
+  TGo4Log::Info("Creating Objects...");
 
 #ifdef HAD_USE_CAHIT
   fbHasCalibration = kFALSE;
@@ -760,6 +761,16 @@ THadaqUnpackProc::THadaqUnpackProc(const char* name) :
 
 #endif
 
+  // can set conditions no sooner than they are existing:
+     setupmacro = "set_HadaqCond.C";
+     if (!gSystem->AccessPathName(setupmacro.Data())) {
+        TGo4Log::Info("Executing hadaq condition setup script %s", setupmacro.Data());
+        gROOT->ProcessLine(Form(".x %s", setupmacro.Data()));
+     } else {
+        TGo4Log::Info("NO Hadaq condition setup script %s. Use previous values!", setupmacro.Data());
+     }
+
+
 }
 //***********************************************************
 THadaqUnpackProc::~THadaqUnpackProc()
@@ -1329,19 +1340,18 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
         Int_t mcp = fPar->imageMCP[board][tdc][ch];
         Int_t row = fPar->imageRow[board][tdc][ch];
         Int_t col = fPar->imageCol[board][tdc][ch];
-        
-	if(mcp>=HAD_TIME_NUMMCP)
-	{
-	  GO4_STOP_ANALYSIS_MESSAGE(
-	    "mcp index %d out of range, max is %d!",mcp, HAD_TIME_NUMMCP-1);
-	  
-	}
+        if(mcp>=HAD_TIME_NUMMCP)
+             {
+             GO4_STOP_ANALYSIS_MESSAGE(
+                    "mcp index %d out of range, max is %d!",mcp, HAD_TIME_NUMMCP-1);
+
+             }
 
 
 
       // calculate delta ts with setup
       Short_t ref = fPar->deltaChannels[board][tdc][ch];
-      if (ref < 0)
+      if (ref < 0 || ref > HAD_TIME_CHANNELS)
         continue; // skip not configured delta channel
       Short_t rboard = fPar->deltaTRB[board][tdc][ch];
       if (rboard < 0 || rboard > HAD_TIME_NUMBOARDS)
