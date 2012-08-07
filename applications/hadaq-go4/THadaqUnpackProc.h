@@ -113,6 +113,10 @@ class THadaqUnpackProc : public TGo4EventProcessor {
       TGo4WinCond* cLeadingDeltaCalTimeGate[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC];
       TGo4WinCond* cTrailingDeltaCalTimeGate[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC];
 
+      TGo4WinCond* cLeadingDeltaCalDebugTimeGate[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC];
+      TGo4WinCond* cTrailingDeltaCalDebugTimeGate[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC];
+
+
       /* better keep correction arrays inside histograms, will be stored */
       TH1* hCalcBinWidth[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC][HAD_TIME_CHANNELS];
       TH1* hCalBinTime[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC][HAD_TIME_CHANNELS];

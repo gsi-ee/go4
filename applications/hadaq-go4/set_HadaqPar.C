@@ -22,6 +22,7 @@ void set_HadaqPar()
 
    param0->fillRaw = kTRUE;
    param0->printEvent = kFALSE;
+   param0->printDebugGate = kFALSE;
    param0->generalCalibration = kTRUE;
    param0->continuousCalibration = kFALSE;
    param0->calibrationPeriod = 10000;

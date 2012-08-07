@@ -68,7 +68,9 @@ THadaqParam::THadaqParam(const char* name) :
 
    fillRaw = kTRUE;
    printEvent=kFALSE;
+
 #ifdef HAD_USE_CAHIT
+   printDebugGate=kFALSE;
    // default for time difference: use neighbouring channels
   for (int b = 0; b < HAD_TIME_NUMBOARDS; ++b) {
       if (!THadaqUnpackEvent::AssertTRB(b))
@@ -179,7 +181,9 @@ Bool_t THadaqParam::UpdateFrom(TGo4Parameter *pp)
    cout << "**** THadaqParam:UpdateFrom ... " << endl;
     fillRaw=from->fillRaw;
     printEvent=from->printEvent;
+
 #ifdef HAD_USE_CAHIT
+     printDebugGate=from->printDebugGate;
     generalCalibration=from->generalCalibration;
     continuousCalibration=from->continuousCalibration;
     calibrationPeriod=from->calibrationPeriod;

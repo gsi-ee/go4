@@ -33,7 +33,36 @@ void set_HadaqCond()
             continue;
          }
          trailconny->SetValues(106500, 107500); // reasonable init for mainz beam?
-         TGo4Log::Info("Set condition %s", obname.Data());
+         TGo4Log::Info("Set condition %s to (%f,%f)", obname.Data(),trailconny->GetXLow(), trailconny->GetXUp());
+
+         // DEBUG PRINT CONDITIONS BELOW:
+         obname.Form("LeadingDeltaDebugTimeGate_%02d_%02d", b, t);
+         TGo4WinCond* dbgleadconny = (TGo4WinCond*) go4->GetAnalysisCondition(
+               obname.Data(), "TGo4WinCond");
+         if (dbgleadconny == 0) {
+            TGo4Log::Error("Could not find condition %s", obname.Data());
+            continue;
+         }
+
+         dbgleadconny->SetValues(106500, 107500); // reasonable init for mainz beam?
+         TGo4Log::Info("Set condition %s to (%f,%f)", obname.Data(),
+               dbgleadconny->GetXLow(), dbgleadconny->GetXUp());
+         obname.Form("TrailingDeltaDebugTimeGate_%02d_%02d", b, t);
+         TGo4WinCond* dbgtrailconny = (TGo4WinCond*) go4->GetAnalysisCondition(
+               obname.Data(), "TGo4WinCond");
+         if (dbgtrailconny == 0) {
+            TGo4Log::Error("Could not find condition %s", obname.Data());
+            continue;
+         }
+         dbgtrailconny->SetValues(106500, 107500); // reasonable init for mainz beam?
+         dbgtrailconny->Disable(kFALSE); // to enable/disable debug output
+         TGo4Log::Info("Set condition %s to (%f,%f)", obname.Data(),
+               dbgtrailconny->GetXLow(), dbgtrailconny->GetXUp());
+
+
+
+
+
       }
 
    }

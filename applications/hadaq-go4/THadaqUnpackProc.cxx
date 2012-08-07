@@ -443,6 +443,23 @@ THadaqUnpackProc::THadaqUnpackProc(const char* name) :
           cTrailingDeltaCalTimeGate[b][t]->SetValues(105000,106000); // reasonable init for mainz beam?
 
 
+          // following for debug printout of events when inside:
+          obname.Form("%s/LeadingDeltaDebugTimeGate_%02d_%02d", dirname.Data(), b, t);
+
+          trange = 500 * HAD_TIME_COARSEUNIT; // scale to ns?
+          hname.Form("%s_%02d_%02d", leadingdeltacalallname.Data(), b, t);
+          cLeadingDeltaCalDebugTimeGate[b][t] = MakeWinCond(obname.Data(), -trange / 2, trange/2,
+                        hname.Data());
+          cLeadingDeltaCalDebugTimeGate[b][t]->SetValues(105000,106000); // reasonable init for mainz beam?
+
+          obname.Form("%s/TrailingDeltaDebugTimeGate_%02d_%02d", dirname.Data(), b, t);
+          trange = 500 * HAD_TIME_COARSEUNIT; // scale to ns?
+          hname.Form("%s_%02d_%02d", trailingdeltacalallname.Data(), b, t);
+          cTrailingDeltaCalDebugTimeGate[b][t] = MakeWinCond(obname.Data(), -trange / 2, trange/2,
+                       hname.Data());
+          cTrailingDeltaCalDebugTimeGate[b][t]->SetValues(105000,106000); // reasonable init for mainz beam?
+
+
           // pictures:
 // NOTE: displaying this picture in GO4 may crash the X-server
 // probably due to large number of bins for each histogram. JAM
@@ -1406,6 +1423,14 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
                 hLeadingDeltaCalAll[board][tdc]->Fill(delta_cal);
                 if(cLeadingDeltaCalTimeGate[board][tdc]->Test(delta_cal))
                    hImagingMCPGated[mcp]->Fill(col, row); //
+
+                if(fPar->printDebugGate && cLeadingDeltaCalDebugTimeGate[board][tdc]->Test(delta_cal))
+                   {
+                      printf("*** Inside Leading debug gate: trb:%02d tdc:%02d: ch:%02d refboard:%02d reftdc:%02d refch:%02d dt=%e ps\n",
+                            board,tdc,ch,rboard, rtdc, ref, delta_cal);
+                      // TODO: maybe full event printout?
+                   }
+
              }
 
           hLeadingCorrelFine[board][tdc][ch]->Fill(binindex, rbinindex);
@@ -1457,6 +1482,15 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
                 hTrailingDeltaCalAll[board][tdc]->Fill(delta_cal);
                 if(cTrailingDeltaCalTimeGate[board][tdc]->Test(delta_cal))
                                    hImagingMCPGated[mcp]->Fill(col, row); //
+
+
+                if (fPar->printDebugGate && cTrailingDeltaCalDebugTimeGate[board][tdc]->Test(delta_cal)) {
+                 printf("*** Inside Trailing debug gate: trb:%02d tdc:%02d: ch:%02d refboard:%02d reftdc:%02d refch:%02d dt=%e ps\n",
+                        board, tdc, ch, rboard, rtdc, ref, delta_cal);
+                  // TODO: maybe full event printout?
+               }
+
+
              }
           hTrailingCorrelFine[board][tdc][ch]->Fill(binindex, rbinindex);
 

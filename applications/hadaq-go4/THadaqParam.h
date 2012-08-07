@@ -27,6 +27,8 @@ class THadaqParam : public TGo4Parameter {
       Bool_t   fillRaw;  // control filling of raw histograms
       Bool_t printEvent; // control printout of event contents
 #ifdef HAD_USE_CAHIT
+      Bool_t printDebugGate; // switch data printout when inside dt debug gate
+
       Short_t deltaChannels[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC][HAD_TIME_CHANNELS]; // specifies for each channel the corresponding reference channel for delta time
       Short_t deltaTDC[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC][HAD_TIME_CHANNELS]; // reference tdc for each channel for delta time
       Short_t deltaTRB[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC][HAD_TIME_CHANNELS]; // reference trb board for each channel for delta time
@@ -40,7 +42,7 @@ class THadaqParam : public TGo4Parameter {
 #endif
      Bool_t UpdateFrom(TGo4Parameter *pp);
 
-   ClassDef(THadaqParam,1)
+   ClassDef(THadaqParam,2)
 };
 
 #pragma pack(pop)
