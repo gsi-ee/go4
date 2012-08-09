@@ -881,6 +881,7 @@ THadaqUnpackProc::ProcessSubevent(Hadaq_Subevent* hadsubevent)
 {
   if (hadsubevent == 0)
     return;
+  fInputSub=hadsubevent;
 
   switch (hadsubevent->GetId())
     {
@@ -913,8 +914,12 @@ THadaqUnpackProc::ProcessSubevent(Hadaq_Subevent* hadsubevent)
 }
 
 void
-THadaqUnpackProc::ProcessTimeTestV3(Hadaq_Subevent* hadsubevent)
+THadaqUnpackProc::ProcessTimeTestV3(Hadaq_Subevent* hadsubevent, Bool_t printoutonly)
 {
+  Bool_t oldprint= fPar->printEvent;
+  if(printoutonly) fPar->printEvent=kTRUE;
+
+
   int align = hadsubevent->Alignment();
   int ixlen = hadsubevent->GetSize() - sizeof(Hadaq_Subevent);
   ixlen = ixlen / (align); // 1,2,4 bytes
@@ -1016,6 +1021,14 @@ THadaqUnpackProc::ProcessTimeTestV3(Hadaq_Subevent* hadsubevent)
 
           if (THadaqUnpackEvent::AssertTRB(trb) && (tdc < HAD_TIME_NUMTDC) && (chan < HAD_TIME_CHANNELS))
             {
+
+             if(printoutonly)
+                {
+                   continue; // no real data processing in debugonly mode
+                }
+
+
+
               if (isrising)
                 {
                   fOutEvent->fLeadingCoarseTime[trb][tdc][chan].push_back(tcoarse);
@@ -1041,6 +1054,14 @@ THadaqUnpackProc::ProcessTimeTestV3(Hadaq_Subevent* hadsubevent)
       //hasdata=kTRUE;
 
     } // for ix
+
+
+  if(printoutonly)
+      {
+         fPar->printEvent=oldprint;
+         return; // no real data processing in debugonly mode
+      }
+
 
   for (int b = 0; b < HAD_TIME_NUMBOARDS; ++b)
     {
@@ -1428,7 +1449,11 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
                    {
                       printf("*** Inside Leading debug gate: trb:%02d tdc:%02d: ch:%02d refboard:%02d reftdc:%02d refch:%02d dt=%e ps\n",
                             board,tdc,ch,rboard, rtdc, ref, delta_cal);
-                      // TODO: maybe full event printout?
+                      // full event printout:
+                      printf("*** Full Input Event Dump:\n");
+                      ProcessTimeTestV3(fInputSub,kTRUE);
+                      printf("*** End Input Event Dump:\n");
+
                    }
 
              }
@@ -1487,7 +1512,10 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
                 if (fPar->printDebugGate && cTrailingDeltaCalDebugTimeGate[board][tdc]->Test(delta_cal)) {
                  printf("*** Inside Trailing debug gate: trb:%02d tdc:%02d: ch:%02d refboard:%02d reftdc:%02d refch:%02d dt=%e ps\n",
                         board, tdc, ch, rboard, rtdc, ref, delta_cal);
-                  // TODO: maybe full event printout?
+                  // full event printout:
+                 printf("*** Full Input Event Dump:\n");
+                 ProcessTimeTestV3(fInputSub,kTRUE);
+                 printf("*** End Input Event Dump:\n");
                }
 
 

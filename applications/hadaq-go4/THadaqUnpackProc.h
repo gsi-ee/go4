@@ -35,7 +35,7 @@ class THadaqUnpackProc : public TGo4EventProcessor {
       void ProcessTimeTest(Hadaq_Subevent* sub);
 
       /* Unpacking of Cahits time test subevent with old data format*/
-      void ProcessTimeTestV3(Hadaq_Subevent* sub);
+      void ProcessTimeTestV3(Hadaq_Subevent* sub, Bool_t printoutonly=kFALSE);
 
       /* process Cahit data independent of data format*/
       void EvaluateTDCData(UShort_t board=0, UShort_t tdc=0);
@@ -136,7 +136,7 @@ class THadaqUnpackProc : public TGo4EventProcessor {
 #endif
 
 
-
+      Hadaq_Subevent* fInputSub;
 
       THadaqParam* fPar;
       THadaqUnpackEvent* fOutEvent;
