@@ -143,6 +143,9 @@ class THadaqUnpackProc : public TGo4EventProcessor {
 
       unsigned fEventCount;
 
+      /* status word from trb subevent trailer*/
+      UInt_t fSubeventStatus;
+
    ClassDef(THadaqUnpackProc,1)
 };
 

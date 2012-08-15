@@ -893,6 +893,11 @@ THadaqUnpackProc::ProcessSubevent(Hadaq_Subevent* hadsubevent)
   case 0x8c00:
     DumpData(hadsubevent);
     ProcessTimeTestV3(hadsubevent);
+    if(fSubeventStatus!=0x00000001)
+        {
+          printf("!!! found invalid subevent data, status:0x%x \n",fSubeventStatus);
+        }
+
     for (int b = 0; b < HAD_TIME_NUMBOARDS; ++b)
       {
         if(!THadaqUnpackEvent::AssertTRB(b)) continue;
@@ -927,6 +932,22 @@ THadaqUnpackProc::ProcessTimeTestV3(Hadaq_Subevent* hadsubevent, Bool_t printout
   UChar_t tdc = 0;
   UShort_t dlen = 0;
   UShort_t totlen = 0;
+
+ // cts related:
+  UShort_t ctslen=0;
+  UChar_t trigtype=0;
+  UChar_t trignum=0;
+  UChar_t ctsver=0;
+  Bool_t foundtrigtype=kFALSE;
+  Bool_t foundctsversion=kFALSE;
+
+  // termination packet related:
+  UShort_t termlen=0;
+  UShort_t termadd=0;
+  Bool_t founderrstat=kFALSE;
+  fSubeventStatus=0;
+
+
   //Bool_t hasdata = kFALSE;
   for (int ix = 0; ix < ixlen; ++ix)
     {
@@ -1052,6 +1073,63 @@ THadaqUnpackProc::ProcessTimeTestV3(Hadaq_Subevent* hadsubevent, Bool_t printout
         }
 
       //hasdata=kTRUE;
+
+  // evaluate trailing cts info:
+      Bool_t isctsheader = ((data & 0xFFFF) == 0x2);
+      if(isctsheader)
+         {
+            ctslen= (data >> 16) & 0xFFFF;
+            EPRINT("***  --- CTS header: 0x%x, ctslen=0x%x\n", data, ctslen);
+            continue;
+         }
+      if(ctslen >0)
+         {
+            --ctslen;
+            if(!foundtrigtype)
+               {
+               trigtype=(data >> 24) & 0xFF;
+               trignum= (data >> 16) & 0xFF;
+               foundtrigtype=kTRUE;
+               EPRINT("***  --- CTS trigtype: 0x%x, trignum=0x%x\n", trigtype, trignum);
+               continue;
+               }
+            if(!foundctsversion)
+               {
+                  ctsver=(data >> 16) & 0xFF;
+                  foundctsversion=kTRUE;
+                  EPRINT("***  --- CTS version: 0x%x\n", ctsver);
+                  continue;
+               }
+            EPRINT("***  --- CTS data: 0x%x, \n", data);
+            continue;
+         }
+
+      // network termination packet:
+      if(foundtrigtype && termlen==0)
+      {
+         termlen=(data >> 16) & 0xFFFF;
+         termadd=data & 0xFFFF;
+         EPRINT("***  --- Termination header: 0x%x, termlen=0x%x, address:0x%x\n", data, termlen,termadd);
+         continue;
+      }
+      if(termlen >0)
+         {
+             termlen--;
+            // first (and only!) word after term header is error status
+            if(!founderrstat)
+               {
+
+                  founderrstat=kTRUE;
+                  fSubeventStatus=data;
+                  EPRINT("***  --- Subevent status word: 0x%x\n", fSubeventStatus);
+                  continue;
+               }
+            EPRINT("***  --- Termination header extra word?: 0x%x\n", data);
+            continue;
+         }
+
+
+
 
     } // for ix
 
@@ -1280,6 +1358,15 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
   if (fPar->generalCalibration == fPar->continuousCalibration)
     GO4_STOP_ANALYSIS_MESSAGE(
         "Parameter Error: General Calibration and Continious Calibration can't be activated together!");
+
+// check here if input data was valid:
+  if(fSubeventStatus!=0x00000001)
+     {
+        fOutEvent->SetValid(kFALSE);
+        return;
+     }
+	
+
 
   // first process all raw channels:
   for (int ch = 0; ch < HAD_TIME_CHANNELS; ++ch)
