@@ -130,8 +130,9 @@ class THadaqUnpackProc : public TGo4EventProcessor {
 
       void DoCalibration(UShort_t board, UShort_t tdc, UShort_t ch, Bool_t generalcal, Bool_t contcal);
 
-      /* flag to indicate that no calibration has been done so far*/
-      Bool_t fbHasCalibration;
+      /* flag to indicate that no calibration has been done so far
+       * We need to check this for each channel independently!*/
+      Bool_t fbHasCalibration[HAD_TIME_NUMBOARDS][HAD_TIME_NUMTDC][HAD_TIME_CHANNELS];
 
 #endif
 

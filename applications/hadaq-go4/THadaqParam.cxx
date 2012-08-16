@@ -92,6 +92,7 @@ THadaqParam::THadaqParam(const char* name) :
    generalCalibration=kTRUE;
    continuousCalibration=kFALSE;
    calibrationPeriod=HAD_TIME_CALIBFREQ;
+   calibrationEntries=HAD_CALIBENTRIES;
 
 // NOTE: mappings in ctor are overridden by setup script!
    // here mcp mappings (JAM 1-June2012):
@@ -187,7 +188,7 @@ Bool_t THadaqParam::UpdateFrom(TGo4Parameter *pp)
     generalCalibration=from->generalCalibration;
     continuousCalibration=from->continuousCalibration;
     calibrationPeriod=from->calibrationPeriod;
-
+    calibrationEntries=from->calibrationEntries;
 // exclude this for the moment, is not handled correctly by go4 gui JAM
 // we therefore need to implement UpdateFrom and suppress changing of these arrays from gui
 //    for (int trb = 0; trb < HAD_TIME_NUMBOARDS; ++trb)

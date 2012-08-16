@@ -26,6 +26,7 @@ void set_HadaqPar()
    param0->generalCalibration = kTRUE;
    param0->continuousCalibration = kFALSE;
    param0->calibrationPeriod = 10000;
+   param0->calibrationEntries = 500;
 
 //   for (int b = 0; b < HAD_TIME_NUMBOARDS; ++b) {
 //       if (!THadaqUnpackEvent::AssertTRB(b))

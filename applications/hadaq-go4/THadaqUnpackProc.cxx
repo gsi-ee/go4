@@ -53,7 +53,6 @@ THadaqUnpackProc::THadaqUnpackProc(const char* name) :
   TGo4Log::Info("Creating Objects...");
 
 #ifdef HAD_USE_CAHIT
-  fbHasCalibration = kFALSE;
   TString dirname;
   TString hname;
   TString leadingcoarseallname = "LeadingCoarseAllChans";
@@ -154,6 +153,7 @@ THadaqUnpackProc::THadaqUnpackProc(const char* name) :
 
           for (Int_t i = 0; i < HAD_TIME_CHANNELS; ++i)
             {
+             fbHasCalibration[b][t][i] = kFALSE; // reset calibration flag for each channel
               dirname.Form("Timetest/TRB%02d/TDC%02d", b, t);
 
               ////// Leading edges: /////////////////////////////////
@@ -1452,15 +1452,12 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
 
     } // channels first loop
 
-  if (fPar->continuousCalibration && !fbHasCalibration)
-    return;
-
   // after calibration, we process channels again using calibrated times:
 
-  if (fEventCount > fPar->calibrationPeriod)
-  {
     for (int ch = 0; ch < HAD_TIME_CHANNELS; ++ch)
     {
+       if (!fbHasCalibration[board][tdc][ch]) continue; // do not handle channels without valid calibration
+
         // need to get mcp mapping again for second loop:
         Int_t mcp = fPar->imageMCP[board][tdc][ch];
         Int_t row = fPar->imageRow[board][tdc][ch];
@@ -1485,6 +1482,9 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
       if (rtdc < 0 || rtdc > HAD_TIME_NUMTDC)
         continue; // skip not configured delta channel
       // first leading edges:
+
+      if (!fbHasCalibration[rboard][rtdc][ref]) continue; // do not calculate difference to not calibrated ref channels
+
 
       for (unsigned int i = 0;
           i < fOutEvent->fLeadingCoarseTime[board][tdc][ch].size(); i++)
@@ -1612,7 +1612,6 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
         } // for i trailing
 
     } // channels second loop
-  } // if condition for CalibrationPeriod
 
 #else
   EPRINT("*** ProcessTimeTest() is disabled, please recompile with HAD_USE_CAHIT\n");
@@ -1642,11 +1641,18 @@ void THadaqUnpackProc::DoCalibration(UShort_t board, UShort_t tdc, UShort_t ch, 
     {
       return;
     }
-
-  for (int fb = 0; fb < HAD_TIME_FINEBINS; ++fb)
+  UInt_t sum = hfinecal->GetEntries();
+  if(sum<fPar->calibrationEntries)
+  {
+     //cout <<"DO CALIBRATION for("<<board<<","<<tdc<<","<<ch<<"): Calibration histogram has only:"<<sum<<"entries, needs at least "<<fPar->calibrationEntries<<"! At Event:"<<fEventCount << endl;
+     return;
+  }
+  else
+  {
+     //cout <<"DOING CALIBRATION for("<<board<<","<<tdc<<","<<ch<<") at event"<< fEventCount<<": Calibration histogram with "<<sum<<"entries!" << endl;
+  }
+     for (int fb = 0; fb < HAD_TIME_FINEBINS; ++fb)
     {
-
-      Int_t sum = hfinecal->GetEntries();
       Double_t binwidth = 1;
       Double_t binhits = hfinecal->GetBinContent(fb + 1);
       if (sum)
@@ -1678,7 +1684,7 @@ void THadaqUnpackProc::DoCalibration(UShort_t board, UShort_t tdc, UShort_t ch, 
       hTrailingFineBuffer[board][tdc][ch]->Reset();
     }
   delete hfinecal; // since we did clone originals here!
-  fbHasCalibration = kTRUE;
+  fbHasCalibration[board][tdc][ch] = kTRUE;
 }
 
 #endif

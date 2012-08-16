@@ -39,6 +39,7 @@ class THadaqParam : public TGo4Parameter {
       Bool_t generalCalibration; // switch calibration of time bins on
       Bool_t continuousCalibration; // continuous calibration with doublebuffered table
       UInt_t calibrationPeriod; // number of events between 2 time calibrations
+      UInt_t calibrationEntries; // minimum required number of entries in calibration histogram
 #endif
      Bool_t UpdateFrom(TGo4Parameter *pp);
 

@@ -40,7 +40,7 @@
 
 // this number defines how often calibration is performed:
 #define HAD_TIME_CALIBFREQ 10000
-
+#define HAD_CALIBENTRIES   5000
 
 
 
