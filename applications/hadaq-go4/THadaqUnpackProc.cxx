@@ -387,18 +387,19 @@ THadaqUnpackProc::THadaqUnpackProc(const char* name) :
           obtitle.Form("Empty vs Filled events TRB %02d TDC %02d", b, t);
 
           hTriggerCount[b][t] = MakeTH1('I', obname.Data(), obtitle.Data(),
-              3 + HAD_TIME_CHANNELS, 0, 3 + HAD_TIME_CHANNELS);
+              4 + HAD_TIME_CHANNELS, 0, 4 + HAD_TIME_CHANNELS);
           if (IsObjMade())
             {
 
               hTriggerCount[b][t]->GetXaxis()->SetBinLabel(1, "ALL");
-              hTriggerCount[b][t]->GetXaxis()->SetBinLabel(2, "LEADING");
-              hTriggerCount[b][t]->GetXaxis()->SetBinLabel(3, "TRAILING");
+              hTriggerCount[b][t]->GetXaxis()->SetBinLabel(2, "INVALID");
+              hTriggerCount[b][t]->GetXaxis()->SetBinLabel(3, "LEADING");
+              hTriggerCount[b][t]->GetXaxis()->SetBinLabel(4, "TRAILING");
               TString text;
               for (int c = 0; c < HAD_TIME_CHANNELS; ++c)
                 {
                   text.Form("PAIRS-CH%02d", c);
-                  hTriggerCount[b][t]->GetXaxis()->SetBinLabel(c + 4, text.Data());
+                  hTriggerCount[b][t]->GetXaxis()->SetBinLabel(c + 5, text.Data());
                 }
             }
 
@@ -1054,13 +1055,13 @@ THadaqUnpackProc::ProcessTimeTestV3(Hadaq_Subevent* hadsubevent, Bool_t printout
                 {
                   fOutEvent->fLeadingCoarseTime[trb][tdc][chan].push_back(tcoarse);
                   fOutEvent->fLeadingFineTime[trb][tdc][chan].push_back(tfine);
-                  hTriggerCount[trb][tdc]->Fill(1); // record that we have data from this tdc
+                  hTriggerCount[trb][tdc]->Fill(2); // record that we have data from this tdc
                 }
               else
                 {
                   fOutEvent->fTrailingCoarseTime[trb][tdc][chan].push_back(tcoarse);
                   fOutEvent->fTrailingFineTime[trb][tdc][chan].push_back(tfine);
-                  hTriggerCount[trb][tdc]->Fill(2); // record that we have data from this tdc
+                  hTriggerCount[trb][tdc]->Fill(3); // record that we have data from this tdc
                 }
 
             }
@@ -1150,6 +1151,10 @@ THadaqUnpackProc::ProcessTimeTestV3(Hadaq_Subevent* hadsubevent, Bool_t printout
 //          for (int c = 0; c < HAD_TIME_CHANNELS; ++c)
 //            {
               hTriggerCount[b][t]->Fill(0); // account this event for all tdcs which may have fired
+  	      if(fSubeventStatus!=0x00000001)
+                 hTriggerCount[b][t]->Fill(1);
+
+
 //            }
         }
     }
@@ -1498,7 +1503,7 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
               i) * HAD_TIME_COARSEUNIT;
           if (i < fOutEvent->fLeadingCoarseTime[rboard][rtdc][ref].size())
             {
-              hTriggerCount[board][tdc]->Fill(ch + 3); //account the matching pairs found
+              hTriggerCount[board][tdc]->Fill(ch + 4); //account the matching pairs found
               rcoarse = fOutEvent->fLeadingCoarseTime[rboard][rtdc][ref].at(
                   i) * HAD_TIME_COARSEUNIT;
               cdelta = coarse - rcoarse;
@@ -1561,7 +1566,7 @@ THadaqUnpackProc::EvaluateTDCData(UShort_t board, UShort_t tdc)
               i) * HAD_TIME_COARSEUNIT;
           if (i < fOutEvent->fTrailingCoarseTime[rboard][rtdc][ref].size())
             {
-              hTriggerCount[board][tdc]->Fill(ch + 3); //account the matching pairs found
+              hTriggerCount[board][tdc]->Fill(ch + 4); //account the matching pairs found
               rcoarse = fOutEvent->fTrailingCoarseTime[rboard][rtdc][ref].at(
                   i) * HAD_TIME_COARSEUNIT;
               cdelta = coarse - rcoarse;
@@ -1645,6 +1650,7 @@ void THadaqUnpackProc::DoCalibration(UShort_t board, UShort_t tdc, UShort_t ch, 
   if(sum<fPar->calibrationEntries)
   {
      //cout <<"DO CALIBRATION for("<<board<<","<<tdc<<","<<ch<<"): Calibration histogram has only:"<<sum<<"entries, needs at least "<<fPar->calibrationEntries<<"! At Event:"<<fEventCount << endl;
+     delete hfinecal;	
      return;
   }
   else
