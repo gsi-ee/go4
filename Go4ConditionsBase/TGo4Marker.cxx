@@ -32,6 +32,7 @@ Bool_t TGo4Marker::fgbYDRAW=kTRUE;
 Bool_t TGo4Marker::fgbXBINDRAW=kFALSE;
 Bool_t TGo4Marker::fgbYBINDRAW=kFALSE;
 Bool_t TGo4Marker::fgbCONTDRAW=kTRUE;
+TString TGo4Marker::fgxNUMFORMAT="%.4E";
 
 
 TGo4Marker::TGo4Marker(Double_t x, Double_t y, Int_t style)
@@ -254,6 +255,7 @@ void TGo4Marker::SaveLabelStyle()
    TGo4Marker::fgbXBINDRAW=fbXbinDraw;
    TGo4Marker::fgbYBINDRAW=fbYbinDraw;
    TGo4Marker::fgbCONTDRAW=fbContDraw;
+   TGo4Marker::fgxNUMFORMAT=fxNumFormat;
 }
 
 void TGo4Marker::InitLabelStyle()
@@ -265,6 +267,7 @@ void TGo4Marker::InitLabelStyle()
    fbXbinDraw=TGo4Marker::fgbXBINDRAW;
    fbYbinDraw=TGo4Marker::fgbYBINDRAW;
    fbContDraw=TGo4Marker::fgbCONTDRAW;
+   fxNumFormat=TGo4Marker::fgxNUMFORMAT;
 }
 
 void TGo4Marker::ResetLabel()

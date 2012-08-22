@@ -67,9 +67,13 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObj
       LCDAverageRate->display(floor(status->GetAvRate()));
    else
       LCDAverageRate->display(status->GetAvRate());
-
-   LCDTime->display((int)status->GetTime());
-
+   int stime=(int)status->GetTime();
+   LCDTime->display(stime);
+   ulong hh=stime/3600;
+   ulong mm=(stime-hh*3600)/60;
+   ulong ss=(stime-hh*3600-mm*60);
+   QString tooltip=QString("Time since last reset [sec] = %1:%2:%3 [hours:min:sec]").arg(hh).arg(mm).arg(ss);
+   LCDTime->setToolTip(tooltip);
    QString scnt = QString("%1").arg(status->GetCurrentCount());
    if (scnt.length() > LCDProcessedEvents->numDigits())
       LCDProcessedEvents->setNumDigits(scnt.length());

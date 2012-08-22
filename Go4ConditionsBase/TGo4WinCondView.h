@@ -47,6 +47,7 @@ public:
     void SetXMaxDraw(Bool_t on); // *MENU*
     void SetYMaxDraw(Bool_t on); // *MENU*
     void SetCMaxDraw(Bool_t on); // *MENU*
+    void SetNumFormat(const char* fmt="%.4E"); // *MENU*
     /** This will save draw flags into  static default setup */
     void SaveLabelStyle();// *MENU*
     /** Will reset label position to defaults */

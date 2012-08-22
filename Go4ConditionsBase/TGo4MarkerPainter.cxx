@@ -66,6 +66,7 @@ if(fxMarker && fxMarker->HasLabel())
       Bool_t drxbin=fxMarker->IsXbinDraw();
       Bool_t drybin=fxMarker->IsYbinDraw();
       Bool_t drcont=fxMarker->IsContDraw();
+      TString fmt=fxMarker->GetNumFormat();
       SetX0(xpmin);
       SetY0(ypmin); // initial coordinates are real axis coordinates
       SetLineColor(fxMarker->GetMarkerColor());
@@ -80,9 +81,9 @@ if(fxMarker && fxMarker->HasLabel())
       SetCaption(cap.Data());
       TGo4LabelPainter::PaintLabel();// this creates new label
       if(drx)
-         AddToLabel(Form("X    = %.4E",fxMarker->GetX()));
+         AddToLabel(Form(Form("X    = %s",fmt.Data()),fxMarker->GetX()));
       if(dry)
-         AddToLabel(Form("Y    = %.4E",fxMarker->GetY()));
+         AddToLabel(Form(Form("Y    = %s",fmt.Data()),fxMarker->GetY()));
       if(drxbin)
          AddToLabel(Form("Xbin = %d",fxMarker->GetXbin()));
       if(drybin)

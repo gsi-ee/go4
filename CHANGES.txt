@@ -44,7 +44,15 @@ Changes in Go4 v4.5.3 (Summer 2012)
 4. Added shortcut F1 to display the Go4 Introduction Manual as Help. 
 5. Added shortcuts F6,F7,F8 to toggle visibility of 
     browser, logger, and mbs monitor dock windows (F9 for DABC monitor if compiled with DIM)    
-    
+6. GUI analysis status ratemeter: Tooltip of runtime seconds  this time
+   as hour:minute:seconds representation. 
+   Bugfix: "rotating go4 logo" in statusbar when analysis is running was not working in Qt3 
+7. Graphical Markers and Conditions: Added possibility to define a "printf style" format string in 
+   for the float number display in marker/condition label box (default is %.4E). 
+   When selecting the marker/the condition display on TPad via mouse button, the ROOT context menu 
+   provides method SetNumFormat(const char*) to change the settings of current marker. 
+   Context menu function SaveLabelStyle() will set current format as default for all markers/conditions.
+   These defaults can be saved to go4 settings.      
    
 
 Changes in Go4 v4.5.2 (April 2012)

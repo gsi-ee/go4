@@ -37,6 +37,7 @@ Bool_t TGo4Condition::fgbYRMSDRAW=kFALSE;
 Bool_t TGo4Condition::fgbXMAXDRAW=kTRUE;
 Bool_t TGo4Condition::fgbYMAXDRAW=kFALSE;
 Bool_t TGo4Condition::fgbCMAXDRAW=kTRUE;
+TString TGo4Condition::fgxNUMFORMAT="%.4E";
 
 
 // -----------------------------------------------
@@ -537,6 +538,16 @@ Bool_t TGo4Condition::IsCMaxDraw()
    return fbCMaxDraw;
 }
 
+const char* TGo4Condition::GetLabelNumFormat()
+{
+   return fxNumFormat.Data();
+}
+void TGo4Condition::SetLabelNumFormat(const char* fmt)
+{
+   fxNumFormat=fmt;
+}
+
+
 void TGo4Condition::SetHistogram(const char* name)
 {
    if ((name==0) || (*name==0)) {
@@ -627,6 +638,7 @@ void TGo4Condition::SaveLabelStyle()
    TGo4Condition::fgbXMAXDRAW=fbXMaxDraw;
    TGo4Condition::fgbYMAXDRAW=fbYMaxDraw;
    TGo4Condition::fgbCMAXDRAW=fbCMaxDraw;
+   TGo4Condition::fgxNUMFORMAT=fxNumFormat;
 }
 
 void TGo4Condition::InitLabelStyle()
@@ -641,6 +653,7 @@ void TGo4Condition::InitLabelStyle()
    fbXMaxDraw=TGo4Condition::fgbXMAXDRAW;
    fbYMaxDraw=TGo4Condition::fgbYMAXDRAW;
    fbCMaxDraw=TGo4Condition::fgbCMAXDRAW;
+   fxNumFormat=TGo4Condition::fgxNUMFORMAT;
 }
 
 void TGo4Condition::ResetLabel(Option_t* opt)

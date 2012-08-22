@@ -284,6 +284,10 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     virtual void SetCMaxDraw(Bool_t on);
     virtual Bool_t IsCMaxDraw();
 
+    virtual const char* GetLabelNumFormat();
+    virtual void SetLabelNumFormat(const char* fmt);
+
+
     virtual void SetChanged(Bool_t on) { if (on) fiIsChanged++; else fiIsChanged = 0; }
     virtual Int_t IsChanged() { return fiIsChanged; }
 
@@ -342,6 +346,9 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
 
     /** default setting for all conditions for label draw cmax flag. */
     static Bool_t fgbCMAXDRAW;
+
+    /** default setting for all conditions with format string for numbers. */
+   static TString fgxNUMFORMAT;
 
   protected:
 
@@ -438,6 +445,9 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     /** If true, draw corresponding value as label on working pad */
     Bool_t fbCMaxDraw;
 
+    /** format string for all label numbers. */
+    TString fxNumFormat;
+
     /** Reference to currently used histogram (for statistics boxes). This
       * is _not_ necessarily the same histogram as specified in the linked histogram! */
     TH1* fxHisto;   //!
@@ -455,7 +465,7 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     /** This allows to treat conditions streamed into pad */
     Bool_t fbStreamedCondition;//!
 
-   ClassDef(TGo4Condition,6)
+   ClassDef(TGo4Condition,7)
 };
 
 #endif //TGO4CONDITION_H

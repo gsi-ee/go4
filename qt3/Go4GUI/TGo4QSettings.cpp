@@ -93,6 +93,9 @@ void TGo4QSettings::setBasicSettings()
    writeEntry(GetSettingsName()+"/markers/ShowXbin", (int) TGo4Marker::fgbXBINDRAW);
    writeEntry(GetSettingsName()+"/markers/ShowYbin", (int)TGo4Marker::fgbYBINDRAW);
    writeEntry(GetSettingsName()+"/markers/ShowBinContent", (int) TGo4Marker::fgbCONTDRAW);
+   writeEntry(GetSettingsName()+"/markers/LabelNumberFormat", TGo4Marker::fgxNUMFORMAT.Data());
+
+
 
    writeEntry(GetSettingsName()+"/conditions/Conditionlabel", (int) TGo4Condition::fgbLABELDRAW);
    writeEntry(GetSettingsName()+"/conditions/ShowLimits", (int) TGo4Condition::fgbLIMITSDRAW);
@@ -104,6 +107,8 @@ void TGo4QSettings::setBasicSettings()
    writeEntry(GetSettingsName()+"/conditions/ShowXmax", (int) TGo4Condition::fgbXMAXDRAW);
    writeEntry(GetSettingsName()+"/conditions/ShowYmax", (int) TGo4Condition::fgbYMAXDRAW);
    writeEntry(GetSettingsName()+"/conditions/ShowCmax", (int) TGo4Condition::fgbCMAXDRAW);
+   writeEntry(GetSettingsName()+"/conditions/LabelNumberFormat", TGo4Condition::fgxNUMFORMAT.Data());
+
 }
 
 void TGo4QSettings::getBasicSettings()
@@ -122,6 +127,9 @@ void TGo4QSettings::getBasicSettings()
    TGo4Marker::fgbXBINDRAW     = readNumEntry(GetSettingsName()+"/markers/ShowXbin", 0);
    TGo4Marker::fgbYBINDRAW     = readNumEntry(GetSettingsName()+"/markers/ShowYbin", 0);
    TGo4Marker::fgbCONTDRAW     = readNumEntry(GetSettingsName()+"/markers/ShowBinContent", 1);
+   TGo4Marker::fgxNUMFORMAT    = readEntry(GetSettingsName()+"/markers/LabelNumberFormat", "%.4E").ascii();
+
+
 
    TGo4Condition::fgbLABELDRAW = readNumEntry(GetSettingsName()+"/conditions/Conditionlabel", 1);
    TGo4Condition::fgbLIMITSDRAW= readNumEntry(GetSettingsName()+"/conditions/ShowLimits", 1);
@@ -133,6 +141,8 @@ void TGo4QSettings::getBasicSettings()
    TGo4Condition::fgbXMAXDRAW  = readNumEntry(GetSettingsName()+"/conditions/ShowXmax", 1);
    TGo4Condition::fgbYMAXDRAW  = readNumEntry(GetSettingsName()+"/conditions/ShowYmax", 0);
    TGo4Condition::fgbCMAXDRAW  = readNumEntry(GetSettingsName()+"/conditions/ShowCmax", 1);
+   TGo4Condition::fgxNUMFORMAT    = readEntry(GetSettingsName()+"/conditions/LabelNumberFormat", "%.4E").ascii();
+
 }
 
 void TGo4QSettings::setAppStyle(const QString& v)

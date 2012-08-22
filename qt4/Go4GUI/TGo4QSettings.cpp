@@ -130,6 +130,7 @@ void TGo4QSettings::setBasicSettings()
    setBool("/markers/ShowXbin", TGo4Marker::fgbXBINDRAW);
    setBool("/markers/ShowYbin", TGo4Marker::fgbYBINDRAW);
    setBool("/markers/ShowBinContent", TGo4Marker::fgbCONTDRAW);
+   setStr("/markers/LabelNumberFormat", TGo4Marker::fgxNUMFORMAT.Data());
 
    setBool("/conditions/Conditionlabel", TGo4Condition::fgbLABELDRAW);
    setBool("/conditions/ShowLimits", TGo4Condition::fgbLIMITSDRAW);
@@ -141,6 +142,8 @@ void TGo4QSettings::setBasicSettings()
    setBool("/conditions/ShowXmax", TGo4Condition::fgbXMAXDRAW);
    setBool("/conditions/ShowYmax", TGo4Condition::fgbYMAXDRAW);
    setBool("/conditions/ShowCmax", TGo4Condition::fgbCMAXDRAW);
+   setStr("/conditions/LabelNumberFormat", TGo4Condition::fgxNUMFORMAT.Data());
+
 }
 
 void TGo4QSettings::getBasicSettings()
@@ -159,6 +162,7 @@ void TGo4QSettings::getBasicSettings()
    TGo4Marker::fgbXBINDRAW     = getBool("/markers/ShowXbin", 0);
    TGo4Marker::fgbYBINDRAW     = getBool("/markers/ShowYbin", 0);
    TGo4Marker::fgbCONTDRAW     = getBool("/markers/ShowBinContent", 1);
+   TGo4Marker::fgxNUMFORMAT    = getStr("/markers/LabelNumberFormat", "%.4E").toAscii().data();
 
    TGo4Condition::fgbLABELDRAW = getBool("/conditions/Conditionlabel", 1);
    TGo4Condition::fgbLIMITSDRAW= getBool("/conditions/ShowLimits", 1);
@@ -170,6 +174,7 @@ void TGo4QSettings::getBasicSettings()
    TGo4Condition::fgbXMAXDRAW  = getBool("/conditions/ShowXmax", 1);
    TGo4Condition::fgbYMAXDRAW  = getBool("/conditions/ShowYmax", 0);
    TGo4Condition::fgbCMAXDRAW  = getBool("/conditions/ShowCmax", 1);
+   TGo4Condition::fgxNUMFORMAT   = getStr("/conditions/LabelNumberFormat", "%.4E").toAscii().data();
 }
 
 

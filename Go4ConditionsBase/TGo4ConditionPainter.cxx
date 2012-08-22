@@ -90,6 +90,7 @@ if(fxCondition && fxCondition->IsVisible())
    Bool_t drcmax=fxCondition->IsCMaxDraw();
    Bool_t isarray=fxCondition->IsArrayType();
    Bool_t ismulti=fxCondition->IsMultiEdit();
+   TString fmt=fxCondition->GetLabelNumFormat();
    TH1* histogram=fxCondition->GetWorkHistogram();
 
    if((isarray && !ismulti) || !haslabel)
@@ -116,30 +117,30 @@ if(fxCondition && fxCondition->IsVisible())
           TGo4LabelPainter::PaintLabel();// this creates new label at initial coords
           if(drlimits)
             {
-               AddToLabel(Form("X1   = %.4E",fxCondition->GetXLow()));
-               AddToLabel(Form("X2   = %.4E",fxCondition->GetXUp()));
+               AddToLabel(Form(Form("X1   = %s",fmt.Data()),fxCondition->GetXLow()));
+               AddToLabel(Form(Form("X2   = %s",fmt.Data()),fxCondition->GetXUp()));
                if(fxCondition->GetDimension()>1)
                {
-                  AddToLabel(Form("Y1   = %.4E",fxCondition->GetYLow()));
-                  AddToLabel(Form("Y2   = %.4E",fxCondition->GetYUp()));
+                  AddToLabel(Form(Form("Y1   = %s",fmt.Data()),fxCondition->GetYLow()));
+                  AddToLabel(Form(Form("Y2   = %s",fmt.Data()),fxCondition->GetYUp()));
                }
             }
          if(drint)
-            AddToLabel(Form("Int   = %.4E",fxCondition->GetIntegral(histogram)));
+            AddToLabel(Form(Form("Int   = %s",fmt.Data()),fxCondition->GetIntegral(histogram)));
          if(drxmean)
-            AddToLabel(Form("Xmean = %.4E",fxCondition->GetMean(histogram,1)));
+            AddToLabel(Form(Form("Xmean = %s",fmt.Data()),fxCondition->GetMean(histogram,1)));
          if(drxrms)
-            AddToLabel(Form("Xrms  = %.4E",fxCondition->GetRMS(histogram,1)));
+            AddToLabel(Form(Form("Xrms  = %s",fmt.Data()),fxCondition->GetRMS(histogram,1)));
          if(drxmax)
-            AddToLabel(Form("Xmax  = %.4E",fxCondition->GetXMax(histogram)));
+            AddToLabel(Form(Form("Xmax  = %s",fmt.Data()),fxCondition->GetXMax(histogram)));
          if(drymean)
-            AddToLabel(Form("Ymean = %.4E",fxCondition->GetMean(histogram,2)));
+            AddToLabel(Form(Form("Ymean = %s",fmt.Data()),fxCondition->GetMean(histogram,2)));
          if(dryrms)
-            AddToLabel(Form("Yrms  = %.4E",fxCondition->GetRMS(histogram,2)));
+            AddToLabel(Form(Form("Yrms  = %s",fmt.Data()),fxCondition->GetRMS(histogram,2)));
          if(drymax)
-            AddToLabel(Form("Ymax  = %.4E",fxCondition->GetYMax(histogram)));
+            AddToLabel(Form(Form("Ymax  = %s",fmt.Data()),fxCondition->GetYMax(histogram)));
          if(drcmax)
-            AddToLabel(Form("Cmax  = %.4E",fxCondition->GetCMax(histogram)));
+            AddToLabel(Form(Form("Cmax  = %s",fmt.Data()),fxCondition->GetCMax(histogram)));
          RePaintLabel();
       }//if((isarray && !ismulti) || !haslabel)
    }//if(fxCondition && fxCondition->IsVisible())

@@ -205,6 +205,12 @@ void TGo4WinCondView::SetCMaxDraw(Bool_t on)
 }
 
 
+void TGo4WinCondView::SetNumFormat(const char* fmt)
+{
+   if(fxWinCondition) fxWinCondition->SetLabelNumFormat(fmt);
+}
+
+
 //void TGo4WinCondView::DeleteRegion()
 //{
 //   if(fxWinCondition && !fxWinCondition->IsOwnedByEditor())

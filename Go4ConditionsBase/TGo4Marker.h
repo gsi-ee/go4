@@ -95,6 +95,11 @@ public:
    void SetContDraw(Bool_t on){fbContDraw=on;}// *MENU*
    Bool_t IsContDraw(){return fbContDraw;}
 
+   const char* GetNumFormat(){return fxNumFormat.Data();}
+   void SetNumFormat(const char* fmt="%.4E"){fxNumFormat=fmt;}// *MENU*
+
+
+
    /** This will save draw flags into  static default setup */
    void SaveLabelStyle();// *MENU*
 
@@ -153,6 +158,9 @@ public:
    /** default setting for all markers of bin content flag. */
    static Bool_t fgbCONTDRAW;
 
+   /** default setting for all conditions with format string for numbers. */
+   static TString fgxNUMFORMAT;
+
 protected:
 
    /** Painter instance to display the condition in root pad. To
@@ -198,6 +206,9 @@ private:
 
    /** If true, draw corresponding value as label on working pad */
    Bool_t fbContDraw;
+
+   /** format string for all label numbers. */
+   TString fxNumFormat;
 
    /** Reference to currently used histogram (for bin contents). */
    TH1* fxHisto; //!
