@@ -53,7 +53,12 @@ class TGo4MbsSubEvent : public TGo4EventElement {
 
       void  SetDlen(Int_t dlen) { fxHeader.fxGSIHeader.fiDlen = dlen; }
       Int_t  GetDlen() const { return fxHeader.fxGSIHeader.fiDlen; }
-      Int_t  GetIntLen() const { return (GetDlen()-2)*sizeof(Short_t)/sizeof(Int_t); }
+
+      /** Return raw data length in bytes */
+      Int_t  GetByteLen() const { return (GetDlen()-2)*sizeof(Short_t); }
+
+      /** Return raw data length in int (4-bytes) */
+      Int_t  GetIntLen() const { return GetByteLen()/sizeof(Int_t); }
 
       void  SetType(Short_t type) { fxHeader.fxGSIHeader.fsType  = type; }
       Short_t GetType() const { return fxHeader.fxGSIHeader.fsType; }
