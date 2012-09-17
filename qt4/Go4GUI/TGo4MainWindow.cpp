@@ -204,9 +204,6 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
 
    UpdateCaptionButtons();
 
-
-
-
    QDockWidget* BrowserDockWin = new QDockWidget("Browser", this);
    BrowserDockWin->setObjectName("BrowserDock");
    TGo4Browser* browser = new TGo4Browser(BrowserDockWin,"Browser");
@@ -333,6 +330,8 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
 
    windowsMenu = menuBar()->addMenu("&Windows");
    connect(windowsMenu, SIGNAL(aboutToShow()), this, SLOT(windowsMenuAboutToShow()));
+   // need to create menu item with F11
+   windowsMenuAboutToShow();
 
    menuBar()->addSeparator();
 
