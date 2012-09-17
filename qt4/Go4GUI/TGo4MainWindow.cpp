@@ -154,6 +154,8 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    fbPanelTimerActive = false;
    winMapper = 0;
 
+   fbFullScreen = false;
+
     // create mount point for all data sources
    fxOM->MakeFolder(fOMDataPath.toAscii().constData());
 
@@ -704,6 +706,8 @@ void TGo4MainWindow::windowsMenuAboutToShow()
     windowsMenu->addAction("&Close all", this, SLOT(CloseAllWindows()))->setEnabled(on);
     windowsMenu->addAction("&Minimize all", this, SLOT(MinAllWindows()))->setEnabled(on);
 
+    windowsMenu->addAction((fbFullScreen ? "&Normal window" : "&Full screen"), this, SLOT(ToggleFullScreenSlot()), Key_F11);
+
     windowsMenu->addSeparator();
 
     QGo4Widget* loginfo = FindGo4Widget("LogInfo", false);
@@ -748,6 +752,14 @@ void TGo4MainWindow::MinAllWindows()
    for ( int i = 0; i < int(windows.count()); ++i )
        windows.at(i)->showMinimized();
 }
+
+void TGo4MainWindow::ToggleFullScreenSlot()
+{
+   if (fbFullScreen) showNormal();
+               else showFullScreen();
+   fbFullScreen = !fbFullScreen;
+}
+
 
 void TGo4MainWindow::windowsMenuActivated( int id )
 {

@@ -98,6 +98,7 @@ class TGo4MainWindow : public QMainWindow {
       void FitHelpSlot();
       void CloseAllWindows();
       void MinAllWindows();
+      void ToggleFullScreenSlot();
       void SaveSettingsSlot();
       void ChangeFontSlot();
       void ChangeTerminalFontSlot();
@@ -215,6 +216,7 @@ class TGo4MainWindow : public QMainWindow {
       QString            fLastFileDir;
 
       bool               fbPanelTimerActive;
+      bool               fbFullScreen;
 
       QAction*           faFetchWhenDraw;
       QAction*           faFetchWhenCopy;

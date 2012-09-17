@@ -53,7 +53,7 @@ Changes in Go4 v4.5.3 (Summer 2012)
    provides method SetNumFormat(const char*) to change the settings of current marker. 
    Context menu function SaveLabelStyle() will set current format as default for all markers/conditions.
    These defaults can be saved to go4 settings.      
-   
+8. Add full-screen mode for main window (F11)   
 
 Changes in Go4 v4.5.2 (April 2012)
 1. Bugfix in gui shutdown: circular deletion of mainwindow and timer could 
