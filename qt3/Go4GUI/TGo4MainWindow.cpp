@@ -187,6 +187,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
 
    fbPanelTimerActive = false;
 
+   fbFullScreen = false;
     // create mount point for all data sources
    fxOM->MakeFolder(fOMDataPath.latin1());
 
@@ -781,6 +782,10 @@ void TGo4MainWindow::windowsMenuAboutToShow()
     int tileId    = windowsMenu->insertItem("&Tile", centralWidget(), SLOT(tile()));
     int closallId = windowsMenu->insertItem("&Close all", this, SLOT(CloseAllWindows()));
     int minallId  = windowsMenu->insertItem("&Minimize all", this, SLOT(MinAllWindows()));
+     
+    windowsMenu->insertItem((fbFullScreen ? "&Normal window" : "&Full screen"), this, SLOT(ToggleFullScreenSlot()), Key_F11);
+    
+    
     if (fxTGo4WorkSpace->windowList().isEmpty()) {
         windowsMenu->setItemEnabled(cascadeId, FALSE);
         windowsMenu->setItemEnabled(tileId, FALSE);
@@ -838,6 +843,14 @@ void TGo4MainWindow::MinAllWindows()
    for ( int i = 0; i < int(windows.count()); ++i )
        windows.at(i)->showMinimized();
 }
+
+void TGo4MainWindow::ToggleFullScreenSlot()
+{
+   if (fbFullScreen) showNormal();
+               else showFullScreen();
+   fbFullScreen = !fbFullScreen;
+}
+
 
 void TGo4MainWindow::windowsMenuActivated( int id )
 {

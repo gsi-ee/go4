@@ -37,6 +37,7 @@ void TGo4MarkerSettings::init()
     DrawYmaxButton->setChecked(TGo4Condition::fgbYMAXDRAW);
     DrawXmeanButton->setChecked(TGo4Condition::fgbXMEANDRAW);
     DrawYmeanButton->setChecked(TGo4Condition::fgbYMEANDRAW);
+    WLabelFormatEdit->setText(TGo4Condition::fgxNUMFORMAT.Data());
 
     // point markers:
     DrawPLabelButton->setChecked(TGo4Marker::fgbHASLABEL);
@@ -47,6 +48,7 @@ void TGo4MarkerSettings::init()
     DrawPYbinButton->setChecked(TGo4Marker::fgbYBINDRAW);
     DrawPCountsButton->setChecked(TGo4Marker::fgbCONTDRAW);
 
+    PLabelFormatEdit->setText(TGo4Marker::fgxNUMFORMAT.Data());
 
 
 
@@ -67,6 +69,8 @@ void TGo4MarkerSettings::setFlags()
     TGo4Condition::fgbXMEANDRAW=DrawXmeanButton->isChecked();
     TGo4Condition::fgbYMEANDRAW=DrawYmeanButton->isChecked();
 
+    TGo4Condition::fgxNUMFORMAT=(const char*)  (WLabelFormatEdit->text().ascii());
+
     TGo4Marker::fgbHASLABEL=DrawPLabelButton->isChecked();
     TGo4Marker::fgbHASCONNECTOR=DrawPConnectorButton->isChecked();
     TGo4Marker::fgbXDRAW=DrawPXButton->isChecked();
@@ -74,4 +78,6 @@ void TGo4MarkerSettings::setFlags()
     TGo4Marker::fgbXBINDRAW=DrawPXbinButton->isChecked();
     TGo4Marker::fgbYBINDRAW=DrawPYbinButton->isChecked();
     TGo4Marker::fgbCONTDRAW=DrawPCountsButton->isChecked();
+
+    TGo4Marker::fgxNUMFORMAT=(const char*) (PLabelFormatEdit->text().ascii());
 }

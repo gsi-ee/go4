@@ -118,7 +118,30 @@
                     <property name="text">
                         <string>Display Y maximum</string>
                     </property>
-                </widget>
+        	</widget>
+         <widget class="QLayoutWidget" name="horizontalLayout_2" row="5" column="0" colspan="2" >
+          <hbox>
+         <widget class="QLineEdit">
+           <property name="name">
+             <cstring>WLabelFormatEdit</cstring>
+           </property>          
+          <property name="inputMask">
+           <string/>
+          </property>
+          <property name="text">
+           <string>%.4E</string>
+          </property>
+         </widget>
+         <widget class="QLabel">
+           <property name="name">
+            <cstring>WLabelFormatLabel</cstring>
+           </property>
+          <property name="text">
+           <string>Number Format</string>
+          </property>
+         </widget>
+         </hbox>
+      </widget>   
             </grid>
         </widget>
         <widget class="QGroupBox" row="1" column="0">
@@ -188,6 +211,35 @@
                         <string>Display bin contents</string>
                     </property>
                 </widget>
+                
+       <widget class="QLayoutWidget" name="horizontalLayout_2" row="4" column="0" colspan="2" >
+          <hbox>
+         <widget class="QLineEdit">
+           <property name="name">
+             <cstring>PLabelFormatEdit</cstring>
+           </property>
+          
+          <property name="inputMask">
+           <string/>
+          </property>
+          <property name="text">
+           <string>%.4E</string>
+          </property>
+         </widget>
+         <widget class="QLabel">
+           <property name="name">
+            <cstring>PLabelFormatLabel</cstring>
+           </property>
+          <property name="text">
+           <string>Number Format</string>
+          </property>
+         </widget>
+         </hbox>
+      </widget>   
+                
+                
+                
+                
             </grid>
         </widget>
         <widget class="QLayoutWidget" row="2" column="0">

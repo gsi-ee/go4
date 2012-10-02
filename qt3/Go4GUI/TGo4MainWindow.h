@@ -93,6 +93,7 @@ class TGo4MainWindow : public QMainWindow {
       void FitHelpSlot();
       void CloseAllWindows();
       void MinAllWindows();
+      void ToggleFullScreenSlot();
       void SaveSettingsSlot();
       void ChangeFontSlot();
       void MakeStyleSlot(const QString&);
@@ -208,7 +209,8 @@ class TGo4MainWindow : public QMainWindow {
       QString            fLastPassword;
       QString            fLastFileDir;
 
-      bool               fbPanelTimerActive;
+      bool               fbPanelTimerActive; 
+      bool               fbFullScreen;
 };
 
 #endif
