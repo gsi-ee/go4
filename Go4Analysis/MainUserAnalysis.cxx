@@ -94,6 +94,8 @@ void usage(const char* subtopic = 0)
          cout << "   long         : print data in long (4 bytes) form (default)" << endl;
          cout << "   short        : print data in short (2 bytes) form" << endl;
          cout << "   sub=N        : select subevent id N (default all subevents are shown)" << endl;
+         cout << "   fhead        : print current lmd file header" << endl;
+         cout << "   bhead        : print current buffer header" << endl;
          cout << "SOURCE: event source print options" << endl;
          printsources();
          cout << "MISC: other options, which may be relevant for \"print\" command" << endl;
@@ -192,13 +194,15 @@ class TGo4PrintProcessor : public TGo4EventProcessor {
       static Bool_t fHex;
       static Bool_t fLong;
       static Bool_t fData;
+      static Bool_t fFileHead;
+      static Bool_t fBufHead;
 
       virtual Bool_t BuildEvent(TGo4EventElement* dest)
       {
          TGo4EventElement* evnt = GetInputEvent();
 
          TGo4MbsEvent* mbs = dynamic_cast<TGo4MbsEvent*> (evnt);
-         if (mbs) mbs->PrintMbsEvent(fSubId, fLong, fHex, fData);
+         if (mbs) mbs->PrintMbsEvent(fSubId, fLong, fHex, fData, fBufHead, fFileHead);
              else evnt->PrintEvent();
 
          return kTRUE;
@@ -209,7 +213,8 @@ Int_t TGo4PrintProcessor::fSubId = -1;
 Bool_t TGo4PrintProcessor::fHex = kTRUE;
 Bool_t TGo4PrintProcessor::fLong = kTRUE;
 Bool_t TGo4PrintProcessor::fData = kFALSE;
-
+Bool_t TGo4PrintProcessor::fFileHead = kFALSE;
+Bool_t TGo4PrintProcessor::fBufHead = kFALSE;
 
 class TGo4PrintFactory : public TGo4StepFactory {
    public:
@@ -1015,6 +1020,13 @@ int main(int argc, char **argv)
             if (strcmp(argv[narg],"nodata")==0) {
                TGo4PrintProcessor::fData = kFALSE;
             }
+
+            if (strcmp(argv[narg],"fhead")==0) {
+               TGo4PrintProcessor::fFileHead = kTRUE;
+                        }
+            if (strcmp(argv[narg],"bhead")==0) {
+                TGo4PrintProcessor::fBufHead = kTRUE;
+                        }
             narg++;
          }
       } else

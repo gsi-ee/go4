@@ -84,8 +84,12 @@ class TGo4MbsEvent : public TGo4EventElement {
        * \param subid - select subevent id, -1 - print all subevents
        * \param longw - data in long format (4 bytes)
        * \param hexw  - print in hex format
-       * \param dataw - print raw data */
-      void PrintMbsEvent(Int_t subid = -1, Bool_t longw = kTRUE, Bool_t hexw = kTRUE, Bool_t dataw = kTRUE);
+       * \param dataw - print raw data
+       * \param bufhead - print current mbs buffer header
+       * \param filhead - print current mbs file header
+       * */
+      void PrintMbsEvent(Int_t subid = -1, Bool_t longw = kTRUE, Bool_t hexw = kTRUE, Bool_t dataw = kTRUE,
+                           Bool_t bufhead = kFALSE, Bool_t filhead=kFALSE);
 
       /** Set the internal iterator of the subevent array to the beginning of
        * the array. */

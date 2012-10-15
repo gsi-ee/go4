@@ -24,6 +24,11 @@
 #include "TGo4TreeSource.h"
 #include "TGo4FileSource.h"
 
+
+extern "C" {
+   #include "f_ut_utime.h"
+}
+
 TGo4MbsEvent::TGo4MbsEvent() :
    TGo4EventElement(),
    fxHeader(),
@@ -186,15 +191,57 @@ void TGo4MbsEvent::PrintEvent()
    PrintMbsEvent();
 }
 
-void TGo4MbsEvent::PrintMbsEvent(Int_t subid, Bool_t longw, Bool_t hexw, Bool_t dataw)
+void TGo4MbsEvent::PrintMbsEvent(Int_t subid, Bool_t longw, Bool_t hexw, Bool_t dataw, Bool_t bufhead, Bool_t filhead)
 {
+   static TString oldfname;
+   static TString timestring="";
+   if (filhead) {
+      s_filhe* head = GetMbsSourceHeader();
+      if (head  && (TString(head->filhe_file) != oldfname)) {
+               oldfname=head->filhe_file;
+               printf("***** File header:\n");
+               printf("\tdatalen: %d \n", head->filhe_dlen);
+               printf("\tfilename_l: %d \n", head->filhe_file_l);
+               printf("\tfilename: %s\n", head->filhe_file);
+               printf("\ttype: %d \n", head->filhe_type);
+               printf("\tsubtype: %d\n", head->filhe_subtype);
+               printf("\t#commentlines: %d\n", head->filhe_lines);
+
+            }
+         }
+   static int oldbnum=0;
+   if (bufhead) {
+      s_bufhe* head = GetMbsBufferHeader();
+      if ( head  && (head->l_buf != oldbnum) ) {
+            // only print if buffernumber has changed
+            oldbnum = head->l_buf;
+            printf("***** Buffer header:\n");
+            printf("\tbuffernumber: %d \n", head->l_buf);
+            printf("\tdatalen: %d \n", head->l_dlen);
+            printf("\ttime lo: %u\n", head->l_time[0]); // seconds since epoch 1970
+            printf("\ttime hi: %u\n", head->l_time[1]); // microseconds since time lo
+            char sbuf[1000];
+            f_ut_utime(head->l_time[0], head->l_time[1], sbuf);
+            printf("\ttimestring: %s\n", sbuf);
+            timestring=sbuf;
+            printf("\ttype: %d \n", head->i_type);
+            printf("\tsubtype: %d \n", head->i_subtype);
+         }
+   }
+
    if (GetType()==10) {
-      printf("Event   %9d Type/Subtype %5d %5d Length %5d[w] Trigger %2d\n",
-               GetCount(), GetType(), GetSubtype(), GetDlen(), GetTrigger());
+      printf("Event   %9d Type/Subtype %5d %5d Length %5d[w] Trigger %2d %s\n",
+               GetCount(), GetType(), GetSubtype(), GetDlen(), GetTrigger(), timestring.Data());
    } else {
       printf("Event type %d, subtype %d, data longwords %d",
                GetType(), GetSubtype(), GetDlen()/2);
    }
+
+
+
+
+
+
 
    TGo4MbsSubEvent *sub(0);
    ResetIterator();

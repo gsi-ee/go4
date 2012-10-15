@@ -24,8 +24,6 @@
 #include "TLatex.h"
 #include "TLine.h"
 
-#include "s_filhe_swap.h"
-#include "s_bufhe_swap.h"
 
 #include "TGo4MbsEvent.h"
 #include "TGo4WinCond.h"
@@ -35,6 +33,12 @@
 
 #include "TXXXParameter.h"
 #include "TXXXUnpackEvent.h"
+
+extern "C" {
+   #include "s_filhe_swap.h"
+   #include "s_bufhe_swap.h"
+   #include "f_ut_utime.h"
+}
 
 //***********************************************************
 TXXXUnpackProc::TXXXUnpackProc() :
@@ -187,41 +191,42 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
 
    /////////////////////////////////////////////////////////////
    ////// use this if you want access to the mbs file header data:
-   //      s_filhe* head=inp_evt->GetMbsSourceHeader();
-   //      if(head)
-   //         {
-   //            cout <<"found filhe structure:" << endl;
-   //            cout <<"\tdatalen: "<<head->filhe_dlen << endl;
-   //            cout <<"\tfilename_l: "<<head->filhe_file_l << endl;
-   //            cout <<"\tfilename: "<<head->filhe_file << endl;
-   //            cout <<"\ttype: "<<head->filhe_type << endl;
-   //            cout <<"\tsubtype: "<<head->filhe_subtype << endl;
-   //            cout <<"\t#commentlines: "<<head->filhe_lines << endl;
-   //         }
-   //      else
-   //         {
-   //            cout <<"zero file header" << endl;
-   //         }
+//         s_filhe* head=inp_evt->GetMbsSourceHeader();
+//         if(head)
+//            {
+//               cout <<"found filhe structure:" << endl;
+//               cout <<"\tdatalen: "<<head->filhe_dlen << endl;
+//               cout <<"\tfilename_l: "<<head->filhe_file_l << endl;
+//               cout <<"\tfilename: "<<head->filhe_file << endl;
+//               cout <<"\ttype: "<<head->filhe_type << endl;
+//               cout <<"\tsubtype: "<<head->filhe_subtype << endl;
+//               cout <<"\t#commentlines: "<<head->filhe_lines << endl;
+//            }
+//         else
+//            {
+//               cout <<"zero file header" << endl;
+//            }
    //////////////////////////////////////////////////////////////////
 
    /////////////////////////////////////////////////////////////
    ////// use this if you want access to the mbs buffer header data:
-   //      s_bufhe* head=inp_evt->GetMbsBufferHeader();
-   //      if(head) {
-   //            cout <<"\nfound bufhe structure:" << endl;
-   //            cout <<"\tbuffernumber: "<<head->l_buf << endl;
-   //            cout <<"\tdatalen: "<<head->l_dlen << endl;
-   //            cout <<"\ttime lo: "<<head->l_time[0] << endl; // seconds since epoch 1970
-   //            cout <<"\ttime hi: "<<head->l_time[1] << endl; // microseconds since time lo
-   //            char sbuf[1000]; f_ut_utime(head->l_time[0], head->l_time[1], sbuf);
-   //            cout <<"\ttimestring: " << sbuf <<endl;
-   //            cout <<"\ttype: "<<head->i_type << endl;
-   //            cout <<"\tsubtype: "<<head->i_subtype << endl;
-   //         }
-   //      else
-   //         {
-   //            cout <<"zero buffer header" << endl;
-   //         }
+//         s_bufhe* head=inp_evt->GetMbsBufferHeader();
+//         if(head) {
+//               cout <<"\nfound bufhe structure:" << endl;
+//               cout <<"\tbuffernumber: "<<head->l_buf << endl;
+//               cout <<"\tdatalen: "<<head->l_dlen << endl;
+//               cout <<"\ttime lo: "<<head->l_time[0] << endl; // seconds since epoch 1970
+//               cout <<"\ttime hi: "<<head->l_time[1] << endl; // microseconds since time lo
+//               char sbuf[1000]; f_ut_utime(head->l_time[0], head->l_time[1], sbuf);
+//               cout <<"\ttimestring: " << sbuf <<endl;
+//               cout <<"\ttype: "<<head->i_type << endl;
+//               cout <<"\tsubtype: "<<head->i_subtype << endl;
+//            }
+//         else
+//            {
+//               cout <<"zero buffer header" << endl;
+//
+//            }
    //////////////////////////////////////////////////////////////////
 
 

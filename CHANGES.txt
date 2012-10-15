@@ -55,6 +55,9 @@ Changes in Go4 v4.5.3 (Summer 2012)
    MainWindow menu "Settings/Panel Defaults/MarkerLabels..." also has new field to set this format string.
    These defaults can be saved to go4 settings.      
 8. Add full-screen mode for main window (F11). Both for qt3 and qt4   
+9. New printout option for go4analysis: "go4analysis -print bhead fhead" will print lmd buffer and/or file headers
+together with the event headers. Additionally, most recent time string from buffer header is printed together with 
+event header
 
 Changes in Go4 v4.5.2 (April 2012)
 1. Bugfix in gui shutdown: circular deletion of mainwindow and timer could 
