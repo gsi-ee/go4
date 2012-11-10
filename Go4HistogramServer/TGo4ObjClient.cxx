@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -218,7 +218,7 @@ if(state>=0)
 else
    {
       // error
-      if (TGo4SocketSignalHandler::GetLastSignal() == SIGWINCH)
+      if (TGo4SocketSignalHandler::IsLastSignalWINCH())
         {
             // TSocket error because of window resize, do not abort!
             TGo4Log::Debug(" %s: caught SIGWINCH ",GetName());

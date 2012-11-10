@@ -47,17 +47,24 @@ Changes in Go4 v4.5.3 (Summer 2012)
 6. GUI analysis status ratemeter: Tooltip of runtime seconds  this time
    as hour:minute:seconds representation. 
    Bugfix: "rotating go4 logo" in statusbar when analysis is running was not working in Qt3 
-7. Graphical Markers and Conditions: Added possibility to define a "printf style" format string in 
-   for the float number display in marker/condition label box (default is %.4E). 
-   When selecting the marker/the condition display on TPad via mouse button, the ROOT context menu 
-   provides method SetNumFormat(const char*) to change the settings of current marker. 
-   Context menu function SaveLabelStyle() will set current format as default for all markers/conditions.
-   MainWindow menu "Settings/Panel Defaults/MarkerLabels..." also has new field to set this format string.
-   These defaults can be saved to go4 settings.      
+7. Graphical Markers and Conditions: Added possibility to define a "printf style" 
+     format string in for the float number display in marker/condition label box 
+     (default is %.4E). When selecting the marker/the condition display on TPad via mouse button, 
+     the ROOT context menu provides method SetNumFormat(const char*) to change the 
+     settings of current marker. Context menu function SaveLabelStyle() will set current 
+     format as default for all markers/conditions. MainWindow menu "Settings/Panel Defaults/MarkerLabels..." 
+     also has new field to set this format string. These defaults can be saved to go4 settings.      
 8. Add full-screen mode for main window (F11). Both for qt3 and qt4   
-9. New printout option for go4analysis: "go4analysis -print bhead fhead" will print lmd buffer and/or file headers
-together with the event headers. Additionally, most recent time string from buffer header is printed together with 
-event header
+9. New printout option for go4analysis: "go4analysis -print bhead fhead" 
+    will print lmd buffer and/or file headers together with the event headers. 
+    Additionally, most recent time string from buffer header is printed together with
+    event header
+10. Disable SIGPIPE signal for go4 sockets. Signal was generated when oposite
+    communication side stopped or breaked irregulary without sockets closing.
+    In this case signal was generated and was not treated properly by the framework.
+11. Workaround for ROOT feature in go4analysis - at some point gSystem pointer
+    can be set by 0 and can lead to analysis crash. Now this checked and go4
+    stops immediately.     
 
 Changes in Go4 v4.5.2 (April 2012)
 1. Bugfix in gui shutdown: circular deletion of mainwindow and timer could 

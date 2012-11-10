@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -1117,6 +1117,12 @@ int main(int argc, char **argv)
       int termcounter=0;
 
       while (TGo4Analysis::Exists()) {
+         // add this check while at some moments ROOT could reset this pointer
+         if (gSystem==0) {
+            printf("ROOT feature - gSystem==0, break execution\n");
+            exit(5);
+         }
+
          gSystem->ProcessEvents();
          gSystem->Sleep(PROCESSLOOPDELAY);
          if(client->IsBeingQuit()) {

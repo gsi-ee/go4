@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -13,20 +13,18 @@
 
 #include "TGo4SocketSignalHandler.h"
 
-#include "go4iostream.h"
-
 
 Int_t TGo4SocketSignalHandler::fgiLastSignal = 0; // unix signal id
 
 TGo4SocketSignalHandler::TGo4SocketSignalHandler(Int_t signum, Bool_t enabled)
 {
    SetSignalAction(signum,enabled);
-   //cout << "set member function as signal handler"<< endl;
 }
 
 TGo4SocketSignalHandler::~TGo4SocketSignalHandler()
 {
 }
+
 
 void TGo4SocketSignalHandler::Handle(int signum)
 {
@@ -46,6 +44,13 @@ void TGo4SocketSignalHandler::Handle(int signum)
 
 #ifndef WIN32
 
+#include <signal.h>
+
+void TGo4SocketSignalHandler::SetSigWINCH(Bool_t enabled)
+{
+   SetSignalAction(SIGWINCH, enabled);
+}
+
 void TGo4SocketSignalHandler::SetSignalAction(Int_t signum, Bool_t enabled)
 {
   struct sigaction new_action, old_action;
@@ -63,12 +68,35 @@ void TGo4SocketSignalHandler::SetSignalAction(Int_t signum, Bool_t enabled)
     sigaction (signum, &new_action, NULL);
 }
 
+void TGo4SocketSignalHandler::DisableSigPipe()
+{
+   signal(SIGPIPE, SIG_IGN);
+}
+
+bool TGo4SocketSignalHandler::IsLastSignalWINCH()
+{
+   return GetLastSignal() == SIGWINCH;
+}
+
 #else
 
 // do nothing in windows
 
 void TGo4SocketSignalHandler::SetSignalAction(Int_t signum, Bool_t enabled)
 {
+}
+
+void TGo4SocketSignalHandler::DisableSigPipe()
+{
+}
+
+void TGo4SocketSignalHandler::SetSigWINCH(Bool_t)
+{
+}
+
+bool TGo4SocketSignalHandler::IsLastSignalWINCH()
+{
+   return false;
 }
 
 #endif
