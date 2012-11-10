@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -81,9 +81,10 @@ TGo4MbsSource::TGo4MbsSource() :
    fxEvent(0), fxBuffer(0), fxInfoHeader(0),
    fbIsOpen(kFALSE), fbDataCopyMode(kFALSE),
    fuEventCounter(0), fbFirstEvent(kTRUE),
-   fuStartEvent(0) ,fuStopEvent(0), fuEventInterval(0), fiTimeout(-1), fiPort(0)
+   fuStartEvent(0) ,fuStopEvent(0), fuEventInterval(0),
+   fiTimeout(-1), fiPort(0)
 {
-   fxInputChannel=f_evt_control();
+   fxInputChannel = f_evt_control();
    TRACE((15,"TGo4MbsSource::TGo4MbsSource()",__LINE__, __FILE__));
 }
 
@@ -344,12 +345,25 @@ Int_t TGo4MbsSource::Open()
    //cout << "Open of TGo4MbsSource"<< endl;
    // open connection/file
 
-   Int_t status  = f_evt_source_port(fiPort);
+   char name[5000];
+   strncpy(name, GetName(), sizeof(name));
+   int nport = fiPort;
+
+   char* separ = strrchr(name, ':');
+   if ((nport<=0) && (separ!=0) && (GetMode() != GETEVT__FILE)) {
+      if ((sscanf(separ+1,"%d",&nport)==1) && (nport>0)) {
+         *separ = 0;
+      } else {
+         nport = fiPort;
+      }
+   }
+
+   Int_t status  = f_evt_source_port(nport);
    SetCreateStatus(status);
-   if(GetCreateStatus() !=GETEVT__SUCCESS) {
+   if(GetCreateStatus() != GETEVT__SUCCESS) {
        char buffer[TGo4EventSource::fguTXTLEN];
        f_evt_error(GetCreateStatus(), buffer, 1); // provide text message for later output
-       SetErrMess(Form("%s name:%s port:%d", buffer, GetName(), fiPort));
+       SetErrMess(Form("%s name:%s port:%d", buffer, name, nport));
        throw TGo4EventErrorException(this);
     }
 
@@ -357,28 +371,22 @@ Int_t TGo4MbsSource::Open()
    f_evt_timeout(fxInputChannel, fiTimeout); // have to set timeout before open now JAM
    status = f_evt_get_open(
          fiMode,
-         const_cast<char*>( GetName() ),
+         name,
          fxInputChannel,
          (Char_t**) headptr,
          0,
          0);
    SetCreateStatus(status);
    if(GetCreateStatus() !=GETEVT__SUCCESS) {
-      //     TGo4Log::Debug(" Mbs Source --  !!! failed to open input from type %d:  %s!!! ",
-      //        fiMode, GetName());
       char buffer[TGo4EventSource::fguTXTLEN];
       f_evt_error(GetCreateStatus(),buffer,1); // provide text message for later output
-      //
-      //   snprintf(buffer,TGo4EventSource::fguTXTLEN-1," Mbs Source --  !!! failed to open input from type %d:  %s!!! ",
-      //        fiMode, GetName());
       SetErrMess(Form("%s name:%s", buffer, GetName()));
       fbIsOpen = kFALSE;
       throw TGo4EventErrorException(this);
    } else {
       TGo4Log::Debug(" Mbs Source --  opened input from type %d:  %s . Timeout=%d s",
             fiMode, GetName(), fiTimeout);
-
-      fbIsOpen=kTRUE;
+      fbIsOpen = kTRUE;
    }
    return status;
 }
