@@ -67,6 +67,8 @@ Changes in Go4 v4.5.3 (Summer 2012)
     stops immediately.     
 12. Allow to specify port number for any MBS source (beside file) in form
     name:port like calling "go4analysis -stream node:6543". Same can be done in gui.
+13. Add ExecuteScript() method to analysis and event processor. Simplifies
+    usage of macros in user code. 
 
 Changes in Go4 v4.5.2 (April 2012)
 1. Bugfix in gui shutdown: circular deletion of mainwindow and timer could 

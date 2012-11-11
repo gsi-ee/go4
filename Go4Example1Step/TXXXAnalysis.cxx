@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -40,12 +40,12 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    fEvents(0),
    fLastEvent(0)
 {
-   cout << "**** Create TXXXAnalysis name: " << argv[0] << endl;
-
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
-      cout << "****  Go4 version mismatch" << endl;
+      TGo4Log::Error("Go4 version mismatch");
       exit(-1);
    }
+
+   TGo4Log::Info("Create TXXXAnalysis name: %s", argv[0]);
 
    TGo4StepFactory* factory = new TGo4StepFactory("Factory");
    factory->DefEventProcessor("XXXProc","TXXXProc");// object name, class name

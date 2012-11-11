@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -751,6 +751,10 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     TGo4Parameter* MakeParameter(const char* fullname,
                                  const char* classname,
                                  const char* cmd = 0);
+
+    /** Executes ROOT script.
+     * Returns -1 when script was not found or result of script execution */
+    Long_t ExecuteScript(const char* script_name);
 
     /** Method called from Ctrl-C handler */
     void ProcessCrtlCSignal();

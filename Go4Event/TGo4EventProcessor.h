@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -273,13 +273,22 @@ class TGo4EventProcessor: public TGo4EventSource {
       /** Create parameter of specified class,
        * fullname specifies name of condition (optionally with subfolder name)
        * classname - name of required parameter class, it should be known to ROOT.
-       * newcmd - command to create parameter like "new UserParameter(%s, 1000, 2000)",
-       *          where %s is place for parameter name.  Should be specified, if parameter
-       *          constructor contains more parameters as only parameter name
+       * cmd - optional argument, can be used for two purposes:
+       *    1) as new command to create parameter like "new UserParameter(%s, 1000, 2000)",
+       *       where %s is place for parameter name.  Should be specified, if parameter
+       *       constructor contains more parameters as only parameter name. Such argument
+       *       should be always started with 'new ' command.
+       *    2) macro name to set parameter value. Macro executed immediately after parameter
+       *       creation (or loading from auto-save file) and thus overwrites parameters value.
+       *       Macro name should be always starting with "set_" like "set_RocPar.C"
        */
       TGo4Parameter* MakeParameter(const char* fullname,
             const char* classname,
             const char* newcmd = 0);
+
+      /** Executes ROOT script.
+       * Returns -1 when script was not found or result of script execution */
+      Long_t ExecuteScript(const char* script_name);
 
       /* if true, processor wants to continue with current content of input event
        * event is not refilled from event source, and all previous analysis steps are suspended*/

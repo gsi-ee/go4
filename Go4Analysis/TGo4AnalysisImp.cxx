@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -991,18 +991,19 @@ void TGo4Analysis::OpenAutoSaveFile(bool for_writing)
       if (fxAutoFile==0)
          Message(3,"Fail to open AutoSave file %s", fxAutoFileName.Data());
       else
-         Message(-1,"Opening AutoSave file %s , RECREATE mode",fxAutoFileName.Data());
+         Message(-1,"Opening AutoSave file %s with RECREATE mode",fxAutoFileName.Data());
       if (fxAutoFile) fxAutoFile->SetCompressionLevel(fiAutoSaveCompression);
    } else {
       if(fxAutoFile==0) {
-         fxAutoFile = TFile::Open(fxAutoFileName.Data(), "READ");
+         if (!gSystem->AccessPathName(fxAutoFileName.Data()))
+            fxAutoFile = TFile::Open(fxAutoFileName.Data(), "READ");
          if (fxAutoFile==0)
             Message(3,"Fail to open AutoSave file %s", fxAutoFileName.Data());
          else
-            Message(-1,"Opening AutoSave file %s , READ mode",fxAutoFileName.Data());
+            Message(-1,"Opening AutoSave file %s with READ mode",fxAutoFileName.Data());
 
       } else {
-         Message(-1,"Reusing AutoSave file %s , READ mode",fxAutoFileName.Data());
+         Message(-1,"Reusing AutoSave file %s with READ mode",fxAutoFileName.Data());
       }
    } // if(fbAutoSaveOverwrite)
 
@@ -1982,15 +1983,32 @@ TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
    if ((newcmd!=0) && (strstr(newcmd,"set_")==newcmd)) {
       // executing optional set macro
 
-      if (!gSystem->AccessPathName(newcmd)) {
-         TGo4Log::Info("Executing setup script %s for parameter %s", newcmd, fullname);
-         gROOT->ProcessLine(Form(".x %s", newcmd));
-      } else {
-         TGo4Log::Error("Not found setup script %s for parameter %s", newcmd, fullname);
-      }
+      ExecuteScript(newcmd);
    }
 
    return param;
+}
+
+Long_t TGo4Analysis::ExecuteScript(const char* macro_name)
+{
+   if ((macro_name==0) || (strlen(macro_name)==0)) return -1;
+
+   // exclude arguments which could be specified with macro name
+   TString file_name(macro_name);
+   Ssiz_t pos = file_name.First('(');
+   if (pos>0) file_name.Resize(pos);
+   while ((file_name.Length()>0) && (file_name[file_name.Length()-1] == ' '))
+      file_name.Resize(file_name.Length()-1);
+   while ((file_name.Length()>0) && (file_name[0]==' '))
+      file_name.Remove(0, 1);
+
+   if (gSystem->AccessPathName(file_name.Data())) {
+      TGo4Log::Error("ROOT script %s nof found", file_name.Data());
+      return -1;
+   }
+
+   TGo4Log::Info("Executing ROOT script %s", macro_name);
+   return gROOT->ProcessLineSync(Form(".x %s", macro_name));
 }
 
 

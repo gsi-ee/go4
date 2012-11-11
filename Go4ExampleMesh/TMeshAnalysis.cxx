@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -49,11 +49,11 @@ TMeshAnalysis::TMeshAnalysis(int argc, char** argv) :
    fLastEvent(0)
 {
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
-      cout << "****  Go4 version mismatch" << endl;
+      TGo4Log::Error("Go4 version mismatch");
       exit(-1);
    }
 
-   cout << "**** TMeshAnalysis: Create" << endl;
+   TGo4Log::Info("Create TMeshAnalysis %s", GetName());
 
    SetStepChecking(kFALSE); // necessary for non-subsequent mesh analysis
 

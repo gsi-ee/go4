@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -52,7 +52,7 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
    // This example analysis allows for en-disabling the histogram filling.
    // Macro histofill.C sets histogram fill status in parameter "Control".
    // This macro histofill.C, not the auto save file, will set status.
-   gROOT->ProcessLineSync(".x histofill.C");
+   ExecuteScript("histofill.C");
    fControl->PrintParameter(0,0);
 
    cout << "**** TXXXProc: Produce histograms" << endl;

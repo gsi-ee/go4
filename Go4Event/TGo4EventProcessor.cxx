@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -240,4 +240,9 @@ TGo4Parameter* TGo4EventProcessor::MakeParameter(const char* fullname,
                                                  const char* newcmd)
 {
    return TGo4Analysis::Instance()->MakeParameter(fullname, classname, newcmd);
+}
+
+Long_t TGo4EventProcessor::ExecuteScript(const char* macro_name)
+{
+   return TGo4Analysis::Instance()->ExecuteScript(macro_name);
 }

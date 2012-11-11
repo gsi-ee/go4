@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -59,11 +59,11 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    fLastEvent(0)
 {
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
-      cout << "****  Go4 version mismatch" << endl;
+      TGo4Log::Error("Go4 version mismatch");
       exit(-1);
    }
 
-   cout << "**** TXXXAnalysis: Create " << argv[0] << endl;
+   TGo4Log::Info("TXXXAnalysis: Create %s", argv[0]);
 
    TString kind, input, out1, out2;
 
@@ -140,10 +140,8 @@ default:
    AddParameter(fPar);
 
    // check that file setup.C is existing in current directory
-   if (!gSystem->AccessPathName("setup.C"))
-   gROOT->ProcessLine(Form(".x setup.C(\"%s\",\"%s\")", kind.Data(), input.Data()));
-   else
-	  cout << "**** Cannot find setup.C script in current directory ! ****" << endl;
+
+   ExecuteScript(Form("setup.C(\"%s\",\"%s\")", kind.Data(), input.Data()));
 }
 
 //***********************************************************
