@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -13,8 +13,6 @@
 
 #include "TGo4Queue.h"
 
-#include "go4iostream.h"
-
 #include "TList.h"
 #include "TMutex.h"
 #include "TCondition.h"
@@ -23,28 +21,22 @@
 #include "TGo4LockGuard.h"
 #include "TGo4RuntimeException.h"
 
-TGo4Queue::TGo4Queue() :  TNamed("Default Queue", "This is a Go4 Queue"),
-  fiEntries(0), fiMaxEntries(100), fbWakeUpCall(kFALSE)
+TGo4Queue::TGo4Queue(const char* name) :
+    TNamed(name ? name : "Default Queue", "This is a Go4 Queue"),
+    fiEntries(0),
+    fiMaxEntries(100),
+    fbWakeUpCall(kFALSE)
 {
-   fxMutex=new TMutex;
-   fxCondition=new TCondition;
-   fxList= new TList;
-
-}
-
-TGo4Queue::TGo4Queue(const char* name) : TNamed(name, "This is a Go4 Queue"),
-      fiEntries(0), fiMaxEntries(100), fbWakeUpCall(kFALSE)
-{
-   fxMutex=new TMutex;
-   fxCondition=new TCondition;
-   fxList= new TList;
+   fxMutex = new TMutex;
+   fxCondition = new TCondition;
+   fxList = new TList;
 }
 
 TGo4Queue::~TGo4Queue()
 {
-   delete fxList;
-   delete fxCondition;
-   delete fxMutex;
+   delete fxList; fxList = 0;
+   delete fxCondition; fxCondition = 0;
+   delete fxMutex; fxMutex = 0;
 }
 
 void TGo4Queue::Clear(Option_t* opt)
@@ -55,16 +47,14 @@ void TGo4Queue::Clear(Option_t* opt)
 
 TObject* TGo4Queue::Wait()
 {
-   if(IsEmpty())
-      {
-         //cout <<"WWWWWWWWWWWWWWWWWW --- TGo4Queue "<< GetName() <<" is in Condition Wait..." << endl;
-         fxCondition->Wait();
-         if(fbWakeUpCall)
-            {
-               fbWakeUpCall=kFALSE;
-               return 0; // signal by Wake(), give null back!
-            }
+   if(IsEmpty()) {
+      //cout <<"WWWWWWWWWWWWWWWWWW --- TGo4Queue "<< GetName() <<" is in Condition Wait..." << endl;
+      fxCondition->Wait();
+      if(fbWakeUpCall) {
+         fbWakeUpCall = kFALSE;
+         return 0; // signal by Wake(), give null back!
       }
+   }
    return Next();
 }
 
@@ -90,18 +80,17 @@ void TGo4Queue::Add(TObject* ob)
           }
    } //TGo4LockGuard qguard(fxMutex);
    fxCondition->Signal();
-
 }
 
 Bool_t TGo4Queue::IsEmpty()
 {
    TGo4LockGuard qguard(fxMutex);
-   return (fxList->IsEmpty());
+   return fxList->IsEmpty();
 }
 
 void TGo4Queue::Wake()
 {
    //cout <<"TGo4Queue::Wake() in "<<GetName() << endl;
-   fbWakeUpCall=kTRUE;
+   fbWakeUpCall = kTRUE;
    fxCondition->Signal();
 }

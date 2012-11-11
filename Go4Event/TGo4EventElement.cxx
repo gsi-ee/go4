@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -74,15 +74,10 @@ void TGo4EventElement::PrintEvent()
    TGo4Log::Debug( " EventElement printout: ");
    TGo4Log::Debug( "\tIsValid=%d ",fbIsValid);
    if(fxEventSource)
-   {
       TGo4Log::Debug( "\tEventSource: %s of class %s",
-            fxEventSource->GetName(),
-            fxEventSource->ClassName() );
-   }
+            fxEventSource->GetName(), fxEventSource->ClassName() );
    else
-   {
       TGo4Log::Debug( "\tNO EventSource");
-   }
 }
 
 void TGo4EventElement::Print(Option_t* option) const
@@ -109,7 +104,6 @@ TGo4EventElement* TGo4EventElement::GetChild(const char* name)
 
 void TGo4EventElement::synchronizeWithTree(TTree *tree, TGo4EventElement** var_ptr)
 {
-
    if (tree==0) return;
 
    TBranch* topb = 0;
@@ -131,41 +125,6 @@ void TGo4EventElement::synchronizeWithTree(TTree *tree, TGo4EventElement** var_p
 
    activateBranch(topb, index, var_ptr);
 }
-
-/** THIS WAS OLD CODE FROM TGo4FileSource
-
-void TGo4EventElement::synchronizeWithTree(TTree *tree, TGo4EventElement** var_ptr)
-
-TString topname;
-Bool_t masterbranch=kFALSE;
-TString branchName = dest->GetName();
-if(!fxBranchName.Contains("."))  {
-   fxBranchName+="."; // for master branch, add dot. Subbranch names with dot separators do not get final dot
-   masterbranch=kTRUE;
-}
-TObjArray* blist = tree->GetListOfBranches();
-TBranch* topb = (TBranch*) blist->At(0);
-if(topb) {
-   topname = topb->GetName();
-   //cout <<"Activating top branch "<<topname.Data() << endl;
-   tree->SetBranchAddress(topname.Data(),(void**) var_ptr);
-   //topb->SetAddress(&fxTopEvent); // this will not set address of possible cloned tree. we use the set address of the tree
-}
-tree->SetBranchStatus("*",0); // note: only deactivate subleafs _after_ address of top branch is set!
-tree->SetBranchStatus(topname.Data(),1); // required to process any of the subbranches!
-TString wildbranch = branchName;
-wildbranch += "*";
-tree->SetBranchStatus(wildbranch.Data(),1);
-//cout <<"Build event activates: "<<wildbranch.Data() << endl;
-wildbranch = branchName;
-if(!masterbranch) wildbranch+=".";
-wildbranch+="*";
-tree->SetBranchStatus(wildbranch.Data(),1);
-//cout <<"Build event activates: "<<wildbranch.Data() << endl;
-fbActivated = kTRUE;
-
-*/
-
 
 Int_t TGo4EventElement::activateBranch(TBranch *branch, Int_t init, TGo4EventElement** var_ptr)
 {

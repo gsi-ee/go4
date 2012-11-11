@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -13,19 +13,17 @@
 
 #include "TGo4EventStore.h"
 
-#include "go4iostream.h"
-
 #include "TGo4Log.h"
 #include "Go4Exceptions.h"
 
-TGo4EventStore::TGo4EventStore(const char* name)
-:TNamed(name, "This is a Go4 Event Store")
+TGo4EventStore::TGo4EventStore(const char* name) :
+   TNamed(name, "This is a Go4 Event Store")
 {
    TRACE((15,"TGo4EventStore::TGo4EventStore(const char*)",__LINE__, __FILE__));
 }
 
-TGo4EventStore::TGo4EventStore()
-:TNamed("Default EventStore", "This is a Go4 Event Store")
+TGo4EventStore::TGo4EventStore() :
+   TNamed("Default EventStore", "This is a Go4 Event Store")
 {
    TRACE((15,"TGo4EventStore::TGo4EventStore()",__LINE__, __FILE__));
 }
@@ -72,6 +70,6 @@ Int_t TGo4EventStore::Store(TFolder* fold)
 void TGo4EventStore::Clear(Option_t* opt)
 {
    // dummy clear, may be implemented by user
-   cout <<"default clear of eventstore "<<GetName() << endl;
+  TGo4Log::Info("Default clear of eventstore %s",GetName());
 }
 

@@ -403,35 +403,24 @@ char* TGo4Socket::RecvRaw(const char* name)
 // note: optional parameter const char* name is left for compatibility, has no effect!
    TRACE((12,"TGo4Socket::RecvRaw(const char* name)", __LINE__, __FILE__));
 
-   char* revchar;
-   if(IsOpen())
-      {
-         if(fxSocket)
-            {
-               Int_t rev=fxSocket->RecvRaw(fxLocalBuffer, TGo4Socket::fgiBUFLENGTH);
-               if(rev<= 0)
-                  {
-                     // error on receive
-                     TGo4Log::Debug(" !!! Socket: RecvRaw(const char*) ERROR # %d !!! ",rev);
-                     revchar=0;
-                  }
-               else
-                  {
-                     revchar=fxLocalBuffer;
-                  }
-             } // if(fxSocket)
-         else
-            {
-               TGo4Log::Debug(" !!! Socket: Recv(const char*) ERROR : no TSocket !!! ");
-               revchar=0;
-            }  // end if(fxSocket)
-      }
-   else // if(IsOpen())
-      {
-         TGo4Log::Debug(" !!! Socket: Recv(const char*) ERROR : not open or not active !!! ");
-         revchar=0;
-      }
-   return revchar;
+   if(!IsOpen()) {
+      TGo4Log::Debug(" !!! Socket: Recv(const char*) ERROR : not open or not active !!! ");
+      return 0;
+   }
+
+   if (!fxSocket) {
+      TGo4Log::Debug(" !!! Socket: Recv(const char*) ERROR : no TSocket !!! ");
+      return 0;
+   }
+
+   Int_t rev=fxSocket->RecvRaw(fxLocalBuffer, TGo4Socket::fgiBUFLENGTH);
+   if(rev<=0) {
+      // error on receive
+      TGo4Log::Debug(" !!! Socket: RecvRaw(const char*) ERROR # %d !!! ",rev);
+      return 0;
+   }
+
+   return fxLocalBuffer;
 }
 
 

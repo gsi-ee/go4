@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -37,19 +37,29 @@
 
 
 
-TGo4BufferQueue::TGo4BufferQueue()
-   : TGo4Queue("Default buffer queue"),fiOverflowcount(0), fiMaxBuffers(10)
+TGo4BufferQueue::TGo4BufferQueue() :
+   TGo4Queue("Default buffer queue"),
+   fxBufferList(0),
+   fxFreeList(0),
+   fxBufferMutex(0),
+   fiOverflowcount(0),
+   fiMaxBuffers(10)
 {
    TRACE((14,"TGo4BufferQueue::TGo4BufferQueue()", __LINE__, __FILE__));
 
    InitBuffers();
 }
 
-TGo4BufferQueue::TGo4BufferQueue(const char* name)
-: TGo4Queue(name), fiOverflowcount(0), fiMaxBuffers(10)
-
+TGo4BufferQueue::TGo4BufferQueue(const char* name) :
+   TGo4Queue(name),
+   fxBufferList(0),
+   fxFreeList(0),
+   fxBufferMutex(0),
+   fiOverflowcount(0),
+   fiMaxBuffers(10)
 {
    TRACE((14,"TGo4BufferQueue::TGo4BufferQueue(const char*)", __LINE__, __FILE__));
+
    InitBuffers();
 }
 
@@ -62,7 +72,7 @@ void TGo4BufferQueue::InitBuffers()
    fxFreeList = new TList;    // list indicating the free buffers
    fxBufferMutex = new TMutex;
    for (Int_t i=0; i< fiMaxBuffers; ++i) {
-      TBuffer* buf=NewEntry();
+      TBuffer* buf = NewEntry();
       fxBufferList->Add(buf);
       fxFreeList->Add(buf);
    }
@@ -75,24 +85,23 @@ TGo4BufferQueue::~TGo4BufferQueue()
    fxBufferList->Delete();
    TCollection::EmptyGarbageCollection();
 
-   delete fxFreeList;
-   delete fxBufferList;
-   delete fxBufferMutex;
+   delete fxFreeList; fxFreeList = 0;
+   delete fxBufferList; fxBufferList = 0;
+   delete fxBufferMutex; fxBufferMutex = 0;
 }
 
 TBuffer * TGo4BufferQueue::WaitBuffer()
 {
    TRACE((19,"TGo4BufferQueue::WaitBuffer()", __LINE__, __FILE__));
    TObject* ob = Wait();
-   TBuffer* rev= dynamic_cast<TBuffer*> ( ob );
-   return rev;
+   return dynamic_cast<TBuffer*> ( ob );
 }
 
 TObject * TGo4BufferQueue::WaitObjectFromBuffer()
 {
    TRACE((19,"TGo4BufferQueue::WaitObjectFromBuffer()", __LINE__, __FILE__));
    TObject* obj=0;
-   TBuffer* buffer=WaitBuffer();
+   TBuffer* buffer = WaitBuffer();
    if(buffer) {
       {
          TGo4LockGuard mainguard;
@@ -124,10 +133,7 @@ TObject * TGo4BufferQueue::WaitObjectFromBuffer()
       } //  TGo4LockGuard
       FreeBuffer(buffer); // give internal buffer back to queue
    } // if(buffer)
-   else
-   {
-      //  cout << "WaitObjectFromBuffer got zero buffer in queue "<<GetName() << endl;
-   }
+
    return obj;
 }
 
@@ -283,25 +289,22 @@ void TGo4BufferQueue::FreeBuffer(TBuffer * buffer)
 
 }
 
+
 void TGo4BufferQueue::Clear(Option_t* opt)
 {
    TObject* ob=0;
-   while((ob=Next()) !=0)
-      {
+   while((ob=Next()) !=0) {
          //cout <<"cleared entry "<<ob<<" of queue "<<GetName() << endl;
-         FreeBuffer(dynamic_cast<TBuffer*> (ob) );
-      }
-
+      FreeBuffer(dynamic_cast<TBuffer*> (ob) );
+   }
 }
-
-
 
 
 void TGo4BufferQueue::Realloc(TBuffer* buffer, Int_t oldsize, Int_t newsize)
 {
-if(buffer==0) return;
-TGo4LockGuard mainguard;
-   char* memfield=buffer->Buffer();
+   if(buffer==0) return;
+   TGo4LockGuard mainguard;
+   char* memfield = buffer->Buffer();
    //buffer->Expand(newsize); // is protected! we make it by hand...
    //Int_t current = buffer->Length(); // cursor position
    Int_t extraspace=TGo4Socket::fgiBUFEXTRASPACE; // =8, constant within TBuffer
@@ -355,20 +358,15 @@ TBuffer* TGo4BufferQueue::CreateValueBuffer(UInt_t val)
 
 Int_t TGo4BufferQueue::DecodeValueBuffer(TBuffer* buf)
 {
-if(buf==0) return -1;
-UInt_t len= buf->Length();
-if(len==sizeof(UInt_t)+sizeof(UInt_t)) // note: first length is length of encoded type
+   if(buf==0) return -1;
+   UInt_t len= buf->Length();
+   if(len != (sizeof(UInt_t)+sizeof(UInt_t))) return -2;
+      // note: first length is length of encoded type
                                        // second length is always UInt_t
-   {
-     char* field=buf->Buffer();
-     char* temp= field + sizeof(UInt_t); // skip length header
-     UInt_t val=0;
-     frombuf(temp, &val);
-     //cout <<"DDDDDD DecodeValueBuffer val="<<val << endl;
-     return (Int_t) val;
-   }
-else
-   {
-     return -2;
-   }
+   char* field=buf->Buffer();
+   char* temp= field + sizeof(UInt_t); // skip length header
+   UInt_t val=0;
+   frombuf(temp, &val);
+   //cout <<"DDDDDD DecodeValueBuffer val="<<val << endl;
+   return (Int_t) val;
 }

@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -30,9 +30,7 @@ class TMutex;
 
 class TGo4Queue : public TNamed {
    public:
-      TGo4Queue();
-
-      TGo4Queue(const char* name);
+      TGo4Queue(const char* name = 0);
 
       virtual ~TGo4Queue();
 
@@ -42,7 +40,6 @@ class TGo4Queue : public TNamed {
 
       Bool_t IsEmpty();
 
-
       Int_t GetEntries() const { return fiEntries; }
 
       void SetMaxEntries(Int_t max) { fiMaxEntries = max; }
@@ -51,8 +48,6 @@ class TGo4Queue : public TNamed {
       TObject* Next();
       TObject* Wait();
       void Add(TObject* ob);
-
-
 
    private:
       TMutex* fxMutex;           //!

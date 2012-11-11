@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -12,8 +12,6 @@
 //-----------------------------------------------------------------------
 
 #include "TGo4EventCalibration.h"
-
-#include "go4iostream.h"
 
 #include "TGo4Log.h"
 
@@ -37,10 +35,10 @@ TRACE((15,"TGo4EventCalibration::~TGo4EventCalibration()",__LINE__, __FILE__));
 Bool_t TGo4EventCalibration::UpdateFrom(TGo4Parameter* rhs)
 {
    TRACE((12,"TGo4EventCalibration::UpdateFrom()",__LINE__, __FILE__));
-   TGo4EventCalibration* calipar=dynamic_cast<TGo4EventCalibration*>(rhs);
+   TGo4EventCalibration* calipar = dynamic_cast<TGo4EventCalibration*>(rhs);
    if(calipar==0) return kFALSE;
    SetName(calipar->GetName());
-   cout << "GO4> !!! WARNING: TGo4EventCalibration::UpdateFrom() not implemented in user calibration class !!!" << endl;
-   cout << "GO4>     Just updated the object name, please overwrite virtual method !!!" << endl;
+   TGo4Log::Info("WARNING: TGo4EventCalibration::UpdateFrom() not implemented in user calibration class !!!");
+   TGo4Log::Info("  Just updated the object name, please overwrite virtual method !!!");
    return kTRUE;
 }
