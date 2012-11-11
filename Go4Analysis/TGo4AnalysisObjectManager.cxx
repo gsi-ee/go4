@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -831,9 +831,10 @@ TGo4WinCond* TGo4AnalysisObjectManager::MakeWindowCond(const char* foldername,
       Double_t      xlow,
       Double_t      xup,
       const char* bindhistogram,
-      Bool_t        invert) {
+      Bool_t        invert)
+{
    TGo4WinCond* wcond = (TGo4WinCond*)
-   TestObject(fxConditionDir, foldername, conditionname, TGo4WinCond::Class());
+      TestObject(fxConditionDir, foldername, conditionname, TGo4WinCond::Class());
 
    if (wcond) return wcond;
 
@@ -853,9 +854,10 @@ TGo4WinCond* TGo4AnalysisObjectManager::MakeWindowCond(const char* foldername,
       Double_t      ylow,
       Double_t      yup,
       const char* bindhistogram,
-      Bool_t      invert) {
+      Bool_t      invert)
+{
    TGo4WinCond* wcond = (TGo4WinCond*)
-   TestObject(fxConditionDir, foldername, conditionname, TGo4WinCond::Class());
+      TestObject(fxConditionDir, foldername, conditionname, TGo4WinCond::Class());
 
    if (wcond) return wcond;
 
@@ -876,7 +878,7 @@ TGo4PolyCond* TGo4AnalysisObjectManager::MakePolyCond(const char* foldername,
       Bool_t        invert)
 {
    TGo4PolyCond* pcond = (TGo4PolyCond*)
-   TestObject(fxConditionDir, foldername, conditionname, TGo4PolyCond::Class());
+      TestObject(fxConditionDir, foldername, conditionname, TGo4PolyCond::Class());
 
    if (pcond) return pcond;
 

@@ -255,7 +255,7 @@ frombegin:
    if (fbFirstEvent) {
       fbFirstEvent = kFALSE;
       eventstep = fuStartEvent + 1;
-      printf("First event first = %lu step = %lu\n", fuStartEvent, fuEventInterval);
+      TGo4Log::Info("MBS source:: First event = %lu step = %lu\n", fuStartEvent, fuEventInterval);
 
    } else
       if(fuEventInterval > 0)
