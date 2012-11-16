@@ -230,7 +230,7 @@ GO4ANBASE_LINKDEFS = $(GO4EVENTPAR_LINKDEF) \
                      $(STATANAL_LINKDEF)
 
 GO4AN_O   = $(MBSAPI_O) $(RAWAPI_O) \
-            $(GO4EVENT_O) $(GO4EVENT_DO) \
+			$(GO4EVENT_O) $(GO4EVENT_DO) \
             $(EVENTSERV_O) $(EVENTSERV_DO) \
             $(HISTSERV_O) $(HISTSERV_DO) \
             $(GO4ANAL_O) $(GO4ANAL_DO) \
