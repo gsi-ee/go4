@@ -516,13 +516,14 @@ TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject* obj, const char
 
       TObjArray* arr =((TGo4CompositeEvent*)obj)->getElements();
 
-      for (Int_t n=0;n<=arr->GetLast();n++) {
-         TGo4EventElement* elem = (TGo4EventElement*) arr->At(n);
-         if (elem==0) continue;
-         TFolder* subfold = CreateMembersFolder(elem, elem->GetName(), elem->IsA());
-         if(subfold!=0)
-            nameslist->AddLast(subfold);
-      }
+      if (arr!=0)
+         for (Int_t n=0;n<=arr->GetLast();n++) {
+            TGo4EventElement* elem = (TGo4EventElement*) arr->At(n);
+            if (elem==0) continue;
+            TFolder* subfold = CreateMembersFolder(elem, elem->GetName(), elem->IsA());
+            if(subfold!=0)
+               nameslist->AddLast(subfold);
+         }
    }
 
    TFolder* memberfolder = fxTempFolder->AddFolder(membrfoldername, TString("Object of class ") + cl->GetName(), nameslist);
