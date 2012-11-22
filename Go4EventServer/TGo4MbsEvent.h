@@ -128,7 +128,8 @@ class TGo4MbsEvent : public TGo4EventElement {
 
       void SetDlen(Int_t dlen) { fxHeader.fxGSIHeader.fiDlen = dlen; }
       Int_t GetDlen() const { return fxHeader.fxGSIHeader.fiDlen; }
-      Int_t GetIntLen() const { return (GetDlen()-4)*sizeof(Short_t)/sizeof(Int_t); }
+      Int_t GetIntLen() const { return (GetDlen()-4)*2/4; }
+      Int_t GetByteLen() const { return (GetDlen()-4)*2; }
 
       void SetType(Short_t type) { fxHeader.fxGSIHeader.fsType  = type; }
       Short_t GetType() const { return fxHeader.fxGSIHeader.fsType; }
