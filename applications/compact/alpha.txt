@@ -1,6 +1,0 @@
-! this file contains line names and energies
-! format: name energy channel(initial value)
-Gd148   3183 
-Pu239   5157 
-Am241   5486 
-Cm244   5805 
