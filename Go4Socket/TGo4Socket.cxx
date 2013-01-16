@@ -431,13 +431,13 @@ TObject* TGo4Socket::Recv(const char* name)
    TRACE((12,"TGo4Socket::Recv(const char* name)", __LINE__, __FILE__));
 
    TObject* obj=0;
-   Int_t rev=0;
    if(IsOpen())
    {
-      TMessage *mess;
       if(fxSocket)
       {
-         rev=fxSocket->Recv(mess);
+         TMessage *mess = 0;
+         fxSocket->Recv(mess);
+
          if(mess == 0)
          {
             //cout << "TGo4SocketTransportImp: zero mess" << endl;
