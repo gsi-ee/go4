@@ -14,7 +14,8 @@
 #include "TGo4AnalysisImp.h"
 
 #include <stdexcept>
-#include "stdio.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include "go4iostream.h"
 
 #include "TSystem.h"
@@ -78,9 +79,10 @@
 
 
 #if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
+#if ROOT_VERSION_CODE < ROOT_VERSION(5,99,0)
 #include "TCint.h"
 #endif
-
+#endif
 
 
 class TGo4InterruptHandler : public TSignalHandler {
@@ -410,13 +412,14 @@ Int_t TGo4Analysis::Process()
    TRACE((11,"TGo4Analysis::Process()",__LINE__, __FILE__));
    Int_t rev=0;
 #if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
+#if ROOT_VERSION_CODE < ROOT_VERSION(5,99,0)
    Bool_t unlockedcint=kFALSE;
-   if(gCINTMutex)
-   {
+   if(gCINTMutex) {
       gCINTMutex->UnLock();
       unlockedcint=kTRUE;
       //cout <<"Process() Unlocked cint mutex..." << endl;
    }
+#endif
 #endif
 
    try
@@ -559,13 +562,13 @@ Int_t TGo4Analysis::Process()
    // end catch block
    ////////////////////////////
 #if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
+#if ROOT_VERSION_CODE < ROOT_VERSION(5,99,0)
    /// test: need to unlock cintmutex here to enable streaming!
-   if(gCINTMutex && unlockedcint)
-   {
+   if(gCINTMutex && unlockedcint) {
       gCINTMutex->Lock();
       //cout <<"PPPProcess() locked cint mutex..." << endl;
    }
-
+#endif
 #endif
    return rev;
 }
@@ -1130,12 +1133,14 @@ void TGo4Analysis::SetRunning(Bool_t on)
 Int_t TGo4Analysis::WaitForStart()
 {
    #if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
+   #if ROOT_VERSION_CODE < ROOT_VERSION(5,99,0)
    /// test: need to unlock cintmutex here to enable streaming!
    Bool_t unlockedcint=kFALSE;
    if(gCINTMutex) {
       gCINTMutex->UnLock();
       unlockedcint=kTRUE;
    }
+   #endif
    #endif
    /////////
    Int_t cycles=0;
@@ -1154,9 +1159,11 @@ Int_t TGo4Analysis::WaitForStart()
       }
    }
    #if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
+   #if ROOT_VERSION_CODE < ROOT_VERSION(5,99,0)
    /// test: need to lock cintmutex again
    if(gCINTMutex && unlockedcint)
         gCINTMutex->Lock();
+   #endif
    #endif
    return cycles;
 }

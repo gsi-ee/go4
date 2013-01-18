@@ -19,11 +19,6 @@
 #include "TAttFill.h"
 #include "go4iostream.h"
 
-#define kCOPYCOUNTS true
-#define kNOCOPYCOUNTS false
-#define kWINDOW 1
-#define kPOLYGON 2
-
 class TH1;
 class TVirtualPad;
 class TCutG;
@@ -33,6 +28,10 @@ class TGo4EventElement;
 class TGo4ConditionPainter;
 
 
+enum ConditionsKind {
+   kWINDOW  = 1,
+   kPOLYGON = 2
+};
 
 class
 
