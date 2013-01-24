@@ -13,8 +13,7 @@
 
 #include "TGo4AnalysisObjectManager.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TRegexp.h"
 #include "TMultiGraph.h"
 #include "TKey.h"
@@ -1184,7 +1183,7 @@ Bool_t TGo4AnalysisObjectManager::SetParameter(const char* name, TGo4Parameter *
    if(oldpar!=0) {
       // update existing parameter of given name
       rev = oldpar->UpdateFrom(par);
-      cout << "++++ Updated parameter "<< name<<" from parameter "<< par->GetName() << endl;
+      TGo4Log::Info("Updated parameter %s from parameter %s", name, par->GetName());
       //oldpar->PrintParameter();
    } else {
       // parameter not yet existing, add external parameter as a copy:
@@ -1194,7 +1193,7 @@ Bool_t TGo4AnalysisObjectManager::SetParameter(const char* name, TGo4Parameter *
       if (separ!=0) {
          TString fname(name, separ-name);
          rev=AddObjectToFolder(clonedpar,topfolder, fname.Data(), kTRUE);
-         cout << "++++ Added new parameter "<< clonedpar->GetName()<<" to folder "<<topfolder->GetName()<<"/"<< fname.Data() << endl;
+         TGo4Log::Info("Added new parameter %s to folder %s/%s", clonedpar->GetName(), topfolder->GetName(), fname.Data());
       } else
          rev=AddObjectToFolder(clonedpar,topfolder,0,kTRUE);
    }
@@ -1251,13 +1250,10 @@ Bool_t TGo4AnalysisObjectManager::RemoveParameter(const char * name)
 Bool_t TGo4AnalysisObjectManager::AddPicture(TGo4Picture * pic, const char* subfolder)
 {
    TRACE((11,"TGo4AnalysisObjectManager::AddPicture(TGo4Picture *)",__LINE__, __FILE__));
-   if(pic)
-   {
-      //pic->LocateObjectsFrom(fxGo4Dir);
-      return (AddObjectToFolder(pic,fxPictureDir,subfolder,kTRUE));
-   }
-   else
-      return kFALSE;
+   if(!pic) return kFALSE;
+
+   //pic->LocateObjectsFrom(fxGo4Dir);
+   return (AddObjectToFolder(pic,fxPictureDir,subfolder,kTRUE));
 }
 
 Bool_t TGo4AnalysisObjectManager::SetPicture(const char* name, TGo4Picture * pic, TFolder* parent)
@@ -1814,7 +1810,7 @@ Int_t TGo4AnalysisObjectManager::PrintFolder(TFolder* fold, Option_t* opt, const
    Int_t totalsize=0;
    TROOT::IndentLevel();
    TROOT::IncreaseDirLevel();
-   cout <<"+Folder "<<fold->GetName()<<" content:" << endl;
+   std::cout <<"+Folder "<<fold->GetName()<<" content:" << std::endl;
    TIter listiter(fold->GetListOfFolders());
    TObject* ob=0;
    while((ob=listiter())!=0) {
@@ -1831,7 +1827,7 @@ Int_t TGo4AnalysisObjectManager::PrintFolder(TFolder* fold, Option_t* opt, const
    } // while
    TROOT::DecreaseDirLevel();
    TROOT::IndentLevel();
-   cout <<"++++End "<<fold->GetName()<<"++++++++++" << endl;
+   std::cout <<"++++End "<<fold->GetName()<<"++++++++++" << std::endl;
    return totalsize;
 }
 
@@ -1985,24 +1981,24 @@ void TGo4AnalysisObjectManager::PrintConditions(const char* expression)
 {
    TRACE((11,"TGo4AnalysisObjectManager::PrintConditions(const char*)",__LINE__, __FILE__));
    Int_t totalsize = PrintFolder(fxConditionDir, "*", expression);
-   cout << "___________________________________________________________" << endl;
-   cout << "Total size of all conditions is: " << totalsize << " bytes." << endl;
+   std::cout << "___________________________________________________________" << std::endl;
+   std::cout << "Total size of all conditions is: " << totalsize << " bytes." << std::endl;
 }
 
 void TGo4AnalysisObjectManager::PrintHistograms(const char* expression)
 {
    TRACE((11,"TGo4AnalysisObjectManager::PrintHistograms(const char*)",__LINE__, __FILE__));
    Int_t totalsize = PrintFolder(fxHistogramDir, "*", expression);
-   cout << "___________________________________________________________" << endl;
-   cout << "Total size of all histograms is: " << totalsize << " bytes." << endl;
+   std::cout << "___________________________________________________________" << std::endl;
+   std::cout << "Total size of all histograms is: " << totalsize << " bytes." << std::endl;
 }
 
 void TGo4AnalysisObjectManager::PrintParameters(const char* expression)
 {
    TRACE((11,"TGo4AnalysisObjectManager::PrintParameters(const char*)",__LINE__, __FILE__));
    Int_t totalsize = PrintFolder(fxParameterDir, "*", expression);
-   cout << "___________________________________________________________" << endl;
-   cout << "Total size of all parameters is: " << totalsize << " bytes." << endl;
+   std::cout << "___________________________________________________________" << std::endl;
+   std::cout << "Total size of all parameters is: " << totalsize << " bytes." << std::endl;
 }
 
 

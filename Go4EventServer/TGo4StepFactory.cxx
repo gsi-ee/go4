@@ -65,7 +65,7 @@ TGo4StepFactory::~TGo4StepFactory()
 //-----------------------------------------------------------
 void TGo4StepFactory::DefEventProcessor(const char* Pname, const char* Pclass)
 {
-   fnewProcessor.Form("new %s(\"%s\");", Pclass, Pname);
+   fnewProcessor.Form("new %s(\"%s\")", Pclass, Pname);
    fProcessorName = Pname;
 }
 
@@ -81,7 +81,7 @@ TGo4EventProcessor * TGo4StepFactory::CreateEventProcessor(TGo4EventProcessorPar
       TGo4Log::Error("No event processor was specified!");
    else
       // create event processor by macro
-      proc=(TGo4EventProcessor *)gROOT->ProcessLineFast(fnewProcessor.Data());
+      proc = (TGo4EventProcessor*) gROOT->ProcessLineFast(fnewProcessor.Data());
    if(proc == 0)
       TGo4Log::Error("Cannot create event processor: %s", fProcessorName.Data());
    return proc;
@@ -91,7 +91,7 @@ TGo4EventProcessor * TGo4StepFactory::CreateEventProcessor(TGo4EventProcessorPar
 void TGo4StepFactory::DefOutputEvent(const char* Oname, const char* Oclass)
 {
    // need not to register object, because it is done by Go4 framework
-   fnewOutputEvent.Form("new %s(\"%s\");",Oclass,Oname);
+   fnewOutputEvent.Form("new %s(\"%s\")",Oclass,Oname);
    fOutputEventName = Oname;
 }
 
@@ -105,7 +105,7 @@ TGo4EventElement * TGo4StepFactory::CreateOutputEvent()
    if(fnewOutputEvent.Length() == 0)
       TGo4Log::Error("No output event was specified!");
    else
-      Oevent = (TGo4EventElement*) gROOT->ProcessLineSync(fnewOutputEvent.Data());
+      Oevent = (TGo4EventElement*) gROOT->ProcessLineFast(fnewOutputEvent.Data());
    if(Oevent == 0)
       TGo4Log::Error("Cannot create output event: %s", fOutputEventName.Data());
    return Oevent;
@@ -114,21 +114,19 @@ TGo4EventElement * TGo4StepFactory::CreateOutputEvent()
 //-----------------------------------------------------------
 void TGo4StepFactory::DefInputEvent(const char* Iname, const char* Iclass)
 {
-   fnewInputEvent.Form("new %s(\"%s\");", Iclass, Iname);
+   fnewInputEvent.Form("new %s(\"%s\")", Iclass, Iname);
    fInputEventName = Iname;
 }
 
 //-----------------------------------------------------------
 TGo4EventElement* TGo4StepFactory::CreateInputEvent()
 {
-   TGo4EventElement * Ievent = 0;
-
    TGo4Log::Info("%s: Create input event %s", GetName(), fInputEventName.Data());
 
    if(fnewInputEvent.Length() == 0)
       return TGo4EventServerFactory::CreateInputEvent();
 
-   Ievent = (TGo4EventElement*) gROOT->ProcessLineSync(fnewInputEvent.Data());
+   TGo4EventElement* Ievent = (TGo4EventElement*) gROOT->ProcessLineFast(fnewInputEvent.Data());
    if(Ievent == 0)
       TGo4Log::Error("Cannot create input event: %s", fInputEventName.Data());
    return Ievent;
@@ -143,7 +141,7 @@ void TGo4StepFactory::DefUserEventSource(const char* Sclass)
    const char* ptr_arg = "%p";
    #endif
 
-   fnewEventSource.Form("new %s((%s*)%s);", Sclass, TGo4UserSourceParameter::Class()->GetName(), ptr_arg);
+   fnewEventSource.Form("new %s((%s*)%s)", Sclass, TGo4UserSourceParameter::Class()->GetName(), ptr_arg);
 }
 
 //-----------------------------------------------------------
@@ -155,7 +153,7 @@ TGo4EventSource* TGo4StepFactory::CreateEventSource(TGo4EventSourceParameter* pa
 
       TString arg = TString::Format(fnewEventSource.Data(), par);
 
-      TGo4EventSource* source = (TGo4EventSource*) gROOT->ProcessLineSync(arg.Data());
+      TGo4EventSource* source = (TGo4EventSource*) gROOT->ProcessLineFast(arg.Data());
 
       if (source) return source;
 

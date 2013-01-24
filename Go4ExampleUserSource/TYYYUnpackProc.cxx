@@ -13,8 +13,6 @@
 
 #include "TYYYUnpackProc.h"
 
-#include "go4iostream.h"
-
 #include "TClass.h"
 #include "TCanvas.h"
 #include "TMath.h"
@@ -22,6 +20,7 @@
 #include "TH2.h"
 #include "TCutG.h"
 
+#include "TGo4Log.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
 
@@ -46,7 +45,7 @@ TYYYUnpackProc::TYYYUnpackProc(const char* name) :
    fWinConR(0), fWinConV(0), fPolyConEmit(0),
    fParam1(0)
 {
-   cout << "**** TYYYUnpackProc: Create" << endl;
+   TGo4Log::Info("TYYYUnpackProc: Create %s", name);
 
    //// init user analysis objects:
 
@@ -114,7 +113,7 @@ Bool_t TYYYUnpackProc::BuildEvent(TGo4EventElement* dest)
    TYYYUnpackEvent* poutevt = (TYYYUnpackEvent*) (dest);
 
    if ((inp==0) || (poutevt==0)) {
-      cout << "YYYUnpackProc: events are not specified!"<< endl;
+      TGo4Log::Error("YYYUnpackProc: events are not specified!");
       return kFALSE;
    }
 

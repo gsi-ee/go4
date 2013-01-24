@@ -13,8 +13,9 @@
 
 #include "TYYYParameter.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 
+#include "TGo4Log.h"
 #include "TGo4Fitter.h"
 
 TYYYParameter::TYYYParameter() :
@@ -51,11 +52,11 @@ TYYYParameter::~TYYYParameter()
 
 Int_t TYYYParameter::PrintParameter(Text_t * n, Int_t)
 {
-  cout << "Parameter " << GetName()<<":" <<endl;
-  cout << " P1="<<frP1<<endl;
-  cout << " P2="<<frP2<< endl;
+  std::cout << "Parameter " << GetName()<<":" <<std::endl;
+  std::cout << " P1="<<frP1<<std::endl;
+  std::cout << " P2="<<frP2<< std::endl;
   for(Int_t ix=0;ix<__ARRAYSIZE__;++ix) {
-     cout << "fiDataArray["<<ix<<"]="<<fiDataArray[ix]<<endl;
+     std::cout << "fiDataArray["<<ix<<"]="<<fiDataArray[ix]<<std::endl;
      if (fxFitArray[ix]) fxFitArray[ix]->PrintLines();
   }
   return 0;
@@ -65,11 +66,11 @@ Bool_t TYYYParameter::UpdateFrom(TGo4Parameter *source)
 {
    TYYYParameter* from = dynamic_cast<TYYYParameter*> (source);
    if (from==0) {
-      cout << "Wrong parameter class: " << source->ClassName() << endl;
+      TGo4Log::Error("Wrong parameter class: %s", source->ClassName());
       return kFALSE;
    }
 
-   cout << "Parameter " << GetName() << ": P1=" << frP1 << " P2="<< frP2 << endl;
+   TGo4Log::Info("Parameter %s: P1=%f P2=%f", GetName(), frP1, frP2);
    frP1 = from->frP1;
    frP2 = from->frP2;
    for(Int_t ix=0;ix<__ARRAYSIZE__;++ix) {

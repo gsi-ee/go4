@@ -13,7 +13,7 @@
 
 #include "TYYYRawEvent.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TGo4Log.h"
 
@@ -52,7 +52,7 @@ void TYYYRawEvent::ReAllocate(Int_t newsize)
 {
    if (newsize > fiAllocated) {
       fiAllocated = newsize < 16 ? 16 : (newsize + 8);
-      cout <<"*** YYYRawEvent reallocating from "<<fiColumns<<" to "<< fiAllocated << endl;
+      TGo4Log::Info("YYYRawEvent reallocating from %d to %d", fiColumns, fiAllocated);
       Double_t* narray=new Double_t[fiAllocated];
       for(Int_t i=0;i<fiColumns;++i)
          narray[i] = fdData[i];
@@ -72,7 +72,7 @@ void TYYYRawEvent::ReAllocate(Int_t newsize)
 void TYYYRawEvent::PrintEvent()
 {
    TGo4EventElement::PrintEvent();
-   cout<<" YYY Event printout: "<<endl;
+   std::cout<<" YYY Event printout: "<<std::endl;
    for(Int_t t=0; t<fiColumns;++t)
-      cout <<"\t dat("<<t<<")="<<fdData[t]<<endl;
+      std::cout <<"\t dat("<<t<<")="<<fdData[t]<<std::endl;
 }

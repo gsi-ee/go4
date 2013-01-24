@@ -25,23 +25,27 @@
 #include "TGo4Log.h"
 
 // ----------------------------------------------------------
-TGo4WinCond* TGo4CondArray::Win(Int_t i){
-if(fiType != kWINDOW) return 0;
-else return (TGo4WinCond*) At(i);
+TGo4WinCond* TGo4CondArray::Win(Int_t i)
+{
+   if(fiType != kGO4CONDWINDOW) return 0;
+   return (TGo4WinCond*) At(i);
 }
 // ----------------------------------------------------------
-TGo4PolyCond* TGo4CondArray::Poly(Int_t i){
-if(fiType != kPOLYGON) return 0;
-else return (TGo4PolyCond*) At(i);
+TGo4PolyCond* TGo4CondArray::Poly(Int_t i)
+{
+   if(fiType != kGO4CONDPOLYGON) return 0;
+   return (TGo4PolyCond*) At(i);
 }
 // ----------------------------------------------------------
-TGo4Condition * TGo4CondArray::operator[](Int_t i){
-return (TGo4Condition*) condarr->At(i);
+TGo4Condition * TGo4CondArray::operator[](Int_t i)
+{
+   return (TGo4Condition*) condarr->At(i);
 }
 // ----------------------------------------------------------
-TGo4Condition * TGo4CondArray::At(Int_t i){
- // boundary check by TObjArray, returns [0] in case
-return (TGo4Condition*) condarr->At(i);
+TGo4Condition * TGo4CondArray::At(Int_t i)
+{
+   // boundary check by TObjArray, returns [0] in case
+   return (TGo4Condition*) condarr->At(i);
 }
 // ----------------------------------------------------------
 TGo4CondArray::TGo4CondArray() :
@@ -61,13 +65,13 @@ TGo4CondArray::TGo4CondArray(const char* name, Int_t elements, Int_t contype) :
    fiSelectedCond(0)
 {
    fiNumCond = elements;
-   if(contype == kWINDOW) {
+   if(contype == kGO4CONDWINDOW) {
      condarr = new TObjArray(elements);
      fiType = contype;
      for(Int_t i = 0; i < elements; i++)
        condarr->AddLast(new TGo4WinCond(Form("%s%06d",name,i)));
    } else
-   if(contype == kPOLYGON) {
+   if(contype == kGO4CONDPOLYGON) {
       condarr = new TObjArray(elements);
       fiType = contype;
       for(Int_t i = 0; i < elements; i++)
@@ -84,13 +88,13 @@ TGo4CondArray::TGo4CondArray(const char* name, Int_t elements, const char* type)
    fiNumCond = elements;
    if(strcmp(type,"TGo4WinCond")==0) {
       condarr = new TObjArray(elements);
-      fiType = kWINDOW;
+      fiType = kGO4CONDWINDOW;
       for(Int_t i = 0; i < elements; i++)
          condarr->AddLast(new TGo4WinCond(Form("%s%06d",name,i)));
    } else
    if(strcmp(type,"TGo4PolyCond")==0) {
       condarr = new TObjArray(elements);
-      fiType = kPOLYGON;
+      fiType = kGO4CONDPOLYGON;
       for(Int_t i = 0; i < elements; i++)
          condarr->AddLast(new TGo4PolyCond(Form("%s%06d",name,i)));
    } else {
@@ -443,7 +447,7 @@ return rev;
 
 // -----------------------------------------------
 void TGo4CondArray::SetValues(Double_t low1, Double_t up1){
-if(fiType == kWINDOW)
+if(fiType == kGO4CONDWINDOW)
 {
    if(IsMultiEdit())
       {
@@ -463,7 +467,7 @@ if(fiType == kWINDOW)
 }
 // -----------------------------------------------
 void TGo4CondArray::SetValues(Double_t low1, Double_t up1, Double_t low2, Double_t up2){
-if(fiType == kWINDOW)
+if(fiType == kGO4CONDWINDOW)
 {
    if(IsMultiEdit())
       {
@@ -484,7 +488,7 @@ if(fiType == kWINDOW)
 // -----------------------------------------------
 void TGo4CondArray::SetValues(TCutG * newcut)
 {
-if(fiType == kPOLYGON)
+if(fiType == kGO4CONDPOLYGON)
 {
    if(IsMultiEdit())
       {
@@ -1038,7 +1042,7 @@ Bool_t TGo4CondArray::IsPolygonType()
 Bool_t rev=kFALSE;
 if(IsMultiEdit())
    {
-      if(fiType == kPOLYGON)
+      if(fiType == kGO4CONDPOLYGON)
          rev=kTRUE;
       else
          rev=kFALSE;

@@ -13,10 +13,11 @@
 
 #include "TYYYEventSource.h"
 
-#include "TClass.h"
-#include "go4iostream.h"
 #include <stdlib.h>
 
+#include "TClass.h"
+
+#include "TGo4Log.h"
 #include "TGo4EventErrorException.h"
 #include "TGo4EventEndException.h"
 #include "TGo4EventTimeoutException.h"
@@ -48,7 +49,7 @@ TYYYEventSource::TYYYEventSource(TGo4UserSourceParameter* par) :
       SetArgs(par->GetExpression());
       Open();
    } else {
-      cout <<"TYYYEventSource constructor with zero parameter!" << endl;
+      TGo4Log::Error("TYYYEventSource constructor with zero parameter!");
    }
 }
 
@@ -125,7 +126,7 @@ Bool_t TYYYEventSource::BuildEvent(TGo4EventElement* dest)
 Int_t TYYYEventSource::Open()
 {
    if(fbIsOpen) return -1;
-   cout << "Open of TYYYEventSource"<< endl;
+   TGo4Log::Info("Open of TYYYEventSource %s", GetName());
    // open connection/file
    fxFile = new std::ifstream(GetName());
    if((fxFile==0) || !fxFile->good()) {
@@ -134,14 +135,14 @@ Int_t TYYYEventSource::Open()
       SetErrMess(Form("Eror opening user file:%s",GetName()));
       throw TGo4EventErrorException(this);
    }
-   fbIsOpen=kTRUE;
+   fbIsOpen = kTRUE;
    return 0;
 }
 
 Int_t TYYYEventSource::Close()
 {
    if(!fbIsOpen) return -1;
-   cout << "Close of TYYYEventSource"<< endl;
+   TGo4Log::Info("Close of TYYYEventSource");
    Int_t status=0; // closestatus of source
    delete fxFile;
    fbIsOpen=kFALSE;

@@ -13,28 +13,28 @@
 
 #include "TXXXEvent.h"
 
-#include "go4iostream.h"
+#include "TGo4Log.h"
 
 //***********************************************************
 TXXXEvent::TXXXEvent() :
    TGo4EventElement()
 {
-    cout << "**** TXXXEvent: Create instance" << endl;
+   TGo4Log::Info("TXXXEvent: Create instance");
 }
 //***********************************************************
 TXXXEvent::TXXXEvent(const char* name) :
    TGo4EventElement(name)
 {
-  cout << "**** TXXXEvent: Create instance " << name << endl;
+   TGo4Log::Info("TXXXEvent: Create instance %s", name);
 }
 //***********************************************************
 TXXXEvent::~TXXXEvent()
 {
-  cout << "**** TXXXEvent: Delete instance " << endl;
+   TGo4Log::Info("TXXXEvent: Delete instance");
 }
 
 //-----------------------------------------------------------
-void  TXXXEvent::Clear(Option_t *t)
+void TXXXEvent::Clear(Option_t *t)
 {
   // all members should be cleared.
    memset((void*) &fCrate1[0],0, sizeof(fCrate1));

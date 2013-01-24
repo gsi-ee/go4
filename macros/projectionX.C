@@ -1,6 +1,4 @@
 #include "Riostream.h"
-using namespace std;
-
 
 ///////////////////////////////////////////////////////////////////
 //////// Go4 GUI example script projectionX.C
@@ -17,55 +15,53 @@ using namespace std;
 ///////
 Bool_t projectionX(const char* name1, const char* polyname, Int_t firstybin, Int_t lastybin, Bool_t draw)
 {
-if(TGo4AbstractInterface::Instance()==0 || go4!=TGo4AbstractInterface::Instance())
-   {
-      cout <<"FATAL: Go4 gui macro executed outside Go4 GUI!! returning." << endl;
-      return;
-   }
-TString fullname1 = go4->FindItem(name1);
-TObject* ob1=go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
-TH2* his1=0;
-if(ob1 && ob1->InheritsFrom("TH2"))   his1 = (TH2*) ob1;
-if(his1==0)
-   {
-      cout <<"projectionX could not get 2d histogram "<<fullname1 << endl;
+   if(TGo4AbstractInterface::Instance()==0 || go4!=TGo4AbstractInterface::Instance()) {
+      std::cout <<"FATAL: Go4 gui macro executed outside Go4 GUI!! returning." << std::endl;
       return kFALSE;
    }
-TGo4PolyCond* poly=0;
-if(strlen(polyname)>0){
-TString fullname2 = go4->FindItem(polyname);
-TObject* ob2=go4->GetObject(fullname2,1000); // 1000=timeout to get object from analysis in ms
-if(ob2 && ob2->InheritsFrom("TGo4Condition"))   poly = (TGo4PolyCond*) ob2;
-if(poly==0)
-   {
-      cout <<"projectionX could not get polygon condition "<<polyname << endl;
+   TString fullname1 = go4->FindItem(name1);
+   TObject* ob1 = go4->GetObject(fullname1,1000); // 1000=timeout to get object from analysis in ms
+   TH2* his1(0);
+   if(ob1 && ob1->InheritsFrom("TH2")) his1 = (TH2*) ob1;
+   if(his1==0) {
+      std::cout <<"projectionX could not get 2d histogram "<<fullname1 << std::endl;
       return kFALSE;
    }
-}
-TString n1=his1->GetName();
-TString t1=his1->GetTitle();
-TString oper;
-oper.Form("(ylo=%d, yup=%d)",firstybin,lastybin);
-TString finalname="X-Projection of "+n1;
-TString finaltitle="X-Proj."+oper+" of "+t1;
-TString options("");
-if(poly){
-	TCutG *newcut = poly->GetCut(kFALSE); // reference only
-	TCutG *cut = newcut->Clone("tempcut");  // therefore create clone
-	options.Form("[%s]",cut->GetName());
-}
-TH1* result=his1->ProjectionX(finalname.Data(),firstybin,lastybin,options.Data());
-if(poly) delete cut; // clone
-result->SetTitle(finaltitle);
-result->SetDirectory(0);
-rname = go4->SaveToMemory("Projections", result, kTRUE);
-cout<< "Saved result histogram to " << rname.Data() <<endl;
-if(!draw) return kTRUE;
-ViewPanelHandle panel1 = go4->StartViewPanel();
-go4->DivideViewPanel(panel1, 1, 2);
-go4->SelectPad(panel1, 1);
-go4->DrawItem(fullname1, panel1,"COLZ");
-go4->SelectPad(panel1, 2);
-go4->DrawItem(rname, panel1);
-return kTRUE;
+   TGo4PolyCond* poly(0);
+   TCutG *cut(0);
+   if(strlen(polyname)>0){
+      TString fullname2 = go4->FindItem(polyname);
+      TObject* ob2 = go4->GetObject(fullname2,1000); // 1000=timeout to get object from analysis in ms
+      if(ob2 && ob2->InheritsFrom("TGo4Condition")) poly = (TGo4PolyCond*) ob2;
+      if(poly==0) {
+         std::cout <<"projectionX could not get polygon condition "<<polyname << std::endl;
+         return kFALSE;
+      }
+   }
+   TString n1 = his1->GetName();
+   TString t1 = his1->GetTitle();
+   TString oper;
+   oper.Form("(ylo=%d, yup=%d)",firstybin,lastybin);
+   TString finalname = TString("X-Projection of ")+n1;
+   TString finaltitle = TString("X-Proj.")+oper+" of "+t1;
+   TString options("");
+   if(poly){
+      cut = (TCutG*) poly->GetCut(kFALSE)->Clone("tempcut");  // therefore create clone
+      options.Form("[%s]",cut->GetName());
+   }
+   TH1* result = his1->ProjectionX(finalname.Data(),firstybin,lastybin,options.Data());
+   if(poly) delete cut; // clone
+   result->SetTitle(finaltitle);
+   result->SetDirectory(0);
+   TString rname = go4->SaveToMemory("Projections", result, kTRUE);
+   std::cout << "Saved result histogram to " << rname.Data() <<std::endl;
+   if(draw) {
+      ViewPanelHandle panel1 = go4->StartViewPanel();
+      go4->DivideViewPanel(panel1, 1, 2);
+      go4->SelectPad(panel1, 1);
+      go4->DrawItem(fullname1, panel1,"COLZ");
+      go4->SelectPad(panel1, 2);
+      go4->DrawItem(rname, panel1);
+   }
+   return kTRUE;
 }

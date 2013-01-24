@@ -27,7 +27,7 @@ class TGo4CondArray : public TGo4Condition {
    /** Constructor. type can be "TGo4WinCond" or "TGo4PolyCond" */
     TGo4CondArray(const char* name, Int_t elements, const char* type);
 
-    /** Constructor. contype can be kWINDOW or kPOLYGON */
+    /** Constructor. contype can be kGO4CONDWINDOW or kGO4CONDPOLYGON */
     TGo4CondArray(const char* name, Int_t elements, Int_t contype);
 
     virtual ~TGo4CondArray();
@@ -137,7 +137,7 @@ class TGo4CondArray : public TGo4Condition {
     /** Returns class name of conditions. */
     const char* GetType() const;
 
-    /** Returns condition type ID (kWINDOW=1 or kPOLYGON=2). */
+    /** Returns condition type ID (kGO4CONDWINDOW=1 or kGO4CONDPOLYGON=2). */
     void GetType(Int_t& type) const;
 
     /** Calls Enable for all conditions (multi edit mode) or for currently selected (single edit mode) */
@@ -239,7 +239,7 @@ class TGo4CondArray : public TGo4Condition {
     /** Number of conditions in array. */
     Int_t fiNumCond;
 
-    /** Condition type ID (kWINDOW or kPOLYGON) */
+    /** Condition type ID (kGO4CONDWINDOW or kGO4CONDPOLYGON) */
     Int_t fiType;
 
     /** Index of selected condition */

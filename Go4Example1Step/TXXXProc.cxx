@@ -13,12 +13,12 @@
 
 #include "TXXXProc.h"
 
-#include "go4iostream.h"
-
 #include "TH1.h"
 #include "TH2.h"
 #include "TROOT.h"
 #include "TCutG.h"
+
+#include "TGo4Log.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
 #include "TGo4CondArray.h"
@@ -31,18 +31,18 @@
 //***********************************************************
 TXXXProc::TXXXProc() : TGo4EventProcessor()
 {
-   cout << "**** TXXXProc: Create instance " << endl;
+   TGo4Log::Info("TXXXProc: Create instance");
 }
 //***********************************************************
 TXXXProc::~TXXXProc()
 {
-   cout << "**** TXXXProc: Delete instance " << endl;
+   TGo4Log::Info("TXXXProc: Delete instance");
 }
 //***********************************************************
 // this one is used in standard factory
 TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
 {
-   cout << "**** TXXXProc: Create instance " << name << endl;
+   TGo4Log::Info("TXXXProc: Create instance %s", name);
 
    //// init user analysis objects:
 
@@ -55,7 +55,7 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
    ExecuteScript("histofill.C");
    fControl->PrintParameter(0,0);
 
-   cout << "**** TXXXProc: Produce histograms" << endl;
+   TGo4Log::Info("TXXXProc: Produce histograms");
    // Creation of histograms (or take them from autosave)
    for(int i=0;i<8;i++) {
       fCr1Ch[i] = MakeTH1('I', Form("Crate1/Cr1Ch%02d",i+1), Form("Crate 1 channel %2d",i+1), 5000, 1., 5001.);
@@ -68,7 +68,7 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
    fHis1gate = MakeTH1('I', "His1g","Gated histogram", 5000, 1., 5001.);
    fHis2gate = MakeTH1('I', "His2g","Gated histogram", 5000, 1., 5001.);
 
-   cout << "**** TXXXProc: Produce conditions" << endl;
+   TGo4Log::Info("TXXXProc: Produce conditions");
    fconHis1 = MakeWinCond("cHis1", 100, 2000, "His1");
    fconHis2 = MakeWinCond("cHis2", 100, 2000, "His2");
 
@@ -78,7 +78,7 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
    fConArr = (TGo4CondArray*)GetAnalysisCondition("polyconar");
    if(fConArr==0) {
       // This is example how to create condition array
-      cout << "**** TXXXProc: Create condition" << endl;
+      TGo4Log::Info("TXXXProc: Create condition array");
       Double_t xvalues[4] = { 1000, 2000, 1500, 1000 };
       Double_t yvalues[4] = { 1000, 1000, 3000, 1000 };
       TCutG* mycut = new TCutG("cut2", 4, xvalues, yvalues);
@@ -88,14 +88,14 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
       delete mycut; // mycat has been copied into the conditions
       AddAnalysisCondition(fConArr);
    } else {
-      cout << "**** TXXXProc: Restore condition from autosave" << endl;
+      TGo4Log::Info("TXXXProc: Restore condition array from autosave");
       fConArr->ResetCounts();
    }
    // connect histograms to conditions. will be drawn when condition is edited.
    ((*fConArr)[0])->Enable();
    ((*fConArr)[1])->Enable(); // 2 and 3 remain disabled
 
-   cout << "**** TXXXProc: Produce pictures" << endl;
+   TGo4Log::Info("TXXXProc: Produce pictures");
    fcondSet = GetPicture("condSet");
    if (fcondSet==0) {
       // in the upper two pads, the condition limits can be set,
@@ -147,11 +147,11 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement* target)
 
    TGo4MbsEvent* source = (TGo4MbsEvent*) GetInputEvent();
    if(source == 0) {
-      cout << "AnlProc: no input event !"<< endl;
+      TGo4Log::Error("TXXXProc: no input event!");
       return kFALSE;
    }
    if(source->GetTrigger() > 11) {
-      cout << "**** TXXXProc: Skip trigger event"<<endl;
+      TGo4Log::Info("TXXXProc: Skip trigger event");
       XXXEvent->SetValid(kFALSE); // not store
       return kFALSE;
    }

@@ -29,8 +29,8 @@ class TGo4ConditionPainter;
 
 
 enum ConditionsKind {
-   kWINDOW  = 1,
-   kPOLYGON = 2
+   kGO4CONDWINDOW  = 1,
+   kGO4CONDPOLYGON = 2
 };
 
 class

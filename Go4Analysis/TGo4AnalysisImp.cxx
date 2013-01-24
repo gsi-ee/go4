@@ -1054,14 +1054,14 @@ Bool_t TGo4Analysis::LoadObjects(const char* filename)
       return kTRUE;
    }
 
-   Bool_t rev=kTRUE;
+   Bool_t rev(kTRUE);
    OpenAutoSaveFile(false);
    if(fxAutoFile && fxAutoFile->IsOpen()) {
       TGo4Log::Info("Analysis LoadObjects: Loading from autosave file %s ", fxAutoFile->GetName());
-      rev=fxObjectManager->LoadObjects(fxAutoFile);
+      rev = fxObjectManager->LoadObjects(fxAutoFile);
    } else {
       TGo4Log::Info("Analysis LoadObjects: Failed to load from file %s", fxAutoFileName.Data());
-      rev=kFALSE;
+      rev = kFALSE;
    }
    CloseAutoSaveFile();
    gROOT->cd();
@@ -1644,7 +1644,7 @@ TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char* title,
    TString foldername, histoname;
 
    if ((fullname==0) || (strlen(fullname)==0)) {
-      cout << "Histogram name not specified, can be a hard error" << endl;
+      TGo4Log::Error("Histogram name not specified, can be a hard error");
       return 0;
    }
    const char* separ = strrchr(fullname, '/');
@@ -1675,8 +1675,8 @@ TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char* title,
          if (ytitle) oldh->GetYaxis()->SetTitle(ytitle);
          return oldh;
       }
-      cout << "There is histogram " << fullname << " with type " << oldh->ClassName() << " other than specified "
-           << sclass << " rebuild" << endl;
+      TGo4Log::Info("There is histogram %s with type %s other than specified %s,rebuild",
+                     fullname, oldh->ClassName(), sclass);
    }
 
    TH1* newh = 0;
@@ -1718,7 +1718,7 @@ TH2* TGo4Analysis::MakeTH2(char type, const char* fullname, const char* title,
    TString foldername, histoname;
 
    if ((fullname==0) || (strlen(fullname)==0)) {
-      cout << "Histogram name not specified, can be a hard error" << endl;
+      TGo4Log::Error("Histogram name not specified, can be a hard error");
       return 0;
    }
    const char* separ = strrchr(fullname, '/');
@@ -1736,8 +1736,7 @@ TH2* TGo4Analysis::MakeTH2(char type, const char* fullname, const char* title,
       case 'D': case 'd': itype = 2; sclass = "TH2D"; break;
       case 'S': case 's': itype = 3; sclass = "TH2S"; break;
       case 'C': case 'c': itype = 4; sclass = "TH2C"; break;
-      default:
-         cout << "There is no histogram type:" << type << ", use I instead" << endl;
+      default: TGo4Log::Error("There is no histogram type: %c, use I instead", type); break;
    }
 
    TH1* oldh = GetHistogram(fullname);
@@ -1749,8 +1748,8 @@ TH2* TGo4Analysis::MakeTH2(char type, const char* fullname, const char* title,
          if (ytitle) oldh->GetYaxis()->SetTitle(ytitle);
          return (TH2*) oldh;
       }
-      cout << "There is histogram " << fullname << " with type " << oldh->ClassName() << " other than specified "
-           << sclass << " rebuild" << endl;
+      TGo4Log::Info("There is histogram %s with type %s other than specified %s, rebuild",
+                     fullname, oldh->ClassName(), sclass);
    }
 
    TH2* newh = 0;
@@ -1792,7 +1791,7 @@ TGo4WinCond* TGo4Analysis::MakeWinCond(const char* fullname,
    TString foldername, condname;
 
    if ((fullname==0) || (strlen(fullname)==0)) {
-      cout << "Condition name not specified, can be a hard error" << endl;
+      TGo4Log::Error("Condition name not specified, can be a hard error");
       return 0;
    }
    const char* separ = strrchr(fullname, '/');
@@ -1836,7 +1835,7 @@ TGo4WinCond* TGo4Analysis::MakeWinCond(const char* fullname,
    TString foldername, condname;
 
    if ((fullname==0) || (strlen(fullname)==0)) {
-      cout << "Condition name not specified, can be a hard error" << endl;
+      TGo4Log::Error("Condition name not specified, can be a hard error");
       return 0;
    }
    const char* separ = strrchr(fullname, '/');
@@ -1880,7 +1879,7 @@ TGo4PolyCond* TGo4Analysis::MakePolyCond(const char* fullname,
    TString foldername, condname;
 
    if ((fullname==0) || (strlen(fullname)==0)) {
-      cout << "Condition name not specified, can be a hard error" << endl;
+      TGo4Log::Error("Condition name not specified, can be a hard error");
       return 0;
    }
    const char* separ = strrchr(fullname, '/');
@@ -1940,7 +1939,7 @@ TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
    TString foldername, paramname;
 
    if ((fullname==0) || (strlen(fullname)==0)) {
-      cout << "Parameter name not specified, can be a hard error" << endl;
+      TGo4Log::Error("Parameter name not specified, can be a hard error");
       return 0;
    }
    const char* separ = strrchr(fullname, '/');
@@ -1954,8 +1953,8 @@ TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
 
    if (param!=0) {
       if (!param->InheritsFrom(classname)) {
-         cout << "There is parameter " << fullname << " with type " << param->ClassName() << " other than specified "
-              << classname << ", rebuild" << endl;
+         TGo4Log::Info("There is parameter %s with type %s other than specified %s, rebuild",
+                        fullname, param->ClassName(), classname);
          RemoveParameter(fullname);
          param = 0;
       }
@@ -1968,12 +1967,12 @@ TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
       if ((newcmd!=0) && (strstr(newcmd,"new ")==newcmd))
          cmd = TString::Format(newcmd, paramname.Data());
       else
-         cmd = TString::Format("new %s(%s);", classname, paramname.Data());
+         cmd = TString::Format("new %s(%s)", classname, paramname.Data());
 
       Long_t res = gROOT->ProcessLineFast(cmd.Data());
 
       if (res==0) {
-         cout << "Cannot create parameter of class " << classname << endl;
+         TGo4Log::Error("Cannot create parameter of class %s", classname);
          return 0;
       }
 

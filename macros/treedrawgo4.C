@@ -80,7 +80,4 @@ else
     go4->Message(3,"No Tree in File %s", myfile->GetName());
   }
 
-
-
-
 }

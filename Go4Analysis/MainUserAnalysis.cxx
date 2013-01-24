@@ -326,9 +326,9 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
          }
 	 
 	 #ifdef WIN32
-         TString cmd = TString::Format("new %s(%d, (char**)0x%x);", an_cl->GetName(), user_argc, user_argv);
+         TString cmd = TString::Format("new %s(%d, (char**)0x%x)", an_cl->GetName(), user_argc, user_argv);
     #else
-         TString cmd = TString::Format("new %s(%d, (char**)%p);", an_cl->GetName(), user_argc, user_argv);
+         TString cmd = TString::Format("new %s(%d, (char**)%p)", an_cl->GetName(), user_argc, user_argv);
 	 #endif    
          Int_t err = 0;
 
@@ -348,7 +348,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
       if (meth!=0) {
          TGo4Log::Info("!!! Find constructor with prototype %s::%s(const char*)", an_cl->GetName(), an_cl->GetName());
 
-         TString cmd = TString::Format("new %s(\"%s\");", an_cl->GetName(), name);
+         TString cmd = TString::Format("new %s(\"%s\")", an_cl->GetName(), name);
          Int_t err = 0;
 
          TGo4Log::Info("Process: %s", cmd.Data());
@@ -426,7 +426,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
          }
       }
 
-      cmd += ");";
+      cmd += ")";
 
       Int_t err = 0;
       TGo4Log::Info("Process: %s", cmd.Data());

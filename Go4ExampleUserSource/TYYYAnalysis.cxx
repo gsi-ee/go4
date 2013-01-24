@@ -14,7 +14,6 @@
 #include "TYYYAnalysis.h"
 
 #include <stdlib.h>
-#include "go4iostream.h"
 
 #include "TCanvas.h"
 #include "TH1.h"
@@ -38,7 +37,7 @@ TYYYAnalysis::TYYYAnalysis() :
    fPar(0),
    fEvents(0)
 {
-  cout << "Wrong constructor TYYYAnalysis()!" << endl;
+   TGo4Log::Error("Wrong constructor TYYYAnalysis()!");
 }
 //***********************************************************
 // this constructor is used
@@ -100,14 +99,14 @@ TYYYAnalysis::TYYYAnalysis(int argc, char** argv) :
 //***********************************************************
 TYYYAnalysis::~TYYYAnalysis()
 {
-   cout << "**** TYYYAnalysis: Delete" << endl;
+   TGo4Log::Info("TYYYAnalysis: Delete");
 }
 //***********************************************************
 
 //-----------------------------------------------------------
 Int_t TYYYAnalysis::UserPreLoop()
 {
-   cout << "**** TYYYAnalysis: PreLoop" << endl;
+   TGo4Log::Info("TYYYAnalysis: PreLoop");
    // we update the pointers to the current event structures here:
    fRawEvent = dynamic_cast<TYYYRawEvent*>    (GetInputEvent("Unpack"));   // of step "Unpack"
    fUnpackEvent = dynamic_cast<TYYYUnpackEvent*> (GetOutputEvent("Unpack"));
@@ -128,14 +127,14 @@ Int_t TYYYAnalysis::UserPreLoop()
 //-----------------------------------------------------------
 Int_t TYYYAnalysis::UserPostLoop()
 {
-   cout << "**** TYYYAnalysis: PostLoop" << endl;
-   cout << " Total events: " << fEvents << endl;
+   TGo4Log::Info("TYYYAnalysis: PostLoop");
+   TGo4Log::Info("Total events: %d", fEvents);
    TCanvas* can = GetCanvas("TestCanvas");
    if(can) {
-      TH1* hx=GetHistogram("Xfinal");
-      TH1* hy=GetHistogram("Yfinal");
-      TH1* hvx=GetHistogram("Vxfinal");
-      TH1* hvy=GetHistogram("Vyfinal");
+      TH1* hx = GetHistogram("Xfinal");
+      TH1* hy = GetHistogram("Yfinal");
+      TH1* hvx = GetHistogram("Vxfinal");
+      TH1* hvy = GetHistogram("Vyfinal");
       can->cd(1);
       if(hx) hx->Draw();
       can->cd(2);

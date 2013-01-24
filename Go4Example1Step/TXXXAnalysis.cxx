@@ -14,13 +14,16 @@
 #include "TXXXAnalysis.h"
 
 #include <stdlib.h>
-#include "go4iostream.h"
 
+#include "Riostream.h"
+
+#include "TGo4Version.h"
+#include "TGo4Log.h"
 #include "Go4EventServer.h"
 #include "TGo4StepFactory.h"
 #include "TGo4AnalysisStep.h"
+
 #include "TXXXControl.h"
-#include "TGo4Version.h"
 
 //***********************************************************
 TXXXAnalysis::TXXXAnalysis() :
@@ -84,14 +87,14 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
 //***********************************************************
 TXXXAnalysis::~TXXXAnalysis()
 {
-   cout << "**** TXXXAnalysis: Delete instance" << endl;
+   TGo4Log::Info("TXXXAnalysis: Delete instance");
 }
 
 //-----------------------------------------------------------
 Int_t TXXXAnalysis::UserPreLoop()
 {
    // all this is optional:
-   cout << "**** TXXXAnalysis: PreLoop" << endl;
+   TGo4Log::Info("TXXXAnalysis: PreLoop");
    // get pointer to input event (used in postloop and event function):
    fMbsEvent = dynamic_cast<TGo4MbsEvent*> (GetInputEvent("Analysis"));   // of step "Analysis"
    if(fMbsEvent) {
@@ -99,17 +102,14 @@ Int_t TXXXAnalysis::UserPreLoop()
       s_filhe* fileheader=fMbsEvent->GetMbsSourceHeader();
       if(fileheader)
       {
-         cout <<"\nInput file: "<<fileheader->filhe_file << endl;
-         cout <<"Tapelabel:\t" << fileheader->filhe_label<<endl;
-         cout <<"UserName:\t" << fileheader->filhe_user<<endl;
-         cout <<"RunID:\t" << fileheader->filhe_run<<endl;
-         cout <<"Explanation: "<<fileheader->filhe_exp <<endl;
-         cout <<"Comments: "<<endl;
-         Int_t numlines=fileheader->filhe_lines;
-         for(Int_t i=0; i<numlines;++i)
-         {
-            cout<<"\t"<<fileheader->s_strings[i].string << endl;
-         }
+         std::cout <<"\nInput file: "<<fileheader->filhe_file << std::endl;
+         std::cout <<"Tapelabel:\t" << fileheader->filhe_label << std::endl;
+         std::cout <<"UserName:\t" << fileheader->filhe_user << std::endl;
+         std::cout <<"RunID:\t" << fileheader->filhe_run << std::endl;
+         std::cout <<"Explanation: "<<fileheader->filhe_exp << std::endl;
+         std::cout <<"Comments: "<<endl;
+         for(Int_t i=0; i<fileheader->filhe_lines;++i)
+            std::cout<<"\t"<<fileheader->s_strings[i].string << std::endl;
       }
    }
    fEvents=0; // event counter
@@ -120,8 +120,8 @@ Int_t TXXXAnalysis::UserPreLoop()
 Int_t TXXXAnalysis::UserPostLoop()
 {
    // all this is optional:
-   cout << "**** TXXXAnalysis: PostLoop" << endl;
-   cout << "Last event  #: " << fLastEvent << " Total events: " << fEvents << endl;
+   TGo4Log::Info("TXXXAnalysis: PostLoop");
+   TGo4Log::Info("Last event  #: %d Total events: %d", fLastEvent, fEvents);
    fMbsEvent = 0; // reset to avoid invalid pointer if analysis is changed in between
    fEvents=0;
    return 0;
@@ -134,10 +134,10 @@ Int_t TXXXAnalysis::UserEventFunc()
    // This function is called once for each event after all steps.
    if(fMbsEvent) {
       fEvents++;
-      fLastEvent=fMbsEvent->GetCount();
+      fLastEvent = fMbsEvent->GetCount();
    }
-   if(fEvents == 1 || IsNewInputFile()) {
-      cout << "First event #: " << fLastEvent  << endl;
+   if((fEvents == 1) || IsNewInputFile()) {
+      TGo4Log::Info("First event #: %d", fLastEvent);
       SetNewInputFile(kFALSE); // we have to reset the newfile flag
    }
    return 0;

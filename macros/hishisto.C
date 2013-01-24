@@ -14,7 +14,6 @@
 // if display is switched off, result is lost
 ///////
 #include "Riostream.h"
-using namespace std;
 
 
 #ifdef __GO4MACRO__
@@ -22,51 +21,47 @@ using namespace std;
 Bool_t hishisto(const char* name1, Int_t bins, Bool_t draw)
 {
 
-  if(TGo4AbstractInterface::Instance()==0 || go4!=TGo4AbstractInterface::Instance())
-    {
-      cout <<"FATAL: Go4 gui macro executed outside Go4 GUI!! returning." << endl;
-      return;
-    }
+  if(TGo4AbstractInterface::Instance()==0 || go4!=TGo4AbstractInterface::Instance()) {
+     std::cout <<"FATAL: Go4 gui macro executed outside Go4 GUI!! returning." << std::endl;
+     return kFALSE;
+  }
   TString fullname1 = go4->FindItem(name1);
-  TObject* ob1=go4->GetObject(fullname1,1000);
-  if(ob1 && ob1->InheritsFrom("TH1"))
-    TH1* his1 = (TH1*)ob1;
-  else
-    {
-      cout <<"corr could not get histogram "<<fullname1 << endl;
+  TObject* ob1 = go4->GetObject(fullname1,1000);
+  if((ob1==0) || !ob1->InheritsFrom("TH1")) {
+      std::cout <<"corr could not get histogram "<< fullname1 << std::endl;
       return kFALSE;
-    }
+   }
+
+  TH1* his1 = (TH1*)ob1;
 
 #else
   // Get histograms from file
 Bool_t hishisto(const char *file, const char* name1, Int_t bins, Bool_t draw)
 {
-  TFile *f=TFile::Open(file,"r");
-  if(f == 0)
-    {
-      cout <<"corrhistos could not open file " << file << endl;
-      return kFALSE;
-    }
-  TH1* his1=f->Get(name1);
-  if(his1 == 0)
-    {
-      cout <<"corrhistos could not get histogram "<<name1 << " in file " << file << endl;
-      return kFALSE;
-    }
+  TFile *f = TFile::Open(file,"r");
+  if(f == 0) {
+     std::cout <<"corrhistos could not open file " << file << std::endl;
+     return kFALSE;
+  }
+  TH1* his1 = dynamic_cast<TH1*> (f->Get(name1));
+  if(his1 == 0) {
+    std::cout <<"corrhistos could not get histogram "<<name1 << " in file " << file << std::endl;
+    return kFALSE;
+  }
 #endif
-  TString n1=his1->GetName();
-  TString t1=his1->GetTitle();
-  TString finalname=n1+"-stat";
-  TString axistitle=n1+" content";
-  TString finaltitle=t1+" statistics";
-  Double_t max=his1->GetMaximum();
-  Double_t min=his1->GetMinimum();
-  cout << min << " " << max << endl;
+  TString n1 = his1->GetName();
+  TString t1 = his1->GetTitle();
+  TString finalname = n1+"-stat";
+  TString axistitle = n1+" content";
+  TString finaltitle = t1+" statistics";
+  Double_t max = his1->GetMaximum();
+  Double_t min = his1->GetMinimum();
+  std::cout << min << " " << max << std::endl;
   if(max > 0) max = 1.1*max;
   else        max = 0.9*max;
   if(min > 0) min = 0.9*min;
   else        min = 1.1*min;
-  stat=new TH1I(finalname,finaltitle,bins,min,max);
+  TH1I* stat = new TH1I(finalname,finaltitle,bins,min,max);
   stat->GetXaxis()->SetTitle(axistitle);
   stat->GetYaxis()->SetTitle("Counts");
   TGaxis::SetMaxDigits(2);
@@ -80,13 +75,13 @@ Bool_t hishisto(const char *file, const char* name1, Int_t bins, Bool_t draw)
 
 #ifdef __GO4MACRO__
   // save to Workspace folder Statistics
-  graname=go4->SaveToMemory("Statistics",stat,kTRUE);
-  cout << graname.Data() << endl;
+  TString graname = go4->SaveToMemory("Statistics",stat,kTRUE);
+  std::cout << graname.Data() << std::endl;
   if(!draw) return kTRUE;
   ViewPanelHandle vpanel = go4->StartViewPanel();
   go4->DrawItem(graname, vpanel, "");
 #else
-  TCanvas *canv=new TCanvas(file,finaltitle,1100,800);
+  TCanvas *canv = new TCanvas(file,finaltitle,1100,800);
   stat->Draw();
   canv->Update();
 #endif
