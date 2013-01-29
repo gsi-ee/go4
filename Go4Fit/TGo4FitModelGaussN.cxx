@@ -13,7 +13,7 @@
 
 #include "TGo4FitModelGaussN.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "TMath.h"
 #include "TGo4FitParameter.h"
 
@@ -175,7 +175,7 @@ Bool_t TGo4FitModelGaussN::BeforeEval(Int_t NDimension)
    Par_indx = fxIndexes.GetArray();
    for (Int_t i=0;i<Par_ndim;i++)
      if (Par_indx[i]>=NDimension)
-       { cout << "TGo4FitModelGaussN::   invalid index "; return kFALSE; }
+       { std::cout << "TGo4FitModelGaussN::   invalid index " << std::endl; return kFALSE; }
 
    Vect_mu = new TVectorD(Par_ndim);
    Matr_sig = new TMatrixD(Par_ndim,Par_ndim);
@@ -187,7 +187,7 @@ Bool_t TGo4FitModelGaussN::BeforeEval(Int_t NDimension)
    Double_t determ;
    Matr_sig->Invert(&determ);
    if (determ==0.)
-     { cout << "TGo4FitModelGaussN::   Invalid sigma matrice " << endl; AfterEval(); return kFALSE; }
+     { std::cout << "TGo4FitModelGaussN::   Invalid sigma matrice " << std::endl; AfterEval(); return kFALSE; }
 
    return kTRUE;
 }
@@ -212,9 +212,9 @@ void TGo4FitModelGaussN::AfterEval() {
 void TGo4FitModelGaussN::Print(Option_t* option) const
 {
     TGo4FitModel::Print(option);
-    cout << "   N-dimensional Gauss" << endl;
-    cout << "   axis indexes:";
+    std::cout << "   N-dimensional Gauss" << std::endl;
+    std::cout << "   axis indexes:";
     for (Int_t i=0;i<fxIndexes.GetSize();i++)
-      cout << " " << fxIndexes[i];
-    cout << endl;
+       std::cout << " " << fxIndexes[i];
+    std::cout << std::endl;
 }

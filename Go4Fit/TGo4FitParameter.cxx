@@ -13,8 +13,7 @@
 
 #include "TGo4FitParameter.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TGo4FitParsList.h"
 
 TGo4FitParameter::TGo4FitParameter() : TGo4FitNamed() {
@@ -57,17 +56,18 @@ void TGo4FitParameter::SetRange(Double_t iRangeMin, Double_t iRangeMax) {
 TGo4FitParameter::~TGo4FitParameter() {
 }
 
-void TGo4FitParameter::Print(Option_t* option) const {
-   cout << "   Name: " << ((TGo4FitParameter*) this) -> GetFullName();
-   cout << "   value=" << fdValue << "  error = " << fdError;
-   if (GetFixed()) cout << "  fixed";
-   if (fbRange) cout << "   range=[" << fdRangeMin << "," << fdRangeMax << "]";
-   if (fbEpsilon) cout << "  epsilon=" << fdEpsilon;
-   cout << endl;
-//   cout << "   " << (void*) this << endl;
+void TGo4FitParameter::Print(Option_t* option) const
+{
+   std::cout << "   Name: " << ((TGo4FitParameter*) this) -> GetFullName();
+   std::cout << "   value=" << fdValue << "  error = " << fdError;
+   if (GetFixed()) std::cout << "  fixed";
+   if (fbRange) std::cout << "   range=[" << fdRangeMin << "," << fdRangeMax << "]";
+   if (fbEpsilon) std::cout << "  epsilon=" << fdEpsilon;
+   std::cout << std::endl;
 }
 
-void TGo4FitParameter::Reset() {
+void TGo4FitParameter::Reset()
+{
   fdValue = 0.;
   fdError = 0.;
   fbFixed = kFALSE;

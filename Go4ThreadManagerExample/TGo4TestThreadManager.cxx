@@ -13,8 +13,6 @@
 
 #include "TGo4TestThreadManager.h"
 
-#include "go4iostream.h"
-
 #include "TGo4Log.h"
 #include "TGo4ThreadHandler.h"
 #include "TGo4TestRunnable.h"
@@ -41,17 +39,17 @@ TGo4TestThreadManager::TGo4TestThreadManager (const char* name)
    fxWorkHandler->NewThread("Third Thread",th5run);
    fxWorkHandler->NewThread("Fourth Thread",th4run);
    fxWorkHandler->NewThread("Control",fxControlRunnable);
-   cout << "thread manager: all threads added to handler"<<endl;
+   TGo4Log::Info("thread manager: all threads added to handler");
 
    fxCanvas=new TCanvas(GetName(),"TestRunnable",1200,400);
    fxPad1= new TPad("Pad1","TestRunnablePad",0.02,0.02,0.48,0.83,33);
    fxPad2= new TPad("Pad2","TestRunnablePad",0.52,0.02,0.98,0.83,33);
    fxCanvas->cd();
-   cout <<"canvas drawn"<<endl;
+   TGo4Log::Info("canvas drawn");
    fxPad1->Draw();
    fxCanvas->cd();
    fxPad2->Draw();
-   cout <<"pads drawn"<<endl;
+   TGo4Log::Info("pads drawn");
    fxCanvas->Modified();
    fxCanvas->Update();
 

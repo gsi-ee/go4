@@ -13,7 +13,7 @@
 
 #include "TGo4FitAmplEstimation.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TMath.h"
 #include "TMatrixD.h"
@@ -181,8 +181,8 @@ Bool_t TGo4FitAmplEstimation::CalculateWithBuffers(TGo4Fitter* fitter) {
         }
 
         if (matr.Determinant()==0.) {
-           cout << "  Amplitude estimation algorithm failed. " << endl;
-           cout << "  Determinant of matrice == 0.; This may be due to equiavalent model components or zero model at all" << endl;
+           std::cerr << "  Amplitude estimation algorithm failed. " << std::endl;
+           std::cerr << "  Determinant of matrice == 0.; This may be due to equiavalent model components or zero model at all" << std::endl;
            break;
         }
 
@@ -310,8 +310,8 @@ Bool_t TGo4FitAmplEstimation::CalculateWithIterators(TGo4Fitter* fitter) {
        }
 
        if (matr.Determinant()==0.) {
-           cout << "  Amplitude estimation algorithm failed. " << endl;
-           cout << "  Determinant of matrice == 0.; This may be due to equiavalent model components or zero model at all" << endl;
+           std::cerr << "  Amplitude estimation algorithm failed. " << std::endl;
+           std::cerr << "  Determinant of matrice == 0.; This may be due to equiavalent model components or zero model at all" << std::endl;
            return kFALSE;
         }
 
@@ -336,7 +336,8 @@ Bool_t TGo4FitAmplEstimation::CalculateWithIterators(TGo4Fitter* fitter) {
    return kTRUE;
 }
 
-void TGo4FitAmplEstimation::Print(Option_t* option) const {
+void TGo4FitAmplEstimation::Print(Option_t* option) const
+{
    TGo4FitterAction::Print(option);
-   cout << "  number of iterations " << fiNumIters << endl;
+   std::cout << "  number of iterations " << fiNumIters << std::endl;
 }

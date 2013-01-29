@@ -13,8 +13,7 @@
 
 #include "TGo4FitData.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TMath.h"
 #include "TObjArray.h"
 #include "TArrayC.h"
@@ -315,21 +314,21 @@ void TGo4FitData::FillSlotList(TSeqCollection* list)
 void TGo4FitData::Print(Option_t* option) const
 {
    TGo4FitComponent::Print(option);
-   cout << "   Data type: ";
+   std::cout << "   Data type: ";
    switch(fiDataType) {
-      case 1: cout << "histogram" << endl; break;
-      case 2: cout << "graph" << endl; break;
-      default: cout << fiDataType << endl;
+      case 1: std::cout << "histogram" << std::endl; break;
+      case 2: std::cout << "graph" << std::endl; break;
+      default: std::cout << fiDataType << std::endl;
    }
-   cout << "   Use bin scale:  " << fbUseBinScale << endl;
-   cout << "   Take sigmas from:  " ;
+   std::cout << "   Use bin scale:  " << fbUseBinScale << std::endl;
+   std::cout << "   Take sigmas from:  " ;
    switch(GetSigmaSource()) {
-      case 0: cout << "none" << endl; break;
-      case 1: cout << "data" << endl; break;
-      case 2: cout << "const value " << GetSigmaValue() << endl; break;
+      case 0: std::cout << "none" << std::endl; break;
+      case 1: std::cout << "data" << std::endl; break;
+      case 2: std::cout << "const value " << GetSigmaValue() << std::endl; break;
    }
-   cout << "   Exclude bins less then: " << GetExcludeLessThen() << endl;
-   cout << "   Axis transformation data: " << endl;
+   std::cout << "   Exclude bins less then: " << GetExcludeLessThen() << std::endl;
+   std::cout << "   Axis transformation data: " << std::endl;
    fxAxisTrans.Print(option);
 }
 

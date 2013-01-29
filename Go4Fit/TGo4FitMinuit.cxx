@@ -13,7 +13,7 @@
 
 #include "TGo4FitMinuit.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TMinuit.h"
 #include "TArrayD.h"
@@ -101,7 +101,7 @@ void TGo4FitMinuit::DoAction(TGo4FitterAbstract* Fitter) {
               cmd.Remove(0,6);
               while ((cmd.Length()>0) && (cmd[0]==' ')) cmd.Remove(0,1);
               if (cmd.Length()==0) cmd = "1000";
-              if (cmd.Length()<4) { cout << "invalid result command syntax" << endl; break; }
+              if (cmd.Length()<4) { std::cerr << "invalid result command syntax" << std::endl; break; }
               Bool_t getpar  = (cmd[0]=='1');
               Bool_t geterr  = (cmd[1]=='1');
               Bool_t getmatr = (cmd[2]=='1');
@@ -151,14 +151,15 @@ void TGo4FitMinuit::RemoveResult(TGo4FitMinuitResult* res)
    fxResults.Compress();
 }
 
-void TGo4FitMinuit::Print(Option_t* option) const {
+void TGo4FitMinuit::Print(Option_t* option) const
+{
    TGo4FitterAction::Print(option);
    if (fxCommands.GetLast()>=0)
-     cout << "List of commands:" << endl;
+      std::cout << "List of commands:" << std::endl;
    for(Int_t n=0;n<=fxCommands.GetLast();n++)
-     cout << "   " << ((TObjString*) fxCommands[n])->String().Data() << endl;
+      std::cout << "   " << ((TObjString*) fxCommands[n])->String().Data() << std::endl;
    if (fxResults.GetLast()>=0) {
-     cout << "List of stored results:" << endl;
-     fxResults.Print(option);
+      std::cout << "List of stored results:" << std::endl;
+      fxResults.Print(option);
    }
 }

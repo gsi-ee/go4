@@ -13,23 +13,21 @@
 
 #include "TGo4PolyCondView.h"
 
-#include "go4iostream.h"
-
 #include "TCutG.h"
 #include "TPad.h"
 #include "Buttons.h"
 
 #include "TGo4PolyCond.h"
 
-TGo4PolyCondView::TGo4PolyCondView(TCutG* source)
-   :TCutG(), fxPolyCondition(0)
+TGo4PolyCondView::TGo4PolyCondView(TCutG* source) :
+   TCutG(), fxPolyCondition(0)
 {
    SetCut(source);
    SetBit(kMustCleanup);
 }
 
-TGo4PolyCondView::TGo4PolyCondView()
-   :TCutG(), fxPolyCondition(0)
+TGo4PolyCondView::TGo4PolyCondView() :
+   TCutG(), fxPolyCondition(0)
 {
    SetBit(kMustCleanup);
 }

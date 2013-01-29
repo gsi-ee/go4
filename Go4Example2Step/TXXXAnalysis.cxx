@@ -14,7 +14,6 @@
 #include "TXXXAnalysis.h"
 
 #include <stdlib.h>
-#include "go4iostream.h"
 
 #include "TH1.h"
 #include "TFile.h"
@@ -45,7 +44,7 @@ TXXXAnalysis::TXXXAnalysis() :
    fRawEvent(0),
    fCalEvent(0)
 {
-  cout << "Wrong constructor TXXXAnalysis()!" << endl;
+   TGo4Log::Error("Wrong constructor TXXXAnalysis()!");
 }
 
 //***********************************************************
@@ -111,7 +110,6 @@ Int_t TXXXAnalysis::UserPreLoop()
 {
    TGo4Log::Info("TXXXAnalysis: PreLoop");
    Print(); // printout the step settings
-   cout << "**************************************" << endl;
    // we update the pointers to the current event structures here:
    fMbsEvent = dynamic_cast<TGo4MbsEvent*>    (GetInputEvent("Unpack"));   // of step "Unpack"
    fRawEvent = dynamic_cast<TXXXUnpackEvent*> (GetOutputEvent("Unpack"));
@@ -135,28 +133,10 @@ Int_t TXXXAnalysis::UserPostLoop()
       //fMbsEvent->PrintEvent(); // header and data content
 
       // fileheader structure:
-      s_filhe* fileheader = fMbsEvent->GetMbsSourceHeader();
-      if(fileheader) {
-           cout <<"\nInput file was: "<<fileheader->filhe_file << endl;
-           cout <<"Tapelabel:\t" << fileheader->filhe_label << endl;
-           cout <<"UserName:\t" << fileheader->filhe_user<<endl;
-           cout <<"RunID:\t" << fileheader->filhe_run<<endl;
-           cout <<"\tExplanation: "<<fileheader->filhe_exp <<endl;
-           cout <<"\tComments: "<<endl;
-           Int_t numlines=fileheader->filhe_lines;
-           for(Int_t i=0; i<numlines;++i)
-               cout<<"\t\t"<<fileheader->s_strings[i].string << endl;
-         }
+      fMbsEvent->PrintMbsFileHeader();
 
       // mbs buffer header structure:
-      s_bufhe* bufheader = fMbsEvent->GetMbsBufferHeader();
-      if(bufheader) {
-         char sbuf[1000];
-         f_ut_utime(bufheader->l_time[0], bufheader->l_time[1], sbuf);
-         cout <<"Last Buffer:"<<endl;
-         cout <<"\tNumber: " << bufheader->l_buf << endl;
-         cout <<"\tTime: " << sbuf << endl;
-       }
+      fMbsEvent->PrintMbsBufferHeader();
     }
 
    fMbsEvent = 0; // reset to avoid invalid pointer if analysis is changed in between
@@ -177,16 +157,9 @@ Int_t TXXXAnalysis::UserEventFunc()
    fEvents++;
    if(fEvents == 1 || IsNewInputFile()) {
       if(fMbsEvent) {
-         count=fMbsEvent->GetCount();
-         cout << "\nFirst event #: " << count  << endl;
-         s_bufhe* bufheader = fMbsEvent->GetMbsBufferHeader();
-         if(bufheader) {
-            char sbuf[1000];
-            f_ut_utime(bufheader->l_time[0], bufheader->l_time[1], sbuf);
-            cout <<"First Buffer:"<<endl;
-            cout <<"\tNumber: "<<bufheader->l_buf << endl;
-            cout <<"\tTime: " << sbuf << endl;
-         }
+         count = fMbsEvent->GetCount();
+         TGo4Log::Info("First event #: %d", count);
+         fMbsEvent->PrintMbsBufferHeader();
       }
       SetNewInputFile(kFALSE); // we have to reset the newfile flag
    }

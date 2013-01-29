@@ -13,16 +13,17 @@
 
 #include "TGo4CondArray.h"
 
-#include "go4iostream.h"
 #include <stdlib.h>
+
+#include "Riostream.h"
 #include "TROOT.h"
 #include "TClass.h"
 #include "TObjArray.h"
 
+#include "TGo4Log.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
 #include "TGo4CondArrayPainter.h"
-#include "TGo4Log.h"
 
 // ----------------------------------------------------------
 TGo4WinCond* TGo4CondArray::Win(Int_t i)
@@ -167,44 +168,30 @@ return rev;
 }
 
 // ----------------------------------------------------------
-void TGo4CondArray::PrintCondition(Bool_t points){
-TGo4Condition *cond;
-TGo4WinCond   *pwc;
-TGo4PolyCond  *ppc;
-// all entries are used!
-Int_t ii = condarr->GetLast()+1;
-cond= (TGo4Condition*) condarr->At(0);
-Bool_t wc = (strcmp(cond->ClassName(),"TGo4WinCond")==0);
-Bool_t pc = (strcmp(cond->ClassName(),"TGo4PolyCond")==0);
-cout << GetName() << " has " << ii << " " << cond->ClassName() << " conditions" << endl;
-for(Int_t i = 0; i < ii; i++)
+void TGo4CondArray::PrintCondition(Bool_t points)
 {
-cond=(TGo4Condition*) condarr->UncheckedAt(i);
-pwc = (TGo4WinCond*)cond;
-ppc = (TGo4PolyCond*)cond;
-     if(wc)pwc->PrintCondition(points);
-else if(pc)ppc->PrintCondition(points);
-else       cond->Print();
-}
+   // all entries are used!
+   Int_t ii = condarr->GetLast()+1;
+   TGo4Condition* cond = (TGo4Condition*) condarr->At(0);
+   std::cout << GetName() << " has " << ii << " " << cond->ClassName() << " conditions" << std::endl;
+   for(Int_t i = 0; i < ii; i++)
+   {
+      TGo4Condition* cond = dynamic_cast<TGo4Condition*> (condarr->UncheckedAt(i));
+      if (cond) cond->PrintCondition(points);
+   }
 }
 // ----------------------------------------------------------
 void TGo4CondArray::PrintBar()
 {
-TGo4Condition *cond;
-Int_t ii = condarr->GetLast()+1;
-TObject* ob= condarr->At(0);
-Bool_t con = (ob!=0) ? ob->InheritsFrom(TGo4Condition::Class()) : kFALSE;
-cout <<"-"<<ClassName()<<" "<<GetName()<<" Printout:" << endl;
-//TROOT::IncreaseDirLevel();
-for(Int_t i = 0; i < ii; i++)
-{
-   if(con)
+   Int_t ii = condarr->GetLast()+1;
+   std::cout <<"-"<<ClassName()<<" "<<GetName()<<" Printout:" << std::endl;
+   //TROOT::IncreaseDirLevel();
+   for(Int_t i = 0; i < ii; i++)
    {
-      cond=(TGo4Condition*) condarr->UncheckedAt(i);
+      TGo4Condition* cond = dynamic_cast<TGo4Condition*> (condarr->UncheckedAt(i));
       TROOT::IndentLevel();
-      cond->PrintBar();
+      if (cond) cond->PrintBar();
    }
-}
 //TROOT::DecreaseDirLevel();
 }
 

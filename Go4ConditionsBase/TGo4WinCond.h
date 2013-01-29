@@ -63,7 +63,7 @@ class TGo4WinCond : public TGo4Condition {
       inline virtual Double_t GetYUp() {return fUp2;}
 
       /** Printout. If limits is true, print limits too. */
-      void PrintCondition(Bool_t limits);
+      virtual void PrintCondition(Bool_t full = kTRUE);
 
       /** Copy values from cond to this. When counts is true, copy also counters. */
       Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts);

@@ -13,7 +13,6 @@
 
 #include "TGo4MbsEvent.h"
 
-#include "go4iostream.h"
 #include "TObjArray.h"
 
 #include "TGo4Log.h"
@@ -191,42 +190,62 @@ void TGo4MbsEvent::PrintEvent()
    PrintMbsEvent();
 }
 
+void TGo4MbsEvent::PrintMbsFileHeader()
+{
+   s_filhe* head = GetMbsSourceHeader();
+   if (head==0) return;
+   printf("***** File header:\n");
+   printf("\tdatalen: %d \n", head->filhe_dlen);
+   printf("\tfilename_l: %d \n", head->filhe_file_l);
+   printf("\tfilename: %s\n", head->filhe_file);
+   printf("\ttype: %d \n", head->filhe_type);
+   printf("\tsubtype: %d\n", head->filhe_subtype);
+   printf("\t#commentlines: %d\n", head->filhe_lines);
+   for(Int_t i=0; i<head->filhe_lines;++i)
+       printf("\t\t %s\n", head->s_strings[i].string);
+}
+
+void TGo4MbsEvent::PrintMbsBufferHeader()
+{
+   s_bufhe* head = GetMbsBufferHeader();
+   if (head==0) return;
+
+   printf("***** Buffer header:\n");
+   printf("\tbuffernumber: %d \n", head->l_buf);
+   printf("\tdatalen: %d \n", head->l_dlen);
+   printf("\ttime lo: %u\n", head->l_time[0]); // seconds since epoch 1970
+   printf("\ttime hi: %u\n", head->l_time[1]); // microseconds since time lo
+   char sbuf[1000];
+   f_ut_utime(head->l_time[0], head->l_time[1], sbuf);
+   printf("\ttimestring: %s\n", sbuf);
+   printf("\ttype: %d \n", head->i_type);
+   printf("\tsubtype: %d \n", head->i_subtype);
+}
+
+
 void TGo4MbsEvent::PrintMbsEvent(Int_t subid, Bool_t longw, Bool_t hexw, Bool_t dataw, Bool_t bufhead, Bool_t filhead)
 {
-   static TString oldfname;
-   static TString timestring="";
+   static TString oldfname = "";
+   static TString timestring = "";
    if (filhead) {
       s_filhe* head = GetMbsSourceHeader();
       if (head  && (TString(head->filhe_file) != oldfname)) {
-               oldfname=head->filhe_file;
-               printf("***** File header:\n");
-               printf("\tdatalen: %d \n", head->filhe_dlen);
-               printf("\tfilename_l: %d \n", head->filhe_file_l);
-               printf("\tfilename: %s\n", head->filhe_file);
-               printf("\ttype: %d \n", head->filhe_type);
-               printf("\tsubtype: %d\n", head->filhe_subtype);
-               printf("\t#commentlines: %d\n", head->filhe_lines);
-
-            }
-         }
-   static int oldbnum=0;
+         oldfname=head->filhe_file;
+         PrintMbsFileHeader();
+      }
+   }
+   static int oldbnum = 0;
    if (bufhead) {
       s_bufhe* head = GetMbsBufferHeader();
       if ( head  && (head->l_buf != oldbnum) ) {
-            // only print if buffernumber has changed
-            oldbnum = head->l_buf;
-            printf("***** Buffer header:\n");
-            printf("\tbuffernumber: %d \n", head->l_buf);
-            printf("\tdatalen: %d \n", head->l_dlen);
-            printf("\ttime lo: %u\n", head->l_time[0]); // seconds since epoch 1970
-            printf("\ttime hi: %u\n", head->l_time[1]); // microseconds since time lo
-            char sbuf[1000];
-            f_ut_utime(head->l_time[0], head->l_time[1], sbuf);
-            printf("\ttimestring: %s\n", sbuf);
-            timestring=sbuf;
-            printf("\ttype: %d \n", head->i_type);
-            printf("\tsubtype: %d \n", head->i_subtype);
-         }
+         // only print if buffernumber has changed
+         oldbnum = head->l_buf;
+         char sbuf[1000];
+         f_ut_utime(head->l_time[0], head->l_time[1], sbuf);
+         timestring = sbuf;
+
+         PrintMbsBufferHeader();
+      }
    }
 
    if (GetType()==10) {
@@ -236,11 +255,6 @@ void TGo4MbsEvent::PrintMbsEvent(Int_t subid, Bool_t longw, Bool_t hexw, Bool_t 
       printf("Event type %d, subtype %d, data longwords %d",
                GetType(), GetSubtype(), GetDlen()/2);
    }
-
-
-
-
-
 
 
    TGo4MbsSubEvent *sub(0);
@@ -298,7 +312,6 @@ s_filhe * TGo4MbsEvent::GetMbsSourceHeader()
    TGo4MbsSource* src = dynamic_cast<TGo4MbsSource*> (GetEventSource());
    return src ? src->GetInfoHeader() : 0;
 }
-
 
 s_bufhe * TGo4MbsEvent::GetMbsBufferHeader()
 {

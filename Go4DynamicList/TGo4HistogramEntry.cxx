@@ -14,7 +14,7 @@
 #include "TGo4HistogramEntry.h"
 
 #include "RVersion.h"
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "TH1.h"
 #include "TH2.h"
 #include "TH3.h"
@@ -196,15 +196,15 @@ Bool_t TGo4HistogramEntry::TestConditionNew()
    switch(dimension) {
 //         case 0:
 //            rev = fxCondition->GetLast(); // no own variables: last result
-//            //cout << "found zero dimension for condition" << endl;
+//            //std::cout << "found zero dimension for condition" << std::endl;
 //            break;
          case 1:
             rev=fxCondition->Test(dat[0]);
-            //cout << "found one dimension for condition" << endl;
+            //std::cout << "found one dimension for condition" << std::endl;
             break;
          case 2:
             rev=fxCondition->Test(dat[0], dat[1]);
-            //cout << "found two dimensions for condition" << endl;
+            //std::cout << "found two dimensions for condition" << std::endl;
             break;
          default:
             rev = kTRUE;
@@ -266,30 +266,30 @@ void TGo4HistogramEntry::Print(Option_t* dummy) const
 {
    // this trick is needed since root defines Print as const function...
    TROOT::IndentLevel();
-   cout <<"-Dynamic Histogram Entry " << GetName()<<" :"<<endl;
+   std::cout <<"-Dynamic Histogram Entry " << GetName()<<" :"<<std::endl;
    TROOT::IncreaseDirLevel();
    TROOT::IndentLevel();
 
-   if(IsEnabledProcessing()) cout <<"\t-- Enabled --" << endl;
-                        else cout <<"\t-- Disabled --" << endl;
+   if(IsEnabledProcessing()) std::cout <<"\t-- Enabled --" << std::endl;
+                        else std::cout <<"\t-- Disabled --" << std::endl;
 
    TROOT::IndentLevel();
-   cout <<"\tCondition: "<< GetConditionName() << endl;
+   std::cout <<"\tCondition: "<< GetConditionName() << std::endl;
    for(Int_t i=0;i<__MAXCONDIM__; ++i) {
       TROOT::IndentLevel();
-      cout << "\t ConEvent(" << i << "): " << GetConEventName(i)
-           << "\t ConVar(" << i << "): " << GetConVarName(i) << endl;
+      std::cout << "\t ConEvent(" << i << "): " << GetConEventName(i)
+           << "\t ConVar(" << i << "): " << GetConVarName(i) << std::endl;
    }
    TROOT::IndentLevel();
-   cout <<"\tHistogram: "<< GetHistogramName() << endl;
+   std::cout <<"\tHistogram: "<< GetHistogramName() << std::endl;
    for(Int_t i=0;i<__MAXHISDIM__; ++i) {
       TROOT::IndentLevel();
-      cout << "\t HisEvent(" << i<<"): " << GetHistEventName(i)
-           << "\t HisVar(" << i<< "): " << GetHistVarName(i) << endl;
+      std::cout << "\t HisEvent(" << i<<"): " << GetHistEventName(i)
+           << "\t HisVar(" << i<< "): " << GetHistVarName(i) << std::endl;
    }
    TROOT::DecreaseDirLevel();
    TROOT::IndentLevel();
-   cout <<"-End "<<GetName()<<"-----------" << endl;
+   std::cout <<"-End "<<GetName()<<"-----------" << std::endl;
 }
 
 const char* TGo4HistogramEntry::Get_fgcNOCONDITION()

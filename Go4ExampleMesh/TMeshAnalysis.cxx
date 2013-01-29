@@ -21,13 +21,14 @@ extern "C" {
    #include "f_ut_utime.h"
 }
 
-#include "go4iostream.h"
 #include "TH1.h"
+
+#include "TGo4Log.h"
+#include "TGo4Version.h"
 #include "TMeshParameter.h"
 #include "Go4EventServer.h"
 #include "TGo4StepFactory.h"
 #include "TGo4AnalysisStep.h"
-#include "TGo4Version.h"
 
 //***********************************************************
 TMeshAnalysis::TMeshAnalysis() :
@@ -37,7 +38,7 @@ TMeshAnalysis::TMeshAnalysis() :
    fEvents(0),
    fLastEvent(0)
 {
-  cout << "Wrong constructor TMeshAnalysis()!" << endl;
+   TGo4Log::Error("Wrong constructor TMeshAnalysis()!");
 }
 //***********************************************************
 // this constructor is used
@@ -230,14 +231,14 @@ TMeshAnalysis::TMeshAnalysis(int argc, char** argv) :
 //***********************************************************
 TMeshAnalysis::~TMeshAnalysis()
 {
-  cout << "**** TMeshAnalysis: Delete" << endl;
+   TGo4Log::Info("TMeshAnalysis: Delete");
 }
 //***********************************************************
 
 //-----------------------------------------------------------
 Int_t TMeshAnalysis::UserPreLoop()
 {
-  cout << "**** TMeshAnalysis: PreLoop" << endl;
+   TGo4Log::Info("TMeshAnalysis: PreLoop");
    // we update the pointers to the current event structures here:
    fMbsEvent = dynamic_cast<TGo4MbsEvent*>    (GetInputEvent("Unpack"));   // of step "Unpack"
    fEvents=0;
@@ -261,42 +262,20 @@ Int_t TMeshAnalysis::UserPreLoop()
 //-----------------------------------------------------------
 Int_t TMeshAnalysis::UserPostLoop()
 {
-  cout << "**** TMeshAnalysis: PostLoop" << endl;
-  cout << "Last event: " << fLastEvent << " Total events: " << fEvents << endl;
-  if(fMbsEvent)
-    {
+   TGo4Log::Info("TMeshAnalysis: PostLoop");
+   TGo4Log::Info("Last event: %d  Total events: %d", fLastEvent, fEvents);
+   if(fMbsEvent)
+   {
       // we can check some properties of last event here:
       //fMbsEvent->PrintEvent(); // header and data content
 
       // fileheader structure:
-      s_filhe* fileheader=fMbsEvent->GetMbsSourceHeader();
-      if(fileheader)
-         {
-           cout <<"\nInput file was: "<<fileheader->filhe_file << endl;
-           cout <<"Tapelabel:\t" << fileheader->filhe_label<<endl;
-           cout <<"UserName:\t" << fileheader->filhe_user<<endl;
-           cout <<"RunID:\t" << fileheader->filhe_run<<endl;
-           cout <<"\tExplanation: "<<fileheader->filhe_exp <<endl;
-           cout <<"\tComments: "<<endl;
-           Int_t numlines=fileheader->filhe_lines;
-           for(Int_t i=0; i<numlines;++i)
-            {
-               cout<<"\t\t"<<fileheader->s_strings[i].string << endl;
-            }
-         }
+      fMbsEvent->PrintMbsFileHeader();
 
       // mbs buffer header structure:
-      s_bufhe* bufheader=fMbsEvent->GetMbsBufferHeader();
-      if(bufheader) {
-         char sbuf[1000];
-         f_ut_utime(bufheader->l_time[0], bufheader->l_time[1], sbuf);
-         cout <<"Last Buffer:" << endl;
-         cout <<"\tNumber: " << bufheader->l_buf << endl;
-         cout <<"\tTime: "<< sbuf << endl;
-      }
+      fMbsEvent->PrintMbsBufferHeader();
 
-
-    }
+   }
 
 /////////////////////////////
 
@@ -316,16 +295,10 @@ Int_t TMeshAnalysis::UserEventFunc()
    fEvents++;
    if(fEvents == 1 || IsNewInputFile()) {
       if(fMbsEvent) {
-         count=fMbsEvent->GetCount();
-         cout << "\nFirst event #: " << count  << endl;
-         s_bufhe* bufheader=fMbsEvent->GetMbsBufferHeader();
-         if(bufheader) {
-            char sbuf[1000];
-            f_ut_utime(bufheader->l_time[0], bufheader->l_time[1], sbuf);
-            cout <<"First Buffer:"<<endl;
-            cout <<"\tNumber: "<<bufheader->l_buf << endl;
-            cout <<"\tTime: "<< sbuf << endl;
-         }
+         count = fMbsEvent->GetCount();
+         TGo4Log::Info("First event #: %d", count);
+         // mbs buffer header structure:
+         fMbsEvent->PrintMbsBufferHeader();
       }
       SetNewInputFile(kFALSE); // we have to reset the newfile flag
    }

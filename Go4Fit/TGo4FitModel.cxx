@@ -13,7 +13,7 @@
 
 #include "TGo4FitModel.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TArrayD.h"
 #include "TArrayI.h"
@@ -41,8 +41,9 @@ Double_t TGo4FitAssignment::RatioValue() {
    return (fxRatio==0) ? 1. : fxRatio->GetValue();
 }
 
-void TGo4FitAssignment::Print(Option_t* option) const {
-   cout << "  " << GetName();
+void TGo4FitAssignment::Print(Option_t* option) const
+{
+   std::cout << "  " << GetName();
 }
 
 // **************************************************************************************************
@@ -184,7 +185,7 @@ Bool_t TGo4FitModel::Initialize(Int_t UseBuffers) {
    for(Int_t n=0;n<NumAssigments();n++) {
       TGo4FitAssignment* ass = GetAssigment(n);
       if (ass->fxData==0) {
-         cout << "Data " << ass->GetName() << "  not assigned to model " << GetName() << endl;
+         std::cout << "Data " << ass->GetName() << "  not assigned to model " << GetName() << std::endl;
          continue;
       }
 
@@ -485,13 +486,13 @@ Double_t TGo4FitModel::GetRatioValueFor(const char* DataName) {
 
 void TGo4FitModel::Print(Option_t* option) const {
     TGo4FitComponent::Print(option);
-    cout << "  Assigned to: ";
+    std::cout << "  Assigned to: ";
     fxAssigments.Print(option);
-    cout << endl;
+    std::cout << std::endl;
     if ( (fiMinIntegrDepth>0) && (fiMaxIntegrDepth>0) ) {
-       cout << "   Integration property: depths from " << fiMinIntegrDepth << " to " <<  fiMaxIntegrDepth;
-       if (fbAbsoluteEps) cout << " absolute"; else cout << "  relative";
-       cout << " error " << fdIntegrEps << endl;
+       std::cout << "   Integration property: depths from " << fiMinIntegrDepth << " to " <<  fiMaxIntegrDepth;
+       if (fbAbsoluteEps) std::cout << " absolute"; else cout << "  relative";
+       std::cout << " error " << fdIntegrEps << std::endl;
     }
 }
 

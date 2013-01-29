@@ -13,8 +13,7 @@
 
 #include "TGo4WinCond.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TH1.h"
 #include "snprintf.h"
 
@@ -121,8 +120,8 @@ void TGo4WinCond::PrintCondition(Bool_t limits)
    if(limits) {
       char line[128];
       if(GetDimension()==1) snprintf(line,127,"[%8.2f,%8.2f]",fLow1,fUp1);
-      else         snprintf(line,127,"[%8.2f,%8.2f][%8.2f,%8.2f]",fLow1,fUp1,fLow2,fUp2);
-      cout << line     << endl;
+                       else snprintf(line,127,"[%8.2f,%8.2f][%8.2f,%8.2f]",fLow1,fUp1,fLow2,fUp2);
+      std::cout << line     << std::endl;
    }
 }
 
@@ -262,7 +261,7 @@ Bool_t TGo4WinCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
 {
    if(!TGo4Condition::UpdateFrom(cond,counts)) return kFALSE;
    if(!cond->InheritsFrom(TGo4WinCond::Class())) {
-      cout << "Cannot update " << GetName() << " from " << cond->ClassName() << endl;
+      std::cout << "Cannot update " << GetName() << " from " << cond->ClassName() << std::endl;
       return kFALSE;
    }
    Int_t dimension=0;

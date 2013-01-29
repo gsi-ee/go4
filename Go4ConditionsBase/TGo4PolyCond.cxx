@@ -13,7 +13,7 @@
 
 #include "TGo4PolyCond.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "RVersion.h"
 
 #include "TMath.h"
@@ -179,16 +179,17 @@ Bool_t TGo4PolyCond::Test(Double_t x, Double_t y)
    return IsTrue();
 }
 // ----------------------------------------------------------
-void TGo4PolyCond::PrintCondition(Bool_t points){
-TGo4Condition::PrintCondition();
-//cout << "fxCut " << fxCut << endl;
-if(points){
-   if(fxCut == 0){
-//cout << "Cut " << fxCut->GetName() << endl;
-cout << "No polygon specified!" << endl;
+void TGo4PolyCond::PrintCondition(Bool_t points)
+{
+   TGo4Condition::PrintCondition();
+   if(points) {
+      if(fxCut == 0)
+         std::cout << "No polygon specified!" << std::endl;
+      else
+         fxCut->Print(0);
    }
-else fxCut->Print(0);
-}}
+}
+
 // -----------------------------------------------
 // PrintBar switch is handled in condition baseclass now.
 //void TGo4PolyCond::Print(Option_t* opt) const{

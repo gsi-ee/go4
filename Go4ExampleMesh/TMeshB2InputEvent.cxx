@@ -13,8 +13,7 @@
 
 #include "TMeshB2InputEvent.h"
 
-#include "go4iostream.h"
-
+#include "TGo4Log.h"
 #include "TMeshUnpackProc.h"
 #include "TGo4FileSource.h"
 
@@ -43,12 +42,12 @@ Int_t TMeshB2InputEvent::Init()
   // is it used by Unpack step as output?
   if(CheckEventSource("TMeshUnpackProc")){
     fxProcessor = dynamic_cast<TMeshUnpackProc*>(GetEventSource());
-    cout << "**** TMeshB2InputEvent init for Unpack step"<< endl;
+    TGo4Log::Info("TMeshB2InputEvent init for Unpack step");
   }
   // or is it used from provider step as input
   else if(CheckEventSource("TGo4FileSource")){
     fxFile = dynamic_cast<TGo4FileSource*> (GetEventSource());
-    cout << "**** TMeshB2InputEvent init for file input"<< endl;
+    TGo4Log::Info("TMeshB2InputEvent init for file input");
   }
   else          rev=1;
   return rev;
@@ -70,9 +69,6 @@ Int_t TMeshB2InputEvent::Fill()
 //-----------------------------------------------------------
 void  TMeshB2InputEvent::Clear(Option_t *t)
 {
-void* destfield;
-   //cout << "+++ event clear" << endl;
-   destfield = (void*) &fiCrate2[0];
+   void* destfield = (void*) &fiCrate2[0];
    memset(destfield,0, sizeof(fiCrate2));
-   //cout << "+++ event clear" << endl;
 }

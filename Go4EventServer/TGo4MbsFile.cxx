@@ -15,7 +15,7 @@
 
 #include <string.h>
 
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "Riosfwd.h"
 #include "TSystem.h"
 #include "TROOT.h"
@@ -429,7 +429,7 @@ Int_t TGo4MbsFile::NewFileAction(Bool_t dosave)
       if(dosave) ana->AutoSave();
       ana->ClearObjects("Histograms");
       TString asfname = fname+".root";
-      cout << "Setting autosavefile to name " << asfname << endl;
+      std::cout << "Setting autosavefile to name " << asfname << std::endl;
       ana->SetAutoSaveFile(asfname.Data());
       if(dosave) ana->AutoSave();
    }

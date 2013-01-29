@@ -13,8 +13,7 @@
 
 #include "TMeshB2OutputEvent.h"
 
-#include "go4iostream.h"
-
+#include "TGo4Log.h"
 #include "TMeshB2AnlProc.h"
 #include "TGo4FileSource.h"
 
@@ -43,12 +42,12 @@ Int_t TMeshB2OutputEvent::Init()
    if(CheckEventSource("TMeshB2AnlProc"))
       {
          fxProcessor = dynamic_cast<TMeshB2AnlProc*>(GetEventSource());
-         cout << "**** TMeshB2OutputEvent Init for analysis step"<< endl;
+         TGo4Log::Info("TMeshB2OutputEvent Init for analysis step");
       }
    else if(CheckEventSource("TGo4FileSource"))
       {
          fxFile = dynamic_cast<TGo4FileSource*>(GetEventSource());
-         cout << "**** TMeshB2OutputEvent Init for file input"<< endl;
+         TGo4Log::Info("TMeshB2OutputEvent Init for file input");
       }
    else
       rev=1;
@@ -74,7 +73,6 @@ Int_t TMeshB2OutputEvent::Fill()
 void TMeshB2OutputEvent::Clear(Option_t *t)
 {
 //-----------------------------------------------------------
-void* destfield;
-   destfield = (void*) &frData[0];
+   void* destfield = (void*) &frData[0];
    memset(destfield,0, sizeof(frData));
 }

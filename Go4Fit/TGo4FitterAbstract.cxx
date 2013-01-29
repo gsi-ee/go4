@@ -13,8 +13,7 @@
 
 #include "TGo4FitterAbstract.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TArrayD.h"
 #include "TArrayI.h"
 #include "TVectorD.h"
@@ -117,7 +116,7 @@ Bool_t TGo4FitterAbstract::InitializeDependencies(TObjArray& Dependencies, Bool_
      TGo4FitParameter* deppar = 0;
      if (dep->GetParameter().Length()==0) parindx=-1; else {
        deppar = Find(dep->GetParameter().Data());
-       if (deppar==0) { cout << "Error dependence parameter: " << dep->GetParameter().Data() << endl; return kFALSE; }
+       if (deppar==0) { std::cout << "Error dependence parameter: " << dep->GetParameter().Data() << std::endl; return kFALSE; }
        parindx = GetParIndex(deppar);
      }
 
@@ -134,7 +133,7 @@ Bool_t TGo4FitterAbstract::InitializeDependencies(TObjArray& Dependencies, Bool_
         Int_t err = fx->Compile(formula.Data());
         delete fx;
         if (err!=0) {
-           cout << "Error in dependence: " << formula.Data() << "   code " << err << endl;
+           std::cout << "Error in dependence: " << formula.Data() << "   code " << err << std::endl;
            return kFALSE;
         }
         if (DoInit) dep->Initialize(parindx, formula.Data());
@@ -389,14 +388,14 @@ TObjArray* TGo4FitterAbstract::ProcessObjects(TObjArray* objs, Bool_t CloneFitte
   for (Int_t nobj=0;nobj<=objs->GetLast();nobj++) {
      TObject* obj = objs->At(nobj);
      if (obj==0) {
-       cout << "Empty object in list" << endl;
+       std::cout << "Empty object in list" << std::endl;
        return 0;
      }
      TGo4FitSlot* slot = GetSlot(use[nuse++]);
      if (nuse==numuse) nuse=0;
      if (!slot->IsSuitable(obj)) {
-        cout << "Object " << obj->GetName() << " of class " << obj->ClassName() <<
-                " noncompatible with " << slot->GetClass()->GetName() << endl;
+        std::cout << "Object " << obj->GetName() << " of class " << obj->ClassName() <<
+                " noncompatible with " << slot->GetClass()->GetName() << std::endl;
         return 0;
      }
   }
@@ -548,20 +547,20 @@ Double_t TGo4FitterAbstract::GetResultFF() const
 
 void TGo4FitterAbstract::PrintResults() const
 {
-   cout << endl << "*** LIST OF RESULT VALUE ***" << endl;
-   cout << "    Fit function = " << GetResultFF() << endl;
-   cout << "    NDF = " << GetResultNDF() << endl;
+   std::cout << std::endl << "*** LIST OF RESULT VALUE ***" << std::endl;
+   std::cout << "    Fit function = " << GetResultFF() << std::endl;
+   std::cout << "    NDF = " << GetResultNDF() << std::endl;
    for(Int_t n=0;n<GetNumResults();n++)
-     cout << "    Res " << n << " =  " << GetResultValue(n) << endl;
+     std::cout << "    Res " << n << " =  " << GetResultValue(n) << std::endl;
 }
 
 void TGo4FitterAbstract::Print(Option_t* option) const
 {
-   cout << endl << "********** THIS IS PRINTOUT OF FITTER OBJECT **********" << endl;
+   std::cout << std::endl << "********** THIS IS PRINTOUT OF FITTER OBJECT **********" << std::endl;
    TGo4FitNamed::Print(option);
    TGo4FitParsList::Print(option);
    if (fxActions.GetLast()>=0) {
-      cout << "Actions list: " << endl;
+      std::cout << "Actions list: " << std::endl;
       fxActions.Print(option);
    }
 }

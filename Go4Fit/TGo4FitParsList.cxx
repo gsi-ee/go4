@@ -13,7 +13,7 @@
 
 #include "TGo4FitParsList.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "TClass.h"
 #include "TStyle.h"
 #include "TString.h"
@@ -215,7 +215,7 @@ void TGo4FitParsList::Print(Option_t* option) const
 {
    TGo4FitParsList* lst = (TGo4FitParsList*) this;
    if ((lst->NumPars()>0) && fxPars.IsOwner()) {
-      cout << "  List of parameters:" << endl;
+      std::cout << "  List of parameters:" << std::endl;
       for(Int_t n=0;n<lst->NumPars();n++)
          lst->GetPar(n)->Print(option);
    }
@@ -223,7 +223,7 @@ void TGo4FitParsList::Print(Option_t* option) const
 
 void TGo4FitParsList::PrintPars() const
 {
-   cout << endl << "*** LIST OF PARAMETERS VALUE ***" << endl;
+   std::cout << std::endl << "*** LIST OF PARAMETERS VALUE ***" << std::endl;
 
    TGo4FitParsList* l = (TGo4FitParsList*) this;
 
@@ -236,7 +236,7 @@ void TGo4FitParsList::PrintPars() const
    TString tt = TString::Format("%s%ds %s%s %s%s","%",maxparlen,"%",gStyle->GetStatFormat(),"%",gStyle->GetStatFormat());
 
    for(Int_t n=0;n<l->NumPars();n++)
-     cout << Form(tt.Data(), l->GetParFullName(n), l->GetPar(n)->GetValue(), l->GetPar(n)->GetError()) << endl;
+      std::cout << Form(tt.Data(), l->GetParFullName(n), l->GetPar(n)->GetValue(), l->GetPar(n)->GetError()) << std::endl;
 }
 
 void TGo4FitParsList::SetParsOwner(TGo4FitNamed* iOwner)

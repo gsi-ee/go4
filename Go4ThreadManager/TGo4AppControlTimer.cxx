@@ -13,8 +13,6 @@
 
 #include "TGo4AppControlTimer.h"
 
-#include "go4iostream.h"
-
 #include "TCondition.h"
 #include "TApplication.h"
 #include "TThread.h"
@@ -56,8 +54,9 @@ Bool_t TGo4AppControlTimer::Notify ()
 //   TurnOff();
    if(fxManager==0)
       {
-         cerr<<"TGo4AppControlTimer::Notify () NEVER COME HERE!!!" << endl;
-         cerr<<"TGo4AppControlTimer::Notify () with  zero threadmanager!!!" << endl;
+         TGo4Log::Error("TGo4AppControlTimer::Notify () NEVER COME HERE!!!");
+         TGo4Log::Error("TGo4AppControlTimer::Notify () with  zero threadmanager!!!");
+         return kFALSE;
 
       }
    if(fxManager->Initialization()==0)

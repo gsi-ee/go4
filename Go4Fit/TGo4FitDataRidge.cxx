@@ -13,8 +13,7 @@
 
 #include "TGo4FitDataRidge.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TArrayD.h"
 #include "TArrayF.h"
 
@@ -49,7 +48,7 @@ void TGo4FitDataRidge::Print(Option_t* option) const {
    TGo4FitData::Print(option);
    if (GetData())
      GetData()->Print(option);
-   cout << "  selected axis for transform " << fiSelectedAxis << endl;
+   std::cout << "  selected axis for transform " << fiSelectedAxis << std::endl;
 }
 
 
@@ -75,7 +74,7 @@ Bool_t TGo4FitDataRidgeIter::StartReset() {
   if (data==0) return kFALSE;
 
   if (data->GetDataType() != TGo4FitData::dtHistogram ) {
-     cout << " Only histogramic data can be used for transform " << endl;
+     std::cout << " Only histogramic data can be used for transform " << std::endl;
      return kFALSE;
   }
 

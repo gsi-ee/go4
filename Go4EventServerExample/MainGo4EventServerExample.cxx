@@ -26,24 +26,25 @@
 *
 **/
 
-#include "go4iostream.h"
 #include <stdlib.h>
-#include "TApplication.h"
 
+#include "Riostream.h"
+#include "TApplication.h"
 #include "TH1.h"
 #include "TBrowser.h"
 #include "TCanvas.h"
 #include "TBenchmark.h"
 
 #include "TGo4Log.h"
-
 #include "Go4EventServer.h"
-
 #include "TGo4SimpleEvent.h"
 #include "TGo4SimpleSubEvent.h"
 #include "TGo4SimpleEventProcessor.h"
 
-void usage();
+void usage()
+{
+   std::cout << "usage: MainGo4EventServerExample eventnumber"<<std::endl;
+}
 
 int main(int argc, char **argv)
 {
@@ -136,7 +137,7 @@ int main(int argc, char **argv)
      simpevent->SetEventSource(proc); // tell user event to be filled by unpack processor
 
 
-     cout << "starting event loop:"<< endl;
+     std::cout << "starting event loop:"<< std::endl;
      mybench.Start("Go4EventServer");
      for(Int_t t=0; t<maxevents; ++t)
         {
@@ -145,13 +146,13 @@ int main(int argc, char **argv)
            Int_t errmess=event->Fill(); // fills raw event from mbs source
            if(errmess==GETEVT__NOMORE)
               {
-                 cout << "no more events from MbsSource."<< endl;
+                 std::cout << "no more events from MbsSource."<< std::endl;
                  break;
                  //gApplication->Terminate();
               }
            else if(errmess!=0)
               {
-                 cout << "ERROR on event fill."<< endl;
+                 std::cout << "ERROR on event fill."<< std::endl;
                  break;
               }
 //////// access to a certain mbs raw subevent data:
@@ -162,7 +163,7 @@ int main(int argc, char **argv)
                  if(value)
                     {
                        histo1->Fill(value);
-                       //cout << "found value:" << value << endl;
+                       //std::cout << "found value:" << value << std::endl;
                     }
               }
 
@@ -185,7 +186,7 @@ int main(int argc, char **argv)
 
                     {
                        histo2->Fill(value);
-                       //cout << "found value:" << value << endl;
+                       //std::cout << "found value:" << value << std::endl;
                     }
 
               }
@@ -203,11 +204,11 @@ int main(int argc, char **argv)
                  histo2->Draw();
                  can->Modified();
                  can->Update();
-                 cout << " 2000 events processed "<< endl;
+                 std::cout << " 2000 events processed "<< std::endl;
               }
 
         } // for(.....)
-     cout << "\t finished filling and saving events."<<endl;
+     std::cout << "\t finished filling and saving events."<<std::endl;
      mybench.Show("Go4EventServer");
      delete output;
      delete event;
@@ -219,12 +220,3 @@ int main(int argc, char **argv)
      theApp.Run();
      return 0;
 }
-
-void usage()
-{
-   cout << "usage: MainGo4EventServerExample eventnumber"<<endl;
-}
-
-
-
-

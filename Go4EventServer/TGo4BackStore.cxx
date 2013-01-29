@@ -13,8 +13,6 @@
 
 #include "TGo4BackStore.h"
 
-#include "go4iostream.h"
-
 #include "TTree.h"
 #include "TDirectory.h"
 #include "TROOT.h"

@@ -13,8 +13,7 @@
 
 #include "TGo4TreeHistogramEntry.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TTree.h"
 #include "TROOT.h"
 
@@ -84,7 +83,7 @@ void TGo4TreeHistogramEntry::ProcessTreeNew(TTree* tree, Int_t times)
                      "Tree Histogram Entry: %s Reached end of tree %s. Draw() is stopped. ",
                      GetName(), tree->GetName());
    Int_t startindex= lastentrynumber -times;
-   //cout << "\t -- init startindex: "<< startindex<< endl;
+   //std::cout << "\t -- init startindex: "<< startindex<< std::endl;
    if(startindex<fiLastEvent)
       {
          // we have to check if some of the events were not filled in the tree,
@@ -115,12 +114,12 @@ void TGo4TreeHistogramEntry::ProcessTreeNew(TTree* tree, Int_t times)
    fiLastEvent=startindex+times; // for cint mode
 
    if(fiLastEvent>lastentrynumber) {
-      cout <<"Passing over end of tree - NEVER COME HERE!!!" << endl;
+      std::cout <<"Passing over end of tree - NEVER COME HERE!!!" << std::endl;
       fiLastEvent=lastentrynumber;
       times=fiLastEvent-startindex;
-      cout << "\t -- startindex: "<< startindex<< endl;
-      cout << "\t -- times: "<< times<< endl;
-      cout << "\t -- treeentries: "<< lastentrynumber<< endl;
+      std::cout << "\t -- startindex: "<< startindex<< std::endl;
+      std::cout << "\t -- times: "<< times<< std::endl;
+      std::cout << "\t -- treeentries: "<< lastentrynumber<< std::endl;
    }
 
    TString drawexp = GetVarExp();
@@ -138,20 +137,20 @@ void TGo4TreeHistogramEntry::Print(Option_t* dummy) const
 {
    // this trick is needed since root defines Print as const function...
    TROOT::IndentLevel();
-   cout <<"-Dynamic TreeDraw Entry " << GetName() << " :" << endl;
+   std::cout <<"-Dynamic TreeDraw Entry " << GetName() << " :" << std::endl;
    TROOT::IncreaseDirLevel();
-   if(IsEnabledProcessing()) cout <<"\t-- Enabled --" << endl;
-                        else cout <<"\t-- Disabled --" << endl;
+   if(IsEnabledProcessing()) std::cout <<"\t-- Enabled --" << std::endl;
+                        else std::cout <<"\t-- Disabled --" << std::endl;
 
    TROOT::IndentLevel();
-   cout <<"\tHistogram:\t"<< GetHistogramName()<<endl;
+   std::cout <<"\tHistogram:\t"<< GetHistogramName()<<std::endl;
    TROOT::IndentLevel();
-   cout <<"\tTree:\t"<< GetTreeName()<<endl;
+   std::cout <<"\tTree:\t"<< GetTreeName()<<std::endl;
    TROOT::IndentLevel();
-   cout <<"\tDraw Expression:\t" << GetVarExp() <<endl;
+   std::cout <<"\tDraw Expression:\t" << GetVarExp() <<std::endl;
    TROOT::IndentLevel();
-   cout <<"\tCut Expression:\t" << GetCutExp() << endl;
+   std::cout <<"\tCut Expression:\t" << GetCutExp() << std::endl;
    TROOT::DecreaseDirLevel();
    TROOT::IndentLevel();
-   cout <<"-End "<<GetName()<<"-----------" << endl;
+   std::cout <<"-End "<<GetName()<<"-----------" << std::endl;
 }

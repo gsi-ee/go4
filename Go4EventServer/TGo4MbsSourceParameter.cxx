@@ -13,8 +13,6 @@
 
 #include "TGo4MbsSourceParameter.h"
 
-#include "go4iostream.h"
-
 #include "TGo4Log.h"
 #include "TGo4Status.h"
 #include "Go4EventServerTypes.h"
@@ -72,7 +70,7 @@ Int_t TGo4MbsSourceParameter::PrintParameter(Text_t* buffer, Int_t buflen)
 
    if(buffer==0)
       {
-          cout << localbuf << endl;
+          std::cout << localbuf << std::endl;
       }
    else
       {

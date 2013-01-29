@@ -13,10 +13,9 @@
 
 #include "TMeshRawEvent.h"
 
-#include "go4iostream.h"
-
 #include "TMeshUnpackProc.h"
 #include "TGo4FileSource.h"
+#include "TGo4Log.h"
 
 //***********************************************************
 TMeshRawEvent::TMeshRawEvent()
@@ -51,12 +50,12 @@ Int_t TMeshRawEvent::Init()
       //      fxSub1.Init();
       //      fxSub3.SetEventSource(fxUnpacker);
       //      fxSub1.Init();
-      cout << "**** TMeshRawEvent init for Unpack step"<< endl;
+      TGo4Log::Info("TMeshRawEvent init for Unpack step");
    }
   else if(CheckEventSource("TGo4FileSource"))
    {
       fxFile = dynamic_cast<TGo4FileSource*> (GetEventSource());
-      cout << "**** TMeshRawEvent init for file input"<< endl;
+      TGo4Log::Info("TMeshRawEvent init for file input");
    }
   else
    rev=1;

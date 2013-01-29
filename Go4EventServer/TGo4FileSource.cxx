@@ -13,8 +13,6 @@
 
 #include "TGo4FileSource.h"
 
-#include "go4iostream.h"
-
 #include "TKey.h"
 #include "TFile.h"
 #include "TTree.h"

@@ -13,7 +13,6 @@
 
 #include "TGo4MbsSubEvent.h"
 
-#include "go4iostream.h"
 #include "TGo4Log.h"
 #include "TGo4MbsSource.h"
 #include "TGo4Log.h"

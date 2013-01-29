@@ -12,7 +12,7 @@
 //-----------------------------------------------------------------------
 
 #include "TGo4FitMinuitResult.h"
-#include "go4iostream.h"
+#include "Riostream.h"
 
 TGo4FitMinuitResult::TGo4FitMinuitResult() :
     TNamed(),
@@ -137,37 +137,37 @@ void TGo4FitMinuitResult::GetContourPlot(TMinuit* fMinuit) {
 
 void TGo4FitMinuitResult::Print(Option_t* option) const {
     TNamed::Print(option);
-    cout << endl << "Minuit status:" << endl;
-    cout << "  The best function value found so far " << FMIN << endl;
-    cout << "  The estimated vertical distance remaining to minimum " << FEDM << endl;
-    cout << "  The value of UP defining parameter uncertaintiesd " << ERRDEF << endl;
-    cout << "  The number of currently variable parameters " << NPARI << endl;
-    cout << "  The highest defined parameter number " << NPARX  << endl;
-    cout << "  Goodness of covariance matrix: " << endl << "    ";
+    std::cout << std::endl << "Minuit status:" << std::endl;
+    std::cout << "  The best function value found so far " << FMIN << std::endl;
+    std::cout << "  The estimated vertical distance remaining to minimum " << FEDM << std::endl;
+    std::cout << "  The value of UP defining parameter uncertaintiesd " << ERRDEF << std::endl;
+    std::cout << "  The number of currently variable parameters " << NPARI << std::endl;
+    std::cout << "  The highest defined parameter number " << NPARX  << std::endl;
+    std::cout << "  Goodness of covariance matrix: " << std::endl << "    ";
     switch (ISTAT) {
-       case 1: cout << "Diagonal approximation only, not accurate" << endl; break;
-       case 2: cout << "Full matrix, but forced positive-defined" << endl; break;
-       case 3: cout << "Full accurate covariance matrix (after MIGRAD)" << endl; break;
-       default: cout << "Not calculated at all" << endl;
+       case 1: std::cout << "Diagonal approximation only, not accurate" << std::endl; break;
+       case 2: std::cout << "Full matrix, but forced positive-defined" << std::endl; break;
+       case 3: std::cout << "Full accurate covariance matrix (after MIGRAD)" << std::endl; break;
+       default: std::cout << "Not calculated at all" << std::endl;
     }
 
     if (ParValues && ParError) {
-       cout << "Current parameters valules and errors:" << endl;
+       std::cout << "Current parameters valules and errors:" << std::endl;
        for(Int_t n=0;n<ParValues->GetSize();n++)
-         cout << "  " << n << "   " << ParValues->At(n) << "     " << ParError->At(n) << endl;
+         std::cout << "  " << n << "   " << ParValues->At(n) << "     " << ParError->At(n) << std::endl;
     }
 
     if (EPLUS && EMINUS && EPARAB && GLOBCC) {
-       cout << "Parameters errors, defined by MINOS routine" << endl;
-       cout << "  NUM   EPLUS   EMINUS   EPARAB    GLOBCC" << endl;
+       std::cout << "Parameters errors, defined by MINOS routine" << std::endl;
+       std::cout << "  NUM   EPLUS   EMINUS   EPARAB    GLOBCC" << std::endl;
        for(Int_t n=0;n<EPLUS->GetSize();n++)
-         cout << "  " << n << "   " << EPLUS->At(n) << "  " << EMINUS->At(n) << "  " << EPARAB->At(n) << "  " << GLOBCC->At(n) << endl;
+         std::cout << "  " << n << "   " << EPLUS->At(n) << "  " << EMINUS->At(n) << "  " << EPARAB->At(n) << "  " << GLOBCC->At(n) << std::endl;
     }
 
     if (ERRORMATRIX) {
-       cout << "Error matrix" << endl;
+       std::cout << "Error matrix" << std::endl;
        ERRORMATRIX->Print();
     }
 
-    cout << endl;
+    std::cout << std::endl;
 }

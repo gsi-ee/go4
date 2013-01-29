@@ -13,8 +13,6 @@
 
 #include "TGo4Thread.h"
 
-#include "go4iostream.h"
-
 #include "TThread.h"
 #include "TSystem.h"
 #include "TCondition.h"

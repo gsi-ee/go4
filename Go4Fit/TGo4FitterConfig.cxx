@@ -13,8 +13,7 @@
 
 #include "TGo4FitterConfig.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TString.h"
 
 #include "TGo4FitterAbstract.h"
@@ -113,14 +112,14 @@ void TGo4FitterConfig::DoAction(TGo4FitterAbstract* Fitter) {
 
 void TGo4FitterConfig::Print(Option_t* option) const {
    TGo4FitterAction::Print(option);
-   cout << "List of minimization config for parameters: " << endl;
+   std::cout << "List of minimization config for parameters: " << std::endl;
    fxParsCfg.Print(option);
-   cout << "List of new parameters declarations: " << endl;
+   std::cout << "List of new parameters declarations: " << std::endl;
    fxParsNew.Print(option);
-   cout << "Order of parameters initialization: " << endl;
+   std::cout << "Order of parameters initialization: " << std::endl;
    fxParsInit.Print(option);
-   cout << "Dependency for parameters: " << endl;
+   std::cout << "Dependency for parameters: " << std::endl;
    fxParsDepend.Print(option);
-   cout << "Results values: " << endl;
+   std::cout << "Results values: " << std::endl;
    fxResults.Print(option);
 }

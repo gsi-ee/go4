@@ -13,8 +13,6 @@
 
 #include "TGo4FileStoreParameter.h"
 
-#include "go4iostream.h"
-
 #include "TGo4Status.h"
 #include "TGo4Log.h"
 #include "Go4EventServerTypes.h"
@@ -68,7 +66,7 @@ Int_t TGo4FileStoreParameter::PrintParameter(Text_t* buffer, Int_t buflen)
    current=TGo4Status::PrintBuffer(current,restlen, "  Tree autosave at: \t%d bytes\n",fiAutosavesize);
    if(buffer==0)
       {
-          cout << localbuf << endl;
+      std::cout << localbuf << std::endl;
       }
    else
       {

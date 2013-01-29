@@ -13,7 +13,7 @@
 
 #include "TGo4FitModelFunction.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #ifndef _WINDOWS
 #include <dlfcn.h>
@@ -170,7 +170,7 @@ Double_t TGo4FitModelFunction::UserFunction(Double_t* Coordinates, Double_t* Par
 Bool_t TGo4FitModelFunction::LoadLibrary(Bool_t CloseFirst)
 {
    if ((fxLibraryName.Length()==0) || (fxFunctionName.Length()==0)) {
-     if (fxUserFunction==0) cout << "TGo4FitModelFunction: user function not set" << endl;
+     if (fxUserFunction==0) std::cout << "TGo4FitModelFunction: user function not set" << std::endl;
      return (fxUserFunction!=0);
    }
 
@@ -179,7 +179,7 @@ Bool_t TGo4FitModelFunction::LoadLibrary(Bool_t CloseFirst)
 
    fxLibrary = dlopen(fxLibraryName, RTLD_NOW | RTLD_GLOBAL);
    if (fxLibrary==0) {
-      cout << " TGo4FitModelFunction: failed to open " << fxLibraryName << ",  " << dlerror() << endl;
+      std::cout << " TGo4FitModelFunction: failed to open " << fxLibraryName << ",  " << dlerror() << std::endl;
       return kFALSE;
    }
    fxUserFunction = (TUserFunction) dlsym(fxLibrary, fxFunctionName);
@@ -187,7 +187,7 @@ Bool_t TGo4FitModelFunction::LoadLibrary(Bool_t CloseFirst)
    if(fxUserFunction==0) fxUserFunction = (TUserFunction) dlsym(fxLibrary, fxFunctionName+"__");
    if(fxUserFunction==0) fxUserFunction = (TUserFunction) dlsym(fxLibrary, fxFunctionName+"_");
    if(fxUserFunction==0) {
-       cout << " TGo4FitModelFunction: failed to find " << fxFunctionName << ",  " << dlerror() << endl;
+       std::cout << " TGo4FitModelFunction: failed to find " << fxFunctionName << ",  " << dlerror() << std::endl;
        CloseLibrary();
        return kFALSE;
    }
@@ -225,17 +225,17 @@ void TGo4FitModelFunction::Print(Option_t* option) const
 {
    TGo4FitModel::Print(option);
    if ((fxLibraryName.Length()>0) || (fxFunctionName.Length()>0))
-     cout << "Function " << fxFunctionName << "  in " << fxLibraryName << endl;
+      std::cout << "Function " << fxFunctionName << "  in " << fxLibraryName << std::endl;
    else
-     cout << " Pointer on function " << fxUserFunction << endl;
+      std::cout << " Pointer on function " << fxUserFunction << std::endl;
    for (Int_t naxis=0;naxis<fxPosIndex.GetSize();naxis++) {
      TGo4FitParameter* par = ((TGo4FitModelFunction*) this)->GetFuncPar(fxPosIndex[naxis]);
      if (par)
-        cout << "  Position on " << naxis << " axis is " << par->GetName() << endl;
+        std::cout << "  Position on " << naxis << " axis is " << par->GetName() << std::endl;
    }
    for (Int_t naxis=0;naxis<fxWidthIndex.GetSize();naxis++) {
      TGo4FitParameter* par = ((TGo4FitModelFunction*) this)->GetFuncPar(fxWidthIndex[naxis]);
      if (par)
-        cout << "  Width on " << naxis << " axis is " << par->GetName() << endl;
+        std::cout << "  Width on " << naxis << " axis is " << par->GetName() << std::endl;
    }
 }

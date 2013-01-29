@@ -13,7 +13,7 @@
 
 #include "TGo4CreateException.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TGo4Log.h"
 #include "TGo4Thread.h"
@@ -61,7 +61,7 @@ TGo4CreateException & TGo4CreateException::operator=(const TGo4CreateException &
 Int_t TGo4CreateException::Handle ()
 {
    TRACE((14,"TGo4CreateException::Handle()",__LINE__, __FILE__));
-   cout << "\t This is the TGo4CreateException::Handler"<<endl;
+   std::cout << "\t This is the TGo4CreateException::Handler"<<std::endl;
    Int_t rev=-1;
    if(GetThreadName()==0)
       // no threadname specified, operate on thread of runnable

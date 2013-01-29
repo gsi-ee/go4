@@ -13,8 +13,7 @@
 
 #include "TMeshFinalProc.h"
 
-#include "go4iostream.h"
-
+#include "TGo4Log.h"
 #include "TMeshFinalEvent.h"
 
 //***********************************************************
@@ -22,7 +21,7 @@
 TMeshFinalProc::TMeshFinalProc(const char* name)
   :TGo4EventProcessor(name),fxInput1(0),fxInput2(0),fxInput3(0),fxInput12(0)
 {
-  cout << "**** TMeshFinalProc: Create" << endl;
+   TGo4Log::Info("TMeshFinalProc: Create %s", name);
 }
 //***********************************************************
 TMeshFinalProc::TMeshFinalProc()

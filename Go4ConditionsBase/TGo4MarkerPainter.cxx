@@ -13,8 +13,6 @@
 
 #include "TGo4MarkerPainter.h"
 
-#include "go4iostream.h"
-
 #include "TROOT.h"
 #include "TList.h"
 #include "TVirtualPad.h"
@@ -29,7 +27,6 @@ TGo4MarkerPainter::TGo4MarkerPainter() :
    fxConnector(0),
    fbIsConStreamed(kTRUE)
 {
-
 }
 
 TGo4MarkerPainter::TGo4MarkerPainter(const char* name, const char* title) :
@@ -38,7 +35,6 @@ TGo4MarkerPainter::TGo4MarkerPainter(const char* name, const char* title) :
     fxConnector(0),
     fbIsConStreamed(kFALSE)
 {
-
 }
 
 TGo4MarkerPainter::~TGo4MarkerPainter()

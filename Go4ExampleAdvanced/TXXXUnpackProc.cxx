@@ -14,7 +14,6 @@
 #include "TXXXUnpackProc.h"
 #include "TGo4EventEndException.h"
 
-#include "go4iostream.h"
 #include <time.h>
 
 #include "TH1.h"
@@ -24,7 +23,7 @@
 #include "TLatex.h"
 #include "TLine.h"
 
-
+#include "TGo4Log.h"
 #include "TGo4MbsEvent.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
@@ -50,7 +49,7 @@ TXXXUnpackProc::TXXXUnpackProc() :
 TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    TGo4EventProcessor(name)
 {
-   cout << "**** TXXXUnpackProc: Create" << endl;
+   TGo4Log::Info("TXXXUnpackProc: Create %s", name);
 
    //// init user analysis objects:
    fParam1   = (TXXXParameter *)   GetParameter("XXXPar1");
@@ -59,7 +58,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
 
    fParam2->PrintParameter(0,0);
 
-   cout << "**** TXXXProc: Produce histograms" << endl;
+   TGo4Log::Info("TXXXProc: Produce histograms");
 
    for(int i=0;i<8;i++) {
       fCr1Ch[i] = MakeTH1('I', Form("Crate1/Cr1Ch%02d",i+1), Form("Crate 1 channel %2d",i+1), 5000, 1., 5001.);
@@ -72,7 +71,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    fHis1gate = MakeTH1('I', "His1g","Gated histogram", 5000, 1., 5001.);
    fHis2gate = MakeTH1('I', "His2g","Gated histogram", 5000, 1., 5001.);
 
-   cout << "**** TXXXProc: Produce conditions" << endl;
+   TGo4Log::Info("TXXXProc: Produce conditions");
    fWinCon1 = MakeWinCond("wincon1", 50, 2000);
    fWinCon2 = MakeWinCond("wincon2", 50, 70, 90, 120);
    fconHis1 = MakeWinCond("cHis1", 100, 2000, "His1");
@@ -80,7 +79,6 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
 
    Double_t cutpnts[3][2] = { {400, 800}, {700, 900}, {600, 1100} };
    fPolyCon1 = MakePolyCond("polycon", 3, cutpnts);
-
 
    fConArr1 = (TGo4CondArray*)GetAnalysisCondition("winconar");
    if (fConArr1==0) {
@@ -99,7 +97,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    fConArr2 = (TGo4CondArray*)GetAnalysisCondition("polyconar");
    if(fConArr2==0) {
       // This is example how to create condition array
-      cout << "**** TXXXProc: Create condition" << endl;
+      TGo4Log::Info("TXXXProc: Create condition");
       Double_t xvalues[4] = { 1000, 2000, 1500, 1000 };
       Double_t yvalues[4] = { 1000, 1000, 3000, 1000 };
       TCutG* mycut = new TCutG("cut2", 4, xvalues, yvalues);
@@ -109,7 +107,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       delete mycut; // mycat has been copied into the conditions
       AddAnalysisCondition(fConArr2);
    } else {
-      cout << "**** TXXXProc: Restore condition from autosave" << endl;
+      TGo4Log::Info("TXXXProc: Restore condition from autosave");
       fConArr2->ResetCounts();
    }
 
@@ -185,7 +183,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
    TXXXUnpackEvent* out_evt = (TXXXUnpackEvent*) dest;
 
    if (inp_evt==0) {
-      cout << "XXXUnpackProc: no input event !"<< endl;
+      TGo4Log::Error("XXXUnpackProc: no input event !");
       return kFALSE;
    }
 
@@ -239,7 +237,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
 	 Int_t subcrate=psubevt->GetSubcrate();
 	 if(subcrate<0 || subcrate> XXX_NUM_CRATES)
 	 	 {
-		 	 cout << "XXXUnpackProc: skip invalid subcrate "<<subcrate<< endl;
+	       TGo4Log::Info("XXXUnpackProc: skip invalid subcrate %d", subcrate);
 		 	 continue; // try next subevent if any
 	 	 }
 
@@ -265,7 +263,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
 		   }
 			else
 			{
-			   cout << "XXXUnpackProc: WARNING: no output event module for crate"<<subcrate<<", channel"<<i<< endl;
+			   TGo4Log::Info("XXXUnpackProc: WARNING: no output event module for crate %d, channel %d", subcrate, i);
 
 			}
 		   if(*pdata != 0)

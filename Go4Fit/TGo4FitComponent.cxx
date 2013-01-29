@@ -13,9 +13,9 @@
 
 #include "TGo4FitComponent.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TCutG.h"
+
 #include "TGo4FitParameter.h"
 
 const UInt_t kExcludeCut = 0x00100000;
@@ -365,34 +365,35 @@ void TGo4FitComponent::CollectParsTo(TGo4FitParsList& list) {
   }
 }
 
-void TGo4FitComponent::Print(Option_t* option) const {
-    cout << "***************************************************************************" << endl;
+void TGo4FitComponent::Print(Option_t* option) const
+{
+    std::cout << "***************************************************************************" << std::endl;
     TGo4FitNamed::Print(option);
     TGo4FitParsList::Print(option);
-    cout << "  Amplitude index: " << fiAmplIndex << endl;
+    std::cout << "  Amplitude index: " << fiAmplIndex << std::endl;
 
     for (Int_t ncond=0; ncond<GetNumRangeCondition(); ncond++) {
-       if (ncond==0) cout << " Range selection: " << endl;
+       if (ncond==0) std::cout << " Range selection: " << std::endl;
        Int_t typ, naxis;
        Double_t left, right;
        GetRangeCondition(ncond, typ, naxis, left, right);
 
-       cout << "   axis " << naxis << " ";
+       std::cout << "   axis " << naxis << " ";
 
        switch(typ) {
-          case 0:cout << "  select range from " << left << " to " << right; break;
-          case 1: cout << "  exclude range from " << left << " to " << right; break;
-          case 2: cout << "  set left bound to " << left; break;
-          case 3: cout << "  set right bound to " << right; break;
+          case 0: std::cout << "  select range from " << left << " to " << right; break;
+          case 1: std::cout << "  exclude range from " << left << " to " << right; break;
+          case 2: std::cout << "  set left bound to " << left; break;
+          case 3: std::cout << "  set right bound to " << right; break;
        }
 
-       cout << endl;
+       std::cout << std::endl;
      }
 
      for (Int_t n=0;n<GetNumRangeCut();n++) {
         TCutG* cut = GetRangeCut(n);
-        if (cut->TestBit(kExcludeCut)) cout << "  Exclude"; else cout << "  Include";
-        cout << " axises ranges, using TCutG object " << endl;
+        if (cut->TestBit(kExcludeCut)) std::cout << "  Exclude"; else std::cout << "  Include";
+        std::cout << " axises ranges, using TCutG object " << std::endl;
         cut->Print(option);
      }
 }

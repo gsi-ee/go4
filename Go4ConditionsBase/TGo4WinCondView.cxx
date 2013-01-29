@@ -13,8 +13,6 @@
 
 #include "TGo4WinCondView.h"
 
-#include "go4iostream.h"
-
 #include "RVersion.h"
 #include "Buttons.h"
 #include "TPad.h"

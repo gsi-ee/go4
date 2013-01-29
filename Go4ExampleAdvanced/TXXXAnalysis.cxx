@@ -14,7 +14,6 @@
 #include "TXXXAnalysis.h"
 
 #include <stdlib.h>
-#include "go4iostream.h"
 
 #include "TH1.h"
 #include "TFile.h"
@@ -44,7 +43,7 @@ TXXXAnalysis::TXXXAnalysis() :
    fRawEvent(0),
    fCalEvent(0)
 {
-  cout << "Wrong constructor TXXXAnalysis()!" << endl;
+   TGo4Log::Error("Wrong constructor TXXXAnalysis()!");
 }
 
 //***********************************************************
@@ -74,30 +73,31 @@ TXXXAnalysis::TXXXAnalysis(int argc, char** argv) :
    //              argv[2] should be "name" of file or MBS node
    // any kind of additional arguments can be supplied
 
-switch(argc){
-case 1: cout << "**** Configure with default parameters ****" << endl;
-		kind = "-file";
-		input = "test";
-		out1 = "Output_Calib";
-		out2 = "Output_Anl";
-		break;
+   switch(argc){
+      case 1:
+         TGo4Log::Info("Configure with default parameters");
+         kind = "-file";
+         input = "test";
+         out1 = "Output_Calib";
+         out2 = "Output_Anl";
+         break;
 
-case 2: // default kind
-	   cout << "**** Configure with user-specified parameters ****" << endl;
-	   kind = "-file";
-	   input = TString::Format("%s", argv[1]);
-	   out1 = TString::Format("%s_Calib", argv[1]);
-	   out2 = TString::Format("%s_Anl", argv[1]);
-	   break;
-case 3:
-default:
-	   cout << "**** Configure with user-specified parameters ****" << endl;
-	   kind = TString::Format("%s", argv[1]);
-	   input = TString::Format("%s", argv[2]);
-	   out1 = TString::Format("%s_Calib", argv[2]);
-	   out2 = TString::Format("%s_Anl", argv[2]);
-	   break;
-}
+      case 2: // default kind
+         TGo4Log::Info("Configure with user-specified parameters");
+         kind = "-file";
+         input = TString::Format("%s", argv[1]);
+         out1 = TString::Format("%s_Calib", argv[1]);
+         out2 = TString::Format("%s_Anl", argv[1]);
+         break;
+      case 3:
+      default:
+         TGo4Log::Info("Configure with user-specified parameters");
+         kind = TString::Format("%s", argv[1]);
+         input = TString::Format("%s", argv[2]);
+         out1 = TString::Format("%s_Calib", argv[2]);
+         out2 = TString::Format("%s_Anl", argv[2]);
+         break;
+   }
 // Create step 1 Unpack.
    TGo4StepFactory* factory1 = new TGo4StepFactory("UnpackFactory");
    factory1->DefEventProcessor("UnpackProc", "TXXXUnpackProc");// object name, class name
@@ -147,23 +147,21 @@ default:
 //***********************************************************
 TXXXAnalysis::~TXXXAnalysis()
 {
-  cout << "**** TXXXAnalysis: Delete" << endl;
+   TGo4Log::Info("TXXXAnalysis: Delete");
 }
 //***********************************************************
 
 //-----------------------------------------------------------
 Int_t TXXXAnalysis::UserPreLoop()
 {
-  cout << "**** TXXXAnalysis: PreLoop" << endl;
-  Print(); // printout the step settings
-  cout << "**************************************" << endl;
+   TGo4Log::Info("TXXXAnalysis: PreLoop");
+   Print(); // printout the step settings
    // we update the pointers to the current event structures here:
    fMbsEvent = dynamic_cast<TGo4MbsEvent*>    (GetInputEvent("Unpack"));   // of step "Unpack"
    fRawEvent = dynamic_cast<TXXXUnpackEvent*> (GetOutputEvent("Unpack"));
    fCalEvent = dynamic_cast<TXXXAnlEvent*>    (GetOutputEvent("Analysis"));
    fEvents=0;
    fLastEvent=0;
-
 
 
    // create histogram for UserEventFunc
@@ -207,54 +205,30 @@ Int_t TXXXAnalysis::UserPreLoop()
 //-----------------------------------------------------------
 Int_t TXXXAnalysis::UserPostLoop()
 {
-  cout << "**** TXXXAnalysis: PostLoop" << endl;
-  cout << "Last event: " << fLastEvent << " Total events: " << fEvents << endl;
+   TGo4Log::Info("TXXXAnalysis: PostLoop");
+   TGo4Log::Info("Last event: %d  Total events: %d", fLastEvent, fEvents);
   if(fMbsEvent)
     {
       // we can check some properties of last event here:
       //fMbsEvent->PrintEvent(); // header and data content
 
       // fileheader structure:
-      s_filhe* fileheader=fMbsEvent->GetMbsSourceHeader();
-      if(fileheader)
-         {
-           cout <<"\nInput file was: "<<fileheader->filhe_file << endl;
-           cout <<"Tapelabel:\t" << fileheader->filhe_label<<endl;
-           cout <<"UserName:\t" << fileheader->filhe_user<<endl;
-           cout <<"RunID:\t" << fileheader->filhe_run<<endl;
-           cout <<"\tExplanation: "<<fileheader->filhe_exp <<endl;
-           cout <<"\tComments: "<<endl;
-           Int_t numlines=fileheader->filhe_lines;
-           for(Int_t i=0; i<numlines;++i)
-            {
-               cout<<"\t\t"<<fileheader->s_strings[i].string << endl;
-            }
-         }
+     fMbsEvent->PrintMbsFileHeader();
 
-      // mbs buffer header structure:
-      s_bufhe* bufheader=fMbsEvent->GetMbsBufferHeader();
-      if(bufheader) {
-         char sbuf[1000];
-         f_ut_utime(bufheader->l_time[0], bufheader->l_time[1], sbuf);
-         cout <<"Last Buffer:"<<endl;
-         cout <<"\tNumber: "<<bufheader->l_buf << endl;
-         cout <<"\tTime: " << sbuf << endl;
-      }
-
-
-    }
-
+     // mbs buffer header structure:
+     fMbsEvent->PrintMbsBufferHeader();
+   }
 ////////////////////////////////////////////////
 // Uncomment this if you want to perform a fit
 // each time analysis stops:
 ////////// first fitter:
 //  if(fFitEnvSize)
 //     {
-//         cout <<"Fitting event size..." << endl;
+//         std::cout <<"Fitting event size..." << std::endl;
 //         TGo4Fitter* fitter=fFitEnvSize->GetFitter();
 //         if(fitter)
 //         {
-//            //cout <<"Fitter setting histogram and fitting..." << endl;
+//            //std::cout <<"Fitter setting histogram and fitting..." << std::endl;
 //            fitter->SetObject("data1", fSize, kFALSE);
 //            fitter->DoActions();
 //            fitter->PrintLines();
@@ -264,11 +238,11 @@ Int_t TXXXAnalysis::UserPostLoop()
 // second fitter:
 //   if(fFitEnvSpectrum)
 //     {
-//         cout <<"Fitting sum spectrum..." << endl;
+//         std::cout <<"Fitting sum spectrum..." << std::endl;
 //         TGo4Fitter* fitter=fFitEnvSpectrum->GetFitter();
 //         if(fitter)
 //         {
-//            //cout <<"Fitter setting histogram and fitting..." << endl;
+//            //std::cout <<"Fitter setting histogram and fitting..." << std::endl;
 //            TH1* his=GetHistogram("Sum2");
 //            fitter->SetObject("spectrum", his, kFALSE);
 //            fitter->DoActions();
@@ -280,13 +254,13 @@ Int_t TXXXAnalysis::UserPostLoop()
 
 //////////////////////////////////////////////////////
 //////// This section is example how to store objects together with events tree:
-//   cout <<"Storing parameter fPar to Unpack:" << endl;
+//   std::cout <<"Storing parameter fPar to Unpack:" << std::endl;
 //   StoreParameter("Unpack",fPar);
-//   cout <<"Storing parameter fPar to Analysis:" << endl;
+//   std::cout <<"Storing parameter fPar to Analysis:" << std::endl;
 //   StoreParameter("Analysis",fPar);
 //   if(fFitEnvSpectrum)
 //     {
-//         cout <<"Storing fitter"<<fFitEnvSpectrum->GetName() <<" to analysis" << endl;
+//         std::cout <<"Storing fitter"<<fFitEnvSpectrum->GetName() <<" to analysis" << std::endl;
 //         TGo4Fitter* fitter=fFitEnvSpectrum->GetFitter();
 //         StoreFitter("Analysis",fitter);
 //     }
@@ -294,10 +268,10 @@ Int_t TXXXAnalysis::UserPostLoop()
 //   TGo4Condition* winar=GetAnalysisCondition("winconar");
 //   if(winar)
 //      {
-//         cout <<"Storing condition"<< winar->GetName()<<"to analysis" << endl;
+//         std::cout <<"Storing condition"<< winar->GetName()<<"to analysis" << std::endl;
 //         StoreCondition("Analysis",winar);
 //      }
-//   cout <<"Storing all conditions to unpack." << endl;
+//   std::cout <<"Storing all conditions to unpack." << std::endl;
 //   StoreFolder("Unpack","Conditions");
 //////////////////////////////////////////////////////////////////////
 
@@ -319,16 +293,11 @@ Int_t TXXXAnalysis::UserEventFunc()
    fEvents++;
    if(fEvents == 1 || IsNewInputFile()) {
       if(fMbsEvent) {
-         count=fMbsEvent->GetCount();
-         cout << "\nFirst event #: " << count  << endl;
-         s_bufhe* bufheader=fMbsEvent->GetMbsBufferHeader();
-         if(bufheader) {
-            char sbuf[1000];
-            f_ut_utime(bufheader->l_time[0], bufheader->l_time[1], sbuf);
-            cout <<"First Buffer:"<<endl;
-            cout <<"\tNumber: "<<bufheader->l_buf << endl;
-            cout <<"\tTime: " << sbuf << endl;
-         }
+         count = fMbsEvent->GetCount();
+         TGo4Log::Info("First event #: %d", count);
+
+         // mbs buffer header structure:
+         fMbsEvent->PrintMbsBufferHeader();
       }
       SetNewInputFile(kFALSE); // we have to reset the newfile flag
    }

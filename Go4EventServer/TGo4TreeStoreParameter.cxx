@@ -13,8 +13,6 @@
 
 #include "TGo4TreeStoreParameter.h"
 
-#include "go4iostream.h"
-
 #include "Go4EventServerTypes.h"
 #include "TGo4Status.h"
 #include "TGo4Log.h"
@@ -72,7 +70,7 @@ Int_t TGo4TreeStoreParameter::PrintParameter(Text_t* buffer, Int_t buflen)
    }
    if(buffer==0)
       {
-          cout << localbuf << endl;
+      std::cout << localbuf << std::endl;
       }
    else
       {

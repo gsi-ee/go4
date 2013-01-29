@@ -13,8 +13,7 @@
 
 #include "TMeshProviderProc.h"
 
-#include "go4iostream.h"
-
+#include "TGo4Log.h"
 #include "TGo4Analysis.h"
 #include "TGo4EventElement.h"
 #include "TGo4UserException.h"
@@ -24,7 +23,7 @@
 TMeshProviderProc::TMeshProviderProc(const char* name)
   :TGo4EventProcessor(name)
 {
-  cout << "**** TMeshProviderProc: Create" << endl;
+   TGo4Log::Info("TMeshProviderProc: Create %s", name);
 }
 //***********************************************************
 TMeshProviderProc::TMeshProviderProc()

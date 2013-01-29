@@ -13,8 +13,6 @@
 
 #include "TGo4FileStore.h"
 
-#include "go4iostream.h"
-
 #include "TFolder.h"
 #include "TFile.h"
 #include "TTree.h"

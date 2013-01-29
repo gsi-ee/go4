@@ -13,7 +13,7 @@
 
 #include "TGo4FitSlot.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "TClass.h"
 #include "TH1.h"
 #include "TSeqCollection.h"
@@ -148,17 +148,18 @@ TObject* TGo4FitSlot::CloneObject(const char* newname)
 
 void TGo4FitSlot::Print(Option_t* option) const
 {
-   cout << "Slot: " << GetName() << " for class: " << fxClass->GetName()
+   std::cout << "Slot: " << GetName() << " for class: " << fxClass->GetName()
         << "  needed:" << fbNeeded << "  owned:" << fbOwned;
    if (IsConnectedToSlot()) {
-     cout << "  Connected to: " << endl << "  ";
+      std::cout << "  Connected to: " << std::endl << "  ";
      GetConnectedSlot()->Print(option);
    } else
    if (fxObject) {
-     cout << " object: " << GetObjectName() << endl;
+      std::cout << " object: " << GetObjectName() << std::endl;
      if (((strcmp(option,"**")==0) && fbOwned) || (strcmp(option,"***")==0))
          fxObject->Print(option);
-   } else cout << " no object. " << endl;
+   } else
+      std::cout << " no object. " << std::endl;
 }
 
 void TGo4FitSlot::CheckOwnership()
@@ -378,11 +379,11 @@ Bool_t TGo4FitSlotList::CheckObjects(Bool_t MakeOut)
       if (slot==0) continue;
       if (slot->IsRequired()) {
          if (MakeOut)
-           cout << "Required data not provided" << endl <<
-                   "   Name: " << slot->GetName() << endl <<
-                   "   Class: " << slot->GetClass()->GetName() << endl <<
-                   "   Description: " << slot->GetTitle() << endl <<
-                   "   For object: " << slot->GetOwnerFullName() << endl;
+            std::cout << "Required data not provided" << std::endl <<
+                   "   Name: " << slot->GetName() << std::endl <<
+                   "   Class: " << slot->GetClass()->GetName() << std::endl <<
+                   "   Description: " << slot->GetTitle() << std::endl <<
+                   "   For object: " << slot->GetOwnerFullName() << std::endl;
          res = kFALSE;
        }
    }

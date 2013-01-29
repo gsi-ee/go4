@@ -13,8 +13,6 @@
 
 #include "TGo4SimpleEvent.h"
 
-#include "go4iostream.h"
-
 #include "Go4EventServer.h"
 
 #include "TGo4Log.h"
@@ -230,7 +228,7 @@ TGo4SimpleSubEvent * TGo4SimpleEvent::AddSubEvent(Short_t procid)
             }
          else
             {
-               cout << "simple event: clonesarray is full, cannot add another subevent"<<endl;
+               TGo4Log::Error("simple event: clonesarray is full, cannot add another subevent");
                result=0;
             }
 

@@ -13,8 +13,6 @@
 
 #include "TGo4DynamicEntry.h"
 
-#include "go4iostream.h"
-
 #include "TGo4Log.h"
 #include "TGo4Status.h"
 

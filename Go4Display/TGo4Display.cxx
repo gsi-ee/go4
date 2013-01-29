@@ -13,8 +13,6 @@
 
 #include "TGo4Display.h"
 
-#include "go4iostream.h"
-
 #include "TGo4Log.h"
 #include "TGo4ThreadHandler.h"
 #include "TGo4Task.h"
@@ -65,7 +63,7 @@ TGo4Display::~TGo4Display()
       }
 
    }
-   cout <<"------- TGO4DISPLAY DESTRUCTOR FINISHED. ------" << endl;
+   TGo4Log::Info("------- TGO4DISPLAY DESTRUCTOR FINISHED. ------");
 }
 
 void TGo4Display::DisplayData(TObject* data)

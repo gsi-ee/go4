@@ -13,7 +13,6 @@
 
 #include "TGo4MbsFileParameter.h"
 
-#include "go4iostream.h"
 #include "TObjString.h"
 
 #include "TGo4Log.h"
@@ -76,7 +75,7 @@ Int_t TGo4MbsFileParameter::PrintParameter(Text_t* buffer, Int_t buflen)
    current=TGo4Status::PrintBuffer(current,restlen, "Tagfile: %s \n",GetTagName());
    if(buffer==0)
       {
-          cout << localbuf << endl;
+      std::cout << localbuf << std::endl;
       }
    else
       {

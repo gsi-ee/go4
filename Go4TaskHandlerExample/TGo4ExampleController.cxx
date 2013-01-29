@@ -13,8 +13,7 @@
 
 #include "TGo4ExampleController.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TObject.h"
 #include "TCanvas.h"
 
@@ -45,8 +44,8 @@ void TGo4ExampleController::DisplayData(TObject* data)
     {
      delete fxPreviousData;
      fxPreviousData=data;
-      cout << "ExampleController received data object:"<<endl;
-      cout << "Classname:"<< data->ClassName()<<", Name:" << data->GetName()<< endl;
+      std::cout << "ExampleController received data object:"<<std::endl;
+      std::cout << "Classname:"<< data->ClassName()<<", Name:" << data->GetName()<< std::endl;
       fxCanvas->cd();
       fxPreviousData->Draw();
       fxCanvas->Modified();
@@ -54,7 +53,7 @@ void TGo4ExampleController::DisplayData(TObject* data)
     }
   else
     {
-      cout << "ExampleController has NULL data object"<<endl;
+      std::cout << "ExampleController has NULL data object"<<std::endl;
     }
 }
 
@@ -63,20 +62,20 @@ void TGo4ExampleController::DisplayLog(TGo4Status* status)
   TRACE((12,"TGo4ExampleController::DisplayLog(TGo4Status*)",__LINE__, __FILE__));
   if(status)
     {
-      cout << "ExampleController received status object:"<<endl;
+      std::cout << "ExampleController received status object:"<<std::endl;
       if(status->InheritsFrom("TGo4ExampleClientStatus"))
          {
             status->PrintStatus(); // display client status object
          }
      else
       {
-            cout << status->GetName()<< endl; // status message
+            std::cout << status->GetName()<< std::endl; // status message
       }
       delete status; // avoid memory leak
     }
   else
     {
-      cout << "ExampleController has NULL status object"<<endl;
+      std::cout << "ExampleController has NULL status object"<<std::endl;
     }
 
 }

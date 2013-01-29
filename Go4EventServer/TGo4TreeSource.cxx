@@ -13,8 +13,7 @@
 
 #include "TGo4TreeSource.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TTree.h"
 
 #include "TGo4Log.h"
@@ -54,13 +53,13 @@ TGo4TreeSource::~TGo4TreeSource()
          z++;
          if( fxBranch->GetEntry(ix) == 0)
             {
-               cout << "reached end of branch after "<< z << " dummy event retrieves"<<endl;
+               std::cout << "reached end of branch after "<< z << " dummy event retrieves"<<std::endl;
                break;
             }
          else { }
 
       }
-   cout << "treesource "<< GetName() << " is destroyed after "<< z <<"dummy retrieves."<< endl;
+   std::cout << "treesource "<< GetName() << " is destroyed after "<< z <<"dummy retrieves."<< std::endl;
 }
 
 Int_t TGo4TreeSource::Open()

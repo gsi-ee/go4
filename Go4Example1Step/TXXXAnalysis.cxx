@@ -15,8 +15,6 @@
 
 #include <stdlib.h>
 
-#include "Riostream.h"
-
 #include "TGo4Version.h"
 #include "TGo4Log.h"
 #include "Go4EventServer.h"
@@ -97,21 +95,9 @@ Int_t TXXXAnalysis::UserPreLoop()
    TGo4Log::Info("TXXXAnalysis: PreLoop");
    // get pointer to input event (used in postloop and event function):
    fMbsEvent = dynamic_cast<TGo4MbsEvent*> (GetInputEvent("Analysis"));   // of step "Analysis"
-   if(fMbsEvent) {
+   if(fMbsEvent) fMbsEvent->PrintMbsFileHeader();
       // fileheader structure (lmd file only):
-      s_filhe* fileheader=fMbsEvent->GetMbsSourceHeader();
-      if(fileheader)
-      {
-         std::cout <<"\nInput file: "<<fileheader->filhe_file << std::endl;
-         std::cout <<"Tapelabel:\t" << fileheader->filhe_label << std::endl;
-         std::cout <<"UserName:\t" << fileheader->filhe_user << std::endl;
-         std::cout <<"RunID:\t" << fileheader->filhe_run << std::endl;
-         std::cout <<"Explanation: "<<fileheader->filhe_exp << std::endl;
-         std::cout <<"Comments: "<< std::endl;
-         for(Int_t i=0; i<fileheader->filhe_lines;++i)
-            std::cout<<"\t"<<fileheader->s_strings[i].string << std::endl;
-      }
-   }
+
    fEvents=0; // event counter
    fLastEvent=0; // number of last event processed
    return 0;

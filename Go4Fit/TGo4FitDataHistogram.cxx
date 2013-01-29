@@ -13,8 +13,7 @@
 
 #include "TGo4FitDataHistogram.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TH1.h"
 #include "TArrayD.h"
 #include "TArrayF.h"
@@ -47,7 +46,7 @@ void TGo4FitDataHistogram::FillSlotList(TSeqCollection* list) {
 
 void TGo4FitDataHistogram::Print(Option_t* option) const {
    TGo4FitData::Print(option);
-   cout << "   ";
+   std::cout << "   ";
    fxHistogram.Print(option);
 }
 

@@ -12,7 +12,8 @@
 //-----------------------------------------------------------------------
 
 #include "TGo4FitNamed.h"
-#include "go4iostream.h"
+
+#include "Riostream.h"
 
 TGo4FitNamed::TGo4FitNamed() : TNamed(), fxOwner(0), fxFullName() {
 }
@@ -49,5 +50,5 @@ void TGo4FitNamed::Print(Option_t* option) const {
    const char* ownname = ((TGo4FitNamed*) this)->GetOwnerFullName();
 
    if ((ownname!=0) && (strlen(ownname)>0))
-     cout << " Full name: " << ((TGo4FitNamed*) this)->GetFullName() << endl;
+      std::cout << " Full name: " << ((TGo4FitNamed*) this)->GetFullName() << std::endl;
 }

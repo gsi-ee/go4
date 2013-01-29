@@ -76,7 +76,7 @@ class TGo4PolyCond : public TGo4Condition {
       TCutG* GetCut(Bool_t changeowner);
 
       /** Printout values. If points is true, printout polygon points. */
-      void PrintCondition(Bool_t points);
+      virtual void PrintCondition(Bool_t points = kTRUE);
 
       /** Copy values from cond to this.
         * Get a clone cut from cond by CloneCut as new cut. If counts is true, copy counters too. */

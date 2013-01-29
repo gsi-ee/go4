@@ -13,9 +13,8 @@
 
 #include "TMeshB12AnlProc.h"
 
-#include "go4iostream.h"
-
 #include "TGo4UserException.h"
+#include "TGo4Log.h"
 
 #include "TMeshB12OutputEvent.h"
 #include "TMeshB1OutputEvent.h"
@@ -26,7 +25,7 @@
 TMeshB12AnlProc::TMeshB12AnlProc(const char* name)
   :TGo4EventProcessor(name),fxInput1(0),fxInput2(0)
 {
-  cout << "**** TMeshB12AnlProc: Create" << endl;
+   TGo4Log::Info("TMeshB12AnlProc: Create %s", name);
 }
 //***********************************************************
 TMeshB12AnlProc::TMeshB12AnlProc()

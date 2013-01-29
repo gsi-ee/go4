@@ -17,7 +17,6 @@
 
 #include "TH1.h"
 #include "TH2.h"
-#include "go4iostream.h"
 #include "TROOT.h"
 
 #include "TGo4WinCond.h"

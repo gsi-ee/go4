@@ -13,8 +13,7 @@
 
 #include "TGo4FitMatrixTrans.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TArrayD.h"
 #include "TString.h"
 #include "TMath.h"
@@ -72,7 +71,8 @@ void TGo4FitMatrixTrans::Transformation(Double_t* scales, Int_t naxis) {
   }
 }
 
-void TGo4FitMatrixTrans::Print(Option_t* option) const {
-   cout << "Matrix transformation of scale values " << endl;
+void TGo4FitMatrixTrans::Print(Option_t* option) const
+{
+   std::cout << "Matrix transformation of scale values " << std::endl;
    TGo4FitAxisTrans::Print(option);
 }

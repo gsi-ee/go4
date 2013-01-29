@@ -147,8 +147,15 @@ class TGo4MbsEvent : public TGo4EventElement {
       /** Access to the info header of the current mbs source */
       s_filhe * GetMbsSourceHeader();
 
+      /** Method to print MBS source header */
+      void PrintMbsFileHeader();
+
       /** Access to the buffer header of the current event */
       s_bufhe * GetMbsBufferHeader();
+
+      /** Method to print MBS buffer header */
+      void PrintMbsBufferHeader();
+
 
    private:
 

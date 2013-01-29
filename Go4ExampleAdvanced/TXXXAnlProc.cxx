@@ -19,8 +19,8 @@
 #include "TH2.h"
 #include "TGraph.h"
 #include "TMultiGraph.h"
-#include "go4iostream.h"
 
+#include "TGo4Log.h"
 #include "TGo4WinCond.h"
 #include "TGo4Fitter.h"
 
@@ -41,7 +41,7 @@ TXXXAnlProc::TXXXAnlProc() :
 TXXXAnlProc::TXXXAnlProc(const char* name) :
    TGo4EventProcessor(name)
 {
-   cout << "**** TXXXAnlProc: Create" << endl;
+   TGo4Log::Info("TXXXAnlProc: Create %s", name);
    //// init user analysis objects:
    fParam1 = (TXXXParameter*)  GetParameter("XXXPar1");
    fParam2 = (TXXXParameter*)  GetParameter("XXXPar2");

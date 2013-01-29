@@ -13,13 +13,9 @@
 
 #include "TGo4SimpleEventProcessor.h"
 
-#include "go4iostream.h"
-
 #include "TGo4Log.h"
-
 #include "TGo4SimpleEvent.h"
 #include "TGo4SimpleSubEvent.h"
-
 #include "Go4EventServer.h"
 
 TGo4SimpleEventProcessor::TGo4SimpleEventProcessor()
@@ -61,7 +57,7 @@ TRACE((11,"TGo4SimpleEventProcessor::TGo4SimpleEventProcessor(Int_t)",__LINE__, 
                   outsub=target->AddSubEvent(procid);
                   if (outsub==0)
                      {
-                        cout << "simple event processor: error adding subevent"<< endl;
+                        TGo4Log::Error("simple event processor: error adding subevent");
                         return;
                      }
                   else { }
@@ -85,7 +81,7 @@ TRACE((11,"TGo4SimpleEventProcessor::TGo4SimpleEventProcessor(Int_t)",__LINE__, 
       } // if(input)
    else
       {
-         cout << "Simple Event Processor: no input event !"<< endl;
+         TGo4Log::Error("Simple Event Processor: no input event !");
       }
 
 }

@@ -13,8 +13,7 @@
 
 #include "TGo4FitDataProfile.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TProfile.h"
 #include "TArrayD.h"
 
@@ -47,7 +46,7 @@ void TGo4FitDataProfile::FillSlotList(TSeqCollection* list) {
 
 void TGo4FitDataProfile::Print(Option_t* option) const {
    TGo4FitData::Print(option);
-   cout << "   ";
+   std::cout << "   ";
    fxProfile.Print(option);
 }
 

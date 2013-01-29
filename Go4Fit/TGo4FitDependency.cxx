@@ -13,8 +13,7 @@
 
 #include "TGo4FitDependency.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TFormula.h"
 
 TGo4FitDependency::TGo4FitDependency() :
@@ -71,7 +70,7 @@ void TGo4FitDependency::Finalize() {
 
 void TGo4FitDependency::Print(Option_t* option) const
 {
-   cout << "Pars dependency:   " << fxParameter << "  =  ";
-   if (fxExpression.Length()>0) cout << fxExpression << endl;
-                           else cout << fdInitValue << endl;
+   std::cout << "Pars dependency:   " << fxParameter << "  =  ";
+   if (fxExpression.Length()>0) std::cout << fxExpression << std::endl;
+                           else std::cout << fdInitValue << std::endl;
 }

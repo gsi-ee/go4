@@ -13,8 +13,6 @@
 
 #include "TGo4TestThreadManager.h"
 
-#include "go4iostream.h"
-
 #include "TApplication.h"
 #include "TH1.h"
 #include "TRandom.h"

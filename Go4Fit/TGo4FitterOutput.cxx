@@ -13,8 +13,7 @@
 
 #include "TGo4FitterOutput.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TVirtualPad.h"
 
 #include "TGo4FitterAbstract.h"
@@ -43,7 +42,7 @@ void TGo4FitterOutput::DoAction(TGo4FitterAbstract* Fitter) {
 
 void TGo4FitterOutput::Print(Option_t* option) const {
    TGo4FitterAction::Print(option);
-   cout << "  command: " << fxCommand;
-   if (fxOptions.Length()>0) cout << "    options: " << fxOptions << endl;
-                        else cout << endl;
+   std::cout << "  command: " << fxCommand;
+   if (fxOptions.Length()>0) std::cout << "  options: " << fxOptions;
+   std::cout << std::endl;
 }

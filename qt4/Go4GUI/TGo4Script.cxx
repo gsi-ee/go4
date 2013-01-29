@@ -41,8 +41,6 @@
 #include "TGo4MainWindow.h"
 #include "TGo4Slot.h"
 
-#include "go4iostream.h"
-
 TGo4Script* TGo4Script::ScriptInstance()
 {
    return dynamic_cast<TGo4Script*> (Instance());

@@ -18,8 +18,6 @@
 // On calling theApp.Run(), the threads are started.
 // (J.Adamczewski, GSI)
 
-#include "go4iostream.h"
-
 #include "TApplication.h"
 
 #include "TGo4Log.h"
@@ -34,7 +32,7 @@ int main(int argc, char **argv)
                                // set this to 3 to get errors only
    TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages to file
    TGo4TestThreadManager* myManager = new TGo4TestThreadManager("MyTestEnvironment");
-   cout << "Created thread manager "<< myManager->GetName()<< endl;
+   TGo4Log::Info("Created thread manager %s", myManager->GetName());
    theApp.Run();
    return 0;
 }

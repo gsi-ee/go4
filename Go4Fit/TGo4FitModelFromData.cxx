@@ -13,8 +13,7 @@
 
 #include "TGo4FitModelFromData.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TH1.h"
 #include "TArrayI.h"
 
@@ -58,7 +57,7 @@ Bool_t TGo4FitModelFromData::Initialize(Int_t UseBuffers) {
    for(Int_t n=0;n<NumAssigments();n++)
      if (GetAssignedConnection(n))
         if (!GetAssignedConnection(n)->IsCompatibleData(GetDataAsModel())) {
-            cout << "TGo4FitModelFromData: incompatible data used for model" << endl;
+            std::cout << "TGo4FitModelFromData: incompatible data used for model" << std::endl;
             return kFALSE;
          }
 
@@ -96,7 +95,7 @@ void TGo4FitModelFromData::FillSlotList(TSeqCollection* list) {
 
 void TGo4FitModelFromData::Print(Option_t* option) const {
    TGo4FitModel::Print(option);
-   cout << "Model driven from data"  << endl;
+   std::cout << "Model driven from data"  << std::endl;
    if (GetDataAsModel()) GetDataAsModel()->Print(option);
 }
 

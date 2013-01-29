@@ -13,8 +13,7 @@
 
 #include "TMeshB3AnlProc.h"
 
-#include "go4iostream.h"
-
+#include "TGo4Log.h"
 #include "TGo4UserException.h"
 
 #include "TMeshRawEvent.h"
@@ -26,7 +25,7 @@
 TMeshB3AnlProc::TMeshB3AnlProc(const char* name)
   :TGo4EventProcessor(name),fxInput(0)
 {
-  cout << "**** TMeshB3AnlProc: Create" << endl;
+   TGo4Log::Info("TMeshB3AnlProc: Create");
 }
 //***********************************************************
 TMeshB3AnlProc::TMeshB3AnlProc()

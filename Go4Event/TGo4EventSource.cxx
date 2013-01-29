@@ -14,7 +14,6 @@
 #include "TGo4EventSource.h"
 
 #include "TClass.h"
-#include "go4iostream.h"
 #include "snprintf.h"
 
 #include "TGo4EventElement.h"
@@ -83,7 +82,7 @@ void TGo4EventSource::ThrowEOF(Int_t crestat, Int_t errstat, const char* message
 void TGo4EventSource::Clear(Option_t*)
 {
    // dummy clear, may be implemented by user
-   cout <<"default clear of eventsource " << GetName() << endl;
+   TGo4Log::Info("Default clear of eventsource %s", GetName());
 }
 
 

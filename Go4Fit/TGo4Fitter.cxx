@@ -15,7 +15,7 @@
 
 #include <stdlib.h>
 
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "TClass.h"
 #include "TMath.h"
 #include "TH1.h"
@@ -476,7 +476,7 @@ Bool_t TGo4Fitter::InitFitterData()
    }
 
    if( (fiFitFunctionType == ff_user) && (fxUserFitFunction==0) ) {
-      cout << " User fit function not set. Switch to least squares " << endl;
+      std::cout << " User fit function not set. Switch to least squares " << std::endl;
       fiFitFunctionType = ff_least_squares;
    }
 
@@ -716,19 +716,19 @@ void TGo4Fitter::Print(Option_t* option) const
    if (Opt=="Lines") { PrintLines(); return; }
 
    TGo4FitterAbstract::Print(option);
-   cout << "Fitiing function type: ";
+   std::cout << "Fitiing function type: ";
    switch (fiFitFunctionType) {
-     case ff_chi_square   : cout << "ff_chi_square" << endl; break;
-     case ff_chi_Pearson  : cout << "ff_chi_Pearson" << endl; break;
-     case ff_chi_Neyman   : cout << "ff_chi_Neyman" << endl; break;
-     case ff_chi_gamma    : cout << "ff_chi_gamma" << endl; break;
-     case ff_ML_Poisson   : cout << "ff_ML_Poisson" << endl; break;
-     case ff_user         : cout << "user defined" << endl; break;
-     default: cout << "ff_least_squares" << endl;
+     case ff_chi_square   : std::cout << "ff_chi_square" << std::endl; break;
+     case ff_chi_Pearson  : std::cout << "ff_chi_Pearson" << std::endl; break;
+     case ff_chi_Neyman   : std::cout << "ff_chi_Neyman" << std::endl; break;
+     case ff_chi_gamma    : std::cout << "ff_chi_gamma" << std::endl; break;
+     case ff_ML_Poisson   : std::cout << "ff_ML_Poisson" << std::endl; break;
+     case ff_user         : std::cout << "user defined" << std::endl; break;
+     default: std::cout << "ff_least_squares" << std::endl;
    }
-   cout << endl << "   LIST OF DATA OBJECTS" << endl;
+   std::cout << std::endl << "   LIST OF DATA OBJECTS" << std::endl;
    fxDatas.Print(option);
-   cout << endl << "   LIST OF MODEL OBJECTS" << endl;
+   std::cout << std::endl << "   LIST OF MODEL OBJECTS" << std::endl;
    fxModels.Print(option);
 }
 
@@ -1129,17 +1129,17 @@ void TGo4Fitter::Draw(Option_t* option)
 
 void TGo4Fitter::PrintAmpls() const
 {
-   cout << endl << "*** LIST OF AMPLITUDES VALUE ***" << endl;
+   std::cout << std::endl << "*** LIST OF AMPLITUDES VALUE ***" << std::endl;
    for(Int_t n=0;n<GetNumComp();n++) {
        TGo4FitComponent* comp = ((TGo4Fitter*) this)->GetComp(n);
        if (comp->GetAmplPar() != 0)
-          cout << "    " << comp->GetAmplFullName() << "   " << comp->GetAmplValue() << "   " << comp->GetAmplError() << endl;
+          std::cout << "    " << comp->GetAmplFullName() << "   " << comp->GetAmplValue() << "   " << comp->GetAmplError() << std::endl;
    }
 }
 
 void TGo4Fitter::PrintLines() const
 {
-  cout << endl << "    *** LIST OF LINES PARAMETERS ***" << endl;
+  std::cout << std::endl << "    *** LIST OF LINES PARAMETERS ***" << std::endl;
 
   int MaxAxis = 0;
   for (Int_t n=0; n<GetNumModel();n++) {
@@ -1150,26 +1150,26 @@ void TGo4Fitter::PrintLines() const
         if (m->GetPosition(naxis,zn) || m->GetWidth(naxis,zn)) MaxAxis = naxis;
   }
 
-  cout << setw(10) << "Name" << setw(12) << "Ampl";
+  std::cout << setw(10) << "Name" << setw(12) << "Ampl";
   for(Int_t naxis=0;naxis<=MaxAxis;naxis++)
-    cout << setw(11) << "Pos" << naxis << setw(11) << "Width" << naxis;
-  cout << endl;
+    std::cout << setw(11) << "Pos" << naxis << setw(11) << "Width" << naxis;
+  std::cout << std::endl;
 
   for (Int_t n=0; n<GetNumModel();n++) {
      TGo4FitModel* m = ((TGo4Fitter*) this)->GetModel(n);
      if (m==0) continue;
-     cout << setw(10) << m->GetName() << setw(12) << m->GetAmplValue();
+     std::cout << setw(10) << m->GetName() << setw(12) << m->GetAmplValue();
 
      for (int naxis=0;naxis<=MaxAxis;naxis++) {
         Double_t pos, width;
-        cout << setw(12);
-        if (m->GetPosition(naxis,pos)) cout << pos;
-                                  else cout << "---";
-        cout << setw(12);
-        if (m->GetWidth(naxis,width)) cout << width;
-                                 else cout << "---";
+        std::cout << setw(12);
+        if (m->GetPosition(naxis,pos)) std::cout << pos;
+                                  else std::cout << "---";
+        std::cout << setw(12);
+        if (m->GetWidth(naxis,width)) std::cout << width;
+                                 else std::cout << "---";
         }
-     cout << endl;
+     std::cout << std::endl;
   }
 }
 

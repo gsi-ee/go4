@@ -13,8 +13,6 @@
 
 #include "TGo4EventProcessorParameter.h"
 
-#include "go4iostream.h"
-
 #include "TGo4Status.h"
 #include "TGo4Log.h"
 
@@ -53,7 +51,7 @@ Int_t TGo4EventProcessorParameter::PrintParameter(Text_t* buffer, Int_t buflen)
 //   current=TGo4Status::PrintBuffer(current,restlen, "  ID: \t%d \n",GetID());
    if(buffer==0)
       {
-          cout << localbuf << endl;
+          std::cout << localbuf << std::endl;
       }
    else
       {

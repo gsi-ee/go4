@@ -13,8 +13,6 @@
 
 #include "TGo4WinCondPainter.h"
 
-#include "go4iostream.h"
-
 #include "TVirtualPad.h"
 #include "RVersion.h"
 #include "TList.h"

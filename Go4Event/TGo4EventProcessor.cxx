@@ -16,7 +16,6 @@
 #include <snprintf.h>
 #include <string.h>
 
-#include "go4iostream.h"
 #include "TH1.h"
 #include "TH2.h"
 #include "TCutG.h"
@@ -174,7 +173,7 @@ void TGo4EventProcessor::SendObjectToGUI(TNamed* ob)
 
 void TGo4EventProcessor::Clear(Option_t* opt)
 {
- cout <<"Default Clear of eventprocessor "<< GetName() << endl;
+    TGo4Log::Info("Default Clear of event processor %s", GetName());
  // dummy clear, may be implemented by user
 }
 

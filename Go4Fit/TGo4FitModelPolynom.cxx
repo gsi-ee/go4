@@ -13,8 +13,6 @@
 
 #include "TGo4FitModelPolynom.h"
 
-#include "go4iostream.h"
-
 #include "TMath.h"
 #include "TArrayD.h"
 

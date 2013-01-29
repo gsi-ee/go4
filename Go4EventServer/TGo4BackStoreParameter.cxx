@@ -13,8 +13,6 @@
 
 #include "TGo4BackStoreParameter.h"
 
-#include "go4iostream.h"
-
 #include "TGo4Status.h"
 #include "TGo4Log.h"
 #include "Go4EventServerTypes.h"
@@ -60,7 +58,7 @@ Int_t TGo4BackStoreParameter::PrintParameter(Text_t* buffer, Int_t buflen)
    current=TGo4Status::PrintBuffer(current,restlen, "  Buffer size: \t%d bytes \n",fiBufsize);
    if(buffer==0)
       {
-          cout << localbuf << endl;
+      std::cout << localbuf << std::endl;
       }
    else
       {

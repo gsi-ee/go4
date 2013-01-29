@@ -13,8 +13,7 @@
 
 #include "TMeshFinalEvent.h"
 
-#include "go4iostream.h"
-
+#include "TGo4Log.h"
 #include "TGo4FileSource.h"
 #include "TMeshFinalProc.h"
 
@@ -40,23 +39,23 @@ TMeshFinalEvent::~TMeshFinalEvent()
 Int_t TMeshFinalEvent::Init()
 {
    // check for different source types
-  Int_t rev = 0;
+   Int_t rev = 0;
    Clear();
-  if(CheckEventSource("TMeshFinalProc"))
+   if(CheckEventSource("TMeshFinalProc"))
    {
       fxFinalProc = dynamic_cast<TMeshFinalProc*>(GetEventSource());
-      cout << "**** TMeshFinalEvent init for Final step"<< endl;
+      TGo4Log::Info("TMeshFinalEvent init for Final step");
    }
-  else if(CheckEventSource("TGo4FileSource"))
+   else if(CheckEventSource("TGo4FileSource"))
    {
       fxFile = dynamic_cast<TGo4FileSource*> (GetEventSource());
-      cout << "**** TMeshFinalEvent init for file input"<< endl;
+      TGo4Log::Info("TMeshFinalEvent init for file input");
    }
-  else
-    rev=1;
-  return rev;
-
+   else
+      rev=1;
+   return rev;
 }
+
 //-----------------------------------------------------------
 Int_t TMeshFinalEvent::Fill()
 {
@@ -75,13 +74,13 @@ Int_t TMeshFinalEvent::Fill()
 //-----------------------------------------------------------
 void TMeshFinalEvent::Clear(Option_t *t)
 {
-//-----------------------------------------------------------
-fxB1.Clear(t);
-fxB1.SetValid(kFALSE);
-fxB2.Clear(t);
-fxB1.SetValid(kFALSE);
-fxB3.Clear(t);
-fxB1.SetValid(kFALSE);
-fxB12.Clear(t);
-fxB1.SetValid(kFALSE);
+   //-----------------------------------------------------------
+   fxB1.Clear(t);
+   fxB1.SetValid(kFALSE);
+   fxB2.Clear(t);
+   fxB1.SetValid(kFALSE);
+   fxB3.Clear(t);
+   fxB1.SetValid(kFALSE);
+   fxB12.Clear(t);
+   fxB1.SetValid(kFALSE);
 }

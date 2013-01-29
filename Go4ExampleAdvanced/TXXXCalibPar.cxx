@@ -16,7 +16,7 @@
 #include "TMath.h"
 #include "TH1.h"
 #include "TGraph.h"
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TGo4Log.h"
 #include "TGo4Fitter.h"
@@ -83,7 +83,7 @@ TXXXCalibPar::TXXXCalibPar(const char* name, TH1* spectrum, TGraph* curve) :
          // for the beginning, disable models beyond order 1:
          if(i>1) mod->ClearAssignmentTo(__GRAPHNAME__);
       } else
-         cout <<"could not find model " << modname << endl;
+         TGo4Log::Error("could not find model %s", modname.Data());
    }
 
    for(Int_t ix=0;ix<__LINESNUMBER__;++ix) {
@@ -112,7 +112,7 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
 /////////////////////// under const /////////////////
    TXXXCalibPar * from = dynamic_cast<TXXXCalibPar*> (source);
    if (from==0) {
-      cout << "Wrong parameter class: " << source->ClassName() << endl;
+      TGo4Log::Error("Wrong parameter class: %s", source->ClassName());
       return kFALSE;
    }
 
@@ -134,9 +134,9 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
       fiLinesChannel[ix]=from->fiLinesChannel[ix];
       ffLinesEnergy[ix]=from->ffLinesEnergy[ix];
       fxLinesNames[ix]=from->fxLinesNames[ix];
-      //cout <<"updated line:"<<fxLinesNames[ix].Data() << endl;
+      //std::cout <<"updated line:"<<fxLinesNames[ix].Data() << std::endl;
    }
-   cout <<"Updated Parameter:" << endl;
+   std::cout <<"Updated Parameter:" << std::endl;
    //PrintParameter(0,0);
    // get references to graph and histogram from analysis:
    // note that updatefrom is only used on analysis side here!
@@ -144,23 +144,23 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
 
    if(fxCalibCurve==0)
    {
-      cout <<"Graph "<<fxGraphName.Data() << " not existing in analysis"<< endl;
+      std::cout <<"Graph "<<fxGraphName.Data() << " not existing in analysis"<< std::endl;
    }
    else
    {
-      cout <<"Updated graph pointer ref to "<<fxCalibCurve << endl;
+      std::cout <<"Updated graph pointer ref to "<<fxCalibCurve << std::endl;
    }
 
    // now reread database if desired:
    if(fbReadDatabase)
    {
-      cout <<"Reread database" << endl;
+      std::cout <<"Reread database" << std::endl;
       ReadDatabase();
    }
 
    if(fbRecalibrate)
    {
-      cout <<"Recalibrating..." << endl;
+      std::cout <<"Recalibrating..." << std::endl;
       // first we get the channels from the linesfinder fitter:
 
       for(Int_t i=0; i<__LINESNUMBER__;++i)
@@ -177,7 +177,7 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
          }
          else
          {
-            //cout <<"could not find model "<<linename << endl;
+            //std::cout <<"could not find model "<<linename << std::endl;
          }
       }
 
@@ -246,16 +246,16 @@ void TXXXCalibPar::ReadDatabase()
             {
                break;
             }
-            //cout <<"read line:"<<nextline << endl;
+            //std::cout <<"read line:"<<nextline << std::endl;
          }while(strstr(nextline,"#") || strstr(nextline,"!") ); // skip any comments
          if(database.eof() || !database.good()) break;
          sscanf(nextline,"%s %f %d",buf,
                &ffLinesEnergy[ix],
                &fiLinesChannel[ix]);
          fxLinesNames[ix]=buf;
-         //      cout <<"\tname:"<<fxLinesNames[ix].Data() << endl;
-         //      cout <<"\te:"<<ffLinesEnergy[ix] << endl;
-         //      cout <<"\tch:"<<fiLinesChannel[ix] << endl;
+         //      std::cout <<"\tname:"<<fxLinesNames[ix].Data() << std::endl;
+         //      std::cout <<"\te:"<<ffLinesEnergy[ix] << std::endl;
+         //      std::cout <<"\tch:"<<fiLinesChannel[ix] << std::endl;
 
          fxLinesFinder->AddGauss1(__DATANAME__,
                fxLinesNames[ix].Data(),
@@ -263,7 +263,7 @@ void TXXXCalibPar::ReadDatabase()
                TMath::Sqrt((Long_t) fiLinesChannel[ix]));
          ix++;
       } // while(1)
-      //cout <<"scanned lines:"<<ix << endl;
+      //std::cout <<"scanned lines:"<<ix << std::endl;
 
    } // if (database==0)
 }

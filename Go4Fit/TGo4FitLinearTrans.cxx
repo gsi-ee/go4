@@ -13,15 +13,14 @@
 
 #include "TGo4FitLinearTrans.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TGo4FitParameter.h"
 
-TGo4FitLinearTrans::TGo4FitLinearTrans() : TGo4FitAxisTrans() {
-}
+TGo4FitLinearTrans::TGo4FitLinearTrans() : TGo4FitAxisTrans() {}
 
 TGo4FitLinearTrans::TGo4FitLinearTrans(const char* iName, const char* iTitle, Int_t iAxis) :
- TGo4FitAxisTrans(iName, iTitle), fiAxis(iAxis) {
+ TGo4FitAxisTrans(iName, iTitle), fiAxis(iAxis)
+{
    TGo4FitParameter* par = new TGo4FitParameter("CoefK","linear coefficient of calibration", 1.);
    par->SetFixed(kTRUE);
    AddPar(par);
@@ -51,6 +50,6 @@ void TGo4FitLinearTrans::Transformation(Double_t* scales, Int_t naxis) {
 }
 
 void TGo4FitLinearTrans::Print(Option_t* option) const {
-   cout << "Linear transformation of " << fiAxis << " axis" << endl;
+   std::cout << "Linear transformation of " << fiAxis << " axis" << std::endl;
    TGo4FitAxisTrans::Print(option);
 }

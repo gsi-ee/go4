@@ -13,8 +13,6 @@
 
 #include "TMeshDummyEvent.h"
 
-#include "go4iostream.h"
-
 #include "TMeshProviderProc.h"
 
 //***********************************************************

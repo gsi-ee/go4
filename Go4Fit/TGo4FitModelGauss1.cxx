@@ -13,8 +13,7 @@
 
 #include "TGo4FitModelGauss1.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TMath.h"
 
 #include "TGo4FitParameter.h"
@@ -35,11 +34,11 @@ Bool_t TGo4FitModelGauss1::BeforeEval(Int_t ndim) {
    Par_x0 = GetPar(1)->GetValue();
    Double_t w = GetPar(2)->GetValue();
    if (w==0.)
-     { cout << "TGo4FitModelGauss1::   Invalid sigma value " << endl; return kFALSE; }
+     { std::cout << "TGo4FitModelGauss1::   Invalid sigma value " << std::endl; return kFALSE; }
    Par_k = -0.5/w/w;
 
    if (fiNaxis>=ndim)
-     { cout << "TGo4FitModelGauss1:   invalid index "; return kFALSE; }
+     { std::cout << "TGo4FitModelGauss1:   invalid index " << std::endl; return kFALSE; }
    return kTRUE;
 }
 
@@ -49,7 +48,7 @@ Double_t TGo4FitModelGauss1::EvalN(const Double_t* v) {
 
 void TGo4FitModelGauss1::Print(Option_t* option) const {
     TGo4FitModel::Print(option);
-    cout << "   1-dimensional Gauss for axis " << fiNaxis << endl;
+    std::cout << "   1-dimensional Gauss for axis " << fiNaxis << std::endl;
 }
 
 Double_t TGo4FitModelGauss1::Integral() {

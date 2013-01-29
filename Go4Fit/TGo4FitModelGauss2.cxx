@@ -13,8 +13,7 @@
 
 #include "TGo4FitModelGauss2.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TMath.h"
 
 #include "TGo4FitParameter.h"
@@ -42,15 +41,15 @@ Bool_t TGo4FitModelGauss2::BeforeEval(Int_t ndim) {
    Par_mu2 = GetPar(2)->GetValue();
    Par_sig1 = GetPar(3)->GetValue();
    if (Par_sig1==0.)
-     { cout << " TGo4FitModelGauss2:: invalid Sig0 value" << endl; return kFALSE; }
+     { std::cout << " TGo4FitModelGauss2:: invalid Sig0 value" << std::endl; return kFALSE; }
    Par_sig2 = GetPar(4)->GetValue();
    if (Par_sig2==0.)
-     { cout << " TGo4FitModelGauss2:: invalid Sig1 value" << endl; return kFALSE; }
+     { std::cout << " TGo4FitModelGauss2:: invalid Sig1 value" << std::endl; return kFALSE; }
    Par_ro = GetPar(5)->GetValue()/Par_sig1/Par_sig2;
    Par_mult = -0.5/(1.-Par_ro*Par_ro);
 
    if ((fiNaxis1>=ndim) || (fiNaxis2>=ndim))
-     { cout << " TGo4FitModelGauss2:: invalid index value" << endl; return kFALSE; }
+     { std::cout << " TGo4FitModelGauss2:: invalid index value" << std::endl; return kFALSE; }
    return kTRUE;
 }
 
@@ -61,7 +60,8 @@ Double_t TGo4FitModelGauss2::EvalN(const Double_t* v) {
    return TMath::Exp(z);
 }
 
-void TGo4FitModelGauss2::Print(Option_t* option) const {
+void TGo4FitModelGauss2::Print(Option_t* option) const
+{
     TGo4FitModel::Print(option);
-    cout << "   2-dimensional Gauss for axis " << fiNaxis1 << " & " << fiNaxis2 << endl;
+    std::cout << "   2-dimensional Gauss for axis " << fiNaxis1 << " & " << fiNaxis2 << std::endl;
 }

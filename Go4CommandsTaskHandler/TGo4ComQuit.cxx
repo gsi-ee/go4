@@ -13,8 +13,6 @@
 
 #include "TGo4ComQuit.h"
 
-#include "go4iostream.h"
-
 #include "TGo4Log.h"
 #include "TGo4Task.h"
 
@@ -33,7 +31,7 @@ Int_t TGo4ComQuit::ExeCom()
 {
    TGo4Task* cli = dynamic_cast<TGo4Task*> (fxReceiverBase);
    if(cli!=0) {
-      cout << "Quit command executes on receiver:"<< ((TGo4Task*) fxReceiverBase)->GetName() <<endl;
+      TGo4Log::Info("Quit command executes on receiver: %s", ((TGo4Task*) fxReceiverBase)->GetName());
 //      cli->SendStatusMessage(2,kFALSE,"Quit command executes on client %s ...",cli->GetName());
       cli->Quit();
       return 0;

@@ -13,8 +13,7 @@
 
 #include "TGo4FitModelFormula.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TFormula.h"
 #include "TGo4FitParameter.h"
 
@@ -132,38 +131,39 @@ void TGo4FitModelFormula::Finalize() {
 
 void TGo4FitModelFormula::Print(Option_t* option) const {
    TGo4FitModel::Print(option);
-   cout << "  Expression = " << *fxExpression << endl;
+   std::cout << "  Expression = " << *fxExpression << std::endl;
    for (Int_t naxis=0;naxis<fxPosIndex.GetSize();naxis++) {
      TGo4FitParameter* par = ((TGo4FitModelFormula*) this)->GetExprPar(fxPosIndex[naxis]);
      if (par)
-        cout << "  Position on " << naxis << " axis is " << par->GetName() << endl;
+        std::cout << "  Position on " << naxis << " axis is " << par->GetName() << std::endl;
    }
    for (Int_t naxis=0;naxis<fxWidthIndex.GetSize();naxis++) {
      TGo4FitParameter* par = ((TGo4FitModelFormula*) this)->GetExprPar(fxWidthIndex[naxis]);
      if (par)
-        cout << "  Width on " << naxis << " axis is " << par->GetName() << endl;
+        std::cout << "  Width on " << naxis << " axis is " << par->GetName() << std::endl;
    }
 }
 
-Bool_t TGo4FitModelFormula::CompileFormula() {
+Bool_t TGo4FitModelFormula::CompileFormula()
+{
    CloseFormula();
 
    TString Expr(fxExpression);
    for (Int_t n=0;n<NumPars();n++) {
-     TString str;
-     str.Form("[%d]",n);
-     Expr.ReplaceAll(GetParName(n), str);
+      TString str;
+      str.Form("[%d]",n);
+      Expr.ReplaceAll(GetParName(n), str);
    }
 
    fxFormula = new TFormula("Expression", Expr);
 
    Int_t err = fxFormula->Compile(Expr);
    if (err!=0) {
-    cout << "Error in formula: " << fxExpression.Data() << "     code " << err  << endl;
-    CloseFormula();
-    return kFALSE;
-  }
-  return kTRUE;
+      std::cerr << "Error in formula: " << fxExpression.Data() << "     code " << err  << std::endl;
+      CloseFormula();
+      return kFALSE;
+   }
+   return kTRUE;
 }
 
 void TGo4FitModelFormula::CloseFormula() {

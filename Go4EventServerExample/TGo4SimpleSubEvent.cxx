@@ -13,8 +13,6 @@
 
 #include "TGo4SimpleSubEvent.h"
 
-#include "go4iostream.h"
-
 #include "TGo4Log.h"
 
 #include "Go4EventServer.h"

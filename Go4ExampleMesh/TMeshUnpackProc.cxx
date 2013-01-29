@@ -13,12 +13,8 @@
 
 #include "TMeshUnpackProc.h"
 
-#include "go4iostream.h"
-
 #include "TGo4MbsEvent.h"
-//#include "TGo4Analysis.h"
-//#include "TGo4EventElement.h"
-
+#include "TGo4Log.h"
 
 #include "TMeshRawEvent.h"
 #include "TMeshB1InputEvent.h"
@@ -34,10 +30,9 @@ TMeshUnpackProc::TMeshUnpackProc()
 TMeshUnpackProc::TMeshUnpackProc(const char* name)
   : TGo4EventProcessor(name)
 {
-  cout << "**** TMeshUnpackProc: Create" << endl;
-
-
+   TGo4Log::Info("TMeshUnpackProc: Create %s", name);
 }
+
 //***********************************************************
 TMeshUnpackProc::~TMeshUnpackProc()
 {
@@ -94,7 +89,7 @@ void TMeshUnpackProc::UnpackBranch1(TMeshB1InputEvent* poutevt)
          }  // while
       poutevt->SetValid(kTRUE); // to store
     } // if(fInput)
-  else    cout << "UnpackBranch1: no input event !"<< endl;
+  else    TGo4Log::Error("UnpackBranch1: no input event !");
 }
 
 void TMeshUnpackProc::UnpackBranch2(TMeshB2InputEvent* poutevt)
@@ -131,7 +126,7 @@ void TMeshUnpackProc::UnpackBranch2(TMeshB2InputEvent* poutevt)
          }  // while
       poutevt->SetValid(kTRUE); // to store
     } // if(fInput)
-  else    cout << "UnpackBranch2: no input event !"<< endl;
+  else    TGo4Log::Error("UnpackBranch2: no input event !");
 }
 
 void TMeshUnpackProc::UnpackBranch3(TMeshB3InputEvent* poutevt)
@@ -144,7 +139,6 @@ void TMeshUnpackProc::UnpackBranch3(TMeshB3InputEvent* poutevt)
   fInput    = dynamic_cast<TGo4MbsEvent*> (GetInputEvent()); // from this
   if(fInput)
     {
-
       fInput->ResetIterator();
       while ((psubevt = fInput->NextSubEvent()) != 0) // subevent loop
          {
@@ -168,5 +162,5 @@ void TMeshUnpackProc::UnpackBranch3(TMeshB3InputEvent* poutevt)
          }  // while
       poutevt->SetValid(kTRUE); // to store
     } // if(fInput)
-  else    cout << "UnpackBranch3: no input event !"<< endl;
+  else   TGo4Log::Error("UnpackBranch3: no input event !");
 }

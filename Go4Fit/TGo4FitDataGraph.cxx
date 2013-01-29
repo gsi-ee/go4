@@ -13,8 +13,7 @@
 
 #include "TGo4FitDataGraph.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TGraph.h"
 #include "TGraphErrors.h"
 #include "TGraphAsymmErrors.h"
@@ -55,7 +54,7 @@ void TGo4FitDataGraph::FillSlotList(TSeqCollection* list)
 void TGo4FitDataGraph::Print(Option_t* option) const
 {
    TGo4FitData::Print(option);
-   cout << "   ";
+   std::cout << "   ";
    fxGraph.Print(option);
 }
 
