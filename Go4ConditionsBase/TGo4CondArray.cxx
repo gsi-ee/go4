@@ -1125,7 +1125,7 @@ Int_t TGo4CondArray::GetMemorySize()
    return size;
 }
 
-void TGo4CondArray::SavePrimitive(ostream& out, Option_t* opt)
+void TGo4CondArray::SavePrimitive(std::ostream& out, Option_t* opt)
 {
    static int cnt = 0;
    TString extraargs = TString::Format(", %d, \"%s\"", GetNumber(), GetType());

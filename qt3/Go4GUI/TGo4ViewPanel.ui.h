@@ -1150,14 +1150,9 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
    bool docreate = GetSelectedMarkerName(pad).length() == 0;
    bool docheck = false;
 
-//   cout << "PadClickedSlot( px = " << px << " py = " << py << endl;
-
    switch (fiMouseMode) {
       case kMouseROOT: {
          TObject *obj = GetCanvas()->GetSelected();
-//        if (obj!=0)
-//           cout << "  obj = " << obj->GetName()
-//                << "  class = " << obj->ClassName() << endl;
 
          if (obj != 0)
             if (obj->InheritsFrom(TGo4Marker::Class())
@@ -1218,27 +1213,25 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
                conny->SetYMeanDraw(fbTwoDimRegion && conny->IsXMeanDraw());
                conny->SetYMaxDraw(fbTwoDimRegion && conny->IsXMaxDraw());
                AddMarkerObj(pad, kind_Window, conny);
-            } else
-               conny = dynamic_cast<TGo4WinCond*>(GetActiveObj(pad,
-                     kind_Window));
-//           cout << "Start wincond = " << (conny ? conny->GetName() : "null") << endl;
-if                     (conny==0) return;
-                     fiPickCounter++;
-                  } else
-                  if (fiPickCounter==1) {
-                     conny = dynamic_cast<TGo4WinCond*> (GetActiveObj(pad, kind_Window));
-//           cout << "Stop wincond = " << (conny ? conny->GetName() : "null") << endl;
-                     if(conny==0) return;
-                     xmin = conny->GetXLow();
-                     ymin = conny->GetYLow();
-                     fiPickCounter=0;
-                     if(!fbPickAgain) fiMouseMode=kMouseROOT;
-                     docheck = true;
-                  } else {
-                     cout <<"TGo4ViewPanel:MouseClick() NEVER COME HERE" << endl;
-                     return;
-                  }
-               // do not change original condition dimension
+            } else {
+               conny = dynamic_cast<TGo4WinCond*>(GetActiveObj(pad, kind_Window));
+            }
+           if (conny==0) return;
+           fiPickCounter++;
+         } else
+         if (fiPickCounter==1) {
+            conny = dynamic_cast<TGo4WinCond*> (GetActiveObj(pad, kind_Window));
+            if(conny==0) return;
+            xmin = conny->GetXLow();
+            ymin = conny->GetYLow();
+            fiPickCounter=0;
+            if(!fbPickAgain) fiMouseMode=kMouseROOT;
+            docheck = true;
+         } else {
+            TGo4Log::Error("TGo4ViewPanel:MouseClick() NEVER COME HERE");
+            return;
+         }
+         // do not change original condition dimension
          if (conny->GetDimension() > 1)
             conny->SetValues(xmin, xmax, ymin, ymax);
          else
@@ -1363,11 +1356,11 @@ if                     (cond!=0) {
                arrow->SetY2(y);
             }
             if(!fbPickAgain) fiMouseMode=kMouseROOT; // reset pick
-                  fiPickCounter=0;
-               } else {
-                  cout <<"TGo4ViewPanel:MouseClick() NEVER COME HERE" << endl;
-                  return;
-               }
+            fiPickCounter=0;
+         } else {
+             TGo4Log::Error("TGo4ViewPanel:MouseClick() NEVER COME HERE");
+             return;
+         }
             // do not change original condition dimension
          RedrawPanel(pad, true);
          break;
@@ -1614,7 +1607,7 @@ void TGo4ViewPanel::ProduceGraphFromMarkers()
    for (Int_t j = 0; j < npts; ++j) {
       TGo4Marker* mark = dynamic_cast<TGo4Marker*>(markers[j]);
       if (mark == 0) {
-         cout << "NEVER COME HERE: no marker at index " << j << endl;
+         TGo4Log::Error("TGo4ViewPanel::ProduceGraphFromMarkers: no marker at index %d", j);
          return;
       }
       x[j] = mark->GetX();
@@ -2500,9 +2493,7 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Picture* padopt,
 
    // if error, no superimpose is allowed
    if (iserror || (ishstack && isgstack)) {
-      cerr
-            << "Error detected: superimpose of multiple objects with different types"
-            << endl;
+      TGo4Log::Error("Error detected: superimpose of multiple objects with different types");
       return 0;
    }
 
@@ -3284,7 +3275,7 @@ void TGo4ViewPanel::ProcessPictureRedraw(const char* picitemname, TPad* pad,
 
    TGo4Picture* padopt = GetPadOptions(pad);
    if (padopt == 0) {
-      cerr << "!!!!!!!! Should not be" << endl;
+      TGo4Log::Error("ProcessPictureRedraw: no pad options specified -  should not be");
       return;
    }
 
@@ -4225,10 +4216,7 @@ void TGo4ViewPanel::SetPadDefaults(TPad* pad)
                light->SetRGB(0.8, 0.8, 0.8);
          }
       } else { // if(normal)
-         cerr
-               << "TGo4ViewPanel:: Could not assign root shadow colors for number "
-               << padfillcolor << endl;
-         cerr << "Never come here!!!" << endl;
+         TGo4Log::Error("TGo4ViewPanel:: Could not assign root shadow colors for number %d - never come here", padfillcolor);
       }
    }
 

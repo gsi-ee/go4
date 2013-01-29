@@ -340,9 +340,8 @@ and then just drag &amp; drop object to this label (not to output window).</stri
 </connections>
 <includes>
     <include location="local" impldecl="in declaration">QGo4Widget.h</include>
-    <include location="global" impldecl="in implementation">sstream</include>
-    <include location="global" impldecl="in implementation">iostream</include>
     <include location="global" impldecl="in implementation">stdio.h</include>
+    <include location="global" impldecl="in implementation">stdlib.h</include>
     <include location="local" impldecl="in implementation">qdragobject.h</include>
     <include location="local" impldecl="in implementation">Riostream.h</include>
     <include location="local" impldecl="in implementation">Rstrstream.h</include>

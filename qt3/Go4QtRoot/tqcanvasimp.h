@@ -42,7 +42,7 @@
 * @version 2.0
 */
 
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TCanvasImp.h"
 #include "TInterpreter.h"
@@ -122,12 +122,12 @@ public:
    Iconify (not implemented yet)
    */
 
-  virtual void   Iconify() { cout << "Not implemented\n"; }
+  virtual void   Iconify() { std::cout << "Iconify() - not implemented" << std::endl; }
   /**
    set a status text (not implemented yet)
    */
   virtual void   SetStatusText(const char* = 0, Int_t = 0) {
-    //cout << "statustext Not implemented\n";
+    //std::cout << "statustext Not implemented" << std::endl;
   }
   /**
   Move the dialog box window to a specified position in the local
@@ -142,7 +142,7 @@ public:
    Set the window title
    */
   virtual void   SetWindowTitle(const char* newTitle) {
-    cout << "title Not implemented" << newTitle << endl;
+    std::cout << "SetWindowTitle() - not implemented" << newTitle << endl;
   }
   /**
    Set the Canvas size
@@ -152,13 +152,13 @@ public:
    Show the menu bar
    */
   virtual void   ShowMenuBar(Bool_t = kTRUE) {
-    cout << "menubar Not implemented\n";
+    std::cout << "ShowMenuBar() - not implemented" << std::endl;
   }
   /**
    Show status bar
    */
   virtual void   ShowStatusBar(Bool_t = kTRUE) {
-    cout << "statusbar Not implemented\n";
+    std::cout << "ShowStatusBar() - not implemented" << std::endl;
   }
   /**
    Do a Show of the dialog box

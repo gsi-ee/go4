@@ -785,6 +785,7 @@
     <include location="local" impldecl="in implementation">qapplication.h</include>
     <include location="local" impldecl="in implementation">qtimer.h</include>
     <include location="local" impldecl="in implementation">qinputdialog.h</include>
+    <include location="local" impldecl="in implementation">TGo4Log.h</include>
     <include location="local" impldecl="in implementation">TGo4Picture.h</include>
     <include location="local" impldecl="in implementation">TGo4Fitter.h</include>
     <include location="local" impldecl="in implementation">TGo4Marker.h</include>

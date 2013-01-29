@@ -83,9 +83,9 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
    }
 
 /*
-   // this is example of creating canvas, which can be observed in the gui" << endl;
+   // this is example of creating canvas, which can be observed in the gui" << std::endl;
    TCanvas* mycan = new TCanvas("TestCanvas","Does this work?", 3);
-   cout << "Did Creating canvas " << endl;
+   std::cout << "Did Creating canvas " << std::endl;
    mycan->Divide(2,2);
    mycan->cd(1);
    fHis1->Draw();
@@ -102,14 +102,14 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement*)
 {  // called by framework. We dont fill any output event here at all
 
    if ((GetInputEvent()==0) || (GetInputEvent()->IsA() != TGo4MbsEvent::Class())) {
-      cout << "TXXXProc: no input MBS event found!" << endl;
+      std::cout << "TXXXProc: no input MBS event found!" << std::endl;
       return kFALSE;
    }
 
    TGo4MbsEvent* evnt = (TGo4MbsEvent*) GetInputEvent();
 
    if(evnt->GetTrigger() > 11) {
-      cout << "**** TXXXProc: Skip trigger event" << endl;
+      std::cout << "**** TXXXProc: Skip trigger event" << std::endl;
       return kFALSE;
    }
    // first we fill the arrays fCrate1,2 with data from MBS source

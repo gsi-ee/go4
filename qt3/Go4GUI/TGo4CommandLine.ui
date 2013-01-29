@@ -173,7 +173,6 @@
     <include location="local" impldecl="in implementation">TGo4Script.h</include>
     <include location="local" impldecl="in implementation">TGo4MainWindow.h</include>
     <include location="local" impldecl="in implementation">TGo4QSettings.h</include>
-    <include location="local" impldecl="in implementation">qtextstream.h</include>
     <include location="local" impldecl="in implementation">TGo4MacroDialog.h</include>
     <include location="local" impldecl="in implementation">TGo4CommandLine.ui.h</include>
 </includes>

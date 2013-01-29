@@ -58,7 +58,7 @@
     <include location="local" impldecl="in implementation">qinputdialog.h</include>
     <include location="local" impldecl="in implementation">qtimer.h</include>
     <include location="local" impldecl="in implementation">qapplication.h</include>
-    <include location="local" impldecl="in implementation">Riostream.h</include>
+    <include location="local" impldecl="in implementation">TGo4Log.h</include>
     <include location="local" impldecl="in implementation">TClass.h</include>
     <include location="local" impldecl="in implementation">TClassTable.h</include>
     <include location="local" impldecl="in implementation">TROOT.h</include>

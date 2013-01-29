@@ -17,7 +17,7 @@
 #include "TNamed.h"
 #include "TAttLine.h"
 #include "TAttFill.h"
-#include "go4iostream.h"
+#include "Riostream.h"
 
 class TH1;
 class TVirtualPad;
@@ -364,7 +364,7 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     void SetPainted(Bool_t on) { fbIsPainted=on; }
     Bool_t IsPainted() const { return fbIsPainted; }
 
-    const char* MakeScript(ostream& out, const char* varname, Option_t* opt = "", const char* arrextraargs = 0);
+    const char* MakeScript(std::ostream& out, const char* varname, Option_t* opt = "", const char* arrextraargs = 0);
 
   private:
 
@@ -408,7 +408,7 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     /** is true if this condition has link to a histogram name */
     Bool_t fbHistogramLink;
 
-    /** contains associatied histogram name */
+    /** contains associated histogram name */
     TString fxHistoName;
 
     /** Precision for the check if graphical representation change requires update */

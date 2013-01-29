@@ -20,9 +20,6 @@
 ** place of a destructor.
 *****************************************************************************/
 
-#include <sstream>
-using namespace std;
-
 void QFitPrintWidget::SetDrawOption( const QString & option )
 {
    fxDrawOption = option;
@@ -31,21 +28,21 @@ void QFitPrintWidget::SetDrawOption( const QString & option )
 void QFitPrintWidget::FillSpecificData() {
   if (GetObject()) {
 
-      cout.flush();
+      std::cout.flush();
 
-      ostringstream strout;
+      std::ostringstream strout;
 
-      streambuf* cout_buffer = cout.rdbuf();
+      std::streambuf* cout_buffer = std::cout.rdbuf();
 
-      cout.rdbuf(strout.rdbuf());
+      std::cout.rdbuf(strout.rdbuf());
 
       GetObject()->Print(fxDrawOption);
 
-      cout << endl;
+      std::cout << std::endl;
 
-      cout.flush();
+      std::cout.flush();
 
-      cout.rdbuf(cout_buffer);
+      std::cout.rdbuf(cout_buffer);
 
       PrintText->setText(strout.str().c_str());
   }

@@ -331,7 +331,7 @@ void TGo4Browser::updateListViewItems()
 
       TGo4Slot* curslot = iter.getslot();
       if (curslot==0) {
-         cerr << "************* ERROR in gui slots ****************** " << endl;
+         TGo4Log::Error("TGo4Browser::updateListViewItems() - ERROR in gui slots");
          return;
       }
 

@@ -230,7 +230,7 @@ class TGo4CondArray : public TGo4Condition {
     virtual Int_t GetMemorySize();
 
     /** Standard way to store parameter in form of macro */
-    virtual void SavePrimitive(ostream& fs, Option_t* = "");
+    virtual void SavePrimitive(std::ostream& fs, Option_t* = "");
 
   private:
     /** The object array of conditions */

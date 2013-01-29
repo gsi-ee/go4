@@ -32,6 +32,7 @@ class TGo4CompositeEvent;
 class TGo4EventFactory;
 class TGo4MbsHist;
 
-#include "go4iostream.h"
+#include "Riostream.h"
+using namespace std;
 
 #endif

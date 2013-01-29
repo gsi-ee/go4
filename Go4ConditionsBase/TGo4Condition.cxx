@@ -14,12 +14,12 @@
 #include "TGo4Condition.h"
 
 
-
 #include "TH1.h"
 #include "TROOT.h"
 #include "TList.h"
 #include "TCutG.h"
 #include "TVirtualPad.h"
+#include "Riostream.h"
 #include "snprintf.h"
 
 #include "TGo4Log.h"
@@ -184,13 +184,14 @@ void TGo4Condition::PrintCondition(Bool_t full)
    char num[64];
    if(fiCounts==0)perc=0.0;
    else perc=100.0/fiCounts*fiTrueCounts;
-   cout << "Name:" << GetName()
-        << " type:" << ClassName()
-        << " title:" << GetTitle() << endl;
+   std::cout << "Name:" << GetName()
+             << " type:" << ClassName()
+             << " title:" << GetTitle() << std::endl;
    if(fbHistogramLink)
-      cout << "Connected to histogram " << fxHistoName << endl;
-   if(fbEnabled)  strcpy(line,"Is Checked   ");
-   else{
+      std::cout << "Connected to histogram " << fxHistoName << std::endl;
+   if(fbEnabled) {
+      strcpy(line,"Is Checked   ");
+   } else {
       if(fbResult) strcpy(line,"Always True  ");
       else         strcpy(line,"Always False ");
    }
@@ -198,7 +199,7 @@ void TGo4Condition::PrintCondition(Bool_t full)
    else       strcat(line,"inverse ");
    snprintf(num,63,", tested: %8d true: %8d is %3.0f%%",fiCounts,fiTrueCounts,perc);
    strcat(line,num);
-   cout << line     << endl;
+   std::cout << line     << std::endl;
 }
 // ---------------------------------------------------------
 void TGo4Condition::PrintBar()
@@ -214,18 +215,18 @@ void TGo4Condition::PrintBar()
    *pc=0;
    snprintf(line,127,"%-24s %8d %3.0f%% |%-50s|",GetName(),fiCounts,perc,num);
    *pc='+';
-   cout << line << endl;
+   std::cout << line << std::endl;
 }
 // -----------------------------------------------
 void TGo4Condition::Print(Option_t* opt) const
 {
-   //cout <<"MyPrint:"<<GetName() << endl;
+   //std::cout <<"MyPrint:"<<GetName() << std::endl;
    TGo4Condition* localthis=const_cast<TGo4Condition*>(this);
    TString option=opt;
    option.ToLower();
    if(option.IsNull() || option=="*")
    {
-      // old default: we print bar graphics to cout
+      // old default: we print bar graphics to std::cout
       localthis->PrintBar();
    }
    else
@@ -286,7 +287,7 @@ void TGo4Condition::Print(Option_t* opt) const
       }
       else
       {
-         cout << textbuffer.Data() << endl;
+         std::cout << textbuffer.Data() << std::endl;
       }
    } //if(option.IsNull())
 }
@@ -679,7 +680,7 @@ void TGo4Condition::DeletePainter()
    }
 }
 
-const char* TGo4Condition::MakeScript(ostream& out, const char* varname, Option_t* opt, const char* arrextraargs)
+const char* TGo4Condition::MakeScript(std::ostream& out, const char* varname, Option_t* opt, const char* arrextraargs)
 {
    Bool_t savemacro = (opt!=0) && (strstr(opt,"savemacro")!=0);
    Bool_t saveprefix = savemacro;
@@ -689,16 +690,16 @@ const char* TGo4Condition::MakeScript(ostream& out, const char* varname, Option_
 
    if (saveprefix) {
       out << Form("   %s* %s = (%s*) go4->GetAnalysisCondition(\"%s\",\"%s\");",
-                   ClassName(), varname, ClassName(), GetName(), ClassName()) << endl;
-      out << Form("   if (%s==0) {", varname) << endl;
-      out << Form("      TGo4Log::Error(\"Could not find condition %s of class %s\");", GetName(), ClassName()) << endl;
-      out << Form("      return;") << endl;
-      out << Form("   }") << endl << endl;
+                   ClassName(), varname, ClassName(), GetName(), ClassName()) << std::endl;
+      out << Form("   if (%s==0) {", varname) << std::endl;
+      out << Form("      TGo4Log::Error(\"Could not find condition %s of class %s\");", GetName(), ClassName()) << std::endl;
+      out << Form("      return;") << std::endl;
+      out << Form("   }") << std::endl << std::endl;
       out << Form("   TGo4Log::Info(\"Set condition %s as saved at %s\");",
-                         GetName(),TDatime().AsString()) << endl << endl;
+                         GetName(),TDatime().AsString()) << std::endl << std::endl;
    } else
    if (!savemacro && ((opt==0) || (strstr(opt, "nocreate")==0))) {
-      out << Form("   %s* %s = new %s(\"%s\"%s);", ClassName(), varname, ClassName(), GetName(), (arrextraargs ? arrextraargs : "")) << endl << endl;
+      out << Form("   %s* %s = new %s(\"%s\"%s);", ClassName(), varname, ClassName(), GetName(), (arrextraargs ? arrextraargs : "")) << std::endl << std::endl;
    }
 
    if (arrextraargs==0) {
@@ -706,7 +707,7 @@ const char* TGo4Condition::MakeScript(ostream& out, const char* varname, Option_
       Bool_t enabled,last,mark,result,vtrue,vfalse;
       GetFlags(&enabled, &last, &mark, &result, &vtrue, &vfalse);
 
-      out << "   // SetFlags(enabled,last,mark,result,vtrue,vfalse);" << endl;
+      out << "   // SetFlags(enabled,last,mark,result,vtrue,vfalse);" << std::endl;
 
       out << Form("   %s%s->SetFlags(%s, %s, %s, %s, %s, %s);",
                   savemacro ? "if (flags) " : "", varname,
@@ -715,14 +716,14 @@ const char* TGo4Condition::MakeScript(ostream& out, const char* varname, Option_
                   mark ? "kTRUE" : "kFALSE",
                   result ? "kTRUE" : "kFALSE",
                   vtrue ? "kTRUE" : "kFALSE",
-                  vfalse ? "kTRUE" : "kFALSE") << endl;
+                  vfalse ? "kTRUE" : "kFALSE") << std::endl;
 
       out << Form("   %s%s->SetCounts(%d, %d);",
                  savemacro ? "if (counters) " : "", varname,
-                 TrueCounts(), Counts()) << endl;
+                 TrueCounts(), Counts()) << std::endl;
 
       if (savemacro)
-         out << Form("   if (reset) %s->ResetCounts();", varname) << endl;
+         out << Form("   if (reset) %s->ResetCounts();", varname) << std::endl;
    }
 
    return varname;

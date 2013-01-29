@@ -105,7 +105,7 @@ class TGo4PolyCond : public TGo4Condition {
       virtual Int_t GetMemorySize();
 
       /** Standard way to store parameter in form of macro */
-      virtual void SavePrimitive(ostream& fs, Option_t* = "");
+      virtual void SavePrimitive(std::ostream& fs, Option_t* = "");
 
       /** Remove all references to any TCutGs from ROOT list of specials.
         * To be used after loading condition from file, updating contition, or setting of cut. */

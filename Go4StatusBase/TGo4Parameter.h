@@ -15,7 +15,8 @@
 #define TGO4PARAMETER_H
 
 #include "TNamed.h"
-#include "go4iostream.h"
+#include "Riostream.h"
+
 class TObjArray;
 class TIterator;
 class TDataMember;
@@ -62,7 +63,7 @@ class TGo4Parameter : public TNamed {
       /** Standard way to store parameter in form of macro,
        * If \param opt == "savemacro", parameter saved in form of macro,
        * which can be rerun in analysis-  see saveparam.C macro for example */
-      virtual void SavePrimitive(ostream& fs, Option_t* opt= "");
+      virtual void SavePrimitive(std::ostream& fs, Option_t* opt= "");
 
    protected:
 

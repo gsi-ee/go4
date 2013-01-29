@@ -64,7 +64,7 @@ Int_t TGo4Parameter::PrintParameter(Text_t* buffer, Int_t buflen)
    TString localbuf = TString::Format("Parameter name: %s class %s\n", GetName(), ClassName());
 
    if(buffer==0) {
-      cout << localbuf;
+      std::cout << localbuf;
    } else {
       size = localbuf.Length();
       if(size>buflen) size = buflen;
@@ -101,9 +101,9 @@ Bool_t TGo4Parameter::UpdateFrom(TGo4Parameter* rhs)
    if (rhs==0) return kFALSE;
 
    if (rhs->IsA() != IsA()) {
-      cout << "GO4> !!! ERROR: Wrong parameter class is used in TGo4Parameter::UpdateFrom() method!!!" << endl;
-      cout << "GO4> !!! ERROR: One cannot update " << IsA()->GetName() << " class from " << rhs->IsA()->GetName() << endl;
-      cout << "GO4> !!! ERROR: Implement your custom UpdateFrom() method" << endl;
+      std::cout << "GO4> !!! ERROR: Wrong parameter class is used in TGo4Parameter::UpdateFrom() method!!!" << std::endl;
+      std::cout << "GO4> !!! ERROR: One cannot update " << IsA()->GetName() << " class from " << rhs->IsA()->GetName() << std::endl;
+      std::cout << "GO4> !!! ERROR: Implement your custom UpdateFrom() method" << std::endl;
       return kFALSE;
    }
 
@@ -117,8 +117,8 @@ Bool_t TGo4Parameter::UpdateFrom(TGo4Parameter* rhs)
 void TGo4Parameter::Clear(Option_t* opt)
 {
  // dummy clear, may be implemented by user
-  cout << "GO4> !!! Default TGo4Parameter::Clear() method is used." <<  endl;
-  cout << "GO4> !!! You probably need to overwrite Clear() method for your class" << IsA()->GetName() << endl;
+  std::cout << "GO4> !!! Default TGo4Parameter::Clear() method is used." <<  std::endl;
+  std::cout << "GO4> !!! You probably need to overwrite Clear() method for your class" << IsA()->GetName() << std::endl;
 
   TObjArray items;
 
@@ -381,7 +381,7 @@ Bool_t TGo4Parameter::SetMemberValues(TObjArray* items, Int_t& itemsindx, TClass
    return kTRUE;
 }
 
-void TGo4Parameter::SavePrimitive(ostream& out, Option_t* opt)
+void TGo4Parameter::SavePrimitive(std::ostream& out, Option_t* opt)
 {
    static int cnt = 0;
    TString varname = TString::Format("param%d", cnt++);
@@ -389,16 +389,16 @@ void TGo4Parameter::SavePrimitive(ostream& out, Option_t* opt)
 
    if (savemacro) {
       out << Form("   %s* %s = (%s*) go4->GetParameter(\"%s\",\"%s\");",
-                 ClassName(), varname.Data(), ClassName(), GetName(), ClassName()) << endl << endl;
-      out << Form("   if (%s==0) {", varname.Data()) << endl;
-      out << Form("      TGo4Log::Error(\"Could not find parameter %s of class %s\");", GetName(), ClassName()) << endl;
-      out << Form("      return;") << endl;
-      out << Form("   }") << endl << endl;
-      out << Form("   TGo4Log::Info(\"Set parameter %s as saved at %s\");", GetName(), TDatime().AsString()) << endl << endl;
+                 ClassName(), varname.Data(), ClassName(), GetName(), ClassName()) << std::endl << std::endl;
+      out << Form("   if (%s==0) {", varname.Data()) << std::endl;
+      out << Form("      TGo4Log::Error(\"Could not find parameter %s of class %s\");", GetName(), ClassName()) << std::endl;
+      out << Form("      return;") << std::endl;
+      out << Form("   }") << std::endl << std::endl;
+      out << Form("   TGo4Log::Info(\"Set parameter %s as saved at %s\");", GetName(), TDatime().AsString()) << std::endl << std::endl;
    } else {
-      out << Form("   %s* %s = new %s;", ClassName(), varname.Data(), ClassName()) << endl;
-      out << Form("   %s->SetName(\"%s\");", varname.Data(), GetName()) << endl;
-      out << Form("   %s->SetTitle(\"%s\");", varname.Data(), GetTitle()) << endl;
+      out << Form("   %s* %s = new %s;", ClassName(), varname.Data(), ClassName()) << std::endl;
+      out << Form("   %s->SetName(\"%s\");", varname.Data(), GetName()) << std::endl;
+      out << Form("   %s->SetTitle(\"%s\");", varname.Data(), GetTitle()) << std::endl;
    }
 
    TObjArray *fitems = new TObjArray();
@@ -416,19 +416,19 @@ void TGo4Parameter::SavePrimitive(ostream& out, Option_t* opt)
 
       switch (info->GetTypeId()) {
          case TGo4ParameterMember::kTString_t:
-            out << Form("   %s->%s = \"%s\";", varname.Data(), membername.Data(), info->GetStrValue()) << endl;
+            out << Form("   %s->%s = \"%s\";", varname.Data(), membername.Data(), info->GetStrValue()) << std::endl;
             break;
          case TGo4ParameterMember::kTGo4Fitter_t:
-            out << Form("   // fitter %s->%s ignored", varname.Data(), membername.Data()) << endl;
+            out << Form("   // fitter %s->%s ignored", varname.Data(), membername.Data()) << std::endl;
             break;
          case TGo4ParameterMember::kTArray_t:
-            out << Form("   %s->%s.Set(%d);", varname.Data(), membername.Data(), info->GetIntValue()) << endl;
+            out << Form("   %s->%s.Set(%d);", varname.Data(), membername.Data(), info->GetIntValue()) << std::endl;
             break;
          case kBool_t:
-            out << Form("   %s->%s = %s;", varname.Data(), membername.Data(), (info->GetIntValue() ? "kTRUE" : "kFALSE")) << endl;
+            out << Form("   %s->%s = %s;", varname.Data(), membername.Data(), (info->GetIntValue() ? "kTRUE" : "kFALSE")) << std::endl;
             break;
          default:
-            out << Form("   %s->%s = %s;", varname.Data(), membername.Data(), info->GetStrValue()) << endl;
+            out << Form("   %s->%s = %s;", varname.Data(), membername.Data(), info->GetStrValue()) << std::endl;
             break;
       }
    }

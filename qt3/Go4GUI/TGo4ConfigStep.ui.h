@@ -532,7 +532,7 @@ void TGo4ConfigStep::InputFileDialog()
            fd.setFilter( "all files  (*.*)" );
         }
         else
-           cout <<"Unknown sourcepar " <<sourcepar->ClassName() << endl;
+           TGo4Log::Error("Unknown source parameter %s", sourcepar->ClassName());
     }
 
     if ( fd.exec() != QDialog::Accepted ) return;

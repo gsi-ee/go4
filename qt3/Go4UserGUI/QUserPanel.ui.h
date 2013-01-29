@@ -13,10 +13,6 @@
 
 // this function called by Go4 GUI to start user panel
 
-#include <sstream>
-#include <stdlib.h>
-using namespace std;
-
 extern "C" void* StartUserPanel(void* parent)
 {
    return new QUserPanel((QWidget*) parent);
@@ -163,23 +159,23 @@ void QUserPanel::PrintObject(TObject* obj)
     if (obj==0) return;
 
     if (stdoutButton->isChecked()) {
-       cout.flush();
+       std::cout.flush();
        char sbuf[30000];
        memset(sbuf, 0, 30000);
-       std::setvbuf(stdout, sbuf, _IOFBF, 30000);
+       setvbuf(stdout, sbuf, _IOFBF, 30000);
        obj->Print("");
        fflush(stdout);
-       std::setvbuf(stdout, 0, _IONBF, 0);
+       setvbuf(stdout, 0, _IONBF, 0);
        PrintEdit->setText(sbuf);
     } else {
-       cout.flush();
-       ostringstream strout;
-       streambuf* cout_buffer = cout.rdbuf();
-       cout.rdbuf(strout.rdbuf());
+       std::cout.flush();
+       std::ostringstream strout;
+       std::streambuf* cout_buffer = std::cout.rdbuf();
+       std::cout.rdbuf(strout.rdbuf());
        obj->Print("");
-       cout << endl;
-       cout.flush();
-       cout.rdbuf(cout_buffer);
+       std::cout << std::endl;
+       std::cout.flush();
+       std::cout.rdbuf(cout_buffer);
        PrintEdit->setText(strout.str().c_str());
     }
 }

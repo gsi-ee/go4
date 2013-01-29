@@ -15,12 +15,10 @@
 #define TGO4PICTURE_H
 
 #include "TNamed.h"
-#include "go4iostream.h"
-
 #include "TArrayL.h"
 #include "TArrayF.h"
+#include "Riostream.h"
 #include "RVersion.h"
-
 #include "Gtypes.h"
 
 class TVirtualPad;
@@ -202,9 +200,9 @@ class TGo4Picture : public TNamed {
 #ifndef __CINT__
 
       #if ROOT_VERSION_CODE > ROOT_VERSION(5,11,6)
-      virtual void SavePrimitive(ostream& fs, Option_t* = "");
+      virtual void SavePrimitive(std::ostream& fs, Option_t* = "");
       #else
-      virtual void SavePrimitive(ofstream& fs, Option_t* = "");
+      virtual void SavePrimitive(std::ofstream& fs, Option_t* = "");
       #endif
 
 #endif
@@ -355,9 +353,9 @@ class TGo4Picture : public TNamed {
       void SetPadAtt(TPad* pad, Int_t index = UndefIndex);
       void GetPadAtt(TPad* pad, Int_t index = UndefIndex);
 
-      void MakeScript(ostream& fs, const char* name);
+      void MakeScript(std::ostream& fs, const char* name);
 
-      void MakeAxisScript(ostream& fs, const char* name, Int_t indx, Int_t naxis);
+      void MakeAxisScript(std::ostream& fs, const char* name, Int_t indx, Int_t naxis);
 
    private:
       Int_t fiNDivX;

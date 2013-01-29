@@ -709,7 +709,7 @@ void TGo4Picture::SetAxisTitleFontSize(Int_t naxis, Float_t TitleSize, Int_t ind
 
 void TGo4Picture::SetXAxisAttTime(Bool_t timedisplay, const char* format, Int_t index)
 {
-     //cout <<"SetXAxisAttTime: "<<timedisplay<<", format:"<<format << endl;
+     //std::cout <<"SetXAxisAttTime: "<<timedisplay<<", format:"<<format << std::endl;
 	 CheckIndex(index);
 	 SetOption (index, op_TimeAxisX, timedisplay);
 	 SetStrOption(index, op_TimeAxisXFmt, format);
@@ -718,13 +718,13 @@ void TGo4Picture::SetXAxisAttTime(Bool_t timedisplay, const char* format, Int_t 
 
 void TGo4Picture::SetXAxisTimeDisplay(Bool_t on)
 {
-	//cout <<"SetXAxisTimeDisplay: "<<on<<endl;
+	//std::cout <<"SetXAxisTimeDisplay: "<<on<<std::endl;
 	SetOption (PictureIndex, op_TimeAxisX, on);
 }
 
 void TGo4Picture::SetXAxisTimeFormat(const char* format)
 {
-	//cout <<"SetXAxisTimeFormat: "<<format<<endl;
+	//std::cout <<"SetXAxisTimeFormat: "<<format<<std::endl;
 	 SetStrOption(PictureIndex, op_TimeAxisXFmt, format);
 }
 
@@ -732,14 +732,14 @@ Bool_t  TGo4Picture::IsXAxisTimeDisplay()
 {
 	Long_t value=0;
 	GetOption(PictureIndex, op_TimeAxisX,value);
-	//cout <<"IsXAxisTimeDisplay is "<<value << endl;
+	//std::cout <<"IsXAxisTimeDisplay is "<<value << std::endl;
 	return value;
 
 }
 
 const char* TGo4Picture::GetXAxisTimeFormat()
 {
-	//cout <<"GetXAxisTimeFormat: "<<GetStrOption(PictureIndex, op_TimeAxisXFmt , "%H:%M:%S")<<endl;
+	//std::cout <<"GetXAxisTimeFormat: "<<GetStrOption(PictureIndex, op_TimeAxisXFmt , "%H:%M:%S")<<std::endl;
 	return GetStrOption(PictureIndex, op_TimeAxisXFmt , "%H:%M:%S");
 }
 
@@ -1623,42 +1623,42 @@ void TGo4Picture::Draw(Option_t* option)
 
 void TGo4Picture::PrintPic(int shift, Bool_t showopt)
 {
-   for (int n=0;n<shift;n++) cout << ' ';
+   for (int n=0;n<shift;n++) std::cout << ' ';
    if (IsDivided()) {
-      cout << "Divided numx:" << GetDivX() << "  numy:" << GetDivY() << endl;
+      std::cout << "Divided numx:" << GetDivX() << "  numy:" << GetDivY() << std::endl;
       for(Int_t posx=0; posx<GetDivX(); posx++)
          for(Int_t posy=0; posy<GetDivY(); posy++) {
-            for (int n=0;n<shift+2;n++) cout << ' ';
-            cout << "subpic x:" << posx << " y:" << posy << endl;
+            for (int n=0;n<shift+2;n++) std::cout << ' ';
+            std::cout << "subpic x:" << posx << " y:" << posy << std::endl;
             TGo4Picture* sub = FindPic(posy,posx);
             if (sub) sub->PrintPic(shift+4, showopt);
          }
    } else {
-      cout << "Objects:" << endl;
+      std::cout << "Objects:" << std::endl;
       for (Int_t num=0; num<GetNumObjNames(); num++) {
         const char* objname = GetObjName(num);
-        for (int n=0;n<shift+2;n++) cout << ' ';
-        cout << objname;
+        for (int n=0;n<shift+2;n++) std::cout << ' ';
+        std::cout << objname;
 
         Option_t* drawopt = GetDrawOption(num);
-        if (drawopt) cout << "   opt: " << drawopt;
-        cout << endl;
+        if (drawopt) std::cout << "   opt: " << drawopt;
+        std::cout << std::endl;
       }
       if (!showopt) return;
-      for (int n=0;n<shift;n++) cout << ' ';
-      cout << "Options:" << endl;
+      for (int n=0;n<shift;n++) std::cout << ' ';
+      std::cout << "Options:" << std::endl;
       for (Int_t nop=0;nop<fiOptSize;nop++) {
          Int_t indx = (fxOptIndex[nop] & 0x00ff);
          Int_t op = fxOptIndex[nop] >> 16;
-         for (int n=0;n<shift+2;n++) cout << ' ';
-         cout << indx << "  " << op << "  " << fxOptValue[nop] << endl;
+         for (int n=0;n<shift+2;n++) std::cout << ' ';
+         std::cout << indx << "  " << op << "  " << fxOptValue[nop] << std::endl;
       }
    }
 }
 
 void TGo4Picture::Print(Option_t* option) const
 {
-   cout << "Picture  " << GetName() << endl;
+   std::cout << "Picture  " << GetName() << std::endl;
    ((TGo4Picture*)this)->PrintPic(2, (strstr(option,"attr")!=0));
 }
 
@@ -1735,22 +1735,22 @@ Long_t TGo4Picture::GetTotalSize()
 
 
 #if ROOT_VERSION_CODE > ROOT_VERSION(5,11,6)
-void TGo4Picture::SavePrimitive(ostream& fs, Option_t*)
+void TGo4Picture::SavePrimitive(std::ostream& fs, Option_t*)
 #else
-void TGo4Picture::SavePrimitive(ofstream& fs, Option_t*)
+void TGo4Picture::SavePrimitive(std::ofstream& fs, Option_t*)
 #endif
 {
    fs << "TGo4Picture *" << GetName() << " = new TGo4Picture(\"" << GetName()
-      << "\", \"" << GetTitle() << "\");" << endl;
+      << "\", \"" << GetTitle() << "\");" << std::endl;
    TString name = GetName();
    name+="->";
 
-   fs << name << "SetCrosshair(" << (IsCrosshair() ? "true" : "false") << ");" << endl;
+   fs << name << "SetCrosshair(" << (IsCrosshair() ? "true" : "false") << ");" << std::endl;
 
    MakeScript(fs, name.Data());
 }
 
-void TGo4Picture::MakeAxisScript(ostream& fs, const char* name, Int_t index, Int_t naxis)
+void TGo4Picture::MakeAxisScript(std::ostream& fs, const char* name, Int_t index, Int_t naxis)
 {
    if ((naxis<0) || (naxis>2)) return;
    const char* axisname = "X";
@@ -1796,7 +1796,7 @@ void TGo4Picture::MakeAxisScript(ostream& fs, const char* name, Int_t index, Int
    } else
       fs << "kTRUE, \"+\", 0, ";
 
-   fs << index << ");" << endl;
+   fs << index << ");" << std::endl;
 
    // TODO: add this to script
 // note: take this attribute independent of displayed object
@@ -1810,25 +1810,25 @@ void TGo4Picture::MakeAxisScript(ostream& fs, const char* name, Int_t index, Int
 //	   fs << name <<  "SetXAxisAttTime(";
 //	   fs << tdisp << ", ";
 //	   fs << "\"" << format.Data()<< "\"" <<", ";
-//	   //fs << index << ");" << endl; // does not work?
-//	   fs << PictureIndex << ");" << endl; // this works
+//	   //fs << index << ");" << std::endl; // does not work?
+//	   fs << PictureIndex << ");" << std::endl; // this works
 //   }
 
 }
 
-void TGo4Picture::MakeScript(ostream& fs, const char* name)
+void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
 {
    for(Int_t naxis=0;naxis<3;naxis++)
      if (GetLogScale(naxis)>0)
-       fs << name << "SetLogScale(" << naxis << ", 1);" << endl;
+       fs << name << "SetLogScale(" << naxis << ", 1);" << std::endl;
 
    Double_t min, max;
    if (GetRangeX(min, max))
-     fs << name << "SetRangeX(" << min << ", " << max << ");" << endl;
+     fs << name << "SetRangeX(" << min << ", " << max << ");" << std::endl;
    if (GetRangeY(min, max))
-     fs << name << "SetRangeY(" << min << ", " << max << ");" << endl;
+     fs << name << "SetRangeY(" << min << ", " << max << ");" << std::endl;
    if (GetRangeZ(min, max))
-     fs << name << "SetRangeZ(" << min << ", " << max << ");" << endl;
+     fs << name << "SetRangeZ(" << min << ", " << max << ");" << std::endl;
 
    TAttLine latt;
    TAttFill fatt;
@@ -1838,18 +1838,18 @@ void TGo4Picture::MakeScript(ostream& fs, const char* name)
      fs << name << "SetLineAtt("
         << latt.GetLineColor() << ", "
         << latt.GetLineStyle() << ", "
-        << latt.GetLineWidth() << ", " << PictureIndex << ");" << endl;
+        << latt.GetLineWidth() << ", " << PictureIndex << ");" << std::endl;
    if (GetFillAtt(&fatt, PictureIndex))
       fs << name << "SetFillAtt("
          << fatt.GetFillColor() << ", "
-         << fatt.GetFillStyle() << ", " << PictureIndex << ");" << endl;
+         << fatt.GetFillStyle() << ", " << PictureIndex << ");" << std::endl;
    if (GetMarkerAtt(&matt, PictureIndex))
       fs << name << "SetMarkerAtt("
          << matt.GetMarkerColor() << ", "
          << matt.GetMarkerSize() << ", "
-         << matt.GetMarkerStyle()<< ", " << PictureIndex << ");" << endl;
+         << matt.GetMarkerStyle()<< ", " << PictureIndex << ");" << std::endl;
 
-   fs << name << "SetHisStats(" << (IsHisStats() ? "true" : "false") << ");" << endl;
+   fs << name << "SetHisStats(" << (IsHisStats() ? "true" : "false") << ");" << std::endl;
 
    if (IsHisStats() && (FindOptPos(PictureIndex, op_HisStatsX1) >= 0)) {
      fs << name << "SetStatsAttr("
@@ -1860,10 +1860,10 @@ void TGo4Picture::MakeScript(ostream& fs, const char* name)
         << GetI(PictureIndex, op_HisStatsOpt, 1111) << ", \""
         << GetStrOption(PictureIndex, op_HisStatsOptF, "6.4g") << "\", "
         << GetI(PictureIndex, op_HisStatsFit, 111) << ", \""
-        << GetStrOption(PictureIndex, op_HisStatsFitF, "5.4g") << "\");" << endl;
+        << GetStrOption(PictureIndex, op_HisStatsFitF, "5.4g") << "\");" << std::endl;
    }
 
-   fs << name << "SetHisTitle(" << (IsHisTitle() ? "true" : "false") << ");" << endl;
+   fs << name << "SetHisTitle(" << (IsHisTitle() ? "true" : "false") << ");" << std::endl;
    if (HasTitleAttr()) {
      fs << name << "SetTitleAttr("
         << GetD(PictureIndex, op_TitleX1, gStyle->GetTitleX()-gStyle->GetTitleW()) << ", "
@@ -1875,18 +1875,18 @@ void TGo4Picture::MakeScript(ostream& fs, const char* name)
      if (GetOptionD(PictureIndex, op_TitleTextSz, sz))
         fs << ", " << sz;
 
-     fs << ");" << endl;
+     fs << ");" << std::endl;
 
-     fs << name << "SetTitleTime(" << (IsTitleTime() ? "true" : "false") << ");" << endl;
-     fs << name << "SetTitleDate(" << (IsTitleDate() ? "true" : "false") << ");" << endl;
-     fs << name << "SetTitleItem(" << (IsTitleItem() ? "true" : "false") << ");" << endl;
+     fs << name << "SetTitleTime(" << (IsTitleTime() ? "true" : "false") << ");" << std::endl;
+     fs << name << "SetTitleDate(" << (IsTitleDate() ? "true" : "false") << ");" << std::endl;
+     fs << name << "SetTitleItem(" << (IsTitleItem() ? "true" : "false") << ");" << std::endl;
    }
 
-   fs << name << "SetAutoScale(" << (IsAutoScale() ? "true" : "false") << ");" << endl;
+   fs << name << "SetAutoScale(" << (IsAutoScale() ? "true" : "false") << ");" << std::endl;
 
    if (IsSuperimpose()) {
-      fs << name << "SetSuperimpose(true);" << endl;
-      fs << name << "SetLegendDraw(" << (IsLegendDraw() ? "true" : "false") << ");" << endl;
+      fs << name << "SetSuperimpose(true);" << std::endl;
+      fs << name << "SetLegendDraw(" << (IsLegendDraw() ? "true" : "false") << ");" << std::endl;
    }
 
    Long_t lv;
@@ -1907,11 +1907,11 @@ void TGo4Picture::MakeScript(ostream& fs, const char* name)
    if (!GetOption (PictureIndex, op_Pad+ 6, lv)) lv = gStyle->GetPadTickX();
    fs << lv << ", ";
    if (!GetOption (PictureIndex, op_Pad+ 7, lv)) lv = gStyle->GetPadTickY();
-   fs << lv << ");" << endl;
+   fs << lv << ");" << std::endl;
 
    const char* drawopt = GetDrawOption(PictureIndex);
    if (drawopt!=0)
-      fs << name << "SetDrawOption(\"" << drawopt << "\", " << PictureIndex << ");" << endl;
+      fs << name << "SetDrawOption(\"" << drawopt << "\", " << PictureIndex << ");" << std::endl;
 
    // export x axis time attribute independent of objects. needed for TGraph pads
    Bool_t tdisp=kFALSE;
@@ -1920,7 +1920,7 @@ void TGo4Picture::MakeScript(ostream& fs, const char* name)
    fs << name <<  "SetXAxisAttTime(";
    fs << tdisp << ", ";
    fs << "\"" << format.Data()<< "\"" <<", ";
-   fs << PictureIndex << ");" << endl;
+   fs << PictureIndex << ");" << std::endl;
 
 
    for(Int_t indx=0;indx<GetNumObjNames();indx++) {
@@ -1929,31 +1929,31 @@ void TGo4Picture::MakeScript(ostream& fs, const char* name)
 
       fs << name << "AddObjName(\"" << objname << "\"";
       if (objopt!=0) fs << ", \"" << objopt << "\"";
-      fs << ");" << endl;
+      fs << ");" << std::endl;
       if (GetLineAtt(&latt,indx))
         fs << name << "SetLineAtt("
            << latt.GetLineColor() << ", "
            << latt.GetLineStyle() << ", "
-           << latt.GetLineWidth() << ", " << indx << ");" << endl;
+           << latt.GetLineWidth() << ", " << indx << ");" << std::endl;
       if (GetFillAtt(&fatt, indx))
          fs << name << "SetFillAtt("
             << fatt.GetFillColor() << ", "
-            << fatt.GetFillStyle() << ", " << indx << ");" << endl;
+            << fatt.GetFillStyle() << ", " << indx << ");" << std::endl;
       if (GetMarkerAtt(&matt, indx))
          fs << name << "SetMarkerAtt("
             << matt.GetMarkerColor() << ", "
             << matt.GetMarkerSize() << ", "
-            << matt.GetMarkerStyle() << ", " << indx << ");" << endl;
+            << matt.GetMarkerStyle() << ", " << indx << ");" << std::endl;
 
       MakeAxisScript(fs, name, indx, 0);
       MakeAxisScript(fs, name, indx, 1);
       MakeAxisScript(fs, name, indx, 2);
 
       if (GetRebinX(indx)>0)
-         fs << name << "SetRebinX(" << GetRebinX(indx) << ", " << indx << ");" << endl;
+         fs << name << "SetRebinX(" << GetRebinX(indx) << ", " << indx << ");" << std::endl;
 
       if (GetRebinY(indx)>0)
-         fs << name << "SetRebinY(" << GetRebinY(indx) << ", " << indx << ");" << endl;
+         fs << name << "SetRebinY(" << GetRebinY(indx) << ", " << indx << ");" << std::endl;
    }
 
    #if ROOT_VERSION_CODE > ROOT_VERSION(5,9,0)
@@ -1977,14 +1977,14 @@ void TGo4Picture::MakeScript(ostream& fs, const char* name)
       buf.Append("\"");
 
       if (buf.Length()>950) {
-         fs << "TString sbuf = \"\";" << endl;
+         fs << "TString sbuf = \"\";" << std::endl;
          const char* pos = xmlbuf.Data();
          while (*pos!=0) {
             const char* lastpos = pos;
             while ((*pos !=0) && (*pos!='\n')) pos++;
             TString subbuf(lastpos, pos-lastpos);
             subbuf.ReplaceAll("\"","\\\"");
-            fs << "TGo4Picture::Add(sbuf,\"" << subbuf << "\");" << endl;
+            fs << "TGo4Picture::Add(sbuf,\"" << subbuf << "\");" << std::endl;
             if (*pos==0) break;
             pos++;
          }
@@ -1997,12 +1997,12 @@ void TGo4Picture::MakeScript(ostream& fs, const char* name)
 
       if ((opt!=0) && (*opt!=0))
          fs << ", \"" << opt << "\"";
-      fs << ");" << endl;
+      fs << ");" << std::endl;
    }
    #endif
 
    if (IsDivided()) {
-      fs << name << "SetDivision(" << GetDivY() << ", " << GetDivX() << ");" << endl;
+      fs << name << "SetDivision(" << GetDivY() << ", " << GetDivX() << ");" << std::endl;
       for(int ny=0;ny<GetDivY();ny++)
         for(int nx=0;nx<GetDivX();nx++) {
            TString subname = name;

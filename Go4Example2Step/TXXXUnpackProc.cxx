@@ -280,7 +280,7 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
    TXXXUnpackEvent* out_evt = (TXXXUnpackEvent*) dest;
 
    if (inp_evt==0) {
-      cout << "XXXUnpackProc: no input event !"<< endl;
+      TGo4Log::Error("XXXUnpackProc: no input event !");
       out_evt->SetValid(isValid); // to store or not to store
       // default calling Fill method will set validity of out_evt to return value!
       return isValid;

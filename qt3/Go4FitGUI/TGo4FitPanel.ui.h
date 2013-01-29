@@ -11,10 +11,6 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-
-#include "go4iostream.h"
-
-
 class TGo4FitGuiArrow : public TArrow {
 
 public:
@@ -802,7 +798,7 @@ void TGo4FitPanel::Button_SimpleFit(int nmodel)
   TGo4Fitter* fitter = GetFitter();
   if (fitter==0) return;
 
-  if (fitter->GetNumData()!=1) { cout << " Incorrect data" << endl; return; }
+  if (fitter->GetNumData()!=1) { TGo4Log::Error("TGo4FitPanel::Button_SimpleFit - Incorrect data"); return; }
 
   if (!UpdateObjectReferenceInSlots()) return;
 
@@ -3230,7 +3226,7 @@ void TGo4FitPanel::ParsTableChanged(QTable* table, int nrow, int ncol, bool Line
            break; }
          case 4:
          case 5: {
-           cout << "Changing col " << ncol << endl;
+           TGo4Log::Debug("Changing col %d", ncol);
 
            bool ok = FALSE;
            bool range_changed = false;
@@ -5008,13 +5004,13 @@ int TGo4FitPanel::DefineModelWidgetType(TObject* obj)
 
 void TGo4FitPanel::CreateFitSlotLink(TGo4FitSlot* slot, const char * itemname)
 {
-   cout << "****** CreateFitSlotLink " << slot->GetName() << "  " << itemname << endl;
+   TGo4Log::Debug("TGo4FitPanel::CreateFitSlotLink  slot:%s item:%s", slot->GetName(), itemname);
 
    if ((slot==0) || (itemname==0)) return;
 
    int slotindex = GetPadIndexForSlot(slot);
 
-   cout << "Slot index = " << slotindex << endl;
+   TGo4Log::Debug("Slot index = %d", slotindex);
 
    if (slotindex<0) return;
 
@@ -5081,7 +5077,7 @@ bool TGo4FitPanel::UpdateObjectReferenceInSlots()
 
   // remove all links, responsible to data connection,
   // which are started with "data_"
-//  cout << "UpdateObjectReferenceInSlots(). Remove all links " << endl;
+
   if (WorkingWithPanel())
       RemoveLinksMasked("data_");
 
@@ -5092,8 +5088,6 @@ bool TGo4FitPanel::UpdateObjectReferenceInSlots()
          slot->GetClass()->InheritsFrom(TGraph::Class()))
         res = res && UpdateObjectReferenceInSlot(slot, true);
   }
-
-//  cout << "UpdateObjectReferenceInSlots() done res = " << res << endl;
 
   return res;
 }

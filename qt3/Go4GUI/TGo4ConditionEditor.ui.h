@@ -11,8 +11,6 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#include <iostream>
-
 void TGo4ConditionEditor::init()
 {
    setCaption("Condition editor");

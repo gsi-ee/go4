@@ -107,7 +107,7 @@ Int_t TXXXAnalysis::UserPreLoop()
          std::cout <<"UserName:\t" << fileheader->filhe_user << std::endl;
          std::cout <<"RunID:\t" << fileheader->filhe_run << std::endl;
          std::cout <<"Explanation: "<<fileheader->filhe_exp << std::endl;
-         std::cout <<"Comments: "<<endl;
+         std::cout <<"Comments: "<< std::endl;
          for(Int_t i=0; i<fileheader->filhe_lines;++i)
             std::cout<<"\t"<<fileheader->s_strings[i].string << std::endl;
       }

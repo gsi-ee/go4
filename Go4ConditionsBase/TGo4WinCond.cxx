@@ -304,7 +304,7 @@ Int_t TGo4WinCond::GetMemorySize()
    return size;
 }
 
-void TGo4WinCond::SavePrimitive(ostream& out, Option_t* opt)
+void TGo4WinCond::SavePrimitive(std::ostream& out, Option_t* opt)
 {
    static int cnt = 0;
 
