@@ -13,8 +13,7 @@
 
 #include "TGo4ParameterStatus.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TObjArray.h"
 #include "TROOT.h"
 #include "TClass.h"
@@ -115,7 +114,7 @@ Int_t TGo4ParameterStatus::PrintStatus(Text_t* buffer, Int_t buflen)
 
    ////
    if(buffer==0) {
-      cout << localbuf << endl;
+      std::cout << localbuf << std::endl;
    } else {
       size = locallen-restlen;
       if(size>buflen-1) size = buflen-1;

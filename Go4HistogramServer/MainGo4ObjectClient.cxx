@@ -51,7 +51,7 @@
 #include <string>
 #include <stdlib.h>
 
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "TROOT.h"
 #include "TApplication.h"
 #include "TCanvas.h"
@@ -86,13 +86,13 @@ int main(int argc, char **argv)
          const char* base = argv[3];
          const char* pass = argv[4];
          const char* comm = argv[5];
-         cout <<"Host:"<<hostname<<",\tPort:"<<port<<",\tBase:"<<base<<",\tPass:"<<pass<<",\tComm:"<<comm<<endl;
+         std::cout <<"Host:"<<hostname<<",\tPort:"<<port<<",\tBase:"<<base<<",\tPass:"<<pass<<",\tComm:"<<comm<<std::endl;
          TGo4ObjClient myclient("TestClient", base, pass, hostname,port);
          // testing repeated access:
 //         TGo4AnalysisObjectNames* list=0;
 //         for(Int_t t=0;t<50;++t)
 //            {
-//               //cout <<"Requesting nameslist "<<t << endl;
+//               //std::cout <<"Requesting nameslist "<<t << std::endl;
 //               list=myclient.RequestNamesList();
 //            }
 //         if(list) list->Print();
@@ -101,7 +101,7 @@ int main(int argc, char **argv)
 //mycanvas.Divide(10,10);
 //for(Int_t t=0; t<100;++t)
 //{
-//    //cout <<"requesting "<<t << endl;
+//    //std::cout <<"requesting "<<t << std::endl;
 //    arr[t]=myclient.RequestObject(comm);
 //
 //}
@@ -116,28 +116,28 @@ int main(int argc, char **argv)
          string inputline;
          while(1)
          {
-             cout <<"Go4> Object client command:"<< endl;
+             std::cout <<"Go4> Object client command:"<< std::endl;
              getline(cin,inputline);
              comm = inputline.c_str();
 
             if(!strcmp(comm,"exit"))
                {
-                  cout <<"exit command..." << endl;
+                  std::cout <<"exit command..." << std::endl;
                   gApplication->Terminate();
                }
             else if(!strcmp(comm,"dir"))
                {
-                  cout <<"getting nameslist" << endl;
+                  std::cout <<"getting nameslist" << std::endl;
                   TGo4AnalysisObjectNames* list=myclient.RequestNamesList();
 
                   if(list)
                      list->PrintStatus();
                   else
-                     cout <<"got zero list!!!" << endl;
+                     std::cout <<"got zero list!!!" << std::endl;
                }
             else
                {
-                  cout <<"getting object "<< comm << endl;
+                  std::cout <<"getting object "<< comm << std::endl;
                   TObject* ob=myclient.RequestObject(comm);
                   if(ob)
                      {
@@ -154,7 +154,7 @@ int main(int argc, char **argv)
                      }
                   else
                      {
-                        cout <<"got zero object!!!" << endl;
+                        std::cout <<"got zero object!!!" << std::endl;
                      }
                } // if(!strcmp(comm,"dir"))
          }// while(inputline...
@@ -165,5 +165,5 @@ return 0;
 
 void usage()
 {
-   cout << "usage: MainGo4ObjectClient hostname port base passwd command "<<endl;
+   std::cout << "usage: MainGo4ObjectClient hostname port base passwd command "<<std::endl;
 }

@@ -15,7 +15,7 @@
 
 #include <stdexcept>
 
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "TSystem.h"
 #include "TFolder.h"
 #include "TDirectory.h"

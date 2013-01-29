@@ -11,9 +11,10 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#include "go4iostream.h"
 #include <stdlib.h>
+
 #include "TApplication.h"
+#include "Riostream.h"
 
 #include "TGo4Log.h"
 #include "TGo4ExampleClient.h"
@@ -40,9 +41,9 @@ int main(int argc, char **argv)
          const char* hostname=argv[2];
          const char* connector=argv[3];
          UInt_t con=atoi(connector);
-         cout << "Client:"<<name<<",\tHost:"<<hostname<<",\tConnector:"<<con<<endl;
+         std::cout << "Client:"<<name<<",\tHost:"<<hostname<<",\tConnector:"<<con<<std::endl;
          TGo4ExampleClient* myclient = new TGo4ExampleClient(name,hostname,con);
-         cout << "Created ExampleClient Instance: "<<myclient->GetName()<<endl; // dummy action for warnings
+         std::cout << "Created ExampleClient Instance: "<<myclient->GetName()<<std::endl; // dummy action for warnings
          theApp.Run();
          return 0;
    } // if(argc<4)
@@ -51,5 +52,5 @@ int main(int argc, char **argv)
 
 void usage()
 {
-cout << "usage: MainGo4TaskHandlerClient clientname serverhostname connectorport"<<endl;
+   std::cout << "usage: MainGo4TaskHandlerClient clientname serverhostname connectorport"<<std::endl;
 }

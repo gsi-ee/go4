@@ -13,7 +13,7 @@
 
 #include "TGo4ObjectStatus.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "TDatime.h"
 #include "TClass.h"
 
@@ -99,7 +99,7 @@ Int_t TGo4ObjectStatus::PrintStatus(Text_t* buffer, Int_t buflen)
    current=PrintBuffer(current,restlen, "G-OOOO-> ---------------------------------------------- <-OOOO-G\n");
    if(buffer==0)
       {
-          cout << localbuf << endl;
+      std::cout << localbuf << std::endl;
       }
    else
       {

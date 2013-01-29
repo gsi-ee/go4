@@ -13,8 +13,7 @@
 
 #include "TGo4AnalysisObjectNames.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TROOT.h"
 #include "TFolder.h"
 #include "TGo4Log.h"
@@ -76,7 +75,7 @@ Int_t TGo4AnalysisObjectNames::PrintStatus(Text_t* buffer, Int_t buflen)
    current+= delta;
    if(buffer==0)
       {
-          cout << localbuf << endl;
+          std::cout << localbuf << std::endl;
       }
    else
       {

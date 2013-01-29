@@ -13,7 +13,7 @@
 
 #include "TGo4FitterEnvelope.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 
 TGo4FitterEnvelope::TGo4FitterEnvelope()
 : TGo4Parameter("Fitter envelope"), fxFitter(0)
@@ -49,7 +49,7 @@ Int_t TGo4FitterEnvelope::PrintParameter(Text_t * buffer, Int_t buflen)
    // here we optionally might put printout of fitter if we like...
    if(buffer==0)
    {
-      cout << localbuf << endl;
+      std::cout << localbuf << std::endl;
    }
    else
    {

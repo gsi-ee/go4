@@ -13,8 +13,7 @@
 
 #include "TGo4AnalysisStepStatus.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TROOT.h"
 
 #include "TGo4Log.h"
@@ -148,7 +147,7 @@ Int_t TGo4AnalysisStepStatus::PrintStatus(Text_t* buffer, Int_t buflen)
    current=PrintBuffer(current,restlen, "----------------------------------------------  \n");
    if(buffer==0)
       {
-          cout << localbuf << endl;
+      std::cout << localbuf << std::endl;
       }
    else
       {

@@ -15,8 +15,7 @@
 
 #ifndef __CINT__
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TH1.h"
 #include "TFile.h"
 #include "TApplication.h"
@@ -82,8 +81,8 @@ void Example3()
 
 void Example3()
 {
-   cout << "This example uses linked FORTRAN library," << endl;
-   cout << "therefore it can not be run in CINT" << endl;
+   std::cout << "This example uses linked FORTRAN library," << std::endl;
+   std::cout << "therefore it can not be run in CINT" << std::endl;
 }
 
 #endif

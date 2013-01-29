@@ -13,7 +13,7 @@
 
 #include "TGo4ObjConnectorRunnable.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TGo4Thread.h"
 #include "TGo4Task.h"
@@ -36,17 +36,17 @@ TGo4ObjConnectorRunnable::~TGo4ObjConnectorRunnable()
 
 Int_t TGo4ObjConnectorRunnable::Run(void*)
 {
-if(!fxHistogramServer)
+   if(!fxHistogramServer)
    {
-      cout <<"error, no histogram server!!" << endl;
+      std::cerr <<"error, no histogram server!!" << std::endl;
       fxGo4Thread->Stop();
       return -1;
    }
-Int_t rev=fxHistogramServer->ServeObjectClient();
-if(rev< -1)
-      {
-         fxGo4Thread->Stop(); // stop runnable for termination
-      }
-else{}
-return 0;
+   Int_t rev=fxHistogramServer->ServeObjectClient();
+   if(rev< -1)
+   {
+      fxGo4Thread->Stop(); // stop runnable for termination
+   }
+   else{}
+   return 0;
 }

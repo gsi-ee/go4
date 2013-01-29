@@ -14,7 +14,7 @@
 #include "TGo4ObjClient.h"
 
 #include <signal.h>
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TROOT.h"
 #include "TClass.h"
@@ -77,30 +77,30 @@ TGo4AnalysisObjectNames * TGo4ObjClient::RequestNamesList(const char* base,
                                                const char* host,
                                                Int_t port)
 {
-//
-TGo4AnalysisObjectNames* nameslist=0;
-SetParms(base,passwd,host,port);
-if(ConnectServer()==0)
+   //
+   TGo4AnalysisObjectNames* nameslist=0;
+   SetParms(base,passwd,host,port);
+   if(ConnectServer()==0)
    {
       // connection successful, go on
       SendCommand(TGo4HistogramServer::fgcCOMGETLIST); // send nameslist request
       TObject* obj=ReceiveObject(); // get incoming buffer and stream object
       if(obj && obj->InheritsFrom(TGo4AnalysisObjectNames::Class()))
-        {
-          nameslist=dynamic_cast<TGo4AnalysisObjectNames*>(obj);
-        }
+      {
+         nameslist=dynamic_cast<TGo4AnalysisObjectNames*>(obj);
+      }
       else
-        {
-          cout <<"error receiving nameslist !!!" << endl;
-        }
+      {
+         TGo4Log::Error("error receiving nameslist !!!");
+      }
    }
-else
+   else
    {
-      cout <<"error on connection in RequestNamesList" << endl;
+      TGo4Log::Error("error on connection in RequestNamesList");
       nameslist=0;
    }
-DisconnectServer();
-return nameslist;
+   DisconnectServer();
+   return nameslist;
 }
 
 
@@ -110,59 +110,59 @@ TObject* TGo4ObjClient::RequestObject(const char* objectname,
                                        const char* host,
                                        Int_t port)
 {
-TObject* obj=0;
-SetParms(base,passwd,host,port);
-if(ConnectServer()==0)
+   TObject* obj=0;
+   SetParms(base,passwd,host,port);
+   if(ConnectServer()==0)
    {
       // connection successful, go on
       SendCommand(objectname); // command is name of object to get
       obj=ReceiveObject(); // get incoming buffer and stream object
    }
-else
+   else
    {
-      cout <<"error on connection in RequestObject" << endl;
+      TGo4Log::Error("error on connection in RequestObject");
       obj=0;
    }
-DisconnectServer();
-return obj;
+   DisconnectServer();
+   return obj;
 }
 
 
 TObject* TGo4ObjClient::ReceiveObject()
 {
-TObject* obj=0;
-// check for OK signal (object is existing on server)
-char* recvchar=fxTransport->RecvRaw("dummy");
-if(recvchar && !strcmp(recvchar,TGo4TaskHandler::Get_fgcOK()))
+   TObject* obj=0;
+   // check for OK signal (object is existing on server)
+   char* recvchar=fxTransport->RecvRaw("dummy");
+   if(recvchar && !strcmp(recvchar,TGo4TaskHandler::Get_fgcOK()))
    {
       TBuffer* buffer=ReceiveBuffer();
       if(buffer)
+      {
+         // reconstruct object from buffer
          {
-             // reconstruct object from buffer
-             {
-               TGo4LockGuard mainguard;
-               // lock go4 main mutex for streaming
-               TDirectory* savdir=gDirectory;
-               gROOT->cd(); // be sure to be in the top directory when creating histo
-               buffer->SetReadMode();
-               //cout << "Reading object from buffer..."<< endl;
-               buffer->Reset();
-               obj=buffer->ReadObject(0); // ReadObject(cl)
-               if(obj) cout <<"read object of class"<<obj->ClassName() << endl;
-               savdir->cd();
-            } //  TGo4LockGuard
-         }
+            TGo4LockGuard mainguard;
+            // lock go4 main mutex for streaming
+            TDirectory* savdir=gDirectory;
+            gROOT->cd(); // be sure to be in the top directory when creating histo
+            buffer->SetReadMode();
+            //cout << "Reading object from buffer..."<< endl;
+            buffer->Reset();
+            obj=buffer->ReadObject(0); // ReadObject(cl)
+            if(obj) std::cout <<"read object of class"<<obj->ClassName() << std::endl;
+            savdir->cd();
+         } //  TGo4LockGuard
+      }
       else
-         {
-            cout <<"error receiving object" << endl;
-         } // if(buffer)
+      {
+         TGo4Log::Error("error receiving object");
+      } // if(buffer)
    }
-else
+   else
    {
-      cout <<"Server did not send object, probably unknown!" << endl;
+      TGo4Log::Error("Server did not send object, probably unknown!");
    } // if(!strcmp(recvchar,TGo4TaskHandler::Get_fgcOK()))
-  fxTransport->Send(TGo4TaskHandler::Get_fgcOK()); // final OK
-return obj;
+   fxTransport->Send(TGo4TaskHandler::Get_fgcOK()); // final OK
+   return obj;
 }
 
 void TGo4ObjClient::SendCommand(const char* com)

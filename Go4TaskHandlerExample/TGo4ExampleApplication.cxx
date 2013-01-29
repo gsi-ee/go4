@@ -13,8 +13,7 @@
 
 #include "TGo4ExampleApplication.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TRandom.h"
 
 #include "TGo4LockGuard.h"
@@ -44,12 +43,12 @@ void TGo4ExampleApplication::SendData(TNamed* data)
    TRACE((12,"TGo4ExampleApplication::SendData(TNamed*)",__LINE__, __FILE__));
    if(fxDataQ)
       {
-         cout << "Example Application: Sending data into queue..."<<endl;
+         std::cout << "Example Application: Sending data into queue..."<<std::endl;
          fxDataQ->AddBufferFromObject(data);
       }
    else
       {
-         cout << "Example Application: Sorry, no data queue present"<<endl;
+         std::cout << "Example Application: Sorry, no data queue present"<<std::endl;
          // no data queue present
       }
 
@@ -71,18 +70,18 @@ void TGo4ExampleApplication::FillHistograms()
    fxDemoHistogram->Fill((Axis_t) peak1);
    fxDemoHistogram->Fill((Axis_t) peak2);
    if(!(counter%100))
-      cout << "Example Application filled histogram 100 times" <<endl;
+      std::cout << "Example Application filled histogram 100 times" <<std::endl;
 
 }
 void TGo4ExampleApplication::CommandAction2()
 {
    TRACE((14,"TGo4ExampleApplication::CommandAction2",__LINE__, __FILE__));
-   cout << "Example Application: executing Action 2"<<endl;
+   std::cout << "Example Application: executing Action 2"<<std::endl;
 
 }
 void TGo4ExampleApplication::CommandAction1()
 {
    TRACE((14,"TGo4ExampleApplication::CommandAction1",__LINE__, __FILE__));
-   cout << "Example Application: executing Action 1"<<endl;
+   std::cout << "Example Application: executing Action 1"<<std::endl;
    SendData(GetHistogram()); // later we get histogram by specified name
 }

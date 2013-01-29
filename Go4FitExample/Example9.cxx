@@ -13,8 +13,7 @@
 
 #ifndef __CINT__
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TH1.h"
 #include "TH2.h"
 #include "TFile.h"
@@ -104,10 +103,10 @@ void Example9()
    Double_t i2 = res2->Integral()/100.;
    Double_t i3 = res3->Integral()/100.;
 
-   cout << "Integral over 1000x1000 points         =  " << i1 << endl;
-   cout << "Integral over 10x10 points             =  " << i2 << endl;
-   cout << "Integral over 10x10 with model integr. =  " << i3 << endl << endl;
+   std::cout << "Integral over 1000x1000 points         =  " << i1 << std::endl;
+   std::cout << "Integral over 10x10 points             =  " << i2 << std::endl;
+   std::cout << "Integral over 10x10 with model integr. =  " << i3 << std::endl << std::endl;
 
-   cout << "Integral2/Integral1 = " << i2/i1 << endl;
-   cout << "Integral3/Integral1 = " << i3/i1 << endl;
+   std::cout << "Integral2/Integral1 = " << i2/i1 << std::endl;
+   std::cout << "Integral3/Integral1 = " << i3/i1 << std::endl;
 }

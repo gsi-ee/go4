@@ -13,8 +13,7 @@
 
 #include "TGo4TaskManager.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TObjArray.h"
 #include "TMutex.h"
 
@@ -123,7 +122,7 @@ Int_t TGo4TaskManager::ServeClient()
               ++count;
             }
    }
-   cout << " Waiting for client connection on PORT: "<< fuNegotiationPort << endl;
+   std::cout << " Waiting for client connection on PORT: "<< fuNegotiationPort << std::endl;
    TGo4Log::Debug(" TaskManager is waiting to serve client request on port %d ... ",
             fuNegotiationPort);
    Int_t connectwaitseconds=fxServer->WaitForConnection(); // timer tells us by flag when the transport is opened

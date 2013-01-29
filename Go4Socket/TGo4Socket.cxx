@@ -15,7 +15,6 @@
 
 #include <string.h>
 
-#include "go4iostream.h"
 #include "TMutex.h"
 #include "TMessage.h"
 #include "TSystem.h"

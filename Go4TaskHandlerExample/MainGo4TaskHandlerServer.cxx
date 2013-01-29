@@ -11,8 +11,7 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TApplication.h"
 
 #include "TGo4Log.h"
@@ -29,7 +28,7 @@ int main(int argc, char **argv)
 
    TGo4ExampleServer* myserver = new TGo4ExampleServer("MyExampleServer", 0, kFALSE);
       // second parameter is negotiation portnumber
-   cout << "Created Example Server Instance:"<<myserver->GetName()<<endl; // dummy action for warnings
+   std::cout << "Created Example Server Instance:"<<myserver->GetName()<<std::endl; // dummy action for warnings
    theApp.Run();
    return 0;
 }

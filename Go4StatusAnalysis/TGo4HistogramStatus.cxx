@@ -13,8 +13,7 @@
 
 #include "TGo4HistogramStatus.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TH1.h"
 #include "TH2.h"
 #include "TH3.h"
@@ -253,7 +252,7 @@ Int_t TGo4HistogramStatus::PrintStatus(Text_t* buffer, Int_t buflen)
    current=PrintBuffer(current,restlen, "G-OOOO-> ---------------------------------------------- <-OOOO-G\n");
   if(buffer==0)
       {
-          cout << localbuf << endl;
+     std::cout << localbuf << std::endl;
       }
    else
       {

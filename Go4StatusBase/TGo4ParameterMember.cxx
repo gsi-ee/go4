@@ -16,7 +16,7 @@
 #include <stdlib.h>
 
 #include "RVersion.h"
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "TROOT.h"
 #include "TDataType.h"
 
@@ -226,7 +226,7 @@ Int_t TGo4ParameterMember::PrintMember(Text_t* buffer, Int_t buflen) const
 
    if(buffer==0) {
       TROOT::IndentLevel();
-      cout << name;
+      std::cout << name;
    } else {
       size = name.Length();
       if(size>buflen) size = buflen;

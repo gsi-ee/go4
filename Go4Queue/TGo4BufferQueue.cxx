@@ -19,7 +19,7 @@
 #include "TFile.h"
 #include "TGo4Buffer.h"
 #include "RVersion.h"
-#include "go4iostream.h"
+#include "Riostream.h"
 
 
 #include "TGo4Socket.h"
@@ -109,23 +109,23 @@ TObject * TGo4BufferQueue::WaitObjectFromBuffer()
          TDirectory* savdir=gDirectory;
          gROOT->cd(); // be sure to be in the top directory when creating histo
          buffer->SetReadMode();
-         //cout << "Reading object from buffer..."<< endl;
+         //std::cout << "Reading object from buffer..."<< std::endl;
          buffer->Reset();
          buffer->InitMap();
          // note: root version 3.05/02 crashes again when unknown class
          // shall be read; this  was working in 3.03/09
          // therefore, we put in our own check again from revision 1.23
          TClass* cl = buffer->ReadClass();
-         //cout << "buffer queue "<< GetName() <<" :waitobject, got Class: " << cl << endl;
+         //std::cout << "buffer queue "<< GetName() <<" :waitobject, got Class: " << cl << std::endl;
          if(cl == (TClass*) -1)
          {
             // case of unknown class
-            cout << " Could not receive object of unknown class on buffer queue "<<GetName() <<" !!!" <<endl;
+            std::cout << " Could not receive object of unknown class on buffer queue "<<GetName() <<" !!!" <<std::endl;
             obj=0;
          } else {
             //                  if(cl)
-            //                     cout << "Classname: " << cl->GetName() << endl;
-            //                  cout << "Reading object from buffer..."<< endl;
+            //                     std::cout << "Classname: " << cl->GetName() << std::endl;
+            //                  std::cout << "Reading object from buffer..."<< std::endl;
             buffer->Reset();
             obj = buffer->ReadObject(cl);
          }
@@ -152,14 +152,14 @@ void TGo4BufferQueue::AddBuffer(TBuffer * buffer, Bool_t clone)
           {
             // no buffer entry there, we create one
             TGo4Log::Debug(" Buffer Queue adding new internal buffer... ");
-            //cout <<"Buffer Queue: creating new internal buffer... "<< GetName();
+            //std::cout <<"Buffer Queue: creating new internal buffer... "<< GetName();
 
             entry=NewEntry();
             fxBufferList->Add(entry); // add to list of existing buffers
                 // need not add new buffer to list of free buffers
             entryisnew=kTRUE;
             fiMaxBuffers++;
-            //cout <<"buffers:"<<fiMaxBuffers <<", "<< fiMaxBuffers*TGo4Socket::fgiBUFINITSIZE << endl;
+            //std::cout <<"buffers:"<<fiMaxBuffers <<", "<< fiMaxBuffers*TGo4Socket::fgiBUFINITSIZE << std::endl;
           }
          else
            {
@@ -180,7 +180,7 @@ void TGo4BufferQueue::AddBuffer(TBuffer * buffer, Bool_t clone)
            char* source= buffer->Buffer();
            char* destination= entry->Buffer();
             memcpy(destination,source,destsize);
-            //cout <<"))))))))))Buffer Queue: copied "<< destsize <<"bytes to buffer field" << endl;
+            //std::cout <<"))))))))))Buffer Queue: copied "<< destsize <<"bytes to buffer field" << std::endl;
             Int_t messlen = buffer->Length(); // compatible with root TMessage protocol
             entry->SetBufferOffset(messlen);
             entry->SetByteCount(0);
@@ -189,7 +189,7 @@ void TGo4BufferQueue::AddBuffer(TBuffer * buffer, Bool_t clone)
       {
          entry=buffer;
       }
-   //cout <<"Bufferqueue AB adding buffer "<< entry << endl;
+   //std::cout <<"Bufferqueue AB adding buffer "<< entry << std::endl;
 
    try
       {
@@ -197,7 +197,7 @@ void TGo4BufferQueue::AddBuffer(TBuffer * buffer, Bool_t clone)
       }
    catch(TGo4RuntimeException ex)
       {
-         cout << "Buffer queue "<< GetName()<<" is full, dropping new entry "<< entry <<" !!!" << endl;
+         std::cout << "Buffer queue "<< GetName()<<" is full, dropping new entry "<< entry <<" !!!" << std::endl;
          if(entryisnew)
             {
                TGo4LockGuard qguard(fxBufferMutex);
@@ -214,13 +214,13 @@ void TGo4BufferQueue::AddBufferFromObject(TObject * object)
    TGo4LockGuard mainguard;
    TBuffer* entry = 0;
    entry = new TGo4Buffer(TBuffer::kWrite);
-   //cout <<" Buffer  queue ABFO created buffer "<<entry << endl;
+   //std::cout <<" Buffer  queue ABFO created buffer "<<entry << std::endl;
    TFile *filsav = gFile;
    gFile = 0;
    entry->WriteObject(object);
    gFile = filsav;
 ////////DEBUG OUTPUT
-//         cout << "wrote object "<< object->GetName() <<" into message" <<  endl;
+//         std::cout << "wrote object "<< object->GetName() <<" into message" <<  std::endl;
 //
 //         entry->SetReadMode();
 //         entry->Reset();
@@ -228,15 +228,15 @@ void TGo4BufferQueue::AddBufferFromObject(TObject * object)
 //         entry->InitMap();
 //         TClass* cl= entry->ReadClass();
 //         entry->Reset();
-//         cout << "buffer contains class "<< cl << endl;
+//         std::cout << "buffer contains class "<< cl << std::endl;
 //         if(cl)
 //            {
-//               cout << "classname "<< cl->GetName() << endl;
+//               std::cout << "classname "<< cl->GetName() << std::endl;
 //
 //               TObject* ob=entry->ReadObject(cl);
-//               cout << "read object "<< ob << endl;
+//               std::cout << "read object "<< ob << std::endl;
 //               if(ob)
-//                  cout << "read object "<< ob->GetName() << endl;
+//                  std::cout << "read object "<< ob->GetName() << std::endl;
 //            }
 //////////
 
@@ -248,7 +248,7 @@ void TGo4BufferQueue::AddBufferFromObject(TObject * object)
       }
    catch(TGo4RuntimeException& ex)
       {
-         cout << "Buffer queue "<< GetName()<<" is full, dropping new entry "<< entry <<" !!!" << endl;
+         std::cout << "Buffer queue "<< GetName()<<" is full, dropping new entry "<< entry <<" !!!" << std::endl;
          delete entry;
       }
 
@@ -259,7 +259,7 @@ void TGo4BufferQueue::FreeBuffer(TBuffer * buffer)
    TRACE((19,"TGo4BufferQueue::FreeBuffer(TBuffer*, Bool_t)", __LINE__, __FILE__));
    //
    TGo4LockGuard qguard(fxBufferMutex);
-   //cout << "bufferlock acquired by bufferqueue: freebuffer"<< endl;
+   //std::cout << "bufferlock acquired by bufferqueue: freebuffer"<< std::endl;
    // does buffer belong to our internal buffers?
    if (fxBufferList->FindObject(buffer)!=0)
             {
@@ -272,14 +272,14 @@ void TGo4BufferQueue::FreeBuffer(TBuffer * buffer)
                      Realloc(buffer,memsize, TGo4Socket::fgiBUFINITSIZE);
                   }
                 fxFreeList->AddLast(buffer);
-                //cout <<"freed buffer"<< buffer <<" of bufferqueue "<< GetName() << endl;
+                //std::cout <<"freed buffer"<< buffer <<" of bufferqueue "<< GetName() << std::endl;
             }
          else
             {
                // no, we delete it to avoid leakage
                delete buffer;
-               //cout <<" Buffer  queue FB deleted buffer "<<buffer << endl;
-               //cout <<"deleted external buffer of bufferqueue "<< GetName() << endl;
+               //std::cout <<" Buffer  queue FB deleted buffer "<<buffer << std::endl;
+               //std::cout <<"deleted external buffer of bufferqueue "<< GetName() << std::endl;
                // TGo4Log::Debug(" Buffer Queue : deleted external buffer !!! ");
 
             }
@@ -294,7 +294,7 @@ void TGo4BufferQueue::Clear(Option_t* opt)
 {
    TObject* ob=0;
    while((ob=Next()) !=0) {
-         //cout <<"cleared entry "<<ob<<" of queue "<<GetName() << endl;
+         //std::cout <<"cleared entry "<<ob<<" of queue "<<GetName() << std::endl;
       FreeBuffer(dynamic_cast<TBuffer*> (ob) );
    }
 }
@@ -315,7 +315,7 @@ void TGo4BufferQueue::Realloc(TBuffer* buffer, Int_t oldsize, Int_t newsize)
    memfield = TStorage::ReAllocChar(memfield,
                                            (newsize+extraspace),
                                            (oldsize+extraspace));
-   //cout << "Bufferqueue reallocating char from"<<oldsize<< " to " << newsize<< endl;
+   //std::cout << "Bufferqueue reallocating char from"<<oldsize<< " to " << newsize<< std::endl;
    buffer->ResetBit(fgiISOWNER);
 //#if ROOT_VERSION_CODE > ROOT_VERSION(5,23,2)
 //   buffer->SetBuffer(memfield, newsize + extraspace);
@@ -335,7 +335,7 @@ TBuffer* TGo4BufferQueue::NewEntry()
 {
    TGo4LockGuard mainguard;
    TBuffer* buf = new TGo4Buffer(TBuffer::kWrite, TGo4Socket::fgiBUFINITSIZE);
-   //cout <<"nnnnnnnn BufferQueue "<<GetName()<<" made new entry "<<buf << endl;
+   //std::cout <<"nnnnnnnn BufferQueue "<<GetName()<<" made new entry "<<buf << std::endl;
    TNamed* dummy= new TNamed("This is a default buffer filler","GO4 is fun!");
    TFile *filsav = gFile;
    gFile = 0;
@@ -367,6 +367,6 @@ Int_t TGo4BufferQueue::DecodeValueBuffer(TBuffer* buf)
    char* temp= field + sizeof(UInt_t); // skip length header
    UInt_t val=0;
    frombuf(temp, &val);
-   //cout <<"DDDDDD DecodeValueBuffer val="<<val << endl;
+   //std::cout <<"DDDDDD DecodeValueBuffer val="<<val << std::endl;
    return (Int_t) val;
 }

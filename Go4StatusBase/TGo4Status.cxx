@@ -14,7 +14,7 @@
 #include "TGo4Status.h"
 
 #include <stdarg.h>
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TROOT.h"
 #include "snprintf.h"
@@ -60,7 +60,7 @@ Int_t TGo4Status::PrintStatus(Text_t* buffer, Int_t buflen)
    TString localbuf = TString::Format("G-OOOO-> Status Class %s, name: %s <-OOOO-G\n", ClassName(), GetName());
 
    if(buffer==0)
-      cout << localbuf << endl;
+      std::cout << localbuf << std::endl;
    else {
       size = localbuf.Length();
       if(size>buflen-1) size = buflen-1;

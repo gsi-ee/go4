@@ -13,8 +13,6 @@
 
 #include "TGo4TaskHandlerAbortException.h"
 
-#include "go4iostream.h"
-
 #include "TApplication.h"
 
 #include "TGo4Log.h"
@@ -105,7 +103,7 @@ Int_t TGo4TaskHandlerAbortException::Handle()
             {
                TGo4Log::Debug(" TaskHandlerAbortException: Terminating slave...");
                fxThreadManager->SetBeingQuit(kTRUE); // flag for the application that we expect to be quit soon
-               cout <<"ttttttttttt TaskHandlerAbortException set the being quit" << endl;
+               TGo4Log::Debug(" TaskHandlerAbortException set the being quit");
                slave->TerminateFast();
             }
       }

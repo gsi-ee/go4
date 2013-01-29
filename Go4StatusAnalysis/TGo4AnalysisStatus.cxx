@@ -13,7 +13,7 @@
 
 #include "TGo4AnalysisStatus.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TMutex.h"
 #include "TObjArray.h"
@@ -77,7 +77,7 @@ Int_t TGo4AnalysisStatus::PrintStatus(Text_t* buffer, Int_t buflen)
    TRACE((12,"TGo4AnalysisStatus::PrintStatus()",__LINE__, __FILE__));
    if(buflen<=0 && buffer!=0)
       {
-         cout << "analysis status print has invalid buflen and nonzero buffer"<< endl;
+         std::cout << "analysis status print has invalid buflen and nonzero buffer"<< std::endl;
          return 0;
       }
    Int_t size=0;
@@ -109,7 +109,7 @@ Int_t TGo4AnalysisStatus::PrintStatus(Text_t* buffer, Int_t buflen)
    current=PrintBuffer(current,restlen, "----------------------------------------------  \n");
    if(buffer==0)
       {
-          cout << localbuf << endl;
+      std::cout << localbuf << std::endl;
       }
    else
       {

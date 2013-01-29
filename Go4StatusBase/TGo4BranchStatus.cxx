@@ -13,8 +13,7 @@
 
 #include "TGo4BranchStatus.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TGo4Log.h"
 
 #include "TBranch.h"
@@ -63,7 +62,7 @@ Int_t TGo4BranchStatus::PrintStatus(Text_t* buffer, Int_t buflen)
    current=PrintBuffer(current,restlen, "G-OOOO-> ---------------------------------------------- <-OOOO-G\n");
   if(buffer==0)
       {
-          cout << localbuf << endl;
+     std::cout << localbuf << std::endl;
       }
    else
       {

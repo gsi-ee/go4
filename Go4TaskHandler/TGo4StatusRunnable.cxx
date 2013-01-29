@@ -13,7 +13,6 @@
 
 #include "TGo4StatusRunnable.h"
 
-#include "go4iostream.h"
 #include <signal.h>
 
 #include "TGo4Log.h"

@@ -13,8 +13,7 @@
 
 #include "TGo4HistogramServer.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TFile.h"
 
 #include "TGo4Log.h"

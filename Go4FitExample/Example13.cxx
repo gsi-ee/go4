@@ -15,7 +15,7 @@
 
 #ifndef __CINT__
 
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TMath.h"
 #include "TH1.h"
@@ -70,7 +70,7 @@ TH2D* MakeRidgeHistogram()
 {
   TH2D* histo = new TH2D("Histo","Ridge y = a*exp(k*x)+b",100,0.,10.,100,0.,10.);
 
-  cout << "Generating histogram " << endl;
+  std::cout << "Generating histogram " << std::endl;
 
   AddRidge(histo, 10, -0.3,  2,  1.5, 10000, 100, 0.3);
 
@@ -78,7 +78,7 @@ TH2D* MakeRidgeHistogram()
 
   AddRidge(histo, 10, -0.1, +2,  3.5, 10000,  50, 0.2);
 
-  cout << "   Done " << endl;
+  std::cout << "   Done " << std::endl;
 
   return histo;
 }

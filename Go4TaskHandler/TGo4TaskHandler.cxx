@@ -13,8 +13,8 @@
 
 #include "TGo4TaskHandler.h"
 
-#include "go4iostream.h"
 #include <stdlib.h>
+
 #include "TSystem.h"
 
 #include "TGo4Log.h"

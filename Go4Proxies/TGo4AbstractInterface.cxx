@@ -18,8 +18,8 @@
 #include "TROOT.h"
 #include "TSystem.h"
 #include "TInterpreter.h"
-#include "go4iostream.h"
 #include "TObjString.h"
+#include "Riostream.h"
 
 #include "TGo4Log.h"
 #include "TGo4Iter.h"

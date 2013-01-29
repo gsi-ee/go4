@@ -13,9 +13,8 @@
 
 #include "TGo4AnalysisClientStatus.h"
 
-#include "go4iostream.h"
-
 #include "TDatime.h"
+#include "Riostream.h"
 
 #include "TGo4Log.h"
 
@@ -70,7 +69,7 @@ Int_t TGo4AnalysisClientStatus::PrintStatus(Text_t* buffer, Int_t buflen)
    current=PrintBuffer(current,restlen,"G-OOOO-> END Analysis Client Status Class Printout END <-OOOO-G\n");
    if(buffer==0)
       {
-         cout << localbuf << endl;
+         std::cout << localbuf << std::endl;
       }
    else
       {

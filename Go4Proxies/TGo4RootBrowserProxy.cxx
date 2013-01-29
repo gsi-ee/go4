@@ -13,7 +13,7 @@
 
 #include "TGo4RootBrowserProxy.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "RVersion.h"
 
 #include "TROOT.h"
@@ -144,7 +144,7 @@ void TGo4RootBrowserProxy::UpdateRatemeter(TObject* obj)
 
 void TGo4RootBrowserProxy::UpdateLoginfo(TObject* obj)
 {
-   cout << "Loginfo = " << obj->GetName() << endl;
+   std::cout << "Loginfo = " << obj->GetName() << std::endl;
 
    Message("Message",obj->GetName(), 5000);
 }

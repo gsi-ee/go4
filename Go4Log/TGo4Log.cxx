@@ -13,7 +13,7 @@
 
 #include "TGo4Log.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "TDataType.h"
 #include "TDatime.h"
 #include "TMutex.h"
@@ -144,7 +144,7 @@ const char* TGo4Log::Message(Int_t prio, const char* text,...)
          fgcLEFT, prefix, txtbuf,fgcRIGHT);
 
    if(fgbOutputEnabled) {
-      cout << fgcMessagetext << endl;
+      std::cout << fgcMessagetext << std::endl;
    }
 
    return fgcMessagetext;

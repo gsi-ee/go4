@@ -14,10 +14,10 @@
 #include "TGo4CommandRunnable.h"
 
 #include <signal.h>
-#include <sstream>
-using namespace std;
 
-#include "go4iostream.h"
+#include "Riostream.h"
+#include "Rstrstream.h"
+
 #include "TGo4Log.h"
 #include "TGo4Thread.h"
 #include "TGo4BufferQueue.h"
@@ -204,12 +204,12 @@ Int_t TGo4CommandRunnable::Run(void* ptr)
 
 void TGo4CommandRunnable::RedirectIO()
 {
-// note: this method is only called in case of aborting,
-// so we do not care about our memory leak...JA
-ostringstream* strout = new ostringstream;
-//streambuf* cout_buffer = cout.rdbuf(); // would need it to recover cout
-cout.rdbuf(strout->rdbuf());
-ostringstream* strerr = new ostringstream;
-//streambuf* cerr_buffer = cerr.rdbuf(); // would need to rcover cerr later
-cerr.rdbuf(strerr->rdbuf());
+   // note: this method is only called in case of aborting,
+   // so we do not care about our memory leak...JA
+   std::ostringstream* strout = new std::ostringstream;
+   //streambuf* cout_buffer = cout.rdbuf(); // would need it to recover cout
+   std::cout.rdbuf(strout->rdbuf());
+   std::ostringstream* strerr = new std::ostringstream;
+   //streambuf* cerr_buffer = cerr.rdbuf(); // would need to rcover cerr later
+   std::cerr.rdbuf(strerr->rdbuf());
 }

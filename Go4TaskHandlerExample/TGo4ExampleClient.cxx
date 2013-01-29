@@ -13,7 +13,7 @@
 
 #include "TGo4ExampleClient.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TGo4Log.h"
 #include "TGo4TaskHandler.h"
@@ -76,7 +76,7 @@ void TGo4ExampleClient::UpdateStatus(TGo4ClientStatus* state)
 void TGo4ExampleClient::Stop()
 {
    TRACE((12,"TGo4ExampleClient::Stop()",__LINE__, __FILE__));
-    cout << "Stop of example client!"<<endl;
+   std::cout << "Stop of example client!"<<std::endl;
 
    TGo4Log::Debug(" ExampleClient ''%s'' executing Stop(): stop main thread",GetName());
    fxWorkHandler->Stop(fcMainName.Data());
@@ -84,7 +84,7 @@ void TGo4ExampleClient::Stop()
 void TGo4ExampleClient::Start()
 {
    TRACE((12,"TGo4ExampleClient::Start()",__LINE__, __FILE__));
-    cout << "Start of example client!"<<endl;
+   std::cout << "Start of example client!"<<std::endl;
 
    TGo4Log::Debug(" ExampleClient ''%s'' executing Start(): start main thread",GetName());
    fxWorkHandler->Start(fcMainName.Data());

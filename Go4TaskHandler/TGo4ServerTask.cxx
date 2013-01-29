@@ -13,8 +13,6 @@
 
 #include "TGo4ServerTask.h"
 
-#include "go4iostream.h"
-
 #include "TMutex.h"
 #include "TApplication.h"
 #include "TObjArray.h"
@@ -556,14 +554,14 @@ else
 
 void TGo4ServerTask::SendStatusBuffer()
 {
-if(IsMaster()) return;
-//cout << "TGo4ServerTask::SendStatusBuffer() apply for fxStatusMutex"<< endl;
-TGo4LockGuard statguard(fxStatusMutex); // do not send during buffer update
-//cout << "TGo4ServerTask::SendStatusBuffer() apply for taskmanager mutex"<< endl;
-TGo4LockGuard taskmutex(fxTaskManager->GetMutex()); // protect task list
-TGo4TaskHandler* han=0;
-Bool_t reset=kTRUE;
-while((han=fxTaskManager->NextTaskHandler(reset))!=0)
+   if(IsMaster()) return;
+   //cout << "TGo4ServerTask::SendStatusBuffer() apply for fxStatusMutex"<< endl;
+   TGo4LockGuard statguard(fxStatusMutex); // do not send during buffer update
+   //cout << "TGo4ServerTask::SendStatusBuffer() apply for taskmanager mutex"<< endl;
+   TGo4LockGuard taskmutex(fxTaskManager->GetMutex()); // protect task list
+   TGo4TaskHandler* han=0;
+   Bool_t reset=kTRUE;
+   while((han=fxTaskManager->NextTaskHandler(reset))!=0)
    {
       reset=kFALSE;
       TGo4BufferQueue * statq=dynamic_cast<TGo4BufferQueue*> (han->GetStatusQueue());

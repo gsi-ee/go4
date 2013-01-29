@@ -17,7 +17,6 @@
 #include <map>
 #include <stdlib.h>
 
-#include "go4iostream.h"
 #include "TH1.h"
 #include "TFolder.h"
 #include "TTree.h"

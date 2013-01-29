@@ -13,8 +13,6 @@
 
 #include "TGo4ClientTask.h"
 
-#include "go4iostream.h"
-
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
 

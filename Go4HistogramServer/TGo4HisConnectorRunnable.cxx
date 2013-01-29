@@ -13,8 +13,7 @@
 
 #include "TGo4HisConnectorRunnable.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TH1.h"
 #include "TGraph.h"
 
@@ -158,7 +157,7 @@ Int_t TGo4HisConnectorRunnable::Run(void*)
    }
    else
    {
-      cout <<"Histogram Server: Error on connect request: "<< result << endl;
+      std::cout <<"Histogram Server: Error on connect request: "<< result << std::endl;
    } // if(result==COMM__SUCCESS)
 
 return result;

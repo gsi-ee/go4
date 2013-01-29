@@ -13,8 +13,6 @@
 
 #include "TGo4LocalCommandRunnable.h"
 
-#include "go4iostream.h"
-
 #include "TGo4Log.h"
 #include "TGo4ServerTask.h"
 #include "TGo4Command.h"

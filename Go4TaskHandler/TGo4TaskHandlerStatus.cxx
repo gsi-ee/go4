@@ -13,7 +13,7 @@
 
 #include "TGo4TaskHandlerStatus.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TGo4Log.h"
 
@@ -80,7 +80,7 @@ Int_t TGo4TaskHandlerStatus::PrintStatus(Text_t* buffer, Int_t buflen)
    current=PrintBuffer(current,restlen, "G-OOOO-> END TaskHandler Status Class Printout END <-OOOO-G\n");
    if(buffer==0)
          {
-             cout << localbuf << endl;
+             std::cout << localbuf << std::endl;
          }
       else
          {

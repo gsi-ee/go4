@@ -11,9 +11,9 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#include "go4iostream.h"
 #include <stdlib.h>
 
+#include "Riostream.h"
 #include "TApplication.h"
 #include "TH1.h"
 #include "TClass.h"
@@ -41,21 +41,20 @@ int main(int argc, char **argv)
 
    objectq.AddObject(histo,kTRUE);
    delete histo;
-   cout << "deleted the first histo after cloning" << endl;
+   std::cout << "deleted the first histo after cloning" << std::endl;
    objectq.AddObject(com);
-   TObject* output=0;
+   TObject* output = 0;
    while(! (objectq.IsEmpty()) )
-       {
-           output= objectq.WaitObject();
-           cout << "object from object queue:"<< endl;
-           cout << output->ClassName() << endl;
-           cout << output->GetName() << endl;
-           if (output->InheritsFrom(TH1::Class()))
-               {
-                    histo3= dynamic_cast<TH1*>(output);
-                    dynamic_cast<TH1*>(output)->Draw();
-               }
-       }
+   {
+      output = objectq.WaitObject();
+      std::cout << "object from object queue:"<< std::endl;
+      std::cout << output->ClassName() << std::endl;
+      std::cout << output->GetName() << std::endl;
+      if (output->InheritsFrom(TH1::Class())) {
+         histo3 = dynamic_cast<TH1*>(output);
+         dynamic_cast<TH1*>(output)->Draw();
+      }
+   }
 
 
     bufferq.AddBufferFromObject(histo2);
@@ -70,25 +69,25 @@ int main(int argc, char **argv)
 
            //TMessage* mess = dynamic_cast<TMessage*> (buf);
            //TClass* cl= buf->ReadClass();
-           cout << "got buffer from buffer queue:"<< endl;
+           std::cout << "got buffer from buffer queue:"<< std::endl;
            mess->SetReadMode();
            mess->Reset();
            mess->InitMap();
            TClass* cl = mess->ReadClass();
-           cout << "Class: " << cl << endl;
+           std::cout << "Class: " << cl << std::endl;
            if(cl)
-              cout << "Classname: " << cl->GetName() << endl;
-           cout << "Reading object from buffer..."<< endl;
+              std::cout << "Classname: " << cl->GetName() << std::endl;
+           std::cout << "Reading object from buffer..."<< std::endl;
            mess->Reset();
            output=mess->ReadObject(cl);
            if(output==0)
               {
-                  cout << "zero object" <<endl;
+                  std::cout << "zero object" <<std::endl;
                  exit(0);
               }
 
-           cout << output->ClassName() << endl;
-           cout << output->GetName() << endl;
+           std::cout << output->ClassName() << std::endl;
+           std::cout << output->GetName() << std::endl;
            if (output->InheritsFrom(TH1::Class()))
               output->Draw();
          objectq.AddObjectFromBuffer(mess);
@@ -104,9 +103,9 @@ int main(int argc, char **argv)
     while(! (objectq.IsEmpty()) )
        {
            output= objectq.WaitObject();
-           cout << "object from object queue second pass:"<< endl;
-           cout << output->ClassName() << endl;
-           cout << output->GetName() << endl;
+           std::cout << "object from object queue second pass:"<< std::endl;
+           std::cout << output->ClassName() << std::endl;
+           std::cout << output->GetName() << std::endl;
            if (output->InheritsFrom(TH1::Class()))
               output->Draw();
        }
@@ -118,25 +117,25 @@ int main(int argc, char **argv)
 
            //TMessage* mess = dynamic_cast<TMessage*> (buf);
            //TClass* cl= buf->ReadClass();
-           cout << "got buffer from buffer queue second time:"<< endl;
+           std::cout << "got buffer from buffer queue second time:"<< std::endl;
            mess->SetReadMode();
            mess->Reset();
            mess->InitMap();
            TClass* cl = mess->ReadClass();
-           cout << "Class: " << cl << endl;
+           std::cout << "Class: " << cl << std::endl;
            if(cl)
-              cout << "Classname: " << cl->GetName() << endl;
-           cout << "Reading object from buffer..."<< endl;
+              std::cout << "Classname: " << cl->GetName() << std::endl;
+           std::cout << "Reading object from buffer..."<< std::endl;
            mess->Reset();
            output=mess->ReadObject(cl);
            if(output==0)
               {
-                  cout << "zero object" <<endl;
+                  std::cout << "zero object" <<std::endl;
                  exit(0);
               }
 
-           cout << output->ClassName() << endl;
-           cout << output->GetName() << endl;
+           std::cout << output->ClassName() << std::endl;
+           std::cout << output->GetName() << std::endl;
            if (output->InheritsFrom(TH1::Class()))
               output->Draw();
       }
@@ -148,6 +147,6 @@ int main(int argc, char **argv)
 
 void usage(char **args)
 {
-  cout << "Usage: " << args[0] << " \n";
+  std::cout << "Usage: " << args[0] << " \n";
   exit(1);
 }

@@ -13,7 +13,7 @@
 
 #include "TGo4MemberStatus.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 
 TGo4MemberStatus::TGo4MemberStatus() :
    TGo4ObjectStatus()
@@ -50,7 +50,7 @@ Int_t TGo4MemberStatus::PrintStatus(Text_t* buffer, Int_t buflen)
    current=PrintBuffer(current,restlen, "G-OOOO-> ---------------------------------------------- <-OOOO-G\n");
   if(buffer==0)
       {
-          cout << localbuf << endl;
+     std::cout << localbuf << std::endl;
       }
    else
       {
