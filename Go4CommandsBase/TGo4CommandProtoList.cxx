@@ -13,7 +13,7 @@
 
 #include "TGo4CommandProtoList.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TMutex.h"
 #include "TObjArray.h"
@@ -51,9 +51,9 @@ void TGo4CommandProtoList::ShowCommands()
    TGo4Command* com;
    TIter iter(fxCommandList);
    TGo4Log::Debug(" CommandProtoList Showing the known commands:");
-   cout << " Name: \t| Description:"<<endl;
+   std::cout << " Name: \t| Description:"<<std::endl;
    while((com= (TGo4Command*) iter())!=0)
-      cout << " "<< com->GetName()<<"\t| "<<com->What()<<endl;
+      std::cout << " "<< com->GetName()<<"\t| "<<com->What()<<std::endl;
 }
 
 TGo4Command* TGo4CommandProtoList::MakeCommand(const char* name)
@@ -126,8 +126,8 @@ TGo4CommandProtoList& TGo4CommandProtoList::operator+=(const TGo4CommandProtoLis
        TIter iter(two.fxCommandList);
        TGo4Command* com;
        while ( (com=dynamic_cast<TGo4Command*>(iter())) !=0)
-              AddCommand(com);
-       cout <<"CommandProtoList "<< GetName() <<"used operator += for adding list " << two.GetName() << endl;
+           AddCommand(com);
+       std::cout <<"CommandProtoList "<< GetName() <<"used operator += for adding list " << two.GetName() << std::endl;
    }
    return *this;
 }

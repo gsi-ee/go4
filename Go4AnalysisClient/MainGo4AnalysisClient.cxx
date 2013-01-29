@@ -11,14 +11,19 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#include "go4iostream.h"
 #include <stdlib.h>
-#include "TGo4Log.h"
 
+#include "Riostream.h"
 #include "TApplication.h"
+
+#include "TGo4Log.h"
 #include "TGo4AnalysisClient.h"
 
-void usage();
+void usage()
+{
+   std::cout << "usage: MainGo4AnalysisClient clientname serverhostname connectorport"<<std::endl;
+}
+
 
 int main(int argc, char **argv)
 {
@@ -42,7 +47,7 @@ int main(int argc, char **argv)
          const char* hostname=argv[2];
          const char* connector=argv[3];
          UInt_t con=atoi(connector);
-         cout << "Client:"<<name<<",\tHost:"<<hostname<<",\tConnector:"<<con<<endl;
+         std::cout << "Client:"<<name<<",\tHost:"<<hostname<<",\tConnector:"<<con<<std::endl;
 
          // variant 1: use demo with internal plain analysis base class
          TGo4AnalysisClient* myclient = new TGo4AnalysisClient(name,0,hostname,con);
@@ -54,7 +59,7 @@ int main(int argc, char **argv)
 //         TGo4AnalysisClient* myclient = new TGo4AnalysisClient(name,myanalysis,hostname,con);
 
 
-         cout << "Created AnalysisClient Instance: "<<myclient->GetName()<<endl; // dummy action for warnings
+         std::cout << "Created AnalysisClient Instance: "<<myclient->GetName()<<std::endl; // dummy action for warnings
          theApp.Run();
 
          return 0;
@@ -64,13 +69,3 @@ int main(int argc, char **argv)
 //} // if (rev)
 
 }
-
-
-void usage()
-{
-cout << "usage: MainGo4AnalysisClient clientname serverhostname connectorport"<<endl;
-
-}
-
-
-

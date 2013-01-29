@@ -13,9 +13,9 @@
 
 #include "TGo4DynamicList.h"
 
-#include "go4iostream.h"
 #include <stdexcept>
 #include <stdlib.h>
+
 #include "TFolder.h"
 #include "TDataMember.h"
 #include "TDataType.h"

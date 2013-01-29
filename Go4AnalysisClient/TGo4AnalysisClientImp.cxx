@@ -15,7 +15,6 @@
 
 #include <stdlib.h>
 
-#include "go4iostream.h"
 #include "TApplication.h"
 #include "TTimeStamp.h"
 #include "TDataType.h"
@@ -522,7 +521,7 @@ void TGo4AnalysisClient::ExecuteString(const char* command)
       strtok((char*) buffer.Data(), ":"); // first find the command itself
       TString base = strtok(0,":");
       TString pass = strtok(0,":");
-      cout << "ExecuteString found base " << base << ",  passwd " << pass << endl;
+      // cout << "ExecuteString found base " << base << ",  passwd " << pass << endl;
       StartObjectServer(base.Data(), pass.Data());
    } else
    if (!strcmp(command,"ANHServStop")) {

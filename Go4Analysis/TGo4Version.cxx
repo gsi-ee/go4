@@ -13,7 +13,7 @@
 
 #include "TGo4Version.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 
 const Int_t TGo4Version::fgiGO4VERSION= __GO4BUILDVERSION__;
 
@@ -44,9 +44,7 @@ Bool_t TGo4Version::CheckVersion(Int_t version)
 //
    if(fgiGO4VERSION==version) return kTRUE;
 
-   cerr <<" !!!! VERSION MISMATCH: \n\tUser Analysis Build \tVersion ";
-   cerr << fgiGO4VERSION << endl;
-   cerr <<"\tdoes not match current \tVersion ";
-   cerr << version <<" " << endl;
+   std::cerr <<" !!!! VERSION MISMATCH: \n\tUser Analysis Build \tVersion " << fgiGO4VERSION << std::endl;
+   std::cerr <<"\tdoes not match current \tVersion " << version << std:: endl;
    return kFALSE;
 }

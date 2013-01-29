@@ -13,8 +13,6 @@
 
 #include "TGo4CommandInvoker.h"
 
-#include "go4iostream.h"
-
 #include "TMutex.h"
 #include "TString.h"
 #include "TObjArray.h"
@@ -98,7 +96,7 @@ void TGo4CommandInvoker::UnRegister(TGo4CommandReceiver *p)
     while((ob=riter())!=0) {
        TGo4Pair* pair = dynamic_cast<TGo4Pair*>(ob);
        if(pair==0) {
-          cerr<<"NEVER COME HERE: TGo4CommandInvoker::UnRegister - receiver list with no receiver"<<endl;
+          TGo4Log::Error("NEVER COME HERE: TGo4CommandInvoker::UnRegister - receiver list with no receiver");
           break;
        }
        if(pair->GetReceiver()==p) {

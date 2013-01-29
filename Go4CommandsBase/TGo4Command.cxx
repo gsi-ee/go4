@@ -13,7 +13,7 @@
 
 #include "TGo4Command.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TGo4Log.h"
 #include "TGo4CommandReceiver.h"
@@ -121,7 +121,7 @@ const char* TGo4Command::What() const
 Int_t TGo4Command::ExeCom()
 {
   TRACE((10,"Int_t TGo4Command::ExeCom()", __LINE__, __FILE__));
-  cout << What() << endl;
+  std::cout << What() << std::endl;
   return 0;
 }
 
@@ -140,15 +140,14 @@ Int_t TGo4Command::RefuseCom()
 
 Bool_t TGo4Command::Log(Int_t mode)
 {
-  TRACE((10,"Bool_t TGo4Command::Log(Int_t mode)", __LINE__, __FILE__));
-  switch (mode)
-    {
-  case 0:
-    cout << What() << endl;
-    break;
-  default:
-    break;
-    }
+   TRACE((10,"Bool_t TGo4Command::Log(Int_t mode)", __LINE__, __FILE__));
+   switch (mode) {
+      case 0:
+         std::cout << What() << std::endl;
+         break;
+      default:
+         break;
+   }
   return kTRUE;
 }
 
@@ -173,8 +172,8 @@ void TGo4Command::SetReceiver(TGo4CommandReceiver * rec)
 
 const char* TGo4Command::GetModeDescription(Go4CommandMode_t mode)
 {
-if(mode<0 || mode>3) return 0;
-return fgcMODEDESCRIPTION[mode];
+   if(mode<0 || mode>3) return 0;
+   return fgcMODEDESCRIPTION[mode];
 }
 
 

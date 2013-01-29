@@ -13,8 +13,6 @@
 
 #include "TGo4CintLockTimer.h"
 
-#include "go4iostream.h"
-
 #include "TThread.h"
 #include "TApplication.h"
 
@@ -23,20 +21,20 @@
 
 UInt_t TGo4CintLockTimer::fguTHREADTIME = 50;//50
 
-TGo4CintLockTimer::TGo4CintLockTimer (TGo4AnalysisClient* parent,Long_t msperiod, Bool_t mode)
-   :TTimer(msperiod,mode),fbHaveLock(kFALSE),fxParent(parent)
+TGo4CintLockTimer::TGo4CintLockTimer (TGo4AnalysisClient* parent,Long_t msperiod, Bool_t mode) :
+   TTimer(msperiod,mode), fbHaveLock(kFALSE), fxParent(parent)
 {
 }
 
 TGo4CintLockTimer::~TGo4CintLockTimer()
 {
-if(fbHaveLock) fxParent->UnLockAll();
+   if(fbHaveLock) fxParent->UnLockAll();
 }
 
 Bool_t TGo4CintLockTimer::Notify()
 {
-//TurnOff();
-if(fbHaveLock)
+   //TurnOff();
+   if(fbHaveLock)
    {
       //if(TThread::Exists()) TGo4LockGuard::UnLockMainMutex();
       fxParent->UnLockAll();
@@ -44,17 +42,17 @@ if(fbHaveLock)
       fbHaveLock=kFALSE;
    }
 
-gSystem->Sleep(fguTHREADTIME);
-if(!fbHaveLock)
+   gSystem->Sleep(fguTHREADTIME);
+   if(!fbHaveLock)
    {
       //if(TThread::Exists()) TGo4LockGuard::LockMainMutex();
       fxParent->LockAll();
       //cout <<"L TGo4CintLockTimer has lock" << endl;
       fbHaveLock=kTRUE;
    }
-Reset();
-//TurnOn();
-return kFALSE;
+   Reset();
+   //TurnOn();
+   return kFALSE;
 }
 
 

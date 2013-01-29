@@ -11,8 +11,6 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#include "go4iostream.h"
-
 #include "TGo4Log.h"
 
 #include "TRint.h"
@@ -53,7 +51,7 @@ int main(int argc, char **argv)
                                              kTRUE // start this slave as server
                                              );
     myclient->SetCintMode(kTRUE);
-    cout << "Created Slave Instance: "<<myclient->GetName()<<endl; // dummy action for warnings
+    TGo4Log::Info("Created Slave Instance: %s", myclient->GetName()); // dummy action for warnings
     theApp.Run();
     return 0;
 }

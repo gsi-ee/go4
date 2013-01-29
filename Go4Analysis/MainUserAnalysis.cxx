@@ -24,7 +24,7 @@
 #include "TRint.h"
 //#include "TApplication.h"
 #include "TSystem.h"
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "RVersion.h"
 #include "TSysEvtHandler.h"
 
@@ -44,144 +44,144 @@
 
 void showerror(const char* msg)
 {
-   cerr << "Error: " << msg << endl;
-   cerr << "Call  'go4analysis -help'  to see list of available arguments" << endl;
+   std::cerr << "Error: " << msg << std::endl;
+   std::cerr << "Call  'go4analysis -help'  to see list of available arguments" << std::endl;
    exit(1);
 }
 
 void printsources()
 {
-   cout << "  -file filename       :  use file filename (lmd or lml) as MBS event source (short: -f)" << endl;
-   cout << "  -transport server    :  connect to MBS transport server (short: -tr)" << endl;
-   cout << "  -stream server       :  connect to MBS stream server (short: -st)" << endl;
-   cout << "  -evserv server       :  connect to MBS event server (short: -ev)" << endl;
-   cout << "  -revserv server [port] :  connect to remote event server (short: -rev)" << endl;
-   cout << "  -random              :  use random generator as source (short: -rnd)" << endl;
-   cout << "  -user name           :  create user-defined event source" << endl;
-   cout << "  -timeout tm          :  specify timeout parameter for event source" << endl;
-   cout << "  -skip num            :  skip num first events in mbs event source" << endl;
-   cout << "  -mbs-select first last step : select events interval from mbs source " << endl;
-   cout << "         first: sequence number of the first event (starts from 0)" << endl;
-   cout << "         last: sequence number of the last event" << endl;
-   cout << "         step: step over several events, 1 means all events are used" << endl;
+   std::cout << "  -file filename       :  use file filename (lmd or lml) as MBS event source (short: -f)" << std::endl;
+   std::cout << "  -transport server    :  connect to MBS transport server (short: -tr)" << std::endl;
+   std::cout << "  -stream server       :  connect to MBS stream server (short: -st)" << std::endl;
+   std::cout << "  -evserv server       :  connect to MBS event server (short: -ev)" << std::endl;
+   std::cout << "  -revserv server [port] :  connect to remote event server (short: -rev)" << std::endl;
+   std::cout << "  -random              :  use random generator as source (short: -rnd)" << std::endl;
+   std::cout << "  -user name           :  create user-defined event source" << std::endl;
+   std::cout << "  -timeout tm          :  specify timeout parameter for event source" << std::endl;
+   std::cout << "  -skip num            :  skip num first events in mbs event source" << std::endl;
+   std::cout << "  -mbs-select first last step : select events interval from mbs source " << std::endl;
+   std::cout << "         first: sequence number of the first event (starts from 0)" << std::endl;
+   std::cout << "         last: sequence number of the last event" << std::endl;
+   std::cout << "         step: step over several events, 1 means all events are used" << std::endl;
 
 }
 
 void usage(const char* subtopic = 0)
 {
-   cout << endl;
-   cout << "GO4 analysis runnable " << __GO4RELEASE__ << endl;
-   cout << "S. Linev, GSI, Darmstadt" << endl;
+   std::cout << std::endl;
+   std::cout << "GO4 analysis runnable " << __GO4RELEASE__ << std::endl;
+   std::cout << "S. Linev, GSI, Darmstadt" << std::endl;
 
    if ((subtopic!=0) && (strlen(subtopic)>0)) {
       const char* sub = subtopic;
       if (*sub=='-') sub++;
 
       if ((strcmp(subtopic, "sources")==0) || (strcmp(subtopic, "src")==0) || (strcmp(subtopic, "src")==0)) {
-         cout << "These are arguments of go4analysis which allows to specify event source" << endl;
+         std::cout << "These are arguments of go4analysis which allows to specify event source" << std::endl;
          printsources();
          exit(0);
       } else
       if ((strcmp(sub, "print")==0) || (strcmp(sub, "pr")==0) ||
           (strcmp(sub, "type")==0) || (strcmp(sub, "ty")==0)) {
-         cout << "Usage of go4analysis -print command." << endl;
-         cout << endl;
-         cout << "   go4analysis -print|-pr|-type|-ty [PROPT] [SOURCE] [MISC]" << endl;
-         cout << endl;
-         cout << "PROPT: print options, right after -print command" << endl;
-         cout << "   hex          : print data in hexadecimal format" << endl;
-         cout << "   dec          : print data in decimal format" << endl;
-         cout << "   long         : print data in long (4 bytes) form (default)" << endl;
-         cout << "   short        : print data in short (2 bytes) form" << endl;
-         cout << "   sub=N        : select subevent id N (default all subevents are shown)" << endl;
-         cout << "   fhead        : print current lmd file header" << endl;
-         cout << "   bhead        : print current buffer header" << endl;
-         cout << "SOURCE: event source print options" << endl;
+         std::cout << "Usage of go4analysis -print command." << std::endl;
+         std::cout << std::endl;
+         std::cout << "   go4analysis -print|-pr|-type|-ty [PROPT] [SOURCE] [MISC]" << std::endl;
+         std::cout << std::endl;
+         std::cout << "PROPT: print options, right after -print command" << std::endl;
+         std::cout << "   hex          : print data in hexadecimal format" << std::endl;
+         std::cout << "   dec          : print data in decimal format" << std::endl;
+         std::cout << "   long         : print data in long (4 bytes) form (default)" << std::endl;
+         std::cout << "   short        : print data in short (2 bytes) form" << std::endl;
+         std::cout << "   sub=N        : select subevent id N (default all subevents are shown)" << std::endl;
+         std::cout << "   fhead        : print current lmd file header" << std::endl;
+         std::cout << "   bhead        : print current buffer header" << std::endl;
+         std::cout << "SOURCE: event source print options" << std::endl;
          printsources();
-         cout << "MISC: other options, which may be relevant for \"print\" command" << endl;
-         cout << "   -number M    : print M events, default is 1 (short: -num)" << endl;
-         cout << "   -lib name    : load library, may be required for user-defined sources" << endl;
-         cout << "   -v           : enable verbose mode to see some debug output (default: -v2)" << endl;
-         cout << endl;
-         cout << "  Print event header from MBS stream server" << endl;
-         cout << "     go4analysis -stream r4-4 -print " << endl;
-         cout << endl;
-         cout << "  Print event data in hexadecimal form from MBS event server" << endl;
-         cout << "     go4analysis -ev r2-1 -pr hex" << endl;
-         cout << endl;
-         cout << "  Print 5 events with subevent id=1 in decimal form from MBS transport server" << endl;
-         cout << "     go4analysis -tr r2-2 -num 5 -ty dec sub=1 " << endl;
-         cout << endl;
+         std::cout << "MISC: other options, which may be relevant for \"print\" command" << std::endl;
+         std::cout << "   -number M    : print M events, default is 1 (short: -num)" << std::endl;
+         std::cout << "   -lib name    : load library, may be required for user-defined sources" << std::endl;
+         std::cout << "   -v           : enable verbose mode to see some debug output (default: -v2)" << std::endl;
+         std::cout << std::endl;
+         std::cout << "  Print event header from MBS stream server" << std::endl;
+         std::cout << "     go4analysis -stream r4-4 -print " << std::endl;
+         std::cout << std::endl;
+         std::cout << "  Print event data in hexadecimal form from MBS event server" << std::endl;
+         std::cout << "     go4analysis -ev r2-1 -pr hex" << std::endl;
+         std::cout << std::endl;
+         std::cout << "  Print 5 events with subevent id=1 in decimal form from MBS transport server" << std::endl;
+         std::cout << "     go4analysis -tr r2-2 -num 5 -ty dec sub=1 " << std::endl;
+         std::cout << std::endl;
          exit(0);
       } else {
-         cout << "No help for topic: \""<< subtopic << "\"" << endl;
-         cout << "Available: print, sources" << endl;
+         std::cout << "No help for topic: \""<< subtopic << "\"" << std::endl;
+         std::cout << "Available: print, sources" << std::endl;
          exit(0);
       }
    }
 
-   cout << "calling:                " << endl;
-   cout << "" << endl;
-   cout << "   go4analysis [RUN] [ANALYSIS] [STEP1] [STEP2] ... [USER]" << endl;
-   cout << "" << endl;
-   cout << "RUN: configuration, relevant for application run mode" << endl;
-   cout << "  -lib name                   : user library to load (default: libGo4UserLibrary)" << endl;
-   cout << "  -server [name]              : run analysis in server mode, name - optional analysis name" << endl;
-   cout << "  -gui name guihost guiport   : run analysis in gui mode, used by GUI launch analysis" << endl;
-   cout << "  -run                        : run analysis in server mode (default only run if source specified)" << endl;
-   cout << "  -norun                      : exclude automatical run" << endl;
-   cout << "  -number NUMBER              : process NUMBER events in batch mode" << endl;
-   cout << "  -hserver [name [passwd]]    : start histogram server with optional name and password" << endl;
-   cout << "  -log [filename]             : enable log output into filename (default:go4logfile.txt)" << endl;
-   cout << "  -v -v0 -v1 -v2 -v3          : change log output verbosity (0 - maximum, 1 - info, 2 - warn, 3 - errors)" << endl;
-   cout << "  -rate                       : display rate information during run" << endl;
-   cout << "  -print [sub=N] [hex|dec]    : print events, see -help print for more info" << endl;
-   cout << "  -help [topic]               : show this help or for selected topic" << endl;
-   cout << "" << endl;
-   cout << "ANALYSIS: common analysis configurations" << endl;
-   cout << "  -name name             :  specify analysis instance name" << endl;
-   cout << "  -asf [filename]        :  enable store autosave file and set autosave filename (default <Name>ASF.root)" << endl;
-   cout << "  -enable-asf [interval] :  enable store of autosave file, optionally interval in seconds" << endl;
-   cout << "  -disable-asf           :  disable usage of asf" << endl;
-   cout << "  -prefs [filename]      :  load preferences (analysis configuration) from specified file (default Go4AnalysisPrefs.root)" << endl;
-   cout << "  -no-prefs              :  disable preferences loading" << endl;
-   cout << "  -maxtreesize value     :  define maximum tree size, value can be: 2g, 1900m, 1900000000" << endl;
-   cout << "" << endl;
-   cout << "STEP: individual step configurations" << endl;
-   cout << "  -step name           :  select step by it's name, if not defined, first step is used" << endl;
-   cout << "  -step number         :  select step by it's number" << endl;
-   cout << "  -enable-step         :  enable step processing" << endl;
-   cout << "  -disable-step        :  disable step processing" << endl;
-   cout << "  -file filename       :  use file filename (lmd or lml) as MBS event source" << endl;
-   cout << "  -transport server    :  connect to MBS transport server" << endl;
-   cout << "  -stream server       :  connect to MBS stream server" << endl;
-   cout << "  -evserv server       :  connect to MBS event server" << endl;
-   cout << "  -revserv server [port] :  connect to remote event server" << endl;
-   cout << "  -port number         :  select custom port number for event source" << endl;
-   cout << "  -retry number        :  select number of retries when connection to source was lost" << endl;
-   cout << "  -random              :  use random generator as source" << endl;
-   cout << "  -user name           :  create user-defined event source" << endl;
-   cout << "  -source filename     :  read step input from the root file" << endl;
-   cout << "  -skip num            :  skip num first events in mbs event source" << endl;
-   cout << "  -mbs-select first last step : select events interval from mbs source" << endl;
-   cout << "  -timeout tm          :  specify timeout parameter for event source" << endl;
-   cout << "  -enable-source       :  enable step source" << endl;
-   cout << "  -disable-source      :  disable step source" << endl;
-   cout << "  -store filename [split buffersize compression] :  write step output into the root file" << endl;
-   cout << "  -overwrite-store     :  overwrite file, when store output" << endl;
-   cout << "  -append-store        :  append to file, when store output" << endl;
-   cout << "  -backstore name      :  create backstore for online tree draw" << endl;
-   cout << "  -enable-store        :  enable step store" << endl;
-   cout << "  -disable-store       :  disable step store" << endl;
-   cout << "  -enable-errstop      :  enable stop-on-error mode" << endl;
-   cout << "  -disable-errstop     :  disable stop-on-error mode" << endl;
-   cout << "  -inpevt-class name   :  (re)define class name of input event" << endl;
-   cout << "  -outevt-class name   :  (re)define class name of output event" << endl;
-   cout << endl;
-   cout << "USER: user-defined arguments" << endl;
-   cout << "  -args [userargs]     :  create user analysis with constructor (int argc, char** argv) signature" << endl;
-   cout << "                          all following arguments will be provided as array of strings, first argument - analysis name" << endl;
-   cout << endl;
+   std::cout << "calling:                " << std::endl;
+   std::cout << "" << std::endl;
+   std::cout << "   go4analysis [RUN] [ANALYSIS] [STEP1] [STEP2] ... [USER]" << std::endl;
+   std::cout << "" << std::endl;
+   std::cout << "RUN: configuration, relevant for application run mode" << std::endl;
+   std::cout << "  -lib name                   : user library to load (default: libGo4UserLibrary)" << std::endl;
+   std::cout << "  -server [name]              : run analysis in server mode, name - optional analysis name" << std::endl;
+   std::cout << "  -gui name guihost guiport   : run analysis in gui mode, used by GUI launch analysis" << std::endl;
+   std::cout << "  -run                        : run analysis in server mode (default only run if source specified)" << std::endl;
+   std::cout << "  -norun                      : exclude automatical run" << std::endl;
+   std::cout << "  -number NUMBER              : process NUMBER events in batch mode" << std::endl;
+   std::cout << "  -hserver [name [passwd]]    : start histogram server with optional name and password" << std::endl;
+   std::cout << "  -log [filename]             : enable log output into filename (default:go4logfile.txt)" << std::endl;
+   std::cout << "  -v -v0 -v1 -v2 -v3          : change log output verbosity (0 - maximum, 1 - info, 2 - warn, 3 - errors)" << std::endl;
+   std::cout << "  -rate                       : display rate information during run" << std::endl;
+   std::cout << "  -print [sub=N] [hex|dec]    : print events, see -help print for more info" << std::endl;
+   std::cout << "  -help [topic]               : show this help or for selected topic" << std::endl;
+   std::cout << "" << std::endl;
+   std::cout << "ANALYSIS: common analysis configurations" << std::endl;
+   std::cout << "  -name name             :  specify analysis instance name" << std::endl;
+   std::cout << "  -asf [filename]        :  enable store autosave file and set autosave filename (default <Name>ASF.root)" << std::endl;
+   std::cout << "  -enable-asf [interval] :  enable store of autosave file, optionally interval in seconds" << std::endl;
+   std::cout << "  -disable-asf           :  disable usage of asf" << std::endl;
+   std::cout << "  -prefs [filename]      :  load preferences (analysis configuration) from specified file (default Go4AnalysisPrefs.root)" << std::endl;
+   std::cout << "  -no-prefs              :  disable preferences loading" << std::endl;
+   std::cout << "  -maxtreesize value     :  define maximum tree size, value can be: 2g, 1900m, 1900000000" << std::endl;
+   std::cout << "" << std::endl;
+   std::cout << "STEP: individual step configurations" << std::endl;
+   std::cout << "  -step name           :  select step by it's name, if not defined, first step is used" << std::endl;
+   std::cout << "  -step number         :  select step by it's number" << std::endl;
+   std::cout << "  -enable-step         :  enable step processing" << std::endl;
+   std::cout << "  -disable-step        :  disable step processing" << std::endl;
+   std::cout << "  -file filename       :  use file filename (lmd or lml) as MBS event source" << std::endl;
+   std::cout << "  -transport server    :  connect to MBS transport server" << std::endl;
+   std::cout << "  -stream server       :  connect to MBS stream server" << std::endl;
+   std::cout << "  -evserv server       :  connect to MBS event server" << std::endl;
+   std::cout << "  -revserv server [port] :  connect to remote event server" << std::endl;
+   std::cout << "  -port number         :  select custom port number for event source" << std::endl;
+   std::cout << "  -retry number        :  select number of retries when connection to source was lost" << std::endl;
+   std::cout << "  -random              :  use random generator as source" << std::endl;
+   std::cout << "  -user name           :  create user-defined event source" << std::endl;
+   std::cout << "  -source filename     :  read step input from the root file" << std::endl;
+   std::cout << "  -skip num            :  skip num first events in mbs event source" << std::endl;
+   std::cout << "  -mbs-select first last step : select events interval from mbs source" << std::endl;
+   std::cout << "  -timeout tm          :  specify timeout parameter for event source" << std::endl;
+   std::cout << "  -enable-source       :  enable step source" << std::endl;
+   std::cout << "  -disable-source      :  disable step source" << std::endl;
+   std::cout << "  -store filename [split buffersize compression] :  write step output into the root file" << std::endl;
+   std::cout << "  -overwrite-store     :  overwrite file, when store output" << std::endl;
+   std::cout << "  -append-store        :  append to file, when store output" << std::endl;
+   std::cout << "  -backstore name      :  create backstore for online tree draw" << std::endl;
+   std::cout << "  -enable-store        :  enable step store" << std::endl;
+   std::cout << "  -disable-store       :  disable step store" << std::endl;
+   std::cout << "  -enable-errstop      :  enable stop-on-error mode" << std::endl;
+   std::cout << "  -disable-errstop     :  disable stop-on-error mode" << std::endl;
+   std::cout << "  -inpevt-class name   :  (re)define class name of input event" << std::endl;
+   std::cout << "  -outevt-class name   :  (re)define class name of output event" << std::endl;
+   std::cout << std::endl;
+   std::cout << "USER: user-defined arguments" << std::endl;
+   std::cout << "  -args [userargs]     :  create user analysis with constructor (int argc, char** argv) signature" << std::endl;
+   std::cout << "                          all following arguments will be provided as array of strings, first argument - analysis name" << std::endl;
+   std::cout << std::endl;
 
    exit(0);
 }
@@ -566,7 +566,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
 int main(int argc, char **argv)
 {
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
-      cerr << "Please check your system configuration and restart analysis again" << endl;
+      std::cerr << "Please check your system configuration and restart analysis again" << std::endl;
       return -1;
    }
 
@@ -651,11 +651,11 @@ int main(int argc, char **argv)
           else analysis = CreateDefaultAnalysis(lst1, analysis_name, user_argc, user_argv, doprint);
 
    if (analysis==0) {
-      cerr << "!!! Analysis instance cannot be created" << endl;
-      cerr << "!!! PLEASE check your analysis library " << libname << endl;
-      cerr << "!!! One requires user subclass for TGo4Analysis class in user library" << endl;
-      cerr << "!!! Alternatively, CreateUserAnalysis(const char*) function can be implemented" << endl;
-      cerr << "!!! See Go4ExampleSimple, Go4Example1Step or Go4Example2Step for details" << endl;
+      std::cerr << "!!! Analysis instance cannot be created" << std::endl;
+      std::cerr << "!!! PLEASE check your analysis library " << libname << std::endl;
+      std::cerr << "!!! One requires user subclass for TGo4Analysis class in user library" << std::endl;
+      std::cerr << "!!! Alternatively, CreateUserAnalysis(const char*) function can be implemented" << std::endl;
+      std::cerr << "!!! See Go4ExampleSimple, Go4Example1Step or Go4Example2Step for details" << std::endl;
       return -1;
    }
 
@@ -664,7 +664,7 @@ int main(int argc, char **argv)
 
    TGo4AnalysisStep* step = analysis->GetAnalysisStep(0);
    if (step==0) {
-      cerr << "No active step in analysis found" << endl;
+      std::cerr << "No active step in analysis found" << std::endl;
       return -1;
    }
 

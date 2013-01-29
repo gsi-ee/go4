@@ -16,8 +16,8 @@
 #include <stdexcept>
 #include <stdio.h>
 #include <stdlib.h>
-#include "go4iostream.h"
 
+#include "Riostream.h"
 #include "TSystem.h"
 #include "TInterpreter.h"
 #include "TNamed.h"
@@ -1211,7 +1211,7 @@ void TGo4Analysis::ShowEvent(const char* stepname, Bool_t isoutput)
       else
          Message(1,"Showing Input  Event %s of step %s",sevtree->GetName(),stepname);
       sevtree->Show(0);
-      cout << endl;
+      std::cout << std::endl;
       delete sevtree;
    }
 }
@@ -1662,8 +1662,7 @@ TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char* title,
       case 'D': case 'd': itype = 2; sclass = "TH1D"; break;
       case 'S': case 's': itype = 3; sclass = "TH1S"; break;
       case 'C': case 'c': itype = 4; sclass = "TH1C"; break;
-      default:
-         cout << "There is no histogram type:" << type << ", use I instead" << endl;
+      default: TGo4Log::Error("There is no histogram type: %c, use I instead", type); break;
    }
 
    TH1* oldh = GetHistogram(fullname);
