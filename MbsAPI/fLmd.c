@@ -116,74 +116,73 @@ void     fLmdOffsetElements(sLmdControl *, uint32_t, uint32_t *, uint32_t *);
 #define OFFSET__ENTRIES 250000
 
 //===============================================================
-uint32_t fLmdPutOpen(
-sLmdControl *pLmdControl,
-char    *Filename,
-sMbsFileHeader *pBuffHead, // LMD__STANDARD_HEADER (NULL) or address
-uint32_t iBytes,           // LMD__NO_BUFFER (0) or buffer size
-uint32_t iOver,            // LMD__[NO_]OVERWRITE
-uint32_t iUseOffset,       // LMD__[NO_]INDEX
-uint32_t iLargeFile){      // LMD__[NO_]LARGE_FILE
+uint32_t fLmdPutOpen(sLmdControl *pLmdControl,
+                     char    *Filename,
+                     sMbsFileHeader *pBuffHead, // LMD__STANDARD_HEADER (NULL) or address
+                     uint32_t iBytes,           // LMD__NO_BUFFER (0) or buffer size
+                     uint32_t iOver,            // LMD__[NO_]OVERWRITE
+                     uint32_t iUseOffset,       // LMD__[NO_]INDEX
+                     uint32_t iLargeFile)      // LMD__[NO_]LARGE_FILE
+{
+   int32_t iReturn;
+   struct timespec clock;
 
-  int32_t iReturn;
-  struct timespec clock;
+   memset(pLmdControl,0,sizeof(sLmdControl));
 
-  memset(pLmdControl,0,sizeof(sLmdControl));
+   // allocate header or take extern
+   if(pBuffHead == LMD__STANDARD_HEADER){
+      pLmdControl->pMbsFileHeader= (sMbsFileHeader *)malloc(sizeof(sMbsFileHeader));
+      memset(pLmdControl->pMbsFileHeader,0,sizeof(sMbsFileHeader));
+      pLmdControl->iInternHeader=1;
+   } else {
+      pLmdControl->pMbsFileHeader= pBuffHead;
+      pLmdControl->iInternHeader=0;
+   }
 
-  // allocate header or take extern
-  if(pBuffHead == LMD__STANDARD_HEADER){
-    pLmdControl->pMbsFileHeader= (sMbsFileHeader *)malloc(sizeof(sMbsFileHeader));
-    memset(pLmdControl->pMbsFileHeader,0,sizeof(sMbsFileHeader));
-    pLmdControl->iInternHeader=1;
-  }
-  else {
-    pLmdControl->pMbsFileHeader= pBuffHead;
-    pLmdControl->iInternHeader=0;
-  }
+   clock_gettime(CLOCK_REALTIME,&clock);
+   pLmdControl->pMbsFileHeader->iTimeSpecSec=clock.tv_sec;
+   pLmdControl->pMbsFileHeader->iTimeSpecNanoSec=clock.tv_nsec;
 
-  clock_gettime(CLOCK_REALTIME,&clock);
-  pLmdControl->pMbsFileHeader->iTimeSpecSec=clock.tv_sec;
-  pLmdControl->pMbsFileHeader->iTimeSpecNanoSec=clock.tv_nsec;
+   pLmdControl->pMbsFileHeader->iType=LMD__TYPE_FILE_HEADER_101_1;
+   pLmdControl->pMbsFileHeader->iEndian=1;
+   strcpy(pLmdControl->cFile,Filename);
 
-  pLmdControl->pMbsFileHeader->iType=LMD__TYPE_FILE_HEADER_101_1;
-  pLmdControl->pMbsFileHeader->iEndian=1;
-  strcpy(pLmdControl->cFile,Filename);
+   // optionally allocate buffer
+   if(iBytes > 0){
+      pLmdControl->pBuffer = (int16_t*) malloc(iBytes);
+      pLmdControl->iInternBuffer = 1;
+   }
+   pLmdControl->iBufferWords=iBytes/2;
+   pLmdControl->iLeftWords=iBytes/2;
+   // open file
+   if(iOver == LMD__NO_OVERWRITE){  // do not overwrite
+      if((pLmdControl->fFile=(FILE *)fopen64(Filename,"r") )!=NULL){
+         printf("fLmdPutOpen: File exists: %s\n",Filename);
+         fLmdCleanup(pLmdControl);
+         fclose(pLmdControl->fFile);
+         return(PUTLMD__FILE_EXIST);
+      }
+   }
 
-  // optionally allocate buffer
-  if(iBytes > 0){
-    pLmdControl->pBuffer=(int16_t *)malloc(iBytes);
-    pLmdControl->iInternBuffer=1;
-  }
-  pLmdControl->iBufferWords=iBytes/2;
-  pLmdControl->iLeftWords=iBytes/2;
-  // open file
-  if(iOver == LMD__NO_OVERWRITE){  // do not overwrite
-  if((pLmdControl->fFile=(FILE *)fopen64(Filename,"r") )!=NULL){
-    printf("fLmdPutOpen: File exists: %s\n",Filename);
-    fLmdCleanup(pLmdControl);
-    fclose(pLmdControl->fFile);
-    return(PUTLMD__FILE_EXIST);
-  }}
+   if((pLmdControl->fFile=(FILE *)fopen64(Filename,"w+") )== NULL){
+      printf("fLmdPutOpen: Error open file %s\n",Filename);
+      fLmdCleanup(pLmdControl);
+      return(PUTLMD__OPEN_ERR);
+   }
 
-  if((pLmdControl->fFile=(FILE *)fopen64(Filename,"w+") )== NULL){
-    printf("fLmdPutOpen: Error open file %s\n",Filename);
-    fLmdCleanup(pLmdControl);
-    return(PUTLMD__OPEN_ERR);
-  }
+   if(iLargeFile == LMD__LARGE_FILE)pLmdControl->iOffsetSize=8;
+   else                             pLmdControl->iOffsetSize=4;
+   pLmdControl->pMbsFileHeader->iOffsetSize=pLmdControl->iOffsetSize;
 
-  if(iLargeFile == LMD__LARGE_FILE)pLmdControl->iOffsetSize=8;
-  else                             pLmdControl->iOffsetSize=4;
-  pLmdControl->pMbsFileHeader->iOffsetSize=pLmdControl->iOffsetSize;
+   // write header
+   iReturn=fLmdWriteBuffer(pLmdControl,(char *)pLmdControl->pMbsFileHeader,
+         (pLmdControl->pMbsFileHeader->iUsedWords)*2+sizeof(sMbsFileHeader));
+   pLmdControl->iBytes+=iReturn;
 
-  // write header
-  iReturn=fLmdWriteBuffer(pLmdControl,(char *)pLmdControl->pMbsFileHeader,
-          (pLmdControl->pMbsFileHeader->iUsedWords)*2+sizeof(sMbsFileHeader));
-  pLmdControl->iBytes+=iReturn;
-
-  if(iUseOffset == LMD__INDEX)fLmdOffsetResize(pLmdControl,iReturn/4); // create and set first value
-  printf("fLmdPutOpen: %s. Bytes:%d over:%d table:%d large:%d.\n",
-    Filename,iBytes,iOver,iUseOffset,iLargeFile);
-return(LMD__SUCCESS);
+   if(iUseOffset == LMD__INDEX)fLmdOffsetResize(pLmdControl,iReturn/4); // create and set first value
+   printf("fLmdPutOpen: %s. Bytes:%d over:%d table:%d large:%d.\n",
+         Filename,iBytes,iOver,iUseOffset,iLargeFile);
+   return(LMD__SUCCESS);
 }
 
 //===============================================================
@@ -327,75 +326,74 @@ sLmdControl *pLmdControl){
 
 #ifndef FILEONLY
 //===============================================================
-uint32_t fLmdConnectMbs(
-sLmdControl *pLmdControl,
-char    *Nodename,
-uint32_t iPort,
-uint32_t *iBufferBytes) // LMD__GET_EVENTS (NULL) or address to return buffer size
+uint32_t fLmdConnectMbs(sLmdControl *pLmdControl,
+                        char    *Nodename,
+                        uint32_t iPort,
+                        uint32_t *iBufferBytes) // LMD__GET_EVENTS (NULL) or address to return buffer size
 {
 
-  int32_t stat;
-  sMbsTransportInfo sMbs;
+   int32_t stat;
+   sMbsTransportInfo sMbs;
 
-  if(iPort==0) pLmdControl->iPort=PORT__TRANS;
-          else pLmdControl->iPort=iPort;
-  memset(pLmdControl,0,sizeof(sLmdControl));
-  pLmdControl->pTCP=(struct s_tcpcomm *)malloc(sizeof(struct s_tcpcomm));
-  pLmdControl->iTCPowner=1;
-  if(pLmdControl->iPort==PORT__TRANS)
-    printf("fLmdConnectMbs: Connect to transport server %s port %d\n",Nodename,pLmdControl->iPort);
-  if(pLmdControl->iPort==PORT__STREAM)
-    printf("fLmdConnectMbs: Connect to stream server %s port %d\n",Nodename,pLmdControl->iPort);
-  stat=f_stc_connectserver(Nodename,pLmdControl->iPort,&pLmdControl->iTCP,pLmdControl->pTCP);
-  if (stat != STC__SUCCESS) {
-    printf ("fLmdConnectMbs: Error connect to %s \n",Nodename);
-    fLmdCleanup(pLmdControl);
-    return(LMD__FAILURE);
-  }
-  stat=f_stc_read((int32_t *)&sMbs, sizeof(sMbsTransportInfo),pLmdControl->iTCP,3);
-  if (stat != STC__SUCCESS) {
-    printf ("fLmdConnectMbs: Error read info from %s \n",Nodename);
-    fLmdCleanup(pLmdControl);
-    return(LMD__FAILURE);
-  }
-  if(sMbs.iEndian != 1)pLmdControl->iSwap=1;
-  if(pLmdControl->iSwap)fLmdSwap4((uint32_t *)&sMbs,sizeof(sMbsTransportInfo)/4);
-  if(sMbs.iBuffers > 1){
-    printf("fLmdConnectMbs: Event spanning not supported!\n");
-    fLmdCleanup(pLmdControl);
-    return(LMD__FAILURE);
-  }
-  if(sMbs.iStreams > 0){
-    printf("fLmdConnectMbs: MBS not in DABC mode!\n");
-    fLmdCleanup(pLmdControl);
-    return(LMD__FAILURE);
-  }
-  strcpy(pLmdControl->cFile,Nodename);
-  if(iBufferBytes == LMD__GET_EVENTS){ // use internal buffer for fLmdGetMbsEvent
-    pLmdControl->pBuffer = (int16_t *) malloc(sMbs.iMaxBytes);
-    pLmdControl->iBufferWords=sMbs.iMaxBytes/2;
-    pLmdControl->iInternBuffer=1;
-  } else
-  *iBufferBytes=sMbs.iMaxBytes;
-  return(LMD__SUCCESS);
+   if(iPort==0) pLmdControl->iPort=PORT__TRANS;
+   else pLmdControl->iPort=iPort;
+   memset(pLmdControl,0,sizeof(sLmdControl));
+   pLmdControl->pTCP=(struct s_tcpcomm *)malloc(sizeof(struct s_tcpcomm));
+   pLmdControl->iTCPowner=1;
+   if(pLmdControl->iPort==PORT__TRANS)
+      printf("fLmdConnectMbs: Connect to transport server %s port %d\n",Nodename,pLmdControl->iPort);
+   if(pLmdControl->iPort==PORT__STREAM)
+      printf("fLmdConnectMbs: Connect to stream server %s port %d\n",Nodename,pLmdControl->iPort);
+   stat=f_stc_connectserver(Nodename,pLmdControl->iPort,&pLmdControl->iTCP,pLmdControl->pTCP);
+   if (stat != STC__SUCCESS) {
+      printf ("fLmdConnectMbs: Error connect to %s \n",Nodename);
+      fLmdCleanup(pLmdControl);
+      return(LMD__FAILURE);
+   }
+   stat=f_stc_read((int32_t *)&sMbs, sizeof(sMbsTransportInfo),pLmdControl->iTCP,3);
+   if (stat != STC__SUCCESS) {
+      printf ("fLmdConnectMbs: Error read info from %s \n",Nodename);
+      fLmdCleanup(pLmdControl);
+      return(LMD__FAILURE);
+   }
+   if(sMbs.iEndian != 1)pLmdControl->iSwap=1;
+   if(pLmdControl->iSwap)fLmdSwap4((uint32_t *)&sMbs,sizeof(sMbsTransportInfo)/4);
+   if(sMbs.iBuffers > 1){
+      printf("fLmdConnectMbs: Event spanning not supported!\n");
+      fLmdCleanup(pLmdControl);
+      return(LMD__FAILURE);
+   }
+   if(sMbs.iStreams > 0){
+      printf("fLmdConnectMbs: MBS not in DABC mode!\n");
+      fLmdCleanup(pLmdControl);
+      return(LMD__FAILURE);
+   }
+   strcpy(pLmdControl->cFile,Nodename);
+   if(iBufferBytes == LMD__GET_EVENTS){ // use internal buffer for fLmdGetMbsEvent
+      pLmdControl->pBuffer = (int16_t *) malloc(sMbs.iMaxBytes);
+      pLmdControl->iBufferWords=sMbs.iMaxBytes/2;
+      pLmdControl->iInternBuffer=1;
+   } else {
+      *iBufferBytes = sMbs.iMaxBytes;
+   }
+   return(LMD__SUCCESS);
 }
 //===============================================================
-uint32_t fLmdInitMbs(
-sLmdControl *pLmdControl,
-char    *Nodename,
-uint32_t iMaxBytes,
-uint32_t iBuffers,
-uint32_t iStreams,
-uint32_t iPort,
-uint32_t iTimeout){
-
+uint32_t fLmdInitMbs(sLmdControl *pLmdControl,
+                     char    *Nodename,
+                     uint32_t iMaxBytes,
+                     uint32_t iBuffers,
+                     uint32_t iStreams,
+                     uint32_t iPort,
+                     uint32_t iTimeout)
+{
   int32_t stat;
 
   if(iBuffers > 1){printf("fLmdInitMbs: Event spanning not supported!\n");return(LMD__FAILURE);}
   if(iStreams > 0){printf("fLmdInitMbs: MBS not in DABC mode!\n");return(LMD__FAILURE);}
   pLmdControl->iPort=iPort;
   strcpy(pLmdControl->cFile,Nodename);
-  if(pLmdControl->pBuffer == NULL)pLmdControl->pBuffer= (int16_t *) malloc(iMaxBytes);
+  if(pLmdControl->pBuffer == NULL) pLmdControl->pBuffer = (int16_t*) malloc(iMaxBytes);
   pLmdControl->iBufferWords=iMaxBytes/2;
   pLmdControl->iInternBuffer=1;
   pLmdControl->iTCP=pLmdControl->pTCP->socket;
@@ -504,98 +502,97 @@ uint32_t *iBytesUsed){
 // endif FILEONLY
 
 //===============================================================
-uint32_t fLmdGetOpen(
-sLmdControl *pLmdControl,
-char    *Filename,
-sMbsFileHeader *pBuffHead, // LMD__INTERNAL_HEADER (NULL) or address of file header
-uint32_t iBytes,           // LMD__NO_BUFFER (0) or LMD__MIN_BUFFER or internal buffersize
-uint32_t iUseOffset){      // LMD__[NO_]INDEX
+uint32_t fLmdGetOpen(sLmdControl *pLmdControl,
+                     char    *Filename,
+                     sMbsFileHeader *pBuffHead, // LMD__INTERNAL_HEADER (NULL) or address of file header
+                     uint32_t iBytes,           // LMD__NO_BUFFER (0) or LMD__MIN_BUFFER or internal buffersize
+                     uint32_t iUseOffset)      // LMD__[NO_]INDEX
+{
+   int32_t iReturn;
+   uint32_t l=0,i,bufferBytes=0,h[12];
+   lmdoff_t to;
 
-  int32_t iReturn;
-  uint32_t l=0,i,bufferBytes=0,h[12];
-  lmdoff_t to;
+   memset(pLmdControl,0,sizeof(sLmdControl));
+   if(pBuffHead == LMD__INTERNAL_HEADER){
+      pLmdControl->pMbsFileHeader = (sMbsFileHeader *)malloc(sizeof(sMbsFileHeader));
+      pLmdControl->iInternHeader=1;
+   } else {
+      pLmdControl->pMbsFileHeader = pBuffHead;
+      pLmdControl->iInternHeader=0;
+   }
+   memset(pLmdControl->pMbsFileHeader,0,sizeof(sMbsFileHeader));
 
-  memset(pLmdControl,0,sizeof(sLmdControl));
-  if(pBuffHead == LMD__INTERNAL_HEADER){
-    pLmdControl->pMbsFileHeader= (sMbsFileHeader *)malloc(sizeof(sMbsFileHeader));
-    pLmdControl->iInternHeader=1;
-  }
-  else {
-    pLmdControl->pMbsFileHeader= pBuffHead;
-    pLmdControl->iInternHeader=0;
-  }
-  memset(pLmdControl->pMbsFileHeader,0,sizeof(sMbsFileHeader));
-
-  // copy file name to control structure
-  strcpy(pLmdControl->cFile,Filename);
-  if((pLmdControl->fFile=(FILE *)fopen64(Filename,"r"))== NULL)
-    {
+   // copy file name to control structure
+   strcpy(pLmdControl->cFile,Filename);
+   if((pLmdControl->fFile=(FILE *)fopen64(Filename,"r"))== NULL)
+   {
       printf("fLmdGetOpen: File not found: %d\n",Filename);
       fLmdCleanup(pLmdControl);
       return(GETLMD__NOFILE);
-    }
- /* read header */
-  iReturn=fLmdReadBuffer(pLmdControl,
-          (char *)pLmdControl->pMbsFileHeader,
-          sizeof(sMbsFileHeader));
-    if(iReturn!=sizeof(sMbsFileHeader)) {
-    printf("fLmdGetOpen: LMD format error: no LMD file: %s\n",Filename);
-    fLmdGetClose(pLmdControl);
-    return(GETLMD__NOLMDFILE);
-  }
-  // check type and subtype, and endian
-  if(pLmdControl->pMbsFileHeader->iEndian != 1) pLmdControl->iSwap=1;
-  if(pLmdControl->iSwap){
+   }
+   /* read header */
+   iReturn=fLmdReadBuffer(pLmdControl,
+         (char *)pLmdControl->pMbsFileHeader,
+         sizeof(sMbsFileHeader));
+   if(iReturn!=sizeof(sMbsFileHeader)) {
+      printf("fLmdGetOpen: LMD format error: no LMD file: %s\n",Filename);
+      fLmdGetClose(pLmdControl);
+      return(GETLMD__NOLMDFILE);
+   }
+   // check type and subtype, and endian
+   if(pLmdControl->pMbsFileHeader->iEndian != 1) pLmdControl->iSwap=1;
+   if(pLmdControl->iSwap){
       printf("do swap !!!\n");
-    fLmdSwap4((uint32_t *)pLmdControl->pMbsFileHeader,sizeof(sMbsFileHeader)/4);
-    fLmdSwap8((uint64_t *)&pLmdControl->pMbsFileHeader->iTableOffset,1);
-  }
-  if(pLmdControl->pMbsFileHeader->iType != LMD__TYPE_FILE_HEADER_101_1){
-    printf("fLmdGetOpen: LMD format error: no LMD file: %s, type is %0x\n",
-        Filename,pLmdControl->pMbsFileHeader->iType);
-    fLmdGetClose(pLmdControl);
-    return(GETLMD__NOLMDFILE);
-  }
+      fLmdSwap4((uint32_t *)pLmdControl->pMbsFileHeader,sizeof(sMbsFileHeader)/4);
+      fLmdSwap8((uint64_t *)&pLmdControl->pMbsFileHeader->iTableOffset,1);
+   }
+   if(pLmdControl->pMbsFileHeader->iType != LMD__TYPE_FILE_HEADER_101_1){
+      printf("fLmdGetOpen: LMD format error: no LMD file: %s, type is %0x\n",
+            Filename,pLmdControl->pMbsFileHeader->iType);
+      fLmdGetClose(pLmdControl);
+      return(GETLMD__NOLMDFILE);
+   }
 
-  if((iUseOffset == LMD__INDEX)&&(pLmdControl->pMbsFileHeader->iTableOffset > 0)){
-    // printf("fLmdGetOpen: use table in file: %s\n",Filename);
-    pLmdControl->iOffsetSize=pLmdControl->pMbsFileHeader->iOffsetSize;
-    iReturn=fLmdOffsetRead(pLmdControl); // read offset table
-    if(iReturn != LMD__SUCCESS){
-    printf("fLmdGetOpen: Index format error: %s\n",Filename);
-    fLmdGetClose(pLmdControl);
-      return(iReturn);
-    }
-  }
+   if((iUseOffset == LMD__INDEX)&&(pLmdControl->pMbsFileHeader->iTableOffset > 0)){
+      // printf("fLmdGetOpen: use table in file: %s\n",Filename);
+      pLmdControl->iOffsetSize=pLmdControl->pMbsFileHeader->iOffsetSize;
+      iReturn=fLmdOffsetRead(pLmdControl); // read offset table
+      if(iReturn != LMD__SUCCESS){
+         printf("fLmdGetOpen: Index format error: %s\n",Filename);
+         fLmdGetClose(pLmdControl);
+         return(iReturn);
+      }
+   }
 
-  pLmdControl->iBytes+=iReturn;
-  // more of header?
-  if(pLmdControl->pMbsFileHeader->iUsedWords > 0)
-    {
+   pLmdControl->iBytes+=iReturn;
+   // more of header?
+   if(pLmdControl->pMbsFileHeader->iUsedWords > 0)
+   {
       // Read this additional information without swapping.
       // Could be mostly strings. Caller must know.
-      pLmdControl->cHeader=malloc(pLmdControl->pMbsFileHeader->iUsedWords*2);
-      iReturn=fLmdReadBuffer(pLmdControl,pLmdControl->cHeader,
-              pLmdControl->pMbsFileHeader->iUsedWords*2 );
+      pLmdControl->cHeader = malloc(pLmdControl->pMbsFileHeader->iUsedWords*2);
+      iReturn = fLmdReadBuffer(pLmdControl,pLmdControl->cHeader,
+                               pLmdControl->pMbsFileHeader->iUsedWords*2 );
       if(iReturn!=pLmdControl->pMbsFileHeader->iUsedWords*2) {
-   printf("fLmdGetOpen: LMD format error: no LMD file: %s\n",Filename);
-   fLmdGetClose(pLmdControl);
-   return(GETLMD__NOLMDFILE);
+         printf("fLmdGetOpen: LMD format error: no LMD file: %s\n",Filename);
+         fLmdGetClose(pLmdControl);
+         return(GETLMD__NOLMDFILE);
       }
-    }
+   }
 
-  bufferBytes=iBytes;
-  if(bufferBytes < pLmdControl->pMbsFileHeader->iMaxWords*2)
-    bufferBytes=pLmdControl->pMbsFileHeader->iMaxWords*2;
-  fLmdPrintFileHeader(1,pLmdControl->pMbsFileHeader);
-  pLmdControl->pBuffer=(int16_t *)malloc(bufferBytes);
-  pLmdControl->iBufferWords=bufferBytes/2; // will be increased if necessary
+   bufferBytes = iBytes;
+   if(bufferBytes < pLmdControl->pMbsFileHeader->iMaxWords*2)
+      bufferBytes = pLmdControl->pMbsFileHeader->iMaxWords*2;
+   fLmdPrintFileHeader(1,pLmdControl->pMbsFileHeader);
+   pLmdControl->pBuffer = (int16_t *)malloc(bufferBytes);
+   pLmdControl->iInternBuffer = 1;
+   pLmdControl->iBufferWords=bufferBytes/2; // will be increased if necessary
 
-  printf("fLmdGetOpen: %s words %u\n", Filename, pLmdControl->iBufferWords);
+   printf("fLmdGetOpen: %s words %u\n", Filename, pLmdControl->iBufferWords);
 
-  pLmdControl->iLeftWords = 0; // buffer empty, read with first fLmdGetElement
-  pLmdControl->pMbsHeader = NULL;
-  return(LMD__SUCCESS);
+   pLmdControl->iLeftWords = 0; // buffer empty, read with first fLmdGetElement
+   pLmdControl->pMbsHeader = NULL;
+   return(LMD__SUCCESS);
 }
 //===============================================================
 uint32_t fLmdGetBuffer(
@@ -789,14 +786,15 @@ uint32_t fLmdGetElement(sLmdControl *pLmdControl, uint32_t iEvent, sMbsHeader **
   // return zero if no more events
 }
 //===============================================================
-uint32_t fLmdGetClose(sLmdControl *pLmdControl){
-  fLmdCleanup(pLmdControl); // cleanup except fFile
-  if(fclose(pLmdControl->fFile)!=0) {
+uint32_t fLmdGetClose(sLmdControl *pLmdControl)
+{
+   fLmdCleanup(pLmdControl); // cleanup except fFile
+   if(fclose(pLmdControl->fFile)!=0) {
       pLmdControl->fFile=NULL;
       return(LMD__CLOSE_ERR);
-  }
-  pLmdControl->fFile=NULL;
-  return(LMD__SUCCESS);
+   }
+   pLmdControl->fFile=NULL;
+   return(LMD__SUCCESS);
 }
 //===============================================================
 int32_t fLmdReadBuffer(sLmdControl *pLmdControl, char *buffer, uint32_t bytes){
@@ -826,24 +824,27 @@ uint64_t fLmdGetBytesWritten(sLmdControl *pLmdControl){
 return(bytes);
 }
 //===============================================================
-uint32_t fLmdCleanup(sLmdControl *pLmdControl){
-// do not clean fFile
-  if(pLmdControl->pTCP     != NULL)free(pLmdControl->pTCP);
-  if(pLmdControl->cHeader  != NULL)free(pLmdControl->cHeader);
-  if(pLmdControl->pOffset4 != NULL)free(pLmdControl->pOffset4);
-  if(pLmdControl->pOffset8 != NULL)free(pLmdControl->pOffset8);
-  if(pLmdControl->pBuffer  != NULL && pLmdControl->iInternBuffer)
-                                   free(pLmdControl->pBuffer);
-  if(pLmdControl->pMbsFileHeader != NULL && pLmdControl->iInternHeader)
-                                   free(pLmdControl->pMbsFileHeader);
-  pLmdControl->pTCP=NULL;
-  pLmdControl->cHeader=NULL;
-  pLmdControl->pBuffer=NULL;
-  pLmdControl->pOffset4=NULL;
-  pLmdControl->pOffset8=NULL;
-  pLmdControl->pMbsFileHeader=NULL;
-  pLmdControl->pMbsHeader=NULL;
-  return (LMD__SUCCESS);
+uint32_t fLmdCleanup(sLmdControl *pLmdControl)
+{
+   // do not clean fFile
+   if(pLmdControl->pTCP     != NULL)free(pLmdControl->pTCP);
+   if(pLmdControl->cHeader  != NULL)free(pLmdControl->cHeader);
+   if(pLmdControl->pOffset4 != NULL)free(pLmdControl->pOffset4);
+   if(pLmdControl->pOffset8 != NULL)free(pLmdControl->pOffset8);
+   if((pLmdControl->pBuffer  != NULL) && (pLmdControl->iInternBuffer>0))
+      free(pLmdControl->pBuffer);
+   if((pLmdControl->pMbsFileHeader != NULL) && (pLmdControl->iInternHeader>0))
+      free(pLmdControl->pMbsFileHeader);
+   pLmdControl->pTCP=NULL;
+   pLmdControl->cHeader=NULL;
+   pLmdControl->pBuffer=NULL;
+   pLmdControl->iInternBuffer=0;
+   pLmdControl->pOffset4=NULL;
+   pLmdControl->pOffset8=NULL;
+   pLmdControl->pMbsFileHeader=NULL;
+   pLmdControl->iInternHeader=0;
+   pLmdControl->pMbsHeader=NULL;
+   return (LMD__SUCCESS);
 }
 //===============================================================
 // can be called after GetOpen or ConnectMbs

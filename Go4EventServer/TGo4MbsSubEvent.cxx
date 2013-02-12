@@ -41,8 +41,9 @@ TGo4MbsSubEvent::TGo4MbsSubEvent(Int_t datasize) :
    TRACE((12,"TGo4MbsSubEvent::TGo4MbsSubEvent(UInt_t)",__LINE__, __FILE__));
    //TGo4Log::Info( "MBS SubEvent normal ctor.");
    if(fbIsDataOwner) {
-      fiData= new Int_t[datasize];
-      fiAllocLen=datasize;
+      fiData = new Int_t[datasize];
+      fiAllocLen = datasize;
+      for(Int_t t=0; t<datasize; t++) fiData[t] = 0;
    }
 }
 
@@ -144,10 +145,10 @@ void TGo4MbsSubEvent::Set(Int_t dlen,
 void  TGo4MbsSubEvent::Clear(Option_t *t)
 {
    TRACE((11,"TGo4MbsSubEvent::Clear()",__LINE__, __FILE__));
-   fbIsFilled=kFALSE;
+   fbIsFilled = kFALSE;
    if(fbIsDataOwner) {
       // clear array of data
-      Int_t dleng= GetDlen();
+      Int_t dleng = GetDlen();
       if(dleng==0) dleng=2; // default value for dleng is not zero!!
       // only clear regions which were used by the previous fill...
       //cout <<"Mbssubevent::Clear: dlen=" << dleng << endl;
@@ -157,9 +158,9 @@ void  TGo4MbsSubEvent::Clear(Option_t *t)
 
       if(fieldlength==0)
          fiData[0]=0; // clear in case of zero subevents!
-      for(Int_t t=0; t<fieldlength;++t) {
+
+      for(Int_t t=0; t<fieldlength;++t)
          fiData[t]=0;
-      }
       //cout<<endl<< "Subevent: cleared "<< fiAllocLen << "int field at "<<fiData << endl;
       fxHeader.Clear();
       Set(dleng); // set to default values, but remember last datalength
