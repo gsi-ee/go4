@@ -221,6 +221,7 @@ IMAGES = ../../icons/branch_t.png \
 	../../icons/closewindow.png \
 	../../icons/cursormarker.png \
 	../../icons/cursormarkersmall.png \
+	../../icons/zoomauto.png \
 	../../icons/zoomlim.png \
 	../../icons/adjustsize.png \
 	../../icons/back.xpm \

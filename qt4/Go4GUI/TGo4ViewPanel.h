@@ -194,7 +194,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void SetPadDefaults( TPad * pad );
       virtual void DisplayPadStatus( TPad * pad );
       virtual void MoveScale( int expandfactor, int xaction, int yaction, int zaction );
-      virtual void MoveSingleScale( int expandfactor, int action, int naxis, TGo4Picture* opt);
+      virtual void MoveSingleScale( int expandfactor, int action, int naxis, TGo4Picture* opt, TObject* padhist);
       virtual void TakeFullRangeFromHisto( TH1 * h1, TGo4Picture * padopt, bool isfirsthisto);
       virtual void TakeFullRangeFromGraph( TGraph * gr, TGo4Picture * padopt, bool isfirst);
       virtual void SetSelectedRangeToHisto( TPad* pad, TH1 * h1, THStack* hs, TGo4Picture * padopt, bool ishisto );

@@ -4362,8 +4362,7 @@ void TGo4ViewPanel::DisplayPadStatus(TPad * pad)
       CanvasStatus->showMessage(output);
 }
 
-void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction,
-      int zaction)
+void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction, int zaction)
 {
    TPad* selpad = IsApplyToAllFlag() ? GetCanvas() : GetActivePad();
    if (selpad == 0)
@@ -4374,9 +4373,12 @@ void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction,
    TGo4Picture* padopt = GetPadOptions(selpad);
    if (padopt != 0) {
 //     padopt->MoveScale(expandfactor, xaction, yaction);
-      MoveSingleScale(expandfactor, xaction, 0, padopt);
-      MoveSingleScale(expandfactor, yaction, 1, padopt);
-      MoveSingleScale(expandfactor, zaction, 2, padopt);
+
+      TObject* padhist = GetPadMainObject(selpad);
+
+      MoveSingleScale(expandfactor, xaction, 0, padopt, padhist);
+      MoveSingleScale(expandfactor, yaction, 1, padopt, padhist);
+      MoveSingleScale(expandfactor, zaction, 2, padopt, padhist);
       if ((xaction == 0) && (yaction == 0) && (zaction == 0)) {
          padopt->ClearRange();
          padopt->SetAutoScale(true);
@@ -4389,13 +4391,14 @@ void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction,
       while (iter.next()) {
          TPad* subpad = GetSlotPad(iter.getslot());
          padopt = GetPadOptions(subpad);
-         if (padopt == 0)
-            continue;
+         if (padopt == 0) continue;
+
+         TObject* padhist = GetPadMainObject(subpad);
 
 //       padopt->MoveScale(expandfactor, xaction, yaction);
-         MoveSingleScale(expandfactor, xaction, 0, padopt);
-         MoveSingleScale(expandfactor, yaction, 1, padopt);
-         MoveSingleScale(expandfactor, zaction, 2, padopt);
+         MoveSingleScale(expandfactor, xaction, 0, padopt, padhist);
+         MoveSingleScale(expandfactor, yaction, 1, padopt, padhist);
+         MoveSingleScale(expandfactor, zaction, 2, padopt, padhist);
          if ((xaction == 0) && (yaction == 0) && (zaction == 0)) {
             padopt->ClearRange();
             padopt->SetAutoScale(true);
@@ -4408,10 +4411,9 @@ void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction,
 }
 
 void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
-      TGo4Picture* padopt)
+      TGo4Picture* padopt, TObject* padobj)
 {
-   if (action <= 0)
-      return;
+   if (action <= 0) return;
 
    double new_umin, new_umax, fmin, fmax, tmin, tmax;
    double fact = expandfactor / 100.;
@@ -4423,13 +4425,17 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
    // we use number of dimensions to determine if we have contents
    int ndim = padopt->GetFullRangeDim();
 
+   if (action == 5) {
+      new_umin = fmin;
+      new_umax = fmax;
+   }
+
    if (!sel || (new_umin >= new_umax))
       padopt->GetFullRange(naxis, new_umin, new_umax);
 
    double shift = (new_umax - new_umin) * fact;
    // protect if changes is out of full axis ranges
-   if (shift <= 0)
-      return;
+   if (shift <= 0) return;
 
    switch (action) {
       case 1:
@@ -4488,6 +4494,70 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
          if (new_umax > fmax)
             new_umax = fmax;
          break;
+
+      case 5: { // Auto zoom
+         TH1* padhist = dynamic_cast<TH1*>(padobj);
+
+         if (padhist==0) break;
+
+         if (naxis >= ndim) break;
+
+         TAxis* axis = padhist->GetXaxis();
+         if (naxis==1) axis = padhist->GetYaxis();
+         if (naxis==2) axis = padhist->GetZaxis();
+
+         Int_t firstbin(0), lastbin(0);
+
+         // X axis in case of 1-dim histogram
+         if ((ndim==1) && (naxis==0)) {
+            for (Int_t n1 = 1; n1<=padhist->GetNbinsX(); n1++) {
+               Double_t v = padhist->GetBinContent(n1);
+               if (v<=0.) continue;
+               lastbin = n1;
+               if (firstbin==0) firstbin = n1;
+            }
+         }
+
+         // X,Y axis in case of 2-dim histogram
+         if ((ndim==2) && (naxis<2))
+            for (Int_t n1 = 1; n1<=padhist->GetNbinsX(); n1++)
+               for (Int_t n2 = 1; n2<=padhist->GetNbinsY(); n2++) {
+                 Double_t v = padhist->GetBinContent(n1,n2);
+                 if (v<=0.) continue;
+                 Int_t bin = naxis==0 ? n1 : n2;
+                 if ((lastbin==0) || (bin>lastbin)) lastbin = bin;
+                 if ((firstbin==0) || (bin<firstbin)) firstbin = bin;
+              }
+
+         // X,Y,Z axis in case of 3-dim histogram
+         if ((ndim==3) && (naxis<3))
+            for (Int_t n1 = 1; n1<=padhist->GetNbinsX(); n1++)
+               for (Int_t n2 = 1; n2<=padhist->GetNbinsY(); n2++)
+                  for (Int_t n3 = 1; n3<=padhist->GetNbinsZ(); n3++) {
+                    Double_t v = padhist->GetBinContent(n1,n2,n3);
+                    if (v<=0.) continue;
+                    Int_t bin = naxis==0 ? n1 : ((naxis==1) ? n2 : n3);
+                    if ((lastbin==0) || (bin>lastbin)) lastbin = bin;
+                    if ((firstbin==0) || (bin<firstbin)) firstbin = bin;
+                  }
+
+
+         if (firstbin>0) {
+            Double_t left = axis->GetBinLowEdge(firstbin);
+            Double_t right = axis->GetBinUpEdge(lastbin);
+
+//            printf("Auto zoom ndim:%d naxis:%d first %d last %d left:%f right:%f\n",
+//                  ndim, naxis, firstbin, lastbin, left, right);
+
+            new_umin = left - (right - left)*fact;
+            if (new_umin<fmin) new_umin = fmin;
+            new_umax = right + (right - left)*fact;
+            if (new_umax>fmax) new_umax = fmax;
+         }
+
+         break;
+      }
+
       default:
          return;
    }

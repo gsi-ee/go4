@@ -592,6 +592,34 @@
           </property>
         </widget>
       </item>
+      <item row="0" column="16" >
+        <widget class="QToolButton" name="AutoZoomBtn" >
+          <property name="maximumSize" >
+            <size>
+              <width>30</width>
+              <height>30</height>
+            </size>
+          </property>
+          <property name="text" >
+            <string/>
+          </property>
+          <property name="icon" >
+            <pixmap>:/icons/zoomauto.png</pixmap>
+          </property>
+          <property name="icon" >
+            <iconset>:/icons/zoomauto.png</iconset>
+          </property>
+          <property name="shortcut">
+            <string>Ctrl+*</string>
+          </property> 
+          <property name="autoRaise" >
+            <bool>true</bool>
+          </property>
+          <property name="toolTip" stdset="0" >
+             <string>Automatically zoom histogram to filled region. Keyboard: Ctrl+*</string>
+          </property>
+        </widget>
+      </item>
     </layout>
   </widget>
   <layoutdefault spacing="2" margin="2" />
@@ -610,6 +638,12 @@
       <signal>clicked()</signal>
       <receiver>TGo4ScaleOptions</receiver>
       <slot>SetScaleValues()</slot>
+    </connection>
+    <connection>
+      <sender>AutoZoomBtn</sender>
+      <signal>clicked()</signal>
+      <receiver>TGo4ScaleOptions</receiver>
+      <slot>AutoZoomScales()</slot>
     </connection>
     <connection>
       <sender>UExpandX</sender>

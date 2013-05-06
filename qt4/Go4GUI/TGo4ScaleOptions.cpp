@@ -94,6 +94,12 @@ void TGo4ScaleOptions::SetScaleValues()
    ServiceCall("ToggleScaleValues");
 }
 
+void TGo4ScaleOptions::AutoZoomScales()
+{
+   MoveScale(5, 5, 5);
+}
+
+
 void TGo4ScaleOptions::MoveScale(int xaction, int yaction, int zaction)
 {
    TGo4ViewPanel* panel = TGo4WorkSpace::Instance()->GetActivePanel();

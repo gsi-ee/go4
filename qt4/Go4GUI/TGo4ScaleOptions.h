@@ -55,7 +55,7 @@ class TGo4ScaleOptions : public QGo4Widget, public Ui::TGo4ScaleOptions
 
    virtual void SetScaleValues();
 
-
+   virtual void AutoZoomScales();
 
  };
 

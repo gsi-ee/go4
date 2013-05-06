@@ -4303,8 +4303,7 @@ void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction,
 void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
       TGo4Picture* padopt)
 {
-   if (action <= 0)
-      return;
+   if (action <= 0) return;
 
    double new_umin, new_umax, fmin, fmax, tmin, tmax;
    double fact = expandfactor / 100.;

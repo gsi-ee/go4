@@ -22,7 +22,10 @@ in Go4License.txt file which is part of the distribution.
 
 Changes in Go4 v4.5.5
 1. Adjust different macros to use together with ROOT 5.99 
-
+2. Implement auto-zoom functionality for 1/2/3-dim histogram.
+   Automatically adjust range selection to non-zero content of the histogram.
+   Can be actiavted also with Ctrl * keys combinations.
+   Thanks to Mixael Traxler for nice idea.   
 
 Changes in Go4 v4.5.3 (devel Summer 2012)/ v4.5.4 (Release November 2012)
 1. Added macro fft.C for fast fourier transform of histograms into gui command line.
