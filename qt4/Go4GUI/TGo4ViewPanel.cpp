@@ -3790,11 +3790,10 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
          doasiimage = false;
       else {
          if (asislot == 0)
-            asislot = new TGo4Slot(slot, "::ASImage",
-                  "place for Go4 ASI image");
+            asislot = new TGo4Slot(slot, "::ASImage", "place for Go4 ASI image");
          TGo4ASImage* image =
-               dynamic_cast<TGo4ASImage*>(asislot->GetAssignedObject());if
-(         image==0) {
+               dynamic_cast<TGo4ASImage*>(asislot->GetAssignedObject());
+         if(image==0) {
             image = new TGo4ASImage;
             asislot->SetProxy(new TGo4ObjectProxy(image, kTRUE));
             updatecontent = true;
