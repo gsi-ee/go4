@@ -188,8 +188,8 @@ Int_t TGo4EventElement::Init()
 
 Int_t TGo4EventElement::Fill()
 {
-	if (!fbKeepContents) Clear();
-   fbKeepContents=kFALSE;
+   if (!fbKeepContents) Clear();
+   fbKeepContents = kFALSE;
    if (fxEventSource==0) { SetValid(kFALSE); return 1; }
 
    if (fxEventSource->BuildEvent(this)) {

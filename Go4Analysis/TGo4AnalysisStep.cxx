@@ -100,12 +100,10 @@ void TGo4AnalysisStep::Process()
 {
    TRACE((12,"TGo4AnalysisStep::Process()",__LINE__, __FILE__));
    if(!fbProcessEnabled) return;
-   //cout <<"Processing Step " <<GetName() << endl;
    if(fxEventProcessor==0) {
-         SetStatusMessage("! AnalysisStep -- Process Error: no event processor !");
-         throw TGo4AnalysisStepException(this);
-      }
-
+      SetStatusMessage("! AnalysisStep -- Process Error: no event processor !");
+      throw TGo4AnalysisStepException(this);
+   }
 
    TGo4EventElement* input(0);
    fiProcessStatus = 0;
@@ -114,15 +112,16 @@ void TGo4AnalysisStep::Process()
       // fill input event from own source
       fxInputEvent->SetEventSource(fxEventSource);
       if(!fxEventProcessor->IsKeepInputEvent())
-    	  fxInputEvent->Fill(); // do not overwrite current input event contents
+         fxInputEvent->Fill(); // do not overwrite current input event contents
       input = fxInputEvent;
    } else
      // get input event structure from previous step
      input = fxOwner->GetOutputEvent();
 
+
    ///////////// processor part:
    if(!fxEventProcessor->IsKeepInputEvent())
-	   fxEventProcessor->SetInputEvent(input); // do not change current input event reference
+       fxEventProcessor->SetInputEvent(input); // do not change current input event reference
 
    //fxEventProcessor->SetKeepInputEvent(kFALSE); // automatic reset of keep input flags before processor execution
 
@@ -130,7 +129,9 @@ void TGo4AnalysisStep::Process()
       fxOutputEvent->SetEventSource(fxEventProcessor);
       if(fxEventProcessor->IsKeepOutputEvent()) fxOutputEvent->SetKeepContents(kTRUE); // suppress inplicit Clear()
       //fxEventProcessor->SetKeepOutputEvent(kFALSE); // automatic reset of keep output flags before processor execution
+
       fxOutputEvent->Fill(); // this calls processor build event
+
       fxOwner->SetOutputEvent(fxOutputEvent);
       if(fbStoreEnabled && (fxEventStore!=0) && fxOutputEvent->IsValid() && !fxEventProcessor->IsKeepOutputEvent())
          fxEventStore->Store(fxOutputEvent);
@@ -138,7 +139,6 @@ void TGo4AnalysisStep::Process()
       SetStatusMessage("! AnalysisStep -- Process Error: no output event !");
       throw TGo4AnalysisStepException(this);
    } // end if(fxOutputEvent!=0)
-
 }
 
 void TGo4AnalysisStep::Close()
