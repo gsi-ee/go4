@@ -1037,7 +1037,7 @@
     <function>SetPadDefaults( TPad * pad )</function>
     <function>DisplayPadStatus( TPad * pad )</function>
     <function>MoveScale( int expandfactor, int xaction, int yaction, int zaction )</function>
-    <function>MoveSingleScale( int expandfactor, int action, int naxis, TGo4Picture* opt)</function>
+    <function>MoveSingleScale( int expandfactor, int action, int naxis, TGo4Picture* opt, TObject* padobj)</function>
     <function>TakeFullRangeFromHisto( TH1 * h1, TGo4Picture * padopt, bool isfirsthisto)</function>
     <function>TakeFullRangeFromGraph( TGraph * gr, TGo4Picture * padopt, bool isfirst)</function>
     <function>SetSelectedRangeToHisto( TPad * pad, TH1 * h1, THStack* hs, TGo4Picture * padopt, bool ishisto )</function>

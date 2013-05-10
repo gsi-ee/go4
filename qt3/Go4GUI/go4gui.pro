@@ -195,6 +195,7 @@ IMAGES = ../../icons/branch_t.png \
 	../../icons/zoomyout.png \
 	../../icons/zoomzin.png \
 	../../icons/zoomzout.png \
+	../../icons/zoomauto.png \
 	../../icons/zoomoff.png \
 	../../icons/zoomicon.png \
 	../../icons/shiftdown.png \

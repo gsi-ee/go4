@@ -620,11 +620,9 @@ void TGo4ViewPanel::SetSelectedMarkerByMouseClick(TPad* pad, const char* name)
             break;
          }
       }
-      if (drawkind != kind_Condition)
-         continue;
-      TGo4Condition* cond =
-            dynamic_cast<TGo4Condition*>(subslot->GetAssignedObject());if
-(      cond==0) continue;
+      if (drawkind != kind_Condition) continue;
+      TGo4Condition* cond = dynamic_cast<TGo4Condition*>(subslot->GetAssignedObject());
+      if (cond==0) continue;
 
       if (strcmp(cond->GetName(), name) == 0) {
          SetSelectedMarker(pad, name, -1);
@@ -1067,9 +1065,8 @@ void TGo4ViewPanel::SetConditionBtn_clicked()
    const char* itemname = GetLinkedName(slot);
    if (itemname != 0) {
       UpdateItemInAnalysis(itemname);
-      TGo4Condition* cond =
-            dynamic_cast<TGo4Condition*>(slot->GetAssignedObject());if
-(      cond!=0) cond->SetChanged(kFALSE);
+      TGo4Condition* cond = dynamic_cast<TGo4Condition*>(slot->GetAssignedObject());
+      if (cond!=0) cond->SetChanged(kFALSE);
       RefreshButtons();
    }
 }
@@ -1176,13 +1173,13 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
             if (!fbPickAgain)
                fiMouseMode = kMouseROOT; // reset pick
          } else {
-            TGo4Marker* mark = dynamic_cast<TGo4Marker*>(GetActiveObj(pad,
-                  kind_Marker));if(mark!=0) {
+            TGo4Marker* mark = dynamic_cast<TGo4Marker*>(GetActiveObj(pad, kind_Marker));
+            if(mark!=0) {
                mark->SetX(x);
                mark->SetY(y);
             }
             if (!fbPickAgain) fiMouseMode=kMouseROOT; // reset pick
-               }
+         }
 
          RedrawPanel(pad, true);
          break;
@@ -1237,14 +1234,12 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
          else
             conny->SetValues(xmin, xmax);
 
-//        cout << "XUP = " << conny->GetXUp() << endl;
-//        cout << "YUP = " << conny->GetYUp() << endl;
-
          TGo4Slot* condslot = GetSelectedSlot(pad, 0, 0);
          if (GetDrawKind(condslot) == kind_Condition) {
             TGo4Condition* maincond =
-                  dynamic_cast<TGo4Condition*>(condslot->GetAssignedObject());if (maincond!=0) maincond->SetChanged(kTRUE);
-               }
+                  dynamic_cast<TGo4Condition*>(condslot->GetAssignedObject());
+            if (maincond!=0) maincond->SetChanged(kTRUE);
+         }
 
          conny->SetChanged(kTRUE);
 
@@ -1306,8 +1301,9 @@ if                     (cond!=0) {
          TGo4Slot* condslot = GetSelectedSlot(pad, 0, 0);
          if (GetDrawKind(condslot) == kind_Condition) {
             TGo4Condition* maincond =
-                  dynamic_cast<TGo4Condition*>(condslot->GetAssignedObject());if (maincond!=0) maincond->SetChanged(kTRUE);
-               }
+                  dynamic_cast<TGo4Condition*>(condslot->GetAssignedObject());
+            if (maincond!=0) maincond->SetChanged(kTRUE);
+         }
 
          RedrawPanel(pad, true);
          break;
@@ -1330,8 +1326,8 @@ if                     (cond!=0) {
                fiMouseMode = kMouseROOT;
             }
          } else {
-            TLatex* latex = dynamic_cast<TLatex*>(GetActiveObj(pad,
-                  kind_Latex));if(latex!=0) {
+            TLatex* latex = dynamic_cast<TLatex*>(GetActiveObj(pad, kind_Latex));
+            if(latex!=0) {
                latex->SetX(x);
                latex->SetY(y);
             }
@@ -1350,8 +1346,8 @@ if                     (cond!=0) {
             AddMarkerObj(pad, kind_Arrow, arrow);
             fiPickCounter++;
          } else if (fiPickCounter == 1) {
-            TArrow* arrow = dynamic_cast<TArrow*>(GetActiveObj(pad,
-                  kind_Arrow));if(arrow!=0) {
+            TArrow* arrow = dynamic_cast<TArrow*>(GetActiveObj(pad, kind_Arrow));
+            if(arrow!=0) {
                arrow->SetX2(x);
                arrow->SetY2(y);
             }
@@ -1415,8 +1411,8 @@ bool TGo4ViewPanel::CompleteMarkerEdit(TPad* pad)
    switch (fiMouseMode) {
       case kMousePickLimits: {
          if (fiPickCounter > 0) {
-            TGo4WinCond* cond = dynamic_cast<TGo4WinCond*>(GetActiveObj(pad,
-                  kind_Window));if (cond!=0) {
+            TGo4WinCond* cond = dynamic_cast<TGo4WinCond*>(GetActiveObj(pad, kind_Window));
+            if (cond!=0) {
                if (candelete) DeleteDrawObject(pad, cond);
                needredraw = true;
             }
@@ -1554,22 +1550,18 @@ void TGo4ViewPanel::MenuCommandExecutedSlot(TObject* obj, const char* cmdname)
             subslot = iter.getslot();
 
          TPad* subpad = GetSlotPad(subslot);
-         if (subpad == 0)
-            continue;
+         if (subpad == 0) continue;
 
          TGo4Slot* sislot = GetSuperimposeSlot(subslot);
-         if (sislot == 0)
-            continue;
+         if (sislot == 0) continue;
 
-         THStack* hs = dynamic_cast<THStack*>(sislot->GetAssignedObject());if
-(         hs==0) continue;
+         THStack* hs = dynamic_cast<THStack*>(sislot->GetAssignedObject());
+         if(hs == 0) continue;
 
          TH1* framehisto = hs->GetHistogram();
-         if (framehisto == 0)
-            continue;
+         if (framehisto == 0) continue;
 
-         if (framehisto->GetXaxis() != obj)
-            continue;
+         if (framehisto->GetXaxis() != obj) continue;
 
          TIter next(hs->GetHists());
          TH1* hs_h1 = 0;
@@ -1702,7 +1694,8 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad,
          if (itemname != 0)
             pic->AddObjName(itemname, drawopt);
       } else {
-         TNamed* nm = dynamic_cast<TNamed*>(subslot->GetAssignedObject());if (nm!=0) pic->AddObjName(nm->GetName(), drawopt);
+         TNamed* nm = dynamic_cast<TNamed*>(subslot->GetAssignedObject());
+         if (nm!=0) pic->AddObjName(nm->GetName(), drawopt);
       }
 
       Int_t rebinx, rebiny;
@@ -2280,28 +2273,28 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot* padslot,
 
       TH1* h1 = dynamic_cast<TH1*>(link->GetObject());
       // access axis properties of graphs
-if(      h1==0) {
+      if(h1==0) {
          TGraph* gr=dynamic_cast<TGraph*> (link->GetObject());
          if(gr) h1=gr->GetHistogram();
       }
 
       if (h1 != 0) {
          TPaveStats* stats =
-               dynamic_cast<TPaveStats*>(h1->GetListOfFunctions()->FindObject(
-                     "stats"));if (h1->TestBit(TH1::kNoStats))
-               pic->SetHisStats(kFALSE);
-               else {
-                  pic->SetHisStats(kTRUE);
-                  pic->SetStatsAttr(stats);
-               }
-
-               // test: set here time display
-               TAxis* xax=h1->GetXaxis();
-               pic->SetXAxisAttTime(xax->GetTimeDisplay(), xax->GetTimeFormat() ,TGo4Picture::PictureIndex);
-               //cout <<"Set time attributes to pad options: display:"<<xax->GetTimeDisplay()<<", format:"<< xax->GetTimeFormat()<<endl;
-            }
-
+               dynamic_cast<TPaveStats*>(h1->GetListOfFunctions()->FindObject("stats"));
+         if (h1->TestBit(TH1::kNoStats))
+            pic->SetHisStats(kFALSE);
+         else {
+            pic->SetHisStats(kTRUE);
+            pic->SetStatsAttr(stats);
          }
+
+         // test: set here time display
+         TAxis* xax = h1->GetXaxis();
+         pic->SetXAxisAttTime(xax->GetTimeDisplay(), xax->GetTimeFormat() ,TGo4Picture::PictureIndex);
+         //cout <<"Set time attributes to pad options: display:"<<xax->GetTimeDisplay()<<", format:"<< xax->GetTimeFormat()<<endl;
+      }
+
+   }
 
    if (pad->GetLogx() != pic->GetLogScale(0)) {
       pic->SetLogScale(0, pad->GetLogx());
@@ -2322,9 +2315,8 @@ if(      h1==0) {
       fbCanvasCrosshair = pad->HasCrosshair();
 
    TPaveText* titl =
-         dynamic_cast<TPaveText*>(pad->GetListOfPrimitives()->FindObject(
-               "title"));if
-(   titl) {
+         dynamic_cast<TPaveText*>(pad->GetListOfPrimitives()->FindObject("title"));
+   if(titl!=0) {
       pic->SetTitleAttr(titl);
       optchanged = true;
    }
@@ -2438,11 +2430,9 @@ void TGo4ViewPanel::CollectMainDrawObjects(TGo4Slot* slot, TObjArray* objs,
          deletesomething = kTRUE;
       } else {
          objs->Add(obj);
-         if (objslots != 0)
-            objslots->Add(subslot);
-         TGo4DrawCloneProxy* pr =
-               dynamic_cast<TGo4DrawCloneProxy*>(subslot->GetProxy());if
-(         pr!=0) {
+         if (objslots != 0) objslots->Add(subslot);
+         TGo4DrawCloneProxy* pr = dynamic_cast<TGo4DrawCloneProxy*>(subslot->GetProxy());
+         if(pr!=0) {
             pr->UpdateTitle();
             pr->PerformRebin();
          }
@@ -3547,8 +3537,8 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
    if ((pad != GetCanvas()) || !ispadupdatecalled)
       GetCanvas()->Update();
 
-   QCheckBox* box1 = dynamic_cast<QCheckBox*>(child("ApplyToAllCheck"));if
-(   box1!=0) box1->setChecked(fbApplyToAllFlag);
+   QCheckBox* box1 = dynamic_cast<QCheckBox*>(child("ApplyToAllCheck"));
+   if(box1!=0) box1->setChecked(fbApplyToAllFlag);
 
    BlockPanelRedraw(false);
 
@@ -3697,8 +3687,8 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
             asislot = new TGo4Slot(slot, "::ASImage",
                   "place for Go4 ASI image");
          TGo4ASImage* image =
-               dynamic_cast<TGo4ASImage*>(asislot->GetAssignedObject());if
-(         image==0) {
+               dynamic_cast<TGo4ASImage*>(asislot->GetAssignedObject());
+         if(image==0) {
             image = new TGo4ASImage;
             asislot->SetProxy(new TGo4ObjectProxy(image, kTRUE));
             updatecontent = true;
@@ -3798,13 +3788,13 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
    hs->Draw(drawopt.Data());
    TH1* framehisto = hs->GetHistogram();
 
-   if (framehisto == 0)
-      return;
+   if (framehisto == 0) return;
 
    framehisto->SetStats(false);
    framehisto->SetBit(TH1::kNoTitle, !padopt->IsHisTitle());
    if (hs->GetHists()) {
-      TH1* h1 = dynamic_cast<TH1*>(hs->GetHists()->First());if (h1!=0) {
+      TH1* h1 = dynamic_cast<TH1*>(hs->GetHists()->First());
+      if (h1!=0) {
          hs->SetTitle(h1->GetTitle());
          framehisto->SetTitle(h1->GetTitle());
          framehisto->GetXaxis()->SetTitle(h1->GetXaxis()->GetTitle());
@@ -3938,17 +3928,14 @@ void TGo4ViewPanel::RedrawImage(TPad *pad, TGo4Picture* padopt, TGo4ASImage* im,
 void TGo4ViewPanel::RedrawLegend(TPad *pad, TGo4Picture* padopt,
       TGo4Slot* legslot)
 {
-   if (legslot == 0)
-      return;
-   TLegend* legend = dynamic_cast<TLegend*>(legslot->GetAssignedObject());if
-(   legend!=0)
-   legend->Draw();
+   if (legslot == 0) return;
+   TLegend* legend = dynamic_cast<TLegend*>(legslot->GetAssignedObject());
+   if (legend!=0) legend->Draw();
 }
 
 void TGo4ViewPanel::RedrawSpecialObjects(TPad *pad, TGo4Slot* padslot)
 {
-   if ((pad == 0) || (padslot == 0))
-      return;
+   if ((pad == 0) || (padslot == 0)) return;
 
    CheckObjectsAssigments(pad, padslot);
 
@@ -3961,8 +3948,7 @@ void TGo4ViewPanel::RedrawSpecialObjects(TPad *pad, TGo4Slot* padslot)
 
       Int_t kind = GetDrawKind(subslot);
 
-      if ((kind < kind_Specials) || (kind >= kind_Other))
-         continue;
+      if ((kind < kind_Specials) || (kind >= kind_Other)) continue;
 
       const char* drawopt = GetSpecialDrawOption(subslot);
 
@@ -4266,10 +4252,10 @@ void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction,
 
    TGo4Picture* padopt = GetPadOptions(selpad);
    if (padopt != 0) {
-//     padopt->MoveScale(expandfactor, xaction, yaction);
-      MoveSingleScale(expandfactor, xaction, 0, padopt);
-      MoveSingleScale(expandfactor, yaction, 1, padopt);
-      MoveSingleScale(expandfactor, zaction, 2, padopt);
+      TObject* padhist = GetPadMainObject(selpad);
+      MoveSingleScale(expandfactor, xaction, 0, padopt, padhist);
+      MoveSingleScale(expandfactor, yaction, 1, padopt, padhist);
+      MoveSingleScale(expandfactor, zaction, 2, padopt, padhist);
       if ((xaction == 0) && (yaction == 0) && (zaction == 0)) {
          padopt->ClearRange();
          padopt->SetAutoScale(true);
@@ -4282,13 +4268,12 @@ void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction,
       while (iter.next()) {
          TPad* subpad = GetSlotPad(iter.getslot());
          padopt = GetPadOptions(subpad);
-         if (padopt == 0)
-            continue;
+         if (padopt == 0) continue;
 
-//       padopt->MoveScale(expandfactor, xaction, yaction);
-         MoveSingleScale(expandfactor, xaction, 0, padopt);
-         MoveSingleScale(expandfactor, yaction, 1, padopt);
-         MoveSingleScale(expandfactor, zaction, 2, padopt);
+         TObject* padhist = GetPadMainObject(subpad);
+         MoveSingleScale(expandfactor, xaction, 0, padopt, padhist);
+         MoveSingleScale(expandfactor, yaction, 1, padopt, padhist);
+         MoveSingleScale(expandfactor, zaction, 2, padopt, padhist);
          if ((xaction == 0) && (yaction == 0) && (zaction == 0)) {
             padopt->ClearRange();
             padopt->SetAutoScale(true);
@@ -4301,7 +4286,7 @@ void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction,
 }
 
 void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
-      TGo4Picture* padopt)
+      TGo4Picture* padopt, TObject* padobj)
 {
    if (action <= 0) return;
 
@@ -4380,6 +4365,78 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
          if (new_umax > fmax)
             new_umax = fmax;
          break;
+      case 5: { // Auto zoom
+         TH1* padhist = dynamic_cast<TH1*>(padobj);
+
+         if (padhist==0) break;
+
+         if (naxis >= ndim) break;
+
+         TAxis* axis = padhist->GetXaxis();
+         if (naxis==1) axis = padhist->GetYaxis();
+         if (naxis==2) axis = padhist->GetZaxis();
+
+         Int_t firstbin(0), lastbin(0);
+
+         // X axis in case of 1-dim histogram
+         if ((ndim==1) && (naxis==0)) {
+            for (Int_t n1 = 1; n1<=padhist->GetNbinsX(); n1++) {
+               Double_t v = padhist->GetBinContent(n1);
+               if (v<=0.) continue;
+               lastbin = n1;
+               if (firstbin==0) firstbin = n1;
+            }
+         }
+
+         // X,Y axis in case of 2-dim histogram
+         if ((ndim==2) && (naxis<2))
+            for (Int_t n1 = 1; n1<=padhist->GetNbinsX(); n1++)
+               for (Int_t n2 = 1; n2<=padhist->GetNbinsY(); n2++) {
+                 Double_t v = padhist->GetBinContent(n1,n2);
+                 if (v<=0.) continue;
+                 Int_t bin = naxis==0 ? n1 : n2;
+                 if ((lastbin==0) || (bin>lastbin)) lastbin = bin;
+                 if ((firstbin==0) || (bin<firstbin)) firstbin = bin;
+              }
+
+         // X,Y,Z axis in case of 3-dim histogram
+         if ((ndim==3) && (naxis<3))
+            for (Int_t n1 = 1; n1<=padhist->GetNbinsX(); n1++)
+               for (Int_t n2 = 1; n2<=padhist->GetNbinsY(); n2++)
+                  for (Int_t n3 = 1; n3<=padhist->GetNbinsZ(); n3++) {
+                    Double_t v = padhist->GetBinContent(n1,n2,n3);
+                    if (v<=0.) continue;
+                    Int_t bin = naxis==0 ? n1 : ((naxis==1) ? n2 : n3);
+                    if ((lastbin==0) || (bin>lastbin)) lastbin = bin;
+                    if ((firstbin==0) || (bin<firstbin)) firstbin = bin;
+                  }
+
+
+         if (firstbin>0) {
+
+            Double_t left = axis->GetBinLowEdge(firstbin);
+            Double_t right = axis->GetBinUpEdge(lastbin);
+            new_umin = left - (right - left)*fact;
+            new_umax = right + (right - left)*fact;
+
+            // check that at least one bin is outside selection
+            if (firstbin>1) {
+               Double_t left1 = axis->GetBinLowEdge(firstbin - 1);
+               if (new_umin > left1) new_umin = left1;
+            }
+
+            if (lastbin < axis->GetNbins()) {
+               Double_t right1 = axis->GetBinUpEdge(lastbin + 1);
+               if (new_umax < right1) new_umax = right1;
+            }
+
+            if (new_umin<fmin) new_umin = fmin;
+            if (new_umax>fmax) new_umax = fmax;
+         }
+
+         break;
+      }
+
       default:
          return;
    }
@@ -4648,61 +4705,57 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
 
    if (padopt->IsHisStats() && isthishisto) {
       TPaveStats* stats =
-            dynamic_cast<TPaveStats*>(h1->GetListOfFunctions()->FindObject(
-                  "stats"));if (stats==0) {
-               stats = new TPaveStats(
-                     gStyle->GetStatX()-gStyle->GetStatW(),
-                     gStyle->GetStatY()-gStyle->GetStatH(),
-                     gStyle->GetStatX(),
-                     gStyle->GetStatY(),"brNDC");
-               stats->SetParent(h1);
-               stats->UseCurrentStyle();
-               stats->SetName("stats");
-               h1->GetListOfFunctions()->Add(stats);
-               stats->ConvertNDCtoPad(); // need to bypass TPave init problem
-            }
-            padopt->GetStatsAttr(stats);
-         }
+            dynamic_cast<TPaveStats*>(h1->GetListOfFunctions()->FindObject("stats"));
+      if (stats==0) {
+         stats = new TPaveStats(
+               gStyle->GetStatX()-gStyle->GetStatW(),
+               gStyle->GetStatY()-gStyle->GetStatH(),
+               gStyle->GetStatX(),
+               gStyle->GetStatY(),"brNDC");
+         stats->SetParent(h1);
+         stats->UseCurrentStyle();
+         stats->SetName("stats");
+         h1->GetListOfFunctions()->Add(stats);
+         stats->ConvertNDCtoPad(); // need to bypass TPave init problem
+      }
+      padopt->GetStatsAttr(stats);
+   }
 
    if (padopt->IsHisTitle() && padopt->HasTitleAttr()) {
       TPaveText* titl =
-            dynamic_cast<TPaveText*>(pad->GetListOfPrimitives()->FindObject(
-                  "title"));if (titl==0) {
-               titl = new TPaveText(gStyle->GetTitleX()-gStyle->GetTitleW(),
-                     gStyle->GetTitleY()-gStyle->GetTitleH(),
-                     gStyle->GetTitleX(),
-                     gStyle->GetTitleY(),"blNDC");
-               titl->UseCurrentStyle();
-               titl->SetFillColor(gStyle->GetTitleFillColor());
-               titl->SetFillStyle(gStyle->GetTitleStyle());
-               titl->SetName("title");
-               titl->SetBorderSize(gStyle->GetTitleBorderSize());
-               titl->SetTextColor(gStyle->GetTitleTextColor());
-               titl->SetTextFont(gStyle->GetTitleFont(""));
-               if (gStyle->GetTitleFont("")%10 > 2)
-               titl->SetTextSize(gStyle->GetTitleFontSize());
-               titl->AddText(h1->GetTitle());
-               titl->SetBit(kCanDelete);
-               pad->GetListOfPrimitives()->Add(titl);
-               titl->ConvertNDCtoPad(); // need to bypass TPave init problem
-            }
-            padopt->GetTitleAttr(titl);
-         }
+            dynamic_cast<TPaveText*>(pad->GetListOfPrimitives()->FindObject("title"));
+      if (titl==0) {
+         titl = new TPaveText(gStyle->GetTitleX()-gStyle->GetTitleW(),
+               gStyle->GetTitleY()-gStyle->GetTitleH(),
+               gStyle->GetTitleX(),
+               gStyle->GetTitleY(),"blNDC");
+         titl->UseCurrentStyle();
+         titl->SetFillColor(gStyle->GetTitleFillColor());
+         titl->SetFillStyle(gStyle->GetTitleStyle());
+         titl->SetName("title");
+         titl->SetBorderSize(gStyle->GetTitleBorderSize());
+         titl->SetTextColor(gStyle->GetTitleTextColor());
+         titl->SetTextFont(gStyle->GetTitleFont(""));
+         if (gStyle->GetTitleFont("")%10 > 2)
+            titl->SetTextSize(gStyle->GetTitleFontSize());
+         titl->AddText(h1->GetTitle());
+         titl->SetBit(kCanDelete);
+         pad->GetListOfPrimitives()->Add(titl);
+         titl->ConvertNDCtoPad(); // need to bypass TPave init problem
+      }
+      padopt->GetTitleAttr(titl);
+   }
 
-      // add here setting the time format properties:
+   // add here setting the time format properties:
    TAxis* xax = h1->GetXaxis();
    xax->SetTimeDisplay(padopt->IsXAxisTimeDisplay());
    xax->SetTimeFormat(padopt->GetXAxisTimeFormat());
-   //cout <<"SetSelectedRange to histo: timeformat "<< padopt->IsXAxisTimeDisplay()<<", form:"<<padopt->GetXAxisTimeFormat()<< endl;
-
 }
 
-bool TGo4ViewPanel::GetVisibleRange(TPad* pad, int naxis, double& min,
-      double& max)
+bool TGo4ViewPanel::GetVisibleRange(TPad* pad, int naxis, double& min, double& max)
 {
    TGo4Picture* padopt = GetPadOptions(pad);
-   if (padopt == 0)
-      return false;
+   if (padopt == 0) return false;
 
    int NumDim = padopt->GetFullRangeDim();
 
