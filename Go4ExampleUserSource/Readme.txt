@@ -39,16 +39,9 @@ make all
 Description:
 
 The only analysis step gets the input not as usual from Mbs
-(MbsEvent structure and eventsources),
-but defines the input from a text file with a user format.
-Therefore, the classes TYYYRawEvent, TYYYEventSource
-are defined. Note that the TYYYUnpackFact implements in
-addition the CreateEventSource() and CreateInputEvent() methods.
-The TGo4UserSourceParameter tells the factory to initialize
-the TYYYEventSource; the user source name, optional portnumber and
-argument string can be set from GUI or batch analysis here.
-However, it would still be possible to use standard event sources
-like TGo4FileSource for the TYYYRawEvent.
+(MbsEvent structure and eventsources), but defines the input 
+from a text file with a user format. Therefore, the classes 
+TYYYRawEvent and TYYYEventSource are defined. 
 
 This example reads a simple ascii file with columns of numbers
 separated by blank spaces. These are filled in the order of

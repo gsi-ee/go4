@@ -148,8 +148,8 @@ void usage(const char* subtopic = 0)
    std::cout << "  -maxtreesize value     :  define maximum tree size, value can be: 2g, 1900m, 1900000000" << std::endl;
    std::cout << "" << std::endl;
    std::cout << "STEP: individual step configurations" << std::endl;
-   std::cout << "  -step name           :  select step by it's name, if not defined, first step is used" << std::endl;
-   std::cout << "  -step number         :  select step by it's number" << std::endl;
+   std::cout << "  -step name           :  select step by it's name, if not found, first step will be used" << std::endl;
+   std::cout << "  -step number         :  select step by it's number (first step has number 0)" << std::endl;
    std::cout << "  -enable-step         :  enable step processing" << std::endl;
    std::cout << "  -disable-step        :  disable step processing" << std::endl;
    std::cout << "  -file filename       :  use file filename (lmd or lml) as MBS event source" << std::endl;
