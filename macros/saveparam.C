@@ -83,6 +83,8 @@ TString MakeFuncName(const char* main, const char* objname)
    subfunc.ReplaceAll(")","_");
    subfunc.ReplaceAll("*","_");
    subfunc.ReplaceAll("@","_");
+   subfunc.ReplaceAll("[","_");
+   subfunc.ReplaceAll("]","_");
    return subfunc;
 }
 
