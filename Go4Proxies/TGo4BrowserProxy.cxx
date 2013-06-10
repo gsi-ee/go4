@@ -62,6 +62,7 @@
 
 #include "TGo4AnalysisProxy.h"
 #include "TGo4HServProxy.h"
+#include "TGo4DabcProxy.h"
 #include "TVirtualTreePlayer.h"
 
 // required for ROOT browser
@@ -500,6 +501,22 @@ void TGo4BrowserProxy::OpenFile(const char* fname)
 
    fxOM->AddFile(fxDataPath.Data(), fname);
 }
+
+void TGo4BrowserProxy::OpenDabc(const char* nodename)
+{
+   if ((nodename==0) || (*nodename==0)) return;
+
+   TGo4DabcProxy* proxy = new TGo4DabcProxy();
+   if (!proxy->Connect(nodename)) {
+      delete proxy;
+      return;
+   }
+
+   TGo4Slot* slot = fxOM->MakeObjSlot(fxDataPath.Data(), nodename, "dabc::Hierarchy");
+
+   if (slot!=0) slot->SetProxy(proxy);
+}
+
 
 Bool_t TGo4BrowserProxy::ConnectHServer(const char* servername,
                                         Int_t portnumber,

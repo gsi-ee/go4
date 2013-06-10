@@ -73,6 +73,7 @@ int main(int argc, char **argv)
 
    bool traceon = false;
    QString hotstart = "";
+   QString dabcnode = "";
    QStringList files;
 
    for(int narg=1;narg<argc;narg++) {
@@ -103,13 +104,16 @@ int main(int argc, char **argv)
             prepare_for_client = true;
          }
       } else
-      if (QString(argv[narg]).contains(".root"))
+      if (QString(argv[narg]).contains(".root")) {
          files.append(argv[narg]);
-      else
-         if (hotstart.length()==0) {
-            hotstart = argv[narg];
-            if(!QString(argv[narg]).contains(".hotstart")) hotstart.append(".hotstart");
-         }
+      } else
+      if (QString(argv[narg]).contains("dabc://")) {
+         dabcnode = argv[narg];
+      } else
+      if (hotstart.length()==0) {
+         hotstart = argv[narg];
+         if(!QString(argv[narg]).contains(".hotstart")) hotstart.append(".hotstart");
+      }
    }
 
    TApplication app("uno", &argc, argv); // ROOT application
@@ -181,6 +185,9 @@ int main(int argc, char **argv)
 
    for (int i = 0; i < files.size(); ++i)
       Go4MainGUI->Browser()->OpenFile(files.at(i).toAscii().constData());
+
+   if (dabcnode.length()>0)
+      Go4MainGUI->Browser()->OpenDabc(dabcnode.toAscii().constData());
 
    if (hotstart.length()>0)
       Go4MainGUI->HotStart(hotstart.toAscii().constData());

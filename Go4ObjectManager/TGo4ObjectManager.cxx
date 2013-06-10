@@ -165,6 +165,7 @@ void TGo4ObjectManager::AddDir(const char* pathname, TDirectory* dir, Bool_t own
      slot->SetProxy(new TGo4DirProxy(dir, readright, owner));
 }
 
+
 void TGo4ObjectManager::AddTree(const char* pathname, TTree* tree, Bool_t owner)
 {
    if (tree==0) return;

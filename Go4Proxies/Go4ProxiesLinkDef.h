@@ -25,6 +25,7 @@
 #pragma link C++ class TGo4AnalysisProxy+;
 #pragma link C++ class TGo4BrowserProxy+;
 #pragma link C++ class TGo4HServProxy+;
+#pragma link C++ class TGo4DabcProxy+;
 
 #pragma link C++ class TGo4BrowserItem+;
 #pragma link C++ class TGo4RootBrowserProxy+;

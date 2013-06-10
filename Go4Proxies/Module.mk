@@ -32,6 +32,13 @@ GO4PROX_DISTRFILES = $(GO4PROX_S) $(GO4PROX_H) $(GO4PROX_LINKDEF)
 DISTRFILES         += $(GO4PROX_DISTRFILES)
 endif
 
+ifdef USEDABC
+$(GO4PROX_DIR)/TGo4DabcProxy.$(SrcSuf) $(GO4PROX_DIR)/TGo4DabcProxy.$(ObjSuf) $(GO4PROX_DIR)/TGo4DabcProxy.$(DepSuf) : INCLUDES += -I$(DABCINCPATH)
+$(GO4BGUI_LIB) : LDFLAGS_EXTRA += -L$(DABCLIBPATH) -lDabcBase
+$(GO4BGUI_LIB) : LDRPATHS += $(DABCLIBPATH)
+else
+$(GO4PROX_DIR)/TGo4DabcProxy.$(SrcSuf) $(GO4PROX_DIR)/TGo4DabcProxy.$(ObjSuf) $(GO4PROX_DIR)/TGo4DabcProxy.$(DepSuf) : DEFINITIONS += -DWITHOUT_DABC
+endif
 
 ##### local rules #####
 

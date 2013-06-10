@@ -70,6 +70,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
                             const char* basename,
                             const char* userpass,
                             const char* filter);
+      void OpenDabc(const char* nodename);
 
       void MakeFilesList(TObjArray* arr);
       void MakeHServerList(TObjArray* arr);
