@@ -266,8 +266,14 @@ TGo4DabcProxy::~TGo4DabcProxy()
 
 Bool_t TGo4DabcProxy::Connect(const char* nodename)
 {
-   return false;
+   return kFALSE;
 }
+
+Bool_t TGo4DabcProxy::UpdateHierarchy()
+{
+   return kFALSE;
+}
+
 
 void TGo4DabcProxy::Initialize(TGo4Slot* slot)
 {
