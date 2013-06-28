@@ -57,16 +57,16 @@ GO4AN_LIB       = $(GO4DLLPATH)/$(GO4AN_LIBNAME).$(DllSuf)
 GO4BGUI_LIBNAME = $(LIB_PREFIX)Go4GUI
 GO4BGUI_LIB     = $(GO4DLLPATH)/$(GO4BGUI_LIBNAME).$(DllSuf)
 
-BUILDGO4LIBS = $(GO4FIT_LIB) \
-               $(GO4BASE_LIB) \
-               $(THRDMNGR_LIB) \
-               $(GO4TSKH_LIB) \
-               $(GO4ANBASE_LIB) \
-               $(GO4AN_LIB) \
-               $(GO4BGUI_LIB)
-
+BUILDGO4LIBS += $(GO4FIT_LIB) \
+                $(GO4BASE_LIB) \
+                $(THRDMNGR_LIB) \
+                $(GO4TSKH_LIB) \
+                $(GO4ANBASE_LIB) \
+                $(GO4AN_LIB) \
+                $(GO4BGUI_LIB)
+               
 MODULES  = MbsAPIbase MbsAPI RawAPI Go4Analysis Go4AnalysisClient \
-           Go4CommandsAnalysis Go4CommandsBase \
+           Go4CommandsAnalysis Go4CommandsBase Go4Dabc \
            Go4CommandsTaskHandler Go4TaskHandler \
            Go4ConditionsBase Go4DynamicList Go4Event \
            Go4EventServer Go4Exceptions \
@@ -230,7 +230,7 @@ GO4ANBASE_LINKDEFS = $(GO4EVENTPAR_LINKDEF) \
                      $(STATANAL_LINKDEF)
 
 GO4AN_O   = $(MBSAPI_O) $(RAWAPI_O) \
-			$(GO4EVENT_O) $(GO4EVENT_DO) \
+            $(GO4EVENT_O) $(GO4EVENT_DO) \
             $(EVENTSERV_O) $(EVENTSERV_DO) \
             $(HISTSERV_O) $(HISTSERV_DO) \
             $(GO4ANAL_O) $(GO4ANAL_DO) \

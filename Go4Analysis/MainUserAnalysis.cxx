@@ -128,6 +128,12 @@ void usage(const char* subtopic = 0)
    std::cout << "  -lib name                   : user library to load (default: libGo4UserLibrary)" << std::endl;
    std::cout << "  -server [name]              : run analysis in server mode, name - optional analysis name" << std::endl;
    std::cout << "  -gui name guihost guiport   : run analysis in gui mode, used by GUI launch analysis" << std::endl;
+#ifdef WITH_DABC
+   std::cout << "  -http [port]                : run analysis with web-server running, " << std::endl;
+   std::cout << "                                optionally port can be specified, default 8080" << std::endl;
+   std::cout << "  -dabc master_host:port      : run analysis with optional connection to dabc application, "<< std::endl;
+   std::cout << "                                which could receive objects from running analysis" << std::endl;
+#endif
    std::cout << "  -run                        : run analysis in server mode (default only run if source specified)" << std::endl;
    std::cout << "  -norun                      : exclude automatical run" << std::endl;
    std::cout << "  -number NUMBER              : process NUMBER events in batch mode" << std::endl;
@@ -674,11 +680,17 @@ int main(int argc, char **argv)
 
    gROOT->SetBatch(kTRUE);
 
+#ifdef WITH_DABC
+   Int_t http_port(-1);                  // http port number
+   const char* dabc_master = 0;          // master DABC node
+#endif
+
    Bool_t batchMode(kTRUE);              // GUI or Batch
    Bool_t servermode(kFALSE);            // run analysis as server task
    Bool_t hserver(kFALSE);               // enable histogram server
    Bool_t loadprefs(kTRUE);              // loading preferences by client
    Bool_t showrate(kFALSE);              // display event rate
+   Double_t process_interv(-1.);         // interval how often system events will be processed by analysis
    const char* hname  = "";              // namebase for histogram server
    const char* hpasswd  = "";            // password for histogram server
    const char* hostname = "localhost";   // gui host name
@@ -713,6 +725,21 @@ int main(int argc, char **argv)
          hostname = argv[narg++];
          iport = atoi(argv[narg++]); // port of GUI server
       } else
+#ifdef WITH_DABC
+      if (strcmp(argv[narg], "-http")==0) {
+         if (dabc_master!=0) showerror("HTTP server cannot be combined with master connection");
+         narg++;
+         http_port = 8080;
+         if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
+            http_port = atoi(argv[narg++]);
+      } else
+      if (strcmp(argv[narg], "-dabc")==0) {
+         if (http_port>0) showerror("HTTP server cannot be combined with master connection");
+         narg++;
+         if (narg >= argc) showerror("Master dabc node not specified");
+         dabc_master = argv[narg++];
+      } else
+#endif
       if(strcmp(argv[narg], "-lib") == 0) {
          // skip library name
          if (++narg >= argc) showerror("library name not specified");
@@ -1085,11 +1112,33 @@ int main(int argc, char **argv)
          showerror(Form("Unknown argument %d %s", narg, argv[narg]));
    }
 
+   #ifdef WITH_DABC
+   if ((http_port>0) || (dabc_master!=0)) {
+      if (gSystem->Load("libGo4Dabc")!=0)
+         showerror("Fail to load Go4Dabc libraries");
+      TString cmd;
+
+      if (http_port>0)
+         cmd.Form("TGo4Dabc::StartHttpServer(%d);", http_port);
+      else
+         cmd.Form("TGo4Dabc::ConnectMaster(\"%s\");", dabc_master);
+
+      Int_t err = 0;
+
+      Long_t res = gROOT->ProcessLineFast(cmd.Data(), &err);
+
+      if ((res==0) || (err!=0))
+         showerror("Fail to start DABC services");
+
+      process_interv = 0.1;
+   }
+   #endif
+
    //------ start the analysis -------------------------
    if(batchMode) {
       TGo4Log::Info("Main: starting analysis in batch mode ...  ");
       if (analysis->InitEventClasses()) {
-         analysis->RunImplicitLoop(maxevents, showrate);
+         analysis->RunImplicitLoop(maxevents, showrate,process_interv);
          delete analysis;
          TGo4Log::Info("Main: analysis batch done");
       } else

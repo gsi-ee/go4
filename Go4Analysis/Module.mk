@@ -56,6 +56,10 @@ include/%.h: $(GO4ANAL_DIR)/%.h
 
 $(GO4ANALEXE): LDRPATHS += .
 
+ifeq ($(USEDABC),true)
+$(GO4ANALEXE_O) : CXXFLAGS += -DWITH_DABC
+endif
+
 $(GO4ANALEXE): $(BUILDGO4LIBS) $(GO4ANALEXE_O) 
 	$(LD) $(LDFLAGS) $(GO4ANALEXE_O) $(LIBS_FULLSET) $(OutPutOpt) $(GO4ANALEXE)
 	@echo "$@  done"

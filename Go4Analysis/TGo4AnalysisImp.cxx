@@ -575,17 +575,20 @@ Int_t TGo4Analysis::Process()
 
 
 
-Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate)
+Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t process_event_interval)
 {
    TRACE((11,"TGo4Analysis::RunImplicitLoop(Int_t)",__LINE__, __FILE__));
    Int_t cnt = 0; // number of actually processed events
+   if (process_event_interval>1.) process_event_interval = 1.;
 
    if (times < 0) times = fBatchLoopCount;
 
    TGo4Ratemeter rate;
    TString ratefmt;
+   Bool_t userate = showrate || (process_event_interval>0.);
+
    if (showrate) {
-      rate.SetUpdateInterval(1.);
+      rate.SetUpdateInterval(process_event_interval>0. ? process_event_interval>0. : 1.);
       ratefmt.Form("\rCnt = %s  Rate = %s Ev/s", TGo4Log::GetPrintfArg(kULong64_t),"%5.*f");
       rate.Reset();
    }
@@ -602,12 +605,15 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate)
 
          if ((times>0) && (cnt>=times)) break;
 
-         if (showrate && rate.Update(1)) {
+         if (userate && rate.Update(1)) {
             int width(1);
             if (rate.GetRate()>1e4) width=0; else
             if (rate.GetRate()<1.) width = 3;
-            printf(ratefmt.Data(), rate.GetCurrentCount(), width, rate.GetRate());
-            fflush(stdout);
+            if (showrate) {
+               printf(ratefmt.Data(), rate.GetCurrentCount(), width, rate.GetRate());
+               fflush(stdout);
+            }
+            if (process_event_interval>0.) gSystem->ProcessEvents();
          }
 
          try
