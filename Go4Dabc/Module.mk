@@ -57,7 +57,7 @@ BUILDGO4LIBS += $(GO4DABC_LIB)
 #	@echo "Copy header $@ ..." 
 #	@cp -f $< $@
 
-$(GO4DABC_O) : INCLUDES += -I$(DABCINCPATH)
+$(GO4DABC_O) $(GO4DABC_DEP): INCLUDES += -I$(DABCINCPATH)
 
 $(GO4DABC_LIB) : LDRPATHS += $(DABCLIBPATH)
 
