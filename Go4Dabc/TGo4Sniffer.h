@@ -13,6 +13,8 @@ class TGo4Sniffer : public dabc_root::RootSniffer {
       virtual ~TGo4Sniffer();
 
       virtual const char* ClassName() const { return "TGo4Sniffer"; }
+
+      virtual void* ScanRootHierarchy(dabc::Hierarchy& h, const char* searchpath = 0);
 };
 
 #endif

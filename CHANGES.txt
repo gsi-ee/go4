@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.5.5 (build 40505)
-                      Winter -2012/2013
+         Go4 Release Package v4.5.9 (build 40509)
+                      Summer 2013
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -20,23 +20,29 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v4.7.9
+Changes in Go4 v4.5.9
+1. Start implementation of new communication interfaces in Go4. Therefore
+   change of version number. Aim to make fast 4.6 relase and than 5.0 till
+   end of 2013.
+2. Start implementing direct channel to DABC. For the moment only optional.
+3. With use of DABC classes provide http server to go4analysis. With simple
+   -http 8090 command one can start web server, which can deliver 
+   all go4 objects!
+4. Also with DABC classes provide possibility to optinally connect with
+   DABC master node, which can export go4 data via http server. By this
+   data from many go4 analysis can be agregated in the same server!     
+5. To get different DABC functionality to go4, one need to compile go4
+   with "make withdabc=1" flag. One should use newest dabc version from
+   repository.
+6. Provide go4 analysis view in browser like in go4gui.   
+
+
+Changes in Go4 v4.5.5
 1. Adjust different macros to use together with ROOT 5.99 
 2. Implement auto-zoom functionality for 1/2/3-dim histogram (qt3/qt4).
    Automatically adjust range selection to non-zero content of the histogram.
    Can be actiavted also with Ctrl * keys combinations.
    Thanks to Mixael Traxler for nice idea.   
-3. Start implementing direct channel to DABC. For the moment only optional.
-4. With use of DABC classes provide http server to go4analysis. With simple
-   -http 8090 command one can start web server, which can deliver 
-   all go4 objects!
-5. Also with DABC classes provide possibility to optinally connect with
-   DABC master node, which can export go4 data via http server. By this
-   data from many go4 analysis can be agregated in the same server!     
-6. To get different DABC functionality to go4, one need to compile go4
-   with "make withdabc=1" flag. One should use newest dabc version from
-   repository.
-
 
 Changes in Go4 v4.5.3 (devel Summer 2012)/ v4.5.4 (Release November 2012)
 1. Added macro fft.C for fast fourier transform of histograms into gui command line.

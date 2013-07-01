@@ -170,6 +170,9 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * by overriding; normally, this is not necessary. */
     virtual Bool_t InitEventClasses();
 
+    /** Returns pointer on analysis object manager */
+    TGo4AnalysisObjectManager* ObjectManager() const { return fxObjectManager; }
+
     /** Add (create) new dynamic histogram entry which connects an existing
       * histogram with existing condition and data.
       * Dynamic entry is specified by name. Histogram histo will be searched in
@@ -179,8 +182,6 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * names  evx, evy, evz at the data members of names memx, memy, memz,
       * for the three coordinate axes, respectively. Histogram dimension is
       * checked against given values. */
-    TGo4AnalysisObjectManager* ObjectManager() const { return fxObjectManager; }
-
     Bool_t AddDynamicHistogram(const char* name,
                                const char* histo,
                                const char* hevx, const char* hmemx,
@@ -189,7 +190,6 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
                                const char* condition=0,
                                const char* cevx=0, const char* cmemx=0,
                                const char* cevy=0, const char* cmemy=0);
-
 
     /** Set dynamic entry of name "name" to the values specified by external
       * dynamic entry status "state". If no dynamic entry of that name exists, a
