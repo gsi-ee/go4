@@ -1220,7 +1220,7 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
 
 
       if ((exe_kind==1) && (exeargs!=0) && (strlen(exeargs)>0))
-         prefs.SetPar("userargs", Form("-args %s", exeargs), false);
+         prefs.SetPar("userargs", Form("%s", exeargs), false);
       else
          prefs.SetPar("userargs", "", false);
 

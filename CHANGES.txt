@@ -25,16 +25,18 @@ Changes in Go4 v4.5.9
    change of version number. Aim to make fast 4.6 relase and than 5.0 till
    end of 2013.
 2. Start implementing direct channel to DABC. For the moment only optional.
-3. With use of DABC classes provide http server to go4analysis. With simple
-   -http 8090 command one can start web server, which can deliver 
-   all go4 objects!
+3. With use of DABC classes http server to go4analysis is introduced. 
+   Just add "-http 8090" arhguments to start web server, which can deliver 
+   all go4 objects to browser! 
 4. Also with DABC classes provide possibility to optinally connect with
    DABC master node, which can export go4 data via http server. By this
    data from many go4 analysis can be agregated in the same server!     
 5. To get different DABC functionality to go4, one need to compile go4
    with "make withdabc=1" flag. One should use newest dabc version from
    repository.
-6. Provide go4 analysis view in browser like in go4gui.   
+6. Provide go4 analysis view in web browser like in go4gui. 
+7. In analysis Launch Panel one can specify arguemtns to start http server
+   or to connect with master DABC application.
 
 
 Changes in Go4 v4.5.5
