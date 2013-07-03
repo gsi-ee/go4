@@ -166,11 +166,11 @@ ADVANCED MAKE OPTIONS
      This option allows to use go4 executable without any additional 
      LD_LIBRARY_PATH variable settings.
 
-  withdabc=1
+  withdabc=yes|no
      Add different components from DABC. Latest DABC version from
      http://subversion.gsi.de/dabc/trunk repository should be installed
      and configured with dabclogin script. Use of DABC enables http 
-     support in Go4
+     support in Go4. Default is yes
                     
   debug=1     
      Build all libraries with debug symbols. Default is off.
