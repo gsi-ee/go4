@@ -111,6 +111,12 @@ Bool_t TGo4FitSlot::IsSuitableClass(TClass* cl)
                        else return cl->InheritsFrom(GetClass());
 }
 
+void TGo4FitSlot::ClearObject()
+{
+   fxObject = 0;
+   fbOwned = kFALSE;
+}
+
 Bool_t TGo4FitSlot::SetObject(TObject* iObject, Bool_t iOwned, Bool_t CheckClass)
 {
    if (IsConnectedToSlot())

@@ -42,6 +42,7 @@ TGo4FitDataIter* TGo4FitDataGraph::MakeIter()
 
 void TGo4FitDataGraph::SetGraph(TGraph *iGraph, Bool_t iGraphOwned)
 {
+   fxGraph.ClearObject();
    fxGraph.SetObject(iGraph,iGraphOwned);
 }
 

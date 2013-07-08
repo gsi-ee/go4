@@ -37,7 +37,13 @@ Changes in Go4 v4.5.9
 6. Provide go4 analysis view in web browser like in go4gui. 
 7. In analysis Launch Panel one can specify arguemtns to start http server
    or to connect with master DABC application.
-
+8. In Go4ExampleAdvanced show possibility to recreate histograms with different
+   ranges. It could be used when only when in running analysis one could decide
+   which histograms ranges should be created.
+9. In TGo4FitSlot add possibility to clear object. Necessary when old object
+   was already destroyed - older TGo4FitSlot::SetObject method tried to cast
+   old object. Use it when set histograms or graphs to slot objects.
+   
 
 Changes in Go4 v4.5.5
 1. Adjust different macros to use together with ROOT 5.99 

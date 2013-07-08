@@ -32,6 +32,7 @@ TGo4FitDataHistogram::~TGo4FitDataHistogram() {
 
 void TGo4FitDataHistogram::SetHistogram(TH1 *iHistogram, Bool_t iHistogramOwned)
 {
+   fxHistogram.ClearObject();
    fxHistogram.SetObject(iHistogram,iHistogramOwned);
 }
 

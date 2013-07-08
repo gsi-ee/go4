@@ -38,6 +38,8 @@ class TXXXCalibPar : public TGo4Parameter {
       /* Read calibration lines from database (ascii file)  */
       void ReadDatabase();
 
+      void SetCalibSpectrum(TH1* h1) { fxCalibSpectrum = h1; }
+
       /* calculate energy from channel number using the current polynom  */
       Double_t Energy(Int_t channel);
 

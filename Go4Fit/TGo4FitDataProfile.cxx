@@ -32,7 +32,8 @@ TGo4FitDataProfile::~TGo4FitDataProfile() {
 
 void TGo4FitDataProfile::SetProfile(TProfile *iProfile, Bool_t iProfileOwned)
 {
-  fxProfile.SetObject(iProfile,iProfileOwned);
+   fxProfile.ClearObject();
+   fxProfile.SetObject(iProfile,iProfileOwned);
 }
 
 TGo4FitDataIter* TGo4FitDataProfile::MakeIter() {

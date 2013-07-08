@@ -32,6 +32,7 @@
 
 #include "TXXXParameter.h"
 #include "TXXXUnpackEvent.h"
+#include "TXXXCalibPar.h"
 
 extern "C" {
    #include "s_filhe_swap.h"
@@ -61,9 +62,12 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    TGo4Log::Info("TXXXProc: Produce histograms");
 
    for(int i=0;i<8;i++) {
-      fCr1Ch[i] = MakeTH1('I', Form("Crate1/Cr1Ch%02d",i+1), Form("Crate 1 channel %2d",i+1), 5000, 1., 5001.);
-      fCr2Ch[i] = MakeTH1('I', Form("Crate2/Cr2Ch%02d",i+1), Form("Crate 2 channel %2d",i+1), 5000, 1., 5001.);
+      fCr1Ch[i] = 0;
+      fCr2Ch[i] = 0;
    }
+
+   CreateRawHsitograms(5000, 1., 5001.);
+   fEvCount = 0;
 
    fCr1Ch1x2 = MakeTH2('I', "Cr1Ch1x2","Crate 1 channel 1x2", 200, 1., 5001., 200, 1., 5001.);
    fHis1 = MakeTH1('I', "His1","Condition histogram", 5000, 1., 5001.);
@@ -177,6 +181,32 @@ TXXXUnpackProc::~TXXXUnpackProc()
 //***********************************************************
 
 //-----------------------------------------------------------
+void TXXXUnpackProc::CreateRawHsitograms(int nbins, double xmin, double xmax)
+{
+   for(int i=0;i<8;i++) {
+
+      if (fCr1Ch[i]!=0) {
+         RemoveHistogram(fCr1Ch[i]->GetName());
+         fCr1Ch[i] = 0;
+      }
+
+      if (fCr2Ch[i]!=0) {
+         RemoveHistogram(fCr2Ch[i]->GetName());
+         fCr2Ch[i] = 0;
+      }
+
+      fCr1Ch[i] = MakeTH1('I', Form("Crate1/Cr1Ch%02d",i+1), Form("Crate 1 channel %2d",i+1), nbins, xmin, xmax);
+      fCr2Ch[i] = MakeTH1('I', Form("Crate2/Cr2Ch%02d",i+1), Form("Crate 2 channel %2d",i+1), nbins, xmin, xmax);
+   }
+
+   // change histogram pointer, used in parameter
+   TXXXCalibPar* par = (TXXXCalibPar*) GetParameter("CaliPar");
+   if (par!=0) par->SetCalibSpectrum(fCr1Ch[0]);
+
+
+}
+
+//-----------------------------------------------------------
 Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
 {
    TGo4MbsEvent* inp_evt = (TGo4MbsEvent* ) GetInputEvent(); // from this
@@ -185,6 +215,17 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
    if (inp_evt==0) {
       TGo4Log::Error("XXXUnpackProc: no input event !");
       return kFALSE;
+   }
+
+   fEvCount++;
+   if (fEvCount % 1000000 == 0) {
+      // this is demonstration how one can time to time recreate histogram with other ranges
+
+      Long_t loop = (fEvCount / 1000000) % 5;
+
+      CreateRawHsitograms(5000 + loop*200, 1. - loop*100, 5001 + loop*100);
+
+      // TGo4Log::Info("Histograms recreated");
    }
 
    /////////////////////////////////////////////////////////////

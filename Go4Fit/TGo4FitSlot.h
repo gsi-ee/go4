@@ -91,6 +91,12 @@ class TGo4FitSlot : public TGo4FitNamed {
       Bool_t IsSuitableClass(TClass* cl);
 
       /**
+       *  Method remove object pointer.
+       *  Should be called if object was destroyed and therefore SetObject cannot be used
+       */
+      void ClearObject();
+
+      /**
        * Sets object to slot.
        * First, if before another object was set to slot with ownership flag, it will be destroyd.
        * Then, if object should always be owned by slot, but object is assigning without ownersip, it will be cloned and clone will be assigned with ownership flag.
