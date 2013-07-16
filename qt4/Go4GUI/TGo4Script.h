@@ -59,9 +59,11 @@ class TGo4Script : public TGo4AbstractInterface {
       void DisconnectAnalysis();
       void ShutdownAnalysis();
 
-      void SubmitAnalysisConfig();
+      void SubmitAnalysisConfig(int tmout = 20);
       void StartAnalysis();
       void StopAnalysis();
+      void RefreshNamesList(int tmout = 10);
+
 
       void SetAnalysisTerminalMode(int mode);  // -1 - close , 0-minimized, 1-normal
       void SetAnalysisConfigMode(int mode);   // -1 - close , 0-minimized, 1-normal
@@ -195,6 +197,7 @@ class TGo4Script : public TGo4AbstractInterface {
 
       Int_t     fiWaitForGUIReaction;  //!
       Int_t     fiWaitCounter;         //!
+      Int_t     fiWait2Counter;        //! another counter, used in submit configuration
       TString   fStrBuf;               //!
       TGo4MainWindow* fMainWin;        //!
       Bool_t    fErrorFlag;            //!

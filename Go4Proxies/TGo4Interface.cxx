@@ -255,7 +255,7 @@ void TGo4Interface::ShutdownAnalysis()
    anal->DisconnectAnalysis(30, realshutdown);
 }
 
-void TGo4Interface::SubmitAnalysisConfig()
+void TGo4Interface::SubmitAnalysisConfig(int tmout)
 {
    TGo4AnalysisProxy* anal = Analysis();
    if (anal==0) return;
@@ -263,7 +263,7 @@ void TGo4Interface::SubmitAnalysisConfig()
    anal->SubmitAnalysisSettings();
    anal->RefreshNamesList();
 
-   Int_t delay_sec = 20;
+   Int_t delay_sec = tmout > 0 ? tmout : 20;
    while (delay_sec-->0) {
       gSystem->ProcessEvents();
       gSystem->Sleep(1000);
@@ -298,6 +298,23 @@ void TGo4Interface::StopAnalysis()
    gSystem->Sleep(1000);
    gSystem->ProcessEvents();
 }
+
+void TGo4Interface::RefreshNamesList(int tmout)
+{
+   TGo4AnalysisProxy* anal = Analysis();
+   if (anal==0) return;
+
+   anal->RefreshNamesList();
+
+   Int_t delay_sec = tmout > 0 ? tmout : 10;
+   while (delay_sec-->0) {
+      gSystem->ProcessEvents();
+      gSystem->Sleep(1000);
+      gSystem->ProcessEvents();
+      if (anal->NamesListReceived()) return;
+   }
+}
+
 
 TGo4AnalysisStatus* TGo4Interface::GetAnalStatus()
 {

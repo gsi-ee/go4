@@ -50,6 +50,7 @@ TGo4Script::TGo4Script(TGo4MainWindow* mainwin) :
    TGo4AbstractInterface(),
    fiWaitForGUIReaction(0),
    fiWaitCounter(0),
+   fiWait2Counter(0),
    fStrBuf(),
    fMainWin(mainwin),
    fErrorFlag(kFALSE)
@@ -242,7 +243,8 @@ Int_t TGo4Script::execGUICommands()
         TGo4AnalysisProxy* anal = Analysis();
         if ((anal!=0) && anal->IsAnalysisSettingsReady()) {
           fiWaitForGUIReaction = 11;
-          fiWaitCounter = getCounts(20.);
+          fiWaitCounter = fiWait2Counter;
+          fiWait2Counter = 0;
           return 2;
         }
         return (fiWaitCounter<2) ? 0 : 2;
@@ -374,12 +376,13 @@ void TGo4Script::ShutdownAnalysis()
    DoPostProcessing();
 }
 
-void TGo4Script::SubmitAnalysisConfig()
+void TGo4Script::SubmitAnalysisConfig(int tmout)
 {
    fMainWin->SubmitAnalysisSettings();
 
    fiWaitForGUIReaction = 10;
-   fiWaitCounter = getCounts(20.);
+   fiWaitCounter = getCounts(tmout);
+   fiWait2Counter = fiWaitCounter; // this delay will be used to wait reply after analysis is started
 
    DoPostProcessing();
 }
@@ -395,6 +398,20 @@ void TGo4Script::StopAnalysis()
    fMainWin->StopAnalysisSlot();
    Wait(2.);
 }
+
+void TGo4Script::RefreshNamesList(int tmout)
+{
+   TGo4AnalysisProxy* anal = Analysis();
+   if (anal!=0) {
+      anal->RefreshNamesList();
+      fiWaitForGUIReaction = 11;
+      fiWaitCounter = getCounts(tmout > 0 ? tmout : 10);
+   }
+
+   DoPostProcessing();
+}
+
+
 
 void TGo4Script::SetAnalysisTerminalMode(int mode)
 {
@@ -907,7 +924,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
    }
 
    if ((anal!=0) && anal->IsAnalysisSettingsReady())
-      fs << "go4->SubmitAnalysisConfig();" << endl << endl;
+      fs << "go4->SubmitAnalysisConfig(20);" << endl << endl;
 
    int mode = 1;
    if (confgui) {

@@ -334,13 +334,16 @@ class TGo4AbstractInterface : public TObject {
         * one should launch analysis, configure it and then generate
         * hotstart file. In this file one can find correct sequence and
         * parameters for all these methods. */
-      virtual void SubmitAnalysisConfig() {}
+      virtual void SubmitAnalysisConfig(int tmout = 20) {}
 
       /** Starts (resume) analysis execution */
       virtual void StartAnalysis() {}
 
       /** Stop (suspend) analysis execution */
       virtual void StopAnalysis() {}
+
+      /** Sends new request to the analysis and waits for new names list */
+      virtual void RefreshNamesList(int tmout = 10) {}
 
       /** Set analysis terminal window mode.
         * Parameters mode indicate that terminal window:

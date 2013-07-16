@@ -43,7 +43,14 @@ Changes in Go4 v4.5.9
 9. In TGo4FitSlot add possibility to clear object. Necessary when old object
    was already destroyed - older TGo4FitSlot::SetObject method tried to cast
    old object. Use it when set histograms or graphs to slot objects.
-   
+10.Provide configurable timeout in hotstart script for time when alalysis configuration
+   is submited. It can be longer as default 20 sec, which now can be changed.
+11.Add possibility to refresh names list after analysis configuration. Can be used
+   if shortly after analysis start new histograms are created, whcih should be
+   shown in the gui. For that one need to add following lines to the hitstart:
+       go4->Wait(10);   
+       go4->RefreshNamesList();
+   First wait defines how long one need to guarantee, that analysis starts.    
 
 Changes in Go4 v4.5.5
 1. Adjust different macros to use together with ROOT 5.99 

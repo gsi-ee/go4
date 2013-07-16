@@ -54,9 +54,11 @@ class TGo4Interface : public TGo4AbstractInterface {
       void DisconnectAnalysis();
       void ShutdownAnalysis();
 
-      void SubmitAnalysisConfig();
+      void SubmitAnalysisConfig(int tmout = 20);
       void StartAnalysis();
       void StopAnalysis();
+      void RefreshNamesList(int tmout = 10);
+
 
       // steps configuration
 
