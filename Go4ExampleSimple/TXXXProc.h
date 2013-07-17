@@ -34,6 +34,7 @@ class TXXXProc : public TGo4EventProcessor {
       TH1           *fHis1gate;
       TH1           *fHis2;
       TH1           *fHis2gate;
+      TH1           *fHis3;
       TGo4WinCond   *fconHis1;
       TGo4WinCond   *fconHis2;
       TGo4PolyCond  *fPolyCon;

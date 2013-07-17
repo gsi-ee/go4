@@ -4414,19 +4414,23 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
 
          if (firstbin>0) {
 
+            if (firstbin<=3) firstbin = 1;
+            if (lastbin >=axis->GetNbins()-3) lastbin = axis->GetNbins();
+
             Double_t left = axis->GetBinLowEdge(firstbin);
             Double_t right = axis->GetBinUpEdge(lastbin);
+
             new_umin = left - (right - left)*fact;
             new_umax = right + (right - left)*fact;
 
             // check that at least one bin is outside selection
-            if (firstbin>1) {
-               Double_t left1 = axis->GetBinLowEdge(firstbin - 1);
+            if (firstbin>2) {
+               Double_t left1 = axis->GetBinCenter(firstbin - 1);
                if (new_umin > left1) new_umin = left1;
             }
 
-            if (lastbin < axis->GetNbins()) {
-               Double_t right1 = axis->GetBinUpEdge(lastbin + 1);
+            if (lastbin < axis->GetNbins()-1) {
+               Double_t right1 = axis->GetBinCenter(lastbin + 2);
                if (new_umax < right1) new_umax = right1;
             }
 
