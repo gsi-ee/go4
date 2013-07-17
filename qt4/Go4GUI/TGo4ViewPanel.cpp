@@ -4525,28 +4525,25 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
 
          if (firstbin>0) {
 
+            if (firstbin >= lastbin) { firstbin--; lastbin++; }
+
             if (firstbin<=3) firstbin = 1;
             if (lastbin >=axis->GetNbins()-3) lastbin = axis->GetNbins();
 
-            Double_t left = axis->GetBinLowEdge(firstbin);
-            Double_t right = axis->GetBinUpEdge(lastbin);
+            Double_t left = axis->GetBinCenter(firstbin);
+            Double_t right = axis->GetBinCenter(lastbin);
 
-            new_umin = left - (right - left)*fact;
-            new_umax = right + (right - left)*fact;
+            if (firstbin > 1) {
+               new_umin = left - (right - left)*fact;
+               if (new_umin<fmin) new_umin = fmin;
+            } else
+               new_umin = left;
 
-            // check that at least one bin is outside selection
-            if (firstbin>2) {
-               Double_t left1 = axis->GetBinCenter(firstbin - 1);
-               if (new_umin > left1) new_umin = left1;
-            }
-
-            if (lastbin < axis->GetNbins()-1) {
-               Double_t right1 = axis->GetBinCenter(lastbin + 2);
-               if (new_umax < right1) new_umax = right1;
-            }
-
-            if (new_umin<fmin) new_umin = fmin;
-            if (new_umax>fmax) new_umax = fmax;
+            if (lastbin < axis->GetNbins()) {
+               new_umax = right + (right - left)*fact;
+               if (new_umax>fmax) new_umax = fmax;
+            } else
+               new_umax = right;
          }
 
          break;
@@ -4671,12 +4668,14 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
    double hmin(0.), hmax(0.), umin, umax;
 
    if (padopt->GetRange(0, umin, umax)) {
-      // note: go4 range is full visible range of histogram
-      // [low edge first bin, up edge last bin]
-      // need to correct for upper bin width when transforming to ROOT user range:
+      // note: go4 range was full visible range of histogram
+      // in new ROOT automatic shift of ranges can appear,
+      // to prevent this, center of each bin should be used
       TAxis* ax = h1->GetXaxis();
-      Double_t bwidthx = ax->GetBinWidth(ax->FindFixBin(umax));
-      ax->SetRangeUser(umin, umax - bwidthx);
+      Int_t i1 = ax->FindFixBin(umin);
+      Int_t i2 = ax->FindFixBin(umax);
+      if (i1<i2) ax->SetRange(i1,i2);
+            else { ax->UnZoom(); padopt->ClearRange(0); }
    } else
       h1->GetXaxis()->UnZoom();
 
@@ -4685,12 +4684,14 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
          hmin = umin;
          hmax = umax;
       }
-      // note: go4 range is full visible range of histogram
-      // [low edge first bin, up edge last bin]
-      // need to correct for upper bin width when transforming to ROOT user range:
+      // note: go4 range was full visible range of histogram
+      // in new ROOT automatic shift of ranges can appear,
+      // to prevent this, center of each bin should be used
       TAxis* ay = h1->GetYaxis();
-      Double_t bwidthy = ay->GetBinWidth(ay->FindFixBin(umax));
-      ay->SetRangeUser(umin, umax - bwidthy);
+      Int_t i1 = ay->FindFixBin(umin);
+      Int_t i2 = ay->FindFixBin(umax);
+      if (i1<i2) ay->SetRange(i1,i2);
+            else { ay->UnZoom(); padopt->ClearRange(1); }
    } else {
       h1->GetYaxis()->UnZoom();
    }
@@ -4700,12 +4701,14 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
          hmin = umin;
          hmax = umax;
       }
-      // note: go4 range is full visible range of histogram
-      // [low edge first bin, up edge last bin]
-      // need to correct for upper bin width when transforming to ROOT user range:
+      // note: go4 range was full visible range of histogram
+      // in new ROOT automatic shift of ranges can appear,
+      // to prevent this, center of each bin should be used
       TAxis* az = h1->GetZaxis();
-      Double_t bwidthz = az->GetBinWidth(az->FindFixBin(umax));
-      az->SetRangeUser(umin, umax - bwidthz);
+      Int_t i1 = az->FindFixBin(umin);
+      Int_t i2 = az->FindFixBin(umax);
+      if (i1<i2) az->SetRange(i1,i2);
+            else { az->UnZoom(); padopt->ClearRange(2); }
    } else
       h1->GetZaxis()->UnZoom();
 
@@ -4739,9 +4742,14 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
             TH1* hs_h1 = 0;
             while ((hs_h1 = (TH1*) next()) != 0) {
                if (padopt->GetRange(0, umin, umax)) {
+                  // note: go4 range was full visible range of histogram
+                  // in new ROOT automatic shift of ranges can appear,
+                  // to prevent this, center of each bin should be used
                   TAxis* ax = hs_h1->GetXaxis();
-                  Double_t bwidths = ax->GetBinWidth(ax->FindFixBin(umax));
-                  ax->SetRangeUser(umin, umax - bwidths);
+                  Int_t i1 = ax->FindFixBin(umin);
+                  Int_t i2 = ax->FindFixBin(umax);
+                  if (i1<i2) ax->SetRange(i1,i2);
+                        else { ax->UnZoom(); padopt->ClearRange(0); }
                } else
                   hs_h1->GetXaxis()->UnZoom();
 
@@ -4865,8 +4873,7 @@ bool TGo4ViewPanel::GetVisibleRange(TPad* pad, int naxis, double& min, double& m
 bool TGo4ViewPanel::TakeSelectedAxisRange(int naxis, TGo4Picture* padopt,
       double selmin, double selmax, bool force)
 {
-   if ((selmin == -1.) && (selmax == -1.))
-      return false;
+   if ((selmin == -1.) && (selmax == -1.)) return false;
 
    double min, max, umin, umax;
 
@@ -4915,8 +4922,8 @@ bool TGo4ViewPanel::TakeSelectedAxisRange(int naxis, TGo4Picture * padopt,
       selmin = -1111;
       selmax = -1111;
    } else {
-      selmin = ax->GetBinLowEdge(ax->GetFirst());
-      selmax = ax->GetBinUpEdge(ax->GetLast());
+      selmin = ax->GetBinCenter(ax->GetFirst());
+      selmax = ax->GetBinCenter(ax->GetLast());
    }
 
    return TakeSelectedAxisRange(naxis, padopt, selmin, selmax, false);

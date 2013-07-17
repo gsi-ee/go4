@@ -51,6 +51,9 @@ Changes in Go4 v4.5.9
        go4->Wait(10);   
        go4->RefreshNamesList();
    First wait defines how long one need to guarantee, that analysis starts.    
+12.Fix problem with zoom selection - at some time in ROOT TAxis::SetRangeUser
+   was modified, which leads to zoom shift on one bin every histogram update.
+   Fixed for qt4 version of GUI.
 
 Changes in Go4 v4.5.5
 1. Adjust different macros to use together with ROOT 5.99 

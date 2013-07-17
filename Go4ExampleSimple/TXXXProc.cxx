@@ -55,7 +55,7 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
    fHis2 = MakeTH1('I', "His2","Condition histogram", 5000, 1., 5001.);
    fHis1gate = MakeTH1('I', "His1g","Gated histogram", 5000, 1., 5001.);
    fHis2gate = MakeTH1('I', "His2g","Gated histogram", 5000, 1., 5001.);
-   fHis3 = MakeTH1('I', "His3","Singular histogram", 5000, 1., 5001.);
+   fHis3 = MakeTH1('I', "His3","Singular histogram", 20000, 0.999, 1.001);
 
    fconHis1 = MakeWinCond("cHis1", 100,2000, "His1");
    fconHis2 = MakeWinCond("cHis2", 100,2000, "His2");
@@ -162,6 +162,6 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement*)
    if(fconHis1->Test(value1))fHis1gate->Fill(value1); //fill histograms with gate
    if(fconHis2->Test(value2))fHis2gate->Fill(value2);
    if(fPolyCon->Test(value1,value2)) fCr1Ch1x2->Fill(value1,value2);
-   fHis3->Fill(2500);
+   fHis3->Fill(1.);
    return kTRUE;
 }
