@@ -111,9 +111,9 @@ class TGo4AbstractInterface : public TObject {
       /** destructor */
       virtual ~TGo4AbstractInterface();
 
-      /** Return pointer on instance of implemntation of TGo4AbstractInterface class
+      /** Return pointer on instance of implementation of TGo4AbstractInterface class
         * Normally, inside CINT script one should use "go4" variable,
-        * which containes TGo4AbstractInterface::Instance() value. */
+        * which contains TGo4AbstractInterface::Instance() value. */
       static TGo4AbstractInterface* Instance();
 
       /** Delete instance of interface class */
@@ -248,7 +248,7 @@ class TGo4AbstractInterface : public TObject {
         * it is different from gSystem->Sleep() call. */
       virtual void Wait(double tm_sec) {}
 
-      /** Dsiplay message in GUI status line */
+      /** Display message in GUI status line */
       virtual void Message(const char* msg) {}
 
       // analysis start and configuration
@@ -292,7 +292,7 @@ class TGo4AbstractInterface : public TObject {
         * one should wait until analysis is connected */
       virtual void WaitAnalysis(Int_t delay_sec) {}
 
-      /** Indicate, if analysis was succesfully connected */
+      /** Indicate, if analysis was successfully connected */
       virtual Bool_t IsAnalysisConnected();
 
       /** Disconnects from running analysis.
@@ -301,7 +301,7 @@ class TGo4AbstractInterface : public TObject {
 
       /** Shutdown running analysis.
         * If analysis is running in server mode,
-        * only user with administrator privilegies can do this */
+        * only user with administrator privileges can do this */
       virtual void ShutdownAnalysis() {}
 
       /** Execute one macro line on analysis side.
@@ -333,7 +333,8 @@ class TGo4AbstractInterface : public TObject {
         * To understand more how these methods can be used together,
         * one should launch analysis, configure it and then generate
         * hotstart file. In this file one can find correct sequence and
-        * parameters for all these methods. */
+        * parameters for all these methods. Timeout defines total time which
+        * will be required to get response from analysis that operation was completed. */
       virtual void SubmitAnalysisConfig(int tmout = 20) {}
 
       /** Starts (resume) analysis execution */

@@ -53,7 +53,6 @@ TGo4Script::TGo4Script(TGo4MainWindow* mainwin) :
    TGo4AbstractInterface(),
    fiWaitForGUIReaction(0),
    fiWaitCounter(0),
-   fiWait2Counter(0),
    fStrBuf(),
    fMainWin(mainwin),
    fErrorFlag(kFALSE)
@@ -246,8 +245,7 @@ Int_t TGo4Script::execGUICommands()
         TGo4AnalysisProxy* anal = Analysis();
         if ((anal!=0) && anal->IsAnalysisSettingsReady()) {
           fiWaitForGUIReaction = 11;
-          fiWaitCounter = fiWait2Counter;
-          fiWait2Counter = 0;
+          // fiWaitCounter = getCounts(5.);
           return 2;
         }
         return (fiWaitCounter<2) ? 0 : 2;
@@ -385,7 +383,6 @@ void TGo4Script::SubmitAnalysisConfig(int tmout)
 
    fiWaitForGUIReaction = 10;
    fiWaitCounter = getCounts(tmout);
-   fiWait2Counter = fiWaitCounter;
 
    DoPostProcessing();
 }
@@ -955,8 +952,14 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       fs << "go4->DisconnectAnalysis();" << std::endl;
    }
 
-   if ((anal!=0) && anal->IsAnalysisRunning() &&  !anal->IsAnalysisServer())
+   if ((anal!=0) && anal->IsAnalysisRunning() &&  !anal->IsAnalysisServer()) {
       fs << "go4->StartAnalysis();" << std::endl;
+      fs << std::endl;
+      fs << "// this is possibility to get extra histograms from analysis" << std::endl;
+      fs << "// which are create shortly after analysis is started" << std::endl;
+      fs << "go4->Wait(1);" << std::endl;
+      fs << "go4->RefreshNamesList();" << std::endl;
+   }
 
    int npanel=0;
 

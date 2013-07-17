@@ -196,7 +196,6 @@ class TGo4Script : public TGo4AbstractInterface {
 
       Int_t     fiWaitForGUIReaction;  //!
       Int_t     fiWaitCounter;         //!
-      Int_t     fiWait2Counter;         //!
       TString   fStrBuf;               //!
       TGo4MainWindow* fMainWin;        //!
       Bool_t    fErrorFlag;            //!
