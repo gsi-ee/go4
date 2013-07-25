@@ -150,7 +150,7 @@ TGo4AnalysisObjectManager::~TGo4AnalysisObjectManager()
    delete fxMatchIterator;
    delete fxMatchList;
    gROOT->GetListOfBrowsables()->Remove(fxGo4Dir);
-   //cout <<"Removed all folders from list of browsables" << endl;
+   //std::cout <<"Removed all folders from list of browsables" << std::endl;
 
    gROOT->GetRootFolder()->Remove(fxTempFolder);
    gROOT->GetRootFolder()->Remove(fxGo4Dir);
@@ -173,11 +173,11 @@ TGo4AnalysisObjectManager::~TGo4AnalysisObjectManager()
    fxGo4Dir->Clear();
    fxTempFolder->Clear();
 
-   //cout <<"Cleared all folders" << endl;
+   //std::cout <<"Cleared all folders" << std::endl;
    delete fxTempFolder;
-   //cout <<"deleted temporary folder" << endl;
+   //std::cout <<"deleted temporary folder" << std::endl;
    delete fxGo4Dir;
-   //cout <<"deleted top folder" << endl;
+   //std::cout <<"deleted top folder" << std::endl;
 
    delete fxDirMutex;
 }
@@ -193,7 +193,7 @@ void TGo4AnalysisObjectManager::RecursiveRemove(TObject* obj)
 
 Bool_t TGo4AnalysisObjectManager::AddObject(TNamed * anything, const char* subfolder, Bool_t replace)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::AddObject(TNamed *)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::AddObject(TNamed *)",__LINE__, __FILE__));
    // unspecified objects are only allowed to put into userdir
    return (AddObjectToFolder(anything,fxUserDir,subfolder,replace));
 }
@@ -206,7 +206,7 @@ Bool_t TGo4AnalysisObjectManager::RemoveObject(const char * name, Bool_t del)
 
 TObject* TGo4AnalysisObjectManager::GetAsTObject(const char * name, const char* folder)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::GetAsTObject(const char*, const char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::GetAsTObject(const char*, const char*)",__LINE__, __FILE__));
    //
    TObject* ob(0);
    TFolder* searchfold(fxGo4Dir);
@@ -214,7 +214,7 @@ TObject* TGo4AnalysisObjectManager::GetAsTObject(const char * name, const char* 
       searchfold = FindSubFolder(fxGo4Dir, folder, kFALSE);
    if(searchfold) {
       ob = FindObjectInFolder(searchfold, name);
-      //cout << "found object in top folder :" << ob  <<endl;
+      //std::cout << "found object in top folder :" << ob  << std::endl;
       if(ob && ob->InheritsFrom(TTree::Class())) ob=0; // disable sending tree to gui!
       if(ob && ob->InheritsFrom(TFolder::Class())) ob=0; // disable sending complete folder
       if(ob && ob->InheritsFrom(TGo4EventElement::Class())) ob=0; // disable events
@@ -242,7 +242,7 @@ TNamed * TGo4AnalysisObjectManager::GetObject(const char * name, const char* fol
 
 Bool_t TGo4AnalysisObjectManager::ClearObjects(const char * name)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::ClearObject(char *)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::ClearObject(char *)",__LINE__, __FILE__));
    Bool_t rev=kTRUE;
    TGo4LockGuard  dirguard(fxDirMutex);
    TObject* ob = fxGo4Dir->FindObjectAny(name);
@@ -292,7 +292,7 @@ TFolder * TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray* bran
       Int_t startindex, Int_t* skip,
       const char* name, const char* title)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray*,...)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray*,...)",__LINE__, __FILE__));
    if (branchlist==0) return 0;
 
    if (compevent==0) return CreateBranchFolder(branchlist,name,title);
@@ -313,7 +313,7 @@ TFolder * TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray* bran
    Int_t skippedentries=0;
    Int_t offset=0;
    for(Int_t i=startindex; i<lastindex;i++) {
-      //cout <<"i+offset="<<i+offset << endl;
+      //std::cout <<"i+offset="<<i+offset << std::endl;
       TClass* cl=0;
       TObject* entry=branchlist->At(i+offset);
       if((entry!=0) && entry->InheritsFrom(TBranch::Class()))  {
@@ -330,13 +330,13 @@ TFolder * TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray* bran
             TString branchname(currentbranch->GetName());
             Ssiz_t leng = branchname.Length();
             branchname.Resize(leng-1); // strip dot from branchname
-            //cout <<"searching for composite sub event "<< branchname.Data() << endl;
+            //std::cout <<"searching for composite sub event "<< branchname.Data() << std::endl;
             if(csubevents!=0)
                subevent = dynamic_cast<TGo4CompositeEvent *>(csubevents->FindObject(branchname.Data()));
 
                if((subevent!=0) && subevent->getNElements()>0)
                {
-                  //cout <<"found composite subevent "<< subevent->GetName() << endl;
+                  //std::cout <<"found composite subevent "<< subevent->GetName() << std::endl;
                   // found subbranch, add it to folder struct
 
                   subnames=CreateCompositeBranchFolder(branchlist,
@@ -346,8 +346,8 @@ TFolder * TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray* bran
                         subevent->GetTitle());
                   nameslist->AddLast(subnames);
                   offset+=skippedentries;
-                  //cout <<"skipped:"<<skippedentries<<", i:"<<i << endl;
-                  //cout <<"offset:"<<offset<< endl;
+                  //std::cout <<"skipped:"<<skippedentries<<", i:"<<i << std::endl;
+                  //std::cout <<"offset:"<<offset<< std::endl;
                   // now process subbranchlist currentbranchlist of compevent,
                   // add members of this folder to existing folder subnames!
                   TFolder* temp=CreateBranchFolder(currentbranchlist,
@@ -359,7 +359,7 @@ TFolder * TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray* bran
                }
                else
                {
-                  //cout <<"composite subevent is basic member..." << endl;
+                  //std::cout <<"composite subevent is basic member..." << std::endl;
                   // subevent not in list, normal operation:
                   //state=new TGo4ObjectStatus(dynamic_cast<TNamed*> (entry) );
                   //nameslist->AddLast(state);
@@ -403,16 +403,16 @@ TFolder * TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray* bran
                   nameslist->AddLast(subnames);
                }
             }
-            //cout <<"added entry"<< entry->GetName() << endl;
+            //std::cout <<"added entry"<< entry->GetName() << std::endl;
          }
       }
       else
       {
          break;
          //            if(entry)
-         //               cout <<"ERROR: no branch in branchlist, class:"<< entry->ClassName() << endl;
+         //               std::cout <<"ERROR: no branch in branchlist, class:"<< entry->ClassName() << std::endl;
          //             else
-         //               cout << "ZERO entry in branchlist"<< endl;
+         //               std::cout << "ZERO entry in branchlist"<< std::endl;
 
       } //if(entry->InheritsFrom(TBranch))
    } // for()
@@ -426,7 +426,7 @@ TFolder * TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray* bran
 
 TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(TTree* thetree)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::CreateTreeStructure(TTree*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::CreateTreeStructure(TTree*)",__LINE__, __FILE__));
    //
    TGo4TreeStructure* tstructure=0;
    if(thetree)
@@ -445,7 +445,7 @@ TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(TTree* thetre
 
 TGo4TreeStructure * TGo4AnalysisObjectManager::CreateTreeStructure(const char* treename)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::CreateTreeStructure(const char *)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::CreateTreeStructure(const char *)",__LINE__, __FILE__));
    TTree* thetree=0;
    if(fxTreeDir)
    {
@@ -533,7 +533,7 @@ TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject* obj, const char
 
 Bool_t TGo4AnalysisObjectManager::AddHistogram(TH1 * his, const char* subfolder, Bool_t replace)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::AddHistogram(TH1*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::AddHistogram(TH1*)",__LINE__, __FILE__));
    Bool_t rev=AddObjectToFolder(his,fxHistogramDir,subfolder,replace,kTRUE);
    // for histograms: add with unique object names within histogramdir
    // to avoid errors in TTree::Draw()
@@ -637,7 +637,7 @@ TFolder * TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray* branchlist,
       const char* title,
       Bool_t istopbranch)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray*)",__LINE__, __FILE__));
    if (branchlist==0) return 0;
 
    TList* nameslist= new TList;
@@ -668,10 +668,10 @@ TFolder * TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray* branchlist,
                   TString branchname(subbranch->GetName());
                   Ssiz_t leng = branchname.Length();
                   branchname.Resize(leng-1); // strip dot from branchname
-                  //cout <<"searching for composite event "<< branchname.Data() << endl;
+                  //std::cout <<"searching for composite event "<< branchname.Data() << std::endl;
                   cevent = dynamic_cast<TGo4CompositeEvent*> (GetEventStructure(branchname.Data()));
                   if(cevent!=0) {
-                     //cout <<"found top comp event" << endl;
+                     //std::cout <<"found top comp event" << std::endl;
                      Int_t skippedentries=0;
                      // we pass complete top branchlist to method
                      subnames = CreateCompositeBranchFolder(
@@ -680,7 +680,7 @@ TFolder * TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray* branchlist,
                            cevent->GetName(),
                            cevent->GetTitle());
                      // skip comp subelements in iterator:
-                     //cout <<"top skipped:"<<skippedentries<< endl;
+                     //std::cout <<"top skipped:"<<skippedentries<< std::endl;
                      // now process subbranchlist  of top compevent,
                      // add members of this folder to existing folder subnames!
                      TFolder* temp = CreateBranchFolder(subbranchlist, "dummy","dummy");
@@ -690,13 +690,13 @@ TFolder * TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray* branchlist,
                         cursor++;
                      }
                   } else {
-                     //cout <<"not found top comp event" << endl;
+                     //std::cout <<"not found top comp event" << std::endl;
                      subnames=CreateBranchFolder(subbranchlist,
                            subbranch->GetName(),
                            subbranch->GetTitle());
                   }
                } else {
-                  //cout <<"no class or not top branch" << endl;
+                  //std::cout <<"no class or not top branch" << std::endl;
                   subnames=CreateBranchFolder(subbranchlist,
                         subbranch->GetName(), subbranch->GetTitle());
                }
@@ -720,13 +720,13 @@ TFolder * TGo4AnalysisObjectManager::CreateBranchFolder(TObjArray* branchlist,
 
 Bool_t TGo4AnalysisObjectManager::AddTree(TTree* tree, const char* subfolder)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::AddTree(TTree*, char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::AddTree(TTree*, char*)",__LINE__, __FILE__));
    return (AddObjectToFolder(tree,fxTreeDir,subfolder,kFALSE));
 }
 
 Bool_t TGo4AnalysisObjectManager::RemoveTree(TTree * tree, const char* stepname)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::RemoveTree(TTree*, const char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveTree(TTree*, const char*)",__LINE__, __FILE__));
    if (tree==0) return kFALSE;
 
    TGo4LockGuard listguard(fxDirMutex);
@@ -736,7 +736,7 @@ Bool_t TGo4AnalysisObjectManager::RemoveTree(TTree * tree, const char* stepname)
 
 TH1* TGo4AnalysisObjectManager::GetHistogram(const char * name)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::GetHistogram(char *)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::GetHistogram(char *)",__LINE__, __FILE__));
    TH1* rev= dynamic_cast<TH1*> (FindObjectInFolder(fxHistogramDir, name));
    if(rev==0) rev= dynamic_cast<TH1*> (FindObjectInFolder(fxUserDir, name)); // also check user objects dir
    return rev;
@@ -744,13 +744,13 @@ TH1* TGo4AnalysisObjectManager::GetHistogram(const char * name)
 
 TTree * TGo4AnalysisObjectManager::GetTree(const char * name)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::GetTree(char *)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::GetTree(char *)",__LINE__, __FILE__));
    return dynamic_cast<TTree*> (FindObjectInFolder(fxTreeDir, name));
 }
 
 Bool_t TGo4AnalysisObjectManager::RemoveHistogram(const char * name, Bool_t del)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::RemoveHistogram(char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveHistogram(char*)",__LINE__, __FILE__));
    //
    return RemoveObjectFromFolder(name, fxHistogramDir, del);
 }
@@ -758,14 +758,14 @@ Bool_t TGo4AnalysisObjectManager::RemoveHistogram(const char * name, Bool_t del)
 
 Bool_t TGo4AnalysisObjectManager::AddAnalysisCondition(TGo4Condition * con, const char* subfolder)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::AddAnalysisCondition(TGo4Condition *)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::AddAnalysisCondition(TGo4Condition *)",__LINE__, __FILE__));
    return(AddObjectToFolder(con,fxConditionDir,subfolder,kTRUE));
 }
 
 Bool_t TGo4AnalysisObjectManager::SetAnalysisCondition(const char * name, TGo4Condition* con,
       Bool_t counter, TFolder* parent)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::SetAnalysisCondition(char*, TGo4Condition*, Bool_t)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::SetAnalysisCondition(char*, TGo4Condition*, Bool_t)",__LINE__, __FILE__));
 
    if(con==0) return kFALSE;
 
@@ -794,7 +794,7 @@ Bool_t TGo4AnalysisObjectManager::SetAnalysisCondition(const char * name, TGo4Co
    if(oldcon!=0) {
       // update existing condition of given name
       rev = oldcon->UpdateFrom(con,counter);
-      //cout << "++++ Updated condition "<< name<<" from condition "<< con->GetName() << endl;
+      //std::cout << "++++ Updated condition "<< name<<" from condition "<< con->GetName() << std::endl;
       //oldcon->PrintCondition(true);
    } else {
       // condition not yet exisiting, add external condition
@@ -815,7 +815,7 @@ Bool_t TGo4AnalysisObjectManager::SetAnalysisCondition(const char * name, TGo4Co
 
 TGo4Condition * TGo4AnalysisObjectManager::GetAnalysisCondition(const char * name, const char* cond_cl)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::GetAnalysisCondition(char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::GetAnalysisCondition(char*)",__LINE__, __FILE__));
    TGo4Condition* cond = dynamic_cast<TGo4Condition*> (FindObjectInFolder(fxConditionDir, name));
    // some users have their conditions rather in user folder...
    if(cond==0) cond = dynamic_cast<TGo4Condition*> (FindObjectInFolder(fxUserDir, name));
@@ -910,7 +910,7 @@ TGo4PolyCond* TGo4AnalysisObjectManager::MakePolyCond(const char* foldername,
 
 Bool_t TGo4AnalysisObjectManager::RemoveAnalysisCondition(const char * name)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::RemoveAnalysisCondition(char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveAnalysisCondition(char*)",__LINE__, __FILE__));
    return RemoveObjectFromFolder(name, fxConditionDir, kTRUE);
 }
 
@@ -935,7 +935,7 @@ TGo4ObjectStatus * TGo4AnalysisObjectManager::CreateObjectStatus(TObject* obj, B
 
 TGo4AnalysisObjectNames * TGo4AnalysisObjectManager::CreateNamesList()
 {
-   TRACE((11,"TGo4AnalysisObjectManager::CreateNamesList()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::CreateNamesList()",__LINE__, __FILE__));
    TGo4LockGuard   listguard(fxDirMutex);
    TGo4AnalysisObjectNames* namesobject=0;
    //fxTempFolder->Clear();
@@ -949,7 +949,7 @@ TGo4AnalysisObjectNames * TGo4AnalysisObjectManager::CreateNamesList()
 
 TFolder * TGo4AnalysisObjectManager::CreateNamesFolder(TFolder * objectfolder)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::CreateNamesFolder(TFolder*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::CreateNamesFolder(TFolder*)",__LINE__, __FILE__));
    if (objectfolder==0) return 0;
 
    TList* nameslist= new TList;
@@ -958,7 +958,7 @@ TFolder * TGo4AnalysisObjectManager::CreateNamesFolder(TFolder * objectfolder)
    while((entry=listiter())!=0) {
       if(entry->InheritsFrom(TFolder::Class())) {
          // found subfolder, process it recursively
-         //cout <<"##### parsing folder "<< entry->GetName() << endl;
+         //std::cout <<"##### parsing folder "<< entry->GetName() << std::endl;
          TFolder* subobj= dynamic_cast<TFolder*> (entry);
          TFolder* subnames = CreateNamesFolder(subobj);
          nameslist->AddLast(subnames);
@@ -997,12 +997,12 @@ TFolder * TGo4AnalysisObjectManager::GetObjectFolder()
 
 Bool_t TGo4AnalysisObjectManager::AddEventStore(TGo4EventStore * store)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::AddEventStore(TGo4EventStore*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::AddEventStore(TGo4EventStore*)",__LINE__, __FILE__));
    return (AddObjectToFolder(store,fxStoreDir,0,kFALSE));
 }
 Bool_t TGo4AnalysisObjectManager::RemoveEventStore(TGo4EventStore * store)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::RemoveEventStore(TGo4EventStore*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveEventStore(TGo4EventStore*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
    if(store)
    {
@@ -1019,13 +1019,13 @@ Bool_t TGo4AnalysisObjectManager::RemoveEventStore(TGo4EventStore * store)
 
 Bool_t TGo4AnalysisObjectManager::AddEventSource(TGo4EventSource * source)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::AddEventSource(TGo4EventSource*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::AddEventSource(TGo4EventSource*)",__LINE__, __FILE__));
    return (AddObjectToFolder(source,fxSourceDir,0,kFALSE));
 }
 
 Bool_t TGo4AnalysisObjectManager::RemoveEventSource(TGo4EventSource* source)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::RemoveEventSource(TGo4EventSource*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveEventSource(TGo4EventSource*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
    if(source)
    {
@@ -1041,13 +1041,13 @@ Bool_t TGo4AnalysisObjectManager::RemoveEventSource(TGo4EventSource* source)
 }
 Bool_t TGo4AnalysisObjectManager::AddEventProcessor(TGo4EventProcessor * pro)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::AddEventProcessor(TGo4EventProcessor*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::AddEventProcessor(TGo4EventProcessor*)",__LINE__, __FILE__));
    return (AddObjectToFolder(pro,fxProcessorDir,0,kFALSE));
 }
 
 Bool_t TGo4AnalysisObjectManager::RemoveEventProcessor(TGo4EventProcessor * pro)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::RemoveEventProcessor(TGo4EventProcessr*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveEventProcessor(TGo4EventProcessr*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
    if(pro)
    {
@@ -1063,13 +1063,13 @@ Bool_t TGo4AnalysisObjectManager::RemoveEventProcessor(TGo4EventProcessor * pro)
 }
 Bool_t TGo4AnalysisObjectManager::AddEventStructure(TGo4EventElement * ev)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::AddEventStructure(TGo4EventElement*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::AddEventStructure(TGo4EventElement*)",__LINE__, __FILE__));
    return (AddObjectToFolder(ev,fxEventDir,0,kFALSE));
 }
 
 Bool_t TGo4AnalysisObjectManager::RemoveEventStructure(TGo4EventElement * ev)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::RemoveEventStructure(TGo4EventElement*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveEventStructure(TGo4EventElement*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
    if(ev!=0) {
       TGo4LockGuard listguard(fxDirMutex);
@@ -1083,7 +1083,7 @@ Bool_t TGo4AnalysisObjectManager::RemoveEventStructure(TGo4EventElement * ev)
 
 TGo4EventElement * TGo4AnalysisObjectManager::GetEventStructure(const char * name)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::GetEvenStructure(char *)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::GetEvenStructure(char *)",__LINE__, __FILE__));
 
    if ((name==0) || (strlen(name)==0)) return 0;
 
@@ -1124,7 +1124,7 @@ Bool_t TGo4AnalysisObjectManager::AddDynamicEntry(TGo4DynamicEntry* entry)
 
 Bool_t TGo4AnalysisObjectManager::ResetBackStores(Bool_t clearflag)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::ResetBackStores()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::ResetBackStores()",__LINE__, __FILE__));
    Bool_t rev=kTRUE;
    TIter iter(fxStoreDir->GetListOfFolders());
    TObject* entry = 0;
@@ -1137,7 +1137,7 @@ Bool_t TGo4AnalysisObjectManager::ResetBackStores(Bool_t clearflag)
 
 void TGo4AnalysisObjectManager::CloseAnalysis()
 {
-   TRACE((14,"TGo4AnalysisObjectManager::CloseAnalysis()",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4AnalysisObjectManager::CloseAnalysis()",__LINE__, __FILE__));
    ResetCurrentDynList();
    fiDynListCount=0;
    TGo4Analysis::Instance()->Message(0,"Analysis Object Manager  --  Dynamic List was reset.");
@@ -1167,13 +1167,13 @@ void TGo4AnalysisObjectManager::SaveObjects(TFile* file)
 }
 Bool_t TGo4AnalysisObjectManager::AddParameter(TGo4Parameter * par, const char* subfolder)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::AddParameter(TGo4Parameter *)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::AddParameter(TGo4Parameter *)",__LINE__, __FILE__));
    return (AddObjectToFolder(par,fxParameterDir,subfolder,kTRUE));
 }
 
 Bool_t TGo4AnalysisObjectManager::SetParameter(const char* name, TGo4Parameter * par, TFolder* parent)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::SetParameter(const char*, TGo4Parameter*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::SetParameter(const char*, TGo4Parameter*)",__LINE__, __FILE__));
 
    if (par==0) return kFALSE;
 
@@ -1202,7 +1202,7 @@ Bool_t TGo4AnalysisObjectManager::SetParameter(const char* name, TGo4Parameter *
 
 Bool_t TGo4AnalysisObjectManager::SetParameterStatus(const char* name, TGo4ParameterStatus* status, TFolder* parent)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::SetParameter(char*, TGo4Parameter*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::SetParameter(char*, TGo4Parameter*)",__LINE__, __FILE__));
 
    if (status==0) return kFALSE;
 
@@ -1233,7 +1233,7 @@ Bool_t TGo4AnalysisObjectManager::SetParameterStatus(const char* name, TGo4Param
 
 TGo4Parameter * TGo4AnalysisObjectManager::GetParameter(const char * name, const char* parameter_class)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::GetParameter(char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::GetParameter(char*)",__LINE__, __FILE__));
    TGo4Parameter* rev=dynamic_cast<TGo4Parameter *> (FindObjectInFolder(fxParameterDir,name));
    if(rev==0) rev= dynamic_cast<TGo4Parameter *> (FindObjectInFolder(fxUserDir,name));
    if ((rev!=0) && (parameter_class!=0))
@@ -1243,13 +1243,13 @@ TGo4Parameter * TGo4AnalysisObjectManager::GetParameter(const char * name, const
 
 Bool_t TGo4AnalysisObjectManager::RemoveParameter(const char * name)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::RemoveParameter(char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveParameter(char*)",__LINE__, __FILE__));
    return RemoveObjectFromFolder(name, fxParameterDir, kTRUE);
 }
 
 Bool_t TGo4AnalysisObjectManager::AddPicture(TGo4Picture * pic, const char* subfolder)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::AddPicture(TGo4Picture *)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::AddPicture(TGo4Picture *)",__LINE__, __FILE__));
    if(!pic) return kFALSE;
 
    //pic->LocateObjectsFrom(fxGo4Dir);
@@ -1258,7 +1258,7 @@ Bool_t TGo4AnalysisObjectManager::AddPicture(TGo4Picture * pic, const char* subf
 
 Bool_t TGo4AnalysisObjectManager::SetPicture(const char* name, TGo4Picture * pic, TFolder* parent)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::SetPicture(char*, TGo4Picture*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::SetPicture(char*, TGo4Picture*)",__LINE__, __FILE__));
 
    if (pic==0) return kFALSE;
 
@@ -1273,7 +1273,7 @@ Bool_t TGo4AnalysisObjectManager::SetPicture(const char* name, TGo4Picture * pic
    if(oldpic!=0) {
       // update existing picture of given name
       oldpic->UpdateFrom(pic);
-      //            cout << "++++ Updated picture "<< name<<" from picture "<< pic->GetName() << endl;
+      //            std::cout << "++++ Updated picture "<< name<<" from picture "<< pic->GetName() << std::endl;
    } else {
       // picture not yet exisiting, add external as a copy:
       TGo4Picture* clonedpic = dynamic_cast<TGo4Picture*>(pic->Clone());
@@ -1291,7 +1291,7 @@ Bool_t TGo4AnalysisObjectManager::SetPicture(const char* name, TGo4Picture * pic
 
 TGo4Picture * TGo4AnalysisObjectManager::GetPicture(const char * name)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::GetPicture(char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::GetPicture(char*)",__LINE__, __FILE__));
    TGo4Picture* rev=dynamic_cast<TGo4Picture *> (FindObjectInFolder(fxPictureDir, name));
    if(rev==0) rev=dynamic_cast<TGo4Picture *> (FindObjectInFolder(fxUserDir, name));
    return rev;
@@ -1299,13 +1299,13 @@ TGo4Picture * TGo4AnalysisObjectManager::GetPicture(const char * name)
 
 Bool_t TGo4AnalysisObjectManager::RemovePicture(const char * name)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::RemovePicture(char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::RemovePicture(char*)",__LINE__, __FILE__));
    return RemoveObjectFromFolder(name, fxPictureDir, kTRUE);
 }
 
 Bool_t TGo4AnalysisObjectManager::AddCanvas(TCanvas * can, const char* subfolder)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::AddCanvas(TCanvas *)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::AddCanvas(TCanvas *)",__LINE__, __FILE__));
 
    Bool_t rev = AddObjectToFolder(can,fxCanvasDir,subfolder,kFALSE);
 
@@ -1319,7 +1319,7 @@ Bool_t TGo4AnalysisObjectManager::AddCanvas(TCanvas * can, const char* subfolder
 
 TCanvas * TGo4AnalysisObjectManager::GetCanvas(const char * name)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::GetPicture(char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::GetPicture(char*)",__LINE__, __FILE__));
    TCanvas* rev=dynamic_cast<TCanvas*> (FindObjectInFolder(fxCanvasDir, name));
    if(rev==0) rev=dynamic_cast<TCanvas*> (FindObjectInFolder(fxCanvasDir, name));
    return rev;
@@ -1327,14 +1327,14 @@ TCanvas * TGo4AnalysisObjectManager::GetCanvas(const char * name)
 
 Bool_t TGo4AnalysisObjectManager::RemoveCanvas(const char * name)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::RemovePicture(char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::RemovePicture(char*)",__LINE__, __FILE__));
    return RemoveObjectFromFolder(name, fxCanvasDir, kTRUE);
 }
 
 
 Bool_t TGo4AnalysisObjectManager::LoadObjects(TFile* obfile)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::LoadObjects(TFile*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::LoadObjects(TFile*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
    if(obfile)
    {
@@ -1343,13 +1343,13 @@ Bool_t TGo4AnalysisObjectManager::LoadObjects(TFile* obfile)
       if(top)
       {
          // kept for backward compatibility: read folder struct directly
-         //cout << "found top go4 folder "<< endl;
+         //std::cout << "found top go4 folder "<< std::endl;
          rev=LoadFolder(top,fxGo4Dir,kFALSE);
       }
       else
       {
          // new: convert directory structure of file into folders
-         //cout <<"LoadObjects with Dirscan..." << endl;
+         //std::cout <<"LoadObjects with Dirscan..." << std::endl;
          rev=LoadFolder(obfile,fxGo4Dir,kFALSE);
       }
       TGo4PolyCond::CleanupSpecials(); // remove references to file cuts
@@ -1423,7 +1423,7 @@ Bool_t TGo4AnalysisObjectManager::AddDynamicHistogram(const char* name,
 
 Bool_t TGo4AnalysisObjectManager::AddTreeHistogram(const char* hisname, const char* treename, const char* varexp, const char* cutexp)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::AddTreeHistogram(char*,...)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::AddTreeHistogram(char*,...)",__LINE__, __FILE__));
    //
    Bool_t rev=kFALSE;
    TGo4TreeHistogramEntry* tentry =
@@ -1447,7 +1447,7 @@ Bool_t TGo4AnalysisObjectManager::RemoveDynamicEntry(const char* entryname)
 
 TFolder* TGo4AnalysisObjectManager::FindSubFolder(TFolder* parent, const char* subfolder, Bool_t create)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::FindSubFolder(TFolder*, const char*, Bool_t)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::FindSubFolder(TFolder*, const char*, Bool_t)",__LINE__, __FILE__));
    TGo4LockGuard  dirguard(fxDirMutex);
    TFolder* result=0;
    if(parent==0) return 0;
@@ -1457,7 +1457,7 @@ TFolder* TGo4AnalysisObjectManager::FindSubFolder(TFolder* parent, const char* s
       // we have subfolder of subfolder, process recursively
       TString subname(subfolder, separ - subfolder);
 
-      //cout <<" fffffff Searching for subfolder "<< subname << endl;
+      //std::cout <<" fffffff Searching for subfolder "<< subname << std::endl;
       TFolder* nextsubfolder = FindSubFolder(parent, subname.Data(), create); // get folder directly under parent
       result = FindSubFolder(nextsubfolder, separ+1,create); // search rest of path in this folder
    } else {
@@ -1484,13 +1484,13 @@ Bool_t TGo4AnalysisObjectManager::AddObjectToFolder(TObject * ob,
                                                     Bool_t uniquename,
                                                     Bool_t resetbits)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::AddObjectToFolder(TObject *, TFolder*, const char*, Bool_t)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::AddObjectToFolder(TObject *, TFolder*, const char*, Bool_t)",__LINE__, __FILE__));
 
    TGo4LockGuard  dirguard(fxDirMutex);
    if(fold==0) return kFALSE;
 
    if (ob==0) {
-     TRACE((12,"TGo4AnalysisObjectManager::AddObjectToFolder - zero object",__LINE__, __FILE__));
+     GO4TRACE((12,"TGo4AnalysisObjectManager::AddObjectToFolder - zero object",__LINE__, __FILE__));
      return kFALSE;
    }
 
@@ -1530,12 +1530,12 @@ Bool_t TGo4AnalysisObjectManager::AddObjectToFolder(TObject * ob,
          fold->RecursiveRemove(oldob);
          CleanupDynamicLists(oldob);
 
-         // cout << "Delete object " <<  oldob << "  name = " << oldob->GetName() << " isgpad = " << (oldob == gPad) << endl;
+         // std::cout << "Delete object " <<  oldob << "  name = " << oldob->GetName() << " isgpad = " << (oldob == gPad) << std::endl;
 
          delete oldob;
       } else {
 
-         //cout << "Find old object " << oldob << " name = " << oldob->GetName() <<  endl;
+         //std::cout << "Find old object " << oldob << " name = " << oldob->GetName() <<  endl;
 
          return kFALSE; // do not overwrite old one
       }
@@ -1554,7 +1554,7 @@ Bool_t TGo4AnalysisObjectManager::AddObjectToFolder(TObject * ob,
 
 Bool_t TGo4AnalysisObjectManager::RemoveObjectFromFolder(const char* fullname, TFolder* fold, Bool_t isDel)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::RemoveObjectFromFolder(const char*, TFolder*, Bool_t)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveObjectFromFolder(const char*, TFolder*, Bool_t)",__LINE__, __FILE__));
    //
    if(fold==0) return kFALSE;
    TGo4LockGuard  dirguard(fxDirMutex);
@@ -1581,7 +1581,7 @@ Bool_t TGo4AnalysisObjectManager::RemoveObjectFromFolder(const char* fullname, T
 Bool_t TGo4AnalysisObjectManager::LoadFolder(TFolder* source, TFolder* destination, Bool_t replace)
 {
    if (source==0) return kFALSE;
-   TRACE((11,"TGo4AnalysisObjectManager::LoadFolder(TFolder*, TFolder*, Bool_t replace)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::LoadFolder(TFolder*, TFolder*, Bool_t replace)",__LINE__, __FILE__));
    TGo4LockGuard  dirguard(fxDirMutex);
    Bool_t rev=kTRUE;
    TIter folderiter(source->GetListOfFolders());
@@ -1593,7 +1593,7 @@ Bool_t TGo4AnalysisObjectManager::LoadFolder(TFolder* source, TFolder* destinati
          TFolder* subfolder =dynamic_cast<TFolder*> (ob);
          if(subfolder)
          {
-            //cout <<"LLLLLL Load folder scanning subfolder "<< subfolder->GetName() << endl;
+            //std::cout <<"LLLLLL Load folder scanning subfolder "<< subfolder->GetName() << std::endl;
             TFolder* subdest=FindSubFolder(destination,subfolder->GetName(), kTRUE);
             LoadFolder(subfolder,subdest,replace); // recursively scan all subfolders
          }
@@ -1608,7 +1608,7 @@ Bool_t TGo4AnalysisObjectManager::LoadFolder(TFolder* source, TFolder* destinati
 
 Bool_t TGo4AnalysisObjectManager::LoadFolder(TDirectory* source, TFolder* destination, Bool_t replace)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::LoadFolder(TDirectory*, TFolder*, Bool_t replace)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::LoadFolder(TDirectory*, TFolder*, Bool_t replace)",__LINE__, __FILE__));
    if(!source || !destination) return kFALSE;
    TGo4LockGuard  dirguard(fxDirMutex);
    Bool_t rev=kTRUE;
@@ -1627,7 +1627,7 @@ Bool_t TGo4AnalysisObjectManager::LoadFolder(TDirectory* source, TFolder* destin
                source->GetName());
          return kFALSE;
       }
-      //cout <<"Reading key "<<key->GetName() << endl;
+      //std::cout <<"Reading key "<<key->GetName() << std::endl;
       TObject* ob = key->ReadObj();
       if(ob==0)
       {
@@ -1647,7 +1647,7 @@ Bool_t TGo4AnalysisObjectManager::LoadFolder(TDirectory* source, TFolder* destin
          TDirectory* subdir =dynamic_cast<TDirectory*> (ob);
          if(subdir)
          {
-            //cout <<"LLLLLL Load folder dir scanning for subdir "<< subdir->GetName() << endl;
+            //std::cout <<"LLLLLL Load folder dir scanning for subdir "<< subdir->GetName() << std::endl;
             Bool_t inpicturefolder=kFALSE;
             if(!strcmp(subdir->GetName(),fgcPICTFOLDER)) inpicturefolder=kTRUE;
             if(inpicturefolder) fbSuppressLoadHistograms=kTRUE;
@@ -1669,12 +1669,12 @@ Bool_t TGo4AnalysisObjectManager::PutToFolder(TObject* ob, TFolder* destination,
 {
    if(!ob || !destination) return kFALSE;
    Bool_t rev=kTRUE;
-   //cout <<"put to folder for "<<ob->GetName() << endl;
+   //std::cout <<"put to folder for "<<ob->GetName() << std::endl;
    if (ob->InheritsFrom(TGo4DynamicEntry::Class())) {
       // new autosave file structure will save dynamic entries independently:
       TGo4DynamicEntry* dentry =dynamic_cast<TGo4DynamicEntry*> ( ob->Clone() ); // deep copy of source object!
       AddDynamicEntry(dentry);
-      //cout <<"Added dynamic entry from file: "<<dentry->GetName() << endl;
+      //std::cout <<"Added dynamic entry from file: "<<dentry->GetName() << std::endl;
    } else
    if(ob->InheritsFrom(TGo4Parameter::Class())) {
       // parameters never replaced, but updated
@@ -1684,7 +1684,7 @@ Bool_t TGo4AnalysisObjectManager::PutToFolder(TObject* ob, TFolder* destination,
    if(ob->InheritsFrom(TGo4Picture::Class())) {
       // pictures never replaced, but updated
       TGo4Picture* pic =dynamic_cast<TGo4Picture*>(ob);
-      //cout <<"LLLLLoad Folder SetsPicture!!!!!" << endl;
+      //std::cout <<"LLLLLoad Folder SetsPicture!!!!!" << std::endl;
       SetPicture(ob->GetName(),pic,destination);
    } else
    if(ob->InheritsFrom(TGo4Condition::Class())) {
@@ -1700,7 +1700,7 @@ Bool_t TGo4AnalysisObjectManager::PutToFolder(TObject* ob, TFolder* destination,
          his->SetDirectory(gROOT); // set directory for histos, needed for TTree::Draw
          TGo4Analysis::Instance()->Message(0,"Analysis LoadFolder: Histogram %s was loaded.",
                his->GetName());
-         //cout <<"Changed directory of histo "<<his->GetName() << endl;
+         //std::cout <<"Changed directory of histo "<<his->GetName() << std::endl;
       }
    } else
    if(ob->InheritsFrom(TCanvas::Class())) {
@@ -1713,7 +1713,7 @@ Bool_t TGo4AnalysisObjectManager::PutToFolder(TObject* ob, TFolder* destination,
          if (gPad==addob) gPad = 0;
       }
    } else {
-      //cout << "Make object clone " << ob->GetName() << "  class = " << ob->ClassName() << endl;
+      //std::cout << "Make object clone " << ob->GetName() << "  class = " << ob->ClassName() << std::endl;
 
       TObject* addob = ob->Clone(); // deep copy of source object!
       if(AddObjectToFolder(addob,destination,0,replace)) {
@@ -1745,17 +1745,17 @@ Bool_t TGo4AnalysisObjectManager::SaveFolder(TFolder* source)
             if(subdir==0)
             {
                subdir=currentdir->mkdir(subfoldername,"subdir");
-               //cout <<"SSSS Save folder created subdir "<<subfoldername << endl;
+               //std::cout <<"SSSS Save folder created subdir "<<subfoldername << std::endl;
             }
             else
             {
-               //cout <<"SSSS Save folder found existing subdir "<<subfoldername << endl;
+               //std::cout <<"SSSS Save folder found existing subdir "<<subfoldername << std::endl;
             }
 
             if(subdir)
             {
                subdir->cd();
-               //cout <<"SSSS Save folder scanning subfolder "<< subfolder->GetName() << endl;
+               //std::cout <<"SSSS Save folder scanning subfolder "<< subfolder->GetName() << std::endl;
                SaveFolder(subfolder); // recursively scan all subfolders
             }
             else
@@ -1805,7 +1805,7 @@ Int_t TGo4AnalysisObjectManager::PrintFolder(TFolder* fold, Option_t* opt, const
 {
    if(fold==0) return 0;
 
-   TRACE((11,"TGo4AnalysisObjectManager::PrintFolder(TFolder*, Option_t*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::PrintFolder(TFolder*, Option_t*)",__LINE__, __FILE__));
    TGo4LockGuard  dirguard(fxDirMutex);
    Int_t totalsize=0;
    TROOT::IndentLevel();
@@ -1833,7 +1833,7 @@ Int_t TGo4AnalysisObjectManager::PrintFolder(TFolder* fold, Option_t* opt, const
 
 Bool_t TGo4AnalysisObjectManager::ClearFolder(TFolder* fold)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::ClearFolder(TFolder*, Option_t*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::ClearFolder(TFolder*, Option_t*)",__LINE__, __FILE__));
    if(fold==0) return kFALSE;
    TGo4LockGuard  dirguard(fxDirMutex);
    TIter iter(fold->GetListOfFolders());
@@ -1848,7 +1848,7 @@ Bool_t TGo4AnalysisObjectManager::ClearFolder(TFolder* fold)
 
 Bool_t TGo4AnalysisObjectManager::ClearObject(TObject* ob)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::ClearObject(TObject*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::ClearObject(TObject*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
    if(ob)
    {
@@ -1913,7 +1913,7 @@ Bool_t TGo4AnalysisObjectManager::ClearObject(TObject* ob)
 
 Bool_t TGo4AnalysisObjectManager::DeleteFolder(TFolder* fold)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::DeleteFolder(TFolder*, Option_t*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::DeleteFolder(TFolder*, Option_t*)",__LINE__, __FILE__));
    if (fold==0) return kFALSE;
 
    TGo4LockGuard  dirguard(fxDirMutex);
@@ -1929,7 +1929,7 @@ Bool_t TGo4AnalysisObjectManager::DeleteFolder(TFolder* fold)
 
 Bool_t TGo4AnalysisObjectManager::DeleteObject(TObject* ob)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::DeleteObject(TObject*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::DeleteObject(TObject*)",__LINE__, __FILE__));
    if(ob==0 || !ob->TestBit(TGo4Status::kGo4CanDelete) ) return kFALSE;
    fxGo4Dir->RecursiveRemove(ob);
    CleanupDynamicLists(ob);
@@ -1966,7 +1966,7 @@ Bool_t TGo4AnalysisObjectManager::ProtectObject(TObject* ob, const Option_t* fla
 
 void TGo4AnalysisObjectManager::CleanupDynamicLists(TObject* oldobject)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::CleanupDynamicLists(TNamed*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::CleanupDynamicLists(TNamed*)",__LINE__, __FILE__));
    TGo4LockGuard  dirguard(fxDirMutex);
    if (oldobject==0) return;
    // scan all dynamic lists for this object:
@@ -1979,7 +1979,7 @@ void TGo4AnalysisObjectManager::CleanupDynamicLists(TObject* oldobject)
 
 void TGo4AnalysisObjectManager::PrintConditions(const char* expression)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::PrintConditions(const char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::PrintConditions(const char*)",__LINE__, __FILE__));
    Int_t totalsize = PrintFolder(fxConditionDir, "*", expression);
    std::cout << "___________________________________________________________" << std::endl;
    std::cout << "Total size of all conditions is: " << totalsize << " bytes." << std::endl;
@@ -1987,7 +1987,7 @@ void TGo4AnalysisObjectManager::PrintConditions(const char* expression)
 
 void TGo4AnalysisObjectManager::PrintHistograms(const char* expression)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::PrintHistograms(const char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::PrintHistograms(const char*)",__LINE__, __FILE__));
    Int_t totalsize = PrintFolder(fxHistogramDir, "*", expression);
    std::cout << "___________________________________________________________" << std::endl;
    std::cout << "Total size of all histograms is: " << totalsize << " bytes." << std::endl;
@@ -1995,7 +1995,7 @@ void TGo4AnalysisObjectManager::PrintHistograms(const char* expression)
 
 void TGo4AnalysisObjectManager::PrintParameters(const char* expression)
 {
-   TRACE((11,"TGo4AnalysisObjectManager::PrintParameters(const char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisObjectManager::PrintParameters(const char*)",__LINE__, __FILE__));
    Int_t totalsize = PrintFolder(fxParameterDir, "*", expression);
    std::cout << "___________________________________________________________" << std::endl;
    std::cout << "Total size of all parameters is: " << totalsize << " bytes." << std::endl;
@@ -2078,7 +2078,7 @@ Bool_t TGo4AnalysisObjectManager::IsMatching(const char* string, const char* exp
 
 TObject* TGo4AnalysisObjectManager::FindObjectInFolder(TFolder* folder, const char* fullname)
 {
-   TRACE((12,"TGo4AnalysisObjectManager::FindObjectInFolder(TFolder*, const char*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisObjectManager::FindObjectInFolder(TFolder*, const char*)",__LINE__, __FILE__));
    TGo4LockGuard  listguard(fxDirMutex);
 
    return folder ? folder->FindObjectAny(fullname) : 0;

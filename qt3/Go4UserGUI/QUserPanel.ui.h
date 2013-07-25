@@ -170,12 +170,12 @@ void QUserPanel::PrintObject(TObject* obj)
     } else {
        std::cout.flush();
        std::ostringstream strout;
-       std::streambuf* cout_buffer = std::cout.rdbuf();
+       std::streambuf* ccc_buffer = std::cout.rdbuf();
        std::cout.rdbuf(strout.rdbuf());
        obj->Print("");
        std::cout << std::endl;
        std::cout.flush();
-       std::cout.rdbuf(cout_buffer);
+       std::cout.rdbuf(ccc_buffer);
        PrintEdit->setText(strout.str().c_str());
     }
 }

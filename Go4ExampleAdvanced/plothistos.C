@@ -102,7 +102,7 @@ void plothistos(const char* file, Stat_t lo, Stat_t up, Bool_t ylog)
        his[i]= (TH1*) myfile->FindObjectAny(hname[i].Data());
        if(his[i])
          {
-           cout <<"Loaded "<<hname[i].Data() << endl;
+           std::cout <<"Loaded "<<hname[i].Data() << std::endl;
            mycan->cd(i+1);
            // here settings for adjust histogram view:
            ////////// pad settings:
@@ -150,7 +150,7 @@ void plothistos(const char* file, Stat_t lo, Stat_t up, Bool_t ylog)
          }
        else
          {
-           cout <<"Could not read histogram "<<hname[i].Data()<<" from file "<<filenameroot.Data()  << endl;
+           std::cout <<"Could not read histogram "<<hname[i].Data()<<" from file "<<filenameroot.Data()  << std::endl;
          }
    }
 

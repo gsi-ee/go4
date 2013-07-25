@@ -23,7 +23,7 @@
 TGo4ComSetAnalysisStatus::TGo4ComSetAnalysisStatus(TGo4AnalysisStatus* settings)
 :TGo4AnalysisCommand("ANSetStatus","Set Analysis to given Status ")
 {
-   TRACE((12,"TGo4ComSetAnalysisStatus::TGo4ComSetAnalysisStatus() ctor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComSetAnalysisStatus::TGo4ComSetAnalysisStatus() ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                        // override default receiver
    fxAnalysisStatus=settings;
@@ -34,7 +34,7 @@ TGo4ComSetAnalysisStatus::TGo4ComSetAnalysisStatus(TGo4AnalysisStatus* settings)
 TGo4ComSetAnalysisStatus::TGo4ComSetAnalysisStatus()
 :TGo4AnalysisCommand("ANSetStatus","Set Analysis to given Status ")
 {
-   TRACE((12,"TGo4ComSetAnalysisStatus::TGo4ComSetAnalysisStatus() ctor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComSetAnalysisStatus::TGo4ComSetAnalysisStatus() ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                        // override default receiver
    fxAnalysisStatus=0;
@@ -44,7 +44,7 @@ TGo4ComSetAnalysisStatus::TGo4ComSetAnalysisStatus()
 
 TGo4ComSetAnalysisStatus::~TGo4ComSetAnalysisStatus()
 {
-   TRACE((12,"TGo4ComSetAnalysisStatus::~TGo4ComSetAnalysisStatus() dtor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComSetAnalysisStatus::~TGo4ComSetAnalysisStatus() dtor",__LINE__, __FILE__));
    delete fxAnalysisStatus;
 }
 
@@ -68,12 +68,12 @@ if(stat)
 
 Int_t TGo4ComSetAnalysisStatus::ExeCom()
 {
-   TRACE((12,"TGo4ComSetAnalysisStatus::ExeCom()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComSetAnalysisStatus::ExeCom()",__LINE__, __FILE__));
 
    TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
    if (cli!=0)
       {
-      TRACE((11,"TGo4ComSetAnalysisStatus::ExeCom() - found valid receiver",__LINE__, __FILE__));
+      GO4TRACE((11,"TGo4ComSetAnalysisStatus::ExeCom() - found valid receiver",__LINE__, __FILE__));
          //TGo4Log::Debug(" Executing SetAnalysisStatus...  ");
          TGo4Analysis* ana= TGo4Analysis::Instance();
          if(ana)
@@ -91,7 +91,7 @@ Int_t TGo4ComSetAnalysisStatus::ExeCom()
       }
    else
       {
-      TRACE((11,"TGo4ComSetAnalysisStatus::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
+      GO4TRACE((11,"TGo4ComSetAnalysisStatus::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
          TGo4Log::Debug(" !!! ''%s'': NO RECEIVER ERROR!!!",GetName());
          throw TGo4RuntimeException();
          return 1;

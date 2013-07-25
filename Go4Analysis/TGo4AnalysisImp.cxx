@@ -128,7 +128,7 @@ const char* TGo4Analysis::fgcTOPDYNAMICLIST="Go4DynamicList";
 
 TGo4Analysis* TGo4Analysis::Instance()
 {
-   TRACE((14,"TGo4Analysis::Instance()",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4Analysis::Instance()",__LINE__, __FILE__));
    if(fxInstance==0) {
       fxInstance=new TGo4Analysis;
       fbExists=kTRUE;
@@ -191,7 +191,7 @@ TGo4Analysis::TGo4Analysis(const char* name) :
    fbObjMade(kFALSE),
    fNumCtrlC(0)
 {
-   TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
 
    if (name!=0) SetAnalysisName(name);
 
@@ -227,7 +227,7 @@ TGo4Analysis::TGo4Analysis(int argc, char** argv) :
    fbObjMade(kFALSE),
    fNumCtrlC(0)
 {
-   TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
 
    if ((argc>0) && (argv[0]!=0)) SetAnalysisName(argv[0]);
 
@@ -297,7 +297,7 @@ TGo4Analysis::~TGo4Analysis()
       fxInterruptHandler = 0;
    }
 
-   TRACE((15,"TGo4Analysis::~TGo4Analysis()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4Analysis::~TGo4Analysis()",__LINE__, __FILE__));
    CloseAnalysis();
    CloseAutoSaveFile();
    delete fxStepManager;
@@ -308,7 +308,7 @@ TGo4Analysis::~TGo4Analysis()
    TGo4CommandInvoker::UnRegister(this);
    fxInstance = 0; // reset static singleton instance pointer
    gROOT->ProcessLineSync(Form(".x %s", TGo4Log::subGO4SYS("macros/anamacroclose.C").Data()));
-   //cout <<"end of dtor" << endl;
+   //std::cout <<"end of dtor" << std::endl;
 }
 
 
@@ -339,7 +339,7 @@ void TGo4Analysis::ProcessCrtlCSignal()
 
 Bool_t TGo4Analysis::InitEventClasses()
 {
-   TRACE((14,"TGo4Analysis::InitEventClasses()",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4Analysis::InitEventClasses()",__LINE__, __FILE__));
    //
    Bool_t rev = kTRUE;
    if(!fbInitIsDone) {
@@ -364,7 +364,7 @@ Bool_t TGo4Analysis::InitEventClasses()
 
 Int_t TGo4Analysis::MainCycle()
 {
-   TRACE((11,"TGo4Analysis::MainCycle()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::MainCycle()",__LINE__, __FILE__));
    if(!fbInitIsDone)
       throw TGo4UserException(3,"Analysis not yet initialized");
 
@@ -403,13 +403,13 @@ Int_t TGo4Analysis::MainCycle()
 
 Int_t TGo4Analysis::UserEventFunc()
 {
-   TRACE((11,"TGo4Analysis::UserEventFunc()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::UserEventFunc()",__LINE__, __FILE__));
    return 0;
 }
 
 Int_t TGo4Analysis::Process()
 {
-   TRACE((11,"TGo4Analysis::Process()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::Process()",__LINE__, __FILE__));
    Int_t rev=0;
 #if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
 #if ROOT_VERSION_CODE < ROOT_VERSION(5,99,0)
@@ -417,7 +417,7 @@ Int_t TGo4Analysis::Process()
    if(gCINTMutex) {
       gCINTMutex->UnLock();
       unlockedcint=kTRUE;
-      //cout <<"Process() Unlocked cint mutex..." << endl;
+      //std::cout <<"Process() Unlocked cint mutex..." << std::endl;
    }
 #endif
 #endif
@@ -566,7 +566,7 @@ Int_t TGo4Analysis::Process()
    /// test: need to unlock cintmutex here to enable streaming!
    if(gCINTMutex && unlockedcint) {
       gCINTMutex->Lock();
-      //cout <<"PPPProcess() locked cint mutex..." << endl;
+      //std::cout <<"PPPProcess() locked cint mutex..." << std::endl;
    }
 #endif
 #endif
@@ -577,7 +577,7 @@ Int_t TGo4Analysis::Process()
 
 Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t process_event_interval)
 {
-   TRACE((11,"TGo4Analysis::RunImplicitLoop(Int_t)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::RunImplicitLoop(Int_t)",__LINE__, __FILE__));
    Int_t cnt = 0; // number of actually processed events
    if (process_event_interval>1.) process_event_interval = 1.;
 
@@ -700,7 +700,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 
 Bool_t TGo4Analysis::RemoveDynamicEntry(const char * entryname, const char* listname)
 {
-   TRACE((11,"TGo4Analysis::RemoveDynamicEntry(const char *, const char* )",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::RemoveDynamicEntry(const char *, const char* )",__LINE__, __FILE__));
    Bool_t rev=fxObjectManager->RemoveDynamicEntry(entryname);
    if(rev) UpdateNamesList();
    return rev;
@@ -712,7 +712,7 @@ Bool_t TGo4Analysis::RemoveDynamicEntry(const char * entryname, const char* list
 
 void TGo4Analysis::UpdateStatus(TGo4AnalysisStatus* state)
 {
-   TRACE((11,"TGo4Analysis::UpdateStatus(TGo4AnalysisStatus*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::UpdateStatus(TGo4AnalysisStatus*)",__LINE__, __FILE__));
    fxStepManager->UpdateStatus(state);
    if(state!=0) {
       state->SetAutoSaveInterval(fiAutoSaveInterval);
@@ -726,7 +726,7 @@ void TGo4Analysis::UpdateStatus(TGo4AnalysisStatus* state)
 
 void TGo4Analysis::SetStatus(TGo4AnalysisStatus * state)
 {
-   TRACE((11,"TGo4Analysis::SetStatus(TGo4AnalysisStatus*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::SetStatus(TGo4AnalysisStatus*)",__LINE__, __FILE__));
    if(state!=0) {
       // first we close down exisiting  analysis:
       CloseAnalysis();
@@ -742,7 +742,7 @@ void TGo4Analysis::SetStatus(TGo4AnalysisStatus * state)
 
 Bool_t TGo4Analysis::LoadStatus(const char* filename)
 {
-   TRACE((11,"TGo4Analysis::LoadStatus(const char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::LoadStatus(const char*)",__LINE__, __FILE__));
    //
    Bool_t rev=kFALSE;
    TString fname = filename ? filename : fgcDEFAULTSTATUSFILENAME;
@@ -789,7 +789,7 @@ Bool_t TGo4Analysis::LoadStatus(const char* filename)
 
 Bool_t TGo4Analysis::SaveStatus(const char* filename)
 {
-   TRACE((11,"TGo4Analysis::SaveStatus(const char*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::SaveStatus(const char*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
    char buffer[1024];
    if(filename)
@@ -824,7 +824,7 @@ Bool_t TGo4Analysis::SaveStatus(const char* filename)
 
 TGo4AnalysisStatus* TGo4Analysis::CreateStatus()
 {
-   TRACE((11,"TGo4Analysis::CreateStatus()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::CreateStatus()",__LINE__, __FILE__));
    TDirectory* filsav=gDirectory;
    gROOT->cd();
    TGo4AnalysisStatus* state= new TGo4AnalysisStatus(GetName());
@@ -843,7 +843,7 @@ void TGo4Analysis::Print(Option_t*) const
 
 TTree* TGo4Analysis::CreateSingleEventTree(TGo4EventElement* event)
 {
-   TRACE((11,"TGo4Analysis::CreateSingleEventTree(TGo4EventElement*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::CreateSingleEventTree(TGo4EventElement*)",__LINE__, __FILE__));
    //
    if(event==0) return 0;
    TDirectory* filsav=gDirectory;
@@ -864,7 +864,7 @@ TTree* TGo4Analysis::CreateSingleEventTree(TGo4EventElement* event)
 
 TTree* TGo4Analysis::CreateSingleEventTree(const char* name, Bool_t isoutput)
 {
-   TRACE((11,"TGo4Analysis::CreateSingleEventTree(const char*, Bool_t)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::CreateSingleEventTree(const char*, Bool_t)",__LINE__, __FILE__));
    //
    TGo4EventElement* event=0;
    if(isoutput) event = GetOutputEvent(name);
@@ -877,7 +877,7 @@ TTree* TGo4Analysis::CreateSingleEventTree(const char* name, Bool_t isoutput)
 
 void TGo4Analysis::CloseAnalysis()
 {
-   TRACE((14,"TGo4Analysis::CloseAnalysis()",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4Analysis::CloseAnalysis()",__LINE__, __FILE__));
    //
    if(fbInitIsDone) {
       AutoSave();
@@ -889,7 +889,7 @@ void TGo4Analysis::CloseAnalysis()
 
 Int_t TGo4Analysis::PreLoop()
 {
-   TRACE((11,"TGo4Analysis:PreLoop()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis:PreLoop()",__LINE__, __FILE__));
    TGo4LockGuard  autoguard(fxAutoSaveMutex);
    // avoid conflict with possible user object modifications during startup autosave!
    Int_t rev = 0;
@@ -901,7 +901,7 @@ Int_t TGo4Analysis::PreLoop()
 
 Int_t TGo4Analysis::PostLoop()
 {
-   TRACE((11,"TGo4Analysis::PostLoop()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::PostLoop()",__LINE__, __FILE__));
    TGo4LockGuard  autoguard(fxAutoSaveMutex);
    Int_t rev=0;
    ////////////////////////Test of single event tree
@@ -910,7 +910,7 @@ Int_t TGo4Analysis::PostLoop()
    //   mytree->SetDirectory(myfile);
    //   mytree->Write();
    //   delete myfile;
-   //   cout <<"___________Wrote eventsample to file eventsample.root" << endl;
+   //   std::cout <<"___________Wrote eventsample to file eventsample.root" << std::endl;
    /////////////////////
    if(fbInitIsDone)   rev=UserPostLoop(); // do not call userpostloop after error in initialization
    return rev;
@@ -918,7 +918,7 @@ Int_t TGo4Analysis::PostLoop()
 
 Int_t TGo4Analysis::UserPreLoop()
 {
-   TRACE((11,"TGo4Analysis::UserPreLoop()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::UserPreLoop()",__LINE__, __FILE__));
    //
    Message(0,"Analysis BaseClass --  executing default User Preloop");
    return 0;
@@ -926,7 +926,7 @@ Int_t TGo4Analysis::UserPreLoop()
 
 Int_t TGo4Analysis::UserPostLoop()
 {
-   TRACE((11,"TGo4Analysis::UserPostLoop()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::UserPostLoop()",__LINE__, __FILE__));
    //
    Message(0,"Analysis BaseClass --  executing default User Postloop");
    return 0;
@@ -955,7 +955,7 @@ Bool_t TGo4Analysis::IsAutoSaveFileName() const
 
 Int_t TGo4Analysis::LockAutoSave()
 {
-   TRACE((12,"TGo4Analysis::LockAutoSave()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Analysis::LockAutoSave()",__LINE__, __FILE__));
    Int_t rev;
    if(TThread::Exists()>0 && fxAutoSaveMutex)
       rev=fxAutoSaveMutex->Lock();
@@ -966,7 +966,7 @@ Int_t TGo4Analysis::LockAutoSave()
 
 Int_t TGo4Analysis::UnLockAutoSave()
 {
-   TRACE((12,"TGo4Analysis::UnLockAutoSave()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Analysis::UnLockAutoSave()",__LINE__, __FILE__));
    Int_t rev(-1);
    if(TThread::Exists()>0 && fxAutoSaveMutex)
       rev = fxAutoSaveMutex->UnLock();
@@ -976,7 +976,7 @@ Int_t TGo4Analysis::UnLockAutoSave()
 
 void TGo4Analysis::AutoSave()
 {
-   TRACE((12,"TGo4Analysis::AutoSave()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Analysis::AutoSave()",__LINE__, __FILE__));
 
    if(!fbAutoSaveOn) return;
    TGo4LockGuard  autoguard(fxAutoSaveMutex);
@@ -1033,9 +1033,9 @@ void TGo4Analysis::CloseAutoSaveFile()
 
 void TGo4Analysis::UpdateNamesList()
 {
-   TRACE((11,"TGo4Analysis::UpdateNamesList()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4Analysis::UpdateNamesList()",__LINE__, __FILE__));
    //
-   //cout <<"UpdateNamesList: current dir:"<< gDirectory->GetName() << endl;
+   //std::cout <<"UpdateNamesList: current dir:"<< gDirectory->GetName() << std::endl;
    // first try: update all
    delete fxObjectNames;
    fxObjectNames = CreateNamesList();
@@ -1152,7 +1152,7 @@ Int_t TGo4Analysis::WaitForStart()
    Int_t cycles=0;
    while(!IsRunning())
    {
-      //cout <<"WWWWWWWait for Start before Sleep..." << endl;
+      //std::cout <<"WWWWWWWait for Start before Sleep..." << std::endl;
       gSystem->Sleep(fgiMACROSTARTPOLL);
       cycles++;
       Bool_t sysret = gSystem->ProcessEvents();
@@ -1197,7 +1197,7 @@ void TGo4Analysis::StopObjectServer()
 void TGo4Analysis::ShutdownServer()
 {
    // this method to be called from ctrl-c signal handler of analysis server
-   //cout <<"######### TGo4Analysis::ShutdownServer()" << endl;
+   //std::cout <<"######### TGo4Analysis::ShutdownServer()" << std::endl;
    if(fxAnalysisSlave)
    {
       TGo4Log::Message(1,"Analysis server is initiating shutdown after ctrl-c, please wait!!\n");

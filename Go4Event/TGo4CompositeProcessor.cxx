@@ -48,7 +48,7 @@ void TGo4CompositeProcessor::AddSubProcessor(TGo4EventProcessor* proc)
 
 void TGo4CompositeProcessor::ProcessSubevent(TGo4MbsSubEvent* subevt)
 {
-   //cout << "Dummy, should be reimplemented " << endl; // but must not if this is the top beamtime event JAM
+   //std::cout << "Dummy, should be reimplemented " << std::endl; // but must not if this is the top beamtime event JAM
 }
 
 
@@ -73,7 +73,7 @@ Bool_t TGo4CompositeProcessor::BuildEvent(TGo4EventElement* outevnt)
    if(fMbsInput)
    {
 //      if(fMbsInput->GetTrigger() > 11) {
-//         cout << "**** TGo4CompositeProcessor: Skip trigger event"<<endl;
+//         std::cout << "**** TGo4CompositeProcessor: Skip trigger event"<< std::endl;
 //         return kFALSE;
 ////}
 

@@ -27,11 +27,11 @@ void filedir_namiter(TFile *f, TString fulldir, const char* wildcard)
      curname.Form("%s",key->GetName());
      if(curname.Index(wild) != kNPOS)
        {
-         cout.width(32);
-         cout.fill('.');
-         cout.setf(ios::left);
-              cout << key->GetClassName() << " ";
-              cout << fullname.Data() << endl;
+         std::cout.width(32);
+         std::cout.fill('.');
+         std::cout.setf(ios::left);
+              std::cout << key->GetClassName() << " ";
+              std::cout << fullname.Data() << std::endl;
    }
    }
     }
@@ -43,7 +43,7 @@ void filedir(const char* file, const char* wildcard)
   TString fulldir;
   TObject *namo;
   TFile *f;
-  cout << "Directory of " << file << "(" << wildcard << ")" <<endl;
+  std::cout << "Directory of " << file << "(" << wildcard << ")" << std::endl;
   if(f = TFile::Open(file,"r"))
     {
       fulldir.Form("");
@@ -51,6 +51,6 @@ void filedir(const char* file, const char* wildcard)
       f->Close();
     }
   else
-  cout << file << " not found" <<endl;
+  std::cout << file << " not found" << std::endl;
 
 }

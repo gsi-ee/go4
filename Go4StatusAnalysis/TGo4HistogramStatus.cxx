@@ -27,7 +27,7 @@ fdXmin(0), fdXmax(0), fdYmin(0), fdYmax(0), fdZmin(0), fdZmax(0),
 fdEntries(0), fdXmean(0), fdYmean(0), fdZmean(0),
 fdXrms(0), fdYrms(0), fdZrms(0)
 {
-   TRACE((14,"TGo4HistogramStatus::TGo4HistogramStatus(TH1*)",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4HistogramStatus::TGo4HistogramStatus(TH1*)",__LINE__, __FILE__));
 
    if(his!=0)
       {
@@ -150,15 +150,15 @@ fdXrms(0), fdYrms(0), fdZrms(0)
          {
          // note: we do not calculate statistic for nameslist
          // slows down when processing empty 2d histos!
-         //cout <<"\t" <<GetName()<<" calculating mean/rms..." << endl;
+         //std::cout <<"\t" <<GetName()<<" calculating mean/rms..." << std::endl;
          fdXmean=his->GetMean(1);
          fdYmean=his->GetMean(2);
          fdZmean=his->GetMean(3);
-         //cout <<"\t"<<GetName()<<" finished mean." << endl;
+         //std::cout <<"\t"<<GetName()<<" finished mean." << std::endl;
          fdXrms=his->GetRMS(1);
          fdYrms=his->GetRMS(2);
          fdZrms=his->GetRMS(3);
-         //cout <<"\t"<<GetName()<<" finished rms." << endl;
+         //std::cout <<"\t"<<GetName()<<" finished rms." << std::endl;
          }
       }
 }
@@ -171,14 +171,14 @@ fdXmin(0), fdXmax(0), fdYmin(0), fdYmax(0), fdZmin(0), fdZmax(0),
 fdEntries(0), fdXmean(0), fdYmean(0), fdZmean(0),
 fdXrms(0), fdYrms(0), fdZrms(0)
 {
-TRACE((14,"TGo4HistogramStatus::TGo4HistogramStatus()",__LINE__, __FILE__));
+GO4TRACE((14,"TGo4HistogramStatus::TGo4HistogramStatus()",__LINE__, __FILE__));
 
 }
 
 
 TGo4HistogramStatus::~TGo4HistogramStatus()
 {
-TRACE((14,"TGo4HistogramStatus::TGo4HistogramStatus()",__LINE__, __FILE__));
+GO4TRACE((14,"TGo4HistogramStatus::TGo4HistogramStatus()",__LINE__, __FILE__));
 
 }
 
@@ -187,7 +187,7 @@ TRACE((14,"TGo4HistogramStatus::TGo4HistogramStatus()",__LINE__, __FILE__));
 
 Int_t TGo4HistogramStatus::PrintStatus(Text_t* buffer, Int_t buflen)
 {
-   TRACE((12,"TGo4HistogramStatus::PrintStatus()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4HistogramStatus::PrintStatus()",__LINE__, __FILE__));
    //
    if(buflen<=0 && buffer!=0)
       return 0;

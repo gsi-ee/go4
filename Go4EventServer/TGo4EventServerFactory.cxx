@@ -47,24 +47,24 @@
 TGo4EventServerFactory::TGo4EventServerFactory(const char* name)
 : TGo4EventFactory(name), fxEvent(0)
 {
-   TRACE((15,"TGo4EventServerFactory::TGo4EventServerFactory(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4EventServerFactory::TGo4EventServerFactory(const char*)",__LINE__, __FILE__));
 }
 
 TGo4EventServerFactory::TGo4EventServerFactory()
 : TGo4EventFactory("Go4 Event Server Factory"),fxEvent(0)
 {
-   TRACE((15,"TGo4EventServerFactory::TGo4EventServerFactory()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4EventServerFactory::TGo4EventServerFactory()",__LINE__, __FILE__));
 }
 
 
 TGo4EventServerFactory::~TGo4EventServerFactory()
 {
-   TRACE((15,"TGo4EventServerFactory::~TGo4EventServerFactory()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4EventServerFactory::~TGo4EventServerFactory()",__LINE__, __FILE__));
 }
 
 TGo4EventElement * TGo4EventServerFactory::CreateInputEvent()
 {
-   TRACE((14,"TGo4EventServerFactory::CreateInputEvent()",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4EventServerFactory::CreateInputEvent()",__LINE__, __FILE__));
 
 //    variant 1: create one default subevent with default identifiers
 //   Short_t procidfield[1]= {1};
@@ -83,7 +83,7 @@ TGo4EventElement * TGo4EventServerFactory::CreateInputEvent()
 
 TGo4EventStore * TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParameter* par)
 {
-   TRACE((14,"TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParameter*)",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParameter*)",__LINE__, __FILE__));
 
    TGo4EventStore* rev=0;
 
@@ -140,7 +140,7 @@ TGo4EventStore * TGo4EventServerFactory::CreateEventStore(TGo4EventStoreParamete
 
 TGo4EventSource * TGo4EventServerFactory::CreateEventSource(TGo4EventSourceParameter * par)
 {
-   TRACE((14,"TGo4EventServerFactory::CreateEventSource(TGo4EventSourceParameter*)",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4EventServerFactory::CreateEventSource(TGo4EventSourceParameter*)",__LINE__, __FILE__));
 
 
    TGo4EventSource* rev=0;

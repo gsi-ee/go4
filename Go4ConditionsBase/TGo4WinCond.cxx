@@ -34,7 +34,7 @@ TGo4WinCond::TGo4WinCond() :
    fiSaveYMin(0),
    fiSaveYMax(0)
 {
-   TRACE((15,"TGo4WinCond::TGo4WinCond()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4WinCond::TGo4WinCond()",__LINE__, __FILE__));
 }
 // -----------------------------------------------
 TGo4WinCond::TGo4WinCond(const char* name, const char* title) :
@@ -48,13 +48,13 @@ TGo4WinCond::TGo4WinCond(const char* name, const char* title) :
    fiSaveYMin(0),
    fiSaveYMax(0)
 {
-TRACE((15,"TGo4WinCond::TGo4WinCond(name,title)",__LINE__, __FILE__));
+GO4TRACE((15,"TGo4WinCond::TGo4WinCond(name,title)",__LINE__, __FILE__));
 }
 
 // -----------------------------------------------
 TGo4WinCond::~TGo4WinCond()
 {
-TRACE((15,"TGo4WinCond::~TGo4WinCond()",__LINE__, __FILE__));
+GO4TRACE((15,"TGo4WinCond::~TGo4WinCond()",__LINE__, __FILE__));
 }
 
 // -----------------------------------------------
@@ -313,8 +313,8 @@ void TGo4WinCond::SavePrimitive(std::ostream& out, Option_t* opt)
    Double_t  xl,xu,yl,yu;
    GetValues(dim,xl,xu,yl,yu);
 
-   if(dim==1) out << Form("   %s->SetValues(%f, %f);", varname.Data(), xl, xu) << endl;
-         else out << Form("   %s->SetValues(%f, %f, %f, %f);", varname.Data(), xl, xu, yl, yu) << endl;
+   if(dim==1) out << Form("   %s->SetValues(%f, %f);", varname.Data(), xl, xu) << std::endl;
+         else out << Form("   %s->SetValues(%f, %f, %f, %f);", varname.Data(), xl, xu, yl, yu) << std::endl;
 }
 
 

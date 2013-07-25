@@ -14,7 +14,7 @@
 #include "TGo4AnalysisWindow.h"
 
 #include "TSystem.h"
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "qmime.h"
 #include "qlayout.h"
@@ -37,56 +37,54 @@
 #include "QGo4CommandsHistory.h"
 
 
-
-TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool needoutput, bool needkillbtn)
-    : QGo4Widget( parent, name)
+TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool needoutput, bool needkillbtn) :
+    QGo4Widget( parent, name)
 {
+   setCanDestroyWidget(false);
+   setAcceptDrops(FALSE);
 
-    setCanDestroyWidget(false);
-    setAcceptDrops(FALSE);
+   fAnalysisProcess = 0;
+   fxOutput = 0;
+   outputBuffer = "";
+   fiMaxOuputSize = 0;
+   fxCmdHist = 0;
 
-    fAnalysisProcess = 0;
-    fxOutput = 0;
-    outputBuffer = "";
-    fiMaxOuputSize = 0;
-    fxCmdHist = 0;
+   fNewObjectForEditor = true;
 
-    fNewObjectForEditor = true;
+   setCaption("Analysis Terminal");
 
-    setCaption("Analysis Terminal");
+   if (needoutput) {
 
-    if (needoutput) {
+      resize(700, 400);
+      setIcon(QPixmap::fromMimeSource("analysiswin.png"));
+      QGridLayout* layout = new QGridLayout( this, 1, 1, 11, 6, "layout");
+      fxOutput = new QTextEdit(this, "output");
+      fxOutput->setUndoRedoEnabled(FALSE);
+      fxOutput->setAutoFormatting(QTextEdit::AutoNone);
+      fxOutput->setWordWrap(QTextEdit::NoWrap);
+      fxOutput->setReadOnly(TRUE);
+      layout->addWidget( fxOutput, 0, 0 );
 
-       resize(700, 400);
-       setIcon(QPixmap::fromMimeSource("analysiswin.png"));
-       QGridLayout* layout = new QGridLayout( this, 1, 1, 11, 6, "layout");
-       fxOutput = new QTextEdit(this, "output");
-       fxOutput->setUndoRedoEnabled(FALSE);
-       fxOutput->setAutoFormatting(QTextEdit::AutoNone);
-       fxOutput->setWordWrap(QTextEdit::NoWrap);
-       fxOutput->setReadOnly(TRUE);
-       layout->addWidget( fxOutput, 0, 0 );
+      fiMaxOuputSize = go4sett->getTermHistorySize();
 
-       fiMaxOuputSize = go4sett->getTermHistorySize();
+      QHBoxLayout *box1 = new QHBoxLayout(layout);
+      box1->addWidget(new QLabel("Press enter to execute.", this), 1);
+      CreateCmdLine(box1);
 
-       QHBoxLayout *box1 = new QHBoxLayout(layout);
-       box1->addWidget(new QLabel("Press enter to execute.", this), 1);
-       CreateCmdLine(box1);
+      QHBoxLayout *box2 = new QHBoxLayout(layout);
+      CreateButtons(box2, needkillbtn);
 
-       QHBoxLayout *box2 = new QHBoxLayout(layout);
-       CreateButtons(box2, needkillbtn);
+      updateTerminalOutput();
+   } else {
 
-       updateTerminalOutput();
-    } else {
+      QHBoxLayout *box = new QHBoxLayout(this, 0, 3);
 
-       QHBoxLayout *box = new QHBoxLayout(this, 0, 3);
+      CreateButtons(box, needkillbtn);
 
-       CreateButtons(box, needkillbtn);
+      CreateCmdLine(box);
 
-       CreateCmdLine(box);
-
-       adjustSize();
-    }
+      adjustSize();
+   }
 }
 
 void TGo4AnalysisWindow::CreateCmdLine(QHBoxLayout* box)
@@ -256,7 +254,7 @@ bool TGo4AnalysisWindow::SetProcessArgs(QProcess* proc, const char* args)
 {
    if ((proc==0) || (args==0)) return false;
 
-//   cout << "Set processor args: " << args << endl;
+//   std::cout << "Set processor args: " << args << std::endl;
 
    const char* text = args;
 
@@ -268,13 +266,13 @@ bool TGo4AnalysisWindow::SetProcessArgs(QProcess* proc, const char* args)
       if (*text=='\"') {
          const char* quote = strchr(text+1, '\"');
          if (quote==0) {
-            cerr << "Error command format: " << args << endl;
+            std::cerr << "Error command format: " << args << std::endl;
             return false;
          }
          std::string arg(text+1, quote-text-1);
          if (arg.length()>0) {
             proc->addArgument(arg.c_str());
-//            cout << "Arg: " << arg << endl;
+//            std::cout << "Arg: " << arg << std::endl;
          }
          text = quote+1;
       } else
@@ -282,11 +280,11 @@ bool TGo4AnalysisWindow::SetProcessArgs(QProcess* proc, const char* args)
          std::string arg(text, separ-text);
          if (arg.length()>0) {
             proc->addArgument(arg.c_str());
-//            cout << "Arg: " << arg << endl;
+//            std::cout << "Arg: " << arg << std::endl;
          }
          text = separ+1;
       } else {
-//         cout << "Arg: " << text << endl;
+//         std::cout << "Arg: " << text << std::endl;
          proc->addArgument(text);
          break;
       }
@@ -311,7 +309,7 @@ void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdi
     // fAnalysisProcess->setArguments(QStringList::split(" ", text));
 
     if (!fAnalysisProcess->start()) {
-       cerr << "Fatal error. Could not start the Analysis" << endl;
+       std::cerr << "Fatal error. Could not start the Analysis" << std::endl;
        TerminateAnalysisProcess();
     }
 }
@@ -351,8 +349,9 @@ void TGo4AnalysisWindow::SaveAnalysisOutput()
    if(!fileName.endsWith(".txt")) fileName.append(".txt");
    QFile NewFile(fileName);
    NewFile.open( IO_ReadWrite | IO_Append );
-   QTextStream t( &NewFile );
-   t << fxOutput->text() << endl;
+   QTextStream t(&NewFile);
+   t << fxOutput->text();
+   t << "\n";
    NewFile.close();
 }
 
@@ -362,17 +361,17 @@ void TGo4AnalysisWindow::HistActivated(const QString& str)
       fxCmdHist->ResetEnterPressed();
       int pos = -1;
       for (int i=0;i<fxCmdHist->count();i++)
-        if (fxCmdHist->text(i)=="") pos = i;
+         if (fxCmdHist->text(i)=="") pos = i;
 
       if (pos>0) fxCmdHist->removeItem(pos);
       if (pos!=0) fxCmdHist->insertItem("", 0);
 
       if (fxCmdHist->currentItem()!=0)
-        fxCmdHist->setCurrentItem(0);
+         fxCmdHist->setCurrentItem(0);
 
       TGo4AnalysisProxy* anal = GetAnalysis();
       if (anal!=0)
-        anal->ExecuteLine(str.latin1());
+         anal->ExecuteLine(str.latin1());
    }
 }
 

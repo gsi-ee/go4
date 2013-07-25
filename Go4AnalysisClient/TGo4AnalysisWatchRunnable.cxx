@@ -50,7 +50,7 @@ Int_t TGo4AnalysisWatchRunnable::Run(void*)
             fxAnalysisClient->UpdateRate(-1); // stopped: keep latest values for time and average rate
          {
             //TGo4LockGuard mainguard; // in UpdateStatusBuffer now JA
-            //cout << "watch runnable updated status buffer itself!!!"<< endl;
+            //std::cout << "watch runnable updated status buffer itself!!!"<< std::endl;
             fxAnalysisClient->UpdateStatusBuffer();
          } // lock guard
       }

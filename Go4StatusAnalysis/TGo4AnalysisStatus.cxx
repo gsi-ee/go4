@@ -38,7 +38,7 @@ TGo4AnalysisStatus::TGo4AnalysisStatus() :
    fxAutoFileName(),
    fxConfigFileName()
 {
-  TRACE((15,"TGo4AnalysisStatus::TGo4AnalysisStatus()",__LINE__, __FILE__));
+  GO4TRACE((15,"TGo4AnalysisStatus::TGo4AnalysisStatus()",__LINE__, __FILE__));
 }
 
 
@@ -57,7 +57,7 @@ TGo4AnalysisStatus::TGo4AnalysisStatus(const char* name) :
    fxAutoFileName(),
    fxConfigFileName()
 {
-  TRACE((15,"TGo4AnalysisStatus::TGo4AnalysisStatus(const char*)",__LINE__, __FILE__));
+  GO4TRACE((15,"TGo4AnalysisStatus::TGo4AnalysisStatus(const char*)",__LINE__, __FILE__));
   fxStepArray = new TObjArray;
   fxStepIterator = fxStepArray->MakeIterator();
   fxStepMutex = new TMutex;
@@ -65,7 +65,7 @@ TGo4AnalysisStatus::TGo4AnalysisStatus(const char* name) :
 
 TGo4AnalysisStatus::~TGo4AnalysisStatus()
 {
-  TRACE((15,"TGo4AnalysisStatus::~TGo4AnalysisStatus()",__LINE__, __FILE__));
+  GO4TRACE((15,"TGo4AnalysisStatus::~TGo4AnalysisStatus()",__LINE__, __FILE__));
   delete fxStepMutex;
   delete fxStepIterator;
   fxStepArray->Delete();
@@ -74,7 +74,7 @@ TGo4AnalysisStatus::~TGo4AnalysisStatus()
 
 Int_t TGo4AnalysisStatus::PrintStatus(Text_t* buffer, Int_t buflen)
 {
-   TRACE((12,"TGo4AnalysisStatus::PrintStatus()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisStatus::PrintStatus()",__LINE__, __FILE__));
    if(buflen<=0 && buffer!=0)
       {
          std::cout << "analysis status print has invalid buflen and nonzero buffer"<< std::endl;
@@ -123,7 +123,7 @@ Int_t TGo4AnalysisStatus::PrintStatus(Text_t* buffer, Int_t buflen)
 
 TGo4AnalysisStepStatus * TGo4AnalysisStatus::GetStepStatus(const char* name)
 {
-TRACE((11,"TGo4Analysis::GetAnalysisStep(const char*)",__LINE__, __FILE__));
+GO4TRACE((11,"TGo4Analysis::GetAnalysisStep(const char*)",__LINE__, __FILE__));
 if(fxStepArray==0) return 0;
    TGo4AnalysisStepStatus* step=0;
       {
@@ -135,7 +135,7 @@ if(fxStepArray==0) return 0;
 
 TGo4AnalysisStepStatus * TGo4AnalysisStatus::NextStepStatus()
 {
-TRACE((11,"TGo4AnalysisStatus::NextStepStatus()",__LINE__, __FILE__));
+GO4TRACE((11,"TGo4AnalysisStatus::NextStepStatus()",__LINE__, __FILE__));
 if(fxStepIterator==0) return 0;
    TGo4AnalysisStepStatus* step=0;
       {
@@ -159,7 +159,7 @@ void TGo4AnalysisStatus::ResetStepIterator()
 
 Bool_t  TGo4AnalysisStatus::AddStepStatus(TGo4AnalysisStepStatus * next)
 {
-TRACE((14,"TGo4AnalysisStatus::AddAnalysisStep(TGo4AnalysisStep*)",__LINE__, __FILE__));
+GO4TRACE((14,"TGo4AnalysisStatus::AddAnalysisStep(TGo4AnalysisStep*)",__LINE__, __FILE__));
 //
 if(fxStepArray==0) return kFALSE;
    Bool_t rev=kFALSE;

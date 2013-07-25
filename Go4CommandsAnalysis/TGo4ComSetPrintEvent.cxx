@@ -55,7 +55,7 @@ Int_t TGo4ComSetPrintEvent::ExeCom()
    TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
 
    if (cli==0) {
-      TRACE((11,"TGo4ComSetPrintEvent::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
+      GO4TRACE((11,"TGo4ComSetPrintEvent::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
       TGo4Log::Debug(" !!! %s : NO or WRONG RECEIVER ERROR!!!",GetName());
       return 1;
    }

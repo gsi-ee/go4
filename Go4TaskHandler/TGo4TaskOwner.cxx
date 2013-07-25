@@ -81,7 +81,7 @@ if(IsServer())
       TGo4ServerTask* server=dynamic_cast<TGo4ServerTask*>(GetTask());
       if(server==0)
          {
-            cerr <<"NEVER COME HERE: servermode without servertask in taskowner "<< GetName() << endl;
+            std::cerr <<"NEVER COME HERE: servermode without servertask in taskowner "<< GetName() << std::endl;
             return kFALSE;
          }
       return (server->GetCurrentTaskHandler()!=0);
@@ -91,7 +91,7 @@ else
       TGo4ClientTask* client=dynamic_cast<TGo4ClientTask*>(GetTask());
       if(client==0)
          {
-            cerr <<"NEVER COME HERE: clientmode without clienttask in taskowner "<< GetName() << endl;
+            std::cerr <<"NEVER COME HERE: clientmode without clienttask in taskowner "<< GetName() << std::endl;
             return kFALSE;
          }
       return (client->IsConnected());

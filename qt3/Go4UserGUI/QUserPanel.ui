@@ -203,10 +203,10 @@ and then just drag &amp; drop object to this label (not to output window).</stri
                     </widget>
                     <widget class="QRadioButton" row="2" column="1">
                         <property name="name">
-                            <cstring>coutButton</cstring>
+                            <cstring>cccButton</cstring>
                         </property>
                         <property name="text">
-                            <string>cout is used in obj-&gt;Print()</string>
+                            <string>std::cout is used in obj-&gt;Print()</string>
                         </property>
                     </widget>
                 </grid>
@@ -314,7 +314,7 @@ and then just drag &amp; drop object to this label (not to output window).</stri
         <slot>DrawBtn_clicked()</slot>
     </connection>
     <connection>
-        <sender>coutButton</sender>
+        <sender>cccButton</sender>
         <signal>clicked()</signal>
         <receiver>stdoutButton</receiver>
         <slot>toggle()</slot>
@@ -322,7 +322,7 @@ and then just drag &amp; drop object to this label (not to output window).</stri
     <connection>
         <sender>stdoutButton</sender>
         <signal>clicked()</signal>
-        <receiver>coutButton</receiver>
+        <receiver>cccButton</receiver>
         <slot>toggle()</slot>
     </connection>
     <connection>

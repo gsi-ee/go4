@@ -224,7 +224,7 @@ TGo4Condition::Enable();
 if(IsMultiEdit())
    {
    Int_t ii = condarr->GetLast()+1;
-   //cout << GetName() << ": Enable " <<ii<<" conditions " << endl;
+   //std::cout << GetName() << ": Enable " <<ii<<" conditions " << std::endl;
    for(Int_t i = 0; i < ii; i++)
       {
          TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
@@ -244,7 +244,7 @@ TGo4Condition::Disable(result);
 if(IsMultiEdit())
    {
    Int_t ii = condarr->GetLast()+1;
-   //cout << GetName() << ": Disable " <<ii<<" conditions " << " " << result << endl;
+   //std::cout << GetName() << ": Disable " <<ii<<" conditions " << " " << result << std::endl;
    for(Int_t i = 0; i < ii; i++)
       {
          TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
@@ -264,7 +264,7 @@ TGo4Condition::Invert(on);
 if(IsMultiEdit())
    {
    Int_t ii = condarr->GetLast()+1;
-   //cout << GetName() << ": Invert " <<ii<<" conditions " << " " << on << endl;
+   //std::cout << GetName() << ": Invert " <<ii<<" conditions " << " " << on << std::endl;
    for(Int_t i = 0; i < ii; i++)
       {
          TGo4Condition* cond=(TGo4Condition*) condarr->UncheckedAt(i);
@@ -326,7 +326,7 @@ void TGo4CondArray::ResetCounts(){
 TGo4Condition::ResetCounts();
 if(IsMultiEdit())
    {
-   //cout << GetName() << ": Reset " <<ii<<" conditions " << " " << on << endl;
+   //std::cout << GetName() << ": Reset " <<ii<<" conditions " << " " << on << std::endl;
    Int_t ii = condarr->GetLast()+1;
    for(Int_t i = 0; i < ii; i++)
       {
@@ -508,7 +508,7 @@ Bool_t TGo4CondArray::UpdateFrom(TGo4Condition * cond, Bool_t counts)
         {
            Bool_t result=kTRUE;
            carr = (TGo4CondArray*)cond;
-//           cout << GetName() << ": Update " << dii << " from " << cond->GetName() << endl;
+//           std::cout << GetName() << ": Update " << dii << " from " << cond->GetName() << std::endl;
            for(Int_t i = 0; i < dii; i++){
                dcond=(TGo4Condition*) condarr->UncheckedAt(i); // destination is this
                scond=(TGo4Condition*) (*carr)[i];              // source is from cond
@@ -1126,6 +1126,6 @@ void TGo4CondArray::SavePrimitive(std::ostream& out, Option_t* opt)
    for (int n=0; n<GetNumber(); n++) {
       TString subopt = options + TString::Format(" nocreate name:%s->At(%d)", varname.Data(), n);
       At(n)->SavePrimitive(out, subopt.Data());
-      out << endl;
+      out << std::endl;
    }
 }

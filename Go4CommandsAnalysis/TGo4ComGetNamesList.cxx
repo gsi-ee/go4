@@ -20,7 +20,7 @@
 
 TGo4ComGetNamesList::TGo4ComGetNamesList() :TGo4AnalysisCommand()
 {
-   TRACE((12,"TGo4ComGetNamesList::TGo4ComGetNamesList() ctor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComGetNamesList::TGo4ComGetNamesList() ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                        // override default receiver
    SetName("ANNames");
@@ -30,12 +30,12 @@ TGo4ComGetNamesList::TGo4ComGetNamesList() :TGo4AnalysisCommand()
 
 TGo4ComGetNamesList::~TGo4ComGetNamesList()
 {
-   TRACE((12,"TGo4ComGetNamesList::~TGo4ComGetNamesList() dtor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComGetNamesList::~TGo4ComGetNamesList() dtor",__LINE__, __FILE__));
 }
 
 Int_t TGo4ComGetNamesList::ExeCom()
 {
-   TRACE((12,"TGo4ComGetNamesList::ExeCom()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComGetNamesList::ExeCom()",__LINE__, __FILE__));
 
    TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
    if(cli)
@@ -49,7 +49,7 @@ Int_t TGo4ComGetNamesList::ExeCom()
       }
    else
       {
-      TRACE((11,"TGo4ComGetNamesList::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
+      GO4TRACE((11,"TGo4ComGetNamesList::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
          TGo4Log::Debug(" !!! ComGetNamesList ''%s'': NO RECEIVER ERROR!!!",GetName());
          return 1;
       }

@@ -46,7 +46,7 @@ TGo4WinCondPainter::~TGo4WinCondPainter()
 void TGo4WinCondPainter::PaintCondition(Option_t* opt)
 {
 if(gPad==0) return;
-//cout <<"WinCondPainter PaintCondition on gPad "<<gPad << endl;
+//std::cout <<"WinCondPainter PaintCondition on gPad "<<gPad << std::endl;
 double xpmin=0;
 double xpmax=0;
 double ypmin=0;
@@ -73,11 +73,11 @@ if(wconny && wconny->IsVisible())
                   wconny->SetValues(xpmin, xpmax, ypmax, ypmin );
             }
 
-//      cout <<"\nBefore toPad:"<< endl;
-//      cout <<" xpmin="<<xpmin << endl;
-//      cout <<" xpmax="<<xpmax << endl;
-//      cout <<" ypmin="<<ypmin << endl;
-//      cout <<" ypmax="<<ypmax << endl;
+//      std::cout <<"\nBefore toPad:"<< std::endl;
+//      std::cout <<" xpmin="<<xpmin << std::endl;
+//      std::cout <<" xpmax="<<xpmax << std::endl;
+//      std::cout <<" ypmin="<<ypmin << std::endl;
+//      std::cout <<" ypmax="<<ypmax << std::endl;
 
 // note: newer root versions treat log scale correctly in TBox
 #if ROOT_VERSION_CODE < ROOT_VERSION(4,3,2)
@@ -137,10 +137,10 @@ if(wconny && wconny->IsVisible())
             fxBox->SetFillStyle(wconny->GetFillStyle());
             fxBox->AppendPad(); // only append to pad if not already there
                                 // this is necessary for the Pop() in array painter
-            //cout <<"TGo4WinCondPainter::PaintCondition appended box for condition "<<wconny->GetName() << endl;
+            //std::cout <<"TGo4WinCondPainter::PaintCondition appended box for condition "<<wconny->GetName() << std::endl;
          }
         fxBox->Paint(); // for condarrays
-        //cout <<"------WinCondPainter "<< GetName() <<"PaintCondition has painted box." << endl;
+        //std::cout <<"------WinCondPainter "<< GetName() <<"PaintCondition has painted box." << std::endl;
 
    }// if(wconny && wconny->IsVisible())
 else

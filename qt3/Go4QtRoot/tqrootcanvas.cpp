@@ -17,19 +17,19 @@
 
 #include "tqrootcanvas.h"
 
-#include "go4iostream.h"
-
-#include "qpainter.h"
-#include "qdragobject.h"
-
+#include "Riostream.h"
 #include "TPad.h"
 #include "TCanvas.h"
 #include "TROOT.h"
 #include "TString.h"
 #include "TH1.h"
 
-#include "tqcanvasmenu.h"
 #include "TGo4LockGuard.h"
+
+#include "qpainter.h"
+#include "qdragobject.h"
+
+#include "tqcanvasmenu.h"
 
 TQRootCanvas::TQRootCanvas( QWidget *parent, const char *name, TCanvas *c ) :
    QWidget( parent, name ,WRepaintNoErase | WResizeNoErase ),
@@ -365,7 +365,7 @@ void TQRootCanvas::dropEvent( QDropEvent *Event )
           pad->Update();
         }
       } else
-        cout << "object " << str <<  " not found by ROOT" << endl;
+        std::cout << "object " << str <<  " not found by ROOT" << std::endl;
     }
 }
 

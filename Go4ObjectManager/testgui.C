@@ -43,7 +43,7 @@ void testgui()
 //   objm.SyncGuiSlots("gui","data");
 //   objm.PrintSlots();
 
-   cout << endl << "------------------------------- " << endl;
+   std::cout << std::endl << "------------------------------- " << std::endl;
    objm.DeleteSlot("data/hist.root");
 
    objm.SyncGuiSlots("gui","data");

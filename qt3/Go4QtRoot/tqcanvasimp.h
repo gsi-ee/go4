@@ -142,7 +142,7 @@ public:
    Set the window title
    */
   virtual void   SetWindowTitle(const char* newTitle) {
-    std::cout << "SetWindowTitle() - not implemented" << newTitle << endl;
+    std::cout << "SetWindowTitle() - not implemented" << newTitle << std::endl;
   }
   /**
    Set the Canvas size

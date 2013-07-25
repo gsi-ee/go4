@@ -13,9 +13,9 @@
 
 #include "QFitItem.h"
 
-#include "go4iostream.h"
-
 #include "TObject.h"
+#include "Riostream.h"
+
 #include "TGo4FitPanel.h"
 
 #include <QtCore/QString>

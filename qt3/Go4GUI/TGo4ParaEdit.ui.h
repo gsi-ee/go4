@@ -57,7 +57,7 @@ void TGo4ParaEdit::DropItem(const char* itemname, TClass* cl, int kind)
 
 void TGo4ParaEdit::linkedObjectUpdated(const char* linkname, TObject* obj)
 {
-//   cout << " TGo4ParaEdit::linkedObjectUpdated " << linkname << endl;
+//   std::cout << " TGo4ParaEdit::linkedObjectUpdated " << linkname << std::endl;
 
    if (strcmp(linkname,"Parameter")==0)
       RefreshWidget(dynamic_cast<TGo4Parameter*> (obj));
@@ -65,24 +65,24 @@ void TGo4ParaEdit::linkedObjectUpdated(const char* linkname, TObject* obj)
    if (strcmp(linkname,"ParStatus")==0)
       RefreshWidget(dynamic_cast<TGo4ParameterStatus*> (obj));
 
-//   cout << " TGo4ParaEdit::linkedObjectUpdated done " << linkname << endl;
+//   std::cout << " TGo4ParaEdit::linkedObjectUpdated done " << linkname << std::endl;
 }
 
 void TGo4ParaEdit::linkedObjectRemoved( const char * linkname )
 {
-//   cout << " TGo4ParaEdit::linkedObjectRemoved " << linkname << endl;
+//   std::cout << " TGo4ParaEdit::linkedObjectRemoved " << linkname << std::endl;
 
    // if link removed while parameter is dissapear, just close parameter editor
 
    if (strcmp(linkname,"Fitter")!=0)
       ShootCloseWidget();
 
-//   cout << " TGo4ParaEdit::linkedObjectRemoved done " << linkname << endl;
+//   std::cout << " TGo4ParaEdit::linkedObjectRemoved done " << linkname << std::endl;
 }
 
 void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
 {
-//   cout << "WorkWithParameter  item = " << itemname << endl;
+//   std::cout << "WorkWithParameter  item = " << itemname << std::endl;
 
    if (PleaseUpdateLabel->isShown() && !isrefresh) {
        TGo4Parameter* par = dynamic_cast<TGo4Parameter*> (GetLinked("Parameter",0));
@@ -99,11 +99,11 @@ void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
        }
    }
 
-//   cout << "WorkWithParameter  ResetWidget " << endl;
+//   std::cout << "WorkWithParameter  ResetWidget " << std::endl;
 
    ResetWidget();
 
-//   cout << "WorkWithParameter  ResetWidget done" << endl;
+//   std::cout << "WorkWithParameter  ResetWidget done" << std::endl;
 
 
    ParamNameLbl->setText(itemname);
@@ -134,7 +134,7 @@ void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
 
    setFocus();
 
-//   cout << "WorkWithParameter  finish item = " << itemname << endl;
+//   std::cout << "WorkWithParameter  finish item = " << itemname << std::endl;
 
 }
 
@@ -180,17 +180,17 @@ void TGo4ParaEdit::RefreshWidget(TGo4Parameter* par)
 
 void TGo4ParaEdit::RefreshWidget(TGo4ParameterStatus* status)
 {
-//   cout << "RefreshWidget " << endl;
+//   std::cout << "RefreshWidget " << std::endl;
 
    RefreshButton->setEnabled(status!=0);
    ApplyButton->setEnabled(status!=0);
 
-//   cout << "RefreshWidget 1" << endl;
+//   std::cout << "RefreshWidget 1" << std::endl;
 
    delete fItems;
    fItems = 0;
 
-//   cout << "RefreshWidget 2" << endl;
+//   std::cout << "RefreshWidget 2" << std::endl;
 
    if (status!=0) {
       fItems = status->GetMemberValues(kTRUE);
@@ -201,7 +201,7 @@ void TGo4ParaEdit::RefreshWidget(TGo4ParameterStatus* status)
 
    PleaseUpdateLabel->setShown(false);
 
-//   cout << "RefreshWidget done" << endl;
+//   std::cout << "RefreshWidget done" << std::endl;
 }
 
 void TGo4ParaEdit::ShowVisibleItems()
@@ -454,11 +454,11 @@ void TGo4ParaEdit::saveFile()
 
 void TGo4ParaEdit::RefreshClicked()
 {
-//   cout << " RefreshClicked " << endl;
+//   std::cout << " RefreshClicked " << std::endl;
 
    WorkWithParameter(ParamNameLbl->text(), true);
 
-//   cout << " RefreshClicked done" << endl;
+//   std::cout << " RefreshClicked done" << std::endl;
 }
 
 void TGo4ParaEdit::ApplyClicked()

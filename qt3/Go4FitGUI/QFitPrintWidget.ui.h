@@ -32,7 +32,7 @@ void QFitPrintWidget::FillSpecificData() {
 
       std::ostringstream strout;
 
-      std::streambuf* cout_buffer = std::cout.rdbuf();
+      std::streambuf* ccc_buffer = std::cout.rdbuf();
 
       std::cout.rdbuf(strout.rdbuf());
 
@@ -42,7 +42,7 @@ void QFitPrintWidget::FillSpecificData() {
 
       std::cout.flush();
 
-      std::cout.rdbuf(cout_buffer);
+      std::cout.rdbuf(ccc_buffer);
 
       PrintText->setText(strout.str().c_str());
   }

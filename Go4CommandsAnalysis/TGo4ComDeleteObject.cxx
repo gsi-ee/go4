@@ -20,7 +20,7 @@
 TGo4ComDeleteObject::TGo4ComDeleteObject(const char* obname)
 :TGo4AnalysisObjectCommand("ANDelete","delete object by name", obname)
 {
-   TRACE((12,"TGo4ComDeleteObject::TGo4ComDeleteObject(const char*) ctor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComDeleteObject::TGo4ComDeleteObject(const char*) ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                        // to send back status message
 
@@ -30,7 +30,7 @@ TGo4ComDeleteObject::TGo4ComDeleteObject(const char* obname)
 TGo4ComDeleteObject::TGo4ComDeleteObject()
 :TGo4AnalysisObjectCommand("ANDelete","delete object by name", "dummy")
 {
-   TRACE((12,"TGo4ComDeleteObject::TGo4ComDeleteObject() ctor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComDeleteObject::TGo4ComDeleteObject() ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                        // to send back status message
    SetProtection(kGo4ComModeController);
@@ -38,12 +38,12 @@ TGo4ComDeleteObject::TGo4ComDeleteObject()
 
 TGo4ComDeleteObject::~TGo4ComDeleteObject()
 {
-   TRACE((12,"TGo4ComDeleteObject::~TGo4ComDeleteObject() dtor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComDeleteObject::~TGo4ComDeleteObject() dtor",__LINE__, __FILE__));
 }
 
 Int_t TGo4ComDeleteObject::ExeCom()
 {
-   TRACE((12,"TGo4ComDeleteObject::ExeCom()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComDeleteObject::ExeCom()",__LINE__, __FILE__));
 
    TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
    if(cli)
@@ -71,7 +71,7 @@ Int_t TGo4ComDeleteObject::ExeCom()
       }
    else
       {
-      TRACE((11,"TGo4ComDeleteObject::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
+      GO4TRACE((11,"TGo4ComDeleteObject::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
          TGo4Log::Debug(" !!! %s : NO RECEIVER ERROR!!!",GetName());
          return 1;
       } // if(cli)

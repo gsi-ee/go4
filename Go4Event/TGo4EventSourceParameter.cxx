@@ -22,7 +22,7 @@ TGo4EventSourceParameter::TGo4EventSourceParameter(const char* name, Int_t id)
 : TGo4Parameter (name), fiID(id),
    fiTimeout(TGo4EventSource__fgiTIMEOUTDEFAULT)
 {
-   TRACE((12,"TGo4EventSourceParameter::TGo4EventSourceParameter(const char*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4EventSourceParameter::TGo4EventSourceParameter(const char*)",__LINE__, __FILE__));
 }
 
 
@@ -30,17 +30,17 @@ TGo4EventSourceParameter::TGo4EventSourceParameter()
 : TGo4Parameter ("Default Event Source Parameter"), fiID(0),
    fiTimeout(TGo4EventSource__fgiTIMEOUTDEFAULT)
 {
-   TRACE((12,"TGo4EventSourceParameter::TGo4EventSourceParameter()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4EventSourceParameter::TGo4EventSourceParameter()",__LINE__, __FILE__));
 }
 
 TGo4EventSourceParameter::~TGo4EventSourceParameter()
 {
-   TRACE((12,"TGo4EventSourceParameter::~TGo4EventSourceParameter()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4EventSourceParameter::~TGo4EventSourceParameter()",__LINE__, __FILE__));
 }
 
 Int_t TGo4EventSourceParameter::PrintParameter(Text_t* buffer, Int_t buflen)
 {
-   TRACE((12,"TGo4EventSourceParameter::PrintParameter()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4EventSourceParameter::PrintParameter()",__LINE__, __FILE__));
    Int_t locallen=64000;
    Text_t localbuf[64000];
    if(buflen<0 && buffer!=0)
@@ -74,7 +74,7 @@ Int_t TGo4EventSourceParameter::PrintParameter(Text_t* buffer, Int_t buflen)
 
 Bool_t TGo4EventSourceParameter::UpdateFrom(TGo4Parameter* rhs)
 {
-   TRACE((12,"TGo4EventSourceParameter::UpdateFrom()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4EventSourceParameter::UpdateFrom()",__LINE__, __FILE__));
    TGo4EventSourceParameter* srcpar=dynamic_cast<TGo4EventSourceParameter*>(rhs);
    if (srcpar==0) return kFALSE;
    SetName(srcpar->GetName());

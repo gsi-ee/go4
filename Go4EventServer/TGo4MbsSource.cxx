@@ -47,9 +47,9 @@ TGo4MbsSource::TGo4MbsSource(TGo4MbsSourceParameter* par, Int_t mode) :
    fiPort(par->GetPort())
 {
    fxInputChannel=f_evt_control();
-   TRACE((15,"TGo4MbsSource::TGo4MbsSource(const char*, Int_t)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsSource::TGo4MbsSource(const char*, Int_t)",__LINE__, __FILE__));
    // Open() call will be done by subclasses ctors, so we can overwrite Open() method
-   //cout <<"TGo4MbsSource with data copy mode="<<fbDataCopyMode << endl;
+   //std::cout <<"TGo4MbsSource with data copy mode="<<fbDataCopyMode << std::endl;
 }
 
 
@@ -64,12 +64,12 @@ TGo4MbsSource::TGo4MbsSource(const char* name, Int_t mode) :
    fiTimeout(-1), fiPort(0)
 {
    fxInputChannel = f_evt_control();
-   TRACE((15,"TGo4MbsSource::TGo4MbsSource(const char*, Int_t)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsSource::TGo4MbsSource(const char*, Int_t)",__LINE__, __FILE__));
 
    SetTimeout(fgiTIMEOUTDEFAULT);
 
    // Open() call will be done by subclasses ctors, so we can overwrite Open() method
-   //cout <<"TGo4MbsSource with data copy mode="<<fbDataCopyMode << endl;
+   //std::cout <<"TGo4MbsSource with data copy mode="<<fbDataCopyMode << std::endl;
 }
 
 
@@ -84,12 +84,12 @@ TGo4MbsSource::TGo4MbsSource() :
    fiTimeout(-1), fiPort(0)
 {
    fxInputChannel = f_evt_control();
-   TRACE((15,"TGo4MbsSource::TGo4MbsSource()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsSource::TGo4MbsSource()",__LINE__, __FILE__));
 }
 
 TGo4MbsSource::~TGo4MbsSource()
 {
-   TRACE((15,"TGo4MbsSource::~TGo4MbsSource()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsSource::~TGo4MbsSource()",__LINE__, __FILE__));
    Close();
    if(fxInputChannel)free(fxInputChannel);
 }
@@ -123,7 +123,7 @@ Bool_t TGo4MbsSource::BuildEvent(TGo4EventElement* dest)
 
 void TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent* target)
 {
-   TRACE((12,"TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent*)",__LINE__, __FILE__));
    TGo4MbsSubEvent* subtarget=0;
    if(fxEvent!=0 && GetEventStatus()==GETEVT__SUCCESS) {
       // check for printevent mode here:
@@ -134,13 +134,13 @@ void TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent* target)
                fxPrEventPar.fiLong,
                fxPrEventPar.fiHex,
                fxPrEventPar.fiData);
-         cout << endl; // flush cout buffer
+         std::cout << std::endl; // flush std::cout buffer
          fxPrEventPar.fiNum--;
       }
       // we have a valid event, proceed
       Char_t* endofevent = (Char_t*) (fxEvent) +
             (fxEvent->l_dlen) * fguSHORTBYCHAR + fguEVHEBYCHAR ;
-      //cout << "end of event "<< endofevent <<endl;
+      //std::cout << "end of event "<< endofevent << std::endl;
       target->SetValid(kTRUE); // reset target if previously was set to false
       target->SetDlen(fxEvent->l_dlen);
       target->SetType(fxEvent->i_type);
@@ -182,7 +182,7 @@ void TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent* target)
                      datalength * fguSHORTBYCHAR + fguEVHEBYCHAR;
                subevent = (s_ves10_1*) subevtpointer;
                if ((Char_t*) subevent >= endofevent) {
-                  //cout << "found end of event, breaking.."<< endl;
+                  //std::cout << "found end of event, breaking.."<< std::endl;
                   break;
                }
             } // while((datalength=subevent->l_dlen) >0)
@@ -202,7 +202,7 @@ void TGo4MbsSource::BuildMbsEvent(TGo4MbsEvent* target)
          //**************************************************************************
          // Event Type 4:
          if(fxEvent->i_type==4) {
-            //      cout <<"found event type 4" << endl;
+            //      std::cout <<"found event type 4" << std::endl;
             s_evhe* eventfourone= (s_evhe*) fxEvent; // points to event 4 1 start
             // copy pseudo event header information to our target:
             target->SetTrigger(4);
@@ -247,7 +247,7 @@ Int_t TGo4MbsSource::NextEvent()
 
 frombegin:
 
-   TRACE((12,"TGo4MbsSource::NextEvent()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsSource::NextEvent()",__LINE__, __FILE__));
    // skip and sample mode introduced without changed gsievt functions for first tests
    ULong_t eventstep;
 
@@ -338,10 +338,10 @@ frombegin:
 
 Int_t TGo4MbsSource::Open()
 {
-   TRACE((12,"TGo4MbsSource::Open()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsSource::Open()",__LINE__, __FILE__));
 
    if(fbIsOpen) return -1;
-   //cout << "Open of TGo4MbsSource"<< endl;
+   //std::cout << "Open of TGo4MbsSource"<< std::endl;
    // open connection/file
 
    char name[5000];
@@ -392,9 +392,9 @@ Int_t TGo4MbsSource::Open()
 
 Int_t TGo4MbsSource::Close()
 {
-   TRACE((12,"TGo4MbsSource::Close()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsSource::Close()",__LINE__, __FILE__));
    if(!fbIsOpen) return -1;
-   //cout << "Close of TGo4MbsSource"<< endl;
+   //std::cout << "Close of TGo4MbsSource"<< std::endl;
    Int_t rev = GetCreateStatus();
    // close connection/file
    if(rev == GETEVT__SUCCESS) {

@@ -46,7 +46,7 @@ TGo4AnalysisMainRunnable::~TGo4AnalysisMainRunnable()
 
 Int_t TGo4AnalysisMainRunnable::PostRun(void * )
 {
-   //cout << "test of main runnable postrun "<< endl;
+   //std::cout << "test of main runnable postrun "<< std::endl;
    if (fxAnalysisClient && fxAnalysisClient->MainIsRunning() && !fxAnalysisClient->IsServer()) fxAnalysis->PostLoop();
       // only execute postloop here if client was quit without stopping before
       // otherwise, TGo4AnalysisClient::Stop() has already called PostLoop
@@ -58,8 +58,8 @@ Int_t TGo4AnalysisMainRunnable::PostRun(void * )
 
 Int_t TGo4AnalysisMainRunnable::PreRun(void * )
 {
-   TRACE((12,"TGo4AnalysisMainRunnable::PreRun()",__LINE__, __FILE__));
-   //cout << "test of main runnable prerun "<< endl;
+   GO4TRACE((12,"TGo4AnalysisMainRunnable::PreRun()",__LINE__, __FILE__));
+   //std::cout << "test of main runnable prerun "<< std::endl;
    //fxAnalysis->PreLoop();
       // this thread will never be stopped during analysis lifetime!
       // preloop execution is obsolete here now, because AnalysisClient::Start will do that for us!
@@ -68,7 +68,7 @@ Int_t TGo4AnalysisMainRunnable::PreRun(void * )
 
 Int_t TGo4AnalysisMainRunnable::Run(void*)
 {
-   //TRACE((12,"TGo4AnalysisMainRunnable::Run()",__LINE__, __FILE__));
+   //GO4TRACE((12,"TGo4AnalysisMainRunnable::Run()",__LINE__, __FILE__));
    //
    try
    {
@@ -95,7 +95,7 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
          else
          {
             // terminate dummy command: do not execute, but stop this thread
-            //cout <<"Analysis main runnable got termid command" << endl;
+            //std::cout <<"Analysis main runnable got termid command" << std::endl;
             GetThread()->Stop();
          }
 
@@ -113,7 +113,7 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
          }
          else
          {
-            //cout <<"main runnable: analysis is not running" << endl;
+            //std::cout <<"main runnable: analysis is not running" << std::endl;
             TGo4Thread::Sleep(fguPOLLINTERVAL);
          }
 

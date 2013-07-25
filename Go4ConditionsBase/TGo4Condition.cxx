@@ -52,7 +52,7 @@ TGo4Condition::TGo4Condition() :
    fxHisto(0),
    fiIsChanged(0)
 {
-   TRACE((15,"TGo4Condition::TGo4Condition()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4Condition::TGo4Condition()",__LINE__, __FILE__));
    fiDim=0;
    fbEnabled = false;
    fbResult  = true;
@@ -81,7 +81,7 @@ TGo4Condition::TGo4Condition(const char* name, const char* title) :
    fxHisto(0),
    fiIsChanged(0)
 {
-   TRACE((15,"TGo4Condition::TGo4Condition(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4Condition::TGo4Condition(const char*)",__LINE__, __FILE__));
    fiDim=0;
    fbEnabled = false;
    fbResult  = true;
@@ -103,7 +103,7 @@ TGo4Condition::TGo4Condition(const char* name, const char* title) :
 // ---------------------------------------------------------
 TGo4Condition::~TGo4Condition()
 {
-   TRACE((15,"TGo4Condition::~TGo4Condition()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4Condition::~TGo4Condition()",__LINE__, __FILE__));
 
    UnDraw("reset");
 
@@ -126,43 +126,43 @@ Bool_t TGo4Condition::Test()
 
 void TGo4Condition::AddCondition(TGo4Condition* next)
 {
-TRACE((14,"TGo4Condition::AddCondition(TGo4Condition*)",__LINE__, __FILE__));
+GO4TRACE((14,"TGo4Condition::AddCondition(TGo4Condition*)",__LINE__, __FILE__));
 }
 // ---------------------------------------------------------
 void TGo4Condition::IncTrueCounts()
 {
-TRACE((12,"TGo4Condition::IncTrueCounts()",__LINE__, __FILE__));
+GO4TRACE((12,"TGo4Condition::IncTrueCounts()",__LINE__, __FILE__));
    fiTrueCounts++;
 }
 // ---------------------------------------------------------
 void TGo4Condition::IncCounts()
 {
-TRACE((12,"TGo4Condition::IncCounts()",__LINE__, __FILE__));
+GO4TRACE((12,"TGo4Condition::IncCounts()",__LINE__, __FILE__));
    fiCounts++;
 }
 // ---------------------------------------------------------
 Int_t TGo4Condition::Counts()
 {
-TRACE((12,"TGo4Condition::Counts()",__LINE__, __FILE__));
+GO4TRACE((12,"TGo4Condition::Counts()",__LINE__, __FILE__));
    return fiCounts;
 }
 // ---------------------------------------------------------
 Int_t TGo4Condition::TrueCounts()
 {
-TRACE((12,"TGo4Condition::TrueCounts()",__LINE__, __FILE__));
+GO4TRACE((12,"TGo4Condition::TrueCounts()",__LINE__, __FILE__));
    return fiTrueCounts;
 }
 // ---------------------------------------------------------
 void TGo4Condition::ResetCounts()
 {
-TRACE((12,"TGo4Condition::ResetCounts()",__LINE__, __FILE__));
+GO4TRACE((12,"TGo4Condition::ResetCounts()",__LINE__, __FILE__));
    fiTrueCounts=0;
    fiCounts=0;
 }
 // ---------------------------------------------------------
 void TGo4Condition::SetCounts(Int_t truecounts, Int_t counts)
 {
-TRACE((12,"TGo4Condition::SetCounts()",__LINE__, __FILE__));
+GO4TRACE((12,"TGo4Condition::SetCounts()",__LINE__, __FILE__));
    fiTrueCounts=truecounts;
    fiCounts=counts;
 }
@@ -171,7 +171,7 @@ TRACE((12,"TGo4Condition::SetCounts()",__LINE__, __FILE__));
 // ---------------------------------------------------------
 void TGo4Condition::Invert(Bool_t on)
 {
-TRACE((12,"TGo4Condition::Invert",__LINE__, __FILE__));
+GO4TRACE((12,"TGo4Condition::Invert",__LINE__, __FILE__));
 fbTrue  = on ^ true;
 fbFalse = on ^ false;
 }

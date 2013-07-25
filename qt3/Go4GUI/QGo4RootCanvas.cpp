@@ -13,8 +13,7 @@
 
 #include "QGo4RootCanvas.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TCanvas.h"
 
 #include "qapplication.h"

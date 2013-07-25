@@ -26,7 +26,7 @@ TGo4MbsSubEvent::TGo4MbsSubEvent() :
    fiAllocLen(0),
    fiData(0)
 {
-   TRACE((12,"TGo4MbstSubEvent::TGo4MbsSubEvent()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbstSubEvent::TGo4MbsSubEvent()",__LINE__, __FILE__));
    //TGo4Log::Info( "MBS SubEvent default ctor.");
 }
 
@@ -38,7 +38,7 @@ TGo4MbsSubEvent::TGo4MbsSubEvent(Int_t datasize) :
    fiAllocLen(0),
    fiData(0)
 {
-   TRACE((12,"TGo4MbsSubEvent::TGo4MbsSubEvent(UInt_t)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsSubEvent::TGo4MbsSubEvent(UInt_t)",__LINE__, __FILE__));
    //TGo4Log::Info( "MBS SubEvent normal ctor.");
    if(fbIsDataOwner) {
       fiData = new Int_t[datasize];
@@ -49,7 +49,7 @@ TGo4MbsSubEvent::TGo4MbsSubEvent(Int_t datasize) :
 
 TGo4MbsSubEvent::~TGo4MbsSubEvent()
 {
-   TRACE((12,"TGo4MbsSubEvent::~TGo4MbsSubEvent()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsSubEvent::~TGo4MbsSubEvent()",__LINE__, __FILE__));
    // check if Clear with only the used field elements worked correctly
    //TGo4Log::Info( "MBS SubEvent dtor...");
    Clear();
@@ -65,26 +65,26 @@ TGo4MbsSubEvent::~TGo4MbsSubEvent()
 
 void TGo4MbsSubEvent::PrintEvent()
 {
-   TRACE((11,"TGo4MbsSubEvent::PrintEvent()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4MbsSubEvent::PrintEvent()",__LINE__, __FILE__));
 
-   //// new style just with cout:
+   //// new style just with std::cout:
 /*   Bool_t printhexa=kFALSE;
    Int_t* pData = (Int_t *) GetDataField();
-   cout << "   Mbs Subevent    t/s "
-        <<      dec << setw(4) << (Int_t)GetType()
-        << " "      << setw(4) << (Int_t)GetSubtype()
-        << " len "  << setw(8) << (Int_t)GetDlen()
-        << " procid "   << setw(4) << (Int_t)GetProcid()
-        << " ctrl " << setw(4) << (Int_t)GetControl()
-        << " cr "   << setw(4) << (Int_t)GetSubcrate()
-        << endl;
-   if(printhexa) cout << hex; else cout << dec;
+   std::cout << "   Mbs Subevent    t/s "
+        <<      dec << std::setw(4) << (Int_t)GetType()
+        << " "      << std::setw(4) << (Int_t)GetSubtype()
+        << " len "  << std::setw(8) << (Int_t)GetDlen()
+        << " procid "   << std::setw(4) << (Int_t)GetProcid()
+        << " ctrl " << std::setw(4) << (Int_t)GetControl()
+        << " cr "   << std::setw(4) << (Int_t)GetSubcrate()
+        << std::endl;
+   if(printhexa) std::cout << hex; else std::cout << dec;
    for(Int_t i=0; i < GetDlen()/2-1; i++) {
-      cout << setw(12) << *pData << " ";
-      if((i-3) % 4 == 0) cout << endl;
+      std::cout << std::setw(12) << *pData << " ";
+      if((i-3) % 4 == 0) std::cout << std::endl;
       pData++;
    }
-   cout << endl;
+   std::cout << std::endl;
 */
 
    // very new style just using printf
@@ -144,14 +144,14 @@ void TGo4MbsSubEvent::Set(Int_t dlen,
 
 void  TGo4MbsSubEvent::Clear(Option_t *t)
 {
-   TRACE((11,"TGo4MbsSubEvent::Clear()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4MbsSubEvent::Clear()",__LINE__, __FILE__));
    fbIsFilled = kFALSE;
    if(fbIsDataOwner) {
       // clear array of data
       Int_t dleng = GetDlen();
       if(dleng==0) dleng=2; // default value for dleng is not zero!!
       // only clear regions which were used by the previous fill...
-      //cout <<"Mbssubevent::Clear: dlen=" << dleng << endl;
+      //std::cout <<"Mbssubevent::Clear: dlen=" << dleng << std::endl;
       Int_t fieldlength = (dleng-2) / TGo4MbsSource::fguLONGBYSHORT ; // field is Int_t
       if(fieldlength>fiAllocLen)
          fieldlength=fiAllocLen;
@@ -161,7 +161,7 @@ void  TGo4MbsSubEvent::Clear(Option_t *t)
 
       for(Int_t t=0; t<fieldlength;++t)
          fiData[t]=0;
-      //cout<<endl<< "Subevent: cleared "<< fiAllocLen << "int field at "<<fiData << endl;
+      //std::cout<< std::endl<< "Subevent: cleared "<< fiAllocLen << "int field at "<<fiData << std::endl;
       fxHeader.Clear();
       Set(dleng); // set to default values, but remember last datalength
    }//if(fbIsDataOwner)
@@ -169,14 +169,14 @@ void  TGo4MbsSubEvent::Clear(Option_t *t)
 
 void TGo4MbsSubEvent::ReAllocate(Int_t newsize)
 {
-   TRACE((11,"TGo4MbsSubEvent::ReAllocate(UInt_t)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4MbsSubEvent::ReAllocate(UInt_t)",__LINE__, __FILE__));
    if(!fbIsDataOwner) return;
    if( newsize <= fiAllocLen ) {
       // newsize is smaller, we do not reallocate
    } else {
       delete [] fiData;
       fiData= new Int_t[newsize];
-      //cout<< "Subevent: Reallocating " << newsize << ", previous:"<< fiAllocLen<<endl;
+      //std::cout<< "Subevent: Reallocating " << newsize << ", previous:"<< fiAllocLen<< std::endl;
       TGo4Log::Debug(" MbsSubEvent: Reallocating Data field from %d to %d longwords ",fiAllocLen,newsize);
       fiAllocLen=newsize;
       Clear();

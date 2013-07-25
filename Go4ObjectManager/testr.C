@@ -1,5 +1,5 @@
 void testr() {
-   cout << "Read object manager from file " << endl << endl;
+   std::cout << "Read object manager from file " << std::endl << std::endl;
 
    TFile* f2 = TFile::Open("objm.root");
    TGo4ObjectManager* objm2 = 0;

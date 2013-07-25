@@ -27,16 +27,17 @@
 
 #include <stdlib.h>
 
-#include "go4iostream.h"
 #include "TTimer.h"
 #include "TSystem.h"
+#include "Riostream.h"
+
 
 #include <QtCore/QObject>
 #include <QtCore/QTimer>
 
 #ifndef WIN32
 
-#include "TGX11.h"
+#include <X11/Xlib.h>
 
 static int qt_x11_errhandler( Display *dpy, XErrorEvent *err )
 {

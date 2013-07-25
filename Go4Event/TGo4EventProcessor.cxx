@@ -37,17 +37,17 @@ TGo4EventProcessor::TGo4EventProcessor(const char* name) :
    fbKeepInputEvent(kFALSE),
    fbKeepOutputEvent(kFALSE)
 {
-TRACE((15,"TGo4EventProcessor::TGo4EventProcessor()",__LINE__, __FILE__));
+GO4TRACE((15,"TGo4EventProcessor::TGo4EventProcessor()",__LINE__, __FILE__));
 }
 
 TGo4EventProcessor::~TGo4EventProcessor()
 {
-TRACE((15,"TGo4EventProcessor::~TGo4EventProcessor()",__LINE__, __FILE__));
+GO4TRACE((15,"TGo4EventProcessor::~TGo4EventProcessor()",__LINE__, __FILE__));
 }
 
 Bool_t TGo4EventProcessor::CheckInputEvent(const char* classname)
 {
-   TRACE((12,"TGo4EventProcessor::CheckInputEvent()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4EventProcessor::CheckInputEvent()",__LINE__, __FILE__));
    if(fxInputEvent==0) return kFALSE;
 
    return !strcmp(fxInputEvent->ClassName(),classname);
@@ -55,7 +55,7 @@ Bool_t TGo4EventProcessor::CheckInputEvent(const char* classname)
 
 Bool_t TGo4EventProcessor::CheckCalibration(const char* classname)
 {
-   TRACE((12,"TGo4EventProcessor::CheckCalibration()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4EventProcessor::CheckCalibration()",__LINE__, __FILE__));
    if(fxCalibration==0) return kFALSE;
 
    return !strcmp(fxCalibration->ClassName(),classname);

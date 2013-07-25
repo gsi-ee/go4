@@ -113,11 +113,11 @@ void saveall(const char* wildcard = "*", const char* outputname = "savemacro", i
   namiter(f, wildcard, &lst, classmask);
 
   TString macroname = Form("%s.C", outputname);
-  cout << "Write macro " << macroname.Data() << endl;
-  ofstream xout(macroname.Data());
+  std::cout << "Write macro " << macroname.Data() << std::endl;
+  std::ofstream xout(macroname.Data());
 
-  xout << Form("// written by macro saveall.C at %s", TDatime().AsString()) << endl << endl;
-  xout << Form("#include \"Riostream.h\"") << endl << endl;
+  xout << Form("// written by macro saveall.C at %s", TDatime().AsString()) << std::endl << std::endl;
+  xout << Form("#include \"Riostream.h\"") << std::endl << std::endl;
 
   TIter next(&lst);
 
@@ -126,27 +126,27 @@ void saveall(const char* wildcard = "*", const char* outputname = "savemacro", i
   while((obj = next()) != 0) {
      if (obj->InheritsFrom("TGo4Parameter")) {
         TString subname = MakeFuncName(outputname, obj->GetName());
-        xout << Form("Bool_t %s()", subname.Data()) << endl;
-        xout << "{" << endl;
+        xout << Form("Bool_t %s()", subname.Data()) << std::endl;
+        xout << "{" << std::endl;
 
         obj->SavePrimitive(xout, "savemacro");
 
-        xout << "   return kTRUE;" << endl;
+        xout << "   return kTRUE;" << std::endl;
 
-        xout << "}" << endl << endl;
+        xout << "}" << std::endl << std::endl;
 
         body.Append(Form("   %s();\n", subname.Data()));
      } else
      if (obj->InheritsFrom("TGo4Condition")) {
         TString subname = MakeFuncName(outputname, obj->GetName());
-        xout << Form("Bool_t %s(Bool_t flags = kTRUE, Bool_t counters = kFALSE, Bool_t reset = kFALSE)", subname.Data()) << endl;
-        xout << "{" << endl;
+        xout << Form("Bool_t %s(Bool_t flags = kTRUE, Bool_t counters = kFALSE, Bool_t reset = kFALSE)", subname.Data()) << std::endl;
+        xout << "{" << std::endl;
 
         obj->SavePrimitive(xout, "savemacro");
 
-        xout << "   return kTRUE;" << endl;
+        xout << "   return kTRUE;" << std::endl;
 
-        xout << "}" << endl << endl;
+        xout << "}" << std::endl << std::endl;
 
         body.Append(Form("   %s();\n", subname.Data()));
      }
@@ -156,17 +156,17 @@ void saveall(const char* wildcard = "*", const char* outputname = "savemacro", i
 
   if (f!=0) { delete f; f = 0; }
 
-  xout << Form("Bool_t %s()", outputname) << endl;
-  xout << Form("{") << endl;
-  xout << Form("#ifndef __GO4ANAMACRO__") << endl;
-  xout << Form("   cout << \"Macro %s can be executed only in analysis\" << endl;", macroname.Data()) << endl;
-  xout << Form("   return kFALSE;") << endl;
-  xout << Form("#endif") << endl << endl;
+  xout << Form("Bool_t %s()", outputname) << std::endl;
+  xout << Form("{") << std::endl;
+  xout << Form("#ifndef __GO4ANAMACRO__") << std::endl;
+  xout << Form("   std::cout << \"Macro %s can be executed only in analysis\" << std::endl;", macroname.Data()) << std::endl;
+  xout << Form("   return kFALSE;") << std::endl;
+  xout << Form("#endif") << std::endl << std::endl;
 
   xout << body;
 
-  xout << endl;
-  xout << "   return kTRUE;" << endl;
-  xout << "}" << endl;
+  xout << std::endl;
+  xout << "   return kTRUE;" << std::endl;
+  xout << "}" << std::endl;
   xout.close();
 }

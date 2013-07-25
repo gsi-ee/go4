@@ -37,7 +37,7 @@ TGo4BackStore::TGo4BackStore() :
    fiBufsize(0),
    fiFillCount(0)
 {
-   TRACE((15,"TGo4BackStore::TGo4BackStore()", __LINE__, __FILE__));
+   GO4TRACE((15,"TGo4BackStore::TGo4BackStore()", __LINE__, __FILE__));
    // public default ctor for streamer
 }
 
@@ -50,7 +50,7 @@ TGo4BackStore::TGo4BackStore(TGo4BackStoreParameter* par) :
    fiBufsize(0),
    fiFillCount(0)
 {
-   TRACE((15,"TGo4BackStore::TGo4BackStore(TGo4BackStoreParameter* par)", __LINE__, __FILE__));
+   GO4TRACE((15,"TGo4BackStore::TGo4BackStore(TGo4BackStoreParameter* par)", __LINE__, __FILE__));
 
    if (par==0) {
       TGo4Log::Error("TGo4BackStoreParameter is not specified in TGo4BackStore constructor");
@@ -83,7 +83,7 @@ TGo4BackStore::TGo4BackStore(TGo4BackStoreParameter* par) :
 
 TGo4BackStore::~TGo4BackStore()
 {
-   TRACE((15,"TGo4BackStore::~TGo4BackStore()", __LINE__, __FILE__));
+   GO4TRACE((15,"TGo4BackStore::~TGo4BackStore()", __LINE__, __FILE__));
    delete fxTree;
 
 }
@@ -127,13 +127,13 @@ Int_t TGo4BackStore::Store(TFolder* foldy)
 
 Int_t TGo4BackStore::Store(TGo4EventElement* event)
 {
-   TRACE((12,"TGo4BackStore::Store(TGo4EventElement*)", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4BackStore::Store(TGo4EventElement*)", __LINE__, __FILE__));
 
    fxEvent=event; // address of next event into event pointer
    if(!fbBranchExists)
       {
          // first call of Store, create new branch
-         //cout << "**********************Creating new branch!"<< endl;
+         //std::cout << "**********************Creating new branch!"<< std::endl;
          if(fxEvent)
             {
                TString topbranchname(fxEvent->GetName());

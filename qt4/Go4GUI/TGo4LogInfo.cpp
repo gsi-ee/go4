@@ -105,7 +105,7 @@ void TGo4LogInfo::SaveLogInfo()
     QTreeWidgetItemIterator it(LogText);
     while (*it) {
        QTreeWidgetItem* itm = *it++;
-       t << itm->text(0) << " " << itm->text(1) << " " << itm->text(3) << endl;
+       t << itm->text(0) << " " << itm->text(1) << " " << itm->text(3) << "\n";
     }
     NewFile.close();
 }

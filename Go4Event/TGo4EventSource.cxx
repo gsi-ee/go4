@@ -28,7 +28,7 @@ TGo4EventSource::TGo4EventSource(const char* name) :
    fiCreateStatus(0),
    fiEventStatus(0)
 {
-   TRACE((15,"TGo4EventSource::TGo4EventSource()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4EventSource::TGo4EventSource()",__LINE__, __FILE__));
 }
 
 TGo4EventSource::TGo4EventSource() :
@@ -40,7 +40,7 @@ TGo4EventSource::TGo4EventSource() :
 
 TGo4EventSource::~TGo4EventSource()
 {
-   TRACE((15,"TGo4EventSource::~TGo4EventSource()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4EventSource::~TGo4EventSource()",__LINE__, __FILE__));
 }
 
 void TGo4EventSource::ThrowError(Int_t crestat, Int_t errstat, const char* message,...)

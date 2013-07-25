@@ -35,11 +35,11 @@
 
 #include "tqrootguifactory.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TGuiFactory.h"
 #include "TRootCanvas.h"
 #include "tqcanvasimp.h"
+
 #include "TGo4LockGuard.h"
 
 //______________________________________________________________________________

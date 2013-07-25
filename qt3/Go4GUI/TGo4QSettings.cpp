@@ -13,7 +13,6 @@
 
 #include "TGo4QSettings.h"
 
-#include "go4iostream.h"
 #include <stdlib.h>
 
 #include "qdir.h"
@@ -22,6 +21,7 @@
 #include "qapplication.h"
 #include "qmainwindow.h"
 
+#include "Riostream.h"
 #include "TGo4Log.h"
 #include "TGo4Marker.h"
 #include "TGo4Condition.h"
@@ -67,9 +67,9 @@ void TGo4QSettings::SetToCurrentDir(bool on)
 void TGo4QSettings::DumpSettingsLocation()
 {
    if(fgbUSEMYLOCATION)
-      cout <<"Using Qt Settings at "<<fgxSETTINGSLOCATION+fgxSETTINGSNAME+"rc" << endl;
+      std::cout <<"Using Qt Settings at "<<fgxSETTINGSLOCATION+fgxSETTINGSNAME+"rc" << std::endl;
    else
-      cout <<"Using Qt Settings at "<<QDir::homeDirPath()+ "/.qt"+fgxSETTINGSNAME+"rc"<<endl;
+      std::cout <<"Using Qt Settings at "<<QDir::homeDirPath()+ "/.qt"+fgxSETTINGSNAME+"rc"<< std::endl;
 }
 
 void TGo4QSettings::SetSettingsPath()
@@ -459,7 +459,7 @@ void TGo4QSettings::RestoreSettings(QMainWindow* tgt)
      QTextStream ts( &f );
      ts >> *tgt;
      f.close();
-     cout <<"Loaded Go4 toolbar settings from "<<fn << endl;
+     std::cout <<"Loaded Go4 toolbar settings from "<<fn << std::endl;
    } else {
      QString fndefault = TGo4Log::subGO4SYS("qt3/etc/go4defaulttoolsrc.txt").Data();
      QFile fdefault( fndefault );
@@ -467,9 +467,9 @@ void TGo4QSettings::RestoreSettings(QMainWindow* tgt)
        QTextStream ts( &fdefault );
        ts >> *tgt;
        fdefault.close();
-       cout <<"Loaded Go4 toolbar settings from "<<fndefault << endl;
+       std::cout <<"Loaded Go4 toolbar settings from "<<fndefault << std::endl;
      } else
-       cout <<"Could not load default toolbar settings from "<<fndefault << endl;
+       std::cout <<"Could not load default toolbar settings from "<<fndefault << std::endl;
    }
 }
 
@@ -481,7 +481,7 @@ void TGo4QSettings::StoreSettings(QMainWindow* src)
    QTextStream ts( &f );
    ts << *src;
    f.close();
-   cout <<"Saved Go4 toolbar settings to " << fn << endl;
+   std::cout <<"Saved Go4 toolbar settings to " << fn << std::endl;
 }
 
 void TGo4QSettings::storeGeometry(QMainWindow* w)

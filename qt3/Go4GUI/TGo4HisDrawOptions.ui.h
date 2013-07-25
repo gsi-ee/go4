@@ -266,7 +266,7 @@ void TGo4HisDrawOptions::UpdateView(int viewtype)
    }
 
    fiLastView = viewtype;
-   //cout << "Set Viewtype " << fiLastView << endl;
+   //std::cout << "Set Viewtype " << fiLastView << std::endl;
 }
 
 void TGo4HisDrawOptions::ChangeDrawOptionForCurrentPanel(int kind, int value)
@@ -474,8 +474,8 @@ void TGo4HisDrawOptions::DecodeDrawOption(const char* drawopt,
       if(buf.Contains("text"))  HisDrawStyle = 18; else
       if(buf.Contains("asimage")) HisDrawStyle=19;
    }
-   //cout << *drawopt << " Decode " << buf << " Error " << HisErrorStyle
-   //     << " Coord " << HisCoordStyle  << " Draw " <<HisDrawStyle<<endl;
+   //std::cout << *drawopt << " Decode " << buf << " Error " << HisErrorStyle
+   //     << " Coord " << HisCoordStyle  << " Draw " <<HisDrawStyle<< std::endl;
 }
 
 void TGo4HisDrawOptions::CodeDrawOptions(int HisErrorStyle,

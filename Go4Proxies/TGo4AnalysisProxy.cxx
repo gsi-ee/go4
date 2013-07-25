@@ -403,8 +403,8 @@ class TGo4Prefs {
                iter++;
             }
             if (cnt++>100000) {
-               cerr << "Syntax error in go4.prefs files - endless recursion" << endl;
-               cerr << "Program aborted, please fix an error" << endl;
+               std::cerr << "Syntax error in go4.prefs files - endless recursion" << std::endl;
+               std::cerr << "Program aborted, please fix an error" << std::endl;
                exit(-1);
             }
          } while (isany);
@@ -658,7 +658,7 @@ void TGo4AnalysisProxy::DeleteSubmittedProxy(TGo4AnalysisObjectAccess* proxytode
 
 void TGo4AnalysisProxy::ReceiveStatus(TGo4Status* status)
 {
-//   cout << "Receive status " << status->GetName() << " class: " << status->ClassName() << endl;
+//   std::cout << "Receive status " << status->GetName() << " class: " << status->ClassName() << std::endl;
 
    if (dynamic_cast<TGo4AnalysisStatus*> (status)!=0) {
       SetAnalysisReady(kTRUE);
@@ -682,7 +682,7 @@ void TGo4AnalysisProxy::ReceiveStatus(TGo4Status* status)
    if (obres!=0) {
         // put treatment of result object here
         // for the moment, we just check what we got:
-//        cout <<"GOT result object in status channel: "<<obres->GetName() << endl;
+//        std::cout <<"GOT result object in status channel: "<<obres->GetName() << std::endl;
 //        obres->PrintStatus();
         TGo4AnalysisObjectNames* objnames = obres->GetNamesList(kTRUE);
         if (objnames!=0)
@@ -707,7 +707,7 @@ void TGo4AnalysisProxy::ReceiveStatus(TGo4Status* status)
    if (status!=0) {
      TString message = status->GetName();
 
-//     cout << "Message = " <<  message << endl;
+//     std::cout << "Message = " <<  message << std::endl;
 
      if(message.Contains("event classes were initialized"))
        SetAnalysisSettingsReady(kTRUE);
@@ -792,7 +792,7 @@ void TGo4AnalysisProxy::AssignNewNamesList(TGo4AnalysisObjectNames* objnames)
 
 void TGo4AnalysisProxy::RefreshNamesList()
 {
-//   cout << " TGo4AnalysisProxy::RefreshNamesList() " << endl;
+//   std::cout << " TGo4AnalysisProxy::RefreshNamesList() " << std::endl;
    //fxDisplay->SubmitCommand(new TGo4ComGetNamesList());
    fxDisplay->SubmitCommand("ANNames");
    fbNamesListReceived = kFALSE;
@@ -823,8 +823,8 @@ TGo4Access* TGo4AnalysisProxy::MakeProxy(const char* name)
    TString objfolder, objname;
    TGo4Slot::ProduceFolderAndName(name, objfolder, objname);
 
-//   cout << "Make TGo4AnalysisObjectAccess  name = " << objname
-//        << "  class = " << classname << "  folder = " << objfolder << endl;
+//   std::cout << "Make TGo4AnalysisObjectAccess  name = " << objname
+//        << "  class = " << classname << "  folder = " << objfolder << std::endl;
 
    return new TGo4AnalysisObjectAccess(this, cmdEnvelope, objname.Data(), classname, objfolder.Data());
 }
@@ -1207,7 +1207,7 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
       prefs.AddFile("go4.prefs", false);
       prefs.AddFile(TGo4Log::subGO4SYS("etc/go4.prefs"), true);
       if (!prefs.IsOk()) {
-         cout << "Cannot find prefs file" << endl;
+         std::cout << "Cannot find prefs file" << std::endl;
          return kFALSE;
       }
 
@@ -1268,13 +1268,13 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
       prefs.SetPar("hostcmd", hostcmd.c_str());
 
       std::string cmd = prefs.GetOpt(shellname);
-      cout << "cmd: " << cmd << endl;
+      std::cout << "cmd: " << cmd << std::endl;
       launchcmd = cmd.c_str();
 
       std::string dkill = prefs.GetOpt("kill");
       prefs.SetPar("hostcmd", dkill.c_str());
       cmd = prefs.GetOpt(shellname);
-      cout << "killcmd: " << cmd << endl;
+      std::cout << "killcmd: " << cmd << std::endl;
       killcmd = cmd.c_str();
 
       return kTRUE;
@@ -1285,7 +1285,7 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
 
    TString filename = TGo4Log::subGO4SYS(TGo4ServerTask::Get_fgcLAUNCHPREFSFILE());
 
-   ifstream launchprefs(filename.Data());
+   std::ifstream launchprefs(filename.Data());
    if(!launchprefs) {
       TGo4Log::Debug("Master -- ERROR: Preferences file %s not existing, could not launch client ",
                   filename.Data());
@@ -1383,7 +1383,7 @@ Bool_t TGo4AnalysisProxy::ConnectToServer(const char* remotehost,
          default: accesspass = ""; break;
       }
 
-//      cout << "mode = " << mode << "  pass = " << accesspass << endl;
+//      std::cout << "mode = " << mode << "  pass = " << accesspass << std::endl;
 
       client->ConnectServer(remotehost, remoteport, mode, accesspass);
       RefreshNamesList();
@@ -1464,25 +1464,25 @@ Bool_t TGo4AnalysisProxy::HandleTimer(TTimer* timer)
       RefreshNamesList();
    } else
    if (timer == fxConnectionTimer) {
-      //cout << " TGo4AnalysisProxy::HandleTimer for connection timer" << endl;
+      //std::cout << " TGo4AnalysisProxy::HandleTimer for connection timer" << std::endl;
       if (fxDisplay != 0) {
          // this is emergency handling only if display did not shutdown and deleted our proxy before.
          if (fDisconectCounter > 0) {
             fDisconectCounter--;
             fxConnectionTimer->Start(100, kTRUE);
-            //cout<< " TGo4AnalysisProxy::HandleTimer has restarted connection timer, discon counter="<< fDisconectCounter << endl;
+            //std::cout<< " TGo4AnalysisProxy::HandleTimer has restarted connection timer, discon counter="<< fDisconectCounter << std::endl;
          } else {
             // this is an emergency disconnect! regularly, the TGo4Display will destroy us now
 
-            cout<< " TGo4AnalysisProxy::HandleTimer still sees not that display is gone. Cleanup myself!"<< endl;
+            std::cout<< " TGo4AnalysisProxy::HandleTimer still sees not that display is gone. Cleanup myself!"<< std::endl;
             fxConnectionTimer->TurnOff();
             fxConnectionTimer = 0; // avoid that timer is deleted in dtor, since this function runs within timer notify!
             if (fxParentSlot != 0) {
                // this will also delete Analysis proxy itself
                // practically the same as  delete fxParentSlot;
-//               cout
+//               std::cout
 //                     << " TGo4AnalysisProxy::HandleTimer will delete parent slot "
-//                     << fxParentSlot->GetFullName() << endl;
+//                     << fxParentSlot->GetFullName() << std::endl;
                fxParentSlot->Delete();
                //fxParentSlot = 0;
                //fxParentSlot->GetOM()->DeleteObject(fxParentSlot);

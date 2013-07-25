@@ -23,18 +23,18 @@
 TGo4MainRunnable::TGo4MainRunnable(const char* name, TGo4ExampleClient* cli)
 : TGo4Runnable(name,cli)
 {
-   TRACE((15,"TGo4MainRunnable::TGo4MainRunnable(const char*,TGo4ExampleClient*) constructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MainRunnable::TGo4MainRunnable(const char*,TGo4ExampleClient*) constructor",__LINE__, __FILE__));
    fxApplication=cli->GetApplication();
 }
 
 TGo4MainRunnable::~TGo4MainRunnable()
 {
-   TRACE((15,"TGo4MainRunnable::~TGo4MainRunnable() destructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MainRunnable::~TGo4MainRunnable() destructor",__LINE__, __FILE__));
 }
 
 Int_t TGo4MainRunnable::Run(void*)
 {
-   TRACE((12,"TGo4MainRunnable::Run()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MainRunnable::Run()",__LINE__, __FILE__));
    // first test: simply wait for command, then execute it and send back an object
    TGo4Command* com=0;
    TGo4ExampleClient* cli= dynamic_cast<TGo4ExampleClient*> (fxManager);

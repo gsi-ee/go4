@@ -45,7 +45,7 @@ TGo4Display::TGo4Display(Bool_t isserver)
 
 TGo4Display::~TGo4Display()
 {
-   TRACE((15,"TGo4Display::~TGo4Display()", __LINE__, __FILE__));
+   GO4TRACE((15,"TGo4Display::~TGo4Display()", __LINE__, __FILE__));
    //fxWorkHandler->CancelAll(); // make sure threads wont work on gui instance after it is deleted
    if(GetTask())
       GetTask()->GetWorkHandler()->CancelAll();
@@ -55,10 +55,10 @@ TGo4Display::~TGo4Display()
       fxAnalysis->DisplayDeleted(this); // will also clear back referenc to us
       TGo4Slot* pslot = fxAnalysis->ParentSlot();
       if (pslot) {
-         //cout <<"TGo4Display dtor will delete analysis proxy parent slot" << endl;
+         //std::cout <<"TGo4Display dtor will delete analysis proxy parent slot" << std::endl;
          pslot->Delete();
       } else {
-         //cout <<"TGo4Display dtor will delete analysis proxy directly" << endl;
+         //std::cout <<"TGo4Display dtor will delete analysis proxy directly" << std::endl;
          delete fxAnalysis; // regularly, we cleanup the analysis proxy.
       }
 
@@ -84,7 +84,7 @@ void TGo4Display::DisplayLog(TGo4Status * Status)
 
 Bool_t TGo4Display::DisconnectSlave(const char* name, Bool_t waitforslave)
 {
-   // cout <<"+++++++++ TGo4Display::DisconnectSlave..." << endl;
+   // std::cout <<"+++++++++ TGo4Display::DisconnectSlave..." << std::endl;
 
 
 // Note: taskhandlerabortexception and shutdown of analysis server
@@ -104,13 +104,13 @@ Bool_t TGo4Display::DisconnectSlave(const char* name, Bool_t waitforslave)
 
           fxAnalysis->DisplayDisconnected(this);
 
-//        cout <<"+++++++++ TGo4Display::DisconnectSlave success on disconnect!!!" << endl;
-//        cout <<"+++++++++ Please add something to inform GUI here about disconnected analysis!!!" << endl;
+//        std::cout <<"+++++++++ TGo4Display::DisconnectSlave success on disconnect!!!" << std::endl;
+//        std::cout <<"+++++++++ Please add something to inform GUI here about disconnected analysis!!!" << std::endl;
      }
    else
      {
-//        cout <<"+++++++++ TGo4Display::DisconnectSlave failed!!!" << endl;
-//        cout <<"+++++++++ Please add something to inform GUI here..." << endl;
+//        std::cout <<"+++++++++ TGo4Display::DisconnectSlave failed!!!" << std::endl;
+//        std::cout <<"+++++++++ Please add something to inform GUI here..." << std::endl;
      }
 
   return rev;

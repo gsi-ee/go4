@@ -195,7 +195,7 @@ void TGo4MBSViewer::Refresh()
       // only in monitoring mode: calculate rates ourselves, independent of mbs ratemter:
       // NEW: first check real time diff since last call and correct rates:
       deltamilsecs=fxDeltaClock.elapsed();
-      //cout <<"******* found ms:"<<deltamilsecs << endl;
+      //std::cout <<"******* found ms:"<<deltamilsecs << std::endl;
       fxDeltaClock.restart();
       int deltasecs=deltamilsecs/1000;
       if(!fbTrendingInit && (deltasecs>=deltat*2))
@@ -224,8 +224,8 @@ void TGo4MBSViewer::Refresh()
          fiCalcedDataRate=0;
       }
       fiLastDataNum=fxDaqStat.bl_n_kbyte;
-      //    cout <<"Data rate:"<<fiCalcedDataRate << endl;
-      //    cout <<"Data total:"<<fiLastDataNum << endl;
+      //    std::cout <<"Data rate:"<<fiCalcedDataRate << std::endl;
+      //    std::cout <<"Data total:"<<fiLastDataNum << std::endl;
    }
    else
    {
@@ -251,10 +251,10 @@ void TGo4MBSViewer::Refresh()
             fiServDataDelta=0;
             fiCalcedServDataRate=0;
          }
-         //            cout <<"Streamserver rate:"<<fiCalcedServDataRate << endl;
-         //            cout <<"Streamserver data:"<<fxDaqStat.bl_n_strserv_kbytes << endl;
-         //            cout <<"Streamserver last data:"<<fiLastServDataNum << endl;
-         //            cout <<"dt:"<<deltat << endl;
+         //            std::cout <<"Streamserver rate:"<<fiCalcedServDataRate << std::endl;
+         //            std::cout <<"Streamserver data:"<<fxDaqStat.bl_n_strserv_kbytes << std::endl;
+         //            std::cout <<"Streamserver last data:"<<fiLastServDataNum << std::endl;
+         //            std::cout <<"dt:"<<deltat << std::endl;
          fiLastServDataNum=fxDaqStat.bl_n_strserv_kbytes;
       }
       else
@@ -266,7 +266,7 @@ void TGo4MBSViewer::Refresh()
       //fiEvRatio= (fiCalcedDataRate!=0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
       //int curentratio=(fiCalcedDataRate!=0 ? 100* fiCalcedServDataRate /fiCalcedDataRate : 0);
       fiEvRatio= (fiDataDelta!=0 ? 100* fiServDataDelta /fiDataDelta : 0);
-      //cout<<"Eventratio="<<fiEvRatio<<" , currentratio="<<curentratio<<endl;
+      //std::cout<<"Eventratio="<<fiEvRatio<<" , currentratio="<<curentratio<< std::endl;
    }
    else if(fxDaqStat.bh_running[SYS__event_serv])
    {
@@ -311,7 +311,7 @@ void TGo4MBSViewer::Refresh()
       while((numperiods--) > 0)
       {
          UpdateTrending(); // use same values for all skipped periods
-         //cout <<"Update trending with numperiods:"<<numperiods << endl;
+         //std::cout <<"Update trending with numperiods:"<<numperiods << std::endl;
       }
    }
    StartMovieReset();

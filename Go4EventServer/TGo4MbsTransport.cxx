@@ -20,7 +20,7 @@
 TGo4MbsTransport::TGo4MbsTransport(const char* name)
 : TGo4MbsSource(name, GETEVT__TRANS)
 {
-   TRACE((15,"TGo4MbsTransport::TGo4MbsTransport(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsTransport::TGo4MbsTransport(const char*)",__LINE__, __FILE__));
    TGo4Log::Debug(" New Event Source MbsTransport %s:  ",name);
    Open();
 }
@@ -28,7 +28,7 @@ TGo4MbsTransport::TGo4MbsTransport(const char* name)
 TGo4MbsTransport::TGo4MbsTransport(TGo4MbsTransportParameter* par)
 : TGo4MbsSource(par, GETEVT__TRANS)
 {
-   TRACE((15,"TGo4MbsTransport::TGo4MbsTransport(TGo4MbsTransportParameter**)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsTransport::TGo4MbsTransport(TGo4MbsTransportParameter**)",__LINE__, __FILE__));
    TGo4Log::Debug(" New Event Source MbsTransport %s:  ",GetName());
 
    Open();
@@ -37,12 +37,12 @@ TGo4MbsTransport::TGo4MbsTransport(TGo4MbsTransportParameter* par)
 
 TGo4MbsTransport::TGo4MbsTransport()
 {
-   TRACE((15,"TGo4MbsTransport::TGo4MbsTransport()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsTransport::TGo4MbsTransport()",__LINE__, __FILE__));
 }
 
 
 TGo4MbsTransport::~TGo4MbsTransport()
 {
-   TRACE((15,"TGo4MbsTransport::~TGo4MbsTransport()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsTransport::~TGo4MbsTransport()",__LINE__, __FILE__));
    Close();
 }

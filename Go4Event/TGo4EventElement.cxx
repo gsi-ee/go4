@@ -30,7 +30,7 @@ TGo4EventElement::TGo4EventElement() :
    fbKeepContents(kFALSE)
 {
 
-   TRACE((15,"TGo4EventElement::TGo4EventElement()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4EventElement::TGo4EventElement()",__LINE__, __FILE__));
 }
 
 TGo4EventElement::TGo4EventElement(const char* name) :
@@ -42,7 +42,7 @@ TGo4EventElement::TGo4EventElement(const char* name) :
    fDebug(kFALSE),
    fbKeepContents(kFALSE)
 {
-   TRACE((15,"TGo4EventElement::TGo4EventElement(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4EventElement::TGo4EventElement(const char*)",__LINE__, __FILE__));
 }
 
 TGo4EventElement::TGo4EventElement(const char* aName, const char* aTitle, Short_t aBaseCat) :
@@ -57,19 +57,19 @@ TGo4EventElement::TGo4EventElement(const char* aName, const char* aTitle, Short_
 
 TGo4EventElement::~TGo4EventElement()
 {
-   TRACE((15,"TGo4EventElement::~TGo4EventElement()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4EventElement::~TGo4EventElement()",__LINE__, __FILE__));
 }
 
 Bool_t TGo4EventElement::CheckEventSource(const char* classname)
 {
-   TRACE((12,"TGo4EventElement::CheckEventSource(const char*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4EventElement::CheckEventSource(const char*)",__LINE__, __FILE__));
    if(fxEventSource==0) return kFALSE;
    return fxEventSource->InheritsFrom(classname);
 }
 
 void TGo4EventElement::PrintEvent()
 {
-   TRACE((12,"TGo4EventElement::PrintEvent()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4EventElement::PrintEvent()",__LINE__, __FILE__));
 
    TGo4Log::Debug( " EventElement printout: ");
    TGo4Log::Debug( "\tIsValid=%d ",fbIsValid);

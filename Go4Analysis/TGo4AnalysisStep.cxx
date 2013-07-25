@@ -45,7 +45,7 @@ TGo4AnalysisStep::TGo4AnalysisStep(const char* name, TGo4EventFactory* eventfact
    fbErrorStopEnabled(kFALSE), fbErrorStopped(kFALSE)
 
 {
-TRACE((15,"TGo4AnalysisStep::TGo4AnalysisStep(const char*, TGo4EventFactory*)",__LINE__, __FILE__));
+GO4TRACE((15,"TGo4AnalysisStep::TGo4AnalysisStep(const char*, TGo4EventFactory*)",__LINE__, __FILE__));
    fxOwner=TGo4Analysis::Instance(); // note: we always have the analysis framework!
    fxEventFactory=eventfactory;
    if(fxStoreType)
@@ -65,7 +65,7 @@ TGo4AnalysisStep::TGo4AnalysisStep()
    fbProcessEnabled(kTRUE),
    fbErrorStopEnabled(kFALSE), fbErrorStopped(kFALSE)
 {
-   TRACE((15,"TGo4AnalysisStep::TGo4AnalysisStep()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4AnalysisStep::TGo4AnalysisStep()",__LINE__, __FILE__));
 
    fxOwner=0;
    fxEventFactory=0;
@@ -73,7 +73,7 @@ TGo4AnalysisStep::TGo4AnalysisStep()
 
 TGo4AnalysisStep::~TGo4AnalysisStep()
 {
-   TRACE((15,"TGo4AnalysisStep::~TGo4AnalysisStep()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4AnalysisStep::~TGo4AnalysisStep()",__LINE__, __FILE__));
    if(fxOwner) {
       Close();
       delete fxEventFactory;
@@ -85,7 +85,7 @@ TGo4AnalysisStep::~TGo4AnalysisStep()
 
 void TGo4AnalysisStep::InitEventClasses()
 {
-   TRACE((15,"TGo4AnalysisStep::InitEventClasses()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4AnalysisStep::InitEventClasses()",__LINE__, __FILE__));
    // note: the order is important here, from source to drain...
    if(fbProcessEnabled) {
       NewEventSource(fxSourceType);
@@ -98,7 +98,7 @@ void TGo4AnalysisStep::InitEventClasses()
 
 void TGo4AnalysisStep::Process()
 {
-   TRACE((12,"TGo4AnalysisStep::Process()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisStep::Process()",__LINE__, __FILE__));
    if(!fbProcessEnabled) return;
    if(fxEventProcessor==0) {
       SetStatusMessage("! AnalysisStep -- Process Error: no event processor !");
@@ -143,7 +143,7 @@ void TGo4AnalysisStep::Process()
 
 void TGo4AnalysisStep::Close()
 {
-   TRACE((14,"TGo4AnalysisStep::Close()",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4AnalysisStep::Close()",__LINE__, __FILE__));
    CloseEventStore();
    DeleteOutputEvent();
    CloseEventProcessor();
@@ -153,7 +153,7 @@ void TGo4AnalysisStep::Close()
 
 void TGo4AnalysisStep::CloseEventStore()
 {
-   TRACE((14,"TGo4AnalysisStep::CloseEventStore()",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4AnalysisStep::CloseEventStore()",__LINE__, __FILE__));
    if(fxEventStore) {
       TTree* atree= fxEventStore->GetTree();
       fxOwner->RemoveTree(atree);
@@ -167,7 +167,7 @@ void TGo4AnalysisStep::CloseEventStore()
 
 void TGo4AnalysisStep::CloseEventSource()
 {
-   TRACE((14,"TGo4AnalysisStep::CloseEventSource()",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4AnalysisStep::CloseEventSource()",__LINE__, __FILE__));
    if(fxEventSource) {
       fxOwner->RemoveEventSource(fxEventSource);
       delete fxEventSource;
@@ -178,7 +178,7 @@ void TGo4AnalysisStep::CloseEventSource()
 
 void TGo4AnalysisStep::CloseEventProcessor()
 {
-   TRACE((14,"TGo4AnalysisStep::CloseEventProcessor()",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4AnalysisStep::CloseEventProcessor()",__LINE__, __FILE__));
    if(fxEventProcessor) {
       fxOwner->RemoveEventProcessor(fxEventProcessor);
       delete fxEventProcessor;
@@ -188,7 +188,7 @@ void TGo4AnalysisStep::CloseEventProcessor()
 
 void TGo4AnalysisStep::DeleteInputEvent()
 {
-   TRACE((14,"TGo4AnalysisStep::DeleteInputEvent()",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4AnalysisStep::DeleteInputEvent()",__LINE__, __FILE__));
    if(fxInputEvent) {
       fxOwner->RemoveEventStructure(fxInputEvent);
       delete fxInputEvent;
@@ -198,7 +198,7 @@ void TGo4AnalysisStep::DeleteInputEvent()
 
 void TGo4AnalysisStep::DeleteOutputEvent()
 {
-   TRACE((14,"TGo4AnalysisStep::DeleteOutputEvent()",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4AnalysisStep::DeleteOutputEvent()",__LINE__, __FILE__));
    if(fxOutputEvent) {
       fxOwner->RemoveEventStructure(fxOutputEvent);
       delete fxOutputEvent;
@@ -210,7 +210,7 @@ void TGo4AnalysisStep::DeleteOutputEvent()
 
 void TGo4AnalysisStep::StoreCalibration()
 {
-   TRACE((14,"TGo4AnalysisStep::StoreCalibration()",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4AnalysisStep::StoreCalibration()",__LINE__, __FILE__));
    TGo4EventCalibration* cali=0;
    if(fxEventProcessor)
       cali= fxEventProcessor->GetCalibration();
@@ -249,7 +249,7 @@ Int_t TGo4AnalysisStep::Store(TFolder* fold)
 
 Bool_t TGo4AnalysisStep::IsMatchingPrevious()
 {
-   TRACE((14,"TGo4AnalysisStep::IsMatchingPrevious(TGo4AnalysisStep*)",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4AnalysisStep::IsMatchingPrevious(TGo4AnalysisStep*)",__LINE__, __FILE__));
    if(!IsProcessEnabled()) return kTRUE;
       // only check if this step is active, otherwise no event classes are initialized!
 
@@ -264,7 +264,7 @@ Bool_t TGo4AnalysisStep::IsMatchingPrevious()
 
 const char* TGo4AnalysisStep::GetEventStoreName()
 {
-   TRACE((12,"TGo4AnalysisStep::GetEventStoreName()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisStep::GetEventStoreName()",__LINE__, __FILE__));
 
    return (fxEventStore==0) ? 0 : fxEventStore->GetName();
 }
@@ -276,7 +276,7 @@ const char* TGo4AnalysisStep::GetEventSourceName()
 
 void TGo4AnalysisStep::NewEventSource(TGo4EventSourceParameter * kind)
 {
-   TRACE((12,"TGo4AnalysisStep::NewEventSource(Int_t)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisStep::NewEventSource(Int_t)",__LINE__, __FILE__));
    const char* sourcename = "";
    if (kind) sourcename = kind->GetName();
 
@@ -329,7 +329,7 @@ void TGo4AnalysisStep::NewEventSource(TGo4EventSourceParameter * kind)
 
 void TGo4AnalysisStep::NewEventStore(TGo4EventStoreParameter * kind)
 {
-   TRACE((12,"TGo4AnalysisStep::NewEventStore(Int_t)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisStep::NewEventStore(Int_t)",__LINE__, __FILE__));
    CloseEventStore();
    if(fxEventFactory) {
       gROOT->cd(); // make sure that store is not assigned
@@ -365,7 +365,7 @@ void TGo4AnalysisStep::NewEventStore(TGo4EventStoreParameter * kind)
 
 void TGo4AnalysisStep::NewEventProcessor(TGo4EventProcessorParameter * kind)
 {
-   TRACE((12,"TGo4AnalysisStep::NewEventProcessor(Int_t)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisStep::NewEventProcessor(Int_t)",__LINE__, __FILE__));
    CloseEventProcessor();
    if(fxEventFactory) {
       gROOT->cd(); // make sure that any histograms of processor are not assigned
@@ -387,7 +387,7 @@ void TGo4AnalysisStep::NewEventProcessor(TGo4EventProcessorParameter * kind)
 }
 TGo4AnalysisStepStatus * TGo4AnalysisStep::CreateStatus()
 {
-   TRACE((11,"TGo4AnalysisStep::CreateStatus()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisStep::CreateStatus()",__LINE__, __FILE__));
    TGo4AnalysisStepStatus* state= new TGo4AnalysisStepStatus( GetName() );
    state->SetProcessorPar(fxProcessorType);
    if(fxSourceType==0) {
@@ -412,7 +412,7 @@ TGo4AnalysisStepStatus * TGo4AnalysisStep::CreateStatus()
 
 void TGo4AnalysisStep::NewInputEvent()
 {
-   TRACE((12,"TGo4AnalysisStep::NewInputEvent()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisStep::NewInputEvent()",__LINE__, __FILE__));
    DeleteInputEvent();
    if(fxEventFactory) {
       fxInputEvent = fxEventFactory->CreateInputEvent();
@@ -428,7 +428,7 @@ void TGo4AnalysisStep::NewInputEvent()
 
 void TGo4AnalysisStep::NewOutputEvent()
 {
-   TRACE((12,"TGo4AnalysisStep::NewOutputEvent()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisStep::NewOutputEvent()",__LINE__, __FILE__));
    DeleteOutputEvent();
    if(fxEventFactory) {
       fxOutputEvent=fxEventFactory->CreateOutputEvent();
@@ -445,7 +445,7 @@ void TGo4AnalysisStep::NewOutputEvent()
 
 void TGo4AnalysisStep::SetStatus(TGo4AnalysisStepStatus * state)
 {
-   TRACE((11,"TGo4AnalysisStep::SetStatus(TGo4AnalysisStepStatus*)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4AnalysisStep::SetStatus(TGo4AnalysisStepStatus*)",__LINE__, __FILE__));
    if(state!=0) {
       SetEventProcessor(state->GetProcessorPar());
       SetEventSource(state->GetSourcePar());

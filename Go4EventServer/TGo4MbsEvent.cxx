@@ -35,7 +35,7 @@ TGo4MbsEvent::TGo4MbsEvent() :
    fiSubEvIndex(0),
    fbIsReference(kFALSE)
 {
-   TRACE((12,"TGo4MbsEvent::TGo4MbsEvent()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsEvent::TGo4MbsEvent()",__LINE__, __FILE__));
    //TGo4Log::Info( "MBS Event default ctor");
 }
 
@@ -46,7 +46,7 @@ TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum, Short_t* subids, UInt_t datasize) :
    fiSubEvIndex(0),
    fbIsReference(kFALSE)
 {
-   TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(UInt_t, Short_t, UInt_t)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(UInt_t, Short_t, UInt_t)",__LINE__, __FILE__));
    fxSubEvArray=new TObjArray(subnum+5);
    fxSubEvArray->SetOwner(kTRUE); // important for streamer
    for (UInt_t t=0;t<subnum;++t) {
@@ -68,7 +68,7 @@ TGo4MbsEvent::TGo4MbsEvent(UInt_t subnum,
    fiSubEvIndex(0),
    fbIsReference(kFALSE)
 {
-   TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(UInt_t, Char_t*, Char_t*, Short_t* UInt_t)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(UInt_t, Char_t*, Char_t*, Short_t* UInt_t)",__LINE__, __FILE__));
    fxSubEvArray = new TObjArray(subnum+5);
    fxSubEvArray->SetOwner(kTRUE); // important for streamer
    for (UInt_t t=0;t<subnum;++t) {
@@ -89,7 +89,7 @@ TGo4MbsEvent::TGo4MbsEvent(const char* ) :
    fiSubEvIndex(0),
    fbIsReference(kFALSE)
 {
-   TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(const char)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsEvent::TGo4MbsEvent(const char)",__LINE__, __FILE__));
    SimpleInit();
 }
 
@@ -110,7 +110,7 @@ void TGo4MbsEvent::SimpleInit()
 
 TGo4MbsEvent::~TGo4MbsEvent()
 {
-   TRACE((12,"TGo4MbsEvent::~TGo4MbsEvent()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsEvent::~TGo4MbsEvent()",__LINE__, __FILE__));
    //TGo4Log::Info( "MBS Event dtor...");
    if(!fbIsReference)
    {
@@ -122,7 +122,7 @@ TGo4MbsEvent::~TGo4MbsEvent()
 
 void TGo4MbsEvent::Clear(Option_t *)
 {
-   TRACE((11,"TGo4MbsEvent::Clear()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4MbsEvent::Clear()",__LINE__, __FILE__));
    if(!fbIsReference) {
       // here iterate all subevents and clear them
       TGo4MbsSubEvent* sub(0);
@@ -172,16 +172,16 @@ void TGo4MbsEvent::Set(Int_t dlen, Short_t type, Short_t subtype,
 
 void TGo4MbsEvent::PrintEvent()
 {
-///// new style just using cout:
+///// new style just using std::cout:
 //   TGo4EventElement::PrintEvent();
 //
-//   cout << "MBS Event printout:"
-//        << dec      << setw(8) << (Int_t) GetCount()
-//        << " t/s "  << setw(4) << (Int_t) GetType()
-//        << " "      << setw(4) << (Int_t) GetSubtype()
-//        << " len "  << setw(8) << (Int_t) GetDlen()
-//        << " trig   " << setw(4) << (Int_t) GetTrigger()
-//        << endl;
+//   std::cout << "MBS Event printout:"
+//        << dec      << std::setw(8) << (Int_t) GetCount()
+//        << " t/s "  << std::setw(4) << (Int_t) GetType()
+//        << " "      << std::setw(4) << (Int_t) GetSubtype()
+//        << " len "  << std::setw(8) << (Int_t) GetDlen()
+//        << " trig   " << std::setw(4) << (Int_t) GetTrigger()
+//        << std::endl;
 //   TGo4MbsSubEvent *sub(0);
 //   ResetIterator();
 //   while ((sub=NextSubEvent())!=0) sub->PrintEvent();
@@ -270,7 +270,7 @@ void TGo4MbsEvent::PrintMbsEvent(Int_t subid, Bool_t longw, Bool_t hexw, Bool_t 
 
 TGo4MbsSubEvent* TGo4MbsEvent::NextSubEvent(Bool_t all)
 {
-   TRACE((11,"TGo4MbsEvent::NextSubEvent()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4MbsEvent::NextSubEvent()",__LINE__, __FILE__));
 
    if (fxSubEvArray==0) return 0;
 
@@ -286,7 +286,7 @@ TGo4MbsSubEvent* TGo4MbsEvent::NextSubEvent(Bool_t all)
 
 TGo4MbsSubEvent * TGo4MbsEvent::GetSubEvent(Char_t subcrate, Char_t ctrl, Short_t procid)
 {
-   TRACE((11,"TGo4MbsEvent::GetSubEvent(Char_t)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4MbsEvent::GetSubEvent(Char_t)",__LINE__, __FILE__));
    TGo4MbsSubEvent* sub(0);
    ResetIterator();
    while ((sub = NextSubEvent())!=0)
@@ -298,7 +298,7 @@ TGo4MbsSubEvent * TGo4MbsEvent::GetSubEvent(Char_t subcrate, Char_t ctrl, Short_
 
 TGo4MbsSubEvent * TGo4MbsEvent::GetSubEvent(Short_t procid)
 {
-   TRACE((11,"TGo4MbsEvent::GetSubEvent(Short_t)",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4MbsEvent::GetSubEvent(Short_t)",__LINE__, __FILE__));
    TGo4MbsSubEvent* sub(0);
    ResetIterator();
    while ((sub = NextSubEvent())!=0)

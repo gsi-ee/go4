@@ -50,7 +50,7 @@ if(myinput==0 ||
       // since object name is used as pointer name in the processline call
       TString eventname=GetName();
       eventname.Resize(eventname.Index("_",1)); //
-      //cout <<"SetRealInput of"<<GetName()<<" sees eventname "<<eventname.Data() << endl;
+      //std::cout <<"SetRealInput of"<<GetName()<<" sees eventname "<<eventname.Data() << std::endl;
       myinput=TGo4Analysis::Instance()->GetEventStructure(eventname.Data());
       if(myinput==0)
          throw TGo4UserException(3,"Error setting real input event %s", GetName());

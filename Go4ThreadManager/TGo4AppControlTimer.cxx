@@ -30,7 +30,7 @@ TGo4AppControlTimer::TGo4AppControlTimer (TGo4ThreadManager* manager, Long_t msp
    fxManager(0),
    fbApplicationRun(kFALSE)
 {
-   TRACE((15,"TGo4AppControlTimer::TGo4AppControlTimer(TGo4ThreadManager*, Long_t, Bool_t) ctor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4AppControlTimer::TGo4AppControlTimer(TGo4ThreadManager*, Long_t, Bool_t) ctor",__LINE__, __FILE__));
    fxManager=manager;
    fxCondition=new TCondition();
 }
@@ -38,8 +38,8 @@ TGo4AppControlTimer::TGo4AppControlTimer (TGo4ThreadManager* manager, Long_t msp
 
 TGo4AppControlTimer::~TGo4AppControlTimer()
 {
-TRACE((15,"TGo4AppControlTimer::~TGo4AppControlTimer() dtor",__LINE__, __FILE__));
-//cout <<"!!!!!!!!!!!!!!! Destructor of TGo4AppControlTimer" << endl;
+GO4TRACE((15,"TGo4AppControlTimer::~TGo4AppControlTimer() dtor",__LINE__, __FILE__));
+//std::cout <<"!!!!!!!!!!!!!!! Destructor of TGo4AppControlTimer" << std::endl;
      if(fxCondition)
          {
             delete fxCondition;
@@ -49,7 +49,7 @@ TRACE((15,"TGo4AppControlTimer::~TGo4AppControlTimer() dtor",__LINE__, __FILE__)
 
 Bool_t TGo4AppControlTimer::Notify ()
 {
-   //TRACE((12,"TGo4AppControlTimer::Notify()",__LINE__, __FILE__));
+   //GO4TRACE((12,"TGo4AppControlTimer::Notify()",__LINE__, __FILE__));
 
 //   TurnOff();
    if(fxManager==0)
@@ -62,16 +62,16 @@ Bool_t TGo4AppControlTimer::Notify ()
    if(fxManager->Initialization()==0)
       // init successfull?
       {
-         TRACE((11,"TGo4AppControlTimer: Successful Initialization",__LINE__, __FILE__));
+         GO4TRACE((11,"TGo4AppControlTimer: Successful Initialization",__LINE__, __FILE__));
          if(!fbApplicationRun)
             // root TApplication shall be blocked
             {
-            TRACE((11,"TGo4AppControlTimer: Application shall be blocked!",__LINE__, __FILE__));
+            GO4TRACE((11,"TGo4AppControlTimer: Application shall be blocked!",__LINE__, __FILE__));
             if(TThread::Exists())
                // necessary to avoid gThreadImp bug in condition wait...
                {
                // normal mode:
-                  TRACE((10,"TGo4AppControlTimer: blocking ROOT gSystem!",__LINE__, __FILE__));
+                  GO4TRACE((10,"TGo4AppControlTimer: blocking ROOT gSystem!",__LINE__, __FILE__));
                   TGo4Log::Debug(" Application Control Timer --  Blocking ROOT gSystem!! ");
                   fxCondition->Wait();  // wait for running signal
                   TGo4Log::Debug(" Application Control Timer --  Releasing ROOT gSystem!! ");
@@ -79,24 +79,24 @@ Bool_t TGo4AppControlTimer::Notify ()
             else
                {
                   // no thread up, cannot wait for condition
-                  TRACE((10,"TGo4AppControlTimer: no TThread existing, not blocking !",__LINE__, __FILE__));
+                  GO4TRACE((10,"TGo4AppControlTimer: no TThread existing, not blocking !",__LINE__, __FILE__));
                }
           }
         else
           {
             // do not block :)
-            TRACE((11,"TGo4AppControlTimer: Application shall not be blocked!",__LINE__, __FILE__));
+            GO4TRACE((11,"TGo4AppControlTimer: Application shall not be blocked!",__LINE__, __FILE__));
           }
 
         if(fxManager->IsTerminating())
           // check if Timer was woken for program end
           {
-             TRACE((11,"TGo4AppControlTimer: Terminating mode",__LINE__, __FILE__));
+             GO4TRACE((11,"TGo4AppControlTimer: Terminating mode",__LINE__, __FILE__));
              Int_t t=0;
              while(!(fxManager->GetWorkHandler()->AllWaiting()) && (t++<fgiTERMWAITCYCLES) )
             {
                TGo4Log::Debug(" Application Control Timer --  waiting for Runnables to stop... ");
-               //cout << "TGo4AppControlTimer waiting for Runnables to stop..."<<t<<endl;
+               //std::cout << "TGo4AppControlTimer waiting for Runnables to stop..."<<t<< std::endl;
                gSystem->Sleep(fguTERMWAIT);
                fxManager->GetWorkHandler()->StopAll();
             }
@@ -120,7 +120,7 @@ Bool_t TGo4AppControlTimer::Notify ()
         else
           {
             // prepare for another timer cycle
-            TRACE((11,"TGo4AppControlTimer: Resetting for new cycle",__LINE__, __FILE__));
+            GO4TRACE((11,"TGo4AppControlTimer: Resetting for new cycle",__LINE__, __FILE__));
             Reset();
   //          TurnOn();
           }
@@ -128,7 +128,7 @@ Bool_t TGo4AppControlTimer::Notify ()
    else
       // init not successful
       {
-         TRACE((11,"TGo4AppControlTimer: Initialization failed",__LINE__, __FILE__));
+         GO4TRACE((11,"TGo4AppControlTimer: Initialization failed",__LINE__, __FILE__));
          TGo4Log::Debug(" Application Control Timer --  ThreadManager Init not successful, retrying! ");
          Reset();
 //         TurnOn();
@@ -138,7 +138,7 @@ Bool_t TGo4AppControlTimer::Notify ()
 
 Bool_t TGo4AppControlTimer::GetApplicationRun ()
 {
-  TRACE((12,"TGo4AppControlTimer::GetApplicationRun ()",__LINE__, __FILE__));
+  GO4TRACE((12,"TGo4AppControlTimer::GetApplicationRun ()",__LINE__, __FILE__));
   return fbApplicationRun;
 }
 

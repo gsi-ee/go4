@@ -38,7 +38,7 @@ TGo4FileStore::TGo4FileStore() :
    fiBufsize(0),
    fiFillCount(0)
 {
-   TRACE((15,"TGo4FileStore::TGo4FileStore()", __LINE__, __FILE__));
+   GO4TRACE((15,"TGo4FileStore::TGo4FileStore()", __LINE__, __FILE__));
    // public default ctor for streamer
    fxFile=0;
    fxTree=0;
@@ -59,7 +59,7 @@ TGo4FileStore::TGo4FileStore(const char* name,
    fiBufsize(bufsize),
    fiFillCount(0)
 {
-   TRACE((15,"TGo4FileStore::TGo4FileStore(char*,...)", __LINE__, __FILE__));
+   GO4TRACE((15,"TGo4FileStore::TGo4FileStore(char*,...)", __LINE__, __FILE__));
    TTree::SetMaxTreeSize(fgiFILESPLITSIZE);
    TString buffer(name);
    if(strstr(buffer.Data(), fgcFILESUF)==0) buffer.Append(fgcFILESUF);
@@ -105,7 +105,7 @@ TGo4FileStore::TGo4FileStore(TGo4FileStoreParameter* par) :
    fiBufsize(0),
    fiFillCount(0)
 {
-   TRACE((15,"TGo4FileStore::TGo4FileStore(TGo4FileStoreParameter* par)", __LINE__, __FILE__));
+   GO4TRACE((15,"TGo4FileStore::TGo4FileStore(TGo4FileStoreParameter* par)", __LINE__, __FILE__));
 
    if (par==0) {
       TGo4Log::Error("TGo4FileStore::TGo4FileStore(.., TGo4FileStoreParameter* is not specified");
@@ -155,7 +155,7 @@ TGo4FileStore::TGo4FileStore(TGo4FileStoreParameter* par) :
 
 TGo4FileStore::~TGo4FileStore()
 {
-   TRACE((15,"TGo4FileStore::~TGo4FileStore()", __LINE__, __FILE__));
+   GO4TRACE((15,"TGo4FileStore::~TGo4FileStore()", __LINE__, __FILE__));
    if(fxFile)
       {
          fxFile=fxTree->GetCurrentFile(); // for file split after 1.8 Gb!
@@ -172,25 +172,25 @@ TGo4FileStore::~TGo4FileStore()
 
 void TGo4FileStore::SetAutoSave(Int_t bytesinterval)
 {
-   TRACE((15,"TGo4FileStore::SetAutoSave(Int_t)", __LINE__, __FILE__));
+   GO4TRACE((15,"TGo4FileStore::SetAutoSave(Int_t)", __LINE__, __FILE__));
    fxTree->SetAutoSave(bytesinterval);
 }
 void TGo4FileStore::SetCompression(Int_t comp)
 {
-   TRACE((12,"TGo4FileStore::SetCompression(Int_t)", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4FileStore::SetCompression(Int_t)", __LINE__, __FILE__));
    fxFile->SetCompressionLevel(comp);
 }
 
 Int_t TGo4FileStore::Store(TGo4EventElement* event)
 {
-   TRACE((12,"TGo4FileStore::Store(TGo4EventElement*)", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4FileStore::Store(TGo4EventElement*)", __LINE__, __FILE__));
 
    Int_t rev=-1;
    TGo4EventElement* lastevent= fxEvent; // keep pointer to last event
    fxEvent=event; // address of next event into event pointer
    if(!fbBranchExists) {
       // first call of Store, create new branch
-      //cout << "**********************Creating new branch!"<< endl;
+      //std::cout << "**********************Creating new branch!"<< std::endl;
       if(fxEvent) {
          TString topbranchname = TString::Format("%s.", fxEvent->GetName());
          TBranch*  go4branch = fxTree->GetBranch(topbranchname.Data());

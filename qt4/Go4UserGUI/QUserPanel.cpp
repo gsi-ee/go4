@@ -18,7 +18,7 @@
 #include <stdio.h>
 
 
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "Rstrstream.h"
 #include "TClass.h"
 #include "TCanvas.h"
@@ -191,7 +191,7 @@ void QUserPanel::PrintObject(TObject* obj)
     if (obj==0) return;
 
     if (stdoutButton->isChecked()) {
-       cout.flush();
+       std::cout.flush();
        char sbuf[30000];
        memset(sbuf, 0, 30000);
        std::setvbuf(stdout, sbuf, _IOFBF, 30000);
@@ -200,14 +200,14 @@ void QUserPanel::PrintObject(TObject* obj)
        std::setvbuf(stdout, 0, _IONBF, 0);
        PrintEdit->setText(sbuf);
     } else {
-       cout.flush();
-       ostringstream strout;
-       streambuf* cout_buffer = cout.rdbuf();
-       cout.rdbuf(strout.rdbuf());
+       std::cout.flush();
+       std::ostringstream strout;
+       std::streambuf* ccc_buffer = std::cout.rdbuf();
+       std::cout.rdbuf(strout.rdbuf());
        obj->Print("");
-       cout << endl;
-       cout.flush();
-       cout.rdbuf(cout_buffer);
+       std::cout << std::endl;
+       std::cout.flush();
+       std::cout.rdbuf(ccc_buffer);
        PrintEdit->setText(strout.str().c_str());
     }
 }

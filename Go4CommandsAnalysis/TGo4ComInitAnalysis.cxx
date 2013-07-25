@@ -21,7 +21,7 @@
 TGo4ComInitAnalysis::TGo4ComInitAnalysis()
 :TGo4AnalysisCommand("ANInit","executes InitEventClasses of Analysis")
 {
-   TRACE((12,"TGo4ComInitAnalysis::TGo4ComInitAnalysis() ctor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComInitAnalysis::TGo4ComInitAnalysis() ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                        // override default receiver
    SetProtection(kGo4ComModeController);
@@ -29,17 +29,17 @@ TGo4ComInitAnalysis::TGo4ComInitAnalysis()
 
 TGo4ComInitAnalysis::~TGo4ComInitAnalysis()
 {
-   TRACE((12,"TGo4ComInitAnalysis::~TGo4ComInitAnalysis() dtor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComInitAnalysis::~TGo4ComInitAnalysis() dtor",__LINE__, __FILE__));
 }
 
 Int_t TGo4ComInitAnalysis::ExeCom()
 {
-   TRACE((12,"TGo4ComInitAnalysis::ExeCom()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComInitAnalysis::ExeCom()",__LINE__, __FILE__));
 
    TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
    if (cli!=0)
       {
-      TRACE((11,"TGo4ComInitAnalysis::ExeCom() - found valid receiver",__LINE__, __FILE__));
+      GO4TRACE((11,"TGo4ComInitAnalysis::ExeCom() - found valid receiver",__LINE__, __FILE__));
          TGo4Analysis* ana= TGo4Analysis::Instance();
          if(ana)
             {
@@ -66,7 +66,7 @@ Int_t TGo4ComInitAnalysis::ExeCom()
       }
    else
       {
-      TRACE((11,"TGo4ComInitAnalysis::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
+      GO4TRACE((11,"TGo4ComInitAnalysis::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
          TGo4Log::Debug(" !!! ComInitAnalysis ''%s'': NO RECEIVER ERROR!!!",GetName());
          return 1;
       }

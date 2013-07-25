@@ -71,13 +71,13 @@ void TGo4PolyCondView::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 static Bool_t ignoreNext=kFALSE;
 if(ignoreNext)
    {
-      //cout <<"PolyCondView supressing event "<<event << endl;
+      //std::cout <<"PolyCondView supressing event "<<event << std::endl;
       ignoreNext=kFALSE;
       return;
    }
 if(event==kButton1Double)
    {
-      //cout <<"PolyCondView supressing double click" << endl;
+      //std::cout <<"PolyCondView supressing double click" << std::endl;
       ignoreNext=kTRUE;
       return;
    }
@@ -85,7 +85,7 @@ if(event==kButton1Double)
 TCutG::ExecuteEvent(event,px,py);
 if(event==kButton1Up && fxPolyCondition)
    {
-      //cout <<"PolyCondView ExecuteEvent for button 1 up" << endl;
+      //std::cout <<"PolyCondView ExecuteEvent for button 1 up" << std::endl;
       Pop(); // do condition under edit into foreground, for condarray
       if(IsCutChanged())
          {

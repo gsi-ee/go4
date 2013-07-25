@@ -19,18 +19,18 @@
 TGo4EventStore::TGo4EventStore(const char* name) :
    TNamed(name, "This is a Go4 Event Store")
 {
-   TRACE((15,"TGo4EventStore::TGo4EventStore(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4EventStore::TGo4EventStore(const char*)",__LINE__, __FILE__));
 }
 
 TGo4EventStore::TGo4EventStore() :
    TNamed("Default EventStore", "This is a Go4 Event Store")
 {
-   TRACE((15,"TGo4EventStore::TGo4EventStore()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4EventStore::TGo4EventStore()",__LINE__, __FILE__));
 }
 
 TGo4EventStore::~TGo4EventStore()
 {
-   TRACE((15,"TGo4EventStore::~TGo4EventStore()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4EventStore::~TGo4EventStore()",__LINE__, __FILE__));
 }
 
 Int_t TGo4EventStore::Store(TGo4Parameter* cali)

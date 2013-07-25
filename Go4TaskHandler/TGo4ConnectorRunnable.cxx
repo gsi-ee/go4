@@ -34,7 +34,7 @@ Int_t TGo4ConnectorRunnable::Run(void* ptr)
    Int_t rev= fxTaskManager->ServeClient();
    if(rev< -1)
       {
-         //cout <<"TGo4ConnectorRunnable::Run sees rev="<<rev << endl;
+         //std::cout <<"TGo4ConnectorRunnable::Run sees rev="<<rev << std::endl;
          fxGo4Thread->Stop(); // stop runnable for termination
       }
    else

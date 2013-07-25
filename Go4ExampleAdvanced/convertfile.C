@@ -32,7 +32,7 @@ TString com1= "mkdir "+filename;
 StartDir=gSystem->WorkingDirectory();
 filenameroot = filename+".root";
 TFile myfile(filenameroot.Data(),"READ");
-cout <<"getting objects from file  "<<filenameroot.Data() << endl;
+std::cout <<"getting objects from file  "<<filenameroot.Data() << std::endl;
 gSystem->Exec(com1);
 gSystem->cd(filename.Data());
 CurrentDir=gSystem->WorkingDirectory();
@@ -50,19 +50,19 @@ void converthisto(TH1* histo)
   std::ofstream outfile(outname.Data());
   if(!outfile)
     {
-      cout <<"Error opening outputfile "<<outname.Data() << endl;
+      std::cout <<"Error opening outputfile "<<outname.Data() << std::endl;
       return;
     }
 
-  cout <<"Converting histogram "<< histo->GetName() << endl;
+  std::cout <<"Converting histogram "<< histo->GetName() << std::endl;
   Int_t maxbinX=histo->GetNbinsX();
   Int_t maxbinY=histo->GetNbinsY();
   Int_t maxbinZ=histo->GetNbinsZ();
   Int_t globalbin=0;
   Stat_t  cont=0;
-  outfile <<"# Histogram "<<histo->ClassName() <<": "<<histo->GetName()<<endl;
-  outfile <<"# Xbin \tYbin \tZbin \tContent"<<endl;
-  //outfile <<"# Xbin \tContent"<<endl;
+  outfile <<"# Histogram "<<histo->ClassName() <<": "<<histo->GetName()<< std::endl;
+  outfile <<"# Xbin \tYbin \tZbin \tContent"<< std::endl;
+  //outfile <<"# Xbin \tContent"<< std::endl;
   for(Int_t x=0; x<maxbinX; ++x)
     {
       for(Int_t y=0; y<maxbinY; ++y)
@@ -71,8 +71,8 @@ void converthisto(TH1* histo)
             {
               globalbin=histo->GetBin(x,y,z);
               cont=histo->GetBinContent(globalbin);
-              outfile <<x<<" \t"<<y<<" \t"<<z<<" \t"<<cont<<endl;
-              //outfile <<x<<" \t"<<cont<<endl;
+              outfile <<x<<" \t"<<y<<" \t"<<z<<" \t"<<cont<< std::endl;
+              //outfile <<x<<" \t"<<cont<< std::endl;
             }
         }
 
@@ -89,19 +89,19 @@ void convertgraph(TGraph* graph)
   std::ofstream outfile(outname.Data());
   if(!outfile)
     {
-              cout <<"Error opening outputfile "<<outname.Data() << endl;
+              std::cout <<"Error opening outputfile "<<outname.Data() << std::endl;
               return;
     }
-  cout <<"Converting graph "<< graph->GetName() << endl;
+  std::cout <<"Converting graph "<< graph->GetName() << std::endl;
   Int_t maxpoints=graph->GetN();
-  outfile <<"# Graph "<<graph->ClassName() <<": "<<graph->GetName()<<endl;
-  outfile <<"# Point \tX \tY"<<endl;
+  outfile <<"# Graph "<<graph->ClassName() <<": "<<graph->GetName()<< std::endl;
+  outfile <<"# Point \tX \tY"<< std::endl;
   for(Int_t point=0; point<maxpoints; ++point)
     {
       Double_t xg=0;
       Double_t yg=0;
       graph->GetPoint(point,xg,yg);
-      outfile <<point<<" \t\t"<<xg<<" \t"<<yg<<endl;
+      outfile <<point<<" \t\t"<<xg<<" \t"<<yg<< std::endl;
     }
   outfile.close();
   gSystem->cd(StartDir.Data());
@@ -134,15 +134,15 @@ void convertobject(TObject* myobject)
     }
   else
     {
-      cout <<"NOT converting object"<< myobject->GetName();
-      cout <<" of class "<<myobject->ClassName() <<" to ASCII."<< endl;
+      std::cout <<"NOT converting object"<< myobject->GetName();
+      std::cout <<" of class "<<myobject->ClassName() <<" to ASCII."<< std::endl;
     }
 }
 
 
 void convertfolder(TFolder* fold)
 {
-  cout <<"Converting contents of folder "<<fold->GetName())<<"..."  << endl;
+  std::cout <<"Converting contents of folder "<<fold->GetName())<<"..."  << std::endl;
 TString dirname=fold->GetName();
 gSystem->cd(CurrentDir.Data()); // create subdirectory in file system
 TString com="mkdir "+dirname;
@@ -166,7 +166,7 @@ gSystem->cd(StartDir.Data());
 
 void convertdir(TDirectory* source)
 {
-  cout <<"Converting contents of directory "<<source->GetName()<<"..." << endl;
+  std::cout <<"Converting contents of directory "<<source->GetName()<<"..." << std::endl;
 TString dirname=source->GetName();
 if(!dirname.Contains(".root"))
 {
@@ -191,7 +191,7 @@ while((mykey=(TKey*) iter())!=0)
       }
     else
       {
-        cout <<"Could not read object "<<mykey->GetName() << endl;
+        std::cout <<"Could not read object "<<mykey->GetName() << std::endl;
       }
   } // while
 if(!dirname.Contains(".root"))

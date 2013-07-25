@@ -23,8 +23,8 @@ Int_t TGo4SimpleSubEvent::fgiZeroField[]={0};
 TGo4SimpleSubEvent::TGo4SimpleSubEvent()
 :  fsProcid(0), fiFieldLen(0)
 {
-TRACE((12,"TGo4SimpleSubEvent::TGo4SimpleSubEvent() ",__LINE__, __FILE__));
-   //cout << "default ctor of simple subevent"<< endl;
+GO4TRACE((12,"TGo4SimpleSubEvent::TGo4SimpleSubEvent() ",__LINE__, __FILE__));
+   //std::cout << "default ctor of simple subevent"<< std::endl;
    //Clear();
    fiD0=0;
    fiD1=0;
@@ -60,7 +60,7 @@ TRACE((12,"TGo4SimpleSubEvent::TGo4SimpleSubEvent() ",__LINE__, __FILE__));
 
 TGo4SimpleSubEvent::~TGo4SimpleSubEvent()
 {
-TRACE((12,"TGo4SimpleSubEvent::~TGo4SimpleSubEvent() ",__LINE__, __FILE__));
+GO4TRACE((12,"TGo4SimpleSubEvent::~TGo4SimpleSubEvent() ",__LINE__, __FILE__));
 
 //   delete fxMbsSubEventArray;
 
@@ -68,7 +68,7 @@ TRACE((12,"TGo4SimpleSubEvent::~TGo4SimpleSubEvent() ",__LINE__, __FILE__));
 
 void TGo4SimpleSubEvent::PrintEvent()
 {
-   TRACE((11,"TGo4SimpleSubEvent::PrintEvent()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4SimpleSubEvent::PrintEvent()",__LINE__, __FILE__));
 
    TGo4Log::Debug( " SimpleSubEvent Header printout: ");
    TGo4Log::Debug( "\tProcid    %d", fsProcid);
@@ -78,7 +78,7 @@ void TGo4SimpleSubEvent::PrintEvent()
 }
 void TGo4SimpleSubEvent::Clear(Option_t *t)
 {
-   TRACE((11,"TGo4SimpleSubEvent::Clear()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4SimpleSubEvent::Clear()",__LINE__, __FILE__));
    void* destfield = (void*) &fiD0;
    void* sourcefield= (void*) TGo4SimpleSubEvent::fgiZeroField;
    memcpy(destfield,
@@ -86,12 +86,12 @@ void TGo4SimpleSubEvent::Clear(Option_t *t)
                12*sizeof(Int_t));     // does this work?
 
    fiFieldLen=0;
-   //cout << "cleared simple subevent"<< endl;
+   //std::cout << "cleared simple subevent"<< std::endl;
 }
 
 Int_t TGo4SimpleSubEvent::Fill()
 {
-   TRACE((11,"TGo4SimpleSubEvent::Fill()",__LINE__, __FILE__));
+   GO4TRACE((11,"TGo4SimpleSubEvent::Fill()",__LINE__, __FILE__));
    MayNotUse("TGo4SimpleSubEvent::Fill()");
    return -1;
 }

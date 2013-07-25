@@ -13,11 +13,10 @@
 
 #include "QRootWindow.h"
 
-#include "go4iostream.h"
-
 #include "TSystem.h"
 #include "GuiTypes.h"
 #include "TGFrame.h"
+#include "Riostream.h"
 
 #include <QtGui/QPainter>
 #include <QtGui/QMouseEvent>
@@ -78,7 +77,7 @@ QRootWindow::QRootWindow( QWidget *parent, const char *name, bool designermode) 
       // add the Qt::WinId to TGX11 interface
       fQtWinId = winId();
       fiWinid = gVirtualX->AddWindow((ULong_t)fQtWinId,145,400);
-      //cout <<"QRootWindow ctor added window for "<<fQtWinId<<" with ROOT wid:"<<fiWinid<< endl;
+      //std::cout <<"QRootWindow ctor added window for "<<fQtWinId<<" with ROOT wid:"<<fiWinid<< std::endl;
       fxRootwindow = new TQRootFrame(gVirtualX->GetWindowID(fiWinid));
       fxRootwindow->Resize();
       if ( parent ) parent->installEventFilter( this );
@@ -170,7 +169,7 @@ void QRootWindow::paintEvent( QPaintEvent * e)
       if(fQtWinId!=nxid) {
          TGo4LockGuard threadlock(0,true);
          // may happen when this window is embedded to Qt workspace...
-         cout <<"Warning: QRootWindow::paintEvent finds changed X window id: "<< (ULong_t) winId()<<", previous:"<<fQtWinId << endl;
+         std::cout <<"Warning: QRootWindow::paintEvent finds changed X window id: "<< (ULong_t) winId()<<", previous:"<<fQtWinId << std::endl;
          delete fxRootwindow; // should also remove old x windows!
          fQtWinId = nxid;
          fiWinid = gVirtualX->AddWindow((ULong_t) fQtWinId, width(), height());
@@ -178,7 +177,7 @@ void QRootWindow::paintEvent( QPaintEvent * e)
       }
       if(fbResizeOnPaint) {
          TGo4LockGuard threadlock(0,true);
-         //cout <<"QRootWindow::paintEvent does TGCompositeFrame Resize ..." <<endl;
+         //std::cout <<"QRootWindow::paintEvent does TGCompositeFrame Resize ..." << std::endl;
          fxRootwindow->Resize(width(),height());
          gVirtualX->Update(1); // Xsync/flus
       }

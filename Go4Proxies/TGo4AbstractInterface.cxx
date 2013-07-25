@@ -261,7 +261,7 @@ Bool_t TGo4AbstractInterface::LoadHotStart(const char* filename)
 {
    FreeHotStartCmds();
 
-   ifstream f(filename);
+   std::ifstream f(filename);
 
    if (!f.good()) return kFALSE;
 
@@ -336,7 +336,7 @@ void TGo4AbstractInterface::ProduceLoadLibs(std::ostream& fs)
               else
                  fs << token;
 
-              fs << "\");" << endl;
+              fs << "\");" << std::endl;
           }
       token = strtok(NULL, " ,\t\n");
    }

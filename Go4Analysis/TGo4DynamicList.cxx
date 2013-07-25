@@ -126,8 +126,8 @@ TDataMember* FindDataMember(TClass* eventclass,
    Long_t indexoffset = 0;
    const char* ixbegin = strchr(memname,'[');
    if(ixbegin) {
-      //   cout <<"-------------FindDataMember of Entry " << GetName() << endl;
-      //   cout <<"Found index in member" << memname << endl;
+      //   std::cout <<"-------------FindDataMember of Entry " << GetName() << std::endl;
+      //   std::cout <<"Found index in member" << memname << std::endl;
       ixbegin++;
       const char* ixend = strchr(ixbegin,']');
       if(ixend)  {
@@ -159,8 +159,8 @@ TDataMember* FindDataMember(TClass* eventclass,
                *totaloffset+=baseclass->GetDelta();
                // inc total offset to this by baseclass offset
                // member offset is relative to TClass (i.e. baseclass here)
-               //cout <<"iiiiiiiiiInitPointers baseclass member: " << eventmember << endl;
-               //cout <<"iiiiiiiiiInitPointers baseclass delta: " << baseclass->GetDelta() << endl;
+               //std::cout <<"iiiiiiiiiInitPointers baseclass member: " << eventmember << std::endl;
+               //std::cout <<"iiiiiiiiiInitPointers baseclass delta: " << baseclass->GetDelta() << std::endl;
                break;
             } else{ }
          } // if(baseclass)
@@ -179,7 +179,7 @@ TDataMember* FindDataMember(TClass* eventclass,
       {
          Int_t datasize = eventmember->GetDataType()->Size();
          *totaloffset += indexoffset*datasize;
-         //cout <<"totaloffset:"<< *totaloffset<<endl;
+         //std::cout <<"totaloffset:"<< *totaloffset<< std::endl;
       }
       else
       {
@@ -192,7 +192,7 @@ TDataMember* FindDataMember(TClass* eventclass,
       //for(Int_t ii=0; ii<4; ++ii)
       //{
       //   Int_t maxindex=eventmember->GetMaxIndex(ii);
-      //   cout <<"Found maxindex "<<maxindex<<" for dimension "<<ii << endl;
+      //   std::cout <<"Found maxindex "<<maxindex<<" for dimension "<<ii << std::endl;
       //}
    }
 
@@ -280,7 +280,7 @@ bool TGo4DynamicList::ProcessTEntry(TGo4TreeHistogramEntry* tentry, Bool_t proce
    }
 
    TH1* histo = TGo4Analysis::Instance()->GetHistogram(hname);
-   //if(!histo) cout <<"ProcessTEntry do did not find histo "<<hname << endl;
+   //if(!histo) std::cout <<"ProcessTEntry do did not find histo "<<hname << std::endl;
    if (!tentry->fbNewHistogram && (histo==0)) {
       throw TGo4DynamicListException(tentry,
             "Tree Histogram Entry: !!! Could not find Histogram %s ",hname);
@@ -294,12 +294,12 @@ bool TGo4DynamicList::ProcessTEntry(TGo4TreeHistogramEntry* tentry, Bool_t proce
 
    if (tentry->fbNewHistogram) {
       //// debug
-      //        cout <<"gDirectory is "<<gDirectory->GetName() << endl;
-      //        cout <<"gROOT is "<<gROOT->GetName() << endl;
+      //        std::cout <<"gDirectory is "<<gDirectory->GetName() << std::endl;
+      //        std::cout <<"gROOT is "<<gROOT->GetName() << std::endl;
       histo = dynamic_cast<TH1*>(gROOT->FindObject(hname));
       if(histo==0)
       {
-         //            cout <<"not found by FindObject, try FindObjectAny..." << endl;
+         //            std::cout <<"not found by FindObject, try FindObjectAny..." << std::endl;
          histo = dynamic_cast<TH1*>(gROOT->FindObjectAny(hname));
       }
       // note JA: FindObject fails with histogram created in hsimple.C on Cintserver when gDirectory was different from gRoot
@@ -307,7 +307,7 @@ bool TGo4DynamicList::ProcessTEntry(TGo4TreeHistogramEntry* tentry, Bool_t proce
       // note2: second fix is in TGo4Analysis::Process() which explicitely resets gDirectory to gROOT
       // before entering the MainCycle(); so FindObjectAny should be never necessary now
       if(histo!=0) {
-         //cout <<"ProcessTEntry did FIND NEW histo "<<hname << endl;
+         //std::cout <<"ProcessTEntry did FIND NEW histo "<<hname << std::endl;
          TGo4Analysis::Instance()->AddHistogram(histo); // we put the new histogram into our histo folder!
          histo->SetBit(TGo4Status::kGo4CanDelete);
          tentry->fbNewHistogram=kFALSE;

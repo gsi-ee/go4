@@ -20,7 +20,7 @@
 TGo4EventSourceException::TGo4EventSourceException (TGo4EventSource* eventsource)
 : fxEventSource(0),  fiCreateStatus(0), fiEventStatus(0)
 {
-   TRACE((16,"TGo4EventSourceException::TGo4EventSourceException (TGo4EventSource*)", __LINE__, __FILE__));
+   GO4TRACE((16,"TGo4EventSourceException::TGo4EventSourceException (TGo4EventSource*)", __LINE__, __FILE__));
    fxDescription= "!!!-- Go4 EventSource Exception --!!!";
    if(eventsource)
       {
@@ -37,7 +37,7 @@ TGo4EventSourceException::TGo4EventSourceException (TGo4EventSource* eventsource
 TGo4EventSourceException::TGo4EventSourceException(const TGo4EventSourceException &right)
   :TGo4RuntimeException(right)
 {
- TRACE((16,"TGo4EventSourceException::TGo4EventSourceException(right)", __LINE__, __FILE__));   ;
+ GO4TRACE((16,"TGo4EventSourceException::TGo4EventSourceException(right)", __LINE__, __FILE__));   ;
    fxEventSource=right.fxEventSource;
    fxErrMess=right.fxErrMess;
    fxSourceName=right.fxSourceName;
@@ -48,7 +48,7 @@ TGo4EventSourceException::TGo4EventSourceException(const TGo4EventSourceExceptio
 
 TGo4EventSourceException & TGo4EventSourceException::operator= (const TGo4EventSourceException & right)
 {
- TRACE((16,"TGo4EventSourceException::operator=",__LINE__, __FILE__));
+ GO4TRACE((16,"TGo4EventSourceException::operator=",__LINE__, __FILE__));
  if (&right!=this)
     {
       TGo4RuntimeException::operator=(right); // copy base class members
@@ -70,13 +70,13 @@ TGo4EventSourceException & TGo4EventSourceException::operator= (const TGo4EventS
 
 TGo4EventSourceException::~TGo4EventSourceException()
 {
- TRACE((16,"TGo4EventSourceException::~TGo4EventSourceException", __LINE__, __FILE__));
+ GO4TRACE((16,"TGo4EventSourceException::~TGo4EventSourceException", __LINE__, __FILE__));
 
 }
 
 Int_t TGo4EventSourceException::Handle()
 {
-   TRACE((12,"TGo4EventSourceException::Handle()", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4EventSourceException::Handle()", __LINE__, __FILE__));
 
    TGo4Log::Debug("%s \n %s of name %s: \n\tCreateStatus: %d \n\tEventStatus:%d, \n\t%s",
             What(),

@@ -44,13 +44,13 @@ TGo4AnalysisStepStatus::TGo4AnalysisStepStatus(const char* name) :
    fbErrorStopped(kFALSE),
    fiProcessStatus(0)
 {
-   TRACE((15,"TGo4AnalysisStepStatus::TGo4AnalysisStepStatus(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4AnalysisStepStatus::TGo4AnalysisStepStatus(const char*)",__LINE__, __FILE__));
 
 }
 
 TGo4AnalysisStepStatus::~TGo4AnalysisStepStatus()
 {
-   TRACE((15,"TGo4AnalysisStepStatus::~TGo4AnalysisStepStatus()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4AnalysisStepStatus::~TGo4AnalysisStepStatus()",__LINE__, __FILE__));
    delete fxSourceType;
    delete fxStoreType;
    delete fxProcessorType;
@@ -58,7 +58,7 @@ TGo4AnalysisStepStatus::~TGo4AnalysisStepStatus()
 
 Int_t TGo4AnalysisStepStatus::PrintStatus(Text_t* buffer, Int_t buflen)
 {
-   TRACE((12,"TGo4AnalysisStepStatus::PrintStatus()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisStepStatus::PrintStatus()",__LINE__, __FILE__));
    //
 
    Int_t locallen=64000;

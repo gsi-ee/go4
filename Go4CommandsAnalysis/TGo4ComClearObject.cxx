@@ -22,7 +22,7 @@ TGo4ComClearObject::TGo4ComClearObject()
                            "clears object by name",
                            "his")
 {
-   TRACE((12,"TGo4ComClearObject::TGo4ComClearObject() ctor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComClearObject::TGo4ComClearObject() ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                        // to send back status message
    SetProtection(kGo4ComModeController);
@@ -33,7 +33,7 @@ TGo4ComClearObject::TGo4ComClearObject(const char* name)
                            "clears object by name",
                            name)
 {
-   TRACE((12,"TGo4ComClearObject::TGo4ComClearObject(const char*) ctor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComClearObject::TGo4ComClearObject(const char*) ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                       // to send back status message
    SetProtection(kGo4ComModeController);
@@ -42,14 +42,14 @@ TGo4ComClearObject::TGo4ComClearObject(const char* name)
 
 TGo4ComClearObject::~TGo4ComClearObject()
 {
-   TRACE((12,"TGo4ComClearObject::~TGo4ComClearObject() dtor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComClearObject::~TGo4ComClearObject() dtor",__LINE__, __FILE__));
 }
 
 
 
 Int_t TGo4ComClearObject::ExeCom()
 {
-   TRACE((12,"TGo4ComClearObject::ExeCom()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComClearObject::ExeCom()",__LINE__, __FILE__));
 
    TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
    if(cli)
@@ -75,7 +75,7 @@ Int_t TGo4ComClearObject::ExeCom()
       }
    else
       {
-      TRACE((11,"TGo4ComClearObject::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
+      GO4TRACE((11,"TGo4ComClearObject::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
          TGo4Log::Debug(" !!! %s: NO RECEIVER ERROR!!!",GetName());
          return 1;
       }

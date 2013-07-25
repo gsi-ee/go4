@@ -34,7 +34,7 @@ TGo4TreeStore::TGo4TreeStore(const char* name,
    TGo4EventStore(name),
    fxBranch(0), fxEvent(event), fiSplit(splitlevel), fiBufsize(bufsize)
 {
-   TRACE((15,"TGo4TreeStore::TGo4TreeStore(const char*,...)", __LINE__, __FILE__));
+   GO4TRACE((15,"TGo4TreeStore::TGo4TreeStore(const char*,...)", __LINE__, __FILE__));
 
    TString buffer = TString::Format("%s.", name);  // for branches containing the same event structure
    fxSingletonTree = TGo4MainTree::Instance();
@@ -71,7 +71,7 @@ TGo4TreeStore::TGo4TreeStore(TGo4TreeStoreParameter* par, TGo4EventElement* even
 : TGo4EventStore("dummy"),
    fxBranch(0), fxEvent(event), fiSplit(par->fiSplit), fiBufsize(par->fiBufsize)
 {
-   TRACE((15,"TGo4TreeStore::TGo4TreeStore(const char*,...)", __LINE__, __FILE__));
+   GO4TRACE((15,"TGo4TreeStore::TGo4TreeStore(const char*,...)", __LINE__, __FILE__));
 
    SetName(par->GetName());
    TString buffer = TString::Format("%s.", par->GetName());
@@ -113,14 +113,14 @@ TGo4TreeStore::TGo4TreeStore()
 :TGo4EventStore("Go4 Default Tree Store"),
    fxBranch(0), fxEvent(0), fiSplit(0), fiBufsize(0)
 {
-   TRACE((15,"TGo4TreeStore::TGo4TreeStore()", __LINE__, __FILE__));
+   GO4TRACE((15,"TGo4TreeStore::TGo4TreeStore()", __LINE__, __FILE__));
    // public default ctor for streamer
 }
 
 
 TGo4TreeStore::~TGo4TreeStore()
 {
-   TRACE((15,"TGo4TreeStore::~TGo4TreeStore()", __LINE__, __FILE__));
+   GO4TRACE((15,"TGo4TreeStore::~TGo4TreeStore()", __LINE__, __FILE__));
    //delete fxFile; // closes File <- done by maintree dtor
 }
 
@@ -128,7 +128,7 @@ TGo4TreeStore::~TGo4TreeStore()
 
 Int_t TGo4TreeStore::Store(TGo4EventElement* event)
 {
-   TRACE((12,"TGo4TreeStore::Store(TGo4EventElement*)", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4TreeStore::Store(TGo4EventElement*)", __LINE__, __FILE__));
 
    Int_t rev=-1;
    // check if new event is of the right class
@@ -154,7 +154,7 @@ Int_t TGo4TreeStore::Store(TGo4EventElement* event)
 
 Int_t TGo4TreeStore::Store(TGo4Parameter* cali)
 {
-   TRACE((12,"TGo4TreeStore::Store(TGo4EventCalibration*)", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4TreeStore::Store(TGo4EventCalibration*)", __LINE__, __FILE__));
    if(cali) {
       TString oldname = cali->GetName();
       cali->SetName(Form("%s_%d", oldname.Data(), fxSingletonTree->GetCurrentIndex()));
@@ -168,6 +168,6 @@ Int_t TGo4TreeStore::Store(TGo4Parameter* cali)
 
 void TGo4TreeStore::SetCompression(Int_t comp)
 {
-   TRACE((12,"TGo4TreeStore::SetCompression(Int_t)", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4TreeStore::SetCompression(Int_t)", __LINE__, __FILE__));
    fxFile->SetCompressionLevel(comp);
 }

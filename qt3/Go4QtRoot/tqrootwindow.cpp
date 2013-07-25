@@ -13,12 +13,11 @@
 
 #include "tqrootwindow.h"
 
-#include "go4iostream.h"
-
 #include "TVirtualX.h"
 #include "TSystem.h"
 #include "GuiTypes.h"
 #include "TGFrame.h"
+#include "Riostream.h"
 
 #include "qevent.h"
 #include "qpainter.h"
@@ -77,13 +76,13 @@ TQRootWindow::TQRootWindow( QWidget *parent, const char *name)
   fxRootwindow->Resize();
   if ( parent ) parent->installEventFilter( this );
 
-//  cout <<"visible rect is: "<<visibleRect().width()<<", "<<visibleRect().height() << endl;
+//  std::cout <<"visible rect is: "<<visibleRect().width()<<", "<<visibleRect().height() << std::endl;
 }
 
 
 void TQRootWindow::AddSubFrame(TGFrame* f, TGLayoutHints* l)
 {
-   //cout <<"TQRootWindow::AddSubFrame" << endl;
+   //std::cout <<"TQRootWindow::AddSubFrame" << std::endl;
    fxRootwindow->AddFrame(f,l);
    fxRootwindow->MapWindow();
    fxRootwindow->MapSubwindows();
@@ -168,8 +167,8 @@ void TQRootWindow::paintEvent( QPaintEvent * )
 //     QPainter p;
 //     p.begin( this);
 //     p.end();
-//     cout <<"TQRootWindow::paintEvent" << endl;
-//     cout <<"visible rect is: "<<visibleRect().width()<<", "<<visibleRect().height() << endl;
+//     std::cout <<"TQRootWindow::paintEvent" << std::endl;
+//     std::cout <<"visible rect is: "<<visibleRect().width()<<", "<<visibleRect().height() << std::endl;
      fxRootwindow->Resize(width(),height());
   }
 }
@@ -179,11 +178,11 @@ bool TQRootWindow ::eventFilter( QObject *o, QEvent *e )
 {
 //TGo4LockGuard threadlock;
   // Filtering of QWidget Events
-  //cout <<"TQRootWindow ::eventFilter" << endl;
+  //std::cout <<"TQRootWindow ::eventFilter" << std::endl;
   QMouseEvent* me=dynamic_cast<QMouseEvent*>(e);
   if(me)
    {
-    //cout <<"TQRootWindow ::eventFilter has mouse event" << endl;
+    //std::cout <<"TQRootWindow ::eventFilter has mouse event" << std::endl;
     Event_t* roote=MapQMouseEvent(me);
     if(fxRootwindow) fxRootwindow->HandleEvent(roote);
     delete roote;

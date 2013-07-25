@@ -12,11 +12,13 @@
 //-----------------------------------------------------------------------
 
 #include "TGo4ScaleOptions.h"
-#include <QLineEdit>
-#include "go4iostream.h"
+
+#include "Riostream.h"
 #include "TGo4WorkSpace.h"
 #include "TGo4ViewPanel.h"
 #include "TGo4SetScaleValues.h"
+
+#include <QLineEdit>
 
 TGo4ScaleOptions::TGo4ScaleOptions(QWidget *parent, const char* name)
          : QGo4Widget(parent,name)

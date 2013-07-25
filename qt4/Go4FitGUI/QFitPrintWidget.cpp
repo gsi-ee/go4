@@ -13,7 +13,7 @@
 
 #include "QFitPrintWidget.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "Rstrstream.h"
 #include "TObject.h"
 
@@ -36,24 +36,24 @@ void QFitPrintWidget::SetDrawOption( const QString & option )
 
 void QFitPrintWidget::FillSpecificData()
 {
-  if (GetObject()) {
+   if (GetObject()) {
 
-      cout.flush();
+      std::cout.flush();
 
-      ostringstream strout;
+      std::ostringstream strout;
 
-      streambuf* cout_buffer = cout.rdbuf();
+      std::streambuf* ccc_buffer = std::cout.rdbuf();
 
-      cout.rdbuf(strout.rdbuf());
+      std::cout.rdbuf(strout.rdbuf());
 
       GetObject()->Print(fxDrawOption.toAscii().constData());
 
-      cout << endl;
+      std::cout << std::endl;
 
-      cout.flush();
+      std::cout.flush();
 
-      cout.rdbuf(cout_buffer);
+      std::cout.rdbuf(ccc_buffer);
 
       PrintText->setText(strout.str().c_str());
-  }
+   }
 }

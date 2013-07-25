@@ -23,14 +23,14 @@
 TGo4TreeSource::TGo4TreeSource(const char* name)
 : TGo4EventSource(name), fxTree(0), fxBranch(0)
 {
-   TRACE((15,"TGo4TreeSource::TGo4TreeSource(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4TreeSource::TGo4TreeSource(const char*)",__LINE__, __FILE__));
    Open();
 }
 
 TGo4TreeSource::TGo4TreeSource(TGo4TreeSourceParameter* par)
 : TGo4EventSource(par->GetName()), fxTree(0), fxBranch(0)
 {
-   TRACE((15,"TGo4TreeSource::TGo4TreeSource(TGo4TreeSourceParameter*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4TreeSource::TGo4TreeSource(TGo4TreeSourceParameter*)",__LINE__, __FILE__));
    Open();
 }
 
@@ -38,12 +38,12 @@ TGo4TreeSource::TGo4TreeSource(TGo4TreeSourceParameter* par)
 TGo4TreeSource::TGo4TreeSource()
 : TGo4EventSource("Go4TreeSource"), fxTree(0), fxBranch(0)
 {
-   TRACE((15,"TGo4TreeSource::TGo4TreeSource()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4TreeSource::TGo4TreeSource()",__LINE__, __FILE__));
 }
 
 TGo4TreeSource::~TGo4TreeSource()
 {
-   TRACE((15,"TGo4TreeSource::~TGo4TreeSource()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4TreeSource::~TGo4TreeSource()",__LINE__, __FILE__));
    // we have to readout rest of branch into memory before whole tree is written again
    Int_t current=fxSingletonTree->GetCurrentIndex();
    Int_t max=fxSingletonTree->GetMaxIndex();
@@ -64,7 +64,7 @@ TGo4TreeSource::~TGo4TreeSource()
 
 Int_t TGo4TreeSource::Open()
 {
-   TRACE((15,"TGo4TreeSource::Open()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4TreeSource::Open()",__LINE__, __FILE__));
 
    // for branches containing the same event structure
    TString buffer = TString::Format("%s.",GetName());
@@ -84,7 +84,7 @@ Int_t TGo4TreeSource::Open()
 
 Bool_t TGo4TreeSource::BuildEvent(TGo4EventElement* dest)
 {
-   TRACE((12,"TGo4TreeSource::BuildEvent(TGo4EventElement*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4TreeSource::BuildEvent(TGo4EventElement*)",__LINE__, __FILE__));
    //
    Bool_t rev=kTRUE;
    if(dest==0) ThrowError(0,22,"!!! ERROR BuildEvent: no destination event!!!");

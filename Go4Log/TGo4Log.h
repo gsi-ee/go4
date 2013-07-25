@@ -21,7 +21,7 @@ class TMutex;
 #define __MESSAGETEXTLENGTH__ 1024
 
 // define previous trace macro void
-#define TRACE(X) ;
+#define GO4TRACE(X) ;
 
 // optional definitions
 #define GO4MESSAGE( X ) TGo4Log::Message X;

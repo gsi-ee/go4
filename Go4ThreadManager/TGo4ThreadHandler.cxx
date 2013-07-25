@@ -25,7 +25,7 @@
 TGo4ThreadHandler::TGo4ThreadHandler(const TGo4ThreadHandler &right)
   : TNamed(right)
 {
-   TRACE((15,"TGo4ThreadHandler::TGo4ThreadHandler() copy constructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ThreadHandler::TGo4ThreadHandler() copy constructor",__LINE__, __FILE__));
    fxManager = right.fxManager;
    fxListMutex=new TMutex;
    fxOperMutex=new TMutex;
@@ -36,7 +36,7 @@ TGo4ThreadHandler::TGo4ThreadHandler(const TGo4ThreadHandler &right)
 TGo4ThreadHandler::TGo4ThreadHandler (const char* name, TGo4ThreadManager* parent)
    :TNamed(name,"This is a TGo4ThreadHandler"),fbIsOperating(kFALSE)
 {
-   TRACE((15,"TGo4ThreadHandler::TGo4ThreadHandler(const char*, TGo4ThreadManager*) constructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ThreadHandler::TGo4ThreadHandler(const char*, TGo4ThreadManager*) constructor",__LINE__, __FILE__));
    fxManager=parent;
    fxListMutex=new TMutex;
    fxOperMutex=new TMutex;
@@ -47,7 +47,7 @@ TGo4ThreadHandler::TGo4ThreadHandler (const char* name, TGo4ThreadManager* paren
 
 TGo4ThreadHandler::~TGo4ThreadHandler()
 {
-   TRACE((15,"TGo4ThreadHandler::~TGo4ThreadHandler() destructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ThreadHandler::~TGo4ThreadHandler() destructor",__LINE__, __FILE__));
    StopAll();
    CancelAll();
    TGo4Thread* th=0;
@@ -59,7 +59,7 @@ TGo4ThreadHandler::~TGo4ThreadHandler()
             if(th->IsInternal())
                // internal mode? then delete thread object
                {
-                  TRACE((14,"TGo4ThreadHandler::~TGo4ThreadHandler() Removing internal mode thread",__LINE__, __FILE__));
+                  GO4TRACE((14,"TGo4ThreadHandler::~TGo4ThreadHandler() Removing internal mode thread",__LINE__, __FILE__));
                   fxArray->Remove(th);
                   fxArray->Compress();
                   fxArray->Expand(fxArray->GetLast()+1);
@@ -68,7 +68,7 @@ TGo4ThreadHandler::~TGo4ThreadHandler()
             else
                {
                   // do nothing
-                  TRACE((14,"TGo4ThreadHandler::~TGo4ThreadHandler() Non internal mode thread",__LINE__, __FILE__));
+                  GO4TRACE((14,"TGo4ThreadHandler::~TGo4ThreadHandler() Non internal mode thread",__LINE__, __FILE__));
                }
          }// while(th=...)
       delete fxIterator;
@@ -82,7 +82,7 @@ TGo4ThreadHandler::~TGo4ThreadHandler()
 
 Bool_t TGo4ThreadHandler::AddThread (TGo4Thread* gthr)
 {
-   TRACE((14,"TGo4ThreadHandler::AddThread(TGo4Thread*)",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4ThreadHandler::AddThread(TGo4Thread*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
       {
       TGo4LockGuard listguard(fxListMutex);
@@ -90,14 +90,14 @@ Bool_t TGo4ThreadHandler::AddThread (TGo4Thread* gthr)
          // is thread already in list?
             {
                //no, add new thread
-               TRACE((13,"TGo4ThreadHandler::AddThread(TGo4Thread*) Adding new go4 thread to array",__LINE__, __FILE__));
+               GO4TRACE((13,"TGo4ThreadHandler::AddThread(TGo4Thread*) Adding new go4 thread to array",__LINE__, __FILE__));
                fxArray->AddLast(gthr);
                rev=kTRUE;
             }
          else
             {
                // yes, do nothing
-               TRACE((13,"TGo4ThreadHandler::AddThread(TGo4Thread*) Thread was already in array",__LINE__, __FILE__));
+               GO4TRACE((13,"TGo4ThreadHandler::AddThread(TGo4Thread*) Thread was already in array",__LINE__, __FILE__));
                rev=kFALSE;
             }
       }
@@ -106,7 +106,7 @@ Bool_t TGo4ThreadHandler::AddThread (TGo4Thread* gthr)
 
 Bool_t TGo4ThreadHandler::RemoveThread (const char* name)
 {
-   TRACE((14,"TGo4ThreadHandler::RemoveThread(const char*)",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4ThreadHandler::RemoveThread(const char*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
    {
       TGo4LockGuard listguard(fxListMutex);
@@ -115,14 +115,14 @@ Bool_t TGo4ThreadHandler::RemoveThread (const char* name)
       if(obj!=0)
          // thread found, then remove it
          {
-            TRACE((13,"TGo4ThreadHandler::RemoveThread(const char*) Removing thread from array",__LINE__, __FILE__));
+            GO4TRACE((13,"TGo4ThreadHandler::RemoveThread(const char*) Removing thread from array",__LINE__, __FILE__));
            fxArray->Remove(obj);
             fxArray->Compress();
             fxArray->Expand(fxArray->GetLast()+1);
             if(th->IsInternal())
                // internal mode? then delete thread
                {
-               TRACE((13,"TGo4ThreadHandler::RemoveThread(const char*) Deleting internal mode thread",__LINE__, __FILE__));
+               GO4TRACE((13,"TGo4ThreadHandler::RemoveThread(const char*) Deleting internal mode thread",__LINE__, __FILE__));
                TGo4LockGuard operguard(fxOperMutex); // protect operating flag
                   fbIsOperating=kTRUE;
                   fxManager->UnBlockApp(); // tell blocking timer to enable system
@@ -133,13 +133,13 @@ Bool_t TGo4ThreadHandler::RemoveThread (const char* name)
             else
                {
                // do nothing
-               TRACE((13,"TGo4ThreadHandler::RemoveThread(const char*) Non internal mode thread is not deleted",__LINE__, __FILE__));
+               GO4TRACE((13,"TGo4ThreadHandler::RemoveThread(const char*) Non internal mode thread is not deleted",__LINE__, __FILE__));
                }
             rev=kTRUE;
          }
       else
          {
-            TRACE((13,"TGo4ThreadHandler::RemoveThread(const char*) Thread not found in array",__LINE__, __FILE__));
+            GO4TRACE((13,"TGo4ThreadHandler::RemoveThread(const char*) Thread not found in array",__LINE__, __FILE__));
             rev=kFALSE;
          }
    }
@@ -148,18 +148,18 @@ Bool_t TGo4ThreadHandler::RemoveThread (const char* name)
 
 Bool_t TGo4ThreadHandler::NewThread(const char* name, TGo4Runnable* runnable)
 {
-   TRACE((14,"TGo4ThreadHandler::NewThread(const char*,TGo4Runnable*)",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4ThreadHandler::NewThread(const char*,TGo4Runnable*)",__LINE__, __FILE__));
    TGo4Runnable* nrun=0;
    TGo4Thread* nthread=0;
    if(runnable==0)
       {
-         TRACE((13,"TGo4ThreadHandler::NewThread(const char*,TGo4Runnable*) No runnable specified error",__LINE__, __FILE__));
+         GO4TRACE((13,"TGo4ThreadHandler::NewThread(const char*,TGo4Runnable*) No runnable specified error",__LINE__, __FILE__));
          return kFALSE;
          //throw TGo4RuntimeException();
       }
   else
      {
-        TRACE((13,"TGo4ThreadHandler::NewThread(const char*,TGo4Runnable*) Assigning external runnable to new internal thread",__LINE__, __FILE__));
+        GO4TRACE((13,"TGo4ThreadHandler::NewThread(const char*,TGo4Runnable*) Assigning external runnable to new internal thread",__LINE__, __FILE__));
         nrun=runnable;
      }
   nthread= new TGo4Thread(name,nrun,kTRUE);
@@ -168,7 +168,7 @@ Bool_t TGo4ThreadHandler::NewThread(const char* name, TGo4Runnable* runnable)
 
 Int_t TGo4ThreadHandler::CreateAll ()
 {
-   TRACE((15,"TGo4ThreadHandler::CreateAll()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ThreadHandler::CreateAll()",__LINE__, __FILE__));
    Int_t createdthreads=0; // return value: number of creation successes
    TGo4Thread* th=0;
    {
@@ -181,12 +181,12 @@ Int_t TGo4ThreadHandler::CreateAll ()
          {
             if(th->Create())
                {
-                  TRACE((13,"TGo4ThreadHandler::CreateAll() Thread creation success",__LINE__, __FILE__));
+                  GO4TRACE((13,"TGo4ThreadHandler::CreateAll() Thread creation success",__LINE__, __FILE__));
                   ++createdthreads; // increment success counter
                }
             else
                {
-                  TRACE((13,"TGo4ThreadHandler::CreateAll() Thread not created",__LINE__, __FILE__));
+                  GO4TRACE((13,"TGo4ThreadHandler::CreateAll() Thread not created",__LINE__, __FILE__));
                   // thread was already up, no new thread created
                }
          }
@@ -198,13 +198,13 @@ Int_t TGo4ThreadHandler::CreateAll ()
 
 Bool_t TGo4ThreadHandler::Create (const char* thname)
 {
-   TRACE((14,"TGo4ThreadHandler::Create(const char*)",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4ThreadHandler::Create(const char*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
    TGo4Thread* th=GetThread(thname);
    if(th!=0)
      // thread was found in list
       {
-      TRACE((13,"TGo4ThreadHandler::Create(const char*) Creating new TThread for Go4Thread",__LINE__, __FILE__));
+      GO4TRACE((13,"TGo4ThreadHandler::Create(const char*) Creating new TThread for Go4Thread",__LINE__, __FILE__));
       TGo4LockGuard operguard(fxOperMutex); // protect operating flag
          fbIsOperating=kTRUE;
          fxManager->UnBlockApp(); // tell blocking timer to enable system
@@ -215,7 +215,7 @@ Bool_t TGo4ThreadHandler::Create (const char* thname)
    else
       // no such thread
       {
-      TRACE((13,"TGo4ThreadHandler::Create(const char*) Go4Thread was not found in thread array!",__LINE__, __FILE__));
+      GO4TRACE((13,"TGo4ThreadHandler::Create(const char*) Go4Thread was not found in thread array!",__LINE__, __FILE__));
         rev=kFALSE;
       }
    return rev;
@@ -223,7 +223,7 @@ Bool_t TGo4ThreadHandler::Create (const char* thname)
 
 Int_t TGo4ThreadHandler::CancelAll ()
 {
-   TRACE((15,"TGo4ThreadHandler::CancelAll()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ThreadHandler::CancelAll()",__LINE__, __FILE__));
    Int_t cancelledthreads=0; // return value: number of successes
    TGo4Thread* th=0;
       {
@@ -235,13 +235,13 @@ Int_t TGo4ThreadHandler::CancelAll ()
             {
                if(th->Cancel())
                   {
-                     TRACE((13,"TGo4ThreadHandler::CancelAll() Thread Cancel success",__LINE__, __FILE__));
+                     GO4TRACE((13,"TGo4ThreadHandler::CancelAll() Thread Cancel success",__LINE__, __FILE__));
                      ++cancelledthreads; // increment success counter
                   }
                else
                 {
                      // thread was already down, not cancelled
-                     TRACE((13,"TGo4ThreadHandler::CancelAll() Thread was not canceled",__LINE__, __FILE__));
+                     GO4TRACE((13,"TGo4ThreadHandler::CancelAll() Thread was not canceled",__LINE__, __FILE__));
 
                 }
             }
@@ -252,13 +252,13 @@ Int_t TGo4ThreadHandler::CancelAll ()
 
 Bool_t TGo4ThreadHandler::Cancel (const char* thname)
 {
-   TRACE((14,"TGo4ThreadHandler::Cancel(const char*)",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4ThreadHandler::Cancel(const char*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
    TGo4Thread* th=GetThread(thname);
    if(th!=0)
         // go4thread was found in list
       {
-      TRACE((13,"TGo4ThreadHandler::Cancel(const char*) Canceling TThread",__LINE__, __FILE__));
+      GO4TRACE((13,"TGo4ThreadHandler::Cancel(const char*) Canceling TThread",__LINE__, __FILE__));
       TGo4LockGuard operguard(fxOperMutex); // protect operating flag
          fbIsOperating=kTRUE;
          fxManager->UnBlockApp(); // tell blocking timer to enable system
@@ -269,7 +269,7 @@ Bool_t TGo4ThreadHandler::Cancel (const char* thname)
    else
       // no such go4thread
       {
-         TRACE((13,"TGo4ThreadHandler::Cancel(const char*) Go4Thread was not found in thread array!",__LINE__, __FILE__));
+         GO4TRACE((13,"TGo4ThreadHandler::Cancel(const char*) Go4Thread was not found in thread array!",__LINE__, __FILE__));
          rev=kFALSE;
       }
    return rev;
@@ -277,7 +277,7 @@ Bool_t TGo4ThreadHandler::Cancel (const char* thname)
 
 Int_t TGo4ThreadHandler::ReCreateAll ()
 {
-   TRACE((15,"TGo4ThreadHandler::ReCreateAll()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ThreadHandler::ReCreateAll()",__LINE__, __FILE__));
    Int_t recreatedthreads=0; // return value: number of creation successes
    TGo4Thread* th=0;
    {
@@ -289,13 +289,13 @@ Int_t TGo4ThreadHandler::ReCreateAll ()
          {
             if(th->ReCreate())
                {
-                  TRACE((13,"TGo4ThreadHandler::ReCreateAll() Thread ReCreate success",__LINE__, __FILE__));
+                  GO4TRACE((13,"TGo4ThreadHandler::ReCreateAll() Thread ReCreate success",__LINE__, __FILE__));
                   ++recreatedthreads; // increment success counter
                }
             else
                {
                   // thread was already up, no new thread created
-                  TRACE((13,"TGo4ThreadHandler::ReCreateAll() Thread was not recreated",__LINE__, __FILE__));
+                  GO4TRACE((13,"TGo4ThreadHandler::ReCreateAll() Thread was not recreated",__LINE__, __FILE__));
 
                }
          }
@@ -306,13 +306,13 @@ Int_t TGo4ThreadHandler::ReCreateAll ()
 
 Bool_t TGo4ThreadHandler::ReCreate (const char* thname)
 {
-   TRACE((14,"TGo4ThreadHandler::ReCreate(const char*)",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4ThreadHandler::ReCreate(const char*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
    TGo4Thread* th=GetThread(thname);
    if(th!=0)
       // thread was found in list
       {
-      TRACE((13,"TGo4ThreadHandler::ReCreate(const char*) ReCreating TThread for Go4Thread",__LINE__, __FILE__));
+      GO4TRACE((13,"TGo4ThreadHandler::ReCreate(const char*) ReCreating TThread for Go4Thread",__LINE__, __FILE__));
       TGo4LockGuard operguard(fxOperMutex); // protect operating flag
          fbIsOperating=kTRUE;
          fxManager->UnBlockApp(); // tell blocking timer to enable system
@@ -323,7 +323,7 @@ Bool_t TGo4ThreadHandler::ReCreate (const char* thname)
    else
      // no such thread
       {
-      TRACE((13,"TGo4ThreadHandler::ReCreate(const char*) Go4Thread was not found in thread array!",__LINE__, __FILE__));
+      GO4TRACE((13,"TGo4ThreadHandler::ReCreate(const char*) Go4Thread was not found in thread array!",__LINE__, __FILE__));
          rev=kFALSE;
       }
 
@@ -332,7 +332,7 @@ Bool_t TGo4ThreadHandler::ReCreate (const char* thname)
 
 Int_t TGo4ThreadHandler::StartAll ()
 {
-   TRACE((15,"TGo4ThreadHandler::StartAll()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ThreadHandler::StartAll()",__LINE__, __FILE__));
    Int_t startedfuncs=0; // return value: number of successes
    TGo4Thread* th=0;
       {
@@ -348,14 +348,14 @@ Int_t TGo4ThreadHandler::StartAll ()
                   // false: Workfunc was started from stopped status
                   {
                      // false: Workfunc was started from stopped status
-                     TRACE((13,"TGo4ThreadHandler::StartAll() Thread Start success",__LINE__, __FILE__));
+                     GO4TRACE((13,"TGo4ThreadHandler::StartAll() Thread Start success",__LINE__, __FILE__));
                      ++startedfuncs; // increment success counter
                   }
                else
                   {
                      // true:
                      // function was already running before
-                     TRACE((13,"TGo4ThreadHandler::StartAll() Thread was already running",__LINE__, __FILE__));
+                     GO4TRACE((13,"TGo4ThreadHandler::StartAll() Thread was already running",__LINE__, __FILE__));
                   }
             }
          fbIsOperating=kFALSE;
@@ -366,13 +366,13 @@ Int_t TGo4ThreadHandler::StartAll ()
 
 Bool_t TGo4ThreadHandler::Start (const char* thname)
 {
-   TRACE((14,"TGo4ThreadHandler::Start(const char*)",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4ThreadHandler::Start(const char*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
    TGo4Thread* th=GetThread(thname);
    if(th!=0)
       // thread was found in list
       {
-      TRACE((13,"TGo4ThreadHandler::Start(const char*) Starting Thread",__LINE__, __FILE__));
+      GO4TRACE((13,"TGo4ThreadHandler::Start(const char*) Starting Thread",__LINE__, __FILE__));
       TGo4LockGuard operguard(fxOperMutex); // protect operating flag
          fbIsOperating=kTRUE;     // Start has Create option, so we need gSystem
          fxManager->UnBlockApp(); // tell blocking timer to enable system
@@ -383,7 +383,7 @@ Bool_t TGo4ThreadHandler::Start (const char* thname)
    else
       // no such thread
       {
-      TRACE((13,"TGo4ThreadHandler::Start(const char*) Go4Thread was not found in thread array!",__LINE__, __FILE__));
+      GO4TRACE((13,"TGo4ThreadHandler::Start(const char*) Go4Thread was not found in thread array!",__LINE__, __FILE__));
          rev=kFALSE;
       }
    return rev;
@@ -391,7 +391,7 @@ Bool_t TGo4ThreadHandler::Start (const char* thname)
 
 Int_t TGo4ThreadHandler::StopAll ()
 {
-   TRACE((15,"TGo4ThreadHandler::StopAll()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ThreadHandler::StopAll()",__LINE__, __FILE__));
    Int_t stoppedfuncs=0; // return value: number of successes
    TGo4Thread* th=0;
       {
@@ -403,14 +403,14 @@ Int_t TGo4ThreadHandler::StopAll ()
                   // StopWork returns fbFuncrun status _before_ call
                   {
                      // true: Workfunc was stopped from running status
-                     TRACE((13,"TGo4ThreadHandler::StopAll() Go4Thread Stop success",__LINE__, __FILE__));
+                     GO4TRACE((13,"TGo4ThreadHandler::StopAll() Go4Thread Stop success",__LINE__, __FILE__));
                      ++stoppedfuncs; // increment success counter
                   }
                else
                   {
                      // false:
                      // function was already stopped  before
-                     TRACE((13,"TGo4ThreadHandler::StopAll() Go4Thread was already stopped",__LINE__, __FILE__));
+                     GO4TRACE((13,"TGo4ThreadHandler::StopAll() Go4Thread was already stopped",__LINE__, __FILE__));
                   }
             }
       }
@@ -419,19 +419,19 @@ Int_t TGo4ThreadHandler::StopAll ()
 
 Bool_t TGo4ThreadHandler::Stop (const char* thname)
 {
-   TRACE((14,"TGo4ThreadHandler::Stop(const char*)",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4ThreadHandler::Stop(const char*)",__LINE__, __FILE__));
    Bool_t rev=kFALSE;
    TGo4Thread* th=GetThread(thname);
    if(th!=0)
       // thread was found in list
       {
-         TRACE((13,"TGo4ThreadHandler::Stop(const char*) Stopping Go4Runnable",__LINE__, __FILE__));
+         GO4TRACE((13,"TGo4ThreadHandler::Stop(const char*) Stopping Go4Runnable",__LINE__, __FILE__));
          rev=th->Stop();
       }
    else
       // no such thread
       {
-         TRACE((13,"TGo4ThreadHandler::Stop(const char*) Go4Thread was not found in thread array!",__LINE__, __FILE__));
+         GO4TRACE((13,"TGo4ThreadHandler::Stop(const char*) Go4Thread was not found in thread array!",__LINE__, __FILE__));
          rev=kFALSE;
       }
    return rev;
@@ -439,7 +439,7 @@ Bool_t TGo4ThreadHandler::Stop (const char* thname)
 
 Int_t TGo4ThreadHandler::DumpThreads (Int_t mode)
 {
-   TRACE((15,"TGo4ThreadHandler::DumpThreads(Int_t)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ThreadHandler::DumpThreads(Int_t)",__LINE__, __FILE__));
    if(TGo4Log::GetIgnoreLevel()>0) return 2; // only write threaddumpfile for debug mode
    Int_t retval=0;
    TGo4Thread* th=0;
@@ -450,19 +450,19 @@ Int_t TGo4ThreadHandler::DumpThreads (Int_t mode)
       {
          case 0:
             {
-            TRACE((14,"TGo4ThreadHandler::DumpThreads(Int_t) mode 0: File output",__LINE__, __FILE__));
+            GO4TRACE((14,"TGo4ThreadHandler::DumpThreads(Int_t) mode 0: File output",__LINE__, __FILE__));
             strcpy(Filename,"threaddump.txt");
             fp = fopen(Filename,"w");
             if (!fp)
                {
-               TRACE((13,"TGo4ThreadHandler::DumpThreads(Int_t) fopen failed!!",__LINE__, __FILE__));
+               GO4TRACE((13,"TGo4ThreadHandler::DumpThreads(Int_t) fopen failed!!",__LINE__, __FILE__));
                   TGo4Log::Debug(" ThreadHandler -- Error, Could not open thread dump file!");
                   retval=1;
                   break;
                }
             else
                {
-               TRACE((13,"TGo4ThreadHandler::DumpThreads(Int_t) writing into opened file",__LINE__, __FILE__));
+               GO4TRACE((13,"TGo4ThreadHandler::DumpThreads(Int_t) writing into opened file",__LINE__, __FILE__));
                 fprintf(fp,"\nTGo4ThreadHandler thread information dump file:\n");
                      {
                      TGo4LockGuard listguard(fxListMutex);
@@ -476,7 +476,7 @@ Int_t TGo4ThreadHandler::DumpThreads (Int_t mode)
                      }
                   if (fclose(fp))
                      {
-                     TRACE((13,"TGo4ThreadHandler::DumpThreads(Int_t) fclose failed!!",__LINE__, __FILE__));
+                     GO4TRACE((13,"TGo4ThreadHandler::DumpThreads(Int_t) fclose failed!!",__LINE__, __FILE__));
                         TGo4Log::Debug(" ThreadHandlerr -- Error, Could not close thread dump file!");
                         retval=1;
                      }
@@ -485,7 +485,7 @@ Int_t TGo4ThreadHandler::DumpThreads (Int_t mode)
             break;
       default:
          {
-         TRACE((14,"TGo4ThreadHandler::DumpThreads(Int_t) mode: default ",__LINE__, __FILE__));
+         GO4TRACE((14,"TGo4ThreadHandler::DumpThreads(Int_t) mode: default ",__LINE__, __FILE__));
             TGo4Log::Debug(" ThreadHandlerr -- Error: DumpThreads mode unknown ");
          }
          break;
@@ -495,7 +495,7 @@ Int_t TGo4ThreadHandler::DumpThreads (Int_t mode)
 
 TGo4Thread* TGo4ThreadHandler::GetThread (const char* name)
 {
-   TRACE((12,"TGo4ThreadHandler::GetThread(const char*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ThreadHandler::GetThread(const char*)",__LINE__, __FILE__));
    TGo4Thread* thread=0;
    {
       TGo4LockGuard listguard(fxListMutex);
@@ -506,7 +506,7 @@ TGo4Thread* TGo4ThreadHandler::GetThread (const char* name)
 
 Int_t TGo4ThreadHandler::GetEntries ()
 {
-   TRACE((12,"TGo4ThreadHandler::GetEntries()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ThreadHandler::GetEntries()",__LINE__, __FILE__));
    Int_t entries=0;
    {
    TGo4LockGuard listguard(fxListMutex);
@@ -517,7 +517,7 @@ Int_t TGo4ThreadHandler::GetEntries ()
 
 Bool_t TGo4ThreadHandler::AllCreated ()
 {
-   TRACE((14,"TGo4ThreadHandler::AllCreated()",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4ThreadHandler::AllCreated()",__LINE__, __FILE__));
    Bool_t rev=kTRUE; // return value: false if one thread is not there
    TGo4Thread* th=0;
    {
@@ -527,13 +527,13 @@ Bool_t TGo4ThreadHandler::AllCreated ()
          {
             if((th->GetPID())==0)
                {
-               TRACE((11,"TGo4ThreadHandler::AllCreated() TThread is _not_ existing",__LINE__, __FILE__));
+               GO4TRACE((11,"TGo4ThreadHandler::AllCreated() TThread is _not_ existing",__LINE__, __FILE__));
                rev=kFALSE; // this thread is not there
                break;
                }
             else
                {
-               TRACE((11,"TGo4ThreadHandler::AllCreated() TThread is existing",__LINE__, __FILE__));
+               GO4TRACE((11,"TGo4ThreadHandler::AllCreated() TThread is existing",__LINE__, __FILE__));
                   // thread PID found
                }
          } // while(th=...)
@@ -543,7 +543,7 @@ Bool_t TGo4ThreadHandler::AllCreated ()
 
 Bool_t TGo4ThreadHandler::AllRunning ()
 {
-   TRACE((14,"TGo4ThreadHandler::AllRunning()",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4ThreadHandler::AllRunning()",__LINE__, __FILE__));
    Bool_t rev=kTRUE; // return value: false if one thread is not there
    TGo4Thread* th=0;
    {
@@ -553,13 +553,13 @@ Bool_t TGo4ThreadHandler::AllRunning ()
          {
          if(!(th->IsRunning()))
             {
-            TRACE((11,"TGo4ThreadHandler::AllCreated() TGo4Thread is _not_ running",__LINE__, __FILE__));
+            GO4TRACE((11,"TGo4ThreadHandler::AllCreated() TGo4Thread is _not_ running",__LINE__, __FILE__));
                rev=kFALSE; // this thread is not working
                break;
             }
          else
             {
-            TRACE((11,"TGo4ThreadHandler::AllCreated() TGo4Thread is running",__LINE__, __FILE__));
+            GO4TRACE((11,"TGo4ThreadHandler::AllCreated() TGo4Thread is running",__LINE__, __FILE__));
                // thread is working
             }
          }
@@ -569,7 +569,7 @@ Bool_t TGo4ThreadHandler::AllRunning ()
 
 Bool_t TGo4ThreadHandler::AllWaiting ()
 {
-   TRACE((14,"TGo4ThreadHandler::AllWaiting()",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4ThreadHandler::AllWaiting()",__LINE__, __FILE__));
    Bool_t rev=kTRUE; // return value: false if one runnable is still running
    TGo4Thread* th=0;
    {
@@ -579,14 +579,14 @@ Bool_t TGo4ThreadHandler::AllWaiting ()
          {
          if(!(th->IsWaiting()))
             {
-            TRACE((11,"TGo4ThreadHandler::AllCreated() TGo4Thread is still running",__LINE__, __FILE__));
-               //cout <<"-------Thread "<<th->GetName()<<" is still running..." << endl;
+            GO4TRACE((11,"TGo4ThreadHandler::AllCreated() TGo4Thread is still running",__LINE__, __FILE__));
+               //std::cout <<"-------Thread "<<th->GetName()<<" is still running..." << std::endl;
                rev=kFALSE; // this runnable is still doing
                break;
             }
          else
             {
-            TRACE((11,"TGo4ThreadHandler::AllCreated() TGo4Thread is waiting",__LINE__, __FILE__));
+            GO4TRACE((11,"TGo4ThreadHandler::AllCreated() TGo4Thread is waiting",__LINE__, __FILE__));
                // runnable is waiting
             }
          }

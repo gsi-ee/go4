@@ -130,8 +130,8 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
       if (histo1!=0) {
          fFitter->SetH1("data", histo1, kFALSE);
          fFitter->DoActions();
-         // cout << "K = " << fFitter->GetParValue("Pol_1.Ampl") << " B = " << fFitter->GetParValue("Pol_0.Ampl") << endl;
-         // cout << "FF = " << fFitter->GetResultFF() << " NDF = " << fFitter->GetResultNDF() << endl;
+         // std::cout << "K = " << fFitter->GetParValue("Pol_1.Ampl") << " B = " << fFitter->GetParValue("Pol_0.Ampl") << std::endl;
+         // std::cout << "FF = " << fFitter->GetResultFF() << " NDF = " << fFitter->GetResultNDF() << std::endl;
 
          fFitSrc->Reset();
          fFitSrc->SetBins(histo1->GetNbinsX(), histo1->GetXaxis()->GetXmin(), histo1->GetXaxis()->GetXmax());

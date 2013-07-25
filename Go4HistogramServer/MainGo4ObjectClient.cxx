@@ -113,11 +113,11 @@ int main(int argc, char **argv)
 //    mycanvas.Update();
 //}
 
-         string inputline;
+         std::string inputline;
          while(1)
          {
              std::cout <<"Go4> Object client command:"<< std::endl;
-             getline(cin,inputline);
+             getline(std::cin, inputline);
              comm = inputline.c_str();
 
             if(!strcmp(comm,"exit"))

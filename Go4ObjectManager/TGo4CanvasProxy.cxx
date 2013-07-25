@@ -241,7 +241,7 @@ TGo4Access* TGo4CanvasProxy::ProduceProxy(TCanvas* canv, const char* name)
              (strncmp(obj->GetName(), curname, len)==0)) break;
       if (obj==0) return 0;
 
-//      cout << "Object class = " << obj->ClassName() << endl;
+//      std::cout << "Object class = " << obj->ClassName() << std::endl;
 
       if (slash==0) return new TGo4ObjectAccess(obj);
 

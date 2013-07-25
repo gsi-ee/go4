@@ -37,7 +37,7 @@ TMeshB1InputEvent::~TMeshB1InputEvent()
 Int_t TMeshB1InputEvent::Init()
 {
   Int_t rev=0;
-  //cout << "+++ Init event" << endl;
+  //std::cout << "+++ Init event" << std::endl;
   Clear();
   // is it used by Unpack step as output?
   if(CheckEventSource("TMeshUnpackProc")){
@@ -70,8 +70,8 @@ Int_t TMeshB1InputEvent::Fill()
 void  TMeshB1InputEvent::Clear(Option_t *t)
 {
 void* destfield;
-   //cout << "+++ event clear" << endl;
+   //std::cout << "+++ event clear" << std::endl;
    destfield = (void*) &fiCrate1[0];
    memset(destfield,0, sizeof(fiCrate1));
-   //cout << "+++ event clear" << endl;
+   //std::cout << "+++ event clear" << std::endl;
 }

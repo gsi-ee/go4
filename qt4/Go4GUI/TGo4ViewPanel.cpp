@@ -21,7 +21,7 @@
 #include "TVirtualPadEditor.h"
 #include "TVirtualX.h"
 #include "RVersion.h"
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "THStack.h"
 #include "TGraph.h"
 #include "TMultiGraph.h"
@@ -1285,7 +1285,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
                if(!fbPickAgain) fiMouseMode=kMouseROOT;
                docheck = true;
             } else {
-               cout <<"TGo4ViewPanel:MouseClick() NEVER COME HERE" << endl;
+               std::cout <<"TGo4ViewPanel:MouseClick() NEVER COME HERE" << std::endl;
                return;
             }
          // do not change original condition dimension
@@ -1430,7 +1430,7 @@ if                     (cond!=0) {
             if(!fbPickAgain) fiMouseMode=kMouseROOT; // reset pick
             fiPickCounter=0;
          } else {
-            cout <<"TGo4ViewPanel:MouseClick() NEVER COME HERE" << endl;
+            std::cout <<"TGo4ViewPanel:MouseClick() NEVER COME HERE" << std::endl;
             return;
          }
          // do not change original condition dimension
@@ -1689,7 +1689,7 @@ void TGo4ViewPanel::ProduceGraphFromMarkers()
    TObjArray markers;
    CollectSpecialObjects(GetActivePad(), &markers, kind_Marker);
    Int_t npts = markers.GetEntries();
-   //cout <<"Found "<<npts<<" markers in pad" <<endl;
+   //std::cout <<"Found "<<npts<<" markers in pad" << std::endl;
    if (npts == 0)
       return;
    // create arrays of length
@@ -1698,12 +1698,12 @@ void TGo4ViewPanel::ProduceGraphFromMarkers()
    for (Int_t j = 0; j < npts; ++j) {
       TGo4Marker* mark = dynamic_cast<TGo4Marker*>(markers[j]);
       if (mark == 0) {
-         cout << "NEVER COME HERE: no marker at index " << j << endl;
+         std::cout << "NEVER COME HERE: no marker at index " << j << std::endl;
          return;
       }
       x[j] = mark->GetX();
       y[j] = mark->GetY();
-      //cout <<"Set point "<<j <<" to x="<<x[j]<<", y="<<y[j]<<endl;
+      //std::cout <<"Set point "<<j <<" to x="<<x[j]<<", y="<<y[j]<< std::endl;
    }
 
    // create graph from points array:
@@ -1753,16 +1753,16 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad,
                TGo4ObjectProxy* oprox = dynamic_cast<TGo4ObjectProxy*>(prox);
                TGo4LinkProxy* lprox = dynamic_cast<TGo4LinkProxy*>(prox);
                if (oprox != 0) {
-                  //cout <<"MakePictureForPad adding local latex object "<< obj->GetName()<<endl;
+                  //std::cout <<"MakePictureForPad adding local latex object "<< obj->GetName()<< std::endl;
                   pic->AddSpecialObject(obj, drawopt);
                } else if (lprox) {
                   const char* itemname = GetLinkedName(subslot);
-                  //cout <<"MakePictureForPad adding linnked latex object "<<itemname<<endl;
+                  //std::cout <<"MakePictureForPad adding linnked latex object "<<itemname<< std::endl;
                   if (itemname != 0)
                      pic->AddObjName(itemname, drawopt);
                   delete obj; // remove initial clone which is not registered
                } else {
-                  // cout <<"MakePictureForPad NEVER COME HERE unknown proxy:"<< (int) prox<<endl;
+                  // std::cout <<"MakePictureForPad NEVER COME HERE unknown proxy:"<< (int) prox<< std::endl;
 
                }
             } // if latex
@@ -2142,7 +2142,7 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind,
       return 0;
    }
 
-   //cout << "Add object = " << (obj ? obj->ClassName() : "---") << " pad = " << pad->GetName() << " kind = " << kind << endl;
+   //std::cout << "Add object = " << (obj ? obj->ClassName() : "---") << " pad = " << pad->GetName() << " kind = " << kind << std::endl;
 
    // clear only if link is added
    if (kind < 100)
@@ -2155,7 +2155,7 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind,
       if ((cl != 0) && cl->InheritsFrom(TGo4Condition::Class()))
          UndrawItem(itemname);
 
-//      cout << "Item " << itemname << " class = " << (cl ? cl->GetName() : "null") << endl;
+//      std::cout << "Item " << itemname << " class = " << (cl ? cl->GetName() : "null") << std::endl;
 
       TGo4Slot* brslot = Browser()->BrowserSlot(itemname);
 
@@ -2374,7 +2374,7 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot* padslot,
          // test: set here time display
          TAxis* xax = h1->GetXaxis();
          pic->SetXAxisAttTime(xax->GetTimeDisplay(), xax->GetTimeFormat() ,TGo4Picture::PictureIndex);
-         //cout <<"Set time attributes to pad options: display:"<<xax->GetTimeDisplay()<<", format:"<< xax->GetTimeFormat()<<endl;
+         //std::cout <<"Set time attributes to pad options: display:"<<xax->GetTimeDisplay()<<", format:"<< xax->GetTimeFormat()<< std::endl;
       }
 
    }
@@ -2568,9 +2568,9 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Picture* padopt,
 
    // if error, no superimpose is allowed
    if (iserror || (ishstack && isgstack)) {
-      cerr
+      std::cerr
             << "Error detected: superimpose of multiple objects with different types"
-            << endl;
+            << std::endl;
       return 0;
    }
 
@@ -3300,7 +3300,7 @@ void TGo4ViewPanel::CheckForSpecialObjects(TPad *pad, TGo4Slot* padslot)
       // remove picture from the pad
       delete picslot;
 
-      // cout << "!!!!!!!!!!!! Picture redraw done" << endl;
+      // std::cout << "!!!!!!!!!!!! Picture redraw done" << std::endl;
 
       return;
    }
@@ -3349,7 +3349,7 @@ void TGo4ViewPanel::ProcessPictureRedraw(const char* picitemname, TPad* pad,
 
    TGo4Picture* padopt = GetPadOptions(pad);
    if (padopt == 0) {
-      cerr << "!!!!!!!! Should not be" << endl;
+      std::cerr << "!!!!!!!! Should not be" << std::endl;
       return;
    }
 
@@ -3428,7 +3428,7 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad* tgtpad, TPad* srcpad,
    if ((tgtpad == 0) || (srcpad == 0))
       return;
 
-//   cout << "ProcessCanvasAdopt " << srcpad->GetName() << endl;
+//   std::cout << "ProcessCanvasAdopt " << srcpad->GetName() << std::endl;
 
    TGo4Slot* padslot = GetPadSlot(tgtpad);
 
@@ -3465,7 +3465,7 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad* tgtpad, TPad* srcpad,
       TString itemname = TString::Format("%s/%s", srcpaditemname,
             obj->GetName());
 
-//      cout << "subitemname = " << itemname << " obj = " << obj << " class = " << (obj ? obj->ClassName() : "---") << endl;
+//      std::cout << "subitemname = " << itemname << " obj = " << obj << " class = " << (obj ? obj->ClassName() : "---") << std::endl;
 
       if (srcsubpad != 0) {
          nsubpads++;
@@ -3526,16 +3526,16 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad* tgtpad, TPad* srcpad,
          kind = 4;
          h1 = ((TMultiGraph*) obj)->GetHistogram();
       } else {
-//         cout << tgtpad->GetName() << ":  Add other object ???" << obj->GetName() << endl;
+//         std::cout << tgtpad->GetName() << ":  Add other object ???" << obj->GetName() << std::endl;
       }
 
       // only first object is added,
       // make superimpose only for histos and graphs
       if ((kind > 0) && ((mainkind == 0) || (kind == mainkind) && (kind < 3))) {
 
-//         cout << tgtpad->GetName() << ":  Add main draw object " << obj->GetName()
+//         std::cout << tgtpad->GetName() << ":  Add main draw object " << obj->GetName()
 //              << "  class =  " << obj->ClassName()
-//              << "  srcitem = " << itemname << endl;
+//              << "  srcitem = " << itemname << std::endl;
 
          if (drawopt != 0)
             padopt->SetDrawOption(drawopt, nmain);
@@ -3659,7 +3659,7 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 
    Int_t subpadindx = 0;
 
-   //cout << "ProcessPadRedraw " << pad->GetName() << " numchilds = " << slot->NumChilds() << endl;
+   //std::cout << "ProcessPadRedraw " << pad->GetName() << " numchilds = " << slot->NumChilds() << std::endl;
 
    // first redraw all subpads
    for (int n = 0; n < slot->NumChilds(); n++) {
@@ -3879,7 +3879,7 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
    if (!drawopt.Contains(NoStackDrawOption, TString::kIgnoreCase))
       drawopt.Prepend(NoStackDrawOption);
 
-//   cout << "Draw stack " << hs << " with options " << endl;
+//   std::cout << "Draw stack " << hs << " with options " << std::endl;
 
    hs->Draw(drawopt.Data());
    TH1* framehisto = hs->GetHistogram();
@@ -3908,7 +3908,7 @@ void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr,
 {
    if ((pad == 0) || (padopt == 0) || (gr == 0))
       return;
-//cout <<"RedrawGraph for "<< hex<< (int) gr<< dec << endl;
+//std::cout <<"RedrawGraph for "<< hex<< (int) gr<< dec << std::endl;
    if (scancontent) {
       TakeFullRangeFromGraph(gr, padopt, true);
       gr->SetEditable(kFALSE);
@@ -4302,10 +4302,10 @@ void TGo4ViewPanel::SetPadDefaults(TPad* pad)
                light->SetRGB(0.8, 0.8, 0.8);
          }
       } else { // if(normal)
-         cerr
+         std::cerr
                << "TGo4ViewPanel:: Could not assign root shadow colors for number "
-               << padfillcolor << endl;
-         cerr << "Never come here!!!" << endl;
+               << padfillcolor << std::endl;
+         std::cerr << "Never come here!!!" << std::endl;
       }
    }
 
@@ -4350,7 +4350,7 @@ void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction, int za
    if (selpad == 0)
       return;
 
-//   cout << "TGo4ViewPanel::MoveScale " << expandfactor << " " << xaction << endl;
+//   std::cout << "TGo4ViewPanel::MoveScale " << expandfactor << " " << xaction << std::endl;
 
    TGo4Picture* padopt = GetPadOptions(selpad);
    if (padopt != 0) {
@@ -4851,7 +4851,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
    TAxis* xax = h1->GetXaxis();
    xax->SetTimeDisplay(padopt->IsXAxisTimeDisplay());
    xax->SetTimeFormat(padopt->GetXAxisTimeFormat());
-   //cout <<"SetSelectedRange to histo: timeformat "<< padopt->IsXAxisTimeDisplay()<<", form:"<<padopt->GetXAxisTimeFormat()<< endl;
+   //std::cout <<"SetSelectedRange to histo: timeformat "<< padopt->IsXAxisTimeDisplay()<<", form:"<<padopt->GetXAxisTimeFormat()<< std::endl;
 
 }
 
@@ -5156,7 +5156,7 @@ void TGo4ViewPanel::ResizeGedEditor()
 {
 #ifndef __NOGO4GED__
    //TGo4LockGuard lock(0,true);
-   //cout <<"vvvvvv TGo4ViewPanel::ResizeGedEditor() " << endl;
+   //std::cout <<"vvvvvv TGo4ViewPanel::ResizeGedEditor() " << std::endl;
    TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
    if ((ed != 0) && fbEditorFrameVisible && fxRooteditor)
       ed->Resize(fxRooteditor->width(), fxRooteditor->height());
@@ -5182,7 +5182,7 @@ void TGo4ViewPanel::ActivateInGedEditor(TObject* obj)
 void TGo4ViewPanel::CleanupGedEditor()
 {
 #ifndef __NOGO4GED__
-//   cout << "TGo4ViewPanel::CleanupGedEditor()" << endl;
+//   std::cout << "TGo4ViewPanel::CleanupGedEditor()" << std::endl;
    TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
    if (ed == 0)
       return;
@@ -5404,7 +5404,7 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
          QString text = QInputDialog::getText(this, GetPanelName(),
                "Enter Axis time format:", QLineEdit::Normal, oldfmt, &ok);
          if (ok && !text.isEmpty()) {
-            //cout <<"changed time format to"<<(const char*)text.toAscii() << endl;
+            //std::cout <<"changed time format to"<<(const char*)text.toAscii() << std::endl;
             //padopt->SetXAxisTimeFormat(text.toAscii());
             //padopt->SetPadModified();
             ChangeDrawOption(id - 1000, 0, text.toAscii());

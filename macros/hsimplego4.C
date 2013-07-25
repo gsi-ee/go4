@@ -67,11 +67,11 @@ go4->AddTree(ntuple);
   const Int_t kUPDATE = 1000;
   Int_t i=0;
 while(1){
-   cout <<"Waiting for the Go4 start button.";
-   cout <<" \n\tUse Canvas menu 'Options/Interrupt' to leave macro." << endl;
+   std::cout <<"Waiting for the Go4 start button.";
+   std::cout <<" \n\tUse Canvas menu 'Options/Interrupt' to leave macro." << std::endl;
    Int_t seconds=go4->WaitForStart();
    if(seconds<0) break; // react on cint canvas interrupt
-   cout <<"Starting execution loop after "<<seconds<<" s of waiting" << endl;
+   std::cout <<"Starting execution loop after "<<seconds<<" s of waiting" << std::endl;
    gBenchmark->Reset();
    gBenchmark->Start("hsimple");
    ///// event loop here:

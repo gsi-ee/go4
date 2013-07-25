@@ -79,14 +79,14 @@ TGo4TaskManager::~TGo4TaskManager()
 
 Int_t TGo4TaskManager::ServeClient()
 {
-   //cout <<"EEEEEEEEEEEnter TGo4TaskManager::ServeClient()" << endl;
+   //std::cout <<"EEEEEEEEEEEnter TGo4TaskManager::ServeClient()" << std::endl;
    Int_t rev=0;
    char* recvchar=0;
    TString cliname, hostname;
    // open connection in server mode with default port as raw Socket, wait for client
    if(!fxTransport)
       {
-         //cout << "+++++TaskManager creating new negotiation transport server instance" <<endl;
+         //std::cout << "+++++TaskManager creating new negotiation transport server instance" << std::endl;
          fxTransport=new TGo4Socket(kFALSE); // use raw transport for negotiations
       }
    // we delegate the actual TSocket open to the taskconnector timer:
@@ -97,7 +97,7 @@ Int_t TGo4TaskManager::ServeClient()
    {
       // open timeout
       TGo4Log::Debug(" TaskManager: Negotiation channel open TIMEOUT");
-      cerr <<" TaskManager TIMEOUT ERROR opening socket connection !!! Terminating..." << endl;
+      std::cerr <<" TaskManager TIMEOUT ERROR opening socket connection !!! Terminating..." << std::endl;
       throw TGo4TerminateException(fxServer);
       //return kFALSE;
    }
@@ -107,13 +107,13 @@ Int_t TGo4TaskManager::ServeClient()
       if(count>TGo4TaskHandler::Get_fgiPORTWAITCYCLES())
             {
                TGo4Log::Debug(" TaskManager: Negotiation port getter TIMEOUT");
-               cerr <<" TaskManager TIMEOUT ERROR retrieving port number  !!! Terminating..." << endl;
+               std::cerr <<" TaskManager TIMEOUT ERROR retrieving port number  !!! Terminating..." << std::endl;
                throw TGo4TerminateException(fxServer);
                //return kFALSE;
             }
       else if(fxServer->IsTerminating())
             {
-              //cout << "TTTTTT  ServeClient sees terminating state and returns -1" << endl;
+              //std::cout << "TTTTTT  ServeClient sees terminating state and returns -1" << std::endl;
                return -1;
             }
       else
@@ -220,18 +220,18 @@ if(recvchar && !strcmp(recvchar,TGo4TaskHandler::Get_fgcOK()))
    recvchar=fxTransport->RecvRaw("dummy"); // get purpose of client (master or slave)
    if(recvchar==0) return kGo4ComModeRefused;
    purpose=recvchar;
-   //cout <<"ClientLogin got purpose "<<purpose.Data() << endl;
+   //std::cout <<"ClientLogin got purpose "<<purpose.Data() << std::endl;
    recvchar=fxTransport->RecvRaw("dummy"); // login account
    if(recvchar==0) return kGo4ComModeRefused;
    account=recvchar;
-   //cout <<"ClientLogin got account "<<account.Data() << endl;
+   //std::cout <<"ClientLogin got account "<<account.Data() << std::endl;
    recvchar=fxTransport->RecvRaw("dummy"); // login password
    if(recvchar==0) return kGo4ComModeRefused;
    passwd=recvchar;
-//   cout <<"ClientLogin got passwd "<<passwd.Data() << endl;
-//   cout <<"observer account is "<<TGo4TaskHandler::fgxOBSERVERACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxOBSERVERACCOUNT.GetTitle() << endl;
-//   cout <<"controller account is "<<TGo4TaskHandler::fgxCONTROLLERACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxCONTROLLERACCOUNT.GetTitle() << endl;
-//   cout <<"admin account is "<<TGo4TaskHandler::fgxADMINISTRATORACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxADMINISTRATORACCOUNT.GetTitle() << endl;
+//   std::cout <<"ClientLogin got passwd "<<passwd.Data() << std::endl;
+//   std::cout <<"observer account is "<<TGo4TaskHandler::fgxOBSERVERACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxOBSERVERACCOUNT.GetTitle() << std::endl;
+//   std::cout <<"controller account is "<<TGo4TaskHandler::fgxCONTROLLERACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxCONTROLLERACCOUNT.GetTitle() << std::endl;
+//   std::cout <<"admin account is "<<TGo4TaskHandler::fgxADMINISTRATORACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxADMINISTRATORACCOUNT.GetTitle() << std::endl;
 
    // first check if client matches our own purpose:
    Bool_t matching=kFALSE;
@@ -537,6 +537,6 @@ UInt_t TGo4TaskManager::GetNegotiationPort()
       {
          fuNegotiationPort = fxTransport->GetPort();
       }
-//   cout << "...........Taskmanager found negotiation port "<< fuNegotiationPort << endl;
+//   std::cout << "...........Taskmanager found negotiation port "<< fuNegotiationPort << std::endl;
    return fuNegotiationPort;
 }

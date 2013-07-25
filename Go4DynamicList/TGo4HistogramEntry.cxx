@@ -88,7 +88,7 @@ const char* TGo4HistogramEntry::GetHistEventName(Int_t ix) const
 
 void TGo4HistogramEntry::SetConVarName(Int_t ix, const char* name)
 {
-  TRACE((12,"TGo4DynamicEntry::SetConVarName(UInt_t, char*)",__LINE__, __FILE__));
+  GO4TRACE((12,"TGo4DynamicEntry::SetConVarName(UInt_t, char*)",__LINE__, __FILE__));
   if((ix>=0) && (ix<__MAXCONDIM__))
      fxConVarName[ix]=name;
 }
@@ -100,7 +100,7 @@ const char* TGo4HistogramEntry::GetConVarName(Int_t ix) const
 
 void TGo4HistogramEntry::SetConEventName(Int_t ix, const char* name)
 {
-   TRACE((12,"TGo4DynamicEntry::SetConEventName(UInt_t, char*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4DynamicEntry::SetConEventName(UInt_t, char*)",__LINE__, __FILE__));
    if((ix>=0) && (ix<__MAXCONDIM__))
       fxConEventName[ix]=name;
 }

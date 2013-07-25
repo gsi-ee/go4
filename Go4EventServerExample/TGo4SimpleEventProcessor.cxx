@@ -21,19 +21,19 @@
 TGo4SimpleEventProcessor::TGo4SimpleEventProcessor()
 :TGo4EventProcessor("Go4 Standard SimpleEvent Processor")
 {
-TRACE((14,"TGo4SimpleEventProcessor::TGo4SimpleEventProcessor(Int_t)",__LINE__, __FILE__));
+GO4TRACE((14,"TGo4SimpleEventProcessor::TGo4SimpleEventProcessor(Int_t)",__LINE__, __FILE__));
 
 }
 
 TGo4SimpleEventProcessor::~TGo4SimpleEventProcessor()
 {
-TRACE((14,"TGo4SimpleEventProcessor::TGo4SimpleEventProcessor(Int_t)",__LINE__, __FILE__));
+GO4TRACE((14,"TGo4SimpleEventProcessor::TGo4SimpleEventProcessor(Int_t)",__LINE__, __FILE__));
 
 }
 
 void TGo4SimpleEventProcessor::BuildSimpleEvent(TGo4SimpleEvent* target)
 {
-TRACE((11,"TGo4SimpleEventProcessor::TGo4SimpleEventProcessor(Int_t)",__LINE__, __FILE__));
+GO4TRACE((11,"TGo4SimpleEventProcessor::TGo4SimpleEventProcessor(Int_t)",__LINE__, __FILE__));
    TGo4MbsEvent* input= (TGo4MbsEvent* ) GetInputEvent();
    TGo4MbsSubEvent* insub;
    TGo4SimpleSubEvent* outsubix;

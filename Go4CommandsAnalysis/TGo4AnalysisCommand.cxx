@@ -19,7 +19,7 @@
 TGo4AnalysisCommand::TGo4AnalysisCommand(const char* name, const char* desc) :
    TGo4Command(name, desc, 7)
 {
-   TRACE((12,"TGo4AnalysisCommand::TGo4AnalysisCommand(const char*, const char*) ctor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisCommand::TGo4AnalysisCommand(const char*, const char*) ctor",__LINE__, __FILE__));
 
    fbIsEnabled=kTRUE;
    fbIsSynchron=kTRUE;
@@ -31,7 +31,7 @@ TGo4AnalysisCommand::TGo4AnalysisCommand() :
    TGo4Command()
 
 {
-   TRACE((12,"TGo4AnalysisCommand::TGo4AnalysisCommand() ctor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisCommand::TGo4AnalysisCommand() ctor",__LINE__, __FILE__));
 
    fbIsEnabled=kTRUE;
    fbIsSynchron=kTRUE;
@@ -42,14 +42,14 @@ TGo4AnalysisCommand::TGo4AnalysisCommand() :
 
 TGo4AnalysisCommand::~TGo4AnalysisCommand()
 {
-  TRACE((12,"TGo4AnalysisCommand::~TGo4AnalysisCommand() dtor",__LINE__, __FILE__));
+  GO4TRACE((12,"TGo4AnalysisCommand::~TGo4AnalysisCommand() dtor",__LINE__, __FILE__));
 }
 
 
 TGo4AnalysisCommand::TGo4AnalysisCommand(const TGo4AnalysisCommand &right)
   :TGo4Command(right)
 {
-   TRACE((12,"TGo4AnalysisCommand::TGo4AnalysisCommand() copy constructor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisCommand::TGo4AnalysisCommand() copy constructor",__LINE__, __FILE__));
    //fxReceiver=right.fxReceiver;
 }
 

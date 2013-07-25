@@ -22,19 +22,19 @@ const UInt_t TGo4WatchRunnable::fguWATCHINTERVAL=5000;
 TGo4WatchRunnable::TGo4WatchRunnable(const char* name, TGo4ExampleClient* cli)
 : TGo4Runnable(name,cli)
 {
-   TRACE((15,"TGo4WatchRunnable::TGo4WatchRunnable(const char*,TGo4ExampleClient*) constructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4WatchRunnable::TGo4WatchRunnable(const char*,TGo4ExampleClient*) constructor",__LINE__, __FILE__));
    fxApplication=cli->GetApplication();
 }
 
 TGo4WatchRunnable::~TGo4WatchRunnable()
 {
-  TRACE((15,"TGo4WatchRunnable::~TGo4WatchRunnable() destructor",__LINE__, __FILE__));
+  GO4TRACE((15,"TGo4WatchRunnable::~TGo4WatchRunnable() destructor",__LINE__, __FILE__));
 
 }
 
 Int_t TGo4WatchRunnable::Run(void*)
 {
-   TRACE((12,"TGo4WatchRunnable::Run()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4WatchRunnable::Run()",__LINE__, __FILE__));
    TGo4ClientTask* cli= dynamic_cast<TGo4ClientTask*> (fxManager);
    if(cli)
    {

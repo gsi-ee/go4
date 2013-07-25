@@ -275,21 +275,21 @@ try{
    if(!outfile)
     {
       TGo4Log::Message(3,"ExportManager: Error opening outputfile %s",outname.Data());
-      //cout <<"Error opening outputfile "<<outname.Data() << endl;
+      //std::cout <<"Error opening outputfile "<<outname.Data() << std::endl;
       return;
     }
    TGo4Log::Message(0,"ExportManager: Converting histogram %s to ASCII",histo->GetName());
-   //cout <<"Converting histogram "<< histo->GetName() << endl;
+   //std::cout <<"Converting histogram "<< histo->GetName() << std::endl;
    Int_t maxbinX=histo->GetNbinsX();
    Int_t maxbinY=histo->GetNbinsY();
    Int_t maxbinZ=histo->GetNbinsZ();
    Int_t globalbin=0;
    Stat_t  cont=0;
-   outfile <<"# Histogram "<<histo->ClassName() <<": "<<histo->GetName()<<endl;
+   outfile <<"# Histogram "<<histo->ClassName() <<": "<<histo->GetName()<< std::endl;
    if(channels)
-      outfile <<"# Xbin \tYbin \tZbin \tContent"<<endl;
+      outfile <<"# Xbin \tYbin \tZbin \tContent"<< std::endl;
    else
-      outfile <<"# X \tY \tZ \tContent"<<endl;
+      outfile <<"# X \tY \tZ \tContent"<< std::endl;
    for(Int_t x=1; x<=maxbinX; ++x)
     {
       for(Int_t y=1; y<=maxbinY; ++y)
@@ -300,7 +300,7 @@ try{
               cont=histo->GetBinContent(globalbin);
               if(channels)
                {
-                  outfile <<x<<" \t"<<y<<" \t"<<z<<" \t"<<cont<<endl;
+                  outfile <<x<<" \t"<<y<<" \t"<<z<<" \t"<<cont<< std::endl;
                }
               else
                {
@@ -316,7 +316,7 @@ try{
                   TAxis* zax=histo->GetZaxis();
                   //if(zax) zval=zax->GetBinCenter(z);
                   if(zax) zval=zax->GetBinLowEdge(z);
-                  outfile <<xval<<" \t"<<yval<<" \t"<<zval<<" \t"<<cont<<endl;
+                  outfile <<xval<<" \t"<<yval<<" \t"<<zval<<" \t"<<cont<< std::endl;
                }
             }
         }
@@ -354,14 +354,14 @@ try{
    }
    TGo4Log::Message(0,"ExportManager: Converting graph %s to ASCII",graph->GetName());
    Int_t maxpoints=graph->GetN();
-   outfile <<"# Graph "<<graph->ClassName() <<": "<<graph->GetName()<<endl;
-   outfile <<"# Point \tX \tY"<<endl;
+   outfile <<"# Graph "<<graph->ClassName() <<": "<<graph->GetName()<< std::endl;
+   outfile <<"# Point \tX \tY"<< std::endl;
    for(Int_t point=0; point<maxpoints; ++point)
     {
       Double_t xg=0;
       Double_t yg=0;
       graph->GetPoint(point,xg,yg);
-      outfile <<point<<" \t\t"<<xg<<" \t"<<yg<<endl;
+      outfile <<point<<" \t\t"<<xg<<" \t"<<yg<< std::endl;
     }
    outfile.close();
    gSystem->cd(fxStartDir.Data());
@@ -443,8 +443,8 @@ try{
    outfile.write((char *) &charnum, sizeof(Int_t));
    Int_t hislen = l_chan*4 + 40;
    Int_t byteswritten=outfile.tellp();
-   //cout <<"position in stream is "<<byteswritten << endl;
-   //cout <<"datalength was"<<hislen << endl;
+   //std::cout <<"position in stream is "<<byteswritten << std::endl;
+   //std::cout <<"datalength was"<<hislen << std::endl;
    // consistency check: chars written are data field+header size
    if (byteswritten == hislen)
    {

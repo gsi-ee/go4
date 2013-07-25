@@ -102,21 +102,21 @@ Bool_t save1cond(TObject* obj, const char* prefix)
 
   TString funcname = MakeFuncName(prefix, cond->GetName());
 
-  cout << "Write macro " << funcname << endl;
-  ofstream xout(funcname+".C");
+  std::cout << "Write macro " << funcname << std::endl;
+  std::ofstream xout(funcname+".C");
 
-  xout << Form("// written by macro savecond.C at %s",TDatime().AsString()) << endl;
-  xout << Form("void %s(Bool_t flags = kTRUE, Bool_t counters = kFALSE, Bool_t reset = kFALSE)", funcname.Data()) << endl;
-  xout << Form("{") << endl;
-  xout << Form("#ifndef __GO4ANAMACRO__") << endl;
-  xout << Form("   cout << \"Macro %s can execute only in analysis\" << endl;", funcname.Data()) << endl;
-  xout << Form("   return;") << endl;
-  xout << Form("#endif") << endl;
+  xout << Form("// written by macro savecond.C at %s",TDatime().AsString()) << std::endl;
+  xout << Form("void %s(Bool_t flags = kTRUE, Bool_t counters = kFALSE, Bool_t reset = kFALSE)", funcname.Data()) << std::endl;
+  xout << Form("{") << std::endl;
+  xout << Form("#ifndef __GO4ANAMACRO__") << std::endl;
+  xout << Form("   std::cout << \"Macro %s can execute only in analysis\" << std::endl;", funcname.Data()) << std::endl;
+  xout << Form("   return;") << std::endl;
+  xout << Form("#endif") << std::endl;
 
   cond->SavePrimitive(xout, "savemacro");
 
-  xout << endl;
-  xout << "}" << endl;
+  xout << std::endl;
+  xout << "}" << std::endl;
   xout.close();
 
   return kTRUE;

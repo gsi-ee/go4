@@ -171,7 +171,7 @@ Bool_t TGo4ServerTask::RemoveClient(const char* name, Bool_t clientwait, Bool_t 
 Int_t TGo4ServerTask::RemoveAllClients(Bool_t force)
 {
    Int_t rev=0; // return value is number of removed clients
-   //cout <<"TTTTTTTT TGo4ServerTask::RemoveAllClients" << endl;
+   //std::cout <<"TTTTTTTT TGo4ServerTask::RemoveAllClients" << std::endl;
 //// new: first figure out all existing names, then remove one by one:
    TGo4TaskHandler* taskhandler=0;
    TObjArray names;
@@ -179,14 +179,14 @@ Int_t TGo4ServerTask::RemoveAllClients(Bool_t force)
    while((taskhandler=fxTaskManager->NextTaskHandler(reset)) !=0)
       {
          reset=kFALSE;
-         //cout <<"adding name "<<taskhandler->GetName() << endl;
+         //std::cout <<"adding name "<<taskhandler->GetName() << std::endl;
          names.AddLast(new TNamed(taskhandler->GetName(), "title"));
       }
    TIter niter(&names);
    TObject* nomen=0;
    while((nomen =niter.Next()) !=0)
       {
-         //cout <<"removing th "<<nomen->GetName() << endl;
+         //std::cout <<"removing th "<<nomen->GetName() << std::endl;
          RemoveClient(nomen->GetName(),!force,kTRUE);
          rev++;
       }
@@ -215,7 +215,7 @@ Bool_t TGo4ServerTask::RemoveCurrentClient()
 
 void TGo4ServerTask::SetCurrentTask(const char* name)
 {
-   //cout <<"server task setting current task to "<<name << endl;
+   //std::cout <<"server task setting current task to "<<name << std::endl;
    TGo4TaskHandler* han=0;
    if(fxTaskManager==0)
       {
@@ -242,7 +242,7 @@ void TGo4ServerTask::SetCurrentTask(const char* name)
                {
                   // zero name given, set pointer to last handler still in list
                      fxCurrentTaskHandler=fxTaskManager->GetLastTaskHandler();
-                     //cout << "**** set current th from get lastth:"<< fxCurrentTaskHandler <<endl;
+                     //std::cout << "**** set current th from get lastth:"<< fxCurrentTaskHandler << std::endl;
                }
             else // if(name==0)
                {
@@ -251,7 +251,7 @@ void TGo4ServerTask::SetCurrentTask(const char* name)
                if(han)
                   {
                      fxCurrentTaskHandler=han;
-                     //cout << "**** set current th from name:"<< fxCurrentTaskHandler <<endl;
+                     //std::cout << "**** set current th from name:"<< fxCurrentTaskHandler << std::endl;
                   }
                else // if(han)
                   {
@@ -313,7 +313,7 @@ Int_t TGo4ServerTask::TimerConnect()
                // we have a transport instance to disconnect
                fxDisConnectTransport->Close();
                //delete fxDisConnectTransport; // new
-               //cout << "++++++++Timer closed transport"<<endl;
+               //std::cout << "++++++++Timer closed transport"<< std::endl;
                fbConnectIsClose=kTRUE;
                fbDisConnectRequest=kFALSE; // we served the request, reset it
             rev+=1;
@@ -341,7 +341,7 @@ Int_t TGo4ServerTask::TimerConnect()
             if(!fxConnectTransport->IsOpen())
                {
                   // transport is not open, so do it
-//                  cout << "++++++++Timer will open transport"<<endl;
+//                  std::cout << "++++++++Timer will open transport"<< std::endl;
                   fbConnectIsOpen=kTRUE; // tell connector thread that we try to open
                   Int_t result=fxConnectTransport->Open(GetConnectHost(), fuConnectPort, fbKeepServerSocket);
                   if(result==0)
@@ -360,7 +360,7 @@ Int_t TGo4ServerTask::TimerConnect()
             else
                {
                   // transport was already open
-//                  cout <<"OOOOOOOOOOOO TimerConnect transport already open!" << endl;
+//                  std::cout <<"OOOOOOOOOOOO TimerConnect transport already open!" << std::endl;
                   fbConnectIsOpen=kTRUE;
                   fbConnectIsDone=kTRUE; // tell connector thread we returned from open
                   fbConnectRequest=kFALSE; // we served the request, reset it
@@ -373,7 +373,7 @@ Int_t TGo4ServerTask::TimerConnect()
                rev+=64;
                // no Transport specified: create raw server for negotiation port
                //fxConnectTransport=new TGo4Socket("Server",3);
-               //cout << "(((((( timer created new raw server transport"<<endl;
+               //std::cout << "(((((( timer created new raw server transport"<< std::endl;
          }
       } //// if(fbConnectRequest)
    else
@@ -399,7 +399,7 @@ Int_t TGo4ServerTask::WaitForOpen()
             TGo4Thread::Sleep(TGo4ServerTask::fguOPENWAITCYCLETIME);
             ++count;
             }
-//      cout << "*****WaitForOpen()"<<endl;
+//      std::cout << "*****WaitForOpen()"<< std::endl;
       }
    fbConnectIsOpen=kFALSE; //  reset for next time
    return count;
@@ -421,7 +421,7 @@ Int_t TGo4ServerTask::WaitForClose()
                TGo4Thread::Sleep(TGo4ServerTask::fguCLOSEWAITCYCLETIME);
                ++count;
          }
-      //cout << "*****WaitForClose() "<<count<< endl;
+      //std::cout << "*****WaitForClose() "<<count<< std::endl;
       }
    fbConnectIsClose=kFALSE; //  reset for next time
    return count;
@@ -448,7 +448,7 @@ Int_t TGo4ServerTask::WaitForConnection()
                TGo4Thread::Sleep(TGo4ServerTask::fguCONNECTWAITCYCLETIME);
                ++count;
             }
-//         cout << "*****WaitForConnection()"<<endl;
+//         std::cout << "*****WaitForConnection()"<< std::endl;
       }
    fbConnectIsDone=kFALSE; //  reset for next time
    return count;
@@ -528,36 +528,31 @@ return com;
 
 void TGo4ServerTask::SendStatus(TGo4Status * stat, const char* receiver)
 {
-if(IsMaster()) return;
-if(stat==0) return;
-if(receiver!=0)
-   {
-      //cout <<"TGo4ServerTask::SendStatus to receiver "<<receiver << endl;
+   if(IsMaster()) return;
+   if(stat==0) return;
+   if(receiver!=0) {
       TGo4Task::SendStatus(stat,receiver);
+      return;
    }
-else
-   {
-      // send status to all
-      TGo4LockGuard taskmutex(fxTaskManager->GetMutex());
-      TGo4TaskHandler* han=0;
-      Bool_t reset=kTRUE;
-      while((han=fxTaskManager->NextTaskHandler(reset))!=0)
-         {
-            reset=kFALSE;
-            TGo4BufferQueue * statq=dynamic_cast<TGo4BufferQueue*> (han->GetStatusQueue());
-            if(statq==0) continue; //NEVER COME HERE!
-            TGo4Log::Debug(" Task - sending status %s to task %s", stat->ClassName(), han->GetName());
-            statq->AddBufferFromObject(stat);
-         }// while
-   } // if(receiver)
+   // send status to all
+   TGo4LockGuard taskmutex(fxTaskManager->GetMutex());
+   TGo4TaskHandler* han = 0;
+   Bool_t reset = kTRUE;
+   while((han = fxTaskManager->NextTaskHandler(reset))!=0) {
+      reset = kFALSE;
+      TGo4BufferQueue * statq=dynamic_cast<TGo4BufferQueue*> (han->GetStatusQueue());
+      if(statq==0) continue; //NEVER COME HERE!
+      TGo4Log::Debug(" Task - sending status %s to task %s", stat->ClassName(), han->GetName());
+      statq->AddBufferFromObject(stat);
+   }// while
 }
 
 void TGo4ServerTask::SendStatusBuffer()
 {
    if(IsMaster()) return;
-   //cout << "TGo4ServerTask::SendStatusBuffer() apply for fxStatusMutex"<< endl;
+   //std::cout << "TGo4ServerTask::SendStatusBuffer() apply for fxStatusMutex"<< std::endl;
    TGo4LockGuard statguard(fxStatusMutex); // do not send during buffer update
-   //cout << "TGo4ServerTask::SendStatusBuffer() apply for taskmanager mutex"<< endl;
+   //std::cout << "TGo4ServerTask::SendStatusBuffer() apply for taskmanager mutex"<< std::endl;
    TGo4LockGuard taskmutex(fxTaskManager->GetMutex()); // protect task list
    TGo4TaskHandler* han=0;
    Bool_t reset=kTRUE;
@@ -575,21 +570,17 @@ void TGo4ServerTask::SendStatusBuffer()
 
 Bool_t TGo4ServerTask::StartConnectorThread()
 {
-   Bool_t rev=kTRUE;
-   rev= ( GetWorkHandler()->Start( GetConnectorName() ) );
-      //cout << "ServerTask started connector thread"<<endl;
-   return rev;
+   return GetWorkHandler()->Start( GetConnectorName() );
 }
 
 Bool_t TGo4ServerTask::StopConnectorThread()
 {
-   Bool_t rev=kTRUE;
-   rev= ( GetWorkHandler()->Stop( GetConnectorName() ) ); // unset running flag
+   Bool_t rev = GetWorkHandler()->Stop( GetConnectorName() ); // unset running flag
    // now establish a dummy connection to our own server to release the listen socket:
    const char* host = gSystem->HostName();
-   Int_t negotiationport=fxTaskManager->GetNegotiationPort();
-   TGo4Socket* connector= new TGo4Socket(kTRUE); // raw socket transport
-      //cout << "host:"<<host<<" , port:" << negotiationport <<endl;
+   Int_t negotiationport = fxTaskManager->GetNegotiationPort();
+   TGo4Socket* connector = new TGo4Socket(kTRUE); // raw socket transport
+      //std::cout << "host:"<<host<<" , port:" << negotiationport << std::endl;
    connector->Open(host,negotiationport); // open connection to server's connector runnable
    connector->Send(TGo4TaskHandler::Get_fgcERROR()); // force server to stop
    connector->Close();
@@ -600,10 +591,8 @@ Bool_t TGo4ServerTask::StopConnectorThread()
 
 Bool_t TGo4ServerTask::ConnectorThreadIsStopped()
 {
-   Bool_t rev=kTRUE;
-   TGo4Thread* conny= GetWorkHandler()->GetThread(GetConnectorName());
-   rev= conny->IsWaiting();
-   return rev;
+   TGo4Thread* conny = GetWorkHandler()->GetThread(GetConnectorName());
+   return conny->IsWaiting();
 }
 
 void TGo4ServerTask::Quit()
@@ -618,7 +607,7 @@ void TGo4ServerTask::Quit()
 	 }
    if(!IsMaster())
 	   {
-		   //cout <<"mmmmmmmmm quit is unlocking taskmanager mutex" << endl;
+		   //std::cout <<"mmmmmmmmm quit is unlocking taskmanager mutex" << std::endl;
 		   fxTaskManager->GetMutex()->UnLock(); // JAM avoid deadlocking of analysis server main thread with connector thread that actually performs the remove
 	   }
    RemoveAllClients();
@@ -658,26 +647,26 @@ void TGo4ServerTask::Shutdown()
 
 void TGo4ServerTask::LockAll()
 {
-//cout <<"TGo4ServerTask::LockAll" << endl;
+//std::cout <<"TGo4ServerTask::LockAll" << std::endl;
 
 fxStatusMutex->Lock();
-//cout <<"TGo4ServerTask::LockAll before taskmutex" << endl;
+//std::cout <<"TGo4ServerTask::LockAll before taskmutex" << std::endl;
 fxTaskManager->GetMutex()->Lock();
-//cout <<"TGo4ServerTask::LockAll before mainmutex" << endl;
+//std::cout <<"TGo4ServerTask::LockAll before mainmutex" << std::endl;
 TGo4LockGuard::LockMainMutex();
-//cout <<"TGo4ServerTask::LockAll leaving" << endl;
+//std::cout <<"TGo4ServerTask::LockAll leaving" << std::endl;
 
 }
 
 void TGo4ServerTask::UnLockAll()
 {
-//cout <<"TGo4ServerTask::UnLockAll" << endl;
+//std::cout <<"TGo4ServerTask::UnLockAll" << std::endl;
 TGo4LockGuard::UnLockMainMutex();
-//cout <<"TGo4ServerTask::UnLockAll after mainmutex" << endl;
+//std::cout <<"TGo4ServerTask::UnLockAll after mainmutex" << std::endl;
 fxTaskManager->GetMutex()->UnLock();
-//cout <<"TGo4ServerTask::UnLockAll after taskmutex" << endl;
+//std::cout <<"TGo4ServerTask::UnLockAll after taskmutex" << std::endl;
 fxStatusMutex->UnLock();
-//cout <<"TGo4ServerTask::UnLockAll leaving" << endl;
+//std::cout <<"TGo4ServerTask::UnLockAll leaving" << std::endl;
 }
 
 const char* TGo4ServerTask::Get_fgcLAUNCHPREFSFILE()

@@ -23,29 +23,29 @@
 TGo4CreateException::TGo4CreateException(const TGo4CreateException &right)
   :TGo4ThreadException(right)
 {
-   TRACE((14,"TGo4CreateException::TGo4CreateException() copy constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4CreateException::TGo4CreateException() copy constructor",__LINE__, __FILE__));
 }
 
 TGo4CreateException::TGo4CreateException (TGo4Runnable* runnable, const char* threadname)
 :TGo4ThreadException(runnable,threadname)
 {
-   TRACE((14,"TGo4CreateException::TGo4CreateException(TGo4Runnable*, const char*) constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4CreateException::TGo4CreateException(TGo4Runnable*, const char*) constructor",__LINE__, __FILE__));
    fxDescription= "!!!-- Go4 Create Exception --!!!";
 }
 
 
 TGo4CreateException::~TGo4CreateException()
 {
- TRACE((14,"TGo4CreateException::~TGo4CreateException() destructor",__LINE__, __FILE__));
+ GO4TRACE((14,"TGo4CreateException::~TGo4CreateException() destructor",__LINE__, __FILE__));
 }
 
 
 TGo4CreateException & TGo4CreateException::operator=(const TGo4CreateException &right)
 {
-   TRACE((14,"TGo4CreateException::operator=",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4CreateException::operator=",__LINE__, __FILE__));
    if (&right!=this)
       {
-         TRACE((13,"TGo4CreateException::operator= processing copy",__LINE__, __FILE__));
+         GO4TRACE((13,"TGo4CreateException::operator= processing copy",__LINE__, __FILE__));
          TGo4ThreadException::operator=(right); // copy base class members
          // put additional member copies here...
          return *this;
@@ -53,26 +53,26 @@ TGo4CreateException & TGo4CreateException::operator=(const TGo4CreateException &
    else
       {
          // copy is already source object
-         TRACE((13,"TGo4CreateException::operator= source and destination objects are identical",__LINE__, __FILE__));
+         GO4TRACE((13,"TGo4CreateException::operator= source and destination objects are identical",__LINE__, __FILE__));
          return *this;
       }
 }
 
 Int_t TGo4CreateException::Handle ()
 {
-   TRACE((14,"TGo4CreateException::Handle()",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4CreateException::Handle()",__LINE__, __FILE__));
    std::cout << "\t This is the TGo4CreateException::Handler"<<std::endl;
    Int_t rev=-1;
    if(GetThreadName()==0)
       // no threadname specified, operate on thread of runnable
       {
-         TRACE((13,"TGo4CreateException::Handle() -- creating thread of runnable",__LINE__, __FILE__));
+         GO4TRACE((13,"TGo4CreateException::Handle() -- creating thread of runnable",__LINE__, __FILE__));
          rev=fxRunnable->GetThread()->Create();
       }
    else
       // threadname given, use thread handler to cancel
       {
-         TRACE((13,"TGo4CreateException::Handle() -- creating thread by name",__LINE__, __FILE__));
+         GO4TRACE((13,"TGo4CreateException::Handle() -- creating thread by name",__LINE__, __FILE__));
          rev=fxThreadHandler->Create(GetThreadName());
       }
    // note: boolean return values of called methods are implicitly casted to int

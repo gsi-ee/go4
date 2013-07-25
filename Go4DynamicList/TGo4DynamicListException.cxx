@@ -20,7 +20,7 @@
 
 TGo4DynamicListException & TGo4DynamicListException::operator= (const TGo4DynamicListException & right)
 {
- TRACE((14,"TGo4DynamicListException:operator=",__LINE__, __FILE__));
+ GO4TRACE((14,"TGo4DynamicListException:operator=",__LINE__, __FILE__));
  if (&right!=this)
     {
       TGo4RuntimeException::operator=(right); // copy base class members
@@ -41,7 +41,7 @@ TGo4DynamicListException & TGo4DynamicListException::operator= (const TGo4Dynami
 TGo4DynamicListException::TGo4DynamicListException(const TGo4DynamicListException &right)
   :TGo4RuntimeException(right)
 {
- TRACE((14,"TGo4DynamicListException:TGo4DynamicListException(right)", __LINE__, __FILE__));   ;
+ GO4TRACE((14,"TGo4DynamicListException:TGo4DynamicListException(right)", __LINE__, __FILE__));   ;
  fxEntry=right.fxEntry;
  fxEntryName=right.fxEntryName;
  fxEntryClass=right.fxEntryClass;
@@ -51,7 +51,7 @@ TGo4DynamicListException::TGo4DynamicListException(const TGo4DynamicListExceptio
 
 Int_t TGo4DynamicListException::Handle()
 {
-   TRACE((12,"TGo4AnalyisStepException::Handle()", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalyisStepException::Handle()", __LINE__, __FILE__));
 
 
    TGo4Log::Debug("%s \n Entry %s:%s, %s\n \t--Entry was disabled.",
@@ -62,13 +62,13 @@ Int_t TGo4DynamicListException::Handle()
 }
 TGo4DynamicListException::~TGo4DynamicListException()
 {
- TRACE((14,"TGo4DynamicListException:~TGo4DynamicListException", __LINE__, __FILE__));
+ GO4TRACE((14,"TGo4DynamicListException:~TGo4DynamicListException", __LINE__, __FILE__));
 
 }
 TGo4DynamicListException::TGo4DynamicListException (TGo4DynamicEntry* entry, const char* message,...)
 : fxEntry(0)
    {
-   TRACE((14,"TGo4DynamicListException:TGo4DynamicListException (TGo4DynamicEntry*,..)", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4DynamicListException:TGo4DynamicListException (TGo4DynamicEntry*,..)", __LINE__, __FILE__));
    fxDescription= "!!!-- Go4 Dynamic List Exception --!!!";
    if(entry)
       {

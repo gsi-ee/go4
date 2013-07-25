@@ -25,7 +25,7 @@ TGo4TreeStoreParameter::TGo4TreeStoreParameter(const char* name,
 : TGo4EventStoreParameter(name, GO4EV_TREE),
    fiSplit(splitlevel), fiBufsize(bufsize), fiCompression(compression)
 {
-   TRACE((14,"TGo4TreeStoreParameter::TGo4TreeStoreParameter(const char*,...)", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4TreeStoreParameter::TGo4TreeStoreParameter(const char*,...)", __LINE__, __FILE__));
    if(filename) fxBranchFile = filename;
           else  fxBranchFile="";
 }
@@ -34,7 +34,7 @@ TGo4TreeStoreParameter::TGo4TreeStoreParameter()
 : TGo4EventStoreParameter("default go4 treestore", GO4EV_TREE),
    fiSplit(1), fiBufsize(64000), fiCompression(5), fxBranchFile("")
 {
-  TRACE((14,"TGo4TreeStoreParameter::TGo4TreeStoreParameter()", __LINE__, __FILE__));
+  GO4TRACE((14,"TGo4TreeStoreParameter::TGo4TreeStoreParameter()", __LINE__, __FILE__));
 
 
 }
@@ -42,12 +42,12 @@ TGo4TreeStoreParameter::TGo4TreeStoreParameter()
 
 TGo4TreeStoreParameter::~TGo4TreeStoreParameter()
 {
-  TRACE((14,"TGo4TreeStoreParameter::~TGo4TreeStoreParameter()", __LINE__, __FILE__));
+  GO4TRACE((14,"TGo4TreeStoreParameter::~TGo4TreeStoreParameter()", __LINE__, __FILE__));
 }
 
 Int_t TGo4TreeStoreParameter::PrintParameter(Text_t* buffer, Int_t buflen)
 {
- TRACE((12,"TGo4TreeStoreParameter::PrintParameter()",__LINE__, __FILE__));
+ GO4TRACE((12,"TGo4TreeStoreParameter::PrintParameter()",__LINE__, __FILE__));
    Int_t locallen=128000;
    Text_t localbuf[128000];
    if(buflen<0 && buffer!=0)
@@ -84,7 +84,7 @@ Int_t TGo4TreeStoreParameter::PrintParameter(Text_t* buffer, Int_t buflen)
 
 Bool_t TGo4TreeStoreParameter::UpdateFrom(TGo4Parameter* rhs)
 {
-   TRACE((12,"TGo4TreeStoreParameter::UpdateFrom()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4TreeStoreParameter::UpdateFrom()",__LINE__, __FILE__));
    if((rhs!=0) && rhs->InheritsFrom(TGo4TreeStoreParameter::Class()))
       {
          TGo4TreeStoreParameter* treepar=dynamic_cast<TGo4TreeStoreParameter*>(rhs);

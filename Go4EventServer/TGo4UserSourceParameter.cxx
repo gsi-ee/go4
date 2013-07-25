@@ -33,7 +33,7 @@ TGo4UserSourceParameter::~TGo4UserSourceParameter()
 
 Int_t TGo4UserSourceParameter::PrintParameter(Text_t* buffer, Int_t buflen)
 {
-   TRACE((12,"TGo4UserSourceParameter::PrintParameter()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4UserSourceParameter::PrintParameter()",__LINE__, __FILE__));
    Int_t locallen=128000;
    Text_t localbuf[128000];
    if(buflen<0 && buffer!=0)

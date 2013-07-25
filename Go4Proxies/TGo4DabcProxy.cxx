@@ -26,8 +26,7 @@ class TGo4DabcAccess : public TGo4Access {
    public:
       TGo4DabcAccess(const dabc::Hierarchy& item) :
          TGo4Access(),
-         fItem(item)
-      {}
+         fItem(item) {}
 
       virtual ~TGo4DabcAccess() {}
 

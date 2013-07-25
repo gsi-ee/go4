@@ -491,7 +491,7 @@ void TGo4FitModel::Print(Option_t* option) const {
     std::cout << std::endl;
     if ( (fiMinIntegrDepth>0) && (fiMaxIntegrDepth>0) ) {
        std::cout << "   Integration property: depths from " << fiMinIntegrDepth << " to " <<  fiMaxIntegrDepth;
-       if (fbAbsoluteEps) std::cout << " absolute"; else cout << "  relative";
+       if (fbAbsoluteEps) std::cout << " absolute"; else std::cout << "  relative";
        std::cout << " error " << fdIntegrEps << std::endl;
     }
 }

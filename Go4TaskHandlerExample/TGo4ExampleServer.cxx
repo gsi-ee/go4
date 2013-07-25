@@ -27,13 +27,13 @@ const char* TGo4ExampleServer::fgcCONTROLTHREAD="CONTROL-";
 
 TGo4ExampleController* TGo4ExampleServer::GetController()
 {
-   TRACE((12,"TGo4ExampleServer::GetController()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ExampleServer::GetController()",__LINE__, __FILE__));
 
    return fxController;
 }
 TGo4ExampleServer::~TGo4ExampleServer()
 {
-   TRACE((15,"TGo4ExampleServer::~TGo4ExampleServer() destructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ExampleServer::~TGo4ExampleServer() destructor",__LINE__, __FILE__));
 
    fxWorkHandler->CancelAll(); // make sure threads wont work on controller instance when its deleted
    delete fxController;
@@ -44,7 +44,7 @@ TGo4ExampleServer::TGo4ExampleServer(const char* name,
                                      Bool_t blockingmode)
 : TGo4ServerTask(name, negotiationport, blockingmode,kFALSE)
 {
-   TRACE((15,"TGo4ExampleServer::TGo4ExampleServer(const char*, Bool_t) constructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ExampleServer::TGo4ExampleServer(const char*, Bool_t) constructor",__LINE__, __FILE__));
 
    TGo4Log::Debug(" ExampleServer ''%s'' started ",GetName());
 
@@ -83,21 +83,21 @@ Int_t TGo4ExampleServer::StopWorkThreads()
    if(dataq)
       {
          dataq->AddBufferFromObject(new TNamed("StopObject","dummy"));
-         //cout << "added dummy data"<<endl;
+         //std::cout << "added dummy data"<< std::endl;
       }
    else
       {
-         //cout << "NO data queue"<<endl;
+         //std::cout << "NO data queue"<< std::endl;
       }
    threadhandler->Stop(fcLoggingName.Data());
    if(statusq)
       {
          statusq->AddBufferFromObject(new TGo4Status("StopStatus"));
-         //cout << "added dummy status"<<endl;
+         //std::cout << "added dummy status"<< std::endl;
       }
    else
       {
-      //       cout << "NO status queue"<<endl;
+      //       std::cout << "NO status queue"<< std::endl;
       }
    rev=TGo4ServerTask::StopWorkThreads(); // this will set server task internal flag
    return rev;

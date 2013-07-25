@@ -45,7 +45,7 @@ TGo4BufferQueue::TGo4BufferQueue() :
    fiOverflowcount(0),
    fiMaxBuffers(10)
 {
-   TRACE((14,"TGo4BufferQueue::TGo4BufferQueue()", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4BufferQueue::TGo4BufferQueue()", __LINE__, __FILE__));
 
    InitBuffers();
 }
@@ -58,7 +58,7 @@ TGo4BufferQueue::TGo4BufferQueue(const char* name) :
    fiOverflowcount(0),
    fiMaxBuffers(10)
 {
-   TRACE((14,"TGo4BufferQueue::TGo4BufferQueue(const char*)", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4BufferQueue::TGo4BufferQueue(const char*)", __LINE__, __FILE__));
 
    InitBuffers();
 }
@@ -66,7 +66,7 @@ TGo4BufferQueue::TGo4BufferQueue(const char* name) :
 void TGo4BufferQueue::InitBuffers()
 
 {
-   TRACE((14,"TGo4BufferQueue::InitBuffers()", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4BufferQueue::InitBuffers()", __LINE__, __FILE__));
    TGo4LockGuard mainguard;
    fxBufferList = new TList; // list owning all buffers
    fxFreeList = new TList;    // list indicating the free buffers
@@ -80,7 +80,7 @@ void TGo4BufferQueue::InitBuffers()
 
 TGo4BufferQueue::~TGo4BufferQueue()
 {
-   TRACE((14,"TGo4BufferQueue::~TTGo4BufferQueue()", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4BufferQueue::~TTGo4BufferQueue()", __LINE__, __FILE__));
 
    fxBufferList->Delete();
    TCollection::EmptyGarbageCollection();
@@ -92,14 +92,14 @@ TGo4BufferQueue::~TGo4BufferQueue()
 
 TBuffer * TGo4BufferQueue::WaitBuffer()
 {
-   TRACE((19,"TGo4BufferQueue::WaitBuffer()", __LINE__, __FILE__));
+   GO4TRACE((19,"TGo4BufferQueue::WaitBuffer()", __LINE__, __FILE__));
    TObject* ob = Wait();
    return dynamic_cast<TBuffer*> ( ob );
 }
 
 TObject * TGo4BufferQueue::WaitObjectFromBuffer()
 {
-   TRACE((19,"TGo4BufferQueue::WaitObjectFromBuffer()", __LINE__, __FILE__));
+   GO4TRACE((19,"TGo4BufferQueue::WaitObjectFromBuffer()", __LINE__, __FILE__));
    TObject* obj=0;
    TBuffer* buffer = WaitBuffer();
    if(buffer) {
@@ -139,7 +139,7 @@ TObject * TGo4BufferQueue::WaitObjectFromBuffer()
 
 void TGo4BufferQueue::AddBuffer(TBuffer * buffer, Bool_t clone)
 {
-   TRACE((19,"TGo4BufferQueue::AddBuffer(TBuffer*, Bool_t)", __LINE__, __FILE__));
+   GO4TRACE((19,"TGo4BufferQueue::AddBuffer(TBuffer*, Bool_t)", __LINE__, __FILE__));
 
    TBuffer* entry=0;
    Bool_t entryisnew=kFALSE;
@@ -209,7 +209,7 @@ void TGo4BufferQueue::AddBuffer(TBuffer * buffer, Bool_t clone)
 
 void TGo4BufferQueue::AddBufferFromObject(TObject * object)
 {
-   TRACE((12,"TGo4BufferQueue::AddBufferFromObject(TObject*)", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4BufferQueue::AddBufferFromObject(TObject*)", __LINE__, __FILE__));
    if(object==0) return;
    TGo4LockGuard mainguard;
    TBuffer* entry = 0;
@@ -256,7 +256,7 @@ void TGo4BufferQueue::AddBufferFromObject(TObject * object)
 
 void TGo4BufferQueue::FreeBuffer(TBuffer * buffer)
 {
-   TRACE((19,"TGo4BufferQueue::FreeBuffer(TBuffer*, Bool_t)", __LINE__, __FILE__));
+   GO4TRACE((19,"TGo4BufferQueue::FreeBuffer(TBuffer*, Bool_t)", __LINE__, __FILE__));
    //
    TGo4LockGuard qguard(fxBufferMutex);
    //std::cout << "bufferlock acquired by bufferqueue: freebuffer"<< std::endl;

@@ -19,7 +19,7 @@
 TGo4AnalysisStepException::TGo4AnalysisStepException (TGo4AnalysisStep* step)
 : fxStep(0)
    {
-   TRACE((14,"TGo4AnalysisStepException:TGo4AnalysisStepException (TGo4TaskHandler*)", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4AnalysisStepException:TGo4AnalysisStepException (TGo4TaskHandler*)", __LINE__, __FILE__));
    fxDescription= "!!!-- Go4 Analysis Step Exception --!!!";
    if(step)
       {
@@ -32,13 +32,13 @@ TGo4AnalysisStepException::TGo4AnalysisStepException (TGo4AnalysisStep* step)
 
 TGo4AnalysisStepException::~TGo4AnalysisStepException()
 {
- TRACE((14,"TGo4AnalysisStepException:~TGo4AnalysisStepException", __LINE__, __FILE__));
+ GO4TRACE((14,"TGo4AnalysisStepException:~TGo4AnalysisStepException", __LINE__, __FILE__));
 
 }
 
 TGo4AnalysisStepException & TGo4AnalysisStepException::operator= (const TGo4AnalysisStepException & right)
 {
- TRACE((14,"TGo4AnalysisStepException:operator=",__LINE__, __FILE__));
+ GO4TRACE((14,"TGo4AnalysisStepException:operator=",__LINE__, __FILE__));
  if (&right!=this)
     {
       TGo4RuntimeException::operator=(right); // copy base class members
@@ -61,7 +61,7 @@ TGo4AnalysisStepException & TGo4AnalysisStepException::operator= (const TGo4Anal
 TGo4AnalysisStepException::TGo4AnalysisStepException(const TGo4AnalysisStepException &right)
   :TGo4RuntimeException(right)
 {
-  TRACE((14,"TGo4AnalysisStepException:TGo4AnalysisStepException(right)", __LINE__, __FILE__));   ;
+  GO4TRACE((14,"TGo4AnalysisStepException:TGo4AnalysisStepException(right)", __LINE__, __FILE__));   ;
   fxStep=right.fxStep;
   fxStepName=right.fxStepName;
   fxStatusMessage=right.fxStatusMessage;
@@ -70,7 +70,7 @@ TGo4AnalysisStepException::TGo4AnalysisStepException(const TGo4AnalysisStepExcep
 
 Int_t TGo4AnalysisStepException::Handle()
 {
-   TRACE((12,"TGo4AnalyisStepException::Handle()", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalyisStepException::Handle()", __LINE__, __FILE__));
 
    TGo4Log::Error("%s \n Step %s, ProcessStatus:%d, %s",
             What(),GetStepName(),GetProcessStatus(),GetStatusMessage());

@@ -36,7 +36,7 @@ TGo4AnalysisClientStatus::TGo4AnalysisClientStatus(const char* name) :
   fdTime(0),
   fbAnalysisRunning(false)
 {
-   TRACE((12,"TGo4AnalysisClientStatus::TGo4AnalysisClientStatus(const char*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisClientStatus::TGo4AnalysisClientStatus(const char*)",__LINE__, __FILE__));
 }
 
 TGo4AnalysisClientStatus::~TGo4AnalysisClientStatus()
@@ -45,7 +45,7 @@ TGo4AnalysisClientStatus::~TGo4AnalysisClientStatus()
 
 Int_t TGo4AnalysisClientStatus::PrintStatus(Text_t* buffer, Int_t buflen)
 {
-   TRACE((12,"TGo4AnalysisClientStatus::PrintStatus()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisClientStatus::PrintStatus()",__LINE__, __FILE__));
    //
    Int_t locallen=4096;
    Text_t localbuf[4096];
@@ -82,7 +82,7 @@ Int_t TGo4AnalysisClientStatus::PrintStatus(Text_t* buffer, Int_t buflen)
 
 void TGo4AnalysisClientStatus::SetRates(Double_t rate, Double_t average, ULong64_t counts, Double_t time)
 {
-   TRACE((12,"TGo4AnalysisClientStatus::SetRates(...)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisClientStatus::SetRates(...)",__LINE__, __FILE__));
    fdRate=rate;
    fdAveRate=average;
    fuCurrentCount=counts;

@@ -81,7 +81,7 @@ fbUseObjectServer(useobjectserver)
    }
 else
    {
-      //cout <<"ERROR on creation of Histogram server: "<< result << endl;
+      //std::cout <<"ERROR on creation of Histogram server: "<< result << std::endl;
       TGo4Analysis::Instance()->Message(3,
              "ERROR %d on creation of Histogram server",
                result);
@@ -127,7 +127,7 @@ if(fxThreadHandler)
       }
    else
       {
-          cerr <<" Histogram Server constructor FATAL ERROR: no threadmanager !!" << endl;
+          std::cerr <<" Histogram Server constructor FATAL ERROR: no threadmanager !!" << std::endl;
           throw TGo4RuntimeException();
       }
 }
@@ -222,7 +222,7 @@ Int_t TGo4HistogramServer::ConnectObjectClient()
    {
       // open timeout
       TGo4Log::Debug(" HistogramServer: Negotiation channel open TIMEOUT");
-      cerr <<" HistogramServer TIMEOUT ERROR opening socket connection !!! Terminating..." << endl;
+      std::cerr <<" HistogramServer TIMEOUT ERROR opening socket connection !!! Terminating..." << std::endl;
       throw TGo4TerminateException(fxAnalysisClient->GetTask());
    }
    Int_t count=0;
@@ -232,7 +232,7 @@ Int_t TGo4HistogramServer::ConnectObjectClient()
       if(count>TGo4TaskHandler::Get_fgiPORTWAITCYCLES())
             {
                TGo4Log::Debug(" HistogramServer: Negotiation port getter TIMEOUT");
-               cerr <<" HistogramServer TIMEOUT ERROR retrieving port number  !!! Terminating..." << endl;
+               std::cerr <<" HistogramServer TIMEOUT ERROR retrieving port number  !!! Terminating..." << std::endl;
                throw TGo4TerminateException(fxAnalysisClient->GetTask());
             }
       else if(task==0 || task->IsTerminating())
@@ -275,7 +275,7 @@ Bool_t TGo4HistogramServer::CheckLogin()
 {
    ///////// check connected client:
    // check for basename:
-   //cout <<"##### check login " << endl;
+   //std::cout <<"##### check login " << std::endl;
    char* recvchar=0;
    recvchar=fxTransport->RecvRaw("dummy");
    if(recvchar && !strcmp(recvchar,fxServerName.Data()))
@@ -286,7 +286,7 @@ Bool_t TGo4HistogramServer::CheckLogin()
       {
          //TGo4Analysis::Instance()->Message(2,
          //       "Object server connection attempt with wrong basename");
-         cerr <<"##### check login with wrong base" << endl;
+         std::cerr <<"##### check login with wrong base" << std::endl;
          fxTransport->Send(TGo4TaskHandler::Get_fgcERROR());
          DisconnectObjectClient();
          return kFALSE;
@@ -301,7 +301,7 @@ Bool_t TGo4HistogramServer::CheckLogin()
       {
 //         TGo4Analysis::Instance()->Message(2,
 //                "Object server connection attempt with wrong password");
-         cerr <<"##### check login with wrong passwd" << endl;
+         std::cerr <<"##### check login with wrong passwd" << std::endl;
          fxTransport->Send(TGo4TaskHandler::Get_fgcERROR());
          DisconnectObjectClient();
          return kFALSE;
@@ -317,11 +317,11 @@ Bool_t TGo4HistogramServer::HandleObjectRequest()
    recvchar=fxTransport->RecvRaw("dummy");
    if(recvchar==0)
    {
-      cerr <<"-----Object server received null character for object request!"<<endl;
+      std::cerr <<"-----Object server received null character for object request!"<< std::endl;
       return kFALSE;
    }
    strncpy(objectname, recvchar,TGo4ThreadManager::fguTEXTLENGTH -1); // get the client name
-   //cout <<"-----Object server got request for object "<< objectname << endl;
+   //std::cout <<"-----Object server got request for object "<< objectname << std::endl;
    // check here if object is requested or nameslist? :
    TObject* object=0;
    if(!strcmp(objectname,fgcCOMGETLIST))
@@ -330,13 +330,13 @@ Bool_t TGo4HistogramServer::HandleObjectRequest()
       TGo4LockGuard mainguard; // protect creation of new nameslist
       fxAnalysis->UpdateNamesList();
       object=fxAnalysis->GetNamesList();
-      //cout <<"---------Retrieving nameslist" << endl;
+      //std::cout <<"---------Retrieving nameslist" << std::endl;
    }
    else
    {
       // get object from analysis
       object=fxAnalysis->GetObject(objectname);
-      //cout <<"---------Retrieving object" << endl;
+      //std::cout <<"---------Retrieving object" << std::endl;
    }
    return (SendObject(object));
 }
@@ -361,7 +361,7 @@ Bool_t TGo4HistogramServer::SendObject(TObject* object)
    }
    else
    {
-      //cout <<"Error: object not found in analysis!" << endl;
+      //std::cout <<"Error: object not found in analysis!" << std::endl;
       fxTransport->Send(TGo4TaskHandler::Get_fgcERROR());
       retval=kFALSE;
    }
@@ -378,7 +378,7 @@ Bool_t TGo4HistogramServer::SendObject(TObject* object)
    }
    else
    {
-      //cout <<"##### send object is finished with ok." << endl;
+      //std::cout <<"##### send object is finished with ok." << std::endl;
    }
    return retval;
 }
@@ -386,7 +386,7 @@ Bool_t TGo4HistogramServer::SendObject(TObject* object)
 
 void TGo4HistogramServer::SetConnect(TGo4Socket * trans, const char* host, UInt_t port)
 {
-   TRACE((12,"TGo4HistogramServer::SetConnect(TGo4Socket *)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4HistogramServer::SetConnect(TGo4Socket *)",__LINE__, __FILE__));
    fxConnectTransport = trans;
    fcConnectHost = host;
    fuConnectPort = port;
@@ -395,20 +395,20 @@ void TGo4HistogramServer::SetConnect(TGo4Socket * trans, const char* host, UInt_
 
 void TGo4HistogramServer::SetDisConnect(TGo4Socket * trans)
 {
-   TRACE((12,"TGo4HistogramServer::SetDisConnect(TGo4Socket *)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4HistogramServer::SetDisConnect(TGo4Socket *)",__LINE__, __FILE__));
    fxDisConnectTransport=trans;
    fbDisConnectRequest=kTRUE;
 }
 
 Int_t TGo4HistogramServer::TimerConnect()
 {
-   TRACE((12,"TGo4HistogramServer::TimerConnect()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4HistogramServer::TimerConnect()",__LINE__, __FILE__));
    Int_t rev=0;
    ///////////////////////////////////////
    //// handle the disconnection first:
    if(fbDisConnectRequest)
       {
-      TRACE((15,"TGo4HistogramServer::TimerConnect()--DisConnectRequest",__LINE__, __FILE__));
+      GO4TRACE((15,"TGo4HistogramServer::TimerConnect()--DisConnectRequest",__LINE__, __FILE__));
          if(fxDisConnectTransport!=0)
             {
                // we have a transport instance to disconnect
@@ -425,7 +425,7 @@ Int_t TGo4HistogramServer::TimerConnect()
       }
    else //// if(fbDisConnectRequest)
       {
-      TRACE((15,"TGo4HistogramServer::TimerConnect()--NO DisConnectRequest",__LINE__, __FILE__));
+      GO4TRACE((15,"TGo4HistogramServer::TimerConnect()--NO DisConnectRequest",__LINE__, __FILE__));
          // no open request, continue
          rev+=2;
       }
@@ -434,16 +434,16 @@ Int_t TGo4HistogramServer::TimerConnect()
    //// then handle the connection:
    if(fbConnectRequest)
       {
-      TRACE((15,"TGo4HistogramServer::TimerConnect()--ConnectRequest",__LINE__, __FILE__));
+      GO4TRACE((15,"TGo4HistogramServer::TimerConnect()--ConnectRequest",__LINE__, __FILE__));
          // timer shall open a transport as server
       if(fxConnectTransport!=0)
          {
             if(!fxConnectTransport->IsOpen())
                {
-                TRACE((10,"TGo4HistogramServer::TimerConnect()--transport is not open",__LINE__, __FILE__));
+                GO4TRACE((10,"TGo4HistogramServer::TimerConnect()--transport is not open",__LINE__, __FILE__));
                   // transport is not open, so do it
                   fbConnectIsOpen=kTRUE; // tell connector thread that we try to open
-                  //cout <<"TimerConnect: connect before open" << endl;
+                  //std::cout <<"TimerConnect: connect before open" << std::endl;
                   Int_t result=fxConnectTransport->Open(ConnectHost(), fuConnectPort, kTRUE);
                   if(result==0)
                      {
@@ -459,24 +459,24 @@ Int_t TGo4HistogramServer::TimerConnect()
                }
             else
                {
-                TRACE((10,"TGo4HistogramServer::TimerConnect()--transport already open",__LINE__, __FILE__));
+                GO4TRACE((10,"TGo4HistogramServer::TimerConnect()--transport already open",__LINE__, __FILE__));
                   // transport was already open, do nothing
                   rev+=8;
                }
          } // if(fxConnectTransport!=0)
       else
          {
-               TRACE((10,"TGo4HistogramServer::TimerConnect()--no transport specified",__LINE__, __FILE__));
+               GO4TRACE((10,"TGo4HistogramServer::TimerConnect()--no transport specified",__LINE__, __FILE__));
                rev+=64;
          }
       } //// if(fbConnectRequest)
    else
       {
-      TRACE((15,"TGo4HistogramServer::TimerConnect()--NO ConnectRequest",__LINE__, __FILE__));
+      GO4TRACE((15,"TGo4HistogramServer::TimerConnect()--NO ConnectRequest",__LINE__, __FILE__));
          // no open request, continue
          rev+=16;
       }
-//   cout <<"TimerConnect: before return" << endl;
+//   std::cout <<"TimerConnect: before return" << std::endl;
    return rev;
 }
 
@@ -485,7 +485,7 @@ Int_t TGo4HistogramServer::TimerConnect()
 Int_t TGo4HistogramServer::WaitForOpen()
 
 {
-   TRACE((12,"TGo4HistogramServer::WaitForOpen()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4HistogramServer::WaitForOpen()",__LINE__, __FILE__));
    Int_t count=0;
    while(!fbConnectIsOpen)
       {
@@ -506,7 +506,7 @@ Int_t TGo4HistogramServer::WaitForOpen()
             TGo4Thread::Sleep(TGo4HistogramServer::fguOPENWAITCYCLETIME);
             ++count;
             }
-      //cout << "*****WaitForOpen()"<<endl;
+      //std::cout << "*****WaitForOpen()"<< std::endl;
       }
    fbConnectIsOpen=kFALSE; //  reset for next time
    return count;
@@ -517,14 +517,14 @@ Int_t TGo4HistogramServer::WaitForOpen()
 Int_t TGo4HistogramServer::WaitForClose()
 
 {
-   TRACE((12,"TGo4HistogramServer::WaitForClose()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4HistogramServer::WaitForClose()",__LINE__, __FILE__));
    Int_t count=0;
    while(!fbConnectIsClose)
       {
-          //cout <<"Waiting for close..." << endl;
+          //std::cout <<"Waiting for close..." << std::endl;
           if(count>TGo4HistogramServer::fgiCLOSEWAITCYCLES)
             {
-               //cout <<"reached closewaitcycles "<< count << endl;
+               //std::cout <<"reached closewaitcycles "<< count << std::endl;
                count = -1; // timeout
                break;
             }
@@ -533,7 +533,7 @@ Int_t TGo4HistogramServer::WaitForClose()
                TGo4Thread::Sleep(TGo4HistogramServer::fguCLOSEWAITCYCLETIME);
                ++count;
          }
-      //cout << "*****WaitForClose() "<<count<< endl;
+      //std::cout << "*****WaitForClose() "<<count<< std::endl;
       }
    fbConnectIsClose=kFALSE; //  reset for next time
    return count;
@@ -543,7 +543,7 @@ Int_t TGo4HistogramServer::WaitForClose()
 Int_t TGo4HistogramServer::WaitForConnection()
 
 {
-   TRACE((12,"TGo4HistogramServer::WaitForConnection()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4HistogramServer::WaitForConnection()",__LINE__, __FILE__));
    Int_t count=0;
    while(!fbConnectIsDone)
       {
@@ -559,7 +559,7 @@ Int_t TGo4HistogramServer::WaitForConnection()
                TGo4Thread::Sleep(TGo4HistogramServer::fguCONNECTWAITCYCLETIME);
                ++count;
             }
-         //cout << "*****WaitForConnection()"<<endl;
+         //std::cout << "*****WaitForConnection()"<< std::endl;
       }
    fbConnectIsDone=kFALSE; //  reset for next time
    return count;

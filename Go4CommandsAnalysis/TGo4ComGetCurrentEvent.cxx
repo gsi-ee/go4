@@ -29,7 +29,7 @@ TGo4ComGetCurrentEvent::TGo4ComGetCurrentEvent(const char* obname) :
    fbPrintoutOnly(kFALSE),
    fbTreeMode(kTRUE)
 {
-   TRACE((12,"TGo4ComGetCurrentEvent::TGo4ComGetCurrentEvent(const char*) ctor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComGetCurrentEvent::TGo4ComGetCurrentEvent(const char*) ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                        // override default receiver
 }
@@ -40,20 +40,20 @@ TGo4ComGetCurrentEvent::TGo4ComGetCurrentEvent() :
    fbPrintoutOnly(kFALSE),
    fbTreeMode(kTRUE)
  {
-   TRACE((12,"TGo4ComGetCurrentEvent::TGo4ComGetCurrentEvent() ctor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComGetCurrentEvent::TGo4ComGetCurrentEvent() ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                        // override default receiver
 }
 
 TGo4ComGetCurrentEvent::~TGo4ComGetCurrentEvent()
 {
-   TRACE((12,"TGo4ComGetCurrentEvent::~TGo4ComGetCurrentEvent() dtor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComGetCurrentEvent::~TGo4ComGetCurrentEvent() dtor",__LINE__, __FILE__));
 }
 
 
 Int_t TGo4ComGetCurrentEvent::ExeCom()
 {
-   TRACE((12,"TGo4ComGetCurrentEvent::ExeCom()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComGetCurrentEvent::ExeCom()",__LINE__, __FILE__));
 
    TGo4Log::Debug(" Executing %s : Event %s requested, isoutput=%d, printoutonly=%d ",
          GetName(), GetObjectName(), IsOutputEvent(), IsPrintoutOnly() );
@@ -61,7 +61,7 @@ Int_t TGo4ComGetCurrentEvent::ExeCom()
    TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
 
    if (cli==0) {
-      TRACE((11,"TGo4ComGetCurrentEvent::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
+      GO4TRACE((11,"TGo4ComGetCurrentEvent::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
       TGo4Log::Debug(" !!! %s : NO or WRONG RECEIVER ERROR!!!",GetName());
       return 1;
    }

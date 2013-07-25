@@ -96,7 +96,7 @@ TGo4Parameter* TGo4ParameterStatus::CreateParameter()
 
 Int_t TGo4ParameterStatus::PrintStatus(Text_t* buffer, Int_t buflen)
 {
-   TRACE((12,"TGo4ParameterStatus::PrintStatus()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ParameterStatus::PrintStatus()",__LINE__, __FILE__));
    if(buflen<=0 && buffer!=0) return 0;
    Int_t locallen = 128000;
    Text_t localbuf[128000];

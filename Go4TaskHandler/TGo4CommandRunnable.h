@@ -42,7 +42,7 @@ class TGo4CommandRunnable : public TGo4TaskHandlerRunnable {
    private:
       TGo4CommandRunnable();
 
-      /** for error in socket: redirect cout/cerr to dummy buffer to
+      /** for error in socket: redirect std::cout/std::cerr to dummy buffer to
        * avoid trouble if client is running in dying QProcess */
       void RedirectIO();
 

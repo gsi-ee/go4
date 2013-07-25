@@ -145,7 +145,7 @@ TObject* TGo4ObjClient::ReceiveObject()
             TDirectory* savdir=gDirectory;
             gROOT->cd(); // be sure to be in the top directory when creating histo
             buffer->SetReadMode();
-            //cout << "Reading object from buffer..."<< endl;
+            //std::cout << "Reading object from buffer..."<< std::endl;
             buffer->Reset();
             obj=buffer->ReadObject(0); // ReadObject(cl)
             if(obj) std::cout <<"read object of class"<<obj->ClassName() << std::endl;

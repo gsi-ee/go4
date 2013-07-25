@@ -38,7 +38,7 @@ TGo4Parameter::TGo4Parameter() :
 TGo4Parameter::TGo4Parameter(const char* name, const char* title) :
    TNamed(name ? name : "Parameter", title)
 {
-   TRACE((12,"TGo4Parameter ::TGo4Parameter (const char*, const char*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Parameter ::TGo4Parameter (const char*, const char*)",__LINE__, __FILE__));
 
 }
 
@@ -51,7 +51,7 @@ void TGo4Parameter::Print(Option_t* dummy) const
 
 Int_t TGo4Parameter::PrintParameter(Text_t* buffer, Int_t buflen)
 {
-   TRACE((12,"TGo4Parameter ::PrintParameter()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Parameter ::PrintParameter()",__LINE__, __FILE__));
    //
    if(buflen<=0 && buffer!=0) return 0;
 
@@ -91,7 +91,7 @@ Int_t TGo4Parameter::PrintParameter(Text_t* buffer, Int_t buflen)
 
 TGo4Parameter::~TGo4Parameter()
 {
-   TRACE((12,"TGo4Parameter ::~TGo4Parameter ()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Parameter ::~TGo4Parameter ()",__LINE__, __FILE__));
 }
 
 Bool_t TGo4Parameter::UpdateFrom(TGo4Parameter* rhs)

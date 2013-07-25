@@ -46,7 +46,7 @@
 #include "TMethodArg.h"
 #include "TColor.h"
 #include "TLatex.h"
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TGo4LockGuard.h"
 
@@ -144,7 +144,7 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
 void QRootCanvas::mousePressEvent( QMouseEvent *e )
 {
    TGo4LockGuard threadlock(0,true);
-   //cout <<"----- QRootCanvas::mousePressEvent" << endl;
+   //std::cout <<"----- QRootCanvas::mousePressEvent" << std::endl;
    TObjLink* pickobj = 0;
    TPad* pad = fCanvas->Pick(e->x(), e->y(), pickobj);
    TObject *selected = fCanvas->GetSelected();
@@ -705,7 +705,7 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
          basictype = datatype->GetTypeName();
       } else {
          if (type.CompareTo("enum") != 0)
-            cout << "*** Warning in Dialog(): data type is not basic type, assuming (int)\n";
+            std::cout << "*** Warning in Dialog(): data type is not basic type, assuming (int)\n";
          basictype = "int";
       }
 
@@ -747,7 +747,7 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
 
          TList *opt;
          if ((opt = m->GetOptions()) != 0) {
-            //cout << "*** Warning in Dialog(): option menu not yet implemented " << opt << endl;
+            //std::cout << "*** Warning in Dialog(): option menu not yet implemented " << opt << std::endl;
             // should stop dialog
             // workaround JAM: do not stop dialog, use textfield (for time display toggle)
             dlg.addArg(argTitle.Data(), val.Data(), type.Data());
@@ -779,7 +779,7 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
 
    qDebug("DIAL obj:%s meth:%s \n", object->GetName(), method->GetName());
 
-   //cout<< "executeMethod" << fCurMethod->GetName() << endl;
+   //std::cout<< "executeMethod" << fCurMethod->GetName() << std::endl;
 
    TObjArray tobjlist(method->GetListOfMethodArgs()->LastIndex() + 1);
    for (int n=0; n<=method->GetListOfMethodArgs()->LastIndex(); n++) {

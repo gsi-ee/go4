@@ -30,27 +30,27 @@ TFile myfile(filename.Data(),"READ");
 TFolder* topfold=(TFolder*) myfile.Get("Go4");
 if(topfold)
 {
-  cout <<"Got go4 folder of file "<<filename.Data() << endl;
+  std::cout <<"Got go4 folder of file "<<filename.Data() << std::endl;
   TObject* myobject=topfold->FindObjectAny(histoname.Data());
   if(myobject)
     {
       std::ofstream outfile(outname.Data());
       if(!outfile)
         {
-          cout <<"Error opening outputfile "<<outname.Data() << endl;
+          std::cout <<"Error opening outputfile "<<outname.Data() << std::endl;
           return;
         }
       if(myobject->InheritsFrom("TH1"))
         {
           TH1* histo= (TH1*) myobject;
-          cout <<"Found histogram "<< histo->GetName() << endl;
+          std::cout <<"Found histogram "<< histo->GetName() << std::endl;
           Int_t maxbinX=histo->GetNbinsX();
           Int_t maxbinY=histo->GetNbinsY();
           Int_t maxbinZ=histo->GetNbinsZ();
           Int_t globalbin=0;
           Stat_t  cont=0;
-          outfile <<"# Histogram "<<histo->ClassName() <<": "<<histo->GetName()<<endl;
-          outfile <<"# Xbin \tYbin \tZbin \tContent"<<endl;
+          outfile <<"# Histogram "<<histo->ClassName() <<": "<<histo->GetName()<< std::endl;
+          outfile <<"# Xbin \tYbin \tZbin \tContent"<< std::endl;
           for(Int_t x=0; x<maxbinX; ++x)
             {
               for(Int_t y=0; y<maxbinY; ++y)
@@ -59,7 +59,7 @@ if(topfold)
                     {
                       globalbin=histo->GetBin(x,y,z);
                       cont=histo->GetBinContent(globalbin);
-                      outfile <<x<<" \t"<<y<<" \t"<<z<<" \t"<<cont<<endl;
+                      outfile <<x<<" \t"<<y<<" \t"<<z<<" \t"<<cont<< std::endl;
                     }
                 }
 
@@ -68,17 +68,17 @@ if(topfold)
       else if (myobject->InheritsFrom("TGraph"))
         {
           TGraph* graph= (TGraph*) myobject;
-          cout <<"Found graph "<< graph->GetName() << endl;
+          std::cout <<"Found graph "<< graph->GetName() << std::endl;
           Int_t maxpoints=graph->GetN();
 
-          outfile <<"# Graph "<<graph->ClassName() <<": "<<graph->GetName()<<endl;
-          outfile <<"# Point \tX \tY"<<endl;
+          outfile <<"# Graph "<<graph->ClassName() <<": "<<graph->GetName()<< std::endl;
+          outfile <<"# Point \tX \tY"<< std::endl;
           for(Int_t point=0; point<maxpoints; ++point)
             {
               Double_t xg=0;
               Double_t yg=0;
               graph->GetPoint(point,xg,yg);
-              outfile <<point<<" \t\t"<<xg<<" \t"<<yg<<endl;
+              outfile <<point<<" \t\t"<<xg<<" \t"<<yg<< std::endl;
             }
         }
       outfile.close();
@@ -86,7 +86,7 @@ if(topfold)
     }
   else
     {
-      cout <<"Did not find object "<<histoname.Data() << endl;
+      std::cout <<"Did not find object "<<histoname.Data() << std::endl;
     }
 
 }

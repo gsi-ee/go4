@@ -24,7 +24,7 @@ TGo4LockGuard::TGo4LockGuard (TMutex* mutex, Bool_t)
 //: fbForceLock(forcelock)
 {
    // first call: create main mutex
-	//  cout <<"G-----TGo4LockGuard ctor" << endl;
+	//  std::cout <<"G-----TGo4LockGuard ctor" << std::endl;
 	//
    if(fgxMainMutex==0)
       fgxMainMutex= new TMutex(kTRUE); // we use recursive mode for cascading lockguards
@@ -67,8 +67,8 @@ TGo4LockGuard::TGo4LockGuard (TMutex* mutex, Bool_t)
                fgiLockCount++;
                //if(TGo4Log::GetIgnoreLevel()>5)
 //                   {
-//                    cout <<"G-----{ Global Mutex "<< fxMutex << "acquired by thread id: "<<id;
-//                    cout<< ", count:"<< fgiLockCount << endl;
+//                    std::cout <<"G-----{ Global Mutex "<< fxMutex << "acquired by thread id: "<<id;
+//                    std::cout<< ", count:"<< fgiLockCount << std::endl;
 //                   }
             }
       }
@@ -88,7 +88,7 @@ TGo4LockGuard::~TGo4LockGuard()
            {
 //              if(TGo4Log::GetIgnoreLevel()>5)
 //                   {
-//                    cout <<"}-----G Local Mutex "<< fxMutex << "released by thread id: "<<id << endl;
+//                    std::cout <<"}-----G Local Mutex "<< fxMutex << "released by thread id: "<<id << std::endl;
 //                   }
            }
         else
@@ -96,8 +96,8 @@ TGo4LockGuard::~TGo4LockGuard()
                fgiLockCount--;
 //               if(TGo4Log::GetIgnoreLevel()>5)
 //                   {
-//                     cout <<"}-----G Global Mutex "<< fxMutex << "released by thread id: "<<id << endl;
-//                     cout<< ", count:"<< fgiLockCount << endl;
+//                     std::cout <<"}-----G Global Mutex "<< fxMutex << "released by thread id: "<<id << std::endl;
+//                     std::cout<< ", count:"<< fgiLockCount << std::endl;
 //                   }
             }
          fxMutex->UnLock();

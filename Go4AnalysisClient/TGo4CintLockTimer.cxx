@@ -38,7 +38,7 @@ Bool_t TGo4CintLockTimer::Notify()
    {
       //if(TThread::Exists()) TGo4LockGuard::UnLockMainMutex();
       fxParent->UnLockAll();
-      //cout <<"U TGo4CintLockTimer unlocked" << endl;
+      //std::cout <<"U TGo4CintLockTimer unlocked" << std::endl;
       fbHaveLock=kFALSE;
    }
 
@@ -47,7 +47,7 @@ Bool_t TGo4CintLockTimer::Notify()
    {
       //if(TThread::Exists()) TGo4LockGuard::LockMainMutex();
       fxParent->LockAll();
-      //cout <<"L TGo4CintLockTimer has lock" << endl;
+      //std::cout <<"L TGo4CintLockTimer has lock" << std::endl;
       fbHaveLock=kTRUE;
    }
    Reset();

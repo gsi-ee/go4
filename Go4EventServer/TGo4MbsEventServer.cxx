@@ -20,7 +20,7 @@
 TGo4MbsEventServer::TGo4MbsEventServer(const char* name) :
    TGo4MbsSource(name, GETEVT__EVENT)
 {
-   TRACE((15,"TGo4MbsEventServer::TGo4MbsEventServer(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsEventServer::TGo4MbsEventServer(const char*)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Event Source MbsEventServer %s:  ",name);
 
@@ -30,7 +30,7 @@ TGo4MbsEventServer::TGo4MbsEventServer(const char* name) :
 TGo4MbsEventServer::TGo4MbsEventServer(TGo4MbsEventServerParameter* par) :
    TGo4MbsSource(par, GETEVT__EVENT)
 {
-   TRACE((15,"TGo4MbsEventServer::TGo4MbsEventServer(TGo4MbsEventServerParameter*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsEventServer::TGo4MbsEventServer(TGo4MbsEventServerParameter*)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Event Source MbsEventServer %s:  ",GetName());
 
@@ -40,11 +40,11 @@ TGo4MbsEventServer::TGo4MbsEventServer(TGo4MbsEventServerParameter* par) :
 TGo4MbsEventServer::TGo4MbsEventServer() :
    TGo4MbsSource()
 {
-   TRACE((15,"TGo4MbsEventServer::TGo4MbsEventServer()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsEventServer::TGo4MbsEventServer()",__LINE__, __FILE__));
 }
 
 TGo4MbsEventServer::~TGo4MbsEventServer()
 {
-   TRACE((15,"TGo4MbsEventServer::~TGo4MbsEventServer()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsEventServer::~TGo4MbsEventServer()",__LINE__, __FILE__));
    Close();
 }

@@ -20,12 +20,12 @@
 
 TGo4ExampleClientStatus::TGo4ExampleClientStatus(const char* name) : TGo4ClientStatus(name)
 {
-  TRACE((12,"TGo4ExampleClientStatus::TGo4ExampleClientStatus(const char*)",__LINE__, __FILE__));
+  GO4TRACE((12,"TGo4ExampleClientStatus::TGo4ExampleClientStatus(const char*)",__LINE__, __FILE__));
 }
 
 void TGo4ExampleClientStatus::SetHistoStatus(TH1* histogram)
 {
-   TRACE((12,"TGo4ClientStatus::SetHistoStatus(TH1*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ClientStatus::SetHistoStatus(TH1*)",__LINE__, __FILE__));
    fxHistogramName = histogram->GetName();
    // here the complete internal histogram information may be stored; we leave that
    // as an exercise for the reader!
@@ -33,14 +33,14 @@ void TGo4ExampleClientStatus::SetHistoStatus(TH1* histogram)
 
 void TGo4ExampleClientStatus::SetNames(const char* main, const char* watch)
 {
-   TRACE((12,"TGo4ClientStatus::SetNames(const char*,...)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ClientStatus::SetNames(const char*,...)",__LINE__, __FILE__));
    fxMainName = main;
    fxWatchName = watch;
 }
 
 Int_t TGo4ExampleClientStatus::PrintStatus(Text_t* buffer, Int_t buflen)
 {
-   TRACE((12,"TGo4ExampleClientStatus::PrintStatus()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ExampleClientStatus::PrintStatus()",__LINE__, __FILE__));
    //
    if(buflen<=0 && buffer!=0)return 0;
    Int_t locallen=4096;
@@ -74,5 +74,5 @@ Int_t TGo4ExampleClientStatus::PrintStatus(Text_t* buffer, Int_t buflen)
 
 TGo4ExampleClientStatus::~TGo4ExampleClientStatus()
 {
-  TRACE((12,"TGo4ExampleClientStatus::~TGo4ExampleClientStatus()",__LINE__, __FILE__));
+  GO4TRACE((12,"TGo4ExampleClientStatus::~TGo4ExampleClientStatus()",__LINE__, __FILE__));
 }

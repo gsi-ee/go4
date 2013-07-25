@@ -38,8 +38,7 @@
 
 #include "tqapplication.h"
 
-#include "go4iostream.h"
-
+#include "Riostream.h"
 #include "TROOT.h"
 #include "TSystem.h"
 #include "TGX11.h"

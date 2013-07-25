@@ -38,7 +38,7 @@ TGo4ObjectStatus::TGo4ObjectStatus(TObject* object, Bool_t withtime) :
    fxObjectClass(),
    fxStatusTime()
 {
-   TRACE((15,"TGo4ObjectStatus::TGo4ObjectStatus(TNamed*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ObjectStatus::TGo4ObjectStatus(TNamed*)",__LINE__, __FILE__));
    if(object) {
       SetName(object->GetName());
       SetTitle(object->GetTitle());
@@ -64,13 +64,13 @@ TGo4ObjectStatus::TGo4ObjectStatus(TObject* object, Bool_t withtime) :
 
 TGo4ObjectStatus::~TGo4ObjectStatus()
 {
-   TRACE((15,"TGo4ObjectStatus::~TGo4ObjectStatus()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ObjectStatus::~TGo4ObjectStatus()",__LINE__, __FILE__));
 
 }
 
 Int_t TGo4ObjectStatus::PrintStatus(Text_t* buffer, Int_t buflen)
 {
-   TRACE((12,"TGo4ObjectStatus::PrintStatus()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ObjectStatus::PrintStatus()",__LINE__, __FILE__));
    if(buflen<=0 && buffer!=0) return 0;
    Int_t locallen=2048;
    Text_t localbuf[2048];

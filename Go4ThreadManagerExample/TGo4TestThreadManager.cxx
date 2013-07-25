@@ -20,13 +20,13 @@
 TGo4TestThreadManager::TGo4TestThreadManager(const TGo4TestThreadManager &right)
    :TGo4ThreadManager(right)
 {
-  TRACE((15,"TGo4TestThreadManager::TGo4TestThreadManager copy ctor",__LINE__, __FILE__));
+  GO4TRACE((15,"TGo4TestThreadManager::TGo4TestThreadManager copy ctor",__LINE__, __FILE__));
 }
 
 TGo4TestThreadManager::TGo4TestThreadManager (const char* name)
    :TGo4ThreadManager(name,kFALSE)
 {
-   TRACE((15,"TGo4TestThreadManager::TGo4TestThreadManager (const char* name) constructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4TestThreadManager::TGo4TestThreadManager (const char* name) constructor",__LINE__, __FILE__));
    fxControlRunnable=new TGo4TestRunnable("ControlRunnable",this,1);
    TGo4TestRunnable* th1run= new TGo4TestRunnable("HistogramMaker1",this,4);
    TGo4TestRunnable* th2run= new TGo4TestRunnable("HistogramMaker2",this,4);
@@ -58,7 +58,7 @@ TGo4TestThreadManager::TGo4TestThreadManager (const char* name)
 
 TGo4TestThreadManager::~TGo4TestThreadManager()
 {
-   TRACE((15,"TGo4TestThreadManager::~TGo4TestThreadManager destructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4TestThreadManager::~TGo4TestThreadManager destructor",__LINE__, __FILE__));
    delete fxPad1;
    delete fxPad2;
    delete fxCanvas;
@@ -66,25 +66,25 @@ TGo4TestThreadManager::~TGo4TestThreadManager()
 
 Int_t TGo4TestThreadManager::TestAction ()
 {
-  TRACE((14,"TGo4TestThreadManager::TestAction",__LINE__, __FILE__));
+  GO4TRACE((14,"TGo4TestThreadManager::TestAction",__LINE__, __FILE__));
   // no test action so far...
   return 0;
 }
 
 TCanvas* TGo4TestThreadManager::GetCanvas ()
 {
-   TRACE((12,"TGo4TestThreadManager::GetCanvas",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4TestThreadManager::GetCanvas",__LINE__, __FILE__));
    return fxCanvas;
 }
 
 TPad* TGo4TestThreadManager::GetPad1 ()
 {
-   TRACE((12,"TGo4TestThreadManager::GetPad1",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4TestThreadManager::GetPad1",__LINE__, __FILE__));
    return fxPad1;
 }
 
 TPad* TGo4TestThreadManager::GetPad2 ()
 {
-   TRACE((12,"TGo4TestThreadManager::GetPad2",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4TestThreadManager::GetPad2",__LINE__, __FILE__));
    return fxPad2;
 }

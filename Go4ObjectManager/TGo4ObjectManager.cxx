@@ -254,7 +254,7 @@ TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname, con
 
    TGo4Slot* slot = MakeObjSlot(pathname, linkname, linktitle);
 
-//   cout << "TGo4ObjectManager::AddLink in " << pathname << " source = " << source->GetFullName() << endl;
+//   std::cout << "TGo4ObjectManager::AddLink in " << pathname << " source = " << source->GetFullName() << std::endl;
 
    if (slot!=0)
      slot->SetProxy(new TGo4LinkProxy(source));
@@ -267,8 +267,8 @@ TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname, con
       link->GetSource()->ProduceFullName(namesrc);
       link->GetTarget()->ProduceFullName(nametgt);
 
-//      cout << "indx = " << indx
-//          << "  source = " << namesrc << " target = " << nametgt << endl;
+//      std::cout << "indx = " << indx
+//          << "  source = " << namesrc << " target = " << nametgt << std::endl;
    }
 
    return slot;
@@ -282,10 +282,10 @@ TGo4Slot* TGo4ObjectManager::AddLink(TGo4Slot* source, const char* pathname)
 
    TGo4Slot* slot = MakeObjSlot(pathname, source->GetName(), source->GetTitle());
 
-//   cout << "Make link in path " << pathname << " with name " << source->GetName() << endl;
+//   std::cout << "Make link in path " << pathname << " with name " << source->GetName() << std::endl;
 
-//   if (slot!=0) cout << " slot = " << slot->GetName() <<
-//                        "  parent = " << slot->GetParent()->GetName() << endl;
+//   if (slot!=0) std::cout << " slot = " << slot->GetName() <<
+//                        "  parent = " << slot->GetParent()->GetName() << std::endl;
 
    if (slot!=0)
      slot->SetProxy(new TGo4LinkProxy(source));
@@ -469,7 +469,7 @@ void TGo4ObjectManager::RecursiveRemove(TObject* obj)
          fCleanups.Remove(entry);
 
          entry->GetSlot()->RecursiveRemove(obj);
-//         cout << "TGo4ObjectManager::RecursiveRemove " << entry->GetSlot()->GetFullName() << "  " << obj->GetName() << endl;
+//         std::cout << "TGo4ObjectManager::RecursiveRemove " << entry->GetSlot()->GetFullName() << "  " << obj->GetName() << std::endl;
          entry->GetSlot()->ForwardEvent(entry->GetSlot(), evObjDeleted, obj);
          delete entry;
          compress = kTRUE;

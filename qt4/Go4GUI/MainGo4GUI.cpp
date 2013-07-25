@@ -32,8 +32,9 @@
 #include "TGo4QSettings.h"
 #include "TGo4AbstractInterface.h"
 
-#include "go4iostream.h"
 #include "TROOT.h"
+#include "Riostream.h"
+
 
 #ifndef WIN32
 #include "TGX11.h"
@@ -60,7 +61,7 @@ int main(int argc, char **argv)
 #endif
 
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
-      cerr << "Please configure your system correctly and restart go4 again" << endl;
+      std::cerr << "Please configure your system correctly and restart go4 again" << std::endl;
       return -1;
    }
 
@@ -81,7 +82,7 @@ int main(int argc, char **argv)
 
       if (argv[narg][0]=='-') {
          if(!strcmp(argv[narg], "-debug")) {
-            cout << "G-OOOO-> MainGo4GUI switched on debug output" << endl;
+            std::cout << "G-OOOO-> MainGo4GUI switched on debug output" << std::endl;
             traceon = true;
          } else
          if((strcmp(argv[narg], "-observer")==0) ||
@@ -168,8 +169,8 @@ int main(int argc, char **argv)
    if(traceon) TGo4Log::SetIgnoreLevel(0);
           else TGo4Log::SetIgnoreLevel(1);
 
-   cout << "   Go4 " << __GO4RELEASE__
-        << ",   build with ROOT " << ROOT_RELEASE << " and Qt " << QT_VERSION_STR << endl;
+   std::cout << "   Go4 " << __GO4RELEASE__
+        << ",   build with ROOT " << ROOT_RELEASE << " and Qt " << QT_VERSION_STR << std::endl;
    // create instance, which should be used everywhere
 
    TGo4MainWindow* Go4MainGUI = new TGo4MainWindow(&myapp);

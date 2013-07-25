@@ -23,7 +23,7 @@ TGo4BackStoreParameter::TGo4BackStoreParameter(const char* name,
 : TGo4EventStoreParameter(name, GO4EV_BACK),
    fiSplit(splitlevel), fiBufsize(bufsize)
 {
-   TRACE((14,"TGo4FileStoreParameter::TGo4FileStoreParameter(const char*,...)", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4FileStoreParameter::TGo4FileStoreParameter(const char*,...)", __LINE__, __FILE__));
    SetTitle(name);
 }
 
@@ -31,18 +31,18 @@ TGo4BackStoreParameter::TGo4BackStoreParameter()
 : TGo4EventStoreParameter("Default Go4 FileStore", GO4EV_BACK),
    fiSplit(99), fiBufsize(64000)
 {
-   TRACE((14,"TGo4FileStoreParameter::TGo4FileStoreParameter()", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4FileStoreParameter::TGo4FileStoreParameter()", __LINE__, __FILE__));
    SetTitle("Go4FileStore-Tree");
 }
 
 TGo4BackStoreParameter::~TGo4BackStoreParameter()
 {
-   TRACE((14,"TGo4FileStoreParameter::~TGo4FileStoreParameter()", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4FileStoreParameter::~TGo4FileStoreParameter()", __LINE__, __FILE__));
 }
 
 Int_t TGo4BackStoreParameter::PrintParameter(Text_t* buffer, Int_t buflen)
 {
- TRACE((12,"TGo4FileStoreParameter::PrintParameter()",__LINE__, __FILE__));
+ GO4TRACE((12,"TGo4FileStoreParameter::PrintParameter()",__LINE__, __FILE__));
    Int_t locallen=128000;
    Text_t localbuf[128000];
    if(buflen<0 && buffer!=0) return 0;
@@ -72,7 +72,7 @@ Int_t TGo4BackStoreParameter::PrintParameter(Text_t* buffer, Int_t buflen)
 
 Bool_t TGo4BackStoreParameter::UpdateFrom(TGo4Parameter* rhs)
 {
-   TRACE((12,"TGo4BackStoreParameter::UpdateFrom()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4BackStoreParameter::UpdateFrom()",__LINE__, __FILE__));
    TGo4BackStoreParameter* backpar=dynamic_cast<TGo4BackStoreParameter*>(rhs);
    if(backpar==0) return kFALSE;
    if(!TGo4EventStoreParameter::UpdateFrom(rhs)) return kFALSE;

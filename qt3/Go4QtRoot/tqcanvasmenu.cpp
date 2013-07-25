@@ -17,12 +17,11 @@
 
 #include "tqcanvasmenu.h"
 
-#include "go4iostream.h"
-
 #include "qpopupmenu.h"
 #include "qinputdialog.h"
 #include "qcolordialog.h"
 
+#include "Riostream.h"
 #include "TH1.h"
 #include "TPad.h"
 #include "TCanvas.h"
@@ -241,7 +240,7 @@ void TQCanvasMenu::dialog(TObject* object, TMethod* method)
        strncpy(basictype, datatype->GetTypeName(),31);
      } else {
        if (strncmp(type, "enum", 4) != 0)
-    cout << "*** Warning in Dialog(): data type is not basic type, assuming (int)\n";
+    std::cout << "*** Warning in Dialog(): data type is not basic type, assuming (int)\n";
        strcpy(basictype, "int");
       }
 
@@ -283,7 +282,7 @@ void TQCanvasMenu::dialog(TObject* object, TMethod* method)
 
    TList *opt;
    if ((opt = m->GetOptions())) {
-     //cout << "*** Warning in Dialog(): option menu not yet implemented " << opt << endl;
+     //std::cout << "*** Warning in Dialog(): option menu not yet implemented " << opt << std::endl;
      // should stop dialog
      // workaround JAM: do not stop dialog, use textfield (for time display toggle)
                 fDialog->add(argname, val, type);

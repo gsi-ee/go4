@@ -33,7 +33,7 @@ TYYYUnpackEvent::~TYYYUnpackEvent()
 void  TYYYUnpackEvent::Clear(Option_t *t)
 {
    void* destfield;
-   //cout << "+++ event clear" << endl;
+   //std::cout << "+++ event clear" << std::endl;
    destfield = (void*) &fdR[0];
    memset(destfield, 0, sizeof(fdR));
    destfield = (void*) &fdV[0];

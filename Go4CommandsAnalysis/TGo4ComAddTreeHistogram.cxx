@@ -21,14 +21,14 @@
 TGo4ComAddTreeHistogram::TGo4ComAddTreeHistogram()
 :TGo4AnalysisCommand("ANAddTreeHis","Add a tree histogram to dynamic list")
 {
-   TRACE((12,"TGo4ComAddTreeHistogram::TGo4ComAddTreeHistogram() ctor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComAddTreeHistogram::TGo4ComAddTreeHistogram() ctor",__LINE__, __FILE__));
    SetProtection(kGo4ComModeController);
 }
 
 TGo4ComAddTreeHistogram::TGo4ComAddTreeHistogram(const char* histogramname, const char* treename,const char* varexp, const char* cut)
 :TGo4AnalysisCommand("ANAddTreeHis","Add a tree histogram to dynamic list")
 {
-   TRACE((12,"TGo4ComAddTreeHistogram::TGo4ComAddTreeHistogram() ctor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComAddTreeHistogram::TGo4ComAddTreeHistogram() ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                                  // to send back status message
    SetProtection(kGo4ComModeController);
@@ -41,7 +41,7 @@ TGo4ComAddTreeHistogram::TGo4ComAddTreeHistogram(const char* histogramname, cons
 
 TGo4ComAddTreeHistogram::~TGo4ComAddTreeHistogram()
 {
-   TRACE((12,"TGo4ComAddTreeHistogram::~TGo4ComAddTreeHistogram() dtor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComAddTreeHistogram::~TGo4ComAddTreeHistogram() dtor",__LINE__, __FILE__));
 }
 
 void TGo4ComAddTreeHistogram::Set(TGo4RemoteCommand* remcom)
@@ -57,7 +57,7 @@ SetCut(remcom->GetString(3));
 
 Int_t TGo4ComAddTreeHistogram::ExeCom()
 {
-   TRACE((12,"TGo4ComAddTreeHistogram::ExeCom()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComAddTreeHistogram::ExeCom()",__LINE__, __FILE__));
 
    TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
    if(cli)
@@ -95,7 +95,7 @@ Int_t TGo4ComAddTreeHistogram::ExeCom()
       } // if cli
    else
       {
-      TRACE((11,"TGo4ComAddTreeHistogram::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
+      GO4TRACE((11,"TGo4ComAddTreeHistogram::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
          TGo4Log::Debug(" !!! ComAddTreeHistogram ''%s'': NO RECEIVER ERROR!!!",GetName());
 
          return 1;

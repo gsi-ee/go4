@@ -13,11 +13,11 @@
 
 #include "QFitItem.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
+#include "TObject.h"
 
 #include "qstring.h"
 
-#include "TObject.h"
 #include "TGo4FitPanel.h"
 
 QFitItem::QFitItem(TGo4FitPanel* panel, QFitItem* parent, TObject* iObj, int iObjectType, int iWidgetType, int iPopupMenuType, int iGraphType, int iTag ) :

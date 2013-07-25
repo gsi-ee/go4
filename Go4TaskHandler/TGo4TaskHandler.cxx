@@ -162,7 +162,7 @@ TGo4Socket* TGo4TaskHandler::ServerRequest(const char* host)
       {
          // client and server know each other- we continue
          TString myname=fxThreadManager->GetName();
-         //cout <<"ServerRequest sends name "<<myname.Data() << endl;
+         //std::cout <<"ServerRequest sends name "<<myname.Data() << std::endl;
          connector->Send(myname.Data()); // tell server the client name
          connector->Send(gSystem->HostName()); // tell server our machine hostname
          return connector;
@@ -295,10 +295,10 @@ Bool_t TGo4TaskHandler::Connect(const char* host, TGo4Socket* connector)
 Bool_t TGo4TaskHandler::ServerLogin(TGo4Socket* connector, Go4CommandMode_t account)
 {
    if(connector==0) return kFALSE;
-   //cout <<"ServerLogin with mode "<<account << endl;
-   //cout <<"observer account is "<<TGo4TaskHandler::fgxOBSERVERACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxOBSERVERACCOUNT.GetTitle() << endl;
-   //cout <<"controller account is "<<TGo4TaskHandler::fgxCONTROLLERACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxCONTROLLERACCOUNT.GetTitle() << endl;
-   //cout <<"admin account is "<<TGo4TaskHandler::fgxADMINISTRATORACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxADMINISTRATORACCOUNT.GetTitle() << endl;
+   //std::cout <<"ServerLogin with mode "<<account << std::endl;
+   //std::cout <<"observer account is "<<TGo4TaskHandler::fgxOBSERVERACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxOBSERVERACCOUNT.GetTitle() << std::endl;
+   //std::cout <<"controller account is "<<TGo4TaskHandler::fgxCONTROLLERACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxCONTROLLERACCOUNT.GetTitle() << std::endl;
+   //std::cout <<"admin account is "<<TGo4TaskHandler::fgxADMINISTRATORACCOUNT.GetName()<<", "<<TGo4TaskHandler::fgxADMINISTRATORACCOUNT.GetTitle() << std::endl;
 
    connector->Send(fgcOK); // tell server that we are a valid client
 
@@ -360,7 +360,7 @@ Bool_t TGo4TaskHandler::DisConnect(Bool_t waitforclient)
             /////
             connector->Send(fgcDISCONNECT); // tell server we want to disconnect
             StopTransportThreads(kTRUE);// wait until threads are really stopped
-            //cout <<"TASKHANDLER DISCONNECT closing the transports now.... " <<endl;
+            //std::cout <<"TASKHANDLER DISCONNECT closing the transports now.... " << std::endl;
             CloseChannels();
             connector->Send(fgcOK); // tell server we finished transports
             // server will close its transport sockets after this
@@ -404,7 +404,7 @@ void TGo4TaskHandler::CloseChannels(Option_t* opt)
    //TString option=opt;
    //if(option=="force")
    //   {
-   //   cout <<"sSSSSSSSSSSSS CloseChannels sending abort buffer" << endl;
+   //   std::cout <<"sSSSSSSSSSSSS CloseChannels sending abort buffer" << std::endl;
    //   TGo4Task* task=dynamic_cast<TGo4Task*>(fxThreadManager);
    //   // provoke socket exception on receiver channels:
    //   if(fbMasterMode)
@@ -494,7 +494,7 @@ Bool_t TGo4TaskHandler::ConnectServerChannel(const char* name, TGo4Socket* negot
    TString localbuffer;
    localbuffer.Form("%d",port);
    negotiator->Send(localbuffer.Data()); // tell client the port number;
-   //cout <<"------- ConnectServerChannel offers portnumber "<< localbuffer<< " for Channel "<< name << endl;
+   //std::cout <<"------- ConnectServerChannel offers portnumber "<< localbuffer<< " for Channel "<< name << std::endl;
    revchar=negotiator->RecvRaw("dummy"); // wait for client connection ok
    if(revchar && !strcmp(revchar,TGo4TaskHandler::fgcOK))
    {
@@ -547,7 +547,7 @@ Bool_t TGo4TaskHandler::ConnectClientChannel(const char* name, TGo4Socket * nego
       recvchar=negotiator->RecvRaw("dummy");
       TString localbuffer = recvchar;
       port=atoi(localbuffer.Data());
-      //      cout <<"------- TaskHandler::Connect client tries port  "<< port << "for Channel "<< name << endl;
+      //      std::cout <<"------- TaskHandler::Connect client tries port  "<< port << "for Channel "<< name << std::endl;
       channel->Open(host,port);  // in client mode, we connect directly (main thread!)
       TGo4Log::Debug(" TaskHandler %s: Channel %s open!",GetName(), name );
       negotiator->Send(fgcOK); // tell server that open is ready
@@ -569,7 +569,7 @@ Int_t TGo4TaskHandler::WaitGetPort(TGo4Socket* sock)
    while(port==0)
    {
       port=sock->GetPort(); // get dynamically bound port number of server socket
-      //      cout <<"------- WaitGetPort has next portnumber "<< port << endl;
+      //      std::cout <<"------- WaitGetPort has next portnumber "<< port << std::endl;
       if(count>fgiPORTWAITCYCLES)
       {
          return -1;
@@ -604,7 +604,7 @@ Bool_t TGo4TaskHandler::StopTransportThreads(Bool_t wait)
       TGo4BufferQueue* comq= dynamic_cast<TGo4BufferQueue*>(GetCommandQueue());
       if(comq)
       {
-         //cout <<"SSSSSStopTransportThreads Waking command queue" << endl;
+         //std::cout <<"SSSSSStopTransportThreads Waking command queue" << std::endl;
          comq->Wake();
       }
    }

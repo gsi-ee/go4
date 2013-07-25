@@ -13,8 +13,9 @@
 
 #include "QFitMinuitWidget.h"
 
+#include "Riostream.h"
+
 #include "TGo4FitMinuit.h"
-#include "go4iostream.h"
 
 QFitMinuitWidget::QFitMinuitWidget(QWidget *parent, const char* name)
          : QFitNamedWidget(parent, name)

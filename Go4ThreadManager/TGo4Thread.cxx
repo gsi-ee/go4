@@ -25,7 +25,7 @@
 TGo4Thread::TGo4Thread(const TGo4Thread &right)
    :TNamed(right)
 {
-   TRACE((14,"TGo4Thread::TGo4Thread() copy constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4Thread::TGo4Thread() copy constructor",__LINE__, __FILE__));
    fxRunnable = right.fxRunnable;
    fbIsInternal = right.fbIsInternal;
    fxCondition = new TCondition();
@@ -40,7 +40,7 @@ TGo4Thread::TGo4Thread (const char* name, TGo4Runnable* runnable, Bool_t interna
    fbIsWaiting(kFALSE),
    fxThread(0)
 {
-   TRACE((14,"TGo4Thread::TGo4Thread(const char*, TGo4Runnable*, Bool_t) constructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4Thread::TGo4Thread(const char*, TGo4Runnable*, Bool_t) constructor",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Go4Thread ``%s'' created ",name);
    fxRunnable = runnable;
@@ -52,21 +52,21 @@ TGo4Thread::TGo4Thread (const char* name, TGo4Runnable* runnable, Bool_t interna
 
 TGo4Thread::~TGo4Thread()
 {
-   TRACE((14,"TGo4Thread::~TGo4Thread() destructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4Thread::~TGo4Thread() destructor",__LINE__, __FILE__));
 
    Stop();
    Cancel();
    delete fxCondition;
    if(fbIsInternal)
       {
-         TRACE((14,"TGo4Thread::~TGo4Thread() internal mode",__LINE__, __FILE__));
+         GO4TRACE((14,"TGo4Thread::~TGo4Thread() internal mode",__LINE__, __FILE__));
          TGo4Log::Debug(" Go4Thread ``%s'' deleting runnable ``%s'' ",
                   GetName(),fxRunnable->GetName());
          delete fxRunnable; // internal mode: go4thread responsible for runnable
       }
    else
       {
-         TRACE((14,"TGo4Thread::~TGo4Thread() non internal mode",__LINE__, __FILE__));
+         GO4TRACE((14,"TGo4Thread::~TGo4Thread() non internal mode",__LINE__, __FILE__));
          // do nothing
       }
 
@@ -74,7 +74,7 @@ TGo4Thread::~TGo4Thread()
 
 void TGo4Thread::Threadfunc (void* arg)
 {
-   TRACE((2,"TGo4Thread::Threadfunc(void*)",__LINE__, __FILE__));
+   GO4TRACE((2,"TGo4Thread::Threadfunc(void*)",__LINE__, __FILE__));
    TGo4Thread* go4th= (TGo4Thread*) arg; // we need reference to calling class instance
    TGo4Runnable* runnable = go4th->GetRunnable();
 
@@ -91,13 +91,13 @@ for(;;) // loop keeps thread alive after exception has occured...
    {
    try
       {
-      TRACE((1,"TGo4Thread::Threadfunc(void*) try block",__LINE__, __FILE__));
+      GO4TRACE((1,"TGo4Thread::Threadfunc(void*) try block",__LINE__, __FILE__));
       while(1)
          {
             TThread::CancelPoint();
             if( !(go4th->IsRunning()) )
                {
-                  TRACE((1,"TGo4Thread::Threadfunc(void*) waiting mode",__LINE__, __FILE__));
+                  GO4TRACE((1,"TGo4Thread::Threadfunc(void*) waiting mode",__LINE__, __FILE__));
                   TGo4Log::Debug(" Go4Thread ``%s'' (PID:%d) waiting...\n",
                            go4th->GetName(), go4th->GetPID());
                    go4th->SetWaiting(kTRUE);
@@ -114,7 +114,7 @@ for(;;) // loop keeps thread alive after exception has occured...
             if(go4th->IsCreated())
                // normal  mode: enter runnable
                {
-               TRACE((1,"TGo4Thread::Threadfunc(void*) entering running mode",__LINE__, __FILE__));
+               GO4TRACE((1,"TGo4Thread::Threadfunc(void*) entering running mode",__LINE__, __FILE__));
                   // call runnable prerun method before running:
                runnable->PreRun((void*) 0); // we are runnable's friend, can call protected method...
                while(go4th->IsRunning())
@@ -129,7 +129,7 @@ for(;;) // loop keeps thread alive after exception has occured...
             else
                // aborting mode after condition release: loop cancel point
                {
-                  TRACE((1,"TGo4Thread::Threadfunc(void*) entering Cancel loop",__LINE__, __FILE__));
+                  GO4TRACE((1,"TGo4Thread::Threadfunc(void*) entering Cancel loop",__LINE__, __FILE__));
                   TGo4Log::Debug(" Go4Thread ``%s''  entering Cancel loop\n ", go4th->GetName());
                   while(!(go4th->IsCreated()))
                      {
@@ -137,7 +137,7 @@ for(;;) // loop keeps thread alive after exception has occured...
                         #ifdef WIN32
                            return; // cancel point does not work on windows; escape to root thread framework...
                         #endif
-                        TRACE((1,"TGo4Thread::Threadfunc(void*) in Cancel loop",__LINE__, __FILE__));
+                        GO4TRACE((1,"TGo4Thread::Threadfunc(void*) in Cancel loop",__LINE__, __FILE__));
                         Sleep(500);
                         TThread::CancelPoint();
                         }
@@ -147,14 +147,14 @@ for(;;) // loop keeps thread alive after exception has occured...
     }// try
   catch(TGo4Exception& ex)
     {
-      TRACE((1,"TGo4Thread::Threadfunc(void*) Go4Exception Catch",__LINE__, __FILE__));
+      GO4TRACE((1,"TGo4Thread::Threadfunc(void*) Go4Exception Catch",__LINE__, __FILE__));
       runnable->ThreadCatch(ex);
       TThread::CancelPoint();
     }
 
   catch(...)
     {
-      TRACE((1,"TGo4Thread::Threadfunc(void*) Unexpected Catch",__LINE__, __FILE__));
+      GO4TRACE((1,"TGo4Thread::Threadfunc(void*) Unexpected Catch",__LINE__, __FILE__));
       //runnable->UnexpectedCatch(); // do not handle alien exceptions!
       TThread::CancelPoint();
       throw; // otherwise, we have trouble with newer pthread
@@ -166,7 +166,7 @@ for(;;) // loop keeps thread alive after exception has occured...
 
 Bool_t TGo4Thread::Create ()
 {
-   TRACE((14,"TGo4Thread::Create()",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4Thread::Create()",__LINE__, __FILE__));
    if(!fbIsCreated)
      // thread not existing, create it
      {
@@ -186,17 +186,17 @@ Bool_t TGo4Thread::Create ()
 
 Bool_t TGo4Thread::Cancel ()
 {
-    TRACE((14,"TGo4Thread::Cancel()",__LINE__, __FILE__));
+    GO4TRACE((14,"TGo4Thread::Cancel()",__LINE__, __FILE__));
 
     if(fbIsCreated)
     // thread existing, then cancel
    {
       TGo4Log::Debug(" Go4Thread ``%s'' --  Canceling TThread %d (PID:%d) ",
                GetName(), fiThreadSelfID, fiThreadPID);
-      //cout << "canceling thread "<<fiThreadSelfID<<endl;
+      //std::cout << "canceling thread "<<fiThreadSelfID<< std::endl;
       if(fxThread)
          {
-         TRACE((13,"TGo4Thread::Cancel() -- canceling existing TThread",__LINE__, __FILE__));
+         GO4TRACE((13,"TGo4Thread::Cancel() -- canceling existing TThread",__LINE__, __FILE__));
          fbIsCreated=kFALSE;
          fbIsRunning=kTRUE; // these settings let Threadfunc enter Cancel loop
          fxCondition->Signal();  // unlock condition mutex before deleting it
@@ -217,7 +217,7 @@ Bool_t TGo4Thread::Cancel ()
 //            // the following cleanup might fail on win32, better not do it...
 //         if(TThread::GetThread(fiThreadSelfID)!=0)
 //            {
-//               //cout <<"thread of "<<fiThreadSelfID<<" not yet deleted, do it now:" << endl;
+//               //std::cout <<"thread of "<<fiThreadSelfID<<" not yet deleted, do it now:" << std::endl;
 //               delete fxThread; // only delete thread if Cleanup method of TThread::Delete not yet invoked
 //            }
 //#endif
@@ -228,7 +228,7 @@ Bool_t TGo4Thread::Cancel ()
          }
       else
          {
-            TRACE((13,"TGo4Thread::Cancel() -- Error: TThread pointer is zero!",__LINE__, __FILE__));
+            GO4TRACE((13,"TGo4Thread::Cancel() -- Error: TThread pointer is zero!",__LINE__, __FILE__));
             TGo4Log::Debug(" Go4Thread ``%s'' Cancel -- Internal inconsistency error! ",GetName());
             throw TGo4RuntimeException();
          }
@@ -243,20 +243,20 @@ Bool_t TGo4Thread::Cancel ()
 
 Bool_t TGo4Thread::ReCreate ()
 {
-   TRACE((14,"TGo4Thread::ReCreate()",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4Thread::ReCreate()",__LINE__, __FILE__));
 
    TThread* oldthread;
    if(fbIsCreated)
     // thread existing, then recreate possible
 
     {
-    TRACE((13,"TGo4Thread::ReCreate() -- old TThread existing",__LINE__, __FILE__));
+    GO4TRACE((13,"TGo4Thread::ReCreate() -- old TThread existing",__LINE__, __FILE__));
     TGo4Log::Debug(" Recreating Go4Thread ``%s'' --  old TThread %d (PID:%d) ",
                GetName(), fiThreadSelfID, fiThreadPID);
-       //cout << "recreating thread "<<GetName()<<endl;
+       //std::cout << "recreating thread "<<GetName()<< std::endl;
       if(fxThread)
          {
-            TRACE((13,"TGo4Thread::ReCreate() -- recreating existing TThread",__LINE__, __FILE__));
+            GO4TRACE((13,"TGo4Thread::ReCreate() -- recreating existing TThread",__LINE__, __FILE__));
             Stop();// halt runnable
             oldthread=fxThread; // remember old TThread
             // first start new TThread of same Threadfunc and runnable:
@@ -281,9 +281,9 @@ Bool_t TGo4Thread::ReCreate ()
          }
       else
          {
-            TRACE((13,"TGo4Thread::ReCreate() -- Error: old TThread pointer is zero!",__LINE__, __FILE__));
+            GO4TRACE((13,"TGo4Thread::ReCreate() -- Error: old TThread pointer is zero!",__LINE__, __FILE__));
             TGo4Log::Debug(" Go4Thread ``%s'' ReCreate -- Internal inconsistency error! ",GetName());
-            //cout << "TGo4Thread "<<GetName()<<" ReCreate inconsistency error!"<<endl;
+            //std::cout << "TGo4Thread "<<GetName()<<" ReCreate inconsistency error!"<< std::endl;
             throw TGo4RuntimeException();
          }
       return kTRUE;
@@ -291,7 +291,7 @@ Bool_t TGo4Thread::ReCreate ()
   else //if(fbIsCreated)
     // no old thread, then create new one
     {
-      TRACE((13,"TGo4Thread::ReCreate() -- old TThread existing",__LINE__, __FILE__));
+      GO4TRACE((13,"TGo4Thread::ReCreate() -- old TThread existing",__LINE__, __FILE__));
       Create();
       return kFALSE;
     }
@@ -299,18 +299,18 @@ Bool_t TGo4Thread::ReCreate ()
 
 Bool_t TGo4Thread::Start ()
 {
-   TRACE((12,"TGo4Thread::Start()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Thread::Start()",__LINE__, __FILE__));
    if(!fbIsCreated)
       // check if thread is up
       {
          // not yet created, then do so
-         TRACE((11,"TGo4Thread::Start() -- creating new TThread",__LINE__, __FILE__));
+         GO4TRACE((11,"TGo4Thread::Start() -- creating new TThread",__LINE__, __FILE__));
          Create();
       }
    else
       {
          // do nothing, thread already there
-         TRACE((11,"TGo4Thread::Start() -- TThread already existing",__LINE__, __FILE__));
+         GO4TRACE((11,"TGo4Thread::Start() -- TThread already existing",__LINE__, __FILE__));
       }
    Bool_t old=fbIsRunning;
    fbIsRunning=kTRUE;
@@ -320,7 +320,7 @@ Bool_t TGo4Thread::Start ()
 
 Bool_t TGo4Thread::Stop ()
 {
-   TRACE((12,"TGo4Thread::Stop()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Thread::Stop()",__LINE__, __FILE__));
    Bool_t old=fbIsRunning;
    fbIsRunning=kFALSE;
    return old; // old status of workfunc requested by thread list
@@ -328,7 +328,7 @@ Bool_t TGo4Thread::Stop ()
 
 void TGo4Thread::Sleep (UInt_t millisecs)
 {
-   TRACE((12,"TGo4Thread::Sleep()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Thread::Sleep()",__LINE__, __FILE__));
    gSystem->Sleep(millisecs);
    TThread::CancelPoint();
 }

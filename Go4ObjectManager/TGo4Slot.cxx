@@ -399,8 +399,8 @@ TGo4LevelIter* TGo4Slot::MakeLevelIter() const
 
 TGo4Access* TGo4Slot::ProvideSlotAccess(const char* name)
 {
-//   cout << " TGo4Slot::GetSlotProxy " << name << "  slot = " << GetName()
-//        << " cont = " << (fProxy ? fProxy->ClassName() : "null") << endl;
+//   std::cout << " TGo4Slot::GetSlotProxy " << name << "  slot = " << GetName()
+//        << " cont = " << (fProxy ? fProxy->ClassName() : "null") << std::endl;
 
    if ((fProxy!=0) && fProxy->Use())
       return fProxy->MakeProxy(name);
@@ -559,8 +559,8 @@ void TGo4Slot::Event(TGo4Slot* source, Int_t id, void* param)
 
 void TGo4Slot::ForwardEvent(TGo4Slot* source, Int_t id, void* param)
 {
-//  cout << "ForwardEvent " << id <<" from " << GetName() << " to "
-//       << ((GetParent()!=0) ? GetParent()->GetName() : "null") << endl;
+//  std::cout << "ForwardEvent " << id <<" from " << GetName() << " to "
+//       << ((GetParent()!=0) ? GetParent()->GetName() : "null") << std::endl;
 
   if (GetParent()!=0)
      GetParent()->Event(source, id, param);

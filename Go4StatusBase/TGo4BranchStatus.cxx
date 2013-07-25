@@ -45,7 +45,7 @@ TGo4BranchStatus::~TGo4BranchStatus()
 Int_t TGo4BranchStatus::PrintStatus(Text_t* buffer, Int_t buflen)
 {
    //return 0;
-   TRACE((12,"TGo4BranchStatus::PrintStatus()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4BranchStatus::PrintStatus()",__LINE__, __FILE__));
    if(buflen<=0 && buffer!=0)
       return 0;
    Int_t locallen=128000;

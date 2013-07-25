@@ -135,7 +135,7 @@ Bool_t TGo4LabelPainter::CheckLabel()
       // case of label was streamed from file: not yet in cleanup list!
       fxLabel->SetOwner(this);
       fbIsLabStreamed=kFALSE;
-      //cout <<"CheckLabel with fbIsLabStreamed" << endl;
+      //std::cout <<"CheckLabel with fbIsLabStreamed" << std::endl;
       return kTRUE;
    }
 
@@ -227,7 +227,7 @@ if(event==kButton1Up)
       if(painter)
          {
             painter->DisplayToFront();
-            //cout <<"TGo4Label::ExecuteEvent with Display to front for "<<painter->GetName() << endl;
+            //std::cout <<"TGo4Label::ExecuteEvent with Display to front for "<<painter->GetName() << std::endl;
          }
    }
 }

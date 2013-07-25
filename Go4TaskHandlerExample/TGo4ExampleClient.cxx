@@ -34,7 +34,7 @@ TGo4ExampleClient::TGo4ExampleClient(const char* name,
                                      Bool_t blockingmode)
 : TGo4ClientTask(name, host, negport , blockingmode, kFALSE)
 {
-   TRACE((15,"TGo4ExampleClient::TGo4ExampleClient(const char*, const char*, Uint_t, Bool_t) constructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ExampleClient::TGo4ExampleClient(const char*, const char*, Uint_t, Bool_t) constructor",__LINE__, __FILE__));
    SetMaster(kFALSE);
    TGo4Log::Debug(" ExampleClient ''%s'' started ",GetName());
    fxApplication= new TGo4ExampleApplication( (TGo4BufferQueue*) GetTaskHandler()->GetDataQueue());
@@ -50,14 +50,14 @@ TGo4ExampleClient::TGo4ExampleClient(const char* name,
 
 TGo4ExampleClient::~TGo4ExampleClient()
 {
-   TRACE((15,"TGo4ExampleClient::~TGo4ExampleClient() destructor",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4ExampleClient::~TGo4ExampleClient() destructor",__LINE__, __FILE__));
    fxWorkHandler->CancelAll(); // make sure threads wont work on application when its deleted
    delete fxApplication;
 }
 
 TGo4TaskStatus * TGo4ExampleClient::CreateStatus()
 {
-   TRACE((12,"TGo4ExampleClient::CreateStatus()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ExampleClient::CreateStatus()",__LINE__, __FILE__));
    TGo4ExampleClientStatus* stat= new TGo4ExampleClientStatus(GetName());
    UpdateStatus(stat); // set the internals
    return stat;
@@ -65,7 +65,7 @@ TGo4TaskStatus * TGo4ExampleClient::CreateStatus()
 }
 void TGo4ExampleClient::UpdateStatus(TGo4ClientStatus* state)
 {
-   TRACE((12,"TGo4ExampleClient::UpdateStatus(TGo4ClientStatus*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ExampleClient::UpdateStatus(TGo4ClientStatus*)",__LINE__, __FILE__));
    TGo4ClientTask::UpdateStatus(state); // fill superclass attributes
    TGo4ExampleClientStatus* exstate= (TGo4ExampleClientStatus*) state;
    exstate->SetHistoStatus(GetApplication()->GetHistogram());
@@ -75,7 +75,7 @@ void TGo4ExampleClient::UpdateStatus(TGo4ClientStatus* state)
 
 void TGo4ExampleClient::Stop()
 {
-   TRACE((12,"TGo4ExampleClient::Stop()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ExampleClient::Stop()",__LINE__, __FILE__));
    std::cout << "Stop of example client!"<<std::endl;
 
    TGo4Log::Debug(" ExampleClient ''%s'' executing Stop(): stop main thread",GetName());
@@ -83,7 +83,7 @@ void TGo4ExampleClient::Stop()
 }
 void TGo4ExampleClient::Start()
 {
-   TRACE((12,"TGo4ExampleClient::Start()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ExampleClient::Start()",__LINE__, __FILE__));
    std::cout << "Start of example client!"<<std::endl;
 
    TGo4Log::Debug(" ExampleClient ''%s'' executing Start(): start main thread",GetName());
@@ -91,6 +91,6 @@ void TGo4ExampleClient::Start()
 }
 TGo4ExampleApplication* TGo4ExampleClient::GetApplication()
 {
-  TRACE((12,"TGo4ExampleClient::GetApplication()",__LINE__, __FILE__));
+  GO4TRACE((12,"TGo4ExampleClient::GetApplication()",__LINE__, __FILE__));
    return fxApplication;
 }

@@ -14,7 +14,7 @@
 #include "TGo4AnalysisWindow.h"
 
 #include "TSystem.h"
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "qimage.h"
 #include "qlabel.h"
@@ -263,7 +263,7 @@ void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdi
     fAnalysisProcess->start(text);
 
     if (fAnalysisProcess->state() == QProcess::NotRunning) {
-       cerr << "Fatal error. Could not start the Analysis" << endl;
+       std::cerr << "Fatal error. Could not start the Analysis" << std::endl;
        TerminateAnalysisProcess();
     }
 }
@@ -308,7 +308,7 @@ void TGo4AnalysisWindow::SaveAnalysisOutput()
    QFile NewFile(fileName);
    NewFile.open( QIODevice::ReadWrite | QIODevice::Append );
    QTextStream t( &NewFile );
-   t << fxOutput->toPlainText() << endl;
+   t << fxOutput->toPlainText() << "\n";
    NewFile.close();
 }
 

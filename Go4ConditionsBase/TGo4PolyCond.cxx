@@ -132,7 +132,7 @@ void TGo4PolyCond::SetValues(TCutG * newcut)
 
    delete fxCutHis; // fxCut changed, so discard previous fxCut histogram
    fxCutHis=0;
-//cout << "Set fxCut " << fxCut << " from " << newcut << endl;
+//std::cout << "Set fxCut " << fxCut << " from " << newcut << std::endl;
 }
 // ----------------------------------------------------------
 void TGo4PolyCond::SetValuesDirect(TCutG * newcut)
@@ -151,7 +151,7 @@ void TGo4PolyCond::SetValuesDirect(TCutG * newcut)
 
    delete fxCutHis; // fxCut changed, so discard previous fxCut histogram
    fxCutHis=0;
-//cout << "Set fxCut " << fxCut << " from " << newcut << endl;
+//std::cout << "Set fxCut " << fxCut << " from " << newcut << std::endl;
 }
 
 
@@ -161,7 +161,7 @@ void TGo4PolyCond::SetValues(Double_t * x, Double_t * y, Int_t len)
    if(fxCut != 0) delete fxCut;
    fxCut = new TCutG(NextAvailableName(), len, x, y);
    fxCut->SetBit(kMustCleanup);
-   //cout << "Set new fxCut " << fxCut << endl;
+   //std::cout << "Set new fxCut " << fxCut << std::endl;
    delete fxCutHis; // discard previous fxCut histogram
    fxCutHis=0;
 }
@@ -205,15 +205,15 @@ Bool_t TGo4PolyCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
      {
        TCutG * temp = CloneCut((TGo4PolyCond*)cond);  // get clone from source, still valid there!
        CleanupSpecials(); // remove all references to cloned TCutG from list of specials
-       //cout << "Update " << GetName() << " from " << temp << endl;
+       //std::cout << "Update " << GetName() << " from " << temp << std::endl;
        if(temp != 0)
           {
-             //cout << "Delete fxCut " << fxCut << endl;
+             //std::cout << "Delete fxCut " << fxCut << std::endl;
              if(fxCut != 0) delete fxCut;
              fxCut = temp;
              delete fxCutHis;
              fxCutHis=0;
-             //cout << "Update new fxCut " << fxCut << endl;
+             //std::cout << "Update new fxCut " << fxCut << std::endl;
              return kTRUE;
           }
        else
@@ -223,7 +223,7 @@ Bool_t TGo4PolyCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
     }
  else
    {
-      cout << "Cannot update " << GetName() << " from " << cond->ClassName() << endl;
+      std::cout << "Cannot update " << GetName() << " from " << cond->ClassName() << std::endl;
       return kFALSE;
    }
 }
@@ -233,7 +233,7 @@ Double_t TGo4PolyCond::GetIntegral(TH1* histo, Option_t* opt)
 //// root >4.00/08 only:
 #if ROOT_VERSION_CODE >= ROOT_VERSION(4,0,8)
 //#if __GO4ROOTVERSION__ >= 40008
-   //cout <<"Integral with new root" << endl;
+   //std::cout <<"Integral with new root" << std::endl;
    if(fxCut)
    #if ROOT_VERSION_CODE >= ROOT_VERSION(5,25,1)
       return (fxCut->IntegralHist(dynamic_cast<TH2*>(histo),opt));
@@ -243,7 +243,7 @@ Double_t TGo4PolyCond::GetIntegral(TH1* histo, Option_t* opt)
    else
       return 0;
 #else
-   //cout <<"Integral with old root" << endl;
+   //std::cout <<"Integral with old root" << std::endl;
    if(fxCutHis==0) fxCutHis=CreateCutHistogram(histo);
    if(fxCutHis!=0)
       return (fxCutHis->Integral(opt));
@@ -377,7 +377,7 @@ void TGo4PolyCond::CleanupSpecials()
    while((ob = iter())!=0) {
      if(ob->InheritsFrom(TCutG::Class())) {
         specials->Remove(ob);
-        //cout <<">>>>>>>>>> removed fxCut" <<ob<<" :" << ob->GetName() <<" from list of specials "<< endl;
+        //std::cout <<">>>>>>>>>> removed fxCut" <<ob<<" :" << ob->GetName() <<" from list of specials "<< std::endl;
      }
    }//while
 }
@@ -412,15 +412,15 @@ void TGo4PolyCond::SavePrimitive(std::ostream& out, Option_t* opt)
       TString yname = xname + "_y";
       xname = xname + "_x";
       line.Form("   Double_t %s[%d], %s[%d];", xname.Data(), fxCut->GetN(), yname.Data(), fxCut->GetN());
-      out << line << endl;
+      out << line << std::endl;
       for (Int_t n=0;n<fxCut->GetN();n++) {
          Double_t x,y;
          fxCut->GetPoint(n, x, y);
          line.Form("   %s[%d] = %f; %s[%d] = %f;", xname.Data(), n, x, yname.Data(), n, y);
-         out << line << endl;
+         out << line << std::endl;
       }
       line.Form("   %s->SetValues(%s, %s, %d);", varname.Data(), xname.Data(), yname.Data(), fxCut->GetN());
    }
 
-   out << line << endl;
+   out << line << std::endl;
 }

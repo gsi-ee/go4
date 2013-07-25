@@ -66,11 +66,11 @@ if(event==kButton1Up && fxWinCondition)
    Int_t dim=0;
    fxWinCondition->GetValues(dim,xmin,xmax,ymin, ymax);
 
-//   cout <<"\nExecute Event Before Padto:"<< endl;
-//   cout <<" x1="<<GetX1() << endl;
-//   cout <<" x1="<<GetX2() << endl;
-//   cout <<" y1="<<GetY1() << endl;
-//   cout <<" y1="<<GetY2() << endl;
+//   std::cout <<"\nExecute Event Before Padto:"<< std::endl;
+//   std::cout <<" x1="<<GetX1() << std::endl;
+//   std::cout <<" x1="<<GetX2() << std::endl;
+//   std::cout <<" y1="<<GetY1() << std::endl;
+//   std::cout <<" y1="<<GetY2() << std::endl;
 // note: newer root versions treat log scale correctly in TBox
 #if ROOT_VERSION_CODE < ROOT_VERSION(4,3,2)
 
@@ -86,11 +86,11 @@ if(event==kButton1Up && fxWinCondition)
    Double_t Y1=GetY1();
    Double_t Y2=GetY2();
 #endif
-//   cout <<"\nExecute Event After Padto:"<< endl;
-//   cout <<" x1="<<X1 << endl;
-//   cout <<" x1="<<X2 << endl;
-//   cout <<" y1="<<Y1 << endl;
-//   cout <<" y1="<<Y2 << endl;
+//   std::cout <<"\nExecute Event After Padto:"<< std::endl;
+//   std::cout <<" x1="<<X1 << std::endl;
+//   std::cout <<" x1="<<X2 << std::endl;
+//   std::cout <<" y1="<<Y1 << std::endl;
+//   std::cout <<" y1="<<Y2 << std::endl;
 
    if(dim>1)
          {
@@ -100,7 +100,7 @@ if(event==kButton1Up && fxWinCondition)
                (TMath::Abs(ymin-Y1) > epsilon) ||
                (TMath::Abs(ymax-Y2) > epsilon) )
                {
-                  //cout <<"ExecuteEvent modified 2d condition with colors" << endl;
+                  //std::cout <<"ExecuteEvent modified 2d condition with colors" << std::endl;
                   fxWinCondition->SetValues(X1, X2, Y1, Y2 );
                   fxWinCondition->SetLineColor(GetLineColor());
                   fxWinCondition->SetLineWidth(GetLineWidth());
@@ -115,7 +115,7 @@ if(event==kButton1Up && fxWinCondition)
             if((TMath::Abs(xmin-X1) > epsilon) ||
                (TMath::Abs(xmax-X2) > epsilon) )
                {
-                  //cout <<"ExecuteEvent modified 1d condition with colors" << endl;
+                  //std::cout <<"ExecuteEvent modified 1d condition with colors" << std::endl;
                   fxWinCondition->SetValues(X1, X2);
                   fxWinCondition->SetLineColor(GetLineColor());
                   fxWinCondition->SetLineWidth(GetLineWidth());

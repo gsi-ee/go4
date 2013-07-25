@@ -13,7 +13,7 @@
 
 #include "TGo4CommandLine.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "TROOT.h"
 
 #include <QFileDialog>
@@ -107,33 +107,33 @@ void TGo4CommandLine::PredefinedDialog()
 
 void TGo4CommandLine::PrintHelp()
 {
-   cout <<"\n--- Go4 GUI command line short help --- " << endl;
-   cout <<"- execute any command by pressing RETURN (Enter key)" << endl;
-   cout <<"--" << endl;
-   cout <<"- use '.h' for help concerning ROOT commands" << endl;
-   cout <<"--" << endl;
-   cout <<"- use 'go4->...' to access TGo4AbstractInterface for gui commands" << endl;
-   cout <<"--" << endl;
-   cout <<"- Some useful Go4 GUI command functions:" << endl;
+   std::cout <<"\n--- Go4 GUI command line short help --- " << std::endl;
+   std::cout <<"- execute any command by pressing RETURN (Enter key)" << std::endl;
+   std::cout <<"--" << std::endl;
+   std::cout <<"- use '.h' for help concerning ROOT commands" << std::endl;
+   std::cout <<"--" << std::endl;
+   std::cout <<"- use 'go4->...' to access TGo4AbstractInterface for gui commands" << std::endl;
+   std::cout <<"--" << std::endl;
+   std::cout <<"- Some useful Go4 GUI command functions:" << std::endl;
 
-   cout <<"\t- TObject* go4->GetObject(const char* itemname);"<< endl;
-   cout <<"\t\t: get browser object by full pathname. " << endl;
-   cout <<"\t- TString go4->FindItem(const char* name); " << endl;
-   cout <<"\t\t: get full pathname of browser object by name " << endl;
-   cout <<"\t- TString go4->SaveToMemory(const char* path, TObject* obj, Bool_t ownership = kFALSE);"<< endl;
-   cout <<"\t\t: Put object obj into workspace memory under subfolder path. Returns full item pathname. " << endl;
-   cout <<"\t- ViewPanelHandle go4->StartViewPanel()"<< endl;
-   cout <<"\t\t: Open new Go4 viewpanel with default size. Returns handle of new panel." << endl;
-   cout <<"\t- Bool_t go4->DrawItem(const char* itemname, ViewPanelHandle panel = 0, const char* drawopt = 0);"<< endl;
-   cout <<"\t\t: Draw object of full name itemname onto viewpanel panel. Will open new viewpanel if panel not specified. \n\t  ROOT drawoption may be set. " << endl;
-   cout <<"\t- go4->OpenFile(const char* fname)" << endl;
-   cout <<"\t\t: open ROOT file of fname in Go4 browser " << endl;
-   cout <<"\t- go4->LaunchAnalysis()" << endl;
-   cout <<"\t\t: Start Go4 analysis process with previous set up " << endl;
-   cout <<"--" << endl;
-   cout <<"---- Please: note the Go4 helpwindow with TGo4AbstractInterface full method documentation!" << endl;
-   cout <<"----         see example scripts at $GO4SYS/macros !" << endl;
-   cout <<"----         visit our website at: \t http://go4.gsi.de !" << endl;
-   cout <<"------ " << endl;
+   std::cout <<"\t- TObject* go4->GetObject(const char* itemname);"<< std::endl;
+   std::cout <<"\t\t: get browser object by full pathname. " << std::endl;
+   std::cout <<"\t- TString go4->FindItem(const char* name); " << std::endl;
+   std::cout <<"\t\t: get full pathname of browser object by name " << std::endl;
+   std::cout <<"\t- TString go4->SaveToMemory(const char* path, TObject* obj, Bool_t ownership = kFALSE);"<< std::endl;
+   std::cout <<"\t\t: Put object obj into workspace memory under subfolder path. Returns full item pathname. " << std::endl;
+   std::cout <<"\t- ViewPanelHandle go4->StartViewPanel()"<< std::endl;
+   std::cout <<"\t\t: Open new Go4 viewpanel with default size. Returns handle of new panel." << std::endl;
+   std::cout <<"\t- Bool_t go4->DrawItem(const char* itemname, ViewPanelHandle panel = 0, const char* drawopt = 0);"<< std::endl;
+   std::cout <<"\t\t: Draw object of full name itemname onto viewpanel panel. Will open new viewpanel if panel not specified. \n\t  ROOT drawoption may be set. " << std::endl;
+   std::cout <<"\t- go4->OpenFile(const char* fname)" << std::endl;
+   std::cout <<"\t\t: open ROOT file of fname in Go4 browser " << std::endl;
+   std::cout <<"\t- go4->LaunchAnalysis()" << std::endl;
+   std::cout <<"\t\t: Start Go4 analysis process with previous set up " << std::endl;
+   std::cout <<"--" << std::endl;
+   std::cout <<"---- Please: note the Go4 helpwindow with TGo4AbstractInterface full method documentation!" << std::endl;
+   std::cout <<"----         see example scripts at $GO4SYS/macros !" << std::endl;
+   std::cout <<"----         visit our website at: \t http://go4.gsi.de !" << std::endl;
+   std::cout <<"------ " << std::endl;
    HelpWindow("docs/Go4Reference.pdf", "Show Go4 Reference manual...");
 }

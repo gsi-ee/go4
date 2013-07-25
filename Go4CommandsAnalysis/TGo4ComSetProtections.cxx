@@ -21,7 +21,7 @@
 TGo4ComSetProtections::TGo4ComSetProtections(const char* obname, const char* flags)
 :TGo4AnalysisObjectCommand("ANSetProtect","Set protection properties for object",obname)
 {
-   TRACE((12,"TGo4ComSetProtections::TGo4ComSetProtections(const char*) ctor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComSetProtections::TGo4ComSetProtections(const char*) ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
                                       // override default receiver
    SetFlags(flags);
@@ -31,7 +31,7 @@ TGo4ComSetProtections::TGo4ComSetProtections(const char* obname, const char* fla
 TGo4ComSetProtections::TGo4ComSetProtections()
 :TGo4AnalysisObjectCommand()
 {
-   TRACE((12,"TGo4ComSetProtections::TGo4ComSetProtections() ctor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComSetProtections::TGo4ComSetProtections() ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
    SetName("ANSetProtect");
    SetDescription("Set protection properties for object");
@@ -40,7 +40,7 @@ TGo4ComSetProtections::TGo4ComSetProtections()
 
 TGo4ComSetProtections::~TGo4ComSetProtections()
 {
-   TRACE((12,"TGo4ComSetProtections::~TGo4ComSetProtections() dtor",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4ComSetProtections::~TGo4ComSetProtections() dtor",__LINE__, __FILE__));
 }
 
 void TGo4ComSetProtections::Set(TGo4RemoteCommand* remcom)

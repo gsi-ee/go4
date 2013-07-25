@@ -25,11 +25,13 @@
 
 #include "qrootapplication.h"
 
-#include "go4iostream.h"
 #include <stdlib.h>
+#include <X11/Xlib.h>
+
+
+#include "Riostream.h"
 #include "TTimer.h"
 #include "TSystem.h"
-#include "TGX11.h"
 
 #include "qobject.h"
 #include "qtimer.h"
@@ -120,7 +122,7 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll) :
 bool QRootApplication::eventFilter(QObject *o,QEvent *e){
 TGo4LockGuard Global;
    //    if(e->type()== QEvent::Paint) {
-   cout << "QRootApplication::eventFilter" <<endl;
+   std::cout << "QRootApplication::eventFilter" << std::endl;
    //      return QApplication::eventFilter( o, e );
       //  } else {
             // standard event processing

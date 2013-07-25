@@ -13,14 +13,16 @@
 
 #include "TGo4HisDrawOptionsShort.h"
 
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "TROOT.h"
 #include "TColor.h"
 #include "TAttLine.h"
 #include "TAttFill.h"
 #include "TAttMarker.h"
+
 #include "TGo4WorkSpace.h"
 #include "TGo4ViewPanel.h"
+
 #include <QColorDialog>
 
 

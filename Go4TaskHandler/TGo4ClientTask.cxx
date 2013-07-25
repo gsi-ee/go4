@@ -106,7 +106,7 @@ if(IsMaster())
    fxTaskHandler->ClearQueues(); // do not clear queues on slave side,
                                  // because analysis status might be already in it!
 
-//cout <<"TGo4ClientTask::ConnectServer with role "<<role<<" and passwd "<<passwd << endl;
+//std::cout <<"TGo4ClientTask::ConnectServer with role "<<role<<" and passwd "<<passwd << std::endl;
 if(passwd)
    {
       fxTaskHandler->SetRole(role);

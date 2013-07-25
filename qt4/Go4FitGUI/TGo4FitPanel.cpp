@@ -48,7 +48,7 @@
 #include "TPaveStats.h"
 #include "TLegend.h"
 #include "TFile.h"
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TGo4LockGuard.h"
 #include "TGo4Slot.h"
@@ -832,7 +832,7 @@ void TGo4FitPanel::Button_SimpleFit(int nmodel)
   TGo4Fitter* fitter = GetFitter();
   if (fitter==0) return;
 
-  if (fitter->GetNumData()!=1) { cout << " Incorrect data" << endl; return; }
+  if (fitter->GetNumData()!=1) { std::cout << " Incorrect data" << std::endl; return; }
 
   if (!UpdateObjectReferenceInSlots()) return;
 
@@ -3331,7 +3331,7 @@ void TGo4FitPanel::ParsTableChanged(QTableWidget* table, int nrow, int ncol, boo
            break; }
          case 4:
          case 5: {
-           cout << "Changing col " << ncol << endl;
+           std::cout << "Changing col " << ncol << std::endl;
 
            bool ok = FALSE;
            bool range_changed = false;
@@ -4196,7 +4196,7 @@ void TGo4FitPanel::UpdateItemsOfType(int typ, QFitItem* parent)
    if (parent==0) parent = GetFitterItem();
 
    if (parent==0) {
-      cout << "Did not found " << endl;
+      std::cout << "Did not found " << std::endl;
       return;
    }
 
@@ -5111,7 +5111,7 @@ bool TGo4FitPanel::UpdateObjectReferenceInSlots()
 
   // remove all links, responsible to data connection,
   // which are started with "data_"
-//  cout << "UpdateObjectReferenceInSlots(). Remove all links " << endl;
+//  std::cout << "UpdateObjectReferenceInSlots(). Remove all links " << std::endl;
   if (WorkingWithPanel())
       RemoveLinksMasked("data_");
 
@@ -5123,7 +5123,7 @@ bool TGo4FitPanel::UpdateObjectReferenceInSlots()
            res = res && UpdateObjectReferenceInSlot(slot, true);
   }
 
-//  cout << "UpdateObjectReferenceInSlots() done res = " << res << endl;
+//  std::cout << "UpdateObjectReferenceInSlots() done res = " << res << std::endl;
 
   return res;
 }

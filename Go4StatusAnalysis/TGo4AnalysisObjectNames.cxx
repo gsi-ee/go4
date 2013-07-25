@@ -28,12 +28,12 @@ TGo4AnalysisObjectNames::TGo4AnalysisObjectNames(const char* name) :
    TGo4Status(name),
    fxTopFolder(0)
 {
-  TRACE((15,"TGo4AnalysisObjectnames::TGo4AnalysisObjectnames(const char*)",__LINE__, __FILE__));
+  GO4TRACE((15,"TGo4AnalysisObjectnames::TGo4AnalysisObjectnames(const char*)",__LINE__, __FILE__));
 }
 
 TGo4AnalysisObjectNames::~TGo4AnalysisObjectNames()
 {
-TRACE((15,"TGo4AnalysisObjectnames::~TGo4AnalysisObjectnames()",__LINE__, __FILE__));
+GO4TRACE((15,"TGo4AnalysisObjectnames::~TGo4AnalysisObjectnames()",__LINE__, __FILE__));
    if(fxTopFolder!=0) {
      delete fxTopFolder;
      fxTopFolder=0;
@@ -58,7 +58,7 @@ TFolder* TGo4AnalysisObjectNames::GetNamesFolder(Bool_t chown)
 
 Int_t TGo4AnalysisObjectNames::PrintStatus(Text_t* buffer, Int_t buflen)
 {
-   TRACE((12,"TGo4AnalysisObjectNames::PrintStatus()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisObjectNames::PrintStatus()",__LINE__, __FILE__));
    //
    if(buflen<=0 && buffer!=0)
       return 0;
@@ -89,11 +89,11 @@ Int_t TGo4AnalysisObjectNames::PrintStatus(Text_t* buffer, Int_t buflen)
 
 Int_t TGo4AnalysisObjectNames::PrintFolder(TFolder* fold, Text_t * buf, Int_t buflen)
 {
-   TRACE((12,"TGo4AnalysisObjectNames::PrintFolder()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisObjectNames::PrintFolder()",__LINE__, __FILE__));
    //
    if(buf!=0 && buflen<=0)
       {
-         cout <<"PrintFolder returns nop" << endl;
+         std::cout <<"PrintFolder returns nop" << std::endl;
          return 0;
       }
    gROOT->IncreaseDirLevel();
@@ -108,7 +108,7 @@ Int_t TGo4AnalysisObjectNames::PrintFolder(TFolder* fold, Text_t * buf, Int_t bu
          current=PrintIndent(current,restlen);
          current=PrintBuffer(current,restlen,"G-OOOO-> ---------------------------------------------- <-OOOO-G\n");
          //objectlist=dynamic_cast<TList*> (fold->GetListOfFolders());
-         //cout << "----------- processing Print Folder "<< endl;
+         //std::cout << "----------- processing Print Folder "<< std::endl;
 
          TIter iter(fold->GetListOfFolders());
          TObject* entry=0;
@@ -141,7 +141,7 @@ Int_t TGo4AnalysisObjectNames::PrintFolder(TFolder* fold, Text_t * buf, Int_t bu
 
    if(buf==0)
       {
-          cout << localbuf << endl;
+          std::cout << localbuf << std::endl;
       }
    else
       {

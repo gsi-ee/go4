@@ -28,7 +28,7 @@ TGo4TaskConnectorTimer::~TGo4TaskConnectorTimer()
 
 Bool_t TGo4TaskConnectorTimer::Notify ()
 {
-  // cout << "TGo4TaskConnectorTimer::Notify ()" << endl;
+  // std::cout << "TGo4TaskConnectorTimer::Notify ()" << std::endl;
 //   TurnOff();
    Int_t action=0;
    action=fxServer->TimerConnect();

@@ -14,7 +14,7 @@
 #include "TGo4MainWindow.h"
 
 #include <dlfcn.h>
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "qdockarea.h"
 #include "qcolor.h"
@@ -887,12 +887,12 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
    if (defaultnames)
      libname = "libGo4UserGui.so";
 
-   cout << "Try : " << dirname+libname << endl;
+   std::cout << "Try : " << dirname+libname << std::endl;
    void* lib1 = ::dlopen(dirname+libname, RTLD_LAZY | RTLD_GLOBAL);
 
    if (lib1==0) {
       const char* errmsg = ::dlerror();
-      if (errmsg!=0) cout << errmsg << endl;
+      if (errmsg!=0) std::cout << errmsg << std::endl;
       return false;
    }
 
@@ -910,11 +910,11 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
    }
 
    if (result) {
-     cout << "Start user GUI from ";
+     std::cout << "Start user GUI from ";
      if (dirname.length()>0)
-        cout << dirname << endl;
+        std::cout << dirname << std::endl;
      else
-        cout << "$LD_LIBRARY_PATH=" << ::getenv("LD_LIBRARY_PATH") << endl;
+        std::cout << "$LD_LIBRARY_PATH=" << ::getenv("LD_LIBRARY_PATH") << std::endl;
    } else {
       if (lib1!=0) dlclose(lib1);
    }
@@ -1037,16 +1037,16 @@ void TGo4MainWindow::ForseCloseSlot()
             QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
             return;
          case QMessageBox::No:
-            cout << "Killing analysis" << endl;
+            std::cout << "Killing analysis" << std::endl;
             TerminateAnalysis(false);
             break;
          case QMessageBox::Cancel:
-            cout << "GUI closed with analysis still running - may lead to analysis task running forever" << endl;
-            cout << "Please check running processes with \"ps\" and probably, kill analysis with \"killall go4analysis\" command" << endl;
+            std::cout << "GUI closed with analysis still running - may lead to analysis task running forever" << std::endl;
+            std::cout << "Please check running processes with \"ps\" and probably, kill analysis with \"killall go4analysis\" command" << std::endl;
             break;
       }
    }
- cout << "----- Exiting Go4 GUI now -----" << endl;
+ std::cout << "----- Exiting Go4 GUI now -----" << std::endl;
  gSystem->Exit( 0 ); 
 }
 
@@ -2262,7 +2262,7 @@ TGo4ViewPanel* TGo4MainWindow::DisplayBrowserItem(const char* itemname, TGo4View
 
    if (guislot==0) return 0;
    if (guislot->GetProxy()==0) {
-      cerr << " Problem with gui slots" << endl;
+      std::cerr << " Problem with gui slots" << std::endl;
       return 0;
    }
 
@@ -2779,11 +2779,11 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_AddDirectLink: {
-         //cout << " QGo4Widget::service_AddDirectLink " << endl;
+         //std::cout << " QGo4Widget::service_AddDirectLink " << std::endl;
          if (str==0) str = editor->name();
          TGo4Slot* slot = (TGo4Slot*) par;
          if (slot!=0) {
-            //cout << "add link for " << str << " in edslot = " << edslot->GetFullName() << endl;
+            //std::cout << "add link for " << str << " in edslot = " << edslot->GetFullName() << std::endl;
             fxOM->AddLink(slot, edslot->GetFullName(),
                           str, "direct link to OM slot");
             //edslot->Print("*");
@@ -2792,7 +2792,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_AddLinkInSlot: {
-         //cout << " QGo4Widget::service_AddLinkInSlot " << endl;
+         //std::cout << " QGo4Widget::service_AddLinkInSlot " << std::endl;
 
          TGo4Slot** res = (TGo4Slot**) par;
 

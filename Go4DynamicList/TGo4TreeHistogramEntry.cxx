@@ -32,7 +32,7 @@ TGo4TreeHistogramEntry::TGo4TreeHistogramEntry() :
    fbNewHistogram(kTRUE),
    fiLastEvent(0)
 {
-   TRACE((15,"TGo4TreeHistogramEntry::TGo4TreeHistogramEntry()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4TreeHistogramEntry::TGo4TreeHistogramEntry()",__LINE__, __FILE__));
    fxTreeName="Go4Tree";
    EnableProcessing(kTRUE);
 }
@@ -50,7 +50,7 @@ TGo4TreeHistogramEntry::TGo4TreeHistogramEntry(const char* histogramname,
    fbNewHistogram(kTRUE),
    fiLastEvent(0)
 {
-   TRACE((15,"TGo4TreeHistogramEntry::TGo4TreeHistogramEntry(const char*, const char*, const char*, const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4TreeHistogramEntry::TGo4TreeHistogramEntry(const char*, const char*, const char*, const char*)",__LINE__, __FILE__));
    SetName(Form("%s%s",histogramname,fgcENTRYSUF)); // histogram name is different from entryname!
    EnableProcessing(kTRUE);
 
@@ -59,12 +59,12 @@ TGo4TreeHistogramEntry::TGo4TreeHistogramEntry(const char* histogramname,
 
 TGo4TreeHistogramEntry::~TGo4TreeHistogramEntry()
 {
-   TRACE((15,"TGo4TreeHistogramEntry::~TGo4TreeHistogramEntry()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4TreeHistogramEntry::~TGo4TreeHistogramEntry()",__LINE__, __FILE__));
 }
 
 void TGo4TreeHistogramEntry::Reset()
 {
-   TRACE((12,"TGo4TreeHistogramEntry::Reset()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4TreeHistogramEntry::Reset()",__LINE__, __FILE__));
    TGo4DynamicEntry::Reset();
    fiLastEvent=0;
    fbNewHistogram=kTRUE;

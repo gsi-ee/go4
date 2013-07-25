@@ -44,7 +44,7 @@ TGo4MbsFile::TGo4MbsFile() :
    fbFileOpen(kFALSE),
    fbShowInfo(kTRUE)
 {
-   TRACE((15,"TGo4MbsFile::TGo4MbsFile()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsFile::TGo4MbsFile()",__LINE__, __FILE__));
 }
 
 TGo4MbsFile::TGo4MbsFile(const char* name) :
@@ -56,7 +56,7 @@ TGo4MbsFile::TGo4MbsFile(const char* name) :
    fbFileOpen(kFALSE),
    fbShowInfo(kTRUE)
 {
-   TRACE((15,"TGo4MbsFile::TGo4MbsFile(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsFile::TGo4MbsFile(const char*)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Event Source MbsFile %s:  ", GetName());
    fxTagFile = fgcNOTAGFILE;
@@ -75,7 +75,7 @@ TGo4MbsFile::TGo4MbsFile(TGo4MbsFileParameter* par) :
    fbFileOpen(kFALSE),
    fbShowInfo(kTRUE)
 {
-   TRACE((15,"TGo4MbsFile::TGo4MbsFile(TGo4MbsFileParameter*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsFile::TGo4MbsFile(TGo4MbsFileParameter*)",__LINE__, __FILE__));
 
    if(par!=0) {
       fxTagFile = par->GetTagName();
@@ -92,7 +92,7 @@ TGo4MbsFile::TGo4MbsFile(TGo4MbsFileParameter* par) :
 
 TGo4MbsFile::~TGo4MbsFile()
 {
-   TRACE((15,"TGo4MbsFile::~TGo4MbsFile()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsFile::~TGo4MbsFile()",__LINE__, __FILE__));
    Close();
 
    if(fxMultiFile) { delete fxMultiFile; fxMultiFile=0; }
@@ -182,7 +182,7 @@ Int_t TGo4MbsFile::NextEvent()
       TGo4Log::Info("Start file: %s tagfile:%s first:%lu last:%lu delta:%lu",GetCurrentFileName(),GetCurrentTagName(), fuStartEvent,fuStopEvent, fuEventInterval);
    }
 
-   TRACE((12,"TGo4MbsFile::NextEvent()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsFile::NextEvent()",__LINE__, __FILE__));
    try{
       Int_t skip = 0;
       // test if we had reached the last event:
@@ -250,7 +250,7 @@ Int_t TGo4MbsFile::NextEvent()
 
 Int_t TGo4MbsFile::Close()
 {
-   TRACE((12,"TGo4MbsFile::Close()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsFile::Close()",__LINE__, __FILE__));
    if(!fbIsOpen) return -1;
 
    Int_t rev = GetCreateStatus();
@@ -264,7 +264,7 @@ Int_t TGo4MbsFile::Close()
 
 Int_t TGo4MbsFile::Open()
 {
-   TRACE((12,"TGo4MbsFile::Open()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsFile::Open()",__LINE__, __FILE__));
 
    if(fbIsOpen) return -1;
 
@@ -277,7 +277,7 @@ Int_t TGo4MbsFile::Open()
       fbIsOpen = kTRUE;
       NewFileAction(kFALSE);
    } else {
-      //cout <<"Open in single mode" << endl;
+      //std::cout <<"Open in single mode" << std::endl;
       if(NextFile()<0) {
          // only for single mode the
         // error result of first NextFile()
@@ -308,7 +308,7 @@ Int_t TGo4MbsFile::NextFile()
       Int_t convs=0;
       //static int cnt=0;
       do {
-         //cout <<"read line "<<cnt++<<" : "<<nextline << endl;
+         //std::cout <<"read line "<<cnt++<<" : "<<nextline << std::endl;
          //if(fxMultiFile->rdstate()==ios::eofbit)
          if((fxMultiFile==0) || (fxMultiFile->GetSize()==0)) {
             // reached last filename, or read error?
@@ -347,9 +347,9 @@ Int_t TGo4MbsFile::NextFile()
          fuEventInterval=0;
          strncpy(nexttag, TGo4MbsFile::fgcNOTAGFILE, TGo4EventSource::fguTXTLEN);
       }
-      //     cout <<"Read next filename "<<nextfile<<" and tag "<<nexttag << endl;
-      //     cout <<"Got Start:"<<fuStartEvent<<". stop:"<<fuStopEvent,
-      //     cout <<", interval:" <<fuEventInterval<< endl;
+      //     std::cout <<"Read next filename "<<nextfile<<" and tag "<<nexttag << std::endl;
+      //     std::cout <<"Got Start:"<<fuStartEvent<<". stop:"<<fuStopEvent,
+      //     std::cout <<", interval:" <<fuEventInterval<< std::endl;
       fxCurrentFile = nextfile;
       if(!strcmp(nexttag,"0") || !strcmp(nexttag,""))
          fxCurrentTag = TGo4MbsFile::fgcNOTAGFILE; // no tagfile if no name

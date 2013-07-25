@@ -79,7 +79,7 @@ void TGo4LogInfo::SaveLogInfo()
       // iterate through all items of the list view
     for ( ; it.current(); ++it ) {
        QListViewItem* itm = it.current();
-       t << itm->text(0) << " " << itm->text(1) << " " << itm->text(2) << endl;
+       t << itm->text(0) << " " << itm->text(1) << " " << itm->text(2) << "\n";
     }
     NewFile.close();
 }

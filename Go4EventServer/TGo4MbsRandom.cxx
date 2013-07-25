@@ -38,7 +38,7 @@ TGo4MbsRandom::TGo4MbsRandom() :
    fiNumDat(0),
    fxEventMem(0)
 {
-   TRACE((15,"TGo4MbsRandom::TGo4MbsRandom()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsRandom::TGo4MbsRandom()",__LINE__, __FILE__));
 }
 
 
@@ -49,7 +49,7 @@ TGo4MbsRandom::TGo4MbsRandom(TGo4MbsRandomParameter* par) :
    fiNumDat(0),
    fxEventMem(0)
 {
-   TRACE((15,"TGo4MbsRandom::TGo4MbsRandom(TGo4MbsRandomParameter*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsRandom::TGo4MbsRandom(TGo4MbsRandomParameter*)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Event Source MbsRandom %s:  ",GetName());
 
@@ -63,7 +63,7 @@ TGo4MbsRandom::TGo4MbsRandom(const char* name) :
    fiNumDat(0),
    fxEventMem(0)
 {
-   TRACE((15,"TGo4MbsRandom::TGo4MbsRandom(const char*)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsRandom::TGo4MbsRandom(const char*)",__LINE__, __FILE__));
 
    TGo4Log::Debug(" New Event Source MbsRandom %s:  ",name);
    Open();
@@ -72,26 +72,26 @@ TGo4MbsRandom::TGo4MbsRandom(const char* name) :
 
 TGo4MbsRandom::~TGo4MbsRandom()
 {
-   TRACE((15,"TGo4MbsRandom::~TGo4MbsRandom()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MbsRandom::~TGo4MbsRandom()",__LINE__, __FILE__));
    Close();
 }
 
 Int_t TGo4MbsRandom::NextEvent()
 {
-   TRACE((12,"TGo4MbsRandom::NextEvent()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsRandom::NextEvent()",__LINE__, __FILE__));
    // here we fill mbs event structure at fxEvent ptr.
    void* clearfield=(void*) (fxEvent+1); // we skip header and clear the rest
    size_t clearlen=fiDLen*2 - 8;
    memset(clearfield,0, clearlen); // clear old values
    fxEvent->l_count++;
-   //cout <<"Eventcount "<<fxEvent->l_count << endl;
-   //cout <<" Cleared "<< clearlen<<" bytes at "<<clearfield << endl;
+   //std::cout <<"Eventcount "<<fxEvent->l_count << std::endl;
+   //std::cout <<" Cleared "<< clearlen<<" bytes at "<<clearfield << std::endl;
    // now fill in some new values:
    fxEvent->l_dlen=0;
    s_ves10_1* subevt=(s_ves10_1*) clearfield;
    for(Int_t i=0;i<fiNumSub;++i)
    {
-      //cout <<"\tSubevt "<<i <<" at "<< subevt<< endl;
+      //std::cout <<"\tSubevt "<<i <<" at "<< subevt<< std::endl;
       int l_val_num = (int)(get_int(1., 7.)+0.5); // random number for number of data longwords
       if(l_val_num>fiNumDat) l_val_num=fiNumDat; // never exceed allocated field
       // setup subevent header:
@@ -104,13 +104,13 @@ Int_t TGo4MbsRandom::NextEvent()
       subevt->l_dlen=l_val_num*2+2; // subevent length in short units + 2
       fxEvent->l_dlen+=(l_val_num*sizeof(Int_t)) / 2 ; // add datalength to total length in shorts
 
-      //cout <<"\t dlen="<<subevt->l_dlen << endl;
+      //std::cout <<"\t dlen="<<subevt->l_dlen << std::endl;
       Int_t* subdata= (Int_t*) (subevt+1); // data starts after subevt
-      //cout <<"\t data="<<subdata << endl;
+      //std::cout <<"\t data="<<subdata << std::endl;
       for(Int_t j=0;j<l_val_num;++j)
       {
          *(subdata+j)=rand_event(j+1); // later use random generator here
-         //cout <<"\t\t"<<"filled "<<j<<" with "<<*(subdata+j) <<"at "<<(subdata+j) << endl;
+         //std::cout <<"\t\t"<<"filled "<<j<<" with "<<*(subdata+j) <<"at "<<(subdata+j) << std::endl;
       } // for (... numdat ...)
       subevt=(s_ves10_1*) (subdata+l_val_num); // next subheader after last data
    } // for(...numsub)
@@ -122,7 +122,7 @@ Int_t TGo4MbsRandom::NextEvent()
 
 Int_t TGo4MbsRandom::Open()
 {
-   TRACE((12,"TGo4MbsRandom::Open()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsRandom::Open()",__LINE__, __FILE__));
    //
    if(fbIsOpen) return -1;
 
@@ -147,7 +147,7 @@ Int_t TGo4MbsRandom::Open()
 
 Int_t TGo4MbsRandom::Close()
 {
-   TRACE((12,"TGo4MbsRandom::Close()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsRandom::Close()",__LINE__, __FILE__));
    if(!fbIsOpen) return -1;
    delete [] fxEventMem;
    fxEventMem = 0;

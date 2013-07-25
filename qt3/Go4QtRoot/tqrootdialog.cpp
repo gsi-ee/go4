@@ -25,8 +25,9 @@
 
 #include "tqrootdialog.h"
 
-#include "go4iostream.h"
 #include <stdlib.h>
+
+#include "Riostream.h"
 
 #include "qevent.h"
 #include "qpainter.h"
@@ -141,7 +142,7 @@ void TQRootDialog::executeMethod()
    if (fCurObj)
       qDebug("DIAL obj:%s meth:%s \n",fCurObj->GetName(), fCurMethod->GetName());
 
-   //cout<< "executeMethod" << fCurMethod->GetName() << endl;
+   //std::cout<< "executeMethod" << fCurMethod->GetName() << std::endl;
 
    TObjArray tobjlist(fCurMethod->GetListOfMethodArgs()->LastIndex()+1);
    for ( QLineEdit* st = aList.first(); st; st = aList.next()) {

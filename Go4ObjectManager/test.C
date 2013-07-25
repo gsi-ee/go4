@@ -27,7 +27,7 @@ void test() {
 
    objm.Print("");
 
-//   cout << "Saving OM to file" << endl;
+//   std::cout << "Saving OM to file" << std::endl;
 //   TFile* f = TFile::Open("objm.root","recreate");
 //   objm.SaveDataToFile(f);
 //   objm.Write("ObjectManager");
@@ -53,10 +53,10 @@ void test() {
 /*
 
 
-   cout << endl << " Print OM" << endl;
+   std::cout << std::endl << " Print OM" << std::endl;
    objm.Print();
 
-   cout << endl << " Print slots" << endl;
+   std::cout << std::endl << " Print slots" << std::endl;
    objm.PrintSlots();
 */
 
@@ -69,7 +69,7 @@ void test() {
 
    objm.IterateSlots();
 
-   cout << "----------------" << endl;
+   std::cout << "----------------" << std::endl;
 
    objm.IterateSlots();
 
@@ -78,7 +78,7 @@ void test() {
 
 //   objm.Print();
 
-   cout << "Press any key" << endl;
+   std::cout << "Press any key" << std::endl;
    char c = getchar();
 
    gBenchmark->Reset();
@@ -96,6 +96,6 @@ void test() {
    double RealTime = gBenchmark->GetRealTime("TestOM");
 //   double CpuTime = gBenchmark->GetCpuTime("TestOM");
 
-   cout << "Num iterations = " << numiter << endl;
-   cout << "Rate/sec = " << numiter/RealTime << endl;
+   std::cout << "Num iterations = " << numiter << std::endl;
+   std::cout << "Rate/sec = " << numiter/RealTime << std::endl;
 }

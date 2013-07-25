@@ -21,7 +21,7 @@ void test2()
 //   TGo4Slot* slot = objm.GetSlot("pad");
 //   slot->Print("*");
 
-//   cout << "Now delete name2  " << endl;
+//   std::cout << "Now delete name2  " << std::endl;
 
 //   delete name2;
 

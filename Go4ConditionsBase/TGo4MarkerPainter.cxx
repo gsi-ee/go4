@@ -185,13 +185,13 @@ void TGo4MarkerPainter::PaintConnector(Option_t* opt)
       Double_t ymark0_pad=gPad->YtoPad(ymark0);
 //      if(gPad->GetLogx() || gPad->GetLogy())
 //         {
-//            //cout <<"using percentage for f" << endl;
+//            //std::cout <<"using percentage for f" << std::endl;
 //            f=0.95;
 //         }
 //      else
 //         {
 //            // note: this method only works if we have equal axis scaling in x and y!
-//            //cout <<"using roff for f" << endl;
+//            //std::cout <<"using roff for f" << std::endl;
 //            Double_t dr=TMath::Sqrt(TMath::Power(xlab-xmark0,2) + TMath::Power(ylab-ymark0,2));
 //            Size_t msize=fxMarker->GetMarkerSize();
 //            Double_t xoff=0.008*msize*(gPad->GetUxmax()-gPad->GetUxmin());
@@ -199,7 +199,7 @@ void TGo4MarkerPainter::PaintConnector(Option_t* opt)
 //            Double_t roff= TMath::Sqrt(TMath::Power(xoff,2) + TMath::Power(yoff,2));
 //            if(dr) f=1- roff/dr;// we do it relative to marker size
 //         }
-//      cout <<"f="<<f << endl;
+//      std::cout <<"f="<<f << std::endl;
       if(xlab_pad>xmark0_pad)
             xmark_pad=xlab_pad-f*(xlab_pad-xmark0_pad);
       else

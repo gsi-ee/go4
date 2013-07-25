@@ -25,7 +25,7 @@ TGo4MbsSourceParameter::TGo4MbsSourceParameter() :
     fiPort(0),
     fiRetryCnt(0)
 {
-   TRACE((14,"TGo4MbsSourceParameter::TGo4MbsSourceParameter()", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4MbsSourceParameter::TGo4MbsSourceParameter()", __LINE__, __FILE__));
 }
 
 TGo4MbsSourceParameter::TGo4MbsSourceParameter(const char* name, Int_t id) :
@@ -36,17 +36,17 @@ TGo4MbsSourceParameter::TGo4MbsSourceParameter(const char* name, Int_t id) :
    fiPort(0),
    fiRetryCnt(0)
 {
-   TRACE((14,"TGo4MbsSourceParameter::TGo4MbsSourceParameter(const char*,...)", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4MbsSourceParameter::TGo4MbsSourceParameter(const char*,...)", __LINE__, __FILE__));
 }
 
 TGo4MbsSourceParameter::~TGo4MbsSourceParameter()
 {
-   TRACE((14,"TGo4MbsSourceParameter::~TGo4MbsSourceParameter()", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4MbsSourceParameter::~TGo4MbsSourceParameter()", __LINE__, __FILE__));
 }
 
 Int_t TGo4MbsSourceParameter::PrintParameter(Text_t* buffer, Int_t buflen)
 {
-   TRACE((12,"TGo4MbsSourceParameter::PrintParameter()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsSourceParameter::PrintParameter()",__LINE__, __FILE__));
    Int_t locallen=128000;
    Text_t localbuf[128000];
    if(buflen<0 && buffer!=0)
@@ -84,7 +84,7 @@ Int_t TGo4MbsSourceParameter::PrintParameter(Text_t* buffer, Int_t buflen)
 
 Bool_t TGo4MbsSourceParameter::UpdateFrom(TGo4Parameter* rhs)
 {
-   TRACE((12,"TGo4MbsSourceParameter::UpdateFrom()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsSourceParameter::UpdateFrom()",__LINE__, __FILE__));
    if((rhs!=0) && rhs->InheritsFrom(TGo4MbsSourceParameter::Class())) {
       TGo4MbsSourceParameter* mbspar=dynamic_cast<TGo4MbsSourceParameter*>(rhs);
       if(!mbspar) return kFALSE;

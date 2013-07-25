@@ -374,7 +374,7 @@ Bool_t TGo4BrowserProxy::ProduceExplicitCopy(TGo4Slot* itemslot, const char* tgt
 
    if (itemslot==0) return kFALSE;
 
-   // cout << "ProduceExplicitCopy " << itemslot->GetFullName() << "  " << (tgtpath ? tgtpath : "null") << endl;
+   // std::cout << "ProduceExplicitCopy " << itemslot->GetFullName() << "  " << (tgtpath ? tgtpath : "null") << std::endl;
 
    TGo4Slot* memslot = BrowserMemorySlot();
    if (itemslot->IsParent(memslot) && (tgtpath==0)) return kFALSE;
@@ -490,7 +490,7 @@ void TGo4BrowserProxy::CopyClipboard(const char* tgtpath, Bool_t forcerequest)
    for(Int_t n=0;n<=fxClipboard->GetLast();n++) {
       TNamed* nm = (TNamed*) fxClipboard->At(n);
 
-//      cout << "CopyClipboard( " << nm->GetName() << "  to " << tgtpath << endl;
+//      std::cout << "CopyClipboard( " << nm->GetName() << "  to " << tgtpath << std::endl;
       ProduceExplicitCopy(nm->GetName(), tgtpath, forcerequest);
    }
 }
@@ -1796,7 +1796,7 @@ void TGo4BrowserProxy::SyncBrowserSlots()
 
       // go to top folders and remove rest items
       Int_t levelchange = iter.levelchange();
-//      cout << "    " << iter.getname() << " levelchange = " << levelchange << endl;
+//      std::cout << "    " << iter.getname() << " levelchange = " << levelchange << std::endl;
 
       while (levelchange++<0) {
           while (curslot!=0) {
@@ -1808,7 +1808,7 @@ void TGo4BrowserProxy::SyncBrowserSlots()
           curslot = curfold->GetNext();
           curfold = curfold->GetParent();
           if (curfold==0) break;
-//          cout << "cd .. ; folder = " << curfold->GetName() << endl;
+//          std::cout << "cd .. ; folder = " << curfold->GetName() << std::endl;
       }
 
       if (!res) break;
@@ -1838,7 +1838,7 @@ void TGo4BrowserProxy::SyncBrowserSlots()
           }
       }
 
-//      cout << curslot->GetFullName() << "   - " << iter.getinfo() << endl;
+//      std::cout << curslot->GetFullName() << "   - " << iter.getinfo() << std::endl;
 
       SetItemKind(curslot, kind, classname, iter.getinfo(), iter.getsizeinfo());
       curslot->SetIntPar("GUI::Remote", iter.getflag("IsRemote")==1);
@@ -1863,7 +1863,7 @@ void TGo4BrowserProxy::SyncBrowserSlots()
 
       if (iter.isfolder()) {
          curfold = curslot;
-//         cout << "cd ++ ; folder = " << curfold->GetName() << endl;
+//         std::cout << "cd ++ ; folder = " << curfold->GetName() << std::endl;
          curslot = curfold->GetChild(0);
       } else {
          curslot->DeleteChilds();
@@ -2024,7 +2024,7 @@ Int_t TGo4BrowserProxy::CompareAxis(TAxis* ax1, TAxis* ax2)
 Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_t* hasrebinx, Int_t* hasrebiny)
 {
 //   return kFALSE;
-//cout <<"TGo4BrowserProxy::UpdateObjectContent, old="<<hex<<(int) obj<<", new="<<(int)newobj<<dec << endl;
+//std::cout <<"TGo4BrowserProxy::UpdateObjectContent, old="<<hex<<(int) obj<<", new="<<(int)newobj<<dec << std::endl;
 Bool_t tdisp=kFALSE;
 TString tform;
 if (obj->InheritsFrom(TH1::Class())) {
@@ -2226,7 +2226,7 @@ void TGo4BrowserProxy::SaveAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, T
 	TAxis* xax=h1->GetXaxis();
 	timedisplay=xax->GetTimeDisplay();
 	format=xax->GetTimeFormat();
-	//cout <<"SaveAxisTimeProperties got time attributes from actual graph: display:"<<xax->GetTimeDisplay()<<", format:"<< xax->GetTimeFormat()<<", histo:"<<hex<<(int) h1<<",axis:"<<(int) xax <<endl;
+	//std::cout <<"SaveAxisTimeProperties got time attributes from actual graph: display:"<<xax->GetTimeDisplay()<<", format:"<< xax->GetTimeFormat()<<", histo:"<<hex<<(int) h1<<",axis:"<<(int) xax << std::endl;
 
 
 }
@@ -2235,10 +2235,10 @@ void TGo4BrowserProxy::RestoreAxisTimeProperties(TGraph* gr, Bool_t& timedisplay
 	if(gr==0) return;
 	TH1*h1=gr->GetHistogram();
 	TAxis* xax=h1->GetXaxis();
-	//cout <<"axis time display before- display:"<<xax->GetTimeDisplay()<<", format:"<< xax->GetTimeFormat()<<", histo:"<<hex<<(int) h1<<",axis:"<<(int) xax<<endl;
+	//std::cout <<"axis time display before- display:"<<xax->GetTimeDisplay()<<", format:"<< xax->GetTimeFormat()<<", histo:"<<hex<<(int) h1<<",axis:"<<(int) xax<< std::endl;
 	 xax->SetTimeDisplay(timedisplay);
 	 xax->SetTimeFormat(format.Data());
-	 //cout <<"RestoreAxisTimeProperties Recovered time display for histogram:"<<hex<<(int) h1<<endl;
+	 //std::cout <<"RestoreAxisTimeProperties Recovered time display for histogram:"<<hex<<(int) h1<< std::endl;
 }
 
 

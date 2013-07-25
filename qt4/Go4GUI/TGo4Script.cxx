@@ -750,10 +750,10 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
 
    TGo4AnalysisProxy* anal = br->FindAnalysis();
 
-   ofstream fs(filename);
+   std::ofstream fs(filename);
 
-   fs << "// Automatically generated startup script" << endl;
-   fs << "// Do not change it!" << endl << endl;
+   fs << "// Automatically generated startup script" << std::endl;
+   fs << "// Do not change it!" << std::endl << std::endl;
 
    ProduceLoadLibs(fs);
 
@@ -761,7 +761,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
    br->MakeFilesList(&prlist);
    for(Int_t n=0;n<=prlist.GetLast();n++) {
       TGo4DirProxy* pr = (TGo4DirProxy*) prlist.At(n);
-      fs << "go4->OpenFile(\"" << pr->GetFileName() << "\");" << endl;
+      fs << "go4->OpenFile(\"" << pr->GetFileName() << "\");" << std::endl;
    }
 
    prlist.Clear();
@@ -773,10 +773,10 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
          << pr->GetPortNumber() << ", \""
          << pr->GetBaseName() << "\", \""
          << pr->GetUserPass() << "\", \""
-         << pr->GetFilter() << "\");" << endl;
+         << pr->GetFilter() << "\");" << std::endl;
    }
 
-   fs << endl;
+   fs << std::endl;
 
    if ((anal!=0) && anal->IsAnalysisReady() && !anal->IsAnalysisServer()) {
 // start analysis configuration
@@ -798,12 +798,12 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
 //                                  << go4sett->getClientExeMode();
    if (go4sett->getClientArgs().length()>0)
       fs << ", \"" << go4sett->getClientArgs().toAscii().constData() << "\"";
-   fs  << ");" << endl;
+   fs  << ");" << std::endl;
 
-   fs << "go4->WaitAnalysis(300);" << endl << endl;
+   fs << "go4->WaitAnalysis(300);" << std::endl << std::endl;
 
    if (confgui==0) return;
-   fs << "// configuration of analysis" << endl;
+   fs << "// configuration of analysis" << std::endl;
 
    QString fname;
    int interval, compression;
@@ -814,21 +814,21 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
                                     << interval << ", "
                                     << compression << ", "
                                     << (asenabled ? "kTRUE" : "kFALSE") << ", "
-                                    << (asoverwrite ? "kTRUE" : "kFALSE") << ");" << endl;
+                                    << (asoverwrite ? "kTRUE" : "kFALSE") << ");" << std::endl;
 
    confgui->GetAnalysisConfigFile(fname);
-   fs << "go4->AnalysisConfigName(\"" << fname.toAscii().constData() << "\");" << endl << endl;
+   fs << "go4->AnalysisConfigName(\"" << fname.toAscii().constData() << "\");" << std::endl << std::endl;
 
    for(int nstep=0;nstep<confgui->GetNumSteps();nstep++) {
       TGo4ConfigStep* stepconf = confgui->GetStepConfig(nstep);
-      fs << "// step " << stepconf->GetStepName().toAscii().constData() << endl;
+      fs << "// step " << stepconf->GetStepName().toAscii().constData() << std::endl;
 
       bool process, source, store;
       stepconf->GetStepControl(process, source, store);
       fs << "go4->ConfigStep(\"" << stepconf->GetStepName().toAscii().constData() << "\", "
                                  << (process ? "kTRUE" : "kFALSE") << ", "
                                  << (source ? "kTRUE" : "kFALSE") << ", "
-                                 << (store ? "kTRUE" : "kFALSE") << ");" << endl;
+                                 << (store ? "kTRUE" : "kFALSE") << ");" << std::endl;
 
       QString srcname;
       int timeout(0), start(0), stop(0), interval(0), nport(0), nretry(0);
@@ -873,21 +873,21 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
          }
 
       } //  switch(nsrc)
-      fs << ");" << endl;
+      fs << ");" << std::endl;
 
       if ((start!=0) || (stop!=0) || (interval>1)) {
          srcargs.Form("(\"%s\", %d, %d ,%d)",stepconf->GetStepName().toAscii().constData(), start, stop, interval);
-         fs << "go4->StepMbsSelection" << srcargs << ";" << endl;
+         fs << "go4->StepMbsSelection" << srcargs << ";" << std::endl;
       }
 
       if (nport>0) {
          srcargs.Form("(\"%s\", %d)",stepconf->GetStepName().toAscii().constData(), nport);
-         fs << "go4->StepMbsPort" << srcargs << ";" << endl;
+         fs << "go4->StepMbsPort" << srcargs << ";" << std::endl;
       }
 
       if (nretry>0) {
          srcargs.Form("(\"%s\", %d)",stepconf->GetStepName().toAscii().constData(), nretry);
-         fs << "go4->StepMbsRetryCnt" << srcargs << ";" << endl;
+         fs << "go4->StepMbsRetryCnt" << srcargs << ";" << std::endl;
       }
 
       QString storename;
@@ -902,7 +902,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
                                           << (overwrite ? "kTRUE" : "kFALSE") << ", "
                                           << bufsize << ", "
                                           << splitlevel << ", "
-                                          << compression << ");" << endl;
+                                          << compression << ");" << std::endl;
             break;
          }
 
@@ -912,30 +912,30 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
             fs << "go4->StepBackStore(\"" << stepconf->GetStepName().toAscii().constData() << "\", \""
                                           << storename.toAscii().constData() << "\", "
                                           << bufsize << ", "
-                                          << splitlevel << ");" << endl;
+                                          << splitlevel << ");" << std::endl;
             break;
          }
       } // switch
 
-      fs << endl;
+      fs << std::endl;
    }
 
    if ((anal!=0) && anal->IsAnalysisSettingsReady())
-      fs << "go4->SubmitAnalysisConfig(20);" << endl << endl;
+      fs << "go4->SubmitAnalysisConfig(20);" << std::endl << std::endl;
 
    int mode = 1;
    if (confgui) {
       if (confgui->isHidden()) mode = -1; else
       if (confgui->isMinimized()) mode = 0;
    }
-   fs << "go4->SetAnalysisConfigMode(" << mode << ");" << endl;
+   fs << "go4->SetAnalysisConfigMode(" << mode << ");" << std::endl;
 
    mode = 1;
    if (termgui) {
       if (termgui->isHidden()) mode = -1; else
       if (termgui->isMinimized()) mode = 0;
    }
-   fs << "go4->SetAnalysisTerminalMode(" << mode << ");" << endl << endl;
+   fs << "go4->SetAnalysisTerminalMode(" << mode << ");" << std::endl << std::endl;
 // end analysis configuration
    } else
    if ((anal!=0) && anal->IsAnalysisReady() && anal->IsAnalysisServer()) {
@@ -944,16 +944,16 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
          << go4sett->getClientPort() << ", "
          << go4sett->getClientControllerMode() << ", ";
       if (go4sett->getClientDefaultPass())
-        fs << "0);" << endl;
+        fs << "0);" << std::endl;
       else
-        fs << "\"" << main->LastTypedPassword() << "\");" << endl;
-      fs << "go4->WaitAnalysis(10);" << endl << endl;
+        fs << "\"" << main->LastTypedPassword() << "\");" << std::endl;
+      fs << "go4->WaitAnalysis(10);" << std::endl << std::endl;
    } else {
-      fs << "go4->DisconnectAnalysis();" << endl;
+      fs << "go4->DisconnectAnalysis();" << std::endl;
    }
 
    if ((anal!=0) && anal->IsAnalysisRunning() && !anal->IsAnalysisServer()) {
-      fs << "go4->StartAnalysis();" << endl;
+      fs << "go4->StartAnalysis();" << std::endl;
       fs << std::endl;
       fs << "// this is possibility to get extra histograms from analysis" << std::endl;
       fs << "// which are create shortly after analysis is started" << std::endl;
@@ -973,7 +973,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
 
       panel->MakePictureForPad(&pic, panel->GetCanvas(), true);
 
-      fs << endl;
+      fs << std::endl;
 
       pic.SavePrimitive(fs,"");
 
@@ -991,12 +991,12 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
          << pos.y() << ", "
          << size.width() << ", "
          << size.height() << ", "
-         << mode << ", " << picname << ");" << endl;
+         << mode << ", " << picname << ");" << std::endl;
 
-      fs << "delete " << picname << ";" << endl;
+      fs << "delete " << picname << ";" << std::endl;
    }
 
-   fs << endl;
+   fs << std::endl;
 
 
 
@@ -1025,12 +1025,12 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       if (!goinside) {
          TString sbuf;
          if (br->BrowserItemName(subslot, sbuf))
-           fs << "go4->MonitorItem(\"" << sbuf << "\");" << endl;
+           fs << "go4->MonitorItem(\"" << sbuf << "\");" << std::endl;
       }
 
    }
 
    Int_t mperiod = br->MonitoringPeriod();
    if (mperiod>0)
-     fs << "go4->StartMonitoring(" << mperiod/1000 << ");" << endl;
+     fs << "go4->StartMonitoring(" << mperiod/1000 << ");" << std::endl;
 }

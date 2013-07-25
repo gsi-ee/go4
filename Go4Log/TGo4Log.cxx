@@ -289,7 +289,7 @@ void TGo4Log::OpenLogfile(const char* name, const char* headercomment, Bool_t ap
       if(lf->fail()) {
          LogfileEnable(kFALSE);
          delete lf;
-         cerr <<"TGo4Log::OpenLogfile() - Error opening logfile "<< name << endl;
+         std::cerr <<"TGo4Log::OpenLogfile() - Error opening logfile "<< name << std::endl;
       } else {
          fgxLogfile = lf;
          fgxLogName = txtbuf; // remember our last filename
@@ -300,11 +300,11 @@ void TGo4Log::OpenLogfile(const char* name, const char* headercomment, Bool_t ap
 
    catch(std::exception& ex) // treat standard library exceptions
    {
-      cerr <<"standard exception "<<ex.what()<<"in TGo4Log::OpenLogfile" << endl;
+      std::cerr <<"standard exception "<<ex.what()<<"in TGo4Log::OpenLogfile" << std::endl;
    }
    catch(...)
    {
-      cerr <<"!!! Unexpected exception in TGo4Log::OpenLogfile !!!" << endl;
+      std::cerr <<"!!! Unexpected exception in TGo4Log::OpenLogfile !!!" << std::endl;
    } // catch
 }
 
@@ -317,15 +317,15 @@ void TGo4Log::WriteLogfile(const char* text, Bool_t withtime)
          TDatime now;
          *((std::ofstream*)fgxLogfile) << now.AsSQLString() << ": ";
       }
-      *((std::ofstream*)fgxLogfile) << text << endl;
+      *((std::ofstream*)fgxLogfile) << text << std::endl;
    }// try
    catch(std::exception& ex) // treat standard library exceptions
    {
-      cerr <<"standard exception "<<ex.what()<<"in TGo4Log::WriteLogfile" << endl;
+      std::cerr <<"standard exception "<<ex.what()<<"in TGo4Log::WriteLogfile" << std::endl;
    }
    catch(...)
    {
-      cerr <<"!!! Unexpected exception in TGo4Log::WriteLogfile !!!" << endl;
+      std::cerr <<"!!! Unexpected exception in TGo4Log::WriteLogfile !!!" << std::endl;
    } // catch
 }
 
@@ -341,11 +341,11 @@ void TGo4Log::CloseLogfile()
       }
       catch(std::exception& ex) // treat standard library exceptions
       {
-         cerr <<"standard exception "<<ex.what()<<"in TGo4Log::CloseLogfile" << endl;
+         std::cerr <<"standard exception "<<ex.what()<<"in TGo4Log::CloseLogfile" << std::endl;
       }
       catch(...)
       {
-         cerr <<"!!! Unexpected exception in TGo4Log::CloseLogfile !!!" << endl;
+         std::cerr <<"!!! Unexpected exception in TGo4Log::CloseLogfile !!!" << std::endl;
       } //
    }
 }

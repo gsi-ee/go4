@@ -22,16 +22,13 @@
 //                                                                      //
 //////////////////////////////////////////////////////////////////////////
 
+#include "Riostream.h"
 #include "TROOT.h"
 #include "TApplication.h"
 #include "TUnixSystem.h"
 #include "qrintapplication.h"
 #include "qrootguifactory.h"
-#include "go4iostream.h"
-
-#include "TROOT.h"
 #include "TClass.h"
-//#include "TVirtualX.h"
 #include "Getline.h"
 #include "TStyle.h"
 #include "TObjectTable.h"
@@ -49,7 +46,6 @@
 #include "TFile.h"
 #include "TMapFile.h"
 #include "TTabCom.h"
-
 
 
 //______________________________________________________________________________

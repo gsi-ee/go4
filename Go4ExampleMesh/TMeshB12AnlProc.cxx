@@ -65,7 +65,7 @@ void TMeshB12AnlProc::Analysis(TMeshB12OutputEvent* poutevt)
                   Float_t val=0;
                   if(fxInput2->frData[j])
                      val=TMath::Abs(fxInput1->frData[i]/fxInput2->frData[j]);
-                  //cout <<"val["<<i<<"]="<<val << endl;
+                  //std::cout <<"val["<<i<<"]="<<val << std::endl;
                   poutevt->frData[i]=val;
                }
       }

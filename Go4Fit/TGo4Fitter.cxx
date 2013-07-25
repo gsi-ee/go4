@@ -1150,22 +1150,22 @@ void TGo4Fitter::PrintLines() const
         if (m->GetPosition(naxis,zn) || m->GetWidth(naxis,zn)) MaxAxis = naxis;
   }
 
-  std::cout << setw(10) << "Name" << setw(12) << "Ampl";
+  std::cout << std::setw(10) << "Name" << std::setw(12) << "Ampl";
   for(Int_t naxis=0;naxis<=MaxAxis;naxis++)
-    std::cout << setw(11) << "Pos" << naxis << setw(11) << "Width" << naxis;
+    std::cout << std::setw(11) << "Pos" << naxis << std::setw(11) << "Width" << naxis;
   std::cout << std::endl;
 
   for (Int_t n=0; n<GetNumModel();n++) {
      TGo4FitModel* m = ((TGo4Fitter*) this)->GetModel(n);
      if (m==0) continue;
-     std::cout << setw(10) << m->GetName() << setw(12) << m->GetAmplValue();
+     std::cout << std::setw(10) << m->GetName() << std::setw(12) << m->GetAmplValue();
 
      for (int naxis=0;naxis<=MaxAxis;naxis++) {
         Double_t pos, width;
-        std::cout << setw(12);
+        std::cout << std::setw(12);
         if (m->GetPosition(naxis,pos)) std::cout << pos;
                                   else std::cout << "---";
-        std::cout << setw(12);
+        std::cout << std::setw(12);
         if (m->GetWidth(naxis,width)) std::cout << width;
                                  else std::cout << "---";
         }

@@ -233,17 +233,17 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
 //         s_filhe* head=inp_evt->GetMbsSourceHeader();
 //         if(head)
 //            {
-//               cout <<"found filhe structure:" << endl;
-//               cout <<"\tdatalen: "<<head->filhe_dlen << endl;
-//               cout <<"\tfilename_l: "<<head->filhe_file_l << endl;
-//               cout <<"\tfilename: "<<head->filhe_file << endl;
-//               cout <<"\ttype: "<<head->filhe_type << endl;
-//               cout <<"\tsubtype: "<<head->filhe_subtype << endl;
-//               cout <<"\t#commentlines: "<<head->filhe_lines << endl;
+//               std::cout <<"found filhe structure:" << std::endl;
+//               std::cout <<"\tdatalen: "<<head->filhe_dlen << std::endl;
+//               std::cout <<"\tfilename_l: "<<head->filhe_file_l << std::endl;
+//               std::cout <<"\tfilename: "<<head->filhe_file << std::endl;
+//               std::cout <<"\ttype: "<<head->filhe_type << std::endl;
+//               std::cout <<"\tsubtype: "<<head->filhe_subtype << std::endl;
+//               std::cout <<"\t#commentlines: "<<head->filhe_lines << std::endl;
 //            }
 //         else
 //            {
-//               cout <<"zero file header" << endl;
+//               std::cout <<"zero file header" << std::endl;
 //            }
    //////////////////////////////////////////////////////////////////
 
@@ -251,19 +251,19 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
    ////// use this if you want access to the mbs buffer header data:
 //         s_bufhe* head=inp_evt->GetMbsBufferHeader();
 //         if(head) {
-//               cout <<"\nfound bufhe structure:" << endl;
-//               cout <<"\tbuffernumber: "<<head->l_buf << endl;
-//               cout <<"\tdatalen: "<<head->l_dlen << endl;
-//               cout <<"\ttime lo: "<<head->l_time[0] << endl; // seconds since epoch 1970
-//               cout <<"\ttime hi: "<<head->l_time[1] << endl; // microseconds since time lo
+//               std::cout <<"\nfound bufhe structure:" << std::endl;
+//               std::cout <<"\tbuffernumber: "<<head->l_buf << std::endl;
+//               std::cout <<"\tdatalen: "<<head->l_dlen << std::endl;
+//               std::cout <<"\ttime lo: "<<head->l_time[0] << std::endl; // seconds since epoch 1970
+//               std::cout <<"\ttime hi: "<<head->l_time[1] << std::endl; // microseconds since time lo
 //               char sbuf[1000]; f_ut_utime(head->l_time[0], head->l_time[1], sbuf);
-//               cout <<"\ttimestring: " << sbuf <<endl;
-//               cout <<"\ttype: "<<head->i_type << endl;
-//               cout <<"\tsubtype: "<<head->i_subtype << endl;
+//               std::cout <<"\ttimestring: " << sbuf << std::endl;
+//               std::cout <<"\ttype: "<<head->i_type << std::endl;
+//               std::cout <<"\tsubtype: "<<head->i_subtype << std::endl;
 //            }
 //         else
 //            {
-//               cout <<"zero buffer header" << endl;
+//               std::cout <<"zero buffer header" << std::endl;
 //
 //            }
    //////////////////////////////////////////////////////////////////

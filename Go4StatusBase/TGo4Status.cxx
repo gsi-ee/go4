@@ -29,18 +29,18 @@ TGo4Status::TGo4Status() :
 TGo4Status::TGo4Status(const char* name) :
    TNamed(name, "This is a Go4 Status Object")
 {
-   TRACE((12,"TGo4Status::TGo4Status(const char*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Status::TGo4Status(const char*)",__LINE__, __FILE__));
 }
 
 TGo4Status::TGo4Status(const char* name, const char* title) :
    TNamed(name, title)
 {
-   TRACE((12,"TGo4Status::TGo4Status(const char*, const char*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Status::TGo4Status(const char*, const char*)",__LINE__, __FILE__));
 }
 
 TGo4Status::~TGo4Status()
 {
-   TRACE((12,"TGo4Status::~TGo4Status()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Status::~TGo4Status()",__LINE__, __FILE__));
 }
 
 void TGo4Status::Print(Option_t* dummy) const
@@ -52,7 +52,7 @@ void TGo4Status::Print(Option_t* dummy) const
 
 Int_t TGo4Status::PrintStatus(Text_t* buffer, Int_t buflen)
 {
-   TRACE((12,"TGo4Status::PrintStatus()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4Status::PrintStatus()",__LINE__, __FILE__));
 
    if(buflen<=0 && buffer!=0) return 0;
 

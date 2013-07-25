@@ -42,7 +42,7 @@ Int_t TMeshDummyEvent::Init()
   if(CheckEventSource("TMeshProviderProc"))
    {
       fxProviderProc = dynamic_cast<TMeshProviderProc*>(GetEventSource());
-      //cout << "**** TMeshDummyEvent init"<< endl;
+      //std::cout << "**** TMeshDummyEvent init"<< std::endl;
    }
   else
     rev=1;

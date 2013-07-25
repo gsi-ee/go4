@@ -326,7 +326,7 @@ void TGo4Task::SendStatusMessage(Int_t level, Bool_t printout, const char* text,
    } else {
       dest = 0;
    }
-   //cout <<"SSSSSSendStatusMessage has receiver "<<dest <<" and message "<<curs << endl;
+   //std::cout <<"SSSSSSendStatusMessage has receiver "<<dest <<" and message "<<curs << std::endl;
    Bool_t previousmode = TGo4Log::IsOutputEnabled();
    TGo4Log::OutputEnable(printout); // override the messaging state
    const char* go4mess = TGo4Log::Message(level, curs);
@@ -463,7 +463,7 @@ Bool_t TGo4Task::SubmitCommand(const char* name)
          // try simple command with remote command envelope:
             TGo4LockGuard mainlock;
             com= new TGo4RemoteCommand(name);
-            //cout <<"submitted remote command of "<<name << endl;
+            //std::cout <<"submitted remote command of "<<name << std::endl;
          }
          return (SubmitCommand(com)) ;
       }
@@ -505,7 +505,7 @@ if(queue!=0)
             {
                TBuffer* commandbuffer=TGo4BufferQueue::CreateValueBuffer((UInt_t) val);
                queue->AddBuffer(commandbuffer); // put command into queue
-               //cout <<"UUUUUUUU SubmitEmergencyData to "<<receiver << endl;
+               //std::cout <<"UUUUUUUU SubmitEmergencyData to "<<receiver << std::endl;
             }
          return kTRUE;
    }
@@ -525,7 +525,7 @@ Bool_t TGo4Task::SubmitCommand(TGo4Command* com)
      if(queue!=0) {
         // we have an active command queue...
         TGo4LockGuard mainlock; // protect the streamer!
-        //cout << "Mainlock acquired by server task: SubmitCommand"<< endl;
+        //std::cout << "Mainlock acquired by server task: SubmitCommand"<< std::endl;
         queue->AddBufferFromObject(com); // put command into queue
      } else
         rev = kFALSE;
@@ -564,7 +564,7 @@ void TGo4Task::WakeCommandQueue(Int_t id)
 {
 if(GetTaskHandler() && GetTaskHandler()->IsAborting())
    {
-      //cout <<"Do not WakeCommandQueue() when aborting taskhandler" << endl;
+      //std::cout <<"Do not WakeCommandQueue() when aborting taskhandler" << std::endl;
       return;
    }
 // put dummy buffer to command queue. This will wake up the main thread from command wait.
@@ -583,7 +583,7 @@ void TGo4Task::GetStatus()
    if(queue==0) return;
    {
       TGo4LockGuard mainguard;
-//         cout << "Mainlock acquired by clienttask: GetStatus"<< endl;
+//         std::cout << "Mainlock acquired by clienttask: GetStatus"<< std::endl;
          TGo4TaskStatus* state=CreateStatus();
          queue->AddBufferFromObject(state);
    }
@@ -613,13 +613,13 @@ TGo4TaskHandler* th=GetTaskHandler();
 if(th==0) return;
 if(th->IsAborting())
    {
-      //cout <<"Do not SendStopBuffers() when aborting taskhandler" << endl;
+      //std::cout <<"Do not SendStopBuffers() when aborting taskhandler" << std::endl;
       return;
    }
 
 if(IsMaster())
    {
-     //cout <<"SSSSSSSSs SendStopBuffers() as master" << endl;
+     //std::cout <<"SSSSSSSSs SendStopBuffers() as master" << std::endl;
      TGo4BufferQueue * comq=GetCommandQueue(taskname);
      if(comq)
       {
@@ -628,7 +628,7 @@ if(IsMaster())
    }
 else
    {
-      //cout <<"SSSSSSSSs SendStopBuffers() as slave, sending to "<<taskname << endl;
+      //std::cout <<"SSSSSSSSs SendStopBuffers() as slave, sending to "<<taskname << std::endl;
       TGo4BufferQueue * dataq=GetDataQueue(taskname);
       if(dataq)
          {

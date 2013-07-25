@@ -71,7 +71,7 @@ TGo4AnalysisClient::TGo4AnalysisClient(const char* name,
    fbLoadPrefs(loadprefs),
    fbShowRate(showrate)
 {
-   TRACE((15,"TGo4AnalysisClient::TGo4AnalysisClient(const char*,...)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4AnalysisClient::TGo4AnalysisClient(const char*,...)",__LINE__, __FILE__));
 
    if(analysis==0) {
       TGo4Log::Debug("!!! AnalysisClient ''%s'': no external analysis specified !!",GetName());
@@ -102,7 +102,7 @@ TGo4AnalysisClient::TGo4AnalysisClient(int argc, char** argv,
    fbLoadPrefs(kTRUE),
    fbShowRate(kFALSE)
 {
-   TRACE((15,"TGo4AnalysisClient::TGo4AnalysisClient(int, char**...)",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4AnalysisClient::TGo4AnalysisClient(int, char**...)",__LINE__, __FILE__));
 
    if(argc<5)
       {
@@ -167,7 +167,7 @@ void TGo4AnalysisClient::Constructor(Bool_t starthistserv, const char* basename,
 
 TGo4AnalysisClient::~TGo4AnalysisClient()
 {
-   TRACE((15,"TGo4AnalysisClient::~TGo4AnalysisClient()",__LINE__, __FILE__));
+   GO4TRACE((15,"TGo4AnalysisClient::~TGo4AnalysisClient()",__LINE__, __FILE__));
 //   if(GetTask())
 //      {
 //         GetTask()->GetTaskHandler()->DisConnect(); // disconnect before we autosave etc.
@@ -249,7 +249,7 @@ Int_t TGo4AnalysisClient::Initialization()
 
 void TGo4AnalysisClient::UpdateStatus(TGo4TaskStatus * state)
 {
-   TRACE((12,"TGo4AnalysisClient::UpdateStatus(TGo4ClientStatus*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisClient::UpdateStatus(TGo4ClientStatus*)",__LINE__, __FILE__));
    TGo4Slave::UpdateStatus(state); // fill superclass attributes
    TGo4AnalysisClientStatus* anstate= dynamic_cast<TGo4AnalysisClientStatus*> (state);
    if (anstate) {
@@ -268,7 +268,7 @@ void TGo4AnalysisClient::UpdateStatus(TGo4TaskStatus * state)
 
 TGo4TaskStatus* TGo4AnalysisClient::CreateStatus()
 {
-   TRACE((12,"TGo4AnalysisClient::CreateStatus()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisClient::CreateStatus()",__LINE__, __FILE__));
    // note: ratemeter update done by mainthread loop
    TGo4AnalysisClientStatus* stat= new TGo4AnalysisClientStatus(GetName());
    UpdateStatus(stat); // set the internals
@@ -277,7 +277,7 @@ TGo4TaskStatus* TGo4AnalysisClient::CreateStatus()
 
 void TGo4AnalysisClient::Start()
 {
-   TRACE((12,"TGo4AnalysisClient::Start()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisClient::Start()",__LINE__, __FILE__));
    if(fxAnalysis->IsInitDone())
       {
          if(GetThreadHandler()) GetThreadHandler()->Start(fcMainName.Data()); // this is useful anyway...
@@ -299,33 +299,29 @@ void TGo4AnalysisClient::Start()
 
 void TGo4AnalysisClient::SendAnalysisObject(const char * name)
 {
-   TRACE((12,"TGo4AnalysisClient::SendAnalysisObject(char* name)",__LINE__, __FILE__));
-   TNamed* ob=fxAnalysis->GetObject(name);
+   GO4TRACE((12,"TGo4AnalysisClient::SendAnalysisObject(char* name)",__LINE__, __FILE__));
+   TNamed* ob = fxAnalysis->GetObject(name);
    SendObject(ob);
 }
 
 void TGo4AnalysisClient::SendAnalysisStatus()
 {
-   TRACE((12,"TGo4AnalysisClient::SendAnalysisStatus()",__LINE__, __FILE__));
-
-   TGo4Analysis* ana=GetAnalysis();
+   GO4TRACE((12,"TGo4AnalysisClient::SendAnalysisStatus()",__LINE__, __FILE__));
+   TGo4Analysis* ana = GetAnalysis();
    TGo4Log::Debug(" AnalysisClient -  sending current analysis settings ");
-   if(ana)
-      {
-         TGo4AnalysisStatus* state=ana->CreateStatus();
-         SendStatus(state);
-         delete state;
-      }
-   else
-      {
-         SendStatusMessage(3,kFALSE, "ERROR sending analysis status: no analysis ");
-      }
+   if(ana) {
+      TGo4AnalysisStatus* state = ana->CreateStatus();
+      SendStatus(state);
+      delete state;
+   } else {
+      SendStatusMessage(3,kFALSE, "ERROR sending analysis status: no analysis ");
+   }
 }
 
 
 void TGo4AnalysisClient::SendAnalysisClientStatus()
 {
-   TRACE((12,"TGo4AnalysisClient::SendAnalysisClientStatus()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisClient::SendAnalysisClientStatus()",__LINE__, __FILE__));
 
    TGo4Log::Debug(" AnalysisClient -  sending current analysis client status ");
    SendStatusBuffer();
@@ -338,7 +334,7 @@ void TGo4AnalysisClient::SendAnalysisClientStatus()
 
 void TGo4AnalysisClient::SendNamesList()
 {
-   TRACE((12,"TGo4AnalysisClient::SendNamesList()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisClient::SendNamesList()",__LINE__, __FILE__));
 
    fxAnalysis->UpdateNamesList();
    TGo4AnalysisObjectNames* state= fxAnalysis->GetNamesList();
@@ -356,7 +352,7 @@ void TGo4AnalysisClient::SendNamesList()
 
 void TGo4AnalysisClient::KillMain()
 {
-   TRACE((12,"TGo4AnalysisClient::KillMain()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisClient::KillMain()",__LINE__, __FILE__));
    if(GetThreadHandler()) GetThreadHandler()->Stop(fcMainName.Data());
    // put dummy buffer to command queue. This will wake up the main thread from command wait.
    if(GetTask()) GetTask()->WakeCommandQueue(); // note that the dummy command will not have the termination id here!
@@ -366,7 +362,7 @@ void TGo4AnalysisClient::KillMain()
 
 void TGo4AnalysisClient::RestartMain()
 {
-   TRACE((12,"TGo4AnalysisClient::RestartMain()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisClient::RestartMain()",__LINE__, __FILE__));
    if(GetThreadHandler()) GetThreadHandler()->Stop(fcMainName.Data());
    // put dummy buffer to command queue. This will wake up the main thread from command wait.
    if(GetTask()) GetTask()->WakeCommandQueue(); // note that the dummy command will not have the termination id here!
@@ -381,7 +377,7 @@ void TGo4AnalysisClient::RestartMain()
 
 void TGo4AnalysisClient::Stop()
 {
-   TRACE((12,"TGo4AnalysisClient::Stop()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisClient::Stop()",__LINE__, __FILE__));
 
    if(MainIsRunning()) fxAnalysis->PostLoop(); // only call postloop once
    TGo4Slave::Stop(); // will stop for command queue wait
@@ -398,10 +394,10 @@ void TGo4AnalysisClient::Stop()
 //         fxAnalysis->ResetStopWorking();
 //      }
 ////      else {
-//    	 cout <<"TGo4AnalysisClient::Stop() before close analysis" << endl;
+//    	 std::cout <<"TGo4AnalysisClient::Stop() before close analysis" << std::endl;
 //         TGo4Log::StartTracing(); // debug
 //    	 fxAnalysis->CloseAnalysis();
-//         cout <<"TGo4AnalysisClient::Stop() after close analysis" << endl;
+//         std::cout <<"TGo4AnalysisClient::Stop() after close analysis" << std::endl;
 //         TGo4Log::CloseLogfile();
 //         exit(0);
 //      }
@@ -410,7 +406,7 @@ void TGo4AnalysisClient::Stop()
 
 void TGo4AnalysisClient::UpdateRate(Int_t counts)
 {
-   TRACE((12,"TGo4AnalysisClient::UpdateRate(Int_t)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4AnalysisClient::UpdateRate(Int_t)",__LINE__, __FILE__));
    if (fxRatemeter->Update(counts))
       if (fbShowRate) {
          TString ratefmt;
@@ -455,24 +451,24 @@ void TGo4AnalysisClient::StartObjectServer(const char* basename,  const char* pa
     fxHistoServer= new TGo4HistogramServer(this,basename,passwd,kFALSE);
       // switch last boolean true if you want to use Go4 object server support
       // default will only enable gsi histogram server JA 9/2005
-    //cout <<"--------StartObjectServer started histoserver" << endl;
+    //std::cout <<"--------StartObjectServer started histoserver" << std::endl;
     //SendStatusMessage(1,kTRUE,"AnalysisClient %s Started Object server.",GetName());
 }
 
 void TGo4AnalysisClient::StopObjectServer()
 {
-   //cout <<"--------StopObjectServer entered." << endl;
+   //std::cout <<"--------StopObjectServer entered." << std::endl;
    if(fxHistoServer) {
       delete fxHistoServer;
       fxHistoServer=0;
-      //cout <<"---------old histoserver is deleted!!!" << endl;
+      //std::cout <<"---------old histoserver is deleted!!!" << std::endl;
       //SendStatusMessage(1,kTRUE,"AnalysisClient %s: Object server was stopped.",GetName());
    }
 }
 
 void TGo4AnalysisClient::Quit()
 {
-  //cout <<"--------TGo4AnalysisClient::Quit() closing analysis" << endl;
+  //std::cout <<"--------TGo4AnalysisClient::Quit() closing analysis" << std::endl;
 	  Stop();
 	  fxAnalysis->CloseAnalysis();
 }
@@ -521,7 +517,7 @@ void TGo4AnalysisClient::ExecuteString(const char* command)
       strtok((char*) buffer.Data(), ":"); // first find the command itself
       TString base = strtok(0,":");
       TString pass = strtok(0,":");
-      // cout << "ExecuteString found base " << base << ",  passwd " << pass << endl;
+      // std::cout << "ExecuteString found base " << base << ",  passwd " << pass << std::endl;
       StartObjectServer(base.Data(), pass.Data());
    } else
    if (!strcmp(command,"ANHServStop")) {
@@ -536,7 +532,7 @@ void TGo4AnalysisClient::ExecuteString(const char* command)
          at = strstr(cursor,"@");
          if(at)
          {
-            //cout <<"Found at: "<<at << endl;
+            //std::cout <<"Found at: "<<at << std::endl;
             len=(Ssiz_t) (at-cursor);
             comstring.Append(cursor,len);
             comstring.Append("TGo4Analysis::Instance()->");
@@ -544,7 +540,7 @@ void TGo4AnalysisClient::ExecuteString(const char* command)
          }
          else
          {
-            //cout <<"Appended "<<cursor << endl;
+            //std::cout <<"Appended "<<cursor << std::endl;
             comstring.Append(cursor);
          }
       }
@@ -554,7 +550,7 @@ void TGo4AnalysisClient::ExecuteString(const char* command)
 }
 Int_t TGo4AnalysisClient::StartWorkThreads()
 {
-   //cout <<"++++++++TGo4AnalysisClient::StartWorkThreads()" << endl;
+   //std::cout <<"++++++++TGo4AnalysisClient::StartWorkThreads()" << std::endl;
    TGo4TaskOwner::StartWorkThreads();
    if(GetThreadHandler())
       {
@@ -566,7 +562,7 @@ Int_t TGo4AnalysisClient::StartWorkThreads()
 
 Int_t TGo4AnalysisClient::StopWorkThreads()
 {
-   //cout <<"++++++++TGo4AnalysisClient::StopWorkThreads()" << endl;
+   //std::cout <<"++++++++TGo4AnalysisClient::StopWorkThreads()" << std::endl;
    TGo4TaskOwner::StopWorkThreads();
    if(GetThreadHandler())
       {

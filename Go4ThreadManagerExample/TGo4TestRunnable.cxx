@@ -32,32 +32,32 @@
 TGo4TestRunnable::TGo4TestRunnable()
 :TGo4Runnable("dummy",0),fxPad(0),fxCanvas(0),fxHisto(0)
 {
-  TRACE((14,"TGo4TestRunnable::TGo4Runnable() constructor",__LINE__, __FILE__));
+  GO4TRACE((14,"TGo4TestRunnable::TGo4Runnable() constructor",__LINE__, __FILE__));
 }
 
 TGo4TestRunnable::TGo4TestRunnable(const TGo4TestRunnable &right)
    :TGo4Runnable(right),fxPad(0),fxCanvas(0),fxHisto(0)
 {
-   TRACE((14,"TGo4TestRunnable::TGo4TestRunnable() copy ctor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4TestRunnable::TGo4TestRunnable() copy ctor",__LINE__, __FILE__));
    fiMode=right.fiMode;
 }
 
 TGo4TestRunnable::TGo4TestRunnable(const char* name, TGo4ThreadManager* man, Int_t mode)
   :TGo4Runnable(name,man),fxPad(0),fxCanvas(0),fxHisto(0)
 {
-  TRACE((14,"TGo4TestRunnable::TGo4TestRunnable(const char*,TGo4ThreadManager*,Int_t) constructor",__LINE__, __FILE__));
+  GO4TRACE((14,"TGo4TestRunnable::TGo4TestRunnable(const char*,TGo4ThreadManager*,Int_t) constructor",__LINE__, __FILE__));
   fiMode=mode;
 }
 
 
 TGo4TestRunnable::~TGo4TestRunnable()
 {
-   TRACE((14,"TGo4TestRunnable::~TGo4TestRunnable() destructor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4TestRunnable::~TGo4TestRunnable() destructor",__LINE__, __FILE__));
 }
 
 Int_t TGo4TestRunnable::Run (void* ptr)
 {
-   TRACE((12,"TGo4TestRunnable::Run()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4TestRunnable::Run()",__LINE__, __FILE__));
 
    Int_t i=0;
    static Int_t t=0;
@@ -74,7 +74,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
    {
       case 0:
          {
-         TRACE((11,"TGo4TestRunnable::Run() mode 0",__LINE__, __FILE__));
+         GO4TRACE((11,"TGo4TestRunnable::Run() mode 0",__LINE__, __FILE__));
          TGo4Log::Debug(" TestRunnable ''%s'' running, testcase %d -- ",
                   GetName(),fiMode);
          fxGo4Thread->Sleep(5000);
@@ -82,7 +82,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
          break;
       case 1:
          {
-         TRACE((11,"TGo4TestRunnable::Run() mode 1",__LINE__, __FILE__));
+         GO4TRACE((11,"TGo4TestRunnable::Run() mode 1",__LINE__, __FILE__));
          TGo4Log::Debug(" ControlRunnable ''%s'' running, testcase %d -- ",
                   GetName(),fiMode);
          fxGo4Thread->Sleep(30000);
@@ -103,7 +103,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
          break;
       case 2:
          {
-         TRACE((11,"TGo4TestRunnable::Run() mode 2",__LINE__, __FILE__));
+         GO4TRACE((11,"TGo4TestRunnable::Run() mode 2",__LINE__, __FILE__));
          TGo4Log::Debug(" ControlRunnable ''%s'' running, testcase %d -- ",
                   GetName(),fiMode);
          fxGo4Thread->Sleep(10000);
@@ -124,7 +124,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
       case 3:
          // can we call methods of manager? aborting the whole thing?
          {
-         TRACE((11,"TGo4TestRunnable::Run() mode 3",__LINE__, __FILE__));
+         GO4TRACE((11,"TGo4TestRunnable::Run() mode 3",__LINE__, __FILE__));
          TGo4Log::Debug(" ControlRunnable ''%s'' running, testcase %d -- ",
                   GetName(),fiMode);
          fxGo4Thread->Sleep(30000);
@@ -136,7 +136,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
       case 4:
          // memory alloc and histogram drawing test
          {
-         TRACE((11,"TGo4TestRunnable::Run() mode 4",__LINE__, __FILE__));
+         GO4TRACE((11,"TGo4TestRunnable::Run() mode 4",__LINE__, __FILE__));
          TGo4Log::Debug(" ControlRunnable ''%s'' running, testcase %d -- ",
                   GetName(),fiMode);
          fxGo4Thread->Sleep(2000);
@@ -191,9 +191,9 @@ Int_t TGo4TestRunnable::Run (void* ptr)
 
                   //throw TGo4ReplaceException(this);
 
-//                     cout << GetName()<<" ReCreating my thread:"<<endl;
+//                     std::cout << GetName()<<" ReCreating my thread:"<< std::endl;
 //                     //fxGo4Thread->ReCreate();
-//                  cout << GetName()<<" throwing exception now:"<<endl;
+//                  std::cout << GetName()<<" throwing exception now:"<< std::endl;
 //                  throw TGo4RestartException(this);
 
 //                  t=0;
@@ -203,7 +203,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
          break;
       case 5:
          {
-         TRACE((11,"TGo4TestRunnable::Run() mode 5",__LINE__, __FILE__));
+         GO4TRACE((11,"TGo4TestRunnable::Run() mode 5",__LINE__, __FILE__));
          TGo4Log::Debug(" ControlRunnable ''%s'' running, testcase %d -- ",
                   GetName(),fiMode);
          fxGo4Thread->Sleep(15000);
@@ -235,11 +235,11 @@ Int_t TGo4TestRunnable::Run (void* ptr)
 //         ((TGo4ThreadHandler*) fxManager->GetWorkHandler())->Start(buf);
 
 
-//         cout << GetName()<<" end of work, stopping"<<endl;
+//         std::cout << GetName()<<" end of work, stopping"<< std::endl;
 //         fxGo4Thread->Stop();
 //
 
-//         cout << GetName()<<" end of work, canceling"<<endl;
+//         std::cout << GetName()<<" end of work, canceling"<< std::endl;
 //         fxGo4Thread->Cancel();
 
 //         throw TGo4CancelException(this);
@@ -248,7 +248,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
       case 6:
          // exception test:
          {
-         TRACE((11,"TGo4TestRunnable::Run() mode 6",__LINE__, __FILE__));
+         GO4TRACE((11,"TGo4TestRunnable::Run() mode 6",__LINE__, __FILE__));
          TGo4Log::Debug(" ControlRunnable ''%s'' running, testcase %d -- ",
                   GetName(),fiMode);
          fxGo4Thread->Sleep(61000);
@@ -274,7 +274,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
          break;
          case 7:
          {
-         TRACE((11,"TGo4TestRunnable::Run() mode 7",__LINE__, __FILE__));
+         GO4TRACE((11,"TGo4TestRunnable::Run() mode 7",__LINE__, __FILE__));
          TGo4Log::Debug(" ControlRunnable ''%s'' running, testcase %d -- ",
                   GetName(),fiMode);
          TGo4Log::Debug("\t ''%s'' creating histogram", GetName());
@@ -306,7 +306,7 @@ Int_t TGo4TestRunnable::Run (void* ptr)
          break;
       default:
          {
-         TRACE((11,"TGo4TestRunnable::Run() mode default",__LINE__, __FILE__));
+         GO4TRACE((11,"TGo4TestRunnable::Run() mode default",__LINE__, __FILE__));
          TGo4Log::Debug(" TestRunnable ''%s'' --  unspecified Workfunc action! ",
                   GetName(),fiMode);
          throw TGo4LogicException();
@@ -319,27 +319,27 @@ Int_t TGo4TestRunnable::Run (void* ptr)
 
 void TGo4TestRunnable::ThreadCatch (TGo4Exception& ex)
 {
-TRACE((12,"TGo4TestRunnable::ThreadCatch()",__LINE__, __FILE__));
+GO4TRACE((12,"TGo4TestRunnable::ThreadCatch()",__LINE__, __FILE__));
 TGo4Runnable::ThreadCatch(ex); // we use parent method
 
-//   cout  << "TGo4TestRunnable "<< GetName() << ":ThreadCatch --"
-//   << endl<< "\t"
+//   std::cout  << "TGo4TestRunnable "<< GetName() << ":ThreadCatch --"
+//   << std::endl<< "\t"
 //   << ex.What()
 //   << " occured in thread "<< fxGo4Thread->GetSelfID()
 //   << "\n\t\tcalling default exception handler..."
-//   << endl;
+//   << std::endl;
 //   ex.Handle();
 }
 
 void TGo4TestRunnable::UnexpectedCatch ()
 {
-TRACE((12,"TGo4TestRunnable::UnexpectedCatch()",__LINE__, __FILE__));
+GO4TRACE((12,"TGo4TestRunnable::UnexpectedCatch()",__LINE__, __FILE__));
 
 TGo4Runnable::UnexpectedCatch();
 
-//   cout  << "TGo4TestRunnable "<< GetName() << ":UnexpectedCatch --"
-//         << endl<< "\t"
-//         << "aborting Application"<<endl;
+//   std::cout  << "TGo4TestRunnable "<< GetName() << ":UnexpectedCatch --"
+//         << std::endl<< "\t"
+//         << "aborting Application"<< std::endl;
 //   gApplication->Terminate(0);
 //
 }

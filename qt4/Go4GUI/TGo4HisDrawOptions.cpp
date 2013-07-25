@@ -13,16 +13,17 @@
 
 #include "TGo4HisDrawOptions.h"
 
-//#include <QLineEdit>
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "TROOT.h"
 #include "TColor.h"
 #include "TAttLine.h"
 #include "TAttFill.h"
 #include "TAttMarker.h"
+
 #include "TGo4Picture.h"
 #include "TGo4ViewPanel.h"
 #include "TGo4WorkSpace.h"
+
 #include <QColorDialog>
 
 TGo4HisDrawOptions::TGo4HisDrawOptions( QWidget* parent, const char* name, Qt::WFlags fl )
@@ -479,8 +480,8 @@ void TGo4HisDrawOptions::DecodeDrawOption(const char* drawopt,
       if(buf.Contains("text"))  HisDrawStyle = 18; else
       if(buf.Contains("asimage")) HisDrawStyle = 19;
    }
-   //cout << *drawopt << " Decode " << buf << " Error " << HisErrorStyle
-   //     << " Coord " << HisCoordStyle  << " Draw " <<HisDrawStyle<<endl;
+   //std::cout << *drawopt << " Decode " << buf << " Error " << HisErrorStyle
+   //     << " Coord " << HisCoordStyle  << " Draw " <<HisDrawStyle<< std::endl;
 }
 
 void TGo4HisDrawOptions::CodeDrawOptions(int HisErrorStyle,

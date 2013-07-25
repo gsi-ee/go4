@@ -115,7 +115,7 @@ Int_t TGo4HisConnectorRunnable::Run(void*)
                ana->Message(0,
                      "Histogram server is sending histogram %s",
                      hisname);
-               //cout <<"Histogram Server is sending histogram "<< hisname <<endl;
+               //std::cout <<"Histogram Server is sending histogram "<< hisname << std::endl;
             }
             else
             {
@@ -144,14 +144,14 @@ Int_t TGo4HisConnectorRunnable::Run(void*)
             TGo4LockGuard mainlock; // this should lock also dirmutex
             mbshisto=new TGo4MbsHist(ana->GetObjectFolder(), histo);
             result=f_his_senddir((s_his_head*) (mbshisto->GetBuffer()), mbshisto->GetHisNum());
-            //               cout <<"sending dir buffer :" << endl;
-            //               cout <<"\thisnum="<<mbshisto->GetHisNum()<<", buflen="<<mbshisto->GetBufLen() << endl;
+            //               std::cout <<"sending dir buffer :" << std::endl;
+            //               std::cout <<"\thisnum="<<mbshisto->GetHisNum()<<", buflen="<<mbshisto->GetBufLen() << std::endl;
             delete mbshisto;
          }
          break;
          default:
             ana->Message(0,"Histogram server: got unknown command");
-            //cout <<"Histogram Server: got unknown command" << endl;
+            //std::cout <<"Histogram Server: got unknown command" << std::endl;
             break;
       } // switch
    }

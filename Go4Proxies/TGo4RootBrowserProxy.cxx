@@ -72,7 +72,7 @@ Bool_t TGo4RootBrowserProxy::ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_
    else
    if ((id==TGo4Slot::evDelete) ||
        (id==TGo4Slot::evObjDeleted)) {
-          // cout << "Slot deleted " << source->GetName() << endl;
+          // std::cout << "Slot deleted " << source->GetName() << std::endl;
        }
 
    return (id==TGo4Slot::evDelete);
@@ -230,7 +230,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
 
       TGo4Slot* curslot = iter.getslot();
       if (curslot==0) {
-         cerr << "************* ERROR in gui slots ****************** " << endl;
+         std::cerr << "************* ERROR in gui slots ****************** " << std::endl;
          return;
       }
 

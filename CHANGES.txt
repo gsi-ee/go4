@@ -54,6 +54,9 @@ Changes in Go4 v4.5.9
 12.Fix problem with zoom selection - at some time in ROOT TAxis::SetRangeUser
    was modified, which leads to zoom shift on one bin every histogram update.
    Fixed for qt4 version of GUI.
+13.In all go4 source files use std:: prefix for standard libraries. 
+14.Small adjustments for newest ROOT 5.99 version.
+    
 
 Changes in Go4 v4.5.5
 1. Adjust different macros to use together with ROOT 5.99 

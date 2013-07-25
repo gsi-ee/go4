@@ -30,7 +30,7 @@ void TGo4OptStatsSettings::init()
     OptStatGroupBox->setEnabled(showstat);
 
     int optstats=go4sett->getOptStat();
-    //cout <<"Found options stat: "<<optstats << endl;
+    //std::cout <<"Found options stat: "<<optstats << std::endl;
     bool k= (optstats/100000000)%10 ;
     bool s=(optstats/10000000)%10;
     bool i=(optstats/1000000)%10;
@@ -88,7 +88,7 @@ void TGo4OptStatsSettings::setFlags()
     bool n=DrawNameButton->isChecked();
     int nm= (int) n;
     int optstats=leader+kurt+skew+integ+over+under+rms+mean+ent+nm;
-    //cout <<"Set options stat to "<<optstats << endl;
+    //std::cout <<"Set options stat to "<<optstats << std::endl;
     go4sett->setStatBoxVisible(drawbox);
     go4sett->setStatBoxErrors(drawerrors);
     go4sett->setOptStat(optstats);

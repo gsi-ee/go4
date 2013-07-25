@@ -25,7 +25,7 @@
 TGo4CommandProtoList::TGo4CommandProtoList(const char* name) :
    TNamed(name,"This is a TGo4CommandProtoList")
 {
-   TRACE((14,"TGo4CommandProtoList::TGo4CommandProtoList(const char*) ctor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4CommandProtoList::TGo4CommandProtoList(const char*) ctor",__LINE__, __FILE__));
 
    fxListMutex = new TMutex;
    fxCommandList = new TObjArray;
@@ -34,7 +34,7 @@ TGo4CommandProtoList::TGo4CommandProtoList(const char* name) :
 
 TGo4CommandProtoList::~TGo4CommandProtoList()
 {
-   TRACE((14,"TGo4CommandProtoList::~TGo4CommandProtoList() dtor",__LINE__, __FILE__));
+   GO4TRACE((14,"TGo4CommandProtoList::~TGo4CommandProtoList() dtor",__LINE__, __FILE__));
    {
       TGo4LockGuard listguard(fxListMutex);
       fxCommandList->Delete();
@@ -45,7 +45,7 @@ TGo4CommandProtoList::~TGo4CommandProtoList()
 
 void TGo4CommandProtoList::ShowCommands()
 {
-   TRACE((12,"TGo4CommandProtoList::ShowCommands()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4CommandProtoList::ShowCommands()",__LINE__, __FILE__));
 
    TGo4LockGuard listguard(fxListMutex);
    TGo4Command* com;
@@ -58,16 +58,16 @@ void TGo4CommandProtoList::ShowCommands()
 
 TGo4Command* TGo4CommandProtoList::MakeCommand(const char* name)
 {
-   TRACE((12,"TGo4CommandProtoList::MakeCommand(const char*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4CommandProtoList::MakeCommand(const char*)",__LINE__, __FILE__));
    TGo4Command* rev=0;
    TGo4LockGuard listguard(fxListMutex);
    TObject* obj=fxCommandList->FindObject(name);
    if(obj==0) {
       //no, do nothing
-      TRACE((10,"TGo4CommandProtoList::RemoveCommand(TGo4Command*) command not found in array",__LINE__, __FILE__));
+      GO4TRACE((10,"TGo4CommandProtoList::RemoveCommand(TGo4Command*) command not found in array",__LINE__, __FILE__));
    } else {
       // yes, create it it
-      TRACE((10,"TGo4CommandProtoList::RemoveCommand(TGo4Command*) cloning command",__LINE__, __FILE__));
+      GO4TRACE((10,"TGo4CommandProtoList::RemoveCommand(TGo4Command*) cloning command",__LINE__, __FILE__));
       rev= (TGo4Command*) obj->Clone();
    }
 
@@ -87,16 +87,16 @@ TGo4Command* TGo4CommandProtoList::MakeCommand(TGo4RemoteCommand* remcon)
 
 void TGo4CommandProtoList::RemoveCommand(const char* name)
 {
-   TRACE((12,"TGo4CommandProtoList::RemoveCommand(const char*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4CommandProtoList::RemoveCommand(const char*)",__LINE__, __FILE__));
 
    TGo4LockGuard listguard(fxListMutex);
    TObject* obj=fxCommandList->FindObject(name);
    if(obj==0) {
       //no, do nothing
-      TRACE((10,"TGo4CommandProtoList::RemoveCommand(TGo4Command*) command not found in array",__LINE__, __FILE__));
+      GO4TRACE((10,"TGo4CommandProtoList::RemoveCommand(TGo4Command*) command not found in array",__LINE__, __FILE__));
    } else {
       // yes, remove it
-      TRACE((10,"TGo4CommandProtoList::RemoveCommand(TGo4Command*) removing command from array",__LINE__, __FILE__));
+      GO4TRACE((10,"TGo4CommandProtoList::RemoveCommand(TGo4Command*) removing command from array",__LINE__, __FILE__));
       fxCommandList->Remove(obj);
       fxCommandList->Compress();
       fxCommandList->Expand(fxCommandList->GetLast()+1);
@@ -107,15 +107,15 @@ void TGo4CommandProtoList::RemoveCommand(const char* name)
 
 void TGo4CommandProtoList::AddCommand(TGo4Command* com)
 {
-   TRACE((12,"TGo4CommandProtoList::AddCommand(TGo4Command*)",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4CommandProtoList::AddCommand(TGo4Command*)",__LINE__, __FILE__));
    TGo4LockGuard listguard(fxListMutex);
    if(fxCommandList->FindObject(com)==0) {
       //no, add new command
-      TRACE((10,"TGo4CommandProtoList::AddCommand(TGo4Command*) Adding new go4 commandto array",__LINE__, __FILE__));
+      GO4TRACE((10,"TGo4CommandProtoList::AddCommand(TGo4Command*) Adding new go4 commandto array",__LINE__, __FILE__));
       fxCommandList->AddLast(com);
    } else {
       // yes, do nothing
-      TRACE((10,"TGo4CommandProtoList::AddCommand(TGo4Command*) command was already in array",__LINE__, __FILE__));
+      GO4TRACE((10,"TGo4CommandProtoList::AddCommand(TGo4Command*) command was already in array",__LINE__, __FILE__));
    }
 }
 

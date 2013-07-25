@@ -59,7 +59,7 @@ Int_t TGo4StatusRunnable::Run(void* ptr)
                }
             else if(fxManager->IsTerminating())
                {
-                  //cout <<"Receive error in "<<GetName()<< " while threadmanager is terminating. Ignored!" << endl;
+                  //std::cout <<"Receive error in "<<GetName()<< " while threadmanager is terminating. Ignored!" << std::endl;
                   TGo4Log::Debug("Receive Error in %s during threadmanager termination. Ignored.",GetName());
                   GetThread()->Stop();
                }
@@ -67,7 +67,7 @@ Int_t TGo4StatusRunnable::Run(void* ptr)
                {
                   TGo4Log::Debug(" !!!Receive Error in %s!!!",
                         GetName());
-                   //GetThread()->Stop(); cout <<"Stopped status runnable. no termination" << endl;
+                   //GetThread()->Stop(); std::cout <<"Stopped status runnable. no termination" << std::endl;
                   throw TGo4TaskHandlerAbortException(this);
                }
          }

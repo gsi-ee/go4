@@ -16,7 +16,7 @@
 #include <QFileDialog>
 
 #include "TClass.h"
-#include "go4iostream.h"
+#include "Riostream.h"
 
 #include "TGo4AnalysisStepStatus.h"
 #include "TGo4EventStoreParameter.h"
@@ -230,7 +230,7 @@ void TGo4ConfigStep::StepStateChanged(int )
 void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4AnalysisStepStatus* StepStatus, int number)
 {
     if (StepStatus==0) return;
-    //cout <<"TGo4ConfigStep::SetStepStatus for "<< StepStatus->GetName()<< endl;
+    //std::cout <<"TGo4ConfigStep::SetStepStatus for "<< StepStatus->GetName()<< std::endl;
 
     fxPanel = panel;
     fStepStatus = StepStatus;
@@ -712,10 +712,10 @@ void TGo4ConfigStep::InputFileDialog()
           filters = "all files  (*.*)";
        }
        else
-          cout <<"Unknown sourcepar " <<sourcepar->ClassName() << endl;
+          std::cout <<"Unknown sourcepar " <<sourcepar->ClassName() << std::endl;
    }
 
-    //cout <<"FFFFFFFF chose filter-"<< filters.toAscii().constData() <<"-" <<endl;
+    //std::cout <<"FFFFFFFF chose filter-"<< filters.toAscii().constData() <<"-" << std::endl;
     QFileDialog fd( this, "Select file name for step input",
                           fxPanel->GetSourcePath(), filters);
     fd.setFileMode(QFileDialog::ExistingFile);

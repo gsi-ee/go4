@@ -19,6 +19,7 @@
 
 #include "TSystem.h"
 #include "RVersion.h"
+#include "Riostream.h"
 
 #include "tqapplication.h"
 #include "qrootapplication.h"
@@ -30,14 +31,12 @@
 #include "TGo4BrowserProxy.h"
 #include "TGo4AbstractInterface.h"
 
-#include "go4iostream.h"
-
 int main(int argc, char **argv)
 {
    if (!TGo4Version::CheckVersion(__GO4BUILDVERSION__)) {
-      cerr << "Go4 was build with version " << __GO4BUILDVERSION__ << endl;
-      cerr << "Loaded go4 libraries has version " << TGo4Version::Instance()->GetBuildVersion() << endl;
-      cerr << "Please configure your system correctly and restart go4 again" << endl;
+      std::cerr << "Go4 was build with version " << __GO4BUILDVERSION__ << std::endl;
+      std::cerr << "Loaded go4 libraries has version " << TGo4Version::Instance()->GetBuildVersion() << std::endl;
+      std::cerr << "Please configure your system correctly and restart go4 again" << std::endl;
       return -1;
    }
 
@@ -56,7 +55,7 @@ int main(int argc, char **argv)
 
       if (argv[narg][0]=='-') {
          if(!strcmp(argv[narg], "-debug")) {
-            cout << "G-OOOO-> MainGo4GUI switched on debug output" << endl;
+            std::cout << "G-OOOO-> MainGo4GUI switched on debug output" << std::endl;
             traceon = true;
          } else
          if((strcmp(argv[narg], "-observer")==0) ||
@@ -141,27 +140,27 @@ int main(int argc, char **argv)
       QString qsubdir=TGo4QSettings::GetUserPath();
       if(gSystem->AccessPathName(qsubdir))
       {
-         cout <<"Creating settings subdirectory "<<qsubdir<<" ..."<< endl;
+         std::cout <<"Creating settings subdirectory "<<qsubdir<<" ..."<< std::endl;
          if(gSystem->mkdir(qsubdir,true)!=0)
-            cout <<"Could not create "<<qsubdir<<" !"<< endl;
+            std::cout <<"Could not create "<<qsubdir<<" !"<< std::endl;
 
       }
 
       if(gSystem->CopyFile(homesettings,usersettings,kTRUE)==0)
-         cout <<"Copied account settings "<<homesettings<<" to "<<usersettings << endl;
+         std::cout <<"Copied account settings "<<homesettings<<" to "<<usersettings << std::endl;
       else
-         cout<<"Could not copy "<<homesettings<<" to "<<usersettings << endl;
+         std::cout<<"Could not copy "<<homesettings<<" to "<<usersettings << std::endl;
       if(gSystem->CopyFile(hometools,usertools,kTRUE)==0)
-         cout <<"Copied account settings "<<hometools<<" to "<<usertools << endl;
+         std::cout <<"Copied account settings "<<hometools<<" to "<<usertools << std::endl;
       else
-         cout<<"Could not copy "<<hometools<<" to "<<usertools << endl;
+         std::cout<<"Could not copy "<<hometools<<" to "<<usertools << std::endl;
    }
    /////// end settings setup ///////////////////////////////
    if(traceon) TGo4Log::SetIgnoreLevel(0);
           else TGo4Log::SetIgnoreLevel(1);
 
-   cout << "   Go4 " << __GO4RELEASE__
-        << ",   build with ROOT " << ROOT_RELEASE << " and Qt " << QT_VERSION_STR << endl;
+   std::cout << "   Go4 " << __GO4RELEASE__
+        << ",   build with ROOT " << ROOT_RELEASE << " and Qt " << QT_VERSION_STR << std::endl;
 
    // create instance, which should be used everywhere
    go4sett = new TGo4QSettings();

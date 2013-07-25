@@ -186,9 +186,9 @@ and then just drag &amp; drop object to this label (not to output window).</stri
                 </widget>
               </item>
               <item row="2" column="1" >
-                <widget class="QRadioButton" name="coutButton" >
+                <widget class="QRadioButton" name="cccButton" >
                   <property name="text" >
-                    <string>cout is used in obj->Print()</string>
+                    <string>std::cout is used in obj->Print()</string>
                   </property>
                 </widget>
               </item>

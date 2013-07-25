@@ -26,7 +26,7 @@ TGo4MbsFileParameter::TGo4MbsFileParameter() :
     fxTagFile(),
     fxMoreFiles()
 {
-   TRACE((14,"TGo4MbsFileParameter::TGo4MbsFileParameter()", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4MbsFileParameter::TGo4MbsFileParameter()", __LINE__, __FILE__));
    SetTagName(TGo4MbsFile__fgcNOTAGFILE);
 }
 
@@ -35,13 +35,13 @@ TGo4MbsFileParameter::TGo4MbsFileParameter(const char* name) :
    fxTagFile(),
    fxMoreFiles()
 {
-   TRACE((14,"TGo4MbsFileParameter::TGo4MbsFileParameter(const char*,...)", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4MbsFileParameter::TGo4MbsFileParameter(const char*,...)", __LINE__, __FILE__));
    SetTagName(TGo4MbsFile__fgcNOTAGFILE);
 }
 
 TGo4MbsFileParameter::~TGo4MbsFileParameter()
 {
-   TRACE((14,"TGo4MbsFileParameter::~TGo4MbsFileParameter()", __LINE__, __FILE__));
+   GO4TRACE((14,"TGo4MbsFileParameter::~TGo4MbsFileParameter()", __LINE__, __FILE__));
 }
 
 void TGo4MbsFileParameter::AddMoreFile(const char* more)
@@ -60,7 +60,7 @@ const char* TGo4MbsFileParameter::GetMoreName(Int_t n) const
 
 Int_t TGo4MbsFileParameter::PrintParameter(Text_t* buffer, Int_t buflen)
 {
-   TRACE((12,"TGo4MbsFileParameter::PrintParameter()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsFileParameter::PrintParameter()",__LINE__, __FILE__));
    Int_t locallen=128000;
    Text_t localbuf[128000];
    if(buflen<0 && buffer!=0)
@@ -89,7 +89,7 @@ Int_t TGo4MbsFileParameter::PrintParameter(Text_t* buffer, Int_t buflen)
 
 Bool_t TGo4MbsFileParameter::UpdateFrom(TGo4Parameter* rhs)
 {
-   TRACE((12,"TGo4MbsFileParameter::UpdateFrom()",__LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MbsFileParameter::UpdateFrom()",__LINE__, __FILE__));
    if((rhs!=0) && rhs->InheritsFrom(TGo4MbsFileParameter::Class())) {
       TGo4MbsFileParameter* mbspar=dynamic_cast<TGo4MbsFileParameter*>(rhs);
       if(!mbspar) return kFALSE;

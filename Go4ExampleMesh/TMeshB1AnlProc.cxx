@@ -56,14 +56,14 @@ void TMeshB1AnlProc::Analysis(TMeshB1OutputEvent* poutevt)
       }
    if(fxInput)
       {
-         //cout <<"Dump of event "<<fxInput->GetName() << endl <<"   ";
+         //std::cout <<"Dump of event "<<fxInput->GetName() << std::endl <<"   ";
          // do the processing here:
          for(Int_t i=0;i<4;i++)
             {
                poutevt->frData[i]=(Float_t)fxInput->fiCrate1[i];
-               //cout << fxInput->fiCrate1[i]<<" ";
+               //std::cout << fxInput->fiCrate1[i]<<" ";
             }
-         //cout << endl;
+         //std::cout << std::endl;
       }
    else
       {

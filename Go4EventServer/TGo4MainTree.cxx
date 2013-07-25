@@ -34,7 +34,7 @@ TGo4MainTree::TGo4MainTree() :
    fiMaxIndex(0),
    fiCurrentIndex(0)
 {
-   TRACE((15,"TGo4MainTree::TGo4MainTree()", __LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MainTree::TGo4MainTree()", __LINE__, __FILE__));
 
    fxFile = TFile::Open(fgcFILENAME, "UPDATE", "File for main Go4 tree", fgiCOMPRESS);
    TGo4Log::Info("TGo4MainTree: Open file %s UPDATE", fgcFILENAME);
@@ -52,7 +52,7 @@ TGo4MainTree::TGo4MainTree() :
 
 TGo4MainTree::~TGo4MainTree()
 {
-  TRACE((15,"TGo4MainTree::~TGo4MainTree()", __LINE__, __FILE__));
+  GO4TRACE((15,"TGo4MainTree::~TGo4MainTree()", __LINE__, __FILE__));
    Write();
    delete fxFile;
 
@@ -61,7 +61,7 @@ TGo4MainTree::~TGo4MainTree()
 
 TGo4MainTree * TGo4MainTree::Instance()
 {
-   TRACE((12,"TGo4MainTree::Instance()", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MainTree::Instance()", __LINE__, __FILE__));
       if (fxInstance == 0)
          {
             fxInstance = new TGo4MainTree();
@@ -72,14 +72,14 @@ TGo4MainTree * TGo4MainTree::Instance()
 
 void TGo4MainTree::SetAutoSave(Int_t bytesinterval)
 {
-   TRACE((15,"TGo4MainTree::SetAutoSave(Int_t)", __LINE__, __FILE__));
+   GO4TRACE((15,"TGo4MainTree::SetAutoSave(Int_t)", __LINE__, __FILE__));
    Instance();
    fxTree->SetAutoSave(bytesinterval);
 }
 
 Int_t TGo4MainTree::Write(const char* /*dummy*/, Int_t /*option*/, Int_t /*bufsize*/)
 {
-   TRACE((12,"TGo4MainTree::Write()", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MainTree::Write()", __LINE__, __FILE__));
    fxFile->cd();
    fxTree->Write(0, TObject::kOverwrite);
    return 0;
@@ -87,7 +87,7 @@ Int_t TGo4MainTree::Write(const char* /*dummy*/, Int_t /*option*/, Int_t /*bufsi
 
 Int_t TGo4MainTree::Write(const char* /*dummy*/, Int_t /*option*/, Int_t /*bufsize*/) const
 {
-   TRACE((12,"TGo4MainTree::Write()", __LINE__, __FILE__));
+   GO4TRACE((12,"TGo4MainTree::Write()", __LINE__, __FILE__));
    fxFile->cd();
    fxTree->Write(0, TObject::kOverwrite);
    return 0;
@@ -95,7 +95,7 @@ Int_t TGo4MainTree::Write(const char* /*dummy*/, Int_t /*option*/, Int_t /*bufsi
 
 void TGo4MainTree::Update()
 {
-TRACE((12,"TGo4MainTree::Update()", __LINE__, __FILE__));
+GO4TRACE((12,"TGo4MainTree::Update()", __LINE__, __FILE__));
    if( GetCurrentIndex() >= GetMaxIndex() )
       {
          // if we are at the end of the tree, increment TTree fEvents counter

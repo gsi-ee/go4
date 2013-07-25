@@ -22,7 +22,7 @@
 #include <QSignalMapper>
 #include <QHeaderView>
 
-#include "go4iostream.h"
+#include "Riostream.h"
 #include "TClass.h"
 #include "TClassTable.h"
 #include "TROOT.h"
@@ -370,7 +370,7 @@ void TGo4Browser::updateListViewItems()
 
       TGo4Slot* curslot = iter.getslot();
       if (curslot==0) {
-         cerr << "************* ERROR in gui slots ****************** " << endl;
+         std::cerr << "************* ERROR in gui slots ****************** " << std::endl;
          return;
       }
 
