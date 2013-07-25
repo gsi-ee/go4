@@ -27,9 +27,7 @@ class TGo4DabcAccess : public TGo4Access {
       TGo4DabcAccess(const dabc::Hierarchy& item) :
          TGo4Access(),
          fItem(item)
-      {
-         fItem.SetTransient(false);
-      }
+      {}
 
       virtual ~TGo4DabcAccess() {}
 
@@ -74,8 +72,6 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
             fChild = fParent.GetChild(fCnt);
 //            printf("Extract %u child %s from iter\n", fCnt, fChild.GetName());
          }
-
-         fChild.SetTransient(false);
 
          return !fChild.null();
       }
@@ -171,13 +167,11 @@ Bool_t TGo4DabcProxy::UpdateHierarchy()
       return kFALSE;
    }
 
-   if (cmd.GetRawDataSize() > 0) {
-      // DOUT0("Get raw data %p %u", cmd2.GetRawData(), cmd2.GetRawDataSize());
+   dabc::Buffer buf = cmd.GetRawData();
 
-      std::string diff;
-      diff.append((const char*)cmd.GetRawData(), cmd.GetRawDataSize());
-      // DOUT0("diff = %s", diff.c_str());
-      if (hierarchy.UpdateFromXml(diff)) {
+   if (!buf.null()) {
+      // DOUT0("Get raw data %p %u", cmd2.GetRawData(), cmd2.GetRawDataSize());
+      if (hierarchy.UpdateFromXml((const char*)buf.SegmentPtr())) {
          DOUT0("Update of hierarchy to version %u done", hierarchy.GetVersion());
       }
    }
