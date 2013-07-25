@@ -37,19 +37,14 @@ TGo4ComExecLine::~TGo4ComExecLine()
 
 Int_t TGo4ComExecLine::ExeCom()
 {
-   TGo4Task* cli=dynamic_cast<TGo4Task*> (fxReceiverBase);
-   if(cli)
-      {
-         cli->SendStatusMessage(-1,kTRUE,"Executing: %s",GetLine());
-         cli->ExecuteString(GetLine());
-         cli->ExecuteString("Int_t res=fflush(stdout);");
-         return 0;
-      }
-   else
-      {
-         TGo4Log::Debug(" !!! ComExecLine ''%s'': NO RECEIVER ERROR!!!",GetName());
-         return 1;
-      }
+   TGo4Task* cli = dynamic_cast<TGo4Task*> (fxReceiverBase);
+   if(cli==0) {
+      TGo4Log::Debug(" !!! ComExecLine ''%s'': NO RECEIVER ERROR!!!",GetName());
+      return 1;
+   }
 
-   return -1;
+   cli->SendStatusMessage(-1,kTRUE, TString::Format("Executing: %s",GetLine()));
+   cli->ExecuteString(GetLine());
+   cli->ExecuteString("Int_t res=fflush(stdout);");
+   return 0;
 }

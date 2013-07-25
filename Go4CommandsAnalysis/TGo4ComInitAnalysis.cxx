@@ -47,21 +47,20 @@ Int_t TGo4ComInitAnalysis::ExeCom()
                TGo4Thread::Sleep(1000);
                if(ana->InitEventClasses())
                   {
-                     cli->SendStatusMessage(1, kTRUE,"Analysis %s event classes were initialized.",
-                                                ana->GetName());
+                     cli->SendStatusMessage(1, kTRUE,TString::Format(
+                           "Analysis %s event classes were initialized.", ana->GetName()));
                      if(cli->MainIsRunning())
                         ana->PreLoop(); // re-init userpointers when init was done on the fly
                   }
                else
                   {
-                     cli->SendStatusMessage(3, kTRUE,"Analysis %s initialization failed !!! ",
-                                                ana->GetName());
+                     cli->SendStatusMessage(3, kTRUE, TString::Format(
+                           "Analysis %s initialization failed !!! ", ana->GetName()));
                   }
             }
          else
             {
-               cli->SendStatusMessage(3, kTRUE," %s ERROR no analysis",
-                                                 GetName());
+               cli->SendStatusMessage(3, kTRUE, TString::Format(" %s ERROR no analysis", GetName()));
             }
       }
    else

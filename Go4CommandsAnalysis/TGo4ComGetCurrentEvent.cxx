@@ -69,7 +69,7 @@ Int_t TGo4ComGetCurrentEvent::ExeCom()
    TGo4Analysis* ana = TGo4Analysis::Instance();
    if (ana==0) {
       // never come here
-      cli->SendStatusMessage(3, kTRUE," %s ERROR no analysis ",GetName());
+      cli->SendStatusMessage(3, kTRUE,TString::Format(" %s ERROR no analysis ",GetName()));
       return -2;
    }
 
@@ -84,8 +84,8 @@ Int_t TGo4ComGetCurrentEvent::ExeCom()
             cli->SendObject(sampletree, GetTaskName());
             delete sampletree;
          } else {
-            cli->SendStatusMessage(3, kTRUE,"GetCurrentEvent %s - ERROR:  no such event ",
-                  GetObjectName());
+            cli->SendStatusMessage(3, kTRUE,TString::Format(
+                  "GetCurrentEvent %s - ERROR:  no such event ", GetObjectName()));
          }
       }// if(IsPrintoutOnly())
    }// if(IsTreeMode())
@@ -108,8 +108,8 @@ Int_t TGo4ComGetCurrentEvent::ExeCom()
       }
       else
       {
-         cli->SendStatusMessage(3, kTRUE,"GetCurrentEvent %s - ERROR:  no such event ",
-               GetObjectName());
+         cli->SendStatusMessage(3, kTRUE,TString::Format(
+               "GetCurrentEvent %s - ERROR:  no such event ", GetObjectName()));
       } // if(event)
    } // if(IsTreeMode())
 

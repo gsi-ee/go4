@@ -42,11 +42,13 @@ Int_t TGo4ComPrintHistograms::ExeCom()
          if(ana)
             {
                ana->PrintHistograms();
-               cli->SendStatusMessage(1, kFALSE,"Analysis %s prints out histogram statistics.",ana->GetName());
+               cli->SendStatusMessage(1, kFALSE, TString::Format(
+                     "Analysis %s prints out histogram statistics.",ana->GetName()));
             }
          else
             {
-                    cli->SendStatusMessage(3, kTRUE," %s ERROR no analysis ",GetName());
+                    cli->SendStatusMessage(3, kTRUE, TString::Format(
+                          " %s ERROR no analysis ",GetName()));
             } // if(ana)
 
 

@@ -33,6 +33,7 @@
 #include "TGo4ClientStatus.h"
 #include "TGo4AnalysisClientStatus.h"
 #include "TGo4AnalysisObjectNames.h"
+#include "TGo4AnalysisSniffer.h"
 #include "TGo4HistogramServer.h"
 #include "TGo4AnalysisStatus.h"
 #include "TGo4AnalysisImp.h"
@@ -189,7 +190,7 @@ TGo4AnalysisClient::~TGo4AnalysisClient()
 Int_t TGo4AnalysisClient::Initialization()
 {
    TGo4LockGuard mainguard; // threads are already up, protect next actions!
-   SendStatusMessage(1,kTRUE,"AnalysisClient %s starting initialization...",GetName());
+   SendStatusMessage(1, kTRUE, TString::Format("AnalysisClient %s starting initialization...",GetName()));
 
    if(!fbAutoStart) { // normal mode: load last prefs and wait for submit
 
@@ -198,50 +199,50 @@ Int_t TGo4AnalysisClient::Initialization()
       if (fbLoadPrefs) {
          if(fxAnalysis->LoadStatus()) { // will load, close analysis and set the new status
             // we have a status from file, i.e. go4 analysis: wait with init until gui command
-            SendStatusMessage(1,kTRUE,"AnalysisClient %s: Status loaded from %s",
-                  GetName(), TGo4Analysis::fgcDEFAULTSTATUSFILENAME);
+            SendStatusMessage(1,kTRUE, TString::Format("AnalysisClient %s: Status loaded from %s",
+                  GetName(), TGo4Analysis::fgcDEFAULTSTATUSFILENAME));
          } else {
-            SendStatusMessage(2,kTRUE,"AnalysisClient %s: Could not load status from %s",
-                  GetName(), TGo4Analysis::fgcDEFAULTSTATUSFILENAME);
+            SendStatusMessage(2,kTRUE, TString::Format("AnalysisClient %s: Could not load status from %s",
+                  GetName(), TGo4Analysis::fgcDEFAULTSTATUSFILENAME));
          }
       }
       // recover objects and dynamic list links from last autosave file:
       if(!fxAnalysis->IsAutoSaveOn()){
-          SendStatusMessage(1,kTRUE,"AnalysisClient %s: AUTOSAVE is DISABLED, Initialization did NOT load analysis objects!",
-                GetName());
+          SendStatusMessage(1,kTRUE, TString::Format("AnalysisClient %s: AUTOSAVE is DISABLED, Initialization did NOT load analysis objects!",
+                GetName()));
       }
       else if(fxAnalysis->LoadObjects()) {
-         SendStatusMessage(1,kTRUE,"AnalysisClient %s: Objects loaded.",GetName());
+         SendStatusMessage(1,kTRUE, TString::Format("AnalysisClient %s: Objects loaded.",GetName()));
       }
       else {
          //TGo4Log::Debug(" !!! Analysis Client Initialization --  Could not load dynamic list!!! ");
-         SendStatusMessage(2,kTRUE,"AnalysisClient %s: Initialization could not load analysis objects!",GetName());
+         SendStatusMessage(2,kTRUE, TString::Format("AnalysisClient %s: Initialization could not load analysis objects!",GetName()));
       }
 
-      SendStatusMessage(1,kTRUE,"Analysis Slave %s waiting for submit and start commands...",GetName());
+      SendStatusMessage(1,kTRUE, TString::Format("Analysis Slave %s waiting for submit and start commands...",GetName()));
       TGo4Slave::Stop(); // wait for command from master for start.
    } else {
       // in server mode, analysis slave will begin with analysis run
       // before the master is connected. May not need master anyway!
       // note: we do not recover preferences from file here anymore, all left to command line pars
-      SendStatusMessage(1,kTRUE,"AnalysisSlave %s initializing analysis...",GetName());
+      SendStatusMessage(1,kTRUE, TString::Format("AnalysisSlave %s initializing analysis...",GetName()));
       if(fxAnalysis->InitEventClasses()) {
          if(IsCintMode()) {
-            SendStatusMessage(1,kTRUE,"Analysis CINTServer %s in MainCycle suspend mode.",GetName());
+            SendStatusMessage(1,kTRUE, TString::Format("Analysis CINTServer %s in MainCycle suspend mode.",GetName()));
             TGo4Slave::Stop(); // no UserPostLoop
          } else {
-            SendStatusMessage(1,kTRUE,"AnalysisSlave %s starting analysis...",GetName());
+            SendStatusMessage(1,kTRUE, TString::Format("AnalysisSlave %s starting analysis...",GetName()));
             Start(); // UserPreLoop execution here!
          }
       } else {
-         SendStatusMessage(2,kTRUE,"AnalysisSlave %s failed initializing analysis!",GetName());
+         SendStatusMessage(2,kTRUE, TString::Format("AnalysisSlave %s failed initializing analysis!",GetName()));
          TGo4Slave::Stop();
       }
    } // if(!fbAutoStart)
    SendAnalysisStatus(); // only send status if connections are up!
    UpdateStatusBuffer();   // we need this for gui
    SendAnalysisClientStatus();
-   SendStatusMessage(1,kFALSE,"AnalysisClient %s has finished initialization.",GetName());
+   SendStatusMessage(1,kFALSE, TString::Format("AnalysisClient %s has finished initialization.",GetName()));
    return 0;
 }
 
@@ -285,7 +286,7 @@ void TGo4AnalysisClient::Start()
          TGo4Slave::Start();
          fxRatemeter->Reset();
          fdBufferUpdateTime = TTimeStamp().AsDouble();
-         SendStatusMessage(1,kTRUE,"AnalysisClient %s has started analysis processing.",GetName());
+         SendStatusMessage(1,kTRUE, TString::Format("AnalysisClient %s has started analysis processing.",GetName()));
          UpdateRate(-2); // fake rate to display green light :)
          UpdateStatusBuffer();
          SendAnalysisClientStatus();
@@ -293,7 +294,7 @@ void TGo4AnalysisClient::Start()
    else
       {
          // user did not initialize analysis, we do not start!
-         SendStatusMessage(2,kTRUE,"Analysis %s was not initialized! Please SUBMIT settings first.",fxAnalysis->GetName());
+         SendStatusMessage(2,kTRUE, TString::Format("Analysis %s was not initialized! Please SUBMIT settings first.",fxAnalysis->GetName()));
       }
 }
 
@@ -357,7 +358,7 @@ void TGo4AnalysisClient::KillMain()
    // put dummy buffer to command queue. This will wake up the main thread from command wait.
    if(GetTask()) GetTask()->WakeCommandQueue(); // note that the dummy command will not have the termination id here!
    if(GetThreadHandler()) GetThreadHandler()->Cancel(fcMainName.Data());
-   SendStatusMessage(2,kTRUE,"AnalysisClient %s has killed main analysis thread.",GetName());
+   SendStatusMessage(2,kTRUE,TString::Format("AnalysisClient %s has killed main analysis thread.",GetName()));
 }
 
 void TGo4AnalysisClient::RestartMain()
@@ -366,13 +367,12 @@ void TGo4AnalysisClient::RestartMain()
    if(GetThreadHandler()) GetThreadHandler()->Stop(fcMainName.Data());
    // put dummy buffer to command queue. This will wake up the main thread from command wait.
    if(GetTask()) GetTask()->WakeCommandQueue(); // note that the dummy command will not have the termination id here!
-   if(GetThreadHandler())
-      {
+   if(GetThreadHandler()) {
       GetThreadHandler()->ReCreate(fcMainName.Data());
       GetThreadHandler()->Start(fcMainName.Data());
-      }
+   }
    fxRatemeter->Reset();
-   SendStatusMessage(2,kTRUE,"AnalysisClient %s has killed and relaunched main analysis thread.",GetName());
+   SendStatusMessage(2,kTRUE,TString::Format("AnalysisClient %s has killed and relaunched main analysis thread.",GetName()));
 }
 
 void TGo4AnalysisClient::Stop()
@@ -381,7 +381,7 @@ void TGo4AnalysisClient::Stop()
 
    if(MainIsRunning()) fxAnalysis->PostLoop(); // only call postloop once
    TGo4Slave::Stop(); // will stop for command queue wait
-   SendStatusMessage(1,kTRUE,"AnalysisClient %s has STOPPED analysis processing.",GetName());
+   SendStatusMessage(1,kTRUE, TString::Format("AnalysisClient %s has STOPPED analysis processing.",GetName()));
    if(GetTask()->IsTerminating()) return; // do not update status buffer from terminating state
    //// test for immediate ratemeter update with zero rate:
    UpdateRate(-1);
@@ -407,7 +407,11 @@ void TGo4AnalysisClient::Stop()
 void TGo4AnalysisClient::UpdateRate(Int_t counts)
 {
    GO4TRACE((12,"TGo4AnalysisClient::UpdateRate(Int_t)",__LINE__, __FILE__));
-   if (fxRatemeter->Update(counts))
+   if (fxRatemeter->Update(counts)) {
+
+      TGo4AnalysisSniffer* sniff = fxAnalysis->GetSniffer();
+      if (sniff) sniff->RatemeterUpdate(fxRatemeter);
+
       if (fbShowRate) {
          TString ratefmt;
          ratefmt.Form("\rCnt = %s  Rate = %s Ev/s", TGo4Log::GetPrintfArg(kULong64_t),"%5.*f");
@@ -417,6 +421,7 @@ void TGo4AnalysisClient::UpdateRate(Int_t counts)
          printf(ratefmt.Data(), fxRatemeter->GetCurrentCount(), width, fxRatemeter->GetRate());
          fflush(stdout);
       }
+   }
 }
 
 UInt_t TGo4AnalysisClient::GetCurrentCount()
@@ -452,7 +457,7 @@ void TGo4AnalysisClient::StartObjectServer(const char* basename,  const char* pa
       // switch last boolean true if you want to use Go4 object server support
       // default will only enable gsi histogram server JA 9/2005
     //std::cout <<"--------StartObjectServer started histoserver" << std::endl;
-    //SendStatusMessage(1,kTRUE,"AnalysisClient %s Started Object server.",GetName());
+    //SendStatusMessage(1,kTRUE, TString::Format("AnalysisClient %s Started Object server.",GetName()));
 }
 
 void TGo4AnalysisClient::StopObjectServer()
@@ -462,7 +467,7 @@ void TGo4AnalysisClient::StopObjectServer()
       delete fxHistoServer;
       fxHistoServer=0;
       //std::cout <<"---------old histoserver is deleted!!!" << std::endl;
-      //SendStatusMessage(1,kTRUE,"AnalysisClient %s: Object server was stopped.",GetName());
+      //SendStatusMessage(1,kTRUE, TString::Format("AnalysisClient %s: Object server was stopped.",GetName()));
    }
 }
 
@@ -611,4 +616,13 @@ void TGo4AnalysisClient::UnLockAll()
 {
    TGo4Task* task=GetTask();
    if(task) task->UnLockAll();
+}
+
+void TGo4AnalysisClient::SendStatusMessage(Int_t level, Bool_t printout, const TString& text)
+{
+    TGo4Slave::SendStatusMessage(level, printout, text);
+
+    TGo4AnalysisSniffer* sniff = fxAnalysis->GetSniffer();
+    if (sniff) sniff->StatusMessage(level, text);
+
 }

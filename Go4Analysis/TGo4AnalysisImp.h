@@ -765,6 +765,9 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     /** Set pointer on sniffer object */
     void SetSniffer(TGo4AnalysisSniffer* sniff) { fSniffer = sniff; }
 
+    /** Returns pointer on current sniffer */
+    TGo4AnalysisSniffer* GetSniffer() const { return fSniffer; }
+
   protected:
 
     /** True if analysis framework has been initialized and

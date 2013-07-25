@@ -62,8 +62,9 @@ Int_t TGo4ComGetObjectStatus::ExeCom()
             }
          else
             {
-               cli->SendStatusMessage(3, kTRUE,"GetObjectStatus - ERROR:  no such object %s in folder %s",
-                                                GetObjectName(), GetFolderName());
+               cli->SendStatusMessage(3, kTRUE,TString::Format(
+                     "GetObjectStatus - ERROR:  no such object %s in folder %s",
+                      GetObjectName(), GetFolderName()));
             }
 
       }

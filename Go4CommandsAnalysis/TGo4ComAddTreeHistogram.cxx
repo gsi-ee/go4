@@ -75,21 +75,21 @@ Int_t TGo4ComAddTreeHistogram::ExeCom()
                                  fxCut.Data());
                if(result)
                   {
-                     cli->SendStatusMessage(1,kTRUE,"Added Dynamic histogram %s for tree %s.",
-                                                fxHistoName.Data(),
-                                                fxTreeName.Data());
+                     cli->SendStatusMessage(1,kTRUE,TString::Format(
+                           "Added Dynamic histogram %s for tree %s.",
+                           fxHistoName.Data(),fxTreeName.Data()));
                   }
                else
                   {
-                      cli->SendStatusMessage(2,kTRUE,"Could not add Dynamic histogram %s for tree %s !!!",
-                                                      fxHistoName.Data(),
-                                                      fxTreeName.Data());
+                      cli->SendStatusMessage(2,kTRUE,TString::Format(
+                            "Could not add Dynamic histogram %s for tree %s !!!",
+                            fxHistoName.Data(),fxTreeName.Data()));
                   }
             }// if ana
          else
             {
-                 cli->SendStatusMessage(3, kTRUE," %s ERROR no analysis ",
-                                                 GetName());
+                 cli->SendStatusMessage(3, kTRUE,TString::Format(
+                       " %s ERROR no analysis ",GetName()));
 
             }
       } // if cli

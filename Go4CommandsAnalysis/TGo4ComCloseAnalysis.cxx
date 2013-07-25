@@ -46,11 +46,11 @@ Int_t TGo4ComCloseAnalysis::ExeCom()
                                                            // execute postloop before closing previous objects 
   
                ana->CloseAnalysis();
-               cli->SendStatusMessage(1, kFALSE,"Analysis %s was closed.",ana->GetName());
+               cli->SendStatusMessage(1, kFALSE,TString::Format("Analysis %s was closed.",ana->GetName()));
             }
          else
             {
-                    cli->SendStatusMessage(3, kTRUE," %s ERROR no analysis ",GetName());
+                    cli->SendStatusMessage(3, kTRUE,TString::Format(" %s ERROR no analysis ",GetName()));
             } // if(ana)
 
 

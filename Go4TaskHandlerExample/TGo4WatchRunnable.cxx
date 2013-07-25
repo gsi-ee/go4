@@ -45,9 +45,9 @@ Int_t TGo4WatchRunnable::Run(void*)
        // works without main mutex.
    if(fxApplication)
       {
-         cli->SendStatusMessage(1,kTRUE,"Application %s of client %s has been watched",
-                              fxApplication->GetName(),
-                              cli->GetName());
+         cli->SendStatusMessage(1,kTRUE,TString::Format(
+               "Application %s of client %s has been watched",
+                fxApplication->GetName(), cli->GetName()));
          // method to pass text messages of priorities 0,1,2
          // (info, warning, error) to the server. kTRUE means additional local printout
       }

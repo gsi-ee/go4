@@ -30,6 +30,8 @@ class TGo4AnalysisSniffer : public TNamed {
 
       /**Method called by analysis when ratemeter is updated */
       virtual void RatemeterUpdate(TGo4Ratemeter*) {}
+
+      virtual void StatusMessage(int level, const TString&) {}
 };
 
 

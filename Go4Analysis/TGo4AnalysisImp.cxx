@@ -586,22 +586,19 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
    if (times < 0) times = fBatchLoopCount;
 
    TGo4Ratemeter rate;
-   TString ratefmt;
+   TString ratefmt = TString::Format("\rCnt = %s  Rate = %s Ev/s", TGo4Log::GetPrintfArg(kULong64_t),"%5.*f");
    Bool_t userate = showrate || (process_event_interval>0.);
-
-   if (showrate) {
-      rate.SetUpdateInterval(process_event_interval>0. ? process_event_interval>0. : 1.);
-      ratefmt.Form("\rCnt = %s  Rate = %s Ev/s", TGo4Log::GetPrintfArg(kULong64_t),"%5.*f");
-      rate.Reset();
-   }
+   if (userate)
+      rate.SetUpdateInterval(process_event_interval>0. ? process_event_interval : 1.);
+   if (showrate) rate.Reset();
 
    try
    {
       PreLoop();
       if (times>0)
-         TGo4Log::Info("Analysis loop for %d cycles is starting...", times);
+         Message(1, "Analysis loop for %d cycles is starting...", times);
       else
-         TGo4Log::Info("Analysis loop is starting...");
+         Message(1, "Analysis loop is starting...");
 
       while (fbDoWorkingFlag) {
 
@@ -675,19 +672,19 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
          ////// end inner catch
       }// for
 
-      TGo4Log::Info("Analysis implicit Loop has finished after %d cycles.", cnt);
+      Message(1, "Analysis implicit Loop has finished after %d cycles.", cnt);
       PostLoop();
    } //  try
 
    catch(TGo4Exception& ex) {
-      TGo4Log::Info("%s appeared in %d cycle.", ex.What(), cnt);
+      Message(1, "%s appeared in %d cycle.", ex.What(), cnt);
       ex.Handle();
    }
    catch(std::exception& ex) { // treat standard library exceptions
-      TGo4Log::Info("standard exception %s appeared in %d cycle.", ex.what(), cnt);
+      Message(1, "standard exception %s appeared in %d cycle.", ex.what(), cnt);
    }
    catch(...) {
-      TGo4Log::Info("!!! Unexpected exception in %d cycle !!!", cnt);
+      Message(1, "!!! Unexpected exception in %d cycle !!!", cnt);
    }
 
    if (showrate) {
@@ -1092,13 +1089,15 @@ void TGo4Analysis::SendMessageToGUI(Int_t level, Bool_t printout, const char* te
 {
    if(fxAnalysisSlave) {
       // gui mode: send Text via status channel
-      fxAnalysisSlave->SendStatusMessage(level,printout,text);
+      fxAnalysisSlave->SendStatusMessage(level, printout, text);
    } else {
       // batch mode: no gui connection, handle local printout
       Bool_t previousmode = TGo4Log::IsOutputEnabled();
       TGo4Log::OutputEnable(printout); // override the messaging state
       TGo4Log::Message(level, text);
       TGo4Log::OutputEnable(previousmode);
+
+      if (fSniffer) fSniffer->StatusMessage(level, text);
    } // if (fxAnalysisSlave)
 }
 

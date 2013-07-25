@@ -85,8 +85,8 @@ Int_t TGo4ComSetAnalysisStatus::ExeCom()
             }
          else
             {
-               cli->SendStatusMessage(3, kTRUE,"%s ERROR no analysis",
-                                                 GetName());
+               cli->SendStatusMessage(3, kTRUE, TString::Format(
+                     "%s ERROR no analysis", GetName()));
             }
       }
    else

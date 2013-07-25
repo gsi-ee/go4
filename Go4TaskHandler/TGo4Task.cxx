@@ -338,6 +338,7 @@ void TGo4Task::SendStatusMessage(Int_t level, Bool_t printout, const char* text,
       delete message;
    }
 }
+
 void TGo4Task::UpdateStatusBuffer()
 {
    if(IsMaster()) return;

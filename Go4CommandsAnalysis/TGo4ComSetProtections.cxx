@@ -60,13 +60,15 @@ Int_t TGo4ComSetProtections::ExeCom()
          TGo4Analysis* ana=TGo4Analysis::Instance();
          if(ana->ProtectObjects(GetObjectName(),(const Option_t*) fxFlags.Data()))
             {
-               cli->SendStatusMessage(1, kFALSE,"Changed object or folder %s protections: %s ",
-                                               GetObjectName(),fxFlags.Data());
+               cli->SendStatusMessage(1, kFALSE,TString::Format(
+                     "Changed object or folder %s protections: %s ",
+                        GetObjectName(),fxFlags.Data()));
             }
          else
             {
-                cli->SendStatusMessage(2, kFALSE,"Could not change object/folder %s protections, no such object",
-                                               GetObjectName());
+                cli->SendStatusMessage(2, kFALSE,TString::Format(
+                      "Could not change object/folder %s protections, no such object",
+                        GetObjectName()));
             }
       }
    else

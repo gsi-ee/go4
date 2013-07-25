@@ -63,21 +63,21 @@ Int_t TGo4ComSetPrintEvent::ExeCom()
    TGo4Analysis* ana = TGo4Analysis::Instance();
    if(ana==0) {
       // never come here
-      cli->SendStatusMessage(3, kTRUE," %s ERROR no analysis ",GetName());
+      cli->SendStatusMessage(3, kTRUE,TString::Format(" %s ERROR no analysis ",GetName()));
       return -2;
    }
 
    // request for event by name from folder
    TGo4EventElement* eve = ana->GetEventStructure(GetObjectName());
    if (eve == 0) {
-      cli->SendStatusMessage(2, kTRUE," Event %s was not found to set printout mode!",GetObjectName());
+      cli->SendStatusMessage(2, kTRUE,TString::Format(" Event %s was not found to set printout mode!",GetObjectName()));
       return -1;
    }
 
    TGo4MbsSource* mbs_src = dynamic_cast<TGo4MbsSource*> (eve->GetEventSource());
 
    if (mbs_src==0) {
-      cli->SendStatusMessage(2, kTRUE," Source of event %s of class %s is not yet supported for printevent mode!", GetObjectName(), eve->ClassName());
+      cli->SendStatusMessage(2, kTRUE,TString::Format(" Source of event %s of class %s is not yet supported for printevent mode!", GetObjectName(), eve->ClassName()));
       return -1;
    }
 

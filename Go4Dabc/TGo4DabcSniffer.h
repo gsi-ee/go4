@@ -24,6 +24,8 @@ class TGo4DabcSniffer : public dabc_root::RootSniffer,
 
       virtual void RatemeterUpdate(TGo4Ratemeter*);
 
+      virtual void StatusMessage(int level, const TString&);
+
 };
 
 #endif

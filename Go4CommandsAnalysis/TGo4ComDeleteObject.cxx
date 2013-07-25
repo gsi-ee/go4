@@ -54,19 +54,19 @@ Int_t TGo4ComDeleteObject::ExeCom()
                const char* obname = GetObjectName();
                if(ana->DeleteObjects(obname))
                   {
-                     cli->SendStatusMessage(1,kTRUE,"Deleted Object %s (all deletables of this folder, resp.)",
-                           obname);
+                     cli->SendStatusMessage(1,kTRUE,TString::Format(
+                           "Deleted Object %s (all deletables of this folder, resp.)", obname));
                   }
                else
                   {
-                     cli->SendStatusMessage(2,kTRUE,"Could not delete object %s !",
-                           obname);
+                     cli->SendStatusMessage(2,kTRUE,TString::Format(
+                           "Could not delete object %s !", obname));
                   }
             }
          else
          {
-            cli->SendStatusMessage(3, kTRUE," %s ERROR no analysis ",
-                                                 GetName());
+            cli->SendStatusMessage(3, kTRUE,TString::Format(
+                  " %s ERROR no analysis ", GetName()));
          } // if(ana)
       }
    else

@@ -42,11 +42,13 @@ Int_t TGo4ComPrintConditions::ExeCom()
          if(ana)
             {
                ana->PrintConditions();
-               cli->SendStatusMessage(1, kFALSE,"Analysis %s prints out condition counters",ana->GetName());
+               cli->SendStatusMessage(1, kFALSE,TString::Format(
+                     "Analysis %s prints out condition counters",ana->GetName()));
             }
          else
             {
-                    cli->SendStatusMessage(3, kTRUE," %s ERROR no analysis ",GetName());
+                    cli->SendStatusMessage(3, kTRUE,TString::Format(
+                          " %s ERROR no analysis ",GetName()));
             } // if(ana)
       }
    else

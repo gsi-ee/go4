@@ -153,18 +153,13 @@ void TGo4Slave::SendStatusBuffer()
    if(GetTask()) GetTask()->SendStatusBuffer();
 }
 
-void TGo4Slave::SendStatusMessage(Int_t level, Bool_t printout, const char* text,...)
+
+void TGo4Slave::SendStatusMessage(Int_t level, Bool_t printout, const TString& text)
 {
-   if(GetTask()==0) return;
-   Int_t lbuflen=256;
-   // put potential printf arguments in text:
-   char txtbuf[256];
-   va_list args;
-   va_start(args, text);
-   vsnprintf(txtbuf, lbuflen, text, args);
-   va_end(args);
-   GetTask()->SendStatusMessage(level, printout, txtbuf);
+   if(GetTask())
+      GetTask()->SendStatusMessage(level, printout, text.Data());
 }
+
 
 void TGo4Slave::UpdateStatusBuffer()
 {

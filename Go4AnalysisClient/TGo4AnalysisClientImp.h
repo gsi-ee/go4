@@ -139,6 +139,9 @@ class TGo4AnalysisClient : public TGo4Slave {
      * used by ctrl-c handler of analysis server*/
     void SubmitShutdown();
 
+    /** Send message to gui */
+    virtual void SendStatusMessage(Int_t level, Bool_t printout, const TString& text);
+
     /** Execute string command. Overrides base class implementation
       * to decouple some commands from analysis client. */
     virtual void ExecuteString(const char* command);

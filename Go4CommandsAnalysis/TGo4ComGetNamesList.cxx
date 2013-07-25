@@ -37,22 +37,19 @@ Int_t TGo4ComGetNamesList::ExeCom()
 {
    GO4TRACE((12,"TGo4ComGetNamesList::ExeCom()",__LINE__, __FILE__));
 
-   TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if(cli)
-      {
-         cli->SendStatusMessage(1,kFALSE,"%s::Analysis nameslist was requested from client %s", GetTaskName(), GetTaskName());
-         //cli->SendNamesList();
-         TGo4Analysis* ana=TGo4Analysis::Instance();
-         ana->UpdateNamesList();
-         TGo4AnalysisObjectNames* state= ana->GetNamesList();
-         cli->SendObject(state, GetTaskName());
-      }
-   else
-      {
-      GO4TRACE((11,"TGo4ComGetNamesList::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
-         TGo4Log::Debug(" !!! ComGetNamesList ''%s'': NO RECEIVER ERROR!!!",GetName());
-         return 1;
-      }
+   TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
+   if(cli) {
+      cli->SendStatusMessage(1,kFALSE, TString::Format(
+            "%s::Analysis nameslist was requested from client %s", GetTaskName(), GetTaskName()));
+      //cli->SendNamesList();
+      TGo4Analysis* ana = TGo4Analysis::Instance();
+      ana->UpdateNamesList();
+      TGo4AnalysisObjectNames* state = ana->GetNamesList();
+      cli->SendObject(state, GetTaskName());
+      return -1;
+   }
 
-   return -1;
+   GO4TRACE((11,"TGo4ComGetNamesList::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
+   TGo4Log::Debug(" !!! ComGetNamesList ''%s'': NO RECEIVER ERROR!!!",GetName());
+   return 1;
 }

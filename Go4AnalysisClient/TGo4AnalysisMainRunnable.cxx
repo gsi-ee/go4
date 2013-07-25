@@ -129,16 +129,18 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
       if(TGo4Log::GetIgnoreLevel()<1)
       {
          // only display message if debug output enabled
-         fxAnalysisClient->SendStatusMessage(2,kTRUE,"Analysis %s TIMEOUT for event source %s:%s.",
-               fxAnalysisClient->GetName(), ex.GetSourceClass(), ex.GetSourceName());
+         fxAnalysisClient->SendStatusMessage(2,kTRUE, TString::Format(
+               "Analysis %s TIMEOUT for event source %s:%s.",
+               fxAnalysisClient->GetName(), ex.GetSourceClass(), ex.GetSourceName()));
       } else{}
       return 0;
    }
    catch(TGo4EventEndException& ex)
    {
-      fxAnalysisClient->SendStatusMessage(2,kTRUE,"End of event source %s:\n     %s - %s",
+      fxAnalysisClient->SendStatusMessage(2,kTRUE,TString::Format(
+            "End of event source %s:\n     %s - %s",
             ex.GetSourceClass(),
-            ex.GetSourceName(),ex.GetErrMess());
+            ex.GetSourceName(),ex.GetErrMess()));
       if(fxAnalysis->IsErrorStopEnabled()) fxAnalysisClient->Stop();
    }
    catch(TGo4EventErrorException& ex)
@@ -148,15 +150,17 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
       if(prio==0)
       {
          // only display message without stop
-         fxAnalysisClient->SendStatusMessage(1,kTRUE,"Event source %s:\n     %s - %s",
+         fxAnalysisClient->SendStatusMessage(1,kTRUE,TString::Format(
+               "Event source %s:\n     %s - %s",
                ex.GetSourceClass(),
-               ex.GetSourceName(),ex.GetErrMess());
+               ex.GetSourceName(),ex.GetErrMess()));
       }
       else
       {
-         fxAnalysisClient->SendStatusMessage(3,kTRUE,"Analysis %s ERROR: %s from event source %s:%s",
+         fxAnalysisClient->SendStatusMessage(3,kTRUE,TString::Format(
+               "Analysis %s ERROR: %s from event source %s:%s",
                fxAnalysisClient->GetName(),ex.GetErrMess(),
-               ex.GetSourceClass(), ex.GetSourceName());
+               ex.GetSourceClass(), ex.GetSourceName()));
          if(fxAnalysis->IsErrorStopEnabled()) fxAnalysisClient->Stop();
       }
       return 0;
@@ -165,9 +169,10 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
    catch(TGo4DynamicListException& ex)
    {
       ex.Handle();
-      fxAnalysisClient->SendStatusMessage(3,kTRUE,"Analysis %s ERROR: %s from dynamic list entry %s:%s",
+      fxAnalysisClient->SendStatusMessage(3,kTRUE,TString::Format(
+            "Analysis %s ERROR: %s from dynamic list entry %s:%s",
             fxAnalysisClient->GetName(),ex.GetStatusMessage(),
-            ex.GetEntryName(), ex.GetEntryClass());
+            ex.GetEntryName(), ex.GetEntryClass()));
       if(fxAnalysis->IsErrorStopEnabled())
          fxAnalysisClient->Stop();
       return 0;
@@ -176,8 +181,9 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
    catch(TGo4AnalysisStepException& ex)
    {
       ex.Handle();
-      fxAnalysisClient->SendStatusMessage(3,kTRUE,"Analysis %s ERROR: %s in Analysis Step %s",
-            fxAnalysisClient->GetName(), ex.GetStatusMessage(), ex.GetStepName());
+      fxAnalysisClient->SendStatusMessage(3,kTRUE,TString::Format(
+            "Analysis %s ERROR: %s in Analysis Step %s",
+            fxAnalysisClient->GetName(), ex.GetStatusMessage(), ex.GetStepName()));
       if(fxAnalysis->IsErrorStopEnabled())
          fxAnalysisClient->Stop();
       return 0;
@@ -187,7 +193,7 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
    {
       //ex.Handle();
       if(strlen(ex.GetMessage())!=0)
-         fxAnalysisClient->SendStatusMessage(ex.GetPriority(),kTRUE,  ex.GetMessage() );
+         fxAnalysisClient->SendStatusMessage(ex.GetPriority(),kTRUE, ex.GetMessage());
       if(fxAnalysis->IsErrorStopEnabled() && ex.GetPriority()>2)
          fxAnalysisClient->Stop(); // only stop for errors, warnings and infos continue loop!
       return 0;
@@ -195,8 +201,9 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
 
    catch(std::exception& ex) // treat standard library exceptions
    {
-      fxAnalysisClient->SendStatusMessage(3,kTRUE,"Analysis %s got standard exception %s",
-            fxAnalysisClient->GetName(), ex.what());
+      fxAnalysisClient->SendStatusMessage(3,kTRUE,TString::Format(
+            "Analysis %s got standard exception %s",
+            fxAnalysisClient->GetName(), ex.what()));
       if(fxAnalysis->IsErrorStopEnabled())
          fxAnalysisClient->Stop();
       return 0;

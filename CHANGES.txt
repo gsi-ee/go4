@@ -59,7 +59,9 @@ Changes in Go4 v4.5.9
 15.Introduce TGo4AnanlysisSniffer class, which could obtain some Go4 events like
    ratemeter update or status message sending. Use in Go4Dabc sniffer to provide
    such information to the browser.  
-    
+16.Provide all status messages to TGo4AnanlysisSniffer to be able show all of them
+   in the browser.
+         
 
 Changes in Go4 v4.5.5
 1. Adjust different macros to use together with ROOT 5.99 

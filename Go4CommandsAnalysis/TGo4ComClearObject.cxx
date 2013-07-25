@@ -61,16 +61,16 @@ Int_t TGo4ComClearObject::ExeCom()
                Bool_t ok=ana->ClearObjects(obname);
                if(ok)
                   {
-                    cli->SendStatusMessage(1,kTRUE,"Object %s was cleared.", obname);
+                    cli->SendStatusMessage(1,kTRUE,TString::Format("Object %s was cleared.", obname));
                   }
                else
                   {
-                     cli->SendStatusMessage(2,kTRUE,"Could not clear object %s", obname);
+                     cli->SendStatusMessage(2,kTRUE,TString::Format("Could not clear object %s", obname));
                   } // if(ob)
             }
          else
             {
-               cli->SendStatusMessage(3, kTRUE," %s ERROR no analysis ", GetName());
+               cli->SendStatusMessage(3, kTRUE,TString::Format(" %s ERROR no analysis ", GetName()));
             } // if(ana)
       }
    else

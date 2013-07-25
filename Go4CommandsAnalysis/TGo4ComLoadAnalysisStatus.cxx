@@ -46,8 +46,8 @@ TGo4ComLoadAnalysisStatus::~TGo4ComLoadAnalysisStatus()
 
 void TGo4ComLoadAnalysisStatus::Set(TGo4RemoteCommand* remcom)
 {
-if(remcom==0) return;
-SetFileName(remcom->GetString(0));
+   if(remcom==0) return;
+   SetFileName(remcom->GetString(0));
 }
 
 Int_t TGo4ComLoadAnalysisStatus::ExeCom()
@@ -65,20 +65,20 @@ Int_t TGo4ComLoadAnalysisStatus::ExeCom()
                Bool_t ok=ana->LoadStatus( GetFileName() );
                if(ok)
                   {
-                    cli->SendStatusMessage(1, kFALSE,"Loaded analysis status from file %s.",
-                                                GetFileName());
+                    cli->SendStatusMessage(1, kFALSE, TString::Format(
+                          "Loaded analysis status from file %s.", GetFileName()));
                   }
                else
                   {
-                     cli->SendStatusMessage(3, kFALSE,"ERROR on Loading analysis status from file %s",
-                                                 GetFileName());
+                     cli->SendStatusMessage(3, kFALSE,TString::Format(
+                           "ERROR on Loading analysis status from file %s", GetFileName()));
                   } // if(ok)
 
             }
          else
             {
-                     cli->SendStatusMessage(3, kTRUE," %s ERROR no analysis",
-                                                 GetName());
+                     cli->SendStatusMessage(3, kTRUE, TString::Format(
+                           " %s ERROR no analysis", GetName()));
             } // if(ana)
 
       }

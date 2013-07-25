@@ -68,19 +68,19 @@ Int_t TGo4ComSaveAnalysisStatus::ExeCom()
                Bool_t ok=ana->SaveStatus( GetFileName() );
                if(ok)
                   {
-                   cli->SendStatusMessage(1, kFALSE,"Saved analysis status to file %s.",
-                                                GetFileName());
+                   cli->SendStatusMessage(1, kFALSE,TString::Format(
+                         "Saved analysis status to file %s.", GetFileName()));
                   }
                else
                   {
-                   cli->SendStatusMessage(3, kFALSE,"ERROR on Saving analysis status to file %s.",
-                                                GetFileName());
+                   cli->SendStatusMessage(3, kFALSE,TString::Format(
+                         "ERROR on Saving analysis status to file %s.", GetFileName()));
                   } // if(ok)
             }
          else
             {
-                    cli->SendStatusMessage(3, kTRUE," %s ERROR no analysis ",
-                                                 GetName());
+                    cli->SendStatusMessage(3, kTRUE, TString::Format(
+                          " %s ERROR no analysis ", GetName()));
             } // if(ana)
       }
    else

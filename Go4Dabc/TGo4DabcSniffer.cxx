@@ -27,9 +27,20 @@ void TGo4DabcSniffer::InitializeHierarchy()
    dabc::Hierarchy sub = fHierarchy.CreateChild("Status");
    sub.SetPermanent();
 
-   dabc::Hierarchy item = sub.CreateChild("EventRate");
+   dabc::Hierarchy item = sub.CreateChild("Message");
+   item.Field(dabc::prop_kind).SetStr("log");
+   item.EnableHistory(200,"value");
+
+   item = sub.CreateChild("EventRate");
    item.Field(dabc::prop_kind).SetStr("rate");
    item.EnableHistory(100,"value");
+
+   item = sub.CreateChild("AverRate");
+   item.Field(dabc::prop_kind).SetStr("rate");
+   item.EnableHistory(100,"value");
+
+   sub.CreateChild("EventCount");
+   sub.CreateChild("RunTime");
 }
 
 
@@ -56,4 +67,19 @@ void TGo4DabcSniffer::RatemeterUpdate(TGo4Ratemeter* r)
    dabc::LockGuard lock(fHierarchyMutex);
 
    fHierarchy.FindChild("Status/EventRate").Field("value").SetStr(dabc::format("%4.2f", r->GetRate()));
+
+   fHierarchy.FindChild("Status/AverRate").Field("value").SetStr(dabc::format("%4.2f", r->GetAvRate()));
+
+   fHierarchy.FindChild("Status/EventCount").Field("value").SetStr(dabc::format("%lu", (long unsigned) r->GetCurrentCount()));
+
+   fHierarchy.FindChild("Status/RunTime").Field("value").SetStr(dabc::format("%3.1f", r->GetTime()));
+}
+
+void TGo4DabcSniffer::StatusMessage(int level, const TString& msg)
+{
+   dabc::LockGuard lock(fHierarchyMutex);
+
+   dabc::Hierarchy item = fHierarchy.FindChild("Status/Message");
+   item.Field("value").SetStr(msg.Data());
+   item.Field("level").SetInt(level);
 }
