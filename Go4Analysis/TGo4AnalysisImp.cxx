@@ -54,6 +54,7 @@
 #include "TGo4AnalysisStatus.h"
 #include "TGo4AnalysisStep.h"
 #include "TGo4AnalysisClientImp.h"
+#include "TGo4AnalysisSniffer.h"
 #include "TGo4HistogramStatus.h"
 #include "TGo4DynamicListException.h"
 #include "TGo4Condition.h"
@@ -189,7 +190,8 @@ TGo4Analysis::TGo4Analysis(const char* name) :
    fServerObserverPass(),
    fbMakeWithAutosave(kTRUE),
    fbObjMade(kFALSE),
-   fNumCtrlC(0)
+   fNumCtrlC(0),
+   fSniffer(0)
 {
    GO4TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
 
@@ -607,13 +609,15 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 
          if (userate && rate.Update(1)) {
             int width(1);
-            if (rate.GetRate()>1e4) width=0; else
+            if (rate.GetRate()>1e4) width = 0; else
             if (rate.GetRate()<1.) width = 3;
             if (showrate) {
                printf(ratefmt.Data(), rate.GetCurrentCount(), width, rate.GetRate());
                fflush(stdout);
             }
             if (process_event_interval>0.) gSystem->ProcessEvents();
+
+            if (fSniffer) fSniffer->RatemeterUpdate(&rate);
          }
 
          try

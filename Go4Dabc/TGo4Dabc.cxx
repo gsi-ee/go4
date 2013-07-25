@@ -7,8 +7,8 @@
 #include "dabc/Manager.h"
 #include "dabc/Configuration.h"
 
-#include "TGo4Sniffer.h"
-
+#include "TGo4DabcSniffer.h"
+#include "TGo4AnalysisImp.h"
 
 bool TGo4Dabc::StartHttpServer(int port)
 {
@@ -31,7 +31,7 @@ bool TGo4Dabc::StartHttpServer(int port)
    dabc::Command cmd2("any");
    cmd2.SetBool("enabled", true);
    cmd2.SetBool("batch", false);
-   TGo4Sniffer* sniff = new TGo4Sniffer("/Go4", cmd2);
+   TGo4DabcSniffer* sniff = new TGo4DabcSniffer("/Go4", cmd2);
 
    sniff->InstallSniffTimer();
 
@@ -81,7 +81,7 @@ bool TGo4Dabc::ConnectMaster(const char* master_url)
    dabc::Command cmd2("any");
    cmd2.SetBool("enabled", true);
    cmd2.SetBool("batch", false);
-   TGo4Sniffer* sniff = new TGo4Sniffer("/Go4", cmd2);
+   TGo4DabcSniffer* sniff = new TGo4DabcSniffer("/Go4", cmd2);
 
    sniff->InstallSniffTimer();
 

@@ -31,6 +31,7 @@ class TFile;
 class TGo4AnalysisStepManager;
 class TGo4AnalysisObjectManager;
 class TGo4AnalysisObjectNames;
+class TGo4AnalysisSniffer;
 class TGo4AnalysisStatus;
 class TGo4AnalysisStep;
 class TGo4AnalysisClient;
@@ -55,7 +56,7 @@ class TGo4TreeStructure;
 class TGo4InterruptHandler;
 
 /**
- * The mother of all go4 analyses. Provides services to organize
+ * The mother of all go4 analysis. Provides services to organize
  * events, histogram data, and everything. May run standalone in batch mode,
  * or may be aggregated by analysis client for threaded online control. User
  * has to derive his/her own analysis from this base class and override the
@@ -140,9 +141,9 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
 
     /** User defined function which processes the actual analysis.
-      * May be called explicitely from analysis client thread, or may run
+      * May be called explicitly from analysis client thread, or may run
       * in an implicit loop provided by method RunImplicit, if
-      * analyis works in a non threaded standalone mode. To be overridden
+      * analysis works in a non threaded standalone mode. To be overridden
       * in the user analysis class. */
     virtual Int_t UserEventFunc();
 
@@ -203,7 +204,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     Bool_t RemoveDynamicEntry(const char* entryname, const char* listname=0);
 
     /** Add any external object to the user object folder.
-      * Object is owned by go4 aferwards and will be saved automatically.
+      * Object is owned by go4 afterwards and will be saved automatically.
       * Object is accessible by name from the go4 display and from the
       * analysis itself. Subfolder of UserObjects may be specified.
       * If replace is true, old object of same name will be deleted and
@@ -218,7 +219,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /** Removes object from user object folder by name. Returns kFALSE if no
       * such histogram. Object is deleted on heap only if del is true.
-      * Otherwise, user owns the object afterwords. */
+      * Otherwise, user owns the object afterwards. */
     Bool_t RemoveObject(const char* name, Bool_t del=kTRUE);
 
     /** Delete object of name, or all objects in folder name, respectively.
@@ -249,7 +250,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /** Delivers pointer to next object of the Go4 folder structure
       * with a name matching the expression expr. If reset is true,
-      * The list of matchint objects will be created anew by comparing
+      * The list of matching objects will be created anew by comparing
       * all names with expr. If reset is false, the next object of a
       * previously created matching list is returned. Optionally the
       * search can be limited to a given folder. */
@@ -761,6 +762,9 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     /** Method called from Ctrl-C handler */
     void ProcessCrtlCSignal();
 
+    /** Set pointer on sniffer object */
+    void SetSniffer(TGo4AnalysisSniffer* sniff) { fSniffer = sniff; }
+
   protected:
 
     /** True if analysis framework has been initialized and
@@ -966,6 +970,9 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /** number Ctrl-C handler called */
     Int_t fNumCtrlC; //!
+
+    /** Sniffer object */
+    TGo4AnalysisSniffer* fSniffer; //!
 
   ClassDef(TGo4Analysis,4)
 };
