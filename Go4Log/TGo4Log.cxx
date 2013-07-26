@@ -43,7 +43,11 @@ void* TGo4Log::fgxLogfile = 0;
 TMutex* TGo4Log::fgxMutex = 0;
 TGo4Log* TGo4Log::fgxInstance = 0;
 
-TString TGo4Log::fgxLogName=TGo4Log::fgcDEFAULTLOG;
+TString TGo4Log::fgxLogName = TGo4Log::fgcDEFAULTLOG;
+
+TNamed* TGo4Log::fgSniffer = 0;
+
+
 
 TGo4Log::TGo4Log()
 {
@@ -145,6 +149,8 @@ const char* TGo4Log::Message(Int_t prio, const char* text,...)
 
    if(fgbOutputEnabled) {
       std::cout << fgcMessagetext << std::endl;
+
+      if (fgSniffer) fgSniffer->SetTitle(fgcMessagetext);
    }
 
    return fgcMessagetext;

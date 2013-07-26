@@ -172,6 +172,8 @@ class TGO4LOG_CLASS_IMPORT TGo4Log {
 
       virtual ~TGo4Log();
 
+      static void SetSniffer(TNamed* sniff) { fgSniffer = sniff; }
+
    private:
       TGo4Log();
 
@@ -202,6 +204,8 @@ class TGO4LOG_CLASS_IMPORT TGo4Log {
       static TString fgxLogName;    //!
 
       static TString fgsGO4SYS; //!     value of GO4SYS during run
+
+      static TNamed* fgSniffer; //!  optional object to get all output via SetTitle method
 
    ClassDef(TGo4Log,1)
 };

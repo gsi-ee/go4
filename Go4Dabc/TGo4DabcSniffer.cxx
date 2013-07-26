@@ -5,6 +5,7 @@
 #include "TGo4AnalysisImp.h"
 #include "TGo4AnalysisObjectManager.h"
 #include "TGo4Ratemeter.h"
+#include "TGo4Log.h"
 
 #include "dabc/Hierarchy.h"
 
@@ -14,12 +15,16 @@ TGo4DabcSniffer::TGo4DabcSniffer(const std::string& name, dabc::Command cmd) :
 {
    if (TGo4Analysis::Instance()!=0)
       TGo4Analysis::Instance()->SetSniffer(this);
+
+   TGo4Log::SetSniffer(this);
 }
 
 TGo4DabcSniffer::~TGo4DabcSniffer()
 {
    if (TGo4Analysis::Instance()!=0)
       TGo4Analysis::Instance()->SetSniffer(0);
+
+   TGo4Log::SetSniffer(0);
 }
 
 void TGo4DabcSniffer::InitializeHierarchy()
@@ -42,6 +47,10 @@ void TGo4DabcSniffer::InitializeHierarchy()
    sub.CreateChild("EventCount").Field(dabc::prop_kind).SetStr("log");
    sub.CreateChild("RunTime").Field(dabc::prop_kind).SetStr("log");
    sub.CreateChild("LastMessage").Field(dabc::prop_kind).SetStr("log");
+
+   item = sub.CreateChild("DebugOutput");
+   item.Field(dabc::prop_kind).SetStr("log");
+   item.EnableHistory(200,"value");
 }
 
 
@@ -87,4 +96,11 @@ void TGo4DabcSniffer::StatusMessage(int level, const TString& msg)
    item = fHierarchy.FindChild("Status/LastMessage");
    item.Field("value").SetStr(msg.Data());
    item.Field("level").SetInt(level);
+}
+
+void TGo4DabcSniffer::SetTitle(const char* title)
+{
+   dabc::LockGuard lock(fHierarchyMutex);
+
+   fHierarchy.FindChild("Status/DebugOutput").SetStr(title ? title : "");
 }

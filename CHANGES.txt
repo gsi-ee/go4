@@ -61,7 +61,9 @@ Changes in Go4 v4.5.9
    such information to the browser.  
 16.Provide all status messages to TGo4AnanlysisSniffer to be able show all of them
    in the browser.
-         
+17.TGo4Log can deliver all messages to special sniffer object. This message
+   is used in TGo4DabcSniffer to record and provide debug output of any go4 analysis
+              
 
 Changes in Go4 v4.5.5
 1. Adjust different macros to use together with ROOT 5.99 

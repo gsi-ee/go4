@@ -7,7 +7,7 @@
 
 
 class TGo4DabcSniffer : public dabc_root::RootSniffer,
-                    public TGo4AnalysisSniffer {
+                        public TGo4AnalysisSniffer {
 
    protected:
 
@@ -25,6 +25,9 @@ class TGo4DabcSniffer : public dabc_root::RootSniffer,
       virtual void RatemeterUpdate(TGo4Ratemeter*);
 
       virtual void StatusMessage(int level, const TString&);
+
+      /** Method called by logger with every string, going to output */
+      virtual void SetTitle(const char* title = "");
 
 };
 
