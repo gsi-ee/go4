@@ -34,7 +34,7 @@ void TGo4DabcSniffer::InitializeHierarchy()
 
    dabc::Hierarchy item = sub.CreateChild("Message");
    item.Field(dabc::prop_kind).SetStr("log");
-   item.EnableHistory(200,"value");
+   item.EnableHistory(200,"value", true);
 
    item = sub.CreateChild("EventRate");
    item.Field(dabc::prop_kind).SetStr("rate");
@@ -46,11 +46,10 @@ void TGo4DabcSniffer::InitializeHierarchy()
 
    sub.CreateChild("EventCount").Field(dabc::prop_kind).SetStr("log");
    sub.CreateChild("RunTime").Field(dabc::prop_kind).SetStr("log");
-   sub.CreateChild("LastMessage").Field(dabc::prop_kind).SetStr("log");
 
    item = sub.CreateChild("DebugOutput");
    item.Field(dabc::prop_kind).SetStr("log");
-   item.EnableHistory(200,"value");
+   item.EnableHistory(200,"value", true);
 }
 
 
@@ -90,10 +89,6 @@ void TGo4DabcSniffer::StatusMessage(int level, const TString& msg)
    dabc::LockGuard lock(fHierarchyMutex);
 
    dabc::Hierarchy item = fHierarchy.FindChild("Status/Message");
-   item.Field("value").SetStr(msg.Data());
-   item.Field("level").SetInt(level);
-
-   item = fHierarchy.FindChild("Status/LastMessage");
    item.Field("value").SetStr(msg.Data());
    item.Field("level").SetInt(level);
 }

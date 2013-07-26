@@ -93,97 +93,97 @@ TGo4MBSViewer::~TGo4MBSViewer()
 
 void TGo4MBSViewer::StoreSettings()
 {
-// save  settings:
-go4sett->setMbsMonitorNode(fxNode);
-go4sett->setMbsMonitorTrend(fbTrending);
-go4sett->setMbsMonitorBins(fiTrendBins);
-go4sett->setMbsMonitorMore(fbShowMore);
-go4sett->setMbsMonitorFreq(FrequencyBox->value());
-go4sett->setMbsMonitorMonitorActive(fbIsMonitoring);
-go4sett->setMbsMonitorBackwardsTrending(!fbTrendingForward);
+   // save  settings:
+   go4sett->setMbsMonitorNode(fxNode);
+   go4sett->setMbsMonitorTrend(fbTrending);
+   go4sett->setMbsMonitorBins(fiTrendBins);
+   go4sett->setMbsMonitorMore(fbShowMore);
+   go4sett->setMbsMonitorFreq(FrequencyBox->value());
+   go4sett->setMbsMonitorMonitorActive(fbIsMonitoring);
+   go4sett->setMbsMonitorBackwardsTrending(!fbTrendingForward);
 }
 
 
 void TGo4MBSViewer::TimerStart()
 {
-fbIsMonitoring=true;
-fbTrendingInit=true;
-fiLastEventNum=0;
-fiLastDataNum=0;
-fiLastServDataNum=0;
-Refresh();
-fxTimer->start(1000*FrequencyBox->value());
-Display();
-StoreSettings();
+   fbIsMonitoring=true;
+   fbTrendingInit=true;
+   fiLastEventNum=0;
+   fiLastDataNum=0;
+   fiLastServDataNum=0;
+   Refresh();
+   fxTimer->start(1000*FrequencyBox->value());
+   Display();
+   StoreSettings();
 }
 
 
 void TGo4MBSViewer::TimerStop()
 {
-fbIsMonitoring=false;
-fxTimer->stop();
-StartMovieReset();
-Display();
-StoreSettings();
+   fbIsMonitoring=false;
+   fxTimer->stop();
+   StartMovieReset();
+   Display();
+   StoreSettings();
 }
 
 
 void TGo4MBSViewer::Display()
 {
-setWindowTitle("MBS Status - "+NodeEdit->text());
-if(!fbSingleRefresh)
-    {
-    NodeEdit->setEnabled(!fbIsMonitoring);
-    MonitorButton->setEnabled(!fbIsMonitoring);
-    StopButton->setEnabled(fbIsMonitoring);
-    FrequencyBox->setEnabled(!fbIsMonitoring);
-    //TrendCheck->setEnabled(!fbIsMonitoring);
-    TrendBinsBox->setEnabled(!fbTrending);
-    }
-MoreFrame->setVisible(fbShowMore);
-SumEvents->display((double) fxDaqStat.bl_n_events);
-//RateEvents->display((double) fxDaqStat.bl_r_events);
-RateEvents->display((double) fiCalcedEventRate);
-SumBytes->display((double) ((unsigned int) fxDaqStat.bl_n_kbyte/1024));
-//RateBytes->display((double) fxDaqStat.bl_r_kbyte);
-RateBytes->display((double) fiCalcedDataRate);
-DateLabel->setText(fxRefTime);
-SumBytesFile->display((double) ((unsigned int) fxDaqStat.bl_n_kbyte_file/1024));
+   setWindowTitle("MBS Status - "+NodeEdit->text());
+   if(!fbSingleRefresh)
+   {
+      NodeEdit->setEnabled(!fbIsMonitoring);
+      MonitorButton->setEnabled(!fbIsMonitoring);
+      StopButton->setEnabled(fbIsMonitoring);
+      FrequencyBox->setEnabled(!fbIsMonitoring);
+      //TrendCheck->setEnabled(!fbIsMonitoring);
+      TrendBinsBox->setEnabled(!fbTrending);
+   }
+   MoreFrame->setVisible(fbShowMore);
+   SumEvents->display((double) fxDaqStat.bl_n_events);
+   //RateEvents->display((double) fxDaqStat.bl_r_events);
+   RateEvents->display((double) fiCalcedEventRate);
+   SumBytes->display((double) ((unsigned int) fxDaqStat.bl_n_kbyte/1024));
+   //RateBytes->display((double) fxDaqStat.bl_r_kbyte);
+   RateBytes->display((double) fiCalcedDataRate);
+   DateLabel->setText(fxRefTime);
+   SumBytesFile->display((double) ((unsigned int) fxDaqStat.bl_n_kbyte_file/1024));
 
-if(fxDaqStat.l_open_file)
- OutfileLabel->setText(fxDaqStat.c_file_name);
-else
- OutfileLabel->setText("- file closed -") ;
+   if(fxDaqStat.l_open_file)
+      OutfileLabel->setText(fxDaqStat.c_file_name);
+   else
+      OutfileLabel->setText("- file closed -") ;
 
-ServerLabel->setText(fxServerLabel) ;
-ServerPercent->display((int) fiEvRatio);
-if(fbRunning && !fbWarningState){
-    RunPix->clear();
-    RunPix->setMovie(fxRunMovie);
-    fxRunMovie->start();
-}
-else{
-    RunPix->setWindowIcon(QIcon( ":/icons/mbsbutton.png" ));
-    if(fxRunMovie) fxRunMovie->stop();
-}
-WarnPix->setVisible(fbWarningState);
+   ServerLabel->setText(fxServerLabel) ;
+   ServerPercent->display((int) fiEvRatio);
+   if(fbRunning && !fbWarningState){
+      RunPix->clear();
+      RunPix->setMovie(fxRunMovie);
+      fxRunMovie->start();
+   }
+   else{
+      RunPix->setWindowIcon(QIcon( ":/icons/mbsbutton.png" ));
+      if(fxRunMovie) fxRunMovie->stop();
+   }
+   WarnPix->setVisible(fbWarningState);
 
-// put here enable/disable setup buttons:
-SetupRadio->setEnabled(fxDaqStat.bh_setup_loaded);
-SetupMLRadio->setEnabled(fxDaqStat.bh_set_ml_loaded);
-SetupMORadio->setEnabled(fxDaqStat.bh_set_mo_loaded);
-if(fbWarningState)
-    std::cerr <<fxMessage.toAscii().constData() << std::endl;
+   // put here enable/disable setup buttons:
+   SetupRadio->setEnabled(fxDaqStat.bh_setup_loaded);
+   SetupMLRadio->setEnabled(fxDaqStat.bh_set_ml_loaded);
+   SetupMORadio->setEnabled(fxDaqStat.bh_set_mo_loaded);
+   if(fbWarningState)
+      std::cerr <<fxMessage.toAscii().constData() << std::endl;
 
-ensurePolished();
-update();
-show();
+   ensurePolished();
+   update();
+   show();
 }
 
 
 void TGo4MBSViewer::Refresh()
 {
-// for the ratemeter and running state, we always get status block
+   // for the ratemeter and running state, we always get status block
    if(fxNode.isEmpty()) return;
    int state=f_mbs_status(const_cast<char*>(fxNode.toAscii().constData()), &fxDaqStat);
    if(state!=STC__SUCCESS) {
@@ -202,21 +202,21 @@ void TGo4MBSViewer::Refresh()
    if(fbIsMonitoring)
    {
       // only in monitoring mode: calculate rates ourselves, independent of mbs ratemter:
-	   // NEW: first check real time diff since last call and correct rates:
-	   deltamilsecs=fxDeltaClock.elapsed();
-	   //std::cout <<"******* found ms:"<<deltamilsecs << std::endl;
-	   fxDeltaClock.restart();
-	   int deltasecs=deltamilsecs/1000;	   
-	   if(!fbTrendingInit && (deltasecs>=deltat*2))
-	   //if((deltasecs>=deltat*2)) // this one was for testing JAM
-		   {
-			   std::cout <<"Warning: MBS monitor found measuring interval:"<<deltasecs<<" s ("<<deltamilsecs <<" ms) exceeding timer period "<<deltat<<" s" << std::endl;
-			   std::cout <<" Maybe timer was skipped?" << std::endl;
-			   deltat=deltasecs;
-			   numperiods=(deltat/ (int) FrequencyBox->value());
-			   std::cout <<" Correcting number of measuring periods to:"<<numperiods << std::endl;
-		   }
-	  if(fiLastEventNum && deltamilsecs)
+      // NEW: first check real time diff since last call and correct rates:
+      deltamilsecs=fxDeltaClock.elapsed();
+      //std::cout <<"******* found ms:"<<deltamilsecs << std::endl;
+      fxDeltaClock.restart();
+      int deltasecs=deltamilsecs/1000;
+      if(!fbTrendingInit && (deltasecs>=deltat*2))
+         //if((deltasecs>=deltat*2)) // this one was for testing JAM
+      {
+         std::cout <<"Warning: MBS monitor found measuring interval:"<<deltasecs<<" s ("<<deltamilsecs <<" ms) exceeding timer period "<<deltat<<" s" << std::endl;
+         std::cout <<" Maybe timer was skipped?" << std::endl;
+         deltat=deltasecs;
+         numperiods=(deltat/ (int) FrequencyBox->value());
+         std::cout <<" Correcting number of measuring periods to:"<<numperiods << std::endl;
+      }
+      if(fiLastEventNum && deltamilsecs)
          fiCalcedEventRate=1000.*(fxDaqStat.bl_n_events-fiLastEventNum)/deltamilsecs;
       else
          fiCalcedEventRate=0;
@@ -316,13 +316,13 @@ void TGo4MBSViewer::Refresh()
    }
 
    if(fbTrending && !fbWarningState && fbIsMonitoring)
-   	   {
-	   	   while((numperiods--) > 0)
-	   	   {
-	   		   UpdateTrending(); // use same values for all skipped periods
-	   		   //std::cout <<"Update trending with numperiods:"<<numperiods << std::endl;
-	   	   }
-   	   }
+   {
+      while((numperiods--) > 0)
+      {
+         UpdateTrending(); // use same values for all skipped periods
+         //std::cout <<"Update trending with numperiods:"<<numperiods << std::endl;
+      }
+   }
    StartMovieReset();
    Display();
    //f_ut_seg_show (&fxDaqStat,0,0,0);
@@ -331,15 +331,15 @@ void TGo4MBSViewer::Refresh()
 
 void TGo4MBSViewer::NodeEditEnter()
 {
-    Refresh();
+   Refresh();
 }
 
 
 
 void TGo4MBSViewer::NodeChanged( const QString & txt )
 {
-fxNode=txt;
-fxNode.trimmed();
+   fxNode=txt;
+   fxNode.trimmed();
 }
 
 
@@ -347,228 +347,228 @@ fxNode.trimmed();
 
 void TGo4MBSViewer::ShowStatus()
 {
-  if(fbWarningState)
-    {
-          std::cout <<fxMessage.toAscii().constData()  << std::endl;
-    }
-  else
-  {
-	  std::cout <<"\n------------------------------------------------" << std::endl;
-	  if(StateGroup->button(0)->isChecked())
-		  f_ut_seg_show (&fxDaqStat,0,0,0);
-	  if(fbGetSetup)
-		  f_ut_seg_show (0,&fxSetup,0,0);
-	  else if(fbGetSetML)
-		  f_ut_seg_show (0,0,&fxSetupML,0);
-	  else if(fbGetSetMO)
-		  f_ut_seg_show (0,0,0,&fxSetupMO);
-  }
+   if(fbWarningState)
+   {
+      std::cout <<fxMessage.toAscii().constData()  << std::endl;
+   }
+   else
+   {
+      std::cout <<"\n------------------------------------------------" << std::endl;
+      if(StateGroup->button(0)->isChecked())
+         f_ut_seg_show (&fxDaqStat,0,0,0);
+      if(fbGetSetup)
+         f_ut_seg_show (0,&fxSetup,0,0);
+      else if(fbGetSetML)
+         f_ut_seg_show (0,0,&fxSetupML,0);
+      else if(fbGetSetMO)
+         f_ut_seg_show (0,0,0,&fxSetupMO);
+   }
 
 }
 
 void TGo4MBSViewer::StateGroup_clicked( int id)
 {
-	// only one of these can be enabled
-	fbGetSetup=StateGroup->button(1)->isChecked();
-	fbGetSetML=StateGroup->button(2)->isChecked();
-	fbGetSetMO=StateGroup->button(3)->isChecked();
-	// if status is wanted, do not print setups:
-//	if(fbGetSetup=StateGroup->button(0)->isChecked()){
-//        fbGetSetup=false;
-//        fbGetSetML=false;
-//        fbGetSetMO=false;
-//	}
+   // only one of these can be enabled
+   fbGetSetup=StateGroup->button(1)->isChecked();
+   fbGetSetML=StateGroup->button(2)->isChecked();
+   fbGetSetMO=StateGroup->button(3)->isChecked();
+   // if status is wanted, do not print setups:
+   //	if(fbGetSetup=StateGroup->button(0)->isChecked()){
+   //        fbGetSetup=false;
+   //        fbGetSetML=false;
+   //        fbGetSetMO=false;
+   //	}
 }
 
 
 void TGo4MBSViewer::PrintStatus()
 {
-if(fxNode.isEmpty()) return;
-if(fbGetSetup)
-{
-    // request setup if selected
+   if(fxNode.isEmpty()) return;
+   if(fbGetSetup)
+   {
+      // request setup if selected
 
-    int state=f_mbs_setup(const_cast<char*>(fxNode.toAscii().constData()), &fxSetup);
-    if(state!=0)
-        {
-            fxMessage.sprintf("MBS Setup refresh returned error %d at ",state);
-            fxMessage+=QDateTime::currentDateTime().toString();
-            fbWarningState=true;
-        }
-    else
-            fbWarningState=false;
-}
+      int state=f_mbs_setup(const_cast<char*>(fxNode.toAscii().constData()), &fxSetup);
+      if(state!=0)
+      {
+         fxMessage.sprintf("MBS Setup refresh returned error %d at ",state);
+         fxMessage+=QDateTime::currentDateTime().toString();
+         fbWarningState=true;
+      }
+      else
+         fbWarningState=false;
+   }
 
-else if(fbGetSetML)
-{
-    // request setup multilayer if selected
-    int state=f_mbs_ml_setup(const_cast<char*>(fxNode.toAscii().constData()), &fxSetupML);
-    if(state!=0)
-    {
-        fxMessage.sprintf("MBS Setup ML refresh returned error %d at",state);
-        fxMessage+=QDateTime::currentDateTime().toString();
-        fbWarningState=true;
-    }
-    else
-        fbWarningState=false;
-}
-else if(fbGetSetMO)
-{
-    // request setup MO if selected
-    int state=f_mbs_mo_setup(const_cast<char*>(fxNode.toAscii().constData()), &fxSetupMO);
-    if(state!=0)
-    {
-        fxMessage.sprintf("MBS Setup MO refresh returned error %d at",state);
-        fxMessage+=QDateTime::currentDateTime().toString();
-        fbWarningState=true;
-    }
-    else
-        fbWarningState=false;
-}
+   else if(fbGetSetML)
+   {
+      // request setup multilayer if selected
+      int state=f_mbs_ml_setup(const_cast<char*>(fxNode.toAscii().constData()), &fxSetupML);
+      if(state!=0)
+      {
+         fxMessage.sprintf("MBS Setup ML refresh returned error %d at",state);
+         fxMessage+=QDateTime::currentDateTime().toString();
+         fbWarningState=true;
+      }
+      else
+         fbWarningState=false;
+   }
+   else if(fbGetSetMO)
+   {
+      // request setup MO if selected
+      int state=f_mbs_mo_setup(const_cast<char*>(fxNode.toAscii().constData()), &fxSetupMO);
+      if(state!=0)
+      {
+         fxMessage.sprintf("MBS Setup MO refresh returned error %d at",state);
+         fxMessage+=QDateTime::currentDateTime().toString();
+         fbWarningState=true;
+      }
+      else
+         fbWarningState=false;
+   }
 
-else {}
-RefreshButtonClick(); // always get new status structure and display on window
-ShowStatus();
+   else {}
+   RefreshButtonClick(); // always get new status structure and display on window
+   ShowStatus();
 }
 
 
 void TGo4MBSViewer::TrendSwitched( bool on )
 {
-if(!fbTrending) fbTrendingInit=true;
-fbTrending=on;
-go4sett->setMbsMonitorTrend(fbTrending);
-Display();
+   if(!fbTrending) fbTrendingInit=true;
+   fbTrending=on;
+   go4sett->setMbsMonitorTrend(fbTrending);
+   Display();
 }
 
 
 void TGo4MBSViewer::UpdateTrending()
 {
-TrendHisto(fxHistoAccessName,"MbsEventRate","Events/s",fiCalcedEventRate);
-TrendHisto(fxHistokBAccessName,"MbsDataRate","kB/s",fiCalcedDataRate);
-TrendHisto(fxHistoEvRatioAccessName,fxServerLabel.section(' ',0,0),"% Events served",fiEvRatio);
-fbTrendingInit=false;
+   TrendHisto(fxHistoAccessName,"MbsEventRate","Events/s",fiCalcedEventRate);
+   TrendHisto(fxHistokBAccessName,"MbsDataRate","kB/s",fiCalcedDataRate);
+   TrendHisto(fxHistoEvRatioAccessName,fxServerLabel.section(' ',0,0),"% Events served",fiEvRatio);
+   fbTrendingInit=false;
 }
 
 
 void TGo4MBSViewer::IncTrending( TH1 * histo, int value, bool forwards )
 {
-if(histo==0) return;
-int bins=histo->GetNbinsX();
-//bool forwards=true;
-int j,dj;
-if(forwards)
-       dj=-1;
-else
-       dj=+1;
-for(int i=0;i<bins;i++)
-    {
-    if(forwards)
-        j=bins-i;
-    else
-        j=i;
-    int oldval=histo->GetBinContent(j+dj);
-    histo->SetBinContent(j,oldval);
-    }
-histo->SetBinContent(j+dj,value);
+   if(histo==0) return;
+   int bins=histo->GetNbinsX();
+   //bool forwards=true;
+   int j,dj;
+   if(forwards)
+      dj=-1;
+   else
+      dj=+1;
+   for(int i=0;i<bins;i++)
+   {
+      if(forwards)
+         j=bins-i;
+      else
+         j=i;
+      int oldval=histo->GetBinContent(j+dj);
+      histo->SetBinContent(j,oldval);
+   }
+   histo->SetBinContent(j+dj,value);
 }
 
 
 void TGo4MBSViewer::FrequencyBox_valueChanged( int )
 {
-    fbTrendingInit=true;
+   fbTrendingInit=true;
 }
 
 
 TH1* TGo4MBSViewer::TrendHisto( QString & refname ,const QString & name, const QString & title, int value)
 {
-TH1* his=0;
-TGo4Slot* histoslot=0;
-if(!fbTrendingInit) histoslot=Browser()->BrowserSlot(refname.toAscii());
-if(histoslot==0)
-    {
-        Axis_t lo,up;
-        if(fbTrendingForward)
-            {
-                lo=0;
-                up=1*fiTrendBins*FrequencyBox->value();
-            }
-        else
-            {
-                lo=-1*fiTrendBins*FrequencyBox->value();
-                up=0;
-            }
-        his=new TH1F(name.toAscii(), title.toAscii() ,fiTrendBins,lo,up);
-        TAxis* xax=his->GetXaxis();
-        xax->SetTitle("s");
-        xax->CenterTitle();
-        //xax->SetLimits(0,lo,up);
+   TH1* his=0;
+   TGo4Slot* histoslot=0;
+   if(!fbTrendingInit) histoslot=Browser()->BrowserSlot(refname.toAscii());
+   if(histoslot==0)
+   {
+      Axis_t lo,up;
+      if(fbTrendingForward)
+      {
+         lo=0;
+         up=1*fiTrendBins*FrequencyBox->value();
+      }
+      else
+      {
+         lo=-1*fiTrendBins*FrequencyBox->value();
+         up=0;
+      }
+      his=new TH1F(name.toAscii(), title.toAscii() ,fiTrendBins,lo,up);
+      TAxis* xax=his->GetXaxis();
+      xax->SetTitle("s");
+      xax->CenterTitle();
+      //xax->SetLimits(0,lo,up);
 
-        TGo4Slot* hisdataslot=Browser()->DataSlot(refname.toAscii());
-        if(hisdataslot)
-            {
-                hisdataslot->AssignObject(his,true);
-            }
-        else
-            {
-                refname=Browser()->SaveToMemory("Mbs", his, true);
-            }
-        histoslot=Browser()->BrowserSlot(refname.toAscii());
-    }
-else
-    {
-       his=dynamic_cast<TH1*>(histoslot->GetAssignedObject());
-    }
-IncTrending(his,value,fbTrendingForward);
-if(histoslot)
-    {
-        histoslot->ForwardEvent(histoslot, TGo4Slot::evObjUpdated);
-        Browser()->SetItemTimeDate(histoslot);
-    }
-return his;
+      TGo4Slot* hisdataslot=Browser()->DataSlot(refname.toAscii());
+      if(hisdataslot)
+      {
+         hisdataslot->AssignObject(his,true);
+      }
+      else
+      {
+         refname=Browser()->SaveToMemory("Mbs", his, true);
+      }
+      histoslot=Browser()->BrowserSlot(refname.toAscii());
+   }
+   else
+   {
+      his=dynamic_cast<TH1*>(histoslot->GetAssignedObject());
+   }
+   IncTrending(his,value,fbTrendingForward);
+   if(histoslot)
+   {
+      histoslot->ForwardEvent(histoslot, TGo4Slot::evObjUpdated);
+      Browser()->SetItemTimeDate(histoslot);
+   }
+   return his;
 }
 
 
 void TGo4MBSViewer::MoreBox_toggled( bool on)
 {
-fbShowMore=on;
-go4sett->setMbsMonitorMore(fbShowMore);
-Display();
+   fbShowMore=on;
+   go4sett->setMbsMonitorMore(fbShowMore);
+   Display();
 }
 
 
 void TGo4MBSViewer::TrendBinsBox_valueChanged( int i)
 {
-fiTrendBins=i;
-fbTrendingInit=true;
+   fiTrendBins=i;
+   fbTrendingInit=true;
 }
 
 
 void TGo4MBSViewer::RefreshButtonClick()
 {
-    bool trend=fbTrending;
-    bool monitoring=fbIsMonitoring;
-    fbTrending=false; // avoid to put direct refresh into the trending histogram
-    fbIsMonitoring=false; // avoid confuse rate calculations
-    fbSingleRefresh=true; // avoid changing state of control buttons
-    Refresh();
-    fbSingleRefresh=false;
-    fbIsMonitoring=monitoring;
-    fbTrending=trend;
+   bool trend=fbTrending;
+   bool monitoring=fbIsMonitoring;
+   fbTrending=false; // avoid to put direct refresh into the trending histogram
+   fbIsMonitoring=false; // avoid confuse rate calculations
+   fbSingleRefresh=true; // avoid changing state of control buttons
+   Refresh();
+   fbSingleRefresh=false;
+   fbIsMonitoring=monitoring;
+   fbTrending=trend;
 
 }
 
 
 void TGo4MBSViewer::SetNode( const QString & txt )
 {
-fxNode=txt;
-NodeEdit->setText(txt);
+   fxNode=txt;
+   NodeEdit->setText(txt);
 }
 
 
 void TGo4MBSViewer::ResetRunIcon()
 {
-    fbRunning=false;
-    Display();
+   fbRunning=false;
+   Display();
 }
 
 
