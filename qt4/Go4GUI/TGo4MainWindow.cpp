@@ -443,6 +443,10 @@ void TGo4MainWindow::AddSettingMenu()
    faHideEventElement = AddChkAction(prefMenu, "Hide TGo4EventElement",
                     go4sett->getHideTGo4EventElement(), this, SLOT(ChangeHideEventElement()));
 
+   faDrawOnce = AddChkAction(prefMenu, "Draw item once",
+                             go4sett->getDrawOnceFlag(), this, SLOT(ChangeDrawOnceSlot()));
+
+
    QMenu* panelMenu = settMenu->addMenu("&Panel defaults");
 
    panelMenu->addAction("&Canvas color...", this, SLOT(CanvasColorSlot()));
@@ -1300,8 +1304,13 @@ void TGo4MainWindow::ChangeFetchWhenSaveSlot()
 void TGo4MainWindow::ChangeHideEventElement()
 {
    go4sett->setHideTGo4EventElement(faHideEventElement->isChecked());
-
    UpdateBrowser();
+}
+
+void TGo4MainWindow::ChangeDrawOnceSlot()
+{
+   go4sett->setDrawOnceFlag(faDrawOnce->isChecked());
+
 }
 
 void TGo4MainWindow::CanvasColorSlot()

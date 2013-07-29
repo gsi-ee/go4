@@ -63,7 +63,8 @@ Changes in Go4 v4.5.9
    in the browser.
 17.TGo4Log can deliver all messages to special sniffer object. This message
    is used in TGo4DabcSniffer to record and provide debug output of any go4 analysis
-              
+18.Provide in preference menu possibility to set "draw once" flag. Means every histogram
+   can only be drawn once when double-clicked in the browser.
 
 Changes in Go4 v4.5.5
 1. Adjust different macros to use together with ROOT 5.99 

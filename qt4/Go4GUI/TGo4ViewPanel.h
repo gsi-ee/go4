@@ -137,7 +137,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void ScanObjectsDrawOptions(bool onlyscan, TGo4Slot* padslot, TObjArray* objs, TObjArray* objslots);
       virtual void CollectMainDrawObjects( TGo4Slot * slot, TObjArray* objs, TObjArray* objslots, int modifier);
       virtual TObject * ProduceSuperimposeObject( TGo4Picture* padopt, TGo4Slot * sislot, TGo4Slot * legslot,
-            TObjArray * objs, TObjArray * objslots, bool showitems );
+                                          TObjArray * objs, TObjArray * objslots, bool showitems );
       virtual void Divide( int numX, int numY );
       virtual void SetSlotPad(TGo4Slot* padslot, TPad * pad);
       virtual TGo4Slot* GetPadSlot( TPad * pad );
@@ -203,8 +203,10 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void PadRangeAxisChanged( TPad * pad, double rxmin, double rxmax, double rymin, double rymax );
       virtual bool TakeSelectedAxisRange(int naxis, TGo4Picture* padopt, double selmin, double selmax, bool force);
       virtual bool TakeSelectedAxisRange(int naxis, TGo4Picture* padopt, TAxis* ax);
-      virtual void GetSelectedRange(int & ndim, bool & autoscale, double & xmin, double & xmax, double & ymin, double
-            & ymax, double & zmin, double & zmax);
+      virtual void GetSelectedRange(int & ndim, bool & autoscale,
+                                    double & xmin, double & xmax,
+                                    double & ymin, double & ymax,
+                                    double & zmin, double & zmax);
       virtual void SetSelectedRange(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax );
       virtual void SetAutoScale(bool on, TPad* selpad);
       virtual void ResizeGedEditor();

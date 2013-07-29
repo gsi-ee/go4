@@ -519,6 +519,18 @@ void TGo4Browser::ListView_doubleClicked(QTreeWidgetItem* item, int ncol)
    int cando = br->ItemCanDo(fullname.toAscii().constData());
    TGo4Slot* itemslot = br->ItemSlot(fullname.toAscii().constData());
 
+   if (go4sett->getDrawOnceFlag()) {
+      TGo4ViewPanel* panel = WhereItemDrawn(fullname.toAscii().constData());
+      if (panel!=0)  {
+         if (panel->isMinimized()) panel->showNormal();
+         panel->activateWindow();
+         panel->raise();
+         panel->show();
+         panel->setFocus();
+         return;
+      }
+   }
+
    if (TGo4BrowserProxy::CanDrawItem(cando))
      DrawItem(fullname, 0, 0, true);
    else

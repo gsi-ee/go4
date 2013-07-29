@@ -144,6 +144,9 @@ class TGo4QSettings {
       void    setCloneFlag(bool on = true);
       bool    getCloneFlag();
 
+      void    setDrawOnceFlag(bool on = true);
+      bool    getDrawOnceFlag();
+
       void    setDrawTimeFlag(bool on = true);
       bool    getDrawTimeFlag();
 

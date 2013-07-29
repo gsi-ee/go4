@@ -110,6 +110,7 @@ class TGo4MainWindow : public QMainWindow {
       void ChangeFetchWhenCopySlot();
       void ChangeFetchWhenSaveSlot();
       void ChangeHideEventElement();
+      void ChangeDrawOnceSlot();
 
       void CanvasColorSlot();
       void CrosshairSlot();
@@ -222,6 +223,8 @@ class TGo4MainWindow : public QMainWindow {
       QAction*           faFetchWhenCopy;
       QAction*           faFetchWhenSave;
       QAction*           faHideEventElement;
+      QAction*           faDrawOnce;
+
       QAction*           faCrosshair;
       QAction*           faEventstatus;
       QAction*           faClone;

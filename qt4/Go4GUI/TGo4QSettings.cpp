@@ -461,6 +461,17 @@ bool TGo4QSettings::getCloneFlag()
    return getBool(  "/ViewPanel/CloneFlag", true);
 }
 
+void TGo4QSettings::setDrawOnceFlag(bool on)
+{
+   setBool("/ViewPanel/DrawOnce", on);
+}
+
+bool TGo4QSettings::getDrawOnceFlag()
+{
+   return getBool("/ViewPanel/DrawOnce", false);
+}
+
+
 void TGo4QSettings::setDrawTimeFlag(bool on)
 {
    setBool("/ViewPanel/DrawTime", on);

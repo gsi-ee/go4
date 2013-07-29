@@ -565,8 +565,7 @@ TPad* TGo4ViewPanel::FindPadWithItem(const char* itemname)
    while (iter.next()) {
       TGo4Slot* subslot = iter.getslot();
       int drawkind = GetDrawKind(subslot);
-      if ((drawkind == kind_Link) || (drawkind == kind_Condition)
-            || (drawkind == kind_Latex)) {
+      if ((drawkind == kind_Link) || (drawkind == kind_Condition) || (drawkind == kind_Latex)) {
          const char* linkname = GetLinkedName(subslot);
          if (linkname != 0)
             if (strcmp(linkname, itemname) == 0)
@@ -586,8 +585,7 @@ void TGo4ViewPanel::UndrawItemOnPanel(const char* itemname)
    while (iter.next()) {
       TGo4Slot* subslot = iter.getslot();
       int drawkind = GetDrawKind(subslot);
-      if ((drawkind == kind_Link) || (drawkind == kind_Condition)
-            || (drawkind == kind_Latex)) {
+      if ((drawkind == kind_Link) || (drawkind == kind_Condition) || (drawkind == kind_Latex)) {
          const char* linkname = GetLinkedName(subslot);
          if ((linkname != 0) && (strcmp(linkname, itemname) == 0)) {
             delslots.Add(subslot);
@@ -2131,14 +2129,13 @@ void TGo4ViewPanel::ProcessPadStatusUpdate(TPad* pad, TGo4Slot* parent,
       ClearPadItems(slot, 0);
 }
 
-TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind,
-      const char* itemname, TObject* obj, bool owner, const char* drawopt)
+TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname,
+                                       TObject* obj, bool owner, const char* drawopt)
 {
    TGo4Slot* padslot = GetPadSlot(pad);
 
    if (padslot == 0) {
-      if (owner)
-         delete obj;
+      if (owner) delete obj;
       return 0;
    }
 
@@ -5292,8 +5289,7 @@ void TGo4ViewPanel::AddMarkerObj(TPad* pad, int kind, TObject* obj)
       slotname = basename + QString::number(cnt++);
    } while (padslot->FindChild(slotname.toAscii().constData()) != 0);
 
-   TGo4Slot* objslot = AddDrawObject(pad, kind, slotname.toAscii().constData(),
-         obj, true, 0);
+   TGo4Slot* objslot = AddDrawObject(pad, kind, slotname.toAscii().constData(), obj, true, 0);
 
    SetActiveObj(pad, kind, objslot);
 }
