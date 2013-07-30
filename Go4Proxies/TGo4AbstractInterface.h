@@ -535,6 +535,10 @@ class TGo4AbstractInterface : public TObject {
         * changed directly in script and after that should be updated in viewpanel. */
       virtual void RedrawItem(const char* itemname);
 
+      /** Provide item name, drawn in the view panel.
+       *  Optional cnt parameter could specify sequence number in panel, including all subpads */
+      virtual const char* GetDrawnItemName(ViewPanelHandle panel, int cnt = 0) { return 0; }
+
    ClassDef(TGo4AbstractInterface, 1);
 };
 

@@ -958,6 +958,7 @@
     <function returnType="TGo4Slot *">GetSelectedSlot( TPad * pad, int * selkind, TObject * * selobj )</function>
     <function returnType="bool">IsConditionSelected( TPad * pad )</function>
     <function returnType="TPad*">FindPadWithItem(const char* itemname)</function>
+    <function returnType="const char*">GetDrawItemName(int itemcnt)</function>
     <function>UndrawItemOnPanel(const char* itemname)</function>
     <function>SetSelectedMarker( TPad * pad, const QString &amp; selname, int selindex )</function>
     <function>SetSelectedMarkerByMouseClick(TPad* pad, const char* name)</function>

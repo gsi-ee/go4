@@ -174,6 +174,8 @@ class TGo4Script : public TGo4AbstractInterface {
 
       Bool_t DrawItem(const char* itemname, ViewPanelHandle panel = 0, const char* drawopt = 0);
 
+      const char* GetDrawnItemName(ViewPanelHandle panel, int cnt = 0);
+
    protected:
 
       static TGo4Script* ScriptInstance();

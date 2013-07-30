@@ -495,8 +495,7 @@ int TGo4ViewPanel::GetSelectedMarkerIndex(TPad* pad)
    return selindex;
 }
 
-TGo4Slot* TGo4ViewPanel::GetSelectedSlot(TPad* pad, int* selkind,
-      TObject** selobj)
+TGo4Slot* TGo4ViewPanel::GetSelectedSlot(TPad* pad, int* selkind, TObject** selobj)
 {
    if (selkind != 0) *selkind = kind_None;
    if (selobj != 0) *selobj = 0;
@@ -574,6 +573,26 @@ TPad* TGo4ViewPanel::FindPadWithItem(const char* itemname)
    }
    return 0;
 }
+
+const char* TGo4ViewPanel::GetDrawItemName(int itemcnt)
+{
+   int cnt = 0;
+
+   TGo4Iter iter(GetPanelSlot(), kTRUE);
+   while (iter.next()) {
+      TGo4Slot* subslot = iter.getslot();
+      int drawkind = GetDrawKind(subslot);
+      if ((drawkind == kind_Link) || (drawkind == kind_Condition)) {
+         const char* linkname = GetLinkedName(subslot);
+         if (linkname != 0) {
+            if (cnt++ == itemcnt) return linkname;
+         }
+      }
+   }
+
+   return 0;
+}
+
 
 void TGo4ViewPanel::UndrawItemOnPanel(const char* itemname)
 {

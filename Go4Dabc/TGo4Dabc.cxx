@@ -98,20 +98,17 @@ bool TGo4Dabc::ConnectMaster(const char* master_url)
       return false;
    }
 
-   std::string master = master_url;
-   if (master.find("dabc://") != 0) master = std::string("dabc://") + master;
-
-   DOUT0("Create command channel for %s ", master.c_str());
+   DOUT0("Create command channel for %s ", master_url);
 
    dabc::Command cmd("ConfigureMaster");
-   cmd.SetStr("Master", master);
+   cmd.SetStr("Master", master_url);
    cmd.SetStr("NameSufix", "Go4");
    if (dabc::mgr.GetCommandChannel().Execute(cmd) != dabc::cmd_true) {
-      DOUT0("FAIL to activate connection to master %s", master.c_str());
+      DOUT0("FAIL to activate connection to master %s", master_url);
       return false;
    }
 
-   DOUT0("Master %s configured !!!", master.c_str());
+   DOUT0("Master %s configured !!!", master_url);
 
    return true;
 

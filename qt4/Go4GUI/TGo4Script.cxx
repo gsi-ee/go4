@@ -737,6 +737,14 @@ Bool_t TGo4Script::DrawItem(const char* itemname, ViewPanelHandle handle, const 
    return (panel!=0);
 }
 
+const char* TGo4Script::GetDrawnItemName(ViewPanelHandle handle, int cnt)
+{
+   TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
+
+   return panel ? panel->GetDrawItemName(cnt) : 0;
+}
+
+
 // ***************************** Generation *********************
 
 

@@ -118,6 +118,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual bool IsConditionSelected( TPad * pad );
       virtual TPad* FindPadWithItem(const char* itemname);
       virtual void UndrawItemOnPanel(const char* itemname);
+      virtual const char* GetDrawItemName(int itemcnt = 0);
       virtual void SetSelectedMarker( TPad * pad, const QString & selname, int selindex );
       virtual void SetSelectedMarkerByMouseClick(TPad* pad, const char* name);
       virtual void StartConditionEditing(TPad* pad);
