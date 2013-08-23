@@ -134,8 +134,18 @@ Int_t TGo4EventElement::activateBranch(TBranch *branch, Int_t init, TGo4EventEle
 
    TTree* tree = branch->GetTree();
 
-   if (var_ptr!=0)
-      tree->SetBranchAddress(cad.Data(), (void**)var_ptr);
+   if (var_ptr!=0) {
+      // SL 23.08.2013 - seems to be, at some point TTree::SetBranchAddress() signature was changed
+      // now one other need to specify pointer on actual class like
+      // UserEvent* ev = (UserEvent*) GetInputEvent();
+      // tree->SetBranchAddress("branch.", &ev);
+      // or one need explicitly specify which class we want to set to the branch
+      // No idea when it happens, but newest 5.34 ROOT no longer working correctly.
+
+      TClass* cl = *var_ptr ? (*var_ptr)->IsA() : 0;
+      tree->SetBranchAddress(cad.Data(), var_ptr, 0, cl, kOther_t, true);
+      //tree->SetBranchAddress(cad.Data(), (void**) var_ptr);
+   }
 
    tree->SetBranchStatus(cad.Data(), 1);
    cad+="*";

@@ -68,7 +68,8 @@ Changes in Go4 v4.5.9
 19.Provide in gui script possibility to request item name, drawn in the panel.
    Method name is go4->GetDrawnItemName(panel, cnt = 0). Can be useful in some 
    gui scripts. Done for qt3/qt4. 
-
+20.Fix problem with TGo4FileSource and newest ROOT - SetBranchAddress was not working
+   correctly. 
 
 Changes in Go4 v4.5.5
 1. Adjust different macros to use together with ROOT 5.99 
