@@ -4402,7 +4402,7 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
          if ((ndim==1) && (naxis==0)) {
             for (Int_t n1 = 1; n1<=padhist->GetNbinsX(); n1++) {
                Double_t v = padhist->GetBinContent(n1);
-               if (v<=0.) continue;
+               if (TMath::Abs(v)<1e-10) continue;
                lastbin = n1;
                if (firstbin==0) firstbin = n1;
             }
@@ -4413,7 +4413,7 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
             for (Int_t n1 = 1; n1<=padhist->GetNbinsX(); n1++)
                for (Int_t n2 = 1; n2<=padhist->GetNbinsY(); n2++) {
                  Double_t v = padhist->GetBinContent(n1,n2);
-                 if (v<=0.) continue;
+                 if (TMath::Abs(v)<1e-10) continue;
                  Int_t bin = naxis==0 ? n1 : n2;
                  if ((lastbin==0) || (bin>lastbin)) lastbin = bin;
                  if ((firstbin==0) || (bin<firstbin)) firstbin = bin;
@@ -4425,7 +4425,7 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
                for (Int_t n2 = 1; n2<=padhist->GetNbinsY(); n2++)
                   for (Int_t n3 = 1; n3<=padhist->GetNbinsZ(); n3++) {
                     Double_t v = padhist->GetBinContent(n1,n2,n3);
-                    if (v<=0.) continue;
+                    if (TMath::Abs(v)<1e-10) continue;
                     Int_t bin = naxis==0 ? n1 : ((naxis==1) ? n2 : n3);
                     if ((lastbin==0) || (bin>lastbin)) lastbin = bin;
                     if ((firstbin==0) || (bin<firstbin)) firstbin = bin;
