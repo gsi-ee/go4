@@ -170,7 +170,7 @@ Bool_t TGo4DabcProxy::UpdateHierarchy()
 
    if (!buf.null()) {
       // DOUT0("Get raw data %p %u", cmd2.GetRawData(), cmd2.GetRawDataSize());
-      if (hierarchy.UpdateFromXml((const char*)buf.SegmentPtr())) {
+      if (hierarchy.UpdateFromBuffer(buf)) {
          DOUT0("Update of hierarchy to version %u done", hierarchy.GetVersion());
       }
    }
