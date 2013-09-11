@@ -97,7 +97,7 @@ bool TGo4Dabc::ConnectMaster(const char* master_url)
    DOUT2("Create go4 sniffer");
 
    // we selecting Go4 sniffer as the only objects, seen from the server
-   if (!dabc::mgr()->CreateControl(false, "Go4")) {
+   if (!dabc::mgr()->CreateControl(false)) {
       DOUT0("Cannot create control instance");
       return false;
    }
