@@ -23,14 +23,16 @@ bool TGo4Dabc::StartHttpServer(int port)
 
    DOUT2("Create manager");
 
-   // dabc::mgr.Execute("InitFactories");
+   dabc::mgr.Execute("InitFactories");
 
    dabc::mgr.CreateThread("MainThread");
 
+   dabc::mgr.CreatePublisher();
 
    dabc::Command cmd2("any");
    cmd2.SetBool("enabled", true);
    cmd2.SetBool("batch", false);
+   cmd2.SetStr("prefix", "Go4");
    TGo4DabcSniffer* sniff = new TGo4DabcSniffer("/Go4", cmd2);
 
    sniff->InstallSniffTimer();
@@ -74,13 +76,16 @@ bool TGo4Dabc::ConnectMaster(const char* master_url)
 
    DOUT0("Create manager");
 
-   // dabc::mgr.Execute("InitFactories");
+   dabc::mgr.Execute("InitFactories");
 
    dabc::mgr.CreateThread("MainThread");
+
+   dabc::mgr.CreatePublisher();
 
    dabc::Command cmd2("any");
    cmd2.SetBool("enabled", true);
    cmd2.SetBool("batch", false);
+   cmd2.SetStr("prefix", "Go4/" + dabc::mgr.GetLocalId());
    TGo4DabcSniffer* sniff = new TGo4DabcSniffer("/Go4", cmd2);
 
    sniff->InstallSniffTimer();
@@ -90,7 +95,6 @@ bool TGo4Dabc::ConnectMaster(const char* master_url)
    w2.MakeThreadForWorker("MainThread");
 
    DOUT2("Create go4 sniffer");
-
 
    // we selecting Go4 sniffer as the only objects, seen from the server
    if (!dabc::mgr()->CreateControl(false, "Go4")) {
