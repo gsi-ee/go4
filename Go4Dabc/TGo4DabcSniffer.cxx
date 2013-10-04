@@ -67,7 +67,7 @@ void* TGo4DabcSniffer::ScanRootHierarchy(dabc::Hierarchy& h, const char* searchp
 
 void TGo4DabcSniffer::RatemeterUpdate(TGo4Ratemeter* r)
 {
-   dabc::LockGuard lock(fHierarchyMutex);
+   dabc::LockGuard lock(fHierarchy.GetHMutex());
 
    fHierarchy.FindChild("Status/EventRate").Field("value").SetStr(dabc::format("%4.2f", r->GetRate()));
 
@@ -82,7 +82,7 @@ void TGo4DabcSniffer::RatemeterUpdate(TGo4Ratemeter* r)
 
 void TGo4DabcSniffer::StatusMessage(int level, const TString& msg)
 {
-   dabc::LockGuard lock(fHierarchyMutex);
+   dabc::LockGuard lock(fHierarchy.GetHMutex());
 
    dabc::Hierarchy item = fHierarchy.FindChild("Status/Message");
    item.Field("value").SetStr(msg.Data());
@@ -93,7 +93,7 @@ void TGo4DabcSniffer::StatusMessage(int level, const TString& msg)
 
 void TGo4DabcSniffer::SetTitle(const char* title)
 {
-   dabc::LockGuard lock(fHierarchyMutex);
+   dabc::LockGuard lock(fHierarchy.GetHMutex());
 
    fHierarchy.FindChild("Status/DebugOutput").Field("value").SetStr(title ? title : "");
 
