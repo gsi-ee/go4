@@ -69,7 +69,11 @@ Changes in Go4 v4.5.9
    Method name is go4->GetDrawnItemName(panel, cnt = 0). Can be useful in some 
    gui scripts. Done for qt3/qt4. 
 20.Fix problem with TGo4FileSource and newest ROOT - SetBranchAddress was not working
-   correctly. 
+   correctly.
+21.Preliminary code for access to running dabc application via dabc socket.
+   Idea to provide access to dabc application with similar look and fill as
+   web-based interface.
+
 
 Changes in Go4 v4.5.5
 1. Adjust different macros to use together with ROOT 5.99 

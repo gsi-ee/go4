@@ -15,7 +15,6 @@
 #define TGO4DABCPROXY_H
 
 #include "TGo4Proxy.h"
-
 #include "TString.h"
 
 class TH1;

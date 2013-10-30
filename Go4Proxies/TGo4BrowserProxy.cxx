@@ -512,7 +512,10 @@ void TGo4BrowserProxy::OpenDabc(const char* nodename)
       return;
    }
 
-   TGo4Slot* slot = fxOM->MakeObjSlot(fxDataPath.Data(), nodename, "dabc::Hierarchy");
+   const char* slotname = nodename;
+   if (strncmp(slotname,"dabc://",7)==0) slotname+=7;
+
+   TGo4Slot* slot = fxOM->MakeObjSlot(fxDataPath.Data(), slotname, "dabc::Hierarchy");
 
    if (slot!=0) slot->SetProxy(proxy);
 }

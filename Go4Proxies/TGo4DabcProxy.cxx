@@ -15,27 +15,147 @@
 
 #ifndef WITHOUT_DABC
 
+#include "TROOT.h"
+#include "TGraph.h"
+#include "TAxis.h"
+
 #include "dabc/Hierarchy.h"
 #include "dabc/Manager.h"
+#include "dabc/Publisher.h"
 #include "dabc/Configuration.h"
+
+
+bool IsRateHistory(const dabc::Hierarchy& item)
+{
+   if ((item.GetField("dabc:kind").AsStr() == "rate") ||
+       (item.GetField("dabc:history").AsInt() > 0)) return kTRUE;
+   return kFALSE;
+}
+
+TString GetRootClassName(const dabc::Hierarchy& item)
+{
+   std::string kind = item.GetField("dabc:kind").AsStr();
+   if (kind.find("ROOT.") == 0) {
+      kind.erase(0,5);
+      return kind.c_str();
+   }
+   if (IsRateHistory(item)) return "TGraph";
+
+   return "";
+}
+
 
 class TGo4DabcAccess : public TGo4Access {
    protected:
       dabc::Hierarchy  fItem;
+      std::string      fNode;
+      static TString   fClNameBuf;
 
    public:
-      TGo4DabcAccess(const dabc::Hierarchy& item) :
+      TGo4DabcAccess(const dabc::Hierarchy& item, const std::string& node) :
          TGo4Access(),
-         fItem(item) {}
+         fItem(item),
+         fNode(node)
+      {
+         // printf("Create %s\n",fItem.GetName());
+      }
 
       virtual ~TGo4DabcAccess() {}
 
-      virtual Bool_t CanGetObject() const { return kFALSE; }
-      virtual Bool_t GetObject(TObject* &obj, Bool_t &owner) const { return kFALSE; }
-      virtual TClass* GetObjectClass() const { return 0; }
-      virtual const char* GetObjectName() const { return fItem.GetName(); }
-      virtual const char* GetObjectClassName() const { return "dabc::Hierarchy"; }
+      virtual Bool_t CanGetObject() const
+      {
+         // printf("Test 1 %s\n",fItem.GetName());
+
+         if (IsRateHistory(fItem)) return kTRUE;
+
+         return kFALSE;
+      }
+
+      virtual Bool_t GetObject(TObject* &obj, Bool_t &owner) const
+      {
+         if (!IsRateHistory(fItem)) return kFALSE;
+
+         // printf("GO4 WANT ITEM %s\n", fItem.ItemName().c_str());
+
+         dabc::CmdPublisherGet cmd2;
+         cmd2.SetStr("Item", fItem.ItemName());
+         cmd2.SetUInt("history", fItem.GetField("dabc:history").AsInt(100));
+         cmd2.SetTimeout(5.);
+         cmd2.SetReceiver(fNode + dabc::Publisher::DfltName());
+
+         if (dabc::mgr.GetCommandChannel().Execute(cmd2)!=dabc::cmd_true) {
+            printf("Fail to get item\n");
+            return kFALSE;
+         }
+
+         dabc::Hierarchy res;
+         res.Create("get");
+         res.SetVersion(cmd2.GetUInt("version"));
+         res.ReadFromBuffer(cmd2.GetRawData());
+
+         //DOUT0("GET:%s RES = \n%s", fItem.ItemName().c_str(), res.SaveToXml(dabc::xmlmask_History).c_str());
+
+         dabc::HistoryIter iter = res.MakeHistoryIter();
+         int cnt = 0;
+         while (iter.next()) cnt++;
+
+         // DOUT0("ITERATOR cnt %d", cnt);
+
+         if (cnt>0) {
+            TGraph* gr = new TGraph(cnt);
+            gr->SetName(fItem.GetName());
+            gr->SetTitle(Form("%s ratemeter", fItem.ItemName().c_str()));
+            int i = 0;
+            while (iter.next()) {
+
+               double v = iter.GetField("value").AsDouble();
+               uint64_t tm = iter.GetField("time").AsUInt();
+
+               //DOUT0("pnt %d  tm %20u value %5.2f", i, tm / 1000, v);
+
+               gr->SetPoint(cnt - i -1, tm / 1000, v);
+               i++;
+            }
+
+            gr->GetXaxis()->SetTimeDisplay(1);
+            gr->GetXaxis()->SetTimeFormat("%H:%M:%S%F1970-01-01 00:00:00");
+
+
+            //DOUT0("Graph is created");
+            obj = gr;
+            owner = kTRUE;
+            return kTRUE;
+         }
+
+
+         return kFALSE;
+      }
+
+      virtual TClass* GetObjectClass() const
+      {
+         // printf("Get class\n");
+         fClNameBuf = GetRootClassName(fItem);
+         if (fClNameBuf.Length()>0) return (TClass*) gROOT->GetListOfClasses()->FindObject(fClNameBuf.Data());
+         return 0;
+      }
+
+      virtual const char* GetObjectName() const
+      {
+         return fItem.GetName();
+      }
+
+      virtual const char* GetObjectClassName() const
+      {
+         // printf("Get class name\n");
+
+         fClNameBuf = GetRootClassName(fItem);
+         if (fClNameBuf.Length()>0) return fClNameBuf.Data();
+
+         return "dabc::Hierarchy";
+      }
 };
+
+TString TGo4DabcAccess::fClNameBuf = "";
 
 // ===================================================================================
 
@@ -43,6 +163,7 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
    protected:
       dabc::Hierarchy fParent;
       dabc::Hierarchy fChild;
+      TString fClNameBuf; //! buffer used for class name
       unsigned fCnt;
 
    public:
@@ -89,9 +210,24 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
       virtual const char* info() { return "item from dabc"; }
       virtual Int_t sizeinfo() { return 0; }
 
-      virtual Int_t GetKind() { return isfolder() ? TGo4Access::kndFolder : -1; }
+      virtual Int_t GetKind() {
+         if (isfolder()) return TGo4Access::kndFolder;
 
-      virtual const char* GetClassName() { return "dabc::Hierarchy"; }
+         if (IsRateHistory(fChild)) return TGo4Access::kndObject;
+
+         return -1;
+      }
+
+      virtual const char* GetClassName()
+      {
+         if (IsRateHistory(fChild)) return "TGraph";
+
+         fClNameBuf = GetRootClassName(fChild);
+
+         if (fClNameBuf.Length()>0) return fClNameBuf.Data();
+
+         return "dabc::Hierarchy";
+      }
 };
 
 
@@ -139,7 +275,7 @@ Bool_t TGo4DabcProxy::Connect(const char* nodename)
       return kFALSE;
    }
 
-   printf("Connection to %s done\n", nodename);
+   // printf("Connection to %s done\n", nodename);
 
    fNodeName = nodename;
 
@@ -156,25 +292,25 @@ Bool_t TGo4DabcProxy::UpdateHierarchy()
 
    dabc::Hierarchy& hierarchy = *((dabc::Hierarchy*) fxHierarchy);
 
-   dabc::Command cmd("GetHierarchy");
-   cmd.SetInt("version", hierarchy.GetVersion());
-   cmd.SetReceiver(fNodeName.Data());
-   cmd.SetTimeout(5.);
+   dabc::Command cmd2("GetGlobalNamesList");
+   cmd2.SetReceiver(std::string(fNodeName.Data()) + dabc::Publisher::DfltName());
+   cmd2.SetTimeout(5.);
 
-   if (dabc::mgr.GetCommandChannel().Execute(cmd)!=dabc::cmd_true) {
+   if (dabc::mgr.GetCommandChannel().Execute(cmd2)!=dabc::cmd_true) {
       printf("Fail to get hierarchy\n");
       return kFALSE;
    }
 
-   dabc::Buffer buf = cmd.GetRawData();
+   dabc::Buffer buf = cmd2.GetRawData();
 
-   if (!buf.null()) {
-      // DOUT0("Get raw data %p %u", cmd2.GetRawData(), cmd2.GetRawDataSize());
-      if (hierarchy.UpdateFromBuffer(buf)) {
-         DOUT0("Update of hierarchy to version %u done", hierarchy.GetVersion());
-      }
-   }
+   if (buf.null()) return kFALSE;
 
+   hierarchy.Release();
+
+      // DOUT0("Get raw data %p %u", buf.SegmentPtr(), buf.GetTotalSize());
+   if (!hierarchy.ReadFromBuffer(buf)) return kFALSE;
+
+   //printf("Read from DABC node %s done\n", fNodeName.Data());
    return kTRUE;
 }
 
@@ -198,6 +334,8 @@ Bool_t TGo4DabcProxy::HasSublevels() const
 
 TGo4Access* TGo4DabcProxy::MakeProxy(const char* name)
 {
+   //printf("Make PROXY\n");
+
    if (fxHierarchy == 0) return 0;
 
    dabc::Hierarchy& hierarchy = *((dabc::Hierarchy*) fxHierarchy);
@@ -205,15 +343,15 @@ TGo4Access* TGo4DabcProxy::MakeProxy(const char* name)
    if (hierarchy.null()) return 0;
 
    if ((name==0) || (strlen(name)==0)) {
-//      printf("Create access to current item %s", hierarchy.GetName());
-      return new TGo4DabcAccess(hierarchy);
+      //printf("Create access to current item %s\n", hierarchy.GetName());
+      return new TGo4DabcAccess(hierarchy, fNodeName.Data());
    }
 
    dabc::Hierarchy child = hierarchy.FindChild(name);
 
-//   printf("Create access to child %s", name);
+   //printf("Create access to child %s ptr %p\n", name, child());
 
-   return child.null() ? 0 : new TGo4DabcAccess(child);
+   return child.null() ? 0 : new TGo4DabcAccess(child, fNodeName.Data());
 }
 
 TGo4LevelIter* TGo4DabcProxy::MakeIter()
@@ -229,12 +367,10 @@ TGo4LevelIter* TGo4DabcProxy::MakeIter()
 
 void TGo4DabcProxy::WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs)
 {
-
 }
 
 void TGo4DabcProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
 {
-
 }
 
 void TGo4DabcProxy::Update(TGo4Slot* slot, Bool_t strong)
