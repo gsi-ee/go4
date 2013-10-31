@@ -70,9 +70,10 @@ Changes in Go4 v4.5.9
    gui scripts. Done for qt3/qt4. 
 20.Fix problem with TGo4FileSource and newest ROOT - SetBranchAddress was not working
    correctly.
-21.Preliminary code for access to running dabc application via dabc socket.
-   Idea to provide access to dabc application with similar look and fill as
-   web-based interface. 
+21.Special proxy created for access to running dabc application via dabc socket.
+   Idea to have similar look and fill like web-based interface, but with 
+   native ROOT graphics. 
+22.Support of connection to dabc in gui and hotstart (qt4)
 
 
 Changes in Go4 v4.5.5

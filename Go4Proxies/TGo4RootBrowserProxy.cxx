@@ -183,6 +183,7 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
       mt->AddType("go4/tentry", "TGo4TreeHistogramEntry", img + "dynentryx.png", img + "dynentryx.png", "->Draw()");
       mt->AddType("go4/pentry", "TGo4HistogramEntry", img + "dynentryx.png", img + "dynentryx.png", "->Draw()");
       mt->AddType("go4/hserv", "TGo4HServProxy", img + "histserv.png", img + "histserv.png", "->Draw()");
+      mt->AddType("go4/dabcserv", "TGo4DabcProxy", img + "dabc.png", img + "dabc.png", "->Draw()");
       mt->AddType("go4/canvas", "TCanvas", img + "canvas.png", img + "canvas.png", "->Draw()");
       mt->AddType("go4/analysis", "TGo4AnalysisProxy", img + "analysiswin.png", img + "analysiswin.png", "->Draw()");
       mt->AddType("go4/tbranch", "Go4-TreeBranch", img + "branch_t.png", img + "branch_t.png", "->Draw()");

@@ -236,17 +236,17 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    LogDockWinAction->setShortcut(QKeySequence("F7"));
 
    QDockWidget* MBSDockWin = new QDockWidget("MBS monitor", this);
-    MBSDockWin->setObjectName("MbsViewerDock");
-    TGo4MBSViewer* mbs = new TGo4MBSViewer(MBSDockWin, "MBSViewer");
-    mbs->setWindowFlags(Qt::Widget);
-    ConnectGo4Widget(mbs);
-    MBSDockWin->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable);
-    MBSDockWin->setWidget(mbs);
-    MBSDockWin->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
-    addDockWidget(Qt::BottomDockWidgetArea, MBSDockWin);
+   MBSDockWin->setObjectName("MbsViewerDock");
+   TGo4MBSViewer* mbs = new TGo4MBSViewer(MBSDockWin, "MBSViewer");
+   mbs->setWindowFlags(Qt::Widget);
+   ConnectGo4Widget(mbs);
+   MBSDockWin->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetClosable);
+   MBSDockWin->setWidget(mbs);
+   MBSDockWin->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+   addDockWidget(Qt::BottomDockWidgetArea, MBSDockWin);
 
-    QAction* MBSDockAction=MBSDockWin->toggleViewAction();
-    MBSDockAction->setShortcut(QKeySequence("F8"));
+   QAction* MBSDockAction=MBSDockWin->toggleViewAction();
+   MBSDockAction->setShortcut(QKeySequence("F8"));
 
 
 #ifdef __GO4DIM__
@@ -313,17 +313,12 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    ConnectGo4Widget(tviewer);
    tviewerdock->addWidget(tviewer);
 
-
-
-
    // test: can we implement shortcuts to enable specific dock windows JAM?
 //   QMenu* dockMenu = menuBar()->addMenu("&Docks");
 //   dockMenu->addAction(BrowserDockAction);
 //   dockMenu->addAction(LogDockWinAction);
 //   dockMenu->addAction(MBSDockAction);
 // do not need this, since shortcuts also work in default dock menu :)
-
-
 
    // make it here while only here exists all toolbars and dock widgets
    AddSettingMenu();
@@ -538,6 +533,8 @@ void TGo4MainWindow::AddFileMenu()
              this, SLOT(OpenFileSlot()), CTRL+Key_O );
    fileMenu->addAction(QIcon( ":/icons/network.png" ), "Open &Remote...",
              this, SLOT(OpenRemoteFileSlot()), CTRL+Key_R );
+   fileMenu->addAction(QIcon( ":/icons/dabc.png" ), "Connect &DABC...",
+             this, SLOT(ConnectDabcSlot()) );
    fileMenu->addAction(QIcon( ":/icons/histserv.png" ), "Open &HServer...",
              this, SLOT(ConnectHServerSlot()) );
    fileMenu->addAction(QIcon( ":/icons/filesave.png" ), "Save memor&y...",
@@ -558,6 +555,9 @@ void TGo4MainWindow::AddFileToolBar()
 
    FileBar->addAction( QIcon( ":/icons/network.png" ), "Open a remote file from server",
                         this, SLOT(OpenRemoteFileSlot()));
+
+   FileBar->addAction( QIcon( ":/icons/dabc.png" ), "Connect to dabc server",
+                        this, SLOT(ConnectDabcSlot()));
 
    FileBar->addAction( QIcon( ":/icons/histserv.png" ), "Connect to running histogram server",
                         this, SLOT(ConnectHServerSlot()));
@@ -1039,6 +1039,19 @@ void TGo4MainWindow::OpenRemoteFileSlot()
 
    fxOM->AddFile(fOMDataPath.toAscii().constData(), fileName.toAscii().constData());
 }
+
+void TGo4MainWindow::ConnectDabcSlot()
+{
+   bool ok = false;
+   QString dabcnode = QInputDialog::getText(
+      this, "Establish connection with DABC", "Provide dabc server name",
+      QLineEdit::Normal, QString::null, &ok);
+   if (!ok) return;
+
+   if (!Browser()->ConnectDabc(dabcnode.toAscii().constData()))
+      QMessageBox::warning(0, "DABC server", "Cannot connect to DABC server");
+}
+
 
 void TGo4MainWindow::ConnectHServerSlot()
 {

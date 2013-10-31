@@ -30,6 +30,7 @@ class TGo4DabcProxy : public TGo4Proxy {
 
       Bool_t Connect(const char* nodename);
       Bool_t UpdateHierarchy();
+      const char* GetServerName() const { return fNodeName.Data(); }
 
       virtual void Initialize(TGo4Slot* slot);
       virtual void Finalize(TGo4Slot* slot);
@@ -39,7 +40,7 @@ class TGo4DabcProxy : public TGo4Proxy {
       virtual TGo4LevelIter* MakeIter();
 
       virtual Int_t GetObjectKind() {  return TGo4Access::kndFolder; }
-      virtual const char* GetContainedClassName() { return 0; }
+      virtual const char* GetContainedClassName() { return "TGo4DabcProxy"; }
       virtual const char* GetContainedObjectInfo() { return 0; }
       virtual Int_t GetObjectSizeInfo() { return -1; }
 

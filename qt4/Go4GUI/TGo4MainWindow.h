@@ -87,6 +87,7 @@ class TGo4MainWindow : public QMainWindow {
       void CloseAllFilesSlot();
       void OpenFileSlot();
       void OpenRemoteFileSlot();
+      void ConnectDabcSlot();
       void ConnectHServerSlot();
       void SaveFileSlot();
 

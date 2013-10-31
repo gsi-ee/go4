@@ -70,9 +70,10 @@ class TGo4BrowserProxy : public TGo4Proxy {
                             const char* basename,
                             const char* userpass,
                             const char* filter);
-      void OpenDabc(const char* nodename);
+      Bool_t ConnectDabc(const char* nodename);
 
       void MakeFilesList(TObjArray* arr);
+      void MakeDabcList(TObjArray* arr);
       void MakeHServerList(TObjArray* arr);
 
       Bool_t ProduceExplicitCopy(const char* itemname, const char* tgtpath = 0, Bool_t forcerequest = kFALSE);

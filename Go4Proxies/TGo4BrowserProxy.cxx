@@ -502,22 +502,22 @@ void TGo4BrowserProxy::OpenFile(const char* fname)
    fxOM->AddFile(fxDataPath.Data(), fname);
 }
 
-void TGo4BrowserProxy::OpenDabc(const char* nodename)
+Bool_t TGo4BrowserProxy::ConnectDabc(const char* nodename)
 {
-   if ((nodename==0) || (*nodename==0)) return;
+   if ((nodename==0) || (*nodename==0)) return kFALSE;
 
    TGo4DabcProxy* proxy = new TGo4DabcProxy();
    if (!proxy->Connect(nodename)) {
       delete proxy;
-      return;
+      return kFALSE;
    }
 
    const char* slotname = nodename;
    if (strncmp(slotname,"dabc://",7)==0) slotname+=7;
 
-   TGo4Slot* slot = fxOM->MakeObjSlot(fxDataPath.Data(), slotname, "dabc::Hierarchy");
+   fxOM->AddProxy(fxDataPath.Data(), proxy, slotname, "TGo4DabcProxy");
 
-   if (slot!=0) slot->SetProxy(proxy);
+   return kTRUE;
 }
 
 
@@ -536,7 +536,6 @@ Bool_t TGo4BrowserProxy::ConnectHServer(const char* servername,
                          basename,
                          userpass,
                          filter);
-
 
    if (hserv->RequestHistosList()) {
       TString capt = "HServ_";
@@ -578,6 +577,21 @@ void TGo4BrowserProxy::MakeHServerList(TObjArray* arr)
       if (pr!=0) arr->Add(pr);
    }
 }
+
+void TGo4BrowserProxy::MakeDabcList(TObjArray* arr)
+{
+   if (arr==0) return;
+   arr->Clear();
+   TGo4Slot* slot = fxOM->GetSlot(fxDataPath.Data());
+   if (slot==0) return;
+
+   for(Int_t n=0;n<slot->NumChilds();n++) {
+      TGo4Slot* subslot = slot->GetChild(n);
+      TGo4DabcProxy* pr = dynamic_cast<TGo4DabcProxy*> (subslot->GetProxy());
+      if (pr!=0) arr->Add(pr);
+   }
+}
+
 
 void TGo4BrowserProxy::RequestObjectStatus(const char* name, TGo4Slot* tgtslot)
 {
@@ -1946,6 +1960,7 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
      if ((cl!=0) && cl->InheritsFrom(THStack::Class())) { cando = 110; pixmap = "superimpose.png"; } else
      if ((cl!=0) && cl->InheritsFrom(TFile::Class())) { cando = 10000; pixmap = "rootdb_t.png"; } else
      if ((cl!=0) && cl->InheritsFrom(TGo4HServProxy::Class())) { cando = 10000; pixmap = "histserv.png"; } else
+     if ((cl!=0) && cl->InheritsFrom(TGo4DabcProxy::Class())) { cando = 10000; pixmap = "dabc.png"; } else
      if ((cl!=0) && cl->InheritsFrom(TGo4AnalysisProxy::Class())) { pixmap = "analysiswin.png"; }
    } else
    if (kind==TGo4Access::kndTreeBranch)

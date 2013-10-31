@@ -973,7 +973,7 @@ void TGo4Browser::SaveSelectedItems()
    if (fd.selectedFilter() == "ROOT (*.root)") {
       bool ok = false;
       title = QInputDialog::getText(
-         "Save slected objects to file", "Provide file title",
+         "Save selected objects to file", "Provide file title",
          QLineEdit::Normal, QString::null, &ok);
       if (!ok) return;
       if (fname.find(".root", 0, FALSE)<0) fname+=".root";

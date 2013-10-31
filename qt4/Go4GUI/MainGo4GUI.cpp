@@ -188,7 +188,7 @@ int main(int argc, char **argv)
       Go4MainGUI->Browser()->OpenFile(files.at(i).toAscii().constData());
 
    if (dabcnode.length()>0)
-      Go4MainGUI->Browser()->OpenDabc(dabcnode.toAscii().constData());
+      Go4MainGUI->Browser()->ConnectDabc(dabcnode.toAscii().constData());
 
    if (hotstart.length()>0)
       Go4MainGUI->HotStart(hotstart.toAscii().constData());

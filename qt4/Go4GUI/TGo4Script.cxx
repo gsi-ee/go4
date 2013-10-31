@@ -29,6 +29,7 @@
 #include "TGo4AnalysisProxy.h"
 #include "TGo4DirProxy.h"
 #include "TGo4HServProxy.h"
+#include "TGo4DabcProxy.h"
 #include "TGo4Iter.h"
 #include "TGo4Log.h"
 
@@ -782,6 +783,13 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
          << pr->GetBaseName() << "\", \""
          << pr->GetUserPass() << "\", \""
          << pr->GetFilter() << "\");" << std::endl;
+   }
+
+   prlist.Clear();
+   br->MakeDabcList(&prlist);
+   for(Int_t n=0;n<=prlist.GetLast();n++) {
+      TGo4DabcProxy* pr = (TGo4DabcProxy*) prlist.At(n);
+      fs << "go4->ConnectDabc(\"" << pr->GetServerName() << "\");" << std::endl;
    }
 
    fs << std::endl;

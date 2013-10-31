@@ -228,7 +228,7 @@ class TGo4AbstractInterface : public TObject {
                                   const char* format,
                                   const char* filetitle = 0);
 
-      /** Connecta to GSI histogram server.
+      /** Connect to GSI histogram server.
         * Creates appropriate entry in browser and provides access to histogram.
         * Parameters:
         *    servername - IP server name
@@ -242,6 +242,9 @@ class TGo4AbstractInterface : public TObject {
                           const char* basename,
                           const char* userpass,
                           const char* filter);
+
+      /** Connect to DABC server. Address like dabc://host:port */
+      virtual void ConnectDabc(const char* servername);
 
       /** Wait specified number of seconds.
         * Suppress macro execution, but keeps GUI functional, therefore
