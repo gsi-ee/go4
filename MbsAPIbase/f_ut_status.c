@@ -183,8 +183,8 @@ INTS4 f_ut_status_r(s_daqst *ps_daqst, INTS4 l_tcp)
       if(l_swap == 1)
     	  l_status = f_swaplw(&ps_daqst->bh_daqst_initalized, (ps_daqst->l_fix_lw-7) - (19 * len_64/4),NULL);
     }
-  // MBS v51
-  if(ps_daqst->l_version == 51)
+  // MBS v51 and v62
+  if((ps_daqst->l_version == 51) || (ps_daqst->l_version == 62))
     {
       l_status = f_stc_read (&ps_daqst->bh_daqst_initalized, (ps_daqst->l_fix_lw-7)*4 , l_tcp,-1);
       if(l_swap == 1)
