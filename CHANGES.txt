@@ -72,7 +72,7 @@ Changes in Go4 v4.5.9
    correctly.
 21.Preliminary code for access to running dabc application via dabc socket.
    Idea to provide access to dabc application with similar look and fill as
-   web-based interface.
+   web-based interface. 
 
 
 Changes in Go4 v4.5.5

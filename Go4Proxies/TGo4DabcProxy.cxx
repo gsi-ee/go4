@@ -19,6 +19,7 @@
 #include "TGraph.h"
 #include "TClass.h"
 #include "TAxis.h"
+#include "TTimer.h"
 #include "TBufferFile.h"
 
 #include "TGo4Log.h"
@@ -489,12 +490,43 @@ class TGo4DabcAccess : public TGo4Access {
 
 // ===================================================================================
 
+// Timer used to invoke reply in the main process
+
+class TReplyTimer : public TTimer {
+   public:
+      dabc::Command fCmd;
+
+      TReplyTimer(dabc::Command cmd) :
+         TTimer(0),
+         fCmd(cmd)
+      {
+         Add();
+      }
+
+      virtual Bool_t Notify()
+      {
+         Remove();
+
+         if (!fCmd.null()) {
+            TGo4DabcAccess* acc = (TGo4DabcAccess*) fCmd.GetPtr("#DabcAccess");
+            if (acc) acc->ReplyCommand(fCmd);
+            fCmd.Reply();
+         }
+
+         delete this;
+
+         return kFALSE;
+      }
+};
+
 class ReplyWorker : public dabc::Worker {
    protected:
       virtual bool ReplyCommand(dabc::Command cmd)
       {
-         TGo4DabcAccess* acc = (TGo4DabcAccess*) cmd.GetPtr("#DabcAccess");
-         if (acc) return acc->ReplyCommand(cmd);
+         if (cmd.GetPtr("#DabcAccess") != 0) {
+            new TReplyTimer(cmd);
+            return false;
+         }
 
          return dabc::Worker::ReplyCommand(cmd);
       }
