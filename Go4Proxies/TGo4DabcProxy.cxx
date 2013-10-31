@@ -17,13 +17,19 @@
 
 #include "TROOT.h"
 #include "TGraph.h"
+#include "TClass.h"
 #include "TAxis.h"
+#include "TBufferFile.h"
+
+#include "TGo4Log.h"
 
 #include "dabc/Hierarchy.h"
 #include "dabc/Manager.h"
 #include "dabc/Publisher.h"
 #include "dabc/Configuration.h"
 
+extern "C" void R__unzip(Int_t *nin, UChar_t *bufin, Int_t *lout, char *bufout, Int_t *nout);
+extern "C" int R__unzip_header(Int_t *nin, UChar_t *bufin, Int_t *lout);
 
 bool IsRateHistory(const dabc::Hierarchy& item)
 {
@@ -47,39 +53,68 @@ TString GetRootClassName(const dabc::Hierarchy& item)
 
 class TGo4DabcAccess : public TGo4Access {
    protected:
-      dabc::Hierarchy  fItem;
       std::string      fNode;
-      static TString   fClNameBuf;
+      dabc::Hierarchy  fItem;
+      std::string      fObjName;
+      std::string      fItemName;
+      std::string      fRootClassName;
+      bool             fIsRate;
+      int              fHistoryLength;
+      TGo4ObjectReceiver* fxReceiver;
+      TString             fxRecvPath;
 
    public:
-      TGo4DabcAccess(const dabc::Hierarchy& item, const std::string& node) :
+      TGo4DabcAccess(const std::string& node, const dabc::Hierarchy& item) :
          TGo4Access(),
+         fNode(node),
          fItem(item),
-         fNode(node)
+         fObjName(),
+         fItemName(),
+         fRootClassName(),
+         fIsRate(false),
+         fHistoryLength(0),
+         fxReceiver(0),
+         fxRecvPath()
       {
+         fObjName = item.GetName();
+         fItemName = item.ItemName();
+
+         std::string kind = item.GetField("dabc:kind").AsStr();
+
+         fHistoryLength = item.GetField("dabc:history").AsInt();
+
+         if (kind.find("ROOT.") == 0) {
+            kind.erase(0,5);
+            fRootClassName = kind;
+         } else
+         if (kind=="rate") {
+            fIsRate = true;
+            if (fHistoryLength > 0) fRootClassName = "TGraph";
+         }
+
          // printf("Create %s\n",fItem.GetName());
       }
 
       virtual ~TGo4DabcAccess() {}
 
+      virtual Bool_t IsRemote() const { return kTRUE; }
+
       virtual Bool_t CanGetObject() const
       {
-         // printf("Test 1 %s\n",fItem.GetName());
+         return kFALSE;
 
-         if (IsRateHistory(fItem)) return kTRUE;
-
+         if (fIsRate && (fHistoryLength>0)) return kTRUE;
+         if (!fRootClassName.empty()) return kTRUE;
          return kFALSE;
       }
 
-      virtual Bool_t GetObject(TObject* &obj, Bool_t &owner) const
+/*
+
+      Bool_t GetRateHistory(TObject* &obj, Bool_t &owner) const
       {
-         if (!IsRateHistory(fItem)) return kFALSE;
-
-         // printf("GO4 WANT ITEM %s\n", fItem.ItemName().c_str());
-
          dabc::CmdPublisherGet cmd2;
-         cmd2.SetStr("Item", fItem.ItemName());
-         cmd2.SetUInt("history", fItem.GetField("dabc:history").AsInt(100));
+         cmd2.SetStr("Item", fItemName);
+         cmd2.SetUInt("history", fHistoryLength);
          cmd2.SetTimeout(5.);
          cmd2.SetReceiver(fNode + dabc::Publisher::DfltName());
 
@@ -101,10 +136,252 @@ class TGo4DabcAccess : public TGo4Access {
 
          // DOUT0("ITERATOR cnt %d", cnt);
 
-         if (cnt>0) {
+         if (cnt==0) return kFALSE;
+
+         TGraph* gr = new TGraph(cnt);
+         gr->SetName(fObjName.c_str());
+         gr->SetTitle(Form("%s ratemeter", fItemName.c_str()));
+         int i = 0;
+         while (iter.next()) {
+
+            double v = iter.GetField("value").AsDouble();
+            uint64_t tm = iter.GetField("time").AsUInt();
+
+            //DOUT0("pnt %d  tm %20u value %5.2f", i, tm / 1000, v);
+
+            gr->SetPoint(cnt - i -1, tm / 1000, v);
+            i++;
+         }
+
+         gr->GetXaxis()->SetTimeDisplay(1);
+         gr->GetXaxis()->SetTimeFormat("%H:%M:%S%F1970-01-01 00:00:00");
+
+         //DOUT0("Graph is created");
+         obj = gr;
+         owner = kTRUE;
+         return kTRUE;
+      }
+
+
+      virtual Bool_t GetObject(TObject* &obj, Bool_t &owner) const
+      {
+         if (fIsRate && (fHistoryLength>0))
+            return GetRateHistory(obj, owner);
+
+         // printf("GO4 WANT ITEM %s\n", fItem.ItemName().c_str());
+
+         if (fRootClassName.empty()) return kFALSE;
+
+         TClass *cl = TClass::GetClass(fRootClassName.c_str());
+         if (!cl) {
+            TGo4Log::Error("GetObject Unknown class %s", fRootClassName.c_str());
+            return kFALSE;
+         }
+
+         if (!cl->InheritsFrom(TObject::Class())) {
+           // in principle user should call TKey::ReadObjectAny!
+            TGo4Log::Error("GetObject Class %s not derived from TObject", fRootClassName.c_str());
+            return kFALSE;
+         }
+
+         dabc::CmdGetBinary cmd;
+         cmd.SetStr("Item", fItemName);
+         // cmd.SetUInt("version", version);
+         cmd.SetTimeout(5);
+         cmd.SetReceiver(fNode + dabc::Publisher::DfltName());
+
+         if (dabc::mgr.GetCommandChannel().Execute(cmd)!=dabc::cmd_true) {
+            printf("Fail to get item\n");
+            return kFALSE;
+         }
+
+         dabc::Buffer buf = cmd.GetRawData();
+
+         dabc::BinDataHeader* hdr = (dabc::BinDataHeader*) buf.SegmentPtr();
+
+         // void* rawdata = hdr->rawdata();
+
+         printf("GET RAW DATA of size %u\n", buf.GetTotalSize());
+
+
+         char *pobj = (char*)cl->New();
+
+         if (!pobj) {
+            TGo4Log::Error("ReadObj - Cannot create new object of class %s", cl->GetName());
+            return kFALSE;
+         }
+
+         Int_t baseOffset = cl->GetBaseClassOffset(TObject::Class());
+         if (baseOffset==-1) {
+            // cl does not inherit from TObject.
+            // Since this is not possible yet, the only reason we could reach this code
+            // is because something is screw up in the ROOT code.
+            TGo4Log::Error("ReadObj Incorrect detection of the inheritance from TObject for class %s.",
+                  cl->GetName());
+         }
+
+         TObject *tobj = (TObject*)(pobj+baseOffset);
+           // Create an instance of this class
+
+         char* rawbuf(0);
+         Int_t rawbuflen(0);
+
+         if (hdr->is_zipped()) {
+            rawbuf = new char[hdr->zipped];
+            rawbuflen = hdr->zipped;
+
+            // target
+            char *objbuf = rawbuf;
+
+            // source
+            UChar_t *bufcur = (UChar_t *) hdr->rawdata();
+
+            Int_t nin, nout = 0, nbuf;
+            Int_t noutot = 0;
+            while (1) {
+               Int_t hc = R__unzip_header(&nin, bufcur, &nbuf);
+               if (hc!=0) break;
+               R__unzip(&nin, bufcur, &nbuf, objbuf, &nout);
+               if (!nout) break;
+               noutot += nout;
+               if (noutot >= rawbuflen) break;
+               bufcur += nin;
+               objbuf += nout;
+            }
+            // mark size of buffer 0
+            if (nout==0) {
+               rawbuflen = 0;
+            }
+         } else {
+            rawbuf = (char*) hdr->rawdata();
+            rawbuflen = hdr->payload;
+         }
+
+         if (rawbuflen>0) {
+            TBufferFile buf(TBuffer::kRead, rawbuflen, rawbuf, kFALSE);
+            buf.MapObject(pobj,cl);
+            tobj->Streamer(buf);
+         } else {
+            cl->Destructor(pobj);
+            pobj = 0;
+            tobj = 0;
+         }
+
+         if (hdr->is_zipped())
+            delete[] rawbuf;
+
+         if (tobj) {
+            obj = tobj;
+            owner = kTRUE;
+            return kTRUE;
+         }
+
+         return kFALSE;
+      }
+*/
+
+      virtual Bool_t GetObject(TObject* &obj, Bool_t &owner) const
+        { return kFALSE; }
+
+      virtual TClass* GetObjectClass() const
+      {
+         // printf("Get class\n");
+         if (fRootClassName.length() > 0)
+            return (TClass*) gROOT->GetListOfClasses()->FindObject(fRootClassName.c_str());
+         return 0;
+      }
+
+      virtual const char* GetObjectName() const
+      {
+         return fObjName.c_str();
+      }
+
+      virtual const char* GetObjectClassName() const
+      {
+         // printf("Get class name\n");
+
+         if (fRootClassName.length()>0) return fRootClassName.c_str();
+
+         return "dabc::Hierarchy";
+      }
+
+
+      virtual Int_t AssignObjectTo(TGo4ObjectReceiver* rcv, const char* path)
+      {
+         if (rcv==0) return 0;
+
+         dabc::WorkerRef wrk = dabc::mgr.FindItem("/Go4ReplWrk");
+         if (wrk.null()) return 0;
+
+         if (fIsRate && (fHistoryLength>0)) {
+            dabc::CmdPublisherGet cmd2;
+            cmd2.SetStr("Item", fItemName);
+            cmd2.SetUInt("history", fHistoryLength);
+            cmd2.SetTimeout(5.);
+            cmd2.SetReceiver(fNode + dabc::Publisher::DfltName());
+
+            cmd2.SetPtr("#DabcAccess", this);
+            fxReceiver = rcv;
+            fxRecvPath = path;
+            wrk()->Assign(cmd2);
+
+            if (dabc::mgr.GetCommandChannel().Submit(cmd2)) return 2;
+         } else
+
+         if (!fRootClassName.empty()) {
+
+            TClass *cl = TClass::GetClass(fRootClassName.c_str());
+            if (!cl) {
+               TGo4Log::Error("GetObject Unknown class %s", fRootClassName.c_str());
+               return 0;
+            }
+
+            if (!cl->InheritsFrom(TObject::Class())) {
+              // in principle user should call TKey::ReadObjectAny!
+               TGo4Log::Error("GetObject Class %s not derived from TObject", fRootClassName.c_str());
+               return 0;
+            }
+
+            dabc::CmdGetBinary cmd;
+            cmd.SetStr("Item", fItemName);
+            // cmd.SetUInt("version", version);
+            cmd.SetTimeout(5);
+            cmd.SetReceiver(fNode + dabc::Publisher::DfltName());
+
+            cmd.SetPtr("#DabcAccess", this);
+            fxReceiver = rcv;
+            fxRecvPath = path;
+            wrk()->Assign(cmd);
+
+            if (dabc::mgr.GetCommandChannel().Submit(cmd)) return 2;
+         }
+
+
+         return 0;
+      }
+
+      bool ReplyCommand(dabc::Command cmd)
+      {
+
+         if (fIsRate && (fHistoryLength>0)) {
+            dabc::Hierarchy res;
+            res.Create("get");
+            res.SetVersion(cmd.GetUInt("version"));
+            res.ReadFromBuffer(cmd.GetRawData());
+
+            //DOUT0("GET:%s RES = \n%s", fItem.ItemName().c_str(), res.SaveToXml(dabc::xmlmask_History).c_str());
+
+            dabc::HistoryIter iter = res.MakeHistoryIter();
+            int cnt = 0;
+            while (iter.next()) cnt++;
+
+            // DOUT0("ITERATOR cnt %d", cnt);
+
+            if (cnt==0) return kFALSE;
+
             TGraph* gr = new TGraph(cnt);
-            gr->SetName(fItem.GetName());
-            gr->SetTitle(Form("%s ratemeter", fItem.ItemName().c_str()));
+            gr->SetName(fObjName.c_str());
+            gr->SetTitle(Form("%s ratemeter", fItemName.c_str()));
             int i = 0;
             while (iter.next()) {
 
@@ -120,42 +397,117 @@ class TGo4DabcAccess : public TGo4Access {
             gr->GetXaxis()->SetTimeDisplay(1);
             gr->GetXaxis()->SetTimeFormat("%H:%M:%S%F1970-01-01 00:00:00");
 
-
-            //DOUT0("Graph is created");
-            obj = gr;
-            owner = kTRUE;
-            return kTRUE;
+            DoObjectAssignement(fxReceiver, fxRecvPath.Data(), gr, kTRUE);
+            return true;
          }
 
+         if (!fRootClassName.empty()) {
+            TClass *cl = TClass::GetClass(fRootClassName.c_str());
 
-         return kFALSE;
+            dabc::Buffer buf = cmd.GetRawData();
+
+            dabc::BinDataHeader* hdr = (dabc::BinDataHeader*) buf.SegmentPtr();
+
+            // printf("GET RAW DATA of size %u\n", buf.GetTotalSize());
+
+            char *pobj = (char*)cl->New();
+
+            if (!pobj) {
+               TGo4Log::Error("ReadObj - Cannot create new object of class %s", cl->GetName());
+               return true;
+            }
+
+            Int_t baseOffset = cl->GetBaseClassOffset(TObject::Class());
+            if (baseOffset==-1) {
+               // cl does not inherit from TObject.
+               // Since this is not possible yet, the only reason we could reach this code
+               // is because something is screw up in the ROOT code.
+               TGo4Log::Error("ReadObj Incorrect detection of the inheritance from TObject for class %s.",
+                     cl->GetName());
+               return true;
+            }
+
+            TObject *tobj = (TObject*)(pobj+baseOffset);
+              // Create an instance of this class
+
+            char* rawbuf(0);
+            Int_t rawbuflen(0);
+
+            if (hdr->is_zipped()) {
+               rawbuf = new char[hdr->zipped];
+               rawbuflen = hdr->zipped;
+
+               // target
+               char *objbuf = rawbuf;
+
+               // source
+               UChar_t *bufcur = (UChar_t *) hdr->rawdata();
+
+               Int_t nin, nout = 0, nbuf;
+               Int_t noutot = 0;
+               while (1) {
+                  Int_t hc = R__unzip_header(&nin, bufcur, &nbuf);
+                  if (hc!=0) break;
+                  R__unzip(&nin, bufcur, &nbuf, objbuf, &nout);
+                  if (!nout) break;
+                  noutot += nout;
+                  if (noutot >= rawbuflen) break;
+                  bufcur += nin;
+                  objbuf += nout;
+               }
+               // mark size of buffer 0
+               if (nout==0) {
+                  rawbuflen = 0;
+               }
+            } else {
+               rawbuf = (char*) hdr->rawdata();
+               rawbuflen = hdr->payload;
+            }
+
+            if (rawbuflen>0) {
+               TBufferFile buf(TBuffer::kRead, rawbuflen, rawbuf, kFALSE);
+               buf.MapObject(pobj,cl);
+               tobj->Streamer(buf);
+            } else {
+               cl->Destructor(pobj);
+               pobj = 0;
+               tobj = 0;
+            }
+
+            if (hdr->is_zipped())
+               delete[] rawbuf;
+
+            if (tobj) DoObjectAssignement(fxReceiver, fxRecvPath.Data(), tobj, kTRUE);
+            return true;
+         }
+
+         return true;
       }
 
-      virtual TClass* GetObjectClass() const
-      {
-         // printf("Get class\n");
-         fClNameBuf = GetRootClassName(fItem);
-         if (fClNameBuf.Length()>0) return (TClass*) gROOT->GetListOfClasses()->FindObject(fClNameBuf.Data());
-         return 0;
-      }
-
-      virtual const char* GetObjectName() const
-      {
-         return fItem.GetName();
-      }
-
-      virtual const char* GetObjectClassName() const
-      {
-         // printf("Get class name\n");
-
-         fClNameBuf = GetRootClassName(fItem);
-         if (fClNameBuf.Length()>0) return fClNameBuf.Data();
-
-         return "dabc::Hierarchy";
-      }
 };
 
-TString TGo4DabcAccess::fClNameBuf = "";
+
+// ===================================================================================
+
+class ReplyWorker : public dabc::Worker {
+   protected:
+      virtual bool ReplyCommand(dabc::Command cmd)
+      {
+         TGo4DabcAccess* acc = (TGo4DabcAccess*) cmd.GetPtr("#DabcAccess");
+         if (acc) return acc->ReplyCommand(cmd);
+
+         return dabc::Worker::ReplyCommand(cmd);
+      }
+
+   public:
+      ReplyWorker(const std::string& name) :
+         dabc::Worker(MakePair(name))
+      {
+      }
+
+};
+
+
 
 // ===================================================================================
 
@@ -198,9 +550,14 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
 
       virtual Bool_t isfolder() { return fChild.NumChilds()>0; }
 
-      virtual Int_t getflag(const char*) { return -1; }
+      virtual Int_t getflag(const char* flagname)
+      {
+         if (strcmp(flagname,"IsRemote")==0) return 1;
+         return -1;
+      }
 
-      virtual TGo4LevelIter* subiterator() {
+      virtual TGo4LevelIter* subiterator()
+      {
          return fChild.NumChilds() > 0 ? new TGo4DabcLevelIter(fChild) : 0;
       }
 
@@ -214,6 +571,10 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
          if (isfolder()) return TGo4Access::kndFolder;
 
          if (IsRateHistory(fChild)) return TGo4Access::kndObject;
+
+         fClNameBuf = GetRootClassName(fChild);
+
+         if (fClNameBuf.Length()>0) return TGo4Access::kndObject;
 
          return -1;
       }
@@ -274,6 +635,15 @@ Bool_t TGo4DabcProxy::Connect(const char* nodename)
       fNodeName = nodename;
       return kFALSE;
    }
+
+
+   dabc::WorkerRef wrk = dabc::mgr.FindItem("/Go4ReplWrk");
+
+   if (wrk.null()) {
+      wrk = new ReplyWorker("/Go4ReplWrk");
+      wrk()->AssignToThread(dabc::mgr.thread());
+   }
+
 
    // printf("Connection to %s done\n", nodename);
 
@@ -344,14 +714,14 @@ TGo4Access* TGo4DabcProxy::MakeProxy(const char* name)
 
    if ((name==0) || (strlen(name)==0)) {
       //printf("Create access to current item %s\n", hierarchy.GetName());
-      return new TGo4DabcAccess(hierarchy, fNodeName.Data());
+      return new TGo4DabcAccess(fNodeName.Data(), hierarchy);
    }
 
    dabc::Hierarchy child = hierarchy.FindChild(name);
 
    //printf("Create access to child %s ptr %p\n", name, child());
 
-   return child.null() ? 0 : new TGo4DabcAccess(child, fNodeName.Data());
+   return child.null() ? 0 : new TGo4DabcAccess(fNodeName.Data(), child);
 }
 
 TGo4LevelIter* TGo4DabcProxy::MakeIter()
