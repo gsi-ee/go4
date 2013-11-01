@@ -23,6 +23,7 @@
 #include "TBufferFile.h"
 
 #include "TGo4Log.h"
+#include "TGo4Slot.h"
 
 #include "dabc/Hierarchy.h"
 #include "dabc/Manager.h"
@@ -509,7 +510,9 @@ class TReplyTimer : public TTimer {
 
          if (!fCmd.null()) {
             TGo4DabcAccess* acc = (TGo4DabcAccess*) fCmd.GetPtr("#DabcAccess");
-            if (acc) acc->ReplyCommand(fCmd);
+            TGo4DabcProxy* prox = (TGo4DabcProxy*) fCmd.GetPtr("#DabcProxy");
+            if (acc) acc->ReplyCommand(fCmd); else
+            if (prox) prox->ReplyCommand(&fCmd);
             fCmd.Reply();
          }
 
@@ -523,7 +526,7 @@ class ReplyWorker : public dabc::Worker {
    protected:
       virtual bool ReplyCommand(dabc::Command cmd)
       {
-         if (cmd.GetPtr("#DabcAccess") != 0) {
+         if ((cmd.GetPtr("#DabcAccess") != 0) || (cmd.GetPtr("#DabcProxy") != 0)) {
             new TReplyTimer(cmd);
             return false;
          }
@@ -630,7 +633,8 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
 TGo4DabcProxy::TGo4DabcProxy() :
    TGo4Proxy(),
    fNodeName(),
-   fxHierarchy(0)
+   fxHierarchy(0),
+   fxParentSlot(0)
 {
 }
 
@@ -668,7 +672,6 @@ Bool_t TGo4DabcProxy::Connect(const char* nodename)
       return kFALSE;
    }
 
-
    dabc::WorkerRef wrk = dabc::mgr.FindItem("/Go4ReplWrk");
 
    if (wrk.null()) {
@@ -681,43 +684,67 @@ Bool_t TGo4DabcProxy::Connect(const char* nodename)
 
    fNodeName = nodename;
 
-   return UpdateHierarchy();
+   return UpdateHierarchy(kTRUE);
 }
 
-Bool_t TGo4DabcProxy::UpdateHierarchy()
+Bool_t TGo4DabcProxy::ReplyCommand(void* _cmd)
 {
-   if (fNodeName.Length() == 0) return kFALSE;
+   dabc::Command cmd = *((dabc::Command*)_cmd);
 
-   if (fxHierarchy==0) {
-      fxHierarchy = new dabc::Hierarchy();
+   if (cmd.IsName("GetGlobalNamesList")) {
+
+      dabc::Buffer buf = cmd.GetRawData();
+
+      if (buf.null()) return kFALSE;
+
+      if (fxHierarchy==0) {
+         fxHierarchy = new dabc::Hierarchy();
+      }
+
+      dabc::Hierarchy& hierarchy = *((dabc::Hierarchy*) fxHierarchy);
+      hierarchy.Release();
+
+      // DOUT0("Get raw data %p %u", buf.SegmentPtr(), buf.GetTotalSize());
+      if (!hierarchy.ReadFromBuffer(buf)) return kFALSE;
+
+      if (fxParentSlot!=0)
+         fxParentSlot->ForwardEvent(fxParentSlot, TGo4Slot::evObjUpdated);
    }
 
-   dabc::Hierarchy& hierarchy = *((dabc::Hierarchy*) fxHierarchy);
+   //printf("Read from DABC node %s done\n", fNodeName.Data());
+   return kTRUE;
+}
+
+
+Bool_t TGo4DabcProxy::UpdateHierarchy(Bool_t sync)
+{
+   if (fNodeName.Length() == 0) return kFALSE;
 
    dabc::Command cmd2("GetGlobalNamesList");
    cmd2.SetReceiver(std::string(fNodeName.Data()) + dabc::Publisher::DfltName());
    cmd2.SetTimeout(5.);
+
+   dabc::WorkerRef wrk = dabc::mgr.FindItem("/Go4ReplWrk");
+
+   if (!sync && !wrk.null()) {
+      cmd2.SetPtr("#DabcProxy", this);
+      wrk()->Assign(cmd2);
+
+      dabc::mgr.GetCommandChannel().Submit(cmd2);
+      return kTRUE;
+   }
 
    if (dabc::mgr.GetCommandChannel().Execute(cmd2)!=dabc::cmd_true) {
       printf("Fail to get hierarchy\n");
       return kFALSE;
    }
 
-   dabc::Buffer buf = cmd2.GetRawData();
-
-   if (buf.null()) return kFALSE;
-
-   hierarchy.Release();
-
-      // DOUT0("Get raw data %p %u", buf.SegmentPtr(), buf.GetTotalSize());
-   if (!hierarchy.ReadFromBuffer(buf)) return kFALSE;
-
-   //printf("Read from DABC node %s done\n", fNodeName.Data());
-   return kTRUE;
+   return ReplyCommand(&cmd2);
 }
 
 void TGo4DabcProxy::Initialize(TGo4Slot* slot)
 {
+   fxParentSlot = slot;
 }
 
 void TGo4DabcProxy::Finalize(TGo4Slot* slot)
@@ -779,15 +806,23 @@ void TGo4DabcProxy::Update(TGo4Slot* slot, Bool_t strong)
 {
    if (strong) {
       printf("GO4 WANTS update DABC hierarchy - do it");
-      UpdateHierarchy();
+      UpdateHierarchy(kFALSE);
    }
 }
+
+void TGo4DabcProxy::RefreshNamesList()
+{
+   UpdateHierarchy(kFALSE);
+}
+
 
 #else
 
 TGo4DabcProxy::TGo4DabcProxy() :
    TGo4Proxy(),
-   fxHierarchy(0)
+   fNodeName(),
+   fxHierarchy(0),
+   fxParentSlot(0)
 {
 }
 
@@ -800,9 +835,13 @@ Bool_t TGo4DabcProxy::Connect(const char* nodename)
    return kFALSE;
 }
 
-Bool_t TGo4DabcProxy::UpdateHierarchy()
+Bool_t TGo4DabcProxy::UpdateHierarchy(Bool_t sync)
 {
    return kFALSE;
+}
+
+Bool_t TGo4DabcProxy::ReplyCommand(void* cmd)
+{
 }
 
 
@@ -842,5 +881,10 @@ void TGo4DabcProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
 void TGo4DabcProxy::Update(TGo4Slot* slot, Bool_t strong)
 {
 }
+
+void TGo4DabcProxy::RefreshNamesList()
+{
+}
+
 
 #endif

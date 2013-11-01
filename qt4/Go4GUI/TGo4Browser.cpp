@@ -36,6 +36,7 @@
 #include "QGo4BrowserTreeWidget.h"
 #include "TGo4AnalysisProxy.h"
 #include "TGo4HServProxy.h"
+#include "TGo4DabcProxy.h"
 #include "TGo4QSettings.h"
 #include "TGo4ViewPanel.h"
 
@@ -59,8 +60,8 @@ QTreeWidgetItem* nextSibling(QTreeWidgetItem* item)
 }
 
 
-TGo4Browser::TGo4Browser(QWidget *parent, const char* name)
-         : QGo4Widget(parent,name)
+TGo4Browser::TGo4Browser(QWidget *parent, const char* name) :
+   QGo4Widget(parent,name)
 {
    setupUi(this);
 
@@ -588,6 +589,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
    int si_kind = -1;
    int nremote = 0;
    int nanalysis = 0;
+   int ndabc = 0;
    int nmonitor = 0;
    int nclear = 0;
    int nclearlocal = 0;
@@ -627,7 +629,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 
          if (TGo4BrowserProxy::CanDrawItem(cando)) {
            ndraw++;
-           TClass* cl = gROOT->GetClass(br->ItemClassName(itemslot));
+           TClass* cl = gROOT->GetClass(itemclassname);
            if (cl!=0)
               if (cl->InheritsFrom("TH1")) {
                  if (!cl->InheritsFrom("TH2") && !cl->InheritsFrom("TH3")) {
@@ -672,6 +674,9 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 
          if (isanalysisitem)
            nanalysis++;
+
+         if ((itemclassname!=0) && (strcmp(itemclassname,"TGo4DabcProxy")==0))
+            { ndabc++; nremote++; }
 
          if (br->IsItemRemote(itemslot)) {
             nremote++;
@@ -834,6 +839,7 @@ void TGo4Browser::ContextMenuActivated(int id)
 
    TGo4AnalysisProxy* anrefresh = 0;
    TGo4HServProxy* hservrefresh = 0;
+   TGo4DabcProxy* dabcprrefresh = 0;
 
    if (id==20) br->ClearClipboard();
 
@@ -937,9 +943,11 @@ void TGo4Browser::ContextMenuActivated(int id)
             case 27: {
                TString objname;
                TGo4AnalysisProxy* an = br->DefineAnalysisObject(itemname.toAscii().constData(), objname);
-               TGo4HServProxy* hserv = br->DefineHServerProxy(itemname.toAscii().constData());
                if (an!=0) anrefresh = an;
+               TGo4HServProxy* hserv = br->DefineHServerProxy(itemname.toAscii().constData());
                if (hserv!=0) hservrefresh = hserv;
+               TGo4DabcProxy* dabcpr = br->DefineDabcProxy(itemname.toAscii().constData());
+               if (dabcpr!=0) dabcprrefresh = dabcpr;
                break;
             }
 
@@ -987,6 +995,9 @@ void TGo4Browser::ContextMenuActivated(int id)
 
    if (hservrefresh!=0)
       hservrefresh->RequestHistosList();
+
+   if (dabcprrefresh!=0)
+      dabcprrefresh->RefreshNamesList();
 
    if (id==19)
      QApplication::restoreOverrideCursor();

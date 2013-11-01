@@ -24,6 +24,7 @@ class TTimer;
 class TGo4ObjectManager;
 class TGo4AnalysisProxy;
 class TGo4HServProxy;
+class TGo4DabcProxy;
 class TGo4Picture;
 class TAxis;
 class TVirtualTreePlayer;
@@ -192,6 +193,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       TGo4AnalysisProxy* DefineAnalysisObject(const char* itemname, TString& analysisname);
       TGo4HServProxy* DefineHServerProxy(const char* itemname);
+      TGo4DabcProxy* DefineDabcProxy(const char* itemname);
 
       static bool CanExportItem(int cando);
       static bool CanInfoItem(int cando);

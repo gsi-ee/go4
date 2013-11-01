@@ -678,7 +678,7 @@ void TGo4AnalysisProxy::ReceiveStatus(TGo4Status* status)
       }
    }
 
-   TGo4AnalysisObjectResult* obres=dynamic_cast<TGo4AnalysisObjectResult*> (status);
+   TGo4AnalysisObjectResult* obres = dynamic_cast<TGo4AnalysisObjectResult*> (status);
    if (obres!=0) {
         // put treatment of result object here
         // for the moment, we just check what we got:
@@ -969,9 +969,9 @@ Bool_t TGo4AnalysisProxy::UpdateAnalysisObject(const char* fullpath, TObject* ob
    const char* objname = obj->GetName();
    if ((objname==0) || (*objname==0)) return kFALSE;
 
-   /// new with single set object commmand:
-   TGo4RemoteCommand* com= new TGo4RemoteCommand("ANSetObject");
-   com->SetString(objname,0); // objectname
+   /// new with single set object command:
+   TGo4RemoteCommand* com = new TGo4RemoteCommand("ANSetObject");
+   com->SetString(objname,0); // object name
    com->SetAggregate(obj); // parameter
    fxDisplay->SubmitCommand(com);
 
@@ -980,9 +980,9 @@ Bool_t TGo4AnalysisProxy::UpdateAnalysisObject(const char* fullpath, TObject* ob
 
 void TGo4AnalysisProxy::LoadConfigFile(const char* fname)
 {
-   if((fname==0) || (strlen(fname)==0))
+   if((fname==0) || (strlen(fname)==0)) {
       fxDisplay->SubmitCommand("ANLoad");
-   else {
+   } else {
       //TGo4ComLoadAnalysisStatus *com = new TGo4ComLoadAnalysisStatus(fname);
       TGo4RemoteCommand* com= new TGo4RemoteCommand("ANLoad");
       com->SetString(fname,0); // name of status file
@@ -992,9 +992,9 @@ void TGo4AnalysisProxy::LoadConfigFile(const char* fname)
 
 void TGo4AnalysisProxy::SaveConfigFile(const char* fname)
 {
-   if((fname==0) || (strlen(fname)==0))
+   if((fname==0) || (strlen(fname)==0)) {
      fxDisplay->SubmitCommand("ANSave");
-   else {
+   } else {
      //TGo4ComSaveAnalysisStatus *com = new TGo4ComSaveAnalysisStatus(fname);
      TGo4RemoteCommand* com= new TGo4RemoteCommand("ANSave");
      com->SetString(fname,0); // name of status file

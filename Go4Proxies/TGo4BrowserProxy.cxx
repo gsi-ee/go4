@@ -832,6 +832,21 @@ TGo4HServProxy* TGo4BrowserProxy::DefineHServerProxy(const char* itemname)
    return 0;
 }
 
+TGo4DabcProxy* TGo4BrowserProxy::DefineDabcProxy(const char* itemname)
+{
+   TGo4Slot* slot = DataSlot(itemname);
+   if (slot==0) return 0;
+
+   while (slot!=0) {
+      TGo4DabcProxy* pr = dynamic_cast<TGo4DabcProxy*> (slot->GetProxy());
+      if (pr!=0) return pr;
+      slot = slot->GetParent();
+   }
+
+   return 0;
+}
+
+
 Bool_t TGo4BrowserProxy::UpdateAnalysisItem(const char* itemname, TObject* obj)
 {
    TGo4Slot* slot = BrowserSlot(itemname);
@@ -1954,20 +1969,20 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
       }
    } else
    if (kind==TGo4Access::kndFolder) {
-     pixmap = "folder_t.png";
-     if ((cl!=0) && cl->InheritsFrom(TTree::Class())) { cando = 10; pixmap = "tree_t.png"; } else
-     if ((cl!=0) && cl->InheritsFrom(TCanvas::Class())) { cando = 110; pixmap = "canvas.png"; } else
-     if ((cl!=0) && cl->InheritsFrom(THStack::Class())) { cando = 110; pixmap = "superimpose.png"; } else
-     if ((cl!=0) && cl->InheritsFrom(TFile::Class())) { cando = 10000; pixmap = "rootdb_t.png"; } else
-     if ((cl!=0) && cl->InheritsFrom(TGo4HServProxy::Class())) { cando = 10000; pixmap = "histserv.png"; } else
-     if ((cl!=0) && cl->InheritsFrom(TGo4DabcProxy::Class())) { cando = 10000; pixmap = "dabc.png"; } else
-     if ((cl!=0) && cl->InheritsFrom(TGo4AnalysisProxy::Class())) { pixmap = "analysiswin.png"; }
+      pixmap = "folder_t.png";
+      if ((cl!=0) && cl->InheritsFrom(TTree::Class())) { cando = 10; pixmap = "tree_t.png"; } else
+      if ((cl!=0) && cl->InheritsFrom(TCanvas::Class())) { cando = 110; pixmap = "canvas.png"; } else
+      if ((cl!=0) && cl->InheritsFrom(THStack::Class())) { cando = 110; pixmap = "superimpose.png"; } else
+      if ((cl!=0) && cl->InheritsFrom(TFile::Class())) { cando = 10000; pixmap = "rootdb_t.png"; } else
+      if ((cl!=0) && cl->InheritsFrom(TGo4HServProxy::Class())) { cando = 10000; pixmap = "histserv.png"; } else
+      if ((cl!=0) && cl->InheritsFrom(TGo4DabcProxy::Class())) { cando = 10000; pixmap = "dabc.png"; } else
+      if ((cl!=0) && cl->InheritsFrom(TGo4AnalysisProxy::Class())) { pixmap = "analysiswin.png"; }
    } else
    if (kind==TGo4Access::kndTreeBranch)
-     pixmap = "branch_t.png";
+      pixmap = "branch_t.png";
    else
    if (kind==TGo4Access::kndTreeLeaf) {
-     cando = 11;  pixmap = "leaf_t.png";
+      cando = 11;  pixmap = "leaf_t.png";
    } else
    if (kind==TGo4Access::kndGo4Param) {
       cando = 1011; pixmap = "parameter.png";
