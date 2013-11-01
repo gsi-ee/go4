@@ -3653,12 +3653,10 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
 bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 {
    TGo4Slot* slot = GetPadSlot(pad);
-   if (slot == 0)
-      return false;
+   if (slot == 0) return false;
 
    TGo4Picture* padopt = GetPadOptions(slot);
-   if (padopt == 0)
-      return false;
+   if (padopt == 0) return false;
 
    bool ischilds = false;
    bool ischildmodified = false;
@@ -3681,13 +3679,11 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
    for (int n = 0; n < slot->NumChilds(); n++) {
       subpadindx = (n + lastdrawnpad) % slot->NumChilds();
       TPad* subpad = GetSlotPad(slot->GetChild(subpadindx));
-      if (subpad == 0)
-         continue;
+      if (subpad == 0) continue;
       ischilds = true;
       if (ProcessPadRedraw(subpad, force)) {
          ischildmodified = true;
-         if (!force)
-            break; // break if any of child is modified
+         if (!force) break; // break if any of child is modified
       }
    }
 
@@ -3705,8 +3701,7 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
    padopt->SetContentModified(false);
 
    // do not draw anything else if subpads are there
-   if (ischilds)
-      return ischildmodified;
+   if (ischilds) return ischildmodified;
 
    pad->Clear();
 
@@ -3748,8 +3743,8 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 
    const char* drawopt = padopt->GetDrawOption(0);
 
-   Bool_t doasiimage = (drawopt != 0) && !dosuperimpose
-         && objs.Last()->InheritsFrom(TH2::Class());
+   Bool_t doasiimage = (drawopt != 0) && !dosuperimpose &&
+                        objs.Last()->InheritsFrom(TH2::Class());
    if (doasiimage)
       doasiimage = TString(drawopt).Contains("asimage");
 
@@ -3813,7 +3808,11 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
    }
 
    gPad = pad; // instead of pad->cd(), while it is redraw frame
-   if (drawobj != 0)
+   if (drawobj != 0) {
+
+      bool first_draw = (slot->GetPar("::FirstDraw") == 0);
+      slot->SetPar("::FirstDraw","done");
+
       if (drawobj->InheritsFrom(TH1::Class())) {
          TH1* h1 = (TH1*) drawobj;
          h1->SetBit(kCanDelete, kFALSE);
@@ -3823,7 +3822,7 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
          RedrawStack(pad, padopt, hs, dosuperimpose, updatecontent);
       } else if (drawobj->InheritsFrom(TGraph::Class())) {
          TGraph* gr = (TGraph*) drawobj;
-         RedrawGraph(pad, padopt, gr, updatecontent);
+         RedrawGraph(pad, padopt, gr, updatecontent, first_draw);
       } else if (drawobj->InheritsFrom(TMultiGraph::Class())) {
          TMultiGraph* mg = (TMultiGraph*) drawobj;
          RedrawMultiGraph(pad, padopt, mg, dosuperimpose, updatecontent);
@@ -3831,6 +3830,7 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
          TGo4ASImage* ai = (TGo4ASImage*) drawobj;
          RedrawImage(pad, padopt, ai, asihisto, updatecontent);
       }
+   }
 
    if (legslot != 0)
       RedrawLegend(pad, padopt, legslot);
@@ -3919,18 +3919,27 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
    SetSelectedRangeToHisto(pad, framehisto, hs, padopt, false);
 }
 
-void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr,
-      bool scancontent)
+void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, bool scancontent, bool first_draw)
 {
-   if ((pad == 0) || (padopt == 0) || (gr == 0))
-      return;
-//std::cout <<"RedrawGraph for "<< hex<< (int) gr<< dec << std::endl;
+   if ((pad == 0) || (padopt == 0) || (gr == 0)) return;
+
    if (scancontent) {
       TakeFullRangeFromGraph(gr, padopt, true);
       gr->SetEditable(kFALSE);
    }
 
    TString drawopt(padopt->GetDrawOption(0));
+
+   // when graph drawn for the first time, check if time units used in axis
+   if (first_draw) {
+      TAxis *ax = gr->GetXaxis();
+      if ((ax!=0) && ax->GetTimeDisplay()) {
+         padopt->SetHisStats(kFALSE);
+         padopt->SetXAxisTimeDisplay(kTRUE);
+         padopt->SetXAxisTimeFormat(ax->GetTimeFormat());
+         if (drawopt.Length() == 0) drawopt = "AL";
+      }
+   }
 
    if (drawopt.Length() == 0)
       drawopt = go4sett->getTGraphDrawOpt().toAscii().constData();
@@ -3952,8 +3961,7 @@ void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr,
 void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt,
       TMultiGraph * mg, bool dosuperimpose, bool scancontent)
 {
-   if ((pad == 0) || (padopt == 0) || (mg == 0))
-      return;
+   if ((pad == 0) || (padopt == 0) || (mg == 0)) return;
 
    TIter iter(mg->GetListOfGraphs());
    TGraph *gr(0), *firstgr(0);
@@ -4633,11 +4641,9 @@ void TGo4ViewPanel::TakeFullRangeFromHisto(TH1* h1, TGo4Picture* padopt,
    padopt->SetFullRange(dimindx, minimum, maximum);
 }
 
-void TGo4ViewPanel::TakeFullRangeFromGraph(TGraph * gr, TGo4Picture * padopt,
-      bool isfirst)
+void TGo4ViewPanel::TakeFullRangeFromGraph(TGraph * gr, TGo4Picture * padopt, bool isfirst)
 {
-   if ((gr == 0) || (padopt == 0))
-      return;
+   if ((gr == 0) || (padopt == 0)) return;
 
    Double_t minx(0), maxx(0), miny(0), maxy(0), xx, yy;
    if (isfirst) {

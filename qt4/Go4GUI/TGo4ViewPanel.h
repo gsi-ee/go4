@@ -178,7 +178,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual bool ProcessPadRedraw( TPad * pad, bool force);
       virtual void RedrawHistogram( TPad * pad, TGo4Picture * padopt, TH1 * his, bool scancontent );
       virtual void RedrawStack( TPad * pad, TGo4Picture * padopt, THStack * hs, bool dosuperimpose, bool scancontent );
-      virtual void RedrawGraph( TPad * pad, TGo4Picture * padopt, TGraph * gr, bool scancontent );
+      virtual void RedrawGraph( TPad * pad, TGo4Picture * padopt, TGraph * gr, bool scancontent, bool first_draw );
       virtual void RedrawMultiGraph( TPad * pad, TGo4Picture * padopt, TMultiGraph * mg, bool dosuperimpose, bool scancontent );
       virtual void RedrawImage( TPad * pad, TGo4Picture * padopt, TGo4ASImage * im, TH2 * asihisto, bool scancontent );
       virtual void RedrawLegend( TPad * pad, TGo4Picture * padopt, TGo4Slot * legslot );
