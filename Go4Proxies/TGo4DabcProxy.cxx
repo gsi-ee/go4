@@ -25,6 +25,7 @@
 #include "TGo4Log.h"
 #include "TGo4Slot.h"
 
+#include "dabc/api.h"
 #include "dabc/Hierarchy.h"
 #include "dabc/Manager.h"
 #include "dabc/Publisher.h"
@@ -287,7 +288,6 @@ class TGo4DabcAccess : public TGo4Access {
 
       virtual TClass* GetObjectClass() const
       {
-         // printf("Get class\n");
          if (fRootClassName.length() > 0)
             return (TClass*) gROOT->GetListOfClasses()->FindObject(fRootClassName.c_str());
          return 0;
@@ -300,8 +300,6 @@ class TGo4DabcAccess : public TGo4Access {
 
       virtual const char* GetObjectClassName() const
       {
-         // printf("Get class name\n");
-
          if (fRootClassName.length()>0) return fRootClassName.c_str();
 
          return "dabc::Hierarchy";
@@ -648,26 +646,9 @@ TGo4DabcProxy::~TGo4DabcProxy()
 
 Bool_t TGo4DabcProxy::Connect(const char* nodename)
 {
-   if (dabc::mgr.null()) {
+   if (!dabc::CreateManager("cmd", 0)) return kFALSE;
 
-      static dabc::Configuration cfg;
-
-      new dabc::Manager("cmd", &cfg);
-
-      // ensure that all submitted events are processed
-      dabc::mgr.SyncWorker();
-
-      dabc::mgr()->CreateControl(false);
-   }
-
-   dabc::Command cmd("Ping");
-   cmd.SetReceiver(nodename);
-   cmd.SetTimeout(5.);
-
-   int res = dabc::mgr.GetCommandChannel().Execute(cmd);
-
-   if (res != dabc::cmd_true) {
-      printf("FAIL connection to %s\n", nodename);
+   if (!dabc::ConnectDabcNode(nodename)) {
       fNodeName = nodename;
       return kFALSE;
    }
@@ -678,7 +659,6 @@ Bool_t TGo4DabcProxy::Connect(const char* nodename)
       wrk = new ReplyWorker("/Go4ReplWrk");
       wrk()->AssignToThread(dabc::mgr.thread());
    }
-
 
    // printf("Connection to %s done\n", nodename);
 
