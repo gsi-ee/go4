@@ -13,6 +13,8 @@ class TGo4DabcSniffer : public dabc_root::RootSniffer,
 
       virtual void InitializeHierarchy();
 
+      virtual int ExecuteCommand(dabc::Command cmd);
+
    public:
       TGo4DabcSniffer(const std::string& name, dabc::Command cmd = 0);
 

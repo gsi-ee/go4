@@ -51,6 +51,7 @@ const UInt_t TGo4AnalysisClient::fguSTATUSUPDATE = 1000; // events between two u
 const Double_t TGo4AnalysisClient::fgdSTATUSTIMEOUT = 2; // maximum seconds between two updates
 const UInt_t TGo4AnalysisClient::fguCINTTIMERPERIOD = 200; // frequency of timer for cint lock
 
+
 TGo4AnalysisClient::TGo4AnalysisClient(const char* name,
                                        TGo4Analysis* analysis,
                                        const char* host,
@@ -391,7 +392,7 @@ void TGo4AnalysisClient::Stop()
 
 //   if (fxAnalysis && fxAnalysis->IsStopWorking()) {
 //      if (IsCintMode()) {
-//         fxAnalysis->ResetStopWorking();
+//         fxAnalysis->ResumeWorking();
 //      }
 ////      else {
 //    	 std::cout <<"TGo4AnalysisClient::Stop() before close analysis" << std::endl;

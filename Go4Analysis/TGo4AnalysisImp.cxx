@@ -181,7 +181,7 @@ TGo4Analysis::TGo4Analysis(const char* name) :
    fbAutoSaveFileChange(kFALSE),
    fxSampleEvent(0),
    fxObjectNames(0),
-   fbDoWorkingFlag(kTRUE),
+   fxDoWorkingFlag(flagRunning),
    fxInterruptHandler(0),
    fAnalysisName(),
    fBatchLoopCount(-1),
@@ -218,7 +218,7 @@ TGo4Analysis::TGo4Analysis(int argc, char** argv) :
    fbAutoSaveFileChange(kFALSE),
    fxSampleEvent(0),
    fxObjectNames(0),
-   fbDoWorkingFlag(kTRUE),
+   fxDoWorkingFlag(flagRunning),
    fxInterruptHandler(0),
    fAnalysisName(),
    fBatchLoopCount(-1),
@@ -600,7 +600,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
       else
          Message(1, "Analysis loop is starting...");
 
-      while (fbDoWorkingFlag) {
+      while (fxDoWorkingFlag != flagStop) {
 
          if ((times>0) && (cnt>=times)) break;
 
@@ -619,7 +619,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 
          try
          {
-            MainCycle();
+            if (fxDoWorkingFlag == flagRunning) MainCycle();
 
             cnt++; // account completely executed cycles
          }
@@ -1159,7 +1159,7 @@ Int_t TGo4Analysis::WaitForStart()
       gSystem->Sleep(fgiMACROSTARTPOLL);
       cycles++;
       Bool_t sysret = gSystem->ProcessEvents();
-      if (sysret || !fbDoWorkingFlag) {
+      if (sysret || (fxDoWorkingFlag == flagStop)) {
          cycles=-1;
          break;
          // allows cint canvas menu "Interrupt" to get us out of here!

@@ -54,7 +54,7 @@ TGo4Slave::TGo4Slave(const char* name, Bool_t isserver, const char* serverhost, 
    SetTask(task);
 }
 
-TGo4Slave::TGo4Slave():fbMainIsRunning(kTRUE)
+TGo4Slave::TGo4Slave() : fbMainIsRunning(kTRUE)
 {
 
 }

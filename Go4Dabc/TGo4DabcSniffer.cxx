@@ -1,13 +1,64 @@
 #include "TGo4DabcSniffer.h"
 
 #include "TFolder.h"
+#include "TTimer.h"
 
 #include "TGo4AnalysisImp.h"
 #include "TGo4AnalysisObjectManager.h"
+#include "TGo4AnalysisClient.h"
 #include "TGo4Ratemeter.h"
 #include "TGo4Log.h"
 
 #include "dabc/Hierarchy.h"
+
+// Timer used to invoke commands in the main process
+
+class TExecDabcCmdTimer : public TTimer {
+   public:
+      dabc::Command fCmd;
+      TGo4DabcSniffer* fSniffer;
+
+      TExecDabcCmdTimer(dabc::Command cmd, TGo4DabcSniffer* sniff) :
+         TTimer(0),
+         fCmd(cmd),
+         fSniffer(sniff)
+      {
+         Add();
+      }
+
+      virtual Bool_t Notify()
+      {
+         Remove();
+
+         if (!fCmd.null()) {
+            // DOUT0("MY COMMAND!!");
+
+            TGo4Analysis* an = TGo4Analysis::Instance();
+            TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : 0;
+
+            if (fCmd.IsName("CmdClear")) {
+               if (an) { an->ClearObjects("Histograms"); fSniffer->StatusMessage(0, "Clear Histograms folder"); }
+            } else
+            if (fCmd.IsName("CmdStart")) {
+               if (cli) cli->Start(); else
+               if (an) { an->ResumeWorking(); fSniffer->StatusMessage(0, "Resume analysis loop"); }
+            } else
+            if (fCmd.IsName("CmdStop")) {
+               if (cli) cli->Stop(); else
+               if (an) { an->SuspendWorking(); fSniffer->StatusMessage(0, "Suspend analysis loop"); }
+            }
+
+            fCmd.ReplyBool(true);
+         }
+
+         delete this;
+
+         return kFALSE;
+      }
+};
+
+
+
 
 TGo4DabcSniffer::TGo4DabcSniffer(const std::string& name, dabc::Command cmd) :
    dabc_root::RootSniffer(name, cmd),
@@ -42,6 +93,11 @@ void TGo4DabcSniffer::InitializeHierarchy()
    sub.CreateChild("RunTime").Field(dabc::prop_kind).SetStr("log");
 
    sub.CreateChild("DebugOutput").Field(dabc::prop_kind).SetStr("log");
+
+   sub.CreateChild("CmdClear").SetField(dabc::prop_kind, "DABC.Command");
+   sub.CreateChild("CmdStart").SetField(dabc::prop_kind, "DABC.Command");
+   sub.CreateChild("CmdStop").SetField(dabc::prop_kind, "DABC.Command");
+
 
    sub.EnableHistory(200, true);
 }
@@ -86,6 +142,7 @@ void TGo4DabcSniffer::StatusMessage(int level, const TString& msg)
 
    dabc::Hierarchy item = fHierarchy.FindChild("Status/Message");
    item.Field("value").SetStr(msg.Data());
+   item.Field("value").SetModified(true);
    item.Field("level").SetInt(level);
 
    fHierarchy.FindChild("Status").MarkChangedItems();
@@ -98,4 +155,14 @@ void TGo4DabcSniffer::SetTitle(const char* title)
    fHierarchy.FindChild("Status/DebugOutput").Field("value").SetStr(title ? title : "");
 
    fHierarchy.FindChild("Status").MarkChangedItems();
+}
+
+
+int TGo4DabcSniffer::ExecuteCommand(dabc::Command cmd)
+{
+   if (cmd.IsName("CmdClear") ||
+       cmd.IsName("CmdStart") ||
+       cmd.IsName("CmdStop")) { new TExecDabcCmdTimer(cmd, this); return dabc::cmd_postponed; }
+
+   return dabc_root::RootSniffer::ExecuteCommand(cmd);
 }

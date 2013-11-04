@@ -1,6 +1,7 @@
 #include "TGo4Dabc.h"
 
 #include "dabc/string.h"
+#include "dabc/api.h"
 #include "dabc/logging.h"
 #include "dabc/Command.h"
 #include "dabc/Url.h"
@@ -12,18 +13,9 @@
 
 bool TGo4Dabc::StartHttpServer(int port)
 {
-
    if (!dabc::mgr.null()) return false;
 
-   static dabc::Configuration dabc_go4_cfg;
-
-   new dabc::Manager("dabc", &dabc_go4_cfg);
-
-   dabc::mgr.SyncWorker();
-
-   DOUT2("Create manager");
-
-   dabc::mgr.Execute("InitFactories");
+   dabc::CreateManager("dabc", -1);
 
    dabc::mgr.CreateThread("MainThread");
 
@@ -68,15 +60,7 @@ bool TGo4Dabc::ConnectMaster(const char* master_url)
       return false;
    }
 
-   static dabc::Configuration dabc_root_cfg;
-
-   new dabc::Manager("dabc", &dabc_root_cfg);
-
-   dabc::mgr.SyncWorker();
-
-   DOUT0("Create manager");
-
-   dabc::mgr.Execute("InitFactories");
+   dabc::CreateManager("dabc", 0);
 
    dabc::mgr.CreateThread("MainThread");
 
@@ -95,12 +79,6 @@ bool TGo4Dabc::ConnectMaster(const char* master_url)
    w2.MakeThreadForWorker("MainThread");
 
    DOUT2("Create go4 sniffer");
-
-   // we selecting Go4 sniffer as the only objects, seen from the server
-   if (!dabc::mgr()->CreateControl(false)) {
-      DOUT0("Cannot create control instance");
-      return false;
-   }
 
    DOUT0("Create command channel for %s ", master_url);
 

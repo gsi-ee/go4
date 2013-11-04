@@ -768,6 +768,15 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     /** Returns pointer on current sniffer */
     TGo4AnalysisSniffer* GetSniffer() const { return fSniffer; }
 
+    /** Returns pointer on analysis client */
+    TGo4AnalysisClient* GetAnalysisClient() const { return fxAnalysisSlave; }
+
+    /** Suspend working, only can be used in batch mode */
+    void SuspendWorking() { fxDoWorkingFlag = flagPause; }
+
+    /** Resume working, only can be used in batch mode */
+    void ResumeWorking() { fxDoWorkingFlag = flagRunning; }
+
   protected:
 
     /** True if analysis framework has been initialized and
@@ -849,7 +858,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     Bool_t RemoveEventStructure(TGo4EventElement * ev);
 
     /** Register analysis client if running in gui mode. */
-    void SetAnalysisClient(TGo4AnalysisClient* cli) { fxAnalysisSlave=cli; }
+    void SetAnalysisClient(TGo4AnalysisClient* cli) { fxAnalysisSlave = cli; }
 
     /** Send message string in a status object to the gui.
       * Will be displayed in status window. Level indicates info (1), warning (2) or error(3),
@@ -863,12 +872,11 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     /** Close the autosave file if existing. */
     void CloseAutoSaveFile();
 
-    /** Called by interrupt routine for normal exit from program */
-    void StopWorking() { fbDoWorkingFlag = kFALSE; }
+    /** Called by interrupt routine for normal exit from program (in batch mode) */
+    void StopWorking() { fxDoWorkingFlag = flagStop; }
 
-    void ResetStopWorking() { fbDoWorkingFlag = kTRUE; }
-
-    Bool_t IsStopWorking() const { return !fbDoWorkingFlag; }
+    /** Returns true when event loop execution was stopped, only in batch mode */
+    Bool_t IsStopWorking() const { return fxDoWorkingFlag == flagStop; }
 
     /* for signal handler to shutdown analysis server, if existing*/
     void ShutdownServer();
@@ -944,8 +952,8 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       *   @supplierCardinality 1 */
     TGo4AnalysisObjectNames * fxObjectNames;     //!
 
-    /** used for exit from program by interrupt */
-    Bool_t fbDoWorkingFlag; //!
+    /** Indicates analysis runstate */
+    enum { flagStop, flagPause, flagRunning } fxDoWorkingFlag; //!
 
     /** use to treat Ctrl-C interrupts */
     TGo4InterruptHandler* fxInterruptHandler; //!

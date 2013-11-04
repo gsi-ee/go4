@@ -75,7 +75,9 @@ Changes in Go4 v4.5.9
    native ROOT graphics. 
 22.Support of connection to dabc in gui and hotstart (qt4)
 23.When TGraph with time on X axis drawn for the first time, it will be correctly 
-   recognized in the view panel. 
+   recognized in the view panel.
+24.Add commands like start/stop analysis and clear histograms into web interface.
+
 
 Changes in Go4 v4.5.5
 1. Adjust different macros to use together with ROOT 5.99 
