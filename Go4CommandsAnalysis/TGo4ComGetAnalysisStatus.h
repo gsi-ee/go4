@@ -22,15 +22,15 @@
  */
 
 class TGo4ComGetAnalysisStatus : public TGo4AnalysisCommand {
-  public:
+   public:
 
-    TGo4ComGetAnalysisStatus();
+      TGo4ComGetAnalysisStatus();
 
-    virtual ~TGo4ComGetAnalysisStatus();
+      virtual ~TGo4ComGetAnalysisStatus();
 
-    Int_t ExeCom();
+      virtual Int_t ExeCom();
 
-    ClassDef(TGo4ComGetAnalysisStatus,1)
+   ClassDef(TGo4ComGetAnalysisStatus,1)
 };
 
 #endif //TGO4COMGETANALYSISSTATUS_H

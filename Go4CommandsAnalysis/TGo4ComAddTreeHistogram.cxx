@@ -18,15 +18,15 @@
 #include "TGo4AnalysisImp.h"
 #include "TGo4RemoteCommand.h"
 
-TGo4ComAddTreeHistogram::TGo4ComAddTreeHistogram()
-:TGo4AnalysisCommand("ANAddTreeHis","Add a tree histogram to dynamic list")
+TGo4ComAddTreeHistogram::TGo4ComAddTreeHistogram() :
+   TGo4AnalysisCommand("ANAddTreeHis","Add a tree histogram to dynamic list")
 {
    GO4TRACE((12,"TGo4ComAddTreeHistogram::TGo4ComAddTreeHistogram() ctor",__LINE__, __FILE__));
    SetProtection(kGo4ComModeController);
 }
 
-TGo4ComAddTreeHistogram::TGo4ComAddTreeHistogram(const char* histogramname, const char* treename,const char* varexp, const char* cut)
-:TGo4AnalysisCommand("ANAddTreeHis","Add a tree histogram to dynamic list")
+TGo4ComAddTreeHistogram::TGo4ComAddTreeHistogram(const char* histogramname, const char* treename,const char* varexp, const char* cut) :
+   TGo4AnalysisCommand("ANAddTreeHis","Add a tree histogram to dynamic list")
 {
    GO4TRACE((12,"TGo4ComAddTreeHistogram::TGo4ComAddTreeHistogram() ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
@@ -46,14 +46,12 @@ TGo4ComAddTreeHistogram::~TGo4ComAddTreeHistogram()
 
 void TGo4ComAddTreeHistogram::Set(TGo4RemoteCommand* remcom)
 {
-if(remcom==0) return;
-SetHistogramName(remcom->GetString(0));
-SetTreeName(remcom->GetString(1));
-SetVarexp(remcom->GetString(2));
-SetCut(remcom->GetString(3));
+   if(remcom==0) return;
+   SetHistogramName(remcom->GetString(0));
+   SetTreeName(remcom->GetString(1));
+   SetVarexp(remcom->GetString(2));
+   SetCut(remcom->GetString(3));
 }
-
-
 
 Int_t TGo4ComAddTreeHistogram::ExeCom()
 {
@@ -95,7 +93,7 @@ Int_t TGo4ComAddTreeHistogram::ExeCom()
       } // if cli
    else
       {
-      GO4TRACE((11,"TGo4ComAddTreeHistogram::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
+         GO4TRACE((11,"TGo4ComAddTreeHistogram::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
          TGo4Log::Debug(" !!! ComAddTreeHistogram ''%s'': NO RECEIVER ERROR!!!",GetName());
 
          return 1;

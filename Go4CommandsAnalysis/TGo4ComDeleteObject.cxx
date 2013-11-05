@@ -46,35 +46,32 @@ Int_t TGo4ComDeleteObject::ExeCom()
    GO4TRACE((12,"TGo4ComDeleteObject::ExeCom()",__LINE__, __FILE__));
 
    TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if(cli)
-      {
-         TGo4Analysis* ana=TGo4Analysis::Instance();
-         if(ana)
-            {
-               const char* obname = GetObjectName();
-               if(ana->DeleteObjects(obname))
-                  {
-                     cli->SendStatusMessage(1,kTRUE,TString::Format(
-                           "Deleted Object %s (all deletables of this folder, resp.)", obname));
-                  }
-               else
-                  {
-                     cli->SendStatusMessage(2,kTRUE,TString::Format(
-                           "Could not delete object %s !", obname));
-                  }
-            }
-         else
-         {
-            cli->SendStatusMessage(3, kTRUE,TString::Format(
-                  " %s ERROR no analysis ", GetName()));
-         } // if(ana)
-      }
-   else
-      {
+   if(cli==0) {
       GO4TRACE((11,"TGo4ComDeleteObject::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
-         TGo4Log::Debug(" !!! %s : NO RECEIVER ERROR!!!",GetName());
-         return 1;
-      } // if(cli)
+      TGo4Log::Debug(" !!! %s : NO RECEIVER ERROR!!!",GetName());
+      return 1;
+   }
+
+   TGo4Analysis* ana =TGo4Analysis::Instance();
+   if(ana)
+   {
+      const char* obname = GetObjectName();
+      if(ana->DeleteObjects(obname))
+      {
+         cli->SendStatusMessage(1,kTRUE,TString::Format(
+               "Deleted Object %s (all deletables of this folder, resp.)", obname));
+      }
+      else
+      {
+         cli->SendStatusMessage(2,kTRUE,TString::Format(
+               "Could not delete object %s !", obname));
+      }
+   }
+   else
+   {
+      cli->SendStatusMessage(3, kTRUE,TString::Format(
+            " %s ERROR no analysis ", GetName()));
+   } // if(ana)
 
    return -1;
 }

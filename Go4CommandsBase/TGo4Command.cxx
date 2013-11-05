@@ -125,12 +125,6 @@ Int_t TGo4Command::ExeCom()
   return 0;
 }
 
-Int_t TGo4Command::UnExeCom()
-{
-  GO4TRACE((10,"Int_t TGo4Command::UnExeCom()", __LINE__, __FILE__));
-  return 0;
-}
-
 Int_t TGo4Command::RefuseCom()
 {
    TGo4Log::Warn("Not allowed to execute %s in mode %d:%s",

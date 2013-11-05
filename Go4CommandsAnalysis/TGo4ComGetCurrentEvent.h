@@ -29,48 +29,48 @@
  * @since 02-Jul-2002
  */
 class TGo4ComGetCurrentEvent : public TGo4AnalysisObjectCommand {
-  public:
+   public:
 
-    TGo4ComGetCurrentEvent();
+      TGo4ComGetCurrentEvent();
 
-    TGo4ComGetCurrentEvent(const char* obname);
+      TGo4ComGetCurrentEvent(const char* obname);
 
-    virtual ~TGo4ComGetCurrentEvent();
+      virtual ~TGo4ComGetCurrentEvent();
 
-    Int_t ExeCom();
+      virtual Int_t ExeCom();
 
-     /** Set internals of this command from specification of external
-     * remote command (command container). Must be overloaded
-     * for each specific command! */
-    virtual void Set(TGo4RemoteCommand* remcon);
+      /** Set internals of this command from specification of external
+       * remote command (command container). Must be overloaded
+       * for each specific command! */
+      virtual void Set(TGo4RemoteCommand* remcon);
 
 
-    Bool_t IsOutputEvent() const { return fbOutputEvent; }
+      Bool_t IsOutputEvent() const { return fbOutputEvent; }
 
-    void SetOutputEvent(Bool_t output=kTRUE) { fbOutputEvent=output; }
+      void SetOutputEvent(Bool_t output=kTRUE) { fbOutputEvent=output; }
 
-    Bool_t IsPrintoutOnly() const { return fbPrintoutOnly; }
+      Bool_t IsPrintoutOnly() const { return fbPrintoutOnly; }
 
-    void SetPrintoutOnly(Bool_t on=kTRUE) { fbPrintoutOnly=on; }
+      void SetPrintoutOnly(Bool_t on=kTRUE) { fbPrintoutOnly=on; }
 
-    Bool_t IsTreeMode() const { return fbTreeMode; }
+      Bool_t IsTreeMode() const { return fbTreeMode; }
 
-    void SetTreeMode(Bool_t on=kTRUE) { fbTreeMode=on; }
+      void SetTreeMode(Bool_t on=kTRUE) { fbTreeMode=on; }
 
-  private:
-    /* we use integer for bool expressions due to root streamer problems */
+   private:
+      /* we use integer for bool expressions due to root streamer problems */
 
-    /** If true output event is searched, otherwise input event of step */
-    Bool_t fbOutputEvent;
+      /** If true output event is searched, otherwise input event of step */
+      Bool_t fbOutputEvent;
 
-    /** If true, the event will not be sent but content is shown on analysis terminal*/
-    Bool_t fbPrintoutOnly;
+      /** If true, the event will not be sent but content is shown on analysis terminal*/
+      Bool_t fbPrintoutOnly;
 
-    /** If true, event will be put into tree before showing; otherwise use
+      /** If true, event will be put into tree before showing; otherwise use
         PrintEvent method or send event directly*/
-    Bool_t fbTreeMode;
+      Bool_t fbTreeMode;
 
-  ClassDef(TGo4ComGetCurrentEvent,1)
+   ClassDef(TGo4ComGetCurrentEvent,1)
 };
 
 

@@ -938,7 +938,7 @@ void TGo4AnalysisProxy::RemoteTreeDraw(const char* treename,
    TGo4Slot::ProduceFolderAndName(hname, hfoldername, hobjectname);
 
    //fxDisplay->SubmitCommand(new TGo4ComAddTreeHistogram(hobjectname.Data(), tobjectname.Data(), varexp, cutcond));
-   TGo4RemoteCommand* remcom= new TGo4RemoteCommand("ANAddTreeHis");
+   TGo4RemoteCommand* remcom = new TGo4RemoteCommand("ANAddTreeHis");
    remcom->SetString(hobjectname.Data(),0);
    remcom->SetString(tobjectname.Data(),1);
    remcom->SetString(varexp,2);

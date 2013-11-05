@@ -35,10 +35,10 @@ TGo4ComAutosave::~TGo4ComAutosave()
 
 void TGo4ComAutosave::Set(TGo4RemoteCommand* remcom)
 {
-if(remcom==0) return;
-SetAutoSaveCompression(remcom->GetValue(0));
-SetAutoSaveOverwrite(remcom->GetValue(1));
-SetAutoFileName(remcom->GetString(0));
+   if(remcom==0) return;
+   SetAutoSaveCompression(remcom->GetValue(0));
+   SetAutoSaveOverwrite(remcom->GetValue(1));
+   SetAutoFileName(remcom->GetString(0));
 }
 
 Int_t TGo4ComAutosave::ExeCom()

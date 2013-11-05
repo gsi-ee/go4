@@ -36,32 +36,24 @@ Int_t TGo4ComCloseAnalysis::ExeCom()
    GO4TRACE((12,"TGo4ComCloseAnalysis::ExeCom() dtor",__LINE__, __FILE__));
 
    TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if (cli!=0)
-      {
-      GO4TRACE((11,"TGo4ComCloseAnalysis::ExeCom() - found valid receiver",__LINE__, __FILE__));
-         TGo4Analysis* ana= TGo4Analysis::Instance();
-         if(ana)
-            {
-               if(cli->MainIsRunning()) ana->PostLoop(); // if close is done on running analysis,
-                                                           // execute postloop before closing previous objects 
-  
-               ana->CloseAnalysis();
-               cli->SendStatusMessage(1, kFALSE,TString::Format("Analysis %s was closed.",ana->GetName()));
-            }
-         else
-            {
-                    cli->SendStatusMessage(3, kTRUE,TString::Format(" %s ERROR no analysis ",GetName()));
-            } // if(ana)
-
-
-
-      }
-   else
-      {
+   if (cli==0) {
       GO4TRACE((11,"TGo4ComCloseAnalysis::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
-         TGo4Log::Debug(" !!! ComCloseAnalysis ''%s'': NO RECEIVER ERROR!!!",GetName());
-         return 1;
-      }
+      TGo4Log::Debug(" !!! ComCloseAnalysis ''%s'': NO RECEIVER ERROR!!!",GetName());
+      return 1;
+   }
+
+   GO4TRACE((11,"TGo4ComCloseAnalysis::ExeCom() - found valid receiver",__LINE__, __FILE__));
+   TGo4Analysis* ana = TGo4Analysis::Instance();
+   if(ana) {
+      if(cli->MainIsRunning()) ana->PostLoop(); // if close is done on running analysis,
+      // execute postloop before closing previous objects
+
+      ana->CloseAnalysis();
+      cli->SendStatusMessage(1, kFALSE,TString::Format("Analysis %s was closed.",ana->GetName()));
+   } else {
+      cli->SendStatusMessage(3, kTRUE,TString::Format(" %s ERROR no analysis ",GetName()));
+   } // if(ana)
+
 
    return -1;
 }

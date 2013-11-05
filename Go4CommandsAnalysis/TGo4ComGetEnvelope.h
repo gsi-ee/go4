@@ -24,17 +24,17 @@
  * @since April-2005
  */
 class TGo4ComGetEnvelope : public TGo4AnalysisObjectCommand {
-  public:
+   public:
 
-    TGo4ComGetEnvelope();
+      TGo4ComGetEnvelope();
 
-    TGo4ComGetEnvelope(const char* obname, const char* foldername);
+      TGo4ComGetEnvelope(const char* obname, const char* foldername);
 
-    virtual ~TGo4ComGetEnvelope();
+      virtual ~TGo4ComGetEnvelope();
 
-    Int_t ExeCom();
+      virtual Int_t ExeCom();
 
-  ClassDef(TGo4ComGetEnvelope,1)
+   ClassDef(TGo4ComGetEnvelope,1)
 };
 
 #endif

@@ -22,15 +22,15 @@
  */
 
 class TGo4ComGetNamesList : public TGo4AnalysisCommand {
-  public:
+   public:
 
-    TGo4ComGetNamesList();
+      TGo4ComGetNamesList();
 
-    virtual ~TGo4ComGetNamesList();
+      virtual ~TGo4ComGetNamesList();
 
-    Int_t ExeCom();
+      virtual Int_t ExeCom();
 
-  ClassDef(TGo4ComGetNamesList,1)
+   ClassDef(TGo4ComGetNamesList,1)
 };
 
 #endif //TGO4COMGETNAMESLIST_H

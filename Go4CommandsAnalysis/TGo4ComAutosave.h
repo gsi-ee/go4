@@ -21,37 +21,37 @@
  * Write objects into autosave file now.
  */
 class TGo4ComAutosave : public TGo4AnalysisCommand {
-  public:
+   public:
 
-    TGo4ComAutosave();
+      TGo4ComAutosave();
 
-    virtual ~TGo4ComAutosave();
+      virtual ~TGo4ComAutosave();
 
-    Int_t ExeCom();
+      virtual Int_t ExeCom();
 
-    /** Set internals of this command from specification of external
-     * remote command (command container). Must be overloaded
-     * for each specific command! */
-    virtual void Set(TGo4RemoteCommand* remcon);
+      /** Set internals of this command from specification of external
+       * remote command (command container). Must be overloaded
+       * for each specific command! */
+      virtual void Set(TGo4RemoteCommand* remcon);
 
-    void SetAutoSaveCompression(Int_t i=5) { fiAutoSaveCompression=i; }
+      void SetAutoSaveCompression(Int_t i=5) { fiAutoSaveCompression=i; }
 
-    void SetAutoSaveOverwrite(Bool_t over=kTRUE) { fbAutoSaveOverwrite = over ? 1 : 0; }
+      void SetAutoSaveOverwrite(Bool_t over=kTRUE) { fbAutoSaveOverwrite = over ? 1 : 0; }
 
-    void SetAutoFileName(const char* name) { fxAutoFileName = name; }
+      void SetAutoFileName(const char* name) { fxAutoFileName = name; }
 
-    const char* GetAutoFileName() const { return fxAutoFileName.Data(); }
+      const char* GetAutoFileName() const { return fxAutoFileName.Data(); }
 
-  private:
+   private:
 
-    /** compression level for autosave file */
-    Int_t fiAutoSaveCompression;
+      /** compression level for autosave file */
+      Int_t fiAutoSaveCompression;
 
-    /** overwrite mode for autosave (true) or append mode (false).*/
-    Int_t fbAutoSaveOverwrite;
+      /** overwrite mode for autosave (true) or append mode (false).*/
+      Int_t fbAutoSaveOverwrite;
 
-    /** Name of the autosave file. Replaces previously set name */
-    TString fxAutoFileName;
+      /** Name of the autosave file. Replaces previously set name */
+      TString fxAutoFileName;
 
    ClassDef(TGo4ComAutosave,1)
 };

@@ -51,34 +51,26 @@ Int_t TGo4ComClearObject::ExeCom()
 {
    GO4TRACE((12,"TGo4ComClearObject::ExeCom()",__LINE__, __FILE__));
 
-   TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if(cli)
-      {
-         TGo4Analysis* ana=TGo4Analysis::Instance();
-         if(ana)
-            {
-               const char* obname = GetObjectName();
-               Bool_t ok=ana->ClearObjects(obname);
-               if(ok)
-                  {
-                    cli->SendStatusMessage(1,kTRUE,TString::Format("Object %s was cleared.", obname));
-                  }
-               else
-                  {
-                     cli->SendStatusMessage(2,kTRUE,TString::Format("Could not clear object %s", obname));
-                  } // if(ob)
-            }
-         else
-            {
-               cli->SendStatusMessage(3, kTRUE,TString::Format(" %s ERROR no analysis ", GetName()));
-            } // if(ana)
-      }
-   else
-      {
+   TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
+   if (cli==0) {
       GO4TRACE((11,"TGo4ComClearObject::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
-         TGo4Log::Debug(" !!! %s: NO RECEIVER ERROR!!!",GetName());
-         return 1;
-      }
+      TGo4Log::Debug(" !!! %s: NO RECEIVER ERROR!!!",GetName());
+      return 1;
+   }
+
+   TGo4Analysis* ana = TGo4Analysis::Instance();
+   if(ana==0) {
+      cli->SendStatusMessage(3, kTRUE,TString::Format(" %s ERROR no analysis ", GetName()));
+      return -1;
+   }
+
+   const char* obname = GetObjectName();
+   Bool_t ok = ana->ClearObjects(obname);
+   if(ok) {
+      cli->SendStatusMessage(1,kTRUE,TString::Format("Object %s was cleared.", obname));
+   } else {
+      cli->SendStatusMessage(2,kTRUE,TString::Format("Could not clear object %s", obname));
+   } // if(ob)
 
    return -1;
 }

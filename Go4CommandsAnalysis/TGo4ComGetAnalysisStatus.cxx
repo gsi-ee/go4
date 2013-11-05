@@ -37,18 +37,19 @@ Int_t TGo4ComGetAnalysisStatus::ExeCom()
    GO4TRACE((12,"TGo4ComGetAnalysisStatus::ExeCom()",__LINE__, __FILE__));
 
    TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if(cli) {
-      cli->SendStatusMessage(1,kFALSE,"Analysis status was requested from client...");
-      //cli->SendAnalysisStatus(); // we avoid using analysisclient method
-      // just use analysis and taskhandler classes
-      TGo4Analysis* ana = TGo4Analysis::Instance();
-      TGo4AnalysisStatus* state = ana->CreateStatus();
-      cli->SendStatus(state, GetTaskName());
-      delete state;
-   } else {
+   if(cli == 0) {
       GO4TRACE((11,"TGo4ComGetAnalysisStatus::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
       TGo4Log::Debug(" !!! ComGetAnalysisStatus ''%s'': NO RECEIVER ERROR!!!",GetName());
       return 1;
+   }
+   cli->SendStatusMessage(1,kFALSE,"Analysis status was requested from client...");
+   //cli->SendAnalysisStatus(); // we avoid using analysisclient method
+   // just use analysis and taskhandler classes
+   TGo4Analysis* ana = TGo4Analysis::Instance();
+   if (ana) {
+      TGo4AnalysisStatus* state = ana->CreateStatus();
+      cli->SendStatus(state, GetTaskName());
+      delete state;
    }
 
    return -1;

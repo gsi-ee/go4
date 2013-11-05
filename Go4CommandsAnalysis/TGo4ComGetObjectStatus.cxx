@@ -44,37 +44,28 @@ Int_t TGo4ComGetObjectStatus::ExeCom()
 {
    GO4TRACE((12,"TGo4ComGetObjectStatus::ExeCom()",__LINE__, __FILE__));
 
-   if (fxReceiverBase!=0)
-      {
-      GO4TRACE((11,"TGo4ComGetObjectStatus::ExeCom() - found valid receiver",__LINE__, __FILE__));
-         TGo4Log::Debug(" Executing %s : Object %s Status requested ",
-            GetName(), GetObjectName());
-         TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-         TGo4Analysis* ana=TGo4Analysis::Instance();
-         TGo4ObjectStatus* state= ana->CreateObjectStatus(GetObjectName(), GetFolderName());
-         if(state)
-            {
-               TString name=state->GetName();      // workaround for the case that
-               name.Append("_status");      // histogram is in monitoring list
-               state->SetName(name.Data());
-               cli->SendObject(state, GetTaskName());
-               delete state; // SendObject will stream state, but not delete it!
-            }
-         else
-            {
-               cli->SendStatusMessage(3, kTRUE,TString::Format(
-                     "GetObjectStatus - ERROR:  no such object %s in folder %s",
-                      GetObjectName(), GetFolderName()));
-            }
-
-      }
-
-   else
-
-       {
+   TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
+   if (cli==0) {
       GO4TRACE((11,"TGo4ComGetObjectStatus::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
-         TGo4Log::Debug(" !!! %s : NO RECEIVER ERROR!!!",GetName());
-         return 1;
-      }
+      TGo4Log::Debug(" !!! %s : NO RECEIVER ERROR!!!",GetName());
+      return 1;
+   }
+
+   GO4TRACE((11,"TGo4ComGetObjectStatus::ExeCom() - found valid receiver",__LINE__, __FILE__));
+   TGo4Log::Debug(" Executing %s : Object %s Status requested ", GetName(), GetObjectName());
+   TGo4Analysis* ana = TGo4Analysis::Instance();
+   TGo4ObjectStatus* state = ana ? ana->CreateObjectStatus(GetObjectName(), GetFolderName()) : 0;
+   if(state) {
+      TString name = state->GetName();      // workaround for the case that
+      name.Append("_status");      // histogram is in monitoring list
+      state->SetName(name.Data());
+      cli->SendObject(state, GetTaskName());
+      delete state; // SendObject will stream state, but not delete it!
+   } else {
+      cli->SendStatusMessage(3, kTRUE,TString::Format(
+            "GetObjectStatus - ERROR:  no such object %s in folder %s",
+            GetObjectName(), GetFolderName()));
+   }
+
    return -1;
 }

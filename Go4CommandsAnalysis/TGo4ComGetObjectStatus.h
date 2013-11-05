@@ -23,15 +23,15 @@
  * @since 06-Jun-2001
  */
 class TGo4ComGetObjectStatus : public TGo4AnalysisObjectCommand {
-  public:
+   public:
 
-    TGo4ComGetObjectStatus();
+      TGo4ComGetObjectStatus();
 
-    TGo4ComGetObjectStatus(const char* obname);
+      TGo4ComGetObjectStatus(const char* obname);
 
-    virtual ~TGo4ComGetObjectStatus();
+      virtual ~TGo4ComGetObjectStatus();
 
-    Int_t ExeCom();
+      virtual Int_t ExeCom();
 
   ClassDef(TGo4ComGetObjectStatus,1)
 };

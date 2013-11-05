@@ -31,49 +31,48 @@
  */
 
 class TGo4ComAddTreeHistogram : public TGo4AnalysisCommand {
-  public:
+   public:
 
-    TGo4ComAddTreeHistogram();
+      TGo4ComAddTreeHistogram();
 
-    TGo4ComAddTreeHistogram(const char* histogramname, const char* treename,const char* varexp, const char* cut);
+      TGo4ComAddTreeHistogram(const char* histogramname, const char* treename,const char* varexp, const char* cut);
 
-    virtual ~TGo4ComAddTreeHistogram();
+      virtual ~TGo4ComAddTreeHistogram();
 
-    Int_t ExeCom();
+      virtual Int_t ExeCom();
 
-    /** Set internals of this command from specification of external
-     * remote command (command container). Must be overloaded
-     * for each specific command! */
-    virtual void Set(TGo4RemoteCommand* remcon);
+      /** Set internals of this command from specification of external
+       * remote command (command container). Must be overloaded
+       * for each specific command! */
+      virtual void Set(TGo4RemoteCommand* remcon);
 
+      /** Set histogram (dynamic entry) name. */
+      void SetHistogramName(const char* name) { fxHistoName = name; }
 
-    /** Set histogram (dynamic entry) name. */
-    void SetHistogramName(const char* name) { fxHistoName = name; }
+      /** Set tree name. */
+      void SetTreeName(const char* name) { fxTreeName = name; }
 
-    /** Set tree name. */
-    void SetTreeName(const char* name) { fxTreeName = name; }
+      /** Set dynamic entry index name. */
+      void SetVarexp(const char* exp) { fxVarexp = exp; }
 
-    /** Set dynamic entry index name. */
-    void SetVarexp(const char* exp) { fxVarexp = exp; }
+      /** Set TCut to be applied on this tree histogram. */
+      void SetCut(const char* cut) { fxCut = cut; }
 
-    /** Set TCut to be applied on this tree histogram. */
-    void SetCut(const char* cut) { fxCut = cut; }
+   private:
 
-  private:
+      /** Name of the histogram for dynamic list. */
+      TString fxHistoName;
 
-    /** Name of the histogram for dynamic list. */
-    TString fxHistoName;
+      /** Name of Tree linked to that histogram. */
+      TString fxTreeName;
 
-    /** Name of Tree linked to that histogram. */
-    TString fxTreeName;
+      /** Variable expression defining what to draw in the histogram. */
+      TString fxVarexp;
 
-    /** Variable expression defining what to draw in the histogram. */
-    TString fxVarexp;
+      /** String with cut expression. */
+      TString fxCut;
 
-    /** String with cut expression. */
-    TString fxCut;
-
-  ClassDef(TGo4ComAddTreeHistogram,1)
+   ClassDef(TGo4ComAddTreeHistogram,1)
 };
 
 #endif //TGO4COMADDTREEHISTOGRAM_H

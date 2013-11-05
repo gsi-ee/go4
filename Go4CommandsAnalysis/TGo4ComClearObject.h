@@ -24,15 +24,15 @@
  * @since 06-Jun-2001
  */
 class TGo4ComClearObject : public TGo4AnalysisObjectCommand {
-  public:
+   public:
 
-    TGo4ComClearObject();
+      TGo4ComClearObject();
 
-    TGo4ComClearObject(const char* obname);
+      TGo4ComClearObject(const char* obname);
 
-    virtual ~TGo4ComClearObject();
+      virtual ~TGo4ComClearObject();
 
-    Int_t ExeCom();
+      virtual Int_t ExeCom();
 
   ClassDef(TGo4ComClearObject,1)
 };

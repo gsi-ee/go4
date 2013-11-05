@@ -45,9 +45,6 @@ class TGo4Command  : public TNamed {
       /** Do the command action */
       virtual Int_t ExeCom();
 
-      /** For undo functionality (not yet impl.)*/
-      virtual Int_t UnExeCom();
-
       /** Optional action if command is not allowed (warning message e.g.) */
       virtual Int_t RefuseCom();
 

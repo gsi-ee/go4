@@ -16,8 +16,8 @@
 #include "TGo4Log.h"
 #include "TGo4Task.h"
 
-TGo4TaskHandlerCommand::TGo4TaskHandlerCommand(const char* name, const char* description)
-: TGo4Command(name,description,5)
+TGo4TaskHandlerCommand::TGo4TaskHandlerCommand(const char* name, const char* description) :
+   TGo4Command(name,description,5)
 {
    fbIsEnabled=kTRUE;
    fbIsSynchron=kTRUE;
@@ -26,8 +26,8 @@ TGo4TaskHandlerCommand::TGo4TaskHandlerCommand(const char* name, const char* des
    SetProtection(kGo4ComModeController); // only controller connection may execute these commands
 }
 
-TGo4TaskHandlerCommand::TGo4TaskHandlerCommand()
-: TGo4Command()
+TGo4TaskHandlerCommand::TGo4TaskHandlerCommand() :
+   TGo4Command()
 {
    fbIsEnabled=kTRUE;
    fbIsSynchron=kTRUE;
@@ -38,12 +38,8 @@ TGo4TaskHandlerCommand::TGo4TaskHandlerCommand()
 }
 
 
-TGo4TaskHandlerCommand::~TGo4TaskHandlerCommand()
-{
-}
-
-TGo4TaskHandlerCommand::TGo4TaskHandlerCommand(const TGo4TaskHandlerCommand &right)
-  :TGo4Command(right)
+TGo4TaskHandlerCommand::TGo4TaskHandlerCommand(const TGo4TaskHandlerCommand &right) :
+   TGo4Command(right)
 {
 }
 

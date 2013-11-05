@@ -24,14 +24,14 @@
  * @since 06-Jun-2001
  */
 class TGo4ComDeleteObject : public TGo4AnalysisObjectCommand {
-  public:
-    TGo4ComDeleteObject();
+   public:
+      TGo4ComDeleteObject();
 
-    TGo4ComDeleteObject(const char* obname);
+      TGo4ComDeleteObject(const char* obname);
 
-    virtual ~TGo4ComDeleteObject();
+      virtual ~TGo4ComDeleteObject();
 
-    Int_t ExeCom();
+      virtual Int_t ExeCom();
 
   ClassDef(TGo4ComDeleteObject,1)
 };
