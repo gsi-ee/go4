@@ -15,6 +15,8 @@ class TGo4DabcSniffer : public dabc_root::RootSniffer,
 
       virtual int ExecuteCommand(dabc::Command cmd);
 
+      virtual int ProcessGetBinary(dabc::Command cmd);
+
    public:
       TGo4DabcSniffer(const std::string& name, dabc::Command cmd = 0);
 

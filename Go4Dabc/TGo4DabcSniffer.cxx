@@ -8,6 +8,7 @@
 #include "TGo4AnalysisClient.h"
 #include "TGo4Ratemeter.h"
 #include "TGo4Log.h"
+#include "TGo4LockGuard.h"
 
 #include "dabc/Hierarchy.h"
 
@@ -98,7 +99,6 @@ void TGo4DabcSniffer::InitializeHierarchy()
    sub.CreateChild("CmdStart").SetField(dabc::prop_kind, "DABC.Command");
    sub.CreateChild("CmdStop").SetField(dabc::prop_kind, "DABC.Command");
 
-
    sub.EnableHistory(200, true);
 }
 
@@ -106,8 +106,11 @@ void TGo4DabcSniffer::InitializeHierarchy()
 void* TGo4DabcSniffer::ScanRootHierarchy(dabc::Hierarchy& h, const char* searchpath)
 {
    TGo4AnalysisObjectManager* om(0);
-   if (TGo4Analysis::Instance())
+   TGo4AnalysisClient* cli(0);
+   if (TGo4Analysis::Instance()) {
       om = TGo4Analysis::Instance()->ObjectManager();
+      cli = TGo4Analysis::Instance()->GetAnalysisClient();
+   }
 
    if (om==0) return dabc_root::RootSniffer::ScanRootHierarchy(h, searchpath);
 
@@ -116,7 +119,12 @@ void* TGo4DabcSniffer::ScanRootHierarchy(dabc::Hierarchy& h, const char* searchp
 
    if (searchpath==0) h.Field(dabc::prop_kind).SetStr("GO4.Analysis");
 
-   if (!res) res = ScanListHierarchy(h, searchpath, om->GetObjectFolder()->GetListOfFolders(), 0);
+   if (cli) {
+      TGo4LockGuard mainlock;
+      if (!res) res = ScanListHierarchy(h, searchpath, om->GetObjectFolder()->GetListOfFolders(), 0);
+   } else {
+      if (!res) res = ScanListHierarchy(h, searchpath, om->GetObjectFolder()->GetListOfFolders(), 0);
+   }
 
    return res;
 }
@@ -166,3 +174,18 @@ int TGo4DabcSniffer::ExecuteCommand(dabc::Command cmd)
 
    return dabc_root::RootSniffer::ExecuteCommand(cmd);
 }
+
+int TGo4DabcSniffer::ProcessGetBinary(dabc::Command cmd)
+{
+   TGo4Analysis* an = TGo4Analysis::Instance();
+   TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : 0;
+
+   // when working with the client, timer is processed in other thread and we need to lock main go4 mutex
+   if (cli!=0) {
+      TGo4LockGuard mainlock;
+      return dabc_root::RootSniffer::ProcessGetBinary(cmd);
+   } else {
+      return dabc_root::RootSniffer::ProcessGetBinary(cmd);
+   }
+}
+

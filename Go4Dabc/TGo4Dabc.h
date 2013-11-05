@@ -3,8 +3,6 @@
 
 class TGo4Dabc {
    public:
-      TGo4Dabc() {}
-      ~TGo4Dabc() {}
 
       static bool StartHttpServer(int port);
 
