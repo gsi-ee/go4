@@ -54,6 +54,8 @@ class TGo4DabcProxy : public TGo4Proxy {
 
       void RefreshNamesList();
 
+      static const char* GetDabcVersion();
+
    ClassDef(TGo4DabcProxy, 1);
 };
 

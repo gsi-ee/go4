@@ -29,7 +29,7 @@
 /**
 *  QRootApplication
 *
-*  This class creates Qt environement that will
+*  This class creates Qt environment that will
 *  interface with the ROOT windowing system eventloop and eventhandlers.
 *  via a polling mechanism.
 *

@@ -26,6 +26,7 @@
 #include "TGo4Slot.h"
 
 #include "dabc/api.h"
+#include "dabc/version.h"
 #include "dabc/Hierarchy.h"
 #include "dabc/Manager.h"
 #include "dabc/Publisher.h"
@@ -644,6 +645,11 @@ TGo4DabcProxy::~TGo4DabcProxy()
    }
 }
 
+const char* TGo4DabcProxy::GetDabcVersion()
+{
+   return DABC_RELEASE;
+}
+
 Bool_t TGo4DabcProxy::Connect(const char* nodename)
 {
    if (!dabc::CreateManager("cmd", 0)) return kFALSE;
@@ -808,6 +814,11 @@ TGo4DabcProxy::TGo4DabcProxy() :
 
 TGo4DabcProxy::~TGo4DabcProxy()
 {
+}
+
+const char* TGo4DabcProxy::GetDabcVersion()
+{
+   return 0;
 }
 
 Bool_t TGo4DabcProxy::Connect(const char* nodename)

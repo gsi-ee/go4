@@ -28,6 +28,7 @@
 #include "TGo4Version.h"
 #include "TGo4MainWindow.h"
 #include "TGo4BrowserProxy.h"
+#include "TGo4DabcProxy.h"
 #include "TGo4BufferQueue.h"
 #include "TGo4QSettings.h"
 #include "TGo4AbstractInterface.h"
@@ -169,8 +170,11 @@ int main(int argc, char **argv)
    if(traceon) TGo4Log::SetIgnoreLevel(0);
           else TGo4Log::SetIgnoreLevel(1);
 
-   std::cout << "   Go4 " << __GO4RELEASE__
-        << ",   build with ROOT " << ROOT_RELEASE << " and Qt " << QT_VERSION_STR << std::endl;
+   const char* dabc_vers = TGo4DabcProxy::GetDabcVersion();
+
+   std::cout << "   Go4 " << __GO4RELEASE__ << ",   build with ROOT " << ROOT_RELEASE;
+   if (dabc_vers) std::cout << ", DABC " << dabc_vers;
+   std::cout << " and Qt " << QT_VERSION_STR << std::endl;
    // create instance, which should be used everywhere
 
    TGo4MainWindow* Go4MainGUI = new TGo4MainWindow(&myapp);

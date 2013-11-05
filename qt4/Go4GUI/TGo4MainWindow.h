@@ -73,6 +73,7 @@ class TGo4MainWindow : public QMainWindow {
       void about();
       void aboutQt();
       void aboutROOT();
+      void aboutDABC();
       void windowsMenuAboutToShow();
       void AddAnalysisBar();
       void AddAnalysisMenu();
