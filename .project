@@ -10,7 +10,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1311588976098</id>
+			<id>1383645062529</id>
 			<name></name>
 			<type>6</type>
 			<matcher>
@@ -19,7 +19,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1311588976115</id>
+			<id>1383645062711</id>
 			<name></name>
 			<type>26</type>
 			<matcher>
@@ -28,7 +28,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1311588976140</id>
+			<id>1383645062832</id>
 			<name></name>
 			<type>26</type>
 			<matcher>
@@ -37,7 +37,7 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1311588976156</id>
+			<id>1383645062917</id>
 			<name></name>
 			<type>26</type>
 			<matcher>
@@ -46,30 +46,57 @@
 			</matcher>
 		</filter>
 		<filter>
-			<id>1311588976173</id>
+			<id>1383645062947</id>
 			<name></name>
-			<type>6</type>
+			<type>22</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
 				<arguments>1.0-name-matches-false-false-*.hotstart</arguments>
 			</matcher>
 		</filter>
 		<filter>
-			<id>1311588976190</id>
+			<id>1383645062973</id>
 			<name></name>
-			<type>6</type>
+			<type>22</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
 				<arguments>1.0-name-matches-false-false-*.root</arguments>
 			</matcher>
 		</filter>
 		<filter>
-			<id>1311588976206</id>
+			<id>1383645062998</id>
 			<name></name>
 			<type>26</type>
 			<matcher>
 				<id>org.eclipse.ui.ide.multiFilter</id>
 				<arguments>1.0-name-matches-false-false-.moc</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1383645063024</id>
+			<name></name>
+			<type>22</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-*.d</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1383645063049</id>
+			<name></name>
+			<type>22</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-G__*.*</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1383645063077</id>
+			<name></name>
+			<type>26</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-include</arguments>
 			</matcher>
 		</filter>
 	</filteredResources>

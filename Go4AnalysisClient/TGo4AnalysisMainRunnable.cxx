@@ -33,10 +33,11 @@
 
 const UInt_t TGo4AnalysisMainRunnable::fguPOLLINTERVAL=1000;
 
-TGo4AnalysisMainRunnable::TGo4AnalysisMainRunnable(const char* name, TGo4AnalysisClient* cli)
-: TGo4Runnable(name,cli->GetTask()), fxAnalysisClient(cli)
+TGo4AnalysisMainRunnable::TGo4AnalysisMainRunnable(const char* name, TGo4AnalysisClient* cli) :
+   TGo4Runnable(name,cli->GetTask()),
+   fxAnalysisClient(cli)
 {
-   fxAnalysis=cli->GetAnalysis();
+   fxAnalysis = cli->GetAnalysis();
 }
 
 TGo4AnalysisMainRunnable::~TGo4AnalysisMainRunnable()
@@ -48,11 +49,11 @@ Int_t TGo4AnalysisMainRunnable::PostRun(void * )
 {
    //std::cout << "test of main runnable postrun "<< std::endl;
    if (fxAnalysisClient && fxAnalysisClient->MainIsRunning() && !fxAnalysisClient->IsServer()) fxAnalysis->PostLoop();
-      // only execute postloop here if client was quit without stopping before
-      // otherwise, TGo4AnalysisClient::Stop() has already called PostLoop
-      // note that server shutdown will call postloop explicitely
-      // note that any client disconnecting from server should NOT call pre/postloop,
-      // so server prerun/postrun have no op
+   // only execute postloop here if client was quit without stopping before
+   // otherwise, TGo4AnalysisClient::Stop() has already called PostLoop
+   // note that server shutdown will call postloop explicitely
+   // note that any client disconnecting from server should NOT call pre/postloop,
+   // so server prerun/postrun have no op
    return 0;
 }
 
@@ -61,8 +62,8 @@ Int_t TGo4AnalysisMainRunnable::PreRun(void * )
    GO4TRACE((12,"TGo4AnalysisMainRunnable::PreRun()",__LINE__, __FILE__));
    //std::cout << "test of main runnable prerun "<< std::endl;
    //fxAnalysis->PreLoop();
-      // this thread will never be stopped during analysis lifetime!
-      // preloop execution is obsolete here now, because AnalysisClient::Start will do that for us!
+   // this thread will never be stopped during analysis lifetime!
+   // preloop execution is obsolete here now, because AnalysisClient::Start will do that for us!
    return 0;
 }
 
@@ -72,7 +73,7 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
    //
    try
    {
-      TGo4Command* com=fxAnalysisClient->NextCommand();
+      TGo4Command* com = fxAnalysisClient->NextCommand();
       //if(com== (TGo4Command*) -1) return 0; // for command memleak debug: no execute, no mainloop
       if(com)
       {

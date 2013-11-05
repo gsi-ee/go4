@@ -18,28 +18,17 @@
 #include "TGo4ServerTask.h"
 #include "TGo4TaskManager.h"
 
-TGo4ConnectorRunnable::TGo4ConnectorRunnable(const char* name, TGo4ServerTask* man)
-   :TGo4Runnable(name,man)
+TGo4ConnectorRunnable::TGo4ConnectorRunnable(const char* name, TGo4ServerTask* man) :
+   TGo4Runnable(name,man)
 {
-   fxTaskManager=man->GetTaskManager();
-}
-
-TGo4ConnectorRunnable::~TGo4ConnectorRunnable()
-{
+   fxTaskManager = man->GetTaskManager();
 }
 
 Int_t TGo4ConnectorRunnable::Run(void* ptr)
 {
    // create new taskhandler and connect server to  client:
-   Int_t rev= fxTaskManager->ServeClient();
-   if(rev< -1)
-      {
-         //std::cout <<"TGo4ConnectorRunnable::Run sees rev="<<rev << std::endl;
-         fxGo4Thread->Stop(); // stop runnable for termination
-      }
-   else
-      {
-         // go on
-      }
+   Int_t rev = fxTaskManager->ServeClient();
+   // stop runnable for termination
+   if (rev<-1) fxGo4Thread->Stop();
    return rev;
 }

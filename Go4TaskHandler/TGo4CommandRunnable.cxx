@@ -33,12 +33,12 @@
 TGo4CommandRunnable::TGo4CommandRunnable(const char* name,
                                          TGo4ThreadManager* man,
                                          TGo4TaskHandler* hand,
-                                         Bool_t receivermode)
-   :TGo4TaskHandlerRunnable(name,man,hand,receivermode)
+                                         Bool_t receivermode) :
+   TGo4TaskHandlerRunnable(name,man,hand,receivermode)
 {
-   fxBufferQueue=dynamic_cast<TGo4BufferQueue*> (fxTaskHandler->GetCommandQueue() );
-   fxTransport=fxTaskHandler->GetCommandTransport();
-   fxInvoker=TGo4CommandInvoker::Instance();
+   fxBufferQueue = dynamic_cast<TGo4BufferQueue*> (fxTaskHandler->GetCommandQueue() );
+   fxTransport = fxTaskHandler->GetCommandTransport();
+   fxInvoker = TGo4CommandInvoker::Instance();
 }
 
 
@@ -63,8 +63,8 @@ Int_t TGo4CommandRunnable::Run(void* ptr)
              fxTransport->Send(TGo4TaskHandler::Get_fgcOK()); //acknowledge before execute
              TGo4Task* cli = dynamic_cast<TGo4Task*>(fxManager);
                // we have a direct command, execute this here:
-             TGo4ComQuit* qcommand=0;
-             Go4EmergencyCommand_t comvalue= (Go4EmergencyCommand_t) (val);
+             TGo4ComQuit* qcommand = 0;
+             Go4EmergencyCommand_t comvalue = (Go4EmergencyCommand_t) (val);
              // test here for different command values
              switch(comvalue)
                 {

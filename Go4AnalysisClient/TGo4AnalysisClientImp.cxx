@@ -149,14 +149,14 @@ void TGo4AnalysisClient::Constructor(Bool_t starthistserv, const char* basename,
 
    TGo4AnalysisMainRunnable* mainrun =
       new TGo4AnalysisMainRunnable(Form("MainRunnable of %s",GetName()), this);
-   TGo4AnalysisWatchRunnable* watchrun=
+   TGo4AnalysisWatchRunnable* watchrun =
       new TGo4AnalysisWatchRunnable(Form("WatchRunnable of %s",GetName()), this);
 
       // adding runnables to thread handler who takes over the responsibility...:
-   TGo4ThreadHandler* th=GetThreadHandler();
-   th->NewThread(fcMainName.Data(),mainrun);
+   TGo4ThreadHandler* th = GetThreadHandler();
+   th->NewThread(fcMainName.Data(), mainrun);
+   th->NewThread(fcWatchName.Data(), watchrun);
 
-   th->NewThread(fcWatchName.Data(),watchrun);
    TGo4CommandInvoker::Instance(); // make sure we have an invoker instance!
    TGo4CommandInvoker::SetCommandList(new TGo4AnalysisCommandList);
    TGo4CommandInvoker::Register("AnalysisClient",this); // register as command receiver at the global invoker
@@ -558,11 +558,10 @@ Int_t TGo4AnalysisClient::StartWorkThreads()
 {
    //std::cout <<"++++++++TGo4AnalysisClient::StartWorkThreads()" << std::endl;
    TGo4TaskOwner::StartWorkThreads();
-   if(GetThreadHandler())
-      {
-         GetThreadHandler()->Start(fcMainName.Data());
-         GetThreadHandler()->Start(fcWatchName.Data());
-      }
+   if(GetThreadHandler()) {
+      GetThreadHandler()->Start(fcMainName.Data());
+      GetThreadHandler()->Start(fcWatchName.Data());
+   }
    return 0;
 }
 
@@ -570,11 +569,10 @@ Int_t TGo4AnalysisClient::StopWorkThreads()
 {
    //std::cout <<"++++++++TGo4AnalysisClient::StopWorkThreads()" << std::endl;
    TGo4TaskOwner::StopWorkThreads();
-   if(GetThreadHandler())
-      {
+   if(GetThreadHandler()) {
       GetThreadHandler()->Stop(fcMainName.Data());
       GetThreadHandler()->Stop(fcWatchName.Data());
-      }
+   }
    return 0;
 }
 

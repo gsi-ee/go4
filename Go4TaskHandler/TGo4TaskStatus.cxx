@@ -32,6 +32,7 @@ TGo4TaskStatus::TGo4TaskStatus(const char* name) :
 TGo4TaskStatus::~TGo4TaskStatus()
 {
    delete fxTaskHandlerStatus;
+   fxTaskHandlerStatus = 0;
 }
 
 void TGo4TaskStatus::SetFlags(Bool_t blocking,
@@ -48,14 +49,14 @@ void TGo4TaskStatus::SetFlags(Bool_t blocking,
 }
 void TGo4TaskStatus::SetTaskHandlerStatus(TGo4TaskHandlerStatus* thstate)
 {
-   fxTaskHandlerStatus=thstate;
-
+   fxTaskHandlerStatus = thstate;
 }
+
 Int_t TGo4TaskStatus::PrintStatus(Text_t* buffer, Int_t buflen)
 {
    //
-   if(buflen<=0 && buffer!=0)
-      return 0;
+   if(buflen<=0 && buffer!=0) return 0;
+
    Int_t locallen=4096;
    Text_t localbuf[4096];
    Text_t* current=localbuf;

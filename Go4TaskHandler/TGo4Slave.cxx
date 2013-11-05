@@ -23,9 +23,9 @@
 #include "TGo4CommandInvoker.h"
 #include "TGo4TaskHandlerCommandList.h"
 
-TGo4Slave::TGo4Slave(const char* name, Bool_t isserver, const char* serverhost, UInt_t negotport)
-:TGo4TaskOwner(isserver),
- fbMainIsRunning(kTRUE)
+TGo4Slave::TGo4Slave(const char* name, Bool_t isserver, const char* serverhost, UInt_t negotport) :
+   TGo4TaskOwner(isserver),
+   fbMainIsRunning(kTRUE)
 {
    TGo4CommandInvoker::Instance(); // make sure a command invoker exists
    TGo4CommandInvoker::SetCommandList(new TGo4TaskHandlerCommandList("ListOfTaskHandlerCommands"));
@@ -113,13 +113,8 @@ void TGo4Slave::UpdateStatus(TGo4TaskStatus* state)
 
 TGo4Command* TGo4Slave::NextCommand()
 {
-   if(GetTask())
-      return (GetTask()->NextCommand());
-   else
-      return 0;
+   return GetTask() ? GetTask()->NextCommand() : 0;
 }
-
-
 
 void TGo4Slave::SendObject(TObject * obj, const char* receiver)
 {

@@ -9,6 +9,7 @@
 #include "TGo4Ratemeter.h"
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
+#include "TGo4Task.h"
 
 #include "dabc/Hierarchy.h"
 
@@ -41,11 +42,11 @@ class TExecDabcCmdTimer : public TTimer {
                if (an) { an->ClearObjects("Histograms"); fSniffer->StatusMessage(0, "Clear Histograms folder"); }
             } else
             if (fCmd.IsName("CmdStart")) {
-               if (cli) cli->Start(); else
+               if (cli) { cli->GetTask()->SubmitCommand("THStart"); /* cli->Start(); */ } else
                if (an) { an->ResumeWorking(); fSniffer->StatusMessage(0, "Resume analysis loop"); }
             } else
             if (fCmd.IsName("CmdStop")) {
-               if (cli) cli->Stop(); else
+               if (cli) { cli->GetTask()->SubmitCommand("THStop"); /* cli->Stop(); */ } else
                if (an) { an->SuspendWorking(); fSniffer->StatusMessage(0, "Suspend analysis loop"); }
             }
 

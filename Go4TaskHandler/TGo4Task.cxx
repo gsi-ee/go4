@@ -362,18 +362,18 @@ TGo4Command* TGo4Task::NextCommand()
    if(IsMaster()) return 0;
    TGo4Command* com=0;
    TObject* obj=0;
-   TGo4BufferQueue * comq=GetCommandQueue();
+   TGo4BufferQueue * comq = GetCommandQueue();
    if(comq==0) return 0;
    if(!comq->IsEmpty() || (fxSlave!=0 && !fxSlave->MainIsRunning() ) )
       {
          // put new command out of queue
          // or wait for command if analysis is stopped
-         obj=comq->WaitObjectFromBuffer();
+         obj = comq->WaitObjectFromBuffer();
          if(obj)
            {
               if(obj->InheritsFrom(TGo4Command::Class()))
                  {
-                     com= dynamic_cast<TGo4Command*>(obj);
+                     com = dynamic_cast<TGo4Command*>(obj);
                      com->SetTaskName("current");
                      com->SetMode(kGo4ComModeController);
                  }
@@ -393,6 +393,7 @@ TGo4Command* TGo4Task::NextCommand()
       }
    return com;
 }
+
 Int_t TGo4Task::Initialization()
 {
    // this method will be called by the application control timer every timerperiod
@@ -458,12 +459,12 @@ Bool_t TGo4Task::SubmitCommand(const char* name)
    else
       {
          //  TGo4Command* com=0;
-         TGo4Command* com=MakeCommand(name);
+         TGo4Command* com = MakeCommand(name);
          if(com==0) // only encapsulate commands that are not known here
          {
          // try simple command with remote command envelope:
             TGo4LockGuard mainlock;
-            com= new TGo4RemoteCommand(name);
+            com = new TGo4RemoteCommand(name);
             //std::cout <<"submitted remote command of "<<name << std::endl;
          }
          return (SubmitCommand(com)) ;
@@ -471,8 +472,8 @@ Bool_t TGo4Task::SubmitCommand(const char* name)
 }
 Bool_t TGo4Task::SubmitEmergencyCommand(Go4EmergencyCommand_t val)
 {
-TGo4BufferQueue* queue=GetCommandQueue();
-if(queue!=0)
+   TGo4BufferQueue* queue = GetCommandQueue();
+   if(queue!=0)
    {
       // we have an active command queue...
          if(val==kComQuit)
@@ -482,13 +483,13 @@ if(queue!=0)
             }
          else
             {
-               TBuffer* commandbuffer=TGo4BufferQueue::CreateValueBuffer((UInt_t) val);
+               TBuffer* commandbuffer = TGo4BufferQueue::CreateValueBuffer((UInt_t) val);
                queue->AddBuffer(commandbuffer); // put command into queue
             }
 
          return kTRUE;
    }
-return kFALSE;
+   return kFALSE;
 }
 
 Bool_t TGo4Task::SubmitEmergencyData(Go4EmergencyCommand_t val, const char* receiver)

@@ -41,6 +41,7 @@ TGo4TaskOwner::~TGo4TaskOwner()
    if(fxTask!=0)
       fxTask->SetOwner(0); // avoid the task to delete us again in dtor
    delete fxTask;
+   fxTask = 0;
 }
 
 const char* TGo4TaskOwner::GetName() const
@@ -66,6 +67,7 @@ Int_t TGo4TaskOwner::StartWorkThreads()
    fxTask->SetWorkIsStopped(kFALSE);
    return 0;
 }
+
 Int_t TGo4TaskOwner::StopWorkThreads()
 {
    TGo4Log::Debug(" Task Owner: default StopWorkThreads() ");
@@ -73,55 +75,38 @@ Int_t TGo4TaskOwner::StopWorkThreads()
    return 0;
 }
 
-
 Bool_t TGo4TaskOwner::IsConnected()
 {
-if(IsServer())
-   {
-      TGo4ServerTask* server=dynamic_cast<TGo4ServerTask*>(GetTask());
-      if(server==0)
-         {
-            std::cerr <<"NEVER COME HERE: servermode without servertask in taskowner "<< GetName() << std::endl;
-            return kFALSE;
-         }
+   if(IsServer()) {
+      TGo4ServerTask* server = dynamic_cast<TGo4ServerTask*>(GetTask());
+      if(server==0) {
+         std::cerr <<"NEVER COME HERE: servermode without servertask in taskowner "<< GetName() << std::endl;
+         return kFALSE;
+      }
       return (server->GetCurrentTaskHandler()!=0);
    }
-else
-   {
-      TGo4ClientTask* client=dynamic_cast<TGo4ClientTask*>(GetTask());
-      if(client==0)
-         {
-            std::cerr <<"NEVER COME HERE: clientmode without clienttask in taskowner "<< GetName() << std::endl;
-            return kFALSE;
-         }
-      return (client->IsConnected());
-   }
 
+   TGo4ClientTask* client = dynamic_cast<TGo4ClientTask*>(GetTask());
+   if(client==0) {
+       std::cerr <<"NEVER COME HERE: clientmode without clienttask in taskowner "<< GetName() << std::endl;
+       return kFALSE;
+   }
+   return client->IsConnected();
 }
 
 
 Bool_t TGo4TaskOwner::IsBeingQuit()
 {
-	if(fxTask)
-		return fxTask->IsBeingQuit();
-	else
-		return kFALSE;
+   return fxTask ? fxTask->IsBeingQuit() : kFALSE;
 }
 
 
 TMutex* TGo4TaskOwner::GetTaskManagerMutex()
 {
-if(IsServer())
-   {
-   TGo4ServerTask* serv=dynamic_cast<TGo4ServerTask*>(GetTask());
-   if(serv)
-         return (serv->GetTaskManager()->GetMutex());
-   else
-         return 0;
+   if(IsServer()) {
+      TGo4ServerTask* serv = dynamic_cast<TGo4ServerTask*>(GetTask());
+      if(serv) return serv->GetTaskManager()->GetMutex();
    }
-else
-{
   return 0;
-}
 }
 

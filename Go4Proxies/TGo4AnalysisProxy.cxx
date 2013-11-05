@@ -1010,7 +1010,7 @@ void TGo4AnalysisProxy::WriteAutoSave(const char* fname,
 //   com->SetAutoFileName(fname);
 //   com->SetAutoSaveCompression(complevel);
 //   com->SetAutoSaveOverwrite(overwrite);
-   TGo4RemoteCommand* com= new TGo4RemoteCommand("ANAutosave");
+   TGo4RemoteCommand* com = new TGo4RemoteCommand("ANAutosave");
    com->SetString(fname,0); // name of asf file
    com->SetValue(complevel,0); // file compression level
    com->SetValue(overwrite,1); // overwrite on or off
@@ -1040,8 +1040,7 @@ void TGo4AnalysisProxy::ClearAnalysisObject(const char* fullpath)
 {
    TString foldername, objectname;
    TGo4Slot::ProduceFolderAndName(fullpath, foldername, objectname);
-//   TGo4ComClearObject* com = new TGo4ComClearObject(objectname.Data());
-   TGo4RemoteCommand* com= new TGo4RemoteCommand("ANClearObject");
+   TGo4RemoteCommand* com = new TGo4RemoteCommand("ANClearObject");
    com->SetString(objectname.Data(),0);
    fxDisplay->SubmitCommand(com);
 }
@@ -1050,8 +1049,7 @@ void TGo4AnalysisProxy::ChageObjectProtection(const char* fullpath, const char* 
 {
    TString foldername, objectname;
    TGo4Slot::ProduceFolderAndName(fullpath, foldername, objectname);
-//   TGo4ComSetProtections* com = new TGo4ComSetProtections(objectname.Data(), flags);
-   TGo4RemoteCommand* com= new TGo4RemoteCommand("ANSetProtect");
+   TGo4RemoteCommand* com = new TGo4RemoteCommand("ANSetProtect");
    com->SetString(objectname.Data(),0);
    com->SetString(flags,2);
    fxDisplay->SubmitCommand(com);
@@ -1068,8 +1066,6 @@ void TGo4AnalysisProxy::RemoveObjectFromAnalysis(const char* fullpath, TClass* c
 
 void TGo4AnalysisProxy::RequestAnalysisSettings()
 {
-//   TGo4ComGetAnalysisStatus* com = new TGo4ComGetAnalysisStatus;
-//   fxDisplay->SubmitCommand(com);
    fxDisplay->SubmitCommand("ANGetStatus");
 }
 
@@ -1080,8 +1076,7 @@ void TGo4AnalysisProxy::SubmitAnalysisSettings()
      status = dynamic_cast<TGo4AnalysisStatus*>(SettingsSlot()->GetAssignedObject());
    if (status!=0) {
       SetAnalysisSettingsReady(kFALSE);
-      //TGo4ComSetAnalysisStatus *com = new TGo4ComSetAnalysisStatus(status);
-      TGo4RemoteCommand* com= new TGo4RemoteCommand("ANSetStatus");
+      TGo4RemoteCommand* com = new TGo4RemoteCommand("ANSetStatus");
       com->SetAggregate(status);
       fxDisplay->SubmitCommand(com);
       fxDisplay->SubmitCommand("ANInit");
@@ -1100,7 +1095,7 @@ void TGo4AnalysisProxy::PrintDynListEntry(const char* fullpath)
 {
    TString foldername, objectname;
    TGo4Slot::ProduceFolderAndName(fullpath, foldername, objectname);
-   TGo4RemoteCommand* com= new TGo4RemoteCommand("ANPrdyn");
+   TGo4RemoteCommand* com = new TGo4RemoteCommand("ANPrdyn");
    com->SetString(objectname.Data(),0);
    fxDisplay->SubmitCommand(com);
 }
@@ -1130,8 +1125,7 @@ Bool_t TGo4AnalysisProxy::LaunchAsClient(TString& launchcmd,
 {
    if (fxDisplay==0) return kFALSE;
 
-   TGo4ServerTask* tsk = dynamic_cast<TGo4ServerTask*>
-      (fxDisplay->GetTask());
+   TGo4ServerTask* tsk = dynamic_cast<TGo4ServerTask*> (fxDisplay->GetTask());
    if (tsk==0) return kFALSE;
 
    Int_t guiport = tsk->GetTaskManager()->GetNegotiationPort();

@@ -36,7 +36,7 @@ class TGo4ConnectorRunnable : public TGo4Runnable {
 
       TGo4ConnectorRunnable(const char* name, TGo4ServerTask* man);
 
-      virtual ~TGo4ConnectorRunnable();
+      virtual ~TGo4ConnectorRunnable() {}
 
       virtual Int_t Run(void* ptr);
 
