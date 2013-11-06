@@ -22,31 +22,31 @@
  */
 
 class TGo4ComLoadAnalysisStatus : public TGo4AnalysisCommand {
-  public:
+   public:
 
-    TGo4ComLoadAnalysisStatus();
+      TGo4ComLoadAnalysisStatus();
 
-    TGo4ComLoadAnalysisStatus(const char* filename);
+      TGo4ComLoadAnalysisStatus(const char* filename);
 
-    virtual ~TGo4ComLoadAnalysisStatus();
+      virtual ~TGo4ComLoadAnalysisStatus();
 
-    Int_t ExeCom();
+      virtual Int_t ExeCom();
 
-     /** Set internals of this command from specification of external
-     * remote command (command container). Must be overloaded
-     * for each specific command! */
-    virtual void Set(TGo4RemoteCommand* remcon);
+      /** Set internals of this command from specification of external
+       * remote command (command container). Must be overloaded
+       * for each specific command! */
+      virtual void Set(TGo4RemoteCommand* remcon);
 
-    /** Access to the object name under command. */
-    const char* GetFileName() const { return fxFileName.Data(); }
+      /** Access to the object name under command. */
+      const char* GetFileName() const { return fxFileName.Data(); }
 
-    /** Set the object name under command. */
-    void SetFileName(const char* name) { fxFileName = name; }
+      /** Set the object name under command. */
+      void SetFileName(const char* name) { fxFileName = name; }
 
-  private:
+   private:
 
-     /** Name of the settings file. */
-     TString fxFileName;
+      /** Name of the settings file. */
+      TString fxFileName;
 
    ClassDef(TGo4ComLoadAnalysisStatus,1)
 };

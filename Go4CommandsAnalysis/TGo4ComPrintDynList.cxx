@@ -31,25 +31,19 @@ TGo4ComPrintDynList::~TGo4ComPrintDynList()
 Int_t TGo4ComPrintDynList::ExeCom()
 {
    TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if (cli!=0)
-      {
-         TGo4Analysis* ana= TGo4Analysis::Instance();
-         if(ana)
-            {
-               ana->PrintDynamicList();
-               cli->SendStatusMessage(1, kFALSE, TString::Format(
-                     "Analysis %s prints out dynamic list status.",ana->GetName()));
-            }
-         else
-            {
-                    cli->SendStatusMessage(3, kTRUE, TString::Format(
-                          " %s ERROR no analysis ",GetName()));
-            } // if(ana)
-      }
-   else
-      {
-         TGo4Log::Debug(" !!! ''%s'': NO RECEIVER ERROR!!!",GetName());
-         return 1;
-      }
+   if (cli==0) {
+      TGo4Log::Debug(" !!! ''%s'': NO RECEIVER ERROR!!!",GetName());
+      return 1;
+   }
+
+   TGo4Analysis* ana = TGo4Analysis::Instance();
+   if(ana) {
+      ana->PrintDynamicList();
+      cli->SendStatusMessage(1, kFALSE, TString::Format(
+            "Analysis %s prints out dynamic list status.",ana->GetName()));
+   } else {
+      cli->SendStatusMessage(3, kTRUE, TString::Format(
+            " %s ERROR no analysis ",GetName()));
+   } // if(ana)
    return -1;
 }

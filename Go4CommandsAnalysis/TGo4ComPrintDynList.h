@@ -21,15 +21,15 @@
  * May send this information to the gui later if option fbLocal is set to kFALSE.
  */
 class TGo4ComPrintDynList : public TGo4AnalysisCommand {
-public:
+   public:
 
-    TGo4ComPrintDynList();
+      TGo4ComPrintDynList();
 
-    virtual ~TGo4ComPrintDynList();
+      virtual ~TGo4ComPrintDynList();
 
-    Int_t ExeCom();
+      virtual Int_t ExeCom();
 
-  ClassDef(TGo4ComPrintDynList,1)
+   ClassDef(TGo4ComPrintDynList,1)
 };
 
 #endif //TGO4COMPRINTDYNLIST_H

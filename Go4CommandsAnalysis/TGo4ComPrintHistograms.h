@@ -21,14 +21,14 @@
  * May send this information to the gui later if option fbLocal is set to kFALSE.
  */
 class TGo4ComPrintHistograms : public TGo4AnalysisCommand {
-  public:
+   public:
 
-    TGo4ComPrintHistograms();
+      TGo4ComPrintHistograms();
 
-    virtual ~TGo4ComPrintHistograms();
+      virtual ~TGo4ComPrintHistograms();
 
-    Int_t ExeCom();
+      virtual Int_t ExeCom();
 
-  ClassDef(TGo4ComPrintHistograms,1)
+   ClassDef(TGo4ComPrintHistograms,1)
 };
 #endif //TGO4COMPRINTHISTOGRAMS_H

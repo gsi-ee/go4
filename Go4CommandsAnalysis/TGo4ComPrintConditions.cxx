@@ -17,8 +17,8 @@
 #include "TGo4AnalysisClientImp.h"
 #include "TGo4AnalysisImp.h"
 
-TGo4ComPrintConditions::TGo4ComPrintConditions()
-:TGo4AnalysisCommand("ANPrcon","Printout of condition counters")
+TGo4ComPrintConditions::TGo4ComPrintConditions() :
+   TGo4AnalysisCommand("ANPrcon","Printout of condition counters")
 {
    GO4TRACE((12,"TGo4ComPrintConditions::TGo4ComPrintConditions() ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
@@ -34,29 +34,23 @@ Int_t TGo4ComPrintConditions::ExeCom()
 {
    GO4TRACE((12,"TGo4ComPrintConditions::ExeCom() dtor",__LINE__, __FILE__));
 
-   TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if (cli!=0)
-      {
-      GO4TRACE((11,"TGo4ComPrintConditions::ExeCom() - found valid receiver",__LINE__, __FILE__));
-         TGo4Analysis* ana= TGo4Analysis::Instance();
-         if(ana)
-            {
-               ana->PrintConditions();
-               cli->SendStatusMessage(1, kFALSE,TString::Format(
-                     "Analysis %s prints out condition counters",ana->GetName()));
-            }
-         else
-            {
-                    cli->SendStatusMessage(3, kTRUE,TString::Format(
-                          " %s ERROR no analysis ",GetName()));
-            } // if(ana)
-      }
-   else
-      {
+   TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
+   if (cli==0) {
       GO4TRACE((11,"TGo4ComPrintConditions::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
-         TGo4Log::Debug(" !!! ''%s'': NO RECEIVER ERROR!!!",GetName());
-         return 1;
-      }
+      TGo4Log::Debug(" !!! ''%s'': NO RECEIVER ERROR!!!",GetName());
+      return 1;
+   }
+
+   GO4TRACE((11,"TGo4ComPrintConditions::ExeCom() - found valid receiver",__LINE__, __FILE__));
+   TGo4Analysis* ana = TGo4Analysis::Instance();
+   if(ana) {
+      ana->PrintConditions();
+      cli->SendStatusMessage(1, kFALSE,TString::Format(
+            "Analysis %s prints out condition counters",ana->GetName()));
+   } else {
+      cli->SendStatusMessage(3, kTRUE,TString::Format(
+            " %s ERROR no analysis ",GetName()));
+   } // if(ana)
 
    return -1;
 }

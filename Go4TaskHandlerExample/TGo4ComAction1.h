@@ -22,15 +22,15 @@
 
 class TGo4ComAction1 : public TGo4ExampleCommand {
 
-  public:
+   public:
 
-    TGo4ComAction1();
+      TGo4ComAction1();
 
-    virtual ~TGo4ComAction1();
+      virtual ~TGo4ComAction1();
 
-    Int_t ExeCom();
+      virtual Int_t ExeCom();
 
-    ClassDef(TGo4ComAction1,1)
+   ClassDef(TGo4ComAction1,1)
 };
 
 #endif //TGO4COMACTION1_H

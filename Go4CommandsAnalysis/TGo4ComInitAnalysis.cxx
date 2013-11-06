@@ -36,39 +36,35 @@ Int_t TGo4ComInitAnalysis::ExeCom()
 {
    GO4TRACE((12,"TGo4ComInitAnalysis::ExeCom()",__LINE__, __FILE__));
 
-   TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if (cli!=0)
-      {
-      GO4TRACE((11,"TGo4ComInitAnalysis::ExeCom() - found valid receiver",__LINE__, __FILE__));
-         TGo4Analysis* ana= TGo4Analysis::Instance();
-         if(ana)
-            {
-               cli->SendStatusMessage(2, kTRUE,"INITIALISING submitted settings, PLEASE WAIT...");
-               TGo4Thread::Sleep(1000);
-               if(ana->InitEventClasses())
-                  {
-                     cli->SendStatusMessage(1, kTRUE,TString::Format(
-                           "Analysis %s event classes were initialized.", ana->GetName()));
-                     if(cli->MainIsRunning())
-                        ana->PreLoop(); // re-init userpointers when init was done on the fly
-                  }
-               else
-                  {
-                     cli->SendStatusMessage(3, kTRUE, TString::Format(
-                           "Analysis %s initialization failed !!! ", ana->GetName()));
-                  }
-            }
-         else
-            {
-               cli->SendStatusMessage(3, kTRUE, TString::Format(" %s ERROR no analysis", GetName()));
-            }
-      }
-   else
-      {
+   TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
+   if (cli==0) {
       GO4TRACE((11,"TGo4ComInitAnalysis::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
-         TGo4Log::Debug(" !!! ComInitAnalysis ''%s'': NO RECEIVER ERROR!!!",GetName());
-         return 1;
+      TGo4Log::Debug(" !!! ComInitAnalysis ''%s'': NO RECEIVER ERROR!!!",GetName());
+      return 1;
+   }
+
+   GO4TRACE((11,"TGo4ComInitAnalysis::ExeCom() - found valid receiver",__LINE__, __FILE__));
+   TGo4Analysis* ana = TGo4Analysis::Instance();
+   if(ana) {
+      cli->SendStatusMessage(2, kTRUE,"INITIALISING submitted settings, PLEASE WAIT...");
+      TGo4Thread::Sleep(1000);
+      if(ana->InitEventClasses())
+      {
+         cli->SendStatusMessage(1, kTRUE,TString::Format(
+               "Analysis %s event classes were initialized.", ana->GetName()));
+         if(cli->MainIsRunning())
+            ana->PreLoop(); // re-init userpointers when init was done on the fly
       }
+      else
+      {
+         cli->SendStatusMessage(3, kTRUE, TString::Format(
+               "Analysis %s initialization failed !!! ", ana->GetName()));
+      }
+   }
+   else
+   {
+      cli->SendStatusMessage(3, kTRUE, TString::Format(" %s ERROR no analysis", GetName()));
+   }
 
    return -1;
 }

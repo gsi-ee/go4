@@ -19,8 +19,8 @@
 #include "TGo4AnalysisImp.h"
 #include "TGo4RemoteCommand.h"
 
-TGo4ComLoadAnalysisStatus::TGo4ComLoadAnalysisStatus(const char* filename)
-:TGo4AnalysisCommand("ANLoad","Load Analysis Settings from file")
+TGo4ComLoadAnalysisStatus::TGo4ComLoadAnalysisStatus(const char* filename) :
+   TGo4AnalysisCommand("ANLoad","Load Analysis Settings from file")
 {
    GO4TRACE((12,"TGo4ComLoadAnalysisStatus::TGo4ComLoadAnalysisStatus() ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
@@ -29,8 +29,8 @@ TGo4ComLoadAnalysisStatus::TGo4ComLoadAnalysisStatus(const char* filename)
    SetFileName(filename);
 }
 
-TGo4ComLoadAnalysisStatus::TGo4ComLoadAnalysisStatus()
-:TGo4AnalysisCommand("ANLoad","Load Analysis Settings from file")
+TGo4ComLoadAnalysisStatus::TGo4ComLoadAnalysisStatus() :
+   TGo4AnalysisCommand("ANLoad","Load Analysis Settings from file")
 {
    GO4TRACE((12,"TGo4ComLoadAnalysisStatus::TGo4ComLoadAnalysisStatus() ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
@@ -54,41 +54,37 @@ Int_t TGo4ComLoadAnalysisStatus::ExeCom()
 {
    GO4TRACE((12,"TGo4ComLoadAnalysisStatus::ExeCom()",__LINE__, __FILE__));
 
-   TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
-   if (cli!=0)
-      {
-      GO4TRACE((11,"TGo4ComLoadAnalysisStatus::ExeCom() - found valid receiver",__LINE__, __FILE__));
-//         TGo4Log::Debug(" Executing ComLoadAnalysisStatus...  ");
-         TGo4Analysis* ana= TGo4Analysis::Instance();
-         if(ana)
-            {
-               Bool_t ok=ana->LoadStatus( GetFileName() );
-               if(ok)
-                  {
-                    cli->SendStatusMessage(1, kFALSE, TString::Format(
-                          "Loaded analysis status from file %s.", GetFileName()));
-                  }
-               else
-                  {
-                     cli->SendStatusMessage(3, kFALSE,TString::Format(
-                           "ERROR on Loading analysis status from file %s", GetFileName()));
-                  } // if(ok)
-
-            }
-         else
-            {
-                     cli->SendStatusMessage(3, kTRUE, TString::Format(
-                           " %s ERROR no analysis", GetName()));
-            } // if(ana)
-
-      }
-   else
-      {
+   TGo4AnalysisClient* cli = dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
+   if (cli==0) {
       GO4TRACE((11,"TGo4ComLoadAnalysisStatus::ExeCom() - no receiver specified ERROR!",__LINE__, __FILE__));
-         TGo4Log::Debug(" !!! ComLoadAnalysisStatus ''%s'': NO RECEIVER ERROR!!!",GetName());
-         throw TGo4RuntimeException(); // never come here!
-         return 1;
+      TGo4Log::Debug(" !!! ComLoadAnalysisStatus ''%s'': NO RECEIVER ERROR!!!",GetName());
+      throw TGo4RuntimeException(); // never come here!
+      return 1;
+   }
+
+   GO4TRACE((11,"TGo4ComLoadAnalysisStatus::ExeCom() - found valid receiver",__LINE__, __FILE__));
+   //         TGo4Log::Debug(" Executing ComLoadAnalysisStatus...  ");
+   TGo4Analysis* ana = TGo4Analysis::Instance();
+   if(ana) {
+      Bool_t ok=ana->LoadStatus( GetFileName() );
+      if(ok)
+      {
+         cli->SendStatusMessage(1, kFALSE, TString::Format(
+               "Loaded analysis status from file %s.", GetFileName()));
       }
+      else
+      {
+         cli->SendStatusMessage(3, kFALSE,TString::Format(
+               "ERROR on Loading analysis status from file %s", GetFileName()));
+      } // if(ok)
+
+   }
+   else
+   {
+      cli->SendStatusMessage(3, kTRUE, TString::Format(
+            " %s ERROR no analysis", GetName()));
+   } // if(ana)
+
 
    return -1;
 }

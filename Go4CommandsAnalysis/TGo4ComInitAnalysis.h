@@ -20,15 +20,15 @@
  * Executes the InitEventClasses Method of TGo4Analysis framework.
  */
 class TGo4ComInitAnalysis : public TGo4AnalysisCommand {
-  public:
+   public:
 
-    TGo4ComInitAnalysis();
+      TGo4ComInitAnalysis();
 
-    virtual ~TGo4ComInitAnalysis();
+      virtual ~TGo4ComInitAnalysis();
 
-    Int_t ExeCom();
+      virtual Int_t ExeCom();
 
-  ClassDef(TGo4ComInitAnalysis,1)
+   ClassDef(TGo4ComInitAnalysis,1)
 };
 
 #endif //TGO4COMINITANALYSIS_H

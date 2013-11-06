@@ -21,15 +21,15 @@
  * May send this information to the gui later if option local is kFALSE.
  */
 class TGo4ComPrintConditions : public TGo4AnalysisCommand {
-  public:
+   public:
 
-    TGo4ComPrintConditions();
+      TGo4ComPrintConditions();
 
-    virtual ~TGo4ComPrintConditions();
+      virtual ~TGo4ComPrintConditions();
 
-    Int_t ExeCom();
+      virtual Int_t ExeCom();
 
-  ClassDef(TGo4ComPrintConditions,1)
+   ClassDef(TGo4ComPrintConditions,1)
 };
 
 #endif //TGO4COMPRINTCONDITIONS_H
