@@ -2602,14 +2602,17 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Picture* padopt,
             hs->GetHists()->Clear();
       }
 
+      Int_t nextcol = 1;
+
       for (int n = 0; n <= objs->GetLast(); n++) {
          TH1* histo = (TH1*) objs->At(n);
          TGo4Slot* slot = (TGo4Slot*) objslots->At(n);
 
          Int_t kind = GetDrawKind(slot);
-         if ((resetcolors) || (kind == kind_FitModels)
-               || (slot->GetPar("::FirstDraw") != 0))
-            histo->SetLineColor(n + 1);
+         if (resetcolors || (kind == kind_FitModels) || (slot->GetPar("::FirstDraw") != 0)) {
+            histo->SetLineColor(nextcol);
+            if (++nextcol == 10) nextcol = 1;
+         }
          histo->GetXaxis()->UnZoom();
 
          const char* drawopt = padopt->GetDrawOption(n);
@@ -2628,8 +2631,11 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Picture* padopt,
                objs->First()->GetTitle());
          sislot->SetProxy(new TGo4DrawObjProxy(mgr, kTRUE, kTRUE));
          resetcolors = kTRUE;
-      } else if (mgr->GetListOfGraphs())
+      } else if (mgr->GetListOfGraphs()) {
          mgr->GetListOfGraphs()->Clear();
+      }
+
+      Int_t nextcol = 1;
       for (int n = 0; n <= objs->GetLast(); n++) {
          TGraph* gr = (TGraph*) objs->At(n);
          TGo4Slot* slot = (TGo4Slot*) objslots->At(n);
@@ -2650,8 +2656,10 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Picture* padopt,
 
          if ((resetcolors) || (kind == kind_FitModels)
                || (slot->GetPar("::FirstDraw") != 0)) {
-            gr->SetLineColor(n + 1);
-            gr->SetMarkerColor(n + 1);
+            gr->SetLineColor(nextcol);
+            gr->SetMarkerColor(nextcol);
+            // use only basic 9 colors
+            if (++nextcol == 10) nextcol = 1;
          }
 
          slot->RemovePar("::FirstDraw");
@@ -2664,7 +2672,7 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Picture* padopt,
    if ((ishstack || isgstack) && (legslot != 0)) {
       TLegend* legend = dynamic_cast<TLegend*>(legslot->GetAssignedObject());
 
-if      (legend == 0) {
+      if (legend == 0) {
          legend = new TLegend(0.6,0.91,0.95,0.995);
          legend->SetBorderSize(2);
          legend->SetName("fitlegend");
@@ -2694,8 +2702,7 @@ void TGo4ViewPanel::Divide(int numX, int numY)
    TPad* pad = GetActivePad();
 
    TGo4Slot* padslot = GetPadSlot(pad);
-   if ((pad == 0) || (padslot == 0))
-      return;
+   if ((pad == 0) || (padslot == 0)) return;
 
    ClearPad(pad, true, true);
    RedrawPanel(pad, true);
