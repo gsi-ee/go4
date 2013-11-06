@@ -420,7 +420,10 @@ void TGo4MainWindow::aboutROOT()
 void TGo4MainWindow::aboutDABC()
 {
    QString mestring("This Go4 uses DABC ");
-   mestring.append(TGo4DabcProxy::GetDabcVersion());
+   if (TGo4DabcProxy::GetDabcVersion())
+      mestring.append(TGo4DabcProxy::GetDabcVersion());
+   else
+      mestring.append("<undef>");
    mestring.append("<br>DABC (Data Acquisition Backbone Core) is <br> framework to build multi-threaded multi-node DAQ applications.<br> It is developed in GSI.<br> See <a href='http://dabc.gsi.de'>http://dabc.gsi.de</a> for more information");
    QMessageBox AboutDabc("DABC", mestring,
                          QMessageBox::NoIcon,QMessageBox::Ok,QMessageBox::NoButton,QMessageBox::NoButton ,this);

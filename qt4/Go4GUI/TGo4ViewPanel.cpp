@@ -3595,8 +3595,7 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad* tgtpad, TPad* srcpad,
 
 void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
 {
-   if (IsRedrawBlocked())
-      return;
+   if (IsRedrawBlocked()) return;
 
    TGo4LockGuard lock(0, true);
 
@@ -3873,8 +3872,7 @@ void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his,
 void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
       bool dosuperimpose, bool scancontent)
 {
-   if ((pad == 0) || (padopt == 0) || (hs == 0))
-      return;
+   if ((pad == 0) || (padopt == 0) || (hs == 0)) return;
 
    if (scancontent) {
       TIter iter(hs->GetHists());
@@ -3895,25 +3893,21 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
    if (!drawopt.Contains(NoStackDrawOption, TString::kIgnoreCase))
       drawopt.Prepend(NoStackDrawOption);
 
-//   std::cout << "Draw stack " << hs << " with options " << std::endl;
-
    hs->Draw(drawopt.Data());
    TH1* framehisto = hs->GetHistogram();
+   if (framehisto == 0) return;
 
-   if (framehisto == 0)
-      return;
+   // std::cout << "Draw stack " << hs << " histo " << framehisto << "  with options " << drawopt << std::endl;
 
    framehisto->SetStats(false);
    framehisto->SetBit(TH1::kNoTitle, !padopt->IsHisTitle());
-   if (hs->GetHists()) {
-      TH1* h1 = dynamic_cast<TH1*>(hs->GetHists()->First());
-      if (h1!=0) {
-         hs->SetTitle(h1->GetTitle());
-         framehisto->SetTitle(h1->GetTitle());
-         framehisto->GetXaxis()->SetTitle(h1->GetXaxis()->GetTitle());
-         framehisto->GetYaxis()->SetTitle(h1->GetYaxis()->GetTitle());
-         framehisto->GetZaxis()->SetTitle(h1->GetZaxis()->GetTitle());
-      }
+   TH1* h1 = dynamic_cast<TH1*>(hs->GetHists() ? hs->GetHists()->First() : 0);
+   if (h1!=0) {
+      hs->SetTitle(h1->GetTitle());
+      framehisto->SetTitle(h1->GetTitle());
+      framehisto->GetXaxis()->SetTitle(h1->GetXaxis()->GetTitle());
+      framehisto->GetYaxis()->SetTitle(h1->GetYaxis()->GetTitle());
+      framehisto->GetZaxis()->SetTitle(h1->GetZaxis()->GetTitle());
    }
 
    SetSelectedRangeToHisto(pad, framehisto, hs, padopt, false);
@@ -3984,8 +3978,9 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt,
       drawopt = "";
 
    TH1* framehisto =
-         (dosuperimpose && (firstgr != 0)) ? firstgr->GetHistogram() :
-               mg->GetHistogram();
+      (dosuperimpose && (firstgr != 0)) ?
+         firstgr->GetHistogram() : mg->GetHistogram();
+
    if (framehisto == 0) {
       // this is workaround to prevent recreation of framehistogram in TMultiGraf::Paint
       mg->Draw(drawopt.Data());
@@ -3995,7 +3990,6 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt,
    }
 
    if (framehisto != 0) {
-
       SetSelectedRangeToHisto(pad, framehisto, 0, padopt, false);
       // avoid flicker of range when in fullscale: set range before and after draw
       Double_t miny, maxy, selmin, selmax;
@@ -4207,8 +4201,7 @@ void TGo4ViewPanel::ClearPad(TPad* pad, bool removeitems, bool removesubpads)
 
 void TGo4ViewPanel::ClearPadItems(TGo4Slot* padslot, TGo4Slot* remain)
 {
-   if (padslot == 0)
-      return;
+   if (padslot == 0) return;
 
    for (int n = padslot->NumChilds() - 1; n >= 0; n--) {
       TGo4Slot* subslot = padslot->GetChild(n);
@@ -4219,8 +4212,7 @@ void TGo4ViewPanel::ClearPadItems(TGo4Slot* padslot, TGo4Slot* remain)
    }
 }
 
-void TGo4ViewPanel::ProcessPadClear(TPad * pad, bool removeitems,
-      bool removesubpads)
+void TGo4ViewPanel::ProcessPadClear(TPad * pad, bool removeitems, bool removesubpads)
 {
    TGo4Slot* slot = GetPadSlot(pad);
    TGo4Picture* padopt = GetPadOptions(slot);
@@ -4584,11 +4576,9 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
          padopt->SetAutoScale(kFALSE);
 }
 
-void TGo4ViewPanel::TakeFullRangeFromHisto(TH1* h1, TGo4Picture* padopt,
-      bool isfirsthisto)
+void TGo4ViewPanel::TakeFullRangeFromHisto(TH1* h1, TGo4Picture* padopt, bool isfirsthisto)
 {
-   if ((h1 == 0) || (padopt == 0))
-      return;
+   if ((h1 == 0) || (padopt == 0)) return;
 
    TAxis* xax = h1->GetXaxis();
    TAxis* yax = h1->GetYaxis();
@@ -4680,8 +4670,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
 {
    // set selected range, stats and title position for histogram
 
-   if ((h1 == 0) || (padopt == 0) || (pad == 0))
-      return;
+   if ((h1 == 0) || (padopt == 0) || (pad == 0)) return;
 
    int ndim = padopt->GetFullRangeDim();
 
@@ -4689,35 +4678,49 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
 
    double hmin(0.), hmax(0.), umin, umax;
 
+   TAxis* ax = h1->GetXaxis();
+
    if (padopt->GetRange(0, umin, umax)) {
       // note: go4 range was full visible range of histogram
       // in new ROOT automatic shift of ranges can appear,
       // to prevent this, center of each bin should be used
-      TAxis* ax = h1->GetXaxis();
+
       Int_t i1 = ax->FindFixBin(umin);
       Int_t i2 = ax->FindFixBin(umax);
       if (i1<i2) ax->SetRange(i1,i2);
             else { ax->UnZoom(); padopt->ClearRange(0); }
-   } else
-      h1->GetXaxis()->UnZoom();
+   } else {
+      ax->UnZoom();
+   }
+
+   TAxis* ay = h1->GetYaxis();
 
    if (padopt->GetRange(1, umin, umax)) {
       if (!autoscale && (ndim == 1)) {
          hmin = umin;
          hmax = umax;
       }
+
       // note: go4 range was full visible range of histogram
       // in new ROOT automatic shift of ranges can appear,
       // to prevent this, center of each bin should be used
-      TAxis* ay = h1->GetYaxis();
+
       Int_t i1 = ay->FindFixBin(umin);
       Int_t i2 = ay->FindFixBin(umax);
-      if (i1<i2) ay->SetRange(i1,i2);
-            else { ay->UnZoom(); padopt->ClearRange(1); }
-   } else {
-      h1->GetYaxis()->UnZoom();
+      if (i1<i2) { ay->SetRange(i1,i2); ay = 0; }
    }
 
+   if (ay!=0) {
+      ay->UnZoom();
+      padopt->ClearRange(1);
+      // workaround for the 5.34/11 version
+      if ((ndim==1) && (h1->GetMinimum()==0) && (h1->GetMaximum()==1)) {
+         h1->SetMinimum();
+         h1->SetMaximum();
+      }
+   }
+
+   TAxis* az = h1->GetZaxis();
    if (padopt->GetRange(2, umin, umax) && (ndim > 1)) {
       if (!autoscale && (ndim == 2)) {
          hmin = umin;
@@ -4726,13 +4729,16 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
       // note: go4 range was full visible range of histogram
       // in new ROOT automatic shift of ranges can appear,
       // to prevent this, center of each bin should be used
-      TAxis* az = h1->GetZaxis();
+
       Int_t i1 = az->FindFixBin(umin);
       Int_t i2 = az->FindFixBin(umax);
-      if (i1<i2) az->SetRange(i1,i2);
-            else { az->UnZoom(); padopt->ClearRange(2); }
-   } else
-      h1->GetZaxis()->UnZoom();
+      if (i1<i2) { az->SetRange(i1,i2); az = 0; }
+   }
+
+   if (az!=0) {
+      az->UnZoom();
+      padopt->ClearRange(2);
+   }
 
    if (hmin != hmax) {
       // if scale axis is log, prevent negative values, otherwise
@@ -4770,14 +4776,18 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
                   TAxis* ax = hs_h1->GetXaxis();
                   Int_t i1 = ax->FindFixBin(umin);
                   Int_t i2 = ax->FindFixBin(umax);
-                  if (i1<i2) ax->SetRange(i1,i2);
+                  if (i1<i2) { ax->SetRange(i1,i2); }
                         else { ax->UnZoom(); padopt->ClearRange(0); }
-               } else
+               } else {
                   hs_h1->GetXaxis()->UnZoom();
+               }
 
                hs_h1->GetYaxis()->UnZoom();
+               hs_h1->SetMinimum();
+               hs_h1->SetMaximum();
             }
          }
+
          hs->SetMinimum();
          hs->SetMaximum();
       }
@@ -4789,12 +4799,13 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
       // here one can estimate actual range  which will be displayed on canvas
 
       if (ndim < 3) {
+
          Double_t selmin = h1->GetMinimum();
          Double_t selmax = h1->GetMaximum();
 
-         if (selmin >= selmax)
+         if (selmin >= selmax) {
             padopt->ClearRange(ndim);
-         else {
+         } else {
             bool islogscale = (ndim == 1) && (padopt->GetLogScale(1) > 0);
 
             if (islogscale) {
@@ -4925,16 +4936,16 @@ bool TGo4ViewPanel::TakeSelectedAxisRange(int naxis, TGo4Picture* padopt,
       changed = true;
    }
 
-   if ((selmin < min + delta) && (selmax > max - delta) && !force)
+   if ((selmin < min + delta) && (selmax > max - delta) && !force) {
       padopt->ClearRange(naxis);
-   else
+   } else {
       padopt->SetRange(naxis, umin, umax);
+   }
 
    return changed;
 }
 
-bool TGo4ViewPanel::TakeSelectedAxisRange(int naxis, TGo4Picture * padopt,
-      TAxis* ax)
+bool TGo4ViewPanel::TakeSelectedAxisRange(int naxis, TGo4Picture* padopt, TAxis* ax)
 {
    Double_t selmin, selmax;
 
@@ -4957,8 +4968,7 @@ void TGo4ViewPanel::PadRangeAxisChanged(TPad* pad)
 
    TGo4Picture* padopt = GetPadOptions(pad);
 
-   if (IsRedrawBlocked() || (pad == 0) || (padopt == 0))
-      return;
+   if (IsRedrawBlocked() || (pad == 0) || (padopt == 0)) return;
 
    // check if we have histogram and can take range from it
    TH1* h1 = GetPadHistogram(pad);
@@ -4976,15 +4986,18 @@ void TGo4ViewPanel::PadRangeAxisChanged(TPad* pad)
          bool iszoomed = h1->TestBit(TH1::kIsZoomed);
 
          padopt->SetAutoScale(!iszoomed);
+         //h1->SetMinimum();
+         //h1->SetMaximum();
 
          Double_t selmin = h1->GetMinimum();
          Double_t selmax = h1->GetMaximum();
 
-         if (iszoomed)
+         if (iszoomed) {
             padopt->SetRange(ndim, selmin, selmax);
-         else if (selmin >= selmax)
+         } else if (selmin >= selmax) {
             padopt->ClearRange(ndim);
-         else {
+         } else {
+
             bool islogscale = (ndim == 1) && (pad->GetLogy() > 0);
 
             if (islogscale) {
@@ -4992,7 +5005,7 @@ void TGo4ViewPanel::PadRangeAxisChanged(TPad* pad)
                   selmin = TMath::Log10(selmin) + TMath::Log10(0.5);
                   selmin = TMath::Power(10, selmin);
                   selmax = TMath::Log10(selmax)
-                        + TMath::Log10(2 * (0.9 / 0.95));
+                         + TMath::Log10(2 * (0.9 / 0.95));
                   selmax = TMath::Power(10, selmax);
                }
 
@@ -5039,12 +5052,10 @@ void TGo4ViewPanel::PadRangeAxisChanged(TPad* pad, double rxmin, double rxmax,
 {
    TGo4LockGuard lock(0, true);
 
-   if (IsRedrawBlocked() || (pad == 0))
-      return;
+   if (IsRedrawBlocked() || (pad == 0)) return;
 
    TGo4Picture* padopt = GetPadOptions(pad);
-   if (padopt == 0)
-      return;
+   if (padopt == 0) return;
 
    TakeSelectedAxisRange(0, padopt, rxmin, rxmax, false);
    TakeSelectedAxisRange(1, padopt, rymin, rymax, false);
@@ -5057,8 +5068,7 @@ void TGo4ViewPanel::GetSelectedRange(int& ndim, bool& autoscale, double& xmin,
 {
    ndim = 0;
    TGo4Picture* padopt = GetPadOptions(GetActivePad());
-   if (padopt == 0)
-      return;
+   if (padopt == 0) return;
 
    ndim = padopt->GetFullRangeDim();
    autoscale = padopt->IsAutoScale();
