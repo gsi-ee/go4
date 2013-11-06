@@ -13,7 +13,6 @@
 
 #include "TGo4TaskConnectorTimer.h"
 
-#include "TGo4Log.h"
 #include "TGo4ServerTask.h"
 
 TGo4TaskConnectorTimer::TGo4TaskConnectorTimer (TGo4ServerTask* server, Long_t msperiod) :
@@ -28,15 +27,7 @@ TGo4TaskConnectorTimer::~TGo4TaskConnectorTimer()
 
 Bool_t TGo4TaskConnectorTimer::Notify ()
 {
-  // std::cout << "TGo4TaskConnectorTimer::Notify ()" << std::endl;
-//   TurnOff();
-   Int_t action=0;
-   action=fxServer->TimerConnect();
-
-//   TGo4Log::Debug(" Task Connector Timer --  starting new notify loop after action %d! ",
-//      action);
+   fxServer->TimerConnect();
    Reset();
-//   TurnOn();
-
    return kFALSE;
 }

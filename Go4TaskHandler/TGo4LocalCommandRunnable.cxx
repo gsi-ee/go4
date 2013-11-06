@@ -30,9 +30,6 @@ TGo4LocalCommandRunnable::TGo4LocalCommandRunnable(const char* name, TGo4Task* t
    TGo4Runnable(name,task),
    fxLocalTask(task)
 {
-   TGo4ObjectQueue* fxQueue = 0;
-   if (fxLocalTask!=0)
-     fxQueue = fxLocalTask->GetLocalCommandQueue();
 }
 
 TGo4LocalCommandRunnable::~TGo4LocalCommandRunnable()
@@ -41,11 +38,10 @@ TGo4LocalCommandRunnable::~TGo4LocalCommandRunnable()
 
 Int_t TGo4LocalCommandRunnable::Run(void* ptr)
 {
-   TGo4ObjectQueue* fxQueue = 0;
-   if (fxLocalTask!=0)
-     fxQueue = fxLocalTask->GetLocalCommandQueue();
+   TGo4ObjectQueue* fxQueue = fxLocalTask ? fxLocalTask->GetLocalCommandQueue() : 0;
+
    if(fxQueue!=0) {
-      TGo4Command* com= dynamic_cast<TGo4Command*> (fxQueue->WaitObject());
+      TGo4Command* com = dynamic_cast<TGo4Command*> (fxQueue->WaitObject());
       if(com!=0) {
          if( com->GetCommandID() != TGo4Task::Get_fgiTERMID() ) {
             // normal operation if we have not a terminate dummy command

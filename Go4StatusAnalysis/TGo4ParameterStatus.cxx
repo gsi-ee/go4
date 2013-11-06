@@ -65,14 +65,12 @@ Bool_t TGo4ParameterStatus::UpdateParameterValues(TGo4Parameter* par)
    if ((par==0) || (fxMemberValues==0)) return kFALSE;
    if (strcmp(GetObjectClass(), par->ClassName())!=0) return kFALSE;
 
-   Bool_t res = kFALSE;
-
    if (par->CustomUpdateFrom()) {
       TGo4Parameter* copypar = CreateParameter();
-      res = par->UpdateFrom(copypar);
+      par->UpdateFrom(copypar);
       delete copypar;
    } else {
-      res = par->SetMemberValues(fxMemberValues);
+      par->SetMemberValues(fxMemberValues);
    }
 
    return kTRUE;

@@ -407,13 +407,10 @@ bool TGo4ViewPanel::IsAcceptDrag(const char * itemname, TClass * cl, int kind)
          || cl->InheritsFrom(TGo4Condition::Class());
 }
 
-void TGo4ViewPanel::DropOnPad(TPad* pad, const char * itemname, TClass * cl,
-      int kind)
+void TGo4ViewPanel::DropOnPad(TPad* pad, const char * itemname, TClass * cl, int kind)
 {
-   if (cl == 0)
-      return;
-   if (pad == 0)
-      pad = GetCanvas();
+   if (cl == 0) return;
+   if (pad == 0) pad = GetCanvas();
 
    if (cl->InheritsFrom(TGo4Fitter::Class())) {
       SetActivePad(pad);
@@ -425,8 +422,7 @@ void TGo4ViewPanel::DropOnPad(TPad* pad, const char * itemname, TClass * cl,
          && !cl->InheritsFrom(TGo4Condition::Class()))
       return;
 
-   if (AddDrawObject(pad, kind_Link, itemname, 0, false, 0) == 0)
-      return;
+   if (AddDrawObject(pad, kind_Link, itemname, 0, false, 0) == 0) return;
 
    SetActivePad(pad);
 
@@ -1074,20 +1070,18 @@ void TGo4ViewPanel::ClearAllMarkers()
 
 void TGo4ViewPanel::ProcessMarkersClear(TPad *pad, bool withsubpads)
 {
-   if (pad == 0)
-      return;
+   if (pad == 0) return;
 
    DeleteDrawObjects(pad, kind_Marker);
    DeleteDrawObjects(pad, kind_Window);
    DeleteDrawObjects(pad, kind_Poly);
    DeleteDrawObjects(pad, kind_Latex);
    DeleteDrawObjects(pad, kind_Arrow);
-   if (!withsubpads)
-      return;
+   if (!withsubpads) return;
 
    TGo4Slot* slot = GetPadSlot(pad);
-   if (slot == 0)
-      return;
+   if (slot == 0) return;
+
    TGo4Iter iter(slot, true);
    while (iter.next()) {
       TPad* subpad = GetSlotPad(iter.getslot());
@@ -3036,8 +3030,7 @@ void TGo4ViewPanel::UpdatePanelCaption()
          subslotname = QString("[") + subslotname + QString("]");
          selslotname = subslotname;
       }
-      if (n > 0)
-         fulllist += ", ";
+      if (n > 0) fulllist += ", ";
       fulllist += subslotname;
    }
 
@@ -3191,18 +3184,15 @@ bool TGo4ViewPanel::ShiftSelectedObjectToEnd(TPad * pad)
 
 void TGo4ViewPanel::CheckObjectsAssigments(TPad * pad, TGo4Slot * padslot)
 {
-   if ((pad == 0) || (padslot == 0))
-      return;
+   if ((pad == 0) || (padslot == 0)) return;
 
    TObjArray objs, objslots;
    CollectMainDrawObjects(padslot, &objs, &objslots, 0);
 
    int indx = GetSelectedObjectIndex(padslot);
-   if (indx < 0)
-      indx = 0;
+   if (indx < 0) indx = 0;
 
-   TH1* selhisto = dynamic_cast<TH1*>(
-         (indx <= objs.GetLast()) ? objs.At(indx) : 0);
+   TH1* selhisto = dynamic_cast<TH1*>((indx <= objs.GetLast()) ? objs.At(indx) : 0);
    if (selhisto == 0)
       selhisto = GetPadHistogram(pad);
 
@@ -3210,8 +3200,7 @@ void TGo4ViewPanel::CheckObjectsAssigments(TPad * pad, TGo4Slot * padslot)
       TGo4Slot* subslot = padslot->GetChild(n);
       Int_t kind = GetDrawKind(subslot);
       TObject* obj = subslot->GetAssignedObject();
-      if (obj == 0)
-         continue;
+      if (obj == 0) continue;
 
       TGo4Marker* mark = 0;
       TGo4Condition* cond = 0;

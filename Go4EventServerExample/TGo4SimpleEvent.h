@@ -32,102 +32,96 @@ class TGo4SimpleSubEvent;
  */
 class TGo4SimpleEvent : public TGo4EventElement {
 
-friend class TGo4SimpleEventProcessor;
+      friend class TGo4SimpleEventProcessor;
 
-public:
-   TGo4SimpleEvent() ;
+   public:
+      TGo4SimpleEvent();
 
-   TGo4SimpleEvent(Int_t subevtnum) ;
+      TGo4SimpleEvent(Int_t subevtnum);
 
+      virtual ~TGo4SimpleEvent() ;
 
+      /**
+       * Method called by the event owner (analysis step) to fill the
+       * event element from the set event source. Event source can
+       * be the source of the analysis step (if this is a raw event) or the event processor (if this is a reduced event).
+       * Fill method has to specify how the event source writes to the
+       * members of this event structure. Either by calling methods of
+       * the source (like myevent.a=GetEventSource()->GetA(); etc ), or by
+       * direct copy to the member (like GetEventSource()->FillMemoryAt(&myevent.a);)
+       */
+      virtual Int_t Fill();
 
-   virtual ~TGo4SimpleEvent() ;
+      /**
+       * Method called by the event owner (analysis step) to clear the
+       * event element.
+       */
+      virtual void Clear(Option_t *t="");
+      /**
+       * Set the internal iterator of the subevent array to the beginning of
+       * the array.
+       */
+      void ResetIterator();
 
-   /**
-          * Method called by the event owner (analysis step) to fill the
-          * event element from the set event source. Event source can
-          * be the source of the analysis step (if this is a raw event) or the event processor (if this is a reduced event).
-          * Fill method has to specify how the event source writes to the
-          * members of this event structure. Either by calling methods of
-          * the source (like myevent.a=GetEventSource()->GetA(); etc ), or by
-          * direct copy to the member (like GetEventSource()->FillMemoryAt(&myevent.a);)
-          */
-   virtual Int_t Fill();
+      /**
+       * Iterator for subevent array. If reset is kTRUE, the iteration starts at the
+       * first TObjArray slot, otherwise we continue at the position after the last
+       * call of this method.
+       */
+      TGo4SimpleSubEvent* NextSubEvent();
 
-   /**
-    * Method called by the event owner (analysis step) to clear the
-    * event element.
-    */
-  virtual void Clear(Option_t *t="");
-   /**
-    * Set the internal iterator of the subevent array to the beginning of
-    * the array.
-    */
-   void ResetIterator();
+      void PrintEvent();
 
-   /**
-    * Iterator for subevent array. If reset is kTRUE, the iteration starts at the
-    * first TObjArray slot, otherwise we continue at the position after the last
-    * call of this method.
-    */
-   TGo4SimpleSubEvent* NextSubEvent();
+      /**
+       * Access to subevent in list by procid. Returns zero if no
+       * subevent of this procid is found
+       */
+      TGo4SimpleSubEvent * GetSubEvent(Short_t procid);
 
-   void PrintEvent();
+      /**
+       * Add subevent ito clonesarray with new procid. The pointer to the new
+       * subevent is returned. If entry for procid already existed, this entry is
+       * returned and the clonesarray is left as is.
+       */
+      TGo4SimpleSubEvent * AddSubEvent(Short_t procid);
 
-   /**
-    * Access to subevent in list by procid. Returns zero if no
-    * subevent of this procid is found
-    */
-   TGo4SimpleSubEvent * GetSubEvent(Short_t procid);
+      Int_t  GetCount() const;
 
-   /**
-    * Add subevent ito clonesarray with new procid. The pointer to the new
-    * subevent is returned. If entry for procid already existed, this entry is
-    * returned and the clonesarray is left as is.
-    */
-   TGo4SimpleSubEvent * AddSubEvent(Short_t procid);
+   private:
+      Int_t fiCount;
 
-   Int_t  GetCount() const;
+      /**
+       * Index of last used slot in the clonesarray.
+       */
+      Int_t fiLastSlot;
 
-private:
-   Int_t fiCount;
+      /**
+       * Index of last existing slot in the clonesarray.
+       */
+      Int_t fiMaxSlot;
 
-   /**
-    * Index of last used slot in the clonesarray.
-    */
-   Int_t fiLastSlot;
+      /** @link aggregation
+       * @clientCardinality 1
+       * @supplierCardinality 1..*
+       * @associationAsClass TClonesArray*/
+      /*#  TGo4SimpleSubEvent fxSubEventArray1; */
+      TClonesArray* fxSubEventArray;
 
-    /**
-    * Index of last existing slot in the clonesarray.
-    */
-   Int_t fiMaxSlot;
+      Int_t fiArrLen;
 
-   /** @link aggregation
-    * @clientCardinality 1
-    * @supplierCardinality 1..*
-    * @associationAsClass TClonesArray*/
-   /*#  TGo4SimpleSubEvent fxSubEventArray1; */
-   TClonesArray* fxSubEventArray;
+      Int_t fiTestArray[10]; //[fiArrLen]
 
-   Int_t fiArrLen;
+      char fcTestCharArr[10]; //[fiArrLen]
+      /**
+       * Iterator for array.
+       */
+      TIterator * fxIterator; //!
 
-   Int_t fiTestArray[10]; //[fiArrLen]
-
-   char fcTestCharArr[10]; //[fiArrLen]
-   /**
-    * Iterator for array.
-    */
-   TIterator * fxIterator; //!
-
-//   TGo4SimpleSubEvent fxFirstsubevent;
-//   TGo4SimpleSubEvent fxSecondsubevent;
-//   TGo4MbsSubEvent fxTestSub;
-
-private:
+      //   TGo4SimpleSubEvent fxFirstsubevent;
+      //   TGo4SimpleSubEvent fxSecondsubevent;
+      //   TGo4MbsSubEvent fxTestSub;
 
    ClassDef(TGo4SimpleEvent,1)
 };
+
 #endif //TGO4SIMPLEEVENT_H
-
-
-

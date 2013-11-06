@@ -303,12 +303,10 @@ int go4fit_position(int l_len,double *pa_data,double *pr_pos,double *pr_sig, dou
 #define LOW  2
 #define WIDTH  8
 
-  double r_sig_f     ;
-//SL  int I,J,K,L     ;
+  double r_sig_f;
   int J;
   double d_sum_prod  ;
-//SL  double l_max_chan  ;
-  double *pl_data,d_max    ;
+  double *pl_data;
 
   /* 2.0E2*SQRT(2.0E0*LOG(2.0E0))/100. */;
   r_sig_f      = 55.4518;
@@ -317,20 +315,7 @@ int go4fit_position(int l_len,double *pa_data,double *pr_pos,double *pr_sig, dou
   d_sum_prod   = 0;
   *pr_sig      = 0.;
   *pr_pos      = 0.;
-  d_max=0.0;
 
-  /* get maximum channel content and integral */
-  /*  pl_data = pa_data;
-      for(J = 0; J < l_len; J++)
-      {
-      if(d_max < *pl_data)
-      {
-      d_max = *pl_data;
-      l_max_chan = J;
-      }
-      pl_data++;
-      }
-  */
   /* Calculate first momentum */
   pl_data = pa_data;
   for(J = 1; J <= l_len; J++)

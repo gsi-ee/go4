@@ -833,6 +833,7 @@ Bool_t TGo4DabcProxy::UpdateHierarchy(Bool_t sync)
 
 Bool_t TGo4DabcProxy::ReplyCommand(void* cmd)
 {
+   return kFALSE;
 }
 
 

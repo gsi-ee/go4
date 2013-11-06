@@ -27,30 +27,30 @@ class TGo4Parameter;
  */
 class TGo4ParameterStatus : public TGo4ObjectStatus {
 
-  public:
+   public:
 
-    TGo4ParameterStatus();
+      TGo4ParameterStatus();
 
-    TGo4ParameterStatus(TGo4Parameter* par, Bool_t membervalues = kFALSE);
+      TGo4ParameterStatus(TGo4Parameter* par, Bool_t membervalues = kFALSE);
 
-    TGo4ParameterStatus(const char* parname, const char* parclass, TObjArray* items);
+      TGo4ParameterStatus(const char* parname, const char* parclass, TObjArray* items);
 
-    virtual ~TGo4ParameterStatus();
+      virtual ~TGo4ParameterStatus();
 
-    /** basic method to printout status information
-      * on stdout; to be overridden by specific subclass */
-    virtual Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0);
+      /** basic method to printout status information
+       * on stdout; to be overridden by specific subclass */
+      virtual Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0);
 
-    TObjArray* GetMemberValues(Bool_t takeit = kFALSE);
+      TObjArray* GetMemberValues(Bool_t takeit = kFALSE);
 
-    Bool_t UpdateParameterValues(TGo4Parameter* par);
-    TGo4Parameter* CreateParameter();
+      Bool_t UpdateParameterValues(TGo4Parameter* par);
+      TGo4Parameter* CreateParameter();
 
 
-  protected:
-     TObjArray*  fxMemberValues;
+   protected:
+      TObjArray*  fxMemberValues;
 
-  ClassDef(TGo4ParameterStatus,1)
+   ClassDef(TGo4ParameterStatus,1)
 };
 
 #endif //TGO4PARAMETERSTATUS_H
