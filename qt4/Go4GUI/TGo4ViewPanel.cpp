@@ -4404,7 +4404,7 @@ void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction, int za
 }
 
 void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
-      TGo4Picture* padopt, TObject* padobj)
+                                   TGo4Picture* padopt, TObject* padobj)
 {
    if (action <= 0) return;
 
@@ -4417,11 +4417,6 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
 
    // we use number of dimensions to determine if we have contents
    int ndim = padopt->GetFullRangeDim();
-
-   if (action == 5) {
-      new_umin = fmin;
-      new_umax = fmax;
-   }
 
    if (!sel || (new_umin >= new_umax))
       padopt->GetFullRange(naxis, new_umin, new_umax);
@@ -4499,6 +4494,10 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
          if (naxis==1) axis = padhist->GetYaxis();
          if (naxis==2) axis = padhist->GetZaxis();
 
+         // keep selected bins
+         Int_t sel_l = sel ? axis->GetFirst() : 0;
+         Int_t sel_r = sel ? axis->GetLast() : axis->GetNbins();
+
          Int_t firstbin(0), lastbin(0);
 
          // X axis in case of 1-dim histogram
@@ -4506,6 +4505,7 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
             for (Int_t n1 = 1; n1<=padhist->GetNbinsX(); n1++) {
                Double_t v = padhist->GetBinContent(n1);
                if (TMath::Abs(v)<1e-10) continue;
+               if ((n1<sel_l) || (n1>sel_r)) continue;
                lastbin = n1;
                if (firstbin==0) firstbin = n1;
             }
@@ -4518,6 +4518,7 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
                  Double_t v = padhist->GetBinContent(n1,n2);
                  if (TMath::Abs(v)<1e-10) continue;
                  Int_t bin = naxis==0 ? n1 : n2;
+                 if ((bin<sel_l) || (bin>sel_r)) continue;
                  if ((lastbin==0) || (bin>lastbin)) lastbin = bin;
                  if ((firstbin==0) || (bin<firstbin)) firstbin = bin;
               }
@@ -4530,6 +4531,7 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
                     Double_t v = padhist->GetBinContent(n1,n2,n3);
                     if (TMath::Abs(v)<1e-10) continue;
                     Int_t bin = naxis==0 ? n1 : ((naxis==1) ? n2 : n3);
+                    if ((bin<sel_l) || (bin>sel_r)) continue;
                     if ((lastbin==0) || (bin>lastbin)) lastbin = bin;
                     if ((firstbin==0) || (bin<firstbin)) firstbin = bin;
                   }
@@ -4542,20 +4544,15 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
             if (firstbin<=3) firstbin = 1;
             if (lastbin >=axis->GetNbins()-3) lastbin = axis->GetNbins();
 
-            Double_t left = axis->GetBinCenter(firstbin);
-            Double_t right = axis->GetBinCenter(lastbin);
+            Double_t left = axis->GetBinLowEdge(firstbin);
+            Double_t right = axis->GetBinUpEdge(lastbin);
+            Double_t margin = (right - left) * fact;
+            left -= margin; right += margin;
 
-            if (firstbin > 1) {
-               new_umin = left - (right - left)*fact;
-               if (new_umin<fmin) new_umin = fmin;
-            } else
-               new_umin = left;
+            if ((left <= new_umin) && (right >= new_umax)) return;
 
-            if (lastbin < axis->GetNbins()) {
-               new_umax = right + (right - left)*fact;
-               if (new_umax>fmax) new_umax = fmax;
-            } else
-               new_umax = right;
+            if (left > new_umin) new_umin = left;
+            if (right < new_umax) new_umax = right;
          }
 
          break;
