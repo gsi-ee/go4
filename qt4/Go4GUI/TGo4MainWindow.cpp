@@ -339,7 +339,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    helpMenu->addAction("About &Qt", this, SLOT(aboutQt()), Key_F2 );
    helpMenu->addAction("About R&OOT", this, SLOT(aboutROOT()), Key_F3);
    if (TGo4DabcProxy::GetDabcVersion())
-      helpMenu->addAction("About &DABC", this, SLOT(aboutDABC()), Key_F5);
+      helpMenu->addAction("About &DABC", this, SLOT(aboutDABC()));
    helpMenu->addAction("About &Go4", this, SLOT(about()), Key_F4);
 
    const char* libs = gSystem->Getenv("GO4USERLIBRARY");
