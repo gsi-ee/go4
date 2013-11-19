@@ -22,6 +22,7 @@ class TMutex;
 
 // define previous trace macro void
 #define GO4TRACE(X) ;
+#define TRACE(X) ;
 
 // optional definitions
 #define GO4MESSAGE( X ) TGo4Log::Message X;
