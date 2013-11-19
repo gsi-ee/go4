@@ -654,8 +654,10 @@ Bool_t TGo4DabcProxy::Connect(const char* nodename)
 {
    if (!dabc::CreateManager("cmd", 0)) return kFALSE;
 
-   if (!dabc::ConnectDabcNode(nodename)) {
-      fNodeName = nodename;
+   std::string node = dabc::MakeNodeName(nodename);
+
+   if (!dabc::ConnectDabcNode(node)) {
+      fNodeName = node;
       return kFALSE;
    }
 
@@ -668,7 +670,7 @@ Bool_t TGo4DabcProxy::Connect(const char* nodename)
 
    // printf("Connection to %s done\n", nodename);
 
-   fNodeName = nodename;
+   fNodeName = node;
 
    return UpdateHierarchy(kTRUE);
 }
