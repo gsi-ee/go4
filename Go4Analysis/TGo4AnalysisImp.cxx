@@ -592,6 +592,8 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
       rate.SetUpdateInterval(process_event_interval>0. ? process_event_interval : 1.);
    if (showrate) rate.Reset();
 
+   TTimeStamp last_update;
+
    try
    {
       PreLoop();
@@ -604,17 +606,23 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 
          if ((times>0) && (cnt>=times)) break;
 
-         if (userate && rate.Update(1)) {
-            int width(1);
-            if (rate.GetRate()>1e4) width = 0; else
-            if (rate.GetRate()<1.) width = 3;
-            if (showrate) {
+         if (userate && rate.Update((fxDoWorkingFlag == flagRunning) ? 1 : 0)) {
+            if (process_event_interval>0.) gSystem->ProcessEvents();
+
+            bool need_update = false;
+            TTimeStamp now;
+            if ((now.AsDouble() - last_update.AsDouble()) >= 1.) {
+               last_update = now; need_update = true;
+            }
+
+            if (need_update && showrate) {
+               int width = (rate.GetRate()>1e4) ? 0 : (rate.GetRate()<1. ? 3 : 1);
                printf(ratefmt.Data(), rate.GetCurrentCount(), width, rate.GetRate());
                fflush(stdout);
             }
-            if (process_event_interval>0.) gSystem->ProcessEvents();
-
-            if (fSniffer) fSniffer->RatemeterUpdate(&rate);
+            if (need_update && fSniffer) {
+               fSniffer->RatemeterUpdate(&rate);
+            }
          }
 
          try

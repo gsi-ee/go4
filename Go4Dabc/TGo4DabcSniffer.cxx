@@ -2,6 +2,7 @@
 
 #include "TFolder.h"
 #include "TTimer.h"
+#include "Riostream.h"
 
 #include "TGo4AnalysisImp.h"
 #include "TGo4AnalysisObjectManager.h"
@@ -39,15 +40,27 @@ class TExecDabcCmdTimer : public TTimer {
             TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : 0;
 
             if (fCmd.IsName("CmdClear")) {
-               if (an) { an->ClearObjects("Histograms"); fSniffer->StatusMessage(0, "Clear Histograms folder"); }
+               if (an) {
+                  an->ClearObjects("Histograms");
+                  fSniffer->StatusMessage(0, "Clear Histograms folder");
+                  std::cout << "web: Clear Histograms folder" << std::endl;
+               }
             } else
             if (fCmd.IsName("CmdStart")) {
                if (cli) { cli->GetTask()->SubmitCommand("THStart"); /* cli->Start(); */ } else
-               if (an) { an->ResumeWorking(); fSniffer->StatusMessage(0, "Resume analysis loop"); }
+               if (an) {
+                  an->ResumeWorking();
+                  fSniffer->StatusMessage(0, "Resume analysis loop");
+                  std::cout << "web: Resume analysis loop" << std::endl;
+               }
             } else
             if (fCmd.IsName("CmdStop")) {
                if (cli) { cli->GetTask()->SubmitCommand("THStop"); /* cli->Stop(); */ } else
-               if (an) { an->SuspendWorking(); fSniffer->StatusMessage(0, "Suspend analysis loop"); }
+               if (an) {
+                  an->SuspendWorking();
+                  fSniffer->StatusMessage(0, "Suspend analysis loop");
+                  std::cout << "web: Suspend analysis loop" << std::endl;
+               }
             }
 
             fCmd.ReplyBool(true);
@@ -134,9 +147,11 @@ void TGo4DabcSniffer::RatemeterUpdate(TGo4Ratemeter* r)
 {
    dabc::LockGuard lock(fHierarchy.GetHMutex());
 
-   fHierarchy.FindChild("Status/EventRate").Field("value").SetStr(dabc::format("%4.2f", r->GetRate()));
+   fHierarchy.FindChild("Status/EventRate").SetField("value", r->GetRate());
+   fHierarchy.FindChild("Status/EventRate").Field("value").SetModified();
 
-   fHierarchy.FindChild("Status/AverRate").Field("value").SetStr(dabc::format("%4.2f", r->GetAvRate()));
+   fHierarchy.FindChild("Status/AverRate").SetField("value", r->GetAvRate());
+   fHierarchy.FindChild("Status/AverRate").Field("value").SetModified();
 
    fHierarchy.FindChild("Status/EventCount").Field("value").SetStr(dabc::format("%lu", (long unsigned) r->GetCurrentCount()));
 
