@@ -31,6 +31,7 @@ GO4GUI4_QMAKEFLAGS = "unix:QMAKE_LFLAGS += -Wl,-arch,i386"
 endif
 endif
 
+
 ifdef USEDIM
 GO4GUI4_FORMS       = $(wildcard $(GO4GUI4_DIR)/*.ui)
 GO4GUI4_QMAKEFLAGS += "FORMS += TGo4DabcMonitor.ui" 

@@ -18,6 +18,9 @@ win32:QMAKE_LFLAGS  += /nodefaultlib:msvcrt /verbose:lib msvcrt.lib
 
 win32:QMAKE_CXXFLAGS  += -MD
 
+# this is necessary to solve error with non-initialized gSystem
+unix:QMAKE_CXXFLAGS += -fPIC
+
 win32:DEFINES += GO4_EXPORT
 
 
