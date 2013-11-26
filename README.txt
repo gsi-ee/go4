@@ -103,7 +103,7 @@ QT installation on Mac OS X
 
 DABC installation
   
-  With DABC one gets web interface in go4. Installation instruction for DABC can be found 
+  With DABC (version >= 2.6.0) one gets web interface in go4. Installation instruction for DABC can be found 
   on http://dabc.gsi.de web site. Go4 will automatically use DABC installation once
   DABCSYS shell variable is set. Typically one call from shell:
   
