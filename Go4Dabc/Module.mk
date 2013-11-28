@@ -24,7 +24,7 @@ GO4DABC_DEP         = $(GO4DABC_O:.$(ObjSuf)=.$(DepSuf))
 GO4DABC_DDEP        = $(GO4DABC_DO:.$(ObjSuf)=.$(DepSuf))
 
 ifdef DOPACKAGE
-DISTRFILES         += $(GO4DABC_S) $(GO4DABC_H) 
+DISTRFILES         += $(GO4DABC_S) $(GO4DABC_H) $(GO4DABC_LINKDEF)
 endif
 
 GO4DABC_LIBNAME = $(LIB_PREFIX)Go4Dabc
