@@ -562,8 +562,8 @@ void TGo4QSettings::restoreMainWindowState(QMainWindow* tgt)
 
 void TGo4QSettings::storeMainWindowState(QMainWindow* src)
 {
-//   std::cout << "State: " << src->saveState().toHex().data() << std::endl;
-//   std::cout << "Geom: " << src->saveGeometry().toHex().data() << std::endl;
+   // std::cout << "State: " << src->saveState().toHex().data() << std::endl;
+   // std::cout << "Geom: " << src->saveGeometry().toHex().data() << std::endl;
 
    sett->setValue("/MainWindow/State", src->saveState());
 

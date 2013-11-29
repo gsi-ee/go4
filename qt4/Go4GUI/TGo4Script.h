@@ -160,6 +160,9 @@ class TGo4Script : public TGo4AbstractInterface {
 
       // windows management
 
+      void SetMainWindowState(int qtversion, const char* val);
+      void SetMainWindowGeometry(int qtversion, const char* val);
+
       ViewPanelHandle StartViewPanel();
       ViewPanelHandle StartViewPanel(int x, int y, int width, int height, int mode = 1, TGo4Picture* pic = 0);
       TString GetViewPanelName(ViewPanelHandle panel);

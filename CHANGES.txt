@@ -20,6 +20,11 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
+Changes in Go4 v4.6.1
+1. Store main window geometry and toolboxes settings in hotstart (only qt4).
+   Makes possible to reproduce exactely view of the main panel. 
+
+
 Changes in Go4 v4.6.0 (November 2013)
 1. Start implementation of new communication interfaces in Go4. Therefore
    change of version number. Aim to make fast 4.6 relase and than 5.0 till

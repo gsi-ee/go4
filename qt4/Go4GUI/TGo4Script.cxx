@@ -624,6 +624,18 @@ void TGo4Script::StepBackStore(const char* stepname,
       step->SetBackStore(storename, bufsize, splitlevel);
 }
 
+void TGo4Script::SetMainWindowState(int qtversion, const char* val)
+{
+   if (qtversion==4)
+      fMainWin->restoreState(QByteArray::fromHex(val));
+}
+
+void TGo4Script::SetMainWindowGeometry(int qtversion, const char* val)
+{
+   if (qtversion==4)
+      fMainWin->restoreGeometry(QByteArray::fromHex(val));
+}
+
 ViewPanelHandle TGo4Script::StartViewPanel()
 {
    return fMainWin->MakeNewPanel(1);
@@ -763,6 +775,10 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
 
    fs << "// Automatically generated startup script" << std::endl;
    fs << "// Do not change it!" << std::endl << std::endl;
+
+   fs << "go4->SetMainWindowState(4,\"" << main->saveState().toHex().data() << "\");" << std::endl;
+
+   fs << "go4->SetMainWindowGeometry(4,\"" << main->saveGeometry().toHex().data() << "\");" << std::endl;
 
    ProduceLoadLibs(fs);
 

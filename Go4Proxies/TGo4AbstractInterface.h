@@ -479,6 +479,12 @@ class TGo4AbstractInterface : public TObject {
 
       // windows management
 
+      /** Set state of all tool boxes in main window */
+      virtual void SetMainWindowState(int qtversion, const char* val) {}
+
+      /** Set geometry of main window */
+      virtual void SetMainWindowGeometry(int qtversion, const char* val) {}
+
       /** Create new view panel.
         * Handle, returned by this method, must be used for other operation,
         * like DivideViewPanel() or SelectPad() */
