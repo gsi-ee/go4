@@ -346,7 +346,7 @@ class TGo4DabcAccess : public TGo4Access {
             dabc::CmdGetBinary cmd;
             cmd.SetStr("Item", fItemName);
             // cmd.SetUInt("version", version);
-            cmd.SetTimeout(5);
+            cmd.SetTimeout(25);
             cmd.SetReceiver(fNode + dabc::Publisher::DfltName());
 
             cmd.SetPtr("#DabcAccess", this);
@@ -364,11 +364,23 @@ class TGo4DabcAccess : public TGo4Access {
       bool ReplyCommand(dabc::Command cmd)
       {
 
+         if (cmd.GetResult() != dabc::cmd_true) {
+            TGo4Log::Error("dabc::Command %s execution failed", cmd.GetName());
+            return true;
+         }
+
+         dabc::Buffer buf = cmd.GetRawData();
+
+         if (buf.null() || (buf.NumSegments()==0)) {
+           TGo4Log::Error("Did not get raw data from dabc::Command %s", cmd.GetName());
+           return true;
+         }
+
          if (fIsRate && (fHistoryLength>0)) {
             dabc::Hierarchy res;
             res.Create("get");
             res.SetVersion(cmd.GetUInt("version"));
-            res.ReadFromBuffer(cmd.GetRawData());
+            res.ReadFromBuffer(buf);
 
             //DOUT0("GET:%s RES = \n%s", fItem.ItemName().c_str(), res.SaveToXml(dabc::xmlmask_History).c_str());
 
@@ -404,8 +416,6 @@ class TGo4DabcAccess : public TGo4Access {
 
          if (!fRootClassName.empty()) {
             TClass *cl = TClass::GetClass(fRootClassName.c_str());
-
-            dabc::Buffer buf = cmd.GetRawData();
 
             dabc::BinDataHeader* hdr = (dabc::BinDataHeader*) buf.SegmentPtr();
 
