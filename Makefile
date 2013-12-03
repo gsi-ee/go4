@@ -109,6 +109,9 @@ build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
 		-e "s|@go4bindir@|$(GO4EXEPATH)|"  \
 		-e "s|@go4libdir@|$(GO4LIBPATH)|"  \
 		-e "s|@go4incdir@|$(GO4INCPATH)|"  \
+		-e "s|@go4mainlibs@|'$(subst -Llib,-L$(GO4LIBPATH),$(LIBS_FULLSET))'|"  \
+		-e "s|@go4guilibs@|'$(subst -L../../lib,-L$(GO4LIBPATH),$(LIBS_GUISET))'|"  \
+		-e "s|@go4cflags@|'$(subst -Iinclude -I.,-I$(GO4INCPATH),$(OPTFLAGS) $(CXXFLAGS))'|"  \
 		< build/go4-config.ini > bin/go4-config; chmod 755 bin/go4-config; echo "create go4-config"; fi)
 	@(if [ ! -f $(GO4MAP) ] ; then touch $(GO4MAP); fi)
 

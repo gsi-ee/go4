@@ -23,6 +23,9 @@ in Go4License.txt file which is part of the distribution.
 Changes in Go4 v4.6.1
 1. Store main window geometry and toolboxes settings in hotstart (only qt4).
    Makes possible to reproduce exactely view of the main panel. 
+2. In go4-config script provide --cflags, --libs and --glibs option.
+   This should allow to build libraries and executables, which are using
+   go4 libraries.    
 
 
 Changes in Go4 v4.6.0 (November 2013)
