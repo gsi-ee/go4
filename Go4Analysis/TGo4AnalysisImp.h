@@ -771,11 +771,11 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     /** Returns pointer on analysis client */
     TGo4AnalysisClient* GetAnalysisClient() const { return fxAnalysisSlave; }
 
-    /** Suspend working, only can be used in batch mode */
-    void SuspendWorking() { fxDoWorkingFlag = flagPause; }
+    /** Stop analysis event loop, works in both batch and gui-controlled mode */
+    void StopAnalysis();
 
-    /** Resume working, only can be used in batch mode */
-    void ResumeWorking() { fxDoWorkingFlag = flagRunning; }
+    /** (Re)Start analysis event loop, works in both batch and gui-controlled mode */
+    void StartAnalysis();
 
   protected:
 

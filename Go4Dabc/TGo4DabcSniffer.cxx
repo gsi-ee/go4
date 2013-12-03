@@ -6,11 +6,9 @@
 
 #include "TGo4AnalysisImp.h"
 #include "TGo4AnalysisObjectManager.h"
-#include "TGo4AnalysisClient.h"
 #include "TGo4Ratemeter.h"
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
-#include "TGo4Task.h"
 
 #include "dabc/Hierarchy.h"
 
@@ -37,7 +35,6 @@ class TExecDabcCmdTimer : public TTimer {
             // DOUT0("MY COMMAND!!");
 
             TGo4Analysis* an = TGo4Analysis::Instance();
-            TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : 0;
 
             if (fCmd.IsName("CmdClear")) {
                if (an) {
@@ -47,17 +44,15 @@ class TExecDabcCmdTimer : public TTimer {
                }
             } else
             if (fCmd.IsName("CmdStart")) {
-               if (cli) { cli->GetTask()->SubmitCommand("THStart"); /* cli->Start(); */ } else
                if (an) {
-                  an->ResumeWorking();
+                  an->StartAnalysis();
                   fSniffer->StatusMessage(0, "Resume analysis loop");
                   std::cout << "web: Resume analysis loop" << std::endl;
                }
             } else
             if (fCmd.IsName("CmdStop")) {
-               if (cli) { cli->GetTask()->SubmitCommand("THStop"); /* cli->Stop(); */ } else
                if (an) {
-                  an->SuspendWorking();
+                  an->StopAnalysis();
                   fSniffer->StatusMessage(0, "Suspend analysis loop");
                   std::cout << "web: Suspend analysis loop" << std::endl;
                }

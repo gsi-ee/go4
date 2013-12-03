@@ -2034,6 +2034,27 @@ Long_t TGo4Analysis::ExecuteScript(const char* macro_name)
 }
 
 
+void TGo4Analysis::StopAnalysis()
+{
+   if (fxAnalysisSlave)
+      // fxAnalysisSlave->GetTask()->SubmitCommand("THStop");
+      fxAnalysisSlave->Stop();
+   else
+      fxDoWorkingFlag = flagPause;
+}
+
+
+void TGo4Analysis::StartAnalysis()
+{
+   if (fxAnalysisSlave)
+      fxAnalysisSlave->Start();
+      // fxAnalysisSlave->GetTask()->SubmitCommand("THStart");
+   else
+      fxDoWorkingFlag = flagRunning;
+}
+
+
+
 
 #ifdef WIN32
 

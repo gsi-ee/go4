@@ -56,7 +56,6 @@ TGo4Slave::TGo4Slave(const char* name, Bool_t isserver, const char* serverhost, 
 
 TGo4Slave::TGo4Slave() : fbMainIsRunning(kTRUE)
 {
-
 }
 
 TGo4Slave::~TGo4Slave()
@@ -68,12 +67,14 @@ TGo4Slave::~TGo4Slave()
 void TGo4Slave::Start()
 {
    TGo4Log::Debug(" Slave ''%s'' default Start method, please override",GetName());
-   fbMainIsRunning=kTRUE;
+   fbMainIsRunning = kTRUE;
 }
+
+
 void TGo4Slave::Stop()
 {
    TGo4Log::Debug(" Slave ''%s'' default Stop method, please override",GetName());
-   fbMainIsRunning=kFALSE;
+   fbMainIsRunning = kFALSE;
 }
 
 void TGo4Slave::KillMain()
@@ -136,10 +137,7 @@ Int_t TGo4Slave::Initialization()
 
 TGo4ThreadHandler* TGo4Slave::GetThreadHandler()
 {
-   if(GetTask())
-      return(GetTask()->GetWorkHandler());
-   else
-      return 0;
+   return GetTask() ? GetTask()->GetWorkHandler() : 0;
 }
 
 
