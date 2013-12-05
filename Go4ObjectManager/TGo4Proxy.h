@@ -18,14 +18,7 @@
 
 class TGo4Slot;
 class TDirectory;
-
-class TGo4ObjectReceiver {
-   friend class TGo4Access;
-   public:
-      virtual ~TGo4ObjectReceiver() {}
-   protected:
-      virtual Bool_t AssignObject(const char* path, TObject* obj, Bool_t ownership) = 0;
-};
+class TGo4ObjectManager;
 
 //*********************************************************
 
@@ -42,26 +35,28 @@ class TGo4Access {
 
       virtual ~TGo4Access() {}
 
+      /** Indicate if object is remote */
       virtual Bool_t IsRemote() const { return kFALSE; }
-      virtual Bool_t CanGetObject() const;
+
+      /** Returns kTRUE, when object can be directly obtained with GetObject() method */
+      virtual Bool_t CanGetObject() const { return kFALSE; }
+
       virtual Bool_t GetObject(TObject* &obj, Bool_t &owner) const;
       virtual TClass* GetObjectClass() const;
       virtual const char* GetObjectName() const;
       virtual const char* GetObjectClassName() const;
+
       /** Have to assign object to provided receiver. Returns:
         * 0 - if object can not be assigned
         * 1 - if object assigned
         * 2 - if object will be assigned later */
-      virtual Int_t AssignObjectTo(TGo4ObjectReceiver* rcv, const char* path);
+      virtual Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char* path);
 
     protected:
-      void DoObjectAssignement(TGo4ObjectReceiver* rcv,
+      void DoObjectAssignement(TGo4ObjectManager* rcv,
                                const char* path,
                                TObject* obj,
-                               Bool_t owner)
-      {
-         rcv->AssignObject(path, obj, owner);
-      }
+                               Bool_t owner);
 };
 
 // ************************************************************

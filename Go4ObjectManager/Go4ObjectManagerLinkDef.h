@@ -30,7 +30,6 @@
 
 #pragma link C++ class TGo4Access+;
 #pragma link C++ class TGo4AccessWrapper+;
-#pragma link C++ class TGo4ObjectReceiver+;
 #pragma link C++ class TGo4ObjectManager+;
 #pragma link C++ class TGo4Iter+;
 

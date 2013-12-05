@@ -23,12 +23,12 @@ class TGo4AccessWrapper {
 
       TObject* GetObject(const char* name = 0)
       {
-        TGo4Access* proxy = ProvideAccess(name);
-        TObject* res = 0;
-        Bool_t owner = kFALSE;
-        if (proxy) proxy->GetObject(res, owner);
-        delete proxy;
-        return res;
+         TGo4Access* proxy = ProvideAccess(name);
+         TObject* res = 0;
+         Bool_t owner = kFALSE;
+         if (proxy) proxy->GetObject(res, owner);
+         delete proxy;
+         return res;
       }
 
       TClass* GetObjectClass(const char* name = 0)
@@ -48,8 +48,6 @@ class TGo4AccessWrapper {
       }
 
       virtual TGo4Access* ProvideAccess(const char* name = 0) { return 0; }
-
-   protected:
 
 
    ClassDef(TGo4AccessWrapper,1);

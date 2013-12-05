@@ -164,7 +164,7 @@ class TGo4AnalysisProxy : public TGo4Proxy {
       virtual Bool_t HandleTimer(TTimer* timer);
 
       /**  Set receiver for object envelopes, which coming from analysis without request  */
-      void SetDefaultReceiver(TGo4ObjectReceiver* rcv, const char* path);
+      void SetDefaultReceiver(TGo4ObjectManager* rcv, const char* path);
 
    protected:
 

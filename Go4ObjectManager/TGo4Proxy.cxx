@@ -15,10 +15,8 @@
 
 #include "TROOT.h"
 
-Bool_t TGo4Access::CanGetObject() const
-{
-   return kFALSE;
-}
+#include "TGo4ObjectManager.h"
+
 
 Bool_t TGo4Access::GetObject(TObject* &obj, Bool_t &owner) const
 {
@@ -44,7 +42,7 @@ const char* TGo4Access::GetObjectClassName() const
    return 0;
 }
 
-Int_t TGo4Access::AssignObjectTo(TGo4ObjectReceiver* rcv, const char* path)
+Int_t TGo4Access::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
 {
    if ((rcv==0) || IsRemote()) return 0;
    TObject* obj = 0;
@@ -52,4 +50,12 @@ Int_t TGo4Access::AssignObjectTo(TGo4ObjectReceiver* rcv, const char* path)
    if (!GetObject(obj, owner)) return 0;
    DoObjectAssignement(rcv, path, obj, owner);
    return 1;
+}
+
+void TGo4Access::DoObjectAssignement(TGo4ObjectManager* mgr,
+                                     const char* path,
+                                     TObject* obj,
+                                     Bool_t owner)
+{
+   mgr->AssignObject(path, obj, owner);
 }

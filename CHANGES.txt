@@ -26,7 +26,10 @@ Changes in Go4 v4.6.1
 2. In go4-config script provide --cflags, --libs and --glibs option.
    This should allow to build libraries and executables, which are using
    go4 libraries.    
-
+3. When taking ROOT objects from DABC-based application, also request and
+   unpack list of streamer infos. This allow to browse and display objects 
+   with different class version.
+   
 
 Changes in Go4 v4.6.0 (November 2013)
 1. Start implementation of new communication interfaces in Go4. Therefore

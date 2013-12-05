@@ -475,6 +475,22 @@ TGo4Slot* TGo4Slot::GetSlot(const char* name, Bool_t force)
 
 TGo4Slot* TGo4Slot::FindSlot(const char* fullpath, const char** subname)
 {
+   if (gDebug>1) printf("FindSlot this %s fullpath %s\n", GetName(), fullpath ? fullpath : "null");
+
+   // exclude current dir and process parent dir
+   while ((fullpath!=0) && (strlen(fullpath)>2)) {
+      // ignore current dir
+      if (strncmp(fullpath, "./", 2) == 0) { fullpath += 2; continue; }
+      // process parent dir
+
+      if ((strncmp(fullpath, "../", 3) == 0) && GetParent())
+         return GetParent()->FindSlot(fullpath + 3, subname);
+
+      break;
+   }
+
+   if (gDebug>1) printf("Getting this %s fullpath %s\n", GetName(), fullpath ? fullpath : "null");
+
    TGo4Slot* slot = GetSlot(fullpath);
    if (slot!=0) {
       if (subname!=0) *subname = 0;
@@ -485,11 +501,11 @@ TGo4Slot* TGo4Slot::FindSlot(const char* fullpath, const char** subname)
    TGo4Slot* curslot = this;
 
    while (curslot!=0) {
-     const char* nextname = 0;
-     TGo4Slot* nextslot = curslot->DefineSubSlot(curname, nextname);
-     if (nextslot==0) break;
-     curslot = nextslot;
-     curname = nextname;
+      const char* nextname = 0;
+      TGo4Slot* nextslot = curslot->DefineSubSlot(curname, nextname);
+      if (nextslot==0) break;
+      curslot = nextslot;
+      curname = nextname;
    }
 
    if (subname!=0) *subname = curname;

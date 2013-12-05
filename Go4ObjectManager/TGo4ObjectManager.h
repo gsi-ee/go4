@@ -23,8 +23,11 @@ class TFile;
 class TDirectory;
 class TTree;
 class TFolder;
+class TGo4Access;
 
-class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper, public TGo4ObjectReceiver {
+class TGo4ObjectManager : public TGo4Slot, public TGo4AccessWrapper {
+   friend class TGo4Access;
+
    public:
       TGo4ObjectManager();
 

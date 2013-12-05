@@ -90,7 +90,7 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
 
       const char* GetPathName() const { return fxFullPath.Data(); }
 
-      virtual Int_t AssignObjectTo(TGo4ObjectReceiver* rcv, const char* path)
+      virtual Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
       {
          if ((rcv==0) || (fxAnalProxy==0)) return 0;
          fxReceiver = rcv;
@@ -126,7 +126,7 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
          }
       }
 
-      void SetDefaultReceiver(TGo4ObjectReceiver* rcv, const char* path)
+      void SetDefaultReceiver(TGo4ObjectManager* rcv, const char* path)
       {
          fxReceiver = rcv;
          fxReceiverPath = path;
@@ -138,7 +138,7 @@ class TGo4AnalysisObjectAccess : public TObject, public TGo4Access {
       TString                 fxObjName;        //!
       TString                 fxObjClassName;   //!
       TString                 fxFullPath;       //!
-      TGo4ObjectReceiver*     fxReceiver;       //!
+      TGo4ObjectManager*     fxReceiver;       //!
       TString                 fxReceiverPath;   //!
       TTime                   fxSubmitTime;     //!
 };
@@ -908,15 +908,16 @@ void TGo4AnalysisProxy::RequestEventStatus(const char* evname, Bool_t astree, TG
 //      com->SetPrintoutOnly(kTRUE);
 //      com->SetOutputEvent(kFALSE);
 //      com->SetTreeMode(astree);
-      TGo4RemoteCommand* com= new TGo4RemoteCommand("ANGetEvent");
+      TGo4RemoteCommand* com = new TGo4RemoteCommand("ANGetEvent");
       com->SetString(name,0);
       com->SetValue(kFALSE,0); // use output event
       com->SetValue(kTRUE,1); // printout only
       com->SetValue(astree,2); // treemode on or off
       fxDisplay->SubmitCommand(com);
    } else {
-      if (astree) folder="Tree";
-            else folder="Event";
+      if (astree) folder = "Tree";
+             else folder = "Event";
+
       TGo4AnalysisObjectAccess* proxy =
          new TGo4AnalysisObjectAccess(this, cmdEvStatus, name, "", folder);
 
@@ -927,9 +928,9 @@ void TGo4AnalysisProxy::RequestEventStatus(const char* evname, Bool_t astree, TG
 
 
 void TGo4AnalysisProxy::RemoteTreeDraw(const char* treename,
-                                           const char* varexp,
-                                           const char* cutcond,
-                                           const char* hname)
+                                       const char* varexp,
+                                       const char* cutcond,
+                                       const char* hname)
 {
    TString tfoldername, tobjectname;
    TGo4Slot::ProduceFolderAndName(treename, tfoldername, tobjectname);
@@ -1489,7 +1490,7 @@ Bool_t TGo4AnalysisProxy::HandleTimer(TTimer* timer)
    return kFALSE;
 }
 
-void TGo4AnalysisProxy::SetDefaultReceiver(TGo4ObjectReceiver* rcv, const char* path)
+void TGo4AnalysisProxy::SetDefaultReceiver(TGo4ObjectManager* rcv, const char* path)
 {
    if (rcv==0) {
       delete fxDefaultProxy; fxDefaultProxy = 0;
