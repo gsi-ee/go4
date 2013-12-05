@@ -75,6 +75,7 @@ class TGo4Slot : public TNamed  {
       Int_t NumChilds() const { return (fChilds!=0) ? fChilds->GetLast()+1 : 0; }
       TGo4Slot* GetChild(Int_t n) const { return (fChilds!=0) ? (TGo4Slot*) fChilds->At(n) : 0; }
       TGo4Slot* FindChild(const char* name);
+      Int_t GetIndexOf(TGo4Slot* child);
       TGo4Slot* GetNextChild(TGo4Slot* child);
       TGo4Slot* GetNext();
       void DeleteChild(const char* name);

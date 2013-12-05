@@ -137,7 +137,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual bool ScanDrawOptions(TPad* pad, TGo4Slot* padslot, TGo4Picture* pic, bool onlyscan);
       virtual void ScanObjectsDrawOptions(bool onlyscan, TGo4Slot* padslot, TObjArray* objs, TObjArray* objslots);
       virtual void CollectMainDrawObjects( TGo4Slot * slot, TObjArray* objs, TObjArray* objslots, int modifier);
-      virtual TObject * ProduceSuperimposeObject( TGo4Picture* padopt, TGo4Slot * sislot, TGo4Slot * legslot,
+      virtual TObject * ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture* padopt, TGo4Slot * sislot, TGo4Slot * legslot,
                                           TObjArray * objs, TObjArray * objslots, bool showitems );
       virtual void Divide( int numX, int numY );
       virtual void SetSlotPad(TGo4Slot* padslot, TPad * pad);

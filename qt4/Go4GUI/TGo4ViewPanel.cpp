@@ -2194,8 +2194,8 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
       tgtslot = AddNewSlot(newslotname.toAscii().constData(), padslot);
       tgtslot->SetProxy(new TGo4ObjectProxy(obj, owner));
    }
-   if (tgtslot == 0)
-      return 0;
+
+   if (tgtslot == 0) return 0;
 
    if (kind < 100)
       CallPanelFunc(panel_Modified, pad);
@@ -2552,12 +2552,11 @@ void TGo4ViewPanel::CollectMainDrawObjects(TGo4Slot* slot, TObjArray* objs,
    }
 }
 
-TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Picture* padopt,
-      TGo4Slot* sislot, TGo4Slot* legslot, TObjArray* objs,
-      TObjArray * objslots, bool showitems)
+TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture* padopt,
+                             TGo4Slot* sislot, TGo4Slot* legslot, TObjArray* objs,
+                             TObjArray * objslots, bool showitems)
 {
-   if ((sislot == 0) || (objs == 0) || (padopt == 0))
-      return 0;
+   if ((sislot == 0) || (objs == 0) || (padopt == 0)) return 0;
 
    TObject* oldobj = sislot->GetAssignedObject();
 
@@ -2596,24 +2595,23 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Picture* padopt,
             hs->GetHists()->Clear();
       }
 
-      Int_t nextcol = 1;
-
       for (int n = 0; n <= objs->GetLast(); n++) {
          TH1* histo = (TH1*) objs->At(n);
-         TGo4Slot* slot = (TGo4Slot*) objslots->At(n);
+         TGo4Slot* objslot = (TGo4Slot*) objslots->At(n);
 
-         Int_t kind = GetDrawKind(slot);
-         if (resetcolors || (kind == kind_FitModels) || (slot->GetPar("::FirstDraw") != 0)) {
-            histo->SetLineColor(nextcol);
-            if (++nextcol == 10) nextcol = 1;
+         Int_t kind = GetDrawKind(objslot);
+         if (resetcolors || (kind == kind_FitModels) || (objslot->GetPar("::FirstDraw") != 0)) {
+            Int_t indx = padslot->GetIndexOf(objslot);
+            if (indx<0) indx = 0;
+            histo->SetLineColor((indx % 9) + 1);
          }
          histo->GetXaxis()->UnZoom();
 
          const char* drawopt = padopt->GetDrawOption(n);
          if (drawopt == 0)
-            drawopt = GetSpecialDrawOption(slot);
+            drawopt = GetSpecialDrawOption(objslot);
 
-         slot->RemovePar("::FirstDraw");
+         objslot->RemovePar("::FirstDraw");
 
          hs->Add(histo, drawopt);
       }
@@ -2629,18 +2627,17 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Picture* padopt,
          mgr->GetListOfGraphs()->Clear();
       }
 
-      Int_t nextcol = 1;
       for (int n = 0; n <= objs->GetLast(); n++) {
          TGraph* gr = (TGraph*) objs->At(n);
-         TGo4Slot* slot = (TGo4Slot*) objslots->At(n);
+         TGo4Slot* objslot = (TGo4Slot*) objslots->At(n);
 
-         Int_t kind = GetDrawKind(slot);
+         Int_t kind = GetDrawKind(objslot);
 
          TString drawopt = padopt->GetDrawOption(n);
          if (drawopt.Length() == 0)
-            drawopt = GetSpecialDrawOption(slot);
+            drawopt = GetSpecialDrawOption(objslot);
          if (drawopt.Length() == 0)
-            drawopt = "AP";
+            drawopt = go4sett->getTGraphDrawOpt().toAscii().constData();
 
          if (n > 0) {
             // suppress multiple drawing of axis for subgraphs
@@ -2648,15 +2645,27 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Picture* padopt,
             drawopt.ReplaceAll("A", "");
          }
 
-         if ((resetcolors) || (kind == kind_FitModels)
-               || (slot->GetPar("::FirstDraw") != 0)) {
+         Bool_t first_draw = objslot->GetPar("::FirstDraw") != 0;
+
+         Int_t objindx = padslot->GetIndexOf(objslot);
+
+         if (resetcolors || (kind == kind_FitModels) || first_draw) {
+            // use only basic 9 colors
+            Int_t nextcol = (objindx < 0) ? 1 : (objindx % 9) + 1;
             gr->SetLineColor(nextcol);
             gr->SetMarkerColor(nextcol);
-            // use only basic 9 colors
-            if (++nextcol == 10) nextcol = 1;
          }
 
-         slot->RemovePar("::FirstDraw");
+         if (first_draw && (n==0)) {
+            TAxis *ax = gr->GetXaxis();
+            if ((ax!=0) && ax->GetTimeDisplay()) {
+               padopt->SetHisStats(kFALSE);
+               padopt->SetXAxisTimeDisplay(kTRUE);
+               padopt->SetXAxisTimeFormat(ax->GetTimeFormat());
+            }
+         }
+
+         objslot->RemovePar("::FirstDraw");
 
          mgr->Add(gr, drawopt.Data());
       }
@@ -3660,7 +3669,7 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 
    CheckForSpecialObjects(pad, slot);
 
-   // this parameter ensure that all pads will be scaned one after another
+   // this parameter ensure that all pads will be scanned one after another
    Int_t lastdrawnpad = 0;
    if (!force)
       if (!slot->GetIntPar("::LastDrawnPad", lastdrawnpad))
@@ -3745,19 +3754,18 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 
    if (dosuperimpose) {
       if (sislot == 0)
-         sislot = new TGo4Slot(slot, "::Superimpose",
-               "place for superimpose object");
+         sislot = new TGo4Slot(slot, "::Superimpose", "place for superimpose object");
       if (padopt->IsLegendDraw()) {
          if (legslot == 0)
-            legslot = new TGo4Slot(slot, "::Legend",
-                  "place for superimpose object");
-      } else if (legslot != 0) {
+            legslot = new TGo4Slot(slot, "::Legend", "place for legends object");
+      } else
+      if (legslot != 0) {
          delete legslot;
          legslot = 0;
       }
 
-      drawobj = ProduceSuperimposeObject(padopt, sislot, legslot, &objs,
-            &objslots, padopt->IsTitleItem());
+      drawobj = ProduceSuperimposeObject(slot, padopt, sislot, legslot, &objs,
+                                         &objslots, padopt->IsTitleItem());
       if (drawobj == 0)
          dosuperimpose = kFALSE;
    }
@@ -3805,8 +3813,8 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
    gPad = pad; // instead of pad->cd(), while it is redraw frame
    if (drawobj != 0) {
 
-      bool first_draw = (slot->GetPar("::FirstDraw") == 0);
-      slot->SetPar("::FirstDraw","done");
+      bool first_draw = (slot->GetPar("::PadFirstDraw") == 0);
+      if (first_draw) slot->SetPar("::PadFirstDraw", "true");
 
       if (drawobj->InheritsFrom(TH1::Class())) {
          TH1* h1 = (TH1*) drawobj;
@@ -3911,6 +3919,8 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
 
 void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, bool scancontent, bool first_draw)
 {
+   // printf(" RedrawGraph %s first_time %d\n", gr->GetName(), first_draw);
+
    if ((pad == 0) || (padopt == 0) || (gr == 0)) return;
 
    if (scancontent) {
@@ -3918,7 +3928,7 @@ void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, boo
       gr->SetEditable(kFALSE);
    }
 
-   TString drawopt(padopt->GetDrawOption(0));
+   TString drawopt = padopt->GetDrawOption(0);
 
    // when graph drawn for the first time, check if time units used in axis
    if (first_draw) {
@@ -3927,7 +3937,10 @@ void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, boo
          padopt->SetHisStats(kFALSE);
          padopt->SetXAxisTimeDisplay(kTRUE);
          padopt->SetXAxisTimeFormat(ax->GetTimeFormat());
-         if (drawopt.Length() == 0) drawopt = "AL";
+         if (drawopt.Length() == 0) {
+            drawopt = go4sett->getTGraphDrawOpt().toAscii().constData();
+            padopt->SetDrawOption(drawopt);
+         }
       }
    }
 
@@ -3978,11 +3991,10 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt,
          firstgr->GetHistogram() : mg->GetHistogram();
 
    if (framehisto == 0) {
-      // this is workaround to prevent recreation of framehistogram in TMultiGraf::Paint
+      // this is workaround to prevent recreation of framehistogram in TMultiGraph::Paint
       mg->Draw(drawopt.Data());
-      framehisto =
-            (dosuperimpose && (firstgr != 0)) ? firstgr->GetHistogram() :
-                  mg->GetHistogram();
+      framehisto =  (dosuperimpose && (firstgr != 0)) ?
+                       firstgr->GetHistogram() : mg->GetHistogram();
    }
 
    if (framehisto != 0) {
@@ -4008,8 +4020,8 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt,
       mg->Draw(drawopt.Data());
 
    }
-   SetSelectedRangeToHisto(pad, framehisto, 0, padopt, false);
 
+   SetSelectedRangeToHisto(pad, framehisto, 0, padopt, false);
 }
 
 void TGo4ViewPanel::RedrawImage(TPad *pad, TGo4Picture* padopt, TGo4ASImage* im,

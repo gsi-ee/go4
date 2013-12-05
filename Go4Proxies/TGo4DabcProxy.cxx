@@ -234,6 +234,8 @@ class TGo4DabcAccess : public TGo4Access {
       /** Returns repetition timeout, negative - delete access object */
       double ProcessCommandReply(dabc::Command cmd)
       {
+         DOUT0("ProcessCommandReply");
+
          if (cmd.GetResult() != dabc::cmd_true) {
             TGo4Log::Error("dabc::Command %s execution failed", cmd.GetName());
             return -1;
@@ -479,6 +481,7 @@ class ReplyWorker : public dabc::Worker {
       virtual bool ReplyCommand(dabc::Command cmd)
       {
          if ((cmd.GetPtr("#DabcAccess") != 0) || (cmd.GetPtr("#DabcProxy") != 0)) {
+            DOUT0("CreateReplTimer");
             new TReplyTimer(cmd);
             return false;
          }
@@ -717,6 +720,8 @@ TGo4Access* TGo4DabcProxy::MakeProxy(const char* name)
    }
 
    dabc::Hierarchy child = hierarchy.FindChild(name);
+
+   DOUT0("CreateREQ %s", name);
 
    return child.null() ? 0 : new TGo4DabcAccess(fNodeName.Data(), child);
 }

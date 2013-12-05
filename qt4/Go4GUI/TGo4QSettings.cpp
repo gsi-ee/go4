@@ -539,7 +539,7 @@ void  TGo4QSettings::setTGraphDrawOpt(const QString& v)
 
 QString TGo4QSettings::getTGraphDrawOpt()
 {
-   return getStr("/ViewPanel/TGraphDrawOpt", "ap");
+   return getStr("/ViewPanel/TGraphDrawOpt", "al");
 }
 
 void TGo4QSettings::setGStyleStatFormat(const QString& v)

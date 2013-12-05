@@ -239,6 +239,15 @@ void TGo4Slot::DeleteChilds(const char* startedwith)
    }
 }
 
+Int_t TGo4Slot::GetIndexOf(TGo4Slot* child)
+{
+   if (child==0) return -1;
+   for(int n=0;n<NumChilds();n++)
+     if (GetChild(n)==child) return n;
+   return -1;
+}
+
+
 TGo4Slot* TGo4Slot::GetNextChild(TGo4Slot* child)
 {
    if (child==0) return 0;
@@ -475,8 +484,6 @@ TGo4Slot* TGo4Slot::GetSlot(const char* name, Bool_t force)
 
 TGo4Slot* TGo4Slot::FindSlot(const char* fullpath, const char** subname)
 {
-   if (gDebug>1) printf("FindSlot this %s fullpath %s\n", GetName(), fullpath ? fullpath : "null");
-
    // exclude current dir and process parent dir
    while ((fullpath!=0) && (strlen(fullpath)>2)) {
       // ignore current dir
@@ -488,8 +495,6 @@ TGo4Slot* TGo4Slot::FindSlot(const char* fullpath, const char** subname)
 
       break;
    }
-
-   if (gDebug>1) printf("Getting this %s fullpath %s\n", GetName(), fullpath ? fullpath : "null");
 
    TGo4Slot* slot = GetSlot(fullpath);
    if (slot!=0) {
