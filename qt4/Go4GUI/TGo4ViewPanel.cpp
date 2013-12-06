@@ -2600,10 +2600,10 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
          TGo4Slot* objslot = (TGo4Slot*) objslots->At(n);
 
          Int_t kind = GetDrawKind(objslot);
+         Int_t objindx = padslot->GetIndexOf(objslot); // slot index for object starts from 2
+
          if (resetcolors || (kind == kind_FitModels) || (objslot->GetPar("::FirstDraw") != 0)) {
-            Int_t indx = padslot->GetIndexOf(objslot);
-            if (indx<0) indx = 0;
-            histo->SetLineColor((indx % 9) + 1);
+            histo->SetLineColor(((objindx + 7) % 9) + 1);
          }
          histo->GetXaxis()->UnZoom();
 
@@ -2647,11 +2647,11 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
 
          Bool_t first_draw = objslot->GetPar("::FirstDraw") != 0;
 
-         Int_t objindx = padslot->GetIndexOf(objslot);
+         Int_t objindx = padslot->GetIndexOf(objslot); // slot index for object starts from 2
 
          if (resetcolors || (kind == kind_FitModels) || first_draw) {
             // use only basic 9 colors
-            Int_t nextcol = (objindx < 0) ? 1 : (objindx % 9) + 1;
+            Int_t nextcol = ((objindx + 7) % 9) + 1;
             gr->SetLineColor(nextcol);
             gr->SetMarkerColor(nextcol);
          }
@@ -2676,7 +2676,9 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
       TLegend* legend = dynamic_cast<TLegend*>(legslot->GetAssignedObject());
 
       if (legend == 0) {
-         legend = new TLegend(0.6,0.91,0.95,0.995);
+         double miny = 0.94 - 0.03 * objs->GetLast();
+         if (miny < 0.6) miny = 0.6; else if (miny>0.92) miny = 0.92;
+         legend = new TLegend(0.6, miny, 0.95, 0.99);
          legend->SetBorderSize(2);
          legend->SetName("fitlegend");
          legslot->SetProxy(new TGo4ObjectProxy(legend, kTRUE));
@@ -2693,7 +2695,19 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
             if (itemname!=0) objname = itemname;
          }
 
-         legend->AddEntry(stob,objname,ishstack ? "l" : "p");
+         TString ldrawopt = "l";
+
+         if (!ishstack) {
+            ldrawopt = "";
+            TString drawopt = padopt->GetDrawOption(n);
+            drawopt.ToLower();
+            if (drawopt.Contains("l")) ldrawopt+="l";
+            if (drawopt.Contains("p")) ldrawopt+="p";
+         }
+
+         if (ldrawopt.Length()==0) ldrawopt = "l";
+
+         legend->AddEntry(stob, objname, ldrawopt.Data());
       }
    }
 

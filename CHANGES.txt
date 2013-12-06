@@ -29,7 +29,9 @@ Changes in Go4 v4.6.1
 3. When taking ROOT objects from DABC-based application, also request and
    unpack list of streamer infos. This allow to browse and display objects 
    with different class version.
-   
+4. Improve handling of superimposed graphs and histograms: support
+   time axis, correctly set colors, adjust size of legends box.
+       
 
 Changes in Go4 v4.6.0 (November 2013)
 1. Start implementation of new communication interfaces in Go4. Therefore
