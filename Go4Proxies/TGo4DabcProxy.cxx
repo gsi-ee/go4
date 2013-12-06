@@ -187,7 +187,7 @@ class TGo4DabcAccess : public TGo4Access {
             dabc::CmdPublisherGet cmd2;
             cmd2.SetStr("Item", fItemName);
             cmd2.SetUInt("history", fHistoryLength);
-            cmd2.SetTimeout(5.);
+            cmd2.SetTimeout(10.);
             cmd2.SetReceiver(fNodeName + dabc::Publisher::DfltName());
 
             cmd2.SetPtr("#DabcAccess", this);
@@ -215,7 +215,7 @@ class TGo4DabcAccess : public TGo4Access {
             dabc::CmdGetBinary cmd;
             cmd.SetStr("Item", fItemName);
             // cmd.SetUInt("version", version);
-            cmd.SetTimeout(25);
+            cmd.SetTimeout(10.);
             cmd.SetReceiver(fNodeName + dabc::Publisher::DfltName());
 
             cmd.SetPtr("#DabcAccess", this);
@@ -666,7 +666,7 @@ Bool_t TGo4DabcProxy::UpdateHierarchy(Bool_t sync)
 
    dabc::Command cmd2("GetGlobalNamesList");
    cmd2.SetReceiver(std::string(fNodeName.Data()) + dabc::Publisher::DfltName());
-   cmd2.SetTimeout(5.);
+   cmd2.SetTimeout(10.);
 
    dabc::WorkerRef wrk = dabc::mgr.FindItem("/Go4ReplWrk");
 
