@@ -234,7 +234,7 @@ class TGo4DabcAccess : public TGo4Access {
       /** Returns repetition timeout, negative - delete access object */
       double ProcessCommandReply(dabc::Command cmd)
       {
-         DOUT0("ProcessCommandReply");
+         // DOUT0("ProcessCommandReply");
 
          if (cmd.GetResult() != dabc::cmd_true) {
             TGo4Log::Error("dabc::Command %s execution failed", cmd.GetName());
@@ -331,7 +331,7 @@ class TGo4DabcAccess : public TGo4Access {
                }
             }
 
-            printf("Item %s raw_data size %u master_version %u \n", fItemName.c_str(), fRawData.GetTotalSize(), hdr->master_version);
+            TGo4Log::Debug("Item %s raw_data size %u master_version %u", fItemName.c_str(), fRawData.GetTotalSize(), hdr->master_version);
 
             char *pobj = (char*) cl->New();
 
@@ -408,7 +408,7 @@ class TGo4DabcAccess : public TGo4Access {
                TFakeFile fff((TList*) tobj);
                fff.ReadStreamerInfo();
 
-               printf("!!!WE UNPACK STREAMER INFOS!!!\n");
+               TGo4Log::Debug("Get streamer infos from remote");
             }
 
             if (tobj) {
@@ -481,7 +481,7 @@ class ReplyWorker : public dabc::Worker {
       virtual bool ReplyCommand(dabc::Command cmd)
       {
          if ((cmd.GetPtr("#DabcAccess") != 0) || (cmd.GetPtr("#DabcProxy") != 0)) {
-            DOUT0("CreateReplTimer");
+            // DOUT0("CreateReplTimer");
             new TReplyTimer(cmd);
             return false;
          }
@@ -679,7 +679,7 @@ Bool_t TGo4DabcProxy::UpdateHierarchy(Bool_t sync)
    }
 
    if (dabc::mgr.GetCommandChannel().Execute(cmd2)!=dabc::cmd_true) {
-      printf("Fail to get hierarchy\n");
+      TGo4Log::Error("Fail to get remote hierarchy");
       return kFALSE;
    }
 
@@ -721,7 +721,7 @@ TGo4Access* TGo4DabcProxy::MakeProxy(const char* name)
 
    dabc::Hierarchy child = hierarchy.FindChild(name);
 
-   DOUT0("CreateREQ %s", name);
+   // DOUT0("CreateREQ %s", name);
 
    return child.null() ? 0 : new TGo4DabcAccess(fNodeName.Data(), child);
 }
