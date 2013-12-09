@@ -1168,8 +1168,13 @@ int main(int argc, char **argv)
       while (TGo4Analysis::Exists()) {
          // add this check while at some moments ROOT could reset this pointer
          if (gSystem==0) {
-            printf("ROOT feature - gSystem==0, break execution\n");
-            exit(5);
+            // printf("ROOT feature - gSystem==0, break execution\n");
+
+            // exit call exit handler and produces even more problems
+            // we trying to close application as soon as possible - anyway many
+            // items already cleaned up
+            abort();
+            //exit(5);
          }
 
          gSystem->ProcessEvents();
