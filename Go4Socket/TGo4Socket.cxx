@@ -15,6 +15,11 @@
 
 #include <string.h>
 
+#ifndef WIN32
+#include <sys/types.h>
+#include <sys/socket.h>
+#endif
+
 #include "TMutex.h"
 #include "TMessage.h"
 #include "TSystem.h"
@@ -37,9 +42,9 @@ const char* TGo4Socket::fgcGOON = "-I- go on";
 // note: ownwership bit changed for newer root versions!!
 #if ROOT_VERSION_CODE > ROOT_VERSION(4,3,2)
 //#if __GO4ROOTVERSION__ > 40302
-   const Int_t TGo4Socket::fgiISOWNER=TBuffer::kIsOwner;
+   const Int_t TGo4Socket::fgiISOWNER = TBuffer::kIsOwner;
 #else
-   const Int_t TGo4Socket::fgiISOWNER=BIT(14);
+   const Int_t TGo4Socket::fgiISOWNER = BIT(14);
    // have to emulate the protected owner flag of the TBuffer class, needed for reallocation!
 #endif
 
@@ -166,12 +171,12 @@ Int_t TGo4Socket::Open(const char* host, Int_t port, Bool_t keepservsock)
       if(!fxServerSocket->IsValid())
       {
          TGo4Log::Debug(" Socket: Open(const char* host,  Int_t port) as Server failed ");
-         fiPort=0;
+         fiPort = 0;
          return -8;
       }
       else
       {
-         fiPort=fxServerSocket->GetLocalPort(); // success, get real port number
+         fiPort = fxServerSocket->GetLocalPort(); // success, get real port number
          //std::cout << " ---- Go4 Socket got local port "<< fiPort  << std::endl;
       }
       fxSocket = 0;
@@ -268,8 +273,15 @@ Int_t TGo4Socket::SendBuffer(TBuffer* buf)
    //                        std::cout << dummy << std::endl;
    //////////////////////////////////////////////////////////////////////////////////////
 
-   Int_t rev = fxSocket->SendRaw(field,len);
+#ifdef WIN32
+
+   Int_t rev = fxSocket->SendRaw(field, len);
    // raw send complete buffer
+#else
+
+   Int_t rev = gSystem->SendRaw(fxSocket->GetDescriptor(), field, len, MSG_NOSIGNAL);
+
+#endif
 
    if(rev>0) return 0;
 
@@ -294,8 +306,12 @@ Int_t TGo4Socket::ReceiveBuffer()
 
    UInt_t len = 0;
    // first receive length of following buffer
+#ifdef WIN32
    Int_t rev = fxSocket->RecvRaw(&len, sizeof(UInt_t));
-   if(rev<= 0) {
+#else
+   Int_t rev = gSystem->RecvRaw(fxSocket->GetDescriptor(), &len, sizeof(UInt_t), MSG_NOSIGNAL);
+#endif
+   if(rev <= 0) {
       // error on receive
       //TGo4Log::Debug(" !!! Socket: ReceiveBuffer() -- receive length ERROR # %d !!! ",rev);
       // no output here, we will redirect std::cout client runnable (command)
@@ -318,9 +334,13 @@ Int_t TGo4Socket::ReceiveBuffer()
       ReallocBuffer(fxBuffer, oldsize, newsize);
    }
    // read object buffer into receive buffer:
-   char* buf = fxBuffer->Buffer() +sizeof(UInt_t);
+   char* buf = fxBuffer->Buffer()+sizeof(UInt_t);
    // skip first word, see TMessage transport
+#ifdef WIN32
    rev = fxSocket->RecvRaw((void*) buf, len);
+#else
+   rev = gSystem->RecvRaw(fxSocket->GetDescriptor(), buf, len, MSG_NOSIGNAL);
+#endif
    if(rev <= 0) {
       // error on receive
       TGo4Log::Debug(" !!! Socket: ReceiveBuffer() ERROR # %d !!! ",rev);
@@ -377,7 +397,12 @@ Int_t TGo4Socket::Send(const char* name)
          if(fxSocket)
             {
                strncpy(fxLocalBuffer,name, TGo4Socket::fgiBUFLENGTH-1);
+
+#ifdef WIN32
                rev = fxSocket->SendRaw(fxLocalBuffer,TGo4Socket::fgiBUFLENGTH);
+#else
+               rev = gSystem->SendRaw(fxSocket->GetDescriptor(), fxLocalBuffer,TGo4Socket::fgiBUFLENGTH, MSG_NOSIGNAL);
+#endif
             }
          else
             {
@@ -411,8 +436,12 @@ char* TGo4Socket::RecvRaw(const char* name)
       TGo4Log::Debug(" !!! Socket: Recv(const char*) ERROR : no TSocket !!! ");
       return 0;
    }
+#ifdef WIN32
+   Int_t rev = fxSocket->RecvRaw(fxLocalBuffer, TGo4Socket::fgiBUFLENGTH);
+#else
+   Int_t rev = gSystem->RecvRaw(fxSocket->GetDescriptor(), fxLocalBuffer, TGo4Socket::fgiBUFLENGTH, MSG_NOSIGNAL);
+#endif
 
-   Int_t rev=fxSocket->RecvRaw(fxLocalBuffer, TGo4Socket::fgiBUFLENGTH);
    if(rev<=0) {
       // error on receive
       TGo4Log::Debug(" !!! Socket: RecvRaw(const char*) ERROR # %d !!! ",rev);
@@ -470,17 +499,17 @@ void TGo4Socket::ReallocBuffer(TBuffer* buffer, Int_t oldsize, Int_t newsize)
 {
    if(buffer==0) return;
    TGo4LockGuard mainguard;
-   char* memfield=buffer->Buffer();
+   char* memfield = buffer->Buffer();
    //buffer->Expand(newsize); // is protected! we make it by hand...
    //Int_t current = buffer->Length(); // cursor position
-   Int_t extraspace=TGo4Socket::fgiBUFEXTRASPACE; // =8, constant within TBuffer
+   Int_t extraspace = TGo4Socket::fgiBUFEXTRASPACE; // =8, constant within TBuffer
    //   memfield = (char *) TStorage::ReAlloc(memfield,
    //                                           (newsize + extraspace) * sizeof(char),
    //                                           (oldsize+ extraspace) * sizeof(char));
    // this works only for ROOT versions > 3.02/04:
    memfield = TStorage::ReAllocChar(memfield,
-         (newsize+extraspace),
-         (oldsize+extraspace));
+                    (newsize+extraspace),
+                    (oldsize+extraspace));
    //std::cout << "Socket reallocating char receive buffer from "<<oldsize<< " to " << newsize<< std::endl;
    buffer->ResetBit(fgiISOWNER);
    //#if ROOT_VERSION_CODE > ROOT_VERSION(5,23,2)
