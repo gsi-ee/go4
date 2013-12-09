@@ -1339,18 +1339,18 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
             } else {
                cond = dynamic_cast<TGo4PolyCond*>(GetActiveObj(pad, kind_Poly));
                // start region from the beginning
-if                     (cond!=0) {
-                        TCutG* cut = cond->GetCut(kTRUE);
-                        delete cut;
-                     }
-                  }
-                  if(cond==0) return;
-                  fiPickCounter++;
-               } else {
-                  cond = dynamic_cast<TGo4PolyCond*> (GetActiveObj(pad, kind_Poly));
-                  if(cond==0) return;
-                  fiPickCounter++;
+               if (cond!=0) {
+                  TCutG* cut = cond->GetCut(kTRUE);
+                  delete cut;
                }
+            }
+            if(cond==0) return;
+            fiPickCounter++;
+         } else {
+            cond = dynamic_cast<TGo4PolyCond*> (GetActiveObj(pad, kind_Poly));
+            if(cond==0) return;
+            fiPickCounter++;
+         }
 
          if (cond != 0) {
             TCutG* cut = cond->GetCut(kFALSE);
@@ -1612,15 +1612,13 @@ void TGo4ViewPanel::CanvasStatusEventSlot(const char* message)
 
 void TGo4ViewPanel::ProcessPadDoubleClick()
 {
-   if (fxDoubleClickTimerPad == 0)
-      return;
+   if (fxDoubleClickTimerPad == 0) return;
 
    TGo4Picture pic;
    MakePictureForPad(&pic, fxDoubleClickTimerPad, true);
    fxDoubleClickTimerPad = 0;
 
-   if (pic.GetNumObjNames() == 0)
-      return;
+   if (pic.GetNumObjNames() == 0) return;
 
    TGo4ViewPanel* newpanel = CreateViewPanel();
    newpanel->ProcessPictureRedraw("", newpanel->GetCanvas(), &pic);
@@ -1876,10 +1874,12 @@ void TGo4ViewPanel::StartRootEditor()
       fxRooteditor->SetResizeOnPaint(kFALSE); // disable internal resize on paintEvent, we use ResizeGedEditor
       fxRooteditor->SetEditable(); // mainframe will adopt pad editor window
       fxPeditor = TVirtualPadEditor::LoadEditor();
+      fxPeditor->SetGlobal(kFALSE);
       fxRooteditor->SetEditable(kFALSE); // back to window manager as root window
       ActivateInGedEditor(GetSelectedObject(GetActivePad(), 0));
-   } else
+   } else {
       ActivateInGedEditor(0);
+   }
 
    show();
    ResizeGedEditor();
@@ -5216,16 +5216,16 @@ void TGo4ViewPanel::ResizeGedEditor()
 
 void TGo4ViewPanel::ActivateInGedEditor(TObject* obj)
 {
-   if (!fbEditorFrameVisible)
-      return;
+   if (!fbEditorFrameVisible) return;
 
 #ifndef __NOGO4GED__
    TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
    if ((ed != 0) && (obj != 0))
-      if (!obj->InheritsFrom(THStack::Class())
-            && !obj->InheritsFrom(TMultiGraph::Class())) {
+      if (!obj->InheritsFrom(THStack::Class()) && !obj->InheritsFrom(TMultiGraph::Class())) {
          gTQSender = GetCanvas();
          ed->SetModel(GetActivePad(), obj, kButton1Down);
+         printf("we are here -ed %p isglobal %d\n", ed, ed->IsGlobal());
+
       }
 #endif
 }
@@ -5235,8 +5235,7 @@ void TGo4ViewPanel::CleanupGedEditor()
 #ifndef __NOGO4GED__
 //   std::cout << "TGo4ViewPanel::CleanupGedEditor()" << std::endl;
    TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
-   if (ed == 0)
-      return;
+   if (ed == 0) return;
    if (fDummyHisto == 0) {
       fDummyHisto = new TH1I("dummyhisto", "dummyhisto", 100, -10., 10.);
       fDummyHisto->FillRandom("gaus", 1000);
@@ -5256,10 +5255,9 @@ void TGo4ViewPanel::ShootRepaintTimer()
 
 void TGo4ViewPanel::ShootRepaintTimer(TPad* pad)
 {
-   if (IsRepaintTimerActive())
-      return;
-   if (pad == 0)
-      pad = GetCanvas();
+   if (IsRepaintTimerActive()) return;
+
+   if (pad == 0) pad = GetCanvas();
 
    fxRepaintTimerPad = pad;
    CallServiceFunc(service_PanelTimer);

@@ -47,6 +47,9 @@
 #include "TColor.h"
 #include "TLatex.h"
 #include "Riostream.h"
+#ifndef __NOGO4GED__
+#include "TGedEditor.h"
+#endif
 
 #include "TGo4LockGuard.h"
 
@@ -906,8 +909,8 @@ void QRootCanvas::executeMenu(int id)
 
       // save global to Pad before calling TObject::Execute()
 
-      TVirtualPad  *psave = gROOT->GetSelectedPad();
-      TMethod *method= (TMethod *) fMenuMethods->At(id);
+      TVirtualPad* psave = gROOT->GetSelectedPad();
+      TMethod *method = (TMethod *) fMenuMethods->At(id);
 
       /// test: do this in any case!
       fCanvas->HandleInput(kButton3Up, gPad->XtoAbsPixel(fMousePosX), gPad->YtoAbsPixel(fMousePosY));
@@ -915,25 +918,35 @@ void QRootCanvas::executeMenu(int id)
       // change current dir that all new histograms appear here
       gROOT->cd();
 
-      if (method->GetListOfMethodArgs()->First())
+
+      if (method->GetListOfMethodArgs()->First()) {
          methodDialog(fMenuObj, method);
-      else {
+      } else {
+
          gROOT->SetFromPopUp(kTRUE);
+
          fMenuObj->Execute(method->GetName(), "");
 
          if (fMenuObj->TestBit(TObject::kNotDeleted)) {
             emit MenuCommandExecuted(fMenuObj, method->GetName());
-         } else
+         } else {
             fMenuObj = 0;
+         }
+
+         #ifndef __NOGO4GED__
+            TGedEditor* ed = dynamic_cast<TGedEditor*>(TVirtualPadEditor::GetPadEditor(kFALSE));
+            if (fMenuObj && ed) ed->SetModel(psave, fMenuObj, kButton1Down);
+         #endif
       }
+
       fCanvas->GetPadSave()->Update();
       fCanvas->GetPadSave()->Modified();
+
       gROOT->SetSelectedPad(psave);
-      ////qDebug("MENU:  gPad:%s gROOT:%s cur:%s \n",
-      //gPad->GetName(), gROOT->GetSelectedPad()->GetName(), c->GetName());
 
       gROOT->GetSelectedPad()->Update();
       gROOT->GetSelectedPad()->Modified();
+
       fCanvas->Modified();
       fCanvas->ForceUpdate();
       gROOT->SetFromPopUp(kFALSE);
