@@ -31,6 +31,10 @@ Changes in Go4 v4.6.1
    with different class version.
 4. Improve handling of superimposed graphs and histograms: support
    time axis, correctly set colors, adjust size of legends box.
+5. Use MSG_NOSIGNAL option when send/recv data via socket (only for Unix).
+   Allows to correctly terminate analysis when socket corrupted or broken.
+6. Activate graphics editor (TGedEditor) when called via context menu.
+   Was not working due to recent ROOT changes.      
        
 
 Changes in Go4 v4.6.0 (November 2013)

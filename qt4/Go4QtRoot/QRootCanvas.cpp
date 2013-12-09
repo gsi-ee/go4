@@ -933,11 +933,12 @@ void QRootCanvas::executeMenu(int id)
             fMenuObj = 0;
          }
 
-         #ifndef __NOGO4GED__
-            TGedEditor* ed = dynamic_cast<TGedEditor*>(TVirtualPadEditor::GetPadEditor(kFALSE));
-            if (fMenuObj && ed) ed->SetModel(psave, fMenuObj, kButton1Down);
-         #endif
       }
+
+      #ifndef __NOGO4GED__
+         TGedEditor* ed = dynamic_cast<TGedEditor*>(TVirtualPadEditor::GetPadEditor(kFALSE));
+         if (fMenuObj && ed) ed->SetModel(psave, fMenuObj, kButton1Down);
+      #endif
 
       fCanvas->GetPadSave()->Update();
       fCanvas->GetPadSave()->Modified();
