@@ -21,6 +21,7 @@ EXAMPMESH_DICT        = $(EXAMPMESH_DIR)/$(DICT_PREFIX)Mesh
 EXAMPMESH_DH          = $(EXAMPMESH_DICT).$(HedSuf)
 EXAMPMESH_DS          = $(EXAMPMESH_DICT).$(SrcSuf)
 EXAMPMESH_DO          = $(EXAMPMESH_DICT).$(ObjSuf)
+EXAMPMESH_D6          = $(EXAMPMESH_DICT)$(DICT_R6SUFF)
 
 EXAMPMESH_H           = $(filter-out $(EXAMPMESH_DH) $(EXAMPMESH_LINKDEF), $(wildcard $(EXAMPMESH_DIR)/*.$(HedSuf)))
 EXAMPMESH_S           = $(filter-out $(EXAMPMESH_DS), $(wildcard $(EXAMPMESH_DIR)/*.$(SrcSuf)))
@@ -50,7 +51,7 @@ $(EXAMPMESH_DS): $(EXAMPMESH_H)  $(EXAMPMESH_LINKDEF)
 	@$(ROOTCINTGO4) $(EXAMPMESH_H) $(EXAMPMESH_LINKDEF)
 
 clean-bin::
-	@rm -f $(EXAMPMESH_O) $(EXAMPMESH_DO)
+	@rm -f $(EXAMPMESH_O) $(EXAMPMESH_DO) $(EXAMPMESH_D6)
 	@rm -f $(EXAMPMESH_DEP) $(EXAMPMESH_DDEP) $(EXAMPMESH_DS) $(EXAMPMESH_DH)
 
 clean:: clean-bin

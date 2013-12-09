@@ -20,6 +20,7 @@ GO4GUI3_DICT        = $(GO4GUI3_DIR)/$(DICT_PREFIX)$(GO4GUI3_NAME)
 GO4GUI3_DH          = $(GO4GUI3_DICT).$(HedSuf)
 GO4GUI3_DS          = $(GO4GUI3_DICT).$(SrcSuf)
 GO4GUI3_DO          = $(GO4GUI3_DICT).$(ObjSuf)
+GO4GUI3_D6          = $(GO4GUI3_DICT)$(DICT_R6SUFF)
 
 $(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE) : LDRPATHS += $(if $(USEDIM), $(DIMLIBPATH),)
 
@@ -124,7 +125,7 @@ qt3-heads: $(GO4GUI3_FPUBH)
 
 clean-qt3-GUI-bin:
 	@rm -f $(GO4GUI3_DIR)/.obj/*.o
-	@rm -f $(GO4GUI3_DO) $(GO4GUI3_DDEP) $(GO4GUI3_DS) $(GO4GUI3_DH)
+	@rm -f $(GO4GUI3_DO) $(GO4GUI3_D6) $(GO4GUI3_DDEP) $(GO4GUI3_DS) $(GO4GUI3_DH)
 ifneq ($(wildcard $(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE)),)
 	cd $(GO4GUI3_DIR); $(MAKE) -f $(GO4GUI3_QTMAKE) clean "GO4SYS=../.."
 endif

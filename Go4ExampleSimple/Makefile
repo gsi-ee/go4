@@ -21,6 +21,7 @@ EXAMPSIMP_DICT        = $(EXAMPSIMP_DIR)/$(DICT_PREFIX)XXX
 EXAMPSIMP_DH          = $(EXAMPSIMP_DICT).$(HedSuf)
 EXAMPSIMP_DS          = $(EXAMPSIMP_DICT).$(SrcSuf)
 EXAMPSIMP_DO          = $(EXAMPSIMP_DICT).$(ObjSuf)
+EXAMPSIMP_D6          = $(EXAMPSIMP_DICT)$(DICT_R6SUFF)
 
 EXAMPSIMP_H           = $(filter-out $(EXAMPSIMP_DH) $(EXAMPSIMP_LINKDEF), $(wildcard $(EXAMPSIMP_DIR)/*.$(HedSuf)))
 EXAMPSIMP_S           = $(filter-out $(EXAMPSIMP_DS), $(wildcard $(EXAMPSIMP_DIR)/*.$(SrcSuf)))
@@ -51,7 +52,7 @@ $(EXAMPSIMP_DS): $(EXAMPSIMP_H)  $(EXAMPSIMP_LINKDEF)
 	@$(ROOTCINTGO4) $(EXAMPSIMP_H) $(EXAMPSIMP_LINKDEF)
 
 clean-bin::
-	@rm -f $(EXAMPSIMP_O) $(EXAMPSIMP_DO)
+	@rm -f $(EXAMPSIMP_O) $(EXAMPSIMP_DO) $(EXAMPSIMP_D6)
 	@rm -f $(EXAMPSIMP_DEP) $(EXAMPSIMP_DDEP) $(EXAMPSIMP_DS) $(EXAMPSIMP_DH)
 
 clean:: clean-bin

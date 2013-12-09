@@ -84,6 +84,7 @@ FITEX4_OBJ     =  $(FITEX_DIR)/TModelTemplate.$(ObjSuf)
 FITEX4_DICTO   =  $(FITEX_DIR)/Example4Dict.$(ObjSuf)
 FITEX4_SRC     =  $(FITEX_DIR)/TModelTemplate.$(SrcSuf)
 FITEX4_DICTS   =  $(FITEX_DIR)/Example4Dict.$(SrcSuf)
+FITEX4_DICT6   =  $(FITEX_DIR)/Example4Dict$(DICT_R6SUFF)
 FITEX4_HED     =  $(FITEX_DIR)/TModelTemplate.$(HedSuf)
 FITEX4_LINKDEF =  $(FITEX_DIR)/Example4LinkDef.h
 FITEX4_LIB     =  $(FITEX_DIR)/$(FITEX4_LIBNAME).$(DllSuf)
@@ -215,7 +216,7 @@ endif
 fitexampletargets: $(FITEX_DLLS) $(FITEX_EXECS)
 
 clean-bin::
-	@rm -f $(FITEX_OBJS)  $(FITEX_DIR)/*.$(ObjSuf) $(FITEX_DIR)/*Dict.*
+	@rm -f $(FITEX_OBJS)  $(FITEX_DIR)/*.$(ObjSuf) $(FITEX_DIR)/*Dict.* $(FITEX4_DICT6)
 
 clean:: clean-bin
 	@rm -f $(FITEX_EXECS) $(FITEX_DLLS) $(FITEX_DIR)/*.$(DllSuf)

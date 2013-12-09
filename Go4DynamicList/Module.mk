@@ -13,6 +13,7 @@ DYNLIST_DICT        = $(DYNLIST_DIR)/$(DICT_PREFIX)$(DYNLIST_NAME)
 DYNLIST_DH          = $(DYNLIST_DICT).$(HedSuf)
 DYNLIST_DS          = $(DYNLIST_DICT).$(SrcSuf)
 DYNLIST_DO          = $(DYNLIST_DICT).$(ObjSuf)
+DYNLIST_D6          = $(DYNLIST_DICT)$(DICT_R6SUFF)
 
 DYNLIST_H           = $(filter-out $(DYNLIST_NOTLIBF) $(DYNLIST_DH) $(DYNLIST_LINKDEF) $(DYNLIST_OTHERF), $(wildcard $(DYNLIST_DIR)/*.$(HedSuf)))
 DYNLIST_S           = $(filter-out $(DYNLIST_NOTLIBF) $(DYNLIST_DS), $(wildcard $(DYNLIST_DIR)/*.$(SrcSuf)))
@@ -41,6 +42,6 @@ $(DYNLIST_DS): $(DYNLIST_H)  $(DYNLIST_LINKDEF)
 	@$(ROOTCINTGO4) $(DYNLIST_H) $(DYNLIST_LINKDEF)
 
 clean-bin::
-	@rm -f $(DYNLIST_O) $(DYNLIST_DO)
+	@rm -f $(DYNLIST_O) $(DYNLIST_DO) $(DYNLIST_D6)
 	@rm -f $(DYNLIST_DEP) $(DYNLIST_DDEP) $(DYNLIST_DS) $(DYNLIST_DH)
 

@@ -25,6 +25,7 @@ ANALCL_DICT        = $(ANALCL_DIR)/$(DICT_PREFIX)$(ANALCL_NAME)
 ANALCL_DH          = $(ANALCL_DICT).$(HedSuf)
 ANALCL_DS          = $(ANALCL_DICT).$(SrcSuf)
 ANALCL_DO          = $(ANALCL_DICT).$(ObjSuf)
+ANALCL_D6          = $(ANALCL_DICT)$(DICT_R6SUFF)
 
 ANALCL_H           = $(filter-out $(ANALCL_NOTLIBF) $(ANALCL_DH) $(ANALCL_LINKDEF), $(wildcard $(ANALCL_DIR)/*.$(HedSuf)))
 ANALCL_S           = $(filter-out $(ANALCL_EXES) $(ANALCL_NOTLIBF) $(ANALCL_DS), $(wildcard $(ANALCL_DIR)/*.$(SrcSuf)))
@@ -67,7 +68,7 @@ $(ANALCL_DS): $(ANALCL_H)  $(ANALCL_LINKDEF)
 all::  $(ANALCL_EXE) $(ANALCL_EXECINT)
 
 clean-bin::
-	@rm -f $(ANALCL_O) $(ANALCL_DO)
+	@rm -f $(ANALCL_O) $(ANALCL_DO) $(ANALCL_D6)
 	@rm -f $(ANALCL_EXEO) $(ANALCL_EXECINTO)
 	@rm -f $(ANALCL_DEP) $(ANALCL_DDEP) $(ANALCL_DS) $(ANALCL_DH)
 	@rm -f $(ANALCL_EDEP)

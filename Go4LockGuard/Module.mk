@@ -13,6 +13,7 @@ LOCKGRD_DICT        = $(LOCKGRD_DIR)/$(DICT_PREFIX)$(LOCKGRD_NAME)
 LOCKGRD_DH          = $(LOCKGRD_DICT).$(HedSuf)
 LOCKGRD_DS          = $(LOCKGRD_DICT).$(SrcSuf)
 LOCKGRD_DO          = $(LOCKGRD_DICT).$(ObjSuf)
+LOCKGRD_D6          = $(LOCKGRD_DICT)$(DICT_R6SUFF)
 
 LOCKGRD_H           = $(filter-out $(LOCKGRD_NOTLIBF) $(LOCKGRD_DH) $(LOCKGRD_LINKDEF), $(wildcard $(LOCKGRD_DIR)/*.$(HedSuf)))
 LOCKGRD_S           = $(filter-out $(LOCKGRD_NOTLIBF) $(LOCKGRD_DS), $(wildcard $(LOCKGRD_DIR)/*.$(SrcSuf)))
@@ -42,5 +43,5 @@ $(LOCKGRD_DS): $(LOCKGRD_H)  $(LOCKGRD_LINKDEF)
 	@$(ROOTCINTGO4) $(LOCKGRD_H) $(LOCKGRD_LINKDEF)
 
 clean-bin::
-	@rm -f $(LOCKGRD_O) $(LOCKGRD_DO)
+	@rm -f $(LOCKGRD_O) $(LOCKGRD_DO) $(LOCKGRD_D6)
 	@rm -f $(LOCKGRD_DEP) $(LOCKGRD_DDEP) $(LOCKGRD_DS) $(LOCKGRD_DH)

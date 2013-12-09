@@ -13,6 +13,7 @@ GO4PROX_DICT        = $(GO4PROX_DIR)/$(DICT_PREFIX)$(GO4PROX_NAME)
 GO4PROX_DH          = $(GO4PROX_DICT).$(HedSuf)
 GO4PROX_DS          = $(GO4PROX_DICT).$(SrcSuf)
 GO4PROX_DO          = $(GO4PROX_DICT).$(ObjSuf)
+GO4PROX_D6          = $(GO4PROX_DICT)$(DICT_R6SUFF)
 
 GO4PROX_H           = $(filter-out $(GO4PROX_NOTLIBF) $(GO4PROX_DH) $(GO4PROX_LINKDEF), $(wildcard $(GO4PROX_DIR)/*.$(HedSuf)))
 GO4PROX_S           = $(filter-out $(GO4PROX_NOTLIBF) $(GO4PROX_DS), $(wildcard $(GO4PROX_DIR)/*.$(SrcSuf)))
@@ -50,5 +51,5 @@ $(GO4PROX_DS): $(GO4PROX_H)  $(GO4PROX_LINKDEF)
 	@$(ROOTCINTGO4) $(GO4PROX_H) $(GO4PROX_LINKDEF)
 
 clean-bin::
-	@rm -f $(GO4PROX_O) $(GO4PROX_DO)
+	@rm -f $(GO4PROX_O) $(GO4PROX_DO) $(GO4PROX_D6)
 	@rm -f $(GO4PROX_DEP) $(GO4PROX_DDEP) $(GO4PROX_DS) $(GO4PROX_DH)

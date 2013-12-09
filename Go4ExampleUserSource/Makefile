@@ -21,6 +21,7 @@ EXUSERSRC_DICT        = $(EXUSERSRC_DIR)/$(DICT_PREFIX)YYY
 EXUSERSRC_DH          = $(EXUSERSRC_DICT).$(HedSuf)
 EXUSERSRC_DS          = $(EXUSERSRC_DICT).$(SrcSuf)
 EXUSERSRC_DO          = $(EXUSERSRC_DICT).$(ObjSuf)
+EXUSERSRC_D6          = $(EXUSERSRC_DICT)$(DICT_R6SUFF)
 
 EXUSERSRC_H           = $(filter-out $(EXUSERSRC_DH) $(EXUSERSRC_LINKDEF), $(wildcard $(EXUSERSRC_DIR)/*.$(HedSuf)))
 EXUSERSRC_S           = $(filter-out $(EXUSERSRC_DS), $(wildcard $(EXUSERSRC_DIR)/*.$(SrcSuf)))
@@ -52,7 +53,7 @@ $(EXUSERSRC_DS): $(EXUSERSRC_H)  $(EXUSERSRC_LINKDEF)
 	@$(ROOTCINTGO4) $(EXUSERSRC_H) $(EXUSERSRC_LINKDEF)
 
 clean-bin::
-	@rm -f $(EXUSERSRC_O) $(EXUSERSRC_DO)
+	@rm -f $(EXUSERSRC_O) $(EXUSERSRC_DO) $(EXUSERSRC_D6)
 	@rm -f $(EXUSERSRC_DEP) $(EXUSERSRC_DDEP) $(EXUSERSRC_DS) $(EXUSERSRC_DH)
 
 clean:: clean-bin

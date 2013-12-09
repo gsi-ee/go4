@@ -13,6 +13,7 @@ GO4FIT_DICT        = $(GO4FIT_DIR)/$(DICT_PREFIX)$(GO4FIT_NAME)
 GO4FIT_DH          = $(GO4FIT_DICT).$(HedSuf)
 GO4FIT_DS          = $(GO4FIT_DICT).$(SrcSuf)
 GO4FIT_DO          = $(GO4FIT_DICT).$(ObjSuf)
+GO4FIT_D6          = $(GO4FIT_DICT)$(DICT_R6SUFF)
 
 GO4FIT_H           = $(filter-out $(GO4FIT_NOTLIBF) $(GO4FIT_DH) $(GO4FIT_LINKDEF), $(wildcard $(GO4FIT_DIR)/*.$(HedSuf)))
 GO4FIT_S           = $(filter-out $(GO4FIT_NOTLIBF) $(GO4FIT_DS), $(wildcard $(GO4FIT_DIR)/*.$(SrcSuf)))
@@ -43,5 +44,5 @@ $(GO4FIT_DS): $(GO4FIT_H)  $(GO4FIT_LINKDEF)
 	@$(ROOTCINTGO4) $(GO4FIT_H) $(GO4FIT_LINKDEF)
 
 clean-bin::
-	@rm -f $(GO4FIT_O) $(GO4FIT_DO)
+	@rm -f $(GO4FIT_O) $(GO4FIT_DO) $(GO4FIT_D6)
 	@rm -f $(GO4FIT_DEP) $(GO4FIT_DDEP) $(GO4FIT_DS) $(GO4FIT_DH)

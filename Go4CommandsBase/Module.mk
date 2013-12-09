@@ -13,6 +13,7 @@ COMBASE_DICT        = $(COMBASE_DIR)/$(DICT_PREFIX)$(COMBASE_NAME)
 COMBASE_DH          = $(COMBASE_DICT).$(HedSuf)
 COMBASE_DS          = $(COMBASE_DICT).$(SrcSuf)
 COMBASE_DO          = $(COMBASE_DICT).$(ObjSuf)
+COMBASE_D6          = $(COMBASE_DICT)$(DICT_R6SUFF)
 
 COMBASE_H           = $(filter-out $(COMBASE_NOTLIBF) $(COMBASE_DH) $(COMBASE_LINKDEF) $(COMBASE_OTHERF), $(wildcard $(COMBASE_DIR)/*.$(HedSuf)))
 COMBASE_S           = $(filter-out $(COMBASE_NOTLIBF) $(COMBASE_DS), $(wildcard $(COMBASE_DIR)/*.$(SrcSuf)))
@@ -43,5 +44,5 @@ $(COMBASE_DS): $(COMBASE_H)  $(COMBASE_LINKDEF)
 	@$(ROOTCINTGO4) $(COMBASE_H) $(COMBASE_LINKDEF)
 
 clean-bin::
-	@rm -f $(COMBASE_O) $(COMBASE_DO)
+	@rm -f $(COMBASE_O) $(COMBASE_DO) $(COMBASE_D6)
 	@rm -f $(COMBASE_DEP) $(COMBASE_DDEP) $(COMBASE_DS) $(COMBASE_DH)

@@ -14,6 +14,7 @@ GO4DABC_DICT        = $(GO4DABC_DIR)/$(DICT_PREFIX)$(GO4DABC_NAME)
 GO4DABC_DH          = $(GO4DABC_DICT).$(HedSuf)
 GO4DABC_DS          = $(GO4DABC_DICT).$(SrcSuf)
 GO4DABC_DO          = $(GO4DABC_DICT).$(ObjSuf)
+GO4DABC_D6          = $(GO4DABC_DICT)$(DICT_R6SUFF)
 
 GO4DABC_H           = $(filter-out $(GO4DABC_NOTLIBF) $(GO4DABC_DH) $(GO4DABC_LINKDEF), $(wildcard $(GO4DABC_DIR)/*.$(HedSuf)))
 GO4DABC_S           = $(filter-out $(GO4DABC_NOTLIBF) $(GO4DABC_DS), $(wildcard $(GO4DABC_DIR)/*.$(SrcSuf)))
@@ -75,7 +76,7 @@ endif
 
 clean-bin::
 	@rm -f $(GO4DABC_O) $(GO4DABC_DEP)
-	@rm -f $(GO4DABC_DH) $(GO4DABC_DS) $(GO4DABC_DO) $(GO4DABC_DDEP) 
+	@rm -f $(GO4DABC_DH) $(GO4DABC_DS) $(GO4DABC_DO) $(GO4DABC_D6) $(GO4DABC_DDEP) 
 
 clean::
 

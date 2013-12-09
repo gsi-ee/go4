@@ -13,6 +13,7 @@ GO4LOG_DICT        = $(GO4LOG_DIR)/$(DICT_PREFIX)$(GO4LOG_NAME)
 GO4LOG_DH          = $(GO4LOG_DICT).$(HedSuf)
 GO4LOG_DS          = $(GO4LOG_DICT).$(SrcSuf)
 GO4LOG_DO          = $(GO4LOG_DICT).$(ObjSuf)
+GO4LOG_D6          = $(GO4LOG_DICT)$(DICT_R6SUFF)
 
 GO4LOG_H           = $(filter-out $(GO4LOG_NOTLIBF) $(GO4LOG_DH) $(GO4LOG_LINKDEF), $(wildcard $(GO4LOG_DIR)/*.$(HedSuf)))
 GO4LOG_S           = $(filter-out $(GO4LOG_NOTLIBF) $(GO4LOG_DS), $(wildcard $(GO4LOG_DIR)/*.$(SrcSuf)))
@@ -49,6 +50,6 @@ $(GO4LOG_DS): $(GO4LOG_H)  $(GO4LOG_LINKDEF)
 	@$(ROOTCINTGO4) $(GO4LOG_H) $(GO4LOG_LINKDEF)
 
 clean-bin::
-	@rm -f $(GO4LOG_O) $(GO4LOG_DO)
+	@rm -f $(GO4LOG_O) $(GO4LOG_DO) $(GO4LOG_D6)
 	@rm -f $(GO4LOG_DEP) $(GO4LOG_DDEP) $(GO4LOG_DS) $(GO4LOG_DH)
 

@@ -13,6 +13,7 @@ CMDANAL_DICT        = $(CMDANAL_DIR)/$(DICT_PREFIX)$(CMDANAL_NAME)
 CMDANAL_DH          = $(CMDANAL_DICT).$(HedSuf)
 CMDANAL_DS          = $(CMDANAL_DICT).$(SrcSuf)
 CMDANAL_DO          = $(CMDANAL_DICT).$(ObjSuf)
+CMDANAL_D6          = $(CMDANAL_DICT)$(DICT_R6SUFF)
 
 CMDANAL_H           = $(filter-out $(CMDANAL_NOTLIBF) $(CMDANAL_DH) $(CMDANAL_LINKDEF), $(wildcard $(CMDANAL_DIR)/*.$(HedSuf)))
 CMDANAL_S           = $(filter-out $(CMDANAL_NOTLIBF) $(CMDANAL_DS), $(wildcard $(CMDANAL_DIR)/*.$(SrcSuf)))
@@ -41,6 +42,6 @@ $(CMDANAL_DS): $(CMDANAL_H) $(CMDANAL_LINKDEF)
 	@$(ROOTCINTGO4) $(CMDANAL_H) $(CMDANAL_LINKDEF)
 
 clean-bin::
-	@rm -f $(CMDANAL_O) $(CMDANAL_DO)
+	@rm -f $(CMDANAL_O) $(CMDANAL_DO) $(CMDANAL_D6)
 	@rm -f $(CMDANAL_DEP) $(CMDANAL_DDEP) $(CMDANAL_DS) $(CMDANAL_DH)
 
