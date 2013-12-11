@@ -24,7 +24,7 @@ class TGo4DabcSniffer : public dabc_root::RootSniffer,
 
       virtual const char* ClassName() const { return "TGo4DabcSniffer"; }
 
-      virtual void* ScanRootHierarchy(dabc::Hierarchy& h, const char* searchpath = 0);
+      virtual void ScanRoot(ScanRec& rec);
 
       virtual void RatemeterUpdate(TGo4Ratemeter*);
 

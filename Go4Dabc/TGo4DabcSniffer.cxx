@@ -67,8 +67,7 @@ class TExecDabcCmdTimer : public TTimer {
       }
 };
 
-
-
+// =================================================================================
 
 TGo4DabcSniffer::TGo4DabcSniffer(const std::string& name, dabc::Command cmd) :
    dabc_root::RootSniffer(name, cmd),
@@ -93,16 +92,16 @@ void TGo4DabcSniffer::InitializeHierarchy()
    dabc::Hierarchy sub = fHierarchy.CreateChild("Status");
    sub.SetPermanent();
 
-   sub.CreateChild("Message").Field(dabc::prop_kind).SetStr("log");
+   sub.CreateChild("Message").SetField(dabc::prop_kind, "log");
 
-   sub.CreateChild("EventRate").Field(dabc::prop_kind).SetStr("rate");
+   sub.CreateChild("EventRate").SetField(dabc::prop_kind, "rate");
 
-   sub.CreateChild("AverRate").Field(dabc::prop_kind).SetStr("rate");
+   sub.CreateChild("AverRate").SetField(dabc::prop_kind, "rate");
 
-   sub.CreateChild("EventCount").Field(dabc::prop_kind).SetStr("log");
-   sub.CreateChild("RunTime").Field(dabc::prop_kind).SetStr("log");
+   sub.CreateChild("EventCount").SetField(dabc::prop_kind, "log");
+   sub.CreateChild("RunTime").SetField(dabc::prop_kind, "log");
 
-   sub.CreateChild("DebugOutput").Field(dabc::prop_kind).SetStr("log");
+   sub.CreateChild("DebugOutput").SetField(dabc::prop_kind, "log");
 
    sub.CreateChild("CmdClear").SetField(dabc::prop_kind, "DABC.Command");
    sub.CreateChild("CmdStart").SetField(dabc::prop_kind, "DABC.Command");
@@ -112,7 +111,7 @@ void TGo4DabcSniffer::InitializeHierarchy()
 }
 
 
-void* TGo4DabcSniffer::ScanRootHierarchy(dabc::Hierarchy& h, const char* searchpath)
+void TGo4DabcSniffer::ScanRoot(ScanRec& rec)
 {
    TGo4AnalysisObjectManager* om(0);
    TGo4AnalysisClient* cli(0);
@@ -121,21 +120,19 @@ void* TGo4DabcSniffer::ScanRootHierarchy(dabc::Hierarchy& h, const char* searchp
       cli = TGo4Analysis::Instance()->GetAnalysisClient();
    }
 
-   if (om==0) return dabc_root::RootSniffer::ScanRootHierarchy(h, searchpath);
+   if (om==0) {
+      dabc_root::RootSniffer::ScanRoot(rec);
+      return;
+   }
 
-   void *res = 0;
-   if (h.null()) return res;
-
-   if (searchpath==0) h.Field(dabc::prop_kind).SetStr("GO4.Analysis");
+   rec.SetField(dabc::prop_kind, "GO4.Analysis");
 
    if (cli) {
       TGo4LockGuard mainlock;
-      if (!res) res = ScanListHierarchy(h, searchpath, om->GetObjectFolder()->GetListOfFolders(), 0);
+      ScanList(rec, om->GetObjectFolder()->GetListOfFolders());
    } else {
-      if (!res) res = ScanListHierarchy(h, searchpath, om->GetObjectFolder()->GetListOfFolders(), 0);
+      ScanList(rec, om->GetObjectFolder()->GetListOfFolders());
    }
-
-   return res;
 }
 
 void TGo4DabcSniffer::RatemeterUpdate(TGo4Ratemeter* r)
@@ -143,14 +140,14 @@ void TGo4DabcSniffer::RatemeterUpdate(TGo4Ratemeter* r)
    dabc::LockGuard lock(fHierarchy.GetHMutex());
 
    fHierarchy.FindChild("Status/EventRate").SetField("value", r->GetRate());
-   fHierarchy.FindChild("Status/EventRate").Field("value").SetModified();
+   fHierarchy.FindChild("Status/EventRate").SetFieldModified("value");
 
    fHierarchy.FindChild("Status/AverRate").SetField("value", r->GetAvRate());
-   fHierarchy.FindChild("Status/AverRate").Field("value").SetModified();
+   fHierarchy.FindChild("Status/AverRate").SetFieldModified("value");
 
-   fHierarchy.FindChild("Status/EventCount").Field("value").SetStr(dabc::format("%lu", (long unsigned) r->GetCurrentCount()));
+   fHierarchy.FindChild("Status/EventCount").SetField("value", dabc::format("%lu", (long unsigned) r->GetCurrentCount()));
 
-   fHierarchy.FindChild("Status/RunTime").Field("value").SetStr(dabc::format("%3.1f", r->GetTime()));
+   fHierarchy.FindChild("Status/RunTime").SetField("value", dabc::format("%3.1f", r->GetTime()));
 
    fHierarchy.MarkChangedItems();
 }
@@ -160,9 +157,9 @@ void TGo4DabcSniffer::StatusMessage(int level, const TString& msg)
    dabc::LockGuard lock(fHierarchy.GetHMutex());
 
    dabc::Hierarchy item = fHierarchy.FindChild("Status/Message");
-   item.Field("value").SetStr(msg.Data());
-   item.Field("value").SetModified(true);
-   item.Field("level").SetInt(level);
+   item.SetField("value", msg.Data());
+   item.SetFieldModified("value");
+   item.SetField("level", level);
 
    fHierarchy.FindChild("Status").MarkChangedItems();
 }
@@ -171,7 +168,7 @@ void TGo4DabcSniffer::SetTitle(const char* title)
 {
    dabc::LockGuard lock(fHierarchy.GetHMutex());
 
-   fHierarchy.FindChild("Status/DebugOutput").Field("value").SetStr(title ? title : "");
+   fHierarchy.FindChild("Status/DebugOutput").SetField("value", title ? title : "");
 
    fHierarchy.FindChild("Status").MarkChangedItems();
 }
