@@ -1,6 +1,7 @@
 #include "TGo4DabcSniffer.h"
 
 #include "TFolder.h"
+#include "TCollection.h"
 #include "TTimer.h"
 #include "Riostream.h"
 
@@ -127,12 +128,30 @@ void TGo4DabcSniffer::ScanRoot(ScanRec& rec)
 
    rec.SetField(dabc::prop_kind, "GO4.Analysis");
 
-   if (cli) {
-      TGo4LockGuard mainlock;
-      ScanList(rec, om->GetObjectFolder()->GetListOfFolders());
-   } else {
-      ScanList(rec, om->GetObjectFolder()->GetListOfFolders());
-   }
+   TFolder* main = om->GetObjectFolder();
+
+/*   TGo4LockGuard mainlock;
+   ScanCollection(rec, main->GetListOfFolders());
+*/
+   TFolder* hist_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcHISTFOLDER));
+   TFolder* par_fold  = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcPARAFOLDER));
+   TFolder* tree_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcTREEFOLDER));
+   TFolder* canv_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcCANVFOLDER));
+   TFolder* anal_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcANALYSISFOLDER));
+   TFolder* even_fold = dynamic_cast<TFolder*> (anal_fold->FindObject(TGo4AnalysisObjectManager::fgcEVENTFOLDER));
+   TFolder* user_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcUSRFOLDER));
+
+   TGo4LockGuard mainlock;
+   ScanCollection(rec, hist_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcHISTFOLDER);
+   ScanCollection(rec, par_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcPARAFOLDER, mask_MarkExpand);
+   ScanCollection(rec, tree_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcTREEFOLDER);
+   ScanCollection(rec, canv_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcCANVFOLDER);
+   ScanCollection(rec, even_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcEVENTFOLDER, mask_MarkExpand);
+   ScanCollection(rec, user_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcUSRFOLDER);
+
+//   printf("EVENTS folder %s %p %d \n", even_fold->GetName(), even_fold, even_fold->GetListOfFolders()->GetSize());
+//   dabc::Hierarchy h = rec.top.FindChild("Events/MbsEvent101");
+//   printf("MBS %p \n%s\n", h(), rec.top.SaveToXml().c_str());
 }
 
 void TGo4DabcSniffer::RatemeterUpdate(TGo4Ratemeter* r)

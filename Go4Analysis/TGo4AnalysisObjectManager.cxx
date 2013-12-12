@@ -60,22 +60,22 @@
 #include "TGo4PolyCond.h"
 #include "TGo4AnalysisImp.h"
 
-const char* TGo4AnalysisObjectManager::fgcTOPDYNAMICLIST="Go4DynamicList";
-const char* TGo4AnalysisObjectManager::fgcTOPFOLDER="Go4";
-const char* TGo4AnalysisObjectManager::fgcHISTFOLDER="Histograms";
-const char* TGo4AnalysisObjectManager::fgcDYNFOLDER="DynamicLists";
-const char* TGo4AnalysisObjectManager::fgcCONDFOLDER="Conditions";
-const char* TGo4AnalysisObjectManager::fgcPARAFOLDER="Parameters";
-const char* TGo4AnalysisObjectManager::fgcTREEFOLDER="Trees";
-const char* TGo4AnalysisObjectManager::fgcPICTFOLDER="Pictures";
-const char* TGo4AnalysisObjectManager::fgcCANVFOLDER="Canvases";
-const char* TGo4AnalysisObjectManager::fgcANALYSISFOLDER="EventObjects";
-const char* TGo4AnalysisObjectManager::fgcEVENTFOLDER="Events";
-const char* TGo4AnalysisObjectManager::fgcSRCFOLDER="EventSources";
-const char* TGo4AnalysisObjectManager::fgcSTOREFOLDER="EventStores";
-const char* TGo4AnalysisObjectManager::fgcPROCFOLDER="EventProcessors";
-const char* TGo4AnalysisObjectManager::fgcUSRFOLDER="UserObjects";
-const char* TGo4AnalysisObjectManager::fgcTMPFOLDER="Go4-tmp";
+const char* TGo4AnalysisObjectManager::fgcTOPDYNAMICLIST = "Go4DynamicList";
+const char* TGo4AnalysisObjectManager::fgcTOPFOLDER      = "Go4";
+const char* TGo4AnalysisObjectManager::fgcHISTFOLDER     = "Histograms";
+const char* TGo4AnalysisObjectManager::fgcDYNFOLDER      = "DynamicLists";
+const char* TGo4AnalysisObjectManager::fgcCONDFOLDER     = "Conditions";
+const char* TGo4AnalysisObjectManager::fgcPARAFOLDER     = "Parameters";
+const char* TGo4AnalysisObjectManager::fgcTREEFOLDER     = "Trees";
+const char* TGo4AnalysisObjectManager::fgcPICTFOLDER     = "Pictures";
+const char* TGo4AnalysisObjectManager::fgcCANVFOLDER     = "Canvases";
+const char* TGo4AnalysisObjectManager::fgcANALYSISFOLDER = "EventObjects";
+const char* TGo4AnalysisObjectManager::fgcEVENTFOLDER    = "Events";
+const char* TGo4AnalysisObjectManager::fgcSRCFOLDER      = "EventSources";
+const char* TGo4AnalysisObjectManager::fgcSTOREFOLDER    = "EventStores";
+const char* TGo4AnalysisObjectManager::fgcPROCFOLDER     = "EventProcessors";
+const char* TGo4AnalysisObjectManager::fgcUSRFOLDER      = "UserObjects";
+const char* TGo4AnalysisObjectManager::fgcTMPFOLDER      = "Go4-tmp";
 
 #define fguSUBFOLDERMAXLEN 1024
 
@@ -89,40 +89,40 @@ TGo4AnalysisObjectManager::TGo4AnalysisObjectManager(const char* name) :
    fiDynListCount(0), fiDynListInterval(0),
    fbCreatedinMake(kFALSE), fbSuppressLoadHistograms(kFALSE)
 {
-   fxDirMutex=new TMutex(kTRUE);
-   fxGo4Dir=gROOT->GetRootFolder()->AddFolder(fgcTOPFOLDER,"The Go4 Object folder");
+   fxDirMutex = new TMutex(kTRUE);
+   fxGo4Dir = gROOT->GetRootFolder()->AddFolder(fgcTOPFOLDER,"The Go4 Object folder");
    fxGo4Dir->SetOwner(kTRUE); // top go4 dir owns subfolders
    gROOT->GetListOfBrowsables()->Add(fxGo4Dir, fxGo4Dir->GetName());
-   fxHistogramDir=fxGo4Dir->AddFolder(fgcHISTFOLDER,"All Histogram objects");
+   fxHistogramDir = fxGo4Dir->AddFolder(fgcHISTFOLDER,"All Histogram objects");
    fxHistogramDir->SetOwner(kTRUE);
-   fxConditionDir=fxGo4Dir->AddFolder(fgcCONDFOLDER,"All Condition objects");
+   fxConditionDir = fxGo4Dir->AddFolder(fgcCONDFOLDER,"All Condition objects");
    fxConditionDir->SetOwner(kTRUE);
-   fxParameterDir=fxGo4Dir->AddFolder(fgcPARAFOLDER,"All Parameter objects");
+   fxParameterDir = fxGo4Dir->AddFolder(fgcPARAFOLDER,"All Parameter objects");
    fxParameterDir->SetOwner(kTRUE);
-   fxDynListDir=fxGo4Dir->AddFolder(fgcDYNFOLDER,"Dynamic List Instances");
+   fxDynListDir = fxGo4Dir->AddFolder(fgcDYNFOLDER,"Dynamic List Instances");
    fxDynListDir->SetOwner(kTRUE);
-   fxTreeDir=fxGo4Dir->AddFolder(fgcTREEFOLDER,"References to trees");
+   fxTreeDir = fxGo4Dir->AddFolder(fgcTREEFOLDER,"References to trees");
    fxTreeDir->SetOwner(kFALSE); // tree dir does not own objects,
-   fxPictureDir=fxGo4Dir->AddFolder(fgcPICTFOLDER,"Picture objects");
+   fxPictureDir = fxGo4Dir->AddFolder(fgcPICTFOLDER,"Picture objects");
    fxPictureDir->SetOwner(kTRUE);
-   fxCanvasDir=fxGo4Dir->AddFolder(fgcCANVFOLDER,"All TCanvases");
+   fxCanvasDir = fxGo4Dir->AddFolder(fgcCANVFOLDER,"All TCanvases");
    fxCanvasDir->SetOwner(kTRUE);
-   fxAnalysisDir=fxGo4Dir->AddFolder(fgcANALYSISFOLDER,"Event objects of current analysis");
+   fxAnalysisDir = fxGo4Dir->AddFolder(fgcANALYSISFOLDER,"Event objects of current analysis");
    fxAnalysisDir->SetOwner(kTRUE); // owns folders, but not objects in folders
-   fxStoreDir=fxAnalysisDir->AddFolder(fgcSTOREFOLDER,"References to event stores");
+   fxStoreDir = fxAnalysisDir->AddFolder(fgcSTOREFOLDER,"References to event stores");
    fxStoreDir->SetOwner(kFALSE); // event  classes dir does not own objects,
-   fxSourceDir=fxAnalysisDir->AddFolder(fgcSRCFOLDER,"References to event sources");
+   fxSourceDir = fxAnalysisDir->AddFolder(fgcSRCFOLDER,"References to event sources");
    fxSourceDir->SetOwner(kFALSE); // event  classes dir does not own objects,
-   fxProcessorDir=fxAnalysisDir->AddFolder(fgcPROCFOLDER,"References to event processors");
+   fxProcessorDir = fxAnalysisDir->AddFolder(fgcPROCFOLDER,"References to event processors");
    fxProcessorDir->SetOwner(kFALSE); // event  classes dir does not own objects,
-   fxEventDir=fxAnalysisDir->AddFolder(fgcEVENTFOLDER,"References to event structures");
+   fxEventDir = fxAnalysisDir->AddFolder(fgcEVENTFOLDER,"References to event structures");
    fxEventDir->SetOwner(kFALSE); // event  classes dir does not own objects,
-   fxUserDir=fxGo4Dir->AddFolder(fgcUSRFOLDER,"For User Objects");
+   fxUserDir = fxGo4Dir->AddFolder(fgcUSRFOLDER,"For User Objects");
 
    // FIXME: SL, 2.01.2012  why owner flag is disabled here, causes memory leak when destroyed
    fxGo4Dir->SetOwner(kFALSE);
 
-   fxTempFolder=gROOT->GetRootFolder()->AddFolder(fgcTMPFOLDER,"The Go4 temporary object folder");
+   fxTempFolder = gROOT->GetRootFolder()->AddFolder(fgcTMPFOLDER,"The Go4 temporary object folder");
    fxTempFolder->SetOwner(kFALSE);
 
    gROOT->GetListOfCleanups()->Add(this);
@@ -534,7 +534,7 @@ TFolder* TGo4AnalysisObjectManager::CreateMembersFolder(TObject* obj, const char
 Bool_t TGo4AnalysisObjectManager::AddHistogram(TH1 * his, const char* subfolder, Bool_t replace)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddHistogram(TH1*)",__LINE__, __FILE__));
-   Bool_t rev=AddObjectToFolder(his,fxHistogramDir,subfolder,replace,kTRUE);
+   Bool_t rev = AddObjectToFolder(his,fxHistogramDir,subfolder,replace,kTRUE);
    // for histograms: add with unique object names within histogramdir
    // to avoid errors in TTree::Draw()
    if(rev && his) his->SetDirectory(gROOT); // assign histo to the top dir, no file!
@@ -737,8 +737,8 @@ Bool_t TGo4AnalysisObjectManager::RemoveTree(TTree * tree, const char* stepname)
 TH1* TGo4AnalysisObjectManager::GetHistogram(const char * name)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::GetHistogram(char *)",__LINE__, __FILE__));
-   TH1* rev= dynamic_cast<TH1*> (FindObjectInFolder(fxHistogramDir, name));
-   if(rev==0) rev= dynamic_cast<TH1*> (FindObjectInFolder(fxUserDir, name)); // also check user objects dir
+   TH1* rev = dynamic_cast<TH1*> (FindObjectInFolder(fxHistogramDir, name));
+   if(rev==0) rev = dynamic_cast<TH1*> (FindObjectInFolder(fxUserDir, name)); // also check user objects dir
    return rev;
 }
 
@@ -1000,6 +1000,7 @@ Bool_t TGo4AnalysisObjectManager::AddEventStore(TGo4EventStore * store)
    GO4TRACE((11,"TGo4AnalysisObjectManager::AddEventStore(TGo4EventStore*)",__LINE__, __FILE__));
    return (AddObjectToFolder(store,fxStoreDir,0,kFALSE));
 }
+
 Bool_t TGo4AnalysisObjectManager::RemoveEventStore(TGo4EventStore * store)
 {
    GO4TRACE((11,"TGo4AnalysisObjectManager::RemoveEventStore(TGo4EventStore*)",__LINE__, __FILE__));

@@ -1624,11 +1624,8 @@ Int_t TGo4Analysis::StoreFolder(const char * name, TFolder* folder)
 
 Int_t TGo4Analysis::StoreFolder(const char * stepname, const char * foldername)
 {
-   TFolder* myfolder=fxObjectManager->FindSubFolder(GetObjectFolder(), foldername, kFALSE);
-   if(myfolder)
-      return fxStepManager->Store(stepname, myfolder);
-   else
-      return 2;
+   TFolder* myfolder = fxObjectManager->FindSubFolder(GetObjectFolder(), foldername, kFALSE);
+   return myfolder ? fxStepManager->Store(stepname, myfolder) : 2;
 }
 
 void TGo4Analysis::DefineServerPasswords(const char* admin, const char* controller, const char* observer)

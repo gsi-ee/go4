@@ -35,6 +35,8 @@ Changes in Go4 v4.6.1
    Allows to correctly terminate analysis when socket corrupted or broken.
 6. Activate graphics editor (TGedEditor) when called via context menu.
    Was not working due to recent ROOT changes.      
+7. In web-browser allow to explore parameter and events objects, registered
+   in the analysis. Hide unsupported types.
        
 
 Changes in Go4 v4.6.0 (November 2013)
