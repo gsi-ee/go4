@@ -132,7 +132,7 @@ class TGo4Sniffer : public TRootSniffer {
 // =================================================================================
 
 TGo4DabcSniffer::TGo4DabcSniffer(const std::string& name, dabc::Command cmd) :
-   dabc_root::RootSniffer(name, cmd),
+   root::Player(name, cmd),
    TGo4AnalysisSniffer("dabc_sniffer")
 {
    if (TGo4Analysis::Instance()!=0)
@@ -220,7 +220,7 @@ int TGo4DabcSniffer::ExecuteCommand(dabc::Command cmd)
        cmd.IsName("CmdStart") ||
        cmd.IsName("CmdStop")) { new TExecDabcCmdTimer(cmd, this); return dabc::cmd_postponed; }
 
-   return dabc_root::RootSniffer::ExecuteCommand(cmd);
+   return root::Player::ExecuteCommand(cmd);
 }
 
 int TGo4DabcSniffer::ProcessGetBinary(dabc::Command cmd)
@@ -231,9 +231,9 @@ int TGo4DabcSniffer::ProcessGetBinary(dabc::Command cmd)
    // when working with the client, timer is processed in other thread and we need to lock main go4 mutex
    if (cli!=0) {
       TGo4LockGuard mainlock;
-      return dabc_root::RootSniffer::ProcessGetBinary(cmd);
+      return root::Player::ProcessGetBinary(cmd);
    } else {
-      return dabc_root::RootSniffer::ProcessGetBinary(cmd);
+      return root::Player::ProcessGetBinary(cmd);
    }
 }
 

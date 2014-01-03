@@ -1,12 +1,11 @@
 #ifndef TGO4DABCSNIFFER_H
 #define TGO4DABCSNIFFER_H
 
-#include "dabc_root/RootSniffer.h"
+#include "root/Player.h"
 
 #include "TGo4AnalysisSniffer.h"
 
-
-class TGo4DabcSniffer : public dabc_root::RootSniffer,
+class TGo4DabcSniffer : public root::Player,
                         public TGo4AnalysisSniffer {
 
    protected:
