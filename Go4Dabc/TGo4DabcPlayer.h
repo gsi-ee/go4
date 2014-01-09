@@ -1,12 +1,12 @@
-#ifndef TGO4DABCSNIFFER_H
-#define TGO4DABCSNIFFER_H
+#ifndef TGO4DABCPLAYER_H
+#define TGO4DABCPLAYER_H
 
 #include "root/Player.h"
 
 #include "TGo4AnalysisSniffer.h"
 
-class TGo4DabcSniffer : public root::Player,
-                        public TGo4AnalysisSniffer {
+class TGo4DabcPlayer : public root::Player,
+                       public TGo4AnalysisSniffer {
 
    protected:
 
@@ -14,14 +14,14 @@ class TGo4DabcSniffer : public root::Player,
 
       virtual int ExecuteCommand(dabc::Command cmd);
 
-      virtual int ProcessGetBinary(dabc::Command cmd);
+      virtual int ProcessGetBinary(TRootSniffer* sniff, dabc::Command cmd);
 
    public:
-      TGo4DabcSniffer(const std::string& name, dabc::Command cmd = 0);
+      TGo4DabcPlayer(const std::string& name, dabc::Command cmd = 0);
 
-      virtual ~TGo4DabcSniffer();
+      virtual ~TGo4DabcPlayer();
 
-      virtual const char* ClassName() const { return "TGo4DabcSniffer"; }
+      virtual const char* ClassName() const { return "TGo4DabcPlayer"; }
 
       virtual void RatemeterUpdate(TGo4Ratemeter*);
 

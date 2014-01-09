@@ -1,11 +1,11 @@
-#include "TGo4DabcSniffer.h"
+#include "TGo4DabcPlayer.h"
 
 #include "TFolder.h"
 #include "TCollection.h"
 #include "TTimer.h"
 #include "Riostream.h"
 
-#include "TRootSniffer.h"
+#include "TGo4Sniffer.h"
 
 #include "TGo4AnalysisImp.h"
 #include "TGo4AnalysisObjectManager.h"
@@ -13,18 +13,38 @@
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
 
-
-
 #include "dabc/Hierarchy.h"
+
+#include "dabc/Factory.h"
+
+
+class TGo4DabcFactory : public dabc::Factory {
+   public:
+      TGo4DabcFactory(const std::string& name) : dabc::Factory(name) {}
+
+       virtual dabc::Reference CreateObject(const std::string& classname, const std::string& objname, dabc::Command cmd)
+       {
+          if (classname=="TGo4DabcPlayer")
+             return new TGo4DabcPlayer(objname, cmd);
+
+          return dabc::Factory::CreateObject(classname, objname, cmd);
+       }
+};
+
+
+dabc::FactoryPlugin go4dabc_factory(new TGo4DabcFactory("go4"));
+
+// ================================================================================
+
 
 // Timer used to invoke commands in the main process
 
 class TExecDabcCmdTimer : public TTimer {
    public:
       dabc::Command fCmd;
-      TGo4DabcSniffer* fSniffer;
+      TGo4DabcPlayer* fSniffer;
 
-      TExecDabcCmdTimer(dabc::Command cmd, TGo4DabcSniffer* sniff) :
+      TExecDabcCmdTimer(dabc::Command cmd, TGo4DabcPlayer* sniff) :
          TTimer(0),
          fCmd(cmd),
          fSniffer(sniff)
@@ -72,78 +92,21 @@ class TExecDabcCmdTimer : public TTimer {
       }
 };
 
-// ===========================================================================
-
-class TGo4Sniffer : public TRootSniffer {
-   public:
-      TGo4Sniffer(const char* name, Int_t comp) :
-         TRootSniffer(name,"dabc")
-      {
-         SetCompression(comp);
-      }
-
-      virtual ~TGo4Sniffer() {}
-
-      virtual void ScanRoot(TRootSnifferScanRec& rec)
-      {
-         TGo4AnalysisObjectManager* om(0);
-         TGo4AnalysisClient* cli(0);
-         if (TGo4Analysis::Instance()) {
-            om = TGo4Analysis::Instance()->ObjectManager();
-            cli = TGo4Analysis::Instance()->GetAnalysisClient();
-         }
-
-         if (om==0) {
-            TRootSniffer::ScanRoot(rec);
-            return;
-         }
-
-         rec.SetField(dabc::prop_kind, "GO4.Analysis");
-
-         {
-            TRootSnifferScanRec chld;
-            if (chld.GoInside(rec, 0, "StreamerInfo"))
-               chld.SetField(dabc::prop_kind, "ROOT.TList");
-         }
-
-
-         TGo4LockGuard mainlock;
-
-         TFolder* main = om->GetObjectFolder();
-
-         TFolder* hist_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcHISTFOLDER));
-         TFolder* par_fold  = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcPARAFOLDER));
-         TFolder* tree_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcTREEFOLDER));
-         TFolder* canv_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcCANVFOLDER));
-         TFolder* anal_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcANALYSISFOLDER));
-         TFolder* even_fold = dynamic_cast<TFolder*> (anal_fold->FindObject(TGo4AnalysisObjectManager::fgcEVENTFOLDER));
-         TFolder* user_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcUSRFOLDER));
-
-         ScanCollection(rec, hist_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcHISTFOLDER);
-         ScanCollection(rec, par_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcPARAFOLDER, kTRUE);
-         ScanCollection(rec, tree_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcTREEFOLDER);
-         ScanCollection(rec, canv_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcCANVFOLDER);
-         ScanCollection(rec, even_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcEVENTFOLDER, kTRUE);
-         ScanCollection(rec, user_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcUSRFOLDER);
-      }
-
-};
-
 // =================================================================================
 
-TGo4DabcSniffer::TGo4DabcSniffer(const std::string& name, dabc::Command cmd) :
+TGo4DabcPlayer::TGo4DabcPlayer(const std::string& name, dabc::Command cmd) :
    root::Player(name, cmd),
    TGo4AnalysisSniffer("dabc_sniffer")
 {
    if (TGo4Analysis::Instance()!=0)
       TGo4Analysis::Instance()->SetSniffer(this);
 
-   SetObjectSniffer(new TGo4Sniffer("go4_dabc", fCompression));
+   // SetObjectSniffer(new TGo4Sniffer("go4_dabc", fCompression));
 
    TGo4Log::SetSniffer(this);
 }
 
-TGo4DabcSniffer::~TGo4DabcSniffer()
+TGo4DabcPlayer::~TGo4DabcPlayer()
 {
    if (TGo4Analysis::Instance()!=0)
       TGo4Analysis::Instance()->SetSniffer(0);
@@ -151,7 +114,7 @@ TGo4DabcSniffer::~TGo4DabcSniffer()
    TGo4Log::SetSniffer(0);
 }
 
-void TGo4DabcSniffer::InitializeHierarchy()
+void TGo4DabcPlayer::InitializeHierarchy()
 {
    dabc::Hierarchy sub = fHierarchy.CreateChild("Status");
    sub.SetPermanent();
@@ -175,7 +138,7 @@ void TGo4DabcSniffer::InitializeHierarchy()
 }
 
 
-void TGo4DabcSniffer::RatemeterUpdate(TGo4Ratemeter* r)
+void TGo4DabcPlayer::RatemeterUpdate(TGo4Ratemeter* r)
 {
    dabc::LockGuard lock(fHierarchy.GetHMutex());
 
@@ -192,7 +155,7 @@ void TGo4DabcSniffer::RatemeterUpdate(TGo4Ratemeter* r)
    fHierarchy.MarkChangedItems();
 }
 
-void TGo4DabcSniffer::StatusMessage(int level, const TString& msg)
+void TGo4DabcPlayer::StatusMessage(int level, const TString& msg)
 {
    dabc::LockGuard lock(fHierarchy.GetHMutex());
 
@@ -204,7 +167,7 @@ void TGo4DabcSniffer::StatusMessage(int level, const TString& msg)
    fHierarchy.FindChild("Status").MarkChangedItems();
 }
 
-void TGo4DabcSniffer::SetTitle(const char* title)
+void TGo4DabcPlayer::SetTitle(const char* title)
 {
    dabc::LockGuard lock(fHierarchy.GetHMutex());
 
@@ -214,7 +177,7 @@ void TGo4DabcSniffer::SetTitle(const char* title)
 }
 
 
-int TGo4DabcSniffer::ExecuteCommand(dabc::Command cmd)
+int TGo4DabcPlayer::ExecuteCommand(dabc::Command cmd)
 {
    if (cmd.IsName("CmdClear") ||
        cmd.IsName("CmdStart") ||
@@ -223,7 +186,7 @@ int TGo4DabcSniffer::ExecuteCommand(dabc::Command cmd)
    return root::Player::ExecuteCommand(cmd);
 }
 
-int TGo4DabcSniffer::ProcessGetBinary(dabc::Command cmd)
+int TGo4DabcPlayer::ProcessGetBinary(TRootSniffer* sniff, dabc::Command cmd)
 {
    TGo4Analysis* an = TGo4Analysis::Instance();
    TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : 0;
@@ -231,9 +194,9 @@ int TGo4DabcSniffer::ProcessGetBinary(dabc::Command cmd)
    // when working with the client, timer is processed in other thread and we need to lock main go4 mutex
    if (cli!=0) {
       TGo4LockGuard mainlock;
-      return root::Player::ProcessGetBinary(cmd);
+      return root::Player::ProcessGetBinary(sniff, cmd);
    } else {
-      return root::Player::ProcessGetBinary(cmd);
+      return root::Player::ProcessGetBinary(sniff, cmd);
    }
 }
 
