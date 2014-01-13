@@ -37,6 +37,9 @@ Changes in Go4 v4.6.1
    Was not working due to recent ROOT changes.      
 7. In web-browser allow to explore parameter and events objects, registered
    in the analysis. Hide unsupported types.
+8. Add support of fastcgi. Now go4 can deliver its data to standard 
+   web server (like Apache or lighttpd). This allows to control access rights
+   and security with usual methods, provides by web-servers.    
        
 
 Changes in Go4 v4.6.0 (November 2013)
