@@ -4,9 +4,7 @@
 class TGo4Dabc {
    public:
 
-      static bool StartHttpServer(int port);
-
-      static bool ConnectMaster(const char* name);
+      static bool CreateEngine(const char* name);
 };
 
 #endif

@@ -24,6 +24,7 @@
 #include "TRint.h"
 //#include "TApplication.h"
 #include "TSystem.h"
+#include "TObjString.h"
 #include "Riostream.h"
 #include "RVersion.h"
 #include "TSysEvtHandler.h"
@@ -133,6 +134,8 @@ void usage(const char* subtopic = 0)
    std::cout << "                                optionally port can be specified, default 8080" << std::endl;
    std::cout << "  -dabc master_host:port      : run analysis with optional connection to dabc application, "<< std::endl;
    std::cout << "                                which could receive objects from running analysis" << std::endl;
+   std::cout << "  -fastcgi port               : run analysis with fastcgi server running, "<< std::endl;
+   std::cout << "                                which can deliver data to normal webserver (see mod_proxy_fcgi for Apache)" << std::endl;
 #endif
    std::cout << "  -run                        : run analysis in server mode (default only run if source specified)" << std::endl;
    std::cout << "  -norun                      : exclude automatical run" << std::endl;
@@ -681,8 +684,8 @@ int main(int argc, char **argv)
    gROOT->SetBatch(kTRUE);
 
 #ifdef WITH_DABC
-   Int_t http_port(-1);                  // http port number
-   const char* dabc_master = 0;          // master DABC node
+   TObjArray http_args;                  // all arguments for http server
+   http_args.SetOwner(kTRUE);
 #endif
 
    Bool_t batchMode(kTRUE);              // GUI or Batch
@@ -727,17 +730,21 @@ int main(int argc, char **argv)
       } else
 #ifdef WITH_DABC
       if (strcmp(argv[narg], "-http")==0) {
-         if (dabc_master!=0) showerror("HTTP server cannot be combined with master connection");
          narg++;
-         http_port = 8080;
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
-            http_port = atoi(argv[narg++]);
+            http_args.Add(new TObjString(Form("dabc:http:%s", argv[narg++])));
+         else
+            http_args.Add(new TObjString("dabc:http:8080"));
       } else
       if (strcmp(argv[narg], "-dabc")==0) {
-         if (http_port>0) showerror("HTTP server cannot be combined with master connection");
          narg++;
          if (narg >= argc) showerror("Master dabc node not specified");
-         dabc_master = argv[narg++];
+         http_args.Add(new TObjString(Form("dabc:%s", argv[narg++])));
+      } else
+      if (strcmp(argv[narg], "-fastcgi")==0) {
+         narg++;
+         if (narg >= argc) showerror("fastcgi options not specified");
+         http_args.Add(new TObjString(Form("dabc:fastcgi:%s", argv[narg++])));
       } else
 #endif
       if(strcmp(argv[narg], "-lib") == 0) {
@@ -1113,22 +1120,18 @@ int main(int argc, char **argv)
    }
 
    #ifdef WITH_DABC
-   if ((http_port>0) || (dabc_master!=0)) {
+   if (http_args.GetLast()>=0) {
       if (gSystem->Load("libGo4Dabc")!=0)
          showerror("Fail to load Go4Dabc libraries");
+
       TString cmd;
-
-      if (http_port>0)
-         cmd.Form("TGo4Dabc::StartHttpServer(%d);", http_port);
-      else
-         cmd.Form("TGo4Dabc::ConnectMaster(\"%s\");", dabc_master);
-
-      Int_t err = 0;
-
-      Long_t res = gROOT->ProcessLineFast(cmd.Data(), &err);
-
-      if ((res==0) || (err!=0))
-         showerror("Fail to start DABC services");
+      Long_t res(0);
+      Int_t err(0);
+      for (Int_t n=0;n<=http_args.GetLast();n++) {
+         cmd.Form("TGo4Dabc::CreateEngine(\"%s\");", http_args[n]->GetName());
+         res = gROOT->ProcessLineFast(cmd.Data(), &err);
+         if ((res<=0) || (err!=0)) showerror(Form("Fail to start %s", http_args[n]->GetName()));
+      }
 
       process_interv = 0.1;
    }
