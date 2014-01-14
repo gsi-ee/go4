@@ -83,7 +83,7 @@
 #include "TGo4FitMatrixTrans.h"
 #include "TGo4Log.h"
 #include "TGo4ViewPanel.h"
-#include "TGo4WorkSpace.h"
+#include "TGo4MdiArea.h"
 #include "TGo4QSettings.h"
 #include "QFitItem.h"
 #include "QFitWidget.h"
@@ -315,9 +315,8 @@ TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name)
    Wiz_DataSlotsTable->setItemPrototype(item);
    Wiz_DataSlotsTable->setContextMenuPolicy(Qt::CustomContextMenu);
 
-   TGo4WorkSpace* ws = TGo4WorkSpace::Instance();
-   connect(ws, SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
-         this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
+   connect(TGo4MdiArea::Instance(), SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
+            this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
 
    MenuBar = new QMenuBar(MenuFrame);
    // MenuBar->setMinimumWidth(100);
@@ -809,8 +808,6 @@ void TGo4FitPanel::Button_WorkWithPanel()
 
    TGo4Fitter* fitter = GetFitter();
    if (fitter!=0) {
-      TGo4WorkSpace* space = TGo4WorkSpace::Instance();
-      if (space==0) return;
       TGo4ViewPanel* panel = LastActivePanel();
       if ((panel==0) || (panel==fxDrawNewPanel)) return;
       if ( (panel!=ActivePanel()) || (panel->GetActivePad()!=ActivePad())) {
@@ -2115,11 +2112,10 @@ void TGo4FitPanel::AboutToShowFitterMenu()
    FitterMenu->clear();
 
    TGo4Fitter* fitter = GetFitter();
-   TGo4WorkSpace* space = TGo4WorkSpace::Instance();
    TGo4ViewPanel* panel = LastActivePanel();
 
    bool samepad = (panel==0) ? FALSE : WorkingWithPanel() &&
-     (panel==ActivePanel()) && (panel->GetActivePad()==ActivePad());
+                  (panel==ActivePanel()) && (panel->GetActivePad()==ActivePad());
 
    QString padname;
    if (panel!=0) padname = QString("panel \"") + panel->windowTitle() + "\"";

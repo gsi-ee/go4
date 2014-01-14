@@ -40,6 +40,8 @@ Changes in Go4 v4.6.1
 8. Add support of fastcgi. Now go4 can deliver its data to standard 
    web server (like Apache or lighttpd). This allows to control access rights
    and security with usual methods, provides by web-servers.    
+9. Use QMdiArea instead of obsolete QWorkspace, solves several small
+   problems in window management. 
        
 
 Changes in Go4 v4.6.0 (November 2013)

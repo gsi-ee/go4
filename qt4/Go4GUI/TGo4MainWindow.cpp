@@ -44,6 +44,7 @@
 #include <QtGui/QFileDialog>
 #include <QtGui/QFontDialog>
 #include <QtGui/QInputDialog>
+#include <QtGui/QMdiSubWindow>
 
 
 //////// root includes;
@@ -67,7 +68,7 @@
 #include "TGo4Parameter.h"
 #include "TGo4Condition.h"
 #include "TGo4Marker.h"
-#include "TGo4WorkSpace.h"
+#include "TGo4MdiArea.h"
 #include "TGo4Fitter.h"
 #include "TGo4FitPanel.h"
 #include "TGo4DynamicEntry.h"
@@ -189,10 +190,11 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    //gStyle->SetOptStat(11111111);
    gStyle->SetOptStat(go4sett->getOptStat());
 
-   fxWorkSpace = new TGo4WorkSpace(this);
-   fxWorkSpace->setScrollBarsEnabled(TRUE);
-   setCentralWidget(fxWorkSpace);
-   fxWorkSpace->setFocus();
+   fxMdiArea = new TGo4MdiArea(this);
+   fxMdiArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+   fxMdiArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+   setCentralWidget(fxMdiArea);
+   fxMdiArea->setFocus();
 
    AddFileMenu();
    AddFileToolBar();
@@ -722,11 +724,11 @@ void TGo4MainWindow::windowsMenuAboutToShow()
 {
     windowsMenu->clear();
 
-    bool on = ! fxWorkSpace->windowList().isEmpty();
+    bool on = ! fxMdiArea->subWindowList().isEmpty();
 
-    windowsMenu->addAction("Ca&scade", centralWidget(), SLOT(cascade()))->setEnabled(on);
-    windowsMenu->addAction("&Tile", centralWidget(), SLOT(tile()))->setEnabled(on);
-    windowsMenu->addAction("&Close all", this, SLOT(CloseAllWindows()))->setEnabled(on);
+    windowsMenu->addAction("Ca&scade", fxMdiArea, SLOT(cascadeSubWindows()))->setEnabled(on);
+    windowsMenu->addAction("&Tile", fxMdiArea, SLOT(tileSubWindows()))->setEnabled(on);
+    windowsMenu->addAction("&Close all", fxMdiArea, SLOT(closeAllSubWindows()))->setEnabled(on);
     windowsMenu->addAction("&Minimize all", this, SLOT(MinAllWindows()))->setEnabled(on);
 
     windowsMenu->addAction((fbFullScreen ? "&Normal window" : "&Full screen"), this, SLOT(ToggleFullScreenSlot()), Key_F11);
@@ -749,11 +751,11 @@ void TGo4MainWindow::windowsMenuAboutToShow()
     winMapper = new QSignalMapper(this);
     connect(winMapper, SIGNAL(mapped(int)), this, SLOT(windowsMenuActivated(int)));
 
-    QWidgetList windows =  fxWorkSpace->windowList();
-    for (int i=0; i<int(windows.count()); ++i ) {
-       QAction* act = new QAction(windows.at(i)->windowTitle(), winMapper);
+    QList<QMdiSubWindow *> windows = fxMdiArea->subWindowList();
+    for (int i=0; i< windows.count(); i++ ) {
+       QAction* act = new QAction(windows.at(i)->widget()->windowTitle(), winMapper);
        act->setCheckable(true);
-       act->setChecked(fxWorkSpace->activeWindow() == windows.at(i));
+       act->setChecked(fxMdiArea->activeSubWindow() == windows.at(i));
 
        windowsMenu->addAction(act);
 
@@ -762,18 +764,11 @@ void TGo4MainWindow::windowsMenuAboutToShow()
     }
 }
 
-void TGo4MainWindow::CloseAllWindows()
-{
-   QWidgetList windows =  fxWorkSpace->windowList();
-    for ( int i = 0; i < int(windows.count()); ++i )
-       windows.at(i)->close();
-}
-
 void TGo4MainWindow::MinAllWindows()
 {
-   QWidgetList windows =  fxWorkSpace->windowList();
-   for ( int i = 0; i < int(windows.count()); ++i )
-       windows.at(i)->showMinimized();
+   QList<QMdiSubWindow *> windows = fxMdiArea->subWindowList();
+   for ( int i = 0; i < windows.count(); i++ )
+       windows.at(i)->widget()->showMinimized();
 }
 
 void TGo4MainWindow::ToggleFullScreenSlot()
@@ -786,9 +781,11 @@ void TGo4MainWindow::ToggleFullScreenSlot()
 
 void TGo4MainWindow::windowsMenuActivated( int id )
 {
-   QWidget* w = fxWorkSpace->windowList().at(id);
-   if (w) w->showNormal();
-   w->setFocus();
+   QList<QMdiSubWindow *> windows = fxMdiArea->subWindowList();
+   if ((id>=0) && (id<windows.count())) {
+      windows.at(id)->widget()->showNormal();
+      windows.at(id)->widget()->setFocus();
+   }
 }
 
 typedef void* (*TStartUserGuiFunc)(QWidget* parent);
@@ -831,8 +828,8 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
    }
 
    if (startfunc!=0) {
-      QGo4Widget* userpanel = (QGo4Widget*) startfunc(fxWorkSpace);
-      fxWorkSpace->addWindow(userpanel);
+      QGo4Widget* userpanel = (QGo4Widget*) startfunc(fxMdiArea);
+      fxMdiArea->addSubWindow(userpanel);
       if (userpanel!=0) {
          userpanel->setObjectName("UserPanel");
          ConnectGo4Widget(userpanel);
@@ -881,13 +878,16 @@ TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
 
    int n = 0;
    do {
-     n++;
-     name = QString("Panel") + QString::number(n);
+      n++;
+      name = QString("Panel") + QString::number(n);
    } while ((edslot!=0) && (edslot->FindChild(name.toAscii().constData())!=0));
 
-   TGo4ViewPanel* panel = new TGo4ViewPanel(fxWorkSpace, name.toAscii().constData());
-   fxWorkSpace->addWindow(panel); // warning: Qt may exchange the winId here!
+   TGo4ViewPanel* panel = new TGo4ViewPanel(fxMdiArea, name.toAscii().constData());
+   QMdiSubWindow* sub = fxMdiArea->addSubWindow(panel); // warning: Qt may exchange the winId here!
    // panel->GetQCanvas()->performResize(); // may register new winId for TCanvas here
+
+   sub->resize(go4sett->lastPanelSize());
+
    ConnectGo4Widget(panel);
    panel->update();
    panel->show();
@@ -930,7 +930,7 @@ void TGo4MainWindow::closeEvent( QCloseEvent* ce)
                return;
             }
 
-   CloseAllWindows();
+   fxMdiArea->closeAllSubWindows();
 
    Browser()->ToggleMonitoring(0);
 
@@ -1587,8 +1587,8 @@ TGo4AnalysisProxy* TGo4MainWindow::AddAnalysisProxy(bool isserver, bool needoutp
 
    if(anw==0)
      if (needoutput) {
-        anw = new TGo4AnalysisWindow(fxWorkSpace, "AnalysisWindow", true);
-        fxWorkSpace->addWindow(anw);
+        anw = new TGo4AnalysisWindow(fxMdiArea, "AnalysisWindow", true);
+        fxMdiArea->addSubWindow(anw);
         ConnectGo4Widget(anw);
         anw->show();
         anw->WorkWithUpdateObjectCmd(anal->UpdateObjectSlot());
@@ -1685,8 +1685,8 @@ TGo4AnalysisConfiguration* TGo4MainWindow::EstablishAnalysisConfiguration(int le
    } else
    if (level>=2) {
      if (conf==0) {
-       conf = new TGo4AnalysisConfiguration(fxWorkSpace, "AnalysisConfiguration");
-       fxWorkSpace->addWindow(conf);
+       conf = new TGo4AnalysisConfiguration(fxMdiArea, "AnalysisConfiguration");
+       fxMdiArea->addSubWindow(conf);
        ConnectGo4Widget(conf);
      }
      TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
@@ -1903,8 +1903,8 @@ TGo4FitPanel* TGo4MainWindow::StartFitPanel()
    TGo4FitPanel* fitpanel = (TGo4FitPanel*) FindGo4Widget("FitPanel", true);
 
    if (fitpanel==0) {
-      fitpanel = new TGo4FitPanel(fxWorkSpace,"FitPanel");
-      fxWorkSpace->addWindow(fitpanel);
+      fitpanel = new TGo4FitPanel(fxMdiArea,"FitPanel");
+      fxMdiArea->addSubWindow(fitpanel);
       ConnectGo4Widget(fitpanel);
       fitpanel->ensurePolished();
       fitpanel->show();
@@ -1919,8 +1919,8 @@ TGo4HistogramInfo* TGo4MainWindow::StartHistogramInfo()
 {
    TGo4HistogramInfo* hinfo = (TGo4HistogramInfo*) FindGo4Widget("HistogramInfo", true);
    if (hinfo==0) {
-      hinfo = new TGo4HistogramInfo(fxWorkSpace, "HistogramInfo");
-      fxWorkSpace->addWindow(hinfo);
+      hinfo = new TGo4HistogramInfo(fxMdiArea, "HistogramInfo");
+      fxMdiArea->addSubWindow(hinfo);
       ConnectGo4Widget(hinfo);
       hinfo->ensurePolished();
       hinfo->show();
@@ -1933,8 +1933,8 @@ TGo4ConditionInfo* TGo4MainWindow::StartConditionInfo()
 {
    TGo4ConditionInfo* cinfo = (TGo4ConditionInfo*) FindGo4Widget("ConditionInfo", true);
    if (cinfo==0) {
-      cinfo = new TGo4ConditionInfo(fxWorkSpace, "ConditionInfo");
-      fxWorkSpace->addWindow(cinfo);
+      cinfo = new TGo4ConditionInfo(fxMdiArea, "ConditionInfo");
+      fxMdiArea->addSubWindow(cinfo);
       ConnectGo4Widget(cinfo);
       cinfo->ensurePolished();
       cinfo->show();
@@ -1972,8 +1972,8 @@ TGo4ParaEdit* TGo4MainWindow::StartParaEdit(const char* itemname)
    }
 
    if (pedit==0) {
-      pedit = new TGo4ParaEdit(fxWorkSpace, "ParaEdit");
-      fxWorkSpace->addWindow(pedit);
+      pedit = new TGo4ParaEdit(fxMdiArea, "ParaEdit");
+      fxMdiArea->addSubWindow(pedit);
       ConnectGo4Widget(pedit);
       pedit->ensurePolished();
       pedit->show();
@@ -1990,8 +1990,8 @@ TGo4EditDynEntry* TGo4MainWindow::StartEditDynEntry()
    TGo4EditDynEntry* dedit = (TGo4EditDynEntry*) FindGo4Widget("EditDynEntry", true);
 
    if (dedit==0) {
-      dedit = new TGo4EditDynEntry(fxWorkSpace, "EditDynEntry");
-      fxWorkSpace->addWindow(dedit);
+      dedit = new TGo4EditDynEntry(fxMdiArea, "EditDynEntry");
+      fxMdiArea->addSubWindow(dedit);
       ConnectGo4Widget(dedit);
       dedit->ensurePolished();
       dedit->show();
@@ -2004,8 +2004,8 @@ TGo4ConditionEditor* TGo4MainWindow::StartConditionEditor()
 {
    TGo4ConditionEditor* wedit = (TGo4ConditionEditor*) FindGo4Widget("ConditionEditor", true);
    if (wedit==0) {
-      wedit = new TGo4ConditionEditor(fxWorkSpace, "ConditionEditor");
-      fxWorkSpace->addWindow(wedit);
+      wedit = new TGo4ConditionEditor(fxMdiArea, "ConditionEditor");
+      fxMdiArea->addSubWindow(wedit);
       ConnectGo4Widget(wedit);
       wedit->ensurePolished();
       wedit->show();
@@ -2018,8 +2018,8 @@ TGo4EventInfo* TGo4MainWindow::StartEventInfo()
    TGo4EventInfo* einfo = (TGo4EventInfo*) FindGo4Widget("EventInfo", true);
 
    if (einfo==0) {
-      einfo = new TGo4EventInfo(fxWorkSpace, "EventInfo");
-      fxWorkSpace->addWindow(einfo);
+      einfo = new TGo4EventInfo(fxMdiArea, "EventInfo");
+      fxMdiArea->addSubWindow(einfo);
       ConnectGo4Widget(einfo);
       einfo->ensurePolished();
       einfo->show();
@@ -2103,15 +2103,15 @@ TGo4SetScaleValues* TGo4MainWindow::ToggleScaleValues()
 {
    TGo4SetScaleValues* scl = 0;
 
-   QWidgetList windows =  fxWorkSpace->windowList();
-   for (int i=0; i<int(windows.count()); ++i ) {
-      scl = dynamic_cast<TGo4SetScaleValues*> (windows.at(i));
+   QList<QMdiSubWindow *> windows = fxMdiArea->subWindowList();
+   for (int i=0; i < windows.count(); ++i ) {
+      scl = dynamic_cast<TGo4SetScaleValues*> (windows.at(i)->widget());
       if (scl!=0) break;
    }
 
    if (scl==0) {
-      scl = new TGo4SetScaleValues(fxWorkSpace, "ScaleValues", Qt::WindowStaysOnTopHint);
-      fxWorkSpace->addWindow(scl);
+      scl = new TGo4SetScaleValues(fxMdiArea, "ScaleValues", Qt::WindowStaysOnTopHint);
+      fxMdiArea->addSubWindow(scl);
       scl->ensurePolished();
       scl->show();
    } else {
@@ -2451,7 +2451,7 @@ void TGo4MainWindow::checkPanelRepaintSlot()
    fbPanelTimerActive = false;
 
    // first check if active viewpnael need update its content
-   TGo4ViewPanel* actpanel = fxWorkSpace->GetActivePanel();
+   TGo4ViewPanel* actpanel = fxMdiArea->GetActivePanel();
    if ((actpanel!=0) && actpanel->IsRepaintTimerActive())
       actpanel->checkRepaintSlot();
 
@@ -2871,7 +2871,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_LastActivePanel: {
          TGo4ViewPanel** res = (TGo4ViewPanel**) par;
-         *res = fxWorkSpace->GetActivePanel();
+         *res = fxMdiArea->GetActivePanel();
          break;
       }
 
@@ -2994,7 +2994,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       case QGo4Widget::panel_Deleted: {
          TGo4ViewPanel* panel = (TGo4ViewPanel*) editor;
          TPad* pad = (TPad*) par;
-         fxWorkSpace->ResponseOnPanelEvent(serviceid, panel, pad);
+         fxMdiArea->ResponseOnPanelEvent(serviceid, panel, pad);
          break;
       }
 

@@ -29,11 +29,9 @@
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
 #include "TGo4CondArray.h"
-#include "TGo4WorkSpace.h"
 #include "TGo4ViewPanel.h"
 #include "TGo4BrowserProxy.h"
 #include "TGo4AnalysisProxy.h"
-
 
 
 TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name)

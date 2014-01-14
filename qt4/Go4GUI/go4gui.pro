@@ -28,7 +28,7 @@ HEADERS	+= \
 	TGo4HServerConnection.h\
 	TGo4QSettings.h \
 	TGo4AnalysisWindow.h \
-	TGo4WorkSpace.h \
+	TGo4MdiArea.h \
 	QGo4LineEdit.h \
 	QGo4Widget.h \
 	QGo4BrowserTreeWidget.h \
@@ -73,7 +73,7 @@ HEADERS	+= \
 SOURCES	+= \
 	TGo4QSettings.cpp \
 	TGo4AnalysisWindow.cpp \
-	TGo4WorkSpace.cpp \
+	TGo4MdiArea.cpp \
 	QGo4LineEdit.cpp \
 	QGo4Widget.cpp \
 	QGo4BrowserTreeWidget.cpp \

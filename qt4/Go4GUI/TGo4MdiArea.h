@@ -11,29 +11,27 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TGO4WORKSPACE_H
-#define TGO4WORKSPACE_H
+#ifndef TGO4MDIAREA_H
+#define TGO4MDIAREA_H
 
-#include <QtGui/qworkspace.h>
+#include <QtGui/QMdiArea>
 
 #include <QtCore/QEvent>
-#include <QtGui/QCloseEvent>
 
 class TPad;
 class TGo4ViewPanel;
 
 
-/** @author Mohammad Al-Turany
-  * @author S. Linev
-  * @since 02.05.2002 */
+/** @author S. Linev
+  * @since 14.01.2014 */
 
-class TGo4WorkSpace : public QWorkspace {
+class TGo4MdiArea : public QMdiArea {
    Q_OBJECT
 
    public:
 
-      TGo4WorkSpace(QWidget *parent);
-      virtual ~TGo4WorkSpace();
+      TGo4MdiArea(QWidget *parent = 0);
+      virtual ~TGo4MdiArea();
 
       TGo4ViewPanel* GetActivePanel();
 
@@ -42,27 +40,20 @@ class TGo4WorkSpace : public QWorkspace {
 
       void ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* pad);
 
-      static TGo4WorkSpace* Instance();
-
-      void SetEventsDisabled(bool on){fbDisableEvents=on;}
+      static TGo4MdiArea* Instance();
 
    signals:
       void panelSignal(TGo4ViewPanel*, TPad*, int);
 
-   protected:
-      //virtual bool eventFilter(QObject *fx, QEvent *e);
-      virtual void closeEvent(QCloseEvent * ce);
-
    protected slots:
-      void windowActivatedSlot(QWidget*);
+      void subWindowActivatedSlot(QMdiSubWindow * window);
 
    private:
-      TGo4ViewPanel* fxActivePanel;
-      TPad*         fxActivePad;
-      TPad*         fxSelectedPad;
-      static TGo4WorkSpace* fInstance;
+      TGo4ViewPanel*  fxActivePanel;
+      TPad*           fxActivePad;
+      TPad*           fxSelectedPad;
 
-      bool fbDisableEvents;
+      static TGo4MdiArea* fInstance;
 };
 
-#endif //TGO4WORKSPACE_H
+#endif

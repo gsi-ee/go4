@@ -75,7 +75,7 @@
 #include "TGo4WinCondView.h"
 #include "TGo4PolyCondView.h"
 #include "TGo4LockGuard.h"
-#include "TGo4WorkSpace.h"
+#include "TGo4MdiArea.h"
 #include "TGo4ASImage.h"
 #include "TGo4PrintWidget.h"
 #include "TGo4Proxy.h"
@@ -126,7 +126,8 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    fxQCanvas->setObjectName(GetPanelName());
    fxQCanvas->getCanvas()->SetName(GetPanelName());
 
-   resize(go4sett->lastPanelSize());
+//   printf("Resize x %d y %d\n", go4sett->lastPanelSize().width(), go4sett->lastPanelSize().height());
+//   resize(go4sett->lastPanelSize());
 
    fSelectMenu = 0;
    fSelectMap = 0;
@@ -146,7 +147,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    fileMenu->addAction("Print...", this, SLOT(PrintCanvas()));
    fileMenu->addAction("Produce &Picture", this, SLOT(ProducePicture()));
    fileMenu->addAction("Produce &Graph from markers", this,
-         SLOT(ProduceGraphFromMarkers()));
+                       SLOT(ProduceGraphFromMarkers()));
 
 //   fileMenu->addAction("Copy to T&Canvas in Memory", this, SLOT(SendToBrowser()));
 //   fileMenu->addAction("&Load marker setup...", this, SLOT(LoadMarkers()));
@@ -449,9 +450,12 @@ void TGo4ViewPanel::CompleteInitialization()
    gedlayout->addWidget(fxRooteditor);
 
    //    fMenuBar
-   connect(TGo4WorkSpace::Instance(),
+   connect(TGo4MdiArea::Instance(),
          SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)), this,
          SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
+
+   // printf("Resize again x %d y %d\n", go4sett->lastPanelSize().width(), go4sett->lastPanelSize().height());
+   // resize(go4sett->lastPanelSize());
 
    // adjust canvas size before any drawing will be done
    GetQCanvas()->Resize();
@@ -1187,7 +1191,7 @@ void TGo4ViewPanel::SetActivePad(TPad* pad)
    fxActivePad->cd();
    GetCanvas()->SetSelectedPad(fxActivePad);
 
-   TGo4WorkSpace::Instance()->SetSelectedPad(fxActivePad);
+   TGo4MdiArea::Instance()->SetSelectedPad(fxActivePad);
 
    BlockPanelRedraw(true);
    GetQCanvas()->Update();
@@ -3632,11 +3636,11 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
    // loop is finishing and via paint timer will be activated later
 
    do {
-      TPad* selpad = TGo4WorkSpace::Instance()->GetSelectedPad();
+      TPad* selpad = TGo4MdiArea::Instance()->GetSelectedPad();
 
       isanychildmodified = ProcessPadRedraw(pad, force);
 
-      TGo4WorkSpace::Instance()->SetSelectedPad(selpad);
+      TGo4MdiArea::Instance()->SetSelectedPad(selpad);
 
       // here pad->Update should redraw only modified subpad
       if (isanychildmodified) {
@@ -5200,7 +5204,9 @@ void TGo4ViewPanel::closeEvent(QCloseEvent* ce)
 
 void TGo4ViewPanel::resizeEvent(QResizeEvent * e)
 {
-   go4sett->storePanelSize(this);
+   // store size of top widget -
+   // size of top widget will be restored when new panel is created
+   go4sett->storePanelSize(parentWidget());
 }
 
 void TGo4ViewPanel::ResizeGedEditor()
@@ -5284,7 +5290,7 @@ void TGo4ViewPanel::PadDeleted(TPad* pad)
 
    GetCanvas()->SetSelectedPad(GetCanvas());
    GetCanvas()->SetSelected(GetCanvas());
-   TGo4WorkSpace::Instance()->SetSelectedPad(GetCanvas());
+   TGo4MdiArea::Instance()->SetSelectedPad(GetCanvas());
 }
 
 // marker functions

@@ -20,7 +20,7 @@
 
 #include "TGo4Marker.h"
 #include "TGo4Condition.h"
-#include "TGo4WorkSpace.h"
+#include "TGo4MdiArea.h"
 
 #include <QtCore/QSettings>
 #include <QtCore/QFile>
@@ -580,11 +580,11 @@ QSize TGo4QSettings::lastPanelSize()
 {
    QSize rect(getInt( "/ViewPanel/Width", 450), getInt( "/ViewPanel/Height", 250));
 
-   if (rect.height() > TGo4WorkSpace::Instance()->height()*4/5)
-      rect.setHeight(TGo4WorkSpace::Instance()->height()*4/5);
+   if (rect.height() > TGo4MdiArea::Instance()->height()*4/5)
+      rect.setHeight(TGo4MdiArea::Instance()->height()*4/5);
 
-   if (rect.width() > TGo4WorkSpace::Instance()->width()*4/5)
-      rect.setWidth(TGo4WorkSpace::Instance()->width()*4/5);
+   if (rect.width() > TGo4MdiArea::Instance()->width()*4/5)
+      rect.setWidth(TGo4MdiArea::Instance()->width()*4/5);
 
    return rect;
 }

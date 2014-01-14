@@ -36,11 +36,13 @@
 #include "TGo4AnalysisConfiguration.h"
 #include "TGo4ConfigStep.h"
 #include "TGo4AnalysisWindow.h"
-#include "TGo4WorkSpace.h"
+#include "TGo4MdiArea.h"
 #include "TGo4Picture.h"
 #include "TGo4ViewPanel.h"
 #include "TGo4MainWindow.h"
 #include "TGo4Slot.h"
+
+#include <QtGui/QMdiSubWindow>
 
 TGo4Script* TGo4Script::ScriptInstance()
 {
@@ -695,7 +697,7 @@ Bool_t TGo4Script::SetViewPanelName(ViewPanelHandle handle, const char* newname)
 
 ViewPanelHandle TGo4Script::GetActiveViewPanel()
 {
-   return (ViewPanelHandle) TGo4WorkSpace::Instance()->GetActivePanel();
+   return (ViewPanelHandle) TGo4MdiArea::Instance()->GetActivePanel();
 }
 
 void TGo4Script::RedrawPanel(ViewPanelHandle handle)
@@ -995,9 +997,9 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
 
    int npanel=0;
 
-   QWidgetList windows = TGo4WorkSpace::Instance()->windowList();
+   QList<QMdiSubWindow *> windows = TGo4MdiArea::Instance()->subWindowList();
    for (int i=0; i<windows.count(); ++i ) {
-      TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (windows.at(i));
+      TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (windows.at(i)->widget());
       if (panel==0) continue;
 
       TString picname = TString::Format("pic%d", ++npanel);

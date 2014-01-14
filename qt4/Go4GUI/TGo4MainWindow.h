@@ -33,7 +33,7 @@ class TGo4AnalysisWindow;
 class TGo4AnalysisStatusMonitor;
 class TGo4SetScaleValues;
 
-class TGo4WorkSpace;
+class TGo4MdiArea;
 class TGo4ViewPanel;
 class TPad;
 class TGo4Slot;
@@ -98,7 +98,6 @@ class TGo4MainWindow : public QMainWindow {
       void IntroHelpSlot();
       void RefHelpSlot();
       void FitHelpSlot();
-      void CloseAllWindows();
       void MinAllWindows();
       void ToggleFullScreenSlot();
       void SaveSettingsSlot();
@@ -204,7 +203,7 @@ class TGo4MainWindow : public QMainWindow {
 
       QMenu*             windowsMenu;
       QSignalMapper*     winMapper;
-      TGo4WorkSpace*     fxWorkSpace;
+      TGo4MdiArea*       fxMdiArea;
 
       TGo4ObjectManager* fxOM;
       QString            fOMDataPath;

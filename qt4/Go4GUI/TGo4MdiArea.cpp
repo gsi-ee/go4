@@ -11,78 +11,69 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#include "TGo4WorkSpace.h"
+#include "TGo4MdiArea.h"
 
 #include "TPad.h"
 #include "TROOT.h"
 
+#include <QtGui/QMdiSubWindow>
+
 #include "TGo4ViewPanel.h"
 #include "QGo4Widget.h"
-#include <QtCore/QEvent>
-#include <QCloseEvent>
 
-#include <iostream>
+TGo4MdiArea* TGo4MdiArea::fInstance = 0;
 
-TGo4WorkSpace* TGo4WorkSpace::fInstance = 0;
-
-TGo4WorkSpace* TGo4WorkSpace::Instance()
+TGo4MdiArea* TGo4MdiArea::Instance()
 {
    return fInstance;
 }
 
-TGo4WorkSpace::TGo4WorkSpace(QWidget* parent) :
-   QWorkspace(parent),
+TGo4MdiArea::TGo4MdiArea(QWidget* parent) :
+   QMdiArea(parent),
    fxActivePanel(0),
    fxActivePad(0),
-   fxSelectedPad(0),
-   fbDisableEvents(false)
+   fxSelectedPad(0)
 {
    setSizeIncrement( QSize( 100, 100 ) );
    setBaseSize( QSize( 100, 100 ) );
 
-   connect(this,SIGNAL(windowActivated(QWidget*)), this, SLOT(windowActivatedSlot(QWidget*)));
+   connect(this,SIGNAL(subWindowActivated (QMdiSubWindow*)), this, SLOT(subWindowActivatedSlot(QMdiSubWindow*)));
 
    if (fInstance==0) fInstance = this;
 }
 
-void TGo4WorkSpace::closeEvent(QCloseEvent * ce)
+TGo4MdiArea::~TGo4MdiArea()
 {
-    ce->accept();
-    delete this;
-}
-
-TGo4WorkSpace::~TGo4WorkSpace()
-{
-   if (fInstance==this) fInstance=0;
+   if (fInstance==this) fInstance = 0;
 }
 
 
-TPad* TGo4WorkSpace::GetSelectedPad()
+TPad* TGo4MdiArea::GetSelectedPad()
 {
     return fxSelectedPad;
 }
 
-void TGo4WorkSpace::SetSelectedPad(TPad* pad)
+void TGo4MdiArea::SetSelectedPad(TPad* pad)
 {
    fxSelectedPad = pad;
    gROOT->SetSelectedPad(pad);
    gPad = pad;
 }
 
-TGo4ViewPanel* TGo4WorkSpace::GetActivePanel()
+TGo4ViewPanel* TGo4MdiArea::GetActivePanel()
 {
    return fxActivePanel;
 }
 
-void TGo4WorkSpace::windowActivatedSlot(QWidget* w)
+void TGo4MdiArea::subWindowActivatedSlot(QMdiSubWindow* sub)
 {
-   TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (w);
+   TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (sub ? sub->widget() : 0);
 
    if ((panel!=0) && (fxActivePanel != panel))
      panel->SetActivePad(panel->GetActivePad());
 }
 
-void TGo4WorkSpace::ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* pad)
+void TGo4MdiArea::ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* pad)
 {
    if (panel==0) return;
 

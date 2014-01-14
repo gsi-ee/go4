@@ -14,7 +14,7 @@
 #include "TGo4ScaleOptions.h"
 
 #include "Riostream.h"
-#include "TGo4WorkSpace.h"
+#include "TGo4MdiArea.h"
 #include "TGo4ViewPanel.h"
 #include "TGo4SetScaleValues.h"
 
@@ -104,6 +104,6 @@ void TGo4ScaleOptions::AutoZoomScales()
 
 void TGo4ScaleOptions::MoveScale(int xaction, int yaction, int zaction)
 {
-   TGo4ViewPanel* panel = TGo4WorkSpace::Instance()->GetActivePanel();
+   TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
    if (panel!=0) panel->MoveScale(ExpandFactor->value(), xaction, yaction, zaction);
 }

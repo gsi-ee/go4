@@ -20,7 +20,7 @@
 #include "TAttFill.h"
 #include "TAttMarker.h"
 
-#include "TGo4WorkSpace.h"
+#include "TGo4MdiArea.h"
 #include "TGo4ViewPanel.h"
 
 #include <QColorDialog>
@@ -119,7 +119,7 @@ void TGo4HisDrawOptionsShort::SlotMarkerColor()
 
 void TGo4HisDrawOptionsShort::ChangeColor(int kind)
 {
-   TGo4ViewPanel* panel = TGo4WorkSpace::Instance()->GetActivePanel();
+   TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
    if (panel==0) return;
 
    TPad* pad = panel->GetActivePad();
@@ -187,6 +187,6 @@ void TGo4HisDrawOptionsShort::ChangeColor(int kind)
 
 void TGo4HisDrawOptionsShort::SetDrawOpt(int kind, int value, char *dropt)
 {
-   TGo4ViewPanel* panel = TGo4WorkSpace::Instance()->GetActivePanel();
+   TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
    if (panel!=0) panel->ChangeDrawOption(kind, value,dropt);
 }

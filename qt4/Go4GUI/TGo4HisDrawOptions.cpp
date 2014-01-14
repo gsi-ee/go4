@@ -22,7 +22,7 @@
 
 #include "TGo4Picture.h"
 #include "TGo4ViewPanel.h"
-#include "TGo4WorkSpace.h"
+#include "TGo4MdiArea.h"
 
 #include <QColorDialog>
 
@@ -33,7 +33,7 @@ TGo4HisDrawOptions::TGo4HisDrawOptions( QWidget* parent, const char* name, Qt::W
    setupUi(this);
    fbSettingPanelData = true;
 
-   connect(TGo4WorkSpace::Instance(), SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
+   connect(TGo4MdiArea::Instance(), SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
            this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
 
    UpdateView(view_Histo1);
@@ -278,7 +278,7 @@ void TGo4HisDrawOptions::ChangeDrawOptionForCurrentPanel(int kind, int value)
 {
    if (fbSettingPanelData) return;
 
-   TGo4ViewPanel* panel = TGo4WorkSpace::Instance()->GetActivePanel();
+   TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
    if (panel==0) return;
 
    TPad* pad = panel->GetActivePad();
@@ -666,7 +666,7 @@ void TGo4HisDrawOptions::SetMarkerColor()
 
 void TGo4HisDrawOptions::ChangeColor(int kind)
 {
-   TGo4ViewPanel* panel = TGo4WorkSpace::Instance()->GetActivePanel();
+   TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
    if (panel==0) return;
 
    TPad* pad = panel->GetActivePad();

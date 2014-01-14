@@ -13,11 +13,11 @@
 
 #include "TGo4DividePad.h"
 
-#include "TGo4WorkSpace.h"
+#include "TGo4MdiArea.h"
 #include "TGo4ViewPanel.h"
 
-TGo4DividePad::TGo4DividePad( QWidget* parent, const char* name, Qt::WFlags fl )
-    : QWidget( parent, fl )
+TGo4DividePad::TGo4DividePad( QWidget* parent, const char* name, Qt::WFlags fl ) :
+   QWidget( parent, fl )
 {
    setObjectName( name ? name : "Go4DividePad");
    setupUi(this);
@@ -25,7 +25,7 @@ TGo4DividePad::TGo4DividePad( QWidget* parent, const char* name, Qt::WFlags fl )
 
 void TGo4DividePad::DivideCanvas()
 {
-  TGo4ViewPanel* panel = TGo4WorkSpace::Instance()->GetActivePanel();
+  TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
 
   if (panel!=0)
      panel->Divide(SpinBoxX->value(), SpinBoxY->value());
