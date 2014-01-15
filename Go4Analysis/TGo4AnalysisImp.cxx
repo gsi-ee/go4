@@ -2016,6 +2016,8 @@ Long_t TGo4Analysis::ExecuteScript(const char* macro_name)
    TString file_name(macro_name);
    Ssiz_t pos = file_name.First('(');
    if (pos>0) file_name.Resize(pos);
+   pos = file_name.First('+');
+   if (pos>0) file_name.Resize(pos);
    while ((file_name.Length()>0) && (file_name[file_name.Length()-1] == ' '))
       file_name.Resize(file_name.Length()-1);
    while ((file_name.Length()>0) && (file_name[0]==' '))
