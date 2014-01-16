@@ -1688,8 +1688,12 @@ TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char* title,
          if (ytitle) oldh->GetYaxis()->SetTitle(ytitle);
          return oldh;
       }
-      TGo4Log::Info("There is histogram %s with type %s other than specified %s,rebuild",
-                     fullname, oldh->ClassName(), sclass);
+
+      if (oldh->InheritsFrom(sclass))
+         TGo4Log::Info("Rebuild existing histogram %s", fullname);
+      else
+         TGo4Log::Info("There is histogram %s with type %s other than specified %s, rebuild",
+                                 fullname, oldh->ClassName(), sclass);
    }
 
    TH1* newh = 0;
@@ -1761,8 +1765,11 @@ TH2* TGo4Analysis::MakeTH2(char type, const char* fullname, const char* title,
          if (ytitle) oldh->GetYaxis()->SetTitle(ytitle);
          return (TH2*) oldh;
       }
-      TGo4Log::Info("There is histogram %s with type %s other than specified %s, rebuild",
-                     fullname, oldh->ClassName(), sclass);
+      if (oldh->InheritsFrom(sclass))
+         TGo4Log::Info("Rebuild existing histogram %s", fullname);
+      else
+         TGo4Log::Info("There is histogram %s with type %s other than specified %s, rebuild",
+                        fullname, oldh->ClassName(), sclass);
    }
 
    TH2* newh = 0;
