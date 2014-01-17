@@ -2036,14 +2036,16 @@ TGo4AnalysisConfiguration* TGo4MainWindow::FindAnalysisConfiguration()
 void TGo4MainWindow::ToggleAnalysisConfiguration()
 {
    TGo4AnalysisConfiguration* conf = FindAnalysisConfiguration();
-   if (conf==0) return;
+   QWidget* mdi = conf ? conf->parentWidget() : 0;
 
-   if (conf->isVisible())
-      conf->hide();
-   else {
-      conf->raise();
-      conf->show();
-      if (conf->isMinimized()) conf->showNormal();
+   if (mdi==0) return;
+
+   if (mdi->isVisible()) {
+      mdi->hide();
+   } else {
+      mdi->raise();
+      mdi->show();
+      if (mdi->isMinimized()) mdi->showNormal();
    }
 }
 
@@ -2058,12 +2060,14 @@ void TGo4MainWindow::ToggleAnalysisWindow()
    if (anw==0) return;
 
    if (anw->HasOutput()) {
-      if (anw->isVisible())
-        anw->hide();
-      else {
-        anw->raise();
-        anw->show();
-        if (anw->isMinimized()) anw->showNormal();
+      QWidget* mdi = anw->parentWidget();
+
+      if (mdi->isVisible()) {
+         mdi->hide();
+      } else {
+         mdi->raise();
+         mdi->show();
+         if (mdi->isMinimized()) mdi->showNormal();
       }
    } else {
       QToolBar* dock = dynamic_cast<QToolBar*> (anw->parentWidget());
@@ -2077,7 +2081,11 @@ void TGo4MainWindow::ToggleAnalysisWindow()
 void TGo4MainWindow::CloseAnalysisWindow()
 {
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
-   if (anw!=0) {
+   if (anw==0) return;
+
+   if (anw->HasOutput()) {
+      anw->parentWidget()->close();
+   } else {
       QToolBar* bar = dynamic_cast<QToolBar*> (anw->parentWidget());
       removeToolBar(bar);
       delete bar;

@@ -60,7 +60,7 @@ void TGo4AnalysisConfiguration::linkedObjectUpdated(const char* linkname, TObjec
      RefreshWidget();
 
      TGo4AnalysisProxy* anal =
-       dynamic_cast<TGo4AnalysisProxy*>(GetLinked("Analysis", 0));
+        dynamic_cast<TGo4AnalysisProxy*>(GetLinked("Analysis", 0));
      if (anal!=0)
         anal->RefreshNamesList();
    }
@@ -101,7 +101,7 @@ void TGo4AnalysisConfiguration::ResetWidget()
 void TGo4AnalysisConfiguration::RefreshWidget()
 {
    TGo4AnalysisStatus* status =
-     dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
+      dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
    if (status==0) return;
 
    fbTypingMode = false;
@@ -135,8 +135,9 @@ void TGo4AnalysisConfiguration::RefreshWidget()
                       status->IsAutoSaveOverwrite());
 
     SetAnalysisConfigFile(status->GetConfigFileName());
-    showNormal();
-    adjustSize();
+
+    parentWidget()->showNormal();
+    parentWidget()->adjustSize();
 
     fbTypingMode = true;
 }

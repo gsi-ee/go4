@@ -411,24 +411,24 @@ void TGo4Script::RefreshNamesList(int tmout)
    DoPostProcessing();
 }
 
-
-
 void TGo4Script::SetAnalysisTerminalMode(int mode)
 {
-   TGo4AnalysisWindow* gui = fMainWin->FindAnalysisWindow();
+   TGo4AnalysisWindow* gui_ = fMainWin->FindAnalysisWindow();
+   QWidget* gui = gui_ ? gui_->parentWidget() : 0;
    if (gui==0) return;
 
-   if (mode<0) gui->close(); else
+   if (mode<0) gui->hide(); else
    if (mode==0) gui->showMinimized(); else
                 gui->showNormal();
 }
 
 void TGo4Script::SetAnalysisConfigMode(int mode)
 {
-   TGo4AnalysisConfiguration* gui = fMainWin->FindAnalysisConfiguration();
+   TGo4AnalysisConfiguration* gui_ = fMainWin->FindAnalysisConfiguration();
+   QWidget* gui = gui_ ? gui_->parentWidget() : 0;
    if (gui==0) return;
 
-   if (mode<0) gui->close(); else
+   if (mode<0) gui->hide(); else
    if (mode==0) gui->showMinimized(); else
                 gui->showNormal();
 }
