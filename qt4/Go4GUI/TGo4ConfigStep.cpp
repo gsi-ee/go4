@@ -192,7 +192,7 @@ void TGo4ConfigStep::InputSourceText(const QString& name)
    }
 }
 
-void TGo4ConfigStep::OutputStateChanged(int )
+void TGo4ConfigStep::OutputStateChanged(int)
 {
    bool stepon = EnableStepBox->isChecked();
    bool on = EnableStoreBox->isChecked();
@@ -203,9 +203,12 @@ void TGo4ConfigStep::OutputStateChanged(int )
 
    fxPanel->ChangeTabTitle(this, fStepNumber);
 
+   adjustSize();
    parentWidget()->adjustSize();
    parentWidget()->parentWidget()->adjustSize();
-   parentWidget()->parentWidget()->parentWidget()->adjustSize();
+
+   fxPanel->adjustSize();
+   fxPanel->parentWidget()->adjustSize();
 }
 
 void TGo4ConfigStep::OutputNameText(const QString& Name)
@@ -541,14 +544,14 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
          break;
    }
 
-//   ExtraBtn->setText(fExtra ? "-" : "+");
-
    fBlocked--;
 
    adjustSize();
    parentWidget()->adjustSize();
    parentWidget()->parentWidget()->adjustSize();
-   parentWidget()->parentWidget()->parentWidget()->adjustSize();
+
+   fxPanel->adjustSize();
+   fxPanel->parentWidget()->adjustSize();
 }
 
 void TGo4ConfigStep::StoreComboHighlighted(int k)
@@ -943,11 +946,4 @@ void TGo4ConfigStep::ExtraBtn_clicked()
    SourceComboHighlighted(EventSourceCombo->currentIndex());
 
    fBlocked--;
-
-/*
-   adjustSize();
-   parentWidget()->adjustSize();
-   parentWidget()->parentWidget()->adjustSize();
-   parentWidget()->parentWidget()->parentWidget()->adjustSize();
-*/
 }

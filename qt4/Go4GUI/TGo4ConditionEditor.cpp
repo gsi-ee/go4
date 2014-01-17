@@ -42,7 +42,7 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name)
    setWindowTitle("Condition editor");
    ResetWidget();
    fiSelectedIndex = -1;
-   adjustSize();
+   parentWidget()->adjustSize();
    fbDrawOnNextRefresh = false;
    fiLastChangeValue = -1;
    CutTable->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -97,7 +97,7 @@ void TGo4ConditionEditor::linkedObjectUpdated(const char* linkname, TObject* obj
 void TGo4ConditionEditor::linkedObjectRemoved(const char* linkname)
 {
    if (strcmp(linkname,"Condition")==0)
-      ShootCloseWidget();
+      ShootCloseWidget(true);
 }
 
 void TGo4ConditionEditor::WorkWithCondition(const char* itemname)

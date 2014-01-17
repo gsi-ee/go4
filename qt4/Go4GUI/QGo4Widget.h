@@ -201,17 +201,17 @@ class QDESIGNER_WIDGET_EXPORT  QGo4Widget : public QWidget {
       void CallPanelFunc(int id, TPad* pad = 0);
 
       void ShootResetWidget();
-      void ShootCloseWidget();
+      void ShootCloseWidget(bool closeparent = false);
 
       bool IsUpdateBlocked() const { return fBlockUpdate; }
 
    private:
       bool   fWaitsForObjectCreation;
-      bool   fCanDestroyWidget;
-      bool   fResetWidgetShooted;  // indicates that reset widget timer is shooted
-      bool   fBlockUpdate;      // set when automatic reset must be blocked
+      bool   fCanDestroyWidget;     //! indicate that widget can be destroyed
+      bool   fResetWidgetShooted;   //! indicates that reset widget timer is shoot
+      bool   fBlockUpdate;          //! set when automatic reset must be blocked
 
-      TGo4BrowserProxy* fBrowserProxy;
+      TGo4BrowserProxy* fBrowserProxy; //! pointer on browser proxy
 };
 
 extern QAction* AddChkAction(QMenu* menu,

@@ -36,14 +36,14 @@
 #include "TGo4Slot.h"
 #include "TGo4BrowserProxy.h"
 
-TGo4ParaEdit::TGo4ParaEdit(QWidget *parent, const char* name)
-         : QGo4Widget(parent,name)
+TGo4ParaEdit::TGo4ParaEdit(QWidget *parent, const char* name) :
+   QGo4Widget(parent,name)
 {
    setupUi(this);
 
    fItems = 0;
    PleaseUpdateLabel->setVisible(false);
-   adjustSize();
+   parentWidget()->adjustSize();
 
    ParamNameLbl->setText("");
    ParamClassLbl->setText("");
@@ -96,7 +96,7 @@ void TGo4ParaEdit::linkedObjectRemoved( const char * linkname )
    // if link removed while parameter is dissapear, just close parameter editor
 
    if (strcmp(linkname,"Fitter")!=0)
-      ShootCloseWidget();
+      ShootCloseWidget(true);
 
 //   std::cout << " TGo4ParaEdit::linkedObjectRemoved done " << linkname << std::endl;
 }

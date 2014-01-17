@@ -66,7 +66,7 @@ TGo4Browser::TGo4Browser(QWidget *parent, const char* name) :
    setupUi(this);
 
    setAcceptDrops(false);
-   setCanDestroyWidget(FALSE);
+   setCanDestroyWidget(false);
 
    fbUpdateTimerActive = false;
 

@@ -1673,27 +1673,27 @@ TGo4AnalysisStatusMonitor* TGo4MainWindow::EstablishRatemeter(int level)
 
 TGo4AnalysisConfiguration* TGo4MainWindow::EstablishAnalysisConfiguration(int level)
 {
-   // level: 0 - delete, 1 - keep as is, 2 - create, 3- create + request status
+   // level: 0 - delete, 1 - keep as is, 2 - create, 3 - create + request status
 
    TGo4AnalysisConfiguration* conf = FindAnalysisConfiguration();
 
    if (level==0) {
       if (conf!=0) {
-         delete conf;
+         delete conf->parentWidget();
          conf = 0;
       }
    } else
    if (level>=2) {
-     if (conf==0) {
-       conf = new TGo4AnalysisConfiguration(fxMdiArea, "AnalysisConfiguration");
-       fxMdiArea->addSubWindow(conf);
-       ConnectGo4Widget(conf);
-     }
-     TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
-     if (anal!=0) {
-       conf->WorkWithAnalysis(anal);
-       if (level>2) anal->RequestAnalysisSettings();
-     }
+      if (conf==0) {
+         conf = new TGo4AnalysisConfiguration(fxMdiArea, "AnalysisConfiguration");
+         fxMdiArea->addSubWindow(conf);
+         ConnectGo4Widget(conf);
+      }
+      TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
+      if (anal!=0) {
+         conf->WorkWithAnalysis(anal);
+         if (level>2) anal->RequestAnalysisSettings();
+      }
    }
 
    return conf;
@@ -2123,7 +2123,7 @@ TGo4SetScaleValues* TGo4MainWindow::ToggleScaleValues()
       scl->ensurePolished();
       scl->show();
    } else {
-      delete scl;
+      scl->parentWidget()->close();
       scl = 0;
    }
    return scl;

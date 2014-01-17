@@ -22,8 +22,8 @@
 #include "TGo4AnalysisConfiguration.h"
 
 
-TGo4AnalysisConfiguration::TGo4AnalysisConfiguration(QWidget *parent, const char* name)
-         : QGo4Widget(parent, name)
+TGo4AnalysisConfiguration::TGo4AnalysisConfiguration(QWidget *parent, const char* name) :
+   QGo4Widget(parent, name)
 {
    setupUi(this);
 
@@ -54,9 +54,9 @@ void TGo4AnalysisConfiguration::DropItem(const char* itemname, TClass* cl, int k
 void TGo4AnalysisConfiguration::linkedObjectUpdated(const char* linkname, TObject* obj)
 {
    if (strcmp(linkname,"Status")==0) {
-     raise();
-     show();
-     if (isMinimized()) showNormal();
+     parentWidget()->raise();
+     parentWidget()->show();
+     if (parentWidget()->isMinimized()) parentWidget()->showNormal();
      RefreshWidget();
 
      TGo4AnalysisProxy* anal =
@@ -68,14 +68,14 @@ void TGo4AnalysisConfiguration::linkedObjectUpdated(const char* linkname, TObjec
 
 void TGo4AnalysisConfiguration::linkedObjectRemoved(const char* linkname)
 {
-   ShootCloseWidget();
+   ShootCloseWidget(true);
 }
 
 void TGo4AnalysisConfiguration::WorkWithAnalysis(TGo4AnalysisProxy* anal)
 {
    ResetWidget();
    if (anal==0) {
-      ShootCloseWidget();
+      ShootCloseWidget(true);
       return;
    }
 
@@ -127,7 +127,6 @@ void TGo4AnalysisConfiguration::RefreshWidget()
     TabSteps->setCurrentIndex(0);
     TabSteps->adjustSize();
 
-        //Get Analysis    Parameters
     SetAutoSaveConfig(status->GetAutoFileName(),
                       status->GetAutoSaveInterval(),
                       status->GetAutoSaveCompression(),
@@ -256,14 +255,13 @@ void TGo4AnalysisConfiguration::SubmitConfiguration()
 void TGo4AnalysisConfiguration::SubmitAndStart()
 {
    ServiceCall("SubmitStartAnalysis");
-   hide();
+   parentWidget()->hide();
 }
 
 void TGo4AnalysisConfiguration::CloseAnalysis()
 {
    ServiceCall("CloseAnalysisSettings");
 }
-
 
 void TGo4AnalysisConfiguration::SetAutoSaveInterval(int t)
 {
@@ -276,9 +274,9 @@ void TGo4AnalysisConfiguration::SetAutoSaveInterval(int t)
 void TGo4AnalysisConfiguration::SetAutoSaveOverwrite(bool overwrite)
 {
    TGo4AnalysisStatus* status =
-     dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
+      dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
    if ((status!=0) && fbTypingMode)
-     status->SetAutoSaveOverwrite(overwrite);
+      status->SetAutoSaveOverwrite(overwrite);
 }
 
 void TGo4AnalysisConfiguration::WriteAutoSave()

@@ -197,7 +197,7 @@ QString TGo4EditDynEntry::GetEventMember(const QString& itemname)
 void TGo4EditDynEntry::WorkWithEntry(const char* itemname)
 {
    TGo4DynamicEntry* entry =
-     dynamic_cast<TGo4DynamicEntry*>(GetLinked("Entry", 0));
+      dynamic_cast<TGo4DynamicEntry*>(GetLinked("Entry", 0));
    const char* oldname = GetLinkedName("Entry");
 
    if ((entry!=0) && (oldname!=0) && PleaseUpdateLabel->isVisible()) {
@@ -231,8 +231,8 @@ void TGo4EditDynEntry::WorkWithEntry(const char* itemname)
    RefreshWidget();
 
    SetPleaseUpdate(false);
-   adjustSize();
-   setFocus();
+   parentWidget()->adjustSize();
+   parentWidget()->setFocus();
 }
 
 void TGo4EditDynEntry::DropHistogram(const char * itemname)
