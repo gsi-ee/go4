@@ -2098,9 +2098,9 @@ void TGo4MainWindow::ToggleMbsMonitor(const char* nodename)
    TGo4MBSViewer* mbs =
      dynamic_cast<TGo4MBSViewer*> (FindGo4Widget("MBSViewer", false));
    if (mbs==0) return;
-   if (mbs->parentWidget()->isVisible())
+   if (mbs->parentWidget()->isVisible()) {
        mbs->parentWidget()->hide();
-   else {
+   } else {
      mbs->SetNode(nodename);
      mbs->parentWidget()->show();
    }
@@ -2121,7 +2121,7 @@ TGo4SetScaleValues* TGo4MainWindow::ToggleScaleValues()
       scl = new TGo4SetScaleValues(fxMdiArea, "ScaleValues", Qt::WindowStaysOnTopHint);
       fxMdiArea->addSubWindow(scl);
       scl->ensurePolished();
-      scl->show();
+      scl->parentWidget()->show();
    } else {
       scl->parentWidget()->close();
       scl = 0;

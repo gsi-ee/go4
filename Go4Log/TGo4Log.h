@@ -15,6 +15,7 @@
 #define TGO4LOG_H
 
 #include "TString.h"
+#include "RVersion.h"
 
 class TMutex;
 
@@ -22,7 +23,11 @@ class TMutex;
 
 // define previous trace macro void
 #define GO4TRACE(X) ;
+
+#if ROOT_VERSION_CODE < ROOT_VERSION(5,99,0)
+// one need to remove TRACE macro when using ROOT v 6
 #define TRACE(X) ;
+#endif
 
 // optional definitions
 #define GO4MESSAGE( X ) TGo4Log::Message X;
