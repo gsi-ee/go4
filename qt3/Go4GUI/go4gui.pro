@@ -348,5 +348,4 @@ HEADERS +=  ../Go4QtRoot/qrootapplication.h \
 SOURCES += TGo4DrawCloneProxy.cxx \
            TGo4DrawObjProxy.cxx \
            TGo4Script.cxx \
-           TGo4WidgetProxy.cxx \
-           G__Go4GUI.cxx
+           TGo4WidgetProxy.cxx

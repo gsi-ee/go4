@@ -14,17 +14,16 @@
 #ifndef TGO4WIDGETPROXY_H
 #define TGO4WIDGETPROXY_H
 
-#include "TGo4Proxy.h"
+#include "TGo4WidgetProxyBase.h"
 
 class QGo4Widget;
-class TPad;
 
-class TGo4WidgetProxy : public TGo4Proxy {
+class TGo4WidgetProxy : public TGo4WidgetProxyBase {
    public:
 
-      TGo4WidgetProxy() : TGo4Proxy(), fWidget(0) {}
+      TGo4WidgetProxy() : TGo4WidgetProxyBase(), fWidget(0) {}
 
-      TGo4WidgetProxy(QGo4Widget* w) : TGo4Proxy(), fWidget(w) {}
+      TGo4WidgetProxy(QGo4Widget* w) : TGo4WidgetProxyBase(), fWidget(w) {}
 
       virtual ~TGo4WidgetProxy() {}
 
@@ -34,17 +33,13 @@ class TGo4WidgetProxy : public TGo4Proxy {
 
       virtual Bool_t ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param);
 
-      void ConnectPad(TPad* pad);
+      virtual void PadRangeAxisChanged();
 
-      void PadRangeAxisChanged();
-
-      void PadModified();
+      virtual void PadModified();
 
    protected:
 
       QGo4Widget*  fWidget;   //!
-
-   ClassDef(TGo4WidgetProxy, 1);
 };
 
 #endif

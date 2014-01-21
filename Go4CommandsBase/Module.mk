@@ -3,33 +3,25 @@ COMBASE_NAME        = Go4CommandsBase
 ## normally should be like this for every module, but can be specific
 
 COMBASE_DIR         = $(COMBASE_NAME)
-COMBASE_LINKDEF     = $(COMBASE_DIR)/$(COMBASE_NAME)LinkDef.$(HedSuf)
 
 COMBASE_NOTLIBF     = 
 
 ## must be similar for every module
 
-COMBASE_DICT        = $(COMBASE_DIR)/$(DICT_PREFIX)$(COMBASE_NAME)
-COMBASE_DH          = $(COMBASE_DICT).$(HedSuf)
-COMBASE_DS          = $(COMBASE_DICT).$(SrcSuf)
-COMBASE_DO          = $(COMBASE_DICT).$(ObjSuf)
-COMBASE_D6          = $(COMBASE_DICT)$(DICT_R6SUFF)
-
-COMBASE_H           = $(filter-out $(COMBASE_NOTLIBF) $(COMBASE_DH) $(COMBASE_LINKDEF) $(COMBASE_OTHERF), $(wildcard $(COMBASE_DIR)/*.$(HedSuf)))
-COMBASE_S           = $(filter-out $(COMBASE_NOTLIBF) $(COMBASE_DS), $(wildcard $(COMBASE_DIR)/*.$(SrcSuf)))
+COMBASE_H           = $(filter-out $(COMBASE_NOTLIBF), $(wildcard $(COMBASE_DIR)/*.$(HedSuf)))
+COMBASE_S           = $(filter-out $(COMBASE_NOTLIBF), $(wildcard $(COMBASE_DIR)/*.$(SrcSuf)))
 COMBASE_O           = $(COMBASE_S:.$(SrcSuf)=.$(ObjSuf))
 
 COMBASE_DEP         =  $(COMBASE_O:.$(ObjSuf)=.$(DepSuf))
-COMBASE_DDEP        =  $(COMBASE_DO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
 ALLHDRS +=  $(patsubst $(COMBASE_DIR)/%.h, include/%.h, $(COMBASE_H))
 
-LIBDEPENDENC       += $(COMBASE_DEP) $(COMBASE_DDEP)
+LIBDEPENDENC       += $(COMBASE_DEP) 
 
 ifdef DOPACKAGE
-COMBASE_DISTRFILES  = $(COMBASE_S) $(COMBASE_H) $(COMBASE_LINKDEF) $(COMBASE_NOTLIBF)
+COMBASE_DISTRFILES  = $(COMBASE_S) $(COMBASE_H) $(COMBASE_NOTLIBF)
 DISTRFILES         += $(COMBASE_DISTRFILES)
 endif
 
@@ -40,9 +32,5 @@ include/%.h: $(COMBASE_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
-$(COMBASE_DS): $(COMBASE_H)  $(COMBASE_LINKDEF)
-	@$(ROOTCINTGO4) $(COMBASE_H) $(COMBASE_LINKDEF)
-
 clean-bin::
-	@rm -f $(COMBASE_O) $(COMBASE_DO) $(COMBASE_D6)
-	@rm -f $(COMBASE_DEP) $(COMBASE_DDEP) $(COMBASE_DS) $(COMBASE_DH)
+	@rm -f $(COMBASE_O) $(COMBASE_DEP)

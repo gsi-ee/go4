@@ -41,14 +41,6 @@ Bool_t TGo4WidgetProxy::ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id,
    return (id==TGo4Slot::evDelete);
 }
 
-void TGo4WidgetProxy::ConnectPad(TPad* pad)
-{
-   if (pad!=0) {
-      pad->Connect("RangeAxisChanged()","TGo4WidgetProxy",this,"PadRangeAxisChanged()");
-      pad->Connect("Modified()","TGo4WidgetProxy",this,"PadModified()");
-   }
-}
-
 void TGo4WidgetProxy::PadRangeAxisChanged()
 {
    if (fWidget)

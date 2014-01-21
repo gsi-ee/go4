@@ -42,6 +42,9 @@ Changes in Go4 v4.6.1
    and security with usual methods, provides by web-servers.    
 9. Use QMdiArea instead of obsolete QWorkspace, solves several small
    problems in window management. 
+10.To provide full support of ROOT6 one dictionary per go4 library 
+   will be created. Exclude dictionary generation for gui classes while
+   no libraries with qt classes exists. 
        
 
 Changes in Go4 v4.6.0 (November 2013)

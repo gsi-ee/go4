@@ -74,7 +74,7 @@ MODULES  = MbsAPIbase MbsAPI RawAPI Go4Analysis Go4AnalysisClient \
            Go4Fit Go4ObjectManager \
            Go4HistogramServer Go4LockGuard Go4Log \
            Go4Queue Go4Socket Go4StatusAnalysis Go4StatusBase \
-           Go4ThreadManager
+           Go4ThreadManager Go4Dict
            
 EXMODULES = Go4ExampleSimple Go4Example1Step Go4Example2Step Go4ExampleAdvanced \
             Go4ExampleUserSource Go4ExampleMesh Go4FitExample \
@@ -117,7 +117,13 @@ build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
 
 libs::    $(BUILDGO4LIBS)
 
+
 gui::      libs 
+		@echo "ROOTVERSION = $(ROOTVERSION)"
+ifdef ISROOT6
+		@echo "detect ROOT6"
+endif
+
 
 ifndef GO4PREFIX
 install:
@@ -196,84 +202,15 @@ clean-svn:
 	find . -name ".svn" -type d -exec rm -rf {} \;
 	@echo "Clean svn-specific files done"
 
-GO4BASE_O = $(LOCKGRD_O) $(LOCKGRD_DO) \
-            $(GO4LOG_O) $(GO4LOG_DO) \
-            $(EXCEPT_O) \
-            $(COMBASE_O) $(COMBASE_DO) \
-            $(STATBASE_O) $(STATBASE_DO) \
-            $(CONDBASE_O) $(CONDBASE_DO)
-
 ifdef GO4_WIN32
 $(GO4BASE_O): CXXFLAGS += -DBUILDING_GO4BASE_DLL
 endif
 
-GO4BASE_LINKDEFS = $(LOCKGRD_LINKDEF) \
-                   $(GO4LOG_LINKDEF) \
-                   $(COMBASE_LINKDEF) \
-                   $(STATBASE_LINKDEF) \
-                   $(CONDBASE_LINKDEF)
-
-GO4TSKH_O = $(GO4SOCKET_O) \
-            $(GO4QUEUE_O) \
-            $(TASKHAND_O) $(TASKHAND_DO) \
-            $(CMDTASKHANDL_O) $(CMDTASKHANDL_DO)
-
-GO4TSKH_LINKDEFS = $(TASKHAND_LINKDEF) $(CMDTASKHANDL_LINKDEF)
-
-GO4ANBASE_O = $(MBSAPIBASE_O)  \
-            $(GO4EVENTPAR_O) $(GO4EVENTPAR_DO) \
-            $(EVENTSERVPAR_O) $(EVENTSERVPAR_DO) \
-            $(DYNLIST_O) $(DYNLIST_DO) \
-            $(STATANAL_O) $(STATANAL_DO) \
-            $(VERSION_O) 
-
-GO4ANBASE_LINKDEFS = $(GO4EVENTPAR_LINKDEF) \
-                     $(EVENTSERVPAR_LINKDEF) \
-                     $(DYNLIST_LINKDEF) \
-                     $(STATANAL_LINKDEF)
-
-GO4AN_O   = $(MBSAPI_O) $(RAWAPI_O) \
-            $(GO4EVENT_O) $(GO4EVENT_DO) \
-            $(EVENTSERV_O) $(EVENTSERV_DO) \
-            $(HISTSERV_O) $(HISTSERV_DO) \
-            $(GO4ANAL_O) $(GO4ANAL_DO) \
-            $(CMDANAL_O) $(CMDANAL_DO) \
-            $(ANALCL_O) $(ANALCL_DO)
-
-GO4AN_LINKDEFS = $(GO4EVENT_LINKDEF) \
-                 $(EVENTSERV_LINKDEF) \
-                 $(HISTSERV_LINKDEF) \
-                 $(GO4ANAL_LINKDEF) \
-                 $(CMDANAL_LINKDEF) \
-                 $(ANALCL_LINKDEF)
-
-GO4BGUI_O = $(GO4OBJM_O) $(GO4OBJM_DO) \
-            $(GO4DISPL_O) $(GO4DISPL_DO) \
-            $(GO4PROX_O) $(GO4PROX_DO)
-
-GO4BGUI_LINKDEFS = $(GO4OBJM_LINKDEF) \
-                   $(GO4PROX_LINKDEF)
-
 $(GO4FIT_LIB):   $(GO4FIT_O) $(GO4FIT_DO)
 	@$(MakeLibrary) $(GO4FIT_LIBNAME) "$(GO4FIT_O) $(GO4FIT_DO)" $(GO4DLLPATH) $(GO4FIT_LINKDEF) "$(BASIC_LIB_DEP)"
 
-$(GO4BASE_LIB):  $(GO4BASE_O)
-	@$(MakeLibrary) $(GO4BASE_LIBNAME) "$(GO4BASE_O)" $(GO4DLLPATH) "$(GO4BASE_LINKDEFS)" "$(BASIC_LIB_DEP)"
-
 $(THRDMNGR_LIB):   $(THRDMNGR_O) $(THRDMNGR_DO)
 	@$(MakeLibrary) $(THRDMNGR_LIBNAME) "$(THRDMNGR_O) $(THRDMNGR_DO)" $(GO4DLLPATH) $(THRDMNGR_LINKDEF) "$(GO4BASE_LIB) $(BASIC_LIB_DEP)"
-
-$(GO4TSKH_LIB):   $(GO4TSKH_O)
-	@$(MakeLibrary) $(GO4TSKH_LIBNAME) "$(GO4TSKH_O)" $(GO4DLLPATH) "$(GO4TSKH_LINKDEFS)" "$(THRDMNGR_LIB) $(GO4BASE_LIB) $(BASIC_LIB_DEP)"
-
-$(GO4ANBASE_LIB): $(GO4ANBASE_O)
-	@$(MakeLibrary) $(GO4ANBASE_LIBNAME) "$(GO4ANBASE_O)" $(GO4DLLPATH) "$(GO4ANBASE_LINKDEFS)" "$(GO4TSKH_LIB) $(THRDMNGR_LIB) $(GO4BASE_LIB) $(GO4FIT_LIB) $(BASIC_LIB_DEP)"
-
-$(GO4AN_LIB): $(GO4AN_O)
-	@$(MakeLibrary) $(GO4AN_LIBNAME) "$(GO4AN_O)" $(GO4DLLPATH) "$(GO4AN_LINKDEFS)" "$(GO4ANBASE_LIB) $(GO4TSKH_LIB) $(THRDMNGR_LIB) $(GO4BASE_LIB) $(GO4FIT_LIB) $(BASIC_LIB_DEP)"
-
-$(GO4BGUI_LIB): $(GO4BGUI_O)
-	@$(MakeLibrary) $(GO4BGUI_LIBNAME) "$(GO4BGUI_O)" $(GO4DLLPATH) "$(GO4BGUI_LINKDEFS)" "$(GO4ANBASE_LIB) $(GO4TSKH_LIB) $(THRDMNGR_LIB) $(GO4BASE_LIB) $(GO4FIT_LIB) $(BASIC_LIB_DEP)"
 
 
 ifdef DOPACKAGE

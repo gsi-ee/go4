@@ -3,33 +3,25 @@ GO4PROX_NAME        = Go4Proxies
 ## normally should be like this for every module, but can be specific
 
 GO4PROX_DIR         = $(GO4PROX_NAME)
-GO4PROX_LINKDEF     = $(GO4PROX_DIR)/$(GO4PROX_NAME)LinkDef.$(HedSuf)
 
 GO4PROX_NOTLIBF     =
 
 ## must be similar for every module
 
-GO4PROX_DICT        = $(GO4PROX_DIR)/$(DICT_PREFIX)$(GO4PROX_NAME)
-GO4PROX_DH          = $(GO4PROX_DICT).$(HedSuf)
-GO4PROX_DS          = $(GO4PROX_DICT).$(SrcSuf)
-GO4PROX_DO          = $(GO4PROX_DICT).$(ObjSuf)
-GO4PROX_D6          = $(GO4PROX_DICT)$(DICT_R6SUFF)
-
-GO4PROX_H           = $(filter-out $(GO4PROX_NOTLIBF) $(GO4PROX_DH) $(GO4PROX_LINKDEF), $(wildcard $(GO4PROX_DIR)/*.$(HedSuf)))
-GO4PROX_S           = $(filter-out $(GO4PROX_NOTLIBF) $(GO4PROX_DS), $(wildcard $(GO4PROX_DIR)/*.$(SrcSuf)))
+GO4PROX_H           = $(filter-out $(GO4PROX_NOTLIBF), $(wildcard $(GO4PROX_DIR)/*.$(HedSuf)))
+GO4PROX_S           = $(filter-out $(GO4PROX_NOTLIBF), $(wildcard $(GO4PROX_DIR)/*.$(SrcSuf)))
 GO4PROX_O           = $(GO4PROX_S:.$(SrcSuf)=.$(ObjSuf))
 
 GO4PROX_DEP         =  $(GO4PROX_O:.$(ObjSuf)=.$(DepSuf))
-GO4PROX_DDEP        =  $(GO4PROX_DO:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
 ALLHDRS +=  $(patsubst $(GO4PROX_DIR)/%.h, include/%.h, $(GO4PROX_H))
 
-LIBDEPENDENC       += $(GO4PROX_DEP) $(GO4PROX_DDEP)
+LIBDEPENDENC       += $(GO4PROX_DEP)
 
 ifdef DOPACKAGE
-GO4PROX_DISTRFILES = $(GO4PROX_S) $(GO4PROX_H) $(GO4PROX_LINKDEF)
+GO4PROX_DISTRFILES = $(GO4PROX_S) $(GO4PROX_H)
 DISTRFILES         += $(GO4PROX_DISTRFILES)
 endif
 
@@ -47,9 +39,5 @@ include/%.h: $(GO4PROX_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
-$(GO4PROX_DS): $(GO4PROX_H)  $(GO4PROX_LINKDEF)
-	@$(ROOTCINTGO4) $(GO4PROX_H) $(GO4PROX_LINKDEF)
-
 clean-bin::
-	@rm -f $(GO4PROX_O) $(GO4PROX_DO) $(GO4PROX_D6)
-	@rm -f $(GO4PROX_DEP) $(GO4PROX_DDEP) $(GO4PROX_DS) $(GO4PROX_DH)
+	@rm -f $(GO4PROX_O) $(GO4PROX_DEP)

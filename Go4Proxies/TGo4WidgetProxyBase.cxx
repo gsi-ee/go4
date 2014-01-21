@@ -11,16 +11,14 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifdef __CINT__
+#include "TGo4WidgetProxyBase.h"
 
-#pragma link off all globals;
-#pragma link off all classes;
-#pragma link off all functions;
+#include "TPad.h"
 
-#pragma link C++ class TGo4Command+;
-#pragma link C++ class TGo4RemoteCommand+;
-#pragma link C++ class TGo4CommandReceiver+;
-#pragma link C++ class TGo4CommandInvoker+;
-#pragma link C++ class TGo4CommandProtoList+;
-
-#endif
+void TGo4WidgetProxyBase::ConnectPad(TPad* pad)
+{
+   if (pad!=0) {
+      pad->Connect("RangeAxisChanged()","TGo4WidgetProxyBase",this,"PadRangeAxisChanged()");
+      pad->Connect("Modified()","TGo4WidgetProxyBase",this,"PadModified()");
+   }
+}

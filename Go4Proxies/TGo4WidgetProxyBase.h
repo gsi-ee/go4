@@ -11,18 +11,29 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifdef __CINT__
+#ifndef TGO4WIDGETPROXYBASE_H
+#define TGO4WIDGETPROXYBASE_H
 
-#pragma link off all globals;
-#pragma link off all classes;
-#pragma link off all functions;
+#include "TGo4Proxy.h"
 
-#pragma link C++ class TGo4Analysis+;
-#pragma link C++ class TGo4AnalysisStep+;
-//#pragma link C++ class TGo4AnalysisStepManager;
-//#pragma link C++ class TGo4AnalysisObjectManager;
-//#pragma link C++ class TGo4AnalysisStepException;
-//#pragma link C++ class TGo4UserException;
+class TPad;
+
+class TGo4WidgetProxyBase : public TGo4Proxy {
+   public:
+      TGo4WidgetProxyBase() : TGo4Proxy() {}
+
+      virtual ~TGo4WidgetProxyBase() {}
+
+      virtual Bool_t Use() const { return kFALSE; }
+
+      void ConnectPad(TPad* pad);
+
+      virtual void PadRangeAxisChanged() {}
+
+      virtual void PadModified() {}
+
+
+   ClassDef(TGo4WidgetProxyBase, 1);
+};
 
 #endif
-

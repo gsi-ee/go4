@@ -33,5 +33,23 @@
 #pragma link C++ class TGo4ObjectManager+;
 #pragma link C++ class TGo4Iter+;
 
+
+#pragma link C++ enum EGo4ShellKind;
+#pragma link C++ enum EGo4ConsoleKind;
+#pragma link C++ enum EGo4AnalysisCodeKind;
+#pragma link C++ enum EGo4ViewPanelMode;
+
+#pragma link C++ class TGo4AnalysisProxy+;
+#pragma link C++ class TGo4BrowserProxy+;
+#pragma link C++ class TGo4HServProxy+;
+#pragma link C++ class TGo4DabcProxy+;
+#pragma link C++ class TGo4WidgetProxyBase+;
+
+#pragma link C++ class TGo4BrowserItem+;
+#pragma link C++ class TGo4RootBrowserProxy+;
+#pragma link C++ class TGo4AbstractInterface+;
+#pragma link C++ class TGo4Interface+;
+
+
 #endif
 

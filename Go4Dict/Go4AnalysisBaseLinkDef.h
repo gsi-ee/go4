@@ -17,6 +17,11 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
+#pragma link C++ class TGo4EventProcessorParameter+;
+#pragma link C++ class TGo4EventSourceParameter+;
+#pragma link C++ class TGo4EventStoreParameter+;
+
+
 #pragma link C++ class TGo4MbsSourceParameter+;
 #pragma link C++ class TGo4MbsFileParameter+;
 #pragma link C++ class TGo4MbsStreamParameter+;
@@ -32,5 +37,22 @@
 #pragma link C++ class TGo4BackStoreParameter+;
 #pragma link C++ class TGo4UserSourceParameter+;
 #pragma link C++ class TGo4UserStoreParameter+;
+
+
+#pragma link C++ class TGo4DynamicEntry+;
+#pragma link C++ class TGo4HistogramEntry+;
+#pragma link C++ class TGo4TreeHistogramEntry+;
+
+#pragma link C++ class TGo4AnalysisStatus+;
+#pragma link C++ class TGo4AnalysisClientStatus+;
+#pragma link C++ class TGo4AnalysisStepStatus+;
+#pragma link C++ class TGo4HistogramStatus+;
+#pragma link C++ class TGo4ParameterStatus+;
+#pragma link C++ class TGo4TreeStructure+;
+#pragma link C++ class TGo4AnalysisObjectNames+;
+#pragma link C++ class TGo4AnalysisObjectResult+;
+#pragma link C++ class TGo4FitterEnvelope+;
+#pragma link C++ class TGo4ObjEnvelope+;
+
 
 #endif

@@ -200,8 +200,6 @@ class TGo4Script : public TGo4AbstractInterface {
       TString   fStrBuf;               //!
       TGo4MainWindow* fMainWin;        //!
       Bool_t    fErrorFlag;            //!
-
-   ClassDef(TGo4Script, 1);
 };
 
 #endif

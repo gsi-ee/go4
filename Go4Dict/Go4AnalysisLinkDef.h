@@ -17,7 +17,52 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
-// go4 commands for analysis framework
+#pragma link C++ class TGo4EventElement+;
+#pragma link C++ class TGo4EventProcessor+;
+#pragma link C++ class TGo4EventSource+;
+#pragma link C++ class TGo4EventStore+;
+#pragma link C++ class TGo4EventFactory+;
+#pragma link C++ class TGo4EventCalibration+;
+
+#pragma link C++ class TGo4CompositeEvent+;
+#pragma link C++ class TGo4CompositeProcessor+;
+
+
+#pragma link C++ class TGo4GSIEventHeader+;
+#pragma link C++ class TGo4EventHeader10+;
+#pragma link C++ class TGo4SubEventHeader10+;
+
+#pragma link C++ class TGo4MbsEvent+;
+#pragma link C++ class TGo4MbsSubEvent+;
+
+#pragma link C++ class TGo4MbsSource+;
+#pragma link C++ class TGo4MbsSourcePrintPar+;
+#pragma link C++ class TGo4MbsFile+;
+#pragma link C++ class TGo4MbsStream+;
+#pragma link C++ class TGo4MbsTransport+;
+#pragma link C++ class TGo4MbsEventServer+;
+#pragma link C++ class TGo4RevServ+;
+#pragma link C++ class TGo4MbsRandom+;
+
+#pragma link C++ class TGo4MainTree+;
+#pragma link C++ class TGo4TreeSource+;
+#pragma link C++ class TGo4TreeStore+;
+#pragma link C++ class TGo4FileSource+;
+#pragma link C++ class TGo4FileStore+;
+#pragma link C++ class TGo4BackStore+;
+
+#pragma link C++ class TGo4EventServerFactory+;
+#pragma link C++ class TGo4StepFactory+;
+
+
+#pragma link C++ class TGo4HistogramServer+;
+#pragma link C++ class TGo4ObjClient+;
+
+
+#pragma link C++ class TGo4Analysis+;
+#pragma link C++ class TGo4AnalysisStep+;
+
+
 #pragma link C++ class TGo4AnalysisCommand+;
 #pragma link C++ class TGo4ComInitAnalysis+;
 #pragma link C++ class TGo4ComCloseAnalysis+;
@@ -46,4 +91,8 @@
 #pragma link C++ class TGo4ComPrintDynList+;
 #pragma link C++ class TGo4ComAutosave+;
 
+
+#pragma link C++ class TGo4AnalysisClient+;
+
 #endif
+
