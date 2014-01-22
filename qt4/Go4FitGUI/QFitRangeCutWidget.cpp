@@ -76,9 +76,9 @@ void QFitRangeCutWidget::NumPointsSpin_valueChanged( int npoint )
       cut->GetPoint(0, x, y);
       cut->SetPoint(npoint-1, x, y);
 
-      fbFillWidget = TRUE;
+      fbFillWidget = true;
       FillXYPointsTable();
-      fbFillWidget = FALSE;
+      fbFillWidget = false;
   }
 }
 
@@ -101,11 +101,11 @@ void QFitRangeCutWidget::XYTable_valueChanged( int nrow, int ncol)
                  else cut->GetY()[nrow] = zn;
          if ((nrow==0) || (nrow==cut->GetN()-1)) {
             int nrow1 = (nrow==0) ? cut->GetN()-1 : 0;
-            fbFillWidget = TRUE;
+            fbFillWidget = true;
             XYTable->setItem(nrow1, ncol, new QTableWidgetItem(XYTable->item(nrow, ncol)->text()));
             if (ncol==0) cut->GetX()[nrow1] = zn;
                     else cut->GetY()[nrow1] = zn;
-            fbFillWidget = FALSE;
+            fbFillWidget = false;
          }
      }
   }

@@ -24,13 +24,13 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QProcess>
 
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QGridLayout>
-#include <QtGui/QTextEdit>
-#include <QtGui/QToolTip>
-#include <QtGui/QMessageBox>
-#include <QtGui/QFileDialog>
-#include <QtGui/QToolButton>
+#include <QHBoxLayout>
+#include <QGridLayout>
+#include <QTextEdit>
+#include <QToolTip>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QToolButton>
 
 #include "TGo4QSettings.h"
 #include "TGo4AnalysisProxy.h"
@@ -43,7 +43,7 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
 {
 
     setCanDestroyWidget(false);
-    setAcceptDrops(FALSE);
+    setAcceptDrops(false);
 
     fAnalysisProcess = 0;
     fxOutput = 0;
@@ -66,10 +66,10 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
        layout->setSpacing(6);
 
        fxOutput = new QTextEdit(this);
-       fxOutput->setUndoRedoEnabled(FALSE);
+       fxOutput->setUndoRedoEnabled(false);
        fxOutput->setAutoFormatting(QTextEdit::AutoNone);
        fxOutput->setWordWrapMode(QTextOption::NoWrap);
-       fxOutput->setReadOnly(TRUE);
+       fxOutput->setReadOnly(true);
        layout->addWidget( fxOutput, 0, 0 );
 
        fiMaxOuputSize = go4sett->getTermHistorySize();
@@ -317,7 +317,7 @@ void TGo4AnalysisWindow::CommandSlot()
 
    TGo4AnalysisProxy* anal = GetAnalysis();
    if (anal!=0) {
-     anal->ExecuteLine(cmd.toAscii().constData());
+     anal->ExecuteLine(cmd.toLatin1().constData());
      go4sett->setCommandsHistoryAnalysis(fxCmdHist->getHistory(50));
    }
 }

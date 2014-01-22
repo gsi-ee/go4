@@ -40,7 +40,7 @@
 * @version 2.0
 */
 
-#include <QtGui/QApplication>
+#include <QApplication>
 
 class QTimer;
 class TTimer;

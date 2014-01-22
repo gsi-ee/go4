@@ -58,7 +58,7 @@ void QFitModelGaussNWidget::AxisNumberSpin_valueChanged( int num)
 void QFitModelGaussNWidget::AxisTable_valueChanged( int nrow, int ncol)
 {
    if(!fbFillWidget && GetGaussN()) {
-      bool ok = FALSE;
+      bool ok = false;
       int value = AxisTable->item(nrow,ncol)->text().toInt(&ok);
       if(ok) {
           GetGaussN()->SetAxisForIndex(nrow,value);

@@ -22,7 +22,7 @@
 #include <vector>
 #include <deque>
 #include "dic.hxx"
-#include <QtGui/QTableWidget>
+#include <QTableWidget>
 
 class TGo4DabcMonitor;
 class TGo4DabcInfo;

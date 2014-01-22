@@ -16,7 +16,7 @@
 #include "TGo4ViewPanel.h"
 
 
-TGo4SetScaleValues::TGo4SetScaleValues( QWidget* parent, const char* name, Qt::WFlags fl )
+TGo4SetScaleValues::TGo4SetScaleValues( QWidget* parent, const char* name, Qt::WindowFlags fl )
     : QWidget( parent, fl )
 {
    setObjectName( name ? name : "Go4SetScaleValues");

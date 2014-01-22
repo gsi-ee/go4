@@ -156,6 +156,12 @@ else
             -o $LIBDIR/$LIBNAME.$FULLSUFIX
 fi
 
+retval=$?
+if [ $retval -ne 0 ]; then
+   echo Fail to build $LIBNAME.$SOSUFFIX
+   exit $retval
+fi
+
 CURDIR=`pwd`
 
 if [ "$VESUFFIX" != "---" ]; then

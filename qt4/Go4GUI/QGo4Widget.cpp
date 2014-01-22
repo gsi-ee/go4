@@ -13,8 +13,8 @@
 
 #include "QGo4Widget.h"
 #include <QtCore/QTimer>
-#include <QtGui/QAction>
-#include <QtGui/QMenu>
+#include <QAction>
+#include <QMenu>
 #include <QtCore/QSignalMapper>
 
 #include <QDragMoveEvent>
@@ -22,7 +22,7 @@
 #include <QDropEvent>
 #include <QDragEnterEvent>
 
-QGo4Widget::QGo4Widget(QWidget * parent, const char * name, Qt::WFlags f) :
+QGo4Widget::QGo4Widget(QWidget * parent, const char * name, Qt::WindowFlags f) :
    QWidget(parent, f),
    fWaitsForObjectCreation(false),
    fCanDestroyWidget(true),
@@ -31,7 +31,7 @@ QGo4Widget::QGo4Widget(QWidget * parent, const char * name, Qt::WFlags f) :
    fBrowserProxy(0)
 {
    setObjectName(name);
-   setAcceptDrops(TRUE);
+   setAcceptDrops(true);
 }
 
 QGo4Widget::~QGo4Widget()
@@ -242,7 +242,7 @@ void QGo4Widget::CallPanelFunc(int func, TPad* pad)
 
 void QGo4Widget::StatusMessage(const QString& message)
 {
-   emit widgetService(this, service_StatusMessage, message.toAscii().constData(), 0);
+   emit widgetService(this, service_StatusMessage, message.toLatin1().constData(), 0);
 }
 
 
@@ -281,7 +281,7 @@ void QGo4Widget::AskToCreateObject(TClass* cl, int isremote)
 {
    fWaitsForObjectCreation = (isremote>=0);
    QString str = QString::number(isremote);
-   emit widgetService(this, service_CreateItem, str.toAscii().constData(), (void*) cl);
+   emit widgetService(this, service_CreateItem, str.toLatin1().constData(), (void*) cl);
 }
 
 void QGo4Widget::InformThatObjectCreated(const char* itemname, TClass* cl)
@@ -296,14 +296,14 @@ void QGo4Widget::requestedObjectCreated(const char* /* itemname */, TClass* /* c
 
 void QGo4Widget::ShowItemInfo(const QString& itemname)
 {
-   emit widgetService(this, service_ShowInfo, itemname.toAscii().constData(), 0);
+   emit widgetService(this, service_ShowInfo, itemname.toLatin1().constData(), 0);
 }
 
 TGo4ViewPanel* QGo4Widget::CreateViewPanel(int ndiv)
 {
    QString str = QString::number(ndiv);
    TGo4ViewPanel* res = 0;
-   emit widgetService(this, service_CreateViewPanel, str.toAscii().constData(), (void*)&res);
+   emit widgetService(this, service_CreateViewPanel, str.toLatin1().constData(), (void*)&res);
    return res;
 }
 
@@ -314,7 +314,7 @@ TGo4ViewPanel* QGo4Widget::DrawItem(const QString& itemname, TGo4ViewPanel* pane
    res[1] = pad;
    res[2] = &activate;
    res[3] = &updatelevel;
-   emit widgetService(this, service_DrawItem, itemname.toAscii().constData(), res);
+   emit widgetService(this, service_DrawItem, itemname.toLatin1().constData(), res);
    return (TGo4ViewPanel*) res[0];
 }
 
@@ -349,7 +349,7 @@ TGo4ViewPanel* QGo4Widget::LastActivePanel()
 
 void QGo4Widget::EditItem(const QString& itemname)
 {
-   emit widgetService(this, service_EditItem, itemname.toAscii().constData(), 0);
+   emit widgetService(this, service_EditItem, itemname.toLatin1().constData(), 0);
 }
 
 void QGo4Widget::EditObjectInSlot(TGo4Slot* slot)

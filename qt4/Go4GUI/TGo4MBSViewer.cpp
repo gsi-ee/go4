@@ -173,7 +173,7 @@ void TGo4MBSViewer::Display()
    SetupMLRadio->setEnabled(fxDaqStat.bh_set_ml_loaded);
    SetupMORadio->setEnabled(fxDaqStat.bh_set_mo_loaded);
    if(fbWarningState)
-      std::cerr <<fxMessage.toAscii().constData() << std::endl;
+      std::cerr <<fxMessage.toLatin1().constData() << std::endl;
 
    ensurePolished();
    update();
@@ -185,10 +185,10 @@ void TGo4MBSViewer::Refresh()
 {
    // for the ratemeter and running state, we always get status block
    if(fxNode.isEmpty()) return;
-   int state=f_mbs_status(const_cast<char*>(fxNode.toAscii().constData()), &fxDaqStat);
+   int state=f_mbs_status(const_cast<char*>(fxNode.toLatin1().constData()), &fxDaqStat);
    if(state!=STC__SUCCESS) {
       fxMessage.sprintf("MBS Status refresh node %s returned error %d at ",
-            fxNode.toAscii().constData(), state);
+            fxNode.toLatin1().constData(), state);
       fxMessage += QDateTime::currentDateTime().toString();
       fbWarningState = true;
    } else
@@ -349,7 +349,7 @@ void TGo4MBSViewer::ShowStatus()
 {
    if(fbWarningState)
    {
-      std::cout <<fxMessage.toAscii().constData()  << std::endl;
+      std::cout <<fxMessage.toLatin1().constData()  << std::endl;
    }
    else
    {
@@ -388,7 +388,7 @@ void TGo4MBSViewer::PrintStatus()
    {
       // request setup if selected
 
-      int state=f_mbs_setup(const_cast<char*>(fxNode.toAscii().constData()), &fxSetup);
+      int state=f_mbs_setup(const_cast<char*>(fxNode.toLatin1().constData()), &fxSetup);
       if(state!=0)
       {
          fxMessage.sprintf("MBS Setup refresh returned error %d at ",state);
@@ -402,7 +402,7 @@ void TGo4MBSViewer::PrintStatus()
    else if(fbGetSetML)
    {
       // request setup multilayer if selected
-      int state=f_mbs_ml_setup(const_cast<char*>(fxNode.toAscii().constData()), &fxSetupML);
+      int state=f_mbs_ml_setup(const_cast<char*>(fxNode.toLatin1().constData()), &fxSetupML);
       if(state!=0)
       {
          fxMessage.sprintf("MBS Setup ML refresh returned error %d at",state);
@@ -415,7 +415,7 @@ void TGo4MBSViewer::PrintStatus()
    else if(fbGetSetMO)
    {
       // request setup MO if selected
-      int state=f_mbs_mo_setup(const_cast<char*>(fxNode.toAscii().constData()), &fxSetupMO);
+      int state=f_mbs_mo_setup(const_cast<char*>(fxNode.toLatin1().constData()), &fxSetupMO);
       if(state!=0)
       {
          fxMessage.sprintf("MBS Setup MO refresh returned error %d at",state);
@@ -483,7 +483,7 @@ TH1* TGo4MBSViewer::TrendHisto( QString & refname ,const QString & name, const Q
 {
    TH1* his=0;
    TGo4Slot* histoslot=0;
-   if(!fbTrendingInit) histoslot=Browser()->BrowserSlot(refname.toAscii());
+   if(!fbTrendingInit) histoslot=Browser()->BrowserSlot(refname.toLatin1());
    if(histoslot==0)
    {
       Axis_t lo,up;
@@ -497,13 +497,13 @@ TH1* TGo4MBSViewer::TrendHisto( QString & refname ,const QString & name, const Q
          lo=-1*fiTrendBins*FrequencyBox->value();
          up=0;
       }
-      his=new TH1F(name.toAscii(), title.toAscii() ,fiTrendBins,lo,up);
+      his=new TH1F(name.toLatin1(), title.toLatin1() ,fiTrendBins,lo,up);
       TAxis* xax=his->GetXaxis();
       xax->SetTitle("s");
       xax->CenterTitle();
       //xax->SetLimits(0,lo,up);
 
-      TGo4Slot* hisdataslot=Browser()->DataSlot(refname.toAscii());
+      TGo4Slot* hisdataslot=Browser()->DataSlot(refname.toLatin1());
       if(hisdataslot)
       {
          hisdataslot->AssignObject(his,true);
@@ -512,7 +512,7 @@ TH1* TGo4MBSViewer::TrendHisto( QString & refname ,const QString & name, const Q
       {
          refname=Browser()->SaveToMemory("Mbs", his, true);
       }
-      histoslot=Browser()->BrowserSlot(refname.toAscii());
+      histoslot=Browser()->BrowserSlot(refname.toLatin1());
    }
    else
    {

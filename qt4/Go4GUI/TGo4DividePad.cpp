@@ -16,7 +16,7 @@
 #include "TGo4MdiArea.h"
 #include "TGo4ViewPanel.h"
 
-TGo4DividePad::TGo4DividePad( QWidget* parent, const char* name, Qt::WFlags fl ) :
+TGo4DividePad::TGo4DividePad( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
    QWidget( parent, fl )
 {
    setObjectName( name ? name : "Go4DividePad");

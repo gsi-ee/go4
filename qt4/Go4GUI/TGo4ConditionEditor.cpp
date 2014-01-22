@@ -15,7 +15,7 @@
 #include "TGo4ConditionEditor.h"
 
 #include <QMessageBox>
-#include <QtGui/QMenu>
+#include <QMenu>
 #include <QtCore/QSignalMapper>
 #include <QToolTip>
 
@@ -155,19 +155,19 @@ void TGo4ConditionEditor::ResetWidget()
    CondNameLbl->setText("");
    CondClassLbl->setText("");
 
-   PleaseUpdateLabel->setVisible(FALSE);
+   PleaseUpdateLabel->setVisible(false);
 
-   ArrayAllButton->setVisible(FALSE);
-   ArrayElements->setVisible(FALSE);
+   ArrayAllButton->setVisible(false);
+   ArrayElements->setVisible(false);
 
-   HistogramChk->setVisible(FALSE);
-   HistogramChk->setChecked(FALSE);
+   HistogramChk->setVisible(false);
+   HistogramChk->setChecked(false);
    HistogramChk->setText("null");
-   HistogramChk->setEnabled(FALSE);
+   HistogramChk->setEnabled(false);
 
-   CondVisibleChk->setVisible(FALSE);
+   CondVisibleChk->setVisible(false);
    DrawInfoLbl->setText("");
-   CondTabs->setEnabled(FALSE);
+   CondTabs->setEnabled(false);
 
    LCDCounts->display(0);
    LCDTrueCounts->display(0);
@@ -246,23 +246,23 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
 
    const char* hname = cond->GetLinkedHistogram();
    if ((hname==0) || (*hname==0)) {
-      HistogramChk->setChecked(FALSE);
+      HistogramChk->setChecked(false);
       HistogramChk->setText("null");
-      HistogramChk->setEnabled(FALSE);
-//      DisplayB->setEnabled(FALSE);
+      HistogramChk->setEnabled(false);
+//      DisplayB->setEnabled(false);
    } else {
       HistogramChk->setChecked(cond->IsHistogramLink());
       HistogramChk->setText(hname);
-      HistogramChk->setEnabled(TRUE);
+      HistogramChk->setEnabled(true);
       infolbl = "Hist: ";
       if (hitemname.length()>0)
          infolbl += hitemname;
       else
          infolbl += hname;
-//      DisplayB->setEnabled(TRUE);
+//      DisplayB->setEnabled(true);
    }
 
-   CondVisibleChk->setVisible(TRUE);
+   CondVisibleChk->setVisible(true);
    CondVisibleChk->setChecked(cond->IsVisible());
 
    if (panel!=0) {
@@ -276,7 +276,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    }
    DrawInfoLbl->setText(infolbl);
 
-   CondTabs->setEnabled(TRUE);
+   CondTabs->setEnabled(true);
 
    ResultCombo->setEnabled(true);
    InvertCombo->setEnabled(true);
@@ -386,7 +386,7 @@ void TGo4ConditionEditor::PleaseUpdateSlot()
 {
    TGo4Condition* cond = dynamic_cast<TGo4Condition*> (GetLinked("Condition",0));
    SetChangeFlag(true);
-   PleaseUpdateLabel->setVisible(TRUE);
+   PleaseUpdateLabel->setVisible(true);
 }
 
 void TGo4ConditionEditor::SelectedCond(int t)

@@ -14,7 +14,7 @@
 #ifndef QFITITEM_H
 #define QFITITEM_H
 
-#include <QtGui/QTreeWidgetItem>
+#include <QTreeWidgetItem>
 
 class TObject;
 class TGo4FitPanel;

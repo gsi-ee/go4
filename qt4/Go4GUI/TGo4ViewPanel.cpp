@@ -58,7 +58,7 @@
 #include <QInputDialog>
 #include <QToolTip>
 #include <QTime>
-#include <QtGui/QMenu>
+#include <QMenu>
 #include <QtCore/QSignalMapper>
 
 #include "QRootWindow.h"
@@ -294,7 +294,7 @@ TGo4ViewPanel::~TGo4ViewPanel()
 
 const char* TGo4ViewPanel::GetPanelName()
 {
-   fbaPanelName = fPanelName.toAscii();
+   fbaPanelName = fPanelName.toLatin1();
    return fbaPanelName.constData();
 }
 
@@ -641,7 +641,7 @@ void TGo4ViewPanel::SetSelectedMarker(TPad* pad, const QString& selname,
       SetSpecialDrawOption(oldsel, 0);
 
    if (selname.length() > 0)
-      padslot->SetPar("::SelMarker", selname.toAscii().constData());
+      padslot->SetPar("::SelMarker", selname.toLatin1().constData());
    else
       padslot->RemovePar("::SelMarker");
 
@@ -657,7 +657,7 @@ void TGo4ViewPanel::SetSelectedMarker(TPad* pad, const QString& selname,
    if ((selindex >= 0) && (newselslot != 0)) {
       QString drawopt("sel=");
       drawopt += QString::number(selindex);
-      SetSpecialDrawOption(newselslot, drawopt.toAscii().constData());
+      SetSpecialDrawOption(newselslot, drawopt.toLatin1().constData());
    }
 
    if (((oldselindex != selindex) || (oldselname != selname))
@@ -1271,7 +1271,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
                bool fbTwoDimRegion = (hist != 0) && (hist->GetDimension() > 1);
                int ix = GetNumMarkers(pad, kind_Window);
                QString name = "Region " + QString::number(ix + 1);
-               conny = new TGo4WinCond(name.toAscii().constData());
+               conny = new TGo4WinCond(name.toLatin1().constData());
                iscreated = true;
                if (fbTwoDimRegion)
                   conny->SetValues(0, 0, 0, 0);
@@ -1336,7 +1336,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
                TH1* hist = GetPadHistogram(pad);
                int ix = GetNumMarkers(pad, kind_Poly);
                QString name = "Polygon " + QString::number(ix + 1);
-               cond = new TGo4PolyCond(name.toAscii().constData());
+               cond = new TGo4PolyCond(name.toLatin1().constData());
                iscreated = true;
                AddMarkerObj(pad, kind_Poly, cond);
                cond->SetWorkHistogram(hist);
@@ -1404,9 +1404,9 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
                   "Enter new LaTeX label text:", name, QLineEdit::Normal,
                   QString::null, &ok);
             if (ok && (txt.length() > 0)) {
-               TLatex* latex = new TLatex(x, y, name.toAscii().constData());
-               latex->SetName(name.toAscii().constData());
-               latex->SetTitle(txt.toAscii().constData());
+               TLatex* latex = new TLatex(x, y, name.toLatin1().constData());
+               latex->SetName(name.toLatin1().constData());
+               latex->SetTitle(txt.toLatin1().constData());
                AddMarkerObj(pad, kind_Latex, latex);
                latex->Draw();
             } else {
@@ -1738,7 +1738,7 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad,
    pic->CopyOptionsFrom(padopt);
 
    if (pad == GetCanvas() && fbFreezeTitle)
-      pic->SetTitle(fFreezedTitle.toAscii().constData());
+      pic->SetTitle(fFreezedTitle.toLatin1().constData());
 
    int objnamenum = 0;
 
@@ -1862,9 +1862,9 @@ void TGo4ViewPanel::PrintCanvas()
          + outfile;
    QString DelCmd = QString("rm -f ") + outfile;
 
-   GetCanvas()->Print(outfile.toAscii().constData());
-   gSystem->Exec(PrnCmd.toAscii().constData());
-   gSystem->Exec(DelCmd.toAscii().constData());
+   GetCanvas()->Print(outfile.toLatin1().constData());
+   gSystem->Exec(PrnCmd.toLatin1().constData());
+   gSystem->Exec(DelCmd.toLatin1().constData());
 }
 
 void TGo4ViewPanel::StartRootEditor()
@@ -2185,7 +2185,7 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
 
       QString newslotname = itemname;
       if ((newslotname.length() == 0)
-            || (padslot->FindChild(newslotname.toAscii().constData()) != 0)) {
+            || (padslot->FindChild(newslotname.toLatin1().constData()) != 0)) {
          int cnt = 0;
          do {
             if ((itemname == 0) || (*itemname == 0))
@@ -2193,9 +2193,9 @@ TGo4Slot* TGo4ViewPanel::AddDrawObject(TPad* pad, int kind, const char* itemname
             else
                newslotname = itemname;
             newslotname += QString::number(cnt++);
-         } while (padslot->FindChild(newslotname.toAscii().constData()) != 0);
+         } while (padslot->FindChild(newslotname.toLatin1().constData()) != 0);
       }
-      tgtslot = AddNewSlot(newslotname.toAscii().constData(), padslot);
+      tgtslot = AddNewSlot(newslotname.toLatin1().constData(), padslot);
       tgtslot->SetProxy(new TGo4ObjectProxy(obj, owner));
    }
 
@@ -2641,7 +2641,7 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
          if (drawopt.Length() == 0)
             drawopt = GetSpecialDrawOption(objslot);
          if (drawopt.Length() == 0)
-            drawopt = go4sett->getTGraphDrawOpt().toAscii().constData();
+            drawopt = go4sett->getTGraphDrawOpt().toLatin1().constData();
 
          if (n > 0) {
             // suppress multiple drawing of axis for subgraphs
@@ -3517,7 +3517,7 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad* tgtpad, TPad* srcpad,
          srcsubpad->GetPadPar(xlow, ylow, xup, yup);
 
          tgtpad->cd();
-         TPad* tgtsubpad = new TPad(subpadname.toAscii().constData(),
+         TPad* tgtsubpad = new TPad(subpadname.toLatin1().constData(),
                srcsubpad->GetName(), xlow, ylow, xup, yup);
          tgtsubpad->SetNumber(nsubpads);
          tgtsubpad->Draw();
@@ -3876,11 +3876,11 @@ void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his,
    TString drawopt(padopt->GetDrawOption(0));
    if (drawopt.Length() == 0)
       if (his->GetDimension() == 1)
-         drawopt = go4sett->getTH1DrawOpt().toAscii().constData();
+         drawopt = go4sett->getTH1DrawOpt().toLatin1().constData();
       else if (his->GetDimension() == 2)
-         drawopt = go4sett->getTH2DrawOpt().toAscii().constData();
+         drawopt = go4sett->getTH2DrawOpt().toLatin1().constData();
       else if (his->GetDimension() == 3)
-         drawopt = go4sett->getTH3DrawOpt().toAscii().constData();
+         drawopt = go4sett->getTH3DrawOpt().toLatin1().constData();
 
    drawopt.ToUpper();
 
@@ -3956,14 +3956,14 @@ void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, boo
          padopt->SetXAxisTimeDisplay(kTRUE);
          padopt->SetXAxisTimeFormat(ax->GetTimeFormat());
          if (drawopt.Length() == 0) {
-            drawopt = go4sett->getTGraphDrawOpt().toAscii().constData();
+            drawopt = go4sett->getTGraphDrawOpt().toLatin1().constData();
             padopt->SetDrawOption(drawopt);
          }
       }
    }
 
    if (drawopt.Length() == 0)
-      drawopt = go4sett->getTGraphDrawOpt().toAscii().constData();
+      drawopt = go4sett->getTGraphDrawOpt().toLatin1().constData();
 
    TH1* framehisto = gr->GetHistogram();
    if (framehisto == 0) {
@@ -4000,7 +4000,7 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt,
    Int_t drawoptindx = dosuperimpose ? TGo4Picture::PictureIndex : 0;
    TString drawopt(padopt->GetDrawOption(drawoptindx));
    if (drawopt.Length() == 0)
-      drawopt = go4sett->getTGraphDrawOpt().toAscii().constData();
+      drawopt = go4sett->getTGraphDrawOpt().toLatin1().constData();
    if (dosuperimpose)
       drawopt = "";
 
@@ -5345,9 +5345,9 @@ void TGo4ViewPanel::AddMarkerObj(TPad* pad, int kind, TObject* obj)
    int cnt = 0;
    do {
       slotname = basename + QString::number(cnt++);
-   } while (padslot->FindChild(slotname.toAscii().constData()) != 0);
+   } while (padslot->FindChild(slotname.toLatin1().constData()) != 0);
 
-   TGo4Slot* objslot = AddDrawObject(pad, kind, slotname.toAscii().constData(), obj, true, 0);
+   TGo4Slot* objslot = AddDrawObject(pad, kind, slotname.toLatin1().constData(), obj, true, 0);
 
    SetActiveObj(pad, kind, objslot);
 }
@@ -5458,10 +5458,10 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
          QString text = QInputDialog::getText(this, GetPanelName(),
                "Enter Axis time format:", QLineEdit::Normal, oldfmt, &ok);
          if (ok && !text.isEmpty()) {
-            //std::cout <<"changed time format to"<<(const char*)text.toAscii() << std::endl;
-            //padopt->SetXAxisTimeFormat(text.toAscii());
+            //std::cout <<"changed time format to"<<(const char*)text.toLatin1() << std::endl;
+            //padopt->SetXAxisTimeFormat(text.toLatin1());
             //padopt->SetPadModified();
-            ChangeDrawOption(id - 1000, 0, text.toAscii());
+            ChangeDrawOption(id - 1000, 0, text.toLatin1());
          }
          break;
       }

@@ -21,8 +21,8 @@ QGo4CommandsHistory::QGo4CommandsHistory(QWidget* w, const char* name) :
    setObjectName(name ? name : "Go4CommandsHistory");
    setMaxCount(50);
    setInsertPolicy(InsertAtTop);
-   setDuplicatesEnabled(FALSE);
-   setAutoCompletion(TRUE);
+   setDuplicatesEnabled(false);
+   setAutoCompletion(true);
    setEditable(true);
 }
 

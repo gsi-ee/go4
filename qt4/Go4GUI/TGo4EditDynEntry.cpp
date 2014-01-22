@@ -90,9 +90,9 @@ void TGo4EditDynEntry::RefreshWidget()
    EntryBox->setTitle(QString("Entry: ") + entry->ClassName());
    EntryEnabledButton->setChecked(entry->IsEnabledProcessing());
 
-   EntryBox->setEnabled(TRUE);
-   HistogramBox->setEnabled(TRUE);
-   EntryTabs->setEnabled(TRUE);
+   EntryBox->setEnabled(true);
+   HistogramBox->setEnabled(true);
+   EntryTabs->setEnabled(true);
 
    TGo4HistogramEntry* hentry = dynamic_cast<TGo4HistogramEntry*> (entry);
    TGo4TreeHistogramEntry* tentry = dynamic_cast<TGo4TreeHistogramEntry*> (entry);
@@ -102,9 +102,9 @@ void TGo4EditDynEntry::RefreshWidget()
    if (hentry!=0) {
        fiSelectedType = entry_Histogram;
 
-       EntryTabs->setTabEnabled(EntryTabs->indexOf(EventTab), TRUE);
-       EntryTabs->setTabEnabled(EntryTabs->indexOf(ConditionTab), TRUE);
-       EntryTabs->setTabEnabled(EntryTabs->indexOf(TreeTab), FALSE);
+       EntryTabs->setTabEnabled(EntryTabs->indexOf(EventTab), true);
+       EntryTabs->setTabEnabled(EntryTabs->indexOf(ConditionTab), true);
+       EntryTabs->setTabEnabled(EntryTabs->indexOf(TreeTab), false);
        EntryTabs->setCurrentIndex(EntryTabs->indexOf(EventTab));
 
        TString hitemname;
@@ -149,9 +149,9 @@ void TGo4EditDynEntry::RefreshWidget()
    if (tentry!=0) {
        fiSelectedType = entry_Tree;
 
-       EntryTabs->setTabEnabled(EntryTabs->indexOf(EventTab), FALSE);
-       EntryTabs->setTabEnabled(EntryTabs->indexOf(ConditionTab), FALSE);
-       EntryTabs->setTabEnabled(EntryTabs->indexOf(TreeTab), TRUE);
+       EntryTabs->setTabEnabled(EntryTabs->indexOf(EventTab), false);
+       EntryTabs->setTabEnabled(EntryTabs->indexOf(ConditionTab), false);
+       EntryTabs->setTabEnabled(EntryTabs->indexOf(TreeTab), true);
        EntryTabs->setCurrentIndex(EntryTabs->indexOf(TreeTab));
 
        TString hitemname;
@@ -179,7 +179,7 @@ void TGo4EditDynEntry::RefreshWidget()
 QString TGo4EditDynEntry::GetEventName(const QString& itemname)
 {
    TString folder, name;
-   TGo4Slot::ProduceFolderAndName(itemname.toAscii().constData(), folder, name);
+   TGo4Slot::ProduceFolderAndName(itemname.toLatin1().constData(), folder, name);
 // SL 2.12.2011 Disable this code while it was used to remove parent class names from event name
 // now parent class names could remain while in case of composite event it may be important information
 //   int pos = folder.Index("/");
@@ -190,7 +190,7 @@ QString TGo4EditDynEntry::GetEventName(const QString& itemname)
 QString TGo4EditDynEntry::GetEventMember(const QString& itemname)
 {
    TString folder, name;
-   TGo4Slot::ProduceFolderAndName(itemname.toAscii().constData(), folder, name);
+   TGo4Slot::ProduceFolderAndName(itemname.toLatin1().constData(), folder, name);
    return QString(name.Data());
 }
 
@@ -294,9 +294,9 @@ void TGo4EditDynEntry::ResetWidget()
    EntryNameLbl->setText("");
    EntryBox->setTitle(QString("Entry: "));
 
-   EntryBox->setEnabled(FALSE);
-   HistogramBox->setEnabled(FALSE);
-   EntryTabs->setEnabled(FALSE);
+   EntryBox->setEnabled(false);
+   HistogramBox->setEnabled(false);
+   EntryTabs->setEnabled(false);
 
    DrawButton->setVisible(false);
 
@@ -386,7 +386,7 @@ void TGo4EditDynEntry::ProcessDropEvent(QGo4LineEdit* edt)
 
    EntryChangedSlot();
 
-   Int_t kind = Browser()->ItemKind(value.toAscii().constData());
+   Int_t kind = Browser()->ItemKind(value.toLatin1().constData());
    if (kind!=TGo4Access::kndDataMember) {
       edt->setText("");
       return;
@@ -414,18 +414,18 @@ void TGo4EditDynEntry::ProcessTreeDropEvent(QGo4LineEdit* edt)
 
    EntryChangedSlot();
 
-   int kind = br->ItemKind(value.toAscii().constData());
+   int kind = br->ItemKind(value.toLatin1().constData());
    if (kind!=TGo4Access::kndTreeLeaf) {
       edt->setText("");
       return;
    }
 
    TString treename;
-   if (br->DefineTreeName(value.toAscii().constData(), treename))
+   if (br->DefineTreeName(value.toLatin1().constData(), treename))
      DropTree(treename.Data());
 
    TString lfolder, lname;
-   TGo4Slot::ProduceFolderAndName(value.toAscii().constData(), lfolder, lname);
+   TGo4Slot::ProduceFolderAndName(value.toLatin1().constData(), lfolder, lname);
    edt->setText(lname.Data());
 }
 
@@ -514,8 +514,8 @@ void TGo4EditDynEntry::EvXnameEdit_textChanged( const QString & xname)
      dynamic_cast<TGo4HistogramEntry*> (GetLinked("Entry", 0));
    if ((hentry==0) || !fbTypingMode) return;
 
-   hentry->SetHisEventName(0, GetEventName(xname).toAscii().constData());
-   hentry->SetHisVarName(0, GetEventMember(xname).toAscii().constData());
+   hentry->SetHisEventName(0, GetEventName(xname).toLatin1().constData());
+   hentry->SetHisVarName(0, GetEventMember(xname).toLatin1().constData());
 }
 
 
@@ -525,8 +525,8 @@ void TGo4EditDynEntry::EvYnameEdit_textChanged( const QString & yname)
      dynamic_cast<TGo4HistogramEntry*> (GetLinked("Entry", 0));
    if ((hentry==0) || !fbTypingMode) return;
 
-   hentry->SetHisEventName(1, GetEventName(yname).toAscii().constData());
-   hentry->SetHisVarName(1, GetEventMember(yname).toAscii().constData());
+   hentry->SetHisEventName(1, GetEventName(yname).toLatin1().constData());
+   hentry->SetHisVarName(1, GetEventMember(yname).toLatin1().constData());
 }
 
 
@@ -536,8 +536,8 @@ void TGo4EditDynEntry::EvZnameEdit_textChanged( const QString & zname)
      dynamic_cast<TGo4HistogramEntry*> (GetLinked("Entry", 0));
    if ((hentry==0) || !fbTypingMode) return;
 
-   hentry->SetHisEventName(2, GetEventName(zname).toAscii().constData());
-   hentry->SetHisVarName(2, GetEventMember(zname).toAscii().constData());
+   hentry->SetHisEventName(2, GetEventName(zname).toLatin1().constData());
+   hentry->SetHisVarName(2, GetEventMember(zname).toLatin1().constData());
 }
 
 
@@ -547,8 +547,8 @@ void TGo4EditDynEntry::ConXnameEdit_textChanged( const QString & xname)
      dynamic_cast<TGo4HistogramEntry*> (GetLinked("Entry", 0));
    if ((hentry==0) || !fbTypingMode) return;
 
-   hentry->SetConEventName(0, GetEventName(xname).toAscii().constData());
-   hentry->SetConVarName(0, GetEventMember(xname).toAscii().constData());
+   hentry->SetConEventName(0, GetEventName(xname).toLatin1().constData());
+   hentry->SetConVarName(0, GetEventMember(xname).toLatin1().constData());
 }
 
 
@@ -558,8 +558,8 @@ void TGo4EditDynEntry::ConYnameEdit_textChanged( const QString & yname)
      dynamic_cast<TGo4HistogramEntry*> (GetLinked("Entry", 0));
    if ((hentry==0) || !fbTypingMode) return;
 
-   hentry->SetConEventName(1, GetEventName(yname).toAscii().constData());
-   hentry->SetConVarName(1, GetEventMember(yname).toAscii().constData());
+   hentry->SetConEventName(1, GetEventName(yname).toLatin1().constData());
+   hentry->SetConVarName(1, GetEventMember(yname).toLatin1().constData());
 }
 
 
@@ -568,7 +568,7 @@ void TGo4EditDynEntry::DrawExprEdit_textChanged( const QString & value)
    TGo4TreeHistogramEntry* tentry =
       dynamic_cast<TGo4TreeHistogramEntry*> (GetLinked("Entry", 0));
    if ((tentry==0) || !fbTypingMode) return;
-   tentry->SetVarExp(value.toAscii().constData());
+   tentry->SetVarExp(value.toLatin1().constData());
 }
 
 void TGo4EditDynEntry::CutExprEdit_textChanged( const QString & value)
@@ -576,7 +576,7 @@ void TGo4EditDynEntry::CutExprEdit_textChanged( const QString & value)
    TGo4TreeHistogramEntry* tentry =
       dynamic_cast<TGo4TreeHistogramEntry*> (GetLinked("Entry", 0));
    if ((tentry==0) || !fbTypingMode) return;
-   tentry->SetCutExp(value.toAscii().constData());
+   tentry->SetCutExp(value.toLatin1().constData());
 }
 
 void TGo4EditDynEntry::DynIntervalSpin_valueChanged( int value)
@@ -596,12 +596,12 @@ void TGo4EditDynEntry::DrawButton_clicked()
 void TGo4EditDynEntry::ClearHistogramClicked()
 {
    TString objname;
-   TGo4AnalysisProxy* an = Browser()->DefineAnalysisObject(HistoNameLbl->text().toAscii().constData(), objname);
+   TGo4AnalysisProxy* an = Browser()->DefineAnalysisObject(HistoNameLbl->text().toLatin1().constData(), objname);
    if (an!=0) {
       an->ClearAnalysisObject(objname.Data());
       if (dynamic_cast<TGo4TreeHistogramEntry*>(GetLinked("Entry",0))!=0)
          an->ExecuteLine("@ResetBackStores();");
-      Browser()->GetBrowserObject(HistoNameLbl->text().toAscii().constData(), 2);
+      Browser()->GetBrowserObject(HistoNameLbl->text().toLatin1().constData(), 2);
    }
 }
 

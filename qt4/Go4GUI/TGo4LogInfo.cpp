@@ -25,7 +25,7 @@ TGo4LogInfo::TGo4LogInfo(QWidget *parent, const char* name)
 {
    setupUi(this);
 
-   setAcceptDrops(FALSE);
+   setAcceptDrops(false);
 
    LogText->sortByColumn(1, Qt::DescendingOrder);
 

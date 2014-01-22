@@ -14,7 +14,7 @@
 #ifndef TGO4MDIAREA_H
 #define TGO4MDIAREA_H
 
-#include <QtGui/QMdiArea>
+#include <QMdiArea>
 
 #include <QtCore/QEvent>
 

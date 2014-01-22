@@ -550,7 +550,7 @@
             <enum>Sunken</enum>
           </property>
           <property name="visible">
-             <bool>FALSE</bool>
+             <bool>false</bool>
           </property>
         </widget>
       </item>

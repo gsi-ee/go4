@@ -14,7 +14,7 @@
 #ifndef QROOTCANVAS_H
 #define QROOTCANVAS_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 
 #ifdef WIN32

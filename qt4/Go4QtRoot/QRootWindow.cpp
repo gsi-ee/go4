@@ -18,10 +18,10 @@
 #include "TGFrame.h"
 #include "Riostream.h"
 
-#include <QtGui/QPainter>
-#include <QtGui/QMouseEvent>
-#include <QtGui/QCloseEvent>
-#include <QtGui/QPaintEvent>
+#include <QPainter>
+#include <QMouseEvent>
+#include <QCloseEvent>
+#include <QPaintEvent>
 
 #include "TGo4LockGuard.h"
 
@@ -194,13 +194,13 @@ bool QRootWindow ::eventFilter( QObject *o, QEvent *e )
 
    if (MapQMouseEvent(me, &root_evnt)) {
       if(fxRootwindow) fxRootwindow->HandleEvent(&root_evnt);
-      return FALSE;
+      return false;
    }
 
    if ( e->type() == QEvent::Close) {  // close
       delete fxRootwindow;
       fxRootwindow = 0;
-      return FALSE;
+      return false;
    }
 
    // standard event processing

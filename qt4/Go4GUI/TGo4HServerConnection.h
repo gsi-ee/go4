@@ -22,7 +22,7 @@ class TGo4HServerConnection : public QDialog, public Ui::TGo4HServerConnection
      Q_OBJECT
 
  public:
-     TGo4HServerConnection( QWidget* parent = 0, const char* name = 0, bool modal = FALSE, Qt::WFlags fl = 0 )
+     TGo4HServerConnection( QWidget* parent = 0, const char* name = 0, bool modal = false, Qt::WindowFlags fl = 0 )
                         : QDialog( parent, fl )
         {
            setObjectName(name ? name : "Go4HServConnection");

@@ -21,7 +21,7 @@
 
 #include <QtCore/QString>
 #include <QtCore/QStringList>
-#include <QtGui/QFont>
+#include <QFont>
 
 class QMainWindow;
 class QWidget;

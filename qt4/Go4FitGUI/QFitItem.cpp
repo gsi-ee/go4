@@ -37,7 +37,7 @@ QFitItem::QFitItem(TGo4FitPanel* panel, QTreeWidgetItem* parent, TObject* iObj, 
 
    parent->addChild(this);
 
-   if (fxPanel) fxPanel->UpdateItem(this, FALSE);
+   if (fxPanel) fxPanel->UpdateItem(this, false);
 }
 
 QFitItem::~QFitItem()
@@ -73,9 +73,9 @@ bool QFitItem::FindInParents(QFitItem* item)
    i = i->Parent();
 
    while (i!=0) {
-     if (i==item) return TRUE;
+     if (i==item) return true;
      i = i->Parent();
    }
 
-  return FALSE;
+  return false;
 }

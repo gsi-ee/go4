@@ -35,12 +35,12 @@ void QFitDependencyWidget::FillSpecificData() {
        if (GetDepen()->IsResultDepend()) {
           TObjArray* lst = dynamic_cast<TObjArray*> (GetItem()->Parent()->Object());
           ParamEdit->setText(QString("Result ")+QString::number(lst->IndexOf(GetObject())));
-          ParamEdit->setReadOnly(TRUE);
-          ParamEdit->setEnabled(FALSE);
+          ParamEdit->setReadOnly(true);
+          ParamEdit->setEnabled(false);
        } else {
           ParamEdit->setText(GetDepen()->GetParameter().Data());
-          ParamEdit->setReadOnly(FALSE);
-          ParamEdit->setEnabled(TRUE);
+          ParamEdit->setReadOnly(false);
+          ParamEdit->setEnabled(true);
        }
        if (GetDepen()->IsInitValue()) ExpressionEdt->setText(QString::number(GetDepen()->GetInitValue()));
                                  else ExpressionEdt->setText(GetDepen()->GetExpression().Data());
@@ -52,7 +52,7 @@ void QFitDependencyWidget::FillSpecificData() {
 void QFitDependencyWidget::ParamEdit_textChanged( const QString & param)
 {
   if(!fbFillWidget && GetDepen() && (param.length()>0)) {
-     GetDepen()->SetParameter(param.toAscii().constData());
+     GetDepen()->SetParameter(param.toLatin1().constData());
      SetWidgetItemText(true);
   }
 }
@@ -61,10 +61,10 @@ void QFitDependencyWidget::ParamEdit_textChanged( const QString & param)
 void QFitDependencyWidget::ExpressionEdt_textChanged( const QString & value)
 {
   if(!fbFillWidget && GetDepen() && (value.length()>0)) {
-     bool ok = FALSE;
+     bool ok = false;
      double zn = value.toDouble(&ok);
      if (ok) GetDepen()->SetInitValue(zn);
-        else GetDepen()->SetExpression(value.toAscii().constData());
+        else GetDepen()->SetExpression(value.toLatin1().constData());
      SetWidgetItemText(true);
   }
 }

@@ -26,7 +26,7 @@
 
 #include <QColorDialog>
 
-TGo4HisDrawOptions::TGo4HisDrawOptions( QWidget* parent, const char* name, Qt::WFlags fl )
+TGo4HisDrawOptions::TGo4HisDrawOptions( QWidget* parent, const char* name, Qt::WindowFlags fl )
     : QWidget( parent, fl )
 {
    setObjectName( name ? name : "Go4HisDrawOptions");

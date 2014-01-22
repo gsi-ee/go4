@@ -66,7 +66,7 @@ void QFitRangeWidget::GetRangeData()
   Int_t naxis = AxisNumSpin->value();
 
   Double_t left=0., right=0.;
-  bool isok1 = TRUE, isok2 = TRUE;
+  bool isok1 = true, isok2 = true;
 
   if (typ!=3) left = LeftEdt->text().toDouble(&isok1);
   if (typ!=2) right = RightEdt->text().toDouble(&isok2);

@@ -14,7 +14,7 @@
 #ifndef QGO4LINEEDIT_H
 #define QGO4LINEEDIT_H
 
-#include <QtGui/QLineEdit>
+#include <QLineEdit>
 
 #include <QDropEvent>
 #include <QDragEnterEvent>

@@ -16,7 +16,7 @@
 #include "TPad.h"
 #include "TROOT.h"
 
-#include <QtGui/QMdiSubWindow>
+#include <QMdiSubWindow>
 
 #include "TGo4ViewPanel.h"
 #include "QGo4Widget.h"

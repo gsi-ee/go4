@@ -27,7 +27,7 @@
 #define QROOTDIALOG_H
 
 #include <QtCore/QVector>
-#include <QtGui/QDialog>
+#include <QDialog>
 
 class QLineEdit;
 class QVBoxLayout;

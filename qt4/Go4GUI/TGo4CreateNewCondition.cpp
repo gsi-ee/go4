@@ -25,7 +25,7 @@ TGo4CreateNewCondition::TGo4CreateNewCondition( QWidget* parent)
 {
    setObjectName("Go4CreateNewCondition");
    setupUi(this);
-   setAcceptDrops(FALSE);
+   setAcceptDrops(false);
    CondName->setText("new_cond");
    ClassnameCombo->setCurrentIndex(0);
    ArraySizeSpin->setValue(1);
@@ -33,7 +33,7 @@ TGo4CreateNewCondition::TGo4CreateNewCondition( QWidget* parent)
 
 TGo4Condition* TGo4CreateNewCondition::MakeCondition()
 {
-   QByteArray ba = CondName->text().toAscii();
+   QByteArray ba = CondName->text().toLatin1();
 
    if (ba.length()==0) return 0;
 

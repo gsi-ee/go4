@@ -24,7 +24,7 @@ TGo4AnalysisStatusMonitor::TGo4AnalysisStatusMonitor(QWidget *parent, const char
 : QGo4Widget(parent, name)
 {
    setupUi(this);
-   setAcceptDrops(FALSE);
+   setAcceptDrops(false);
    QString moviepath=":/icons/go4logorun4.gif";
    fxRunMovie= new QMovie(moviepath);
 }

@@ -21,17 +21,17 @@
 #include <QtCore/QSignalMapper>
 #include <QtCore/QTimer>
 
-#include <QtGui/QPainter>
-#include <QtGui/QDragEnterEvent>
-#include <QtGui/QDropEvent>
-#include <QtGui/QResizeEvent>
-#include <QtGui/QMouseEvent>
-#include <QtGui/QPaintEvent>
-#include <QtGui/QCloseEvent>
-#include <QtGui/QInputDialog>
-#include <QtGui/QColorDialog>
-#include <QtGui/QMenu>
-#include <QtGui/QAction>
+#include <QPainter>
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QResizeEvent>
+#include <QMouseEvent>
+#include <QPaintEvent>
+#include <QCloseEvent>
+#include <QInputDialog>
+#include <QColorDialog>
+#include <QMenu>
+#include <QAction>
 
 #include "TPad.h"
 #include "TCanvas.h"
@@ -94,7 +94,7 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
    fMenuMethods = 0;
    fMenuObj = 0;
 
-   setAcceptDrops(TRUE);
+   setAcceptDrops(true);
 
    fRepaintMode = 0;
    fRepaintTimer = new QTimer;
@@ -139,7 +139,7 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
         buffer += "  y = ";
         buffer += QString::number(py);
      }
-     emit CanvasStatusEvent(buffer.toAscii().constData());
+     emit CanvasStatusEvent(buffer.toLatin1().constData());
   }
 }
 
@@ -316,7 +316,7 @@ void QRootCanvas::processRepaintTimer()
       // need to adjust the ROOT X access:
       delete fCanvas; // should also remove old x windows!
       fRootWindowId = gVirtualX->AddWindow((ULong_t)newid, width(), height());
-      fCanvas = new TCanvas(objectName().toAscii().constData(), width(), height(), fRootWindowId);
+      fCanvas = new TCanvas(objectName().toLatin1().constData(), width(), height(), fRootWindowId);
       fQtWindowId = newid;
    }
 
@@ -787,8 +787,8 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
    TObjArray tobjlist(method->GetListOfMethodArgs()->LastIndex() + 1);
    for (int n=0; n<=method->GetListOfMethodArgs()->LastIndex(); n++) {
       QString s = dlg.getArg(n);
-      qDebug( "** QString values (first ) :%s \n", s.toAscii().constData() );
-      tobjlist.AddLast(new TObjString(s.toAscii().constData())) ;
+      qDebug( "** QString values (first ) :%s \n", s.toLatin1().constData() );
+      tobjlist.AddLast(new TObjString(s.toLatin1().constData())) ;
    }
 
    // handle command if existing object
@@ -816,7 +816,7 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
       if (object->TestBit(TObject::kNotDeleted))
          emit MenuCommandExecuted(object, method->GetName());
       else {
-        deletion = TRUE;
+        deletion = true;
         object = 0;
       }
    }
@@ -862,7 +862,7 @@ void QRootCanvas::executeMenu(int id)
 {
    TGo4LockGuard threadlock(0,true);
    QString text("");
-   bool ok = FALSE;
+   bool ok = false;
    if (id >=100) {
       switch (id){
          case 100: {
@@ -871,7 +871,7 @@ void QRootCanvas::executeMenu(int id)
                                          tr( "Please enter your text" ),
                                          QLineEdit::Normal, QString::null, &ok);
             //if (ok && !text.isEmpty())
-            fxLatex->DrawLatex(fMousePosX, fMousePosY, text.toAscii().constData());
+            fxLatex->DrawLatex(fMousePosX, fMousePosY, text.toLatin1().constData());
             emit MenuCommandExecuted(fxLatex, "DrawLatex");
             break;
         }

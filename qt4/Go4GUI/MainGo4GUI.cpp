@@ -160,7 +160,7 @@ int main(int argc, char **argv)
       QString subdir = QFileInfo(settfile).absolutePath();
       // if there is no write access to directory where setting file should be placed,
       // default directory will be used
-      if (gSystem->AccessPathName(subdir.toAscii().constData(),kWritePermission))
+      if (gSystem->AccessPathName(subdir.toLatin1().constData(),kWritePermission))
          settfile = "";
    }
 
@@ -189,13 +189,13 @@ int main(int argc, char **argv)
    QApplication::setStartDragTime(150); // ms
 
    for (int i = 0; i < files.size(); ++i)
-      Go4MainGUI->Browser()->OpenFile(files.at(i).toAscii().constData());
+      Go4MainGUI->Browser()->OpenFile(files.at(i).toLatin1().constData());
 
    if (dabcnode.length()>0)
-      Go4MainGUI->Browser()->ConnectDabc(dabcnode.toAscii().constData());
+      Go4MainGUI->Browser()->ConnectDabc(dabcnode.toLatin1().constData());
 
    if (hotstart.length()>0)
-      Go4MainGUI->HotStart(hotstart.toAscii().constData());
+      Go4MainGUI->HotStart(hotstart.toLatin1().constData());
 
    if (dologin>=0) {
       go4sett->setClientNode(loghost);

@@ -13,7 +13,7 @@
 
 #include "TGo4ParaEdit.h"
 
-#include <QtGui/QMenu>
+#include <QMenu>
 #include <QLabel>
 #include <QMessageBox>
 #include <QFileDialog>
@@ -51,7 +51,7 @@ TGo4ParaEdit::TGo4ParaEdit(QWidget *parent, const char* name) :
    fItemName = "";
    fFillingTable = false;
    MemberTable->setContextMenuPolicy(Qt::CustomContextMenu);
-   MemberTable->horizontalHeader()->setStretchLastSection(TRUE);
+   MemberTable->horizontalHeader()->setStretchLastSection(true);
 }
 
 TGo4ParaEdit::~TGo4ParaEdit()
@@ -164,8 +164,8 @@ void TGo4ParaEdit::ResetWidget()
 
    fItemName="";
 
-   RefreshButton->setEnabled(FALSE);
-   ApplyButton->setEnabled(FALSE);
+   RefreshButton->setEnabled(false);
+   ApplyButton->setEnabled(false);
 
    delete fItems;
    fItems = 0;
@@ -299,7 +299,7 @@ void TGo4ParaEdit::ChangedTable( int row, int col )
    if ((col==fiColValue) && !fFillingTable) {
       QString txt = MemberTable->item(row, col)->text();
       TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(row);
-      info->SetStrValue(txt.toAscii().constData());
+      info->SetStrValue(txt.toLatin1().constData());
       PleaseUpdateLabel->setVisible(true);
    }
 }
@@ -445,7 +445,7 @@ void TGo4ParaEdit::saveFile()
             PleaseUpdateLabel->setVisible(false);
    } else
    if (fItemName.length()>0) {
-      const char* parclass = Browser()->ItemClassName(fItemName.toAscii().constData());
+      const char* parclass = Browser()->ItemClassName(fItemName.toLatin1().constData());
       if (parclass==0) return;
       if (gROOT->GetClass(parclass)==0) {
          QMessageBox::warning(this, "Parameter editor",
@@ -453,7 +453,7 @@ void TGo4ParaEdit::saveFile()
          return;
       }
       TString foldname, parname;
-      TGo4Slot::ProduceFolderAndName(fItemName.toAscii().constData(), foldname, parname);
+      TGo4Slot::ProduceFolderAndName(fItemName.toLatin1().constData(), foldname, parname);
 
       TGo4ParameterStatus status(parname, parclass, (TObjArray*)fItems->Clone());
 
@@ -475,7 +475,7 @@ void TGo4ParaEdit::saveFile()
       QStringList flst = fd.selectedFiles();
       if (flst.isEmpty()) return;
 
-      TFile* f = TFile::Open(flst[0].toAscii().constData(),"UPDATE");
+      TFile* f = TFile::Open(flst[0].toLatin1().constData(),"UPDATE");
       if (f!=0) {
          f->WriteTObject(par, par->GetName(), "WriteDelete") > 0;
          delete f;
@@ -485,7 +485,7 @@ void TGo4ParaEdit::saveFile()
 
 void TGo4ParaEdit::RefreshClicked()
 {
-   WorkWithParameter(ParamNameLbl->text().toAscii().constData(), true);
+   WorkWithParameter(ParamNameLbl->text().toLatin1().constData(), true);
 }
 
 void TGo4ParaEdit::ApplyClicked()
@@ -495,15 +495,15 @@ void TGo4ParaEdit::ApplyClicked()
    if ((fItemName.length()==0) || (fItems==0)) return;
 
    TString foldname, parname;
-   TGo4Slot::ProduceFolderAndName(fItemName.toAscii().constData(), foldname, parname);
+   TGo4Slot::ProduceFolderAndName(fItemName.toLatin1().constData(), foldname, parname);
 
-   const char* parclass = Browser()->ItemClassName(fItemName.toAscii().constData());
+   const char* parclass = Browser()->ItemClassName(fItemName.toLatin1().constData());
    if (parclass==0) return;
 
    TGo4ParameterStatus status(parname, parclass, (TObjArray*)fItems->Clone());
 
-   if (UpdateItemInAnalysis(fItemName.toAscii().constData(), &status))
-     if (BrowserItemRemote(fItemName.toAscii().constData()))
+   if (UpdateItemInAnalysis(fItemName.toLatin1().constData(), &status))
+     if (BrowserItemRemote(fItemName.toLatin1().constData()))
         RefreshClicked();
      else
         PleaseUpdateLabel->setVisible(false);

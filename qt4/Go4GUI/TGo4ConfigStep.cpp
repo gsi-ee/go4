@@ -51,7 +51,7 @@ enum SourceComboKinds {
 };
 
 
-TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char* name, Qt::WFlags fl )
+TGo4ConfigStep::TGo4ConfigStep( QWidget* parent, const char* name, Qt::WindowFlags fl )
     : QWidget( parent, fl )
 {
    setObjectName( name ? name : "Go4ConfigStep");
@@ -102,7 +102,7 @@ void TGo4ConfigStep::InputArguments(const QString& Arg)
     if (ParId==GO4EV_USER){                    // user defined source class
         TGo4UserSourceParameter* usrpar=dynamic_cast<TGo4UserSourceParameter*>(SourcePar);
         if (usrpar!=0)
-           usrpar->SetExpression(Arg.trimmed().toAscii().constData());
+           usrpar->SetExpression(Arg.trimmed().toLatin1().constData());
     }
 }
 
@@ -179,7 +179,7 @@ void TGo4ConfigStep::InputSourceText(const QString& name)
    if (fBlocked) return;
 
    if (fStepStatus && fStepStatus->GetSourcePar())
-      fStepStatus->GetSourcePar()->SetName(name.trimmed().toAscii().constData());
+      fStepStatus->GetSourcePar()->SetName(name.trimmed().toLatin1().constData());
 
    if (EventSourceCombo->currentIndex() == kind_MbsFile) {
       bool islml = name.contains(TGo4MbsFile__fgcFILELISTSUF);
@@ -213,7 +213,7 @@ void TGo4ConfigStep::OutputStateChanged(int)
 
 void TGo4ConfigStep::OutputNameText(const QString& Name)
 {
-   fStepStatus->GetStorePar()->SetName(Name.trimmed().toAscii().constData());
+   fStepStatus->GetStorePar()->SetName(Name.trimmed().toLatin1().constData());
 }
 
 void TGo4ConfigStep::StepStateChanged(int )
@@ -557,22 +557,22 @@ void TGo4ConfigStep::SourceComboHighlighted(int kind)
 void TGo4ConfigStep::StoreComboHighlighted(int k)
 {
    if(k==0) {
-      StoreNameEdit->setDisabled(FALSE);
-      TGo4FileStoreParameter* newpar1 = new TGo4FileStoreParameter(StoreNameEdit->text().toAscii().constData());
+      StoreNameEdit->setDisabled(false);
+      TGo4FileStoreParameter* newpar1 = new TGo4FileStoreParameter(StoreNameEdit->text().toLatin1().constData());
       fStepStatus->SetStorePar(newpar1);
       delete newpar1;
-      CompLevel->setDisabled(FALSE);
-      StoreOverwriteMode->setDisabled(FALSE);
-      FileNameOutput->setDisabled(FALSE);
+      CompLevel->setDisabled(false);
+      StoreOverwriteMode->setDisabled(false);
+      FileNameOutput->setDisabled(false);
    } else
    if(k==1) {
-      StoreNameEdit->setDisabled(TRUE);
-      TGo4BackStoreParameter *newpar3 = new TGo4BackStoreParameter(GetBackStoreName().toAscii().constData());
+      StoreNameEdit->setDisabled(true);
+      TGo4BackStoreParameter *newpar3 = new TGo4BackStoreParameter(GetBackStoreName().toLatin1().constData());
       fStepStatus->SetStorePar(newpar3);
       delete newpar3;
-      CompLevel->setDisabled(TRUE);
-      StoreOverwriteMode->setDisabled(TRUE);
-      FileNameOutput->setDisabled(TRUE);
+      CompLevel->setDisabled(true);
+      StoreOverwriteMode->setDisabled(true);
+      FileNameOutput->setDisabled(true);
     }
 }
 
@@ -648,7 +648,7 @@ void TGo4ConfigStep::InputTagfile( const QString & tag )
    if(tag.isEmpty())
       filpar->SetTagName(TGo4MbsFile__fgcNOTAGFILE);
    else
-      filpar->SetTagName(tag.trimmed().toAscii().constData());
+      filpar->SetTagName(tag.trimmed().toLatin1().constData());
 }
 
 void TGo4ConfigStep::ChangeStartEvent( int num )
@@ -718,7 +718,7 @@ void TGo4ConfigStep::InputFileDialog()
           std::cout <<"Unknown sourcepar " <<sourcepar->ClassName() << std::endl;
    }
 
-    //std::cout <<"FFFFFFFF chose filter-"<< filters.toAscii().constData() <<"-" << std::endl;
+    //std::cout <<"FFFFFFFF chose filter-"<< filters.toLatin1().constData() <<"-" << std::endl;
     QFileDialog fd( this, "Select file name for step input",
                           fxPanel->GetSourcePath(), filters);
     fd.setFileMode(QFileDialog::ExistingFile);
@@ -875,29 +875,29 @@ void TGo4ConfigStep::GetUserSource(int& port, QString& expr)
 
 void TGo4ConfigStep::SetFileStore(QString name, bool overwrite, int bufsize, int splitlevel, int compression)
 {
-   StoreNameEdit->setEnabled(TRUE);
+   StoreNameEdit->setEnabled(true);
    StoreNameEdit->setText(name);
    OutputCombo->setCurrentIndex(0);
    StoreOverwriteMode->setChecked(overwrite);
-   StoreOverwriteMode->setEnabled(TRUE);
+   StoreOverwriteMode->setEnabled(true);
    BufferSize->setValue(bufsize/1000);
    SplitLevel->setValue(splitlevel);
    CompLevel->setValue(compression);
-   CompLevel->setEnabled(TRUE);
-   FileNameOutput->setEnabled(TRUE);
+   CompLevel->setEnabled(true);
+   FileNameOutput->setEnabled(true);
    StoreComboHighlighted(0);
 }
 
 void TGo4ConfigStep::SetBackStore(QString name, int bufsize, int splitlevel)
 {
-   StoreNameEdit->setEnabled(FALSE);
+   StoreNameEdit->setEnabled(false);
    StoreNameEdit->setText(GetBackStoreName());
    OutputCombo->setCurrentIndex(1);
    BufferSize->setValue(bufsize/1000);
    SplitLevel->setValue(splitlevel);
-   StoreOverwriteMode->setEnabled(FALSE);
-   CompLevel->setEnabled(FALSE);
-   FileNameOutput->setEnabled(FALSE);
+   StoreOverwriteMode->setEnabled(false);
+   CompLevel->setEnabled(false);
+   FileNameOutput->setEnabled(false);
    StoreComboHighlighted(1);
 }
 

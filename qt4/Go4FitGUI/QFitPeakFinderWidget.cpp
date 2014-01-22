@@ -54,7 +54,7 @@ void QFitPeakFinderWidget::FillSpecificData() {
 void QFitPeakFinderWidget::DataNameEdt_textChanged( const QString & name)
 {
   if (!fbFillWidget && GetPF())
-    GetPF()->SetDataName(name.toAscii().constData());
+    GetPF()->SetDataName(name.toLatin1().constData());
 }
 
 
@@ -91,7 +91,7 @@ void QFitPeakFinderWidget::FindersTab_currentChanged( int indx)
 void QFitPeakFinderWidget::ThresholdEdt_textChanged( const QString & value)
 {
   if (!fbFillWidget && GetPF()) {
-    bool ok = FALSE;
+    bool ok = false;
     double zn = value.toDouble(&ok);
     if (ok && (zn>0) && (zn<=1.)) GetPF()->Set0MaxAmplFactor(zn);
   }
@@ -101,7 +101,7 @@ void QFitPeakFinderWidget::ThresholdEdt_textChanged( const QString & value)
 void QFitPeakFinderWidget::MinWidthEdt_textChanged( const QString & value)
 {
   if (!fbFillWidget && GetPF()) {
-    bool ok = FALSE;
+    bool ok = false;
     double zn = value.toDouble(&ok);
     if (ok && (zn>=0)) GetPF()->Set0MinWidth(zn);
   }
@@ -111,7 +111,7 @@ void QFitPeakFinderWidget::MinWidthEdt_textChanged( const QString & value)
 void QFitPeakFinderWidget::MaxWidthEdt_textChanged( const QString & value)
 {
   if (!fbFillWidget && GetPF()) {
-    bool ok = FALSE;
+    bool ok = false;
     double zn = value.toDouble(&ok);
     if (ok && (zn>0)) GetPF()->Set0MaxWidth(zn);
   }
@@ -121,7 +121,7 @@ void QFitPeakFinderWidget::MaxWidthEdt_textChanged( const QString & value)
 void QFitPeakFinderWidget::WidthEdit_textChanged( const QString & value )
 {
   if (!fbFillWidget && GetPF()) {
-    bool ok = FALSE;
+    bool ok = false;
     double zn = value.toDouble(&ok);
     if (ok && (zn>0)) GetPF()->Set1LineWidth(zn);
   }
@@ -131,7 +131,7 @@ void QFitPeakFinderWidget::WidthEdit_textChanged( const QString & value )
 void QFitPeakFinderWidget::NoiseFactorEdit_textChanged( const QString & value )
 {
   if (!fbFillWidget && GetPF()) {
-    bool ok = FALSE;
+    bool ok = false;
     double zn = value.toDouble(&ok);
     if (ok && (zn>0)) GetPF()->Set2NoiseFactor(zn);
   }
@@ -141,7 +141,7 @@ void QFitPeakFinderWidget::NoiseFactorEdit_textChanged( const QString & value )
 void QFitPeakFinderWidget::NoiseMinEdit_textChanged( const QString & value)
 {
   if (!fbFillWidget && GetPF()) {
-    bool ok = FALSE;
+    bool ok = false;
     double zn = value.toDouble(&ok);
     if (ok && (zn>=0)) GetPF()->Set2NoiseMinimum(zn);
   }

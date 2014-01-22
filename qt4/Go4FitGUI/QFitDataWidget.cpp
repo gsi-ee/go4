@@ -101,7 +101,7 @@ void QFitDataWidget::SigmaEdt_textChanged( const QString & value)
 void QFitDataWidget::BinsLimitEdt_textChanged( const QString & value)
 {
   if(!fbFillWidget && GetData()) {
-    bool ok = TRUE;
+    bool ok = true;
     double zn = value.toDouble(&ok);
     if(ok) GetData()->SetExcludeLessThen(zn);
   }
@@ -110,7 +110,7 @@ void QFitDataWidget::BinsLimitEdt_textChanged( const QString & value)
 void QFitDataWidget::AmplChk_toggled( bool chk)
 {
   if(!fbFillWidget && GetData() && GetData()->CanAmplTouch()) {
-     bool res = FALSE;
+     bool res = false;
      if (chk) res = GetData()->MakeAmpl();
         else  res = GetData()->RemoveAmpl();
      if (res) UpdateItemsOfType(FitGui::ot_parslist, false);

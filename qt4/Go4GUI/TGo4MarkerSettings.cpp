@@ -61,7 +61,7 @@ void TGo4MarkerSettings::setFlags()
     TGo4Condition::fgbXMEANDRAW=DrawXmeanButton->isChecked();
     TGo4Condition::fgbYMEANDRAW=DrawYmeanButton->isChecked();
 
-    TGo4Condition::fgxNUMFORMAT=(const char*)  (WLabelFormatEdit->text().toAscii());
+    TGo4Condition::fgxNUMFORMAT=(const char*)  (WLabelFormatEdit->text().toLatin1());
 
     TGo4Marker::fgbHASLABEL=DrawPLabelButton->isChecked();
     TGo4Marker::fgbHASCONNECTOR=DrawPConnectorButton->isChecked();
@@ -71,7 +71,7 @@ void TGo4MarkerSettings::setFlags()
     TGo4Marker::fgbYBINDRAW=DrawPYbinButton->isChecked();
     TGo4Marker::fgbCONTDRAW=DrawPCountsButton->isChecked();
 
-    TGo4Marker::fgxNUMFORMAT=(const char*) (PLabelFormatEdit->text().toAscii());
+    TGo4Marker::fgxNUMFORMAT=(const char*) (PLabelFormatEdit->text().toLatin1());
 
 
 }

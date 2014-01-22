@@ -14,13 +14,13 @@
 #ifndef QGO4WIDGET_H
 #define QGO4WIDGET_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
-#include <QtGui/QDragMoveEvent>
-#include <QtGui/QCloseEvent>
-#include <QtGui/QDropEvent>
-#include <QtGui/QDragEnterEvent>
-#include <QtGui/QIcon>
+#include <QDragMoveEvent>
+#include <QCloseEvent>
+#include <QDropEvent>
+#include <QDragEnterEvent>
+#include <QIcon>
 
 class TObject;
 class TClass;
@@ -106,7 +106,7 @@ class QDESIGNER_WIDGET_EXPORT  QGo4Widget : public QWidget {
 
 
 
-      QGo4Widget(QWidget * parent = 0, const char * name = 0, Qt::WFlags f = 0 );
+      QGo4Widget(QWidget * parent = 0, const char * name = 0, Qt::WindowFlags f = 0 );
       virtual ~QGo4Widget();
 
       virtual bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);

@@ -13,17 +13,17 @@
 
 #include "QFitWidget.h"
 
-#include <QtGui/QContextMenuEvent>
-#include <QtGui/QCloseEvent>
+#include <QContextMenuEvent>
+#include <QCloseEvent>
 #include <QtCore/QSignalMapper>
-#include <QtGui/QMenu>
+#include <QMenu>
 
 #include "QFitItem.h"
 
 #include "TObject.h"
 #include "TGo4FitPanel.h"
 
-QFitWidget::QFitWidget( QWidget* parent, const char* name, Qt::WFlags fl )
+QFitWidget::QFitWidget( QWidget* parent, const char* name, Qt::WindowFlags fl )
     : QWidget( parent, fl )
 {
    setObjectName(name ? name : "QFitWidget");
@@ -31,7 +31,7 @@ QFitWidget::QFitWidget( QWidget* parent, const char* name, Qt::WFlags fl )
 
    fxPanel = 0;
    fxItem = 0;
-   fbFillWidget = FALSE;
+   fbFillWidget = false;
 }
 
 QFitWidget::~QFitWidget()
@@ -69,9 +69,9 @@ TGo4Fitter* QFitWidget::GetFitter()
 
 void QFitWidget::FillWidget()
 {
-  fbFillWidget = TRUE;
+  fbFillWidget = true;
   FillSpecificData();
-  fbFillWidget = FALSE;
+  fbFillWidget = false;
 }
 
 void QFitWidget::FillSpecificData()

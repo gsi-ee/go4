@@ -52,7 +52,7 @@ void QFitMinuitWidget::CommandsEdit_textChanged()
    QTextCursor curs(CommandsEdit->document());
    while (!curs.atEnd()) {
      curs.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
-     minuit->AddCommand(curs.selectedText().toAscii().constData());
+     minuit->AddCommand(curs.selectedText().toLatin1().constData());
      curs.movePosition(QTextCursor::NextWord, QTextCursor::MoveAnchor);
    }
 }

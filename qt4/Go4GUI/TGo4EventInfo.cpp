@@ -61,7 +61,7 @@ void TGo4EventInfo::ResetWidget()
 //     MbsButton->setEnabled(mbsitem.Length()>0);
 //   } else
 //     MbsButton->setEnabled(false);
-   MbsPrintBox->setEnabled(FALSE);
+   MbsPrintBox->setEnabled(false);
 }
 
 void TGo4EventInfo::linkedObjectUpdated(const char* linkname, TObject* obj)
@@ -98,7 +98,7 @@ void TGo4EventInfo::RefreshClicked()
 
    TGo4BrowserProxy* br = Browser();
    if (br!=0)
-      br->RequestEventStatus(evname.toAscii().constData(), istree, tgtslot);
+      br->RequestEventStatus(evname.toLatin1().constData(), istree, tgtslot);
 }
 
 void TGo4EventInfo::PrintEventClicked()
@@ -106,9 +106,9 @@ void TGo4EventInfo::PrintEventClicked()
    if (EventLbl->text().length()==0) return;
 
    TString folder, name;
-   TGo4Slot::ProduceFolderAndName(EventLbl->text().toAscii().constData(), folder, name);
+   TGo4Slot::ProduceFolderAndName(EventLbl->text().toLatin1().constData(), folder, name);
 
-   TGo4AnalysisProxy* anal  = GetAnalysis(EventLbl->text().toAscii().constData());
+   TGo4AnalysisProxy* anal  = GetAnalysis(EventLbl->text().toLatin1().constData());
 
    if (anal!=0)
      anal->RemotePrintEvent(name.Data(),

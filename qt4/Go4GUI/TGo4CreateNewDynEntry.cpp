@@ -22,7 +22,7 @@ TGo4CreateNewDynEntry::TGo4CreateNewDynEntry( QWidget* parent )
 {
    setObjectName("Go4CreateNewDynEntry");
    setupUi(this);
-   setAcceptDrops(FALSE);
+   setAcceptDrops(false);
    EntryName->setText("entry");
    EntryTitle->setText("Dynamic entry title");
    EntryType->setCurrentIndex(0);
@@ -40,8 +40,8 @@ TGo4DynamicEntry* TGo4CreateNewDynEntry::MakeEntry()
 
    if (entry!=0) {
      entry->EnableProcessing(kFALSE);
-     entry->SetName(EntryName->text().toAscii().constData());
-     entry->SetTitle(EntryTitle->text().toAscii().constData());
+     entry->SetName(EntryName->text().toLatin1().constData());
+     entry->SetTitle(EntryTitle->text().toLatin1().constData());
    }
 
    return entry;

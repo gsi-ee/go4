@@ -14,7 +14,7 @@
 #ifndef QGO4COMMANDSHISTORY_H
 #define QGO4COMMANDSHISTORY_H
 
-#include <QtGui/QComboBox>
+#include <QComboBox>
 
 #include <QtCore/QStringList>
 

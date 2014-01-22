@@ -35,8 +35,8 @@ void QFitSlotWidget::FillSpecificData()
    QFitNamedWidget::FillSpecificData();
    TGo4FitSlot* slot = GetSlot();
    if (slot) {
-     NameEdt->setReadOnly(TRUE);
-     NameEdt->setDisabled(TRUE);
+     NameEdt->setReadOnly(true);
+     NameEdt->setDisabled(true);
 
      InfoLbl->setText(QString("Slot of: ")+slot->GetOwner()->GetName() +
                        ",   dedicated for:" + slot->GetClass()->GetName() + " class");

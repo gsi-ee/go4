@@ -54,7 +54,7 @@ void QFitParCfgWidget::AnalyzeRangeValues()
   if  ((RangeMinEdit->text().length()==0) && (RangeMaxEdit->text().length()==0))
     { GetPar()->SetRangeUse(kFALSE); return; }
   double min,max;
-  bool okmin = FALSE, okmax = FALSE;
+  bool okmin = false, okmax = false;
 
   min = RangeMinEdit->text().toDouble(&okmin);
   max = RangeMaxEdit->text().toDouble(&okmax);
@@ -72,9 +72,9 @@ void QFitParCfgWidget::ParNameEdit_textChanged( const QString & name)
   if(!fbFillWidget && GetPar() && (name.length()>0)) {
       TGo4FitParsList* pars = dynamic_cast<TGo4FitParsList*> (GetItem()->Parent()->Object());
       if (pars==0) return;
-      if (pars->FindPar(name.toAscii().constData())) return;
-      GetPar()->SetName(name.toAscii().constData());
-      GetItem()->setText(0,name.toAscii().constData());
+      if (pars->FindPar(name.toLatin1().constData())) return;
+      GetPar()->SetName(name.toLatin1().constData());
+      GetItem()->setText(0,name.toLatin1().constData());
   }
 }
 
@@ -103,7 +103,7 @@ void QFitParCfgWidget::EpsilonEdit_textChanged( const QString & value)
 {
     if(!fbFillWidget && GetPar())
       if (value.length()==0) GetPar()->SetEpsilonUse(kFALSE); else {
-          bool res = FALSE;
+          bool res = false;
           double zn = value.toDouble(&res);
           if(res) GetPar()->SetEpsilon(zn);
       }

@@ -189,7 +189,7 @@ void TGo4DabcMonitor::refreshDIMSlot()
    // first get list of dabc nodes from DIM server
    fxDnsNode = dimDnsNodeEdit->text().trimmed();
    if(fxDnsNode.isEmpty()) return; // avoid crash of DIM with fatal error ;-)
-   DimClient::setDnsNode(fxDnsNode.toAscii().constData());
+   DimClient::setDnsNode(fxDnsNode.toLatin1().constData());
    if (fxServerInfo!=0) {
       delete fxServerInfo;
       fxServerInfo = 0;
@@ -314,7 +314,7 @@ void TGo4DabcMonitor::nodeTableChangedSlot( int row, int column )
    if (NodeTable->item(row,  DABCMON_NODE_INDEXCOL))
       ixtext = NodeTable->item(row,  DABCMON_NODE_INDEXCOL)->text();
    int ix=ixtext.toInt();
-   //std::cout<<"nodeTableChangedSlot for row:"<<row<<" index: " << ix<<", ixtext:"<<ixtext.toAscii().constData() <<std::endl;
+   //std::cout<<"nodeTableChangedSlot for row:"<<row<<" index: " << ix<<", ixtext:"<<ixtext.toLatin1().constData() <<std::endl;
    if(column==DABCMON_NODE_CHECKCOL)
    {
       // get value from table:
@@ -434,7 +434,7 @@ void TGo4DabcMonitor::infoUpdated( TGo4DabcInfo * info )
       char* ptr=(char*) info->getData();
       int size=info->getSize();
       QString format=info->getServiceType();
-      std::cout<<" - structure of format " << format.toAscii().constData() <<std::endl;
+      std::cout<<" - structure of format " << format.toLatin1().constData() <<std::endl;
       QStringList elements = format.split(";",QString::SkipEmptyParts);
       for ( QStringList::Iterator it = elements.begin(); it != elements.end(); ++it )
       {
@@ -485,7 +485,7 @@ void TGo4DabcMonitor::infoUpdated( TGo4DabcInfo * info )
                ptr++;
             }
          }// if(type==)
-         std::cout<<prompt.toAscii().constData()<<content.toAscii().constData() << "< "<<std::endl;;
+         std::cout<<prompt.toLatin1().constData()<<content.toLatin1().constData() << "< "<<std::endl;;
          int currentposition= (long) ptr - (long) info->getData();
          if(currentposition > size)
          {
@@ -494,7 +494,7 @@ void TGo4DabcMonitor::infoUpdated( TGo4DabcInfo * info )
          }
       }//  for ( QStringList::Iterator it
    }//   if(info->getType()=="int")
-   std::cout<<" - (timestamp:"<<timestamp.toString().toAscii().constData()<<")" <<std::endl;
+   std::cout<<" - (timestamp:"<<timestamp.toString().toLatin1().constData()<<")" <<std::endl;
    delete info; // discard service after first update!
 }
 
@@ -536,7 +536,7 @@ void TGo4DabcMonitor::servicesUpdated( TGo4DabcServiceInfo * info )
          return;
       }
       QString services=info->getString();
-      //std::cout<<"+++ got service list: " << services.toAscii().constData() <<std::endl;
+      //std::cout<<"+++ got service list: " << services.toLatin1().constData() <<std::endl;
 
       // find full name of nodestate in services:
       QStringList servlist = services.split(0x0A, QString::SkipEmptyParts);
@@ -544,7 +544,7 @@ void TGo4DabcMonitor::servicesUpdated( TGo4DabcServiceInfo * info )
       for ( QStringList::Iterator sit = servlist.begin(); sit != servlist.end(); ++sit )
       {
          QString service=*sit;
-         //std::cout<<"++++++ scanning service" << service.toAscii().constData() <<std::endl;
+         //std::cout<<"++++++ scanning service" << service.toLatin1().constData() <<std::endl;
          if(service.contains("RunStatus") || service.contains("Acquisition") )
          {
             stateservice=service.section('|',0,0); // strip additional service info from name
@@ -581,8 +581,8 @@ void TGo4DabcMonitor::servicesUpdated( TGo4DabcServiceInfo * info )
 
          if(recreate)
          {
-            //std::cout<<"+++ creating state service: " << stateservice.toAscii().constData() <<std::endl;
-            TGo4DabcStateInfo* sinfo=    new TGo4DabcStateInfo(stateservice.toAscii().constData(), 0,  &gNolinkStateRecord,    sizeof(dabc::StatusRec), this);
+            //std::cout<<"+++ creating state service: " << stateservice.toLatin1().constData() <<std::endl;
+            TGo4DabcStateInfo* sinfo=    new TGo4DabcStateInfo(stateservice.toLatin1().constData(), 0,  &gNolinkStateRecord,    sizeof(dabc::StatusRec), this);
             fxStates[index]=sinfo;
          } //if recreate
       } // if(!stateservice.isEmpty())
@@ -712,18 +712,18 @@ void TGo4DabcMonitor::refreshNodes()
    {
       QString current=*it;
       if(current.contains("DIS_DNS")) continue; // skip name server
-      //std::cout<<"+++ processing node entry " << current.toAscii().constData() <<std::endl;
+      //std::cout<<"+++ processing node entry " << current.toLatin1().constData() <<std::endl;
       QString prefix=current.section('/', 0, 0 );
       QString rest=current.section('/', 1, 1 );
       QString reducednode=rest.section('@',0,0); // include port number into node name!
-      //std::cout<<"+++ prefix is " << prefix.toAscii().constData() <<std::endl;
+      //std::cout<<"+++ prefix is " << prefix.toLatin1().constData() <<std::endl;
       //if(prefix=="DABC")
       if(prefix==current)
       {
          // no dabcnode (i.e. mbs)
          reducednode=current.section('@',0,0);;
       }
-      //std::cout<<"++++ found reduced node "<<reducednode.toAscii().constData() <<std::endl;
+      //std::cout<<"++++ found reduced node "<<reducednode.toLatin1().constData() <<std::endl;
 
       //std::cout<<"++++ found DABC prefix " <<std::endl;
 
@@ -731,7 +731,7 @@ void TGo4DabcMonitor::refreshNodes()
       // get full service list for this node:
       QString sinfoname=current.section('@',0,0) + "/SERVICE_LIST";
       //std::cout<<"++++ creating service info "<<sinfoname <<std::endl;
-      TGo4DabcServiceInfo* servinfo= new TGo4DabcServiceInfo(sinfoname.toAscii().constData(), 0, "not available", this);
+      TGo4DabcServiceInfo* servinfo= new TGo4DabcServiceInfo(sinfoname.toLatin1().constData(), 0, "not available", this);
       fxServices.push_back(servinfo);
       fxStates.push_back(0); // make sure that for our index a slot in state service vector exists!
       fxStateRecords.push_back(TGo4DabcState()); // dito for state record vector
@@ -826,7 +826,7 @@ void TGo4DabcMonitor::createRateServices( int nodeindex )
    //std::cout<<"rrrrrrrr createRateServices for "<<nodeindex <<std::endl;
    //search the service list for our node for all rate services:
    QString services=fxServices[nodeindex]->getString();
-   // std::cout<<"+++ createRateServices got service list: " << services.toAscii().constData() <<std::endl;
+   // std::cout<<"+++ createRateServices got service list: " << services.toLatin1().constData() <<std::endl;
 
    // find full name of nodestate in services:
    QStringList servlist = services.split(0x0A, QString::SkipEmptyParts);
@@ -834,7 +834,7 @@ void TGo4DabcMonitor::createRateServices( int nodeindex )
    for ( QStringList::Iterator sit = servlist.begin(); sit != servlist.end(); ++sit )
    {
       QString service = *sit;
-      // std::cout<<"++++++ scanning service" << service.toAscii().constData() <<std::endl;
+      // std::cout<<"++++++ scanning service" << service.toLatin1().constData() <<std::endl;
       //if(service.contains("F:1;L:1;F:1;F:1;F:1;F:1;C:16;C:16;C:16")
       if(service.contains("F:1;L:1;F:1;F:1;F:1;F:1;C:16;C:16;C")) //check for dabc rate structure info
       {
@@ -860,7 +860,7 @@ void TGo4DabcMonitor::createRateServices( int nodeindex )
          fxStatHistoRefnames[nodeindex].push_back(namesvec);
          QString rname=service.section('|',0,0); // strip additional service info from name
          //std::cout<<"++++++ creating rate info " << rname <<std::endl;
-         TGo4DabcRateInfo* rinfo=new TGo4DabcRateInfo(rname.toAscii().constData(), 0,  &gNolinkRateRecord , sizeof(dabc:: RateRec), this);
+         TGo4DabcRateInfo* rinfo=new TGo4DabcRateInfo(rname.toLatin1().constData(), 0,  &gNolinkRateRecord , sizeof(dabc:: RateRec), this);
          fxRates[nodeindex].push_back(rinfo); // keep dim info here
       }
    } // for
@@ -897,7 +897,7 @@ void TGo4DabcMonitor::createLogServices(int nodeindex)
    //std::cout<<"rrrrrrrr createLogServices for "<<nodeindex <<std::endl;
    QRegExp filter(dimServiceFilterEdit->text().trimmed());
    filter.setPatternSyntax(QRegExp::Wildcard); // use simple wildcard matching, like shell
-   std::cout<<std::endl<< "---- Retrieving current DIM variables from node "<<fxDabcNodes[nodeindex].toAscii().constData()<<" with filter:"<<filter.pattern().toAscii().constData() <<std::endl;
+   std::cout<<std::endl<< "---- Retrieving current DIM variables from node "<<fxDabcNodes[nodeindex].toLatin1().constData()<<" with filter:"<<filter.pattern().toLatin1().constData() <<std::endl;
 
    //search the service list for our node for all rate services:
    QString services=fxServices[nodeindex]->getString();
@@ -919,15 +919,15 @@ void TGo4DabcMonitor::createLogServices(int nodeindex)
       //std::cout<<"++++++ creating log info " << sname <<" for format "<<sformat <<std::endl;
       if(sformat=="C")
       {
-         TGo4DabcInfo* info= new TGo4DabcInfo(sname.toAscii().constData(),1,"not available", this);
+         TGo4DabcInfo* info= new TGo4DabcInfo(sname.toLatin1().constData(),1,"not available", this);
       }
       else if(sformat=="L")
       {
-         TGo4DabcInfo* info= new TGo4DabcInfo(sname.toAscii().constData(),1, (int) -1, this);
+         TGo4DabcInfo* info= new TGo4DabcInfo(sname.toLatin1().constData(),1, (int) -1, this);
       }
       else
       {
-         TGo4DabcInfo* info= new TGo4DabcInfo(sname.toAscii().constData(),1,  &gNolinkRateRecord , sizeof(dabc:: RateRec), sformat.toAscii().constData(), this);
+         TGo4DabcInfo* info= new TGo4DabcInfo(sname.toLatin1().constData(),1,  &gNolinkRateRecord , sizeof(dabc:: RateRec), sformat.toLatin1().constData(), this);
       }
    } //   for ( QStringList::Iterator sit =
 }
@@ -1009,7 +1009,7 @@ void TGo4DabcMonitor::fillNodeTableRow( int tableindex, int nodeindex, bool crea
    NodeTable->setSortingEnabled(false);
    //std::cout<<"***fillNodeTableRow - tableindex:"<<tableindex<<", nodeindex:"<<nodeindex<<", createnew:"<<createnew <<std::endl;
 
-   //std::cout<<"        nodename is "<<fxDabcNodes[nodeindex].toAscii().constData()<<std::endl;
+   //std::cout<<"        nodename is "<<fxDabcNodes[nodeindex].toLatin1().constData()<<std::endl;
    NodeTable->setItem(tableindex, DABCMON_NODE_NODECOL, new QTableWidgetItem(fxDabcNodes[nodeindex]));
 
    QPixmap pixmap = QPixmap(":/icons/eventitem.png").scaledToHeight(NodeTable->rowHeight(tableindex),Qt::SmoothTransformation);
@@ -1018,8 +1018,8 @@ void TGo4DabcMonitor::fillNodeTableRow( int tableindex, int nodeindex, bool crea
    if(nodeindex>fxStateRecords.size())
       std::cout<<"    !!!!!!!!!! nodeindex exceeds size of states "<<fxStateRecords.size()<<std::endl;
    QString col =fxStateRecords[nodeindex].fxColor.toLower();
-   //std::cout<<"        color is "<<fxStateRecords[nodeindex].fxColor.toAscii().constData()<<std::endl;
-   //std::cout<<"        state is "<<fxStateRecords[nodeindex].fxState.toAscii().constData()<<std::endl;
+   //std::cout<<"        color is "<<fxStateRecords[nodeindex].fxColor.toLatin1().constData()<<std::endl;
+   //std::cout<<"        state is "<<fxStateRecords[nodeindex].fxState.toLatin1().constData()<<std::endl;
 
 
 
@@ -1030,8 +1030,8 @@ void TGo4DabcMonitor::fillNodeTableRow( int tableindex, int nodeindex, bool crea
    NodeTable->setItem(tableindex, DABCMON_NODE_STATECOL, item);
    if(createnew) {
       item = new QTableWidgetItem(QString::number(nodeindex));
-      //std::cout<<"        nodeindextext is "<< QString::number(nodeindex).toAscii().constData()<<std::endl;
-      //std::cout<<"        item text is "<< item->text().toAscii().constData()<<std::endl;
+      //std::cout<<"        nodeindextext is "<< QString::number(nodeindex).toLatin1().constData()<<std::endl;
+      //std::cout<<"        item text is "<< item->text().toLatin1().constData()<<std::endl;
 
       item->setFlags(item->flags() & ~Qt::ItemIsEditable);
       NodeTable->setItem(tableindex,  DABCMON_NODE_INDEXCOL, item);
@@ -1407,7 +1407,7 @@ void TGo4DabcMonitor::updateTrending( int nodeix, int rateix, int hisix, double 
    //std::cout<<"    val="<<value<<", name="<<name<<", refname="<<refname <<", folder="<<foldername<<std::endl;
    TH1* his=0;
    TGo4Slot* histoslot=0;
-   if(!fbTrendingInit[nodeix].at(rateix).at(hisix)) histoslot=Browser()->BrowserSlot(refname.toAscii().constData());
+   if(!fbTrendingInit[nodeix].at(rateix).at(hisix)) histoslot=Browser()->BrowserSlot(refname.toLatin1().constData());
    if(histoslot==0)
    {
       Axis_t lo,up;
@@ -1439,7 +1439,7 @@ void TGo4DabcMonitor::updateTrending( int nodeix, int rateix, int hisix, double 
          };
          up=0;
       }
-      his=new TH1F(name.toAscii().constData(), title.toAscii().constData(), fiTrendBins,lo,up);
+      his=new TH1F(name.toLatin1().constData(), title.toLatin1().constData(), fiTrendBins,lo,up);
       TAxis* xax=his->GetXaxis();
       switch(hisix)
       {
@@ -1454,7 +1454,7 @@ void TGo4DabcMonitor::updateTrending( int nodeix, int rateix, int hisix, double 
       xax->CenterTitle();
       //xax->SetLimits(0,lo,up);
 
-      TGo4Slot* hisdataslot=Browser()->DataSlot(refname.toAscii().constData());
+      TGo4Slot* hisdataslot=Browser()->DataSlot(refname.toLatin1().constData());
       if(hisdataslot)
       {
          hisdataslot->AssignObject(his,true);
@@ -1463,9 +1463,9 @@ void TGo4DabcMonitor::updateTrending( int nodeix, int rateix, int hisix, double 
       {
          //QString folder="Dabc/"+fxNodelist[nodeix];
          QString folder="DABC/"+foldername;
-         refname=Browser()->SaveToMemory(folder.toAscii().constData(), his, true);
+         refname=Browser()->SaveToMemory(folder.toLatin1().constData(), his, true);
       }
-      histoslot=Browser()->BrowserSlot(refname.toAscii().constData());
+      histoslot=Browser()->BrowserSlot(refname.toLatin1().constData());
    }
    else
    {
@@ -1529,7 +1529,7 @@ void TGo4DabcMonitor::updateStats( int nodeix, int rateix, int hix , double valu
    //std::cout<<"    val="<<value<<", name="<<name<<", refname="<<refname <<", folder="<<foldername<<std::endl;
    TH1* his=0;
    TGo4Slot* histoslot=0;
-   if(! fbStatsInit[nodeix].at(rateix).at(hix)) histoslot=Browser()->BrowserSlot(refname.toAscii().constData());
+   if(! fbStatsInit[nodeix].at(rateix).at(hix)) histoslot=Browser()->BrowserSlot(refname.toLatin1().constData());
    if(histoslot==0)
    {
       Axis_t lo,up;
@@ -1539,13 +1539,13 @@ void TGo4DabcMonitor::updateStats( int nodeix, int rateix, int hix , double valu
       {
          lo=0;
          up=100;
-         //std::cout <<"using default histogram range for name: "<<name.toAscii().constData()<<" ["<<lo<<","<<up<<"]" << std::endl;
+         //std::cout <<"using default histogram range for name: "<<name.toLatin1().constData()<<" ["<<lo<<","<<up<<"]" << std::endl;
       }
-      his=new TH1F(name.toAscii().constData(),title.toAscii().constData(),fiStatBins,lo,up);
+      his=new TH1F(name.toLatin1().constData(),title.toLatin1().constData(),fiStatBins,lo,up);
       TAxis* xax=his->GetXaxis();
-      xax->SetTitle(xtitle.toAscii().constData());
+      xax->SetTitle(xtitle.toLatin1().constData());
       xax->CenterTitle();
-      TGo4Slot* hisdataslot=Browser()->DataSlot(refname.toAscii().constData());
+      TGo4Slot* hisdataslot=Browser()->DataSlot(refname.toLatin1().constData());
       if(hisdataslot)
       {
          hisdataslot->AssignObject(his,true);
@@ -1554,9 +1554,9 @@ void TGo4DabcMonitor::updateStats( int nodeix, int rateix, int hix , double valu
       {
          //QString folder="Dabc/"+fxNodelist[nodeix];
          QString folder="DABC/"+foldername;
-         refname=Browser()->SaveToMemory(folder.toAscii().constData(), his, true);
+         refname=Browser()->SaveToMemory(folder.toLatin1().constData(), his, true);
       }
-      histoslot=Browser()->BrowserSlot(refname.toAscii().constData());
+      histoslot=Browser()->BrowserSlot(refname.toLatin1().constData());
    }
    else
    {

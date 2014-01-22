@@ -165,8 +165,8 @@ void TGo4Browser::ItemDropAcceptSlot(void* item, void* d, bool* res)
 
    QString dropname = mime->text();
 
-   TGo4Slot* tgtslot = Browser()->ItemSlot(tgtname.toAscii().constData());
-   TGo4Slot* dropslot = Browser()->ItemSlot(dropname.toAscii().constData());
+   TGo4Slot* tgtslot = Browser()->ItemSlot(tgtname.toLatin1().constData());
+   TGo4Slot* dropslot = Browser()->ItemSlot(dropname.toLatin1().constData());
 
    if ((tgtslot==0) || (dropslot==0)) return;
    if (Browser()->ItemKind(tgtslot)!=TGo4Access::kndFolder) return;
@@ -181,7 +181,7 @@ void TGo4Browser::ItemDropProcessSlot(void* item, void* d)
    QString tgtname = FullItemName((QTreeWidgetItem*) item);
    const QMimeData* mime = (const QMimeData*) d;
    if (!mime->hasText()) return;
-   Browser()->ProduceExplicitCopy(mime->text().toAscii().constData(), tgtname.toAscii().constData(), go4sett->getFetchDataWhenCopy());
+   Browser()->ProduceExplicitCopy(mime->text().toLatin1().constData(), tgtname.toLatin1().constData(), go4sett->getFetchDataWhenCopy());
 }
 
 void TGo4Browser::ResetWidget()
@@ -363,7 +363,7 @@ void TGo4Browser::updateListViewItems()
       if (!res) break;
 
       // delete all slots in folder, which has another name
-      while ((curitem!=0) && (strcmp(iter.getname(), curitem->text(0).toAscii().constData())!=0)) {
+      while ((curitem!=0) && (strcmp(iter.getname(), curitem->text(0).toLatin1().constData())!=0)) {
          QTreeWidgetItem* next = nextSibling(curitem);
          delete curitem;
          curitem = next;
@@ -517,11 +517,11 @@ void TGo4Browser::ListView_doubleClicked(QTreeWidgetItem* item, int ncol)
 
    TGo4BrowserProxy* br = BrowserProxy();
 
-   int cando = br->ItemCanDo(fullname.toAscii().constData());
-   TGo4Slot* itemslot = br->ItemSlot(fullname.toAscii().constData());
+   int cando = br->ItemCanDo(fullname.toLatin1().constData());
+   TGo4Slot* itemslot = br->ItemSlot(fullname.toLatin1().constData());
 
    if (go4sett->getDrawOnceFlag()) {
-      TGo4ViewPanel* panel = WhereItemDrawn(fullname.toAscii().constData());
+      TGo4ViewPanel* panel = WhereItemDrawn(fullname.toLatin1().constData());
       if (panel!=0)  {
          if (panel->isMinimized()) panel->showNormal();
          panel->activateWindow();
@@ -608,7 +608,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
    for ( ; *it; ++it )
       if ((*it)->isSelected()) {
          QString fullname = FullItemName(*it);
-         TGo4Slot* itemslot = br->ItemSlot(fullname.toAscii().constData());
+         TGo4Slot* itemslot = br->ItemSlot(fullname.toLatin1().constData());
          if (itemslot==0) continue;
          nitems++;
 
@@ -850,7 +850,7 @@ void TGo4Browser::ContextMenuActivated(int id)
    for ( ; *it; ++it )
       if ((*it)->isSelected()) {
          QString itemname = FullItemName(*it);
-         TGo4Slot* itemslot = br->ItemSlot(itemname.toAscii().constData());
+         TGo4Slot* itemslot = br->ItemSlot(itemname.toLatin1().constData());
          if (itemslot==0) continue;
          int cando = br->ItemCanDo(itemslot);
          int kind = br->ItemKind(itemslot);
@@ -878,17 +878,17 @@ void TGo4Browser::ContextMenuActivated(int id)
             }
 
             case 18: { // fetch item from the data source
-                br->FetchItem(itemname.toAscii().constData());
+                br->FetchItem(itemname.toLatin1().constData());
                 break;
             }
 
             case 19: {
-               br->ProduceExplicitCopy(itemname.toAscii().constData(), 0, go4sett->getFetchDataWhenCopy());
+               br->ProduceExplicitCopy(itemname.toLatin1().constData(), 0, go4sett->getFetchDataWhenCopy());
                break;
             }
 
             case 20: {
-               br->AddToClipboard(itemname.toAscii().constData());
+               br->AddToClipboard(itemname.toLatin1().constData());
                break;
             }
 
@@ -901,7 +901,7 @@ void TGo4Browser::ContextMenuActivated(int id)
 
             case 23: {  // clear
                TString objname;
-               TGo4AnalysisProxy* an = br->DefineAnalysisObject(itemname.toAscii().constData(), objname);
+               TGo4AnalysisProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
                if (an!=0) {
                   an->ClearAnalysisObject(objname.Data());
                   // if clear folder, request all objects which were requested before
@@ -922,7 +922,7 @@ void TGo4Browser::ContextMenuActivated(int id)
             case 24:     // set clear protect
             case 25: {   // unset clear protect
                TString objname;
-               TGo4AnalysisProxy* an = br->DefineAnalysisObject(itemname.toAscii().constData(), objname);
+               TGo4AnalysisProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
                if (an!=0) {
                   an->ChageObjectProtection(objname.Data(), (id == 24 ? "+C" : "-C"));
                   anrefresh = an;
@@ -932,7 +932,7 @@ void TGo4Browser::ContextMenuActivated(int id)
 
             case 26: {   // delete remote object
                TString objname;
-               TGo4AnalysisProxy* an = br->DefineAnalysisObject(itemname.toAscii().constData(), objname);
+               TGo4AnalysisProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
                if (an!=0) {
                   an->RemoveObjectFromAnalysis(objname.Data(), br->ItemClass(itemslot));
                   anrefresh = an;
@@ -942,11 +942,11 @@ void TGo4Browser::ContextMenuActivated(int id)
 
             case 27: {
                TString objname;
-               TGo4AnalysisProxy* an = br->DefineAnalysisObject(itemname.toAscii().constData(), objname);
+               TGo4AnalysisProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
                if (an!=0) anrefresh = an;
-               TGo4HServProxy* hserv = br->DefineHServerProxy(itemname.toAscii().constData());
+               TGo4HServProxy* hserv = br->DefineHServerProxy(itemname.toLatin1().constData());
                if (hserv!=0) hservrefresh = hserv;
-               TGo4DabcProxy* dabcpr = br->DefineDabcProxy(itemname.toAscii().constData());
+               TGo4DabcProxy* dabcpr = br->DefineDabcProxy(itemname.toLatin1().constData());
                if (dabcpr!=0) dabcprrefresh = dabcpr;
                break;
             }
@@ -960,7 +960,7 @@ void TGo4Browser::ContextMenuActivated(int id)
                                       QLineEdit::Normal,
                                       QString::null,
                                       &ok);
-               if (ok) br->CreateMemorySubfolder(itemname.toAscii().constData(), folder.toAscii().constData());
+               if (ok) br->CreateMemorySubfolder(itemname.toLatin1().constData(), folder.toLatin1().constData());
                break;
             }
 
@@ -973,18 +973,18 @@ void TGo4Browser::ContextMenuActivated(int id)
                                       QLineEdit::Normal,
                                       QString::null,
                                       &ok);
-               if (ok) br->RenameMemoryItem(itemname.toAscii().constData(), newname.toAscii().constData());
+               if (ok) br->RenameMemoryItem(itemname.toLatin1().constData(), newname.toLatin1().constData());
                break;
             }
 
             case 43: {  // paste items from clipboard
-               br->CopyClipboard(itemname.toAscii().constData(), go4sett->getFetchDataWhenCopy());
+               br->CopyClipboard(itemname.toLatin1().constData(), go4sett->getFetchDataWhenCopy());
                br->ClearClipboard();
                break;
             }
 
             case 44: { // clear memory item
-               br->ClearMemoryItem(itemname.toAscii().constData());
+               br->ClearMemoryItem(itemname.toLatin1().constData());
                break;
             }
          }
@@ -1006,7 +1006,7 @@ void TGo4Browser::ContextMenuActivated(int id)
 bool TGo4Browser::canDrawItem(QTreeWidgetItem* item)
 {
    if (item==0) return false;
-   int cando = BrowserProxy()->ItemCanDo(FullItemName(item).toAscii().constData());
+   int cando = BrowserProxy()->ItemCanDo(FullItemName(item).toLatin1().constData());
    return TGo4BrowserProxy::CanDrawItem(cando);
 }
 
@@ -1045,10 +1045,10 @@ void TGo4Browser::SaveSelectedItems()
       if (fname.indexOf(".xml", 0, Qt::CaseInsensitive)<0) fname+=".xml";
    }
 
-   ExportSelectedItems(fname.toAscii().constData(),
-                       QFileInfo(fname).absolutePath().toAscii().constData(),
-                       fd.selectedNameFilter().toAscii().constData(),
-                       title.toAscii().constData());
+   ExportSelectedItems(fname.toLatin1().constData(),
+                       QFileInfo(fname).absolutePath().toLatin1().constData(),
+                       fd.selectedNameFilter().toLatin1().constData(),
+                       title.toLatin1().constData());
 }
 
 void TGo4Browser::ExportSelectedItems(const char* filtername)
@@ -1062,7 +1062,7 @@ void TGo4Browser::ExportSelectedItems(const char* filtername)
    if (flst.isEmpty()) return;
 
    ExportSelectedItems("null",
-                       flst[0].toAscii().constData(),
+                       flst[0].toLatin1().constData(),
                        filtername,
                        "Export of selected items");
 }
@@ -1074,7 +1074,7 @@ void TGo4Browser::ExportSelectedItems(const char* filename, const char* filedir,
      for ( ; *it; ++it )
         if ((*it)->isSelected()) {
            QString fullname = FullItemName(*it);
-           items.Add(new TObjString(fullname.toAscii().constData()));
+           items.Add(new TObjString(fullname.toLatin1().constData()));
         }
 
      BrowserProxy()->ExportItemsTo(&items, go4sett->getFetchDataWhenSave(), filename, filedir, format, description);

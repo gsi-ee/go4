@@ -15,12 +15,14 @@
 
 #include <QDropEvent>
 #include <QDragEnterEvent>
+#include <QMimeData>
+
 
 QGo4LineEdit::QGo4LineEdit(QWidget* parent, const char* name) :
    QLineEdit(parent)
 {
    setObjectName(name ? name : "Go4LineEdit");
-   setAcceptDrops( TRUE );
+   setAcceptDrops( true );
 }
 
 QGo4LineEdit::~QGo4LineEdit()

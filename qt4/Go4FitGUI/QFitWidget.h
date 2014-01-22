@@ -27,7 +27,7 @@
 #ifndef QFITWIDGET_H
 #define QFITWIDGET_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 class TObject;
 class QFitItem;
@@ -45,7 +45,7 @@ class QDESIGNER_WIDGET_EXPORT QFitWidget : public QWidget {
    Q_OBJECT
 
    public:
-      QFitWidget( QWidget* parent = 0, const char* name = 0, Qt::WFlags fl = 0 );
+      QFitWidget( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = 0 );
       ~QFitWidget();
 
       virtual QFitItem* GetItem();

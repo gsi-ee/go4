@@ -14,9 +14,9 @@
 #ifndef TGO4MAINWINDOW_H
 #define TGO4MAINWINDOW_H
 
-#include <QtGui/QMainWindow>
+#include <QMainWindow>
 
-#include <QtGui/QCloseEvent>
+#include <QCloseEvent>
 
 class QApplication;
 

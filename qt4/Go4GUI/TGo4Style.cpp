@@ -17,7 +17,7 @@
 #include "TGo4MdiArea.h"
 #include "TGo4ViewPanel.h"
 
-TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WFlags fl ) :
+TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
    QWidget( parent, fl )
 {
    setObjectName( name ? name : "Go4Style");
