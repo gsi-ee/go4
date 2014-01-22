@@ -29,7 +29,7 @@ done
 if [[ "$GO4_OS" == "Win32" ]]; then
   rm -f *._rootcint *_cint 
   CINT=$ROOTINTERPRETER
-  CINTOPT="-c"
+  CINTOPT="-c -p"
 else
   CINT=$ROOTEXEPATH/bin/$ROOTINTERPRETER
   CINTOPT="-c -p"
