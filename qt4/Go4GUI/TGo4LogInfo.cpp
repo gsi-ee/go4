@@ -19,9 +19,8 @@
 #include <QTextStream>
 #include <QHeaderView>
 
-
-TGo4LogInfo::TGo4LogInfo(QWidget *parent, const char* name)
-         : QGo4Widget(parent, name)
+TGo4LogInfo::TGo4LogInfo(QWidget *parent, const char* name) :
+   QGo4Widget(parent, name)
 {
    setupUi(this);
 
@@ -29,10 +28,15 @@ TGo4LogInfo::TGo4LogInfo(QWidget *parent, const char* name)
 
    LogText->sortByColumn(1, Qt::DescendingOrder);
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+   LogText->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+   LogText->header()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
+   LogText->header()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+#else
    LogText->header()->setResizeMode(0, QHeaderView::ResizeToContents);
    LogText->header()->setResizeMode(1, QHeaderView::ResizeToContents);
    LogText->header()->setResizeMode(2, QHeaderView::ResizeToContents);
-
+#endif
    LogText->header()->setStretchLastSection(true);
 }
 

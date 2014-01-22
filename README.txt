@@ -28,7 +28,7 @@ These package was tested on
     Windows XP, 7
     MacOSX Darwin (10.6) with gcc 4.2.1
 
-REQUIREMENTS: ROOT and Qt4 (or Qt3) 
+REQUIREMENTS: ROOT and Qt4/Qt5 (or Qt3)  
 
 
 ROOT INSTALLATION

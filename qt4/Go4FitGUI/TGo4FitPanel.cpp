@@ -2230,11 +2230,17 @@ void TGo4FitPanel::focusInEvent( QFocusEvent* event)
   QWidget::focusInEvent(event);
 }
 
-void TGo4FitPanel::windowActivationChange( bool OldActive)
+void TGo4FitPanel::changeEvent(QEvent *event)
 {
-   UpdateStatusBar(0);
-   QWidget::windowActivationChange(OldActive);
+   if (event->type() == QEvent::ActivationChange) UpdateStatusBar(0);
+   QWidget::changeEvent(event);
 }
+
+//void TGo4FitPanel::windowActivationChange(bool OldActive)
+//{
+//   UpdateStatusBar(0);
+//   QWidget::windowActivationChange(OldActive);
+//}
 
 void TGo4FitPanel::UpdatePFAmplLbl()
 {

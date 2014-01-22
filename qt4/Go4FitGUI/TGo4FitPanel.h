@@ -384,7 +384,8 @@ protected:
     int fiNumMigradIter;
 
     virtual void focusInEvent( QFocusEvent * event );
-    virtual void windowActivationChange( bool OldActive );
+    virtual void changeEvent (  QEvent *event  );
+    //virtual void windowActivationChange( bool OldActive );
 
 
 

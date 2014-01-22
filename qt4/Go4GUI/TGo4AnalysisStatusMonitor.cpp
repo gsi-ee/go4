@@ -20,8 +20,8 @@
 
 
 
-TGo4AnalysisStatusMonitor::TGo4AnalysisStatusMonitor(QWidget *parent, const char* name)
-: QGo4Widget(parent, name)
+TGo4AnalysisStatusMonitor::TGo4AnalysisStatusMonitor(QWidget *parent, const char* name) :
+   QGo4Widget(parent, name)
 {
    setupUi(this);
    setAcceptDrops(false);
@@ -69,14 +69,20 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObj
       LCDAverageRate->display(status->GetAvRate());
    int stime=(int)status->GetTime();
    LCDTime->display(stime);
-   ulong hh=stime/3600;
-   ulong mm=(stime-hh*3600)/60;
-   ulong ss=(stime-hh*3600-mm*60);
-   QString tooltip=QString("Time since last reset [sec] = %1:%2:%3 [hours:min:sec]").arg(hh).arg(mm).arg(ss);
+   ulong hh = stime/3600;
+   ulong mm = (stime-hh*3600)/60;
+   ulong ss = (stime-hh*3600-mm*60);
+   QString tooltip = QString("Time since last reset [sec] = %1:%2:%3 [hours:min:sec]").arg(hh).arg(mm).arg(ss);
    LCDTime->setToolTip(tooltip);
    QString scnt = QString("%1").arg(status->GetCurrentCount());
+
+#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
+   if (scnt.length() > LCDProcessedEvents->digitCount())
+      LCDProcessedEvents->setDigitCount(scnt.length());
+#else
    if (scnt.length() > LCDProcessedEvents->numDigits())
       LCDProcessedEvents->setNumDigits(scnt.length());
+#endif
 
    LCDProcessedEvents->display(scnt);
 

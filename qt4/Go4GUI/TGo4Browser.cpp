@@ -21,6 +21,8 @@
 #include <QMenu>
 #include <QSignalMapper>
 #include <QHeaderView>
+#include <QDrag>
+#include <QMimeData>
 
 #include "Riostream.h"
 #include "TClass.h"

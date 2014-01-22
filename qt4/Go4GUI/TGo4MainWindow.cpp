@@ -1133,10 +1133,10 @@ void TGo4MainWindow::InputTerminalParametersSlot()
 
    bool ok;
 
-   size = QInputDialog::getInteger(this,
-                                   "Analysis terminal history size in bytes (minimum 10000 bytes)",
-                                   "Input 0 if full analysis history should be preserved",
-                                   size, 0, 100000000, 10000, &ok);
+   size = QInputDialog::getInt(this,
+                               "Analysis terminal history size in bytes (minimum 10000 bytes)",
+                                "Input 0 if full analysis history should be preserved",
+                                size, 0, 100000000, 10000, &ok);
 
    if ((size>0) && (size<10000)) size = 10000;
 
@@ -2277,13 +2277,13 @@ bool TGo4MainWindow::SaveBrowserItemToFile(const char* itemname, const char* sub
       QFileDialog fd(this, QString("Save ") + itemname + " in root file", fLastFileDir);
       fd.setFileMode(QFileDialog::AnyFile);
       fd.setAcceptMode(QFileDialog::AcceptSave);
-      fd.setFilters(QStringList() << root_fmt << xml_fmt);
+      fd.setNameFilters(QStringList() << root_fmt << xml_fmt);
 
       if (fd.exec() == QDialog::Accepted) {
          QStringList flst = fd.selectedFiles();
          if (!flst.isEmpty()) {
             QString filename = flst[0];
-            if (fd.selectedFilter()==xml_fmt) {
+            if (fd.selectedNameFilter()==xml_fmt) {
                if (!filename.endsWith(".xml")) filename.append(".xml");
             } else {
                if (!filename.endsWith(".root")) filename.append(".root");
@@ -2344,7 +2344,7 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
    flt << CXXM;
    flt << ROOTM;
 
-   fd.setFilters(flt);
+   fd.setNameFilters(flt);
 
    if (fd.exec() != QDialog::Accepted) return;
 

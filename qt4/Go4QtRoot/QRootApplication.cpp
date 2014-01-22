@@ -109,7 +109,9 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll)
   // install a msg-handler
   fWarning = fDebug = false;
 
+#if QT_VERSION <= QT_VERSION_CHECK(5,0,0)
   qInstallMsgHandler( qMessageOutput );
+#endif
 
   // install a filter on the parent
 

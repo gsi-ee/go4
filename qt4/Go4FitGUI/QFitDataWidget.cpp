@@ -92,7 +92,7 @@ void QFitDataWidget::SigmaCmb_activated( int zn)
 void QFitDataWidget::SigmaEdt_textChanged( const QString & value)
 {
   if(!fbFillWidget && GetData()) {
-    bool ok = TRUE;
+    bool ok = true;
     double zn = value.toDouble(&ok);
     if(ok) GetData()->SetSigmaValue(zn);
   }

@@ -32,6 +32,7 @@
 #include <QColorDialog>
 #include <QMenu>
 #include <QAction>
+#include <QMimeData>
 
 #include "TPad.h"
 #include "TCanvas.h"
