@@ -5,6 +5,9 @@ GO4FIT_NAME        = Go4Fit
 GO4FIT_DIR         = $(GO4FIT_NAME)
 GO4FIT_LINKDEF     = $(GO4FIT_DIR)/$(GO4FIT_NAME)LinkDef.$(HedSuf)
 
+GO4FIT_LIBNAME  = $(LIB_PREFIX)Go4Fit
+GO4FIT_LIB      = $(GO4DLLPATH)/$(GO4FIT_LIBNAME).$(DllSuf)
+
 GO4FIT_NOTLIBF     =
 
 ## must be similar for every module
@@ -41,7 +44,11 @@ include/%.h: $(GO4FIT_DIR)/%.h
 	@cp -f $< $@
 
 $(GO4FIT_DS): $(GO4FIT_H)  $(GO4FIT_LINKDEF)
-	@$(ROOTCINTGO4) $(GO4FIT_H) $(GO4FIT_LINKDEF)
+	@$(ROOTCINTGO4) $(GO4FIT_LIB) $(GO4FIT_H) $(GO4FIT_LINKDEF)
+
+$(GO4FIT_LIB):   $(GO4FIT_O) $(GO4FIT_DO)
+	@$(MakeLibrary) $(GO4FIT_LIBNAME) "$(GO4FIT_O) $(GO4FIT_DO)" $(GO4DLLPATH) $(GO4FIT_LINKDEF) "$(BASIC_LIB_DEP)"
+
 
 clean-bin::
 	@rm -f $(GO4FIT_O) $(GO4FIT_DO) $(GO4FIT_D6)
