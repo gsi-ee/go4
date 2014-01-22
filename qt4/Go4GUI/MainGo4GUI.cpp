@@ -122,6 +122,8 @@ int main(int argc, char **argv)
 
    Q_INIT_RESOURCE(go4icons);
 
+   QApplication::setColorSpec( QApplication::ManyColor );
+
    QRootApplication myapp(argc, argv); // Qt application
 
    // qt4.4 sets local settings not to "C", but to system-depended values

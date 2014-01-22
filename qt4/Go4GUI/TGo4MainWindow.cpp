@@ -541,10 +541,7 @@ void TGo4MainWindow::AddSettingMenu()
 
        ag->addAction(act);
        style->addAction(act);
-
-
    }
-   QApplication::setColorSpec( QApplication::ManyColor );
 }
 
 void TGo4MainWindow::AddFileMenu()
@@ -736,14 +733,22 @@ void TGo4MainWindow::windowsMenuAboutToShow()
     windowsMenu->addSeparator();
 
     QGo4Widget* loginfo = FindGo4Widget("LogInfo", false);
-
-    windowsMenu->addAction("Save L&ogwindow", loginfo, SLOT(SaveLogInfo()))->setEnabled(loginfo!=0);
-    windowsMenu->addAction("Clear &Logwindow", loginfo, SLOT(ClearLogInfo()))->setEnabled(loginfo!=0);
+    if (loginfo!=0) {
+       windowsMenu->addAction("Save L&ogwindow", loginfo, SLOT(SaveLogInfo()));
+       windowsMenu->addAction("Clear &Logwindow", loginfo, SLOT(ClearLogInfo()));
+    } else {
+       windowsMenu->addAction("Save L&ogwindow")->setEnabled(false);
+       windowsMenu->addAction("Clear &Logwindow")->setEnabled(false);
+    }
 
     QGo4Widget* anw = FindGo4Widget("AnalysisWindow", false);
-
-    windowsMenu->addAction("Save &Analysis window", anw, SLOT(SaveAnalysisOutput()))->setEnabled(anw!=0);
-    windowsMenu->addAction("Clear Analysis &window", anw, SLOT(ClearAnalysisOutput()))->setEnabled(anw!=0);
+    if (anw!=0) {
+       windowsMenu->addAction("Save &Analysis window", anw, SLOT(SaveAnalysisOutput()));
+       windowsMenu->addAction("Clear Analysis &window", anw, SLOT(ClearAnalysisOutput()));
+    } else {
+       windowsMenu->addAction("Save &Analysis window")->setEnabled(false);
+       windowsMenu->addAction("Clear Analysis &window")->setEnabled(false);
+    }
 
     windowsMenu->addSeparator();
 

@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <QMimeData>
 
 #include "Riostream.h"
 #include "Rstrstream.h"
@@ -24,6 +25,8 @@
 #include "TCanvas.h"
 #include "TGo4Proxy.h"
 #include "QRootCanvas.h"
+
+
 
 #include <sstream>
 
