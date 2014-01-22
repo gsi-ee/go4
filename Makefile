@@ -111,7 +111,6 @@ build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
 
 libs::    $(BUILDGO4LIBS)
 
-
 gui::      libs 
 		@echo "ROOTVERSION = $(ROOTVERSION)"
 ifdef ISROOT6

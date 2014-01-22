@@ -44,7 +44,6 @@ FITEX2_LIB    = $(FITEX_DIR)/$(FITEX2_LIBNAME).$(DllSuf)
 FITEX2_E      = $(FITEX_DIR)/Example2$(ExeSuf)
 
 $(FITEX2_LIB):  $(FITEX2_FO) 
-#	$(LD) $(SOFLAGS)$(FITEX2_LIB) $(LDFLAGS) $(FITEX2_FO) $(OutPutOpt) $(FITEX2_LIB)
 	@$(MakeLibrary) $(FITEX2_LIBNAME) "$(FITEX2_FO)" $(FITEX_DIR)
 
 $(FITEX2_E):    $(FITEX_EXEDEP) $(FITEX2_O) $(FITEX2_LIB)
@@ -84,7 +83,6 @@ FITEX4_OBJ     =  $(FITEX_DIR)/TModelTemplate.$(ObjSuf)
 FITEX4_DICTO   =  $(FITEX_DIR)/Example4Dict.$(ObjSuf)
 FITEX4_SRC     =  $(FITEX_DIR)/TModelTemplate.$(SrcSuf)
 FITEX4_DICTS   =  $(FITEX_DIR)/Example4Dict.$(SrcSuf)
-FITEX4_DICT6   =  $(FITEX_DIR)/Example4Dict$(DICT_R6SUFF)
 FITEX4_HED     =  $(FITEX_DIR)/TModelTemplate.$(HedSuf)
 FITEX4_LINKDEF =  $(FITEX_DIR)/Example4LinkDef.h
 FITEX4_LIB     =  $(FITEX_DIR)/$(FITEX4_LIBNAME).$(DllSuf)
@@ -93,11 +91,11 @@ FITEX4_O      = $(FITEX_DIR)/Example4.$(ObjSuf)
 FITEX4_S      = $(FITEX_DIR)/Example4.$(SrcSuf)
 FITEX4_E      = $(FITEX_DIR)/Example4$(ExeSuf)
 
-$(FITEX4_DICTS): $(FITEX4_HED)
+$(FITEX4_DICTS): $(FITEX4_HED) $(FITEX4_LINKDEF)
 	@$(ROOTCINTGO4) $(FITEX4_LIB) $(FITEX4_HED) $(FITEX4_LINKDEF)
     
 $(FITEX4_LIB):  $(FITEX4_OBJ) $(FITEX4_DICTO)
-	@$(MakeLibrary) $(FITEX4_LIBNAME) "$(FITEX4_OBJ) $(FITEX4_DICTO)" $(FITEX_DIR) $(FITEX4_LINKDEF) "$(GO4FIT_LIB) $(ROOTLIBPATH)/libMinuit.$(DllSuf)"
+	@$(MakeLibrary) $(FITEX4_LIBNAME) "$(FITEX4_OBJ) $(FITEX4_DICTO)" $(FITEX_DIR) $(FITEX4_LINKDEF) "$(GO4FIT_LIB) $(ROOTLIBPATH)/libMinuit.$(DllSuf)" $(FITEX4_DICTS) "$(FITEX4_HED)"
 
 ifdef GO4_WIN32
 FITEX4_LIBSSET = $(FITEX4_LIB)
@@ -216,7 +214,7 @@ endif
 fitexampletargets: $(FITEX_DLLS) $(FITEX_EXECS)
 
 clean-bin::
-	@rm -f $(FITEX_OBJS)  $(FITEX_DIR)/*.$(ObjSuf) $(FITEX_DIR)/*Dict.* $(FITEX4_DICT6)
+	@rm -f $(FITEX_OBJS)  $(FITEX_DIR)/*.$(ObjSuf) $(FITEX_DIR)/*Dict.*
 
 clean:: clean-bin
 	@rm -f $(FITEX_EXECS) $(FITEX_DLLS) $(FITEX_DIR)/*.$(DllSuf)

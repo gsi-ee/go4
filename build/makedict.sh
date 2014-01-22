@@ -50,5 +50,9 @@ if [[ "x$LIBNAME" == "x" ]]; then
   LIBNAME="libGo4UserAnalysis.$DLLSUF" 
 fi   
 
+#$CINT -f $DICTIONARY -s $LIBNAME -rml $(basename "$LIBNAME") -c $CXXOPTIONS $HEADERS
+
+$CINT -f $DICTIONARY -s $LIBNAME -c $CXXOPTIONS $HEADERS
+
    
 exit 0

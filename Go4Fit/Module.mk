@@ -16,7 +16,6 @@ GO4FIT_DICT        = $(GO4FIT_DIR)/$(DICT_PREFIX)$(GO4FIT_NAME)
 GO4FIT_DH          = $(GO4FIT_DICT).$(HedSuf)
 GO4FIT_DS          = $(GO4FIT_DICT).$(SrcSuf)
 GO4FIT_DO          = $(GO4FIT_DICT).$(ObjSuf)
-GO4FIT_D6          = $(GO4FIT_DICT)$(DICT_R6SUFF)
 
 GO4FIT_H           = $(filter-out $(GO4FIT_NOTLIBF) $(GO4FIT_DH) $(GO4FIT_LINKDEF), $(wildcard $(GO4FIT_DIR)/*.$(HedSuf)))
 GO4FIT_S           = $(filter-out $(GO4FIT_NOTLIBF) $(GO4FIT_DS), $(wildcard $(GO4FIT_DIR)/*.$(SrcSuf)))
@@ -43,13 +42,18 @@ include/%.h: $(GO4FIT_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
+
+GO4FIT_DEPLIB = $(BASIC_LIB_DEP)
+
+$(GO4FIT_LIB):   MAKELIB_SET = $(LIBS_BASESET)
+
 $(GO4FIT_DS): $(GO4FIT_H)  $(GO4FIT_LINKDEF)
 	@$(ROOTCINTGO4) $(GO4FIT_LIB) $(GO4FIT_H) $(GO4FIT_LINKDEF)
 
-$(GO4FIT_LIB):   $(GO4FIT_O) $(GO4FIT_DO)
-	@$(MakeLibrary) $(GO4FIT_LIBNAME) "$(GO4FIT_O) $(GO4FIT_DO)" $(GO4DLLPATH) $(GO4FIT_LINKDEF) "$(BASIC_LIB_DEP)"
+$(GO4FIT_LIB):   $(GO4FIT_O) $(GO4FIT_DO) $(GO4FIT_DEPLIB)
+	@$(MakeLibrary) $(GO4FIT_LIBNAME) "$(GO4FIT_O) $(GO4FIT_DO)" $(GO4DLLPATH) $(GO4FIT_LINKDEF) "$(GO4FIT_DEPLIB)" $(GO4FIT_DS) "$(GO4FIT_H)"
 
 
 clean-bin::
-	@rm -f $(GO4FIT_O) $(GO4FIT_DO) $(GO4FIT_D6)
+	@rm -f $(GO4FIT_O) $(GO4FIT_DO)
 	@rm -f $(GO4FIT_DEP) $(GO4FIT_DDEP) $(GO4FIT_DS) $(GO4FIT_DH)
