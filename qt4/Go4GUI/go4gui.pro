@@ -1,3 +1,9 @@
+
+greaterThan(QT_MAJOR_VERSION, 4) {
+QT += widgets
+}
+
+
 TEMPLATE	= app 
 LANGUAGE	= C++
 MOC_DIR     =.moc

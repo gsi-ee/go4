@@ -1,6 +1,10 @@
 TEMPLATE	= lib
 LANGUAGE	= C++
 
+greaterThan(QT_MAJOR_VERSION, 4) {
+  QT += widgets
+}
+
 CONFIG += qt warn_off thread plugin
 
 win32: TARGET = libGo4UserGui
