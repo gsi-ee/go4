@@ -1,0 +1,440 @@
+# this makefile used to discover go4 environment and 
+# generate Makefile.gener file
+# also some other files can be generated here
+# move it out of Makefile.config while it is not used in user code
+
+
+# this is required to load existing configuration and do not try to rediscover old one
+-include $(GO4SYS)/build/Makefile.gener
+
+
+########## This is discovery of configuration when Makefile.gener not exists #########
+
+ifndef GO4_Configured
+
+ifndef GO4_OS
+ifneq ($(findstring CYGWIN, $(shell uname)),)
+GO4_OS := Win32
+else
+GO4_OS := $(shell uname)
+endif
+endif
+
+ifneq ($(GO4_OS),Win32)
+ifdef prefix
+ifneq ($(wildcard $(prefix)),)
+GO4PREFIX = $(prefix)
+endif
+endif
+endif
+
+ifdef GO4PREFIX
+GO4TOPPATH = $(GO4PREFIX)/share/go4
+GO4EXEPATH = $(GO4PREFIX)/bin
+GO4LIBPATH = $(GO4PREFIX)/lib
+GO4INCPATH = $(GO4PREFIX)/include/go4
+else
+GO4TOPPATH = $(CURDIR)
+GO4EXEPATH = $(CURDIR)/bin
+GO4LIBPATH = $(CURDIR)/lib
+GO4INCPATH = $(CURDIR)/include
+endif
+
+ifdef rpath
+GO4WITHRPATH = $(rpath)
+endif
+
+ifndef GO4WITHRPATH
+GO4WITHRPATH = true
+endif
+
+#ifeq ($(GO4_OS),Darwin)
+#GO4WITHRPATH = false
+#endif
+
+
+## one can exclude dependency generation, calling "make nodepend=1"
+
+ifdef nodep
+GO4WITHOUTDEPEND = true
+endif
+
+ifdef nodepend
+GO4WITHOUTDEPEND = true
+endif
+
+ifndef DOOPTIMIZATION
+ifdef debug
+DOOPTIMIZATION = false
+else
+DOOPTIMIZATION = true
+endif
+endif
+
+ifdef ROOTSYS
+CFG_ROOT_BIN = $(ROOTSYS)/bin/
+else
+ifneq ($(shell which root-config 2>/dev/null),)
+CFG_ROOT_BIN := $(shell root-config --exec-prefix)/bin/
+else
+ifeq ($(DOING_FASTRULE),)
+$(error "No ROOT configured found")
+endif
+endif
+endif
+
+ifneq ($(CFG_ROOT_BIN),)
+
+ROOTVERSION := $(shell $(CFG_ROOT_BIN)root-config --version)
+ROOTEXEPATH := $(shell $(CFG_ROOT_BIN)root-config --exec-prefix)
+ROOTINCPATH := $(shell $(CFG_ROOT_BIN)root-config --incdir)
+ROOTLIBPATH := $(shell $(CFG_ROOT_BIN)root-config --libdir)
+ROOTCFLAGS  := $(shell $(CFG_ROOT_BIN)root-config --cflags)
+ROOTLIBS    := $(shell $(CFG_ROOT_BIN)root-config --libs)
+ROOTGLIBS   := $(shell $(CFG_ROOT_BIN)root-config --glibs)
+
+ifneq ($(wildcard $(ROOTLIBPATH)/libASImage.*),)
+USEASIMAGE    = true
+endif
+ifneq ($(wildcard $(ROOTLIBPATH)/libSpectrum.*),)
+USESPECTRUM   = true
+endif
+ifneq ($(wildcard $(ROOTLIBPATH)/libGed.*),)
+USEGEDEDITOR  = true
+endif
+ifneq ($(wildcard $(ROOTLIBPATH)/libXMLIO.*),)
+USEXMLIO      = true
+endif
+
+endif
+
+ifdef DIMDIR
+ifneq ($(wildcard $(DIMDIR)/linux/libdim.so),)
+USEDIM  = true
+DIMLIBPATH = $(DIMDIR)/linux
+DIMINCPATH = $(DIMDIR)/dim
+endif
+endif
+
+ifneq ($(withdabc),no)
+ifdef DABCSYS
+ifneq ($(wildcard $(DABCSYS)/include/root/Player.h),)
+USEDABC = true
+DABCLIBPATH = $(DABCSYS)/lib
+DABCINCPATH = $(DABCSYS)/include
+endif
+endif
+endif
+
+#try to detect which QT version is configured if any
+
+ifndef WITHQT
+ifdef withqt
+WITHQT=$(withqt)
+endif
+endif
+
+ifeq ($(WITHQT),no)
+CFG_WITHOUT_QT = true
+endif
+
+ifeq ($(GO4_OS),Win32)
+ifndef QTDIR
+CFG_WITHOUT_QT = true
+endif
+endif
+
+ifndef CFG_WITHOUT_QT
+  ifeq ($(WITHQT),3)
+    ifneq ($(shell pkg-config --exists qt-mt --print-errors),)
+      CFG_WITHOUT_QT = true
+    endif
+  else
+  ifeq ($(WITHQT),4)
+    ifneq ($(shell pkg-config --exists QtCore --print-errors),)
+      CFG_WITHOUT_QT = true
+    endif
+  else
+  ifdef QTDIR
+    QTPATH = $(QTDIR)
+    QMAKE  = $(QTPATH)/bin/qmake
+    UIC    = $(QTPATH)/bin/uic
+    MOC    = $(QTPATH)/bin/moc
+    QTCXXFLAGS = 
+    ifneq ($(shell $(QTDIR)/bin/qmake --version 2>&1 | grep "Qt 3."),)
+       GO4_QT = 3
+       QTCXXFLAGS += -DQT_SHARED -DQT_THREAD_SUPPORT -D_REENTRANT
+    else
+       GO4_QT = 4
+       QTCXXFLAGS += -DQT_SHARED
+    endif
+    ifeq ($(GO4_OS),Win32)
+      QTCXXFLAGS  += -I$(shell cygpath -w $(QTDIR)/include)
+    else
+      QTCXXFLAGS  += -I$(QTDIR)/include
+    endif
+  
+  else
+  
+  ifeq ($(shell pkg-config --exists QtCore --print-errors),)
+    WITHQT = 4
+  else
+  ifeq ($(shell pkg-config --exists qt-mt --print-errors),)
+    WITHQT = 3
+  else
+    CFG_WITHOUT_QT = true
+  endif
+  endif
+  endif
+  endif
+  endif
+
+endif
+
+ifndef CFG_WITHOUT_QT
+  ifeq ($(WITHQT), 3)
+    GO4_QT     = 3
+    QTPATH     = $(shell pkg-config --variable=prefix qt-mt)
+    QTCXXFLAGS = $(shell pkg-config --cflags qt-mt)
+    ifneq ($(wildcard $(QTPATH)/bin/qmake-qt3),)
+      QMAKE      = $(QTPATH)/bin/qmake-qt3
+    else
+      QMAKE      = $(QTPATH)/bin/qmake
+    endif
+    ifneq ($(wildcard $(QTPATH)/bin/uic-qt3),)
+      UIC      = $(QTPATH)/bin/uic-qt3
+    else
+      UIC      = $(QTPATH)/bin/uic
+    endif
+    ifneq ($(wildcard $(QTPATH)/bin/moc-qt3),)
+      MOC      = $(QTPATH)/bin/moc-qt3
+    else
+      MOC      = $(QTPATH)/bin/moc
+    endif
+  endif
+  ifeq ($(WITHQT), 4)
+    GO4_QT     = 4
+    QTPATH     = $(shell pkg-config --variable=prefix QtCore)
+    QTCXXFLAGS = $(shell pkg-config --cflags QtCore)
+    ifneq ($(wildcard $(QTPATH)/bin/qmake-qt4),)
+      QMAKE      = $(QTPATH)/bin/qmake-qt4
+    else
+      QMAKE      = $(QTPATH)/bin/qmake
+    endif
+    UIC        = $(shell pkg-config --variable=uic_location QtCore)
+    ifeq ($(UIC),)
+      ifneq ($(wildcard $(QTPATH)/bin/uic-qt4),)
+        UIC      = $(QTPATH)/bin/uic-qt4
+      else
+        UIC      = $(QTPATH)/bin/uic
+      endif
+    endif
+    MOC        = $(shell pkg-config --variable=moc_location QtCore)
+    ifeq ($(MOC),)
+      ifneq ($(wildcard $(QTPATH)/bin/moc-qt4),)
+        MOC      = $(QTPATH)/bin/moc-qt4
+      else
+        MOC      = $(QTPATH)/bin/moc
+      endif
+    endif
+  endif
+endif
+
+endif
+
+#################### end of configuration discovery #################################
+
+
+go4login: Makefile
+	@rm -f $@
+	@echo '########## Automatically generated login file ########' >> $@
+	@echo '' >> $@
+	@echo "echo Configure Go4 v$(MAJOR).$(MINOR) at $(GO4TOPPATH)" >> $@
+	@echo '' >> $@
+	@echo '##### ROOT-related settings ###########' >> $@
+ifdef ROOTSYS
+	@echo 'export ROOTSYS=$(ROOTSYS)' >> $@
+endif
+	@echo 'export PATH=$(ROOTEXEPATH)/bin:$$PATH' >> $@
+ifeq ($(GO4_OS),Darwin)
+	@echo 'export DYLD_LIBRARY_PATH=$(ROOTLIBPATH):$$DYLD_LIBRARY_PATH' >> $@
+endif
+	@echo 'export LD_LIBRARY_PATH=$(ROOTLIBPATH):$$LD_LIBRARY_PATH' >> $@
+	@echo '' >> $@
+ifdef DABCSYS
+	@echo '##### DABC-related settings ###########' >> $@
+	@echo 'export DABCSYS=$(DABCSYS)' >> $@
+	@echo 'export PATH=$(DABCSYS)/bin:$$PATH' >> $@
+ifeq ($(GO4_OS),Darwin)
+	@echo 'export DYLD_LIBRARY_PATH=$(DABCSYS)/lib:$$DYLD_LIBRARY_PATH' >> $@
+endif
+	@echo 'export LD_LIBRARY_PATH=$(DABCSYS)/lib:$$LD_LIBRARY_PATH' >> $@
+	@echo '' >> $@
+endif
+ifdef QTDIR
+ifeq ($(QTDIR),$(QTPATH))
+	@echo '##### qt-relevant settings ###########' >> $@
+	@echo 'export QTDIR=$(QTDIR)' >> $@
+	@echo 'export PATH=$(QTDIR)/bin:$$PATH' >> $@
+ifeq ($(GO4_OS),Darwin)
+	@echo 'export DYLD_LIBRARY_PATH=$(QTDIR)/lib:$$DYLD_LIBRARY_PATH' >> $@
+endif
+	@echo 'export LD_LIBRARY_PATH=$(QTDIR)/lib:$$LD_LIBRARY_PATH' >> $@
+	@echo '' >> $@
+endif
+endif
+	@echo '##### Go4-related settings ###########' >> $@
+	@echo 'export GO4SYS=$(GO4TOPPATH)' >> $@
+	@echo 'export PATH=$(GO4EXEPATH):$$PATH' >> $@
+ifeq ($(GO4_OS),Darwin)
+	@echo 'export DYLD_LIBRARY_PATH=.:$(GO4LIBPATH):$$DYLD_LIBRARY_PATH' >> $@
+endif
+	@echo 'export LD_LIBRARY_PATH=.:$(GO4LIBPATH):$$LD_LIBRARY_PATH' >> $@
+	@chmod 755 $@
+
+go4login.bat:
+	@rm -f $@
+	@echo ':: ########## Automatically generated win login file ########' >> $@
+	@echo '' >> $@
+	@echo "@echo Configure Go4 v$(MAJOR).$(MINOR) at $(shell cygpath -w $(GO4TOPPATH))" >> $@
+	@echo '' >> $@
+	@echo ':: ##### ROOT-relevant settings ###########' >> $@
+ifdef ROOTSYS
+	@echo '@set ROOTSYS=$(shell cygpath -w $(ROOTSYS))' >> $@
+endif
+	@echo '@set PATH=$(shell cygpath -w  $(ROOTEXEPATH)/bin);%PATH%' >> $@
+	@echo '@set LIB=$(shell cygpath -w  $(ROOTLIBPATH));%LIB%' >> $@
+	@echo '' >> $@
+ifdef QTDIR
+ifeq ($(QTDIR),$(QTPATH))
+	@echo ':: ##### qt-relevant settings ###########' >> $@
+	@echo '@set QTDIR=$(shell cygpath -w $(QTDIR))' >> $@
+	@echo '@set PATH=$(shell cygpath -w $(QTDIR)/bin);%PATH%' >> $@
+	@echo '@set LIB=$(shell cygpath -w $(QTDIR)/lib);%LIB%' >> $@
+	@echo '' >> $@
+endif
+endif
+	@echo ':: ##### go4-relevant settings ###########' >> $@
+	@echo '@set GO4SYS=$(shell cygpath -w $(GO4TOPPATH))' >> $@
+	@echo '@set PATH=$(shell cygpath -w $(GO4EXEPATH));%PATH%' >> $@
+	@echo '@set LIB=.;$(shell cygpath -w $(GO4LIBPATH));%LIB%' >> $@
+	@echo '' >> $@
+	@echo ':: ##### set correct pathes to MS VC and SDK for analysis compilation ###########' >> $@
+ifdef VC_PATH
+	@echo '@set VC_PATH=$(VC_PATH)' >> $@
+else
+	@echo '@set VC_PATH=C:\Program Files\Microsoft Visual Studio 9.0\VC' >> $@
+endif
+ifdef SDK_PATH
+	@echo '@set SDK_PATH=$(SDK_PATH)' >> $@
+else
+	@echo '@set SDK_PATH=C:\Program Files\Microsoft SDKs\Windows\v6.0A' >> $@
+endif
+ifdef IDE_PATH
+	@echo '@set IDE_PATH=$(IDE_PATH)' >> $@
+else
+	@echo '@set IDE_PATH=C:\Program Files\Microsoft Visual Studio 9.0\Common7\IDE' >> $@
+endif
+	@echo '@set INCLUDE=%VC_PATH%\include;%SDK_PATH%\include;%INCLUDE%' >> $@
+	@echo '@set LIB=%LIB%;%VC_PATH%\lib;%SDK_PATH%\Lib' >> $@
+	@echo '@set PATH=%PATH%;%VC_PATH%\bin;%SDK_PATH%\bin;%IDE_PATH%' >> $@
+	@chmod 755 $@
+
+
+go4.bat: Makefile
+	@rm -f $@
+	@echo ':: ########## Automatically generated go4 gui startup file ########' >> $@
+	@echo '' >> $@
+	@echo "@echo Starting Go4 v$(MAJOR).$(MINOR) from $(shell cygpath -w $(GO4TOPPATH))" >> $@
+	@echo '' >> $@
+	@echo ':: ##### ROOT-relevant settings ###########' >> $@
+ifdef ROOTSYS
+	@echo '@set ROOTSYS=$(shell cygpath -w $(ROOTSYS))' >> $@
+endif
+	@echo '@set PATH=$(shell cygpath -w  $(ROOTEXEPATH)/bin);%PATH%' >> $@
+	@echo '@set LIB=$(shell cygpath -w  $(ROOTLIBPATH));%LIB%' >> $@
+	@echo '' >> $@
+ifdef QTDIR
+ifeq ($(QTDIR),$(QTPATH))
+	@echo ':: ##### qt-relevant settings ###########' >> $@
+	@echo '@set QTDIR=$(shell cygpath -w $(QTDIR))' >> $@
+	@echo '@set PATH=$(shell cygpath -w $(QTDIR)/bin);%PATH%' >> $@
+	@echo '@set LIB=$(shell cygpath -w $(QTDIR)/lib);%LIB%' >> $@
+	@echo '' >> $@
+endif
+endif
+	@echo ':: ##### go4-relevant settings ###########' >> $@
+	@echo '@set GO4SYS=$(shell cygpath -w $(GO4TOPPATH))' >> $@
+	@echo '@set PATH=$(shell cygpath -w $(GO4EXEPATH));%PATH%' >> $@
+	@echo '@set LIB=.;$(shell cygpath -w $(GO4LIBPATH));%LIB%' >> $@
+	@echo '' >> $@
+	@echo 'start go4.exe' >> $@
+	@chmod 755 $@
+
+
+# generate file only if we do not do something simple like clean
+$(GO4SYS)/build/Makefile.gener: Makefile
+	@rm -f $@
+	@echo "#### Generated file, not change ###" >> $@
+	@echo "GO4_Configured = true" >> $@
+	@echo "GO4_OS       = $(GO4_OS)" >> $@
+	@echo "GO4PREFIX    = $(GO4PREFIX)" >> $@
+	@echo "GO4TOPPATH   = $(GO4TOPPATH)" >> $@
+	@echo "GO4EXEPATH   = $(GO4EXEPATH)" >> $@
+	@echo "GO4LIBPATH   = $(GO4LIBPATH)" >> $@
+	@echo "GO4INCPATH   = $(GO4INCPATH)" >> $@
+	@echo "GO4WITHRPATH = $(GO4WITHRPATH)" >> $@
+	@echo "DOOPTIMIZATION = $(DOOPTIMIZATION)" >> $@
+ifdef GO4WITHOUTDEPEND
+	@echo "GO4WITHOUTDEPEND = $(GO4WITHOUTDEPEND)" >> $@
+endif
+ifdef force32
+	@echo "force32 = true" >> $@
+endif
+	@echo "" >> $@
+	@echo "#### ROOT configigurations from root-config" >> $@
+	@echo "ROOTVERSION  = $(ROOTVERSION)" >> $@
+	@echo "ROOTEXEPATH  = $(ROOTEXEPATH)" >> $@
+	@echo "ROOTINCPATH  = $(ROOTINCPATH)" >> $@
+	@echo "ROOTLIBPATH  = $(ROOTLIBPATH)" >> $@
+	@echo "ROOTCFLAGS   = $(ROOTCFLAGS)" >> $@
+	@echo "ROOTLIBS     = $(ROOTLIBS)" >> $@
+	@echo "ROOTGLIBS    = $(ROOTGLIBS)" >> $@
+	@echo "" >> $@
+	@echo "#### Available ROOT components" >> $@
+ifdef USEASIMAGE
+	@echo "USEASIMAGE   = true" >> $@
+endif
+ifdef USESPECTRUM
+	@echo "USESPECTRUM  = true" >> $@
+endif
+ifdef USEGEDEDITOR
+	@echo "USEGEDEDITOR = true" >> $@
+endif
+ifdef USEXMLIO
+	@echo "USEXMLIO     = true" >> $@
+endif
+	@echo "" >> $@
+	@echo "### some other packets" >> $@
+	@echo "" >> $@
+ifdef USEDIM
+	@echo "USEDIM      = true" >> $@
+	@echo "DIMLIBPATH  = $(DIMLIBPATH)" >> $@
+	@echo "DIMINCPATH  = $(DIMINCPATH)" >> $@
+	@echo "" >> $@
+endif
+ifdef USEDABC 
+	@echo "USEDABC     = true" >> $@
+	@echo "DABCLIBPATH = $(DABCLIBPATH)" >> $@
+	@echo "DABCINCPATH = $(DABCINCPATH)" >> $@
+	@echo "" >> $@
+endif
+ifndef CFG_WITHOUT_QT
+	@echo "### Qt relevant settings" >> $@
+	@echo "GO4_QT     = $(GO4_QT)" >> $@
+	@echo "QTPATH     = $(QTPATH)" >> $@
+	@echo "QTCXXFLAGS = $(QTCXXFLAGS)" >> $@
+	@echo "QMAKE      = $(QMAKE)" >> $@
+	@echo "UIC        = $(UIC)" >> $@
+	@echo "MOC        = $(MOC)" >> $@
+endif

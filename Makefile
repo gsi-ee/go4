@@ -18,7 +18,19 @@ FASTRULES   += clean-qt3 clean-qt4 clean-bak clean-dep \
                $(PACKAGERULES)
 
 
+all::        gui
+
+
+include build/Makefile.discover
+
+ifeq ($(GO4_OS), Win32)
+GO4_GENERATED_FILES = go4login.bat  go4.bat
+else
+GO4_GENERATED_FILES = go4login  bin/go4-config
+endif
+
 include Makefile.config
+
 
 
 ifdef QTPATH
@@ -79,15 +91,10 @@ EXMODULES = Go4ExampleSimple Go4Example1Step Go4Example2Step Go4ExampleAdvanced 
             Go4ExampleUserSource Go4ExampleMesh Go4FitExample \
             Go4ThreadManagerExample Go4TaskHandlerExample Go4EventServerExample
 
-.PHONY:    all includes libs gui plugin install uninstall \
-           clean clean-qt3 clean-qt4 clean-bak clean-plugin clean-mainlibs clean-prefix clean-svn \
-           package $(PACKAGERULES)
+.PHONY:  all includes libs gui plugin install uninstall \
+         clean clean-qt3 clean-qt4 clean-bak clean-plugin clean-mainlibs clean-prefix clean-svn \
+         package $(PACKAGERULES)
 
-
-all::           gui 
-ifdef GO4PREFIX
-	@echo Call make install to copy all binary files into $(GO4PREFIX)
-endif
 
 include $(patsubst %,%/Module.mk,$(MODULES))
 
@@ -97,29 +104,41 @@ include $(patsubst %,%/Makefile, $(EXMODULES))
 
 -include qt4/Module.mk
 
-build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
-	@(if [ ! -f $@ ] ; then touch $@; fi)
-	@(if [ ! -f lib ] ; then mkdir -p lib; fi)
-	@(if [ ! -f bin ] ; then mkdir -p bin; fi)
-	@(if [ ! -f bin/go4-config ] ; then   \
-		sed -e "s|@go4arch@|$(GO4_OS)|"    \
-		-e "s|@go4vers@|$(VERSSUF)|"       \
-		-e "s|@go4topdir@|$(GO4TOPPATH)|"  \
-		-e "s|@go4bindir@|$(GO4EXEPATH)|"  \
-		-e "s|@go4libdir@|$(GO4LIBPATH)|"  \
-		-e "s|@go4incdir@|$(GO4INCPATH)|"  \
-		-e "s|@go4mainlibs@|'$(subst -Llib,-L$(GO4LIBPATH),$(LIBS_FULLSET))'|"  \
-		-e "s|@go4guilibs@|'$(subst -L../../lib,-L$(GO4LIBPATH),$(LIBS_GUISET))'|"  \
-		-e "s|@go4cflags@|'$(subst -Iinclude -I.,-I$(GO4INCPATH),$(OPTFLAGS) $(CXXFLAGS))'|"  \
-		< build/go4-config.ini > bin/go4-config; chmod 755 bin/go4-config; echo "create go4-config"; fi)
-	@(if [ ! -f $(GO4MAP) ] ; then touch $(GO4MAP); fi)
+lib:
+	@echo "!!!!!!!!!!!!!! Producing $@ !!!!!!!!!!!!!!!!!"
+	@(if [ ! -d $@ ] ; then mkdir -p $@; fi)
 
-libs::    $(BUILDGO4LIBS)
+bin:
+	@echo "!!!!!!!!!!!!!! Producing $@ !!!!!!!!!!!!!!!!!"
+	@(if [ ! -d $@ ] ; then mkdir -p $@; fi)
+
+bin/go4-config: bin Makefile
+	@echo Producing $@
+	@sed -e "s|@go4arch@|$(GO4_OS)|"        \
+		  -e "s|@go4vers@|$(VERSSUF)|"       \
+		  -e "s|@go4topdir@|$(GO4TOPPATH)|"  \
+		  -e "s|@go4bindir@|$(GO4EXEPATH)|"  \
+		  -e "s|@go4libdir@|$(GO4LIBPATH)|"  \
+		  -e "s|@go4incdir@|$(GO4INCPATH)|"  \
+		  -e "s|@go4mainlibs@|'$(subst -Llib,-L$(GO4LIBPATH),$(LIBS_FULLSET))'|"  \
+		  -e "s|@go4guilibs@|'$(subst -L../../lib,-L$(GO4LIBPATH),$(LIBS_GUISET))'|"  \
+		  -e "s|@go4cflags@|'$(subst -Iinclude -I.,-I$(GO4INCPATH),$(OPTFLAGS) $(CXXFLAGS))'|" \
+		     < build/go4-config.ini > $@
+	@chmod 755 $@
+	@echo "$@ created"
+
+build/dummy.d: Makefile lib bin $(GO4QTHEADS) $(ALLHDRS)
+	@(if [ ! -f $@ ] ; then touch $@; fi)
+
+libs::    $(BUILDGO4LIBS) $(GO4_GENERATED_FILES)
 
 gui::      libs 
 		@echo "ROOTVERSION = $(ROOTVERSION)"
 ifdef ISROOT6
 		@echo "detect ROOT6"
+endif
+ifdef GO4PREFIX
+	@echo Call make install to copy all binary files into $(GO4PREFIX)
 endif
 
 

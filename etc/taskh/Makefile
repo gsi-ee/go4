@@ -1,3 +1,9 @@
+.PHONY:     all libs clean clean-mainlibs
+
+all::       libs
+
+include build/Makefile.discover
+
 include Makefile.config
 
 Go4_Makefile_Rules = included
@@ -24,10 +30,6 @@ MODULES  = Go4Exceptions Go4LockGuard Go4Log \
            Go4TaskHandler Go4Dict
 
 EXMODULES = Go4ThreadManagerExample Go4TaskHandlerExample 
-
-all::          libs 
-
-.PHONY:         all libs clean clean-mainlibs
 
 FASTRULES += clean-mainlibs clean-bin
 
