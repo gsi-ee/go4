@@ -15,15 +15,13 @@ GO4BASE_H = $(LOCKGRD_H)  \
             $(GO4LOG_H)   \
             $(EXCEPT_H)   \
             $(COMBASE_H)  \
-            $(STATBASE_H) \
-            $(CONDBASE_H)
+            $(STATBASE_H)
 
 GO4BASE_O = $(LOCKGRD_O)  \
             $(GO4LOG_O)   \
             $(EXCEPT_O)   \
             $(COMBASE_O)  \
             $(STATBASE_O) \
-            $(CONDBASE_O) \
             $(GO4BASE_DO)
 
 #  task handle dictionary 
@@ -58,6 +56,7 @@ GO4ANBASE_DDEP       =  $(GO4ANBASE_DICT).$(DepSuf)
 
 GO4ANBASE_H+= $(GO4EVENTPAR_H)  \
               $(EVENTSERVPAR_H) \
+              $(CONDBASE_H)     \
               $(DYNLIST_H)      \
               $(STATANAL_H)     \
               $(VERSION_H)
@@ -68,10 +67,11 @@ GO4ANBASE_H+= $(GO4EVENTPAR_H)  \
 GO4ANBASE_O+= $(MBSAPIBASE_O)  \
               $(GO4EVENTPAR_O) \
               $(EVENTSERVPAR_O) \
+              $(CONDBASE_O) \
               $(DYNLIST_O) \
               $(STATANAL_O) \
               $(VERSION_O) \
-              $(GO4ANBASE_DO)               
+              $(GO4ANBASE_DO)
 
 
 # analysis library (not used in GUI)

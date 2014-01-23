@@ -1,4 +1,8 @@
-.PHONY:     all libs clean clean-mainlibs
+ifndef GO4SYS
+  GO4SYS = .
+endif
+
+.PHONY:         all libs clean clean-mainlibs
 
 all::       libs
 
@@ -8,7 +12,7 @@ include Makefile.config
 
 Go4_Makefile_Rules = included
 
-GO4PACKAGE = go4taskhandler
+GO4PACKAGE = go4threadmanager
 
 GO4BASE_LIBNAME = $(LIB_PREFIX)Go4Base
 GO4BASE_LIB     = $(GO4DLLPATH)/$(GO4BASE_LIBNAME).$(DllSuf)
@@ -37,22 +41,38 @@ include $(patsubst %,%/Module.mk,$(MODULES))
 
 include $(patsubst %,%/Makefile, $(EXMODULES))
 
-build/dummy.d: Makefile $(ALLHDRS)
+lib:
+	@(if [ ! -d $@ ] ; then mkdir -p $@; fi)
+
+bin:
+	@(if [ ! -d $@ ] ; then mkdir -p $@; fi)
+
+bin/go4-config: bin Makefile
+	@echo Producing $@
+	@sed -e "s|@go4arch@|$(GO4_OS)|"        \
+		  -e "s|@go4vers@|$(VERSSUF)|"       \
+		  -e "s|@go4topdir@|$(GO4TOPPATH)|"  \
+		  -e "s|@go4bindir@|$(GO4EXEPATH)|"  \
+		  -e "s|@go4libdir@|$(GO4LIBPATH)|"  \
+		  -e "s|@go4incdir@|$(GO4INCPATH)|"  \
+		  -e "s|@go4mainlibs@|'$(subst -Llib,-L$(GO4LIBPATH),$(LIBS_FULLSET))'|"  \
+		  -e "s|@go4guilibs@|'$(subst -L../../lib,-L$(GO4LIBPATH),$(LIBS_GUISET))'|"  \
+		  -e "s|@go4cflags@|'$(subst -Iinclude -I.,-I$(GO4INCPATH),$(OPTFLAGS) $(CXXFLAGS))'|" \
+		     < build/go4-config.ini > $@
+	@chmod 755 $@
+
+build/dummy.d: Makefile bin lib $(ALLHDRS)
 	@(if [ ! -f $@ ] ; then touch $@; fi)
-	@(if [ ! -f lib ] ; then mkdir -p lib; fi)
-	@(if [ ! -f bin ] ; then mkdir -p bin; fi)
 	@(if [ ! -f $(GO4MAP) ] ; then touch $(GO4MAP); fi)
 
-libs::    $(BUILDGO4LIBS)
+libs::    $(BUILDGO4LIBS) go4login bin/go4-config 
 
-clean::  clean-bin clean-mainlibs
+examples:  $(patsubst %,all-%,$(EXMODULES)) $(EXAMPLEEXECS)
+
+clean:: clean-bin clean-mainlibs
 	@rm -f $(GO4MAP)
-	@echo "Clean go4 taskhandeler done"
+	@echo "Clean go4 taskhandler done"
 
-clean-mainlibs:
-	@$(CleanLib) $(GO4BASE_LIBNAME) $(GO4DLLPATH)
-	@$(CleanLib) $(THRDMNGR_LIBNAME) $(GO4DLLPATH)
-	@$(CleanLib) $(GO4TSKH_LIBNAME) $(GO4DLLPATH)
 
 clean-bin::
 	@echo "Clean binary (generated) files"

@@ -17,6 +17,10 @@ FASTRULES   += clean-qt3 clean-qt4 clean-bak clean-dep \
                clean-plugin clean-bin clean-prefix clean-svn \
                $(PACKAGERULES)
 
+.PHONY:  all includes libs gui plugin install uninstall \
+         clean clean-qt3 clean-qt4 clean-bak clean-plugin clean-mainlibs clean-prefix clean-svn \
+         package $(PACKAGERULES)
+
 
 all::        gui
 
@@ -91,11 +95,6 @@ EXMODULES = Go4ExampleSimple Go4Example1Step Go4Example2Step Go4ExampleAdvanced 
             Go4ExampleUserSource Go4ExampleMesh Go4FitExample \
             Go4ThreadManagerExample Go4TaskHandlerExample Go4EventServerExample
 
-.PHONY:  all includes libs gui plugin install uninstall \
-         clean clean-qt3 clean-qt4 clean-bak clean-plugin clean-mainlibs clean-prefix clean-svn \
-         package $(PACKAGERULES)
-
-
 include $(patsubst %,%/Module.mk,$(MODULES))
 
 include $(patsubst %,%/Makefile, $(EXMODULES))
@@ -105,11 +104,9 @@ include $(patsubst %,%/Makefile, $(EXMODULES))
 -include qt4/Module.mk
 
 lib:
-	@echo "!!!!!!!!!!!!!! Producing $@ !!!!!!!!!!!!!!!!!"
 	@(if [ ! -d $@ ] ; then mkdir -p $@; fi)
 
 bin:
-	@echo "!!!!!!!!!!!!!! Producing $@ !!!!!!!!!!!!!!!!!"
 	@(if [ ! -d $@ ] ; then mkdir -p $@; fi)
 
 bin/go4-config: bin Makefile
@@ -125,9 +122,9 @@ bin/go4-config: bin Makefile
 		  -e "s|@go4cflags@|'$(subst -Iinclude -I.,-I$(GO4INCPATH),$(OPTFLAGS) $(CXXFLAGS))'|" \
 		     < build/go4-config.ini > $@
 	@chmod 755 $@
-	@echo "$@ created"
 
 build/dummy.d: Makefile lib bin $(GO4QTHEADS) $(ALLHDRS)
+	@(if [ ! -f $(GO4MAP) ] ; then touch $(GO4MAP); fi)
 	@(if [ ! -f $@ ] ; then touch $@; fi)
 
 libs::    $(BUILDGO4LIBS) $(GO4_GENERATED_FILES)

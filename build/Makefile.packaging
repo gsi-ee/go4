@@ -103,7 +103,7 @@ thrd-package:
 	@echo "Creating package $(THRDTAR_NAME) ..."
 	@tar chf $(THRDTAR_NAME) Makefile.config
 	@tar rhf $(THRDTAR_NAME) Makefile.rules
-	@tar rhf $(THRDTAR_NAME) ./build/*.sh build/Makefile.* --exclude=build/Makefile.gener
+	@tar rhf $(THRDTAR_NAME) build/go4-config.ini build/*.sh build/Makefile.* --exclude=build/Makefile.gener --exclude=build/Makefile.packaging
 	@tar rhf $(THRDTAR_NAME) $(patsubst %,%/Module.mk,$(THRDMODULES))
 	@tar rhf $(THRDTAR_NAME) $(patsubst %,%/Makefile,$(THRDMODULESEX))
 	@tar rhf $(THRDTAR_NAME) $(THRDDISTRFILES)
@@ -114,9 +114,9 @@ thrd-package:
 	@cd $(DISTR_DIR); tar xf $(THRDTAR_NAME)
 	@mkdir -p $(DISTR_DIR)/include
 	@touch -f $(DISTR_DIR)/include/.dummy
-	@cp -f etc/taskh/Makefile $(DISTR_DIR)
-	@cp -f etc/taskh/taskh.init $(DISTR_DIR)/go4.init
-	@cp -f etc/taskh/README.txt $(DISTR_DIR)
+	@cp -f etc/thrdmgr/Makefile $(DISTR_DIR)
+	@cp -f etc/thrdmgr/taskh.init $(DISTR_DIR)/go4.init
+	@cp -f etc/thrdmgr/README.txt $(DISTR_DIR)
 	@cd $(DISTR_DIR); rm -f $(THRDTAR_NAME); chmod u+w --recursive *; chmod go+rX --recursive *; tar chf $(THRDTAR_NAME) . --exclude=$(THRDTAR_NAME)*; gzip -f $(THRDTAR_NAME)
 	@mkdir -p $(PACKAGE_DIR)
 	@mv -f $(DISTR_DIR)/$(THRDTAR_NAME).gz $(PACKAGE_DIR)
@@ -142,7 +142,7 @@ task-package:
 	@echo "Creating package $(TASKTAR_NAME) ..."
 	@tar chf $(TASKTAR_NAME) Makefile.config
 	@tar rhf $(TASKTAR_NAME) Makefile.rules
-	@tar rhf $(TASKTAR_NAME) ./build/*.sh  build/Makefile.* --exclude=build/Makefile.gener
+	@tar rhf $(TASKTAR_NAME) build/go4-config.ini build/*.sh  build/Makefile.* --exclude=build/Makefile.gener --exclude=build/Makefile.packaging
 	@tar rhf $(TASKTAR_NAME) $(patsubst %,%/Module.mk,$(TASKMODULES))
 	@tar rhf $(TASKTAR_NAME) $(patsubst %,%/Makefile,$(TASKMODULESEX))
 	@tar rhf $(TASKTAR_NAME) $(TASKDISTRFILES)
@@ -151,9 +151,9 @@ task-package:
 	@mkdir -p $(DISTR_DIR)
 	@mv $(TASKTAR_NAME) $(DISTR_DIR)
 	@cd $(DISTR_DIR); tar xf $(TASKTAR_NAME)
-	@cp -f etc/thrdmgr/Makefile $(DISTR_DIR)
-	@cp -f etc/thrdmgr/thrdmgr.init $(DISTR_DIR)/go4.init
-	@cp -f etc/thrdmgr/README.txt $(DISTR_DIR)
+	@cp -f etc/taskh/Makefile $(DISTR_DIR)
+	@cp -f etc/taskh/taskh.init $(DISTR_DIR)/go4.init
+	@cp -f etc/taskh/README.txt $(DISTR_DIR)
 	@mkdir -p $(DISTR_DIR)/include
 	@touch -f $(DISTR_DIR)/include/.dummy
 	@cd $(DISTR_DIR); rm -f $(TASKTAR_NAME); chmod u+w --recursive *; chmod go+rX --recursive *; tar chf $(TASKTAR_NAME) . --exclude=$(TASKTAR_NAME)*; gzip -f $(TASKTAR_NAME)
