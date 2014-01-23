@@ -21,7 +21,7 @@ MODULES  = Go4Exceptions Go4LockGuard Go4Log \
            Go4ThreadManager \
            Go4Queue Go4Socket Go4StatusBase \
            Go4CommandsBase Go4CommandsTaskHandler \
-           Go4TaskHandler
+           Go4TaskHandler Go4Dict
 
 EXMODULES = Go4ThreadManagerExample Go4TaskHandlerExample 
 
@@ -54,35 +54,6 @@ clean-mainlibs:
 
 clean-bin::
 	@echo "Clean binary (generated) files"
-
-GO4BASE_O = $(LOCKGRD_O) $(LOCKGRD_DO) \
-            $(GO4LOG_O) $(GO4LOG_DO) \
-            $(EXCEPT_O) \
-            $(COMBASE_O) $(COMBASE_DO) \
-            $(STATBASE_O) $(STATBASE_DO)
-
-GO4BASE_LINKDEFS = $(LOCKGRD_LINKDEF) \
-                   $(GO4LOG_LINKDEF) \
-                   $(COMBASE_LINKDEF) \
-                   $(STATBASE_LINKDEF) \
-                   $(CONDBASE_LINKDEF)
-
-GO4TSKH_O = $(GO4SOCKET_O) \
-            $(GO4QUEUE_O) \
-            $(TASKHAND_O) $(TASKHAND_DO) \
-            $(CMDTASKHANDL_O) $(CMDTASKHANDL_DO)
-
-GO4TSKH_LINKDEFS = $(TASKHAND_LINKDEF) \
-                   $(CMDTASKHANDL_LINKDEF)
-
-$(GO4BASE_LIB):   $(GO4BASE_O)
-	@$(MakeLibrary) $(GO4BASE_LIBNAME) "$(GO4BASE_O)" $(GO4DLLPATH) "$(GO4BASE_LINKDEFS)" "$(BASIC_LIB_DEP)"
-
-$(THRDMNGR_LIB):   $(THRDMNGR_O) $(THRDMNGR_DO)
-	@$(MakeLibrary) $(THRDMNGR_LIBNAME) "$(THRDMNGR_O) $(THRDMNGR_DO)" $(GO4DLLPATH) $(THRDMNGR_LINKDEF) "$(GO4BASE_LIB) $(BASIC_LIB_DEP)"
-
-$(GO4TSKH_LIB):   $(GO4TSKH_O)
-	@$(MakeLibrary) $(GO4TSKH_LIBNAME) "$(GO4TSKH_O)" $(GO4DLLPATH) "$(GO4TSKH_LINKDEFS)" "$(THRDMNGR_LIB) $(GO4BASE_LIB) $(BASIC_LIB_DEP)"
 
 Go4_Makefile_Rules =
 include Makefile.rules

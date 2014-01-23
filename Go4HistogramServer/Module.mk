@@ -38,7 +38,7 @@ include/%.h: $(HISTSERV_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
-$(HISTSERV_EXE): $(BUILDGO4LIBS) $(HISTSERV_EXEO)
+$(HISTSERV_EXE): $(HISTSERV_EXEO) $(GO4AN_LIB)
 	$(LD) $(LDFLAGS) $(HISTSERV_EXEO) $(LIBS_FULLSET) $(OutPutOpt) $(HISTSERV_EXE)
 	@echo "$@  done"
 

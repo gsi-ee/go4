@@ -16,7 +16,6 @@ GO4LOG_DEP         =  $(GO4LOG_O:.$(ObjSuf)=.$(DepSuf))
 
 # used in the main Makefile
 
-
 ALLHDRS +=  $(patsubst $(GO4LOG_DIR)/%.h, include/%.h, $(GO4LOG_H))
 
 LIBDEPENDENC       += $(GO4LOG_DEP) 

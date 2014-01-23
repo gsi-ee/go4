@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.6.1 (build 40601)
-                      29-November-2013
+         Go4 Release Package v4.6.3 (build 40603)
+                      23-January-2014
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -20,7 +20,7 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v4.6.1
+Changes in Go4 v4.6.x
 1. Store main window geometry and toolboxes settings in hotstart (only qt4).
    Makes possible to reproduce exactely view of the main panel. 
 2. In go4-config script provide --cflags, --libs and --glibs option.

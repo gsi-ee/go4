@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.6.1 (build 40601)
-                      29-November-2013
+         Go4 Release Package v4.6.3 (build 40603)
+                      23-January-2014
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -44,7 +44,7 @@ ROOT INSTALLATION
      2) Install ROOT binaries, includes and libraries in some default locations 
         like /usr/local/bin, /usr/local/lib, /usr/local/include. 
         For that "./configure --prefix=/usr/local" should be called. 
-        Prefix location can be any.
+        Prefix location depends from the Linux distribution.
      3) Install ROOT from RPM packages. There are Linux distributions, where ROOT 
         is available in form of precompiled package. Normally it should be enough 
         to install such package on the system.
@@ -60,11 +60,14 @@ ROOT INSTALLATION
 
 QT INSTALLATION
 
-  This Go4 distribution can be built with Qt 4.4.x and higher (also with Qt 3.3.x)
+  This Go4 distribution can be built with following Qt versions:
+     qt3 - Qt 3.3.x and higher
+     qt4 - Qt 4.4.x and higher (recommended)
+     qt5 - Qt 5.2.x and higher 
   Most modern Linux distributions provide Qt libraries, utilities and include files.
   Typically one should install libqt4-devel packages (or libqt3-devel).
   Normally Go4 able to detect major version of such Qt installation 
-  and will compile either Qt4 (or Qt3) based GUI.
+  and will compile either correspondent version of Go4 GUI.
   If both Qt3 and Qt4 version are installed, use "withqt" makefile flag to select 
   prefered version of qt. It is especially necessary for systems, where Qt3 installation 
   automatically sets QTDIR variable. In that case call "make withqt=4" to compile 
@@ -103,9 +106,10 @@ QT installation on Mac OS X
 
 DABC installation
   
-  With DABC (version >= 2.6.0) one gets web interface in go4. Installation instruction for DABC can be found 
-  on http://dabc.gsi.de web site. Go4 will automatically use DABC installation once
-  DABCSYS shell variable is set. Typically one call from shell:
+  With DABC (version >= 2.6.0) one gets web interface in go4. 
+  Installation instruction for DABC can be found on http://dabc.gsi.de web site. 
+  Go4 will automatically use DABC installation once DABCSYS shell variable is set. 
+  Typically one call from the shell:
   
      shell> . your_dabc_path/dabclogin 
 
@@ -114,11 +118,11 @@ GO4 COMPILATION
 
   Unpack this Go4 distribution in any suitable directory.
   
-     shell> tar xzf go4-4.5.4.tar.gz
+     shell> tar xzf go4-4.6.0.tar.gz
   
-  This will create subdirectory go4-4.5.4. To compile go4, do:
+  This will create subdirectory go4-4.6.0. To compile go4, do:
   
-     shell> cd go4-4.5.4
+     shell> cd go4-4.6.0
      shell> make all
   
   In most cases it will be enough to compile go4 libraries, gui and

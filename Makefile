@@ -39,6 +39,9 @@ endif
 GO4BASE_LIBNAME = $(LIB_PREFIX)Go4Base
 GO4BASE_LIB     = $(GO4DLLPATH)/$(GO4BASE_LIBNAME).$(DllSuf)
 
+THRDMNGR_LIBNAME     = $(LIB_PREFIX)Go4ThreadManager
+THRDMNGR_LIB         = $(GO4DLLPATH)/$(THRDMNGR_LIBNAME).$(DllSuf)
+
 GO4TSKH_LIBNAME = $(LIB_PREFIX)Go4TaskHandler
 GO4TSKH_LIB     = $(GO4DLLPATH)/$(GO4TSKH_LIBNAME).$(DllSuf)
 
@@ -51,6 +54,7 @@ GO4AN_LIB       = $(GO4DLLPATH)/$(GO4AN_LIBNAME).$(DllSuf)
 GO4BGUI_LIBNAME = $(LIB_PREFIX)Go4GUI
 GO4BGUI_LIB     = $(GO4DLLPATH)/$(GO4BGUI_LIBNAME).$(DllSuf)
 
+
 BUILDGO4LIBS += $(GO4FIT_LIB) \
                 $(GO4BASE_LIB) \
                 $(THRDMNGR_LIB) \
@@ -59,24 +63,25 @@ BUILDGO4LIBS += $(GO4FIT_LIB) \
                 $(GO4AN_LIB) \
                 $(GO4BGUI_LIB)
                
-MODULES  = MbsAPIbase MbsAPI RawAPI Go4Analysis Go4AnalysisClient \
-           Go4CommandsAnalysis Go4CommandsBase Go4Dabc \
+MODULES  = MbsAPIbase MbsAPI RawAPI  \
+           Go4Fit Go4Log Go4LockGuard \
+           Go4ThreadManager \
+           Go4CommandsAnalysis Go4CommandsBase  \
            Go4CommandsTaskHandler Go4TaskHandler \
            Go4ConditionsBase Go4DynamicList Go4Event \
            Go4EventServer Go4Exceptions \
            Go4Display Go4Proxies \
-           Go4Fit Go4ObjectManager \
-           Go4HistogramServer Go4LockGuard Go4Log \
+           Go4ObjectManager \
            Go4Queue Go4Socket Go4StatusAnalysis Go4StatusBase \
-           Go4ThreadManager Go4Dict
+           Go4Dabc Go4HistogramServer Go4Analysis Go4AnalysisClient Go4Dict
            
 EXMODULES = Go4ExampleSimple Go4Example1Step Go4Example2Step Go4ExampleAdvanced \
             Go4ExampleUserSource Go4ExampleMesh Go4FitExample \
             Go4ThreadManagerExample Go4TaskHandlerExample Go4EventServerExample
 
-.PHONY:         all includes libs gui plugin install uninstall \
-                clean clean-qt3 clean-qt4 clean-bak clean-plugin clean-mainlibs clean-prefix clean-svn \
-                package $(PACKAGERULES)
+.PHONY:    all includes libs gui plugin install uninstall \
+           clean clean-qt3 clean-qt4 clean-bak clean-plugin clean-mainlibs clean-prefix clean-svn \
+           package $(PACKAGERULES)
 
 
 all::           gui 
@@ -159,15 +164,6 @@ clean::  clean-bin clean-mainlibs clean-plugin
 	@rm -rf bin lib
 	@rm -f build/dummy.d build/Makefile.gener go4login go4login.bat go4.bat
 	@echo "Clean go4 done"
-
-clean-mainlibs:
-	@$(CleanLib) $(GO4FIT_LIBNAME) $(GO4DLLPATH)
-	@$(CleanLib) $(GO4BASE_LIBNAME) $(GO4DLLPATH)
-	@$(CleanLib) $(THRDMNGR_LIBNAME) $(GO4DLLPATH)
-	@$(CleanLib) $(GO4TSKH_LIBNAME) $(GO4DLLPATH)
-	@$(CleanLib) $(GO4ANBASE_LIBNAME) $(GO4DLLPATH)
-	@$(CleanLib) $(GO4AN_LIBNAME) $(GO4DLLPATH)
-	@$(CleanLib) $(GO4BGUI_LIBNAME) $(GO4DLLPATH)
 
 clean-bin::
 	@echo "Clean binary (generated) files"

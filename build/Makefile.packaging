@@ -94,10 +94,10 @@ fit-package:
 	@rmdir $(DISTR_DIR)
 	@echo "Package $(FITTAR_NAME).gz done in $(PACKAGE_DIR)"
 
-THRDMODULES = Go4Exceptions Go4LockGuard Go4Log Go4ThreadManager 
+THRDMODULES = Go4Exceptions Go4LockGuard Go4Log Go4ThreadManager Go4Dict
 THRDMODULESEX = Go4ThreadManagerExample
 THRDDISTRFILES = $(EXCEPT_DISTRFILES) $(LOCKGRD_DISTRFILES) $(GO4LOG_DISTRFILES) \
-                 $(THRDMNGR_DISTRFILES) $(THRDMNGREXAMP_DISTRFILES) 
+                 $(THRDMNGR_DISTRFILES) $(THREADMGR_DICT) $(THREADMGR_DICT_DISTR) 
 
 thrd-package:
 	@echo "Creating package $(THRDTAR_NAME) ..."
@@ -128,13 +128,14 @@ TASKMODULES = Go4Exceptions Go4LockGuard Go4Log \
               Go4ThreadManager \
               Go4Queue Go4Socket Go4StatusBase \
               Go4CommandsBase Go4CommandsTaskHandler \
-              Go4TaskHandler 
+              Go4TaskHandler Go4Dict
 TASKMODULESEX = Go4ThreadManagerExample Go4TaskHandlerExample
               
 TASKDISTRFILES = $(EXCEPT_DISTRFILES) $(LOCKGRD_DISTRFILES) $(GO4LOG_DISTRFILES) \
                  $(THRDMNGR_DISTRFILES) $(THRDMNGREXAMP_DISTRFILES) \
                  $(GO4QUEUE_DISTRFILES) $(GO4SOCKET_DISTRFILES) $(STATBASE_DISTRFILES) \
                  $(COMBASE_DISTRFILES) $(CMDTASKHANDL_DISTRFILES) \
+                 $(TASKHANLER_DICT_DISTR) \
                  $(TASKHAND_DISTRFILES) $(TASKHANDEXAMP_DISTRFILES)
                  
 task-package:

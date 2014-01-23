@@ -40,7 +40,7 @@ include/%.h: $(GO4QUEUE_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
-$(GO4QUEUE_EXE):  $(BUILDGO4LIBS) $(GO4QUEUE_EXEO)
+$(GO4QUEUE_EXE):  $(GO4QUEUE_EXEO) $(GO4TSKH_LIB)
 	$(LD) $(LDFLAGS) $(GO4QUEUE_EXEO) $(LIBS_TASKHANDSET) $(OutPutOpt) $(GO4QUEUE_EXE)
 	@echo "$@  done"
 

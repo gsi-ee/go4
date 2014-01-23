@@ -46,11 +46,11 @@ include/%.h: $(ANALCL_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
-$(ANALCL_EXE): $(BUILDGO4LIBS) $(ANALCL_EXEO)
+$(ANALCL_EXE): $(ANALCL_EXEO) $(GO4AN_LIB)
 	$(LD) $(LDFLAGS) $(ANALCL_EXEO) $(LIBS_FULLSET) $(ANALCL_LIB) $(OutPutOpt) $(ANALCL_EXE)
 	@echo "$@  done"
 
-$(ANALCL_EXECINT): $(BUILDGO4LIBS) $(ANALCL_EXECINTO)
+$(ANALCL_EXECINT): $(ANALCL_EXECINTO) $(GO4AN_LIB)
 	$(LD) $(LDFLAGS) $(ANALCL_EXECINTO) $(LIBS_FULLSET) $(ANALCL_LIB) $(OutPutOpt) $(ANALCL_EXECINT)
 	@echo "$@  done"
 

@@ -12,7 +12,7 @@ THRDMNGR_LIB    = $(GO4DLLPATH)/$(THRDMNGR_LIBNAME).$(DllSuf)
 BUILDGO4LIBS = $(GO4BASE_LIB) \
                $(THRDMNGR_LIB)
 
-MODULES  = Go4Exceptions Go4LockGuard Go4Log Go4ThreadManager
+MODULES  = Go4Exceptions Go4LockGuard Go4Log Go4ThreadManager Go4Dict
 
 EXMODULES = Go4ThreadManagerExample
 
@@ -47,22 +47,6 @@ clean-mainlibs:
 
 clean-bin::
 	@echo "Clean binary (generated) files"
-
-GO4BASE_O = $(LOCKGRD_O) $(LOCKGRD_DO) \
-            $(GO4LOG_O) $(GO4LOG_DO) \
-            $(EXCEPT_O)
-
-GO4BASE_LINKDEFS = $(LOCKGRD_LINKDEF) \
-                   $(GO4LOG_LINKDEF) \
-                   $(COMBASE_LINKDEF) \
-                   $(STATBASE_LINKDEF) \
-                   $(CONDBASE_LINKDEF)
-
-$(GO4BASE_LIB):   $(GO4BASE_O)
-	@$(MakeLibrary) $(GO4BASE_LIBNAME) "$(GO4BASE_O)" $(GO4DLLPATH) "$(GO4BASE_LINKDEFS)" "$(BASIC_LIB_DEP)"
-
-$(THRDMNGR_LIB):   $(THRDMNGR_O) $(THRDMNGR_DO)
-	@$(MakeLibrary) $(THRDMNGR_LIBNAME) "$(THRDMNGR_O) $(THRDMNGR_DO)" $(GO4DLLPATH) $(THRDMNGR_LINKDEF) "$(GO4BASE_LIB) $(BASIC_LIB_DEP)"
 
 Go4_Makefile_Rules =
 include Makefile.rules

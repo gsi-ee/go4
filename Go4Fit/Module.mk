@@ -53,6 +53,9 @@ $(GO4FIT_DS): $(GO4FIT_H)  $(GO4FIT_LINKDEF)
 $(GO4FIT_LIB):   $(GO4FIT_O) $(GO4FIT_DO) $(GO4FIT_DEPLIB)
 	@$(MakeLibrary) $(GO4FIT_LIBNAME) "$(GO4FIT_O) $(GO4FIT_DO)" $(GO4DLLPATH) $(GO4FIT_LINKDEF) "$(GO4FIT_DEPLIB)" $(GO4FIT_DS) "$(GO4FIT_H)"
 
+clean-mainlibs::
+	@$(CleanLib) $(GO4FIT_LIBNAME) $(GO4DLLPATH)
+
 
 clean-bin::
 	@rm -f $(GO4FIT_O) $(GO4FIT_DO)

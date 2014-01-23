@@ -3,13 +3,13 @@
 
 GO4DICT_DIR         = Go4Dict
 
+
 GO4BASE_LINKDEF     = $(GO4DICT_DIR)/Go4BaseLinkDef.h
 GO4BASE_DICT        = $(GO4DICT_DIR)/$(DICT_PREFIX)Go4Base
 GO4BASE_DH          = $(GO4BASE_DICT).$(HedSuf)
 GO4BASE_DS          = $(GO4BASE_DICT).$(SrcSuf)
 GO4BASE_DO          = $(GO4BASE_DICT).$(ObjSuf)
 GO4BASE_DDEP       =  $(GO4BASE_DICT).$(DepSuf)
-
 
 GO4BASE_H = $(LOCKGRD_H)  \
             $(GO4LOG_H)   \
@@ -56,7 +56,7 @@ GO4ANBASE_DO          = $(GO4ANBASE_DICT).$(ObjSuf)
 GO4ANBASE_DDEP       =  $(GO4ANBASE_DICT).$(DepSuf)
 
 
-GO4ANBASE_H = $(GO4EVENTPAR_H)  \
+GO4ANBASE_H+= $(GO4EVENTPAR_H)  \
               $(EVENTSERVPAR_H) \
               $(DYNLIST_H)      \
               $(STATANAL_H)     \
@@ -65,15 +65,13 @@ GO4ANBASE_H = $(GO4EVENTPAR_H)  \
 # exclude $(MBSAPIBASE_H) while CINT is not working              
               
 
-
-GO4ANBASE_O = $(MBSAPIBASE_O)  \
+GO4ANBASE_O+= $(MBSAPIBASE_O)  \
               $(GO4EVENTPAR_O) \
               $(EVENTSERVPAR_O) \
               $(DYNLIST_O) \
               $(STATANAL_O) \
               $(VERSION_O) \
               $(GO4ANBASE_DO)               
-
 
 
 # analysis library (not used in GUI)
@@ -122,7 +120,10 @@ GO4BGUI_O = $(GO4OBJM_O)  \
 
 LIBDEPENDENC       += $(GO4BASE_DDEP) $(GO4TSKH_DDEP) $(GO4ANBASE_DDEP) $(GO4AN_DDEP) $(GO4BGUI_DDEP)
 
+
 ifdef DOPACKAGE
+THREADMGR_DICT_DISTR = $(GO4BASE_LINKDEF)
+TASKHANLER_DICT_DISTR = $(GO4BASE_LINKDEF) $(GO4TSKH_LINKDEF)
 DISTRFILES         += $(GO4BASE_LINKDEF) $(GO4TSKH_LINKDEF) $(GO4ANBASE_LINKDEF) $(GO4AN_LINKDEF) $(GO4BGUI_LINKDEF) 
 endif
 
@@ -144,7 +145,7 @@ $(GO4AN_LIB): MAKELIB_SET = $(LIBS_BASESET) $(call go4ldname,Go4Fit) $(call go4l
 
 GO4BGUI_DEPLIB = $(GO4ANBASE_LIB) $(GO4TSKH_LIB) $(THRDMNGR_LIB) $(GO4BASE_LIB) $(GO4FIT_LIB) $(BASIC_LIB_DEP)
 
-$(GO4BGUI_LIB):   MAKELIB_SET = $(LIBS_BASESET) $(LIBS_BASESET) $(call go4ldname,Go4Fit) $(call go4ldname,Go4Base) $(call go4ldname,Go4ThreadManager) $(call go4ldname,Go4TaskHandler) $(call go4ldname,Go4AnalBase)
+$(GO4BGUI_LIB):   MAKELIB_SET = $(LIBS_BASESET) $(call go4ldname,Go4Fit) $(call go4ldname,Go4Base) $(call go4ldname,Go4ThreadManager) $(call go4ldname,Go4TaskHandler) $(call go4ldname,Go4AnalBase)
 
 
 $(GO4BASE_DS): $(GO4BASE_H) $(GO4BASE_LINKDEF)
@@ -180,6 +181,13 @@ $(GO4BGUI_DS): $(GO4BGUI_H) $(GO4BGUI_LINKDEF)
 
 $(GO4BGUI_LIB): $(GO4BGUI_O) $(GO4BGUI_DEPLIB)
 	@$(MakeLibrary) $(GO4BGUI_LIBNAME) "$(GO4BGUI_O)" $(GO4DLLPATH) "$(GO4BGUI_LINKDEF)" "$(GO4BGUI_DEPLIB)" $(GO4BGUI_DS) "$(GO4BGUI_H)"
+
+clean-mainlibs::
+	@$(CleanLib) $(GO4BASE_LIBNAME) $(GO4DLLPATH)
+	@$(CleanLib) $(GO4TSKH_LIBNAME) $(GO4DLLPATH)
+	@$(CleanLib) $(GO4ANBASE_LIBNAME) $(GO4DLLPATH)
+	@$(CleanLib) $(GO4AN_LIBNAME) $(GO4DLLPATH)
+	@$(CleanLib) $(GO4BGUI_LIBNAME) $(GO4DLLPATH)
 
 
 clean-bin::
