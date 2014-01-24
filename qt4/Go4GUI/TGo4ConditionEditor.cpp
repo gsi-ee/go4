@@ -34,10 +34,18 @@
 #include "TGo4AnalysisProxy.h"
 
 
-TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name)
-         : QGo4Widget(parent, name)
+TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
+   QGo4Widget(parent, name)
 {
    setupUi(this);
+
+#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
+   LCDCounts->setDigitCount(10);
+   LCDTrueCounts->setDigitCount(10);
+#else
+   LCDCounts->setNumDigits(10);
+   LCDTrueCounts->setNumDigits(10);
+#endif
 
    setWindowTitle("Condition editor");
    ResetWidget();

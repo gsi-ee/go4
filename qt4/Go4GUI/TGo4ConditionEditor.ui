@@ -195,9 +195,6 @@
        <property name="toolTip" >
         <string>Number of condition Test() calls.</string>
        </property>
-       <property name="numDigits" >
-        <number>10</number>
-       </property>
        <property name="segmentStyle" >
         <enum>QLCDNumber::Flat</enum>
        </property>
@@ -229,9 +226,6 @@
        </property>
        <property name="toolTip" >
         <string>Number of condition Test() calls returning TRUE.</string>
-       </property>
-       <property name="numDigits" >
-        <number>10</number>
        </property>
        <property name="segmentStyle" >
         <enum>QLCDNumber::Flat</enum>

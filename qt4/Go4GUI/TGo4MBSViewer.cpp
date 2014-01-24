@@ -30,6 +30,23 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
    fxRunMovie(0)
 {
    setupUi(this);
+
+#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
+   RateEvents->setDigitCount(7);
+   SumEvents->setDigitCount(12);
+   RateBytes->setDigitCount(7);
+   SumBytes->setDigitCount(8);
+   ServerPercent->setDigitCount(3);
+   SumBytesFile->setDigitCount(9);
+#else
+   RateEvents->setNumDigits(7);
+   SumEvents->setNumDigits(12);
+   RateBytes->setNumDigits(7);
+   SumBytes->setNumDigits(8);
+   ServerPercent->setNumDigits(3);
+   SumBytesFile->setNumDigits(9);
+#endif
+
    fbIsMonitoring=false;
    fbWarningState=false;
    fbRunning=false;
@@ -63,13 +80,13 @@ TGo4MBSViewer::TGo4MBSViewer(QWidget *parent, const char* name) :
    connect(StateGroup, SIGNAL(buttonClicked(int)), this, SLOT(StateGroup_clicked(int)));
 
 
-   fxHistoAccessName="nosuchobject";
-   fxHistokBAccessName="nosuchobject";
-   fxHistoEvRatioAccessName="nosuchobject";
-   fxServerLabel="NO SERVER";
-   fxTimer=new QTimer(this);
-   fxMovieResetTimer=new QTimer(this);
-   QString moviepath=":/icons/mbslogorun.gif";
+   fxHistoAccessName = "nosuchobject";
+   fxHistokBAccessName = "nosuchobject";
+   fxHistoEvRatioAccessName = "nosuchobject";
+   fxServerLabel = "NO SERVER";
+   fxTimer = new QTimer(this);
+   fxMovieResetTimer = new QTimer(this);
+   QString moviepath = ":/icons/mbslogorun.gif";
    fxRunMovie= new QMovie(moviepath);
    memset(&fxDaqStat, 0, sizeof(fxDaqStat));
    fiCalcedEventRate=0;

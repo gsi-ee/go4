@@ -5212,8 +5212,6 @@ void TGo4ViewPanel::resizeEvent(QResizeEvent * e)
 void TGo4ViewPanel::ResizeGedEditor()
 {
 #ifndef __NOGO4GED__
-   //TGo4LockGuard lock(0,true);
-   //std::cout <<"vvvvvv TGo4ViewPanel::ResizeGedEditor() " << std::endl;
    TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
    if ((ed != 0) && fbEditorFrameVisible && fxRooteditor)
       ed->Resize(fxRooteditor->width(), fxRooteditor->height());
@@ -5230,8 +5228,6 @@ void TGo4ViewPanel::ActivateInGedEditor(TObject* obj)
       if (!obj->InheritsFrom(THStack::Class()) && !obj->InheritsFrom(TMultiGraph::Class())) {
          gTQSender = GetCanvas();
          ed->SetModel(GetActivePad(), obj, kButton1Down);
-         printf("we are here -ed %p isglobal %d\n", ed, ed->IsGlobal());
-
       }
 #endif
 }

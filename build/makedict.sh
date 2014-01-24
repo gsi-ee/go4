@@ -17,7 +17,7 @@ while [[ "x$7" != "x" ]]; do
    fileext="${7##*.}"
    if [[ "$fileext" == "h" ]]; then 
       HEADERS+=" $7"
-   elif [[ "$fileext" == "$DLLSUF" && "$LIBNAME" == "" ]]; then
+   elif [[ "$fileext" == "$DLLSUF" && "x$LIBNAME" == "x" ]]; then
       LIBNAME=$7
 #      echo "Found library name $LIBNAME"
    else

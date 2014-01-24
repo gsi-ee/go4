@@ -122,14 +122,17 @@ int main(int argc, char **argv)
 
    Q_INIT_RESOURCE(go4icons);
 
-   QApplication::setColorSpec( QApplication::ManyColor );
-
    QRootApplication myapp(argc, argv); // Qt application
 
    // qt4.4 sets local settings not to "C", but to system-depended values
    ::setlocale(LC_ALL, "C");
 
    TGo4AbstractInterface::SetInitSharedLibs();
+
+#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
+   //in qt5 such operation gives warning, but does not work :(
+   QApplication::setColorSpec( QApplication::ManyColor );
+#endif
 
    TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages
    TGo4Log::Instance(); // init logger object

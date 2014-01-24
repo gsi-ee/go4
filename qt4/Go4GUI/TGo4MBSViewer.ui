@@ -142,9 +142,6 @@
                       <property name="frameShape" >
                         <enum>QFrame::Box</enum>
                       </property>
-                      <property name="numDigits" >
-                        <number>7</number>
-                      </property>
                       <property name="segmentStyle" >
                         <enum>QLCDNumber::Flat</enum>
                       </property>
@@ -177,9 +174,6 @@
                 <layout class="QHBoxLayout" >
                   <item>
                     <widget class="QLCDNumber" name="SumEvents" >
-                      <property name="numDigits" >
-                        <number>12</number>
-                      </property>
                       <property name="segmentStyle" >
                         <enum>QLCDNumber::Flat</enum>
                       </property>
@@ -215,9 +209,6 @@
                       <property name="smallDecimalPoint" >
                         <bool>false</bool>
                       </property>
-                      <property name="numDigits" >
-                        <number>7</number>
-                      </property>
                       <property name="segmentStyle" >
                         <enum>QLCDNumber::Flat</enum>
                       </property>
@@ -250,9 +241,6 @@
                 <layout class="QHBoxLayout" >
                   <item>
                     <widget class="QLCDNumber" name="SumBytes" >
-                      <property name="numDigits" >
-                        <number>8</number>
-                      </property>
                       <property name="segmentStyle" >
                         <enum>QLCDNumber::Flat</enum>
                       </property>
@@ -508,9 +496,6 @@
                                     <height>22</height>
                                   </size>
                                 </property>
-                                <property name="numDigits" >
-                                  <number>3</number>
-                                </property>
                                 <property name="segmentStyle" >
                                   <enum>QLCDNumber::Flat</enum>
                                 </property>
@@ -589,9 +574,6 @@
                                     <width>32767</width>
                                     <height>22</height>
                                   </size>
-                                </property>
-                                <property name="numDigits" >
-                                  <number>9</number>
                                 </property>
                                 <property name="segmentStyle" >
                                   <enum>QLCDNumber::Flat</enum>

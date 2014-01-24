@@ -97,9 +97,6 @@
       </item>
       <item>
          <widget class="QLCDNumber" name="LCDCurrentRate" >
-           <property name="numDigits" >
-             <number>8</number>
-           </property>
            <property name="minimumWidth" >
              <number>100</number>
            </property>
@@ -123,9 +120,6 @@
        </item>
        <item>
          <widget class="QLCDNumber" name="LCDAverageRate" >
-           <property name="numDigits" >
-             <number>8</number>
-           </property>
            <property name="minimumWidth" >
              <number>100</number>
            </property>
@@ -149,9 +143,6 @@
        </item>
        <item>
          <widget class="QLCDNumber" name="LCDTime" >
-           <property name="numDigits" >
-             <number>8</number>
-           </property>
            <property name="minimumWidth" >
              <number>100</number>
            </property>
@@ -175,9 +166,6 @@
        </item>
        <item>
          <widget class="QLCDNumber" name="LCDProcessedEvents" >
-           <property name="numDigits" >
-             <number>9</number>
-           </property>
            <property name="minimumWidth" >
              <number>130</number>
            </property>
