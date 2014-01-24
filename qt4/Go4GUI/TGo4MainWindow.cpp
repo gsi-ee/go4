@@ -46,6 +46,9 @@
 #include <QInputDialog>
 #include <QMdiSubWindow>
 #include <QMimeData>
+#include <QDesktopServices>
+#include <QUrl>
+
 
 //////// root includes;
 #include "Riostream.h"
@@ -1171,6 +1174,12 @@ void TGo4MainWindow::HelpWindow(const char* filename, const char* msg)
 {
    QApplication::setOverrideCursor( Qt::WaitCursor );
 
+   QString surl; //("file://");
+   surl.append(TGo4Log::subGO4SYS(filename).Data());
+
+   bool result = QDesktopServices::openUrl(QUrl(surl));
+/*
+
 #ifdef WIN32
    TString arg = "explorer ";
 #else
@@ -1179,10 +1188,12 @@ void TGo4MainWindow::HelpWindow(const char* filename, const char* msg)
 
    arg += TGo4Log::subGO4SYS(filename);
    QProcess info;
-   bool result=info.startDetached(arg.Data());
+   bool result = info.startDetached(arg.Data());
    //if (info.waitForStarted(10000) && (info.exitCode()==0))
+*/
+
    if(result)
-    StatusMessage(msg ? QString(msg) : QString("Show ") + filename);
+      StatusMessage(msg ? QString(msg) : QString("Show ") + filename);
    else
       StatusMessage(QString("Fail to display ") + filename);
 
