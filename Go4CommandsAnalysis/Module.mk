@@ -8,8 +8,8 @@ CMDANAL_NOTLIBF     = $(CMDANAL_DIR)/Go4CommandsAnalysis.h
 
 ## must be similar for every module
 
-CMDANAL_H           = $(filter-out $(CMDANAL_NOTLIBF), $(wildcard $(CMDANAL_DIR)/*.$(HedSuf)))
-CMDANAL_S           = $(filter-out $(CMDANAL_NOTLIBF), $(wildcard $(CMDANAL_DIR)/*.$(SrcSuf)))
+CMDANAL_H           = $(filter-out $(CMDANAL_NOTLIBF) $(OLD_DICT), $(wildcard $(CMDANAL_DIR)/*.$(HedSuf)))
+CMDANAL_S           = $(filter-out $(CMDANAL_NOTLIBF) $(OLD_DICT), $(wildcard $(CMDANAL_DIR)/*.$(SrcSuf)))
 CMDANAL_O           = $(CMDANAL_S:.$(SrcSuf)=.$(ObjSuf))
 
 CMDANAL_DEP         =  $(CMDANAL_O:.$(ObjSuf)=.$(DepSuf))

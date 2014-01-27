@@ -8,8 +8,8 @@ COMBASE_NOTLIBF     =
 
 ## must be similar for every module
 
-COMBASE_H           = $(filter-out $(COMBASE_NOTLIBF), $(wildcard $(COMBASE_DIR)/*.$(HedSuf)))
-COMBASE_S           = $(filter-out $(COMBASE_NOTLIBF), $(wildcard $(COMBASE_DIR)/*.$(SrcSuf)))
+COMBASE_H           = $(filter-out $(COMBASE_NOTLIBF) $(OLD_DICT), $(wildcard $(COMBASE_DIR)/*.$(HedSuf)))
+COMBASE_S           = $(filter-out $(COMBASE_NOTLIBF) $(OLD_DICT), $(wildcard $(COMBASE_DIR)/*.$(SrcSuf)))
 COMBASE_O           = $(COMBASE_S:.$(SrcSuf)=.$(ObjSuf))
 
 COMBASE_DEP         =  $(COMBASE_O:.$(ObjSuf)=.$(DepSuf))

@@ -8,8 +8,8 @@ GO4LOG_NOTLIBF     =
 
 ## must be similar for every module
 
-GO4LOG_H           = $(filter-out $(GO4LOG_NOTLIBF), $(wildcard $(GO4LOG_DIR)/*.$(HedSuf)))
-GO4LOG_S           = $(filter-out $(GO4LOG_NOTLIBF), $(wildcard $(GO4LOG_DIR)/*.$(SrcSuf)))
+GO4LOG_H           = $(filter-out $(GO4LOG_NOTLIBF) $(OLD_DICT), $(wildcard $(GO4LOG_DIR)/*.$(HedSuf)))
+GO4LOG_S           = $(filter-out $(GO4LOG_NOTLIBF) $(OLD_DICT), $(wildcard $(GO4LOG_DIR)/*.$(SrcSuf)))
 GO4LOG_O           = $(GO4LOG_S:.$(SrcSuf)=.$(ObjSuf))
 
 GO4LOG_DEP         =  $(GO4LOG_O:.$(ObjSuf)=.$(DepSuf))

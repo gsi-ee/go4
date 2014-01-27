@@ -13,8 +13,8 @@ EVENTSERVPAR_H        = $(wildcard $(EVENTSERV_DIR)/*Parameter.$(HedSuf))
 EVENTSERVPAR_S        = $(wildcard $(EVENTSERV_DIR)/*Parameter.$(SrcSuf))
 EVENTSERVPAR_O        = $(EVENTSERVPAR_S:.$(SrcSuf)=.$(ObjSuf))
 
-EVENTSERV_H           = $(filter-out $(EVENTSERV_NOTLIBF) $(EVENTSERVPAR_H), $(wildcard $(EVENTSERV_DIR)/*.$(HedSuf)))
-EVENTSERV_S           = $(filter-out $(EVENTSERV_NOTLIBF) $(EVENTSERVPAR_S), $(wildcard $(EVENTSERV_DIR)/*.$(SrcSuf)))
+EVENTSERV_H           = $(filter-out $(EVENTSERV_NOTLIBF) $(EVENTSERVPAR_H) $(OLD_DICT), $(wildcard $(EVENTSERV_DIR)/*.$(HedSuf)))
+EVENTSERV_S           = $(filter-out $(EVENTSERV_NOTLIBF) $(EVENTSERVPAR_S) $(OLD_DICT), $(wildcard $(EVENTSERV_DIR)/*.$(SrcSuf)))
 EVENTSERV_O           = $(EVENTSERV_S:.$(SrcSuf)=.$(ObjSuf))
 EVENTSERV_O          += $(EVENTSERV_DIR)/random-coll.$(ObjSuf)
 

@@ -208,15 +208,11 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    AddIdAction(fOptionsMenu, fOptionsMap, "Draw Date", DrawDateId);
    AddIdAction(fOptionsMenu, fOptionsMap, "Draw item name", DrawItemnameId);
    fOptionsMenu->addSeparator();
-   AddIdAction(fOptionsMenu, fOptionsMap, "&X-Axis displays time",
-         AxisTimeDisplayId);
-   AddIdAction(fOptionsMenu, fOptionsMap, "Set X-Axis time format...",
-         SetTimeFormatId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "&X-Axis displays time", AxisTimeDisplayId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Set X-Axis time format...", SetTimeFormatId);
    fOptionsMenu->addSeparator();
-   AddIdAction(fOptionsMenu, fOptionsMap, "&Keep Viewpanel Title",
-         FreezeTitleId);
-   AddIdAction(fOptionsMenu, fOptionsMap, "Set &Viewpanel Title...",
-         SetTitleTextId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "&Keep Viewpanel Title", FreezeTitleId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Set &Viewpanel Title...", SetTitleTextId);
 
    QCheckBox* box1 = new QCheckBox("Apply to all", MenuFrame);
    box1->setObjectName("ApplyToAllCheck");
@@ -224,15 +220,15 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 
    fAutoScaleCheck = new QCheckBox("AutoScale", MenuFrame);
    fAutoScaleCheck->setObjectName("AutoScaleCheck");
-   connect(fAutoScaleCheck, SIGNAL(toggled(bool)), this,
-         SLOT(AutoScaleToggled(bool)));
+   connect(fAutoScaleCheck, SIGNAL(toggled(bool)), this, SLOT(AutoScaleToggled(bool)));
 
-   QHBoxLayout* menugrid = new QHBoxLayout(MenuFrame);
+   QHBoxLayout* menugrid = new QHBoxLayout(0/*MenuFrame*/);
    menugrid->setMargin(0);
    menugrid->setSpacing(0);
    menugrid->addWidget(fMenuBar, 10, Qt::AlignLeft);
    menugrid->addWidget(box1, 1, Qt::AlignRight);
    menugrid->addWidget(fAutoScaleCheck, 1, Qt::AlignRight);
+
    gridLayout->addLayout(menugrid, 0, 0, 1, 2);
 
    // status widget

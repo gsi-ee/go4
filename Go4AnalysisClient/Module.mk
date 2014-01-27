@@ -20,8 +20,8 @@ ANALCL_EXECINTO    = $(ANALCL_DIR)/$(ANALCL_EXECINTNAME).$(ObjSuf)
 ANALCL_EXECINTS    = $(ANALCL_DIR)/$(ANALCL_EXECINTNAME).$(SrcSuf)
 ANALCL_EXECINT     = bin/$(ANALCL_EXECINTNAME)$(ExeSuf)  
 
-ANALCL_H           = $(filter-out $(ANALCL_NOTLIBF), $(wildcard $(ANALCL_DIR)/*.$(HedSuf)))
-ANALCL_S           = $(filter-out $(ANALCL_EXES) $(ANALCL_NOTLIBF), $(wildcard $(ANALCL_DIR)/*.$(SrcSuf)))
+ANALCL_H           = $(filter-out $(ANALCL_NOTLIBF) $(OLD_DICT), $(wildcard $(ANALCL_DIR)/*.$(HedSuf)))
+ANALCL_S           = $(filter-out $(ANALCL_EXES) $(ANALCL_NOTLIBF) $(OLD_DICT), $(wildcard $(ANALCL_DIR)/*.$(SrcSuf)))
 ANALCL_O           = $(ANALCL_S:.$(SrcSuf)=.$(ObjSuf))
 
 ANALCL_DEP         =  $(ANALCL_O:.$(ObjSuf)=.$(DepSuf)) $(ANALCL_EXECINTO:.$(ObjSuf)=.$(DepSuf))

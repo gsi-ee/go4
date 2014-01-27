@@ -8,8 +8,8 @@ GO4PROX_NOTLIBF     =
 
 ## must be similar for every module
 
-GO4PROX_H           = $(filter-out $(GO4PROX_NOTLIBF), $(wildcard $(GO4PROX_DIR)/*.$(HedSuf)))
-GO4PROX_S           = $(filter-out $(GO4PROX_NOTLIBF), $(wildcard $(GO4PROX_DIR)/*.$(SrcSuf)))
+GO4PROX_H           = $(filter-out $(GO4PROX_NOTLIBF) $(OLD_DICT), $(wildcard $(GO4PROX_DIR)/*.$(HedSuf)))
+GO4PROX_S           = $(filter-out $(GO4PROX_NOTLIBF) $(OLD_DICT), $(wildcard $(GO4PROX_DIR)/*.$(SrcSuf)))
 GO4PROX_O           = $(GO4PROX_S:.$(SrcSuf)=.$(ObjSuf))
 
 GO4PROX_DEP         =  $(GO4PROX_O:.$(ObjSuf)=.$(DepSuf))

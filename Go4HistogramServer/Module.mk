@@ -13,8 +13,8 @@ HISTSERV_EXEO        = $(HISTSERV_DIR)/$(HISTSERV_EXENAME).$(ObjSuf)
 HISTSERV_EXES        = $(HISTSERV_DIR)/$(HISTSERV_EXENAME).$(SrcSuf)
 HISTSERV_EXE         = $(HISTSERV_DIR)/$(HISTSERV_EXENAME)$(ExeSuf)   
 
-HISTSERV_H           = $(filter-out $(HISTSERV_EXEH) $(HISTSERV_NOTLIBF), $(wildcard $(HISTSERV_DIR)/*.$(HedSuf)))
-HISTSERV_S           = $(filter-out $(HISTSERV_EXES) $(HISTSERV_NOTLIBF), $(wildcard $(HISTSERV_DIR)/*.$(SrcSuf)))
+HISTSERV_H           = $(filter-out $(HISTSERV_EXEH) $(OLD_DICT) $(HISTSERV_NOTLIBF), $(wildcard $(HISTSERV_DIR)/*.$(HedSuf)))
+HISTSERV_S           = $(filter-out $(HISTSERV_EXES) $(OLD_DICT) $(HISTSERV_NOTLIBF), $(wildcard $(HISTSERV_DIR)/*.$(SrcSuf)))
 HISTSERV_O           = $(HISTSERV_S:.$(SrcSuf)=.$(ObjSuf))
 
 HISTSERV_DEP         =  $(HISTSERV_O:.$(ObjSuf)=.$(DepSuf))

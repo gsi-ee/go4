@@ -8,8 +8,8 @@ EXCEPT_NOTLIBF     = $(EXCEPT_DIR)/Go4Exceptions.h
 
 ## must be similar for every module
 
-EXCEPT_H           = $(filter-out $(EXCEPT_NOTLIBF) $(EXCEPT_DH) $(EXCEPT_LINKDEF), $(wildcard $(EXCEPT_DIR)/*.$(HedSuf)))
-EXCEPT_S           = $(filter-out $(EXCEPT_NOTLIBF) $(EXCEPT_DS), $(wildcard $(EXCEPT_DIR)/*.$(SrcSuf)))
+EXCEPT_H           = $(filter-out $(EXCEPT_NOTLIBF) $(OLD_DICT), $(wildcard $(EXCEPT_DIR)/*.$(HedSuf)))
+EXCEPT_S           = $(filter-out $(EXCEPT_NOTLIBF) $(OLD_DICT), $(wildcard $(EXCEPT_DIR)/*.$(SrcSuf)))
 EXCEPT_O           = $(EXCEPT_S:.$(SrcSuf)=.$(ObjSuf))
 
 EXCEPT_DEP         =  $(EXCEPT_O:.$(ObjSuf)=.$(DepSuf))

@@ -45,7 +45,7 @@ Changes in Go4 v4.6.x
 10.To provide full support of ROOT6 one dictionary per go4 library 
    will be created. Exclude dictionary generation for gui classes while
    no libraries with qt classes exists. 
-11.Ported to Qt5.
+11.Mostly comlete porting to ROOT6 and Qt5.
          
 
 Changes in Go4 v4.6.0 (November 2013)

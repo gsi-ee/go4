@@ -8,8 +8,8 @@ TASKHAND_NOTLIBF     = $(TASKHAND_DIR)/Go4EmergencyCommands.h
 
 ## must be similar for every module
 
-TASKHAND_H           = $(filter-out $(TASKHAND_NOTLIBF), $(wildcard $(TASKHAND_DIR)/*.$(HedSuf)))
-TASKHAND_S           = $(filter-out $(TASKHAND_NOTLIBF), $(wildcard $(TASKHAND_DIR)/*.$(SrcSuf)))
+TASKHAND_H           = $(filter-out $(TASKHAND_NOTLIBF) $(OLD_DICT), $(wildcard $(TASKHAND_DIR)/*.$(HedSuf)))
+TASKHAND_S           = $(filter-out $(TASKHAND_NOTLIBF) $(OLD_DICT), $(wildcard $(TASKHAND_DIR)/*.$(SrcSuf)))
 TASKHAND_O           = $(TASKHAND_S:.$(SrcSuf)=.$(ObjSuf))
 
 TASKHAND_DEP         = $(TASKHAND_O:.$(ObjSuf)=.$(DepSuf))

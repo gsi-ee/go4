@@ -8,8 +8,8 @@ GO4OBJM_NOTLIBF     =
 
 ## must be similar for every module
 
-GO4OBJM_H           = $(filter-out $(GO4OBJM_NOTLIBF), $(wildcard $(GO4OBJM_DIR)/*.$(HedSuf)))
-GO4OBJM_S           = $(filter-out $(GO4OBJM_NOTLIBF), $(wildcard $(GO4OBJM_DIR)/*.$(SrcSuf)))
+GO4OBJM_H           = $(filter-out $(GO4OBJM_NOTLIBF) $(OLD_DICT), $(wildcard $(GO4OBJM_DIR)/*.$(HedSuf)))
+GO4OBJM_S           = $(filter-out $(GO4OBJM_NOTLIBF) $(OLD_DICT), $(wildcard $(GO4OBJM_DIR)/*.$(SrcSuf)))
 GO4OBJM_O           = $(GO4OBJM_S:.$(SrcSuf)=.$(ObjSuf))
 
 GO4OBJM_DEP         =  $(GO4OBJM_O:.$(ObjSuf)=.$(DepSuf))

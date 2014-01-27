@@ -9,8 +9,8 @@ STATANAL_NOTLIBF     =
 ## must be similar for every module
 
 
-STATANAL_H           = $(filter-out $(STATANAL_NOTLIBF), $(wildcard $(STATANAL_DIR)/*.$(HedSuf)))
-STATANAL_S           = $(filter-out $(STATANAL_NOTLIBF), $(wildcard $(STATANAL_DIR)/*.$(SrcSuf)))
+STATANAL_H           = $(filter-out $(STATANAL_NOTLIBF) $(OLD_DICT), $(wildcard $(STATANAL_DIR)/*.$(HedSuf)))
+STATANAL_S           = $(filter-out $(STATANAL_NOTLIBF) $(OLD_DICT), $(wildcard $(STATANAL_DIR)/*.$(SrcSuf)))
 STATANAL_O           = $(STATANAL_S:.$(SrcSuf)=.$(ObjSuf))
 
 STATANAL_DEP         =  $(STATANAL_O:.$(ObjSuf)=.$(DepSuf))

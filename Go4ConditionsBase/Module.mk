@@ -8,8 +8,8 @@ CONDBASE_NOTLIBF     =
 
 ## must be similar for every module
 
-CONDBASE_H           = $(filter-out $(CONDBASE_NOTLIBF), $(wildcard $(CONDBASE_DIR)/*.$(HedSuf)))
-CONDBASE_S           = $(filter-out $(CONDBASE_NOTLIBF), $(wildcard $(CONDBASE_DIR)/*.$(SrcSuf)))
+CONDBASE_H           = $(filter-out $(CONDBASE_NOTLIBF) $(OLD_DICT), $(wildcard $(CONDBASE_DIR)/*.$(HedSuf)))
+CONDBASE_S           = $(filter-out $(CONDBASE_NOTLIBF) $(OLD_DICT), $(wildcard $(CONDBASE_DIR)/*.$(SrcSuf)))
 CONDBASE_O           = $(CONDBASE_S:.$(SrcSuf)=.$(ObjSuf))
 
 CONDBASE_DEP         =  $(CONDBASE_O:.$(ObjSuf)=.$(DepSuf))

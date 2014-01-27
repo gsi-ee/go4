@@ -8,8 +8,8 @@ STATBASE_NOTLIBF     =
 
 ## must be similar for every module
 
-STATBASE_H           = $(filter-out $(STATBASE_NOTLIBF), $(wildcard $(STATBASE_DIR)/*.$(HedSuf)))
-STATBASE_S           = $(filter-out $(STATBASE_NOTLIBF), $(wildcard $(STATBASE_DIR)/*.$(SrcSuf)))
+STATBASE_H           = $(filter-out $(STATBASE_NOTLIBF) $(OLD_DICT), $(wildcard $(STATBASE_DIR)/*.$(HedSuf)))
+STATBASE_S           = $(filter-out $(STATBASE_NOTLIBF) $(OLD_DICT), $(wildcard $(STATBASE_DIR)/*.$(SrcSuf)))
 STATBASE_O           = $(STATBASE_S:.$(SrcSuf)=.$(ObjSuf))
 
 STATBASE_DEP         =  $(STATBASE_O:.$(ObjSuf)=.$(DepSuf))

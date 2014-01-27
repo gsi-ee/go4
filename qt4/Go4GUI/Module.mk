@@ -12,7 +12,7 @@ GO4GUI4_EXES        = $(GO4GUI4_DIR)/MainGo4GUI.cpp
 
 GO4GUI4_RESOURCES   = $(GO4GUI4_DIR)/go4icons.qrc
 GO4GUI4_GEN_QRC     = $(GO4GUI4_DIR)/qrc_go4icons.cpp
-GO4GUI4_NOTLIBF     = $(GO4GUI4_GEN_QRC)
+GO4GUI4_NOTLIBF     = $(GO4GUI4_GEN_QRC) $(wildcard $(GO4GUI4_DIR)/$(DICT_PREFIX)*.*)
 
 ## must be similar for every module
 
@@ -44,16 +44,13 @@ GO4GUI4_UI_PRIVH    = $(patsubst $(GO4GUI4_DIR)/%.ui, $(GO4GUI4_DIR)/ui_%.h, $(G
 GO4GUI4_UI_PUBH     = $(patsubst $(GO4GUI4_DIR)/%.ui, include/ui_%.h, $(GO4GUI4_FORMS))
 GO4GUI4_FS          = $(GO4GUI4_FORMS:.ui=.cpp)
 
-GO4GUI4_S           = $(wildcard $(GO4GUI4_DIR)/*.$(SrcSuf))
+GO4GUI4_S           = $(filter-out $(GO4GUI4_EXES) $(GO4GUI4_NOTLIBF), $(wildcard $(GO4GUI4_DIR)/*.$(SrcSuf)))
 GO4GUI4_H           = $(GO4GUI4_S:.$(SrcSuf)=.$(HedSuf))
 GO4GUI4_QTS         = $(filter-out $(GO4GUI4_EXES) $(GO4GUI4_NOTLIBF), $(wildcard $(GO4GUI4_DIR)/*.cpp))
 GO4GUI4_QTH         = $(GO4GUI4_QTS:.cpp=.h)
 
 
-
-
 GO4GUI4_PUBH        = $(patsubst $(GO4GUI4_DIR)/%.h, include/%.h, $(GO4GUI4_H) $(GO4GUI4_QTH) $(GO4GUI4_FH))
-
 
 
 QT4ROOT_DIR       = qt4/Go4QtRoot
@@ -117,7 +114,7 @@ endif
 	@$(RMDIR) $(GO4GUI4_DIR)/.obj $(GO4GUI4_DIR)/.moc
 	@$(RM) $(GO4GUI4_GEN_QRC)
 ifeq ($(GO4_OS),Win32)
-	$(RMDIR) $(GO4GUI4_DIR)/release $(GO4GUI4_DIR)/debug 
+	@$(RMDIR) $(GO4GUI4_DIR)/release $(GO4GUI4_DIR)/debug 
 	@$(RM) $(GO4GUI4_DIR)/go4_resource.rc
 endif
 

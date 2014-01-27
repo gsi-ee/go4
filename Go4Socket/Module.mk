@@ -8,8 +8,8 @@ GO4SOCKET_NOTLIBF     =
 
 ## must be similar for every module
 
-GO4SOCKET_H           = $(filter-out $(GO4SOCKET_NOTLIBF) $(GO4SOCKET_DH) $(GO4SOCKET_LINKDEF), $(wildcard $(GO4SOCKET_DIR)/*.$(HedSuf)))
-GO4SOCKET_S           = $(filter-out $(GO4SOCKET_NOTLIBF) $(GO4SOCKET_DS), $(wildcard $(GO4SOCKET_DIR)/*.$(SrcSuf)))
+GO4SOCKET_H           = $(filter-out $(GO4SOCKET_NOTLIBF) $(OLD_DICT), $(wildcard $(GO4SOCKET_DIR)/*.$(HedSuf)))
+GO4SOCKET_S           = $(filter-out $(GO4SOCKET_NOTLIBF) $(OLD_DICT), $(wildcard $(GO4SOCKET_DIR)/*.$(SrcSuf)))
 GO4SOCKET_O           = $(GO4SOCKET_S:.$(SrcSuf)=.$(ObjSuf))
 
 GO4SOCKET_DEP         =  $(GO4SOCKET_O:.$(ObjSuf)=.$(DepSuf))

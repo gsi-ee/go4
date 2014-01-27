@@ -13,8 +13,8 @@ GO4EVENTPAR_H        = $(wildcard $(GO4EVENT_DIR)/*Parameter.$(HedSuf))
 GO4EVENTPAR_S        = $(wildcard $(GO4EVENT_DIR)/*Parameter.$(SrcSuf))
 GO4EVENTPAR_O        = $(GO4EVENTPAR_S:.$(SrcSuf)=.$(ObjSuf))
 
-GO4EVENT_H           = $(filter-out $(GO4EVENT_NOTLIBF) $(GO4EVENTPAR_H), $(wildcard $(GO4EVENT_DIR)/*.$(HedSuf)))
-GO4EVENT_S           = $(filter-out $(GO4EVENT_NOTLIBF) $(GO4EVENTPAR_S), $(wildcard $(GO4EVENT_DIR)/*.$(SrcSuf)))
+GO4EVENT_H           = $(filter-out $(GO4EVENT_NOTLIBF) $(GO4EVENTPAR_H) $(OLD_DICT), $(wildcard $(GO4EVENT_DIR)/*.$(HedSuf)))
+GO4EVENT_S           = $(filter-out $(GO4EVENT_NOTLIBF) $(GO4EVENTPAR_S) $(OLD_DICT), $(wildcard $(GO4EVENT_DIR)/*.$(SrcSuf)))
 GO4EVENT_O           = $(GO4EVENT_S:.$(SrcSuf)=.$(ObjSuf))
 
 GO4EVENT_DEP         =  $(GO4EVENT_O:.$(ObjSuf)=.$(DepSuf))

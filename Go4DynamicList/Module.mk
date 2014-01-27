@@ -8,8 +8,8 @@ DYNLIST_NOTLIBF     = $(DYNLIST_DIR)/TGo4HistoFillAction.h
 
 ## must be similar for every module
 
-DYNLIST_H           = $(filter-out $(DYNLIST_NOTLIBF), $(wildcard $(DYNLIST_DIR)/*.$(HedSuf)))
-DYNLIST_S           = $(filter-out $(DYNLIST_NOTLIBF), $(wildcard $(DYNLIST_DIR)/*.$(SrcSuf)))
+DYNLIST_H           = $(filter-out $(DYNLIST_NOTLIBF) $(OLD_DICT), $(wildcard $(DYNLIST_DIR)/*.$(HedSuf)))
+DYNLIST_S           = $(filter-out $(DYNLIST_NOTLIBF) $(OLD_DICT), $(wildcard $(DYNLIST_DIR)/*.$(SrcSuf)))
 DYNLIST_O           = $(DYNLIST_S:.$(SrcSuf)=.$(ObjSuf))
 
 DYNLIST_DEP         =  $(DYNLIST_O:.$(ObjSuf)=.$(DepSuf))

@@ -19,8 +19,8 @@ GO4ANALEXE_O        = $(GO4ANAL_DIR)/MainUserAnalysis.$(ObjSuf)
 
 GO4ANALEXE          = bin/go4analysis$(ExeSuf)
 
-GO4ANAL_H          := $(filter-out $(GO4ANAL_NOTLIBF) $(VERSION_H), $(wildcard $(GO4ANAL_DIR)/*.$(HedSuf)))
-GO4ANAL_S          := $(filter-out $(GO4ANAL_NOTLIBF) $(GO4ANALEXE_S) $(VERSION_S), $(wildcard $(GO4ANAL_DIR)/*.$(SrcSuf)))
+GO4ANAL_H          := $(filter-out $(GO4ANAL_NOTLIBF) $(VERSION_H) $(OLD_DICT), $(wildcard $(GO4ANAL_DIR)/*.$(HedSuf)))
+GO4ANAL_S          := $(filter-out $(GO4ANAL_NOTLIBF) $(GO4ANALEXE_S) $(VERSION_S) $(OLD_DICT), $(wildcard $(GO4ANAL_DIR)/*.$(SrcSuf)))
 GO4ANAL_O          := $(GO4ANAL_S:.$(SrcSuf)=.$(ObjSuf))
 
 GO4ANAL_DEP         = $(GO4ANAL_O:.$(ObjSuf)=.$(DepSuf))

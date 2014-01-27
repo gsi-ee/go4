@@ -15,8 +15,8 @@ GO4DABC_DH          = $(GO4DABC_DICT).$(HedSuf)
 GO4DABC_DS          = $(GO4DABC_DICT).$(SrcSuf)
 GO4DABC_DO          = $(GO4DABC_DICT).$(ObjSuf)
 
-GO4DABC_H           = $(filter-out $(GO4DABC_NOTLIBF) $(GO4DABC_DH) $(GO4DABC_LINKDEF), $(wildcard $(GO4DABC_DIR)/*.$(HedSuf)))
-GO4DABC_S           = $(filter-out $(GO4DABC_NOTLIBF) $(GO4DABC_DS), $(wildcard $(GO4DABC_DIR)/*.$(SrcSuf)))
+GO4DABC_H           = $(filter-out $(GO4DABC_NOTLIBF) $(GO4DABC_DH) $(GO4DABC_LINKDEF) $(OLD_DICT), $(wildcard $(GO4DABC_DIR)/*.$(HedSuf)))
+GO4DABC_S           = $(filter-out $(GO4DABC_NOTLIBF) $(GO4DABC_DS) $(OLD_DICT), $(wildcard $(GO4DABC_DIR)/*.$(SrcSuf)))
 GO4DABC_O           = $(GO4DABC_S:.$(SrcSuf)=.$(ObjSuf))
 
 

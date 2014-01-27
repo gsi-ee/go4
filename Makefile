@@ -36,6 +36,9 @@ endif
 include Makefile.config
 
 
+# scan old dict to exclude them from makefile 
+OLD_DICT =  $(wildcard */$(DICT_PREFIX)*.*)
+
 
 ifdef QTPATH
 ifeq ($(wildcard $(QTPATH)/*),)
@@ -175,7 +178,7 @@ endif
 endif
 
 clean::  clean-bin clean-mainlibs clean-plugin
-	@rm -f $(GO4MAP)
+	@rm -f $(GO4MAP) */$(DICT_PREFIX)*.*
 	@rm -f include/*.h
 	@rm -rf bin lib
 	@rm -f build/dummy.d build/Makefile.gener go4login go4login.bat go4.bat

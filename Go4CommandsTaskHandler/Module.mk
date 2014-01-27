@@ -8,8 +8,8 @@ CMDTASKHANDL_NOTLIBF     =
 
 ## must be similar for every module
 
-CMDTASKHANDL_H           = $(filter-out $(CMDTASKHANDL_NOTLIBF), $(wildcard $(CMDTASKHANDL_DIR)/*.$(HedSuf)))
-CMDTASKHANDL_S           = $(filter-out $(CMDTASKHANDL_NOTLIBF), $(wildcard $(CMDTASKHANDL_DIR)/*.$(SrcSuf)))
+CMDTASKHANDL_H           = $(filter-out $(CMDTASKHANDL_NOTLIBF) $(OLD_DICT), $(wildcard $(CMDTASKHANDL_DIR)/*.$(HedSuf)))
+CMDTASKHANDL_S           = $(filter-out $(CMDTASKHANDL_NOTLIBF) $(OLD_DICT), $(wildcard $(CMDTASKHANDL_DIR)/*.$(SrcSuf)))
 CMDTASKHANDL_O           = $(CMDTASKHANDL_S:.$(SrcSuf)=.$(ObjSuf))
 
 CMDTASKHANDL_DEP         =  $(CMDTASKHANDL_O:.$(ObjSuf)=.$(DepSuf))

@@ -8,8 +8,8 @@ LOCKGRD_NOTLIBF     =
 
 ## must be similar for every module
 
-LOCKGRD_H           = $(filter-out $(LOCKGRD_NOTLIBF), $(wildcard $(LOCKGRD_DIR)/*.$(HedSuf)))
-LOCKGRD_S           = $(filter-out $(LOCKGRD_NOTLIBF), $(wildcard $(LOCKGRD_DIR)/*.$(SrcSuf)))
+LOCKGRD_H           = $(filter-out $(LOCKGRD_NOTLIBF) $(OLD_DICT), $(wildcard $(LOCKGRD_DIR)/*.$(HedSuf)))
+LOCKGRD_S           = $(filter-out $(LOCKGRD_NOTLIBF) $(OLD_DICT), $(wildcard $(LOCKGRD_DIR)/*.$(SrcSuf)))
 LOCKGRD_O           = $(LOCKGRD_S:.$(SrcSuf)=.$(ObjSuf))
 
 LOCKGRD_DEP         =  $(LOCKGRD_O:.$(ObjSuf)=.$(DepSuf))

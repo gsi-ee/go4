@@ -13,8 +13,8 @@ GO4QUEUE_EXEO        = $(GO4QUEUE_DIR)/$(GO4QUEUE_EXENAME).$(ObjSuf)
 GO4QUEUE_EXES        = $(GO4QUEUE_DIR)/$(GO4QUEUE_EXENAME).$(SrcSuf)
 GO4QUEUE_EXE         = $(GO4QUEUE_DIR)/$(GO4QUEUE_EXENAME)$(ExeSuf)   
 
-GO4QUEUE_H           = $(filter-out $(GO4QUEUE_EXEH) $(GO4QUEUE_NOTLIBF) $(GO4QUEUE_DH) $(GO4QUEUE_LINKDEF), $(wildcard $(GO4QUEUE_DIR)/*.$(HedSuf)))
-GO4QUEUE_S           = $(filter-out $(GO4QUEUE_EXES) $(GO4QUEUE_NOTLIBF) $(GO4QUEUE_DS), $(wildcard $(GO4QUEUE_DIR)/*.$(SrcSuf)))
+GO4QUEUE_H           = $(filter-out $(GO4QUEUE_EXEH) $(GO4QUEUE_NOTLIBF) $(OLD_DICT), $(wildcard $(GO4QUEUE_DIR)/*.$(HedSuf)))
+GO4QUEUE_S           = $(filter-out $(GO4QUEUE_EXES) $(GO4QUEUE_NOTLIBF) $(OLD_DICT), $(wildcard $(GO4QUEUE_DIR)/*.$(SrcSuf)))
 GO4QUEUE_O           = $(GO4QUEUE_S:.$(SrcSuf)=.$(ObjSuf))
 
 GO4QUEUE_DEP         =  $(GO4QUEUE_O:.$(ObjSuf)=.$(DepSuf))

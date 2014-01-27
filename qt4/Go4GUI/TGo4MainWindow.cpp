@@ -1174,12 +1174,12 @@ void TGo4MainWindow::HelpWindow(const char* filename, const char* msg)
 {
    QApplication::setOverrideCursor( Qt::WaitCursor );
 
-   QString surl; //("file://");
+   QString surl("file://");
    surl.append(TGo4Log::subGO4SYS(filename).Data());
 
    bool result = QDesktopServices::openUrl(QUrl(surl));
-/*
 
+/*
 #ifdef WIN32
    TString arg = "explorer ";
 #else
