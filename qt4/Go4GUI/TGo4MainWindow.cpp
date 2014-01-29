@@ -149,6 +149,9 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    fOMBrowserPath = "gui";
    fOMEditorsPath = "editors";
 
+   fNewWidgetX = 0;
+   fNewWidgetY = 0;
+
    fKillCommand = "";
    fLastPassword = "";
    fLastFileDir = QDir::currentPath();
@@ -726,7 +729,7 @@ void TGo4MainWindow::windowsMenuAboutToShow()
 
     bool on = ! fxMdiArea->subWindowList().isEmpty();
 
-    windowsMenu->addAction("Ca&scade", fxMdiArea, SLOT(cascadeSubWindows()))->setEnabled(on);
+    windowsMenu->addAction("Ca&scade", this, SLOT(CascadeSubWindows()))->setEnabled(on);
     windowsMenu->addAction("&Tile", fxMdiArea, SLOT(tileSubWindows()))->setEnabled(on);
     windowsMenu->addAction("&Close all", fxMdiArea, SLOT(closeAllSubWindows()))->setEnabled(on);
     windowsMenu->addAction("&Minimize all", this, SLOT(MinAllWindows()))->setEnabled(on);
@@ -778,6 +781,19 @@ void TGo4MainWindow::MinAllWindows()
    for ( int i = 0; i < windows.count(); i++ )
        windows.at(i)->widget()->showMinimized();
 }
+
+void TGo4MainWindow::CascadeSubWindows()
+{
+   QList<QMdiSubWindow *> windows = fxMdiArea->subWindowList();
+
+   int x(15),y(15);
+
+   for ( int i = 0; i < windows.count(); i++ ) {
+      windows.at(i)->move(x, y);
+      x+=25; y+=25;
+   }
+}
+
 
 void TGo4MainWindow::ToggleFullScreenSlot()
 {
@@ -894,7 +910,18 @@ TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
    QMdiSubWindow* sub = fxMdiArea->addSubWindow(panel); // warning: Qt may exchange the winId here!
    // panel->GetQCanvas()->performResize(); // may register new winId for TCanvas here
 
-   sub->resize(go4sett->lastPanelSize());
+   sub->resize(go4sett->lastPanelSize("ViewPanel"));
+
+   if ((sub->x() + sub->width() > fxMdiArea->width()) ||
+       (sub->y() + sub->height() > fxMdiArea->height())) {
+         int newx = fNewWidgetX;
+         int newy = fNewWidgetY;
+         if (newx + sub->width() > fxMdiArea->width()) newx = 0;
+         if (newy + sub->height() > fxMdiArea->height())  newy = 0;
+         sub->move(newx, newy);
+   }
+   fNewWidgetX = sub->x() + 30;
+   fNewWidgetY = sub->y() + 30;
 
    ConnectGo4Widget(panel);
    panel->update();
@@ -1604,7 +1631,8 @@ TGo4AnalysisProxy* TGo4MainWindow::AddAnalysisProxy(bool isserver, bool needoutp
    if(anw==0)
      if (needoutput) {
         anw = new TGo4AnalysisWindow(fxMdiArea, "AnalysisWindow", true);
-        fxMdiArea->addSubWindow(anw);
+        QMdiSubWindow* sub = fxMdiArea->addSubWindow(anw);
+        sub->resize(go4sett->lastPanelSize("AnalysisWindow", 700, 500));
         ConnectGo4Widget(anw);
         anw->show();
         anw->WorkWithUpdateObjectCmd(anal->UpdateObjectSlot());

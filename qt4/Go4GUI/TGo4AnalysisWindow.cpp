@@ -217,9 +217,10 @@ void TGo4AnalysisWindow::updateTerminalOutput()
            fxOutput->moveCursor(QTextCursor::End);
          }
       }
-    } else
+    } else {
       if (buflen>0)
          fxOutput->append(outputBuffer);
+    }
 
     outputBuffer = "";
     QTimer::singleShot(100, this, SLOT(updateTerminalOutput()));
@@ -392,3 +393,11 @@ void TGo4AnalysisWindow::linkedObjectRemoved(const char* linkname)
    if (!HasOutput())
       ServiceCall("CloseAnalysisWindow");
 }
+
+void TGo4AnalysisWindow::resizeEvent(QResizeEvent * e)
+{
+   // store size of top widget -
+   // size of top widget will be restored when new panel is created
+   go4sett->storePanelSize(parentWidget(), "AnalysisWindow");
+}
+

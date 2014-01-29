@@ -75,13 +75,6 @@ class TGo4MainWindow : public QMainWindow {
       void aboutROOT();
       void aboutDABC();
       void windowsMenuAboutToShow();
-      void AddAnalysisBar();
-      void AddAnalysisMenu();
-      void AddFileMenu();
-      void AddFileToolBar();
-      void AddSettingMenu();
-      void AddToolsBar();
-      void AddToolsMenu();
       void UserPanelSlot();
       TGo4ViewPanel* MakeNewPanel(int div = 0);
       void LoadLibrarySlot();
@@ -91,6 +84,7 @@ class TGo4MainWindow : public QMainWindow {
       void ConnectDabcSlot();
       void ConnectHServerSlot();
       void SaveFileSlot();
+      void CascadeSubWindows();
 
       void InputTerminalParametersSlot();
       void LogSettingsSlot();
@@ -147,7 +141,7 @@ class TGo4MainWindow : public QMainWindow {
       void CreateNewConditionSlot(bool forothereditor = false);
       void CreateNewDynEntrySlot(bool forothereditor = false);
 
-      // starting editros slots
+      // starting editors slots
       TGo4FitPanel* StartFitPanel();
       TGo4ParaEdit* StartParaEdit(const char* itemname = 0);
       TGo4HistogramInfo* StartHistogramInfo();
@@ -169,6 +163,14 @@ class TGo4MainWindow : public QMainWindow {
       void checkPanelRepaintSlot();
 
    protected:
+
+      void AddAnalysisBar();
+      void AddAnalysisMenu();
+      void AddFileMenu();
+      void AddFileToolBar();
+      void AddSettingMenu();
+      void AddToolsBar();
+      void AddToolsMenu();
 
       virtual void closeEvent( QCloseEvent * ce );
 
@@ -211,6 +213,9 @@ class TGo4MainWindow : public QMainWindow {
       QString            fOMEditorsPath;
 
       QString            fKillCommand;
+
+      int                fNewWidgetX;
+      int                fNewWidgetY;
 
       int                fCloseCounter;
       int                fConnectingCounter;

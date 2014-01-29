@@ -5195,14 +5195,14 @@ void TGo4ViewPanel::SetSelectedRange(double xmin, double xmax, double ymin,
 void TGo4ViewPanel::closeEvent(QCloseEvent* ce)
 {
    ce->accept();
-   delete this;
+   // delete this;
 }
 
 void TGo4ViewPanel::resizeEvent(QResizeEvent * e)
 {
    // store size of top widget -
    // size of top widget will be restored when new panel is created
-   go4sett->storePanelSize(parentWidget());
+   go4sett->storePanelSize(parentWidget(), "ViewPanel");
 }
 
 void TGo4ViewPanel::ResizeGedEditor()

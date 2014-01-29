@@ -55,14 +55,14 @@ endif
 
 # new staff concerning big libraries
 
-GO4BASE_LIBNAME = $(LIB_PREFIX)Go4Base
-GO4BASE_LIB     = $(GO4DLLPATH)/$(GO4BASE_LIBNAME).$(DllSuf)
+GO4BASE_LIBNAME  = $(LIB_PREFIX)Go4Base
+GO4BASE_LIB      = $(GO4DLLPATH)/$(GO4BASE_LIBNAME).$(DllSuf)
 
-THRDMNGR_LIBNAME     = $(LIB_PREFIX)Go4ThreadManager
-THRDMNGR_LIB         = $(GO4DLLPATH)/$(THRDMNGR_LIBNAME).$(DllSuf)
+THRDMNGR_LIBNAME = $(LIB_PREFIX)Go4ThreadManager
+THRDMNGR_LIB     = $(GO4DLLPATH)/$(THRDMNGR_LIBNAME).$(DllSuf)
 
-GO4TSKH_LIBNAME = $(LIB_PREFIX)Go4TaskHandler
-GO4TSKH_LIB     = $(GO4DLLPATH)/$(GO4TSKH_LIBNAME).$(DllSuf)
+GO4TSKH_LIBNAME  = $(LIB_PREFIX)Go4TaskHandler
+GO4TSKH_LIB      = $(GO4DLLPATH)/$(GO4TSKH_LIBNAME).$(DllSuf)
 
 GO4ANBASE_LIBNAME = $(LIB_PREFIX)Go4AnalBase
 GO4ANBASE_LIB     = $(GO4DLLPATH)/$(GO4ANBASE_LIBNAME).$(DllSuf)
@@ -106,13 +106,7 @@ include $(patsubst %,%/Makefile, $(EXMODULES))
 
 -include qt4/Module.mk
 
-lib:
-	@(if [ ! -d $@ ] ; then mkdir -p $@; fi)
-
-bin:
-	@(if [ ! -d $@ ] ; then mkdir -p $@; fi)
-
-bin/go4-config: bin Makefile
+bin/go4-config: Makefile $(GO4SYS)/build/dummy.d
 	@echo Producing $@
 	@sed -e "s|@go4arch@|$(GO4_OS)|"        \
 		  -e "s|@go4vers@|$(VERSSUF)|"       \
@@ -126,14 +120,15 @@ bin/go4-config: bin Makefile
 		     < build/go4-config.ini > $@
 	@chmod 755 $@
 
-build/dummy.d: Makefile lib bin $(GO4QTHEADS) $(ALLHDRS)
+$(GO4SYS)/build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
+	@(if [ ! -d bin ] ; then mkdir -p bin; fi)
+	@(if [ ! -d lib ] ; then mkdir -p lib; fi)
 	@(if [ ! -f $(GO4MAP) ] ; then touch $(GO4MAP); fi)
 	@(if [ ! -f $@ ] ; then touch $@; fi)
 
 libs::    $(BUILDGO4LIBS) $(GO4_GENERATED_FILES)
 
-gui::      libs 
-		@echo "ROOTVERSION = $(ROOTVERSION)"
+gui::    libs 
 ifdef ISROOT6
 		@echo "detect ROOT6"
 endif

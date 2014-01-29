@@ -9,6 +9,7 @@ GO4FITGUI4_DIR      = qt4/Go4FitGUI
 GO4GUI4_QTPRO       = go4gui.pro
 GO4GUI4_QTMAKE      = Makefile.qt
 GO4GUI4_EXES        = $(GO4GUI4_DIR)/MainGo4GUI.cpp
+GO4GUI4_EXE         = bin/go4
 
 GO4GUI4_RESOURCES   = $(GO4GUI4_DIR)/go4icons.qrc
 GO4GUI4_GEN_QRC     = $(GO4GUI4_DIR)/qrc_go4icons.cpp
@@ -50,15 +51,22 @@ GO4GUI4_QTS         = $(filter-out $(GO4GUI4_EXES) $(GO4GUI4_NOTLIBF), $(wildcar
 GO4GUI4_QTH         = $(GO4GUI4_QTS:.cpp=.h)
 
 
+GO4FITGUI4_S        = $(wildcard $(GO4FITGUI4_DIR)/*.cpp)
+GO4FITGUI4_H        = $(wildcard $(GO4FITGUI4_DIR)/*.h)
+GO4FITGUI4_FORMS    = $(wildcard $(GO4FITGUI4_DIR)/*.ui)
+
+
+
 GO4GUI4_PUBH        = $(patsubst $(GO4GUI4_DIR)/%.h, include/%.h, $(GO4GUI4_H) $(GO4GUI4_QTH) $(GO4GUI4_FH))
 
 
 QT4ROOT_DIR       = qt4/Go4QtRoot
 
-QT4ROOT_H         =  $(QT4ROOT_DIR)/QRootApplication.h \
-                     $(QT4ROOT_DIR)/QRootCanvas.h \
-                     $(QT4ROOT_DIR)/QRootWindow.h \
-                     $(QT4ROOT_DIR)/QRootDialog.h
+QT4ROOT_H         = $(QT4ROOT_DIR)/QRootApplication.h \
+                    $(QT4ROOT_DIR)/QRootCanvas.h \
+                    $(QT4ROOT_DIR)/QRootWindow.h \
+                    $(QT4ROOT_DIR)/QRootDialog.h
+QT4ROOT_S         = $(GO4GUI4_FORMS:.h=.cpp)
 
 QT4ROOT_PUBH    = $(patsubst $(QT4ROOT_DIR)/%.h, include/%.h, $(QT4ROOT_H))
 
@@ -98,9 +106,14 @@ $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE): $(GO4GUI4_DIR)/$(GO4GUI4_QTPRO) $(GO4GUI4_FORM
 	cd $(GO4GUI4_DIR); $(QMAKE) $(GO4GUI4_QTPRO) -o $(GO4GUI4_QTMAKE) $(QMAKEOPTFLAG) $(QMAKEFLAGS) $(QMAKELIBFLAGS) "LIBS+=$(LIBS_GUISET)" $(GO4GUI4_QMAKEFLAGS)
 endif
 
-qt4-GUI: $(GO4QT4HEADS) libs $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE)
+$(GO4GUI4_EXE) : $(GO4QT4HEADS) $(BUILDGO4LIBS) $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE) \
+                 $(GO4GUI4_FORMS) $(GO4GUI4_S) $(GO4GUI4_H) $(GO4GUI4_QTS) $(GO4GUI4_QTH) \
+                 $(QT4ROOT_H) $(QT4ROOT_S) $(GO4FITGUI4_S) $(GO4FITGUI4_H) $(GO4FITGUI4_FORMS) 
 	@echo "Generating Qt4 part of the MainGUI..."
 	+cd $(GO4GUI4_DIR); $(MAKEFORQT) -f $(GO4GUI4_QTMAKE)
+
+
+qt4-GUI: $(GO4GUI4_EXE)
 
 qt4-heads: $(GO4GUI4_UI_PUBH) 
 
@@ -119,7 +132,7 @@ ifeq ($(GO4_OS),Win32)
 endif
 
 clean-qt4-GUI: clean-qt4-GUI-bin
-	@$(RM) bin/go4
+	@$(RM) $(GO4GUI4_EXE)
 	@$(RM) $(GO4GUI4_UI_PUBH) $(GO4GUI4_PUBH) $(QT4ROOT_PUBH)
 	@echo "Clean qt4 gui done"
 

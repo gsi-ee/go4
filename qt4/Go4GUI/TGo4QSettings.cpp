@@ -570,15 +570,16 @@ void TGo4QSettings::storeMainWindowState(QMainWindow* src)
    sett->setValue("/MainWindow/Geometry", src->saveGeometry());
 }
 
-void TGo4QSettings::storePanelSize(QWidget* w)
+void TGo4QSettings::storePanelSize(QWidget* w, const QString& kind)
 {
-   setInt( "/ViewPanel/Width", w->width() );
-   setInt( "/ViewPanel/Height", w->height() );
+   setInt(QString("/") + kind + QString("/Width"), w->width() );
+   setInt(QString("/") + kind + QString("/Height"), w->height() );
 }
 
-QSize TGo4QSettings::lastPanelSize()
+QSize TGo4QSettings::lastPanelSize(const QString& kind, int dfltwidth, int dfltheight)
 {
-   QSize rect(getInt( "/ViewPanel/Width", 450), getInt( "/ViewPanel/Height", 250));
+   QSize rect(getInt(QString("/") + kind + QString("/Width"), dfltwidth),
+              getInt(QString("/") + kind + QString("/Height"), dfltheight));
 
    if (rect.height() > TGo4MdiArea::Instance()->height()*4/5)
       rect.setHeight(TGo4MdiArea::Instance()->height()*4/5);
