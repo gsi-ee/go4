@@ -66,7 +66,7 @@ QT4ROOT_H         = $(QT4ROOT_DIR)/QRootApplication.h \
                     $(QT4ROOT_DIR)/QRootCanvas.h \
                     $(QT4ROOT_DIR)/QRootWindow.h \
                     $(QT4ROOT_DIR)/QRootDialog.h
-QT4ROOT_S         = $(GO4GUI4_FORMS:.h=.cpp)
+QT4ROOT_S         = $(QT4ROOT_H:.h=.cpp)
 
 QT4ROOT_PUBH    = $(patsubst $(QT4ROOT_DIR)/%.h, include/%.h, $(QT4ROOT_H))
 
@@ -80,7 +80,8 @@ DISTRFILES         += $(GO4GUI4_S) $(GO4GUI4_H) $(GO4GUI4_FH)
 DISTRFILES         += $(GO4GUI4_PACKAGE_FORMS) $(GO4GUI4_DIR)/$(GO4GUI4_QTPRO) $(GO4GUI4_RESOURCES)
 DISTRFILES         += $(GO4GUI4_QTS) $(GO4GUI4_QTH) $(GO4GUI4_EXES)
 DISTRFILES         += $(GO4GUI4_DIR)/Module.mk
-DISTRFILES         += $(GO4FITGUI4_DIR)/*.h $(GO4FITGUI4_DIR)/*.cpp $(GO4FITGUI4_DIR)/*.ui
+DISTRFILES         += $(QT4ROOT_H) $(QT4ROOT_S)
+DISTRFILES         += $(GO4FITGUI4_S) $(GO4FITGUI4_H) $(GO4FITGUI4_FORMS)
 endif
 
 ##### local rules #####

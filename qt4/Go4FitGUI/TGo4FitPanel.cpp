@@ -269,8 +269,8 @@ void TGo4FitGuiArrow::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 
 // *************************************************************************
 
-TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name)
-         : QGo4Widget(parent, name)
+TGo4FitPanel::TGo4FitPanel(QWidget *parent, const char* name) :
+   QGo4Widget(parent, name)
 {
    setupUi(this);
 

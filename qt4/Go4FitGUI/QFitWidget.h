@@ -63,7 +63,6 @@ class QDESIGNER_WIDGET_EXPORT QFitWidget : public QWidget {
       QFitItem* fxItem;
       bool fbFillWidget;
 
-      virtual void closeEvent(QCloseEvent* ce);
       virtual void contextMenuEvent(QContextMenuEvent* e);
 };
 

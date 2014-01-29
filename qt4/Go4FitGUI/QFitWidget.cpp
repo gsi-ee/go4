@@ -23,8 +23,8 @@
 #include "TObject.h"
 #include "TGo4FitPanel.h"
 
-QFitWidget::QFitWidget( QWidget* parent, const char* name, Qt::WindowFlags fl )
-    : QWidget( parent, fl )
+QFitWidget::QFitWidget( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
+   QWidget( parent, fl )
 {
    setObjectName(name ? name : "QFitWidget");
    resize( QSize(533, 405).expandedTo(minimumSizeHint()) );
@@ -38,12 +38,6 @@ QFitWidget::~QFitWidget()
 {
 }
 
-void QFitWidget::closeEvent( QCloseEvent *ce )
-{
-    ce->accept();
-    delete this;
-}
-
 void QFitWidget::SetItem(TGo4FitPanel* panel, QFitItem * item)
 {
    fxPanel = panel;
@@ -53,7 +47,7 @@ void QFitWidget::SetItem(TGo4FitPanel* panel, QFitItem * item)
 
 QFitItem* QFitWidget::GetItem()
 {
-  return fxItem;
+   return fxItem;
 }
 
 TObject * QFitWidget::GetObject()

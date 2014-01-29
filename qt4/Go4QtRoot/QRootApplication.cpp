@@ -150,7 +150,7 @@ void QRootApplication::execute()
 
 void QRootApplication::quit()
 {
-   std::cout <<"QRootApplication::quit()" << std::endl;
+   // std::cout <<"QRootApplication::quit()" << std::endl;
 //   gSystem->Exit( 0 );
 }
 

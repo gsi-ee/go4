@@ -958,12 +958,11 @@ void TGo4MainWindow::closeEvent( QCloseEvent* ce)
 // new for Qt4:
    if(QMessageBox::question( this, "Go4 GUI", "Really Exit Go4?",
          QMessageBox::Yes | QMessageBox::No ,
-         QMessageBox::Yes) != QMessageBox::Yes )
-            {
-               //std::cout <<"QMessageBox does not return yes! "<< std::endl;
-               ce->ignore();
-               return;
-            }
+         QMessageBox::Yes) != QMessageBox::Yes ) {
+            //std::cout <<"QMessageBox does not return yes! "<< std::endl;
+            ce->ignore();
+            return;
+      }
 
    fxMdiArea->closeAllSubWindows();
 
@@ -974,23 +973,19 @@ void TGo4MainWindow::closeEvent( QCloseEvent* ce)
    StopGUIScriptSlot();
    int waitsecs=180;
    if(!RemoveAnalysisProxy(waitsecs)) {
-        //std::cout <<"closeEvent - RemoveAnalysisProxy returned false, using close counter" << std::endl;
-        fCloseCounter = (waitsecs+10) *10; // was 100 gui waits about 10 second to close analysis
-        statusBar()->showMessage("Exit....  please wait");
-        QApplication::setOverrideCursor(Qt::WaitCursor);
-        QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
-        //std::cout <<"TGo4MainWindow::closeEvent after QTimer, ignore close event" << std::endl;
-         ce->ignore();
-     } else {
-        statusBar()->showMessage("Closing GUI...");
-        //std::cout <<"closeEvent does exit" << std::endl;
-        ce->accept();
-        gSystem->Exit( 0 );
-     }
-
-
-      //std::cout <<"TGo4MainWindow::closeEvent is finished." << std::endl;
-
+      //std::cout <<"closeEvent - RemoveAnalysisProxy returned false, using close counter" << std::endl;
+      fCloseCounter = (waitsecs+10) *10; // was 100 gui waits about 10 second to close analysis
+      statusBar()->showMessage("Exit....  please wait");
+      QApplication::setOverrideCursor(Qt::WaitCursor);
+      QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
+      //std::cout <<"TGo4MainWindow::closeEvent after QTimer, ignore close event" << std::endl;
+      ce->ignore();
+   } else {
+      statusBar()->showMessage("Closing GUI...");
+      //std::cout <<"closeEvent does exit" << std::endl;
+      ce->accept();
+      // gSystem->Exit( 0 );
+   }
 }
 
 void TGo4MainWindow::ForseCloseSlot()
