@@ -16,8 +16,8 @@
 #include "TGo4ViewPanel.h"
 
 
-TGo4SetScaleValues::TGo4SetScaleValues( QWidget* parent, const char* name, Qt::WindowFlags fl )
-    : QWidget( parent, fl )
+TGo4SetScaleValues::TGo4SetScaleValues( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
+   QWidget( parent, fl )
 {
    setObjectName( name ? name : "Go4SetScaleValues");
    setupUi(this);
@@ -27,12 +27,6 @@ TGo4SetScaleValues::TGo4SetScaleValues( QWidget* parent, const char* name, Qt::W
    fbDoingRefresh = false;
 
    refreshView(true);
-}
-
-void TGo4SetScaleValues::closeEvent( QCloseEvent* ce )
-{
-    ce->accept();
-    delete this;
 }
 
 void TGo4SetScaleValues::refreshView(bool force)

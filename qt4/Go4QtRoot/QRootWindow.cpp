@@ -209,15 +209,19 @@ bool QRootWindow ::eventFilter( QObject *o, QEvent *e )
 
 void  QRootWindow::closeEvent( QCloseEvent * e)
 {
-   delete fxRootwindow;
-   fxRootwindow = 0;
+   if (fxRootwindow) {
+      delete fxRootwindow;
+      fxRootwindow = 0;
+   }
    e->accept();
 }
 
 QRootWindow::~QRootWindow()
 {
-   delete fxRootwindow;
-   fxRootwindow = 0;
+   if (fxRootwindow) {
+      delete fxRootwindow;
+      fxRootwindow = 0;
+   }
 }
 
 TGCompositeFrame* QRootWindow::GetRootFrame()

@@ -304,7 +304,6 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
 
       virtual void CheckActionAtTheEnd( TPad * pad );
       virtual bool CompleteMarkerEdit( TPad * pad );
-      virtual void closeEvent( QCloseEvent * ce );
       virtual void resizeEvent( QResizeEvent * e );
       virtual int GetNumMarkers( TPad * pad, int kind );
       virtual void AddMarkerObj( TPad * pad, int kind, TObject * obj );

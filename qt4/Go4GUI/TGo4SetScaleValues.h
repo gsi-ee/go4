@@ -19,29 +19,24 @@
 class TGo4ViewPanel;
 class TPad;
 
-class TGo4SetScaleValues : public QWidget, public Ui::TGo4SetScaleValues
- {
-     Q_OBJECT
+class TGo4SetScaleValues : public QWidget, public Ui::TGo4SetScaleValues {
+   Q_OBJECT
 
- public:
-    TGo4SetScaleValues( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = 0 );
+   protected:
+      bool fbDoingRefresh;
 
-    void refreshView(bool force);
+   public:
+      TGo4SetScaleValues( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = 0 );
 
- public slots:
+      void refreshView(bool force);
 
-   virtual void panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid);
+   public slots:
 
-   virtual void ApplyValues();
+      virtual void panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid);
 
-   virtual void AutoscaleChanged(bool on);
+      virtual void ApplyValues();
 
-protected:
-    bool fbDoingRefresh;
-
-    virtual void closeEvent( QCloseEvent * ce );
-
-
- };
+      virtual void AutoscaleChanged(bool on);
+};
 
 #endif

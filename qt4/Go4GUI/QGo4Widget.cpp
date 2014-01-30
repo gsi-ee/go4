@@ -81,7 +81,6 @@ void QGo4Widget::ResetWidgetSlot()
    ResetWidget();
 }
 
-
 bool QGo4Widget::IsAcceptDrag(const char*, TClass*, int)
 {
    return false;
@@ -91,12 +90,10 @@ void QGo4Widget::DropItem(const char*, TClass*, int)
 {
 }
 
-
 void QGo4Widget::closeEvent(QCloseEvent* e)
 {
    if (fCanDestroyWidget) {
       e->accept();
-//      delete this;
    } else {
       e->ignore();
    }
@@ -109,7 +106,7 @@ void QGo4Widget::dragEnterEvent(QDragEnterEvent *e)
 
 void QGo4Widget::dragMoveEvent(QDragMoveEvent*)
 {
-//   emit widgetService(this, service_DragMove, "", e);
+   // emit widgetService(this, service_DragMove, "", e);
 }
 
 void QGo4Widget::dropEvent(QDropEvent* e)

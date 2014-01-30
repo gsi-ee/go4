@@ -109,8 +109,11 @@ QRootCanvas::~QRootCanvas()
      delete fCanvas;
      fCanvas = 0;
    }
-   delete fMenuMethods;
-   fMenuMethods = 0;
+
+   if (fMenuMethods) {
+      delete fMenuMethods;
+      fMenuMethods = 0;
+   }
 
    delete fRepaintTimer;
 }
@@ -671,11 +674,12 @@ void      QRootCanvas::Update()
 
 void  QRootCanvas::closeEvent( QCloseEvent * e)
 {
- //   printf("QRootCanvas: close event called \n");
-    delete fCanvas; fCanvas = 0;
+    if (fCanvas) {
+       delete fCanvas;
+       fCanvas = 0;
+    }
 
     e->accept();
-    return;
 }
 
 

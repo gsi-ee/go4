@@ -5192,12 +5192,6 @@ void TGo4ViewPanel::SetSelectedRange(double xmin, double xmax, double ymin,
    RedrawPanel(selpad, false);
 }
 
-void TGo4ViewPanel::closeEvent(QCloseEvent* ce)
-{
-   ce->accept();
-   // delete this;
-}
-
 void TGo4ViewPanel::resizeEvent(QResizeEvent * e)
 {
    // store size of top widget -
