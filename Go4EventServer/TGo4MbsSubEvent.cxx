@@ -98,18 +98,18 @@ void TGo4MbsSubEvent::PrintMbsSubevent(Bool_t longw, Bool_t hexw, Bool_t dataw)
    printf("  SubEv ID %6d Type/Subtype %5d %5d Length %5d[w] Control %2d Subcrate %2d\n",
          GetProcid(), GetType(), GetSubtype(), GetDlen(), GetControl(), GetSubcrate());
 
-   if(!dataw && !hexw && !longw) return;
+   if(!dataw) return;
    // print data
 
    Int_t *pl_data = GetDataField();
    Int_t ll = GetIntLen();
 
-   if(longw || hexw) {
+   if(longw) {
       /* In this case we assume data as one longword per channel */
       for(Int_t l=0; l<ll; l++) {
          if(l%8 == 0) printf("  ");
-         if(hexw) printf("%04x.%04x ",(*pl_data>>16) & 0xffff, *pl_data & 0xffff);
-            else printf("%8d ",*pl_data);
+         if(hexw) printf("%04x.%04x ", (unsigned) ((*pl_data>>16) & 0xffff), (unsigned) (*pl_data & 0xffff));
+             else printf("%8u ", (unsigned) *pl_data);
          pl_data++;
          if(l%8 == 7) printf("\n");
       }
@@ -119,7 +119,8 @@ void TGo4MbsSubEvent::PrintMbsSubevent(Bool_t longw, Bool_t hexw, Bool_t dataw)
       /* In this case we assume data as two words per channel */
       for(Int_t l=0;l<ll;l++) {
          if(l%4 == 0) printf("  ");
-         printf("%8d%8d",*pl_data&0xffff, (*pl_data>>16)&0xffff);
+         if(hexw) printf("%6x%6x", (unsigned) (*pl_data&0xffff), (unsigned) ((*pl_data>>16)&0xffff));
+             else printf("%8u%8u", (unsigned) (*pl_data&0xffff), (unsigned) ((*pl_data>>16)&0xffff));
          pl_data++;
          if(l%4 == 3) printf("\n");
       }
