@@ -635,7 +635,7 @@ Bool_t TGo4DabcProxy::ReplyCommand(void* _cmd)
 {
    dabc::Command cmd = *((dabc::Command*)_cmd);
 
-   if (cmd.IsName("GetGlobalNamesList")) {
+   if (cmd.IsName(dabc::CmdGetNamesList::CmdName())) {
 
       dabc::Buffer buf = cmd.GetRawData();
 
@@ -664,7 +664,7 @@ Bool_t TGo4DabcProxy::UpdateHierarchy(Bool_t sync)
 {
    if (fNodeName.Length() == 0) return kFALSE;
 
-   dabc::Command cmd2("GetGlobalNamesList");
+   dabc::CmdGetNamesList cmd2;
    cmd2.SetReceiver(std::string(fNodeName.Data()) + dabc::Publisher::DfltName());
    cmd2.SetTimeout(10.);
 
