@@ -958,16 +958,18 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       fs << "go4->SubmitAnalysisConfig(20);" << std::endl << std::endl;
 
    int mode = 1;
-   if (confgui) {
-      if (confgui->isHidden()) mode = -1; else
-      if (confgui->isMinimized()) mode = 0;
+   QWidget* mdi = confgui ? confgui->parentWidget() : 0;
+   if (mdi!=0) {
+      if (mdi->isHidden()) mode = -1; else
+      if (mdi->isMinimized()) mode = 0;
    }
    fs << "go4->SetAnalysisConfigMode(" << mode << ");" << std::endl;
 
    mode = 1;
-   if (termgui) {
-      if (termgui->isHidden()) mode = -1; else
-      if (termgui->isMinimized()) mode = 0;
+   mdi = termgui ? termgui->parentWidget() : 0;
+   if (mdi!=0) {
+      if (mdi->isHidden()) mode = -1; else
+      if (mdi->isMinimized()) mode = 0;
    }
    fs << "go4->SetAnalysisTerminalMode(" << mode << ");" << std::endl << std::endl;
 // end analysis configuration

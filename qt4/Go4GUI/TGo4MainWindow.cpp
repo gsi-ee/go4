@@ -853,11 +853,14 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
 
    if (startfunc!=0) {
       QGo4Widget* userpanel = (QGo4Widget*) startfunc(fxMdiArea);
-      fxMdiArea->addSubWindow(userpanel);
       if (userpanel!=0) {
          userpanel->setObjectName("UserPanel");
+
+         QMdiSubWindow* sub = fxMdiArea->addSubWindow(userpanel);
+         CascadeMdiPosition(sub);
          ConnectGo4Widget(userpanel);
-         userpanel->show();
+         userpanel->ensurePolished();
+         sub->show();
          result = true;
       } else
          StatusMessage("StartUserPanel() function did not create user widget");
@@ -912,16 +915,7 @@ TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
 
    sub->resize(go4sett->lastPanelSize("ViewPanel"));
 
-   if ((sub->x() + sub->width() > fxMdiArea->width()) ||
-       (sub->y() + sub->height() > fxMdiArea->height())) {
-         int newx = fNewWidgetX;
-         int newy = fNewWidgetY;
-         if (newx + sub->width() > fxMdiArea->width()) newx = 0;
-         if (newy + sub->height() > fxMdiArea->height())  newy = 0;
-         sub->move(newx, newy);
-   }
-   fNewWidgetX = sub->x() + 30;
-   fNewWidgetY = sub->y() + 30;
+   CascadeMdiPosition(sub);
 
    ConnectGo4Widget(panel);
    panel->update();
@@ -950,9 +944,23 @@ TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
    return panel;
 }
 
+void TGo4MainWindow::CascadeMdiPosition(QWidget* sub)
+{
+   //if ((sub->x() + sub->width() < fxMdiArea->viewport()->width()) &&
+       //(sub->y() + sub->height() < fxMdiArea->viewport()->height())) return;
+
+   int newx = fNewWidgetX;
+   int newy = fNewWidgetY;
+   if (newx + sub->width() > fxMdiArea->width()) newx = 0;
+   if (newy + sub->height() > fxMdiArea->height())  newy = 0;
+   sub->move(newx, newy);
+   fNewWidgetX = sub->x() + 30;
+   fNewWidgetY = sub->y() + 30;
+}
+
+
 void TGo4MainWindow::closeEvent( QCloseEvent* ce)
 {
-   //std::cout <<"TGo4MainWindow::closeEvent...." << std::endl;
    if (fCloseCounter!=0) return;
 
 // new for Qt4:
@@ -1628,8 +1636,10 @@ TGo4AnalysisProxy* TGo4MainWindow::AddAnalysisProxy(bool isserver, bool needoutp
         anw = new TGo4AnalysisWindow(fxMdiArea, "AnalysisWindow", true);
         QMdiSubWindow* sub = fxMdiArea->addSubWindow(anw);
         sub->resize(go4sett->lastPanelSize("AnalysisWindow", 700, 500));
+        CascadeMdiPosition(sub);
         ConnectGo4Widget(anw);
-        anw->show();
+        anw->ensurePolished();
+        sub->show();
         anw->WorkWithUpdateObjectCmd(anal->UpdateObjectSlot());
      } else {
         UpdateDockAnalysisWindow();
@@ -1725,8 +1735,11 @@ TGo4AnalysisConfiguration* TGo4MainWindow::EstablishAnalysisConfiguration(int le
    if (level>=2) {
       if (conf==0) {
          conf = new TGo4AnalysisConfiguration(fxMdiArea, "AnalysisConfiguration");
-         fxMdiArea->addSubWindow(conf);
+         QMdiSubWindow* sub = fxMdiArea->addSubWindow(conf);
+         CascadeMdiPosition(sub);
          ConnectGo4Widget(conf);
+         conf->ensurePolished();
+         sub->show();
       }
       TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
       if (anal!=0) {
@@ -1943,12 +1956,13 @@ TGo4FitPanel* TGo4MainWindow::StartFitPanel()
 
    if (fitpanel==0) {
       fitpanel = new TGo4FitPanel(fxMdiArea,"FitPanel");
-      fxMdiArea->addSubWindow(fitpanel);
+      QMdiSubWindow* sub = fxMdiArea->addSubWindow(fitpanel);
+      CascadeMdiPosition(sub);
       ConnectGo4Widget(fitpanel);
       fitpanel->ensurePolished();
-      fitpanel->show();
+      sub->show();
    } else {
-      fitpanel->showNormal();
+      fitpanel->parentWidget()->showNormal();
       fitpanel->setFocus();
    }
    return fitpanel;
@@ -1959,11 +1973,12 @@ TGo4HistogramInfo* TGo4MainWindow::StartHistogramInfo()
    TGo4HistogramInfo* hinfo = (TGo4HistogramInfo*) FindGo4Widget("HistogramInfo", true);
    if (hinfo==0) {
       hinfo = new TGo4HistogramInfo(fxMdiArea, "HistogramInfo");
-      fxMdiArea->addSubWindow(hinfo);
+      QMdiSubWindow* sub = fxMdiArea->addSubWindow(hinfo);
+      CascadeMdiPosition(sub);
       ConnectGo4Widget(hinfo);
       hinfo->ensurePolished();
-      hinfo->show();
       hinfo->adjustSize();
+      sub->show();
    }
    return hinfo;
 }
@@ -1973,11 +1988,12 @@ TGo4ConditionInfo* TGo4MainWindow::StartConditionInfo()
    TGo4ConditionInfo* cinfo = (TGo4ConditionInfo*) FindGo4Widget("ConditionInfo", true);
    if (cinfo==0) {
       cinfo = new TGo4ConditionInfo(fxMdiArea, "ConditionInfo");
-      fxMdiArea->addSubWindow(cinfo);
+      QMdiSubWindow* sub = fxMdiArea->addSubWindow(cinfo);
+      CascadeMdiPosition(sub);
       ConnectGo4Widget(cinfo);
       cinfo->ensurePolished();
-      cinfo->show();
       cinfo->adjustSize();
+      sub->show();
    }
    return cinfo;
 }
@@ -2012,10 +2028,11 @@ TGo4ParaEdit* TGo4MainWindow::StartParaEdit(const char* itemname)
 
    if (pedit==0) {
       pedit = new TGo4ParaEdit(fxMdiArea, "ParaEdit");
-      fxMdiArea->addSubWindow(pedit);
+      QMdiSubWindow* sub = fxMdiArea->addSubWindow(pedit);
       ConnectGo4Widget(pedit);
       pedit->ensurePolished();
-      pedit->show();
+      sub->show();
+      CascadeMdiPosition(sub);
    }
 
    if (itemname!=0)
@@ -2030,10 +2047,11 @@ TGo4EditDynEntry* TGo4MainWindow::StartEditDynEntry()
 
    if (dedit==0) {
       dedit = new TGo4EditDynEntry(fxMdiArea, "EditDynEntry");
-      fxMdiArea->addSubWindow(dedit);
+      QMdiSubWindow* sub = fxMdiArea->addSubWindow(dedit);
+      CascadeMdiPosition(sub);
       ConnectGo4Widget(dedit);
       dedit->ensurePolished();
-      dedit->show();
+      sub->show();
    }
 
    return dedit;
@@ -2044,10 +2062,11 @@ TGo4ConditionEditor* TGo4MainWindow::StartConditionEditor()
    TGo4ConditionEditor* wedit = (TGo4ConditionEditor*) FindGo4Widget("ConditionEditor", true);
    if (wedit==0) {
       wedit = new TGo4ConditionEditor(fxMdiArea, "ConditionEditor");
-      fxMdiArea->addSubWindow(wedit);
+      QMdiSubWindow* sub = fxMdiArea->addSubWindow(wedit);
+      CascadeMdiPosition(sub);
       ConnectGo4Widget(wedit);
       wedit->ensurePolished();
-      wedit->show();
+      sub->show();
    }
    return wedit;
 }
@@ -2058,10 +2077,11 @@ TGo4EventInfo* TGo4MainWindow::StartEventInfo()
 
    if (einfo==0) {
       einfo = new TGo4EventInfo(fxMdiArea, "EventInfo");
-      fxMdiArea->addSubWindow(einfo);
+      QMdiSubWindow* sub = fxMdiArea->addSubWindow(einfo);
+      CascadeMdiPosition(sub);
       ConnectGo4Widget(einfo);
       einfo->ensurePolished();
-      einfo->show();
+      sub->show();
    }
 
    return einfo;
@@ -2158,9 +2178,10 @@ TGo4SetScaleValues* TGo4MainWindow::ToggleScaleValues()
 
    if (scl==0) {
       scl = new TGo4SetScaleValues(fxMdiArea, "ScaleValues", Qt::WindowStaysOnTopHint);
-      fxMdiArea->addSubWindow(scl);
+      QMdiSubWindow* sub = fxMdiArea->addSubWindow(scl);
+      CascadeMdiPosition(sub);
       scl->ensurePolished();
-      scl->parentWidget()->show();
+      sub->show();
    } else {
       scl->parentWidget()->close();
       scl = 0;

@@ -176,6 +176,8 @@ class TGo4MainWindow : public QMainWindow {
 
       void ConnectGo4Widget(QGo4Widget* editor);
 
+      void CascadeMdiPosition(QWidget* sub);
+
       void UpdateCaptionButtons();
 
       bool startUserGUI(const char*);
