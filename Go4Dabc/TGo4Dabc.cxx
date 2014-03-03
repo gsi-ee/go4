@@ -29,9 +29,9 @@ bool TGo4Dabc::CreateEngine(const char* args)
 
    TString allargs;
    if (strchr(args,'?')!=0)
-      allargs.Form("%s&player=TGo4DabcPlayer", args);
+      allargs.Form("%s&player=TGo4DabcPlayer&top=Go4", args);
    else
-      allargs.Form("%s?player=TGo4DabcPlayer", args);
+      allargs.Form("%s?player=TGo4DabcPlayer&top=Go4", args);
 
    return gGo4HttpServer->CreateEngine(allargs.Data());
 }
