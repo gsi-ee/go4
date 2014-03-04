@@ -227,7 +227,8 @@ TGo4Analysis::TGo4Analysis(int argc, char** argv) :
    fServerObserverPass(),
    fbMakeWithAutosave(kTRUE),
    fbObjMade(kFALSE),
-   fNumCtrlC(0)
+   fNumCtrlC(0),
+   fSniffer(0)
 {
    GO4TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
 
