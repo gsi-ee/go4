@@ -902,9 +902,14 @@ Int_t TGo4Analysis::PreLoop()
    GO4TRACE((11,"TGo4Analysis:PreLoop()",__LINE__, __FILE__));
    TGo4LockGuard  autoguard(fxAutoSaveMutex);
    // avoid conflict with possible user object modifications during startup autosave!
-   Int_t rev = 0;
    fiAutoSaveCount = 0;
-   rev = UserPreLoop();
+   Int_t rev = UserPreLoop();
+   for (Int_t num = 0; num < fxStepManager->GetNumberOfAnalysisSteps(); num++) {
+      TGo4AnalysisStep* step = fxStepManager->GetAnalysisStepNum(num);
+      TGo4EventProcessor* proc = step ? step->GetEventProcessor() : 0;
+      if (proc) proc->UserPreLoop();
+   }
+
    fxAutoSaveClock->Start(kTRUE);
    return rev;
 }
@@ -922,7 +927,15 @@ Int_t TGo4Analysis::PostLoop()
    //   delete myfile;
    //   std::cout <<"___________Wrote eventsample to file eventsample.root" << std::endl;
    /////////////////////
-   if(fbInitIsDone)   rev=UserPostLoop(); // do not call userpostloop after error in initialization
+   if(fbInitIsDone) {
+      for (Int_t num = 0; num < fxStepManager->GetNumberOfAnalysisSteps(); num++) {
+         TGo4AnalysisStep* step = fxStepManager->GetAnalysisStepNum(num);
+         TGo4EventProcessor* proc = step ? step->GetEventProcessor() : 0;
+         if (proc) proc->UserPostLoop();
+      }
+
+      rev = UserPostLoop(); // do not call userpostloop after error in initialization
+   }
    return rev;
 }
 

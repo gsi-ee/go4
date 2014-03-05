@@ -318,6 +318,12 @@ class TGo4EventProcessor: public TGo4EventSource {
          fbKeepOutputEvent = val;
       }
 
+      /** Method called when analysis is created */
+      virtual void UserPreLoop() {}
+
+      /** Method called when analysis is stopping */
+      virtual void UserPostLoop() {}
+
    protected:
 
       /** Default ctor for root streamer. */

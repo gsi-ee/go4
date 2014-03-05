@@ -437,11 +437,16 @@ TGo4AnalysisStep * TGo4AnalysisStepManager::GetAnalysisStep(const char* name)
    return step;
 }
 
+Int_t TGo4AnalysisStepManager::GetNumberOfAnalysisSteps()
+{
+   return fxStepList ? fxStepList->GetLast() + 1 : 0;
+}
+
 TGo4AnalysisStep* TGo4AnalysisStepManager::GetAnalysisStepNum(Int_t number)
 {
    GO4TRACE((11,"TGo4AnalysisStepManager::GetAnalysisStepNum(Int_t)",__LINE__, __FILE__));
    if ((number<0) || (number>fxStepList->GetLast())) return 0;
-   return dynamic_cast<TGo4AnalysisStep*>( fxStepList->At(number));
+   return dynamic_cast<TGo4AnalysisStep*>(fxStepList->At(number));
 }
 
 
