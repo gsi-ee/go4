@@ -187,6 +187,7 @@ class TGo4DabcAccess : public TGo4Access {
             dabc::CmdGetBinary cmd2;
             cmd2.SetStr("Item", fItemName);
             cmd2.SetUInt("history", fHistoryLength);
+            cmd2.SetStr("Kind","hierarchy");
             cmd2.SetTimeout(10.);
             cmd2.SetReceiver(fNodeName + dabc::Publisher::DfltName());
 
