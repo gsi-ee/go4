@@ -186,8 +186,8 @@ class TGo4DabcAccess : public TGo4Access {
          if (fIsRate && (fHistoryLength>0)) {
             dabc::CmdGetBinary cmd2;
             cmd2.SetStr("Item", fItemName);
-            cmd2.SetUInt("history", fHistoryLength);
             cmd2.SetStr("Kind","hierarchy");
+            cmd2.SetStr("Query", Form("history=%d",fHistoryLength));
             cmd2.SetTimeout(10.);
             cmd2.SetReceiver(fNodeName + dabc::Publisher::DfltName());
 
@@ -275,7 +275,7 @@ class TGo4DabcAccess : public TGo4Access {
                double v = iter.GetField("value").AsDouble();
                uint64_t tm = iter.GetField("time").AsUInt();
 
-               //DOUT0("pnt %d  tm %20u value %5.2f", i, tm / 1000, v);
+               // DOUT0("pnt %d  tm %20u value %5.2f", i, tm / 1000, v);
 
                gr->SetPoint(cnt - i -1, tm / 1000, v);
                i++;
