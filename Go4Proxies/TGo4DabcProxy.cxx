@@ -184,7 +184,7 @@ class TGo4DabcAccess : public TGo4Access {
          if (wrk.null()) return 0;
 
          if (fIsRate && (fHistoryLength>0)) {
-            dabc::CmdPublisherGet cmd2;
+            dabc::CmdGetBinary cmd2;
             cmd2.SetStr("Item", fItemName);
             cmd2.SetUInt("history", fHistoryLength);
             cmd2.SetTimeout(10.);
