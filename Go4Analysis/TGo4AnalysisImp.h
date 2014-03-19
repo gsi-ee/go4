@@ -500,7 +500,6 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
      * conditions. */
     void SetRunning(Bool_t on=kTRUE);
 
-
     /** Poll on the IsRunning state with sleep delay, returns number
       * of wait cycles. For slave server controlled cint macros to
       * start/stop execution of explicit user loop. */
@@ -510,10 +509,16 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     Int_t IsErrorStopEnabled();
 
     /** Set flag that input file has changed */
-    void SetNewInputFile(Bool_t on=kTRUE) {fbNewInputFile=on;}
+    void SetNewInputFile(Bool_t on=kTRUE) { fbNewInputFile=on; }
 
     /** True if input filelist has changed to a new lmd file. */
     Bool_t IsNewInputFile() const { return fbNewInputFile; }
+
+    /** Set current input file name */
+    void SetInputFileName(const char* fname) { fxCurrentInputFileName = fname; }
+
+    /** Returns current input file name */
+    const char* GetInputFileName() const { return fxCurrentInputFileName.Data(); }
 
     void SetDynListInterval(Int_t val);
 
@@ -939,6 +944,9 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     /** True if input file of multiple file input has changed.
       *  User analysis may check this and read mbs buffer infos then. */
     Bool_t fbNewInputFile;                       //!
+
+    /** Contains current input file name */
+    TString fxCurrentInputFileName;               //!
 
     /** True if autosave name shall be changed when input file of multiple file input has changed.
       *  To be set in user analysis; will be evaluated in TGo4MbsFile */

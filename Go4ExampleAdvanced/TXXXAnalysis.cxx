@@ -299,7 +299,6 @@ Int_t TXXXAnalysis::UserEventFunc()
          // mbs buffer header structure:
          fMbsEvent->PrintMbsBufferHeader();
       }
-      SetNewInputFile(kFALSE); // we have to reset the newfile flag
    }
    fLastEvent = count;
    return 0;

@@ -280,7 +280,7 @@ Int_t TMeshAnalysis::UserPostLoop()
 /////////////////////////////
 
    fMbsEvent = 0; // reset to avoid invalid pointer if analysis is changed in between
-   fEvents=0;
+   fEvents = 0;
    return 0;
 }
 
@@ -300,7 +300,6 @@ Int_t TMeshAnalysis::UserEventFunc()
          // mbs buffer header structure:
          fMbsEvent->PrintMbsBufferHeader();
       }
-      SetNewInputFile(kFALSE); // we have to reset the newfile flag
    }
    fLastEvent = count;
    return 0;

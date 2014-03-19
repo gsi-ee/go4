@@ -109,7 +109,7 @@ Int_t TXXXAnalysis::UserPostLoop()
    TGo4Log::Info("TXXXAnalysis: PostLoop");
    TGo4Log::Info("Last event  #: %d Total events: %d", fLastEvent, fEvents);
    fMbsEvent = 0; // reset to avoid invalid pointer if analysis is changed in between
-   fEvents=0;
+   fEvents = 0;
    return 0;
 }
 
@@ -124,7 +124,6 @@ Int_t TXXXAnalysis::UserEventFunc()
    }
    if((fEvents == 1) || IsNewInputFile()) {
       TGo4Log::Info("First event #: %d", fLastEvent);
-      SetNewInputFile(kFALSE); // we have to reset the newfile flag
    }
    return 0;
 }

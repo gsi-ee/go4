@@ -142,7 +142,7 @@ Int_t TXXXAnalysis::UserPostLoop()
    fMbsEvent = 0; // reset to avoid invalid pointer if analysis is changed in between
    fRawEvent = 0;
    fCalEvent = 0;
-   fEvents=0;
+   fEvents = 0;
    return 0;
 }
 
@@ -161,7 +161,6 @@ Int_t TXXXAnalysis::UserEventFunc()
          TGo4Log::Info("First event #: %d", count);
          fMbsEvent->PrintMbsBufferHeader();
       }
-      SetNewInputFile(kFALSE); // we have to reset the newfile flag
    }
    fLastEvent = count;
    return 0;

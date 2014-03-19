@@ -48,7 +48,10 @@ Changes in Go4 v4.6.x
 11.Mostly comlete porting to ROOT6 and Qt5.
 12.Introdece UserPreLoop() and UserPostLoop() methods in TGo4EventProcessor.
    One can use such methods without creation of specialized analysis class. 
-             
+13.Implement TGo4Analysis::GetInputFileName() - returns currently processed 
+   file name. Automatically reset TGo4Analysis::IsNewInputFile() at the end
+   of event processing. 
+              
 
 Changes in Go4 v4.6.0 (November 2013)
 1. Start implementation of new communication interfaces in Go4. Therefore

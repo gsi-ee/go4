@@ -178,6 +178,7 @@ TGo4Analysis::TGo4Analysis(const char* name) :
    fxAutoFile(0),
    fbAutoSaveOverwrite(kFALSE),
    fbNewInputFile(kFALSE),
+   fxCurrentInputFileName(),
    fbAutoSaveFileChange(kFALSE),
    fxSampleEvent(0),
    fxObjectNames(0),
@@ -215,6 +216,7 @@ TGo4Analysis::TGo4Analysis(int argc, char** argv) :
    fxAutoFile(0),
    fbAutoSaveOverwrite(kFALSE),
    fbNewInputFile(kFALSE),
+   fxCurrentInputFileName(),
    fbAutoSaveFileChange(kFALSE),
    fxSampleEvent(0),
    fxObjectNames(0),
@@ -391,6 +393,9 @@ Int_t TGo4Analysis::MainCycle()
          } else
             fxAutoSaveClock->Continue();
       }
+
+      SetNewInputFile(kFALSE); // reset flag of new input file
+
    } //TGo4LockGuard main;
 
    if(fxAnalysisSlave) {

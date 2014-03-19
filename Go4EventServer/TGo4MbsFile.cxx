@@ -423,6 +423,7 @@ Int_t TGo4MbsFile::NewFileAction(Bool_t dosave)
 {
    TGo4Analysis* ana = TGo4Analysis::Instance();
    ana->SetNewInputFile(kTRUE);
+   ana->SetInputFileName(GetCurrentFileName());
    if(ana->IsAutoSaveFileChange()) {
       TString fname = GetCurrentFileName();
       fname.ReplaceAll(".lmd",4,"_ASF",4);
