@@ -16,6 +16,7 @@
 
 #include "TGo4Sniffer.h"
 #include "THttpServer.h"
+#include "TGo4AnalysisImp.h"
 
 THttpServer* gGo4HttpServer = 0;
 
@@ -27,11 +28,16 @@ bool TGo4Dabc::CreateEngine(const char* args)
       gGo4HttpServer->SetSniffer(new TGo4Sniffer("go4_dabc",5));
    }
 
+   const char* separ = (strchr(args,'?')!=0) ? "&" : "?";
+
    TString allargs;
-   if (strchr(args,'?')!=0)
-      allargs.Form("%s&player=TGo4DabcPlayer&top=Go4", args);
-   else
-      allargs.Form("%s?player=TGo4DabcPlayer&top=Go4", args);
+
+   allargs.Form("%s%splayer=TGo4DabcPlayer&top=Go4", args, separ);
+
+   if (TGo4Analysis::Instance()!=0) {
+      allargs.Append("/");
+      allargs.Append(TGo4Analysis::Instance()->GetName());
+   }
 
    return gGo4HttpServer->CreateEngine(allargs.Data());
 }
