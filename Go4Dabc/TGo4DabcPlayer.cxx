@@ -130,23 +130,23 @@ TGo4DabcPlayer::~TGo4DabcPlayer()
 
 void TGo4DabcPlayer::InitializeHierarchy()
 {
-   dabc::Hierarchy sub = fHierarchy.CreateChild("Status");
+   dabc::Hierarchy sub = fHierarchy.CreateFolder("Status");
    sub.SetPermanent();
 
-   sub.CreateChild("Message").SetField(dabc::prop_kind, "log");
+   sub.CreateHChild("Message").SetField(dabc::prop_kind, "log");
 
-   sub.CreateChild("EventRate").SetField(dabc::prop_kind, "rate");
+   sub.CreateHChild("EventRate").SetField(dabc::prop_kind, "rate");
 
-   sub.CreateChild("AverRate").SetField(dabc::prop_kind, "rate");
+   sub.CreateHChild("AverRate").SetField(dabc::prop_kind, "rate");
 
-   sub.CreateChild("EventCount").SetField(dabc::prop_kind, "log");
-   sub.CreateChild("RunTime").SetField(dabc::prop_kind, "log");
+   sub.CreateHChild("EventCount").SetField(dabc::prop_kind, "log");
+   sub.CreateHChild("RunTime").SetField(dabc::prop_kind, "log");
 
-   sub.CreateChild("DebugOutput").SetField(dabc::prop_kind, "log");
+   sub.CreateHChild("DebugOutput").SetField(dabc::prop_kind, "log");
 
-   sub.CreateChild("CmdClear").SetField(dabc::prop_kind, "DABC.Command");
-   sub.CreateChild("CmdStart").SetField(dabc::prop_kind, "DABC.Command");
-   sub.CreateChild("CmdStop").SetField(dabc::prop_kind, "DABC.Command");
+   sub.CreateHChild("CmdClear").SetField(dabc::prop_kind, "DABC.Command");
+   sub.CreateHChild("CmdStart").SetField(dabc::prop_kind, "DABC.Command");
+   sub.CreateHChild("CmdStop").SetField(dabc::prop_kind, "DABC.Command");
 
    sub.EnableHistory(200, true);
 }
