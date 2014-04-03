@@ -109,7 +109,7 @@ class TExecDabcCmdTimer : public TTimer {
 // =================================================================================
 
 TGo4DabcPlayer::TGo4DabcPlayer(const std::string& name, dabc::Command cmd) :
-   root::Player(name, cmd),
+   root::Monitor(name, cmd),
    TGo4AnalysisSniffer("dabc_sniffer")
 {
    if (TGo4Analysis::Instance()!=0)
@@ -130,7 +130,9 @@ TGo4DabcPlayer::~TGo4DabcPlayer()
 
 void TGo4DabcPlayer::InitializeHierarchy()
 {
-   dabc::Hierarchy sub = fHierarchy.CreateFolder("Status");
+   dabc::LockGuard lock(fHierarchy.GetHMutex());
+
+   dabc::Hierarchy sub = fHierarchy.CreateHChild("Status");
    sub.SetPermanent();
 
    sub.CreateHChild("Message").SetField(dabc::prop_kind, "log");
@@ -156,15 +158,15 @@ void TGo4DabcPlayer::RatemeterUpdate(TGo4Ratemeter* r)
 {
    dabc::LockGuard lock(fHierarchy.GetHMutex());
 
-   fHierarchy.FindChild("Status/EventRate").SetField("value", r->GetRate());
-   fHierarchy.FindChild("Status/EventRate").SetFieldModified("value");
+   fHierarchy.GetHChild("Status/EventRate").SetField("value", r->GetRate());
+   fHierarchy.GetHChild("Status/EventRate").SetFieldModified("value");
 
-   fHierarchy.FindChild("Status/AverRate").SetField("value", r->GetAvRate());
-   fHierarchy.FindChild("Status/AverRate").SetFieldModified("value");
+   fHierarchy.GetHChild("Status/AverRate").SetField("value", r->GetAvRate());
+   fHierarchy.GetHChild("Status/AverRate").SetFieldModified("value");
 
-   fHierarchy.FindChild("Status/EventCount").SetField("value", dabc::format("%lu", (long unsigned) r->GetCurrentCount()));
+   fHierarchy.GetHChild("Status/EventCount").SetField("value", dabc::format("%lu", (long unsigned) r->GetCurrentCount()));
 
-   fHierarchy.FindChild("Status/RunTime").SetField("value", dabc::format("%3.1f", r->GetTime()));
+   fHierarchy.GetHChild("Status/RunTime").SetField("value", dabc::format("%3.1f", r->GetTime()));
 
    fHierarchy.MarkChangedItems();
 }
@@ -173,21 +175,21 @@ void TGo4DabcPlayer::StatusMessage(int level, const TString& msg)
 {
    dabc::LockGuard lock(fHierarchy.GetHMutex());
 
-   dabc::Hierarchy item = fHierarchy.FindChild("Status/Message");
+   dabc::Hierarchy item = fHierarchy.GetHChild("Status/Message");
    item.SetField("value", msg.Data());
    item.SetFieldModified("value");
    item.SetField("level", level);
 
-   fHierarchy.FindChild("Status").MarkChangedItems();
+   fHierarchy.GetHChild("Status").MarkChangedItems();
 }
 
 void TGo4DabcPlayer::SetTitle(const char* title)
 {
    dabc::LockGuard lock(fHierarchy.GetHMutex());
 
-   fHierarchy.FindChild("Status/DebugOutput").SetField("value", title ? title : "");
+   fHierarchy.GetHChild("Status/DebugOutput").SetField("value", title ? title : "");
 
-   fHierarchy.FindChild("Status").MarkChangedItems();
+   fHierarchy.GetHChild("Status").MarkChangedItems();
 }
 
 
@@ -197,7 +199,7 @@ int TGo4DabcPlayer::ExecuteCommand(dabc::Command cmd)
        cmd.IsName("CmdStart") ||
        cmd.IsName("CmdStop")) { new TExecDabcCmdTimer(cmd, this); return dabc::cmd_postponed; }
 
-   return root::Player::ExecuteCommand(cmd);
+   return root::Monitor::ExecuteCommand(cmd);
 }
 
 int TGo4DabcPlayer::ProcessGetBinary(TRootSniffer* sniff, dabc::Command cmd)
@@ -208,9 +210,9 @@ int TGo4DabcPlayer::ProcessGetBinary(TRootSniffer* sniff, dabc::Command cmd)
    // when working with the client, timer is processed in other thread and we need to lock main go4 mutex
    if (cli!=0) {
       TGo4LockGuard mainlock;
-      return root::Player::ProcessGetBinary(sniff, cmd);
+      return root::Monitor::ProcessGetBinary(sniff, cmd);
    } else {
-      return root::Player::ProcessGetBinary(sniff, cmd);
+      return root::Monitor::ProcessGetBinary(sniff, cmd);
    }
 }
 

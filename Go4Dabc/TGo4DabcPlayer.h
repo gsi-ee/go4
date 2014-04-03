@@ -15,11 +15,11 @@
 #ifndef TGO4DABCPLAYER_H
 #define TGO4DABCPLAYER_H
 
-#include "root/Player.h"
+#include "root/Monitor.h"
 
 #include "TGo4AnalysisSniffer.h"
 
-class TGo4DabcPlayer : public root::Player,
+class TGo4DabcPlayer : public root::Monitor,
                        public TGo4AnalysisSniffer {
 
    protected:
