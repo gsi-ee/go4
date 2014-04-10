@@ -421,6 +421,8 @@ int rfio_open_gsidaq(
    char cliNode[MAX_NODE] = "";
    char cAccess[16] = "";
 
+   struct tm buf_time;
+
    srawDataMover sDataMoverSelect;
                       /* buffer with data mover attrs sent by server */
    srawDataMoverAttr *pDataMoverSelect;       /* selected data mover */
@@ -1357,7 +1359,7 @@ int rfio_open_gsidaq(
 
       /* get current date and time */
       tcur = time(NULL);
-      ptloc = localtime(&tcur);
+      ptloc = localtime_t(&tcur, &buf_time);
       (ptloc->tm_mon)++;              /* else starts with zero */
       ptloc->tm_year += 1900;
 

@@ -66,6 +66,7 @@ INTS4 f_ut_utime(INTS4 l_sec, INTS4 l_msec, CHARS *pc_time)
   time_t t_time;
   struct timeb tp;
   struct tm st_time;
+  struct tm buf_time;
   CHARS c_allmon[37]="JanFebMarAprMayJunJulAugSepOctNovDec";
   CHARS c_mon[4];
   CHARS *pc_mon;
@@ -102,7 +103,7 @@ INTS4 f_ut_utime(INTS4 l_sec, INTS4 l_msec, CHARS *pc_time)
     localtime_r(&st_time,&tp.time);
   }
 #else
-  st_time = *localtime(&tp.time);
+  st_time = *localtime_r(&tp.time, &buf_time);
 #endif
   pc_mon = (CHARS *) &c_allmon;
   pc_mon += (st_time.tm_mon * 3);

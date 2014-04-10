@@ -66,6 +66,7 @@ CHARS     *f_ut_time (CHARS *pc_time)
   time_t    t_time;
   struct timeb tp;
   struct tm st_time;
+  struct tm buf_time;
 
   ftime (&tp);
 
@@ -81,7 +82,7 @@ CHARS     *f_ut_time (CHARS *pc_time)
     localtime_r(&st_time,&tp.time);
   }
 #else
-  st_time=*localtime(&tp.time);
+  st_time=*localtime_r(&tp.time, &buf_time);
 #endif
 
   strftime(pc_time,30,"%d-%h-%y %T",&st_time);
