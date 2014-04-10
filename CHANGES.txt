@@ -51,6 +51,8 @@ Changes in Go4 v4.6.x
 13.Implement TGo4Analysis::GetInputFileName() - returns currently processed 
    file name. Automatically reset TGo4Analysis::IsNewInputFile() at the end
    of event processing. 
+14.Introduce Go4ExampleDabc, which shows usages of DABC functionality in Go4.
+   Example shows how one can regularly submit commands to running MBS. 
               
 
 Changes in Go4 v4.6.0 (November 2013)
