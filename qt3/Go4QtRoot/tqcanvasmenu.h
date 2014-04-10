@@ -32,7 +32,7 @@ class TMethodArg;
 * @short interface to context sensitive menu
 *
 * @see QObject, TQCanvasMenu, TQPopupMenu, TQRootdialog
-* @authors Denis Bertini <d.bertini@gsi.de>
+* @authors Denis Bertini <d.bertini(at)gsi.de>
 * @version 2.0
 */
 

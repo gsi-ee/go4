@@ -30,7 +30,6 @@
   * @author J. Adamczewski
   * @author Go4 project-DVEE-GSI Darmstadt
   * @author Germany
-  * @author j.adamczewski@gsi.de
   * @version 1.0
   * @since jul 2000-jun 2002*/
 

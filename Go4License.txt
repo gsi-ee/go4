@@ -5,7 +5,8 @@ Planckstr. 1
 Germany
 
 Contact: http://go4.gsi.de
-         H.Essel@gsi.de
+         J.Adamczewski(at)gsi.de
+         S.Linev(at)gsi.de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

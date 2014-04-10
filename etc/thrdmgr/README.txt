@@ -147,7 +147,7 @@ TGo4TestRunnable (see TGo4TestRunnable.h comments).
 ------------------------------------------------------------------
 See source code comments for additional information.
 
-31-May-2007   Joern Adamczewski (J.Adamczewski@gsi.de)
+31-May-2007   Joern Adamczewski (J.Adamczewski(at)gsi.de)
 
 
 

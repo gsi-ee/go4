@@ -62,5 +62,4 @@ Provide the definition and implementation files (.h and .cxx)
 Add class in XXXLinkDef.h
 Then make all.
 
-H.Essel@gsi.de
-06159 712491
+H.Essel(at)gsi.de, S.Linev(at)gsi.de

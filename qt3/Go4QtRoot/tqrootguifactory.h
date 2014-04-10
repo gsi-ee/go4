@@ -48,7 +48,7 @@
 *
 * @see TGuiFactory(ROOT), TQCanvasImp, TCanvas
 *
-* @authors Denis Bertini <d.bertini@gsi.de>
+* @authors Denis Bertini <d.bertini(at)gsi.de>
 * @version 2.0
 *
 */

@@ -33,7 +33,6 @@ class TCondition;
 * @author J. Adamczewski
 * @author Go4 project-DVEE-GSI Darmstadt
 * @author Germany
-* @author j.adamczewski@gsi.de
 * @version 0.9
 * @since jul 2000-oct 2001*/
 

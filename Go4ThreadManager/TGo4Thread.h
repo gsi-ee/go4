@@ -23,10 +23,9 @@ class TGo4Runnable;
 /**   Class that encapsulates a root TThread which calls a user runnable Method
   *   (TGo4Runnable::Run()) in a loop. This working loop can be suspended to a
   *   condition wait to stop the action.
-  * @author J. Adamczewski
+  * @author J. Adamczewski(at)gsi.de
   * @author Go4 project-DVEE-GSI Darmstadt
   * @author Germany
-  * @author j.adamczewski@gsi.de
   * @version 0.9
   * @since jul 2000-oct 2001  */
 

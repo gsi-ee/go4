@@ -21,10 +21,9 @@ class TGo4AppControlTimer;
 
 /** Base class for classes that
   *   shall be accessed from a thread /runnable instance
-  * @author J. Adamczewski
+  * @author J. Adamczewski(at)gsi.de
   * @author Go4 project-DVEE-GSI Darmstadt
   * @author Germany
-  * @author j.adamczewski@gsi.de
   * @version 0.9
   * @since jul 2000-oct 2001  */
 

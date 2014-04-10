@@ -21,15 +21,14 @@
 class TGo4Thread;
 class TGo4ThreadManager;
 
-      /**
-      *   Base class for all go4 runnables. Virtual method Run() is working in
-      * the thread, this must be overridden by the user runnables.
-      * @author J. Adamczewski
-      * @author Go4 project-DVEE-GSI Darmstadt
-      * @author Germany
-      * @author j.adamczewski@gsi.de
-      * @version 0.9
-      * @since jul 2000-oct 2001*/
+/**
+*   Base class for all go4 runnables. Virtual method Run() is working in
+* the thread, this must be overridden by the user runnables.
+* @author J. Adamczewski
+* @author Go4 project-DVEE-GSI Darmstadt
+* @author Germany
+* @version 0.9
+* @since jul 2000-oct 2001*/
 
 class TGo4Runnable : public TNamed {
   friend class TGo4Thread;

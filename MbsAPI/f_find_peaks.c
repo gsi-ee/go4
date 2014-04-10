@@ -21,7 +21,7 @@
  *  64291 Darmstadt
  *  Germany
  *
- * Author: H.Essel@gsi.de
+ * Author: H.Essel(at)gsi.de
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the

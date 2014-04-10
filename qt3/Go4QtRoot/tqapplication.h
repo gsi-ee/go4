@@ -38,7 +38,7 @@
 *  @short Root application interfaced with Qt
 *
 * @see TApplication
-* @authors Denis Bertini <d.bertini@gsi.de> , Manuel Sanchez <m.sanchez@gsi.de>
+* @authors Denis Bertini <d.bertini(at)gsi.de> , Manuel Sanchez <m.sanchez(at)gsi.de>
 * @version 0.7b
 */
 

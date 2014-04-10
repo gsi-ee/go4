@@ -224,7 +224,7 @@ EXAMPLES:
 ------------------------------------------------------------------
 See source code comments for additional information.
 
-31-May-2007   Joern Adamczewski (J.Adamczewski@gsi.de)
+31-May-2007   Joern Adamczewski (J.Adamczewski(at)gsi.de)
 
 
 

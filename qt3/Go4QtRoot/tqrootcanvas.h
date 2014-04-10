@@ -33,7 +33,7 @@ class TQCanvasMenu;
 /** This canvas uses Qt eventloop to handle user input
   *   @short Graphic Qt Widget based Canvas
   *
-  * @authors Denis Bertini <d.bertini@gsi.de>
+  * @authors Denis Bertini <d.bertini(at)gsi.de>
   * @version 2.0
   */
 

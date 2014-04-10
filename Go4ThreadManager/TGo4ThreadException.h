@@ -22,10 +22,9 @@ class TGo4ThreadHandler;
 
 /**
  * Exception base class for all exceptions acting on a thread.
- * @author J. Adamczewski
+ * @author J. Adamczewski(at)gsi.de
  * @author Go4 project-DVEE-GSI Darmstadt
  * @author Germany
- * @author j.adamczewski@gsi.de
  * @version 0.9
  * @since jul 2000-oct 2001*/
 class TGo4ThreadException : public TGo4ControlException {

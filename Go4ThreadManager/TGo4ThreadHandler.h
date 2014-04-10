@@ -31,10 +31,9 @@ class TGo4Runnable;
   *   this threadmanager instance pointer is given to each thread and runnable on
   *   creation, thus each thread can acces its manager  methods by
   *   threadmanager pointer
-  * @author J. Adamczewski
+  * @author J. Adamczewski(at)gsi.de
   * @author Go4 project-DVEE-GSI Darmstadt
   * @author Germany
-  * @author j.adamczewski@gsi.de
   * @version 0.9
   * @since jul 2000-oct 2001  */
 

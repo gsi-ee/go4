@@ -64,7 +64,5 @@ III. How to modify standard example?
    This function should create main user widget and return its pointer
    back. In provided example this function situated in the beginning
    of QUserPanel.cpp file.
-   
-3. Some more ?
          
-  09.Nov.06                        S.Linev@gsi.de
+  9.Nov.2006                        S.Linev(at)gsi.de

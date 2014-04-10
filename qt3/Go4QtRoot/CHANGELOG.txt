@@ -168,7 +168,7 @@ QtROOT code :
 #########################################################################
 #
 # Qt& ROOT v2.3  release notes
-# Date 13/08/2001 author: Denis Bertini <D.Bertini@gsi.de>
+# Date 13/08/2001 author: D.Bertini(at)gsi.de
 # updated 31/10/01
 #
 ##########################################################################

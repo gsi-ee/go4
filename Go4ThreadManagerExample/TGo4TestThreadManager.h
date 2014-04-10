@@ -24,10 +24,9 @@
  * creates the runnables in its constructor and adds them to the threadhandler.
  * NOTE: The Launch() method must be called at the end of the user threadmanager
  * constructor to let all things begin.
- * @author J. Adamczewski
+ * @author J. Adamczewski(at)gsi.de
  * @author Go4 project-DVEE-GSI Darmstadt
  * @author Germany
- * @author j.adamczewski@gsi.de
  * @version 0.9
  * @since jul 2000-oct 2001
  */

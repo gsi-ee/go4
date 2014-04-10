@@ -82,5 +82,4 @@ UserPreLoop (called before event loop starts),
 UserEventFunc (called after TXXXProc->Event),
 UserPostLoop (called after event loop stopped).
 
-H.Essel@gsi.de
-06159 712491
+H.Essel(at)gsi.de, S.Linev(at)gsi.de 

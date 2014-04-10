@@ -41,7 +41,7 @@ class QVBoxLayout;
 * @see QRootCanvas
 *
 *
-* @authors Denis Bertini <d.bertini@gsi.de>, Sergey Linev
+* @authors Denis Bertini <d.bertini(at)gsi.de>, Sergey Linev <S.Linev(at)gsi.de>
 * @version 2.0
 */
 

@@ -52,7 +52,7 @@ class TQRootCanvas;
 *
 * @see QRootCanvas, QMainWindow, QPopupMenu, QAction, QString
 *
-* @authors Denis Bertini <d.bertini@gsi.de>
+* @authors Denis Bertini <d.bertini(at)gsi.de>
 * @version 2.0
 *
 */

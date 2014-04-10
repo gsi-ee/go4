@@ -58,10 +58,9 @@ class TGo4TestThreadManager;
  * TThread is killed. The runnable exists independent from the thread.
  * NOTE2: The user just has to create own runnables and a threadmanager subclasses,
  * subclassing of  TGo4Thread or other parts of the package are not required!
- * @author J. Adamczewski
+ * @author J. Adamczewski(at)gsi.de
  * @author Go4 project-DVEE-GSI Darmstadt
  * @author Germany
- * @author j.adamczewski@gsi.de
  * @version 0.9
  * @since jul 2000-oct 2001
  */
