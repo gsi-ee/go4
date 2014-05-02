@@ -524,14 +524,18 @@ void TGo4Browser::ListView_doubleClicked(QTreeWidgetItem* item, int ncol)
 
    if (go4sett->getDrawOnceFlag()) {
       TGo4ViewPanel* panel = WhereItemDrawn(fullname.toLatin1().constData());
-      if (panel!=0)  {
-         if (panel->isMinimized()) panel->showNormal();
-         panel->activateWindow();
-         panel->raise();
-         panel->show();
-         panel->setFocus();
-         return;
+
+      QWidget* mdi = panel ? panel->parentWidget() : 0;
+
+      if (mdi!=0)  {
+         if (mdi->isMinimized()) mdi->showNormal();
+         mdi->activateWindow();
+         mdi->raise();
+         mdi->show();
+         mdi->setFocus();
       }
+
+      if (panel!=0) return;
    }
 
    if (TGo4BrowserProxy::CanDrawItem(cando))

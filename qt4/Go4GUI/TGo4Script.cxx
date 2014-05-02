@@ -1013,14 +1013,16 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
 
       pic.SavePrimitive(fs,"");
 
-      QPoint pos = panel->parentWidget()->pos();
-      panel->parentWidget()->mapToParent(pos);
-      QSize size = panel->parentWidget()->size();
+      QWidget* mdi = panel->parentWidget();
+
+      QPoint pos = mdi->pos();
+      mdi->mapToParent(pos);
+      QSize size = mdi->size();
 
       const char* mode = "Go4_normal";
-      if (panel->isHidden()) mode = "Go4_hidden"; else
-      if (panel->isMinimized()) mode = "Go4_minimized"; else
-      if (panel->isMaximized()) mode = "Go4_maximized";
+      if (mdi->isHidden()) mode = "Go4_hidden"; else
+      if (mdi->isMinimized()) mode = "Go4_minimized"; else
+      if (mdi->isMaximized()) mode = "Go4_maximized";
 
       fs << "go4->StartViewPanel("
          << pos.x() << ", "
