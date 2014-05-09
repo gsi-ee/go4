@@ -21,21 +21,6 @@
 
 #include "typedefs.h" /* typedef INTS1, INTS2, ... */
 
-#ifndef OSK
-INTS4 f_stc_connectserver ();
-INTS4 f_stc_createserver  ();
-INTS4 f_stc_listenserver  ();
-INTS4 f_stc_acceptclient  ();
-INTS4 f_stc_disperror     ();
-INTS4 f_stc_read          ();
-INTS4 f_stc_write         ();
-INTS4 f_stc_close         ();
-INTS4 f_stc_discclient    ();
-
-void  f_stc_swap4  (INTS4 *);
-
-#endif
-
 #ifdef GSI__WINNT
 
 #include <stdio.h>
@@ -406,6 +391,22 @@ struct s_comm_portserv {
 #define STC__ECONNRES   28
 
 #define TCPCOMM_INCLUDE   1
+
+
+#ifndef OSK
+INTS4 f_stc_connectserver (CHARS *c_node, INTS4 l_port, INTS4 *pi_channel, struct s_tcpcomm *ps_client);
+INTS4 f_stc_createserver  (INTS4 *pl_port, struct s_tcpcomm *ps_server);
+INTS4 f_stc_listenserver  (struct s_tcpcomm *ps_server);
+INTS4 f_stc_acceptclient  (struct s_tcpcomm *ps_server, INTS4 *pi_channel);
+INTS4 f_stc_disperror     (INTS4 i_error, CHARS *c_dest, INTS4 i_out);
+INTS4 f_stc_read          (void *p_buffer, INTS4 i_buflen, INTS4 i_channel , INTS4 i_timeout);
+INTS4 f_stc_write         (void *p_buffer, INTS4 i_buflen, INTS4 i_channel);
+INTS4 f_stc_close         (struct s_tcpcomm *ps_tcp);
+INTS4 f_stc_discclient    (INTS4 i_channel);
+
+void  f_stc_swap4  (INTS4 *);
+#endif
+
 
 #endif
 

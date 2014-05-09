@@ -29,7 +29,7 @@
 #include "f_stccomm.h"
 #include "f_ut_status.h"
 
-long l_gl_tcp_chan;
+INTS4 l_gl_tcp_chan;
 
 int l_status,l;
 
