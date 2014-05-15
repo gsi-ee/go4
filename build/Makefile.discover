@@ -118,7 +118,7 @@ endif
 
 ifneq ($(withdabc),no)
 ifdef DABCSYS
-ifneq ($(wildcard $(DABCSYS)/include/root/Player.h),)
+ifneq ($(wildcard $(DABCSYS)/include/root/Monitor.h),)
 USEDABC = true
 DABCLIBPATH = $(DABCSYS)/lib
 DABCINCPATH = $(DABCSYS)/include
