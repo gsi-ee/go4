@@ -21,10 +21,9 @@
 
 #include "dabc/Hierarchy.h"
 
-TGo4Sniffer::TGo4Sniffer(const char* name, Int_t comp) :
+TGo4Sniffer::TGo4Sniffer(const char* name) :
    TRootSniffer(name,"dabc")
 {
-   SetCompression(comp);
 }
 
 void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)

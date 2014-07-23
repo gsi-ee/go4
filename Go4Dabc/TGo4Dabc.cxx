@@ -25,7 +25,7 @@ bool TGo4Dabc::CreateEngine(const char* args)
    if (gGo4HttpServer == 0) {
       gGo4HttpServer = new THttpServer("");
 
-      gGo4HttpServer->SetSniffer(new TGo4Sniffer("go4_dabc",5));
+      gGo4HttpServer->SetSniffer(new TGo4Sniffer("go4_dabc"));
    }
 
    const char* separ = (strchr(args,'?')!=0) ? "&" : "?";

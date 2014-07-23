@@ -19,7 +19,7 @@
 
 class TGo4Sniffer : public TRootSniffer {
    public:
-      TGo4Sniffer(const char* name, Int_t comp);
+      TGo4Sniffer(const char* name);
 
       virtual ~TGo4Sniffer() {}
 

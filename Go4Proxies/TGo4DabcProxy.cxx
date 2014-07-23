@@ -213,8 +213,8 @@ class TGo4DabcAccess : public TGo4Access {
                return 0;
             }
 
-            dabc::CmdGetBinary cmd;
-            cmd.SetStr("Item", fItemName);
+            dabc::CmdGetBinary cmd(fItemName, "root.bin", "");
+            // cmd.SetStr("Item", fItemName);
             // cmd.SetUInt("version", version);
             cmd.SetTimeout(10.);
             cmd.SetReceiver(fNodeName + dabc::Publisher::DfltName());
@@ -291,7 +291,7 @@ class TGo4DabcAccess : public TGo4Access {
          if (!fRootClassName.empty()) {
             TClass *cl = TClass::GetClass(fRootClassName.c_str());
 
-            dabc::BinDataHeader* hdr = (dabc::BinDataHeader*) fRawData.SegmentPtr();
+            // dabc::BinDataHeader* hdr = (dabc::BinDataHeader*) fRawData.SegmentPtr();
 
             TGo4Slot* tgtslot = fxReceiver->GetSlot(fxRecvPath.Data());
 
@@ -308,8 +308,8 @@ class TGo4DabcAccess : public TGo4Access {
                if (!masterslot->GetIntPar("dabc_version", local_master_version))
                   local_master_version = 0;
 
-               if (local_master_version >= (Int_t) hdr->master_version) {
-                  //printf("MASTER version %d required %u EXISTS!!!\n", local_master_version, hdr->master_version);
+               if (local_master_version >= cmd.GetInt("MVersion")) {
+                  //printf("MASTER version %d required %d EXISTS!!!\n", local_master_version, cmd.GetInt("MVersion"));
                } else
                if (masterslot->GetPar("dabc_loading")!=0) {
                   // if master slot loading, we will try to check again 1 sec later
@@ -332,7 +332,7 @@ class TGo4DabcAccess : public TGo4Access {
                }
             }
 
-            TGo4Log::Debug("Item %s raw_data size %u master_version %u", fItemName.c_str(), fRawData.GetTotalSize(), hdr->master_version);
+            TGo4Log::Debug("Item %s raw_data size %u master_version %u", fItemName.c_str(), fRawData.GetTotalSize(), cmd.GetInt("MVersion"));
 
             char *pobj = (char*) cl->New();
 
@@ -357,15 +357,15 @@ class TGo4DabcAccess : public TGo4Access {
             char* rawbuf(0);
             Int_t rawbuflen(0);
 
-            if (hdr->is_zipped()) {
-               rawbuf = new char[hdr->zipped];
-               rawbuflen = hdr->zipped;
+            if (cmd.GetInt("ZippedSize")>0) {
+               rawbuflen = cmd.GetInt("ZippedSize");
+               rawbuf = new char[rawbuflen];
 
                // target
                char *objbuf = rawbuf;
 
                // source
-               UChar_t *bufcur = (UChar_t *) hdr->rawdata();
+               UChar_t *bufcur = (UChar_t *) fRawData.SegmentPtr();
 
                Int_t nin, nout = 0, nbuf;
                Int_t noutot = 0;
@@ -384,8 +384,8 @@ class TGo4DabcAccess : public TGo4Access {
                   rawbuflen = 0;
                }
             } else {
-               rawbuf = (char*) hdr->rawdata();
-               rawbuflen = hdr->payload;
+               rawbuf = (char*) fRawData.SegmentPtr();
+               rawbuflen = fRawData.GetTotalSize();
             }
 
             if (rawbuflen>0) {
@@ -398,7 +398,7 @@ class TGo4DabcAccess : public TGo4Access {
                tobj = 0;
             }
 
-            if (hdr->is_zipped())
+            if (cmd.GetInt("ZippedSize")>0)
                delete[] rawbuf;
 
             if ((fObjName == "StreamerInfo") &&
@@ -415,7 +415,7 @@ class TGo4DabcAccess : public TGo4Access {
             if (tobj) {
                if (tgtslot) {
                   tgtslot->RemovePar("dabc_loading");  // indicate that loading is finished
-                  tgtslot->SetIntPar("dabc_version", (Int_t) hdr->version);
+                  tgtslot->SetIntPar("dabc_version", cmd.GetInt("BVersion"));
                }
                DoObjectAssignement(fxReceiver, fxRecvPath.Data(), tobj, kTRUE);
             }
