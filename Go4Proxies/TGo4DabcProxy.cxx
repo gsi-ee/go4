@@ -34,8 +34,8 @@
 #include "dabc/Publisher.h"
 #include "dabc/Configuration.h"
 
-extern "C" void R__unzip(Int_t *nin, UChar_t *bufin, Int_t *lout, char *bufout, Int_t *nout);
-extern "C" int R__unzip_header(Int_t *nin, UChar_t *bufin, Int_t *lout);
+extern "C" int R__unzip_header(int *nin, unsigned char *bufin, int *lout);
+extern "C" void R__unzip(int  *nin, unsigned char* bufin, int *lout, unsigned char *bufout, int *nout);
 
 bool IsRateHistory(const dabc::Hierarchy& item)
 {
@@ -86,6 +86,7 @@ class TGo4DabcAccess : public TGo4Access {
       TGo4ObjectManager* fxReceiver;
       TString             fxRecvPath;
       dabc::Buffer     fRawData;     //! raw data, get from command
+      Bool_t           fCompression;   //! request compression from server
 
    public:
 
@@ -101,7 +102,8 @@ class TGo4DabcAccess : public TGo4Access {
          fHistoryLength(0),
          fxReceiver(0),
          fxRecvPath(),
-         fRawData()
+         fRawData(),
+         fCompression(kTRUE)
       {
          fObjName = "StreamerInfo";
          fItemName = sinfoname;
@@ -123,7 +125,8 @@ class TGo4DabcAccess : public TGo4Access {
          fHistoryLength(0),
          fxReceiver(0),
          fxRecvPath(),
-         fRawData()
+         fRawData(),
+         fCompression(kTRUE)
       {
          fObjName = item.GetName();
          fItemName = item.ItemName();
@@ -213,7 +216,7 @@ class TGo4DabcAccess : public TGo4Access {
                return 0;
             }
 
-            dabc::CmdGetBinary cmd(fItemName, "root.bin", "");
+            dabc::CmdGetBinary cmd(fItemName, "root.bin", fCompression ? "zipped" : "");
             // cmd.SetStr("Item", fItemName);
             // cmd.SetUInt("version", version);
             cmd.SetTimeout(10.);
@@ -357,31 +360,20 @@ class TGo4DabcAccess : public TGo4Access {
             char* rawbuf(0);
             Int_t rawbuflen(0);
 
-            if (cmd.GetInt("ZippedSize")>0) {
-               rawbuflen = cmd.GetInt("ZippedSize");
-               rawbuf = new char[rawbuflen];
+            if (fCompression) {
 
-               // target
-               char *objbuf = rawbuf;
+               int sizeinp(fRawData.GetTotalSize()), sizeout(0), irep(0);
 
-               // source
-               UChar_t *bufcur = (UChar_t *) fRawData.SegmentPtr();
+               if (R__unzip_header(&sizeinp, (unsigned char*) fRawData.SegmentPtr(), &sizeout)) {
+                  printf("Fail to decode zip header\n");
+               } else {
+                  rawbuf = (char*) malloc(sizeout);
 
-               Int_t nin, nout = 0, nbuf;
-               Int_t noutot = 0;
-               while (1) {
-                  Int_t hc = R__unzip_header(&nin, bufcur, &nbuf);
-                  if (hc!=0) break;
-                  R__unzip(&nin, bufcur, &nbuf, objbuf, &nout);
-                  if (!nout) break;
-                  noutot += nout;
-                  if (noutot >= rawbuflen) break;
-                  bufcur += nin;
-                  objbuf += nout;
-               }
-               // mark size of buffer 0
-               if (nout==0) {
-                  rawbuflen = 0;
+                  R__unzip(&sizeinp, (unsigned char*) fRawData.SegmentPtr(), &sizeout, (unsigned char*) rawbuf, &irep);
+
+                  printf("Compressed %d Uncompressed size = %d\n", sizeinp, irep);
+
+                  rawbuflen = irep;
                }
             } else {
                rawbuf = (char*) fRawData.SegmentPtr();
@@ -398,8 +390,7 @@ class TGo4DabcAccess : public TGo4Access {
                tobj = 0;
             }
 
-            if (cmd.GetInt("ZippedSize")>0)
-               delete[] rawbuf;
+            if (fCompression) free(rawbuf);
 
             if ((fObjName == "StreamerInfo") &&
                 (fRootClassName == "TList") &&
