@@ -26,9 +26,9 @@ class TGo4DabcPlayer : public root::Monitor,
 
       virtual void InitializeHierarchy();
 
-      virtual int ExecuteCommand(dabc::Command cmd);
-
       virtual int ProcessGetBinary(TRootSniffer* sniff, dabc::Command cmd);
+
+      virtual bool ProcessHCommand(const std::string& cmdname, dabc::Command cmd);
 
    public:
       TGo4DabcPlayer(const std::string& name, dabc::Command cmd = 0);
@@ -43,7 +43,6 @@ class TGo4DabcPlayer : public root::Monitor,
 
       /** Method called by logger with every string, going to output */
       virtual void SetTitle(const char* title = "");
-
 };
 
 #endif

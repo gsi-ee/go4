@@ -48,65 +48,6 @@ class TGo4DabcFactory : public dabc::Factory {
 
 dabc::FactoryPlugin go4dabc_factory(new TGo4DabcFactory("go4"));
 
-// ================================================================================
-
-
-// Timer used to invoke commands in the main process
-
-class TExecDabcCmdTimer : public TTimer {
-   public:
-      dabc::Command fCmd;
-      TGo4DabcPlayer* fSniffer;
-
-      TExecDabcCmdTimer(dabc::Command cmd, TGo4DabcPlayer* sniff) :
-         TTimer(0),
-         fCmd(cmd),
-         fSniffer(sniff)
-      {
-         Add();
-      }
-
-      virtual Bool_t Notify()
-      {
-         Remove();
-
-         if (!fCmd.null()) {
-            // DOUT0("MY COMMAND!!");
-
-            TGo4Analysis* an = TGo4Analysis::Instance();
-
-            if (fCmd.IsName("CmdClear")) {
-               if (an) {
-                  an->ClearObjects("Histograms");
-                  fSniffer->StatusMessage(0, "Clear Histograms folder");
-                  std::cout << "web: Clear Histograms folder" << std::endl;
-               }
-            } else
-            if (fCmd.IsName("CmdStart")) {
-               if (an) {
-                  an->StartAnalysis();
-                  fSniffer->StatusMessage(0, "Resume analysis loop");
-                  std::cout << "web: Resume analysis loop" << std::endl;
-               }
-            } else
-            if (fCmd.IsName("CmdStop")) {
-               if (an) {
-                  an->StopAnalysis();
-                  fSniffer->StatusMessage(0, "Suspend analysis loop");
-                  std::cout << "web: Suspend analysis loop" << std::endl;
-               }
-            }
-
-            fCmd.ReplyBool(true);
-         }
-
-         delete this;
-
-         return kFALSE;
-      }
-};
-
-// =================================================================================
 
 TGo4DabcPlayer::TGo4DabcPlayer(const std::string& name, dabc::Command cmd) :
    root::Monitor(name, cmd),
@@ -193,15 +134,6 @@ void TGo4DabcPlayer::SetTitle(const char* title)
 }
 
 
-int TGo4DabcPlayer::ExecuteCommand(dabc::Command cmd)
-{
-   if (cmd.IsName("CmdClear") ||
-       cmd.IsName("CmdStart") ||
-       cmd.IsName("CmdStop")) { new TExecDabcCmdTimer(cmd, this); return dabc::cmd_postponed; }
-
-   return root::Monitor::ExecuteCommand(cmd);
-}
-
 int TGo4DabcPlayer::ProcessGetBinary(TRootSniffer* sniff, dabc::Command cmd)
 {
    TGo4Analysis* an = TGo4Analysis::Instance();
@@ -214,5 +146,36 @@ int TGo4DabcPlayer::ProcessGetBinary(TRootSniffer* sniff, dabc::Command cmd)
    } else {
       return root::Monitor::ProcessGetBinary(sniff, cmd);
    }
+}
+
+bool TGo4DabcPlayer::ProcessHCommand(const std::string& cmdname, dabc::Command)
+{
+   TGo4Analysis* an = TGo4Analysis::Instance();
+
+   if (cmdname == "Status/CmdClear") {
+      if (an) {
+         an->ClearObjects("Histograms");
+         StatusMessage(0, "Clear Histograms folder");
+         std::cout << "web: Clear Histograms folder" << std::endl;
+      }
+      return true;
+   }
+   if (cmdname == "Status/CmdStart") {
+      if (an) {
+         an->StartAnalysis();
+         StatusMessage(0, "Resume analysis loop");
+         std::cout << "web: Resume analysis loop" << std::endl;
+      }
+      return true;
+   }
+   if (cmdname == "Status/CmdStop") {
+      if (an) {
+         an->StopAnalysis();
+         StatusMessage(0, "Suspend analysis loop");
+         std::cout << "web: Suspend analysis loop" << std::endl;
+      }
+      return true;
+   }
+   return false;
 }
 
