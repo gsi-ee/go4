@@ -53,7 +53,7 @@ TGo4MbsSubEvent::~TGo4MbsSubEvent()
    // check if Clear with only the used field elements worked correctly
    //TGo4Log::Info( "MBS SubEvent dtor...");
    Clear();
-   if(fbIsDataOwner) {
+   if(fbIsDataOwner && (fiData!=0)) {
       for(Int_t t=0; t<GetAllocatedLength(); t++)
          if(fiData[t]!=0)
             TGo4Log::Debug( " MBS SubEvent dtor WARNING: Data(%d) not zero after Clear !!!  ",t);
@@ -147,7 +147,7 @@ void  TGo4MbsSubEvent::Clear(Option_t *t)
 {
    GO4TRACE((11,"TGo4MbsSubEvent::Clear()",__LINE__, __FILE__));
    fbIsFilled = kFALSE;
-   if(fbIsDataOwner) {
+   if(fbIsDataOwner && (fiData!=0)) {
       // clear array of data
       Int_t dleng = GetDlen();
       if(dleng==0) dleng=2; // default value for dleng is not zero!!
@@ -176,10 +176,10 @@ void TGo4MbsSubEvent::ReAllocate(Int_t newsize)
       // newsize is smaller, we do not reallocate
    } else {
       delete [] fiData;
-      fiData= new Int_t[newsize];
+      fiData = new Int_t[newsize];
       //std::cout<< "Subevent: Reallocating " << newsize << ", previous:"<< fiAllocLen<< std::endl;
       TGo4Log::Debug(" MbsSubEvent: Reallocating Data field from %d to %d longwords ",fiAllocLen,newsize);
-      fiAllocLen=newsize;
+      fiAllocLen = newsize;
       Clear();
    }
 }
