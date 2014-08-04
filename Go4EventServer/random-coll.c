@@ -11,6 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+
+
 /*----------------------------------------------------------------------
    DISCLAIMER
 
@@ -81,9 +83,8 @@
 
 ----------------------------------------------------------------------*/
 
-extern double p_dUniform ();
-extern double pow ();
-extern double p_dGammaGen ();
+#include "random-coll.h"
+
 #define BETA_TURNING_POINT 2
 
 double   p_dBeta (a,b,seed)

@@ -11,6 +11,9 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+#ifndef random_coll_h
+#define random_coll_h
+
 
    double   p_dBeta (double a,double b, unsigned int *seed);
    int      p_iBinomial (double p,int n,unsigned int *seed);
@@ -22,3 +25,5 @@
    int      p_iPoisson(double mu,unsigned *seed);
    unsigned p_iUniform (unsigned *seed);
    double   p_dUniform(unsigned *seed);
+
+#endif
