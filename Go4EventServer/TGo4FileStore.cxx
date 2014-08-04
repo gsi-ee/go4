@@ -185,7 +185,6 @@ Int_t TGo4FileStore::Store(TGo4EventElement* event)
 {
    GO4TRACE((12,"TGo4FileStore::Store(TGo4EventElement*)", __LINE__, __FILE__));
 
-   Int_t rev=-1;
    fxEvent = event; // address of next event into event pointer
    if(!fbBranchExists) {
       // first call of Store, create new branch
@@ -212,7 +211,6 @@ Int_t TGo4FileStore::Store(TGo4EventElement* event)
       else
       {
          // this is an error....
-         rev=1;
       }
    } // if(!fbEventBranchExists)
 
