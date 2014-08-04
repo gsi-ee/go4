@@ -84,6 +84,7 @@
 ----------------------------------------------------------------------*/
 
 #include "random-coll.h"
+#include <math.h>
 
 #define BETA_TURNING_POINT 2
 
