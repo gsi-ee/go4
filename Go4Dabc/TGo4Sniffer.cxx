@@ -45,9 +45,8 @@ void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
    {
       TRootSnifferScanRec chld;
       if (chld.GoInside(rec, 0, "StreamerInfo"))
-         chld.SetField(dabc::prop_kind, "ROOT.TList");
+         chld.SetField(dabc::prop_kind, "ROOT.TStreamerInfoList");
    }
-
 
    TGo4LockGuard mainlock;
 
