@@ -37,7 +37,7 @@ fi
 
 if [[ "$ROOTINTERPRETER" == "rootcint" ]]; then
 
-   echo "Generating dictionary $DICTIONARY ..." 
+   echo "Generating root5 dictionary $DICTIONARY ..." 
 
    $CINT -f $DICTIONARY $CINTOPT $CXXOPTIONS $HEADERS
    
