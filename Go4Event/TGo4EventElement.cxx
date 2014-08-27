@@ -18,7 +18,11 @@
 #include "TGo4Log.h"
 #include "TGo4EventSource.h"
 
+/** JAM- workaround since gTree was removed in ROOT finally...
+ */
+#if ROOT_VERSION_CODE <= ROOT_VERSION(5,34,19)
 R__EXTERN TTree *gTree;
+#endif
 
 TGo4EventElement::TGo4EventElement() :
    TNamed("Go4Element","This is a Go4 EventElement"),
@@ -156,22 +160,31 @@ Int_t TGo4EventElement::activateBranch(TBranch *branch, Int_t init, TGo4EventEle
 
 void TGo4EventElement::deactivate()
 {
-   TString name = GetName();
+  TString name = GetName();
+#if ROOT_VERSION_CODE <= ROOT_VERSION(5,34,19)
    name+=".";
    gTree->SetBranchStatus(name.Data(), 0);
    name+="*";
    gTree->SetBranchStatus(name.Data(), 0);
    TGo4Log::Info("-I- Deactivating elements at location : %s", name.Data());
+#else
+   TGo4Log::Warn("-W- Could not deactivate() event element %s in this ROOT Version, do not use!", name.Data());
+#endif
 }
 
 void TGo4EventElement::activate()
 {
-   TString name=GetName();
+  TString name=GetName();
+  #if ROOT_VERSION_CODE <= ROOT_VERSION(5,34,19)
    name+=".";
    gTree->SetBranchStatus(name.Data(), 1);
    name+="*";
    gTree->SetBranchStatus(name.Data(), 1);
    TGo4Log::Info("-I- Activating elements at location : %s", name.Data());
+#else
+   TGo4Log::Warn("-W- Could not activate() element %s in this ROOT Version, do not use!", name.Data());
+#endif
+
 }
 
 void TGo4EventElement::Clear(Option_t *)
