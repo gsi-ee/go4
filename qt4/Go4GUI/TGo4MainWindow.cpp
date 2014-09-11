@@ -1738,8 +1738,9 @@ TGo4AnalysisConfiguration* TGo4MainWindow::EstablishAnalysisConfiguration(int le
          QMdiSubWindow* sub = fxMdiArea->addSubWindow(conf);
          CascadeMdiPosition(sub);
          ConnectGo4Widget(conf);
-         conf->ensurePolished();
-         sub->show();
+         // ! do not show configuration window before analysis settings requested
+         // conf->ensurePolished();
+         // sub->show();
       }
       TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
       if (anal!=0) {

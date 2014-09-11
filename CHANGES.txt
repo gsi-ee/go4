@@ -45,14 +45,15 @@ Changes in Go4 v4.6.x
 10.To provide full support of ROOT6 one dictionary per go4 library 
    will be created. Exclude dictionary generation for gui classes while
    no libraries with qt classes exists. 
-11.Mostly comlete porting to ROOT6 and Qt5.
-12.Introdece UserPreLoop() and UserPostLoop() methods in TGo4EventProcessor.
+11.Mostly complete porting to ROOT6 and Qt5.
+12.Introduce UserPreLoop() and UserPostLoop() methods in TGo4EventProcessor.
    One can use such methods without creation of specialized analysis class. 
 13.Implement TGo4Analysis::GetInputFileName() - returns currently processed 
    file name. Automatically reset TGo4Analysis::IsNewInputFile() at the end
    of event processing. 
 14.Introduce Go4ExampleDabc, which shows usages of DABC functionality in Go4.
    Example shows how one can regularly submit commands to running MBS. 
+15.Support -std=c++11, which is now used in ROOT6.
               
 
 Changes in Go4 v4.6.0 (November 2013)

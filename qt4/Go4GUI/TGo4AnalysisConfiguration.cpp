@@ -19,7 +19,6 @@
 #include "TGo4AnalysisStatus.h"
 #include "TGo4AnalysisStepStatus.h"
 #include "TGo4AnalysisProxy.h"
-#include "TGo4AnalysisConfiguration.h"
 
 
 TGo4AnalysisConfiguration::TGo4AnalysisConfiguration(QWidget *parent, const char* name) :
