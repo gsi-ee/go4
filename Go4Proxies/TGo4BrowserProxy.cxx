@@ -1416,7 +1416,7 @@ void TGo4BrowserProxy::SetItemCanDo(TGo4Slot* slot, Int_t cando)
 
 Bool_t TGo4BrowserProxy::IsItemMonitored(TGo4Slot* slot)
 {
-   return slot==0 ? kFALSE : slot->GetPar("GUI::Monitored")!=0;
+   return slot==0 ? kTRUE : slot->GetPar("GUI::NotMonitored")==0;
 }
 
 void TGo4BrowserProxy::SetItemMonitored(TGo4Slot* slot, Bool_t on)
@@ -1432,10 +1432,11 @@ void TGo4BrowserProxy::SetItemMonitored(TGo4Slot* slot, Bool_t on)
       }
    } else {
       if (on) {
-         slot->SetPar("GUI::Monitored","1");
+         slot->RemovePar("GUI::NotMonitored");
          CheckPictureMonitor(slot);
-      } else
-         slot->RemovePar("GUI::Monitored");
+      } else {
+         slot->SetPar("GUI::NotMonitored","1");
+      }
    }
 }
 

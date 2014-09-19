@@ -1025,17 +1025,17 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
             TGo4Slot* subsubslot = subiter.getslot();
             if (br->ItemKind(subsubslot)!=TGo4Access::kndObject) continue;
             ncount++;
-            if (br->IsItemMonitored(subsubslot)) ncheck++;
+            if (!br->IsItemMonitored(subsubslot)) ncheck++;
                                          else break;
          }
          goinside = (ncount==0) || (ncheck!=ncount);
       } else
-         goinside = !br->IsItemMonitored(subslot);
+         goinside = br->IsItemMonitored(subslot);
 
       if (!goinside) {
          TString sbuf;
          if (br->BrowserItemName(subslot, sbuf))
-           fs << "go4->MonitorItem(\"" << sbuf << "\");" << std::endl;
+           fs << "go4->MonitorItem(\"" << sbuf << "\",kFALSE);" << std::endl;
       }
 
 //      std::cout << "Test subslot: " << subslot->GetFullName() <<

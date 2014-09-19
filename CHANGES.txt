@@ -54,17 +54,19 @@ Changes in Go4 v4.6.x
 14.Introduce Go4ExampleDabc, which shows usages of DABC functionality in Go4.
    Example shows how one can regularly submit commands to running MBS. 
 15.Support -std=c++11, which is now used in ROOT6.
+16.By default all objects appear in gui with monitor flag. 
+   Only monitoring should be started to get any histogram/graph monitored. 
               
 
 Changes in Go4 v4.6.0 (November 2013)
 1. Start implementation of new communication interfaces in Go4. Therefore
-   change of version number. Aim to make fast 4.6 relase and than 5.0 till
+   change of version number. Aim to make fast 4.6 release and than 5.0 till
    end of 2013.
 2. Start implementing direct channel to DABC. For the moment only optional.
 3. With use of DABC classes http server to go4analysis is introduced. 
-   Just add "-http 8090" arhguments to start web server, which can deliver 
+   Just add "-http 8090" arguments to start web server, which can deliver 
    all go4 objects to browser! 
-4. Also with DABC classes provide possibility to optinally connect with
+4. Also with DABC classes provide possibility to optionally connect with
    DABC master node, which can export go4 data via http server. By this
    data from many go4 analysis can be agregated in the same server!     
 5. To get different DABC functionality to go4, one need to compile go4
