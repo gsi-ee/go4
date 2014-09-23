@@ -1709,9 +1709,9 @@ TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char* title,
       }
 
       if (oldh->InheritsFrom(sclass))
-         TGo4Log::Info("Rebuild existing histogram %s", fullname);
+         TGo4Log::Info("Rebuild existing histogram %s, reuse content", fullname);
       else
-         TGo4Log::Info("There is histogram %s with type %s other than specified %s, rebuild",
+         TGo4Log::Info("There is histogram %s with type %s other than specified %s, rebuild and reuse content",
                                  fullname, oldh->ClassName(), sclass);
 
       // do not delete histogram immediately
@@ -1791,9 +1791,9 @@ TH2* TGo4Analysis::MakeTH2(char type, const char* fullname, const char* title,
          return (TH2*) oldh;
       }
       if (oldh->InheritsFrom(sclass))
-         TGo4Log::Info("Rebuild existing histogram %s", fullname);
+         TGo4Log::Info("Rebuild existing histogram %s, reuse content", fullname);
       else
-         TGo4Log::Info("There is histogram %s with type %s other than specified %s, rebuild",
+         TGo4Log::Info("There is histogram %s with type %s other than specified %s, rebuild and reuse content",
                         fullname, oldh->ClassName(), sclass);
 
       // do not delete histogram immediately
