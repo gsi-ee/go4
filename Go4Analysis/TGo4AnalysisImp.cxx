@@ -1713,6 +1713,12 @@ TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char* title,
       else
          TGo4Log::Info("There is histogram %s with type %s other than specified %s, rebuild",
                                  fullname, oldh->ClassName(), sclass);
+
+      // do not delete histogram immediately
+      RemoveHistogram(fullname, kFALSE);
+
+      // prevent ROOT to complain about same name
+      oldh->SetName("___");
    }
 
    TH1* newh = 0;
@@ -1732,7 +1738,7 @@ TH1* TGo4Analysis::MakeTH1(char type, const char* fullname, const char* title,
 
    if (oldh) {
       if ((oldh->GetDimension()==1) && fbMakeWithAutosave) newh->Add(oldh);
-      RemoveHistogram(fullname);
+      delete oldh; oldh = 0;
    }
 
    if (foldername.Length() > 0)
@@ -1789,6 +1795,12 @@ TH2* TGo4Analysis::MakeTH2(char type, const char* fullname, const char* title,
       else
          TGo4Log::Info("There is histogram %s with type %s other than specified %s, rebuild",
                         fullname, oldh->ClassName(), sclass);
+
+      // do not delete histogram immediately
+      RemoveHistogram(fullname, kFALSE);
+
+      // prevent ROOT to complain about same name
+      oldh->SetName("___");
    }
 
    TH2* newh = 0;
@@ -1809,7 +1821,8 @@ TH2* TGo4Analysis::MakeTH2(char type, const char* fullname, const char* title,
 
    if (oldh) {
       if ((oldh->GetDimension()==2) && fbMakeWithAutosave) newh->Add(oldh);
-      RemoveHistogram(fullname);
+      delete oldh;
+      oldh = 0;
    }
 
    if (foldername.Length() > 0)
