@@ -4624,11 +4624,13 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
       // note: go4 range is full visible range of histogram
       // [low edge first bin, up edge last bin]
       // need to correct for upper bin width when transforming to ROOT user range:
-      TAxis* ay = h1->GetYaxis();
-      Double_t bwidthy = ay->GetBinWidth(ay->FindFixBin(umax));
-      ay->SetRangeUser(umin, umax - bwidthy);
+      if (ndim>1) {
+         TAxis* ay = h1->GetYaxis();
+         Double_t bwidthy = ay->GetBinWidth(ay->FindFixBin(umax));
+         ay->SetRangeUser(umin, umax - bwidthy);
+      }
    } else {
-      h1->GetYaxis()->UnZoom();
+      if (ndim>1) h1->GetYaxis()->UnZoom();
    }
 
    if (padopt->GetRange(2, umin, umax) && (ndim > 1)) {
