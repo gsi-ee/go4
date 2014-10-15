@@ -19,6 +19,7 @@
 #include "TH1.h"
 #include "TH2.h"
 #include "TCutG.h"
+#include "TMath.h"
 
 #include "TGo4Log.h"
 #include "TGo4WinCond.h"
@@ -56,19 +57,21 @@ TYYYUnpackProc::TYYYUnpackProc(const char* name) :
    fY = MakeTH1('D', "Position/Yfinal", "Scatt sim y (nm)",1000,-1e7,1e+7);
    fZ = MakeTH1('D', "Position/Zfinal", "Scatt sim z (nm)",1000, 1., 1e+8);
 
-   fVX = MakeTH1('D', "Velocity/Vxfinal", "Scatt sim vx (nm/ps)",1000, -5e+3,5e+3);
-   fVY = MakeTH1('D', "Velocity/Vyfinal", "Scatt sim vy (nm/ps)",1000, -5e+3,5e+3);
-   fVZ = MakeTH1('D', "Velocity/Vzfinal", "Scatt sim vz (nm/ps)",1000, 1.,3e+4);
-
-   fNumScatt = MakeTH1('D', "Nscatt", "Multiple scattering collisions",50000, 15000., 25000.);
+   fVX = MakeTH1('D', "Velocity/Vxfinal", "Scatt sim vx (nm/ps)",10000, -5e+3,5e+3);
+   fVY = MakeTH1('D', "Velocity/Vyfinal", "Scatt sim vy (nm/ps)",10000, -5e+3,5e+3);
+   fVZ = MakeTH1('D', "Velocity/Vzfinal", "Scatt sim vz (nm/ps)",10000, 1.,3e+4);
+   fThetaX=MakeTH1('D', "Angle/thetax", "Scatt sim x' (mrad)",10000, -5e+2,5e+2);
+   fThetaY=MakeTH1('D', "Angle/thetay", "Scatt sim y' (mrad)",10000, -5e+2,5e+2);
+   fThetaR=MakeTH1('D', "Angle/thetaR", "Scatt sim r' (mrad)",10000, 0,2e+3);
+   fNumScatt = MakeTH1('D', "Nscatt", "Multiple scattering collisions",50000, 0, 50000.);
 
    fXY = MakeTH2('D', "Position/X-Y","x versus y final",100,-1e7,1e+7,100,-1e+7,1e+7);
-   fVXVY = MakeTH2('D', "Velocity/Vx-Vy","vx versus vy final",100,-5e+3,5e+3,100,-5e+3,5e+3);
-   fXYCond = MakeTH2('D', "Position/X-Y-cond","x versus y final",100,-1e+7,1e+7,100,-1e+7,1e+7);
+   fVXVY = MakeTH2('D', "Velocity/Vx-Vy","vx versus vy final",1000,-5e+3,5e+3,1000,-5e+3,5e+3);
+   fXYCond = MakeTH2('D', "Position/X-Y-cond","x versus y final",1000,-1e+7,1e+7,1000,-1e+7,1e+7);
    fVXVYCond = MakeTH2('D', "Velocity/Vx-Vy-cond","vx versus vy final",100,-1e+3,1e+3,100,-1e+3,1e+3);
 
-   fEmitX = MakeTH2('D', "X-X'","transverse emittance x",100,-1e+7,1e+7,100,-0.1,0.1);
-   fEmitY = MakeTH2('D', "Y-Y'","transverse emittance y",100,-1e+7,1e+7,100,-0.1,0.1);
+   fEmitX = MakeTH2('D', "X-X'","transverse emittance x",1000,-1e+7,1e+7,1000,-0.1,0.1);
+   fEmitY = MakeTH2('D', "Y-Y'","transverse emittance y",1000,-1e+7,1e+7,1000,-0.1,0.1);
    fEmitDist = MakeTH1('D', "Emit4d","transverse emittance distribution",4000,0,2e+5);
 
    fWinConR = MakeWinCond("RCondition", 50., 70.);
@@ -140,6 +143,12 @@ Bool_t TYYYUnpackProc::BuildEvent(TGo4EventElement* dest)
    fVX->Fill(poutevt->fdV[0]);
    fVY->Fill(poutevt->fdV[1]);
    fVZ->Fill(poutevt->fdV[2]);
+   if(poutevt->fdV[2])
+   {
+       fThetaX->Fill(poutevt->fdV[0]/poutevt->fdV[2] * 1000); // angle in millirad
+       fThetaY->Fill(poutevt->fdV[1]/poutevt->fdV[2] * 1000); // angle in millirad
+       fThetaR->Fill(TMath::Sqrt(poutevt->fdV[1]*poutevt->fdV[1] +  poutevt->fdV[0]*poutevt->fdV[0])/poutevt->fdV[2] * 1000); // angle in millirad
+   }
    fNumScatt->Fill(poutevt->fiNumScatt);
    fXY->Fill(poutevt->fdR[0],poutevt->fdR[1]);
    fVXVY->Fill(poutevt->fdV[0],poutevt->fdV[1]);

@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.6.3 (build 40603)
-                      23-January-2014
+         Go4 Release Package v4.7.0 (build 40700)
+                      17-October-2014
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -118,11 +118,11 @@ GO4 COMPILATION
 
   Unpack this Go4 distribution in any suitable directory.
   
-     shell> tar xzf go4-4.6.0.tar.gz
+     shell> tar xzf go4-4.7.0.tar.gz
   
-  This will create subdirectory go4-4.6.0. To compile go4, do:
+  This will create subdirectory go4-4.7.0. To compile go4, do:
   
-     shell> cd go4-4.6.0
+     shell> cd go4-4.7.0
      shell> make all
   
   In most cases it will be enough to compile go4 libraries, gui and

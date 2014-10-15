@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.6.3 (build 40603)
-                      23-January-2014
+         Go4 Release Package v4.7.0 (build 40700)
+                      17-October-2014
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -20,7 +20,7 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v4.6.x
+Changes in Go4 v4.7.0
 1. Store main window geometry and toolboxes settings in hotstart (only qt4).
    Makes possible to reproduce exactely view of the main panel. 
 2. In go4-config script provide --cflags, --libs and --glibs option.
@@ -56,6 +56,9 @@ Changes in Go4 v4.6.x
 15.Support -std=c++11, which is now used in ROOT6.
 16.By default all objects appear in gui with monitor flag. 
    Only monitoring should be started to get any histogram/graph monitored. 
+17.Bugfix concerning autoscale in multipad viewpanel.
+18.Changed some histogram definitions in Go4ExampleUserSource, added angular distribution. 
+   Now covers different scenarios of multiple scattering simulation SCATT2014.     
               
 
 Changes in Go4 v4.6.0 (November 2013)

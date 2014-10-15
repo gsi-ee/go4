@@ -36,6 +36,9 @@ class TYYYUnpackProc : public TGo4EventProcessor {
       TH1           *fVX;
       TH1           *fVY;
       TH1           *fVZ;
+      TH1           *fThetaX;
+      TH1           *fThetaY;
+      TH1           *fThetaR;
       TH1           *fNumScatt;
       TH2           *fXY;
       TH2           *fVXVY;
