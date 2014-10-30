@@ -4747,14 +4747,17 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
       if (!autoscale && (ndim == 2)) {
          hmin = umin;
          hmax = umax;
+         az = 0;
       }
       // note: go4 range was full visible range of histogram
       // in new ROOT automatic shift of ranges can appear,
       // to prevent this, center of each bin should be used
 
-      Int_t i1 = az->FindFixBin(umin);
-      Int_t i2 = az->FindFixBin(umax);
-      if (i1<i2) { az->SetRange(i1,i2); az = 0; }
+      if (ndim>2) {
+         Int_t i1 = az->FindFixBin(umin);
+         Int_t i2 = az->FindFixBin(umax);
+         if (i1<i2) { az->SetRange(i1,i2); az = 0; }
+      }
    }
 
    if (az!=0) {
