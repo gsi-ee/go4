@@ -18,6 +18,9 @@
 #include "TRootSniffer.h"
 
 class TGo4Sniffer : public TRootSniffer {
+   protected:
+      virtual void ScanObjectProperties(TRootSnifferScanRec &rec, TObject* &obj, TClass* &obj_class);
+
    public:
       TGo4Sniffer(const char* name);
 

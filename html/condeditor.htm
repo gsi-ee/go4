@@ -23,7 +23,7 @@
             $("#editor").append("load condition done<br/>");
             for (var key in cond) {
                if (typeof cond[key] != 'function')
-                  $("#editor").append(key.toString() + " = " + cond[key].toString() + "<br/>");
+                  $("#editor").append(key.toString() + " = " + (cond[key] ? cond[key].toString() : "null") + "<br/>");
             }
             
          });
