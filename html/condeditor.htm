@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+   <head>
+      <title>Parameter editor</title>
+      <!--  this is go4 parameter editor -->
+      <meta http-equiv="X-UA-Compatible" content="IE=Edge; text/html">
+      <script type="text/javascript" src="/jsrootsys/scripts/JSRootCore.js"></script>
+   </head>
+
+   <script type='text/javascript'>
+   
+      function getCondition(callback) {
+         var req = JSROOT.NewHttpRequest("root.json.gz?compact=3", 'object', callback);
+         // submit request 
+         req.send(null);
+      }
+   
+      function InitEditor() {
+         getCondition(function(cond) {
+            if (!cond) return $("#editor").append("load condition fails<br/>");
+            
+            $("#editor").append("load condition done<br/>");
+            for (var key in cond) {
+               if (typeof cond[key] != 'function')
+                  $("#editor").append(key.toString() + " = " + cond[key].toString() + "<br/>");
+            }
+            
+         });
+      }
+   
+   </script>
+
+   <body onload="JSROOT.AssertPrerequisites('', InitEditor, 'editor')">
+      <div id="editor" style="position:absolute; left:1px; top:1px; bottom:1px; right:1px">
+         loading scripts...
+      </div>
+   </body>
+
+</html>
