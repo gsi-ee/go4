@@ -45,6 +45,9 @@ class TGo4Parameter : public TNamed {
         * to be implemented in subclass */
       virtual Bool_t UpdateFrom(TGo4Parameter* rhs);
 
+      /** Method used by HTTP server to update some fields, specified in URL syntax */
+      Bool_t UpdateFromUrl(const char* rest_url_opt);
+
       /** Specifies, if user implement UpdateFrom() method and it should be used
         * when parameter updated from other.
         * Otherwise, default method with help of ParameterStatus will be used */

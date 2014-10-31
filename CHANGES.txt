@@ -20,6 +20,11 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
+Changes in Go4 v4.7.x
+1. Implement TGo4Parameter::UpdateFromUrl() method to be able change
+   parameter values via HTTP server.
+
+
 Changes in Go4 v4.7.0
 1. Store main window geometry and toolboxes settings in hotstart (only qt4).
    Makes possible to reproduce exactely view of the main panel. 

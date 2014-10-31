@@ -20,6 +20,7 @@
 #include "TObjArray.h"
 #include "TClass.h"
 #include "TROOT.h"
+#include "TUrl.h"
 #include "TDataMember.h"
 #include "TDataType.h"
 #include "TBaseClass.h"
@@ -111,6 +112,35 @@ Bool_t TGo4Parameter::UpdateFrom(TGo4Parameter* rhs)
 
    return SetMemberValues(&items);
 }
+
+Bool_t TGo4Parameter::UpdateFromUrl(const char* rest_url_opt)
+{
+   TGo4Parameter* clone = (TGo4Parameter*) Clone();
+
+   TObjArray items;
+   clone->GetMemberValues(&items);
+
+   TUrl url;
+   url.SetOptions(rest_url_opt);
+
+   TIter next(&items);
+   TGo4ParameterMember* member = 0;
+
+   while ((member = (TGo4ParameterMember*) next()) != 0) {
+      const char* optvalue = url.GetValueFromOptions(member->GetName());
+      if (optvalue!=0) {
+         TGo4Log::Info("Par:%s member %s newvalue %s", GetName(), member->GetName(), optvalue);
+         member->SetStrValue(optvalue);
+      }
+   }
+
+   clone->SetMemberValues(&items);
+
+   Bool_t res = UpdateFrom(clone);
+   delete clone;
+   return res;
+}
+
 
 void TGo4Parameter::Clear(Option_t* opt)
 {
