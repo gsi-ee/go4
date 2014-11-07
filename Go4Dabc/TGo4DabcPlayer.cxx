@@ -87,9 +87,15 @@ void TGo4DabcPlayer::InitializeHierarchy()
 
    sub.CreateHChild("DebugOutput").SetField(dabc::prop_kind, "log");
 
-   sub.CreateHChild("CmdClear").SetField(dabc::prop_kind, "DABC.Command");
-   sub.CreateHChild("CmdStart").SetField(dabc::prop_kind, "DABC.Command");
-   sub.CreateHChild("CmdStop").SetField(dabc::prop_kind, "DABC.Command");
+   dabc::Hierarchy cmd = sub.CreateHChild("CmdClear");
+   cmd.SetField(dabc::prop_kind, "DABC.Command");
+   cmd.SetField("_fastcmd","/go4sys/icons/clear.png");
+   cmd = sub.CreateHChild("CmdStart");
+   cmd.SetField(dabc::prop_kind, "DABC.Command");
+   cmd.SetField("_fastcmd","/go4sys/icons/start.png");
+   cmd = sub.CreateHChild("CmdStop");
+   cmd.SetField(dabc::prop_kind, "DABC.Command");
+   cmd.SetField("_fastcmd","/go4sys/icons/Stop.png");
 
    sub.EnableHistory(200, true);
 }
