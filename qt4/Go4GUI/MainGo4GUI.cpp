@@ -13,6 +13,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <qglobal.h>
 #include <locale.h>
 #include <QDir>
@@ -42,8 +43,40 @@
 //extern void qt_x11_set_global_double_buffer(bool);
 #endif
 
+int print_go4_version()
+{
+   const char* dabc_vers = TGo4DabcProxy::GetDabcVersion();
+   std::cout << "   Go4 " << __GO4RELEASE__ << ",   build with ROOT " << ROOT_RELEASE;
+   if (dabc_vers) std::cout << ", DABC " << dabc_vers;
+   std::cout << " and Qt " << QT_VERSION_STR << std::endl;
+}
+
+
+int go4_usage() {
+
+   print_go4_version();
+
+   std::cout << "Usage: " << endl;
+   std::cout << "   go4 [args]                  - start go4 GUI" << endl;
+   std::cout << "   go4 file1.root              - load ROOT file(s) at start" << endl;
+   std::cout << "   go4 filename[.hotstart]     - process hotstart file" << endl;
+   std::cout << "   go4 -observer hostname port - connect with running analysis server" << endl;
+   std::cout << "   go4 -controller hostname port" << endl;
+   std::cout << "   go4 -admin hostname port" << endl;
+   std::cout << "   go4 -prepare                - prepare for analysis client connection" << endl;
+  if (TGo4DabcProxy::GetDabcVersion())
+   std::cout << "   go4 dabc://server[:port]    - connect with DABC server" << endl;
+   std::cout << "   go4 -debug                  - enable GUI debug output"   << endl;
+   std::cout << "   go4 -help                   - show this help information" << endl;
+
+   return 0;
+}
+
 int main(int argc, char **argv)
 {
+   if ((argc==2) && (!strcmp(argv[1],"?") || !strcmp(argv[1],"-h")  || !strcmp(argv[1],"-help") || !strcmp(argv[1],"--help"))) return go4_usage();
+
+
    setlocale(LC_ALL, "C");
 
 #ifndef WIN32
@@ -82,6 +115,7 @@ int main(int argc, char **argv)
       if (strlen(argv[narg])==0) continue;
 
       if (argv[narg][0]=='-') {
+
          if(!strcmp(argv[narg], "-debug")) {
             std::cout << "G-OOOO-> MainGo4GUI switched on debug output" << std::endl;
             traceon = true;
@@ -175,11 +209,8 @@ int main(int argc, char **argv)
    if(traceon) TGo4Log::SetIgnoreLevel(0);
           else TGo4Log::SetIgnoreLevel(1);
 
-   const char* dabc_vers = TGo4DabcProxy::GetDabcVersion();
+   print_go4_version();
 
-   std::cout << "   Go4 " << __GO4RELEASE__ << ",   build with ROOT " << ROOT_RELEASE;
-   if (dabc_vers) std::cout << ", DABC " << dabc_vers;
-   std::cout << " and Qt " << QT_VERSION_STR << std::endl;
    // create instance, which should be used everywhere
 
    TGo4MainWindow* Go4MainGUI = new TGo4MainWindow(&myapp);
