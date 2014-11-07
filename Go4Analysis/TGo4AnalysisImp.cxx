@@ -743,7 +743,7 @@ void TGo4Analysis::SetStatus(TGo4AnalysisStatus * state)
 {
    GO4TRACE((11,"TGo4Analysis::SetStatus(TGo4AnalysisStatus*)",__LINE__, __FILE__));
    if(state!=0) {
-      // first we close down exisiting  analysis:
+      // first we close down existing  analysis:
       CloseAnalysis();
       SetAutoSaveInterval(state->GetAutoSaveInterval());
       SetAutoSave(state->IsAutoSaveOn());
@@ -786,11 +786,10 @@ Bool_t TGo4Analysis::LoadStatus(const char* filename)
          SetStatus(state);
          fxConfigFilename = fname; // remember last configuration file name
          Message(0,"Analysis: New analysis state is set.");
-         rev=kTRUE;
+         rev = kTRUE;
       } else {
-         Message(3,"Analysis LoadStatus: Could not find status %s in file %s",
-               GetName(), fname.Data());
-         rev=kFALSE;
+         Message(3,"Analysis LoadStatus: Could not find status %s in file %s", GetName(), fname.Data());
+         rev = kFALSE;
       }   // if(state)
    } else {
       Message(3,"Analysis LoadStatus: Failed to open file %s", fname.Data());
@@ -823,8 +822,7 @@ Bool_t TGo4Analysis::SaveStatus(const char* filename)
          delete state;
          delete statusfile;
          rev=kTRUE;
-         Message(-1,"Analysis SaveStatus: Saved Analysis settings to file %s",
-               buffer);
+         Message(-1,"Analysis SaveStatus: Saved Analysis settings to file %s", buffer);
       } else {
          Message(3,"Analysis SaveStatus: FAILED to create status object !!!");
          rev=kFALSE;

@@ -1019,7 +1019,6 @@ int main(int argc, char **argv)
             if ((sbuf[len-1]=='g') || (sbuf[len-1]=='G')) { mult = 1000000000; sbuf[len-1] = 0; } else
             if ((sbuf[len-1]=='m') || (sbuf[len-1]=='M')) { mult = 1000000; sbuf[len-1] = 0; } else
             if ((sbuf[len-1]=='k') || (sbuf[len-1]=='K')) { mult = 1000; sbuf[len-1] = 0; }
-
             if (sscanf(sbuf, "%lld", &val)==1) maxtreesize = val*mult;
             narg++;
          }
@@ -1053,14 +1052,13 @@ int main(int argc, char **argv)
             } else
             if (strcmp(argv[narg],"nodata")==0) {
                TGo4PrintProcessor::fData = kFALSE;
-            }
-
+            } else
             if (strcmp(argv[narg],"fhead")==0) {
                TGo4PrintProcessor::fFileHead = kTRUE;
-                        }
+            } else
             if (strcmp(argv[narg],"bhead")==0) {
                 TGo4PrintProcessor::fBufHead = kTRUE;
-                        }
+            }
             narg++;
          }
       } else

@@ -23,7 +23,9 @@ in Go4License.txt file which is part of the distribution.
 Changes in Go4 v4.7.x
 1. Implement TGo4Parameter::UpdateFromUrl() method to be able change
    parameter values via HTTP server.
-
+2. Provide several shortcuts in web interface for commands like:
+   "Start", "Stop", "Clear", "Resubmit"
+    
 
 Changes in Go4 v4.7.0
 1. Store main window geometry and toolboxes settings in hotstart (only qt4).

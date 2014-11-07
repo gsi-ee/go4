@@ -23,6 +23,7 @@
 
 #include "TGo4AnalysisImp.h"
 #include "TGo4AnalysisObjectManager.h"
+#include "TGo4AnalysisClientImp.h"
 #include "TGo4Ratemeter.h"
 #include "TGo4Log.h"
 #include "TGo4LockGuard.h"
@@ -96,6 +97,9 @@ void TGo4DabcPlayer::InitializeHierarchy()
    cmd = sub.CreateHChild("CmdStop");
    cmd.SetField(dabc::prop_kind, "DABC.Command");
    cmd.SetField("_fastcmd","/go4sys/icons/Stop.png");
+   cmd = sub.CreateHChild("CmdRestart");
+   cmd.SetField(dabc::prop_kind, "DABC.Command");
+   cmd.SetField("_fastcmd","/go4sys/icons/restart.png");
 
    sub.EnableHistory(200, true);
 }
@@ -157,6 +161,7 @@ int TGo4DabcPlayer::ProcessGetBinary(TRootSniffer* sniff, dabc::Command cmd)
 bool TGo4DabcPlayer::ProcessHCommand(const std::string& cmdname, dabc::Command)
 {
    TGo4Analysis* an = TGo4Analysis::Instance();
+   TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : 0;
 
    if (cmdname == "Status/CmdClear") {
       if (an) {
@@ -180,6 +185,28 @@ bool TGo4DabcPlayer::ProcessHCommand(const std::string& cmdname, dabc::Command)
          StatusMessage(0, "Suspend analysis loop");
          std::cout << "web: Suspend analysis loop" << std::endl;
       }
+      return true;
+   }
+
+   if (cmdname == "Status/CmdRestart") {
+      if (cli!=0) {
+         cli->Stop();
+         an->CloseAnalysis();
+         an->InitEventClasses();
+         cli->Start();
+      } else
+      if (an) {
+         an->StopAnalysis();
+         an->PostLoop();
+         an->CloseAnalysis();
+         an->InitEventClasses();
+         an->PreLoop();
+         an->StartAnalysis();
+      }
+
+      StatusMessage(0, "Restart analysis loop");
+      std::cout << "web: Restart analysis loop" << std::endl;
+
       return true;
    }
    return false;
