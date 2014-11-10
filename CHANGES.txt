@@ -25,6 +25,8 @@ Changes in Go4 v4.7.x
    parameter values via HTTP server.
 2. Provide several shortcuts in web interface for commands like:
    "Start", "Stop", "Clear", "Resubmit"
+3. In batch mode do not account events in non-running mode, reduce
+   cpu load with sleep in non-running mode. 
     
 
 Changes in Go4 v4.7.0

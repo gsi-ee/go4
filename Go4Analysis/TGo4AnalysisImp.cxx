@@ -633,9 +633,12 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 
          try
          {
-            if (fxDoWorkingFlag == flagRunning) MainCycle();
-
-            cnt++; // account completely executed cycles
+            if (fxDoWorkingFlag == flagRunning) {
+               MainCycle();
+               cnt++; // account completely executed cycles
+            } else {
+               gSystem->Sleep(100);
+            }
          }
          catch(TGo4UserException& ex)
          {
