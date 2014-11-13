@@ -79,7 +79,7 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject* &obj, 
    if (obj_class->InheritsFrom(TGo4Parameter::Class())) {
       rec.SetField("_title", obj->GetTitle());
       rec.SetField("_editor", "true");
-      rec.SetField("_go4param", "true");
+      rec.SetField("_drawfunc", "GO4.drawParameter");
       return;
    }
 

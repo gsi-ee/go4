@@ -244,5 +244,69 @@
    
    JSROOT.addDrawFunc("TGo4WinCond", GO4.drawGo4Cond);
    JSROOT.addDrawFunc("TGo4PolyCond", GO4.drawGo4Cond);
+   
+   
+   GO4.ParameterPainter = function(par, aseditor) {
+      JSROOT.TObjectPainter.call(this, par);
+      this.par = par;
+      this.aseditor = aseditor;
+   }
+
+   GO4.ParameterPainter.prototype = Object.create(JSROOT.TObjectPainter.prototype);
+
+   GO4.ParameterPainter.prototype.GetObject = function() {
+      return this.par;
+   }
+
+   GO4.ParameterPainter.prototype.fillEditor = function() {
+      var id = "#"+this.divid;
+      var par = this.par;
+      
+      $(id).css("display","table");
+      $(id+" .par_name").text(par.fName);
+      $(id+" .par_type").text(par._typename);
+
+      $(id+" button:first")
+         .text("")
+         .append('<img src="/go4sys/icons/right.png"  height="16" width="16"/>')
+         .button()
+         .click(function() { console.log("get - do nothing"); })
+         .next()
+         .text("")
+         .append('<img src="/go4sys/icons/left.png"  height="16" width="16"/>')
+         .button()
+         .click(function() { console.log("set - do nothing"); })
+         .next()
+         .text("")
+         .append('<img src="/go4sys/icons/info1.png"  height="16" width="16"/>')
+         .button()
+         .click(function() { console.log("warn - do nothing"); })
+         .hide();
+      
+      var found_title = false;
+      
+      for (var key in par) {
+         if (typeof par[key] == 'function') continue;
+         if (key == 'fTitle') { found_title = true; continue; } 
+         if (!found_title) continue;
+         var value = (par[key]!=null ? par[key].toString() : "null");
+         $(id + " .par_values tbody").append('<tr><td>' + key.toString() + "</td><td><input type='text' value='" + value + "'/></td></tr>");
+      }
+   }
+   
+   GO4.ParameterPainter.prototype.drawEditor = function() {
+      var pthis = this;
+       
+      $("#"+this.divid).empty();
+      $("#"+this.divid).load("/go4sys/html/pareditor.htm", "", 
+            function() { pthis.fillEditor(); });
+   }
+
+   GO4.drawParameter = function(divid, par, option) {
+      var painter = new GO4.ParameterPainter(par, true);
+      painter.SetDivId(divid);
+      painter.drawEditor();
+      return painter;
+   }
 
 })();
