@@ -31,6 +31,7 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
 
 void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
 {
+
    TGo4AnalysisObjectManager* om(0);
    TGo4AnalysisClient* cli(0);
    if (TGo4Analysis::Instance()) {
@@ -80,12 +81,14 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject* &obj, 
       rec.SetField("_title", obj->GetTitle());
       rec.SetField("_editor", "true");
       rec.SetField("_drawfunc", "GO4.drawParameter");
+      rec.SetField("_autoload", "/go4sys/html/go4.js");
       return;
    }
 
    if (obj_class->InheritsFrom(TGo4Condition::Class())) {
       rec.SetField("_title", obj->GetTitle());
       rec.SetField("_editor", "true");
+      rec.SetField("_autoload", "/go4sys/html/go4.js");
       return;
    }
 
