@@ -27,6 +27,8 @@ Changes in Go4 v4.7.x
    "Start", "Stop", "Clear", "Resubmit"
 3. In batch mode do not account events in non-running mode, reduce
    cpu load with sleep in non-running mode. 
+4. Introduce go4.js with go4-related JavaScript code
+5. Provide html-based condition and parameter editors
     
 
 Changes in Go4 v4.7.0

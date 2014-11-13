@@ -44,6 +44,7 @@ void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
    }
 
    rec.SetField(dabc::prop_kind, "GO4.Analysis");
+   rec.SetField("_autoload", "/go4sys/html/go4.js");
 
    {
       TRootSnifferScanRec chld;
