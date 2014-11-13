@@ -119,7 +119,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       fconHis2 = MakeWinCond("cHis2", 100, 2000, "His2");
 
       Double_t cutpnts[3][2] = { {400, 800}, {700, 900}, {600, 1100} };
-      fPolyCon1 = MakePolyCond("polycon", 3, cutpnts);
+      fPolyCon1 = MakePolyCond("polycon", 3, cutpnts, "Cr1Ch1x2");
 
       fConArr1 = (TGo4CondArray*)GetAnalysisCondition("winconar");
       if (fConArr1==0) {
