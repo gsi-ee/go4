@@ -2,8 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
    <head>
-      <title>Parameter editor</title>
-      <!--  this is go4 parameter editor -->
+      <title>Condition editor</title>
+      <!--  this is go4 condition editor -->
       <meta http-equiv="X-UA-Compatible" content="IE=Edge; text/html">
       <script type="text/javascript" src="/jsrootsys/scripts/JSRootCore.js"></script>
    </head>
@@ -23,7 +23,7 @@
             $("#editor").append("load condition done<br/>");
             for (var key in cond) {
                if (typeof cond[key] != 'function')
-                  $("#editor").append(key.toString() + " = " + (cond[key] ? cond[key].toString() : "null") + "<br/>");
+                  $("#editor").append(key.toString() + " = " + (cond[key]!=null ? cond[key].toString() : "null") + "<br/>");
             }
             
          });

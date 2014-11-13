@@ -23,7 +23,7 @@
             $("#editor").append("load parameter done<br/>");
             for (var key in par) {
                if (typeof par[key] != 'function')
-                  $("#editor").append(key.toString() + " = " + par[key].toString() + "<br/>");
+                  $("#editor").append(key.toString() + " = " + ((par[key]!=null) ? par[key].toString() : "null") + "<br/>");
             }
             
          });
