@@ -77,13 +77,14 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject* &obj, 
 {
    if (obj_class->InheritsFrom(TGo4Parameter::Class())) {
       rec.SetField("_title", obj->GetTitle());
-      rec.SetField("_editor", "go4_pareditor.htm");
+      rec.SetField("_editor", "true");
+      rec.SetField("_go4param", "true");
       return;
    }
 
    if (obj_class->InheritsFrom(TGo4Condition::Class())) {
       rec.SetField("_title", obj->GetTitle());
-      rec.SetField("_editor", "go4_condeditor.htm");
+      rec.SetField("_editor", "true");
       return;
    }
 

@@ -1,40 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-   <head>
-      <title>Parameter editor</title>
-      <!--  this is go4 parameter editor -->
-      <meta http-equiv="X-UA-Compatible" content="IE=Edge; text/html">
-      <script type="text/javascript" src="/jsrootsys/scripts/JSRootCore.js"></script>
-   </head>
+<div style="display:table-row; height:15%">
+   <h4>Parameter editor</h4>
+   <label class="par_name" style="float:left"> </label> 
+   <label class="par_type" style="float:right"> </label>
+</div>
+<div style="display:table-row; height:70%">
+   <h5>Parameter values</h5>
+   <div class="par_values"></div>
+</div>
 
-   <script type='text/javascript'>
-   
-      function getParameter(callback) {
-         var req = JSROOT.NewHttpRequest("root.json.gz?compact=3", 'object', callback);
-         // submit request 
-         req.send(null);
-      }
-   
-      function InitEditor() {
-         getParameter(function(par) {
-            if (!par) return $("#editor").append("load parameter fails<br/>");
-            
-            $("#editor").append("load parameter done<br/>");
-            for (var key in par) {
-               if (typeof par[key] != 'function')
-                  $("#editor").append(key.toString() + " = " + ((par[key]!=null) ? par[key].toString() : "null") + "<br/>");
-            }
-            
-         });
-      }
-   
-   </script>
-
-   <body onload="JSROOT.AssertPrerequisites('', InitEditor, 'editor')">
-      <div id="editor" style="position:absolute; left:1px; top:1px; bottom:1px; right:1px">
-         loading scripts...
-      </div>
-   </body>
-
-</html>
+<div class="par_buttons" style="display:table-row; height:15%">
+  <button title="Get parameter">Get</button>
+  <button title="Set parameter">Set</button>
+  <button title="Parameter changed in editor">Changed</button>
+</div>
