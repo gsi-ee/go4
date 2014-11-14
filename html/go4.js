@@ -61,10 +61,28 @@
          .click(function() { cond.fbLabelDraw = this.checked; });
    }
    
+   GO4.ConditionPainter.prototype.CheckResize = function() {
+     var id = "#"+this.divid;
+      var width = $(id).width(); 
+      var height = $(id).height();
+      
+      console.log("In resiye width "+width + " height " +height);
+
+      $(id).children().eq(0).width(width - 4).height(height - 4);
+
+   }
+   
    GO4.ConditionPainter.prototype.fillEditor = function() {
       var id = "#"+this.divid;
       console.log("GO4.ConditionPainter.prototype.fillEditor " + this.cond.fName);
-      $(id).css("display","table");
+      // $(id).css("display","table");
+      
+      var width = $(id).width(); 
+      var height = $(id).height();
+      
+      console.log("width "+width + " height " +height);
+      
+      $(id).children().eq(0).width(width - 5).height(height - 5);
       
       $(id+" .cond_tabs").tabs();
       
@@ -258,14 +276,31 @@
       return this.par;
    }
 
+   GO4.ParameterPainter.prototype.CheckResize = function() {
+      var id = "#"+this.divid;
+      var width = $(id).width(); 
+      var height = $(id).height();
+      
+      console.log("In resiye width "+width + " height " +height);
+      
+      $(id).children().eq(0).width(width - 4).height(height - 4);
+
+   }
+
+   
    GO4.ParameterPainter.prototype.fillEditor = function() {
       var id = "#"+this.divid;
       var par = this.par;
       
-      $(id).css("display","table");
+      var id = "#"+this.divid;
+      var width = $(id).width(); 
+      var height = $(id).height();
+      
       $(id+" .par_name").text(par.fName);
       $(id+" .par_type").text(par._typename);
-
+      
+      $(id).children().eq(0).width(width - 4).height(height - 4);
+      
       $(id+" button:first")
          .text("")
          .append('<img src="/go4sys/icons/right.png"  height="16" width="16"/>')
@@ -289,8 +324,15 @@
          if (typeof par[key] == 'function') continue;
          if (key == 'fTitle') { found_title = true; continue; } 
          if (!found_title) continue;
-         var value = (par[key]!=null ? par[key].toString() : "null");
-         $(id + " .par_values tbody").append('<tr><td>' + key.toString() + "</td><td><input type='text' value='" + value + "'/></td></tr>");
+         var value = (par[key]!=null ? (par[key] instanceof Array ? par[key] : par[key].toString()): "null");
+	 
+	 if (value instanceof Array) {
+	   for(i = 0; i < value.length; i++) {
+	     $(id + " .par_values tbody").append("<tr><th>" + key.toString() + "[" + i + "]</th><th><input type='text' value='" + value[i] + "'/></th></tr>");
+	   }
+	 }else {
+	   $(id + " .par_values tbody").append('<tr><th>' + key.toString() + "</th><th><input type='text' value='" + value + "'/></th></tr>");
+	 }
       }
    }
    

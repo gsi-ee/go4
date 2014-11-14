@@ -1,8 +1,9 @@
-<div style="display:table-row; height:8%">
-   <label class="cond_name" style="float:left"> </label> 
-   <label class="cond_type" style="float:right"> </label>
+<div style="border:2px solid black; overflow-x:hidden; overflow-y: auto">
+<div style="">
+   <label class="cond_name" style="float:left; font-size:large; "> </label> 
+   <label class="cond_type" style="float:right; font-size:large"> </label>
 </div>
-<div style="display:table-row; height:8%; width:100%">
+<div style="width:100%">
   <table style="position:relative; width:100%; height:100%">
     <tr>
       <th><select name="execmode" class="cond_execmode" title="Set mode of execution" style="width:50%" >
@@ -18,17 +19,17 @@
   </table>
 </div>
 
-<div style="display:table-row; height:8%; font-family:Verdana">
+<div style="font-family:Verdana">
   <table style="position:relative; width:100%; height:100%">
     <tr>
-      <th><span style="float:left">All counts: <label class="cond_counts" style="border: 1px solid gray; font-size:large">1000</label></span></th>
+      <th style="width:33%"><span style="float:left">All counts: <label class="cond_counts" style="border: 1px solid gray; font-size:large">1000</label></span></th>
       <th><span>True: <label class="cond_true" style="border: 1px solid gray; font-size:large">500</label></span></th>
-      <th><span style="font-size:large">100%</span></th>
+      <th><span><label class="cond_percent" style="font-size:large">100%</label></span></th>
     </tr>
   </table>
 </div>
 
-<div class="cond_tabs" style="display:table-row; height:68%">
+<div class="cond_tabs" style="">
   <ul>
    <li><a href="#tabs-1">Limits</a></li>
    <li><a href="#tabs-2">Cut</a></li>
@@ -37,7 +38,7 @@
    <li><a href="#tabs-5">Mean</a></li>
  </ul>
   <div id="tabs-1">
-     <table style="position:relative; width:100%; height:100%; border-spacing:35px">
+     <table style="position:relative; width:100%; height:100%; border-spacing:0px 0px">
       <tr>
         <th><label>XMin: <input class="cond_xmin" style='width:5em'/></label></th>
         <th><label>XMax: <input class="cond_xmax" style='width:5em'/></label></th>
@@ -52,7 +53,7 @@
    Here will be TCutG editor
   </div>
   <div id="tabs-3" style="align:center">
-    <table style="position:relative; width:100%; height:100%">
+    <table style="position:relative; width:100%; height:100%; border-spacing: 0px 0px">
       <tr>
 	<th><label><input class="cond_visible" type="checkbox"/> visible</label></th>
 	<th><label><input class="cond_limits" type="checkbox"/> limits</label></th>
@@ -61,7 +62,7 @@
     </table>
   </div>
   <div id="tabs-4">
-    <table style="position:relative; width:100%; height:100%; border-spacing:35px">
+    <table style="position:relative; width:100%; height:100%; border-spacing:0px 0px">
       <tr>
 	<th><input id="cond_integr" type="checkbox"/><label for="cond_integr">Integr: </label></th>
 	<th><input id="cond_maxx" type="checkbox"/><label for="cond_maxx">MaxX: </label></th>
@@ -73,7 +74,7 @@
     </table>
   </div>
   <div id="tabs-5">
-    <table style="position:relative; width:100%; height:100%; border-spacing:35px">
+    <table style="position:relative; width:100%; height:100%; border-spacing:0px 0px">
       <tr>
 	<th><input id="cond_xmean" type="checkbox"/><label for="cond_xmean"> XMean:</label></th>
 	<th><input id="cond_xrms" type="checkbox"/><label for="cond_xrms"> XRMS:</label></th>
@@ -85,10 +86,11 @@
     </table>
   </div>
 </div>
-<div class="cond_button" style="display:table-row; height:8%">
+<div class="cond_button" style="; ">
   <button title="Get condition">Get</button>
   <button title="Set condition">Set</button>
   <button title="Condition is changed in editor">Changed</button>
   <button title="Clear condition">Clear</button>
   <button title="Draw condition">Draw</button>
+</div>
 </div>
