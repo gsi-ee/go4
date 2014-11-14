@@ -105,7 +105,7 @@
       var pthis = this;
        
       $("#"+this.divid).empty();
-      $("#"+this.divid).load("/go4sys/html/condeditorbody.htm", "", 
+      $("#"+this.divid).load("/go4sys/html/condeditor.htm", "", 
             function() { pthis.fillEditor(); });
    }
 

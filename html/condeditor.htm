@@ -1,40 +1,94 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-   <head>
-      <title>Condition editor</title>
-      <!--  this is go4 condition editor -->
-      <meta http-equiv="X-UA-Compatible" content="IE=Edge; text/html">
-      <script type="text/javascript" src="/jsrootsys/scripts/JSRootCore.js"></script>
-   </head>
+<div style="display:table-row; height:8%">
+   <label class="cond_name" style="float:left"> </label> 
+   <label class="cond_type" style="float:right"> </label>
+</div>
+<div style="display:table-row; height:8%; width:100%">
+  <table style="position:relative; width:100%; height:100%">
+    <tr>
+      <th><select name="execmode" class="cond_execmode" title="Set mode of execution" style="width:50%" >
+	    <option selected="selected">Return Result</option>
+	    <option>Return Always True</option>
+	    <option>Return Always False</option>      
+      </select></th>
+      <th><select name="invertmode" class="cond_invertmode" title="Condition return regular or invert result" style="width:50%">
+	    <option selected="selected">Regular</option>
+	    <option>Return invert</option>
+      </select></th>
+    </tr>
+  </table>
+</div>
 
-   <script type='text/javascript'>
-   
-      function getCondition(callback) {
-         var req = JSROOT.NewHttpRequest("root.json.gz?compact=3", 'object', callback);
-         // submit request 
-         req.send(null);
-      }
-   
-      function InitEditor() {
-         getCondition(function(cond) {
-            if (!cond) return $("#editor").append("load condition fails<br/>");
-            
-            $("#editor").append("load condition done<br/>");
-            for (var key in cond) {
-               if (typeof cond[key] != 'function')
-                  $("#editor").append(key.toString() + " = " + (cond[key]!=null ? cond[key].toString() : "null") + "<br/>");
-            }
-            
-         });
-      }
-   
-   </script>
+<div style="display:table-row; height:8%; font-family:Verdana">
+  <table style="position:relative; width:100%; height:100%">
+    <tr>
+      <th><span style="float:left">All counts: <label class="cond_counts" style="border: 1px solid gray; font-size:large">1000</label></span></th>
+      <th><span>True: <label class="cond_true" style="border: 1px solid gray; font-size:large">500</label></span></th>
+      <th><span style="font-size:large">100%</span></th>
+    </tr>
+  </table>
+</div>
 
-   <body onload="JSROOT.AssertPrerequisites('', InitEditor, 'editor')">
-      <div id="editor" style="position:absolute; left:1px; top:1px; bottom:1px; right:1px">
-         loading scripts...
-      </div>
-   </body>
-
-</html>
+<div class="cond_tabs" style="display:table-row; height:68%">
+  <ul>
+   <li><a href="#tabs-1">Limits</a></li>
+   <li><a href="#tabs-2">Cut</a></li>
+   <li><a href="#tabs-3">Draw</a></li>
+   <li><a href="#tabs-4">Stats</a></li>
+   <li><a href="#tabs-5">Mean</a></li>
+ </ul>
+  <div id="tabs-1">
+     <table style="position:relative; width:100%; height:100%; border-spacing:35px">
+      <tr>
+        <th><label>XMin: <input class="cond_xmin" style='width:5em'/></label></th>
+        <th><label>XMax: <input class="cond_xmax" style='width:5em'/></label></th>
+      </tr>
+      <tr>
+        <th><label>YMin: <input class="cond_ymin" style='width:5em'/></label></th>
+        <th><label>YMax: <input class="cond_ymax" style='width:5em'/></label></th>
+     </tr>
+     </table>
+  </div>
+  <div id="tabs-2">
+   Here will be TCutG editor
+  </div>
+  <div id="tabs-3" style="align:center">
+    <table style="position:relative; width:100%; height:100%">
+      <tr>
+	<th><label><input class="cond_visible" type="checkbox"/> visible</label></th>
+	<th><label><input class="cond_limits" type="checkbox"/> limits</label></th>
+	<th><label><input class="cond_label" type="checkbox"/> label</label></th>
+      </tr>
+    </table>
+  </div>
+  <div id="tabs-4">
+    <table style="position:relative; width:100%; height:100%; border-spacing:35px">
+      <tr>
+	<th><input id="cond_integr" type="checkbox"/><label for="cond_integr">Integr: </label></th>
+	<th><input id="cond_maxx" type="checkbox"/><label for="cond_maxx">MaxX: </label></th>
+      </tr>
+      <tr>
+	<th><input id="cond_max" type="checkbox"/><label for="cond_max">Max:</label></th>
+	<th><input id="cond_maxy" type="checkbox"/><label for="cond_maxy">MaxY:</label></th>
+      </tr>
+    </table>
+  </div>
+  <div id="tabs-5">
+    <table style="position:relative; width:100%; height:100%; border-spacing:35px">
+      <tr>
+	<th><input id="cond_xmean" type="checkbox"/><label for="cond_xmean"> XMean:</label></th>
+	<th><input id="cond_xrms" type="checkbox"/><label for="cond_xrms"> XRMS:</label></th>
+      </tr>
+      <tr>
+	<th><input id="cond_ymean" type="checkbox"/><label for="cond_ymean"> YMean:</label></th>
+	<th><input id="cond_yrms" type="checkbox"/><label for="cond_yrms"> YRMS:</label></th>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="cond_button" style="display:table-row; height:8%">
+  <button title="Get condition">Get</button>
+  <button title="Set condition">Set</button>
+  <button title="Condition is changed in editor">Changed</button>
+  <button title="Clear condition">Clear</button>
+  <button title="Draw condition">Draw</button>
+</div>
