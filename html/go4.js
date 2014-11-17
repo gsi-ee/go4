@@ -185,10 +185,11 @@
       
       if (this.cond.fbLimitsDraw)
          if (this.isPolyCond()) {
-            this.pave.AddText("Xmin = " + Math.min.apply(Math, this.cond.fxCut.fX));
-            this.pave.AddText("Xmax = " + Math.max.apply(Math, this.cond.fxCut.fX));
-            this.pave.AddText("Ymin = " + Math.min.apply(Math, this.cond.fxCut.fY));
-            this.pave.AddText("Ymax = " + Math.max.apply(Math, this.cond.fxCut.fY));
+            var r = this.cond.fxCut.ComputeRange();
+            this.pave.AddText("Xmin = " + r.xmin);
+            this.pave.AddText("Xmax = " + r.xmax);
+            this.pave.AddText("Ymin = " + r.ymin);
+            this.pave.AddText("Ymax = " + r.ymax);
          } else {
             this.pave.AddText("Xmin = " + this.cond.fLow1);
             this.pave.AddText("Xmax = " + this.cond.fUp1);
@@ -197,6 +198,27 @@
                this.pave.AddText("Ymax = " + this.cond.fUp2);
             }
          }
+      
+      var cond = this.cond;
+      
+      var stat = this.main_painter().CountStat(function(x,y) { return cond.Test(x,y); });
+      
+      if (this.cond.fbIntDraw) this.pave.AddText("Integral = " + JSROOT.gStyle.StatFormat(stat.integral));
+      
+      if (this.cond.fbXMeanDraw) this.pave.AddText("Mean x = " + JSROOT.gStyle.StatFormat(stat.meanx));
+      
+      if (this.cond.fbXRMSDraw) this.pave.AddText("RMS x = " + JSROOT.gStyle.StatFormat(stat.rmsx));
+      
+      if (this.cond.fiDim==2) {
+         if (this.cond.fbYMeanDraw) this.pave.AddText("Mean y = " + JSROOT.gStyle.StatFormat(stat.meany));
+         if (this.cond.fbYRMSDraw) this.pave.AddText("RMS y = " + JSROOT.gStyle.StatFormat(stat.rmsy));
+      }
+      
+      if (this.cond.fbXMaxDraw) this.pave.AddText("X max = " + JSROOT.gStyle.StatFormat(stat.xmax));
+      
+      if (this.cond.fiDim==2) 
+         if (this.cond.fbYMaxDraw) this.pave.AddText("Y max = " + JSROOT.gStyle.StatFormat(stat.ymax));
+      if (this.cond.fbCMaxDraw) this.pave.AddText("C max = " + JSROOT.gStyle.StatFormat(stat.wmax));
       
       JSROOT.draw(this.divid, this.pave, ""); 
    }
@@ -211,6 +233,20 @@
    
    GO4.drawGo4Cond = function(divid, cond, option) {
       $('#'+divid).append("Here will be condition " + cond._typename);
+      
+      cond['Test'] = function(x,y) {
+         if (!this.fbEnabled) return this.fbResult;
+         
+         if (this.fxCut)
+            return this.fxCut.IsInside(x,y) ? this.fbTrue : this.fbFalse; 
+         
+         if ((x < this.fLow1) || (x > this.fUp1)) return this.fbFalse;
+         
+         if (this.fiDim==2)
+            if ((y < this.fLow2) || (y > this.fUp2)) return this.fbFalse;
+         
+         return this.fbTrue;
+      }
       
       if ((cond.fxHistoName=="") || (option=='editor')) {
          $('#'+divid).append("<br/>Histogram name not specified");
@@ -242,22 +278,21 @@
          return;
       } 
 
-      $('#'+divid).append("<br/>Loading histogram " + histofullpath);
+      $('#'+divid).append("<br/>Drawing histogram " + histofullpath);
       
-      var painter = new GO4.ConditionPainter(cond, false);
+      var condpainter = new GO4.ConditionPainter(cond, false);
       
       dabc.get(histofullpath, function(item, obj) {
          $('#'+divid).empty();
          JSROOT.draw(divid, obj, /* obj.fDimension==2 ? "col" : */ "");
          
-         painter.SetDivId(divid);
-         painter.drawCondition();
+         condpainter.SetDivId(divid);
+         condpainter.drawCondition();
          
-         painter.drawLabel();
-         
+         condpainter.drawLabel();
       });
 
-      return painter;
+      return condpainter;
    }
    
    JSROOT.addDrawFunc("TGo4WinCond", GO4.drawGo4Cond);
