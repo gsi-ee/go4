@@ -16,23 +16,22 @@
 
    GO4.version = "4.7.1";
    
-   GO4.ConditionPainter = function(cond, aseditor) {
-      JSROOT.TObjectPainter.call(this, cond);
+   GO4.ConditionEditor = function(cond) {
+      JSROOT.TBasePainter.call(this, cond);
       this.cond = cond;
-      this.aseditor = aseditor;
-   }
-
-   GO4.ConditionPainter.prototype = Object.create(JSROOT.TObjectPainter.prototype);
-
-   GO4.ConditionPainter.prototype.GetObject = function() {
-      return this.cond;
    }
    
-   GO4.ConditionPainter.prototype.isPolyCond = function() {
-      return this.cond._typename == "TGo4PolyCond"; 
+   GO4.ConditionEditor.prototype = Object.create(JSROOT.TBasePainter.prototype);
+
+   GO4.ConditionEditor.prototype.CheckResize = function() {
+      var id = "#"+this.divid;
+      var width = $(id).width(); 
+      var height = $(id).height();
+      
+      $(id).children().eq(0).width(width - 5).height(height - 5);
    }
    
-   GO4.ConditionPainter.prototype.refreshEditor = function() {
+   GO4.ConditionEditor.prototype.refreshEditor = function() {
       var id = "#"+this.divid;
       var cond = this.cond;
 
@@ -49,6 +48,10 @@
          $(id+" .cond_ymax").prop('disabled', true);
       }
       
+      $(id+" .cond_counts").text(cond.fiCounts);
+      $(id+" .cond_true").text(cond.fiTrueCounts);
+      $(id+" .cond_percent").text((cond.fiCounts > 0 ? 100. * cond.fiTrueCounts / cond.fiCounts : 0.).toFixed(2) + "%");
+      
       $(id+" .cond_visible")
          .prop('checked', cond.fbVisible)
          .click(function() { cond.fbVisible = this.checked; });
@@ -61,39 +64,30 @@
          .click(function() { cond.fbLabelDraw = this.checked; });
    }
    
-   GO4.ConditionPainter.prototype.CheckResize = function() {
-     var id = "#"+this.divid;
-      var width = $(id).width(); 
-      var height = $(id).height();
-      
-      console.log("In resiye width "+width + " height " +height);
-
-      $(id).children().eq(0).width(width - 4).height(height - 4);
-
-   }
-   
-   GO4.ConditionPainter.prototype.fillEditor = function() {
+   GO4.ConditionEditor.prototype.fillEditor = function() {
       var id = "#"+this.divid;
       console.log("GO4.ConditionPainter.prototype.fillEditor " + this.cond.fName);
       // $(id).css("display","table");
       
-      var width = $(id).width(); 
-      var height = $(id).height();
-      
-      console.log("width "+width + " height " +height);
-      
-      $(id).children().eq(0).width(width - 5).height(height - 5);
+      this.CheckResize();
       
       $(id+" .cond_tabs").tabs();
       
       $(id+" .cond_execmode").selectmenu();
       $(id+" .cond_invertmode").selectmenu();
       
+      var editor = this;
+      
+      var dabc = JSROOT.H('dabc');
+      
       $(id+" button:first")
          .text("")
          .append('<img src="/go4sys/icons/right.png"  height="16" width="16"/>')
          .button()
-         .click(function() { console.log("get - do nothing"); })
+         .click(function() {
+            console.log("get - do nothing item = " + editor._hitemname); 
+            if (dabc) dabc.display(editor._hitemname, "update"); 
+          })
          .next()
          .text("")
          .append('<img src="/go4sys/icons/left.png"  height="16" width="16"/>')
@@ -118,15 +112,46 @@
       
       this.refreshEditor();   
    }
-   
-   GO4.ConditionPainter.prototype.drawEditor = function() {
+
+   GO4.ConditionEditor.prototype.drawEditor = function(divid) {
       var pthis = this;
        
-      $("#"+this.divid).empty();
-      $("#"+this.divid).load("/go4sys/html/condeditor.htm", "", 
-            function() { pthis.fillEditor(); });
+      $("#"+divid).empty();
+      $("#"+divid).load("/go4sys/html/condeditor.htm", "", 
+            function() { pthis.SetDivId(divid); pthis.fillEditor();  });
+   }
+   
+   GO4.ConditionEditor.prototype.RedrawPad = function(resize) {
+      this.refreshEditor();
    }
 
+   GO4.ConditionEditor.prototype.UpdateObject = function(obj) {
+      if (obj._typename != this.cond._typename) return false;
+      
+      this.cond.fiCounts = obj.fiCounts;
+      this.cond.fiTrueCounts = obj.fiTrueCounts;
+      return true;
+   }
+
+   
+   // ==================================================================
+   
+   GO4.ConditionPainter = function(cond) {
+      JSROOT.TObjectPainter.call(this, cond);
+      this.cond = cond;
+      this.pave = null; // drawing of stat
+   }
+
+   GO4.ConditionPainter.prototype = Object.create(JSROOT.TObjectPainter.prototype);
+
+   GO4.ConditionPainter.prototype.GetObject = function() {
+      return this.cond;
+   }
+   
+   GO4.ConditionPainter.prototype.isPolyCond = function() {
+      return this.cond._typename == "TGo4PolyCond"; 
+   }
+   
    GO4.ConditionPainter.prototype.drawCondition = function() {
       
       if (this.isPolyCond()) {
@@ -175,13 +200,21 @@
    GO4.ConditionPainter.prototype.drawLabel = function() {
       if (!this.cond.fbLabelDraw) return;
       
-      this.pave = JSROOT.Create("TPaveStats");
+      var pave_painter = this.FindPainterFor(this.pave);
       
-      jQuery.extend(this.pave, { fX1NDC: 0.1, fY1NDC: 0.4, fX2NDC: 0.4, fY2NDC: 0.65, fBorderSize: 1 });
-      jQuery.extend(this.pave, JSROOT.gStyle.StatText);
-      jQuery.extend(this.pave, JSROOT.gStyle.StatFill);
+      if (pave_painter == null) {
+         this.pave = JSROOT.Create("TPaveStats");
+         this.pave.fName = "stat_" + this.cond.fName; 
+         jQuery.extend(this.pave, { fX1NDC: 0.1, fY1NDC: 0.4, fX2NDC: 0.4, fY2NDC: 0.65, fBorderSize: 1 });
+         jQuery.extend(this.pave, JSROOT.gStyle.StatText);
+         jQuery.extend(this.pave, JSROOT.gStyle.StatFill);
+      } else {
+         this.pave.Clear();
+      }
       
       this.pave.AddText(this.cond.fName);
+
+      this.pave.AddText("Counts = " + this.cond.fiCounts);
       
       if (this.cond.fbLimitsDraw)
          if (this.isPolyCond()) {
@@ -220,16 +253,27 @@
          if (this.cond.fbYMaxDraw) this.pave.AddText("Y max = " + JSROOT.gStyle.StatFormat(stat.ymax));
       if (this.cond.fbCMaxDraw) this.pave.AddText("C max = " + JSROOT.gStyle.StatFormat(stat.wmax));
       
-      JSROOT.draw(this.divid, this.pave, ""); 
+      if (pave_painter == null) 
+         pave_painter = JSROOT.draw(this.divid, this.pave, "");
+      else
+         pave_painter.Redraw();
+   }
+   
+   GO4.ConditionPainter.prototype.RedrawObject = function(obj) {
+      if (this.UpdateObject(obj)) 
+         this.Redraw(); // no need to redraw complete pad
    }
 
+   GO4.ConditionPainter.prototype.UpdateObject = function(obj) {
+      if (obj._typename != this.cond._typename) return false;
+      this.cond.fiCounts = obj.fiCounts;
+      return true;
+   }
+   
    GO4.ConditionPainter.prototype.Redraw = function() {
-      if (this.aseditor) 
-         $("#" + this.divid).append("<br/>Redraw not implemented");
-      else 
-         this.drawCondition();
+      this.drawCondition();
+      this.drawLabel();
    }
-
    
    GO4.drawGo4Cond = function(divid, cond, option) {
       $('#'+divid).append("Here will be condition " + cond._typename);
@@ -250,9 +294,8 @@
       
       if ((cond.fxHistoName=="") || (option=='editor')) {
          $('#'+divid).append("<br/>Histogram name not specified");
-         var painter = new GO4.ConditionPainter(cond, true);
-         painter.SetDivId(divid);
-         painter.drawEditor();
+         var painter = new GO4.ConditionEditor(cond);
+         painter.drawEditor(divid);
          return painter;
       }
       
@@ -280,15 +323,13 @@
 
       $('#'+divid).append("<br/>Drawing histogram " + histofullpath);
       
+      $('#'+divid).empty();
+      
       var condpainter = new GO4.ConditionPainter(cond, false);
       
-      dabc.get(histofullpath, function(item, obj) {
-         $('#'+divid).empty();
-         JSROOT.draw(divid, obj, /* obj.fDimension==2 ? "col" : */ "");
-         
+      dabc.display(histofullpath, "divid:" + divid, function() {
          condpainter.SetDivId(divid);
          condpainter.drawCondition();
-         
          condpainter.drawLabel();
       });
 
@@ -299,31 +340,21 @@
    JSROOT.addDrawFunc("TGo4PolyCond", GO4.drawGo4Cond);
    
    
-   GO4.ParameterPainter = function(par, aseditor) {
-      JSROOT.TObjectPainter.call(this, par);
+   GO4.ParameterEditor = function(par) {
+      JSROOT.TBasePainter.call(this);
       this.par = par;
-      this.aseditor = aseditor;
    }
 
-   GO4.ParameterPainter.prototype = Object.create(JSROOT.TObjectPainter.prototype);
+   GO4.ParameterEditor.prototype = Object.create(JSROOT.TBasePainter.prototype);
 
-   GO4.ParameterPainter.prototype.GetObject = function() {
-      return this.par;
-   }
-
-   GO4.ParameterPainter.prototype.CheckResize = function() {
+   GO4.ParameterEditor.prototype.CheckResize = function() {
       var id = "#"+this.divid;
       var width = $(id).width(); 
       var height = $(id).height();
-      
-      console.log("In resiye width "+width + " height " +height);
-      
       $(id).children().eq(0).width(width - 4).height(height - 4);
-
    }
-
    
-   GO4.ParameterPainter.prototype.fillEditor = function() {
+   GO4.ParameterEditor.prototype.fillEditor = function() {
       var id = "#"+this.divid;
       var par = this.par;
       
@@ -360,29 +391,28 @@
          if (key == 'fTitle') { found_title = true; continue; } 
          if (!found_title) continue;
          var value = (par[key]!=null ? (par[key] instanceof Array ? par[key] : par[key].toString()): "null");
-	 
-	 if (value instanceof Array) {
-	   for(i = 0; i < value.length; i++) {
-	     $(id + " .par_values tbody").append("<tr><th>" + key.toString() + "[" + i + "]</th><th><input type='text' value='" + value[i] + "'/></th></tr>");
-	   }
-	 }else {
-	   $(id + " .par_values tbody").append('<tr><th>' + key.toString() + "</th><th><input type='text' value='" + value + "'/></th></tr>");
-	 }
+
+         if (value instanceof Array) {
+            for(i = 0; i < value.length; i++) {
+               $(id + " .par_values tbody").append("<tr><th>" + key.toString() + "[" + i + "]</th><th><input type='text' value='" + value[i] + "'/></th></tr>");
+            }
+         } else {
+            $(id + " .par_values tbody").append('<tr><th>' + key.toString() + "</th><th><input type='text' value='" + value + "'/></th></tr>");
+         }
       }
    }
    
-   GO4.ParameterPainter.prototype.drawEditor = function() {
+   GO4.ParameterEditor.prototype.drawEditor = function(divid) {
       var pthis = this;
        
-      $("#"+this.divid).empty();
-      $("#"+this.divid).load("/go4sys/html/pareditor.htm", "", 
-            function() { pthis.fillEditor(); });
+      $("#"+divid).empty();
+      $("#"+divid).load("/go4sys/html/pareditor.htm", "", 
+            function() { pthis.SetDivId(divid); pthis.fillEditor(); });
    }
 
    GO4.drawParameter = function(divid, par, option) {
-      var painter = new GO4.ParameterPainter(par, true);
-      painter.SetDivId(divid);
-      painter.drawEditor();
+      var painter = new GO4.ParameterEditor(par);
+      painter.drawEditor(divid);
       return painter;
    }
 

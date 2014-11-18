@@ -166,7 +166,8 @@ bool TGo4DabcPlayer::ProcessHCommand(const std::string& cmdname, dabc::Command)
    if (cmdname == "Status/CmdClear") {
       if (an) {
          an->ClearObjects("Histograms");
-         StatusMessage(0, "Clear Histograms folder");
+         an->ClearObjects("Conditions");
+         StatusMessage(0, "Clear Histograms and Conditions folder");
          std::cout << "web: Clear Histograms folder" << std::endl;
       }
       return true;
