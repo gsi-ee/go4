@@ -318,7 +318,12 @@
       
       if (histofullpath == null) {
          $('#'+divid).append("<br/>Error - did not found histogram " + cond.fxHistoName);
-         return;
+
+         histofullpath = "../../Histograms/" + cond.fxHistoName;
+         
+         dabc.Find(histofullpath, true)['_kind'] = "ROOT.TH1I"; 
+         
+         console.log("Try histogram" + histofullpath);
       } 
 
       $('#'+divid).append("<br/>Drawing histogram " + histofullpath);
@@ -327,7 +332,8 @@
       
       var condpainter = new GO4.ConditionPainter(cond, false);
       
-      dabc.display(histofullpath, "divid:" + divid, function() {
+      dabc.display(histofullpath, "divid:" + divid, function(res) {
+         if (res==null) return console.log("fail to get histogram " + histofullpath);
          condpainter.SetDivId(divid);
          condpainter.drawCondition();
          condpainter.drawLabel();
