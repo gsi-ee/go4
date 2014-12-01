@@ -171,16 +171,13 @@
       var x = this.main_painter().x;
       var y = this.main_painter().y;
       
-      var line_color = JSROOT.Painter.root_colors[this.cond['fLineColor']];
-      var line_width = this.cond['fLineWidth'];
-      var line_style = JSROOT.Painter.root_line_styles[this.cond['fLineStyle']];
-
       if ((this.cond['fFillStyle']==1001) && (this.cond['fFillColor']==19)) { 
          this.cond['fFillStyle'] = 3006;
          this.cond['fFillColor'] = 2;
       }
       
-      var fill_color = JSROOT.Painter.createFillPattern(this.svg_canvas(true), this.cond['fFillStyle'], this.cond['fFillColor']);
+      var fill = this.createAttFill(this.cond);
+      var line = JSROOT.Painter.createAttLine(this.cond);
       
       this.draw_g.attr("class","cond_container");
       
@@ -191,10 +188,8 @@
              .attr("y", (ndim==1) ? 0 : y(this.cond.fUp2))
              .attr("width", x(this.cond.fUp1) - x(this.cond.fLow1))
              .attr("height", (ndim==1) ? h : y(this.cond.fLow2) - y(this.cond.fUp2))
-             .style("fill", fill_color)
-             .style("stroke", line_color)
-             .style("stroke-width", line_width)
-             .style("stroke-dasharray", line_style);
+             .call(line.func)
+             .call(fill.func);
    }
    
    GO4.ConditionPainter.prototype.drawLabel = function() {
@@ -276,7 +271,7 @@
    }
    
    GO4.drawGo4Cond = function(divid, cond, option) {
-      $('#'+divid).append("Here will be condition " + cond._typename);
+      // $('#'+divid).append("Here will be condition " + cond._typename);
       
       cond['Test'] = function(x,y) {
          if (!this.fbEnabled) return this.fbResult;
@@ -292,6 +287,14 @@
          return this.fbTrue;
       }
       
+      if (option=='same') {
+         var condpainter = new GO4.ConditionPainter(cond, false);
+         condpainter.SetDivId(divid);
+         condpainter.drawCondition();
+         condpainter.drawLabel();
+         return condpainter;
+      }
+      
       if ((cond.fxHistoName=="") || (option=='editor')) {
          $('#'+divid).append("<br/>Histogram name not specified");
          var painter = new GO4.ConditionEditor(cond);
@@ -299,7 +302,7 @@
          return painter;
       }
       
-      $('#'+divid).append("<br/>Histogram name is " + cond.fxHistoName);
+      // $('#'+divid).append("<br/>Histogram name is " + cond.fxHistoName);
       
       var dabc = JSROOT.H('dabc');
       if (dabc==null) {
@@ -335,6 +338,7 @@
       dabc.display(histofullpath, "divid:" + divid, function(res) {
          if (res==null) return console.log("fail to get histogram " + histofullpath);
          condpainter.SetDivId(divid);
+         console.log("Draw condition at " + divid);
          condpainter.drawCondition();
          condpainter.drawLabel();
       });
