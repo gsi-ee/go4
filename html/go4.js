@@ -85,8 +85,8 @@
          .append('<img src="/go4sys/icons/right.png"  height="16" width="16"/>')
          .button()
          .click(function() {
-            console.log("get - do nothing item = " + editor._hitemname); 
-            if (dabc) dabc.display(editor._hitemname, "update"); 
+            console.log("get - do nothing item = " + editor.GetItemName()); 
+            if (dabc) dabc.display(editor.GetItemName(), "update"); 
           })
          .next()
          .text("")
@@ -349,6 +349,8 @@
    JSROOT.addDrawFunc("TGo4WinCond", GO4.drawGo4Cond);
    JSROOT.addDrawFunc("TGo4PolyCond", GO4.drawGo4Cond);
    
+
+   // ===========================================================================================
    
    GO4.ParameterEditor = function(par) {
       JSROOT.TBasePainter.call(this);
@@ -364,10 +366,43 @@
       $(id).children().eq(0).width(width - 4).height(height - 4);
    }
    
-   GO4.ParameterEditor.prototype.fillEditor = function() {
-      var id = "#"+this.divid;
-      var par = this.par;
+   GO4.ParameterEditor.prototype.fillComments = function() {
       
+      if (this.GetItemName()==null) return;
+      
+      var editor = this;
+      if (editor.xreq!=null) return; // avoid double requests
+      
+      editor.xreq = JSROOT.NewHttpRequest(this.GetItemName()+"/h.json?more", 'object', function(res) {
+         editor.xreq = null;
+
+         if (res==null) return;
+         console.log("fillComments item = " + editor.GetItemName());
+
+         var id = "#"+editor.divid;
+
+         console.log("length = " + $(id + " .par_values tbody").length);
+         
+         $(id + " .par_values tbody").find("tr").each( function(i,tr) {
+            var name = $(tr).find("td:first").text();
+            var title = null;
+            for (var i in res._childs) {
+               var n = res._childs[i]._name;
+               if ((name==n) || (name.indexOf(n)==0)) {
+                  title = res._childs[i]._title;
+                  break;
+               }
+            }
+            if (title!=null)
+               $(tr).find("td:last").text(title).css('white-space', 'nowrap');
+            
+         });
+      });
+      editor.xreq.send(null);
+   }
+   
+   GO4.ParameterEditor.prototype.fillEditor = function() {
+      var par = this.par;
       var id = "#"+this.divid;
       var width = $(id).width(); 
       var height = $(id).height();
@@ -404,12 +439,14 @@
 
          if (value instanceof Array) {
             for(i = 0; i < value.length; i++) {
-               $(id + " .par_values tbody").append("<tr><th>" + key.toString() + "[" + i + "]</th><th><input type='text' value='" + value[i] + "'/></th></tr>");
+               $(id + " .par_values tbody").append("<tr><td>" + key.toString() + "[" + i + "]</td><td><input type='text' value='" + value[i] + "'/></td><td></td></tr>");
             }
          } else {
-            $(id + " .par_values tbody").append('<tr><th>' + key.toString() + "</th><th><input type='text' value='" + value + "'/></th></tr>");
+            $(id + " .par_values tbody").append('<tr><td>' + key.toString() + "</td><td><input type='text' value='" + value + "'/></td><td></td></tr>");
          }
       }
+      console.log("fillEditor finished");
+
    }
    
    GO4.ParameterEditor.prototype.drawEditor = function(divid) {
@@ -417,7 +454,12 @@
        
       $("#"+divid).empty();
       $("#"+divid).load("/go4sys/html/pareditor.htm", "", 
-            function() { pthis.SetDivId(divid); pthis.fillEditor(); });
+            function() { pthis.SetDivId(divid); pthis.fillEditor(); pthis.fillComments(); });
+   }
+   
+   GO4.ParameterEditor.prototype.SetItemName = function(name) {
+      JSROOT.TBasePainter.prototype.SetItemName.call(this, name);
+      this.fillComments();
    }
 
    GO4.drawParameter = function(divid, par, option) {
