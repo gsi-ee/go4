@@ -78,7 +78,7 @@
       
       var editor = this;
       
-      var dabc = JSROOT.H('dabc');
+      var dabc = DABC.hpainter;
       
       $(id+" button:first")
          .text("")
@@ -304,7 +304,7 @@
       
       // $('#'+divid).append("<br/>Histogram name is " + cond.fxHistoName);
       
-      var dabc = JSROOT.H('dabc');
+      var dabc = DABC.hpainter;
       if (dabc==null) {
          $('#'+divid).append("<br/>Error - did not found dabc painter");
          return;
