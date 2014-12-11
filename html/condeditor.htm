@@ -1,3 +1,31 @@
+<head>
+<style type="text/css">
+
+.limit_style
+{
+	width:5em;
+}
+
+.counter_style
+{
+	border: 1px solid gray; 
+	font-size:large
+}
+
+.cond_visible {
+	key: visible;
+}
+
+
+
+
+</style>
+</head>
+
+
+
+<body>
+
 <div style="border:2px solid black; overflow-x:hidden; overflow-y: auto">
   <div style="width:100%">
     <label class="cond_name" style="float:left; font-family:bold"> </label>
@@ -8,13 +36,13 @@
   <table style="position:relative; width:100%; height:100%;">
     <tr>
       <th><select name="execmode" class="cond_execmode" title="Set mode of execution" style="width:50%" >
-	    <option selected="selected">Return Result</option>
-	    <option>Return Always True</option>
-	    <option>Return Always False</option>      
+	    <option value="0" selected="selected">Return Result</option>
+	    <option value="1">Return Always True</option>
+	    <option value="2">Return Always False</option>      
       </select></th>
       <th><select name="invertmode" class="cond_invertmode" title="Condition return regular or invert result" style="width:50%">
-	    <option selected="selected">Regular</option>
-	    <option>Return invert</option>
+	    <option  value="0" selected="selected">Regular</option>
+	    <option  value="1" >Return invert</option>
       </select></th>
     </tr>
   </table>
@@ -23,9 +51,9 @@
 <div style="font-family:Verdana">
   <table style="position:relative; width:100%; height:100%">
     <tr>
-      <th style="width:33%"><span style="float:left">All counts: <label class="cond_counts" style="border: 1px solid gray; font-size:large">1000</label></span></th>
-      <th><span>True: <label class="cond_true" style="border: 1px solid gray; font-size:large">500</label></span></th>
-      <th><span><label class="cond_percent" style="font-size:large">100%</label></span></th>
+      <th style="width:33%"><span style="float:left">All counts: <label class="cond_counts counter_style" title="Number of condition Test() calls">1000</label></span></th>
+      <th><span>True: <label class="cond_true counter_style" title="Number of condition Test() calls returning TRUE">500</label></span></th>
+      <th><span><label class="cond_percent" style="font-size:large" title="Percentage of condition Test() calls returning TRUE">100%</label></span></th>
     </tr>
   </table>
 </div>
@@ -41,12 +69,12 @@
   <div id="tabs-1">
      <table style="position:relative; width:100%; height:100%; border-spacing:0px 0px">
       <tr>
-        <th><label>XMin: <input class="cond_xmin" style='width:5em'/></label></th>
-        <th><label>XMax: <input class="cond_xmax" style='width:5em'/></label></th>
+        <th><label>XMin: <input class="cond_xmin limit_style" title="Lower border/extension on X axis. Press enter to set!"/></label></th>
+        <th><label>XMax: <input class="cond_xmax limit_style" title="Upper border/extension on X axis. Press enter to set!"/></label></th>
       </tr>
       <tr>
-        <th><label>YMin: <input class="cond_ymin" style='width:5em'/></label></th>
-        <th><label>YMax: <input class="cond_ymax" style='width:5em'/></label></th>
+        <th><label>YMin: <input class="cond_ymin limit_style" title="Lower border/extension on Y Axis. Press Enter to set"/></label></th>
+        <th><label>YMax: <input class="cond_ymax limit_style " title="Upper border/extension on Y Axis. Press Enter to set!"/></label></th>
      </tr>
      </table>
   </div>
@@ -54,35 +82,35 @@
    Here will be TCutG editor
   </div>
   <div id="tabs-3" style="align:center">
-    <table style="position:relative; width:100%; height:100%; border-spacing: 0px 0px">
+    <table style="position:relative; width:100%; height:100%; border-spacing: 0px 0px; text-align: left">
       <tr>
-	<th><label><input class="cond_visible" type="checkbox"/> visible</label></th>
-	<th><label><input class="cond_limits" type="checkbox"/> limits</label></th>
-	<th><label><input class="cond_label" type="checkbox"/> label</label></th>
+	<th><label title="Toggle visibility of condition in viewpanel"><input class="cond_visible" type="checkbox"/> visible</label></th>
+	<th><label title="Draw condition limits into label."><input class="cond_limits" type="checkbox" /> limits</label></th>
+	<th><label title="Draw label of condition properties on viewpanel."><input class="cond_label" type="checkbox"/> label</label></th>
       </tr>
     </table>
   </div>
   <div id="tabs-4">
-    <table style="position:relative; width:100%; height:100%; border-spacing:0px 0px">
+    <table style="position:relative; width:100%; height:100%; border-spacing:0px 0px; text-align: left">
       <tr>
-	<th><input id="cond_integr" type="checkbox"/><label for="cond_integr">Integr: </label></th>
-	<th><input id="cond_maxx" type="checkbox"/><label for="cond_maxx">MaxX: </label></th>
+	<th><label title="Draw value into label on view panel"><input class="cond_integr" type="checkbox"/> Integr: </label></th>
+	<th><label title="Draw value into label on view panel"><input class="cond_maxx" type="checkbox"/> MaxX: </label></th>
       </tr>
       <tr>
-	<th><input id="cond_max" type="checkbox"/><label for="cond_max">Max:</label></th>
-	<th><input id="cond_maxy" type="checkbox"/><label for="cond_maxy">MaxY:</label></th>
+	<th><label title="Draw value into label on view panel"><input class="cond_max" type="checkbox"/> Max:</label></th>
+	<th><label title="Draw value into label on view panel"><input class="cond_maxy" type="checkbox"/> MaxY:</label></th>
       </tr>
     </table>
   </div>
   <div id="tabs-5">
-    <table style="position:relative; width:100%; height:100%; border-spacing:0px 0px">
+    <table style="position:relative; width:100%; height:100%; border-spacing:0px 0px; text-align: left">
       <tr>
-	<th><input id="cond_xmean" type="checkbox"/><label for="cond_xmean"> XMean:</label></th>
-	<th><input id="cond_xrms" type="checkbox"/><label for="cond_xrms"> XRMS:</label></th>
+	<th><label title="Draw value into label on view panel"><input class="cond_xmean" type="checkbox"/> XMean:</label></th>
+	<th><label title="Draw value into label on view panel"><input class="cond_xrms" type="checkbox"/> XRMS:</label></th>
       </tr>
       <tr>
-	<th><input id="cond_ymean" type="checkbox"/><label for="cond_ymean"> YMean:</label></th>
-	<th><input id="cond_yrms" type="checkbox"/><label for="cond_yrms"> YRMS:</label></th>
+	<th><label title="Draw value into label on view panel"><input class="cond_ymean" type="checkbox"/> YMean:</label></th>
+	<th><label title="Draw value into label on view panel"><input class="cond_yrms" type="checkbox"/> YRMS:</label></th>
       </tr>
     </table>
   </div>
@@ -95,3 +123,6 @@
   <button title="Draw condition">Draw</button>
 </div>
 </div>
+
+
+</body>

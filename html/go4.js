@@ -16,13 +16,170 @@
 
    GO4.version = "4.7.1";
    
+   
+   
+   
+   
+   
    GO4.ConditionEditor = function(cond) {
       JSROOT.TBasePainter.call(this, cond);
       this.cond = cond;
+      this.changes = ["dummy", "init"];
+      this.ClearChanges();
    }
    
    GO4.ConditionEditor.prototype = Object.create(JSROOT.TBasePainter.prototype);
 
+   
+   GO4.ConditionEditor.prototype.DabcCommand = function(cmd, option, callback) {
+		var xmlHttp = new XMLHttpRequest();
+		var pre = "Go4/Go4Analysis/Status/";
+		var suf = "/execute";
+		var fullcom = pre + cmd + suf + "?" + option;
+		console.log(fullcom);
+		xmlHttp.open('GET', fullcom, true);
+		xmlHttp.onreadystatechange = function() {
+
+			if (xmlHttp.readyState == 4) {
+				console.log("DabcCommand completed.");
+				var reply = JSON.parse(xmlHttp.responseText);
+				console.log("Reply= %s", reply);
+				callback(true); // todo: evaluate return values of reply
+			}
+		}
+		xmlHttp.send(null);
+	};
+  
+   // add identifier of changed element to list, make warning sign visible
+	  GO4.ConditionEditor.prototype.MarkChanged = function(key) {
+		  // first avoid duplicate keys:
+		  var index;
+		  for	(index = 0; index < this.changes.length; index++) {
+				if (this.changes[index]== key) return;
+			} 
+		  this.changes.push(key);
+		  console.log("Mark changed :%s", key);	
+		  var id = "#"+this.divid; 
+		  $(id+" button:eq(2)").show(); // show warning sign 
+		  // todo: replace with self explaining name
+	  }
+	  
+	  // clear changed elements' ist, make warning sign invisible  
+GO4.ConditionEditor.prototype.ClearChanges = function() {
+	var index;
+	var len=this.changes.length;
+	for	(index = 0; index < len ; index++) {
+	    var removed=this.changes.pop();
+	    console.log("Clear changes removed :%s", removed);	
+	} 
+	var id = "#"+this.divid; 
+	  $(id+" button:eq(2)").hide(); // hide warning sign 
+	  // todo: replace with self explaining name  
+		  
+	  }
+	  
+// scan changed value list and return optionstring to be send to server
+GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
+	var id = "#"+this.divid; 
+	var index;
+	var len=this.changes.length;
+	for	(index = 0; index < len ; index++) {
+	    //var cursor=changes.pop();
+		var key=this.changes[index];
+		console.log("Evaluate change key:%s", key);	
+		
+		// here mapping of key to editor field:
+		if(key=="limits")
+			{
+			 //var xmin=ParseFloat($(id+" .cond_xmin").value); // need to parse here? no
+			 var xmin=$(id+" .cond_xmin")[0].value;
+        	 var xmax=$(id+" .cond_xmax")[0].value;
+        	 optionstring +="&xmin=\""+xmin+"\"&xmax=\""+xmax+"\"";
+        	  if (this.cond.fiDim==2) {
+        		  var ymin=$(id+" .cond_ymin")[0].value;
+        		  var ymax=$(id+" .cond_ymax")[0].value; 
+        		  optionstring +="&ymin=\""+ymin+"\"&ymax="+ymax+"\"";
+        	  }
+			}
+		// TODO: already encode the keywords in fieldnames and replace everything below by one function
+		
+		else if (key=="resultmode"){
+			var selected=$(id+" .cond_execmode")[0].value;
+			optionstring +="&"+key+"="+selected;
+		}
+		else if (key=="invertmode"){
+			var selected=$(id+" .cond_invertmode")[0].value;
+			optionstring +="&"+key+"="+selected;
+		}
+		else if (key=="visible"){
+			var checked=$(id+" .cond_visible")[0].checked;
+			var arg= (checked ? "1" : "0");
+			optionstring +="&"+key+"="+arg;
+		}
+		else if (key=="labeldraw"){
+			var checked=$(id+" .cond_label")[0].checked;
+			var arg= (checked ? "1" : "0");
+			optionstring +="&"+key+"="+arg;
+		}
+		else if (key=="limitsdraw"){
+			var checked=$(id+" .cond_limits")[0].checked;
+			var arg= (checked ? "1" : "0");
+			optionstring +="&"+key+"="+arg;
+		}
+		else if (key=="intdraw"){
+			var checked=$(id+" .cond_integr")[0].checked;
+			var arg= (checked ? "1" : "0");
+			optionstring +="&"+key+"="+arg;
+		}
+		else if (key=="xmeandraw"){
+			var checked=$(id+" .cond_xmean")[0].checked;
+			var arg= (checked ? "1" : "0");
+			optionstring +="&"+key+"="+arg;
+		}
+		else if (key=="xrmsdraw"){
+			var checked=$(id+" .cond_xrms")[0].checked;
+			var arg= (checked ? "1" : "0");
+			optionstring +="&"+key+"="+arg;
+		}
+		else if (key=="ymeandraw"){
+			var checked=$(id+" .cond_ymean")[0].checked;
+			var arg= (checked ? "1" : "0");
+			optionstring +="&"+key+"="+arg;
+		}
+		else if (key=="yrmsdraw"){
+			var checked=$(id+" .cond_yrms")[0].checked;
+			var arg= (checked ? "1" : "0");
+			optionstring +="&"+key+"="+arg;
+		}
+		else if (key=="xmaxdraw"){
+			var checked=$(id+" .cond_maxx")[0].checked;
+			var arg= (checked ? "1" : "0");
+			optionstring +="&"+key+"="+arg;
+		}
+		
+		else if (key=="ymaxdraw"){
+			var checked=$(id+" .cond_maxy")[0].checked;
+			var arg= (checked ? "1" : "0");
+			optionstring +="&"+key+"="+arg;
+		}
+		else if (key=="cmaxdraw"){
+			var checked=$(id+" .cond_max")[0].checked;
+			var arg= (checked ? "1" : "0");
+			optionstring +="&"+key+"="+arg;
+		}
+		else{
+			console.log("Warning: EvaluateChanges found unknown key:%s", key);
+				}
+		
+		
+	
+	}// for index
+	console.log("Resulting option string:%s", optionstring);
+	return optionstring;
+}
+
+
+   
    GO4.ConditionEditor.prototype.CheckResize = function() {
       var id = "#"+this.divid;
       var width = $(id).width(); 
@@ -31,18 +188,21 @@
       $(id).children().eq(0).width(width - 5).height(height - 5);
    }
    
+   
+   ////////////////////////////////////////////////////////// 
    GO4.ConditionEditor.prototype.refreshEditor = function() {
-      var id = "#"+this.divid;
+      var editor=this;
+	  var id = "#"+this.divid;
       var cond = this.cond;
 
       $(id+" .cond_name").text(cond.fName);
       $(id+" .cond_type").text(cond._typename);
       
-      $(id+" .cond_xmin").val(cond.fLow1).change(function(){ $(id+" button:eq(2)").show(); });
-      $(id+" .cond_xmax").val(cond.fUp1).change(function(){ $(id+" button:eq(2)").show(); });
+      $(id+" .cond_xmin").val(cond.fLow1).change(function(){ editor.MarkChanged("limits")});
+      $(id+" .cond_xmax").val(cond.fUp1).change(function(){ editor.MarkChanged("limits")});
       if (cond.fiDim==2) {
-         $(id+" .cond_ymin").val(cond.fLow2).change(function(){ $(id+" button:eq(2)").show(); });
-         $(id+" .cond_ymax").val(cond.fUp2).change(function(){ $(id+" button:eq(2)").show(); });
+         $(id+" .cond_ymin").val(cond.fLow2).change(function(){editor.MarkChanged("limits")});
+         $(id+" .cond_ymax").val(cond.fUp2).change(function(){ editor.MarkChanged("limits")});
       } else {
          $(id+" .cond_ymin").prop('disabled', true);
          $(id+" .cond_ymax").prop('disabled', true);
@@ -54,18 +214,59 @@
       
       $(id+" .cond_visible")
          .prop('checked', cond.fbVisible)
-         .click(function() { cond.fbVisible = this.checked; });
+         .click(function() { cond.fbVisible = this.checked; editor.MarkChanged("visible")});
       $(id+" .cond_limits")
          .prop('checked', cond.fbLimitsDraw)
-         .click(function() { cond.fbLimitsDraw = this.checked; });
+         .click(function() { cond.fbLimitsDraw = this.checked; editor.MarkChanged("limitsdraw")});
          
       $(id+" .cond_label")
          .prop('checked', cond.fbLabelDraw)
-         .click(function() { cond.fbLabelDraw = this.checked; });
-   }
+         .click(function() { cond.fbLabelDraw = this.checked; editor.MarkChanged("labeldraw")});
    
+  
+      $(id+" .cond_integr")
+      .prop('checked', cond.fbIntDraw)
+      .click(function() { cond.fbIntDraw = this.checked; editor.MarkChanged("intdraw")});
+      
+      $(id+" .cond_maxx")
+      .prop('checked', cond.fbXMaxDraw)
+      .click(function() { cond.fbXMaxDraw = this.checked; editor.MarkChanged("xmaxdraw")});
+      
+      $(id+" .cond_max")
+      .prop('checked', cond.fbCMaxDraw)
+      .click(function() { cond.fbCMaxDraw = this.checked; editor.MarkChanged("cmaxdraw")});
+      
+      $(id+" .cond_maxy")
+      .prop('checked', cond.fbYMaxDraw)
+      .click(function() { cond.fbYMaxDraw = this.checked; editor.MarkChanged("ymaxdraw")});
+      
+      $(id+" .cond_xmean")
+      .prop('checked', cond.fbXMeanDraw)
+      .click(function() { cond.fbXMeanDraw = this.checked; editor.MarkChanged("xmeandraw")});
+      
+      $(id+" .cond_xrms")
+      .prop('checked', cond.fbXRMSDraw)
+      .click(function() { cond.fbXRMSDraw = this.checked; editor.MarkChanged("xrmsdraw")});
+      
+      $(id+" .cond_ymean")
+      .prop('checked', cond.fbYMeanDraw)
+      .click(function() { cond.fbYMeanDraw = this.checked; editor.MarkChanged("ymeandraw")});
+      
+      $(id+" .cond_yrms")
+      .prop('checked', cond.fbYRMSDraw)
+      .click(function() { cond.fbYRMSDraw = this.checked; editor.MarkChanged("yrmsdraw")});
+      
+      
+      
+      
+  }
+  //--------- end refreshEditor
+  
+  
+  ////////////////////////////////////////////////////////// 
    GO4.ConditionEditor.prototype.fillEditor = function() {
       var id = "#"+this.divid;
+      var editor=this;
       console.log("GO4.ConditionPainter.prototype.fillEditor " + this.cond.fName);
       // $(id).css("display","table");
       
@@ -73,9 +274,17 @@
       
       $(id+" .cond_tabs").tabs();
       
-      $(id+" .cond_execmode").selectmenu();
-      $(id+" .cond_invertmode").selectmenu();
-      
+
+       $(id + " .cond_execmode").selectmenu({
+			change : function(event, ui) {
+				editor.MarkChanged("resultmode");
+			}
+		});
+		$(id + " .cond_invertmode").selectmenu({
+			change : function(event, ui) {
+				editor.MarkChanged("invertmode");
+			}
+		});      
       var editor = this;
       
       var dabc = DABC.hpainter;
@@ -85,19 +294,33 @@
          .append('<img src="/go4sys/icons/right.png"  height="16" width="16"/>')
          .button()
          .click(function() {
-            console.log("get - do nothing item = " + editor.GetItemName()); 
-            if (dabc) dabc.display(editor.GetItemName(), "update"); 
+            console.log("update item = " + editor.GetItemName()); 
+            if (DABC.hpainter) DABC.hpainter.display(editor.GetItemName()); 
+            else  console.log("dabc object not found!"); 
+            	
           })
          .next()
          .text("")
          .append('<img src="/go4sys/icons/left.png"  height="16" width="16"/>')
          .button()
-         .click(function() { console.log("set - do nothing"); })
+         .click(function() { 
+        	 var conny=editor.GetItemName().split('/').pop();
+        	 var options="name="+conny;
+        	 options=editor.EvaluateChanges(options); // complete option string from all changed elements
+        	 console.log("set - condition "+ editor.GetItemName()+ ", options="+options); 
+        	 editor.DabcCommand("CmdSetCondition",options,function(
+     				result) {
+        		 		console.log(result ? "set condition done. "
+    					: "set condition FAILED.");
+        		 		if(result) editor.ClearChanges();     			
+     		});
+         
+         })
          .next()
          .text("")
          .append('<img src="/go4sys/icons/info1.png"  height="16" width="16"/>')
          .button()
-         .click(function() { console.log("warn - do nothing"); })
+         //.click(function() { console.log("warn - do nothing"); })
          .hide()
          .next()
          .text("")
@@ -111,6 +334,9 @@
          .click(function() { console.log("draw - do nothing"); });
       
       this.refreshEditor();   
+      
+      //$(document).tooltip();
+      $(id).tooltip();
    }
 
    GO4.ConditionEditor.prototype.drawEditor = function(divid) {
@@ -128,8 +354,10 @@
    GO4.ConditionEditor.prototype.UpdateObject = function(obj) {
       if (obj._typename != this.cond._typename) return false;
       
-      this.cond.fiCounts = obj.fiCounts;
-      this.cond.fiTrueCounts = obj.fiTrueCounts;
+      //this.cond.fiCounts = obj.fiCounts;
+      //this.cond.fiTrueCounts = obj.fiTrueCounts;
+      this.cond= JSROOT.clone(obj); // does this also work with polygon condition?
+      
       return true;
    }
 
