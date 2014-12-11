@@ -467,11 +467,19 @@
    // ==================================================================================
    
    GO4.DrawAnalysisStatus = function(divid, itemname) {
+      
+      var html = "<div style='padding-top:2px'>";
+      html += "<label class='event_rate' style='border: 1px solid gray; font-size:large; vertical-align:middle; background-color: grey'>---</label> Ev/s ";
+      html += "<label class='aver_rate' style='border: 1px solid gray; font-size:large; vertical-align:middle'>---</label> Ev/s "; 
+      html += "<label class='run_time' style='border: 1px solid gray; font-size:large; vertical-align:middle'>---</label> s "; 
+      html += "<label class='total_events' style='border: 1px solid gray; font-size:large; vertical-align:middle'>---</label> Ev";
+      html += "</div>";
+      
       $('#'+divid).css('overflow','hidden')
                   .css('padding-left','5px')
-                  .css('display', 'block')
+                  .css('display', 'inline-block')
                   .css('white-space', 'nowrap')
-                  .html("Analysis state");
+                  .html(html);
       
       var xreq = null;
       
@@ -482,29 +490,17 @@
             xreq = null;
             if (res==null) return;
             
-            var state = "Stopped", rate = '0.0', aver = '0.0', runtime = '0', events = '0';
-            
             for (var i in res._childs) {
-               if (res._childs[i]._name == 'State') state = res._childs[i].value; else            
-               if (res._childs[i]._name == 'EventRate') rate = res._childs[i].value; else 
-               if (res._childs[i]._name == 'AverRate') aver = res._childs[i].value; else 
-               if (res._childs[i]._name == 'RunTime') runtime = res._childs[i].value; else 
-               if (res._childs[i]._name == 'EventCount') events = res._childs[i].value; 
+               var value = res._childs[i].value;
+               var name = res._childs[i]._name;
+               if (name == 'State') 
+                  $('#'+divid + " .event_rate").css('background-color',  value=='Stopped' ? 'red' : 'lightgreen');
+               if (name == 'EventRate') $('#'+divid + " .event_rate").text(value);
+               if (name == 'AverRate') $('#'+divid + " .aver_rate").text(value); 
+               if (name == 'RunTime') $('#'+divid + " .run_time").text(value); 
+               if (name == 'RunTime') $('#'+divid + " .total_events").text(value);
             }
             
-            var html = "<div style='display:inline-block; vertical-align:middle'>";
-            
-            html += "<label style='border: 1px solid gray; font-size:large; background-color:";
-            if (state != 'Running') html += "red"; else html+='lightgreen';
-            html+="'>" + rate +"</label> Ev/s ";
-            
-            html+= "<label style='border: 1px solid gray; font-size:large;'>" + aver + "</label> Ev/s "; 
-
-            html+= "<label style='border: 1px solid gray; font-size:large;'>" + runtime + "</label> s "; 
-            html+= "<label style='border: 1px solid gray; font-size:large;'>" + events + "</label> Ev";
-            html+="</div>";
-            
-            $('#'+divid).html(html);
          });
          
          xreq.send(null);
