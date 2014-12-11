@@ -377,12 +377,8 @@
          editor.xreq = null;
 
          if (res==null) return;
-         console.log("fillComments item = " + editor.GetItemName());
-
          var id = "#"+editor.divid;
 
-         console.log("length = " + $(id + " .par_values tbody").length);
-         
          $(id + " .par_values tbody").find("tr").each( function(i,tr) {
             var name = $(tr).find("td:first").text();
             var title = null;
@@ -466,6 +462,55 @@
       var painter = new GO4.ParameterEditor(par);
       painter.drawEditor(divid);
       return painter;
+   }
+   
+   // ==================================================================================
+   
+   GO4.DrawAnalysisStatus = function(divid, itemname) {
+      $('#'+divid).css('overflow','hidden')
+                  .css('padding-left','5px')
+                  .css('display', 'block')
+                  .css('white-space', 'nowrap')
+                  .html("Analysis state");
+      
+      var xreq = null;
+      
+      function UpdateStatus() {
+         if (xreq!=null) return;
+         
+         xreq = JSROOT.NewHttpRequest(itemname+"/get.json", 'object', function(res) {
+            xreq = null;
+            if (res==null) return;
+            
+            var state = "Stopped", rate = '0.0', aver = '0.0', runtime = '0', events = '0';
+            
+            for (var i in res._childs) {
+               if (res._childs[i]._name == 'State') state = res._childs[i].value; else            
+               if (res._childs[i]._name == 'EventRate') rate = res._childs[i].value; else 
+               if (res._childs[i]._name == 'AverRate') aver = res._childs[i].value; else 
+               if (res._childs[i]._name == 'RunTime') runtime = res._childs[i].value; else 
+               if (res._childs[i]._name == 'EventCount') events = res._childs[i].value; 
+            }
+            
+            var html = "<div style='display:inline-block; vertical-align:middle'>";
+            
+            html += "<label style='border: 1px solid gray; font-size:large; background-color:";
+            if (state != 'Running') html += "red"; else html+='lightgreen';
+            html+="'>" + rate +"</label> Ev/s ";
+            
+            html+= "<label style='border: 1px solid gray; font-size:large;'>" + aver + "</label> Ev/s "; 
+
+            html+= "<label style='border: 1px solid gray; font-size:large;'>" + runtime + "</label> s "; 
+            html+= "<label style='border: 1px solid gray; font-size:large;'>" + events + "</label> Ev";
+            html+="</div>";
+            
+            $('#'+divid).html(html);
+         });
+         
+         xreq.send(null);
+      }
+       
+      setInterval(UpdateStatus, 2000);
    }
 
 })();

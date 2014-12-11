@@ -76,6 +76,9 @@ void TGo4DabcPlayer::InitializeHierarchy()
 
    dabc::Hierarchy sub = fHierarchy.CreateHChild("Status");
    sub.SetPermanent();
+   sub.SetField("_status","GO4.DrawAnalysisStatus");
+
+   sub.CreateHChild("State").SetField(dabc::prop_kind, "log");
 
    sub.CreateHChild("Message").SetField(dabc::prop_kind, "log");
 
@@ -107,7 +110,12 @@ void TGo4DabcPlayer::InitializeHierarchy()
 
 void TGo4DabcPlayer::RatemeterUpdate(TGo4Ratemeter* r)
 {
+   TGo4Analysis* an = TGo4Analysis::Instance();
+   bool running = an ? an->IsRunning() : false;
+
    dabc::LockGuard lock(fHierarchy.GetHMutex());
+
+   fHierarchy.GetHChild("Status/State").SetField("value", running ? "Running" : "Stopped");
 
    fHierarchy.GetHChild("Status/EventRate").SetField("value", r->GetRate());
    fHierarchy.GetHChild("Status/EventRate").SetFieldModified("value");
