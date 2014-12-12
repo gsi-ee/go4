@@ -33,17 +33,26 @@
    
    GO4.ConditionEditor.prototype.DabcCommand = function(cmd, option, callback) {
 		var xmlHttp = new XMLHttpRequest();
-		var pre = "Go4/Go4Analysis/Status/";
-		var suf = "/execute";
-		var fullcom = pre + cmd + suf + "?" + option;
+		// old using special dabc command
+//		var pre = "/Go4/Go4Analysis/Status/"; // GetItemName() + "/exe.txt"
+//		var suf = "/execute"; // exe.txt?method=UpdateFromUrl
+//		var fullcom = pre + cmd + suf + "?" + option;
+		
+		var pre="";
+		if (this.GetItemName()!=null) 
+			  pre = this.GetItemName() + "/"; // suppress / if item name is empty
+		pre +="exe.txt\?method=";
+		var fullcom = pre + cmd + option;
+		
+		
 		console.log(fullcom);
 		xmlHttp.open('GET', fullcom, true);
 		xmlHttp.onreadystatechange = function() {
 
 			if (xmlHttp.readyState == 4) {
 				console.log("DabcCommand completed.");
-				var reply = JSON.parse(xmlHttp.responseText);
-				console.log("Reply= %s", reply);
+//				var reply = JSON.parse(xmlHttp.responseText); // this does not work with exe.txt JAM
+//				console.log("Reply= %s", reply);
 				callback(true); // todo: evaluate return values of reply
 			}
 		}
@@ -94,11 +103,13 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 			 //var xmin=ParseFloat($(id+" .cond_xmin").value); // need to parse here? no
 			 var xmin=$(id+" .cond_xmin")[0].value;
         	 var xmax=$(id+" .cond_xmax")[0].value;
-        	 optionstring +="&xmin=\""+xmin+"\"&xmax=\""+xmax+"\"";
+//        	 optionstring +="&xmin=\""+xmin+"\"&xmax=\""+xmax+"\"";
+        	 optionstring +="&xmin="+xmin+"&xmax="+xmax;
         	  if (this.cond.fiDim==2) {
         		  var ymin=$(id+" .cond_ymin")[0].value;
         		  var ymax=$(id+" .cond_ymax")[0].value; 
-        		  optionstring +="&ymin=\""+ymin+"\"&ymax="+ymax+"\"";
+//        		  optionstring +="&ymin=\""+ymin+"\"&ymax="+ymax+"\"";
+        		  optionstring +="&ymin="+ymin+"&ymax="+ymax;
         	  }
 			}
 		// TODO: already encode the keywords in fieldnames and replace everything below by one function
@@ -188,10 +199,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       $(id).children().eq(0).width(width - 5).height(height - 5);
    }
    
-   // test: do we need to define this for external editor?
-   GO4.ConditionEditor.prototype.SetItemName = function(name) {
-	      JSROOT.TBasePainter.prototype.SetItemName.call(this, name);
-	   }
+  
 
    
    GO4.ConditionEditor.prototype.refreshEditor = function() {
@@ -202,24 +210,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       $(id+" .cond_name").text(cond.fName);
       $(id+" .cond_type").text(cond._typename);
       
-      
-      // todo: update resultmode and invertmode here:
-//      if(cond->IsEnabled())
-//    	     ResultCombo->setCurrentIndex(0);
-//    	   else
-//    	     if (cond->FixedResult())
-//    	       ResultCombo->setCurrentIndex(1);
-//    	     else
-//    	       ResultCombo->setCurrentIndex(2);
-//
-//    	   if(cond->IsTrue()) InvertCombo->setCurrentIndex(0);
-//    	                 else InvertCombo->setCurrentIndex(1);
-/////////////////////////////////////////////////////////////////////////      
-//      var options = document.getElementById("DacModeCombo").options;
-//  	for ( var i = 0; i < options.length; i++)
-//  		options[i].selected = (options[i].value == this.fDACMode);
-//  	$("#DacModeCombo").selectmenu('refresh', true);
-      
+            
       if(cond.fbEnabled) {
     	  $(id+" .cond_execmode").val(0);
       	}
@@ -229,13 +220,15 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
     	  else
     		  $(id+" .cond_execmode").val(2);
       }
-      $(id+" .cond_execmode").selectmenu("refresh", true);
+      $(id+" .cond_execmode").selectmenu("refresh");
+      $(id+" .cond_execmode").selectmenu("option", "width", "100%"); // workaround for selecmenu refresh problem (increases width each time!)
       if(cond.fbTrue) 
     	  $(id+" .cond_invertmode").val(0);
       else
     	  $(id+" .cond_invertmode").val(1);
       
-      $(id+" .cond_invertmode").selectmenu("refresh", true);
+      $(id+" .cond_invertmode").selectmenu("refresh");
+      $(id+" .cond_invertmode").selectmenu("option", "width", "100%"); // workaround for selecmenu refresh problem (increases width each time!)
       
       $(id+" .cond_xmin").val(cond.fLow1).change(function(){ editor.MarkChanged("limits")});
       $(id+" .cond_xmax").val(cond.fUp1).change(function(){ editor.MarkChanged("limits")});
@@ -296,6 +289,10 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       .click(function() { cond.fbYRMSDraw = this.checked; editor.MarkChanged("yrmsdraw")});
       
       
+      editor.ClearChanges();  
+      
+      
+      $("#QFWModeCombo").selectmenu("option", "width", $('#QFW-table').width());
       
       
   }
@@ -343,11 +340,12 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
          .append('<img src="/go4sys/icons/left.png"  height="16" width="16"/>')
          .button()
          .click(function() { 
-        	 var conny=editor.GetItemName().split('/').pop();
-        	 var options="name="+conny;
+//        	 var conny=editor.GetItemName().split('/').pop();
+//        	 var options="name="+conny;
+        	 var options=""; // do not need to use name here
         	 options=editor.EvaluateChanges(options); // complete option string from all changed elements
         	 console.log("set - condition "+ editor.GetItemName()+ ", options="+options); 
-        	 editor.DabcCommand("CmdSetCondition",options,function(
+        	 editor.DabcCommand("UpdateFromUrl",options,function(
      				result) {
         		 		console.log(result ? "set condition done. "
     					: "set condition FAILED.");
@@ -393,8 +391,6 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    GO4.ConditionEditor.prototype.UpdateObject = function(obj) {
       if (obj._typename != this.cond._typename) return false;
       
-      //this.cond.fiCounts = obj.fiCounts;
-      //this.cond.fiTrueCounts = obj.fiTrueCounts;
       this.cond= JSROOT.clone(obj); // does this also work with polygon condition?
       
       return true;

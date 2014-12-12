@@ -22,6 +22,7 @@
 class TH1;
 class TVirtualPad;
 class TCutG;
+class TObjArray;
 
 class TGo4HistogramEntry;
 class TGo4EventElement;
@@ -161,6 +162,10 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
 
     /** Copy values from cond to this. When counts is true, copy also counters. */
     virtual Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts);
+
+    /** Method used by HTTP server to update some fields, specified in URL syntax */
+    virtual Bool_t UpdateFromUrl(const char* rest_url_opt);
+
     virtual void GetValues(Int_t & dim, Double_t & x1, Double_t & y1, Double_t & x2, Double_t & y2);
     virtual Double_t GetXLow();
     virtual Double_t GetXUp();
@@ -361,6 +366,30 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
       * habe changed.*/
     TH1* fxCutHis;   //!
 
+
+    /** array with TObjStrings evaluated by UpdateFromUrl*/
+    TObjArray* fxUrlOptionArray; //!
+
+    /** re-build the list of url options from string*/
+    void BuildUrlOptionArray(const char* rest_url_opt);
+
+    /** returns true if key is present in list of url options. Otherwise false*/
+    Bool_t UrlOptionHasKey(const char* key);
+
+    /** Scan list of url options  for key. If found, return TString value.
+         * If not found, return default value def_value*/
+    TString GetUrlOptionAsString(const char* key, TString def_value);
+
+
+    /** Scan list of url options  for key. If found, return Integer value.
+     * If not found, return default value def_value*/
+    Int_t GetUrlOptionAsInt(const char* key, Int_t def_value);
+
+    /** Scan list of url options  for key. If found, return Double value.
+     * If not found, return default value def_value*/
+    Double_t GetUrlOptionAsDouble(const char* key, Double_t def_value);
+
+
     void SetPainted(Bool_t on) { fbIsPainted=on; }
     Bool_t IsPainted() const { return fbIsPainted; }
 
@@ -464,7 +493,7 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     /** This allows to treat conditions streamed into pad */
     Bool_t fbStreamedCondition;//!
 
-   ClassDef(TGo4Condition,7)
+   ClassDef(TGo4Condition,8)
 };
 
 #endif //TGO4CONDITION_H

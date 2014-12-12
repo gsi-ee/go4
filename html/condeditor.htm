@@ -12,6 +12,16 @@
 	font-size:large
 }
 
+.cond_modestable
+{
+	position:relative; 
+	left: 4px;
+	width:100%; 
+	height:100%;
+	table-layout: fixed;
+}
+
+
 .cond_visible {
 	key: visible;
 }
@@ -78,18 +88,18 @@
     <label class="cond_type" style="float:right; font-family:bold"> </label>
   </div>
 <br/>
-<div style="width:100%">
-  <table style="position:relative; width:100%; height:100%;">
+<div style="width:98%">
+  <table class="cond_modestable">
     <tr>
-      <th><select name="execmode" class="cond_execmode" title="Set mode of execution" style="width:50%" >
+      <td><select name="execmode" class="cond_execmode" title="Set mode of execution"style="width:50%" >
 	    <option value="0" selected="selected">Return Result</option>
 	    <option value="1">Return Always True</option>
 	    <option value="2">Return Always False</option>      
-      </select></th>
-      <th><select name="invertmode" class="cond_invertmode" title="Condition return regular or invert result" style="width:50%">
+      </select></td>
+      <td><select name="invertmode" class="cond_invertmode" title="Condition return regular or invert result" style="width:50%">
 	    <option  value="0" selected="selected">Regular</option>
 	    <option  value="1" >Return invert</option>
-      </select></th>
+      </select></td>
     </tr>
   </table>
 </div>

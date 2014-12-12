@@ -270,6 +270,48 @@ Bool_t TGo4WinCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
    return kTRUE;
 }
 
+Bool_t TGo4WinCond::UpdateFromUrl(const char* rest_url_opt)
+{
+  if (!TGo4Condition::UpdateFromUrl(rest_url_opt))
+    return kFALSE;
+  TString message;
+  message.Form("TGo4WinCond::UpdateFromUrl - condition %s: with url:%s", GetName(), rest_url_opt);
+  TGo4Log::Message(1, message.Data());
+  if (UrlOptionHasKey("xmin"))
+  {
+
+    Double_t xmin = GetUrlOptionAsDouble("xmin", GetXLow());
+    Double_t xmax = GetUrlOptionAsDouble("xmax", GetXUp());
+    Double_t ymin = GetUrlOptionAsDouble("ymin", GetYLow());
+    Double_t ymax = GetUrlOptionAsDouble("ymax", GetYUp());
+    message.Form("Set Window condition %s:", GetName());
+    Int_t dim = GetDimension();
+    switch (dim)
+    {
+      case 1:
+        SetValues(xmin, xmax);
+        message.Append(TString::Format(", set limits to (%f, %f)", xmin, xmax));
+        break;
+      case 2:
+        SetValues(xmin, xmax, ymin, ymax);
+        message.Append(TString::Format(", set limits to (%f, %f) (%f, %f)", xmin, xmax, ymin, ymax));
+        break;
+      default:
+        message.Append(TString::Format(" !wrong condition dimension %d, NEVER COME HERE", dim));
+        break;
+    };
+
+  }
+  else
+  {
+    std::cout << "DEBUG- no limits to change received" << std::endl;
+  }
+  TGo4Log::Message(1, message.Data());
+  return kTRUE;
+}
+
+
+
 void TGo4WinCond::SetPainter(TGo4ConditionPainter* painter)
 {
    // delete old painter, replace by the new one

@@ -68,6 +68,10 @@ class TGo4WinCond : public TGo4Condition {
       /** Copy values from cond to this. When counts is true, copy also counters. */
       Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts);
 
+      /** Method used by HTTP server to update some fields, specified in URL syntax */
+      virtual Bool_t UpdateFromUrl(const char* rest_url_opt);
+
+
       /** Calculate value for histogram inside condition limits. */
       virtual Double_t GetIntegral(TH1* histo, Option_t* opt="");
 
@@ -125,7 +129,7 @@ class TGo4WinCond : public TGo4Condition {
       /** Restore original ranges of current histo. */
       void RestoreHistogramRanges(TH1* histo);
 
-   ClassDef(TGo4WinCond,6)
+   ClassDef(TGo4WinCond,7)
 };
 
 #endif //TGO4WINCOND_H

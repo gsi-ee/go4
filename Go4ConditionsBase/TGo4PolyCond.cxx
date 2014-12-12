@@ -228,6 +228,24 @@ Bool_t TGo4PolyCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
    }
 }
 
+
+Bool_t TGo4PolyCond::UpdateFromUrl(const char* rest_url_opt){
+  if(!TGo4Condition::UpdateFromUrl(rest_url_opt)) return kFALSE;
+  TString message;
+  message.Form("TGo4PolyCond::UpdateFromUrl - condition %s: with url:%s", GetName(), rest_url_opt);
+  TGo4Log::Message(1,message.Data());
+
+  // TODO: evaluate options that change array of points
+
+
+
+  message.Form(" - setting Polygon condition Points not yet supported!");
+  TGo4Log::Message(1,message.Data());
+  return kTRUE;
+}
+
+
+
 Double_t TGo4PolyCond::GetIntegral(TH1* histo, Option_t* opt)
 {
 //// root >4.00/08 only:

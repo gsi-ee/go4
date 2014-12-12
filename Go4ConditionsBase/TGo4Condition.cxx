@@ -17,6 +17,8 @@
 #include "TH1.h"
 #include "TROOT.h"
 #include "TList.h"
+#include "TObjArray.h"
+#include "TObjString.h"
 #include "TCutG.h"
 #include "TVirtualPad.h"
 #include "Riostream.h"
@@ -49,6 +51,7 @@ TGo4Condition::TGo4Condition() :
    TAttFill(),
    fxPainter(0),
    fxCutHis(0),
+   fxUrlOptionArray(0),
    fxHisto(0),
    fiIsChanged(0)
 {
@@ -78,8 +81,10 @@ TGo4Condition::TGo4Condition(const char* name, const char* title) :
    TAttFill(),
    fxPainter(0),
    fxCutHis(0),
+   fxUrlOptionArray(0),
    fxHisto(0),
    fiIsChanged(0)
+
 {
    GO4TRACE((15,"TGo4Condition::TGo4Condition(const char*)",__LINE__, __FILE__));
    fiDim=0;
@@ -115,6 +120,12 @@ TGo4Condition::~TGo4Condition()
       delete fxCutHis;
       fxCutHis = 0;
    }
+
+   if(fxUrlOptionArray) {
+       fxUrlOptionArray->Delete();
+       delete fxUrlOptionArray;
+     }
+
 }
 // ---------------------------------------------------------
 Bool_t TGo4Condition::Test()
@@ -327,6 +338,200 @@ Bool_t TGo4Condition::UpdateFrom(TGo4Condition * cond, Bool_t counts)
 
 return kTRUE;
 }
+
+
+void TGo4Condition::BuildUrlOptionArray(const char* rest_url_opt)
+{
+  if(fxUrlOptionArray) {
+    fxUrlOptionArray->Delete();
+    delete fxUrlOptionArray;
+    fxUrlOptionArray=0; // bad implementation of Tokenize, many memory leak dangers!
+  }
+  TString options=rest_url_opt;
+  fxUrlOptionArray=options.Tokenize("&");
+
+
+}
+
+
+Bool_t TGo4Condition::UrlOptionHasKey(const char* key)
+{
+  TObjArrayIter iter(fxUrlOptionArray);
+  TObject* cursor = 0;
+  while ((cursor = iter.Next()) != 0)
+  {
+    TObjString* curopt = dynamic_cast<TObjString*>(cursor);
+    if (curopt)
+    {
+      TString theOption = curopt->GetString();
+      if (theOption.Contains(key))
+      {
+        return kTRUE;
+      }
+    }
+  }    // while
+  return kFALSE;
+}
+
+TString TGo4Condition::GetUrlOptionAsString(const char* key, TString def_value)
+{
+  TObjArrayIter iter(fxUrlOptionArray);
+      TObject* cursor=0;
+      TObjArray* valuearray;
+      while((cursor=iter.Next()) !=0)
+      {
+        TObjString* curopt=dynamic_cast<TObjString*>(cursor);
+            if(curopt)
+              {
+                  TString theOption=curopt->GetString();
+                  if(theOption.Contains(key)){
+                    valuearray=theOption.Tokenize("=");
+                    TString theValue=  valuearray->Last()->GetName();
+                    valuearray->Delete();
+                    delete valuearray; // bad implementation of Tokenize, many memory leak dangers!
+                    return theValue;
+                  }
+              }
+      } // while
+      return def_value;
+}
+
+
+
+Int_t TGo4Condition::GetUrlOptionAsInt(const char* key, Int_t def_value)
+{
+  TString valstring=GetUrlOptionAsString(key,"");
+  if(valstring.IsNull())
+    return def_value;
+  else
+    return valstring.Atoi();
+}
+
+Double_t TGo4Condition::GetUrlOptionAsDouble(const char* key, Double_t def_value)
+{
+  TString valstring=GetUrlOptionAsString(key,"");
+   if(valstring.IsNull())
+     return def_value;
+   else
+     return valstring.Atof();
+}
+
+
+Bool_t TGo4Condition::UpdateFromUrl(const char* rest_url_opt){
+  TString message;
+  message.Form("TGo4Condition::UpdateFromUrl - condition %s: with url:%s", GetName(), rest_url_opt);
+  TGo4Log::Message(1,message.Data());
+  BuildUrlOptionArray(rest_url_opt); // split option string into separate key value entries
+
+
+  // TODO: define all keywords as static class variables of condition class
+
+  Int_t resultmode = GetUrlOptionAsInt("resultmode", -1);
+  Int_t invertmode = GetUrlOptionAsInt("invertmode", -1);
+  Int_t visible = GetUrlOptionAsInt("visible", -1);
+  Int_t labeldraw = GetUrlOptionAsInt("labeldraw", -1);
+  Int_t limitsdraw = GetUrlOptionAsInt("limitsdraw", -1);
+  Int_t integraldraw = GetUrlOptionAsInt("intdraw", -1);
+  Int_t xmeandraw = GetUrlOptionAsInt("xmeandraw", -1);
+  Int_t xrmsdraw = GetUrlOptionAsInt("xrmsdraw", -1);
+  Int_t ymeandraw = GetUrlOptionAsInt("ymeandraw", -1);
+  Int_t yrmsdraw = GetUrlOptionAsInt("yrmsdraw", -1);
+  Int_t xmaxdraw = GetUrlOptionAsInt("xmaxdraw", -1);
+  Int_t ymaxdraw = GetUrlOptionAsInt("ymaxdraw", -1);
+  Int_t cmaxdraw = GetUrlOptionAsInt("cmaxdraw", -1);
+
+  message.Form("Set condition %s:", GetName());
+
+  if (resultmode >= 0)
+  {
+    // same as in Go4 GUI condition editor:
+    switch (resultmode)
+    {
+      case 0:
+        Enable();
+        break;
+      case 1:
+        Disable(kTRUE);
+        break;
+      case 2:
+        Disable(kFALSE);
+        break;
+      default:
+        Enable();
+        break;
+    };
+    message.Append(TString::Format(", resultmode=%d", resultmode));
+  }
+
+  if (invertmode >= 0)
+  {
+    // same as in Go4 GUI condition editor:
+    Invert(invertmode == 1);
+    message.Append(TString::Format(", invertmode=%d", invertmode));
+  }
+
+  if (visible >= 0)
+  {
+    SetVisible(visible == 1);
+    message.Append(TString::Format(", visible=%d", visible));
+  }
+  if (labeldraw >= 0)
+  {
+    SetLabelDraw(labeldraw == 1);
+    message.Append(TString::Format(", labeldraw=%d", labeldraw));
+  }
+  if (limitsdraw >= 0)
+  {
+    SetLimitsDraw(limitsdraw == 1);
+    message.Append(TString::Format(", limitsdraw=%d", limitsdraw));
+  }
+  if (integraldraw >= 0)
+  {
+    SetIntDraw(integraldraw == 1);
+    message.Append(TString::Format(", intdraw=%d", integraldraw));
+  }
+  if (xmeandraw >= 0)
+  {
+    SetXMeanDraw(xmeandraw == 1);
+    message.Append(TString::Format(", xmeandraw=%d", xmeandraw));
+  }
+  if (xrmsdraw >= 0)
+  {
+    SetXRMSDraw(xrmsdraw == 1);
+    message.Append(TString::Format(", xrmsdraw=%d", xrmsdraw));
+  }
+  if (ymeandraw >= 0)
+  {
+    SetYMeanDraw(ymeandraw == 1);
+    message.Append(TString::Format(", ymeandraw=%d", ymeandraw));
+  }
+  if (yrmsdraw >= 0)
+  {
+    SetYRMSDraw(yrmsdraw == 1);
+    message.Append(TString::Format(", yrmsdraw=%d", yrmsdraw));
+  }
+  if (xmaxdraw >= 0)
+  {
+    SetXMaxDraw(xmaxdraw == 1);
+    message.Append(TString::Format(", xmaxdraw=%d", xmaxdraw));
+  }
+  if (ymaxdraw >= 0)
+  {
+    SetYMaxDraw(ymaxdraw == 1);
+    message.Append(TString::Format(", ymaxdraw=%d", ymaxdraw));
+  }
+  if (cmaxdraw >= 0)
+  {
+    SetCMaxDraw(cmaxdraw == 1);
+    message.Append(TString::Format(", cmaxdraw=%d", cmaxdraw));
+  }
+
+
+  TGo4Log::Message(1,message.Data());
+
+  return kTRUE;
+}
+
 
 void TGo4Condition::GetValues(Int_t & dim, Double_t & xmin, Double_t & xmax, Double_t & ymin, Double_t & ymax)
 {

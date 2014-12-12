@@ -82,6 +82,11 @@ class TGo4PolyCond : public TGo4Condition {
         * Get a clone cut from cond by CloneCut as new cut. If counts is true, copy counters too. */
       Bool_t UpdateFrom(TGo4Condition * cond, Bool_t counts);
 
+      /** Method used by HTTP server to update some fields, specified in URL syntax */
+      virtual Bool_t UpdateFromUrl(const char* rest_url_opt);
+
+
+
       /** Calculate value for histogram inside condition limits. */
       virtual Double_t GetIntegral(TH1* histo, Option_t* opt="");
 
@@ -127,7 +132,7 @@ class TGo4PolyCond : public TGo4Condition {
       /** Cut pointer. */
       TCutG* fxCut;
 
-   ClassDef(TGo4PolyCond,6)
+   ClassDef(TGo4PolyCond,7)
 };
 
 #endif //TGO4POLYCOND_H
