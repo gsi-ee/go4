@@ -27,6 +27,7 @@
 TGo4Sniffer::TGo4Sniffer(const char* name) :
    TRootSniffer(name,"dabc")
 {
+   SetReadOnly(kFALSE);
 }
 
 void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
