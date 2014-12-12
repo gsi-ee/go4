@@ -18,6 +18,49 @@
 
 
 
+#editor_container{
+	height:100%; 
+	position: relative;
+	right: 5px;
+	outline: groove medium; 
+	overflow-x:hidden; 
+	overflow-y: auto
+}
+
+#header_container {
+			outline: outset medium;
+			position: absolute;	
+			top: 2px;
+ 			height: 100px; 
+			width: 100%;
+			overflow-x:hidden; 
+			overflow-y: auto;
+		}
+
+#tab_container {
+			outline: inset medium;
+			position: absolute;
+ 			top: 101px; 
+			bottom: 52px;
+			width: 100%;
+			overflow-x:hidden; 
+			overflow-y: auto;
+		}
+
+#button_container {
+			outline: outset thin;
+			position: absolute;
+			bottom: 1px;
+			height: 48px;
+			width: 100%;
+			overflow-x:hidden; 
+			overflow-y:hidden;			
+		}
+
+
+
+
+
 
 </style>
 </head>
@@ -26,7 +69,10 @@
 
 <body>
 
-<div style="border:2px solid black; overflow-x:hidden; overflow-y: auto">
+<div  id="editor_container">
+
+
+<div id="header_container">
   <div style="width:100%">
     <label class="cond_name" style="float:left; font-family:bold"> </label>
     <label class="cond_type" style="float:right; font-family:bold"> </label>
@@ -58,7 +104,11 @@
   </table>
 </div>
 
-<div class="cond_tabs" style="">
+</div>
+
+
+<div id="tab_container">
+<div class="cond_tabs" style="width:100%; height:95%">
   <ul>
    <li><a href="#tabs-1">Limits</a></li>
    <li><a href="#tabs-2">Cut</a></li>
@@ -115,7 +165,11 @@
     </table>
   </div>
 </div>
-<div class="cond_button" style="; ">
+</div>
+
+
+<div id="button_container">
+<div class="cond_button" style="width:100%;">
   <button title="Get condition">Get</button>
   <button title="Set condition">Set</button>
   <button title="Condition is changed in editor">Changed</button>
@@ -124,5 +178,6 @@
 </div>
 </div>
 
+</div>
 
 </body>

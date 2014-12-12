@@ -188,8 +188,12 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       $(id).children().eq(0).width(width - 5).height(height - 5);
    }
    
+   // test: do we need to define this for external editor?
+   GO4.ConditionEditor.prototype.SetItemName = function(name) {
+	      JSROOT.TBasePainter.prototype.SetItemName.call(this, name);
+	   }
+
    
-   ////////////////////////////////////////////////////////// 
    GO4.ConditionEditor.prototype.refreshEditor = function() {
       var editor=this;
 	  var id = "#"+this.divid;
@@ -197,6 +201,41 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 
       $(id+" .cond_name").text(cond.fName);
       $(id+" .cond_type").text(cond._typename);
+      
+      
+      // todo: update resultmode and invertmode here:
+//      if(cond->IsEnabled())
+//    	     ResultCombo->setCurrentIndex(0);
+//    	   else
+//    	     if (cond->FixedResult())
+//    	       ResultCombo->setCurrentIndex(1);
+//    	     else
+//    	       ResultCombo->setCurrentIndex(2);
+//
+//    	   if(cond->IsTrue()) InvertCombo->setCurrentIndex(0);
+//    	                 else InvertCombo->setCurrentIndex(1);
+/////////////////////////////////////////////////////////////////////////      
+//      var options = document.getElementById("DacModeCombo").options;
+//  	for ( var i = 0; i < options.length; i++)
+//  		options[i].selected = (options[i].value == this.fDACMode);
+//  	$("#DacModeCombo").selectmenu('refresh', true);
+      
+      if(cond.fbEnabled) {
+    	  $(id+" .cond_execmode").val(0);
+      	}
+      else{
+    	  if(cond.fbResult)
+    		  $(id+" .cond_execmode").val(1);
+    	  else
+    		  $(id+" .cond_execmode").val(2);
+      }
+      $(id+" .cond_execmode").selectmenu("refresh", true);
+      if(cond.fbTrue) 
+    	  $(id+" .cond_invertmode").val(0);
+      else
+    	  $(id+" .cond_invertmode").val(1);
+      
+      $(id+" .cond_invertmode").selectmenu("refresh", true);
       
       $(id+" .cond_xmin").val(cond.fLow1).change(function(){ editor.MarkChanged("limits")});
       $(id+" .cond_xmax").val(cond.fUp1).change(function(){ editor.MarkChanged("limits")});
@@ -267,7 +306,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    GO4.ConditionEditor.prototype.fillEditor = function() {
       var id = "#"+this.divid;
       var editor=this;
-      console.log("GO4.ConditionPainter.prototype.fillEditor " + this.cond.fName);
+      console.log("GO4.ConditionEditor.prototype.fillEditor " + this.cond.fName);
       // $(id).css("display","table");
       
       this.CheckResize();
@@ -336,7 +375,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       this.refreshEditor();   
       
       //$(document).tooltip();
-      $(id).tooltip();
+      //$(id).tooltip(); // NOTE: jquery ui tooltips will change title information, currently conflict with dabc/jsroot!
    }
 
    GO4.ConditionEditor.prototype.drawEditor = function(divid) {
