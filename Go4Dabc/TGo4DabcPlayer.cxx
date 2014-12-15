@@ -108,15 +108,15 @@ void TGo4DabcPlayer::InitializeHierarchy()
    cmd.SetField(dabc::prop_kind, "DABC.Command");
    cmd.SetField("_fastcmd","/go4sys/icons/restart.png");
 
-   // JAM add here special commands to set/get object values:
-   cmd = sub.CreateHChild("CmdSetCondition");
-   cmd.SetField(dabc::prop_kind, "DABC.Command");
-   cmd = sub.CreateHChild("CmdGetCondition"); // maybe we dont need this?
-   cmd.SetField(dabc::prop_kind, "DABC.Command");
-   cmd = sub.CreateHChild("CmdSetParameter");
-   cmd.SetField(dabc::prop_kind, "DABC.Command");
-   cmd = sub.CreateHChild("CmdGetParameter");
-   cmd.SetField(dabc::prop_kind, "DABC.Command");
+   // JAM add here special commands to set/get object values: DEPRECATED- to be removed
+//   cmd = sub.CreateHChild("CmdSetCondition");
+//   cmd.SetField(dabc::prop_kind, "DABC.Command");
+//   cmd = sub.CreateHChild("CmdGetCondition"); // maybe we dont need this?
+//   cmd.SetField(dabc::prop_kind, "DABC.Command");
+//   cmd = sub.CreateHChild("CmdSetParameter");
+//   cmd.SetField(dabc::prop_kind, "DABC.Command");
+//   cmd = sub.CreateHChild("CmdGetParameter");
+//   cmd.SetField(dabc::prop_kind, "DABC.Command");
 
 
 
@@ -238,227 +238,228 @@ bool TGo4DabcPlayer::ProcessHCommand(const std::string& cmdname, dabc::Command c
     return true;
   }
 
-  if (cmdname == "Status/CmdSetCondition")
-  {
-    if (an)
-    {
-      TString message;
-      TString name = com.GetStr("name", "");
-      message.Form("Set Condition %s:", name.Data());
-
-      // we do not stream all condition internals, just modes that can be set from editor
-      // these will be used to invoke corresponding methods
-      // negative defaults to decide if url actually has delivered changed values
-      Int_t resultmode = com.GetInt("resultmode", -1);
-      Int_t invertmode = com.GetInt("invertmode", -1);
-//               fbTrue    = cond->TGo4Condition::IsTrue();
-//               fbFalse   = cond->TGo4Condition::IsFalse();
-//               fbResult  = cond->TGo4Condition::FixedResult();
-//               fbEnabled = cond->TGo4Condition::IsEnabled();
-
-// DO NOT SUPPORT               fbMarkReset = cond->fbMarkReset;
-
-      Int_t visible = com.GetInt("visible", -1);
-//               fbVisible=cond->TGo4Condition::IsVisible();
-      Int_t labeldraw = com.GetInt("labeldraw", -1);
-//               fbLabelDraw=cond->TGo4Condition::IsLabelDraw();
-
-      Int_t limitsdraw = com.GetInt("limitsdraw", -1);
-// DO NOT SUPPORT               fbMultiEdit=cond->TGo4Condition::IsMultiEdit();
-
-      Int_t integraldraw = com.GetInt("intdraw", -1);
-//               fbIntDraw= cond->TGo4Condition::IsIntDraw();
-      Int_t xmeandraw = com.GetInt("xmeandraw", -1);
-//               fbXMeanDraw= cond->TGo4Condition::IsXMeanDraw();
-      Int_t xrmsdraw = com.GetInt("xrmsdraw", -1);
-//               fbXRMSDraw= cond->TGo4Condition::IsXRMSDraw();
-      Int_t ymeandraw = com.GetInt("ymeandraw", -1);
-//               fbYMeanDraw= cond->TGo4Condition::IsYMeanDraw();
-      Int_t yrmsdraw = com.GetInt("yrmsdraw", -1);
-//               fbYRMSDraw= cond->TGo4Condition::IsYRMSDraw();
-      Int_t xmaxdraw = com.GetInt("xmaxdraw", -1);
-//               fbXMaxDraw= cond->TGo4Condition::IsXMaxDraw();
-      Int_t ymaxdraw = com.GetInt("ymaxdraw", -1);
-//               fbYMaxDraw= cond->TGo4Condition::IsYMaxDraw();
-      Int_t cmaxdraw = com.GetInt("cmaxdraw", -1);
-//               fbCMaxDraw= cond->TGo4Condition::IsCMaxDraw();
-
-      Int_t resetcounts = com.GetInt("resetcounts", -1);
-
-//  DO NOT SUPPORT             fbHistogramLink=cond->TGo4Condition::IsHistogramLink();
-//   DO NOT SUPPORT            fxHistoName=cond->fxHistoName;
-//  DO NOT SUPPORT             fdUpdateEpsilon= cond->fdUpdateEpsilon;
-//   DO NOT SUPPORT            fiDim=cond->GetDimension();
-
-//               if(counts){
-//   DO NOT SUPPORT              fiCounts = cond->TGo4Condition::Counts();
-//   DO NOT SUPPORT              fiTrueCounts = cond->TGo4Condition::TrueCounts();
-
-//                 fbMarkReset = false;
-//               }
-//               if(fbMarkReset){
-//                  ResetCounts();
-//                  fbMarkReset = false;
-//               }
-// From TGo4Condition UpdateFrom
-
-      TGo4Condition* cond = an->GetAnalysisCondition(name.Data());
-      if (cond == 0)
-      {
-        message.Append(TString::Format("Condition not found!"));
-      }
-      else
-      {
-        // first set base class properties if delivered by url:
-
-        if (resultmode >= 0)
-        {
-          // same as in Go4 GUI condition editor:
-          switch (resultmode)
-          {
-            case 0:
-              cond->Enable();
-              break;
-            case 1:
-              cond->Disable(kTRUE);
-              break;
-            case 2:
-              cond->Disable(kFALSE);
-              break;
-            default:
-              cond->Enable();
-              break;
-          };
-        }
-
-        if (invertmode >= 0)
-        {
-          // same as in Go4 GUI condition editor:
-          cond->Invert(invertmode == 1);
-        }
-
-//        cond->SetLabelDraw(on); break;
-//     case 1: cond->SetLimitsDraw(on); break;
-//     case 2: cond->SetIntDraw(on);  break;
-//     case 3: cond->SetXMeanDraw(on);  break;
-//     case 4: cond->SetXRMSDraw(on);  break;
-//     case 5: cond->SetYRMSDraw(on);  break;
-//     case 6: cond->SetYMeanDraw(on);  break;
-//     case 7: cond->SetXMaxDraw(on);  break;
-//     case 8: cond->SetYMaxDraw(on);  break;
-//     case 9: cond->SetCMaxDraw(on);  break;
-//     case 10: cond->SetVisible(on); break;
-
-        if (visible >= 0)
-        {
-          cond->SetVisible(visible == 1);
-          message.Append(TString::Format(", visible=%d", visible));
-        }
-        if (labeldraw >= 0)
-        {
-          cond->SetLabelDraw(labeldraw == 1);
-          message.Append(TString::Format(", labeldraw=%d", labeldraw));
-        }
-        if (limitsdraw >= 0)
-                {
-                  cond->SetLimitsDraw(limitsdraw == 1);
-                  message.Append(TString::Format(", limitsdraw=%d", limitsdraw));
-                }
-        if (integraldraw >= 0)
-        {
-          cond->SetIntDraw(integraldraw == 1);
-          message.Append(TString::Format(", intdraw=%d", integraldraw));
-        }
-        if (xmeandraw >= 0)
-        {
-          cond->SetXMeanDraw(xmeandraw == 1);
-          message.Append(TString::Format(", xmeandraw=%d", xmeandraw));
-        }
-        if (xrmsdraw >= 0)
-        {
-          cond->SetXRMSDraw(xrmsdraw == 1);
-          message.Append(TString::Format(", xrmsdraw=%d", xrmsdraw));
-        }
-        if (ymeandraw >= 0)
-        {
-          cond->SetYMeanDraw(ymeandraw == 1);
-          message.Append(TString::Format(", ymeandraw=%d", ymeandraw));
-        }
-        if (yrmsdraw >= 0)
-        {
-          cond->SetYRMSDraw(yrmsdraw == 1);
-          message.Append(TString::Format(", yrmsdraw=%d", yrmsdraw));
-        }
-        if (xmaxdraw >= 0)
-        {
-          cond->SetXMaxDraw(xmaxdraw == 1);
-          message.Append(TString::Format(", xmaxdraw=%d", xmaxdraw));
-        }
-        if (ymaxdraw >= 0)
-        {
-          cond->SetYMaxDraw(ymaxdraw == 1);
-          message.Append(TString::Format(", ymaxdraw=%d", ymaxdraw));
-        }
-        if (cmaxdraw >= 0)
-        {
-          cond->SetCMaxDraw(cmaxdraw == 1);
-          message.Append(TString::Format(", cmaxdraw=%d", cmaxdraw));
-        }
-
-        // evaluate subclass properties:
-        TGo4WinCond* winny = dynamic_cast<TGo4WinCond*>(cond);
-        TGo4PolyCond* polly = dynamic_cast<TGo4PolyCond*>(cond);
-        if (winny)
-        {
-
-          if (com.HasField("xmin"))
-          {
-            Double_t xmin = com.GetDouble("xmin", winny->GetXLow());
-            Double_t xmax = com.GetDouble("xmax", winny->GetXUp());
-            Double_t ymin = com.GetDouble("ymin", winny->GetYLow());
-            Double_t ymax = com.GetDouble("ymax", winny->GetYUp());
-            std::cout << "web: Setting condition " << name.Data() << "to xmin=" << xmin << ", xmax=" << xmax;
-            std::cout << ", ymin=" << ymin << ", ymax=" << ymax << std::endl;
-
-            Int_t dim = winny->GetDimension();
-            switch (dim)
-            {
-              case 1:
-                winny->SetValues(xmin, xmax);
-                message.Append(TString::Format(", set limits to (%f, %f)", xmin, xmax));
-                break;
-              case 2:
-                winny->SetValues(xmin, xmax, ymin, ymax);
-                message.Append(TString::Format(", set limits to (%f, %f) (%f, %f)", xmin, xmax, ymin, ymax));
-                break;
-              default:
-                message.Append(TString::Format(" !wrong condition dimension %d, NEVER COME HERE", dim));
-                break;
-            };
-
-          }
-          else
-          {
-            std::cout <<"DEBUG- no limits to change received" << std::endl;
-          }
-
-        }
-        else if (polly)
-        {
-          message.Append(TString::Format(" - setting Polygon condition Points not yet supported!"));
-        }
-        else
-        {
-          message.Append(TString::Format(" ! not suported type: %s!", cond->ClassName()));
-        }
-
-      }
-
-      StatusMessage(0, message);
-    }    // if analysis
-
-    return true;
-  }    //CmdSetCondition
+////////// alternative implementation, deprecated (to be removed)
+//  if (cmdname == "Status/CmdSetCondition")
+//  {
+//    if (an)
+//    {
+//      TString message;
+//      TString name = com.GetStr("name", "");
+//      message.Form("Set Condition %s:", name.Data());
+//
+//      // we do not stream all condition internals, just modes that can be set from editor
+//      // these will be used to invoke corresponding methods
+//      // negative defaults to decide if url actually has delivered changed values
+//      Int_t resultmode = com.GetInt("resultmode", -1);
+//      Int_t invertmode = com.GetInt("invertmode", -1);
+////               fbTrue    = cond->TGo4Condition::IsTrue();
+////               fbFalse   = cond->TGo4Condition::IsFalse();
+////               fbResult  = cond->TGo4Condition::FixedResult();
+////               fbEnabled = cond->TGo4Condition::IsEnabled();
+//
+//// DO NOT SUPPORT               fbMarkReset = cond->fbMarkReset;
+//
+//      Int_t visible = com.GetInt("visible", -1);
+////               fbVisible=cond->TGo4Condition::IsVisible();
+//      Int_t labeldraw = com.GetInt("labeldraw", -1);
+////               fbLabelDraw=cond->TGo4Condition::IsLabelDraw();
+//
+//      Int_t limitsdraw = com.GetInt("limitsdraw", -1);
+//// DO NOT SUPPORT               fbMultiEdit=cond->TGo4Condition::IsMultiEdit();
+//
+//      Int_t integraldraw = com.GetInt("intdraw", -1);
+////               fbIntDraw= cond->TGo4Condition::IsIntDraw();
+//      Int_t xmeandraw = com.GetInt("xmeandraw", -1);
+////               fbXMeanDraw= cond->TGo4Condition::IsXMeanDraw();
+//      Int_t xrmsdraw = com.GetInt("xrmsdraw", -1);
+////               fbXRMSDraw= cond->TGo4Condition::IsXRMSDraw();
+//      Int_t ymeandraw = com.GetInt("ymeandraw", -1);
+////               fbYMeanDraw= cond->TGo4Condition::IsYMeanDraw();
+//      Int_t yrmsdraw = com.GetInt("yrmsdraw", -1);
+////               fbYRMSDraw= cond->TGo4Condition::IsYRMSDraw();
+//      Int_t xmaxdraw = com.GetInt("xmaxdraw", -1);
+////               fbXMaxDraw= cond->TGo4Condition::IsXMaxDraw();
+//      Int_t ymaxdraw = com.GetInt("ymaxdraw", -1);
+////               fbYMaxDraw= cond->TGo4Condition::IsYMaxDraw();
+//      Int_t cmaxdraw = com.GetInt("cmaxdraw", -1);
+////               fbCMaxDraw= cond->TGo4Condition::IsCMaxDraw();
+//
+//      Int_t resetcounts = com.GetInt("resetcounts", -1);
+//
+////  DO NOT SUPPORT             fbHistogramLink=cond->TGo4Condition::IsHistogramLink();
+////   DO NOT SUPPORT            fxHistoName=cond->fxHistoName;
+////  DO NOT SUPPORT             fdUpdateEpsilon= cond->fdUpdateEpsilon;
+////   DO NOT SUPPORT            fiDim=cond->GetDimension();
+//
+////               if(counts){
+////   DO NOT SUPPORT              fiCounts = cond->TGo4Condition::Counts();
+////   DO NOT SUPPORT              fiTrueCounts = cond->TGo4Condition::TrueCounts();
+//
+////                 fbMarkReset = false;
+////               }
+////               if(fbMarkReset){
+////                  ResetCounts();
+////                  fbMarkReset = false;
+////               }
+//// From TGo4Condition UpdateFrom
+//
+//      TGo4Condition* cond = an->GetAnalysisCondition(name.Data());
+//      if (cond == 0)
+//      {
+//        message.Append(TString::Format("Condition not found!"));
+//      }
+//      else
+//      {
+//        // first set base class properties if delivered by url:
+//
+//        if (resultmode >= 0)
+//        {
+//          // same as in Go4 GUI condition editor:
+//          switch (resultmode)
+//          {
+//            case 0:
+//              cond->Enable();
+//              break;
+//            case 1:
+//              cond->Disable(kTRUE);
+//              break;
+//            case 2:
+//              cond->Disable(kFALSE);
+//              break;
+//            default:
+//              cond->Enable();
+//              break;
+//          };
+//        }
+//
+//        if (invertmode >= 0)
+//        {
+//          // same as in Go4 GUI condition editor:
+//          cond->Invert(invertmode == 1);
+//        }
+//
+////        cond->SetLabelDraw(on); break;
+////     case 1: cond->SetLimitsDraw(on); break;
+////     case 2: cond->SetIntDraw(on);  break;
+////     case 3: cond->SetXMeanDraw(on);  break;
+////     case 4: cond->SetXRMSDraw(on);  break;
+////     case 5: cond->SetYRMSDraw(on);  break;
+////     case 6: cond->SetYMeanDraw(on);  break;
+////     case 7: cond->SetXMaxDraw(on);  break;
+////     case 8: cond->SetYMaxDraw(on);  break;
+////     case 9: cond->SetCMaxDraw(on);  break;
+////     case 10: cond->SetVisible(on); break;
+//
+//        if (visible >= 0)
+//        {
+//          cond->SetVisible(visible == 1);
+//          message.Append(TString::Format(", visible=%d", visible));
+//        }
+//        if (labeldraw >= 0)
+//        {
+//          cond->SetLabelDraw(labeldraw == 1);
+//          message.Append(TString::Format(", labeldraw=%d", labeldraw));
+//        }
+//        if (limitsdraw >= 0)
+//                {
+//                  cond->SetLimitsDraw(limitsdraw == 1);
+//                  message.Append(TString::Format(", limitsdraw=%d", limitsdraw));
+//                }
+//        if (integraldraw >= 0)
+//        {
+//          cond->SetIntDraw(integraldraw == 1);
+//          message.Append(TString::Format(", intdraw=%d", integraldraw));
+//        }
+//        if (xmeandraw >= 0)
+//        {
+//          cond->SetXMeanDraw(xmeandraw == 1);
+//          message.Append(TString::Format(", xmeandraw=%d", xmeandraw));
+//        }
+//        if (xrmsdraw >= 0)
+//        {
+//          cond->SetXRMSDraw(xrmsdraw == 1);
+//          message.Append(TString::Format(", xrmsdraw=%d", xrmsdraw));
+//        }
+//        if (ymeandraw >= 0)
+//        {
+//          cond->SetYMeanDraw(ymeandraw == 1);
+//          message.Append(TString::Format(", ymeandraw=%d", ymeandraw));
+//        }
+//        if (yrmsdraw >= 0)
+//        {
+//          cond->SetYRMSDraw(yrmsdraw == 1);
+//          message.Append(TString::Format(", yrmsdraw=%d", yrmsdraw));
+//        }
+//        if (xmaxdraw >= 0)
+//        {
+//          cond->SetXMaxDraw(xmaxdraw == 1);
+//          message.Append(TString::Format(", xmaxdraw=%d", xmaxdraw));
+//        }
+//        if (ymaxdraw >= 0)
+//        {
+//          cond->SetYMaxDraw(ymaxdraw == 1);
+//          message.Append(TString::Format(", ymaxdraw=%d", ymaxdraw));
+//        }
+//        if (cmaxdraw >= 0)
+//        {
+//          cond->SetCMaxDraw(cmaxdraw == 1);
+//          message.Append(TString::Format(", cmaxdraw=%d", cmaxdraw));
+//        }
+//
+//        // evaluate subclass properties:
+//        TGo4WinCond* winny = dynamic_cast<TGo4WinCond*>(cond);
+//        TGo4PolyCond* polly = dynamic_cast<TGo4PolyCond*>(cond);
+//        if (winny)
+//        {
+//
+//          if (com.HasField("xmin"))
+//          {
+//            Double_t xmin = com.GetDouble("xmin", winny->GetXLow());
+//            Double_t xmax = com.GetDouble("xmax", winny->GetXUp());
+//            Double_t ymin = com.GetDouble("ymin", winny->GetYLow());
+//            Double_t ymax = com.GetDouble("ymax", winny->GetYUp());
+//            std::cout << "web: Setting condition " << name.Data() << "to xmin=" << xmin << ", xmax=" << xmax;
+//            std::cout << ", ymin=" << ymin << ", ymax=" << ymax << std::endl;
+//
+//            Int_t dim = winny->GetDimension();
+//            switch (dim)
+//            {
+//              case 1:
+//                winny->SetValues(xmin, xmax);
+//                message.Append(TString::Format(", set limits to (%f, %f)", xmin, xmax));
+//                break;
+//              case 2:
+//                winny->SetValues(xmin, xmax, ymin, ymax);
+//                message.Append(TString::Format(", set limits to (%f, %f) (%f, %f)", xmin, xmax, ymin, ymax));
+//                break;
+//              default:
+//                message.Append(TString::Format(" !wrong condition dimension %d, NEVER COME HERE", dim));
+//                break;
+//            };
+//
+//          }
+//          else
+//          {
+//            std::cout <<"DEBUG- no limits to change received" << std::endl;
+//          }
+//
+//        }
+//        else if (polly)
+//        {
+//          message.Append(TString::Format(" - setting Polygon condition Points not yet supported!"));
+//        }
+//        else
+//        {
+//          message.Append(TString::Format(" ! not suported type: %s!", cond->ClassName()));
+//        }
+//
+//      }
+//
+//      StatusMessage(0, message);
+//    }    // if analysis
+//
+//    return true;
+//  }    //CmdSetCondition
 
 
    return false;

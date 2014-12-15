@@ -39,8 +39,10 @@
 //		var fullcom = pre + cmd + suf + "?" + option;
 		
 		var pre="";
-		if (this.GetItemName()!=null) 
+		if (this.GetItemName()!="") { // note: check against !=null does not work here!
 			  pre = this.GetItemName() + "/"; // suppress / if item name is empty
+				//console.log("Found non null itemname= -"+this.GetItemName()+"-");
+		}
 		pre +="exe.txt\?method=";
 		var fullcom = pre + cmd + option;
 		
@@ -89,7 +91,7 @@ GO4.ConditionEditor.prototype.ClearChanges = function() {
 	  
 // scan changed value list and return optionstring to be send to server
 GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
-	var id = "#"+this.divid; 
+	var id = "#"+this.divid;
 	var index;
 	var len=this.changes.length;
 	for	(index = 0; index < len ; index++) {
@@ -112,7 +114,6 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
         		  optionstring +="&ymin="+ymin+"&ymax="+ymax;
         	  }
 			}
-		// TODO: already encode the keywords in fieldnames and replace everything below by one function
 		
 		else if (key=="resultmode"){
 			var selected=$(id+" .cond_execmode")[0].value;
@@ -230,6 +231,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       $(id+" .cond_invertmode").selectmenu("refresh");
       $(id+" .cond_invertmode").selectmenu("option", "width", "100%"); // workaround for selecmenu refresh problem (increases width each time!)
       
+      
       $(id+" .cond_xmin").val(cond.fLow1).change(function(){ editor.MarkChanged("limits")});
       $(id+" .cond_xmax").val(cond.fUp1).change(function(){ editor.MarkChanged("limits")});
       if (cond.fiDim==2) {
@@ -243,6 +245,10 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       $(id+" .cond_counts").text(cond.fiCounts);
       $(id+" .cond_true").text(cond.fiTrueCounts);
       $(id+" .cond_percent").text((cond.fiCounts > 0 ? 100. * cond.fiTrueCounts / cond.fiCounts : 0.).toFixed(2) + "%");
+      
+      
+      // todo: get keywords from condition class definition
+      // problem: static variables are not streamed by default
       
       $(id+" .cond_visible")
          .prop('checked', cond.fbVisible)
@@ -310,7 +316,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       
       $(id+" .cond_tabs").tabs();
       
-
+      
        $(id + " .cond_execmode").selectmenu({
 			change : function(event, ui) {
 				editor.MarkChanged("resultmode");
@@ -321,7 +327,6 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 				editor.MarkChanged("invertmode");
 			}
 		});      
-      var editor = this;
       
       var dabc = DABC.hpainter;
       
