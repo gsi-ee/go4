@@ -355,8 +355,8 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
    static TString fgxNUMFORMAT;
 
 
-
-
+   /** web condition editor keyword used in UpdateFromUrl. */
+   static TString fgxURL_RESET;
    /** web condition editor keyword used in UpdateFromUrl. */
    static TString fgxURL_RESULT;
    /** web condition editor keyword used in UpdateFromUrl. */

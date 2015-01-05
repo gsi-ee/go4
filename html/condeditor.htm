@@ -1,4 +1,8 @@
 <head>
+
+<link rel="stylesheet" type="text/css" href="/go4sys/html/go4.css">
+
+
 <style type="text/css">
 
 .limit_style
@@ -178,13 +182,47 @@
 
 
 <div id="button_container">
-<div class="cond_button" style="width:100%;">
-  <button title="Get condition">Get</button>
-  <button title="Set condition">Set</button>
-  <button title="Condition is changed in editor">Changed</button>
-  <button title="Clear condition">Clear</button>
-  <button title="Draw condition">Draw</button>
-</div>
+
+
+
+
+<table style="width: 70px; height: 100%; float: left">
+			<tbody>
+				<tr>
+					<td style="height: 30px">
+						<button class="buttonGetCondition"
+							title="Refresh condition display from analysis server">Get</button>
+					</td>
+					<td style="height: 30px">
+						<button class="buttonSetCondition"
+							title="Send condition valules to analysis server">Set</button>
+					</td>
+					<td style="height: 30px">
+						<button class="buttonChangeLabel"
+							title="This label shows that your current changes have not yet been updated to analysis">Changed!</button>
+					</td> 
+				</tr>
+			</tbody>
+		</table>
+		
+	<table style="width: 70px; height: 100%; float: right"">
+			<tbody>
+				<tr>
+					
+					<td style="height: 30px">
+						<button class="buttonDrawCondition"
+							title="Display Condition with assigned histogram on next drawpanel">Draw</button>
+					</td> 
+					<td style="height: 30px">
+						<button class="buttonClearCondition"
+							title="Reset all counters to zero">Clear counters</button>
+					</td>
+					
+				</tr>
+			</tbody>
+		</table>	
+
+
 </div>
 
 </div>

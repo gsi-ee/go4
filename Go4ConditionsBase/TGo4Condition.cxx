@@ -42,6 +42,7 @@ Bool_t TGo4Condition::fgbCMAXDRAW=kTRUE;
 TString TGo4Condition::fgxNUMFORMAT="%.4E";
 
 /** Following keywords should be used by condition editor in web browser: */
+TString TGo4Condition::fgxURL_RESET="resetcounters";
 TString TGo4Condition::fgxURL_RESULT="resultmode";
 TString TGo4Condition::fgxURL_INVERT="invertmode";
 TString TGo4Condition::fgxURL_VISIBLE="visible";
@@ -443,7 +444,9 @@ Bool_t TGo4Condition::UpdateFromUrl(const char* rest_url_opt){
 
 
   // all keywords are defined as static class variables of condition class
-  // so web browser condition editor can use these strings from jsroot streamed condition object
+
+
+  Int_t resetcounters=GetUrlOptionAsInt(TGo4Condition::fgxURL_RESET.Data(), -1);
 
   Int_t resultmode = GetUrlOptionAsInt(TGo4Condition::fgxURL_RESULT.Data(), -1);
   Int_t invertmode = GetUrlOptionAsInt(TGo4Condition::fgxURL_INVERT.Data(), -1);
@@ -461,7 +464,14 @@ Bool_t TGo4Condition::UpdateFromUrl(const char* rest_url_opt){
 
 
 
+
   message.Form("Set condition %s:", GetName());
+
+  if (resetcounters > 0)
+   {
+      ResetCounts();
+      message.Append(TString::Format(", resetcounters=%d", resetcounters));
+   }
 
   if (resultmode >= 0)
   {
@@ -483,6 +493,8 @@ Bool_t TGo4Condition::UpdateFromUrl(const char* rest_url_opt){
     };
     message.Append(TString::Format(", resultmode=%d", resultmode));
   }
+
+
 
   if (invertmode >= 0)
   {

@@ -33,11 +33,6 @@
    
    GO4.ConditionEditor.prototype.DabcCommand = function(cmd, option, callback) {
 		var xmlHttp = new XMLHttpRequest();
-		// old using special dabc command
-//		var pre = "/Go4/Go4Analysis/Status/"; // GetItemName() + "/exe.txt"
-//		var suf = "/execute"; // exe.txt?method=UpdateFromUrl
-//		var fullcom = pre + cmd + suf + "?" + option;
-		
 		var pre="";
 		if (this.GetItemName()!="") { // note: check against !=null does not work here!
 			  pre = this.GetItemName() + "/"; // suppress / if item name is empty
@@ -71,7 +66,10 @@
 		  this.changes.push(key);
 		  console.log("Mark changed :%s", key);	
 		  var id = "#"+this.divid; 
-		  $(id+" button:eq(2)").show(); // show warning sign 
+		  
+		  $(id+" .buttonChangeLabel").show();// show warning sign 
+		  
+		  //$(id+" button:eq(2)").show(); // show warning sign 
 		  // todo: replace with self explaining name
 	  }
 	  
@@ -84,7 +82,9 @@ GO4.ConditionEditor.prototype.ClearChanges = function() {
 	    console.log("Clear changes removed :%s", removed);	
 	} 
 	var id = "#"+this.divid; 
-	  $(id+" button:eq(2)").hide(); // hide warning sign 
+	 $(id+" .buttonChangeLabel").hide(); // hide warning sign 
+	 
+	 // $(id+" button:eq(2)").hide(); // hide warning sign 
 	  // todo: replace with self explaining name  
 		  
 	  }
@@ -330,50 +330,88 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       
       var dabc = DABC.hpainter;
       
-      $(id+" button:first")
-         .text("")
-         .append('<img src="/go4sys/icons/right.png"  height="16" width="16"/>')
-         .button()
-         .click(function() {
-            console.log("update item = " + editor.GetItemName()); 
-            if (DABC.hpainter) DABC.hpainter.display(editor.GetItemName()); 
-            else  console.log("dabc object not found!"); 
-            	
-          })
-         .next()
-         .text("")
-         .append('<img src="/go4sys/icons/left.png"  height="16" width="16"/>')
-         .button()
-         .click(function() { 
-//        	 var conny=editor.GetItemName().split('/').pop();
-//        	 var options="name="+conny;
-        	 var options=""; // do not need to use name here
-        	 options=editor.EvaluateChanges(options); // complete option string from all changed elements
-        	 console.log("set - condition "+ editor.GetItemName()+ ", options="+options); 
-        	 editor.DabcCommand("UpdateFromUrl",options,function(
-     				result) {
-        		 		console.log(result ? "set condition done. "
-    					: "set condition FAILED.");
-        		 		if(result) editor.ClearChanges();     			
-     		});
-         
-         })
-         .next()
-         .text("")
-         .append('<img src="/go4sys/icons/info1.png"  height="16" width="16"/>')
-         .button()
-         //.click(function() { console.log("warn - do nothing"); })
-         .hide()
-         .next()
-         .text("")
-         .append('<img src="/go4sys/icons/clear.png"  height="16" width="16"/>')
-         .button()
-         .click(function() { console.log("clear - do nothing"); })
-         .next()
-         .text("")
-         .append('<img src="/go4sys/icons/chart.png"  height="16" width="16"/>')
-         .button()
-         .click(function() { console.log("draw - do nothing"); });
+      
+      $(id+" .buttonGetCondition")
+      .button({text: false, icons: { primary: "ui-icon-arrowthick-1-e MyButtonStyle"}}).click(function() {
+    	  console.log("update item = " + editor.GetItemName()); 
+          if (DABC.hpainter) DABC.hpainter.display(editor.GetItemName()); 
+          else  console.log("dabc object not found!"); 
+          	
+        }
+      );
+
+      
+      $(id+" .buttonSetCondition")
+      .button({text: false, icons: { primary: "ui-icon-arrowthick-1-w MyButtonStyle"}}).click(function() {
+      	 var options=""; // do not need to use name here
+     	 options=editor.EvaluateChanges(options); // complete option string from all changed elements
+     	 console.log("set - condition "+ editor.GetItemName()+ ", options="+options); 
+     	 editor.DabcCommand("UpdateFromUrl",options,function(
+  				result) {
+     		 		console.log(result ? "set condition done. "
+ 					: "set condition FAILED.");
+     		 		if(result) editor.ClearChanges();     			
+          	
+        });
+      });
+      
+      
+    $(id+" .buttonChangeLabel")
+         .button({text: false, icons: { primary: "ui-icon-alert MyButtonStyle"}}).click();
+     
+    $(id+" .buttonDrawCondition")
+    .button({text: false, icons: { primary: "ui-icon-image MyButtonStyle"}}).click(function() {
+    	// TODO: implement correctly after MDI is improved, need to find out active frame and location of bound histogram
+    	
+    	//if (DABC.hpainter){ 
+    		//var onlineprop = DABC.hpainter.GetOnlineProp(editor.GetItemName()); 
+    		//var baseurl = onlineprop.server + onlineprop.itemname + "/"; 
+    		var baseurl = editor.GetItemName() + "/"; 
+    		var drawurl = baseurl + "draw.htm", editorurl = baseurl + "draw.htm?opt=editor";
+    		console.log("draw condition to next window with url="+drawurl);
+    		//window.open(drawurl);
+    		window.open(drawurl,'_blank');
+//    	}
+//    	else
+//    		{
+//    		console.log("dabc object not found!"); 
+//    		}
+// problem: we do not have method to get currently selected pad...         
+//    	var nextid="#"+(editor.divid + 1); // does not work, id is string and not number here
+//    	console.log("draw condition to id="+nextid);
+//    	GO4.drawGo4Cond(nextid, editor.cond, "");
+//    	
+    	
+      }
+    ); 
+    
+    $(id+" .buttonClearCondition")
+    .button({text: false, icons: { primary: "ui-icon-trash MyButtonStyle"}}).click(function() {
+    	console.log("clearing counters..."); 
+    	var options="&resetcounters=1";
+    	 editor.DabcCommand("UpdateFromUrl",options,function(
+   				result) {
+      		 		console.log(result ? "reset condition counters done. "
+  					: "reset condition counters FAILED.");
+      		 		if (result) { 
+      		 			if(DABC.hpainter) DABC.hpainter.display(editor.GetItemName()); 
+      		 			else  console.log("dabc object not found!"); 
+      		 			} 
+           	
+         });
+    	
+    	
+    	
+      }
+    );  
+     
+    
+    
+      
+      
+      
+      
+
       
       this.refreshEditor();   
       

@@ -1,0 +1,107 @@
+
+/* optionally zoom icons a bit:*/
+.MyButtonStyle {
+ 	transform: scale(1.2, 1.2); 
+}
+
+
+
+/* Override / redefine here some of the jquery ui icons */
+
+
+
+.ui-button .ui-icon.ui-icon-arrowthick-1-w {
+    background-image: url("../icons/left.png");
+  	background-position: 0 0;  
+    background-size: contain;
+}
+
+.ui-button.ui-state-hover .ui-icon.ui-icon-arrowthick-1-w {
+    background-image: url("../icons/left.png");
+  	background-position: 0 0;  
+    background-size: contain;
+}
+
+.ui-button .ui-icon.ui-icon-arrowthick-1-e {
+    background-image: url("../icons/right.png");
+  	background-position: 0 0;  
+    background-size: contain;
+}
+
+.ui-button.ui-state-hover .ui-icon.ui-icon-arrowthick-1-e {
+    background-image: url("../icons/right.png");
+  	background-position: 0 0;  
+    background-size: contain;
+}
+
+
+.ui-button .ui-icon.ui-icon-trash {
+    background-image: url("../icons/clear.png");
+  	background-position: 0 0;  
+    background-size: contain;
+}
+
+.ui-button.ui-state-hover .ui-icon.ui-icon-trash {
+    background-image: url("../icons/clear.png");
+  	background-position: 0 0;  
+    background-size: contain;
+}
+
+.ui-button .ui-icon.ui-icon-image {
+    background-image: url("../icons/chart.png");
+  	background-position: 0 0;  
+    background-size: contain;
+}
+
+
+.ui-button.ui-state-hover .ui-icon.ui-icon-image {
+    background-image: url("../icons/chart.png");
+  	background-position: 0 0;  
+    background-size: contain;
+}
+
+.ui-button .ui-icon.ui-icon-alert {
+    background-image: url("../icons/info1.png");
+  	background-position: 0 0;  
+    background-size: contain;
+}
+
+
+.ui-button.ui-state-hover .ui-icon.ui-icon-alert {
+    background-image: url("../icons/info1.png");
+  	background-position: 0 0;  
+    background-size: contain;
+}
+
+
+
+/****************below not yet used: ******************************/
+
+
+.ui-button .ui-icon.ui-icon-stop {
+    background-image: url("../icons/Stop.png");
+  	background-position: 0 0;  
+    background-size: contain;
+}
+
+.ui-button.ui-state-hover .ui-icon.ui-icon-stop {
+    background-image: url("../icons/Stop.png");
+  	background-position: 0 0;  
+    background-size: contain;
+}
+
+.ui-button .ui-icon.ui-icon-play {
+    background-image: url("../icons/start.png");
+  	background-position: 0 0;  
+    background-size: contain;
+}
+
+.ui-button.ui-state-hover .ui-icon.ui-icon-play {
+    background-image: url("../icons/start.png");
+  	background-position: 0 0;  
+    background-size: contain;
+}
+
+
+
+
