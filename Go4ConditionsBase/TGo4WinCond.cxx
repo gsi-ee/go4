@@ -20,6 +20,14 @@
 #include "TGo4WinCondPainter.h"
 #include "TGo4Log.h"
 
+
+TString TGo4WinCond::fgxURL_XLOW="xmin";
+TString TGo4WinCond::fgxURL_XUP="xmax";
+TString TGo4WinCond::fgxURL_YLOW="ymin";
+TString TGo4WinCond::fgxURL_YUP="ymax";
+
+
+
 // -----------------------------------------------
 // Constructors
 // -----------------------------------------------
@@ -277,13 +285,12 @@ Bool_t TGo4WinCond::UpdateFromUrl(const char* rest_url_opt)
   TString message;
   message.Form("TGo4WinCond::UpdateFromUrl - condition %s: with url:%s", GetName(), rest_url_opt);
   TGo4Log::Message(1, message.Data());
-  if (UrlOptionHasKey("xmin"))
+  if (UrlOptionHasKey(TGo4WinCond::fgxURL_XLOW))
   {
-
-    Double_t xmin = GetUrlOptionAsDouble("xmin", GetXLow());
-    Double_t xmax = GetUrlOptionAsDouble("xmax", GetXUp());
-    Double_t ymin = GetUrlOptionAsDouble("ymin", GetYLow());
-    Double_t ymax = GetUrlOptionAsDouble("ymax", GetYUp());
+    Double_t xmin = GetUrlOptionAsDouble(TGo4WinCond::fgxURL_XLOW, GetXLow());
+    Double_t xmax = GetUrlOptionAsDouble(TGo4WinCond::fgxURL_XUP, GetXUp());
+    Double_t ymin = GetUrlOptionAsDouble(TGo4WinCond::fgxURL_YLOW, GetYLow());
+    Double_t ymax = GetUrlOptionAsDouble(TGo4WinCond::fgxURL_YUP, GetYUp());
     message.Form("Set Window condition %s:", GetName());
     Int_t dim = GetDimension();
     switch (dim)

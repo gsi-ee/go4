@@ -193,11 +193,11 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 
    
    GO4.ConditionEditor.prototype.CheckResize = function() {
-      var id = "#"+this.divid;
-      var width = $(id).width(); 
-      var height = $(id).height();
-      
-      $(id).children().eq(0).width(width - 5).height(height - 5);
+//      var id = "#"+this.divid;
+//      var width = $(id).width(); 
+//      var height = $(id).height();
+//      
+//      $(id).children().eq(0).width(width - 25).height(height - 25);
    }
    
   

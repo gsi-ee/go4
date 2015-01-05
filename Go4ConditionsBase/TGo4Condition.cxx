@@ -41,6 +41,23 @@ Bool_t TGo4Condition::fgbYMAXDRAW=kFALSE;
 Bool_t TGo4Condition::fgbCMAXDRAW=kTRUE;
 TString TGo4Condition::fgxNUMFORMAT="%.4E";
 
+/** Following keywords should be used by condition editor in web browser: */
+TString TGo4Condition::fgxURL_RESULT="resultmode";
+TString TGo4Condition::fgxURL_INVERT="invertmode";
+TString TGo4Condition::fgxURL_VISIBLE="visible";
+TString TGo4Condition::fgxURL_LABEL="labeldraw";
+TString TGo4Condition::fgxURL_LIMITS="limitsdraw";
+TString TGo4Condition::fgxURL_INTEGRAL="intdraw";
+TString TGo4Condition::fgxURL_XMEAN="xmeandraw";
+TString TGo4Condition::fgxURL_XRMS="xrmsdraw";
+TString TGo4Condition::fgxURL_YMEAN="ymeandraw";
+TString TGo4Condition::fgxURL_YRMS="yrmsdraw";
+TString TGo4Condition::fgxURL_XMAX="xmaxdraw";
+TString TGo4Condition::fgxURL_YMAX="ymaxdraw";
+TString TGo4Condition::fgxURL_CMAX="cmaxdraw";
+
+
+
 
 // -----------------------------------------------
 // Constructors
@@ -313,6 +330,7 @@ Bool_t TGo4Condition::UpdateFrom(TGo4Condition * cond, Bool_t counts)
     fbMarkReset = cond->fbMarkReset;
     fbVisible=cond->TGo4Condition::IsVisible();
     fbLabelDraw=cond->TGo4Condition::IsLabelDraw();
+    fbLimitsDraw=cond->TGo4Condition::IsLimitsDraw();
     fbMultiEdit=cond->TGo4Condition::IsMultiEdit();
     fbIntDraw= cond->TGo4Condition::IsIntDraw();
     fbXMeanDraw= cond->TGo4Condition::IsXMeanDraw();
@@ -424,21 +442,24 @@ Bool_t TGo4Condition::UpdateFromUrl(const char* rest_url_opt){
   BuildUrlOptionArray(rest_url_opt); // split option string into separate key value entries
 
 
-  // TODO: define all keywords as static class variables of condition class
+  // all keywords are defined as static class variables of condition class
+  // so web browser condition editor can use these strings from jsroot streamed condition object
 
-  Int_t resultmode = GetUrlOptionAsInt("resultmode", -1);
-  Int_t invertmode = GetUrlOptionAsInt("invertmode", -1);
-  Int_t visible = GetUrlOptionAsInt("visible", -1);
-  Int_t labeldraw = GetUrlOptionAsInt("labeldraw", -1);
-  Int_t limitsdraw = GetUrlOptionAsInt("limitsdraw", -1);
-  Int_t integraldraw = GetUrlOptionAsInt("intdraw", -1);
-  Int_t xmeandraw = GetUrlOptionAsInt("xmeandraw", -1);
-  Int_t xrmsdraw = GetUrlOptionAsInt("xrmsdraw", -1);
-  Int_t ymeandraw = GetUrlOptionAsInt("ymeandraw", -1);
-  Int_t yrmsdraw = GetUrlOptionAsInt("yrmsdraw", -1);
-  Int_t xmaxdraw = GetUrlOptionAsInt("xmaxdraw", -1);
-  Int_t ymaxdraw = GetUrlOptionAsInt("ymaxdraw", -1);
-  Int_t cmaxdraw = GetUrlOptionAsInt("cmaxdraw", -1);
+  Int_t resultmode = GetUrlOptionAsInt(TGo4Condition::fgxURL_RESULT.Data(), -1);
+  Int_t invertmode = GetUrlOptionAsInt(TGo4Condition::fgxURL_INVERT.Data(), -1);
+  Int_t visible = GetUrlOptionAsInt(TGo4Condition::fgxURL_VISIBLE.Data(), -1);
+  Int_t labeldraw = GetUrlOptionAsInt(TGo4Condition::fgxURL_LABEL.Data(), -1);
+  Int_t limitsdraw = GetUrlOptionAsInt(TGo4Condition::fgxURL_LIMITS.Data(), -1);
+  Int_t integraldraw = GetUrlOptionAsInt(TGo4Condition::fgxURL_INTEGRAL.Data(), -1);
+  Int_t xmeandraw = GetUrlOptionAsInt(TGo4Condition::fgxURL_XMEAN.Data(), -1);
+  Int_t xrmsdraw = GetUrlOptionAsInt(TGo4Condition::fgxURL_XRMS.Data(), -1);
+  Int_t ymeandraw = GetUrlOptionAsInt(TGo4Condition::fgxURL_YMEAN.Data(), -1);
+  Int_t yrmsdraw = GetUrlOptionAsInt(TGo4Condition::fgxURL_YRMS.Data(), -1);
+  Int_t xmaxdraw = GetUrlOptionAsInt(TGo4Condition::fgxURL_XMAX.Data(), -1);
+  Int_t ymaxdraw = GetUrlOptionAsInt(TGo4Condition::fgxURL_YMAX.Data(), -1);
+  Int_t cmaxdraw = GetUrlOptionAsInt(TGo4Condition::fgxURL_CMAX.Data(), -1);
+
+
 
   message.Form("Set condition %s:", GetName());
 

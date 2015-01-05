@@ -354,6 +354,37 @@ TGo4Condition : public TNamed, public TAttLine, public TAttFill {
     /** default setting for all conditions with format string for numbers. */
    static TString fgxNUMFORMAT;
 
+
+
+
+   /** web condition editor keyword used in UpdateFromUrl. */
+   static TString fgxURL_RESULT;
+   /** web condition editor keyword used in UpdateFromUrl. */
+   static TString fgxURL_INVERT;
+   /** web condition editor keyword used in UpdateFromUrl. */
+   static TString fgxURL_VISIBLE;
+   /** web condition editor keyword used in UpdateFromUrl. */
+   static TString fgxURL_LABEL;
+   /** web condition editor keyword used in UpdateFromUrl. */
+   static TString fgxURL_LIMITS;
+   /** web condition editor keyword used in UpdateFromUrl. */
+   static TString fgxURL_INTEGRAL;
+   /** web condition editor keyword used in UpdateFromUrl. */
+   static TString fgxURL_XMEAN;
+   /** web condition editor keyword used in UpdateFromUrl. */
+   static TString fgxURL_XRMS;
+   /** web condition editor keyword used in UpdateFromUrl. */
+   static TString fgxURL_YMEAN;
+   /** web condition editor keyword used in UpdateFromUrl. */
+   static TString fgxURL_YRMS;
+   /** web condition editor keyword used in UpdateFromUrl. */
+   static TString fgxURL_XMAX;
+   /** web condition editor keyword used in UpdateFromUrl. */
+   static TString fgxURL_YMAX;
+   /** web condition editor keyword used in UpdateFromUrl. */
+   static TString fgxURL_CMAX;
+
+
   protected:
 
     /** Painter instance to display the condition in root pad. To

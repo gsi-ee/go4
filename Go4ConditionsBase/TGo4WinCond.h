@@ -97,6 +97,18 @@ class TGo4WinCond : public TGo4Condition {
       /** Standard way to store parameter in form of macro */
       virtual void SavePrimitive(std::ostream& fs, Option_t* = "");
 
+
+      /** web condition editor keyword used in UpdateFromUrl. */
+      static TString fgxURL_XLOW;
+      /** web condition editor keyword used in UpdateFromUrl. */
+      static TString fgxURL_XUP;
+
+      /** web condition editor keyword used in UpdateFromUrl. */
+      static TString fgxURL_YLOW;
+      /** web condition editor keyword used in UpdateFromUrl. */
+      static TString fgxURL_YUP;
+
+
    private:
 
       /** inclusive lower limit */
