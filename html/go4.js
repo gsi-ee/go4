@@ -584,8 +584,30 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       this.pave = null; // drawing of stat
    }
 
+   
+   
+   
    GO4.ConditionPainter.prototype = Object.create(JSROOT.TObjectPainter.prototype);
 
+   GO4.ConditionPainter.prototype.Test = function(x,y) {
+	   // JAM: need to put this here, since condition object will lose internal definition after cloning it again!
+	   var cond=this.cond;
+	   if (!cond.fbEnabled) return cond.fbResult;
+       
+       if (cond.fxCut)
+          return cond.fxCut.IsInside(x,y) ? cond.fbTrue : cond.fbFalse; 
+       
+       if ((x < cond.fLow1) || (x > cond.fUp1)) return cond.fbFalse;
+       
+       if (cond.fiDim==2)
+          if ((y < cond.fLow2) || (y > cond.fUp2)) return cond.fbFalse;
+       
+       return cond.fbTrue;
+    }
+   
+   
+   
+   
    GO4.ConditionPainter.prototype.GetObject = function() {
       return this.cond;
    }
@@ -596,8 +618,22 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    
    GO4.ConditionPainter.prototype.drawCondition = function() {
       
+	   
+	   
       if (this.isPolyCond()) {
          if (this.cond.fxCut != null) {
+            // look here if cut is already drawn in divid:
+            var cutfound=false;
+            var cut=this.cond.fxCut;
+            this.ForEachPainter(function(p) {
+                if (p.obj_typename != "TCutG") return;
+                console.log("Find TCutG painter");
+                p.UpdateObject(cut);
+                p.Redraw();
+                cutfound=true;
+             });
+            if(cutfound) return;
+            // only redraw if previous cut display was not there:
             this.cond.fxCut.fFillStyle = 3006;
             this.cond.fxCut.fFillColor = 2;
             JSROOT.draw(this.divid, this.cond.fxCut, "LF");
@@ -669,9 +705,10 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
             }
          }
       
+      var painter=this;
       var cond = this.cond;
       
-      var stat = this.main_painter().CountStat(function(x,y) { return cond.Test(x,y); });
+      var stat = this.main_painter().CountStat(function(x,y) { return painter.Test(x,y); });
       
       if (this.cond.fbIntDraw) this.pave.AddText("Integral = " + JSROOT.gStyle.StatFormat(stat.integral));
       
@@ -697,13 +734,15 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    }
    
    GO4.ConditionPainter.prototype.RedrawObject = function(obj) {
-      if (this.UpdateObject(obj)) 
+      if (this.UpdateObject(obj))
          this.Redraw(); // no need to redraw complete pad
    }
 
    GO4.ConditionPainter.prototype.UpdateObject = function(obj) {
       if (obj._typename != this.cond._typename) return false;
-      this.cond.fiCounts = obj.fiCounts;
+      
+      
+      this.cond= JSROOT.clone(obj); 
       return true;
    }
    
@@ -715,19 +754,19 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    GO4.drawGo4Cond = function(divid, cond, option) {
       // $('#'+divid).append("Here will be condition " + cond._typename);
       
-      cond['Test'] = function(x,y) {
-         if (!this.fbEnabled) return this.fbResult;
-         
-         if (this.fxCut)
-            return this.fxCut.IsInside(x,y) ? this.fbTrue : this.fbFalse; 
-         
-         if ((x < this.fLow1) || (x > this.fUp1)) return this.fbFalse;
-         
-         if (this.fiDim==2)
-            if ((y < this.fLow2) || (y > this.fUp2)) return this.fbFalse;
-         
-         return this.fbTrue;
-      }
+//      cond['Test'] = function(x,y) {
+//         if (!this.fbEnabled) return this.fbResult;
+//         
+//         if (this.fxCut)
+//            return this.fxCut.IsInside(x,y) ? this.fbTrue : this.fbFalse; 
+//         
+//         if ((x < this.fLow1) || (x > this.fUp1)) return this.fbFalse;
+//         
+//         if (this.fiDim==2)
+//            if ((y < this.fLow2) || (y > this.fUp2)) return this.fbFalse;
+//         
+//         return this.fbTrue;
+//      }
       
       if (option=='same') {
          var condpainter = new GO4.ConditionPainter(cond, false);
