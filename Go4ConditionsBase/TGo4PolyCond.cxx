@@ -25,6 +25,13 @@
 #include "TGo4PolyCondPainter.h"
 #include "TGo4Log.h"
 
+
+ TString TGo4PolyCond::fgxURL_NPOINTS="npolygon";
+ TString TGo4PolyCond::fgxURL_XPRE="x";
+ TString TGo4PolyCond::fgxURL_YPRE="y";
+
+
+
 TString TGo4PolyCond::NextAvailableName()
 {
    TString res;
@@ -236,11 +243,27 @@ Bool_t TGo4PolyCond::UpdateFromUrl(const char* rest_url_opt){
   TGo4Log::Message(1,message.Data());
 
   // TODO: evaluate options that change array of points
+  if (UrlOptionHasKey(TGo4PolyCond::fgxURL_NPOINTS))
+   {
+     Int_t npoints = GetUrlOptionAsInt(TGo4PolyCond::fgxURL_NPOINTS, -1);
+     if(npoints>=0)
+       {
+       TString xname,yname;
+       Double_t X[npoints], Y[npoints];
+       for(Int_t i=0; i<npoints;++i)
+           {
+             xname.Form("%s%d",TGo4PolyCond::fgxURL_XPRE.Data(), i);
+             yname.Form("%s%d",TGo4PolyCond::fgxURL_YPRE.Data(), i);
+             X[i]=GetUrlOptionAsDouble(xname.Data(),0);
+             Y[i]=GetUrlOptionAsDouble(yname.Data(),0);
+             message.Form(" i:%d, X=%f, Y=%f\n",i,X[i],Y[i]);
+           }
+       SetValues(X, Y, npoints);
+       }
+     message.Form(" - setting Polygon condition to new values!");
+     TGo4Log::Message(1,message.Data());
 
-
-
-  message.Form(" - setting Polygon condition Points not yet supported!");
-  TGo4Log::Message(1,message.Data());
+   }
   return kTRUE;
 }
 

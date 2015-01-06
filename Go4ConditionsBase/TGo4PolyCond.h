@@ -118,6 +118,14 @@ class TGo4PolyCond : public TGo4Condition {
 
       static TString NextAvailableName();
 
+
+      /** web condition editor keyword used in UpdateFromUrl. */
+      static TString fgxURL_NPOINTS;
+      /** web condition editor keyword used in UpdateFromUrl. */
+      static TString fgxURL_XPRE;
+      /** web condition editor keyword used in UpdateFromUrl. */
+      static TString fgxURL_YPRE;
+
   private:
       /** Returns pointer to a cloned cut from source.
         * Name is set to callers name.

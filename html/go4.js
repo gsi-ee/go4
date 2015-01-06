@@ -28,8 +28,17 @@
       this.ClearChanges();
    }
    
+   
+  
+   
+   
    GO4.ConditionEditor.prototype = Object.create(JSROOT.TBasePainter.prototype);
 
+   
+   GO4.ConditionEditor.prototype.isPolyCond = function() {
+	      return this.cond._typename == "TGo4PolyCond"; 
+	   }
+   
    
    GO4.ConditionEditor.prototype.DabcCommand = function(cmd, option, callback) {
 		var xmlHttp = new XMLHttpRequest();
@@ -68,9 +77,6 @@
 		  var id = "#"+this.divid; 
 		  
 		  $(id+" .buttonChangeLabel").show();// show warning sign 
-		  
-		  //$(id+" button:eq(2)").show(); // show warning sign 
-		  // todo: replace with self explaining name
 	  }
 	  
 	  // clear changed elements' ist, make warning sign invisible  
@@ -82,10 +88,7 @@ GO4.ConditionEditor.prototype.ClearChanges = function() {
 	    console.log("Clear changes removed :%s", removed);	
 	} 
 	var id = "#"+this.divid; 
-	 $(id+" .buttonChangeLabel").hide(); // hide warning sign 
-	 
-	 // $(id+" button:eq(2)").hide(); // hide warning sign 
-	  // todo: replace with self explaining name  
+	$(id+" .buttonChangeLabel").hide(); // hide warning sign 
 		  
 	  }
 	  
@@ -102,18 +105,28 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 		// here mapping of key to editor field:
 		if(key=="limits")
 			{
-			 //var xmin=ParseFloat($(id+" .cond_xmin").value); // need to parse here? no
 			 var xmin=$(id+" .cond_xmin")[0].value;
         	 var xmax=$(id+" .cond_xmax")[0].value;
-//        	 optionstring +="&xmin=\""+xmin+"\"&xmax=\""+xmax+"\"";
         	 optionstring +="&xmin="+xmin+"&xmax="+xmax;
         	  if (this.cond.fiDim==2) {
         		  var ymin=$(id+" .cond_ymin")[0].value;
         		  var ymax=$(id+" .cond_ymax")[0].value; 
-//        		  optionstring +="&ymin=\""+ymin+"\"&ymax="+ymax+"\"";
         		  optionstring +="&ymin="+ymin+"&ymax="+ymax;
         	  }
 			}
+		else if(key=="polygon")
+		{  
+		 var npoints=$(id+" .cut_points")[0].value;		 
+		 	optionstring +="&npolygon="+npoints;
+		 	for(i=0; i<npoints; ++i)
+		 		{
+		 			var x=$(id + " .cut_values input").eq(2*i)[0].value;
+		 			var y=$(id + " .cut_values input").eq(2*i+1)[0].value;
+		 			optionstring +="&x"+i+"="+x+"&y"+i+"="+y;
+		 		}
+		}
+		
+		
 		
 		else if (key=="resultmode"){
 			var selected=$(id+" .cond_execmode")[0].value;
@@ -201,7 +214,88 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    }
    
   
+   GO4.ConditionEditor.prototype.ChangePolygonDimension = function() {
+	   // this only changes display of condition, not condition itself!
+	   // note that condition is still changed in analysis only by EvaluateChanges
+	   // local condition copy is unchanged until we can display it somewhere.
+	   
+	   if(!this.isPolyCond()) return;
+	   var id = "#"+this.divid;
+	   var oldpoints=this.cond.fxCut.fNpoints;
+	   var npoints=$(id+" .cut_points")[0].value;
+	   console.log("ChangePolygonDimension with numpoints="+npoints+", oldpoints="+oldpoints);
+	   //if(npoints==oldpoints) return; // no dimension change, do nothing - disabled, error if we again go back to original condition dimension
+	   if (this.cond.fxCut != null) {
+		   
+		   $(id + " .cut_values tbody").html(""); // clear old contents
+			   if (npoints > oldpoints) {
+				// insert last but one point into table:
+				// first points are unchanged:
+				for (i = 0; i < oldpoints - 1; i++) {
+					var x = this.cond.fxCut.fX[i];
+					var y = this.cond.fxCut.fY[i];
+					$(id + " .cut_values tbody")
+							.append(
+									"<tr><td><input type='text' value='"
+											+ x
+											+ "'/></td>  <td> <input type='text' value='"
+											+ y + "'/>  </td></tr>");
+					console.log("i:" + i + ", X=" + x + " Y=" + y);
+				}
+				// inserted points will reproduce values of last but one point:
+				var insx = this.cond.fxCut.fX[oldpoints - 2];
+				var insy = this.cond.fxCut.fY[oldpoints - 2];
+				for (i = oldpoints - 1; i < npoints - 1; i++) {
+					$(id + " .cut_values tbody")
+							.append(
+									"<tr><td><input type='text' value='"
+											+ insx
+											+ "'/></td>  <td> <input type='text' value='"
+											+ insy + "'/>  </td></tr>");
+					console.log("i:" + i + ", X=" + insx + " Y=" + insy);
+				}
+				// final point is kept as last point of old polygon, should
+				// match first point for closed tcutg:
+				var lastx = this.cond.fxCut.fX[oldpoints - 1];
+				var lasty = this.cond.fxCut.fY[oldpoints - 1];
+				$(id + " .cut_values tbody").append(
+						"<tr><td><input type='text' value='" + lastx
+								+ "'/></td>  <td> <input type='text' value='"
+								+ lasty + "'/>  </td></tr>");
+				console.log("i:" + npoints - 1 + ", X=" + lastx + " Y=" + lasty);
 
+			}
+		   else
+			   {
+			   		// remove last but one point from table:
+			   for (i = 0; i < npoints - 1; i++) {
+					var x = this.cond.fxCut.fX[i];
+					var y = this.cond.fxCut.fY[i];
+					$(id + " .cut_values tbody")
+							.append(
+									"<tr><td><input type='text' value='"
+											+ x
+											+ "'/></td>  <td> <input type='text' value='"
+											+ y + "'/>  </td></tr>");
+					console.log("i:" + i + ", X=" + x + " Y=" + y);
+				}
+			   // final point is kept as last point of old polygon, should
+			   // match first point for closed tcutg:
+			   var lastx = this.cond.fxCut.fX[oldpoints - 1];
+			   var lasty = this.cond.fxCut.fY[oldpoints - 1];
+			   $(id + " .cut_values tbody").append(
+						"<tr><td><input type='text' value='" + lastx
+								+ "'/></td>  <td> <input type='text' value='"
+								+ lasty + "'/>  </td></tr>");
+				console.log("i:" + npoints - 1 + ", X=" + lastx + " Y=" + lasty);
+			   
+			   }		   
+	   }
+	   
+	   
+   
+	   this.MarkChanged("polygon");
+   }
    
    GO4.ConditionEditor.prototype.refreshEditor = function() {
       var editor=this;
@@ -241,6 +335,39 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
          $(id+" .cond_ymin").prop('disabled', true);
          $(id+" .cond_ymax").prop('disabled', true);
       }
+      
+      if(this.isPolyCond()) {
+    	  	$(id+" .cond_tabs").tabs( "disable", 0 ); // enable/disable by tab index
+    		$(id+" .cond_tabs").tabs( "enable", 1 ); // enable/disable by tab index
+    		if (this.cond.fxCut != null) {
+    			var numpoints=this.cond.fxCut.fNpoints;
+    			console.log("refreshEditor: npoints="+numpoints);
+    			 $(id+" .cut_points").val(numpoints); //.change(function(){ editor.MarkChanged("polygon")});
+    			 $(id + " .cut_values tbody").html("");
+    			 
+    			 
+    			 for(i = 0; i < numpoints; i++) {
+    				   var x=	this.cond.fxCut.fX[i];
+    				   var y=	this.cond.fxCut.fY[i];
+    	               $(id + " .cut_values tbody").append("<tr><td><input type='text' value='" + x + "'/></td>  <td> <input type='text' value='" + y + "'/>  </td></tr>");
+    	               console.log("i:"+i+", X="+x+" Y="+y);
+    			 }
+    			 $(id + " .cut_values tbody").change(function(){ editor.MarkChanged("polygon")});
+    			 
+    		}
+          
+          
+      }
+      else
+    	  {
+    	  	console.log("refreshEditor: - NO POLYGON CUT");
+    	  	$(id+" .cond_tabs").tabs( "enable", 0 ); 
+    	  	$(id+" .cond_tabs").tabs( "disable", 1 ); // enable/disable by tab index
+    	  }
+      
+      
+      
+      
       
       $(id+" .cond_counts").text(cond.fiCounts);
       $(id+" .cond_true").text(cond.fiTrueCounts);
@@ -297,8 +424,10 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       
       editor.ClearChanges();  
       
+     
       
-      $("#QFWModeCombo").selectmenu("option", "width", $('#QFW-table').width());
+      
+      
       
       
   }
@@ -407,7 +536,14 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
      
     
     
-      
+    $(id+" .cut_points").spinner({
+        min: 0,
+        max: 1000,
+        step: 1,
+        spin: function( event, ui ) {console.log("cut spin has value:"+ui.value);},
+        change: function( event, ui ) {console.log("cut changed.");editor.ChangePolygonDimension()},
+        stop: function( event, ui ) {console.log("cut spin stopped.");editor.ChangePolygonDimension()}
+    });
       
       
       
