@@ -1,29 +1,141 @@
-<div style="border:2px solid black; overflow-x:hidden; overflow-y:hidden">
-  <div style="display:table-row; height:15%;">
-    <h4>Parameter editor</h4>
-    <table style="position:relative; width:100%; height:100%">
-      <tr>
-	<th><label class="par_name" style="float:left"> </label></th>
-	<th><label class="par_type" style="float:right"> </label></th>
-      </tr>
-    </table>
-  </div>
-  <div style="position:relative; display:table-row; overflow-y:auto; height:70%; width:100%">
-    <h5>Parameter values</h5>
-    <table class="par_values" style="position:relative; width:100%; height:100%; border-spacing: 5px 5px">
+<head>
+
+<link rel="stylesheet" type="text/css" href="/go4sys/html/go4.css">
+
+
+<style type="text/css">
+
+
+.par_membertable_style {
+    border: 2px solid black collapse; 
+    background-color:#fff;
+}
+
+.par_memberheader_style {
+    border: 1px dotted black collapse; 
+    background-color:#eee;
+}
+
+
+
+#par_editor_container{
+	height:100%; 
+	position: relative;
+	right: 5px;
+	outline: groove medium; 
+	overflow-x:hidden; 
+	overflow-y: auto
+}
+
+#par_header_container {
+			outline: outset thin;
+			position: absolute;	
+			top: 2px;
+ 			height: 40px;
+ 			left: 5px;
+ 			right: 1px; 
+			overflow-x:hidden; 
+			overflow-y: auto;
+		}
+
+#par_table_container {
+			outline: outset thin;
+			position: absolute;
+ 			top: 45px; 
+			bottom: 52px;
+			left: 5px;
+ 			right: 1px; 
+			overflow-x:hidden; 
+			overflow-y: auto;
+		}
+
+#par_button_container {
+			outline: outset thin;
+			position: absolute;
+			bottom: 1px;
+			height: 48px;
+			left: 5px;
+ 			right: 1px; 
+			overflow-x:hidden; 
+			overflow-y:hidden;			
+		}
+
+
+
+
+
+
+</style>
+</head>
+
+
+
+<body>
+
+
+
+<div  id="par_editor_container">
+
+
+		<div id="par_header_container">
+			<table style="width: 100%">
+<!-- 				<caption> -->
+<!-- 					<h5>Parameter Editor</h5> -->
+<!-- 				</caption> -->
+				<tbody>
+					<tr>
+						<th><label class="par_name" style="float: left"> </label></th>
+						<th><label class="par_type" style="float: right"> </label></th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div id="par_table_container">
+    <table class="par_values" style="position:relative; width:100%; height:100%; text-align: left">
       <thead>
-       <tr style="border:1px solid black; width:100%">
+       <tr >
           <th>Name</th> <th>Value</th><th>Comments</th>
        </tr>
       </thead>
-      <tbody>
+      <tbody class="par_value_body">
       </tbody>
     </table>
-  </div>
-
-  <div class="par_buttons" style="display:table-row; height:15%">
-    <button title="Get parameter">Get</button>
-    <button title="Set parameter">Set</button>
-    <button title="Parameter changed in editor">Changed</button>
-  </div>
 </div>
+
+<div id="par_button_container">
+<!--     <button title="Get parameter">Get</button> -->
+<!--     <button title="Set parameter">Set</button> -->
+<!--     <button title="Parameter changed in editor">Changed</button> -->
+    
+    <table style="width: 70px; height: 100%; float: left">
+			<tbody>
+				<tr>
+					<td style="height: 30px">
+						<button class="buttonGetParameter"
+							title="Refresh parameter values from analysis server">Get</button>
+					</td>
+					<td style="height: 30px">
+						<button class="buttonSetParameter"
+							title="Send parameter values to analysis server">Set</button>
+					</td>
+					<td style="height: 30px">
+						<button class="buttonChangeLabel"
+							title="This label shows that your current changes have not yet been updated to analysis">Changed!</button>
+					</td> 
+				</tr>
+			</tbody>
+		</table>
+		
+	
+    
+    
+    
+    
+</div>
+
+</div>
+
+
+</body>
+

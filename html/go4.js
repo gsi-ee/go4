@@ -540,9 +540,11 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
         min: 0,
         max: 1000,
         step: 1,
-        spin: function( event, ui ) {console.log("cut spin has value:"+ui.value);},
-        change: function( event, ui ) {console.log("cut changed.");editor.ChangePolygonDimension()},
-        stop: function( event, ui ) {console.log("cut spin stopped.");editor.ChangePolygonDimension()}
+        //spin: function( event, ui ) {console.log("cut spin has value:"+ui.value);},
+        change: function( event, ui ) {editor.ChangePolygonDimension();//console.log("cut changed.");
+        },
+        stop: function( event, ui ) {editor.ChangePolygonDimension();//console.log("cut spin stopped.");
+        }        
     });
       
       
@@ -752,21 +754,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    }
    
    GO4.drawGo4Cond = function(divid, cond, option) {
-      // $('#'+divid).append("Here will be condition " + cond._typename);
-      
-//      cond['Test'] = function(x,y) {
-//         if (!this.fbEnabled) return this.fbResult;
-//         
-//         if (this.fxCut)
-//            return this.fxCut.IsInside(x,y) ? this.fbTrue : this.fbFalse; 
-//         
-//         if ((x < this.fLow1) || (x > this.fUp1)) return this.fbFalse;
-//         
-//         if (this.fiDim==2)
-//            if ((y < this.fLow2) || (y > this.fUp2)) return this.fbFalse;
-//         
-//         return this.fbTrue;
-//      }
+
       
       if (option=='same') {
          var condpainter = new GO4.ConditionPainter(cond, false);
@@ -836,25 +824,106 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    GO4.ParameterEditor = function(par) {
       JSROOT.TBasePainter.call(this);
       this.par = par;
+      this.changes = ["dummy", "init"]; // TODO: put to common "base class" of condition and parameter editor 
    }
 
    GO4.ParameterEditor.prototype = Object.create(JSROOT.TBasePainter.prototype);
 
    GO4.ParameterEditor.prototype.CheckResize = function() {
-      var id = "#"+this.divid;
-      var width = $(id).width(); 
-      var height = $(id).height();
-      $(id).children().eq(0).width(width - 4).height(height - 4);
+//      var id = "#"+this.divid;
+//      var width = $(id).width(); 
+//      var height = $(id).height();
+//      $(id).children().eq(0).width(width - 4).height(height - 4);
    }
    
+   
+   // TODO: put to common "base class" of condition and parameter editor 
+   GO4.ParameterEditor.prototype.DabcCommand = function(cmd, option, callback) {
+		var xmlHttp = new XMLHttpRequest();
+		var pre="";
+		if (this.GetItemName()!="") { // note: check against !=null does not work here!
+			  pre = this.GetItemName() + "/"; // suppress / if item name is empty
+				//console.log("Found non null itemname= -"+this.GetItemName()+"-");
+		}
+		pre +="exe.txt\?method=";
+		var fullcom = pre + cmd + option;
+		
+		
+		console.log(fullcom);
+		xmlHttp.open('GET', fullcom, true);
+		xmlHttp.onreadystatechange = function() {
+
+			if (xmlHttp.readyState == 4) {
+				console.log("DabcCommand completed.");
+//				var reply = JSON.parse(xmlHttp.responseText); // this does not work with exe.txt JAM
+//				console.log("Reply= %s", reply);
+				callback(true); // todo: evaluate return values of reply
+			}
+		}
+		xmlHttp.send(null);
+	};
+	
+	
+	 // TODO: put to common "base class" of condition and parameter editor 
+	 // add identifier of changed element to list, make warning sign visible
+	  GO4.ParameterEditor.prototype.MarkChanged = function(key) {
+		  // first avoid duplicate keys:
+		  var index;
+		  for	(index = 0; index < this.changes.length; index++) {
+				if (this.changes[index]== key) return;
+			} 
+		  this.changes.push(key);
+		  console.log("Mark changed :%s", key);	
+		  var id = "#"+this.divid; 		  
+		  $(id+" .buttonChangeLabel").show();// show warning sign 
+	  }
+	// TODO: put to common "base class" of condition and parameter editor 
+	GO4.ParameterEditor.prototype.ClearChanges = function() {
+		var index;
+		var len=this.changes.length;
+		for	(index = 0; index < len ; index++) {
+		    var removed=this.changes.pop();
+		    console.log("Clear changes removed :%s", removed);	
+		} 
+		var id = "#"+this.divid; 
+		$(id+" .buttonChangeLabel").hide(); // hide warning sign 
+			  
+		  }
+		  
+	// scan changed value list and return optionstring to be send to server
+	GO4.ParameterEditor.prototype.EvaluateChanges = function(optionstring) {
+		var id = "#"+this.divid;
+		var index;
+		var len=this.changes.length;
+		for	(index = 0; index < len ; index++) {
+		    //var cursor=changes.pop();
+			var key=this.changes[index];
+			console.log("Evaluate change key:%s", key);				
+			// here mapping of key to editor field:
+			// key will be name of variable which is class name of input field:
+			var val=$(id+" ."+key.toString())[0].value;
+			var opt= key.replace(/_/g, "[").replace(/-/g, "]");			
+       	 	optionstring +="&"+opt+"="+val;
+		}// for index
+		console.log("Resulting option string:%s", optionstring);
+		return optionstring;
+	}
+
+   
+   
+   
+   
    GO4.ParameterEditor.prototype.fillComments = function() {
-      
-      if (this.GetItemName()==null) return;
-      
       var editor = this;
       if (editor.xreq!=null) return; // avoid double requests
+      var pre="";
+      if (this.GetItemName()!="") { // note: check against !=null does not work here!
+		  pre = this.GetItemName() + "/"; // suppress / if item name is empty
+			//console.log("Found non null itemname= -"+this.GetItemName()+"-");
+	}
       
-      editor.xreq = JSROOT.NewHttpRequest(this.GetItemName()+"/h.json?more", 'object', function(res) {
+      
+      editor.xreq = JSROOT.NewHttpRequest(pre+"h.json?more", 'object', function(res) {
          editor.xreq = null;
 
          if (res==null) return;
@@ -877,9 +946,43 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       });
       editor.xreq.send(null);
    }
-   
+   GO4.ParameterEditor.prototype.fillMemberTable = function() {
+	   var editor=this;
+	   var id = "#"+this.divid;
+	   var par = this.par; 
+	   $(id + " .par_values tbody").html("");
+	   var found_title = false;	      
+	      for (var key in par) {
+	         if (typeof par[key] == 'function') continue;
+	         if (key == 'fTitle') { found_title = true; continue; } 
+	         if (!found_title) continue;
+	         var value = (par[key]!=null ? (par[key] instanceof Array ? par[key] : par[key].toString()): "null");
+	         var classname="";
+	         if (value instanceof Array) {
+	            for(i = 0; i < value.length; i++) {
+	            	 classname=key.toString()+"_"+ i+"-";
+	            	 //classname=key.toString();
+	            	$(id + " .par_values tbody").append("<tr><td>" + key.toString() + "[" + i + "]</td><td><input type='text' value='" + value[i] + "' class='"+ classname +"'/></td><td></td></tr>");
+	            }
+	         } else {
+	        	 classname=key.toString();
+	            $(id + " .par_values tbody").append('<tr><td>' + key.toString() + "</td><td><input type='text' value='" + value + "' class='"+classname+"'/></td><td></td></tr>");
+	         }
+	       
+	        
+	      }
+	   // here set callbacks; referred classname must be evaluated dynamically in function!:
+         $(id + " .par_values tbody input").change(function(){ editor.MarkChanged($(this).attr('class'))}); 
+         $(id + " .par_values tbody td").addClass("par_membertable_style");
+         $(id + " .par_values thead th").addClass("par_memberheader_style");
+	     this.ClearChanges(); 
+	     
+	     
+	     
+   }
    GO4.ParameterEditor.prototype.fillEditor = function() {
-      var par = this.par;
+      var editor=this;
+	  var par = this.par;
       var id = "#"+this.divid;
       var width = $(id).width(); 
       var height = $(id).height();
@@ -889,42 +992,62 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       
       $(id).children().eq(0).width(width - 4).height(height - 4);
       
-      $(id+" button:first")
-         .text("")
-         .append('<img src="/go4sys/icons/right.png"  height="16" width="16"/>')
-         .button()
-         .click(function() { console.log("get - do nothing"); })
-         .next()
-         .text("")
-         .append('<img src="/go4sys/icons/left.png"  height="16" width="16"/>')
-         .button()
-         .click(function() { console.log("set - do nothing"); })
-         .next()
-         .text("")
-         .append('<img src="/go4sys/icons/info1.png"  height="16" width="16"/>')
-         .button()
-         .click(function() { console.log("warn - do nothing"); })
-         .hide();
       
-      var found_title = false;
-      
-      for (var key in par) {
-         if (typeof par[key] == 'function') continue;
-         if (key == 'fTitle') { found_title = true; continue; } 
-         if (!found_title) continue;
-         var value = (par[key]!=null ? (par[key] instanceof Array ? par[key] : par[key].toString()): "null");
+      $(id+" .buttonGetParameter")
+      .button({text: false, icons: { primary: "ui-icon-arrowthick-1-e MyButtonStyle"}}).click(function() {
+    	  console.log("update item = " + editor.GetItemName()); 
+          if (DABC.hpainter) DABC.hpainter.display(editor.GetItemName()); 
+          else  console.log("dabc object not found!"); 
+          	
+        }
+      );
 
-         if (value instanceof Array) {
-            for(i = 0; i < value.length; i++) {
-               $(id + " .par_values tbody").append("<tr><td>" + key.toString() + "[" + i + "]</td><td><input type='text' value='" + value[i] + "'/></td><td></td></tr>");
-            }
-         } else {
-            $(id + " .par_values tbody").append('<tr><td>' + key.toString() + "</td><td><input type='text' value='" + value + "'/></td><td></td></tr>");
-         }
-      }
+      
+      $(id+" .buttonSetParameter")
+      .button({text: false, icons: { primary: "ui-icon-arrowthick-1-w MyButtonStyle"}}).click(function() {
+      	 var options=""; // do not need to use name here
+     	 options=editor.EvaluateChanges(options); // complete option string from all changed elements
+     	 console.log("set - condition "+ editor.GetItemName()+ ", options="+options); 
+     	 editor.DabcCommand("UpdateFromUrl",options,function(
+  				result) {
+     		 		console.log(result ? "set parameter done. "
+ 					: "set parameter FAILED.");
+     		 		if(result) editor.ClearChanges();     			
+          	
+        });
+      });
+      
+      
+    $(id+" .buttonChangeLabel")
+         .button({text: false, icons: { primary: "ui-icon-alert MyButtonStyle"}}).click();
+      
+          
+      this.fillMemberTable();
       console.log("fillEditor finished");
 
    }
+   
+   
+   GO4.ParameterEditor.prototype.RedrawObject = function(obj) {
+	   console.log("ParemeterEditor RedrawObject...");
+	      if (this.UpdateObject(obj))
+	         this.Redraw(); // no need to redraw complete pad
+	   }
+
+	   GO4.ParameterEditor.prototype.UpdateObject = function(obj) {
+	      if (obj._typename != this.par._typename) return false;
+	      console.log("ParemeterEditor UpdateObject...");	      
+	      this.par= JSROOT.clone(obj); 
+	      return true;
+	   }
+	   
+	   GO4.ParameterEditor.prototype.Redraw = function() {
+		   console.log("ParemeterEditor Redraw...");
+		   this.fillMemberTable();
+	   }
+   
+   
+   
    
    GO4.ParameterEditor.prototype.drawEditor = function(divid) {
       var pthis = this;
