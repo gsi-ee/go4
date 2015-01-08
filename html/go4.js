@@ -902,7 +902,20 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 			// here mapping of key to editor field:
 			// key will be name of variable which is class name of input field:
 			var val=$(id+" ."+key.toString())[0].value;
-			var opt= key.replace(/_/g, "[").replace(/-/g, "]");			
+			//var opt= key.replace(/_/g, "[").replace(/-/g, "]");	// old with other placeholders		
+       	 	var arraysplit=key.split("_");
+       	 	if(arraysplit.length>1)
+       	 		{
+       	 			// found array with index after separator, reformat it:
+       	 			var opt=arraysplit[0];
+       	 			var ix=arraysplit[arraysplit.length -1]; //
+       	 			opt+="["+ix+"]";       	 		
+       	 		}
+       	 	else
+       	 		{
+       	 			opt=key;
+       	 		}
+       	 	
        	 	optionstring +="&"+opt+"="+val;
 		}// for index
 		console.log("Resulting option string:%s", optionstring);
@@ -960,7 +973,11 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 	         var classname="";
 	         if (value instanceof Array) {
 	            for(i = 0; i < value.length; i++) {
-	            	 classname=key.toString()+"_"+ i+"-";
+	            		// TODO: how to treat 2d arrays
+	            	
+	            	
+	            	 //classname=key.toString()+"_"+ i+"-"; // old with placeholders instead brackets
+	            	 classname=key.toString()+"_"+ i;
 	            	 //classname=key.toString();
 	            	$(id + " .par_values tbody").append("<tr><td>" + key.toString() + "[" + i + "]</td><td><input type='text' value='" + value[i] + "' class='"+ classname +"'/></td><td></td></tr>");
 	            }

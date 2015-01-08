@@ -127,9 +127,10 @@ Bool_t TGo4Parameter::UpdateFromUrl(const char* rest_url_opt)
    TGo4ParameterMember* member = 0;
 
    while ((member = (TGo4ParameterMember*) next()) != 0) {
-      const char* optvalue = url.GetValueFromOptions(member->GetName());
+     TString dummy;
+      const char* optvalue = url.GetValueFromOptions(member->GetFullName(dummy)); //member->GetName());
       if (optvalue!=0) {
-         TGo4Log::Info("Par:%s member %s newvalue %s", GetName(), member->GetName(), optvalue);
+         TGo4Log::Info("Par:%s member %s newvalue %s", GetName(), member->GetFullName(dummy), optvalue);
          member->SetStrValue(optvalue);
       }
    }
