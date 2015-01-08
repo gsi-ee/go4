@@ -904,12 +904,37 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 			var val=$(id+" ."+key.toString())[0].value;
 			//var opt= key.replace(/_/g, "[").replace(/-/g, "]");	// old with other placeholders		
        	 	var arraysplit=key.split("_");
+       	 	var opt="";
        	 	if(arraysplit.length>1)
        	 		{
        	 			// found array with index after separator, reformat it:
-       	 			var opt=arraysplit[0];
-       	 			var ix=arraysplit[arraysplit.length -1]; //
-       	 			opt+="["+ix+"]";       	 		
+       	 		opt=arraysplit[0];
+       	 		if(arraysplit.length>2)
+       	 		{
+       	 			if(arraysplit.length>3)
+       	 			{
+       	 				// 3dim array:
+       	 				var ix=arraysplit[arraysplit.length -3]; //
+	 					var iy=arraysplit[arraysplit.length -2]; //
+	 					var iz=arraysplit[arraysplit.length -1]; //
+	 					opt+="["+ix+"]["+iy+"]["+iz+"]";       	 				
+       	 			}
+       	 			else
+       	 				{
+       	 					// 2dim array:
+       	 					var ix=arraysplit[arraysplit.length -2]; //
+       	 					var iy=arraysplit[arraysplit.length -1]; //
+       	 					opt+="["+ix+"]["+iy+"]";       	 					
+       	 				}
+       	 			var iy=arraysplit[arraysplit.length -2]; //       	 		
+       	 		}
+       	 		else
+       	 			{
+       	 			// 1dim array:
+       	 				opt=arraysplit[0];
+       	 				var ix=arraysplit[arraysplit.length -1]; //
+       	 				opt+="["+ix+"]";
+       	 			}
        	 		}
        	 	else
        	 		{
@@ -938,16 +963,16 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       
       editor.xreq = JSROOT.NewHttpRequest(pre+"h.json?more", 'object', function(res) {
          editor.xreq = null;
-
          if (res==null) return;
          var id = "#"+editor.divid;
-
          $(id + " .par_values tbody").find("tr").each( function(i,tr) {
             var name = $(tr).find("td:first").text();
             var title = null;
             for (var i in res._childs) {
                var n = res._childs[i]._name;
-               if ((name==n) || (name.indexOf(n)==0)) {
+               var arsplit=name.split("["); // remove array information at the end, if any
+               if (arsplit[0]==n) {
+               //if ((name==n) || (name.indexOf(n)==0)) { 
                   title = res._childs[i]._title;
                   break;
                }
@@ -973,14 +998,44 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 	         var classname="";
 	         if (value instanceof Array) {
 	            for(i = 0; i < value.length; i++) {
-	            		// TODO: how to treat 2d arrays
-	            	
-	            	
+	            		if(value[i] instanceof Array)
+	            			{
+	            				subvalue=value[i];
+	            				 for(j = 0; j < subvalue.length; j++) {
+	            					 if(subvalue[j] instanceof Array)
+	     	            				{
+	            						 	subsubvalue=subvalue[j];
+	            						 	 for(k = 0; k < subsubvalue.length; k++) {
+	            						 		 // decode 3dim array
+	            						 	  	classname=key.toString()+"_"+ i+"_"+j+"_"+k;
+		            			            	$(id + " .par_values tbody").append("<tr><td>" + key.toString() + "[" + i + "]["+j+"]["+k+"]</td><td><input type='text' value='" + subsubvalue[k] + "' class='"+ classname +"'/></td><td></td></tr>");
+	            						 	 } // for k
+	     	            				}
+	            					 else
+	            						{
+	            						 	// decode 2dim array
+	            						   	classname=key.toString()+"_"+ i+"_"+j;
+	            			            	$(id + " .par_values tbody").append("<tr><td>" + key.toString() + "[" + i + "]["+j+"]</td><td><input type='text' value='" + subvalue[j] + "' class='"+ classname +"'/></td><td></td></tr>");
+	            						}	            					 
+	            				 } // for j	            				
+	            			}
+	            		else
+	            			{
+	            			// decode 1dim array
 	            	 //classname=key.toString()+"_"+ i+"-"; // old with placeholders instead brackets
-	            	 classname=key.toString()+"_"+ i;
-	            	 //classname=key.toString();
+	            	
+	            	classname=key.toString()+"_"+ i;
 	            	$(id + " .par_values tbody").append("<tr><td>" + key.toString() + "[" + i + "]</td><td><input type='text' value='" + value[i] + "' class='"+ classname +"'/></td><td></td></tr>");
-	            }
+	            	
+	            			}
+	            	
+// TODO alternative display: use dynamically set spin selector:
+//	               classname=key.toString();
+//	               indexclassname=classname+"_";
+//	           	   $(id + " .par_values tbody").append("<tr><td><label>" + key.toString() +"[ <input class='"+classname+" value='0'> title='Select array index'> ]</label></td><td><input type='text' value='"+ value[0] + "' class='"+ classname +"'/></td><td></td></tr>");
+////					
+	            
+	            } // for i
 	         } else {
 	        	 classname=key.toString();
 	            $(id + " .par_values tbody").append('<tr><td>' + key.toString() + "</td><td><input type='text' value='" + value + "' class='"+classname+"'/></td><td></td></tr>");
