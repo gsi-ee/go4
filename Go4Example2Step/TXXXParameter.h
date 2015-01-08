@@ -31,6 +31,8 @@ class TXXXParameter : public TGo4Parameter {
 
       Int_t fArr2[3][4]; // example of 2d array usage
 
+      Int_t fArr3[3][4][5]; // example of 3d array usage (works only with browser)
+
    ClassDef(TXXXParameter,2)
 };
 
