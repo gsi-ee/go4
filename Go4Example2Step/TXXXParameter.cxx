@@ -20,4 +20,8 @@ TXXXParameter::TXXXParameter(const char* name) :
    frP1 = 10;
    frP2 = 20;
    fbHisto = kTRUE;
+
+   for (Int_t n1=0;n1<3;n1++)
+      for (Int_t n2=0;n2<4;n2++)
+        fArr2[n1][n2] = 0;
 }

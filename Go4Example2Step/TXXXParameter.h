@@ -27,9 +27,11 @@ class TXXXParameter : public TGo4Parameter {
       Float_t frP2; // Factor for Calibration
       Bool_t fbHisto; // Enable Histogramming
 
-      TArrayI fArr;  // example of usage of array in the parameter
+      TArrayI fArr;  // example of usage of TArray in the parameter
 
-   ClassDef(TXXXParameter,1)
+      Int_t fArr2[3][4]; // example of 2d array usage
+
+   ClassDef(TXXXParameter,2)
 };
 
 #endif
