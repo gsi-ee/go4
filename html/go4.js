@@ -1054,6 +1054,10 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 	         var value = (par[key]!=null ? (par[key] instanceof Array ? par[key] : par[key].toString()): "null");
 	         var classname="";
 	         if (value instanceof Array) {
+	        	// here put array table with clickable header:
+ 				// (thanks to Jonathan at http://mediaformations.com/accordion-tables-with-jquery/ for this idea!)
+	        	 var arraytableclass=key.toString()+"_array";
+	        	 $(id + " .par_values > tbody").append("<tr><td style='width:100%' colspan='3' > <table class='"+arraytableclass+" par_arraytable'><thead><tr><td class='par_key'> <bf>[+]</bf> "+ key.toString()+"</td><td class='par_value' >Click to expand</td><td class='par_comment'></td></tr></thead><tbody></tbody></table></td></tr>");
 	            for(i = 0; i < value.length; i++) {
 	            		if(value[i] instanceof Array)
 	            			{
@@ -1065,37 +1069,68 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 	            						 	 for(k = 0; k < subsubvalue.length; k++) {
 	            						 		 // decode 3dim array
 	            						 	  	classname=key.toString()+"_"+ i+"_"+j+"_"+k;
-		            			            	$(id + " .par_values tbody").append("<tr><td>" + key.toString() + "[" + i + "]["+j+"]["+k+"]</td><td><input type='text' value='" + subsubvalue[k] + "' class='"+ classname +"'/></td><td></td></tr>");
+		            			            	//$(id + " .par_values tbody").append("<tr><td>" + key.toString() + "[" + i + "]["+j+"]["+k+"]</td><td><input type='text' value='" + subsubvalue[k] + "' class='"+ classname +"'/></td><td></td></tr>");
+	            				            	$(id + " ."+arraytableclass+" tbody").append("<tr><td class='par_key'>" + key.toString() + "[" + i + "]["+j+"]["+k+"]</td><td class='par_value'><input type='text' value='" + subsubvalue[k] + "' class='"+ classname +"'/></td><td class='par_comment'></td></tr>");
+	            	            				
 	            						 	 } // for k
 	     	            				}
 	            					 else
 	            						{
 	            						 	// decode 2dim array
 	            						   	classname=key.toString()+"_"+ i+"_"+j;
-	            			            	$(id + " .par_values tbody").append("<tr><td>" + key.toString() + "[" + i + "]["+j+"]</td><td><input type='text' value='" + subvalue[j] + "' class='"+ classname +"'/></td><td></td></tr>");
+	            			            	//$(id + " .par_values tbody").append("<tr><td>" + key.toString() + "[" + i + "]["+j+"]</td><td><input type='text' value='" + subvalue[j] + "' class='"+ classname +"'/></td><td></td></tr>");
+	            							$(id + " ."+arraytableclass+" tbody").append("<tr><td class='par_key'>" + key.toString() + "[" + i + "]["+j+"]</td><td class='par_value'><input type='text' value='" + subvalue[j] + "' class='"+ classname +"'/></td><td class='par_comment'></td></tr>");
+		            						
 	            						}	            					 
 	            				 } // for j	            				
 	            			}
 	            		else
 	            			{
 	            			// decode 1dim array
-	            	 //classname=key.toString()+"_"+ i+"-"; // old with placeholders instead brackets
+	            			//classname=key.toString()+"_"+ i+"-"; // old with placeholders instead brackets
 	            	
-	            	classname=key.toString()+"_"+ i;
-	            	$(id + " .par_values tbody").append("<tr><td>" + key.toString() + "[" + i + "]</td><td><input type='text' value='" + value[i] + "' class='"+ classname +"'/></td><td></td></tr>");
-	            	
+	            			classname=key.toString()+"_"+ i;
+	            			//$(id + " .par_values tbody").append("<tr><td>" + key.toString() + "[" + i + "]</td><td><input type='text' value='" + value[i] + "' class='"+ classname +"'/></td><td></td></tr>");
+	            			$(id + " ."+arraytableclass+" tbody").append("<tr><td class='par_key'>" + key.toString() + "[" + i + "]</td><td class='par_value'><input type='text' value='" + value[i] + "' class='"+ classname +"'/></td><td class='par_comment'></td></tr>");
+	    	            	
 	            			}
-	            	
-// TODO alternative display: use dynamically set spin selector:
-//	               classname=key.toString();
-//	               indexclassname=classname+"_";
-//	           	   $(id + " .par_values tbody").append("<tr><td><label>" + key.toString() +"[ <input class='"+classname+" value='0'> title='Select array index'> ]</label></td><td><input type='text' value='"+ value[0] + "' class='"+ classname +"'/></td><td></td></tr>");
-////					
-	            
 	            } // for i
+//	            
+	            $(id + " table."+arraytableclass+" thead tr").click(
+	            		function() {
+	            			$(this) .parents('table.par_arraytable') .children('tbody') .toggle();
+	            			$(this) .parents('table.par_arraytable') .find('td:first').text(
+	            					function(i,origText){	            						
+	            						var changed=origText;
+	            						if(origText.indexOf("[+]")!= -1)
+	            							changed=origText.replace("[+]","[-]");
+	            						if(origText.indexOf("[-]")!= -1)
+	            							changed=origText.replace("[-]","[+]");
+	            						console.log("original text= "+origText+", changed="+changed);
+	            						return changed;
+	            					  });
+	            			$(this) .parents('table.par_arraytable') .find('td.par_value:first').text(
+	            					function(i,origText){	            						
+	            						var changed=origText;
+	            						if(origText.indexOf("expand")!= -1)
+	            							changed=origText.replace("expand","shrink");
+	            						if(origText.indexOf("shrink")!= -1)
+	            							changed=origText.replace("shrink","expand");
+	            						console.log("original text= "+origText+", changed="+changed);
+	            						return changed;
+	            					  });
+	            			
+	            			
+	            			console.log("Clicked on table header");
+	            		}
+	            	);
+	            $(id + " table."+arraytableclass).children('tbody').hide();
+	            
+	            
+	            
 	         } else {
 	        	 classname=key.toString();
-	            $(id + " .par_values tbody").append('<tr><td>' + key.toString() + "</td><td><input type='text' value='" + value + "' class='"+classname+"'/></td><td></td></tr>");
+	            $(id + " .par_values > tbody").append("<tr><td class='par_key'>" + key.toString() + "</td><td class='par_value'><input type='text' value='" + value + "' class='"+classname+"'/></td><td class='par_comment'></td></tr>");
 	         }
 	       
 	        
@@ -1103,7 +1138,9 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 	   // here set callbacks; referred classname must be evaluated dynamically in function!:
          $(id + " .par_values tbody input").change(function(){ editor.MarkChanged($(this).attr('class'))}); 
          $(id + " .par_values tbody td").addClass("par_membertable_style");
-         $(id + " .par_values thead th").addClass("par_memberheader_style");
+         $(id + " .par_values > thead th").addClass("par_memberheader_style");
+         $(id + " .par_arraytable thead td").addClass("par_arrayheader_style");
+         
 	     this.ClearChanges(); 
 	     
 	     

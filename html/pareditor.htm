@@ -9,11 +9,40 @@
 .par_membertable_style {
     border: 2px solid black collapse; 
     background-color:#fff;
+     padding: 10px;
 }
 
 .par_memberheader_style {
     border: 1px dotted black collapse; 
+    background-color:#eee;  
+    padding: 10px;
+}
+
+.par_arrayheader_style {
+    border: 2px solid black collapse; ; 
     background-color:#eee;
+    padding: 5px;
+}
+
+
+.par_arraytable {
+	position:relative;
+	width: 100%; 
+	height: 100%; 
+	text-align: left;
+}
+
+
+.par_key {
+	width: 20%;
+}
+
+.par_value {
+	width: 20%;
+}
+
+.par_comment {
+	width: 60%;
 }
 
 
@@ -95,7 +124,7 @@
     <table class="par_values" style="position:relative; width:100%; height:100%; text-align: left">
       <thead>
        <tr >
-          <th>Name</th> <th>Value</th><th>Comments</th>
+          <th class='par_key'>Name</th> <th class='par_value'> Value</th><th class='par_comment'>Comments</th>
        </tr>
       </thead>
       <tbody class="par_value_body">
