@@ -16,10 +16,59 @@
 
    GO4.version = "4.7.1";
    
+
+   GO4.AnalysisStatusEditor = function(stat) {
+      JSROOT.TBasePainter.call(this, stat);
+      this.stat = stat;
+   }
+   
+   GO4.AnalysisStatusEditor.prototype = Object.create(JSROOT.TBasePainter.prototype);
+
+   GO4.AnalysisStatusEditor.prototype.refreshEditor = function()
+   {
+      var id = "#"+this.divid;
+
+      var names = "";
+      for (var s in this.stat.fxStepArray.arr)
+         names += " " + this.stat.fxStepArray.arr[s].fName;
+
+      $(id+" .par_name").text(this.stat.fName + "  num steps = " + this.stat.fxStepArray.arr.length);
+      $(id+" .par_type").text(this.stat._typename + " names = " + names);
+   }
+   
+   GO4.AnalysisStatusEditor.prototype.fillEditor = function()
+   {
+      this.refreshEditor();
+   }
+   
+   GO4.AnalysisStatusEditor.prototype.drawEditor = function(divid) {
+      var pthis = this;
+       
+      $("#"+divid).empty();
+      $("#"+divid).load("/go4sys/html/analysiseditor.htm", "", 
+            function() { pthis.SetDivId(divid); pthis.fillEditor();  });
+   }
+   
+   GO4.AnalysisStatusEditor.RedrawPad = function(resize) {
+      this.refreshEditor();
+   }
+
+   GO4.AnalysisStatusEditor.prototype.UpdateObject = function(obj) {
+      if (obj._typename != this.cond._typename) return false;
+      this.stat = JSROOT.clone(obj); 
+      return true;
+   }
    
    
+   GO4.drawGo4AnalysisStatus = function(divid, stat, option) {
+      console.log("Draw analysis status");
+      
+      var painter = new GO4.AnalysisStatusEditor(stat);
+      painter.drawEditor(divid);
+      return painter;
+   }
    
-   
+   // =========================================================================================
    
    GO4.ConditionEditor = function(cond) {
       JSROOT.TBasePainter.call(this, cond);
@@ -27,10 +76,6 @@
       this.changes = ["dummy", "init"];
       this.ClearChanges();
    }
-   
-   
-  
-   
    
    GO4.ConditionEditor.prototype = Object.create(JSROOT.TBasePainter.prototype);
 
@@ -828,6 +873,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    
    JSROOT.addDrawFunc("TGo4WinCond", GO4.drawGo4Cond);
    JSROOT.addDrawFunc("TGo4PolyCond", GO4.drawGo4Cond);
+   JSROOT.addDrawFunc("TGo4AnalysisStatus", GO4.drawGo4AnalysisStatus);
    
 
    // ===========================================================================================

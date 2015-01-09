@@ -20,12 +20,15 @@
 #include "TGo4LockGuard.h"
 #include "TGo4Parameter.h"
 #include "TGo4Condition.h"
+#include "TGo4AnalysisStatus.h"
 #include "TClass.h"
+#include <string.h>
 
 #include "dabc/Hierarchy.h"
 
 TGo4Sniffer::TGo4Sniffer(const char* name) :
-   TRootSniffer(name,"dabc")
+   TRootSniffer(name,"dabc"),
+   fAnalysisStatus(0)
 {
    SetReadOnly(kFALSE);
 }
@@ -95,3 +98,18 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject* &obj, 
 
    TRootSniffer::ScanObjectProperties(rec, obj, obj_class);
 }
+
+void* TGo4Sniffer::FindInHierarchy(const char *path, TClass **cl, TDataMember **member, Int_t *chld)
+{
+   if ((path!=0) && (strcmp(path,"Status/Analysis")==0)) {
+      if (fAnalysisStatus==0)
+         fAnalysisStatus = TGo4Analysis::Instance()->CreateStatus();
+      // TGo4Analysis::Instance()->UpdateStatus(fAnalysisStatus);
+      if (cl) *cl = fAnalysisStatus->IsA();
+
+      return fAnalysisStatus;
+   }
+
+   return TRootSniffer::FindInHierarchy(path, cl, member, chld);
+}
+

@@ -17,8 +17,13 @@
 
 #include "TRootSniffer.h"
 
+class TGo4AnalysisStatus;
+
 class TGo4Sniffer : public TRootSniffer {
    protected:
+
+      TGo4AnalysisStatus*  fAnalysisStatus;
+
       virtual void ScanObjectProperties(TRootSnifferScanRec &rec, TObject* &obj, TClass* &obj_class);
 
    public:
@@ -27,6 +32,9 @@ class TGo4Sniffer : public TRootSniffer {
       virtual ~TGo4Sniffer() {}
 
       virtual void ScanRoot(TRootSnifferScanRec& rec);
+
+      virtual void *FindInHierarchy(const char *path, TClass **cl = 0, TDataMember **member = 0, Int_t *chld = 0);
+
 };
 
 
