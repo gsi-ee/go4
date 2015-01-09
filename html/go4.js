@@ -108,6 +108,8 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 			 var xmin=$(id+" .cond_xmin")[0].value;
         	 var xmax=$(id+" .cond_xmax")[0].value;
         	 optionstring +="&xmin="+xmin+"&xmax="+xmax;
+        	 this.cond.fLow1 = xmin;
+        	 this.cond.fUp1 = xmax;
         	  if (this.cond.fiDim==2) {
         		  var ymin=$(id+" .cond_ymin")[0].value;
         		  var ymax=$(id+" .cond_ymax")[0].value; 
@@ -437,7 +439,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
   ////////////////////////////////////////////////////////// 
    GO4.ConditionEditor.prototype.fillEditor = function() {
       var id = "#"+this.divid;
-      var editor=this;
+      var editor = this;
       console.log("GO4.ConditionEditor.prototype.fillEditor " + this.cond.fName);
       // $(id).css("display","table");
       
@@ -491,6 +493,16 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
     $(id+" .buttonDrawCondition")
     .button({text: false, icons: { primary: "ui-icon-image MyButtonStyle"}}).click(function() {
     	// TODO: implement correctly after MDI is improved, need to find out active frame and location of bound histogram
+       
+       if (dabc) {
+          editor.EvaluateChanges("");
+
+          if (DABC.hpainter.updateOnOtherFrames(editor, editor.cond)) return;
+          
+          DABC.hpainter.drawOnSuitableHistogram(editor, editor.cond, editor.cond.fiDim==2);
+          
+          return;
+       }
     	
     	//if (DABC.hpainter){ 
     		//var onlineprop = DABC.hpainter.GetOnlineProp(editor.GetItemName()); 
@@ -743,8 +755,8 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    GO4.ConditionPainter.prototype.UpdateObject = function(obj) {
       if (obj._typename != this.cond._typename) return false;
       
+      this.cond = JSROOT.clone(obj);
       
-      this.cond= JSROOT.clone(obj); 
       return true;
    }
    
@@ -754,7 +766,6 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    }
    
    GO4.drawGo4Cond = function(divid, cond, option) {
-
       
       if (option=='same') {
          var condpainter = new GO4.ConditionPainter(cond, false);
