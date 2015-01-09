@@ -1174,7 +1174,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
                if (name == 'EventRate') $('#'+divid + " .event_rate").text(value);
                if (name == 'AverRate') $('#'+divid + " .aver_rate").text(value); 
                if (name == 'RunTime') $('#'+divid + " .run_time").text(value); 
-               if (name == 'RunTime') $('#'+divid + " .total_events").text(value);
+               if (name == 'EventCount') $('#'+divid + " .total_events").text(value);
             }
             
          });
