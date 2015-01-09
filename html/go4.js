@@ -1083,22 +1083,51 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 	        	// here put array table with clickable header:
  				// (thanks to Jonathan at http://mediaformations.com/accordion-tables-with-jquery/ for this idea!)
 	        	 var arraytableclass=key.toString()+"_array";
+	        	 var isTooBig=false;
 	        	 $(id + " .par_values > tbody").append("<tr><td style='width:100%; padding:0px' colspan='4' > <table class='"+arraytableclass+" par_arraytable'><thead><tr><td class='par_key'> <bf>[+]</bf> "+ key.toString()+"</td><td class='par_class'></td><td class='par_value' >Click to expand</td><td class='par_comment'></td></tr></thead><tbody></tbody></table></td></tr>");
 	            for(i = 0; i < value.length; i++) {
 	            		if(value[i] instanceof Array)
 	            			{
 	            				subvalue=value[i];
-	            				 for(j = 0; j < subvalue.length; j++) {
-	            					 if(subvalue[j] instanceof Array)
-	     	            				{
-	            						 	subsubvalue=subvalue[j];
-	            						 	 for(k = 0; k < subsubvalue.length; k++) {
-	            						 		 // decode 3dim array
-	            						 	  	classname=key.toString()+"_"+ i+"_"+j+"_"+k;
-		            			            	//$(id + " .par_values tbody").append("<tr><td>" + key.toString() + "[" + i + "]["+j+"]["+k+"]</td><td><input type='text' value='" + subsubvalue[k] + "' class='"+ classname +"'/></td><td></td></tr>");
-	            				            	$(id + " ."+arraytableclass+" tbody").append("<tr><td class='par_key'>" + key.toString() + "[" + i + "]["+j+"]["+k+"]</td><td class='par_class'></td><td class='par_value'><input type='text' size='10'  value='" + subsubvalue[k] + "' class='"+ classname +"'/></td><td class='par_comment'></td></tr>");
-	            	            				
-	            						 	 } // for k
+	            				for (j = 0; j < subvalue.length; j++) {
+	            					if (subvalue[j] instanceof Array) {
+	            						subsubvalue = subvalue[j];
+	            						// here supress display of 3d arrays if too
+	            						// large:
+	            						if (subsubvalue.length * subvalue.length * value.length > 1000) {
+										isTooBig=true;
+										break;
+	            						}
+	            						else {
+	            							for (k = 0; k < subsubvalue.length; k++) {
+										// decode 3dim array
+										classname = key.toString() + "_" + i
+												+ "_" + j + "_" + k;
+										// $(id + " .par_values
+										// tbody").append("<tr><td>" +
+										// key.toString() + "[" + i +
+										// "]["+j+"]["+k+"]</td><td><input
+										// type='text' value='" + subsubvalue[k]
+										// + "' class='"+ classname
+										// +"'/></td><td></td></tr>");
+										$(id + " ." + arraytableclass + " tbody").append(
+														"<tr><td class='par_key'>"
+																+ key
+																		.toString()
+																+ "["
+																+ i
+																+ "]["
+																+ j
+																+ "]["
+																+ k
+																+ "]</td><td class='par_class'></td><td class='par_value'><input type='text' size='10'  value='"
+																+ subsubvalue[k]
+																+ "' class='"
+																+ classname
+																+ "'/></td><td class='par_comment'></td></tr>");
+
+	            								} // for k
+	            							}
 	     	            				}
 	            					 else
 	            						{
@@ -1122,6 +1151,20 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 	            			}
 	            } // for i
 //	            
+	            if(isTooBig)
+	            	{
+						$(id + " ." + arraytableclass + " tbody")
+								.append(
+										"<tr><td class='par_key'>" + key.toString()+ "</td><td colspan='3'> Sorry, Array dimension ["
+												+ value.length
+												+ "]["
+												+ subvalue.length
+												+ "]["
+												+ subsubvalue.length
+												+ "] too big to display!</td></tr>");
+	            	}
+	            
+	            
 	            $(id + " table."+arraytableclass+" thead tr").click(
 	            		function() {
 	            			$(this) .parents('table.par_arraytable') .children('tbody') .toggle();
