@@ -5,24 +5,24 @@
 
 <style type="text/css">
 
-
 .par_membertable_style {
-    border: 2px solid black collapse; 
+    border: 1px inset; 
     background-color:#fff;
-     padding: 10px;
+     padding: 5px;
 }
 
 .par_memberheader_style {
-    border: 1px dotted black collapse; 
+    border: 2px inset black;
     background-color:#eee;  
-    padding: 10px;
+    padding: 5px;
 }
 
 .par_arrayheader_style {
-    border: 2px solid black collapse; ; 
+    border: 1px inset black; 
     background-color:#eee;
     padding: 5px;
 }
+
 
 
 .par_arraytable {
@@ -34,15 +34,17 @@
 
 
 .par_key {
-	width: 20%;
+	width: 15%;
 }
-
+.par_class {
+	width: 15%;
+}
 .par_value {
 	width: 20%;
 }
 
 .par_comment {
-	width: 60%;
+	width: 50%;
 }
 
 
@@ -74,7 +76,7 @@
 			bottom: 52px;
 			left: 5px;
  			right: 1px; 
-			overflow-x:hidden; 
+			overflow-x: auto; 
 			overflow-y: auto;
 		}
 
@@ -121,10 +123,10 @@
 		</div>
 
 		<div id="par_table_container">
-    <table class="par_values" style=" width:100%; height:100%; text-align: left">
+    <table class="par_values" style=" width:100%; text-align: left">
       <thead>
        <tr >
-          <th class='par_key'>Name</th> <th class='par_value'> Value</th><th class='par_comment'>Comments</th>
+          <th class='par_key'>Name</th>  <th class='par_class'>Type</th><th class='par_value'> Value</th><th class='par_comment'>Comments</th>
        </tr>
       </thead>
       <tbody class="par_value_body">
