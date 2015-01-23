@@ -11,63 +11,46 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef TGO4HSERVPROXY_H
-#define TGO4HSERVPROXY_H
+#ifndef TGO4HTTPPROXY_H
+#define TGO4HTTPPROXY_H
 
 #include "TGo4Proxy.h"
-
 #include "TString.h"
 
 class TH1;
 
-class TGo4HServProxy : public TGo4ServerProxy {
+class TGo4HttpProxy : public TGo4ServerProxy {
+   protected:
+      TString    fNodeName;
+      void*      fxHierarchy;    //!  pointer on dabc::Hierarchy class
+      TGo4Slot*  fxParentSlot;
+
    public:
-      TGo4HServProxy();
-      virtual ~TGo4HServProxy();
+      TGo4HttpProxy();
+      virtual ~TGo4HttpProxy();
 
-      void SetHServConfig(const char* servername,
-                          Int_t portnumber,
-                          const char* basename,
-                          const char* userpass,
-                          const char* filter);
-
-      Int_t GetPortNumber() const { return fPortNumber; }
-      const char* GetBaseName() const { return fBaseName.Data(); }
-      const char* GetUserPass() const { return fUserPass.Data(); }
-      const char* GetFilter() const { return fFilter.Data(); }
+      Bool_t Connect(const char* nodename);
+      Bool_t UpdateHierarchy(Bool_t sync = kTRUE);
 
       virtual void Initialize(TGo4Slot* slot);
       virtual void Finalize(TGo4Slot* slot);
 
       virtual Bool_t HasSublevels() const;
-
+      virtual TGo4Access* MakeProxy(const char* name);
       virtual TGo4LevelIter* MakeIter();
 
-      virtual TGo4Access* MakeProxy(const char* name);
+      virtual Int_t GetObjectKind() {  return TGo4Access::kndFolder; }
+      virtual const char* GetContainedClassName() { return "TGo4HttpProxy"; }
+      virtual const char* GetContainedObjectInfo() { return 0; }
+      virtual Int_t GetObjectSizeInfo() { return -1; }
 
       virtual void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs);
       virtual void ReadData(TGo4Slot* slot, TDirectory* dir);
 
-      virtual Int_t GetObjectKind();
-      virtual const char* GetContainedClassName();
-
       virtual void Update(TGo4Slot* slot, Bool_t strong);
 
-      virtual const char* GetServerName() const { return fServerName.Data(); }
+      virtual const char* GetServerName() const { return fNodeName.Data(); }
       virtual Bool_t RefreshNamesList();
-      TH1* GetHistogram(const char* remotehistoname);
-
-   protected:
-
-      TString    fServerName;     //!
-      Int_t      fPortNumber;     //!
-      TString    fBaseName;       //!
-      TString    fUserPass;       //!
-      TString    fFilter;         //!
-
-      TGo4Slot*   fxStructure;   //!
-
-   ClassDef(TGo4HServProxy, 1);
 };
 
 #endif

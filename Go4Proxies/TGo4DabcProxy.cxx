@@ -578,7 +578,7 @@ class TGo4DabcLevelIter : public TGo4LevelIter {
 
 
 TGo4DabcProxy::TGo4DabcProxy() :
-   TGo4Proxy(),
+   TGo4ServerProxy(),
    fNodeName(),
    fxHierarchy(0),
    fxParentSlot(0)
@@ -689,7 +689,7 @@ void TGo4DabcProxy::Finalize(TGo4Slot* slot)
 
 Bool_t TGo4DabcProxy::HasSublevels() const
 {
-   if (fxHierarchy == 0) return false;
+   if (fxHierarchy == 0) return kFALSE;
 
    dabc::Hierarchy& hierarchy = *((dabc::Hierarchy*) fxHierarchy);
 
@@ -745,9 +745,9 @@ void TGo4DabcProxy::Update(TGo4Slot* slot, Bool_t strong)
    }
 }
 
-void TGo4DabcProxy::RefreshNamesList()
+Bool_t TGo4DabcProxy::RefreshNamesList()
 {
-   UpdateHierarchy(kFALSE);
+   return UpdateHierarchy(kFALSE);
 }
 
 

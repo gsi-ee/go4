@@ -112,10 +112,24 @@ class TGo4Proxy : public TObject {
 
       virtual Bool_t ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param) { return kTRUE; }
 
-   protected:
-
-
    ClassDef(TGo4Proxy, 1);
 };
+
+// *************************************************************
+
+/** special base class for remote data servers like DABC, HTTP, hist server */
+
+class TGo4ServerProxy : public TGo4Proxy {
+   public:
+      TGo4ServerProxy() : TGo4Proxy() {}
+      virtual ~TGo4ServerProxy() {}
+
+      virtual const char* GetServerName() const { return ""; }
+
+      virtual Bool_t RefreshNamesList() { return kFALSE; }
+
+   ClassDef(TGo4ServerProxy, 1);
+};
+
 
 #endif

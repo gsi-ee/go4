@@ -1,3 +1,4 @@
+QT += network
 
 greaterThan(QT_MAJOR_VERSION, 4) {
 QT += widgets
@@ -256,5 +257,6 @@ HEADERS += ../Go4QtRoot/QRootApplication.h \
 SOURCES += TGo4DrawCloneProxy.cxx \
            TGo4DrawObjProxy.cxx \
            TGo4Script.cxx \
+           TGo4HttpProxy.cxx \
            TGo4WidgetProxy.cxx
 	

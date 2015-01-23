@@ -90,7 +90,7 @@ int main(int argc, char **argv)
       // One should create several buffers and call WriteObjects before
       // any kind of connection will be done
       TGo4BufferQueue dummy("dummyQueue");
-   }   
+   }
 
 #endif
 
@@ -107,8 +107,7 @@ int main(int argc, char **argv)
    bool prepare_for_client = false;
 
    bool traceon = false;
-   QString hotstart = "";
-   QString dabcnode = "";
+   QString hotstart(""), dabcnode(""), httpnode("");
    QStringList files;
 
    for(int narg=1;narg<argc;narg++) {
@@ -146,11 +145,16 @@ int main(int argc, char **argv)
       if (QString(argv[narg]).contains("dabc://")) {
          dabcnode = argv[narg];
       } else
+      if (QString(argv[narg]).contains("http://")) {
+         httpnode = argv[narg];
+      } else
       if (hotstart.length()==0) {
          hotstart = argv[narg];
          if(!QString(argv[narg]).contains(".hotstart")) hotstart.append(".hotstart");
       }
    }
+
+   argc = 1; // hide all additional parameters from ROOT and Qt
 
    TApplication app("uno", &argc, argv); // ROOT application
 
@@ -229,6 +233,9 @@ int main(int argc, char **argv)
 
    if (dabcnode.length()>0)
       Go4MainGUI->Browser()->ConnectDabc(dabcnode.toLatin1().constData());
+
+   if (httpnode.length()>0)
+      TGo4AbstractInterface::Instance()->ConnectHttp(httpnode.toLatin1().constData());
 
    if (hotstart.length()>0)
       Go4MainGUI->HotStart(hotstart.toLatin1().constData());

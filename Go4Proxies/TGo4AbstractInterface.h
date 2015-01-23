@@ -246,6 +246,9 @@ class TGo4AbstractInterface : public TObject {
       /** Connect to DABC server. Address like dabc://host:port */
       virtual void ConnectDabc(const char* servername);
 
+      /** Connect to HTTP server. Address like http://host:port/subfolder/ */
+      virtual void ConnectHttp(const char* servername) {}
+
       /** Wait specified number of seconds.
         * Suppress macro execution, but keeps GUI functional, therefore
         * it is different from gSystem->Sleep() call. */

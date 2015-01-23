@@ -19,7 +19,7 @@
 
 class TH1;
 
-class TGo4DabcProxy : public TGo4Proxy {
+class TGo4DabcProxy : public TGo4ServerProxy {
    protected:
       TString    fNodeName;
       void*      fxHierarchy;    //!  pointer on dabc::Hierarchy class
@@ -33,7 +33,7 @@ class TGo4DabcProxy : public TGo4Proxy {
       Bool_t UpdateHierarchy(Bool_t sync = kTRUE);
       Bool_t ReplyCommand(void* cmd);
 
-      const char* GetServerName() const { return fNodeName.Data(); }
+      virtual const char* GetServerName() const { return fNodeName.Data(); }
 
       virtual void Initialize(TGo4Slot* slot);
       virtual void Finalize(TGo4Slot* slot);
@@ -52,7 +52,7 @@ class TGo4DabcProxy : public TGo4Proxy {
 
       virtual void Update(TGo4Slot* slot, Bool_t strong);
 
-      void RefreshNamesList();
+      virtual Bool_t RefreshNamesList();
 
       static const char* GetDabcVersion();
 

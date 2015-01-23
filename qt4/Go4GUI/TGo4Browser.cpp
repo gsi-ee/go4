@@ -39,6 +39,7 @@
 #include "TGo4AnalysisProxy.h"
 #include "TGo4HServProxy.h"
 #include "TGo4DabcProxy.h"
+#include "TGo4HttpProxy.h"
 #include "TGo4QSettings.h"
 #include "TGo4ViewPanel.h"
 
@@ -595,7 +596,6 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
    int si_kind = -1;
    int nremote = 0;
    int nanalysis = 0;
-   int ndabc = 0;
    int nmonitor = 0;
    int nclear = 0;
    int nclearlocal = 0;
@@ -681,8 +681,9 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
          if (isanalysisitem)
            nanalysis++;
 
-         if ((itemclassname!=0) && (strcmp(itemclassname,"TGo4DabcProxy")==0))
-            { ndabc++; nremote++; }
+         if ((itemclassname!=0) && (strcmp(itemclassname,"TGo4DabcProxy")==0)) nremote++;
+
+         if ((itemclassname!=0) && (strcmp(itemclassname,"TGo4HttpProxy")==0)) nremote++;
 
          if (br->IsItemRemote(itemslot)) {
             nremote++;
@@ -844,8 +845,7 @@ void TGo4Browser::ContextMenuActivated(int id)
    TGo4BrowserProxy* br = BrowserProxy();
 
    TGo4AnalysisProxy* anrefresh = 0;
-   TGo4HServProxy* hservrefresh = 0;
-   TGo4DabcProxy* dabcprrefresh = 0;
+   TGo4ServerProxy* servrefresh = 0;
 
    if (id==20) br->ClearClipboard();
 
@@ -950,10 +950,8 @@ void TGo4Browser::ContextMenuActivated(int id)
                TString objname;
                TGo4AnalysisProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
                if (an!=0) anrefresh = an;
-               TGo4HServProxy* hserv = br->DefineHServerProxy(itemname.toLatin1().constData());
-               if (hserv!=0) hservrefresh = hserv;
-               TGo4DabcProxy* dabcpr = br->DefineDabcProxy(itemname.toLatin1().constData());
-               if (dabcpr!=0) dabcprrefresh = dabcpr;
+               TGo4ServerProxy* serv = br->DefineServerProxy(itemname.toLatin1().constData());
+               if (serv!=0) servrefresh = serv;
                break;
             }
 
@@ -999,11 +997,8 @@ void TGo4Browser::ContextMenuActivated(int id)
    if (anrefresh!=0)
       anrefresh->RefreshNamesList();
 
-   if (hservrefresh!=0)
-      hservrefresh->RequestHistosList();
-
-   if (dabcprrefresh!=0)
-      dabcprrefresh->RefreshNamesList();
+   if (servrefresh!=0)
+      servrefresh->RefreshNamesList();
 
    if (id==19)
      QApplication::restoreOverrideCursor();

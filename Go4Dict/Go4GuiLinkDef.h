@@ -39,6 +39,7 @@
 #pragma link C++ enum EGo4AnalysisCodeKind;
 #pragma link C++ enum EGo4ViewPanelMode;
 
+#pragma link C++ class TGo4ServerProxy+;
 #pragma link C++ class TGo4AnalysisProxy+;
 #pragma link C++ class TGo4BrowserProxy+;
 #pragma link C++ class TGo4HServProxy+;

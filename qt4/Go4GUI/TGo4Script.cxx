@@ -30,6 +30,7 @@
 #include "TGo4DirProxy.h"
 #include "TGo4HServProxy.h"
 #include "TGo4DabcProxy.h"
+#include "TGo4HttpProxy.h"
 #include "TGo4Iter.h"
 #include "TGo4Log.h"
 
@@ -43,6 +44,9 @@
 #include "TGo4Slot.h"
 
 #include <QMdiSubWindow>
+
+#include <QNetworkAccessManager>
+
 
 TGo4Script* TGo4Script::ScriptInstance()
 {
@@ -759,6 +763,22 @@ const char* TGo4Script::GetDrawnItemName(ViewPanelHandle handle, int cnt)
    return panel ? panel->GetDrawItemName(cnt) : 0;
 }
 
+void TGo4Script::ConnectHttp(const char* servername)
+{
+   if ((servername==0) || (*servername==0)) return;
+
+   TGo4HttpProxy* proxy = new TGo4HttpProxy();
+   if (!proxy->Connect(servername)) {
+      delete proxy;
+      return;
+   }
+
+   const char* slotname = servername;
+   if (strncmp(slotname,"http://",7)==0) slotname+=7;
+
+   Browser()->AddServerProxy(proxy, slotname, "ROOT http server");
+}
+
 
 // ***************************** Generation *********************
 
@@ -808,6 +828,13 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
    for(Int_t n=0;n<=prlist.GetLast();n++) {
       TGo4DabcProxy* pr = (TGo4DabcProxy*) prlist.At(n);
       fs << "go4->ConnectDabc(\"" << pr->GetServerName() << "\");" << std::endl;
+   }
+
+   prlist.Clear();
+   br->MakeHttpList(&prlist);
+   for(Int_t n=0;n<=prlist.GetLast();n++) {
+      TGo4HttpProxy* pr = (TGo4HttpProxy*) prlist.At(n);
+      fs << "go4->ConnectHttp(\"" << pr->GetServerName() << "\");" << std::endl;
    }
 
    fs << std::endl;

@@ -937,7 +937,7 @@ void TGo4Browser::ContextMenuActivated(int id)
       anrefresh->RefreshNamesList();
 
    if (hservrefresh!=0)
-      hservrefresh->RequestHistosList();
+      hservrefresh->RefreshNamesList();
 
    if (id==19)
      QApplication::restoreOverrideCursor();

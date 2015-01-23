@@ -179,6 +179,8 @@ class TGo4Script : public TGo4AbstractInterface {
 
       const char* GetDrawnItemName(ViewPanelHandle panel, int cnt = 0);
 
+      virtual void ConnectHttp(const char* servername);
+
    protected:
 
       static TGo4Script* ScriptInstance();

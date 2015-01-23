@@ -174,18 +174,15 @@ void TGo4AbstractInterface::ConnectHServer(const char* servername,
    ProcessEvents(200);
 }
 
-
 void TGo4AbstractInterface::ConnectDabc(const char* servername)
 {
    Browser()->ConnectDabc(servername);
 }
 
-
 Bool_t TGo4AbstractInterface::IsAnalysisConnected()
 {
    return Analysis()==0 ? kFALSE : Analysis()->IsConnected();
 }
-
 
 void TGo4AbstractInterface::ExecuteLine(const char* remotecmd)
 {

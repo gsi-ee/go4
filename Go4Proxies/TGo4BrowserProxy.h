@@ -23,8 +23,7 @@ class TTimer;
 
 class TGo4ObjectManager;
 class TGo4AnalysisProxy;
-class TGo4HServProxy;
-class TGo4DabcProxy;
+class TGo4ServerProxy;
 class TGo4Picture;
 class TAxis;
 class TVirtualTreePlayer;
@@ -65,6 +64,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       Int_t RequestBrowserObject(const char* name, Int_t wait_time = 0);
       Int_t RequestBrowserObject(TGo4Slot* slot, Int_t wait_time = 0);
 
+      void AddServerProxy(TGo4ServerProxy* serv, const char* slotname, const char* info);
       void OpenFile(const char* fname);
       Bool_t ConnectHServer(const char* servername,
                             Int_t portnumber,
@@ -75,6 +75,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       void MakeFilesList(TObjArray* arr);
       void MakeDabcList(TObjArray* arr);
+      void MakeHttpList(TObjArray* arr);
       void MakeHServerList(TObjArray* arr);
 
       Bool_t ProduceExplicitCopy(const char* itemname, const char* tgtpath = 0, Bool_t forcerequest = kFALSE);
@@ -84,7 +85,6 @@ class TGo4BrowserProxy : public TGo4Proxy {
       void AddToClipboard(const char* itemname);
       Bool_t IsClipboard();
       void CopyClipboard(const char* tgtpath, Bool_t forcerequest = kFALSE);
-
 
       void CreateMemorySubfolder(const char* itemname, const char* newfoldername);
       void RenameMemoryItem(const char* itemname, const char* newname);
@@ -192,8 +192,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       Int_t UpdateAllMonitoredObjects();
 
       TGo4AnalysisProxy* DefineAnalysisObject(const char* itemname, TString& analysisname);
-      TGo4HServProxy* DefineHServerProxy(const char* itemname);
-      TGo4DabcProxy* DefineDabcProxy(const char* itemname);
+      TGo4ServerProxy* DefineServerProxy(const char* itemname);
 
       static bool CanExportItem(int cando);
       static bool CanInfoItem(int cando);

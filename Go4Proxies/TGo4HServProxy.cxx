@@ -108,7 +108,7 @@ class TGo4HServObjectAccess : public TGo4Access {
 // ********************************************************************
 
 TGo4HServProxy::TGo4HServProxy() :
-   TGo4Proxy(),
+   TGo4ServerProxy(),
    fServerName(),
    fPortNumber(0),
    fBaseName(),
@@ -186,7 +186,7 @@ void TGo4HServProxy::Update(TGo4Slot* slot, Bool_t strong)
 {
 }
 
-Bool_t TGo4HServProxy::RequestHistosList()
+Bool_t TGo4HServProxy::RefreshNamesList()
 {
    delete fxStructure;
    fxStructure = 0;

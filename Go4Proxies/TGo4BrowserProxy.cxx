@@ -502,6 +502,12 @@ void TGo4BrowserProxy::OpenFile(const char* fname)
    fxOM->AddFile(fxDataPath.Data(), fname);
 }
 
+void TGo4BrowserProxy::AddServerProxy(TGo4ServerProxy* serv, const char* slotname, const char* info)
+{
+   fxOM->AddProxy(fxDataPath.Data(), serv, slotname, info);
+}
+
+
 Bool_t TGo4BrowserProxy::ConnectDabc(const char* nodename)
 {
    if ((nodename==0) || (*nodename==0)) return kFALSE;
@@ -515,7 +521,7 @@ Bool_t TGo4BrowserProxy::ConnectDabc(const char* nodename)
    const char* slotname = nodename;
    if (strncmp(slotname,"dabc://",7)==0) slotname+=7;
 
-   fxOM->AddProxy(fxDataPath.Data(), proxy, slotname, "TGo4DabcProxy");
+   AddServerProxy(proxy, slotname, "Connection to DABC server");
 
    return kTRUE;
 }
@@ -537,11 +543,11 @@ Bool_t TGo4BrowserProxy::ConnectHServer(const char* servername,
                          userpass,
                          filter);
 
-   if (hserv->RequestHistosList()) {
+   if (hserv->RefreshNamesList()) {
       TString capt = "HServ_";
       capt += basename;
 
-      fxOM->AddProxy(fxDataPath.Data(), hserv, capt.Data(), "Connection to histogram server");
+      AddServerProxy(hserv, capt.Data(), "Connection to histogram server");
       res = kTRUE;
    } else {
       delete hserv;
@@ -592,6 +598,19 @@ void TGo4BrowserProxy::MakeDabcList(TObjArray* arr)
    }
 }
 
+void TGo4BrowserProxy::MakeHttpList(TObjArray* arr)
+{
+   if (arr==0) return;
+   arr->Clear();
+   TGo4Slot* slot = fxOM->GetSlot(fxDataPath.Data());
+   if (slot==0) return;
+
+   for(Int_t n=0;n<slot->NumChilds();n++) {
+      TGo4Slot* subslot = slot->GetChild(n);
+      TGo4ServerProxy* pr = dynamic_cast<TGo4ServerProxy*> (subslot->GetProxy());
+      if ((pr!=0) && !strcmp(pr->GetContainedClassName(),"TGo4HttpProxy")) arr->Add(pr);
+   }
+}
 
 void TGo4BrowserProxy::RequestObjectStatus(const char* name, TGo4Slot* tgtslot)
 {
@@ -818,34 +837,19 @@ TGo4AnalysisProxy* TGo4BrowserProxy::DefineAnalysisObject(const char* itemname, 
    return an;
 }
 
-TGo4HServProxy* TGo4BrowserProxy::DefineHServerProxy(const char* itemname)
+TGo4ServerProxy* TGo4BrowserProxy::DefineServerProxy(const char* itemname)
 {
    TGo4Slot* slot = DataSlot(itemname);
    if (slot==0) return 0;
 
    while (slot!=0) {
-      TGo4HServProxy* pr = dynamic_cast<TGo4HServProxy*> (slot->GetProxy());
+      TGo4ServerProxy* pr = dynamic_cast<TGo4ServerProxy*> (slot->GetProxy());
       if (pr!=0) return pr;
       slot = slot->GetParent();
    }
 
    return 0;
 }
-
-TGo4DabcProxy* TGo4BrowserProxy::DefineDabcProxy(const char* itemname)
-{
-   TGo4Slot* slot = DataSlot(itemname);
-   if (slot==0) return 0;
-
-   while (slot!=0) {
-      TGo4DabcProxy* pr = dynamic_cast<TGo4DabcProxy*> (slot->GetProxy());
-      if (pr!=0) return pr;
-      slot = slot->GetParent();
-   }
-
-   return 0;
-}
-
 
 Bool_t TGo4BrowserProxy::UpdateAnalysisItem(const char* itemname, TObject* obj)
 {
@@ -1966,7 +1970,6 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
         if (cl->InheritsFrom(TGo4TreeHistogramEntry::Class())) { cando = 1011; pixmap = "dynentryx.png"; } else
         if (cl->InheritsFrom(TGo4HistogramEntry::Class())) { cando = 1011; pixmap = "dynentryx.png"; } else
         if (cl->InheritsFrom(TLatex::Class())) { cando = 110; pixmap = "canvas.png"; }
-
       }
    } else
    if (kind==TGo4Access::kndFolder) {
@@ -1977,6 +1980,7 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
       if ((cl!=0) && cl->InheritsFrom(TFile::Class())) { cando = 10000; pixmap = "rootdb_t.png"; } else
       if ((cl!=0) && cl->InheritsFrom(TGo4HServProxy::Class())) { cando = 10000; pixmap = "histserv.png"; } else
       if ((cl!=0) && cl->InheritsFrom(TGo4DabcProxy::Class())) { cando = 10000; pixmap = "dabc.png"; } else
+      if ((cl!=0) && cl->InheritsFrom(TGo4ServerProxy::Class())) { cando = 10000; pixmap = "dabc.png"; } else
       if ((cl!=0) && cl->InheritsFrom(TGo4AnalysisProxy::Class())) { pixmap = "analysiswin.png"; }
    } else
    if (kind==TGo4Access::kndTreeBranch)

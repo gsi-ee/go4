@@ -16,9 +16,10 @@
 #include "TGo4BrowserProxy.h"
 #include "TGo4AnalysisProxy.h"
 #include "TGo4DabcProxy.h"
+#include "TGo4HttpProxy.h"
 
-TGo4BrowserOptions::TGo4BrowserOptions(QWidget *parent, const char* name)
-: QGo4Widget(parent,name)
+TGo4BrowserOptions::TGo4BrowserOptions(QWidget *parent, const char* name) :
+   QGo4Widget(parent,name)
 {
    setupUi(this);
 }
@@ -53,7 +54,14 @@ void TGo4BrowserOptions::RefreshBtn_clicked()
    TObjArray prlist;
    Browser()->MakeDabcList(&prlist);
    for(Int_t n=0;n<=prlist.GetLast();n++) {
-      TGo4DabcProxy* pr = (TGo4DabcProxy*) prlist.At(n);
+      TGo4DabcProxy* pr = dynamic_cast<TGo4DabcProxy*> (prlist.At(n));
+      if (pr) pr->RefreshNamesList();
+   }
+
+   prlist.Clear();
+   Browser()->MakeHttpList(&prlist);
+   for(Int_t n=0;n<=prlist.GetLast();n++) {
+      TGo4HttpProxy* pr = dynamic_cast<TGo4HttpProxy*> (prlist.At(n));
       if (pr) pr->RefreshNamesList();
    }
 
