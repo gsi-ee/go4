@@ -29,6 +29,9 @@ Changes in Go4 v4.7.x
    cpu load with sleep in non-running mode. 
 4. Introduce go4.js with go4-related JavaScript code
 5. Provide html-based condition and parameter editors
+6. Support access to ROOT-based http server from go4 GUI. 
+   Just when staring go4, specify:
+      [shell]  go4 http://localhost:8080
     
 
 Changes in Go4 v4.7.0

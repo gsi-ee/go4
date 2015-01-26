@@ -16,14 +16,92 @@
 
 #include "TGo4Proxy.h"
 #include "TString.h"
+#include "TXMLEngine.h"
 
-class TH1;
+#include <QNetworkAccessManager>
 
-class TGo4HttpProxy : public TGo4ServerProxy {
+class TGo4HttpProxy;
+class TGo4HttpAccess;
+class TGo4ObjectManager;
+
+/** Here Qt-specific functionality of HttpProxy */
+class QHttpProxy : public QObject {
+   Q_OBJECT
+
+   friend class TGo4HttpProxy;
+   friend class TGo4HttpAccess;
+
    protected:
-      TString    fNodeName;
-      void*      fxHierarchy;    //!  pointer on dabc::Hierarchy class
-      TGo4Slot*  fxParentSlot;
+      QNetworkAccessManager qnam;  //! central manager of network requests
+      QNetworkReply *fReply;
+      TGo4HttpProxy *fProxy;
+
+   public slots:
+      void httpFinished();
+
+   public:
+
+      QHttpProxy(TGo4HttpProxy* p) : QObject(), qnam(), fReply(0), fProxy(p) {}
+      virtual ~ QHttpProxy() {}
+
+      void StartRequest(const char* url);
+
+};
+
+class TGo4HttpAccess : public QObject, public TGo4Access {
+
+   Q_OBJECT
+
+   protected:
+      TGo4HttpProxy   *fProxy;
+      XMLNodePointer_t fNode;
+      TString          fPath;
+      TGo4ObjectManager* fReceiver;
+      TString          fRecvPath;
+      QNetworkReply   *fReply;
+
+   public slots:
+      void httpFinished();
+
+   public:
+
+      TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, const char* path);
+
+      virtual ~TGo4HttpAccess() { }
+
+      virtual Bool_t IsRemote() const { return kTRUE; }
+
+      virtual Bool_t CanGetObject() const { return kFALSE; }
+
+      virtual Bool_t GetObject(TObject* &obj, Bool_t &owner) const { return kFALSE; }
+
+      virtual TClass* GetObjectClass() const;
+
+      virtual const char* GetObjectName() const;
+
+      virtual const char* GetObjectClassName() const;
+
+      virtual Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char* path);
+};
+
+
+
+/** Here Go4/ROOT-specific functionality of HttpProxy */
+class TGo4HttpProxy : public TGo4ServerProxy  {
+
+   friend class QHttpProxy;
+   friend class TGo4HttpAccess;
+
+   protected:
+      TString         fNodeName;
+      TXMLEngine     *fXML;
+      XMLDocPointer_t fxHierarchy;    //!  pointer on dabc::Hierarchy class
+      TGo4Slot*       fxParentSlot;
+      QHttpProxy      fComm;
+
+      void GetReply(QByteArray& res);
+
+      XMLNodePointer_t FindItem(XMLNodePointer_t curr, const char* name);
 
    public:
       TGo4HttpProxy();
@@ -40,7 +118,7 @@ class TGo4HttpProxy : public TGo4ServerProxy {
       virtual TGo4LevelIter* MakeIter();
 
       virtual Int_t GetObjectKind() {  return TGo4Access::kndFolder; }
-      virtual const char* GetContainedClassName() { return "TGo4HttpProxy"; }
+      virtual const char* GetContainedClassName() { return "TGo4ServerProxy"; }
       virtual const char* GetContainedObjectInfo() { return 0; }
       virtual Int_t GetObjectSizeInfo() { return -1; }
 

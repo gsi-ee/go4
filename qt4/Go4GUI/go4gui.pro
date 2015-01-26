@@ -33,6 +33,7 @@ win32:DEFINES += GO4_EXPORT
 
 HEADERS	+= \
 	TGo4HServerConnection.h\
+   TGo4HttpProxy.h \
 	TGo4QSettings.h \
 	TGo4AnalysisWindow.h \
 	TGo4MdiArea.h \
@@ -79,6 +80,7 @@ HEADERS	+= \
 
 SOURCES	+= \
 	TGo4QSettings.cpp \
+   TGo4HttpProxy.cpp \
 	TGo4AnalysisWindow.cpp \
 	TGo4MdiArea.cpp \
 	QGo4LineEdit.cpp \
@@ -257,6 +259,5 @@ HEADERS += ../Go4QtRoot/QRootApplication.h \
 SOURCES += TGo4DrawCloneProxy.cxx \
            TGo4DrawObjProxy.cxx \
            TGo4Script.cxx \
-           TGo4HttpProxy.cxx \
            TGo4WidgetProxy.cxx
 	
