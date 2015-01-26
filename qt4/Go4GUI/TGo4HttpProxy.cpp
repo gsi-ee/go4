@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum fÃ¼r Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -113,7 +113,7 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
    if (fExpand)
       url.Append("/h.xml?compact&generic");
    else
-      url.Append("/root.bin");
+      url.Append("/root.bin.gz");
 
    printf("Request URL %s\n", url.Data());
 
@@ -162,23 +162,27 @@ void TGo4HttpAccess::httpFinished()
       if (fProxy->fxParentSlot!=0)
          fProxy->fxParentSlot->ForwardEvent(fProxy->fxParentSlot, TGo4Slot::evObjAssigned);
 
-   } else {
-      TClass* obj_cl = GetObjectClass();
-      if ((obj_cl==0) || (obj_cl->GetBaseClassOffset(TObject::Class()) != 0)) return;
+      return;
 
-      TObject* obj = (TObject*) obj_cl->New();
-      if (obj==0) {
-         printf("TGo4HttpAccess fail to create object of class %s\n", GetObjectClassName());
-         return;
-      }
-
-      TBufferFile buf(TBuffer::kRead, res.size(), res.data(), kFALSE);
-      buf.MapObject(obj, obj_cl);
-
-      obj->Streamer(buf);
-
-      DoObjectAssignement(fReceiver, fRecvPath.Data(), obj, kTRUE);
    }
+
+   TClass* obj_cl = GetObjectClass();
+   if ((obj_cl==0) || (obj_cl->GetBaseClassOffset(TObject::Class()) != 0)) return;
+
+   TObject* obj = (TObject*) obj_cl->New();
+   if (obj==0) {
+      printf("TGo4HttpAccess fail to create object of class %s\n", GetObjectClassName());
+      return;
+   }
+
+   void* res_buf =  res.data();
+   int res_size = res.size();
+
+   TBufferFile buf(TBuffer::kRead, res_size, res_buf, kFALSE);
+   buf.MapObject(obj, obj_cl);
+
+   obj->Streamer(buf);
+   DoObjectAssignement(fReceiver, fRecvPath.Data(), obj, kTRUE);
 }
 
 // =========================================================================

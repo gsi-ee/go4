@@ -61,6 +61,7 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
       XMLNodePointer_t fNode;
       TString          fPath;
       Bool_t           fExpand;
+      Bool_t           fCompress;
       TGo4ObjectManager* fReceiver;
       TString          fRecvPath;
       QNetworkReply   *fReply;

@@ -371,8 +371,6 @@ class TGo4DabcAccess : public TGo4Access {
 
                   R__unzip(&sizeinp, (unsigned char*) fRawData.SegmentPtr(), &sizeout, (unsigned char*) rawbuf, &irep);
 
-                  printf("Compressed %d Uncompressed size = %d\n", sizeinp, irep);
-
                   rawbuflen = irep;
                }
             } else {
