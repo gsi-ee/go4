@@ -66,6 +66,7 @@ int go4_usage() {
    std::cout << "   go4 -prepare                - prepare for analysis client connection" << std::endl;
   if (TGo4DabcProxy::GetDabcVersion())
    std::cout << "   go4 dabc://server[:port]    - connect with DABC server" << std::endl;
+   std::cout << "   go4 http://server[:port]    - connect with ROOT-based HTTP server" << std::endl;
    std::cout << "   go4 -debug                  - enable GUI debug output"   << std::endl;
    std::cout << "   go4 -help                   - show this help information" << std::endl;
 
@@ -75,7 +76,6 @@ int go4_usage() {
 int main(int argc, char **argv)
 {
    if ((argc==2) && (!strcmp(argv[1],"?") || !strcmp(argv[1],"-h")  || !strcmp(argv[1],"-help") || !strcmp(argv[1],"--help"))) return go4_usage();
-
 
    setlocale(LC_ALL, "C");
 

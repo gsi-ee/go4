@@ -30,6 +30,7 @@
 #include "TDirectory.h"
 #include "TFile.h"
 #include "TTree.h"
+#include "TLeaf.h"
 // #include "TPad.h"
 #include "TCanvas.h"
 #include "TTimer.h"
@@ -1969,7 +1970,8 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
         if (cl->InheritsFrom(TGo4CondArray::Class())) { cando = 101011; pixmap = "windcondarray.png"; } else
         if (cl->InheritsFrom(TGo4TreeHistogramEntry::Class())) { cando = 1011; pixmap = "dynentryx.png"; } else
         if (cl->InheritsFrom(TGo4HistogramEntry::Class())) { cando = 1011; pixmap = "dynentryx.png"; } else
-        if (cl->InheritsFrom(TLatex::Class())) { cando = 110; pixmap = "canvas.png"; }
+        if (cl->InheritsFrom(TLatex::Class())) { cando = 110; pixmap = "canvas.png"; } else
+        if (cl->InheritsFrom(TLeaf::Class())) { cando = 11; pixmap = "leaf_t.png"; }
       }
    } else
    if (kind==TGo4Access::kndFolder) {

@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fÃ¼r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -13,7 +13,6 @@
 
 #include "TGo4HttpProxy.h"
 
-#include "TThread.h"
 #include "TROOT.h"
 #include "TClass.h"
 #include "TList.h"
@@ -21,14 +20,19 @@
 #include "TBufferFile.h"
 
 #include <QtNetwork>
+#include <QTime>
+#include <QApplication>
 
 void QHttpProxy::httpFinished()
 {
    QByteArray res = fReply->readAll();
    fReply->deleteLater();
    fReply = 0;
-
    fProxy->GetReply(res);
+}
+
+void QHttpProxy::httpError(QNetworkReply::NetworkError)
+{
 }
 
 
@@ -37,6 +41,8 @@ void QHttpProxy::StartRequest(const char* url)
    fReply = qnam.get(QNetworkRequest(QUrl(url)));
    connect(fReply, SIGNAL(finished()),
          this, SLOT(httpFinished()));
+   connect(fReply, SIGNAL(error(QNetworkReply::NetworkError)),
+         this, SLOT(httpError(QNetworkReply::NetworkError)));
 }
 
 
@@ -126,7 +132,7 @@ void TGo4HttpAccess::httpFinished()
    }
 
    TBufferFile buf(TBuffer::kRead, res.size(), res.data(), kFALSE);
-   buf.MapObject(obj);
+   buf.MapObject(obj, obj_cl);
 
    obj->Streamer(buf);
 
@@ -166,8 +172,10 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
             fChild = fXML->GetNext(fChild);
          }
 
-         // filter
+         // filter-out streamer info item
          if (fChild!=0) {
+            if (strcmp("StreamerInfo", name())==0)
+               if (strcmp("TStreamerInfoList", GetClassName())==0) return next();
          }
 
          return fChild!=0;
@@ -196,9 +204,9 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
       virtual Int_t GetKind() {
          if (isfolder()) return TGo4Access::kndFolder;
 
-         if (GetHttpRootClassName(fXML->GetAttr(fChild,"_kind"))!=0) return TGo4Access::kndObject;
+         const char* clname = GetHttpRootClassName(fXML->GetAttr(fChild,"_kind"));
 
-         return -1;
+         return clname==0 ? -1 : TGo4Access::kndObject;
       }
 
       virtual const char* GetClassName()
@@ -267,8 +275,6 @@ XMLNodePointer_t TGo4HttpProxy::FindItem(XMLNodePointer_t curr, const char* name
 
 void TGo4HttpProxy::GetReply(QByteArray& res)
 {
-   // printf("THRD:%ld HTTP FINISHED len = %d res = \n%s\n", TThread::SelfId(), res.size(), res.data());
-
    if (res.size()>0) {
       XMLDocPointer_t doc = fXML->ParseString(res.data());
       if (doc!=0) {
@@ -285,16 +291,27 @@ Bool_t TGo4HttpProxy::Connect(const char* nodename)
 {
    fNodeName = nodename;
 
-   printf("THRD:%ld Connect %s IsA %s \n", TThread::SelfId(), nodename, ClassName());
-
    return UpdateHierarchy(kTRUE);
 }
 
 Bool_t TGo4HttpProxy::UpdateHierarchy(Bool_t sync)
 {
+   if (fComm.fReply!=0) return kTRUE;
+
    TString req = fNodeName + "/h.xml?compact&generic";
 
    fComm.StartRequest(req.Data());
+
+   if (sync) {
+      QTime t;
+      t.start();
+
+      // wait two seconds -
+      while (t.elapsed()<2000) {
+         if (fComm.fReply==0) { printf("GOT IT in %d ms\n", t.elapsed()); break; }
+         QApplication::processEvents();
+      }
+   }
 
    return kTRUE;
 }

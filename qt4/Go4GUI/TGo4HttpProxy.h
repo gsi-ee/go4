@@ -19,6 +19,7 @@
 #include "TXMLEngine.h"
 
 #include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 class TGo4HttpProxy;
 class TGo4HttpAccess;
@@ -38,6 +39,7 @@ class QHttpProxy : public QObject {
 
    public slots:
       void httpFinished();
+      void httpError(QNetworkReply::NetworkError);
 
    public:
 
