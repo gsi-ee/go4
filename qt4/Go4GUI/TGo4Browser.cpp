@@ -401,9 +401,9 @@ void TGo4Browser::updateListViewItems()
 
       if (curitem==0) {
         if (curfold==0)
-          curitem = new QTreeWidgetItem(ListView, previtem);
+           curitem = new QTreeWidgetItem(ListView, previtem);
         else
-          curitem = new QTreeWidgetItem(curfold, previtem);
+           curitem = new QTreeWidgetItem(curfold, previtem);
       }
 
       curitem->setText(0, iter.getname());
@@ -545,8 +545,10 @@ void TGo4Browser::ListView_doubleClicked(QTreeWidgetItem* item, int ncol)
    if (TGo4BrowserProxy::CanEditItem(cando))
       EditItem(fullname);
    else
-   if (TGo4BrowserProxy::CanExpandItem(cando))
+   if (TGo4BrowserProxy::CanExpandItem(cando)) {
+      item->setExpanded(true);
       ExpandItem(fullname);
+   }
 //   else
 //      ShowItemInfo(fullname);
 
@@ -948,8 +950,10 @@ void TGo4Browser::ContextMenuActivated(int id)
             }
 
             case 28: { // expand
-               if (TGo4BrowserProxy::CanExpandItem(cando))
+               if (TGo4BrowserProxy::CanExpandItem(cando)) {
+                  (*it)->setExpanded(true);
                   ExpandItem(itemname);
+               }
                break;
             }
 
