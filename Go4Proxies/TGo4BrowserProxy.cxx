@@ -13,8 +13,10 @@
 
 #include "TGo4BrowserProxy.h"
 
+#include <math.h>
+#include <string.h>
+
 #include "RVersion.h"
-#include "math.h"
 
 #include "TH1.h"
 #include "TH2.h"
@@ -611,7 +613,9 @@ void TGo4BrowserProxy::MakeHttpList(TObjArray* arr)
    for(Int_t n=0;n<slot->NumChilds();n++) {
       TGo4Slot* subslot = slot->GetChild(n);
       TGo4ServerProxy* pr = dynamic_cast<TGo4ServerProxy*> (subslot->GetProxy());
-      if ((pr!=0) && !strcmp(pr->GetContainedClassName(),"TGo4HttpProxy")) arr->Add(pr);
+      if ((pr==0) || strcmp(pr->GetContainedClassName(),"TGo4ServerProxy")) continue;
+
+      if (strncmp(pr->GetServerName(),"http://",7)==0) arr->Add(pr);
    }
 }
 
