@@ -56,18 +56,18 @@ int go4_usage() {
 
    print_go4_version();
 
-   std::cout << "Usage: " << endl;
-   std::cout << "   go4 [args]                  - start go4 GUI" << endl;
-   std::cout << "   go4 file1.root              - load ROOT file(s) at start" << endl;
-   std::cout << "   go4 filename[.hotstart]     - process hotstart file" << endl;
-   std::cout << "   go4 -observer hostname port - connect with running analysis server" << endl;
-   std::cout << "   go4 -controller hostname port" << endl;
-   std::cout << "   go4 -admin hostname port" << endl;
-   std::cout << "   go4 -prepare                - prepare for analysis client connection" << endl;
+   std::cout << "Usage: " << std::endl;
+   std::cout << "   go4 [args]                  - start go4 GUI" << std::endl;
+   std::cout << "   go4 file1.root              - load ROOT file(s) at start" << std::endl;
+   std::cout << "   go4 filename[.hotstart]     - process hotstart file" << std::endl;
+   std::cout << "   go4 -observer hostname port - connect with running analysis server" << std::endl;
+   std::cout << "   go4 -controller hostname port" << std::endl;
+   std::cout << "   go4 -admin hostname port" << std::endl;
+   std::cout << "   go4 -prepare                - prepare for analysis client connection" << std::endl;
   if (TGo4DabcProxy::GetDabcVersion())
-   std::cout << "   go4 dabc://server[:port]    - connect with DABC server" << endl;
-   std::cout << "   go4 -debug                  - enable GUI debug output"   << endl;
-   std::cout << "   go4 -help                   - show this help information" << endl;
+   std::cout << "   go4 dabc://server[:port]    - connect with DABC server" << std::endl;
+   std::cout << "   go4 -debug                  - enable GUI debug output"   << std::endl;
+   std::cout << "   go4 -help                   - show this help information" << std::endl;
 
    return 0;
 }
