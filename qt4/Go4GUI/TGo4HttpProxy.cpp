@@ -166,6 +166,10 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
             fChild = fXML->GetNext(fChild);
          }
 
+         // filter
+         if (fChild!=0) {
+         }
+
          return fChild!=0;
       }
 

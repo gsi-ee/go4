@@ -754,7 +754,7 @@ Bool_t TGo4DabcProxy::RefreshNamesList()
 #else
 
 TGo4DabcProxy::TGo4DabcProxy() :
-   TGo4Proxy(),
+   TGo4ServerProxy(),
    fNodeName(),
    fxHierarchy(0),
    fxParentSlot(0)
@@ -823,8 +823,9 @@ void TGo4DabcProxy::Update(TGo4Slot* slot, Bool_t strong)
 {
 }
 
-void TGo4DabcProxy::RefreshNamesList()
+Bool_t TGo4DabcProxy::RefreshNamesList()
 {
+   return kFALSE;
 }
 
 
