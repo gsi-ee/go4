@@ -55,11 +55,12 @@ const char* GetHttpRootClassName(const char* kind)
 
 // ============================================================================================
 
-TGo4HttpAccess::TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, const char* path) :
+TGo4HttpAccess::TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, const char* path, Bool_t expand) :
    TGo4Access(),
    fProxy(proxy),
    fNode(node),
    fPath(path),
+   fExpand(expand),
    fReceiver(0),
    fRecvPath(),
    fReply(0)
@@ -101,12 +102,18 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
       return 0;
    }
 
+   printf("Assign object to %s\n", path);
+
    fReceiver = rcv;
    fRecvPath = path;
 
    TString url = fProxy->fNodeName;
    if (fPath.Length()>0) { url.Append("/"); url.Append(fPath); }
-   url.Append("/root.bin");
+
+   if (fExpand)
+      url.Append("/h.xml?compact&generic");
+   else
+      url.Append("/root.bin");
 
    printf("Request URL %s\n", url.Data());
 
@@ -122,21 +129,56 @@ void TGo4HttpAccess::httpFinished()
    fReply->deleteLater();
    fReply = 0;
 
-   TClass* obj_cl = GetObjectClass();
-   if ((obj_cl==0) || (obj_cl->GetBaseClassOffset(TObject::Class()) != 0)) return;
+   // do nothing
+   if (res.size()==0) return;
 
-   TObject* obj = (TObject*) obj_cl->New();
-   if (obj==0) {
-      printf("TGo4HttpAccess fail to create object of class %s\n", GetObjectClassName());
-      return;
+   if (fExpand) {
+      // printf("Get:%s\n", res.data());
+
+      TXMLEngine* xml = fProxy->fXML;
+
+      XMLDocPointer_t doc = xml->ParseString(res.data());
+
+      if (doc==0) return;
+
+      XMLNodePointer_t top = xml->GetChild(xml->DocGetRootElement(doc));
+
+      xml->FreeAllAttr(fNode);
+
+      XMLAttrPointer_t attr = xml->GetFirstAttr(top);
+      while (attr!=0) {
+         xml->NewAttr(fNode, 0, xml->GetAttrName(attr), xml->GetAttrValue(attr));
+         attr = xml->GetNextAttr(attr);
+      }
+
+      XMLNodePointer_t chld;
+      while ((chld = xml->GetChild(top)) != 0) {
+         xml->UnlinkNode(chld);
+         xml->AddChild(fNode, chld);
+      }
+
+      xml->FreeDoc(doc);
+
+      if (fProxy->fxParentSlot!=0)
+         fProxy->fxParentSlot->ForwardEvent(fProxy->fxParentSlot, TGo4Slot::evObjAssigned);
+
+   } else {
+      TClass* obj_cl = GetObjectClass();
+      if ((obj_cl==0) || (obj_cl->GetBaseClassOffset(TObject::Class()) != 0)) return;
+
+      TObject* obj = (TObject*) obj_cl->New();
+      if (obj==0) {
+         printf("TGo4HttpAccess fail to create object of class %s\n", GetObjectClassName());
+         return;
+      }
+
+      TBufferFile buf(TBuffer::kRead, res.size(), res.data(), kFALSE);
+      buf.MapObject(obj, obj_cl);
+
+      obj->Streamer(buf);
+
+      DoObjectAssignement(fReceiver, fRecvPath.Data(), obj, kTRUE);
    }
-
-   TBufferFile buf(TBuffer::kRead, res.size(), res.data(), kFALSE);
-   buf.MapObject(obj, obj_cl);
-
-   obj->Streamer(buf);
-
-   DoObjectAssignement(fReceiver, fRecvPath.Data(), obj, kTRUE);
 }
 
 // =========================================================================
@@ -181,7 +223,9 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
          return fChild!=0;
       }
 
-      virtual Bool_t isfolder() { return (fChild!=0) && (fXML->GetChild(fChild)!=0); }
+      virtual Bool_t isfolder() {
+         return fXML->GetChild(fChild)!=0;
+      }
 
       virtual Int_t getflag(const char* flagname)
       {
@@ -204,9 +248,11 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
       virtual Int_t GetKind() {
          if (isfolder()) return TGo4Access::kndFolder;
 
+         if (fXML->HasAttr(fChild,"_more")) return TGo4Access::kndMoreFolder;
+
          const char* clname = GetHttpRootClassName(fXML->GetAttr(fChild,"_kind"));
 
-         return clname==0 ? -1 : TGo4Access::kndObject;
+         return clname==0 ? TGo4Access::kndNone : TGo4Access::kndObject;
       }
 
       virtual const char* GetClassName()
@@ -308,7 +354,7 @@ Bool_t TGo4HttpProxy::UpdateHierarchy(Bool_t sync)
 
       // wait two seconds -
       while (t.elapsed()<2000) {
-         if (fComm.fReply==0) { printf("GOT IT in %d ms\n", t.elapsed()); break; }
+         if (fComm.fReply==0) break;
          QApplication::processEvents();
       }
    }
@@ -339,7 +385,11 @@ TGo4Access* TGo4HttpProxy::MakeProxy(const char* name)
    XMLNodePointer_t item = FindItem(top, name);
    if (item==0) return 0;
 
-   return new TGo4HttpAccess(this, item, name);
+   Bool_t expand = fXML->HasAttr(item,"_more");
+
+   // if (expand) printf("EXPAND ITEM %s\n", name);
+
+   return new TGo4HttpAccess(this, item, name, expand);
 }
 
 TGo4LevelIter* TGo4HttpProxy::MakeIter()

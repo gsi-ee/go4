@@ -24,14 +24,17 @@ class TGo4ObjectManager;
 
 class TGo4Access {
    public:
-      enum { kndNone = -1,
-             kndObject = 0,
-             kndFolder = 1,
-             kndTreeBranch = 2,
-             kndTreeLeaf = 3,
-             kndGo4Param = 4,
-             kndDataMember = 5,
-             kndEventElement = 6 };
+      enum {
+         kndNone = -1,
+         kndObject = 0,           // normal object
+         kndFolder = 1,           // folder with sub-items
+         kndTreeBranch = 2,       // tree brunch
+         kndTreeLeaf = 3,         // tree leaf
+         kndGo4Param = 4,         // go4 parameter
+         kndDataMember = 5,       // object data member
+         kndEventElement = 6,     // event object
+         kndMoreFolder = 7        // remote folder with potentially more items
+      };
 
       virtual ~TGo4Access() {}
 

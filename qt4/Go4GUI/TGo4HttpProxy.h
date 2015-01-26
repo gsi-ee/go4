@@ -50,6 +50,8 @@ class QHttpProxy : public QObject {
 
 };
 
+// -----------------------------------------------------------------------------------
+
 class TGo4HttpAccess : public QObject, public TGo4Access {
 
    Q_OBJECT
@@ -58,6 +60,7 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
       TGo4HttpProxy   *fProxy;
       XMLNodePointer_t fNode;
       TString          fPath;
+      Bool_t           fExpand;
       TGo4ObjectManager* fReceiver;
       TString          fRecvPath;
       QNetworkReply   *fReply;
@@ -67,7 +70,7 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
 
    public:
 
-      TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, const char* path);
+      TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, const char* path, Bool_t isexpand = kFALSE);
 
       virtual ~TGo4HttpAccess() { }
 
@@ -86,7 +89,7 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
       virtual Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char* path);
 };
 
-
+// -----------------------------------------------------------------------------------
 
 /** Here Go4/ROOT-specific functionality of HttpProxy */
 class TGo4HttpProxy : public TGo4ServerProxy  {

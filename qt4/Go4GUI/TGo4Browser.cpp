@@ -544,6 +544,9 @@ void TGo4Browser::ListView_doubleClicked(QTreeWidgetItem* item, int ncol)
    else
    if (TGo4BrowserProxy::CanEditItem(cando))
       EditItem(fullname);
+   else
+   if (TGo4BrowserProxy::CanExpandItem(cando))
+      ExpandItem(fullname);
 //   else
 //      ShowItemInfo(fullname);
 
@@ -587,28 +590,12 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
    TGo4Slot* memslot = br->BrowserMemorySlot();
    TGo4Slot* analslot = br->FindAnalysisSlot(false);
 
-   int nitems = 0;
-   int nmemory = 0;
    bool istopmemory = false;
-   int nclose = 0;
-   int ndraw = 0;
-   int nsuperimpose = 0;
-   int si_kind = -1;
-   int nremote = 0;
-   int nanalysis = 0;
-   int nmonitor = 0;
-   int nclear = 0;
-   int nclearlocal = 0;
-   int nclearproton = 0;
-   int nclearprotoff = 0;
-   int ndelprotoff = 0;
-   int nobjects = 0;
-   int nfolders = 0;
-   int nedits = 0;
-   int ninfo = 0;
-   int nexport = 0;
-   int ndelete = 0;
-   int nassigned = 0;
+
+   int nitems(0), nmemory(0), nclose(0), ndraw(0), nsuperimpose(0), si_kind(-1),
+       nremote(0), nanalysis(0), nmonitor(0), nclear(0), nclearlocal(0), nclearproton(0),
+       nclearprotoff(0), ndelprotoff(0), nobjects(0), nfolders(0), nedits(0), ninfo(0),
+       nexport(0), ndelete(0), nassigned(0), nexpand(0);
 
    QTreeWidgetItemIterator it(ListView);
    for ( ; *it; ++it )
@@ -632,6 +619,8 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 
          if (kind==TGo4Access::kndFolder)
            nfolders++;
+
+         if (TGo4BrowserProxy::CanExpandItem(cando)) nexpand++;
 
          if (TGo4BrowserProxy::CanDrawItem(cando)) {
            ndraw++;
@@ -683,7 +672,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 
          if ((itemclassname!=0) && (strcmp(itemclassname,"TGo4DabcProxy")==0)) nremote++;
 
-         if ((itemclassname!=0) && (strcmp(itemclassname,"TGo4HttpProxy")==0)) nremote++;
+         if ((itemclassname!=0) && (strcmp(itemclassname,"TGo4ServerProxy")==0)) nremote++;
 
          if (br->IsItemRemote(itemslot)) {
             nremote++;
@@ -712,6 +701,9 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 
    AddIdAction(&menu, &map, QIcon(":/icons/superimpose.png"),
                  "Superimpose",  12, (ndraw>1) && (nsuperimpose==ndraw));
+
+   if (nexpand>0)
+      AddIdAction(&menu, &map, QIcon(":/icons/chart.png"), "Expand", 28, true);
 
    AddIdAction(&menu, &map, QIcon(":/icons/right.png"),
                   "Fetch item(s)",  18, (nfolders>0) || (nobjects>0));
@@ -946,12 +938,18 @@ void TGo4Browser::ContextMenuActivated(int id)
                break;
             }
 
-            case 27: {
+            case 27: { // refresh
                TString objname;
                TGo4AnalysisProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
                if (an!=0) anrefresh = an;
                TGo4ServerProxy* serv = br->DefineServerProxy(itemname.toLatin1().constData());
                if (serv!=0) servrefresh = serv;
+               break;
+            }
+
+            case 28: { // expand
+               if (TGo4BrowserProxy::CanExpandItem(cando))
+                  ExpandItem(itemname);
                break;
             }
 
@@ -1071,14 +1069,19 @@ void TGo4Browser::ExportSelectedItems(const char* filtername)
 void TGo4Browser::ExportSelectedItems(const char* filename, const char* filedir, const char* format, const char* description)
 {
    TObjArray items;
-     QTreeWidgetItemIterator it(ListView);
-     for ( ; *it; ++it )
-        if ((*it)->isSelected()) {
-           QString fullname = FullItemName(*it);
-           items.Add(new TObjString(fullname.toLatin1().constData()));
-        }
+   QTreeWidgetItemIterator it(ListView);
+   for ( ; *it; ++it )
+      if ((*it)->isSelected()) {
+         QString fullname = FullItemName(*it);
+         items.Add(new TObjString(fullname.toLatin1().constData()));
+      }
 
-     BrowserProxy()->ExportItemsTo(&items, go4sett->getFetchDataWhenSave(), filename, filedir, format, description);
+   BrowserProxy()->ExportItemsTo(&items, go4sett->getFetchDataWhenSave(), filename, filedir, format, description);
 
-     items.Delete();
+   items.Delete();
+}
+
+void TGo4Browser::ExpandItem(const QString& itemname)
+{
+   BrowserProxy()->GetBrowserObject(itemname.toLatin1().constData(), 100);
 }

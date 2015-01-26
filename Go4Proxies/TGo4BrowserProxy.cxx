@@ -1447,6 +1447,11 @@ void TGo4BrowserProxy::SetItemMonitored(TGo4Slot* slot, Bool_t on)
    }
 }
 
+bool TGo4BrowserProxy::CanExpandItem(int cando)
+{
+   return (cando % 100000000) / 10000000 > 0;
+}
+
 bool TGo4BrowserProxy::CanExportItem(int cando)
 {
    return (cando % 10000000) / 1000000 > 0;
@@ -1945,7 +1950,9 @@ Int_t TGo4BrowserProxy::CalculateFolderSizes(TGo4Slot* topslot)
 
 Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pixmap)
 {
-   Int_t cando = 0; // 1000000 - export, 100000 - info, 10000 - close, 1000 - clear, 100 - draw, 10 - drag, 1 - edit
+   // 10000000 - expand,  1000000 - export, 100000 - info, 10000 - close, 1000 - clear, 100 - draw, 10 - drag, 1 - edit
+
+   Int_t cando = 0;
 
    // TClass * cl = (clname==0) ? 0 : (TClass*) gROOT->GetListOfClasses()->FindObject(clname);
 //   TClass * cl = (clname==0) ? 0 : gROOT->GetClass(clname);
@@ -1987,6 +1994,10 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
       if ((cl!=0) && cl->InheritsFrom(TGo4DabcProxy::Class())) { cando = 10000; pixmap = "dabc.png"; } else
       if ((cl!=0) && cl->InheritsFrom(TGo4ServerProxy::Class())) { cando = 10000; pixmap = "dabc.png"; } else
       if ((cl!=0) && cl->InheritsFrom(TGo4AnalysisProxy::Class())) { pixmap = "analysiswin.png"; }
+   } else
+   if (kind==TGo4Access::kndMoreFolder) {
+      pixmap = "folder_t.png";
+      cando = 10000000;
    } else
    if (kind==TGo4Access::kndTreeBranch)
       pixmap = "branch_t.png";
