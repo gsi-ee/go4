@@ -37,6 +37,7 @@ class TCanvas;
 class TGo4Condition;
 class TGo4WinCond;
 class TGo4PolyCond;
+class TGo4EllipseCond;
 class TGo4CondArray;
 class TGo4Picture;
 class TGo4Parameter;
@@ -269,6 +270,33 @@ class TGo4EventProcessor: public TGo4EventSource {
             Int_t npoints,
             Double_t (*points) [2],
             const char* HistoName = 0);
+
+
+      /** Create ellipse shaped polygon condition.
+               * fullname specifies name of condition (optionally with subfolder name)
+               * npoints - number of points in ellipse condition, 0 for default resolution
+               * cx,cy - center coordinates of ellipse
+               * a1,a2 - width of ellipse half axes
+               * theta - ellipse tilt angle
+               * HistoName - name of histogram, to which condition is assigned
+               */
+          TGo4EllipseCond* MakeEllipseCond(const char* fullname,
+              Int_t npoints,
+              Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta=0,
+              const char* HistoName = 0);
+
+          /** Create circular shaped polygon condition.
+                   * fullname specifies name of condition (optionally with subfolder name)
+                   * npoints - number of points in ellipse condition, 0 for default resolution
+                   * cx,cy   - circle center coordinates
+                   * r       - circle radius
+                   * HistoName - name of histogram, to which condition is assigned
+                   */
+          TGo4EllipseCond* MakeCircleCond(const char* fullname,
+                  Int_t npoints, Double_t cx, Double_t cy, Double_t r,
+                  const char* HistoName = 0);
+
+
 
       /** Create parameter of specified class,
        * fullname specifies name of condition (optionally with subfolder name)

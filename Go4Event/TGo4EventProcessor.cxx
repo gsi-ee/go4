@@ -234,6 +234,21 @@ TGo4PolyCond* TGo4EventProcessor::MakePolyCond(const char* fullname,
    return TGo4Analysis::Instance()->MakePolyCond(fullname, npoints, points, HistoName);
 }
 
+
+TGo4EllipseCond* TGo4EventProcessor::MakeEllipseCond(const char* fullname, Int_t npoints, Double_t cx, Double_t cy,
+    Double_t a1, Double_t a2, Double_t theta, const char* HistoName)
+{
+  return TGo4Analysis::Instance()->MakeEllipseCond(fullname, npoints, cx, cy, a1, a2, theta, HistoName);
+}
+
+TGo4EllipseCond* TGo4EventProcessor::MakeCircleCond(const char* fullname, Int_t npoints, Double_t cx, Double_t cy,
+    Double_t r, const char* HistoName)
+{
+  return TGo4Analysis::Instance()->MakeCircleCond(fullname, npoints, cx, cy, r, HistoName);
+}
+
+
+
 TGo4Parameter* TGo4EventProcessor::MakeParameter(const char* fullname,
                                                  const char* classname,
                                                  const char* newcmd)
