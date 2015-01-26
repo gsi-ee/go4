@@ -28,6 +28,7 @@
 #include "TGo4Slot.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
+#include "TGo4EllipseCond.h"
 #include "TGo4CondArray.h"
 #include "TGo4ViewPanel.h"
 #include "TGo4BrowserProxy.h"
@@ -52,6 +53,7 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
    fiSelectedIndex = -1;
    parentWidget()->adjustSize();
    fbDrawOnNextRefresh = false;
+   fbEllipseAutoRefresh = false;
    fiLastChangeValue = -1;
    CutTable->setContextMenuPolicy(Qt::CustomContextMenu);
 }
@@ -189,6 +191,7 @@ void TGo4ConditionEditor::ResetWidget()
    InvertCombo->setEnabled(false);
 
    CondTabs->setTabEnabled(1, false);
+   CondTabs->setTabEnabled(2, false);
 }
 
 void TGo4ConditionEditor::RefreshWidget(bool checkindex)
@@ -238,6 +241,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
 
    TGo4WinCond* wcond = dynamic_cast<TGo4WinCond*> (cond);
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (cond);
+   TGo4EllipseCond* econd = dynamic_cast<TGo4EllipseCond*> (cond);
 
    if (wcond!=0)
      if (wcond->GetDimension()==2)
@@ -247,6 +251,9 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    else
    if (pcond!=0)
      CondClassLbl->setText("Polygon  ");
+   else
+   if (econd!=0)
+     CondClassLbl->setText("Ellipse  ");
    else
      CondClassLbl->setText("");
 
@@ -340,9 +347,15 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    }
 
    CondTabs->setTabEnabled(1, (pcond!=0));
-   if ((pcond==0) && (CondTabs->currentIndex()==1))
+   CondTabs->setTabEnabled(2, (econd!=0));
+
+   if ((pcond==0) && ((CondTabs->currentIndex()==1) || (CondTabs->currentIndex()==2)))
      CondTabs->setCurrentIndex(0);
+
+
    if (pcond!=0) FillCutWidget(pcond->GetCut(kFALSE));
+   if (econd!=0) FillEllipseWidget(econd);
+
 
    IntBox->setChecked(cond->IsIntDraw());
    MaxCBox->setChecked(cond->IsCMaxDraw());
@@ -762,6 +775,33 @@ void TGo4ConditionEditor::FillCutWidget(TCutG* cut)
    fbTypingMode = old;
 }
 
+void TGo4ConditionEditor::FillEllipseWidget(TGo4EllipseCond* elli)
+{
+  if(elli==0) return;
+   bool old = fbTypingMode;
+   fbTypingMode = false;
+   double a1=0,a2=0,x=0,y=0;
+   int theta=0;
+
+   elli->GetRadius(a1,a2);
+   elli-> GetCenter(x,y);
+   theta= (int) elli->GetTheta();
+
+   EllipseCxSpinbox->setValue(x);
+   EllipseCySpinbox->setValue(y);
+   EllipseA1Spinbox->setValue(a1);
+   EllipseA2Spinbox->setValue(a2);
+   EllipseTiltDial->setValue(theta);
+   EllipseTiltEdit->setText(QString::number(theta));
+   CircleBox->setChecked(elli->IsCircle());
+   std::cout <<"FillEllipseWidget sees circle="<< elli->IsCircle()<< std::endl;
+   EllipseNptsSpin->setValue(elli->GetResolution());
+   fbTypingMode = old;
+}
+
+
+
+
 void TGo4ConditionEditor::NPointsSpin_valueChanged(int npoint)
 {
    if (!fbTypingMode) return;
@@ -885,4 +925,137 @@ void TGo4ConditionEditor::ContextMenuSlot(int id)
    PleaseUpdateSlot();
 
    RedrawCondition();
+}
+
+
+
+void TGo4ConditionEditor::EllipseTheta_valueChanged(int deg)
+{
+  if (!fbTypingMode) return;
+  //std::cout <<"EllipseTheta_valueChanged to "<< deg << std::endl;
+  EllipseTiltEdit->setText(QString::number(deg));
+  if(fbEllipseAutoRefresh)
+    {
+      TGo4EllipseCond* econd = dynamic_cast<TGo4EllipseCond*> (SelectedCondition());
+      if(econd) econd->SetTheta((double) deg);
+      PleaseUpdateSlot();
+      RedrawCondition();
+    }
+
+}
+
+
+void TGo4ConditionEditor::EllipseCx_valueChanged(double x)
+{
+  if (!fbTypingMode) return;
+  //std::cout <<"EllipseCx_valueChanged to "<< x << std::endl;
+  if(fbEllipseAutoRefresh)
+    {
+        TGo4EllipseCond* econd = dynamic_cast<TGo4EllipseCond*> (SelectedCondition());
+        if(econd) {
+            double y=EllipseCySpinbox->value();
+            econd->SetCenter(x, y);
+            PleaseUpdateSlot();
+            RedrawCondition();
+        }
+      }
+}
+void TGo4ConditionEditor::EllipseCy_valueChanged(double y)
+{
+  if (!fbTypingMode) return;
+  //std::cout <<"EllipseCy_valueChanged to "<< y << std::endl;
+  if(fbEllipseAutoRefresh)
+      {
+          TGo4EllipseCond* econd = dynamic_cast<TGo4EllipseCond*> (SelectedCondition());
+          if(econd) {
+              double x=EllipseCxSpinbox->value();
+            econd->SetCenter(x,y);
+          }
+          PleaseUpdateSlot();
+          RedrawCondition();
+        }
+}
+
+
+void TGo4ConditionEditor::EllipseA1_valueChanged(double r1)
+{
+  if (!fbTypingMode) return;
+  //std::cout <<"EllipseA1_valueChanged to "<< r1 << std::endl;
+  if(fbEllipseAutoRefresh) UpdateEllipse();
+}
+
+void TGo4ConditionEditor::EllipseA2_valueChanged(double r2)
+{
+  if (!fbTypingMode) return;
+  //std::cout <<"EllipseA2_valueChanged to "<< r2 << std::endl;
+  if(fbEllipseAutoRefresh) UpdateEllipse();
+}
+
+
+void TGo4ConditionEditor::EllipseRefreshBox_toggled(bool on)
+{
+  if (!fbTypingMode) return;
+  //std::cout <<"EllipseRefreshBox_toggled "<< on<< std::endl;
+  fbEllipseAutoRefresh=on;
+  if(fbEllipseAutoRefresh) UpdateEllipse();
+
+
+}
+
+
+void TGo4ConditionEditor::EllipseCircleBox_toggled(bool on)
+{
+  if (!fbTypingMode) return;
+  //std::cout <<"EllipseCircleBox_toggled "<< on<< std::endl;
+  if(fbEllipseAutoRefresh) UpdateEllipse();
+
+
+}
+
+
+void TGo4ConditionEditor::EllipseTheta_returnPressed()
+{
+  if (!fbTypingMode) return;
+  //std::cout <<"EllipseTheta_returnPressed() "<< std::endl;
+  bool ok = false;
+  Int_t theta = EllipseTiltEdit->text().toInt(&ok);
+  if(theta<0) theta=0;
+  theta = theta % 360;
+  if(ok)
+    {
+      EllipseTiltDial->setValue(theta);
+    }
+  if(fbEllipseAutoRefresh) UpdateEllipse();
+
+}
+
+void TGo4ConditionEditor::EllipseNPoints_valueChanged( int npoint )
+{
+  if (!fbTypingMode) return;
+  //std::cout <<"EllipseNPoints_valueChanged "<< std::endl;
+  if(fbEllipseAutoRefresh) UpdateEllipse();
+}
+
+
+void TGo4ConditionEditor::UpdateEllipse()
+{
+
+  TGo4EllipseCond* econd = dynamic_cast<TGo4EllipseCond*> (SelectedCondition());
+  if(econd==0){
+    std::cout <<"UpdateEllipse did not find ellipse condition!!!"<< std::endl;
+    return;
+  }
+  double cx=EllipseCxSpinbox->value();
+  double cy=EllipseCySpinbox->value();
+  double a1=EllipseA1Spinbox->value();
+  double a2=EllipseA2Spinbox->value();
+  double th=EllipseTiltDial->value();
+
+  if(CircleBox->isChecked())
+    econd->SetCircle(cx,cy,a1, EllipseNptsSpin->value());
+  else
+    econd->SetEllipse(cx,cy,a1,a2,th, EllipseNptsSpin->value());
+
+  PleaseUpdateSlot();
+  RedrawCondition();
 }

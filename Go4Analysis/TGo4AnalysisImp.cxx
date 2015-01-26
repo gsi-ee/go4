@@ -46,6 +46,7 @@
 #include "TGo4TaskHandler.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
+#include "TGo4EllipseCond.h"
 
 #include "TGo4Version.h"
 #include "TGo4AnalysisStepManager.h"
@@ -1983,6 +1984,59 @@ TGo4PolyCond* TGo4Analysis::MakePolyCond(const char* fullname,
 
    return pcond;
 }
+
+
+TGo4EllipseCond* TGo4Analysis::MakeEllipseCond(const char* fullname,
+       Int_t npoints,
+       Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
+       const char* HistoName)
+{
+    fbObjMade = kFALSE;
+     TString foldername, condname;
+
+     if ((fullname==0) || (strlen(fullname)==0)) {
+        TGo4Log::Error("Condition name not specified, can be a hard error");
+        return 0;
+     }
+     const char* separ = strrchr(fullname, '/');
+     if (separ!=0) {
+        condname = separ + 1;
+        foldername.Append(fullname, separ - fullname);
+     } else
+        condname = fullname;
+
+     TGo4Condition* cond = GetAnalysisCondition(fullname);
+
+     if (cond!=0) {
+        if (cond->InheritsFrom(TGo4EllipseCond::Class()) && fbMakeWithAutosave) {
+           cond->ResetCounts();
+           return (TGo4EllipseCond*) cond;
+        }
+        RemoveAnalysisCondition(fullname);
+     }
+
+     TGo4EllipseCond* econd = new TGo4EllipseCond(condname);
+     econd->SetEllipse(cx,cy,a1,a2,theta,npoints);
+     econd->Enable();
+     econd->SetHistogram(HistoName);
+     if (foldername.Length() > 0)
+       AddAnalysisCondition(econd, foldername.Data());
+     else
+       AddAnalysisCondition(econd);
+       fbObjMade = kTRUE;
+
+    return econd;
+}
+
+
+TGo4EllipseCond* TGo4Analysis::MakeCircleCond(const char* fullname,
+           Int_t npoints, Double_t cx, Double_t cy, Double_t r,
+           const char* HistoName)
+{
+       return MakeEllipseCond(fullname,npoints,cx,cy, r, r, 0, HistoName);
+}
+
+
 
 TGo4Parameter* TGo4Analysis::MakeParameter(const char* fullname,
                                            const char* classname,

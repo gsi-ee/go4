@@ -56,6 +56,7 @@
 #include "TGo4Condition.h"
 #include "TGo4PolyCond.h"
 #include "TGo4WinCond.h"
+#include "TGo4EllipseCond.h"
 #include "TGo4CondArray.h"
 #include "TGo4HistogramEntry.h"
 #include "TGo4TreeHistogramEntry.h"
@@ -230,6 +231,7 @@ void TGo4BrowserProxy::Initialize(TGo4Slot* slot)
 
    gROOT->GetClass("TGo4WinCond");
    gROOT->GetClass("TGo4PolyCond");
+   gROOT->GetClass("TGo4EllipseCond");
    gROOT->GetClass("TGo4CondArray");
 
    gROOT->GetClass("TGo4Fitter");
@@ -1967,6 +1969,7 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
         if (cl->InheritsFrom(TH1::Class())) { cando = 1101110; pixmap = "h1_t.png"; } else
         if (cl->InheritsFrom(TGo4WinCond::Class())) { cando = 101011; pixmap = "windcond.png"; } else
         if (cl->InheritsFrom(TGo4PolyCond::Class())) { cando = 101011; pixmap = "polycond.png"; } else
+        if (cl->InheritsFrom(TGo4EllipseCond::Class())) { cando = 101011; pixmap = "polycond.png"; } else
         if (cl->InheritsFrom(TGo4CondArray::Class())) { cando = 101011; pixmap = "windcondarray.png"; } else
         if (cl->InheritsFrom(TGo4TreeHistogramEntry::Class())) { cando = 1011; pixmap = "dynentryx.png"; } else
         if (cl->InheritsFrom(TGo4HistogramEntry::Class())) { cando = 1011; pixmap = "dynentryx.png"; } else

@@ -18,6 +18,7 @@
 #include "ui_TGo4ConditionEditor.h"
 
 class TGo4Condition;
+class TGo4EllipseCond;
 class TCutG;
 
 
@@ -45,7 +46,8 @@ class TGo4ConditionEditor : public QGo4Widget, public Ui::TGo4ConditionEditor
     virtual void RedrawCondition();
     virtual bool PrepareForAnalysis();
     virtual void FillCutWidget( TCutG * cut );
-
+    virtual void FillEllipseWidget(TGo4EllipseCond* elli);
+    virtual void UpdateEllipse();
 
  public slots:
 
@@ -78,12 +80,23 @@ class TGo4ConditionEditor : public QGo4Widget, public Ui::TGo4ConditionEditor
     virtual void CutTable_valueChanged( int ncol, int nrow );
     virtual void CutTable_contextMenuRequested(const QPoint &);
     virtual void ContextMenuSlot(int);
+    virtual void EllipseTheta_returnPressed();
+    virtual void EllipseNPoints_valueChanged( int npoint );
+    virtual void EllipseTheta_valueChanged(int deg);
+    virtual void EllipseCx_valueChanged(double x);
+    virtual void EllipseCy_valueChanged(double y);
+    virtual void EllipseA1_valueChanged(double r1);
+    virtual void EllipseA2_valueChanged(double r2);
+    virtual void EllipseRefreshBox_toggled(bool on);
+    virtual void EllipseCircleBox_toggled(bool on);
 
 protected:
     bool fbTypingMode;
     int fiSelectedIndex;
     bool fbDrawOnNextRefresh;
     int fiLastChangeValue;
+
+    bool fbEllipseAutoRefresh;
 
  };
 

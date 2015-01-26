@@ -30,6 +30,7 @@
 #include "TGo4MbsEvent.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
+#include "TGo4EllipseCond.h"
 #include "TGo4CondArray.h"
 #include "TGo4Picture.h"
 
@@ -51,6 +52,8 @@ TXXXUnpackProc::TXXXUnpackProc() :
    fPolyCon1(0),
    fConArr1(0),
    fConArr2(0),
+   fEllipseCond(0),
+   fCircleCond(0),
    fParam(0),
    fPicture1(0),
    fcondSet(0),
@@ -76,6 +79,8 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    fPolyCon1(0),
    fConArr1(0),
    fConArr2(0),
+   fEllipseCond(0),
+   fCircleCond(0),
    fParam(0),
    fPicture1(0),
    fcondSet(0),
@@ -120,6 +125,13 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
 
       Double_t cutpnts[3][2] = { {400, 800}, {700, 900}, {600, 1100} };
       fPolyCon1 = MakePolyCond("polycon", 3, cutpnts, "Cr1Ch1x2");
+
+      fEllipseCond = MakeEllipseCond("ellipsecond",0,3000,3000,300,800, 45, "Cr1Ch1x2");
+                              //Int_t npoints, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta, const char* HistoName
+
+
+      fCircleCond = MakeCircleCond("circlecond",24,300,200,100, "Cr1Ch1x2");
+                          //Int_t npoints, Double_t cx, Double_t cy, Double_t r, const char* HistoName
 
       fConArr1 = (TGo4CondArray*)GetAnalysisCondition("winconar");
       if (fConArr1==0) {
@@ -383,6 +395,9 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
                      if(fPolyCon1->Test(*pdata,lastvalue))        fCr1Ch1x2->Fill(*pdata, lastvalue);
                      if(((*fConArr2)[0])->Test(*pdata,lastvalue)) fCr1Ch1x2->Fill(*pdata, lastvalue);
                      if(((*fConArr2)[1])->Test(*pdata,lastvalue)) fCr1Ch1x2->Fill(*pdata, lastvalue);
+
+                     if(fEllipseCond->Test(*pdata,lastvalue)) fCr1Ch1x2->Fill(*pdata, lastvalue);
+                     fCircleCond->Test(*pdata,lastvalue);
                   }
                }
             }

@@ -1,102 +1,48 @@
-<ui version="4.0" >
- <author>Mohammad Al-Turany/S.Linev</author>
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>Mohammad Al-Turany/S.Linev/J.Adamczewski-Musch</author>
  <comment>Edit Windows conditions </comment>
  <class>TGo4ConditionEditor</class>
- <widget class="QGo4Widget" name="TGo4ConditionEditor" >
-  <property name="geometry" >
+ <widget class="QGo4Widget" name="TGo4ConditionEditor">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>453</width>
-    <height>273</height>
+    <width>582</width>
+    <height>381</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Edit Window Condition</string>
   </property>
-  <layout class="QGridLayout" >
-   <property name="leftMargin" >
+  <layout class="QGridLayout">
+   <property name="margin">
     <number>4</number>
    </property>
-   <property name="topMargin" >
-    <number>4</number>
-   </property>
-   <property name="rightMargin" >
-    <number>4</number>
-   </property>
-   <property name="bottomMargin" >
-    <number>4</number>
-   </property>
-   <property name="horizontalSpacing" >
+   <property name="spacing">
     <number>3</number>
    </property>
-   <property name="verticalSpacing" >
-    <number>3</number>
-   </property>
-   <item row="1" column="0" >
-    <layout class="QHBoxLayout" >
+   <item row="0" column="0">
+    <layout class="QHBoxLayout">
      <item>
-      <widget class="QComboBox" name="ResultCombo" >
-       <property name="toolTip" >
-        <string>Set mode of execution.</string>
-       </property>
-       <item>
-        <property name="text" >
-         <string>Returns Result</string>
-        </property>
-       </item>
-       <item>
-        <property name="text" >
-         <string>Returns Always True</string>
-        </property>
-       </item>
-       <item>
-        <property name="text" >
-         <string>Returns Always False</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="InvertCombo" >
-       <property name="toolTip" >
-        <string>Condition returns regular or inverted result.</string>
-       </property>
-       <item>
-        <property name="text" >
-         <string>Regular</string>
-        </property>
-       </item>
-       <item>
-        <property name="text" >
-         <string>Invert</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="0" column="0" >
-    <layout class="QHBoxLayout" >
-     <item>
-      <widget class="QLabel" name="CondNameLbl" >
-       <property name="text" >
+      <widget class="QLabel" name="CondNameLbl">
+       <property name="text">
         <string>Condition name lbl</string>
        </property>
-       <property name="wordWrap" >
+       <property name="wordWrap">
         <bool>false</bool>
        </property>
       </widget>
      </item>
      <item>
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType" >
+       <property name="sizeType">
         <enum>QSizePolicy::Expanding</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>30</width>
          <height>20</height>
@@ -105,152 +51,195 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="CondClassLbl" >
-       <property name="text" >
+      <widget class="QLabel" name="CondClassLbl">
+       <property name="text">
         <string>Condition class</string>
        </property>
-       <property name="wordWrap" >
+       <property name="wordWrap">
         <bool>false</bool>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="ArrayElements" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+      <widget class="QSpinBox" name="ArrayElements">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Select condition to be edited in array.</string>
        </property>
-       <property name="specialValueText" >
+       <property name="specialValueText">
         <string>All</string>
        </property>
-       <property name="minimum" >
+       <property name="minimum">
         <number>-1</number>
        </property>
-       <property name="value" >
+       <property name="value">
         <number>-1</number>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="ArrayAllButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+      <widget class="QPushButton" name="ArrayAllButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize" >
+       <property name="minimumSize">
         <size>
          <width>30</width>
          <height>20</height>
         </size>
        </property>
-       <property name="maximumSize" >
+       <property name="maximumSize">
         <size>
          <width>30</width>
          <height>20</height>
         </size>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Select whole array.</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>All</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="2" column="0" >
-    <layout class="QHBoxLayout" >
+   <item row="1" column="0">
+    <layout class="QHBoxLayout">
      <item>
-      <widget class="QLabel" name="AllLabel" >
-       <property name="text" >
+      <widget class="QComboBox" name="ResultCombo">
+       <property name="toolTip">
+        <string>Set mode of execution.</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>Returns Result</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Returns Always True</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Returns Always False</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="InvertCombo">
+       <property name="toolTip">
+        <string>Condition returns regular or inverted result.</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>Regular</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Invert</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0">
+    <layout class="QHBoxLayout">
+     <item>
+      <widget class="QLabel" name="AllLabel">
+       <property name="text">
         <string>All counts:</string>
        </property>
-       <property name="wordWrap" >
+       <property name="wordWrap">
         <bool>false</bool>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLCDNumber" name="LCDCounts" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+      <widget class="QLCDNumber" name="LCDCounts">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize" >
+       <property name="minimumSize">
         <size>
          <width>100</width>
          <height>0</height>
         </size>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Number of condition Test() calls.</string>
        </property>
-       <property name="segmentStyle" >
+       <property name="segmentStyle">
         <enum>QLCDNumber::Flat</enum>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="TrueLabel" >
-       <property name="text" >
+      <widget class="QLabel" name="TrueLabel">
+       <property name="text">
         <string>True:</string>
        </property>
-       <property name="wordWrap" >
+       <property name="wordWrap">
         <bool>false</bool>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLCDNumber" name="LCDTrueCounts" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+      <widget class="QLCDNumber" name="LCDTrueCounts">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize" >
+       <property name="minimumSize">
         <size>
          <width>100</width>
          <height>0</height>
         </size>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Number of condition Test() calls returning TRUE.</string>
        </property>
-       <property name="segmentStyle" >
+       <property name="segmentStyle">
         <enum>QLCDNumber::Flat</enum>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="PercentLabel" >
-       <property name="text" >
+      <widget class="QLabel" name="PercentLabel">
+       <property name="text">
         <string>100%</string>
        </property>
-       <property name="wordWrap" >
+       <property name="wordWrap">
         <bool>false</bool>
        </property>
       </widget>
      </item>
      <item>
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType" >
+       <property name="sizeType">
         <enum>QSizePolicy::Expanding</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>130</width>
          <height>20</height>
@@ -260,218 +249,538 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="0" >
-    <widget class="QTabWidget" name="CondTabs" >
-     <widget class="QWidget" name="tab1" >
-      <attribute name="title" >
+   <item row="4" column="0">
+    <layout class="QHBoxLayout">
+     <item>
+      <widget class="QPushButton" name="RefreshButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Refresh Editor from analysis.</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/icons/right.png</normaloff>:/icons/right.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="UpdateCon">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Send condition values to analysis.</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/icons/left.png</normaloff>:/icons/left.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="PleaseUpdateLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>This label shows that your current changes have not yet been updated to the analysis.</string>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::WinPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <property name="lineWidth">
+        <number>2</number>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap>:/icons/info1.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
+       <property name="wordWrap">
+        <bool>false</bool>
+       </property>
+       <property name="margin">
+        <number>1</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="SaveCon">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Save condition to a file.</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/icons/filesave.png</normaloff>:/icons/filesave.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>30</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="DisplayB">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Display condition with assigned histogram or on last active panel</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/icons/chart.png</normaloff>:/icons/chart.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ModifyButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Set selected condition on view panel</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/icons/cursormarker.png</normaloff>:/icons/cursormarker.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ClearCondCount">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Reset all counters to zero.</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/icons/clear.png</normaloff>:/icons/clear.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="PrintLog">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Log current values to terminal or file.</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/icons/log.png</normaloff>:/icons/log.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>30</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="CloseWin">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>30</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>Close editor without change.</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/icons/close16.png</normaloff>:/icons/close16.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="0">
+    <widget class="QTabWidget" name="CondTabs">
+     <property name="currentIndex">
+      <number>2</number>
+     </property>
+     <widget class="QWidget" name="tab1">
+      <attribute name="title">
        <string>Limits</string>
       </attribute>
-      <layout class="QGridLayout" >
-       <property name="leftMargin" >
+      <layout class="QGridLayout">
+       <property name="margin">
         <number>3</number>
        </property>
-       <property name="topMargin" >
+       <property name="spacing">
         <number>3</number>
        </property>
-       <property name="rightMargin" >
-        <number>3</number>
-       </property>
-       <property name="bottomMargin" >
-        <number>3</number>
-       </property>
-       <property name="horizontalSpacing" >
-        <number>3</number>
-       </property>
-       <property name="verticalSpacing" >
-        <number>3</number>
-       </property>
-       <item row="0" column="0" >
-        <widget class="QLabel" name="XMinLabel" >
-         <property name="text" >
+       <item row="0" column="0">
+        <widget class="QLabel" name="XMinLabel">
+         <property name="text">
           <string>Xmin:</string>
          </property>
-         <property name="wordWrap" >
+         <property name="wordWrap">
           <bool>false</bool>
          </property>
         </widget>
        </item>
-       <item row="0" column="3" >
-        <widget class="QLineEdit" name="Win1_up" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+       <item row="0" column="3">
+        <widget class="QLineEdit" name="Win1_up">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="toolTip" >
+         <property name="toolTip">
           <string>Upper border/extension on X Axis. Press Enter to set!</string>
          </property>
-         <property name="modified" >
+         <property name="modified">
           <bool>false</bool>
          </property>
-         <property name="dragEnabled" >
+         <property name="dragEnabled">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="1" column="1" >
-        <widget class="QLineEdit" name="Win2_low" >
-         <property name="toolTip" >
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="Win2_low">
+         <property name="toolTip">
           <string>Lower border/extension on Y Axis. Press Enter to set!</string>
          </property>
-         <property name="modified" >
+         <property name="modified">
           <bool>false</bool>
          </property>
-         <property name="dragEnabled" >
+         <property name="dragEnabled">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="0" column="2" >
-        <widget class="QLabel" name="XMaxLabel" >
-         <property name="text" >
+       <item row="0" column="2">
+        <widget class="QLabel" name="XMaxLabel">
+         <property name="text">
           <string>Xmax:</string>
          </property>
-         <property name="wordWrap" >
+         <property name="wordWrap">
           <bool>false</bool>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" >
-        <widget class="QLabel" name="YMinLabel" >
-         <property name="text" >
+       <item row="1" column="0">
+        <widget class="QLabel" name="YMinLabel">
+         <property name="text">
           <string>Ymin:</string>
          </property>
-         <property name="wordWrap" >
+         <property name="wordWrap">
           <bool>false</bool>
          </property>
         </widget>
        </item>
-       <item row="1" column="3" >
-        <widget class="QLineEdit" name="Win2_up" >
-         <property name="toolTip" >
+       <item row="1" column="3">
+        <widget class="QLineEdit" name="Win2_up">
+         <property name="toolTip">
           <string>Upper border/extension on Y Axis. Press Enter to set!</string>
          </property>
-         <property name="modified" >
+         <property name="modified">
           <bool>false</bool>
          </property>
-         <property name="dragEnabled" >
+         <property name="dragEnabled">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" >
-        <widget class="QLineEdit" name="Win1_low" >
-         <property name="toolTip" >
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="Win1_low">
+         <property name="toolTip">
           <string>Lower border/extension on X Axis. Press Enter to set!</string>
          </property>
-         <property name="modified" >
+         <property name="modified">
           <bool>false</bool>
          </property>
-         <property name="dragEnabled" >
+         <property name="dragEnabled">
           <bool>true</bool>
          </property>
         </widget>
        </item>
-       <item row="1" column="2" >
-        <widget class="QLabel" name="YMaxLabel" >
-         <property name="text" >
+       <item row="1" column="2">
+        <widget class="QLabel" name="YMaxLabel">
+         <property name="text">
           <string>Ymax:</string>
          </property>
-         <property name="wordWrap" >
+         <property name="wordWrap">
           <bool>false</bool>
          </property>
         </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="TabPage1" >
-      <attribute name="title" >
+     <widget class="QWidget" name="TabPage1">
+      <attribute name="title">
        <string>Cut</string>
       </attribute>
-      <layout class="QGridLayout" >
-       <property name="leftMargin" >
+      <layout class="QGridLayout">
+       <property name="margin">
         <number>3</number>
        </property>
-       <property name="topMargin" >
-        <number>3</number>
-       </property>
-       <property name="rightMargin" >
-        <number>3</number>
-       </property>
-       <property name="bottomMargin" >
-        <number>3</number>
-       </property>
-       <property name="horizontalSpacing" >
+       <property name="spacing">
         <number>1</number>
        </property>
-       <property name="verticalSpacing" >
-        <number>1</number>
-       </property>
-       <item row="0" column="0" >
-        <widget class="QLabel" name="NPointsLbl" >
-         <property name="text" >
+       <item row="0" column="0">
+        <widget class="QLabel" name="NPointsLbl">
+         <property name="text">
           <string>NPoints</string>
          </property>
-         <property name="wordWrap" >
+         <property name="wordWrap">
           <bool>false</bool>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" >
-        <widget class="QSpinBox" name="NPointsSpin" >
-         <property name="minimum" >
+       <item row="1" column="0">
+        <widget class="QSpinBox" name="NPointsSpin">
+         <property name="minimum">
           <number>0</number>
          </property>
-         <property name="maximum" >
+         <property name="maximum">
           <number>999</number>
          </property>
         </widget>
        </item>
-       <item rowspan="3" row="0" column="1" >
-        <widget class="QTableWidget" name="CutTable" >
-         <property name="rowCount" >
+       <item row="0" column="1" rowspan="3">
+        <widget class="QTableWidget" name="CutTable">
+         <property name="rowCount">
           <number>3</number>
          </property>
-         <property name="columnCount" >
+         <property name="columnCount">
           <number>2</number>
          </property>
          <row>
-          <property name="text" >
+          <property name="text">
            <string>1</string>
           </property>
          </row>
          <row>
-          <property name="text" >
+          <property name="text">
            <string>2</string>
           </property>
          </row>
          <row>
-          <property name="text" >
+          <property name="text">
            <string>3</string>
           </property>
          </row>
          <column>
-          <property name="text" >
+          <property name="text">
            <string>X</string>
           </property>
          </column>
          <column>
-          <property name="text" >
+          <property name="text">
            <string>Y</string>
           </property>
          </column>
         </widget>
        </item>
-       <item row="2" column="0" >
+       <item row="2" column="0">
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeType" >
+         <property name="sizeType">
           <enum>QSizePolicy::Expanding</enum>
          </property>
-         <property name="sizeHint" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
            <height>40</height>
@@ -481,70 +790,462 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="TabPage2" >
-      <attribute name="title" >
-       <string>Draw</string>
+     <widget class="QWidget" name="ellipsetab">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <attribute name="title">
+       <string>Ellipse</string>
       </attribute>
-      <layout class="QVBoxLayout" >
-       <item>
-        <layout class="QHBoxLayout" >
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
-          <widget class="QCheckBox" name="CondVisibleChk" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="2" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QLabel" name="EllipsCxLabel">
+               <property name="text">
+                <string>X:</string>
+               </property>
+               <property name="wordWrap">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="EllipseCxSpinbox">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-99999999.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>999999999.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>10.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>0.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="3" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QLabel" name="EllipsCyLabel">
+               <property name="text">
+                <string>Y:</string>
+               </property>
+               <property name="wordWrap">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="EllipseCySpinbox">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-99999999.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>99999999.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>10.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="EllipseCenterLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Center</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="wordWrap">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="4" column="0">
+            <widget class="QCheckBox" name="AutoRefreshBox">
+             <property name="text">
+              <string>Autorefresh</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="0" column="0">
+            <widget class="QLabel" name="EllipseRadiusLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Half axes</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="wordWrap">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QLabel" name="EllipsA1Label">
+               <property name="text">
+                <string>A1:</string>
+               </property>
+               <property name="wordWrap">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="EllipseA1Spinbox">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-99999999.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>99999999.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>10.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>0.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="3" column="0">
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QLabel" name="EllipsA2Label">
+               <property name="text">
+                <string>A2:</string>
+               </property>
+               <property name="wordWrap">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="EllipseA2Spinbox">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="decimals">
+                <number>5</number>
+               </property>
+               <property name="minimum">
+                <double>-99999999.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>99999999.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>10.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>0.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="5" column="0">
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="4" column="0">
+            <widget class="QCheckBox" name="CircleBox">
+             <property name="text">
+              <string>Circle</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="1" rowspan="2">
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLabel" name="EllipseTitlLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="toolTip" >
+           <property name="text">
+            <string>Theta</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="wordWrap">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDial" name="EllipseTiltDial">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximum">
+            <number>360</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="invertedAppearance">
+            <bool>true</bool>
+           </property>
+           <property name="wrapping">
+            <bool>true</bool>
+           </property>
+           <property name="notchTarget">
+            <double>10.000000000000000</double>
+           </property>
+           <property name="notchesVisible">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="EllipseTiltEdit">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>titl angle</string>
+           </property>
+           <property name="modified">
+            <bool>false</bool>
+           </property>
+           <property name="dragEnabled">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QLabel" name="EllipseNptsLabel">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Npoints</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="wordWrap">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="EllipseNptsSpin">
+             <property name="minimum">
+              <number>0</number>
+             </property>
+             <property name="maximum">
+              <number>999</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="TabPage2">
+      <attribute name="title">
+       <string>Draw</string>
+      </attribute>
+      <layout class="QVBoxLayout">
+       <item>
+        <layout class="QHBoxLayout">
+         <item>
+          <widget class="QCheckBox" name="CondVisibleChk">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="toolTip">
             <string>Draw condition limits into label.</string>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>visible</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="CondLimits" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+          <widget class="QCheckBox" name="CondLimits">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="toolTip" >
+           <property name="toolTip">
             <string>Draw condition limits into label.</string>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>limits</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="CondLabel" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+          <widget class="QCheckBox" name="CondLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="toolTip" >
+           <property name="toolTip">
             <string>Draw label of condition properties on viewpanel..</string>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>label</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="HistogramChk" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
+          <widget class="QCheckBox" name="HistogramChk">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>HName</string>
            </property>
           </widget>
@@ -552,114 +1253,114 @@
         </layout>
        </item>
        <item>
-        <widget class="QLabel" name="DrawInfoLbl" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+        <widget class="QLabel" name="DrawInfoLbl">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>DrawInfoLbl</string>
          </property>
-         <property name="alignment" >
+         <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
-         <property name="wordWrap" >
+         <property name="wordWrap">
           <bool>false</bool>
          </property>
         </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab2" >
-      <attribute name="title" >
+     <widget class="QWidget" name="tab2">
+      <attribute name="title">
        <string>Stats</string>
       </attribute>
-      <layout class="QGridLayout" >
-       <item row="1" column="0" >
-        <widget class="QCheckBox" name="MaxCBox" >
-         <property name="toolTip" >
+      <layout class="QGridLayout">
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="MaxCBox">
+         <property name="toolTip">
           <string>Draw value on view panel.</string>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>CMax:</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="0" >
-        <widget class="QCheckBox" name="IntBox" >
-         <property name="toolTip" >
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="IntBox">
+         <property name="toolTip">
           <string>Draw value on view panel.</string>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>Integ:</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" >
-        <widget class="QCheckBox" name="MaxXBox" >
-         <property name="toolTip" >
+       <item row="0" column="1">
+        <widget class="QCheckBox" name="MaxXBox">
+         <property name="toolTip">
           <string>Draw value on view panel.</string>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>XMax:</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1" >
-        <widget class="QCheckBox" name="MaxYBox" >
-         <property name="toolTip" >
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="MaxYBox">
+         <property name="toolTip">
           <string>Draw value on view panel.</string>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>YMax:</string>
          </property>
         </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="TabPage3" >
-      <attribute name="title" >
+     <widget class="QWidget" name="TabPage3">
+      <attribute name="title">
        <string>Mean</string>
       </attribute>
-      <layout class="QGridLayout" >
-       <item row="1" column="1" >
-        <widget class="QCheckBox" name="YRMSBox" >
-         <property name="toolTip" >
+      <layout class="QGridLayout">
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="YRMSBox">
+         <property name="toolTip">
           <string>Draw value on view panel.</string>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>Y RMS:</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="0" >
-        <widget class="QCheckBox" name="YMeanBox" >
-         <property name="toolTip" >
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="YMeanBox">
+         <property name="toolTip">
           <string>Draw value on view panel.</string>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>YMean:</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" >
-        <widget class="QCheckBox" name="XRMSBox" >
-         <property name="toolTip" >
+       <item row="0" column="1">
+        <widget class="QCheckBox" name="XRMSBox">
+         <property name="toolTip">
           <string>Draw value on view panel.</string>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>X RMS:</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="0" >
-        <widget class="QCheckBox" name="XMeanBox" >
-         <property name="toolTip" >
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="XMeanBox">
+         <property name="toolTip">
           <string>Draw value on view panel.</string>
          </property>
-         <property name="text" >
+         <property name="text">
           <string>XMean:</string>
          </property>
         </widget>
@@ -668,342 +1369,17 @@
      </widget>
     </widget>
    </item>
-   <item row="4" column="0" >
-    <layout class="QHBoxLayout" >
-     <item>
-      <widget class="QPushButton" name="RefreshButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="toolTip" >
-        <string>Refresh Editor from analysis.</string>
-       </property>
-       <property name="text" >
-        <string/>
-       </property>
-       <property name="icon" >
-        <iconset>:/icons/right.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="UpdateCon" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="toolTip" >
-        <string>Send condition values to analysis.</string>
-       </property>
-       <property name="text" >
-        <string/>
-       </property>
-       <property name="icon" >
-        <iconset>:/icons/left.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="PleaseUpdateLabel" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="toolTip" >
-        <string>This label shows that your current changes have not yet been updated to the analysis.</string>
-       </property>
-       <property name="frameShape" >
-        <enum>QFrame::WinPanel</enum>
-       </property>
-       <property name="frameShadow" >
-        <enum>QFrame::Raised</enum>
-       </property>
-       <property name="lineWidth" >
-        <number>2</number>
-       </property>
-       <property name="text" >
-        <string/>
-       </property>
-       <property name="pixmap" >
-         <pixmap>:/icons/info1.png</pixmap>
-       </property>
-       <property name="scaledContents" >
-        <bool>true</bool>
-       </property>
-       <property name="wordWrap" >
-        <bool>false</bool>
-       </property>
-       <property name="margin" >
-        <number>1</number>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="SaveCon" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="toolTip" >
-        <string>Save condition to a file.</string>
-       </property>
-       <property name="text" >
-        <string/>
-       </property>
-       <property name="icon" >
-        <iconset>:/icons/filesave.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>30</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="DisplayB" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="toolTip" >
-        <string>Display condition with assigned histogram or on last active panel</string>
-       </property>
-       <property name="text" >
-        <string/>
-       </property>
-       <property name="icon" >
-        <iconset>:/icons/chart.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="ModifyButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="toolTip" >
-        <string>Set selected condition on view panel</string>
-       </property>
-       <property name="text" >
-        <string/>
-       </property>
-       <property name="icon" >
-        <iconset>:/icons/cursormarker.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="ClearCondCount" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="toolTip" >
-        <string>Reset all counters to zero.</string>
-       </property>
-       <property name="text" >
-        <string/>
-       </property>
-       <property name="icon" >
-        <iconset>:/icons/clear.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="PrintLog" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="toolTip" >
-        <string>Log current values to terminal or file.</string>
-       </property>
-       <property name="text" >
-        <string/>
-       </property>
-       <property name="icon" >
-        <iconset>:/icons/log.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType" >
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>30</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="CloseWin" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize" >
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="maximumSize" >
-        <size>
-         <width>30</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="toolTip" >
-        <string>Close editor without change.</string>
-       </property>
-       <property name="text" >
-        <string/>
-       </property>
-       <property name="icon" >
-        <iconset>:/icons/close16.png</iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QGo4Widget</class>
+   <extends>QWidget</extends>
+   <header>QGo4Widget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>ArrayAllButton</tabstop>
   <tabstop>ArrayElements</tabstop>
@@ -1027,259 +1403,871 @@
  <includes>
   <include location="local">QGo4Widget.h</include>
  </includes>
+ <resources/>
  <connections>
   <connection>
    <sender>CloseWin</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>567</x>
+     <y>366</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>UpdateCon</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>UpdatePressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>61</x>
+     <y>366</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>ArrayElements</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SelectedCond(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>511</x>
+     <y>23</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>ResultCombo</sender>
    <signal>activated(int)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetResultMode(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>25</x>
+     <y>49</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>InvertCombo</sender>
    <signal>activated(int)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetInvertMode(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>315</x>
+     <y>49</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>ClearCondCount</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>ClearCounters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>368</x>
+     <y>366</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>DisplayB</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>DisplayPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>296</x>
+     <y>366</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>RefreshButton</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>RefreshClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>25</x>
+     <y>366</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>Win1_low</sender>
    <signal>returnPressed()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>LimitsReturnPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>58</x>
+     <y>179</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>Win1_up</sender>
    <signal>returnPressed()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>LimitsReturnPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>348</x>
+     <y>179</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>Win2_low</sender>
    <signal>returnPressed()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>LimitsReturnPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>58</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>Win2_up</sender>
    <signal>returnPressed()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>LimitsReturnPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>348</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>Win1_low</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>LimitsChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>58</x>
+     <y>179</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>Win1_up</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>LimitsChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>348</x>
+     <y>179</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>Win2_low</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>LimitsChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>58</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>Win2_up</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>LimitsChanged(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>348</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>CondLimits</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetDrawLimits(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>134</x>
+     <y>174</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>CondLabel</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetLabel(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>191</x>
+     <y>174</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>IntBox</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetIntDraw(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>32</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>MaxXBox</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetXMaxDraw(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>331</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>MaxYBox</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetYMaxDraw(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>331</x>
+     <y>256</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>MaxCBox</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetCMaxDraw(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>32</x>
+     <y>256</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>ArrayAllButton</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>ArrayAll()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>567</x>
+     <y>24</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>PrintLog</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>PrintConditionLog()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>404</x>
+     <y>366</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>SaveCon</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SaveCondition()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>133</x>
+     <y>366</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>Win1_low</sender>
    <signal>returnPressed()</signal>
    <receiver>Win1_up</receiver>
    <slot>selectAll()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>58</x>
+     <y>179</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>348</x>
+     <y>179</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>Win1_up</sender>
    <signal>returnPressed()</signal>
    <receiver>Win2_low</receiver>
    <slot>selectAll()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>348</x>
+     <y>179</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>58</x>
+     <y>263</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>Win2_low</sender>
    <signal>returnPressed()</signal>
    <receiver>Win2_up</receiver>
    <slot>selectAll()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>58</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>348</x>
+     <y>263</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>Win2_up</sender>
    <signal>returnPressed()</signal>
    <receiver>Win1_low</receiver>
    <slot>selectAll()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>348</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>58</x>
+     <y>179</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>Win1_low</sender>
    <signal>returnPressed()</signal>
    <receiver>Win1_up</receiver>
    <slot>setFocus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>58</x>
+     <y>179</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>348</x>
+     <y>179</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>Win1_up</sender>
    <signal>returnPressed()</signal>
    <receiver>Win2_low</receiver>
    <slot>setFocus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>348</x>
+     <y>179</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>58</x>
+     <y>263</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>Win2_low</sender>
    <signal>returnPressed()</signal>
    <receiver>Win2_up</receiver>
    <slot>setFocus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>58</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>348</x>
+     <y>263</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>Win2_up</sender>
    <signal>returnPressed()</signal>
    <receiver>Win1_low</receiver>
    <slot>setFocus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>348</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>58</x>
+     <y>179</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>XMeanBox</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetXMeanDraw(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>32</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>YMeanBox</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetYMeanDraw(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>32</x>
+     <y>256</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>XRMSBox</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetXRMSDraw(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>331</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>YRMSBox</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetYRMSDraw(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>331</x>
+     <y>256</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>CondVisibleChk</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>SetCondVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>34</x>
+     <y>174</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>ModifyButton</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>ModifyButton_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>332</x>
+     <y>366</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>NPointsSpin</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>NPointsSpin_valueChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>32</x>
+     <y>122</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>CutTable</sender>
    <signal>cellChanged(int,int)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>CutTable_valueChanged(int,int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>60</x>
+     <y>124</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>CutTable</sender>
    <signal>customContextMenuRequested(const QPoint &amp;)</signal>
    <receiver>TGo4ConditionEditor</receiver>
    <slot>CutTable_contextMenuRequested(const QPoint &amp;)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>60</x>
+     <y>124</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>EllipseTiltDial</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>TGo4ConditionEditor</receiver>
+   <slot>EllipseTheta_valueChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>515</x>
+     <y>163</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>290</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>CircleBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>EllipseTiltDial</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>249</x>
+     <y>198</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>509</x>
+     <y>175</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>CircleBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>EllipseA2Spinbox</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>268</x>
+     <y>200</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>284</x>
+     <y>174</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>AutoRefreshBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TGo4ConditionEditor</receiver>
+   <slot>EllipseRefreshBox_toggled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>124</x>
+     <y>197</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>290</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>EllipseA1Spinbox</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>TGo4ConditionEditor</receiver>
+   <slot>EllipseA1_valueChanged(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>359</x>
+     <y>144</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>290</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>EllipseA2Spinbox</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>TGo4ConditionEditor</receiver>
+   <slot>EllipseA2_valueChanged(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>359</x>
+     <y>171</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>290</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>EllipseCxSpinbox</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>TGo4ConditionEditor</receiver>
+   <slot>EllipseCx_valueChanged(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>132</x>
+     <y>144</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>290</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>EllipseCySpinbox</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>TGo4ConditionEditor</receiver>
+   <slot>EllipseCy_valueChanged(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>131</x>
+     <y>171</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>290</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>CircleBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>TGo4ConditionEditor</receiver>
+   <slot>EllipseCircleBox_toggled()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>348</x>
+     <y>198</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>290</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>CircleBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>EllipseTiltEdit</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>258</x>
+     <y>198</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>493</x>
+     <y>249</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>EllipseTiltEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>TGo4ConditionEditor</receiver>
+   <slot>EllipseTheta_returnPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>512</x>
+     <y>250</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>290</x>
+     <y>190</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>EllipseNptsSpin</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>TGo4ConditionEditor</receiver>
+   <slot>EllipseNPoints_valueChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>41</x>
+     <y>319</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>290</x>
+     <y>190</y>
+    </hint>
+   </hints>
   </connection>
  </connections>
 </ui>
-
