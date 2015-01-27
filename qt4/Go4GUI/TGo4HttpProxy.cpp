@@ -61,27 +61,33 @@ TGo4HttpAccess::TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, cons
    fNode(node),
    fPath(path),
    fExpand(expand),
+   fNameAttr(),
+   fKindAttr(),
    fReceiver(0),
    fRecvPath(),
    fReply(0)
 {
+   const char* _name = fProxy->fXML->GetAttr(fNode,"_name");
+   if (_name) fNameAttr = _name;
+   const char* _kind = fProxy->fXML->GetAttr(fNode,"_kind");
+   if (_kind) fKindAttr = _kind;
 }
 
 TClass* TGo4HttpAccess::GetObjectClass() const
 {
-   const char* clname = GetHttpRootClassName(fProxy->fXML->GetAttr(fNode,"_kind"));
+   const char* clname = GetHttpRootClassName(fKindAttr.Data());
    if (clname!=0) return (TClass*) gROOT->GetListOfClasses()->FindObject(clname);
    return 0;
 }
 
 const char* TGo4HttpAccess::GetObjectName() const
 {
-   return fProxy->fXML->GetAttr(fNode,"_name");
+   return fNameAttr.Data();
 }
 
 const char* TGo4HttpAccess::GetObjectClassName() const
 {
-   const char* clname = GetHttpRootClassName(fProxy->fXML->GetAttr(fNode,"_kind"));
+   const char* clname = GetHttpRootClassName(fKindAttr.Data());
 
    return clname ? clname : "TObject";
 }
@@ -102,8 +108,6 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
       return 0;
    }
 
-   printf("Assign object to %s\n", path);
-
    fReceiver = rcv;
    fRecvPath = path;
 
@@ -115,7 +119,7 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
    else
       url.Append("/root.bin.gz");
 
-   printf("Request URL %s\n", url.Data());
+   // printf("Request URL %s\n", url.Data());
 
    fReply = fProxy->fComm.qnam.get(QNetworkRequest(QUrl(url.Data())));
    connect(fReply, SIGNAL(finished()), this, SLOT(httpFinished()));
