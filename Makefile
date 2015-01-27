@@ -205,10 +205,6 @@ clean-svn:
 	find . -name ".svn" -type d -exec rm -rf {} \;
 	@echo "Clean svn-specific files done"
 
-ifdef GO4_WIN32
-$(GO4BASE_O): CXXFLAGS += -DBUILDING_GO4BASE_DLL
-endif
-
 ifdef DOPACKAGE
 -include build/Makefile.packaging
 endif

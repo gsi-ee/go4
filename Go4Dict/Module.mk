@@ -147,6 +147,10 @@ GO4BGUI_DEPLIB = $(GO4ANBASE_LIB) $(GO4TSKH_LIB) $(THRDMNGR_LIB) $(GO4BASE_LIB) 
 
 $(GO4BGUI_LIB):   MAKELIB_SET = $(LIBS_BASESET) $(call go4ldname,Go4Fit) $(call go4ldname,Go4Base) $(call go4ldname,Go4ThreadManager) $(call go4ldname,Go4TaskHandler) $(call go4ldname,Go4AnalBase)
 
+ifdef GO4_WIN32
+$(GO4BASE_O): CXXFLAGS += -DBUILDING_GO4BASE_DLL
+endif
+
 
 $(GO4BASE_DS): $(GO4BASE_H) $(GO4BASE_LINKDEF)
 	@$(ROOTCINTGO4) $(GO4BASE_LIB) $(GO4BASE_H) $(GO4BASE_LINKDEF)
