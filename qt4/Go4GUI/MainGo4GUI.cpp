@@ -49,6 +49,7 @@ int print_go4_version()
    std::cout << "   Go4 " << __GO4RELEASE__ << ",   build with ROOT " << ROOT_RELEASE;
    if (dabc_vers) std::cout << ", DABC " << dabc_vers;
    std::cout << " and Qt " << QT_VERSION_STR << std::endl;
+   return 0;
 }
 
 
