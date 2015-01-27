@@ -801,7 +801,7 @@
        <item row="0" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
-          <layout class="QGridLayout" name="gridLayout">
+          <layout class="QGridLayout" name="mygridLayout">
            <item row="2" column="0">
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
@@ -821,6 +821,9 @@
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Ellipse center x coordinate</string>
                </property>
                <property name="decimals">
                 <number>5</number>
@@ -860,6 +863,9 @@
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Ellipse center y coordinate</string>
                </property>
                <property name="decimals">
                 <number>5</number>
@@ -911,6 +917,9 @@
            </item>
            <item row="4" column="0">
             <widget class="QCheckBox" name="AutoRefreshBox">
+             <property name="toolTip">
+              <string>Check to automatically display editor changes in associated viewpanel</string>
+             </property>
              <property name="text">
               <string>Autorefresh</string>
              </property>
@@ -959,6 +968,9 @@
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="toolTip">
+                <string>Ellipse x half axis, or circle radius</string>
+               </property>
                <property name="decimals">
                 <number>5</number>
                </property>
@@ -998,6 +1010,9 @@
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="toolTip">
+                <string>Ellipse y half axis</string>
+               </property>
                <property name="decimals">
                 <number>5</number>
                </property>
@@ -1032,6 +1047,9 @@
            </item>
            <item row="4" column="0">
             <widget class="QCheckBox" name="CircleBox">
+             <property name="toolTip">
+              <string>Check to define as plain circle shape</string>
+             </property>
              <property name="text">
               <string>Circle</string>
              </property>
@@ -1070,6 +1088,9 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="toolTip">
+            <string>Tilt angle theta between ellipse a1 axis and x axis in degrees.</string>
+           </property>
            <property name="maximum">
             <number>360</number>
            </property>
@@ -1105,7 +1126,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>titl angle</string>
+            <string>Tilt angle theta between ellipse a1 axis and x axis in degrees.</string>
            </property>
            <property name="modified">
             <bool>false</bool>
@@ -1155,6 +1176,9 @@
            </item>
            <item>
             <widget class="QSpinBox" name="EllipseNptsSpin">
+             <property name="toolTip">
+              <string>Number of polygon points to render elliipse/circle shape. Reduce it for n.edged regular shape condition, e.g.  hexagon.</string>
+             </property>
              <property name="minimum">
               <number>0</number>
              </property>
@@ -2209,7 +2233,7 @@
    <sender>CircleBox</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConditionEditor</receiver>
-   <slot>EllipseCircleBox_toggled()</slot>
+   <slot>EllipseCircleBox_toggled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>348</x>

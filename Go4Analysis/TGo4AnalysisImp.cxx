@@ -2033,7 +2033,9 @@ TGo4EllipseCond* TGo4Analysis::MakeCircleCond(const char* fullname,
            Int_t npoints, Double_t cx, Double_t cy, Double_t r,
            const char* HistoName)
 {
-       return MakeEllipseCond(fullname,npoints,cx,cy, r, r, 0, HistoName);
+       TGo4EllipseCond* elli=MakeEllipseCond(fullname,npoints,cx,cy, r, r, 0, HistoName);
+       elli->SetCircle(kTRUE); // mark "circle shape" property for condition editor!
+       return elli;
 }
 
 
