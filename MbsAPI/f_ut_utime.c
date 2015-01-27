@@ -90,12 +90,12 @@ INTS4 f_ut_utime(INTS4 l_sec, INTS4 l_msec, CHARS *pc_time)
     tp.time = l_sec + 7200;
 #endif
 */
-#ifdef xxxLynx
+#ifdef Lynx
     tp.time = l_sec + 86400; /* one day */
 #endif
     tp.millitm = l_msec;
   }
-#ifdef xxxLynx
+#ifdef Lynx
   localtime_r(&st_time,&tp.time);
   if(st_time.tm_mon > 2 && st_time.tm_mon < 9)    /* daylight saving ? */
   {
@@ -103,7 +103,11 @@ INTS4 f_ut_utime(INTS4 l_sec, INTS4 l_msec, CHARS *pc_time)
     localtime_r(&st_time,&tp.time);
   }
 #else
+#ifdef WIN32
+  st_time=*localtime(&tp.time);
+#else
   st_time = *localtime_r(&tp.time, &buf_time);
+#endif
 #endif
   pc_mon = (CHARS *) &c_allmon;
   pc_mon += (st_time.tm_mon * 3);

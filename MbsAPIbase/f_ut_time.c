@@ -82,9 +82,12 @@ CHARS     *f_ut_time (CHARS *pc_time)
     localtime_r(&st_time,&tp.time);
   }
 #else
+#ifdef WIN32
+  st_time=*localtime(&tp.time);
+#else
   st_time=*localtime_r(&tp.time, &buf_time);
 #endif
-
+#endif
   strftime(pc_time,30,"%d-%h-%y %T",&st_time);
   return ((CHARS *) pc_time);
 }
