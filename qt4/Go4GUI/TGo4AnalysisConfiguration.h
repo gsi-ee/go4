@@ -119,6 +119,9 @@ class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConf
 
 protected:
 
+   virtual void closeEvent(QCloseEvent* e);
+
+
    bool fbTypingMode;
     QString fSourcePath;
     QString fStorePath;

@@ -794,7 +794,6 @@ void TGo4ConditionEditor::FillEllipseWidget(TGo4EllipseCond* elli)
    EllipseTiltDial->setValue(theta);
    EllipseTiltEdit->setText(QString::number(theta));
    CircleBox->setChecked(elli->IsCircle());
-   std::cout <<"FillEllipseWidget sees circle="<< elli->IsCircle()<< std::endl;
    EllipseNptsSpin->setValue(elli->GetResolution());
    fbTypingMode = old;
 }

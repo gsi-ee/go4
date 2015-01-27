@@ -365,3 +365,12 @@ void TGo4AnalysisConfiguration::DisplayMbsMonitor(const QString& mbsname )
 {
    ServiceCall("DisplayMbsMonitor", (void*) mbsname.toLatin1().constData());
 }
+
+void TGo4AnalysisConfiguration::closeEvent(QCloseEvent* e)
+{
+  e->ignore(); // destroying this would mix up the upper level management
+  QWidget* mdi = parentWidget();
+  if (mdi==0) return;
+  mdi->hide(); // instead of destroying, we just hide it when X is clicked. JAM
+}
+

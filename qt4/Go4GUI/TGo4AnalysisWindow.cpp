@@ -401,3 +401,11 @@ void TGo4AnalysisWindow::resizeEvent(QResizeEvent * e)
    go4sett->storePanelSize(parentWidget(), "AnalysisWindow");
 }
 
+void TGo4AnalysisWindow::closeEvent(QCloseEvent* e)
+{
+  e->ignore(); // destroying this would mix up the upper level management
+  QWidget* mdi = parentWidget();
+  if (mdi==0) return;
+  mdi->hide(); // instead of destroying, we just hide it when X is clicked. JAM
+}
+

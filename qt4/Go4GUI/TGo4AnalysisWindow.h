@@ -61,7 +61,7 @@ class TGo4AnalysisWindow : public QGo4Widget {
       virtual void linkedObjectRemoved(const char* linkname);
 
       virtual void resizeEvent(QResizeEvent *);
-
+      virtual void closeEvent(QCloseEvent* e);
       void CreateButtons(QHBoxLayout*, bool);
       void CreateCmdLine(QHBoxLayout*);
 
