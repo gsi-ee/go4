@@ -163,7 +163,6 @@ void TGo4HttpAccess::httpFinished()
          fProxy->fxParentSlot->ForwardEvent(fProxy->fxParentSlot, TGo4Slot::evObjAssigned);
 
       return;
-
    }
 
    TClass* obj_cl = GetObjectClass();
@@ -366,21 +365,12 @@ Bool_t TGo4HttpProxy::UpdateHierarchy(Bool_t sync)
    return kTRUE;
 }
 
-void TGo4HttpProxy::Initialize(TGo4Slot* slot)
-{
-   fxParentSlot = slot;
-}
-
-void TGo4HttpProxy::Finalize(TGo4Slot* slot)
-{
-}
-
 Bool_t TGo4HttpProxy::HasSublevels() const
 {
    return fxHierarchy != 0;
 }
 
-TGo4Access* TGo4HttpProxy::MakeProxy(const char* name)
+TGo4Access* TGo4HttpProxy::ProvideAccess(const char* name)
 {
    if (fxHierarchy == 0) return 0;
 

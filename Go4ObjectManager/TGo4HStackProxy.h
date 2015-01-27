@@ -35,8 +35,8 @@ class TGo4HStackProxy : public TGo4Proxy {
       virtual TGo4LevelIter* MakeIter()
         { return (fHS==0) ? 0 : ProduceIter(fHS); }
 
-      virtual TGo4Access* MakeProxy(const char* name)
-        { return ProduceProxy(fHS, name); }
+      virtual TGo4Access* ProvideAccess(const char* name)
+        { return CreateAccess(fHS, name); }
 
       virtual void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs);
       virtual void ReadData(TGo4Slot* slot, TDirectory* dir);
@@ -45,7 +45,7 @@ class TGo4HStackProxy : public TGo4Proxy {
       virtual Bool_t AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner);
       virtual TObject* GetAssignedObject();
 
-      static TGo4Access* ProduceProxy(THStack* canv, const char* name);
+      static TGo4Access* CreateAccess(THStack* canv, const char* name);
       static TGo4LevelIter* ProduceIter(THStack* canv);
 
    protected:

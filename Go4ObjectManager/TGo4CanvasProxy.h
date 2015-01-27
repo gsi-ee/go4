@@ -35,8 +35,8 @@ class TGo4CanvasProxy : public TGo4Proxy {
       virtual TGo4LevelIter* MakeIter()
         { return (fCanvas==0) ? 0 : ProduceIter(fCanvas); }
 
-      virtual TGo4Access* MakeProxy(const char* name)
-        { return ProduceProxy(fCanvas, name); }
+      virtual TGo4Access* ProvideAccess(const char* name)
+        { return CreateAccess(fCanvas, name); }
 
       virtual void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs);
       virtual void ReadData(TGo4Slot* slot, TDirectory* dir);
@@ -45,7 +45,7 @@ class TGo4CanvasProxy : public TGo4Proxy {
       virtual Bool_t AssignObject(TGo4Slot* slot, TObject* obj, Bool_t owner);
       virtual TObject* GetAssignedObject();
 
-      static TGo4Access* ProduceProxy(TCanvas* canv, const char* name);
+      static TGo4Access* CreateAccess(TCanvas* canv, const char* name);
       static TGo4LevelIter* ProduceIter(TCanvas* canv);
 
    protected:

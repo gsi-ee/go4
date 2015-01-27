@@ -27,7 +27,7 @@ class TGo4LinkProxy : public TGo4Proxy {
       virtual void Initialize(TGo4Slot* slot);
       virtual void Finalize(TGo4Slot* slot);
 
-      virtual TGo4Access* MakeProxy(const char* name);
+      virtual TGo4Access* ProvideAccess(const char* name);
       virtual TGo4LevelIter* MakeIter();
 
       virtual Int_t GetObjectKind();

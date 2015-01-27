@@ -97,7 +97,7 @@ class TGo4Proxy : public TObject {
       virtual Bool_t Use() const { return kTRUE; }
 
       virtual Bool_t HasSublevels() const { return kFALSE; }
-      virtual TGo4Access* MakeProxy(const char*) { return 0; }
+      virtual TGo4Access* ProvideAccess(const char*) { return 0; }
       virtual TGo4LevelIter* MakeIter() { return 0; }
 
       virtual Int_t GetObjectKind() {  return TGo4Access::kndNone; }

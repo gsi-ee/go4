@@ -155,7 +155,7 @@ TGo4LevelIter* TGo4HServProxy::MakeIter()
    return fxStructure!=0 ? new TGo4HServIter(fxStructure) : 0;
 }
 
-TGo4Access* TGo4HServProxy::MakeProxy(const char* name)
+TGo4Access* TGo4HServProxy::ProvideAccess(const char* name)
 {
    if (fxStructure==0) return 0;
 

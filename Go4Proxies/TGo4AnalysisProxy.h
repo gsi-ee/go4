@@ -43,7 +43,7 @@ class TGo4AnalysisProxy : public TGo4Proxy {
 
       virtual TGo4LevelIter* MakeIter();
 
-      virtual TGo4Access* MakeProxy(const char* name);
+      virtual TGo4Access* ProvideAccess(const char* name);
 
       virtual void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs);
       virtual void ReadData(TGo4Slot* slot, TDirectory* dir);

@@ -20,18 +20,30 @@ class TFile;
 class TDirectory;
 
 class TGo4DirProxy : public TGo4Proxy {
+   protected:
+      TDirectory*  fDir;          //!
+      Bool_t       fOwner;        //!
+      Bool_t       fReadRight;    //!
+      TGo4Slot    *fxParentSlot;  //!
+
+      void SetDir(TDirectory* dir, Bool_t readright, Bool_t owner);
+      void ClearDir();
+
    public:
       TGo4DirProxy();
       TGo4DirProxy(TDirectory* dir, Bool_t readright, Bool_t owner);
       virtual ~TGo4DirProxy();
+
+      virtual void Initialize(TGo4Slot* slot) { fxParentSlot = slot; }
+      virtual void Finalize(TGo4Slot* slot) {}
 
       virtual Bool_t HasSublevels() const { return fDir!=0; }
 
       virtual TGo4LevelIter* MakeIter()
         { return (fDir==0) ? 0 : ProduceIter(fDir, fReadRight); }
 
-      virtual TGo4Access* MakeProxy(const char* name)
-        { return ProduceProxy(fDir, fReadRight, name); }
+      virtual TGo4Access* ProvideAccess(const char* name)
+        { return CreateAccess(fDir, fReadRight, name, fxParentSlot); }
 
       virtual void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs);
       virtual void ReadData(TGo4Slot* slot, TDirectory* dir);
@@ -41,21 +53,13 @@ class TGo4DirProxy : public TGo4Proxy {
       virtual const char* GetContainedObjectInfo();
       virtual Int_t GetObjectSizeInfo();
 
-      static TGo4Access* ProduceProxy(TDirectory* dir, Bool_t readright, const char* name);
+      static TGo4Access* CreateAccess(TDirectory* dir, Bool_t readright, const char* name, TGo4Slot* browser_slot = 0);
       static TGo4LevelIter* ProduceIter(TDirectory* dir, Bool_t readright);
 
       Bool_t UpdateObjectInFile(const char* filepath, TObject* obj);
 
       Bool_t IsFile() const;
       const char* GetFileName() const;
-
-   protected:
-      void SetDir(TDirectory* dir, Bool_t readright, Bool_t owner);
-      void ClearDir();
-
-      TDirectory*  fDir;          //!
-      Bool_t       fOwner;        //!
-      Bool_t       fReadRight;    //!
 
    ClassDef(TGo4DirProxy, 1);
 };

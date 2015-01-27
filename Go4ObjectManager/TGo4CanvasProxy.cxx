@@ -223,7 +223,7 @@ TObject* TGo4CanvasProxy::GetAssignedObject()
    return fCanvas;
 }
 
-TGo4Access* TGo4CanvasProxy::ProduceProxy(TCanvas* canv, const char* name)
+TGo4Access* TGo4CanvasProxy::CreateAccess(TCanvas* canv, const char* name)
 {
    if (canv==0) return 0;
    if ((name==0) || (*name==0)) return new TGo4ObjectAccess(canv);
@@ -252,7 +252,7 @@ TGo4Access* TGo4CanvasProxy::ProduceProxy(TCanvas* canv, const char* name)
       if (curpad==0) {
          THStack* hs = dynamic_cast<THStack*> (obj);
          if (hs!=0)
-            return TGo4HStackProxy::ProduceProxy(hs, curname);
+            return TGo4HStackProxy::CreateAccess(hs, curname);
       }
    }
 

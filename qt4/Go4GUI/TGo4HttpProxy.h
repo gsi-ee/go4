@@ -116,11 +116,11 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       Bool_t Connect(const char* nodename);
       Bool_t UpdateHierarchy(Bool_t sync = kTRUE);
 
-      virtual void Initialize(TGo4Slot* slot);
-      virtual void Finalize(TGo4Slot* slot);
+      virtual void Initialize(TGo4Slot* slot) { fxParentSlot = slot; }
+      virtual void Finalize(TGo4Slot* slot) {}
 
       virtual Bool_t HasSublevels() const;
-      virtual TGo4Access* MakeProxy(const char* name);
+      virtual TGo4Access* ProvideAccess(const char* name);
       virtual TGo4LevelIter* MakeIter();
 
       virtual Int_t GetObjectKind() {  return TGo4Access::kndFolder; }

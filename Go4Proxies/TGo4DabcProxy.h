@@ -39,7 +39,7 @@ class TGo4DabcProxy : public TGo4ServerProxy {
       virtual void Finalize(TGo4Slot* slot);
 
       virtual Bool_t HasSublevels() const;
-      virtual TGo4Access* MakeProxy(const char* name);
+      virtual TGo4Access* ProvideAccess(const char* name);
       virtual TGo4LevelIter* MakeIter();
 
       virtual Int_t GetObjectKind() {  return TGo4Access::kndFolder; }

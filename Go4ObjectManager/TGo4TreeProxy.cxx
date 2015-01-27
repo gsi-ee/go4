@@ -136,7 +136,7 @@ const char* TGo4TreeProxy::GetContainedClassName()
    return (fTree!=0) ? fTree->ClassName() : 0;
 }
 
-TGo4Access* TGo4TreeProxy::ProduceProxy(TTree* tree, const char* name)
+TGo4Access* TGo4TreeProxy::CreateAccess(TTree* tree, const char* name)
 {
    if (tree==0) return 0;
 

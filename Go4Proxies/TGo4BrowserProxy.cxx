@@ -1060,13 +1060,15 @@ Bool_t TGo4BrowserProxy::DefineRelatedObject(const char* itemname, const char* o
          BrowserSlotName(searchname.Data(), fullname);
 
          TGo4Slot* slot = fxOM->GetSlot(searchname.Data());
+         if (slot==0) {
+            searchname.Append(";1");
+            slot = fxOM->GetSlot(searchname.Data());
+         }
 
-         if (slot!=0)
-//            if (CanDrawItem(ItemCanDo(slot)))
-            {
-               objectitem = searchname;
-               return kTRUE;
-            }
+         if (slot!=0) {
+            objectitem = searchname;
+            return kTRUE;
+         }
 
          searchslot = searchslot->GetParent();
       }
@@ -1078,14 +1080,18 @@ Bool_t TGo4BrowserProxy::DefineRelatedObject(const char* itemname, const char* o
 
    do {
       TGo4Iter iter(searchslot, kTRUE);
+      size_t len = strlen(objname);
       while (iter.next()) {
-//         if (iter.isfolder()) continue;
-         if (strcmp(objname, iter.getname())!=0) continue;
-         TGo4Slot* subslot = iter.getslot();
-//         if (!CanDrawItem(ItemCanDo(subslot))) continue;
+         const char* name = iter.getname();
 
-         subslot->ProduceFullName(objectitem, fxBrowserSlot);
-         return kTRUE;
+         if (strncmp(objname, name, len)!=0) continue;
+
+         if ((strlen(name) == len) ||
+             ((strlen(name)==(len+2)) && (strcmp(name+len,";1")==0))) {
+            TGo4Slot* subslot = iter.getslot();
+            subslot->ProduceFullName(objectitem, fxBrowserSlot);
+            return kTRUE;
+         }
       }
       if (searchslot==fxBrowserSlot) break;
       searchslot = searchslot->GetParent();

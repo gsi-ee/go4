@@ -30,8 +30,8 @@ class TGo4FolderProxy : public TGo4Proxy {
       virtual TGo4LevelIter* MakeIter()
         { return (fFolder==0) ? 0 : ProduceIter(fFolder); }
 
-      virtual TGo4Access* MakeProxy(const char* name)
-        { return ProduceProxy(fFolder, name); }
+      virtual TGo4Access* ProvideAccess(const char* name)
+        { return CreateAccess(fFolder, name); }
 
       virtual void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs);
       virtual void ReadData(TGo4Slot* slot, TDirectory* dir);
@@ -40,7 +40,7 @@ class TGo4FolderProxy : public TGo4Proxy {
       virtual const char* GetContainedClassName();
 
       static TFolder* LocateROOTFolder(const char* rootfolder);
-      static TGo4Access* ProduceProxy(TFolder* folder, const char* name);
+      static TGo4Access* CreateAccess(TFolder* folder, const char* name);
       static TGo4LevelIter* ProduceIter(TFolder* folder);
 
    protected:

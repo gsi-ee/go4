@@ -186,7 +186,7 @@ TObject* TGo4HStackProxy::GetAssignedObject()
    return fHS;
 }
 
-TGo4Access* TGo4HStackProxy::ProduceProxy(THStack* hs, const char* name)
+TGo4Access* TGo4HStackProxy::CreateAccess(THStack* hs, const char* name)
 {
    if (hs==0) return 0;
    if ((name==0) || (*name==0)) return new TGo4ObjectAccess(hs);

@@ -157,7 +157,7 @@ TFolder* TGo4FolderProxy::LocateROOTFolder(const char* rootfolder)
 }
 
 
-TGo4Access* TGo4FolderProxy::ProduceProxy(TFolder* folder, const char* name)
+TGo4Access* TGo4FolderProxy::CreateAccess(TFolder* folder, const char* name)
 {
    if (folder==0) return 0;
    if ((name==0) || (*name==0)) return new TGo4ObjectAccess(folder);
@@ -181,19 +181,19 @@ TGo4Access* TGo4FolderProxy::ProduceProxy(TFolder* folder, const char* name)
 
       TTree* tr = dynamic_cast<TTree*> (obj);
       if (tr!=0)
-         return TGo4TreeProxy::ProduceProxy(tr, curname);
+         return TGo4TreeProxy::CreateAccess(tr, curname);
 
       TDirectory* dir = dynamic_cast<TDirectory*> (obj);
       if (dir!=0)
-         return TGo4DirProxy::ProduceProxy(dir, kFALSE, curname);
+         return TGo4DirProxy::CreateAccess(dir, kFALSE, curname);
 
       TCanvas* canv = dynamic_cast<TCanvas*> (obj);
       if (canv!=0)
-         return TGo4CanvasProxy::ProduceProxy(canv, curname);
+         return TGo4CanvasProxy::CreateAccess(canv, curname);
 
       THStack* hs = dynamic_cast<THStack*> (obj);
       if (hs!=0)
-         return TGo4HStackProxy::ProduceProxy(hs, curname);
+         return TGo4HStackProxy::CreateAccess(hs, curname);
 
       curfold = dynamic_cast<TFolder*>(obj);
    }

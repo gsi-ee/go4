@@ -29,13 +29,13 @@ class TGo4TreeProxy : public TGo4Proxy {
       virtual TGo4LevelIter* MakeIter()
         { return (fTree==0) ? 0 : ProduceIter(fTree); }
 
-      virtual TGo4Access* MakeProxy(const char* name)
-        { return ProduceProxy(fTree, name); }
+      virtual TGo4Access* ProvideAccess(const char* name)
+        { return CreateAccess(fTree, name); }
 
       virtual Int_t GetObjectKind();
       virtual const char* GetContainedClassName();
 
-      static TGo4Access* ProduceProxy(TTree* tree, const char* name);
+      static TGo4Access* CreateAccess(TTree* tree, const char* name);
       static TGo4LevelIter* ProduceIter(TTree* tree);
 
    protected:

@@ -694,7 +694,7 @@ Bool_t TGo4DabcProxy::HasSublevels() const
    return hierarchy.NumChilds() > 0;
 }
 
-TGo4Access* TGo4DabcProxy::MakeProxy(const char* name)
+TGo4Access* TGo4DabcProxy::ProvideAccess(const char* name)
 {
    //printf("Make PROXY\n");
 
@@ -797,7 +797,7 @@ Bool_t TGo4DabcProxy::HasSublevels() const
    return kFALSE;
 }
 
-TGo4Access* TGo4DabcProxy::MakeProxy(const char* name)
+TGo4Access* TGo4DabcProxy::ProvideAccess(const char* name)
 {
    return 0;
 }

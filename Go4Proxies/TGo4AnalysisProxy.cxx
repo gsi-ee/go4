@@ -810,7 +810,7 @@ Bool_t TGo4AnalysisProxy::NamesListReceived()
    return fbNamesListReceived;
 }
 
-TGo4Access* TGo4AnalysisProxy::MakeProxy(const char* name)
+TGo4Access* TGo4AnalysisProxy::ProvideAccess(const char* name)
 {
    if ((name==0) || (*name==0) || (fAnalysisNames==0)) return 0;
 

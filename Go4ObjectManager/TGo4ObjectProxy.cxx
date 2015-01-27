@@ -101,7 +101,7 @@ Bool_t TGo4ObjectProxy::RemoveRegisteredObject(TObject* obj)
    return kFALSE;
 }
 
-TGo4Access* TGo4ObjectProxy::MakeProxy(const char* name)
+TGo4Access* TGo4ObjectProxy::ProvideAccess(const char* name)
 {
    if (fObject==0) return 0;
    if ((name==0) || (*name==0)) return new TGo4ObjectAccess(fObject);

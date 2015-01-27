@@ -41,7 +41,7 @@ class TGo4ObjectProxy : public TGo4Proxy {
       virtual void Finalize(TGo4Slot* slot);
       virtual Bool_t RemoveRegisteredObject(TObject* obj);
 
-      virtual TGo4Access* MakeProxy(const char* name);
+      virtual TGo4Access* ProvideAccess(const char* name);
       virtual TGo4LevelIter* MakeIter() { return 0; }
 
       virtual Int_t GetObjectKind();

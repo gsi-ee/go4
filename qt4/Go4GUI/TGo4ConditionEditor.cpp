@@ -524,12 +524,10 @@ void TGo4ConditionEditor::ChangeConditionProperty(int id, bool on)
    RedrawCondition();
 }
 
-
 void TGo4ConditionEditor::SetLabel( bool on )
 {
    ChangeConditionProperty(0, on);
 }
-
 
 void TGo4ConditionEditor::SetDrawLimits( bool on )
 {

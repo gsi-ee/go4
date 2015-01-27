@@ -412,7 +412,7 @@ TGo4Access* TGo4Slot::ProvideSlotAccess(const char* name)
 //        << " cont = " << (fProxy ? fProxy->ClassName() : "null") << std::endl;
 
    if ((fProxy!=0) && fProxy->Use())
-      return fProxy->MakeProxy(name);
+      return fProxy->ProvideAccess(name);
 
    if ((name==0) || (*name==0)) return new TGo4ObjectAccess(this);
 
