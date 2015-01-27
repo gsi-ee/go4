@@ -12,7 +12,6 @@
 //-----------------------------------------------------------------------
 
 
-
 /*----------------------------------------------------------------------
    DISCLAIMER
 
@@ -88,6 +87,57 @@
 
 #define BETA_TURNING_POINT 2
 
+#define      _Mult   1664525
+#define      _Cons   1
+#define    _Mask   0xFFFF
+#define      _Lo(X)   (X&_Mask)      /* the 16 LSB of X */
+#define      _Hi(X)   ((X>>16)&_Mask)      /* the 16 MSB of X (if 32 bit)*/
+
+
+/*------------------------------------------------------------------------------
+
+   p_iUniform() and p_dUniform generate uniformly distributed random
+   numbers, the first returning an unsigned integer in range [0,2^33-1],
+   and the other a double in range [0.0, 1.0)
+
+   Input: the pointer to an unsigned number; this is X[n]. This
+      location is used to store the value of the old seed,
+      hence should not be changed by calling routine.
+
+   Output: a random number, X[n+1] calculated from Input using given
+      formula, converted into correct type (unsigned or double).
+
+
+------------------------------------------------------------------------------*/
+
+unsigned p_iUniform(unsigned *seed)
+{
+unsigned lo, hi;
+
+lo= _Lo(_Lo(*seed) * _Lo(_Mult) + _Cons);
+hi= _Lo(_Hi(*seed) * _Lo(_Mult))+_Lo(_Hi(_Mult) * _Lo(*seed))+
+    _Hi(_Lo(*seed) * _Lo(_Mult) + _Cons);
+
+*seed= (hi<<16 | lo);
+return( *seed );
+}
+
+static unsigned   Scal=0xFFFFFFFF;
+double p_dUniform(unsigned* seed)
+{
+unsigned lo, hi;
+
+lo= _Lo(_Lo(*seed) * _Lo(_Mult) + _Cons);
+hi= _Lo(_Hi(*seed) * _Lo(_Mult))+_Lo(_Hi(_Mult) * _Lo(*seed))+
+    _Hi(_Lo(*seed) * _Lo(_Mult) + _Cons);
+
+*seed= (hi<<16 | lo);
+return( ((double)*seed)/Scal );
+}
+
+
+
+
 double   p_dBeta (a,b,seed)
 double   a,b;
 unsigned int   *seed;
@@ -143,8 +193,6 @@ unsigned int   *seed;
 
 ------------------------------------------------------------------------------*/
 
-extern double   p_dUniform ();
-
 int   p_iBinomial (p,n,seed)
 unsigned int   *seed;
 int   n;
@@ -183,12 +231,7 @@ double   p;
 
 ------------------------------------------------------------------------------*/
 
-extern double p_dUniform();
-extern double log();
-
-double   p_dExponential (lambda,seed)
-double   lambda;
-unsigned int   *seed;
+double   p_dExponential (double lambda,unsigned int *seed)
 {
    double   u= p_dUniform( seed);
 
@@ -229,17 +272,8 @@ unsigned int   *seed;
 ----------------------------------------------------------------------*/
 
 #define   GAMMA_TURNING_POINT   7
-extern double   p_dUniform ();
-extern double   log ();
-extern double   exp ();
-extern double   sqrt ();
-extern double   tan ();
-extern double   pow();
-extern double   floor();
 
-double   p_dGammaInt (a,seed)
-int   a;
-unsigned int   *seed;
+double   p_dGammaInt (int a,unsigned int *seed)
 {
    if (a>GAMMA_TURNING_POINT)
    {
@@ -360,14 +394,9 @@ fast as
 
 ------------------------------------------------------------------------------*/
 
-extern double p_dUniform();
-extern double log();
-extern double ceil();
 #define   GEOMETRIC_TURNING_POINT  0.38
 
-int   p_iGeometric (p,seed)
-double   p;
-unsigned int   *seed;
+int p_iGeometric (double p, unsigned int *seed)
 {
    int   i=1;
 
@@ -397,13 +426,7 @@ mean
 
 ------------------------------------------------------------------------------*/
 
-extern double p_dUniform();
-extern double log();
-extern double sqrt();
-
-double p_dNormal (mean,sigma,seed)
-double   mean,sigma;
-unsigned int   *seed;
+double p_dNormal (double mean, double sigma,unsigned int *seed)
 {
 
 double u1, u2, v1, v2, s;
@@ -433,12 +456,8 @@ flag= 1;
 return( x1*sigma + mean);
 
 }
-extern double exp();
-extern double p_dUniform();
 
-int p_iPoisson(mu,seed)
-double mu;
-unsigned *seed;
+int p_iPoisson(double mu, unsigned* seed)
 {
 double total=1, till;
 int count= -1   ;
@@ -470,57 +489,6 @@ return(count);
 
 ------------------------------------------------------------------------------*/
 
-
-#define      _Mult   1664525
-#define      _Cons   1
-#define    _Mask   0xFFFF
-#define      _Lo(X)   (X&_Mask)      /* the 16 LSB of X */
-#define      _Hi(X)   ((X>>16)&_Mask)      /* the 16 MSB of X (if 32 bit)*/
-
-
-/*------------------------------------------------------------------------------
-
-   p_iUniform() and p_dUniform generate uniformly distributed random
-   numbers, the first returning an unsigned integer in range [0,2^33-1],
-   and the other a double in range [0.0, 1.0)
-
-   Input: the pointer to an unsigned number; this is X[n]. This
-      location is used to store the value of the old seed,
-      hence should not be changed by calling routine.
-
-   Output: a random number, X[n+1] calculated from Input using given
-      formula, converted into correct type (unsigned or double).
-
-
-------------------------------------------------------------------------------*/
-
-unsigned p_iUniform ( seed)
-unsigned *seed;
-{
-unsigned lo, hi;
-
-lo= _Lo(_Lo(*seed) * _Lo(_Mult) + _Cons);
-hi= _Lo(_Hi(*seed) * _Lo(_Mult))+_Lo(_Hi(_Mult) * _Lo(*seed))+
-    _Hi(_Lo(*seed) * _Lo(_Mult) + _Cons);
-
-*seed= (hi<<16 | lo);
-return( *seed );
-}
-
-
-static unsigned   Scal=0xFFFFFFFF;
-double p_dUniform( seed)
-unsigned * seed;
-{
-unsigned lo, hi;
-
-lo= _Lo(_Lo(*seed) * _Lo(_Mult) + _Cons);
-hi= _Lo(_Hi(*seed) * _Lo(_Mult))+_Lo(_Hi(_Mult) * _Lo(*seed))+
-    _Hi(_Lo(*seed) * _Lo(_Mult) + _Cons);
-
-*seed= (hi<<16 | lo);
-return( ((double)*seed)/Scal );
-}
 /*
 
 --

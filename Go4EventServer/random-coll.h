@@ -14,7 +14,6 @@
 #ifndef random_coll_h
 #define random_coll_h
 
-
    double   p_dBeta (double a,double b, unsigned int *seed);
    int      p_iBinomial (double p,int n,unsigned int *seed);
    double   p_dExponential (double lambda,unsigned int *seed);
