@@ -61,6 +61,10 @@ GO4ANBASE_H+= $(GO4EVENTPAR_H)  \
               $(STATANAL_H)     \
               $(VERSION_H)
 
+ifdef GO4_WIN32
+$(GO4ANBASE_DO): CXXFLAGS += -DBUILDING_GO4BASE_DLL
+endif
+
 # exclude $(MBSAPIBASE_H) while CINT is not working              
               
 
