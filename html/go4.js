@@ -81,7 +81,7 @@
 
    
    GO4.ConditionEditor.prototype.isPolyCond = function() {
-	      return this.cond._typename == "TGo4PolyCond"; 
+	      return ((this.cond._typename == "TGo4PolyCond") || (this.cond._typename == "TGo4EllipseCond")); 
 	   }
    
    
@@ -158,6 +158,8 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
         	  if (this.cond.fiDim==2) {
         		  var ymin=$(id+" .cond_ymin")[0].value;
         		  var ymax=$(id+" .cond_ymax")[0].value; 
+        		  this.cond.fLow2 = xmin;
+             	  this.cond.fUp2 = xmax;
         		  optionstring +="&ymin="+ymin+"&ymax="+ymax;
         	  }
 			}
@@ -165,10 +167,13 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 		{  
 		 var npoints=$(id+" .cut_points")[0].value;		 
 		 	optionstring +="&npolygon="+npoints;
+		 	// TODO: set display of polygon points
 		 	for(i=0; i<npoints; ++i)
 		 		{
 		 			var x=$(id + " .cut_values input").eq(2*i)[0].value;
 		 			var y=$(id + " .cut_values input").eq(2*i+1)[0].value;
+		 			
+		 			
 		 			optionstring +="&x"+i+"="+x+"&y"+i+"="+y;
 		 		}
 		}
@@ -191,52 +196,62 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 		else if (key=="labeldraw"){
 			var checked=$(id+" .cond_label")[0].checked;
 			var arg= (checked ? "1" : "0");
+			this.cond.fbLabelDraw=arg;
 			optionstring +="&"+key+"="+arg;
 		}
 		else if (key=="limitsdraw"){
 			var checked=$(id+" .cond_limits")[0].checked;
 			var arg= (checked ? "1" : "0");
+			this.cond.fbLimitsDraw=arg;
 			optionstring +="&"+key+"="+arg;
 		}
 		else if (key=="intdraw"){
 			var checked=$(id+" .cond_integr")[0].checked;
 			var arg= (checked ? "1" : "0");
+			this.cond.fbIntDraw=arg;
 			optionstring +="&"+key+"="+arg;
 		}
 		else if (key=="xmeandraw"){
 			var checked=$(id+" .cond_xmean")[0].checked;
 			var arg= (checked ? "1" : "0");
+			this.cond.fbXMeanDraw=arg;
 			optionstring +="&"+key+"="+arg;
 		}
 		else if (key=="xrmsdraw"){
 			var checked=$(id+" .cond_xrms")[0].checked;
 			var arg= (checked ? "1" : "0");
+			this.cond.fbXRMSDraw=arg;
 			optionstring +="&"+key+"="+arg;
 		}
 		else if (key=="ymeandraw"){
 			var checked=$(id+" .cond_ymean")[0].checked;
 			var arg= (checked ? "1" : "0");
+			this.cond.fbYMeanDraw=arg;
 			optionstring +="&"+key+"="+arg;
 		}
 		else if (key=="yrmsdraw"){
 			var checked=$(id+" .cond_yrms")[0].checked;
 			var arg= (checked ? "1" : "0");
+			this.cond.fbYRMSDraw=arg;
 			optionstring +="&"+key+"="+arg;
 		}
 		else if (key=="xmaxdraw"){
 			var checked=$(id+" .cond_maxx")[0].checked;
 			var arg= (checked ? "1" : "0");
+			this.cond.fbXMaxDraw=arg;
 			optionstring +="&"+key+"="+arg;
 		}
 		
 		else if (key=="ymaxdraw"){
 			var checked=$(id+" .cond_maxy")[0].checked;
 			var arg= (checked ? "1" : "0");
+			this.cond.fbYMaxDraw=arg;
 			optionstring +="&"+key+"="+arg;
 		}
 		else if (key=="cmaxdraw"){
 			var checked=$(id+" .cond_max")[0].checked;
 			var arg= (checked ? "1" : "0");
+			this.cond.fbCMaxDraw=arg;
 			optionstring +="&"+key+"="+arg;
 		}
 		else{
@@ -672,7 +687,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    }
    
    GO4.ConditionPainter.prototype.isPolyCond = function() {
-      return this.cond._typename == "TGo4PolyCond"; 
+      return ((this.cond._typename == "TGo4PolyCond") || (this.cond._typename == "TGo4EllipseCond")); 
    }
    
    GO4.ConditionPainter.prototype.drawCondition = function() {
@@ -873,6 +888,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    
    JSROOT.addDrawFunc("TGo4WinCond", GO4.drawGo4Cond, ";editor");
    JSROOT.addDrawFunc("TGo4PolyCond", GO4.drawGo4Cond, ";editor");
+   JSROOT.addDrawFunc("TGo4EllipseCond", GO4.drawGo4Cond);
    JSROOT.addDrawFunc("TGo4AnalysisStatus", GO4.drawGo4AnalysisStatus);
    
 
@@ -1175,7 +1191,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 	            							changed=origText.replace("[+]","[-]");
 	            						if(origText.indexOf("[-]")!= -1)
 	            							changed=origText.replace("[-]","[+]");
-	            						console.log("original text= "+origText+", changed="+changed);
+	            						//console.log("original text= "+origText+", changed="+changed);
 	            						return changed;
 	            					  });
 	            			$(this) .parents('table.par_arraytable') .find('td.par_value:first').text(
@@ -1185,12 +1201,12 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 	            							changed=origText.replace("expand","shrink");
 	            						if(origText.indexOf("shrink")!= -1)
 	            							changed=origText.replace("shrink","expand");
-	            						console.log("original text= "+origText+", changed="+changed);
+	            						//console.log("original text= "+origText+", changed="+changed);
 	            						return changed;
 	            					  });
 	            			
 	            			
-	            			console.log("Clicked on table header");
+	            			//console.log("Clicked on table header");
 	            		}
 	            	);
 	            $(id + " table."+arraytableclass).children('tbody').hide();
