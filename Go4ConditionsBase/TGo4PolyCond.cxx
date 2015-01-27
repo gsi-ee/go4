@@ -243,23 +243,22 @@ Bool_t TGo4PolyCond::UpdateFromUrl(const char* rest_url_opt){
   TGo4Log::Message(1,message.Data());
 
   // TODO: evaluate options that change array of points
-  if (UrlOptionHasKey(TGo4PolyCond::fgxURL_NPOINTS))
-   {
+  if (UrlOptionHasKey(TGo4PolyCond::fgxURL_NPOINTS)) {
      Int_t npoints = GetUrlOptionAsInt(TGo4PolyCond::fgxURL_NPOINTS, -1);
-     if(npoints>=0)
-       {
-       TString xname,yname;
-       Double_t X[npoints], Y[npoints];
-       for(Int_t i=0; i<npoints;++i)
-           {
-             xname.Form("%s%d",TGo4PolyCond::fgxURL_XPRE.Data(), i);
-             yname.Form("%s%d",TGo4PolyCond::fgxURL_YPRE.Data(), i);
-             X[i]=GetUrlOptionAsDouble(xname.Data(),0);
-             Y[i]=GetUrlOptionAsDouble(yname.Data(),0);
-             message.Form(" i:%d, X=%f, Y=%f\n",i,X[i],Y[i]);
-           }
-       SetValues(X, Y, npoints);
-       }
+     if(npoints>=0) {
+        TString xname,yname;
+        Double_t* X = new Double_t[npoints];
+        Double_t* Y = new Double_t[npoints];
+        for(Int_t i=0; i<npoints;++i) {
+           xname.Form("%s%d",TGo4PolyCond::fgxURL_XPRE.Data(), i);
+           yname.Form("%s%d",TGo4PolyCond::fgxURL_YPRE.Data(), i);
+           X[i]=GetUrlOptionAsDouble(xname.Data(),0);
+           Y[i]=GetUrlOptionAsDouble(yname.Data(),0);
+           message.Form(" i:%d, X=%f, Y=%f\n",i,X[i],Y[i]);
+        }
+        SetValues(X, Y, npoints);
+        delete[] X; delete[] Y;
+     }
      message.Form(" - setting Polygon condition to new values!");
      TGo4Log::Message(1,message.Data());
 

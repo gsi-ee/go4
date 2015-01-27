@@ -24,6 +24,10 @@ ifdef DOPACKAGE
 DISTRFILES         += $(CONDBASE_S) $(CONDBASE_H)
 endif
 
+ifdef GO4_WIN32
+$(CONDBASE_O): CXXFLAGS += -DBUILDING_GO4BASE_DLL
+endif
+
 ##### local rules #####
 
 include/%.h: $(CONDBASE_DIR)/%.h
