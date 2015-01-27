@@ -119,7 +119,7 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
    else
       url.Append("/root.bin.gz");
 
-   // printf("Request URL %s\n", url.Data());
+   printf("Request URL %s\n", url.Data());
 
    fReply = fProxy->fComm.qnam.get(QNetworkRequest(QUrl(url.Data())));
    connect(fReply, SIGNAL(finished()), this, SLOT(httpFinished()));
@@ -133,11 +133,13 @@ void TGo4HttpAccess::httpFinished()
    fReply->deleteLater();
    fReply = 0;
 
+   printf("Get reply size %d\n", res.size());
+
+
    // do nothing
    if (res.size()==0) return;
 
    if (fExpand) {
-      // printf("Get:%s\n", res.data());
 
       TXMLEngine* xml = fProxy->fXML;
 
@@ -257,6 +259,9 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
 
          if (fXML->HasAttr(fChild,"_more")) return TGo4Access::kndMoreFolder;
 
+         const char* drawfunc = fXML->GetAttr(fChild,"_drawfunc");
+         if ((drawfunc!=0) && !strcmp(drawfunc, "GO4.drawParameter")) return TGo4Access::kndGo4Param;
+
          const char* clname = GetHttpRootClassName(fXML->GetAttr(fChild,"_kind"));
 
          return clname==0 ? TGo4Access::kndNone : TGo4Access::kndObject;
@@ -343,6 +348,8 @@ void TGo4HttpProxy::GetReply(QByteArray& res)
 Bool_t TGo4HttpProxy::Connect(const char* nodename)
 {
    fNodeName = nodename;
+
+   if (fNodeName.Index("http://")!=0) fNodeName = TString("http://") + fNodeName;
 
    return UpdateHierarchy(kTRUE);
 }

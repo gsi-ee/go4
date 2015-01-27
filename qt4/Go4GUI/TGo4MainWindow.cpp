@@ -560,7 +560,9 @@ void TGo4MainWindow::AddFileMenu()
              this, SLOT(OpenRemoteFileSlot()), CTRL+Key_R );
    fileMenu->addAction(QIcon( ":/icons/dabc.png" ), "Connect &DABC...",
              this, SLOT(ConnectDabcSlot()) );
-   fileMenu->addAction(QIcon( ":/icons/histserv.png" ), "Open &HServer...",
+   fileMenu->addAction(QIcon( ":/icons/network.png" ), "Connect &HTTP...",
+             this, SLOT(ConnectHttpSlot()) );
+   fileMenu->addAction(QIcon( ":/icons/histserv.png" ), "Open HIST &Server...",
              this, SLOT(ConnectHServerSlot()) );
    fileMenu->addAction(QIcon( ":/icons/filesave.png" ), "Save memor&y...",
              this, SLOT(SaveFileSlot()), CTRL+Key_Y );
@@ -583,6 +585,9 @@ void TGo4MainWindow::AddFileToolBar()
 
    FileBar->addAction( QIcon( ":/icons/dabc.png" ), "Connect to dabc server",
                         this, SLOT(ConnectDabcSlot()));
+
+   FileBar->addAction( QIcon( ":/icons/network.png" ), "Connect to http server",
+                        this, SLOT(ConnectHttpSlot()));
 
    FileBar->addAction( QIcon( ":/icons/histserv.png" ), "Connect to running histogram server",
                         this, SLOT(ConnectHServerSlot()));
@@ -1108,6 +1113,19 @@ void TGo4MainWindow::ConnectDabcSlot()
 
    if (!Browser()->ConnectDabc(dabcnode.toLatin1().constData()))
       QMessageBox::warning(0, "DABC server", "Cannot connect to DABC server");
+}
+
+void TGo4MainWindow::ConnectHttpSlot()
+{
+   bool ok = false;
+   QString dabcnode = QInputDialog::getText(
+      this, "Establish connection with HTTP", "Provide http server name",
+      QLineEdit::Normal, QString::null, &ok);
+   if (!ok) return;
+
+   TGo4Script* exec = TGo4Script::ScriptInstance();
+
+   if (exec) exec->ConnectHttp(dabcnode.toLatin1().constData());
 }
 
 
