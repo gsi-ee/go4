@@ -149,7 +149,8 @@ void TGo4EllipseCond::ResetPolygon()
   // stolen from ROOT TEllipse rendering code. we use it just to calculate polygon points
   // thanks to Sven Augustin, MPI Heidelberg, for the idea and first version of the code!
   if(fiResolution==0) fiResolution=GO4ELLIPSECOND_DEFAULTRESOLUTION;
-  Double_t x[fiResolution+1], y[fiResolution+1];
+  Double_t *x = new Double_t[fiResolution+1];
+  Double_t *y = new Double_t[fiResolution+1];
   Double_t dx,dy;
   Double_t dphi = TMath::TwoPi()/fiResolution;
   Double_t ct   = TMath::Cos(TMath::Pi()*fdTheta/180);
@@ -164,8 +165,6 @@ void TGo4EllipseCond::ResetPolygon()
   x[fiResolution] = x[0];
   y[fiResolution] = y[0];
 
-
-
   // from SvenA. for circle only
 //  const Int_t n = 30; //i.e., 12 degrees per slice
 //         Double_t x[n+1], y[n+1];
@@ -179,5 +178,8 @@ void TGo4EllipseCond::ResetPolygon()
 //         y[n] = y[0];
 
   SetValues(x,y, fiResolution+1);
+
+  delete[] x;
+  delete[] y;
 
 }
