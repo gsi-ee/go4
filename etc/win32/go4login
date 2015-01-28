@@ -1,9 +1,9 @@
 # This is example of login script, required for compilation 
-# of complete Go4 and user analysises under CYGWIN environment
+# of complete Go4 and user analyses under CYGWIN environment
 #
 # First ensure that all software components: CYGWIN, Microsoft VisualC, ROOT and Qt are installed.
 #
-# Qt package should be compiled with VisualC - like qt-win-opensource-4.7.3-vs2008.exe. 
+# Qt package should be compiled with VisualC - like qt-win-opensource-4.8.2-vs2010.exe. 
 # Do not try to install MinGW version - it uses unsuitable compiler version.
 # Install Qt into the path without spaces.
 #
@@ -19,11 +19,11 @@
 #  preferable - change sequence of $PATH. 
 #
 #                                          
-# Adjust windows pathes for VC, ROOT, Qt and Go4
+# Adjust windows paths for ROOT, Qt and Go4
 
-ROOT_PATH="F:\Soft\root"
-GO4_PATH="F:\Soft\go4"
-QT_PATH="E:\Soft\qt471"
+ROOT_PATH="C:\Soft\root"
+GO4_PATH="C:\Soft\go4"
+QT_PATH="C:\Soft\qt482"
 
 GO4CYGPATH=`cygpath $GO4_PATH`
 
@@ -38,4 +38,4 @@ export LIB="$ROOT_PATH\lib;$GO4_PATH\lib;$QT_PATH\lib;$LIB"
 
 export QMAKESPEC=win32-msvc2010
 
-echo "Configure enviroment to compile go4 in $GO4CYGPATH"
+echo "Configure environment to compile go4 in $GO4CYGPATH"

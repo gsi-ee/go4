@@ -29,12 +29,13 @@ together with Microsoft Visual C++ 2010 Express Edition and CYGWIN.
 - Extract content of binary Go4 archive. Full path name, where package
   is extracted, SHOULD NOT content any spaces. Therefore location like
   "C:\Program files" should not be used. Best if package will be extracted
-  on top directory like "C:\" (default is "Q:\").
-- After files are extracted, two top directories will be produced:
+  in directory "C:\Soft".
+- After files are extracted, two sub-directories will be created:
      root - binary distribution of ROOT (see http:\root.cern.ch)
      go4  - binary distribution of Go4
-- Correct paths to ROOT and Go4 installation should be set in
-  go4init.bat and go4.bat scripts, which are extracted in top directory.
+- If archive extracted not in "C:\Soft" directory, correct path
+  should be specified in go4init.bat and go4.bat scripts, 
+  which are extracted in top directory.
 
 
 2. STARTING ANALYSIS
@@ -42,12 +43,11 @@ together with Microsoft Visual C++ 2010 Express Edition and CYGWIN.
 - Run windows command prompt via main windows menu command:
     "Start/Programs/Accessories/Command prompt"
 - Execute go4init.bat batch file from directory, where package was extracted:
-    C:\> Q:\go4init.bat
+    C:\> C:\Soft\go4init.bat
 - Change to directory with user analysis:
-    C:\> Q:
-    Q:\> cd go4\Go4ExampleSimple
+    C:\> cd Soft\go4\Go4ExampleSimple
 - Start analysis by command:
-    Q:\go4\Go4ExampleSimple> go4analysis -server -random
+    C:\Soft\go4\Go4ExampleSimple> go4analysis -server -random
 - Also one can start analysis directly from the GUI
 
 
@@ -67,7 +67,7 @@ together with Microsoft Visual C++ 2010 Express Edition and CYGWIN.
 4. STARTING GO4 browser in ROOT
 
 - Run root from command prompt after go4init.bat was called
-    Q:\> root
+    C:\> root
 - In CINT shell instantiate TGo4Interface class
     root [0] new TGo4Interface
   All go4 classes are available in ROOT via rootmap mechanism.  
@@ -113,7 +113,7 @@ together with Microsoft Visual C++ 2010 Express Edition and CYGWIN.
   preferable - change sequence of $PATH. 
 
   After CYGWIN installed and configured, one should adjust "go4login" script, 
-  specifying where ROOT, Qt and Go4 are installed. One must avoid pathes with spaces,
+  specifying where ROOT, Qt and Go4 are installed. One must avoid path with spaces,
   therefore location "C:\Program Files\root" will not work.
    
   Than copy your analysis (or one of Go4 examples, for instance, Go4Example2Step) to separate location.
@@ -133,8 +133,8 @@ together with Microsoft Visual C++ 2010 Express Edition and CYGWIN.
   is written for Go4Example2Step. To adopt it for other user analysis,
   one should specify correct list of source files in this Makefile. 
   To run compilation, just do:
-     Q:\> go4init.bat
-     Q:\> F:
+     C:\Soft\> go4init.bat
+     C:\Soft\> F:
      F:\> cd \User\App1
      F:\User\App1> nmake clean all -f Makefile.win
   Once library compiled, analysis can be started with command:
@@ -146,8 +146,8 @@ together with Microsoft Visual C++ 2010 Express Edition and CYGWIN.
 - Download and install root (ROOT Windows binaries are enough)
 - Install and configure CYGWIN
 - Install Microsoft VC++
-- Install Qt 4.7.x binaries package for MS VC compiler like
-    qt-win-opensource-4.7.1-vs2008.exe 
+- Install Qt 4.8.x binaries package for MS VC compiler like
+    qt-win-opensource-4.8.2-vs2010.exe 
 - Download go4 sources from http://go4.gsi.de web site.
 - Find and modify $GO4SYS/etc/win32/go4login file to actual location of all 
   components, copy it to home cygwin directory

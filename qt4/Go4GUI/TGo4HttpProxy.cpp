@@ -115,11 +115,11 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
    if (fPath.Length()>0) { url.Append("/"); url.Append(fPath); }
 
    if (fExpand)
-      url.Append("/h.xml?compact&generic");
+      url.Append("/h.xml?compact");
    else
       url.Append("/root.bin.gz");
 
-   printf("Request URL %s\n", url.Data());
+   // printf("Request URL %s\n", url.Data());
 
    fReply = fProxy->fComm.qnam.get(QNetworkRequest(QUrl(url.Data())));
    connect(fReply, SIGNAL(finished()), this, SLOT(httpFinished()));
@@ -133,8 +133,7 @@ void TGo4HttpAccess::httpFinished()
    fReply->deleteLater();
    fReply = 0;
 
-   printf("Get reply size %d\n", res.size());
-
+   // printf("Get reply size %d\n", res.size());
 
    // do nothing
    if (res.size()==0) return;
