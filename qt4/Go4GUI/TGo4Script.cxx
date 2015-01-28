@@ -774,9 +774,13 @@ void TGo4Script::ConnectHttp(const char* servername)
    }
 
    const char* slotname = servername;
-   if (strncmp(slotname,"http://",7)==0) slotname+=7;
+   if (strncmp(slotname,"http://",7)==0) slotname+=7; else
+   if (strncmp(slotname,"https://",8)==0) slotname+=8;
+   TString sname(slotname);
+   Int_t len = sname.Index("/");
+   if ((len>1) && (len<sname.Length())) sname.Resize(len);
 
-   Browser()->AddServerProxy(proxy, slotname, "ROOT http server");
+   Browser()->AddServerProxy(proxy, sname.Data(), "ROOT http server");
 }
 
 

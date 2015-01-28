@@ -39,10 +39,8 @@
 #include "TGo4AnalysisProxy.h"
 #include "TGo4HServProxy.h"
 #include "TGo4DabcProxy.h"
-#include "TGo4HttpProxy.h"
 #include "TGo4QSettings.h"
 #include "TGo4ViewPanel.h"
-
 
 const int NColumns = 7;
 const int ColumnWidths[NColumns] = { 150, 40, 120, 90, 60, 100, 50 };

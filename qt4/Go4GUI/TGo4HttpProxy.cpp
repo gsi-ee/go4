@@ -357,7 +357,7 @@ Bool_t TGo4HttpProxy::UpdateHierarchy(Bool_t sync)
 {
    if (fComm.fReply!=0) return kTRUE;
 
-   TString req = fNodeName + "/h.xml?compact&generic";
+   TString req = fNodeName + "/h.xml?compact";
 
    fComm.StartRequest(req.Data());
 
