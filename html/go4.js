@@ -84,6 +84,10 @@
 	      return ((this.cond._typename == "TGo4PolyCond") || (this.cond._typename == "TGo4EllipseCond")); 
 	   }
    
+   GO4.ConditionEditor.prototype.isEllipseCond = function() {
+	      return (this.cond._typename == "TGo4EllipseCond"); 
+	   }
+   
    
    GO4.ConditionEditor.prototype.DabcCommand = function(cmd, option, callback) {
 		var xmlHttp = new XMLHttpRequest();
@@ -177,9 +181,35 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 		 			optionstring +="&x"+i+"="+x+"&y"+i+"="+y;
 		 		}
 		}
-		
-		
-		
+		else if (key=="ellinpts"){
+			var val=$(id+" .cond_ellipse_points")[0].value;
+			optionstring +="&"+key+"="+val;
+		}
+		else if (key=="ellicx"){
+			var val=$(id+" .cond_ellipse_cx")[0].value;
+			optionstring +="&"+key+"="+val;
+		}
+		else if (key=="ellicy"){
+			var val=$(id+" .cond_ellipse_cy")[0].value;
+			optionstring +="&"+key+"="+val;
+		}
+		else if (key=="ellia1"){
+			var val=$(id+" .cond_ellipse_a1")[0].value;
+			optionstring +="&"+key+"="+val;
+		}
+		else if (key=="ellia2"){
+			var val=$(id+" .cond_ellipse_a2")[0].value;
+			optionstring +="&"+key+"="+val;
+		}
+		else if (key=="ellicirc"){
+			var checked=$(id+" .cond_ellipse_iscircle")[0].checked;
+			var arg= (checked ? "1" : "0");
+			optionstring +="&"+key+"="+arg;			
+		}
+		else if (key=="ellith"){
+			var val=$(id+" .cond_ellipse_theta")[0].value;
+			optionstring +="&"+key+"="+val;
+		}
 		else if (key=="resultmode"){
 			var selected=$(id+" .cond_execmode")[0].value;
 			optionstring +="&"+key+"="+selected;
@@ -417,7 +447,51 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
     			 $(id + " .cut_values tbody").change(function(){ editor.MarkChanged("polygon")});
     			 
     		}
-          
+    		if(this.isEllipseCond()) { 
+    			$(id+" .cond_tabs").tabs( "enable", 2 ); // enable/disable by tab index
+    			var numpoints=this.cond.fiResolution;
+    			 $(id+" .cond_ellipse_points").val(numpoints); 
+    			 $(id+" .cond_ellipse_cx").val(cond.fdCenterX).change(function(){ editor.MarkChanged("ellicx")});
+    			 $(id+" .cond_ellipse_cy").val(cond.fdCenterY).change(function(){ editor.MarkChanged("ellicy")});
+    			 $(id+" .cond_ellipse_a1").val(cond.fdRadius1).change(function(){ editor.MarkChanged("ellia1")});
+    			 $(id+" .cond_ellipse_a2").val(cond.fdRadius2).prop('disabled', cond.fbIsCircle).change(function(){ editor.MarkChanged("ellia2")});
+    			 $(id+" .cond_ellipse_theta").val(cond.fdTheta).prop('disabled', cond.fbIsCircle).change(function(){
+    				 editor.MarkChanged("ellith");
+    				 $(id+" .cond_ellipse_theta_slider").slider( "option", "value", $(this)[0].value % 360);
+    				 console.log("ellipse theta value="+$(this)[0].value);
+    			 });
+    			 $(id+" .cond_ellipse_iscircle").prop('checked', cond.fbIsCircle)
+    	         .click(function() { 
+    	        	 cond.fbIsCircle = this.checked;  
+    	         $(id+" .cond_ellipse_a2").prop('disabled', this.checked);
+    			 $(id+" .cond_ellipse_theta").prop('disabled', this.checked);
+    			 this.checked ?
+    			 $(id + " .cond_ellipse_theta_slider").slider("disable") :  $(id + " .cond_ellipse_theta_slider").slider("enable");
+    			 editor.MarkChanged("ellicirc");
+    			 });
+    			 
+
+    			 $(id + " .cond_ellipse_theta_slider")
+    			 	.slider({
+						min : 0,
+						max : 360,
+						step : 1,
+						value: cond.fdTheta,
+						disabled: cond.fbIsCircle,
+						change : function(event, ui) {
+							editor.MarkChanged("ellith");
+							$(id + " .cond_ellipse_theta").val(ui.value);
+							console.log("slider changed to" + ui.value);
+						},
+						stop : function(event, ui) {
+							editor.MarkChanged("ellith");
+							console.log("sliderstopped.");
+						}
+					})
+					
+					;
+    			 
+    		}
           
       }
       else
@@ -425,6 +499,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
     	  	console.log("refreshEditor: - NO POLYGON CUT");
     	  	$(id+" .cond_tabs").tabs( "enable", 0 ); 
     	  	$(id+" .cond_tabs").tabs( "disable", 1 ); // enable/disable by tab index
+    	  	$(id+" .cond_tabs").tabs( "disable", 2 ); // enable/disable by tab index
     	  }
       
       
@@ -619,9 +694,16 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
         }        
     });
       
-      
-      
-
+    $(id+" .cond_ellipse_points").spinner({
+        min: 0,
+        max: 1000,
+        step: 1,
+        //spin: function( event, ui ) {console.log("cut spin has value:"+ui.value);},
+        change: function( event, ui ) {editor.MarkChanged("ellinpts");console.log("ellipse points changed.");
+        },
+        stop: function( event, ui ) {editor.MarkChanged("ellinpts");console.log("ellipse points stopped.");
+        }        
+    });
       
       this.refreshEditor();   
       
@@ -689,6 +771,11 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    GO4.ConditionPainter.prototype.isPolyCond = function() {
       return ((this.cond._typename == "TGo4PolyCond") || (this.cond._typename == "TGo4EllipseCond")); 
    }
+   
+   GO4.ConditionPainter.prototype.isEllipseCond = function() {
+	      return (this.cond._typename == "TGo4EllipseCond"); 
+	   }
+   
    
    GO4.ConditionPainter.prototype.drawCondition = function() {
       

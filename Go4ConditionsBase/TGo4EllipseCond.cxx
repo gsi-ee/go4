@@ -27,7 +27,13 @@
 
 
 
-
+TString TGo4EllipseCond::fgxURL_RESOLUTION  ="ellinpts";
+TString TGo4EllipseCond::fgxURL_CX          ="ellicx";
+TString TGo4EllipseCond::fgxURL_CY          ="ellicy";
+TString TGo4EllipseCond::fgxURL_A1          ="ellia1";
+TString TGo4EllipseCond::fgxURL_A2          ="ellia2";
+TString TGo4EllipseCond::fgxURL_TH          ="ellith";
+TString TGo4EllipseCond::fgxURL_CIRCLE      ="ellicirc";
 
 // ----------------------------------------------------------
 TGo4EllipseCond::TGo4EllipseCond() :
@@ -75,8 +81,8 @@ Bool_t TGo4EllipseCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
         fdTheta   = from->fdTheta;
         fiResolution   = from->fiResolution;
         fbIsCircle   = from->fbIsCircle;
-        // TODO: probably later we only update ellipse paraemters and render polygon points from that.
-        PrintCondition();
+        // TODO: probably later we only update ellipse parameters and render polygon points from that.
+        //PrintCondition();
         return kTRUE;
      }
  else
@@ -89,12 +95,38 @@ Bool_t TGo4EllipseCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
 
 
 Bool_t TGo4EllipseCond::UpdateFromUrl(const char* rest_url_opt){
-  if(!TGo4PolyCond::UpdateFromUrl(rest_url_opt)) return kFALSE;
-  TString message;
-  message.Form("TGo4EllipseCond::UpdateFromUrl - condition %s: with url:%s", GetName(), rest_url_opt);
-  TGo4Log::Message(1,message.Data());
+  //if(!TGo4PolyCond::UpdateFromUrl(rest_url_opt)) return kFALSE;
+  // do not try update polygon points, but reconstruct from ellipse parameters!
 
-  // TODO: evaluate ellipse parameters in url and setup polygon from this.
+  if(!TGo4Condition::UpdateFromUrl(rest_url_opt)) return kFALSE; // still may change condition base class flags
+
+  TString message;
+  message.Form("TGo4EllipseCond::UpdateFromUrl - condition %s: with url:%s\n", GetName(), rest_url_opt);
+     Double_t x=0,y=0,a=0,b=0;
+     GetCenter(x,y);
+     GetRadius(a,b); // old values as defaults
+     Double_t theta=GetTheta();
+     x= GetUrlOptionAsDouble(TGo4EllipseCond::fgxURL_CX.Data(), x);
+     y = GetUrlOptionAsDouble(TGo4EllipseCond::fgxURL_CY.Data(), y);
+     a = GetUrlOptionAsDouble(TGo4EllipseCond::fgxURL_A1.Data(), a);
+     b = GetUrlOptionAsDouble(TGo4EllipseCond::fgxURL_A2.Data(), b);
+     theta=GetUrlOptionAsInt(TGo4EllipseCond::fgxURL_TH.Data(), theta);
+     Int_t resolution = GetUrlOptionAsInt(TGo4EllipseCond::fgxURL_RESOLUTION.Data(), GetResolution());
+     Int_t iscircle = GetUrlOptionAsInt(TGo4EllipseCond::fgxURL_CIRCLE.Data(), IsCircle());
+     if(iscircle)
+       {
+         message.Append(TString::Format("Set to Circle shape with x:%f, y:%f, r:%f, points=%d", x,y,a,resolution));
+         SetCircle(x,y,a,resolution);
+
+       }
+       else
+       {
+         message.Append(TString::Format("Set  to Ellipse shape with x:%f, y:%f, a:%f b:%f,theta:%f, points=%d",
+             x, y, a, b, theta, resolution));
+         SetEllipse(x,y,a,b,theta, resolution);
+       }
+
+       TGo4Log::Message(1,message.Data());
   return kTRUE;
 }
 
@@ -164,6 +196,8 @@ void TGo4EllipseCond::ResetPolygon()
   }
   x[fiResolution] = x[0];
   y[fiResolution] = y[0];
+
+
 
   // from SvenA. for circle only
 //  const Int_t n = 30; //i.e., 12 degrees per slice

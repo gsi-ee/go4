@@ -243,19 +243,20 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (cond);
    TGo4EllipseCond* econd = dynamic_cast<TGo4EllipseCond*> (cond);
 
-   if (wcond!=0)
-     if (wcond->GetDimension()==2)
-        CondClassLbl->setText("Win 2-D  ");
-     else
-        CondClassLbl->setText("Win 1-D  ");
-   else
-   if (pcond!=0)
-     CondClassLbl->setText("Polygon  ");
-   else
-   if (econd!=0)
-     CondClassLbl->setText("Ellipse  ");
-   else
-     CondClassLbl->setText("");
+   if (wcond != 0)
+  {
+    if (wcond->GetDimension() == 2)
+      CondClassLbl->setText("Win 2-D  ");
+    else
+      CondClassLbl->setText("Win 1-D  ");
+  }
+  else if (econd != 0)
+    CondClassLbl->setText("Ellipse  ");
+  else if (pcond != 0)
+    CondClassLbl->setText("Polygon  ");
+
+  else
+    CondClassLbl->setText("");
 
    QString infolbl;
 
@@ -524,10 +525,12 @@ void TGo4ConditionEditor::ChangeConditionProperty(int id, bool on)
    RedrawCondition();
 }
 
+
 void TGo4ConditionEditor::SetLabel( bool on )
 {
    ChangeConditionProperty(0, on);
 }
+
 
 void TGo4ConditionEditor::SetDrawLimits( bool on )
 {

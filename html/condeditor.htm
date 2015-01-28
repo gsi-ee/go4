@@ -125,9 +125,10 @@
   <ul>
    <li><a href="#tabs-1">Limits</a></li>
    <li><a href="#tabs-2">Cut</a></li>
-   <li><a href="#tabs-3">Draw</a></li>
-   <li><a href="#tabs-4">Stats</a></li>
-   <li><a href="#tabs-5">Mean</a></li>
+   <li><a href="#tabs-3">Ellipse</a></li>
+   <li><a href="#tabs-4">Draw</a></li>
+   <li><a href="#tabs-5">Stats</a></li>
+   <li><a href="#tabs-6">Mean</a></li>
  </ul>
   <div id="tabs-1">
      <table style="position:relative; width:100%; height:100%; border-spacing:0px 0px">
@@ -155,7 +156,30 @@
     </table>
    
   </div>
-  <div id="tabs-3" style="align:center">
+  
+   <div id="tabs-3">
+     <table style="position:relative; width:100%; height:100%; border-spacing:5px 5px; text-align: right">
+      <tr>
+        <th><label>X: <input class="cond_ellipse_cx limit_style" title="Ellipse center x coordinate. Press enter to set!"/></label></th>
+    	<th><label>A1: <input class="cond_ellipse_a1 limit_style" title="Ellipse half axis 1. Press Enter to set"/></label></th>
+     	<th><label>Theta: <input class="cond_ellipse_theta limit_style" title="Ellipse tilt angle. Press Enter to set!"/></label></th>
+      
+       </tr>
+      <tr>
+         <th><label>Y: <input class="cond_ellipse_cy limit_style" title="Ellipse center y coordinate. Press enter to set!"/></label></th>
+        <th><label>A2: <input class="cond_ellipse_a2 limit_style" title="Ellipse half axis 2.  Press Enter to set!"/></label></th>
+   		<th><div class="cond_ellipse_theta_slider" style="width:80%; float:right"></th>
+     </tr>
+      <tr>
+       	<th><label title="Polygon resolultion"> NPoints <input class="cond_ellipse_points" style="width:50px" type="text"  value="0"></label></th>
+        <th><label title="Toggle circle property "><input class="cond_ellipse_iscircle" type="checkbox"/> Circle</label></th>
+        <th></th>
+      </tr>
+     </table>
+  </div>
+  
+  
+  <div id="tabs-4" style="align:center">
     <table style="position:relative; width:100%; height:100%; border-spacing: 0px 0px; text-align: left">
       <tr>
 	<th><label title="Toggle visibility of condition in viewpanel"><input class="cond_visible" type="checkbox"/> visible</label></th>
@@ -164,7 +188,7 @@
       </tr>
     </table>
   </div>
-  <div id="tabs-4">
+  <div id="tabs-5">
     <table style="position:relative; width:100%; height:100%; border-spacing:0px 0px; text-align: left">
       <tr>
 	<th><label title="Draw value into label on view panel"><input class="cond_integr" type="checkbox"/> Integr: </label></th>
@@ -176,7 +200,7 @@
       </tr>
     </table>
   </div>
-  <div id="tabs-5">
+  <div id="tabs-6">
     <table style="position:relative; width:100%; height:100%; border-spacing:0px 0px; text-align: left">
       <tr>
 	<th><label title="Draw value into label on view panel"><input class="cond_xmean" type="checkbox"/> XMean:</label></th>

@@ -117,6 +117,23 @@ class TGo4EllipseCond : public TGo4PolyCond {
         return fiResolution;
       }
 
+      /** web condition editor keyword used in UpdateFromUrl. */
+      static TString fgxURL_RESOLUTION;
+      /** web condition editor keyword used in UpdateFromUrl. */
+      static TString fgxURL_CX;
+      /** web condition editor keyword used in UpdateFromUrl. */
+      static TString fgxURL_CY;
+      /** web condition editor keyword used in UpdateFromUrl. */
+      static TString fgxURL_A1;
+      /** web condition editor keyword used in UpdateFromUrl. */
+      static TString fgxURL_A2;
+      /** web condition editor keyword used in UpdateFromUrl. */
+      static TString fgxURL_TH;
+      /** web condition editor keyword used in UpdateFromUrl. */
+      static TString fgxURL_CIRCLE;
+
+
+
    protected:
 
       /* This funcion will evaluate new polygon points whenever an ellipse parameter is changed.*/
