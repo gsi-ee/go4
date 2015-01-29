@@ -16,6 +16,8 @@
 #include "TROOT.h"
 #include "TClass.h"
 #include "TList.h"
+#include "TH1.h"
+#include "TH2.h"
 #include "TGo4Slot.h"
 #include "TBufferFile.h"
 
@@ -69,12 +71,12 @@ const char* GetHttpRootClassName(const char* kind)
 
 // ============================================================================================
 
-TGo4HttpAccess::TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, const char* path, Bool_t expand) :
+TGo4HttpAccess::TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, const char* path, Int_t kind) :
    TGo4Access(),
    fProxy(proxy),
    fNode(node),
    fPath(path),
-   fExpand(expand),
+   fKind(kind),
    fNameAttr(),
    fKindAttr(),
    fReceiver(0),
@@ -128,10 +130,12 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
    TString url = fProxy->fNodeName;
    if (fPath.Length()>0) { url.Append("/"); url.Append(fPath); }
 
-   if (fExpand)
-      url.Append("/h.xml?compact");
-   else
-      url.Append("/root.bin.gz");
+   switch (fKind) {
+      case 0: url.Append("/h.xml?compact"); break;
+      case 1: url.Append("/root.bin.gz"); break;
+      case 2: url.Append("/get.xml"); break;
+      default: url.Append("/root.bin.gz"); break;
+   }
 
    // printf("Send request URL %s\n", url.Data());
 
@@ -152,7 +156,7 @@ void TGo4HttpAccess::httpFinished()
    // do nothing
    if (res.size()==0) return;
 
-   if (fExpand) {
+   if (fKind == 0) {
 
       TXMLEngine* xml = fProxy->fXML;
 
@@ -183,6 +187,66 @@ void TGo4HttpAccess::httpFinished()
 
       return;
    }
+
+   if (fKind == 2) {
+      TXMLEngine* xml = fProxy->fXML;
+
+      XMLDocPointer_t doc = xml->ParseString(res.data());
+      if (doc==0) return;
+
+      XMLNodePointer_t top = xml->DocGetRootElement(doc);
+
+      const char* _kind = xml->GetAttr(top, "_kind");
+      const char* _name = xml->GetAttr(top, "_name");
+      const char* _title = xml->GetAttr(top, "_title");
+
+      TObject* obj = 0;
+
+      if (strcmp(_kind,"ROOT.TH1D")==0) {
+         Int_t nbins = xml->GetIntAttr(top, "nbins");
+         Int_t left = TString(xml->GetAttr(top, "left")).Atof();
+         Int_t right = TString(xml->GetAttr(top, "right")).Atof();
+         TH1D* h1 = new TH1D(_name, _title, nbins, left, right);
+         h1->SetDirectory(0);
+         const char* bins = xml->GetAttr(top, "bins") + 1;
+         for (int n =-3; n<nbins; n++) {
+            const char* separ = strpbrk(bins,",]");
+            if (separ==0) { printf("Error parsing histogram bins\n"); break; }
+            if (n>=0) {
+               Double_t v = TString(bins, separ-bins).Atof();
+               h1->SetBinContent(n+1, v);
+            }
+            bins = separ+1;
+         }
+         obj = h1;
+      } else {
+         Int_t nbins1 = xml->GetIntAttr(top, "nbins1");
+         Int_t left1 = TString(xml->GetAttr(top, "left1")).Atof();
+         Int_t right1 = TString(xml->GetAttr(top, "right1")).Atof();
+         Int_t nbins2 = xml->GetIntAttr(top, "nbins2");
+         Int_t left2 = TString(xml->GetAttr(top, "left2")).Atof();
+         Int_t right2 = TString(xml->GetAttr(top, "right2")).Atof();
+         TH2D* h2 = new TH2D(_name, _title, nbins1, left1, right1, nbins2, left2, right2);
+         h2->SetDirectory(0);
+         const char* bins = xml->GetAttr(top, "bins") + 1;
+         for (int n =-6; n<nbins1*nbins2; n++) {
+            const char* separ = strpbrk(bins,",]");
+            if (separ==0) { printf("Error parsing histogram bins\n"); break; }
+            if (n>=0) {
+               Double_t v = TString(bins, separ-bins).Atof();
+               h2->SetBinContent(n % nbins1 + 1, n / nbins1 + 1,  v);
+            }
+            bins = separ+1;
+         }
+         obj = h2;
+      }
+
+      xml->FreeDoc(doc);
+
+      DoObjectAssignement(fReceiver, fRecvPath.Data(), obj, kTRUE);
+      return;
+   }
+
 
    TClass* obj_cl = GetObjectClass();
    if ((obj_cl==0) || (obj_cl->GetBaseClassOffset(TObject::Class()) != 0)) return;
@@ -408,11 +472,12 @@ TGo4Access* TGo4HttpProxy::ProvideAccess(const char* name)
    XMLNodePointer_t item = FindItem(top, name);
    if (item==0) return 0;
 
-   Bool_t expand = fXML->HasAttr(item,"_more");
+   Int_t kind = 1;
 
-   // if (expand) printf("EXPAND ITEM %s\n", name);
+   if (fXML->HasAttr(item,"_dabc_hist")) kind = 2; else
+   if (fXML->HasAttr(item,"_more")) kind = 0;
 
-   return new TGo4HttpAccess(this, item, name, expand);
+   return new TGo4HttpAccess(this, item, name, kind);
 }
 
 TGo4LevelIter* TGo4HttpProxy::MakeIter()

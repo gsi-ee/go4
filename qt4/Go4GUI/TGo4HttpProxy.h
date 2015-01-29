@@ -61,7 +61,7 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
       TGo4HttpProxy   *fProxy;
       XMLNodePointer_t fNode;
       TString          fPath;
-      Bool_t           fExpand;
+      Int_t            fKind; // 0 - h.xml request, 1 - root.bin request, 2 - dabc get.xml request
       TString          fNameAttr;
       TString          fKindAttr;
       TGo4ObjectManager* fReceiver;
@@ -73,7 +73,7 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
 
    public:
 
-      TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, const char* path, Bool_t isexpand = kFALSE);
+      TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, const char* path, Int_t kind = 1);
 
       virtual ~TGo4HttpAccess() { }
 
