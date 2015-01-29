@@ -146,7 +146,7 @@ int main(int argc, char **argv)
       if (QString(argv[narg]).contains("dabc://")) {
          dabcnode = argv[narg];
       } else
-      if (QString(argv[narg]).contains("http://")) {
+      if (QString(argv[narg]).contains("http://") || QString(argv[narg]).contains("https://")) {
          httpnode = argv[narg];
       } else
       if (hotstart.length()==0) {

@@ -40,6 +40,7 @@ class QHttpProxy : public QObject {
    public slots:
       void httpFinished();
       void httpError(QNetworkReply::NetworkError);
+      void httpSslErrors ( const QList<QSslError> & errors);
 
    public:
 

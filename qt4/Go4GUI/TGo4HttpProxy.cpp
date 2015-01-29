@@ -31,18 +31,32 @@ void QHttpProxy::httpFinished()
    fProxy->GetReply(res);
 }
 
-void QHttpProxy::httpError(QNetworkReply::NetworkError)
+void QHttpProxy::httpError(QNetworkReply::NetworkError code)
 {
+   printf("QHttpProxy::httpError %d %s\n", code, fReply->errorString().toLatin1().constData());
 }
 
+void QHttpProxy::httpSslErrors (const QList<QSslError> & errors)
+{
+   // printf("QHttpProxy::httpSslErrors\n");
+   if (fReply) fReply->ignoreSslErrors();
+}
 
 void QHttpProxy::StartRequest(const char* url)
 {
    fReply = qnam.get(QNetworkRequest(QUrl(url)));
+
    connect(fReply, SIGNAL(finished()),
          this, SLOT(httpFinished()));
+
    connect(fReply, SIGNAL(error(QNetworkReply::NetworkError)),
          this, SLOT(httpError(QNetworkReply::NetworkError)));
+   connect(fReply, SIGNAL(sslErrors(const QList<QSslError>&)),
+         this, SLOT(httpSslErrors(const QList<QSslError>&)));
+
+   QSslConfiguration cfg = fReply->sslConfiguration();
+   cfg.setProtocol(QSsl::AnyProtocol/*QSsl::TlsV1SslV3*/);
+   fReply->setSslConfiguration(cfg);
 }
 
 
@@ -119,7 +133,7 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
    else
       url.Append("/root.bin.gz");
 
-   // printf("Request URL %s\n", url.Data());
+   // printf("Send request URL %s\n", url.Data());
 
    fReply = fProxy->fComm.qnam.get(QNetworkRequest(QUrl(url.Data())));
    connect(fReply, SIGNAL(finished()), this, SLOT(httpFinished()));
@@ -332,6 +346,8 @@ XMLNodePointer_t TGo4HttpProxy::FindItem(XMLNodePointer_t curr, const char* name
 
 void TGo4HttpProxy::GetReply(QByteArray& res)
 {
+   // printf("Get reply %d\n", res.size());
+
    if (res.size()>0) {
       XMLDocPointer_t doc = fXML->ParseString(res.data());
       if (doc!=0) {
@@ -348,7 +364,8 @@ Bool_t TGo4HttpProxy::Connect(const char* nodename)
 {
    fNodeName = nodename;
 
-   if (fNodeName.Index("http://")!=0) fNodeName = TString("http://") + fNodeName;
+   if ((fNodeName.Index("http://")!=0)  && (fNodeName.Index("https://")!=0))
+      fNodeName = TString("http://") + fNodeName;
 
    return UpdateHierarchy(kTRUE);
 }
@@ -358,6 +375,8 @@ Bool_t TGo4HttpProxy::UpdateHierarchy(Bool_t sync)
    if (fComm.fReply!=0) return kTRUE;
 
    TString req = fNodeName + "/h.xml?compact";
+
+   // printf("Send request %s\n", req.Data());
 
    fComm.StartRequest(req.Data());
 
