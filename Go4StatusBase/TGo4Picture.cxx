@@ -709,22 +709,18 @@ void TGo4Picture::SetAxisTitleFontSize(Int_t naxis, Float_t TitleSize, Int_t ind
 
 void TGo4Picture::SetXAxisAttTime(Bool_t timedisplay, const char* format, Int_t index)
 {
-     //std::cout <<"SetXAxisAttTime: "<<timedisplay<<", format:"<<format << std::endl;
 	 CheckIndex(index);
 	 SetOption (index, op_TimeAxisX, timedisplay);
 	 SetStrOption(index, op_TimeAxisXFmt, format);
-
 }
 
 void TGo4Picture::SetXAxisTimeDisplay(Bool_t on)
 {
-	//std::cout <<"SetXAxisTimeDisplay: "<<on<<std::endl;
 	SetOption (PictureIndex, op_TimeAxisX, on);
 }
 
 void TGo4Picture::SetXAxisTimeFormat(const char* format)
 {
-	//std::cout <<"SetXAxisTimeFormat: "<<format<<std::endl;
 	 SetStrOption(PictureIndex, op_TimeAxisXFmt, format);
 }
 
@@ -732,14 +728,11 @@ Bool_t  TGo4Picture::IsXAxisTimeDisplay()
 {
 	Long_t value=0;
 	GetOption(PictureIndex, op_TimeAxisX,value);
-	//std::cout <<"IsXAxisTimeDisplay is "<<value << std::endl;
 	return value;
-
 }
 
 const char* TGo4Picture::GetXAxisTimeFormat()
 {
-	//std::cout <<"GetXAxisTimeFormat: "<<GetStrOption(PictureIndex, op_TimeAxisXFmt , "%H:%M:%S")<<std::endl;
 	return GetStrOption(PictureIndex, op_TimeAxisXFmt , "%H:%M:%S");
 }
 

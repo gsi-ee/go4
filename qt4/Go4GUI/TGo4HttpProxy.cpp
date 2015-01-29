@@ -272,9 +272,6 @@ void TGo4HttpAccess::httpFinished()
       gr->SetName(xml->GetAttr(top, "_name"));
       gr->SetTitle(Form("%s ratemeter", xml->GetAttr(top, "_name")));
 
-      gr->GetXaxis()->SetTimeDisplay(1);
-      gr->GetXaxis()->SetTimeFormat("%H:%M:%S%F1970-01-01 00:00:00");
-
       chld = top;
       Int_t i = cnt-1;
       while (chld!=0) {
@@ -291,6 +288,8 @@ void TGo4HttpAccess::httpFinished()
       xml->FreeDoc(doc);
       obj = gr;
 
+      gr->GetXaxis()->SetTimeDisplay(1);
+      gr->GetXaxis()->SetTimeFormat("%H:%M:%S%F1970-01-01 00:00:00");
    } else {
 
       TClass* obj_cl = GetObjectClass();

@@ -4909,8 +4909,6 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
    TAxis* xax = h1->GetXaxis();
    xax->SetTimeDisplay(padopt->IsXAxisTimeDisplay());
    xax->SetTimeFormat(padopt->GetXAxisTimeFormat());
-   //std::cout <<"SetSelectedRange to histo: timeformat "<< padopt->IsXAxisTimeDisplay()<<", form:"<<padopt->GetXAxisTimeFormat()<< std::endl;
-
 }
 
 bool TGo4ViewPanel::GetVisibleRange(TPad* pad, int naxis, double& min, double& max)
