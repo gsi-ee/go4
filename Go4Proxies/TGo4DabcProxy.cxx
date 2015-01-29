@@ -280,8 +280,8 @@ class TGo4DabcAccess : public TGo4Access {
 
                // DOUT0("pnt %d  tm %20u value %5.2f", i, tm / 1000, v);
 
-               gr->SetPoint(cnt - i -1, tm / 1000, v);
                i++;
+               gr->SetPoint(cnt-i, tm / 1000, v);
             }
 
             gr->GetXaxis()->SetTimeDisplay(1);

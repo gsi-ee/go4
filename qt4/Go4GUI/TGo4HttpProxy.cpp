@@ -18,8 +18,10 @@
 #include "TList.h"
 #include "TH1.h"
 #include "TH2.h"
-#include "TGo4Slot.h"
+#include "TGraph.h"
 #include "TBufferFile.h"
+
+#include "TGo4Slot.h"
 
 #include <QtNetwork>
 #include <QTime>
@@ -91,6 +93,7 @@ TGo4HttpAccess::TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, cons
 
 TClass* TGo4HttpAccess::GetObjectClass() const
 {
+   if (fKind==3) return TGraph::Class();
    const char* clname = GetHttpRootClassName(fKindAttr.Data());
    if (clname!=0) return (TClass*) gROOT->GetListOfClasses()->FindObject(clname);
    return 0;
@@ -103,6 +106,8 @@ const char* TGo4HttpAccess::GetObjectName() const
 
 const char* TGo4HttpAccess::GetObjectClassName() const
 {
+   if (fKind==3) return "TGraph";
+
    const char* clname = GetHttpRootClassName(fKindAttr.Data());
 
    return clname ? clname : "TObject";
@@ -134,6 +139,7 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
       case 0: url.Append("/h.xml?compact"); break;
       case 1: url.Append("/root.bin.gz"); break;
       case 2: url.Append("/get.xml"); break;
+      case 3: url.Append("/get.xml.gz?history=100&compact"); break;
       default: url.Append("/root.bin.gz"); break;
    }
 
@@ -188,6 +194,8 @@ void TGo4HttpAccess::httpFinished()
       return;
    }
 
+   TObject* obj = 0;
+
    if (fKind == 2) {
       TXMLEngine* xml = fProxy->fXML;
 
@@ -199,8 +207,6 @@ void TGo4HttpAccess::httpFinished()
       const char* _kind = xml->GetAttr(top, "_kind");
       const char* _name = xml->GetAttr(top, "_name");
       const char* _title = xml->GetAttr(top, "_title");
-
-      TObject* obj = 0;
 
       if (strcmp(_kind,"ROOT.TH1D")==0) {
          Int_t nbins = xml->GetIntAttr(top, "nbins");
@@ -243,27 +249,65 @@ void TGo4HttpAccess::httpFinished()
 
       xml->FreeDoc(doc);
 
-      DoObjectAssignement(fReceiver, fRecvPath.Data(), obj, kTRUE);
-      return;
+   } else
+
+   if (fKind == 3) {
+      TXMLEngine* xml = fProxy->fXML;
+
+      // printf("History %s\n", res.data());
+
+      XMLDocPointer_t doc = xml->ParseString(res.data());
+      if (doc==0) return;
+
+      XMLNodePointer_t top = xml->DocGetRootElement(doc);
+
+      XMLNodePointer_t chld = top;
+      Int_t cnt = 0;
+      while (chld!=0) {
+         if (xml->GetAttr(chld, "value") && xml->GetAttr(chld, "time")) cnt++;
+         chld = (chld==top) ? xml->GetChild(top) : xml->GetNext(chld);
+      }
+
+      TGraph* gr = new TGraph(cnt);
+      gr->SetName(xml->GetAttr(top, "_name"));
+      gr->SetTitle(Form("%s ratemeter", xml->GetAttr(top, "_name")));
+
+      gr->GetXaxis()->SetTimeDisplay(1);
+      gr->GetXaxis()->SetTimeFormat("%H:%M:%S%F1970-01-01 00:00:00");
+
+      chld = top;
+      Int_t i = cnt-1;
+      while (chld!=0) {
+         const char* time = xml->GetAttr(chld, "time");
+         const char* value = xml->GetAttr(chld, "value");
+         if ((time!=0) && (value!=0)) {
+            QDateTime tm = QDateTime::fromString(time, Qt::ISODate);
+            gr->SetPoint(i, tm.toTime_t(), TString(value).Atof());
+            i = (i+1) % cnt;
+         }
+         chld = (chld==top) ? xml->GetChild(top) : xml->GetNext(chld);
+      }
+
+      xml->FreeDoc(doc);
+      obj = gr;
+
+   } else {
+
+      TClass* obj_cl = GetObjectClass();
+      if ((obj_cl==0) || (obj_cl->GetBaseClassOffset(TObject::Class()) != 0)) return;
+
+      obj = (TObject*) obj_cl->New();
+      if (obj==0) {
+         printf("TGo4HttpAccess fail to create object of class %s\n", GetObjectClassName());
+         return;
+      }
+
+      TBufferFile buf(TBuffer::kRead, res.size(), res.data(), kFALSE);
+      buf.MapObject(obj, obj_cl);
+
+      obj->Streamer(buf);
    }
 
-
-   TClass* obj_cl = GetObjectClass();
-   if ((obj_cl==0) || (obj_cl->GetBaseClassOffset(TObject::Class()) != 0)) return;
-
-   TObject* obj = (TObject*) obj_cl->New();
-   if (obj==0) {
-      printf("TGo4HttpAccess fail to create object of class %s\n", GetObjectClassName());
-      return;
-   }
-
-   void* res_buf =  res.data();
-   int res_size = res.size();
-
-   TBufferFile buf(TBuffer::kRead, res_size, res_buf, kFALSE);
-   buf.MapObject(obj, obj_cl);
-
-   obj->Streamer(buf);
    DoObjectAssignement(fReceiver, fRecvPath.Data(), obj, kTRUE);
 }
 
@@ -339,18 +383,16 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
          const char* drawfunc = fXML->GetAttr(fChild,"_drawfunc");
          if ((drawfunc!=0) && !strcmp(drawfunc, "GO4.drawParameter")) return TGo4Access::kndGo4Param;
 
-         const char* clname = GetHttpRootClassName(fXML->GetAttr(fChild,"_kind"));
-
-         return clname==0 ? TGo4Access::kndNone : TGo4Access::kndObject;
+         return GetClassName() == 0 ? TGo4Access::kndNone : TGo4Access::kndObject;
       }
 
       virtual const char* GetClassName()
       {
-         const char* res = GetHttpRootClassName(fXML->GetAttr(fChild,"_kind"));
-
+         const char* _kind = fXML->GetAttr(fChild,"_kind");
+         const char* res = GetHttpRootClassName(_kind);
          if (res!=0) return res;
-
-         return isfolder() ? "TFolder" : "TObject";
+         if (_kind && !strcmp(_kind,"rate") && fXML->HasAttr(fChild,"_history")) return "TGraph";
+         return isfolder() ? "TFolder" : 0;
       }
 };
 
@@ -472,8 +514,11 @@ TGo4Access* TGo4HttpProxy::ProvideAccess(const char* name)
    XMLNodePointer_t item = FindItem(top, name);
    if (item==0) return 0;
 
+   const char* _kind = fXML->GetAttr(item,"_kind");
+
    Int_t kind = 1;
 
+   if (!strcmp(_kind,"rate") && fXML->HasAttr(item,"_history")) kind = 3; else
    if (fXML->HasAttr(item,"_dabc_hist")) kind = 2; else
    if (fXML->HasAttr(item,"_more")) kind = 0;
 
