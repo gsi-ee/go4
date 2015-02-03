@@ -273,14 +273,11 @@ Int_t TGo4Socket::SendBuffer(TBuffer* buf)
    //                        std::cout << dummy << std::endl;
    //////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef WIN32
-
-   Int_t rev = fxSocket->SendRaw(field, len);
-   // raw send complete buffer
-#else
-
+   // send complete buffer
+#ifdef Linux
    Int_t rev = gSystem->SendRaw(fxSocket->GetDescriptor(), field, len, MSG_NOSIGNAL);
-
+#else
+   Int_t rev = fxSocket->SendRaw(field, len);
 #endif
 
    if(rev>0) return 0;
@@ -306,10 +303,10 @@ Int_t TGo4Socket::ReceiveBuffer()
 
    UInt_t len = 0;
    // first receive length of following buffer
-#ifdef WIN32
-   Int_t rev = fxSocket->RecvRaw(&len, sizeof(UInt_t));
-#else
+#ifdef Linux
    Int_t rev = gSystem->RecvRaw(fxSocket->GetDescriptor(), &len, sizeof(UInt_t), MSG_NOSIGNAL);
+#else
+   Int_t rev = fxSocket->RecvRaw(&len, sizeof(UInt_t));
 #endif
    if(rev <= 0) {
       // error on receive
@@ -336,10 +333,10 @@ Int_t TGo4Socket::ReceiveBuffer()
    // read object buffer into receive buffer:
    char* buf = fxBuffer->Buffer()+sizeof(UInt_t);
    // skip first word, see TMessage transport
-#ifdef WIN32
-   rev = fxSocket->RecvRaw((void*) buf, len);
-#else
+#ifdef Linux
    rev = gSystem->RecvRaw(fxSocket->GetDescriptor(), buf, len, MSG_NOSIGNAL);
+#else
+   rev = fxSocket->RecvRaw((void*) buf, len);
 #endif
    if(rev <= 0) {
       // error on receive
@@ -398,10 +395,10 @@ Int_t TGo4Socket::Send(const char* name)
             {
                strncpy(fxLocalBuffer,name, TGo4Socket::fgiBUFLENGTH-1);
 
-#ifdef WIN32
-               rev = fxSocket->SendRaw(fxLocalBuffer,TGo4Socket::fgiBUFLENGTH);
-#else
+#ifdef Linux
                rev = gSystem->SendRaw(fxSocket->GetDescriptor(), fxLocalBuffer,TGo4Socket::fgiBUFLENGTH, MSG_NOSIGNAL);
+#else
+               rev = fxSocket->SendRaw(fxLocalBuffer,TGo4Socket::fgiBUFLENGTH);
 #endif
             }
          else
@@ -436,10 +433,10 @@ char* TGo4Socket::RecvRaw(const char* name)
       TGo4Log::Debug(" !!! Socket: Recv(const char*) ERROR : no TSocket !!! ");
       return 0;
    }
-#ifdef WIN32
-   Int_t rev = fxSocket->RecvRaw(fxLocalBuffer, TGo4Socket::fgiBUFLENGTH);
-#else
+#ifdef Linux
    Int_t rev = gSystem->RecvRaw(fxSocket->GetDescriptor(), fxLocalBuffer, TGo4Socket::fgiBUFLENGTH, MSG_NOSIGNAL);
+#else
+   Int_t rev = fxSocket->RecvRaw(fxLocalBuffer, TGo4Socket::fgiBUFLENGTH);
 #endif
 
    if(rev<=0) {
