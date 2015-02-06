@@ -81,6 +81,12 @@ INTS4 f_ut_status_ini(s_daqst *ps_daqst)
  return 0;
 }
 
+
+
+
+
+
+
 /*****************+***********+****************************************/
 /*                                                                    */
 /*   GSI, Gesellschaft fuer Schwerionenforschung mbH                  */
@@ -236,6 +242,155 @@ ps_setup->bl_sbs__n_trg_typ = SBS__N_TRG_TYP;
 return 0;
 }
 
+
+
+/*****************+***********+****************************************/
+/*                                                                    */
+/*   GSI, Gesellschaft fuer Schwerionenforschung mbH                  */
+/*   Postfach 11 05 52                                                */
+/*   D-64220 Darmstadt                                                */
+/*                                                                    */
+/*1+ C Procedure *************+****************************************/
+/*                                                                    */
+/*+ Module      : f_ut_setup_copy64                                  */
+/*                                                                    */
+/*--------------------------------------------------------------------*/
+/*+ CALLING     : l_status=f_ut_setup_copy64(s_setup, s_setup_64_receiver)                   */
+/*--------------------------------------------------------------------*/
+/*                                                                    */
+/*+ PURPOSE     : copy 64 bit setup structure to local setup          */
+/*                                                                    */
+/*+ ARGUMENTS   :                                                     */
+/*+  s_setup    : pointer to s_setup
+ *   s_setup_64_receiver : pointer to helper structure
+ *                                  */
+/*2+Implementation************+****************************************/
+/*+ File name   : f_ut_setup_copy64                                   */
+/*+ Home direct.: /mbs/prod/src                                       */
+/*+ Version     : 1.00                                                */
+/*+ Author      : J.Adamczewski-Musch                                 */
+/*+ Created     : 6-Feb-2015                                         */
+/*+ Object libr.: mbslib.a                                            */
+/*+ Updates     : Date        Purpose                                 */
+/*1- C Procedure *************+****************************************/
+INTS4 f_ut_setup_copy64(s_setup *ps_setup, s_setup_64_receiver* src)
+{
+ if(ps_setup == NULL || src == NULL) return -1;
+ ps_setup->bl_sbs__n_cr = src->bl_sbs__n_cr;
+ ps_setup->bl_sbs__n_trg_typ = src->bl_sbs__n_trg_typ;
+ ps_setup->bi_master=src->bi_master;
+ ps_setup->bl_no_crates=src->bl_no_crates;
+ ps_setup->bh_crate_nr=src->bh_crate_nr;
+ ps_setup->bl_ev_buf_len=src->bl_ev_buf_len;
+ ps_setup->bl_n_ev_buf=src->bl_n_ev_buf;
+ ps_setup->bl_n_stream=src->bl_n_stream;
+ ps_setup->bi_evt_typ_sy= src->bi_evt_typ_sy;
+ ps_setup->bi_evt_typ_asy=src->bi_evt_typ_asy;
+ ps_setup->bi_evt_subtyp_sy=src->bi_evt_subtyp_sy;
+ ps_setup->bi_evt_subtyp_asy=src->bi_evt_subtyp_asy;
+ ps_setup->h_se_control=src->h_se_control;
+ ps_setup->bh_rd_typ=src->bh_rd_typ;
+ ps_setup->bh_col_mode=src->bh_col_mode;
+ ps_setup->bl_loc_esone_base=src->bl_loc_esone_base;
+ ps_setup->bl_rem_esone_base=src->bl_rem_esone_base;
+ ps_setup->bl_esone_off=src->bl_esone_off;
+ ps_setup->bl_cvc_crr_off=src->bl_cvc_crr_off;
+ ps_setup->bl_cvc_csr_off=src->bl_cvc_csr_off;
+ ps_setup->bl_cvc_clb_off=src->bl_cvc_clb_off;
+ ps_setup->bl_se_meb_asy_len=src->bl_se_meb_asy_len;
+ ps_setup->bh_meb_asy_flg=src->bh_meb_asy_flg;
+ ps_setup->bl_ml_pipe_base_addr=src->bl_ml_pipe_base_addr;
+ ps_setup->bl_ml_pipe_seg_len=src->bl_ml_pipe_seg_len;
+ ps_setup->bl_ml_pipe_len=src->bl_ml_pipe_len;
+ ps_setup->bl_n_col_retry=src->bl_n_col_retry;
+ ps_setup->bh_meb_trig_mode=src->bh_meb_trig_mode;
+ ps_setup->bh_special_meb_trig_type=src->bh_special_meb_trig_type;
+ ps_setup->bl_special_meb_trig_base=src->bl_special_meb_trig_base;
+ ps_setup->lp_cvc_irq=src->lp_cvc_irq;
+ ps_setup->bl_cvc_irq_len=src->bl_cvc_irq_len;
+ ps_setup->bl_cvc_irq_source_off=src->bl_cvc_irq_source_off;
+ ps_setup->bl_cvc_irq_mask_off=src->bl_cvc_irq_mask_off;
+ ps_setup->h_rd_tab_flg=src->h_rd_tab_flg;
+ ps_setup->bl_init_read_len=src->bl_init_read_len;
+ return 0;
+}
+
+
+
+/*****************+***********+****************************************/
+/*                                                                    */
+/*   GSI, Gesellschaft fuer Schwerionenforschung mbH                  */
+/*   Postfach 11 05 52                                                */
+/*   D-64220 Darmstadt                                                */
+/*                                                                    */
+/*1+ C Procedure *************+****************************************/
+/*                                                                    */
+/*+ Module      : f_ut_setup_copy32                                  */
+/*                                                                    */
+/*--------------------------------------------------------------------*/
+/*+ CALLING     : l_status=f_ut_setup_copy32(s_setup, s_setup_32_receiver)                   */
+/*--------------------------------------------------------------------*/
+/*                                                                    */
+/*+ PURPOSE     : copy 32 bit setup structure to local setup          */
+/*                                                                    */
+/*+ ARGUMENTS   :                                                     */
+/*+  s_setup    : pointer to s_setup
+ *   s_setup_64_receiver : pointer to helper structure
+ *                                  */
+/*2+Implementation************+****************************************/
+/*+ File name   : f_ut_setup_copy64                                   */
+/*+ Home direct.: /mbs/prod/src                                       */
+/*+ Version     : 1.00                                                */
+/*+ Author      : J.Adamczewski-Musch                                 */
+/*+ Created     : 6-Feb-2015                                         */
+/*+ Object libr.: mbslib.a                                            */
+/*+ Updates     : Date        Purpose                                 */
+/*1- C Procedure *************+****************************************/
+INTS4 f_ut_setup_copy32(s_setup *ps_setup, s_setup_32_receiver* src)
+{
+ if(ps_setup == NULL || src == NULL) return -1;
+ ps_setup->bl_sbs__n_cr = src->bl_sbs__n_cr;
+ ps_setup->bl_sbs__n_trg_typ = src->bl_sbs__n_trg_typ;
+ ps_setup->bi_master=src->bi_master;
+ ps_setup->bl_no_crates=src->bl_no_crates;
+ ps_setup->bh_crate_nr=src->bh_crate_nr;
+ ps_setup->bl_ev_buf_len=src->bl_ev_buf_len;
+ ps_setup->bl_n_ev_buf=src->bl_n_ev_buf;
+ ps_setup->bl_n_stream=src->bl_n_stream;
+ ps_setup->bi_evt_typ_sy= src->bi_evt_typ_sy;
+ ps_setup->bi_evt_typ_asy=src->bi_evt_typ_asy;
+ ps_setup->bi_evt_subtyp_sy=src->bi_evt_subtyp_sy;
+ ps_setup->bi_evt_subtyp_asy=src->bi_evt_subtyp_asy;
+ ps_setup->h_se_control=src->h_se_control;
+ ps_setup->bh_rd_typ=src->bh_rd_typ;
+ ps_setup->bh_col_mode=src->bh_col_mode;
+ ps_setup->bl_loc_esone_base=src->bl_loc_esone_base;
+ ps_setup->bl_rem_esone_base=src->bl_rem_esone_base;
+ ps_setup->bl_esone_off=src->bl_esone_off;
+ ps_setup->bl_cvc_crr_off=src->bl_cvc_crr_off;
+ ps_setup->bl_cvc_csr_off=src->bl_cvc_csr_off;
+ ps_setup->bl_cvc_clb_off=src->bl_cvc_clb_off;
+ ps_setup->bl_se_meb_asy_len=src->bl_se_meb_asy_len;
+ ps_setup->bh_meb_asy_flg=src->bh_meb_asy_flg;
+ ps_setup->bl_ml_pipe_base_addr=src->bl_ml_pipe_base_addr;
+ ps_setup->bl_ml_pipe_seg_len=src->bl_ml_pipe_seg_len;
+ ps_setup->bl_ml_pipe_len=src->bl_ml_pipe_len;
+ ps_setup->bl_n_col_retry=src->bl_n_col_retry;
+ ps_setup->bh_meb_trig_mode=src->bh_meb_trig_mode;
+ ps_setup->bh_special_meb_trig_type=src->bh_special_meb_trig_type;
+ ps_setup->bl_special_meb_trig_base=src->bl_special_meb_trig_base;
+ ps_setup->lp_cvc_irq=src->lp_cvc_irq;
+ ps_setup->bl_cvc_irq_len=src->bl_cvc_irq_len;
+ ps_setup->bl_cvc_irq_source_off=src->bl_cvc_irq_source_off;
+ ps_setup->bl_cvc_irq_mask_off=src->bl_cvc_irq_mask_off;
+ ps_setup->h_rd_tab_flg=src->h_rd_tab_flg;
+ ps_setup->bl_init_read_len=src->bl_init_read_len;
+ return 0;
+}
+
+
+
+
 /*****************+***********+****************************************/
 /*                                                                    */
 /*   GSI, Gesellschaft fuer Schwerionenforschung mbH                  */
@@ -361,8 +516,10 @@ INTS4 f_ut_setup_r(s_setup *ps_setup, INTS4 l_tcp)
 INTS4 l_swap=0;
 INTS4 l_cmd;
 INTS4 i,k,l_items,l_size,l_crate;
-INTS4 *pl_b,*pl_o;
+INTU4 *pl_b,*pl_o;
 INTS4 l_status;
+s_setup_64_receiver *ps_setup_64=0;
+s_setup_32_receiver *ps_setup_32=0;
 
  memset(ps_setup,0,sizeof(s_setup));
 l_cmd=2;
@@ -375,13 +532,49 @@ if((ps_setup->l_version != VERSION__SETUP) && (ps_setup->l_version != 1))
   printf ("f_ut_setup_r sees setup version %d, current version is %d", ps_setup->l_version, VERSION__SETUP);
   return -1; // correct for legacy MBS
 }
-  l_status = f_stc_read (&ps_setup->bl_sbs__n_cr, (ps_setup->l_fix_lw-4)*4 , l_tcp,-1);
+
+// JAM here decide if setup comes from 32 or 64 bit host:
+if(ps_setup->l_fix_lw == 40)
+{
+  // data from 32 bit machine.  first use auxiliary structure:
+    ps_setup_32  = (s_setup_32_receiver*) malloc (sizeof( s_setup_32_receiver));
+  l_status = f_stc_read (&ps_setup_32->bl_sbs__n_cr, (ps_setup->l_fix_lw-4)*4 , l_tcp,-1);
              l_status = f_stc_read (&l_items,4 , l_tcp,-1);
              l_status = f_stc_read (&l_size,4 , l_tcp,-1);
-if(l_swap == 1) l_status = f_swaplw(&ps_setup->bl_sbs__n_cr, (ps_setup->l_fix_lw-4),NULL);
+if(l_swap == 1) l_status = f_swaplw(&ps_setup_32->bl_sbs__n_cr, (ps_setup->l_fix_lw-4),NULL);
 if(l_swap == 1) l_status = f_swaplw(&l_items,1,NULL);
 if(l_swap == 1) l_status = f_swaplw(&l_size,1,NULL);
-pl_b = (INTS4 *) malloc(l_size * l_items * 4);
+
+// copy values to actual local setup (which can be both 32 or 64 bit, it should work):
+f_ut_setup_copy32(ps_setup,ps_setup_32);
+free(ps_setup_32);
+}
+else if(ps_setup->l_fix_lw == 46)
+{
+  // 64 bit with mbs >v6.3. use auxiliary structure:
+  ps_setup_64   = (s_setup_64_receiver*) malloc (sizeof( s_setup_64_receiver));
+
+  l_status = f_stc_read (&ps_setup_64->bl_sbs__n_cr, (ps_setup->l_fix_lw-4)*4 , l_tcp,-1);
+               l_status = f_stc_read (&l_items,4 , l_tcp,-1);
+               l_status = f_stc_read (&l_size,4 , l_tcp,-1);
+  if(l_swap == 1) l_status = f_swaplw(&ps_setup_64->bl_sbs__n_cr, (ps_setup->l_fix_lw-4),NULL);
+  if(l_swap == 1) l_status = f_swaplw(&l_items,1,NULL);
+  if(l_swap == 1) l_status = f_swaplw(&l_size,1,NULL);
+
+  // copy values to actual local setup (which can be both 32 or 64 bit, it should work):
+  f_ut_setup_copy64(ps_setup,ps_setup_64);
+  free(ps_setup_64);
+}
+else
+{
+  printf("f_ut_setup_r finds non consistent l_fix_lw=%d. do not read further!", ps_setup->l_fix_lw);
+  return -1;
+}
+
+// the rest does not depend on architecture, each word is transferred separately with 4 bytes
+// (losing some 64 bit addresses, but anyway now TODO adjust sending of data too):
+
+pl_b = (INTU4 *) malloc(l_size * l_items * 4);
              l_status = f_stc_read (pl_b,l_size * l_items * 4, l_tcp,-1);
 if(l_swap == 1) l_status = f_swaplw(pl_b,l_size * l_items,NULL);
 
@@ -389,17 +582,17 @@ pl_o = pl_b;
 for(i=0;i<l_items;i++)
 {
     l_crate = *pl_o++;
-     ps_setup->lp_rem_mem_base[l_crate] = *pl_o++;
-     ps_setup->bl_rem_mem_off[l_crate] = *pl_o++;
-     ps_setup->bl_rem_mem_len[l_crate] = *pl_o++;
+     ps_setup->lp_rem_mem_base[l_crate] =  *pl_o++;
+     ps_setup->bl_rem_mem_off[l_crate] =  *pl_o++;
+     ps_setup->bl_rem_mem_len[l_crate] =  *pl_o++;
      ps_setup->lp_rem_cam_base[l_crate] = *pl_o++;
      ps_setup->bl_rem_cam_off[l_crate] = *pl_o++;
      ps_setup->bl_rem_cam_len[l_crate] = *pl_o++;
-     ps_setup->lp_loc_mem_base[l_crate] = *pl_o++;
-     ps_setup->bl_loc_mem_len[l_crate] = *pl_o++;
-     ps_setup->lp_loc_pipe_base[l_crate] = *pl_o++;
-     ps_setup->bl_pipe_off[l_crate] = *pl_o++;
-     ps_setup->bl_pipe_seg_len[l_crate] = *pl_o++;
+     ps_setup->lp_loc_mem_base[l_crate] =   *pl_o++;
+     ps_setup->bl_loc_mem_len[l_crate] =    *pl_o++;
+     ps_setup->lp_loc_pipe_base[l_crate] =  *pl_o++;
+     ps_setup->bl_pipe_off[l_crate] =       *pl_o++;
+     ps_setup->bl_pipe_seg_len[l_crate] =  *pl_o++;
      ps_setup->bl_pipe_len[l_crate] = *pl_o++;
      ps_setup->bh_controller_id[l_crate] = *pl_o++;
      ps_setup->bh_sy_asy_flg[l_crate] = *pl_o++;

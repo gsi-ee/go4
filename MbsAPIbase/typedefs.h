@@ -45,6 +45,7 @@ typedef unsigned long ADDRS;
 #define GSI__LINUX
 #define GSI__UNIX
 typedef unsigned long ADDRS;
+typedef unsigned long long ADDR64; // JAM for 64 bit status structure receiving
 #endif
 
 #ifdef Solaris
@@ -52,6 +53,7 @@ typedef unsigned long ADDRS;
 #define GSI__SOLARIS
 #define GSI__SLARIS
 typedef unsigned long ADDRS;
+typedef unsigned long long ADDR64; // JAM for 64 bit status structure receiving
 #endif
 
 
@@ -60,6 +62,7 @@ typedef unsigned long ADDRS;
 #define GSI__LINUX
 #define GSI__UNIX
 typedef unsigned long ADDRS;
+typedef unsigned long long ADDR64; // JAM for 64 bit status structure receiving
 #endif
 
 
@@ -69,6 +72,7 @@ typedef unsigned long ADDRS;
 #define GSI__UNIX
 typedef          long long INTS8;
 typedef unsigned long long INTU8;
+typedef unsigned long long ADDR64; // JAM for 64 bit status structure receiving
 typedef unsigned long ADDRS;
 #endif
 
@@ -81,6 +85,7 @@ typedef unsigned long ADDRS;
 typedef          long INTS8;
 typedef unsigned long INTU8;
 typedef unsigned long ADDRS;
+typedef unsigned long long ADDR64; // JAM for 64 bit status structure receiving
 #endif
 #endif
 
@@ -91,6 +96,7 @@ typedef unsigned long ADDRS;
 typedef          long INTS8;
 typedef unsigned long INTU8;
 typedef unsigned long ADDRS;
+typedef unsigned long long ADDR64; // JAM for 64 bit status structure receiving
 #endif
 
 #ifdef Lynx
@@ -100,6 +106,7 @@ typedef unsigned long ADDRS;
 typedef          long INTS8;
 typedef unsigned long INTU8;
 typedef unsigned long ADDRS;
+typedef unsigned long long ADDR64; // JAM for 64 bit status structure receiving
 #endif
 
 #ifdef VMS
@@ -108,6 +115,7 @@ typedef unsigned long ADDRS;
 typedef          long INTS8;
 typedef unsigned long INTU8;
 typedef unsigned long ADDRS;
+typedef unsigned long long ADDR64; // JAM for 64 bit status structure receiving
 #ifdef __alpha
 #define GSI__VMS_AXP
 #define AXP
