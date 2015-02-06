@@ -20,6 +20,7 @@
 
 typedef          char   CHARS;
 typedef unsigned char   CHARU;
+typedef char            CHARX;
 typedef          char   INTS1;
 typedef unsigned char   INTU1;
 typedef          short  INTS2;

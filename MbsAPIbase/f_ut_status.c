@@ -34,10 +34,10 @@
 #include "s_set_mo.h"
 #include "f_stccomm.h"
 
-#define VERSION__DAQST  2
-#define VERSION__SETUP  1
-#define VERSION__SET_ML 1
-#define VERSION__SET_MO 1
+#define VERSION__DAQST  63
+#define VERSION__SETUP  63
+#define VERSION__SET_ML 63
+#define VERSION__SET_MO 63
 /*****************+***********+****************************************/
 /*                                                                    */
 /*   GSI, Gesellschaft fuer Schwerionenforschung mbH                  */
@@ -183,8 +183,8 @@ INTS4 f_ut_status_r(s_daqst *ps_daqst, INTS4 l_tcp)
       if(l_swap == 1)
     	  l_status = f_swaplw(&ps_daqst->bh_daqst_initalized, (ps_daqst->l_fix_lw-7) - (19 * len_64/4),NULL);
     }
-  // MBS v51 and v62
-  if((ps_daqst->l_version == 51) || (ps_daqst->l_version == 62))
+  // MBS v51 and v62/v63
+  if((ps_daqst->l_version == 51) || (ps_daqst->l_version == 62) || (ps_daqst->l_version == 63))
     {
       l_status = f_stc_read (&ps_daqst->bh_daqst_initalized, (ps_daqst->l_fix_lw-7)*4 , l_tcp,-1);
       if(l_swap == 1)
@@ -354,6 +354,10 @@ return l_status;
 /*1- C Procedure *************+****************************************/
 INTS4 f_ut_setup_r(s_setup *ps_setup, INTS4 l_tcp)
 {
+
+  /* TODO TODO JAM64 adjust different member length here for 64 bit senders
+     * Probably we need architecture independent structure for tcp communication?*/
+
 INTS4 l_swap=0;
 INTS4 l_cmd;
 INTS4 i,k,l_items,l_size,l_crate;
@@ -366,8 +370,12 @@ l_status = f_stc_write (&l_cmd,4,l_tcp);                 if (l_status != STC__SU
 l_status = f_stc_read (&ps_setup->l_endian,16,l_tcp,-1); if (l_status != STC__SUCCESS) return(-1);
 if(ps_setup->l_endian != 1) l_swap = 1;
 if(l_swap == 1) l_status = f_swaplw(&ps_setup->l_endian,4,NULL);
-if(ps_setup->l_version != VERSION__SETUP) return -1;
-             l_status = f_stc_read (&ps_setup->bl_sbs__n_cr, (ps_setup->l_fix_lw-4)*4 , l_tcp,-1);
+if((ps_setup->l_version != VERSION__SETUP) && (ps_setup->l_version != 1))
+{
+  printf ("f_ut_setup_r sees setup version %d, current version is %d", ps_setup->l_version, VERSION__SETUP);
+  return -1; // correct for legacy MBS
+}
+  l_status = f_stc_read (&ps_setup->bl_sbs__n_cr, (ps_setup->l_fix_lw-4)*4 , l_tcp,-1);
              l_status = f_stc_read (&l_items,4 , l_tcp,-1);
              l_status = f_stc_read (&l_size,4 , l_tcp,-1);
 if(l_swap == 1) l_status = f_swaplw(&ps_setup->bl_sbs__n_cr, (ps_setup->l_fix_lw-4),NULL);
@@ -408,6 +416,7 @@ for(i=0;i<l_items;i++)
     for(k=0;k<ps_setup->bl_sbs__n_trg_typ;k++) ps_setup->bl_rd_tab_off[l_crate][k] = *pl_o++;
     for(k=0;k<ps_setup->bl_sbs__n_trg_typ;k++) ps_setup->bi_rd_tab_len[l_crate][k] = *pl_o++;
 } /* setup */
+
 free(pl_b);
 return 0;
 }
@@ -546,7 +555,7 @@ l_status = f_stc_write (&l_cmd,4, l_tcp);                 if (l_status != STC__S
 l_status = f_stc_read (&ps_set_ml->l_endian,16,l_tcp,-1); if (l_status != STC__SUCCESS) return(-1);
 if(ps_set_ml->l_endian != 1) l_swap = 1;
 if(l_swap == 1) l_status = f_swaplw(&ps_set_ml->l_endian,4,NULL);
-if(ps_set_ml->l_version != VERSION__SET_ML) return -1;
+if( (ps_set_ml->l_version != VERSION__SET_ML) && (ps_set_ml->l_version != 1)) return -1; // correct legacy MBS version
              l_status = f_stc_read (&ps_set_ml->l_ml__n_rd_pipe,(ps_set_ml->l_fix_lw-4)*4 , l_tcp,-1);
 if(l_swap == 1) l_status = f_swaplw(&ps_set_ml->l_ml__n_rd_pipe,(ps_set_ml->l_fix_lw-4)-4,NULL); /* last 16 byte are char */
 for(i=0;i<ps_set_ml->l_n_rd_pipe;i++)
