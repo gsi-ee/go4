@@ -89,17 +89,20 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
       rec.SetField("_editor", "true");
       rec.SetField("_drawfunc", "GO4.drawParameter");
       rec.SetField("_autoload", "/go4sys/html/go4.js");
+      rec.SetField("_icon", "/go4sys/icons/parameter.png");
       return;
    }
 
    if (obj && obj->InheritsFrom(TGo4Condition::Class())) {
       rec.SetField("_editor", "true");
       rec.SetField("_autoload", "/go4sys/html/go4.js");
+      rec.SetField("_icon", "/go4sys/icons/condedit.png");
       return;
    }
 
    if (obj && obj->InheritsFrom(TGo4EventElement::Class())) {
       rec.SetField("_more", "true");
+      rec.SetField("_icon", "/go4sys/icons/eventobj.png");
       return;
    }
 }
