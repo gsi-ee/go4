@@ -46,7 +46,7 @@
 #include "TGo4TaskHandler.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
-#include "TGo4EllipseCond.h"
+#include "TGo4ShapedCond.h"
 
 #include "TGo4Version.h"
 #include "TGo4AnalysisStepManager.h"
@@ -1927,7 +1927,8 @@ TGo4WinCond* TGo4Analysis::MakeWinCond(const char* fullname,
 TGo4PolyCond* TGo4Analysis::MakePolyCond(const char* fullname,
                                          Int_t npoints,
                                          Double_t (*points) [2],
-                                         const char* HistoName)
+                                         const char* HistoName,
+                                         Bool_t shapedcond)
 {
    fbObjMade = kFALSE;
    TString foldername, condname;
@@ -1968,8 +1969,11 @@ TGo4PolyCond* TGo4Analysis::MakePolyCond(const char* fullname,
     }
 
    TCutG mycat("initialcut", npoints, fullx.GetArray(), fully.GetArray());
-
-   TGo4PolyCond* pcond = new TGo4PolyCond(condname);
+   TGo4PolyCond* pcond;
+   if(shapedcond)
+       pcond = new TGo4ShapedCond(condname);
+     else
+       pcond = new TGo4PolyCond(condname);
    pcond->SetValues(&mycat);
    pcond->Enable();
 
@@ -1986,7 +1990,7 @@ TGo4PolyCond* TGo4Analysis::MakePolyCond(const char* fullname,
 }
 
 
-TGo4EllipseCond* TGo4Analysis::MakeEllipseCond(const char* fullname,
+TGo4ShapedCond* TGo4Analysis::MakeEllipseCond(const char* fullname,
        Int_t npoints,
        Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
        const char* HistoName)
@@ -2008,14 +2012,14 @@ TGo4EllipseCond* TGo4Analysis::MakeEllipseCond(const char* fullname,
      TGo4Condition* cond = GetAnalysisCondition(fullname);
 
      if (cond!=0) {
-        if (cond->InheritsFrom(TGo4EllipseCond::Class()) && fbMakeWithAutosave) {
+        if (cond->InheritsFrom(TGo4ShapedCond::Class()) && fbMakeWithAutosave) {
            cond->ResetCounts();
-           return (TGo4EllipseCond*) cond;
+           return (TGo4ShapedCond*) cond;
         }
         RemoveAnalysisCondition(fullname);
      }
 
-     TGo4EllipseCond* econd = new TGo4EllipseCond(condname);
+     TGo4ShapedCond* econd = new TGo4ShapedCond(condname);
      econd->SetEllipse(cx,cy,a1,a2,theta,npoints);
      econd->Enable();
      econd->SetHistogram(HistoName);
@@ -2029,14 +2033,36 @@ TGo4EllipseCond* TGo4Analysis::MakeEllipseCond(const char* fullname,
 }
 
 
-TGo4EllipseCond* TGo4Analysis::MakeCircleCond(const char* fullname,
+TGo4ShapedCond* TGo4Analysis::MakeCircleCond(const char* fullname,
            Int_t npoints, Double_t cx, Double_t cy, Double_t r,
            const char* HistoName)
 {
-       TGo4EllipseCond* elli=MakeEllipseCond(fullname,npoints,cx,cy, r, r, 0, HistoName);
-       elli->SetCircle(kTRUE); // mark "circle shape" property for condition editor!
+       TGo4ShapedCond* elli=MakeEllipseCond(fullname,npoints,cx,cy, r, r, 0, HistoName);
+       elli->SetCircle(); // mark "circle shape" property
        return elli;
 }
+
+TGo4ShapedCond* TGo4Analysis::MakeBoxCond(const char* fullname,
+               Int_t npoints, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
+               const char* HistoName)
+{
+  TGo4ShapedCond* elli=MakeEllipseCond(fullname,4,cx,cy, a1, a2, theta, HistoName);
+        elli->SetBox(); // convert to  "box shape" property
+        return elli;
+}
+
+
+
+TGo4ShapedCond* TGo4Analysis::MakeFreeShapeCond(const char* fullname,
+                                   Int_t npoints,
+                                   Double_t (*points) [2],
+                                   const char* HistoName)
+{
+  TGo4ShapedCond* elli=dynamic_cast<TGo4ShapedCond*>(MakePolyCond(fullname, npoints, points, HistoName,true));
+  elli->SetFreeShape();
+  return elli;
+}
+
 
 
 

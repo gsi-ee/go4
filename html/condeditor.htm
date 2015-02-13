@@ -125,7 +125,7 @@
   <ul>
    <li><a href="#tabs-1">Limits</a></li>
    <li><a href="#tabs-2">Cut</a></li>
-   <li><a href="#tabs-3">Ellipse</a></li>
+   <li><a href="#tabs-3">Shape</a></li>
    <li><a href="#tabs-4">Draw</a></li>
    <li><a href="#tabs-5">Stats</a></li>
    <li><a href="#tabs-6">Mean</a></li>
@@ -169,10 +169,19 @@
          <th><label>Y: <input class="cond_ellipse_cy limit_style" title="Ellipse center y coordinate. Press enter to set!"/></label></th>
         <th><label>A2: <input class="cond_ellipse_a2 limit_style" title="Ellipse half axis 2.  Press Enter to set!"/></label></th>
    		<th><div class="cond_ellipse_theta_slider" style="width:80%; float:right"></th>
+   		
+   		
+   		
      </tr>
       <tr>
        	<th><label title="Polygon resolultion"> NPoints <input class="cond_ellipse_points" style="width:50px" type="text"  value="0"></label></th>
-        <th><label title="Toggle circle property "><input class="cond_ellipse_iscircle" type="checkbox"/> Circle</label></th>
+        <th><select class="cond_ellipse_iscircle" style="width:100%; title="Toggle shape " name="Shape"  >
+					<option selected="selected" value="3" title="Toggle polygon shape">Ellipse</option>
+					<option value="2" title="Toggle polygon shape" >Circle</option>
+					<option value="4" title="Toggle polygon shape" >Rectangular box</option>
+					<option value="1" title="Select polygon shape">Free Polygon</option>
+				</select>
+        
         <th></th>
       </tr>
      </table>

@@ -20,6 +20,7 @@
 #include <QToolTip>
 
 #include "TH1.h"
+#include "TMath.h"
 #include "TCutG.h"
 #include "TClass.h"
 #include "TPad.h"
@@ -28,7 +29,7 @@
 #include "TGo4Slot.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
-#include "TGo4EllipseCond.h"
+#include "TGo4ShapedCond.h"
 #include "TGo4CondArray.h"
 #include "TGo4ViewPanel.h"
 #include "TGo4BrowserProxy.h"
@@ -241,7 +242,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
 
    TGo4WinCond* wcond = dynamic_cast<TGo4WinCond*> (cond);
    TGo4PolyCond* pcond = dynamic_cast<TGo4PolyCond*> (cond);
-   TGo4EllipseCond* econd = dynamic_cast<TGo4EllipseCond*> (cond);
+   TGo4ShapedCond* econd = dynamic_cast<TGo4ShapedCond*> (cond);
 
    if (wcond != 0)
   {
@@ -251,8 +252,17 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
       CondClassLbl->setText("Win 1-D  ");
   }
   else if (econd != 0)
-    CondClassLbl->setText("Ellipse  ");
-  else if (pcond != 0)
+  {
+    if(econd->IsEllipse())
+      CondClassLbl->setText("Ellipse  ");
+    else if (econd->IsCircle())
+      CondClassLbl->setText("Circle  ");
+    else if (econd->IsBox())
+      CondClassLbl->setText("Box  ");
+    else
+      CondClassLbl->setText("Free shape ");
+  }
+    else if (pcond != 0)
     CondClassLbl->setText("Polygon  ");
 
   else
@@ -714,8 +724,12 @@ void TGo4ConditionEditor::RedrawCondition()
 void TGo4ConditionEditor::PrintConditionLog()
 {
    TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition", 0));
-   if (cond!=0) cond->Print("go4log-limits-stats");
-}
+   if (cond!=0)
+     {
+       cond->PrintCondition(kFALSE); // JAM want additional output of specific infos, no poly coords
+       cond->Print("go4log-limits-stats");
+     }
+   }
 
 bool TGo4ConditionEditor::PrepareForAnalysis()
 {
@@ -776,7 +790,7 @@ void TGo4ConditionEditor::FillCutWidget(TCutG* cut)
    fbTypingMode = old;
 }
 
-void TGo4ConditionEditor::FillEllipseWidget(TGo4EllipseCond* elli)
+void TGo4ConditionEditor::FillEllipseWidget(TGo4ShapedCond* elli)
 {
   if(elli==0) return;
    bool old = fbTypingMode;
@@ -794,7 +808,11 @@ void TGo4ConditionEditor::FillEllipseWidget(TGo4EllipseCond* elli)
    EllipseA2Spinbox->setValue(a2);
    EllipseTiltDial->setValue(theta);
    EllipseTiltEdit->setText(QString::number(theta));
+
    CircleBox->setChecked(elli->IsCircle());
+   EllipseBox->setChecked(elli->IsEllipse());
+   BoxshapeBox->setChecked(elli->IsBox());
+   FreeshapeBox->setChecked(elli->IsFreeShape());
    EllipseNptsSpin->setValue(elli->GetResolution());
    fbTypingMode = old;
 }
@@ -936,7 +954,7 @@ void TGo4ConditionEditor::EllipseTheta_valueChanged(int deg)
   EllipseTiltEdit->setText(QString::number(deg));
   if(fbEllipseAutoRefresh)
     {
-      TGo4EllipseCond* econd = dynamic_cast<TGo4EllipseCond*> (SelectedCondition());
+      TGo4ShapedCond* econd = dynamic_cast<TGo4ShapedCond*> (SelectedCondition());
       if(econd) econd->SetTheta((double) deg);
       PleaseUpdateSlot();
       RedrawCondition();
@@ -951,7 +969,7 @@ void TGo4ConditionEditor::EllipseCx_valueChanged(double x)
   //std::cout <<"EllipseCx_valueChanged to "<< x << std::endl;
   if(fbEllipseAutoRefresh)
     {
-        TGo4EllipseCond* econd = dynamic_cast<TGo4EllipseCond*> (SelectedCondition());
+        TGo4ShapedCond* econd = dynamic_cast<TGo4ShapedCond*> (SelectedCondition());
         if(econd) {
             double y=EllipseCySpinbox->value();
             econd->SetCenter(x, y);
@@ -966,7 +984,7 @@ void TGo4ConditionEditor::EllipseCy_valueChanged(double y)
   //std::cout <<"EllipseCy_valueChanged to "<< y << std::endl;
   if(fbEllipseAutoRefresh)
       {
-          TGo4EllipseCond* econd = dynamic_cast<TGo4EllipseCond*> (SelectedCondition());
+          TGo4ShapedCond* econd = dynamic_cast<TGo4ShapedCond*> (SelectedCondition());
           if(econd) {
               double x=EllipseCxSpinbox->value();
             econd->SetCenter(x,y);
@@ -1040,22 +1058,72 @@ void TGo4ConditionEditor::EllipseNPoints_valueChanged( int npoint )
 void TGo4ConditionEditor::UpdateEllipse()
 {
 
-  TGo4EllipseCond* econd = dynamic_cast<TGo4EllipseCond*> (SelectedCondition());
+  TGo4ShapedCond* econd = dynamic_cast<TGo4ShapedCond*> (SelectedCondition());
   if(econd==0){
     std::cout <<"UpdateEllipse did not find ellipse condition!!!"<< std::endl;
     return;
   }
-  double cx=EllipseCxSpinbox->value();
-  double cy=EllipseCySpinbox->value();
-  double a1=EllipseA1Spinbox->value();
-  double a2=EllipseA2Spinbox->value();
-  double th=EllipseTiltDial->value();
 
-  if(CircleBox->isChecked())
-    econd->SetCircle(cx,cy,a1, EllipseNptsSpin->value());
+
+
+  if (FreeshapeBox->isChecked())
+  {
+      econd->SetFreeShape();
+  }
   else
-    econd->SetEllipse(cx,cy,a1,a2,th, EllipseNptsSpin->value());
+  {
+    double cx = EllipseCxSpinbox->value();
+    double cy = EllipseCySpinbox->value();
+    double a1 = EllipseA1Spinbox->value();
+    double a2 = EllipseA2Spinbox->value();
+    double th = EllipseTiltDial->value();
+    if(econd->IsFreeShape())
+        {
+            // transition from free shape to other form: use polygon geometry to init pars:
+            cx= (econd->GetXUp() + econd->GetXLow())/2; // mean of coordinates is center
+            cy= (econd->GetYUp() + econd->GetYLow())/2;
+            //a1=(econd->GetXUp() - econd->GetXLow())/2; // half diameter is radius
+            //a2=(econd->GetYUp() - econd->GetYLow())/2;
+            // better: use minimum and maximum radial distance
+            TCutG* cut=econd->GetCut(false);
+            Int_t n=cut->GetN();
+            Double_t* xarr=cut->GetX();
+            Double_t* yarr=cut->GetY();
+            Double_t rarr[n];
+            for (int i=0; i<n; ++i)
+              {
+                rarr[i]= TMath::Sqrt(TMath::Power((xarr[i]-cx),2) + TMath::Power((yarr[i]-cy),2));
+              }
+            Int_t nrmax=TMath::LocMax(n,rarr);
+            Int_t nrmin=TMath::LocMin(n,rarr);
+            a1=rarr[nrmax];
+            a2=rarr[nrmin];
+            // now evaluate angle:
+            th=0;
+            if(a1){
+                th= TMath::ACos((econd->GetXUp() - cx)/a1) * 180/TMath::Pi();
+            }
+            }
 
+
+    if (CircleBox->isChecked())
+      econd->SetCircle(cx, cy, a1, EllipseNptsSpin->value());
+    else if (EllipseBox->isChecked())
+      econd->SetEllipse(cx, cy, a1, a2, th, EllipseNptsSpin->value());
+    else if (BoxshapeBox->isChecked())
+    {
+      if (econd->IsFreeShape())
+      {
+        // transition to box will use different defaults for extensions, otherwise we always get increasing box
+        a1 = (econd->GetXUp() - econd->GetXLow()) / 2;    // half diameter is radius
+        a2 = (econd->GetYUp() - econd->GetYLow()) / 2;
+        th = 0; // todo: correctly conserve tilt angle when switching to/fro between free and box
+      }
+
+      econd->SetBox(cx, cy, a1, a2, th);
+    }
+    } // no freeshape selected
   PleaseUpdateSlot();
   RedrawCondition();
+  FillEllipseWidget(econd);
 }

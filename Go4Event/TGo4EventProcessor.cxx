@@ -235,18 +235,32 @@ TGo4PolyCond* TGo4EventProcessor::MakePolyCond(const char* fullname,
 }
 
 
-TGo4EllipseCond* TGo4EventProcessor::MakeEllipseCond(const char* fullname, Int_t npoints, Double_t cx, Double_t cy,
+TGo4ShapedCond* TGo4EventProcessor::MakeEllipseCond(const char* fullname, Int_t npoints, Double_t cx, Double_t cy,
     Double_t a1, Double_t a2, Double_t theta, const char* HistoName)
 {
   return TGo4Analysis::Instance()->MakeEllipseCond(fullname, npoints, cx, cy, a1, a2, theta, HistoName);
 }
 
-TGo4EllipseCond* TGo4EventProcessor::MakeCircleCond(const char* fullname, Int_t npoints, Double_t cx, Double_t cy,
+TGo4ShapedCond* TGo4EventProcessor::MakeCircleCond(const char* fullname, Int_t npoints, Double_t cx, Double_t cy,
     Double_t r, const char* HistoName)
 {
   return TGo4Analysis::Instance()->MakeCircleCond(fullname, npoints, cx, cy, r, HistoName);
 }
 
+TGo4ShapedCond* TGo4EventProcessor::MakeBoxCond(const char* fullname,
+               Int_t npoints, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
+               const char* HistoName )
+{
+  return TGo4Analysis::Instance()->MakeBoxCond(fullname,npoints, cx, cy, a1, a2, theta,HistoName);
+}
+
+TGo4ShapedCond* TGo4EventProcessor::MakeFreeShapeCond(const char* fullname,
+                                          Int_t npoints,
+                                          Double_t (*points) [2],
+                                          const char* HistoName)
+{
+  return TGo4Analysis::Instance()->MakeFreeShapeCond(fullname,npoints,points,HistoName);
+}
 
 
 TGo4Parameter* TGo4EventProcessor::MakeParameter(const char* fullname,

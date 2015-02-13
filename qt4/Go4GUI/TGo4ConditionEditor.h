@@ -18,7 +18,7 @@
 #include "ui_TGo4ConditionEditor.h"
 
 class TGo4Condition;
-class TGo4EllipseCond;
+class TGo4ShapedCond;
 class TCutG;
 
 
@@ -46,7 +46,7 @@ class TGo4ConditionEditor : public QGo4Widget, public Ui::TGo4ConditionEditor
     virtual void RedrawCondition();
     virtual bool PrepareForAnalysis();
     virtual void FillCutWidget( TCutG * cut );
-    virtual void FillEllipseWidget(TGo4EllipseCond* elli);
+    virtual void FillEllipseWidget(TGo4ShapedCond* elli);
     virtual void UpdateEllipse();
 
  public slots:

@@ -22,7 +22,7 @@
 #pragma link C++ class TGo4CounterCond+;
 #pragma link C++ class TGo4WinCond+;
 #pragma link C++ class TGo4PolyCond+;
-#pragma link C++ class TGo4EllipseCond+;
+#pragma link C++ class TGo4ShapedCond+;
 #pragma link C++ class TGo4CondArray+;
 
 #pragma link C++ class TGo4Label+;

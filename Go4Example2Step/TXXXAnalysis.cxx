@@ -130,7 +130,7 @@ Int_t TXXXAnalysis::UserPostLoop()
    TGo4Log::Info("Last event: %d, total events: %d", fLastEvent, fEvents);
    if(fMbsEvent) {
       // we can check some properties of last event here:
-      //fMbsEvent->PrintEvent(); // header and data content
+      fMbsEvent->PrintEvent(); // header and data content
 
       // fileheader structure:
       fMbsEvent->PrintMbsFileHeader();

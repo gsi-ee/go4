@@ -30,7 +30,7 @@
 #include "TGo4MbsEvent.h"
 #include "TGo4WinCond.h"
 #include "TGo4PolyCond.h"
-#include "TGo4EllipseCond.h"
+#include "TGo4ShapedCond.h"
 #include "TGo4CondArray.h"
 #include "TGo4Picture.h"
 
@@ -54,6 +54,8 @@ TXXXUnpackProc::TXXXUnpackProc() :
    fConArr2(0),
    fEllipseCond(0),
    fCircleCond(0),
+   fBoxCond(0),
+   fFreestyleCond(0),
    fParam(0),
    fPicture1(0),
    fcondSet(0),
@@ -81,6 +83,8 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
    fConArr2(0),
    fEllipseCond(0),
    fCircleCond(0),
+   fBoxCond(0),
+   fFreestyleCond(0),
    fParam(0),
    fPicture1(0),
    fcondSet(0),
@@ -132,6 +136,12 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
 
       fCircleCond = MakeCircleCond("circlecond",24,300,200,100, "Cr1Ch1x2");
                           //Int_t npoints, Double_t cx, Double_t cy, Double_t r, const char* HistoName
+
+
+      fBoxCond= MakeBoxCond("boxcond",0,2000,2000,400,100, 30, "Cr1Ch1x2");
+
+      fFreestyleCond = MakeFreeShapeCond("freecon", 3, cutpnts, "Cr1Ch1x2");
+
 
       fConArr1 = (TGo4CondArray*)GetAnalysisCondition("winconar");
       if (fConArr1==0) {

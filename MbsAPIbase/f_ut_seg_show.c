@@ -316,14 +316,6 @@ INTS4 f_ut_seg_show (s_daqst *ps_daqst, s_setup *ps_setup, s_set_ml *ps_set_ml, 
 
   if (ps_setup != NULL )
   {
-    printf ("setup bimaster=%d, controller id[0]=%d\n",ps_setup->bi_master, ps_setup->bh_controller_id[0]);
-    if(ps_setup->bi_master==0) // JAM workaround for remote setup structure that does not deliver master id!
-    {
-      ps_setup->bi_master=ps_setup->bh_controller_id[0];
-    }
-
-
-
     sprintf (c_line, "S_setup *********************************************************************");
     LOUT
     ;

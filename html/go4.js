@@ -81,11 +81,11 @@
 
    
    GO4.ConditionEditor.prototype.isPolyCond = function() {
-	      return ((this.cond._typename == "TGo4PolyCond") || (this.cond._typename == "TGo4EllipseCond")); 
+	      return ((this.cond._typename == "TGo4PolyCond") || (this.cond._typename == "TGo4ShapedCond")); 
 	   }
    
    GO4.ConditionEditor.prototype.isEllipseCond = function() {
-	      return (this.cond._typename == "TGo4EllipseCond"); 
+	      return (this.cond._typename == "TGo4ShapedCond"); 
 	   }
    
    
@@ -201,9 +201,8 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 			var val=$(id+" .cond_ellipse_a2")[0].value;
 			optionstring +="&"+key+"="+val;
 		}
-		else if (key=="ellicirc"){
-			var checked=$(id+" .cond_ellipse_iscircle")[0].checked;
-			var arg= (checked ? "1" : "0");
+		else if (key=="ellishape"){
+			var arg=$(id+" .cond_ellipse_iscircle")[0].value;
 			optionstring +="&"+key+"="+arg;			
 		}
 		else if (key=="ellith"){
@@ -460,17 +459,17 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
     				 $(id+" .cond_ellipse_theta_slider").slider( "option", "value", $(this)[0].value % 360);
     				 console.log("ellipse theta value="+$(this)[0].value);
     			 });
-    			 $(id+" .cond_ellipse_iscircle").prop('checked', cond.fbIsCircle)
-    	         .click(function() { 
-    	        	 cond.fbIsCircle = this.checked;  
-    	         $(id+" .cond_ellipse_a2").prop('disabled', this.checked);
-    			 $(id+" .cond_ellipse_theta").prop('disabled', this.checked);
-    			 this.checked ?
-    			 $(id + " .cond_ellipse_theta_slider").slider("disable") :  $(id + " .cond_ellipse_theta_slider").slider("enable");
-    			 editor.MarkChanged("ellicirc");
-    			 });
     			 
-
+ 			 
+    			 var options = $(id+" .cond_ellipse_iscircle")[0].options;
+ 				for ( var i = 0; i < options.length; i++){
+ 					options[i].selected = (options[i].value == cond.fiShapeType);
+ 					}
+ 				$(id+" .cond_ellipse_iscircle").selectmenu('refresh', true).selectmenu("option", "width", "80%");;
+ 					
+    			 
+    			
+    			
     			 $(id + " .cond_ellipse_theta_slider")
     			 	.slider({
 						min : 0,
@@ -575,6 +574,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    GO4.ConditionEditor.prototype.fillEditor = function() {
       var id = "#"+this.divid;
       var editor = this;
+      var cond = this.cond;
       console.log("GO4.ConditionEditor.prototype.fillEditor " + this.cond.fName);
       // $(id).css("display","table");
       
@@ -594,6 +594,53 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 			}
 		});      
       
+		if(this.isEllipseCond()) { 
+		 $(id+" .cond_ellipse_iscircle").selectmenu({
+				change : function(event, ui) {
+					cond.fiShapeType = ui.item.value;
+					if(cond.fiShapeType == 2)
+						{
+						// circle
+							$(id+" .cond_ellipse_a2").prop('disabled', true);
+							$(id+" .cond_ellipse_theta").prop('disabled', true);
+							$(id + " .cond_ellipse_theta_slider").slider("disable");
+							$(id + "cond_ellipse_points").prop('disabled', false);
+						}
+					else if(cond.fiShapeType == 3)
+						{
+							// ellipse
+						$(id+" .cond_ellipse_a2").prop('disabled', false);
+						$(id+" .cond_ellipse_theta").prop('disabled', false);
+						$(id + " .cond_ellipse_theta_slider").slider("enable");
+						$(id + "cond_ellipse_points").prop('disabled', false);
+						
+						
+						}
+					else if(cond.fiShapeType == 4)
+					{
+						// box
+						$(id+" .cond_ellipse_a2").prop('disabled', false);
+						$(id+" .cond_ellipse_theta").prop('disabled', false);
+						$(id + " .cond_ellipse_theta_slider").slider("enable");
+						$(id + "cond_ellipse_points").prop('disabled', true);
+					}
+					else
+						{
+							// free style
+							$(id+" .cond_ellipse_a2").prop('disabled', true);
+							$(id+" .cond_ellipse_theta").prop('disabled', true);
+							$(id + " .cond_ellipse_theta_slider").slider("disable");
+							$(id + "cond_ellipse_points").prop('disabled', false);
+						}
+					
+					
+					editor.MarkChanged("ellishape");
+				}
+			})
+		 
+		}
+		
+		
       var dabc = DABC.hpainter;
       
       
@@ -769,11 +816,11 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    }
    
    GO4.ConditionPainter.prototype.isPolyCond = function() {
-      return ((this.cond._typename == "TGo4PolyCond") || (this.cond._typename == "TGo4EllipseCond")); 
+      return ((this.cond._typename == "TGo4PolyCond") || (this.cond._typename == "TGo4ShapedCond")); 
    }
    
    GO4.ConditionPainter.prototype.isEllipseCond = function() {
-	      return (this.cond._typename == "TGo4EllipseCond"); 
+	      return (this.cond._typename == "TGo4ShapedCond"); 
 	   }
    
    
@@ -975,7 +1022,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    
    JSROOT.addDrawFunc("TGo4WinCond", GO4.drawGo4Cond, ";editor");
    JSROOT.addDrawFunc("TGo4PolyCond", GO4.drawGo4Cond, ";editor");
-   JSROOT.addDrawFunc("TGo4EllipseCond", GO4.drawGo4Cond);
+   JSROOT.addDrawFunc("TGo4ShapedCond", GO4.drawGo4Cond);
    JSROOT.addDrawFunc("TGo4AnalysisStatus", GO4.drawGo4AnalysisStatus);
    
 
