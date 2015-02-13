@@ -80,7 +80,7 @@ void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
    ScanCollection(rec, user_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcUSRFOLDER);
 }
 
-void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject* &obj)
+void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
 {
    TRootSniffer::ScanObjectProperties(rec, obj);
 
