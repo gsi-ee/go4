@@ -998,7 +998,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 
          histofullpath = "../../Histograms/" + cond.fxHistoName;
          
-         dabc.Find(histofullpath, true)['_kind'] = "ROOT.TH1I"; 
+         dabc.Find({ name: histofullpath, force: true})['_kind'] = "ROOT.TH1I"; 
          
          console.log("Try histogram" + histofullpath);
       } 

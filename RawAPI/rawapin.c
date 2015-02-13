@@ -40,10 +40,10 @@
  *
  * rfio_open64:     needed, calls rfio_open
  * rfio_lseek64:    needed, calls rfio_lseek
- * rfio_preseek64: 
+ * rfio_preseek64:
  * rfio_mkdir:      not needed, implicitly done
  * rfio_opendir:    not needed, implicitly done
- * rfio_closedir:   not needed, implicitly done 
+ * rfio_closedir:   not needed, implicitly done
  * rfio_readdir:
  *
  * rfio_access:     get access status
@@ -51,7 +51,7 @@
  * rfio_perror:     print error message to stderr
  * rfio_serror:     print last error message to string
  * rfio_unlink:
- * rfiosetopt: 
+ * rfiosetopt:
  *
  **********************************************************************
  *  5. 8.2002, H.G.: new argument list in rawGetLLName
@@ -92,7 +92,7 @@
  *                   iMode>0 wird von Root gesetzt (file permissions)
  *                   add externals for Root 512-00
  *  5. 7.2007, H.G.: rfio_access implemented
- * 23. 8.2007, H.G.: writing: handling of DM session in file loop 
+ * 23. 8.2007, H.G.: writing: handling of DM session in file loop
  * 24. 8.2007, H.G.: use iPoolIdRC, iPoolIdWC in srawComm
  * 28. 8.2007, H.G.: use fprintm in Lynx,
  *                   remove length restriction for obj name
@@ -108,7 +108,7 @@
  * 13.11.2008, H.G.: inhibit using rfio_newfile/rfio_endfile for read
  * 17.11.2008, H.G.: mod file args from 'char *' to 'const char *' in:
  *                   rfio_access, rfio_fwrite, rfio_open, rfio_open64,
- *                   rfio_unlink, rfio_write 
+ *                   rfio_unlink, rfio_write
  *  3.12.2008, H.G.: add suggestions of Hakan, part II
  * 10. 2.2009, H.G.: new entries rfio_fopen_gsidaq, rfio_open_gsidaq
  * 26. 6.2009, H.G.: for 64 bit client: replace int args by size_t:
@@ -127,11 +127,11 @@
  * 15. 2.2010, H.G.: add flag __USE_LARGEFILE64 for 64 bit functions
  * 25. 2.2010, H.G.: rfio_cache_stat, rfio_stat:
  *                      improve handling of already open files
- *                   rfio_open_gsidaq: 
+ *                   rfio_open_gsidaq:
  *                      inhibit handling of already open files
  * 26. 2.2010, H.G.: rawQueryString: add parameter (len output string)
  *                   rfio_gsi_query: add parameter (len output string)
- *  9. 3.2010, H.G.: take entry server name from URL specified 
+ *  9. 3.2010, H.G.: take entry server name from URL specified
  * 16. 4.2010, H.G.: srawDataMoverAttr: iSynchId -> iATLServer
  * 23. 4.2010, H.G.: new entry rfio_fopen_gsidaq_dm
  *                   rfio_open_gsidaq: clean control block after error
@@ -185,7 +185,7 @@ int imySigS;         /* if = 1: CTL C specified (extern in rconnect) */
 FILE *fLogFile = NULL;         /* external in some utility functions */
 
 /* externals for ROOT: TRFIOFile.cxx */
-int serrno;                               /* id system error message */ 
+int serrno;                               /* id system error message */
 int rfio_errno;                             /* id RFIO error message */
 int tStageHostKey;                            /* Castor, root 512-00 */
 int tStagePortKey;                            /* Castor, root 512-00 */
@@ -194,9 +194,9 @@ int tCastorVersionKey;                        /* Castor, root 512-00 */
 
 char *rawGetFSpName(char *);
 
-static char rfio_errmsg[STATUS_LEN] = "";          /* msg for stderr */ 
+static char rfio_errmsg[STATUS_LEN] = "";          /* msg for stderr */
 
-#define MAX_BUFSIZE 32768            
+#define MAX_BUFSIZE 32768
 static int iint = sizeof(int);
 static int irawComm = sizeof(srawComm);
 static int iObjAttr = sizeof(srawObjAttr);
@@ -244,7 +244,7 @@ int rfio_open64(const char *pcFile,                     /* file name */
    if (iDebug) fprintf(fLogClient,
       "\n-D- begin %s: file %s, flags %d, mode %d\n",
       cModule, pcFile, iFlags, iMode);
-   
+
    ii = sizeof(long);
    if (ii < 8)
    {
@@ -260,7 +260,7 @@ int rfio_open64(const char *pcFile,                     /* file name */
       "-D- end %s: iFileId(rfio_open) = %d\n\n", cModule, iFileId);
 
    return iFileId;
-   
+
 } /* rfio_open64 */
 
 #endif /* __USE_LARGEFILE64 */
@@ -600,7 +600,7 @@ int rfio_open_gsidaq(
    pcc = (char *) strchr(pcFile, *pcDevDelim);
    if (pcc == NULL)
    {
-      fprintf(fLogClient, 
+      fprintf(fLogClient,
         "-E- %s(1): invalid remote file name '%s': node name missing\n",
         cModule, pcFile);
 
@@ -643,7 +643,7 @@ int rfio_open_gsidaq(
       pcc1 = (char *) strrchr(pcc, *pcDevDelim);
       if (pcc1 == NULL)
       {
-        fprintf(fLogClient, 
+        fprintf(fLogClient,
            "-E- %s(2): invalid prefix '%s' of remote file name: node name missing\n",
            cModule, pcFile);
 
@@ -655,7 +655,7 @@ int rfio_open_gsidaq(
       /* now pcc points to node name */
       if (strlen(pcc) == 0)
       {
-        fprintf(fLogClient, 
+        fprintf(fLogClient,
            "-E- %s(3): invalid remote file name '%s': node name missing\n",
            cModule, pcFile);
 
@@ -706,7 +706,7 @@ int rfio_open_gsidaq(
       }
       else
       {
-         fprintf(fLogClient, 
+         fprintf(fLogClient,
             "-E- %s: invalid remote file name '%s': unknown prefix\n",
             cModule, pcFile);
 
@@ -1022,7 +1022,7 @@ int rfio_open_gsidaq(
 
       } /* (iMassSto == 0) */
    } /* (iObjInit) */
- 
+
    /*********** check if copy from WC before tape migration *********/
 
    if (iCopyMode)
@@ -1121,7 +1121,7 @@ int rfio_open_gsidaq(
             ii2++;
             strncpy(pcc1, "\0", 1);
          }
-         else 
+         else
             ii1 = 0;
       }
 
@@ -1195,7 +1195,7 @@ int rfio_open_gsidaq(
       /* store parameters */
       pCopyCacheServ->iIdent = htonl( (unsigned int) IDENT_COPY_CACHE);
       pCopyCacheServ->iCopyMode = htonl(iCopyMode);
-      pCopyCacheServ->iCopyLen = htonl(0);    /* indicates that copy 
+      pCopyCacheServ->iCopyLen = htonl(0);    /* indicates that copy
                       buffer not yet sent to DM: set in rfio_newfile */
       strcpy(pCopyCacheServ->cCopyPath, pcCopyPath);
       pCopyCacheServ->iCopyFraction = htonl(iCopyFraction);
@@ -1352,14 +1352,14 @@ int rfio_open_gsidaq(
             perror("    ");
             fLogClient = stdout;
          }
-   
+
       printf("-I- log file %s\n", cLogClient);
       fprintf(fLogClient, "*** log file: %s, client node: %s\n",
          cLogClient, cliNode);
 
       /* get current date and time */
       tcur = time(NULL);
-      ptloc = localtime_t(&tcur, &buf_time);
+      ptloc = localtime_r(&tcur, &buf_time);
       (ptloc->tm_mon)++;              /* else starts with zero */
       ptloc->tm_year += 1900;
 
@@ -1601,7 +1601,7 @@ int rfio_open_gsidaq(
             }
 
             memcpy(pQueryAPI, pQAttr, (unsigned) iObjAttr);
- 
+
             if (iDebug)
             {
                printf("    file %s available in gStore (ATL server %d)\n",
@@ -1712,16 +1712,16 @@ int rfio_open_gsidaq(
          {
             fprintf(fLogClient,
                "-E- %s: sending command buffer (action %d) to %s\n",
-               cModule, ntohl(pCommServ->iAction), cServer); 
-            perror("    "); 
+               cModule, ntohl(pCommServ->iAction), cServer);
+            perror("    ");
 
             iSendEOS = 1;
             iError = 1;
             goto gClose;
          }
 
-         if (irawComm != iRC)  
-         { 
+         if (irawComm != iRC)
+         {
             fprintf(fLogClient,
                "-E- %s: incomplete command buffer sent to %s (%d of %d bytes)\n",
                cModule, cServer, iRC, irawComm);
@@ -1776,7 +1776,7 @@ int rfio_open_gsidaq(
                   iStatusLoop++;
                   if ( (iStatusLoop < iStatusLoopMax) &&
                        (iMassSto != 2) )
-                     fprintf(fLogClient, 
+                     fprintf(fLogClient,
                         "-W- %s: write cache currently full (select) ... sleep %d s (%d of %d)\n",
                         cModule, iSleepCacheFull, iStatusLoop,
                         iStatusLoopMax);
@@ -1814,16 +1814,16 @@ int rfio_open_gsidaq(
 
                   pcc = (char *) pCommServ;
                   iRC = send(iSockMaster, pcc, (unsigned) irawComm, 0);
-                  if (iRC != irawComm)  
+                  if (iRC != irawComm)
                   {
                      if (iRC < 0)
-                     { 
+                     {
                         fprintf(fLogClient,
                            "-E- %s: sending command buffer (action %d) to %s\n",
                            cModule, ntohl(pCommServ->iAction), cServer);
-                        perror("    "); 
+                        perror("    ");
                      }
-                     else fprintf(fLogClient, 
+                     else fprintf(fLogClient,
                         "-E- %s: incomplete command buffer sent to %s (%d of %d bytes)\n",
                         cModule, cServer, iRC, irawComm);
 
@@ -1837,7 +1837,7 @@ int rfio_open_gsidaq(
                      ntohl(pCommServ->iAction), cServer, irawComm);
 
                   continue;
-   
+
                } /* (iStatus == STA_CACHE_FULL && iAction == 2) */
 
                fprintf(fLogClient, "-E- %s: received error status from %s",
@@ -1856,7 +1856,7 @@ int rfio_open_gsidaq(
             if (iDebug) printf(
                "    header of data mover attr received (%d bytes)\n",
                iRC);
-   
+
             /* get data part of data mover info */
             pcc = (char *) &(sDataMoverSelect.sDataMoverAttr);
             iBufl = sizeof(srawDataMover) - HEAD_LEN;
@@ -1865,7 +1865,7 @@ int rfio_open_gsidaq(
             {
                if ( (iRC = recv( iSockMaster, pcc, (unsigned) iBuf, 0 )) < 0 )
                {
-                  fprintf(fLogClient, 
+                  fprintf(fLogClient,
                      "-E- %s: receiving data part of data mover info\n",
                      cModule);
                   perror("-E- receiving data part of data mover info");
@@ -1901,7 +1901,7 @@ int rfio_open_gsidaq(
                   fprintf(fLogClient,
                      "-E- %s: invalid ATL server no. %d received\n",
                      cModule, iATLServer);
-               else fprintf(fLogClient, 
+               else fprintf(fLogClient,
                   "-W- %s: unexpected ATL server of selected DM: %d, expected %d\n",
                   cModule,
                   ntohl(pDataMoverSelect->iATLServer), iATLServer);
@@ -1926,7 +1926,7 @@ int rfio_open_gsidaq(
 
          if (iDataMoverSelect != 1)
          {
-            fprintf(fLogClient, 
+            fprintf(fLogClient,
                "-W- expected 1 selected data mover, ignore remaining %d\n",
                --iDataMoverSelect);
              iDataMoverSelect = 1;
@@ -1946,7 +1946,7 @@ gReceivedDM:
          pCommServ->iFileSize2 = pQAttr->iFileSize2;
          pCommServ->iObjHigh = pQAttr->iObjHigh;
          pCommServ->iObjLow = pQAttr->iObjLow;
-         
+
          pCommServ->iStageFSid = htonl(0);
          pCommServ->iFSidWC = htonl(0);
          if (iDebug) printf("    iMediaClass %d, disk FS %d\n",
@@ -2127,19 +2127,19 @@ gNextCmdOpen:
       }
 
       pcc = (char *) pCommServ;
-      if ( (iRC = send(iSockMover, pcc, (unsigned) irawComm, 0 )) < 0 ) 
+      if ( (iRC = send(iSockMover, pcc, (unsigned) irawComm, 0 )) < 0 )
       {
          fprintf(fLogClient, "-E- %s: sending command buffer to %s (rc = %d)\n",
-            cModule, cServer, iRC); 
-         perror("    "); 
+            cModule, cServer, iRC);
+         perror("    ");
 
          iSendEOS = 1;
          iError = 1;
          goto gClose;
       }
 
-      if (irawComm != iRC)  
-      { 
+      if (irawComm != iRC)
+      {
          fprintf(fLogClient,
             "-E- %s: incomplete command buffer sent to %s (%d of %d bytes)\n",
             cModule, cServer, iRC, irawComm);
@@ -2166,7 +2166,7 @@ gNextCmdOpen:
                   cModule, cNodeMover);
                perror("    ");
             }
-            else fprintf(fLogClient, 
+            else fprintf(fLogClient,
                "-E- %s: incomplete filesystem buffer sent to data mover %s\n",
                cModule, cNodeMover);
 
@@ -2234,8 +2234,8 @@ gNextCmdOpen:
                        (iAction == 2) )
                {
                   strcpy(cNodeMover, sStatus.cStatus);
-   
-                  fprintf(fLogClient, 
+
+                  fprintf(fLogClient,
                      "-W- write cache on DM %s full, switch to %s\n",
                      pcurAPIFile->cNodeMover, cNodeMover);
 
@@ -2245,7 +2245,7 @@ gNextCmdOpen:
                   iRC = shutdown(iSockMover, 2);
                   if (iDebug)
                      printf("    rc shutdown = %d\n", iRC);
-                  iRC = close(iSockMover); 
+                  iRC = close(iSockMover);
                   if (iDebug)
                      printf("    rc close = %d\n", iRC);
 
@@ -2259,13 +2259,13 @@ gNextCmdOpen:
                                  &iMaxConnect, &iSockMover);
                   if (iRC)
                   {
-                     fprintf(fLogClient, 
+                     fprintf(fLogClient,
                         "-E- %s: cannot connect to new data mover %s:%d (ATL server %d)\n",
                         cModule, cNodeMover, iPortMover, iATLServer);
                      iError = -2;
                   }
 
-                  fprintf(fLogClient, 
+                  fprintf(fLogClient,
                      "-I- successfully connected to new data mover %s:%d (ATL server %d)",
                      cNodeMover, iPortMover, iATLServer);
                   if (iMaxConnect)
@@ -2295,12 +2295,12 @@ gNextCmdOpen:
          }
 
          iStatusOkay = 1;
-   
+
       } /* while (iStatusOkay == 0) */
 
       if (iDebug)
       {
-         printf("    status (%d) received from %s (%d bytes", 
+         printf("    status (%d) received from %s (%d bytes",
                 iStatus, cServer, iRC);
          if (iStatusLoop > 1)
             printf(", iter %d)\n", iStatusLoop);
@@ -2359,7 +2359,7 @@ gError:
          iRC = shutdown(iSockMover, 2);
          if (iDebug)
             printf("    rc shutdown = %d\n", iRC);
-         iRC = close(iSockMover); 
+         iRC = close(iSockMover);
          if (iDebug)
             printf("    rc close = %d\n", iRC);
       }
@@ -2446,7 +2446,7 @@ int rfio_endfile(int iFileId)                             /* file id */
 
    pcurAPIFile->iBufnoServ = 0;   /* RESET */
    iSockMover = pcurAPIFile->iSockMover;
-   if (iSockMover >= 0) 
+   if (iSockMover >= 0)
    {
       /* stop data mover process */
       iStatus = STA_END_OF_FILE;
@@ -2496,11 +2496,11 @@ int rfio_endfile(int iFileId)                             /* file id */
          if ( (pcurAPIFile->iOpMode != 2) &&      /* no display mode */
               (iDebug) )
             fprintf(fLogClient,
-               "-I- gStore file %s%s%s closed\n", 
+               "-I- gStore file %s%s%s closed\n",
                pCommAPI->cNamefs, pCommAPI->cNamehl, pCommAPI->cNamell);
       }
       else fprintf(fLogClient,
-         "-I- remote output file %s%s%s closed\n", 
+         "-I- remote output file %s%s%s closed\n",
          pCommAPI->cNamefs, pCommAPI->cNamehl, pCommAPI->cNamell);
 
    } /* (iSockMover >= 0) */
@@ -2637,7 +2637,7 @@ ssize_t rfio_read(int iFileId,                            /* file id */
 gRetryLen:
       if ( (iRC = recv( iSockMover, pcc, (unsigned) iBuf, 0 )) < 0 )
       {
-         fprintf(fLogClient, 
+         fprintf(fLogClient,
             "-E- %s: receiving data length from server (buffer %d)",
             cModule, iBufnoServ);
          perror("");
@@ -2756,7 +2756,7 @@ gRetryLen:
             if ( (iStatus == STA_ERROR) ||
                  (iStatus == STA_ERROR_EOF) )
             {
-               fprintf(fLogClient, 
+               fprintf(fLogClient,
                   "-E- %s: received error status from server:\n",
                   cModule);
                fprintf(fLogClient, "%s\n", pcc);
@@ -2767,7 +2767,7 @@ gRetryLen:
             printf("%s\n", pcc);
 
          } /* (iStatusLen > 0) */
-      } /* (iStatus != STA_END_OF_FILE) && 
+      } /* (iStatus != STA_END_OF_FILE) &&
            (iStatus != STA_END_OF_SESSION) */
    } /* (iBufsizeRecv < 0) */
    else if (iBufsizeRecv != iItems)
@@ -2790,7 +2790,7 @@ gRetryLen:
 gRetryData:
       if ( (iRC = recv( iSockMover, pcc, (unsigned) iBuf, 0 )) < 0 )
       {
-         if (iDebug) fprintf(fLogClient, 
+         if (iDebug) fprintf(fLogClient,
             "-E- %s: receiving data from server (buffer %d)\n",
             cModule, iBufnoServ);
          perror("EEE ");
@@ -2937,7 +2937,7 @@ ssize_t rfio_write(int iFileId,                           /* file id */
    while (iBuf)
    {
       iRC = send( iSockMover, pcc, (unsigned) iBuf, 0 );
-      if (iRC <= 0) 
+      if (iRC <= 0)
       {
          if (iRC == 0) fprintf(fLogClient,
             "-E- %s: sending data length to server broken\n", cModule);
@@ -2967,13 +2967,13 @@ ssize_t rfio_write(int iFileId,                           /* file id */
    while (iBuf)
    {
       iRC = send( iSockMover, pcc, (unsigned) iBuf, 0 );
-      if (iRC <= 0) 
+      if (iRC <= 0)
       {
          if (iRC == 0) fprintf(fLogClient,
             "-E- %s: sending data to server broken\n", cModule);
          else
          {
-            fprintf(fLogClient, 
+            fprintf(fLogClient,
                "-E- %s: sending data to server (buffer %d, %d bytes)",
                cModule, iBufnoServ, iBuf);
             perror("    ");
@@ -3024,11 +3024,11 @@ int rfio_newfile(int iFileId,
    int iArchLen = 0;
    int iPathLen = 0;
    int iFileLen = 0;
-   int iCopyMode = 0;             /* >0: write data to WC and dataFS */ 
+   int iCopyMode = 0;             /* >0: write data to WC and dataFS */
    int iCopyLen = 0;       /* >0: copy parameters already sent to DM */
    int iCopyBuffer = 0;        /* >0: send copy parameters now to DM */
 
-   int iMassSto = -1;/* =1: connect to GSI mass storage (ArchivePool) 
+   int iMassSto = -1;/* =1: connect to GSI mass storage (ArchivePool)
                         =2: connect to GSI mass storage (DAQPool)
                         =0: connect to RFIO read/write server        */
    int iMaxConnect = 0;            /* try connection to servers once */
@@ -3210,7 +3210,7 @@ int rfio_newfile(int iFileId,
          if (iDebug) printf(
             "-E- archive name starting with %s too long, max allowed %d chars\n",
             pcNamefs, ii);
-         fprintf(fLogClient, 
+         fprintf(fLogClient,
             "-E- %s: archive name starting with %s too long, max allowed %d chars\n",
             cModule, pcNamefs, ii);
          iError = -1;
@@ -3229,7 +3229,7 @@ int rfio_newfile(int iFileId,
             goto gEndNewFile;
          }
       }
-      
+
       strcpy(pCommServ->cNamefs, pcNamefs);
       iArchLen = strlen(pcNamefs);
 
@@ -3249,7 +3249,7 @@ int rfio_newfile(int iFileId,
       pcc2 = (char *) strchr(pcc, *pcObjDelim);
       if (pcc2 == NULL)
       {
-         fprintf(fLogClient, 
+         fprintf(fLogClient,
             "-E- %s: invalid remote file name %s: missing path name\n",
             cModule, pcFile);
          iError = -1;
@@ -3264,7 +3264,7 @@ int rfio_newfile(int iFileId,
       pcc1 = (char *) strrchr(pcc, *pcObjDelim);
       if (pcc1 == NULL)
       {
-         fprintf(fLogClient, 
+         fprintf(fLogClient,
             "-E- %s: invalid remote file name %s: missing file name\n",
             cModule, pcFile);
          iError = -1;
@@ -3285,7 +3285,7 @@ int rfio_newfile(int iFileId,
          ii = MAX_OBJ_HL - 1;
          if (iDebug)
             printf("-E- path name too long, max allowed %d chars\n", ii);
-         fprintf(fLogClient, 
+         fprintf(fLogClient,
             "-E- %s: remote path name (%d chars) too long, max allowed %d\n",
             cModule, iPathLen, ii);
          iError = -1;
@@ -3309,7 +3309,7 @@ int rfio_newfile(int iFileId,
          if (iDebug) printf(
             "    new full file name: %s\n", pcFile);
       }
-   
+
       iFileLen = strlen(pcc1);
       if (iDebug)
          printf("    length file name: %d\n", iFileLen);
@@ -3397,7 +3397,7 @@ int rfio_newfile(int iFileId,
 
    if (strlen(pCommAPI->cNamefs) < 3)
       strcpy(pCommAPI->cNamefs, pCommServ->cNamefs);
-   
+
    strcpy(pCommAPI->cNamell, pcNamell);
    strcpy(pCommServ->cNamell, pcNamell);
    if (inewPath)
@@ -3421,7 +3421,7 @@ int rfio_newfile(int iFileId,
 
       pBufQuery = &sQuery;
       pQAttr = &(sQuery.objAttr);
-      
+
       pCommServ->iAction = htonl(QUERY_ARCHIVE_RECORD);      /* temp */
 
       iRC = rawQueryFile(pcurAPIFile->iSockMaster, 0,
@@ -3500,18 +3500,18 @@ gNextCmdNewFile:
       pCommServ->iCommLen = htonl(pCommAPI->iCommLen + irawCopyCache);
                                               /* temp for data mover */
 
-   if ( (iRC = send(iSockMover, pcc, (unsigned) irawComm, 0 )) < 0 ) 
+   if ( (iRC = send(iSockMover, pcc, (unsigned) irawComm, 0 )) < 0 )
    {
-      fprintf(fLogClient, 
+      fprintf(fLogClient,
          "-E- %s: sending command buffer to server %s (rc = %d)\n",
-         cModule, pcurAPIFile->cNodeMover, iRC); 
-      perror("    "); 
+         cModule, pcurAPIFile->cNodeMover, iRC);
+      perror("    ");
       iError = -1;
       goto gEndNewFile;
    }
 
-   if (irawComm != iRC)  
-   { 
+   if (irawComm != iRC)
+   {
       fprintf(fLogClient,
          "-E- %s: incomplete command buffer sent to server %s (%d of %d bytes)\n",
          cModule, pcurAPIFile->cNodeMover, iRC, irawComm);
@@ -3527,18 +3527,18 @@ gNextCmdNewFile:
    if (iCopyBuffer)
    {
       pcc = (char *) pCopyCacheServ;
-      if ( (iRC = send(iSockMover, pcc, (unsigned) irawCopyCache, 0 )) < 0 ) 
+      if ( (iRC = send(iSockMover, pcc, (unsigned) irawCopyCache, 0 )) < 0 )
       {
-         fprintf(fLogClient, 
+         fprintf(fLogClient,
             "-E- %s: sending copy buffer to server %s (rc = %d)\n",
-            cModule, pcurAPIFile->cNodeMover, iRC); 
-         perror("    "); 
+            cModule, pcurAPIFile->cNodeMover, iRC);
+         perror("    ");
          iError = -1;
          goto gEndNewFile;
       }
 
-      if (irawCopyCache != iRC)  
-      { 
+      if (irawCopyCache != iRC)
+      {
          fprintf(fLogClient,
             "-E- %s: incomplete copy buffer sent to server %s (%d of %d bytes)\n",
             cModule, pcurAPIFile->cNodeMover, iRC, irawCopyCache);
@@ -3618,8 +3618,8 @@ gNextCmdNewFile:
                iRC = shutdown(iSockMover, 2);
                if (iDebug)
                   printf("    rc shutdown = %d\n", iRC);
-               
-               iRC = close(iSockMover); 
+
+               iRC = close(iSockMover);
                if (iDebug)
                   printf("    rc close = %d\n", iRC);
                else if (iRC == 0)
@@ -3637,13 +3637,13 @@ gNextCmdNewFile:
                               &iMaxConnect, &iSockMover);
                if (iRC)
                {
-                  fprintf(fLogClient, 
+                  fprintf(fLogClient,
                      "-E- %s: cannot connect to new data mover %s:%d (ATL server %d)\n",
                      cModule, cNodeMover, iPortMover, iATLServer);
                   iError = -2;
                }
 
-               fprintf(fLogClient, 
+               fprintf(fLogClient,
                  "-I- successfully connected to new data mover %s:%d (ATL server %d)",
                  cNodeMover, iPortMover, iATLServer);
                if (iMaxConnect)
@@ -3666,7 +3666,7 @@ gNextCmdNewFile:
                fprintf(fLogClient, "-E- message received from server:\n");
                fprintf(fLogClient, "    %s\n", sStatus.cStatus);
 
-               if (iStatus == STA_ERROR_EOF)  
+               if (iStatus == STA_ERROR_EOF)
                   iError = 1;
                else
                   iError = -2;
@@ -3683,7 +3683,7 @@ gNextCmdNewFile:
 
    if (iDebug)
    {
-      printf("    status (%d) received from server (%d bytes", 
+      printf("    status (%d) received from server (%d bytes",
              iStatus, iRC);
       if (iStatusLoop > 1)
          printf(", iter %d)\n", iStatusLoop);
@@ -3693,7 +3693,7 @@ gNextCmdNewFile:
 
    iError = 0;
       /* = 1: file already in mass storage: try new name
-         = -2: write cache of current data mover full: close, new open 
+         = -2: write cache of current data mover full: close, new open
          = -3: write cache of all data movers full: close, retry
        */
 
@@ -3763,10 +3763,10 @@ int rfio_close(int iFileId)                              /* file id */
 
    if ( (pcurAPIFile->iMassSto) &&
         (pcurAPIFile->iOpMode == 0) )               /* 'normal' RFIO */
-      fprintf(fLogClient, "-I- gStore file %s%s%s closed\n", 
+      fprintf(fLogClient, "-I- gStore file %s%s%s closed\n",
          pCommAPI->cNamefs, pCommAPI->cNamehl, pCommAPI->cNamell);
-   
-   if (iSockMaster >= 0) 
+
+   if (iSockMaster >= 0)
    {
       /* stop master server process */
       iRC = rawSendStatus(iSockMaster, iStatus, NULL);
@@ -3780,14 +3780,14 @@ int rfio_close(int iFileId)                              /* file id */
       iRC = shutdown(iSockMaster, 2);
       if (iDebug)
          printf("    rc shutdown = %d\n", iRC);
-      iRC = close(iSockMaster); 
+      iRC = close(iSockMaster);
       if (iDebug)
          printf("    rc close = %d\n", iRC);
 
    } /* (iSockMaster >= 0) */
 
    iSockMover = pcurAPIFile->iSockMover;
-   if (iSockMover >= 0) 
+   if (iSockMover >= 0)
    {
       /* stop data mover process */
       iRC = rawSendStatus(iSockMover, iStatus, NULL);
@@ -3805,7 +3805,7 @@ int rfio_close(int iFileId)                              /* file id */
          pcc = (char *) &sStatusRecv;
          iRC = rawRecvStatus(iSockMover, pcc);
 
-         if (iRC < HEAD_LEN) fprintf(fLogClient, 
+         if (iRC < HEAD_LEN) fprintf(fLogClient,
             "-E- %s: receiving confirmation of status buffer (EOS)\n",
             cModule);
          else if (iDebug) printf(
@@ -3818,7 +3818,7 @@ int rfio_close(int iFileId)                              /* file id */
       iRC = shutdown(iSockMover, 2);
       if (iDebug)
          printf("    rc shutdown = %d\n", iRC);
-      iRC = close(iSockMover); 
+      iRC = close(iSockMover);
       if (iDebug)
          printf("    rc close = %d\n", iRC);
       else fprintf(fLogClient,
@@ -3874,14 +3874,14 @@ int rfio_preseek64(
       return -1;
    }
 
-   fprintf(fLogClient, 
+   fprintf(fLogClient,
       "-W- %s not yet implemented for gStore\n", cModule);
 
    if (iDebug)
       fprintf(fLogClient, "-D- end %s\n\n", cModule);
 
    return iRC;
-   
+
 } /* rfio_preseek64 */
 
 /********************************************************************
@@ -3924,7 +3924,7 @@ int64_t rfio_lseek64(
       "-D- end %s: rc(rfio_lseek) = %d \n\n", cModule, iRC);
 
    return (int64_t) iRC;
-   
+
 } /* rfio_lseek64 */
 
 #endif /* __USE_LARGEFILE64 */
@@ -4448,7 +4448,7 @@ int rfio_access(const char *pcFile,                   /* file name */
    int iRC = 0;
 
    int iFileId = -1;
-   
+
    if (iDebug)
       printf("\n-D- begin %s\n", cModule);
 
@@ -4460,7 +4460,7 @@ int rfio_access(const char *pcFile,                   /* file name */
       iRC = 1;
       goto gEndAccess;
    }
-   
+
    if (iMode == F_OK)
    {
       if (iDebug)
@@ -4622,7 +4622,7 @@ int rfio_fstat64(int iFileId,
 
       return -1;
    }
- 
+
    /* now set correct file size */
    pStatBuf64->st_size = *plFileSizeC;
 
@@ -4705,7 +4705,7 @@ int rfio_fstat(int iFileId,                               /* file id */
 
       return -1;
    }
- 
+
    /* now set correct file size */
    pStatBuf->st_size = pComm->iFileSize;
 
@@ -4814,7 +4814,7 @@ int rfio_unlink(const char *pcFile)                   /* file name */
    if (iDebug)
       printf("\n-D- begin %s\n", cModule);
 
-   fprintf(fLogClient, 
+   fprintf(fLogClient,
       "-W- %s not yet implemented for gStore\n", cModule);
 
    if (iDebug)
@@ -4826,7 +4826,7 @@ int rfio_unlink(const char *pcFile)                   /* file name */
 
 /********************************************************************
  * rfiosetopt: for remote file in GSI mass storage
- *  
+ *
  * created  9. 9.2002, Horst Goeringer
  ********************************************************************
  */
@@ -4861,7 +4861,7 @@ int rfio_mkdir(const char *path, int mode)
    if (iDebug)
       printf("\n-D- begin %s\n", cModule);
 
-   fprintf(fLogClient, 
+   fprintf(fLogClient,
       "-W- %s not yet implemented for gStore\n", cModule);
 
    if (iDebug)
@@ -4886,7 +4886,7 @@ void *rfio_opendir(const char *dirpath)
    if (iDebug)
       printf("\n-D- begin %s\n", cModule);
 
-   fprintf(fLogClient, 
+   fprintf(fLogClient,
       "-W- %s not yet implemented for gStore\n", cModule);
 
    if (iDebug)
@@ -4911,7 +4911,7 @@ void *rfio_readdir(void *dirp)
    if (iDebug)
       printf("\n-D- begin %s\n", cModule);
 
-   fprintf(fLogClient, 
+   fprintf(fLogClient,
       "-W- %s not yet implemented for gStore\n", cModule);
 
    if (iDebug)
@@ -4936,7 +4936,7 @@ int rfio_closedir(void *dirp)
    if (iDebug)
       printf("\n-D- begin %s\n", cModule);
 
-   fprintf(fLogClient, 
+   fprintf(fLogClient,
       "-W- %s not yet implemented for gStore\n", cModule);
 
    if (iDebug)
@@ -5041,7 +5041,7 @@ int rfio_stat64(const char *pcFile, struct stat64 *pStatBuf64)
       {
          fprintf(fLogClient, "    remote fileId %d:\n", iFileId);
          fprintf(fLogClient, "    object %s%s%s, filesize %lu byte\n",
-            pComm->cNamefs, pComm->cNamehl, pComm->cNamell, 
+            pComm->cNamefs, pComm->cNamehl, pComm->cNamell,
             *plFileSizeC);
       }
 
@@ -5143,7 +5143,7 @@ int rfio_stat(const char *pcFile, struct stat *pStatBuf)
       {
          printf("    remote fileId %d:\n", iFileId);
          printf("    object %s%s%s, filesize %ld byte\n",
-            pComm->cNamefs, pComm->cNamehl, pComm->cNamell, 
+            pComm->cNamefs, pComm->cNamehl, pComm->cNamell,
             pComm->iFileSize);
       }
 
@@ -5269,9 +5269,9 @@ int rfio_cache_stat(const char *pcFile)
    {
       pComm = &(pAPIFile[ii]->sCommAPI);
       if (pComm->iStageFSid > 0)
-         iCache = 1;                           /* file in read cache */ 
+         iCache = 1;                           /* file in read cache */
       else if (pComm->iFSidWC > 0)
-         iCache = 2;                          /* file in write cache */ 
+         iCache = 2;                          /* file in write cache */
       else
          iCache = 0;                            /* file not in cache */
 
@@ -5279,7 +5279,7 @@ int rfio_cache_stat(const char *pcFile)
       {
          printf("    remote fileId %d:\n", iFileId);
          printf("    object %s%s%s, size %ld byte, cache status %d\n",
-            pComm->cNamefs, pComm->cNamehl, pComm->cNamell, 
+            pComm->cNamefs, pComm->cNamehl, pComm->cNamell,
             pComm->iFileSize, iCache);
          if (pComm->iStageFSid > 0)
             printf("    read cache FS %d\n", pComm->iStageFSid);

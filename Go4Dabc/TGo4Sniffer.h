@@ -24,7 +24,7 @@ class TGo4Sniffer : public TRootSniffer {
 
       TGo4AnalysisStatus*  fAnalysisStatus;
 
-      virtual void ScanObjectProperties(TRootSnifferScanRec &rec, TObject* &obj, TClass* &obj_class);
+      virtual void ScanObjectProperties(TRootSnifferScanRec &rec, TObject* &obj);
 
    public:
       TGo4Sniffer(const char* name);

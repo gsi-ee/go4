@@ -79,9 +79,9 @@ void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
    ScanCollection(rec, user_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcUSRFOLDER);
 }
 
-void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject* &obj, TClass* &obj_class)
+void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject* &obj)
 {
-   if (obj_class->InheritsFrom(TGo4Parameter::Class())) {
+   if (obj && obj->InheritsFrom(TGo4Parameter::Class())) {
       rec.SetField("_title", obj->GetTitle());
       rec.SetField("_editor", "true");
       rec.SetField("_drawfunc", "GO4.drawParameter");
@@ -89,14 +89,14 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject* &obj, 
       return;
    }
 
-   if (obj_class->InheritsFrom(TGo4Condition::Class())) {
+   if (obj && obj->InheritsFrom(TGo4Condition::Class())) {
       rec.SetField("_title", obj->GetTitle());
       rec.SetField("_editor", "true");
       rec.SetField("_autoload", "/go4sys/html/go4.js");
       return;
    }
 
-   TRootSniffer::ScanObjectProperties(rec, obj, obj_class);
+   TRootSniffer::ScanObjectProperties(rec, obj);
 }
 
 void* TGo4Sniffer::FindInHierarchy(const char *path, TClass **cl, TDataMember **member, Int_t *chld)
