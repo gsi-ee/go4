@@ -32,10 +32,10 @@ Changes in Go4 v4.7.x
 6. Support access to ROOT-based http server from go4 GUI. 
    Just when staring go4, specify:
       [shell]  go4 http://localhost:8080
-7. Added new condition type TGo4EllipsCond. This is subclass of TGo4Polycond with properties
-   to create ellipse/circle-shaped polygon region from center/radius/tilt parameters. Supported by
-   new registration methods MakeEllipseCond and MakeCircleCond in TGo4Analysis and TGo4EventProcessor.
-   Condition editor in qt4 GUI has a tab to manipulate these ellipse conditions interactively.
+7. Added new condition type TGo4ShapedCond. This is subclass of TGo4Polycond with properties
+   to create ellipse/circle/box-shaped polygon region from center/radius/tilt parameters. Supported by
+   new registration methods MakeEllipseCond, MakeCircleCond, MakeBoxCond in TGo4Analysis and TGo4EventProcessor.
+   Condition editor in qt4 GUI has a tab to manipulate these conditions interactively.
    Thanks to Sven Augustin, MPI Heidelberg, for this idea.        
 8. When file opened in Go4, sub-directory will be read only after
    actively clicked. Allow read large ROOT files.  
