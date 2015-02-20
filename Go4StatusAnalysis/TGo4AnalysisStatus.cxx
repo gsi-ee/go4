@@ -177,6 +177,13 @@ if(fxStepArray==0) return kFALSE;
    return rev;
 }
 
+void TGo4AnalysisStatus::ClearStepStatus()
+{
+  TGo4LockGuard  listguard(fxStepMutex);
+  fxStepArray->Delete();
+}
+
+
 Int_t TGo4AnalysisStatus::GetNumberOfSteps()
 {
     return fxStepArray==0 ? 0 : fxStepArray->GetLast()+1;

@@ -19,25 +19,459 @@
 
    GO4.AnalysisStatusEditor = function(stat) {
       JSROOT.TBasePainter.call(this, stat);
-      this.stat = stat;
+      this.stat = stat; 
+      this.changes = ["dummy", "init"];
+      this.ClearChanges();
    }
    
    GO4.AnalysisStatusEditor.prototype = Object.create(JSROOT.TBasePainter.prototype);
 
+   
+   GO4.AnalysisStatusEditor.prototype.DabcCommand = function(cmd, option, callback) {
+		var xmlHttp = new XMLHttpRequest();
+		var pre="";
+		if (this.GetItemName()!="") { // note: check against !=null does not work here!
+			  pre = this.GetItemName() + "/"; // suppress / if item name is empty
+				//console.log("Found non null itemname= -"+this.GetItemName()+"-");
+		}
+		pre +="exe.txt\?method=";
+		var fullcom = pre + cmd + option;
+		
+		
+		console.log(fullcom);
+		xmlHttp.open('GET', fullcom, true);
+		xmlHttp.onreadystatechange = function() {
+
+			if (xmlHttp.readyState == 4) {
+				console.log("DabcCommand completed.");
+				callback(true); // todo: evaluate return values of reply
+			}
+		}
+		xmlHttp.send(null);
+	};
+ 
+  GO4.AnalysisStatusEditor.prototype.MarkChanged = function(key) {
+		  // first avoid duplicate keys:
+		  var index;
+		  for	(index = 0; index < this.changes.length; index++) {
+				if (this.changes[index]== key) return;
+			} 
+		  this.changes.push(key);
+		  console.log("Mark changed :%s", key);	
+		  var id = "#"+this.divid; 
+		  
+		  $(id+" .buttonAnaChangeLabel").show();// show warning sign 
+	  }
+	  
+	  // clear changed elements' ist, make warning sign invisible  
+GO4.AnalysisStatusEditor.prototype.ClearChanges = function() {
+	var index;
+	var len=this.changes.length;
+	for	(index = 0; index < len ; index++) {
+	    var removed=this.changes.pop();
+	    console.log("Clear changes removed :%s", removed);	
+	} 
+	var id = "#"+this.divid; 
+	$(id+" .buttonAnaChangeLabel").hide(); // hide warning sign 
+		  
+	  }
+	  
+//scan changed value list and return optionstring to be send to server
+GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
+	var id = "#"+this.divid;
+	var index;
+	var len=this.changes.length;
+	for	(index = 0; index < len ; index++) {
+	    //var cursor=changes.pop();
+		var key=this.changes[index];
+		console.log("Evaluate change key:%s", key);	
+		
+		// here mapping of key to editor field:
+		if(key=="limits")
+			{
+//			 var xmin=$(id+" .cond_xmin")[0].value;
+//       	 var xmax=$(id+" .cond_xmax")[0].value;
+//       	 optionstring +="&xmin="+xmin+"&xmax="+xmax;
+//       	 this.cond.fLow1 = xmin;
+//       	 this.cond.fUp1 = xmax;
+//       	  if (this.cond.fiDim==2) {
+//       		  var ymin=$(id+" .cond_ymin")[0].value;
+//       		  var ymax=$(id+" .cond_ymax")[0].value; 
+//       		  this.cond.fLow2 = xmin;
+//            	  this.cond.fUp2 = xmax;
+//       		  optionstring +="&ymin="+ymin+"&ymax="+ymax;
+//       	  }
+			}
+		else if(key=="polygon")
+		{  
+			
+//		 var npoints=$(id+" .cut_points")[0].value;		 
+//		 	optionstring +="&npolygon="+npoints;
+//		 	// TODO: set display of polygon points
+//		 	for(i=0; i<npoints; ++i)
+//		 		{
+//		 			var x=$(id + " .cut_values input").eq(2*i)[0].value;
+//		 			var y=$(id + " .cut_values input").eq(2*i+1)[0].value;
+//		 			
+//		 			
+//		 			optionstring +="&x"+i+"="+x+"&y"+i+"="+y;
+//		 		}
+		
+		}
+		else{
+			console.log("Warning: EvaluateChanges found unknown key:%s", key);
+				}
+		
+		
+	
+	}// for index
+	console.log("Resulting option string:%s", optionstring);
+	return optionstring;
+}
+
+
+   
+   
+   
+
+   
+   
    GO4.AnalysisStatusEditor.prototype.refreshEditor = function()
    {
       var id = "#"+this.divid;
-
+      var editor=this;
+      var stat=this.stat;
       var names = "";
-      for (var s in this.stat.fxStepArray.arr)
-         names += " " + this.stat.fxStepArray.arr[s].fName;
+      
+      ///////////// ANALYSIS STEPS:
+      
+      $(id+" .steptabs").tabs( "option", "disabled", [0, 1, 2, 3, 4, 5, 6, 7] ); 
+      stat.fxStepArray.arr.forEach(function(element, index, array) {
+    	  $(id+" .steptabs").tabs("enable",index);
+    	  $(id +" .steptabs ul:first li:eq("+index+") a").text(element.fName);
+    	  
+    	  console.log("refreshEditor finds step name:"+ element.fName);
+    	  names += " " + element.fName;
+    	  var theIndex=index;
+    		var theElement=element;
+    	  $(id +" .steptabs div:eq("+index+")").load("/go4sys/html/stepeditor.htm", "", 
+    	            function(responseTxt, statusTxt, xhr) { 
+    		  		console.log("here we fill stepeditor for "  + element.fName + " to index="+index);
+//    		  		console.log("statusTxt: "  + statusTxt);
+//    		  		console.log("responseTxt: "  + responseTxt);
+    		  		
+//    		  		console.log("found checkbox: "  + $(id+" .steptabs div:eq("+index+")").find(" .step_box_step_enab").prop('name')
+//    		  				+ "this is: "+$(this).find(" .step_box_step_enab").prop('name')+ " of index: "+index);
+//    		  		//$(id+" .steptabs div:eq("+index+")").find(" .step_box_step_enab")
+    		  		
+    		  		var pthis=$(this);
+    		  		console.log("process enabled="+theElement.fbProcessEnabled + "for theElement: "+theElement.fName);   	
+    		  		console.log("source enabled="+theElement.fbSourceEnabled + "for theElement: "+theElement.fName);
+    		  		console.log("store enabled="+theElement.fbStoreEnabled + "for theElement: "+theElement.fName);
+    		  		
+    		  		var storetable=pthis.find(" .step_store");
+    		  		var sourcetable=pthis.find(" .step_source");
+    		  		var enablebox=pthis.find(" .step_box_step_enab");
+    		  		var sourcebox=pthis.find(" .step_box_source_enab");
+    		  		var storebox=pthis.find(" .step_box_store_enab");
+    		  		
+    		  		
+    		  		// here step control checkboxes and source/store visibility:
+					if (theElement.fbProcessEnabled) {
+							sourcebox.prop('disabled',false);
+							storebox.prop('disabled',false);
+							if (theElement.fbSourceEnabled) {
+								sourcetable.show();
+							} else {
+								sourcetable.hide();
+							}
+							if (theElement.fbStoreEnabled) {
+								storetable.show();
+							} else {
+								storetable.hide();
+							}
+						} else {
+							sourcebox.prop('disabled',true);
+							storebox.prop('disabled',true);
+							sourcetable.hide();
+							storetable.hide();
+						}
 
-      $(id+" .par_name").text(this.stat.fName + "  num steps = " + this.stat.fxStepArray.arr.length);
-      $(id+" .par_type").text(this.stat._typename + " names = " + names);
+					
+					
+    		  		
+    		  		enablebox.prop('checked', theElement.fbProcessEnabled)
+    	 	         .click(function() 
+    	 	        		 { 
+    	 	        	 		editor.MarkChanged("stepenabled_"+ theIndex);
+    	 	        	 		if ($(this).prop('checked')) {
+    								sourcetable.show();
+    								storetable.show();
+    							} else {
+    								sourcetable.hide();
+    								storetable.hide();
+    							}
+    	 	        	 		
+    	 	        	 		
+    	 	        	 		if ($(this).prop('checked')) {
+    								sourcebox.prop('disabled',false);
+    								storebox.prop('disabled',false);
+    								if (sourcebox.prop('checked')) {
+    									sourcetable.show();
+    								} else {
+    									sourcetable.hide();
+    								}
+    								if (storebox.prop('checked')){
+    									storetable.show();
+    								} else {
+    									storetable.hide();
+    								}
+    							} else {
+    								sourcebox.prop('disabled',true);
+    								storebox.prop('disabled',true);
+    								sourcetable.hide();
+    								storetable.hide();
+    							}
+    	 	        	 		
+    	 	        	 		
+    	 	        	 
+   	 	         }); // clickfunction
+    		  		
+    		  		//$(this).find(" .step_box_source_enab")
+   	 	         sourcebox.prop('checked', theElement.fbSourceEnabled)
+   	 	         .click(function() 
+   	 	        		 { 
+   	 	        	 		editor.MarkChanged("sourceenabled_"+ theIndex);
+   	 	        	 		if($(this).prop('checked')) 
+	 	        	 			sourcetable.show();
+	 	        	 		else
+	 	        	 			sourcetable.hide();
+   	 	        	 		
+  	 	         }); // clickfunction	
+    		  		
+    		  		
+    		  		//$(this).find(" .step_box_store_enab")
+      	 	         storebox.prop('checked', theElement.fbStoreEnabled)
+      	 	         .click(function() 
+      	 	        		 { 
+      	 	        	 		editor.MarkChanged("storeenabled_"+ theIndex);
+      	 	        	 		if($(this).prop('checked')) 
+      	 	        	 			storetable.show();
+      	 	        	 		else
+      	 	        	 			storetable.hide();
+      	 	        	 		
+     	 	         }); // clickfunction	
+    		  		
+    		  		
+      	 	      $(id+" .steptabs").tabs("refresh");
+      	 	      console.log("refreshed tabs: " + $(id+" .steptabs").attr('title'));
+    		  		
+    	  });// load
+    	  
+    	  
+    	  
+      }); // for each
+      
+      //$(id+" .steptabs").tabs("refresh");
+      
+      
+
+      
+      
+      
+      
+      
+      /////////////////// AUTO SAVE FILE:      
+      $(id + " .anaASF_name").val(stat.fxAutoFileName);
+      $(id+" .anaASF_enabled")
+    	         .prop('checked', stat.fbAutoSaveOn)
+    	         .click(function() { editor.MarkChanged("asfenabled")});
+      
+      $(id +" .anaASF_time").val(stat.fiAutoSaveInterval);
+      $(id +" .anaASF_compression").val(stat.fiAutoSaveCompression);
+      
+      $(id+" .anaASF_overwrite")
+ 	         .prop('checked', stat.fbAutoSaveOverwrite)
+ 	         .click(function() { editor.MarkChanged("asfoverwrite")});
+      
+      ////////////////// PREFS FILE:
+      $(id + " .anaprefs_name").val(stat.fxConfigFileName);
+      
+      
+      console.log("analysis editor: refreshEditor");
+      editor.ClearChanges();  
+      
    }
    
    GO4.AnalysisStatusEditor.prototype.fillEditor = function()
    {
+	   var id = "#"+this.divid;
+	   var editor=this;
+	   
+	   
+	   $(id +" .steptabs").tabs({
+	  		activate : function(event, ui) {
+	  			//updateElementsSize();
+	  			console.log("analysis editor: activated tab: "+ ui.newTab.text());
+	  		}
+	      
+	  	});
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   $(id+" .buttonGetAnalysis")
+	      .button({text: false, icons: { primary: "ui-icon-arrowthick-1-e MyButtonStyle"}}).click(function() {
+	    	  console.log("update item = " + editor.GetItemName()); 
+	    	  
+	    	  
+	          if (DABC.hpainter) DABC.hpainter.display(editor.GetItemName()); 
+	          else  console.log("dabc object not found!"); 
+	          	
+	        }
+	      );
+
+	      
+	      $(id+" .buttonSetAnalysis")
+	      .button({text: true, icons: { primary: "ui-icon-arrowthick-1-w MyButtonStyle"}}).click(function() {
+	      	 var options=""; // do not need to use name here
+	     	 options=editor.EvaluateChanges(options); // complete option string from all changed elements
+	     	 console.log("submit analysis "+ editor.GetItemName()+ ", options="+options); 
+	     	 editor.DabcCommand("UpdateFromUrl",options,function(
+	  				result) {
+	     		 		console.log(result ? "setting analyis configuration done. "
+	 					: "set analysis FAILED.");
+	     		 		if(result) editor.ClearChanges();     			
+	          	
+	        });
+	      });
+	      
+	      
+	    $(id+" .buttonAnaChangeLabel")
+	         .button({text: false, icons: { primary: "ui-icon-alert MyButtonStyle"}}); 
+	   
+	   
+	    $(id+" .buttonSetStartAnalysis")
+	      .button({text: true, icons: { primary: "ui-icon-play MyButtonStyle"}}).click(function() {
+	      	 var options=""; // do not need to use name here
+	     	 options=editor.EvaluateChanges(options); // complete option string from all changed elements
+	     	 console.log("submit and start analysis "+ editor.GetItemName()+ ", options="+options); 
+	     	 editor.DabcCommand("UpdateFromUrl",options,function(
+	  				result) {
+	     		 		console.log(result ? "submit and start analyis configuration done. "
+	 					: "set analysis FAILED.");
+	     		 		if(result) editor.ClearChanges(); 
+	     		 		
+	     		 		// todo: start analysis only after submission was successful?
+	          	
+	        });
+	      });
+	    
+	    $(id+" .buttonCloseAnalysis")
+	      .button({text: true, icons: { primary: "ui-icon-closethick MyButtonStyle"}}).click(function() {
+	      	 var options="close"; 
+	     //	 options=editor.EvaluateChanges(options); // complete option string from all changed elements
+	     	 console.log("close analysis "+ editor.GetItemName()+ ", options="+options); 
+	     	 editor.DabcCommand("UpdateFromUrl",options,function(
+	  				result) {
+	     		 		console.log(result ? "closing down analyis done. "
+	 					: "set analysis FAILED.");
+	     		 		//if(result) editor.ClearChanges();     			
+	          	
+	        });
+	      });
+	    
+	    
+	    
+	    $(id+" .buttonSaveAnaASF")
+        .button({text: false, icons: { primary: "ui-icon-disk MyButtonStyle"}}); 
+	    
+	    $(id + " .anaASF_form").submit(
+				function(event) {
+					var content= $(id + " .anaASF_name")[0].value;
+					var requestmsg = "Really Write autosave file : "+ content;
+					var response = confirm(requestmsg);
+					if (!response){
+						event.preventDefault();
+						return;
+						}
+
+					// todo: put here command to write asf filepreferences
+					//					
+					console.log("Writing autosave file: "+content); 
+					
+					event.preventDefault(); // do not send automatic request to server!
+					
+				});
+	    
+	    
+	    $(id +" .anaASF_time").spinner({
+	        min: 0,
+	        max: 100000,
+	        step: 10,
+	    	stop: function( event, ui ) {editor.MarkChanged("asftime");console.log("asftime stop.")}
+	    });
+	    
+	    $(id +" .anaASF_compression").spinner({
+	        min: 0,
+	        max: 9,
+	        step: 1,
+	    	stop: function( event, ui ) {editor.MarkChanged("asfcomp");console.log("asfcomp stop.")}
+	    });
+	    
+	    
+	    $(id+" .buttonSaveAnaConf")
+        .button({text: false, icons: { primary: "ui-icon-disk MyButtonStyle"}}); 
+	    
+	    $(id+" .buttonLoadAnaConf")
+	      .button({text: false, icons: { primary: "ui-icon-folder-open MyButtonStyle"}}).click(function() {
+	    	  
+	    	  var content= $(id + " .anaprefs_name")[0].value;
+	    	  var requestmsg = "Really save analysis preferences: "+ content;
+				var response = confirm(requestmsg);
+				if (!response){
+					event.preventDefault();
+					return;
+					}
+	    	  console.log("Loading analysis Prefs from "+content); 
+	    	  
+//	      	 var options=""; // do not need to use name here
+//	     	 options=editor.EvaluateChanges(options); // complete option string from all changed elements
+//	     	 console.log("set - condition "+ editor.GetItemName()+ ", options="+options); 
+//	     	 editor.DabcCommand("UpdateFromUrl",options,function(
+//	  				result) {
+//	     		 		console.log(result ? "set condition done. "
+//	 					: "set condition FAILED.");
+//	     		 		if(result) editor.ClearChanges();     				          	
+//	        });
+	      });
+	    
+	    
+	    
+	    $(id + " .anaprefs_form").submit(
+				function(event) {
+					var content= $(id + " .anaprefs_name")[0].value;
+					var requestmsg = "Really save analysis preferences: "+ content;
+					var response = confirm(requestmsg);
+					if (!response){
+						event.preventDefault();
+						return;
+						}
+					
+					
+					
+					console.log("Saving analysis Prefs to "+content); 
+					
+					// todo: put here command to save preferences
+					event.preventDefault(); // do not send automatic request to server!
+				});
+	   
+	   
+	   
       this.refreshEditor();
    }
    
@@ -47,21 +481,23 @@
       $("#"+divid).empty();
       $("#"+divid).load("/go4sys/html/analysiseditor.htm", "", 
             function() { pthis.SetDivId(divid); pthis.fillEditor();  });
+      //console.log("analysis editor: drawEditor");
    }
    
-   GO4.AnalysisStatusEditor.RedrawPad = function(resize) {
+   GO4.AnalysisStatusEditor.prototype.RedrawPad = function(resize) {
+	   //console.log("analysis editor: RedrawPad");
       this.refreshEditor();
    }
 
    GO4.AnalysisStatusEditor.prototype.UpdateObject = function(obj) {
-      if (obj._typename != this.cond._typename) return false;
+      if (obj._typename != this.stat._typename) return false;
       this.stat = JSROOT.clone(obj); 
       return true;
    }
    
    
    GO4.drawGo4AnalysisStatus = function(divid, stat, option) {
-      console.log("Draw analysis status");
+      //console.log("Draw analysis status");
       
       var painter = new GO4.AnalysisStatusEditor(stat);
       painter.drawEditor(divid);
@@ -1022,8 +1458,8 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    
    JSROOT.addDrawFunc("TGo4WinCond", GO4.drawGo4Cond, ";editor");
    JSROOT.addDrawFunc("TGo4PolyCond", GO4.drawGo4Cond, ";editor");
-   JSROOT.addDrawFunc("TGo4ShapedCond", GO4.drawGo4Cond);
-   JSROOT.addDrawFunc("TGo4AnalysisStatus", GO4.drawGo4AnalysisStatus);
+   JSROOT.addDrawFunc("TGo4ShapedCond", GO4.drawGo4Cond, ";editor");
+   JSROOT.addDrawFunc("TGo4AnalysisStatus", GO4.drawGo4AnalysisStatus, ";editor");
    
 
    // ===========================================================================================

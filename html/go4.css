@@ -4,6 +4,9 @@
  	transform: scale(1.2, 1.2); 
 }
 
+.MySpinnerStyle {
+	width: 50px;
+}
 
 
 /* Override / redefine here some of the jquery ui icons */
@@ -73,9 +76,33 @@
     background-size: contain;
 }
 
+.ui-button .ui-icon.ui-icon-disk {
+    background-image: url("../icons/filesave.png");
+  	background-position: 0 0;  
+    background-size: contain;
+}
+
+.ui-button.ui-state-hover .ui-icon.ui-icon-disk {
+    background-image: url("../icons/filesave.png");
+  	background-position: 0 0;  
+    background-size: contain;
+}
+
+.ui-button .ui-icon.ui-icon-folder-open {
+    background-image: url("../icons/fileopen.png");
+  	background-position: 0 0;  
+    background-size: contain;
+}
+
+.ui-button.ui-state-hover .ui-icon-folder-open {
+    background-image: url("../icons/fileopen.png");
+  	background-position: 0 0;  
+    background-size: contain;
+}
 
 
-/****************below not yet used: ******************************/
+
+
 
 
 .ui-button .ui-icon.ui-icon-stop {

@@ -6,19 +6,28 @@
 <style type="text/css">
 
 
-.par_membertable_style {
+.ana_membertable_style {
     border: 2px solid black collapse; 
     background-color:#fff;
 }
 
-.par_memberheader_style {
+.ana_memberheader_style {
     border: 1px dotted black collapse; 
     background-color:#eee;
 }
 
+.ana_steptabs_style {
+position:relative; 
+left: -20px; 
+top:-10px; 
+width:100%; 
+height:100%;
 
 
-#par_editor_container{
+}
+
+
+#ana_editor_container{
 	height:100%; 
 	position: relative;
 	right: 5px;
@@ -27,21 +36,21 @@
 	overflow-y: auto
 }
 
-#par_header_container {
+#ana_step_container {
 			outline: outset thin;
 			position: absolute;	
 			top: 2px;
- 			height: 40px;
+ 			height: 250px;
  			left: 5px;
  			right: 1px; 
 			overflow-x:hidden; 
-			overflow-y: auto;
+			overflow-y: hidden;
 		}
 
-#par_table_container {
+#ana_file_container {
 			outline: outset thin;
 			position: absolute;
- 			top: 45px; 
+ 			top: 255px; 
 			bottom: 52px;
 			left: 5px;
  			right: 1px; 
@@ -49,7 +58,7 @@
 			overflow-y: auto;
 		}
 
-#par_button_container {
+#ana_button_container {
 			outline: outset thin;
 			position: absolute;
 			bottom: 1px;
@@ -74,36 +83,96 @@
 
 
 
-<div  id="par_editor_container">
+<div  id="ana_editor_container">
 
 
-		<div id="par_header_container">
-			<table style="width: 100%">
-<!-- 				<caption> -->
-<!-- 					<h5>Parameter Editor</h5> -->
-<!-- 				</caption> -->
-				<tbody>
-					<tr>
-						<th><label class="par_name" style="float: left"> </label></th>
-						<th><label class="par_type" style="float: right"> </label></th>
-					</tr>
-				</tbody>
-			</table>
+		<div id="ana_step_container">
+		
+		<div class="steptabs" title="Tab container for steps" style="position:relative; width:100%; height:100%; text-align: left; ">
+			<ul>
+				<li><a href="#steptabs-1">Step 1</a></li>
+				<li><a href="#steptabs-2">Step 2</a></li>
+				<li><a href="#steptabs-3">Step 3</a></li>
+				<li><a href="#steptabs-4">Step 4</a></li>
+				<li><a href="#steptabs-5">Step 5</a></li>
+				<li><a href="#steptabs-6">Step 6</a></li>
+				<li><a href="#steptabs-7">Step 7</a></li>
+				<li><a href="#steptabs-8">Step 8</a></li>
+				
+			</ul>
+			<div id="steptabs-1" class="ana_steptabs_style"></div>
+			<div id="steptabs-2" class="ana_steptabs_style"></div>
+			<div id="steptabs-3" class="ana_steptabs_style"></div>
+			<div id="steptabs-4" class="ana_steptabs_style"></div>
+			<div id="steptabs-5" class="ana_steptabs_style"></div>
+			<div id="steptabs-6" class="ana_steptabs_style"></div>
+			<div id="steptabs-7" class="ana_steptabs_style"></div>
+			<div id="steptabs-8" class="ana_steptabs_style"></div>
 		</div>
-
-		<div id="par_table_container">
-    <table class="par_values" style="position:relative; width:100%; height:100%; text-align: left">
+</div>
+		<div id="ana_file_container">
+    <table class="ana_autosave" style="position:relative; width:100%; height:45%; text-align: left">
       <thead>
        <tr >
-          <th>Name</th> <th>Value</th><th>Comments</th>
+          <th colspan=4>Auto Save File</th> 
        </tr>
       </thead>
-      <tbody class="par_value_body">
+      <tbody>
+       <tr >
+      <td colspan=4 style="height: 30px">
+			<form class="anaASF_form" accept-charset="utf-8">
+					<button class="buttonSaveAnaASF" title="Write Autosave file immediately" type="submit">Save</button>	
+					<label ftitle="Input autosave file name">
+					<input class="anaASF_name" type="text" size="35" value="Go4AnalysisASF.root"></label>									
+					</form> 
+					</td>
+	   </tr>
+	   <tr >
+		<td><label style="height: 30px" title="Enable/Disable autosave file">
+							<input class="anaASF_enabled" type="checkbox"> Enabled</label>
+		</td>							
+		<td>
+		<input class="anaASF_time MySpinnerStyle" title="Time Interval for autosave file" type="text" value="442">
+		</td>
+		<td> <input class="anaASF_compression MySpinnerStyle" title="ROOT compression level for autosave file" type="text" value="1"></td>
+		<td> 
+			<label style="height: 30px" title="Overwrite old autosave file">
+							<input class="anaASF_overwrite" type="checkbox"> Overwrite</label>
+		
+		 </td>
+	   
+	   	</tr>		
+      </tbody>
+      <table class="ana_configfile" style="position:relative; width:100%; height:45%; text-align: left">
+      <thead>
+       <tr >
+          <th colspan=2>Analysis Configuration File</th> 
+       </tr>
+      </thead>
+      <tbody">
+      		<tr>
+					<td style="height: 30px">
+						<button class="buttonLoadAnaConf"
+							title="Load Analysis Prefs file">Load</button>
+					</td>
+					<td style="height: 30px">
+					<form class="anaprefs_form" accept-charset="utf-8">
+					<button class="buttonSaveAnaConf" title="Save Analysis Prefs file" type="submit">Save</button>	
+					<label ftitle="Input preference file name">
+					<input class="anaprefs_name" type="text" size="35" value="Go4AnalysisPrefs.root"></label>									
+					</form> 
+					</td>
+					
+			</tr>		     
       </tbody>
     </table>
+    
+    
+    
+    
 </div>
 
-<div id="par_button_container">
+<div id="ana_button_container">
 <!--     <button title="Get parameter">Get</button> -->
 <!--     <button title="Set parameter">Set</button> -->
 <!--     <button title="Parameter changed in editor">Changed</button> -->
@@ -112,17 +181,27 @@
 			<tbody>
 				<tr>
 					<td style="height: 30px">
-						<button class="buttonGetParameter"
-							title="Refresh parameter values from analysis server">Get</button>
+						<button class="buttonGetAnalysis"
+							title="Refresh analysis setup values from server">Get</button>
 					</td>
 					<td style="height: 30px">
-						<button class="buttonSetParameter"
-							title="Send parameter values to analysis server">Set</button>
+						<button class="buttonSetAnalysis"
+							title="Submit configuration to analysis">Submit</button>
 					</td>
 					<td style="height: 30px">
-						<button class="buttonChangeLabel"
+						<button class="buttonAnaChangeLabel"
 							title="This label shows that your current changes have not yet been updated to analysis">Changed!</button>
-					</td> 
+					</td>
+					<td style="height: 30px">
+						<button class="buttonSetStartAnalysis"
+							title="Submit configuration to analysis and start execution">Submit+Start</button>
+					</td>
+					<td style="height: 30px">
+						<button class="buttonCloseAnalysis"
+							title="Close analysis - close all input/output files and destroys steps processors">Close</button>
+					</td>
+					
+					 
 				</tr>
 			</tbody>
 		</table>

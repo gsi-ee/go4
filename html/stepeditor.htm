@@ -1,0 +1,166 @@
+<head>
+
+<link rel="stylesheet" type="text/css" href="/go4sys/html/go4.css">
+
+
+<style type="text/css">
+.step_table_style {
+	border: 1px inset;
+	background-color: #eee;
+	padding: 2px;
+	margin: 0px;
+}
+
+#step_editor_container {
+	height: 80%;
+	position: relative;
+	overflow-x: auto;
+	overflow-y: auto
+}
+</style>
+</head>
+
+
+
+<body>
+
+
+
+	<div id="step_editor_container">
+
+
+
+		<table class="step_control step_table_style"
+			style="position: relative; width: 100%; height: 10%; text-align: left">
+			<thead>
+				<tr>
+					<th colspan=3>Step Control</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><label title="Enable analysis step"> <input
+							class="step_box_step_enab" type="checkbox" name="enable box">
+							Enable Step
+					</label></td>
+					<td><label title="Enable event source"> <input
+							class="step_box_source_enab" type="checkbox"> Source
+					</label></td>
+					<td><label title="Enable event store"> <input
+							class="step_box_store_enab" type="checkbox"> Store
+					</label></td>
+				</tr>
+			</tbody>
+		</table>
+
+
+
+		<!-- 		</div> -->
+
+		<table class="step_source step_table_style"
+			style="position: relative; width: 100%; height: 60%; text-align: left">
+			<thead>
+				<tr>
+					<th colspan=5>Event Source</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td colspan=4><select class="step_source_select""  >
+							<option selected="selected" value="0">Go4 File Source
+								(*.root)</option>
+							<option value="1">MBS File (*.lmd *.LMD *.lml))</option>
+							<option value="2">MBS Steam Server</option>
+							<option value="3">MBS Transport Server</option>
+							<option value="4">MBS Event Server</option>
+							<option value="5">Remote Event Server</option>
+							<option value="6">MBS Random</option>
+							<option value="7">User Source</option>
+					</select></td>
+					<td><label title="Show/hide extra options for event source">
+							<input class="step_source_expand" type="checkbox">more...
+					</label></td>
+					</td>
+
+				</tr>
+				<tr>
+					<td colspan=5><label title="File name or server node name">Name:
+							<input class="step_source_name" type="text">
+					</label></td>
+				</tr>
+				<tr>
+					<td><label title="LMD Tag file">Tagfile: <input
+							class="step_source_tagfile" type="text"></label></td>
+					<td><label>Port: <input
+							class="step_source_port MySpinnerStyle" title="Port Number"
+							type="text" value="dflt">
+					</label></td>
+
+					<td><label>Tmout (s): <input
+							class="step_source_tmout MySpinnerStyle"
+							title="Timeout in seconds" type="text" value="1">
+					</label></td>
+
+					<td><label>Retr (s): <input
+							class="step_source_retry MySpinnerStyle"
+							title="Retry interval in seconds" type="text" value="never">
+					</label></td>
+
+					<td><label title="User arguments">Args: <input
+							class="step_source_args" type="text"></label></td>
+				</tr>
+
+				<tr>
+					<td><input class="step_source_firstev MySpinnerStyle"
+						title="Sequence number of first event to process" type="text"
+						value="0"></td>
+					<td><input class="step_source_lastev MySpinnerStyle"
+						title="Sequence number of last event to process" type="text"
+						value="all"></td>
+					<td colspan=3><input class="step_source_stepev MySpinnerStyle"
+						title="Sequence number of last event to process" type="text"
+						value="1"></td>
+				</tr>
+
+			</tbody>
+		</table>
+		<table class="step_store step_table_style"
+			style="position: relative; width: 100%; height: 30%; text-align: left">
+			<thead>
+				<tr>
+					<th colspan=4>Event store</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td colspan=4><select class="step_store_select""  >
+							<option selected="selected" value="0">Go4FileStore
+								(*.root)</option>
+							<option value="1">Go4 BackStore</option>
+					</select></td>
+
+				</tr>
+				<tr>
+					<td><input class="step_store_split MySpinnerStyle"
+						title="Root TTree split level." type="text" value="99"></td>
+					<td><label><input
+							class="step_store_buf MySpinnerStyle"
+							title="Root branch buffer size" type="text" value="32">
+							kB</label></td>
+					<td><input class="step_store_comp MySpinnerStyle"
+						title="Root TFile compression level" type="text" value="5">
+					</td>
+					<td><label style="height: 30px"
+						title="Overwrite old file, or append."> <input
+							class="step_store_overwrite" type="checkbox"> Overwrite
+					</label></td>
+				</tr>
+
+			</tbody>
+		</table>
+
+	</div>
+
+
+</body>
+

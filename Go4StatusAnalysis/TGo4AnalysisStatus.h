@@ -73,6 +73,10 @@ class TGo4AnalysisStatus : public TGo4Status {
     /** Add new step status object to analysis status. */
     Bool_t AddStepStatus(TGo4AnalysisStepStatus * next);
 
+
+    /** Clear all existing step status objects. For remote http control*/
+    void ClearStepStatus();
+
     void ResetStepIterator();
 
     /** Gives next analysis step status. */
@@ -139,7 +143,7 @@ class TGo4AnalysisStatus : public TGo4Status {
     /** Name of the last configuration file. */
     TString fxConfigFileName;
 
-  ClassDef(TGo4AnalysisStatus,2)
+  ClassDef(TGo4AnalysisStatus,3)
 
 };
 

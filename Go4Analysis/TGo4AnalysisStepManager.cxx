@@ -501,6 +501,7 @@ void TGo4AnalysisStepManager::UpdateStatus(TGo4AnalysisStatus* state)
       state->SetStepChecking(fbStepCheckingMode);
       fxCurrentStep=0;
       fxStepIterator->Reset();
+      state->ClearStepStatus();
       while((fxCurrentStep= dynamic_cast<TGo4AnalysisStep*>( fxStepIterator->Next() ) ) !=0)
       {
          TGo4AnalysisStepStatus* stepstate= fxCurrentStep->CreateStatus();

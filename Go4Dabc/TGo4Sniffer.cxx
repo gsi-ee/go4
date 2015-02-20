@@ -112,7 +112,8 @@ void* TGo4Sniffer::FindInHierarchy(const char *path, TClass **cl, TDataMember **
    if ((path!=0) && (strcmp(path,"Status/Analysis")==0)) {
       if (fAnalysisStatus==0)
          fAnalysisStatus = TGo4Analysis::Instance()->CreateStatus();
-      // TGo4Analysis::Instance()->UpdateStatus(fAnalysisStatus);
+      else
+         TGo4Analysis::Instance()->UpdateStatus(fAnalysisStatus);
       if (cl) *cl = fAnalysisStatus->IsA();
 
       return fAnalysisStatus;
