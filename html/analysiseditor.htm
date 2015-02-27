@@ -33,7 +33,7 @@ height:100%;
 	right: 5px;
 	outline: groove medium; 
 	overflow-x:hidden; 
-	overflow-y: auto
+	overflow-y: auto;
 }
 
 #ana_step_container {
@@ -55,7 +55,8 @@ height:100%;
 			left: 5px;
  			right: 1px; 
 			overflow-x:hidden; 
-			overflow-y: auto;
+			overflow-y: auto; 
+			background-color:#eee;
 		}
 
 #ana_button_container {
@@ -66,7 +67,8 @@ height:100%;
 			left: 5px;
  			right: 1px; 
 			overflow-x:hidden; 
-			overflow-y:hidden;			
+			overflow-y:hidden;	 
+			background-color:#eee;		
 		}
 
 
@@ -90,27 +92,32 @@ height:100%;
 		
 		<div class="steptabs" title="Tab container for steps" style="position:relative; width:100%; height:100%; text-align: left; ">
 			<ul>
-				<li><a href="#steptabs-1">Step 1</a></li>
-				<li><a href="#steptabs-2">Step 2</a></li>
-				<li><a href="#steptabs-3">Step 3</a></li>
-				<li><a href="#steptabs-4">Step 4</a></li>
-				<li><a href="#steptabs-5">Step 5</a></li>
-				<li><a href="#steptabs-6">Step 6</a></li>
-				<li><a href="#steptabs-7">Step 7</a></li>
-				<li><a href="#steptabs-8">Step 8</a></li>
+				<li><a href="/go4sys/html/stepeditor.htm">Step 1</a></li>
+				<li><a href="/go4sys/html/stepeditor.htm">Step 2</a></li>
+				<li><a href="/go4sys/html/stepeditor.htm">Step 3</a></li>
+				<li><a href="/go4sys/html/stepeditor.htm">Step 4</a></li>
+				<li><a href="/go4sys/html/stepeditor.htm">Step 5</a></li>
+				<li><a href="/go4sys/html/stepeditor.htm">Step 6</a></li>
+				<li><a href="/go4sys/html/stepeditor.htm">Step 7</a></li>
+				<li><a href="/go4sys/html/stepeditor.htm">Step 8</a></li>
 				
 			</ul>
-			<div id="steptabs-1" class="ana_steptabs_style"></div>
-			<div id="steptabs-2" class="ana_steptabs_style"></div>
-			<div id="steptabs-3" class="ana_steptabs_style"></div>
-			<div id="steptabs-4" class="ana_steptabs_style"></div>
-			<div id="steptabs-5" class="ana_steptabs_style"></div>
-			<div id="steptabs-6" class="ana_steptabs_style"></div>
-			<div id="steptabs-7" class="ana_steptabs_style"></div>
-			<div id="steptabs-8" class="ana_steptabs_style"></div>
+			
+<!-- 			<div id="steptabs-1" class="ana_steptabs_style"></div> -->
+<!-- 			<div id="steptabs-2" class="ana_steptabs_style"></div> -->
+<!-- 			<div id="steptabs-3" class="ana_steptabs_style"></div> -->
+<!-- 			<div id="steptabs-4" class="ana_steptabs_style"></div> -->
+<!-- 			<div id="steptabs-5" class="ana_steptabs_style"></div> -->
+<!-- 			<div id="steptabs-6" class="ana_steptabs_style"></div> -->
+<!-- 			<div id="steptabs-7" class="ana_steptabs_style"></div> -->
+<!-- 			<div id="steptabs-8" class="ana_steptabs_style"></div> -->
+
 		</div>
-</div>
+		
+		</div>
+		
 		<div id="ana_file_container">
+    
     <table class="ana_autosave" style="position:relative; width:100%; height:45%; text-align: left">
       <thead>
        <tr >
@@ -122,7 +129,7 @@ height:100%;
       <td colspan=4 style="height: 30px">
 			<form class="anaASF_form" accept-charset="utf-8">
 					<button class="buttonSaveAnaASF" title="Write Autosave file immediately" type="submit">Save</button>	
-					<label ftitle="Input autosave file name">
+					<label title="Input autosave file name">
 					<input class="anaASF_name" type="text" size="35" value="Go4AnalysisASF.root"></label>									
 					</form> 
 					</td>
@@ -143,13 +150,15 @@ height:100%;
 	   
 	   	</tr>		
       </tbody>
+      </table>
+      
       <table class="ana_configfile" style="position:relative; width:100%; height:45%; text-align: left">
       <thead>
        <tr >
           <th colspan=2>Analysis Configuration File</th> 
        </tr>
       </thead>
-      <tbody">
+      <tbody>
       		<tr>
 					<td style="height: 30px">
 						<button class="buttonLoadAnaConf"
@@ -158,7 +167,7 @@ height:100%;
 					<td style="height: 30px">
 					<form class="anaprefs_form" accept-charset="utf-8">
 					<button class="buttonSaveAnaConf" title="Save Analysis Prefs file" type="submit">Save</button>	
-					<label ftitle="Input preference file name">
+					<label title="Input preference file name">
 					<input class="anaprefs_name" type="text" size="35" value="Go4AnalysisPrefs.root"></label>									
 					</form> 
 					</td>

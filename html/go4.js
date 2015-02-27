@@ -16,13 +16,36 @@
 
    GO4.version = "4.7.1";
    
+   
+   
+   GO4.EvIOType = {		    
+		    GO4EV_NULL: 0,                // no event store/source
+		    GO4EV_FILE: 1,                // root file with own tree
+		    GO4EV_TREE: 2,                // branch of singleton tree
+		    GO4EV_MBS_FILE: 3,             // mbs listmode file (input only)
+		    GO4EV_MBS_STREAM: 4,           // mbs stream server (input only)
+		    GO4EV_MBS_TRANSPORT: 5,        // mbs transport server (input only)
+		    GO4EV_MBS_EVENTSERVER: 6,      // mbs event server  (input only)
+		    GO4EV_MBS_REVSERV: 7,           // remote event server (input only)
+		    GO4EV_BACK: 8,            // backstore in memory (pseudo-ringbuffer?)
+		    GO4EV_USER: 9,             // user defined source class
+		    GO4EV_MBS_RANDOM: 10            // random generated mbs event
+		    
+		}
 
    GO4.AnalysisStatusEditor = function(stat) {
       JSROOT.TBasePainter.call(this, stat);
       this.stat = stat; 
+      this.step;
       this.changes = ["dummy", "init"];
+      this.showmore= [false, false];
       this.ClearChanges();
+      this.ClearShowstates();
+      
    }
+   
+  
+   
    
    GO4.AnalysisStatusEditor.prototype = Object.create(JSROOT.TBasePainter.prototype);
 
@@ -75,7 +98,16 @@ GO4.AnalysisStatusEditor.prototype.ClearChanges = function() {
 	$(id+" .buttonAnaChangeLabel").hide(); // hide warning sign 
 		  
 	  }
-	  
+
+GO4.AnalysisStatusEditor.prototype.ClearShowstates = function() {
+	var index;
+	var len=this.showmore.length;
+	for	(index = 0; index < len ; index++) {
+		var removed=this.showmore.pop();  
+	    console.log("ClearShowstates removed :%s", removed);	
+	} 
+}
+
 //scan changed value list and return optionstring to be send to server
 GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	var id = "#"+this.divid;
@@ -144,135 +176,20 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
       var names = "";
       
       ///////////// ANALYSIS STEPS:
-      
-      $(id+" .steptabs").tabs( "option", "disabled", [0, 1, 2, 3, 4, 5, 6, 7] ); 
-      stat.fxStepArray.arr.forEach(function(element, index, array) {
-    	  $(id+" .steptabs").tabs("enable",index);
+      this.ClearShowstates();
+      var tabelement=$(id+" .steptabs");
+      tabelement.tabs( "option", "disabled", [0, 1, 2, 3, 4, 5, 6, 7] ); 
+      stat.fxStepArray.arr.forEach(function(element, index, array) {    	
+    	  tabelement.tabs("enable",index);
     	  $(id +" .steptabs ul:first li:eq("+index+") a").text(element.fName);
-    	  
-    	  console.log("refreshEditor finds step name:"+ element.fName);
-    	  names += " " + element.fName;
-    	  var theIndex=index;
-    		var theElement=element;
-    	  $(id +" .steptabs div:eq("+index+")").load("/go4sys/html/stepeditor.htm", "", 
-    	            function(responseTxt, statusTxt, xhr) { 
-    		  		console.log("here we fill stepeditor for "  + element.fName + " to index="+index);
-//    		  		console.log("statusTxt: "  + statusTxt);
-//    		  		console.log("responseTxt: "  + responseTxt);
-    		  		
-//    		  		console.log("found checkbox: "  + $(id+" .steptabs div:eq("+index+")").find(" .step_box_step_enab").prop('name')
-//    		  				+ "this is: "+$(this).find(" .step_box_step_enab").prop('name')+ " of index: "+index);
-//    		  		//$(id+" .steptabs div:eq("+index+")").find(" .step_box_step_enab")
-    		  		
-    		  		var pthis=$(this);
-    		  		console.log("process enabled="+theElement.fbProcessEnabled + "for theElement: "+theElement.fName);   	
-    		  		console.log("source enabled="+theElement.fbSourceEnabled + "for theElement: "+theElement.fName);
-    		  		console.log("store enabled="+theElement.fbStoreEnabled + "for theElement: "+theElement.fName);
-    		  		
-    		  		var storetable=pthis.find(" .step_store");
-    		  		var sourcetable=pthis.find(" .step_source");
-    		  		var enablebox=pthis.find(" .step_box_step_enab");
-    		  		var sourcebox=pthis.find(" .step_box_source_enab");
-    		  		var storebox=pthis.find(" .step_box_store_enab");
-    		  		
-    		  		
-    		  		// here step control checkboxes and source/store visibility:
-					if (theElement.fbProcessEnabled) {
-							sourcebox.prop('disabled',false);
-							storebox.prop('disabled',false);
-							if (theElement.fbSourceEnabled) {
-								sourcetable.show();
-							} else {
-								sourcetable.hide();
-							}
-							if (theElement.fbStoreEnabled) {
-								storetable.show();
-							} else {
-								storetable.hide();
-							}
-						} else {
-							sourcebox.prop('disabled',true);
-							storebox.prop('disabled',true);
-							sourcetable.hide();
-							storetable.hide();
-						}
-
-					
-					
-    		  		
-    		  		enablebox.prop('checked', theElement.fbProcessEnabled)
-    	 	         .click(function() 
-    	 	        		 { 
-    	 	        	 		editor.MarkChanged("stepenabled_"+ theIndex);
-    	 	        	 		if ($(this).prop('checked')) {
-    								sourcetable.show();
-    								storetable.show();
-    							} else {
-    								sourcetable.hide();
-    								storetable.hide();
-    							}
-    	 	        	 		
-    	 	        	 		
-    	 	        	 		if ($(this).prop('checked')) {
-    								sourcebox.prop('disabled',false);
-    								storebox.prop('disabled',false);
-    								if (sourcebox.prop('checked')) {
-    									sourcetable.show();
-    								} else {
-    									sourcetable.hide();
-    								}
-    								if (storebox.prop('checked')){
-    									storetable.show();
-    								} else {
-    									storetable.hide();
-    								}
-    							} else {
-    								sourcebox.prop('disabled',true);
-    								storebox.prop('disabled',true);
-    								sourcetable.hide();
-    								storetable.hide();
-    							}
-    	 	        	 		
-    	 	        	 		
-    	 	        	 
-   	 	         }); // clickfunction
-    		  		
-    		  		//$(this).find(" .step_box_source_enab")
-   	 	         sourcebox.prop('checked', theElement.fbSourceEnabled)
-   	 	         .click(function() 
-   	 	        		 { 
-   	 	        	 		editor.MarkChanged("sourceenabled_"+ theIndex);
-   	 	        	 		if($(this).prop('checked')) 
-	 	        	 			sourcetable.show();
-	 	        	 		else
-	 	        	 			sourcetable.hide();
-   	 	        	 		
-  	 	         }); // clickfunction	
-    		  		
-    		  		
-    		  		//$(this).find(" .step_box_store_enab")
-      	 	         storebox.prop('checked', theElement.fbStoreEnabled)
-      	 	         .click(function() 
-      	 	        		 { 
-      	 	        	 		editor.MarkChanged("storeenabled_"+ theIndex);
-      	 	        	 		if($(this).prop('checked')) 
-      	 	        	 			storetable.show();
-      	 	        	 		else
-      	 	        	 			storetable.hide();
-      	 	        	 		
-     	 	         }); // clickfunction	
-    		  		
-    		  		
-      	 	      $(id+" .steptabs").tabs("refresh");
-      	 	      console.log("refreshed tabs: " + $(id+" .steptabs").attr('title'));
-    		  		
-    	  });// load
-    	  
-    	  
+    	  editor.showmore.push(false); // prepare showmore array for each step
+    	  console.log("refreshEditor for step name:"+ element.fName);
+    	  tabelement.tabs("load",index); // all magic is in the on load event callback
+    	  //console.log("refreshEditor after issuing load of index:"+ index);
+     	  
     	  
       }); // for each
       
-      //$(id+" .steptabs").tabs("refresh");
       
       
 
@@ -303,6 +220,214 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
       
    }
    
+   
+   GO4.AnalysisStatusEditor.prototype.showStepEditor = function(pthis, theElement, theIndex)
+   
+   {
+	   var id = "#"+this.divid;
+	   var editor=this;
+	   var showmore=editor.showmore[theIndex]; 
+	   console.log("showStepEditor for index "+theIndex+" has showmore="+showmore);
+	   var storetable=pthis.find(" .step_store");
+ 		var sourcetable=pthis.find(" .step_source");
+ 		var enablebox=pthis.find(" .step_box_step_enab");
+ 		var sourcebox=pthis.find(" .step_box_source_enab");
+ 		var storebox=pthis.find(" .step_box_store_enab");
+ 		
+ 		var sourcesel=pthis.find(" .step_source_select");
+ 		var sourcemore=pthis.find(" .step_source_expand");
+ 		var sourcename=pthis.find(" .step_source_name");
+ 		var sourcenamelabel=pthis.find(" .step_source_name_label");
+ 		var sourcetag=pthis.find(" .step_source_tagfile");
+ 		var sourcetaglabel=pthis.find(" .step_source_tagfile_label");
+ 		var sourceport=pthis.find(" .step_source_port");
+ 		var sourceportlabel=pthis.find(" .step_source_port_label");
+ 		var sourcetmout=pthis.find(" .step_source_tmout");
+ 		var sourcetmoutlabel=pthis.find(" .step_source_tmout_label");
+ 		var sourceretry=pthis.find(" .step_source_retry");
+ 		var sourceretrylabel=pthis.find(" .step_source_retry_label");
+ 		var sourceargs=pthis.find(" .step_source_args");
+ 		var sourceargslabel=pthis.find(" .step_source_args_label");
+ 		var sourcefirst=pthis.find(" .step_source_firstev");
+ 		var sourcelast=pthis.find(" .step_source_lastev");
+ 		var sourceskip=pthis.find(" .step_source_stepev");
+ 		
+ 		var storesel=pthis.find(" .step_store_select");
+ 		var storename=pthis.find(" .step_store_name");
+ 		var storesplit=pthis.find(" .step_store_split");
+ 		var storebuf=pthis.find(" .step_store_buf");
+ 		var storecomp=pthis.find(" .step_store_comp");
+ 		var storeover=pthis.find(" .step_store_overwrite");
+ 		
+ 	// here step control checkboxes and source/store visibility:
+		if (theElement.fbProcessEnabled) {
+				sourcebox.prop('disabled',false);
+				storebox.prop('disabled',false);
+				if (theElement.fbSourceEnabled) {
+					sourcetable.show();
+				} else {
+					sourcetable.hide();
+				}
+				if (theElement.fbStoreEnabled) {
+					storetable.show();
+				} else {
+					storetable.hide();
+				}
+			} else {
+				sourcebox.prop('disabled',true);
+				storebox.prop('disabled',true);
+				sourcetable.hide();
+				storetable.hide();
+			}
+
+ 		
+		 sourcename.show();
+		 
+		 console.log("show step editor with source id:"+theElement.fxSourceType.fiID);
+		 switch(theElement.fxSourceType.fiID)
+	  	 	   { 	 	      
+	  	 	   case GO4.EvIOType.GO4EV_FILE:
+	  	 	   case GO4.EvIOType.GO4EV_MBS_RANDOM: 
+	  	 		   sourceport.hide();
+	  	 		   sourceportlabel.hide();
+	  	 		   sourcetmout.hide();  
+	  	 		   sourcetmoutlabel.hide();
+	  	 		   sourceretry.hide();
+	  	 		   sourceretrylabel.hide();
+	  	 		   sourcetag.hide();
+	  	 		   sourcetaglabel.hide();
+	  	 		   sourcefirst.hide();
+	  	 		   sourcelast.hide();
+	  	 		   sourceskip.hide();
+	  	 		   sourceargs.hide();   
+	  	 		   sourceargslabel.hide();   
+	  	 		break;   
+	  	 	   case GO4.EvIOType.GO4EV_MBS_STREAM:
+	  	 	   case GO4.EvIOType.GO4EV_MBS_TRANSPORT:  
+	  	 	   case GO4.EvIOType.GO4EV_MBS_EVENTSERVER:
+	  	       case GO4.EvIOType.GO4EV_MBS_REVSERV:   
+	  	    	   if(showmore)
+	  	 			   {
+	  	 		         sourceport.show();
+	  	 		         sourceportlabel.show();
+	  	 	             sourcetmout.show();
+	  	 	             sourcetmoutlabel.show();
+	  	 	             sourceretry.show();
+	  	 	             sourceretrylabel.show();
+	  	 	             sourcefirst.show();
+	  	 	             sourcelast.show(); 
+	  	 	             sourceskip.show(); 
+	  	 			   }
+	  	 		   else
+	  	 			   {
+	  	 			   	 sourceport.hide();
+	  	 			   	 sourceportlabel.hide();
+	  	 			   	 sourcetmout.hide();  
+	  	 			   	 sourcetmoutlabel.hide();
+	  	 			   	 sourceretry.hide();
+	  	 			   	 sourceretrylabel.hide();	  	 			   	
+	 	 	             sourcefirst.hide();
+	 	 	             sourcelast.hide();
+	 	 	             sourceskip.hide(); 
+	  	 			   }
+	  	    	   sourcetag.hide();
+	  	    	   sourcetaglabel.hide();
+	  	    	   sourceargs.hide();
+	  	 		   sourceargslabel.hide();
+	  	 		   
+	  	 		   
+	  	 		break;
+	  	 	   case GO4.EvIOType.GO4EV_USER:
+	  	 		   if(showmore)
+  	 			   {
+	  	 			   sourceport.show(); 
+	  	 			   sourceportlabel.show();
+	  	 			   sourcetmout.show();  
+	  	 			   sourcetmoutlabel.show();
+	  	 			   sourceargs.show();
+	  	 			   sourceargslabel.show();
+  	 			   }
+	  	 		   else
+	  	 		   {
+	  	 			   sourceport.hide(); 
+	  	 			   sourceportlabel.hide();
+	  	 			   sourcetmout.hide();
+	  	 			   sourcetmoutlabel.hide();
+	  	 			   sourceargs.hide(); 
+	  	 			   sourceargslabel.hide();
+  	 			   }  
+	 			   	 sourceretry.hide();
+	 				 sourceretrylabel.hide();
+	 			   	 sourcetag.hide(); 
+	 			   	 sourcetaglabel.hide();
+	 	             sourcefirst.hide();
+	 	             sourcelast.hide();  
+	 	             sourceskip.hide(); 
+	  	 		break;
+	  	 	   default:
+	   	 		console.log("showStepEditor WARNING: unknown event source id: "+theElement.fxSourceType.fiID);   
+	   	 	   case GO4.EvIOType.GO4EV_MBS_FILE:
+	   	 		 if(showmore)
+	 			   {
+	   	 			 sourcetag.show();
+	   	 			 sourcetaglabel.show();
+	   	 			 sourcefirst.show();
+	   	 			 sourcelast.show();
+	   	 			 sourceskip.show();
+	 			   }
+	   	 		 else
+	   	 		  {
+	   	 			 sourcetag.hide();  
+	   	 			 sourcetaglabel.hide(); 
+	   	 			 sourcefirst.hide();
+	   	 			 sourcelast.hide();
+	   	 			 sourceskip.hide();
+	 			   } 
+	   	 		sourceport.hide();
+	   	 		sourceportlabel.hide();
+	   	 		sourcetmout.hide();
+	   	 		sourcetmoutlabel.hide();
+	   	 		sourceretry.hide(); 
+	   	 		sourceretrylabel.hide();  
+	   	 		sourceargs.hide();
+	   	 		sourceargslabel.hide();
+	   	 		break;	
+	  	 	   };
+				   
+		
+   	storesplit.show();
+	storebuf.show();
+	storecomp.show();
+	storeover.show();  
+	console.log("show step editor with store id:"+theElement.fxStoreType.fiID);
+   switch(theElement.fxStoreType.fiID)
+	   {
+	   default:
+  	 		console.log("showStepEditor WARNING: unknown event store id: "+theElement.fxStoreType.fiID);   
+	   case GO4.EvIOType.GO4EV_FILE:
+		   storecomp.spinner("enable");
+		   storeover.prop('disabled',false);
+	 		break;
+	   case GO4.EvIOType.GO4EV_BACK:
+		   storecomp.spinner("disable");
+		   storeover.prop('disabled',true);
+	 		break;
+	 		
+	   };
+ 		
+	   
+	   sourcesel.selectmenu("option", "width", sourcetable.width()*0.8); // expand to table width
+	   sourcesel.selectmenu('refresh', true);
+	   
+	   storesel.selectmenu("option", "width", storetable.width()*0.8); // expand to table width
+	   storesel.selectmenu('refresh', true);
+	   
+	   
+	   $(id+" .steptabs").tabs("refresh");
+	   
+	   console.log("analysis editor: showStepEditor leaving."); 
+   }
+   
    GO4.AnalysisStatusEditor.prototype.fillEditor = function()
    {
 	   var id = "#"+this.divid;
@@ -310,15 +435,427 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	   
 	   
 	   $(id +" .steptabs").tabs({
+		   
+		    heightStyle: "fill",
 	  		activate : function(event, ui) {
 	  			//updateElementsSize();
 	  			console.log("analysis editor: activated tab: "+ ui.newTab.text());
-	  		}
-	      
-	  	});
+	  		},  
+	  		load: function(event, ui) { 
+	  			
+	  			// note that load will also be triggered when activating tab!
+	  			// so we need to backup all changes in local step status theElement!!!
+	  			
+	  			
+	  			var theIndex=ui.tab.index();
+		  		//console.log("On load function for "  + ui.tab.text() + " index=" + theIndex );
+		  		var pthis=ui.panel;
+		  		var theElement=editor.stat.fxStepArray.arr[theIndex];
+		  		
+//		  		console.log("process enabled="+theElement.fbProcessEnabled + "for theElement: "+theElement.fName);   	
+//		  		console.log("source enabled="+theElement.fbSourceEnabled + "for theElement: "+theElement.fName);
+//		  		console.log("store enabled="+theElement.fbStoreEnabled + "for theElement: "+theElement.fName);
+		  		
+		  		var storetable=pthis.find(" .step_store");
+		  		var sourcetable=pthis.find(" .step_source");
+		  		var enablebox=pthis.find(" .step_box_step_enab");
+		  		var sourcebox=pthis.find(" .step_box_source_enab");
+		  		var storebox=pthis.find(" .step_box_store_enab");
+		  		
+		  		var sourcesel=pthis.find(" .step_source_select");
+		  		var sourcemore=pthis.find(" .step_source_expand");
+		  		var sourcename=pthis.find(" .step_source_name");
+		  		var sourcetag=pthis.find(" .step_source_tagfile");
+		  		var sourceport=pthis.find(" .step_source_port");
+		  		var sourcetmout=pthis.find(" .step_source_tmout");
+		  		var sourceretry=pthis.find(" .step_source_retry");
+		  		var sourceargs=pthis.find(" .step_source_args");
+		  		var sourcefirst=pthis.find(" .step_source_firstev");
+		  		var sourcelast=pthis.find(" .step_source_lastev");
+		  		var sourceskip=pthis.find(" .step_source_stepev");
+		  		
+		  		var storesel=pthis.find(" .step_store_select");
+		  		var storename=pthis.find(" .step_store_name");
+		  		var storesplit=pthis.find(" .step_store_split");
+		  		var storebuf=pthis.find(" .step_store_buf");
+		  		var storecomp=pthis.find(" .step_store_comp");
+		  		var storeover=pthis.find(" .step_store_overwrite");
+		  		
+
+
+				
+				
+		  		
+		  		enablebox.prop('checked', theElement.fbProcessEnabled)
+	 	         .click(function() 
+	 	        		 { 
+	 	        	 		editor.MarkChanged("stepenabled_"+ theIndex);
+	 	        	 		if ($(this).prop('checked')) {
+								theElement.fbProcessEnabled=true;
+							} else {
+								theElement.fbProcessEnabled=false;
+							}
+	 	        	 		editor.showStepEditor(pthis, theElement, theIndex);
+	 	        	 
+	 	         }); // clickfunction
+		  		
+	 	         sourcebox.prop('checked', theElement.fbSourceEnabled)
+	 	         .click(function() 
+	 	        		 { 
+	 	        	 		editor.MarkChanged("sourceenabled_"+ theIndex);
+	 	        	 		if($(this).prop('checked')) 
+	 	        	 			{
+	 	        	 				theElement.fbSourceEnabled=true;
+	 	        	 			}
+	 	        	 		else
+ 	        	 				{
+ 	        	 				theElement.fbSourceEnabled=false;
+ 	        	 				}
+	 	        	 		editor.showStepEditor(pthis, theElement, theIndex);
+	 	         }); // clickfunction
+		  		
+		  		
+  	 	         storebox.prop('checked', theElement.fbStoreEnabled)
+  	 	         .click(function() 
+  	 	        		 { 
+  	 	        	 		editor.MarkChanged("storeenabled_"+ theIndex);
+  	 	        	 		if($(this).prop('checked'))
+  	 	        	 			{
+  	 	        	 				theElement.fbStoreEnabled=true;
+  	 	        	 			}
+  	 	        	 		else
+  	 	        	 			{
+  	 	        	 			theElement.fbStoreEnabled=false;
+  	 	        	 			}
+  	 	        	 	editor.showStepEditor(pthis, theElement, theIndex);
+ 	 	         }); // clickfunction	
+		  		
+  	 	   //// EVENT SOURCE: /////////////////////////////////////////////////      
+  	 	      sourcesel.selectmenu({
+  	 		change : function(event, ui) {
+  	 			editor.MarkChanged("sourcesel_"+ theIndex);
+  	 			// change here eventsource status object?!
+  	 			// in javascript we can just add dynamically any missing members!
+  	 			// so exchange of class object is not necessary hopefully...
+  	 			
+  	 			switch(Number(ui.item.value))
+  	 			{
+  	 				
+	  	 		   case 0:
+	  	 			   	theElement.fxSourceType.fiID=GO4.EvIOType.GO4EV_FILE;
+	  	   	 		break;
+	  	   	 	   case 2: 
+	  	   	 		   	theElement.fxSourceType.fiID=GO4.EvIOType.GO4EV_MBS_STREAM;
+	  	   	 		break;
+	  	   	 	   case 3: 
+	  	   	 		   	theElement.fxSourceType.fiID=GO4.EvIOType.GO4EV_MBS_TRANSPORT;
+	  	    	  		break;
+	  	   	 	   case 4:
+	  	   	 		   theElement.fxSourceType.fiID=GO4.EvIOType.GO4EV_MBS_EVENTSERVER;
+	  	    	  		break;
+	  	   	 	   case 5:
+	  	   	 		   theElement.fxSourceType.fiID=GO4.EvIOType.GO4EV_MBS_REVSERV;
+	  	    	  		break;
+	  	   	 	   case 6:
+	  	   	 		   theElement.fxSourceType.fiID=GO4.EvIOType.GO4EV_MBS_RANDOM;
+	  	   	 		   break;
+	  	   	 	   case 7:
+	  	   	 		   theElement.fxSourceType.fiID=GO4.EvIOType.GO4EV_USER;
+	  	   	 		   break;
+	  	   	 	   default:
+	  	   	 	   case 1:
+  	   	 	   			theElement.fxSourceType.fiID=GO4.EvIOType.GO4EV_MBS_FILE;
+	  	   	 	   		break;	
+  	 			
+  	 			}; // switch
+  	 			
+  	 			// but: we have to set back all values  from GUI to theElement and optionally create new members:
+  	 			theElement.fxSourceType.fName=sourcename.val();
+  	 			theElement.fxSourceType.fiPort=sourceport.val();
+  	 			theElement.fxSourceType.fiTimeout=sourcetmout.val();
+  	 			theElement.fxSourceType.fiRetryCnt=sourceretry.val();
+  	 			theElement.fxSourceType.fxTagFile=sourcetag.val();
+  	 			theElement.fxSourceType.fuStartEvent=sourcefirst.val();
+  	 			theElement.fxSourceType.fuStopEvent=sourcelast.val(); 	
+  	 			theElement.fxSourceType.fuEventInterval=sourceskip.val(); 	 	 	
+  	 			theElement.fxSourceType.fxExpression=sourceargs.val();	
+  	 				
+  	 			editor.showStepEditor(pthis, theElement, theIndex);
+  	 		}
+  	 	}); // source selectmenu change
+  	 	      
+  	 	      
+  	 	   sourcemore.prop('checked', editor.showmore[theIndex]).click(  	 			   
+  	 			   function(){
+  	 				   console.log("show more clickfunction...");
+  	 				   var doshow=$(this).prop('checked');
+  	 				   if (doshow) {
+  	 					editor.showmore[theIndex]=true;
+  	 					console.log("show more sets true");
+					} else {
+						editor.showmore[theIndex]=false;
+						console.log("show more sets false");
+					}
+  	 				editor.showStepEditor(pthis, theElement, theIndex);   
+  	 			   });  // clickfunction	
+  	 	   
+  	 	console.log("on tab load finds source name: "+ theElement.fxSourceType.fName);
+  	 	sourcename.val(theElement.fxSourceType.fName)
+  	 		.change(function(){ 
+  	 			editor.MarkChanged("sourcename_"+ theIndex);
+  	 			theElement.fxSourceType.fName=this.value;
+  	 			}); 
+  	 	      
+  	 	   
+  	 	   
+  	 	   
+  	 	   
+  	 	   sourceport.spinner({
+ 		        min: 0,
+ 		        max: 100000,
+ 		        step: 1,
+ 		    	stop: function( event, ui ) {
+ 		    		editor.MarkChanged("sourceport_"+ theIndex); 		    	
+ 		    		theElement.fxSourceType.fiPort=this.value;
+ 		    		//console.log("spinner stop event with thisvalue="+this.value+", ui.value="+ui.value);
+ 		    	}
+ 		    });    
+ 	 	        
+  	 	sourcetmout.spinner({
+		        min: 0,
+		        max: 9999,
+		        step: 1,
+		    	stop: function( event, ui ) {
+		    		editor.MarkChanged("sourcetmout_"+ theIndex);
+		    		theElement.fxSourceType.fiTimeout=this.value;
+		    	}
+  	 	
+  	 	
+  	 		}); 
+  	 	   
+  	 	sourceretry.spinner({
+	        min: 0,
+	        max: 10000,
+	        step: 1,
+	    	stop: function( event, ui ) {
+	    		editor.MarkChanged("sourceretry_"+ theIndex);
+	    		theElement.fxSourceType.fiRetryCnt=this.value;
+	    		}
+	    }); 
+  	 	
+  	 	
+  		sourcefirst.spinner({
+	        min: 0,
+	        max: 2000000000,
+	        step: 1000,
+	    	stop: function( event, ui ) {
+	    		editor.MarkChanged("sourcefirst_"+ theIndex);
+	    		theElement.fxSourceType.fuStartEvent=this.value;
+	    	}
+	    }); 	      
+  	 	   
+  		sourcelast.spinner({
+	        min: 0,
+	        max: 2000000000,
+	        step: 1000,
+	    	stop: function( event, ui ) {
+	    		editor.MarkChanged("sourcelast_"+ theIndex);
+	    		theElement.fxSourceType.fuStopEvent=this.value;
+	    	}
+	    });
+  		
+  		sourceskip.spinner({
+	        min: 0,
+	        max: 999999999,
+	        step: 1,
+	    	stop: function( event, ui ) {
+	    		editor.MarkChanged("sourceskip_"+ theIndex);
+	    		theElement.fxSourceType.fuEventInterval=this.value;
+	    	}
+	    });
+  		
+  		 //// EVENT STORE: /////////////////////////////////////////////////           
+  	 	   storesel.selectmenu({
+  	  	 		change : function(event, ui) {
+  	  	 			editor.MarkChanged("storesel_"+ theIndex);
+  	  	 			
+  	  	 			// to do: change here eventsource status object?! 
+  	  	 			// maybe we leave this to the updatefrom method on server side... 
+  	  	 		console.log("store selector with value "+ Number(ui.item.value));
+  	  	 		switch(Number(ui.item.value))
+  	 			{
+  	  	 		
+  	  	 			default:
+  	  	 			case 0:
+	  	 			   	theElement.fxStoreType.fiID=GO4.EvIOType.GO4EV_FILE;
+	  	 			   	break;
+	  	   	 	   	case 1: 
+	  	   	 		   	theElement.fxStoreType.fiID=GO4.EvIOType.GO4EV_BACK;
+	  	   	 		   	break;
+  	 			}; // switch
+  	 			theElement.fxStoreType.fName=storename.val();
+  	 			theElement.fxStoreType.fiSplit=storesplit.val();
+  	 			theElement.fxStoreType.fiBufsize=storebuf.val()* 1000.;  	 	
+  	 			theElement.fxStoreType.fiCompression=storecomp.val();
+  	 			
+  	 			
+  	 			editor.showStepEditor(pthis, theElement, theIndex);
+  	 			
+  	  	 		} // change function		
+  	  	 	}); // selectmenu   
+  	 	      
+  	 	   
+  	 	console.log("on tab load finds store name: "+ theElement.fxStoreType.fName);
+  	 	storename.val(theElement.fxStoreType.fName)
+	 		.change(function(){ 
+	 			editor.MarkChanged("storename_"+ theIndex);
+	 			theElement.fxStoreType.fName=this.value;	 		
+	 		}); // change function
+  	 	   
+  	 	   
+  	 	storesplit.spinner({
+	        min: 0,
+	        max: 99,
+	        step: 1,
+	    	stop: function( event, ui ) {
+	    		editor.MarkChanged("storesplit_"+ theIndex);
+	    		theElement.fxStoreType.fiSplit=this.value;
+	    		}
+	    }); 
+  	 	
+  	 	storebuf.spinner({
+	        min: 4,
+	        max: 256,
+	        step: 1,
+	    	stop: function( event, ui ) {
+	    		editor.MarkChanged("storebuf_"+ theIndex);
+	    		theElement.fxStoreType.fiBufsize=this.value * 1000;
+	    		}
+	    });      
+  	 	
+  	 	storecomp.spinner({
+	        min: 0,
+	        max: 9,
+	        step: 1,
+	    	stop: function( event, ui ) {
+	    		editor.MarkChanged("storecomp_"+ theIndex);
+	    		theElement.fxStoreType.fiCompression=this.value;
+	    		}
+	    });     
+  	 	
+  	 	      
+  	 	////////////////// here set event source values:      
+  	 	
+  	 	
+  	 	      
+  	 	   // set event source selector and special fields:
+  	 	console.log("load tab "+theIndex+" sees source id:"+theElement.fxSourceType.fiID);
+  	 	   switch(theElement.fxSourceType.fiID)
+  	 	   { 	 	      
+  	 	   case GO4.EvIOType.GO4EV_FILE:   
+  	 		sourcesel.val(0);
+  	 		break;
+  	 	   case GO4.EvIOType.GO4EV_MBS_STREAM:
+  	 		sourcesel.val(2);
+  	 		sourceport.val(theElement.fxSourceType.fiPort);
+  	 		sourcetmout.val(theElement.fxSourceType.fiTimeout);
+  	 		sourceretry.val(theElement.fxSourceType.fiRetryCnt);
+  	 		sourcetag.text(theElement.fxSourceType.fxTagFile);
+   	 		sourcefirst.val(theElement.fxSourceType.fuStartEvent);
+   	 		sourcelast.val(theElement.fxSourceType.fuStopEvent); 
+   	 		sourceskip.val(theElement.fxSourceType.fuEventInterval); 	 		
+  	 		break;
+  	 	   case GO4.EvIOType.GO4EV_MBS_TRANSPORT:
+   	 		sourcesel.val(3);
+   	 		sourceport.val(theElement.fxSourceType.fiPort);
+  	 		sourcetmout.val(theElement.fxSourceType.fiTimeout);
+  	 		sourceretry.val(theElement.fxSourceType.fiRetryCnt);
+  	 		sourcetag.text(theElement.fxSourceType.fxTagFile);
+   	 		sourcefirst.val(theElement.fxSourceType.fuStartEvent);
+   	 		sourcelast.val(theElement.fxSourceType.fuStopEvent); 
+   	 		sourceskip.val(theElement.fxSourceType.fuEventInterval); 	 	
+   	 		break;
+  	 	   case GO4.EvIOType.GO4EV_MBS_EVENTSERVER:
+   	 		sourcesel.val(4);
+   	 		sourceport.val(theElement.fxSourceType.fiPort);
+  	 		sourcetmout.val(theElement.fxSourceType.fiTimeout);
+  	 		sourceretry.val(theElement.fxSourceType.fiRetryCnt);
+  	 		sourcetag.text(theElement.fxSourceType.fxTagFile);
+   	 		sourcefirst.val(theElement.fxSourceType.fuStartEvent);
+   	 		sourcelast.val(theElement.fxSourceType.fuStopEvent);    
+   	 		sourceskip.val(theElement.fxSourceType.fuEventInterval);	 	
+   	 		break;
+  	 	   case GO4.EvIOType.GO4EV_MBS_REVSERV:
+   	 		sourcesel.val(5);
+   	 		sourceport.val(theElement.fxSourceType.fiPort);
+  	 		sourcetmout.val(theElement.fxSourceType.fiTimeout);
+  	 		sourceretry.val(theElement.fxSourceType.fiRetryCnt);
+  	 		sourcetag.text(theElement.fxSourceType.fxTagFile);
+   	 		sourcefirst.val(theElement.fxSourceType.fuStartEvent);
+   	 		sourcelast.val(theElement.fxSourceType.fuStopEvent);   
+   	 		sourceskip.val(theElement.fxSourceType.fuEventInterval); 	 	
+   	 		break;
+  	 	   case GO4.EvIOType.GO4EV_MBS_RANDOM:
+  	 		sourcesel.val(6);
+  	 		break;
+  	 	   case GO4.EvIOType.GO4EV_USER:
+  	 		sourcesel.val(7);
+  	 		sourceport.val(theElement.fxSourceType.fiPort);
+  	 		sourcetmout.val(theElement.fxSourceType.fiTimeout);
+  	 		sourceargs.text(theElement.fxSourceType.fxExpression);
+  	 		break;
+  	 	   default:
+   	 		console.log("WARNING: unknown event source id: "+theElement.fiID);   
+   	 	   case GO4.EvIOType.GO4EV_MBS_FILE:
+   	 		sourcesel.val(1);
+   	 		sourcetag.text(theElement.fxSourceType.fxTagFile);
+   	 		sourcefirst.val(theElement.fxSourceType.fuStartEvent);
+   	 		sourcelast.val(theElement.fxSourceType.fuStopEvent);
+   	 	    sourceskip.val(theElement.fxSourceType.fuEventInterval);
+   	 		break;	
+  	 	   };
+  	 	   
+  	 	   sourcesel.selectmenu('refresh', true);
+  	 	   
+  	 	   
+  	 	   // event store properties:
+  	 	
+  	 	
+	 	
+  	 	
+  	 	
+  	 	storesplit.val(theElement.fxStoreType.fiSplit);
+  	 	storebuf.val(theElement.fxStoreType.fiBufsize / 1000);  	 	
+		storecomp.val(theElement.fxStoreType.fiCompression);
+ 	 	
+  	  // set event store selector and special fields:
+		console.log("load tab "+theIndex+" sees store id:"+theElement.fxStoreType.fiID);
+	 	   switch(theElement.fxStoreType.fiID)
+	 	   {
+	 	   
+	 	   	case GO4.EvIOType.GO4EV_BACK:
+	 	   		storesel.val(1);
+	 	   	break;
+	 	   	case GO4.EvIOType.GO4EV_FILE: 
+	 	   		storeover.prop('checked', theElement.fxStoreType.fbOverwrite);
+	 	   	default:	
+	 	   		storesel.val(0);
+	 		break;
+	 	   };
+	 	   
+	 	  storesel.selectmenu('refresh', true); 
+	 	  
+	 	  editor.showStepEditor(pthis, theElement, theIndex); // handle all visibility issues here, also refresh tabs
+  	 	   
+  	 	  // $(id+" .steptabs").tabs("refresh");
+  	 	      //console.log("refreshed tabs: " + $(id+" .steptabs").attr('title'));
+		  		
+	  }// load
+	   
+	  	}); // tabs init
 	   
 	   
-	   
+//////////////////////// END ANALYSIS STEP TABS	   
 	   
 	   
 	   

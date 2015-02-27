@@ -11,12 +11,29 @@
 	margin: 0px;
 }
 
+
+.ana_steptabs_style {
+position:relative; 
+left: -20px; 
+top:-10px; 
+width:100%; 
+height:100%;
+
+
+}
+
+
+
 #step_editor_container {
-	height: 80%;
+	height: 100%;
 	position: relative;
 	overflow-x: auto;
 	overflow-y: auto
 }
+
+
+
+
 </style>
 </head>
 
@@ -66,11 +83,11 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td colspan=4><select class="step_source_select""  >
+					<td colspan=2><select class="step_source_select"  >
 							<option selected="selected" value="0">Go4 File Source
 								(*.root)</option>
 							<option value="1">MBS File (*.lmd *.LMD *.lml))</option>
-							<option value="2">MBS Steam Server</option>
+							<option value="2">MBS Stream Server</option>
 							<option value="3">MBS Transport Server</option>
 							<option value="4">MBS Event Server</option>
 							<option value="5">Remote Event Server</option>
@@ -84,30 +101,35 @@
 
 				</tr>
 				<tr>
-					<td colspan=5><label title="File name or server node name">Name:
+					<td colspan=3><label title="File name or server node name">Name:
 							<input class="step_source_name" type="text">
 					</label></td>
 				</tr>
 				<tr>
-					<td><label title="LMD Tag file">Tagfile: <input
+					<td colspan=3><label title="LMD Tag file" class="step_source_tagfile_label">Tagfile: <input
 							class="step_source_tagfile" type="text"></label></td>
-					<td><label>Port: <input
+				</tr>
+				<tr>
+				<td><label title="User arguments" class="step_source_args_label">Args: <input
+							class="step_source_args" type="text"></label></td>
+				</tr>
+				<tr>			
+					<td><label class="step_source_port_label">Port: <input
 							class="step_source_port MySpinnerStyle" title="Port Number"
 							type="text" value="dflt">
 					</label></td>
 
-					<td><label>Tmout (s): <input
+					<td><label class="step_source_tmout_label">Tmout (s): <input
 							class="step_source_tmout MySpinnerStyle"
 							title="Timeout in seconds" type="text" value="1">
 					</label></td>
 
-					<td><label>Retr (s): <input
+					<td><label class="step_source_retry_label">Retr (s): <input
 							class="step_source_retry MySpinnerStyle"
 							title="Retry interval in seconds" type="text" value="never">
 					</label></td>
 
-					<td><label title="User arguments">Args: <input
-							class="step_source_args" type="text"></label></td>
+					
 				</tr>
 
 				<tr>
@@ -117,8 +139,8 @@
 					<td><input class="step_source_lastev MySpinnerStyle"
 						title="Sequence number of last event to process" type="text"
 						value="all"></td>
-					<td colspan=3><input class="step_source_stepev MySpinnerStyle"
-						title="Sequence number of last event to process" type="text"
+					<td><input class="step_source_stepev MySpinnerStyle"
+						title="Skipping interval between 2 events to process (1=process all)" type="text"
 						value="1"></td>
 				</tr>
 
@@ -141,16 +163,21 @@
 
 				</tr>
 				<tr>
+					<td colspan=4 style="width: 100%"><label title="Event store name" class="step_store_name_label">Name:
+							<input class="step_store_name" type="text">
+					</label></td>
+				</tr>
+				<tr>
 					<td><input class="step_store_split MySpinnerStyle"
 						title="Root TTree split level." type="text" value="99"></td>
-					<td><label><input
+					<td><label class="step_store_buf_label"><input
 							class="step_store_buf MySpinnerStyle"
 							title="Root branch buffer size" type="text" value="32">
 							kB</label></td>
 					<td><input class="step_store_comp MySpinnerStyle"
 						title="Root TFile compression level" type="text" value="5">
 					</td>
-					<td><label style="height: 30px"
+					<td><label style="height: 30px" class="step_store_overwrite_label"
 						title="Overwrite old file, or append."> <input
 							class="step_store_overwrite" type="checkbox"> Overwrite
 					</label></td>
