@@ -37,7 +37,7 @@
       JSROOT.TBasePainter.call(this, stat);
       this.stat = stat; 
       this.step;
-      this.changes = ["dummy", "init"];
+      this.changes = [["dummy0", "init0"],["dummy1","init1"]];  // changes array stepwise, index 0 = no step, index = stepindex+1
       this.showmore= [false, false];
       this.ClearChanges();
       this.ClearShowstates();
@@ -73,27 +73,31 @@
 		xmlHttp.send(null);
 	};
  
-  GO4.AnalysisStatusEditor.prototype.MarkChanged = function(key) {
+  GO4.AnalysisStatusEditor.prototype.MarkChanged = function(key, step) {
 		  // first avoid duplicate keys:
 		  var index;
-		  for	(index = 0; index < this.changes.length; index++) {
-				if (this.changes[index]== key) return;
+		  
+		  for	(index = 0; index < this.changes[step].length; index++) {
+				if (this.changes[step][index]== key) return;
 			} 
-		  this.changes.push(key);
-		  console.log("Mark changed :%s", key);	
+		  this.changes[step].push(key);
+		  console.log("Mark changed :%s at step %d", key, step);	
 		  var id = "#"+this.divid; 
 		  
 		  $(id+" .buttonAnaChangeLabel").show();// show warning sign 
 	  }
 	  
-	  // clear changed elements' ist, make warning sign invisible  
+	  // clear changed elements' list, make warning sign invisible  
 GO4.AnalysisStatusEditor.prototype.ClearChanges = function() {
-	var index;
-	var len=this.changes.length;
-	for	(index = 0; index < len ; index++) {
-	    var removed=this.changes.pop();
-	    console.log("Clear changes removed :%s", removed);	
-	} 
+	var index, step;
+	var numsteps=this.changes.length;
+	for	(step = 0; step < numsteps ; step++) {
+		var len=this.changes[step].length;
+		for	(index = 0; index < len ; index++) {
+			var removed=this.changes[step].pop();
+			//console.log("Clear changes removed :%s at step %d",removed, step);	
+		} 	
+	}
 	var id = "#"+this.divid; 
 	$(id+" .buttonAnaChangeLabel").hide(); // hide warning sign 
 		  
@@ -111,52 +115,127 @@ GO4.AnalysisStatusEditor.prototype.ClearShowstates = function() {
 //scan changed value list and return optionstring to be send to server
 GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	var id = "#"+this.divid;
+	var editor=this;
 	var index;
-	var len=this.changes.length;
-	for	(index = 0; index < len ; index++) {
-	    //var cursor=changes.pop();
-		var key=this.changes[index];
-		console.log("Evaluate change key:%s", key);	
-		
-		// here mapping of key to editor field:
-		if(key=="limits")
-			{
-//			 var xmin=$(id+" .cond_xmin")[0].value;
-//       	 var xmax=$(id+" .cond_xmax")[0].value;
-//       	 optionstring +="&xmin="+xmin+"&xmax="+xmax;
-//       	 this.cond.fLow1 = xmin;
-//       	 this.cond.fUp1 = xmax;
-//       	  if (this.cond.fiDim==2) {
-//       		  var ymin=$(id+" .cond_ymin")[0].value;
-//       		  var ymax=$(id+" .cond_ymax")[0].value; 
-//       		  this.cond.fLow2 = xmin;
-//            	  this.cond.fUp2 = xmax;
-//       		  optionstring +="&ymin="+ymin+"&ymax="+ymax;
-//       	  }
-			}
-		else if(key=="polygon")
-		{  
+	var numsteps=this.changes.length;
+	for	(step = 0; step < numsteps ; step++) {
+		var len=this.changes[step].length;
+		var stepoptions="";
+		for	(index = 0; index < len ; index++) {
 			
-//		 var npoints=$(id+" .cut_points")[0].value;		 
-//		 	optionstring +="&npolygon="+npoints;
-//		 	// TODO: set display of polygon points
-//		 	for(i=0; i<npoints; ++i)
-//		 		{
-//		 			var x=$(id + " .cut_values input").eq(2*i)[0].value;
-//		 			var y=$(id + " .cut_values input").eq(2*i+1)[0].value;
-//		 			
-//		 			
-//		 			optionstring +="&x"+i+"="+x+"&y"+i+"="+y;
-//		 		}
+		var key=this.changes[step][index];
+		//console.log("Evaluate change key:%s", key);	
 		
+		var theElement=editor.stat.fxStepArray.arr[step];
+		// here mapping of key to editor field:
+		if(key=="stepenabled") 
+		{
+			stepoptions+="&"+key+"_"+step+"="+theElement.fbProcessEnabled;
 		}
+		else if(key=="sourceenabled")
+		{  
+			stepoptions+="&"+key+"_"+step+"="+theElement.fbSourceEnabled;		
+		}
+		else if(key=="storeenabled")
+		{  
+			stepoptions+="&"+key+"_"+step+"="+theElement.fbStoreEnabled;		
+		}
+		else if(key=="sourcesel")
+		{  
+			stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fiID;		
+		}
+		else if(key=="sourcename")
+		{  
+			stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fName;		
+		}
+		else if(key=="sourceport")
+		{  
+			stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fiPort;		
+		}
+		else if(key=="sourcetmout")
+		{  
+			stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fiTimeout;		
+		}
+		else if(key=="sourceretry")
+		{  
+			stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fiRetryCnt;		
+		}
+		else if(key=="sourcefirst")
+		{  
+			stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fuStartEvent;		
+		}
+		else if(key=="sourcelast")
+		{  
+			stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fuStopEvent;		
+		}
+		else if(key=="sourceskip")
+		{  
+			stepoptions+="&"+key+"_"+step+"="+theElement.fxSourceType.fuEventInterval;		
+		}
+		else if(key=="storesel")
+		{  
+			stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fiID;		
+		}
+		else if(key=="storename")
+		{  
+			stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fName;		
+		}
+		else if(key=="storesplit")
+		{  
+			stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fiSplit;		
+		}
+		else if(key=="storebuf")
+		{  
+			stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fiBufsize;		
+		}
+		else if(key=="storecomp")
+		{  
+			stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fiCompression;		
+		}
+		else if(key=="storeover")
+		{  
+			stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fbOverwrite;		
+		}
+		// non step specific options are in step 0 options too:
+		
+		else if(key=="asfname")
+		{  
+			stepoptions+="&"+key+"="+editor.stat.fxAutoFileName;		
+		}
+		
+		else if(key=="asfenabled")
+		{  
+			stepoptions+="&"+key+"="+editor.stat.fbAutoSaveOn;		
+		}
+		
+		else if(key=="asftime")
+		{  
+			stepoptions+="&"+key+"="+editor.stat.fiAutoSaveInterval;		
+		}
+		else if(key=="asfcomp")
+		{  
+			stepoptions+="&"+key+"="+editor.stat.fiAutoSaveCompression;		
+		}
+		else if(key=="asfoverwrite")
+		{  
+			stepoptions+="&"+key+"="+editor.stat.fbAutoSaveOverwrite;		
+		}
+		else if(key=="anaprefsname")
+		{  
+			stepoptions+="&"+key+"="+editor.stat.fxConfigFileName;		
+		}
+		
 		else{
 			console.log("Warning: EvaluateChanges found unknown key:%s", key);
-				}
+		}
 		
 		
 	
 	}// for index
+		
+		
+		optionstring+=stepoptions;
+	} // for step
 	console.log("Resulting option string:%s", optionstring);
 	return optionstring;
 }
@@ -183,7 +262,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
     	  tabelement.tabs("enable",index);
     	  $(id +" .steptabs ul:first li:eq("+index+") a").text(element.fName);
     	  editor.showmore.push(false); // prepare showmore array for each step
-    	  console.log("refreshEditor for step name:"+ element.fName);
+    	  //console.log("refreshEditor for step name:"+ element.fName);
     	  tabelement.tabs("load",index); // all magic is in the on load event callback
     	  //console.log("refreshEditor after issuing load of index:"+ index);
      	  
@@ -202,20 +281,27 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
       $(id + " .anaASF_name").val(stat.fxAutoFileName);
       $(id+" .anaASF_enabled")
     	         .prop('checked', stat.fbAutoSaveOn)
-    	         .click(function() { editor.MarkChanged("asfenabled")});
+    	         .click(function() { 
+    	        	 editor.MarkChanged("asfenabled",0);
+    	         	 editor.stat.fbAutoSaveOn=this.checked;
+    	         	 });
       
+            
       $(id +" .anaASF_time").val(stat.fiAutoSaveInterval);
       $(id +" .anaASF_compression").val(stat.fiAutoSaveCompression);
       
       $(id+" .anaASF_overwrite")
  	         .prop('checked', stat.fbAutoSaveOverwrite)
- 	         .click(function() { editor.MarkChanged("asfoverwrite")});
+ 	         .click(function() { 
+ 	        	 editor.MarkChanged("asfoverwrite",0);
+ 	        	editor.stat.fbAutoSaveOverwrite= this.checked; 	        	 
+ 	         });
       
       ////////////////// PREFS FILE:
       $(id + " .anaprefs_name").val(stat.fxConfigFileName);
       
       
-      console.log("analysis editor: refreshEditor");
+      //console.log("analysis editor: refreshEditor");
       editor.ClearChanges();  
       
    }
@@ -227,7 +313,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	   var id = "#"+this.divid;
 	   var editor=this;
 	   var showmore=editor.showmore[theIndex]; 
-	   console.log("showStepEditor for index "+theIndex+" has showmore="+showmore);
+	   //console.log("showStepEditor for index "+theIndex+" has showmore="+showmore);
 	   var storetable=pthis.find(" .step_store");
  		var sourcetable=pthis.find(" .step_source");
  		var enablebox=pthis.find(" .step_box_step_enab");
@@ -249,8 +335,11 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
  		var sourceargs=pthis.find(" .step_source_args");
  		var sourceargslabel=pthis.find(" .step_source_args_label");
  		var sourcefirst=pthis.find(" .step_source_firstev");
+ 		var sourcefirstlabel=pthis.find(" .step_source_firstev_label");
  		var sourcelast=pthis.find(" .step_source_lastev");
+ 		var sourcelastlabel=pthis.find(" .step_source_lastev_label");
  		var sourceskip=pthis.find(" .step_source_stepev");
+ 		var sourceskiplabel=pthis.find(" .step_source_stepev_label");
  		
  		var storesel=pthis.find(" .step_store_select");
  		var storename=pthis.find(" .step_store_name");
@@ -283,7 +372,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
  		
 		 sourcename.show();
 		 
-		 console.log("show step editor with source id:"+theElement.fxSourceType.fiID);
+		 //console.log("show step editor with source id:"+theElement.fxSourceType.fiID);
 		 switch(theElement.fxSourceType.fiID)
 	  	 	   { 	 	      
 	  	 	   case GO4.EvIOType.GO4EV_FILE:
@@ -297,8 +386,11 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	  	 		   sourcetag.hide();
 	  	 		   sourcetaglabel.hide();
 	  	 		   sourcefirst.hide();
-	  	 		   sourcelast.hide();
+	  	 		   sourcefirstlabel.hide();
+	  	 		   sourcelast.hide();  
+	  	 		   sourcelastlabel.hide()
 	  	 		   sourceskip.hide();
+	  	 		   sourceskiplabel.hide();
 	  	 		   sourceargs.hide();   
 	  	 		   sourceargslabel.hide();   
 	  	 		break;   
@@ -315,8 +407,11 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	  	 	             sourceretry.show();
 	  	 	             sourceretrylabel.show();
 	  	 	             sourcefirst.show();
+	  	 	             sourcefirstlabel.show();
 	  	 	             sourcelast.show(); 
-	  	 	             sourceskip.show(); 
+	  	 	             sourcelastlabel.show();
+	  	 	             sourceskip.show();  
+	  	 	             sourceskiplabel.show();
 	  	 			   }
 	  	 		   else
 	  	 			   {
@@ -327,8 +422,11 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	  	 			   	 sourceretry.hide();
 	  	 			   	 sourceretrylabel.hide();	  	 			   	
 	 	 	             sourcefirst.hide();
-	 	 	             sourcelast.hide();
+	 	 	             sourcefirstlabel.hide();
+	 	 	             sourcelast.hide(); 
+	 	 	             sourcelastlabel.hide();
 	 	 	             sourceskip.hide(); 
+	 	 	             sourceskiplabel.hide(); 
 	  	 			   }
 	  	    	   sourcetag.hide();
 	  	    	   sourcetaglabel.hide();
@@ -361,8 +459,11 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	 			   	 sourcetag.hide(); 
 	 			   	 sourcetaglabel.hide();
 	 	             sourcefirst.hide();
-	 	             sourcelast.hide();  
-	 	             sourceskip.hide(); 
+	 	             sourcefirstlabel.hide();
+	 	             sourcelast.hide();   
+	 	             sourcelastlabel.hide();
+	 	             sourceskip.hide();  
+	 	             sourceskiplabel.hide(); 
 	  	 		break;
 	  	 	   default:
 	   	 		console.log("showStepEditor WARNING: unknown event source id: "+theElement.fxSourceType.fiID);   
@@ -372,16 +473,22 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	   	 			 sourcetag.show();
 	   	 			 sourcetaglabel.show();
 	   	 			 sourcefirst.show();
-	   	 			 sourcelast.show();
-	   	 			 sourceskip.show();
+	 	             sourcefirstlabel.show();
+	 	             sourcelast.show(); 
+	 	             sourcelastlabel.show();
+	 	             sourceskip.show();  
+	 	             sourceskiplabel.show();
 	 			   }
 	   	 		 else
 	   	 		  {
 	   	 			 sourcetag.hide();  
-	   	 			 sourcetaglabel.hide(); 
+	   	 			 sourcetaglabel.hide(); 	   	 			 
 	   	 			 sourcefirst.hide();
-	   	 			 sourcelast.hide();
-	   	 			 sourceskip.hide();
+	 	             sourcefirstlabel.hide();
+	 	             sourcelast.hide(); 
+	 	             sourcelastlabel.hide();
+	 	             sourceskip.hide(); 
+	 	             sourceskiplabel.hide(); 	   	 			 
 	 			   } 
 	   	 		sourceport.hide();
 	   	 		sourceportlabel.hide();
@@ -399,7 +506,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	storebuf.show();
 	storecomp.show();
 	storeover.show();  
-	console.log("show step editor with store id:"+theElement.fxStoreType.fiID);
+	//console.log("show step editor with store id:"+theElement.fxStoreType.fiID);
    switch(theElement.fxStoreType.fiID)
 	   {
 	   default:
@@ -425,7 +532,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	   
 	   $(id+" .steptabs").tabs("refresh");
 	   
-	   console.log("analysis editor: showStepEditor leaving."); 
+	   //console.log("analysis editor: showStepEditor leaving."); 
    }
    
    GO4.AnalysisStatusEditor.prototype.fillEditor = function()
@@ -439,7 +546,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 		    heightStyle: "fill",
 	  		activate : function(event, ui) {
 	  			//updateElementsSize();
-	  			console.log("analysis editor: activated tab: "+ ui.newTab.text());
+	  			//console.log("analysis editor: activated tab: "+ ui.newTab.text());
 	  		},  
 	  		load: function(event, ui) { 
 	  			
@@ -489,12 +596,13 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 		  		enablebox.prop('checked', theElement.fbProcessEnabled)
 	 	         .click(function() 
 	 	        		 { 
-	 	        	 		editor.MarkChanged("stepenabled_"+ theIndex);
-	 	        	 		if ($(this).prop('checked')) {
-								theElement.fbProcessEnabled=true;
-							} else {
-								theElement.fbProcessEnabled=false;
-							}
+	 	        	 		editor.MarkChanged("stepenabled", theIndex);
+	 	        	 		theElement.fbProcessEnabled=this.checked;
+//	 	        	 		if ($(this).prop('checked')) {
+//								theElement.fbProcessEnabled=true;
+//							} else {
+//								theElement.fbProcessEnabled=false;
+//							}
 	 	        	 		editor.showStepEditor(pthis, theElement, theIndex);
 	 	        	 
 	 	         }); // clickfunction
@@ -502,15 +610,16 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	 	         sourcebox.prop('checked', theElement.fbSourceEnabled)
 	 	         .click(function() 
 	 	        		 { 
-	 	        	 		editor.MarkChanged("sourceenabled_"+ theIndex);
-	 	        	 		if($(this).prop('checked')) 
-	 	        	 			{
-	 	        	 				theElement.fbSourceEnabled=true;
-	 	        	 			}
-	 	        	 		else
- 	        	 				{
- 	        	 				theElement.fbSourceEnabled=false;
- 	        	 				}
+	 	        	 		editor.MarkChanged("sourceenabled", theIndex);
+	 	        	 		theElement.fbSourceEnabled=this.checked;
+//	 	        	 		if($(this).prop('checked')) 
+//	 	        	 			{
+//	 	        	 				theElement.fbSourceEnabled=true;
+//	 	        	 			}
+//	 	        	 		else
+// 	        	 				{
+// 	        	 				theElement.fbSourceEnabled=false;
+// 	        	 				}
 	 	        	 		editor.showStepEditor(pthis, theElement, theIndex);
 	 	         }); // clickfunction
 		  		
@@ -518,22 +627,23 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
   	 	         storebox.prop('checked', theElement.fbStoreEnabled)
   	 	         .click(function() 
   	 	        		 { 
-  	 	        	 		editor.MarkChanged("storeenabled_"+ theIndex);
-  	 	        	 		if($(this).prop('checked'))
-  	 	        	 			{
-  	 	        	 				theElement.fbStoreEnabled=true;
-  	 	        	 			}
-  	 	        	 		else
-  	 	        	 			{
-  	 	        	 			theElement.fbStoreEnabled=false;
-  	 	        	 			}
+  	 	        	 		editor.MarkChanged("storeenabled", theIndex);
+  	 	        	 		theElement.fbStoreEnabled=this.checked;
+//  	 	        	 		if($(this).prop('checked'))
+//  	 	        	 			{
+//  	 	        	 				theElement.fbStoreEnabled=true;
+//  	 	        	 			}
+//  	 	        	 		else
+//  	 	        	 			{
+//  	 	        	 			theElement.fbStoreEnabled=false;
+//  	 	        	 			}
   	 	        	 	editor.showStepEditor(pthis, theElement, theIndex);
  	 	         }); // clickfunction	
 		  		
   	 	   //// EVENT SOURCE: /////////////////////////////////////////////////      
   	 	      sourcesel.selectmenu({
   	 		change : function(event, ui) {
-  	 			editor.MarkChanged("sourcesel_"+ theIndex);
+  	 			editor.MarkChanged("sourcesel",theIndex);
   	 			// change here eventsource status object?!
   	 			// in javascript we can just add dynamically any missing members!
   	 			// so exchange of class object is not necessary hopefully...
@@ -587,22 +697,20 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
   	 	      
   	 	   sourcemore.prop('checked', editor.showmore[theIndex]).click(  	 			   
   	 			   function(){
-  	 				   console.log("show more clickfunction...");
+  	 				   //console.log("show more clickfunction...");
   	 				   var doshow=$(this).prop('checked');
   	 				   if (doshow) {
   	 					editor.showmore[theIndex]=true;
-  	 					console.log("show more sets true");
 					} else {
 						editor.showmore[theIndex]=false;
-						console.log("show more sets false");
 					}
   	 				editor.showStepEditor(pthis, theElement, theIndex);   
   	 			   });  // clickfunction	
   	 	   
-  	 	console.log("on tab load finds source name: "+ theElement.fxSourceType.fName);
+  	 	//console.log("on tab load finds source name: "+ theElement.fxSourceType.fName);
   	 	sourcename.val(theElement.fxSourceType.fName)
   	 		.change(function(){ 
-  	 			editor.MarkChanged("sourcename_"+ theIndex);
+  	 			editor.MarkChanged("sourcename",theIndex);
   	 			theElement.fxSourceType.fName=this.value;
   	 			}); 
   	 	      
@@ -615,7 +723,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
  		        max: 100000,
  		        step: 1,
  		    	stop: function( event, ui ) {
- 		    		editor.MarkChanged("sourceport_"+ theIndex); 		    	
+ 		    		editor.MarkChanged("sourceport",theIndex); 		    	
  		    		theElement.fxSourceType.fiPort=this.value;
  		    		//console.log("spinner stop event with thisvalue="+this.value+", ui.value="+ui.value);
  		    	}
@@ -626,7 +734,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 		        max: 9999,
 		        step: 1,
 		    	stop: function( event, ui ) {
-		    		editor.MarkChanged("sourcetmout_"+ theIndex);
+		    		editor.MarkChanged("sourcetmout",theIndex);
 		    		theElement.fxSourceType.fiTimeout=this.value;
 		    	}
   	 	
@@ -638,7 +746,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	        max: 10000,
 	        step: 1,
 	    	stop: function( event, ui ) {
-	    		editor.MarkChanged("sourceretry_"+ theIndex);
+	    		editor.MarkChanged("sourceretry",theIndex);
 	    		theElement.fxSourceType.fiRetryCnt=this.value;
 	    		}
 	    }); 
@@ -649,7 +757,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	        max: 2000000000,
 	        step: 1000,
 	    	stop: function( event, ui ) {
-	    		editor.MarkChanged("sourcefirst_"+ theIndex);
+	    		editor.MarkChanged("sourcefirst",theIndex);
 	    		theElement.fxSourceType.fuStartEvent=this.value;
 	    	}
 	    }); 	      
@@ -659,7 +767,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	        max: 2000000000,
 	        step: 1000,
 	    	stop: function( event, ui ) {
-	    		editor.MarkChanged("sourcelast_"+ theIndex);
+	    		editor.MarkChanged("sourcelast",theIndex);
 	    		theElement.fxSourceType.fuStopEvent=this.value;
 	    	}
 	    });
@@ -669,7 +777,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	        max: 999999999,
 	        step: 1,
 	    	stop: function( event, ui ) {
-	    		editor.MarkChanged("sourceskip_"+ theIndex);
+	    		editor.MarkChanged("sourceskip",theIndex);
 	    		theElement.fxSourceType.fuEventInterval=this.value;
 	    	}
 	    });
@@ -677,11 +785,11 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
   		 //// EVENT STORE: /////////////////////////////////////////////////           
   	 	   storesel.selectmenu({
   	  	 		change : function(event, ui) {
-  	  	 			editor.MarkChanged("storesel_"+ theIndex);
+  	  	 			editor.MarkChanged("storesel",theIndex);
   	  	 			
   	  	 			// to do: change here eventsource status object?! 
   	  	 			// maybe we leave this to the updatefrom method on server side... 
-  	  	 		console.log("store selector with value "+ Number(ui.item.value));
+  	  	 		//console.log("store selector with value "+ Number(ui.item.value));
   	  	 		switch(Number(ui.item.value))
   	 			{
   	  	 		
@@ -705,10 +813,10 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
   	  	 	}); // selectmenu   
   	 	      
   	 	   
-  	 	console.log("on tab load finds store name: "+ theElement.fxStoreType.fName);
+  	 	//console.log("on tab load finds store name: "+ theElement.fxStoreType.fName);
   	 	storename.val(theElement.fxStoreType.fName)
 	 		.change(function(){ 
-	 			editor.MarkChanged("storename_"+ theIndex);
+	 			editor.MarkChanged("storename",theIndex);
 	 			theElement.fxStoreType.fName=this.value;	 		
 	 		}); // change function
   	 	   
@@ -718,7 +826,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	        max: 99,
 	        step: 1,
 	    	stop: function( event, ui ) {
-	    		editor.MarkChanged("storesplit_"+ theIndex);
+	    		editor.MarkChanged("storesplit",theIndex);
 	    		theElement.fxStoreType.fiSplit=this.value;
 	    		}
 	    }); 
@@ -728,7 +836,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	        max: 256,
 	        step: 1,
 	    	stop: function( event, ui ) {
-	    		editor.MarkChanged("storebuf_"+ theIndex);
+	    		editor.MarkChanged("storebuf",theIndex);
 	    		theElement.fxStoreType.fiBufsize=this.value * 1000;
 	    		}
 	    });      
@@ -738,18 +846,24 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	        max: 9,
 	        step: 1,
 	    	stop: function( event, ui ) {
-	    		editor.MarkChanged("storecomp_"+ theIndex);
+	    		editor.MarkChanged("storecomp",theIndex);
 	    		theElement.fxStoreType.fiCompression=this.value;
 	    		}
 	    });     
   	 	
-  	 	      
+  	 	   
+  	  storeover.click(function() { 
+     	 editor.MarkChanged("storeover",theIndex);
+     	theElement.fxStoreType.fbOverwrite=this.checked;
+      	 });
+  	 	
+  	 	
   	 	////////////////// here set event source values:      
   	 	
   	 	
   	 	      
   	 	   // set event source selector and special fields:
-  	 	console.log("load tab "+theIndex+" sees source id:"+theElement.fxSourceType.fiID);
+  	 	//console.log("load tab "+theIndex+" sees source id:"+theElement.fxSourceType.fiID);
   	 	   switch(theElement.fxSourceType.fiID)
   	 	   { 	 	      
   	 	   case GO4.EvIOType.GO4EV_FILE:   
@@ -829,7 +943,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 		storecomp.val(theElement.fxStoreType.fiCompression);
  	 	
   	  // set event store selector and special fields:
-		console.log("load tab "+theIndex+" sees store id:"+theElement.fxStoreType.fiID);
+		//console.log("load tab "+theIndex+" sees store id:"+theElement.fxStoreType.fiID);
 	 	   switch(theElement.fxStoreType.fiID)
 	 	   {
 	 	   
@@ -863,7 +977,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	   
 	   $(id+" .buttonGetAnalysis")
 	      .button({text: false, icons: { primary: "ui-icon-arrowthick-1-e MyButtonStyle"}}).click(function() {
-	    	  console.log("update item = " + editor.GetItemName()); 
+	    	  //console.log("update item = " + editor.GetItemName()); 
 	    	  
 	    	  
 	          if (DABC.hpainter) DABC.hpainter.display(editor.GetItemName()); 
@@ -896,6 +1010,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	      .button({text: true, icons: { primary: "ui-icon-play MyButtonStyle"}}).click(function() {
 	      	 var options=""; // do not need to use name here
 	     	 options=editor.EvaluateChanges(options); // complete option string from all changed elements
+	     	 options +="&start";
 	     	 console.log("submit and start analysis "+ editor.GetItemName()+ ", options="+options); 
 	     	 editor.DabcCommand("UpdateFromUrl",options,function(
 	  				result) {
@@ -904,13 +1019,13 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	     		 		if(result) editor.ClearChanges(); 
 	     		 		
 	     		 		// todo: start analysis only after submission was successful?
-	          	
+	     		 		// for the moment, try to handle everythingin UpdateFromUrl
 	        });
 	      });
 	    
 	    $(id+" .buttonCloseAnalysis")
 	      .button({text: true, icons: { primary: "ui-icon-closethick MyButtonStyle"}}).click(function() {
-	      	 var options="close"; 
+	      	 var options="&close"; 
 	     //	 options=editor.EvaluateChanges(options); // complete option string from all changed elements
 	     	 console.log("close analysis "+ editor.GetItemName()+ ", options="+options); 
 	     	 editor.DabcCommand("UpdateFromUrl",options,function(
@@ -929,35 +1044,54 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	    
 	    $(id + " .anaASF_form").submit(
 				function(event) {
+					event.preventDefault(); // do not send automatic request to server!
 					var content= $(id + " .anaASF_name")[0].value;
+					// before we write immediately, mark name as changed in setup:
+					editor.MarkChanged("asfname",0);
+					editor.stat.fxAutoFileName=content;					
 					var requestmsg = "Really Write autosave file : "+ content;
 					var response = confirm(requestmsg);
 					if (!response){
-						event.preventDefault();
 						return;
 						}
 
-					// todo: put here command to write asf filepreferences
-					//					
 					console.log("Writing autosave file: "+content); 
-					
-					event.preventDefault(); // do not send automatic request to server!
-					
+					var options="&saveasf="+content;
+					editor.DabcCommand("UpdateFromUrl",options,function(
+				  				result) {
+				     		 		console.log(result ? "Writing autosave file done. "
+				 					: "Writing autosave file FAILED.");
+				        });
 				});
+	    
+	    
+	    
+	  
+	    
+	    
 	    
 	    
 	    $(id +" .anaASF_time").spinner({
 	        min: 0,
 	        max: 100000,
 	        step: 10,
-	    	stop: function( event, ui ) {editor.MarkChanged("asftime");console.log("asftime stop.")}
+	    	stop: function( event, ui ) {
+	    		
+	    		editor.MarkChanged("asftime",0);
+	    		editor.stat.fiAutoSaveInterval=this.value;
+	    		//console.log("asftime stop.")
+	    		}
 	    });
 	    
 	    $(id +" .anaASF_compression").spinner({
 	        min: 0,
 	        max: 9,
 	        step: 1,
-	    	stop: function( event, ui ) {editor.MarkChanged("asfcomp");console.log("asfcomp stop.")}
+	    	stop: function( event, ui ) {
+	    		editor.MarkChanged("asfcomp",0);
+	    		editor.stat.fiAutoSaveCompression=this.value;
+	    		//console.log("asfcomp stop.")
+	    		}
 	    });
 	    
 	    
@@ -966,45 +1100,48 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	    
 	    $(id+" .buttonLoadAnaConf")
 	      .button({text: false, icons: { primary: "ui-icon-folder-open MyButtonStyle"}}).click(function() {
-	    	  
 	    	  var content= $(id + " .anaprefs_name")[0].value;
-	    	  var requestmsg = "Really save analysis preferences: "+ content;
+	    	  var requestmsg = "Really load analysis preferences: "+ content;
 				var response = confirm(requestmsg);
 				if (!response){
-					event.preventDefault();
 					return;
 					}
 	    	  console.log("Loading analysis Prefs from "+content); 
-	    	  
-//	      	 var options=""; // do not need to use name here
-//	     	 options=editor.EvaluateChanges(options); // complete option string from all changed elements
-//	     	 console.log("set - condition "+ editor.GetItemName()+ ", options="+options); 
-//	     	 editor.DabcCommand("UpdateFromUrl",options,function(
-//	  				result) {
-//	     		 		console.log(result ? "set condition done. "
-//	 					: "set condition FAILED.");
-//	     		 		if(result) editor.ClearChanges();     				          	
-//	        });
+	    	  var options="&loadprefs="+content;
+	     	 editor.DabcCommand("UpdateFromUrl",options,function(
+	  				result) {	     		 		
+	     		 		if(result){  
+	     		 			if (DABC.hpainter) DABC.hpainter.display(editor.GetItemName()); 
+	     		 			else  console.log("dabc object not found!");
+	     		 		}
+	     		 		console.log(result ? "Loading preferences done. "
+	 					: "Loading preferences  FAILED.");
+	     	 });
 	      });
 	    
 	    
 	    
 	    $(id + " .anaprefs_form").submit(
 				function(event) {
+					event.preventDefault(); // do not send automatic request to server!
 					var content= $(id + " .anaprefs_name")[0].value;
+					
+					// before we write immediately, mark name as changed in setup:
+					editor.MarkChanged("anaprefsname",0);
+					editor.stat.fxConfigFileName=content;						
 					var requestmsg = "Really save analysis preferences: "+ content;
 					var response = confirm(requestmsg);
 					if (!response){
-						event.preventDefault();
 						return;
 						}
-					
-					
-					
 					console.log("Saving analysis Prefs to "+content); 
 					
-					// todo: put here command to save preferences
-					event.preventDefault(); // do not send automatic request to server!
+					  var options="&saveprefs="+content;
+				     	 editor.DabcCommand("UpdateFromUrl",options,function(
+				  				result) {	     		 		
+				     		 		console.log(result ? "Saving preferences done. "
+				 					: "Saving preferences  FAILED.");
+				     	 });
 				});
 	   
 	   
@@ -1122,7 +1259,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 	for	(index = 0; index < len ; index++) {
 	    //var cursor=changes.pop();
 		var key=this.changes[index];
-		console.log("Evaluate change key:%s", key);	
+		//console.log("Evaluate change key:%s", key);	
 		
 		// here mapping of key to editor field:
 		if(key=="limits")

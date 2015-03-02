@@ -48,7 +48,7 @@ height:100%;
 
 
 		<table class="step_control step_table_style"
-			style="position: relative; width: 100%; height: 10%; text-align: left">
+			style="position: relative; width: 100%; height: 10%; text-align: justify">
 			<thead>
 				<tr>
 					<th colspan=3>Step Control</th>
@@ -83,7 +83,7 @@ height:100%;
 			</thead>
 			<tbody>
 				<tr>
-					<td colspan=2><select class="step_source_select"  >
+					<td colspan=3><select class="step_source_select"  >
 							<option selected="selected" value="0">Go4 File Source
 								(*.root)</option>
 							<option value="1">MBS File (*.lmd *.LMD *.lml))</option>
@@ -94,24 +94,27 @@ height:100%;
 							<option value="6">MBS Random</option>
 							<option value="7">User Source</option>
 					</select></td>
+					
+
+				</tr>
+				<tr>
+					<td colspan=2><label title="File name or server node name">Name:
+							<input class="step_source_name" type="text">
+					</label></td>
+					
 					<td><label title="Show/hide extra options for event source">
 							<input class="step_source_expand" type="checkbox">more...
 					</label></td>
 					</td>
-
-				</tr>
-				<tr>
-					<td colspan=3><label title="File name or server node name">Name:
-							<input class="step_source_name" type="text">
-					</label></td>
 				</tr>
 				<tr>
 					<td colspan=3><label title="LMD Tag file" class="step_source_tagfile_label">Tagfile: <input
 							class="step_source_tagfile" type="text"></label></td>
 				</tr>
 				<tr>
-				<td><label title="User arguments" class="step_source_args_label">Args: <input
+				<td colspan=3><label title="User arguments" class="step_source_args_label">Args: <input
 							class="step_source_args" type="text"></label></td>
+				
 				</tr>
 				<tr>			
 					<td><label class="step_source_port_label">Port: <input
@@ -133,15 +136,15 @@ height:100%;
 				</tr>
 
 				<tr>
-					<td><input class="step_source_firstev MySpinnerStyle"
+					<td><label class="step_source_firstev_label">First:<input class="step_source_firstev MySpinnerStyle"
 						title="Sequence number of first event to process" type="text"
-						value="0"></td>
-					<td><input class="step_source_lastev MySpinnerStyle"
+						value="0"></label></td>
+					<td><label class="step_source_lastev_label">Last:<input class="step_source_lastev MySpinnerStyle"
 						title="Sequence number of last event to process" type="text"
-						value="all"></td>
-					<td><input class="step_source_stepev MySpinnerStyle"
+						value="all"></label></td>
+					<td><label class="step_source_stepev_label">Step:<input class="step_source_stepev MySpinnerStyle"
 						title="Skipping interval between 2 events to process (1=process all)" type="text"
-						value="1"></td>
+						value="1"></label></td>
 				</tr>
 
 			</tbody>
