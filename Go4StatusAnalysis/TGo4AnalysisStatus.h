@@ -92,7 +92,8 @@ class TGo4AnalysisStatus : public TGo4Status {
       * on stdout; to be overridden by specific subclass */
     virtual Int_t PrintStatus(Text_t* buffer=0, Int_t buflen=0);
 
-  private:
+
+  protected:
 
     /** Array containing all analysis steps. The steplist is iterated by
       * the maincycle from start to end index to process the active steps. */
@@ -143,7 +144,7 @@ class TGo4AnalysisStatus : public TGo4Status {
     /** Name of the last configuration file. */
     TString fxConfigFileName;
 
-  ClassDef(TGo4AnalysisStatus,3)
+  ClassDef(TGo4AnalysisStatus,4)
 
 };
 

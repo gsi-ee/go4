@@ -82,7 +82,7 @@ void TGo4DabcPlayer::InitializeHierarchy()
    sub.SetPermanent();
    sub.SetField("_status","GO4.DrawAnalysisStatus");
 
-   sub.CreateHChild("Analysis").SetField(dabc::prop_kind, "ROOT.TGo4AnalysisStatus");
+   sub.CreateHChild("Analysis").SetField(dabc::prop_kind, "ROOT.TGo4AnalysisWebStatus");
 
    sub.CreateHChild("State").SetField(dabc::prop_kind, "log");
 

@@ -13,6 +13,8 @@
 
 #include "TGo4AnalysisClientImp.h"
 
+#include "Riostream.h"
+
 #include <stdlib.h>
 
 #include "TApplication.h"
@@ -280,6 +282,7 @@ TGo4TaskStatus* TGo4AnalysisClient::CreateStatus()
 void TGo4AnalysisClient::Start()
 {
    GO4TRACE((12,"TGo4AnalysisClient::Start()",__LINE__, __FILE__));
+   std::cout<<" TGo4AnalysisClient::Start()" <<std::endl;
    if(fxAnalysis->IsInitDone())
       {
          if(GetThreadHandler()) GetThreadHandler()->Start(fcMainName.Data()); // this is useful anyway...

@@ -20,7 +20,7 @@
 #include "TGo4LockGuard.h"
 #include "TGo4Parameter.h"
 #include "TGo4Condition.h"
-#include "TGo4AnalysisStatus.h"
+#include "TGo4AnalysisWebStatus.h"
 #include "TGo4EventElement.h"
 #include "TClass.h"
 #include <string.h>
@@ -111,7 +111,7 @@ void* TGo4Sniffer::FindInHierarchy(const char *path, TClass **cl, TDataMember **
 {
    if ((path!=0) && (strcmp(path,"Status/Analysis")==0)) {
       if (fAnalysisStatus==0)
-         fAnalysisStatus = TGo4Analysis::Instance()->CreateStatus();
+         fAnalysisStatus = TGo4Analysis::Instance()->CreateWebStatus();
       else
          TGo4Analysis::Instance()->UpdateStatus(fAnalysisStatus);
       if (cl) *cl = fAnalysisStatus->IsA();

@@ -53,6 +53,7 @@
 #include "TGo4AnalysisObjectManager.h"
 #include "TGo4AnalysisObjectNames.h"
 #include "TGo4AnalysisStatus.h"
+#include "TGo4AnalysisWebStatus.h"
 #include "TGo4AnalysisStep.h"
 #include "TGo4AnalysisClientImp.h"
 #include "TGo4AnalysisSniffer.h"
@@ -849,6 +850,20 @@ TGo4AnalysisStatus* TGo4Analysis::CreateStatus()
    filsav->cd();
    return state;
 }
+
+TGo4AnalysisWebStatus* TGo4Analysis::CreateWebStatus()
+{
+   GO4TRACE((11,"TGo4Analysis::CreateWebStatus()",__LINE__, __FILE__));
+   TDirectory* filsav=gDirectory;
+   gROOT->cd();
+   TGo4AnalysisWebStatus* state= new TGo4AnalysisWebStatus(GetName());
+   UpdateStatus(state);
+   filsav->cd();
+   return state;
+}
+
+
+
 
 void TGo4Analysis::Print(Option_t*) const
 {
@@ -2167,11 +2182,13 @@ void TGo4Analysis::StopAnalysis()
 
 void TGo4Analysis::StartAnalysis()
 {
+   std::cout <<"TGo4Analysis::StartAnalysis() with slave pointer "<<  fxAnalysisSlave<< std::endl;
    if (fxAnalysisSlave)
       fxAnalysisSlave->Start();
       // fxAnalysisSlave->GetTask()->SubmitCommand("THStart");
    else
       fxDoWorkingFlag = flagRunning;
+
 }
 
 

@@ -18,10 +18,16 @@
 #include "TMutex.h"
 #include "TObjArray.h"
 #include "TROOT.h"
+#include "TUrl.h"
 
 #include "TGo4LockGuard.h"
 #include "TGo4Log.h"
 #include "TGo4AnalysisStepStatus.h"
+
+#include "TGo4Analysis.h"
+
+
+
 
 TGo4AnalysisStatus::TGo4AnalysisStatus() :
    TGo4Status("Go4 Default Analysis Status","Go4 Analysis Status Object"),
@@ -195,4 +201,6 @@ TGo4AnalysisStepStatus* TGo4AnalysisStatus::GetStepStatus(Int_t indx)
    if ((indx<0) || (indx>=GetNumberOfSteps())) return 0;
    return dynamic_cast<TGo4AnalysisStepStatus*> (fxStepArray->At(indx));
 }
+
+
 

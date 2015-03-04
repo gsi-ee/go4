@@ -62,6 +62,7 @@
 #pragma link C++ class TGo4Analysis+;
 #pragma link C++ class TGo4AnalysisStep+;
 
+#pragma link C++ class TGo4AnalysisWebStatus+;
 
 #pragma link C++ class TGo4AnalysisCommand+;
 #pragma link C++ class TGo4ComInitAnalysis+;

@@ -17,12 +17,12 @@
 
 #include "TRootSniffer.h"
 
-class TGo4AnalysisStatus;
+class TGo4AnalysisWebStatus;
 
 class TGo4Sniffer : public TRootSniffer {
    protected:
 
-      TGo4AnalysisStatus*  fAnalysisStatus;
+      TGo4AnalysisWebStatus*  fAnalysisStatus;
 
       virtual void ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj);
 

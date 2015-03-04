@@ -269,14 +269,6 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
     	  
       }); // for each
       
-      
-      
-
-      
-      
-      
-      
-      
       /////////////////// AUTO SAVE FILE:      
       $(id + " .anaASF_name").val(stat.fxAutoFileName);
       $(id+" .anaASF_enabled")
@@ -589,20 +581,11 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 		  		var storeover=pthis.find(" .step_store_overwrite");
 		  		
 
-
-				
-				
-		  		
 		  		enablebox.prop('checked', theElement.fbProcessEnabled)
 	 	         .click(function() 
 	 	        		 { 
 	 	        	 		editor.MarkChanged("stepenabled", theIndex);
 	 	        	 		theElement.fbProcessEnabled=this.checked;
-//	 	        	 		if ($(this).prop('checked')) {
-//								theElement.fbProcessEnabled=true;
-//							} else {
-//								theElement.fbProcessEnabled=false;
-//							}
 	 	        	 		editor.showStepEditor(pthis, theElement, theIndex);
 	 	        	 
 	 	         }); // clickfunction
@@ -612,14 +595,6 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	 	        		 { 
 	 	        	 		editor.MarkChanged("sourceenabled", theIndex);
 	 	        	 		theElement.fbSourceEnabled=this.checked;
-//	 	        	 		if($(this).prop('checked')) 
-//	 	        	 			{
-//	 	        	 				theElement.fbSourceEnabled=true;
-//	 	        	 			}
-//	 	        	 		else
-// 	        	 				{
-// 	        	 				theElement.fbSourceEnabled=false;
-// 	        	 				}
 	 	        	 		editor.showStepEditor(pthis, theElement, theIndex);
 	 	         }); // clickfunction
 		  		
@@ -629,15 +604,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
   	 	        		 { 
   	 	        	 		editor.MarkChanged("storeenabled", theIndex);
   	 	        	 		theElement.fbStoreEnabled=this.checked;
-//  	 	        	 		if($(this).prop('checked'))
-//  	 	        	 			{
-//  	 	        	 				theElement.fbStoreEnabled=true;
-//  	 	        	 			}
-//  	 	        	 		else
-//  	 	        	 			{
-//  	 	        	 			theElement.fbStoreEnabled=false;
-//  	 	        	 			}
-  	 	        	 	editor.showStepEditor(pthis, theElement, theIndex);
+  	 	        	 		editor.showStepEditor(pthis, theElement, theIndex);
  	 	         }); // clickfunction	
 		  		
   	 	   //// EVENT SOURCE: /////////////////////////////////////////////////      
@@ -787,8 +754,6 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
   	  	 		change : function(event, ui) {
   	  	 			editor.MarkChanged("storesel",theIndex);
   	  	 			
-  	  	 			// to do: change here eventsource status object?! 
-  	  	 			// maybe we leave this to the updatefrom method on server side... 
   	  	 		//console.log("store selector with value "+ Number(ui.item.value));
   	  	 		switch(Number(ui.item.value))
   	 			{
@@ -932,12 +897,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
   	 	   sourcesel.selectmenu('refresh', true);
   	 	   
   	 	   
-  	 	   // event store properties:
-  	 	
-  	 	
-	 	
-  	 	
-  	 	
+  	 	// event store properties:
   	 	storesplit.val(theElement.fxStoreType.fiSplit);
   	 	storebuf.val(theElement.fxStoreType.fiBufsize / 1000);  	 	
 		storecomp.val(theElement.fxStoreType.fiCompression);
@@ -958,12 +918,10 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	 	   };
 	 	   
 	 	  storesel.selectmenu('refresh', true); 
-	 	  
+ 	  
 	 	  editor.showStepEditor(pthis, theElement, theIndex); // handle all visibility issues here, also refresh tabs
   	 	   
-  	 	  // $(id+" .steptabs").tabs("refresh");
-  	 	      //console.log("refreshed tabs: " + $(id+" .steptabs").attr('title'));
-		  		
+  	  		
 	  }// load
 	   
 	  	}); // tabs init
@@ -2133,7 +2091,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    JSROOT.addDrawFunc("TGo4WinCond", GO4.drawGo4Cond, ";editor");
    JSROOT.addDrawFunc("TGo4PolyCond", GO4.drawGo4Cond, ";editor");
    JSROOT.addDrawFunc("TGo4ShapedCond", GO4.drawGo4Cond, ";editor");
-   JSROOT.addDrawFunc("TGo4AnalysisStatus", GO4.drawGo4AnalysisStatus, ";editor");
+   JSROOT.addDrawFunc("TGo4AnalysisWebStatus", GO4.drawGo4AnalysisStatus, ";editor");
    
 
    // ===========================================================================================

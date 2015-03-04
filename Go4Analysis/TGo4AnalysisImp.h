@@ -33,6 +33,7 @@ class TGo4AnalysisObjectManager;
 class TGo4AnalysisObjectNames;
 class TGo4AnalysisSniffer;
 class TGo4AnalysisStatus;
+class TGo4AnalysisWebStatus;
 class TGo4AnalysisStep;
 class TGo4AnalysisClient;
 class TGo4HistogramStatus;
@@ -377,6 +378,10 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     /** Create a copy of the analysis internal state.
       * To be sent to the Display. */
     TGo4AnalysisStatus* CreateStatus();
+
+    /** Create a copy of the analysis internal state.
+    * To be sent to the Web interface. */
+    TGo4AnalysisWebStatus* CreateWebStatus();
 
     /** Find Object of name in the folder structure
       * and create a complete status object of it.
