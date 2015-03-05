@@ -43,6 +43,10 @@ class TGo4DabcPlayer : public root::Monitor,
 
       /** Method called by logger with every string, going to output */
       virtual void SetTitle(const char* title = "");
+
+      /** Method called in go4 analysis thread, used to executed server commands */
+      virtual void ProcessSnifferEvents();
+
 };
 
 #endif

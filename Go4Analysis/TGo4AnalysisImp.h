@@ -141,7 +141,6 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * returns negative value if IsRunning() is false. */
     Int_t Process();
 
-
     /** User defined function which processes the actual analysis.
       * May be called explicitly from analysis client thread, or may run
       * in an implicit loop provided by method RunImplicit, if
@@ -846,6 +845,9 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /** (Re)Start analysis event loop, works in both batch and gui-controlled mode */
     void StartAnalysis();
+
+    /** Method should be called to process extra events in the analysis thread context */
+    void ProcessEvents();
 
   protected:
 

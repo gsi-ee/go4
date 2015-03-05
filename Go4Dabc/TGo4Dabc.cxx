@@ -19,14 +19,16 @@
 #include "TGo4AnalysisImp.h"
 #include "TGo4Log.h"
 
-THttpServer* gGo4HttpServer = 0;
+THttpServer* TGo4Dabc::gHttpServer = 0;
 
 bool TGo4Dabc::CreateEngine(const char* args)
 {
-   if (gGo4HttpServer == 0) {
-      gGo4HttpServer = new THttpServer("");
+   if (gHttpServer == 0) {
+      gHttpServer = new THttpServer("");
 
-      gGo4HttpServer->SetSniffer(new TGo4Sniffer("go4_dabc"));
+      gHttpServer->SetSniffer(new TGo4Sniffer("go4_dabc"));
+
+      gHttpServer->SetTimer(0);  // we disable timer - go4 will call Process method itself
    }
 
    const char* separ = (strchr(args,'?')!=0) ? "&" : "?";
@@ -42,5 +44,5 @@ bool TGo4Dabc::CreateEngine(const char* args)
       allargs.Append(TGo4Analysis::Instance()->GetName());
    }
 
-   return gGo4HttpServer->CreateEngine(allargs.Data());
+   return gHttpServer->CreateEngine(allargs.Data());
 }

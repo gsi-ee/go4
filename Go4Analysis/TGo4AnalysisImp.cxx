@@ -144,24 +144,24 @@ Bool_t TGo4Analysis::Exists()
    return fbExists;
 }
 
-Bool_t TGo4Analysis::IsBatchMode() 
-{ 
-   return fiRunningMode == 0; 
+Bool_t TGo4Analysis::IsBatchMode()
+{
+   return fiRunningMode == 0;
 }
 
-Bool_t TGo4Analysis::IsClientMode() 
-{ 
-   return fiRunningMode == 1; 
+Bool_t TGo4Analysis::IsClientMode()
+{
+   return fiRunningMode == 1;
 }
 
-Bool_t TGo4Analysis::IsServerMode() 
-{ 
-   return fiRunningMode == 2; 
+Bool_t TGo4Analysis::IsServerMode()
+{
+   return fiRunningMode == 2;
 }
 
-void TGo4Analysis::SetRunningMode(int mode) 
-{ 
-   fiRunningMode = mode; 
+void TGo4Analysis::SetRunningMode(int mode)
+{
+   fiRunningMode = mode;
 }
 
 
@@ -276,7 +276,7 @@ void TGo4Analysis::Constructor()
       fbExists = kTRUE;
 
       fxInterruptHandler = new TGo4InterruptHandler();
-      fxInterruptHandler->Add();     
+      fxInterruptHandler->Add();
 
 #ifdef WIN32
       InstallGo4CtrlCHandler(true);
@@ -296,7 +296,7 @@ TGo4Analysis::~TGo4Analysis()
 {
 
 #ifdef WIN32
-   InstallGo4CtrlCHandler(false);  
+   InstallGo4CtrlCHandler(false);
 #endif
 
    if (fxInterruptHandler!=0) {
@@ -417,6 +417,11 @@ Int_t TGo4Analysis::UserEventFunc()
    return 0;
 }
 
+void TGo4Analysis::ProcessEvents()
+{
+   if (fSniffer) fSniffer->ProcessSnifferEvents();
+}
+
 Int_t TGo4Analysis::Process()
 {
    GO4TRACE((11,"TGo4Analysis::Process()",__LINE__, __FILE__));
@@ -434,6 +439,8 @@ Int_t TGo4Analysis::Process()
 
    try
    {
+      ProcessEvents();
+
       if(fxAnalysisSlave)
       {
          gSystem->ProcessEvents(); // ensure cintlocktimer to give mainlock back
@@ -615,7 +622,10 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
          if ((times>0) && (cnt>=times)) break;
 
          if (userate && rate.Update((fxDoWorkingFlag == flagRunning) ? 1 : 0)) {
-            if (process_event_interval>0.) gSystem->ProcessEvents();
+            if (process_event_interval>0.) {
+               gSystem->ProcessEvents();
+               ProcessEvents();
+            }
 
             bool need_update = false;
             TTimeStamp now;

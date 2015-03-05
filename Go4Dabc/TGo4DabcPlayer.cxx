@@ -18,8 +18,10 @@
 #include "TCollection.h"
 #include "TTimer.h"
 #include "Riostream.h"
+#include "THttpServer.h"
 
 #include "TGo4Sniffer.h"
+#include "TGo4Dabc.h"
 
 #include "TGo4AnalysisImp.h"
 #include "TGo4AnalysisObjectManager.h"
@@ -109,10 +111,6 @@ void TGo4DabcPlayer::InitializeHierarchy()
    cmd = sub.CreateHChild("CmdRestart");
    cmd.SetField(dabc::prop_kind, "DABC.Command");
    cmd.SetField("_fastcmd","/go4sys/icons/restart.png");
-
-
-
-
 
    sub.EnableHistory(200, true);
 }
@@ -233,8 +231,13 @@ bool TGo4DabcPlayer::ProcessHCommand(const std::string& cmdname, dabc::Command c
   }
 
 
-
-
    return false;
 }
 
+void TGo4DabcPlayer::ProcessSnifferEvents()
+{
+   THttpServer* serv = TGo4Dabc::GetHttpServer();
+   if ((serv==0) || (serv->GetSniffer()==0)) return;
+
+   ProcessActionsInRootContext(serv->GetSniffer());
+}

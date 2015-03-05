@@ -11,13 +11,19 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-
-
 #ifndef TGO4DABC_H
 #define TGO4DABC_H
 
+class THttpServer;
+
 class TGo4Dabc {
+   protected:
+
+      static THttpServer* gHttpServer;
+
    public:
+
+      static THttpServer* GetHttpServer() { return gHttpServer; }
 
       static bool CreateEngine(const char* name);
 };

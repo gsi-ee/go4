@@ -32,6 +32,9 @@ class TGo4AnalysisSniffer : public TNamed {
       virtual void RatemeterUpdate(TGo4Ratemeter*) {}
 
       virtual void StatusMessage(int level, const TString&) {}
+
+      /** Hook function to execute action in context of analysis thread */
+      virtual void ProcessSnifferEvents() {}
 };
 
 

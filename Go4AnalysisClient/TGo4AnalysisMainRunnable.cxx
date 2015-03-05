@@ -118,6 +118,8 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
             TGo4Thread::Sleep(fguPOLLINTERVAL);
          }
 
+         fxAnalysis->ProcessEvents();
+
       }  // if(com)
       return 0;
    } // try
