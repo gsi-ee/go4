@@ -24,6 +24,7 @@
 #include "TCutG.h"
 #include "TClass.h"
 #include "TPad.h"
+#include "TArrayD.h"
 #include "TGo4Log.h"
 #include "TGo4Condition.h"
 #include "TGo4Slot.h"
@@ -1086,16 +1087,16 @@ void TGo4ConditionEditor::UpdateEllipse()
             //a2=(econd->GetYUp() - econd->GetYLow())/2;
             // better: use minimum and maximum radial distance
             TCutG* cut=econd->GetCut(false);
-            Int_t n=cut->GetN();
+            Int_t n = cut->GetN();
             Double_t* xarr=cut->GetX();
             Double_t* yarr=cut->GetY();
-            Double_t rarr[n];
+            TArrayD rarr(n);
             for (int i=0; i<n; ++i)
               {
                 rarr[i]= TMath::Sqrt(TMath::Power((xarr[i]-cx),2) + TMath::Power((yarr[i]-cy),2));
               }
-            Int_t nrmax=TMath::LocMax(n,rarr);
-            Int_t nrmin=TMath::LocMin(n,rarr);
+            Int_t nrmax=TMath::LocMax(n,rarr.GetArray());
+            Int_t nrmin=TMath::LocMin(n,rarr.GetArray());
             a1=rarr[nrmax];
             a2=rarr[nrmin];
             // now evaluate angle:
