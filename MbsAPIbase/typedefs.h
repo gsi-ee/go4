@@ -37,6 +37,7 @@ typedef          double REAL8;
 #define GSI__WINNT
 #include "typedefs_nt.h"
 typedef unsigned long ADDRS;
+typedef unsigned long long ADDR64; // JAM for 64 bit status structure receiving
 #endif
 
 
