@@ -3,14 +3,14 @@
 #
 # First ensure that all software components: CYGWIN, Microsoft VisualC, ROOT and Qt are installed.
 #
-# Qt package should be compiled with VisualC - like qt-win-opensource-4.8.2-vs2010.exe. 
+# Qt package should be compiled with VisualC - like qt-win-opensource-4.8.2-vs2012.exe. 
 # Do not try to install MinGW version - it uses unsuitable compiler version.
 # Install Qt into the path without spaces.
 #
 # To be able use VisualC from cygwin, one should call
 #  vcvarsall.bat file from the Cygwin.bat. 
 #  Insert following line into Cygwin.bat before bash:
-#     call E:\Soft\VC2010\VC\vcvarsall.bat"
+#     call E:\Soft\VC2012\VC\vcvarsall.bat"
 #
 #  One also must ensure that link.exe from VisualC is used. 
 #  Problem description and several solutions can be found here:
@@ -36,6 +36,6 @@ export PATH=$ROOTSYS/bin:$GO4CYGPATH/bin:$QTDIR/bin:$PATH
 
 export LIB="$ROOT_PATH\lib;$GO4_PATH\lib;$QT_PATH\lib;$LIB"
 
-export QMAKESPEC=win32-msvc2010
+export QMAKESPEC=win32-msvc2012
 
 echo "Configure environment to compile go4 in $GO4CYGPATH"

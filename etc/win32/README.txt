@@ -21,7 +21,7 @@ in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
 This package is compiled and tested under Windows XP SP2 and Windows 7
-together with Microsoft Visual C++ 2010 Express Edition and CYGWIN.
+together with Microsoft Visual C++ 2012 Express Edition and CYGWIN.
 
 
 1. INSTALLATION
@@ -92,7 +92,7 @@ together with Microsoft Visual C++ 2010 Express Edition and CYGWIN.
 5. COMPILE USER ANALYSIS UNDER WINDOWS
 
   First of all, Microsoft VC++ should be installed.
-  There is a free edition of Microsoft Visual C++ Express 2010 on
+  There is a free edition of Microsoft Visual C++ Express 2012 on
        http://msdn.microsoft.com/vstudio/express/visualc/
   After VC++ is installed, there are two alternatives, 
   how example can be compiled.
@@ -104,7 +104,7 @@ together with Microsoft Visual C++ 2010 Express Edition and CYGWIN.
   build scripts. To be able use VisualC from cygwin, one should call
   vcvarsall.bat file from the Cygwin.bat before bash is started. 
   One should add line like this:
-     call E:\Soft\VC2010\VC\vcvarsall.bat"
+     call E:\Soft\VC2012\VC\vcvarsall.bat"
 
   One also must ensure that link.exe from VisualC is used. 
   Problem description and several solutions can be found here:
@@ -147,7 +147,7 @@ together with Microsoft Visual C++ 2010 Express Edition and CYGWIN.
 - Install and configure CYGWIN
 - Install Microsoft VC++
 - Install Qt 4.8.x binaries package for MS VC compiler like
-    qt-win-opensource-4.8.2-vs2010.exe 
+    qt-win-opensource-4.8.2-vs2012.exe 
 - Download go4 sources from http://go4.gsi.de web site.
 - Find and modify $GO4SYS/etc/win32/go4login file to actual location of all 
   components, copy it to home cygwin directory

@@ -16,6 +16,6 @@
 :: if one need to compile user analysis, following lines should be 
 :: uncommented and adjusted to actual location of MS Visual C++
 
-:: call E:\Soft\VC2010\VC\vcvarsall.bat
+:: call E:\Soft\VC2012\VC\vcvarsall.bat
 
  
