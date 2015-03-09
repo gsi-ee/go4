@@ -19,6 +19,7 @@
 #include "TGo4AnalysisStepStatus.h"
 
 #include "TGo4Analysis.h"
+//#include "TGo4LockGuard.h"
 
 TString TGo4AnalysisWebStatus::fgxURL_STARTRUN = "start";
 TString TGo4AnalysisWebStatus::fgxURL_CLOSE = "close";
@@ -56,6 +57,8 @@ TString TGo4AnalysisWebStatus::fgxURL_PREFS_SAVE = "saveprefs";
 Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
 {
   std::cout << "\nTGo4AnalysisWebStatus Update From Url with " << rest_url_opt << std::endl;
+//  TGo4LockGuard gard; // test: can we avoid deadlock with monitoring sniffer here?
+//  std::cout << "\nTGo4AnalysisWebStatus AFTER lockguard." << std::endl;
   TString message;
   message.Form("TGo4AnalysisWebStatus::UpdateFromUrl ");
   TGo4Analysis* ana = TGo4Analysis::Instance();
@@ -64,6 +67,18 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
   TString theKey;
 
   //handle first  pseudo commands that should not initialize analysis:
+
+  // close analysis:
+  theKey = TGo4AnalysisWebStatus::fgxURL_CLOSE;
+    if (url.HasOption(theKey.Data()))
+    {
+      ana->StopAnalysis();
+      ana->CloseAnalysis();
+      message.Append(TString::Format(", CLOSING analysis"));
+      TGo4Log::Message(1, message.Data());
+      return kTRUE;
+    }
+
   // save asf:
   theKey = TGo4AnalysisWebStatus::fgxURL_ASF_SAVE;
   if (url.HasOption(theKey.Data()))
@@ -91,6 +106,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
   if (url.HasOption(theKey.Data()))
   {
     TString filename = url.GetValueFromOptions(theKey.Data());
+    ana->StopAnalysis();
     if (ana->LoadStatus(filename.Data()))
     {
       ana->InitEventClasses();
@@ -231,7 +247,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
         userpar->SetPort(port);
       else
         message.Append(
-            TString::Format(" - /!\\ NEVER COME HERE: Could not set port to type %s ", srcpar->IsA()->ClassName()));
+            TString::Format(" - /!\\ NEVER COME HERE: Could not set port to type %s ", srcpar->ClassName()));
     }    //fgxURL_SOURCE_PORT;
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_SOURCE_TIMEOUT.Data(), stepindex);
@@ -255,7 +271,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
       else
         message.Append(
             TString::Format(" - /!\\ NEVER COME HERE: Could not set retry count to type %s ",
-                srcpar->IsA()->ClassName()));
+                srcpar->ClassName()));
     }    //fgxURL_SOURCE_RETRY;
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_SOURCE_FIRST.Data(), stepindex);
@@ -270,7 +286,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
       else
         message.Append(
             TString::Format(" - /!\\ NEVER COME HERE: Could not set start event to type %s ",
-                srcpar->IsA()->ClassName()));
+                srcpar->ClassName()));
     }    //fgxURL_SOURCE_FIRST;
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_SOURCE_LAST.Data(), stepindex);
@@ -285,7 +301,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
       else
         message.Append(
             TString::Format(" - /!\\ NEVER COME HERE: Could not set stop event to type %s ",
-                srcpar->IsA()->ClassName()));
+                srcpar->ClassName()));
     }    //fgxURL_SOURCE_LAST;
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_SOURCE_SKIP.Data(), stepindex);
@@ -300,7 +316,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
       else
         message.Append(
             TString::Format(" - /!\\ NEVER COME HERE: Could not set event interval to type %s ",
-                srcpar->IsA()->ClassName()));
+                srcpar->ClassName()));
     }    //fgxURL_SOURCE_SKIP;
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_STORE_TYPE.Data(), stepindex);
@@ -337,7 +353,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
       {
         message.Append(
             TString::Format(" - /!\\ NEVER COME HERE: old event store parameter is type %s ",
-                oldstorepar ? oldstorepar->IsA()->ClassName() : "nullpointer"));
+                oldstorepar ? oldstorepar->ClassName() : "nullpointer"));
       }
 
       TGo4EventStoreParameter* newpar = 0;
@@ -400,7 +416,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
       else
         message.Append(
             TString::Format(" - /!\\ NEVER COME HERE: can not set split level to eventstore type %s ",
-                storepar ? storepar->IsA()->ClassName() : "nullpointer"));
+                storepar ? storepar->ClassName() : "nullpointer"));
 
     }    //ffgxURL_STORE_SPLIT
 
@@ -419,7 +435,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
       else
         message.Append(
             TString::Format(" - /!\\ NEVER COME HERE: can not set bufsize to eventstore type %s ",
-                storepar ? storepar->IsA()->ClassName() : "nullpointer"));
+                storepar ? storepar->ClassName() : "nullpointer"));
     }    //fgxURL_STORE_BUF
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_STORE_COMP.Data(), stepindex);
@@ -434,7 +450,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
       else
         message.Append(
             TString::Format(" - /!\\ NEVER COME HERE: can not set compression to eventstore type %s ",
-                storepar ? storepar->IsA()->ClassName() : "nullpointer"));
+                storepar ? storepar->ClassName() : "nullpointer"));
     }    //fgxURL_STORE_COMP
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_STORE_OVERWRITE.Data(), stepindex);
@@ -449,7 +465,7 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
       else
         message.Append(
             TString::Format(" - /!\\ NEVER COME HERE: can not set overwrite mode to eventstore type %s ",
-                storepar ? storepar->IsA()->ClassName() : "nullpointer"));
+                storepar ? storepar->ClassName() : "nullpointer"));
     }    //fgxURL_STORE_OVERWRITE
 
     step->PrintStatus();
@@ -508,13 +524,19 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
   }    //fgxURL_PREFS_NAME
 
   // apply this setup to analysis:
+  std::cout << "\nTGo4AnalysisWebStatus Update From Url  :StopAnalysis..."<< std::endl;
+  ana->StopAnalysis(); // need this to correctly invoke UserPreLoop later!
+  std::cout << "\nTGo4AnalysisWebStatus Update From Url  :SetStatus..."<< std::endl;
   ana->SetStatus(this);
+  std::cout << "\nTGo4AnalysisWebStatus Update From Url  :InitEventClasses..."<< std::endl;
   ana->InitEventClasses();
 
   // if we find start key restart analysis for submit and start button:
   if (url.HasOption(TGo4AnalysisWebStatus::fgxURL_STARTRUN.Data()))
   {
+    std::cout << "\nTGo4AnalysisWebStatus Update From Url  :StartAnalysis..."<< std::endl;
     ana->StartAnalysis(); // this can cause deadlock ?!
+    std::cout << "\nTGo4AnalysisWebStatus Update From Url  :After StartAnalysis"<< std::endl;
     message.Append("\n Analysis was started!");
   }
 

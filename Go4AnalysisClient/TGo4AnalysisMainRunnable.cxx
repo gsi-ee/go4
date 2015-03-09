@@ -73,6 +73,8 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
    //
    try
    {
+
+
       TGo4Command* com = fxAnalysisClient->NextCommand();
       //if(com== (TGo4Command*) -1) return 0; // for command memleak debug: no execute, no mainloop
       if(com)
@@ -118,6 +120,13 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
             TGo4Thread::Sleep(fguPOLLINTERVAL);
          }
 
+         // JAM 2015: we do the same here as for command execution
+         // since webserver may also call same functions:
+         TMutex* smutex=fxAnalysisClient->GetTask()->GetStatusBufferMutex();
+         TGo4LockGuard buflock(smutex); // protect deadlocking status buffer
+         TMutex* tmutex=fxAnalysisClient->GetTaskManagerMutex();
+         TGo4LockGuard tasklock(tmutex); //  protect deadlocking taskmanger mutex, if we are server tas
+         //TGo4LockGuard mainlock; // JAM done anyway in processgetbinary under dabc hierarchy mutex
          fxAnalysis->ProcessEvents();
 
       }  // if(com)

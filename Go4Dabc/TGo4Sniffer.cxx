@@ -17,7 +17,6 @@
 
 #include "TGo4AnalysisImp.h"
 #include "TGo4AnalysisObjectManager.h"
-#include "TGo4LockGuard.h"
 #include "TGo4Parameter.h"
 #include "TGo4Condition.h"
 #include "TGo4AnalysisWebStatus.h"
@@ -58,7 +57,7 @@ void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
          chld.SetField(dabc::prop_kind, "ROOT.TStreamerInfoList");
    }
 
-   TGo4LockGuard mainlock;
+   //TGo4LockGuard mainlock; // JAM now done in top level invocation ProcessEvents
 
    TFolder* main = om->GetObjectFolder();
 
@@ -104,6 +103,8 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
       rec.SetField("_more", "true");
       rec.SetField("_icon", "/go4sys/icons/eventobj.png");
       return;
+
+
    }
 }
 
@@ -115,7 +116,6 @@ void* TGo4Sniffer::FindInHierarchy(const char *path, TClass **cl, TDataMember **
       else
          TGo4Analysis::Instance()->UpdateStatus(fAnalysisStatus);
       if (cl) *cl = fAnalysisStatus->IsA();
-
       return fAnalysisStatus;
    }
 

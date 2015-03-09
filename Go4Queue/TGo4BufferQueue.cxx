@@ -104,12 +104,13 @@ TObject * TGo4BufferQueue::WaitObjectFromBuffer()
    TBuffer* buffer = WaitBuffer();
    if(buffer) {
       {
+        //std::cout << "BBBBBBBBBBBBBBB TGo4BufferQueue::WaitObjectFromBuffer() before mainguard "<< std::endl;
          TGo4LockGuard mainguard;
          // lock go4 main mutex for streaming
          TDirectory* savdir=gDirectory;
          gROOT->cd(); // be sure to be in the top directory when creating histo
          buffer->SetReadMode();
-         //std::cout << "Reading object from buffer..."<< std::endl;
+        //std::cout << "                                Reading object from buffer..."<< std::endl;
          buffer->Reset();
          buffer->InitMap();
          // note: root version 3.05/02 crashes again when unknown class
@@ -145,6 +146,7 @@ void TGo4BufferQueue::AddBuffer(TBuffer * buffer, Bool_t clone)
    Bool_t entryisnew=kFALSE;
    if(clone)
       {
+    //std::cout <<"BBBBBBBBBBBBBBB TGo4BufferQueue "<< GetName()<< " before lockguard of buffer mutex "<<fxBufferMutex<<std::endl;
       TGo4LockGuard qguard(fxBufferMutex);
          entry= dynamic_cast<TBuffer*>(fxFreeList->Remove(fxFreeList->First()));
                 // get next free buffer
@@ -155,6 +157,8 @@ void TGo4BufferQueue::AddBuffer(TBuffer * buffer, Bool_t clone)
             //std::cout <<"Buffer Queue: creating new internal buffer... "<< GetName();
 
             entry=NewEntry();
+           //std::cout <<"BBBBBBBBBBBBBBB TGo4BufferQueue "<< GetName()<< " before Add to free list... "<<std::endl;
+
             fxBufferList->Add(entry); // add to list of existing buffers
                 // need not add new buffer to list of free buffers
             entryisnew=kTRUE;
@@ -180,7 +184,7 @@ void TGo4BufferQueue::AddBuffer(TBuffer * buffer, Bool_t clone)
            char* source= buffer->Buffer();
            char* destination= entry->Buffer();
             memcpy(destination,source,destsize);
-            //std::cout <<"))))))))))Buffer Queue: copied "<< destsize <<"bytes to buffer field" << std::endl;
+           //std::cout <<"))))))))))Buffer Queue: copied "<< destsize <<"bytes to buffer field" << std::endl;
             Int_t messlen = buffer->Length(); // compatible with root TMessage protocol
             entry->SetBufferOffset(messlen);
             entry->SetByteCount(0);
@@ -193,7 +197,9 @@ void TGo4BufferQueue::AddBuffer(TBuffer * buffer, Bool_t clone)
 
    try
       {
+        //std::cout <<"BBBBBBBBBBBBBBB TGo4BufferQueue "<< GetName()<< " before Add to queue... "<<std::endl;
          Add(entry);
+        //std::cout <<"BBBBBBBBBBBBBBB                after Add to queue. "<<std::endl;
       }
    catch(TGo4RuntimeException ex)
       {
@@ -257,9 +263,9 @@ void TGo4BufferQueue::AddBufferFromObject(TObject * object)
 void TGo4BufferQueue::FreeBuffer(TBuffer * buffer)
 {
    GO4TRACE((19,"TGo4BufferQueue::FreeBuffer(TBuffer*, Bool_t)", __LINE__, __FILE__));
-   //
+  //std::cout << "BBBBBBBBBBBBBBB  TGo4BufferQueue::FreeBuffer before  taking buffer mutex "<< fxBufferMutex<< std::endl;
    TGo4LockGuard qguard(fxBufferMutex);
-   //std::cout << "bufferlock acquired by bufferqueue: freebuffer"<< std::endl;
+  //std::cout << "                  bufferlock acquired by bufferqueue: freebuffer"<< std::endl;
    // does buffer belong to our internal buffers?
    if (fxBufferList->FindObject(buffer)!=0)
             {
@@ -272,14 +278,14 @@ void TGo4BufferQueue::FreeBuffer(TBuffer * buffer)
                      Realloc(buffer,memsize, TGo4Socket::fgiBUFINITSIZE);
                   }
                 fxFreeList->AddLast(buffer);
-                //std::cout <<"freed buffer"<< buffer <<" of bufferqueue "<< GetName() << std::endl;
+               //std::cout <<"freed buffer"<< buffer <<" of bufferqueue "<< GetName() << std::endl;
             }
          else
             {
                // no, we delete it to avoid leakage
                delete buffer;
                //std::cout <<" Buffer  queue FB deleted buffer "<<buffer << std::endl;
-               //std::cout <<"deleted external buffer of bufferqueue "<< GetName() << std::endl;
+              //std::cout <<"deleted external buffer of bufferqueue "<< GetName() << std::endl;
                // TGo4Log::Debug(" Buffer Queue : deleted external buffer !!! ");
 
             }
@@ -303,6 +309,7 @@ void TGo4BufferQueue::Clear(Option_t* opt)
 void TGo4BufferQueue::Realloc(TBuffer* buffer, Int_t oldsize, Int_t newsize)
 {
    if(buffer==0) return;
+  //std::cout << "TGo4Bufferqueue "<<GetName()<< " Realloc before mainguard"<< std::endl;
    TGo4LockGuard mainguard;
    char* memfield = buffer->Buffer();
    //buffer->Expand(newsize); // is protected! we make it by hand...
@@ -315,7 +322,7 @@ void TGo4BufferQueue::Realloc(TBuffer* buffer, Int_t oldsize, Int_t newsize)
    memfield = TStorage::ReAllocChar(memfield,
                                            (newsize+extraspace),
                                            (oldsize+extraspace));
-   //std::cout << "Bufferqueue reallocating char from"<<oldsize<< " to " << newsize<< std::endl;
+  //std::cout << "Bufferqueue reallocating char from"<<oldsize<< " to " << newsize<< std::endl;
    buffer->ResetBit(fgiISOWNER);
 //#if ROOT_VERSION_CODE > ROOT_VERSION(5,23,2)
 //   buffer->SetBuffer(memfield, newsize + extraspace);
@@ -333,9 +340,10 @@ void TGo4BufferQueue::Realloc(TBuffer* buffer, Int_t oldsize, Int_t newsize)
 
 TBuffer* TGo4BufferQueue::NewEntry()
 {
+  //std::cout <<"nnnnnnnn BufferQueue "<<GetName()<<" new entry before mainguard"<< std::endl;
    TGo4LockGuard mainguard;
    TBuffer* buf = new TGo4Buffer(TBuffer::kWrite, TGo4Socket::fgiBUFINITSIZE);
-   //std::cout <<"nnnnnnnn BufferQueue "<<GetName()<<" made new entry "<<buf << std::endl;
+  //std::cout <<"nnnnnnnn BufferQueue "<<GetName()<<" made new entry "<<buf << std::endl;
    TNamed* dummy= new TNamed("This is a default buffer filler","GO4 is fun!");
    TFile *filsav = gFile;
    gFile = 0;

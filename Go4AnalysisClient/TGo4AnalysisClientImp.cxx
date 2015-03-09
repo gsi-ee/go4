@@ -244,7 +244,7 @@ Int_t TGo4AnalysisClient::Initialization()
    } // if(!fbAutoStart)
    SendAnalysisStatus(); // only send status if connections are up!
    UpdateStatusBuffer();   // we need this for gui
-   SendAnalysisClientStatus();
+   //SendAnalysisClientStatus(); // JAM15 deadlock danger in analysis server mode!
    SendStatusMessage(1,kFALSE, TString::Format("AnalysisClient %s has finished initialization.",GetName()));
    return 0;
 }
@@ -282,7 +282,6 @@ TGo4TaskStatus* TGo4AnalysisClient::CreateStatus()
 void TGo4AnalysisClient::Start()
 {
    GO4TRACE((12,"TGo4AnalysisClient::Start()",__LINE__, __FILE__));
-   std::cout<<" TGo4AnalysisClient::Start()" <<std::endl;
    if(fxAnalysis->IsInitDone())
       {
          if(GetThreadHandler()) GetThreadHandler()->Start(fcMainName.Data()); // this is useful anyway...
@@ -293,7 +292,7 @@ void TGo4AnalysisClient::Start()
          SendStatusMessage(1,kTRUE, TString::Format("AnalysisClient %s has started analysis processing.",GetName()));
          UpdateRate(-2); // fake rate to display green light :)
          UpdateStatusBuffer();
-         SendAnalysisClientStatus();
+         //SendAnalysisClientStatus();  // JAM15 deadlock danger in analysis server mode! never do this from main thread
       }
    else
       {
@@ -390,9 +389,10 @@ void TGo4AnalysisClient::Stop()
    //// test for immediate ratemeter update with zero rate:
    UpdateRate(-1);
    UpdateStatusBuffer();
-   //   SendStatusBuffer();
-   SendAnalysisClientStatus();
 
+   //SendAnalysisClientStatus(); // JAM15 deadlock danger in analysis server mode! never do this from main thread
+
+   //std::cout<<"AAAAAAAAAAAA TGo4AnalysisClient::Stop() after SendAnalysisClientStatus "<< std::endl;
 //   if (fxAnalysis && fxAnalysis->IsStopWorking()) {
 //      if (IsCintMode()) {
 //         fxAnalysis->ResumeWorking();

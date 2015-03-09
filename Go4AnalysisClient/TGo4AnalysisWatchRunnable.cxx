@@ -22,6 +22,8 @@
 #include "TGo4AnalysisClientImp.h"
 #include "TGo4AnalysisImp.h"
 
+#include "Riostream.h"
+
 const UInt_t TGo4AnalysisWatchRunnable::fguWATCHINTERVAL=1000;
 //const UInt_t TGo4AnalysisWatchRunnable::fguWATCHINTERVAL=50;
 
@@ -38,33 +40,40 @@ TGo4AnalysisWatchRunnable::~TGo4AnalysisWatchRunnable()
 
 Int_t TGo4AnalysisWatchRunnable::Run(void*)
 {
-   // check if ratemeter was updated
-   if (fxAnalysis && fxAnalysis->IsInitDone())
-   {
-      if(!fxAnalysisClient->TestRatemeter())
+  // check if ratemeter was updated
+  if (fxAnalysis)
+  {
+    static Bool_t initbefore = kFALSE; // JAM15: handle here update of status buffer after close analysis,
+                                       // now main thread will never SendAnalysisClientStatus at Stop() to avoid deadlocking
+    if (fxAnalysis->IsInitDone() || initbefore)
+    {
+      initbefore = kTRUE;
+      if (!fxAnalysisClient->TestRatemeter())
       {
-         // no, we have to update it ourselves and fill the status buffer
-         if(fxAnalysisClient->MainIsRunning())
-            fxAnalysisClient->UpdateRate(0); // update with calculation of time and average rate
-         else
-            fxAnalysisClient->UpdateRate(-1); // stopped: keep latest values for time and average rate
-         {
-            //TGo4LockGuard mainguard; // in UpdateStatusBuffer now JA
-            //std::cout << "watch runnable updated status buffer itself!!!"<< std::endl;
-            fxAnalysisClient->UpdateStatusBuffer();
-         } // lock guard
+        // no, we have to update it ourselves and fill the status buffer
+        if (fxAnalysisClient->MainIsRunning())
+          fxAnalysisClient->UpdateRate(0);    // update with calculation of time and average rate
+        else
+          fxAnalysisClient->UpdateRate(-1);    // stopped: keep latest values for time and average rate
+        {
+          //TGo4LockGuard mainguard; // in UpdateStatusBuffer now JA
+          //std::cout << "watch runnable updated status buffer itself!!!"<< std::endl;
+          fxAnalysisClient->UpdateStatusBuffer();
+        }    // lock guard
       }
       else
-      { // yes, main thread is running on that, we do nothing
+      {    // yes, main thread is running on that, we do nothing
 
-      } // if(!fxAnalysisClient->TestRatemeter())
+      }    // if(!fxAnalysisClient->TestRatemeter())
+
       fxAnalysisClient->SendAnalysisClientStatus();
-   }
-   else
-   { // analysis not initialized, no status to update
+    }
 
-   } // if (ana && ana->fbInitIsDone)
-
-   TGo4Thread::Sleep(fguWATCHINTERVAL);
-   return 0;
+    else
+    {
+      // analysis not yet initialized, no status to update
+    }    // if (ana->fbInitIsDone)
+  }    //if (fxAnalysis){
+  TGo4Thread::Sleep(fguWATCHINTERVAL);
+  return 0;
 }
