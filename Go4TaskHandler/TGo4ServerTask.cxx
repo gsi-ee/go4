@@ -550,9 +550,7 @@ void TGo4ServerTask::SendStatus(TGo4Status * stat, const char* receiver)
 void TGo4ServerTask::SendStatusBuffer()
 {
    if(IsMaster()) return;
-   //std::cout << "TGo4ServerTask::SendStatusBuffer() apply for fxStatusMutex"<< std::endl;
    TGo4LockGuard statguard(fxStatusMutex); // do not send during buffer update
-   //std::cout << "TGo4ServerTask::SendStatusBuffer() apply for taskmanager mutex"<< std::endl;
    TGo4LockGuard taskmutex(fxTaskManager->GetMutex()); // protect task list
    TGo4TaskHandler* han=0;
    Bool_t reset=kTRUE;
