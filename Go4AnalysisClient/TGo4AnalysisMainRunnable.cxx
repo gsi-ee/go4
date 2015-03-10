@@ -105,7 +105,21 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
       }
       else  // if(com)
       {
-         // zero object means proceed with analysis...
+          // ProcessEvents -> commands and callbacks of web server
+          // must be executed before main cycle
+          // otherwise we will never get back control after timeout exceptions etc!!!
+          {
+                    // JAM 2015: same lockguards here as for command execution
+                   TMutex* smutex=fxAnalysisClient->GetTask()->GetStatusBufferMutex();
+                   TGo4LockGuard buflock(smutex); // protect deadlocking status buffer
+                   TMutex* tmutex=fxAnalysisClient->GetTaskManagerMutex();
+                   TGo4LockGuard tasklock(tmutex); //  protect deadlocking taskmanger mutex, if we are server tas
+                   //TGo4LockGuard mainlock; // JAM done anyway in processgetbinary under dabc hierarchy mutex
+                   fxAnalysis->ProcessEvents();
+          } // lockguard scope
+
+
+         // zero command object means proceed with analysis...
          // for analysis as server, we have to check running state again
          // (no command queue means no wait for next command)
          if(fxAnalysisClient->MainIsRunning())
@@ -120,14 +134,7 @@ Int_t TGo4AnalysisMainRunnable::Run(void*)
             TGo4Thread::Sleep(fguPOLLINTERVAL);
          }
 
-         // JAM 2015: we do the same here as for command execution
-         // since webserver may also call same functions:
-         TMutex* smutex=fxAnalysisClient->GetTask()->GetStatusBufferMutex();
-         TGo4LockGuard buflock(smutex); // protect deadlocking status buffer
-         TMutex* tmutex=fxAnalysisClient->GetTaskManagerMutex();
-         TGo4LockGuard tasklock(tmutex); //  protect deadlocking taskmanger mutex, if we are server tas
-         //TGo4LockGuard mainlock; // JAM done anyway in processgetbinary under dabc hierarchy mutex
-         fxAnalysis->ProcessEvents();
+
 
       }  // if(com)
       return 0;

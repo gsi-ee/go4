@@ -82,9 +82,11 @@ void TGo4DabcPlayer::InitializeHierarchy()
 
    dabc::Hierarchy sub = fHierarchy.CreateHChild("Status");
    sub.SetPermanent();
-   sub.SetField("_status","GO4.DrawAnalysisStatus");
+   sub.SetField("_status","GO4.DrawAnalysisStatus"); // this is ratemeter /run status
 
-   sub.CreateHChild("Analysis").SetField(dabc::prop_kind, "ROOT.TGo4AnalysisWebStatus");
+   dabc::Hierarchy ana= sub.CreateHChild("Analysis"); // this is analysis configuration
+   ana.SetField(dabc::prop_kind, "ROOT.TGo4AnalysisWebStatus");
+   ana.SetField("_autoload", "/go4sys/html/go4.js; /go4sys/html/analysiseditor.js");
 
    sub.CreateHChild("State").SetField(dabc::prop_kind, "log");
 
