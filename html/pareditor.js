@@ -6,19 +6,11 @@
       throw e1;
    }
 
-   if (typeof DABC != "object") {
-      var e1 = new Error("pareditor.js requires DABC to be already loaded");
-      e1.source = "pareditor.js";
-      throw e1;
-   }
-
    if (typeof GO4 != "object") {
 	   var e1 = new Error("pareditor.js requires GO4 to be already loaded");
 	   e1.source = "pareditor.js";
 	   throw e1;
 	}
-   
-   
    
    // ===========================================================================================
    
