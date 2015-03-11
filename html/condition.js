@@ -591,13 +591,13 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 		}
 		
 		
-      var dabc = DABC.hpainter;
+      var dabc = JSROOT.hpainter;
       
       
       $(id+" .buttonGetCondition")
       .button({text: false, icons: { primary: "ui-icon-arrowthick-1-e MyButtonStyle"}}).click(function() {
     	  console.log("update item = " + editor.GetItemName()); 
-          if (DABC.hpainter) DABC.hpainter.display(editor.GetItemName()); 
+          if (JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName()); 
           else  console.log("dabc object not found!"); 
           	
         }
@@ -629,15 +629,15 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
        if (dabc) {
           editor.EvaluateChanges("");
 
-          if (DABC.hpainter.updateOnOtherFrames(editor, editor.cond)) return;
+          if (JSROOT.hpainter.updateOnOtherFrames(editor, editor.cond)) return;
           
-          DABC.hpainter.drawOnSuitableHistogram(editor, editor.cond, editor.cond.fiDim==2);
+          JSROOT.hpainter.drawOnSuitableHistogram(editor, editor.cond, editor.cond.fiDim==2);
           
           return;
        }
     	
-    	//if (DABC.hpainter){ 
-    		//var onlineprop = DABC.hpainter.GetOnlineProp(editor.GetItemName()); 
+    	//if (JSROOT.hpainter){ 
+    		//var onlineprop = JSROOT.hpainter.GetOnlineProp(editor.GetItemName()); 
     		//var baseurl = onlineprop.server + onlineprop.itemname + "/"; 
     		var baseurl = editor.GetItemName() + "/"; 
     		var drawurl = baseurl + "draw.htm", editorurl = baseurl + "draw.htm?opt=editor";
@@ -667,7 +667,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       		 		console.log(result ? "reset condition counters done. "
   					: "reset condition counters FAILED.");
       		 		if (result) { 
-      		 			if(DABC.hpainter) DABC.hpainter.display(editor.GetItemName()); 
+      		 			if(JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName()); 
       		 			else  console.log("dabc object not found!"); 
       		 			} 
            	
@@ -736,9 +736,6 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       this.cond = cond;
       this.pave = null; // drawing of stat
    }
-
-   
-   
    
    GO4.ConditionPainter.prototype = Object.create(JSROOT.TObjectPainter.prototype);
 
@@ -759,8 +756,6 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
     }
    
    
-   
-   
    GO4.ConditionPainter.prototype.GetObject = function() {
       return this.cond;
    }
@@ -770,13 +765,11 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    }
    
    GO4.ConditionPainter.prototype.isEllipseCond = function() {
-	      return (this.cond._typename == "TGo4ShapedCond"); 
-	   }
+      return (this.cond._typename == "TGo4ShapedCond"); 
+   }
    
    
    GO4.ConditionPainter.prototype.drawCondition = function() {
-      
-	   
 	   
       if (this.isPolyCond()) {
          if (this.cond.fxCut != null) {
@@ -928,7 +921,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       
       // $('#'+divid).append("<br/>Histogram name is " + cond.fxHistoName);
       
-      var dabc = DABC.hpainter;
+      var dabc = JSROOT.hpainter;
       if (dabc==null) {
          $('#'+divid).append("<br/>Error - did not found dabc painter");
          return;

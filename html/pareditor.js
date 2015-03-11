@@ -375,7 +375,7 @@
       $(id+" .buttonGetParameter")
       .button({text: false, icons: { primary: "ui-icon-arrowthick-1-e MyButtonStyle"}}).click(function() {
     	  console.log("update item = " + editor.GetItemName()); 
-          if (DABC.hpainter) DABC.hpainter.display(editor.GetItemName()); 
+          if (JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName()); 
           else  console.log("dabc object not found!"); 
           	
         }
