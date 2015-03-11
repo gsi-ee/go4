@@ -11,8 +11,6 @@
       e1.source = "analysiseditor.js";
       throw e1;
    }
-   
-
      
    
    GO4.EvIOType = {		    
@@ -38,10 +36,7 @@
       this.showmore= [false, false];
       this.ClearChanges();
       this.ClearShowstates();
-      
    }
-   
-  
    
    
    GO4.AnalysisStatusEditor.prototype = Object.create(JSROOT.TBasePainter.prototype);
