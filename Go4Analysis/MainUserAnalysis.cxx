@@ -333,12 +333,12 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
             user_argc = 1;
             user_argv = (char**) &name;
          }
-	 
+
 	 #ifdef WIN32
          TString cmd = TString::Format("new %s(%d, (char**)0x%x)", an_cl->GetName(), user_argc, user_argv);
     #else
          TString cmd = TString::Format("new %s(%d, (char**)%p)", an_cl->GetName(), user_argc, user_argv);
-	 #endif    
+	 #endif
          Int_t err = 0;
 
          TGo4Log::Info("Process: %s", cmd.Data());
@@ -732,19 +732,21 @@ int main(int argc, char **argv)
       if (strcmp(argv[narg], "-http")==0) {
          narg++;
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
-            http_args.Add(new TObjString(Form("dabc:http:%s", argv[narg++])));
+            http_args.Add(new TObjString(Form("http:%s?top=Go4", argv[narg++])));
          else
-            http_args.Add(new TObjString("dabc:http:8080"));
+            http_args.Add(new TObjString("http:8080?top=Go4"));
       } else
       if (strcmp(argv[narg], "-dabc")==0) {
          narg++;
          if (narg >= argc) showerror("Master dabc node not specified");
-         http_args.Add(new TObjString(Form("dabc:%s", argv[narg++])));
+         const char* hostname = gSystem->HostName();
+         if ((hostname==0) || (*hostname==0)) hostname = "localhost";
+         http_args.Add(new TObjString(Form("dabc:%s?top=Go4/%s_pid%d", argv[narg++],hostname,gSystem->GetPid())));
       } else
       if (strcmp(argv[narg], "-fastcgi")==0) {
          narg++;
          if (narg >= argc) showerror("fastcgi options not specified");
-         http_args.Add(new TObjString(Form("dabc:fastcgi:%s", argv[narg++])));
+         http_args.Add(new TObjString(Form("fastcgi:%s?top=Go4", argv[narg++])));
       } else
 #endif
       if(strcmp(argv[narg], "-lib") == 0) {
@@ -1126,7 +1128,7 @@ int main(int argc, char **argv)
       Long_t res(0);
       Int_t err(0);
       for (Int_t n=0;n<=http_args.GetLast();n++) {
-         cmd.Form("TGo4Dabc::CreateEngine(\"%s\");", http_args[n]->GetName());
+         cmd.Form("TGo4Sniffer::CreateEngine(\"%s\");", http_args[n]->GetName());
          res = gROOT->ProcessLineFast(cmd.Data(), &err);
          if ((res<=0) || (err!=0)) showerror(Form("Fail to start %s", http_args[n]->GetName()));
       }

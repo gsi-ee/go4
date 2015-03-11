@@ -6,11 +6,13 @@
       throw e1;
    }
 
-   if (typeof DABC != "object") {
-      var e1 = new Error("go4.js requires DABC to be already loaded");
+   if (typeof DABC == "object") {
+      var e1 = new Error("go4.js DO NOT requires dabc.js");
       e1.source = "go4.js";
       throw e1;
    }
+   
+   DABC = { hpainter: JSROOT.hpainter };
 
    GO4 = {};
 
@@ -39,21 +41,16 @@
       function UpdateStatus() {
          if (xreq!=null) return;
          
-         xreq = JSROOT.NewHttpRequest(itemname+"/get.json", 'object', function(res) {
+         xreq = JSROOT.NewHttpRequest(itemname+"/item.json", 'object', function(res) {
             xreq = null;
             if (res==null) return;
             
-            for (var i in res._childs) {
-               var value = res._childs[i].value;
-               var name = res._childs[i]._name;
-               if (name == 'State') 
-                  $('#'+divid + " .event_rate").css('background-color',  value=='Stopped' ? 'red' : 'lightgreen');
-               if (name == 'EventRate') $('#'+divid + " .event_rate").text(value);
-               if (name == 'AverRate') $('#'+divid + " .aver_rate").text(value); 
-               if (name == 'RunTime') $('#'+divid + " .run_time").text(value); 
-               if (name == 'EventCount') $('#'+divid + " .total_events").text(value);
-            }
+            $('#'+divid + " .event_rate").css('background-color', res.value=='Stopped' ? 'red' : 'lightgreen');
             
+            $('#'+divid + " .event_rate").text(res.event_rate);
+            $('#'+divid + " .aver_rate").text(res.aver_rate); 
+            $('#'+divid + " .run_time").text(res.run_time); 
+            $('#'+divid + " .total_events").text(res.event_count);
          });
          
          xreq.send(null);

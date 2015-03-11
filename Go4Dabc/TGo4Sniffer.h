@@ -17,24 +17,56 @@
 
 #include "TRootSniffer.h"
 
-class TGo4AnalysisWebStatus;
+#include "TGo4AnalysisSniffer.h"
 
-class TGo4Sniffer : public TRootSniffer {
+class TGo4AnalysisWebStatus;
+class TGraph;
+
+class TGo4Sniffer : public TRootSniffer,
+                    public TGo4AnalysisSniffer {
    protected:
 
       TGo4AnalysisWebStatus*  fAnalysisStatus;
 
+      TGraph* fEventRate;
+
       virtual void ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj);
 
-   public:
-      TGo4Sniffer(const char* name);
+      static THttpServer* gHttpServer;
 
-      virtual ~TGo4Sniffer() {}
+   public:
+
+      static THttpServer* GetHttpServer() { return gHttpServer; }
+
+      static Bool_t CreateEngine(const char* name);
+
+
+      TGo4Sniffer(const char* name);
+      virtual ~TGo4Sniffer();
 
       virtual void ScanRoot(TRootSnifferScanRec& rec);
 
       virtual void *FindInHierarchy(const char *path, TClass **cl = 0, TDataMember **member = 0, Int_t *chld = 0);
 
+      Bool_t CmdStart();
+      Bool_t CmdStop();
+      Bool_t CmdClear();
+      Bool_t CmdRestart();
+
+      /** Method called by logger with every string, going to output */
+      virtual void SetTitle(const char* title = "");
+
+      /** Method from analysis sniffer */
+      virtual void RatemeterUpdate(TGo4Ratemeter*);
+
+      /** Method from analysis sniffer */
+      virtual void StatusMessage(int level, const TString&);
+
+      /** Method called in go4 analysis thread, used to executed server commands */
+      virtual void ProcessSnifferEvents();
+
+
+   ClassDef(TGo4Sniffer, 1);
 };
 
 

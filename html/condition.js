@@ -973,8 +973,6 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
    JSROOT.addDrawFunc("TGo4WinCond", GO4.drawGo4Cond, ";editor");
    JSROOT.addDrawFunc("TGo4PolyCond", GO4.drawGo4Cond, ";editor");
    JSROOT.addDrawFunc("TGo4ShapedCond", GO4.drawGo4Cond, ";editor");
-   JSROOT.addDrawFunc("TGo4AnalysisWebStatus", GO4.drawGo4AnalysisStatus, ";editor");
-   
 
 
 })(); // function

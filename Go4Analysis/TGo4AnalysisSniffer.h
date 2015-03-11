@@ -23,9 +23,9 @@ class TGo4Ratemeter;
  * Used in dabc plugin to catch different go4 events
  */
 
-class TGo4AnalysisSniffer : public TNamed {
+class TGo4AnalysisSniffer {
    public:
-      TGo4AnalysisSniffer(const char* name) : TNamed(name,"title") {}
+      TGo4AnalysisSniffer() {}
       virtual ~TGo4AnalysisSniffer() {}
 
       /**Method called by analysis when ratemeter is updated */

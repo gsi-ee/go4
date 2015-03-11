@@ -6,16 +6,11 @@
       throw e1;
    }
 
-   if (typeof DABC != "object") {
-      var e1 = new Error("analysiseditor.js requires DABC to be already loaded");
+   if (typeof GO4 != "object") {
+      var e1 = new Error("analysiseditor.js requires GO4 to be already loaded");
       e1.source = "analysiseditor.js";
       throw e1;
    }
-   if (typeof GO4 != "object") {
-	      var e1 = new Error("analysiseditor.js requires GO4 to be already loaded");
-	      e1.source = "analysiseditor.js";
-	      throw e1;
-	   }
    
 
      
@@ -1129,7 +1124,6 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
       return true;
    }
    
-   
    GO4.drawGo4AnalysisStatus = function(divid, stat, option) {
       //console.log("Draw analysis status");
       
@@ -1138,5 +1132,6 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
       return painter;
    }
    
+   JSROOT.addDrawFunc("TGo4AnalysisWebStatus", GO4.drawGo4AnalysisStatus, "editor");
 
 })(); // function
