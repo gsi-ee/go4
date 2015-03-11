@@ -23,6 +23,7 @@
          var pos = src.indexOf("go4.js");
          if (pos<0) continue;
          if (src.indexOf("JSRootCore")>=0) continue;
+         console.log('Set GO4.source_dir to ' + src.substr(0, pos));
          return src.substr(0, pos);
       }
       return "";
@@ -69,5 +70,10 @@
       setInterval(UpdateStatus, 2000);
    }
    
+   // ============================================================================== 
+   
+   JSROOT.addDrawFunc("TGo4WinCond", { script: GO4.source_dir + 'condition.js', func: 'GO4.drawGo4Cond' }, ";editor");
+   JSROOT.addDrawFunc("TGo4PolyCond", { script: GO4.source_dir + 'condition.js', func: 'GO4.drawGo4Cond' }, ";editor");
+   JSROOT.addDrawFunc("TGo4ShapedCond", { script: GO4.source_dir + 'condition.js', func: 'GO4.drawGo4Cond' }, ";editor");
 
 })();

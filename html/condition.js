@@ -584,15 +584,11 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 		 
 		}
 		
-		
-      var dabc = JSROOT.hpainter;
-      
-      
       $(id+" .buttonGetCondition")
       .button({text: false, icons: { primary: "ui-icon-arrowthick-1-e MyButtonStyle"}}).click(function() {
     	  console.log("update item = " + editor.GetItemName()); 
           if (JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName()); 
-          else  console.log("dabc object not found!"); 
+                         else  console.log("hierarhy painter object not found!"); 
           	
         }
       );
@@ -620,7 +616,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
     .button({text: false, icons: { primary: "ui-icon-image MyButtonStyle"}}).click(function() {
     	// TODO: implement correctly after MDI is improved, need to find out active frame and location of bound histogram
        
-       if (dabc) {
+       if (JSROOT.hpainter) {
           editor.EvaluateChanges("");
 
           if (JSROOT.hpainter.updateOnOtherFrames(editor, editor.cond)) return;
@@ -641,7 +637,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 //    	}
 //    	else
 //    		{
-//    		console.log("dabc object not found!"); 
+//    		console.log("hpainter object not found!"); 
 //    		}
 // problem: we do not have method to get currently selected pad...         
 //    	var nextid="#"+(editor.divid + 1); // does not work, id is string and not number here
@@ -662,7 +658,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
   					: "reset condition counters FAILED.");
       		 		if (result) { 
       		 			if(JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName()); 
-      		 			else  console.log("dabc object not found!"); 
+      		 			               else console.log("hpainter object not found!"); 
       		 			} 
            	
          });
@@ -699,15 +695,15 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       this.refreshEditor();   
       
       //$(document).tooltip();
-      //$(id).tooltip(); // NOTE: jquery ui tooltips will change title information, currently conflict with dabc/jsroot!
+      //$(id).tooltip(); // NOTE: jquery ui tooltips will change title information, currently conflict with jsroot!
    }
 
    GO4.ConditionEditor.prototype.drawEditor = function(divid) {
       var pthis = this;
        
       $("#"+divid).empty();
-      $("#"+divid).load("/go4sys/html/condeditor.htm", "", 
-            function() { pthis.SetDivId(divid); pthis.fillEditor();  });
+      $("#"+divid).load(GO4.source_dir + "condeditor.htm", "", 
+            function() { pthis.SetDivId(divid); pthis.fillEditor(); pthis.DrawingReady(); });
    }
    
    GO4.ConditionEditor.prototype.RedrawPad = function(resize) {
@@ -896,36 +892,38 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       this.drawLabel();
    }
    
-   GO4.drawGo4Cond = function(divid, cond, option) {
+   GO4.drawGo4Cond = function(divid, cond, option, painter) {
       
       if (option=='same') {
-         var condpainter = new GO4.ConditionPainter(cond, false);
+         var condpainter = new GO4.ConditionPainter(cond);
+         if (painter) condpainter = JSROOT.extend(painter, condpainter); 
          condpainter.SetDivId(divid);
          condpainter.drawCondition();
          condpainter.drawLabel();
+         condpainter.DrawingReady();
          return condpainter;
       }
       
       if ((cond.fxHistoName=="") || (option=='editor')) {
          $('#'+divid).append("<br/>Histogram name not specified");
-         var painter = new GO4.ConditionEditor(cond);
-         painter.drawEditor(divid);
-         return painter;
+         var editor = new GO4.ConditionEditor(cond);
+         if (painter) editor = JSROOT.extend(painter, editor);
+         editor.drawEditor(divid);
+         return editor;
       }
       
       // $('#'+divid).append("<br/>Histogram name is " + cond.fxHistoName);
       
-      var dabc = JSROOT.hpainter;
-      if (dabc==null) {
-         $('#'+divid).append("<br/>Error - did not found dabc painter");
+      if (JSROOT.hpainter==null) {
+         $('#'+divid).append("<br/>Error - did not found hierarchy painter");
          return;
       }
       
       var histofullpath = null;
       
-      dabc.ForEach(function(h) {
+      JSROOT.hpainter.ForEach(function(h) {
          if ((h['_name'] == cond.fxHistoName) && (h['_kind'].indexOf("ROOT.TH")==0)) {
-            histofullpath = dabc.itemFullName(h);
+            histofullpath = JSROOT.hpainter.itemFullName(h);
             return true;
          }
       });
@@ -935,7 +933,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 
          histofullpath = "../../Histograms/" + cond.fxHistoName;
          
-         dabc.Find({ name: histofullpath, force: true})['_kind'] = "ROOT.TH1I"; 
+         JSROOT.hpainter.Find({ name: histofullpath, force: true})['_kind'] = "ROOT.TH1I"; 
          
          console.log("Try histogram" + histofullpath);
       } 
@@ -944,22 +942,25 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       
       $('#'+divid).empty();
       
-      var condpainter = new GO4.ConditionPainter(cond, false);
+      var condpainter = new GO4.ConditionPainter(cond);
+      if (painter) condpainter = JSROOT.extend(painter, condpainter); 
       
-      dabc.display(histofullpath, "divid:" + divid, function(res) {
+      JSROOT.hpainter.display(histofullpath, "divid:" + divid, function(res) {
          if (res==null) return console.log("fail to get histogram " + histofullpath);
          condpainter.SetDivId(divid);
          console.log("Draw condition at " + divid);
          condpainter.drawCondition();
          condpainter.drawLabel();
       });
-
+      
+      condpainter.DrawingReady();
+      
       return condpainter;
    }
    
-   JSROOT.addDrawFunc("TGo4WinCond", GO4.drawGo4Cond, ";editor");
-   JSROOT.addDrawFunc("TGo4PolyCond", GO4.drawGo4Cond, ";editor");
-   JSROOT.addDrawFunc("TGo4ShapedCond", GO4.drawGo4Cond, ";editor");
+   // JSROOT.addDrawFunc("TGo4WinCond", GO4.drawGo4Cond, ";editor");
+   // JSROOT.addDrawFunc("TGo4PolyCond", GO4.drawGo4Cond, ";editor");
+   // JSROOT.addDrawFunc("TGo4ShapedCond", GO4.drawGo4Cond, ";editor");
 
 
 })(); // function

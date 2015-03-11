@@ -172,7 +172,8 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
 
    if (obj && obj->InheritsFrom(TGo4Condition::Class())) {
       rec.SetField("_editor", "true");
-      rec.SetField("_autoload", "/go4sys/html/go4.js;/go4sys/html/condition.js");
+      //rec.SetField("_autoload", "/go4sys/html/go4.js;/go4sys/html/condition.js");
+      rec.SetField("_autoload", "/go4sys/html/go4.js");
       rec.SetField("_icon", "/go4sys/icons/condedit.png");
       return;
    }
