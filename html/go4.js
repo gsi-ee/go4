@@ -69,56 +69,5 @@
       setInterval(UpdateStatus, 2000);
    }
    
-   // ===========================================================================
-   
-   
-      // it is important to run this function at the end when all other
-   // functions are available
-   (function() {
-      var scripts = document.getElementsByTagName('script');
-
-      for (var n in scripts) {
-         if (scripts[n]['type'] != 'text/javascript') continue;
-
-         var src = scripts[n]['src'];
-         if ((src == null) || (src.length == 0)) continue;
-
-         var pos = src.indexOf("scripts/JSRootCore.");
-         if (pos<0) continue;
-
-         JSROOT.source_dir = src.substr(0, pos);
-         JSROOT.source_min = src.indexOf("scripts/JSRootCore.min.js")>=0;
-
-         console.log("Set JSROOT.source_dir to " + JSROOT.source_dir);
-
-         if (JSROOT.GetUrlOption('gui', src)!=null) {
-            window.onload = function() { JSROOT.BuildSimpleGUI(); }
-            return;
-         }
-
-         var prereq = "";
-         if (JSROOT.GetUrlOption('io', src)!=null) prereq += "io;";
-         if (JSROOT.GetUrlOption('2d', src)!=null) prereq += "2d;";
-         if (JSROOT.GetUrlOption('jq2d', src)!=null) prereq += "jq2d;";
-         if (JSROOT.GetUrlOption('3d', src)!=null) prereq += "3d;";
-         if (JSROOT.GetUrlOption('mathjax', src)!=null) prereq += "mathjax;";
-         var user = JSROOT.GetUrlOption('load', src);
-         if ((user!=null) && (user.length>0)) prereq += "load:" + user;
-         var onload = JSROOT.GetUrlOption('onload', src);
-
-         if ((prereq.length>0) || (onload!=null))
-            window.onload = function() {
-              if (prereq.length>0) JSROOT.AssertPrerequisites(prereq, onload); else
-              if (onload!=null) {
-                 onload = JSROOT.findFunction(onload);
-                 if (typeof onload == 'function') onload();
-              }
-         }
-
-         return;
-      }
-   })();
-
-   
 
 })();
