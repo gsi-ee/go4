@@ -424,7 +424,7 @@
       var pthis = this;
        
       $("#"+divid).empty();
-      $("#"+divid).load("/go4sys/html/pareditor.htm", "", 
+      $("#"+divid).load( GO4.source_dir + "pareditor.htm", "", 
             function() { pthis.SetDivId(divid); pthis.fillEditor(); pthis.fillComments(); });
    }
    
@@ -433,10 +433,10 @@
       this.fillComments();
    }
 
-   GO4.drawParameter = function(divid, par, option) {
-      var painter = new GO4.ParameterEditor(par);
+   GO4.drawParameter = function(divid, par, option, painter) {
+      painter = JSROOT.extend(painter, new GO4.ParameterEditor(par));
       painter.drawEditor(divid);
-      return painter;
+      return painter.DrawingReady();
    }
    
 })();

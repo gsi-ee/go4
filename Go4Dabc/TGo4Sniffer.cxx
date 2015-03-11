@@ -65,7 +65,7 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    fAnalysisStatus->SetName("Analysis");
 
    RegisterObject("/Status", fAnalysisStatus);
-   SetItemField("/Status/Analysis", "_autoload", "/go4sys/html/go4.js;/go4sys/html/analysiseditor.js");
+   SetItemField("/Status/Analysis", "_autoload", "/go4sys/html/go4.js");
    SetItemField("/Status/Analysis", "_icon", "/go4sys/icons/control.png");
 
    CreateItem("/Status/State", "Current analysis state");
@@ -163,16 +163,15 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
 
    if (obj && obj->InheritsFrom(TGo4Parameter::Class())) {
       // rec.SetField("_more", "true");
-      rec.SetField("_editor", "true");
+      rec.SetField("_autoload", "/go4sys/html/go4.js");
       rec.SetField("_drawfunc", "GO4.drawParameter");
-      rec.SetField("_autoload", "/go4sys/html/go4.js;/go4sys/html/pareditor.js");
+      rec.SetField("_drawscript", "/go4sys/html/pareditor.js");
+      rec.SetField("_drawopt", "editor");
       rec.SetField("_icon", "/go4sys/icons/parameter.png");
       return;
    }
 
    if (obj && obj->InheritsFrom(TGo4Condition::Class())) {
-      rec.SetField("_editor", "true");
-      //rec.SetField("_autoload", "/go4sys/html/go4.js;/go4sys/html/condition.js");
       rec.SetField("_autoload", "/go4sys/html/go4.js");
       rec.SetField("_icon", "/go4sys/icons/condedit.png");
       return;

@@ -75,5 +75,9 @@
    JSROOT.addDrawFunc("TGo4WinCond", { script: GO4.source_dir + 'condition.js', func: 'GO4.drawGo4Cond' }, ";editor");
    JSROOT.addDrawFunc("TGo4PolyCond", { script: GO4.source_dir + 'condition.js', func: 'GO4.drawGo4Cond' }, ";editor");
    JSROOT.addDrawFunc("TGo4ShapedCond", { script: GO4.source_dir + 'condition.js', func: 'GO4.drawGo4Cond' }, ";editor");
+   
+   JSROOT.addDrawFunc("TGo4AnalysisWebStatus", { script: GO4.source_dir + 'analysiseditor.js', func: 'GO4.drawGo4AnalysisStatus' }, "editor");
+
+
 
 })();

@@ -1118,14 +1118,12 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
       return true;
    }
    
-   GO4.drawGo4AnalysisStatus = function(divid, stat, option) {
+   GO4.drawGo4AnalysisStatus = function(divid, stat, option, painter) {
       //console.log("Draw analysis status");
       
-      var painter = new GO4.AnalysisStatusEditor(stat);
+      painter = JSROOT.extend(painter, new GO4.AnalysisStatusEditor(stat));
       painter.drawEditor(divid);
-      return painter;
+      return painter.DrawingReady();
    }
    
-   JSROOT.addDrawFunc("TGo4AnalysisWebStatus", GO4.drawGo4AnalysisStatus, "editor");
-
 })(); // function
