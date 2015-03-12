@@ -34,27 +34,31 @@ height:100%;
 	outline: groove medium; 
 	overflow-x:hidden; 
 	overflow-y: auto;
+	background-color:#eee;
 }
 
 #ana_step_container {
 			outline: outset thin;
 			position: absolute;	
 			top: 2px;
- 			height: 250px;
+			bottom: 40%;
+/*  			height: 250px; */
  			left: 5px;
  			right: 1px; 
-			overflow-x:hidden; 
+			overflow-x: hidden; 
 			overflow-y: hidden;
 		}
 
 #ana_file_container {
 			outline: outset thin;
 			position: absolute;
- 			top: 255px; 
+			top: 61%;
+/*  			top: 255px;  */
+/*  			height: 150px; */
 			bottom: 52px;
 			left: 5px;
  			right: 1px; 
-			overflow-x:hidden; 
+			overflow-x: auto; 
 			overflow-y: auto; 
 			background-color:#eee;
 		}
@@ -66,7 +70,7 @@ height:100%;
 			height: 48px;
 			left: 5px;
  			right: 1px; 
-			overflow-x:hidden; 
+			overflow-x:auto; 
 			overflow-y:hidden;	 
 			background-color:#eee;		
 		}
@@ -90,7 +94,7 @@ height:100%;
 
 		<div id="ana_step_container">
 		
-		<div class="steptabs" title="Tab container for steps" style="position:relative; width:100%; height:100%; text-align: left; ">
+		<div class="steptabs" title="Tab container for steps" style="position:relative; width:100%; height:100%; text-align: left;">
 			<ul>
 				<li><a href="/go4sys/html/stepeditor.htm">Step 1</a></li>
 				<li><a href="/go4sys/html/stepeditor.htm">Step 2</a></li>
@@ -103,14 +107,6 @@ height:100%;
 				
 			</ul>
 			
-<!-- 			<div id="steptabs-1" class="ana_steptabs_style"></div> -->
-<!-- 			<div id="steptabs-2" class="ana_steptabs_style"></div> -->
-<!-- 			<div id="steptabs-3" class="ana_steptabs_style"></div> -->
-<!-- 			<div id="steptabs-4" class="ana_steptabs_style"></div> -->
-<!-- 			<div id="steptabs-5" class="ana_steptabs_style"></div> -->
-<!-- 			<div id="steptabs-6" class="ana_steptabs_style"></div> -->
-<!-- 			<div id="steptabs-7" class="ana_steptabs_style"></div> -->
-<!-- 			<div id="steptabs-8" class="ana_steptabs_style"></div> -->
 
 		</div>
 		
@@ -168,7 +164,7 @@ height:100%;
 					<form class="anaprefs_form" accept-charset="utf-8">
 					<button class="buttonSaveAnaConf" title="Save Analysis Prefs file" type="submit">Save</button>	
 					<label title="Input preference file name">
-					<input class="anaprefs_name" type="text" size="35" value="Go4AnalysisPrefs.root"></label>									
+					<input 	class="anaprefs_name" type="text" size="35" value="Go4AnalysisPrefs.root"></label>									
 					</form> 
 					</td>
 					

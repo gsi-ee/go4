@@ -249,10 +249,14 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
       ///////////// ANALYSIS STEPS:
       this.ClearShowstates();
       var tabelement=$(id+" .steptabs");
-      tabelement.tabs( "option", "disabled", [0, 1, 2, 3, 4, 5, 6, 7] ); 
+      tabelement.tabs( "option", "disabled", [0, 1, 2, 3, 4, 5, 6, 7] );
+      for(var j=0; j<8;++j){
+    	  $(id +" .steptabs ul:first li:eq("+ j +")").hide(); // disable and hide all tabs
+      }
       stat.fxStepArray.arr.forEach(function(element, index, array) {    	
     	  tabelement.tabs("enable",index);
     	  $(id +" .steptabs ul:first li:eq("+index+") a").text(element.fName);
+    	  $(id +" .steptabs ul:first li:eq("+index+")").show(); // only show what is really there
     	  editor.showmore.push(false); // prepare showmore array for each step
     	  //console.log("refreshEditor for step name:"+ element.fName);
     	  tabelement.tabs("load",index); // all magic is in the on load event callback
@@ -306,6 +310,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
  		
  		var sourcesel=pthis.find(" .step_source_select");
  		var sourcemore=pthis.find(" .step_source_expand");
+ 		var sourceform=pthis.find(" .step_source_form");
  		var sourcename=pthis.find(" .step_source_name");
  		var sourcenamelabel=pthis.find(" .step_source_name_label");
  		var sourcetag=pthis.find(" .step_source_tagfile");
@@ -353,8 +358,10 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 				storetable.hide();
 			}
 
- 		
-		 sourcename.show();
+		
+		
+ 		 
+		 sourceform.show();
 		 
 		 //console.log("show step editor with source id:"+theElement.fxSourceType.fiID);
 		 switch(theElement.fxSourceType.fiID)
@@ -514,6 +521,8 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	   storesel.selectmenu('refresh', true);
 	   
 	   
+	   pthis.css("padding","5px");
+	   
 	   $(id+" .steptabs").tabs("refresh");
 	   
 	   //console.log("analysis editor: showStepEditor leaving."); 
@@ -555,6 +564,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 		  		
 		  		var sourcesel=pthis.find(" .step_source_select");
 		  		var sourcemore=pthis.find(" .step_source_expand");
+		  		var sourceform=pthis.find(" .step_source_form");
 		  		var sourcename=pthis.find(" .step_source_name");
 		  		var sourcetag=pthis.find(" .step_source_tagfile");
 		  		var sourceport=pthis.find(" .step_source_port");
@@ -665,13 +675,31 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 					}
   	 				editor.showStepEditor(pthis, theElement, theIndex);   
   	 			   });  // clickfunction	
+  	 	  
+  	 	   
+  	 	 sourcename.val(theElement.fxSourceType.fName);
+//  	 	 .change(function(){ 
+//			editor.MarkChanged("sourcename",theIndex);
+//			theElement.fxSourceType.fName=this.value.trim();
+//			}); ;
+  	 	
+  	 	 sourceform.submit(
+					function(event) {
+						event.preventDefault(); // do not send automatic request to server!
+						var content= sourcename[0].value;
+						content=content.trim();
+						editor.MarkChanged("sourcename",theIndex);
+						theElement.fxSourceType.fName=content;
+						console.log("Submitting sourcename form with: "+content); 
+					});   
+  	 	   
   	 	   
   	 	//console.log("on tab load finds source name: "+ theElement.fxSourceType.fName);
-  	 	sourcename.val(theElement.fxSourceType.fName)
-  	 		.change(function(){ 
-  	 			editor.MarkChanged("sourcename",theIndex);
-  	 			theElement.fxSourceType.fName=this.value;
-  	 			}); 
+//  	 	sourcename.val(theElement.fxSourceType.fName)
+//  	 		.change(function(){ 
+//  	 			editor.MarkChanged("sourcename",theIndex);
+//  	 			theElement.fxSourceType.fName=this.value.trim();
+//  	 			}); 
   	 	      
   	 	   
   	 	   
@@ -774,7 +802,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
   	 	storename.val(theElement.fxStoreType.fName)
 	 		.change(function(){ 
 	 			editor.MarkChanged("storename",theIndex);
-	 			theElement.fxStoreType.fName=this.value;	 		
+	 			theElement.fxStoreType.fName=this.value.trim();	 		
 	 		}); // change function
   	 	   
   	 	   
@@ -914,6 +942,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	 	  editor.showStepEditor(pthis, theElement, theIndex); // handle all visibility issues here, also refresh tabs
   	 	   
   	  		
+
 	  }// load
 	   
 	  	}); // tabs init
@@ -993,14 +1022,16 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	    
 	    $(id + " .anaASF_form").submit(
 				function(event) {
-					event.preventDefault(); // do not send automatic request to server!
+					//event.preventDefault(); // do not send automatic request to server!
 					var content= $(id + " .anaASF_name")[0].value;
+					content=content.trim();
 					// before we write immediately, mark name as changed in setup:
 					editor.MarkChanged("asfname",0);
 					editor.stat.fxAutoFileName=content;					
 					var requestmsg = "Really Write autosave file : "+ content;
 					var response = confirm(requestmsg);
 					if (!response){
+						event.preventDefault(); // do not send automatic request to server!
 						return;
 						}
 
@@ -1011,6 +1042,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 				     		 		console.log(result ? "Writing autosave file done. "
 				 					: "Writing autosave file FAILED.");
 				        });
+					event.preventDefault(); // do not send automatic request to server!
 				});
 	    
 	    
@@ -1050,6 +1082,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	    $(id+" .buttonLoadAnaConf")
 	      .button({text: false, icons: { primary: "ui-icon-folder-open MyButtonStyle"}}).click(function() {
 	    	  var content= $(id + " .anaprefs_name")[0].value;
+	    	  content=content.trim();
 	    	  var requestmsg = "Really load analysis preferences: "+ content;
 				var response = confirm(requestmsg);
 				if (!response){
@@ -1074,6 +1107,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 				function(event) {
 					event.preventDefault(); // do not send automatic request to server!
 					var content= $(id + " .anaprefs_name")[0].value;
+					content=content.trim();
 					
 					// before we write immediately, mark name as changed in setup:
 					editor.MarkChanged("anaprefsname",0);
