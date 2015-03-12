@@ -533,10 +533,9 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	   var id = "#"+this.divid;
 	   var editor=this;
 	   
-	   
 	   $(id +" .steptabs").tabs({
 		   
-		    heightStyle: "fill",
+		   heightStyle: "fill",
 	  		activate : function(event, ui) {
 	  			//updateElementsSize();
 	  			//console.log("analysis editor: activated tab: "+ ui.newTab.text());
@@ -1136,7 +1135,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
       var pthis = this;
        
       $("#"+divid).empty();
-      $("#"+divid).load("/go4sys/html/analysiseditor.htm", "", 
+      $("#"+divid).load(GO4.source_dir + "analysiseditor.htm", "", 
             function() { pthis.SetDivId(divid); pthis.fillEditor();  });
       //console.log("analysis editor: drawEditor");
    }
