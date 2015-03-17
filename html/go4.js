@@ -24,6 +24,7 @@
          if (pos<0) continue;
          if (src.indexOf("JSRootCore")>=0) continue;
          console.log('Set GO4.source_dir to ' + src.substr(0, pos));
+         JSROOT.loadScript(src.substr(0, pos) + "go4.css");
          return src.substr(0, pos);
       }
       return "";
@@ -52,7 +53,7 @@
       function UpdateStatus() {
          if (xreq!=null) return;
          
-         xreq = JSROOT.NewHttpRequest(itemname+"/item.json", 'object', function(res) {
+         xreq = JSROOT.NewHttpRequest(itemname+"/item.json.gz", 'object', function(res) {
             xreq = null;
             if (res==null) return;
             

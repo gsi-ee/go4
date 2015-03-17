@@ -900,8 +900,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
          condpainter.SetDivId(divid);
          condpainter.drawCondition();
          condpainter.drawLabel();
-         condpainter.DrawingReady();
-         return condpainter;
+         return condpainter.DrawingReady();
       }
       
       if ((cond.fxHistoName=="") || (option=='editor')) {
@@ -909,7 +908,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
          var editor = new GO4.ConditionEditor(cond);
          if (painter) editor = JSROOT.extend(painter, editor);
          editor.drawEditor(divid);
-         return editor;
+         return editor.DrawingReady();
       }
       
       // $('#'+divid).append("<br/>Histogram name is " + cond.fxHistoName);
@@ -953,9 +952,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
          condpainter.drawLabel();
       });
       
-      condpainter.DrawingReady();
-      
-      return condpainter;
+      return condpainter.DrawingReady();
    }
    
    // JSROOT.addDrawFunc("TGo4WinCond", GO4.drawGo4Cond, ";editor");
