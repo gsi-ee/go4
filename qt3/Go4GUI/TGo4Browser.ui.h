@@ -786,7 +786,7 @@ void TGo4Browser::ContextMenuActivated(int id)
    TGo4BrowserProxy* br = BrowserProxy();
 
    TGo4AnalysisProxy* anrefresh = 0;
-   TGo4HServProxy* hservrefresh = 0;
+   TGo4ServerProxy* servrefresh = 0;
 
    if (id==20) br->ClearClipboard();
 
@@ -890,9 +890,9 @@ void TGo4Browser::ContextMenuActivated(int id)
             case 27: {
                TString objname;
                TGo4AnalysisProxy* an = br->DefineAnalysisObject(itemname.latin1(), objname);
-               TGo4HServProxy* hserv = br->DefineHServerProxy(itemname.latin1());
+               TGo4ServerProxy* serv = br->DefineServerProxy(itemname.latin1());
                if (an!=0) anrefresh = an;
-               if (hserv!=0) hservrefresh = hserv;
+               if (serv!=0) servrefresh = serv;
                break;
             }
 
@@ -936,8 +936,8 @@ void TGo4Browser::ContextMenuActivated(int id)
    if (anrefresh!=0)
       anrefresh->RefreshNamesList();
 
-   if (hservrefresh!=0)
-      hservrefresh->RefreshNamesList();
+   if (servrefresh!=0)
+      servrefresh->RefreshNamesList();
 
    if (id==19)
      QApplication::restoreOverrideCursor();
