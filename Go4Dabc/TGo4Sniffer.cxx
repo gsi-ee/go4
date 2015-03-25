@@ -17,10 +17,12 @@
 
 #include "TFolder.h"
 #include "THttpServer.h"
+#include "TBufferJSON.h"
 #include "TClass.h"
 #include "TGraph.h"
 #include "TAxis.h"
 #include "TDatime.h"
+#include "TTimeStamp.h"
 #include "TROOT.h"
 #include "TH1F.h"
 
@@ -46,6 +48,8 @@ Bool_t TGo4Sniffer::CreateEngine(const char* args)
       gHttpServer->SetTimer(0);  // we disable timer - go4 will call ProcessRequests method itself
 
       gHttpServer->AddLocation("go4sys/", TGo4Log::GO4SYS());
+
+      TBufferJSON::SetFloatFormat("%15.9e");
    }
 
    return gHttpServer->CreateEngine(args);
@@ -294,10 +298,18 @@ void TGo4Sniffer::RatemeterUpdate(TGo4Ratemeter* r)
       n--;
    }
 
-   TDatime tm;
-   fEventRate->SetPoint(n, tm.GetTime(), r->GetRate());
+   //TDatime tm;
+   //fEventRate->SetPoint(n, tm.Get(), r->GetRate());
+   //fEventRate->GetXaxis()->SetTimeDisplay(1);
+   //fEventRate->GetXaxis()->SetTimeFormat("%H:%M:%S");
+
+   TTimeStamp tm, tm0;
+   tm0.Set(1995,1,1,0,0,0,0,kTRUE,0);
+   fEventRate->SetPoint(n, tm.AsDouble() - tm0.AsDouble(), r->GetRate());
    fEventRate->GetXaxis()->SetTimeDisplay(1);
-   fEventRate->GetXaxis()->SetTimeFormat("%H:%M:%S%F1995-01-01 00:00:00");
+   fEventRate->GetXaxis()->SetTimeFormat("%H:%M:%S");
+   // fEventRate->GetXaxis()->SetTimeFormat("%H:%M:%S%F1970-01-01 00:00:00");
+
 }
 
 void TGo4Sniffer::StatusMessage(int level, const TString &msg)
