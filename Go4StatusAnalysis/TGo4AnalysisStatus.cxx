@@ -27,8 +27,6 @@
 #include "TGo4Analysis.h"
 
 
-
-
 TGo4AnalysisStatus::TGo4AnalysisStatus() :
    TGo4Status("Go4 Default Analysis Status","Go4 Analysis Status Object"),
    fxStepArray(0),
@@ -63,19 +61,19 @@ TGo4AnalysisStatus::TGo4AnalysisStatus(const char* name) :
    fxAutoFileName(),
    fxConfigFileName()
 {
-  GO4TRACE((15,"TGo4AnalysisStatus::TGo4AnalysisStatus(const char*)",__LINE__, __FILE__));
-  fxStepArray = new TObjArray;
-  fxStepIterator = fxStepArray->MakeIterator();
-  fxStepMutex = new TMutex;
+   GO4TRACE((15,"TGo4AnalysisStatus::TGo4AnalysisStatus(const char*)",__LINE__, __FILE__));
+   fxStepArray = new TObjArray;
+   fxStepIterator = fxStepArray->MakeIterator();
+   fxStepMutex = new TMutex;
 }
 
 TGo4AnalysisStatus::~TGo4AnalysisStatus()
 {
-  GO4TRACE((15,"TGo4AnalysisStatus::~TGo4AnalysisStatus()",__LINE__, __FILE__));
-  delete fxStepMutex;
-  delete fxStepIterator;
-  fxStepArray->Delete();
-  delete fxStepArray;
+   GO4TRACE((15,"TGo4AnalysisStatus::~TGo4AnalysisStatus()",__LINE__, __FILE__));
+   delete fxStepMutex; fxStepMutex  = 0;
+   delete fxStepIterator; fxStepIterator = 0;
+   if (fxStepArray) fxStepArray->Delete();
+   delete fxStepArray; fxStepArray = 0;
 }
 
 Int_t TGo4AnalysisStatus::PrintStatus(Text_t* buffer, Int_t buflen)
@@ -129,57 +127,50 @@ Int_t TGo4AnalysisStatus::PrintStatus(Text_t* buffer, Int_t buflen)
 
 TGo4AnalysisStepStatus * TGo4AnalysisStatus::GetStepStatus(const char* name)
 {
-GO4TRACE((11,"TGo4Analysis::GetAnalysisStep(const char*)",__LINE__, __FILE__));
-if(fxStepArray==0) return 0;
-   TGo4AnalysisStepStatus* step=0;
-      {
-      TGo4LockGuard  listguard(fxStepMutex);
-         step = dynamic_cast<TGo4AnalysisStepStatus*>( fxStepArray->FindObject(name) );
-      }
-   return step;
+   GO4TRACE((11,"TGo4Analysis::GetAnalysisStep(const char*)",__LINE__, __FILE__));
+   if(fxStepArray==0) return 0;
+
+   TGo4LockGuard  listguard(fxStepMutex);
+   return dynamic_cast<TGo4AnalysisStepStatus*>( fxStepArray->FindObject(name) );
 }
 
 TGo4AnalysisStepStatus * TGo4AnalysisStatus::NextStepStatus()
 {
-GO4TRACE((11,"TGo4AnalysisStatus::NextStepStatus()",__LINE__, __FILE__));
-if(fxStepIterator==0) return 0;
-   TGo4AnalysisStepStatus* step=0;
-      {
-      TGo4LockGuard  listguard(fxStepMutex);
-         step = dynamic_cast<TGo4AnalysisStepStatus*>( fxStepIterator->Next() );
-      }
-   return step;
+   GO4TRACE((11,"TGo4AnalysisStatus::NextStepStatus()",__LINE__, __FILE__));
+   if(fxStepIterator==0) return 0;
+   TGo4LockGuard  listguard(fxStepMutex);
+   return dynamic_cast<TGo4AnalysisStepStatus*>( fxStepIterator->Next() );
 }
 
 void TGo4AnalysisStatus::ResetStepIterator()
 {
    TGo4LockGuard listguard(fxStepMutex);
-      delete fxStepIterator;
-      if(fxStepArray)
-         fxStepIterator=fxStepArray->MakeIterator();
-      else
-         fxStepIterator=0;
-      // fxStepIterator->Reset();
+   delete fxStepIterator;
+   if(fxStepArray)
+      fxStepIterator = fxStepArray->MakeIterator();
+   else
+      fxStepIterator = 0;
+   // fxStepIterator->Reset();
 }
 
 
 Bool_t  TGo4AnalysisStatus::AddStepStatus(TGo4AnalysisStepStatus * next)
 {
-GO4TRACE((14,"TGo4AnalysisStatus::AddAnalysisStep(TGo4AnalysisStep*)",__LINE__, __FILE__));
-//
-if(fxStepArray==0) return kFALSE;
+   GO4TRACE((14,"TGo4AnalysisStatus::AddAnalysisStep(TGo4AnalysisStep*)",__LINE__, __FILE__));
+   //
+   if(fxStepArray==0) return kFALSE;
    Bool_t rev=kFALSE;
    if(next)
-      {
+   {
       TGo4LockGuard  listguard(fxStepMutex);
-          fxStepArray->AddLast(next);
-          rev=kTRUE;
-      } //  if(next) ; TGo4LockGuard
+      fxStepArray->AddLast(next);
+      rev=kTRUE;
+   } //  if(next) ; TGo4LockGuard
    else
-      {
-           rev=kFALSE;
-//         TGo4Log::Debug(" Analysis: WARNING - did not add zero analysis step pointer to steplist ");
-      }
+   {
+      rev=kFALSE;
+      //         TGo4Log::Debug(" Analysis: WARNING - did not add zero analysis step pointer to steplist ");
+   }
    return rev;
 }
 
