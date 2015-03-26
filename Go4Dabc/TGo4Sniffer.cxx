@@ -57,7 +57,7 @@ Bool_t TGo4Sniffer::CreateEngine(const char* args)
 
 
 TGo4Sniffer::TGo4Sniffer(const char* name) :
-   TRootSniffer(name,"dabc"),
+   TRootSniffer(name),
    TGo4AnalysisSniffer(),
    fAnalysisStatus(0)
 {
@@ -91,6 +91,7 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
 
    fEventRate = new TGraph();
    fEventRate->SetName("EventsRate");
+   fEventRate->SetTitle("Events processing rate");
    fEventRate->GetXaxis()->SetTimeDisplay(1);
    fEventRate->GetXaxis()->SetTimeFormat("%H:%M:%S");
 
@@ -115,6 +116,7 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    // set at the end when other items exists
    SetItemField("/", "_autoload", "/go4sys/html/go4.js");
    SetItemField("/", "_icon", "/go4sys/icons/go4logo2_small.png");
+   SetItemField("/", "_title", "GO4 analysis");
 
    if (TGo4Analysis::Instance()!=0)
       TGo4Analysis::Instance()->SetSniffer(this);
@@ -308,6 +310,7 @@ void TGo4Sniffer::RatemeterUpdate(TGo4Ratemeter* r)
    fEventRate->SetPoint(n, tm.AsDouble() - tm0.AsDouble(), r->GetRate());
    fEventRate->GetXaxis()->SetTimeDisplay(1);
    fEventRate->GetXaxis()->SetTimeFormat("%H:%M:%S");
+   fEventRate->GetYaxis()->SetTitle("Events/s");
    // fEventRate->GetXaxis()->SetTimeFormat("%H:%M:%S%F1970-01-01 00:00:00");
 
 }
