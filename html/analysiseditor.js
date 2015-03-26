@@ -1043,11 +1043,6 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	    
 	    
 	    
-	  
-	    
-	    
-	    
-	    
 	    $(id +" .anaASF_time").spinner({
 	        min: 0,
 	        max: 100000,
@@ -1121,8 +1116,6 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 				     	 });
 				});
 	   
-	   
-	   
       this.refreshEditor();
    }
    
@@ -1131,7 +1124,15 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
        
       $("#"+divid).empty();
       $("#"+divid).load(GO4.source_dir + "html/analysiseditor.htm", "", 
-            function() { pthis.SetDivId(divid); pthis.fillEditor();  });
+            function() {
+               var html = "<ul>";
+               for (var i=0;i<8;i++)
+                  html+='<li><a href="'+ GO4.source_dir + 'html/stepeditor.htm">Step ' + i + '</a></li>';
+               html+="</ul>";
+               $("#"+divid+" .steptabs").html(html);
+               pthis.SetDivId(divid); 
+               pthis.fillEditor();  
+            });
       //console.log("analysis editor: drawEditor");
    }
    
