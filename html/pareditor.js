@@ -365,32 +365,34 @@
       
       
       $(id+" .buttonGetParameter")
-      .button({text: false, icons: { primary: "ui-icon-arrowthick-1-e MyButtonStyle"}}).click(function() {
-    	  console.log("update item = " + editor.GetItemName()); 
+      .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}}).click(function() {
+    	    console.log("update item = " + editor.GetItemName()); 
           if (JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName()); 
           else  console.log("dabc object not found!"); 
-          	
-        }
-      );
+       })
+      .children(":first") // select first button element, used for images
+      .css('background-image', "url(" + GO4.source_dir + "icons/right.png)");
+
 
       
       $(id+" .buttonSetParameter")
-      .button({text: false, icons: { primary: "ui-icon-arrowthick-1-w MyButtonStyle"}}).click(function() {
+      .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle" }})
+      .click(function() {
       	 var options=""; // do not need to use name here
-     	 options=editor.EvaluateChanges(options); // complete option string from all changed elements
-     	 console.log("set - condition "+ editor.GetItemName()+ ", options="+options); 
-     	 editor.DabcCommand("UpdateFromUrl",options,function(
-  				result) {
-     		 		console.log(result ? "set parameter done. "
- 					: "set parameter FAILED.");
-     		 		if(result) editor.ClearChanges();     			
-          	
-        });
-      });
-      
+     	    options = editor.EvaluateChanges(options); // complete option string from all changed elements
+     	    console.log("set - condition "+ editor.GetItemName()+ ", options="+options); 
+     	    editor.DabcCommand("UpdateFromUrl",options,function(result) {
+     		 	console.log(result ? "set parameter done. " : "set parameter FAILED.");
+     		 	if(result) editor.ClearChanges();     			
+          });
+      })
+      .children(":first") // select first button element, used for images
+      .css('background-image', "url(" + GO4.source_dir + "icons/left.png)");
       
     $(id+" .buttonChangeLabel")
-         .button({text: false, icons: { primary: "ui-icon-alert MyButtonStyle"}}).click();
+         .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}}).click()
+         .children(":first") // select first button element, used for images
+         .css('background-image', "url(" + GO4.source_dir + "icons/info1.png)");
       
           
       this.fillMemberTable();
@@ -424,7 +426,7 @@
       var pthis = this;
        
       $("#"+divid).empty();
-      $("#"+divid).load( GO4.source_dir + "pareditor.htm", "", 
+      $("#"+divid).load( GO4.source_dir + "html/pareditor.htm", "", 
             function() { pthis.SetDivId(divid); pthis.fillEditor(); pthis.fillComments(); });
    }
    

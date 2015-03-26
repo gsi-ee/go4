@@ -585,35 +585,40 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 		}
 		
       $(id+" .buttonGetCondition")
-      .button({text: false, icons: { primary: "ui-icon-arrowthick-1-e MyButtonStyle"}}).click(function() {
-    	  console.log("update item = " + editor.GetItemName()); 
-          if (JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName()); 
-                         else  console.log("hierarhy painter object not found!"); 
-          	
-        }
-      );
+        .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
+        .click(function() {
+    	     console.log("update item = " + editor.GetItemName()); 
+           if (JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName()); 
+                          else  console.log("hierarhy painter object not found!"); 
+        })
+       .children(":first") // select first button element, used for images
+       .css('background-image', "url(" + GO4.source_dir + "icons/right.png)");
+
 
       
       $(id+" .buttonSetCondition")
-      .button({text: false, icons: { primary: "ui-icon-arrowthick-1-w MyButtonStyle"}}).click(function() {
+       .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
+       .click(function() {
       	 var options=""; // do not need to use name here
-     	 options=editor.EvaluateChanges(options); // complete option string from all changed elements
-     	 console.log("set - condition "+ editor.GetItemName()+ ", options="+options); 
-     	 editor.DabcCommand("UpdateFromUrl",options,function(
-  				result) {
-     		 		console.log(result ? "set condition done. "
- 					: "set condition FAILED.");
-     		 		if(result) editor.ClearChanges();     			
-          	
-        });
-      });
+     	    options=editor.EvaluateChanges(options); // complete option string from all changed elements
+     	    console.log("set - condition "+ editor.GetItemName()+ ", options="+options); 
+     	    editor.DabcCommand("UpdateFromUrl",options,function(result) {
+     		   console.log(result ? "set condition done. " : "set condition FAILED.");
+     		 	if(result) editor.ClearChanges();     			
+          });
+       })
+      .children(":first") // select first button element, used for images
+      .css('background-image', "url(" + GO4.source_dir + "icons/left.png)");
       
       
     $(id+" .buttonChangeLabel")
-         .button({text: false, icons: { primary: "ui-icon-alert MyButtonStyle"}}).click();
+         .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}}).click()
+         .children(":first") // select first button element, used for images
+         .css('background-image', "url(" + GO4.source_dir + "icons/info1.png)");
      
     $(id+" .buttonDrawCondition")
-    .button({text: false, icons: { primary: "ui-icon-image MyButtonStyle"}}).click(function() {
+    .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
+    .click(function() {
     	// TODO: implement correctly after MDI is improved, need to find out active frame and location of bound histogram
        
        if (JSROOT.hpainter) {
@@ -645,28 +650,27 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
 //    	GO4.drawGo4Cond(nextid, editor.cond, "");
 //    	
     	
-      }
-    ); 
+    })
+    .children(":first") // select first button element, used for images
+    .css('background-image', "url(" + GO4.source_dir + "icons/chart.png)");
+
     
     $(id+" .buttonClearCondition")
-    .button({text: false, icons: { primary: "ui-icon-trash MyButtonStyle"}}).click(function() {
-    	console.log("clearing counters..."); 
-    	var options="&resetcounters=1";
-    	 editor.DabcCommand("UpdateFromUrl",options,function(
-   				result) {
-      		 		console.log(result ? "reset condition counters done. "
-  					: "reset condition counters FAILED.");
-      		 		if (result) { 
-      		 			if(JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName()); 
-      		 			               else console.log("hpainter object not found!"); 
-      		 			} 
-           	
+      .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
+      .click(function() {
+    	   console.log("clearing counters..."); 
+    	   var options="&resetcounters=1";
+    	   editor.DabcCommand("UpdateFromUrl",options,function(result) {
+      		  console.log(result ? "reset condition counters done. "	: "reset condition counters FAILED.");
+     	 		  if (result) { 
+      		 		if(JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName()); 
+      		 	   	               else console.log("hpainter object not found!"); 
+      		  } 
          });
-    	
-    	
-    	
-      }
-    );  
+      })
+     .children(":first") // select first button element, used for images
+     .css('background-image', "url(" + GO4.source_dir + "icons/clear.png)");
+
      
     
     
@@ -702,7 +706,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       var pthis = this;
        
       $("#"+divid).empty();
-      $("#"+divid).load(GO4.source_dir + "condeditor.htm", "", 
+      $("#"+divid).load(GO4.source_dir + "html/condeditor.htm", "", 
             function() { pthis.SetDivId(divid); pthis.fillEditor(); pthis.DrawingReady(); });
    }
    

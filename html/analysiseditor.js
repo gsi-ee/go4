@@ -954,51 +954,54 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	   
 	   
 	   $(id+" .buttonGetAnalysis")
-	      .button({text: false, icons: { primary: "ui-icon-arrowthick-1-e MyButtonStyle"}}).click(function() {
-	    	  //console.log("update item = " + editor.GetItemName()); 
-	    	  
+	      .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
+	      .click(function() {
 	    	    if (JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName()); 
-	          else  console.log("dabc object not found!"); 
-	          	
-	        }
-	      );
+         	                 else  console.log("dabc object not found!"); 
+	      })
+        .children(":first") // select first button element, used for images
+        .css('background-image', "url(" + GO4.source_dir + "icons/right.png)");
+
 
 	      
-	      $(id+" .buttonSetAnalysis")
-	      .button({text: true, icons: { primary: "ui-icon-arrowthick-1-w MyButtonStyle"}}).click(function() {
+       $(id+" .buttonSetAnalysis")
+	      .button({text: true, icons: { primary: "ui-icon-blank MyButtonStyle"}})
+	      .click(function() {
 	      	 var options=""; // do not need to use name here
-	     	 options=editor.EvaluateChanges(options); // complete option string from all changed elements
-	     	 console.log("submit analysis "+ editor.GetItemName()+ ", options="+options); 
-	     	 editor.DabcCommand("UpdateFromUrl",options,function(
-	  				result) {
-	     		 		console.log(result ? "setting analyis configuration done. "
-	 					: "set analysis FAILED.");
-	     		 		if(result) editor.ClearChanges();     			
-	          	
-	        });
-	      });
+	     	    options=editor.EvaluateChanges(options); // complete option string from all changed elements
+	     	    console.log("submit analysis "+ editor.GetItemName()+ ", options="+options); 
+	     	    editor.DabcCommand("UpdateFromUrl",options,function(result) {
+	     		   console.log(result ? "setting analyis configuration done. " : "set analysis FAILED.");
+	     		 	if(result) editor.ClearChanges();     			
+  	          });
+	      })
+        .children(":first") // select first button element, used for images
+        .css('background-image', "url(" + GO4.source_dir + "icons/left.png)");
 	      
 	      
 	    $(id+" .buttonAnaChangeLabel")
-	         .button({text: false, icons: { primary: "ui-icon-alert MyButtonStyle"}}); 
+         .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
+         .children(":first") // select first button element, used for images
+         .css('background-image', "url(" + GO4.source_dir + "icons/info1.png)");
 	   
 	   
 	    $(id+" .buttonSetStartAnalysis")
-	      .button({text: true, icons: { primary: "ui-icon-play MyButtonStyle"}}).click(function() {
+	      .button({text: true, icons: { primary: "ui-icon-blank MyButtonStyle"}})
+	      .click(function() {
 	      	 var options=""; // do not need to use name here
-	     	 options=editor.EvaluateChanges(options); // complete option string from all changed elements
-	     	 options +="&start";
-	     	 console.log("submit and start analysis "+ editor.GetItemName()+ ", options="+options); 
-	     	 editor.DabcCommand("UpdateFromUrl",options,function(
-	  				result) {
-	     		 		console.log(result ? "submit and start analyis configuration done. "
-	 					: "set analysis FAILED.");
-	     		 		if(result) editor.ClearChanges(); 
-	     		 		
-	     		 		// todo: start analysis only after submission was successful?
-	     		 		// for the moment, try to handle everythingin UpdateFromUrl
+	     	    options=editor.EvaluateChanges(options); // complete option string from all changed elements
+	     	    options +="&start";
+	     	    console.log("submit and start analysis "+ editor.GetItemName()+ ", options="+options); 
+	     	    editor.DabcCommand("UpdateFromUrl",options,function(result) {
+	     		 	console.log(result ? "submit and start analyis configuration done. " : "set analysis FAILED.");
+	     		   if(result) editor.ClearChanges(); 
+    		 		// todo: start analysis only after submission was successful?
+    		 		// for the moment, try to handle everythingin UpdateFromUrl
 	        });
-	      });
+	      })
+         .children(":first") // select first button element, used for images
+         .css('background-image', "url(" + GO4.source_dir + "icons/start.png)");
+	      
 	    
 	    $(id+" .buttonCloseAnalysis")
 	      .button({text: true, icons: { primary: "ui-icon-closethick MyButtonStyle"}}).click(function() {
@@ -1017,7 +1020,10 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	    
 	    
 	    $(id+" .buttonSaveAnaASF")
-        .button({text: false, icons: { primary: "ui-icon-disk MyButtonStyle"}}); 
+        .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
+        .children(":first") // select first button element, used for images
+        .css('background-image', "url(" + GO4.source_dir + "icons/filesave.png)");
+
 	    
 	    $(id + " .anaASF_form").submit(
 				function(event) {
@@ -1076,33 +1082,33 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 	    
 	    
 	    $(id+" .buttonSaveAnaConf")
-        .button({text: false, icons: { primary: "ui-icon-disk MyButtonStyle"}}); 
-	    
+        .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}}) 
+        .children(":first") // select first button element, used for images
+        .css('background-image', "url(" + GO4.source_dir + "icons/filesave.png)");
+
 	    $(id+" .buttonLoadAnaConf")
-	      .button({text: false, icons: { primary: "ui-icon-folder-open MyButtonStyle"}}).click(function() {
-	    	  var content= $(id + " .anaprefs_name")[0].value;
-	    	  content=content.trim();
-	    	  var requestmsg = "Really load analysis preferences: "+ content;
+	      .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
+	      .click(function() {
+	    	   var content= $(id + " .anaprefs_name")[0].value;
+	    	   content=content.trim();
+	    	   var requestmsg = "Really load analysis preferences: "+ content;
 				var response = confirm(requestmsg);
-				if (!response){
-					return;
-					}
-	    	  console.log("Loading analysis Prefs from "+content); 
-	    	  var options="&loadprefs="+content;
-	     	 editor.DabcCommand("UpdateFromUrl",options,function(
-	  				result) {	     		 		
-	     		 		if(result){  
-	     		 			if (JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName()); 
-	     		 			else  console.log("dabc object not found!");
-	     		 		}
-	     		 		console.log(result ? "Loading preferences done. "
-	 					: "Loading preferences  FAILED.");
+				if (!response) return;
+	    	   console.log("Loading analysis Prefs from "+content); 
+	    	   var options="&loadprefs="+content;
+	     	   editor.DabcCommand("UpdateFromUrl",options,function(result) {	     		 		
+	     		if(result){  
+	     		 	if (JSROOT.hpainter) JSROOT.hpainter.display(editor.GetItemName()); 
+	     		 	else  console.log("dabc object not found!");
+	     		}
+	     		console.log("Loading preferences " + (result ? "done" : "FAILED."));
 	     	 });
-	      });
+	      })
+        .children(":first") // select first button element, used for images
+        .css('background-image', "url(" + GO4.source_dir + "icons/fileopen.png)");
 	    
 	    
-	    
-	    $(id + " .anaprefs_form").submit(
+ 	     $(id + " .anaprefs_form").submit(
 				function(event) {
 					event.preventDefault(); // do not send automatic request to server!
 					var content= $(id + " .anaprefs_name")[0].value;
@@ -1113,9 +1119,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 					editor.stat.fxConfigFileName=content;						
 					var requestmsg = "Really save analysis preferences: "+ content;
 					var response = confirm(requestmsg);
-					if (!response){
-						return;
-						}
+					if (!response)	return;
 					console.log("Saving analysis Prefs to "+content); 
 					
 					  var options="&saveprefs="+content;
@@ -1135,7 +1139,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
       var pthis = this;
        
       $("#"+divid).empty();
-      $("#"+divid).load(GO4.source_dir + "analysiseditor.htm", "", 
+      $("#"+divid).load(GO4.source_dir + "html/analysiseditor.htm", "", 
             function() { pthis.SetDivId(divid); pthis.fillEditor();  });
       //console.log("analysis editor: drawEditor");
    }
