@@ -41,29 +41,20 @@
    
    GO4.AnalysisStatusEditor.prototype = Object.create(JSROOT.TBasePainter.prototype);
 
-   
    GO4.AnalysisStatusEditor.prototype.DabcCommand = function(cmd, option, callback) {
-		var xmlHttp = new XMLHttpRequest();
 		var pre="";
 		if (this.GetItemName()!="") { // note: check against !=null does not work here!
 			  pre = this.GetItemName() + "/"; // suppress / if item name is empty
 				//console.log("Found non null itemname= -"+this.GetItemName()+"-");
 		}
-		pre +="exe.txt\?method=";
+		pre +="exe.json\?method=";
 		var fullcom = pre + cmd + option;
 		
-		
-		console.log(fullcom);
-		xmlHttp.open('GET', fullcom, true);
-		xmlHttp.onreadystatechange = function() {
-
-			if (xmlHttp.readyState == 4) {
-				console.log("DabcCommand completed.");
-				callback(true); // todo: evaluate return values of reply
-			}
-		}
-		xmlHttp.send(null);
-	};
+      JSROOT.NewHttpRequest(fullcom, 'text', function(res) {
+         console.log("DabcCommand completed.");
+         callback(res!=null);
+      }).send(null);
+	}
  
   GO4.AnalysisStatusEditor.prototype.MarkChanged = function(key, step) {
 		  // first avoid duplicate keys:

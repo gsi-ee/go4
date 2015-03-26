@@ -32,30 +32,19 @@
    
    // TODO: put to common "base class" of condition and parameter editor 
    GO4.ParameterEditor.prototype.DabcCommand = function(cmd, option, callback) {
-		var xmlHttp = new XMLHttpRequest();
 		var pre="";
 		if (this.GetItemName()!="") { // note: check against !=null does not work here!
 			  pre = this.GetItemName() + "/"; // suppress / if item name is empty
 				//console.log("Found non null itemname= -"+this.GetItemName()+"-");
 		}
-		pre +="exe.txt\?method=";
+		pre +="exe.json\?method=";
 		var fullcom = pre + cmd + option;
 		
-		
-		console.log(fullcom);
-		xmlHttp.open('GET', fullcom, true);
-		xmlHttp.onreadystatechange = function() {
-
-			if (xmlHttp.readyState == 4) {
-				console.log("DabcCommand completed.");
-//				var reply = JSON.parse(xmlHttp.responseText); // this does not work with exe.txt JAM
-//				console.log("Reply= %s", reply);
-				callback(true); // todo: evaluate return values of reply
-			}
-		}
-		xmlHttp.send(null);
-	};
-	
+      JSROOT.NewHttpRequest(fullcom, 'text', function(res) {
+         console.log("DabcCommand completed.");
+         callback(res!=null);
+      }).send(null);
+ 	 }
 	
 	 // TODO: put to common "base class" of condition and parameter editor 
 	 // add identifier of changed element to list, make warning sign visible
