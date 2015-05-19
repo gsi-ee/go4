@@ -3,6 +3,7 @@
 ///////////////////////////////////////////////////////////////////
 //////// Go4 GUI example script addhistos.C
 //          J.Adamczewski, gsi, May 2006
+//          JAM May 2015: added support for 2d histograms
 // NOTE: to be run in Go4 GUI local command line only!
 //       NEVER call this script in remote analysis process!!!
 /////// Functionality:
@@ -28,6 +29,7 @@ Bool_t addhistos(const char* name1, const char* name2, Double_t factor, Bool_t d
       std::cout <<"addhistos could not get histogram "<<fullname1 << std::endl;
       return kFALSE;
    }
+
    TString fullname2 = go4->FindItem(name2);
    TObject* ob2=go4->GetObject(fullname2,1000); // 1000=timeout to get object from analysis in ms
    if(ob2 && ob2->InheritsFrom("TH1"))
@@ -35,6 +37,11 @@ Bool_t addhistos(const char* name1, const char* name2, Double_t factor, Bool_t d
    if(his2==0) {
       std::cout <<"addhistos could not get histogram "<<fullname2 << std::endl;
       return kFALSE;
+   }
+   if((his1->GetDimension()) != (his2->GetDimension()))
+   {
+       std::cout <<"addhistos could not add histograms of different dimensions "<< std::endl;
+       return kFALSE;
    }
    TH1* result = (TH1*) his1->Clone();
    TString n1 = his1->GetName();
@@ -57,10 +64,18 @@ Bool_t addhistos(const char* name1, const char* name2, Double_t factor, Bool_t d
    std::cout<< "Saved result histogram to " << rname.Data() <<std::endl;
    if(draw) {
       ViewPanelHandle vpanel = go4->StartViewPanel();
-      go4->SetSuperimpose(vpanel,kTRUE);
-      go4->DrawItem(fullname1, vpanel);
-      go4->DrawItem(fullname2, vpanel);
-      go4->DrawItem(rname, vpanel);
+      if(result->GetDimension()>1)
+      {
+          // superimpose mode is not supported for 2d histograms
+          go4->DrawItem(rname, vpanel);
+      }
+      else
+      {
+        go4->SetSuperimpose(vpanel,kTRUE);
+        go4->DrawItem(fullname1, vpanel);
+        go4->DrawItem(fullname2, vpanel);
+        go4->DrawItem(rname, vpanel);
+      }
    }
    return kTRUE;
 }
