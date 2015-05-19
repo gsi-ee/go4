@@ -41,7 +41,6 @@ const char* TGo4Socket::fgcGOON = "-I- go on";
 
 // note: ownwership bit changed for newer root versions!!
 #if ROOT_VERSION_CODE > ROOT_VERSION(4,3,2)
-//#if __GO4ROOTVERSION__ > 40302
    const Int_t TGo4Socket::fgiISOWNER = TBuffer::kIsOwner;
 #else
    const Int_t TGo4Socket::fgiISOWNER = BIT(14);

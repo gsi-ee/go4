@@ -66,31 +66,18 @@ if(event==kButton1Up && fxWinCondition)
    Int_t dim=0;
    fxWinCondition->GetValues(dim,xmin,xmax,ymin, ymax);
 
-//   std::cout <<"\nExecute Event Before Padto:"<< std::endl;
-//   std::cout <<" x1="<<GetX1() << std::endl;
-//   std::cout <<" x1="<<GetX2() << std::endl;
-//   std::cout <<" y1="<<GetY1() << std::endl;
-//   std::cout <<" y1="<<GetY2() << std::endl;
-// note: newer root versions treat log scale correctly in TBox
+   // note: newer root versions treat log scale correctly in TBox
 #if ROOT_VERSION_CODE < ROOT_VERSION(4,3,2)
-
-// #if __GO4ROOTVERSION__ < 40302
-
-   Double_t X1=gPad->PadtoX(GetX1()); // regard the log scale!
-   Double_t X2=gPad->PadtoX(GetX2());
-   Double_t Y1=gPad->PadtoY(GetY1());
-   Double_t Y2=gPad->PadtoY(GetY2());
+   Double_t X1 = gPad->PadtoX(GetX1()); // regard the log scale!
+   Double_t X2 = gPad->PadtoX(GetX2());
+   Double_t Y1 = gPad->PadtoY(GetY1());
+   Double_t Y2 = gPad->PadtoY(GetY2());
 #else
-   Double_t X1=GetX1();
-   Double_t X2=GetX2();
-   Double_t Y1=GetY1();
-   Double_t Y2=GetY2();
+   Double_t X1 = GetX1();
+   Double_t X2 = GetX2();
+   Double_t Y1 = GetY1();
+   Double_t Y2 = GetY2();
 #endif
-//   std::cout <<"\nExecute Event After Padto:"<< std::endl;
-//   std::cout <<" x1="<<X1 << std::endl;
-//   std::cout <<" x1="<<X2 << std::endl;
-//   std::cout <<" y1="<<Y1 << std::endl;
-//   std::cout <<" y1="<<Y2 << std::endl;
 
    if(dim>1)
          {

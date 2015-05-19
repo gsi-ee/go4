@@ -1121,8 +1121,8 @@ int main(int argc, char **argv)
 
    #ifdef WITH_DABC
    if (http_args.GetLast()>=0) {
-      if (gSystem->Load("libGo4Dabc")!=0)
-         showerror("Fail to load Go4Dabc libraries");
+      if (gSystem->Load("libGo4Http")!=0)
+         showerror("Fail to load libGo4Http.so library");
 
       TString cmd;
       Long_t res(0);

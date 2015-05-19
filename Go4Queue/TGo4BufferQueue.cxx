@@ -28,13 +28,11 @@
 #include "TGo4LockGuard.h"
 
 #if ROOT_VERSION_CODE > ROOT_VERSION(4,3,2)
-//#if __GO4ROOTVERSION__ > 40302
-   const Int_t TGo4BufferQueue::fgiISOWNER=TBuffer::kIsOwner;
+   const Int_t TGo4BufferQueue::fgiISOWNER = TBuffer::kIsOwner;
 #else
-   const Int_t TGo4BufferQueue::fgiISOWNER=BIT(14);
+   const Int_t TGo4BufferQueue::fgiISOWNER = BIT(14);
 // we emulate the protected owner flag of the TBuffer class, needed for reallocation!
 #endif
-
 
 
 TGo4BufferQueue::TGo4BufferQueue() :

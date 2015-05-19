@@ -5080,8 +5080,6 @@ void TGo4ViewPanel::enterEvent(QEvent * e)
 void TGo4ViewPanel::leaveEvent(QEvent * e)
 {
 #if ROOT_VERSION_CODE < ROOT_VERSION(4,3,1)
-
-//    #if __GO4ROOTVERSION__ < 40301
    if(fxPeditor) fxPeditor->DeleteEditors();
 #endif
    QWidget::leaveEvent(e);
@@ -5339,8 +5337,6 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
          GetCanvas()->SetCrosshair(fbCanvasCrosshair);
 
 #if ROOT_VERSION_CODE < ROOT_VERSION(4,0,8)
-
-//         #if __GO4ROOTVERSION__ < 40008
          TGo4Iter(GetPadSlot(GetCanvas()), true);
          while (iter.next()) {
             TPad* subpad = GetSlotPad(iter.getslot());

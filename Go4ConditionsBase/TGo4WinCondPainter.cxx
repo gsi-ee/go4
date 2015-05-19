@@ -82,10 +82,8 @@ if(wconny && wconny->IsVisible())
 // note: newer root versions treat log scale correctly in TBox
 #if ROOT_VERSION_CODE < ROOT_VERSION(4,3,2)
 
-// #if __GO4ROOTVERSION__ < 40302
-
-      xpmin=gPad->XtoPad(xpmin); // for case of log scale
-      xpmax=gPad->XtoPad(xpmax);
+      xpmin = gPad->XtoPad(xpmin); // for case of log scale
+      xpmax = gPad->XtoPad(xpmax);
       if(dim==1)
          {
             ypmin =gPad->GetUymin();
@@ -103,7 +101,7 @@ if(wconny && wconny->IsVisible())
             ypmin=gPad->PadtoY(gPad->GetUymin());
             ypmax=gPad->PadtoY(gPad->GetUymax());
          }
-#endif //__GO4ROOTVERSION__ < 40302
+#endif // ROOT_VERSION < 4.3.2
 
       if(fxBox==0 || gPad->GetListOfPrimitives()->FindObject(fxBox)==0)
       // user might have deleted box from pad by mouse even if fxBox!=0
