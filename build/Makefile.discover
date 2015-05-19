@@ -113,8 +113,20 @@ endif
 ifneq ($(wildcard $(ROOTLIBPATH)/libXMLIO.*),)
 USEXMLIO      = true
 endif
+
+# detecting right ROOT version to compile HTTP support
 ifneq ($(wildcard $(ROOTLIBPATH)/libRHTTP.*),)
+ROOTBVERSION = $(subst .,,$(subst /,,$(ROOTVERSION)))
+myeval = $(shell if [ $(1) -gt $(2) ] ; then echo gt ; else echo lt ; fi)
+ifeq ($(ISROOT6),true)
+ifeq ($(call myeval,$(ROOTBVERSION),60303),gt)
 USEHTTPSERVER = true
+endif
+else
+ifeq ($(call myeval,$(ROOTBVERSION),53429),gt)
+USEHTTPSERVER = true
+endif
+endif
 endif
 
 endif
