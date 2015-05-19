@@ -93,12 +93,8 @@ ROOTCFLAGS  := $(shell $(CFG_ROOT_BIN)root-config --cflags)
 ROOTLIBS    := $(shell $(CFG_ROOT_BIN)root-config --libs)
 ROOTGLIBS   := $(shell $(CFG_ROOT_BIN)root-config --glibs)
 
-ifeq ($(firstword $(subst /, ,$(ROOTVERSION))),5.99)
-ISROOT6 = true
-else
 ifeq ($(firstword $(subst ., ,$(ROOTVERSION))),6)
 ISROOT6 = true
-endif
 endif
 
 ifneq ($(wildcard $(ROOTLIBPATH)/libASImage.*),)
