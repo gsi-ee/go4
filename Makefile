@@ -129,9 +129,6 @@ $(GO4SYS)/build/dummy.d: Makefile $(GO4QTHEADS) $(ALLHDRS)
 libs::    $(BUILDGO4LIBS) $(GO4_GENERATED_FILES)
 
 gui::    libs 
-ifdef ISROOT6
-		@echo "detect ROOT6"
-endif
 ifdef GO4PREFIX
 	@echo Call make install to copy all binary files into $(GO4PREFIX)
 endif
