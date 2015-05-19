@@ -129,13 +129,15 @@ void usage(const char* subtopic = 0)
    std::cout << "  -lib name                   : user library to load (default: libGo4UserLibrary)" << std::endl;
    std::cout << "  -server [name]              : run analysis in server mode, name - optional analysis name" << std::endl;
    std::cout << "  -gui name guihost guiport   : run analysis in gui mode, used by GUI launch analysis" << std::endl;
-#ifdef WITH_DABC
+#ifdef WITH_HTTP
    std::cout << "  -http [port]                : run analysis with web-server running, " << std::endl;
    std::cout << "                                optionally port can be specified, default 8080" << std::endl;
-   std::cout << "  -dabc master_host:port      : run analysis with optional connection to dabc application, "<< std::endl;
-   std::cout << "                                which could receive objects from running analysis" << std::endl;
    std::cout << "  -fastcgi port               : run analysis with fastcgi server running, "<< std::endl;
    std::cout << "                                which can deliver data to normal webserver (see mod_proxy_fcgi for Apache)" << std::endl;
+#ifdef WITH_DABC
+   std::cout << "  -dabc master_host:port      : run analysis with optional connection to dabc application, "<< std::endl;
+   std::cout << "                                which could receive objects from running analysis" << std::endl;
+#endif
 #endif
    std::cout << "  -run                        : run analysis in server mode (default only run if source specified)" << std::endl;
    std::cout << "  -norun                      : exclude automatical run" << std::endl;
@@ -683,7 +685,7 @@ int main(int argc, char **argv)
 
    gROOT->SetBatch(kTRUE);
 
-#ifdef WITH_DABC
+#ifdef WITH_HTTP
    TObjArray http_args;                  // all arguments for http server
    http_args.SetOwner(kTRUE);
 #endif
@@ -728,7 +730,7 @@ int main(int argc, char **argv)
          hostname = argv[narg++];
          iport = atoi(argv[narg++]); // port of GUI server
       } else
-#ifdef WITH_DABC
+#ifdef WITH_HTTP
       if (strcmp(argv[narg], "-http")==0) {
          narg++;
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
@@ -736,6 +738,12 @@ int main(int argc, char **argv)
          else
             http_args.Add(new TObjString("http:8080?top=Go4"));
       } else
+      if (strcmp(argv[narg], "-fastcgi")==0) {
+         narg++;
+         if (narg >= argc) showerror("fastcgi options not specified");
+         http_args.Add(new TObjString(Form("fastcgi:%s?top=Go4", argv[narg++])));
+      } else
+#ifdef WITH_DABC
       if (strcmp(argv[narg], "-dabc")==0) {
          narg++;
          if (narg >= argc) showerror("Master dabc node not specified");
@@ -743,11 +751,7 @@ int main(int argc, char **argv)
          if ((hostname==0) || (*hostname==0)) hostname = "localhost";
          http_args.Add(new TObjString(Form("dabc:%s?top=Go4/%s_pid%d", argv[narg++],hostname,gSystem->GetPid())));
       } else
-      if (strcmp(argv[narg], "-fastcgi")==0) {
-         narg++;
-         if (narg >= argc) showerror("fastcgi options not specified");
-         http_args.Add(new TObjString(Form("fastcgi:%s?top=Go4", argv[narg++])));
-      } else
+#endif
 #endif
       if(strcmp(argv[narg], "-lib") == 0) {
          // skip library name
@@ -1119,7 +1123,7 @@ int main(int argc, char **argv)
          showerror(Form("Unknown argument %d %s", narg, argv[narg]));
    }
 
-   #ifdef WITH_DABC
+   #ifdef WITH_HTTP
    if (http_args.GetLast()>=0) {
       if (gSystem->Load("libGo4Http")!=0)
          showerror("Fail to load libGo4Http.so library");

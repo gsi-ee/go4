@@ -53,6 +53,10 @@ ifeq ($(USEDABC),true)
 $(GO4ANALEXE_O) : CXXFLAGS += -DWITH_DABC
 endif
 
+ifeq ($(USEHTTPSERVER),true)
+$(GO4ANALEXE_O) : CXXFLAGS += -DWITH_HTTP
+endif
+
 $(GO4ANALEXE): $(GO4ANALEXE_O) $(GO4AN_LIB)
 	$(LD) $(LDFLAGS) $(GO4ANALEXE_O) $(LIBS_FULLSET) $(OutPutOpt) $(GO4ANALEXE)
 	@echo "$@  done"
