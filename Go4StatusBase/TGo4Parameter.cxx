@@ -473,3 +473,10 @@ TGo4ParameterStatus* TGo4Parameter::CreateStatus()
 
    return st;
 }
+
+Bool_t TGo4Parameter::SetStatus(TGo4ParameterStatus* status)
+{
+   printf("Applying status to parameter %s status = %p len %d\n", GetName(), status, status ? status->GetMemberValues()->GetLast() : -111);
+
+   return status ? status->UpdateParameterValues(this) : kFALSE;
+}

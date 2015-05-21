@@ -133,6 +133,8 @@ class TGo4ServerProxy : public TGo4Proxy {
 
       virtual void RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot) {}
 
+      virtual Bool_t UpdateServerObject(const char* objectname, TObject* obj) { return kFALSE; }
+
    ClassDef(TGo4ServerProxy, 1);
 };
 

@@ -96,6 +96,7 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
       virtual const char* GetObjectClassName() const;
 
       virtual Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char* path);
+
 };
 
 // -----------------------------------------------------------------------------------
@@ -144,6 +145,8 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       virtual const char* GetServerName() const { return fNodeName.Data(); }
       virtual Bool_t RefreshNamesList();
       virtual void RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot);
+
+      virtual Bool_t UpdateServerObject(const char* objectname, TObject* obj);
 
 };
 

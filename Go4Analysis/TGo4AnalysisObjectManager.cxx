@@ -1215,7 +1215,7 @@ Bool_t TGo4AnalysisObjectManager::SetParameterStatus(const char* name, TGo4Param
       // update existing parameter of given name
       rev = status->UpdateParameterValues(oldpar);
    } else {
-      // parameter not yet exisiting, add external paramter as a copy:
+      // parameter not yet existing, add external parameter as a copy:
       TGo4Parameter* clonedpar = status->CreateParameter();
       // find out destination folder for new parameter from name:
 
@@ -1229,8 +1229,6 @@ Bool_t TGo4AnalysisObjectManager::SetParameterStatus(const char* name, TGo4Param
    }
    return rev;
 }
-
-
 
 TGo4Parameter * TGo4AnalysisObjectManager::GetParameter(const char * name, const char* parameter_class)
 {

@@ -72,6 +72,9 @@ class TGo4Parameter : public TNamed {
       /** Creates parameter status object. It should be destroyed by the user */
       TGo4ParameterStatus* CreateStatus();
 
+      /** Set status object - apply member values to the parameter */
+      Bool_t SetStatus(TGo4ParameterStatus* status);
+
    protected:
 
       void GetMemberValues(TObjArray* fItems, TClass* cl, char* ptr, unsigned long int cloffset);

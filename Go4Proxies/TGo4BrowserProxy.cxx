@@ -768,27 +768,27 @@ void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
 
 TGo4Slot* TGo4BrowserProxy::FindAnalysisSlot(Bool_t databranch)
 {
-    TGo4Slot* dataslot = fxOM->GetSlot(fxDataPath.Data());
+   TGo4Slot* dataslot = fxOM->GetSlot(fxDataPath.Data());
 
-    TGo4Iter iter(dataslot, kTRUE);
-    TGo4Slot* res = 0;
+   TGo4Iter iter(dataslot, kTRUE);
+   TGo4Slot* res = 0;
 
-    while (iter.next()) {
-       TGo4AnalysisProxy* cont = dynamic_cast<TGo4AnalysisProxy*>
-         (iter.getslot()->GetProxy());
-       if (cont!=0) {
-          res = iter.getslot();
-          break;
-       }
-    }
+   while (iter.next()) {
+      TGo4AnalysisProxy* cont =
+         dynamic_cast<TGo4AnalysisProxy*> (iter.getslot()->GetProxy());
+      if (cont!=0) {
+         res = iter.getslot();
+         break;
+      }
+   }
 
-    if ((res!=0) && !databranch) {
-       TString itemname;
-       res->ProduceFullName(itemname, dataslot);
-       res = BrowserSlot(itemname.Data());
-    }
+   if ((res!=0) && !databranch) {
+      TString itemname;
+      res->ProduceFullName(itemname, dataslot);
+      res = BrowserSlot(itemname.Data());
+   }
 
-    return res;
+   return res;
 }
 
 TGo4AnalysisProxy* TGo4BrowserProxy::FindAnalysis(const char* itemname)
@@ -899,12 +899,18 @@ Bool_t TGo4BrowserProxy::UpdateAnalysisItem(const char* itemname, TObject* obj)
       anslot = FindAnalysisSlot(kTRUE);
    }
 
-   if (anslot==0) return kFALSE;
+   if (anslot!=0) {
+      TGo4AnalysisProxy* an =
+         dynamic_cast<TGo4AnalysisProxy*>(anslot->GetProxy());
+      if (an!=0) return an->UpdateAnalysisObject(analysisname, obj);
+   }
 
-   TGo4AnalysisProxy* an =
-     dynamic_cast<TGo4AnalysisProxy*>(anslot->GetProxy());
+   TString objname;
+   TGo4ServerProxy* serv = DefineServerObject(itemname, &objname);
+   if (serv) return serv->UpdateServerObject(objname.Data(), obj);
 
-   return an==0 ? kFALSE : an->UpdateAnalysisObject(analysisname, obj);
+   return kFALSE;
+
 }
 
 void TGo4BrowserProxy::FetchItem(const char* itemname, Int_t wait_time)

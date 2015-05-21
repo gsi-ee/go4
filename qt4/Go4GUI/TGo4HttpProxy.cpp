@@ -26,6 +26,7 @@
 #include <QtNetwork>
 #include <QTime>
 #include <QApplication>
+#include <QEventLoop>
 
 void QHttpProxy::httpFinished()
 {
@@ -567,3 +568,45 @@ void TGo4HttpProxy::RequestObjectStatus(const char* objectname, TGo4Slot* tgtslo
    tgtslot->ProduceFullName(tgtname);
    access->AssignObjectTo(tgtslot->GetOM(), tgtname.Data());
 }
+
+Bool_t TGo4HttpProxy::UpdateServerObject(const char* objectname, TObject* obj)
+{
+   printf("Update server object %s\n", objectname);
+
+   TBufferFile *sbuf = new TBufferFile(TBuffer::kWrite, 100000);
+   sbuf->MapObject(obj);
+   obj->Streamer(*sbuf);
+
+   QByteArray postData;
+   postData.append(sbuf->Buffer(), sbuf->Length());
+
+   delete sbuf;
+
+   TString url = fNodeName;
+   url.Append("/");
+   url.Append(objectname);
+   url.Append("/exe.bin?method=SetStatus&status=_post_object_&_destroy_post_&_post_class_=");
+   url.Append(obj->ClassName());
+
+   QNetworkRequest req(QUrl(url.Data()));
+
+   QNetworkReply *netReply = fComm.qnam.post(req, postData);
+
+   QSslConfiguration cfg = netReply->sslConfiguration();
+   cfg.setProtocol(QSsl::AnyProtocol/*QSsl::TlsV1SslV3*/);
+   netReply->setSslConfiguration(cfg);
+
+   QEventLoop loop;
+   QTime myTimer;
+   myTimer.start();
+
+   while (!netReply->isFinished()) {
+      loop.processEvents(QEventLoop::AllEvents,100);
+      if (myTimer.elapsed() > 3000) break;
+   }
+
+   netReply->deleteLater();
+
+   return netReply->isFinished();
+}
+
