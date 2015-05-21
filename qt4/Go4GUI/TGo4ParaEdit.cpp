@@ -78,33 +78,23 @@ void TGo4ParaEdit::DropItem(const char* itemname, TClass* cl, int kind)
 
 void TGo4ParaEdit::linkedObjectUpdated(const char* linkname, TObject* obj)
 {
-//   std::cout << " TGo4ParaEdit::linkedObjectUpdated " << linkname << std::endl;
-
    if (strcmp(linkname,"Parameter")==0)
       RefreshWidget(dynamic_cast<TGo4Parameter*> (obj));
    else
    if (strcmp(linkname,"ParStatus")==0)
       RefreshWidget(dynamic_cast<TGo4ParameterStatus*> (obj));
-
-//   std::cout << " TGo4ParaEdit::linkedObjectUpdated done " << linkname << std::endl;
 }
 
 void TGo4ParaEdit::linkedObjectRemoved( const char * linkname )
 {
-//   std::cout << " TGo4ParaEdit::linkedObjectRemoved " << linkname << std::endl;
-
-   // if link removed while parameter is dissapear, just close parameter editor
+   // if link removed while parameter is disappear, just close parameter editor
 
    if (strcmp(linkname,"Fitter")!=0)
       ShootCloseWidget(true);
-
-//   std::cout << " TGo4ParaEdit::linkedObjectRemoved done " << linkname << std::endl;
 }
 
 void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
 {
-//   std::cout << "WorkWithParameter  item = " << itemname << std::endl;
-
    if (PleaseUpdateLabel->isVisible() && !isrefresh) {
        TGo4Parameter* par = dynamic_cast<TGo4Parameter*> (GetLinked("Parameter",0));
        const char* previtem = GetLinkedName("Parameter");
@@ -120,12 +110,7 @@ void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
        }
    }
 
-//   std::cout << "WorkWithParameter  ResetWidget " << std::endl;
-
    ResetWidget();
-
-//   std::cout << "WorkWithParameter  ResetWidget done" << std::endl;
-
 
    ParamNameLbl->setText(itemname);
 
@@ -138,8 +123,8 @@ void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
       TGo4Slot* tgtslot = AddSlot("ParStatus");
       TGo4BrowserProxy* br = Browser();
       if (br!=0)
-        br->RequestObjectStatus(itemname, tgtslot);
-      // add dummy link to be informed when parameter is dissapear
+         br->RequestObjectStatus(itemname, tgtslot);
+      // add dummy link to be informed when parameter is disappear
       AddLink(itemname, "ParameterLock");
    } else {
       iconname = ":/icons/refresh.png";
@@ -197,17 +182,11 @@ void TGo4ParaEdit::RefreshWidget(TGo4Parameter* par)
 
 void TGo4ParaEdit::RefreshWidget(TGo4ParameterStatus* status)
 {
-//   std::cout << "RefreshWidget " << std::endl;
-
    RefreshButton->setEnabled(status!=0);
    ApplyButton->setEnabled(status!=0);
 
-//   std::cout << "RefreshWidget 1" << std::endl;
-
    delete fItems;
    fItems = 0;
-
-//   std::cout << "RefreshWidget 2" << std::endl;
 
    if (status!=0) {
       fItems = status->GetMemberValues(kTRUE);
@@ -217,8 +196,6 @@ void TGo4ParaEdit::RefreshWidget(TGo4ParameterStatus* status)
    ShowVisibleItems();
 
    PleaseUpdateLabel->setVisible(false);
-
-//   std::cout << "RefreshWidget done" << std::endl;
 }
 
 void TGo4ParaEdit::ShowVisibleItems()
@@ -244,30 +221,30 @@ void TGo4ParaEdit::ShowVisibleItems()
    TString buf;
    int ih=QApplication::fontMetrics().height();
    // QApplication::font().pointSize()
-  for(int row=0; row<memnum; row++) {
-       MemberTable->setRowHeight(row, ih);
-       TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(row);
+   for(int row=0; row<memnum; row++) {
+      MemberTable->setRowHeight(row, ih);
+      TGo4ParameterMember* info = (TGo4ParameterMember*) fItems->At(row);
 
-       QTableWidgetItem* item = new QTableWidgetItem(info->GetTypeName());
-       item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-         MemberTable->setItem(row, fiColType, item);
+      QTableWidgetItem* item = new QTableWidgetItem(info->GetTypeName());
+      item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+      MemberTable->setItem(row, fiColType, item);
 
-         item = new QTableWidgetItem(info->GetFullName(buf));
-         item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-       MemberTable->setItem(row, fiColName, item);
+      item = new QTableWidgetItem(info->GetFullName(buf));
+      item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+      MemberTable->setItem(row, fiColName, item);
 
-       item = new QTableWidgetItem(info->GetStrValue());
-       if (info->CanStrEdit())
-        item->setFlags(item->flags() | Qt::ItemIsEditable);
-       else
+      item = new QTableWidgetItem(info->GetStrValue());
+      if (info->CanStrEdit())
+         item->setFlags(item->flags() | Qt::ItemIsEditable);
+      else
          item->setFlags(item->flags() & ~ Qt::ItemIsEditable);
-       MemberTable->setItem(row, fiColValue, item);
+      MemberTable->setItem(row, fiColValue, item);
 
-       item = new QTableWidgetItem(info->GetTitle());
-       item->setFlags(item->flags() & ~Qt::ItemIsEditable);
-       MemberTable->setItem(row, fiColComment, item);
+      item = new QTableWidgetItem(info->GetTitle());
+      item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+      MemberTable->setItem(row, fiColComment, item);
 
-       MemberTable->setRowHidden(row, !info->IsVisible());
+      MemberTable->setRowHidden(row, !info->IsVisible());
    }
 
    fFillingTable = false;

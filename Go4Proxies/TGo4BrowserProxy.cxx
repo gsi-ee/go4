@@ -615,7 +615,8 @@ void TGo4BrowserProxy::MakeHttpList(TObjArray* arr)
       TGo4ServerProxy* pr = dynamic_cast<TGo4ServerProxy*> (subslot->GetProxy());
       if ((pr==0) || strcmp(pr->GetContainedClassName(),"TGo4ServerProxy")) continue;
 
-      if (strncmp(pr->GetServerName(),"http://",7)==0) arr->Add(pr);
+      if ((strncmp(pr->GetServerName(),"http://",7)==0) ||
+          (strncmp(pr->GetServerName(),"https://",8)==0)) arr->Add(pr);
    }
 }
 
@@ -623,8 +624,12 @@ void TGo4BrowserProxy::RequestObjectStatus(const char* name, TGo4Slot* tgtslot)
 {
    TString objname;
    TGo4AnalysisProxy* an = DefineAnalysisObject(name, objname);
-   if (an!=0)
-     an->RequestObjectStatus(objname.Data(), tgtslot);
+   if (an!=0) {
+      an->RequestObjectStatus(objname.Data(), tgtslot);
+      return;
+   }
+   TGo4ServerProxy* serv = DefineServerObject(name, &objname);
+   if (serv) serv->RequestObjectStatus(objname.Data(), tgtslot);
 }
 
 void TGo4BrowserProxy::RequestEventStatus(const char* evname,
@@ -838,9 +843,8 @@ TGo4AnalysisProxy* TGo4BrowserProxy::DefineAnalysisObject(const char* itemname, 
    TGo4Slot* anslot = fxOM->FindSlot(slotname.Data(), &objectname);
 
    TGo4AnalysisProxy* an = anslot==0 ? 0 :
-     dynamic_cast<TGo4AnalysisProxy*>(anslot->GetProxy());
-   if (an!=0)
-     analysisname = objectname;
+      dynamic_cast<TGo4AnalysisProxy*>(anslot->GetProxy());
+   if (an!=0) analysisname = objectname;
    return an;
 }
 
@@ -857,6 +861,21 @@ TGo4ServerProxy* TGo4BrowserProxy::DefineServerProxy(const char* itemname)
 
    return 0;
 }
+
+TGo4ServerProxy* TGo4BrowserProxy::DefineServerObject(const char* itemname, TString* objname)
+{
+   TString slotname;
+   DataSlotName(itemname, slotname);
+   const char* objectname = 0;
+
+   TGo4Slot* servslot = fxOM->FindSlot(slotname.Data(), &objectname);
+
+   TGo4ServerProxy* serv = servslot==0 ? 0 :
+      dynamic_cast<TGo4ServerProxy*>(servslot->GetProxy());
+   if ((serv!=0) && (objname!=0)) *objname = objectname;
+   return serv;
+}
+
 
 Bool_t TGo4BrowserProxy::UpdateAnalysisItem(const char* itemname, TObject* obj)
 {

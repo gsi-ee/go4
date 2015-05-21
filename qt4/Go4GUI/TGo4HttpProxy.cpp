@@ -94,6 +94,7 @@ TGo4HttpAccess::TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, cons
 TClass* TGo4HttpAccess::GetObjectClass() const
 {
    if (fKind==3) return TGraph::Class();
+   if (fKind==4) return gROOT->GetClass("TGo4ParameterStatus");
    const char* clname = GetHttpRootClassName(fKindAttr.Data());
    if (clname!=0) return (TClass*) gROOT->GetListOfClasses()->FindObject(clname);
    return 0;
@@ -107,12 +108,12 @@ const char* TGo4HttpAccess::GetObjectName() const
 const char* TGo4HttpAccess::GetObjectClassName() const
 {
    if (fKind==3) return "TGraph";
+   if (fKind==4) return "TGo4ParameterStatus";
 
    const char* clname = GetHttpRootClassName(fKindAttr.Data());
 
    return clname ? clname : "TObject";
 }
-
 
 Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
 {
@@ -140,10 +141,9 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
       case 1: url.Append("/root.bin.gz"); break;
       case 2: url.Append("/get.xml"); break;
       case 3: url.Append("/get.xml.gz?history=100&compact"); break;
+      case 4: url.Append("/exe.bin.gz?method=CreateStatus&_destroy_result_"); break;
       default: url.Append("/root.bin.gz"); break;
    }
-
-   // printf("Send request URL %s\n", url.Data());
 
    fReply = fProxy->fComm.qnam.get(QNetworkRequest(QUrl(url.Data())));
    connect(fReply, SIGNAL(finished()), this, SLOT(httpFinished()));
@@ -552,3 +552,18 @@ Bool_t TGo4HttpProxy::RefreshNamesList()
    return UpdateHierarchy(kFALSE);
 }
 
+void TGo4HttpProxy::RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot)
+{
+   if ((objectname==0) || (tgtslot==0) || (fxHierarchy==0)) return;
+
+   XMLNodePointer_t top = fXML->GetChild(fXML->DocGetRootElement(fxHierarchy));
+
+   XMLNodePointer_t item = FindItem(top, objectname);
+   if (item==0) return;
+
+   TGo4HttpAccess* access = new TGo4HttpAccess(this, item, objectname, 4);
+
+   TString tgtname;
+   tgtslot->ProduceFullName(tgtname);
+   access->AssignObjectTo(tgtslot->GetOM(), tgtname.Data());
+}

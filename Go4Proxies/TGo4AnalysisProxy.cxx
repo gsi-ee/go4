@@ -889,7 +889,7 @@ void TGo4AnalysisProxy::RequestObjectStatus(const char* fullname, TGo4Slot* tgts
    TGo4Slot::ProduceFolderAndName(fullname, objfolder, objname);
 
    TGo4AnalysisObjectAccess* proxy =
-     new TGo4AnalysisObjectAccess(this, cmdStatus, objname, "", objfolder);
+      new TGo4AnalysisObjectAccess(this, cmdStatus, objname, "", objfolder);
 
    TString tgtname;
    tgtslot->ProduceFullName(tgtname);

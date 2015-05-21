@@ -61,7 +61,13 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
       TGo4HttpProxy   *fProxy;
       XMLNodePointer_t fNode;
       TString          fPath;
-      Int_t            fKind; // 0 - h.xml request, 1 - root.bin request, 2 - dabc get.xml request
+      // Request kind. Can be:
+      //   0 - h.xml request,
+      //   1 - root.bin request,
+      //   2 - dabc get.xml request,
+      //   3 - dabc get.xml history requests
+      //   4 - parameter status request
+      Int_t            fKind;
       TString          fNameAttr;
       TString          fKindAttr;
       TGo4ObjectManager* fReceiver;
@@ -137,6 +143,8 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       virtual const char* GetServerName() const { return fNodeName.Data(); }
       virtual Bool_t RefreshNamesList();
+      virtual void RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot);
+
 };
 
 #endif

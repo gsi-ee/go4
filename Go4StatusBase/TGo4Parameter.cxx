@@ -30,6 +30,7 @@
 
 #include "TGo4Log.h"
 #include "TGo4ParameterMember.h"
+#include "TGo4ParameterStatus.h"
 
 TGo4Parameter::TGo4Parameter() :
    TNamed()
@@ -40,7 +41,6 @@ TGo4Parameter::TGo4Parameter(const char* name, const char* title) :
    TNamed(name ? name : "Parameter", title)
 {
    GO4TRACE((12,"TGo4Parameter ::TGo4Parameter (const char*, const char*)",__LINE__, __FILE__));
-
 }
 
 void TGo4Parameter::Print(Option_t* dummy) const
@@ -465,3 +465,11 @@ void TGo4Parameter::SavePrimitive(std::ostream& out, Option_t* opt)
    delete fitems;
 }
 
+TGo4ParameterStatus* TGo4Parameter::CreateStatus()
+{
+   TGo4ParameterStatus* st = new TGo4ParameterStatus(this, kTRUE);
+
+   printf("Create status st %p classname %s len %d\n", st, ClassName(), st->GetMemberValues()->GetLast());
+
+   return st;
+}

@@ -20,6 +20,7 @@
 class TObjArray;
 class TIterator;
 class TDataMember;
+class TGo4ParameterStatus;
 
 /** Base class for all parameter aggregations,
   * e.g. calibration data.
@@ -67,6 +68,9 @@ class TGo4Parameter : public TNamed {
        * If \param opt == "savemacro", parameter saved in form of macro,
        * which can be rerun in analysis-  see saveparam.C macro for example */
       virtual void SavePrimitive(std::ostream& fs, Option_t* opt= "");
+
+      /** Creates parameter status object. It should be destroyed by the user */
+      TGo4ParameterStatus* CreateStatus();
 
    protected:
 

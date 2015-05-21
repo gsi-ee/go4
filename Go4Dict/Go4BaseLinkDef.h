@@ -33,6 +33,7 @@
 #pragma link C++ class TGo4BranchStatus+;
 #pragma link C++ class TGo4Parameter+;
 #pragma link C++ class TGo4ParameterMember+;
+#pragma link C++ class TGo4ParameterStatus+;
 #pragma link C++ class TGo4Picture+;
 
 #endif

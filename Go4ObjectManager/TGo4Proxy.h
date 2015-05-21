@@ -131,6 +131,8 @@ class TGo4ServerProxy : public TGo4Proxy {
 
       virtual Bool_t RefreshNamesList() { return kFALSE; }
 
+      virtual void RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot) {}
+
    ClassDef(TGo4ServerProxy, 1);
 };
 
