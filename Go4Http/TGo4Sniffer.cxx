@@ -71,6 +71,7 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    RegisterObject("/Status", fAnalysisStatus);
    SetItemField("/Status/Analysis", "_autoload", "go4sys/html/go4.js");
    SetItemField("/Status/Analysis", "_icon", "go4sys/icons/control.png");
+   SetItemField("/Status/Analysis", "_not_monitor", "true");
 
    CreateItem("/Status/State", "Current analysis state");
    SetItemField("/Status/State","_icon","img_question");

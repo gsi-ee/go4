@@ -467,16 +467,10 @@ void TGo4Parameter::SavePrimitive(std::ostream& out, Option_t* opt)
 
 TGo4ParameterStatus* TGo4Parameter::CreateStatus()
 {
-   TGo4ParameterStatus* st = new TGo4ParameterStatus(this, kTRUE);
-
-   printf("Create status st %p classname %s len %d\n", st, ClassName(), st->GetMemberValues()->GetLast());
-
-   return st;
+   return new TGo4ParameterStatus(this, kTRUE);
 }
 
 Bool_t TGo4Parameter::SetStatus(TGo4ParameterStatus* status)
 {
-   printf("Applying status to parameter %s status = %p len %d\n", GetName(), status, status ? status->GetMemberValues()->GetLast() : -111);
-
    return status ? status->UpdateParameterValues(this) : kFALSE;
 }

@@ -571,8 +571,6 @@ void TGo4HttpProxy::RequestObjectStatus(const char* objectname, TGo4Slot* tgtslo
 
 Bool_t TGo4HttpProxy::UpdateServerObject(const char* objectname, TObject* obj)
 {
-   printf("Update server object %s\n", objectname);
-
    TBufferFile *sbuf = new TBufferFile(TBuffer::kWrite, 100000);
    sbuf->MapObject(obj);
    obj->Streamer(*sbuf);
