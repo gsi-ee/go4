@@ -69,8 +69,8 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    fAnalysisStatus->SetName("Analysis");
 
    RegisterObject("/Status", fAnalysisStatus);
-   SetItemField("/Status/Analysis", "_autoload", "/go4sys/html/go4.js");
-   SetItemField("/Status/Analysis", "_icon", "/go4sys/icons/control.png");
+   SetItemField("/Status/Analysis", "_autoload", "go4sys/html/go4.js");
+   SetItemField("/Status/Analysis", "_icon", "go4sys/icons/control.png");
 
    CreateItem("/Status/State", "Current analysis state");
    SetItemField("/Status/State","_icon","img_question");
@@ -97,25 +97,25 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
 
    RegisterObject("/Status", fEventRate);
 
-   RegisterCommand("/Status/CmdClear", "this->CmdClear()", "button;/go4sys/icons/clear.png");
+   RegisterCommand("/Status/CmdClear", "this->CmdClear()", "button;go4sys/icons/clear.png");
    SetItemField("/Status/CmdClear", "_title", "Clear histograms and conditions in analysis");
    //SetItemField("/Status/CmdClear", "_hidden", "true");
 
-   RegisterCommand("/Status/CmdStart", "this->CmdStart()", "button;/go4sys/icons/start.png");
+   RegisterCommand("/Status/CmdStart", "this->CmdStart()", "button;go4sys/icons/start.png");
    SetItemField("/Status/CmdStart", "_title", "Start analysis");
    //SetItemField("/Status/CmdStart", "_hidden", "true");
 
-   RegisterCommand("/Status/CmdStop", "this->CmdStop()", "button;/go4sys/icons/Stop.png");
+   RegisterCommand("/Status/CmdStop", "this->CmdStop()", "button;go4sys/icons/Stop.png");
    SetItemField("/Status/CmdStop", "_title", "Stop analysis");
    //SetItemField("/Status/CmdStop", "_hidden", "true");
 
-   RegisterCommand("/Status/CmdRestart", "this->CmdRestart()", "button;/go4sys/icons/restart.png");
+   RegisterCommand("/Status/CmdRestart", "this->CmdRestart()", "button;go4sys/icons/restart.png");
    SetItemField("/Status/CmdRestart", "_title", "Resubmit analysis configuration and start again");
    //SetItemField("/Status/CmdRestart", "_hidden", "true");
 
    // set at the end when other items exists
-   SetItemField("/", "_autoload", "/go4sys/html/go4.js");
-   SetItemField("/", "_icon", "/go4sys/icons/go4logo2_small.png");
+   SetItemField("/", "_autoload", "go4sys/html/go4.js");
+   SetItemField("/", "_icon", "go4sys/icons/go4logo2_small.png");
    SetItemField("/", "_title", "GO4 analysis");
 
    if (TGo4Analysis::Instance()!=0)
@@ -169,23 +169,23 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
 
    if (obj && obj->InheritsFrom(TGo4Parameter::Class())) {
       // rec.SetField("_more", "true");
-      rec.SetField("_autoload", "/go4sys/html/go4.js");
+      rec.SetField("_autoload", "go4sys/html/go4.js");
       rec.SetField("_drawfunc", "GO4.drawParameter");
-      rec.SetField("_drawscript", "/go4sys/html/pareditor.js");
+      rec.SetField("_drawscript", "go4sys/html/pareditor.js");
       rec.SetField("_drawopt", "editor");
-      rec.SetField("_icon", "/go4sys/icons/parameter.png");
+      rec.SetField("_icon", "go4sys/icons/parameter.png");
       return;
    }
 
    if (obj && obj->InheritsFrom(TGo4Condition::Class())) {
-      rec.SetField("_autoload", "/go4sys/html/go4.js");
-      rec.SetField("_icon", "/go4sys/icons/condedit.png");
+      rec.SetField("_autoload", "go4sys/html/go4.js");
+      rec.SetField("_icon", "go4sys/icons/condedit.png");
       return;
    }
 
    if (obj && obj->InheritsFrom(TGo4EventElement::Class())) {
       rec.SetField("_more", "true");
-      rec.SetField("_icon", "/go4sys/icons/eventobj.png");
+      rec.SetField("_icon", "go4sys/icons/eventobj.png");
       return;
    }
 }
