@@ -72,37 +72,38 @@ void TGo4DrawCloneProxy::CleanupClone(TGo4Slot* slot)
 
 void TGo4DrawCloneProxy::ChangeTitle(TObject* obj)
 {
- TNamed* src = dynamic_cast<TNamed*> (obj);
- TNamed* tgt = dynamic_cast<TNamed*> (fClone);
+   TNamed* src = dynamic_cast<TNamed*> (obj);
+   TNamed* tgt = dynamic_cast<TNamed*> (fClone);
 
- TGo4Picture* padopt = fPanel->GetPadOptions(fParentSlot->GetParent());
+   TGo4Picture* padopt = fPanel->GetPadOptions(fParentSlot->GetParent());
 
- if ((tgt==0) || (src==0) || (padopt==0)) return;
- TString title = src->GetTitle();
+   if ((tgt==0) || (src==0) || (padopt==0)) return;
+   TString title = src->GetTitle();
 
- const char* stime = TGo4BrowserProxy::ItemTime(GetLink());
- const char* sdate = TGo4BrowserProxy::ItemDate(GetLink());
- const char* itemname = TGo4BrowserProxy::GetLinkedName(fParentSlot);
+   const char* stime = TGo4BrowserProxy::ItemTime(GetLink());
+   const char* sdate = TGo4BrowserProxy::ItemDate(GetLink());
+   const char* itemname = TGo4BrowserProxy::GetLinkedName(fParentSlot);
 
- if ((stime!=0) && padopt->IsTitleTime()) {
-   title+= "  ";
-   title+=stime;
- }
- if ((sdate!=0) && padopt->IsTitleDate()) {
-   title+= "  ";
-   title+=sdate;
- }
- if ((itemname!=0) && padopt->IsTitleItem()) {
-   title+= "  ";
-   title+=itemname;
- }
- tgt->SetTitle(title.Data());
+   if ((stime!=0) && padopt->IsTitleTime()) {
+      title+= "  ";
+      title+=stime;
+   }
+   if ((sdate!=0) && padopt->IsTitleDate()) {
+      title+= "  ";
+      title+=sdate;
+   }
+   if ((itemname!=0) && padopt->IsTitleItem()) {
+      title+= "  ";
+      title+=itemname;
+   }
+   title.ReplaceAll(";","#semicolon");
+   tgt->SetTitle(title.Data());
 }
 
 void TGo4DrawCloneProxy::UpdateTitle()
 {
-  if (GetLink()!=0)
-     ChangeTitle(GetLink()->GetAssignedObject());
+   if (GetLink()!=0)
+      ChangeTitle(GetLink()->GetAssignedObject());
 }
 
 Bool_t TGo4DrawCloneProxy::RemoveRegisteredObject(TObject* obj)
@@ -129,14 +130,14 @@ void TGo4DrawCloneProxy::Initialize(TGo4Slot* slot)
 
 void TGo4DrawCloneProxy::Finalize(TGo4Slot* slot)
 {
-  CleanupClone(slot);
-  TGo4LinkProxy::Finalize(slot);
-  fParentSlot = 0;
+   CleanupClone(slot);
+   TGo4LinkProxy::Finalize(slot);
+   fParentSlot = 0;
 }
 
 TObject* TGo4DrawCloneProxy::GetAssignedObject()
 {
- return (fClone!=0) ? fClone : TGo4LinkProxy::GetAssignedObject();
+   return (fClone!=0) ? fClone : TGo4LinkProxy::GetAssignedObject();
 }
 
 Bool_t TGo4DrawCloneProxy::ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param)

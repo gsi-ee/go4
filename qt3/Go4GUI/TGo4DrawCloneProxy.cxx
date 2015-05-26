@@ -72,31 +72,32 @@ void TGo4DrawCloneProxy::CleanupClone(TGo4Slot* slot)
 
 void TGo4DrawCloneProxy::ChangeTitle(TObject* obj)
 {
- TNamed* src = dynamic_cast<TNamed*> (obj);
- TNamed* tgt = dynamic_cast<TNamed*> (fClone);
+   TNamed* src = dynamic_cast<TNamed*> (obj);
+   TNamed* tgt = dynamic_cast<TNamed*> (fClone);
 
- TGo4Picture* padopt = fPanel->GetPadOptions(fParentSlot->GetParent());
+   TGo4Picture* padopt = fPanel->GetPadOptions(fParentSlot->GetParent());
 
- if ((tgt==0) || (src==0) || (padopt==0)) return;
- TString title = src->GetTitle();
+   if ((tgt==0) || (src==0) || (padopt==0)) return;
+   TString title = src->GetTitle();
 
- const char* stime = TGo4BrowserProxy::ItemTime(GetLink());
- const char* sdate = TGo4BrowserProxy::ItemDate(GetLink());
- const char* itemname = TGo4BrowserProxy::GetLinkedName(fParentSlot);
+   const char* stime = TGo4BrowserProxy::ItemTime(GetLink());
+   const char* sdate = TGo4BrowserProxy::ItemDate(GetLink());
+   const char* itemname = TGo4BrowserProxy::GetLinkedName(fParentSlot);
 
- if ((stime!=0) && padopt->IsTitleTime()) {
-   title+= "  ";
-   title+=stime;
- }
- if ((sdate!=0) && padopt->IsTitleDate()) {
-   title+= "  ";
-   title+=sdate;
- }
- if ((itemname!=0) && padopt->IsTitleItem()) {
-   title+= "  ";
-   title+=itemname;
- }
- tgt->SetTitle(title.Data());
+   if ((stime!=0) && padopt->IsTitleTime()) {
+      title+= "  ";
+      title+=stime;
+   }
+   if ((sdate!=0) && padopt->IsTitleDate()) {
+      title+= "  ";
+      title+=sdate;
+   }
+   if ((itemname!=0) && padopt->IsTitleItem()) {
+      title+= "  ";
+      title+=itemname;
+   }
+   title.ReplaceAll(";","#semicolon");
+   tgt->SetTitle(title.Data());
 }
 
 void TGo4DrawCloneProxy::UpdateTitle()

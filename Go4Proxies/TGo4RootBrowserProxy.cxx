@@ -416,8 +416,6 @@ void TGo4RootBrowserProxy::DrawItem(const char* itemname)
    if (pad==0) pad = MakeCanvas(TString("Drawing of ") + obj->GetName());
           else pad->Clear();
 
-//   TCanvas* c1 = MakeCanvas(TString("Drawing of ") + obj->GetName());
-
    if (obj->InheritsFrom(TGo4Picture::Class()))
       DrawPicture(itemname, (TGo4Picture*) obj, pad);
    else
