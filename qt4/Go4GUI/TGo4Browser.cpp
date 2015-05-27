@@ -703,7 +703,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
                  "Superimpose",  12, (ndraw>1) && (nsuperimpose==ndraw));
 
    if (nexpand>0)
-      AddIdAction(&menu, &map, QIcon(":/icons/chart.png"), "Expand", 28, true);
+      AddIdAction(&menu, &map, QIcon(":/icons/zoomlim.png"), "Expand", 28, true);
 
    AddIdAction(&menu, &map, QIcon(":/icons/right.png"),
                   "Fetch item(s)",  18, (nfolders>0) || (nobjects>0));

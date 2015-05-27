@@ -13,6 +13,8 @@
 
 #include "TGo4Proxy.h"
 
+#include <string.h>
+
 #include "TROOT.h"
 
 #include "TGo4ObjectManager.h"
@@ -33,8 +35,7 @@ const char* TGo4Access::GetObjectName() const
 
 TClass* TGo4Access::GetObjectClass() const
 {
-   const char* name = GetObjectClassName();
-   return name==0 ? 0 : (TClass*) gROOT->GetListOfClasses()->FindObject(name);
+   return TGo4Proxy::GetClass(GetObjectClassName());
 }
 
 const char* TGo4Access::GetObjectClassName() const
@@ -59,3 +60,32 @@ void TGo4Access::DoObjectAssignement(TGo4ObjectManager* mgr,
 {
    mgr->AssignObject(path, obj, owner);
 }
+
+//------------------------------------------------------------------------------
+
+TClass* TGo4Proxy::GetClass(const char* classname, Bool_t load)
+{
+   // Wrapper for TROOT::GetClass() method.
+   // While new ROOT version do not automatically create TClass instance,
+   // do it for known ROOT classes
+   // General idea of such method - avoid automatic load of custom libraries into the GUI
+
+   if ((classname==0) || (*classname==0)) return 0;
+
+   TClass* cl = (TClass*) gROOT->GetListOfClasses()->FindObject(classname);
+
+   if (cl!=0) return cl;
+
+   if (!load)
+      load = (strstr(classname,"TH1")==classname) ||
+             (strstr(classname,"TH2")==classname) ||
+             (strstr(classname,"TH3")==classname) ||
+             (strstr(classname,"TGraph")==classname) ||
+             !strcmp(classname,"TProfile") ||
+             !strcmp(classname,"TCanvas") ||
+             !strcmp(classname,"TTree") ||
+             !strcmp(classname,"THStack");
+
+   return load ? gROOT->GetClass(classname, kTRUE, kTRUE) : 0;
+}
+

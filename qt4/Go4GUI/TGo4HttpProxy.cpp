@@ -96,9 +96,7 @@ TClass* TGo4HttpAccess::GetObjectClass() const
 {
    if (fKind==3) return TGraph::Class();
    if (fKind==4) return gROOT->GetClass("TGo4ParameterStatus");
-   const char* clname = GetHttpRootClassName(fKindAttr.Data());
-   if (clname!=0) return (TClass*) gROOT->GetListOfClasses()->FindObject(clname);
-   return 0;
+   return TGo4Proxy::GetClass(GetHttpRootClassName(fKindAttr.Data()));
 }
 
 const char* TGo4HttpAccess::GetObjectName() const

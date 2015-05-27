@@ -1416,11 +1416,8 @@ Int_t TGo4BrowserProxy::GetCalcSize(TGo4Slot* slot)
 
 TClass* TGo4BrowserProxy::ItemClass(TGo4Slot* slot)
 {
-   const char* classname = ItemClassName(slot);
-
-   return classname==0 ? 0 : gROOT->GetClass(classname); //(TClass*) gROOT->GetListOfClasses()->FindObject(classname);
+   return TGo4Proxy::GetClass(ItemClassName(slot));
 }
-
 
 TClass* TGo4BrowserProxy::ItemClass(const char* name)
 {
@@ -1989,8 +1986,7 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
 
    Int_t cando = 0;
 
-   // TClass * cl = (clname==0) ? 0 : (TClass*) gROOT->GetListOfClasses()->FindObject(clname);
-//   TClass * cl = (clname==0) ? 0 : gROOT->GetClass(clname);
+   // TClass * cl = TGo4Proxy::GetClass(clname);
 
    if (kind==TGo4Access::kndObject) {
       if (cl!=0) {

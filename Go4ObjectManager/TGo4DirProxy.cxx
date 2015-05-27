@@ -46,10 +46,11 @@ class TGo4KeyAccess : public TGo4Access {
          owner = kTRUE;
          fDir->cd();
          obj = fKey->ReadObj();
-         if (obj!=0)
-           if (obj->InheritsFrom(TH1::Class()) || obj->InheritsFrom(TTree::Class()))
-             owner = kFALSE;
-         return obj!=0;
+         if (obj==0) return kFALSE;
+
+         if (obj->InheritsFrom(TH1::Class()) || obj->InheritsFrom(TTree::Class())) owner = kFALSE; else
+         if (obj->InheritsFrom(TCanvas::Class())) { fDir->Add(obj); owner = kFALSE; }
+         return kTRUE;
       }
 
       virtual const char* GetObjectName() const
@@ -137,7 +138,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
             TObject* obj = fDir->FindObject(key->GetName());
             if (obj) cl = obj->IsA();
             // if (fReadRight)
-            //  cl = (TClass*) gROOT->GetListOfClasses()->FindObject(key->GetClassName());
+            //  cl = TGo4Proxy::GetClass(key->GetClassName());
          } else {
             cl = fCurrent->IsA();
          }
@@ -148,6 +149,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
       virtual TGo4LevelIter* subiterator()
       {
          TObject* obj = fIsKeyIter ? fDir->Get(fCurrent->GetName()) : fCurrent;
+
          if (obj==0) return 0;
 
          if (obj->InheritsFrom(TTree::Class()))
@@ -183,7 +185,7 @@ class TGo4DirLevelIter : public TGo4LevelIter {
          Int_t sz = 0;
          if (fIsKeyIter) {
             TKey* key = (TKey*) fCurrent;
-            cl = (TClass*) gROOT->GetListOfClasses()->FindObject(key->GetClassName());
+            cl = TGo4Proxy::GetClass(key->GetClassName());
             sz = key->GetNbytes();
             TObject* obj = fDir->FindObject(key->GetName());
             if (obj) sz = TGo4ObjectProxy::DefineObjectSize(obj);
@@ -201,7 +203,8 @@ class TGo4DirLevelIter : public TGo4LevelIter {
 
          if (fIsKeyIter && fReadRight) {
             TKey* key = (TKey*) fCurrent;
-            TClass* cl = (TClass*) gROOT->GetListOfClasses()->FindObject(key->GetClassName());
+            TClass* cl = TGo4Proxy::GetClass(key->GetClassName());
+            if (cl==0) cl = gROOT->GetClass(key->GetClassName(), kTRUE, kTRUE);
             if (IsContainerClass(cl)) return TGo4Access::kndMoreFolder;
          }
 
@@ -309,6 +312,7 @@ TGo4Access* TGo4DirProxy::CreateAccess(TDirectory* dir, Bool_t readright, const 
          if (!readright) return new TGo4KeyAccess(curdir, key);
          curdir->cd();
          obj = curdir->Get(partname.Data());
+         if (obj && obj->InheritsFrom(TCanvas::Class())) curdir->Add(obj);
          if (obj && browser_slot)
             browser_slot->ForwardEvent(browser_slot, TGo4Slot::evObjAssigned);
       }

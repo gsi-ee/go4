@@ -115,6 +115,8 @@ class TGo4Proxy : public TObject {
 
       virtual Bool_t ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id, void* param) { return kTRUE; }
 
+      static TClass* GetClass(const char* classname, Bool_t load = kFALSE);
+
    ClassDef(TGo4Proxy, 1);
 };
 

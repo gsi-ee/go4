@@ -162,7 +162,7 @@ class TGo4DabcAccess : public TGo4Access {
       virtual TClass* GetObjectClass() const
       {
          if (fRootClassName.length() > 0)
-            return (TClass*) gROOT->GetListOfClasses()->FindObject(fRootClassName.c_str());
+            return TGo4Proxy::GetClass(fRootClassName.c_str());
          return 0;
       }
 
