@@ -2019,7 +2019,7 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
         if (cl->InheritsFrom(TLeaf::Class())) { cando = 11; pixmap = "leaf_t.png"; }
       }
    } else
-   if (kind==TGo4Access::kndFolder) {
+   if ((kind==TGo4Access::kndFolder) || (kind==TGo4Access::kndMoreFolder)) {
       pixmap = "folder_t.png";
       if ((cl!=0) && cl->InheritsFrom(TTree::Class())) { cando = 10; pixmap = "tree_t.png"; } else
       if ((cl!=0) && cl->InheritsFrom(TCanvas::Class())) { cando = 110; pixmap = "canvas.png"; } else
@@ -2029,10 +2029,7 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
       if ((cl!=0) && cl->InheritsFrom(TGo4DabcProxy::Class())) { cando = 10000; pixmap = "dabc.png"; } else
       if ((cl!=0) && cl->InheritsFrom(TGo4ServerProxy::Class())) { cando = 10000; pixmap = "http.png"; } else
       if ((cl!=0) && cl->InheritsFrom(TGo4AnalysisProxy::Class())) { pixmap = "analysiswin.png"; }
-   } else
-   if (kind==TGo4Access::kndMoreFolder) {
-      pixmap = "folder_t.png";
-      cando = 10000000;
+      if (kind==TGo4Access::kndMoreFolder) cando += 10000000;
    } else
    if (kind==TGo4Access::kndTreeBranch)
       pixmap = "branch_t.png";
