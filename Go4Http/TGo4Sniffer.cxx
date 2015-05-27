@@ -25,6 +25,7 @@
 #include "TTimeStamp.h"
 #include "TROOT.h"
 #include "TH1F.h"
+#include "TFile.h"
 
 #include "TGo4AnalysisImp.h"
 #include "TGo4AnalysisObjectManager.h"
@@ -114,6 +115,16 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    SetItemField("/Status/CmdRestart", "_title", "Resubmit analysis configuration and start again");
    //SetItemField("/Status/CmdRestart", "_hidden", "true");
 
+   RegisterCommand("/Status/CmdOpenFile", "this->CmdOpenFile(\"%arg1%\")", "button;go4sys/icons/fileopen.png");
+   SetItemField("/Status/CmdOpenFile", "_title", "Open ROOT file in analysis");
+   SetItemField("/Status/CmdOpenFile", "_hreload", "true"); // after execution hierarchy will be reloaded
+   //SetItemField("/Status/CmdOpenFile", "_hidden", "true");
+
+   RegisterCommand("/Status/CmdCloseFiles", "this->CmdCloseFiles()", "go4sys/icons/fileclose.png");
+   SetItemField("/Status/CmdCloseFiles", "_title", "Close all opened files");
+   SetItemField("/Status/CmdCloseFiles", "_hreload", "true"); // after execution hierarchy will be reloaded
+   //SetItemField("/Status/CmdCloseFiles", "_hidden", "true");
+
    // set at the end when other items exists
    SetItemField("/", "_autoload", "go4sys/html/go4.js");
    SetItemField("/", "_icon", "go4sys/icons/go4logo2_small.png");
@@ -137,8 +148,7 @@ void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
 {
    TRootSniffer::ScanRoot(rec);
 
-   TGo4AnalysisObjectManager* om(0);
-   if (TGo4Analysis::Instance()) om = TGo4Analysis::Instance()->ObjectManager();
+   TGo4AnalysisObjectManager* om = TGo4Analysis::Instance() ? TGo4Analysis::Instance()->ObjectManager() : 0;
 
    if (om==0) return;
 
@@ -149,12 +159,13 @@ void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
    TFolder* hist_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcHISTFOLDER));
    TFolder* par_fold  = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcPARAFOLDER));
    TFolder* cond_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcCONDFOLDER));
-   TFolder* pic_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcPICTFOLDER));
+   TFolder* pic_fold  = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcPICTFOLDER));
    TFolder* tree_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcTREEFOLDER));
    TFolder* canv_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcCANVFOLDER));
    TFolder* anal_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcANALYSISFOLDER));
    TFolder* even_fold = dynamic_cast<TFolder*> (anal_fold->FindObject(TGo4AnalysisObjectManager::fgcEVENTFOLDER));
    TFolder* user_fold = dynamic_cast<TFolder*> (main->FindObject(TGo4AnalysisObjectManager::fgcUSRFOLDER));
+   TFolder* files_fold = dynamic_cast<TFolder*> (main->FindObject("Files"));
 
    ScanCollection(rec, hist_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcHISTFOLDER);
    ScanCollection(rec, par_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcPARAFOLDER);
@@ -164,6 +175,8 @@ void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
    ScanCollection(rec, canv_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcCANVFOLDER);
    ScanCollection(rec, even_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcEVENTFOLDER);
    ScanCollection(rec, user_fold->GetListOfFolders(), TGo4AnalysisObjectManager::fgcUSRFOLDER);
+   if (files_fold)
+      ScanCollection(rec, files_fold->GetListOfFolders(), "Files");
 }
 
 void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
@@ -228,6 +241,50 @@ Bool_t TGo4Sniffer::CmdStop()
    }
    return kTRUE;
 }
+
+Bool_t TGo4Sniffer::CmdOpenFile(const char* fname)
+{
+   Info("CmdOpenFile", "Open ROOT file %s", fname);
+
+   TGo4AnalysisObjectManager* om = TGo4Analysis::Instance() ? TGo4Analysis::Instance()->ObjectManager() : 0;
+
+   if (om) {
+      TFolder* main = om->GetObjectFolder();
+
+      TFolder* files_fold = dynamic_cast<TFolder*> (main->FindObject("Files"));
+      if (files_fold == 0) {
+         files_fold = main->AddFolder("Files","ROOT files");
+         files_fold->SetOwner(kTRUE);
+      }
+
+      TFile* f = dynamic_cast<TFile*> (files_fold->FindObject(fname));
+      if (f!=0) { files_fold->Remove(f); delete f; }
+
+      f = TFile::Open(fname);
+      if (f==0) return kFALSE;
+
+      files_fold->Add(f);
+   }
+
+   return kTRUE;
+}
+
+Bool_t TGo4Sniffer::CmdCloseFiles()
+{
+   Info("CmdCloseFiles", "Close all opened files");
+   TGo4AnalysisObjectManager* om = TGo4Analysis::Instance() ? TGo4Analysis::Instance()->ObjectManager() : 0;
+   if (om) {
+      TFolder* main = om->GetObjectFolder();
+      TFolder* files_fold = dynamic_cast<TFolder*> (main->FindObject("Files"));
+      if (files_fold) {
+         files_fold->Clear();
+         main->Remove(files_fold);
+         delete files_fold;
+      }
+   }
+   return kTRUE;
+}
+
 
 Bool_t TGo4Sniffer::CmdClear()
 {
