@@ -86,7 +86,7 @@ endif
 
 ##### local rules #####
 
-ifeq ($(GO4_QT), 4)
+ifneq ($(GO4_QT), 3)
 
 $(GO4GUI4_UI_PRIVH): | qt4-GUI 
 

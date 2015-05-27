@@ -172,6 +172,11 @@ ifndef CFG_WITHOUT_QT
       CFG_WITHOUT_QT = true
     endif
   else
+  ifeq ($(WITHQT),5)
+    ifneq ($(shell pkg-config --exists Qt5Core Qt5Network --print-errors),)
+      CFG_WITHOUT_QT = true
+    endif
+  else
   ifdef QTDIR
     QTPATH = $(QTDIR)
     QMAKE  = $(QTPATH)/bin/qmake
@@ -196,10 +201,15 @@ ifndef CFG_WITHOUT_QT
   ifeq ($(shell pkg-config --exists QtCore --print-errors),)
     WITHQT = 4
   else
+  ifeq ($(shell pkg-config --exists Qt5Core Qt5Network --print-errors),)
+    WITHQT = 5
+  else
   ifeq ($(shell pkg-config --exists qt-mt --print-errors),)
     WITHQT = 3
   else
     CFG_WITHOUT_QT = true
+  endif
+  endif
   endif
   endif
   endif
@@ -253,6 +263,26 @@ ifndef CFG_WITHOUT_QT
       else
         MOC      = $(QTPATH)/bin/moc
       endif
+    endif
+  endif
+  ifeq ($(WITHQT), 5)
+    GO4_QT     = 5
+    QTPATH     = $(shell pkg-config --variable=prefix Qt5Core)
+    QTCXXFLAGS = $(shell pkg-config --cflags Qt5Core)
+    ifneq ($(wildcard $(QTPATH)/bin/qmake-qt5),)
+      QMAKE      = $(QTPATH)/bin/qmake-qt5
+    else
+      QMAKE      = $(QTPATH)/bin/qmake
+    endif
+    ifneq ($(wildcard $(QTPATH)/bin/uic-qt5),)
+      UIC      = $(QTPATH)/bin/uic-qt5
+    else
+      UIC      = $(QTPATH)/bin/uic
+    endif
+    ifneq ($(wildcard $(QTPATH)/bin/moc-qt5),)
+      MOC      = $(QTPATH)/bin/moc-qt5
+    else
+      MOC      = $(QTPATH)/bin/moc
     endif
   endif
 endif

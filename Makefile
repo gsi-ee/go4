@@ -157,13 +157,12 @@ install: uninstall
 	@mkdir -p $(GO4TOPPATH)/etc; cp -r etc/* $(GO4TOPPATH)/etc
 	@mkdir -p $(GO4TOPPATH)/macros; cp macros/* $(GO4TOPPATH)/macros
 	@mkdir -p $(GO4TOPPATH)/docs; cp docs/* $(GO4TOPPATH)/docs
-ifeq ($(GO4_QT), 4)
-	@mkdir -p $(GO4TOPPATH)/qt4
-	@mkdir -p $(GO4TOPPATH)/qt4/Go4UserGUI; cp qt4/Go4UserGUI/libGo4UserGui.$(DllSuf) $(GO4TOPPATH)/qt4/Go4UserGUI
-endif
 ifeq ($(GO4_QT), 3)
 	@mkdir -p $(GO4TOPPATH)/qt3/etc; cp qt3/etc/* $(GO4TOPPATH)/qt3/etc
 	@mkdir -p $(GO4TOPPATH)/qt3/Go4UserGUI; cp qt3/Go4UserGUI/libGo4UserGui.$(DllSuf) $(GO4TOPPATH)/qt3/Go4UserGUI
+else
+	@mkdir -p $(GO4TOPPATH)/qt4
+	@mkdir -p $(GO4TOPPATH)/qt4/Go4UserGUI; cp qt4/Go4UserGUI/libGo4UserGui.$(DllSuf) $(GO4TOPPATH)/qt4/Go4UserGUI
 endif
 	@mkdir -p $(GO4TOPPATH)/icons; cp icons/* $(GO4TOPPATH)/icons
 	@echo "Installation completed"

@@ -20,7 +20,7 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 These package was tested on
-    Suse 10.2 (x86_64), SuSe 11.x (x86_64), SuSe 12.x (x86_64)
+    Suse 10.2 (x86_64), SuSe 11.x (x86_64), SuSe 12.x (x86_64), SuSe 13.1 (x86_64)
     Debian 3.1, Debian 4.0, Debian 5.0, Debian 6.0, Debian 7.0 (32 bit and 64bit)
     Ubuntu 11.10
     compilers: gcc 3.3.5, gcc 4.1.2, gcc 4.3.x, gcc 4.4.x, gcc 4.5.1, gcc 4.6.1, gcc 4.7.2
@@ -167,7 +167,7 @@ ADVANCED MAKE OPTIONS
      If directory <location>/bin included in PATH variable, no any extra
      login script is required to use go4 later. 
 
-  withqt=3|4|no   
+  withqt=3|4|5|no   
      Specifies version of qt, which should be used for gui compilation.
      Qt installation will be tested with pkg-config utility.
      If 'withqt' not specified, QTDIR variable will be tested.

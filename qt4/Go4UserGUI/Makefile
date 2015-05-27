@@ -42,7 +42,7 @@ endif
 
 ##### local rules #####
 
-ifeq ($(GO4_QT), 4)
+ifneq ($(GO4_QT), 3)
 
 all:: all-qt4usergui
 

@@ -26,8 +26,7 @@ DISTRFILES         += $(wildcard qt4/Go4FitGUI/*.ui)
 DISTRFILES         += $(wildcard qt4/Go4FitGUI/*.cpp)
 
 
-
-ifeq ($(GO4_QT), 4)
+ifneq ($(GO4_QT), 3)
 
 GO4QTHEADS += $(GO4QT4HEADS)
 
