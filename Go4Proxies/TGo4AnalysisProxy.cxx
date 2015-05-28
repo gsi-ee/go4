@@ -42,6 +42,7 @@
 #include "TGo4ClientTask.h"
 #include "TGo4ServerTask.h"
 #include "TGo4BufferQueue.h"
+#include "TGo4LockGuard.h"
 
 #include "TGo4Parameter.h"
 #include "TGo4ObjectStatus.h"
@@ -454,7 +455,6 @@ TGo4AnalysisProxy::TGo4AnalysisProxy(Bool_t isserver) :
    TGo4ServerProxy(),
    fIsServer(isserver),
    fAnalysisNames(0),
-   fxParentSlot(0),
    fxSubmittedProxy(),
    fxDefaultProxy(0),
    fbNamesListReceived(kFALSE),
@@ -504,7 +504,7 @@ TGo4AnalysisProxy::~TGo4AnalysisProxy()
 
 void TGo4AnalysisProxy::Initialize(TGo4Slot* slot)
 {
-   fxParentSlot = slot;
+   TGo4ServerProxy::Initialize(slot);
 
    TGo4Slot* subslot = new TGo4Slot(fxParentSlot, "Settings", "Analysis configuration");
    subslot->SetProxy(new TGo4ObjectProxy());
@@ -517,16 +517,6 @@ void TGo4AnalysisProxy::Initialize(TGo4Slot* slot)
 
    subslot = new TGo4Slot(fxParentSlot, "UpdateObject", "Result of update object");
    subslot->SetProxy(new TGo4ObjectProxy());
-}
-
-TGo4Slot* TGo4AnalysisProxy::SettingsSlot()
-{
-   return fxParentSlot==0 ? 0 : fxParentSlot->FindChild("Settings");
-}
-
-TGo4Slot* TGo4AnalysisProxy::RatemeterSlot()
-{
-   return fxParentSlot==0 ? 0 : fxParentSlot->FindChild("Ratemeter");
 }
 
 TGo4Slot* TGo4AnalysisProxy::LoginfoSlot()
@@ -850,6 +840,7 @@ Bool_t TGo4AnalysisProxy::SubmitProxy(TGo4AnalysisObjectAccess* proxy)
    if (proxy->ProxyKind()==cmdEnvelope) {
       //TGo4ComGetEnvelope* com = new TGo4ComGetEnvelope(proxy->GetObjectName(), proxy->GetPathName());
       TGo4RemoteCommand* com = new TGo4RemoteCommand("ANGetEnvelope");
+
       com->SetString(proxy->GetObjectName(), 0);
       com->SetString(proxy->GetPathName(), 1);
       fxDisplay->SubmitCommand(com);

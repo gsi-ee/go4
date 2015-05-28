@@ -34,7 +34,6 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       Bool_t                    fIsServer;           //!
       TGo4AnalysisDummySlot*    fDummySlot;          //!
       TGo4AnalysisObjectNames*  fAnalysisNames;      //!
-      TGo4Slot*                 fxParentSlot;        //!
       TObjArray                 fxSubmittedProxy;    //!
       TGo4AnalysisObjectAccess* fxDefaultProxy;      //!
       Bool_t                    fbNamesListReceived; //!
@@ -108,9 +107,6 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       // analysis proxy functionality
 
-      TGo4Slot* ParentSlot() { return fxParentSlot; }
-      TGo4Slot* SettingsSlot();
-      TGo4Slot* RatemeterSlot();
       TGo4Slot* LoginfoSlot();
       TGo4Slot* UpdateObjectSlot();
 

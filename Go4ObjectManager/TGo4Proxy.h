@@ -125,9 +125,20 @@ class TGo4Proxy : public TObject {
 /** special base class for remote data servers like DABC, HTTP, hist server */
 
 class TGo4ServerProxy : public TGo4Proxy {
+   protected:
+      TGo4Slot*                 fxParentSlot;        //!
+
    public:
-      TGo4ServerProxy() : TGo4Proxy() {}
+      TGo4ServerProxy() : TGo4Proxy(), fxParentSlot(0) {}
       virtual ~TGo4ServerProxy() {}
+
+
+      virtual void Initialize(TGo4Slot* slot) { fxParentSlot = slot; }
+
+      TGo4Slot* ParentSlot() { return fxParentSlot; }
+      TGo4Slot* SettingsSlot();
+      TGo4Slot* RatemeterSlot();
+
 
       virtual const char* GetServerName() const { return ""; }
 

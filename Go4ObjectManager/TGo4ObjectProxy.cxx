@@ -93,8 +93,6 @@ void TGo4ObjectProxy::Finalize(TGo4Slot* slot)
 Bool_t TGo4ObjectProxy::RemoveRegisteredObject(TObject* obj)
 {
    if (fObject==obj) {
-//      std::cout << "object removed from TGo4ObjectProxy  "
-//           << obj << "   name = " << (obj ? obj->GetName() : "null") << std::endl;
       fObject = 0;
       fOwner = kFALSE;
    }
@@ -222,5 +220,4 @@ Long_t TGo4ObjectProxy::DefineObjectSize(TObject* obj)
    }
 
    return sz;
-
 }

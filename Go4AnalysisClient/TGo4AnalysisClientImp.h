@@ -217,11 +217,6 @@ private:
       * Will have effect on some initialization behaviour. */
     Bool_t fbCintMode;
 
-    /** For cintmode, we only allow to release the main
-     * lock within a certain time window, triggered by this
-     * timer */
-    TTimer* fxCintLockTimer; //!
-
     /** If true, this slave load preferences for analysis from default file. */
     Bool_t fbLoadPrefs; //!
 

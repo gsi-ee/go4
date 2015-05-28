@@ -41,7 +41,6 @@
 #include "TGo4AnalysisImp.h"
 #include "TGo4AnalysisStep.h"
 
-#include "TGo4CintLockTimer.h"
 #include "TGo4AnalysisMainRunnable.h"
 #include "TGo4AnalysisWatchRunnable.h"
 #include "TGo4Ratemeter.h"
@@ -71,7 +70,6 @@ TGo4AnalysisClient::TGo4AnalysisClient(const char* name,
    fxHistoServer(0),
    fbAutoStart(autorun),
    fbCintMode(kFALSE),
-   fxCintLockTimer(0),
    fbLoadPrefs(loadprefs),
    fbShowRate(showrate)
 {
@@ -102,7 +100,6 @@ TGo4AnalysisClient::TGo4AnalysisClient(int argc, char** argv,
    fxHistoServer(0),
    fbAutoStart(autorun),
    fbCintMode(kFALSE),
-   fxCintLockTimer(0),
    fbLoadPrefs(kTRUE),
    fbShowRate(kFALSE)
 {
@@ -184,7 +181,6 @@ TGo4AnalysisClient::~TGo4AnalysisClient()
       }
    fxAnalysis->UnLockAutoSave();
 
-   delete fxCintLockTimer;
    delete fxRatemeter;
    delete fxAnalysis;
    TGo4CommandInvoker::UnRegister(this);
@@ -587,25 +583,6 @@ void TGo4AnalysisClient::SetCintMode(Bool_t on)
       gROOT->SetBatch(kFALSE);
       fxAnalysis->SetAutoSave(kFALSE);
    }
-   #if ROOT_VERSION_CODE > ROOT_VERSION(5,2,0)
-
-   //// the mutex blocking timer is only necessary for old root versions
-   // new versions will use gCINTMutex to protect streaming JA
-
-   #else
-   if(fbCintMode) {
-      if(fxCintLockTimer==0)
-         fxCintLockTimer=new TGo4CintLockTimer(this,fguCINTTIMERPERIOD);
-      fxCintLockTimer->TurnOn();
-   }
-   else {
-      if (fxCintLockTimer!=0) {
-         fxCintLockTimer->TurnOff();
-         delete fxCintLockTimer;
-         fxCintLockTimer = 0;
-      }
-   }
-   #endif
 }
 
 void TGo4AnalysisClient::LockAll()
