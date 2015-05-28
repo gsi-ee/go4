@@ -187,8 +187,7 @@ ADVANCED MAKE OPTIONS
   withdabc=yes|no
      Add different components from DABC. Latest DABC version from
      http://subversion.gsi.de/dabc repository (version >= 2.6.0) should be installed
-     and configured with dabclogin script. Use of DABC enables http 
-     support in Go4. Default is yes
+     and configured with dabclogin script. 
                     
   debug=1     
      Build all libraries with debug symbols. Default is off.

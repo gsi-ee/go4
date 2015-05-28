@@ -139,6 +139,7 @@ ifneq ($(withdabc),no)
 ifdef DABCSYS
 USEDABC = true
 DABCLIBPATH = $(DABCSYS)/lib
+DABCBINPATH = $(DABCSYS)/bin
 DABCINCPATH = $(DABCSYS)/include
 endif
 endif
@@ -308,14 +309,14 @@ ifeq ($(GO4_OS),Darwin)
 endif
 	@echo 'export LD_LIBRARY_PATH=$(ROOTLIBPATH):$$LD_LIBRARY_PATH' >> $@
 	@echo '' >> $@
-ifdef DABCSYS
+ifdef USEDABC
 	@echo '##### DABC-related settings ###########' >> $@
 	@echo 'export DABCSYS=$(DABCSYS)' >> $@
-	@echo 'export PATH=$(DABCSYS)/bin:$$PATH' >> $@
+	@echo 'export PATH=$(DABCBINPATH):$$PATH' >> $@
 ifeq ($(GO4_OS),Darwin)
-	@echo 'export DYLD_LIBRARY_PATH=$(DABCSYS)/lib:$$DYLD_LIBRARY_PATH' >> $@
+	@echo 'export DYLD_LIBRARY_PATH=$(DABCLIBPATH):$$DYLD_LIBRARY_PATH' >> $@
 endif
-	@echo 'export LD_LIBRARY_PATH=$(DABCSYS)/lib:$$LD_LIBRARY_PATH' >> $@
+	@echo 'export LD_LIBRARY_PATH=$(DABCLIBPATH):$$LD_LIBRARY_PATH' >> $@
 	@echo '' >> $@
 endif
 ifdef QTDIR
@@ -479,6 +480,7 @@ endif
 ifdef USEDABC 
 	@echo "USEDABC     = true" >> $@
 	@echo "DABCLIBPATH = $(DABCLIBPATH)" >> $@
+	@echo "DABCBINPATH = $(DABCBINPATH)" >> $@
 	@echo "DABCINCPATH = $(DABCINCPATH)" >> $@
 	@echo "" >> $@
 endif

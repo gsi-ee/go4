@@ -66,8 +66,8 @@ void TGo4Access::DoObjectAssignement(TGo4ObjectManager* mgr,
 TClass* TGo4Proxy::GetClass(const char* classname, Bool_t load)
 {
    // Wrapper for TROOT::GetClass() method.
-   // While new ROOT version do not automatically create TClass instance,
-   // do it for known ROOT classes
+   // While ROOT does not automatically create TClass instance,
+   // do it for known ROOT and Go4 classes
    // General idea of such method - avoid automatic load of custom libraries into the GUI
 
    if ((classname==0) || (*classname==0)) return 0;
@@ -77,7 +77,8 @@ TClass* TGo4Proxy::GetClass(const char* classname, Bool_t load)
    if (cl!=0) return cl;
 
    if (!load)
-      load = (strstr(classname,"TH1")==classname) ||
+      load = (strstr(classname,"TGo4")==classname) ||
+             (strstr(classname,"TH1")==classname) ||
              (strstr(classname,"TH2")==classname) ||
              (strstr(classname,"TH3")==classname) ||
              (strstr(classname,"TGraph")==classname) ||

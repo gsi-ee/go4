@@ -558,8 +558,9 @@ void TGo4MainWindow::AddFileMenu()
              this, SLOT(OpenFileSlot()), CTRL+Key_O );
    fileMenu->addAction(QIcon( ":/icons/network.png" ), "Open &Remote...",
              this, SLOT(OpenRemoteFileSlot()), CTRL+Key_R );
-   fileMenu->addAction(QIcon( ":/icons/dabc.png" ), "Connect &DABC...",
-             this, SLOT(ConnectDabcSlot()) );
+   if (TGo4DabcProxy::GetDabcVersion())
+      fileMenu->addAction(QIcon( ":/icons/dabc.png" ), "Connect &DABC...",
+                this, SLOT(ConnectDabcSlot()) );
    fileMenu->addAction(QIcon( ":/icons/http.png" ), "Connect &HTTP...",
              this, SLOT(ConnectHttpSlot()) );
    fileMenu->addAction(QIcon( ":/icons/histserv.png" ), "Open HIST &Server...",
@@ -583,10 +584,11 @@ void TGo4MainWindow::AddFileToolBar()
    FileBar->addAction( QIcon( ":/icons/network.png" ), "Open a remote file from server",
                         this, SLOT(OpenRemoteFileSlot()));
 
-   FileBar->addAction( QIcon( ":/icons/dabc.png" ), "Connect to dabc server",
+   if (TGo4DabcProxy::GetDabcVersion())
+   FileBar->addAction( QIcon( ":/icons/dabc.png" ), "Connect to DABC server",
                         this, SLOT(ConnectDabcSlot()));
 
-   FileBar->addAction( QIcon( ":/icons/http.png" ), "Connect to http server",
+   FileBar->addAction( QIcon( ":/icons/http.png" ), "Connect to HTTP server",
                         this, SLOT(ConnectHttpSlot()));
 
    FileBar->addAction( QIcon( ":/icons/histserv.png" ), "Connect to running histogram server",
