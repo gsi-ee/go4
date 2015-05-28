@@ -22,12 +22,12 @@
 #include "TMethodArg.h"
 #include "TDataType.h"
 #include "TRint.h"
-//#include "TApplication.h"
 #include "TSystem.h"
 #include "TObjString.h"
 #include "Riostream.h"
 #include "RVersion.h"
 #include "TSysEvtHandler.h"
+#include "TInterpreter.h"
 
 #include "TGo4Version.h"
 #include "TGo4StepFactory.h"
@@ -629,6 +629,8 @@ int main(int argc, char **argv)
    TGo4Analysis::SetRunningMode(0);
    if (FindArg(argc, argv, "-gui")>0) TGo4Analysis::SetRunningMode(1); else
    if (FindArg(argc, argv, "-server")>0) TGo4Analysis::SetRunningMode(2);
+
+   gInterpreter->SetProcessLineLock(kFALSE);
 
    const char* analysis_name = GetArgValue(argc, argv, "-server");
    if (analysis_name==0) analysis_name = GetArgValue(argc, argv, "-gui");
