@@ -206,6 +206,7 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       WId               fQtWindowId; // current id of embedded canvas (may change in Qt 4.4)
       QTimer*           fRepaintTimer; // do not draw canvas immediately, postpone this on few miliseconds
       int               fRepaintMode; // 0 - inactive, 1 - paint, 2 - resize, -1 - skip first repaint event
+
    private:
       bool              fMaskDoubleClick;
       double            fMousePosX;    // mouse position in user coordinate when activate menu

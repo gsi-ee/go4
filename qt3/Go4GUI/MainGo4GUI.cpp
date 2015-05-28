@@ -21,6 +21,7 @@
 #include "RVersion.h"
 #include "Riostream.h"
 #include "TInterpreter.h"
+#include "TEnv.h"
 
 #include "tqapplication.h"
 #include "qrootapplication.h"
@@ -101,6 +102,8 @@ int main(int argc, char **argv)
    // set this to 3 to get errors only
 
    gInterpreter->SetProcessLineLock(kFALSE);
+   // ShowGuideLines cases crashes - it has stored gpad in static variable
+   gEnv->SetValue("Canvas.ShowGuideLines", 0);
 
    ///////////// Define the GO4 Settings. //////////////////////
    // has to be done here, since mainwindow components have local

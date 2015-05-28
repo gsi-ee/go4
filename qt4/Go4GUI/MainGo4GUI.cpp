@@ -183,6 +183,9 @@ int main(int argc, char **argv)
 
    gInterpreter->SetProcessLineLock(kFALSE);
 
+   // ShowGuideLines cases crashes - it has stored gpad in static variable
+   gEnv->SetValue("Canvas.ShowGuideLines", 0);
+
    ///////////// Define the GO4 Settings. //////////////////////
    // has to be done here, since mainwindow components have local
    // settings access before mainwindow init is executed!

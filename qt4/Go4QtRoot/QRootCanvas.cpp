@@ -147,7 +147,6 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
   }
 }
 
-
 void QRootCanvas::mousePressEvent( QMouseEvent *e )
 {
    TGo4LockGuard threadlock(0,true);
@@ -355,7 +354,6 @@ bool QRootCanvas::showEventStatus() const
    return fxShowEventStatus;
 }
 
-
 ////////////////////////////////////// drag and drop support
 
 void QRootCanvas::dragEnterEvent( QDragEnterEvent *e )
@@ -376,90 +374,107 @@ void QRootCanvas::dropEvent( QDropEvent *event )
 
 /////////////////////////////////////End Drag and drop Support (Mohammad Al-Turany)
 
-
-void      QRootCanvas::cd(Int_t subpadnumber)
+void QRootCanvas::cd(Int_t subpadnumber)
 {
    fCanvas->cd(subpadnumber);
 }
 
-void      QRootCanvas::Browse(TBrowser *b)
+void QRootCanvas::Browse(TBrowser *b)
 {
    fCanvas->Browse(b);
 }
 
-void      QRootCanvas::Clear(Option_t *option)
+void QRootCanvas::Clear(Option_t *option)
 {
    fCanvas->Clear(option);
 }
-void      QRootCanvas::Close(Option_t *option)
+
+void QRootCanvas::Close(Option_t *option)
 {
    fCanvas->Close(option);
 }
-void      QRootCanvas::Draw(Option_t *option)
+
+void QRootCanvas::Draw(Option_t *option)
 {
    fCanvas->Draw(option);
 }
-TObject  *QRootCanvas::DrawClone(Option_t *option)
+
+TObject* QRootCanvas::DrawClone(Option_t *option)
 {
    return  fCanvas->DrawClone(option);
 }
-TObject  *QRootCanvas::DrawClonePad()
+
+TObject* QRootCanvas::DrawClonePad()
 {
    return  fCanvas->DrawClonePad();
 }
-void      QRootCanvas::EditorBar()
+
+void QRootCanvas::EditorBar()
 {
    fCanvas->EditorBar();
 }
-void      QRootCanvas::EnterLeave(TPad *prevSelPad, TObject *prevSelObj)
+
+void QRootCanvas::EnterLeave(TPad *prevSelPad, TObject *prevSelObj)
 {
    fCanvas->EnterLeave(prevSelPad, prevSelObj);
 }
-void      QRootCanvas::FeedbackMode(Bool_t set)
+
+void QRootCanvas::FeedbackMode(Bool_t set)
 {
    fCanvas->FeedbackMode(set);
 }
-void      QRootCanvas::Flush()
+
+void QRootCanvas::Flush()
 {
    fCanvas->Flush();
 }
-void      QRootCanvas::UseCurrentStyle()
+
+void QRootCanvas::UseCurrentStyle()
 {
    fCanvas->UseCurrentStyle();
 }
-void      QRootCanvas::ForceUpdate()
+
+void QRootCanvas::ForceUpdate()
 {
    fCanvas->ForceUpdate() ;
 }
+
 const char  *QRootCanvas::GetDISPLAY()
 {
    return fCanvas->GetDISPLAY() ;
 }
+
 TContextMenu  *QRootCanvas::GetContextMenu()
 {
    return  fCanvas->GetContextMenu() ;
 }
+
 Int_t     QRootCanvas::GetDoubleBuffer()
 {
    return fCanvas->GetDoubleBuffer();
 }
+
 TControlBar  *QRootCanvas::GetEditorBar()
 {
    return 0; // not existing anymore for ROOT>4.00/02 JA
    //return fCanvas->GetEditorBar();
 }
+
 Int_t     QRootCanvas::GetEvent()
 {
    return fCanvas->GetEvent();
 }
+
 Int_t     QRootCanvas::GetEventX()
 {
    return fCanvas->GetEventX() ;
 }
+
 Int_t     QRootCanvas::GetEventY()
 {
    return fCanvas->GetEventY() ;
 }
+
 Color_t   QRootCanvas::GetHighLightColor()
 {
    return fCanvas->GetHighLightColor() ;
@@ -469,42 +484,52 @@ TVirtualPad  *QRootCanvas::GetPadSave()
 {
    return fCanvas->GetPadSave();
 }
+
 TObject   *QRootCanvas::GetSelected()
 {
    return fCanvas->GetSelected() ;
 }
-Option_t  *QRootCanvas::GetSelectedOpt()
+
+Option_t* QRootCanvas::GetSelectedOpt()
 {
    return fCanvas->GetSelectedOpt();
 }
-TVirtualPad *QRootCanvas::GetSelectedPad()
+
+TVirtualPad* QRootCanvas::GetSelectedPad()
 {
    return fCanvas->GetSelectedPad();
 }
-Bool_t    QRootCanvas::GetShowEventStatus()
+
+Bool_t QRootCanvas::GetShowEventStatus()
 {
    return fCanvas->GetShowEventStatus() ;
 }
-Bool_t    QRootCanvas::GetAutoExec()
+
+Bool_t QRootCanvas::GetAutoExec()
 {
    return fCanvas->GetAutoExec();
 }
+
 Size_t    QRootCanvas::GetXsizeUser()
 {
    return fCanvas->GetXsizeUser();
 }
+
 Size_t    QRootCanvas::GetYsizeUser()
 {
    return fCanvas->GetYsizeUser();
 }
+
 Size_t    QRootCanvas::GetXsizeReal()
 {
    return fCanvas->GetXsizeReal();
 }
+
 Size_t    QRootCanvas::GetYsizeReal()
 {
    return fCanvas->GetYsizeReal();
 }
+
 Int_t     QRootCanvas::GetCanvasID()
 {
    return fCanvas->GetCanvasID();
@@ -514,51 +539,63 @@ Int_t     QRootCanvas::GetWindowTopX()
 {
    return fCanvas->GetWindowTopX();
 }
+
 Int_t     QRootCanvas::GetWindowTopY()
 {
    return fCanvas->GetWindowTopY();
 }
+
 UInt_t    QRootCanvas::GetWindowWidth()
 {
    return fCanvas->GetWindowWidth() ;
 }
+
 UInt_t    QRootCanvas::GetWindowHeight()
 {
    return fCanvas->GetWindowHeight();
 }
+
 UInt_t    QRootCanvas::GetWw()
 {
    return fCanvas->GetWw();
 }
+
 UInt_t    QRootCanvas::GetWh()
 {
    return fCanvas->GetWh() ;
 }
-void      QRootCanvas::GetCanvasPar(Int_t &wtopx, Int_t &wtopy, UInt_t &ww, UInt_t &wh)
+
+void QRootCanvas::GetCanvasPar(Int_t &wtopx, Int_t &wtopy, UInt_t &ww, UInt_t &wh)
 {
    fCanvas->GetCanvasPar(wtopx, wtopy, ww, wh);
 }
-void      QRootCanvas::HandleInput(EEventType button, Int_t x, Int_t y)
+
+void QRootCanvas::HandleInput(EEventType button, Int_t x, Int_t y)
 {
    fCanvas->HandleInput(button, x, y);
 }
-Bool_t    QRootCanvas::HasMenuBar()
+
+Bool_t QRootCanvas::HasMenuBar()
 {
    return fCanvas->HasMenuBar() ;
 }
-void      QRootCanvas::Iconify()
+
+void QRootCanvas::Iconify()
 {
    fCanvas->Iconify();
 }
-Bool_t    QRootCanvas::IsBatch()
+
+Bool_t QRootCanvas::IsBatch()
 {
    return fCanvas->IsBatch() ;
 }
-Bool_t    QRootCanvas::IsRetained()
+
+Bool_t QRootCanvas::IsRetained()
 {
    return fCanvas->IsRetained();
 }
-void      QRootCanvas::ls(Option_t *option)
+
+void QRootCanvas::ls(Option_t *option)
 {
    fCanvas->ls(option);
 }
@@ -573,103 +610,126 @@ void QRootCanvas::MoveOpaque(Int_t set)
    fCanvas->MoveOpaque(set);
 }
 
-Bool_t    QRootCanvas::OpaqueMoving()
+Bool_t QRootCanvas::OpaqueMoving()
 {
    return fCanvas->OpaqueMoving();
 }
-Bool_t    QRootCanvas::OpaqueResizing()
+
+Bool_t QRootCanvas::OpaqueResizing()
 {
    return fCanvas->OpaqueResizing();
 }
-void      QRootCanvas::Paint(Option_t *option)
+
+void QRootCanvas::Paint(Option_t *option)
 {
    fCanvas->Paint(option);
 }
-TPad     *QRootCanvas::Pick(Int_t px, Int_t py, TObjLink *&pickobj)
+
+TPad* QRootCanvas::Pick(Int_t px, Int_t py, TObjLink *&pickobj)
 {
    return fCanvas->Pick(px, py, pickobj);
 }
-TPad     *QRootCanvas::Pick(Int_t px, Int_t py, TObject *prevSelObj)
+
+TPad* QRootCanvas::Pick(Int_t px, Int_t py, TObject *prevSelObj)
 {
    return fCanvas->Pick(px, py, prevSelObj);
 }
-void      QRootCanvas::Resize(Option_t *option)
+
+void QRootCanvas::Resize(Option_t *option)
 {
    fCanvas->Resize(option);
 }
-void      QRootCanvas::ResizeOpaque(Int_t set)
+
+void QRootCanvas::ResizeOpaque(Int_t set)
 {
    fCanvas->ResizeOpaque(set);
 }
-void      QRootCanvas::SaveSource(const char *filename, Option_t *option)
+
+void QRootCanvas::SaveSource(const char *filename, Option_t *option)
 {
    fCanvas->SaveSource(filename, option);
 }
-void      QRootCanvas::SetCursor(ECursor cursor)
+
+void QRootCanvas::SetCursor(ECursor cursor)
 {
    fCanvas->SetCursor(cursor);
 }
-void      QRootCanvas::SetDoubleBuffer(Int_t mode)
+
+void QRootCanvas::SetDoubleBuffer(Int_t mode)
 {
    fCanvas->SetDoubleBuffer(mode);
 }
-void      QRootCanvas::SetWindowPosition(Int_t x, Int_t y)
+
+void QRootCanvas::SetWindowPosition(Int_t x, Int_t y)
 {
    fCanvas->SetWindowPosition(x, y) ;
 }
-void      QRootCanvas::SetWindowSize(UInt_t ww, UInt_t wh)
+
+void QRootCanvas::SetWindowSize(UInt_t ww, UInt_t wh)
 {
    fCanvas->SetWindowSize(ww,wh) ;
 }
-void      QRootCanvas::SetCanvasSize(UInt_t ww, UInt_t wh)
+
+void QRootCanvas::SetCanvasSize(UInt_t ww, UInt_t wh)
 {
    fCanvas->SetCanvasSize(ww, wh);
 }
-void      QRootCanvas::SetHighLightColor(Color_t col)
+
+void QRootCanvas::SetHighLightColor(Color_t col)
 {
    fCanvas->SetHighLightColor(col);
 }
-void      QRootCanvas::SetSelected(TObject *obj)
+
+void QRootCanvas::SetSelected(TObject *obj)
 {
    fCanvas->SetSelected(obj);
 }
-void      QRootCanvas::SetSelectedPad(TPad *pad)
+
+void QRootCanvas::SetSelectedPad(TPad *pad)
 {
    fCanvas->SetSelectedPad(pad);
 }
-void      QRootCanvas::Show()
+
+void QRootCanvas::Show()
 {
    fCanvas->Show() ;
 }
-void      QRootCanvas::Size(Float_t xsizeuser, Float_t ysizeuser)
+
+void QRootCanvas::Size(Float_t xsizeuser, Float_t ysizeuser)
 {
    fCanvas->Size(xsizeuser, ysizeuser);
 }
-void      QRootCanvas::SetBatch(Bool_t batch)
+
+void QRootCanvas::SetBatch(Bool_t batch)
 {
    fCanvas->SetBatch(batch);
 }
-void      QRootCanvas::SetRetained(Bool_t retained)
+
+void QRootCanvas::SetRetained(Bool_t retained)
 {
    fCanvas->SetRetained(retained);
 }
-void      QRootCanvas::SetTitle(const char *title)
+
+void QRootCanvas::SetTitle(const char *title)
 {
    fCanvas->SetTitle(title);
 }
-void      QRootCanvas::ToggleEventStatus()
+
+void QRootCanvas::ToggleEventStatus()
 {
    fCanvas->ToggleEventStatus();
 }
-void      QRootCanvas::ToggleAutoExec()
+
+void QRootCanvas::ToggleAutoExec()
 {
    fCanvas->ToggleAutoExec();
 }
-void      QRootCanvas::Update()
+
+void QRootCanvas::Update()
 {
-   // do not call update directly, just use timer
+   // do not call update directly, use timer instead
+
    actiavteRepaint(act_Update);
-//   fCanvas->Update();
 }
 
 void  QRootCanvas::closeEvent( QCloseEvent * e)
@@ -681,7 +741,6 @@ void  QRootCanvas::closeEvent( QCloseEvent * e)
 
     e->accept();
 }
-
 
 void QRootCanvas::methodDialog(TObject* object, TMethod* method)
 {
