@@ -632,19 +632,6 @@ void TGo4Task::SendStopBuffers(const char* taskname)
    }//if(IsMaster())
 }
 
-void TGo4Task::LockAll()
-{
-   fxStatusMutex->Lock();
-   TGo4LockGuard::LockMainMutex();
-
-}
-
-void TGo4Task::UnLockAll()
-{
-   TGo4LockGuard::UnLockMainMutex();
-   fxStatusMutex->UnLock();
-}
-
 Int_t TGo4Task::Get_fgiTERMID()
 {
    return fgiTERMID;

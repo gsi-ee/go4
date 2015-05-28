@@ -643,30 +643,6 @@ void TGo4ServerTask::Shutdown()
 }
 
 
-void TGo4ServerTask::LockAll()
-{
-//std::cout <<"TGo4ServerTask::LockAll" << std::endl;
-
-fxStatusMutex->Lock();
-//std::cout <<"TGo4ServerTask::LockAll before taskmutex" << std::endl;
-fxTaskManager->GetMutex()->Lock();
-//std::cout <<"TGo4ServerTask::LockAll before mainmutex" << std::endl;
-TGo4LockGuard::LockMainMutex();
-//std::cout <<"TGo4ServerTask::LockAll leaving" << std::endl;
-
-}
-
-void TGo4ServerTask::UnLockAll()
-{
-//std::cout <<"TGo4ServerTask::UnLockAll" << std::endl;
-TGo4LockGuard::UnLockMainMutex();
-//std::cout <<"TGo4ServerTask::UnLockAll after mainmutex" << std::endl;
-fxTaskManager->GetMutex()->UnLock();
-//std::cout <<"TGo4ServerTask::UnLockAll after taskmutex" << std::endl;
-fxStatusMutex->UnLock();
-//std::cout <<"TGo4ServerTask::UnLockAll leaving" << std::endl;
-}
-
 const char* TGo4ServerTask::Get_fgcLAUNCHPREFSFILE()
 {
    return fgcLAUNCHPREFSFILE;

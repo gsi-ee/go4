@@ -29,12 +29,12 @@ class TGo4ServerTask : public TGo4Task {
    public:
 
       TGo4ServerTask(const char* name,
-                     UInt_t negotiationport=0,
-                     Bool_t blockingmode=kFALSE,
-                     Bool_t standalone=kFALSE,
-                     Bool_t autostart=kTRUE,
-                     Bool_t autocreate=kTRUE,
-                     Bool_t ismaster=kTRUE);
+            UInt_t negotiationport=0,
+            Bool_t blockingmode=kFALSE,
+            Bool_t standalone=kFALSE,
+            Bool_t autostart=kTRUE,
+            Bool_t autocreate=kTRUE,
+            Bool_t ismaster=kTRUE);
 
       virtual ~TGo4ServerTask();
 
@@ -49,14 +49,6 @@ class TGo4ServerTask : public TGo4Task {
        * For analysis server shutdown.
        */
       void Shutdown();
-
-     /** Lock all go4 mutexes in correct order to avoid deadlocking.
-     * to be used from cintlocktimer */
-    virtual void LockAll();
-
-    /** UnLock all go4 mutexes in correct order to avoid deadlocking
-    * to be used from cintlocktimer */
-    virtual void UnLockAll();
 
       TGo4TaskManager* GetTaskManager();
 
@@ -82,13 +74,13 @@ class TGo4ServerTask : public TGo4Task {
       virtual TGo4Command* NextCommand();
 
 
-     /** Send status object via status channel to the master. Master name
-     * may be specified, if more than one master is connected.
-     * By default, object is send to all connected tasks */
-    virtual void SendStatus(TGo4Status * stat, const char* receiver=0);
+      /** Send status object via status channel to the master. Master name
+       * may be specified, if more than one master is connected.
+       * By default, object is send to all connected tasks */
+      virtual void SendStatus(TGo4Status * stat, const char* receiver=0);
 
-    /** Send internal status buffer to the master(s). */
-    virtual void SendStatusBuffer();
+      /** Send internal status buffer to the master(s). */
+      virtual void SendStatusBuffer();
 
       /**
        * starts the thread that listens to the connector port
@@ -98,7 +90,7 @@ class TGo4ServerTask : public TGo4Task {
       virtual Bool_t StartConnectorThread();
 
       /**
-           * stops the thread that listens to the connector port
+       * stops the thread that listens to the connector port
        * for a client negotiation request;
        * used before launching an rsh client from server.
        * A dummy connection is performed to release socket pending in listening
@@ -156,12 +148,6 @@ class TGo4ServerTask : public TGo4Task {
       Bool_t RemoveCurrentClient();
 
       Int_t WaitForOpen();
-
-//      /**
-//       * Overrides the ThreadManager Initialization; is used to setup the
-//       * client connections on demand; checks for fbConnectRequest flag
-//       */
-//      virtual Int_t Initialization();
 
       Int_t WaitForClose();
 
@@ -231,7 +217,6 @@ private:
        * port number for timer connect
        */
       UInt_t fuConnectPort;
-
 
       /**
        * True if open in server mode shall keep the server socket instance

@@ -242,15 +242,6 @@ public:
 
     Bool_t IsWorkStopped(){return fbWorkIsStopped;}
 
-  /** Lock all go4 mutexes in correct order to avoid deadlocking.
-     * to be used from cintlocktimer */
-    virtual void LockAll();
-
-    /** UnLock all go4 mutexes in correct order to avoid deadlocking
-    * to be used from cintlocktimer */
-    virtual void UnLockAll();
-
-
     /**
      * Send current status information of the task to the
      * master; may be re-implemented by application subclass
@@ -351,7 +342,6 @@ public:
 
     /** Id number of dummy command that wakes the command queue on termination */
     static const Int_t fgiTERMID;
-
 
   ClassDef(TGo4Task,1)
 };

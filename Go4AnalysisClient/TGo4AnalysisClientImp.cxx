@@ -585,18 +585,6 @@ void TGo4AnalysisClient::SetCintMode(Bool_t on)
    }
 }
 
-void TGo4AnalysisClient::LockAll()
-{
-   TGo4Task* task=GetTask();
-   if(task) task->LockAll();
-}
-
-void TGo4AnalysisClient::UnLockAll()
-{
-   TGo4Task* task=GetTask();
-   if(task) task->UnLockAll();
-}
-
 void TGo4AnalysisClient::SendStatusMessage(Int_t level, Bool_t printout, const TString& text)
 {
     TGo4Slave::SendStatusMessage(level, printout, text);

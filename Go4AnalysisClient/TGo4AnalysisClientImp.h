@@ -150,14 +150,6 @@ class TGo4AnalysisClient : public TGo4Slave {
 
     Bool_t IsCintMode() const { return fbCintMode; }
 
-    /** Lock all go4 mutexes in correct order to avoid deadlocking.
-     * to be used from cintlocktimer */
-    void LockAll();
-
-    /** UnLock all go4 mutexes in correct order to avoid deadlocking
-    * to be used from cintlocktimer */
-    void UnLockAll();
-
     /** suffix for main thread name */
     static const char* fgcMAINTHREAD; //!
 
