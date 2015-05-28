@@ -20,6 +20,7 @@
 #include "TSystem.h"
 #include "RVersion.h"
 #include "Riostream.h"
+#include "TInterpreter.h"
 
 #include "tqapplication.h"
 #include "qrootapplication.h"
@@ -98,6 +99,8 @@ int main(int argc, char **argv)
    TGo4Log::SetIgnoreLevel(1); // set this to 1 to suppress detailed debug output
    // set this to 2 to get warnings and errors only
    // set this to 3 to get errors only
+
+   gInterpreter->SetProcessLineLock(kFALSE);
 
    ///////////// Define the GO4 Settings. //////////////////////
    // has to be done here, since mainwindow components have local
