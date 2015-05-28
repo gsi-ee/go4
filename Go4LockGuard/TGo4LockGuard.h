@@ -40,14 +40,15 @@ class TMutex;
 class TGo4LockGuard {
    public:
 
-      TGo4LockGuard(TMutex* mutex=0, Bool_t forcelock=kFALSE);
-
+      TGo4LockGuard(TMutex* mutex=0, Bool_t = kFALSE);
 
       virtual ~TGo4LockGuard();
 
       static void LockMainMutex();
 
       static void UnLockMainMutex();
+
+      static Int_t MainMutexLockCount();
 
    private:
 
@@ -56,10 +57,6 @@ class TGo4LockGuard {
 
       /** We need this flag if first TThread starts in between ctor and dtor. */
       Bool_t fbIsLocked;      //!
-
-      /** If true, lock anyway even if no ROOT thread exists.
-       *  required to protect against foreign pthreads, e.g. from DIM */
-      //Bool_t fbForceLock; //!
 
       /** True if the mutex of this lockguard instance is
         * the global go4 main mutex. */

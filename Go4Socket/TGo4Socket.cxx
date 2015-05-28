@@ -356,13 +356,13 @@ Int_t TGo4Socket::Send(TObject *obj)
    Int_t rev=0;
    if(IsOpen())
    {
-      {
-         TGo4LockGuard init; // initialize main mutex
-      }
-      TGo4LockGuard::LockMainMutex();
+
       TMessage mess(kMESS_OBJECT);
-      mess.WriteObject(obj);
-      TGo4LockGuard::UnLockMainMutex();
+      {
+         TGo4LockGuard guard; // use main mutex
+         mess.WriteObject(obj);
+      }
+
       if(fxSocket)
       {
          rev = fxSocket->Send(mess);
