@@ -116,7 +116,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       void GetReply(QByteArray& res);
 
-      XMLNodePointer_t FindItem(XMLNodePointer_t curr, const char* name);
+      XMLNodePointer_t FindItem(const char* name, XMLNodePointer_t curr = 0) const;
 
    public:
       TGo4HttpProxy();
@@ -143,10 +143,12 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       virtual void Update(TGo4Slot* slot, Bool_t strong);
 
       virtual const char* GetServerName() const { return fNodeName.Data(); }
-      virtual Bool_t RefreshNamesList();
-      virtual void RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot);
 
-      virtual Bool_t UpdateServerObject(const char* objectname, TObject* obj);
+      virtual Bool_t IsGo4Analysis() const;
+      virtual Bool_t RefreshNamesList();
+      virtual Bool_t RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot);
+
+      virtual Bool_t UpdateAnalysisObject(const char* objectname, TObject* obj);
 
 };
 

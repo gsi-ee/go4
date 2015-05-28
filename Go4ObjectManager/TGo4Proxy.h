@@ -131,11 +131,13 @@ class TGo4ServerProxy : public TGo4Proxy {
 
       virtual const char* GetServerName() const { return ""; }
 
+      virtual Bool_t IsGo4Analysis() const { return kFALSE; }
+
       virtual Bool_t RefreshNamesList() { return kFALSE; }
 
-      virtual void RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot) {}
+      virtual Bool_t RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot) { return kFALSE; }
 
-      virtual Bool_t UpdateServerObject(const char* objectname, TObject* obj) { return kFALSE; }
+      virtual Bool_t UpdateAnalysisObject(const char* objectname, TObject* obj) { return kFALSE; }
 
    ClassDef(TGo4ServerProxy, 1);
 };

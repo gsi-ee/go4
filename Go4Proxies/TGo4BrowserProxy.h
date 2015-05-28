@@ -132,8 +132,9 @@ class TGo4BrowserProxy : public TGo4Proxy {
       Bool_t DefineTreeName(const char* itemname, TString& treename);
       Bool_t DefineLeafName(const char* itemname, const char* treename, TString& leafname);
 
-      TGo4Slot* FindAnalysisSlot(Bool_t databranch = kTRUE);
+      TGo4Slot* FindAnalysisSlot(Bool_t databranch, Bool_t server_proxy = kFALSE);
       TGo4AnalysisProxy* FindAnalysis(const char* itemname = 0);
+      TGo4ServerProxy* FindAnalysisNew(const char* itemname = 0);
       TString FindItemInAnalysis(const char* objname);
       TString FindItem(const char* objname);
       void FetchItem(const char* itemname, Int_t wait_time = 0);

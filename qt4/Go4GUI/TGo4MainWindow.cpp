@@ -1714,7 +1714,7 @@ TGo4AnalysisStatusMonitor* TGo4MainWindow::EstablishRatemeter(int level)
 {
    TGo4AnalysisStatusMonitor* status =
      dynamic_cast<TGo4AnalysisStatusMonitor*>
-      (FindGo4Widget("AnalysisStatusMonitor", false));
+       (FindGo4Widget("AnalysisStatusMonitor", false));
 
    if (level==2) {
      if (status==0) {

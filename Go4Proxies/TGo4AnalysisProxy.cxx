@@ -451,7 +451,7 @@ class TGo4Prefs {
 Int_t TGo4AnalysisProxy::fNumberOfWaitingProxyes = 0;
 
 TGo4AnalysisProxy::TGo4AnalysisProxy(Bool_t isserver) :
-   TGo4Proxy(),
+   TGo4ServerProxy(),
    fIsServer(isserver),
    fAnalysisNames(0),
    fxParentSlot(0),
@@ -790,12 +790,13 @@ void TGo4AnalysisProxy::AssignNewNamesList(TGo4AnalysisObjectNames* objnames)
      fxParentSlot->ForwardEvent(fxParentSlot, TGo4Slot::evObjAssigned);
 }
 
-void TGo4AnalysisProxy::RefreshNamesList()
+Bool_t TGo4AnalysisProxy::RefreshNamesList()
 {
 //   std::cout << " TGo4AnalysisProxy::RefreshNamesList() " << std::endl;
    //fxDisplay->SubmitCommand(new TGo4ComGetNamesList());
    fxDisplay->SubmitCommand("ANNames");
    fbNamesListReceived = kFALSE;
+   return kTRUE;
 }
 
 void TGo4AnalysisProxy::DelayedRefreshNamesList(Int_t delay_sec)
@@ -881,9 +882,9 @@ Bool_t TGo4AnalysisProxy::SubmitProxy(TGo4AnalysisObjectAccess* proxy)
    return kTRUE;
 }
 
-void TGo4AnalysisProxy::RequestObjectStatus(const char* fullname, TGo4Slot* tgtslot)
+Bool_t TGo4AnalysisProxy::RequestObjectStatus(const char* fullname, TGo4Slot* tgtslot)
 {
-   if ((fullname==0) || (tgtslot==0)) return;
+   if ((fullname==0) || (tgtslot==0)) return kFALSE;
 
    TString objfolder, objname;
    TGo4Slot::ProduceFolderAndName(fullname, objfolder, objname);
@@ -894,6 +895,8 @@ void TGo4AnalysisProxy::RequestObjectStatus(const char* fullname, TGo4Slot* tgts
    TString tgtname;
    tgtslot->ProduceFullName(tgtname);
    proxy->AssignObjectTo(tgtslot->GetOM(), tgtname.Data());
+
+   return kTRUE;
 }
 
 void TGo4AnalysisProxy::RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot)

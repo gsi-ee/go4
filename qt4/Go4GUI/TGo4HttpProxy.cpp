@@ -13,6 +13,8 @@
 
 #include "TGo4HttpProxy.h"
 
+#include <string.h>
+
 #include "TROOT.h"
 #include "TClass.h"
 #include "TList.h"
@@ -417,8 +419,10 @@ TGo4HttpProxy::~TGo4HttpProxy()
    delete fXML; fXML = 0;
 }
 
-XMLNodePointer_t TGo4HttpProxy::FindItem(XMLNodePointer_t curr, const char* name)
+XMLNodePointer_t TGo4HttpProxy::FindItem(const char* name, XMLNodePointer_t curr) const
 {
+   if (curr==0) curr = fXML->GetChild(fXML->DocGetRootElement(fxHierarchy));
+
    if ((curr==0) || (name==0) || (*name==0)) return curr;
 
    const char* slash = strchr(name,'\/');
@@ -432,7 +436,7 @@ XMLNodePointer_t TGo4HttpProxy::FindItem(XMLNodePointer_t curr, const char* name
          const char* _name = fXML->GetAttr(chld,"_name");
 
          if ((_name!=0) && (strncmp(_name, name, len)==0))
-            return FindItem(chld, slash ? slash+1 : 0);
+            return FindItem(slash ? slash+1 : 0, chld);
 
          chld = fXML->GetNext(chld);
       }
@@ -505,11 +509,7 @@ Bool_t TGo4HttpProxy::HasSublevels() const
 
 TGo4Access* TGo4HttpProxy::ProvideAccess(const char* name)
 {
-   if (fxHierarchy == 0) return 0;
-
-   XMLNodePointer_t top = fXML->GetChild(fXML->DocGetRootElement(fxHierarchy));
-
-   XMLNodePointer_t item = FindItem(top, name);
+   XMLNodePointer_t item = FindItem(name);
    if (item==0) return 0;
 
    const char* _kind = fXML->GetAttr(item,"_kind");
@@ -546,28 +546,41 @@ void TGo4HttpProxy::Update(TGo4Slot* slot, Bool_t strong)
    }
 }
 
+Bool_t TGo4HttpProxy::IsGo4Analysis() const
+{
+   XMLNodePointer_t item = FindItem("");
+   if (item==0) return kFALSE;
+
+   const char* _kind = fXML->GetAttr(item,"_kind");
+   const char* _title = fXML->GetAttr(item,"_title");
+
+   if ((_kind==0) || (_title==0)) return kFALSE;
+
+   return !strcmp(_kind,"ROOT.Session") && !strcmp(_title,"GO4 analysis");
+}
+
+
 Bool_t TGo4HttpProxy::RefreshNamesList()
 {
    return UpdateHierarchy(kFALSE);
 }
 
-void TGo4HttpProxy::RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot)
+Bool_t TGo4HttpProxy::RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot)
 {
-   if ((objectname==0) || (tgtslot==0) || (fxHierarchy==0)) return;
+   if ((objectname==0) || (tgtslot==0)) return kFALSE;
 
-   XMLNodePointer_t top = fXML->GetChild(fXML->DocGetRootElement(fxHierarchy));
-
-   XMLNodePointer_t item = FindItem(top, objectname);
-   if (item==0) return;
+   XMLNodePointer_t item = FindItem(objectname);
+   if (item==0) return kFALSE;
 
    TGo4HttpAccess* access = new TGo4HttpAccess(this, item, objectname, 4);
 
    TString tgtname;
    tgtslot->ProduceFullName(tgtname);
    access->AssignObjectTo(tgtslot->GetOM(), tgtname.Data());
+   return kTRUE;
 }
 
-Bool_t TGo4HttpProxy::UpdateServerObject(const char* objectname, TObject* obj)
+Bool_t TGo4HttpProxy::UpdateAnalysisObject(const char* objectname, TObject* obj)
 {
    TBufferFile *sbuf = new TBufferFile(TBuffer::kWrite, 100000);
    sbuf->MapObject(obj);

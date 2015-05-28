@@ -766,7 +766,7 @@ void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
    #endif
 }
 
-TGo4Slot* TGo4BrowserProxy::FindAnalysisSlot(Bool_t databranch)
+TGo4Slot* TGo4BrowserProxy::FindAnalysisSlot(Bool_t databranch, Bool_t server_proxy)
 {
    TGo4Slot* dataslot = fxOM->GetSlot(fxDataPath.Data());
 
@@ -774,12 +774,16 @@ TGo4Slot* TGo4BrowserProxy::FindAnalysisSlot(Bool_t databranch)
    TGo4Slot* res = 0;
 
    while (iter.next()) {
-      TGo4AnalysisProxy* cont =
-         dynamic_cast<TGo4AnalysisProxy*> (iter.getslot()->GetProxy());
-      if (cont!=0) {
-         res = iter.getslot();
-         break;
+
+      if (server_proxy) {
+         TGo4ServerProxy* serv = dynamic_cast<TGo4ServerProxy*> (iter.getslot()->GetProxy());
+         if ((serv==0) || !serv->IsGo4Analysis()) continue;
+      } else {
+         if (dynamic_cast<TGo4AnalysisProxy*>(iter.getslot()->GetProxy())==0) continue;
       }
+
+      res = iter.getslot();
+      break;
    }
 
    if ((res!=0) && !databranch) {
@@ -801,6 +805,20 @@ TGo4AnalysisProxy* TGo4BrowserProxy::FindAnalysis(const char* itemname)
      slot = FindAnalysisSlot(kTRUE);
 
    return slot==0 ? 0 : dynamic_cast<TGo4AnalysisProxy*>(slot->GetProxy());
+}
+
+TGo4ServerProxy* TGo4BrowserProxy::FindAnalysisNew(const char* itemname)
+{
+   // method should be used when analysis can be used via TGo4ServerProxy interface
+
+   TString slotname;
+   DataSlotName(itemname, slotname);
+
+   TGo4Slot* slot = fxOM->FindSlot(slotname.Data());
+   if ((slot==0) || (itemname==0))
+     slot = FindAnalysisSlot(kTRUE, kTRUE);
+
+   return slot==0 ? 0 : dynamic_cast<TGo4ServerProxy*>(slot->GetProxy());
 }
 
 TString TGo4BrowserProxy::FindItemInAnalysis(const char* objname)
@@ -907,7 +925,7 @@ Bool_t TGo4BrowserProxy::UpdateAnalysisItem(const char* itemname, TObject* obj)
 
    TString objname;
    TGo4ServerProxy* serv = DefineServerObject(itemname, &objname);
-   if (serv) return serv->UpdateServerObject(objname.Data(), obj);
+   if (serv) return serv->UpdateAnalysisObject(objname.Data(), obj);
 
    return kFALSE;
 
@@ -2023,8 +2041,8 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
       if ((cl!=0) && cl->InheritsFrom(TFile::Class())) { cando = 10000; pixmap = "rootdb_t.png"; } else
       if ((cl!=0) && cl->InheritsFrom(TGo4HServProxy::Class())) { cando = 10000; pixmap = "histserv.png"; } else
       if ((cl!=0) && cl->InheritsFrom(TGo4DabcProxy::Class())) { cando = 10000; pixmap = "dabc.png"; } else
-      if ((cl!=0) && cl->InheritsFrom(TGo4ServerProxy::Class())) { cando = 10000; pixmap = "http.png"; } else
-      if ((cl!=0) && cl->InheritsFrom(TGo4AnalysisProxy::Class())) { pixmap = "analysiswin.png"; }
+      if ((cl!=0) && cl->InheritsFrom(TGo4AnalysisProxy::Class())) { pixmap = "analysiswin.png"; } else
+      if ((cl!=0) && cl->InheritsFrom(TGo4ServerProxy::Class())) { cando = 10000; pixmap = "http.png"; }
       if (kind==TGo4Access::kndMoreFolder) cando += 10000000;
    } else
    if (kind==TGo4Access::kndTreeBranch)
