@@ -358,8 +358,14 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
       Win2_up->setDisabled(true);
    }
 
+   ShowEllipseWidget(econd!=0); // hide all elements on shape tab to reduce minimum window size
+   int oldindex=CondTabs->currentIndex();
+   CondTabs->setCurrentIndex(2); // JAM: need this trick to retrieve actual tab limits with hidden icons?
+   CondTabs->setCurrentIndex(oldindex);
+
    CondTabs->setTabEnabled(1, (pcond!=0));
    CondTabs->setTabEnabled(2, (econd!=0));
+
 
    if ((pcond==0) && ((CondTabs->currentIndex()==1) || (CondTabs->currentIndex()==2)))
      CondTabs->setCurrentIndex(0);
@@ -818,7 +824,39 @@ void TGo4ConditionEditor::FillEllipseWidget(TGo4ShapedCond* elli)
    fbTypingMode = old;
 }
 
+void TGo4ConditionEditor::ShowEllipseWidget(bool show)
+{
 
+
+    EllipseCxSpinbox->setVisible(show);
+    EllipseCySpinbox->setVisible(show);
+    EllipseA1Spinbox->setVisible(show);
+    EllipseA2Spinbox->setVisible(show);
+    EllipseTiltDial->setVisible(show);
+    EllipseTiltEdit->setVisible(show);
+
+    ShapegroupBox->setVisible(show);
+    CircleBox->setVisible(show);
+    EllipseBox->setVisible(show);
+    BoxshapeBox->setVisible(show);
+    FreeshapeBox->setVisible(show);
+    EllipseNptsSpin->setVisible(show);
+
+    AutoRefreshBox->setVisible(show);
+    EllipseCenterLabel->setVisible(show);
+    EllipseTitlLabel->setVisible(show);
+    EllipseRadiusLabel->setVisible(show);
+    EllipseNptsLabel->setVisible(show);
+    EllipsCxLabel->setVisible(show);
+    EllipsCyLabel->setVisible(show);
+    EllipsA1Label->setVisible(show);
+    EllipsA2Label->setVisible(show);
+
+    verticalLayout_2->setEnabled(show);
+    verticalLayout_5->setEnabled(show);
+    horizontalLayout_4->setEnabled(show);
+
+}
 
 
 void TGo4ConditionEditor::NPointsSpin_valueChanged(int npoint)

@@ -138,7 +138,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
                           //Int_t npoints, Double_t cx, Double_t cy, Double_t r, const char* HistoName
 
 
-      fBoxCond= MakeBoxCond("boxcond",0,2000,2000,400,100, 30, "Cr1Ch1x2");
+      fBoxCond= MakeBoxCond("boxcond",2000,2000,400,100, 30, "Cr1Ch1x2");
 
       fFreestyleCond = MakeFreeShapeCond("freecon", 3, cutpnts, "Cr1Ch1x2");
 

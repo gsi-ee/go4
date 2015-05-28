@@ -2067,8 +2067,7 @@ TGo4ShapedCond* TGo4Analysis::MakeCircleCond(const char* fullname,
        return elli;
 }
 
-TGo4ShapedCond* TGo4Analysis::MakeBoxCond(const char* fullname,
-               Int_t npoints, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
+TGo4ShapedCond* TGo4Analysis::MakeBoxCond(const char* fullname, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
                const char* HistoName)
 {
   TGo4ShapedCond* elli=MakeEllipseCond(fullname,4,cx,cy, a1, a2, theta, HistoName);

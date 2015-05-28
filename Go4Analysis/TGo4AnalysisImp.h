@@ -768,7 +768,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /** Create circular shaped polygon condition.
              * fullname specifies name of condition (optionally with subfolder name)
-             * npoints - number of points in ellipse condition, 0 for default resolution
+             * npoints - number of points in shaped condition, 0 for default resolution
              * cx,cy   - circle center coordinates
              * r       - circle radius
              * HistoName - name of histogram, to which condition is assigned
@@ -779,14 +779,12 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /** Create tilted rectangular box shaped polygon condition.
             * fullname specifies name of condition (optionally with subfolder name)
-            * npoints - number of points in ellipse condition, 0 for default resolution
-            * cx,cy - center coordinates of ellipse
-            * a1,a2 - width of ellipse half axes
+            * cx,cy - center coordinates of box
+            * a1,a2 - width of box half axes
             * theta - tilt angle
             * HistoName - name of histogram, to which condition is assigned
             */
-    TGo4ShapedCond* MakeBoxCond(const char* fullname,
-        Int_t npoints, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
+    TGo4ShapedCond* MakeBoxCond(const char* fullname, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
         const char* HistoName = 0);
 
     /** Create free shaped (polygon) condition.

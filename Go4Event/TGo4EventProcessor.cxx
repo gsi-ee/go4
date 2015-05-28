@@ -248,10 +248,10 @@ TGo4ShapedCond* TGo4EventProcessor::MakeCircleCond(const char* fullname, Int_t n
 }
 
 TGo4ShapedCond* TGo4EventProcessor::MakeBoxCond(const char* fullname,
-               Int_t npoints, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
+               Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
                const char* HistoName )
 {
-  return TGo4Analysis::Instance()->MakeBoxCond(fullname,npoints, cx, cy, a1, a2, theta,HistoName);
+  return TGo4Analysis::Instance()->MakeBoxCond(fullname, cx, cy, a1, a2, theta,HistoName);
 }
 
 TGo4ShapedCond* TGo4EventProcessor::MakeFreeShapeCond(const char* fullname,

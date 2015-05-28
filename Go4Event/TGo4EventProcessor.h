@@ -309,8 +309,7 @@ class TGo4EventProcessor: public TGo4EventSource {
                  * theta - tilt angle
                  * HistoName - name of histogram, to which condition is assigned
                  */
-       TGo4ShapedCond* MakeBoxCond(const char* fullname,
-                Int_t npoints, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
+       TGo4ShapedCond* MakeBoxCond(const char* fullname, Double_t cx, Double_t cy, Double_t a1, Double_t a2, Double_t theta,
                 const char* HistoName = 0);
 
             /** Create free shaped (polygon) condition.
