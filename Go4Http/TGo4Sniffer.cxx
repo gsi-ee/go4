@@ -76,16 +76,6 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    SetItemField("/Status/Analysis", "_icon", "go4sys/icons/control.png");
    SetItemField("/Status/Analysis", "_not_monitor", "true");
 
-   CreateItem("/Status/State", "Current analysis state");
-   SetItemField("/Status/State","_icon","img_question");
-   SetItemField("/Status/State","value","---");
-   SetItemField("/Status/State","_status","GO4.DrawAnalysisStatus");
-   SetItemField("/Status/State", "event_rate", "0");
-   SetItemField("/Status/State", "aver_rate", "0");
-   SetItemField("/Status/State", "run_time", "0");
-   SetItemField("/Status/State", "event_count", "0");
-   SetItemField("/Status/State", "_hidden", "true");
-
    CreateItem("/Status/Message", "Last message from analysis");
    SetItemField("/Status/Message", "_kind","Text");
    SetItemField("/Status/Message", "value","---");
@@ -108,6 +98,7 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
 
    RegisterObject("/Status", fRatemeter);
    SetItemField("/Status/Ratemeter", "_hidden", "true");
+   SetItemField("/Status/Ratemeter","_status","GO4.DrawAnalysisRatemeter");
 
    RegisterCommand("/Status/CmdClear", "this->CmdClear()", "button;go4sys/icons/clear.png");
    SetItemField("/Status/CmdClear", "_title", "Clear histograms and conditions in analysis");
@@ -354,23 +345,11 @@ void TGo4Sniffer::RatemeterUpdate(TGo4Ratemeter* r)
 {
    fRatemeter->UpdateFrom(r);
 
-   SetItemField("/Status/State","value", r->IsRunning() ? "Running" : "Stopped");
-
-   SetItemField("/Status/State", "event_rate", Form("%3.1f", r->GetRate()));
-   SetItemField("/Status/State", "aver_rate", Form("%3.1f", r->GetAvRate()));
-   SetItemField("/Status/State", "event_count", Form("%lu", (long unsigned) r->GetCurrentCount()));
-   SetItemField("/Status/State", "run_time", Form("%3.1f", r->GetTime()));
-
    Int_t n = fEventRate->GetN();
    if (n==100) {
       fEventRate->RemovePoint(0);
       n--;
    }
-
-   //TDatime tm;
-   //fEventRate->SetPoint(n, tm.Get(), r->GetRate());
-   //fEventRate->GetXaxis()->SetTimeDisplay(1);
-   //fEventRate->GetXaxis()->SetTimeFormat("%H:%M:%S");
 
    TTimeStamp tm, tm0;
    tm0.Set(1995,1,1,0,0,0,0,kTRUE,0);
@@ -378,8 +357,6 @@ void TGo4Sniffer::RatemeterUpdate(TGo4Ratemeter* r)
    fEventRate->GetXaxis()->SetTimeDisplay(1);
    fEventRate->GetXaxis()->SetTimeFormat("%H:%M:%S");
    fEventRate->GetYaxis()->SetTitle("Events/s");
-   // fEventRate->GetXaxis()->SetTimeFormat("%H:%M:%S%F1970-01-01 00:00:00");
-
 }
 
 void TGo4Sniffer::StatusMessage(int level, const TString &msg)
