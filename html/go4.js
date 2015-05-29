@@ -35,6 +35,7 @@
    GO4.DrawAnalysisRatemeter = function(divid, itemname) {
       
       var html = "<div style='padding-top:2px'>";
+      html += "<img class='go4_logo' style='vertical-align:middle;' src='go4sys/icons/go4logorun4.gif' alt='logo'></img>";
       html += "<label class='event_source' style='border: 1px solid gray; font-size:large; vertical-align:middle;'>file.lmd</label> ";
       html += "<label class='event_rate' style='border: 1px solid gray; font-size:large; vertical-align:middle; background-color: grey'>---</label> Ev/s ";
       html += "<label class='aver_rate' style='border: 1px solid gray; font-size:large; vertical-align:middle'>---</label> Ev/s "; 
@@ -50,6 +51,7 @@
                   .html(html);
       
       var xreq = null;
+      var was_running = null;
       
       function UpdateRatemeter() {
          if (xreq!=null) return;
@@ -59,6 +61,11 @@
             if (res==null) return;
             
             $('#'+divid + " .event_rate").css('background-color', res.fbRunning ? 'lightgreen' : 'red');
+
+            if (was_running != res.fbRunning)
+               $('#'+divid + " .go4_logo").attr("src", res.fbRunning ? 'go4sys/icons/go4logorun4.gif' : 'go4sys/icons/go4logo_t.png');
+            
+            was_running = res.fbRunning;
             
             $('#'+divid + " .event_source").text(res.fxEventSource);
             $('#'+divid + " .event_rate").text(res.fdRate.toFixed(1));
