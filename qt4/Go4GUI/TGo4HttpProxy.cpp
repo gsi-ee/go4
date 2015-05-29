@@ -337,15 +337,13 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
       TXMLEngine      *fXML;
       XMLNodePointer_t fParent;
       XMLNodePointer_t fChild;
-      unsigned fCnt;
 
    public:
       TGo4HttpLevelIter(TXMLEngine* xml, XMLNodePointer_t item) :
          TGo4LevelIter(),
          fXML(xml),
          fParent(item),
-         fChild(),
-         fCnt(0)
+         fChild()
          {
          }
 
@@ -355,18 +353,22 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
       {
          if (fParent == 0) return kFALSE;
 
-         if (fChild == 0) {
-            fCnt = 0;
-            fChild = fXML->GetChild(fParent);
-         } else {
-            fCnt++;
-            fChild = fXML->GetNext(fChild);
-         }
+         while (true) {
 
-         // filter-out streamer info item
-         if (fChild!=0) {
-            if (strcmp("StreamerInfo", name())==0)
-               if (strcmp("TStreamerInfoList", GetClassName())==0) return next();
+            if (fChild == 0) {
+               fChild = fXML->GetChild(fParent);
+            } else {
+               fChild = fXML->GetNext(fChild);
+            }
+
+            if (fChild==0) return kFALSE;
+
+            if (fXML->HasAttr(fChild,"_hidden")) continue;
+
+            //if ((strcmp("StreamerInfo", name())==0) &&
+            //    (strcmp("TStreamerInfoList", GetClassName())==0)) continue;
+
+            break;
          }
 
          return fChild!=0;
