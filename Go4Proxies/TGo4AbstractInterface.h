@@ -23,6 +23,7 @@
 class TGo4ObjectManager;
 class TGo4BrowserProxy;
 class TGo4AnalysisProxy;
+class TGo4ServerProxy;
 class TPad;
 class TGo4Picture;
 
@@ -247,7 +248,7 @@ class TGo4AbstractInterface : public TObject {
       virtual void ConnectDabc(const char* servername);
 
       /** Connect to HTTP server. Address like http://host:port/subfolder/ */
-      virtual void ConnectHttp(const char* servername) {}
+      virtual TGo4ServerProxy* ConnectHttp(const char* servername) { return 0; }
 
       /** Wait specified number of seconds.
         * Suppress macro execution, but keeps GUI functional, therefore

@@ -42,12 +42,16 @@ class QHttpProxy : public QObject {
       void httpError(QNetworkReply::NetworkError);
       void httpSslErrors ( const QList<QSslError> & errors);
 
+      void timerProcess();
+
    public:
 
       QHttpProxy(TGo4HttpProxy* p) : QObject(), qnam(), fReply(0), fProxy(p) {}
       virtual ~ QHttpProxy() {}
 
       void StartRequest(const char* url);
+
+      void ShootTimer();
 
 };
 
@@ -111,12 +115,14 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       TString         fNodeName;
       TXMLEngine     *fXML;
       XMLDocPointer_t fxHierarchy;    //!  pointer on dabc::Hierarchy class
-      TGo4Slot*       fxParentSlot;
       QHttpProxy      fComm;
+      Int_t           fRateCnt;       //! counter for ratemeter updates
 
       void GetReply(QByteArray& res);
 
       XMLNodePointer_t FindItem(const char* name, XMLNodePointer_t curr = 0) const;
+
+      void ProcessUpdateTimer();
 
    public:
       TGo4HttpProxy();
@@ -125,7 +131,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       Bool_t Connect(const char* nodename);
       Bool_t UpdateHierarchy(Bool_t sync = kTRUE);
 
-      virtual void Initialize(TGo4Slot* slot) { fxParentSlot = slot; }
+      virtual void Initialize(TGo4Slot* slot);
       virtual void Finalize(TGo4Slot* slot) {}
 
       virtual Bool_t HasSublevels() const;

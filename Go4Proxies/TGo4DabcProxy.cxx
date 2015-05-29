@@ -320,11 +320,8 @@ class TGo4DabcAccess : public TGo4Access {
                } else {
 
                   TGo4DabcAccess* maccess = new TGo4DabcAccess(fNodeName, fMasterItemName);
-                  TString tgtname = masterslot->GetFullName();
 
-                  //printf("Request master slot = %p tgtname %s \n", masterslot, tgtname.Data());
-
-                  if (maccess->AssignObjectTo(fxReceiver, tgtname.Data()) != 2) {
+                  if (maccess->AssignObjectToSlot(fxReceiver) != 2) {
                      delete maccess;
                      TGo4Log::Error("Fail to request MASTER item %s from DABC node %s", fMasterItemName.c_str(), fNodeName.c_str());
                      return -1;

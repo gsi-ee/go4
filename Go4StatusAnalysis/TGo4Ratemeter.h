@@ -14,18 +14,33 @@
 #ifndef TGO4RATEMETER_H
 #define TGO4RATEMETER_H
 
-#include "TObject.h"
+#include "TNamed.h"
 
 #include "TTimeStamp.h"
 
 /**
  * Class containing event counter and ratemeter services.
  */
-class TGo4Ratemeter : public TObject {
-   public:
-      TGo4Ratemeter() ;
+class TGo4Ratemeter : public TNamed {
+   private:
+      ULong64_t    fuCurrentCount;    // Number of events processed since last start.
+      Double_t     fdRate;            // Current eventrate (events/sec)
+      Double_t     fdTime;            // Time sum since last ratemeter reset. in s.
 
-      virtual ~TGo4Ratemeter() ;
+      ULong64_t    fuLastCount;       //! Number of events processed at last ratemeter update
+      TTimeStamp   fLastTm;           //! Time when last rate measurement was done
+      Bool_t       fbUpdateDone;      //! True if update has been performed since last TestZero call
+
+      ULong64_t    fuNextCheckCnt;    //! Next counter value when time will be checked
+      ULong64_t    fuCheckInterval;   //! How often time should be checked
+      Double_t     fdUpdateInterval;  //! Configured interval in seconds before two updates
+
+      static const Double_t fgdUPDATEINTERVAL;
+
+   public:
+      TGo4Ratemeter();
+
+      virtual ~TGo4Ratemeter();
 
       Double_t GetRate() const { return fdRate; }
 
@@ -33,12 +48,14 @@ class TGo4Ratemeter : public TObject {
 
       ULong64_t GetCurrentCount() const { return fuCurrentCount; }
 
-      Double_t GetAvRate() const { return fdTime>0 ? fuCurrentCount/fdTime : 0.; }
+      Double_t GetAvRate() const { return (fdTime > 0) ? fuCurrentCount/fdTime : 0.; }
+
+      void UpdateFrom(const TGo4Ratemeter* r);
 
       /** Update counter and rate values. Parameter increment may specify the
         * number of counts to add before the new rate is calculated.
         * Return kTRUE if new rate is calculated */
-      Bool_t Update(Int_t increment=1);
+      Bool_t Update(Int_t increment = 1);
 
       /** Reset counter and rate values */
       void Reset();
@@ -49,39 +66,9 @@ class TGo4Ratemeter : public TObject {
       Bool_t TestUpdate();
 
       /** Set update interval in seconds - default is 1 */
-
       void SetUpdateInterval(double v) { if (v>0) fdUpdateInterval = v; }
 
-   private:
-
-      static const Double_t fgdUPDATEINTERVAL;
-
-      /** Number of events processed since last start. */
-      ULong64_t fuCurrentCount;
-
-      /** Number of events processed at last ratemeter update. */
-      ULong64_t fuLastCount;
-
-      /** Current eventrate (events/sec). */
-      Double_t fdRate;
-
-      /** Time sum since last ratemeter reset. in s. */
-      Double_t fdTime;
-
-      /** Time when last rate measurement was done */
-      TTimeStamp fLastTm;
-
-      /** True if update has been performed since last TestZero call. */
-      Bool_t fbUpdateDone;
-
-      /** Next counter value when time will be checked */
-      ULong64_t fuNextCheckCnt;
-
-      /** How often time should be checked */
-      ULong64_t fuCheckInterval;
-
-      /** Configured interval in seconds before two updates */
-      Double_t fdUpdateInterval;
+      ClassDef(TGo4Ratemeter, 1)
 };
 
 #endif //TGO4RATEMETER_H

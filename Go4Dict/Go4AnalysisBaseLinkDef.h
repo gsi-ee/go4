@@ -72,5 +72,7 @@
 #pragma link C++ class TGo4FitterEnvelope+;
 #pragma link C++ class TGo4ObjEnvelope+;
 
+#pragma link C++ class TGo4Ratemeter+;
+
 
 #endif

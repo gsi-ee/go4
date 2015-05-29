@@ -67,7 +67,8 @@ TGo4Slot::TGo4Slot() :
    fChilds(0),
    fPars(),
    fProxy(0),
-   fAssignFlag(-1)
+   fAssignFlag(-1),
+   fAssignCnt(0)
 {
    SetBit(kStartDelete, kFALSE);
 }
@@ -78,7 +79,8 @@ TGo4Slot::TGo4Slot(TGo4Slot* parent) :
    fChilds(0),
    fPars(),
    fProxy(0),
-   fAssignFlag(-1)
+   fAssignFlag(-1),
+   fAssignCnt(0)
 {
    SetBit(kStartDelete, kFALSE);
 
@@ -94,7 +96,8 @@ TGo4Slot::TGo4Slot(TGo4Slot* parent, const char* name, const char* title) :
    fChilds(0),
    fPars(),
    fProxy(0),
-   fAssignFlag(-1)
+   fAssignFlag(-1),
+   fAssignCnt(0)
 {
    SetBit(kStartDelete, kFALSE);
 
@@ -357,11 +360,12 @@ Bool_t TGo4Slot::IsAcceptObject(TClass* cl)
 
 Bool_t TGo4Slot::AssignObject(TObject* obj, Bool_t owner)
 {
+   fAssignCnt++;
    fAssignFlag = kFALSE;
    if (fProxy!=0)
-     fAssignFlag = fProxy->AssignObject(this, obj, owner);
+      fAssignFlag = fProxy->AssignObject(this, obj, owner);
    else
-     if (owner) delete obj;
+      if (owner) delete obj;
 
    return (fAssignFlag == (Int_t) kTRUE);
 }

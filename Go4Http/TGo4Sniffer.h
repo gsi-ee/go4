@@ -21,6 +21,7 @@
 
 class TGo4AnalysisWebStatus;
 class TGraph;
+class TGo4Ratemeter;
 
 class TGo4Sniffer : public TRootSniffer,
                     public TGo4AnalysisSniffer {
@@ -29,6 +30,8 @@ class TGo4Sniffer : public TRootSniffer,
       TGo4AnalysisWebStatus*  fAnalysisStatus;
 
       TGraph* fEventRate;
+
+      TGo4Ratemeter* fRatemeter;
 
       virtual void ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj);
 

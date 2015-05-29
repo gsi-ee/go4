@@ -82,7 +82,7 @@ class TGo4MainWindow : public QMainWindow {
       void OpenFileSlot();
       void OpenRemoteFileSlot();
       void ConnectDabcSlot();
-      void ConnectHttpSlot();
+      void ConnectHttpSlot(const char* addr = 0);
       void ConnectHServerSlot();
       void SaveFileSlot();
       void CascadeSubWindows();

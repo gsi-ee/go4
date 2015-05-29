@@ -38,7 +38,8 @@ class TGo4Slot : public TNamed  {
       TObjArray*         fChilds;
       TObjArray          fPars;
       TGo4Proxy*         fProxy;     //!
-      Int_t              fAssignFlag; //!
+      Int_t              fAssignFlag; //! use in object manager to poll until object is assigned
+      Int_t              fAssignCnt;  //! counts number of object assignment
 
    public:
       enum { evDelete = 0,
@@ -100,6 +101,7 @@ class TGo4Slot : public TNamed  {
       virtual void Update(Bool_t strong = kFALSE);
       Int_t GetAssignFlag() const { return fAssignFlag; }
       void ResetAssignFlag() { fAssignFlag = -1; }
+      Int_t GetAssignCnt() const { return fAssignCnt; }
 
       Bool_t HasSubLevels() const;
       Bool_t HasSlotsSubLevels() const;
@@ -109,7 +111,7 @@ class TGo4Slot : public TNamed  {
       void SaveData(TDirectory* dir, Bool_t onlyobjs = kFALSE);
       void ReadData(TDirectory* dir);
 
-      // mnethod required to be virtual for object manager
+      // method required to be virtual for object manager
       virtual void Event(TGo4Slot* source, Int_t id, void* param = 0);
       void ForwardEvent(TGo4Slot* source, Int_t id, void* param = 0);
 

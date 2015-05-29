@@ -73,7 +73,6 @@ class TGo4AnalysisStatus : public TGo4Status {
     /** Add new step status object to analysis status. */
     Bool_t AddStepStatus(TGo4AnalysisStepStatus * next);
 
-
     /** Clear all existing step status objects. For remote http control*/
     void ClearStepStatus();
 

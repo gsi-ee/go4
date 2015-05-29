@@ -880,12 +880,10 @@ Bool_t TGo4AnalysisProxy::RequestObjectStatus(const char* fullname, TGo4Slot* tg
    TString objfolder, objname;
    TGo4Slot::ProduceFolderAndName(fullname, objfolder, objname);
 
-   TGo4AnalysisObjectAccess* proxy =
+   TGo4AnalysisObjectAccess* access =
       new TGo4AnalysisObjectAccess(this, cmdStatus, objname, "", objfolder);
 
-   TString tgtname;
-   tgtslot->ProduceFullName(tgtname);
-   proxy->AssignObjectTo(tgtslot->GetOM(), tgtname.Data());
+   access->AssignObjectToSlot(tgtslot);
 
    return kTRUE;
 }
@@ -912,11 +910,10 @@ void TGo4AnalysisProxy::RequestEventStatus(const char* evname, Bool_t astree, TG
       if (astree) folder = "Tree";
              else folder = "Event";
 
-      TGo4AnalysisObjectAccess* proxy =
+      TGo4AnalysisObjectAccess* access =
          new TGo4AnalysisObjectAccess(this, cmdEvStatus, name, "", folder);
 
-      TString tgtname = tgtslot->GetFullName();
-      proxy->AssignObjectTo(tgtslot->GetOM(), tgtname.Data());
+      access->AssignObjectToSlot(tgtslot);
    }
 }
 

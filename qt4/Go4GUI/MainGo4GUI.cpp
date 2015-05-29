@@ -243,7 +243,7 @@ int main(int argc, char **argv)
       Go4MainGUI->Browser()->ConnectDabc(dabcnode.toLatin1().constData());
 
    if (httpnode.length()>0)
-      TGo4AbstractInterface::Instance()->ConnectHttp(httpnode.toLatin1().constData());
+      Go4MainGUI->ConnectHttpSlot(httpnode.toLatin1().constData());
 
    if (hotstart.length()>0)
       Go4MainGUI->HotStart(hotstart.toLatin1().constData());

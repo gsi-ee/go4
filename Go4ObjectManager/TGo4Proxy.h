@@ -55,6 +55,10 @@ class TGo4Access {
         * 2 - if object will be assigned later */
       virtual Int_t AssignObjectTo(TGo4ObjectManager* rcv, const char* path);
 
+      /** Made for convenience - extracts OM and slot path and
+       *  calls AssignObjectTo method */
+      Int_t AssignObjectToSlot(TGo4Slot* slot);
+
     protected:
       void DoObjectAssignement(TGo4ObjectManager* rcv,
                                const char* path,

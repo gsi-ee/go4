@@ -1117,17 +1117,29 @@ void TGo4MainWindow::ConnectDabcSlot()
       QMessageBox::warning(0, "DABC server", "Cannot connect to DABC server");
 }
 
-void TGo4MainWindow::ConnectHttpSlot()
+void TGo4MainWindow::ConnectHttpSlot(const char* addr)
 {
-   bool ok = false;
-   QString dabcnode = QInputDialog::getText(
+   QString httpaddr;
+
+   if (addr==0) {
+      bool ok = false;
+      httpaddr = QInputDialog::getText(
       this, "Establish connection with HTTP", "Provide http server name",
       QLineEdit::Normal, QString::null, &ok);
-   if (!ok) return;
+      if (!ok) return;
+   } else {
+      httpaddr = addr;
+   }
+
 
    TGo4Script* exec = TGo4Script::ScriptInstance();
 
-   if (exec) exec->ConnectHttp(dabcnode.toLatin1().constData());
+   if (!exec) return;
+
+   TGo4ServerProxy* proxy = exec->ConnectHttp(httpaddr.toLatin1().constData());
+
+   if (proxy && proxy->IsGo4Analysis())
+      EstablishRatemeter(2);
 }
 
 
@@ -1721,9 +1733,9 @@ TGo4AnalysisStatusMonitor* TGo4MainWindow::EstablishRatemeter(int level)
         status = new TGo4AnalysisStatusMonitor(statusBar(), "AnalysisStatusMonitor");
         ConnectGo4Widget(status);
         statusBar()->addWidget(status);
-        TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
-        if (anal!=0)
-          status->WorkWithRatemeter(anal->RatemeterSlot());
+        TGo4ServerProxy* serv = Browser()->FindAnalysisNew();
+        if (serv!=0)
+          status->WorkWithRatemeter(serv->RatemeterSlot());
      }
    } else
    if (level==0) {

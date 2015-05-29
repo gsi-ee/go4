@@ -53,6 +53,15 @@ Int_t TGo4Access::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
    return 1;
 }
 
+Int_t TGo4Access::AssignObjectToSlot(TGo4Slot* slot)
+{
+   if (slot==0) return 0;
+
+   TString tgtname;
+   slot->ProduceFullName(tgtname);
+   return AssignObjectTo(slot->GetOM(), tgtname.Data());
+}
+
 void TGo4Access::DoObjectAssignement(TGo4ObjectManager* mgr,
                                      const char* path,
                                      TObject* obj,

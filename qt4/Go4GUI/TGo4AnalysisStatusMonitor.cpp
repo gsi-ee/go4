@@ -15,6 +15,7 @@
 #include <math.h>
 
 #include "TGo4AnalysisClientStatus.h"
+#include "TGo4Ratemeter.h"
 #include "TGo4BrowserProxy.h"
 #include "TSystem.h"
 
@@ -52,39 +53,27 @@ void TGo4AnalysisStatusMonitor::WorkWithRatemeter(TGo4Slot* slot)
 void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObject * obj )
 {
    TGo4AnalysisClientStatus* status = dynamic_cast<TGo4AnalysisClientStatus*> (obj);
-   if (status==0) return;
-   SourceLabel->setText(status->GetCurrentSource());
+   TGo4Ratemeter* rate = dynamic_cast<TGo4Ratemeter*> (obj);
 
-   double Rate = status->GetRate();
-   if(Rate>10) LCDCurrentRate->display(floor(Rate));
-   else LCDCurrentRate->display(Rate);
+   if ((status==0) && (rate==0)) return;
 
-   const char* color = "QFrame { background-color:rgb(255,0,0) }";
+   double Rate = status ? status->GetRate() : rate->GetRate();
+   if (Rate>10) LCDCurrentRate->display(floor(Rate));
+           else LCDCurrentRate->display(Rate);
 
-   if(!status->IsAnalysisRunning()) {
-      Go4Pix->setWindowIcon( QIcon(":/icons/go4logo2.png"));
-      fxRunMovie->stop();
-   } else {
-      color = "QFrame { background-color:rgb(0,255,0) }";
-      Go4Pix->clear();
-      Go4Pix->setMovie(fxRunMovie);
-      fxRunMovie->start();
-   }
+   double AvRate = status ? status->GetAvRate() : rate->GetAvRate();
+   if(AvRate>10) LCDAverageRate->display(floor(AvRate));
+            else LCDAverageRate->display(AvRate);
 
-   LCDCurrentRate->setStyleSheet(color);
-
-   if(status->GetAvRate()>10)
-      LCDAverageRate->display(floor(status->GetAvRate()));
-   else
-      LCDAverageRate->display(status->GetAvRate());
-   int stime=(int)status->GetTime();
+   int stime = status ? (int) status->GetTime() : (int) rate->GetTime();
    LCDTime->display(stime);
    ulong hh = stime/3600;
    ulong mm = (stime-hh*3600)/60;
    ulong ss = (stime-hh*3600-mm*60);
    QString tooltip = QString("Time since last reset [sec] = %1:%2:%3 [hours:min:sec]").arg(hh).arg(mm).arg(ss);
    LCDTime->setToolTip(tooltip);
-   QString scnt = QString("%1").arg(status->GetCurrentCount());
+
+   QString scnt = QString("%1").arg(status ? status->GetCurrentCount() : rate->GetCurrentCount());
 
 #if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    if (scnt.length() > LCDProcessedEvents->digitCount())
@@ -96,7 +85,26 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObj
 
    LCDProcessedEvents->display(scnt);
 
-   DateLabel->setText(status->GetDateTime());
+   const char* color = "QFrame { background-color:rgb(255,0,0) }";
+
+   Bool_t running = status ? status->IsAnalysisRunning() : (Rate>0);
+
+   if(!running) {
+      Go4Pix->setWindowIcon( QIcon(":/icons/go4logo2.png"));
+      fxRunMovie->stop();
+   } else {
+      color = "QFrame { background-color:rgb(0,255,0) }";
+      Go4Pix->clear();
+      Go4Pix->setMovie(fxRunMovie);
+      fxRunMovie->start();
+   }
+
+   LCDCurrentRate->setStyleSheet(color);
+
+   if (status) {
+      SourceLabel->setText(status->GetCurrentSource());
+      DateLabel->setText(status->GetDateTime());
+   }
 }
 
 void TGo4AnalysisStatusMonitor::linkedObjectRemoved(const char * linkname)

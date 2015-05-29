@@ -763,14 +763,14 @@ const char* TGo4Script::GetDrawnItemName(ViewPanelHandle handle, int cnt)
    return panel ? panel->GetDrawItemName(cnt) : 0;
 }
 
-void TGo4Script::ConnectHttp(const char* servername)
+TGo4ServerProxy* TGo4Script::ConnectHttp(const char* servername)
 {
-   if ((servername==0) || (*servername==0)) return;
+   if ((servername==0) || (*servername==0)) return 0;
 
    TGo4HttpProxy* proxy = new TGo4HttpProxy();
    if (!proxy->Connect(servername)) {
       delete proxy;
-      return;
+      return 0;
    }
 
    const char* slotname = servername;
@@ -781,6 +781,8 @@ void TGo4Script::ConnectHttp(const char* servername)
    if ((len>1) && (len<sname.Length())) sname.Resize(len);
 
    Browser()->AddServerProxy(proxy, sname.Data(), "ROOT http server");
+
+   return proxy;
 }
 
 

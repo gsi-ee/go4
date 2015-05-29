@@ -42,7 +42,7 @@ class TGo4AnalysisClientStatus : public TGo4ClientStatus {
 
       const char* GetCurrentSource() const { return fxEventSource.Data(); }
 
-      Bool_t IsAnalysisRunning(){return fbAnalysisRunning;}
+      Bool_t IsAnalysisRunning() { return fbAnalysisRunning; }
 
       /** basic method to printout status information
        * on stdout; to be overridden by specific subclass */

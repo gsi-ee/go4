@@ -416,7 +416,7 @@ void TGo4AnalysisClient::UpdateRate(Int_t counts)
          TString ratefmt;
          ratefmt.Form("\rCnt = %s  Rate = %s Ev/s", TGo4Log::GetPrintfArg(kULong64_t),"%5.*f");
          int width(1);
-         if (fxRatemeter->GetRate()>1e4) width=0; else
+         if (fxRatemeter->GetRate()>1e4) width = 0; else
          if (fxRatemeter->GetRate()<1.) width = 3;
          printf(ratefmt.Data(), fxRatemeter->GetCurrentCount(), width, fxRatemeter->GetRate());
          fflush(stdout);

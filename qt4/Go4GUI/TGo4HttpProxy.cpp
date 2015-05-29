@@ -24,6 +24,8 @@
 #include "TBufferFile.h"
 
 #include "TGo4Slot.h"
+#include "TGo4ObjectProxy.h"
+#include "TGo4ObjectManager.h"
 
 #include <QtNetwork>
 #include <QTime>
@@ -47,6 +49,18 @@ void QHttpProxy::httpSslErrors (const QList<QSslError> & errors)
 {
    // printf("QHttpProxy::httpSslErrors\n");
    if (fReply) fReply->ignoreSslErrors();
+}
+
+
+void QHttpProxy::timerProcess()
+{
+   if (fProxy) fProxy->ProcessUpdateTimer();
+   ShootTimer();
+}
+
+void QHttpProxy::ShootTimer()
+{
+   QTimer::singleShot(2000, this, SLOT(timerProcess()));
 }
 
 void QHttpProxy::StartRequest(const char* url)
@@ -149,6 +163,8 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
    fReply = fProxy->fComm.qnam.get(QNetworkRequest(QUrl(url.Data())));
    connect(fReply, SIGNAL(finished()), this, SLOT(httpFinished()));
 
+   if (gDebug>2) printf("TGo4HttpAccess::AssignObjectTo Request URL %s\n", url.Data());
+
    return 2;
 }
 
@@ -158,7 +174,7 @@ void TGo4HttpAccess::httpFinished()
    fReply->deleteLater();
    fReply = 0;
 
-   // printf("Get reply size %d\n", res.size());
+   if (gDebug>2) printf("TGo4HttpAccess::httpFinished Get reply size %d\n", res.size());
 
    // do nothing
    if (res.size()==0) return;
@@ -294,6 +310,9 @@ void TGo4HttpAccess::httpFinished()
    } else {
 
       TClass* obj_cl = GetObjectClass();
+
+      if (gDebug>2) if (gDebug>2) printf("TGo4HttpAccess::httpFinished Reconstruct object class %s\n", obj_cl ? obj_cl->GetName() : "---");
+
       if ((obj_cl==0) || (obj_cl->GetBaseClassOffset(TObject::Class()) != 0)) return;
 
       obj = (TObject*) obj_cl->New();
@@ -405,8 +424,8 @@ TGo4HttpProxy::TGo4HttpProxy() :
    fNodeName(),
    fXML(0),
    fxHierarchy(0),
-   fxParentSlot(0),
-   fComm(this)
+   fComm(this),
+   fRateCnt(0)
 {
    fXML = new TXMLEngine;
 }
@@ -418,6 +437,22 @@ TGo4HttpProxy::~TGo4HttpProxy()
 
    delete fXML; fXML = 0;
 }
+
+void TGo4HttpProxy::Initialize(TGo4Slot* slot)
+{
+   TGo4ServerProxy::Initialize(slot);
+
+   if (!IsGo4Analysis()) return;
+
+   TGo4Slot* subslot = new TGo4Slot(fxParentSlot, "Settings", "Analysis configuration");
+   subslot->SetProxy(new TGo4ObjectProxy());
+
+   subslot = new TGo4Slot(fxParentSlot, "Ratemeter", "Analysis ratemeter");
+   subslot->SetProxy(new TGo4ObjectProxy());
+
+   fComm.ShootTimer();
+}
+
 
 XMLNodePointer_t TGo4HttpProxy::FindItem(const char* name, XMLNodePointer_t curr) const
 {
@@ -448,9 +483,7 @@ XMLNodePointer_t TGo4HttpProxy::FindItem(const char* name, XMLNodePointer_t curr
    } while (doagain);
 
    return 0;
-
 }
-
 
 void TGo4HttpProxy::GetReply(QByteArray& res)
 {
@@ -483,8 +516,6 @@ Bool_t TGo4HttpProxy::UpdateHierarchy(Bool_t sync)
    if (fComm.fReply!=0) return kTRUE;
 
    TString req = fNodeName + "/h.xml?compact";
-
-   // printf("Send request %s\n", req.Data());
 
    fComm.StartRequest(req.Data());
 
@@ -574,9 +605,7 @@ Bool_t TGo4HttpProxy::RequestObjectStatus(const char* objectname, TGo4Slot* tgts
 
    TGo4HttpAccess* access = new TGo4HttpAccess(this, item, objectname, 4);
 
-   TString tgtname;
-   tgtslot->ProduceFullName(tgtname);
-   access->AssignObjectTo(tgtslot->GetOM(), tgtname.Data());
+   access->AssignObjectToSlot(tgtslot);
    return kTRUE;
 }
 
@@ -617,5 +646,24 @@ Bool_t TGo4HttpProxy::UpdateAnalysisObject(const char* objectname, TObject* obj)
    netReply->deleteLater();
 
    return netReply->isFinished();
+}
+
+void TGo4HttpProxy::ProcessUpdateTimer()
+{
+   if (fxParentSlot==0) return;
+
+   TGo4Slot* subslot = fxParentSlot->FindChild("Ratemeter");
+   if (subslot == 0) return;
+
+   // no new update since last call
+   if ((subslot->GetAssignedObject()!=0) && (fRateCnt == subslot->GetAssignCnt())) return;
+
+   fRateCnt = subslot->GetAssignCnt();
+
+   XMLNodePointer_t item = FindItem("Status/Ratemeter");
+   if (item==0) return;
+
+   TGo4HttpAccess* access = new TGo4HttpAccess(this, item, "Status/Ratemeter", 1);
+   access->AssignObjectToSlot(subslot);
 }
 

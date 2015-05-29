@@ -60,7 +60,9 @@ Bool_t TGo4Sniffer::CreateEngine(const char* args)
 TGo4Sniffer::TGo4Sniffer(const char* name) :
    TRootSniffer(name),
    TGo4AnalysisSniffer(),
-   fAnalysisStatus(0)
+   fAnalysisStatus(0),
+   fEventRate(0),
+   fRatemeter(0)
 {
    SetReadOnly(kFALSE);
    SetScanGlobalDir(kFALSE);
@@ -82,6 +84,7 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    SetItemField("/Status/State", "aver_rate", "0");
    SetItemField("/Status/State", "run_time", "0");
    SetItemField("/Status/State", "event_count", "0");
+   SetItemField("/Status/State", "_hidden", "true");
 
    CreateItem("/Status/Message", "Last message from analysis");
    SetItemField("/Status/Message", "_kind","Text");
@@ -91,6 +94,10 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    SetItemField("/Status/DebugOutput", "_kind","Text");
    SetItemField("/Status/DebugOutput", "value","---");
 
+   fRatemeter = new TGo4Ratemeter();
+   fRatemeter->SetName("Ratemeter");
+   fRatemeter->SetTitle("Analysis rates");
+
    fEventRate = new TGraph();
    fEventRate->SetName("EventsRate");
    fEventRate->SetTitle("Events processing rate");
@@ -98,6 +105,9 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    fEventRate->GetXaxis()->SetTimeFormat("%H:%M:%S");
 
    RegisterObject("/Status", fEventRate);
+
+   RegisterObject("/Status", fRatemeter);
+   SetItemField("/Status/Ratemeter", "_hidden", "true");
 
    RegisterCommand("/Status/CmdClear", "this->CmdClear()", "button;go4sys/icons/clear.png");
    SetItemField("/Status/CmdClear", "_title", "Clear histograms and conditions in analysis");
@@ -345,7 +355,7 @@ void TGo4Sniffer::RatemeterUpdate(TGo4Ratemeter* r)
    TGo4Analysis* an = TGo4Analysis::Instance();
    Bool_t running = an ? an->IsRunning() : kFALSE;
 
-   // Info("RatemeterUpdate" ," runnig %d", running);
+   fRatemeter->UpdateFrom(r);
 
    SetItemField("/Status/State","value", running ? "Running" : "Stopped");
 

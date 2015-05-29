@@ -775,14 +775,17 @@ TGo4Slot* TGo4BrowserProxy::FindAnalysisSlot(Bool_t databranch, Bool_t server_pr
 
    while (iter.next()) {
 
+      TGo4Slot* slot = iter.getslot();
+      if (slot==0) continue;
+
       if (server_proxy) {
-         TGo4ServerProxy* serv = dynamic_cast<TGo4ServerProxy*> (iter.getslot()->GetProxy());
+         TGo4ServerProxy* serv = dynamic_cast<TGo4ServerProxy*> (slot->GetProxy());
          if ((serv==0) || !serv->IsGo4Analysis()) continue;
       } else {
-         if (dynamic_cast<TGo4AnalysisProxy*>(iter.getslot()->GetProxy())==0) continue;
+         if (dynamic_cast<TGo4AnalysisProxy*>(slot->GetProxy())==0) continue;
       }
 
-      res = iter.getslot();
+      res = slot;
       break;
    }
 
