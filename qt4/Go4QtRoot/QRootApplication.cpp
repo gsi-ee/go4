@@ -27,10 +27,8 @@
 
 #include <stdlib.h>
 
-#include "TTimer.h"
 #include "TSystem.h"
 #include "Riostream.h"
-
 
 #include <QtCore/QObject>
 #include <QtCore/QTimer>
@@ -89,9 +87,9 @@ void qMessageOutput( QtMsgType type, const char *msg )
 }
 
 
-QRootApplication::QRootApplication(int& argc, char **argv, int poll)
-   :QApplication(argc,argv, true)
-   {
+QRootApplication::QRootApplication(int& argc, char **argv, int poll) :
+   QApplication(argc,argv, true)
+{
 
   // connect ROOT via Timer call back
   if (poll == 0){
@@ -101,9 +99,8 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll)
     timer->setSingleShot(false);
     timer->start(20);
 
-    rtimer = new TTimer(20);
-    rtimer->Start(20, kFALSE);
-
+    // rtimer = new TTimer(20);
+    // rtimer->Start(20, kFALSE);
   }
 
   // install a msg-handler
@@ -143,9 +140,13 @@ QRootApplication::~QRootApplication()
 }
 
 void QRootApplication::execute()
-//call the inner loop of ROOT
 {
-   gSystem->InnerLoop();
+   //call the inner loop of ROOT
+
+   // gSystem->InnerLoop();
+
+   // SL 28.5.2015: use ProcessEvents instead of InnerLoop to avoid total block of the qt event loop
+   gSystem->ProcessEvents();
 }
 
 void QRootApplication::quit()
