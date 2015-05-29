@@ -365,9 +365,6 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
 
             if (fXML->HasAttr(fChild,"_hidden")) continue;
 
-            //if ((strcmp("StreamerInfo", name())==0) &&
-            //    (strcmp("TStreamerInfoList", GetClassName())==0)) continue;
-
             break;
          }
 

@@ -87,7 +87,7 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObj
 
    const char* color = "QFrame { background-color:rgb(255,0,0) }";
 
-   Bool_t running = status ? status->IsAnalysisRunning() : (Rate>0);
+   Bool_t running = status ? status->IsAnalysisRunning() : rate->IsRunning();
 
    if(!running) {
       Go4Pix->setWindowIcon( QIcon(":/icons/go4logo2.png"));

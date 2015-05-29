@@ -633,13 +633,14 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
                last_update = now; need_update = true;
             }
 
-            if (need_update && showrate) {
-               int width = (rate.GetRate()>1e4) ? 0 : (rate.GetRate()<1. ? 3 : 1);
-               printf(ratefmt.Data(), rate.GetCurrentCount(), width, rate.GetRate());
-               fflush(stdout);
-            }
-            if (need_update && fSniffer) {
-               fSniffer->RatemeterUpdate(&rate);
+            if (need_update) {
+               rate.SetRunning(IsRunning());
+               if (showrate) {
+                  int width = (rate.GetRate()>1e4) ? 0 : (rate.GetRate()<1. ? 3 : 1);
+                  printf(ratefmt.Data(), rate.GetCurrentCount(), width, rate.GetRate());
+                  fflush(stdout);
+               }
+               if (fSniffer) fSniffer->RatemeterUpdate(&rate);
             }
          }
 

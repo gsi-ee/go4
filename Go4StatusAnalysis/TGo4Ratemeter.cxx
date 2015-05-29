@@ -18,6 +18,7 @@ const Double_t TGo4Ratemeter::fgdUPDATEINTERVAL= 1.0; // time in s
 
 TGo4Ratemeter::TGo4Ratemeter() :
    TNamed(),
+   fbRunning(kFALSE),
    fuCurrentCount(0),
    fdRate(0),
    fdTime(0),
@@ -39,6 +40,7 @@ void TGo4Ratemeter::UpdateFrom(const TGo4Ratemeter* r)
    // update only persistent members
 
    if (r==0) return;
+   fbRunning = r->fbRunning;
    fuCurrentCount = r->fuCurrentCount;
    fdRate = r->fdRate;
    fdTime = r->fdTime;
@@ -46,6 +48,7 @@ void TGo4Ratemeter::UpdateFrom(const TGo4Ratemeter* r)
 
 void TGo4Ratemeter::Reset()
 {
+   fbRunning = kFALSE;
    fdTime = 0;
    fdRate = 0;
    fuLastCount = 0;

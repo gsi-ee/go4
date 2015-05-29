@@ -23,6 +23,7 @@
  */
 class TGo4Ratemeter : public TNamed {
    private:
+      Bool_t       fbRunning;         // Indicates if analysis running
       ULong64_t    fuCurrentCount;    // Number of events processed since last start.
       Double_t     fdRate;            // Current eventrate (events/sec)
       Double_t     fdTime;            // Time sum since last ratemeter reset. in s.
@@ -42,6 +43,8 @@ class TGo4Ratemeter : public TNamed {
 
       virtual ~TGo4Ratemeter();
 
+      Bool_t IsRunning() const { return fbRunning; }
+
       Double_t GetRate() const { return fdRate; }
 
       Double_t GetTime() const { return fdTime; }
@@ -56,6 +59,8 @@ class TGo4Ratemeter : public TNamed {
         * number of counts to add before the new rate is calculated.
         * Return kTRUE if new rate is calculated */
       Bool_t Update(Int_t increment = 1);
+
+      void SetRunning(Bool_t on = kTRUE) { fbRunning = on; }
 
       /** Reset counter and rate values */
       void Reset();

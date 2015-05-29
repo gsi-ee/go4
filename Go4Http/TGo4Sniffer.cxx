@@ -352,12 +352,9 @@ void TGo4Sniffer::SetTitle(const char* title)
 
 void TGo4Sniffer::RatemeterUpdate(TGo4Ratemeter* r)
 {
-   TGo4Analysis* an = TGo4Analysis::Instance();
-   Bool_t running = an ? an->IsRunning() : kFALSE;
-
    fRatemeter->UpdateFrom(r);
 
-   SetItemField("/Status/State","value", running ? "Running" : "Stopped");
+   SetItemField("/Status/State","value", r->IsRunning() ? "Running" : "Stopped");
 
    SetItemField("/Status/State", "event_rate", Form("%3.1f", r->GetRate()));
    SetItemField("/Status/State", "aver_rate", Form("%3.1f", r->GetAvRate()));
