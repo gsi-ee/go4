@@ -99,6 +99,8 @@ void TGo4StartClient::SelectDir()
 {
    QFileDialog fd(this, "Select your working directory");
    fd.setFileMode(QFileDialog::DirectoryOnly);
+   fd.setOption(QFileDialog::DontUseNativeDialog);
+   //< JAM also do not use native dialog here to be consistent with lib dialog, see below
    QString dir = LineEditClientDir->text();
    if (dir.isEmpty() || !QDir(dir).exists())
       dir = QDir::currentPath();
@@ -145,8 +147,9 @@ void TGo4StartClient::SelectProg()
 
    QFileDialog fd(this, caption);
    fd.setFileMode(QFileDialog::ExistingFile);
+   fd.setOption(QFileDialog::DontUseNativeDialog);
+   //< JAM: native dialog may suppress the chosen filer when displayed and use always first entry in list!
    fd.setNameFilters(filters);
-
    int select_filer = fSelectedFilter;
    if (select_filer<0)
       select_filer= (ExeModeCombo->currentIndex()==0) ? 0 : 2;
