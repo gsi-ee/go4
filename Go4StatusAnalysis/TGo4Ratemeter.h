@@ -27,6 +27,8 @@ class TGo4Ratemeter : public TNamed {
       ULong64_t    fuCurrentCount;    // Number of events processed since last start.
       Double_t     fdRate;            // Current eventrate (events/sec)
       Double_t     fdTime;            // Time sum since last ratemeter reset. in s.
+      TString      fxDateString;      // Time and date of the last update of this status as sql string.
+      TString      fxEventSource;     // Name of eventsource of first step / current filelist name
 
       ULong64_t    fuLastCount;       //! Number of events processed at last ratemeter update
       TTimeStamp   fLastTm;           //! Time when last rate measurement was done
@@ -53,6 +55,10 @@ class TGo4Ratemeter : public TNamed {
 
       Double_t GetAvRate() const { return (fdTime > 0) ? fuCurrentCount/fdTime : 0.; }
 
+      const char* GetDateTime() const { return fxDateString.Data(); }
+
+      const char* GetCurrentSource() const { return fxEventSource.Data(); }
+
       void UpdateFrom(const TGo4Ratemeter* r);
 
       /** Update counter and rate values. Parameter increment may specify the
@@ -61,6 +67,8 @@ class TGo4Ratemeter : public TNamed {
       Bool_t Update(Int_t increment = 1);
 
       void SetRunning(Bool_t on = kTRUE) { fbRunning = on; }
+      void SetDateTime(const char* str) { fxDateString = str; }
+      void SetCurrentSource(const char* str) { fxEventSource = str; }
 
       /** Reset counter and rate values */
       void Reset();

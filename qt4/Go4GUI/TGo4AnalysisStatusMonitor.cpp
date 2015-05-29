@@ -101,10 +101,8 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObj
 
    LCDCurrentRate->setStyleSheet(color);
 
-   if (status) {
-      SourceLabel->setText(status->GetCurrentSource());
-      DateLabel->setText(status->GetDateTime());
-   }
+   SourceLabel->setText(status ? status->GetCurrentSource() : rate->GetCurrentSource());
+   DateLabel->setText(status ? status->GetDateTime() : rate->GetDateTime());
 }
 
 void TGo4AnalysisStatusMonitor::linkedObjectRemoved(const char * linkname)

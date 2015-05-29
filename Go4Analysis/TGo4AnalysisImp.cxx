@@ -634,7 +634,18 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
             }
 
             if (need_update) {
-               rate.SetRunning(IsRunning());
+               rate.SetRunning(fxDoWorkingFlag == flagRunning);
+
+               TDatime dt;
+               rate.SetDateTime(dt.AsSQLString());
+
+               TGo4AnalysisStep* firststep = GetAnalysisStep(0);
+               if(firststep) {
+                  rate.SetCurrentSource(firststep->GetEventSourceName());
+               } else {
+                  rate.SetCurrentSource("- No event source -");
+               }
+
                if (showrate) {
                   int width = (rate.GetRate()>1e4) ? 0 : (rate.GetRate()<1. ? 3 : 1);
                   printf(ratefmt.Data(), rate.GetCurrentCount(), width, rate.GetRate());

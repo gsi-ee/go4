@@ -22,6 +22,8 @@ TGo4Ratemeter::TGo4Ratemeter() :
    fuCurrentCount(0),
    fdRate(0),
    fdTime(0),
+   fxDateString(),
+   fxEventSource(),
    fuLastCount(0),
    fLastTm(),
    fbUpdateDone(kFALSE),
@@ -44,6 +46,8 @@ void TGo4Ratemeter::UpdateFrom(const TGo4Ratemeter* r)
    fuCurrentCount = r->fuCurrentCount;
    fdRate = r->fdRate;
    fdTime = r->fdTime;
+   fxDateString = r->fxDateString;
+   fxEventSource = r->fxEventSource;
 }
 
 void TGo4Ratemeter::Reset()

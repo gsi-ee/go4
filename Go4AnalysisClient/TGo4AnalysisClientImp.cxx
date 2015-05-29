@@ -259,10 +259,13 @@ void TGo4AnalysisClient::UpdateStatus(TGo4TaskStatus * state)
       // new: set name of current eventsource
       TGo4AnalysisStep* firststep=fxAnalysis->GetAnalysisStep(0);
       // <-note that stepname=0 will return the first active step
-      if(firststep)
+      if(firststep) {
          anstate->SetCurrentSource(firststep->GetEventSourceName());
-      else
+         fxRatemeter->SetCurrentSource(firststep->GetEventSourceName());
+      } else {
          anstate->SetCurrentSource("- No event source -");
+         fxRatemeter->SetCurrentSource("- No event source -");
+      }
    }
 }
 
@@ -411,6 +414,9 @@ void TGo4AnalysisClient::UpdateRate(Int_t counts)
 
       TGo4Analysis* an = TGo4Analysis::Instance();
       fxRatemeter->SetRunning(an ? an->IsRunning() : kFALSE);
+
+      TDatime dt;
+      fxRatemeter->SetDateTime(dt.AsSQLString());
 
       TGo4AnalysisSniffer* sniff = fxAnalysis->GetSniffer();
       if (sniff) sniff->RatemeterUpdate(fxRatemeter);

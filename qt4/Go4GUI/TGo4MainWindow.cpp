@@ -1138,6 +1138,8 @@ void TGo4MainWindow::ConnectHttpSlot(const char* addr)
 
    TGo4ServerProxy* proxy = exec->ConnectHttp(httpaddr.toLatin1().constData());
 
+   if (proxy) StatusMessage(QString("Connect with http server %1 %2").arg(httpaddr).arg(proxy->IsGo4Analysis() ? " as GO4 analysis" : ""));
+
    if (proxy && proxy->IsGo4Analysis())
       EstablishRatemeter(2);
 }
