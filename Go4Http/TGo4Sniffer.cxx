@@ -101,8 +101,8 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    SetItemField("/Status/Ratemeter", "_hidden", "true");
    SetItemField("/Status/Ratemeter","_status","GO4.DrawAnalysisRatemeter");
 
-   RegisterObject("/Status", this);
-   SetItemField("/Status/go4_sniffer","_hidden","true");
+   //RegisterObject("/Status", this);
+   //SetItemField("/Status/go4_sniffer","_hidden","true");
 
    RegisterCommand("/Status/CmdClear", "this->CmdClear()", "button;go4sys/icons/clear.png");
    SetItemField("/Status/CmdClear", "_title", "Clear histograms and conditions in analysis");
@@ -129,6 +129,11 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    SetItemField("/Status/CmdCloseFiles", "_title", "Close all opened files");
    SetItemField("/Status/CmdCloseFiles", "_hreload", "true"); // after execution hierarchy will be reloaded
    //SetItemField("/Status/CmdCloseFiles", "_hidden", "true");
+
+   RegisterCommand("/Status/CmdClearObject", "this->CmdClearObject(\"%arg1%\")", "");
+   SetItemField("/Status/CmdClearObject", "_title", "Clear object content");
+   SetItemField("/Status/CmdClearObject", "_hidden", "true");
+
 
    // set at the end when other items exists
    SetItemField("/", "_autoload", "go4sys/html/go4.js");
@@ -330,6 +335,26 @@ Bool_t TGo4Sniffer::CmdRestart()
    return kTRUE;
 }
 
+Bool_t TGo4Sniffer::CmdClearObject(const char* objname)
+{
+   TGo4Analysis* ana = TGo4Analysis::Instance();
+
+   if(ana==0) {
+      SendStatusMessage(3, kTRUE,"CmdClearObject - analysis ");
+      return kFALSE;
+   }
+
+   Bool_t ok = ana->ClearObjects(objname);
+   if(ok) {
+      SendStatusMessage(1, kTRUE, TString::Format("Object %s was cleared.", objname));
+   } else {
+      SendStatusMessage(2, kTRUE, TString::Format("Could not clear object %s", objname));
+   } // if(ob)
+
+   return ok;
+}
+
+
 
 void TGo4Sniffer::SetTitle(const char* title)
 {
@@ -378,4 +403,12 @@ void TGo4Sniffer::ProcessSnifferEvents()
    // Method called from the thread, where go4 analysis executed
 
    if (gHttpServer) gHttpServer->ProcessRequests();
+}
+
+void TGo4Sniffer::SendStatusMessage(Int_t level, Bool_t printout, const TString& text)
+{
+   if (printout)
+      TGo4Log::Message(level, text.Data());
+
+   // to be
 }

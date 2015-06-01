@@ -35,6 +35,9 @@ class TGo4Sniffer : public TRootSniffer,
 
       virtual void ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj);
 
+      /** Send message to gui */
+      virtual void SendStatusMessage(Int_t level, Bool_t printout, const TString& text);
+
       static THttpServer* gHttpServer;
 
    public:
@@ -57,6 +60,7 @@ class TGo4Sniffer : public TRootSniffer,
       Bool_t CmdRestart();
       Bool_t CmdOpenFile(const char* fname);
       Bool_t CmdCloseFiles();
+      Bool_t CmdClearObject(const char* objname);
 
 
       /** Method called by logger with every string, going to output */

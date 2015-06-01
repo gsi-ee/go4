@@ -34,21 +34,21 @@ class QHttpProxy : public QObject {
 
    protected:
       QNetworkAccessManager qnam;  //! central manager of network requests
-      QNetworkReply *fReply;
+      QNetworkReply *fHReply;      //! used only to receive hierarchy
       TGo4HttpProxy *fProxy;
 
    public slots:
       void httpFinished();
       void httpError(QNetworkReply::NetworkError);
-      void httpSslErrors ( const QList<QSslError> & errors);
+      void authenticationRequiredSlot(QNetworkReply*, QAuthenticator*);
 
       void updateRatemeter();
       void updateHierarchy();
 
    public:
 
-      QHttpProxy(TGo4HttpProxy* p) : QObject(), qnam(), fReply(0), fProxy(p) {}
-      virtual ~ QHttpProxy() {}
+      QHttpProxy(TGo4HttpProxy* p);
+      virtual ~QHttpProxy();
 
       void StartRequest(const char* url);
 };
@@ -123,7 +123,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       void ProcessUpdateTimer();
 
-      Bool_t SubmitCommand(const char* name, Int_t waitres = -1);
+      Bool_t SubmitCommand(const char* name, Int_t waitres = -1, const char* par1 = 0);
 
       Bool_t PostObject(const char* prefix, TObject* obj, Int_t waitres = -1);
 
@@ -173,6 +173,8 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       virtual Bool_t RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot);
 
       virtual Bool_t UpdateAnalysisObject(const char* objectname, TObject* obj);
+
+      virtual void ClearAnalysisObject(const char* fullpath);
 
 };
 

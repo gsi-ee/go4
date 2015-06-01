@@ -192,7 +192,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       Int_t UpdateVisibleAnalysisObjects(bool checkmonitor);
       Int_t UpdateAllMonitoredObjects();
 
-      TGo4AnalysisProxy* DefineAnalysisObject(const char* itemname, TString& analysisname);
+      TGo4ServerProxy* DefineAnalysisObject(const char* itemname, TString& analysisname);
       TGo4ServerProxy* DefineServerProxy(const char* itemname);
       TGo4ServerProxy* DefineServerObject(const char* itemname, TString* objname = 0);
 

@@ -585,7 +585,7 @@ void TGo4EditDynEntry::DrawButton_clicked()
 void TGo4EditDynEntry::ClearHistogramClicked()
 {
    TString objname;
-   TGo4AnalysisProxy* an = Browser()->DefineAnalysisObject(HistoNameLbl->text().latin1(), objname);
+   TGo4ServerProxy* an = Browser()->DefineAnalysisObject(HistoNameLbl->text().latin1(), objname);
    if (an!=0) {
       an->ClearAnalysisObject(objname.Data());
       if (dynamic_cast<TGo4TreeHistogramEntry*>(GetLinked("Entry",0))!=0)
@@ -597,13 +597,11 @@ void TGo4EditDynEntry::ClearHistogramClicked()
 void TGo4EditDynEntry::PrintDynList()
 {
    TString objname;
-   TGo4AnalysisProxy* an = Browser()->DefineAnalysisObject(GetLinkedName("Entry"), objname);
+   TGo4ServerProxy* an = Browser()->DefineAnalysisObject(GetLinkedName("Entry"), objname);
 
    if (an!=0)
      an->PrintDynListEntry(objname.Data());
 }
-
-
 
 void TGo4EditDynEntry::ConRemoveButton_clicked()
 {

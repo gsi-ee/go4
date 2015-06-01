@@ -33,26 +33,43 @@
 #include <QTime>
 #include <QApplication>
 #include <QEventLoop>
+#include <QInputDialog>
+
+
+QHttpProxy::QHttpProxy(TGo4HttpProxy* p) :
+   QObject(),
+   qnam(),
+   fHReply(0),
+   fProxy(p)
+{
+   connect(&qnam, SIGNAL(authenticationRequired(QNetworkReply*, QAuthenticator*)),
+           this, SLOT(authenticationRequiredSlot(QNetworkReply*, QAuthenticator*)));
+}
+
+QHttpProxy::~QHttpProxy()
+{
+}
+
 
 void QHttpProxy::httpFinished()
 {
-   QByteArray res = fReply->readAll();
-   fReply->deleteLater();
-   fReply = 0;
+   if (fHReply==0) return;
+
+   QByteArray res = fHReply->readAll();
+   fHReply->deleteLater();
+   fHReply = 0;
    fProxy->GetReply(res);
 }
 
 void QHttpProxy::httpError(QNetworkReply::NetworkError code)
 {
-   printf("QHttpProxy::httpError %d %s\n", code, fReply->errorString().toLatin1().constData());
-}
+   printf("QHttpProxy::httpError %d %s\n", code, fHReply ? fHReply->errorString().toLatin1().constData() : "---");
+   if (fHReply) {
+      fHReply->deleteLater();
+      fHReply = 0;
+   }
 
-void QHttpProxy::httpSslErrors (const QList<QSslError> & errors)
-{
-   // printf("QHttpProxy::httpSslErrors\n");
-   if (fReply) fReply->ignoreSslErrors();
 }
-
 
 void QHttpProxy::updateRatemeter()
 {
@@ -68,21 +85,39 @@ void QHttpProxy::updateHierarchy()
 
 void QHttpProxy::StartRequest(const char* url)
 {
-   fReply = qnam.get(QNetworkRequest(QUrl(url)));
+   fHReply = qnam.get(QNetworkRequest(QUrl(url)));
 
-   connect(fReply, SIGNAL(finished()),
+   connect(fHReply, SIGNAL(finished()),
          this, SLOT(httpFinished()));
 
-   connect(fReply, SIGNAL(error(QNetworkReply::NetworkError)),
+   connect(fHReply, SIGNAL(error(QNetworkReply::NetworkError)),
          this, SLOT(httpError(QNetworkReply::NetworkError)));
-   connect(fReply, SIGNAL(sslErrors(const QList<QSslError>&)),
-         this, SLOT(httpSslErrors(const QList<QSslError>&)));
 
-   QSslConfiguration cfg = fReply->sslConfiguration();
+   connect(fHReply, SIGNAL(sslErrors(const QList<QSslError>&)),
+           fHReply, SLOT(ignoreSslErrors(const QList<QSslError> &)));
+
+   QSslConfiguration cfg = fHReply->sslConfiguration();
    cfg.setProtocol(QSsl::AnyProtocol/*QSsl::TlsV1SslV3*/);
-   fReply->setSslConfiguration(cfg);
+   fHReply->setSslConfiguration(cfg);
 }
 
+void QHttpProxy::authenticationRequiredSlot(QNetworkReply* repl, QAuthenticator* auth)
+{
+   bool ok = false;
+   QString user_name =
+        QInputDialog::getText(0, tr("Authentication required"),
+                              tr("User name:"), QLineEdit::Normal,
+                              "", &ok);
+   if (!ok) return;
+   QString passwd =
+        QInputDialog::getText(0, tr("Authentication required"),
+                              tr("User password:"), QLineEdit::Password,
+                              "", &ok);
+   if (!ok) return;
+
+   auth->setUser(user_name);
+   auth->setPassword(passwd);
+}
 
 const char* GetHttpRootClassName(const char* kind)
 {
@@ -165,6 +200,9 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
 
    fReply = fProxy->fComm.qnam.get(QNetworkRequest(QUrl(url.Data())));
    connect(fReply, SIGNAL(finished()), this, SLOT(httpFinished()));
+
+   connect(fReply, SIGNAL(error(QNetworkReply::NetworkError)),
+          &(fProxy->fComm.qnam), SLOT(httpError(QNetworkReply::NetworkError)));
 
    if (gDebug>2) printf("TGo4HttpAccess::AssignObjectTo Request URL %s\n", url.Data());
 
@@ -521,7 +559,7 @@ Bool_t TGo4HttpProxy::Connect(const char* nodename)
 
 Bool_t TGo4HttpProxy::UpdateHierarchy(Bool_t sync)
 {
-   if (fComm.fReply!=0) return kTRUE;
+   if (fComm.fHReply!=0) return kTRUE;
 
    TString req = fNodeName + "/h.xml?compact";
 
@@ -533,7 +571,7 @@ Bool_t TGo4HttpProxy::UpdateHierarchy(Bool_t sync)
 
       // wait two seconds -
       while (t.elapsed()<2000) {
-         if (fComm.fReply==0) break;
+         if (fComm.fHReply==0) break;
          QApplication::processEvents();
       }
    }
@@ -644,6 +682,15 @@ void TGo4HttpProxy::CloseAnalysisSettings()
 {
 }
 
+void TGo4HttpProxy::ClearAnalysisObject(const char* fullpath)
+{
+   TString foldername, objectname;
+   TGo4Slot::ProduceFolderAndName(fullpath, foldername, objectname);
+
+   objectname = TString("\"") + objectname + TString("\"");
+
+   SubmitCommand("CmdClearObject", -1, objectname.Data());
+}
 
 void TGo4HttpProxy::StartAnalysis()
 {
@@ -670,12 +717,16 @@ Bool_t TGo4HttpProxy::RequestObjectStatus(const char* objectname, TGo4Slot* tgts
    return kTRUE;
 }
 
-Bool_t TGo4HttpProxy::SubmitCommand(const char* name, Int_t waitres)
+Bool_t TGo4HttpProxy::SubmitCommand(const char* name, Int_t waitres, const char* arg1)
 {
    TString url = fNodeName;
    url.Append("/Status/");
    url.Append(name);
    url.Append("/cmd.json");
+   if ((arg1!=0) && (*arg1!=0)) {
+      url.Append("?arg1=");
+      url.Append(arg1);
+   }
 
    printf("Submit URL %s\n", url.Data());
 
@@ -721,7 +772,7 @@ Bool_t TGo4HttpProxy::PostObject(const char* prefix, TObject* obj, Int_t waitres
    url.Append("=_post_object_&_destroy_post_&_post_class_=");
    url.Append(obj->ClassName());
 
-   printf("URL %s datalen %d\n", url.Data(), postData.length());
+   // printf("URL %s datalen %d\n", url.Data(), postData.length());
 
    QNetworkRequest req(QUrl(url.Data()));
 

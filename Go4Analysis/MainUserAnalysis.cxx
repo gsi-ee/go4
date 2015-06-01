@@ -687,10 +687,10 @@ int main(int argc, char **argv)
 
    gROOT->SetBatch(kTRUE);
 
-#ifdef WITH_HTTP
    TObjArray http_args;                  // all arguments for http server
    http_args.SetOwner(kTRUE);
-#endif
+   const char* auth_file  = 0;           // authentication file for http server
+   const char* auth_domain = "go4";      // default authentication domain http server
 
    Bool_t batchMode(kTRUE);              // GUI or Batch
    Bool_t servermode(kFALSE);            // run analysis as server task
@@ -744,6 +744,20 @@ int main(int argc, char **argv)
          narg++;
          if (narg >= argc) showerror("fastcgi options not specified");
          http_args.Add(new TObjString(Form("fastcgi:%s?top=Go4", argv[narg++])));
+      } else
+      if (strcmp(argv[narg], "-auth")==0) {
+         narg++;
+         if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
+            auth_file = argv[narg++];
+         else
+            auth_file = ".htdigest";
+      } else
+      if (strcmp(argv[narg], "-domain")==0) {
+         narg++;
+         if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
+            auth_domain = argv[narg++];
+         else
+            auth_domain = "go4";
       } else
 #ifdef WITH_DABC
       if (strcmp(argv[narg], "-dabc")==0) {
@@ -1134,9 +1148,15 @@ int main(int argc, char **argv)
       Long_t res(0);
       Int_t err(0);
       for (Int_t n=0;n<=http_args.GetLast();n++) {
-         cmd.Form("TGo4Sniffer::CreateEngine(\"%s\");", http_args[n]->GetName());
+         TString engine = http_args[n]->GetName();
+         if ((engine.Index("http:")==0) && (auth_file!=0))
+            engine.Append(TString::Format("&auth_file=%s&auth_domain=%s", auth_file, auth_domain));
+
+         cmd.Form("TGo4Sniffer::CreateEngine(\"%s\");", engine.Data());
+
+         printf("Start engine: %s\n", engine.Data());
          res = gROOT->ProcessLineFast(cmd.Data(), &err);
-         if ((res<=0) || (err!=0)) showerror(Form("Fail to start %s", http_args[n]->GetName()));
+         if ((res<=0) || (err!=0)) showerror(Form("Fail to start %s", engine.Data()));
       }
 
       process_interv = 0.1;

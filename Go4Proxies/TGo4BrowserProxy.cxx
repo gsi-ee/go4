@@ -624,7 +624,7 @@ void TGo4BrowserProxy::MakeHttpList(TObjArray* arr)
 void TGo4BrowserProxy::RequestObjectStatus(const char* name, TGo4Slot* tgtslot)
 {
    TString objname;
-   TGo4AnalysisProxy* an = DefineAnalysisObject(name, objname);
+   TGo4ServerProxy* an = DefineAnalysisObject(name, objname);
    if (an!=0) {
       an->RequestObjectStatus(objname.Data(), tgtslot);
       return;
@@ -638,7 +638,7 @@ void TGo4BrowserProxy::RequestEventStatus(const char* evname,
                                           TGo4Slot* tgtslot)
 {
    TString objname;
-   TGo4AnalysisProxy* an = DefineAnalysisObject(evname, objname);
+   TGo4ServerProxy* an = DefineAnalysisObject(evname, objname);
    if (an!=0)
      an->RequestEventStatus(objname.Data(), astree, tgtslot);
 }
@@ -667,7 +667,7 @@ void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
 
    if (IsItemRemote(treename)) {
       TString objname;
-      TGo4AnalysisProxy* an = DefineAnalysisObject(treename, objname);
+      TGo4ServerProxy* an = DefineAnalysisObject(treename, objname);
       if (an!=0) {
          TString analhname(hname);
 
@@ -856,7 +856,7 @@ TString TGo4BrowserProxy::FindItem(const char* objname)
    return TString("");
 }
 
-TGo4AnalysisProxy* TGo4BrowserProxy::DefineAnalysisObject(const char* itemname, TString& analysisname)
+TGo4ServerProxy* TGo4BrowserProxy::DefineAnalysisObject(const char* itemname, TString& analysisname)
 {
    TString slotname;
    DataSlotName(itemname, slotname);
@@ -864,9 +864,12 @@ TGo4AnalysisProxy* TGo4BrowserProxy::DefineAnalysisObject(const char* itemname, 
 
    TGo4Slot* anslot = fxOM->FindSlot(slotname.Data(), &objectname);
 
-   TGo4AnalysisProxy* an = anslot==0 ? 0 :
-      dynamic_cast<TGo4AnalysisProxy*>(anslot->GetProxy());
-   if (an!=0) analysisname = objectname;
+   TGo4ServerProxy* an = anslot==0 ? 0 :
+      dynamic_cast<TGo4ServerProxy*>(anslot->GetProxy());
+   if ((an!=0) && an->IsGo4Analysis())
+      analysisname = objectname;
+   else
+      an = 0;
    return an;
 }
 
@@ -1342,7 +1345,6 @@ Bool_t TGo4BrowserProxy::IsAnalysisItem(const char* name)
    TString analysisname;
    return DefineAnalysisObject(name, analysisname)!=0;
 }
-
 
 void TGo4BrowserProxy::SetItemTimeDate(TGo4Slot* slot, const char* stime, const char* sdate)
 {

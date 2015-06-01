@@ -837,7 +837,7 @@ void TGo4Browser::ContextMenuActivated(int id)
 
    TGo4BrowserProxy* br = BrowserProxy();
 
-   TGo4AnalysisProxy* anrefresh = 0;
+   TGo4ServerProxy* anrefresh = 0;
    TGo4ServerProxy* servrefresh = 0;
 
    if (id==20) br->ClearClipboard();
@@ -900,7 +900,7 @@ void TGo4Browser::ContextMenuActivated(int id)
 
             case 23: {  // clear
                TString objname;
-               TGo4AnalysisProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
+               TGo4ServerProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
                if (an!=0) {
                   an->ClearAnalysisObject(objname.Data());
                   // if clear folder, request all objects which were requested before
@@ -921,7 +921,7 @@ void TGo4Browser::ContextMenuActivated(int id)
             case 24:     // set clear protect
             case 25: {   // unset clear protect
                TString objname;
-               TGo4AnalysisProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
+               TGo4ServerProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
                if (an!=0) {
                   an->ChageObjectProtection(objname.Data(), (id == 24 ? "+C" : "-C"));
                   anrefresh = an;
@@ -931,7 +931,7 @@ void TGo4Browser::ContextMenuActivated(int id)
 
             case 26: {   // delete remote object
                TString objname;
-               TGo4AnalysisProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
+               TGo4ServerProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
                if (an!=0) {
                   an->RemoveObjectFromAnalysis(objname.Data(), br->ItemClass(itemslot));
                   anrefresh = an;
@@ -941,7 +941,7 @@ void TGo4Browser::ContextMenuActivated(int id)
 
             case 27: { // refresh
                TString objname;
-               TGo4AnalysisProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
+               TGo4ServerProxy* an = br->DefineAnalysisObject(itemname.toLatin1().constData(), objname);
                if (an!=0) anrefresh = an;
                TGo4ServerProxy* serv = br->DefineServerProxy(itemname.toLatin1().constData());
                if (serv!=0) servrefresh = serv;

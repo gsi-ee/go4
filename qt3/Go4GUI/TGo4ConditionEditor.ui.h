@@ -410,7 +410,7 @@ void TGo4ConditionEditor::ClearCounters()
    if ((con==0) || (conditemname==0)) return;
 
    TString objname;
-   TGo4AnalysisProxy* an = Browser()->DefineAnalysisObject(conditemname, objname);
+   TGo4ServerProxy* an = Browser()->DefineAnalysisObject(conditemname, objname);
    if (an!=0) {
        an->ClearAnalysisObject(objname.Data());
        GetLinked("Condition", 2);

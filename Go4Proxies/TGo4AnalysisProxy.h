@@ -117,7 +117,24 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       virtual Bool_t RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot);
 
+      virtual void RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot);
+
       virtual Bool_t UpdateAnalysisObject(const char* objectname, TObject* obj);
+
+      virtual void ClearAnalysisObject(const char* fullpath);
+
+      virtual void RemoteTreeDraw(const char* treename,
+                                  const char* varexp,
+                                  const char* cutcond,
+                                  const char* hname);
+
+      virtual void ChageObjectProtection(const char* fullpath, const char* flags);
+
+      virtual void RemoveObjectFromAnalysis(const char* fullpath, TClass* cl = 0);
+
+      virtual void ExecuteLine(const char* line);
+
+      virtual void PrintDynListEntry(const char* fullpath);
 
       // analysis proxy functionality
 
@@ -147,24 +164,12 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       void WriteAutoSave(const char* fname,
                          Int_t complevel,
                          Bool_t overwrite);
-      void ExecuteLine(const char* line);
 
-      void RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot);
-      void RemoteTreeDraw(const char* treename,
-                          const char* varexp,
-                          const char* cutcond,
-                          const char* hname);
       void RemotePrintEvent(const char* evname,
                             Int_t evnumber,
                             Int_t subid,
                             Bool_t ishex,
                             Bool_t islong);
-
-      void ClearAnalysisObject(const char* fullpath);
-      void ChageObjectProtection(const char* fullpath, const char* flags);
-      void RemoveObjectFromAnalysis(const char* fullpath, TClass* cl = 0);
-
-      void PrintDynListEntry(const char* fullpath);
 
       static Int_t NumberOfWaitingProxyes() { return fNumberOfWaitingProxyes; }
 

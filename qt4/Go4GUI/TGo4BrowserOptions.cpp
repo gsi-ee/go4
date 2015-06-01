@@ -14,6 +14,7 @@
 #include "TGo4BrowserOptions.h"
 
 #include "TGo4BrowserProxy.h"
+#include "TGo4ServerProxy.h"
 #include "TGo4AnalysisProxy.h"
 #include "TGo4DabcProxy.h"
 #include "TGo4HttpProxy.h"
@@ -48,7 +49,7 @@ void TGo4BrowserOptions::linkedObjectUpdated(const char* linkname, TObject* obj)
 
 void TGo4BrowserOptions::RefreshBtn_clicked()
 {
-   TGo4AnalysisProxy* an = Browser()->FindAnalysis();
+   TGo4ServerProxy* an = Browser()->FindAnalysisNew();
    if (an!=0) an->RefreshNamesList();
 
    TObjArray prlist;
@@ -70,7 +71,7 @@ void TGo4BrowserOptions::RefreshBtn_clicked()
 
 void TGo4BrowserOptions::ClearBtn_clicked()
 {
-   TGo4AnalysisProxy* an = Browser()->FindAnalysis();
+   TGo4ServerProxy* an = Browser()->FindAnalysisNew();
    if (an) {
       an->ClearAnalysisObject("Histograms");
       an->ClearAnalysisObject("Conditions");
