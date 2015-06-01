@@ -53,11 +53,18 @@ public:
     /** Will reset label position to defaults */
     void ResetLabel();// *MENU*
 
+
+    Bool_t IsAtExecuteMouseEvent(){return fbExecutesMouseEvent;}
+
 private:
+
+    /** JAM this one will supress condition repaint during execution of mouse events*/
+    Bool_t fbExecutesMouseEvent;
+
 
     /** pointer to viewed condition for update after graphical action */
     TGo4WinCond* fxWinCondition; //!
 
-    ClassDef(TGo4WinCondView,6)
+    ClassDef(TGo4WinCondView,7)
 };
 #endif //TGO4WINCONDVIEW_H

@@ -413,11 +413,17 @@ TGo4Condition* TGo4ConditionEditor::SelectedCondition()
 
    TGo4CondArray* arr = dynamic_cast<TGo4CondArray*> (cond);
 
-   if ((arr==0) || (fiSelectedIndex==-1)) return cond;
-
+   if ((arr==0) || (fiSelectedIndex==-1))
+   {
+     if(arr) arr->SetMultiEdit(kTRUE);
+     return cond;
+   }
    if (fiSelectedIndex<arr->GetNumber())
+   {
+     arr->SetMultiEdit(kFALSE);
+     arr->SetCurrentIndex(fiSelectedIndex);
      return arr->At(fiSelectedIndex);
-
+   }
    return cond;
 }
 

@@ -20,7 +20,7 @@
 #include "TGo4WinCond.h"
 
 TGo4WinCondView::TGo4WinCondView(Double_t x1,Double_t y1,Double_t x2,Double_t y2)
-   :TBox(x1,y1,x2,y2), fxWinCondition(0)
+   :TBox(x1,y1,x2,y2), fbExecutesMouseEvent(kFALSE), fxWinCondition(0)
 {
     SetBit(kMustCleanup);
 }
@@ -52,6 +52,11 @@ void TGo4WinCondView::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 // So no mouse modifications of condition possible
 // TO BE INVESTIGATED!  JA
 if(gPad==0) return;
+
+if(event==kButton1Down && fxWinCondition)
+{
+  fbExecutesMouseEvent=kTRUE; // only lock painting if we really touch the box JAM
+}
 TBox::ExecuteEvent(event,px,py);
 if(event==kButton1Up && fxWinCondition)
    {
@@ -78,7 +83,6 @@ if(event==kButton1Up && fxWinCondition)
    Double_t Y1 = GetY1();
    Double_t Y2 = GetY2();
 #endif
-
    if(dim>1)
          {
             // check if update is needed:
@@ -87,7 +91,7 @@ if(event==kButton1Up && fxWinCondition)
                (TMath::Abs(ymin-Y1) > epsilon) ||
                (TMath::Abs(ymax-Y2) > epsilon) )
                {
-                  //std::cout <<"ExecuteEvent modified 2d condition with colors" << std::endl;
+                  //std::cout <<"ExecuteEvent modified 2d condition with colors, epsilon="<<epsilon << std::endl;
                   fxWinCondition->SetValues(X1, X2, Y1, Y2 );
                   fxWinCondition->SetLineColor(GetLineColor());
                   fxWinCondition->SetLineWidth(GetLineWidth());
@@ -102,7 +106,7 @@ if(event==kButton1Up && fxWinCondition)
             if((TMath::Abs(xmin-X1) > epsilon) ||
                (TMath::Abs(xmax-X2) > epsilon) )
                {
-                  //std::cout <<"ExecuteEvent modified 1d condition with colors" << std::endl;
+                  //std::cout <<"ExecuteEvent modified 1d condition with colors, epsilon="<<epsilon << std::endl;
                   fxWinCondition->SetValues(X1, X2);
                   fxWinCondition->SetLineColor(GetLineColor());
                   fxWinCondition->SetLineWidth(GetLineWidth());
@@ -112,6 +116,7 @@ if(event==kButton1Up && fxWinCondition)
                   fxWinCondition->SetChanged(kTRUE);
                }
          }// if(dim>1)
+   fbExecutesMouseEvent=kFALSE; // only release execute event lock when we finish the move JAM
    } // if(event==...)
 }
 

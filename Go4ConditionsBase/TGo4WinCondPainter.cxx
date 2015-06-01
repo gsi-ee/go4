@@ -46,7 +46,7 @@ TGo4WinCondPainter::~TGo4WinCondPainter()
 void TGo4WinCondPainter::PaintCondition(Option_t* opt)
 {
 if(gPad==0) return;
-//std::cout <<"WinCondPainter PaintCondition on gPad "<<gPad << std::endl;
+if(fxBox && fxBox->IsAtExecuteMouseEvent()) return; // JAM supress resetting coordinates during mouse modification of box
 double xpmin=0;
 double xpmax=0;
 double ypmin=0;
@@ -135,10 +135,8 @@ if(wconny && wconny->IsVisible())
             fxBox->SetFillStyle(wconny->GetFillStyle());
             fxBox->AppendPad(); // only append to pad if not already there
                                 // this is necessary for the Pop() in array painter
-            //std::cout <<"TGo4WinCondPainter::PaintCondition appended box for condition "<<wconny->GetName() << std::endl;
          }
         fxBox->Paint(); // for condarrays
-        //std::cout <<"------WinCondPainter "<< GetName() <<"PaintCondition has painted box." << std::endl;
 
    }// if(wconny && wconny->IsVisible())
 else

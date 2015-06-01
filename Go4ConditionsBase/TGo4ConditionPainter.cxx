@@ -92,7 +92,6 @@ if(fxCondition && fxCondition->IsVisible())
    Bool_t ismulti=fxCondition->IsMultiEdit();
    TString fmt=fxCondition->GetLabelNumFormat();
    TH1* histogram=fxCondition->GetWorkHistogram();
-
    if((isarray && !ismulti) || !haslabel)
       {
          // no label: remove previous label
