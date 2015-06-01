@@ -14,7 +14,7 @@
 #ifndef TGO4ANALYSISPROXY_H
 #define TGO4ANALYSISPROXY_H
 
-#include "TGo4Proxy.h"
+#include "TGo4ServerProxy.h"
 
 #include "TObjArray.h"
 
@@ -99,7 +99,21 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       virtual Bool_t IsGo4Analysis() const { return kTRUE; }
 
+      virtual Bool_t IsConnected();
+      virtual Bool_t IsViewer();
+      virtual Bool_t IsController();
+      virtual Bool_t IsAdministrator();
+
       virtual Bool_t RefreshNamesList();
+      virtual Bool_t DelayedRefreshNamesList(Int_t delay_sec);
+
+      virtual void RequestAnalysisSettings();
+      virtual void SubmitAnalysisSettings();
+      virtual void CloseAnalysisSettings();
+
+      virtual Bool_t IsAnalysisRunning() const { return fbAnalysisRunning; }
+      virtual void StartAnalysis();
+      virtual void StopAnalysis();
 
       virtual Bool_t RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot);
 
@@ -113,12 +127,8 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       // communication with analysis functionality
 
       Bool_t IsAnalysisServer() const { return fIsServer; }
-      Bool_t IsConnected();
       Int_t ConnectorPort();
       Int_t GetRole();
-      Bool_t IsViewer();
-      Bool_t IsController();
-      Bool_t IsAdministrator();
 
       void SetAnalysisReady(Bool_t on = kTRUE) { fbAnalysisReady = on; }
       Bool_t IsAnalysisReady() const { return fbAnalysisReady; }
@@ -126,9 +136,6 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       void SetAnalysisSettingsReady(Bool_t on = kTRUE) { fbAnalysisSettingsReady = on ; }
       Bool_t IsAnalysisSettingsReady() const { return fbAnalysisSettingsReady; }
 
-      Bool_t IsAnalysisRunning() const { return fbAnalysisRunning; }
-
-      void DelayedRefreshNamesList(Int_t delay_sec);
       Bool_t NamesListReceived();
 
       void ReceiveObject(TNamed* obj);
@@ -140,13 +147,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       void WriteAutoSave(const char* fname,
                          Int_t complevel,
                          Bool_t overwrite);
-      void StartAnalysis();
-      void StopAnalysis();
       void ExecuteLine(const char* line);
-
-      void RequestAnalysisSettings();
-      void SubmitAnalysisSettings();
-      void CloseAnalysisSettings();
 
       void RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot);
       void RemoteTreeDraw(const char* treename,

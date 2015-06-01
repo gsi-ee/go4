@@ -36,12 +36,13 @@ class TGo4AnalysisWebStatus : public TGo4AnalysisStatus {
 
     TGo4AnalysisWebStatus(const char* name): TGo4AnalysisStatus(name) {};
 
-    virtual ~TGo4AnalysisWebStatus(){};
-
-
+    virtual ~TGo4AnalysisWebStatus() {};
 
     /** Method used by HTTP server to update some fields, specified in URL syntax */
     Bool_t UpdateFromUrl(const char* rest_url_opt);
+
+    /** Method used by Go4GUI via HTTP to set status to analysis */
+    Bool_t ApplyStatus(TGo4AnalysisStatus* status);
 
     /** web condition editor keywords used in UpdateFromUrl: */
     static TString fgxURL_STARTRUN;
@@ -75,15 +76,6 @@ class TGo4AnalysisWebStatus : public TGo4AnalysisStatus {
     static TString fgxURL_PREFS_LOAD;
     static TString fgxURL_PREFS_SAVE;
     static TString fgxURL_CLOSE;
-
-
-
-
-
-
-
-
-
 
   ClassDef(TGo4AnalysisWebStatus,1)
 

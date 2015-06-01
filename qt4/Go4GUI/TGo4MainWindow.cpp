@@ -1136,12 +1136,14 @@ void TGo4MainWindow::ConnectHttpSlot(const char* addr)
 
    if (!exec) return;
 
-   TGo4ServerProxy* proxy = exec->ConnectHttp(httpaddr.toLatin1().constData());
+   TGo4ServerProxy* serv = exec->ConnectHttp(httpaddr.toLatin1().constData());
 
-   if (proxy) StatusMessage(QString("Connect with http server %1 %2").arg(httpaddr).arg(proxy->IsGo4Analysis() ? " as GO4 analysis" : ""));
+   if (serv) StatusMessage(QString("Connect with http server %1 %2").arg(httpaddr).arg(serv->IsGo4Analysis() ? " as GO4 analysis" : ""));
 
-   if (proxy && proxy->IsGo4Analysis())
+   if (serv && serv->IsGo4Analysis()) {
       EstablishRatemeter(2);
+      if (!serv->IsViewer()) EstablishAnalysisConfiguration(3);
+   }
 }
 
 
@@ -1353,6 +1355,7 @@ void TGo4MainWindow::StatusMessage(const QString& mess)
 void TGo4MainWindow::UpdateCaptionButtons()
 {
    TGo4AnalysisProxy* pr = Browser()->FindAnalysis();
+   TGo4ServerProxy* serv = Browser()->FindAnalysisNew();
 
    QString capt = "Go4 ";
    capt += __GO4RELEASE__;
@@ -1385,8 +1388,8 @@ void TGo4MainWindow::UpdateCaptionButtons()
    faShutdownAnal->setEnabled(flag);
 
    bool iscontrolling = false;
-   if (pr!=0)
-     iscontrolling = pr->IsConnected() && (pr->IsAdministrator() || pr->IsController());
+   if (serv!=0)
+     iscontrolling = serv->IsConnected() && (serv->IsAdministrator() || serv->IsController());
    faSumbStartAnal->setEnabled(iscontrolling);
 
    faStartAnal->setEnabled(iscontrolling);
@@ -1776,7 +1779,7 @@ TGo4AnalysisConfiguration* TGo4MainWindow::EstablishAnalysisConfiguration(int le
          // conf->ensurePolished();
          // sub->show();
       }
-      TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
+      TGo4ServerProxy* anal = Browser()->FindAnalysisNew();
       if (anal!=0) {
          conf->WorkWithAnalysis(anal);
          if (level>2) anal->RequestAnalysisSettings();
@@ -1891,11 +1894,11 @@ void TGo4MainWindow::ShutdownAnalysisSlot(bool interactive)
 
 void TGo4MainWindow::SubmitAnalysisSettings()
 {
-   TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
-   if (anal==0) return;
+   TGo4ServerProxy* serv = Browser()->FindAnalysisNew();
+   if (serv==0) return;
 
-   anal->SubmitAnalysisSettings();
-   anal->RefreshNamesList();
+   serv->SubmitAnalysisSettings();
+   serv->RefreshNamesList();
    StatusMessage("Press Ctrl+S or choose Analysis->Start from the Menu to start the analysis");
 }
 
@@ -1907,23 +1910,21 @@ void TGo4MainWindow::SubmitStartAnalysisSlot()
 
 void TGo4MainWindow::StartAnalysisSlot()
 {
-   TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
+   TGo4ServerProxy* serv = Browser()->FindAnalysisNew();
+   if (serv==0) return;
 
-   if (anal==0) return;
-
-   anal->StartAnalysis();
-   anal->RefreshNamesList();
-   anal->DelayedRefreshNamesList(4);
+   serv->StartAnalysis();
+   serv->RefreshNamesList();
+   serv->DelayedRefreshNamesList(4);
 
    EstablishRatemeter(2);
 }
 
 void TGo4MainWindow::StopAnalysisSlot()
 {
-   TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
-
-   if (anal!=0)
-      anal->StopAnalysis();
+   TGo4ServerProxy* serv = Browser()->FindAnalysisNew();
+   if (serv)
+      serv->StopAnalysis();
 }
 
 void TGo4MainWindow::TerminateAnalysis(bool interactive)

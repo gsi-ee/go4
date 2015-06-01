@@ -36,6 +36,7 @@
 #include "TGo4Iter.h"
 #include "TGo4BrowserProxy.h"
 #include "QGo4BrowserTreeWidget.h"
+#include "TGo4ServerProxy.h"
 #include "TGo4AnalysisProxy.h"
 #include "TGo4HServProxy.h"
 #include "TGo4DabcProxy.h"

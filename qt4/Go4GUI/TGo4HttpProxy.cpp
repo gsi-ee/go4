@@ -26,6 +26,8 @@
 #include "TGo4Slot.h"
 #include "TGo4ObjectProxy.h"
 #include "TGo4ObjectManager.h"
+#include "TGo4Ratemeter.h"
+#include "TGo4AnalysisStatus.h"
 
 #include <QtNetwork>
 #include <QTime>
@@ -52,16 +54,17 @@ void QHttpProxy::httpSslErrors (const QList<QSslError> & errors)
 }
 
 
-void QHttpProxy::timerProcess()
+void QHttpProxy::updateRatemeter()
 {
    if (fProxy) fProxy->ProcessUpdateTimer();
-   ShootTimer();
+   QTimer::singleShot(2000, this, SLOT(updateRatemeter()));
 }
 
-void QHttpProxy::ShootTimer()
+void QHttpProxy::updateHierarchy()
 {
-   QTimer::singleShot(2000, this, SLOT(timerProcess()));
+   if (fProxy) fProxy->UpdateHierarchy(kFALSE);
 }
+
 
 void QHttpProxy::StartRequest(const char* url)
 {
@@ -325,6 +328,11 @@ void TGo4HttpAccess::httpFinished()
       buf.MapObject(obj, obj_cl);
 
       obj->Streamer(buf);
+
+      // workaround - when ratemeter received, check running state
+      if (obj->IsA() == TGo4Ratemeter::Class()) {
+         fProxy->fbAnalysisRunning = ((TGo4Ratemeter*) obj)->IsRunning();
+      }
    }
 
    DoObjectAssignement(fReceiver, fRecvPath.Data(), obj, kTRUE);
@@ -424,7 +432,8 @@ TGo4HttpProxy::TGo4HttpProxy() :
    fXML(0),
    fxHierarchy(0),
    fComm(this),
-   fRateCnt(0)
+   fRateCnt(0),
+   fbAnalysisRunning(kFALSE)
 {
    fXML = new TXMLEngine;
 }
@@ -449,7 +458,7 @@ void TGo4HttpProxy::Initialize(TGo4Slot* slot)
    subslot = new TGo4Slot(fxParentSlot, "Ratemeter", "Analysis ratemeter");
    subslot->SetProxy(new TGo4ObjectProxy());
 
-   fComm.ShootTimer();
+   QTimer::singleShot(2000, &fComm, SLOT(updateRatemeter()));
 }
 
 
@@ -589,10 +598,63 @@ Bool_t TGo4HttpProxy::IsGo4Analysis() const
    return !strcmp(_kind,"ROOT.Session") && !strcmp(_title,"GO4 analysis");
 }
 
+Bool_t TGo4HttpProxy::IsConnected()
+{
+   return kTRUE;
+}
+
 
 Bool_t TGo4HttpProxy::RefreshNamesList()
 {
    return UpdateHierarchy(kFALSE);
+}
+
+Bool_t TGo4HttpProxy::DelayedRefreshNamesList(Int_t delay_sec)
+{
+   QTimer::singleShot(delay_sec*1000, &fComm, SLOT(updateHierarchy()));
+
+   return kTRUE;
+}
+
+void TGo4HttpProxy::RequestAnalysisSettings()
+{
+   TGo4Slot* subslot = SettingsSlot();
+   if (subslot == 0) return;
+
+   XMLNodePointer_t item = FindItem("Status/Analysis");
+   if (item==0) return;
+
+   TGo4HttpAccess* access = new TGo4HttpAccess(this, item, "Status/Analysis", 1);
+   access->AssignObjectToSlot(subslot);
+}
+
+void TGo4HttpProxy::SubmitAnalysisSettings()
+{
+   TGo4AnalysisStatus* status = 0;
+   if (SettingsSlot()!=0)
+      status = dynamic_cast<TGo4AnalysisStatus*>(SettingsSlot()->GetAssignedObject());
+
+   printf("Settings object %p\n", status);
+
+   if (status)
+      PostObject("Status/Analysis/exe.bin?method=ApplyStatus&status", status, 2);
+}
+
+void TGo4HttpProxy::CloseAnalysisSettings()
+{
+}
+
+
+void TGo4HttpProxy::StartAnalysis()
+{
+   SubmitCommand("CmdStart");
+   fbAnalysisRunning = kTRUE;
+}
+
+void TGo4HttpProxy::StopAnalysis()
+{
+   SubmitCommand("CmdStop");
+   fbAnalysisRunning = kFALSE;
 }
 
 Bool_t TGo4HttpProxy::RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot)
@@ -608,7 +670,41 @@ Bool_t TGo4HttpProxy::RequestObjectStatus(const char* objectname, TGo4Slot* tgts
    return kTRUE;
 }
 
-Bool_t TGo4HttpProxy::UpdateAnalysisObject(const char* objectname, TObject* obj)
+Bool_t TGo4HttpProxy::SubmitCommand(const char* name, Int_t waitres)
+{
+   TString url = fNodeName;
+   url.Append("/Status/");
+   url.Append(name);
+   url.Append("/cmd.json");
+
+   printf("Submit URL %s\n", url.Data());
+
+   QNetworkReply *netReply = fComm.qnam.get(QNetworkRequest(QUrl(url.Data())));
+
+   QSslConfiguration cfg = netReply->sslConfiguration();
+   cfg.setProtocol(QSsl::AnyProtocol/*QSsl::TlsV1SslV3*/);
+   netReply->setSslConfiguration(cfg);
+
+   if (waitres<=0) {
+      netReply->connect(netReply, SIGNAL(finished()), netReply, SLOT(deleteLater()));
+      return kTRUE;
+   }
+
+   QEventLoop loop;
+   QTime myTimer;
+   myTimer.start();
+
+   while (!netReply->isFinished()) {
+      loop.processEvents(QEventLoop::AllEvents,100);
+      if (myTimer.elapsed() > waitres*1000) break;
+   }
+
+   netReply->deleteLater();
+
+   return netReply->isFinished();
+}
+
+Bool_t TGo4HttpProxy::PostObject(const char* prefix, TObject* obj, Int_t waitres)
 {
    TBufferFile *sbuf = new TBufferFile(TBuffer::kWrite, 100000);
    sbuf->MapObject(obj);
@@ -621,9 +717,11 @@ Bool_t TGo4HttpProxy::UpdateAnalysisObject(const char* objectname, TObject* obj)
 
    TString url = fNodeName;
    url.Append("/");
-   url.Append(objectname);
-   url.Append("/exe.bin?method=SetStatus&status=_post_object_&_destroy_post_&_post_class_=");
+   url.Append(prefix);
+   url.Append("=_post_object_&_destroy_post_&_post_class_=");
    url.Append(obj->ClassName());
+
+   printf("URL %s datalen %d\n", url.Data(), postData.length());
 
    QNetworkRequest req(QUrl(url.Data()));
 
@@ -633,13 +731,18 @@ Bool_t TGo4HttpProxy::UpdateAnalysisObject(const char* objectname, TObject* obj)
    cfg.setProtocol(QSsl::AnyProtocol/*QSsl::TlsV1SslV3*/);
    netReply->setSslConfiguration(cfg);
 
+   if (waitres<=0) {
+      netReply->connect(netReply, SIGNAL(finished()), netReply, SLOT(deleteLater()));
+      return kTRUE;
+   }
+
    QEventLoop loop;
    QTime myTimer;
    myTimer.start();
 
    while (!netReply->isFinished()) {
       loop.processEvents(QEventLoop::AllEvents,100);
-      if (myTimer.elapsed() > 3000) break;
+      if (myTimer.elapsed() > waitres*1000) break;
    }
 
    netReply->deleteLater();
@@ -647,11 +750,18 @@ Bool_t TGo4HttpProxy::UpdateAnalysisObject(const char* objectname, TObject* obj)
    return netReply->isFinished();
 }
 
+
+Bool_t TGo4HttpProxy::UpdateAnalysisObject(const char* objectname, TObject* obj)
+{
+   TString prefix = objectname;
+   prefix.Append("/exe.bin?method=SetStatus&status");
+
+   return PostObject(prefix.Data(), obj, 2);
+}
+
 void TGo4HttpProxy::ProcessUpdateTimer()
 {
-   if (fxParentSlot==0) return;
-
-   TGo4Slot* subslot = fxParentSlot->FindChild("Ratemeter");
+   TGo4Slot* subslot = RatemeterSlot();
    if (subslot == 0) return;
 
    // no new update since last call

@@ -19,6 +19,7 @@
 
 
 class TGo4ConfigStep;
+class TGo4ServerProxy;
 
 
 class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConfiguration
@@ -37,7 +38,7 @@ class TGo4AnalysisConfiguration : public QGo4Widget, public Ui::TGo4AnalysisConf
 
    virtual void linkedObjectRemoved(const char* linkname);
 
-   virtual void WorkWithAnalysis(TGo4AnalysisProxy* anal);
+   virtual void WorkWithAnalysis(TGo4ServerProxy* anal);
 
    virtual void ResetWidget();
 

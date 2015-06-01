@@ -64,6 +64,7 @@
 #include "TGo4TreeHistogramEntry.h"
 #include "TGo4ExportManager.h"
 
+#include "TGo4ServerProxy.h"
 #include "TGo4AnalysisProxy.h"
 #include "TGo4HServProxy.h"
 #include "TGo4DabcProxy.h"

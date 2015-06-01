@@ -71,6 +71,7 @@
     <include location="local" impldecl="in implementation">TGo4BrowserProxy.h</include>
     <include location="local" impldecl="in implementation">QGo4BrowserListView.h</include>
     <include location="local" impldecl="in implementation">QGo4BrowserItem.h</include>
+    <include location="local" impldecl="in implementation">TGo4ServerProxy.h</include>
     <include location="local" impldecl="in implementation">TGo4AnalysisProxy.h</include>
     <include location="local" impldecl="in implementation">TGo4HServProxy.h</include>
     <include location="local" impldecl="in implementation">TGo4QSettings.h</include>

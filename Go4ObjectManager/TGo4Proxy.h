@@ -124,38 +124,5 @@ class TGo4Proxy : public TObject {
    ClassDef(TGo4Proxy, 1);
 };
 
-// *************************************************************
-
-/** special base class for remote data servers like DABC, HTTP, hist server */
-
-class TGo4ServerProxy : public TGo4Proxy {
-   protected:
-      TGo4Slot*                 fxParentSlot;        //!
-
-   public:
-      TGo4ServerProxy() : TGo4Proxy(), fxParentSlot(0) {}
-      virtual ~TGo4ServerProxy() {}
-
-
-      virtual void Initialize(TGo4Slot* slot) { fxParentSlot = slot; }
-
-      TGo4Slot* ParentSlot() { return fxParentSlot; }
-      TGo4Slot* SettingsSlot();
-      TGo4Slot* RatemeterSlot();
-
-
-      virtual const char* GetServerName() const { return ""; }
-
-      virtual Bool_t IsGo4Analysis() const { return kFALSE; }
-
-      virtual Bool_t RefreshNamesList() { return kFALSE; }
-
-      virtual Bool_t RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot) { return kFALSE; }
-
-      virtual Bool_t UpdateAnalysisObject(const char* objectname, TObject* obj) { return kFALSE; }
-
-   ClassDef(TGo4ServerProxy, 1);
-};
-
 
 #endif

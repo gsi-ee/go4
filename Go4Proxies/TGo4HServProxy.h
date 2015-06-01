@@ -14,7 +14,7 @@
 #ifndef TGO4HSERVPROXY_H
 #define TGO4HSERVPROXY_H
 
-#include "TGo4Proxy.h"
+#include "TGo4ServerProxy.h"
 
 #include "TString.h"
 

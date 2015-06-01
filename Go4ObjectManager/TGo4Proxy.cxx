@@ -99,13 +99,3 @@ TClass* TGo4Proxy::GetClass(const char* classname, Bool_t load)
    return load ? gROOT->GetClass(classname, kTRUE, kTRUE) : 0;
 }
 
-TGo4Slot* TGo4ServerProxy::SettingsSlot()
-{
-   return fxParentSlot==0 ? 0 : fxParentSlot->FindChild("Settings");
-}
-
-TGo4Slot* TGo4ServerProxy::RatemeterSlot()
-{
-   return fxParentSlot==0 ? 0 : fxParentSlot->FindChild("Ratemeter");
-}
-

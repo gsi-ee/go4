@@ -37,6 +37,7 @@
 #include "TGo4EventElement.h"
 #include "TGo4Ratemeter.h"
 
+
 THttpServer* TGo4Sniffer::gHttpServer = 0;
 
 Bool_t TGo4Sniffer::CreateEngine(const char* args)
@@ -100,21 +101,24 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    SetItemField("/Status/Ratemeter", "_hidden", "true");
    SetItemField("/Status/Ratemeter","_status","GO4.DrawAnalysisRatemeter");
 
+   RegisterObject("/Status", this);
+   SetItemField("/Status/go4_sniffer","_hidden","true");
+
    RegisterCommand("/Status/CmdClear", "this->CmdClear()", "button;go4sys/icons/clear.png");
    SetItemField("/Status/CmdClear", "_title", "Clear histograms and conditions in analysis");
-   //SetItemField("/Status/CmdClear", "_hidden", "true");
+   SetItemField("/Status/CmdClear", "_hidden", "true");
 
    RegisterCommand("/Status/CmdStart", "this->CmdStart()", "button;go4sys/icons/start.png");
    SetItemField("/Status/CmdStart", "_title", "Start analysis");
-   //SetItemField("/Status/CmdStart", "_hidden", "true");
+   SetItemField("/Status/CmdStart", "_hidden", "true");
 
    RegisterCommand("/Status/CmdStop", "this->CmdStop()", "button;go4sys/icons/Stop.png");
    SetItemField("/Status/CmdStop", "_title", "Stop analysis");
-   //SetItemField("/Status/CmdStop", "_hidden", "true");
+   SetItemField("/Status/CmdStop", "_hidden", "true");
 
    RegisterCommand("/Status/CmdRestart", "this->CmdRestart()", "button;go4sys/icons/restart.png");
    SetItemField("/Status/CmdRestart", "_title", "Resubmit analysis configuration and start again");
-   //SetItemField("/Status/CmdRestart", "_hidden", "true");
+   SetItemField("/Status/CmdRestart", "_hidden", "true");
 
    RegisterCommand("/Status/CmdOpenFile", "this->CmdOpenFile(\"%arg1%\")", "button;go4sys/icons/fileopen.png");
    SetItemField("/Status/CmdOpenFile", "_title", "Open ROOT file in analysis");
@@ -375,4 +379,3 @@ void TGo4Sniffer::ProcessSnifferEvents()
 
    if (gHttpServer) gHttpServer->ProcessRequests();
 }
-

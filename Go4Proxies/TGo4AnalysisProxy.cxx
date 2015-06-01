@@ -789,11 +789,13 @@ Bool_t TGo4AnalysisProxy::RefreshNamesList()
    return kTRUE;
 }
 
-void TGo4AnalysisProxy::DelayedRefreshNamesList(Int_t delay_sec)
+Bool_t TGo4AnalysisProxy::DelayedRefreshNamesList(Int_t delay_sec)
 {
    if (fxRefreshTimer==0) fxRefreshTimer = new TTimer(this, 10, kTRUE);
 
    fxRefreshTimer->Start(delay_sec*1000, kTRUE);
+
+   return kTRUE;
 }
 
 Bool_t TGo4AnalysisProxy::NamesListReceived()
@@ -1081,7 +1083,6 @@ void TGo4AnalysisProxy::CloseAnalysisSettings()
 
    fxDisplay->SubmitCommand("ANClose");
 }
-
 
 void TGo4AnalysisProxy::PrintDynListEntry(const char* fullpath)
 {

@@ -50,6 +50,8 @@
                   .css('white-space', 'nowrap')
                   .html(html);
       
+      JSROOT.Painter.AdjustLayout(null, $('#'+divid).height()+10, false);
+      
       var xreq = null;
       var was_running = null;
       

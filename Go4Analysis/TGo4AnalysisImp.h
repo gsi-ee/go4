@@ -56,6 +56,7 @@ class TGo4EventSource;
 class TGo4EventProcessor;
 class TGo4TreeStructure;
 class TGo4InterruptHandler;
+class TGo4AnalysisWebStatus;
 
 /**
  * The mother of all go4 analysis. Provides services to organize
@@ -77,6 +78,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
   friend class TGo4ComSetObject;
   friend class TGo4HisConnectorRunnable;
   friend class TGo4HistogramServer;
+  friend class TGo4AnalysisWebStatus;
 
   public:
 

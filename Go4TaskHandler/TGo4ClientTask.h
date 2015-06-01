@@ -100,9 +100,7 @@ class TGo4ClientTask : public TGo4Task {
 
       const char* GetServerHostName(){return fxServerHostname.Data();}
 
-
-      Bool_t IsConnected(){return fbServerConnected;}
- //!
+      Bool_t IsConnected() const { return fbServerConnected; }
 
    protected:
 

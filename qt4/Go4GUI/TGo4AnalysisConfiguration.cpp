@@ -18,6 +18,7 @@
 #include "TGo4ConfigStep.h"
 #include "TGo4AnalysisStatus.h"
 #include "TGo4AnalysisStepStatus.h"
+#include "TGo4ServerProxy.h"
 #include "TGo4AnalysisProxy.h"
 
 
@@ -58,8 +59,8 @@ void TGo4AnalysisConfiguration::linkedObjectUpdated(const char* linkname, TObjec
      if (parentWidget()->isMinimized()) parentWidget()->showNormal();
      RefreshWidget();
 
-     TGo4AnalysisProxy* anal =
-        dynamic_cast<TGo4AnalysisProxy*>(GetLinked("Analysis", 0));
+     TGo4ServerProxy* anal =
+        dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
      if (anal!=0)
         anal->RefreshNamesList();
    }
@@ -70,7 +71,7 @@ void TGo4AnalysisConfiguration::linkedObjectRemoved(const char* linkname)
    ShootCloseWidget(true);
 }
 
-void TGo4AnalysisConfiguration::WorkWithAnalysis(TGo4AnalysisProxy* anal)
+void TGo4AnalysisConfiguration::WorkWithAnalysis(TGo4ServerProxy* anal)
 {
    ResetWidget();
    if (anal==0) {
@@ -169,8 +170,8 @@ void TGo4AnalysisConfiguration::SetStorePath(const QString & v)
 
 void TGo4AnalysisConfiguration::RequestAnalysisStatus()
 {
-   TGo4AnalysisProxy* anal =
-     dynamic_cast<TGo4AnalysisProxy*>(GetLinked("Analysis", 0));
+   TGo4ServerProxy* anal =
+     dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
    if (anal!=0)
       anal->RequestAnalysisSettings();
 }
@@ -231,9 +232,9 @@ void TGo4AnalysisConfiguration::LoadConfiguration()
 {
    QString fname = ConfigFileName->text().trimmed();
    TGo4AnalysisProxy* anal =
-     dynamic_cast<TGo4AnalysisProxy*>(GetLinked("Analysis", 0));
+      dynamic_cast<TGo4AnalysisProxy*>(GetLinked("Analysis", 0));
    if (anal!=0)
-     anal->LoadConfigFile(fname.toLatin1().constData());
+      anal->LoadConfigFile(fname.toLatin1().constData());
    RequestAnalysisStatus();
 }
 
@@ -241,9 +242,9 @@ void TGo4AnalysisConfiguration::SaveConfiguration()
 {
    QString fname = ConfigFileName->text().trimmed();
    TGo4AnalysisProxy* anal =
-     dynamic_cast<TGo4AnalysisProxy*>(GetLinked("Analysis", 0));
+      dynamic_cast<TGo4AnalysisProxy*>(GetLinked("Analysis", 0));
    if (anal!=0)
-     anal->SaveConfigFile(fname.toLatin1().constData());
+      anal->SaveConfigFile(fname.toLatin1().constData());
 }
 
 void TGo4AnalysisConfiguration::SubmitConfiguration()
@@ -283,7 +284,7 @@ void TGo4AnalysisConfiguration::WriteAutoSave()
    TGo4AnalysisStatus* status =
       dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
    TGo4AnalysisProxy* anal =
-     dynamic_cast<TGo4AnalysisProxy*>(GetLinked("Analysis", 0));
+      dynamic_cast<TGo4AnalysisProxy*>(GetLinked("Analysis", 0));
 
    if ((anal!=0) && (status!=0))
      anal->WriteAutoSave(status->GetAutoFileName(),

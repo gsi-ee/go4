@@ -14,7 +14,7 @@
 #ifndef TGO4HTTPPROXY_H
 #define TGO4HTTPPROXY_H
 
-#include "TGo4Proxy.h"
+#include "TGo4ServerProxy.h"
 #include "TString.h"
 #include "TXMLEngine.h"
 
@@ -42,7 +42,8 @@ class QHttpProxy : public QObject {
       void httpError(QNetworkReply::NetworkError);
       void httpSslErrors ( const QList<QSslError> & errors);
 
-      void timerProcess();
+      void updateRatemeter();
+      void updateHierarchy();
 
    public:
 
@@ -50,9 +51,6 @@ class QHttpProxy : public QObject {
       virtual ~ QHttpProxy() {}
 
       void StartRequest(const char* url);
-
-      void ShootTimer();
-
 };
 
 // -----------------------------------------------------------------------------------
@@ -117,12 +115,17 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       XMLDocPointer_t fxHierarchy;    //!  pointer on dabc::Hierarchy class
       QHttpProxy      fComm;
       Int_t           fRateCnt;       //! counter for ratemeter updates
+      Bool_t          fbAnalysisRunning;
 
       void GetReply(QByteArray& res);
 
       XMLNodePointer_t FindItem(const char* name, XMLNodePointer_t curr = 0) const;
 
       void ProcessUpdateTimer();
+
+      Bool_t SubmitCommand(const char* name, Int_t waitres = -1);
+
+      Bool_t PostObject(const char* prefix, TObject* obj, Int_t waitres = -1);
 
    public:
       TGo4HttpProxy();
@@ -151,7 +154,22 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       virtual const char* GetServerName() const { return fNodeName.Data(); }
 
       virtual Bool_t IsGo4Analysis() const;
+      virtual Bool_t IsConnected();
+      virtual Bool_t IsViewer()  { return kFALSE; }
+      virtual Bool_t IsController()  { return kTRUE; }
+      virtual Bool_t IsAdministrator()  { return kFALSE; }
+
+      virtual void RequestAnalysisSettings();
+      virtual void SubmitAnalysisSettings();
+      virtual void CloseAnalysisSettings();
+
       virtual Bool_t RefreshNamesList();
+      virtual Bool_t DelayedRefreshNamesList(Int_t delay_sec);
+
+      virtual Bool_t IsAnalysisRunning() const { return fbAnalysisRunning; }
+      virtual void StartAnalysis();
+      virtual void StopAnalysis();
+
       virtual Bool_t RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot);
 
       virtual Bool_t UpdateAnalysisObject(const char* objectname, TObject* obj);

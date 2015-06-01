@@ -19,6 +19,7 @@
 #include "TGo4AnalysisStepStatus.h"
 
 #include "TGo4Analysis.h"
+#include "TGo4AnalysisClient.h"
 //#include "TGo4LockGuard.h"
 
 TString TGo4AnalysisWebStatus::fgxURL_STARTRUN = "start";
@@ -78,14 +79,14 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
 
   // close analysis:
   theKey = TGo4AnalysisWebStatus::fgxURL_CLOSE;
-    if (url.HasOption(theKey.Data()))
-    {
-      ana->StopAnalysis();
-      ana->CloseAnalysis();
-      message.Append(TString::Format(", CLOSING analysis"));
-      TGo4Log::Message(1, message.Data());
-      return kTRUE;
-    }
+  if (url.HasOption(theKey.Data()))
+  {
+     ana->StopAnalysis();
+     ana->CloseAnalysis();
+     message.Append(TString::Format(", CLOSING analysis"));
+     TGo4Log::Message(1, message.Data());
+     return kTRUE;
+  }
 
   // save asf:
   theKey = TGo4AnalysisWebStatus::fgxURL_ASF_SAVE;
@@ -551,4 +552,34 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
   TGo4Log::Message(1, message.Data());
   return kTRUE;
 }
+
+Bool_t TGo4AnalysisWebStatus::ApplyStatus(TGo4AnalysisStatus* status)
+{
+   TGo4Analysis* an = TGo4Analysis::Instance();
+   TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : 0;
+
+   printf("TGo4AnalysisWebStatus::ApplyAnalysisStatus %p\n", status);
+
+   if ((an==0) || (status==0)) return kFALSE;
+
+   if(cli) {
+      if (cli->MainIsRunning()) an->PostLoop(); // if submit is done on running analysis,
+   } else {
+      if (!an->IsStopWorking()) an->PostLoop();
+   }
+
+   an->SetStatus(status);
+
+   if (an->InitEventClasses()) {
+      if(cli) {
+         if (cli->MainIsRunning()) an->PreLoop(); // if submit is done on running analysis,
+      } else {
+         if (!an->IsStopWorking()) an->PreLoop();
+      }
+   }
+
+   return kTRUE;
+}
+
+
 
