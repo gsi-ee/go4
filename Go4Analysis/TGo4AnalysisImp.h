@@ -501,7 +501,6 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * Test: read by reference than copy value, faster?*/
     Bool_t IsRunning();
 
-
     /** Switch slave process into running state. To be used
      * from analysis macro to start/stop the go4 loop on certain
      * conditions. */
@@ -582,7 +581,6 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /** Stop the object (histogram) server. */
     void StopObjectServer();
-
 
    /** Specify password for administrator account. For login from
       * remote gui into analysis server*/
@@ -800,13 +798,10 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
          * Double_t points[4][2] = { {10, 0}, {10, 10}, {5, 15}, {5, 5} };
          * cond = MakePolyCond("Folder/CondName", 4, points);
          */
-        TGo4ShapedCond* MakeFreeShapeCond(const char* fullname,
-                                   Int_t npoints,
-                                   Double_t (*points) [2],
-                                   const char* HistoName = 0);
-
-
-
+    TGo4ShapedCond* MakeFreeShapeCond(const char* fullname,
+          Int_t npoints,
+          Double_t (*points) [2],
+          const char* HistoName = 0);
 
     /** Create parameter of specified class,
      * fullname specifies name of condition (optionally with subfolder name)
@@ -952,7 +947,6 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /* for signal handler to shutdown analysis server, if existing*/
     void ShutdownServer();
-
 
     /** Static Pointer to the analysis singleton instance. */
     static TGo4Analysis* fxInstance;             //!

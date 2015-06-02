@@ -26,6 +26,7 @@
 #include "TROOT.h"
 #include "TH1F.h"
 #include "TFile.h"
+#include "TMethodCall.h"
 
 #include "TGo4AnalysisImp.h"
 #include "TGo4AnalysisObjectManager.h"
@@ -72,11 +73,6 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
 
    fAnalysisStatus->SetName("Analysis");
 
-   RegisterObject("/Status", fAnalysisStatus);
-   SetItemField("/Status/Analysis", "_autoload", "go4sys/html/go4.js");
-   SetItemField("/Status/Analysis", "_icon", "go4sys/icons/control.png");
-   SetItemField("/Status/Analysis", "_not_monitor", "true");
-
    CreateItem("/Status/Message", "Last message from analysis");
    SetItemField("/Status/Message", "_kind","Text");
    SetItemField("/Status/Message", "value","---");
@@ -99,41 +95,48 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
 
    RegisterObject("/Status", fRatemeter);
    SetItemField("/Status/Ratemeter", "_hidden", "true");
-   SetItemField("/Status/Ratemeter","_status","GO4.DrawAnalysisRatemeter");
+   SetItemField("/Status/Ratemeter", "_status", "GO4.DrawAnalysisRatemeter");
 
-   //RegisterObject("/Status", this);
-   //SetItemField("/Status/go4_sniffer","_hidden","true");
+   RegisterCommand("/Control/CmdClear", "this->CmdClear()", "button;go4sys/icons/clear.png");
+   SetItemField("/Control/CmdClear", "_title", "Clear histograms and conditions in analysis");
+   SetItemField("/Control/CmdClear", "_hidden", "true");
 
-   RegisterCommand("/Status/CmdClear", "this->CmdClear()", "button;go4sys/icons/clear.png");
-   SetItemField("/Status/CmdClear", "_title", "Clear histograms and conditions in analysis");
-   SetItemField("/Status/CmdClear", "_hidden", "true");
+   RegisterCommand("/Control/CmdStart", "this->CmdStart()", "button;go4sys/icons/start.png");
+   SetItemField("/Control/CmdStart", "_title", "Start analysis");
+   SetItemField("/Control/CmdStart", "_hidden", "true");
 
-   RegisterCommand("/Status/CmdStart", "this->CmdStart()", "button;go4sys/icons/start.png");
-   SetItemField("/Status/CmdStart", "_title", "Start analysis");
-   SetItemField("/Status/CmdStart", "_hidden", "true");
+   RegisterCommand("/Control/CmdStop", "this->CmdStop()", "button;go4sys/icons/Stop.png");
+   SetItemField("/Control/CmdStop", "_title", "Stop analysis");
+   SetItemField("/Control/CmdStop", "_hidden", "true");
 
-   RegisterCommand("/Status/CmdStop", "this->CmdStop()", "button;go4sys/icons/Stop.png");
-   SetItemField("/Status/CmdStop", "_title", "Stop analysis");
-   SetItemField("/Status/CmdStop", "_hidden", "true");
+   RegisterCommand("/Control/CmdRestart", "this->CmdRestart()", "button;go4sys/icons/restart.png");
+   SetItemField("/Control/CmdRestart", "_title", "Resubmit analysis configuration and start again");
+   SetItemField("/Control/CmdRestart", "_hidden", "true");
 
-   RegisterCommand("/Status/CmdRestart", "this->CmdRestart()", "button;go4sys/icons/restart.png");
-   SetItemField("/Status/CmdRestart", "_title", "Resubmit analysis configuration and start again");
-   SetItemField("/Status/CmdRestart", "_hidden", "true");
+   RegisterCommand("/Control/CmdOpenFile", "this->CmdOpenFile(\"%arg1%\")", "button;go4sys/icons/fileopen.png");
+   SetItemField("/Control/CmdOpenFile", "_title", "Open ROOT file in analysis");
+   SetItemField("/Control/CmdOpenFile", "_hreload", "true"); // after execution hierarchy will be reloaded
+   //SetItemField("/Control/CmdOpenFile", "_hidden", "true");
 
-   RegisterCommand("/Status/CmdOpenFile", "this->CmdOpenFile(\"%arg1%\")", "button;go4sys/icons/fileopen.png");
-   SetItemField("/Status/CmdOpenFile", "_title", "Open ROOT file in analysis");
-   SetItemField("/Status/CmdOpenFile", "_hreload", "true"); // after execution hierarchy will be reloaded
-   //SetItemField("/Status/CmdOpenFile", "_hidden", "true");
+   RegisterCommand("/Control/CmdCloseFiles", "this->CmdCloseFiles()", "go4sys/icons/fileclose.png");
+   SetItemField("/Control/CmdCloseFiles", "_title", "Close all opened files");
+   SetItemField("/Control/CmdCloseFiles", "_hreload", "true"); // after execution hierarchy will be reloaded
+   //SetItemField("/Control/CmdCloseFiles", "_hidden", "true");
 
-   RegisterCommand("/Status/CmdCloseFiles", "this->CmdCloseFiles()", "go4sys/icons/fileclose.png");
-   SetItemField("/Status/CmdCloseFiles", "_title", "Close all opened files");
-   SetItemField("/Status/CmdCloseFiles", "_hreload", "true"); // after execution hierarchy will be reloaded
-   //SetItemField("/Status/CmdCloseFiles", "_hidden", "true");
+   RegisterCommand("/Control/CmdClearObject", "this->CmdClearObject(\"%arg1%\")", "");
+   SetItemField("/Control/CmdClearObject", "_title", "Clear object content");
+   SetItemField("/Control/CmdClearObject", "_hidden", "true");
 
-   RegisterCommand("/Status/CmdClearObject", "this->CmdClearObject(\"%arg1%\")", "");
-   SetItemField("/Status/CmdClearObject", "_title", "Clear object content");
-   SetItemField("/Status/CmdClearObject", "_hidden", "true");
+   RegisterObject("/Control", fAnalysisStatus);
+   SetItemField("/Control/Analysis", "_autoload", "go4sys/html/go4.js");
+   SetItemField("/Control/Analysis", "_icon", "go4sys/icons/control.png");
+   SetItemField("/Control/Analysis", "_not_monitor", "true");
 
+   RestrictGo4("/Control","visible=controller,admin");
+
+   RestrictGo4("/Conditions", "allow=controller,admin");
+
+   RestrictGo4("/Parameters", "allow=controller,admin&allow_method=CreateStatus");
 
    // set at the end when other items exists
    SetItemField("/", "_autoload", "go4sys/html/go4.js");
@@ -410,5 +413,20 @@ void TGo4Sniffer::SendStatusMessage(Int_t level, Bool_t printout, const TString&
    if (printout)
       TGo4Log::Message(level, text.Data());
 
-   // to be
+   // to be done
 }
+
+void TGo4Sniffer::RestrictGo4(const char* path, const char* options)
+{
+   // wrapper for TRootSniffer::Restrict, called only when method exists
+
+   TMethod *method = IsA()->GetMethodAllAny("Restrict");
+   if (method==0) return;
+
+   TString call_args = TString::Format("\"%s\",\"%s\"", path, options);
+
+   TMethodCall call(IsA(), "Restrict", call_args.Data());
+
+   call.Execute(this);
+}
+

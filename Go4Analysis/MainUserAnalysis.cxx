@@ -132,6 +132,9 @@ void usage(const char* subtopic = 0)
 #ifdef WITH_HTTP
    std::cout << "  -http [port]                : run analysis with web-server running, " << std::endl;
    std::cout << "                                optionally port can be specified, default 8080" << std::endl;
+   std::cout << "  -auth [filename]            : use authentication file to restrict access to http server " << std::endl;
+   std::cout << "                                file should contain 'controller' and 'admin' accounts for 'go4' domain" << std::endl;
+   std::cout << "                                Could be generated with htdigets utility, by default '$GO4SYS/etc/.htdigest' filename is used" << std::endl;
    std::cout << "  -fastcgi port               : run analysis with fastcgi server running, "<< std::endl;
    std::cout << "                                which can deliver data to normal webserver (see mod_proxy_fcgi for Apache)" << std::endl;
 #ifdef WITH_DABC
@@ -689,7 +692,7 @@ int main(int argc, char **argv)
 
    TObjArray http_args;                  // all arguments for http server
    http_args.SetOwner(kTRUE);
-   const char* auth_file  = 0;           // authentication file for http server
+   TString auth_file;                    // authentication file for http server
    const char* auth_domain = "go4";      // default authentication domain http server
 
    Bool_t batchMode(kTRUE);              // GUI or Batch
@@ -750,7 +753,7 @@ int main(int argc, char **argv)
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
             auth_file = argv[narg++];
          else
-            auth_file = ".htdigest";
+            auth_file = TGo4Log::subGO4SYS("etc/htdigest.txt");
       } else
       if (strcmp(argv[narg], "-domain")==0) {
          narg++;
@@ -1149,12 +1152,10 @@ int main(int argc, char **argv)
       Int_t err(0);
       for (Int_t n=0;n<=http_args.GetLast();n++) {
          TString engine = http_args[n]->GetName();
-         if ((engine.Index("http:")==0) && (auth_file!=0))
-            engine.Append(TString::Format("&auth_file=%s&auth_domain=%s", auth_file, auth_domain));
+         if ((engine.Index("http:")==0) && (auth_file.Length()>0))
+            engine.Append(TString::Format("&auth_file=%s&auth_domain=%s", auth_file.Data(), auth_domain));
 
          cmd.Form("TGo4Sniffer::CreateEngine(\"%s\");", engine.Data());
-
-         printf("Start engine: %s\n", engine.Data());
          res = gROOT->ProcessLineFast(cmd.Data(), &err);
          if ((res<=0) || (err!=0)) showerror(Form("Fail to start %s", engine.Data()));
       }

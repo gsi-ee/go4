@@ -50,7 +50,6 @@ QHttpProxy::~QHttpProxy()
 {
 }
 
-
 void QHttpProxy::httpFinished()
 {
    if (fHReply==0) return;
@@ -68,7 +67,6 @@ void QHttpProxy::httpError(QNetworkReply::NetworkError code)
       fHReply->deleteLater();
       fHReply = 0;
    }
-
 }
 
 void QHttpProxy::updateRatemeter()
@@ -103,9 +101,21 @@ void QHttpProxy::StartRequest(const char* url)
 
 void QHttpProxy::authenticationRequiredSlot(QNetworkReply* repl, QAuthenticator* auth)
 {
+   if (fProxy->fUserName.Length()>0) {
+      auth->setUser(fProxy->fUserName.Data());
+      auth->setPassword(fProxy->fPassword.Data());
+      return;
+   }
+
+   //auth->setUser("admin");
+   //auth->setPassword("go4super");
+   //auth->setUser("observer");
+   //auth->setPassword("go4view");
+   //return;
+
    bool ok = false;
    QString user_name =
-        QInputDialog::getText(0, tr("Authentication required"),
+         QInputDialog::getText(0, tr("Authentication required"),
                               tr("User name:"), QLineEdit::Normal,
                               "", &ok);
    if (!ok) return;
@@ -471,9 +481,14 @@ TGo4HttpProxy::TGo4HttpProxy() :
    fxHierarchy(0),
    fComm(this),
    fRateCnt(0),
-   fbAnalysisRunning(kFALSE)
+   fbAnalysisRunning(kFALSE),
+   fUserName(),
+   fPassword()
 {
    fXML = new TXMLEngine;
+
+   SetAccount("observer","go4view");
+   // SetAccount("controller","go4ctrl");
 }
 
 TGo4HttpProxy::~TGo4HttpProxy()
@@ -483,6 +498,14 @@ TGo4HttpProxy::~TGo4HttpProxy()
 
    delete fXML; fXML = 0;
 }
+
+
+void TGo4HttpProxy::SetAccount(const char* username, const char* passwd)
+{
+   fUserName = username ? username : "";
+   fPassword = passwd ? passwd : "";
+}
+
 
 void TGo4HttpProxy::Initialize(TGo4Slot* slot)
 {
@@ -636,6 +659,18 @@ Bool_t TGo4HttpProxy::IsGo4Analysis() const
    return !strcmp(_kind,"ROOT.Session") && !strcmp(_title,"GO4 analysis");
 }
 
+Bool_t TGo4HttpProxy::CheckUserName(const char* expects, Bool_t dflt)
+{
+   XMLNodePointer_t item = FindItem("");
+   if (item==0) return dflt;
+
+   const char* username = fXML->GetAttr(item,"_username");
+   if (username==0) return dflt;
+
+   return strcmp(username, expects)==0;
+}
+
+
 Bool_t TGo4HttpProxy::IsConnected()
 {
    return kTRUE;
@@ -659,10 +694,10 @@ void TGo4HttpProxy::RequestAnalysisSettings()
    TGo4Slot* subslot = SettingsSlot();
    if (subslot == 0) return;
 
-   XMLNodePointer_t item = FindItem("Status/Analysis");
+   XMLNodePointer_t item = FindItem("Control/Analysis");
    if (item==0) return;
 
-   TGo4HttpAccess* access = new TGo4HttpAccess(this, item, "Status/Analysis", 1);
+   TGo4HttpAccess* access = new TGo4HttpAccess(this, item, "Control/Analysis", 1);
    access->AssignObjectToSlot(subslot);
 }
 
@@ -675,7 +710,7 @@ void TGo4HttpProxy::SubmitAnalysisSettings()
    printf("Settings object %p\n", status);
 
    if (status)
-      PostObject("Status/Analysis/exe.bin?method=ApplyStatus&status", status, 2);
+      PostObject("Control/Analysis/exe.bin?method=ApplyStatus&status", status, 2);
 }
 
 void TGo4HttpProxy::CloseAnalysisSettings()
@@ -720,7 +755,7 @@ Bool_t TGo4HttpProxy::RequestObjectStatus(const char* objectname, TGo4Slot* tgts
 Bool_t TGo4HttpProxy::SubmitCommand(const char* name, Int_t waitres, const char* arg1)
 {
    TString url = fNodeName;
-   url.Append("/Status/");
+   url.Append("/Control/");
    url.Append(name);
    url.Append("/cmd.json");
    if ((arg1!=0) && (*arg1!=0)) {
@@ -806,6 +841,8 @@ Bool_t TGo4HttpProxy::UpdateAnalysisObject(const char* objectname, TObject* obj)
 {
    TString prefix = objectname;
    prefix.Append("/exe.bin?method=SetStatus&status");
+
+   printf("Update status of object %s\n", objectname);
 
    return PostObject(prefix.Data(), obj, 2);
 }

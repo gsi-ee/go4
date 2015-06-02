@@ -22,6 +22,7 @@
 class TGo4AnalysisWebStatus;
 class TGraph;
 class TGo4Ratemeter;
+class THttpServer;
 
 class TGo4Sniffer : public TRootSniffer,
                     public TGo4AnalysisSniffer {
@@ -35,8 +36,11 @@ class TGo4Sniffer : public TRootSniffer,
 
       virtual void ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj);
 
-      /** Send message to gui */
+      /** Send message to gui - need to be implemented */
       virtual void SendStatusMessage(Int_t level, Bool_t printout, const TString& text);
+
+      /** Wrapper for new method in TRootSniffer */
+      void RestrictGo4(const char* path, const char* options);
 
       static THttpServer* gHttpServer;
 

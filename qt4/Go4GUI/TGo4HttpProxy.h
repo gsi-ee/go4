@@ -116,6 +116,8 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       QHttpProxy      fComm;
       Int_t           fRateCnt;       //! counter for ratemeter updates
       Bool_t          fbAnalysisRunning;
+      TString         fUserName;     //! user name and password -
+      TString         fPassword;
 
       void GetReply(QByteArray& res);
 
@@ -127,9 +129,13 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       Bool_t PostObject(const char* prefix, TObject* obj, Int_t waitres = -1);
 
+      Bool_t CheckUserName(const char* expects, Bool_t dflt = kFALSE);
+
    public:
       TGo4HttpProxy();
       virtual ~TGo4HttpProxy();
+
+      void SetAccount(const char* username, const char* passwd);
 
       Bool_t Connect(const char* nodename);
       Bool_t UpdateHierarchy(Bool_t sync = kTRUE);
@@ -155,9 +161,9 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       virtual Bool_t IsGo4Analysis() const;
       virtual Bool_t IsConnected();
-      virtual Bool_t IsViewer()  { return kFALSE; }
-      virtual Bool_t IsController()  { return kTRUE; }
-      virtual Bool_t IsAdministrator()  { return kFALSE; }
+      virtual Bool_t IsViewer()  { return CheckUserName("observer", kFALSE); }
+      virtual Bool_t IsController()  { return CheckUserName("controller", kTRUE); }
+      virtual Bool_t IsAdministrator()  { return CheckUserName("admin", kFALSE); }
 
       virtual void RequestAnalysisSettings();
       virtual void SubmitAnalysisSettings();
