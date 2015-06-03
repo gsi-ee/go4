@@ -762,7 +762,7 @@ void TGo4FitPanel::Fitter_UpdateReferences()
 
 void TGo4FitPanel::Fitter_SaveToBrowser()
 {
-   TGo4LockGuard lock(0,true);
+   TGo4LockGuard lock;
 
    TGo4Fitter* clone = CloneFitter();
 
@@ -804,7 +804,7 @@ void TGo4FitPanel::Fitter_RollbackParameters()
 
 void TGo4FitPanel::Button_WorkWithPanel()
 {
-   TGo4LockGuard lock(0,true);
+   TGo4LockGuard lock;
 
    TGo4Fitter* fitter = GetFitter();
    if (fitter!=0) {

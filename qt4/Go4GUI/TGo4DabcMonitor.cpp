@@ -184,7 +184,7 @@ void TGo4DabcMonitor::storeSettings()
 
 void TGo4DabcMonitor::refreshDIMSlot()
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    //std::cout<<"refreshDIMSlot()" <<std::endl;
    // first get list of dabc nodes from DIM server
    fxDnsNode = dimDnsNodeEdit->text().trimmed();
@@ -204,7 +204,7 @@ void TGo4DabcMonitor::refreshDIMSlot()
 
 void TGo4DabcMonitor::logDIMSlot()
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    //std::cout<<"logDIMSlot()" <<std::endl;
    for(int nix=0; nix<fxDabcNodes.size(); ++nix)
    {
@@ -219,7 +219,7 @@ void TGo4DabcMonitor::logDIMSlot()
 
 void TGo4DabcMonitor::histogramCheckToggled( bool val )
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    //std::cout <<"---------------- histogramCheckToggled to "<<val<< std::endl;
    fbHistogramming=val;
    // better: reset all existing init flags of services!
@@ -306,7 +306,7 @@ void TGo4DabcMonitor::binsizeChanged( int val )
 
 void TGo4DabcMonitor::nodeTableChangedSlot( int row, int column )
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    if(fbTableBeingCreated) return;
    //std::cout<<"nodeTableChangedSlot for " << row<<","<<column <<std::endl;
    // get index from table:
@@ -362,7 +362,7 @@ void TGo4DabcMonitor::nodeTableChangedSlot( int row, int column )
 
 void TGo4DabcMonitor::rateTableChangedSlot(int row, int column)
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    if(fbTableBeingCreated) return;
    //std::cout<<"rateTableChangedSlot for " << row<<","<<column <<std::endl;
    if(column==DABCMON_RATE_TRENDCOL)
@@ -414,7 +414,7 @@ void TGo4DabcMonitor::rateTableChangedSlot(int row, int column)
 void TGo4DabcMonitor::infoUpdated( TGo4DabcInfo * info )
 {
    // handle log printout of all services here:
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    //std::cout<"iiiiiiiiiii infoUpdated() for " << info->getName() <<std::endl;
    QDateTime timestamp;
    timestamp.setTime_t (info->getTimestamp());
@@ -501,7 +501,7 @@ void TGo4DabcMonitor::infoUpdated( TGo4DabcInfo * info )
 
 void TGo4DabcMonitor::nodesUpdated( TGo4DabcNodesInfo * info )
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    //std::cout<<"nodes Updated()" <<std::endl;
    QString servers=info->getString();
    fxNodelist = servers.split("|", QString::SkipEmptyParts);
@@ -512,7 +512,7 @@ void TGo4DabcMonitor::nodesUpdated( TGo4DabcNodesInfo * info )
 
 void TGo4DabcMonitor::servicesUpdated( TGo4DabcServiceInfo * info )
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    //std::cout<<"servicesUpdated() for " << info->getName() <<std::endl;
    //first find out index of this service:
    unsigned int index=-1;
@@ -600,7 +600,7 @@ void TGo4DabcMonitor::servicesUpdated( TGo4DabcServiceInfo * info )
 
 void TGo4DabcMonitor::stateUpdated( TGo4DabcStateInfo * info )
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    //std::cout<<"stateUpdated() for " << info->getName() <<std::endl;
    // first find out index of this state:
    unsigned int index=-1;
@@ -634,7 +634,7 @@ void TGo4DabcMonitor::stateUpdated( TGo4DabcStateInfo * info )
 
 void TGo4DabcMonitor::rateUpdated( TGo4DabcRateInfo * info )
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    //std::cout<<"rateUpdated() for " << info->getName() <<std::endl;
 
    // first find out indexes for this rate info
@@ -699,7 +699,7 @@ void TGo4DabcMonitor::rateUpdated( TGo4DabcRateInfo * info )
 
 void TGo4DabcMonitor::refreshNodes()
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    //std::cout<<"*********refreshNodes()" <<std::endl;
    fbRebuildNodeTable=true;
    fbRebuildRateTable=true;
@@ -769,7 +769,7 @@ void TGo4DabcMonitor::refreshNodes()
 
 void TGo4DabcMonitor::clearStates()
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    std::vector<TGo4DabcStateInfo*>::iterator iter;
    for(iter=fxStates.begin(); iter!=fxStates.end(); ++iter)
    {
@@ -783,7 +783,7 @@ void TGo4DabcMonitor::clearStates()
 
 void TGo4DabcMonitor::clearServices()
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    std::vector<TGo4DabcServiceInfo*>::iterator iter;
    for(iter=fxServices.begin(); iter!=fxServices.end(); ++iter)
    {
@@ -795,7 +795,7 @@ void TGo4DabcMonitor::clearServices()
 
 void TGo4DabcMonitor::clearRates()
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    std::vector<std::vector<TGo4DabcRateInfo*> >::iterator nodeiter;
    for(nodeiter=fxRates.begin(); nodeiter!=fxRates.end(); ++nodeiter)
    {
@@ -822,7 +822,7 @@ void TGo4DabcMonitor::clearRates()
 
 void TGo4DabcMonitor::createRateServices( int nodeindex )
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    //std::cout<<"rrrrrrrr createRateServices for "<<nodeindex <<std::endl;
    //search the service list for our node for all rate services:
    QString services=fxServices[nodeindex]->getString();
@@ -869,7 +869,7 @@ void TGo4DabcMonitor::createRateServices( int nodeindex )
 
 void TGo4DabcMonitor::deleteRateServices( int nodeindex )
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    //std::cout<<"rrrrrrrr deleteRateServices for "<<nodeindex <<std::endl;
    std::vector<TGo4DabcRateInfo*> &  nodevec=fxRates[nodeindex];
    std::vector<TGo4DabcRateInfo*>::iterator iter;
@@ -893,7 +893,7 @@ void TGo4DabcMonitor::deleteRateServices( int nodeindex )
 
 void TGo4DabcMonitor::createLogServices(int nodeindex)
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    //std::cout<<"rrrrrrrr createLogServices for "<<nodeindex <<std::endl;
    QRegExp filter(dimServiceFilterEdit->text().trimmed());
    filter.setPatternSyntax(QRegExp::Wildcard); // use simple wildcard matching, like shell
@@ -945,7 +945,7 @@ void TGo4DabcMonitor::createLogServices(int nodeindex)
 
 void TGo4DabcMonitor::displayNodeTable()
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    fbTableBeingCreated=true;
    //std::cout<<"*********displayNodeTable()" <<std::endl;
    if(fbRebuildNodeTable)
@@ -1065,7 +1065,7 @@ void TGo4DabcMonitor::fillNodeTableRow( int tableindex, int nodeindex, bool crea
 
 void TGo4DabcMonitor::displayRateTable()
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    fbTableBeingCreated=true;
    //std::cout<<"*********displayRateTable()" <<std::endl;
    // find number of existing rate services
@@ -1253,7 +1253,7 @@ bool TGo4DabcMonitor::getRateIndices( int tablerow, int & nodeix, int & rateix )
 
 void TGo4DabcMonitor::displaySampleHistograms()
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    // iterate all rate indices:
    for(int nodeix=0;nodeix<fxTrendingFlags.size();++nodeix)
    {
@@ -1310,7 +1310,7 @@ void TGo4DabcMonitor::displaySampleHistograms()
 
 void TGo4DabcMonitor::displayAverageHistograms()
 {
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    if(!fbHistogramming) return;
    // iterate all rate indices:
    for(int nodeix=0;nodeix<fxTrendingFlags.size();++nodeix)
@@ -1353,7 +1353,7 @@ void TGo4DabcMonitor::displayAverageHistograms()
 void TGo4DabcMonitor::displayAll()
 {
    //std::cout<<"ttttttt timer fired displayAll()" <<std::endl;
-   TGo4LockGuard gard(0,true);
+   TGo4LockGuard gard;
    QDateTime timestamp;
    timestamp.setTime_t (fxLastTimestamp);
    //DateLabel->setText(timestamp.toString(Qt::ISODate));

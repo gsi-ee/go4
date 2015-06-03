@@ -86,7 +86,7 @@ TQRootDialog::TQRootDialog(QWidget *parent, const char *name, WFlags f,
                           TObject* obj, TMethod *method ) :
    QVBox(parent,name, f | WType_Modal | WStyle_Dialog)
 {
-   TGo4LockGuard threadlock(0,true);
+   TGo4LockGuard threadlock;
    fCurObj=obj;
    fCurMethod=method;
 
@@ -130,7 +130,7 @@ void TQRootDialog::receive()
 
 void TQRootDialog::executeMethod()
 {
-   TGo4LockGuard threadlock(0,true);
+   TGo4LockGuard threadlock;
    Bool_t deletion = kFALSE;
 
    qDebug("DIAL executeMethod:  simple version\n");
@@ -213,7 +213,7 @@ void TQRootDialog::executeMethod()
 
 void TQRootDialog::add(const char* argname, const char* value, const char* type)
 {
-   TGo4LockGuard threadlock(0,true);
+   TGo4LockGuard threadlock;
 
    new QLabel(argname,fArgBox);
    QLineEdit* le = new  QLineEdit(fArgBox);
@@ -230,13 +230,13 @@ void TQRootDialog::add(const char* argname, const char* value, const char* type)
 
 void TQRootDialog::popup()
 {
-   TGo4LockGuard threadlock(0,true);
+   TGo4LockGuard threadlock;
    show();
 }
 
 void TQRootDialog::closeEvent( QCloseEvent* ce )
 {
-   TGo4LockGuard threadlock(0,true);
+   TGo4LockGuard threadlock;
    ce->accept();
    delete this;
 }

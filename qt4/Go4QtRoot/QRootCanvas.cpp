@@ -69,7 +69,7 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
 
    setSizeIncrement( QSize( 100, 100 ) );
 
-   TGo4LockGuard threadlock(0,true);
+   TGo4LockGuard threadlock;
    // set defaults
    setUpdatesEnabled( true );
    setMouseTracking(true);
@@ -120,7 +120,7 @@ QRootCanvas::~QRootCanvas()
 
 void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
 {
-  TGo4LockGuard threadlock(0,true);
+  TGo4LockGuard threadlock;
   if (fCanvas!=0) {
      if (e->buttons() & Qt::LeftButton)
         fCanvas->HandleInput(kButton1Motion, e->x(), e->y());
@@ -149,7 +149,7 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
 
 void QRootCanvas::mousePressEvent( QMouseEvent *e )
 {
-   TGo4LockGuard threadlock(0,true);
+   TGo4LockGuard threadlock;
    //std::cout <<"----- QRootCanvas::mousePressEvent" << std::endl;
    TObjLink* pickobj = 0;
    TPad* pad = fCanvas->Pick(e->x(), e->y(), pickobj);
@@ -236,7 +236,7 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
 
 void QRootCanvas::mouseReleaseEvent( QMouseEvent *e )
 {
-   TGo4LockGuard threadlock(0,true);
+   TGo4LockGuard threadlock;
    switch(e->button()) {
       case Qt::LeftButton :
          fCanvas->HandleInput(kButton1Up, e->x(), e->y());
@@ -256,7 +256,7 @@ void QRootCanvas::mouseReleaseEvent( QMouseEvent *e )
 
 void QRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
 {
-   TGo4LockGuard threadlock(0,true);
+   TGo4LockGuard threadlock;
    switch(e->button()) {
       case Qt::LeftButton : {
          if (!fMaskDoubleClick)
@@ -311,7 +311,7 @@ void QRootCanvas::processRepaintTimer()
 {
    if (fRepaintMode == 0) return;
 
-   TGo4LockGuard threadlock(0,true);
+   TGo4LockGuard threadlock;
 
    WId newid = winId();
    if(newid != fQtWindowId) {
@@ -337,7 +337,7 @@ void QRootCanvas::leaveEvent( QEvent *e )
 {
    QWidget::leaveEvent(e);
 
-   TGo4LockGuard threadlock(0,true);
+   TGo4LockGuard threadlock;
    if (fCanvas!=0)
       fCanvas->HandleInput(kMouseLeave, 0, 0);
 
@@ -740,7 +740,7 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
 {
    if ((object==0) || (method==0)) return;
 
-   TGo4LockGuard threadlock(0,true);
+   TGo4LockGuard threadlock;
   // Create dialog object with OK and Cancel buttons. This dialog
    // prompts for the arguments of "method".
 
@@ -918,7 +918,7 @@ QAction* QRootCanvas::addMenuAction(QMenu* menu, QSignalMapper* map, const QStri
 
 void QRootCanvas::executeMenu(int id)
 {
-   TGo4LockGuard threadlock(0,true);
+   TGo4LockGuard threadlock;
    QString text("");
    bool ok = false;
    if (id >=100) {

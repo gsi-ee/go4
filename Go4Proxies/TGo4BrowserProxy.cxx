@@ -376,7 +376,7 @@ Bool_t TGo4BrowserProxy::ProduceExplicitCopy(const char* itemname, const char* t
 
 Bool_t TGo4BrowserProxy::ProduceExplicitCopy(TGo4Slot* itemslot, const char* tgtpath, Bool_t forcerequest)
 {
-   TGo4LockGuard lock(0,true);
+   TGo4LockGuard lock;
 
    if (itemslot==0) return kFALSE;
 
@@ -1874,7 +1874,7 @@ void TGo4BrowserProxy::GetProtectionBits(TGo4Slot* slot, Int_t& delprot, Int_t& 
 
 void TGo4BrowserProxy::SyncBrowserSlots()
 {
-   TGo4LockGuard lock(0,true);
+   TGo4LockGuard lock;
 
    TGo4Slot* targetslot = BrowserTopSlot();
 

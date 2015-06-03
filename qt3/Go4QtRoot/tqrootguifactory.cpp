@@ -46,7 +46,7 @@
 TQRootGuiFactory::TQRootGuiFactory(const char *name, const char *title)
    : TRootGuiFactory(name, title)
 {
-   TGo4LockGuard threadlock(0,true);
+   TGo4LockGuard threadlock;
   // TQRootGuiFactory ctor.
   // The default implementation  is not customized:
   // The  ROOT TRootCanvas class is being used
@@ -65,7 +65,7 @@ TCanvasImp *TQRootGuiFactory::CreateCanvasImp(TCanvas *c, const char *title,
                                              UInt_t width, UInt_t height)
 {
   // Create a ROOT native GUI version of TCanvasImp
-TGo4LockGuard threadlock(0,true);
+TGo4LockGuard threadlock;
 #if DEBUG_LEVEL>0
   qDebug("TQRootGuiFactory::CreateCanvasImp: \n creating a TCanvasImp with parameters:  %x name:%s \n w:%i h:%i \n",
         c, title, width, height );
@@ -85,7 +85,7 @@ TCanvasImp *TQRootGuiFactory::CreateCanvasImp(TCanvas *c, const char *title,
                                   Int_t x, Int_t y, UInt_t width, UInt_t height)
 {
  // Create a ROOT native GUI version of TCanvasImp
-TGo4LockGuard threadlock(0,true);
+TGo4LockGuard threadlock;
 #if DEBUG_LEVEL>0
   qDebug("TQRootGuiFactory::CreateCanvasImp:\n creating a TCanvasImp with parameters:  %x name:%s  \n w:%i h:%i x:%i y:%i\n",  c, title, width, height, x, y );
 #endif

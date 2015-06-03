@@ -248,7 +248,7 @@ void TGo4ViewPanel::init()
 
 void TGo4ViewPanel::CompleteInitialization()
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    // create apropriate entry in OM
    UpdatePadStatus(GetCanvas(), true);
@@ -367,7 +367,7 @@ void TGo4ViewPanel::CompleteInitialization()
 
 void TGo4ViewPanel::destroy()
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    // prevent problems with root's subeditor cache
    if (fxPeditor != 0) {
@@ -536,7 +536,7 @@ const char* TGo4ViewPanel::GetDrawItemName(int itemcnt)
 
 void TGo4ViewPanel::UndrawItemOnPanel(const char* itemname)
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    TObjArray delslots;
 
@@ -565,7 +565,7 @@ void TGo4ViewPanel::UndrawItemOnPanel(const char* itemname)
 void TGo4ViewPanel::SetSelectedMarker(TPad* pad, const QString& selname,
       int selindex)
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    TGo4Slot* padslot = GetPadSlot(pad);
    if (padslot == 0)
@@ -616,7 +616,7 @@ void TGo4ViewPanel::SetSelectedMarker(TPad* pad, const QString& selname,
 
 void TGo4ViewPanel::SetSelectedMarkerByMouseClick(TPad* pad, const char* name)
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    if (!fbMarkEditorVisible)
       return;
@@ -679,7 +679,7 @@ void TGo4ViewPanel::SetSelectedMarkerByMouseClick(TPad* pad, const char* name)
 
 void TGo4ViewPanel::StartConditionEditing(TPad* pad)
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    int selectedkind;
    TGo4Slot* selslot = GetSelectedSlot(GetActivePad(), &selectedkind, 0);
@@ -775,7 +775,7 @@ void TGo4ViewPanel::SetFreezeMouseMode(bool on)
 
 void TGo4ViewPanel::RefreshButtons()
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    MarkerPanel->setShown(fbMarkEditorVisible);
    fxGo4QRootCanvas->setMaskDoubleClick(fbMarkEditorVisible);
@@ -1008,7 +1008,7 @@ void TGo4ViewPanel::LogMarkerValues()
 
 void TGo4ViewPanel::ClearAllMarkers()
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    TPad* pad = IsApplyToAllFlag() ? GetCanvas() : GetActivePad();
    if (pad == 0)
@@ -1123,7 +1123,7 @@ void TGo4ViewPanel::LoadMarkers()
 
 void TGo4ViewPanel::SetActivePad(TPad* pad)
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    if (ActivePad != pad)
       CompleteMarkerEdit(ActivePad);
@@ -1153,7 +1153,7 @@ void TGo4ViewPanel::SetActivePad(TPad* pad)
 
 void TGo4ViewPanel::PadClickedSlot(TPad* pad)
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    SetActivePad(pad);
 
@@ -1788,7 +1788,7 @@ void TGo4ViewPanel::PrintCanvas()
 
 void TGo4ViewPanel::StartRootEditor()
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    fbEditorFrameVisible = !fMenuBar->isItemChecked(ShowRootEditorId);
    fMenuBar->setItemChecked(ShowRootEditorId, fbEditorFrameVisible);
@@ -1924,7 +1924,7 @@ void TGo4ViewPanel::AboutToShowOptionsMenu()
 
 void TGo4ViewPanel::SelectMenuItemActivated(int id)
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    if (id == BringToFrontId) {
       if (ShiftSelectedObjectToEnd(GetActivePad())) {
@@ -2255,7 +2255,7 @@ void TGo4ViewPanel::ProcessPadModifiedSignal()
 bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot* padslot,
       TGo4Picture* pic, bool onlyscan)
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    if ((pad == 0) || (pic == 0) || (padslot == 0))
       return false;
@@ -3515,7 +3515,7 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
    if (IsRedrawBlocked())
       return;
 
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    BlockPanelRedraw(true);
 
@@ -4003,7 +4003,7 @@ bool TGo4ViewPanel::IsFreezeTitle()
 void TGo4ViewPanel::ChangeDrawOptionForPad(TGo4Slot* padslot, int kind,
       int value, const char* drawopt)
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    TGo4Picture* subopt = GetPadOptions(padslot);
    if (subopt == 0)
@@ -4045,7 +4045,7 @@ void TGo4ViewPanel::ChangeDrawOptionForPad(TGo4Slot* padslot, int kind,
 
 void TGo4ViewPanel::ChangeDrawOption(int kind, int value, const char* drawopt)
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    bool scanall = IsApplyToAllFlag();
 
@@ -4072,7 +4072,7 @@ void TGo4ViewPanel::ChangeDrawOption(int kind, int value, const char* drawopt)
 
 void TGo4ViewPanel::ResetPadFillColors(TPad* pad, int col)
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    if (pad == 0)
       return;
@@ -4091,7 +4091,7 @@ void TGo4ViewPanel::ResetPadFillColors(TPad* pad, int col)
 
 void TGo4ViewPanel::ClearPad(TPad* pad, bool removeitems, bool removesubpads)
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    BlockPanelRedraw(true);
    CleanupGedEditor();
@@ -4161,7 +4161,7 @@ void TGo4ViewPanel::ProcessPadClear(TPad * pad, bool removeitems,
 
 void TGo4ViewPanel::SetPadDefaults(TPad* pad)
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    if (pad == 0)
       return;
@@ -4858,7 +4858,7 @@ bool TGo4ViewPanel::TakeSelectedAxisRange(int naxis, TGo4Picture * padopt,
 
 void TGo4ViewPanel::PadRangeAxisChanged(TPad* pad)
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    TGo4Picture* padopt = GetPadOptions(pad);
 
@@ -4942,7 +4942,7 @@ void TGo4ViewPanel::PadRangeAxisChanged(TPad* pad)
 void TGo4ViewPanel::PadRangeAxisChanged(TPad* pad, double rxmin, double rxmax,
       double rymin, double rymax)
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    if (IsRedrawBlocked() || (pad == 0))
       return;
@@ -4975,7 +4975,7 @@ void TGo4ViewPanel::GetSelectedRange(int& ndim, bool& autoscale, double& xmin,
 
 void TGo4ViewPanel::SetAutoScale(bool on, TPad* selpad)
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    bool modified = false;
    bool applytoall = false;
@@ -5017,7 +5017,7 @@ void TGo4ViewPanel::SetAutoScale(bool on, TPad* selpad)
 void TGo4ViewPanel::SetSelectedRange(double xmin, double xmax, double ymin,
       double ymax, double zmin, double zmax)
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    TPad* selpad = IsApplyToAllFlag() ? GetCanvas() : GetActivePad();
    if (selpad == 0)
@@ -5112,7 +5112,7 @@ void TGo4ViewPanel::mouseReleaseEvent(QMouseEvent * e)
 
 void TGo4ViewPanel::ResizeGedEditorSlot()
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    ResizeGedEditor();
    fxGo4QRootCanvas->checkResizeFlag();
@@ -5121,7 +5121,7 @@ void TGo4ViewPanel::ResizeGedEditorSlot()
 void TGo4ViewPanel::ResizeGedEditor()
 {
 #ifndef __NOGO4GED__
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
    TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
    if ((ed != 0) && fbEditorFrameVisible)
       ed->Resize(fxRooteditor->width(), fxRooteditor->height());
@@ -5164,7 +5164,7 @@ void TGo4ViewPanel::CleanupGedEditor()
 
 void TGo4ViewPanel::CheckResizeFlags()
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
    fxGo4QRootCanvas->checkResizeFlag();
    go4sett->storePanelSize(this);
 }
@@ -5329,7 +5329,7 @@ QString TGo4ViewPanel::GetActiveObjName(TPad* pad, int kind)
 
 void TGo4ViewPanel::OptionsMenuItemActivated(int id)
 {
-   TGo4LockGuard lock(0, true);
+   TGo4LockGuard lock;
 
    switch (id) {
       case CrosshairId: {
