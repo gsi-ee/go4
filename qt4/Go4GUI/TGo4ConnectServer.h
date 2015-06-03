@@ -28,12 +28,19 @@ class TGo4ConnectServer : public QDialog, public Ui::TGo4ConnectServer
 
    QString getInput();
 
-
  public slots:
 
 
 
    virtual void DefaultPassCheck_toggled( bool on );
+
+   virtual void SelectAccount_changed( int index );
+
+   virtual void SelectConnection_changed ( int index );
+
+ protected:
+
+   QString fLastAccount;
 
  };
 

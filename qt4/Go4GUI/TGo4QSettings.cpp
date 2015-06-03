@@ -366,6 +366,28 @@ bool TGo4QSettings::getClientDefaultPass()
    return getBool( "/ClientSetting/DefaultPass", true);
 }
 
+void     TGo4QSettings::setClientConnectMode(int mode)
+{
+    setInt( "/ClientSetting/Connection", mode);
+}
+
+int     TGo4QSettings::getClientConnectMode()
+{
+  return getInt( "/ClientSetting/Connection", 0);
+}
+
+QString TGo4QSettings::getClientAccountName()
+  {
+    return getStr( "/ClientSetting/Account", "observer");
+  }
+
+void    TGo4QSettings::setClientAccountName(const QString& v)
+{
+    setStr( "/ClientSetting/Account", v);
+}
+
+
+
 void TGo4QSettings::setTermHistorySize(int sz)
 {
    setInt( "/AnalisysTerminal/HistorySize", sz);

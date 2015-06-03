@@ -763,11 +763,12 @@ const char* TGo4Script::GetDrawnItemName(ViewPanelHandle handle, int cnt)
    return panel ? panel->GetDrawItemName(cnt) : 0;
 }
 
-TGo4ServerProxy* TGo4Script::ConnectHttp(const char* servername)
+TGo4ServerProxy* TGo4Script::ConnectHttp(const char* servername, const char* account, const char* pass)
 {
    if ((servername==0) || (*servername==0)) return 0;
 
    TGo4HttpProxy* proxy = new TGo4HttpProxy();
+   if(account) proxy->SetAccount(account,pass);
    if (!proxy->Connect(servername)) {
       delete proxy;
       return 0;

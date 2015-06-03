@@ -179,7 +179,7 @@ class TGo4Script : public TGo4AbstractInterface {
 
       const char* GetDrawnItemName(ViewPanelHandle panel, int cnt = 0);
 
-      virtual TGo4ServerProxy* ConnectHttp(const char* servername);
+      virtual TGo4ServerProxy* ConnectHttp(const char* servername, const char* account=0, const char* pass=0);
 
    protected:
 

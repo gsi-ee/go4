@@ -104,6 +104,10 @@ class TGo4QSettings {
       int     getClientControllerMode();
       void    setClientDefaultPass(bool);
       bool    getClientDefaultPass();
+      void    setClientConnectMode(int);
+      int     getClientConnectMode();
+      QString getClientAccountName();
+      void    setClientAccountName(const QString&);
 
       void    setTermHistorySize(int sz);
       int     getTermHistorySize();
