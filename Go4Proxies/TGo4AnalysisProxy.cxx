@@ -459,7 +459,6 @@ TGo4AnalysisProxy::TGo4AnalysisProxy(Bool_t isserver) :
    fxDefaultProxy(0),
    fbNamesListReceived(kFALSE),
    fbAnalysisReady(kFALSE),
-   fbAnalysisSettingsReady(kFALSE),
    fbAnalysisRunning(kFALSE),
    fDisconectCounter(-111),
    fxDisplay(0),

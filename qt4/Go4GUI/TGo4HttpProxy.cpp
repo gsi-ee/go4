@@ -697,6 +697,9 @@ void TGo4HttpProxy::RequestAnalysisSettings()
 
    TGo4HttpAccess* access = new TGo4HttpAccess(this, item, "Control/Analysis", 1);
    access->AssignObjectToSlot(subslot);
+
+   // workaround - mark as we finished with settings
+   SetAnalysisSettingsReady(kTRUE);
 }
 
 void TGo4HttpProxy::SubmitAnalysisSettings()
@@ -788,7 +791,7 @@ Bool_t TGo4HttpProxy::SubmitCommand(const char* name, Int_t waitres, const char*
    return netReply->isFinished();
 }
 
-Bool_t TGo4HttpProxy::PostObject(const char* prefix, TObject* obj, Int_t waitres)
+Bool_t TGo4HttpProxy::PostObject(const char* prefix, TObject* obj, Int_t waitres, Bool_t destroy_after)
 {
    TBufferFile *sbuf = new TBufferFile(TBuffer::kWrite, 100000);
    sbuf->MapObject(obj);
@@ -802,7 +805,9 @@ Bool_t TGo4HttpProxy::PostObject(const char* prefix, TObject* obj, Int_t waitres
    TString url = fNodeName;
    url.Append("/");
    url.Append(prefix);
-   url.Append("=_post_object_&_destroy_post_&_post_class_=");
+   url.Append("=_post_object_&");
+   if (destroy_after) url.Append("_destroy_post_&");
+   url.Append("_post_class_=");
    url.Append(obj->ClassName());
 
    // printf("URL %s datalen %d\n", url.Data(), postData.length());
@@ -837,16 +842,25 @@ Bool_t TGo4HttpProxy::PostObject(const char* prefix, TObject* obj, Int_t waitres
 
 Bool_t TGo4HttpProxy::UpdateAnalysisObject(const char* objectname, TObject* obj)
 {
-   TString prefix = objectname;
-   prefix.Append("/exe.bin?method=");
+   TString url;
 
-   if (obj->InheritsFrom(TGo4Condition::Class())) {
-      prefix.Append("UpdateFrom&counts=kFALSE&cond");
+   Bool_t destr = kTRUE;
+
+   if (*objectname == 0) {
+      url.Append("Control/go4_sniffer/exe.bin?method=AddAnalysisObject&obj");
+      destr = kFALSE; // object will be owned by analysis
    } else {
-      prefix.Append("SetStatus&status");
+      url.Append(objectname);
+      url.Append("/exe.bin?method=");
+
+      if (obj->InheritsFrom(TGo4Condition::Class())) {
+         url.Append("UpdateFrom&counts=kFALSE&cond");
+      } else {
+         url.Append("SetStatus&status");
+      }
    }
 
-   return PostObject(prefix.Data(), obj, 2);
+   return PostObject(url.Data(), obj, 2, destr);
 }
 
 void TGo4HttpProxy::ProcessUpdateTimer()

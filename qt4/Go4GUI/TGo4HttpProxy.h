@@ -127,7 +127,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       Bool_t SubmitCommand(const char* name, Int_t waitres = -1, const char* par1 = 0);
 
-      Bool_t PostObject(const char* prefix, TObject* obj, Int_t waitres = -1);
+      Bool_t PostObject(const char* prefix, TObject* obj, Int_t waitres = -1, Bool_t destroy_after = kTRUE);
 
       Bool_t CheckUserName(const char* expects, Bool_t dflt = kFALSE);
 

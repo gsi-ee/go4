@@ -2260,7 +2260,7 @@ TGo4SetScaleValues* TGo4MainWindow::ToggleScaleValues()
 void TGo4MainWindow::CreateNewHistSlot(int isremote)
 {
    TGo4CreateNewHistogram dlg(this);
-   TGo4AnalysisProxy* an = Browser()->FindAnalysis();
+   TGo4ServerProxy* an = Browser()->FindAnalysisNew();
 
    dlg.SetAnalysisAvaliable((isremote!=0) && (an!=0) && an->IsAnalysisSettingsReady());
    dlg.SetLocalAvaliable(isremote!=1);
@@ -2284,13 +2284,14 @@ void TGo4MainWindow::CreateNewHistSlot(int isremote)
       h1->SetBit(TGo4Status::kGo4CanDelete);
       an->UpdateAnalysisObject("", h1);
       if (anw!=0) anw->WaitForNewObject(isremote==1);
+             else an->RefreshNamesList();
    }
    if (h1!=0) delete h1;
 }
 
 void TGo4MainWindow::CreateNewConditionSlot(bool forothereditor)
 {
-   TGo4AnalysisProxy* an = Browser()->FindAnalysis();
+   TGo4ServerProxy* an = Browser()->FindAnalysisNew();
    if ((an==0) || !an->IsAnalysisSettingsReady()) {
       QMessageBox::information(this,"Create new condition","Cannot create new condition before analysis setup");
       return;
@@ -2309,11 +2310,12 @@ void TGo4MainWindow::CreateNewConditionSlot(bool forothereditor)
 
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
    if(anw!=0) anw->WaitForNewObject(forothereditor);
+         else an->RefreshNamesList();
 }
 
 void TGo4MainWindow::CreateNewDynEntrySlot(bool forothereditor)
 {
-   TGo4AnalysisProxy* an = Browser()->FindAnalysis();
+   TGo4ServerProxy* an = Browser()->FindAnalysisNew();
    if ((an==0) || !an->IsAnalysisSettingsReady()) {
       QMessageBox::information(this,"Create new dynamic entry","Cannot create new entry before analysis setup");
       return;
@@ -2332,6 +2334,7 @@ void TGo4MainWindow::CreateNewDynEntrySlot(bool forothereditor)
 
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
    if (anw!=0) anw->WaitForNewObject(forothereditor);
+          else an->RefreshNamesList();
 }
 
 void TGo4MainWindow::ConnectGo4Widget(QGo4Widget* editor)

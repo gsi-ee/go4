@@ -38,7 +38,6 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       TGo4AnalysisObjectAccess* fxDefaultProxy;      //!
       Bool_t                    fbNamesListReceived; //!
       Bool_t                    fbAnalysisReady;     //!
-      Bool_t                    fbAnalysisSettingsReady; //!
       Bool_t                    fbAnalysisRunning;    //!
       Int_t                     fDisconectCounter;   //!
       TGo4Display*              fxDisplay;          //!
@@ -149,9 +148,6 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       void SetAnalysisReady(Bool_t on = kTRUE) { fbAnalysisReady = on; }
       Bool_t IsAnalysisReady() const { return fbAnalysisReady; }
-
-      void SetAnalysisSettingsReady(Bool_t on = kTRUE) { fbAnalysisSettingsReady = on ; }
-      Bool_t IsAnalysisSettingsReady() const { return fbAnalysisSettingsReady; }
 
       Bool_t NamesListReceived();
 

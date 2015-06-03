@@ -20,11 +20,12 @@
 
 class TGo4ServerProxy : public TGo4Proxy {
    protected:
-      TGo4Slot*                 fxParentSlot;        //!
+      TGo4Slot*        fxParentSlot;            //!
+      Bool_t           fbAnalysisSettingsReady; // true when settings are specified
 
    public:
-      TGo4ServerProxy() : TGo4Proxy(), fxParentSlot(0) {}
-      virtual ~TGo4ServerProxy() {}
+      TGo4ServerProxy();
+      virtual ~TGo4ServerProxy();
 
       virtual void Initialize(TGo4Slot* slot) { fxParentSlot = slot; }
 
@@ -44,6 +45,9 @@ class TGo4ServerProxy : public TGo4Proxy {
       virtual Bool_t RefreshNamesList() { return kFALSE; }
 
       virtual Bool_t DelayedRefreshNamesList(Int_t delay_sec) { return kFALSE; }
+
+      void SetAnalysisSettingsReady(Bool_t on = kTRUE) { fbAnalysisSettingsReady = on ; }
+      Bool_t IsAnalysisSettingsReady() const { return fbAnalysisSettingsReady; }
 
       virtual void RequestAnalysisSettings() {}
       virtual void SubmitAnalysisSettings() {}

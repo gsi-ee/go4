@@ -66,6 +66,7 @@ class TGo4Sniffer : public TRootSniffer,
       Bool_t CmdCloseFiles();
       Bool_t CmdClearObject(const char* objname);
 
+      Bool_t AddAnalysisObject(TObject* obj);
 
       /** Method called by logger with every string, going to output */
       virtual void SetTitle(const char* title = "");

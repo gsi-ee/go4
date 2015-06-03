@@ -15,6 +15,17 @@
 
 #include "TGo4Slot.h"
 
+TGo4ServerProxy::TGo4ServerProxy() :
+   TGo4Proxy(),
+   fxParentSlot(0),
+   fbAnalysisSettingsReady(kFALSE)
+{
+}
+
+TGo4ServerProxy::~TGo4ServerProxy()
+{
+}
+
 TGo4Slot* TGo4ServerProxy::SettingsSlot()
 {
    return fxParentSlot==0 ? 0 : fxParentSlot->FindChild("Settings");
@@ -24,4 +35,3 @@ TGo4Slot* TGo4ServerProxy::RatemeterSlot()
 {
    return fxParentSlot==0 ? 0 : fxParentSlot->FindChild("Ratemeter");
 }
-

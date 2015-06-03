@@ -37,6 +37,7 @@
 #include "TGo4AnalysisWebStatus.h"
 #include "TGo4EventElement.h"
 #include "TGo4Ratemeter.h"
+#include "TGo4DynamicEntry.h"
 
 
 THttpServer* TGo4Sniffer::gHttpServer = 0;
@@ -132,6 +133,9 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    SetItemField("/Control/Analysis", "_autoload", "go4sys/html/go4.js");
    SetItemField("/Control/Analysis", "_icon", "go4sys/icons/control.png");
    SetItemField("/Control/Analysis", "_not_monitor", "true");
+
+   RegisterObject("/Control", this);
+   SetItemField("/Control/go4_sniffer", "_hidden", "true");
 
    RestrictGo4("/Control","visible=controller,admin");
 
@@ -418,6 +422,28 @@ void TGo4Sniffer::SendStatusMessage(Int_t level, Bool_t printout, const TString&
       TGo4Log::Message(level, text.Data());
 
    // to be done
+}
+
+Bool_t TGo4Sniffer::AddAnalysisObject(TObject* obj)
+{
+   TGo4Analysis* ana = TGo4Analysis::Instance();
+   if (ana==0) {
+      SendStatusMessage(3, kFALSE, "Analysis not exists to set object");
+      delete obj;
+   }
+
+   Bool_t res = ana->AddHistogram(dynamic_cast<TH1*>(obj));
+   if (!res) res = ana->AddAnalysisCondition(dynamic_cast<TGo4Condition*>(obj));
+   if (!res) res = ana->AddDynamicEntry(dynamic_cast<TGo4DynamicEntry*>(obj));
+
+   if(res) {
+      SendStatusMessage(1, kFALSE, TString::Format("Added new object %s to Go4 folders.", obj->GetName()));
+   } else {
+      SendStatusMessage(3, kFALSE, TString::Format("ERROR on adding new object %s ", obj->GetName()));
+      delete obj;
+   }
+
+   return kTRUE;
 }
 
 void TGo4Sniffer::RestrictGo4(const char* path, const char* options)
