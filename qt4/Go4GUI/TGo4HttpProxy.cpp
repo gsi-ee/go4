@@ -23,6 +23,7 @@
 #include "TGraph.h"
 #include "TBufferFile.h"
 
+#include "TGo4Condition.h"
 #include "TGo4Slot.h"
 #include "TGo4ObjectProxy.h"
 #include "TGo4ObjectManager.h"
@@ -837,9 +838,13 @@ Bool_t TGo4HttpProxy::PostObject(const char* prefix, TObject* obj, Int_t waitres
 Bool_t TGo4HttpProxy::UpdateAnalysisObject(const char* objectname, TObject* obj)
 {
    TString prefix = objectname;
-   prefix.Append("/exe.bin?method=SetStatus&status");
+   prefix.Append("/exe.bin?method=");
 
-   printf("Update status of object %s\n", objectname);
+   if (obj->InheritsFrom(TGo4Condition::Class())) {
+      prefix.Append("UpdateFrom&counts=kFALSE&cond");
+   } else {
+      prefix.Append("SetStatus&status");
+   }
 
    return PostObject(prefix.Data(), obj, 2);
 }
