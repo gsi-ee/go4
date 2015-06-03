@@ -128,6 +128,7 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    SetItemField("/Control/CmdClearObject", "_hidden", "true");
 
    RegisterObject("/Control", fAnalysisStatus);
+   SetItemField("/Control/Analysis", "_prereq", "jq2d");
    SetItemField("/Control/Analysis", "_autoload", "go4sys/html/go4.js");
    SetItemField("/Control/Analysis", "_icon", "go4sys/icons/control.png");
    SetItemField("/Control/Analysis", "_not_monitor", "true");
@@ -139,6 +140,7 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    RestrictGo4("/Parameters", "allow=controller,admin&allow_method=CreateStatus");
 
    // set at the end when other items exists
+   SetItemField("/", "_prereq", "jq2d");
    SetItemField("/", "_autoload", "go4sys/html/go4.js");
    SetItemField("/", "_icon", "go4sys/icons/go4logo2_small.png");
    SetItemField("/", "_title", "GO4 analysis");
@@ -198,6 +200,7 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
 
    if (obj && obj->InheritsFrom(TGo4Parameter::Class())) {
       // rec.SetField("_more", "true");
+      rec.SetField("_prereq", "jq2d");
       rec.SetField("_autoload", "go4sys/html/go4.js");
       rec.SetField("_drawfunc", "GO4.drawParameter");
       rec.SetField("_drawscript", "go4sys/html/pareditor.js");
@@ -207,6 +210,7 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
    }
 
    if (obj && obj->InheritsFrom(TGo4Condition::Class())) {
+      rec.SetField("_prereq", "jq2d");
       rec.SetField("_autoload", "go4sys/html/go4.js");
       rec.SetField("_icon", "go4sys/icons/condedit.png");
       return;

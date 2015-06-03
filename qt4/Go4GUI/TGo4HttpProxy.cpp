@@ -107,12 +107,6 @@ void QHttpProxy::authenticationRequiredSlot(QNetworkReply* repl, QAuthenticator*
       return;
    }
 
-   //auth->setUser("admin");
-   //auth->setPassword("go4super");
-   //auth->setUser("observer");
-   //auth->setPassword("go4view");
-   //return;
-
    bool ok = false;
    QString user_name =
          QInputDialog::getText(0, tr("Authentication required"),
@@ -124,6 +118,9 @@ void QHttpProxy::authenticationRequiredSlot(QNetworkReply* repl, QAuthenticator*
                               tr("User password:"), QLineEdit::Password,
                               "", &ok);
    if (!ok) return;
+
+   fProxy->fUserName = user_name.toLatin1().constData();
+   fProxy->fPassword = passwd.toLatin1().constData();
 
    auth->setUser(user_name);
    auth->setPassword(passwd);
@@ -487,7 +484,7 @@ TGo4HttpProxy::TGo4HttpProxy() :
 {
    fXML = new TXMLEngine;
 
-   SetAccount("observer","go4view");
+   // SetAccount("observer","go4view");
    // SetAccount("controller","go4ctrl");
 }
 
