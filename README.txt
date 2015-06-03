@@ -1,10 +1,10 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.7.1 (build 40701)
-                      7-November-2014
--------------------------------------------------------------
+         Go4 Release Package v4.9.5 (build 40905)
+                      3-June-2015
+--------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
-------------------------------------------------------------
+--------------------------------------------------------------
 Authors: Joern Adamczewski-Musch      (1999-)
          Mohammad Al-Turany           (2000-2004)
          Denis Bertini                (2001-2004)
@@ -118,11 +118,11 @@ GO4 COMPILATION
 
   Unpack this Go4 distribution in any suitable directory.
   
-     shell> tar xzf go4-4.7.1.tar.gz
+     shell> tar xzf go4-4.9.5.tar.gz
   
-  This will create subdirectory go4-4.7.1. To compile go4, do:
+  This will create sub-directory go4-4.9.5. To compile go4, do:
   
-     shell> cd go4-4.7.1
+     shell> cd go4-4.9.5
      shell> make all
   
   In most cases it will be enough to compile go4 libraries, gui and
