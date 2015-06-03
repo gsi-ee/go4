@@ -1701,18 +1701,15 @@ bool TGo4MainWindow::RemoveAnalysisProxy(int waittime, bool servershutdown)
 
    TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
    TGo4ServerProxy* srv = Browser()->FindAnalysisNew();
-   TGo4HttpProxy* ht=dynamic_cast<TGo4HttpProxy*>(srv);
-   if (anal!=0)
+   if (anal!=0) {
       anal->DisconnectAnalysis(waittime, servershutdown);
-   else if (ht!=0)
-     {
-         std::cout << "RemoveAnalysisProxyfor http proxy" << std::endl;
-         // TODO JAM
-         TGo4Slot* slot= Browser()->FindAnalysisSlot(kTRUE,kTRUE);
+   } else
+   if (srv!=0) {
+      TGo4Slot* slot = Browser()->FindAnalysisSlot(kTRUE, kTRUE);
 
-         Browser()->DeleteDataSource(slot);
-     }
-
+      // it is allowed to delete slot directly
+      if (slot) delete slot;
+   }
 
    return Browser()->FindAnalysisNew()==0;
 }
