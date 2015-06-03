@@ -39,7 +39,7 @@ class QRootWindow : public QWidget {
       virtual ~QRootWindow();
 
       TGCompositeFrame* GetRootFrame();
-      int GetRootWid() { return fiWinid;}
+      int GetRootWid() const { return fiWinid; }
 
       /** Add root subframe into this widget */
       void AddSubFrame(TGFrame* f, TGLayoutHints* l=0);
@@ -49,7 +49,7 @@ class QRootWindow : public QWidget {
 
       /** switch root frame resize mode on paint event:
        true=explicit resize, false=no resize of TQRootFrame*/
-      void SetResizeOnPaint(bool on=true){fbResizeOnPaint=on;}
+      void SetResizeOnPaint(bool on=true) { fbResizeOnPaint=on; }
 
    protected:
 

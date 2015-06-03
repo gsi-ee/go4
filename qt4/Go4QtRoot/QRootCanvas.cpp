@@ -446,46 +446,40 @@ const char  *QRootCanvas::GetDISPLAY()
 
 TContextMenu  *QRootCanvas::GetContextMenu()
 {
-   return  fCanvas->GetContextMenu() ;
+   return  fCanvas->GetContextMenu();
 }
 
-Int_t     QRootCanvas::GetDoubleBuffer()
+Int_t QRootCanvas::GetDoubleBuffer()
 {
    return fCanvas->GetDoubleBuffer();
 }
 
-TControlBar  *QRootCanvas::GetEditorBar()
-{
-   return 0; // not existing anymore for ROOT>4.00/02 JA
-   //return fCanvas->GetEditorBar();
-}
-
-Int_t     QRootCanvas::GetEvent()
+Int_t QRootCanvas::GetEvent()
 {
    return fCanvas->GetEvent();
 }
 
-Int_t     QRootCanvas::GetEventX()
+Int_t QRootCanvas::GetEventX()
 {
-   return fCanvas->GetEventX() ;
+   return fCanvas->GetEventX();
 }
 
-Int_t     QRootCanvas::GetEventY()
+Int_t QRootCanvas::GetEventY()
 {
-   return fCanvas->GetEventY() ;
+   return fCanvas->GetEventY();
 }
 
-Color_t   QRootCanvas::GetHighLightColor()
+Color_t QRootCanvas::GetHighLightColor()
 {
    return fCanvas->GetHighLightColor() ;
 }
 
-TVirtualPad  *QRootCanvas::GetPadSave()
+TVirtualPad *QRootCanvas::GetPadSave()
 {
    return fCanvas->GetPadSave();
 }
 
-TObject   *QRootCanvas::GetSelected()
+TObject *QRootCanvas::GetSelected()
 {
    return fCanvas->GetSelected() ;
 }
@@ -510,57 +504,57 @@ Bool_t QRootCanvas::GetAutoExec()
    return fCanvas->GetAutoExec();
 }
 
-Size_t    QRootCanvas::GetXsizeUser()
+Size_t QRootCanvas::GetXsizeUser()
 {
    return fCanvas->GetXsizeUser();
 }
 
-Size_t    QRootCanvas::GetYsizeUser()
+Size_t QRootCanvas::GetYsizeUser()
 {
    return fCanvas->GetYsizeUser();
 }
 
-Size_t    QRootCanvas::GetXsizeReal()
+Size_t QRootCanvas::GetXsizeReal()
 {
    return fCanvas->GetXsizeReal();
 }
 
-Size_t    QRootCanvas::GetYsizeReal()
+Size_t QRootCanvas::GetYsizeReal()
 {
    return fCanvas->GetYsizeReal();
 }
 
-Int_t     QRootCanvas::GetCanvasID()
+Int_t QRootCanvas::GetCanvasID()
 {
    return fCanvas->GetCanvasID();
 }
 
-Int_t     QRootCanvas::GetWindowTopX()
+Int_t QRootCanvas::GetWindowTopX()
 {
    return fCanvas->GetWindowTopX();
 }
 
-Int_t     QRootCanvas::GetWindowTopY()
+Int_t QRootCanvas::GetWindowTopY()
 {
    return fCanvas->GetWindowTopY();
 }
 
-UInt_t    QRootCanvas::GetWindowWidth()
+UInt_t QRootCanvas::GetWindowWidth()
 {
    return fCanvas->GetWindowWidth() ;
 }
 
-UInt_t    QRootCanvas::GetWindowHeight()
+UInt_t QRootCanvas::GetWindowHeight()
 {
    return fCanvas->GetWindowHeight();
 }
 
-UInt_t    QRootCanvas::GetWw()
+UInt_t QRootCanvas::GetWw()
 {
    return fCanvas->GetWw();
 }
 
-UInt_t    QRootCanvas::GetWh()
+UInt_t QRootCanvas::GetWh()
 {
    return fCanvas->GetWh() ;
 }
@@ -692,7 +686,7 @@ void QRootCanvas::SetSelectedPad(TPad *pad)
 
 void QRootCanvas::Show()
 {
-   fCanvas->Show() ;
+   fCanvas->Show();
 }
 
 void QRootCanvas::Size(Float_t xsizeuser, Float_t ysizeuser)
@@ -857,7 +851,7 @@ void QRootCanvas::methodDialog(TObject* object, TMethod* method)
 
    // handle command if existing object
    if(strcmp(method->GetName(),"Delete") == 0) {
-      // here call explicitely the dtor
+      // here call explicitly the dtor
       qDebug(" DIAL obj name deleted :%s \n", object->GetName());
       emit MenuCommandExecuted(object, "Delete");
       delete object;

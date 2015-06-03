@@ -51,7 +51,6 @@ class TPad;
 class TCanvas;
 class TBrowser;
 class TContextMenu;
-class TControlBar;
 class TList;
 
 class QSignalMapper;
@@ -122,7 +121,6 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       const char       *GetDISPLAY();
       TContextMenu     *GetContextMenu();
       Int_t             GetDoubleBuffer();
-      TControlBar      *GetEditorBar();
       Int_t             GetEvent();
       Int_t             GetEventX();
       Int_t             GetEventY();

@@ -25,7 +25,7 @@
 ##########################################################################
 1. Port library to Qt Version 4.3.x.
 
-2. TQRootCanvas: changed behaviour of canvas resizeFlag due to problems with 
+2. TQRootCanvas: changed behavior of canvas resizeFlag due to problems with 
    X11 window refresh under Qt4. When resizing TQRootCanvas window with mouse,
    repainting of ROOT canvas is disabled during resize and activated again when 
    mouse enters window. Speed benefit e.g. when rendering large TH2 objects.
@@ -37,9 +37,6 @@
 4. Minor bugfixes in TQRootCanvas and TQRootWindow.
 
 5. Renamed libqtroot to libGo4QtROOT to avoid confusion with ROOT libQtGSI.
-
-
-
 
 
 
