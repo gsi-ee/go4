@@ -316,10 +316,10 @@ void TGo4AnalysisWindow::CommandSlot()
    QString cmd = fxCmdHist->currentText();
    if (cmd.length()==0) return;
 
-   TGo4AnalysisProxy* anal = GetAnalysis();
+   TGo4ServerProxy* anal = GetAnalysis();
    if (anal!=0) {
-     anal->ExecuteLine(cmd.toLatin1().constData());
-     go4sett->setCommandsHistoryAnalysis(fxCmdHist->getHistory(50));
+      anal->ExecuteLine(cmd.toLatin1().constData());
+      go4sett->setCommandsHistoryAnalysis(fxCmdHist->getHistory(50));
    }
 }
 

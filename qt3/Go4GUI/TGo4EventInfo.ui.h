@@ -89,8 +89,11 @@ void TGo4EventInfo::RefreshClicked()
      tgtslot = AddSlot("Event");
 
    TGo4BrowserProxy* br = Browser();
-   if (br!=0)
-      br->RequestEventStatus(evname.latin1(), istree, tgtslot);
+   if (br==0) return;
+
+   TString objname;
+   TGo4ServerProxy* an = br->DefineAnalysisObject(evname.latin1(), objname);
+   if (an!=0) an->RequestEventStatus(objname.Data(), istree, tgtslot);
 }
 
 void TGo4EventInfo::PrintEventClicked()

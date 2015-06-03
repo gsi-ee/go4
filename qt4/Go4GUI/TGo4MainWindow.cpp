@@ -2860,8 +2860,8 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
       }
 
       case QGo4Widget::service_GetAnalysis: {
-         TGo4AnalysisProxy** res = (TGo4AnalysisProxy**) par;
-         *res = Browser()->FindAnalysis(str);
+         TGo4ServerProxy** res = (TGo4ServerProxy**) par;
+         *res = Browser()->FindAnalysisNew(str);
          break;
       }
 

@@ -63,14 +63,14 @@ class TGo4ServerProxy : public TGo4Proxy {
 
       virtual void ClearAnalysisObject(const char* fullpath) {}
 
-      // to be done in http
-      virtual void RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot) {}
-
       virtual void RemoteTreeDraw(const char* treename,
                                   const char* varexp,
                                   const char* cutcond,
                                   const char* hname) {}
 
+      virtual void RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot) {}
+
+      // to be done in http
       virtual void ChageObjectProtection(const char* fullpath, const char* flags) {}
 
       virtual void RemoveObjectFromAnalysis(const char* fullpath, TClass* cl = 0) {}
@@ -78,6 +78,12 @@ class TGo4ServerProxy : public TGo4Proxy {
       virtual void ExecuteLine(const char* line) {}
 
       virtual void PrintDynListEntry(const char* fullpath) {}
+
+      virtual void RemotePrintEvent(const char* evname,
+                                    Int_t evnumber,
+                                    Int_t subid,
+                                    Bool_t ishex,
+                                    Bool_t islong) {}
 
 
    ClassDef(TGo4ServerProxy, 1);

@@ -135,6 +135,12 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       virtual void PrintDynListEntry(const char* fullpath);
 
+      virtual void RemotePrintEvent(const char* evname,
+                                    Int_t evnumber,
+                                    Int_t subid,
+                                    Bool_t ishex,
+                                    Bool_t islong);
+
       // analysis proxy functionality
 
       TGo4Slot* LoginfoSlot();
@@ -160,12 +166,6 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       void WriteAutoSave(const char* fname,
                          Int_t complevel,
                          Bool_t overwrite);
-
-      void RemotePrintEvent(const char* evname,
-                            Int_t evnumber,
-                            Int_t subid,
-                            Bool_t ishex,
-                            Bool_t islong);
 
       static Int_t NumberOfWaitingProxyes() { return fNumberOfWaitingProxyes; }
 

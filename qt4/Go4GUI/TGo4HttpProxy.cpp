@@ -450,6 +450,8 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
       virtual Int_t GetKind() {
          if (isfolder()) return TGo4Access::kndFolder;
 
+         if (fXML->HasAttr(fChild,"_go4event")) return TGo4Access::kndEventElement;
+
          if (fXML->HasAttr(fChild,"_more")) return TGo4Access::kndMoreFolder;
 
          const char* drawfunc = fXML->GetAttr(fChild,"_drawfunc");
@@ -780,6 +782,7 @@ Bool_t TGo4HttpProxy::RequestObjectStatus(const char* objectname, TGo4Slot* tgts
 Bool_t TGo4HttpProxy::SubmitURL(const char* path, Int_t waitres)
 {
    TString url = fNodeName;
+   url.Append("/");
    url.Append(path);
 
    printf("Submit URL %s\n", url.Data());
@@ -811,7 +814,7 @@ Bool_t TGo4HttpProxy::SubmitURL(const char* path, Int_t waitres)
 
 Bool_t TGo4HttpProxy::SubmitCommand(const char* name, Int_t waitres, const char* arg1)
 {
-   TString url = "/Control/";
+   TString url = "Control/";
    url.Append(name);
    url.Append("/cmd.json");
    if ((arg1!=0) && (*arg1!=0)) {
@@ -923,8 +926,37 @@ void TGo4HttpProxy::RemoteTreeDraw(const char* treename,
    TGo4Slot::ProduceFolderAndName(hname, hfoldername, hobjectname);
 
    TString path;
-   path.Form("/Control/go4_sniffer/exe.json?method=RemoteTreeDraw&histoname=\"%s\"&treename=\"%s\"&varexpr=\"%s\"&cutexpr=\"%s\"",
+   path.Form("Control/go4_sniffer/exe.json?method=RemoteTreeDraw&histoname=\"%s\"&treename=\"%s\"&varexpr=\"%s\"&cutexpr=\"%s\"",
          hobjectname.Data(), tobjectname.Data(), varexp, cutcond);
 
    SubmitURL(path, 2);
+}
+
+void TGo4HttpProxy::RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot)
+{
+   printf("Request event status %s\n", evname);
+
+   if (astree) {
+      // special handling for tree, do later
+      return;
+   }
+
+
+   if (tgtslot==0) {
+      // this is special case of remote event printing
+
+      TString url = evname;
+
+      url.Append("/exe.bin?method=PrintEvent");
+
+      SubmitURL(url);
+
+      return;
+   }
+
+   XMLNodePointer_t item = FindItem(evname);
+   if (item==0) return;
+
+   TGo4HttpAccess* access = new TGo4HttpAccess(this, item, evname, 1);
+   access->AssignObjectToSlot(tgtslot); // request event itself
 }

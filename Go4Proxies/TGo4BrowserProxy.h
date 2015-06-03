@@ -92,10 +92,6 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       void RequestObjectStatus(const char* name, TGo4Slot* tgtslot);
 
-      void RequestEventStatus(const char* evname,
-                              Bool_t astree,
-                              TGo4Slot* tgtslot);
-
       void PerformTreeDraw(const char* treename,
                            const char* Xexp,
                            const char* Yexp,
@@ -192,9 +188,9 @@ class TGo4BrowserProxy : public TGo4Proxy {
       Int_t UpdateVisibleAnalysisObjects(bool checkmonitor);
       Int_t UpdateAllMonitoredObjects();
 
-      TGo4ServerProxy* DefineAnalysisObject(const char* itemname, TString& analysisname);
       TGo4ServerProxy* DefineServerProxy(const char* itemname);
-      TGo4ServerProxy* DefineServerObject(const char* itemname, TString* objname = 0);
+      TGo4ServerProxy* DefineServerObject(const char* itemname, TString* objname = 0, Bool_t onlyanalysis = kFALSE);
+      TGo4ServerProxy* DefineAnalysisObject(const char* itemname, TString& analysisname);
 
       static bool CanExpandItem(int cando);
       static bool CanExportItem(int cando);

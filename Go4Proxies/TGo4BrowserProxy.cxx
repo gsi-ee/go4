@@ -625,22 +625,7 @@ void TGo4BrowserProxy::RequestObjectStatus(const char* name, TGo4Slot* tgtslot)
 {
    TString objname;
    TGo4ServerProxy* an = DefineAnalysisObject(name, objname);
-   if (an!=0) {
-      an->RequestObjectStatus(objname.Data(), tgtslot);
-      return;
-   }
-   TGo4ServerProxy* serv = DefineServerObject(name, &objname);
-   if (serv) serv->RequestObjectStatus(objname.Data(), tgtslot);
-}
-
-void TGo4BrowserProxy::RequestEventStatus(const char* evname,
-                                          Bool_t astree,
-                                          TGo4Slot* tgtslot)
-{
-   TString objname;
-   TGo4ServerProxy* an = DefineAnalysisObject(evname, objname);
-   if (an!=0)
-     an->RequestEventStatus(objname.Data(), astree, tgtslot);
+   if (an!=0) an->RequestObjectStatus(objname.Data(), tgtslot);
 }
 
 void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
@@ -856,23 +841,6 @@ TString TGo4BrowserProxy::FindItem(const char* objname)
    return TString("");
 }
 
-TGo4ServerProxy* TGo4BrowserProxy::DefineAnalysisObject(const char* itemname, TString& analysisname)
-{
-   TString slotname;
-   DataSlotName(itemname, slotname);
-   const char* objectname = 0;
-
-   TGo4Slot* anslot = fxOM->FindSlot(slotname.Data(), &objectname);
-
-   TGo4ServerProxy* an = anslot==0 ? 0 :
-      dynamic_cast<TGo4ServerProxy*>(anslot->GetProxy());
-   if ((an!=0) && an->IsGo4Analysis())
-      analysisname = objectname;
-   else
-      an = 0;
-   return an;
-}
-
 TGo4ServerProxy* TGo4BrowserProxy::DefineServerProxy(const char* itemname)
 {
    TGo4Slot* slot = DataSlot(itemname);
@@ -887,7 +855,7 @@ TGo4ServerProxy* TGo4BrowserProxy::DefineServerProxy(const char* itemname)
    return 0;
 }
 
-TGo4ServerProxy* TGo4BrowserProxy::DefineServerObject(const char* itemname, TString* objname)
+TGo4ServerProxy* TGo4BrowserProxy::DefineServerObject(const char* itemname, TString* objname, Bool_t onlyanalysis)
 {
    TString slotname;
    DataSlotName(itemname, slotname);
@@ -897,10 +865,16 @@ TGo4ServerProxy* TGo4BrowserProxy::DefineServerObject(const char* itemname, TStr
 
    TGo4ServerProxy* serv = servslot==0 ? 0 :
       dynamic_cast<TGo4ServerProxy*>(servslot->GetProxy());
-   if ((serv!=0) && (objname!=0)) *objname = objectname;
+   if (serv==0) return 0;
+   if (onlyanalysis && !serv->IsGo4Analysis()) return 0;
+   if (objname!=0) *objname = objectname;
    return serv;
 }
 
+TGo4ServerProxy* TGo4BrowserProxy::DefineAnalysisObject(const char* itemname, TString& analysisname)
+{
+   return DefineServerObject(itemname, &analysisname, kTRUE);
+}
 
 Bool_t TGo4BrowserProxy::UpdateAnalysisItem(const char* itemname, TObject* obj)
 {

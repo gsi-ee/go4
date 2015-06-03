@@ -190,6 +190,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
                                   const char* cutcond,
                                   const char* hname);
 
+      virtual void RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot);
 
 };
 

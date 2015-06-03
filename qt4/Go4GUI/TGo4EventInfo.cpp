@@ -13,7 +13,7 @@
 
 #include "TGo4EventInfo.h"
 #include "TTree.h"
-#include "TGo4AnalysisProxy.h"
+#include "TGo4ServerProxy.h"
 #include "TGo4Slot.h"
 #include "TGo4BrowserProxy.h"
 
@@ -97,8 +97,11 @@ void TGo4EventInfo::RefreshClicked()
      tgtslot = AddSlot("Event");
 
    TGo4BrowserProxy* br = Browser();
-   if (br!=0)
-      br->RequestEventStatus(evname.toLatin1().constData(), istree, tgtslot);
+   if (br==0) return;
+
+   TString objname;
+   TGo4ServerProxy* an = br->DefineAnalysisObject(evname.toLatin1().constData(), objname);
+   if (an!=0) an->RequestEventStatus(objname.Data(), istree, tgtslot);
 }
 
 void TGo4EventInfo::PrintEventClicked()
@@ -108,7 +111,7 @@ void TGo4EventInfo::PrintEventClicked()
    TString folder, name;
    TGo4Slot::ProduceFolderAndName(EventLbl->text().toLatin1().constData(), folder, name);
 
-   TGo4AnalysisProxy* anal  = GetAnalysis(EventLbl->text().toLatin1().constData());
+   TGo4ServerProxy* anal = GetAnalysis(EventLbl->text().toLatin1().constData());
 
    if (anal!=0)
      anal->RemotePrintEvent(name.Data(),

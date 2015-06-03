@@ -35,6 +35,8 @@ class TGo4AnalysisSniffer {
 
       /** Hook function to execute action in context of analysis thread */
       virtual void ProcessSnifferEvents() {}
+
+   ClassDef(TGo4AnalysisSniffer, 1);
 };
 
 

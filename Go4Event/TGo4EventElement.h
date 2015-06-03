@@ -44,18 +44,18 @@ class TGo4EventElement : public TNamed {
       virtual ~TGo4EventElement(void);
 
       /** Switches the valid state of this event. */
-      void SetValid(Bool_t on) { fbIsValid=on; }
+      void SetValid(Bool_t on) { fbIsValid = on; }
 
       /** Returns the valid state of this event. */
       Bool_t IsValid() const { return fbIsValid; }
 
       /** Setter for the event source that is currently used by the Fill method. */
-      void SetEventSource(TGo4EventSource * src) { fxEventSource=src; }
+      void SetEventSource(TGo4EventSource * src) { fxEventSource = src; }
 
       /** Setter for the parent event structure reference. */
-      void SetParent(TGo4EventElement * par) { fxParent=par; }
+      void SetParent(TGo4EventElement * par) { fxParent = par; }
 
-      void SetKeepContents(Bool_t on=kTRUE) {fbKeepContents=on;}
+      void SetKeepContents(Bool_t on=kTRUE) { fbKeepContents = on; }
 
       inline TGo4EventElement* GetParent() const { return fxParent; }
 
@@ -123,8 +123,6 @@ class TGo4EventElement : public TNamed {
        * event structure.
        * @supplierCardinality 0..1*/
       TGo4EventSource * fxEventSource; //!
-
-
 
    protected:
       Short_t fIdentifier; // Identifier

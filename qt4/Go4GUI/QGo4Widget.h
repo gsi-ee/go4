@@ -28,7 +28,7 @@ class TPad;
 class TGo4Slot;
 class TGo4ViewPanel;
 class TGo4BrowserProxy;
-class TGo4AnalysisProxy;
+class TGo4ServerProxy;
 class QMenu;
 class QAction;
 class QSignalMapper;
@@ -179,7 +179,7 @@ class QDESIGNER_WIDGET_EXPORT  QGo4Widget : public QWidget {
       bool SaveItemToFile(const char* itemname, const char* subfolder = 0);
       bool UpdateItemInAnalysis(const char* itemname, TObject* obj = 0);
       void InformThatObjectCreated(const char* itemname, TClass* cl);
-      TGo4AnalysisProxy* GetAnalysis(const char* itemname = 0);
+      TGo4ServerProxy* GetAnalysis(const char* itemname = 0);
       void StartHotstart(const char* filename);
 
       /** connect pad axis change signals to react on such signals */

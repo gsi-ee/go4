@@ -223,6 +223,7 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
 
    if (obj && obj->InheritsFrom(TGo4EventElement::Class())) {
       rec.SetField("_more", "true");
+      rec.SetField("_go4event", "true");
       rec.SetField("_icon", "go4sys/icons/eventobj.png");
       return;
    }
