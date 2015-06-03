@@ -960,3 +960,15 @@ void TGo4HttpProxy::RequestEventStatus(const char* evname, Bool_t astree, TGo4Sl
    TGo4HttpAccess* access = new TGo4HttpAccess(this, item, evname, 1);
    access->AssignObjectToSlot(tgtslot); // request event itself
 }
+
+void TGo4HttpProxy::RemotePrintEvent(const char* evname,
+                                     Int_t evnumber,
+                                     Int_t subid,
+                                     Bool_t ishex,
+                                     Bool_t islong)
+{
+   TString url;
+   url.Form("Events/%s/exe.bin?method=SetPrintEvent&num=%d&sid=%d&longw=%d&hexw=%d&dataw=%d",
+              evname, evnumber, subid, islong ? 1 : 0, ishex ? 1 : 0, ishex ? 0 : 1);
+   SubmitURL(url);
+}

@@ -268,6 +268,13 @@ void TGo4MbsEvent::PrintMbsEvent(Int_t subid, Bool_t longw, Bool_t hexw, Bool_t 
 }
 
 
+void TGo4MbsEvent::SetPrintEvent(Int_t num, Int_t sid, Int_t longw, Int_t hexw, Int_t dataw)
+{
+   TGo4MbsSource* src = dynamic_cast<TGo4MbsSource*> (GetEventSource());
+   if (src) src->SetPrintEvent(num, sid, longw, hexw, dataw);
+}
+
+
 TGo4MbsSubEvent* TGo4MbsEvent::NextSubEvent(Bool_t all)
 {
    GO4TRACE((11,"TGo4MbsEvent::NextSubEvent()",__LINE__, __FILE__));

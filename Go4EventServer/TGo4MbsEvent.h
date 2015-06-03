@@ -89,6 +89,10 @@ class TGo4MbsEvent : public TGo4EventElement {
       void PrintMbsEvent(Int_t subid = -1, Bool_t longw = kTRUE, Bool_t hexw = kTRUE, Bool_t dataw = kTRUE,
                            Bool_t bufhead = kFALSE, Bool_t filhead=kFALSE);
 
+      /** Set print parameter for MBS event source
+       * See TGo4MbsSource for more details */
+      void SetPrintEvent(Int_t num, Int_t sid, Int_t longw, Int_t hexw, Int_t dataw);
+
       /** Set the internal iterator of the subevent array to the beginning of
        * the array. */
       inline void ResetIterator() { fiSubEvIndex = 0; }

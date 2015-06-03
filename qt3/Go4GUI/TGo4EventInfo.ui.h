@@ -103,7 +103,7 @@ void TGo4EventInfo::PrintEventClicked()
    TString folder, name;
    TGo4Slot::ProduceFolderAndName(EventLbl->text().latin1(), folder, name);
 
-   TGo4AnalysisProxy* anal  = GetAnalysis(EventLbl->text().latin1());
+   TGo4AnalysisProxy* anal = GetAnalysis(EventLbl->text().latin1());
 
    if (anal!=0)
      anal->RemotePrintEvent(name.Data(),

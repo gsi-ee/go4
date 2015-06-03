@@ -192,6 +192,13 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       virtual void RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot);
 
+      virtual void RemotePrintEvent(const char* evname,
+                                    Int_t evnumber,
+                                    Int_t subid,
+                                    Bool_t ishex,
+                                    Bool_t islong);
+
+
 };
 
 #endif
