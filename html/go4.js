@@ -35,13 +35,13 @@
    GO4.DrawAnalysisRatemeter = function(divid, itemname) {
       
       var html = "<div style='padding-top:2px'>";
-      html += "<img class='go4_logo' style='vertical-align:middle;' src='go4sys/icons/go4logorun4.gif' alt='logo'></img>";
-      html += "<label class='event_source' style='border: 1px solid gray; font-size:large; vertical-align:middle;'>file.lmd</label> ";
-      html += "<label class='event_rate' style='border: 1px solid gray; font-size:large; vertical-align:middle; background-color: grey'>---</label> Ev/s ";
-      html += "<label class='aver_rate' style='border: 1px solid gray; font-size:large; vertical-align:middle'>---</label> Ev/s "; 
-      html += "<label class='run_time' style='border: 1px solid gray; font-size:large; vertical-align:middle'>---</label> s "; 
-      html += "<label class='total_events' style='border: 1px solid gray; font-size:large; vertical-align:middle'>---</label> Events ";
-      html += "<label class='analysis_time' style='border: 1px solid gray; font-size:large; vertical-align:middle;'>file.lmd</label>";
+      html += "<img class='go4_logo' style='vertical-align:middle;margin-left:5px;margin-right:5px;' src='go4sys/icons/go4logorun4.gif' alt='logo'></img>";
+      html += "<label class='event_source' style='border: 1px solid gray; font-size:large; vertical-align:middle; padding-left:3px; padding-right:3px;'>file.lmd</label> ";
+      html += "<label class='event_rate' style='border: 1px solid gray; font-size:large; vertical-align:middle; background-color: grey'; padding-left:3px; padding-right:3px;>---</label> Ev/s ";
+      html += "<label class='aver_rate' style='border: 1px solid gray; font-size:large; vertical-align:middle; padding-left:3px; padding-right:3px;'>---</label> Ev/s "; 
+      html += "<label class='run_time' style='border: 1px solid gray; font-size:large; vertical-align:middle; padding-left:3px; padding-right:3px;'>---</label> s "; 
+      html += "<label class='total_events' style='border: 1px solid gray; font-size:large; vertical-align:middle; padding-left:3px; padding-right:3px;'>---</label> Events ";
+      html += "<label class='analysis_time' style='border: 1px solid gray; font-size:large; vertical-align:middle; padding-left:3px; padding-right:3px;'>time</label>";
       html += "</div>";
       
       $('#'+divid).css('overflow','hidden')
@@ -60,21 +60,21 @@
          
          xreq = JSROOT.NewHttpRequest(itemname+"/root.json.gz", 'object', function(res) {
             xreq = null;
-            if (res==null) return;
+            
+            if (res==null) 
+               return $('#'+divid + " .event_rate").css('background-color','grey');
             
             $('#'+divid + " .event_rate").css('background-color', res.fbRunning ? 'lightgreen' : 'red');
-
             if (was_running != res.fbRunning)
                $('#'+divid + " .go4_logo").attr("src", res.fbRunning ? 'go4sys/icons/go4logorun4.gif' : 'go4sys/icons/go4logo_t.png');
-            
             was_running = res.fbRunning;
             
-            $('#'+divid + " .event_source").text(res.fxEventSource);
+            $('#'+divid + " .event_source").text(res.fxEventSource == "" ? "<source>" : res.fxEventSource);
             $('#'+divid + " .event_rate").text(res.fdRate.toFixed(1));
             $('#'+divid + " .aver_rate").text((res.fdTime > 0 ? res.fuCurrentCount / res.fdTime : 0).toFixed(1)); 
             $('#'+divid + " .run_time").text(res.fdTime.toFixed(1)); 
             $('#'+divid + " .total_events").text(res.fuCurrentCount);
-            $('#'+divid + " .analysis_time").text(res.fxDateString);
+            $('#'+divid + " .analysis_time").text(res.fxDateString == "" ? "<datime>" : res.fxDateString);
          });
          
          xreq.send(null);
