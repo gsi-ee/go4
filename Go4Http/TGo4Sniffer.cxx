@@ -447,6 +447,28 @@ Bool_t TGo4Sniffer::AddAnalysisObject(TObject* obj)
    return kTRUE;
 }
 
+Bool_t TGo4Sniffer::RemoteTreeDraw(const char* histoname,
+                                   const char* treename,
+                                   const char* varexpr,
+                                   const char* cutexpr)
+{
+   TGo4Analysis* ana = TGo4Analysis::Instance();
+   if (ana==0) {
+      SendStatusMessage(3, kTRUE, "No analysis in RemoteTreeDraw");
+      return kFALSE;
+   }
+
+   if ((histoname==0) || (*histoname==0)) histoname = "hTreeDraw";
+   Bool_t res = ana->AddTreeHistogram(histoname, treename, varexpr, cutexpr);
+   if(res)
+      SendStatusMessage(1,kTRUE, TString::Format("Added Dynamic histogram %s for tree %s.", histoname, treename));
+   else
+      SendStatusMessage(2,kTRUE, TString::Format("Could not add Dynamic histogram %s for tree %s.", histoname, treename));
+
+   return res;
+}
+
+
 void TGo4Sniffer::RestrictGo4(const char* path, const char* options)
 {
    // wrapper for TRootSniffer::Restrict, called only when method exists

@@ -126,6 +126,8 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       void ProcessUpdateTimer();
 
+      Bool_t SubmitURL(const char* path, Int_t waitres = -1);
+
       Bool_t SubmitCommand(const char* name, Int_t waitres = -1, const char* par1 = 0);
 
       Bool_t PostObject(const char* prefix, TObject* obj, Int_t waitres = -1, Bool_t destroy_after = kTRUE);
@@ -182,6 +184,12 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       virtual Bool_t UpdateAnalysisObject(const char* objectname, TObject* obj);
 
       virtual void ClearAnalysisObject(const char* fullpath);
+
+      virtual void RemoteTreeDraw(const char* treename,
+                                  const char* varexp,
+                                  const char* cutcond,
+                                  const char* hname);
+
 
 };
 

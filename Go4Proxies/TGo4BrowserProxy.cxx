@@ -1076,6 +1076,8 @@ Bool_t TGo4BrowserProxy::DefineLeafName(const char* itemname, const char* treena
    TGo4Slot* slot = fxOM->GetSlot(slotname.Data());
    if (slot==0) return kFALSE;
 
+   printf("DefineLeafName %s %s  kind :%d\n", itemname, treename, ItemKind(slot));
+
    if (ItemKind(slot)!=TGo4Access::kndTreeLeaf) return kFALSE;
 
    int ilen = strlen(itemname);

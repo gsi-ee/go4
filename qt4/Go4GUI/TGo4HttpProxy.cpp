@@ -455,7 +455,13 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
          const char* drawfunc = fXML->GetAttr(fChild,"_drawfunc");
          if ((drawfunc!=0) && !strcmp(drawfunc, "GO4.drawParameter")) return TGo4Access::kndGo4Param;
 
-         return GetClassName() == 0 ? TGo4Access::kndNone : TGo4Access::kndObject;
+         const char* classname = GetClassName();
+
+         if (classname==0) return TGo4Access::kndNone;
+
+         if (strcmp(classname,"TLeafElement")==0) return TGo4Access::kndTreeLeaf;
+
+         return TGo4Access::kndObject;
       }
 
       virtual const char* GetClassName()
@@ -770,16 +776,11 @@ Bool_t TGo4HttpProxy::RequestObjectStatus(const char* objectname, TGo4Slot* tgts
    return kTRUE;
 }
 
-Bool_t TGo4HttpProxy::SubmitCommand(const char* name, Int_t waitres, const char* arg1)
+
+Bool_t TGo4HttpProxy::SubmitURL(const char* path, Int_t waitres)
 {
    TString url = fNodeName;
-   url.Append("/Control/");
-   url.Append(name);
-   url.Append("/cmd.json");
-   if ((arg1!=0) && (*arg1!=0)) {
-      url.Append("?arg1=");
-      url.Append(arg1);
-   }
+   url.Append(path);
 
    printf("Submit URL %s\n", url.Data());
 
@@ -806,6 +807,19 @@ Bool_t TGo4HttpProxy::SubmitCommand(const char* name, Int_t waitres, const char*
    netReply->deleteLater();
 
    return netReply->isFinished();
+}
+
+Bool_t TGo4HttpProxy::SubmitCommand(const char* name, Int_t waitres, const char* arg1)
+{
+   TString url = "/Control/";
+   url.Append(name);
+   url.Append("/cmd.json");
+   if ((arg1!=0) && (*arg1!=0)) {
+      url.Append("?arg1=");
+      url.Append(arg1);
+   }
+
+   return SubmitURL(url.Data(), waitres);
 }
 
 Bool_t TGo4HttpProxy::PostObject(const char* prefix, TObject* obj, Int_t waitres, Bool_t destroy_after)
@@ -897,3 +911,20 @@ void TGo4HttpProxy::ProcessUpdateTimer()
    access->AssignObjectToSlot(subslot);
 }
 
+void TGo4HttpProxy::RemoteTreeDraw(const char* treename,
+                                   const char* varexp,
+                                   const char* cutcond,
+                                   const char* hname)
+{
+   TString tfoldername, tobjectname;
+   TGo4Slot::ProduceFolderAndName(treename, tfoldername, tobjectname);
+
+   TString hfoldername, hobjectname;
+   TGo4Slot::ProduceFolderAndName(hname, hfoldername, hobjectname);
+
+   TString path;
+   path.Form("/Control/go4_sniffer/exe.json?method=RemoteTreeDraw&histoname=\"%s\"&treename=\"%s\"&varexpr=\"%s\"&cutexpr=\"%s\"",
+         hobjectname.Data(), tobjectname.Data(), varexp, cutcond);
+
+   SubmitURL(path, 2);
+}

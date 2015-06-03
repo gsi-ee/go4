@@ -184,9 +184,10 @@ void TGo4RootBrowserProxy::SyncRootBrowserSlots()
       mt->AddType("go4/pentry", "TGo4HistogramEntry", img + "dynentryx.png", img + "dynentryx.png", "->Draw()");
       mt->AddType("go4/hserv", "TGo4HServProxy", img + "histserv.png", img + "histserv.png", "->Draw()");
       mt->AddType("go4/dabcserv", "TGo4DabcProxy", img + "dabc.png", img + "dabc.png", "->Draw()");
-      mt->AddType("go4/httpserv", "TGo4HttpProxy", img + "http.png", img + "http.png", "->Draw()");
-      mt->AddType("go4/canvas", "TCanvas", img + "canvas.png", img + "canvas.png", "->Draw()");
       mt->AddType("go4/analysis", "TGo4AnalysisProxy", img + "analysiswin.png", img + "analysiswin.png", "->Draw()");
+      /** cannot add type while  TGo4HttpProxy has no dictionary */
+      //mt->AddType("go4/httpserv", "TGo4HttpProxy", img + "http.png", img + "http.png", "->Draw()");
+      mt->AddType("go4/canvas", "TCanvas", img + "canvas.png", img + "canvas.png", "->Draw()");
       mt->AddType("go4/tbranch", "Go4-TreeBranch", img + "branch_t.png", img + "branch_t.png", "->Draw()");
       mt->AddType("go4/tleaf", "Go4-TreeLeaf", img + "leaf_t.png", img + "leaf_t.png", "->Draw()");
       mt->AddType("go4/datamember", "Go4-EventDataMember", img + "eventitem.png", img + "eventitem.png", "->Draw()");

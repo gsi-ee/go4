@@ -58,6 +58,8 @@ class TGo4Sniffer : public TRootSniffer,
 
       virtual void *FindInHierarchy(const char *path, TClass **cl = 0, TDataMember **member = 0, Int_t *chld = 0);
 
+      // ========= methods registered as command and available from web interface =========
+
       Bool_t CmdStart();
       Bool_t CmdStop();
       Bool_t CmdClear();
@@ -66,7 +68,14 @@ class TGo4Sniffer : public TRootSniffer,
       Bool_t CmdCloseFiles();
       Bool_t CmdClearObject(const char* objname);
 
+      // === methods used via http interface by Go4GUI ===============
+
       Bool_t AddAnalysisObject(TObject* obj);
+
+      Bool_t RemoteTreeDraw(const char* histoname,
+                            const char* treename,
+                            const char* varexpr,
+                            const char* cutexpr);
 
       /** Method called by logger with every string, going to output */
       virtual void SetTitle(const char* title = "");
