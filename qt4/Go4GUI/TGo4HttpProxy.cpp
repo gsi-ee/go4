@@ -504,7 +504,6 @@ void TGo4HttpProxy::SetAccount(const char* username, const char* passwd)
    fPassword = passwd ? passwd : "";
 }
 
-
 void TGo4HttpProxy::Initialize(TGo4Slot* slot)
 {
    TGo4ServerProxy::Initialize(slot);
@@ -567,6 +566,24 @@ void TGo4HttpProxy::GetReply(QByteArray& res)
         fxParentSlot->ForwardEvent(fxParentSlot, TGo4Slot::evObjAssigned);
    }
 }
+
+const char* TGo4HttpProxy::GetContainedObjectInfo()
+{
+   fInfoStr = "";
+   if (!IsConnected()) fInfoStr = "Not connected"; else
+   if (IsViewer()) fInfoStr = "Observer"; else
+   if (IsController()) fInfoStr = "Controller"; else
+   if (IsAdministrator()) fInfoStr = "Admninistrator";
+
+   const char* analname = fXML->GetAttr(FindItem(""), "_analysis_name");
+   if (analname!=0) {
+      fInfoStr += " name:";
+      fInfoStr += analname;
+   }
+
+   return fInfoStr.Data();
+}
+
 
 Bool_t TGo4HttpProxy::Connect(const char* nodename)
 {

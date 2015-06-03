@@ -118,6 +118,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       Bool_t          fbAnalysisRunning;
       TString         fUserName;     //! user name and password -
       TString         fPassword;
+      TString         fInfoStr;
 
       void GetReply(QByteArray& res);
 
@@ -149,7 +150,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       virtual Int_t GetObjectKind() {  return TGo4Access::kndFolder; }
       virtual const char* GetContainedClassName() { return "TGo4ServerProxy"; }
-      virtual const char* GetContainedObjectInfo() { return 0; }
+      virtual const char* GetContainedObjectInfo();
       virtual Int_t GetObjectSizeInfo() { return -1; }
 
       virtual void WriteData(TGo4Slot* slot, TDirectory* dir, Bool_t onlyobjs);
