@@ -247,8 +247,9 @@ class TGo4AbstractInterface : public TObject {
       /** Connect to DABC server. Address like dabc://host:port */
       virtual void ConnectDabc(const char* servername);
 
-      /** Connect to HTTP server. Address like http://host:port/subfolder/ */
-      virtual TGo4ServerProxy* ConnectHttp(const char* servername) { return 0; }
+      /** Connect to HTTP server. Address like http://host:port/subfolder/
+       * authentication may be specified by username account and password pass*/
+      virtual TGo4ServerProxy* ConnectHttp(const char* servername, const char* account=0, const char* pass=0) { return 0; }
 
       /** Wait specified number of seconds.
         * Suppress macro execution, but keeps GUI functional, therefore
