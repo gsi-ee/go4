@@ -151,12 +151,11 @@ Int_t TGo4BackStore::Store(TGo4EventElement* event)
                else
                   {
                      // no such branch existing, create a new one
-                     TBranch *topbranch=
-                     fxTree->Branch(topbranchname.Data(), fxEvent->ClassName(), &fxEvent, fiBufsize, fiSplit);
+                     TBranch *topbranch =
+                       fxTree->Branch(topbranchname.Data(), fxEvent->ClassName(), &fxEvent, fiBufsize, fiSplit);
                      TGo4Log::Debug(" BackStore: Created new branch %s ", topbranchname.Data());
-                     fbBranchExists=kTRUE;
-                     if (fxEvent->InheritsFrom(TGo4CompositeEvent::Class()))
-                      dynamic_cast<TGo4CompositeEvent*>  (fxEvent)->makeBranch(topbranch);
+                     fbBranchExists = kTRUE;
+                     fxEvent->makeBranch(topbranch);
                   } // if(go4branch)
             }
          else

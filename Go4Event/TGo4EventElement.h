@@ -87,7 +87,7 @@ class TGo4EventElement : public TNamed {
       /** Method prints content of the event */
       virtual void PrintEvent();
 
-      virtual void makeBranch(TBranch *parent);
+      virtual void makeBranch(TBranch *parent) {}
       virtual void deactivate();
       virtual void activate();
 
@@ -104,6 +104,10 @@ class TGo4EventElement : public TNamed {
       virtual void synchronizeWithTree(TTree *tree, TGo4EventElement** var_ptr = 0);
 
       virtual Int_t activateBranch(TBranch *branch, Int_t index=0, TGo4EventElement** var_ptr = 0);
+
+      virtual TTree* CreateSampleTree(TGo4EventElement** sample = 0);
+
+      void ShowSampleTree();
 
    private:
 

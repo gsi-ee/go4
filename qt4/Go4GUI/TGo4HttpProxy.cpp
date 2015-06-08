@@ -203,6 +203,7 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
       case 2: url.Append("/get.xml"); break;
       case 3: url.Append("/get.xml.gz?history=100&compact"); break;
       case 4: url.Append("/exe.bin.gz?method=CreateStatus&_destroy_result_"); break;
+      case 5: url.Append("/exe.bin.gz?method=CreateSampleTree&sample=0&_destroy_result_"); break;
       default: url.Append("/root.bin.gz"); break;
    }
 
@@ -936,28 +937,21 @@ void TGo4HttpProxy::RequestEventStatus(const char* evname, Bool_t astree, TGo4Sl
 {
    printf("Request event status %s\n", evname);
 
-   if (astree) {
-      // special handling for tree, do later
-      return;
-   }
-
-
    if (tgtslot==0) {
-      // this is special case of remote event printing
+      // this is remote printing of event
 
       TString url = evname;
-
-      url.Append("/exe.bin?method=PrintEvent");
+      url.Append("/exe.bin?method=");
+      url.Append(astree ? "ShowSampleTree" : "PrintEvent");
 
       SubmitURL(url);
-
       return;
    }
 
    XMLNodePointer_t item = FindItem(evname);
    if (item==0) return;
 
-   TGo4HttpAccess* access = new TGo4HttpAccess(this, item, evname, 1);
+   TGo4HttpAccess* access = new TGo4HttpAccess(this, item, evname, astree ? 5 : 1);
    access->AssignObjectToSlot(tgtslot); // request event itself
 }
 

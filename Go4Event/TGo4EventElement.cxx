@@ -14,6 +14,9 @@
 #include "TGo4EventElement.h"
 
 #include "TTree.h"
+#include "TDirectory.h"
+#include "TROOT.h"
+#include "Riostream.h"
 
 #include "TGo4Log.h"
 #include "TGo4EventSource.h"
@@ -67,31 +70,23 @@ TGo4EventElement::~TGo4EventElement()
 Bool_t TGo4EventElement::CheckEventSource(const char* classname)
 {
    GO4TRACE((12,"TGo4EventElement::CheckEventSource(const char*)",__LINE__, __FILE__));
-   if(fxEventSource==0) return kFALSE;
-   return fxEventSource->InheritsFrom(classname);
+   return fxEventSource ? fxEventSource->InheritsFrom(classname) : kFALSE;
 }
 
 void TGo4EventElement::PrintEvent()
 {
    GO4TRACE((12,"TGo4EventElement::PrintEvent()",__LINE__, __FILE__));
 
-   TGo4Log::Debug( " EventElement printout: ");
-   TGo4Log::Debug( "\tIsValid=%d ",fbIsValid);
+   TGo4Log::Info("EventElement printout: Name=%s IsValid=%s ", GetName(), fbIsValid ? "true" : "false");
    if(fxEventSource)
-      TGo4Log::Debug( "\tEventSource: %s of class %s",
-            fxEventSource->GetName(), fxEventSource->ClassName() );
+      TGo4Log::Info( "EventSource: %s of class %s", fxEventSource->GetName(), fxEventSource->ClassName() );
    else
-      TGo4Log::Debug( "\tNO EventSource");
+      TGo4Log::Info( "NO EventSource");
 }
 
 void TGo4EventElement::Print(Option_t* option) const
 {
    ((TGo4EventElement*)this) -> PrintEvent();
-}
-
-void TGo4EventElement::makeBranch(TBranch *parent)
-{
-   // method for recursive branching algorithm
 }
 
 TGo4EventElement* TGo4EventElement::GetChild(const char* name)
@@ -226,3 +221,37 @@ Int_t TGo4EventElement::Fill()
 
    return res==0 ? 1 : res;
 }
+
+
+TTree* TGo4EventElement::CreateSampleTree(TGo4EventElement** sample)
+{
+   // create sample tree with event element as entry
+   // to be able use such tree later, one should provide 'sample' pointer to keep
+   // event instance associated with tree branch
+
+   TDirectory* filsav = gDirectory;
+   gROOT->cd();
+   if (sample!=0) delete *sample;
+   TGo4EventElement* clone = (TGo4EventElement*) Clone();
+   TTree* thetree = new TTree(clone->GetName(), "Single Event Tree");
+   thetree->SetDirectory(0);
+   if (sample) *sample = clone;
+   thetree->Branch("Go4EventSample", clone->ClassName(), sample ? sample : &clone, 64000, 99);
+   thetree->Fill();
+   filsav->cd();
+   if (sample==0) delete clone;
+   return thetree;
+}
+
+void TGo4EventElement::ShowSampleTree()
+{
+   TGo4EventElement* sample = 0;
+
+   TTree* tr = CreateSampleTree(&sample);
+
+   if (tr) tr->Show(0);
+   std::cout << std::endl;
+   delete tr;
+   delete sample;
+}
+

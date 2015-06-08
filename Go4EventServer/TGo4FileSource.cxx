@@ -27,8 +27,6 @@
 // get static name constants from here
 #include "TGo4FileStore.h"
 
-// R__EXTERN TTree *gTree;
-
 TGo4FileSource::TGo4FileSource(const char* name) :
    TGo4EventSource(name),
    fxFile(0),

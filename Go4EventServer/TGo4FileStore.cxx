@@ -201,11 +201,10 @@ Int_t TGo4FileStore::Store(TGo4EventElement* event)
          } else {
             // no such branch existing, create a new one
             TBranch *topbranch=
-                  fxTree->Branch(topbranchname.Data(), fxEvent->ClassName(), &fxEvent, fiBufsize, fiSplit);
+               fxTree->Branch(topbranchname.Data(), fxEvent->ClassName(), &fxEvent, fiBufsize, fiSplit);
             TGo4Log::Debug(" FileStore: Created new branch %s ", topbranchname.Data());
-            fbBranchExists=kTRUE;
-            if (fxEvent->InheritsFrom(TGo4CompositeEvent::Class()))
-               dynamic_cast<TGo4CompositeEvent*>  (fxEvent)->makeBranch(topbranch);
+            fbBranchExists = kTRUE;
+            fxEvent->makeBranch(topbranch);
          } // if(go4branch)
       }
       else
@@ -259,13 +258,13 @@ void TGo4FileStore::WriteToStore(TNamed* ob)
    if (dsav) dsav->cd();
 }
 
-void TGo4FileStore::SetMaxTreeSize(Long64_t sz) 
-{ 
-   fgiFILESPLITSIZE = sz; 
+void TGo4FileStore::SetMaxTreeSize(Long64_t sz)
+{
+   fgiFILESPLITSIZE = sz;
 }
 
-Long64_t TGo4FileStore::GetMaxTreeSize() 
-{ 
-   return fgiFILESPLITSIZE; 
+Long64_t TGo4FileStore::GetMaxTreeSize()
+{
+   return fgiFILESPLITSIZE;
 }
 

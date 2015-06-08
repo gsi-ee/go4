@@ -898,22 +898,8 @@ void TGo4Analysis::Print(Option_t*) const
 TTree* TGo4Analysis::CreateSingleEventTree(TGo4EventElement* event)
 {
    GO4TRACE((11,"TGo4Analysis::CreateSingleEventTree(TGo4EventElement*)",__LINE__, __FILE__));
-   //
-   if(event==0) return 0;
-   TDirectory* filsav=gDirectory;
-   gROOT->cd();
-   delete fxSampleEvent;
-   fxSampleEvent=(TGo4EventElement*) event->Clone();
-   TTree* thetree= new TTree(fxSampleEvent->GetName(), "Single Event Tree");
-   thetree->SetDirectory(0);
-   TBranch *topbranch=
-      thetree->Branch("Go4EventSample", fxSampleEvent->ClassName(), &fxSampleEvent, 64000, 99);
-   if (fxSampleEvent->InheritsFrom("TGo4CompositeEvent"))
-       dynamic_cast<TGo4CompositeEvent*>  (fxSampleEvent)->makeBranch(topbranch);
-   thetree->Fill();
-   filsav->cd();
-   return thetree;
 
+   return event ? event->CreateSampleTree(&fxSampleEvent) : 0;
 }
 
 TTree* TGo4Analysis::CreateSingleEventTree(const char* name, Bool_t isoutput)
@@ -923,9 +909,8 @@ TTree* TGo4Analysis::CreateSingleEventTree(const char* name, Bool_t isoutput)
    TGo4EventElement* event=0;
    if(isoutput) event = GetOutputEvent(name);
            else event = GetInputEvent(name);
-   if(event==0)
-      // event step of name does not exists, we search event in folder:
-      event=GetEventStructure(name);
+   if(event==0) event=GetEventStructure(name);
+
    return CreateSingleEventTree(event);
 }
 

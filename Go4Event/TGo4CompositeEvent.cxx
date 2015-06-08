@@ -16,10 +16,9 @@
 #include "TTree.h"
 #include "TROOT.h"
 #include "TObjArray.h"
+#include "TDirectory.h"
 
 #include "TGo4Log.h"
-
-// R__EXTERN TTree *gTree;
 
 TGo4CompositeEvent::TGo4CompositeEvent() :
    TGo4EventElement(),
@@ -238,7 +237,6 @@ TGo4EventElement* TGo4CompositeEvent::getEventElement(Int_t idx)
 }
 
 
-
 TGo4EventElement* TGo4CompositeEvent::getEventElement(const char* name, Int_t final)
 {
    TIter next(fEventElements);
@@ -266,6 +264,7 @@ void TGo4CompositeEvent::deactivate()
       ev->deactivate();
 }
 
+
 void TGo4CompositeEvent::activate()
 {
    TGo4EventElement::activate();
@@ -273,7 +272,7 @@ void TGo4CompositeEvent::activate()
    TIter next(fEventElements);
    TGo4EventElement *ev(0);
 
-   while ((ev=( TGo4EventElement *)next())!=0)
+   while ((ev = (TGo4EventElement*)next()) != 0)
       ev->activate();
 }
 
@@ -300,6 +299,7 @@ TObjArray* TGo4CompositeEvent::getListOfComposites(Bool_t toplevel)
    return comp;
 }
 
+
 TGo4EventElement& TGo4CompositeEvent::operator[]( Int_t i )
 {
    if ((fEventElements==0) || (i<0) || (i>fEventElements->GetLast())) {
@@ -313,15 +313,34 @@ TGo4EventElement& TGo4CompositeEvent::operator[]( Int_t i )
 
 void TGo4CompositeEvent::ProvideArray()
 {
-	if (fEventElements==0) {
-	      Int_t size = fMaxIndex+1;
-	      fEventElements = new TObjArray(size);
-	      if (fDebug)
-	           TGo4Log::Debug("-I creating TObjArray of size %i",size);
-	   }
-	if(fMaxIndex+1 >fEventElements->GetSize()){
-			fEventElements->Expand(fMaxIndex+1);
-			if (fDebug)
-				TGo4Log::Debug("-I Expanded component array to size %i",fEventElements->GetSize());
-		}
+   if (fEventElements==0) {
+      Int_t size = fMaxIndex+1;
+      fEventElements = new TObjArray(size);
+      if (fDebug)
+         TGo4Log::Debug("-I creating TObjArray of size %i",size);
+   }
+   if(fMaxIndex+1 >fEventElements->GetSize()) {
+      fEventElements->Expand(fMaxIndex+1);
+      if (fDebug)
+         TGo4Log::Debug("-I Expanded component array to size %i",fEventElements->GetSize());
+   }
+}
+
+
+TTree* TGo4CompositeEvent::CreateSampleTree(TGo4EventElement** sample)
+{
+   TDirectory* filsav = gDirectory;
+   gROOT->cd();
+   if (sample!=0) delete *sample;
+   TGo4CompositeEvent* clone = (TGo4CompositeEvent*) Clone();
+   TTree* thetree = new TTree(clone->GetName(), "Single Event Tree");
+   thetree->SetDirectory(0);
+   if (sample) *sample = clone;
+   TBranch *topbranch =
+      thetree->Branch("Go4EventSample", clone->ClassName(), sample ? (TGo4CompositeEvent**) sample : &clone, 64000, 99);
+   clone->makeBranch(topbranch);
+   thetree->Fill();
+   filsav->cd();
+   if (sample==0) delete clone;
+   return thetree;
 }
