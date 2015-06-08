@@ -127,16 +127,11 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
       SetItemField("/Control/CmdCloseFiles", "_title", "Close all opened files");
       SetItemField("/Control/CmdCloseFiles", "_hreload", "true"); // after execution hierarchy will be reloaded
       //SetItemField("/Control/CmdCloseFiles", "_hidden", "true");
-   }
 
-   if (HasRestrictMethod()) {
       RegisterCommand("/Control/CmdClearObject", "this->CmdClearObject(\"%arg1%\");", "");
-   } else {
-      RegisterCommand("/Control/CmdClearObject", "this->CmdClearObject();", "");
+      SetItemField("/Control/CmdClearObject", "_title", "Clear object content");
+      SetItemField("/Control/CmdClearObject", "_hidden", "true");
    }
-
-   SetItemField("/Control/CmdClearObject", "_title", "Clear object content");
-   SetItemField("/Control/CmdClearObject", "_hidden", "true");
 
    RegisterObject("/Control", fAnalysisStatus);
    SetItemField("/Control/Analysis", "_prereq", "jq");
@@ -390,7 +385,6 @@ Bool_t TGo4Sniffer::CmdClearObject(const char* objname)
       SendStatusMessage(1, kTRUE, "Histograms and conditions were cleared");
       return kTRUE;
    }
-
 
    Bool_t ok = ana->ClearObjects(objname);
 

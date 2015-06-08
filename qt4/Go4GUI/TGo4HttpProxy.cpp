@@ -754,7 +754,7 @@ void TGo4HttpProxy::CloseAnalysisSettings()
 void TGo4HttpProxy::ClearAllAnalysisObjects()
 {
    // when command submitted without arguments, histograms and conditions folder will be cleared
-   SubmitCommand("CmdClearObject");
+   SubmitCommand("CmdClear");
 }
 
 void TGo4HttpProxy::ClearAnalysisObject(const char* fullpath)
