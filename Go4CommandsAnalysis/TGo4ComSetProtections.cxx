@@ -18,8 +18,8 @@
 #include "TGo4AnalysisImp.h"
 #include "TGo4RemoteCommand.h"
 
-TGo4ComSetProtections::TGo4ComSetProtections(const char* obname, const char* flags)
-:TGo4AnalysisObjectCommand("ANSetProtect","Set protection properties for object",obname)
+TGo4ComSetProtections::TGo4ComSetProtections(const char* obname, const char* flags) :
+   TGo4AnalysisObjectCommand("ANSetProtect","Set protection properties for object",obname)
 {
    GO4TRACE((12,"TGo4ComSetProtections::TGo4ComSetProtections(const char*) ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
@@ -28,8 +28,8 @@ TGo4ComSetProtections::TGo4ComSetProtections(const char* obname, const char* fla
    SetProtection(kGo4ComModeController);
 }
 
-TGo4ComSetProtections::TGo4ComSetProtections()
-:TGo4AnalysisObjectCommand()
+TGo4ComSetProtections::TGo4ComSetProtections() :
+   TGo4AnalysisObjectCommand()
 {
    GO4TRACE((12,"TGo4ComSetProtections::TGo4ComSetProtections() ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
@@ -45,38 +45,36 @@ TGo4ComSetProtections::~TGo4ComSetProtections()
 
 void TGo4ComSetProtections::Set(TGo4RemoteCommand* remcom)
 {
-if(remcom==0) return;
-TGo4AnalysisObjectCommand::Set(remcom);
-SetFlags(remcom->GetString(2));
+   if(remcom==0) return;
+   TGo4AnalysisObjectCommand::Set(remcom);
+   SetFlags(remcom->GetString(2));
 }
-
-
 
 Int_t TGo4ComSetProtections::ExeCom()
 {
    TGo4AnalysisClient* cli=dynamic_cast<TGo4AnalysisClient*> (fxReceiverBase);
    if (cli!=0)
+   {
+      TGo4Analysis* ana=TGo4Analysis::Instance();
+      if(ana->ProtectObjects(GetObjectName(),(const Option_t*) fxFlags.Data()))
       {
-         TGo4Analysis* ana=TGo4Analysis::Instance();
-         if(ana->ProtectObjects(GetObjectName(),(const Option_t*) fxFlags.Data()))
-            {
-               cli->SendStatusMessage(1, kFALSE,TString::Format(
-                     "Changed object or folder %s protections: %s ",
-                        GetObjectName(),fxFlags.Data()));
-            }
-         else
-            {
-                cli->SendStatusMessage(2, kFALSE,TString::Format(
-                      "Could not change object/folder %s protections, no such object",
-                        GetObjectName()));
-            }
+         cli->SendStatusMessage(1, kFALSE,TString::Format(
+               "Changed object or folder %s protections: %s ",
+               GetObjectName(),fxFlags.Data()));
       }
+      else
+      {
+         cli->SendStatusMessage(2, kFALSE,TString::Format(
+               "Could not change object/folder %s protections, no such object",
+               GetObjectName()));
+      }
+   }
    else
 
-       {
-         TGo4Log::Debug(" !!! %s : NO RECEIVER ERROR!!!",GetName());
-         return 1;
-      }
+   {
+      TGo4Log::Debug(" !!! %s : NO RECEIVER ERROR!!!",GetName());
+      return 1;
+   }
 
    return -1;
 }

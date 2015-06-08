@@ -72,10 +72,7 @@ void TGo4BrowserOptions::RefreshBtn_clicked()
 void TGo4BrowserOptions::ClearBtn_clicked()
 {
    TGo4ServerProxy* an = Browser()->FindAnalysisNew();
-   if (an) {
-      an->ClearAnalysisObject("Histograms");
-      an->ClearAnalysisObject("Conditions");
-   }
+   if (an) an->ClearAllAnalysisObjects();
    Browser()->UpdateVisibleAnalysisObjects(false);
 }
 

@@ -1029,6 +1029,13 @@ void TGo4AnalysisProxy::ExecuteLine(const char* line)
    fxDisplay->SubmitCommand(com);
 }
 
+void TGo4AnalysisProxy::ClearAllAnalysisObjects()
+{
+   ClearAnalysisObject("Histograms");
+   ClearAnalysisObject("Conditions");
+}
+
+
 void TGo4AnalysisProxy::ClearAnalysisObject(const char* fullpath)
 {
    TString foldername, objectname;

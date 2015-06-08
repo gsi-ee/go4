@@ -433,6 +433,13 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
       virtual Int_t getflag(const char* flagname)
       {
          if (strcmp(flagname,"IsRemote")==0) return 1;
+
+         if (strcmp(flagname,"IsDeleteProtect")==0)
+            return fXML->HasAttr(fChild, "_can_delete") ? 0 : 1;
+
+         if (strcmp(flagname,"IsResetProtect")==0)
+            return fXML->HasAttr(fChild, "_no_reset") ? 1 : 0;
+
          return -1;
       }
 
@@ -744,6 +751,12 @@ void TGo4HttpProxy::CloseAnalysisSettings()
 {
 }
 
+void TGo4HttpProxy::ClearAllAnalysisObjects()
+{
+   // when command submitted without arguments, histograms and conditions folder will be cleared
+   SubmitCommand("CmdClearObject");
+}
+
 void TGo4HttpProxy::ClearAnalysisObject(const char* fullpath)
 {
    TString foldername, objectname;
@@ -965,4 +978,21 @@ void TGo4HttpProxy::RemotePrintEvent(const char* evname,
    url.Form("Events/%s/exe.bin?method=SetPrintEvent&num=%d&sid=%d&longw=%d&hexw=%d&dataw=%d",
               evname, evnumber, subid, islong ? 1 : 0, ishex ? 1 : 0, ishex ? 0 : 1);
    SubmitURL(url);
+}
+
+void TGo4HttpProxy::ChageObjectProtection(const char* fullpath, const char* flags)
+{
+   unsigned reset_bits(0), set_bits(0);
+
+   TString opt = flags;
+   if(opt.Contains("+D")) reset_bits |= TGo4Status::kGo4CanDelete;
+   if(opt.Contains("-D")) set_bits |= TGo4Status::kGo4CanDelete;
+   if(opt.Contains("+C")) set_bits |= TGo4Status::kGo4NoReset;
+   if(opt.Contains("-C")) reset_bits |= TGo4Status::kGo4NoReset;
+
+   TString url(fullpath);
+   url.Append("/exe.bin?method=");
+
+   if (reset_bits!=0) SubmitURL(url + TString::Format("ResetBit&f=%u",reset_bits));
+   if (set_bits!=0) SubmitURL(url + TString::Format("SetBit&f=%u&prototype=UInt_t",set_bits));
 }

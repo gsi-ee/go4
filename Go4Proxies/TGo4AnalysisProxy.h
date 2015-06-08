@@ -120,6 +120,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       virtual Bool_t UpdateAnalysisObject(const char* objectname, TObject* obj);
 
+      virtual void ClearAllAnalysisObjects();
       virtual void ClearAnalysisObject(const char* fullpath);
 
       virtual void RemoteTreeDraw(const char* treename,

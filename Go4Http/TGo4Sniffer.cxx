@@ -98,19 +98,19 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    SetItemField("/Status/Ratemeter", "_hidden", "true");
    SetItemField("/Status/Ratemeter", "_status", "GO4.DrawAnalysisRatemeter");
 
-   RegisterCommand("/Control/CmdClear", "this->CmdClear()", "button;go4sys/icons/clear.png");
+   RegisterCommand("/Control/CmdClear", "this->CmdClear();", "button;go4sys/icons/clear.png");
    SetItemField("/Control/CmdClear", "_title", "Clear histograms and conditions in analysis");
    SetItemField("/Control/CmdClear", "_hidden", "true");
 
-   RegisterCommand("/Control/CmdStart", "this->CmdStart()", "button;go4sys/icons/start.png");
+   RegisterCommand("/Control/CmdStart", "this->CmdStart();", "button;go4sys/icons/start.png");
    SetItemField("/Control/CmdStart", "_title", "Start analysis");
    SetItemField("/Control/CmdStart", "_hidden", "true");
 
-   RegisterCommand("/Control/CmdStop", "this->CmdStop()", "button;go4sys/icons/Stop.png");
+   RegisterCommand("/Control/CmdStop", "this->CmdStop();", "button;go4sys/icons/Stop.png");
    SetItemField("/Control/CmdStop", "_title", "Stop analysis");
    SetItemField("/Control/CmdStop", "_hidden", "true");
 
-   RegisterCommand("/Control/CmdRestart", "this->CmdRestart()", "button;go4sys/icons/restart.png");
+   RegisterCommand("/Control/CmdRestart", "this->CmdRestart();", "button;go4sys/icons/restart.png");
    SetItemField("/Control/CmdRestart", "_title", "Resubmit analysis configuration and start again");
    SetItemField("/Control/CmdRestart", "_hidden", "true");
 
@@ -118,18 +118,23 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
       // together with Restrict method support of
       // commands with arguments was introduced
 
-      RegisterCommand("/Control/CmdOpenFile", "this->CmdOpenFile(\"%arg1%\")", "button;go4sys/icons/fileopen.png");
+      RegisterCommand("/Control/CmdOpenFile", "this->CmdOpenFile(\"%arg1%\");", "button;go4sys/icons/fileopen.png");
       SetItemField("/Control/CmdOpenFile", "_title", "Open ROOT file in analysis");
       SetItemField("/Control/CmdOpenFile", "_hreload", "true"); // after execution hierarchy will be reloaded
       //SetItemField("/Control/CmdOpenFile", "_hidden", "true");
 
-      RegisterCommand("/Control/CmdCloseFiles", "this->CmdCloseFiles()", "go4sys/icons/fileclose.png");
+      RegisterCommand("/Control/CmdCloseFiles", "this->CmdCloseFiles();", "go4sys/icons/fileclose.png");
       SetItemField("/Control/CmdCloseFiles", "_title", "Close all opened files");
       SetItemField("/Control/CmdCloseFiles", "_hreload", "true"); // after execution hierarchy will be reloaded
       //SetItemField("/Control/CmdCloseFiles", "_hidden", "true");
    }
 
-   RegisterCommand("/Control/CmdClearObject", "this->CmdClearObject(\"%arg1%\")", "");
+   if (HasRestrictMethod()) {
+      RegisterCommand("/Control/CmdClearObject", "this->CmdClearObject(\"%arg1%\");", "");
+   } else {
+      RegisterCommand("/Control/CmdClearObject", "this->CmdClearObject();", "");
+   }
+
    SetItemField("/Control/CmdClearObject", "_title", "Clear object content");
    SetItemField("/Control/CmdClearObject", "_hidden", "true");
 
@@ -216,6 +221,14 @@ void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
 void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
 {
    TRootSniffer::ScanObjectProperties(rec, obj);
+
+   if (obj && obj->TestBit(TGo4Status::kGo4CanDelete)) {
+      rec.SetField("_can_delete", "true");
+   }
+
+   if (obj && obj->TestBit(TGo4Status::kGo4NoReset)) {
+      rec.SetField("_no_reset", "true");
+   }
 
    if (obj && obj->InheritsFrom(TGo4Parameter::Class())) {
       // rec.SetField("_more", "true");
@@ -371,11 +384,20 @@ Bool_t TGo4Sniffer::CmdClearObject(const char* objname)
       return kFALSE;
    }
 
+   if ((objname==0) || (*objname==0)) {
+      ana->ClearObjects("Histograms");
+      ana->ClearObjects("Conditions");
+      SendStatusMessage(1, kTRUE, "Histograms and conditions were cleared");
+      return kTRUE;
+   }
+
+
    Bool_t ok = ana->ClearObjects(objname);
+
    if(ok) {
-      SendStatusMessage(1, kTRUE, TString::Format("Object %s was cleared.", objname));
+      SendStatusMessage(1, kTRUE, TString::Format("Object %s was cleared.", objname).Data());
    } else {
-      SendStatusMessage(2, kTRUE, TString::Format("Could not clear object %s", objname));
+      SendStatusMessage(2, kTRUE, TString::Format("Could not clear object %s", objname).Data());
    } // if(ob)
 
    return ok;

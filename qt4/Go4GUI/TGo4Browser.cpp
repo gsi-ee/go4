@@ -589,7 +589,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 
    TGo4BrowserProxy* br = BrowserProxy();
    TGo4Slot* memslot = br->BrowserMemorySlot();
-   TGo4Slot* analslot = br->FindAnalysisSlot(false);
+   TGo4Slot* analslot = br->FindAnalysisSlot(false, true);
 
    bool istopmemory = false;
 
@@ -668,8 +668,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 
          bool isanalysisitem = (itemslot==analslot) || itemslot->IsParent(analslot);
 
-         if (isanalysisitem)
-           nanalysis++;
+         if (isanalysisitem) nanalysis++;
 
          if ((itemclassname!=0) && (strcmp(itemclassname,"TGo4DabcProxy")==0)) nremote++;
 
@@ -688,8 +687,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
                   if (delprot==0) ndelprotoff++;
                }
 
-               if (TGo4BrowserProxy::CanClearItem(cando) ||
-                   (kind==TGo4Access::kndFolder))
+               if (TGo4BrowserProxy::CanClearItem(cando) || (kind==TGo4Access::kndFolder))
                  nclear++;
             }
          }

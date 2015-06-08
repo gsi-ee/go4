@@ -183,6 +183,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       virtual Bool_t UpdateAnalysisObject(const char* objectname, TObject* obj);
 
+      virtual void ClearAllAnalysisObjects();
       virtual void ClearAnalysisObject(const char* fullpath);
 
       virtual void RemoteTreeDraw(const char* treename,
@@ -198,6 +199,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
                                     Bool_t ishex,
                                     Bool_t islong);
 
+      virtual void ChageObjectProtection(const char* fullpath, const char* flags);
 
 };
 

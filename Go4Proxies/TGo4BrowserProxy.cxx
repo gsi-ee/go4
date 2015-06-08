@@ -1915,8 +1915,6 @@ void TGo4BrowserProxy::SyncBrowserSlots()
           }
       }
 
-//      std::cout << curslot->GetFullName() << "   - " << iter.getinfo() << std::endl;
-
       SetItemKind(curslot, kind, classname, iter.getinfo(), iter.getsizeinfo());
       curslot->SetIntPar("GUI::Remote", iter.getflag("IsRemote")==1);
       SetProtectionBits(curslot, iter.getflag("IsDeleteProtect"), iter.getflag("IsResetProtect"));
