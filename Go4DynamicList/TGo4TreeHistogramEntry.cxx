@@ -133,7 +133,7 @@ void TGo4TreeHistogramEntry::ProcessTreeNew(TTree* tree, Int_t times)
 }
 
 
-void TGo4TreeHistogramEntry::Print(Option_t* dummy) const
+void TGo4TreeHistogramEntry::Print(Option_t*) const
 {
    // this trick is needed since root defines Print as const function...
    TROOT::IndentLevel();

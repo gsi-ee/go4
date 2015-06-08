@@ -66,7 +66,7 @@ class TGo4TreeHistogramEntry : public TGo4DynamicEntry {
     /** Resets this entry to an initial status. */
     virtual void Reset();
 
-    virtual void Print(Option_t * dummy="") const;
+    virtual void Print(Option_t * = "") const;
 
     /** suffix for entryname to differ from histogram name */
     static const char* fgcENTRYSUF; //!

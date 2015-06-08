@@ -174,8 +174,9 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
       gROOT->GetClass("TGo4ParameterStatus", kTRUE, kTRUE);
       gROOT->GetClass("TGo4EventElement", kTRUE, kTRUE);
       gROOT->GetClass("TGo4CompositeEvent", kTRUE, kTRUE);
+      gROOT->GetClass("TGo4AnalysisStatus", kTRUE, kTRUE);
+      gROOT->GetClass("TGo4AnalysisWebStatus", kTRUE, kTRUE);
    }
-
 }
 
 TGo4Sniffer::~TGo4Sniffer()

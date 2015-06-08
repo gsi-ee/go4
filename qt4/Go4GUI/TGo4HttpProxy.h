@@ -205,7 +205,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       virtual void ExecuteLine(const char* line);
 
-
+      virtual void PrintDynListEntry(const char* fullpath);
 
 };
 

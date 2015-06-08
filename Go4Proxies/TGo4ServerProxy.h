@@ -83,8 +83,6 @@ class TGo4ServerProxy : public TGo4Proxy {
 
       virtual void ExecuteLine(const char* line) {}
 
-      // to be done in http
-
       virtual void PrintDynListEntry(const char* fullpath) {}
 
 

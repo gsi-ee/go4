@@ -1012,3 +1012,8 @@ void TGo4HttpProxy::ChageObjectProtection(const char* fullpath, const char* flag
    if (reset_bits!=0) SubmitURL(url + TString::Format("ResetBit&f=%u",reset_bits));
    if (set_bits!=0) SubmitURL(url + TString::Format("SetBit&f=%u&prototype=UInt_t",set_bits));
 }
+
+void TGo4HttpProxy::PrintDynListEntry(const char* fullpath)
+{
+   SubmitURL(TString(fullpath)+"/exe.bin?method=Print");
+}
