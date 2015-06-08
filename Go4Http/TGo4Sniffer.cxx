@@ -131,6 +131,14 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
       RegisterCommand("/Control/CmdClearObject", "this->CmdClearObject(\"%arg1%\");", "");
       SetItemField("/Control/CmdClearObject", "_title", "Clear object content");
       SetItemField("/Control/CmdClearObject", "_hidden", "true");
+
+      RegisterCommand("/Control/CmdDeleteObject", "this->CmdDeleteObject(\"%arg1%\");", "");
+      SetItemField("/Control/CmdDeleteObject", "_title", "Delete object from analysis");
+      SetItemField("/Control/CmdDeleteObject", "_hidden", "true");
+
+      RegisterCommand("/Control/CmdExecute", "this->CmdExecute(\"%arg1%\");", "");
+      SetItemField("/Control/CmdExecute", "_title", "Execute line in the analysis context");
+      SetItemField("/Control/CmdExecute", "_hidden", "true");
    }
 
    RegisterObject("/Control", fAnalysisStatus);
@@ -375,7 +383,7 @@ Bool_t TGo4Sniffer::CmdClearObject(const char* objname)
    TGo4Analysis* ana = TGo4Analysis::Instance();
 
    if(ana==0) {
-      SendStatusMessage(3, kTRUE,"CmdClearObject - analysis ");
+      SendStatusMessage(3, kTRUE,"CmdClearObject - analysis missing");
       return kFALSE;
    }
 
@@ -389,14 +397,53 @@ Bool_t TGo4Sniffer::CmdClearObject(const char* objname)
    Bool_t ok = ana->ClearObjects(objname);
 
    if(ok) {
-      SendStatusMessage(1, kTRUE, TString::Format("Object %s was cleared.", objname).Data());
+      SendStatusMessage(1, kTRUE, TString::Format("Object %s was cleared.", objname));
    } else {
-      SendStatusMessage(2, kTRUE, TString::Format("Could not clear object %s", objname).Data());
+      SendStatusMessage(2, kTRUE, TString::Format("Could not clear object %s", objname));
    } // if(ob)
 
    return ok;
 }
 
+Bool_t TGo4Sniffer::CmdDeleteObject(const char* objname)
+{
+   TGo4Analysis* ana = TGo4Analysis::Instance();
+
+   if(ana==0) {
+      SendStatusMessage(3, kTRUE,"CmdDeleteObject - missing analysis ");
+      return kFALSE;
+   }
+
+   if ((objname==0) || (*objname==0)) {
+      SendStatusMessage(1, kTRUE, "Object name in CmdDeleteObject not specified");
+      return kFALSE;
+   }
+
+   Bool_t ok = ana->DeleteObjects(objname);
+
+   if(ok) {
+      SendStatusMessage(1, kTRUE, TString::Format("Object %s was deleted", objname));
+   } else {
+      SendStatusMessage(2, kTRUE, TString::Format("Could not delete object %s", objname));
+   } // if(ob)
+
+   return ok;
+}
+
+
+Bool_t TGo4Sniffer::CmdExecute(const char* exeline)
+{
+   TString cmd(exeline);
+
+   if (TGo4Analysis::Instance() && exeline && *exeline=='@')
+      cmd = TString("TGo4Analysis::Instance()->") + (exeline+1);
+
+   gROOT->ProcessLineSync(cmd);
+
+   fflush(stdout);
+
+   return kTRUE;
+}
 
 
 void TGo4Sniffer::SetTitle(const char* title)

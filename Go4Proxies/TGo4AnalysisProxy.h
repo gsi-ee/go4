@@ -130,7 +130,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       virtual void ChageObjectProtection(const char* fullpath, const char* flags);
 
-      virtual void RemoveObjectFromAnalysis(const char* fullpath, TClass* cl = 0);
+      virtual void RemoveObjectFromAnalysis(const char* fullpath);
 
       virtual void ExecuteLine(const char* line);
 

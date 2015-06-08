@@ -881,7 +881,7 @@ void TGo4Browser::ContextMenuActivated(int id)
                TString objname;
                TGo4ServerProxy* an = br->DefineAnalysisObject(itemname.latin1(), objname);
                if (an!=0) {
-                  an->RemoveObjectFromAnalysis(objname.Data(), br->ItemClass(itemslot));
+                  an->RemoveObjectFromAnalysis(objname.Data());
                   anrefresh = an;
                }
                break;

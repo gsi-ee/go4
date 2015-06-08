@@ -201,6 +201,12 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       virtual void ChageObjectProtection(const char* fullpath, const char* flags);
 
+      virtual void RemoveObjectFromAnalysis(const char* fullpath);
+
+      virtual void ExecuteLine(const char* line);
+
+
+
 };
 
 #endif

@@ -17,8 +17,8 @@
 #include "TGo4AnalysisImp.h"
 #include "TGo4AnalysisClientImp.h"
 
-TGo4ComDeleteObject::TGo4ComDeleteObject(const char* obname)
-:TGo4AnalysisObjectCommand("ANDelete","delete object by name", obname)
+TGo4ComDeleteObject::TGo4ComDeleteObject(const char* obname) :
+   TGo4AnalysisObjectCommand("ANDelete","delete object by name", obname)
 {
    GO4TRACE((12,"TGo4ComDeleteObject::TGo4ComDeleteObject(const char*) ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver
@@ -27,8 +27,8 @@ TGo4ComDeleteObject::TGo4ComDeleteObject(const char* obname)
    SetProtection(kGo4ComModeController);
 }
 
-TGo4ComDeleteObject::TGo4ComDeleteObject()
-:TGo4AnalysisObjectCommand("ANDelete","delete object by name", "dummy")
+TGo4ComDeleteObject::TGo4ComDeleteObject() :
+   TGo4AnalysisObjectCommand("ANDelete","delete object by name", "dummy")
 {
    GO4TRACE((12,"TGo4ComDeleteObject::TGo4ComDeleteObject() ctor",__LINE__, __FILE__));
    SetReceiverName("AnalysisClient");  // this command needs client as receiver

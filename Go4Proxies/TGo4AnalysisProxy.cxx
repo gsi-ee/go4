@@ -1055,11 +1055,11 @@ void TGo4AnalysisProxy::ChageObjectProtection(const char* fullpath, const char* 
    fxDisplay->SubmitCommand(com);
 }
 
-void TGo4AnalysisProxy::RemoveObjectFromAnalysis(const char* fullpath, TClass* cl)
+void TGo4AnalysisProxy::RemoveObjectFromAnalysis(const char* fullpath)
 {
    TString foldername, objectname;
    TGo4Slot::ProduceFolderAndName(fullpath, foldername, objectname);
-   TGo4RemoteCommand* com= new TGo4RemoteCommand("ANDelete");
+   TGo4RemoteCommand* com = new TGo4RemoteCommand("ANDelete");
    com->SetString(objectname.Data(),0);
    fxDisplay->SubmitCommand(com);
 }

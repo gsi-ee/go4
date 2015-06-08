@@ -69,7 +69,9 @@ class TGo4Sniffer : public TRootSniffer,
       Bool_t CmdRestart();
       Bool_t CmdOpenFile(const char* fname);
       Bool_t CmdCloseFiles();
-      Bool_t CmdClearObject(const char* objname = 0);
+      Bool_t CmdClearObject(const char* objname);
+      Bool_t CmdDeleteObject(const char* objname);
+      Bool_t CmdExecute(const char* exeline);
 
       // === methods used via http interface by Go4GUI ===============
 

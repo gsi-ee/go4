@@ -767,6 +767,22 @@ void TGo4HttpProxy::ClearAnalysisObject(const char* fullpath)
    SubmitCommand("CmdClearObject", -1, objectname.Data());
 }
 
+void TGo4HttpProxy::RemoveObjectFromAnalysis(const char* fullpath)
+{
+   TString foldername, objectname;
+   TGo4Slot::ProduceFolderAndName(fullpath, foldername, objectname);
+
+   objectname = TString("\"") + objectname + TString("\"");
+
+   SubmitCommand("CmdDeleteObject", -1, objectname.Data());
+}
+
+void TGo4HttpProxy::ExecuteLine(const char* line)
+{
+   // use single quotes - less problem with typical arguments in ProcessLine
+   SubmitCommand("CmdExecute", -1, TString::Format("\'%s\'", line));
+}
+
 void TGo4HttpProxy::StartAnalysis()
 {
    SubmitCommand("CmdStart");
