@@ -159,6 +159,15 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
       TGo4Analysis::Instance()->SetSniffer(this);
 
    TGo4Log::SetSniffer(this);
+
+   if (!HasRestrictMethod()) {
+      // this was problem with original ROOT sniffer, it does not construct classes
+      // and class required in exe.bin
+      gROOT->GetClass("TGo4ParameterStatus", kTRUE, kTRUE);
+      gROOT->GetClass("TGo4EventElement", kTRUE, kTRUE);
+      gROOT->GetClass("TGo4CompositeEvent", kTRUE, kTRUE);
+   }
+
 }
 
 TGo4Sniffer::~TGo4Sniffer()
