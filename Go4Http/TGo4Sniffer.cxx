@@ -114,15 +114,20 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    SetItemField("/Control/CmdRestart", "_title", "Resubmit analysis configuration and start again");
    SetItemField("/Control/CmdRestart", "_hidden", "true");
 
-   RegisterCommand("/Control/CmdOpenFile", "this->CmdOpenFile(\"%arg1%\")", "button;go4sys/icons/fileopen.png");
-   SetItemField("/Control/CmdOpenFile", "_title", "Open ROOT file in analysis");
-   SetItemField("/Control/CmdOpenFile", "_hreload", "true"); // after execution hierarchy will be reloaded
-   //SetItemField("/Control/CmdOpenFile", "_hidden", "true");
+   if (HasRestrictMethod()) {
+      // together with Restrict method support of
+      // commands with arguments was introduced
 
-   RegisterCommand("/Control/CmdCloseFiles", "this->CmdCloseFiles()", "go4sys/icons/fileclose.png");
-   SetItemField("/Control/CmdCloseFiles", "_title", "Close all opened files");
-   SetItemField("/Control/CmdCloseFiles", "_hreload", "true"); // after execution hierarchy will be reloaded
-   //SetItemField("/Control/CmdCloseFiles", "_hidden", "true");
+      RegisterCommand("/Control/CmdOpenFile", "this->CmdOpenFile(\"%arg1%\")", "button;go4sys/icons/fileopen.png");
+      SetItemField("/Control/CmdOpenFile", "_title", "Open ROOT file in analysis");
+      SetItemField("/Control/CmdOpenFile", "_hreload", "true"); // after execution hierarchy will be reloaded
+      //SetItemField("/Control/CmdOpenFile", "_hidden", "true");
+
+      RegisterCommand("/Control/CmdCloseFiles", "this->CmdCloseFiles()", "go4sys/icons/fileclose.png");
+      SetItemField("/Control/CmdCloseFiles", "_title", "Close all opened files");
+      SetItemField("/Control/CmdCloseFiles", "_hreload", "true"); // after execution hierarchy will be reloaded
+      //SetItemField("/Control/CmdCloseFiles", "_hidden", "true");
+   }
 
    RegisterCommand("/Control/CmdClearObject", "this->CmdClearObject(\"%arg1%\")", "");
    SetItemField("/Control/CmdClearObject", "_title", "Clear object content");
@@ -470,12 +475,17 @@ Bool_t TGo4Sniffer::RemoteTreeDraw(const char* histoname,
 }
 
 
+Bool_t TGo4Sniffer::HasRestrictMethod()
+{
+   return IsA()->GetMethodAllAny("Restrict") != 0;
+}
+
+
 void TGo4Sniffer::RestrictGo4(const char* path, const char* options)
 {
    // wrapper for TRootSniffer::Restrict, called only when method exists
 
-   TMethod *method = IsA()->GetMethodAllAny("Restrict");
-   if (method==0) return;
+   if (!HasRestrictMethod()) return;
 
    TString call_args = TString::Format("\"%s\",\"%s\"", path, options);
 

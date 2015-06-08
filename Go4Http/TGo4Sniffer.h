@@ -39,6 +39,9 @@ class TGo4Sniffer : public TRootSniffer,
       /** Send message to gui - need to be implemented */
       virtual void SendStatusMessage(Int_t level, Bool_t printout, const TString& text);
 
+      /** Indicate that Restrict method implemented, also commands with arguments are exists */
+      Bool_t HasRestrictMethod();
+
       /** Wrapper for new method in TRootSniffer */
       void RestrictGo4(const char* path, const char* options);
 
