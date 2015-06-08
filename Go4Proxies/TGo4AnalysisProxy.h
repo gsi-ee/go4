@@ -142,6 +142,13 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
                                     Bool_t ishex,
                                     Bool_t islong);
 
+      virtual void LoadConfigFile(const char* fname);
+      virtual void SaveConfigFile(const char* fname);
+
+      virtual void WriteAutoSave(const char* fname,
+                                 Int_t complevel,
+                                 Bool_t overwrite);
+
       // analysis proxy functionality
 
       TGo4Slot* LoginfoSlot();
@@ -161,12 +168,6 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       void ReceiveObject(TNamed* obj);
       void ReceiveStatus(TGo4Status* status);
       Bool_t SubmitProxy(TGo4AnalysisObjectAccess* proxy);
-
-      void LoadConfigFile(const char* fname);
-      void SaveConfigFile(const char* fname);
-      void WriteAutoSave(const char* fname,
-                         Int_t complevel,
-                         Bool_t overwrite);
 
       static Int_t NumberOfWaitingProxyes() { return fNumberOfWaitingProxyes; }
 

@@ -231,8 +231,8 @@ void TGo4AnalysisConfiguration::SetCompressionLevel( int t)
 void TGo4AnalysisConfiguration::LoadConfiguration()
 {
    QString fname = ConfigFileName->text().trimmed();
-   TGo4AnalysisProxy* anal =
-      dynamic_cast<TGo4AnalysisProxy*>(GetLinked("Analysis", 0));
+   TGo4ServerProxy* anal =
+      dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
    if (anal!=0)
       anal->LoadConfigFile(fname.toLatin1().constData());
    RequestAnalysisStatus();
@@ -241,8 +241,8 @@ void TGo4AnalysisConfiguration::LoadConfiguration()
 void TGo4AnalysisConfiguration::SaveConfiguration()
 {
    QString fname = ConfigFileName->text().trimmed();
-   TGo4AnalysisProxy* anal =
-      dynamic_cast<TGo4AnalysisProxy*>(GetLinked("Analysis", 0));
+   TGo4ServerProxy* anal =
+      dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
    if (anal!=0)
       anal->SaveConfigFile(fname.toLatin1().constData());
 }
@@ -283,8 +283,8 @@ void TGo4AnalysisConfiguration::WriteAutoSave()
 {
    TGo4AnalysisStatus* status =
       dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
-   TGo4AnalysisProxy* anal =
-      dynamic_cast<TGo4AnalysisProxy*>(GetLinked("Analysis", 0));
+   TGo4ServerProxy* anal =
+      dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
 
    if ((anal!=0) && (status!=0))
      anal->WriteAutoSave(status->GetAutoFileName(),

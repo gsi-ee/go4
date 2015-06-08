@@ -92,20 +92,20 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
   theKey = TGo4AnalysisWebStatus::fgxURL_ASF_SAVE;
   if (url.HasOption(theKey.Data()))
   {
-    TString filename = url.GetValueFromOptions(theKey.Data());
-    ana->SetAutoSaveFile(filename.Data(), fbAutoSaveOverwrite, fiAutoSaveCompression);
-    ana->AutoSave();
-    message.Append(TString::Format(", saving autosave file %s", filename.Data()));
+    const char* filename = url.GetValueFromOptions(theKey.Data());
+    WriteAutoSave(filename, fbAutoSaveOverwrite, fiAutoSaveCompression);
+    message.Append(TString::Format(", saving autosave file %s", filename));
     TGo4Log::Message(1, message.Data());
     return kTRUE;
   }
+
   // save setup:
   theKey = TGo4AnalysisWebStatus::fgxURL_PREFS_SAVE;
   if (url.HasOption(theKey.Data()))
   {
-    TString filename = url.GetValueFromOptions(theKey.Data());
-    ana->SaveStatus(filename.Data());
-    message.Append(TString::Format(", saving configuration file %s", filename.Data()));
+    const char* filename = url.GetValueFromOptions(theKey.Data());
+    SaveStatus(filename);
+    message.Append(TString::Format(", saving configuration file %s", filename));
     TGo4Log::Message(1, message.Data());
     return kTRUE;
   }
@@ -114,16 +114,16 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
   theKey = TGo4AnalysisWebStatus::fgxURL_PREFS_LOAD;
   if (url.HasOption(theKey.Data()))
   {
-    TString filename = url.GetValueFromOptions(theKey.Data());
+    const char* filename = url.GetValueFromOptions(theKey.Data());
     ana->StopAnalysis();
-    if (ana->LoadStatus(filename.Data()))
+    if (LoadStatus(filename))
     {
       ana->InitEventClasses();
-      message.Append(TString::Format(", loaded configuration file %s", filename.Data()));
+      message.Append(TString::Format(", loaded configuration file %s", filename));
     }
     else
     {
-      message.Append(TString::Format(", /!\\ FAILED to load configuration file %s !!!", filename.Data()));
+      message.Append(TString::Format(", /!\\ FAILED to load configuration file %s !!!", filename));
     }
     TGo4Log::Message(1, message.Data());
     return kTRUE;
@@ -582,4 +582,39 @@ Bool_t TGo4AnalysisWebStatus::ApplyStatus(TGo4AnalysisStatus* status)
 }
 
 
+Bool_t TGo4AnalysisWebStatus::LoadStatus(const char* fname)
+{
+   // make it here to be able use via http interface
+
+   TGo4Analysis* ana = TGo4Analysis::Instance();
+
+   return ana ? ana->LoadStatus(fname) : kFALSE;
+
+}
+
+Bool_t TGo4AnalysisWebStatus::SaveStatus(const char* fname)
+{
+   // make it here to be able use via http interface
+
+   TGo4Analysis* ana = TGo4Analysis::Instance();
+
+   return ana ? ana->SaveStatus(fname) : kFALSE;
+}
+
+
+Bool_t TGo4AnalysisWebStatus::WriteAutoSave(const char* fname,
+                                            Bool_t overwrite,
+                                            Int_t complevel)
+{
+   // make it here to be able use via http interface
+
+   TGo4Analysis* ana = TGo4Analysis::Instance();
+
+   if (ana==0) return kFALSE;
+
+   ana->SetAutoSaveFile(fname, overwrite, complevel);
+   ana->AutoSave();
+
+   return kTRUE;
+}
 

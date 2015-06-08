@@ -361,7 +361,7 @@ void TGo4HttpAccess::httpFinished()
 
       TClass* obj_cl = GetObjectClass();
 
-      if (gDebug>2) if (gDebug>2) printf("TGo4HttpAccess::httpFinished Reconstruct object class %s\n", obj_cl ? obj_cl->GetName() : "---");
+      if (gDebug>2) printf("TGo4HttpAccess::httpFinished Reconstruct object class %s\n", obj_cl ? obj_cl->GetName() : "---");
 
       if ((obj_cl==0) || (obj_cl->GetBaseClassOffset(TObject::Class()) != 0)) return;
 
@@ -802,6 +802,8 @@ Bool_t TGo4HttpProxy::RequestObjectStatus(const char* objectname, TGo4Slot* tgts
    XMLNodePointer_t item = FindItem(objectname);
    if (item==0) return kFALSE;
 
+   printf("Request status for %s\n", objectname);
+
    TGo4HttpAccess* access = new TGo4HttpAccess(this, item, objectname, 4);
 
    access->AssignObjectToSlot(tgtslot);
@@ -1017,3 +1019,21 @@ void TGo4HttpProxy::PrintDynListEntry(const char* fullpath)
 {
    SubmitURL(TString(fullpath)+"/exe.bin?method=Print");
 }
+
+void TGo4HttpProxy::LoadConfigFile(const char* fname)
+{
+   SubmitURL(TString::Format("Control/Analysis/exe.bin?method=LoadStatus?fname=%s", fname));
+}
+
+void TGo4HttpProxy::SaveConfigFile(const char* fname)
+{
+   SubmitURL(TString::Format("Control/Analysis/exe.bin?method=SaveStatus?fname=%s", fname));
+}
+
+void TGo4HttpProxy::WriteAutoSave(const char* fname,
+                                  Int_t complevel,
+                                  Bool_t overwrite)
+{
+   SubmitURL(TString::Format("Control/Analysis/exe.bin?method=WriteAutoSave?fname=%s&overwrite=%s&complevel=%d", fname, overwrite ? "kTRUE" : "kFALSE", complevel));
+}
+

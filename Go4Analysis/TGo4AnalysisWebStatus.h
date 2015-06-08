@@ -32,17 +32,25 @@ class TGo4AnalysisWebStatus : public TGo4AnalysisStatus {
   public:
 
     /** default ctor for streamer. */
-    TGo4AnalysisWebStatus(): TGo4AnalysisStatus(){};
+    TGo4AnalysisWebStatus(): TGo4AnalysisStatus() {}
 
-    TGo4AnalysisWebStatus(const char* name): TGo4AnalysisStatus(name) {};
+    TGo4AnalysisWebStatus(const char* name): TGo4AnalysisStatus(name) {}
 
-    virtual ~TGo4AnalysisWebStatus() {};
+    virtual ~TGo4AnalysisWebStatus() {}
 
     /** Method used by HTTP server to update some fields, specified in URL syntax */
     Bool_t UpdateFromUrl(const char* rest_url_opt);
 
     /** Method used by Go4GUI via HTTP to set status to analysis */
     Bool_t ApplyStatus(TGo4AnalysisStatus* status);
+
+    Bool_t LoadStatus(const char* fname);
+
+    Bool_t SaveStatus(const char* fname);
+
+    Bool_t WriteAutoSave(const char* fname,
+                         Bool_t overwrite,
+                         Int_t complevel);
 
     /** web condition editor keywords used in UpdateFromUrl: */
     static TString fgxURL_STARTRUN;

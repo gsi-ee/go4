@@ -85,6 +85,13 @@ class TGo4ServerProxy : public TGo4Proxy {
 
       virtual void PrintDynListEntry(const char* fullpath) {}
 
+      virtual void LoadConfigFile(const char* fname) {}
+      virtual void SaveConfigFile(const char* fname) {}
+
+      virtual void WriteAutoSave(const char* fname,
+                                 Int_t complevel,
+                                 Bool_t overwrite) {}
+
 
    ClassDef(TGo4ServerProxy, 1);
 };
