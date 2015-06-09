@@ -1359,9 +1359,7 @@ void TGo4MainWindow::UpdateCaptionButtons()
 {
    TGo4AnalysisProxy* pr = Browser()->FindAnalysis();
    TGo4ServerProxy* serv = Browser()->FindAnalysisNew();
-   TGo4HttpProxy* ht= dynamic_cast<TGo4HttpProxy*>(serv);
-//   printf("UpdateCaptionButton has analysis proxy:0x%x, server proxy 0x%x, http proxy:0x%x\n",
-//       (long) pr, (long)serv, (long) ht);
+   TGo4HttpProxy* ht = dynamic_cast<TGo4HttpProxy*>(serv);
 
    QString capt = "Go4 ";
    capt += __GO4RELEASE__;
@@ -1378,13 +1376,13 @@ void TGo4MainWindow::UpdateCaptionButtons()
    if (pr==0) flag= (ht==0 ?  true: false) ;
    faLaunchAnal->setEnabled(flag);
 
-   if (pr==0) flag= (ht==0 ?  true: false) ;
-   else flag = (fConnectingCounter<=0) && pr->IsAnalysisServer() && !pr->IsConnected();
+   if (pr==0) flag = (ht==0 ?  true: false) ;
+         else flag = (fConnectingCounter<=0) && pr->IsAnalysisServer() && !pr->IsConnected();
    faConnectAnal->setEnabled(flag);
 
    faPrepareAnal->setEnabled(flag);
 
-   if (pr==0) flag= (ht==0 ?  false: true);
+   if (pr==0) flag = (ht==0 ?  false : true);
          else flag = pr->IsAnalysisServer() &&
                      (pr->IsConnected() || (fConnectingCounter<=0));
    faDisconnectAnal->setEnabled(flag);
@@ -1394,11 +1392,12 @@ void TGo4MainWindow::UpdateCaptionButtons()
                      (pr->IsConnected() && pr->IsAdministrator());
    faShutdownAnal->setEnabled(flag);
 
-   bool iscontrolling = false;
-   if (serv!=0)
-     iscontrolling = serv->IsConnected() && (serv->IsAdministrator() || serv->IsController());
-   if(ht && !ht->IsGo4Analysis()) iscontrolling=false;
-   faSumbStartAnal->setEnabled(iscontrolling);
+   bool iscontrolling(false), issubmit(false);
+   if (serv && serv->IsGo4Analysis()) {
+       iscontrolling = serv->IsConnected() && (serv->IsAdministrator() || serv->IsController());
+       if (iscontrolling) issubmit = serv->CanSubmitAnalysisSettings();
+   }
+   faSumbStartAnal->setEnabled(issubmit);
 
    faStartAnal->setEnabled(iscontrolling);
 
@@ -1406,8 +1405,7 @@ void TGo4MainWindow::UpdateCaptionButtons()
 
    faAnalConfig->setEnabled(iscontrolling);
 
-   flag = (FindAnalysisWindow()!=0);
-   faAnalTermin->setEnabled(flag);
+   faAnalTermin->setEnabled(FindAnalysisWindow()!=0);
 }
 
 void TGo4MainWindow::ChangeFetchWhenDrawSlot()

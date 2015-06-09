@@ -74,6 +74,7 @@ void TGo4AnalysisConfiguration::linkedObjectRemoved(const char* linkname)
 void TGo4AnalysisConfiguration::WorkWithAnalysis(TGo4ServerProxy* anal)
 {
    ResetWidget();
+
    if (anal==0) {
       ShootCloseWidget(true);
       return;
@@ -81,6 +82,7 @@ void TGo4AnalysisConfiguration::WorkWithAnalysis(TGo4ServerProxy* anal)
 
    AddLink(anal->ParentSlot(), "Analysis");
    AddLink(anal->SettingsSlot(), "Status");
+
    RefreshWidget();
 }
 
@@ -102,7 +104,13 @@ void TGo4AnalysisConfiguration::RefreshWidget()
 {
    TGo4AnalysisStatus* status =
       dynamic_cast<TGo4AnalysisStatus*> (GetLinked("Status",0));
-   if (status==0) return;
+   TGo4ServerProxy* anal =
+      dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
+
+   if ((status==0) || (anal==0)) return;
+
+   SubmitPushButton->setEnabled(anal->CanSubmitAnalysisSettings());
+   SubmitAndStartButton->setEnabled(anal->CanSubmitAnalysisSettings());
 
    fbTypingMode = false;
 
@@ -171,7 +179,7 @@ void TGo4AnalysisConfiguration::SetStorePath(const QString & v)
 void TGo4AnalysisConfiguration::RequestAnalysisStatus()
 {
    TGo4ServerProxy* anal =
-     dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
+      dynamic_cast<TGo4ServerProxy*>(GetLinked("Analysis", 0));
    if (anal!=0)
       anal->RequestAnalysisSettings();
 }

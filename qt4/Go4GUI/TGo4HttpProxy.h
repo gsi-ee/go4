@@ -128,6 +128,8 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       void ProcessUpdateTimer();
 
+      Bool_t ServerHasRestrict();
+
       Bool_t SubmitURL(const char* path, Int_t waitres = -1);
 
       Bool_t SubmitCommand(const char* name, Int_t waitres = -1, const char* par1 = 0);
@@ -153,7 +155,8 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       virtual TGo4LevelIter* MakeIter();
 
       virtual Int_t GetObjectKind() {  return TGo4Access::kndFolder; }
-      virtual const char* GetContainedClassName() { return "TGo4ServerProxy"; }
+      virtual const char* GetContainedClassName() { return ClassName(); }
+      virtual TObject* GetAssignedObject() { return this; }
       virtual const char* GetContainedObjectInfo();
       virtual Int_t GetObjectSizeInfo() { return -1; }
 
@@ -170,6 +173,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       virtual Bool_t IsController()  { return CheckUserName("controller", kTRUE); }
       virtual Bool_t IsAdministrator()  { return CheckUserName("admin", kFALSE); }
 
+      virtual Bool_t CanSubmitAnalysisSettings();
       virtual void RequestAnalysisSettings();
       virtual void SubmitAnalysisSettings();
       virtual void CloseAnalysisSettings();

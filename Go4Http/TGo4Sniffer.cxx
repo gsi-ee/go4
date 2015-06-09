@@ -162,6 +162,8 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    SetItemField("/", "_icon", "go4sys/icons/go4logo2_small.png");
    SetItemField("/", "_title", "GO4 analysis");
    SetItemField("/", "_analysis_name", TGo4Analysis::Instance()->GetName());
+   if (HasRestrictMethod())
+      SetItemField("/", "_has_restrict", "true");
 
    if (TGo4Analysis::Instance()!=0)
       TGo4Analysis::Instance()->SetSniffer(this);

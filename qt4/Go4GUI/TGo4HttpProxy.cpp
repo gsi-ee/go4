@@ -680,6 +680,15 @@ void TGo4HttpProxy::Update(TGo4Slot* slot, Bool_t strong)
    }
 }
 
+Bool_t TGo4HttpProxy::ServerHasRestrict()
+{
+   // return kTRUE when server has Restrict methods
+   // It is indication of new functionality like commands with arguments or support of POST requests
+
+   return fXML->HasAttr(FindItem(""),"_has_restrict");
+}
+
+
 Bool_t TGo4HttpProxy::IsGo4Analysis() const
 {
    XMLNodePointer_t item = FindItem("");
@@ -722,6 +731,14 @@ Bool_t TGo4HttpProxy::DelayedRefreshNamesList(Int_t delay_sec)
 
    return kTRUE;
 }
+
+Bool_t TGo4HttpProxy::CanSubmitAnalysisSettings()
+{
+   if (!IsGo4Analysis() || IsViewer()) return kFALSE;
+
+   return ServerHasRestrict();
+}
+
 
 void TGo4HttpProxy::RequestAnalysisSettings()
 {
