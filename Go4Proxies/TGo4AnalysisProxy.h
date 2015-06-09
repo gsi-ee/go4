@@ -150,6 +150,12 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
                                  Int_t complevel,
                                  Bool_t overwrite);
 
+      /**  Close connection to analysis and destroys proxy with
+        *  correspondent slot. Wait waittime (in sec) for safe
+        *  disconnection of the analysis.
+        *  if servershutdown = kTRUE, shutdown command will be sent to analysis */
+      virtual void DisconnectAnalysis(Int_t waittime = 30, Bool_t servershutdown = kFALSE);
+
       // analysis proxy functionality
 
       TGo4Slot* LoginfoSlot();
@@ -200,12 +206,6 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
                              const char* accesspass);
 
       Bool_t WaitForConnection(Int_t seconds);
-
-      /**  Close connection to analysis and destroys proxy with
-        *  correspondent slot. Wait waittime (in sec) for safe
-        *  disconnection of the analysis.
-        *  if servershutdown = kTRUE, shutdown command will be sent to analysis */
-      void DisconnectAnalysis(Int_t waittime = 30, Bool_t servershutdown = kFALSE);
 
       void DisplayDeleted(TGo4Display* displ);
 

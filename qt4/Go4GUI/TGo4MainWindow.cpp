@@ -1891,8 +1891,7 @@ void TGo4MainWindow::DisconnectAnalysisSlot(bool interactive)
                 QString::null, 0);
       if (res!=0) return;
    }
-   TGo4ServerProxy* srv = Browser()->FindAnalysisNew();
-   if(!srv) return;
+   if (Browser()->FindAnalysisNew()==0) return;
    RemoveAnalysisProxy(30, false);
    StatusMessage("Disconnect analysis");
 }

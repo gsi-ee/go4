@@ -93,6 +93,8 @@ class TGo4ServerProxy : public TGo4Proxy {
                                  Int_t complevel,
                                  Bool_t overwrite) {}
 
+      virtual void DisconnectAnalysis(Int_t waittime = 30, Bool_t servershutdown = kFALSE) {}
+
 
    ClassDef(TGo4ServerProxy, 1);
 };

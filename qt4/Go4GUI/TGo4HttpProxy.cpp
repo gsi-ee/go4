@@ -742,17 +742,8 @@ Bool_t TGo4HttpProxy::CanSubmitAnalysisSettings()
 
 void TGo4HttpProxy::RequestAnalysisSettings()
 {
-   TGo4Slot* tgtslot = SettingsSlot();
-   if (tgtslot==0) return;
-
-   XMLNodePointer_t item = FindItem("Control/Analysis");
-   if (item==0) return;
-
-   TGo4HttpAccess* access = new TGo4HttpAccess(this, item, "Control/Analysis", 6);
-
-   access->AssignObjectToSlot(tgtslot);
-
-   SetAnalysisSettingsReady(kTRUE);  // workaround - mark as we finished with settings
+   if (SubmitRequest("Control/Analysis", 6, SettingsSlot()))
+      SetAnalysisSettingsReady(kTRUE);  // workaround - mark as we finished with settings
 }
 
 void TGo4HttpProxy::SubmitAnalysisSettings()
@@ -817,17 +808,7 @@ void TGo4HttpProxy::StopAnalysis()
 
 Bool_t TGo4HttpProxy::RequestObjectStatus(const char* objectname, TGo4Slot* tgtslot)
 {
-   if ((objectname==0) || (tgtslot==0)) return kFALSE;
-
-   XMLNodePointer_t item = FindItem(objectname);
-   if (item==0) return kFALSE;
-
-   printf("Request status for %s\n", objectname);
-
-   TGo4HttpAccess* access = new TGo4HttpAccess(this, item, objectname, 4);
-
-   access->AssignObjectToSlot(tgtslot);
-   return kTRUE;
+   return SubmitRequest(objectname, 4, tgtslot) != 0;
 }
 
 
@@ -959,11 +940,7 @@ void TGo4HttpProxy::ProcessUpdateTimer()
 
    fRateCnt = subslot->GetAssignCnt();
 
-   XMLNodePointer_t item = FindItem("Status/Ratemeter");
-   if (item==0) return;
-
-   TGo4HttpAccess* access = new TGo4HttpAccess(this, item, "Status/Ratemeter", 1);
-   access->AssignObjectToSlot(subslot);
+   SubmitRequest("Status/Ratemeter", 1, subslot);
 }
 
 void TGo4HttpProxy::RemoteTreeDraw(const char* treename,
@@ -984,6 +961,20 @@ void TGo4HttpProxy::RemoteTreeDraw(const char* treename,
    SubmitURL(path, 2);
 }
 
+TGo4HttpAccess* TGo4HttpProxy::SubmitRequest(const char* itemname, Int_t kind, TGo4Slot* tgtslot)
+{
+   if ((itemname==0) || (tgtslot==0)) return 0;
+
+   XMLNodePointer_t item = FindItem(itemname);
+   if (item==0) return 0;
+
+   TGo4HttpAccess* access = new TGo4HttpAccess(this, item, itemname, kind);
+   access->AssignObjectToSlot(tgtslot); // request event itself
+
+   return access;
+}
+
+
 void TGo4HttpProxy::RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot)
 {
    if (tgtslot==0) {
@@ -997,11 +988,7 @@ void TGo4HttpProxy::RequestEventStatus(const char* evname, Bool_t astree, TGo4Sl
       return;
    }
 
-   XMLNodePointer_t item = FindItem(evname);
-   if (item==0) return;
-
-   TGo4HttpAccess* access = new TGo4HttpAccess(this, item, evname, astree ? 5 : 1);
-   access->AssignObjectToSlot(tgtslot); // request event itself
+   SubmitRequest(evname, astree ? 5 : 1, tgtslot);
 }
 
 void TGo4HttpProxy::RemotePrintEvent(const char* evname,
@@ -1040,18 +1027,22 @@ void TGo4HttpProxy::PrintDynListEntry(const char* fullpath)
 
 void TGo4HttpProxy::LoadConfigFile(const char* fname)
 {
-   SubmitURL(TString::Format("Control/Analysis/exe.bin?method=LoadStatus?fname=%s", fname));
+   SubmitURL(TString::Format("Control/Analysis/exe.bin?method=LoadStatus&fname=%s", fname));
 }
 
 void TGo4HttpProxy::SaveConfigFile(const char* fname)
 {
-   SubmitURL(TString::Format("Control/Analysis/exe.bin?method=SaveStatus?fname=%s", fname));
+   SubmitURL(TString::Format("Control/Analysis/exe.bin?method=SaveStatus&fname=%s", fname));
 }
 
 void TGo4HttpProxy::WriteAutoSave(const char* fname,
                                   Int_t complevel,
                                   Bool_t overwrite)
 {
-   SubmitURL(TString::Format("Control/Analysis/exe.bin?method=WriteAutoSave?fname=%s&overwrite=%s&complevel=%d", fname, overwrite ? "kTRUE" : "kFALSE", complevel));
+   SubmitURL(TString::Format("Control/Analysis/exe.bin?method=WriteAutoSave&fname=%s&overwrite=%s&complevel=%d", fname, overwrite ? "kTRUE" : "kFALSE", complevel));
+}
+
+void TGo4HttpProxy::DisconnectAnalysis(Int_t,Bool_t servershutdown)
+{
 }
 

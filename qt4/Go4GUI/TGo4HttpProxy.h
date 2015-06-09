@@ -138,6 +138,8 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       Bool_t CheckUserName(const char* expects, Bool_t dflt = kFALSE);
 
+      TGo4HttpAccess* SubmitRequest(const char* itemname, Int_t kind, TGo4Slot* tgtslot);
+
    public:
       TGo4HttpProxy();
       virtual ~TGo4HttpProxy();
@@ -220,7 +222,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
                                  Int_t complevel,
                                  Bool_t overwrite);
 
-
+      virtual void DisconnectAnalysis(Int_t waittime = 30, Bool_t servershutdown = kFALSE);
 
 };
 
