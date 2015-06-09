@@ -114,14 +114,14 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
    protected:
       TXMLEngine     *fXML;
       XMLDocPointer_t fxHierarchy;    //!  pointer on dabc::Hierarchy class
-      QHttpProxy      fComm;
+      QHttpProxy      fComm;          //!
       Int_t           fRateCnt;       //! counter for ratemeter updates
-      Bool_t          fbAnalysisRunning;
-      TString         fUserName;     //! user name and password -
-      TString         fPassword;
+      Bool_t          fbAnalysisRunning; //!
+      TString         fUserName;      //! user name and password -
+      TString         fPassword;      //!
+      Bool_t          fConnected;     //! true if connected
 
-
-      void GetReply(QByteArray& res);
+      void GetHReply(QByteArray& res);
 
       XMLNodePointer_t FindItem(const char* name, XMLNodePointer_t curr = 0) const;
 
@@ -170,7 +170,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       virtual const char* GetUserName() const { return fUserName.Data(); }
 
       virtual Bool_t IsGo4Analysis() const;
-      virtual Bool_t IsConnected();
+      virtual Bool_t IsConnected() { return fConnected; }
       virtual Bool_t IsViewer()  { return CheckUserName("observer", kFALSE); }
       virtual Bool_t IsController()  { return CheckUserName("controller", kTRUE); }
       virtual Bool_t IsAdministrator()  { return CheckUserName("admin", kFALSE); }

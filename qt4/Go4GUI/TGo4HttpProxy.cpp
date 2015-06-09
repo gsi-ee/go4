@@ -58,7 +58,7 @@ void QHttpProxy::httpFinished()
    QByteArray res = fHReply->readAll();
    fHReply->deleteLater();
    fHReply = 0;
-   fProxy->GetReply(res);
+   fProxy->GetHReply(res);
 }
 
 void QHttpProxy::httpError(QNetworkReply::NetworkError code)
@@ -231,8 +231,19 @@ void TGo4HttpAccess::httpFinished()
 
    if (gDebug>2) printf("TGo4HttpAccess::httpFinished Get reply size %d\n", res.size());
 
-   // do nothing
-   if (res.size()==0) return;
+
+   // regular ratemeter update used to check connection status
+   if (fPath == "Status/Ratemeter") {
+      Bool_t conn = res.size() > 0;
+
+      if (!conn) DoObjectAssignement(fReceiver, fRecvPath.Data(), new TNamed("disconnected","title"), kTRUE); else
+      if (fProxy->fConnected)  fProxy->UpdateHierarchy(kFALSE);
+
+      fProxy->fConnected = conn;
+   }
+
+   // do nothing when nothing received
+   if (res.size()==0) { if (gDebug>2) printf("TGo4HttpAccess::httpFinished error with %s\n", fPath.Data()); return; }
 
    if (fKind == 0) {
 
@@ -262,8 +273,6 @@ void TGo4HttpAccess::httpFinished()
 
       if (fProxy->fxParentSlot!=0)
          fProxy->fxParentSlot->ForwardEvent(fProxy->fxParentSlot, TGo4Slot::evObjAssigned);
-
-      return;
    }
 
    TObject* obj = 0;
@@ -501,7 +510,8 @@ TGo4HttpProxy::TGo4HttpProxy() :
    fRateCnt(0),
    fbAnalysisRunning(kFALSE),
    fUserName(),
-   fPassword()
+   fPassword(),
+   fConnected(kTRUE)
 {
    fXML = new TXMLEngine;
    fUserName="anonymous";
@@ -571,20 +581,18 @@ XMLNodePointer_t TGo4HttpProxy::FindItem(const char* name, XMLNodePointer_t curr
    return 0;
 }
 
-void TGo4HttpProxy::GetReply(QByteArray& res)
+void TGo4HttpProxy::GetHReply(QByteArray& res)
 {
-   // printf("Get reply %d\n", res.size());
+   if (res.size()==0) return;
+   XMLDocPointer_t doc = fXML->ParseString(res.data());
 
-   if (res.size()>0) {
-      XMLDocPointer_t doc = fXML->ParseString(res.data());
-      if (doc!=0) {
-         fXML->FreeDoc(fxHierarchy);
-         fxHierarchy = doc;
-      }
-
-      if (fxParentSlot!=0)
-        fxParentSlot->ForwardEvent(fxParentSlot, TGo4Slot::evObjAssigned);
+   if (doc!=0) {
+      fXML->FreeDoc(fxHierarchy);
+      fxHierarchy = doc;
    }
+
+   if (fxParentSlot!=0)
+     fxParentSlot->ForwardEvent(fxParentSlot, TGo4Slot::evObjAssigned);
 }
 
 const char* TGo4HttpProxy::GetContainedObjectInfo()
@@ -623,18 +631,18 @@ Bool_t TGo4HttpProxy::UpdateHierarchy(Bool_t sync)
 
    fComm.StartRequest(req.Data());
 
-   if (sync) {
-      QTime t;
-      t.start();
+   if (!sync) return kTRUE;
 
-      // wait two seconds -
-      while (t.elapsed()<2000) {
-         if (fComm.fHReply==0) break;
-         QApplication::processEvents();
-      }
+   QTime t;
+   t.start();
+
+   // wait several seconds
+   while (t.elapsed() < 5000) {
+      if (fComm.fHReply==0) break;
+      QApplication::processEvents();
    }
 
-   return kTRUE;
+   return fxHierarchy != 0;
 }
 
 Bool_t TGo4HttpProxy::HasSublevels() const
@@ -712,12 +720,6 @@ Bool_t TGo4HttpProxy::CheckUserName(const char* expects, Bool_t dflt)
    if (username==0) return dflt;
 
    return strcmp(username, expects)==0;
-}
-
-
-Bool_t TGo4HttpProxy::IsConnected()
-{
-   return kTRUE;
 }
 
 

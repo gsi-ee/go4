@@ -55,7 +55,11 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObj
    TGo4AnalysisClientStatus* status = dynamic_cast<TGo4AnalysisClientStatus*> (obj);
    TGo4Ratemeter* rate = dynamic_cast<TGo4Ratemeter*> (obj);
 
-   if ((status==0) && (rate==0)) return;
+   if ((status==0) && (rate==0)) {
+      // this is indication of lost connection to the server
+      if (obj) LCDCurrentRate->setStyleSheet("QFrame { background-color:rgb(127,127,127) }");
+      return;
+   }
 
    double Rate = status ? status->GetRate() : rate->GetRate();
    if (Rate>10) LCDCurrentRate->display(floor(Rate));
