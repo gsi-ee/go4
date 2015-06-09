@@ -18,7 +18,9 @@
 TGo4ServerProxy::TGo4ServerProxy() :
    TGo4Proxy(),
    fxParentSlot(0),
-   fbAnalysisSettingsReady(kFALSE)
+   fbAnalysisSettingsReady(kFALSE),
+   fNodeName(),
+   fInfoStr()
 {
 }
 
@@ -35,3 +37,14 @@ TGo4Slot* TGo4ServerProxy::RatemeterSlot()
 {
    return fxParentSlot==0 ? 0 : fxParentSlot->FindChild("Ratemeter");
 }
+
+const char* TGo4ServerProxy::GetContainedObjectInfo()
+{
+   fInfoStr = "";
+   if (!IsConnected()) fInfoStr = "Not connected"; else
+   if (IsViewer()) fInfoStr = "Observer"; else
+   if (IsController()) fInfoStr = "Controller"; else
+   if (IsAdministrator()) fInfoStr = "Administrator";
+   return fInfoStr.Data();
+}
+

@@ -1139,7 +1139,7 @@ void TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* user, const c
 
    if (!exec) return;
 
-   TGo4ServerProxy* serv = exec->ConnectHttp(httpaddr.toLatin1().constData());
+   TGo4ServerProxy* serv = exec->ConnectHttp(httpaddr.toLatin1().constData(), user, pass);
 
    if (serv) StatusMessage(QString("Connect with http server %1 %2").arg(httpaddr).arg(serv->IsGo4Analysis() ? " as GO4 analysis" : ""));
 
@@ -1357,17 +1357,20 @@ void TGo4MainWindow::StatusMessage(const QString& mess)
 
 void TGo4MainWindow::UpdateCaptionButtons()
 {
+   // JAM note this function is called by update timer from TGo4Browser each second
    TGo4AnalysisProxy* pr = Browser()->FindAnalysis();
    TGo4ServerProxy* serv = Browser()->FindAnalysisNew();
-   TGo4HttpProxy* ht = dynamic_cast<TGo4HttpProxy*>(serv);
+   TGo4HttpProxy* ht= dynamic_cast<TGo4HttpProxy*>(serv);
+//   printf("UpdateCaptionButton has analysis proxy:0x%x, server proxy 0x%x, http proxy:0x%x\n",
+//       (long) pr, (long)serv, (long) ht);
 
    QString capt = "Go4 ";
    capt += __GO4RELEASE__;
    capt += " @";
    capt += gSystem->HostName();
-   if ((pr!=0) && pr->IsConnected()) {
+   if ((serv!=0) && serv->IsConnected() ) {
       capt += " <";
-      capt += pr->GetContainedObjectInfo();
+      capt += serv->GetContainedObjectInfo();
       capt += ">";
    }
    setWindowTitle(capt);
@@ -1375,14 +1378,30 @@ void TGo4MainWindow::UpdateCaptionButtons()
    bool flag=false;
    if (pr==0) flag= (ht==0 ?  true: false) ;
    faLaunchAnal->setEnabled(flag);
+   // JAM here check again ratemeter connection, if http server was disconnected by browser popup close item:
+   EstablishRatemeter(flag? 0: 1);
+   // need to check if the controller role has switched to another HTTP server here:
+   static TGo4HttpProxy* oldhttp=0;
+    if (ht)
+    {
+      // check for server names may not be unique if connected twice by chance, better use proxy pointers!
+      if(ht!= oldhttp)
+      {
+        //printf("UpdateCaptionButtons sees new http server (0x%x), old (0x%x) \n", ht, oldhttp);
+        oldhttp=ht;
+        EstablishRatemeter(0);
+        EstablishRatemeter(2);
+      }
+    }
 
-   if (pr==0) flag = (ht==0 ?  true: false) ;
-         else flag = (fConnectingCounter<=0) && pr->IsAnalysisServer() && !pr->IsConnected();
+
+   if (pr==0) flag= (ht==0 ?  true: false) ;
+   else flag = (fConnectingCounter<=0) && pr->IsAnalysisServer() && !pr->IsConnected();
    faConnectAnal->setEnabled(flag);
 
    faPrepareAnal->setEnabled(flag);
 
-   if (pr==0) flag = (ht==0 ?  false : true);
+   if (pr==0) flag= (ht==0 ?  false: true);
          else flag = pr->IsAnalysisServer() &&
                      (pr->IsConnected() || (fConnectingCounter<=0));
    faDisconnectAnal->setEnabled(flag);
@@ -1394,7 +1413,7 @@ void TGo4MainWindow::UpdateCaptionButtons()
 
    bool iscontrolling(false), issubmit(false);
    if (serv && serv->IsGo4Analysis()) {
-       iscontrolling = serv->IsConnected() && (serv->IsAdministrator() || serv->IsController());
+     iscontrolling = serv->IsConnected() && (serv->IsAdministrator() || serv->IsController());
        if (iscontrolling) issubmit = serv->CanSubmitAnalysisSettings();
    }
    faSumbStartAnal->setEnabled(issubmit);
@@ -1743,6 +1762,8 @@ TGo4AnalysisStatusMonitor* TGo4MainWindow::EstablishRatemeter(int level)
 // level = 1 - as is
 // level = 2 - create
 {
+  //std::cout<<"EstablishRatemeter with level "<<level << std::endl;
+
    TGo4AnalysisStatusMonitor* status =
      dynamic_cast<TGo4AnalysisStatusMonitor*>
        (FindGo4Widget("AnalysisStatusMonitor", false));
@@ -1759,6 +1780,7 @@ TGo4AnalysisStatusMonitor* TGo4MainWindow::EstablishRatemeter(int level)
    } else
    if (level==0) {
       if (status!=0) {
+         status->RemoveLink("Ratemeter",true); // JAM: need to remove the update link before deleting!
          statusBar()->removeWidget(status);
          delete status;
       }
@@ -1866,7 +1888,6 @@ void TGo4MainWindow::ConnectServerSlot(bool interactive, const char* password)
 void TGo4MainWindow::CheckConnectingCounterSlot()
 {
    TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
-
    if ((anal==0) || anal->IsConnected() || (--fConnectingCounter<=0)) {
       if (fConnectingCounter<=0)
         StatusMessage("Analysis refused connection. Try again");

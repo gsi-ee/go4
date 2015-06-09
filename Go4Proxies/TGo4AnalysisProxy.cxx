@@ -462,7 +462,6 @@ TGo4AnalysisProxy::TGo4AnalysisProxy(Bool_t isserver) :
    fbAnalysisRunning(kFALSE),
    fDisconectCounter(-111),
    fxDisplay(0),
-   fInfoStr(),
    fActualRole(-1),
    fxRefreshTimer(0),
    fxConnectionTimer(0)
@@ -591,20 +590,13 @@ Bool_t TGo4AnalysisProxy::IsAdministrator()
 
 const char* TGo4AnalysisProxy::GetContainedObjectInfo()
 {
-   bool disconn = false;
-
-   switch (GetRole()) {
-      case kGo4ComModeObserver: fInfoStr = "Observer"; break;
-      case kGo4ComModeController: fInfoStr = "Controller"; break;
-      case kGo4ComModeAdministrator: fInfoStr = "Administrator"; break;
-      default: fInfoStr = "Disconnected"; disconn = true; break;
-   }
-
-   if (!disconn && (fAnalysisNames!=0) && (strcmp(fAnalysisNames->GetName(),"Go4NamesList")!=0)) {
+   TGo4ServerProxy::GetContainedObjectInfo(); // evaluate roles
+   fInfoStr +="@";
+   fInfoStr +=GetServerName();
+   if (IsConnected() && (fAnalysisNames!=0) && (strcmp(fAnalysisNames->GetName(),"Go4NamesList")!=0)) {
       fInfoStr += " name:";
       fInfoStr += fAnalysisNames->GetName();
    }
-
    return fInfoStr.Data();
 }
 
@@ -1139,6 +1131,7 @@ Bool_t TGo4AnalysisProxy::LaunchAsClient(TString& launchcmd,
    if ((konsole==2) || (konsole==3))
       gSystem->Exec(launchcmd.Data());
 
+   fNodeName.Form("%s:%d",remotehost,guiport);
    return kTRUE;
 }
 
@@ -1379,6 +1372,7 @@ Bool_t TGo4AnalysisProxy::ConnectToServer(const char* remotehost,
 //      std::cout << "mode = " << mode << "  pass = " << accesspass << std::endl;
 
       client->ConnectServer(remotehost, remoteport, mode, accesspass);
+      fNodeName.Form("%s:%d",remotehost,remoteport);
       RefreshNamesList();
    }
 

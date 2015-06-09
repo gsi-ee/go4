@@ -1202,6 +1202,7 @@ void TGo4MainWindow::HelpWindow(const char* filename, const char* msg)
 
    QProcess info(cmd);
    info.addArgument(TGo4Log::subGO4SYS(filename).Data());
+   //info.addArgument("&");
    bool done = false;
 
    if (info.start()) {
@@ -1210,11 +1211,13 @@ void TGo4MainWindow::HelpWindow(const char* filename, const char* msg)
          if (info.normalExit()) {
             done = info.exitStatus()==0;
             break;
+           
          }
-         sleep(1);
+       sleep(1); 
+       std::cout << "count "<< cnt<<endl;
       }
    }
-
+   
    if (done)
       StatusMessage(msg ? QString(msg) : QString("Show ") + filename);
    else

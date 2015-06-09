@@ -493,7 +493,6 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
 
 TGo4HttpProxy::TGo4HttpProxy() :
    TGo4ServerProxy(),
-   fNodeName(),
    fXML(0),
    fxHierarchy(0),
    fComm(this),
@@ -503,7 +502,7 @@ TGo4HttpProxy::TGo4HttpProxy() :
    fPassword()
 {
    fXML = new TXMLEngine;
-
+   fUserName="anonymous";
    // SetAccount("observer","go4view");
    // SetAccount("controller","go4ctrl");
 }
@@ -588,12 +587,12 @@ void TGo4HttpProxy::GetReply(QByteArray& res)
 
 const char* TGo4HttpProxy::GetContainedObjectInfo()
 {
-   fInfoStr = "";
-   if (!IsConnected()) fInfoStr = "Not connected"; else
-   if (IsViewer()) fInfoStr = "Observer"; else
-   if (IsController()) fInfoStr = "Controller"; else
-   if (IsAdministrator()) fInfoStr = "Admninistrator";
-
+   TGo4ServerProxy::GetContainedObjectInfo(); // evaluate roles
+   fInfoStr +="(";
+   fInfoStr +=GetUserName();
+   fInfoStr +="@";
+   fInfoStr +=GetServerName();
+   fInfoStr +=")";
    const char* analname = fXML->GetAttr(FindItem(""), "_analysis_name");
    if (analname!=0) {
       fInfoStr += " name:";
@@ -743,7 +742,7 @@ Bool_t TGo4HttpProxy::CanSubmitAnalysisSettings()
 void TGo4HttpProxy::RequestAnalysisSettings()
 {
    if (SubmitRequest("Control/Analysis", 6, SettingsSlot()))
-      SetAnalysisSettingsReady(kTRUE);  // workaround - mark as we finished with settings
+   SetAnalysisSettingsReady(kTRUE);  // workaround - mark as we finished with settings
 }
 
 void TGo4HttpProxy::SubmitAnalysisSettings()

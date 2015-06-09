@@ -41,7 +41,6 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       Bool_t                    fbAnalysisRunning;    //!
       Int_t                     fDisconectCounter;   //!
       TGo4Display*              fxDisplay;          //!
-      TString                   fInfoStr;           //!
       Int_t                     fActualRole;        //!
       TTimer*                   fxRefreshTimer;     //!
       TTimer*                   fxConnectionTimer;     //!
@@ -94,7 +93,6 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       // server proxy functionality
 
-      virtual const char* GetServerName() const { return "Analysis"; }
 
       virtual Bool_t IsGo4Analysis() const { return kTRUE; }
 

@@ -15,7 +15,7 @@
 #define TGO4HTTPPROXY_H
 
 #include "TGo4ServerProxy.h"
-#include "TString.h"
+
 #include "TXMLEngine.h"
 
 #include <QNetworkAccessManager>
@@ -112,7 +112,6 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
    friend class TGo4HttpAccess;
 
    protected:
-      TString         fNodeName;
       TXMLEngine     *fXML;
       XMLDocPointer_t fxHierarchy;    //!  pointer on dabc::Hierarchy class
       QHttpProxy      fComm;
@@ -120,7 +119,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       Bool_t          fbAnalysisRunning;
       TString         fUserName;     //! user name and password -
       TString         fPassword;
-      TString         fInfoStr;
+
 
       void GetReply(QByteArray& res);
 
@@ -167,7 +166,8 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       virtual void Update(TGo4Slot* slot, Bool_t strong);
 
-      virtual const char* GetServerName() const { return fNodeName.Data(); }
+
+      virtual const char* GetUserName() const { return fUserName.Data(); }
 
       virtual Bool_t IsGo4Analysis() const;
       virtual Bool_t IsConnected();
@@ -223,6 +223,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
                                  Bool_t overwrite);
 
       virtual void DisconnectAnalysis(Int_t waittime = 30, Bool_t servershutdown = kFALSE);
+
 
 };
 

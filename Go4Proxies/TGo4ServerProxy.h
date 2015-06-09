@@ -15,6 +15,7 @@
 #define TGO4SERVERPROXY_H
 
 #include "TGo4Proxy.h"
+#include "TString.h"
 
 /** special base class for remote data servers like DABC, HTTP, hist server */
 
@@ -23,6 +24,8 @@ class TGo4ServerProxy : public TGo4Proxy {
       TGo4Slot*        fxParentSlot;            //!
       Bool_t           fbAnalysisSettingsReady; // true when settings are specified
 
+      TString         fNodeName; // name of remote node
+      TString         fInfoStr;
    public:
       TGo4ServerProxy();
       virtual ~TGo4ServerProxy();
@@ -33,8 +36,9 @@ class TGo4ServerProxy : public TGo4Proxy {
       TGo4Slot* SettingsSlot();
       TGo4Slot* RatemeterSlot();
 
-      virtual const char* GetServerName() const { return ""; }
-
+      virtual const char* GetServerName() const { return fNodeName.Data(); }
+      virtual const char* GetUserName() const { return ""; }
+      virtual const char* GetContainedObjectInfo();
       virtual Bool_t IsGo4Analysis() const { return kFALSE; }
 
       virtual Bool_t IsConnected() { return kFALSE; }
