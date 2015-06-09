@@ -2793,7 +2793,12 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
          if (cl->InheritsFrom(TGo4DynamicEntry::Class())) {
             TGo4EditDynEntry* dedit = StartEditDynEntry();
             dedit->WorkWithEntry(str);
+         } else
+         if (cl->InheritsFrom(TGo4AnalysisStatus::Class())) {
+            // use central editor, later can control many analysis at once
+            EstablishAnalysisConfiguration(3);
          }
+
          break;
       }
 
@@ -3058,7 +3063,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
         } else
 
         if (strcmp(str,"CloseAnalysisSettings")==0) {
-           TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
+           TGo4ServerProxy* anal = Browser()->FindAnalysisNew();
            if (anal!=0) {
               anal->CloseAnalysisSettings();
               anal->RefreshNamesList();

@@ -66,6 +66,7 @@
 
 #include "TGo4ServerProxy.h"
 #include "TGo4AnalysisProxy.h"
+#include "TGo4AnalysisStatus.h"
 #include "TGo4HServProxy.h"
 #include "TGo4DabcProxy.h"
 #include "TVirtualTreePlayer.h"
@@ -245,6 +246,7 @@ void TGo4BrowserProxy::Initialize(TGo4Slot* slot)
    gROOT->GetClass("TGo4HistogramEntry");
    gROOT->GetClass("TGo4TreeHistogramEntry");
    gROOT->GetClass("TLatex");
+   gROOT->GetClass("TGo4AnalysisStatus");
 
    if (fxOM!=0)
       fxOM->RegisterLink(fxOM->GetSlot(fxDataPath.Data()), slot, kTRUE);
@@ -2010,7 +2012,8 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
         if (cl->InheritsFrom(TGo4TreeHistogramEntry::Class())) { cando = 1011; pixmap = "dynentryx.png"; } else
         if (cl->InheritsFrom(TGo4HistogramEntry::Class())) { cando = 1011; pixmap = "dynentryx.png"; } else
         if (cl->InheritsFrom(TLatex::Class())) { cando = 110; pixmap = "canvas.png"; } else
-        if (cl->InheritsFrom(TLeaf::Class())) { cando = 11; pixmap = "leaf_t.png"; }
+        if (cl->InheritsFrom(TLeaf::Class())) { cando = 11; pixmap = "leaf_t.png"; } else
+        if (cl->InheritsFrom(TGo4AnalysisStatus::Class())) { cando = 1; pixmap = "control.png"; }
       }
    } else
    if ((kind==TGo4Access::kndFolder) || (kind==TGo4Access::kndMoreFolder)) {

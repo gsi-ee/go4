@@ -181,6 +181,9 @@ int main(int argc, char **argv)
    // set this to 3 to get errors only
 
 
+   // disable cint locking when called via process line
+   // makes problem in multi-threaded environment, where CINT lock
+   // also used for object streaming
    gInterpreter->SetProcessLineLock(kFALSE);
 
    // ShowGuideLines cases crashes - it has stored gpad in static variable

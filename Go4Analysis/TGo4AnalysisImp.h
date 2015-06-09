@@ -1022,7 +1022,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     TGo4AnalysisObjectNames * fxObjectNames;     //!
 
     /** Indicates analysis runstate */
-    enum { flagStop, flagPause, flagRunning } fxDoWorkingFlag; //!
+    enum { flagClosed, flagStop, flagPause, flagRunning } fxDoWorkingFlag; //!
 
     /** use to treat Ctrl-C interrupts */
     TGo4InterruptHandler* fxInterruptHandler; //!

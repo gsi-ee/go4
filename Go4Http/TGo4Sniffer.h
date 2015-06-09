@@ -67,6 +67,7 @@ class TGo4Sniffer : public TRootSniffer,
       Bool_t CmdStop();
       Bool_t CmdClear();
       Bool_t CmdRestart();
+      Bool_t CmdClose();
       Bool_t CmdOpenFile(const char* fname);
       Bool_t CmdCloseFiles();
       Bool_t CmdClearObject(const char* objname);

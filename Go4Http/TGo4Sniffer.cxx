@@ -110,6 +110,10 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    SetItemField("/Control/CmdStop", "_title", "Stop analysis");
    SetItemField("/Control/CmdStop", "_hidden", "true");
 
+   RegisterCommand("/Control/CmdClose", "this->CmdClose();", "");
+   SetItemField("/Control/CmdClose", "_title", "Close analysis");
+   SetItemField("/Control/CmdClose", "_hidden", "true");
+
    RegisterCommand("/Control/CmdRestart", "this->CmdRestart();", "button;go4sys/icons/restart.png");
    SetItemField("/Control/CmdRestart", "_title", "Resubmit analysis configuration and start again");
    SetItemField("/Control/CmdRestart", "_hidden", "true");
@@ -363,16 +367,17 @@ Bool_t TGo4Sniffer::CmdRestart()
    if (cli != 0) {
       cli->Stop();
       an->CloseAnalysis();
-      an->InitEventClasses();
-      cli->Start();
+      if (an->InitEventClasses())
+         cli->Start();
     }
     else if (an) {
       an->StopAnalysis();
       an->PostLoop();
       an->CloseAnalysis();
-      an->InitEventClasses();
-      an->PreLoop();
-      an->StartAnalysis();
+      if (an->InitEventClasses()) {
+         an->PreLoop();
+         an->StartAnalysis();
+      }
     }
 
    StatusMessage(0, "Restart analysis loop");
@@ -380,6 +385,28 @@ Bool_t TGo4Sniffer::CmdRestart()
 
    return kTRUE;
 }
+
+Bool_t TGo4Sniffer::CmdClose()
+{
+   TGo4Analysis* an = TGo4Analysis::Instance();
+   TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : 0;
+
+   if (cli != 0) {
+      cli->Stop();
+      an->CloseAnalysis();
+    }
+    else if (an) {
+      an->StopAnalysis();
+      an->PostLoop();
+      an->CloseAnalysis();
+    }
+
+   StatusMessage(0, "Close analysis");
+   Info("CmdClose", "Close analysis");
+
+   return kTRUE;
+}
+
 
 Bool_t TGo4Sniffer::CmdClearObject(const char* objname)
 {

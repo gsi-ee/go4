@@ -131,6 +131,7 @@ const char* GetHttpRootClassName(const char* kind)
 {
    if ((kind==0) || (*kind==0)) return 0;
    if (strncmp(kind,"ROOT.", 5)!=0) return 0;
+   if (strcmp(kind+5,"TGo4AnalysisWebStatus")==0) return "TGo4AnalysisStatus";
    return kind+5;
 }
 
@@ -172,6 +173,7 @@ const char* TGo4HttpAccess::GetObjectClassName() const
 {
    if (fKind==3) return "TGraph";
    if (fKind==4) return "TGo4ParameterStatus";
+   if (fKind==6) return "TGo4AnalysisStatus";
 
    const char* clname = GetHttpRootClassName(fKindAttr.Data());
 
@@ -759,6 +761,9 @@ void TGo4HttpProxy::SubmitAnalysisSettings()
 
 void TGo4HttpProxy::CloseAnalysisSettings()
 {
+   SetAnalysisSettingsReady(kFALSE);
+
+   SubmitCommand("CmdClose");
 }
 
 void TGo4HttpProxy::ClearAllAnalysisObjects()

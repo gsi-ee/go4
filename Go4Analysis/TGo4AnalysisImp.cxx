@@ -357,6 +357,7 @@ Bool_t TGo4Analysis::InitEventClasses()
          UpdateNamesList();
          TGo4Log::Info("Analysis --  Initializing EventClasses done.");
          fbInitIsDone = kTRUE;
+         if (!fxAnalysisSlave && (fxDoWorkingFlag == flagClosed)) fxDoWorkingFlag = flagPause;
       } catch(TGo4EventErrorException& ex) {
          Message(ex.GetPriority(), ex.GetErrMess());
          rev = kFALSE;
@@ -603,6 +604,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
    TGo4Ratemeter rate;
    TString ratefmt = TString::Format("\rCnt = %s  Rate = %s Ev/s", TGo4Log::GetPrintfArg(kULong64_t),"%5.*f");
    Bool_t userate = showrate || (process_event_interval>0.);
+   Bool_t process_events = kFALSE;
    if (userate)
       rate.SetUpdateInterval(process_event_interval>0. ? process_event_interval : 1.);
    if (showrate) rate.Reset();
@@ -622,10 +624,8 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
          if ((times>0) && (cnt>=times)) break;
 
          if (userate && rate.Update((fxDoWorkingFlag == flagRunning) ? 1 : 0)) {
-            if (process_event_interval>0.) {
-               gSystem->ProcessEvents();
-               ProcessEvents();
-            }
+
+            process_events = kTRUE;
 
             bool need_update = false;
             TTimeStamp now;
@@ -657,6 +657,13 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 
          try
          {
+            if (process_events) {
+               // put events processing in exception-handling area
+               process_events = kFALSE;
+               gSystem->ProcessEvents();
+               ProcessEvents();
+            }
+
             if (fxDoWorkingFlag == flagRunning) {
                MainCycle();
                cnt++; // account completely executed cycles
@@ -922,7 +929,8 @@ void TGo4Analysis::CloseAnalysis()
       AutoSave();
       fxStepManager->CloseAnalysis();
       fxObjectManager->CloseAnalysis();
-      fbInitIsDone=kFALSE;
+      fbInitIsDone = kFALSE;
+      if (!fxAnalysisSlave && (fxDoWorkingFlag != flagStop)) fxDoWorkingFlag = flagClosed;
    }
 }
 
@@ -1004,15 +1012,12 @@ Bool_t TGo4Analysis::IsAutoSaveFileName() const
    return fxAutoFileName.Length() > 0;
 }
 
-
 Int_t TGo4Analysis::LockAutoSave()
 {
    GO4TRACE((12,"TGo4Analysis::LockAutoSave()",__LINE__, __FILE__));
-   Int_t rev;
-   if(TThread::Exists()>0 && fxAutoSaveMutex)
-      rev=fxAutoSaveMutex->Lock();
-   else
-      rev=-1;
+   Int_t rev(-1);
+   if (TThread::Exists()>0 && fxAutoSaveMutex)
+      rev = fxAutoSaveMutex->Lock();
    return rev;
 }
 
@@ -1020,7 +1025,7 @@ Int_t TGo4Analysis::UnLockAutoSave()
 {
    GO4TRACE((12,"TGo4Analysis::UnLockAutoSave()",__LINE__, __FILE__));
    Int_t rev(-1);
-   if(TThread::Exists()>0 && fxAutoSaveMutex)
+   if (TThread::Exists()>0 && fxAutoSaveMutex)
       rev = fxAutoSaveMutex->UnLock();
 
    return rev;
@@ -1092,8 +1097,6 @@ void TGo4Analysis::UpdateNamesList()
    delete fxObjectNames;
    fxObjectNames = CreateNamesList();
    Message(0,"Analysis BaseClass --  Nameslist updated.");
-   // debug:
-   //   fxObjectNames->PrintStatus();
 }
 
 
@@ -2194,10 +2197,7 @@ void TGo4Analysis::StartAnalysis()
       // fxAnalysisSlave->GetTask()->SubmitCommand("THStart");
    else
       fxDoWorkingFlag = flagRunning;
-
 }
-
-
 
 
 #ifdef WIN32

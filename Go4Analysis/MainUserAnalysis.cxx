@@ -633,6 +633,9 @@ int main(int argc, char **argv)
    if (FindArg(argc, argv, "-gui")>0) TGo4Analysis::SetRunningMode(1); else
    if (FindArg(argc, argv, "-server")>0) TGo4Analysis::SetRunningMode(2);
 
+   // disable cint locking when called via process line
+   // makes problem in multi-threaded environment, where CINT lock
+   // also used for object streaming
    gInterpreter->SetProcessLineLock(kFALSE);
 
    const char* analysis_name = GetArgValue(argc, argv, "-server");
