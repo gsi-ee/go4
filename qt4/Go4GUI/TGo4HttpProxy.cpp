@@ -81,7 +81,6 @@ void QHttpProxy::updateHierarchy()
    if (fProxy) fProxy->UpdateHierarchy(kFALSE);
 }
 
-
 void QHttpProxy::StartRequest(const char* url)
 {
    fHReply = qnam.get(QNetworkRequest(QUrl(url)));
@@ -231,13 +230,12 @@ void TGo4HttpAccess::httpFinished()
 
    if (gDebug>2) printf("TGo4HttpAccess::httpFinished Get reply size %d\n", res.size());
 
-
    // regular ratemeter update used to check connection status
    if (fPath == "Status/Ratemeter") {
       Bool_t conn = res.size() > 0;
 
       if (!conn) DoObjectAssignement(fReceiver, fRecvPath.Data(), new TNamed("disconnected","title"), kTRUE); else
-      if (fProxy->fConnected)  fProxy->UpdateHierarchy(kFALSE);
+      if (fProxy->fConnected != conn) fProxy->UpdateHierarchy(kFALSE);
 
       fProxy->fConnected = conn;
    }
@@ -622,6 +620,12 @@ Bool_t TGo4HttpProxy::Connect(const char* nodename)
 
    return UpdateHierarchy(kTRUE);
 }
+
+Bool_t TGo4HttpProxy::NamesListReceived()
+{
+   return (fxHierarchy!=0) && (fComm.fHReply==0);
+}
+
 
 Bool_t TGo4HttpProxy::UpdateHierarchy(Bool_t sync)
 {
@@ -1047,8 +1051,3 @@ void TGo4HttpProxy::WriteAutoSave(const char* fname,
 {
    SubmitURL(TString::Format("Control/Analysis/exe.bin?method=WriteAutoSave&fname=%s&overwrite=%s&complevel=%d", fname, overwrite ? "kTRUE" : "kFALSE", complevel));
 }
-
-void TGo4HttpProxy::DisconnectAnalysis(Int_t,Bool_t servershutdown)
-{
-}
-

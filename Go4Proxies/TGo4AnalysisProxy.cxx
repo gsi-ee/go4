@@ -449,8 +449,6 @@ class TGo4Prefs {
 
 // **********************************************************************
 
-Int_t TGo4AnalysisProxy::fNumberOfWaitingProxyes = 0;
-
 TGo4AnalysisProxy::TGo4AnalysisProxy(Bool_t isserver) :
    TGo4ServerProxy(),
    fIsServer(isserver),
@@ -464,7 +462,8 @@ TGo4AnalysisProxy::TGo4AnalysisProxy(Bool_t isserver) :
    fxDisplay(0),
    fActualRole(-1),
    fxRefreshTimer(0),
-   fxConnectionTimer(0)
+   fxConnectionTimer(0),
+   fNumberOfWaitingProxyes(0)
 {
    fxDisplay = new TGo4Display(!isserver);
 

@@ -26,7 +26,7 @@
 #include "TGo4Slot.h"
 #include "TGo4ObjectManager.h"
 #include "TGo4BrowserProxy.h"
-#include "TGo4AnalysisProxy.h"
+#include "TGo4ServerProxy.h"
 
 TGo4AbstractInterface* TGo4AbstractInterface::fgInstance = 0;
 
@@ -101,6 +101,11 @@ TGo4AbstractInterface::~TGo4AbstractInterface()
 TGo4AnalysisProxy* TGo4AbstractInterface::Analysis()
 {
    return Browser() ? Browser()->FindAnalysis() : 0;
+}
+
+TGo4ServerProxy* TGo4AbstractInterface::AnalysisNew()
+{
+   return Browser() ? Browser()->FindAnalysisNew() : 0;
 }
 
 void TGo4AbstractInterface::LoadLibrary(const char* fname)
@@ -181,12 +186,12 @@ void TGo4AbstractInterface::ConnectDabc(const char* servername)
 
 Bool_t TGo4AbstractInterface::IsAnalysisConnected()
 {
-   return Analysis()==0 ? kFALSE : Analysis()->IsConnected();
+   return AnalysisNew()==0 ? kFALSE : AnalysisNew()->IsConnected();
 }
 
 void TGo4AbstractInterface::ExecuteLine(const char* remotecmd)
 {
-   TGo4AnalysisProxy* anal = Analysis();
+   TGo4ServerProxy* anal = AnalysisNew();
    if ((anal!=0) && (remotecmd!=0)) {
       anal->ExecuteLine(remotecmd);
       TGo4Log::Message(1, "Exec: %s", remotecmd);
@@ -195,7 +200,7 @@ void TGo4AbstractInterface::ExecuteLine(const char* remotecmd)
 
 void TGo4AbstractInterface::RequestAnalysisConfig()
 {
-   TGo4AnalysisProxy* anal = Analysis();
+   TGo4ServerProxy* anal = AnalysisNew();
    if (anal!=0)
      anal->RequestAnalysisSettings();
 }

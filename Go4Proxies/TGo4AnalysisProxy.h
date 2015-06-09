@@ -44,7 +44,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       Int_t                     fActualRole;        //!
       TTimer*                   fxRefreshTimer;     //!
       TTimer*                   fxConnectionTimer;     //!
-      static Int_t              fNumberOfWaitingProxyes;  //!
+      Int_t                     fNumberOfWaitingProxyes;  //!
 
       static Bool_t GetLaunchString(TString& launchcmd,
                                     TString& killcmd,
@@ -148,11 +148,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
                                  Int_t complevel,
                                  Bool_t overwrite);
 
-      /**  Close connection to analysis and destroys proxy with
-        *  correspondent slot. Wait waittime (in sec) for safe
-        *  disconnection of the analysis.
-        *  if servershutdown = kTRUE, shutdown command will be sent to analysis */
-      virtual void DisconnectAnalysis(Int_t waittime = 30, Bool_t servershutdown = kFALSE);
+      virtual Bool_t NamesListReceived();
 
       // analysis proxy functionality
 
@@ -168,13 +164,11 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       void SetAnalysisReady(Bool_t on = kTRUE) { fbAnalysisReady = on; }
       Bool_t IsAnalysisReady() const { return fbAnalysisReady; }
 
-      Bool_t NamesListReceived();
-
       void ReceiveObject(TNamed* obj);
       void ReceiveStatus(TGo4Status* status);
       Bool_t SubmitProxy(TGo4AnalysisObjectAccess* proxy);
 
-      static Int_t NumberOfWaitingProxyes() { return fNumberOfWaitingProxyes; }
+      virtual Int_t NumberOfWaitingProxyes() { return fNumberOfWaitingProxyes; }
 
       Bool_t LaunchAsClient(TString& launchcmd,
                             TString& killcmd,
@@ -208,6 +202,12 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       void DisplayDeleted(TGo4Display* displ);
 
       void DisplayDisconnected(TGo4Display* displ);
+
+      /**  Close connection to analysis and destroys proxy with
+        *  correspondent slot. Wait waittime (in sec) for safe
+        *  disconnection of the analysis.
+        *  if servershutdown = kTRUE, shutdown command will be sent to analysis */
+      void DisconnectAnalysis(Int_t waittime = 30, Bool_t servershutdown = kFALSE);
 
       virtual Bool_t HandleTimer(TTimer* timer);
 

@@ -21,7 +21,7 @@
 #include "TGo4Iter.h"
 #include "TGo4Slot.h"
 #include "TGo4Proxy.h"
-#include "TGo4AnalysisProxy.h"
+#include "TGo4ServerProxy.h"
 
 #include "TGo4Condition.h"
 #include "TGo4Picture.h"
@@ -209,18 +209,17 @@ void TGo4BrowserItem::ToggleMonitoring(Int_t sec)
 
 void TGo4BrowserItem::StartAnalysis()
 {
-   TGo4AnalysisProxy* anal = fBrowser->FindAnalysis();
+   TGo4ServerProxy* anal = fBrowser->FindAnalysisNew();
    if (anal!=0)
       anal->StartAnalysis();
 }
 
 void TGo4BrowserItem::StopAnalysis()
 {
-   TGo4AnalysisProxy* anal = fBrowser->FindAnalysis();
+   TGo4ServerProxy* anal = fBrowser->FindAnalysisNew();
    if (anal!=0)
       anal->StopAnalysis();
 }
-
 
 
 void TGo4BrowserItem::Delete(Option_t* option)

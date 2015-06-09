@@ -269,9 +269,10 @@ Bool_t TGo4BrowserProxy::ProcessEvent(TGo4Slot* slot, TGo4Slot* source, Int_t id
 //   Info("ProcessEvent","Source %x %s event %d", source, source->GetName(), id);
 
    if ((source!=slot) && !ischildevent) {
-      if (source->GetParent()!=0)
-        if (dynamic_cast<TGo4AnalysisProxy*>(source->GetParent()->GetProxy())!=0)
-          return kFALSE; // suppress message from analysis subitems
+      if (source->GetParent()!=0) {
+         TGo4ServerProxy* serv = dynamic_cast<TGo4ServerProxy*>(source->GetParent()->GetProxy());
+         if (serv && serv->IsGo4Analysis()) return kFALSE; // suppress message from analysis subitems
+      }
 
       if (!fbBlockSync) {
          if (fxSyncTimer==0) fxSyncTimer = new TTimer(this, 10, kTRUE);
@@ -339,9 +340,8 @@ void TGo4BrowserProxy::UpdateBrowserContent()
    TGo4Iter iter(fxOM->GetSlot(fxDataPath), kTRUE);
    while(iter.next()) {
       TGo4Slot* subslot = iter.getslot();
-      TGo4AnalysisProxy* ancont =
-         dynamic_cast<TGo4AnalysisProxy*>(subslot->GetProxy());
-      if (ancont!=0) subslot->Update(kTRUE);
+      TGo4ServerProxy* ancont = dynamic_cast<TGo4ServerProxy*>(subslot->GetProxy());
+      if (ancont && ancont->IsGo4Analysis()) subslot->Update(kTRUE);
    }
 }
 
@@ -897,18 +897,11 @@ Bool_t TGo4BrowserProxy::UpdateAnalysisItem(const char* itemname, TObject* obj)
 
    if (anslot==0) {
       analysisname = 0;
-      anslot = FindAnalysisSlot(kTRUE);
+      anslot = FindAnalysisSlot(kTRUE, kTRUE);
    }
 
-   if (anslot!=0) {
-      TGo4AnalysisProxy* an =
-         dynamic_cast<TGo4AnalysisProxy*>(anslot->GetProxy());
-      if (an!=0) return an->UpdateAnalysisObject(analysisname, obj);
-   }
-
-   TString objname;
-   TGo4ServerProxy* serv = DefineServerObject(itemname, &objname);
-   if (serv) return serv->UpdateAnalysisObject(objname.Data(), obj);
+   TGo4ServerProxy* serv = dynamic_cast<TGo4ServerProxy*>(anslot->GetProxy());
+   if (serv!=0) return serv->UpdateAnalysisObject(analysisname, obj);
 
    return kFALSE;
 
@@ -1797,23 +1790,23 @@ Bool_t TGo4BrowserProxy::HandleTimer(TTimer* timer)
 
    } else
 
-   if (timer==fxMonitorTimer) {
+   if (timer == fxMonitorTimer) {
 
       if (fiMonitoringPeriod<=0) return kTRUE;
 
-      TGo4AnalysisProxy* an = FindAnalysis();
+      TGo4ServerProxy* an = FindAnalysisNew();
 
       Bool_t anready = kTRUE;
       if (an!=0) anready = an->IsConnected();
 
-      // request new objects if total number of proxyes is not too big
-      if (anready && (TGo4AnalysisProxy::NumberOfWaitingProxyes()<3) && !fbBlockMonitoring) {
+      // request new objects if total number of proxies is not too big
+      if (anready && (an && an->NumberOfWaitingProxyes()<3) && !fbBlockMonitoring) {
          if (fbWithRootBrowser) {
             UpdateAllMonitoredObjects();
             UpdateAllCanvases();
-         }
-         else
+         } else {
             UpdateVisibleAnalysisObjects(true);
+         }
       }
 
       Int_t period = fiMonitoringPeriod;

@@ -46,8 +46,8 @@ class TGo4ServerProxy : public TGo4Proxy {
       virtual Bool_t IsController()  { return kFALSE; }
       virtual Bool_t IsAdministrator()  { return kFALSE; }
 
+      virtual Bool_t NamesListReceived() { return kFALSE; }
       virtual Bool_t RefreshNamesList() { return kFALSE; }
-
       virtual Bool_t DelayedRefreshNamesList(Int_t delay_sec) { return kFALSE; }
 
       void SetAnalysisSettingsReady(Bool_t on = kTRUE) { fbAnalysisSettingsReady = on ; }
@@ -97,8 +97,7 @@ class TGo4ServerProxy : public TGo4Proxy {
                                  Int_t complevel,
                                  Bool_t overwrite) {}
 
-      virtual void DisconnectAnalysis(Int_t waittime = 30, Bool_t servershutdown = kFALSE) {}
-
+      virtual Int_t NumberOfWaitingProxyes() { return 0; }
 
    ClassDef(TGo4ServerProxy, 1);
 };

@@ -194,7 +194,7 @@ Int_t TGo4Script::execGUICommands()
       case 0:
         return 1;
 
-      case 1: { // execute lanch client method
+      case 1: { // execute launch client method
          TGo4AnalysisProxy* anal = Analysis();
 
          if((anal!=0) && anal->IsAnalysisReady()) {
@@ -246,7 +246,7 @@ Int_t TGo4Script::execGUICommands()
       }
 
       case 10: { // wait until submitted settings are set
-        TGo4AnalysisProxy* anal = Analysis();
+        TGo4ServerProxy* anal = AnalysisNew();
         if ((anal!=0) && anal->IsAnalysisSettingsReady()) {
           fiWaitForGUIReaction = 11;
           // fiWaitCounter = getCounts(20.); // counter is for complete operation
@@ -256,13 +256,13 @@ Int_t TGo4Script::execGUICommands()
       }
 
       case 11: { // wait until remote browser refresh it's data
-         TGo4AnalysisProxy* anal = Analysis();
+         TGo4ServerProxy* anal = AnalysisNew();
          if ((anal!=0) && anal->NamesListReceived()) return 1;
          return (fiWaitCounter<2) ? 0 : 2;
       }
 
       case 12: { // wait until analysis will be disconnected
-         TGo4AnalysisProxy* anal = Analysis();
+         TGo4ServerProxy* anal = AnalysisNew();
          if (anal==0) return 1;
          return (fiWaitCounter<2) ? 0 : 2;
       }
@@ -405,7 +405,7 @@ void TGo4Script::StopAnalysis()
 
 void TGo4Script::RefreshNamesList(int tmout)
 {
-   TGo4AnalysisProxy* anal = Analysis();
+   TGo4ServerProxy* anal = AnalysisNew();
    if (anal!=0) {
       anal->RefreshNamesList();
       fiWaitForGUIReaction = 11;

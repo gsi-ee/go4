@@ -180,6 +180,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       virtual void SubmitAnalysisSettings();
       virtual void CloseAnalysisSettings();
 
+      virtual Bool_t NamesListReceived();
       virtual Bool_t RefreshNamesList();
       virtual Bool_t DelayedRefreshNamesList(Int_t delay_sec);
 
@@ -221,9 +222,6 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       virtual void WriteAutoSave(const char* fname,
                                  Int_t complevel,
                                  Bool_t overwrite);
-
-      virtual void DisconnectAnalysis(Int_t waittime = 30, Bool_t servershutdown = kFALSE);
-
 
 };
 

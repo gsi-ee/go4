@@ -142,6 +142,11 @@ class TGo4AbstractInterface : public TObject {
         * Normally should not be used in GUI script. */
       TGo4AnalysisProxy* Analysis();
 
+      /** Returns pointer on more generic server proxy
+        * TGo4ServerProxy class provide access to analysis controlling instance in program.
+        * Normally should not be used in GUI script. */
+      TGo4ServerProxy* AnalysisNew();
+
       /** Executes hotstart file, generated in go4 GUI.
         * Hot start files can not be executed as normal CINT scripts,
         * therefore one should use this method to activate them */
