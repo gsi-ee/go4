@@ -396,9 +396,10 @@ void TGo4AnalysisWindow::linkedObjectRemoved(const char* linkname)
 
 void TGo4AnalysisWindow::resizeEvent(QResizeEvent * e)
 {
-   // store size of top widget -
+   // store size of top widget - JAM only if not within dock window (analysis server)
    // size of top widget will be restored when new panel is created
-   go4sett->storePanelSize(parentWidget(), "AnalysisWindow");
+  if(HasOutput())
+    go4sett->storePanelSize(parentWidget(), "AnalysisWindow");
 }
 
 void TGo4AnalysisWindow::closeEvent(QCloseEvent* e)
