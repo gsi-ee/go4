@@ -41,6 +41,9 @@ class TGo4AnalysisWebStatus : public TGo4AnalysisStatus {
     /** Method used by HTTP server to update some fields, specified in URL syntax */
     Bool_t UpdateFromUrl(const char* rest_url_opt);
 
+    /** Methods used by Go4GUI via HTTP to obtain status of analysis */
+    TGo4AnalysisStatus* CreateStatus();
+
     /** Method used by Go4GUI via HTTP to set status to analysis */
     Bool_t ApplyStatus(TGo4AnalysisStatus* status);
 

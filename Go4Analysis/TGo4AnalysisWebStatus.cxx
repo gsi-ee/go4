@@ -553,6 +553,13 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
   return kTRUE;
 }
 
+TGo4AnalysisStatus* TGo4AnalysisWebStatus::CreateStatus()
+{
+   TGo4Analysis* an = TGo4Analysis::Instance();
+   return an ? an->CreateStatus() : 0;
+}
+
+
 Bool_t TGo4AnalysisWebStatus::ApplyStatus(TGo4AnalysisStatus* status)
 {
    TGo4Analysis* an = TGo4Analysis::Instance();

@@ -158,6 +158,8 @@ TClass* TGo4HttpAccess::GetObjectClass() const
 {
    if (fKind==3) return TGraph::Class();
    if (fKind==4) return gROOT->GetClass("TGo4ParameterStatus");
+   if (fKind==5) return gROOT->GetClass("TTree");
+   if (fKind==6) return gROOT->GetClass("TGo4AnalysisStatus");
    return TGo4Proxy::GetClass(GetHttpRootClassName(fKindAttr.Data()));
 }
 
@@ -182,7 +184,7 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
 
    TClass* obj_cl = GetObjectClass();
    if (obj_cl==0) {
-      printf("TGo4HttpAccess fail to get object class %s\n", GetObjectClassName());
+      printf("TGo4HttpAccess fail to get class %s for object %s\n", GetObjectClassName(), path);
       return 0;
    }
 
@@ -204,6 +206,7 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
       case 3: url.Append("/get.xml.gz?history=100&compact"); break;
       case 4: url.Append("/exe.bin.gz?method=CreateStatus&_destroy_result_"); break;
       case 5: url.Append("/exe.bin.gz?method=CreateSampleTree&sample=0&_destroy_result_"); break;
+      case 6: url.Append("/exe.bin.gz?method=CreateStatus&_destroy_result_"); break;
       default: url.Append("/root.bin.gz"); break;
    }
 
@@ -722,17 +725,17 @@ Bool_t TGo4HttpProxy::DelayedRefreshNamesList(Int_t delay_sec)
 
 void TGo4HttpProxy::RequestAnalysisSettings()
 {
-   TGo4Slot* subslot = SettingsSlot();
-   if (subslot == 0) return;
+   TGo4Slot* tgtslot = SettingsSlot();
+   if (tgtslot==0) return;
 
    XMLNodePointer_t item = FindItem("Control/Analysis");
    if (item==0) return;
 
-   TGo4HttpAccess* access = new TGo4HttpAccess(this, item, "Control/Analysis", 1);
-   access->AssignObjectToSlot(subslot);
+   TGo4HttpAccess* access = new TGo4HttpAccess(this, item, "Control/Analysis", 6);
 
-   // workaround - mark as we finished with settings
-   SetAnalysisSettingsReady(kTRUE);
+   access->AssignObjectToSlot(tgtslot);
+
+   SetAnalysisSettingsReady(kTRUE);  // workaround - mark as we finished with settings
 }
 
 void TGo4HttpProxy::SubmitAnalysisSettings()
@@ -966,8 +969,6 @@ void TGo4HttpProxy::RemoteTreeDraw(const char* treename,
 
 void TGo4HttpProxy::RequestEventStatus(const char* evname, Bool_t astree, TGo4Slot* tgtslot)
 {
-   printf("Request event status %s\n", evname);
-
    if (tgtslot==0) {
       // this is remote printing of event
 

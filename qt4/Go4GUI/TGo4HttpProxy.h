@@ -69,6 +69,8 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
       //   2 - dabc get.xml request,
       //   3 - dabc get.xml history requests
       //   4 - parameter status request
+      //   5 - sample tree
+      //   6 - analysis status request
       Int_t            fKind;
       TString          fNameAttr;
       TString          fKindAttr;
