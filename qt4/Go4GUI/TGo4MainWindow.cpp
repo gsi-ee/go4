@@ -53,7 +53,6 @@
 //////// root includes;
 #include "Riostream.h"
 #include "TSystem.h"
-#include "TApplication.h"
 #include "TROOT.h"
 #include "TMath.h"
 #include "TStyle.h"
@@ -740,7 +739,8 @@ void TGo4MainWindow::windowsMenuAboutToShow()
 
     bool on = ! fxMdiArea->subWindowList().isEmpty();
 
-    windowsMenu->addAction("Ca&scade", this, SLOT(CascadeSubWindows()))->setEnabled(on);
+    //windowsMenu->addAction("Ca&scade", this, SLOT(CascadeSubWindows()))->setEnabled(on);
+    windowsMenu->addAction("Ca&scade", fxMdiArea, SLOT(cascadeSubWindows()))->setEnabled(on);
     windowsMenu->addAction("&Tile", fxMdiArea, SLOT(tileSubWindows()))->setEnabled(on);
     windowsMenu->addAction("&Close all", fxMdiArea, SLOT(closeAllSubWindows()))->setEnabled(on);
     windowsMenu->addAction("&Minimize all", this, SLOT(MinAllWindows()))->setEnabled(on);
