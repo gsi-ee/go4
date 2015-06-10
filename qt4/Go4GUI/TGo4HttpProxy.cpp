@@ -61,9 +61,9 @@ void QHttpProxy::httpFinished()
    fProxy->GetHReply(res);
 }
 
-void QHttpProxy::httpError(QNetworkReply::NetworkError code)
+void QHttpProxy::httpHReqError(QNetworkReply::NetworkError code)
 {
-   printf("QHttpProxy::httpError %d %s\n", code, fHReply ? fHReply->errorString().toLatin1().constData() : "---");
+   printf("QHttpProxy::httpHReqError %d %s\n", code, fHReply ? fHReply->errorString().toLatin1().constData() : "---");
    if (fHReply) {
       fHReply->deleteLater();
       fHReply = 0;
@@ -89,7 +89,7 @@ void QHttpProxy::StartRequest(const char* url)
          this, SLOT(httpFinished()));
 
    connect(fHReply, SIGNAL(error(QNetworkReply::NetworkError)),
-         this, SLOT(httpError(QNetworkReply::NetworkError)));
+         this, SLOT(httpHReqError(QNetworkReply::NetworkError)));
 
    connect(fHReply, SIGNAL(sslErrors(const QList<QSslError>&)),
            fHReply, SLOT(ignoreSslErrors(const QList<QSslError> &)));
@@ -215,12 +215,18 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
    connect(fReply, SIGNAL(finished()), this, SLOT(httpFinished()));
 
    connect(fReply, SIGNAL(error(QNetworkReply::NetworkError)),
-          &(fProxy->fComm.qnam), SLOT(httpError(QNetworkReply::NetworkError)));
+           this, SLOT(httpError(QNetworkReply::NetworkError)));
 
    if (gDebug>2) printf("TGo4HttpAccess::AssignObjectTo Request URL %s\n", url.Data());
 
    return 2;
 }
+
+void TGo4HttpAccess::httpError(QNetworkReply::NetworkError)
+{
+   // may do special handling for http errors
+}
+
 
 void TGo4HttpAccess::httpFinished()
 {

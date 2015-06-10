@@ -39,7 +39,7 @@ class QHttpProxy : public QObject {
 
    public slots:
       void httpFinished();
-      void httpError(QNetworkReply::NetworkError);
+      void httpHReqError(QNetworkReply::NetworkError);
       void authenticationRequiredSlot(QNetworkReply*, QAuthenticator*);
 
       void updateRatemeter();
@@ -80,6 +80,7 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
 
    public slots:
       void httpFinished();
+      void httpError(QNetworkReply::NetworkError);
 
    public:
 
