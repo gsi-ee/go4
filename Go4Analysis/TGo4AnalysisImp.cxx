@@ -1150,9 +1150,9 @@ void TGo4Analysis::SendMessageToGUI(Int_t level, Bool_t printout, const char* te
       TGo4Log::OutputEnable(printout); // override the messaging state
       TGo4Log::Message(level, text);
       TGo4Log::OutputEnable(previousmode);
-
-      if (fSniffer) fSniffer->StatusMessage(level, text);
    } // if (fxAnalysisSlave)
+
+   if (fSniffer) fSniffer->StatusMessage(level, text);
 }
 
 void TGo4Analysis::SendObjectToGUI(TObject* ob)

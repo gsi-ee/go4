@@ -516,11 +516,6 @@ void TGo4AnalysisProxy::Initialize(TGo4Slot* slot)
    subslot->SetProxy(new TGo4ObjectProxy());
 }
 
-TGo4Slot* TGo4AnalysisProxy::LoginfoSlot()
-{
-   return fxParentSlot==0 ? 0 : fxParentSlot->FindChild("Loginfo");
-}
-
 TGo4Slot* TGo4AnalysisProxy::UpdateObjectSlot()
 {
    return fxParentSlot==0 ? 0 : fxParentSlot->FindChild("UpdateObject");

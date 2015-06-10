@@ -35,6 +35,8 @@ class TGo4ServerProxy : public TGo4Proxy {
       TGo4Slot* ParentSlot() { return fxParentSlot; }
       TGo4Slot* SettingsSlot();
       TGo4Slot* RatemeterSlot();
+      TGo4Slot* LoginfoSlot();
+
 
       virtual const char* GetServerName() const { return fNodeName.Data(); }
       virtual const char* GetUserName() const { return ""; }

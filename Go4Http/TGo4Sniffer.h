@@ -18,6 +18,8 @@
 
 #include "TGo4AnalysisSniffer.h"
 
+#include "TGo4MsgList.h"
+
 class TGo4AnalysisWebStatus;
 class TGraph;
 class TGo4Ratemeter;
@@ -32,6 +34,10 @@ class TGo4Sniffer : public TRootSniffer,
       TGraph* fEventRate;
 
       TGo4Ratemeter* fRatemeter;
+
+      TGo4MsgList fDebugOutput;
+
+      TGo4MsgList fStatusMessages;
 
       virtual void ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj);
 

@@ -65,7 +65,9 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    TGo4AnalysisSniffer(),
    fAnalysisStatus(0),
    fEventRate(0),
-   fRatemeter(0)
+   fRatemeter(0),
+   fDebugOutput("Log","Analysis log messages", 1000),
+   fStatusMessages("Msg","Analysis status messages", 100)
 {
    SetReadOnly(kFALSE);
    SetScanGlobalDir(kFALSE);
@@ -81,6 +83,10 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    CreateItem("/Status/DebugOutput", "Go4 debug output");
    SetItemField("/Status/DebugOutput", "_kind","Text");
    SetItemField("/Status/DebugOutput", "value","---");
+
+   RegisterObject("/Status", &fDebugOutput);
+
+   RegisterObject("/Status", &fStatusMessages);
 
    fRatemeter = new TGo4Ratemeter();
    fRatemeter->SetName("Ratemeter");
@@ -488,6 +494,8 @@ void TGo4Sniffer::SetTitle(const char* title)
    res.Append("\n"); res.Append(title);
 
    SetItemField("/Status/DebugOutput","value", res);
+
+   fDebugOutput.AddMsg(title);
 }
 
 void TGo4Sniffer::RatemeterUpdate(TGo4Ratemeter* r)
@@ -495,7 +503,7 @@ void TGo4Sniffer::RatemeterUpdate(TGo4Ratemeter* r)
    fRatemeter->UpdateFrom(r);
 
    Int_t n = fEventRate->GetN();
-   if (n==100) {
+   if (n == 100) {
       fEventRate->RemovePoint(0);
       n--;
    }
@@ -516,6 +524,10 @@ void TGo4Sniffer::StatusMessage(int level, const TString &msg)
    res.Append("\n"); res.Append(msg);
 
    SetItemField("/Status/Message","value",res);
+
+   TDatime now;
+
+   fStatusMessages.AddMsg(TString::UItoa(now.Convert(kFALSE), 10) + ":" + TString::Itoa(level,10) + ":" + msg);
 }
 
 void TGo4Sniffer::ProcessSnifferEvents()

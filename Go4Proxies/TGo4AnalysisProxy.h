@@ -152,7 +152,6 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       // analysis proxy functionality
 
-      TGo4Slot* LoginfoSlot();
       TGo4Slot* UpdateObjectSlot();
 
       // communication with analysis functionality

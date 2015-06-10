@@ -38,6 +38,11 @@ TGo4Slot* TGo4ServerProxy::RatemeterSlot()
    return fxParentSlot==0 ? 0 : fxParentSlot->FindChild("Ratemeter");
 }
 
+TGo4Slot* TGo4ServerProxy::LoginfoSlot()
+{
+   return fxParentSlot==0 ? 0 : fxParentSlot->FindChild("Loginfo");
+}
+
 const char* TGo4ServerProxy::GetContainedObjectInfo()
 {
    fInfoStr = "";

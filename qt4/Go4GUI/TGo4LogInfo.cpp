@@ -14,8 +14,9 @@
 #include "TGo4LogInfo.h"
 
 #include "TObject.h"
+#include "TList.h"
+
 #include <QFileDialog>
-#include <QDateTime>
 #include <QTextStream>
 #include <QHeaderView>
 
@@ -46,12 +47,8 @@ void TGo4LogInfo::WorkWithInfo(TGo4Slot* slot)
     AddLink(slot, "Loginfo");
 }
 
-void TGo4LogInfo::linkedObjectUpdated( const char * linkname, TObject * obj )
+void TGo4LogInfo::AddMessage(const QDateTime& dt, int level, QString msg)
 {
-   if (obj==0) return;
-
-   QDateTime dt = QDateTime::currentDateTime();
-   QString Name = obj->GetName();
    QString Date = dt.toString("dd.MM.yy  ");
    QString Time = dt.toString("hh.mm.ss  ");
 
@@ -59,26 +56,67 @@ void TGo4LogInfo::linkedObjectUpdated( const char * linkname, TObject * obj )
    Item->setText(0, Date);
    Item->setText(1, Time);
 
-   if(Name.contains("GO4-*")) {
-      Item->setText(2, "Info");
-      Item->setIcon(0, QIcon(":/icons/info.png"));
-   } else
-   if (Name.contains("GO4-!")) {
-      Item->setText(2, "Error");
-      Item->setIcon(0, QIcon(":/icons/error.png"));
-   } else
-   if(Name.contains("GO4-#")) {
-      Item->setText(2, "Warning");
-      Item->setIcon(0, QIcon(":/icons/warn.png"));
+   if (level==0) {
+      if(msg.contains("GO4-*")) level=1; else
+      if(msg.contains("GO4-#")) level=2; else
+      if(msg.contains("GO4-!")) level=3;
+      msg.remove(0, 6);
    }
 
-   Name.remove(0, 6);
-   Item->setText(3, Name);
+   switch(level) {
+      case 2:
+         Item->setText(2, "Warning");
+         Item->setIcon(0, QIcon(":/icons/warn.png"));
+         break;
+      case 3:
+         Item->setText(2, "Error");
+         Item->setIcon(0, QIcon(":/icons/error.png"));
+         break;
+      default:
+         Item->setText(2, "Info");
+         Item->setIcon(0, QIcon(":/icons/info.png"));
+         break;
+   }
+
+   Item->setText(3, msg);
 
    LogText->addTopLevelItem(Item);
    Item->setSelected(true);
    LogText->setCurrentItem(Item);
    LogText->scrollToItem(Item);
+}
+
+void TGo4LogInfo::linkedObjectUpdated(const char * linkname, TObject * obj)
+{
+   TList* lst = dynamic_cast<TList*>(obj);
+   if (lst != 0) {
+      TIter iter(lst);
+      TObject* obj = 0;
+      while ((obj = iter()) != 0) {
+         // first item is id of current status message, used to submit next request
+         if (obj==lst->First()) continue;
+
+         const char* msg = obj->GetName();
+
+         const char* separ = strchr(msg,':');
+         if ((separ==0) || (strlen(separ)<3)) continue;
+
+         Long64_t tm = TString(msg, separ-msg).Atoll();
+
+         QDateTime dt;
+         dt.setTime_t((time_t) tm);
+
+         separ++;
+         int level = 1;
+         if (*separ=='2') level=2; else
+         if (*separ=='3') level=3;
+
+         AddMessage(dt, level, separ+2);
+      }
+   } else
+   if (obj!=0) {
+      AddMessage(QDateTime::currentDateTime(), 0, obj->GetName());
+   }
 }
 
 

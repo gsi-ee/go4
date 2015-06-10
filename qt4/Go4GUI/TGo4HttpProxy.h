@@ -74,6 +74,7 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
       Int_t            fKind;
       TString          fNameAttr;
       TString          fKindAttr;
+      TString          fExtraArg;
       TGo4ObjectManager* fReceiver;
       TString          fRecvPath;
       QNetworkReply   *fReply;
@@ -84,7 +85,7 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
 
    public:
 
-      TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, const char* path, Int_t kind = 1);
+      TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, const char* path, Int_t kind = 1, const char* extra_arg = 0);
 
       virtual ~TGo4HttpAccess() { }
 
@@ -117,6 +118,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       XMLDocPointer_t fxHierarchy;    //!  pointer on dabc::Hierarchy class
       QHttpProxy      fComm;          //!
       Int_t           fRateCnt;       //! counter for ratemeter updates
+      Int_t           fStatusCnt;     //! counter for status messages updates
       Bool_t          fbAnalysisRunning; //!
       TString         fUserName;      //! user name and password -
       TString         fPassword;      //!
@@ -138,7 +140,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       Bool_t CheckUserName(const char* expects, Bool_t dflt = kFALSE);
 
-      TGo4HttpAccess* SubmitRequest(const char* itemname, Int_t kind, TGo4Slot* tgtslot);
+      TGo4HttpAccess* SubmitRequest(const char* itemname, Int_t kind, TGo4Slot* tgtslot, const char* extra_arg = 0);
 
    public:
       TGo4HttpProxy();

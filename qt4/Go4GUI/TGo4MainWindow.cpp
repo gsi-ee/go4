@@ -1137,7 +1137,6 @@ void TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* user, const c
       httpaddr = addr;
    }
 
-
    TGo4Script* exec = TGo4Script::ScriptInstance();
 
    if (!exec) return;
@@ -1149,6 +1148,9 @@ void TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* user, const c
    if (serv && serv->IsGo4Analysis()) {
       EstablishRatemeter(2);
       if (!serv->IsViewer()) EstablishAnalysisConfiguration(3);
+
+      TGo4LogInfo* loginfo = (TGo4LogInfo*) FindGo4Widget("LogInfo", false);
+      if (loginfo!=0) loginfo->WorkWithInfo(serv->LoginfoSlot());
    }
 }
 
@@ -1680,9 +1682,9 @@ TGo4AnalysisProxy* TGo4MainWindow::AddAnalysisProxy(bool isserver, bool needoutp
    if (loginfo!=0)
      loginfo->WorkWithInfo(anal->LoginfoSlot());
 
-   if (anal->IsAnalysisServer()) {
+   if (anal->IsAnalysisServer())
       EstablishRatemeter(anal->IsConnected() ? 2 : 0);
-   } else
+   else
       EstablishRatemeter(1);
 
    EstablishAnalysisConfiguration(2);

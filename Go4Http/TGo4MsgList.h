@@ -22,15 +22,26 @@ class TGo4MsgList : public TNamed {
 
    protected:
 
-      TList      fMsgs;    //! list of remained messages
-      Int_t      fLimit;   //! max number of stored messages
-      Long64_t   fCounter; //! current message id
+      TList      fMsgs;       //  list of remained messages, stored as TObjString
+      Int_t      fLimit;      //  max number of stored messages
+      Long64_t   fCounter;    //  current message id
+      TList      fSelect;     //! temporary list used for selection
+      TObjString fStrCounter; //! current id stored in the string
 
    public:
 
       TGo4MsgList();
-      TGo4MsgList(const char* name, const char* title);
+      TGo4MsgList(const char* name, const char* title, Int_t limit = 1000);
       virtual ~TGo4MsgList();
+
+      void SetLimit(Int_t limit) { fLimit = limit>0 ? limit : 1; AddMsg(0); }
+      Int_t GetLimit() const { return fLimit; }
+
+      Int_t GetCounter() const { return fCounter; }
+
+      void AddMsg(const char* msg);
+
+      TList* Select(Long64_t id = 0);
 
    ClassDef(TGo4MsgList, 1);
 };
