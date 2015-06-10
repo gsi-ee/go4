@@ -5,5 +5,6 @@
 #pragma link off all functions;
 
 #pragma link C++ class TGo4Sniffer+;
+#pragma link C++ class TGo4MsgList+;
 
 #endif

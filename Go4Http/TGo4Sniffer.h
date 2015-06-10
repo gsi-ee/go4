@@ -11,9 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-
-#ifndef TGO4DABCSNIFFER_H
-#define TGO4DABCSNIFFER_H
+#ifndef TGO4SNIFFER_H
+#define TGO4SNIFFER_H
 
 #include "TRootSniffer.h"
 
