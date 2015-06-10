@@ -977,18 +977,12 @@ void TGo4HttpProxy::ProcessUpdateTimer()
       }
    }
 
-   if (!IsConnected()) {
-      // reset counters, next time command will be submitted without arguments
-      fStatusCnt = 0;
-      fDebugCnt = 0;
-   }
-
    subslot = LoginfoSlot();
    if ((subslot!=0) && IsConnected()) {
       TList* curr = dynamic_cast<TList*> (subslot->GetAssignedObject());
       if ((curr==0) || (fStatusCnt != subslot->GetAssignCnt())) {
          TString arg;
-         if (curr && curr->First() && (fStatusCnt!=0)) {
+         if (curr && curr->First()) {
             arg = "id=";
             arg += curr->First()->GetName();
          }
@@ -1002,7 +996,7 @@ void TGo4HttpProxy::ProcessUpdateTimer()
       TList* curr = dynamic_cast<TList*> (subslot->GetAssignedObject());
       if ((curr==0) || (fDebugCnt != subslot->GetAssignCnt())) {
          TString arg;
-         if (curr && curr->First() && (fDebugCnt!=0)) {
+         if (curr && curr->First()) {
             arg = "id=";
             arg += curr->First()->GetName();
          }

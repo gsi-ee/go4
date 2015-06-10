@@ -85,8 +85,10 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    SetItemField("/Status/DebugOutput", "value","---");
 
    RegisterObject("/Status", &fDebugOutput);
+   SetItemField("/Status/Log", "_hidden", "true");
 
    RegisterObject("/Status", &fStatusMessages);
+   SetItemField("/Status/Msg", "_hidden", "true");
 
    fRatemeter = new TGo4Ratemeter();
    fRatemeter->SetName("Ratemeter");

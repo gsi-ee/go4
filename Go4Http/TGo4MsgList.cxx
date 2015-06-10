@@ -13,6 +13,8 @@
 
 #include "TGo4MsgList.h"
 
+#include "TDatime.h"
+
 TGo4MsgList::TGo4MsgList() :
    TNamed(),
    fMsgs(),
@@ -32,6 +34,12 @@ TGo4MsgList::TGo4MsgList(const char* name, const char* title, Int_t limit) :
    fStrCounter()
 {
    fMsgs.SetOwner(kTRUE);
+
+   // counter initialized from current time
+   // if application restarted, id will be bigger and request from GUI will not lead to messages lost
+   // of course, if more than 1000 messages per second are generated, one could have mismatch
+
+   fCounter = ((Long64_t) TDatime().Get()) * 1000;
 }
 
 TGo4MsgList::~TGo4MsgList()
