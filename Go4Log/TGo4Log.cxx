@@ -47,7 +47,18 @@ TString TGo4Log::fgxLogName = TGo4Log::fgcDEFAULTLOG;
 
 TNamed* TGo4Log::fgSniffer = 0;
 
+int TGo4Log::fgStdPipe[2] = {-1, -1};
+int TGo4Log::fgStdSave = -1;
 
+class TLogTimer : public TTimer {
+   public:
+      TLogTimer(Int_t millisec) : TTimer(millisec) {}
+
+      virtual Bool_t Notify() { TGo4Log::ProcessRedirection(); return kTRUE; }
+};
+
+
+TLogTimer* TGo4Log::fgTimer = 0;
 
 TGo4Log::TGo4Log()
 {
@@ -73,6 +84,77 @@ TGo4Log *TGo4Log::Instance()
       fgxInstance = new TGo4Log();
 
    return fgxInstance;
+}
+
+void TGo4Log::EnableRedirection()
+{
+   if (fgStdSave > 0) return;
+
+   fflush(stdout);
+
+   fgStdSave = dup(STDOUT_FILENO);  /* save stdout for display later */
+
+   if(pipe(fgStdPipe) != 0) return; /* make a pipe */
+
+   dup2(fgStdPipe[1], STDOUT_FILENO);   /* redirect stdout to the pipe */
+   long flags = fcntl(fgStdPipe[0], F_GETFL);
+   flags |= O_NONBLOCK;
+   fcntl(fgStdPipe[0], F_SETFL, flags);
+
+   if (fgTimer==0) {
+      fgTimer = new TLogTimer(200);
+      fgTimer->Start(200);
+   }
+}
+
+
+void TGo4Log::ProcessRedirection(int kind)
+{
+   if (fgStdSave<0) return;
+
+   if (kind>=0) {
+
+      std::cout.flush();
+      fflush(stdout);
+
+      char buffer[20000];
+      memset(buffer, 0, sizeof(buffer));
+      int len = read(fgStdPipe[0], buffer, sizeof(buffer)-1); /* read from pipe into buffer */
+
+      // when nothing to read, than nothing to redirect
+      if (len==0) return;
+
+      dup2(fgStdSave, STDOUT_FILENO);  /* reconnect stdout for realoutput */
+
+      printf("%s", buffer);
+      fflush(stdout);
+
+      // only when external sniffer specified, provide for it output line by line
+      if (fgSniffer!=0) {
+         char *cur = buffer;
+
+         while (*cur != 0) {
+            char* next = strchr(cur, '\n');
+            if (next==0) {
+               fgSniffer->SetTitle(cur);
+               break;
+            }
+            *next = 0;
+            fgSniffer->SetTitle(cur);
+            cur = next+1;
+         }
+      }
+   }
+
+   if (kind<=0) {
+      dup2(fgStdPipe[1], STDOUT_FILENO); // redirect again
+   }
+}
+
+
+void TGo4Log::SetSniffer(TNamed* sniff)
+{
+   fgSniffer = sniff;
 }
 
 const char* TGo4Log::GO4SYS()
@@ -115,8 +197,6 @@ TString TGo4Log::subGO4SYS(const char* subdir)
    return res;
 }
 
-
-
 const char* TGo4Log::Message(Int_t prio, const char* text,...)
 {
    Instance();
@@ -148,9 +228,16 @@ const char* TGo4Log::Message(Int_t prio, const char* text,...)
          fgcLEFT, prefix, txtbuf,fgcRIGHT);
 
    if(fgbOutputEnabled) {
+
+      ProcessRedirection(1); // disable redirection
+
       std::cout << fgcMessagetext << std::endl;
 
+      std::cout.flush();
+
       if (fgSniffer) fgSniffer->SetTitle(fgcMessagetext);
+
+      ProcessRedirection(-1); // enable again
    }
 
    return fgcMessagetext;

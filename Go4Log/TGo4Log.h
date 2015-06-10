@@ -18,6 +18,7 @@
 #include "RVersion.h"
 
 class TMutex;
+class TLogTimer;
 
 #define __MESSAGETEXTLENGTH__ 1024
 
@@ -173,15 +174,22 @@ class TGO4LOG_CLASS_IMPORT TGo4Log {
       /** Name of default logfile */
       static const char* fgcDEFAULTLOG; //!
 
-      /** Maximum message length allowd */
+      /** Maximum message length allowed */
       enum { fguMESLEN = __MESSAGETEXTLENGTH__ };
 
       virtual ~TGo4Log();
 
-      static void SetSniffer(TNamed* sniff) { fgSniffer = sniff; }
+      static void SetSniffer(TNamed* sniff);
+
+      static void EnableRedirection();
 
    private:
+
+      friend class TLogTimer;
+
       TGo4Log();
+
+      static void ProcessRedirection(int kind = 0);
 
       static TGo4Log* fgxInstance; //!
 
@@ -209,9 +217,14 @@ class TGO4LOG_CLASS_IMPORT TGo4Log {
       /** Name of last logfile set*/
       static TString fgxLogName;    //!
 
-      static TString fgsGO4SYS; //!     value of GO4SYS during run
+      static TString fgsGO4SYS; //!  value of GO4SYS during run
 
       static TNamed* fgSniffer; //!  optional object to get all output via SetTitle method
+
+      static int fgStdPipe[2]; //! redirected pipe for stdout
+      static int fgStdSave; //! saved file for stdout
+
+      static TLogTimer* fgTimer;  //! timer used to analyze buffer content
 
    ClassDef(TGo4Log,1)
 };

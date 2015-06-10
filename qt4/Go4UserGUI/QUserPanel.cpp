@@ -16,17 +16,15 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #include <QMimeData>
 
 #include "Riostream.h"
-#include "Rstrstream.h"
 #include "TClass.h"
 #include "TCanvas.h"
 #include "TGo4Proxy.h"
 #include "QRootCanvas.h"
-
-
 
 #include <sstream>
 
@@ -193,26 +191,27 @@ void QUserPanel::PrintObject(TObject* obj)
     PrintEdit->clear();
     if (obj==0) return;
 
-    if (stdoutButton->isChecked()) {
-       std::cout.flush();
-       char sbuf[30000];
-       memset(sbuf, 0, 30000);
-       std::setvbuf(stdout, sbuf, _IOFBF, 30000);
-       obj->Print("");
-       fflush(stdout);
-       std::setvbuf(stdout, 0, _IONBF, 0);
-       PrintEdit->setText(sbuf);
-    } else {
-       std::cout.flush();
-       std::ostringstream strout;
-       std::streambuf* ccc_buffer = std::cout.rdbuf();
-       std::cout.rdbuf(strout.rdbuf());
-       obj->Print("");
-       std::cout << std::endl;
-       std::cout.flush();
-       std::cout.rdbuf(ccc_buffer);
-       PrintEdit->setText(strout.str().c_str());
-    }
+    int out_pipe[2];
+    int saved_stdout = dup(STDOUT_FILENO);  /* save stdout for display later */
+
+    if( pipe(out_pipe) != 0 ) return;
+
+    dup2(out_pipe[1], STDOUT_FILENO);   /* redirect stdout to the pipe */
+    ::close(out_pipe[1]);
+
+    obj->Print("");
+    printf(" ");
+    std::cout.flush();
+    fflush(stdout);
+
+    char sbuf[10000];
+    memset(sbuf,0, sizeof(sbuf));
+    read(out_pipe[0], sbuf, sizeof(sbuf)-1); /* read from pipe into buffer */
+
+    dup2(saved_stdout, STDOUT_FILENO);  /* reconnect stdout for testing */
+    ::close(out_pipe[0]);
+
+    PrintEdit->setText(sbuf);
 }
 
 void QUserPanel::CanvasDropEventSlot(QDropEvent* event, TPad* pad)

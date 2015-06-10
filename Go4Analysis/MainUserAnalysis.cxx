@@ -1150,6 +1150,8 @@ int main(int argc, char **argv)
       if (gSystem->Load("libGo4Http")!=0)
          showerror("Fail to load libGo4Http.so library");
 
+      TGo4Log::EnableRedirection(); // one sniff complete std out
+
       TString cmd;
       Long_t res(0);
       Int_t err(0);
