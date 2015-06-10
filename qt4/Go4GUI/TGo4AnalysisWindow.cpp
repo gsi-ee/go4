@@ -14,6 +14,7 @@
 #include "TGo4AnalysisWindow.h"
 
 #include "TSystem.h"
+#include "TList.h"
 #include "Riostream.h"
 
 #include "qimage.h"
@@ -366,6 +367,12 @@ void TGo4AnalysisWindow::PrintEvent()
    ServiceCall("StartEventInfo");
 }
 
+void TGo4AnalysisWindow::WorkWithDebugOutput(TGo4Slot* slot)
+{
+   // can be called only once when window is created
+   AddLink(slot, "DebugOutput");
+}
+
 void TGo4AnalysisWindow::WorkWithUpdateObjectCmd(TGo4Slot* slot)
 {
    // can be called only once when window is created
@@ -379,20 +386,35 @@ void TGo4AnalysisWindow::WaitForNewObject(bool isobjectforeditor)
 
 void TGo4AnalysisWindow::linkedObjectUpdated(const char* linkname, TObject* obj)
 {
-   if (strcmp(linkname, "ObjectUpdateCmd")!=0) return;
-   TGo4AnalysisObjectResult* res = dynamic_cast<TGo4AnalysisObjectResult*>(obj);
-   if (res==0) return;
-   Browser()->SyncBrowserSlots();
-   const char* itemname = res->GetObjectFullName();
-   TClass* cl = Browser()->ItemClass(itemname);
-   if (cl!=0) InformThatObjectCreated(itemname, cl);
-   if (!fNewObjectForEditor) EditItem(itemname);
-   fNewObjectForEditor = true;
+   if (strcmp(linkname, "ObjectUpdateCmd")==0) {
+      TGo4AnalysisObjectResult* res = dynamic_cast<TGo4AnalysisObjectResult*>(obj);
+      if (res==0) return;
+      Browser()->SyncBrowserSlots();
+      const char* itemname = res->GetObjectFullName();
+      TClass* cl = Browser()->ItemClass(itemname);
+      if (cl!=0) InformThatObjectCreated(itemname, cl);
+      if (!fNewObjectForEditor) EditItem(itemname);
+      fNewObjectForEditor = true;
+   }
+
+   if (strcmp(linkname, "DebugOutput")==0) {
+
+      TList* lst = dynamic_cast<TList*> (obj);
+
+      TListIter iter(lst, kFALSE);
+      TObject* obj = 0;
+
+      while ((obj = iter()) != 0) {
+         if (obj == lst->First()) continue;
+         AppendOutputBuffer(obj->GetName());
+         AppendOutputBuffer("\n");
+      }
+   }
 }
 
 void TGo4AnalysisWindow::linkedObjectRemoved(const char* linkname)
 {
-   if (!HasOutput())
+   if (!HasOutput() || (strcmp(linkname, "DebugOutput")==0))
       ServiceCall("CloseAnalysisWindow");
 }
 

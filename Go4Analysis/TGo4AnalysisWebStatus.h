@@ -55,6 +55,8 @@ class TGo4AnalysisWebStatus : public TGo4AnalysisStatus {
                          Bool_t overwrite,
                          Int_t complevel);
 
+    Bool_t ExecuteLine(const char* cmd);
+
     /** web condition editor keywords used in UpdateFromUrl: */
     static TString fgxURL_STARTRUN;
     static TString fgxURL_ENABLESTEP;

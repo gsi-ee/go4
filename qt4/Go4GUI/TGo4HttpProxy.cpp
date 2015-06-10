@@ -523,6 +523,7 @@ TGo4HttpProxy::TGo4HttpProxy() :
    fComm(this),
    fRateCnt(0),
    fStatusCnt(0),
+   fDebugCnt(0),
    fbAnalysisRunning(kFALSE),
    fUserName(),
    fPassword(),
@@ -562,6 +563,9 @@ void TGo4HttpProxy::Initialize(TGo4Slot* slot)
    subslot->SetProxy(new TGo4ObjectProxy());
 
    subslot = new TGo4Slot(fxParentSlot, "Loginfo", "Latest status messages");
+   subslot->SetProxy(new TGo4ObjectProxy());
+
+   subslot = new TGo4Slot(fxParentSlot, "Debugoutput", "Debug output of go4 analysis");
    subslot->SetProxy(new TGo4ObjectProxy());
 
    QTimer::singleShot(2000, &fComm, SLOT(updateRatemeter()));
@@ -820,8 +824,11 @@ void TGo4HttpProxy::RemoveObjectFromAnalysis(const char* fullpath)
 
 void TGo4HttpProxy::ExecuteLine(const char* line)
 {
-   // use single quotes - less problem with typical arguments in ProcessLine
-   SubmitCommand("CmdExecute", -1, TString::Format("\'%s\'", line));
+   // SubmitCommand("CmdExecute", -1, TString::Format("\"%s\"", line));
+
+   // use method of TGo4AnalysisWebStatus - this works with all THttpServer versions
+   if (FindItem("Control/Analysis"))
+      SubmitURL(TString::Format("Control/Analysis/exe.json?method=ExecuteLine&cmd=\"%s\"", line));
 }
 
 void TGo4HttpProxy::StartAnalysis()
@@ -970,12 +977,18 @@ void TGo4HttpProxy::ProcessUpdateTimer()
       }
    }
 
+   if (!IsConnected()) {
+      // reset counters, next time command will be submitted without arguments
+      fStatusCnt = 0;
+      fDebugCnt = 0;
+   }
+
    subslot = LoginfoSlot();
    if ((subslot!=0) && IsConnected()) {
       TList* curr = dynamic_cast<TList*> (subslot->GetAssignedObject());
       if ((curr==0) || (fStatusCnt != subslot->GetAssignCnt())) {
          TString arg;
-         if (curr && curr->First()!=0) {
+         if (curr && curr->First() && (fStatusCnt!=0)) {
             arg = "id=";
             arg += curr->First()->GetName();
          }
@@ -983,6 +996,21 @@ void TGo4HttpProxy::ProcessUpdateTimer()
          SubmitRequest("Status/Msg", 7, subslot, arg);
       }
    }
+
+   subslot = DebugOutputSlot();
+   if ((subslot!=0) && IsConnected()) {
+      TList* curr = dynamic_cast<TList*> (subslot->GetAssignedObject());
+      if ((curr==0) || (fDebugCnt != subslot->GetAssignCnt())) {
+         TString arg;
+         if (curr && curr->First() && (fDebugCnt!=0)) {
+            arg = "id=";
+            arg += curr->First()->GetName();
+         }
+         fDebugCnt = subslot->GetAssignCnt();
+         SubmitRequest("Status/Log", 7, subslot, arg);
+      }
+   }
+
 }
 
 void TGo4HttpProxy::RemoteTreeDraw(const char* treename,

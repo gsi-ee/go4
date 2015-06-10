@@ -1151,6 +1151,18 @@ void TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* user, const c
 
       TGo4LogInfo* loginfo = (TGo4LogInfo*) FindGo4Widget("LogInfo", false);
       if (loginfo!=0) loginfo->WorkWithInfo(serv->LoginfoSlot());
+
+      TGo4AnalysisWindow* anw = FindAnalysisWindow();
+      if (anw!=0) delete anw;
+
+      anw = new TGo4AnalysisWindow(fxMdiArea, "AnalysisWindow", true, false);
+      QMdiSubWindow* sub = fxMdiArea->addSubWindow(anw);
+      sub->resize(go4sett->lastPanelSize("AnalysisWindow", 700, 500));
+      CascadeMdiPosition(sub);
+      ConnectGo4Widget(anw);
+      anw->ensurePolished();
+      sub->show();
+      anw->WorkWithDebugOutput(serv->DebugOutputSlot());
    }
 }
 

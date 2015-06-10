@@ -43,6 +43,11 @@ TGo4Slot* TGo4ServerProxy::LoginfoSlot()
    return fxParentSlot==0 ? 0 : fxParentSlot->FindChild("Loginfo");
 }
 
+TGo4Slot* TGo4ServerProxy::DebugOutputSlot()
+{
+   return fxParentSlot==0 ? 0 : fxParentSlot->FindChild("Debugoutput");
+}
+
 const char* TGo4ServerProxy::GetContainedObjectInfo()
 {
    fInfoStr = "";

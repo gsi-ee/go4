@@ -119,6 +119,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       QHttpProxy      fComm;          //!
       Int_t           fRateCnt;       //! counter for ratemeter updates
       Int_t           fStatusCnt;     //! counter for status messages updates
+      Int_t           fDebugCnt;      //! counter for debug output updates
       Bool_t          fbAnalysisRunning; //!
       TString         fUserName;      //! user name and password -
       TString         fPassword;      //!

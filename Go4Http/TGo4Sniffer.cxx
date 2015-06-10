@@ -469,9 +469,11 @@ Bool_t TGo4Sniffer::CmdDeleteObject(const char* objname)
 
 Bool_t TGo4Sniffer::CmdExecute(const char* exeline)
 {
+   if ((exeline==0) || (*exeline==0)) return kFALSE;
+
    TString cmd(exeline);
 
-   if (TGo4Analysis::Instance() && exeline && *exeline=='@')
+   if (TGo4Analysis::Instance() && (cmd[0]=='@'))
       cmd = TString("TGo4Analysis::Instance()->") + (exeline+1);
 
    gROOT->ProcessLineSync(cmd);

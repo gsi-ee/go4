@@ -37,6 +37,7 @@ class TGo4AnalysisWindow : public QGo4Widget {
        void TerminateAnalysisProcess();
        void AppendOutputBuffer(const QString& value);
        void WorkWithUpdateObjectCmd(TGo4Slot* slot);
+       void WorkWithDebugOutput(TGo4Slot* slot);
        void WaitForNewObject(bool isobjectforeditor);
 
        bool HasOutput();

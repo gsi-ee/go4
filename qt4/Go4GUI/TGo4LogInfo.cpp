@@ -90,7 +90,7 @@ void TGo4LogInfo::linkedObjectUpdated(const char * linkname, TObject * obj)
 {
    TList* lst = dynamic_cast<TList*>(obj);
    if (lst != 0) {
-      TIter iter(lst);
+      TListIter iter(lst, kFALSE);
       TObject* obj = 0;
       while ((obj = iter()) != 0) {
          // first item is id of current status message, used to submit next request

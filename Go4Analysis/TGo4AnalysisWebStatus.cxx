@@ -616,7 +616,6 @@ Bool_t TGo4AnalysisWebStatus::WriteAutoSave(const char* fname,
    // make it here to be able use via http interface
 
    TGo4Analysis* ana = TGo4Analysis::Instance();
-
    if (ana==0) return kFALSE;
 
    ana->SetAutoSaveFile(fname, overwrite, complevel);
@@ -625,3 +624,20 @@ Bool_t TGo4AnalysisWebStatus::WriteAutoSave(const char* fname,
    return kTRUE;
 }
 
+Bool_t TGo4AnalysisWebStatus::ExecuteLine(const char* exeline)
+{
+   if ((exeline==0) || (*exeline==0) || (TGo4Analysis::Instance()==0)) return kFALSE;
+
+   TString cmd(exeline);
+
+   printf("ExecuteLine %s\n", exeline);
+
+   if (TGo4Analysis::Instance() && (cmd[0]=='@'))
+      cmd = TString("TGo4Analysis::Instance()->") + (exeline+1);
+
+   gROOT->ProcessLineSync(cmd);
+
+   fflush(stdout);
+
+   return kTRUE;
+}
