@@ -120,8 +120,8 @@ void TGo4ConditionEditor::WorkWithCondition(const char* itemname)
    if ((con!=0) && (con->IsChanged()!=0) && (strcmp(conditemname,itemname)!=0)) {
 
       int res = QMessageBox::warning(this, "Condition editor",
-        QString("Current condition ")+conditemname+" is modified!\n"+
-                "New condition " + itemname+ " selected.",
+        QString("Current condition %1 is modified!\n"
+                "New condition %2 is selected.").arg(conditemname).arg(itemname),
         QString("Continue with current"),
         QString("Start with new"), QString::null, 0);
 //        (BrowserItemRemote(conditemname) ? QString("Update in analysis and start new") : QString::null), 0);
@@ -204,6 +204,10 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    const char* conditemname = GetLinkedName("Condition");
    TGo4ViewPanel* panel = WhereItemDrawn(conditemname);
    TPad* pad = panel==0 ? 0 : panel->FindPadWithItem(conditemname);
+
+   TGo4BrowserProxy* br = Browser();
+   TGo4ServerProxy* serv = br ? br->DefineServerObject(conditemname) : 0;
+   UpdateCon->setEnabled((serv==0) || serv->CanSubmitObjects());
 
    PleaseUpdateLabel->setVisible(cond->IsChanged()!=0);
    fiLastChangeValue = cond->IsChanged();
@@ -359,21 +363,18 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    }
 
    ShowEllipseWidget(econd!=0); // hide all elements on shape tab to reduce minimum window size
-   int oldindex=CondTabs->currentIndex();
+   int oldindex = CondTabs->currentIndex();
    CondTabs->setCurrentIndex(2); // JAM: need this trick to retrieve actual tab limits with hidden icons?
    CondTabs->setCurrentIndex(oldindex);
 
    CondTabs->setTabEnabled(1, (pcond!=0));
    CondTabs->setTabEnabled(2, (econd!=0));
 
-
    if ((pcond==0) && ((CondTabs->currentIndex()==1) || (CondTabs->currentIndex()==2)))
      CondTabs->setCurrentIndex(0);
 
-
    if (pcond!=0) FillCutWidget(pcond->GetCut(kFALSE));
    if (econd!=0) FillEllipseWidget(econd);
-
 
    IntBox->setChecked(cond->IsIntDraw());
    MaxCBox->setChecked(cond->IsCMaxDraw());

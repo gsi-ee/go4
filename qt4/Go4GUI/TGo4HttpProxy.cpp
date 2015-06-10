@@ -745,7 +745,7 @@ Bool_t TGo4HttpProxy::DelayedRefreshNamesList(Int_t delay_sec)
    return kTRUE;
 }
 
-Bool_t TGo4HttpProxy::CanSubmitAnalysisSettings()
+Bool_t TGo4HttpProxy::CanSubmitObjects()
 {
    if (!IsGo4Analysis() || IsViewer()) return kFALSE;
 

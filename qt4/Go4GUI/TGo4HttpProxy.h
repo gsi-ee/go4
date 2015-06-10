@@ -176,7 +176,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       virtual Bool_t IsController()  { return CheckUserName("controller", kTRUE); }
       virtual Bool_t IsAdministrator()  { return CheckUserName("admin", kFALSE); }
 
-      virtual Bool_t CanSubmitAnalysisSettings();
+      virtual Bool_t CanSubmitObjects();
       virtual void RequestAnalysisSettings();
       virtual void SubmitAnalysisSettings();
       virtual void CloseAnalysisSettings();

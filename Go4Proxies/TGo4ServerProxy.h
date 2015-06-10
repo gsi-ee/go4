@@ -53,7 +53,7 @@ class TGo4ServerProxy : public TGo4Proxy {
       void SetAnalysisSettingsReady(Bool_t on = kTRUE) { fbAnalysisSettingsReady = on ; }
       Bool_t IsAnalysisSettingsReady() const { return fbAnalysisSettingsReady; }
 
-      virtual Bool_t CanSubmitAnalysisSettings() { return kFALSE; }
+      virtual Bool_t CanSubmitObjects() { return kFALSE; }
       virtual void RequestAnalysisSettings() {}
       virtual void SubmitAnalysisSettings() {}
       virtual void CloseAnalysisSettings() {}

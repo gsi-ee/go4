@@ -1414,7 +1414,7 @@ void TGo4MainWindow::UpdateCaptionButtons()
    bool iscontrolling(false), issubmit(false);
    if (serv && serv->IsGo4Analysis()) {
      iscontrolling = serv->IsConnected() && (serv->IsAdministrator() || serv->IsController());
-       if (iscontrolling) issubmit = serv->CanSubmitAnalysisSettings();
+       if (iscontrolling) issubmit = serv->CanSubmitObjects();
    }
    faSumbStartAnal->setEnabled(issubmit);
 

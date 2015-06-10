@@ -109,8 +109,8 @@ void TGo4AnalysisConfiguration::RefreshWidget()
 
    if ((status==0) || (anal==0)) return;
 
-   SubmitPushButton->setEnabled(anal->CanSubmitAnalysisSettings());
-   SubmitAndStartButton->setEnabled(anal->CanSubmitAnalysisSettings());
+   SubmitPushButton->setEnabled(anal->CanSubmitObjects());
+   SubmitAndStartButton->setEnabled(anal->CanSubmitObjects());
 
    fbTypingMode = false;
 

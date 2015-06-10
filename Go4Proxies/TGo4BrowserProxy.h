@@ -189,7 +189,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       Int_t UpdateAllMonitoredObjects();
 
       TGo4ServerProxy* DefineServerProxy(const char* itemname);
-      TGo4ServerProxy* DefineServerObject(const char* itemname, TString* objname = 0, Bool_t onlyanalysis = kFALSE);
+      TGo4ServerProxy* DefineServerObject(const char* itemname, TString* objname = 0, Bool_t onlyanalysis = kTRUE);
       TGo4ServerProxy* DefineAnalysisObject(const char* itemname, TString& analysisname);
 
       static bool CanExpandItem(int cando);

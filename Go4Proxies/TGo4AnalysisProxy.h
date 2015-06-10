@@ -104,7 +104,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       virtual Bool_t RefreshNamesList();
       virtual Bool_t DelayedRefreshNamesList(Int_t delay_sec);
 
-      virtual Bool_t CanSubmitAnalysisSettings() { return IsConnected() && !IsViewer(); }
+      virtual Bool_t CanSubmitObjects() { return IsConnected() && !IsViewer(); }
       virtual void RequestAnalysisSettings();
       virtual void SubmitAnalysisSettings();
       virtual void CloseAnalysisSettings();

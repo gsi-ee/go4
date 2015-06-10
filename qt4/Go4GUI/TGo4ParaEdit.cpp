@@ -35,6 +35,7 @@
 #include "TGo4Fitter.h"
 #include "TGo4Slot.h"
 #include "TGo4BrowserProxy.h"
+#include "TGo4ServerProxy.h"
 
 TGo4ParaEdit::TGo4ParaEdit(QWidget *parent, const char* name) :
    QGo4Widget(parent,name)
@@ -100,8 +101,8 @@ void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
        const char* previtem = GetLinkedName("Parameter");
        if ((par!=0) && (previtem!=0)) {
           int res = QMessageBox::warning(this, "Parameter editor",
-             QString("Current parameter ")+previtem+" is modified!\n"+
-             "New parameter " + itemname + " is selected.",
+             QString("Current parameter %1 is modified!\n"
+                     "New parameter %2 is selected.").arg(previtem).arg(itemname),
              QString("Continue with current"),
              QString("Start with new"), QString::null, 0);
 //            (BrowserItemRemote(previtem) ? QString("Update current in analysis and start with new") : QString::null), 0);
@@ -122,8 +123,7 @@ void TGo4ParaEdit::WorkWithParameter(const char* itemname, bool isrefresh)
    if (BrowserItemRemote(itemname)) {
       TGo4Slot* tgtslot = AddSlot("ParStatus");
       TGo4BrowserProxy* br = Browser();
-      if (br!=0)
-         br->RequestObjectStatus(itemname, tgtslot);
+      if (br!=0) br->RequestObjectStatus(itemname, tgtslot);
       // add dummy link to be informed when parameter is disappear
       AddLink(itemname, "ParameterLock");
    } else {
@@ -147,7 +147,7 @@ void TGo4ParaEdit::ResetWidget()
    ParamNameLbl->setText("");
    ParamClassLbl->setText("");
 
-   fItemName="";
+   fItemName = "";
 
    RefreshButton->setEnabled(false);
    ApplyButton->setEnabled(false);
@@ -183,7 +183,10 @@ void TGo4ParaEdit::RefreshWidget(TGo4Parameter* par)
 void TGo4ParaEdit::RefreshWidget(TGo4ParameterStatus* status)
 {
    RefreshButton->setEnabled(status!=0);
-   ApplyButton->setEnabled(status!=0);
+
+   TGo4BrowserProxy* br = Browser();
+   TGo4ServerProxy* serv = br ? br->DefineServerObject(fItemName.toLatin1().constData()) : 0;
+   ApplyButton->setEnabled(serv && serv->CanSubmitObjects());
 
    delete fItems;
    fItems = 0;
