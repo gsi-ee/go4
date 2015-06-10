@@ -1466,7 +1466,7 @@
    <sender>CloseWin</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConditionEditor</receiver>
-   <slot>close()</slot>
+   <slot>CloseMDIParentSlot()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>567</x>

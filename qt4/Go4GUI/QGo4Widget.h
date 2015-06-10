@@ -120,6 +120,7 @@ class QDESIGNER_WIDGET_EXPORT  QGo4Widget : public QWidget {
 
    public slots:
       void ResetWidgetSlot();
+      void CloseMDIParentSlot();
 
    protected:
       virtual void closeEvent(QCloseEvent* e);

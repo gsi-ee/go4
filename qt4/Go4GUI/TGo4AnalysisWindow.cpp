@@ -177,6 +177,8 @@ TGo4AnalysisWindow::~TGo4AnalysisWindow()
 //   TerminateAnalysisProcess();
    if (Browser()!=0)
       Browser()->ToggleMonitoring(0);
+   CloseMDIParentSlot(); // JAM remove top level window when changing connection from client to server
+   printf("TGo4AnalysisWindow dtor\n");
 }
 
 bool TGo4AnalysisWindow::HasOutput()

@@ -401,7 +401,7 @@
       <sender>CancelButton</sender>
       <signal>pressed()</signal>
       <receiver>TGo4ParaEdit</receiver>
-      <slot>close()</slot>
+      <slot>CloseMDIParentSlot()</slot>
     </connection>
     <connection>
       <sender>ApplyButton</sender>

@@ -1107,7 +1107,7 @@
       <sender>CancelButton</sender>
       <signal>clicked()</signal>
       <receiver>TGo4EditDynEntry</receiver>
-      <slot>close()</slot>
+      <slot>CloseMDIParentSlot()</slot>
     </connection>
     <connection>
       <sender>EvXnameEdit</sender>

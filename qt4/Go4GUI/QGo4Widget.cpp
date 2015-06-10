@@ -75,6 +75,10 @@ void QGo4Widget::ShootCloseWidget(bool closeparent)
    QTimer::singleShot(0, closeparent ? parentWidget() : this, SLOT(close()));
 }
 
+void QGo4Widget::CloseMDIParentSlot()
+{
+  ShootCloseWidget(true);
+}
 
 void QGo4Widget::ResetWidgetSlot()
 {
