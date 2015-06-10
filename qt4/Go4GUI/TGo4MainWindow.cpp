@@ -53,6 +53,7 @@
 //////// root includes;
 #include "Riostream.h"
 #include "TSystem.h"
+#include "TApplication.h"
 #include "TROOT.h"
 #include "TMath.h"
 #include "TStyle.h"
@@ -982,10 +983,10 @@ void TGo4MainWindow::closeEvent( QCloseEvent* ce)
             return;
       }
 
-   fxMdiArea->closeAllSubWindows();
+   //fxMdiArea->closeAllSubWindows();
 
    Browser()->ToggleMonitoring(0);
-
+   fxMdiArea->closeAllSubWindows();
    CloseAllFilesSlot();
 
    StopGUIScriptSlot();
@@ -1000,9 +1001,11 @@ void TGo4MainWindow::closeEvent( QCloseEvent* ce)
       ce->ignore();
    } else {
       statusBar()->showMessage("Closing GUI...");
-      //std::cout <<"closeEvent does exit" << std::endl;
-      ce->accept();
-      // gSystem->Exit( 0 );
+      // JAM: due to problems with Qt5, we just use delayed exit here
+      // note that calling directly gSystem->Exit gives crash in ROOT object/pad cleanup...
+      // probably because fxMdiArea->closeAllSubWindows() will have effect only after this event handler returns
+      QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
+      ce->ignore();
    }
 }
 
