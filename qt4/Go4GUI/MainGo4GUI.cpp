@@ -160,14 +160,19 @@ int main(int argc, char **argv)
 
    TApplication app("uno", &argc, argv); // ROOT application
    
-//#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-   //in qt5 such operation gives warning, but does not work :(
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+   //in qt5 this must be done before application is created...
    QApplication::setColorSpec( QApplication::ManyColor );
-//#endif
+#endif
    
    Q_INIT_RESOURCE(go4icons);
 
    QRootApplication myapp(argc, argv); // Qt application
+
+
+#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
+   QApplication::setColorSpec( QApplication::ManyColor );
+#endif
 
    // qt4.4 sets local settings not to "C", but to system-depended values
    ::setlocale(LC_ALL, "C");
