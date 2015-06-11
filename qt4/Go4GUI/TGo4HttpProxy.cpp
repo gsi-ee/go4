@@ -966,6 +966,12 @@ Bool_t TGo4HttpProxy::UpdateAnalysisObject(const char* objectname, TObject* obj)
    return PostObject(url.Data(), obj, 2, destr);
 }
 
+void TGo4HttpProxy::ResetDebugOutputRequests()
+{
+   TGo4Slot* subslot = DebugOutputSlot();
+   if (subslot) subslot->AssignObject(0, kFALSE);
+}
+
 void TGo4HttpProxy::ProcessUpdateTimer()
 {
    TGo4Slot* subslot = RatemeterSlot();

@@ -38,7 +38,6 @@ class TGo4ServerProxy : public TGo4Proxy {
       TGo4Slot* LoginfoSlot();
       TGo4Slot* DebugOutputSlot();
 
-
       virtual const char* GetServerName() const { return fNodeName.Data(); }
       virtual const char* GetUserName() const { return ""; }
       virtual const char* GetContainedObjectInfo();
@@ -101,6 +100,8 @@ class TGo4ServerProxy : public TGo4Proxy {
                                  Bool_t overwrite) {}
 
       virtual Int_t NumberOfWaitingProxyes() { return 0; }
+
+      virtual void ResetDebugOutputRequests() {}
 
    ClassDef(TGo4ServerProxy, 1);
 };

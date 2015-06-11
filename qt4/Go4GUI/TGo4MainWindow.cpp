@@ -1152,17 +1152,7 @@ void TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* user, const c
       TGo4LogInfo* loginfo = (TGo4LogInfo*) FindGo4Widget("LogInfo", false);
       if (loginfo!=0) loginfo->WorkWithInfo(serv->LoginfoSlot());
 
-      TGo4AnalysisWindow* anw = FindAnalysisWindow();
-      if (anw!=0) delete anw;
-
-      anw = new TGo4AnalysisWindow(fxMdiArea, "AnalysisWindow", true, false);
-      QMdiSubWindow* sub = fxMdiArea->addSubWindow(anw);
-      sub->resize(go4sett->lastPanelSize("AnalysisWindow", 700, 500));
-      CascadeMdiPosition(sub);
-      ConnectGo4Widget(anw);
-      anw->ensurePolished();
-      sub->show();
-      anw->WorkWithDebugOutput(serv->DebugOutputSlot());
+      EstablishAnalysisWindowForHttp();
    }
 }
 
@@ -1729,7 +1719,7 @@ TGo4AnalysisProxy* TGo4MainWindow::AddAnalysisProxy(bool isserver, bool needoutp
 
 bool TGo4MainWindow::RemoveAnalysisProxy(int waittime, bool servershutdown)
 {
-   Browser()->ToggleMonitoring(0);
+   // Browser()->ToggleMonitoring(0);
    EstablishAnalysisConfiguration(0);
    EstablishRatemeter(0);
 
@@ -1760,8 +1750,9 @@ void TGo4MainWindow::UpdateDockAnalysisWindow()
      if (anal->IsAnalysisServer()) {
        if (anal->IsConnected() && (anal->IsController() || anal->IsAdministrator()))
          shouldexists = true;
-     } else
+     } else {
        shouldexists = true;
+     }
 
    if (shouldexists && (anw==0)) {
      QToolBar* dock = addToolBar("Analysis control");
@@ -1772,6 +1763,32 @@ void TGo4MainWindow::UpdateDockAnalysisWindow()
      dock->addWidget(anw);
      anw->WorkWithUpdateObjectCmd(anal->UpdateObjectSlot());
    }
+}
+
+void TGo4MainWindow::EstablishAnalysisWindowForHttp()
+{
+   // used together with http server connection
+   // analysis window only created when not exists and http proxy is available
+
+   TGo4ServerProxy* serv = Browser()->FindAnalysisNew();
+   if ((serv==0) || (dynamic_cast<TGo4AnalysisProxy*>(serv)!=0) || (serv->DebugOutputSlot()==0)) return;
+
+   TGo4AnalysisWindow* anw = FindAnalysisWindow();
+   if (anw) {
+      if (anw->HasLink()) return;
+      delete anw;
+      anw = 0;
+   }
+
+   anw = new TGo4AnalysisWindow(fxMdiArea, "AnalysisWindow", true, false);
+   QMdiSubWindow* sub = fxMdiArea->addSubWindow(anw);
+   sub->resize(go4sett->lastPanelSize("AnalysisWindow", 700, 500));
+   CascadeMdiPosition(sub);
+   ConnectGo4Widget(anw);
+   anw->ensurePolished();
+   sub->show();
+   anw->WorkWithDebugOutput(serv->DebugOutputSlot());
+   serv->ResetDebugOutputRequests();
 }
 
 TGo4AnalysisStatusMonitor* TGo4MainWindow::EstablishRatemeter(int level)
@@ -1904,7 +1921,7 @@ void TGo4MainWindow::CheckConnectingCounterSlot()
    TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
    if ((anal==0) || anal->IsConnected() || (--fConnectingCounter<=0)) {
       if (fConnectingCounter<=0)
-        StatusMessage("Analysis refused connection. Try again");
+         StatusMessage("Analysis refused connection. Try again");
       fConnectingCounter = 0;
       EstablishRatemeter((anal!=0) && anal->IsConnected() ? 2 : 0);
       EstablishAnalysisConfiguration((anal!=0) && anal->IsConnected() && (anal->IsController() || anal->IsAdministrator()) ? 3 : 0);
@@ -2240,15 +2257,18 @@ void TGo4MainWindow::ToggleAnalysisWindow()
 void TGo4MainWindow::CloseAnalysisWindow()
 {
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
-   if (anw==0) return;
 
-   if (anw->HasOutput()) {
-      anw->parentWidget()->close();
-   } else {
-      QToolBar* bar = dynamic_cast<QToolBar*> (anw->parentWidget());
-      removeToolBar(bar);
-      delete bar;
-   }
+   if (anw)
+     if (anw->HasOutput()) {
+        anw->parentWidget()->close();
+      } else {
+         QToolBar* bar = dynamic_cast<QToolBar*> (anw->parentWidget());
+         removeToolBar(bar);
+         delete bar;
+      }
+
+   // try to reestablish window for other server
+   QTimer::singleShot(250, this, SLOT(EstablishAnalysisWindowForHttp()));
 }
 
 

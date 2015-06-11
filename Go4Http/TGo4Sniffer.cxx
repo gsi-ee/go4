@@ -495,11 +495,21 @@ void TGo4Sniffer::SetTitle(const char* title)
    const char* prev = GetItemField("/Status/DebugOutput", "value");
    TString res;
    if (prev && (strcmp(prev,"---")!=0)) res = prev;
+   if (res.Length() > 50000) res.Remove(0, res.Length() - 25000);
    res.Append("\n"); res.Append(title);
 
    SetItemField("/Status/DebugOutput","value", res);
 
-   fDebugOutput.AddMsg(title);
+   const char *cur = title;
+   while (*cur != 0) {
+      const char* next = strchr(cur, '\n');
+      if (next==0) {
+         fDebugOutput.AddMsg(cur);
+         break;
+      }
+      fDebugOutput.AddMsg(TString(cur, next-cur));
+      cur = next+1;
+   }
 }
 
 void TGo4Sniffer::RatemeterUpdate(TGo4Ratemeter* r)

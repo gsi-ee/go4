@@ -175,11 +175,9 @@ void TGo4AnalysisWindow::CreateButtons(QHBoxLayout* box, bool needkillbtn)
 
 TGo4AnalysisWindow::~TGo4AnalysisWindow()
 {
-//   TerminateAnalysisProcess();
-   if (Browser()!=0)
-      Browser()->ToggleMonitoring(0);
+   //if (Browser()!=0)
+   //   Browser()->ToggleMonitoring(0);
    CloseMDIParentSlot(); // JAM remove top level window when changing connection from client to server
-   printf("TGo4AnalysisWindow dtor\n");
 }
 
 bool TGo4AnalysisWindow::HasOutput()
@@ -371,12 +369,14 @@ void TGo4AnalysisWindow::WorkWithDebugOutput(TGo4Slot* slot)
 {
    // can be called only once when window is created
    AddLink(slot, "DebugOutput");
+   fHasLink = true;
 }
 
 void TGo4AnalysisWindow::WorkWithUpdateObjectCmd(TGo4Slot* slot)
 {
    // can be called only once when window is created
    AddLink(slot, "ObjectUpdateCmd");
+   fHasLink = true;
 }
 
 void TGo4AnalysisWindow::WaitForNewObject(bool isobjectforeditor)
@@ -414,6 +414,8 @@ void TGo4AnalysisWindow::linkedObjectUpdated(const char* linkname, TObject* obj)
 
 void TGo4AnalysisWindow::linkedObjectRemoved(const char* linkname)
 {
+   fHasLink = false;
+
    if (!HasOutput() || (strcmp(linkname, "DebugOutput")==0))
       ServiceCall("CloseAnalysisWindow");
 }
@@ -423,7 +425,7 @@ void TGo4AnalysisWindow::resizeEvent(QResizeEvent * e)
    // store size of top widget - JAM only if not within dock window (analysis server)
    // size of top widget will be restored when new panel is created
   if(HasOutput())
-    go4sett->storePanelSize(parentWidget(), "AnalysisWindow");
+     go4sett->storePanelSize(parentWidget(), "AnalysisWindow");
 }
 
 void TGo4AnalysisWindow::closeEvent(QCloseEvent* e)

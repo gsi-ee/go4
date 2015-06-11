@@ -113,8 +113,7 @@ void TGo4AnalysisStatusMonitor::linkedObjectRemoved(const char * linkname)
 {
    // in any case deletion of this slot means closing of widget
 
-   if (Browser())
-      Browser()->ToggleMonitoring(0);
+   // if (Browser()) Browser()->ToggleMonitoring(0);
 
    ShootCloseWidget();
 }

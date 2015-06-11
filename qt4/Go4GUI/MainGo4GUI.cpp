@@ -109,8 +109,8 @@ int main(int argc, char **argv)
    bool prepare_for_client = false;
 
    bool traceon = false;
-   QString hotstart(""), dabcnode(""), httpnode("");
-   QStringList files;
+   QString hotstart(""), dabcnode("");
+   QStringList files, httpnodes;
 
    for(int narg=1;narg<argc;narg++) {
       if (strlen(argv[narg])==0) continue;
@@ -148,7 +148,7 @@ int main(int argc, char **argv)
          dabcnode = argv[narg];
       } else
       if (QString(argv[narg]).contains("http://") || QString(argv[narg]).contains("https://")) {
-         httpnode = argv[narg];
+         httpnodes.append(argv[narg]);
       } else
       if (hotstart.length()==0) {
          hotstart = argv[narg];
@@ -245,8 +245,8 @@ int main(int argc, char **argv)
    if (dabcnode.length()>0)
       Go4MainGUI->Browser()->ConnectDabc(dabcnode.toLatin1().constData());
 
-   if (httpnode.length()>0)
-      Go4MainGUI->ConnectHttpSlot(httpnode.toLatin1().constData());
+   for (int i = 0; i < httpnodes.size(); ++i)
+      Go4MainGUI->ConnectHttpSlot(httpnodes.at(i).toLatin1().constData());
 
    if (hotstart.length()>0)
       Go4MainGUI->HotStart(hotstart.toLatin1().constData());

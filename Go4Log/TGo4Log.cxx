@@ -129,28 +129,13 @@ void TGo4Log::ProcessRedirection(int kind)
       printf("%s", buffer);
       fflush(stdout);
 
-      // only when external sniffer specified, provide for it output line by line
-      if (fgSniffer!=0) {
-         char *cur = buffer;
-
-         while (*cur != 0) {
-            char* next = strchr(cur, '\n');
-            if (next==0) {
-               fgSniffer->SetTitle(cur);
-               break;
-            }
-            *next = 0;
-            fgSniffer->SetTitle(cur);
-            cur = next+1;
-         }
-      }
+      if (fgSniffer!=0) fgSniffer->SetTitle(buffer);
    }
 
    if (kind<=0) {
       dup2(fgStdPipe[1], STDOUT_FILENO); // redirect again
    }
 }
-
 
 void TGo4Log::SetSniffer(TNamed* sniff)
 {

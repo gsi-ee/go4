@@ -41,6 +41,7 @@ class TGo4AnalysisWindow : public QGo4Widget {
        void WaitForNewObject(bool isobjectforeditor);
 
        bool HasOutput();
+       bool HasLink() const { return fHasLink; }
 
    public slots:
       void readFromStdout();
@@ -72,6 +73,7 @@ class TGo4AnalysisWindow : public QGo4Widget {
       QTextEdit* fxOutput;
       unsigned int fiMaxOuputSize;
       bool fNewObjectForEditor;
+      bool fHasLink;
 };
 
 #endif // TGO4ANALYSISWINDOW_H

@@ -227,6 +227,8 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
                                  Int_t complevel,
                                  Bool_t overwrite);
 
+      virtual void ResetDebugOutputRequests();
+
 };
 
 #endif
