@@ -24,7 +24,7 @@
 class TCutG;
 
 /**
- * Basic absrtact class, combining common properties of data and model.
+ * Basic abstract class, combining common properties of data and model.
  */
 class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
    public:
@@ -102,7 +102,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
 
       /**
        * Includes axis range in consideration.
-       * Number of axis and minium and maximum values should be specified.
+       * Number of axis and minimum and maximum values should be specified.
        */
       void SetRange(Int_t naxis, Double_t min, Double_t max);
 
@@ -197,7 +197,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
       TCutG* GetRangeCut(Int_t n) const;
 
       /**
-       * Return kTRUE if cut eclude range
+       * Return kTRUE if cut exclude range
        */
       Bool_t IsRangeCutExcluding(Int_t n);
 
@@ -219,7 +219,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
       /**
        * Collect all parameters to provided parameters list object.
        * Not only parameters of TGo4FitComponent copies to list.
-       * All parameters, which are situated in incpsulated objects, also will be copied to this list.
+       * All parameters, which are situated in encapsulated objects, also will be copied to this list.
        */
       virtual void CollectParsTo(TGo4FitParsList& list);
 
@@ -270,7 +270,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
       TArrayI fxRangeAxis;
 
       /**
-       * Array for range values storaging.
+       * Array for range values storage.
        */
       TArrayD fxRangeValue;
 

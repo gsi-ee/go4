@@ -216,11 +216,13 @@ void TGo4FitComponent::ClearRanges(Int_t naxis) {
    }
 }
 
-Bool_t TGo4FitComponent::IsAnyRangeLimits() {
+Bool_t TGo4FitComponent::IsAnyRangeLimits()
+{
    return (GetNumRangeCondition()>0) || (GetNumRangeCut()>0);
 }
 
-void TGo4FitComponent::AddRangeCut(TCutG* cut, Bool_t exclude) {
+void TGo4FitComponent::AddRangeCut(TCutG* cut, Bool_t exclude)
+{
   cut->SetBit(kExcludeCut, exclude);
   fxCuts.Add(cut);
 }
