@@ -33,7 +33,7 @@ REQUIREMENTS: ROOT and Qt4/Qt5 (or Qt3)
 
 ROOT INSTALLATION
 
-  Install the ROOT framework Version >=5.28/00 (older version up to 5.17 
+  Install the ROOT framework Version >=5.34/30 (older version up to 5.34/02 
   can also be used, but not recommended). 
   See instruction how download and compile ROOT on http://root.cern.ch.
   There are several ways to install ROOT framework on the machine:
@@ -48,6 +48,11 @@ ROOT INSTALLATION
      3) Install ROOT from RPM packages. There are Linux distributions, where ROOT 
         is available in form of precompiled package. Normally it should be enough 
         to install such package on the system.
+  To use http connection to the go4 analysis, http plugin of ROOT should be
+  compiled. To enable its compilation, one should call:
+
+     shell> ./configure --enable-http
+
   Check, that ROOT installed correctly, by calling:
 
      shell> root-config --version
@@ -62,20 +67,20 @@ QT INSTALLATION
 
   This Go4 distribution can be built with following Qt versions:
      qt3 - Qt 3.3.x and higher
-     qt4 - Qt 4.4.x and higher (recommended)
+     qt4 - Qt 4.6.x and higher (recommended)
      qt5 - Qt 5.2.x and higher 
   Most modern Linux distributions provide Qt libraries, utilities and include files.
   Typically one should install libqt4-devel packages (or libqt3-devel).
   Normally Go4 able to detect major version of such Qt installation 
   and will compile either correspondent version of Go4 GUI.
-  If both Qt3 and Qt4 version are installed, use "withqt" makefile flag to select 
-  prefered version of qt. It is especially necessary for systems, where Qt3 installation 
+  If several Qt versions are installed, use "withqt" makefile flag to select 
+  preferred version of qt. It is especially necessary for systems, where Qt3 installation 
   automatically sets QTDIR variable. In that case call "make withqt=4" to compile 
   go4 with Qt4. It is recommended to use Qt4 version of GUI. 
   
   If there is no Qt installed on your system, or Go4 is not able to use it correctly,
   one should compile Qt from the source package. For that download from
-  http://www.qtsoftware.com/downloads package like qt-everywhere-opensource-src-4.6.2.tar.gz
+  http://www.qtsoftware.com/downloads package like qt-everywhere-opensource-src-4.8.2.tar.gz
   Configure it with following flags:
   
      shell> ./configure -prefix $PWD 
@@ -102,16 +107,7 @@ QT installation on Mac OS X
   (fink package qt4-x11). Go4 was tested with Mac OS X 10.6 (Darwin) and Qt 4.5.2.
   Qt3 is not supported for MacOS! 
   On Mac OS shell variable name is DYLD_LIBRARY_PATH instead LD_LIBRARY_PATH.
-
-
-DABC installation
-  
-  With DABC (version >= 2.6.0) one gets web interface in go4. 
-  Installation instruction for DABC can be found on http://dabc.gsi.de web site. 
-  Go4 will automatically use DABC installation once DABCSYS shell variable is set. 
-  Typically one call from the shell:
-  
-     shell> . your_dabc_path/dabclogin 
+  Starting from Mac OS X 10.7 qt4-x11 package is not available 
 
 
 GO4 COMPILATION

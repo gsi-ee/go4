@@ -141,7 +141,7 @@ Bool_t TGo4FitAmplEstimation::CalculateWithBuffers(TGo4Fitter* fitter) {
              matr(n2,n1) = fSum;
           }
 
-        // caluclating difference between data and fixed components
+        // calculating difference between data and fixed components
         for(Int_t ndata=0;ndata<fitter->GetNumData();ndata++) {
            TGo4FitData* data = fitter->GetData(ndata);
            Int_t size = fitter->GetDataBinsSize(data);
@@ -182,12 +182,12 @@ Bool_t TGo4FitAmplEstimation::CalculateWithBuffers(TGo4Fitter* fitter) {
 
         if (matr.Determinant()==0.) {
            std::cerr << "  Amplitude estimation algorithm failed. " << std::endl;
-           std::cerr << "  Determinant of matrice == 0.; This may be due to equiavalent model components or zero model at all" << std::endl;
+           std::cerr << "  Determinant of matrix == 0.; This may be due to equivalent model components or zero model at all" << std::endl;
            break;
         }
 
         matr.Invert();
-        vector*=matr;
+        vector *= matr;
 
         for(Int_t n=0;n<ncomp;n++) {
            TGo4FitModel *model = (TGo4FitModel*) comps[n];
@@ -311,12 +311,12 @@ Bool_t TGo4FitAmplEstimation::CalculateWithIterators(TGo4Fitter* fitter) {
 
        if (matr.Determinant()==0.) {
            std::cerr << "  Amplitude estimation algorithm failed. " << std::endl;
-           std::cerr << "  Determinant of matrice == 0.; This may be due to equiavalent model components or zero model at all" << std::endl;
+           std::cerr << "  Determinant of matrix == 0.; This may be due to equivalent model components or zero model at all" << std::endl;
            return kFALSE;
         }
 
         matr.Invert();
-        vector*=matr;
+        vector *= matr;
 
         for(Int_t n=0;n<ncomp;n++) {
            TGo4FitModel *model = fitter->GetModel(refindex[n]);
@@ -329,7 +329,7 @@ Bool_t TGo4FitAmplEstimation::CalculateWithIterators(TGo4Fitter* fitter) {
         niter++;
         if (niter<fiNumIters)
           if ((FFtype==TGo4Fitter::ff_chi_Pearson) ||
-              (FFtype==TGo4Fitter::ff_ML_Poisson)) changed=kTRUE;
+              (FFtype==TGo4Fitter::ff_ML_Poisson)) changed = kTRUE;
 
     } while (changed);
 

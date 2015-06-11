@@ -57,13 +57,13 @@ TXXXAnlProc::TXXXAnlProc(const char* name) :
 
    fCaligraph = (TGraph*) GetObject("Calibration");
    if (fCaligraph==0) {
-      fCaligraph=new TGraph;
+      fCaligraph = new TGraph;
       fCaligraph->SetName("Calibration");
       fCaligraph->SetMarkerStyle(3);
       AddObject(fCaligraph);
    }
 
-   fFitter = (TGo4Fitter*)GetObject("Fitter");
+   fFitter = (TGo4Fitter*) GetObject("Fitter");
    if (fFitter==0) {
       fFitter = new TGo4Fitter("Fitter", TGo4Fitter::ff_chi_square, kTRUE);
       fFitter->AddH1("data", 0, kFALSE, 100., 1000.);
@@ -74,7 +74,7 @@ TXXXAnlProc::TXXXAnlProc(const char* name) :
    fCalipar = (TXXXCalibPar*) GetParameter("CaliPar");
    if (fCalipar==0) {
       // calibration parameter not yet existing, we set it up:
-      fCalipar=new TXXXCalibPar("CaliPar",GetHistogram("Cr1Ch01"),fCaligraph);
+      fCalipar = new TXXXCalibPar("CaliPar",GetHistogram("Cr1Ch01"),fCaligraph);
       AddParameter(fCalipar);
    }
 
@@ -98,22 +98,19 @@ Bool_t TXXXAnlProc::BuildEvent(TGo4EventElement* dest)
    out_evt->SetValid(kTRUE);       // events are not stored until kTRUE is set
    Int_t cnt(0);
    TXXXUnpackEvent& ev=*inp_evt; // ref instead pointer for array syntax below
-   for(Int_t cr=1;cr<3;cr++)
-   	   {
-	   // loop over first filled crates 1 and 2
-	   for(Int_t ii=0;ii<4;ii++)
-	   {
-		   // get first channels of each crate
-		   TXXXModule* mod=dynamic_cast<TXXXModule*>( &ev[cr][ii]); // 2d array with composite event operator[]
-		   if(mod==0) continue;
-		   Float_t val= mod->GetData();
-		   out_evt->frData[cnt] = val;
-		   if(val) fCaliSum1->Fill(fCalipar->Energy(val));
-		   cnt++;
-	   }
+   for(Int_t cr=1;cr<3;cr++) {
+      // loop over first filled crates 1 and 2
+      for(Int_t ii=0;ii<4;ii++)
+      {
+         // get first channels of each crate
+         TXXXModule* mod=dynamic_cast<TXXXModule*>( &ev[cr][ii]); // 2d array with composite event operator[]
+         if(mod==0) continue;
+         Float_t val= mod->GetData();
+         out_evt->frData[cnt] = val;
+         if(val) fCaliSum1->Fill(fCalipar->Energy(val));
+         cnt++;
+      }
    }
-
-
 
    for(Int_t ii=0;ii<8;ii++)
       if(out_evt->frData[ii]) {

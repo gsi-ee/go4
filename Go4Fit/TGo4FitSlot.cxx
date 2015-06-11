@@ -244,12 +244,12 @@ TGo4FitSlotList::TGo4FitSlotList()
 
 TGo4FitSlotList::~TGo4FitSlotList()
 {
-   if (fxSlotList) delete fxSlotList;
+   if (fxSlotList) { delete fxSlotList; fxSlotList = 0; }
 }
 
 void TGo4FitSlotList::FillSlotList(TSeqCollection* lst)
 {
-   if(lst==0) return;
+   if (lst==0) return;
 }
 
 void TGo4FitSlotList::SetUpdateSlotList()
@@ -260,7 +260,7 @@ void TGo4FitSlotList::SetUpdateSlotList()
 const TObjArray* TGo4FitSlotList::GetSlotList(Bool_t ForceUpdate)
 {
    if (fxSlotList==0) {
-     fxSlotList= new TObjArray(10);
+     fxSlotList = new TObjArray(10);
      FillSlotList(fxSlotList);
    } else
    if (fbUpdateSlotList || ForceUpdate) {

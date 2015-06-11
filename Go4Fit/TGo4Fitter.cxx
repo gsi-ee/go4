@@ -453,7 +453,6 @@ void TGo4Fitter::ChangeDataNameInAssignments(const char* oldname, const char* ne
 
 Bool_t TGo4Fitter::InitFitterData()
 {
-
    Int_t dbuf = -1, mbuf = -1;
    switch (GetMemoryUsage()) {
       case 0: dbuf = 0; mbuf = 0; break;
@@ -463,7 +462,6 @@ Bool_t TGo4Fitter::InitFitterData()
    }
 
    for(Int_t i1=0;i1<GetNumData();i1++) {
-
       TGo4FitData *data = GetData(i1);
       if (!data->Initialize(dbuf)) return kFALSE;
       for(Int_t i2=0;i2<GetNumModel();i2++)
@@ -524,7 +522,6 @@ Double_t TGo4Fitter::PointFitFunction(Int_t FitFunctionType, Double_t value, Dou
 
 Double_t TGo4Fitter::CalculateFCN(Int_t FitFunctionType, TGo4FitData* selectdata)
 {
-
   if (GetMemoryUsage()>0)  RebuildAll();
 
   Double_t fSum = 0.;

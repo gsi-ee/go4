@@ -52,8 +52,8 @@ TXXXCalibPar::TXXXCalibPar(const char* name, TH1* spectrum, TGraph* curve) :
    fxCalibSpectrum(spectrum)
 {
    // Set up fitters:
-   fxLinesFinder=new TGo4Fitter("Linefinder", TGo4Fitter::ff_least_squares, kTRUE);
-   fxCalibrator=new TGo4Fitter("Calibrator", TGo4Fitter::ff_least_squares, kTRUE);
+   fxLinesFinder = new TGo4Fitter("Linefinder", TGo4Fitter::ff_least_squares, kTRUE);
+   fxCalibrator = new TGo4Fitter("Calibrator", TGo4Fitter::ff_least_squares, kTRUE);
    if(fxCalibSpectrum)
    {
       fxLinesFinder->AddH1(__DATANAME__, fxCalibSpectrum, kFALSE);
@@ -78,7 +78,7 @@ TXXXCalibPar::TXXXCalibPar(const char* name, TH1* spectrum, TGraph* curve) :
    for(Int_t i=0; i<__POLORDER__;++i) {
       fdA[i]=1/(i+1);
       TString modname = TString::Format("A_%d",i);
-      TGo4FitModel* mod=fxCalibrator->FindModel(modname.Data());
+      TGo4FitModel* mod = fxCalibrator->FindModel(modname.Data());
       if(mod) {
          // for the beginning, disable models beyond order 1:
          if(i>1) mod->ClearAssignmentTo(__GRAPHNAME__);
@@ -202,13 +202,14 @@ Bool_t TXXXCalibPar::UpdateFrom(TGo4Parameter *source)
          fxCalibrator->SetObject(__GRAPHNAME__, fxCalibCurve, kFALSE);
          fxCalibrator->DoActions();
          fxCalibrator->PrintLines();
+         printf("fxCalibrator = %p\n", fxCalibrator);
          // finally, copy results of calibration to the parameter fields:
          for(Int_t i=0; i<__POLORDER__;++i) {
-            TGo4FitModel* mod=fxCalibrator->FindModel(Form("A_%d",i));
+            TGo4FitModel* mod = fxCalibrator->FindModel(Form("A_%d",i));
             if(mod) {
                // check here if component is active or not
                if(mod->IsAssignTo(__GRAPHNAME__))
-                  fdA[i]=mod->GetParValue("Ampl");
+                  fdA[i] = mod->GetParValue("Ampl");
                else
                   fdA[i]=0;
             }

@@ -227,7 +227,7 @@ Bool_t TGo4FitterAbstract::ApplyConfig(TGo4FitterConfig* Config)
 Bool_t TGo4FitterAbstract::Initialize()
 {
    if (fbNeedToFinalize) Finalize();
-   fbInitializationDone=kFALSE;
+   fbInitializationDone = kFALSE;
 
    if (!CheckObjects()) return kFALSE;
 
@@ -239,7 +239,7 @@ Bool_t TGo4FitterAbstract::Initialize()
 
    if (!InitFitterData()) return kFALSE;
 
-   fbInitializationDone=kTRUE;
+   fbInitializationDone = kTRUE;
 
    return kTRUE;
 }
@@ -282,7 +282,7 @@ void TGo4FitterAbstract::Finalize()
      ApplyConfig(0);
 
    fbNeedToFinalize = kFALSE;
-   fbInitializationDone=kFALSE;
+   fbInitializationDone = kFALSE;
 }
 
 void TGo4FitterAbstract::AddAction(TGo4FitterAction* Action)
@@ -332,6 +332,7 @@ void TGo4FitterAbstract::DoActions(Bool_t AllowFitterChange, TObjArray* Actions)
      if (action)
        need = need || action->NeedBuffers();
   }
+
   if (need)
     if (!Initialize()) return;
 
