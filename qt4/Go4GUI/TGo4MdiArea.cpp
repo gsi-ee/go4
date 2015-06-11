@@ -65,6 +65,19 @@ TGo4ViewPanel* TGo4MdiArea::GetActivePanel()
    return fxActivePanel;
 }
 
+QMdiSubWindow* TGo4MdiArea::AddGo4SubWindow(QWidget * widget, Qt::WindowFlags flags)
+{
+  QMdiSubWindow*sub=addSubWindow(widget, flags);
+           //setMouseTracking(true); // avoid doubly accepted events?
+#if QT_VERSION > QT_VERSION_CHECK(5,0,0)   
+// TODO: JAM make window behaviour configurable in Go4 for all Qt versions.
+   sub->setOption(QMdiSubWindow::RubberBandResize);
+   sub->setOption(QMdiSubWindow::RubberBandMove); // JAM for qt5 performance?
+#endif   
+   return sub;
+}
+
+
 void TGo4MdiArea::subWindowActivatedSlot(QMdiSubWindow* sub)
 {
    TGo4ViewPanel* panel = dynamic_cast<TGo4ViewPanel*> (sub ? sub->widget() : 0);

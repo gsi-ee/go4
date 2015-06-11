@@ -33,6 +33,7 @@
 #include <QMenu>
 #include <QAction>
 #include <QMimeData>
+#include <QDateTime>
 
 #include "TPad.h"
 #include "TCanvas.h"
@@ -48,11 +49,13 @@
 #include "TColor.h"
 #include "TLatex.h"
 #include "Riostream.h"
+#include "TMath.h"
 #ifndef __NOGO4GED__
 #include "TGedEditor.h"
 #endif
 
 #include "TGo4LockGuard.h"
+//#define TGo4LockGuard int JAMDEBUG
 
 #include "QRootDialog.h"
 #include "QRootApplication.h"
@@ -73,7 +76,7 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
    // set defaults
    setUpdatesEnabled( true );
    setMouseTracking(true);
-
+   
    setFocusPolicy( Qt::TabFocus );
    setCursor( Qt::CrossCursor );
 
@@ -82,6 +85,7 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
    //setAttribute(Qt::WA_NoSystemBackground);
    setAttribute(Qt::WA_PaintOnScreen);
    setAttribute(Qt::WA_PaintUnclipped);
+   
 
    // add the Qt::WinId to TGX11 interface
    fQtWindowId = winId();
@@ -121,9 +125,26 @@ QRootCanvas::~QRootCanvas()
 void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
 {
   TGo4LockGuard threadlock;
-  if (fCanvas!=0) {
-     if (e->buttons() & Qt::LeftButton)
-        fCanvas->HandleInput(kButton1Motion, e->x(), e->y());
+#if QT_VERSION > QT_VERSION_CHECK(5,0,0)
+  // JAM use event timestamp for reduction of events (qt5 bug):
+  static ulong lastprocesstime=0;
+  static ulong delta=100; // maybe ms units?
+  ulong timestamp=e->timestamp();
+  if(timestamp-delta<lastprocesstime)
+       {
+            // just eat too old events
+            e->accept();
+            // std::cout <<"----- EATING timestamp:"<<timestamp<< std::endl;
+            return;                
+       }
+  
+  //std::cout <<"----- QRootCanvas::mouseMoveEvent with timestamp:"<<timestamp<<", oldstamp:"<<lastprocesstime << std::endl;
+#endif
+ if (fCanvas!=0) {
+     if (e->buttons() & Qt::LeftButton){
+       //std::cout <<"----- QRootCanvas::mouseMoveEvent with left button held" << std::endl;
+              fCanvas->HandleInput(kButton1Motion, e->x(), e->y());
+    }
      else
         fCanvas->HandleInput(kMouseMotion, e->x(), e->y());
   }
@@ -145,6 +166,10 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
      }
      emit CanvasStatusEvent(buffer.toLatin1().constData());
   }
+   e->accept();
+#if QT_VERSION > QT_VERSION_CHECK(5,0,0)   
+   lastprocesstime=timestamp;
+#endif 
 }
 
 void QRootCanvas::mousePressEvent( QMouseEvent *e )
@@ -232,6 +257,7 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
      default:
         break;
    }
+   e->accept();
 }
 
 void QRootCanvas::mouseReleaseEvent( QMouseEvent *e )
@@ -252,6 +278,7 @@ void QRootCanvas::mouseReleaseEvent( QMouseEvent *e )
       default:
          break;
   }
+   e->accept();
 }
 
 void QRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
@@ -280,18 +307,22 @@ void QRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
       default:
          break;
    }
+    e->accept();
 }
 
-void QRootCanvas::actiavteRepaint(int mode)
+void QRootCanvas::activateRepaint(int mode)
 {
+  
    fRepaintMode |= mode;
+//   if (fRepaintMode > 0) setUpdatesEnabled( false ); // JAM avoid flicker on Qt5 ?
    fRepaintTimer->setSingleShot(true);
    fRepaintTimer->start(100);
-}
+   }
 
 void QRootCanvas::resizeEvent( QResizeEvent *)
 {
-   actiavteRepaint(act_Resize);
+   activateRepaint(act_Resize);
+   
 }
 
 void QRootCanvas::paintEvent( QPaintEvent *)
@@ -304,17 +335,21 @@ void QRootCanvas::paintEvent( QPaintEvent *)
    if (fRepaintMode<0)
       fRepaintMode = 0;
    else
-      actiavteRepaint(act_Update);
+      activateRepaint(act_Update);
 }
+
+
+
 
 void QRootCanvas::processRepaintTimer()
 {
    if (fRepaintMode == 0) return;
-
-   TGo4LockGuard threadlock;
+    //printf("processRepaintTimer with fRepaintMode %d",fRepaintMode);   
+    TGo4LockGuard threadlock;
 
    WId newid = winId();
    if(newid != fQtWindowId) {
+       //printf("processRepaintTimer - sees changed window id %d \n",newid);
       // Qt has changed id for this widget (e.g. at QWorkspace::addWindow())
       // need to adjust the ROOT X access:
       delete fCanvas; // should also remove old x windows!
@@ -329,8 +364,9 @@ void QRootCanvas::processRepaintTimer()
    fCanvas->Update();
 
    fRepaintMode = 0;
-
+   //std::cout<< std::endl;
    emit CanvasUpdated();
+   //setUpdatesEnabled( true ); // JAM avoid flicker on Qt5 ?
 }
 
 void QRootCanvas::leaveEvent( QEvent *e )
@@ -722,8 +758,7 @@ void QRootCanvas::ToggleAutoExec()
 void QRootCanvas::Update()
 {
    // do not call update directly, use timer instead
-
-   actiavteRepaint(act_Update);
+   activateRepaint(act_Update);
 }
 
 void  QRootCanvas::closeEvent( QCloseEvent * e)

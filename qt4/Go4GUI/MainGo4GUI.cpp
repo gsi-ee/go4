@@ -159,7 +159,12 @@ int main(int argc, char **argv)
    argc = 1; // hide all additional parameters from ROOT and Qt
 
    TApplication app("uno", &argc, argv); // ROOT application
-
+   
+//#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
+   //in qt5 such operation gives warning, but does not work :(
+   QApplication::setColorSpec( QApplication::ManyColor );
+//#endif
+   
    Q_INIT_RESOURCE(go4icons);
 
    QRootApplication myapp(argc, argv); // Qt application
@@ -169,10 +174,7 @@ int main(int argc, char **argv)
 
    TGo4AbstractInterface::SetInitSharedLibs();
 
-#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-   //in qt5 such operation gives warning, but does not work :(
-   QApplication::setColorSpec( QApplication::ManyColor );
-#endif
+
 
    TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages
    TGo4Log::Instance(); // init logger object
@@ -235,7 +237,7 @@ int main(int argc, char **argv)
    Go4MainGUI->ensurePolished();
    Go4MainGUI->show();
 
-   myapp.connect( &myapp, SIGNAL( lastWindowClosed() ), &myapp, SLOT( quit() ) );
+   //myapp.connect( &myapp, SIGNAL( lastWindowClosed() ), &myapp, SLOT( quit() ) );
    QApplication::setDoubleClickInterval(400); //ms, for Qt>=3.3 avoid very fast defaults!
    QApplication::setStartDragTime(150); // ms
 

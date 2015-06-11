@@ -5203,6 +5203,8 @@ void TGo4ViewPanel::resizeEvent(QResizeEvent * e)
    go4sett->storePanelSize(parentWidget(), "ViewPanel");
 }
 
+
+
 void TGo4ViewPanel::ResizeGedEditor()
 {
 #ifndef __NOGO4GED__

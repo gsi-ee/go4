@@ -197,7 +197,7 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       void              methodDialog(TObject* object, TMethod* method);
       QAction*          addMenuAction(QMenu* menu, QSignalMapper* map, const QString& text, int id);
 
-      void              actiavteRepaint(int act);
+      void              activateRepaint(int act);
 
       TCanvas*          fCanvas;
       Int_t             fRootWindowId;

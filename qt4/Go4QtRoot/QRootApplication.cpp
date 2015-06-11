@@ -29,6 +29,7 @@
 
 #include "TSystem.h"
 #include "Riostream.h"
+//#include "TTimer.h"
 
 #include <QtCore/QObject>
 #include <QtCore/QTimer>
@@ -39,6 +40,7 @@
 
 static int qt_x11_errhandler( Display *dpy, XErrorEvent *err )
 {
+  
   // special for modality usage: XGetWindowProperty + XQueryTree()
   if ( err->error_code == BadWindow ) {
     //if ( err->request_code == 25 && qt_xdnd_handle_badwindow() )
@@ -57,12 +59,16 @@ static int qt_x11_errhandler( Display *dpy, XErrorEvent *err )
   return 0;
 }
 
+
+
+
 #endif
 
 bool QRootApplication::fDebug = false;
 bool QRootApplication::fWarning = false;
 bool QRootApplication::fRootCanvasMenusEnabled = true;
 
+#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
 void qMessageOutput( QtMsgType type, const char *msg )
 {
    switch ( type ) {
@@ -85,7 +91,32 @@ void qMessageOutput( QtMsgType type, const char *msg )
           break;
    }
 }
+#else
 
+void q5MessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+{
+    QByteArray localMsg = msg.toLocal8Bit();
+    switch (type) {
+    case QtDebugMsg: 
+        if(QRootApplication::fDebug)
+          fprintf(stderr, "QtRoot-Debug: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        break;
+    case QtWarningMsg:   
+        if(QRootApplication::fWarning)
+          fprintf(stderr, "QtRoot-Warning: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        break;
+    case QtCriticalMsg:
+        fprintf(stderr, "QtRoot-Critical: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        break;
+    case QtFatalMsg:
+        fprintf(stderr, "QtRoot-Fatal: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        abort();
+     default:
+        fprintf(stderr, "QtRoot-other: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        break;    
+    }
+}
+#endif
 
 QRootApplication::QRootApplication(int& argc, char **argv, int poll) :
    QApplication(argc,argv, true)
@@ -98,16 +129,14 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll) :
             this, SLOT(execute()) );
     timer->setSingleShot(false);
     timer->start(20);
-
-    // rtimer = new TTimer(20);
-    // rtimer->Start(20, kFALSE);
+    
   }
 
   // install a msg-handler
-  fWarning = fDebug = false;
-
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
   qInstallMsgHandler( qMessageOutput );
+#else
+  qInstallMessageHandler( q5MessageOutput );  
 #endif
 
   // install a filter on the parent
@@ -143,7 +172,7 @@ void QRootApplication::execute()
 {
    //call the inner loop of ROOT
 
-   // gSystem->InnerLoop();
+    //gSystem->InnerLoop();
 
    // SL 28.5.2015: use ProcessEvents instead of InnerLoop to avoid total block of the qt event loop
    gSystem->ProcessEvents();

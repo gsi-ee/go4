@@ -37,6 +37,9 @@ class TGo4MdiArea : public QMdiArea {
 
       TPad* GetSelectedPad();
       void SetSelectedPad(TPad* pad);
+      
+      /** this method allows to set general properties for all go4 subwindows JAM*/
+      QMdiSubWindow* AddGo4SubWindow(QWidget * widget, Qt::WindowFlags flags=0);
 
       void ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* pad);
 

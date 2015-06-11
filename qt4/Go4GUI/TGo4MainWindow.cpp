@@ -867,7 +867,7 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
       if (userpanel!=0) {
          userpanel->setObjectName("UserPanel");
 
-         QMdiSubWindow* sub = fxMdiArea->addSubWindow(userpanel);
+         QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(userpanel);
          CascadeMdiPosition(sub);
          ConnectGo4Widget(userpanel);
          userpanel->ensurePolished();
@@ -921,8 +921,9 @@ TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
    } while ((edslot!=0) && (edslot->FindChild(name.toLatin1().constData())!=0));
 
    TGo4ViewPanel* panel = new TGo4ViewPanel(fxMdiArea, name.toLatin1().constData());
-   QMdiSubWindow* sub = fxMdiArea->addSubWindow(panel); // warning: Qt may exchange the winId here!
+   QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(panel); // warning: Qt may exchange the winId here!
    // panel->GetQCanvas()->performResize(); // may register new winId for TCanvas here
+  
 
    sub->resize(go4sett->lastPanelSize("ViewPanel"));
 
@@ -1703,7 +1704,7 @@ TGo4AnalysisProxy* TGo4MainWindow::AddAnalysisProxy(bool isserver, bool needoutp
    if(anw==0)
      if (needoutput) {
         anw = new TGo4AnalysisWindow(fxMdiArea, "AnalysisWindow", true);
-        QMdiSubWindow* sub = fxMdiArea->addSubWindow(anw);
+        QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(anw);
         sub->resize(go4sett->lastPanelSize("AnalysisWindow", 700, 500));
         CascadeMdiPosition(sub);
         ConnectGo4Widget(anw);
@@ -1781,7 +1782,7 @@ void TGo4MainWindow::EstablishAnalysisWindowForHttp()
    }
 
    anw = new TGo4AnalysisWindow(fxMdiArea, "AnalysisWindow", true, false);
-   QMdiSubWindow* sub = fxMdiArea->addSubWindow(anw);
+   QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(anw);
    sub->resize(go4sett->lastPanelSize("AnalysisWindow", 700, 500));
    CascadeMdiPosition(sub);
    ConnectGo4Widget(anw);
@@ -1842,7 +1843,7 @@ TGo4AnalysisConfiguration* TGo4MainWindow::EstablishAnalysisConfiguration(int le
    if (level>=2) {
       if (conf==0) {
          conf = new TGo4AnalysisConfiguration(fxMdiArea, "AnalysisConfiguration");
-         QMdiSubWindow* sub = fxMdiArea->addSubWindow(conf);
+         QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(conf);
          CascadeMdiPosition(sub);
          ConnectGo4Widget(conf);
          // ! do not show configuration window before analysis settings requested
@@ -2073,7 +2074,7 @@ TGo4FitPanel* TGo4MainWindow::StartFitPanel()
 
    if (fitpanel==0) {
       fitpanel = new TGo4FitPanel(fxMdiArea,"FitPanel");
-      QMdiSubWindow* sub = fxMdiArea->addSubWindow(fitpanel);
+      QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(fitpanel);
       CascadeMdiPosition(sub);
       ConnectGo4Widget(fitpanel);
       fitpanel->ensurePolished();
@@ -2090,7 +2091,7 @@ TGo4HistogramInfo* TGo4MainWindow::StartHistogramInfo()
    TGo4HistogramInfo* hinfo = (TGo4HistogramInfo*) FindGo4Widget("HistogramInfo", true);
    if (hinfo==0) {
       hinfo = new TGo4HistogramInfo(fxMdiArea, "HistogramInfo");
-      QMdiSubWindow* sub = fxMdiArea->addSubWindow(hinfo);
+      QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(hinfo);
       CascadeMdiPosition(sub);
       ConnectGo4Widget(hinfo);
       hinfo->ensurePolished();
@@ -2105,7 +2106,7 @@ TGo4ConditionInfo* TGo4MainWindow::StartConditionInfo()
    TGo4ConditionInfo* cinfo = (TGo4ConditionInfo*) FindGo4Widget("ConditionInfo", true);
    if (cinfo==0) {
       cinfo = new TGo4ConditionInfo(fxMdiArea, "ConditionInfo");
-      QMdiSubWindow* sub = fxMdiArea->addSubWindow(cinfo);
+      QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(cinfo);
       CascadeMdiPosition(sub);
       ConnectGo4Widget(cinfo);
       cinfo->ensurePolished();
@@ -2145,7 +2146,7 @@ TGo4ParaEdit* TGo4MainWindow::StartParaEdit(const char* itemname)
 
    if (pedit==0) {
       pedit = new TGo4ParaEdit(fxMdiArea, "ParaEdit");
-      QMdiSubWindow* sub = fxMdiArea->addSubWindow(pedit);
+      QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(pedit);
       ConnectGo4Widget(pedit);
       pedit->ensurePolished();
       sub->show();
@@ -2164,7 +2165,7 @@ TGo4EditDynEntry* TGo4MainWindow::StartEditDynEntry()
 
    if (dedit==0) {
       dedit = new TGo4EditDynEntry(fxMdiArea, "EditDynEntry");
-      QMdiSubWindow* sub = fxMdiArea->addSubWindow(dedit);
+      QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(dedit);
       CascadeMdiPosition(sub);
       ConnectGo4Widget(dedit);
       dedit->ensurePolished();
@@ -2179,7 +2180,7 @@ TGo4ConditionEditor* TGo4MainWindow::StartConditionEditor()
    TGo4ConditionEditor* wedit = (TGo4ConditionEditor*) FindGo4Widget("ConditionEditor", true);
    if (wedit==0) {
       wedit = new TGo4ConditionEditor(fxMdiArea, "ConditionEditor");
-      QMdiSubWindow* sub = fxMdiArea->addSubWindow(wedit);
+      QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(wedit);
       CascadeMdiPosition(sub);
       ConnectGo4Widget(wedit);
       wedit->ensurePolished();
@@ -2194,7 +2195,7 @@ TGo4EventInfo* TGo4MainWindow::StartEventInfo()
 
    if (einfo==0) {
       einfo = new TGo4EventInfo(fxMdiArea, "EventInfo");
-      QMdiSubWindow* sub = fxMdiArea->addSubWindow(einfo);
+      QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(einfo);
       CascadeMdiPosition(sub);
       ConnectGo4Widget(einfo);
       einfo->ensurePolished();
@@ -2298,7 +2299,7 @@ TGo4SetScaleValues* TGo4MainWindow::ToggleScaleValues()
 
    if (scl==0) {
       scl = new TGo4SetScaleValues(fxMdiArea, "ScaleValues", Qt::WindowStaysOnTopHint);
-      QMdiSubWindow* sub = fxMdiArea->addSubWindow(scl);
+      QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(scl);
       CascadeMdiPosition(sub);
       scl->ensurePolished();
       sub->show();
