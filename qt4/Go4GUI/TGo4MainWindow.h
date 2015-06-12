@@ -107,6 +107,7 @@ class TGo4MainWindow : public QMainWindow {
       void ChangeFetchWhenSaveSlot();
       void ChangeHideEventElement();
       void ChangeDrawOnceSlot();
+      void ChangeWindowRubberBandSlot();
 
       void CanvasColorSlot();
       void CrosshairSlot();
@@ -117,6 +118,7 @@ class TGo4MainWindow : public QMainWindow {
       void ChangeDrawTimeFlagSlot();
       void ChangeDrawDateFlagSlot();
       void ChangeDrawItemFlagSlot();
+
 
       void TH1DrawOptSlot();
       void TH2DrawOptSlot();
@@ -235,6 +237,7 @@ class TGo4MainWindow : public QMainWindow {
       QAction*           faFetchWhenSave;
       QAction*           faHideEventElement;
       QAction*           faDrawOnce;
+      QAction*           faWindowRubberBand;
 
       QAction*           faCrosshair;
       QAction*           faEventstatus;

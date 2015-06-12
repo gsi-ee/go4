@@ -66,7 +66,7 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
        layout->setMargin(11);
        layout->setSpacing(6);
 
-       fxOutput = new QTextEdit(this);
+       fxOutput = new QTextEdit();
        fxOutput->setUndoRedoEnabled(false);
        fxOutput->setAutoFormatting(QTextEdit::AutoNone);
        fxOutput->setWordWrapMode(QTextOption::NoWrap);
@@ -75,12 +75,12 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
 
        fiMaxOuputSize = go4sett->getTermHistorySize();
 
-       QHBoxLayout *box1 = new QHBoxLayout(this);
+       QHBoxLayout *box1 = new QHBoxLayout();
        box1->addWidget(new QLabel("Press enter to execute.", this), 1);
        CreateCmdLine(box1);
        layout->addLayout(box1, 1, 0);
 
-       QHBoxLayout *box2 = new QHBoxLayout(this);
+       QHBoxLayout *box2 = new QHBoxLayout();
        CreateButtons(box2, needkillbtn);
        layout->addLayout(box2, 2, 0);
 

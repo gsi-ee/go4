@@ -1,6 +1,6 @@
 ---------------------------------------------------------------
          Go4 Release Package v4.9.5 (build 40905)
-                      3-June-2015
+                      12-June-2015
 ---------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -20,7 +20,19 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v4.7.x
+Changes in Go4 v4.9.x
+1. GUI Settings/Preferences: Added configurable window resize/move mode ("rubberband" outline or full repaint). 
+   Reduces window flickering with current Qt5.x versions due to non compressed X-events
+2. Workarounds in qtroot interface for Qt5: to avoid known bug with non compressed X mouse events
+   (https://bugreports.qt.io/browse/QTBUG-40889), introduced 100ms time limit for processing mouse move events 
+   in QRootCanvas. This improves canvas interaction performance significantly.
+3. GUI can connect to go4analysis with either HTTP server or go4 sockets with "Connect to server" button. HTTP server
+   provides same functionality as Go4 sockets connection and besides shows remote terminal output in the analysis window.
+   Access to web server (controller/observer roles) can be controlled by htdigest accounts and password
+
+
+
+Changes in Go4 v4.7.1
 1. Implement TGo4Parameter::UpdateFromUrl() method to be able change
    parameter values via HTTP server.
 2. Provide several shortcuts in web interface for commands like:

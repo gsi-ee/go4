@@ -472,6 +472,9 @@ void TGo4MainWindow::AddSettingMenu()
    faDrawOnce = AddChkAction(prefMenu, "Draw item once",
                              go4sett->getDrawOnceFlag(), this, SLOT(ChangeDrawOnceSlot()));
 
+   faWindowRubberBand = AddChkAction(prefMenu, "Rubberband when moving windows",
+                                go4sett->getMoveSubwindowRubberBand(), this, SLOT(ChangeWindowRubberBandSlot()));
+
 
    QMenu* panelMenu = settMenu->addMenu("&Panel defaults");
 
@@ -1461,6 +1464,12 @@ void TGo4MainWindow::ChangeDrawOnceSlot()
    go4sett->setDrawOnceFlag(faDrawOnce->isChecked());
 
 }
+
+void TGo4MainWindow::ChangeWindowRubberBandSlot()
+{
+  go4sett->setMoveSubwindowRubberBand(faWindowRubberBand->isChecked());
+}
+
 
 void TGo4MainWindow::CanvasColorSlot()
 {

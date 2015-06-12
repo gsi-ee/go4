@@ -205,6 +205,10 @@ class TGo4QSettings {
       void    setHideTGo4EventElement(bool on = true);
       bool    getHideTGo4EventElement();
 
+      void    setMoveSubwindowRubberBand(bool on = true);
+      bool    getMoveSubwindowRubberBand();
+
+
       void    setRemoteFileSett(const QString& hostname, const QString& filename, const QString& protocol);
       void    getRemoteFileSett(QString& hostname, QString& filename, QString& protocol);
 

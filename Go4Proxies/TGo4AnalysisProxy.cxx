@@ -647,6 +647,9 @@ void TGo4AnalysisProxy::ReceiveStatus(TGo4Status* status)
    TGo4AnalysisClientStatus* analstatus = dynamic_cast<TGo4AnalysisClientStatus*> (status);
    if (analstatus!=0) {
       fbAnalysisRunning = analstatus->IsAnalysisRunning();
+      if(fbAnalysisRunning)
+        SetAnalysisSettingsReady(kTRUE); // JAM workaround for go4 server connection: a running analysis must have been configured
+
       if (RatemeterSlot()!=0) {
          RatemeterSlot()->AssignObject(status, kTRUE);
          status=0;

@@ -771,6 +771,18 @@ bool TGo4QSettings::getHideTGo4EventElement()
    return getBool("/preferences/HideEventElement", false);
 }
 
+
+void    TGo4QSettings::setMoveSubwindowRubberBand(bool on)
+{
+    setBool("/preferences/MoveSubwindowRubberBand", on);
+}
+
+bool    TGo4QSettings::getMoveSubwindowRubberBand()
+{
+    return getBool("/preferences/MoveSubwindowRubberBand", true);
+}
+
+
 void TGo4QSettings::setRemoteFileSett(const QString& hostname, const QString& filename, const QString& protocol)
 {
    setStr( "/OpenRemoteFile/Host", hostname);
