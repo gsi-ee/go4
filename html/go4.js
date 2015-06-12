@@ -85,7 +85,7 @@
 
    
    GO4.MakeMsgListRequest = function(hitem, item) {
-      var arg = "";
+      var arg = "&max=2000";
       if ('last-id' in item) arg+= "&id="+item['last-id'];
       return 'exe.json.gz?method=Select' + arg;      
    }
@@ -129,6 +129,8 @@
    }
 
    GO4.MsgListPainter.prototype.Draw = function() {
+      if (this.lst==null) return;
+      
       var frame = d3.select("#" + this.divid);
       
       var main = frame.select("div");
@@ -138,9 +140,15 @@
                      .style('max-height','100%')
                      .style('overflow','auto');
       
-      if (this.lst!=null) 
-         for (var i=this.lst.arr.length-1;i>0;i--)
-            main.append("pre").html(this.lst.arr[i].fString);
+      var old = main.selectAll("pre");
+      var newsize = old.size() + this.lst.arr.length - 1; 
+
+      // in the browser keep maximum 2000 entries
+      if (newsize > 2000) 
+         old.select(function(d,i) { return i < newsize - 2000 ? this : null; }).remove();
+
+      for (var i=this.lst.arr.length-1;i>0;i--)
+         main.append("pre").html(this.lst.arr[i].fString);
       
       // (re) set painter to first child element
       this.SetDivId(this.divid);

@@ -64,21 +64,21 @@ void TGo4MsgList::AddMsg(const char* msg)
    fCounter++;
 }
 
-TList* TGo4MsgList::Select(Long64_t id)
+TList* TGo4MsgList::Select(Int_t max, Long64_t id)
 {
    TIter iter(&fMsgs);
    TObject* obj = 0;
    Long64_t curr = fCounter;
    fSelect.Clear();
 
+   if (max<=0) max = fMsgs.GetSize() + 1;
+
    // add current id as first string in the list
    fStrCounter.SetString(TString::LLtoa(fCounter, 10));
 
    fSelect.Add(&fStrCounter);
-   while ((obj = iter()) != 0) {
-      if (--curr < id) break;
+   while (((obj = iter()) != 0) && (--curr >= id) && (--max >= 0))
       fSelect.Add(obj);
-   }
 
    return &fSelect;
 }

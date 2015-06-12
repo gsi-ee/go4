@@ -218,7 +218,7 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
       case 4: url.Append("/exe.bin.gz?method=CreateStatus&_destroy_result_"); break;
       case 5: url.Append("/exe.bin.gz?method=CreateSampleTree&sample=0&_destroy_result_"); break;
       case 6: url.Append("/exe.bin.gz?method=CreateStatus&_destroy_result_"); break;
-      case 7: url.Append("/exe.bin.gz?method=Select"); break;
+      case 7: url.Append("/exe.bin.gz?method=Select&max=10000"); break;
       default: url.Append("/root.bin.gz"); break;
    }
 
@@ -1062,7 +1062,7 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
 
    req.Append("Ratemeter/root.bin\n");
 
-   req.Append("Msg/exe.bin?method=Select");
+   req.Append("Msg/exe.bin?method=Select&max=10000");
    TGo4Slot* subslot = LoginfoSlot();
    TList* curr = subslot ? dynamic_cast<TList*> (subslot->GetAssignedObject()) : 0;
    if (curr && curr->First()) {
@@ -1072,7 +1072,7 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
    }
    req.Append("\n");
 
-   req.Append("Log/exe.bin?method=Select");
+   req.Append("Log/exe.bin?method=Select&max=10000");
    subslot = DebugOutputSlot();
    curr = subslot ? dynamic_cast<TList*> (subslot->GetAssignedObject()) : 0;
    if (curr && curr->First()) {
