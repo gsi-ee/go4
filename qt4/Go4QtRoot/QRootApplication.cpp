@@ -51,6 +51,11 @@ static int qt_x11_errhandler( Display *dpy, XErrorEvent *err )
        && err->request_code == 42  ) {
     return 0;
   }
+  else if ( err->error_code == BadDrawable
+         && err->request_code == 14  ) {
+      return 0;
+    }
+
   // here XError are forwarded
   char errstr[256];
   XGetErrorText( dpy, err->error_code, errstr, 256 );
@@ -65,7 +70,7 @@ static int qt_x11_errhandler( Display *dpy, XErrorEvent *err )
 #endif
 
 bool QRootApplication::fDebug = false;
-bool QRootApplication::fWarning = false;
+bool QRootApplication::fWarning = true; //false;
 bool QRootApplication::fRootCanvasMenusEnabled = true;
 
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
@@ -131,7 +136,6 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll) :
     timer->start(20);
     
   }
-
   // install a msg-handler
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
   qInstallMsgHandler( qMessageOutput );
