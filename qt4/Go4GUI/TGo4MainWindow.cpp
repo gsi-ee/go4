@@ -1133,10 +1133,32 @@ void TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* user, const c
 
    if (addr==0) {
       bool ok = false;
+      QString portstring;
+      QString fulladdress=go4sett->getClientNode().append(QString(":")).append(portstring.setNum(go4sett->getClientPort()));
       httpaddr = QInputDialog::getText(
       this, "Establish connection with HTTP", "Provide http server name",
-      QLineEdit::Normal, QString::null, &ok);
+      QLineEdit::Normal, fulladdress, &ok);
       if (!ok) return;
+      QStringList nameportlist = httpaddr.split(":");
+      int nameindex=0;
+      int portindex=1;
+      if(nameportlist.at(0).contains("http")) {
+          nameindex=1;
+          portindex=2;
+        }
+      // first check here if we have valid port number:
+      if(nameportlist.size()<portindex+1 || nameportlist.at(portindex).isEmpty()){
+          QMessageBox::warning(0, "HTTP server connection", "Could not connect. Please specify port number!");
+        return;
+      }
+      QString host=nameportlist.at(nameindex);
+      QStringList hostnamelist=nameportlist.at(nameindex).split("//");
+      if(hostnamelist.size()>1) host=hostnamelist.at(1); // get rid of optional leading // of full http adress
+      go4sett->setClientNode(host);
+      go4sett->setClientPort(nameportlist.at(portindex).toInt());
+      go4sett->setClientConnectMode(1);
+
+
    } else {
       httpaddr = addr;
    }
