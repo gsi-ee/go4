@@ -1541,6 +1541,7 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
          anw->StartAnalysisShell(launchcmd.Data(), (shellmode==0) ? workdir.latin1() : 0);
    } else
       res = TGo4AnalysisProxy::LaunchAsServer(launchcmd, killcmd,
+                      0,
                       shellmode,
                       termmode,
                       go4sett->getClientName().latin1(),

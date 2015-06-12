@@ -56,6 +56,7 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
 
    LineEditClientName->setText(go4sett->getClientName());
    LineEditClientNode->setText(go4sett->getClientNode());
+   PortNumber->setValue(go4sett->getClientPort());
    LineEditClientDir->setText(go4sett->getClientDir());
    LineEditClientExec->setText(go4sett->getClientExec());
    LineEditArgs->setText(go4sett->getClientArgs());
@@ -64,11 +65,16 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
       LineEditClientDir->setText(QDir::currentPath());
 
    bool isserver = go4sett->getClientIsServer();
+   int connectmode=go4sett->getClientConnectMode(); // 0: go4sockets, 1:http
 #ifdef WIN32
    isserver = false;
    ServerModeCombo->setEnabled(false);
 #endif
    ServerModeCombo->setCurrentIndex(isserver ? 1 : 0);
+   if(isserver)
+     ConnectionCombo->setCurrentIndex(go4sett->getClientConnectMode());
+   else
+     ConnectionCombo->setCurrentIndex(0);
 
 #ifndef WIN32
    qt_selected->setEnabled(!isserver);
@@ -93,6 +99,9 @@ void TGo4StartClient::getResults()
    go4sett->setClientShellMode(ClientShellGroup->checkedId());
    go4sett->setClientTermMode(ClientTermGroup->checkedId());
    go4sett->setClientIsServer(ServerModeCombo->currentIndex()==1);
+   go4sett->setClientConnectMode(ConnectionCombo->currentIndex());
+   go4sett->setClientPort(PortNumber->value());
+
 }
 
 void TGo4StartClient::SelectDir()
@@ -191,14 +200,23 @@ void TGo4StartClient::ServerModeCombo_activated(int id)
    bool isserver = (id==1);
 
    qt_selected->setEnabled(!isserver);
-
+   ConnectionCombo->setEnabled(isserver);
+   PortNumber->setEnabled(isserver);
    if (isserver) { // if Qt was selected, select Xterm
       if (ClientTermGroup->checkedId()==1)
         ClientTermGroup->button(2)->setChecked(true);
+      PortNumber->setEnabled(ConnectionCombo->currentIndex()==1);
    }
    else { // if Xterm was selected, select Qt
 	  if (ClientTermGroup->checkedId()==2)
 		ClientTermGroup->button(1)->setChecked(true);
+
+	  ConnectionCombo->setCurrentIndex(0); // client mode only supports go4 sockets, show it
    }
 #endif
+}
+void TGo4StartClient::ConnectionCombo_activated(int id)
+{
+
+    PortNumber->setEnabled(id==1);
 }

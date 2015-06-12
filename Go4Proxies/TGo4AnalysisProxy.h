@@ -49,6 +49,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       static Bool_t GetLaunchString(TString& launchcmd,
                                     TString& killcmd,
                                     Bool_t server,
+                                    Int_t connectmode, // 0 - go4 sockets, 1 - http server
                                     Int_t shellkind, // 0 - exec, 1 - rsh, 2 - ssh
                                     Int_t konsole,   // 1 - qtwindow, 2 - xterm, 3 - konsole
                                     const char* name,
@@ -182,10 +183,12 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       static Bool_t LaunchAsServer(TString& launchcmd,
                                    TString& killcmd,
+                                   Int_t connectmode, // 0 - go4 sockets, 1 - http server
                                    Int_t shellkind, // Go4_sh = 0, Go4_rsh = 1, Go4_ssh = 2
                                    Int_t konsole,   // Go4_qt = 0, Go4_xterm = 1, Go4_konsole = 2
                                    const char* name,
                                    const char* remotehost,
+                                   Int_t remoteport, // needed for http server mode
                                    const char* remotedir,
                                    const char* remoteexe,
                                    Int_t exe_kind = 0,   //   Go4_exe = 0, Go4_lib = 1

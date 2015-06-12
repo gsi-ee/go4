@@ -1641,6 +1641,7 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
    int shellmode = go4sett->getClientShellMode();
    int termmode = go4sett->getClientTermMode();
    bool isserver = go4sett->getClientIsServer();
+   int connectmode=go4sett->getClientConnectMode();
 
    TString launchcmd, killcmd;
    Bool_t res = kFALSE;
@@ -1663,25 +1664,30 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
       if (res && (anw!=0) && (termmode==1)) {
          anw->StartAnalysisShell(launchcmd.Data(), (shellmode==0) ? workdir.toLatin1().constData() : 0);
       }
-   } else
-      res = TGo4AnalysisProxy::LaunchAsServer(launchcmd, killcmd,
-                      shellmode,
-                      termmode,
-                      go4sett->getClientName().toLatin1().constData(),
-                      go4sett->getClientNode().toLatin1().constData(),
-                      workdir.toLatin1().constData(),
-                      go4sett->getClientExec().toLatin1().constData(),
-                      go4sett->getClientExeMode(),
-                      go4sett->getClientArgs().toLatin1().constData());
+   } else {
+            res = TGo4AnalysisProxy::LaunchAsServer(launchcmd, killcmd,
+                            connectmode,
+                            shellmode,
+                            termmode,
+                            go4sett->getClientName().toLatin1().constData(),
+                            go4sett->getClientNode().toLatin1().constData(),
+                            go4sett->getClientPort(),
+                            workdir.toLatin1().constData(),
+                            go4sett->getClientExec().toLatin1().constData(),
+                            go4sett->getClientExeMode(),
+                            go4sett->getClientArgs().toLatin1().constData());
+   }
 
-   if (res) fKillCommand = killcmd.Data();
-       else fKillCommand = "";
+   if (res)
+     fKillCommand = killcmd.Data();
+   else
+     fKillCommand = "";
 
    StatusMessage("Starting Analysis....  Please wait");
 
    if (isserver && interactive)
      ConnectServerSlot(true, "");
-}
+   }
 
 void TGo4MainWindow::PrepareForClientConnectionSlot(bool interactive)
 {

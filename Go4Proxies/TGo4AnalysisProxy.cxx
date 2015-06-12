@@ -1119,7 +1119,7 @@ Bool_t TGo4AnalysisProxy::LaunchAsClient(TString& launchcmd,
    Int_t guiport = tsk->GetTaskManager()->GetNegotiationPort();
 
    if (!GetLaunchString(launchcmd, killcmd,
-                       kFALSE, usessh, konsole,
+                       kFALSE, 0, usessh, konsole,
                        name, remotehost, remotedir, remoteexe,
                        guiport, exe_kind, exeargs)) return kFALSE;
 
@@ -1134,19 +1134,21 @@ Bool_t TGo4AnalysisProxy::LaunchAsClient(TString& launchcmd,
 
 Bool_t TGo4AnalysisProxy::LaunchAsServer(TString& launchcmd,
                                          TString& killcmd,
+                                         Int_t connectmode,
                                          Int_t usessh,
                                          Int_t konsole,
                                          const char* name,
                                          const char* remotehost,
+                                         Int_t remoteport,
                                          const char* remotedir,
                                          const char* remoteexe,
                                          Int_t exe_kind,
                                          const char* exeargs)
 {
    if (!GetLaunchString(launchcmd, killcmd,
-                       kTRUE, usessh, konsole,
+                       kTRUE, connectmode, usessh, konsole,
                        name, remotehost, remotedir, remoteexe,
-                       0, exe_kind, exeargs)) return kFALSE;
+                       remoteport, exe_kind, exeargs)) return kFALSE;
 
    if ((konsole==2) || (konsole==3))
       gSystem->Exec(launchcmd.Data());
@@ -1157,6 +1159,7 @@ Bool_t TGo4AnalysisProxy::LaunchAsServer(TString& launchcmd,
 Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
                                           TString& killcmd,
                                           Bool_t server,
+                                          Int_t connectmode,
                                           Int_t shellkind,
                                           Int_t konsole,
                                           const char* name,
@@ -1195,7 +1198,8 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
       }
 
       prefs.SetPar("guihost", serverhost, false);
-      if (!server) prefs.SetPar("guiport", Form("%d", guiport));
+      //if (!server)
+      prefs.SetPar("guiport", Form("%d", guiport));
       prefs.SetPar("guigo4sys", go4sys, false);
       prefs.SetPar("analysisname", name, false);
       prefs.SetPar("workdir", remotedir, false);
@@ -1244,7 +1248,7 @@ Bool_t TGo4AnalysisProxy::GetLaunchString(TString& launchcmd,
       std::string initcmd = prefs.GetOpt(shellkind==0 ? "execinitcmd" : "shellinitcmd");
       prefs.SetPar("initcmd", initcmd.c_str());
 
-      std::string progcmd = prefs.GetOpt(server ? "servercmd" : "clientcmd");
+      std::string progcmd = prefs.GetOpt(server ? ((connectmode==1) ? "httpcmd" : "servercmd") : "clientcmd");
       prefs.SetPar("progcmd", progcmd.c_str());
 
       std::string hostcmd = prefs.GetOpt(termname);
