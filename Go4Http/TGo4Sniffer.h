@@ -47,6 +47,9 @@ class TGo4Sniffer : public TRootSniffer,
       /** Indicate that Restrict method implemented, also commands with arguments are exists */
       Bool_t HasRestrictMethod();
 
+      /** Indicate that sniffer has MultiProcess method implemented, can be used from GUI */
+      Bool_t HasProduceMultiMethod();
+
       /** Wrapper for new method in TRootSniffer */
       void RestrictGo4(const char* path, const char* options);
 
@@ -101,7 +104,7 @@ class TGo4Sniffer : public TRootSniffer,
       virtual void ProcessSnifferEvents();
 
 
-   ClassDef(TGo4Sniffer, 1);
+   ClassDef(TGo4Sniffer, 1); // Sniffer of Go4 analysis objects for THttpServer
 };
 
 

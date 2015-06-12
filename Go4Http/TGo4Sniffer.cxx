@@ -27,6 +27,7 @@
 #include "TH1F.h"
 #include "TFile.h"
 #include "TMethodCall.h"
+#include "TMethod.h"
 
 #include "TGo4AnalysisImp.h"
 #include "TGo4AnalysisObjectManager.h"
@@ -76,19 +77,22 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
 
    fAnalysisStatus->SetName("Analysis");
 
-   CreateItem("/Status/Message", "Last message from analysis");
-   SetItemField("/Status/Message", "_kind","Text");
-   SetItemField("/Status/Message", "value","---");
-
-   CreateItem("/Status/DebugOutput", "Go4 debug output");
-   SetItemField("/Status/DebugOutput", "_kind","Text");
-   SetItemField("/Status/DebugOutput", "value","---");
-
    RegisterObject("/Status", &fDebugOutput);
-   SetItemField("/Status/Log", "_hidden", "true");
-
    RegisterObject("/Status", &fStatusMessages);
-   SetItemField("/Status/Msg", "_hidden", "true");
+
+   if (!HasProduceMultiMethod()) {
+      // new multi.json method was implemented together with requests pre and post processing
+      SetItemField("/Status/Log", "_hidden", "true");
+      SetItemField("/Status/Msg", "_hidden", "true");
+
+      CreateItem("/Status/Message", "Last message from analysis");
+      SetItemField("/Status/Message", "_kind","Text");
+      SetItemField("/Status/Message", "value","---");
+
+      CreateItem("/Status/DebugOutput", "Go4 debug output");
+      SetItemField("/Status/DebugOutput", "_kind","Text");
+      SetItemField("/Status/DebugOutput", "value","---");
+   }
 
    fRatemeter = new TGo4Ratemeter();
    fRatemeter->SetName("Ratemeter");
@@ -176,6 +180,9 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    SetItemField("/", "_analysis_name", TGo4Analysis::Instance()->GetName());
    if (HasRestrictMethod())
       SetItemField("/", "_has_restrict", "true");
+
+   if (HasProduceMultiMethod())
+      SetItemField("/", "_has_produce_multi", "true");
 
    if (TGo4Analysis::Instance()!=0)
       TGo4Analysis::Instance()->SetSniffer(this);
@@ -607,6 +614,12 @@ Bool_t TGo4Sniffer::HasRestrictMethod()
 {
    return IsA()->GetMethodAllAny("Restrict") != 0;
 }
+
+Bool_t TGo4Sniffer::HasProduceMultiMethod()
+{
+   return IsA()->GetMethodAllAny("ProduceMulti") != 0;
+}
+
 
 
 void TGo4Sniffer::RestrictGo4(const char* path, const char* options)

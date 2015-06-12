@@ -84,6 +84,76 @@
    }
 
    
+   GO4.MakeMsgListRequest = function(hitem, item) {
+      var arg = "";
+      if ('last-id' in item) arg+= "&id="+item['last-id'];
+      return 'exe.json.gz?method=Select' + arg;      
+   }
+   
+   GO4.AfterMsgListRequest = function(hitem, item, obj) {
+      if (item==null) return;
+      
+      if (obj==null) {
+         delete item['last-id'];
+         return;
+      } 
+      // ignore all other classes   
+      if (obj['_typename'] != 'TList') return;
+         
+      obj['_typename'] = "TGo4MsgList";
+      
+      if (obj.arr.length>0) {
+         item['last-id'] = obj.arr[0].fString;
+
+         // add clear function for item
+         if (!('clear' in item)) 
+            item['clear'] = function() { delete this['last-id']; }
+      }
+   }
+   
+   
+   GO4.MsgListPainter = function(lst) {
+      JSROOT.TBasePainter.call(this);
+      
+      this.lst = lst;
+         
+      return this;
+   }
+
+   GO4.MsgListPainter.prototype = Object.create( JSROOT.TBasePainter.prototype );
+
+   GO4.MsgListPainter.prototype.RedrawObject = function(obj) {
+      this.lst = obj;
+      this.Draw();
+      return true;
+   }
+
+   GO4.MsgListPainter.prototype.Draw = function() {
+      var frame = d3.select("#" + this.divid);
+      
+      var main = frame.select("div");
+      if (main.empty()) 
+         main = frame.append("div")
+                     .style('max-width','100%')
+                     .style('max-height','100%')
+                     .style('overflow','auto');
+      
+      if (this.lst!=null) 
+         for (var i=this.lst.arr.length-1;i>0;i--)
+            main.append("pre").html(this.lst.arr[i].fString);
+      
+      // (re) set painter to first child element
+      this.SetDivId(this.divid);
+
+   }
+   
+   GO4.DrawMsgList = function(divid, lst, opt) {
+      var painter = new GO4.MsgListPainter(lst);
+      painter.SetDivId(divid);
+      painter.Draw();
+      return painter.DrawingReady();
+   }
+   
    // ============================================================================== 
    
    JSROOT.addDrawFunc("TGo4WinCond", { script: GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond' }, ";editor");
@@ -91,6 +161,8 @@
    JSROOT.addDrawFunc("TGo4ShapedCond", { script: GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond' }, ";editor");
    
    JSROOT.addDrawFunc("TGo4AnalysisWebStatus", { script: GO4.source_dir + 'html/analysiseditor.js', func: 'GO4.drawGo4AnalysisStatus' }, "editor");
+
+   JSROOT.addDrawFunc("TGo4MsgList", GO4.DrawMsgList, "");
 
 
 

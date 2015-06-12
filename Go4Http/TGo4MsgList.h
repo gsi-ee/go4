@@ -43,7 +43,7 @@ class TGo4MsgList : public TNamed {
 
       TList* Select(Long64_t id = 0);
 
-   ClassDef(TGo4MsgList, 1);
+   ClassDef(TGo4MsgList, 1); // Custom message list for web server *SNIFF* _autoload="go4sys/html/go4.js" _make_request="GO4.MakeMsgListRequest" _after_request=GO4.AfterMsgListRequest
 };
 
 

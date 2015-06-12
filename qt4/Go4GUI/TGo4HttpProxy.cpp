@@ -81,6 +81,12 @@ void QHttpProxy::updateHierarchy()
    if (fProxy) fProxy->UpdateHierarchy(kFALSE);
 }
 
+void QHttpProxy::regularRequestFinished()
+{
+   if (fProxy) fProxy->ProcessRegularMultiRequest(kTRUE);
+}
+
+
 void QHttpProxy::StartRequest(const char* url)
 {
    fHReply = qnam.get(QNetworkRequest(QUrl(url)));
@@ -92,7 +98,7 @@ void QHttpProxy::StartRequest(const char* url)
          this, SLOT(httpHReqError(QNetworkReply::NetworkError)));
 
    connect(fHReply, SIGNAL(sslErrors(const QList<QSslError>&)),
-           fHReply, SLOT(ignoreSslErrors(const QList<QSslError> &)));
+           fHReply, SLOT(ignoreSslErrors()));
 
    QSslConfiguration cfg = fHReply->sslConfiguration();
    cfg.setProtocol(QSsl::AnyProtocol/*QSsl::TlsV1SslV3*/);
@@ -527,10 +533,11 @@ TGo4HttpProxy::TGo4HttpProxy() :
    fbAnalysisRunning(kFALSE),
    fUserName(),
    fPassword(),
-   fConnected(kTRUE)
+   fConnected(kTRUE),
+   fRegularReq(0)
 {
    fXML = new TXMLEngine;
-   fUserName="anonymous";
+   fUserName = "anonymous";
    // SetAccount("observer","go4view");
    // SetAccount("controller","go4ctrl");
 }
@@ -723,6 +730,14 @@ Bool_t TGo4HttpProxy::ServerHasRestrict()
    // It is indication of new functionality like commands with arguments or support of POST requests
 
    return fXML->HasAttr(FindItem(""),"_has_restrict");
+}
+
+Bool_t TGo4HttpProxy::ServerHasMulti()
+{
+   // return kTRUE when server has ProduceMulti method
+   // One could use it to submit many requests at once
+
+   return fXML->HasAttr(FindItem(""),"_has_produce_multi");
 }
 
 
@@ -972,8 +987,125 @@ void TGo4HttpProxy::ResetDebugOutputRequests()
    if (subslot) subslot->AssignObject(0, kFALSE);
 }
 
+void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
+{
+   if (finished) {
+      if (fRegularReq == 0) return;
+
+      QByteArray res = fRegularReq->readAll();
+      fRegularReq->deleteLater();
+      fRegularReq = 0;
+
+
+      if (res.size() <= 0) {
+         fConnected = false;
+         RatemeterSlot()->AssignObject(new TNamed("disconnected","title"),kTRUE);
+         return;
+      }
+
+      if (!fConnected) {
+         UpdateHierarchy(kFALSE);
+         fConnected = true;
+      }
+
+      if (gDebug>2) printf("TGo4HttpProxy:: get reply on multi.bin request with %d bytes\n", res.size());
+
+      int pos = 0;
+
+      for (int n=0;n<3;n++) {
+         unsigned char* ptr = (unsigned char*) res.data() + pos;
+         unsigned len =  ((unsigned) ptr[0]) |
+                        (((unsigned) ptr[1]) << 8) |
+                        (((unsigned) ptr[2]) << 16) |
+                        (((unsigned) ptr[3]) << 24);
+
+         ptr += 4;
+         pos += 4 + len;
+         if (len > res.size()) {
+            printf("Error decoding multi.bin buffer\n");
+            return;
+         }
+
+         if (gDebug>2) printf("Decoding portion of %d bytes\n", len);
+
+         TClass* obj_cl = n==0 ? TGo4Ratemeter::Class() : TList::Class();
+         TObject* obj = (TObject*) obj_cl->New();
+
+         TBufferFile buf(TBuffer::kRead, len, ptr, kFALSE);
+         buf.MapObject(obj, obj_cl);
+
+         obj->Streamer(buf);
+
+         switch(n) {
+            case 0:
+               fbAnalysisRunning = ((TGo4Ratemeter*) obj)->IsRunning();
+               RatemeterSlot()->AssignObject(obj,kTRUE);
+               break;
+            case 1:
+               LoginfoSlot()->AssignObject(obj,kTRUE);
+               break;
+            case 2:
+               DebugOutputSlot()->AssignObject(obj,kTRUE);
+               break;
+         }
+      }
+
+      if (pos != res.size()) printf("Decoding fails %d != %d bytes\n", pos, res.size());
+
+      return;
+   }
+
+
+   if (fRegularReq!=0) return;
+
+   TString req;
+
+   req.Append("Ratemeter/root.bin\n");
+
+   req.Append("Msg/exe.bin?method=Select");
+   TGo4Slot* subslot = LoginfoSlot();
+   TList* curr = subslot ? dynamic_cast<TList*> (subslot->GetAssignedObject()) : 0;
+   if (curr && curr->First()) {
+      req.Append("&id=");
+      req.Append(curr->First()->GetName());
+
+   }
+   req.Append("\n");
+
+   req.Append("Log/exe.bin?method=Select");
+   subslot = DebugOutputSlot();
+   curr = subslot ? dynamic_cast<TList*> (subslot->GetAssignedObject()) : 0;
+   if (curr && curr->First()) {
+      req.Append("&id=");
+      req.Append(curr->First()->GetName());
+
+   }
+   req.Append("\n");
+
+   QByteArray postData;
+   postData.append(req.Data(), req.Length());
+
+   if (gDebug>2) printf("Sending multi.bin request\n%s", req.Data());
+
+   TString url = fNodeName;
+   url.Append("/Status/multi.bin.gz?number=3");
+
+   fRegularReq = fComm.qnam.post(QNetworkRequest(QUrl(url.Data())), postData);
+
+   QSslConfiguration cfg = fRegularReq->sslConfiguration();
+   cfg.setProtocol(QSsl::AnyProtocol/*QSsl::TlsV1SslV3*/);
+   fRegularReq->setSslConfiguration(cfg);
+
+   fRegularReq->connect(fRegularReq, SIGNAL(finished()), &fComm, SLOT(regularRequestFinished()));
+}
+
 void TGo4HttpProxy::ProcessUpdateTimer()
 {
+   if (ServerHasMulti() || (fRegularReq!=0)) {
+      ProcessRegularMultiRequest();
+      return;
+   }
+
    TGo4Slot* subslot = RatemeterSlot();
    if (subslot != 0) {
       // no new update since last call

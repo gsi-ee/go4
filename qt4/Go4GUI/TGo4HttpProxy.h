@@ -45,6 +45,8 @@ class QHttpProxy : public QObject {
       void updateRatemeter();
       void updateHierarchy();
 
+      void regularRequestFinished();
+
    public:
 
       QHttpProxy(TGo4HttpProxy* p);
@@ -124,6 +126,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       TString         fUserName;      //! user name and password -
       TString         fPassword;      //!
       Bool_t          fConnected;     //! true if connected
+      QNetworkReply  *fRegularReq;    //! multiple request for rate, log and messages
 
       void GetHReply(QByteArray& res);
 
@@ -131,7 +134,11 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       void ProcessUpdateTimer();
 
+      void ProcessRegularMultiRequest(Bool_t finished = kFALSE);
+
       Bool_t ServerHasRestrict();
+
+      Bool_t ServerHasMulti();
 
       Bool_t SubmitURL(const char* path, Int_t waitres = -1);
 
