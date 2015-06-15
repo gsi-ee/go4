@@ -1391,19 +1391,18 @@ void TGo4MainWindow::StatusMessage(const QString& mess)
 void TGo4MainWindow::UpdateCaptionButtons()
 {
    // JAM note this function is called by update timer from TGo4Browser each second
-   TGo4ServerProxy* serv = Browser()->FindServer();
-   TGo4AnalysisProxy* pr = dynamic_cast<TGo4AnalysisProxy*>(serv);
-   TGo4HttpProxy* ht = dynamic_cast<TGo4HttpProxy*>(serv);
-//   printf("UpdateCaptionButton has analysis proxy:0x%x, server proxy 0x%x, http proxy:0x%x\n",
-//       (long) pr, (long)serv, (long) ht);
+   TGo4ServerProxy* root_serv = Browser()->FindServer(0, kFALSE);
+   TGo4ServerProxy* go4_serv = Browser()->FindServer();
+   TGo4AnalysisProxy* pr = dynamic_cast<TGo4AnalysisProxy*>(go4_serv);
+   TGo4HttpProxy* ht = dynamic_cast<TGo4HttpProxy*>(go4_serv);
 
    QString capt = "Go4 ";
    capt += __GO4RELEASE__;
    capt += " @";
    capt += gSystem->HostName();
-   if ((serv!=0) && serv->IsConnected() ) {
+   if ((go4_serv!=0) && go4_serv->IsConnected() ) {
       capt += " <";
-      capt += serv->GetContainedObjectInfo();
+      capt += go4_serv->GetContainedObjectInfo();
       capt += ">";
    }
    setWindowTitle(capt);
@@ -1444,10 +1443,11 @@ void TGo4MainWindow::UpdateCaptionButtons()
    faShutdownAnal->setEnabled(flag);
 
    bool iscontrolling(false), issubmit(false);
-   if (serv && serv->IsGo4Analysis()) {
-      iscontrolling = serv->IsConnected() && (serv->IsAdministrator() || serv->IsController());
-      if (iscontrolling) issubmit = serv->CanSubmitObjects();
+   if (go4_serv) {
+      iscontrolling = go4_serv->IsConnected() && (go4_serv->IsAdministrator() || go4_serv->IsController());
+      if (iscontrolling) issubmit = go4_serv->CanSubmitObjects();
    }
+
    faSumbStartAnal->setEnabled(issubmit);
 
    faStartAnal->setEnabled(iscontrolling);
@@ -1457,6 +1457,11 @@ void TGo4MainWindow::UpdateCaptionButtons()
    faAnalConfig->setEnabled(iscontrolling);
 
    faAnalTermin->setEnabled(FindAnalysisWindow()!=0);
+
+   if ((go4_serv==0) && (root_serv!=0)) {
+      faStartAnal->setEnabled(root_serv->NumCommandArgs("Start")==0);
+      faStopAnal->setEnabled(root_serv->NumCommandArgs("Stop")==0);
+   }
 }
 
 void TGo4MainWindow::ChangeFetchWhenDrawSlot()
@@ -2028,21 +2033,33 @@ void TGo4MainWindow::SubmitStartAnalysisSlot()
 
 void TGo4MainWindow::StartAnalysisSlot()
 {
-   TGo4ServerProxy* serv = Browser()->FindServer();
-   if (serv==0) return;
-
-   serv->StartAnalysis();
-   serv->RefreshNamesList();
-   serv->DelayedRefreshNamesList(4);
-
-   EstablishRatemeter(2);
+   TGo4ServerProxy* go4_serv = Browser()->FindServer();
+   if (go4_serv!=0) {
+      go4_serv->StartAnalysis();
+      go4_serv->RefreshNamesList();
+      go4_serv->DelayedRefreshNamesList(4);
+      EstablishRatemeter(2);
+   } else {
+      TGo4ServerProxy* root_serv = Browser()->FindServer(0, kFALSE);
+      if (root_serv && (root_serv->NumCommandArgs("Start")==0)) {
+         root_serv->SubmitCommand("Start");
+         StatusMessage("Submit Start command to the server");
+      }
+   }
 }
 
 void TGo4MainWindow::StopAnalysisSlot()
 {
-   TGo4ServerProxy* serv = Browser()->FindServer();
-   if (serv)
-      serv->StopAnalysis();
+   TGo4ServerProxy* go4_serv = Browser()->FindServer();
+   if (go4_serv) {
+      go4_serv->StopAnalysis();
+   } else {
+      TGo4ServerProxy* root_serv = Browser()->FindServer(0, kFALSE);
+      if (root_serv && (root_serv->NumCommandArgs("Stop")==0)) {
+         root_serv->SubmitCommand("Stop");
+         StatusMessage("Submit Stop command to the server");
+      }
+   }
 }
 
 void TGo4MainWindow::TerminateAnalysis(bool interactive)
