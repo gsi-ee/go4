@@ -926,7 +926,7 @@ TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
    TGo4ViewPanel* panel = new TGo4ViewPanel(fxMdiArea, name.toLatin1().constData());
    QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(panel); // warning: Qt may exchange the winId here!
    // panel->GetQCanvas()->performResize(); // may register new winId for TCanvas here
-  
+
 
    sub->resize(go4sett->lastPanelSize("ViewPanel"));
 
@@ -1391,7 +1391,7 @@ void TGo4MainWindow::StatusMessage(const QString& mess)
 void TGo4MainWindow::UpdateCaptionButtons()
 {
    // JAM note this function is called by update timer from TGo4Browser each second
-   TGo4ServerProxy* serv = Browser()->FindAnalysisNew();
+   TGo4ServerProxy* serv = Browser()->FindServer();
    TGo4AnalysisProxy* pr = dynamic_cast<TGo4AnalysisProxy*>(serv);
    TGo4HttpProxy* ht = dynamic_cast<TGo4HttpProxy*>(serv);
 //   printf("UpdateCaptionButton has analysis proxy:0x%x, server proxy 0x%x, http proxy:0x%x\n",
@@ -1427,7 +1427,6 @@ void TGo4MainWindow::UpdateCaptionButtons()
       }
     }
 
-
    if (pr==0) flag = (ht==0 ?  true: false) ;
          else flag = (fConnectingCounter<=0) && pr->IsAnalysisServer() && !pr->IsConnected();
    faConnectAnal->setEnabled(flag);
@@ -1446,8 +1445,8 @@ void TGo4MainWindow::UpdateCaptionButtons()
 
    bool iscontrolling(false), issubmit(false);
    if (serv && serv->IsGo4Analysis()) {
-     iscontrolling = serv->IsConnected() && (serv->IsAdministrator() || serv->IsController());
-       if (iscontrolling) issubmit = serv->CanSubmitObjects();
+      iscontrolling = serv->IsConnected() && (serv->IsAdministrator() || serv->IsController());
+      if (iscontrolling) issubmit = serv->CanSubmitObjects();
    }
    faSumbStartAnal->setEnabled(issubmit);
 
@@ -1762,18 +1761,18 @@ bool TGo4MainWindow::RemoveAnalysisProxy(int waittime, bool servershutdown)
    EstablishRatemeter(0);
 
    TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
-   TGo4ServerProxy* srv = Browser()->FindAnalysisNew();
+   TGo4ServerProxy* srv = Browser()->FindServer();
    if (anal!=0) {
       anal->DisconnectAnalysis(waittime, servershutdown);
    } else
    if (srv!=0) {
-      TGo4Slot* slot = Browser()->FindAnalysisSlot(kTRUE, kTRUE);
+      TGo4Slot* slot = Browser()->FindServerSlot(kTRUE, 1);
 
       // it is allowed to delete slot directly
       if (slot) delete slot;
    }
 
-   return Browser()->FindAnalysisNew()==0;
+   return Browser()->FindServer()==0;
 }
 
 void TGo4MainWindow::UpdateDockAnalysisWindow()
@@ -1808,7 +1807,7 @@ void TGo4MainWindow::EstablishAnalysisWindowForHttp()
    // used together with http server connection
    // analysis window only created when not exists and http proxy is available
 
-   TGo4ServerProxy* serv = Browser()->FindAnalysisNew();
+   TGo4ServerProxy* serv = Browser()->FindServer();
    if ((serv==0) || (dynamic_cast<TGo4AnalysisProxy*>(serv)!=0) || (serv->DebugOutputSlot()==0)) return;
 
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
@@ -1845,7 +1844,7 @@ TGo4AnalysisStatusMonitor* TGo4MainWindow::EstablishRatemeter(int level)
         status = new TGo4AnalysisStatusMonitor(statusBar(), "AnalysisStatusMonitor");
         ConnectGo4Widget(status);
         statusBar()->addWidget(status);
-        TGo4ServerProxy* serv = Browser()->FindAnalysisNew();
+        TGo4ServerProxy* serv = Browser()->FindServer();
         if (serv!=0)
           status->WorkWithRatemeter(serv->RatemeterSlot());
      }
@@ -1887,7 +1886,7 @@ TGo4AnalysisConfiguration* TGo4MainWindow::EstablishAnalysisConfiguration(int le
          // conf->ensurePolished();
          // sub->show();
       }
-      TGo4ServerProxy* anal = Browser()->FindAnalysisNew();
+      TGo4ServerProxy* anal = Browser()->FindServer();
       if (anal!=0) {
          conf->WorkWithAnalysis(anal);
          if (level>2) anal->RequestAnalysisSettings();
@@ -1981,7 +1980,7 @@ void TGo4MainWindow::DisconnectAnalysisSlot(bool interactive)
                 QString::null, 0);
       if (res!=0) return;
    }
-   if (Browser()->FindAnalysisNew()==0) return;
+   if (Browser()->FindServer()==0) return;
    RemoveAnalysisProxy(30, false);
    StatusMessage("Disconnect analysis");
 }
@@ -1996,7 +1995,7 @@ void TGo4MainWindow::ShutdownAnalysisSlot(bool interactive)
                 QString::null, 0);
       if (res!=0) return;
    }
-   TGo4ServerProxy* srv = Browser()->FindAnalysisNew();
+   TGo4ServerProxy* srv = Browser()->FindServer();
    if(!srv) return;
    bool realshutdown = false;
    TGo4AnalysisProxy* anal = dynamic_cast<TGo4AnalysisProxy*> (srv);
@@ -2013,7 +2012,7 @@ void TGo4MainWindow::ShutdownAnalysisSlot(bool interactive)
 
 void TGo4MainWindow::SubmitAnalysisSettings()
 {
-   TGo4ServerProxy* serv = Browser()->FindAnalysisNew();
+   TGo4ServerProxy* serv = Browser()->FindServer();
    if (serv==0) return;
 
    serv->SubmitAnalysisSettings();
@@ -2029,7 +2028,7 @@ void TGo4MainWindow::SubmitStartAnalysisSlot()
 
 void TGo4MainWindow::StartAnalysisSlot()
 {
-   TGo4ServerProxy* serv = Browser()->FindAnalysisNew();
+   TGo4ServerProxy* serv = Browser()->FindServer();
    if (serv==0) return;
 
    serv->StartAnalysis();
@@ -2041,7 +2040,7 @@ void TGo4MainWindow::StartAnalysisSlot()
 
 void TGo4MainWindow::StopAnalysisSlot()
 {
-   TGo4ServerProxy* serv = Browser()->FindAnalysisNew();
+   TGo4ServerProxy* serv = Browser()->FindServer();
    if (serv)
       serv->StopAnalysis();
 }
@@ -2350,7 +2349,7 @@ TGo4SetScaleValues* TGo4MainWindow::ToggleScaleValues()
 void TGo4MainWindow::CreateNewHistSlot(int isremote)
 {
    TGo4CreateNewHistogram dlg(this);
-   TGo4ServerProxy* an = Browser()->FindAnalysisNew();
+   TGo4ServerProxy* an = Browser()->FindServer();
 
    dlg.SetAnalysisAvaliable((isremote!=0) && (an!=0) && an->IsAnalysisSettingsReady());
    dlg.SetLocalAvaliable(isremote!=1);
@@ -2381,7 +2380,7 @@ void TGo4MainWindow::CreateNewHistSlot(int isremote)
 
 void TGo4MainWindow::CreateNewConditionSlot(bool forothereditor)
 {
-   TGo4ServerProxy* an = Browser()->FindAnalysisNew();
+   TGo4ServerProxy* an = Browser()->FindServer();
    if ((an==0) || !an->IsAnalysisSettingsReady()) {
       QMessageBox::information(this,"Create new condition","Cannot create new condition before analysis setup");
       return;
@@ -2405,7 +2404,7 @@ void TGo4MainWindow::CreateNewConditionSlot(bool forothereditor)
 
 void TGo4MainWindow::CreateNewDynEntrySlot(bool forothereditor)
 {
-   TGo4ServerProxy* an = Browser()->FindAnalysisNew();
+   TGo4ServerProxy* an = Browser()->FindServer();
    if ((an==0) || !an->IsAnalysisSettingsReady()) {
       QMessageBox::information(this,"Create new dynamic entry","Cannot create new entry before analysis setup");
       return;
@@ -2956,7 +2955,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
 
       case QGo4Widget::service_GetAnalysis: {
          TGo4ServerProxy** res = (TGo4ServerProxy**) par;
-         *res = Browser()->FindAnalysisNew(str);
+         *res = Browser()->FindServer(str);
          break;
       }
 
@@ -3135,7 +3134,7 @@ void TGo4MainWindow::editorServiceSlot(QGo4Widget* editor, int serviceid, const 
         } else
 
         if (strcmp(str,"CloseAnalysisSettings")==0) {
-           TGo4ServerProxy* anal = Browser()->FindAnalysisNew();
+           TGo4ServerProxy* anal = Browser()->FindServer();
            if (anal!=0) {
               anal->CloseAnalysisSettings();
               anal->RefreshNamesList();

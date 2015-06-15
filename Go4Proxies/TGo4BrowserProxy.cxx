@@ -754,8 +754,13 @@ void TGo4BrowserProxy::PerformTreeDraw(const char* treename,
    #endif
 }
 
-TGo4Slot* TGo4BrowserProxy::FindAnalysisSlot(Bool_t databranch, Bool_t server_proxy)
+TGo4Slot* TGo4BrowserProxy::FindServerSlot(Bool_t databranch, Int_t kind)
 {
+   // search for slot with TGo4ServerProxy
+   // kind = 0 - should be TGo4AnalysisProxy (default)
+   // kind = 1 - should be TGo4ServerProxy and IsGo4Analysis() == kTRUE
+   // kind = 2 - should be TGo4ServerProxy
+
    TGo4Slot* dataslot = fxOM->GetSlot(fxDataPath.Data());
 
    TGo4Iter iter(dataslot, kTRUE);
@@ -766,9 +771,9 @@ TGo4Slot* TGo4BrowserProxy::FindAnalysisSlot(Bool_t databranch, Bool_t server_pr
       TGo4Slot* slot = iter.getslot();
       if (slot==0) continue;
 
-      if (server_proxy) {
+      if (kind > 0) {
          TGo4ServerProxy* serv = dynamic_cast<TGo4ServerProxy*> (slot->GetProxy());
-         if ((serv==0) || !serv->IsGo4Analysis()) continue;
+         if ((serv==0) || ((kind==1) && !serv->IsGo4Analysis())) continue;
       } else {
          if (dynamic_cast<TGo4AnalysisProxy*>(slot->GetProxy())==0) continue;
       }
@@ -793,12 +798,12 @@ TGo4AnalysisProxy* TGo4BrowserProxy::FindAnalysis(const char* itemname)
 
    TGo4Slot* slot = fxOM->FindSlot(slotname.Data());
    if ((slot==0) || (itemname==0))
-     slot = FindAnalysisSlot(kTRUE);
+     slot = FindServerSlot(kTRUE);
 
    return slot==0 ? 0 : dynamic_cast<TGo4AnalysisProxy*>(slot->GetProxy());
 }
 
-TGo4ServerProxy* TGo4BrowserProxy::FindAnalysisNew(const char* itemname)
+TGo4ServerProxy* TGo4BrowserProxy::FindServer(const char* itemname, Bool_t asanalysis)
 {
    // method should be used when analysis can be used via TGo4ServerProxy interface
 
@@ -807,14 +812,14 @@ TGo4ServerProxy* TGo4BrowserProxy::FindAnalysisNew(const char* itemname)
 
    TGo4Slot* slot = fxOM->FindSlot(slotname.Data());
    if ((slot==0) || (itemname==0))
-     slot = FindAnalysisSlot(kTRUE, kTRUE);
+     slot = FindServerSlot(kTRUE, asanalysis ? 1 : 2);
 
    return slot==0 ? 0 : dynamic_cast<TGo4ServerProxy*>(slot->GetProxy());
 }
 
 TString TGo4BrowserProxy::FindItemInAnalysis(const char* objname)
 {
-   TGo4Slot* analslot = FindAnalysisSlot(kTRUE);
+   TGo4Slot* analslot = FindServerSlot(kTRUE);
    if ((analslot==0) || (objname==0)) return TString("");
 
    TGo4Iter iter(analslot);
@@ -897,7 +902,7 @@ Bool_t TGo4BrowserProxy::UpdateAnalysisItem(const char* itemname, TObject* obj)
 
    if (anslot==0) {
       analysisname = 0;
-      anslot = FindAnalysisSlot(kTRUE, kTRUE);
+      anslot = FindServerSlot(kTRUE, 1);
    }
 
    TGo4ServerProxy* serv = dynamic_cast<TGo4ServerProxy*>(anslot->GetProxy());
@@ -1799,7 +1804,7 @@ Bool_t TGo4BrowserProxy::HandleTimer(TTimer* timer)
 
       if (fiMonitoringPeriod<=0) return kTRUE;
 
-      TGo4ServerProxy* an = FindAnalysisNew();
+      TGo4ServerProxy* an = FindServer();
 
       Bool_t anready = kTRUE;
       if (an!=0) anready = an->IsConnected();

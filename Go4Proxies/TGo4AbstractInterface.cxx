@@ -105,7 +105,7 @@ TGo4AnalysisProxy* TGo4AbstractInterface::Analysis()
 
 TGo4ServerProxy* TGo4AbstractInterface::AnalysisNew()
 {
-   return Browser() ? Browser()->FindAnalysisNew() : 0;
+   return Browser() ? Browser()->FindServer() : 0;
 }
 
 void TGo4AbstractInterface::LoadLibrary(const char* fname)

@@ -49,7 +49,7 @@ void TGo4BrowserOptions::linkedObjectUpdated(const char* linkname, TObject* obj)
 
 void TGo4BrowserOptions::RefreshBtn_clicked()
 {
-   TGo4ServerProxy* an = Browser()->FindAnalysisNew();
+   TGo4ServerProxy* an = Browser()->FindServer();
    if (an!=0) an->RefreshNamesList();
 
    TObjArray prlist;
@@ -71,7 +71,7 @@ void TGo4BrowserOptions::RefreshBtn_clicked()
 
 void TGo4BrowserOptions::ClearBtn_clicked()
 {
-   TGo4ServerProxy* an = Browser()->FindAnalysisNew();
+   TGo4ServerProxy* an = Browser()->FindServer();
    if (an) an->ClearAllAnalysisObjects();
    Browser()->UpdateVisibleAnalysisObjects(false);
 }

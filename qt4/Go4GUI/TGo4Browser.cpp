@@ -593,7 +593,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
 
    TGo4BrowserProxy* br = BrowserProxy();
    TGo4Slot* memslot = br->BrowserMemorySlot();
-   TGo4Slot* analslot = br->FindAnalysisSlot(false, true);
+   TGo4Slot* analslot = br->FindServerSlot(false, 1);
 
    bool istopmemory = false;
 

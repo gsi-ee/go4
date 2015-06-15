@@ -503,7 +503,7 @@ void TGo4Browser::ListView_contextMenuRequested(QListViewItem* item, const QPoin
 
    TGo4BrowserProxy* br = BrowserProxy();
    TGo4Slot* memslot = br->BrowserMemorySlot();
-   TGo4Slot* analslot = br->FindAnalysisSlot(false);
+   TGo4Slot* analslot = br->FindServerSlot(false);
 
    int nitems = 0;
    int nmemory = 0;

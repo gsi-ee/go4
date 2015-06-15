@@ -209,14 +209,14 @@ void TGo4BrowserItem::ToggleMonitoring(Int_t sec)
 
 void TGo4BrowserItem::StartAnalysis()
 {
-   TGo4ServerProxy* anal = fBrowser->FindAnalysisNew();
+   TGo4ServerProxy* anal = fBrowser->FindServer();
    if (anal!=0)
       anal->StartAnalysis();
 }
 
 void TGo4BrowserItem::StopAnalysis()
 {
-   TGo4ServerProxy* anal = fBrowser->FindAnalysisNew();
+   TGo4ServerProxy* anal = fBrowser->FindServer();
    if (anal!=0)
       anal->StopAnalysis();
 }
