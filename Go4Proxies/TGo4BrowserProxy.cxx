@@ -1807,10 +1807,10 @@ Bool_t TGo4BrowserProxy::HandleTimer(TTimer* timer)
       TGo4ServerProxy* an = FindServer();
 
       Bool_t anready = kTRUE;
-      if (an!=0) anready = an->IsConnected();
+      if (an!=0) anready = an->IsConnected() && (an->NumberOfWaitingProxyes()<3);
 
       // request new objects if total number of proxies is not too big
-      if (anready && (an && an->NumberOfWaitingProxyes()<3) && !fbBlockMonitoring) {
+      if (anready && !fbBlockMonitoring) {
          if (fbWithRootBrowser) {
             UpdateAllMonitoredObjects();
             UpdateAllCanvases();
