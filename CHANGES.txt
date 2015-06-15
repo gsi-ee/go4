@@ -1,6 +1,6 @@
 ---------------------------------------------------------------
          Go4 Release Package v4.9.5 (build 40905)
-                      12-June-2015
+                      15-June-2015
 ---------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -29,7 +29,8 @@ Changes in Go4 v4.9.x
 3. GUI can connect to go4analysis with either HTTP server or go4 sockets with "Connect to server" button. HTTP server
    provides same functionality as Go4 sockets connection and besides shows remote terminal output in the analysis window.
    Access to web server (controller/observer roles) can be controlled by htdigest accounts and password
-
+4. GUI can start go4analysis as HTTP server with Launch Analysis button. 
+   This provides  now an alternative mode to the established Go4 sockets analysis server. 
 
 
 Changes in Go4 v4.7.1
