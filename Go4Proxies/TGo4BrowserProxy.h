@@ -192,6 +192,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
       TGo4ServerProxy* DefineServerObject(const char* itemname, TString* objname = 0, Bool_t onlyanalysis = kTRUE);
       TGo4ServerProxy* DefineAnalysisObject(const char* itemname, TString& analysisname);
 
+      static bool CanExecuteItem(int cando);
       static bool CanExpandItem(int cando);
       static bool CanExportItem(int cando);
       static bool CanInfoItem(int cando);

@@ -547,7 +547,11 @@ void TGo4Browser::ListView_doubleClicked(QTreeWidgetItem* item, int ncol)
    if (TGo4BrowserProxy::CanExpandItem(cando)) {
       item->setExpanded(true);
       ExpandItem(fullname);
+   } else
+   if (TGo4BrowserProxy::CanExecuteItem(cando)) {
+      ExecuteItem(fullname);
    }
+
 //   else
 //      ShowItemInfo(fullname);
 
@@ -596,7 +600,7 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
    int nitems(0), nmemory(0), nclose(0), ndraw(0), nsuperimpose(0), si_kind(-1),
        nremote(0), nanalysis(0), nmonitor(0), nclear(0), nclearlocal(0), nclearproton(0),
        nclearprotoff(0), ndelprotoff(0), nobjects(0), nfolders(0), nedits(0), ninfo(0),
-       nexport(0), ndelete(0), nassigned(0), nexpand(0);
+       nexport(0), ndelete(0), nassigned(0), nexpand(0), nexecute(0);
 
    QTreeWidgetItemIterator it(ListView);
    for ( ; *it; ++it )
@@ -622,6 +626,8 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
            nfolders++;
 
          if (TGo4BrowserProxy::CanExpandItem(cando)) nexpand++;
+
+         if (TGo4BrowserProxy::CanExecuteItem(cando)) nexecute++;
 
          if (TGo4BrowserProxy::CanDrawItem(cando)) {
            ndraw++;
@@ -701,8 +707,11 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
    AddIdAction(&menu, &map, QIcon(":/icons/superimpose.png"),
                  "Superimpose",  12, (ndraw>1) && (nsuperimpose==ndraw));
 
-   if (nexpand>0)
+   if (nexpand > 0)
       AddIdAction(&menu, &map, QIcon(":/icons/zoomlim.png"), "Expand", 28, true);
+
+   if (nexecute == 1)
+      AddIdAction(&menu, &map, QIcon(":/icons/zoomlim.png"), "Execute", 29, true);
 
    AddIdAction(&menu, &map, QIcon(":/icons/right.png"),
                   "Fetch item(s)",  18, (nfolders>0) || (nobjects>0));
@@ -732,16 +741,16 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
    QString dellabel = "Delete item";
    QString delbutton = ":/icons/delete.png";
    if ((nclose>0) && (ndelete==0)) {
-     dellabel = "Close item";
-     if (nclose>1) dellabel+="s";
-     delbutton=":/icons/close.png";
+      dellabel = "Close item";
+      if (nclose>1) dellabel+="s";
+      delbutton=":/icons/close.png";
    } else
    if ((nclose==0) && (ndelete>0)) {
-     dellabel = "Delete item";
-     if (ndelete>1) dellabel+="s";
+      dellabel = "Delete item";
+      if (ndelete>1) dellabel+="s";
    } else
    if ((nclose>0) && (ndelete>0)) {
-     dellabel = "Close/delete items";
+      dellabel = "Close/delete items";
    }
 
    AddIdAction(&menu, &map, QIcon(delbutton),
@@ -954,6 +963,12 @@ void TGo4Browser::ContextMenuActivated(int id)
                break;
             }
 
+            case 29: { // execute
+               if (TGo4BrowserProxy::CanExecuteItem(cando))
+                  ExecuteItem(itemname);
+               break;
+            }
+
             case 41: { // create folder in memory
               bool ok = false;
               QString folder =
@@ -1085,4 +1100,31 @@ void TGo4Browser::ExportSelectedItems(const char* filename, const char* filedir,
 void TGo4Browser::ExpandItem(const QString& itemname)
 {
    BrowserProxy()->GetBrowserObject(itemname.toLatin1().constData(), 100);
+}
+
+void TGo4Browser::ExecuteItem(const QString& itemname)
+{
+   TString objname, arg1, arg2, arg3;
+
+   TGo4ServerProxy* serv = BrowserProxy()->DefineServerObject(itemname.toLatin1().constData(), &objname, kFALSE);
+
+   if ((serv==0) || (objname.Length()==0)) return;
+
+   Int_t nargs = serv->NumCommandArgs(objname);
+   if (nargs<0) return;
+
+   for (Int_t n=0;n<nargs;n++) {
+      bool ok = false;
+      QString value =
+            QInputDialog::getText(0, "Input command arguments",
+                                 QString("Arg%1:").arg(n+1), QLineEdit::Normal, "", &ok);
+      if (!ok) return;
+      if (n==0) arg1 = value.toLatin1().constData(); else
+      if (n==1) arg2 = value.toLatin1().constData(); else
+      if (n==2) arg3 = value.toLatin1().constData();
+   }
+
+   Bool_t res = serv->SubmitCommand(objname, 3, (arg1.Length() > 0 ? arg1.Data() : 0), (arg2.Length() > 0 ? arg2.Data() : 0), (arg3.Length() > 0 ? arg3.Data() : 0));
+
+   StatusMessage(QString(" Command execution:") + objname + QString("  result = ") + (res ? "TRUE" : "FALSE"));
 }

@@ -142,8 +142,6 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       Bool_t SubmitURL(const char* path, Int_t waitres = -1);
 
-      Bool_t SubmitCommand(const char* name, Int_t waitres = -1, const char* par1 = 0);
-
       Bool_t PostObject(const char* prefix, TObject* obj, Int_t waitres = -1, Bool_t destroy_after = kTRUE);
 
       Bool_t CheckUserName(const char* expects, Bool_t dflt = kFALSE);
@@ -177,6 +175,8 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       virtual void Update(TGo4Slot* slot, Bool_t strong);
 
+      virtual Int_t  NumCommandArgs(const char* name);
+      virtual Bool_t SubmitCommand(const char* name, Int_t waitres = -1, const char* arg1 = 0, const char* arg2 = 0, const char* arg3 = 0);
 
       virtual const char* GetUserName() const { return fUserName.Data(); }
 

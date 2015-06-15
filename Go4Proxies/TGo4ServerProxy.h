@@ -41,6 +41,10 @@ class TGo4ServerProxy : public TGo4Proxy {
       virtual const char* GetServerName() const { return fNodeName.Data(); }
       virtual const char* GetUserName() const { return ""; }
       virtual const char* GetContainedObjectInfo();
+
+      virtual Int_t  NumCommandArgs(const char* name) { return -1; }
+      virtual Bool_t SubmitCommand(const char* name, Int_t waitres = -1, const char* arg1 = 0, const char* arg2 = 0, const char* arg3 = 0) { return kFALSE; }
+
       virtual Bool_t IsGo4Analysis() const { return kFALSE; }
 
       virtual Bool_t IsConnected() { return kFALSE; }

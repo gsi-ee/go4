@@ -33,7 +33,8 @@ class TGo4Access {
          kndGo4Param = 4,         // go4 parameter
          kndDataMember = 5,       // object data member
          kndEventElement = 6,     // event object
-         kndMoreFolder = 7        // remote folder with potentially more items
+         kndMoreFolder = 7,       // remote folder with potentially more items
+         kndRootCommand = 8       // command registered in ROOT http server
       };
 
       virtual ~TGo4Access() {}

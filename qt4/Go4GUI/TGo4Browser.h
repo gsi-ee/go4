@@ -55,6 +55,8 @@ class TGo4Browser : public QGo4Widget, public Ui::TGo4Browser {
 
       void ExpandItem(const QString& itemname);
 
+      void ExecuteItem(const QString& itemname);
+
       void ShootUpdateTimer();
 
       void SaveSelectedItems();

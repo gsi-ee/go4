@@ -1474,6 +1474,11 @@ void TGo4BrowserProxy::SetItemMonitored(TGo4Slot* slot, Bool_t on)
    }
 }
 
+bool TGo4BrowserProxy::CanExecuteItem(int cando)
+{
+   return (cando % 1000000000) / 100000000 > 0;
+}
+
 bool TGo4BrowserProxy::CanExpandItem(int cando)
 {
    return (cando % 100000000) / 10000000 > 0;
@@ -1975,7 +1980,15 @@ Int_t TGo4BrowserProxy::CalculateFolderSizes(TGo4Slot* topslot)
 
 Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pixmap)
 {
-   // 10000000 - expand,  1000000 - export, 100000 - info, 10000 - close, 1000 - clear, 100 - draw, 10 - drag, 1 - edit
+   // 100000000 - execute,
+   //  10000000 - expand,
+   //   1000000 - export,
+   //    100000 - info,
+   //     10000 - close,
+   //      1000 - clear,
+   //       100 - draw,
+   //        10 - drag,
+   //         1 - edit
 
    Int_t cando = 0;
 
@@ -2035,6 +2048,9 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
    } else
    if (kind==TGo4Access::kndEventElement) {
       cando = 100010; pixmap = "eventobj.png";
+   } else
+   if (kind==TGo4Access::kndRootCommand) {
+      cando = 100000000; pixmap = "eventobj.png";
    }
 
    return cando;
@@ -2099,11 +2115,9 @@ Int_t TGo4BrowserProxy::CompareAxis(TAxis* ax1, TAxis* ax2)
 
 Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_t* hasrebinx, Int_t* hasrebiny)
 {
-//   return kFALSE;
-//std::cout <<"TGo4BrowserProxy::UpdateObjectContent, old="<<hex<<(int) obj<<", new="<<(int)newobj<<dec << std::endl;
-Bool_t tdisp=kFALSE;
-TString tform;
-if (obj->InheritsFrom(TH1::Class())) {
+   Bool_t tdisp=kFALSE;
+   TString tform;
+   if (obj->InheritsFrom(TH1::Class())) {
       TH1* histo = dynamic_cast<TH1*> (obj);
       TH1* histo2 = dynamic_cast<TH1*> (newobj);
       if ((histo==0) || (histo2==0)) return kFALSE;
@@ -2147,9 +2161,7 @@ if (obj->InheritsFrom(TH1::Class())) {
          }
 #else
 
-
 #endif
-
          delete clon;
 
          if (rebinres) {
@@ -2159,7 +2171,6 @@ if (obj->InheritsFrom(TH1::Class())) {
 
          return rebinres;
       }
-
 
       Int_t sz = histo->GetNbinsX()+2;
       if (histo->GetDimension()>1)
@@ -2208,11 +2219,6 @@ if (obj->InheritsFrom(TH1::Class())) {
       cond->SetChanged(kFALSE);
 
       return kTRUE;
-
-//      newcond->SetLineColor(cond->GetLineColor());
-//      newcond->SetFillColor(cond->GetFillColor());
-//      newcond->SetFillStyle(cond->GetFillStyle());
-//      return kFALSE;
    } else
    if (obj->InheritsFrom(TGraphAsymmErrors::Class())) {
       TGraphAsymmErrors* gr = dynamic_cast<TGraphAsymmErrors*> (obj);
@@ -2302,22 +2308,16 @@ void TGo4BrowserProxy::SaveAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, T
 	TAxis* xax=h1->GetXaxis();
 	timedisplay=xax->GetTimeDisplay();
 	format=xax->GetTimeFormat();
-	//std::cout <<"SaveAxisTimeProperties got time attributes from actual graph: display:"<<xax->GetTimeDisplay()<<", format:"<< xax->GetTimeFormat()<<", histo:"<<hex<<(int) h1<<",axis:"<<(int) xax << std::endl;
-
-
 }
+
 void TGo4BrowserProxy::RestoreAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format)
 {
-	if(gr==0) return;
-	TH1*h1=gr->GetHistogram();
-	TAxis* xax=h1->GetXaxis();
-	//std::cout <<"axis time display before- display:"<<xax->GetTimeDisplay()<<", format:"<< xax->GetTimeFormat()<<", histo:"<<hex<<(int) h1<<",axis:"<<(int) xax<< std::endl;
-	 xax->SetTimeDisplay(timedisplay);
-	 xax->SetTimeFormat(format.Data());
-	 //std::cout <<"RestoreAxisTimeProperties Recovered time display for histogram:"<<hex<<(int) h1<< std::endl;
+   if(gr==0) return;
+   TH1*h1=gr->GetHistogram();
+   TAxis* xax=h1->GetXaxis();
+   xax->SetTimeDisplay(timedisplay);
+   xax->SetTimeFormat(format.Data());
 }
-
-
 
 
 void TGo4BrowserProxy::AddWaitingList(TGo4Slot* itemslot, const char* destination)

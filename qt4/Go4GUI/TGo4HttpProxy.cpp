@@ -496,6 +496,9 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
 
          if (fXML->HasAttr(fChild,"_more")) return TGo4Access::kndMoreFolder;
 
+         const char* _kind = fXML->GetAttr(fChild,"_kind");
+         if ((_kind!=0) && strcmp(_kind,"Command") == 0) return TGo4Access::kndRootCommand;
+
          const char* drawfunc = fXML->GetAttr(fChild,"_drawfunc");
          if ((drawfunc!=0) && !strcmp(drawfunc, "GO4.drawParameter")) return TGo4Access::kndGo4Param;
 
@@ -808,13 +811,13 @@ void TGo4HttpProxy::CloseAnalysisSettings()
 {
    SetAnalysisSettingsReady(kFALSE);
 
-   SubmitCommand("CmdClose");
+   SubmitCommand("Control/CmdClose");
 }
 
 void TGo4HttpProxy::ClearAllAnalysisObjects()
 {
    // when command submitted without arguments, histograms and conditions folder will be cleared
-   SubmitCommand("CmdClear");
+   SubmitCommand("Control/CmdClear");
 }
 
 void TGo4HttpProxy::ClearAnalysisObject(const char* fullpath)
@@ -824,7 +827,7 @@ void TGo4HttpProxy::ClearAnalysisObject(const char* fullpath)
 
    objectname = TString("\"") + objectname + TString("\"");
 
-   SubmitCommand("CmdClearObject", -1, objectname.Data());
+   SubmitCommand("Control/CmdClearObject", -1, objectname.Data());
 }
 
 void TGo4HttpProxy::RemoveObjectFromAnalysis(const char* fullpath)
@@ -834,13 +837,11 @@ void TGo4HttpProxy::RemoveObjectFromAnalysis(const char* fullpath)
 
    objectname = TString("\"") + objectname + TString("\"");
 
-   SubmitCommand("CmdDeleteObject", -1, objectname.Data());
+   SubmitCommand("Control/CmdDeleteObject", -1, objectname.Data());
 }
 
 void TGo4HttpProxy::ExecuteLine(const char* line)
 {
-   // SubmitCommand("CmdExecute", -1, TString::Format("\"%s\"", line));
-
    // use method of TGo4AnalysisWebStatus - this works with all THttpServer versions
    if (FindItem("Control/Analysis"))
       SubmitURL(TString::Format("Control/Analysis/exe.json?method=ExecuteLine&cmd=\"%s\"", line));
@@ -848,13 +849,13 @@ void TGo4HttpProxy::ExecuteLine(const char* line)
 
 void TGo4HttpProxy::StartAnalysis()
 {
-   SubmitCommand("CmdStart");
+   SubmitCommand("Control/CmdStart");
    fbAnalysisRunning = kTRUE;
 }
 
 void TGo4HttpProxy::StopAnalysis()
 {
-   SubmitCommand("CmdStop");
+   SubmitCommand("Control/CmdStop");
    fbAnalysisRunning = kFALSE;
 }
 
@@ -896,14 +897,32 @@ Bool_t TGo4HttpProxy::SubmitURL(const char* path, Int_t waitres)
    return netReply->isFinished();
 }
 
-Bool_t TGo4HttpProxy::SubmitCommand(const char* name, Int_t waitres, const char* arg1)
+Int_t  TGo4HttpProxy::NumCommandArgs(const char* name)
 {
-   TString url = "Control/";
-   url.Append(name);
+   XMLNodePointer_t item = FindItem(name);
+   if (item==0) return -1;
+
+   const char* _numargs = fXML->GetAttr(item,"_numargs");
+   if (_numargs==0) return 0;
+
+   return TString(_numargs).Atoi();
+}
+
+Bool_t TGo4HttpProxy::SubmitCommand(const char* name, Int_t waitres, const char* arg1, const char* arg2, const char* arg3)
+{
+   TString url(name);
    url.Append("/cmd.json");
    if ((arg1!=0) && (*arg1!=0)) {
       url.Append("?arg1=");
       url.Append(arg1);
+      if ((arg2!=0) && (*arg2!=0)) {
+         url.Append("&arg2=");
+         url.Append(arg2);
+         if ((arg3!=0) && (*arg3!=0)) {
+            url.Append("&arg3=");
+            url.Append(arg3);
+         }
+      }
    }
 
    return SubmitURL(url.Data(), waitres);
