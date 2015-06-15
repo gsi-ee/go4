@@ -13,6 +13,11 @@
 
 #include "TGo4Log.h"
 
+#ifndef WIN32
+#include <unistd.h>
+#include <fcntl.h>
+#endif
+
 #include "Riostream.h"
 #include "TDataType.h"
 #include "TDatime.h"
@@ -21,6 +26,7 @@
 #include "snprintf.h"
 
 #include "TGo4LockGuard.h"
+
 
 const char* TGo4Log::fgcLEFT = "GO4-";
 //const char* TGo4Log::fgcRIGHT = " <GO4";
@@ -90,6 +96,8 @@ void TGo4Log::EnableRedirection()
 {
    if (fgStdSave > 0) return;
 
+#ifndef WIN32
+
    fflush(stdout);
 
    fgStdSave = dup(STDOUT_FILENO);  /* save stdout for display later */
@@ -105,12 +113,15 @@ void TGo4Log::EnableRedirection()
       fgTimer = new TLogTimer(200);
       fgTimer->Start(200);
    }
+#endif
 }
 
 
 void TGo4Log::ProcessRedirection(int kind)
 {
    if (fgStdSave<0) return;
+
+#ifndef WIN32
 
    if (kind>=0) {
 
@@ -135,6 +146,8 @@ void TGo4Log::ProcessRedirection(int kind)
    if (kind<=0) {
       dup2(fgStdPipe[1], STDOUT_FILENO); // redirect again
    }
+
+#endif
 }
 
 void TGo4Log::SetSniffer(TNamed* sniff)
