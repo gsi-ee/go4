@@ -14,8 +14,8 @@
 :: @set PATH=%PATH%;%QTDIR%\bin
 
 :: if one need to compile user analysis, following lines should be 
-:: uncommented and adjusted to actual location of MS Visual C++
+:: uncommented and adjusted to actual location of MS Visual 
 
-:: call E:\Soft\VC2012\VC\vcvarsall.bat
+:: call "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
 
  
