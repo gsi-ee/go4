@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.5.5 (build 40505)
-                      Winter-2012/2013
+         Go4 Release Package v4.9.5 (build 40905)
+                       Summer 2015
 -------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at DVEE department, GSI
@@ -26,16 +26,13 @@ together with Microsoft Visual C++ 2012 Express Edition and CYGWIN.
 
 1. INSTALLATION
 
-- Extract content of binary Go4 archive. Full path name, where package
-  is extracted, SHOULD NOT content any spaces. Therefore location like
-  "C:\Program files" should not be used. Best if package will be extracted
-  in directory "C:\Soft".
+- Run installation program. Full path name, where package is extracted,
+  SHOULD NOT content any spaces. Therefore location like
+  "C:\Program files" should be avoided. Default installation 
+  location is "C:\Users\<username>\go4".
 - After files are extracted, two sub-directories will be created:
      root - binary distribution of ROOT (see http:\root.cern.ch)
      go4  - binary distribution of Go4
-- If archive extracted not in "C:\Soft" directory, correct path
-  should be specified in go4init.bat and go4.bat scripts, 
-  which are extracted in top directory.
 
 
 2. STARTING ANALYSIS
@@ -43,9 +40,10 @@ together with Microsoft Visual C++ 2012 Express Edition and CYGWIN.
 - Run windows command prompt via main windows menu command:
     "Start/Programs/Accessories/Command prompt"
 - Execute go4init.bat batch file from directory, where package was extracted:
-    C:\> C:\Soft\go4init.bat
+    C:\> cd Users\user1\go4\
+    C:\> call go4init.bat
 - Change to directory with user analysis:
-    C:\> cd Soft\go4\Go4ExampleSimple
+    C:\> cd go4\Go4ExampleSimple
 - Start analysis by command:
     C:\Soft\go4\Go4ExampleSimple> go4analysis -server -random
 - Also one can start analysis directly from the GUI

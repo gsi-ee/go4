@@ -1,8 +1,8 @@
 :: adjust here actual path where go4 was extracted 
 
 @echo Set environment for root and go4
-@set ROOTSYS=C:\Soft\root
-@set GO4SYS=C:\Soft\go4
+@set ROOTSYS=%cd%\root
+@set GO4SYS=%cd%\go4
 @set PATH=%ROOTSYS%\bin;%GO4SYS%\bin;%PATH%
 @set LIB=.;%ROOTSYS%\lib;%GO4SYS%\lib;%LIB%
 
