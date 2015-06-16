@@ -31,26 +31,27 @@ together with Microsoft Visual C++ 2012 Express Edition and CYGWIN.
   "C:\Program files" should be avoided. Default installation 
   location is "C:\Users\<username>\go4".
 - Installation includes ROOT version 5-34-30, 
-  compiled with VC++ 11(2012). It can be found in root subfolder
+  compiled with VC++10(2010). It can be found in root subfolder
 
 
 2. STARTING ANALYSIS
 
 - Run windows command prompt with go4 variable, provided as link in go4 program group menu
 - Change to directory with user analysis:
-    C:\Users\user1\go4> cd Go4ExampleSimple
+    C:\Users\user1\go4> cd go4\Go4ExampleSimple
 - Start analysis by command:
-    C:\Users\user1\go4> go4analysis -random
+    C:\Users\user1\go4\go4\Go4ExampleSimple> go4analysis -random
 - Start analysis with http server enabled:
-    C:\Users\user1\go4> go4analysis -random -http 8080
-- Also one can start analysis directly from the GUI
+    C:\Users\user1\go4\go4\Go4ExampleSimple> go4analysis -random -http 8080
+- Analysis running http server, can be connected with any modern web browser
+- Analysis also can be started and connected directly from the Go4 GUI
 
 
 3. STARTING GUI
 
 - Installation automatically creates shortcut icon for Go4 GUI.
 - After main window appear, one can use "Connect to HTTP server"
-  button for connection with analysis, running in server mode.
+  button for connection with analysis, running in http server mode.
 - Or one can start analysis directly from the GUI via 
   "Launch analysis" menu command.    
 - Go4 GUI in Windows has mostly the same functionality as in Linux 
@@ -86,7 +87,7 @@ together with Microsoft Visual C++ 2012 Express Edition and CYGWIN.
 5. COMPILE USER ANALYSIS UNDER WINDOWS
 
   First of all, Microsoft VC++ should be installed.
-  There is a free edition of Microsoft Visual C++ Express 2012 on
+  There is a free edition of Microsoft Visual C++ Express 2010 on
        http://msdn.microsoft.com/vstudio/express/visualc/
   After VC++ is installed, there are two alternatives, 
   how example can be compiled.
@@ -98,7 +99,7 @@ together with Microsoft Visual C++ 2012 Express Edition and CYGWIN.
   build scripts. To be able use VisualC from cygwin, one should call
   vcvarsall.bat file from the Cygwin.bat before bash is started. 
   One should add line like this:
-     call E:\Soft\VC2012\VC\vcvarsall.bat"
+     call E:\Soft\VC2010\VC\vcvarsall.bat"
 
   One also must ensure that link.exe from VisualC is used. 
   Problem description and several solutions can be found here:
@@ -112,12 +113,11 @@ together with Microsoft Visual C++ 2012 Express Edition and CYGWIN.
    
   Than copy your analysis (or one of Go4 examples, for instance, Go4Example2Step) to separate location.
   To compile example:
-     /cygdrive/q> . go4login
      /cygdrive/q> cd /cygdrive/f/user/app1
      /cygdrive/f/user/app1> make clean 
      /cygdrive/f/user/app1> make all
   This should compile user analysis library. To start analysis, just call:
-     /cygdrive/f/user/app1> go4analysis -server -run
+     /cygdrive/f/user/app1> go4analysis -random -http 8090
 
   5.2. Compile with Windows native nmake tool
 
@@ -127,12 +127,11 @@ together with Microsoft Visual C++ 2012 Express Edition and CYGWIN.
   is written for Go4Example2Step. To adopt it for other user analysis,
   one should specify correct list of source files in this Makefile. 
   To run compilation, just do:
-     C:\Soft\> go4init.bat
      C:\Soft\> F:
      F:\> cd \User\App1
      F:\User\App1> nmake clean all -f Makefile.win
   Once library compiled, analysis can be started with command:
-     F:\User\App1> go4analysis -server -run
+     F:\User\App1> go4analysis -random -http 8090
 
 
 6. COMPILATION OF GO4 FROM SOURCE
