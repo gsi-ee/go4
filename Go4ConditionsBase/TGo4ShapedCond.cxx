@@ -1,4 +1,4 @@
-// $Id: TGo4ShapedCond.cxx 1313 2015-01-06 15:20:32Z adamczew $
+// $Id$
 //-----------------------------------------------------------------------
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
