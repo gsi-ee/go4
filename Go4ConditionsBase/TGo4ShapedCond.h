@@ -200,10 +200,9 @@ class TGo4ShapedCond : public TGo4PolyCond {
       static TString fgxURL_SHAPE;
 
 
-
    protected:
 
-      /* This funcion will evaluate new polygon points whenever an ellipse parameter is changed.*/
+      /* This function will evaluate new polygon points whenever an ellipse parameter is changed.*/
       void ResetPolygon();
 
       /* evaluate polygon array to form elliptical/circular shapes*/
