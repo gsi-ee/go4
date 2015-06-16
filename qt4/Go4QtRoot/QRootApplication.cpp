@@ -69,8 +69,8 @@ static int qt_x11_errhandler( Display *dpy, XErrorEvent *err )
 
 #endif
 
-bool QRootApplication::fDebug = false;
-bool QRootApplication::fWarning = true; //false;
+bool QRootApplication::fDebug = false; //false;
+bool QRootApplication::fWarning = false; //false;
 bool QRootApplication::fRootCanvasMenusEnabled = true;
 
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
