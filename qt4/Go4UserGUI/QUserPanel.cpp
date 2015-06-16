@@ -16,7 +16,9 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#ifndef WIN32
 #include <unistd.h>
+#endif
 
 #include <QMimeData>
 
@@ -53,8 +55,8 @@ extern "C" Q_DECL_EXPORT void* StartUserPanel(void* parent)
  *  Constructs a QUserPanel which is a child of 'parent', with the
  *  name 'name'.'
  */
-QUserPanel::QUserPanel( QWidget* parent,  const char* name )
-    : QGo4Widget( parent, name )
+QUserPanel::QUserPanel( QWidget* parent,  const char* name ) :
+   QGo4Widget( parent, name )
 {
    setupUi(this);
 
@@ -191,6 +193,7 @@ void QUserPanel::PrintObject(TObject* obj)
     PrintEdit->clear();
     if (obj==0) return;
 
+#ifndef WIN32
     int out_pipe[2];
     int saved_stdout = dup(STDOUT_FILENO);  /* save stdout for display later */
 
@@ -212,6 +215,9 @@ void QUserPanel::PrintObject(TObject* obj)
     ::close(out_pipe[0]);
 
     PrintEdit->setText(sbuf);
+#else
+    PrintEdit->setText("<not supported (yet) under windows>");
+#endif
 }
 
 void QUserPanel::CanvasDropEventSlot(QDropEvent* event, TPad* pad)
