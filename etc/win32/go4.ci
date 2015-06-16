@@ -81,7 +81,7 @@
                   <desc ></>
                   <buttons >auto</>
                   <design >left</>
-                  <headlogo >D:\Soft\go4\icons\go4logorun.gif</>
+                  <headlogo >D:\Soft\go4\icons\go4logo2_big.gif</>
                   <varlist >
                      <rows ></>
                   </>
@@ -116,7 +116,12 @@
                   <design >left</>
                   <headlogo ></>
                   <chlist >
-                     <rows ></>
+                     <rows >
+                        <_ >
+                           <varname >desktop_button</>
+                           <value >Create Go4 shortcut on Desktop</>
+                        </>
+                     </>
                   </>
                   <varlist >
                      <rows ></>
@@ -325,10 +330,10 @@
                            <rows >
                               <_ >
                                  <filename >D:\Soft\go4\etc\win32\*</>
-                                 <recurse >1</>
+                                 <recurse >0</>
                                  <justfile >0</>
                                  <emptydir >0</>
-                                 <exclude ></>
+                                 <exclude >*.ci</>
                               </>
                            </>
                         </>
@@ -360,19 +365,36 @@
                            <rows ></>
                         </>
                      </>
-                     <_ id = shcut >
-                        <desc >Go4 GUI</>
-                        <shpath >desk</>
-                        <shfile >Go4</>
-                        <path >inst</>
-                        <file >go4.bat</>
-                        <icon >#setuppath#\go4\icons\go4logo2.ico</>
-                        <cmdline ></>
-                        <comment ></>
-                        <work >inst</>
-                        <defwork ></>
-                        <runas >norm</>
-                        <runasadmin >0</>
+                     <_ tag = 0 id = if expanded = 2 >
+                        <children >
+                           <_ id = shcut >
+                              <desc >Go4 GUI</>
+                              <shpath >desk</>
+                              <shfile >Go4</>
+                              <path >inst</>
+                              <file >go4.bat</>
+                              <icon >#setuppath#\go4\icons\go4logo2_big.ico</>
+                              <cmdline ></>
+                              <comment ></>
+                              <work >inst</>
+                              <defwork ></>
+                              <runas >norm</>
+                              <runasadmin >0</>
+                           </>
+                        </>
+                        <desc ></>
+                        <else ></>
+                        <condlist >
+                           <rows >
+                              <_ >
+                                 <varname >desktop_button</>
+                                 <iftype >check</>
+                                 <not >0</>
+                                 <value ></>
+                                 <orand >or</>
+                              </>
+                           </>
+                        </>
                      </>
                      <_ tag = 0 id = shlist >
                         <desc ></>
@@ -397,7 +419,7 @@
                                  <cmdline >/K go4init.bat</>
                                  <icon ></>
                                  <work >inst</>
-                                 <defwork >$appdata$</>
+                                 <defwork ></>
                                  <if ></>
                               </>
                               <_ >
