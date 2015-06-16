@@ -56,7 +56,7 @@ class TGo4ParameterStatus;
 class TGo4AnalysisObjectManager : public TNamed {
 #else
 #ifdef GO4_EXPORT
-class __declspec(dllimport) TGo4AnalysisObjectManager : public TNamed
+class __declspec(dllimport) TGo4AnalysisObjectManager : public TNamed {
 #else
 class TGo4AnalysisObjectManager : public TNamed {
 #endif

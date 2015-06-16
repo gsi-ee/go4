@@ -52,6 +52,11 @@ GO4HTTP_DEPLIB = $(ROOTHTTP_LIB) $(ANAL_LIB_DEP)
 
 $(GO4HTTP_LIB):  MAKELIB_SET = $(LIBS_FULLSET) -lRHTTP
 
+#required for static constants from analysis object manager
+ifeq ($(GO4_OS),Win32)
+$(GO4HTTP_O) : DEFINITIONS += -DGO4_EXPORT
+endif
+
 $(GO4HTTP_DS): $(GO4HTTP_H) $(GO4HTTP_LINKDEF) $(GO4SYS)/build/dummy.d
 	@$(ROOTCINTGO4) $(GO4HTTP_LIB) $(GO4HTTP_H) $(GO4HTTP_LINKDEF)
 
