@@ -1,10 +1,10 @@
 --------------------------------------------------------------
          Go4 Release Package v4.9.5 (build 40905)
-                       Summer 2015
--------------------------------------------------------------
+                      15-June-2015
+--------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at DVEE department, GSI
-------------------------------------------------------------
+--------------------------------------------------------------
 Authors: Joern Adamczewski      (1999-)
          Mohammad Al-Turany     (2000-2004)
          Denis Bertini          (2001-2004)
@@ -30,30 +30,26 @@ together with Microsoft Visual C++ 2012 Express Edition and CYGWIN.
   SHOULD NOT content any spaces. Therefore location like
   "C:\Program files" should be avoided. Default installation 
   location is "C:\Users\<username>\go4".
-- After files are extracted, two sub-directories will be created:
-     root - binary distribution of ROOT (see http:\root.cern.ch)
-     go4  - binary distribution of Go4
+- Installation includes ROOT version 5-34-30, 
+  compiled with VC++ 11(2012). It can be found in root subfolder
 
 
 2. STARTING ANALYSIS
 
-- Run windows command prompt via main windows menu command:
-    "Start/Programs/Accessories/Command prompt"
-- Execute go4init.bat batch file from directory, where package was extracted:
-    C:\> cd Users\user1\go4\
-    C:\> call go4init.bat
+- Run windows command prompt with go4 variable, provided as link in go4 program group menu
 - Change to directory with user analysis:
-    C:\> cd go4\Go4ExampleSimple
+    C:\Users\user1\go4> cd Go4ExampleSimple
 - Start analysis by command:
-    C:\Soft\go4\Go4ExampleSimple> go4analysis -server -random
+    C:\Users\user1\go4> go4analysis -random
+- Start analysis with http server enabled:
+    C:\Users\user1\go4> go4analysis -random -http 8080
 - Also one can start analysis directly from the GUI
 
 
 3. STARTING GUI
 
-- Open in Windows Explorer folder, where package was extracted
-- Double click on "go4.bat" script to start gui
-- Main windows should appear. One can use "Connect to running server"
+- Installation automatically creates shortcut icon for Go4 GUI.
+- After main window appear, one can use "Connect to HTTP server"
   button for connection with analysis, running in server mode.
 - Or one can start analysis directly from the GUI via 
   "Launch analysis" menu command.    
@@ -77,7 +73,7 @@ together with Microsoft Visual C++ 2012 Express Edition and CYGWIN.
   browser by command
     root [2] new TBrowser
 - In browser new Go4 folder should exists, which represent structure
-  of remote analysis. Draw of histogram and picture are possible.
+  of remote analysis. Draw of histograms and pictures are possible.
   Via right mouse menu monitoring flag for histograms can be switched
   on/off and monitoring can be toggled.
 - Via go4 instance a various commands can be executed like:
