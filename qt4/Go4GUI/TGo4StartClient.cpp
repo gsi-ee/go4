@@ -72,9 +72,11 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
 #endif
    ServerModeCombo->setCurrentIndex(isserver ? 1 : 0);
    if(isserver)
-     ConnectionCombo->setCurrentIndex(go4sett->getClientConnectMode());
+     ConnectionCombo->setCurrentIndex(connectmode);
    else
      ConnectionCombo->setCurrentIndex(0);
+   ConnectionCombo->setEnabled(isserver);
+  PortNumber->setEnabled(isserver && (connectmode==1));
 
 #ifndef WIN32
    qt_selected->setEnabled(!isserver);
@@ -210,9 +212,10 @@ void TGo4StartClient::ServerModeCombo_activated(int id)
    else { // if Xterm was selected, select Qt
 	  if (ClientTermGroup->checkedId()==2)
 		ClientTermGroup->button(1)->setChecked(true);
-
 	  ConnectionCombo->setCurrentIndex(0); // client mode only supports go4 sockets, show it
    }
+
+
 #endif
 }
 void TGo4StartClient::ConnectionCombo_activated(int id)
