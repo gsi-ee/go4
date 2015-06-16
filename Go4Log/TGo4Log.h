@@ -45,19 +45,13 @@ class TLogTimer;
 
 
 #ifdef __CINT__
-
 class TGo4Log {
-
 #else
-
 #ifdef GO4_EXPORT
-#define TGO4LOG_CLASS_IMPORT  __declspec(dllimport)
+class __declspec(dllimport) TGo4Log {
 #else
-#define TGO4LOG_CLASS_IMPORT
+class TGo4Log {
 #endif
-
-class TGO4LOG_CLASS_IMPORT TGo4Log {
-
 #endif
 
    public:

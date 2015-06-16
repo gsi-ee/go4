@@ -47,11 +47,21 @@ class TGo4ParameterStatus;
 
 /**
  * This object is responsible for the
- * organisation of analysis objects. Keeps Folder structures and lists. Aggregate of TGo4Analysis.
+ * organization of analysis objects. Keeps Folder structures and lists. Aggregate of TGo4Analysis.
  * @author J. Adamczewski
  * @since 07-May-2002
  */
+
+#ifdef __CINT__
 class TGo4AnalysisObjectManager : public TNamed {
+#else
+#ifdef GO4_EXPORT
+class __declspec(dllimport) TGo4AnalysisObjectManager : public TNamed
+#else
+class TGo4AnalysisObjectManager : public TNamed {
+#endif
+#endif
+
    public:
 
       TGo4AnalysisObjectManager();
