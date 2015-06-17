@@ -20,8 +20,9 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-This package is compiled and tested under Windows 7
-together with Microsoft Visual C++ 12.0 (2013) Express Edition and CYGWIN.
+This package is compiled and tested with CYGWIN on Windows 7
+with Microsoft Visual C++ 12.0 (2013) Express Edition,
+using ROOT 5-34-30 and Qt 5.4.2.
 
 
 1. INSTALLATION
@@ -30,8 +31,7 @@ together with Microsoft Visual C++ 12.0 (2013) Express Edition and CYGWIN.
   SHOULD NOT content any spaces. Therefore location like
   "C:\Program files" should be avoided. Default installation 
   location is "C:\Users\<username>\go4".
-- Installation includes ROOT version 5-34-30, 
-  compiled with VC++12 (2013). It will be found in root subfolder
+- Installation includes ROOT binraires, which can be found in "root" subfolder
 
 
 2. STARTING ANALYSIS

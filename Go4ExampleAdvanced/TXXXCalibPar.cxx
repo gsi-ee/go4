@@ -232,7 +232,7 @@ void TXXXCalibPar::ReadDatabase()
    char nextline[__TEXTMAX__];
    char buf[__TEXTMAX__];
    std::ifstream database(fxDatabase.Data());
-   if(database==0)
+   if(!database)
    {
       TGo4Log::Error("Open error of calibration energy file %s",
             fxDatabase.Data());
