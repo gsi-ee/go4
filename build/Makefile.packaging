@@ -55,7 +55,9 @@ win-bin:
 ifneq ($(wildcard /cygdrive/c/WINDOWS/system32/msvcr100.dll),)
 	cp -f /cygdrive/c/WINDOWS/system32/msvcr100.dll /cygdrive/c/WINDOWS/system32/msvcp100.dll bin
 endif
-	cp -f $(QTDIR)/bin/QtCore4.dll $(QTDIR)/bin/QtGui4.dll $(QTDIR)/bin/QtNetwork4.dll bin
+	cp -f $(QTDIR)/bin/Qt5Core.dll $(QTDIR)/bin/Qt5Gui.dll $(QTDIR)/bin/Qt5Widgets.dll $(QTDIR)/bin/Qt5Network.dll $(QTDIR)/bin/icu*53.dll bin
+	@mkdir -p bin/platforms
+	cp -f $(QTDIR)/plugins/platforms/*.dll bin/platforms
 	@cd ..; $(WINZIP_CMD) go4/Makefile.config go4/Makefile.rules
 	@for MMM in $(EXMODULES); do echo "pack $$MMM"; rm -f $$MMM/G__*.* $$MMM/*.obj $$MMM/*.d; cd ..; $(WINZIP_CMD) go4/$$MMM/*; cd go4; done
 	cd ..; $(WINZIP_CMD) \
@@ -65,7 +67,7 @@ endif
 	go4/qt4/Go4UserGUI/libGo4UserGui.* go4/qt4/Go4UserGUI/*.pro go4/qt4/Go4UserGUI/QUserPanel.* go4/qt4/Go4UserGUI/Makefile go4/qt4/Go4UserGUI/README.txt 
 	cd ..; $(WINZIP_CMD) root -r
 	rm -f ../go4init.bat ../go4.bat ../go4login ../README.txt
-	rm -f bin/QtCore4.dll bin/QtGui4.dll bin/QtNetwork4.dll bin/msvcr100.dll bin/msvcp100.dll
+	rm -rf bin/Qt5Core.dll bin/Qt5Gui.dll bin/Qt5Widgets.dll bin/Qt5Network.dll bin/icu*53.dll bin/platforms bin/msvcr100.dll bin/msvcp100.dll
 	@echo "Binary package $(WINBIN_NAME) done"
 
 COMPFILES = $(filter %.h %.cxx %.cpp %.c, $(DISTRFILES))

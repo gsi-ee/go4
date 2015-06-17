@@ -88,7 +88,7 @@ using ROOT 5-34-30 and Qt 5.4.2.
 5. COMPILE USER ANALYSIS UNDER WINDOWS
 
   First of all, Microsoft VC++ should be installed.
-  There is a free edition of Microsoft Visual C++ Express 2010 on
+  There is a free edition of Microsoft Visual C++ Express 12.0 (2013) on
        http://msdn.microsoft.com/vstudio/express/visualc/
   After VC++ is installed, there are two alternatives, 
   how example can be compiled.
@@ -100,7 +100,8 @@ using ROOT 5-34-30 and Qt 5.4.2.
   build scripts. To be able use VisualC from cygwin, one should call
   vcvarsall.bat file from the Cygwin.bat before bash is started. 
   One should add line like this:
-     call E:\Soft\VC2010\VC\vcvarsall.bat"
+
+     call "C:\Program files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat"
 
   One also must ensure that link.exe from VisualC is used. 
   Problem description and several solutions can be found here:
@@ -141,7 +142,7 @@ using ROOT 5-34-30 and Qt 5.4.2.
 - Install and configure CYGWIN
 - Install Microsoft VC++
 - Install Qt 4.8.x binaries package for MS VC compiler like
-    qt-win-opensource-4.8.2-vs2012.exe 
+    https://download.qt.io/archive/qt/5.4/5.4.2/qt-opensource-windows-x86-msvc2013-5.4.2.exe
 - Download go4 sources from http://go4.gsi.de web site.
 - Find and modify $GO4SYS/etc/win32/go4login file to actual location of all 
   components, copy it to home cygwin directory

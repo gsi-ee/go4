@@ -2,7 +2,7 @@
 
 @set THIS=%0
 @set THIS=%THIS:~0,-7%.
-cd /d %THIS%
+@cd /d %THIS%
 call go4init.bat
 
 start go4.exe

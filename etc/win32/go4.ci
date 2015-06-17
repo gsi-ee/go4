@@ -3,7 +3,7 @@
    <autoclose >0</>
    <compname >GSI</>
    <produrl >http://go4.gsi.de</>
-   <ver >4.9.5</>
+   <ver >4.9.7</>
    <supurl >http://go4.gsi.de</>
    <updurl >http://go4.gsi.de</>
    <dlgfont >verdana</>
@@ -132,7 +132,7 @@
                   <pathadd >go4</>
                   <enforce >0</>
                   <if ></>
-                  <savepath >0</>
+                  <savepath >1</>
                </>
                <_ id = dlgprog expanded = 2 >
                   <children >
@@ -277,25 +277,46 @@
                         <srclist >
                            <rows rel = unpack >
                               <_ >
-                                 <filename >C:\Soft\qt482\bin\QtCore4.dll</>
-                                 <recurse >1</>
+                                 <filename >C:\Soft\qt542\5.4\msvc2013\bin\Qt5Core.dll</>
+                                 <recurse >0</>
                                  <justfile >0</>
                                  <emptydir >0</>
                                  <exclude ></>
                               </>
                               <_ >
-                                 <filename >C:\Soft\qt482\bin\QtGui4.dll</>
-                                 <recurse >1</>
+                                 <filename >C:\Soft\qt542\5.4\msvc2013\bin\Qt5Gui.dll</>
+                                 <recurse >0</>
                                  <justfile >0</>
                                  <emptydir >0</>
                                  <exclude ></>
                               </>
                               <_ >
-                                 <filename >C:\Soft\qt482\bin\QtNetwork4.dll</>
-                                 <recurse >1</>
+                                 <filename >C:\Soft\qt542\5.4\msvc2013\bin\Qt5Widgets.dll</>
+                                 <recurse >0</>
                                  <justfile >0</>
                                  <emptydir >0</>
                                  <exclude ></>
+                              </>
+                              <_ >
+                                 <filename >C:\Soft\qt542\5.4\msvc2013\bin\Qt5Network.dll</>
+                                 <recurse >0</>
+                                 <justfile >0</>
+                                 <emptydir >0</>
+                                 <exclude ></>
+                              </>
+                              <_ >
+                                 <filename >C:\Soft\qt542\5.4\msvc2013\bin\icu??53.dll</>
+                                 <recurse >0</>
+                                 <justfile >0</>
+                                 <emptydir >0</>
+                                 <exclude ></>
+                              </>
+                              <_ >
+                                 <filename >C:\Soft\qt542\5.4\msvc2013\plugins\platforms</>
+                                 <recurse >1</>
+                                 <justfile >0</>
+                                 <emptydir >0</>
+                                 <exclude >*.pdb; *d.dll</>
                               </>
                               <_ >
                                  <filename >C:\Windows\System32\msvcr100.dll</>
@@ -417,6 +438,17 @@
                                  <path >sys</>
                                  <file >cmd.exe</>
                                  <cmdline >/K go4init.bat</>
+                                 <icon ></>
+                                 <work >inst</>
+                                 <defwork ></>
+                                 <if ></>
+                              </>
+                              <_ >
+                                 <shpath >prog</>
+                                 <shfile >README</>
+                                 <path >inst</>
+                                 <file >README.txt</>
+                                 <cmdline ></>
                                  <icon ></>
                                  <work >inst</>
                                  <defwork ></>
