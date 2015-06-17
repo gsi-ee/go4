@@ -20,8 +20,8 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-This package is compiled and tested under Windows XP SP2 and Windows 7
-together with Microsoft Visual C++ 2012 Express Edition and CYGWIN.
+This package is compiled and tested under Windows 7
+together with Microsoft Visual C++ 12.0 (2013) Express Edition and CYGWIN.
 
 
 1. INSTALLATION
@@ -31,12 +31,13 @@ together with Microsoft Visual C++ 2012 Express Edition and CYGWIN.
   "C:\Program files" should be avoided. Default installation 
   location is "C:\Users\<username>\go4".
 - Installation includes ROOT version 5-34-30, 
-  compiled with VC++10(2010). It can be found in root subfolder
+  compiled with VC++12 (2013). It will be found in root subfolder
 
 
 2. STARTING ANALYSIS
 
-- Run windows command prompt with go4 variable, provided as link in go4 program group menu
+- Run windows command prompt with go4 variables set - provided as link 
+  in go4 program group menu
 - Change to directory with user analysis:
     C:\Users\user1\go4> cd go4\Go4ExampleSimple
 - Start analysis by command:
@@ -49,7 +50,7 @@ together with Microsoft Visual C++ 2012 Express Edition and CYGWIN.
 
 3. STARTING GUI
 
-- Installation automatically creates shortcut icon for Go4 GUI.
+- Installation creates shortcut icon and item in programs for Go4 GUI.
 - After main window appear, one can use "Connect to HTTP server"
   button for connection with analysis, running in http server mode.
 - Or one can start analysis directly from the GUI via 
