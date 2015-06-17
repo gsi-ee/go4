@@ -1276,23 +1276,9 @@ void TGo4MainWindow::HelpWindow(const char* filename, const char* msg)
 {
    QApplication::setOverrideCursor( Qt::WaitCursor );
 
-   QString surl("file://");
-   surl.append(TGo4Log::subGO4SYS(filename).Data());
+   QString surl = TGo4Log::subGO4SYS(filename).Data();
 
-   bool result = QDesktopServices::openUrl(QUrl(surl));
-
-/*
-#ifdef WIN32
-   TString arg = "explorer ";
-#else
-   TString arg = TGo4Log::subGO4SYS("etc/Go4ShowPdf.sh ");
-#endif
-
-   arg += TGo4Log::subGO4SYS(filename);
-   QProcess info;
-   bool result = info.startDetached(arg.Data());
-   //if (info.waitForStarted(10000) && (info.exitCode()==0))
-*/
+   bool result = QDesktopServices::openUrl(QUrl::fromLocalFile(surl));
 
    if(result)
       StatusMessage(msg ? QString(msg) : QString("Show ") + filename);
