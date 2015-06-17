@@ -1,8 +1,16 @@
-:: adjust here actual path where go4 was extracted 
+:: detect path where script is located 
 
-@echo Set environment for root and go4
+@set OLDPATH=%cd%
+@set THIS=%0
+@set THIS=%THIS:~0,-11%.
+@cd /D %THIS%
 @set ROOTSYS=%cd%\root
 @set GO4SYS=%cd%\go4
+@cd /D %OLDPATH%
+
+@echo Set environment for root and go4
+@echo    GO4SYS = %GO4SYS%
+@echo    ROOTSYS = %ROOTSYS%
 @set PATH=%ROOTSYS%\bin;%GO4SYS%\bin;%PATH%
 @set LIB=.;%ROOTSYS%\lib;%GO4SYS%\lib;%LIB%
 
@@ -16,6 +24,4 @@
 :: if one need to compile user analysis, following lines should be 
 :: uncommented and adjusted to actual location of MS Visual 
 
-:: call "C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\vcvarsall.bat"
-
- 
+:: call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat"

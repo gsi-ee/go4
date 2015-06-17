@@ -1,9 +1,8 @@
-:: adjust here actual path where go4 was extracted 
+:: script uses go4init and starts go4.exe
 
-@echo Start go4 executable
-@set GO4SYS=%cd%\go4
-@set ROOTSYS=%cd%\root
-@set PATH=%ROOTSYS%\bin;%GO4SYS%\bin;%PATH%
-@set LIB=.;%ROOTSYS%\lib;%GO4SYS%\lib;%LIB%
+@set THIS=%0
+@set THIS=%THIS:~0,-7%.
+cd /d %THIS%
+call go4init.bat
 
 start go4.exe

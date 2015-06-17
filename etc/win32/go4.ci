@@ -7,7 +7,7 @@
    <supurl >http://go4.gsi.de</>
    <updurl >http://go4.gsi.de</>
    <dlgfont >verdana</>
-   <headlogo >default - 1</>
+   <headlogo >D:\Soft\go4\icons\go4logo2_big.gif</>
    <dlgfontsize >s8</>
    <output >d:\Soft\install</>
    <exename >go4setup.exe</>
@@ -111,7 +111,7 @@
                   <if ></>
                </>
                <_ id = dlgpath >
-                  <desc ></>
+                  <desc >Input path for installing ROOT and Go4</>
                   <buttons >auto</>
                   <design >left</>
                   <headlogo ></>
@@ -129,7 +129,7 @@
                   <head ></>
                   <headtext ></>
                   <dlgtext ></>
-                  <pathadd >$userpath$\go4</>
+                  <pathadd >go4</>
                   <enforce >0</>
                   <if ></>
                   <savepath >0</>
@@ -402,7 +402,7 @@
                            <rows >
                               <_ >
                                  <shpath >prog</>
-                                 <shfile >Go4</>
+                                 <shfile >Go4 GUI</>
                                  <path >inst</>
                                  <file >go4.bat</>
                                  <cmdline ></>
@@ -417,6 +417,39 @@
                                  <path >sys</>
                                  <file >cmd.exe</>
                                  <cmdline >/K go4init.bat</>
+                                 <icon ></>
+                                 <work >inst</>
+                                 <defwork ></>
+                                 <if ></>
+                              </>
+                              <_ >
+                                 <shpath >prog</>
+                                 <shfile >Go4 Introduction</>
+                                 <path >inst</>
+                                 <file >go4\docs\Go4Introduction.pdf</>
+                                 <cmdline ></>
+                                 <icon ></>
+                                 <work >inst</>
+                                 <defwork ></>
+                                 <if ></>
+                              </>
+                              <_ >
+                                 <shpath >prog</>
+                                 <shfile >Go4 Reference Manual</>
+                                 <path >inst</>
+                                 <file >go4\docs\Go4Reference.pdf</>
+                                 <cmdline ></>
+                                 <icon ></>
+                                 <work >inst</>
+                                 <defwork ></>
+                                 <if ></>
+                              </>
+                              <_ >
+                                 <shpath >prog</>
+                                 <shfile >Go4 website</>
+                                 <path >custom</>
+                                 <file >$progfiles$\Internet Explorer\iexplore.exe</>
+                                 <cmdline >http://go4.gsi.de</>
                                  <icon ></>
                                  <work >inst</>
                                  <defwork ></>
@@ -770,7 +803,7 @@
       </>
    </>
    <phone >http://go4.gsi.de</>
-   <shfolder ></>
+   <shfolder >go4 #ver#</>
    <headcol ></>
    <headtext ></>
    <headimg ></>
