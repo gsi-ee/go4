@@ -5,12 +5,12 @@
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at DVEE department, GSI
 --------------------------------------------------------------
-Authors: Joern Adamczewski      (1999-)
-         Mohammad Al-Turany     (2000-2004)
-         Denis Bertini          (2001-2004)
-         Hans Georg Essel       (1999-2010)
-         Marc Hemberger         (1999-2000)
-         Sergey Linev           (2002-)
+Authors: Joern Adamczewski-Musch      (1999-)
+         Mohammad Al-Turany           (2000-2004)
+         Denis Bertini                (2001-2004)
+         Hans Georg Essel             (1999-2010)
+         Marc Hemberger               (1999-2000)
+         Sergey Linev                 (2002-)
 ---------------------------------------------------------------
 Copyright (C) 2000- Gesellschaft f. Schwerionenforschung, GSI
                     Planckstr. 1, 64291 Darmstadt, Germany
