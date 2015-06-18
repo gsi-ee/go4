@@ -101,6 +101,13 @@ TXXXCalibPar::~TXXXCalibPar()
 }
 //***********************************************************
 
+ void TXXXCalibPar::SetCalibSpectrum(TH1* h1)
+ {
+   fxCalibSpectrum = h1;
+   if(fxLinesFinder)    fxLinesFinder->SetH1(__DATANAME__, fxCalibSpectrum, kFALSE);
+ }
+
+
 //-----------------------------------------------------------
 Int_t TXXXCalibPar::PrintParameter(Text_t * n, Int_t)
 {

@@ -66,7 +66,7 @@ TXXXUnpackProc::TXXXUnpackProc(const char* name) :
       fCr2Ch[i] = 0;
    }
 
-   CreateRawHsitograms(5000, 1., 5001.);
+   CreateRawHistograms(5000, 1., 5001.);
    fEvCount = 0;
 
    fCr1Ch1x2 = MakeTH2('I', "Cr1Ch1x2","Crate 1 channel 1x2", 200, 1., 5001., 200, 1., 5001.);
@@ -181,8 +181,9 @@ TXXXUnpackProc::~TXXXUnpackProc()
 //***********************************************************
 
 //-----------------------------------------------------------
-void TXXXUnpackProc::CreateRawHsitograms(int nbins, double xmin, double xmax)
+void TXXXUnpackProc::CreateRawHistograms(int nbins, double xmin, double xmax)
 {
+  //std::cout <<"TXXXUnpackProc::CreateRawHistograms" << std::endl;
    for(int i=0;i<8;i++) {
 
       if (fCr1Ch[i]!=0) {
@@ -217,13 +218,14 @@ Bool_t TXXXUnpackProc::BuildEvent(TGo4EventElement* dest)
       return kFALSE;
    }
 
+
    fEvCount++;
    if (fEvCount % 1000000 == 0) {
       // this is demonstration how one can time to time recreate histogram with other ranges
 
       Long_t loop = (fEvCount / 1000000) % 5;
 
-      CreateRawHsitograms(5000 + loop*200, 1. - loop*100, 5001 + loop*100);
+      CreateRawHistograms(5000 + loop*200, 1. - loop*100, 5001 + loop*100);
 
       // TGo4Log::Info("Histograms recreated");
    }

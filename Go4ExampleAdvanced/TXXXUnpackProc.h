@@ -41,7 +41,7 @@ class TXXXUnpackProc : public TGo4EventProcessor {
        TGo4Picture   *fcondSet;
        Long_t         fEvCount;
 
-       void CreateRawHsitograms(int nbins, double xmin, double xmax);
+       void CreateRawHistograms(int nbins, double xmin, double xmax);
 
    public:
       TXXXUnpackProc();
