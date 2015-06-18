@@ -593,7 +593,7 @@ Int_t TGo4Analysis::Process()
 
 
 
-Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t process_event_interval)
+Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t process_event_interval, Bool_t iswebserver)
 {
    GO4TRACE((11,"TGo4Analysis::RunImplicitLoop(Int_t)",__LINE__, __FILE__));
    Int_t cnt = 0; // number of actually processed events
@@ -676,7 +676,15 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
             if(ex.GetPriority()>2)
             {
                PostLoop();
-               throw;   // errors: stop event loop
+               if(iswebserver)
+                 {
+                   fxDoWorkingFlag = flagPause; // errors: stop event loop
+                   ex.Handle();
+                 }
+               else
+                 {
+                   throw; // return to shell if not remotely controlled
+                 }
             }
             else
             {
@@ -687,7 +695,15 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
          {
             Message(1,"End of event source %s: name:%s msg:%s",ex.GetSourceClass(), ex.GetSourceName(),ex.GetErrMess());
             PostLoop();
-            throw;   // errors: stop event loop
+            if(iswebserver)
+            {
+                fxDoWorkingFlag = flagPause; // errors: stop event loop
+                ex.Handle();
+            }
+            else
+              {
+                throw; // return to shell if not remotely controlled
+              }
          }
 
          catch(TGo4EventErrorException& ex)
@@ -696,7 +712,15 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
             {
                Message(ex.GetPriority(),"%s",ex.GetErrMess());
                PostLoop();
-               throw;   // errors: stop event loop
+               if(iswebserver)
+                 {
+                   fxDoWorkingFlag = flagPause;// errors: stop event loop
+                   ex.Handle();
+                 }
+               else
+                 {
+                   throw; // return to shell if not remotely controlled
+                 }
             }
             else
             {
@@ -715,10 +739,18 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
          catch(...)
          {
             PostLoop(); // make sure that postloop is executed for all exceptions
-            throw;
+            if(iswebserver)
+            {
+              fxDoWorkingFlag = flagPause;
+              Message(1, "!!! Unexpected exception in %d cycle !!!", cnt);
+            }
+            else
+            {
+              throw;
+            }
          }
          ////// end inner catch
-      }// for
+      }// while loop
 
       Message(1, "Analysis implicit Loop has finished after %d cycles.", cnt);
       PostLoop();

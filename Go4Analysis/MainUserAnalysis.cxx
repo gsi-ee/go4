@@ -700,6 +700,7 @@ int main(int argc, char **argv)
 
    Bool_t batchMode(kTRUE);              // GUI or Batch
    Bool_t servermode(kFALSE);            // run analysis as server task
+   Bool_t httpmode(kFALSE);              // run analysis with web server
    Bool_t hserver(kFALSE);               // enable histogram server
    Bool_t loadprefs(kTRUE);              // loading preferences by client
    Bool_t showrate(kFALSE);              // display event rate
@@ -741,6 +742,7 @@ int main(int argc, char **argv)
 #ifdef WITH_HTTP
       if (strcmp(argv[narg], "-http")==0) {
          narg++;
+         httpmode = kTRUE;
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
             http_args.Add(new TObjString(Form("http:%s?top=Go4", argv[narg++])));
          else
@@ -748,6 +750,7 @@ int main(int argc, char **argv)
       } else
       if (strcmp(argv[narg], "-fastcgi")==0) {
          narg++;
+         httpmode = kTRUE;
          if (narg >= argc) showerror("fastcgi options not specified");
          http_args.Add(new TObjString(Form("fastcgi:%s?top=Go4", argv[narg++])));
       } else
@@ -1173,7 +1176,7 @@ int main(int argc, char **argv)
    if(batchMode) {
       TGo4Log::Info("Main: starting analysis in batch mode ...  ");
       if (analysis->InitEventClasses()) {
-         analysis->RunImplicitLoop(maxevents, showrate, process_interv);
+         analysis->RunImplicitLoop(maxevents, showrate, process_interv, httpmode);
          delete analysis;
          TGo4Log::Info("Main: analysis batch done");
       } else
