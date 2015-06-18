@@ -1,0 +1,27 @@
+#### Specially preparated file for windows distribution ###
+GO4_Configured = true
+GO4_OS       = Win32
+GO4PREFIX    = 
+GO4TOPPATH   = $(GO4SYS)
+GO4EXEPATH   = $(GO4SYS)/bin
+GO4LIBPATH   = $(GO4SYS)/lib
+GO4INCPATH   = $(GO4SYS)/include
+GO4WITHRPATH = true
+DOOPTIMIZATION = true
+
+#### ROOT configigurations from root-config
+ROOTVERSION  = $(shell root-config --version)
+ROOTEXEPATH  = $(ROOTSYS)
+ROOTINCPATH  = $(ROOTSYS)/include
+ROOTLIBPATH  = $(ROOTSYS)/lib
+ROOTCFLAGS   = $(shell root-config --cflags)
+ROOTLIBS     = $(shell root-config --libs)
+ROOTGLIBS    = $(shell root-config --glibs)
+
+#### Available ROOT components
+USEASIMAGE    = true
+USESPECTRUM   = true
+USEGEDEDITOR  = true
+USEXMLIO      = true
+USEHTTPSERVER = true
+

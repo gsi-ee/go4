@@ -26,20 +26,21 @@ while [[ "x$7" != "x" ]]; do
    shift
 done
 
+CINTOPT="-c -p "
 if [[ "$GO4_OS" == "Win32" ]]; then
   rm -f *._rootcint *_cint 
   CINT=$ROOTINTERPRETER
-  CINTOPT="-c -p"
+  CINTOPT+=`echo $CXXOPTIONS | tr -d \'`
 else
   CINT=$ROOTEXEPATH/bin/$ROOTINTERPRETER
-  CINTOPT="-c -p"
+  CINTOPT+=$CXXOPTIONS
 fi  
 
 if [[ "$ROOTINTERPRETER" == "rootcint" ]]; then
 
    echo "Generating root5 dictionary $DICTIONARY ..." 
 
-   $CINT -f $DICTIONARY $CINTOPT $CXXOPTIONS $HEADERS
+   $CINT -f $DICTIONARY $CINTOPT $HEADERS
    
    exit 0
 fi

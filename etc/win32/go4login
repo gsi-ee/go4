@@ -21,21 +21,43 @@
 #                                          
 # Adjust windows paths for ROOT, Qt and Go4
 
-ROOT_PATH="C:\Soft\root"
-GO4_PATH="C:\Soft\go4"
-QT_PATH="C:\Soft\qt482"
 
-GO4CYGPATH=`cygpath $GO4_PATH`
+if [[ "x$BASH_SOURCE" != "x" ]]; then 
+   MAIN_DIR=`dirname $BASH_SOURCE`
+else
+   MAIN_DIR=`dirname $0`
+fi
+
+# one could set MAIN_DIR directely
+MAIN_DIR=/cygdrive/d/Soft/
 
 export GO4_OS=Win32
 
-export ROOTSYS=`cygpath $ROOT_PATH`
-export QTDIR=`cygpath $QT_PATH`
-export LD_LIBRARY_PATH=$ROOTSYS/lib:$GO4CYGPATH/lib:$QTDIR/lib:$LD_LIBRARY_PATH
-export PATH=$ROOTSYS/bin:$GO4CYGPATH/bin:$QTDIR/bin:$PATH
+export GO4SYS=$MAIN_DIR/go4
+export ROOTSYS=$MAIN_DIR/root
 
-export LIB="$ROOT_PATH\lib;$GO4_PATH\lib;$QT_PATH\lib;$LIB"
+export LD_LIBRARY_PATH=$ROOTSYS/lib:$GO4SYS/lib:$LD_LIBRARY_PATH
+export PATH=$ROOTSYS/bin:$GO4SYS/bin:$PATH
 
-export QMAKESPEC=win32-msvc2012
+ROOT_DIR=`cygpath -w $ROOTSYS`
+GO4_DIR=`cygpath -w $GO4SYS`
 
-echo "Configure environment to compile go4 in $GO4CYGPATH"
+export LIB="$ROOT_DIR\lib;$GO4_DIR\lib;$LIB"
+
+echo "Configure go4 environment"
+echo "   ROOTSYS = $ROOTSYS"
+echo "   GO4SYS = $GO4SYS"
+
+# specify actual location of qt5 here
+QTDIR=/cygdrive/c/Soft/qt542/5.4/msvc2013
+
+if [ -d $QTDIR ]; then
+  echo "   QTDIR = $QTDIR"
+  export QTDIR
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$QTDIR/lib
+  export PATH=$PATH:$QTDIR/bin
+  export QMAKESPEC=win32-msvc2013
+  QT_PATH=`cygpath $QTDIR`
+  export LIB="$LIB;$QT_PATH\lib;"
+fi
+
