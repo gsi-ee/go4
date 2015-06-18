@@ -61,9 +61,6 @@ shellkind=ssh*: hostname=localhost: guihost: 127.0.0.1
 
 servercmd:%analysis% -server %analysisname% %userargs%
 
-# for http server, we misuse guiport to specify server port JAM
-#httpcmd: %analysis% -http %guiport% %userargs%
-# todo: implement analysis with http server in batch mode that does not terminate...
 httpcmd: %analysis% -http %guiport% %userargs%
 
 clientcmd:%analysis% -gui %analysisname% %guihost% %guiport% %userargs%
