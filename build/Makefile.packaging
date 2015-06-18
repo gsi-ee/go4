@@ -52,6 +52,7 @@ win-bin:
 	cp -f etc/win32/go4.bat ..
 	cp -f etc/win32/go4login ..
 	cp -f etc/win32/README.txt ..
+	cp -f etc/win32/Makefile.gener build/
 ifneq ($(wildcard /cygdrive/c/WINDOWS/system32/msvcr100.dll),)
 	cp -f /cygdrive/c/WINDOWS/system32/msvcr100.dll /cygdrive/c/WINDOWS/system32/msvcp100.dll bin
 endif
@@ -67,7 +68,7 @@ endif
 	go4/qt4/Go4UserGUI/libGo4UserGui.* go4/qt4/Go4UserGUI/*.pro go4/qt4/Go4UserGUI/QUserPanel.* go4/qt4/Go4UserGUI/Makefile go4/qt4/Go4UserGUI/README.txt 
 	cd ..; $(WINZIP_CMD) root -r
 	rm -f ../go4init.bat ../go4.bat ../go4login ../README.txt
-	rm -rf bin/Qt5Core.dll bin/Qt5Gui.dll bin/Qt5Widgets.dll bin/Qt5Network.dll bin/icu*53.dll bin/platforms bin/msvcr100.dll bin/msvcp100.dll
+	rm -rf bin/Qt5Core.dll bin/Qt5Gui.dll bin/Qt5Widgets.dll bin/Qt5Network.dll bin/icu*53.dll bin/platforms bin/msvcr100.dll bin/msvcp100.dll build/Makefile.gener
 	@echo "Binary package $(WINBIN_NAME) done"
 
 COMPFILES = $(filter %.h %.cxx %.cpp %.c, $(DISTRFILES))

@@ -29,7 +29,7 @@ else
 fi
 
 # one could set MAIN_DIR directely
-MAIN_DIR=/cygdrive/d/Soft/
+# MAIN_DIR=/cygdrive/d/Soft/
 
 export GO4_OS=Win32
 

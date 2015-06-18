@@ -354,7 +354,31 @@
                                  <recurse >0</>
                                  <justfile >0</>
                                  <emptydir >0</>
-                                 <exclude >*.ci</>
+                                 <exclude >*.ci; *.gener</>
+                              </>
+                           </>
+                        </>
+                        <varlist >
+                           <rows ></>
+                        </>
+                     </>
+                     <_ tag = 0 id = unpack >
+                        <desc >Special Makefile.gener</>
+                        <comptype >default</>
+                        <ratio >r5</>
+                        <solid >1</>
+                        <path >inst</>
+                        <custpath >go4\build\</>
+                        <ifexist >overnewer</>
+                        <if ></>
+                        <srclist >
+                           <rows >
+                              <_ >
+                                 <filename >D:\Soft\go4\etc\win32\Makefile.gener</>
+                                 <recurse >0</>
+                                 <justfile >0</>
+                                 <emptydir >0</>
+                                 <exclude ></>
                               </>
                            </>
                         </>
