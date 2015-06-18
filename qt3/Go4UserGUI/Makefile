@@ -4,7 +4,7 @@ include $(GO4SYS)/Makefile.config
 
 ifdef GO4PACKAGE
 USERGUI3_DIR         = qt3/Go4UserGUI
-USERGUI3_QFLAGS      = "GO4SYS=../.."
+USERGUI3_QFLAGS      = "QTDIR=$(QTPATH)" "GO4SYS=../.."
 USERGUI3_RULES       = | qt3-GUI qt3-heads
 else
 USERGUI3_DIR         = $(CURDIR)

@@ -1518,7 +1518,9 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
    int shellmode = go4sett->getClientShellMode();
    int termmode = go4sett->getClientTermMode();
    bool isserver = go4sett->getClientIsServer();
-
+   int connectmode=0;
+   int servport=0;
+   
    TString launchcmd, killcmd;
    Bool_t res = kFALSE;
 
@@ -1540,12 +1542,14 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
       if (res && (anw!=0) && (termmode==1))
          anw->StartAnalysisShell(launchcmd.Data(), (shellmode==0) ? workdir.latin1() : 0);
    } else
-      res = TGo4AnalysisProxy::LaunchAsServer(launchcmd, killcmd,
-                      0,
+     
+      res = TGo4AnalysisProxy::LaunchAsServer(launchcmd, killcmd, 
+                      connectmode,
                       shellmode,
                       termmode,
                       go4sett->getClientName().latin1(),
                       go4sett->getClientNode().latin1(),
+                      servport,
                       workdir.latin1(),
                       go4sett->getClientExec().latin1(),
                       go4sett->getClientExeMode(),
