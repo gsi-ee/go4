@@ -107,7 +107,7 @@ $(MODULE_DLL):  $(MODULE_LIB)
 
 $(MODULE_DS): $(MODULE_H)  $(MODULE_LINKDEF)
 	@echo Generating $@ dictionary ...
-	@rootcint -f $(MODULE_DS) -c -I$(GO4SYS)/include $(MODULE_H) $(MODULE_LINKDEF)
+	@rootcint -f $(MODULE_DS) -c -p -I$(GO4SYS)/include $(MODULE_H) $(MODULE_LINKDEF)
 
 $(MODULE_MAP): $(MODULE_LINKDEF) $(MODULE_DLL)
 	@rlibmap -r $(MODULE_MAP) -l ./$(MODULE_DLL) -d $(ANAL_LIB_DEP) -c $(MODULE_LINKDEF)
