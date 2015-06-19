@@ -161,6 +161,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
 
    fCloseCounter = 0;
    fConnectingCounter = 0;
+   fConnectingHttp = "";
 
    fbPanelTimerActive = false;
    winMapper = 0;
@@ -993,9 +994,15 @@ void TGo4MainWindow::closeEvent( QCloseEvent* ce)
    fxMdiArea->closeAllSubWindows();
    CloseAllFilesSlot();
 
+   bool realshutdown = false;
+
+   // TODO: terminate HTTP server running in Qt window
+   TGo4AnalysisWindow* an = FindAnalysisWindow();
+   if (an && an->TerminateOnClose()) realshutdown = true;
+
    StopGUIScriptSlot();
-   int waitsecs=180;
-   if(!RemoveAnalysisProxy(waitsecs)) {
+   int waitsecs = 180;
+   if(!RemoveAnalysisProxy(waitsecs, realshutdown)) {
       //std::cout <<"closeEvent - RemoveAnalysisProxy returned false, using close counter" << std::endl;
       fCloseCounter = (waitsecs+10) *10; // was 100 gui waits about 10 second to close analysis
       statusBar()->showMessage("Exit....  please wait");
@@ -1017,7 +1024,7 @@ void TGo4MainWindow::ForseCloseSlot()
 {
    //   if (!RemoveAnalysisProxy(30) && (fCloseCounter>0)) {
 
-   if (Browser()->FindAnalysis()!=0) {
+   if (Browser()->FindServer()!=0) {
 
       if (fCloseCounter>0) {
          fCloseCounter--;
@@ -1127,7 +1134,7 @@ void TGo4MainWindow::ConnectDabcSlot()
       QMessageBox::warning(0, "DABC server", "Cannot connect to DABC server");
 }
 
-void TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* user, const char* pass)
+TGo4ServerProxy* TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* user, const char* pass, bool with_qt_process)
 {
    QString httpaddr;
 
@@ -1138,7 +1145,7 @@ void TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* user, const c
       httpaddr = QInputDialog::getText(
       this, "Establish connection with HTTP", "Provide http server name",
       QLineEdit::Normal, fulladdress, &ok);
-      if (!ok) return;
+      if (!ok) return 0;
       QStringList nameportlist = httpaddr.split(":");
       int nameindex=0;
       int portindex=1;
@@ -1149,15 +1156,14 @@ void TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* user, const c
       // first check here if we have valid port number:
       if(nameportlist.size()<portindex+1 || nameportlist.at(portindex).isEmpty()){
           QMessageBox::warning(0, "HTTP server connection", "Could not connect. Please specify port number!");
-        return;
+        return 0;
       }
-      QString host=nameportlist.at(nameindex);
-      QStringList hostnamelist=nameportlist.at(nameindex).split("//");
-      if(hostnamelist.size()>1) host=hostnamelist.at(1); // get rid of optional leading // of full http adress
+      QString host = nameportlist.at(nameindex);
+      QStringList hostnamelist = nameportlist.at(nameindex).split("//");
+      if(hostnamelist.size()>1) host = hostnamelist.at(1); // get rid of optional leading // of full http adress
       go4sett->setClientNode(host);
       go4sett->setClientPort(nameportlist.at(portindex).toInt());
       go4sett->setClientConnectMode(1);
-
 
    } else {
       httpaddr = addr;
@@ -1165,7 +1171,7 @@ void TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* user, const c
 
    TGo4Script* exec = TGo4Script::ScriptInstance();
 
-   if (!exec) return;
+   if (!exec) return 0;
 
    TGo4ServerProxy* serv = exec->ConnectHttp(httpaddr.toLatin1().constData(), user, pass);
 
@@ -1178,8 +1184,10 @@ void TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* user, const c
       TGo4LogInfo* loginfo = (TGo4LogInfo*) FindGo4Widget("LogInfo", false);
       if (loginfo!=0) loginfo->WorkWithInfo(serv->LoginfoSlot());
 
-      EstablishAnalysisWindowForHttp();
+      if (!with_qt_process) EstablishAnalysisWindowForHttp();
    }
+
+   return serv;
 }
 
 
@@ -1423,9 +1431,9 @@ void TGo4MainWindow::UpdateCaptionButtons()
                      (pr->IsConnected() || (fConnectingCounter<=0));
    faDisconnectAnal->setEnabled(flag);
 
-   if (pr==0) flag = false;
-         else flag = !pr->IsAnalysisServer() ||
-                     (pr->IsConnected() && pr->IsAdministrator());
+   flag = false;
+   if (go4_serv)
+      flag = !go4_serv->IsAnalysisServer() || (go4_serv->IsConnected() && go4_serv->IsAdministrator());
    faShutdownAnal->setEnabled(flag);
 
    bool iscontrolling(false), issubmit(false);
@@ -1630,15 +1638,55 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
 
    int shellmode = go4sett->getClientShellMode();
    int termmode = go4sett->getClientTermMode();
-   bool isserver = go4sett->getClientIsServer();
-   int connectmode=go4sett->getClientConnectMode();
+   int isserver = go4sett->getClientIsServer();
 
    TString launchcmd, killcmd;
    Bool_t res = kFALSE;
 
    QString workdir = go4sett->getClientDir();
 
-   if (!isserver) {
+   if (isserver==2) {
+      // first handle http connection
+
+      QString addr = QString("%1:%2").arg(go4sett->getClientNode()).arg(go4sett->getClientPort());
+
+      // first verify that http server already running with such address
+      if (ConnectHttpSlot(addr.toLatin1().constData()) != 0) return;
+
+
+      res = TGo4ServerProxy::GetLaunchString(launchcmd, killcmd,
+                           2, shellmode, termmode,
+                           go4sett->getClientName().toLatin1().constData(),
+                           go4sett->getClientNode().toLatin1().constData(),
+                           workdir.toLatin1().constData(),
+                           go4sett->getClientExec().toLatin1().constData(),
+                           go4sett->getClientPort(),
+                           go4sett->getClientExeMode(),
+                           go4sett->getClientArgs().toLatin1().constData());
+
+      if (!res) return;
+
+      fKillCommand = killcmd.Data();
+
+      if ((termmode==2) || (termmode==3)) {
+          gSystem->Exec(launchcmd.Data());
+      } else {
+         TGo4AnalysisWindow* anw = EstablishAnalysisWindow(true, true);
+         anw->StartAnalysisShell(launchcmd.Data(), (shellmode==0) ? workdir.toLatin1().constData() : 0, true);
+      }
+
+      if (ConnectHttpSlot(addr.toLatin1().constData(), 0, 0, termmode==1)) return;
+
+      fConnectingCounter = 100;
+      fConnectingHttp = addr;
+
+      QTimer::singleShot(100, this, SLOT(CheckConnectingCounterSlot()));
+
+      return;
+   }
+
+
+   if (isserver==0) {
       TGo4AnalysisProxy* anal = AddAnalysisProxy(false, (termmode==1));
       if (anal!=0)
         res = anal->LaunchAsClient(launchcmd, killcmd,
@@ -1652,20 +1700,19 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
                       go4sett->getClientArgs().toLatin1().constData());
       TGo4AnalysisWindow* anw = FindAnalysisWindow();
       if (res && (anw!=0) && (termmode==1)) {
-         anw->StartAnalysisShell(launchcmd.Data(), (shellmode==0) ? workdir.toLatin1().constData() : 0);
+         anw->StartAnalysisShell(launchcmd.Data(), (shellmode==0) ? workdir.toLatin1().constData() : 0, false);
       }
    } else {
-            res = TGo4AnalysisProxy::LaunchAsServer(launchcmd, killcmd,
-                            connectmode,
-                            shellmode,
-                            termmode,
-                            go4sett->getClientName().toLatin1().constData(),
-                            go4sett->getClientNode().toLatin1().constData(),
-                            go4sett->getClientPort(),
-                            workdir.toLatin1().constData(),
-                            go4sett->getClientExec().toLatin1().constData(),
-                            go4sett->getClientExeMode(),
-                            go4sett->getClientArgs().toLatin1().constData());
+      res = TGo4AnalysisProxy::LaunchAsServer(launchcmd, killcmd,
+                     shellmode,
+                     termmode,
+                     go4sett->getClientName().toLatin1().constData(),
+                     go4sett->getClientNode().toLatin1().constData(),
+                     go4sett->getClientPort(),
+                     workdir.toLatin1().constData(),
+                     go4sett->getClientExec().toLatin1().constData(),
+                     go4sett->getClientExeMode(),
+                     go4sett->getClientArgs().toLatin1().constData());
    }
 
    if (res)
@@ -1675,9 +1722,10 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
 
    StatusMessage("Starting Analysis....  Please wait");
 
-   if (isserver && interactive)
-     ConnectServerSlot(true, "");
+   if ((isserver==1) && interactive) {
+      ConnectServerSlot(true, "");
    }
+}
 
 void TGo4MainWindow::PrepareForClientConnectionSlot(bool interactive)
 {
@@ -1687,6 +1735,57 @@ void TGo4MainWindow::PrepareForClientConnectionSlot(bool interactive)
       "Now you can start client from other shell (node) and connect to port " +
        QString::number(ana->ConnectorPort()), "Ok");
 }
+
+TGo4AnalysisWindow* TGo4MainWindow::EstablishAnalysisWindow(bool needoutput, bool withkillbnt)
+{
+   TGo4AnalysisWindow* anw = FindAnalysisWindow();
+   if (anw!=0)
+      if (anw->HasOutput() && !needoutput) {
+        delete anw;
+        anw = 0;
+     }
+
+   if (anw==0)
+      if (needoutput) {
+         anw = new TGo4AnalysisWindow(fxMdiArea, "AnalysisWindow", true);
+         QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(anw);
+         sub->resize(go4sett->lastPanelSize("AnalysisWindow", 700, 500));
+         CascadeMdiPosition(sub);
+         ConnectGo4Widget(anw);
+         anw->ensurePolished();
+         sub->show();
+     } else {
+        QToolBar* dock = addToolBar("Analysis control");
+        dock->setObjectName("AnalysisControlBar");
+        anw = new TGo4AnalysisWindow(this, "AnalysisWindow", false, withkillbnt || fKillCommand.length()>0);
+        ConnectGo4Widget(anw);
+        dock->addWidget(anw);
+     }
+
+   return anw;
+}
+
+void TGo4MainWindow::EstablishAnalysisWindowForHttp()
+{
+   // used together with http server connection
+   // analysis window only created when not exists and http proxy is available
+
+   TGo4ServerProxy* serv = Browser()->FindServer();
+   if ((serv==0) || (dynamic_cast<TGo4AnalysisProxy*>(serv)!=0) || (serv->DebugOutputSlot()==0)) return;
+
+   TGo4AnalysisWindow* anw = FindAnalysisWindow();
+
+   if (anw) {
+      if (anw->HasLink()) return;
+      delete anw;
+      anw = 0;
+   }
+
+   anw = EstablishAnalysisWindow(true, false);
+   if (anw) anw->WorkWithDebugOutput(serv->DebugOutputSlot());
+   serv->ResetDebugOutputRequests();
+}
+
 
 TGo4AnalysisProxy* TGo4MainWindow::AddAnalysisProxy(bool isserver, bool needoutput)
 {
@@ -1730,14 +1829,8 @@ TGo4AnalysisProxy* TGo4MainWindow::AddAnalysisProxy(bool isserver, bool needoutp
 
    if(anw==0)
      if (needoutput) {
-        anw = new TGo4AnalysisWindow(fxMdiArea, "AnalysisWindow", true);
-        QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(anw);
-        sub->resize(go4sett->lastPanelSize("AnalysisWindow", 700, 500));
-        CascadeMdiPosition(sub);
-        ConnectGo4Widget(anw);
-        anw->ensurePolished();
-        sub->show();
-        anw->WorkWithUpdateObjectCmd(anal->UpdateObjectSlot());
+        anw = EstablishAnalysisWindow(true);
+        if (anw) anw->WorkWithUpdateObjectCmd(anal->UpdateObjectSlot());
      } else {
         UpdateDockAnalysisWindow();
      }
@@ -1751,17 +1844,14 @@ bool TGo4MainWindow::RemoveAnalysisProxy(int waittime, bool servershutdown)
    EstablishAnalysisConfiguration(0);
    EstablishRatemeter(0);
 
-   TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
+   // TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
    TGo4ServerProxy* srv = Browser()->FindServer();
-   if (anal!=0) {
-      anal->DisconnectAnalysis(waittime, servershutdown);
-   } else
    if (srv!=0) {
-      TGo4Slot* slot = Browser()->FindServerSlot(kTRUE, 1);
-
-      // it is allowed to delete slot directly
-      if (slot) delete slot;
+      srv->DisconnectAnalysis(waittime, servershutdown);
    }
+   // TGo4Slot* slot = Browser()->FindServerSlot(kTRUE, 1);
+   // it is allowed to delete slot directly
+   //if (slot) delete slot;
 
    return Browser()->FindServer()==0;
 }
@@ -1783,40 +1873,9 @@ void TGo4MainWindow::UpdateDockAnalysisWindow()
      }
 
    if (shouldexists && (anw==0)) {
-     QToolBar* dock = addToolBar("Analysis control");
-     dock->setObjectName("AnalysisControlBar");
-     bool showkill = !anal->IsAnalysisServer() || fKillCommand.length()>0;
-     anw = new TGo4AnalysisWindow(this, "AnalysisWindow", false, showkill);
-     ConnectGo4Widget(anw);
-     dock->addWidget(anw);
-     anw->WorkWithUpdateObjectCmd(anal->UpdateObjectSlot());
+      anw = EstablishAnalysisWindow(false, !anal->IsAnalysisServer());
+      if (anw) anw->WorkWithUpdateObjectCmd(anal->UpdateObjectSlot());
    }
-}
-
-void TGo4MainWindow::EstablishAnalysisWindowForHttp()
-{
-   // used together with http server connection
-   // analysis window only created when not exists and http proxy is available
-
-   TGo4ServerProxy* serv = Browser()->FindServer();
-   if ((serv==0) || (dynamic_cast<TGo4AnalysisProxy*>(serv)!=0) || (serv->DebugOutputSlot()==0)) return;
-
-   TGo4AnalysisWindow* anw = FindAnalysisWindow();
-   if (anw) {
-      if (anw->HasLink()) return;
-      delete anw;
-      anw = 0;
-   }
-
-   anw = new TGo4AnalysisWindow(fxMdiArea, "AnalysisWindow", true, false);
-   QMdiSubWindow* sub = fxMdiArea->AddGo4SubWindow(anw);
-   sub->resize(go4sett->lastPanelSize("AnalysisWindow", 700, 500));
-   CascadeMdiPosition(sub);
-   ConnectGo4Widget(anw);
-   anw->ensurePolished();
-   sub->show();
-   anw->WorkWithDebugOutput(serv->DebugOutputSlot());
-   serv->ResetDebugOutputRequests();
 }
 
 TGo4AnalysisStatusMonitor* TGo4MainWindow::EstablishRatemeter(int level)
@@ -1932,7 +1991,7 @@ void TGo4MainWindow::ConnectServerSlot(bool interactive, const char* password)
    else
    {
      QString portstring;
-     QString fulladdress=go4sett->getClientNode().append(QString(":")).append(portstring.setNum(go4sett->getClientPort()));
+     QString fulladdress = go4sett->getClientNode().append(QString(":")).append(portstring.setNum(go4sett->getClientPort()));
      //std::cout << " try to connect to server: "<<fulladdress.toLatin1().constData() << std::endl;
      QString msg("Connecting analysis http server at ");
      msg.append(fulladdress).append(QString(", Please wait"));
@@ -1946,17 +2005,31 @@ void TGo4MainWindow::ConnectServerSlot(bool interactive, const char* password)
 
 void TGo4MainWindow::CheckConnectingCounterSlot()
 {
-   TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
-   if ((anal==0) || anal->IsConnected() || (--fConnectingCounter<=0)) {
-      if (fConnectingCounter<=0)
-         StatusMessage("Analysis refused connection. Try again");
-      fConnectingCounter = 0;
-      EstablishRatemeter((anal!=0) && anal->IsConnected() ? 2 : 0);
-      EstablishAnalysisConfiguration((anal!=0) && anal->IsConnected() && (anal->IsController() || anal->IsAdministrator()) ? 3 : 0);
-      UpdateDockAnalysisWindow();
-      UpdateCaptionButtons();
-      if ((anal!=0) && !anal->IsConnected()) RemoveAnalysisProxy(1);
-      return;
+   if (fConnectingHttp.length() > 0) {
+      if (ConnectHttpSlot(fConnectingHttp.toLatin1().constData(), 0, 0, go4sett->getClientTermMode()==1)!=0) {
+         fConnectingHttp = "";
+         fConnectingCounter = 0;
+         return;
+      }
+      if (--fConnectingCounter<=0) {
+         StatusMessage(fConnectingHttp + " refused connection. Try again");
+         fConnectingHttp = "";
+         fConnectingCounter = 0;
+         return;
+      }
+   } else {
+      TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
+      if ((anal==0) || anal->IsConnected() || (--fConnectingCounter<=0)) {
+         if (fConnectingCounter<=0)
+            StatusMessage("Analysis refused connection. Try again");
+         fConnectingCounter = 0;
+         EstablishRatemeter((anal!=0) && anal->IsConnected() ? 2 : 0);
+         EstablishAnalysisConfiguration((anal!=0) && anal->IsConnected() && (anal->IsController() || anal->IsAdministrator()) ? 3 : 0);
+         UpdateDockAnalysisWindow();
+         UpdateCaptionButtons();
+         if ((anal!=0) && !anal->IsConnected()) RemoveAnalysisProxy(1);
+         return;
+     }
    }
    QTimer::singleShot(100, this, SLOT(CheckConnectingCounterSlot()));
 }
@@ -1987,7 +2060,7 @@ void TGo4MainWindow::ShutdownAnalysisSlot(bool interactive)
       if (res!=0) return;
    }
    TGo4ServerProxy* srv = Browser()->FindServer();
-   if(!srv) return;
+   if (srv==0) return;
    bool realshutdown = false;
    TGo4AnalysisProxy* anal = dynamic_cast<TGo4AnalysisProxy*> (srv);
    TGo4HttpProxy* http = dynamic_cast<TGo4HttpProxy*>(srv);
@@ -1995,7 +2068,7 @@ void TGo4MainWindow::ShutdownAnalysisSlot(bool interactive)
        realshutdown = anal->IsAnalysisServer() &&
                           anal->IsConnected() &&
                        anal->IsAdministrator();
-   else if(http)
+   else if (http)
       realshutdown = http->IsConnected() && http->IsAdministrator();
    RemoveAnalysisProxy(30, realshutdown);
    StatusMessage("Shutdown analysis");

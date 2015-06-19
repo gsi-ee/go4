@@ -782,10 +782,10 @@ void TGo4MainWindow::windowsMenuAboutToShow()
     int tileId    = windowsMenu->insertItem("&Tile", centralWidget(), SLOT(tile()));
     int closallId = windowsMenu->insertItem("&Close all", this, SLOT(CloseAllWindows()));
     int minallId  = windowsMenu->insertItem("&Minimize all", this, SLOT(MinAllWindows()));
-     
+
     windowsMenu->insertItem((fbFullScreen ? "&Normal window" : "&Full screen"), this, SLOT(ToggleFullScreenSlot()), Key_F11);
-    
-    
+
+
     if (fxTGo4WorkSpace->windowList().isEmpty()) {
         windowsMenu->setItemEnabled(cascadeId, FALSE);
         windowsMenu->setItemEnabled(tileId, FALSE);
@@ -1002,7 +1002,7 @@ void TGo4MainWindow::closeEvent( QCloseEvent* ce)
    StopGUIScriptSlot();
   int waitsecs=180;
    if(!RemoveAnalysisProxy(waitsecs)) {
-       fCloseCounter = (waitsecs+10) *10; 
+       fCloseCounter = (waitsecs+10) *10;
       statusBar()->message("Exit....  please wait");
       QTimer::singleShot(100, this, SLOT(ForseCloseSlot()));
    } else {
@@ -1047,7 +1047,7 @@ void TGo4MainWindow::ForseCloseSlot()
       }
    }
  std::cout << "----- Exiting Go4 GUI now -----" << std::endl;
- gSystem->Exit( 0 ); 
+ gSystem->Exit( 0 );
 }
 
 void TGo4MainWindow::OpenFileSlot()
@@ -1211,13 +1211,13 @@ void TGo4MainWindow::HelpWindow(const char* filename, const char* msg)
          if (info.normalExit()) {
             done = info.exitStatus()==0;
             break;
-           
+
          }
-       sleep(1); 
+       sleep(1);
        std::cout << "count "<< cnt<<endl;
       }
    }
-   
+
    if (done)
       StatusMessage(msg ? QString(msg) : QString("Show ") + filename);
    else
@@ -1518,9 +1518,8 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
    int shellmode = go4sett->getClientShellMode();
    int termmode = go4sett->getClientTermMode();
    bool isserver = go4sett->getClientIsServer();
-   int connectmode=0;
    int servport=0;
-   
+
    TString launchcmd, killcmd;
    Bool_t res = kFALSE;
 
@@ -1542,9 +1541,8 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
       if (res && (anw!=0) && (termmode==1))
          anw->StartAnalysisShell(launchcmd.Data(), (shellmode==0) ? workdir.latin1() : 0);
    } else
-     
-      res = TGo4AnalysisProxy::LaunchAsServer(launchcmd, killcmd, 
-                      connectmode,
+
+      res = TGo4AnalysisProxy::LaunchAsServer(launchcmd, killcmd,
                       shellmode,
                       termmode,
                       go4sett->getClientName().latin1(),

@@ -414,6 +414,10 @@ void TGo4HttpAccess::httpFinished()
       if (obj->IsA() == TGo4Ratemeter::Class()) {
          fProxy->fbAnalysisRunning = ((TGo4Ratemeter*) obj)->IsRunning();
       }
+
+      if ((fKind==6) && (obj!=0))
+         fProxy->SetAnalysisReady(kTRUE);
+
    }
 
    DoObjectAssignement(fReceiver, fRecvPath.Data(), obj, kTRUE);
@@ -801,8 +805,6 @@ void TGo4HttpProxy::SubmitAnalysisSettings()
    if (SettingsSlot()!=0)
       status = dynamic_cast<TGo4AnalysisStatus*>(SettingsSlot()->GetAssignedObject());
 
-   printf("Settings object %p\n", status);
-
    if (status)
       PostObject("Control/Analysis/exe.bin?method=ApplyStatus&status", status, 2);
 }
@@ -1019,6 +1021,12 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
       if (res.size() <= 0) {
          fConnected = false;
          RatemeterSlot()->AssignObject(new TNamed("disconnected","title"),kTRUE);
+
+         if (fShutdownCnt>0) {
+            printf("Analysis not reply - can destroy ourself\n");
+            if (fxParentSlot) fxParentSlot->Delete();
+         }
+
          return;
       }
 
@@ -1120,6 +1128,12 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
 
 void TGo4HttpProxy::ProcessUpdateTimer()
 {
+   if ((fShutdownCnt>0) && (--fShutdownCnt==0)) {
+      if (fxParentSlot) fxParentSlot->Delete();
+      return;
+   }
+
+
    if (ServerHasMulti() || (fRegularReq!=0)) {
       ProcessRegularMultiRequest();
       return;
@@ -1261,4 +1275,16 @@ void TGo4HttpProxy::WriteAutoSave(const char* fname,
                                   Bool_t overwrite)
 {
    SubmitURL(TString::Format("Control/Analysis/exe.bin?method=WriteAutoSave&fname=%s&overwrite=%s&complevel=%d", fname, overwrite ? "kTRUE" : "kFALSE", complevel));
+}
+
+void TGo4HttpProxy::DisconnectAnalysis(Int_t waittime, Bool_t servershutdown)
+{
+   if (servershutdown && IsGo4Analysis() && IsAdministrator()) {
+      SubmitCommand("Control/CmdExit");
+      fShutdownCnt = waittime;
+   } else
+   if (fxParentSlot) {
+      // delete ourself directly
+      fxParentSlot->Delete();
+   }
 }

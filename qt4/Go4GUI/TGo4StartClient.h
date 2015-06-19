@@ -34,7 +34,6 @@ class TGo4StartClient : public QDialog, public Ui::TGo4StartClient {
       virtual void SelectProg();
 
       virtual void ServerModeCombo_activated(int);
-      virtual void ConnectionCombo_activated(int);
 
       virtual void ExeMode_changed(int);
 

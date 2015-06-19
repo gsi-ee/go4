@@ -46,20 +46,6 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
       TTimer*                   fxConnectionTimer;     //!
       Int_t                     fNumberOfWaitingProxyes;  //!
 
-      static Bool_t GetLaunchString(TString& launchcmd,
-                                    TString& killcmd,
-                                    Bool_t server,
-                                    Int_t connectmode, // 0 - go4 sockets, 1 - http server
-                                    Int_t shellkind, // 0 - exec, 1 - rsh, 2 - ssh
-                                    Int_t konsole,   // 1 - qtwindow, 2 - xterm, 3 - konsole
-                                    const char* name,
-                                    const char* remotehost,
-                                    const char* remotedir,
-                                    const char* remoteexe,
-                                    Int_t guiport,
-                                    Int_t exe_kind = 0, // 0 - executable, 1 - user library
-                                    const char* exeargs = 0);
-
       TGo4AnalysisObjectAccess* FindSubmittedProxy(const char* pathname, const char* objname);
       void DeleteSubmittedProxy(TGo4AnalysisObjectAccess* proxy);
 
@@ -96,6 +82,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
 
       virtual Bool_t IsGo4Analysis() const { return kTRUE; }
+      virtual Bool_t IsAnalysisServer() const { return fIsServer; }
 
       virtual Bool_t IsConnected();
       virtual Bool_t IsViewer();
@@ -157,12 +144,8 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       // communication with analysis functionality
 
-      Bool_t IsAnalysisServer() const { return fIsServer; }
       Int_t ConnectorPort();
       Int_t GetRole();
-
-      void SetAnalysisReady(Bool_t on = kTRUE) { fbAnalysisReady = on; }
-      Bool_t IsAnalysisReady() const { return fbAnalysisReady; }
 
       void ReceiveObject(TNamed* obj);
       void ReceiveStatus(TGo4Status* status);
@@ -183,7 +166,6 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
 
       static Bool_t LaunchAsServer(TString& launchcmd,
                                    TString& killcmd,
-                                   Int_t connectmode, // 0 - go4 sockets, 1 - http server
                                    Int_t shellkind, // Go4_sh = 0, Go4_rsh = 1, Go4_ssh = 2
                                    Int_t konsole,   // Go4_qt = 0, Go4_xterm = 1, Go4_konsole = 2
                                    const char* name,
@@ -209,7 +191,7 @@ class TGo4AnalysisProxy : public TGo4ServerProxy {
         *  correspondent slot. Wait waittime (in sec) for safe
         *  disconnection of the analysis.
         *  if servershutdown = kTRUE, shutdown command will be sent to analysis */
-      void DisconnectAnalysis(Int_t waittime = 30, Bool_t servershutdown = kFALSE);
+      virtual void DisconnectAnalysis(Int_t waittime = 30, Bool_t servershutdown = kFALSE);
 
       virtual Bool_t HandleTimer(TTimer* timer);
 

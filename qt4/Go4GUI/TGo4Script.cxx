@@ -195,7 +195,7 @@ Int_t TGo4Script::execGUICommands()
         return 1;
 
       case 1: { // execute launch client method
-         TGo4AnalysisProxy* anal = Analysis();
+         TGo4ServerProxy* anal = Server();
 
          if((anal!=0) && anal->IsAnalysisReady()) {
              doOutput("// Disconnect old analysis first");
@@ -217,13 +217,13 @@ Int_t TGo4Script::execGUICommands()
       }
 
       case 2: {  // check if analysis is ready, can continue if not ok
-         TGo4AnalysisProxy* anal = Analysis();
+         TGo4ServerProxy* anal = Server();
          if ((anal!=0) && anal->IsAnalysisReady()) return 1;
          return (fiWaitCounter<2) ? 1 : 2;
       }
 
       case 3: {   // wait while analysis is disconnected
-         TGo4AnalysisProxy* anal = Analysis();
+         TGo4ServerProxy* anal = Server();
          if((anal==0) || !anal->IsAnalysisReady()) {
             fiWaitForGUIReaction = 4;
             fiWaitCounter = getCounts(5.);
@@ -239,14 +239,14 @@ Int_t TGo4Script::execGUICommands()
       }
 
       case 5: {  // check if analysis is ready, abort if not ok
-         TGo4AnalysisProxy* anal = Analysis();
+         TGo4ServerProxy* anal = Server();
          if (anal==0) return 0;
          if (anal->IsAnalysisReady()) return 1;
          return (fiWaitCounter<2) ? 0 : 2;
       }
 
       case 10: { // wait until submitted settings are set
-        TGo4ServerProxy* anal = AnalysisNew();
+        TGo4ServerProxy* anal = Server();
         if ((anal!=0) && anal->IsAnalysisSettingsReady()) {
           fiWaitForGUIReaction = 11;
           // fiWaitCounter = getCounts(20.); // counter is for complete operation
@@ -256,13 +256,13 @@ Int_t TGo4Script::execGUICommands()
       }
 
       case 11: { // wait until remote browser refresh it's data
-         TGo4ServerProxy* anal = AnalysisNew();
+         TGo4ServerProxy* anal = Server();
          if ((anal!=0) && anal->NamesListReceived()) return 1;
          return (fiWaitCounter<2) ? 0 : 2;
       }
 
       case 12: { // wait until analysis will be disconnected
-         TGo4ServerProxy* anal = AnalysisNew();
+         TGo4ServerProxy* anal = Server();
          if (anal==0) return 1;
          return (fiWaitCounter<2) ? 0 : 2;
       }
@@ -331,9 +331,19 @@ void TGo4Script::LaunchAnalysis(const char* ClientName,
    go4sett->setClientExeMode(ExeMode);
    go4sett->setClientExec(ClientExec);
    go4sett->setClientArgs(UserArgs);
-   go4sett->setClientNode(ClientNode);
+   const char* separ = strrchr(ClientNode, ':');
+   if (separ==0) {
+      go4sett->setClientNode(ClientNode);
+      go4sett->setClientIsServer(0);
+   } else {
+      TString node;
+      node.Append(ClientNode, separ - ClientNode);
+      go4sett->setClientNode(node.Data());
+      go4sett->setClientIsServer(2);
+      go4sett->setClientPort(TString(separ+1).Atoi());
+   }
+
    go4sett->setClientShellMode(ShellMode);
-   go4sett->setClientIsServer(false);
    go4sett->setClientTermMode(TermMode);
    LaunchAnalysis();
 }
@@ -406,7 +416,7 @@ void TGo4Script::StopAnalysis()
 
 void TGo4Script::RefreshNamesList(int tmout)
 {
-   TGo4ServerProxy* anal = AnalysisNew();
+   TGo4ServerProxy* anal = Server();
    if (anal!=0) {
       anal->RefreshNamesList();
       fiWaitForGUIReaction = 11;
@@ -801,6 +811,9 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
 
    TGo4AnalysisProxy* anal = br->FindAnalysis();
 
+   // this is either HTTP or normal http proxy
+   TGo4ServerProxy* serv = br->FindServer();
+
    std::ofstream fs(filename);
 
    fs << "// Automatically generated startup script" << std::endl;
@@ -842,17 +855,29 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
    br->MakeHttpList(&prlist);
    for(Int_t n=0;n<=prlist.GetLast();n++) {
       TGo4HttpProxy* pr = (TGo4HttpProxy*) prlist.At(n);
+      if (pr == serv) continue;
       fs << "go4->ConnectHttp(\"" << pr->GetServerName() << "\");" << std::endl;
    }
 
    fs << std::endl;
 
-   if ((anal!=0) && anal->IsAnalysisReady() && !anal->IsAnalysisServer()) {
+   bool isanalysis = (anal!=0) && anal->IsAnalysisReady() && !anal->IsAnalysisServer();
+   if (!isanalysis && (serv!=0) && (serv!=anal)) isanalysis = true;
+
+   if (isanalysis) {
 // start analysis configuration
    fs << "go4->LaunchAnalysis(\"" << go4sett->getClientName().toLatin1().constData() << "\", \""
                                   << go4sett->getClientDir().toLatin1().constData() <<  "\", \""
                                   << go4sett->getClientExec().toLatin1().constData() << "\", \""
-                                  << go4sett->getClientNode().toLatin1().constData() << "\", ";
+                                  << go4sett->getClientNode().toLatin1().constData();
+
+   if (go4sett->getClientIsServer() == 2) {
+      // add port number for http server
+      fs << ":";
+      fs << go4sett->getClientPort();
+   }
+
+   fs << "\", ";
 
    if (go4sett->getClientShellMode() == Go4_rsh) fs << "Go4_rsh, "; else
    if (go4sett->getClientShellMode() == Go4_ssh) fs << "Go4_ssh, "; else fs << "Go4_sh, ";
@@ -989,7 +1014,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       fs << std::endl;
    }
 
-   if ((anal!=0) && anal->IsAnalysisSettingsReady())
+   if (((anal!=0) && anal->IsAnalysisSettingsReady()) || ((serv!=0) && (serv!=anal)))
       fs << "go4->SubmitAnalysisConfig(20);" << std::endl << std::endl;
 
    int mode = 1;
@@ -1023,7 +1048,8 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       fs << "go4->DisconnectAnalysis();" << std::endl;
    }
 
-   if ((anal!=0) && anal->IsAnalysisRunning() && !anal->IsAnalysisServer()) {
+   if (((anal!=0) && anal->IsAnalysisRunning() && !anal->IsAnalysisServer()) ||
+       ((serv!=0) && (serv!=anal) && serv->IsAnalysisRunning())) {
       fs << "go4->StartAnalysis();" << std::endl;
       fs << std::endl;
       fs << "// this is possibility to get extra histograms from analysis" << std::endl;

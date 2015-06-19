@@ -184,7 +184,7 @@ TGo4Analysis::TGo4Analysis(const char* name) :
    fbAutoSaveFileChange(kFALSE),
    fxSampleEvent(0),
    fxObjectNames(0),
-   fxDoWorkingFlag(flagRunning),
+   fxDoWorkingFlag(flagInit),
    fxInterruptHandler(0),
    fAnalysisName(),
    fBatchLoopCount(-1),
@@ -222,7 +222,7 @@ TGo4Analysis::TGo4Analysis(int argc, char** argv) :
    fbAutoSaveFileChange(kFALSE),
    fxSampleEvent(0),
    fxObjectNames(0),
-   fxDoWorkingFlag(flagRunning),
+   fxDoWorkingFlag(flagInit),
    fxInterruptHandler(0),
    fAnalysisName(),
    fBatchLoopCount(-1),
@@ -357,7 +357,11 @@ Bool_t TGo4Analysis::InitEventClasses()
          UpdateNamesList();
          TGo4Log::Info("Analysis --  Initializing EventClasses done.");
          fbInitIsDone = kTRUE;
-         if (!fxAnalysisSlave && (fxDoWorkingFlag == flagClosed)) fxDoWorkingFlag = flagPause;
+         if (!fxAnalysisSlave) {
+            if (fxDoWorkingFlag == flagClosed) fxDoWorkingFlag = flagPause; else
+            if (fxDoWorkingFlag == flagInit) fxDoWorkingFlag = flagRunning;
+         }
+
       } catch(TGo4EventErrorException& ex) {
          Message(ex.GetPriority(), ex.GetErrMess());
          rev = kFALSE;
@@ -613,7 +617,10 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 
    try
    {
-      PreLoop();
+      // only when entering with running mode, call prelloop
+      if (fxDoWorkingFlag == flagRunning)
+         PreLoop();
+
       if (times>0)
          Message(1, "Analysis loop for %d cycles is starting...", times);
       else
@@ -753,7 +760,10 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
       }// while loop
 
       Message(1, "Analysis implicit Loop has finished after %d cycles.", cnt);
-      PostLoop();
+
+      // postloop only if analysis not yet closed
+      if (fxDoWorkingFlag != flagClosed)
+         PostLoop();
    } //  try
 
    catch(TGo4Exception& ex) {

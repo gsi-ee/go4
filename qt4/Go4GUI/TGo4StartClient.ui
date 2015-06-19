@@ -20,6 +20,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
+   
     <layout class="QHBoxLayout" name="horizontalLayout_10">
      <item>
       <widget class="QLabel" name="textLabel1">
@@ -32,8 +33,6 @@
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
-       <item>
         <widget class="QComboBox" name="ServerModeCombo">
          <property name="toolTip">
           <string>analysis executable mode</string>
@@ -48,38 +47,13 @@
            <string>As server</string>
           </property>
          </item>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="ConnectionCombo">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="toolTip">
-          <string>server mode</string>
-         </property>
          <item>
           <property name="text">
-           <string>Go4 sockets</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>HTTP server</string>
+           <string>As HTTP server</string>
           </property>
          </item>
         </widget>
-       </item>
-      </layout>
+      
      </item>
     </layout>
    </item>

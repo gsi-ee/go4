@@ -145,7 +145,7 @@ class TGo4AbstractInterface : public TObject {
       /** Returns pointer on more generic server proxy
         * TGo4ServerProxy class provide access to analysis controlling instance in program.
         * Normally should not be used in GUI script. */
-      TGo4ServerProxy* AnalysisNew();
+      TGo4ServerProxy* Server();
 
       /** Executes hotstart file, generated in go4 GUI.
         * Hot start files can not be executed as normal CINT scripts,
@@ -272,7 +272,7 @@ class TGo4AbstractInterface : public TObject {
 
       /** Launch analysis in client mode.
         * Parameters:
-        *    ClientName - arbitrary name of analysis, used for diaplay
+        *    ClientName - arbitrary name of analysis, used for display
         *    ClientDir  - directory, where analysis should be started
         *    ClientExec - main analysis executable
         *    ClientNode - node name, where analysis should be started
@@ -295,7 +295,7 @@ class TGo4AbstractInterface : public TObject {
         *    password   - access password, which should correspond to specified UserMode */
       virtual void ConnectAnalysis(const char* ServerNode,
                            Int_t ServerPort,
-                           Int_t UserMode,  // 0 - obsrver, 1- controller, 2 - administrator
+                           Int_t UserMode,  // 0 - observer, 1- controller, 2 - administrator
                            const char* password = 0)  {}
 
       /** Waits, until connection to analysis is established.

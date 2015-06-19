@@ -41,6 +41,7 @@ class TGo4ObjectManager;
 class TGo4AnalysisProxy;
 class TGo4BrowserProxy;
 class TGo4WidgetProxy;
+class TGo4ServerProxy;
 
 class QAction;
 class QSignalMapper;
@@ -82,7 +83,7 @@ class TGo4MainWindow : public QMainWindow {
       void OpenFileSlot();
       void OpenRemoteFileSlot();
       void ConnectDabcSlot();
-      void ConnectHttpSlot(const char* addr = 0, const char* user=0, const char* pass=0);
+      TGo4ServerProxy* ConnectHttpSlot(const char* addr = 0, const char* user=0, const char* pass=0, bool with_qt_process = false);
       void ConnectHServerSlot();
       void SaveFileSlot();
       void CascadeSubWindows();
@@ -157,6 +158,7 @@ class TGo4MainWindow : public QMainWindow {
 
       TGo4AnalysisConfiguration* FindAnalysisConfiguration();
       TGo4AnalysisWindow* FindAnalysisWindow();
+      TGo4AnalysisWindow* EstablishAnalysisWindow(bool needoutput, bool withkillbnt = false);
 
       // slots connected to editors
       void editorServiceSlot(QGo4Widget* editor, int serviceid, const char* str, void* par);
@@ -225,7 +227,8 @@ class TGo4MainWindow : public QMainWindow {
       int                fNewWidgetY;
 
       int                fCloseCounter;
-      int                fConnectingCounter;
+      int                fConnectingCounter; // counter to establish connection
+      QString            fConnectingHttp;   // http address (set when doing connection to http)
       QString            fLastPassword;
       QString            fLastFileDir;
 

@@ -257,7 +257,7 @@ void TGo4Interface::ShutdownAnalysis()
 
 void TGo4Interface::SubmitAnalysisConfig(int tmout)
 {
-   TGo4ServerProxy* anal = AnalysisNew();
+   TGo4ServerProxy* anal = Server();
    if (anal==0) return;
 
    anal->SubmitAnalysisSettings();
@@ -275,7 +275,7 @@ void TGo4Interface::SubmitAnalysisConfig(int tmout)
 
 void TGo4Interface::StartAnalysis()
 {
-   TGo4ServerProxy* anal = AnalysisNew();
+   TGo4ServerProxy* anal = Server();
    if (anal==0) return;
 
    anal->StartAnalysis();
@@ -289,7 +289,7 @@ void TGo4Interface::StartAnalysis()
 
 void TGo4Interface::StopAnalysis()
 {
-   TGo4ServerProxy* anal = AnalysisNew();
+   TGo4ServerProxy* anal = Server();
    if (anal==0) return;
 
    anal->StopAnalysis();
@@ -301,7 +301,7 @@ void TGo4Interface::StopAnalysis()
 
 void TGo4Interface::RefreshNamesList(int tmout)
 {
-   TGo4ServerProxy* anal = AnalysisNew();
+   TGo4ServerProxy* anal = Server();
    if (anal==0) return;
 
    anal->RefreshNamesList();
@@ -318,7 +318,7 @@ void TGo4Interface::RefreshNamesList(int tmout)
 
 TGo4AnalysisStatus* TGo4Interface::GetAnalStatus()
 {
-   TGo4ServerProxy* anal = AnalysisNew();
+   TGo4ServerProxy* anal = Server();
    if (anal==0) return 0;
    if (anal->SettingsSlot()==0) return 0;
 

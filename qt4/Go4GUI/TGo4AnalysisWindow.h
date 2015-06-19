@@ -33,7 +33,7 @@ class TGo4AnalysisWindow : public QGo4Widget {
        virtual ~TGo4AnalysisWindow();
 
        void SetHistorySize(int sz);
-       void StartAnalysisShell(const char* cmd, const char* workdir = 0);
+       void StartAnalysisShell(const char* cmd, const char* workdir = 0, bool aschildprocess = false);
        void TerminateAnalysisProcess();
        void AppendOutputBuffer(const QString& value);
        void WorkWithUpdateObjectCmd(TGo4Slot* slot);
@@ -42,6 +42,7 @@ class TGo4AnalysisWindow : public QGo4Widget {
 
        bool HasOutput();
        bool HasLink() const { return fHasLink; }
+       bool TerminateOnClose() const { return fTerminateOnClose; }
 
    public slots:
       void readFromStdout();
@@ -74,6 +75,7 @@ class TGo4AnalysisWindow : public QGo4Widget {
       unsigned int fiMaxOuputSize;
       bool fNewObjectForEditor;
       bool fHasLink;
+      bool fTerminateOnClose;
 };
 
 #endif // TGO4ANALYSISWINDOW_H

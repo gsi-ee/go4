@@ -308,7 +308,7 @@ void TGo4QSettings::setClientTermMode(int v)
       case 2: res = "xterm"; break;
       case 3: res = "konsole"; break;
    }
-   setStr(  "/ClientSetting/Term", res);
+   setStr("/ClientSetting/Term", res);
 }
 
 QString TGo4QSettings::getClientTerm()
@@ -326,14 +326,20 @@ int TGo4QSettings::getClientTermMode()
    return termmode;
 }
 
-void  TGo4QSettings::setClientIsServer(bool on)
+void  TGo4QSettings::setClientIsServer(int kind)
 {
-   setBool("/ClientSetting/IsServer", on);
+   QString v = "false";
+   if (kind==1) v = "true";
+   if (kind==2) v = "http";
+   setStr("/ClientSetting/IsServer", v);
 }
 
-bool TGo4QSettings::getClientIsServer()
+int TGo4QSettings::getClientIsServer()
 {
-   return getBool("/ClientSetting/IsServer", false);
+   QString v = getStr("/ClientSetting/IsServer", "false");
+   if (v == "true") return 1;
+   if (v == "http") return 2;
+   return 0;
 }
 
 void TGo4QSettings::setClientPort(int nport)

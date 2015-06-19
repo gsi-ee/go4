@@ -8,7 +8,7 @@
 
    GO4 = {};
 
-   GO4.version = "4.9.7";
+   GO4.version = "4.9.8";
    
    // use location to load all other scripts when required
    GO4.source_dir = function() {

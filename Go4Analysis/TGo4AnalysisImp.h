@@ -57,6 +57,7 @@ class TGo4EventProcessor;
 class TGo4TreeStructure;
 class TGo4InterruptHandler;
 class TGo4AnalysisWebStatus;
+class TGo4Sniffer;
 
 /**
  * The mother of all go4 analysis. Provides services to organize
@@ -79,6 +80,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
   friend class TGo4HisConnectorRunnable;
   friend class TGo4HistogramServer;
   friend class TGo4AnalysisWebStatus;
+  friend class TGo4Sniffer;
 
   public:
 
@@ -1023,7 +1025,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
     TGo4AnalysisObjectNames * fxObjectNames;     //!
 
     /** Indicates analysis runstate */
-    enum { flagClosed, flagStop, flagPause, flagRunning } fxDoWorkingFlag; //!
+    enum { flagInit, flagRunning, flagPause, flagClosed, flagStop  } fxDoWorkingFlag; //!
 
     /** use to treat Ctrl-C interrupts */
     TGo4InterruptHandler* fxInterruptHandler; //!

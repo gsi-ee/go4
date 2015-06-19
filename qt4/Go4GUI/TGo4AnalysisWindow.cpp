@@ -51,6 +51,8 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
     outputBuffer = "";
     fiMaxOuputSize = 0;
     fxCmdHist = 0;
+    fHasLink = false;
+    fTerminateOnClose = false;
 
     fNewObjectForEditor = true;
 
@@ -180,6 +182,7 @@ TGo4AnalysisWindow::~TGo4AnalysisWindow()
    CloseMDIParentSlot(); // JAM remove top level window when changing connection from client to server
 }
 
+
 bool TGo4AnalysisWindow::HasOutput()
 {
    return fxOutput!=0;
@@ -251,11 +254,14 @@ void TGo4AnalysisWindow::AppendOutputBuffer(const QString& value)
     outputBuffer.append(value);
 }
 
-void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdir)
+void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdir, bool aschildprocess)
 {
     if (fAnalysisProcess!=0) delete fAnalysisProcess;
 
-    fAnalysisProcess = new QProcess();
+    // IMPORTANT - process should be child of analysis window
+    // to be terminated when analysis window closed or Ctrl-C is pressed
+
+    fAnalysisProcess = new QProcess(aschildprocess ? this : 0);
     connect(fAnalysisProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(readFromStdout()));
     connect(fAnalysisProcess, SIGNAL(readyReadStandardError()), this, SLOT(readFromStderr()));
     if (workdir!=0) fAnalysisProcess->setWorkingDirectory(workdir);
@@ -265,6 +271,8 @@ void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdi
     if (fAnalysisProcess->state() == QProcess::NotRunning) {
        std::cerr << "Fatal error. Could not start the Analysis" << std::endl;
        TerminateAnalysisProcess();
+    } else {
+       fTerminateOnClose = aschildprocess;
     }
 }
 

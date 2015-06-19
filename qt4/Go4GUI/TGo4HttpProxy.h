@@ -127,6 +127,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       TString         fPassword;      //!
       Bool_t          fConnected;     //! true if connected
       QNetworkReply  *fRegularReq;    //! multiple request for rate, log and messages
+      Int_t           fShutdownCnt;    //! counter during shutdown
 
       void GetHReply(QByteArray& res);
 
@@ -180,11 +181,12 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       virtual const char* GetUserName() const { return fUserName.Data(); }
 
+      virtual Bool_t IsAnalysisServer() const { return kTRUE; }
       virtual Bool_t IsGo4Analysis() const;
       virtual Bool_t IsConnected() { return fConnected; }
       virtual Bool_t IsViewer()  { return CheckUserName("observer", kFALSE); }
-      virtual Bool_t IsController()  { return CheckUserName("controller", kTRUE); }
-      virtual Bool_t IsAdministrator()  { return CheckUserName("admin", kFALSE); }
+      virtual Bool_t IsController()  { return CheckUserName("controller", kFALSE); }
+      virtual Bool_t IsAdministrator()  { return CheckUserName("admin", kTRUE); }
 
       virtual Bool_t CanSubmitObjects();
       virtual void RequestAnalysisSettings();
@@ -235,6 +237,9 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
                                  Bool_t overwrite);
 
       virtual void ResetDebugOutputRequests();
+
+      virtual void DisconnectAnalysis(Int_t waittime = 30, Bool_t servershutdown = kFALSE);
+
 
 };
 

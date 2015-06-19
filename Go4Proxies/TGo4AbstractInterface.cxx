@@ -103,7 +103,7 @@ TGo4AnalysisProxy* TGo4AbstractInterface::Analysis()
    return Browser() ? Browser()->FindAnalysis() : 0;
 }
 
-TGo4ServerProxy* TGo4AbstractInterface::AnalysisNew()
+TGo4ServerProxy* TGo4AbstractInterface::Server()
 {
    return Browser() ? Browser()->FindServer() : 0;
 }
@@ -186,12 +186,12 @@ void TGo4AbstractInterface::ConnectDabc(const char* servername)
 
 Bool_t TGo4AbstractInterface::IsAnalysisConnected()
 {
-   return AnalysisNew()==0 ? kFALSE : AnalysisNew()->IsConnected();
+   return Server()==0 ? kFALSE : Server()->IsConnected();
 }
 
 void TGo4AbstractInterface::ExecuteLine(const char* remotecmd)
 {
-   TGo4ServerProxy* anal = AnalysisNew();
+   TGo4ServerProxy* anal = Server();
    if ((anal!=0) && (remotecmd!=0)) {
       anal->ExecuteLine(remotecmd);
       TGo4Log::Message(1, "Exec: %s", remotecmd);
@@ -200,7 +200,7 @@ void TGo4AbstractInterface::ExecuteLine(const char* remotecmd)
 
 void TGo4AbstractInterface::RequestAnalysisConfig()
 {
-   TGo4ServerProxy* anal = AnalysisNew();
+   TGo4ServerProxy* anal = Server();
    if (anal!=0)
      anal->RequestAnalysisSettings();
 }

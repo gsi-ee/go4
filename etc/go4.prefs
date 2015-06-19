@@ -61,7 +61,7 @@ shellkind=ssh*: hostname=localhost: guihost: 127.0.0.1
 
 servercmd:%analysis% -server %analysisname% %userargs%
 
-httpcmd: %analysis% -http %guiport% %userargs%
+httpcmd: %analysis% -http %guiport% -norun %userargs%
 
 clientcmd:%analysis% -gui %analysisname% %guihost% %guiport% %userargs%
 

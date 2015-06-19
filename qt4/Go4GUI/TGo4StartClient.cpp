@@ -52,8 +52,6 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
    ClientTermGroup->addButton(konsole_selected, 3);
    ClientTermGroup->button(go4sett->getClientTermMode())->setChecked(true);
 
-   ExeModeCombo->setCurrentIndex(go4sett->getClientExeMode());
-
    LineEditClientName->setText(go4sett->getClientName());
    LineEditClientNode->setText(go4sett->getClientNode());
    PortNumber->setValue(go4sett->getClientPort());
@@ -64,25 +62,29 @@ TGo4StartClient::TGo4StartClient( QWidget* parent )
    if (LineEditClientDir->text().isEmpty())
       LineEditClientDir->setText(QDir::currentPath());
 
-   bool isserver = go4sett->getClientIsServer();
-   int connectmode=go4sett->getClientConnectMode(); // 0: go4sockets, 1:http
-#ifdef WIN32
-   isserver = false;
-   ServerModeCombo->setEnabled(false);
-#endif
-   ServerModeCombo->setCurrentIndex(isserver ? 1 : 0);
-   if(isserver)
-     ConnectionCombo->setCurrentIndex(connectmode);
-   else
-     ConnectionCombo->setCurrentIndex(0);
-   ConnectionCombo->setEnabled(isserver);
-  PortNumber->setEnabled(isserver && (connectmode==1));
+   int mode = go4sett->getClientIsServer();  // 0 - client, 1 - server, 2 - http
 
-#ifndef WIN32
-   qt_selected->setEnabled(!isserver);
-   if (isserver && ClientTermGroup->checkedId()==1)
+#ifdef WIN32
+   if (mode == 1) mode = 2;
+
+   QModelIndex index = ServerModeCombo->model()->index(1, 0);
+   // This is the effective 'disable' flag
+   QVariant v(0);
+   // the magic
+   ServerModeCombo->model()->setData(index, v, Qt::UserRole - 1);
+#else
+   qt_selected->setEnabled(mode!=1);
+
+   if ((mode==1) && ClientTermGroup->checkedId()==1)
       ClientTermGroup->button(2)->setChecked(true);
 #endif
+
+   ServerModeCombo->setCurrentIndex(mode);
+   PortNumber->setEnabled(mode == 2);
+
+   ExeModeCombo->setCurrentIndex(mode==2 ? 1 : go4sett->getClientExeMode());
+
+
 }
 
 void TGo4StartClient::ExeMode_changed(int id)
@@ -100,10 +102,9 @@ void TGo4StartClient::getResults()
    go4sett->setClientArgs(LineEditArgs->text());
    go4sett->setClientShellMode(ClientShellGroup->checkedId());
    go4sett->setClientTermMode(ClientTermGroup->checkedId());
-   go4sett->setClientIsServer(ServerModeCombo->currentIndex()==1);
-   go4sett->setClientConnectMode(ConnectionCombo->currentIndex());
+   go4sett->setClientIsServer(ServerModeCombo->currentIndex());
+   go4sett->setClientConnectMode(ServerModeCombo->currentIndex()>0 ? ServerModeCombo->currentIndex() - 1 : 0);
    go4sett->setClientPort(PortNumber->value());
-
 }
 
 void TGo4StartClient::SelectDir()
@@ -132,8 +133,8 @@ void TGo4StartClient::SelectDir()
       fileName = QFileInfo(QDir(flst[0]), fileName).filePath();
       LineEditClientExec->setText(fileName);
    }
-
 }
+
 
 void TGo4StartClient::SelectProg()
 {
@@ -197,29 +198,27 @@ void TGo4StartClient::SelectProg()
 
 void TGo4StartClient::ServerModeCombo_activated(int id)
 {
-#ifndef WIN32
+   bool windows = false;
 
-   bool isserver = (id==1);
+#ifdef WIN32
+   if (id==1) {
+      ServerModeCombo->setCurrentIndex(2);
+      id = 2;
+   }
+   windows = true;
+#endif
 
-   qt_selected->setEnabled(!isserver);
-   ConnectionCombo->setEnabled(isserver);
-   PortNumber->setEnabled(isserver);
-   if (isserver) { // if Qt was selected, select Xterm
+   ExeModeCombo->setEnabled(id<2);
+   if (id==2) ExeModeCombo->setCurrentIndex(1);
+   bool isserver = (id>0);
+   qt_selected->setEnabled(id!=1);
+   PortNumber->setEnabled(id==2);
+   if (id==1) { // if Qt was selected, select Xterm
       if (ClientTermGroup->checkedId()==1)
         ClientTermGroup->button(2)->setChecked(true);
-      PortNumber->setEnabled(ConnectionCombo->currentIndex()==1);
    }
    else { // if Xterm was selected, select Qt
 	  if (ClientTermGroup->checkedId()==2)
-		ClientTermGroup->button(1)->setChecked(true);
-	  ConnectionCombo->setCurrentIndex(0); // client mode only supports go4 sockets, show it
+		 ClientTermGroup->button(1)->setChecked(true);
    }
-
-
-#endif
-}
-void TGo4StartClient::ConnectionCombo_activated(int id)
-{
-
-    PortNumber->setEnabled(id==1);
 }

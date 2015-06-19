@@ -22,6 +22,7 @@
 class TGo4ServerProxy : public TGo4Proxy {
    protected:
       TGo4Slot*        fxParentSlot;            //!
+      Bool_t           fbAnalysisReady;         // true if analysis is connected and get first info
       Bool_t           fbAnalysisSettingsReady; // true when settings are specified
 
       TString         fNodeName; // name of remote node
@@ -46,6 +47,7 @@ class TGo4ServerProxy : public TGo4Proxy {
       virtual Bool_t SubmitCommand(const char* name, Int_t waitres = -1, const char* arg1 = 0, const char* arg2 = 0, const char* arg3 = 0) { return kFALSE; }
 
       virtual Bool_t IsGo4Analysis() const { return kFALSE; }
+      virtual Bool_t IsAnalysisServer() const { return kFALSE; }
 
       virtual Bool_t IsConnected() { return kFALSE; }
       virtual Bool_t IsViewer()  { return kFALSE; }
@@ -55,6 +57,9 @@ class TGo4ServerProxy : public TGo4Proxy {
       virtual Bool_t NamesListReceived() { return kFALSE; }
       virtual Bool_t RefreshNamesList() { return kFALSE; }
       virtual Bool_t DelayedRefreshNamesList(Int_t delay_sec) { return kFALSE; }
+
+      void SetAnalysisReady(Bool_t on = kTRUE) { fbAnalysisReady = on; }
+      Bool_t IsAnalysisReady() const { return fbAnalysisReady; }
 
       void SetAnalysisSettingsReady(Bool_t on = kTRUE) { fbAnalysisSettingsReady = on ; }
       Bool_t IsAnalysisSettingsReady() const { return fbAnalysisSettingsReady; }
@@ -106,6 +111,26 @@ class TGo4ServerProxy : public TGo4Proxy {
       virtual Int_t NumberOfWaitingProxyes() { return 0; }
 
       virtual void ResetDebugOutputRequests() {}
+
+      /**  Close connection to analysis and destroys proxy with
+        *  correspondent slot. Wait waittime (in sec) for safe
+        *  disconnection of the analysis.
+        *  if servershutdown = kTRUE, shutdown command will be sent to analysis */
+      virtual void DisconnectAnalysis(Int_t waittime = 30, Bool_t servershutdown = kFALSE) {}
+
+
+      static Bool_t GetLaunchString(TString& launchcmd,
+                                    TString& killcmd,
+                                    Int_t serverkind, // 0 - client, 1 - go4 socket, 2 - http
+                                    Int_t shellkind, // 0 - exec, 1 - rsh, 2 - ssh
+                                    Int_t konsole,   // 1 - qtwindow, 2 - xterm, 3 - konsole
+                                    const char* name,
+                                    const char* remotehost,
+                                    const char* remotedir,
+                                    const char* remoteexe,
+                                    Int_t guiport,
+                                    Int_t exe_kind = 0, // 0 - executable, 1 - user library
+                                    const char* exeargs = 0);
 
    ClassDef(TGo4ServerProxy, 1);
 };

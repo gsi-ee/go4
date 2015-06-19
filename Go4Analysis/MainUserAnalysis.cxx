@@ -1175,7 +1175,7 @@ int main(int argc, char **argv)
    //------ start the analysis -------------------------
    if(batchMode) {
       TGo4Log::Info("Main: starting analysis in batch mode ...  ");
-      if (analysis->InitEventClasses()) {
+      if ((canrun<0) || analysis->InitEventClasses()) {
          analysis->RunImplicitLoop(maxevents, showrate, process_interv, httpmode);
          delete analysis;
          TGo4Log::Info("Main: analysis batch done");

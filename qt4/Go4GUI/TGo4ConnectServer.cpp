@@ -54,8 +54,6 @@ QString TGo4ConnectServer::getInput()
 }
 
 
-
-
 void TGo4ConnectServer::DefaultPassCheck_toggled( bool on )
 {
    PasswordEdit->setEnabled(!on);

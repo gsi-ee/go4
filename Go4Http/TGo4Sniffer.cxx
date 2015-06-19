@@ -130,6 +130,10 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    SetItemField("/Control/CmdRestart", "_title", "Resubmit analysis configuration and start again");
    SetItemField("/Control/CmdRestart", "_hidden", "true");
 
+   RegisterCommand("/Control/CmdExit", "this->CmdExit();", "");
+   SetItemField("/Control/CmdExit", "_title", "Exit analysis process");
+   SetItemField("/Control/CmdExit", "_hidden", "true");
+
    if (HasRestrictMethod()) {
       // together with Restrict method support of
       // commands with arguments was introduced
@@ -167,6 +171,8 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    SetItemField("/Control/go4_sniffer", "_hidden", "true");
 
    RestrictGo4("/Control","visible=controller,admin");
+
+   RestrictGo4("/Control/CmdExit","visible=admin");
 
    RestrictGo4("/Conditions", "allow=controller,admin");
 
@@ -420,6 +426,28 @@ Bool_t TGo4Sniffer::CmdClose()
    Info("CmdClose", "Close analysis");
 
    return kTRUE;
+}
+
+
+Bool_t TGo4Sniffer::CmdExit()
+{
+   TGo4Analysis* an = TGo4Analysis::Instance();
+   TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : 0;
+
+   if (cli != 0) {
+      cli->Stop();
+      an->CloseAnalysis();
+      cli->Quit();
+   } else
+   if (an != 0) {
+      an->StopWorking();
+   }
+
+   StatusMessage(0, "Exit analysis process");
+   Info("CmdExit", "Exit analysis");
+
+   return kTRUE;
+
 }
 
 

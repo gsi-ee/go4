@@ -95,8 +95,8 @@ class TGo4QSettings {
       void    setClientTermMode(int);
       int     getClientTermMode();
       QString getClientTerm();
-      void    setClientIsServer(bool on);
-      bool    getClientIsServer();
+      void    setClientIsServer(int kind);
+      int     getClientIsServer();
 
       void    setClientPort(int);
       int     getClientPort();
