@@ -2228,20 +2228,33 @@ void TGo4Analysis::StopAnalysis()
       // fxAnalysisSlave->GetTask()->SubmitCommand("THStop");
       fxAnalysisSlave->Stop();
    } else {
-      if (fxDoWorkingFlag != flagPause) PostLoop();
+      if (fbInitIsDone && (fxDoWorkingFlag != flagPause)) PostLoop();
       fxDoWorkingFlag = flagPause;
    }
 }
 
 void TGo4Analysis::StartAnalysis()
 {
-   if (fxAnalysisSlave){
-      fxAnalysisSlave->Start();
-      // fxAnalysisSlave->GetTask()->SubmitCommand("THStart");
-   } else {
-     if (fxDoWorkingFlag != flagRunning)  PreLoop();
-     fxDoWorkingFlag = flagRunning;
-   }
+  if (fxAnalysisSlave)
+  {
+    fxAnalysisSlave->Start();
+    // fxAnalysisSlave->GetTask()->SubmitCommand("THStart");
+  }
+  else
+  {
+    // JAM reproduce behaviour of analysis client, check init state before executing preloop
+    if (fbInitIsDone)
+    {
+      if (fxDoWorkingFlag != flagRunning)
+        PreLoop();
+      fxDoWorkingFlag = flagRunning;
+    }
+    else
+    {
+      Message(2, TString::Format("Analysis %s was not initialized! Please SUBMIT settings first.", GetName()));
+    }
+
+  }
 }
 
 
