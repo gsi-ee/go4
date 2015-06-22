@@ -395,11 +395,11 @@ void TGo4Script::ShutdownAnalysis()
 
 void TGo4Script::SubmitAnalysisConfig(int tmout)
 {
-   if (CanConfigureAnalysis()) {
-      fMainWin->SubmitAnalysisSettings();
-      fiWaitForGUIReaction = 10;
-      fiWaitCounter = getCounts(tmout);
-   }
+   if (CanConfigureAnalysis())
+      if (fMainWin->SubmitAnalysisSettings()) {
+         fiWaitForGUIReaction = 10;
+         fiWaitCounter = getCounts(tmout);
+      }
 
    DoPostProcessing();
 }

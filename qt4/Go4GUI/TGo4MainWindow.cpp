@@ -1408,8 +1408,7 @@ void TGo4MainWindow::UpdateCaptionButtons()
    EstablishRatemeter(flag? 0: 1);
    // need to check if the controller role has switched to another HTTP server here:
    static TGo4HttpProxy* oldhttp=0;
-    if (ht)
-    {
+    if (ht) {
       // check for server names may not be unique if connected twice by chance, better use proxy pointers!
       if(ht!= oldhttp)
       {
@@ -2030,8 +2029,12 @@ void TGo4MainWindow::DisconnectAnalysisSlot(bool interactive)
 
          QMessageBox msgBox(
                      QMessageBox::Warning,
-                     "Disconnect analysis",
-                     "Analysis runs in qt widget.\nIf one only disconnects from the analysis, it remains invisible and difficult to stop. \nLater one could only reconnect it from go4 gui to shutdown normally?",
+                     "Disconnect from analysis",
+                     "Analysis runs inside go4 widget.\n"
+                     "If one only disconnects from the analysis,\n"
+                     "it remains invisible and difficult to stop.\n"
+                     "To shutdown it later, one need to reconnect with go4 gui again.\""
+                     "It is recommended to shutdown analysis now",
                      QMessageBox::Ok | QMessageBox::Close | QMessageBox::Abort);
 
          msgBox.setButtonText(QMessageBox::Ok, "Shutdown");
@@ -2081,20 +2084,26 @@ void TGo4MainWindow::ShutdownAnalysisSlot(bool interactive)
    StatusMessage("Shutdown analysis");
 }
 
-void TGo4MainWindow::SubmitAnalysisSettings()
+bool TGo4MainWindow::SubmitAnalysisSettings()
 {
    TGo4ServerProxy* serv = Browser()->FindServer();
-   if (serv==0) return;
+   if (serv==0) return false;
 
-   serv->SubmitAnalysisSettings();
-   serv->RefreshNamesList();
-   StatusMessage("Press Ctrl+S or choose Analysis->Start from the Menu to start the analysis");
+   if (serv->IsConnected() && serv->CanSubmitObjects() &&
+       (serv->IsAdministrator() || serv->IsController())) {
+      serv->SubmitAnalysisSettings();
+      serv->RefreshNamesList();
+      StatusMessage("Press Ctrl+S or choose Analysis->Start from the Menu to start the analysis");
+      return true;
+   }
+
+   return false;
 }
 
 void TGo4MainWindow::SubmitStartAnalysisSlot()
 {
-   SubmitAnalysisSettings();
-   StartAnalysisSlot();
+   if (SubmitAnalysisSettings())
+      StartAnalysisSlot();
 }
 
 void TGo4MainWindow::StartAnalysisSlot()

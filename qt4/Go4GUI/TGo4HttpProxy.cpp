@@ -936,6 +936,8 @@ Bool_t TGo4HttpProxy::SubmitCommand(const char* name, Int_t waitres, const char*
 
 Bool_t TGo4HttpProxy::PostObject(const char* prefix, TObject* obj, Int_t waitres, Bool_t destroy_after)
 {
+   if (!ServerHasRestrict()) return kFALSE;
+
    TBufferFile *sbuf = new TBufferFile(TBuffer::kWrite, 100000);
    sbuf->MapObject(obj);
    obj->Streamer(*sbuf);

@@ -138,7 +138,7 @@ class TGo4MainWindow : public QMainWindow {
       void EstablishAnalysisWindowForHttp();
 
 
-      void SubmitAnalysisSettings();
+      bool SubmitAnalysisSettings();
       void SubmitStartAnalysisSlot();
       void StartAnalysisSlot();
       void StopAnalysisSlot();
