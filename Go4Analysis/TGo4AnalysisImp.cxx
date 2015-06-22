@@ -671,12 +671,13 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
                ProcessEvents();
             }
 
-            if (fxDoWorkingFlag == flagRunning) {
+             if (fxDoWorkingFlag == flagRunning) {
                MainCycle();
                cnt++; // account completely executed cycles
-            } else {
+             } else {
                gSystem->Sleep(100);
-            }
+             }
+
          }
          catch(TGo4UserException& ex)
          {
@@ -2227,19 +2228,25 @@ void TGo4Analysis::StopAnalysis()
       // fxAnalysisSlave->GetTask()->SubmitCommand("THStop");
       fxAnalysisSlave->Stop();
    else
-      fxDoWorkingFlag = flagPause;
+     {
+       if (fxDoWorkingFlag != flagPause)
+              PostLoop();
+       fxDoWorkingFlag = flagPause;
+     }
 }
-
 
 void TGo4Analysis::StartAnalysis()
 {
    std::cout <<"TGo4Analysis::StartAnalysis() with slave pointer "<<  fxAnalysisSlave<< std::endl;
-   if (fxAnalysisSlave)
+   if (fxAnalysisSlave){
       fxAnalysisSlave->Start();
       // fxAnalysisSlave->GetTask()->SubmitCommand("THStart");
-   else
-      fxDoWorkingFlag = flagRunning;
-}
+   }
+   else {
+     if (fxDoWorkingFlag != flagRunning)
+              PreLoop();
+     fxDoWorkingFlag = flagRunning;}
+  }
 
 
 #ifdef WIN32
