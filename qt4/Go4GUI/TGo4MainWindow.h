@@ -158,7 +158,7 @@ class TGo4MainWindow : public QMainWindow {
 
       TGo4AnalysisConfiguration* FindAnalysisConfiguration();
       TGo4AnalysisWindow* FindAnalysisWindow();
-      TGo4AnalysisWindow* EstablishAnalysisWindow(bool needoutput, bool withkillbnt = false);
+      TGo4AnalysisWindow* EstablishAnalysisWindow(bool needoutput, bool withkillbnt = false, bool force_recreate = false);
 
       // slots connected to editors
       void editorServiceSlot(QGo4Widget* editor, int serviceid, const char* str, void* par);

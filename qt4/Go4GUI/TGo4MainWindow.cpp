@@ -1141,7 +1141,7 @@ TGo4ServerProxy* TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* u
    if (addr==0) {
       bool ok = false;
       QString portstring;
-      QString fulladdress=go4sett->getClientNode().append(QString(":")).append(portstring.setNum(go4sett->getClientPort()));
+      QString fulladdress = go4sett->getClientNode().append(QString(":")).append(portstring.setNum(go4sett->getClientPort()));
       httpaddr = QInputDialog::getText(
       this, "Establish connection with HTTP", "Provide http server name",
       QLineEdit::Normal, fulladdress, &ok);
@@ -1656,7 +1656,7 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
       if ((termmode==2) || (termmode==3)) {
           gSystem->Exec(launchcmd.Data());
       } else {
-         TGo4AnalysisWindow* anw = EstablishAnalysisWindow(true, true);
+         TGo4AnalysisWindow* anw = EstablishAnalysisWindow(true, true, true);
          anw->StartAnalysisShell(launchcmd.Data(), (shellmode==0) ? workdir.toLatin1().constData() : 0, true);
       }
 
@@ -1717,11 +1717,11 @@ void TGo4MainWindow::PrepareForClientConnectionSlot(bool interactive)
        QString::number(ana->ConnectorPort()), "Ok");
 }
 
-TGo4AnalysisWindow* TGo4MainWindow::EstablishAnalysisWindow(bool needoutput, bool withkillbnt)
+TGo4AnalysisWindow* TGo4MainWindow::EstablishAnalysisWindow(bool needoutput, bool withkillbnt, bool force_recreate)
 {
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
    if (anw!=0)
-      if (anw->HasOutput() && !needoutput) {
+      if (force_recreate || (anw->HasOutput() && !needoutput)) {
         delete anw;
         anw = 0;
      }
@@ -1989,7 +1989,7 @@ void TGo4MainWindow::CheckConnectingCounterSlot()
    if (fConnectingHttp.length() > 0) {
       TGo4ServerProxy *serv = ConnectHttpSlot(fConnectingHttp.toLatin1().constData(), 0, 0, go4sett->getClientTermMode()==1);
       if (serv != 0) {
-         serv->SetAnalysisLaunched(kTRUE);
+         serv->SetAnalysisLaunched(go4sett->getClientTermMode()==1 ? 2 : 1);
          fConnectingHttp = "";
          fConnectingCounter = 0;
          return;
@@ -2019,16 +2019,39 @@ void TGo4MainWindow::CheckConnectingCounterSlot()
 
 void TGo4MainWindow::DisconnectAnalysisSlot(bool interactive)
 {
+   TGo4ServerProxy* serv = Browser()->FindServer();
+   if (serv==0) return;
+
+   bool shutdown = serv->IsAnalysisLaunched() > 1;
+
    if (interactive) {
-      int res = QMessageBox::warning(this, "Disconnect analysis",
-                QString("Really disconnect from analysis task?"),
-                QString("Disconnect"),
-                QString("Cancel"),
-                QString::null, 0);
-      if (res!=0) return;
+
+      if (shutdown) {
+
+         QMessageBox msgBox(
+                     QMessageBox::Warning,
+                     "Disconnect analysis",
+                     "Analysis runs in qt widget.\nIf one only disconnects from the analysis, it remains invisible and difficult to stop. \nLater one could only reconnect it from go4 gui to shutdown normally?",
+                     QMessageBox::Ok | QMessageBox::Close | QMessageBox::Abort);
+
+         msgBox.setButtonText(QMessageBox::Ok, "Shutdown");
+         msgBox.setButtonText(QMessageBox::Close, "Disconnect");
+         msgBox.setButtonText(QMessageBox::Abort, "Cancel");
+
+         switch (msgBox.exec()) {
+            case QMessageBox::Ok: shutdown = true; break;
+            case QMessageBox::Close: shutdown = false; break;
+            default: return;
+         }
+      } else {
+         if (QMessageBox::warning(this, "Disconnect analysis",
+                    QString("Really disconnect from analysis task?"),
+                    QString("Disconnect"),
+                    QString("Cancel"),
+                    QString::null, 0)!=0) return;
+      }
    }
-   if (Browser()->FindServer()==0) return;
-   RemoveAnalysisProxy(30, false);
+   RemoveAnalysisProxy(30, shutdown);
    StatusMessage("Disconnect analysis");
 }
 
@@ -2049,10 +2072,11 @@ void TGo4MainWindow::ShutdownAnalysisSlot(bool interactive)
    TGo4HttpProxy* http = dynamic_cast<TGo4HttpProxy*>(srv);
    if (anal)
        realshutdown = anal->IsAnalysisServer() &&
-                          anal->IsConnected() &&
+                      anal->IsConnected() &&
                        anal->IsAdministrator();
    else if (http)
       realshutdown = http->IsConnected() && http->IsAdministrator();
+
    RemoveAnalysisProxy(30, realshutdown);
    StatusMessage("Shutdown analysis");
 }
