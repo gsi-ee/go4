@@ -256,6 +256,9 @@ void TGo4HttpAccess::httpFinished()
    if (fPath == "Status/Ratemeter") {
       Bool_t conn = res.size() > 0;
 
+      // if proxy in shutdown state - cancel all action in case of communication error
+      if (!conn && fProxy->CheckShutdown()) return;
+
       if (!conn) DoObjectAssignement(fReceiver, fRecvPath.Data(), new TNamed("disconnected","title"), kTRUE); else
       if (fProxy->fConnected != conn) fProxy->UpdateHierarchy(kFALSE);
 
@@ -872,7 +875,7 @@ Bool_t TGo4HttpProxy::SubmitURL(const char* path, Int_t waitres)
    url.Append("/");
    url.Append(path);
 
-   printf("Submit URL %s\n", url.Data());
+   if (gDebug>1) printf("Submit URL %s\n", url.Data());
 
    QNetworkReply *netReply = fComm.qnam.get(QNetworkRequest(QUrl(url.Data())));
 
@@ -1017,15 +1020,13 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
       fRegularReq->deleteLater();
       fRegularReq = 0;
 
-
       if (res.size() <= 0) {
          fConnected = false;
-         RatemeterSlot()->AssignObject(new TNamed("disconnected","title"),kTRUE);
 
-         if (fShutdownCnt>0) {
-            printf("Analysis not reply - can destroy ourself\n");
-            if (fxParentSlot) fxParentSlot->Delete();
-         }
+         // check if proxy is in shutdown phase
+         if (CheckShutdown()) return;
+
+         RatemeterSlot()->AssignObject(new TNamed("disconnected","title"),kTRUE);
 
          return;
       }
@@ -1126,13 +1127,23 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
    fRegularReq->connect(fRegularReq, SIGNAL(finished()), &fComm, SLOT(regularRequestFinished()));
 }
 
+Bool_t TGo4HttpProxy::CheckShutdown(Bool_t force)
+{
+   if (force || (fShutdownCnt>0)) {
+      if (fxParentSlot) fxParentSlot->Delete();
+      fxParentSlot = 0;
+      return kTRUE;
+   }
+   return kFALSE;
+}
+
+
 void TGo4HttpProxy::ProcessUpdateTimer()
 {
    if ((fShutdownCnt>0) && (--fShutdownCnt==0)) {
-      if (fxParentSlot) fxParentSlot->Delete();
+      CheckShutdown(kTRUE);
       return;
    }
-
 
    if (ServerHasMulti() || (fRegularReq!=0)) {
       ProcessRegularMultiRequest();
@@ -1282,9 +1293,7 @@ void TGo4HttpProxy::DisconnectAnalysis(Int_t waittime, Bool_t servershutdown)
    if (servershutdown && IsGo4Analysis() && IsAdministrator()) {
       SubmitCommand("Control/CmdExit");
       fShutdownCnt = waittime;
-   } else
-   if (fxParentSlot) {
-      // delete ourself directly
-      fxParentSlot->Delete();
+   } else {
+      CheckShutdown(kTRUE);
    }
 }

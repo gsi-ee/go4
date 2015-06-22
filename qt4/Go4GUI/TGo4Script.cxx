@@ -851,14 +851,6 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       fs << "go4->ConnectDabc(\"" << pr->GetServerName() << "\");" << std::endl;
    }
 
-   prlist.Clear();
-   br->MakeHttpList(&prlist);
-   for(Int_t n=0;n<=prlist.GetLast();n++) {
-      TGo4HttpProxy* pr = (TGo4HttpProxy*) prlist.At(n);
-      if (pr == serv) continue;
-      fs << "go4->ConnectHttp(\"" << pr->GetServerName() << "\");" << std::endl;
-   }
-
    fs << std::endl;
 
    bool isanalysis = (anal!=0) && anal->IsAnalysisReady() && !anal->IsAnalysisServer();
@@ -1048,6 +1040,15 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       fs << "go4->DisconnectAnalysis();" << std::endl;
    }
 
+   // connect to other http server after main analysis configuration - otherwise they could replace it in control elements
+   prlist.Clear();
+   br->MakeHttpList(&prlist);
+   for(Int_t n=0;n<=prlist.GetLast();n++) {
+      TGo4HttpProxy* pr = (TGo4HttpProxy*) prlist.At(n);
+      if (pr == serv) continue;
+      fs << "go4->ConnectHttp(\"" << pr->GetServerName() << "\");" << std::endl;
+   }
+
    if (((anal!=0) && anal->IsAnalysisRunning() && !anal->IsAnalysisServer()) ||
        ((serv!=0) && (serv!=anal) && serv->IsAnalysisRunning())) {
       fs << "go4->StartAnalysis();" << std::endl;
@@ -1058,7 +1059,7 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       fs << "go4->RefreshNamesList();" << std::endl;
    }
 
-   int npanel=0;
+   int npanel(0);
 
    QList<QMdiSubWindow *> windows = TGo4MdiArea::Instance()->subWindowList();
    for (int i=0; i<windows.count(); ++i ) {

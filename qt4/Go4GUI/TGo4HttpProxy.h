@@ -147,6 +147,8 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       Bool_t CheckUserName(const char* expects, Bool_t dflt = kFALSE);
 
+      Bool_t CheckShutdown(Bool_t force = kFALSE);
+
       TGo4HttpAccess* SubmitRequest(const char* itemname, Int_t kind, TGo4Slot* tgtslot, const char* extra_arg = 0);
 
    public:
