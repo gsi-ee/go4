@@ -408,7 +408,10 @@ void TGo4Script::StartAnalysis()
 {
    if (CanConfigureAnalysis()) {
       fMainWin->StartAnalysisSlot();
-      Wait(1.);
+      if (dynamic_cast<TGo4HttpProxy*>(Server())!=0)
+         Wait(0.1);
+      else
+         Wait(1.);
    } else {
       fBlockConfigFlag = -1; // from this command blocking is disabled
    }
@@ -418,7 +421,10 @@ void TGo4Script::StopAnalysis()
 {
    if (CanConfigureAnalysis()) {
       fMainWin->StopAnalysisSlot();
-      Wait(2.);
+      if (dynamic_cast<TGo4HttpProxy*>(Server())!=0)
+         Wait(0.1);
+      else
+         Wait(2.);
    } else {
       fBlockConfigFlag = -1; // from this command blocking is disabled
    }
@@ -1078,9 +1084,8 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
        ((serv!=0) && (serv!=anal) && serv->IsAnalysisRunning())) {
       fs << "go4->StartAnalysis();" << std::endl;
       fs << std::endl;
-      fs << "// this is possibility to get extra histograms from analysis" << std::endl;
-      fs << "// which are create shortly after analysis is started" << std::endl;
-      fs << "go4->Wait(1);" << std::endl;
+      fs << "// in some analysis one requires to wait several seconds before new histograms appears" << std::endl;
+      fs << "// go4->Wait(1);" << std::endl;
       fs << "go4->RefreshNamesList();" << std::endl;
    }
 
