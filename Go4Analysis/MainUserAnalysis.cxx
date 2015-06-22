@@ -1175,12 +1175,25 @@ int main(int argc, char **argv)
    //------ start the analysis -------------------------
    if(batchMode) {
       TGo4Log::Info("Main: starting analysis in batch mode ...  ");
-      if ((canrun<0) || analysis->InitEventClasses()) {
+
+      Bool_t run = kFALSE;
+
+      if (canrun>=0) {
+         if (!analysis->InitEventClasses()) {
+            TGo4Log::Error("Main: Init event classes failed, aborting!");
+         } else {
+            analysis->StartAnalysis();
+            run = kTRUE;
+         }
+      } else {
+         run = kTRUE;
+      }
+
+      if (run) {
          analysis->RunImplicitLoop(maxevents, showrate, process_interv, httpmode);
          delete analysis;
          TGo4Log::Info("Main: analysis batch done");
-      } else
-         TGo4Log::Error("Main: Init event classes failed, aborting!");
+      }
    } else {
       if (hostname==0) hostname = "localhost";
 
