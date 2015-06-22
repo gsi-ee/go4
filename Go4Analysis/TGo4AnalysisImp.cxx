@@ -359,7 +359,7 @@ Bool_t TGo4Analysis::InitEventClasses()
          fbInitIsDone = kTRUE;
          if (!fxAnalysisSlave) {
             if (fxDoWorkingFlag == flagClosed) fxDoWorkingFlag = flagPause; else
-            if (fxDoWorkingFlag == flagInit) fxDoWorkingFlag = flagRunning;
+            if (fxDoWorkingFlag == flagInit) fxDoWorkingFlag = flagPause;
          }
 
       } catch(TGo4EventErrorException& ex) {
@@ -2224,29 +2224,25 @@ Long_t TGo4Analysis::ExecuteScript(const char* macro_name)
 
 void TGo4Analysis::StopAnalysis()
 {
-   if (fxAnalysisSlave)
+   if (fxAnalysisSlave) {
       // fxAnalysisSlave->GetTask()->SubmitCommand("THStop");
       fxAnalysisSlave->Stop();
-   else
-     {
-       if (fxDoWorkingFlag != flagPause)
-              PostLoop();
-       fxDoWorkingFlag = flagPause;
-     }
+   } else {
+      if (fxDoWorkingFlag != flagPause) PostLoop();
+      fxDoWorkingFlag = flagPause;
+   }
 }
 
 void TGo4Analysis::StartAnalysis()
 {
-   std::cout <<"TGo4Analysis::StartAnalysis() with slave pointer "<<  fxAnalysisSlave<< std::endl;
    if (fxAnalysisSlave){
       fxAnalysisSlave->Start();
       // fxAnalysisSlave->GetTask()->SubmitCommand("THStart");
+   } else {
+     if (fxDoWorkingFlag != flagRunning)  PreLoop();
+     fxDoWorkingFlag = flagRunning;
    }
-   else {
-     if (fxDoWorkingFlag != flagRunning)
-              PreLoop();
-     fxDoWorkingFlag = flagRunning;}
-  }
+}
 
 
 #ifdef WIN32
