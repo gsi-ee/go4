@@ -59,7 +59,8 @@ TGo4Script::TGo4Script(TGo4MainWindow* mainwin) :
    fiWaitCounter(0),
    fStrBuf(),
    fMainWin(mainwin),
-   fErrorFlag(kFALSE)
+   fErrorFlag(kFALSE),
+   fBlockConfigFlag(0)
 {
    if (mainwin!=0)
       Initialize(mainwin->OM(), mainwin->Browser());
@@ -394,24 +395,33 @@ void TGo4Script::ShutdownAnalysis()
 
 void TGo4Script::SubmitAnalysisConfig(int tmout)
 {
-   fMainWin->SubmitAnalysisSettings();
-
-   fiWaitForGUIReaction = 10;
-   fiWaitCounter = getCounts(tmout);
+   if (CanConfigureAnalysis()) {
+      fMainWin->SubmitAnalysisSettings();
+      fiWaitForGUIReaction = 10;
+      fiWaitCounter = getCounts(tmout);
+   }
 
    DoPostProcessing();
 }
 
 void TGo4Script::StartAnalysis()
 {
-   fMainWin->StartAnalysisSlot();
-   Wait(1.);
+   if (CanConfigureAnalysis()) {
+      fMainWin->StartAnalysisSlot();
+      Wait(1.);
+   } else {
+      fBlockConfigFlag = -1; // from this command blocking is disabled
+   }
 }
 
 void TGo4Script::StopAnalysis()
 {
-   fMainWin->StopAnalysisSlot();
-   Wait(2.);
+   if (CanConfigureAnalysis()) {
+      fMainWin->StopAnalysisSlot();
+      Wait(2.);
+   } else {
+      fBlockConfigFlag = -1; // from this command blocking is disabled
+   }
 }
 
 void TGo4Script::RefreshNamesList(int tmout)
@@ -425,6 +435,18 @@ void TGo4Script::RefreshNamesList(int tmout)
 
    DoPostProcessing();
 }
+
+Bool_t TGo4Script::CanConfigureAnalysis()
+{
+   if (fBlockConfigFlag == 0) {
+      // once a session check if analysis was not launched from the GUI, we should not try to configure it
+      TGo4HttpProxy* serv = dynamic_cast<TGo4HttpProxy*> (Server());
+      if ((serv!=0) && !serv->IsAnalysisLaunched()) fBlockConfigFlag = 1;
+   }
+
+   return (fBlockConfigFlag<=0);
+}
+
 
 void TGo4Script::SetAnalysisTerminalMode(int mode)
 {
@@ -455,19 +477,22 @@ void TGo4Script::AnalysisAutoSave(const char* filename,
                                        Bool_t overwrite)
 {
    TGo4AnalysisConfiguration* gui = fMainWin->FindAnalysisConfiguration();
-   if(gui!=0)
+   if((gui!=0) && CanConfigureAnalysis())
      gui->SetAutoSaveConfig(filename, interval, compression, enabled, overwrite);
 }
 
 void TGo4Script::AnalysisConfigName(const char* filename)
 {
    TGo4AnalysisConfiguration* gui = fMainWin->FindAnalysisConfiguration();
-   if(gui!=0)
+   if((gui!=0) && CanConfigureAnalysis())
       gui->SetAnalysisConfigFile(filename);
 }
 
 TGo4ConfigStep* TGo4Script::GetStepGUI(const char* stepname)
 {
+   // in cannot configure analysis - do not return step gui pointer
+   if (!CanConfigureAnalysis()) return 0;
+
    TGo4AnalysisConfiguration* gui = fMainWin->FindAnalysisConfiguration();
 
    return gui==0 ? 0 : gui->FindStepConfig(stepname);

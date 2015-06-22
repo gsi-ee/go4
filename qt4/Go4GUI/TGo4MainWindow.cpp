@@ -1610,20 +1610,6 @@ void TGo4MainWindow::GStyleStatFormatSlot()
 
 void TGo4MainWindow::LaunchClientSlot(bool interactive)
 {
-/*
-#ifdef WIN32
-   QMessageBox::warning(this, "Launch analysis",
-                               "Launch analysis does not yet supported under Windows.\n"
-                               "One can connect to running analysis server\n"
-                               "For instance, Go4ExampleSimple can be started with command:\n"
-                               "\nMainUserAnalysis.exe -server -random\n\n"
-                               "and than one can connect to it with default passwords.\n"
-                               "One also able to connect analysis, running on Linux.");
-   return;
-
-#endif
-*/
-
    TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
    if (anal!=0) {
       QMessageBox::warning(this, "Launch analysis", "Please disconnect analysis first");
@@ -1651,8 +1637,7 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
       QString addr = QString("%1:%2").arg(go4sett->getClientNode()).arg(go4sett->getClientPort());
 
       // first verify that http server already running with such address
-      if (ConnectHttpSlot(addr.toLatin1().constData()) != 0) return;
-
+      if (ConnectHttpSlot(addr.toLatin1().constData())!=0) return;
 
       res = TGo4ServerProxy::GetLaunchString(launchcmd, killcmd,
                            2, shellmode, termmode,
@@ -1675,16 +1660,12 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
          anw->StartAnalysisShell(launchcmd.Data(), (shellmode==0) ? workdir.toLatin1().constData() : 0, true);
       }
 
-      if (ConnectHttpSlot(addr.toLatin1().constData(), 0, 0, termmode==1)) return;
-
-      fConnectingCounter = 100;
+      fConnectingCounter = 100; // try next 10 seconds connect with the server
       fConnectingHttp = addr;
-
       QTimer::singleShot(100, this, SLOT(CheckConnectingCounterSlot()));
 
       return;
    }
-
 
    if (isserver==0) {
       TGo4AnalysisProxy* anal = AddAnalysisProxy(false, (termmode==1));
@@ -2006,7 +1987,9 @@ void TGo4MainWindow::ConnectServerSlot(bool interactive, const char* password)
 void TGo4MainWindow::CheckConnectingCounterSlot()
 {
    if (fConnectingHttp.length() > 0) {
-      if (ConnectHttpSlot(fConnectingHttp.toLatin1().constData(), 0, 0, go4sett->getClientTermMode()==1)!=0) {
+      TGo4ServerProxy *serv = ConnectHttpSlot(fConnectingHttp.toLatin1().constData(), 0, 0, go4sett->getClientTermMode()==1);
+      if (serv != 0) {
+         serv->SetAnalysisLaunched(kTRUE);
          fConnectingHttp = "";
          fConnectingCounter = 0;
          return;

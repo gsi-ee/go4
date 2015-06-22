@@ -58,6 +58,9 @@ class TGo4ServerProxy : public TGo4Proxy {
       virtual Bool_t RefreshNamesList() { return kFALSE; }
       virtual Bool_t DelayedRefreshNamesList(Int_t delay_sec) { return kFALSE; }
 
+      virtual void SetAnalysisLaunched(Bool_t on = kTRUE) {}
+      virtual Bool_t IsAnalysisLaunched() const { return kFALSE; }
+
       void SetAnalysisReady(Bool_t on = kTRUE) { fbAnalysisReady = on; }
       Bool_t IsAnalysisReady() const { return fbAnalysisReady; }
 

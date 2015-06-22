@@ -185,6 +185,7 @@ class TGo4Script : public TGo4AbstractInterface {
 
       static TGo4Script* ScriptInstance();
 
+      Bool_t CanConfigureAnalysis();
       Bool_t StartScriptExecution(const char* fname);
       Bool_t ContinueExecution();
       void FinishExecution();
@@ -207,6 +208,7 @@ class TGo4Script : public TGo4AbstractInterface {
       TString   fStrBuf;               //!
       TGo4MainWindow* fMainWin;        //!
       Bool_t    fErrorFlag;            //!
+      Int_t     fBlockConfigFlag;      //! block configuration until first start/stop command
 };
 
 #endif
