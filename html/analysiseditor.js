@@ -525,19 +525,18 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
       var editor=this;
       
       $(id +" .steptabs").tabs({
-         
-         heightStyle: "fill",
+           heightStyle: "fill",
            activate : function(event, ui) {
               //updateElementsSize();
               //console.log("analysis editor: activated tab: "+ ui.newTab.text());
            },  
+           
            load: function(event, ui) { 
               
               // note that load will also be triggered when activating tab!
               // so we need to backup all changes in local step status theElement!!!
               
-              
-              var theIndex=ui.tab.index();
+              var theIndex = ui.tab.index();
               //console.log("On load function for "  + ui.tab.text() + " index=" + theIndex );
               var pthis=ui.panel;
               var theElement=editor.stat.fxStepArray.arr[theIndex];
@@ -939,10 +938,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
       
       
 //////////////////////// END ANALYSIS STEP TABS      
-      
-      
-      
-      
+     
       
       $(id+" .buttonGetAnalysis")
          .button({text: false, icons: { primary: "ui-icon-blank MyButtonStyle"}})
