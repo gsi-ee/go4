@@ -898,7 +898,9 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       }
       
       if ((cond.fxHistoName=="") || (option=='editor')) {
-         $('#'+divid).append("<br/>Histogram name not specified");
+         // $('#'+divid).append("<br/>Histogram name not specified");
+         var h = $("#"+divid).height(), w = $("#"+divid).width();
+         if ((h<10) && (w>10)) $("#"+divid).height(w*0.4);
          var editor = new GO4.ConditionEditor(cond);
          if (painter) editor = JSROOT.extend(painter, editor);
          editor.drawEditor(divid);

@@ -425,6 +425,8 @@
    }
 
    GO4.drawParameter = function(divid, par, option, painter) {
+      var h = $("#"+divid).height(), w = $("#"+divid).width();
+      if ((h<10) && (w>10)) $("#"+divid).height(w*0.4);
       painter = JSROOT.extend(painter, new GO4.ParameterEditor(par));
       painter.drawEditor(divid);
       return painter.DrawingReady();

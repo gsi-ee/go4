@@ -1149,7 +1149,8 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
    
    GO4.drawGo4AnalysisStatus = function(divid, stat, option, painter) {
       //console.log("Draw analysis status");
-      
+      var h = $("#"+divid).height(), w = $("#"+divid).width();
+      if ((h<10) && (w>10)) $("#"+divid).height(w*0.7);
       painter = JSROOT.extend(painter, new GO4.AnalysisStatusEditor(stat));
       painter.drawEditor(divid);
       return painter.DrawingReady();
