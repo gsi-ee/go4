@@ -148,6 +148,7 @@ void usage(const char* subtopic = 0)
    std::cout << "  -hserver [name [passwd]]    : start histogram server with optional name and password" << std::endl;
    std::cout << "  -log [filename]             : enable log output into filename (default:go4logfile.txt)" << std::endl;
    std::cout << "  -v -v0 -v1 -v2 -v3          : change log output verbosity (0 - maximum, 1 - info, 2 - warn, 3 - errors)" << std::endl;
+   std::cout << "  -gdebug [lvl]               : set ROOT gDebug value, default 1" << std::endl;
    std::cout << "  -rate                       : display rate information during run" << std::endl;
    std::cout << "  -print [sub=N] [hex|dec]    : print events, see -help print for more info" << std::endl;
    std::cout << "  -help [topic]               : show this help or for selected topic" << std::endl;
@@ -1027,6 +1028,13 @@ int main(int argc, char **argv)
       if(strcmp(argv[narg],"-log")==0) {
          narg++;
          if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-')) narg++;
+      } else
+      if(strcmp(argv[narg],"-gdebug")==0) {
+         narg++;
+         if ((narg < argc) && (strlen(argv[narg]) > 0) && (argv[narg][0]!='-'))
+            gDebug = TString(argv[narg++]).Atoi();
+         else
+            gDebug = 1;
       } else
       if((strcmp(argv[narg],"-v")==0) || (strcmp(argv[narg],"-v0")==0) || (strcmp(argv[narg],"-v1")==0) || (strcmp(argv[narg],"-v2")==0) || (strcmp(argv[narg],"-v3")==0)) {
          narg++;
