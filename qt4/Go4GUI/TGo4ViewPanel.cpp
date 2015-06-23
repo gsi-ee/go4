@@ -3358,11 +3358,9 @@ void TGo4ViewPanel::CheckForSpecialObjects(TPad *pad, TGo4Slot* padslot)
    }
 }
 
-void TGo4ViewPanel::ProcessPictureRedraw(const char* picitemname, TPad* pad,
-      TGo4Picture* pic)
+void TGo4ViewPanel::ProcessPictureRedraw(const char* picitemname, TPad* pad, TGo4Picture* pic)
 {
-   if ((pad == 0) || (pic == 0))
-      return;
+   if ((pad == 0) || (pic == 0)) return;
 
    if (pic->IsDivided()) {
       pad->Divide(pic->GetDivX(), pic->GetDivY());
@@ -3410,11 +3408,10 @@ void TGo4ViewPanel::ProcessPictureRedraw(const char* picitemname, TPad* pad,
       TString drawname;
 
       if (brcont->DefineRelatedObject(picitemname, objname, drawname)) {
-         TGo4Slot* slot = AddDrawObject(pad, kind_Link, drawname.Data(), 0,
-               false, 0);
 
-         brcont->GetBrowserObject(drawname.Data(),
-               go4sett->getFetchDataWhenDraw() ? 2 : 1);
+         TGo4Slot* slot = AddDrawObject(pad, kind_Link, drawname.Data(), 0, false, 0);
+
+         brcont->GetBrowserObject(drawname.Data(), go4sett->getFetchDataWhenDraw() ? 2 : 1);
          ndraw++;
 
          if (pic->GetRebinX(n) > 1) {

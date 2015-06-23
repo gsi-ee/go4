@@ -64,7 +64,7 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
    protected:
       TGo4HttpProxy   *fProxy;
       XMLNodePointer_t fNode;
-      TString          fPath;
+      TString          fUrlPath;
       // Request kind. Can be:
       //   0 - h.xml request,
       //   1 - root.bin request,
@@ -87,7 +87,7 @@ class TGo4HttpAccess : public QObject, public TGo4Access {
 
    public:
 
-      TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, const char* path, Int_t kind = 1, const char* extra_arg = 0);
+      TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, Int_t kind = 1, const char* extra_arg = 0);
 
       virtual ~TGo4HttpAccess() { }
 
@@ -133,6 +133,8 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       void GetHReply(QByteArray& res);
 
       XMLNodePointer_t FindItem(const char* name, XMLNodePointer_t curr = 0) const;
+
+      TString MakeUrlPath(XMLNodePointer_t item);
 
       void ProcessUpdateTimer();
 

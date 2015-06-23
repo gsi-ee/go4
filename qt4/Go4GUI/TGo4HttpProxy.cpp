@@ -143,11 +143,11 @@ const char* GetHttpRootClassName(const char* kind)
 
 // ============================================================================================
 
-TGo4HttpAccess::TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, const char* path, Int_t kind, const char* extra_arg) :
+TGo4HttpAccess::TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, Int_t kind, const char* extra_arg) :
    TGo4Access(),
    fProxy(proxy),
    fNode(node),
-   fPath(path),
+   fUrlPath(),
    fKind(kind),
    fNameAttr(),
    fKindAttr(),
@@ -156,8 +156,12 @@ TGo4HttpAccess::TGo4HttpAccess(TGo4HttpProxy* proxy, XMLNodePointer_t node, cons
    fRecvPath(),
    fReply(0)
 {
-   const char* _name = fProxy->fXML->GetAttr(fNode,"_name");
+   const char* _name = fProxy->fXML->GetAttr(fNode,"_realname");
+   if (_name == 0) _name = fProxy->fXML->GetAttr(fNode,"_name");
    if (_name) fNameAttr = _name;
+
+   fUrlPath = fProxy->MakeUrlPath(node);
+
    const char* _kind = fProxy->fXML->GetAttr(fNode,"_kind");
    if (_kind) fKindAttr = _kind;
    if (extra_arg!=0) fExtraArg = extra_arg;
@@ -209,7 +213,7 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
    fRecvPath = path;
 
    TString url = fProxy->fNodeName;
-   if (fPath.Length()>0) { url.Append("/"); url.Append(fPath); }
+   if (fUrlPath.Length()>0) { url.Append("/"); url.Append(fUrlPath); }
 
    switch (fKind) {
       case 0: url.Append("/h.xml?compact"); break;
@@ -254,7 +258,7 @@ void TGo4HttpAccess::httpFinished()
    if (gDebug>2) printf("TGo4HttpAccess::httpFinished Get reply size %d\n", res.size());
 
    // regular ratemeter update used to check connection status
-   if (fPath == "Status/Ratemeter") {
+   if (fUrlPath == "Status/Ratemeter") {
       Bool_t conn = res.size() > 0;
 
       // if proxy in shutdown state - cancel all action in case of communication error
@@ -267,7 +271,7 @@ void TGo4HttpAccess::httpFinished()
    }
 
    // do nothing when nothing received
-   if (res.size()==0) { if (gDebug>2) printf("TGo4HttpAccess::httpFinished error with %s\n", fPath.Data()); return; }
+   if (res.size()==0) { if (gDebug>0) printf("TGo4HttpAccess::httpFinished error with %s\n", fUrlPath.Data()); return; }
 
    if (fKind == 0) {
 
@@ -493,7 +497,12 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
 
       virtual TGo4Slot* getslot() { return 0; }
 
-      virtual const char* name() { return fXML->GetAttr(fChild,"_name"); }
+      virtual const char* name()
+      {
+         const char* real = fXML->GetAttr(fChild,"_realname");
+         return real!=0 ? real : fXML->GetAttr(fChild,"_name");
+      }
+
       virtual const char* info() { return fXML->GetAttr(fChild,"_title"); }
       virtual Int_t sizeinfo() { return 0; }
 
@@ -605,7 +614,8 @@ XMLNodePointer_t TGo4HttpProxy::FindItem(const char* name, XMLNodePointer_t curr
 
       XMLNodePointer_t chld = fXML->GetChild(curr);
       while (chld!=0) {
-         const char* _name = fXML->GetAttr(chld,"_name");
+         const char* _name = fXML->GetAttr(chld,"_realname");
+         if (_name==0) _name = fXML->GetAttr(chld,"_name");
 
          if ((_name!=0) && (strncmp(_name, name, len)==0))
             return FindItem(slash ? slash+1 : 0, chld);
@@ -621,6 +631,30 @@ XMLNodePointer_t TGo4HttpProxy::FindItem(const char* name, XMLNodePointer_t curr
 
    return 0;
 }
+
+TString TGo4HttpProxy::MakeUrlPath(XMLNodePointer_t item)
+{
+   if (item==0) return TString("");
+
+   XMLNodePointer_t root = fXML->GetChild(fXML->DocGetRootElement(fxHierarchy));
+
+   TString res;
+
+   while (item != root) {
+      const char* _name = fXML->GetAttr(item,"_name");
+      if (_name==0) return TString("");
+      if (res.Length()>0)
+         res = TString(_name) + "/" + res;
+      else
+         res = _name;
+
+      item = fXML->GetParent(item);
+      if (item==0) return TString("");
+   }
+
+   return res;
+}
+
 
 void TGo4HttpProxy::GetHReply(QByteArray& res)
 {
@@ -710,7 +744,7 @@ TGo4Access* TGo4HttpProxy::ProvideAccess(const char* name)
    if (fXML->HasAttr(item,"_dabc_hist")) kind = 2; else
    if (fXML->HasAttr(item,"_more")) kind = 0;
 
-   return new TGo4HttpAccess(this, item, name, kind);
+   return new TGo4HttpAccess(this, item, kind);
 }
 
 TGo4LevelIter* TGo4HttpProxy::MakeIter()
@@ -1218,7 +1252,7 @@ TGo4HttpAccess* TGo4HttpProxy::SubmitRequest(const char* itemname, Int_t kind, T
    XMLNodePointer_t item = FindItem(itemname);
    if (item==0) return 0;
 
-   TGo4HttpAccess* access = new TGo4HttpAccess(this, item, itemname, kind, extra_arg);
+   TGo4HttpAccess* access = new TGo4HttpAccess(this, item, kind, extra_arg);
    access->AssignObjectToSlot(tgtslot); // request event itself
 
    return access;
