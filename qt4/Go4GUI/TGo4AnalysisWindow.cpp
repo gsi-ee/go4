@@ -258,6 +258,8 @@ void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdi
 {
     if (fAnalysisProcess!=0) delete fAnalysisProcess;
 
+    setWindowTitle("Analysis Terminal");
+
     // IMPORTANT - process should be child of analysis window
     // to be terminated when analysis window closed or Ctrl-C is pressed
 
@@ -273,6 +275,11 @@ void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdi
        TerminateAnalysisProcess();
     } else {
        fTerminateOnClose = aschildprocess;
+#ifdef WIN32
+       setWindowTitle("Analysis Terminal [with QProcess]");
+#else
+       setWindowTitle(QString("Analysis Terminal [pid:%1]").arg((qint64)fAnalysisProcess->pid()));
+#endif
     }
 }
 
