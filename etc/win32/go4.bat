@@ -5,4 +5,4 @@
 @cd /d %THIS%
 call go4init.bat
 
-start go4.exe
+start go4.exe %*
