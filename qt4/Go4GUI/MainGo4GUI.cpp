@@ -70,6 +70,7 @@ int go4_usage() {
    std::cout << "   go4 dabc://server[:port]    - connect with DABC server" << std::endl;
    std::cout << "   go4 http://server[:port]    - connect with ROOT-based HTTP server" << std::endl;
    std::cout << "   go4 -debug                  - enable GUI debug output"   << std::endl;
+   std::cout << "   go4 -gdebug [lvl]           - set ROOT gDebug value (default 1)" << std::endl;
    std::cout << "   go4 -help                   - show this help information" << std::endl;
 
    return 0;
@@ -116,10 +117,15 @@ int main(int argc, char **argv)
       if (strlen(argv[narg])==0) continue;
 
       if (argv[narg][0]=='-') {
-
          if(!strcmp(argv[narg], "-debug")) {
             std::cout << "G-OOOO-> MainGo4GUI switched on debug output" << std::endl;
             traceon = true;
+         } else
+         if(strcmp(argv[narg],"-gdebug")==0) {
+            if ((narg+1 < argc) && (strlen(argv[narg+1]) > 0) && (argv[narg+1][0]!='-'))
+                gDebug = TString(argv[++narg]).Atoi();
+            else
+               gDebug = 1;
          } else
          if((strcmp(argv[narg], "-observer")==0) ||
             (strcmp(argv[narg], "-controller")==0) ||
@@ -159,7 +165,7 @@ int main(int argc, char **argv)
    argc = 1; // hide all additional parameters from ROOT and Qt
 
    TApplication app("uno", &argc, argv); // ROOT application
-   
+
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 
    QApplication::setColorSpec( QApplication::ManyColor );
@@ -167,7 +173,7 @@ int main(int argc, char **argv)
     // JAM for qt4 option "many color" will cause empty ROOT canvas
    QApplication::setColorSpec( QApplication::NormalColor);
 #endif
-   
+
    Q_INIT_RESOURCE(go4icons);
 
    QRootApplication myapp(argc, argv); // Qt application
