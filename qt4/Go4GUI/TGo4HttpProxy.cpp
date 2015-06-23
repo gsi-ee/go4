@@ -174,6 +174,7 @@ TClass* TGo4HttpAccess::GetObjectClass() const
    if (fKind==5) return gROOT->GetClass("TTree");
    if (fKind==6) return gROOT->GetClass("TGo4AnalysisStatus");
    if (fKind==7) return gROOT->GetClass("TList");
+   if (fKind==8) return gROOT->GetClass("TGo4HistogramStatus");
    return TGo4Proxy::GetClass(GetHttpRootClassName(fKindAttr.Data()));
 }
 
@@ -188,6 +189,7 @@ const char* TGo4HttpAccess::GetObjectClassName() const
    if (fKind==4) return "TGo4ParameterStatus";
    if (fKind==6) return "TGo4AnalysisStatus";
    if (fKind==7) return "TList";
+   if (fKind==8) return "TGo4HistogramStatus";
 
    const char* clname = GetHttpRootClassName(fKindAttr.Data());
 
@@ -224,6 +226,7 @@ Int_t TGo4HttpAccess::AssignObjectTo(TGo4ObjectManager* rcv, const char* path)
       case 5: url.Append("/exe.bin.gz?method=CreateSampleTree&sample=0&_destroy_result_"); break;
       case 6: url.Append("/exe.bin.gz?method=CreateStatus&_destroy_result_"); break;
       case 7: url.Append("/exe.bin.gz?method=Select&max=10000"); break;
+      case 8: url.Form("%s/Control/go4_sniffer/exe.bin.gz?method=CreateItemStatus&_destroy_result_&itemname=\"%s\"", fProxy->fNodeName.Data(), fUrlPath.Data()); break;
       default: url.Append("/root.bin.gz"); break;
    }
 
@@ -1251,6 +1254,13 @@ TGo4HttpAccess* TGo4HttpProxy::SubmitRequest(const char* itemname, Int_t kind, T
 
    XMLNodePointer_t item = FindItem(itemname);
    if (item==0) return 0;
+
+   if (kind==4) {
+      // when status for histogram is requested, redirect request to the sniffer
+      const char* _objkind = fXML->GetAttr(item, "_kind");
+      if ((_objkind!=0) && ((strstr(_objkind, "ROOT.TH1")==_objkind) ||
+            (strstr(_objkind, "ROOT.TH2")==_objkind) || (strstr(_objkind, "ROOT.TH3")==_objkind))) kind = 8;
+   }
 
    TGo4HttpAccess* access = new TGo4HttpAccess(this, item, kind, extra_arg);
    access->AssignObjectToSlot(tgtslot); // request event itself

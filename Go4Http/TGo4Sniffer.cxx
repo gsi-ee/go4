@@ -28,6 +28,7 @@
 #include "TFile.h"
 #include "TMethodCall.h"
 #include "TMethod.h"
+#include "TGo4HistogramStatus.h"
 
 #include "TGo4AnalysisImp.h"
 #include "TGo4AnalysisObjectManager.h"
@@ -637,6 +638,18 @@ Bool_t TGo4Sniffer::RemoteTreeDraw(const char* histoname,
    return res;
 }
 
+TObject* TGo4Sniffer::CreateItemStatus(const char* itemname)
+{
+   TObject *obj = FindTObjectInHierarchy(itemname);
+
+   TH1* h1 = dynamic_cast<TH1*> (obj);
+
+   // printf("CreateItemStatus %s h1 = %p\n", itemname, h1);
+
+   if (h1!=0) return new TGo4HistogramStatus(h1);
+
+   return 0;
+}
 
 Bool_t TGo4Sniffer::HasRestrictMethod()
 {
@@ -647,8 +660,6 @@ Bool_t TGo4Sniffer::HasProduceMultiMethod()
 {
    return IsA()->GetMethodAllAny("ProduceMulti") != 0;
 }
-
-
 
 void TGo4Sniffer::RestrictGo4(const char* path, const char* options)
 {

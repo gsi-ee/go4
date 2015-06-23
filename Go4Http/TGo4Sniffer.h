@@ -92,6 +92,8 @@ class TGo4Sniffer : public TRootSniffer,
                             const char* varexpr,
                             const char* cutexpr);
 
+      TObject* CreateItemStatus(const char* itemname);
+
       /** Method called by logger with every string, going to output */
       virtual void SetTitle(const char* title = "");
 
