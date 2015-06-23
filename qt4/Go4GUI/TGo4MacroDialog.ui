@@ -198,10 +198,10 @@
     </connection>
     <connection>
       <sender>MacroListBox</sender>
-      <signal>itemActivated(QListWidgetItem*)</signal>
+      <signal>itemDoubleClicked(QListWidgetItem*)</signal>
       <receiver>TGo4MacroDialog</receiver>
       <slot>accept()</slot>
-    </connection>
+    </connection>    
     <connection>
       <sender>MacroListBox</sender>
       <signal>currentTextChanged(const QString &amp;)</signal>
