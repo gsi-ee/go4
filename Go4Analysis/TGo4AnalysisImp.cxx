@@ -57,7 +57,6 @@
 #include "TGo4AnalysisStep.h"
 #include "TGo4AnalysisClientImp.h"
 #include "TGo4AnalysisSniffer.h"
-#include "TGo4HistogramStatus.h"
 #include "TGo4DynamicListException.h"
 #include "TGo4Condition.h"
 #include "TGo4Parameter.h"
