@@ -29,6 +29,7 @@
 #include "TGo4ObjectManager.h"
 #include "TGo4Ratemeter.h"
 #include "TGo4AnalysisStatus.h"
+#include "TGo4HistogramStatus.h"
 
 #include <QtNetwork>
 #include <QTime>
