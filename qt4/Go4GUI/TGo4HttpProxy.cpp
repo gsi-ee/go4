@@ -63,7 +63,8 @@ void QHttpProxy::httpFinished()
 
 void QHttpProxy::httpHReqError(QNetworkReply::NetworkError code)
 {
-   printf("QHttpProxy::httpHReqError %d %s\n", code, fHReply ? fHReply->errorString().toLatin1().constData() : "---");
+   if (gDebug>0)
+      printf("QHttpProxy::httpHReqError %d %s\n", code, fHReply ? fHReply->errorString().toLatin1().constData() : "---");
    if (fHReply) {
       fHReply->deleteLater();
       fHReply = 0;
