@@ -30,7 +30,10 @@ Changes in Go4 v4.9.x
    provides same functionality as Go4 sockets connection and besides shows remote terminal output in the analysis window.
    Access to web server (controller/observer roles) can be controlled by htdigest accounts and password
 4. GUI can start go4analysis as HTTP server with Launch Analysis button. 
-   This provides  now an alternative mode to the established Go4 sockets analysis server. 
+   This provides  now an alternative mode to the established Go4 sockets analysis server.
+5. Bugfix in TGo4FileStore: set default tree flush threshold to 10000 events. Due to changed ROOT API, positive numbers
+   indicate number of events, negative number of bytes to flush tree into file. Was historically set to a large number (of bytes)
+   so practically tree was never flushed until end of analysis.     
 
 
 Changes in Go4 v4.7.1

@@ -33,7 +33,7 @@ TGo4FileStoreParameter::TGo4FileStoreParameter(const char* name,
 TGo4FileStoreParameter::TGo4FileStoreParameter()
 : TGo4EventStoreParameter("Default Go4 FileStore", GO4EV_FILE),
    fiSplit(99), fiBufsize(64000),
-   fiCompression(5), fiAutosavesize(5000000), fbOverwrite(1)
+   fiCompression(5), fiAutosavesize(10000), fbOverwrite(1)
 {
    GO4TRACE((14,"TGo4FileStoreParameter::TGo4FileStoreParameter()", __LINE__, __FILE__));
    SetTitle("Go4FileStore-Tree");

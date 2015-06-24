@@ -25,7 +25,7 @@ class TGo4FileStoreParameter : public TGo4EventStoreParameter {
                              Int_t splitlevel=99,
                              Int_t bufsize=32000,
                              Int_t compression=5,
-                             Int_t autosave=5000000);
+                             Int_t autosave=10000);
 
       virtual ~TGo4FileStoreParameter();
 
@@ -46,7 +46,7 @@ class TGo4FileStoreParameter : public TGo4EventStoreParameter {
       void SetCompression(Int_t comp) { fiCompression=comp; }
 
       Int_t GetAutosaveSize() const { return fiAutosavesize; }
-      void SetAutosaveSize(Int_t bufsize) { fiAutosavesize=bufsize; }
+      void SetAutosaveSize(Int_t interval) { fiAutosavesize=interval; }
 
       Int_t IsOverwriteMode() const { return fbOverwrite; }
       void SetOverwriteMode(Bool_t over=kTRUE) { fbOverwrite = over ? 1 : 0; }

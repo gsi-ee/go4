@@ -42,7 +42,7 @@ class TGo4FileStore : public TGo4EventStore {
                   Int_t splitlevel=1,
                   Int_t compression=1,
                   Bool_t overwrite=kFALSE,
-                  Int_t autosavesize=10000000,
+                  Int_t autosavesize=10000, // positive: entries, negative: bytes
                   Int_t bufsize=64000);
 
     TGo4FileStore(TGo4FileStoreParameter* par);
@@ -68,8 +68,9 @@ class TGo4FileStore : public TGo4EventStore {
     /** Set the file compression level. May be changed on the fly. */
     void SetCompression(Int_t comp);
 
-    /** Set the tree autosave byte interval. May be changed on the fly. */
-    void SetAutoSave(Int_t bytesinterval);
+    /** Set the tree autosave interval. May be changed on the fly.
+     *  for new ROOT versions: interval>0  means number of entries, interval<0: number of bytes*/
+    void SetAutoSave(Int_t interval);
 
     static void SetMaxTreeSize(Long64_t sz);
 
