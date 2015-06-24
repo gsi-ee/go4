@@ -173,12 +173,12 @@ class TGo4AbstractInterface : public TObject {
       virtual Bool_t CopyItem(const char* itemname);
 
       /** Delete item (if allowed).
-        * Can be used to close file, delete memory object, close hiostogram server connection. */
+        * Can be used to close file, delete memory object, close histogram server connection. */
       virtual Bool_t DeleteItem(const char* itemname);
 
       /** Fetch item from data source.
         * Request item from data source, to which item corresponds to.
-        * If this is file or histogram server, object will be returned immdediately.
+        * If this is file or histogram server, object will be returned immediately.
         * If this is an item from analysis, first request will be send and
         * then interface will wait "wait_time" milliseconds that object is arrived.
         * If wait_time==0, no waiting will be done and most probably, new object will
