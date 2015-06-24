@@ -1092,6 +1092,10 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       fs << "// in some analysis one requires to wait several seconds before new histograms appears" << std::endl;
       fs << "// go4->Wait(1);" << std::endl;
       fs << "go4->RefreshNamesList();" << std::endl;
+   } else
+   if ((anal!=0) || (serv!=0)) {
+      fs << std::endl;
+      fs << "go4->RefreshNamesList();" << std::endl;
    }
 
    int npanel(0);
