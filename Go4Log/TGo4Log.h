@@ -124,6 +124,9 @@ class TGo4Log {
       /** User shortcut for message with prio 3 */
       static void Error(const char* text,...);
 
+      /** Make direct printf without log file or logger */
+      static void Printf(Bool_t _stdout, const char* text);
+
       /** Write text to current logfile if this is open. Prefix current
       datime in each line if "withtime" is true */
       static void WriteLogfile(const char* text, Bool_t withtime=kTRUE);

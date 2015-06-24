@@ -241,6 +241,21 @@ const char* TGo4Log::Message(Int_t prio, const char* text,...)
    return fgcMessagetext;
 }
 
+void TGo4Log::Printf(Bool_t _stdout, const char* text)
+{
+   ProcessRedirection(1); // disable redirection
+
+   if (_stdout) {
+      fprintf(stdout, text);
+      fflush(stdout);
+   } else {
+      fprintf(stderr, text);
+      fflush(stderr);
+   }
+
+   ProcessRedirection(-1); // enable again
+}
+
 void TGo4Log::Debug(const char* text,...)
 {
    if(fgiIgnoreLevel>0) return;
