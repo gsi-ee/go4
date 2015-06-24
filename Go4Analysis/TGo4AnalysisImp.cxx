@@ -609,6 +609,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 
    fxRate = new TGo4Ratemeter();
    TString ratefmt = TString::Format("\rCnt = %s  Rate = %s Ev/s", TGo4Log::GetPrintfArg(kULong64_t),"%5.*f");
+   TString ratestr; // string used for rate output
    Bool_t userate = showrate || (process_event_interval>0.);
    Bool_t process_events = kFALSE;
    if (userate)
@@ -632,7 +633,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 
          if ((times>0) && (cnt>=times)) break;
 
-         if (userate && fxRate->Update(nextcnt) {
+         if (userate && fxRate->Update(nextcnt)) {
 
             process_events = kTRUE;
 
@@ -657,7 +658,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 
                if (showrate) {
                   int width = (fxRate->GetRate()>1e4) ? 0 : (fxRate->GetRate()<1. ? 3 : 1);
-                  printf(ratefmt.Data(), fxRate->GetCurrentCount(), width, fxRate->GetRate());
+                  ratestr.Form(ratefmt.Data(), fxRate->GetCurrentCount(), width, fxRate->GetRate());
                   fflush(stdout);
                }
                if (fSniffer) fSniffer->RatemeterUpdate(fxRate);
