@@ -480,7 +480,7 @@ class TGo4AbstractInterface : public TObject {
                          int bufsize,
                          int splitlevel,
                          int compression,
-                         int autosaveperiod) {}
+                         int autosaveperiod=0) {}
 
       /** Set back store as step data storage */
       virtual void StepBackStore(const char* stepname,

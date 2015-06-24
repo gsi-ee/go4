@@ -132,7 +132,7 @@ class TGo4Interface : public TGo4AbstractInterface {
                          int bufsize,
                          int splitlevel,
                          int compression,
-                         int autosaveperiod);
+                         int autosaveperiod=10000);
 
       void StepBackStore(const char* stepname,
                          const char* storename,
