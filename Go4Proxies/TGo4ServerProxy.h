@@ -24,6 +24,7 @@ class TGo4ServerProxy : public TGo4Proxy {
       TGo4Slot*        fxParentSlot;            //!
       Bool_t           fbAnalysisReady;         // true if analysis is connected and get first info
       Bool_t           fbAnalysisSettingsReady; // true when settings are specified
+      Int_t            fAnalysisLaunched;       //! 0 - not launched, 1 - external shell, 2 - in qt shell
 
       TString         fNodeName; // name of remote node
       TString         fInfoStr;
@@ -58,8 +59,8 @@ class TGo4ServerProxy : public TGo4Proxy {
       virtual Bool_t RefreshNamesList() { return kFALSE; }
       virtual Bool_t DelayedRefreshNamesList(Int_t delay_sec) { return kFALSE; }
 
-      virtual void SetAnalysisLaunched(Int_t on = 1) {}
-      virtual Int_t IsAnalysisLaunched() const { return 0; }
+      void SetAnalysisLaunched(Int_t on = 1) { fAnalysisLaunched  = on; }
+      Int_t IsAnalysisLaunched() const { return fAnalysisLaunched; }
 
       void SetAnalysisReady(Bool_t on = kTRUE) { fbAnalysisReady = on; }
       Bool_t IsAnalysisReady() const { return fbAnalysisReady; }

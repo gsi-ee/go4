@@ -554,7 +554,6 @@ TGo4HttpProxy::TGo4HttpProxy() :
    fRateCnt(0),
    fStatusCnt(0),
    fDebugCnt(0),
-   fAnalysisLaunched(0),
    fbAnalysisRunning(kFALSE),
    fUserName(),
    fPassword(),

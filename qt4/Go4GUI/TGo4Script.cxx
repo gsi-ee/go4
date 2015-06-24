@@ -845,6 +845,9 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
    // this is either HTTP or normal http proxy
    TGo4ServerProxy* serv = br->FindServer();
 
+   // ignore server which is was not launched
+   if ((serv!=0) && (serv!=anal) && (serv->IsAnalysisLaunched()<=0)) serv = 0;
+
    std::ofstream fs(filename);
 
    fs << "// Automatically generated startup script" << std::endl;

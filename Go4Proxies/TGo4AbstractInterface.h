@@ -481,7 +481,7 @@ class TGo4AbstractInterface : public TObject {
                          int splitlevel,
                          int compression) {}
 
-      /** Set back store ss step data storage */
+      /** Set back store as step data storage */
       virtual void StepBackStore(const char* stepname,
                          const char* storename,
                          int bufsize,
@@ -504,7 +504,7 @@ class TGo4AbstractInterface : public TObject {
         * Returns handle of newly created viewpanel. Parameters:
         *    x,y - left top corner coordinate of view panel;
         *    width, height - panel size;
-        *    mode  - diplay view panel 0 - minimized, 1 - normal, 2 - maximized;
+        *    mode  - display mode for view panel (0 - minimized, 1 - normal, 2 - maximized);
         *    pic - TGo4Picture object, which includes configuration of viewpanel.
         * To understand usage of this method together with TGo4Picture class,
         * one can create and configure viewpanel and then create hotstart file.

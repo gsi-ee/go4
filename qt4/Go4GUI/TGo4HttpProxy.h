@@ -122,7 +122,6 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       Int_t           fRateCnt;       //! counter for ratemeter updates
       Int_t           fStatusCnt;     //! counter for status messages updates
       Int_t           fDebugCnt;      //! counter for debug output updates
-      Int_t           fAnalysisLaunched; //! 0 - not launched, 1 - external shell, 2 - in qt shell
       Bool_t          fbAnalysisRunning; //!
       TString         fUserName;      //! user name and password -
       TString         fPassword;      //!
@@ -201,9 +200,6 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
       virtual Bool_t NamesListReceived();
       virtual Bool_t RefreshNamesList();
       virtual Bool_t DelayedRefreshNamesList(Int_t delay_sec);
-
-      virtual void SetAnalysisLaunched(Int_t on = 1) { fAnalysisLaunched = on; }
-      virtual Int_t IsAnalysisLaunched() const { return fAnalysisLaunched; }
 
       virtual Bool_t IsAnalysisRunning() const { return fbAnalysisRunning; }
       virtual void StartAnalysis();

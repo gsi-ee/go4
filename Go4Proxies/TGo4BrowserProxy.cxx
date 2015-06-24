@@ -483,7 +483,7 @@ void TGo4BrowserProxy::AddToClipboard(const char* itemname)
       if (itemslot->IsParent(slot)) return;
    }
 
-   fxClipboard->Add(new TNamed(itemname, "clipbboard item"));
+   fxClipboard->Add(new TNamed(itemname, "clipboard item"));
 }
 
 Bool_t TGo4BrowserProxy::IsClipboard()
@@ -495,12 +495,8 @@ void TGo4BrowserProxy::CopyClipboard(const char* tgtpath, Bool_t forcerequest)
 {
    if (fxClipboard==0) return;
 
-   for(Int_t n=0;n<=fxClipboard->GetLast();n++) {
-      TNamed* nm = (TNamed*) fxClipboard->At(n);
-
-//      std::cout << "CopyClipboard( " << nm->GetName() << "  to " << tgtpath << std::endl;
-      ProduceExplicitCopy(nm->GetName(), tgtpath, forcerequest);
-   }
+   for(Int_t n=0;n<=fxClipboard->GetLast();n++)
+      ProduceExplicitCopy(fxClipboard->At(n)->GetName(), tgtpath, forcerequest);
 }
 
 void TGo4BrowserProxy::OpenFile(const char* fname)
@@ -508,11 +504,15 @@ void TGo4BrowserProxy::OpenFile(const char* fname)
    if ((fname==0) || (*fname==0)) return;
 
    fxOM->AddFile(fxDataPath.Data(), fname);
+
+   SyncBrowserSlots();
 }
 
 void TGo4BrowserProxy::AddServerProxy(TGo4ServerProxy* serv, const char* slotname, const char* info)
 {
    fxOM->AddProxy(fxDataPath.Data(), serv, slotname, info);
+
+   SyncBrowserSlots();
 }
 
 
@@ -1102,7 +1102,7 @@ Bool_t TGo4BrowserProxy::DefineRelatedObject(const char* itemname, const char* o
 
    if (strchr(objname,'/')!=0) return kFALSE;
 
-   TGo4Slot* searchslot = (picslot == 0) ? fxBrowserSlot : picslot->GetParent();
+   TGo4Slot* searchslot = picslot ? picslot->GetParent() : fxBrowserSlot;
 
    do {
       TGo4Iter iter(searchslot, kTRUE);
@@ -1119,7 +1119,7 @@ Bool_t TGo4BrowserProxy::DefineRelatedObject(const char* itemname, const char* o
             return kTRUE;
          }
       }
-      if (searchslot==fxBrowserSlot) break;
+      if (searchslot == fxBrowserSlot) break;
       searchslot = searchslot->GetParent();
    } while (searchslot!=0);
 
@@ -1797,7 +1797,6 @@ Bool_t TGo4BrowserProxy::HandleTimer(TTimer* timer)
    if (timer==fxSyncTimer) {
       SyncBrowserSlots();
       return kTRUE;
-
    } else
 
    if (timer == fxMonitorTimer) {

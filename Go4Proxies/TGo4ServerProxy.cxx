@@ -372,15 +372,12 @@ Bool_t TGo4ServerProxy::GetLaunchString(TString& launchcmd,
 
 // ==============================================================================
 
-
-
-
-
 TGo4ServerProxy::TGo4ServerProxy() :
    TGo4Proxy(),
    fxParentSlot(0),
    fbAnalysisReady(kFALSE),
    fbAnalysisSettingsReady(kFALSE),
+   fAnalysisLaunched(0),
    fNodeName(),
    fInfoStr()
 {
