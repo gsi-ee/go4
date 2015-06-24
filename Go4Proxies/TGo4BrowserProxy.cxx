@@ -515,7 +515,6 @@ void TGo4BrowserProxy::AddServerProxy(TGo4ServerProxy* serv, const char* slotnam
    SyncBrowserSlots();
 }
 
-
 Bool_t TGo4BrowserProxy::ConnectDabc(const char* nodename)
 {
    if ((nodename==0) || (*nodename==0)) return kFALSE;
@@ -1062,7 +1061,7 @@ Bool_t TGo4BrowserProxy::DefineLeafName(const char* itemname, const char* treena
    return kTRUE;
 }
 
-Bool_t TGo4BrowserProxy::DefineRelatedObject(const char* itemname, const char* objname, TString& objectitem)
+Bool_t TGo4BrowserProxy::DefineRelatedObject(const char* itemname, const char* objname, TString& objectitem, Int_t mask)
 {
    if ((objname==0) || (*objname==0)) return kFALSE;
 
@@ -1100,7 +1099,36 @@ Bool_t TGo4BrowserProxy::DefineRelatedObject(const char* itemname, const char* o
       }
    }
 
-   if (strchr(objname,'/')!=0) return kFALSE;
+   if (strchr(objname,'/')!=0) {
+      // to enable explore missing subfolders, mask should be 2
+      if ((mask & 2) == 0) return kFALSE;
+
+      // it could happen that folder in the file or remote server is not yet read
+      // we could try to exploit it
+
+      // first slash should be always there - any source should provide first level by default
+      const char *slash = strchr(objname, '/');
+
+      while (slash != 0) {
+         slash = strchr(slash+1, '/');
+         if (slash == 0) break;
+
+         TString diritem;
+         if (!DefineRelatedObject(itemname, TString(objname, slash-objname).Data(), diritem, 0)) break;
+
+         int kind = ItemKind(diritem.Data());
+
+         if ((kind==TGo4Access::kndFolder) || (kind==TGo4Access::kndMoreFolder)) {
+            GetBrowserObject(diritem.Data(), 1000);
+            SyncBrowserSlots();
+         }
+      }
+
+      return DefineRelatedObject(itemname, objname, objectitem, 0);
+   }
+
+   // one should specify mask==1 to enable recursive search
+   if ((mask & 1) == 0) return kFALSE;
 
    TGo4Slot* searchslot = picslot ? picslot->GetParent() : fxBrowserSlot;
 

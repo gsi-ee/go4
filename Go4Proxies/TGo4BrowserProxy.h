@@ -142,7 +142,7 @@ class TGo4BrowserProxy : public TGo4Proxy {
 
       Bool_t UpdateAnalysisItem(const char* itemname, TObject* obj = 0);
 
-      Bool_t DefineRelatedObject(const char* itemname, const char* objectname, TString& objectitem);
+      Bool_t DefineRelatedObject(const char* itemname, const char* objectname, TString& objectitem, Int_t mask = 3);
 
       Bool_t IsItemRemote(const char* name);
       Bool_t IsItemRemote(TGo4Slot* slot);
