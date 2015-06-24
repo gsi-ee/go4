@@ -276,7 +276,8 @@ void TGo4ConfigStep::SetStepStatus(TGo4AnalysisConfiguration* panel, TGo4Analysi
                          fstor->IsOverwriteMode(),
                          fstor->GetBufsize(),
                          fstor->GetSplitlevel(),
-                         fstor->GetCompression());
+                         fstor->GetCompression(),
+                         fstor->GetAutosaveSize());
             break;
          }
          case GO4EV_BACK: {
@@ -564,6 +565,7 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
       CompLevel->setDisabled(false);
       StoreOverwriteMode->setDisabled(false);
       FileNameOutput->setDisabled(false);
+      TreeAutosave->setDisabled(false);
    } else
    if(k==1) {
       StoreNameEdit->setDisabled(true);
@@ -573,6 +575,7 @@ void TGo4ConfigStep::StoreComboHighlighted(int k)
       CompLevel->setDisabled(true);
       StoreOverwriteMode->setDisabled(true);
       FileNameOutput->setDisabled(true);
+      TreeAutosave->setDisabled(true);
     }
 }
 
@@ -631,6 +634,16 @@ void TGo4ConfigStep::StoreOverWrite( bool overwrite)
       if(overwrite)StorePar->SetOverwriteMode(kTRUE);
       else StorePar->SetOverwriteMode(kFALSE);
    }
+}
+
+
+void TGo4ConfigStep::StoreTreeAutoSave( int t )
+{
+  if(fStepStatus->GetStorePar()->InheritsFrom(TGo4FileStoreParameter::Class())) {
+        TGo4FileStoreParameter *StorePar=(TGo4FileStoreParameter *)fStepStatus->GetStorePar();
+        StorePar->SetAutosaveSize(t);
+  }
+
 }
 
 
@@ -873,7 +886,7 @@ void TGo4ConfigStep::GetUserSource(int& port, QString& expr)
    expr = LineEditArgs->text();
 }
 
-void TGo4ConfigStep::SetFileStore(QString name, bool overwrite, int bufsize, int splitlevel, int compression)
+void TGo4ConfigStep::SetFileStore(QString name, bool overwrite, int bufsize, int splitlevel, int compression, int autosave)
 {
    StoreNameEdit->setEnabled(true);
    StoreNameEdit->setText(name);
@@ -883,6 +896,7 @@ void TGo4ConfigStep::SetFileStore(QString name, bool overwrite, int bufsize, int
    BufferSize->setValue(bufsize/1000);
    SplitLevel->setValue(splitlevel);
    CompLevel->setValue(compression);
+   TreeAutosave->setValue(autosave);
    CompLevel->setEnabled(true);
    FileNameOutput->setEnabled(true);
    StoreComboHighlighted(0);
@@ -916,12 +930,13 @@ int TGo4ConfigStep::GetStoreSetup(QString& name)
    return typ;
 }
 
-void TGo4ConfigStep::GetFileStore(bool& overwrite, int& bufsize, int& splitlevel, int& compression)
+void TGo4ConfigStep::GetFileStore(bool& overwrite, int& bufsize, int& splitlevel, int& compression,  int& autosaveperiod)
 {
    overwrite = StoreOverwriteMode->isChecked();
    bufsize = BufferSize->value() * 1000;
    splitlevel = SplitLevel->value();
    compression = CompLevel->value();
+   autosaveperiod = TreeAutosave->value();
 }
 
 void TGo4ConfigStep::GetBackStore(int& bufsize, int& splitlevel)

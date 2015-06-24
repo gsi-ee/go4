@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>436</width>
-    <height>282</height>
+    <width>614</width>
+    <height>328</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,13 +20,7 @@
   <property name="windowTitle">
    <string>Configuration </string>
   </property>
-  <layout class="QGridLayout">
-   <property name="margin">
-    <number>2</number>
-   </property>
-   <property name="spacing">
-    <number>0</number>
-   </property>
+  <layout class="QGridLayout" name="gridLayout_3">
    <item row="0" column="0">
     <widget class="QGroupBox" name="ControlGroup_2">
      <property name="sizePolicy">
@@ -38,14 +32,8 @@
      <property name="title">
       <string>Step Control</string>
      </property>
-     <layout class="QHBoxLayout">
-      <property name="spacing">
-       <number>1</number>
-      </property>
-      <property name="margin">
-       <number>3</number>
-      </property>
-      <item>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
        <widget class="QCheckBox" name="EnableStepBox">
         <property name="toolTip">
          <string>Enable processing of this step.</string>
@@ -55,7 +43,7 @@
         </property>
        </widget>
       </item>
-      <item>
+      <item row="0" column="1">
        <widget class="QCheckBox" name="EnableSourceBox">
         <property name="toolTip">
          <string>Enable event source. If disabled, step will then process output events of previous steps.</string>
@@ -65,7 +53,7 @@
         </property>
        </widget>
       </item>
-      <item>
+      <item row="0" column="2">
        <widget class="QCheckBox" name="EnableStoreBox">
         <property name="toolTip">
          <string>Enable storing output events of this step.</string>
@@ -74,237 +62,6 @@
          <string>Store</string>
         </property>
        </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QGroupBox" name="StoreBox">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="title">
-      <string>Event store</string>
-     </property>
-     <layout class="QGridLayout">
-      <property name="margin">
-       <number>3</number>
-      </property>
-      <property name="spacing">
-       <number>1</number>
-      </property>
-      <item row="0" column="0">
-       <widget class="QComboBox" name="OutputCombo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>Type of event store.</string>
-        </property>
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <item>
-         <property name="text">
-          <string>Go4FileStore (1 tree/step) (*.root)</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Go4BackStore</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <layout class="QHBoxLayout">
-        <item>
-         <widget class="QLabel" name="InputSource_1_2_2">
-          <property name="text">
-           <string>Name:</string>
-          </property>
-          <property name="wordWrap">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="StoreNameEdit">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="toolTip">
-           <string>Event store name.</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QToolButton" name="FileNameOutput">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>30</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>30</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Browse for output file.</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset>:/icons/findfile.png</iconset>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="2" column="0">
-       <layout class="QHBoxLayout">
-        <item>
-         <widget class="QSpinBox" name="SplitLevel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>100</width>
-            <height>32767</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Root TTree split level.</string>
-          </property>
-          <property name="maximum">
-           <number>99</number>
-          </property>
-          <property name="value">
-           <number>99</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="BufferSize">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>70</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>50</width>
-            <height>32767</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Root branch buffer size.</string>
-          </property>
-          <property name="suffix">
-           <string> kB  </string>
-          </property>
-          <property name="minimum">
-           <number>4</number>
-          </property>
-          <property name="maximum">
-           <number>128</number>
-          </property>
-          <property name="value">
-           <number>4</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="CompLevel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>50</width>
-            <height>32767</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Root TFile compression level.</string>
-          </property>
-          <property name="maximum">
-           <number>9</number>
-          </property>
-          <property name="value">
-           <number>5</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="spacer5">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>99</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="StoreOverwriteMode">
-          <property name="maximumSize">
-           <size>
-            <width>32767</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Overwrite old file, or append.</string>
-          </property>
-          <property name="text">
-           <string>&amp;Overwrite</string>
-          </property>
-          <property name="shortcut">
-           <string>Alt+O</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
       </item>
      </layout>
     </widget>
@@ -379,7 +136,6 @@
           </item>
          </widget>
         </item>
-        
         <item>
          <widget class="QToolButton" name="ExtraBtn">
           <property name="sizePolicy">
@@ -408,7 +164,6 @@
           </property>
          </widget>
         </item>
-        
         <item>
          <widget class="QToolButton" name="MbsMonitorBtn">
           <property name="sizePolicy">
@@ -547,7 +302,6 @@
           </item>
          </layout>
         </item>
-        
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
@@ -586,6 +340,9 @@
               <height>16777215</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>Port number, 0 - default, actual default value depends from the source kind</string>
+            </property>
             <property name="specialValueText">
              <string>dflt</string>
             </property>
@@ -595,14 +352,10 @@
             <property name="maximum">
              <number>99999</number>
             </property>
-            <property name="toolTip">
-             <string>Port number, 0 - default, actual default value depends from the source kind</string>
-            </property>
            </widget>
           </item>
          </layout>
         </item>
-        
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout317">
           <item>
@@ -658,10 +411,8 @@
             </property>
            </widget>
           </item>
-          
          </layout>
         </item>
-        
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout17">
           <item>
@@ -700,6 +451,9 @@
               <height>16777215</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>How many times source will rerty to connect with server, 0 - never</string>
+            </property>
             <property name="specialValueText">
              <string>never</string>
             </property>
@@ -709,14 +463,10 @@
             <property name="maximum">
              <number>9999</number>
             </property>
-            <property name="toolTip">
-             <string>How many times source will rerty to connect with server, 0 - never</string>
-            </property>
            </widget>
           </item>
          </layout>
         </item>
-        
         <item>
          <layout class="QHBoxLayout">
           <property name="spacing">
@@ -758,7 +508,6 @@
         </item>
        </layout>
       </item>
-      
       <item>
        <layout class="QHBoxLayout">
         <item>
@@ -811,6 +560,259 @@
      </layout>
     </widget>
    </item>
+   <item row="2" column="0">
+    <widget class="QGroupBox" name="StoreBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Event store</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QComboBox" name="OutputCombo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>Type of event store.</string>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <item>
+         <property name="text">
+          <string>Go4FileStore (1 tree/step) (*.root)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Go4BackStore</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <layout class="QHBoxLayout">
+        <item>
+         <widget class="QLabel" name="InputSource_1_2_2">
+          <property name="text">
+           <string>Name:</string>
+          </property>
+          <property name="wordWrap">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="StoreNameEdit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>Event store name.</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="FileNameOutput">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>30</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>30</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Browse for output file.</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>:/icons/findfile.png</iconset>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QSpinBox" name="SplitLevel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>32767</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Root TTree split level.</string>
+          </property>
+          <property name="maximum">
+           <number>99</number>
+          </property>
+          <property name="value">
+           <number>99</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="BufferSize">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>70</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>50</width>
+            <height>32767</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Root branch buffer size.</string>
+          </property>
+          <property name="suffix">
+           <string> kB  </string>
+          </property>
+          <property name="minimum">
+           <number>4</number>
+          </property>
+          <property name="maximum">
+           <number>128</number>
+          </property>
+          <property name="value">
+           <number>4</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="CompLevel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>50</width>
+            <height>32767</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Root TFile compression level.</string>
+          </property>
+          <property name="maximum">
+           <number>9</number>
+          </property>
+          <property name="value">
+           <number>5</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="TreeAutosave">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>32767</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Root TTree autosave threshold. Tree is flushed to file when number of entries exceeds this period.</string>
+          </property>
+          <property name="maximum">
+           <number>9999999</number>
+          </property>
+          <property name="singleStep">
+           <number>100</number>
+          </property>
+          <property name="value">
+           <number>10000</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="spacer5">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>99</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="StoreOverwriteMode">
+          <property name="maximumSize">
+           <size>
+            <width>32767</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Overwrite old file, or append.</string>
+          </property>
+          <property name="text">
+           <string>&amp;Overwrite</string>
+          </property>
+          <property name="shortcut">
+           <string>Alt+O</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
   </layout>
  </widget>
  <layoutdefault spacing="1" margin="3"/>
@@ -821,138 +823,384 @@
    <signal>stateChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>StepStateChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>40</x>
+     <y>52</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>EnableSourceBox</sender>
    <signal>stateChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>InputStateChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>234</x>
+     <y>52</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>EnableStoreBox</sender>
    <signal>stateChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>OutputStateChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>428</x>
+     <y>52</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>SourceNameEdit</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>InputSourceText(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>78</x>
+     <y>139</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>EventSourceCombo</sender>
    <signal>currentIndexChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>SourceComboHighlighted(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>35</x>
+     <y>111</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>OutputCombo</sender>
    <signal>activated(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>StoreComboHighlighted(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>40</x>
+     <y>246</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>StoreNameEdit</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>OutputNameText(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>83</x>
+     <y>275</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>FileNameOutput</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>OutputFileDialog()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>583</x>
+     <y>274</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>CompLevel</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>StoreCompLevel(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>173</x>
+     <y>306</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>BufferSize</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>StoreBufferSize(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>97</x>
+     <y>306</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>SplitLevel</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>StoreSplitLevel(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>41</x>
+     <y>306</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>StoreOverwriteMode</sender>
    <signal>toggled(bool)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>StoreOverWrite(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>538</x>
+     <y>306</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>LineEditArgs</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>InputArguments(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>525</x>
+     <y>166</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>LineEditTagfile</sender>
    <signal>textChanged(QString)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>InputTagfile(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>81</x>
+     <y>166</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>SpinBoxStartEvent</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>ChangeStartEvent(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>35</x>
+     <y>189</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>SpinBoxStopEvent</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>ChangeStopEvent(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>232</x>
+     <y>189</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>FileNameBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>InputFileDialog()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>589</x>
+     <y>138</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>SpinBoxInterEvent</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>ChangeEventInterval(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>429</x>
+     <y>189</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>SpinBoxTimeout</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>ChangeSourceTimeout(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>325</x>
+     <y>165</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>ExtraBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>ExtraBtn_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>562</x>
+     <y>111</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>MbsMonitorBtn</sender>
    <signal>clicked()</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>MbsMonitorBtn_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>589</x>
+     <y>110</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>SpinBoxPortNumber</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>InputPortChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>213</x>
+     <y>165</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>SpinBoxRetryNumber</sender>
    <signal>valueChanged(int)</signal>
    <receiver>TGo4ConfigStep</receiver>
    <slot>RetryCntChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>428</x>
+     <y>165</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>TreeAutosave</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>TGo4ConfigStep</receiver>
+   <slot>StoreTreeAutoSave(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>249</x>
+     <y>298</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>531</x>
+     <y>293</y>
+    </hint>
+   </hints>
   </connection>
  </connections>
 </ui>

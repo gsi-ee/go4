@@ -131,7 +131,8 @@ class TGo4Interface : public TGo4AbstractInterface {
                          bool overwrite,
                          int bufsize,
                          int splitlevel,
-                         int compression);
+                         int compression,
+                         int autosaveperiod);
 
       void StepBackStore(const char* stepname,
                          const char* storename,

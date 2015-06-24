@@ -49,11 +49,11 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       virtual int GetSourceSetup( QString & name, int & timeout, int & start, int & stop, int & interval, int & port, int & nretry);
       virtual void GetMbsFileSource( QString & TagFile );
       virtual void GetUserSource( int & port, QString & expr );
-      virtual void SetFileStore( QString name, bool overwrite, int bufsize, int splitlevel, int compression );
+      virtual void SetFileStore( QString name, bool overwrite, int bufsize, int splitlevel, int compression, int autosave=0 );
       virtual void SetBackStore( QString name, int bufsize, int splitlevel );
       virtual QString GetBackStoreName();
       virtual int GetStoreSetup( QString & name );
-      virtual void GetFileStore( bool & overwrite, int & bufsize, int & splitlevel, int & compression );
+      virtual void GetFileStore( bool & overwrite, int & bufsize, int & splitlevel, int & compression, int & autosaveinterval );
       virtual void GetBackStore( int & bufsize, int & splitlevel );
 
 
@@ -74,6 +74,7 @@ class TGo4ConfigStep : public QWidget, public Ui::TGo4ConfigStep
       virtual void StoreSplitLevel( int t );
       virtual void StoreCompLevel( int t );
       virtual void StoreOverWrite( bool overwrite );
+      virtual void StoreTreeAutoSave( int t );
       virtual void InputTagfile( const QString & tag );
       virtual void ChangeStartEvent( int num );
       virtual void ChangeStopEvent( int num );

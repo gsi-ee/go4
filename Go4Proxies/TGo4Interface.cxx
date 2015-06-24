@@ -509,7 +509,8 @@ void TGo4Interface::StepFileStore(const char* stepname,
                                bool overwrite,
                                int bufsize,
                                int splitlevel,
-                               int compression)
+                               int compression,
+                               int autosaveperiod)
 {
    TGo4AnalysisStepStatus* step = GetStepStatus(stepname);
    if (step==0) return;
@@ -519,6 +520,7 @@ void TGo4Interface::StepFileStore(const char* stepname,
    par.SetBufsize(bufsize);
    par.SetSplitlevel(splitlevel);
    par.SetCompression(compression);
+   par.SetAutosaveSize(autosaveperiod);
    step->SetStorePar(&par);
 }
 

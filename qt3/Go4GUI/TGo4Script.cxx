@@ -605,7 +605,8 @@ void TGo4Script::StepFileStore(const char* stepname,
                                bool overwrite,
                                int bufsize,
                                int splitlevel,
-                               int compression)
+                               int compression,
+                               int )
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step)

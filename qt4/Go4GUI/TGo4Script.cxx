@@ -655,11 +655,12 @@ void TGo4Script::StepFileStore(const char* stepname,
                                bool overwrite,
                                int bufsize,
                                int splitlevel,
-                               int compression)
+                               int compression,
+                               int autosaveperiod)
 {
    TGo4ConfigStep* step = GetStepGUI(stepname);
    if (step)
-      step->SetFileStore(storename, overwrite, bufsize, splitlevel, compression);
+      step->SetFileStore(storename, overwrite, bufsize, splitlevel, compression, autosaveperiod);
 }
 
 void TGo4Script::StepBackStore(const char* stepname,
@@ -1015,14 +1016,15 @@ void TGo4Script::ProduceScript(const char* filename, TGo4MainWindow* main)
       switch(nstore) {
          case 0: {
             bool overwrite;
-            int bufsize, splitlevel, compression;
-            stepconf->GetFileStore(overwrite, bufsize, splitlevel, compression);
+            int bufsize, splitlevel, compression, autosave;
+            stepconf->GetFileStore(overwrite, bufsize, splitlevel, compression, autosave);
             fs << "go4->StepFileStore(\"" << stepconf->GetStepName().toLatin1().constData() << "\", \""
                                           << storename.toLatin1().constData() << "\", "
                                           << (overwrite ? "kTRUE" : "kFALSE") << ", "
                                           << bufsize << ", "
                                           << splitlevel << ", "
-                                          << compression << ");" << std::endl;
+                                          << compression << ", "
+                                          << autosave << ");" << std::endl;
             break;
          }
 
