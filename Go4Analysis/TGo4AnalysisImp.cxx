@@ -602,11 +602,12 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 {
    GO4TRACE((11,"TGo4Analysis::RunImplicitLoop(Int_t)",__LINE__, __FILE__));
    Int_t cnt = 0; // number of actually processed events
+   Int_t nextcnt = 0; // number of actually processed events
    if (process_event_interval>1.) process_event_interval = 1.;
 
    if (times < 0) times = fBatchLoopCount;
 
-   fxRate= new TGo4Ratemeter();
+   fxRate = new TGo4Ratemeter();
    TString ratefmt = TString::Format("\rCnt = %s  Rate = %s Ev/s", TGo4Log::GetPrintfArg(kULong64_t),"%5.*f");
    Bool_t userate = showrate || (process_event_interval>0.);
    Bool_t process_events = kFALSE;
@@ -631,7 +632,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 
          if ((times>0) && (cnt>=times)) break;
 
-         if (userate && fxRate->Update((fxDoWorkingFlag == flagRunning) ? 1 : 0)) {
+         if (userate && fxRate->Update(nextcnt) {
 
             process_events = kTRUE;
 
@@ -663,6 +664,8 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
             }
          }
 
+         nextcnt = 0;
+
          try
          {
             if (process_events) {
@@ -675,6 +678,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
              if (fxDoWorkingFlag == flagRunning) {
                MainCycle();
                cnt++; // account completely executed cycles
+               nextcnt = 1; // we process one event
              } else {
                gSystem->Sleep(100);
              }

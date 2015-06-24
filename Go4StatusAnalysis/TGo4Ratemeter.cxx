@@ -92,8 +92,8 @@ Bool_t TGo4Ratemeter::Update(Int_t increment)
 
    fdRate = (fuCurrentCount - fuLastCount) / dist;
 
-   // accumulate running time only when increased number of events since last update
-   if (fuLastCount != fuCurrentCount)
+   // accumulate running time only when running flag set
+   if (fbRunning)
       fdTime += dist;
 
    fLastTm = now;
