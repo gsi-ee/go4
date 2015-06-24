@@ -193,7 +193,8 @@ TGo4Analysis::TGo4Analysis(const char* name) :
    fbMakeWithAutosave(kTRUE),
    fbObjMade(kFALSE),
    fNumCtrlC(0),
-   fSniffer(0)
+   fSniffer(0),
+   fxRate(0)
 {
    GO4TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
 
@@ -231,7 +232,8 @@ TGo4Analysis::TGo4Analysis(int argc, char** argv) :
    fbMakeWithAutosave(kTRUE),
    fbObjMade(kFALSE),
    fNumCtrlC(0),
-   fSniffer(0)
+   fSniffer(0),
+   fxRate(0)
 {
    GO4TRACE((15,"TGo4Analysis::TGo4Analysis(const char*)",__LINE__, __FILE__));
 
@@ -604,13 +606,13 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 
    if (times < 0) times = fBatchLoopCount;
 
-   TGo4Ratemeter rate;
+   fxRate= new TGo4Ratemeter();
    TString ratefmt = TString::Format("\rCnt = %s  Rate = %s Ev/s", TGo4Log::GetPrintfArg(kULong64_t),"%5.*f");
    Bool_t userate = showrate || (process_event_interval>0.);
    Bool_t process_events = kFALSE;
    if (userate)
-      rate.SetUpdateInterval(process_event_interval>0. ? process_event_interval : 1.);
-   if (showrate) rate.Reset();
+      fxRate->SetUpdateInterval(process_event_interval>0. ? process_event_interval : 1.);
+   if (showrate) fxRate->Reset();
 
    TTimeStamp last_update;
 
@@ -629,7 +631,7 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 
          if ((times>0) && (cnt>=times)) break;
 
-         if (userate && rate.Update((fxDoWorkingFlag == flagRunning) ? 1 : 0)) {
+         if (userate && fxRate->Update((fxDoWorkingFlag == flagRunning) ? 1 : 0)) {
 
             process_events = kTRUE;
 
@@ -640,24 +642,24 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
             }
 
             if (need_update) {
-               rate.SetRunning(fxDoWorkingFlag == flagRunning);
+               fxRate->SetRunning(fxDoWorkingFlag == flagRunning);
 
                TDatime dt;
-               rate.SetDateTime(dt.AsSQLString());
+               fxRate->SetDateTime(dt.AsSQLString());
 
                TGo4AnalysisStep* firststep = GetAnalysisStep(0);
                if(firststep) {
-                  rate.SetCurrentSource(firststep->GetEventSourceName());
+                  fxRate->SetCurrentSource(firststep->GetEventSourceName());
                } else {
-                  rate.SetCurrentSource("- No event source -");
+                  fxRate->SetCurrentSource("- No event source -");
                }
 
                if (showrate) {
-                  int width = (rate.GetRate()>1e4) ? 0 : (rate.GetRate()<1. ? 3 : 1);
-                  printf(ratefmt.Data(), rate.GetCurrentCount(), width, rate.GetRate());
+                  int width = (fxRate->GetRate()>1e4) ? 0 : (fxRate->GetRate()<1. ? 3 : 1);
+                  printf(ratefmt.Data(), fxRate->GetCurrentCount(), width, fxRate->GetRate());
                   fflush(stdout);
                }
-               if (fSniffer) fSniffer->RatemeterUpdate(&rate);
+               if (fSniffer) fSniffer->RatemeterUpdate(fxRate);
             }
          }
 
@@ -780,7 +782,8 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
    if (showrate) {
       printf("\n"); fflush(stdout);
    }
-
+   delete fxRate;
+   fxRate=0;
    /////////// end outer catch block
    return cnt;
 }
@@ -2245,7 +2248,10 @@ void TGo4Analysis::StartAnalysis()
     if (fbInitIsDone)
     {
       if (fxDoWorkingFlag != flagRunning)
+      {
         PreLoop();
+        if(fxRate) fxRate->Reset(); // reset counters and time whenever started again
+      }
       fxDoWorkingFlag = flagRunning;
     }
     else

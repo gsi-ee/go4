@@ -58,6 +58,7 @@ class TGo4TreeStructure;
 class TGo4InterruptHandler;
 class TGo4AnalysisWebStatus;
 class TGo4Sniffer;
+class TGo4Ratemeter;
 
 /**
  * The mother of all go4 analysis. Provides services to organize
@@ -1056,6 +1057,9 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /** Sniffer object */
     TGo4AnalysisSniffer* fSniffer; //!
+
+    /** optional ratemeter object */
+    TGo4Ratemeter* fxRate; //!
 
   ClassDef(TGo4Analysis,4)
 };
