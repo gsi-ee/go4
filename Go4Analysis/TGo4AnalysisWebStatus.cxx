@@ -42,6 +42,7 @@ TString TGo4AnalysisWebStatus::fgxURL_STORE_NAME = "storename";
 TString TGo4AnalysisWebStatus::fgxURL_STORE_SPLIT = "storesplit";
 TString TGo4AnalysisWebStatus::fgxURL_STORE_BUF = "storebuf";
 TString TGo4AnalysisWebStatus::fgxURL_STORE_COMP = "storecomp";
+TString TGo4AnalysisWebStatus::fgxURL_STORE_ASF = "storeasf";
 TString TGo4AnalysisWebStatus::fgxURL_STORE_OVERWRITE = "storeover";
 
 TString TGo4AnalysisWebStatus::fgxURL_ASF_SAVE = "saveasf";
@@ -461,6 +462,21 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
             TString::Format(" - /!\\ NEVER COME HERE: can not set compression to eventstore type %s ",
                 storepar ? storepar->ClassName() : "nullpointer"));
     }    //fgxURL_STORE_COMP
+
+    theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_STORE_ASF.Data(), stepindex);
+       if (url.HasOption(theKey.Data()))
+       {
+         Int_t treeautosave = url.GetIntValueFromOptions(theKey.Data());
+         message.Append(TString::Format(", %s=%d", theKey.Data(), treeautosave));
+         TGo4EventStoreParameter* storepar = step->GetStorePar();
+         TGo4FileStoreParameter* filepar = dynamic_cast<TGo4FileStoreParameter*>(storepar);
+         if (filepar)
+           filepar->SetAutosaveSize(treeautosave);
+         else
+           message.Append(
+               TString::Format(" - /!\\ NEVER COME HERE: can not set tree autosave interval to eventstore type %s ",
+                   storepar ? storepar->ClassName() : "nullpointer"));
+       }    //fgxURL_STORE_COMP
 
     theKey.Form("%s_%d", TGo4AnalysisWebStatus::fgxURL_STORE_OVERWRITE.Data(), stepindex);
     if (url.HasOption(theKey.Data()))

@@ -76,6 +76,7 @@ class TGo4AnalysisWebStatus : public TGo4AnalysisStatus {
     static TString fgxURL_STORE_SPLIT;
     static TString fgxURL_STORE_BUF;
     static TString fgxURL_STORE_COMP;
+    static TString fgxURL_STORE_ASF;
     static TString fgxURL_STORE_OVERWRITE;
 
     static TString fgxURL_ASF_SAVE;

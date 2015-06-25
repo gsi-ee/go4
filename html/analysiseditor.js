@@ -175,6 +175,10 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
       {  
          stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fiCompression;      
       }
+      else if(key=="storeasf")
+      {  
+         stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fiAutosavesize;      
+      }
       else if(key=="storeover")
       {  
          stepoptions+="&"+key+"_"+step+"="+theElement.fxStoreType.fbOverwrite;      
@@ -293,7 +297,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
       var editor=this;
       var showmore=editor.showmore[theIndex]; 
       //console.log("showStepEditor for index "+theIndex+" has showmore="+showmore);
-      var storetable=pthis.find(" .step_store");
+       var storetable=pthis.find(" .step_store");
        var sourcetable=pthis.find(" .step_source");
        var enablebox=pthis.find(" .step_box_step_enab");
        var sourcebox=pthis.find(" .step_box_source_enab");
@@ -326,6 +330,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
        var storesplit=pthis.find(" .step_store_split");
        var storebuf=pthis.find(" .step_store_buf");
        var storecomp=pthis.find(" .step_store_comp");
+       var storetreeasf=pthis.find(" .step_store_asf");
        var storeover=pthis.find(" .step_store_overwrite");
        
     // here step control checkboxes and source/store visibility:
@@ -487,6 +492,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
       storesplit.show();
    storebuf.show();
    storecomp.show();
+   storetreeasf.show();
    storeover.show();  
    //console.log("show step editor with store id:"+theElement.fxStoreType.fiID);
    switch(theElement.fxStoreType.fiID)
@@ -495,10 +501,12 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
             console.log("showStepEditor WARNING: unknown event store id: "+theElement.fxStoreType.fiID);   
       case GO4.EvIOType.GO4EV_FILE:
          storecomp.spinner("enable");
+         storetreeasf.spinner("enable");
          storeover.prop('disabled',false);
           break;
       case GO4.EvIOType.GO4EV_BACK:
          storecomp.spinner("disable");
+         storetreeasf.spinner("disable");
          storeover.prop('disabled',true);
           break;
           
@@ -569,6 +577,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
               var storesplit=pthis.find(" .step_store_split");
               var storebuf=pthis.find(" .step_store_buf");
               var storecomp=pthis.find(" .step_store_comp");
+              var storetreeasf=pthis.find(" .step_store_asf");
               var storeover=pthis.find(" .step_store_overwrite");
               
 
@@ -779,6 +788,8 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
                theElement.fxStoreType.fiSplit=storesplit.val();
                theElement.fxStoreType.fiBufsize=storebuf.val()* 1000.;         
                theElement.fxStoreType.fiCompression=storecomp.val();
+               theElement.fxStoreType.fiAutosavesize=storetreeasf.val();
+               
                
                
                editor.showStepEditor(pthis, theElement, theIndex);
@@ -824,7 +835,15 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
              theElement.fxStoreType.fiCompression=this.value;
              }
        });     
-         
+         storetreeasf.spinner({
+             min: 0,
+             max: 99999,
+             step: 100,
+            stop: function( event, ui ) {
+               editor.MarkChanged("storeasf",theIndex);
+               theElement.fxStoreType.fiAutosavesize=this.value;
+               }
+         });       
             
        storeover.click(function() { 
          editor.MarkChanged("storeover",theIndex);
@@ -909,7 +928,8 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
          // event store properties:
          storesplit.val(theElement.fxStoreType.fiSplit);
          storebuf.val(theElement.fxStoreType.fiBufsize / 1000);         
-      storecomp.val(theElement.fxStoreType.fiCompression);
+         storecomp.val(theElement.fxStoreType.fiCompression);
+         storetreeasf.val(theElement.fxStoreType.fiAutosavesize);
         
        // set event store selector and special fields:
       //console.log("load tab "+theIndex+" sees store id:"+theElement.fxStoreType.fiID);

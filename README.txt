@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v4.9.8 (build 40908)
-                      19-June-2015
+         Go4 Release Package v5.0.0 (build 50000)
+                      25-June-2015
 --------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -21,7 +21,7 @@ in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 These package was tested on
     Suse 13.x (x86_64)
-    Debian 6.0, Debian 7.0 (32 bit and 64bit)
+    Debian 6.0, Debian 7.0,  Debian 8.0 (32 bit and 64bit)
     compilers: gcc 4.7.2, gcc 4.8.1
     Windows 7
 
