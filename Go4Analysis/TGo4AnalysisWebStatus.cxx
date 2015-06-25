@@ -537,6 +537,10 @@ Bool_t TGo4AnalysisWebStatus::UpdateFromUrl(const char* rest_url_opt)
   ana->StopAnalysis(); // need this to correctly invoke UserPreLoop later!
   std::cout << "\nTGo4AnalysisWebStatus Update From Url  :SetStatus..."<< std::endl;
   ana->SetStatus(this);
+
+  // update status for ourself
+  ana->UpdateStatus(this);
+
   std::cout << "\nTGo4AnalysisWebStatus Update From Url  :InitEventClasses..."<< std::endl;
   ana->InitEventClasses();
 
@@ -565,8 +569,6 @@ Bool_t TGo4AnalysisWebStatus::ApplyStatus(TGo4AnalysisStatus* status)
    TGo4Analysis* an = TGo4Analysis::Instance();
    TGo4AnalysisClient* cli = an ? an->GetAnalysisClient() : 0;
 
-   printf("TGo4AnalysisWebStatus::ApplyAnalysisStatus %p\n", status);
-
    if ((an==0) || (status==0)) return kFALSE;
 
    if(cli) {
@@ -576,6 +578,9 @@ Bool_t TGo4AnalysisWebStatus::ApplyStatus(TGo4AnalysisStatus* status)
    }
 
    an->SetStatus(status);
+
+   // also copy values to ourself
+   an->UpdateStatus(this);
 
    if (an->InitEventClasses()) {
       if(cli) {
