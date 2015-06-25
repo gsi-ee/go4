@@ -1173,7 +1173,10 @@ int main(int argc, char **argv)
 
          cmd.Form("TGo4Sniffer::CreateEngine(\"%s\");", engine.Data());
          res = gROOT->ProcessLineFast(cmd.Data(), &err);
-         if ((res<=0) || (err!=0)) showerror(Form("Fail to start %s", engine.Data()));
+         if ((res<=0) || (err!=0)) {
+            printf("Fail to start %s", engine.Data());
+            return 1;
+         }
       }
 
       process_interv = 0.1;
