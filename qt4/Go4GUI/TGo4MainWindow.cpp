@@ -1251,10 +1251,18 @@ void TGo4MainWindow::InputTerminalParametersSlot()
 
    bool ok;
 
+#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    size = QInputDialog::getInt(this,
                                "Analysis terminal history size in bytes (minimum 10000 bytes)",
                                 "Input 0 if full analysis history should be preserved",
                                 size, 0, 100000000, 10000, &ok);
+#else
+  size = QInputDialog::getInteger(this,
+                               "Analysis terminal history size in bytes (minimum 10000 bytes)",
+                                "Input 0 if full analysis history should be preserved",
+                                size, 0, 100000000, 10000, &ok);
+#endif
+
 
    if ((size>0) && (size<10000)) size = 10000;
 

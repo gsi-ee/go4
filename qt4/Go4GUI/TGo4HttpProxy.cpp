@@ -38,6 +38,8 @@
 #include <QInputDialog>
 
 
+
+
 QHttpProxy::QHttpProxy(TGo4HttpProxy* p) :
    QObject(),
    qnam(),
@@ -930,15 +932,24 @@ Bool_t TGo4HttpProxy::SubmitURL(const char* path, Int_t waitres)
    QEventLoop loop;
    QTime myTimer;
    myTimer.start();
-
+// JAM: just disable this if qt is too old (special for gsi installation 26-06-15)
+#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    while (!netReply->isFinished()) {
+#else
+	while(1) {
+#endif
       loop.processEvents(QEventLoop::AllEvents,100);
       if (myTimer.elapsed() > waitres*1000) break;
    }
 
    netReply->deleteLater();
-
+#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    return netReply->isFinished();
+#else
+   return kTRUE;
+#endif
+
+
 }
 
 Int_t  TGo4HttpProxy::NumCommandArgs(const char* name)
@@ -981,7 +992,12 @@ Bool_t TGo4HttpProxy::PostObject(const char* prefix, TObject* obj, Int_t waitres
    obj->Streamer(*sbuf);
 
    QByteArray postData;
+#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    postData.append(sbuf->Buffer(), sbuf->Length());
+#else
+    postData.append(sbuf->Buffer());
+#endif
+
 
    delete sbuf;
 
@@ -1011,15 +1027,21 @@ Bool_t TGo4HttpProxy::PostObject(const char* prefix, TObject* obj, Int_t waitres
    QEventLoop loop;
    QTime myTimer;
    myTimer.start();
-
+#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    while (!netReply->isFinished()) {
+#else
+   while (1) {
+#endif
       loop.processEvents(QEventLoop::AllEvents,100);
       if (myTimer.elapsed() > waitres*1000) break;
    }
 
    netReply->deleteLater();
-
+#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    return netReply->isFinished();
+#else
+   return kTRUE;
+#endif
 }
 
 
@@ -1152,8 +1174,11 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
    req.Append("\n");
 
    QByteArray postData;
+#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    postData.append(req.Data(), req.Length());
-
+#else
+ postData.append(req.Data());	
+#endif
    if (gDebug>2) printf("Sending multi.bin request\n%s", req.Data());
 
    TString url = fNodeName;
@@ -1345,3 +1370,5 @@ void TGo4HttpProxy::DisconnectAnalysis(Int_t waittime, Bool_t servershutdown)
       CheckShutdown(kTRUE);
    }
 }
+
+

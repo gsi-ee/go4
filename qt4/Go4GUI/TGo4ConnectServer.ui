@@ -181,9 +181,6 @@
        <property name="toolTip">
         <string>account name at web server</string>
        </property>
-       <property name="inputMethodHints">
-        <set>Qt::ImhNone</set>
-       </property>
        <property name="echoMode">
         <enum>QLineEdit::Normal</enum>
        </property>
