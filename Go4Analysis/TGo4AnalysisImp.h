@@ -564,7 +564,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
       * UserEventFunc, and is used by analysis steps to get result of previous steps. */
     TGo4EventElement* GetOutputEvent();
 
-    /** Search reference to event stucture in  folder. */
+    /** Search reference to event structure in  folder. */
     TGo4EventElement * GetEventStructure(const char * name);
 
     /** Display a user message. Argument pri defines message priority:
@@ -616,7 +616,7 @@ class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
 
     /** Printout event content of single current event to analysis terminal
       * (using ROOT TTree::Show method).
-      * Event is searched by name of analyis step. If isoutput true, then
+      * Event is searched by name of analysis step. If isoutput true, then
       * output event of that step is used, otherwise input event.
       * If analysis step not found, event of stepname is searched in registered folders. */
     void ShowEvent(const char* stepname, Bool_t isoutput=kTRUE);
