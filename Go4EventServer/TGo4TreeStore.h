@@ -52,6 +52,9 @@ class TGo4TreeStore : public TGo4EventStore {
 
     virtual ~TGo4TreeStore();
 
+    /** Expose all Store methods to avoid compiler warnings, A.Neiser */
+    using TGo4EventStore::Store;
+
     /** Stores eventelement event into the storage implementation.
       * May be a file, a root tree, a socket to a viewer... */
     virtual Int_t Store(TGo4EventElement* event);
