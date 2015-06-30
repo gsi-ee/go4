@@ -103,7 +103,12 @@
       obj['_typename'] = "TGo4MsgList";
       
       if (obj.arr.length>0) {
+         var duplicate = (('last-id' in item) && (item['last-id'] == obj.arr[0].fString));
+               
          item['last-id'] = obj.arr[0].fString;
+
+         // workaround for snapshot, it sends always same messages many times 
+         if (duplicate) obj.arr.length = 1;
 
          // add clear function for item
          if (!('clear' in item)) 

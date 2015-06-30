@@ -1127,16 +1127,30 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
 
          obj->Streamer(buf);
 
+         if (n>0) {
+            TGo4Slot* subslot = n==1 ? LoginfoSlot() : DebugOutputSlot();
+            TList* curr = subslot ? dynamic_cast<TList*> (subslot->GetAssignedObject()) : 0;
+            TList* next = dynamic_cast<TList*> (obj);
+            if (curr && curr->First() && next && next->First()) {
+               if (strcmp(curr->First()->GetName(), next->First()->GetName())==0) {
+                  // this is protection against sending same info many times
+                  // happend with sever snapshot
+                  delete obj;
+                  obj = 0;
+               }
+            }
+         }
+
          switch(n) {
             case 0:
                fbAnalysisRunning = ((TGo4Ratemeter*) obj)->IsRunning();
                RatemeterSlot()->AssignObject(obj,kTRUE);
                break;
             case 1:
-               LoginfoSlot()->AssignObject(obj,kTRUE);
+               if (obj) LoginfoSlot()->AssignObject(obj,kTRUE);
                break;
             case 2:
-               DebugOutputSlot()->AssignObject(obj,kTRUE);
+               if (obj) DebugOutputSlot()->AssignObject(obj,kTRUE);
                break;
          }
       }
@@ -1177,7 +1191,7 @@ void TGo4HttpProxy::ProcessRegularMultiRequest(Bool_t finished)
 #if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
    postData.append(req.Data(), req.Length());
 #else
- postData.append(req.Data());	
+ postData.append(req.Data());
 #endif
    if (gDebug>2) printf("Sending multi.bin request\n%s", req.Data());
 
