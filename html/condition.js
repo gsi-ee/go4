@@ -812,7 +812,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       
       if (pave_painter == null) {
          this.pave = JSROOT.Create("TPaveStats");
-         this.pave.fName = "stat_" + this.cond.fName; 
+         this.pave.fName = "stats_" + this.cond.fName;
          jQuery.extend(this.pave, { fX1NDC: 0.1, fY1NDC: 0.4, fX2NDC: 0.4, fY2NDC: 0.65, fBorderSize: 1 });
          jQuery.extend(this.pave, JSROOT.gStyle.StatText);
          jQuery.extend(this.pave, JSROOT.gStyle.StatFill);
@@ -840,27 +840,33 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
             }
          }
       
-      var painter=this;
+      var painter = this;
       var cond = this.cond;
+      
+      if (!'FFormat' in JSROOT)
+         JSROOT.FFormat = function(value, fmt) {
+            if (fmt == '14.7g') return value.toFixed(1);
+            return value.toFixed(4);
+         }
       
       var stat = this.main_painter().CountStat(function(x,y) { return painter.Test(x,y); });
       
-      if (this.cond.fbIntDraw) this.pave.AddText("Integral = " + JSROOT.gStyle.StatFormat(stat.integral));
+      if (this.cond.fbIntDraw) this.pave.AddText("Integral = " + JSROOT.FFormat(stat.integral, "14.7g"));
       
-      if (this.cond.fbXMeanDraw) this.pave.AddText("Mean x = " + JSROOT.gStyle.StatFormat(stat.meanx));
+      if (this.cond.fbXMeanDraw) this.pave.AddText("Mean x = " + JSROOT.FFormat(stat.meanx, "6.4g"));
       
-      if (this.cond.fbXRMSDraw) this.pave.AddText("RMS x = " + JSROOT.gStyle.StatFormat(stat.rmsx));
+      if (this.cond.fbXRMSDraw) this.pave.AddText("RMS x = " + JSROOT.FFormat(stat.rmsx, "6.4g"));
       
       if (this.cond.fiDim==2) {
-         if (this.cond.fbYMeanDraw) this.pave.AddText("Mean y = " + JSROOT.gStyle.StatFormat(stat.meany));
-         if (this.cond.fbYRMSDraw) this.pave.AddText("RMS y = " + JSROOT.gStyle.StatFormat(stat.rmsy));
+         if (this.cond.fbYMeanDraw) this.pave.AddText("Mean y = " + JSROOT.FFormat(stat.meany, "6.4g"));
+         if (this.cond.fbYRMSDraw) this.pave.AddText("RMS y = " + JSROOT.FFormat(stat.rmsy, "6.4g"));
       }
       
-      if (this.cond.fbXMaxDraw) this.pave.AddText("X max = " + JSROOT.gStyle.StatFormat(stat.xmax));
+      if (this.cond.fbXMaxDraw) this.pave.AddText("X max = " + JSROOT.FFormat(stat.xmax, "6.4g"));
       
       if (this.cond.fiDim==2) 
-         if (this.cond.fbYMaxDraw) this.pave.AddText("Y max = " + JSROOT.gStyle.StatFormat(stat.ymax));
-      if (this.cond.fbCMaxDraw) this.pave.AddText("C max = " + JSROOT.gStyle.StatFormat(stat.wmax));
+         if (this.cond.fbYMaxDraw) this.pave.AddText("Y max = " + JSROOT.FFormat(stat.ymax, "6.4g"));
+      if (this.cond.fbCMaxDraw) this.pave.AddText("C max = " + JSROOT.FFormat(stat.wmax, "14.7g"));
       
       if (pave_painter == null) 
          pave_painter = JSROOT.draw(this.divid, this.pave, "");
