@@ -38,8 +38,6 @@
 #include <QInputDialog>
 
 
-
-
 QHttpProxy::QHttpProxy(TGo4HttpProxy* p) :
    QObject(),
    qnam(),
@@ -330,12 +328,12 @@ void TGo4HttpAccess::httpFinished()
          TH1D* h1 = new TH1D(_name, _title, nbins, left, right);
          h1->SetDirectory(0);
          const char* bins = xml->GetAttr(top, "bins") + 1;
-         for (int n =-3; n<nbins; n++) {
+         for (int n =-3; n<nbins+2; n++) {
             const char* separ = strpbrk(bins,",]");
             if (separ==0) { printf("Error parsing histogram bins\n"); break; }
             if (n>=0) {
                Double_t v = TString(bins, separ-bins).Atof();
-               h1->SetBinContent(n+1, v);
+               h1->SetBinContent(n, v);
             }
             bins = separ+1;
          }
@@ -350,12 +348,12 @@ void TGo4HttpAccess::httpFinished()
          TH2D* h2 = new TH2D(_name, _title, nbins1, left1, right1, nbins2, left2, right2);
          h2->SetDirectory(0);
          const char* bins = xml->GetAttr(top, "bins") + 1;
-         for (int n =-6; n<nbins1*nbins2; n++) {
+         for (int n =-6; n<(nbins1+2)*(nbins2+2); n++) {
             const char* separ = strpbrk(bins,",]");
             if (separ==0) { printf("Error parsing histogram bins\n"); break; }
             if (n>=0) {
                Double_t v = TString(bins, separ-bins).Atof();
-               h2->SetBinContent(n % nbins1 + 1, n / nbins1 + 1,  v);
+               h2->SetBinContent(n % (nbins1 + 2), n / (nbins1 + 2),  v);
             }
             bins = separ+1;
          }
