@@ -1187,17 +1187,14 @@ int main(int argc, char **argv)
    if(batchMode) {
       TGo4Log::Info("Main: starting analysis in batch mode ...  ");
 
-      Bool_t run = kFALSE;
-
+      Bool_t run = kTRUE;
       if (canrun>=0) {
-         if (!analysis->InitEventClasses()) {
-            TGo4Log::Error("Main: Init event classes failed, aborting!");
-         } else {
+         if (analysis->InitEventClasses()) {
             analysis->StartAnalysis();
-            run = kTRUE;
+         } else {
+            TGo4Log::Error("Main: Init event classes failed, aborting!");
+            run = kFALSE;
          }
-      } else {
-         run = kTRUE;
       }
 
       if (run) {

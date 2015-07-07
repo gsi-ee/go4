@@ -620,10 +620,6 @@ Int_t TGo4Analysis::RunImplicitLoop(Int_t times, Bool_t showrate, Double_t proce
 
    try
    {
-      // only when entering with running mode, call prelloop
-      if (fxDoWorkingFlag == flagRunning)
-         PreLoop();
-
       if (times>0)
          Message(1, "Analysis loop for %d cycles is starting...", times);
       else
