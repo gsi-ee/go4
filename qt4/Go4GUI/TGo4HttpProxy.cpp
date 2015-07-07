@@ -337,6 +337,7 @@ void TGo4HttpAccess::httpFinished()
             }
             bins = separ+1;
          }
+         h1->ResetStats();
          obj = h1;
       } else {
          Int_t nbins1 = xml->GetIntAttr(top, "nbins1");
@@ -357,6 +358,7 @@ void TGo4HttpAccess::httpFinished()
             }
             bins = separ+1;
          }
+         h2->ResetStats();
          obj = h2;
       }
 
