@@ -2245,7 +2245,7 @@ void TGo4Analysis::StartAnalysis()
   }
   else
   {
-    // JAM reproduce behaviour of analysis client, check init state before executing preloop
+    // JAM reproduce behavior of analysis client, check init state before executing preloop
     if (fbInitIsDone)
     {
       if (fxDoWorkingFlag != flagRunning)
