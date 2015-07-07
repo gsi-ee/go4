@@ -75,8 +75,8 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       QRootCanvas(QWidget *parent = 0);
       virtual ~QRootCanvas();
 
-      TCanvas*          getCanvas() { return fCanvas;}
-      int               getRootWid() { return fRootWindowId;}
+      TCanvas*          getCanvas() { return fCanvas; }
+      int               getRootWid() { return fRootWindowId; }
       void              setMaskDoubleClick(bool on=true) { fMaskDoubleClick = on; }
 
       bool              showEventStatus() const;
@@ -90,7 +90,7 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       /** signal emitted when mouse clicks on pad  */
       void              PadClicked(TPad*);
 
-      /** signal emitted when user produce left mouse doubleclick on pad  */
+      /** signal emitted when user produce left mouse double-click on pad  */
       void              PadDoubleClicked(TPad*);
 
       void              MenuCommandExecuted(TObject*, const char*);

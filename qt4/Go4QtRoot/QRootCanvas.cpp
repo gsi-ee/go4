@@ -76,16 +76,16 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
    // set defaults
    setUpdatesEnabled( true );
    setMouseTracking(true);
-   
+
    setFocusPolicy( Qt::TabFocus );
    setCursor( Qt::CrossCursor );
 
-   // diable option that at least background is redrawn immediately
+   // disable option that at least background is redrawn immediately
    // and canvas content after 100 ms timeout
    //setAttribute(Qt::WA_NoSystemBackground);
    setAttribute(Qt::WA_PaintOnScreen);
    setAttribute(Qt::WA_PaintUnclipped);
-   
+
 
    // add the Qt::WinId to TGX11 interface
    fQtWindowId = winId();
@@ -135,9 +135,9 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
             // just eat too old events
             e->accept();
             // std::cout <<"----- EATING timestamp:"<<timestamp<< std::endl;
-            return;                
+            return;
        }
-  
+
   //std::cout <<"----- QRootCanvas::mouseMoveEvent with timestamp:"<<timestamp<<", oldstamp:"<<lastprocesstime << std::endl;
 #endif
  if (fCanvas!=0) {
@@ -167,9 +167,9 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
      emit CanvasStatusEvent(buffer.toLatin1().constData());
   }
    e->accept();
-#if QT_VERSION > QT_VERSION_CHECK(5,0,0)   
+#if QT_VERSION > QT_VERSION_CHECK(5,0,0)
    lastprocesstime=timestamp;
-#endif 
+#endif
 }
 
 void QRootCanvas::mousePressEvent( QMouseEvent *e )
@@ -312,7 +312,7 @@ void QRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
 
 void QRootCanvas::activateRepaint(int mode)
 {
-  
+
    fRepaintMode |= mode;
 //   if (fRepaintMode > 0) setUpdatesEnabled( false ); // JAM avoid flicker on Qt5 ?
    fRepaintTimer->setSingleShot(true);
@@ -322,7 +322,7 @@ void QRootCanvas::activateRepaint(int mode)
 void QRootCanvas::resizeEvent( QResizeEvent *)
 {
    activateRepaint(act_Resize);
-   
+
 }
 
 void QRootCanvas::paintEvent( QPaintEvent *)
@@ -344,7 +344,7 @@ void QRootCanvas::paintEvent( QPaintEvent *)
 void QRootCanvas::processRepaintTimer()
 {
    if (fRepaintMode == 0) return;
-    //printf("processRepaintTimer with fRepaintMode %d",fRepaintMode);   
+    //printf("processRepaintTimer with fRepaintMode %d",fRepaintMode);
     TGo4LockGuard threadlock;
 
    WId newid = winId();
