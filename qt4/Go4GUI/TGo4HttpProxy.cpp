@@ -320,6 +320,10 @@ void TGo4HttpAccess::httpFinished()
       const char* _kind = xml->GetAttr(top, "_kind");
       const char* _name = xml->GetAttr(top, "_name");
       const char* _title = xml->GetAttr(top, "_title");
+      const char* xtitle = xml->GetAttr(top, "xtitle");
+      const char* ytitle = xml->GetAttr(top, "ytitle");
+      const char* xlabels = xml->GetAttr(top, "xlabels");
+      const char* ylabels = xml->GetAttr(top, "ylabels");
 
       if (strcmp(_kind,"ROOT.TH1D")==0) {
          Int_t nbins = xml->GetIntAttr(top, "nbins");
@@ -360,6 +364,25 @@ void TGo4HttpAccess::httpFinished()
          }
          h2->ResetStats();
          obj = h2;
+      }
+
+      if (obj!=0) {
+         if (xtitle!=0)
+           ((TH1*)obj)->GetXaxis()->SetTitle(xtitle);
+         if (ytitle!=0)
+           ((TH1*)obj)->GetYaxis()->SetTitle(ytitle);
+         if (xlabels!=0) {
+            TObjArray* arr = TString(xlabels).Tokenize(",");
+            for (int n=0; n<=(arr ? arr->GetLast() : -1);n++)
+               ((TH1*)obj)->GetXaxis()->SetBinLabel(1 + n, arr->At(n)->GetName());
+            delete arr;
+         }
+         if (ylabels!=0) {
+            TObjArray* arr = TString(ylabels).Tokenize(",");
+            for (int n=0; n<=(arr ? arr->GetLast() : -1);n++)
+               ((TH1*)obj)->GetYaxis()->SetBinLabel(1 + n, arr->At(n)->GetName());
+            delete arr;
+         }
       }
 
       xml->FreeDoc(doc);
