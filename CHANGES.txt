@@ -20,6 +20,12 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
+Changes in Go4 v5.0.x
+1. One can register Start/Stop/Clear commands in any place of THttpServer hierarchy.
+   Such commands recognized by the GUI and used when pressing Start/Stop analysis buttons
+   or Clear analysis objects button 
+
+
 Changes in Go4 v5.0.0
 1. GUI Settings/Preferences: Added configurable window resize/move mode ("rubberband" outline or full repaint). 
    Reduces window flickering with current Qt5.x versions due to non compressed X-events

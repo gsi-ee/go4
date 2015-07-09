@@ -44,6 +44,7 @@ class TGo4ServerProxy : public TGo4Proxy {
       virtual const char* GetUserName() const { return ""; }
       virtual const char* GetContainedObjectInfo();
 
+      virtual TString FindCommand(const char* name) { return ""; }
       virtual Int_t  NumCommandArgs(const char* name) { return -1; }
       virtual Bool_t SubmitCommand(const char* name, Int_t waitres = -1, const char* arg1 = 0, const char* arg2 = 0, const char* arg3 = 0) { return kFALSE; }
 

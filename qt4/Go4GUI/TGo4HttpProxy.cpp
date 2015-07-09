@@ -25,6 +25,7 @@
 
 #include "TGo4Condition.h"
 #include "TGo4Slot.h"
+#include "TGo4Iter.h"
 #include "TGo4ObjectProxy.h"
 #include "TGo4ObjectManager.h"
 #include "TGo4Ratemeter.h"
@@ -515,6 +516,11 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
          if (strcmp(flagname,"IsResetProtect")==0)
             return fXML->HasAttr(fChild, "_no_reset") ? 1 : 0;
 
+         if (strcmp(flagname,"_numargs")==0) {
+            const char* _numargs = fXML->GetAttr(fChild,"_numargs");
+            return (_numargs==0)  ? -1 : TString(_numargs).Atoi();
+         }
+
          return -1;
       }
 
@@ -971,11 +977,24 @@ Bool_t TGo4HttpProxy::SubmitURL(const char* path, Int_t waitres)
 #else
    return kTRUE;
 #endif
-
-
 }
 
-Int_t  TGo4HttpProxy::NumCommandArgs(const char* name)
+TString TGo4HttpProxy::FindCommand(const char* name)
+{
+   if ((name==0) || (*name==0)) return "";
+   if (NumCommandArgs(name)>=0) return name;
+
+   TGo4Iter iter(fxParentSlot);
+
+   while (iter.next()) {
+      if (iter.getflag("_numargs")<0) continue;
+      if (strcmp(iter.getname(),name)==0) return iter.getfullname();
+   }
+
+   return "";
+}
+
+Int_t TGo4HttpProxy::NumCommandArgs(const char* name)
 {
    XMLNodePointer_t item = FindItem(name);
    if (item==0) return -1;

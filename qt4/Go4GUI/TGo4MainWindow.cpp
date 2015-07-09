@@ -1460,8 +1460,8 @@ void TGo4MainWindow::UpdateCaptionButtons()
    faAnalTermin->setEnabled(FindAnalysisWindow()!=0);
 
    if ((go4_serv==0) && (root_serv!=0)) {
-      faStartAnal->setEnabled(root_serv->NumCommandArgs("Start")==0);
-      faStopAnal->setEnabled(root_serv->NumCommandArgs("Stop")==0);
+      faStartAnal->setEnabled(root_serv->FindCommand("Start").Length()>0);
+      faStopAnal->setEnabled(root_serv->FindCommand("Stop").Length()>0);
    }
 }
 
@@ -2125,9 +2125,12 @@ void TGo4MainWindow::StartAnalysisSlot()
       EstablishRatemeter(2);
    } else {
       TGo4ServerProxy* root_serv = Browser()->FindServer(0, kFALSE);
-      if (root_serv && (root_serv->NumCommandArgs("Start")==0)) {
-         root_serv->SubmitCommand("Start");
-         StatusMessage("Submit Start command to the server");
+      if (root_serv) {
+         TString cmd = root_serv->FindCommand("Start");
+         if (cmd.Length()>0) {
+            root_serv->SubmitCommand(cmd);
+            StatusMessage(TString::Format("Submit %s command to the server", cmd.Data()).Data());
+         }
       }
    }
 }
@@ -2139,9 +2142,12 @@ void TGo4MainWindow::StopAnalysisSlot()
       go4_serv->StopAnalysis();
    } else {
       TGo4ServerProxy* root_serv = Browser()->FindServer(0, kFALSE);
-      if (root_serv && (root_serv->NumCommandArgs("Stop")==0)) {
-         root_serv->SubmitCommand("Stop");
-         StatusMessage("Submit Stop command to the server");
+      if (root_serv) {
+         TString cmd = root_serv->FindCommand("Stop");
+         if (cmd.Length()>0) {
+            root_serv->SubmitCommand(cmd);
+            StatusMessage(TString::Format("Submit %s command to the server", cmd.Data()).Data());
+         }
       }
    }
 }

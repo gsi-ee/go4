@@ -180,6 +180,7 @@ class TGo4HttpProxy : public TGo4ServerProxy  {
 
       virtual void Update(TGo4Slot* slot, Bool_t strong);
 
+      virtual TString FindCommand(const char* name);
       virtual Int_t  NumCommandArgs(const char* name);
       virtual Bool_t SubmitCommand(const char* name, Int_t waitres = -1, const char* arg1 = 0, const char* arg2 = 0, const char* arg3 = 0);
 
