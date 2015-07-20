@@ -74,6 +74,8 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    SetReadOnly(kFALSE);
    SetScanGlobalDir(kFALSE);
 
+   SetAutoLoadGo4("jq;go4sys/html/go4.js");
+
    fAnalysisStatus = TGo4Analysis::Instance()->CreateWebStatus();
 
    fAnalysisStatus->SetName("Analysis");
@@ -163,8 +165,10 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    }
 
    RegisterObject("/Control", fAnalysisStatus);
-   SetItemField("/Control/Analysis", "_prereq", "jq");
-   SetItemField("/Control/Analysis", "_autoload", "go4sys/html/go4.js");
+   if (!HasAutoLoadMethod()) {
+      SetItemField("/Control/Analysis", "_prereq", "jq");
+      SetItemField("/Control/Analysis", "_autoload", "go4sys/html/go4.js");
+   }
    SetItemField("/Control/Analysis", "_icon", "go4sys/icons/control.png");
    SetItemField("/Control/Analysis", "_not_monitor", "true");
 
@@ -180,8 +184,10 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    RestrictGo4("/Parameters", "allow=controller,admin&allow_method=CreateStatus");
 
    // set at the end when other items exists
-   SetItemField("/", "_prereq", "jq");
-   SetItemField("/", "_autoload", "go4sys/html/go4.js");
+   if (!HasAutoLoadMethod()) {
+      SetItemField("/", "_prereq", "jq");
+      SetItemField("/", "_autoload", "go4sys/html/go4.js");
+   }
    SetItemField("/", "_icon", "go4sys/icons/go4logo2_small.png");
    SetItemField("/", "_title", "GO4 analysis");
    SetItemField("/", "_analysis_name", TGo4Analysis::Instance()->GetName());
@@ -217,6 +223,8 @@ TGo4Sniffer::~TGo4Sniffer()
 
 void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
 {
+   rec.SetField("_toptitle", "Go4 http server");
+
    TRootSniffer::ScanRoot(rec);
 
    TGo4AnalysisObjectManager* om = TGo4Analysis::Instance() ? TGo4Analysis::Instance()->ObjectManager() : 0;
@@ -263,9 +271,10 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
    }
 
    if (obj && obj->InheritsFrom(TGo4Parameter::Class())) {
-      // rec.SetField("_more", "true");
-      rec.SetField("_prereq", "jq");
-      rec.SetField("_autoload", "go4sys/html/go4.js");
+      if (!HasAutoLoadMethod()) {
+         rec.SetField("_prereq", "jq");
+         rec.SetField("_autoload", "go4sys/html/go4.js");
+      }
       rec.SetField("_drawfunc", "GO4.drawParameter");
       rec.SetField("_drawscript", "go4sys/html/pareditor.js");
       rec.SetField("_drawopt", "editor");
@@ -274,8 +283,10 @@ void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
    }
 
    if (obj && obj->InheritsFrom(TGo4Condition::Class())) {
-      rec.SetField("_prereq", "jq");
-      rec.SetField("_autoload", "go4sys/html/go4.js");
+      if (!HasAutoLoadMethod()) {
+         rec.SetField("_prereq", "jq");
+         rec.SetField("_autoload", "go4sys/html/go4.js");
+      }
       rec.SetField("_icon", "go4sys/icons/condedit.png");
       return;
    }
@@ -673,4 +684,23 @@ void TGo4Sniffer::RestrictGo4(const char* path, const char* options)
 
    call.Execute(this);
 }
+
+Bool_t TGo4Sniffer::HasAutoLoadMethod()
+{
+   return IsA()->GetMethodAllAny("SetAutoLoad") != 0;
+}
+
+Bool_t TGo4Sniffer::SetAutoLoadGo4(const char* script)
+{
+   if (!HasAutoLoadMethod()) return kFALSE;
+
+   TString call_args = TString::Format("\"%s\"", script);
+
+   TMethodCall call(IsA(), "SetAutoLoad", call_args.Data());
+
+   call.Execute(this);
+
+   return kTRUE;
+}
+
 

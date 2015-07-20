@@ -53,6 +53,12 @@ class TGo4Sniffer : public TRootSniffer,
       /** Wrapper for new method in TRootSniffer */
       void RestrictGo4(const char* path, const char* options);
 
+      /** Indicate if SetAutoLoad method exists */
+      Bool_t HasAutoLoadMethod();
+
+      /** Wrapper for new method in TRootSniffer */
+      Bool_t SetAutoLoadGo4(const char* script);
+
       static THttpServer* gHttpServer;
 
    public:

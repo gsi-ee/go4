@@ -177,6 +177,4 @@
 
    JSROOT.addDrawFunc("TGo4MsgList", GO4.DrawMsgList, "");
 
-
-
 })();
