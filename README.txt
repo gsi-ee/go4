@@ -85,13 +85,13 @@ QT INSTALLATION
   To compile Qt, call:
   
      shell> gmake
-     
+
   Optionally, one can cleanup all intermediate files to save at least 1.5G disk space:
-     
+
      shell> gmake clean
-     
+
   After compilation set environment variables e.g.
-  
+
      shell> export QTDIR=$PWD 
      shell> export PATH=$PATH:$QTDIR/bin
      shell> export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$QTDIR/lib
