@@ -3995,42 +3995,50 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt,
    if (dosuperimpose)
       drawopt = "";
 
-   TH1* framehisto =
-      (dosuperimpose && (firstgr != 0)) ?
-         firstgr->GetHistogram() : mg->GetHistogram();
+   TH1* framehisto = (dosuperimpose && (firstgr != 0)) ? firstgr->GetHistogram() : mg->GetHistogram();
 
    if (framehisto == 0) {
       // this is workaround to prevent recreation of framehistogram in TMultiGraph::Paint
       mg->Draw(drawopt.Data());
-      framehisto =  (dosuperimpose && (firstgr != 0)) ?
-                       firstgr->GetHistogram() : mg->GetHistogram();
+      framehisto = (dosuperimpose && (firstgr != 0)) ? firstgr->GetHistogram() : mg->GetHistogram();
    }
 
-   if (framehisto != 0) {
-      SetSelectedRangeToHisto(pad, framehisto, 0, padopt, false);
-      // avoid flicker of range when in fullscale: set range before and after draw
-      Double_t miny, maxy, selmin, selmax;
-      if (padopt->GetFullRange(1, miny, maxy)
-            && !padopt->GetRangeY(selmin, selmax)) {
-         framehisto->SetMaximum(maxy);
-         framehisto->SetMinimum(miny);
-      }
-
-      framehisto->SetStats(kFALSE); // never draw statistics with multigraph
-      framehisto->SetBit(TH1::kNoTitle, !padopt->IsHisTitle());
-
-      // set title of first TGraph to TMultiGraph and frame histo
-      if (firstgr != 0) {
-         mg->SetTitle(firstgr->GetTitle());
-         framehisto->SetTitle(firstgr->GetTitle());
-         framehisto->GetXaxis()->SetTitle(firstgr->GetXaxis()->GetTitle());
-         framehisto->GetYaxis()->SetTitle(firstgr->GetYaxis()->GetTitle());
-      }
-      mg->Draw(drawopt.Data());
-
+   if (framehisto == 0) {
+      TGo4Log::Error("Internal problem with MultiGraph drawing - cannot access frame histo");
+      return;
    }
 
    SetSelectedRangeToHisto(pad, framehisto, 0, padopt, false);
+
+   // try to avoid flicker of range when in fullscale: set range before and after draw
+   Double_t miny, maxy, selmin, selmax;
+   if (padopt->GetFullRange(1, miny, maxy) && !padopt->GetRangeY(selmin, selmax)) {
+      if (padopt->GetLogScale(1)) {
+         if (maxy <= 0) maxy = 1.;
+         if ((miny <= 0) || (miny >= maxy)) {
+            miny = maxy * 1e-4;
+            if (miny > 1.) miny = 1.;
+         }
+      } else {
+         maxy *= ((maxy>0) ? 1.1 : 0.9);
+         miny *= ((miny>0) ? 0.9 : 1.1);
+      }
+      framehisto->SetMaximum(maxy);
+      framehisto->SetMinimum(miny);
+   }
+
+   framehisto->SetStats(kFALSE); // never draw statistics with multigraph
+   framehisto->SetBit(TH1::kNoTitle, !padopt->IsHisTitle());
+
+   // set title of first TGraph to TMultiGraph and frame histo
+   if (firstgr != 0) {
+      mg->SetTitle(firstgr->GetTitle());
+      framehisto->SetTitle(firstgr->GetTitle());
+      framehisto->GetXaxis()->SetTitle(firstgr->GetXaxis()->GetTitle());
+      framehisto->GetYaxis()->SetTitle(firstgr->GetYaxis()->GetTitle());
+   }
+
+   mg->Draw(drawopt.Data());
 }
 
 void TGo4ViewPanel::RedrawImage(TPad *pad, TGo4Picture* padopt, TGo4ASImage* im,
@@ -4761,12 +4769,10 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
       // if scale axis is log, prevent negative values, otherwise
       // histogram will not be displayed
       if (padopt->GetLogScale(ndim)) {
-         if (hmax <= 0)
-            hmax = 1.;
+         if (hmax <= 0) hmax = 1.;
          if ((hmin <= 0) || (hmin >= hmax)) {
             hmin = hmax * 1e-4;
-            if (hmin > 1.)
-               hmin = 1;
+            if (hmin > 1.) hmin = 1;
          }
       }
 
