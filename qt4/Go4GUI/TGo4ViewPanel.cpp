@@ -2577,9 +2577,7 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
 
    // if error, no superimpose is allowed
    if (iserror || (ishstack && isgstack)) {
-      std::cerr
-            << "Error detected: superimpose of multiple objects with different types"
-            << std::endl;
+      std::cerr << "Error detected: superimpose of multiple objects with different types" << std::endl;
       return 0;
    }
 
@@ -2639,11 +2637,10 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
          if (drawopt.Length() == 0)
             drawopt = go4sett->getTGraphDrawOpt().toLatin1().constData();
 
-         if (n > 0) {
-            // suppress multiple drawing of axis for subgraphs
-            drawopt.ReplaceAll("a", "");
-            drawopt.ReplaceAll("A", "");
-         }
+         drawopt.ToLower();
+
+         // suppress multiple drawing of axis for subgraphs
+         if (n > 0) drawopt.ReplaceAll("a", "");
 
          Bool_t first_draw = objslot->GetPar("::FirstDraw") != 0;
 
