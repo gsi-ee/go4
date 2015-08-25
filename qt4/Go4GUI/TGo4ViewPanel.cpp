@@ -65,6 +65,7 @@
 #include "QRootCanvas.h"
 #include "QRootApplication.h"
 
+#include "TGo4Log.h"
 #include "TGo4Picture.h"
 #include "TGo4Fitter.h"
 #include "TGo4Marker.h"
@@ -2577,7 +2578,7 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
 
    // if error, no superimpose is allowed
    if (iserror || (ishstack && isgstack)) {
-      std::cerr << "Error detected: superimpose of multiple objects with different types" << std::endl;
+      TGo4Log::Error("Superimpose of multiple objects with different types");
       return 0;
    }
 
@@ -3379,7 +3380,7 @@ void TGo4ViewPanel::ProcessPictureRedraw(const char* picitemname, TPad* pad, TGo
 
    TGo4Picture* padopt = GetPadOptions(pad);
    if (padopt == 0) {
-      std::cerr << "!!!!!!!! Should not be" << std::endl;
+      TGo4Log::Error("Internal problem in view panel redraw");
       return;
    }
 
@@ -4334,10 +4335,7 @@ void TGo4ViewPanel::SetPadDefaults(TPad* pad)
                light->SetRGB(0.8, 0.8, 0.8);
          }
       } else { // if(normal)
-         std::cerr
-               << "TGo4ViewPanel:: Could not assign root shadow colors for number "
-               << padfillcolor << std::endl;
-         std::cerr << "Never come here!!!" << std::endl;
+         TGo4Log::Error("Internal problem in view panel: Could not assign root shadow colors for number %d",  padfillcolor);
       }
    }
 
