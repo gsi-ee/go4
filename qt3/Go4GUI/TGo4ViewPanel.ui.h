@@ -2559,11 +2559,10 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Picture* padopt,
          if (drawopt.Length() == 0)
             drawopt = "AP";
 
-         if (n > 0) {
-            // suppress multiple drawing of axis for subgraphs
-            drawopt.ReplaceAll("a", "");
-            drawopt.ReplaceAll("A", "");
-         }
+         drawopt.ToLower();
+
+         // suppress multiple drawing of axis for subgraphs
+         if (n > 0) drawopt.ReplaceAll("a", "");
 
          if ((resetcolors) || (kind == kind_FitModels)
                || (slot->GetPar("::FirstDraw") != 0)) {
