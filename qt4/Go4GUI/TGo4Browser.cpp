@@ -647,6 +647,16 @@ void TGo4Browser::ListView_customContextMenuRequested(const QPoint& pos)
                    nsuperimpose++;
                 }
               }
+           // JAM test for TF1:
+              else
+                if (cl->InheritsFrom("TF1")) {
+                  if ((si_kind<0) || (si_kind==3)) {
+                    si_kind=3;
+                    nsuperimpose++;
+                  }
+                }
+
+
          }
 
          if (TGo4BrowserProxy::CanEditItem(cando))

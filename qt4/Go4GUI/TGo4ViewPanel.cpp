@@ -348,7 +348,7 @@ void TGo4ViewPanel::linkedUpdated(TGo4Slot* slot, TObject* obj)
       padslot = slot->GetParent();
 
    if (((kind > 0) && (kind < 100)) || (kind == kind_Condition)
-         || (kind == kind_Latex)) {
+         || (kind == kind_Latex) || (kind == kind_Func)) {
       TGo4Picture* padopt = GetPadOptions(padslot);
 
       if (padopt != 0) {
@@ -386,7 +386,7 @@ void TGo4ViewPanel::linkedRemoved(TGo4Slot* slot, TObject* obj)
    CheckObjectsAssigments(GetSlotPad(padslot), padslot);
 
    if (((kind > 0) && (kind < 100)) || (kind == kind_Condition)
-         || (kind == kind_Latex)) {
+         || (kind == kind_Latex) || (kind == kind_Func)) {
       CleanupGedEditor();
       TGo4Picture* padopt = GetPadOptions(padslot);
       if (padopt != 0) {
@@ -561,7 +561,7 @@ TPad* TGo4ViewPanel::FindPadWithItem(const char* itemname)
    while (iter.next()) {
       TGo4Slot* subslot = iter.getslot();
       int drawkind = GetDrawKind(subslot);
-      if ((drawkind == kind_Link) || (drawkind == kind_Condition) || (drawkind == kind_Latex)) {
+      if ((drawkind == kind_Link) || (drawkind == kind_Condition) || (drawkind == kind_Latex) || (drawkind == kind_Func)) {
          const char* linkname = GetLinkedName(subslot);
          if (linkname != 0)
             if (strcmp(linkname, itemname) == 0)
@@ -601,7 +601,7 @@ void TGo4ViewPanel::UndrawItemOnPanel(const char* itemname)
    while (iter.next()) {
       TGo4Slot* subslot = iter.getslot();
       int drawkind = GetDrawKind(subslot);
-      if ((drawkind == kind_Link) || (drawkind == kind_Condition) || (drawkind == kind_Latex)) {
+      if ((drawkind == kind_Link) || (drawkind == kind_Condition) || (drawkind == kind_Latex) || (drawkind == kind_Func)) {
          const char* linkname = GetLinkedName(subslot);
          if ((linkname != 0) && (strcmp(linkname, itemname) == 0)) {
             delslots.Add(subslot);
@@ -1744,7 +1744,7 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad,
       int kind = GetDrawKind(subslot);
 
       if ((kind == kind_Arrow) || (kind == kind_Latex) || (kind == kind_Marker)
-            || (kind == kind_Window) || (kind == kind_Poly)
+            || (kind == kind_Window) || (kind == kind_Poly) || (kind == kind_Func)
             || (kind == kind_Specials)) {
          TObject* obj = subslot->GetAssignedObject();
          const char* drawopt = GetSpecialDrawOption(subslot);
@@ -1776,6 +1776,27 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad,
 
                }
             } // if latex
+            // JAM test
+            TF1* fun = dynamic_cast<TF1*>(obj);
+                        if (fun != 0) {
+                           // test here if we have local function or monitored remote one
+                           TGo4Proxy* prox = subslot->GetProxy();
+                           TGo4ObjectProxy* oprox = dynamic_cast<TGo4ObjectProxy*>(prox);
+                           TGo4LinkProxy* lprox = dynamic_cast<TGo4LinkProxy*>(prox);
+                           if (oprox != 0) {
+                              //std::cout <<"MakePictureForPad adding local TF1 object "<< obj->GetName()<< std::endl;
+                              pic->AddSpecialObject(obj, drawopt);
+                           } else if (lprox) {
+                              const char* itemname = GetLinkedName(subslot);
+                              //std::cout <<"MakePictureForPad adding linked TF1 object "<<itemname<< std::endl;
+                              if (itemname != 0)
+                                 pic->AddObjName(itemname, drawopt);
+                              delete obj; // remove initial clone which is not registered
+                           } else {
+                               std::cout <<"MakePictureForPad NEVER COME HERE unknown proxy:"<< (long) prox<< std::endl;
+
+                           }
+                        } // if TF1
             else {
                pic->AddSpecialObject(obj, drawopt);
             }
@@ -2579,6 +2600,7 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
    // if error, no superimpose is allowed
    if (iserror || (ishstack && isgstack)) {
       TGo4Log::Error("Superimpose of multiple objects with different types");
+      std::cout<< "SSSSSSSSS Superimpose of multiple objects with different types"<< std::endl;
       return 0;
    }
 
@@ -3304,7 +3326,11 @@ void TGo4ViewPanel::CheckForSpecialObjects(TPad *pad, TGo4Slot* padslot)
          SetDrawKind(subslot, kind_Latex);
          continue;
       }
-
+      // JAM test
+      if (obj->InheritsFrom(TF1::Class())) {
+        SetDrawKind(subslot, kind_Func);
+        continue;
+           }
       if (pic == 0) {
          pic = dynamic_cast<TGo4Picture*>(obj);
          if (pic != 0)
@@ -4082,7 +4108,7 @@ void TGo4ViewPanel::RedrawSpecialObjects(TPad *pad, TGo4Slot* padslot)
    QString selname = GetSelectedMarkerName(pad);
    TObject* selectedobj = 0;
    const char* selectdrawopt = 0;
-
+   Int_t numtf1=0;
    for (int n = 0; n < padslot->NumChilds(); n++) {
       TGo4Slot* subslot = padslot->GetChild(n);
 
@@ -4091,24 +4117,35 @@ void TGo4ViewPanel::RedrawSpecialObjects(TPad *pad, TGo4Slot* padslot)
       if ((kind < kind_Specials) || (kind >= kind_Other))
          continue;
 
-      const char* drawopt = GetSpecialDrawOption(subslot);
-
       TObject* obj = subslot->GetAssignedObject();
-
       if (obj == 0)
          continue;
 
+      TString drawopt = GetSpecialDrawOption(subslot);
+      if(obj->InheritsFrom(TF1::Class())){
+        if(!pad->GetListOfPrimitives()->IsEmpty())
+          drawopt.Append("LSAME"); // for correct overlay of TF1 objects JAM
+        TF1* func=dynamic_cast<TF1*>(obj);
+        Int_t objindx = padslot->GetIndexOf(subslot);
+        func->SetLineColor(((objindx +7)   % 9) + 2); // 9 basic colors for superimpose of tf1, like for other superimpose
+      }
+
       if ((selname == obj->GetName()) && (selectedobj == 0)) {
          selectedobj = obj;
-         selectdrawopt = drawopt;
+         selectdrawopt = drawopt.Data();
       } else
-         obj->Draw(drawopt ? drawopt : "");
-   }
+        {
+           obj->Draw(drawopt.Data());
+           //std::cout<<"RedrawSpecialObjects has drawn" << obj->GetName()<<"with draw options "<<drawopt.Data() << std::endl;
+        }
+      }
 
    // if one has selected object on the pad, one should
    // draw it as last to bring it to the front of other
    if (selectedobj != 0)
       selectedobj->Draw(selectdrawopt ? selectdrawopt : "");
+
+
 }
 
 bool TGo4ViewPanel::IsApplyToAllFlag()

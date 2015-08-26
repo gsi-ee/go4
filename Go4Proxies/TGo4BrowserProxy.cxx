@@ -246,6 +246,7 @@ void TGo4BrowserProxy::Initialize(TGo4Slot* slot)
    gROOT->GetClass("TGo4HistogramEntry");
    gROOT->GetClass("TGo4TreeHistogramEntry");
    gROOT->GetClass("TLatex");
+   gROOT->GetClass("TF1"); // JAM test
    gROOT->GetClass("TGo4AnalysisStatus");
 
    if (fxOM!=0)
@@ -2050,6 +2051,7 @@ Int_t TGo4BrowserProxy::DefineItemProperties(Int_t kind, TClass* cl, TString& pi
         if (cl->InheritsFrom(TGo4TreeHistogramEntry::Class())) { cando = 1011; pixmap = "dynentryx.png"; } else
         if (cl->InheritsFrom(TGo4HistogramEntry::Class())) { cando = 1011; pixmap = "dynentryx.png"; } else
         if (cl->InheritsFrom(TLatex::Class())) { cando = 110; pixmap = "canvas.png"; } else
+        if (cl->InheritsFrom(TF1::Class())) { cando = 110; pixmap = "draw1dline.png"; } else
         if (cl->InheritsFrom(TLeaf::Class())) { cando = 11; pixmap = "leaf_t.png"; } else
         if (cl->InheritsFrom(TGo4AnalysisStatus::Class())) { cando = 1; pixmap = "control.png"; }
       }
@@ -2328,6 +2330,16 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
 
       return kTRUE;
    }
+   // JAM test
+   if (obj->InheritsFrom(TF1::Class())) {
+     //std::cout <<"Update object contents with TF1"<<obj->GetName() << std::endl;
+        TF1* f0 = dynamic_cast<TF1*> (obj);
+        TF1* f1 = dynamic_cast<TF1*> (newobj);
+        if ((f1==0) || (f0==0)) return kFALSE;
+        f1->Copy(*f0);
+        return kTRUE;
+     }
+
 
    return kFALSE;
 }

@@ -85,6 +85,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
          kind_Poly = 204,
          kind_Latex = 205,
          kind_Arrow = 206,
+         kind_Func = 207,
          kind_FitInfo = 221,
          kind_FitArrows = 222,
          kind_Other = 300,
