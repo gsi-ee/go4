@@ -52,6 +52,7 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
 
    setWindowTitle("Condition editor");
    ResetWidget();
+   CondTabs->setCurrentIndex(0);
    fiSelectedIndex = -1;
    parentWidget()->adjustSize();
    fbDrawOnNextRefresh = false;
@@ -192,7 +193,7 @@ void TGo4ConditionEditor::ResetWidget()
    ResultCombo->setEnabled(false);
    InvertCombo->setEnabled(false);
 
-   CondTabs->setTabEnabled(1, false);
+   CondTabs->setTabEnabled(1, false); 
    CondTabs->setTabEnabled(2, false);
 }
 
@@ -363,18 +364,27 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    }
 
    ShowEllipseWidget(econd!=0); // hide all elements on shape tab to reduce minimum window size
-   int oldindex = CondTabs->currentIndex();
    CondTabs->setCurrentIndex(2); // JAM: need this trick to retrieve actual tab limits with hidden icons?
-   CondTabs->setCurrentIndex(oldindex);
 
    CondTabs->setTabEnabled(1, (pcond!=0));
    CondTabs->setTabEnabled(2, (econd!=0));
-
-   if ((pcond==0) && ((CondTabs->currentIndex()==1) || (CondTabs->currentIndex()==2)))
-     CondTabs->setCurrentIndex(0);
-
-   if (pcond!=0) FillCutWidget(pcond->GetCut(kFALSE));
-   if (econd!=0) FillEllipseWidget(econd);
+  if (pcond != 0)
+  {
+    FillCutWidget(pcond->GetCut(kFALSE));
+    if (econd != 0)
+    {
+      FillEllipseWidget(econd);
+      CondTabs->setCurrentIndex(2);
+    }
+    else
+    {
+      CondTabs->setCurrentIndex(1);
+    }
+  }
+  else
+  {
+    CondTabs->setCurrentIndex(0);
+  }
 
    IntBox->setChecked(cond->IsIntDraw());
    MaxCBox->setChecked(cond->IsCMaxDraw());
