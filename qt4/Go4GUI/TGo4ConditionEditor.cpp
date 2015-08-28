@@ -368,7 +368,10 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    CondTabs->setCurrentIndex(oldindex);
 
   if ((pcond==0) && ((CondTabs->currentIndex()==1) || (CondTabs->currentIndex()==2)))
-     CondTabs->setCurrentIndex(0); // switch to wincond defaults when changing con type
+     CondTabs->setCurrentIndex(0); // switch to wincond defaults when changing from polycond type
+
+  if ((econd==0) && (pcond!=0) &&  (CondTabs->currentIndex()==2))
+      CondTabs->setCurrentIndex(1); // switch to polycond defaults when changing from shape type
 
 
    CondTabs->setTabEnabled(1, (pcond!=0));
