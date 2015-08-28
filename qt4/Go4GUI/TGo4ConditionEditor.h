@@ -35,7 +35,7 @@ class TGo4ConditionEditor : public QGo4Widget, public Ui::TGo4ConditionEditor
     virtual void linkedObjectRemoved( const char * linkname );
     virtual void WorkWithCondition( const char * itemname );
     virtual void ResetWidget();
-    virtual void RefreshWidget( bool checkindex );
+    virtual void RefreshWidget( bool checkindex);
     virtual TGo4Condition * SelectedCondition();
     virtual bool UpdateLimits();
     virtual void ChangeConditionProperty( int id, bool on );
@@ -96,8 +96,8 @@ protected:
     int fiSelectedIndex;
     bool fbDrawOnNextRefresh;
     int fiLastChangeValue;
-
     bool fbEllipseAutoRefresh;
+    bool fbNewWindow;
 
  };
 

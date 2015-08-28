@@ -52,13 +52,13 @@ TGo4ConditionEditor::TGo4ConditionEditor(QWidget *parent, const char* name) :
 
    setWindowTitle("Condition editor");
    ResetWidget();
-   CondTabs->setCurrentIndex(0);
    fiSelectedIndex = -1;
    parentWidget()->adjustSize();
    fbDrawOnNextRefresh = false;
    fbEllipseAutoRefresh = false;
    fiLastChangeValue = -1;
    CutTable->setContextMenuPolicy(Qt::CustomContextMenu);
+   fbNewWindow=true;
 }
 
 
@@ -158,8 +158,8 @@ void TGo4ConditionEditor::WorkWithCondition(const char* itemname)
    }
 
    RefreshWidget(false);
-
    setFocus();
+
 }
 
 void TGo4ConditionEditor::ResetWidget()
@@ -193,15 +193,14 @@ void TGo4ConditionEditor::ResetWidget()
    ResultCombo->setEnabled(false);
    InvertCombo->setEnabled(false);
 
-   CondTabs->setTabEnabled(1, false); 
-   CondTabs->setTabEnabled(2, false);
+   //CondTabs->setTabEnabled(1, false);
+   //CondTabs->setTabEnabled(2, false);
 }
 
 void TGo4ConditionEditor::RefreshWidget(bool checkindex)
 {
    TGo4Condition* cond = dynamic_cast<TGo4Condition*>(GetLinked("Condition", 0));
    if (cond==0) return;
-
    const char* conditemname = GetLinkedName("Condition");
    TGo4ViewPanel* panel = WhereItemDrawn(conditemname);
    TPad* pad = panel==0 ? 0 : panel->FindPadWithItem(conditemname);
@@ -364,26 +363,34 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
    }
 
    ShowEllipseWidget(econd!=0); // hide all elements on shape tab to reduce minimum window size
+   int oldindex = CondTabs->currentIndex();
    CondTabs->setCurrentIndex(2); // JAM: need this trick to retrieve actual tab limits with hidden icons?
+   CondTabs->setCurrentIndex(oldindex);
+
+  if ((pcond==0) && ((CondTabs->currentIndex()==1) || (CondTabs->currentIndex()==2)))
+     CondTabs->setCurrentIndex(0); // switch to wincond defaults when changing con type
+
 
    CondTabs->setTabEnabled(1, (pcond!=0));
    CondTabs->setTabEnabled(2, (econd!=0));
+
+
   if (pcond != 0)
   {
     FillCutWidget(pcond->GetCut(kFALSE));
     if (econd != 0)
     {
       FillEllipseWidget(econd);
-      CondTabs->setCurrentIndex(2);
+      if (fbNewWindow) CondTabs->setCurrentIndex(2);
     }
     else
     {
-      CondTabs->setCurrentIndex(1);
+      if (fbNewWindow) CondTabs->setCurrentIndex(1);
     }
   }
   else
   {
-    CondTabs->setCurrentIndex(0);
+    if (fbNewWindow) CondTabs->setCurrentIndex(0);
   }
 
    IntBox->setChecked(cond->IsIntDraw());
@@ -415,6 +422,7 @@ void TGo4ConditionEditor::RefreshWidget(bool checkindex)
          Browser()->DefineRelatedObject(conditemname, hname, hitemname))
            DrawCondition(false);
    }
+   fbNewWindow=false;
 }
 
 TGo4Condition* TGo4ConditionEditor::SelectedCondition()
