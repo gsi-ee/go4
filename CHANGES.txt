@@ -24,6 +24,8 @@ Changes in Go4 v5.0.x
 1. One can register Start/Stop/Clear commands in any place of THttpServer hierarchy.
    Such commands recognized by the GUI and used when pressing Start/Stop analysis buttons
    or Clear analysis objects button 
+2. Allow to use graphics in analysis. With "-gr" or "-graphics" option one enable ROOT graphics.
+   User can create and update canvas or any other TG... object. 
 
 
 Changes in Go4 v5.0.0
