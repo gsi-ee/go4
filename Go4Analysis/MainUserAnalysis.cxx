@@ -17,6 +17,7 @@
 
 #include "TROOT.h"
 #include "TClass.h"
+#include "TCanvas.h"
 #include "TClassTable.h"
 #include "TMethod.h"
 #include "TMethodArg.h"
@@ -28,6 +29,8 @@
 #include "RVersion.h"
 #include "TSysEvtHandler.h"
 #include "TInterpreter.h"
+#include "TStyle.h"
+#include "TApplication.h"
 
 #include "TGo4Version.h"
 #include "TGo4StepFactory.h"
@@ -152,6 +155,7 @@ void usage(const char* subtopic = 0)
    std::cout << "  -rate                       : display rate information during run" << std::endl;
    std::cout << "  -print [sub=N] [hex|dec]    : print events, see -help print for more info" << std::endl;
    std::cout << "  -help [topic]               : show this help or for selected topic" << std::endl;
+   std::cout << "  -graphics                   : enable graphics in the analysis" << std::endl;
    std::cout << "" << std::endl;
    std::cout << "ANALYSIS: common analysis configurations" << std::endl;
    std::cout << "  -name name             :  specify analysis instance name" << std::endl;
@@ -688,9 +692,9 @@ int main(int argc, char **argv)
       return -1;
    }
 
-//   int app_argc = 2;
-//   char* app_argv[] = { argv[0], (char*) "-b" };
-//   TApplication theApp("Go4App", &app_argc, app_argv);
+   int app_argc = 1;
+   // char* app_argv[] = { argv[0], (char*) "-l" };
+   // TApplication theApp("Go4App", &app_argc, argv);
 
    gROOT->SetBatch(kTRUE);
 
@@ -1038,6 +1042,14 @@ int main(int argc, char **argv)
       } else
       if((strcmp(argv[narg],"-v")==0) || (strcmp(argv[narg],"-v0")==0) || (strcmp(argv[narg],"-v1")==0) || (strcmp(argv[narg],"-v2")==0) || (strcmp(argv[narg],"-v3")==0)) {
          narg++;
+      } else
+      if((strcmp(argv[narg],"-graphics")==0) || (strcmp(argv[narg],"-gr")==0)) {
+         narg++;
+         gROOT->SetBatch(kFALSE);
+         process_interv = 0.1; // allow system events processing
+         new TApplication("Go4App", &app_argc, argv);
+         TStyle::BuildStyles();
+         gROOT->SetStyle();
       } else
       if(strcmp(argv[narg],"-run")==0) {
          narg++;
