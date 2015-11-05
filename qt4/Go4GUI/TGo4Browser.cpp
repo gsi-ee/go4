@@ -994,12 +994,13 @@ void TGo4Browser::ContextMenuActivated(int id)
 
             case 42: {  // rename memory item
               bool ok = false;
+              QString shortitemname=itemname.section("/",-1);
               QString newname =
                 QInputDialog::getText(this,
                                       "Rename item in workspace",
                                       "Input new item name",
                                       QLineEdit::Normal,
-                                      QString::null,
+                                      shortitemname, //QString::null,
                                       &ok);
                if (ok) br->RenameMemoryItem(itemname.toLatin1().constData(), newname.toLatin1().constData());
                break;
