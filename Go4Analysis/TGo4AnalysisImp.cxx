@@ -166,8 +166,7 @@ void TGo4Analysis::SetRunningMode(int mode)
 
 
 TGo4Analysis::TGo4Analysis(const char* name) :
-   TGo4CommandReceiver(),
-   TObject(),
+   TObject(),TGo4CommandReceiver(),
    fbInitIsDone(kFALSE),
    fbAutoSaveOn(kTRUE),
    fxAnalysisSlave(0),
@@ -205,8 +204,7 @@ TGo4Analysis::TGo4Analysis(const char* name) :
 
 
 TGo4Analysis::TGo4Analysis(int argc, char** argv) :
-   TGo4CommandReceiver(),
-   TObject(),
+   TObject(),TGo4CommandReceiver(),
    fbInitIsDone(kFALSE),
    fbAutoSaveOn(kTRUE),
    fxAnalysisSlave(0),
