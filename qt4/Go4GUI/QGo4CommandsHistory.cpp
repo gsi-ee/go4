@@ -15,11 +15,14 @@
 
 #include <QKeyEvent>
 
+#define GO4_COMHIS_MAX 50
+
+
 QGo4CommandsHistory::QGo4CommandsHistory(QWidget* w, const char* name) :
     QComboBox(w)
 {
    setObjectName(name ? name : "Go4CommandsHistory");
-   setMaxCount(50);
+   setMaxCount(GO4_COMHIS_MAX);
    setInsertPolicy(InsertAtTop);
    setDuplicatesEnabled(false);
    setAutoCompletion(true);
@@ -32,8 +35,10 @@ QGo4CommandsHistory::~QGo4CommandsHistory()
 
 void QGo4CommandsHistory::keyPressEvent(QKeyEvent* e)
 {
-   if (e->key()==Qt::Key_Return)
-      emit enterPressedSingal();
+   if (e->key()==Qt::Key_Return){
+     if(count()>=GO4_COMHIS_MAX)  setInsertPolicy(InsertAtCurrent); // overwrite last command
+     emit enterPressedSingal();
+   }
 
    QComboBox::keyPressEvent(e);
 }

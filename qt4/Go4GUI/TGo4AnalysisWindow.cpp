@@ -45,7 +45,6 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
 
     setCanDestroyWidget(false);
     setAcceptDrops(false);
-
     fAnalysisProcess = 0;
     fxOutput = 0;
     outputBuffer = "";
@@ -102,7 +101,7 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
 void TGo4AnalysisWindow::CreateCmdLine(QHBoxLayout* box)
 {
    fxCmdHist = new QGo4CommandsHistory(this, "commandslist");
-   fxCmdHist->setToolTip("CINT command for analysis process. Note: '@' means 'TGo4Analysis::Instance()->' .");
+   fxCmdHist->setToolTip("CINT command for analysis process. Note: '@' means 'TGo4Analysis::Instance()->' . A leading '$' will invoke Python script.");
    connect(fxCmdHist, SIGNAL(enterPressedSingal()), this, SLOT(CommandSlot()));
    fxCmdHist->setMinimumSize( QSize( 220, 25 ) );
 
@@ -343,35 +342,66 @@ void TGo4AnalysisWindow::CommandSlot()
 void TGo4AnalysisWindow::FileDialog_Macro()
 {
    QFileDialog fd( this,
-                  "Select ROOT macro for analysis task"
-                  "", "CINT Macro  (*.C)");
+                  "Select ROOT macro for analysis task",
+                  "", "CINT Macro(*.C);;Python script(*.py)");
    fd.setFileMode( QFileDialog::ExistingFile);
 
    if (fd.exec() != QDialog::Accepted) return;
-
+   //std::cout <<"accepted fd.exec " << std::endl;
    QStringList flst = fd.selectedFiles();
    if (flst.isEmpty()) return;
+   //std::cout <<"Got file name "<< flst[0].toLatin1().constData() << std::endl;
+   bool iscint = fd.selectedNameFilter().contains(".C");
+   bool ispyth = fd.selectedNameFilter().contains(".py");
+   QString cmd;
+   if(iscint)
+   {
+     cmd = QString(".x ") + flst[0];
+   }
+   else if(ispyth)
+   {
+     cmd = QString("$") + flst[0];
+   }
+   else
+   {
+     // never come here, but anyway...
+     cmd = QString(".x ") + flst[0];
+     if(!cmd.endsWith(".C")) cmd.append(".C");
+   }
+   int index=fxCmdHist->findText(cmd);
+   if(index<0)
+     {
+       fxCmdHist->insertItem(-1,cmd);
+       index=fxCmdHist->findText(cmd);
+     }
+     //std::cout <<"inserted item "<< cmd.toLatin1().constData() << std::endl;
+   fxCmdHist->setCurrentIndex(index);
 
-   QString cmd = QString(".x ") + flst[0];
-   if(!cmd.endsWith(".C")) cmd.append(".C");
-
-   fxCmdHist->addItem(cmd);
-   fxCmdHist->setCurrentIndex(fxCmdHist->findText(cmd));
 }
 
 void TGo4AnalysisWindow::PrintHistograms()
 {
    const QString cmd = "@PrintHistograms()";
-   fxCmdHist->addItem(cmd);
-   fxCmdHist->setCurrentIndex(fxCmdHist->findText(cmd));
+   int index=fxCmdHist->findText(cmd);
+   if(index<0)
+     {
+     fxCmdHist->insertItem(-1,cmd);
+     index=fxCmdHist->findText(cmd);
+     }
+   fxCmdHist->setCurrentIndex(index);
    CommandSlot();
 }
 
 void TGo4AnalysisWindow::PrintConditions()
 {
    const QString cmd = "@PrintConditions()";
-   fxCmdHist->addItem(cmd);
-   fxCmdHist->setCurrentIndex(fxCmdHist->findText(cmd));
+   int index=fxCmdHist->findText(cmd);
+   if(index<0)
+     {
+       fxCmdHist->insertItem(-1,cmd);
+       index=fxCmdHist->findText(cmd);
+      }
+   fxCmdHist->setCurrentIndex(index);
    CommandSlot();
 }
 
