@@ -70,7 +70,7 @@ class TGo4Ratemeter;
  * @since 19-jan-2001
  */
 
-class TGo4Analysis : public TGo4CommandReceiver, public TObject  {
+class TGo4Analysis : public TObject, public TGo4CommandReceiver  {
 
   friend class TGo4AnalysisStep;
   friend class TGo4AnalysisClient;

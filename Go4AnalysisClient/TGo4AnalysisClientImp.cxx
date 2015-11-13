@@ -526,6 +526,7 @@ void TGo4AnalysisClient::SubmitShutdown()
 
 void TGo4AnalysisClient::ExecuteString(const char* command)
 {
+   char pyprompt = '$';
    if(strstr(command,"ANHServStart")) {
       TString buffer = command;
       strtok((char*) buffer.Data(), ":"); // first find the command itself
@@ -536,6 +537,16 @@ void TGo4AnalysisClient::ExecuteString(const char* command)
    } else
    if (!strcmp(command,"ANHServStop")) {
       StopObjectServer();
+   } else
+   if (strchr(command,pyprompt) && (strchr(command,pyprompt) == strrchr(command,pyprompt))) {
+      // this one is by Sven Augustin, MPI Heidelberg
+      TString comstring = command;
+      comstring = comstring.Strip(TString::kBoth);
+      comstring = comstring.Strip(TString::kLeading,pyprompt);
+      comstring = comstring.Strip(TString::kLeading);
+      std::cout << "Executing Python script: " << comstring << std::endl;
+      comstring = "TPython::Bind(go4, \"go4\"); TPython::LoadMacro(\"" + comstring + "\")";
+      TGo4Slave::ExecuteString(comstring.Data());
    } else {
       TString comstring="";
       const char* cursor = command;
