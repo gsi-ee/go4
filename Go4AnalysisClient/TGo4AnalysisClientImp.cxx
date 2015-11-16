@@ -71,7 +71,8 @@ TGo4AnalysisClient::TGo4AnalysisClient(const char* name,
    fbAutoStart(autorun),
    fbCintMode(kFALSE),
    fbLoadPrefs(loadprefs),
-   fbShowRate(showrate)
+   fbShowRate(showrate),
+   fbPythonBound(kFALSE)
 {
    GO4TRACE((15,"TGo4AnalysisClient::TGo4AnalysisClient(const char*,...)",__LINE__, __FILE__));
 
@@ -101,7 +102,8 @@ TGo4AnalysisClient::TGo4AnalysisClient(int argc, char** argv,
    fbAutoStart(autorun),
    fbCintMode(kFALSE),
    fbLoadPrefs(kTRUE),
-   fbShowRate(kFALSE)
+   fbShowRate(kFALSE),
+   fbPythonBound(kFALSE)
 {
    GO4TRACE((15,"TGo4AnalysisClient::TGo4AnalysisClient(int, char**...)",__LINE__, __FILE__));
 
@@ -544,8 +546,13 @@ void TGo4AnalysisClient::ExecuteString(const char* command)
       comstring = comstring.Strip(TString::kBoth);
       comstring = comstring.Strip(TString::kLeading,pyprompt);
       comstring = comstring.Strip(TString::kLeading);
-      std::cout << "Executing Python script: " << comstring << std::endl;
-      comstring = "TPython::Bind(go4, \"go4\"); TPython::LoadMacro(\"" + comstring + "\")";
+      TGo4Log::Info("Executing Python script: %s", comstring.Data());
+      comstring = "TPython::LoadMacro(\"" + comstring + "\")";
+      if(!fbPythonBound)
+        {
+          comstring.Prepend("TPython::Bind(go4, \"go4\");" );
+          fbPythonBound=kTRUE;
+        }
       TGo4Slave::ExecuteString(comstring.Data());
    } else {
       TString comstring="";
