@@ -127,6 +127,7 @@ const char* TGo4Analysis::fgcDEFAULTSTATUSFILENAME="Go4AnalysisPrefs.root";
 const char* TGo4Analysis::fgcDEFAULTFILESUF=".root";
 const char* TGo4Analysis::fgcTOPDYNAMICLIST="Go4DynamicList";
 
+const char TGo4Analysis::fgcPYPROMPT = '$';
 
 TGo4Analysis* TGo4Analysis::Instance()
 {
@@ -191,6 +192,7 @@ TGo4Analysis::TGo4Analysis(const char* name) :
    fServerObserverPass(),
    fbMakeWithAutosave(kTRUE),
    fbObjMade(kFALSE),
+   fbPythonBound(kFALSE),
    fNumCtrlC(0),
    fSniffer(0),
    fxRate(0)
@@ -229,6 +231,7 @@ TGo4Analysis::TGo4Analysis(int argc, char** argv) :
    fServerObserverPass(),
    fbMakeWithAutosave(kTRUE),
    fbObjMade(kFALSE),
+   fbPythonBound(kFALSE),
    fNumCtrlC(0),
    fSniffer(0),
    fxRate(0)
@@ -2219,9 +2222,61 @@ Long_t TGo4Analysis::ExecuteScript(const char* macro_name)
    }
 
    TGo4Log::Info("Executing ROOT script %s", macro_name);
-   return gROOT->ProcessLineSync(Form(".x %s", macro_name));
+   return gROOT->ProcessLineSync(Form(".x %s", macro_name)); // here faster than ExecuteLine...
 }
 
+Long_t TGo4Analysis::ExecutePython(const char* macro_name, Int_t* errcode)
+{
+  if ((macro_name==0) || (strlen(macro_name)==0)) return -1;
+  TString comstring=macro_name;
+  comstring.Prepend(TGo4Analysis::fgcPYPROMPT); // emulate interactive command line mode here
+  return ExecuteLine(comstring.Data(), errcode);
+}
+
+
+Long_t TGo4Analysis::ExecuteLine(const char* command, Int_t* errcode)
+{
+  TString comstring;
+if (strchr(command,TGo4Analysis::fgcPYPROMPT) && (strchr(command,TGo4Analysis::fgcPYPROMPT) == strrchr(command,TGo4Analysis::fgcPYPROMPT))) {
+    // this one is by Sven Augustin, MPI Heidelberg
+    comstring = command;
+    comstring = comstring.Strip(TString::kBoth);
+    comstring = comstring.Strip(TString::kLeading,TGo4Analysis::fgcPYPROMPT);
+    comstring = comstring.Strip(TString::kLeading);
+    TGo4Log::Info("Executing Python script: %s", comstring.Data());
+    comstring = "TPython::LoadMacro(\"" + comstring + "\")";
+    if(!fbPythonBound)
+      {
+        comstring.Prepend("TPython::Bind(go4, \"go4\");" );
+        fbPythonBound=kTRUE;
+      }
+ } else {
+    comstring="";
+    const char* cursor = command;
+    const char* at=0;
+    do
+    {
+       Ssiz_t len=strlen(cursor);
+       at = strstr(cursor,"@");
+       if(at)
+       {
+          //std::cout <<"Found at: "<<at << std::endl;
+          len=(Ssiz_t) (at-cursor);
+          comstring.Append(cursor,len);
+          comstring.Append("TGo4Analysis::Instance()->");
+          cursor=at+1;
+       }
+       else
+       {
+          //std::cout <<"Appended "<<cursor << std::endl;
+          comstring.Append(cursor);
+       }
+    }
+    while(at);
+ }
+  TGo4Log::Info("ExecuteLine: %s", comstring.Data());
+  return gROOT->ProcessLineSync(comstring, errcode);
+ }
 
 void TGo4Analysis::StopAnalysis()
 {

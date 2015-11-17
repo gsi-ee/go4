@@ -349,6 +349,19 @@ class TGo4EventProcessor: public TGo4EventSource {
        * Returns -1 when script was not found or result of script execution */
       Long_t ExecuteScript(const char* script_name);
 
+      /** Executes Python script in ROOT interpreter.
+       * Will bind TGo4Analysis object to python go4 Symbol
+       * Errcode may be used to check ROOT interpreter error code.*/
+      Long_t ExecutePython(const char* macro_name, Int_t* errcode=0);
+
+      /** Process ROOT command line. Optionally provide pyroot binding:
+          *  a leading '$' will try to load and execute python script.
+          * Errcode may be used to check ROOT interpreter error code.
+          * Return value is result of command execution*/
+      Long_t ExecuteLine(const char* command, Int_t* errcode=0);
+
+
+
       /* if true, processor wants to continue with current content of input event
        * event is not refilled from event source, and all previous analysis steps are suspended*/
       Bool_t IsKeepInputEvent()

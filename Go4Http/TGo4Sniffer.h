@@ -39,6 +39,9 @@ class TGo4Sniffer : public TRootSniffer,
 
       TGo4MsgList fStatusMessages;
 
+      /** if true, python binding of go4 has alredy been done.*/
+      Bool_t fbPythonBound;
+
       virtual void ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj);
 
       /** Send message to gui - need to be implemented */
@@ -60,6 +63,9 @@ class TGo4Sniffer : public TRootSniffer,
       Bool_t SetAutoLoadGo4(const char* script);
 
       static THttpServer* gHttpServer;
+
+
+
 
    public:
 

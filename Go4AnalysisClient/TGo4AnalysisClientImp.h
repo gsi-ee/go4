@@ -215,8 +215,7 @@ private:
     /** Then enabled, show current rate on the analysis terminal window */
     Bool_t fbShowRate; //!
 
-    /** If true, pyroot has already bound TGo4Anylsis object. For lazy initialization at first call of .py macro*/
-    Bool_t fbPythonBound; //!
+
 
     TGo4AnalysisClient();
 

@@ -71,8 +71,7 @@ TGo4AnalysisClient::TGo4AnalysisClient(const char* name,
    fbAutoStart(autorun),
    fbCintMode(kFALSE),
    fbLoadPrefs(loadprefs),
-   fbShowRate(showrate),
-   fbPythonBound(kFALSE)
+   fbShowRate(showrate)
 {
    GO4TRACE((15,"TGo4AnalysisClient::TGo4AnalysisClient(const char*,...)",__LINE__, __FILE__));
 
@@ -102,8 +101,7 @@ TGo4AnalysisClient::TGo4AnalysisClient(int argc, char** argv,
    fbAutoStart(autorun),
    fbCintMode(kFALSE),
    fbLoadPrefs(kTRUE),
-   fbShowRate(kFALSE),
-   fbPythonBound(kFALSE)
+   fbShowRate(kFALSE)
 {
    GO4TRACE((15,"TGo4AnalysisClient::TGo4AnalysisClient(int, char**...)",__LINE__, __FILE__));
 
@@ -528,7 +526,6 @@ void TGo4AnalysisClient::SubmitShutdown()
 
 void TGo4AnalysisClient::ExecuteString(const char* command)
 {
-   char pyprompt = '$';
    if(strstr(command,"ANHServStart")) {
       TString buffer = command;
       strtok((char*) buffer.Data(), ":"); // first find the command itself
@@ -539,46 +536,13 @@ void TGo4AnalysisClient::ExecuteString(const char* command)
    } else
    if (!strcmp(command,"ANHServStop")) {
       StopObjectServer();
-   } else
-   if (strchr(command,pyprompt) && (strchr(command,pyprompt) == strrchr(command,pyprompt))) {
-      // this one is by Sven Augustin, MPI Heidelberg
-      TString comstring = command;
-      comstring = comstring.Strip(TString::kBoth);
-      comstring = comstring.Strip(TString::kLeading,pyprompt);
-      comstring = comstring.Strip(TString::kLeading);
-      TGo4Log::Info("Executing Python script: %s", comstring.Data());
-      comstring = "TPython::LoadMacro(\"" + comstring + "\")";
-      if(!fbPythonBound)
-        {
-          comstring.Prepend("TPython::Bind(go4, \"go4\");" );
-          fbPythonBound=kTRUE;
-        }
-      TGo4Slave::ExecuteString(comstring.Data());
-   } else {
-      TString comstring="";
-      const char* cursor = command;
-      const char* at=0;
-      do
-      {
-         Ssiz_t len=strlen(cursor);
-         at = strstr(cursor,"@");
-         if(at)
-         {
-            //std::cout <<"Found at: "<<at << std::endl;
-            len=(Ssiz_t) (at-cursor);
-            comstring.Append(cursor,len);
-            comstring.Append("TGo4Analysis::Instance()->");
-            cursor=at+1;
-         }
-         else
-         {
-            //std::cout <<"Appended "<<cursor << std::endl;
-            comstring.Append(cursor);
-         }
-      }
-      while(at);
-      TGo4Slave::ExecuteString(comstring.Data()); // treat command as root com
+   } else{
+     fxAnalysis->ExecuteLine(command); // all scripting is handled in analysis singleton
+     fflush(stdout);
    }
+
+
+
 }
 Int_t TGo4AnalysisClient::StartWorkThreads()
 {

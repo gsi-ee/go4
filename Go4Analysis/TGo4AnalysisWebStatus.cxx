@@ -647,18 +647,13 @@ Bool_t TGo4AnalysisWebStatus::WriteAutoSave(const char* fname,
 
 Bool_t TGo4AnalysisWebStatus::ExecuteLine(const char* exeline)
 {
-   if ((exeline==0) || (*exeline==0) || (TGo4Analysis::Instance()==0)) return kFALSE;
-
-   TString cmd(exeline);
-
-   printf("ExecuteLine %s\n", exeline);
-
-   if (TGo4Analysis::Instance() && (cmd[0]=='@'))
-      cmd = TString("TGo4Analysis::Instance()->") + (exeline+1);
-
-   gROOT->ProcessLineSync(cmd);
-
-   fflush(stdout);
-
-   return kTRUE;
+  if ((exeline==0) || (*exeline==0)) return kFALSE;
+  TGo4Analysis* ana = TGo4Analysis::Instance();
+  if(ana==0) {
+            return kFALSE;
+         }
+  Int_t errcode=0;
+  Long_t res=ana->ExecuteLine(exeline, &errcode);
+  fflush(stdout);
+  return errcode!=0 ? kFALSE : kTRUE;
 }

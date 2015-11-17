@@ -106,6 +106,9 @@ class TGo4Analysis : public TObject, public TGo4CommandReceiver  {
     /** Default name of the default (toplevel) dynamic list */
     static const char* fgcTOPDYNAMICLIST;     //!
 
+    /** leading character indicating python script execution*/
+    static const char fgcPYPROMPT;
+
     static TGo4Analysis* Instance();
 
     static Bool_t Exists();
@@ -824,8 +827,21 @@ class TGo4Analysis : public TObject, public TGo4CommandReceiver  {
                                  const char* cmd = 0);
 
     /** Executes ROOT script.
-     * Returns -1 when script was not found or result of script execution */
+     * Returns -1 when script was not found, or result of script execution */
     Long_t ExecuteScript(const char* script_name);
+
+    /** Executes Python script in ROOT interpreter.
+      * Will bind TGo4Analysis object to python go4 Symbol
+      * Errcode may be used to check ROOT interpreter error code.*/
+     Long_t ExecutePython(const char* script_name, Int_t* errcode=0);
+
+
+    /** Process ROOT command line. Optionally provide pyroot binding:
+     *  a leading '$' will try to load and execute python script.
+     * Errcode may be used to check ROOT interpreter error code.
+     * Return value is result of command execution*/
+    Long_t ExecuteLine(const char* command, Int_t* errcode=0);
+
 
     /** Method called from Ctrl-C handler */
     void ProcessCrtlCSignal();
@@ -1051,6 +1067,9 @@ class TGo4Analysis : public TObject, public TGo4CommandReceiver  {
 
     /** indicate if object was created by last Make... operation */
     Bool_t fbObjMade; //!
+
+    /** If true, pyroot has already bound TGo4Anylsis object. For lazy initialization at first call of .py macro*/
+    Bool_t fbPythonBound; //!
 
     /** number Ctrl-C handler called */
     Int_t fNumCtrlC; //!
