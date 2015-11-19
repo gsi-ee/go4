@@ -116,7 +116,7 @@ void TGo4AnalysisWindow::CreateCmdLine(QHBoxLayout* box)
    MacroSearch->setMaximumSize( QSize( 30, 25 ) );
    MacroSearch->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
    MacroSearch->setIcon( QIcon(":/icons/findfile.png" ) );
-   MacroSearch->setToolTip("Search root macro on disk.");
+   MacroSearch->setToolTip("Search root or python macro on disk.");
    connect(MacroSearch, SIGNAL(clicked()), this, SLOT(FileDialog_Macro()));
    box->addWidget(MacroSearch,1);
 }
@@ -144,6 +144,18 @@ void TGo4AnalysisWindow::CreateButtons(QHBoxLayout* box, bool needkillbtn)
       connect(ClearButton, SIGNAL(clicked()), this, SLOT(ClearAnalysisOutput()));
       box->addItem(new QSpacerItem(1,1));
       box->addWidget(ClearButton,1);
+
+      QToolButton* ScrollEndButton = new QToolButton( this );
+      ScrollEndButton->setMinimumSize( QSize( 30, 25 ) );
+      ScrollEndButton->setMaximumSize( QSize( 30, 25 ) );
+      ScrollEndButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+      ScrollEndButton->setIcon( QIcon( ":/icons/shiftdown.png" ) );
+      ScrollEndButton->setToolTip("Scroll to end of Terminal Window. (keyboard: end)");
+      connect(ScrollEndButton, SIGNAL(clicked()), this, SLOT(ScrollEndAnalysisOutput()));
+      box->addWidget(ScrollEndButton,1);
+
+
+
    }
 
    QToolButton* PrintHistoButton = new QToolButton( this );
@@ -194,39 +206,53 @@ void TGo4AnalysisWindow::SetHistorySize(int sz)
 
 void TGo4AnalysisWindow::updateTerminalOutput()
 {
-    if (fxOutput==0) return;
+  if (fxOutput == 0)
+    return;
 
-    unsigned int buflen = outputBuffer.length();
+  unsigned int buflen = outputBuffer.length();
 
-    if (fiMaxOuputSize>0) {
+  if (fiMaxOuputSize > 0)
+  {
 
-      // size remaining after cut of text
-      unsigned int cutlength = fiMaxOuputSize / 2;
+    // size remaining after cut of text
+    unsigned int cutlength = fiMaxOuputSize / 2;
 
-      if (buflen > 0) {
-         unsigned int outlen = fxOutput->toPlainText().length();
-         if (buflen + outlen < fiMaxOuputSize)
-           fxOutput->append(outputBuffer);
-         else
-         if (buflen>=cutlength) {
-            outputBuffer.remove(0, buflen-cutlength);
-            fxOutput->setText(outputBuffer);
-            fxOutput->moveCursor(QTextCursor::End);
-         } else {
-           QString curr = fxOutput->toPlainText();
-           curr.remove(0, cutlength - buflen);
-           curr+=outputBuffer;
-           fxOutput->setText(curr);
-           fxOutput->moveCursor(QTextCursor::End);
-         }
+    if (buflen > 0)
+    {
+      unsigned int outlen = fxOutput->toPlainText().length();
+      if (buflen + outlen < fiMaxOuputSize)
+      {
+        fxOutput->append(outputBuffer);
+        //fxOutput->moveCursor(QTextCursor::End);
+        // ^JAM just for test, we dont keep this since one may want inspect history during new printouts
       }
-    } else {
-      if (buflen>0)
-         fxOutput->append(outputBuffer);
+      else if (buflen >= cutlength)
+      {
+        outputBuffer.remove(0, buflen - cutlength);
+        fxOutput->setText(outputBuffer);
+        fxOutput->moveCursor(QTextCursor::End);
+      }
+      else
+      {
+        QString curr = fxOutput->toPlainText();
+        curr.remove(0, cutlength - buflen);
+        curr += outputBuffer;
+        fxOutput->setText(curr);
+        fxOutput->moveCursor(QTextCursor::End);
+      }
     }
-
-    outputBuffer = "";
-    QTimer::singleShot(100, this, SLOT(updateTerminalOutput()));
+  }
+  else
+  {
+    if (buflen > 0)
+    {
+      fxOutput->append(outputBuffer);
+      //fxOutput->moveCursor(QTextCursor::End);
+      // ^JAM just for test, we dont keep this since one may want inspect history during new printouts
+    }
+  }
+  outputBuffer = "";
+  QTimer::singleShot(100, this, SLOT(updateTerminalOutput()));
 }
 
 void TGo4AnalysisWindow::readFromStdout()
@@ -302,6 +328,14 @@ void TGo4AnalysisWindow::ClearAnalysisOutput()
    if (fxOutput!=0)
       fxOutput->clear();
 }
+
+void TGo4AnalysisWindow::ScrollEndAnalysisOutput()
+{
+   if (fxOutput!=0)
+      fxOutput->moveCursor(QTextCursor::End);
+}
+
+
 
 void TGo4AnalysisWindow::SaveAnalysisOutput()
 {

@@ -49,6 +49,7 @@ class TGo4AnalysisWindow : public QGo4Widget {
       void readFromStderr();
       void RequestTerminate();
       void ClearAnalysisOutput();
+      void ScrollEndAnalysisOutput();
       void SaveAnalysisOutput();
       void FileDialog_Macro();
       void PrintHistograms();

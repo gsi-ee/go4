@@ -1,6 +1,6 @@
 ---------------------------------------------------------------
          Go4 Release Package v5.0.1 (build 50001)
-                      20-July-2015
+                      19-November-2015
 ---------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -25,7 +25,17 @@ Changes in Go4 v5.0.x
    Such commands recognized by the GUI and used when pressing Start/Stop analysis buttons
    or Clear analysis objects button 
 2. Allow to use graphics in analysis. With "-gr" or "-graphics" option one enable ROOT graphics.
-   User can create and update canvas or any other TG... object. 
+   User can create and update canvas or any other TG... object.
+3. Support Python Scripting in analysis, either by GUI Analysis terminal command line or in compiled code: 
+   A leading '$' in command line will execute python script of given name, occasonally TGo4Analysis object 
+   is bound as go4 symbol. New Methods  ExecuteLine and ExecutePython in TGo4Analysis and TGo4EventProcessor to 
+   invoke regular interpreter commands and python scripts,resp, from compiled code. File search dialog of 
+   Analysis terminal in GUI will provide also file filters for *.py macros. 
+   Thanks to Sven Augustin, MPI Heidelberg, for this idea and code support.   
+4. Support Python Scripting in GUI command line (TGo4AbstractInterface binding). File search dialog of GUI
+   commandline tool will provide also file filters for *.py macros. 
+5. Analysis terminal window: added button to scroll down to end of output text.
+
 
 
 Changes in Go4 v5.0.0

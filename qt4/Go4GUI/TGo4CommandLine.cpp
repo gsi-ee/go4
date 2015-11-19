@@ -23,7 +23,7 @@
 #include "TGo4MacroDialog.h"
 
 TGo4CommandLine::TGo4CommandLine(QWidget *parent, const char* name) :
-   QGo4Widget(parent, name)
+   QGo4Widget(parent, name),fbPythonBound(false)
 {
    setupUi(this);
    LoadHistory();
@@ -33,21 +33,45 @@ TGo4CommandLine::TGo4CommandLine(QWidget *parent, const char* name) :
 void TGo4CommandLine::FileSearchDialog()
 {
    QFileDialog fd( this, "Select ROOT macro to execute in GUI", QString(),
-                  "ROOT macro  (*.C *.c);;Go4 hotstart script (*.hotstart)");
+                  "ROOT macro  (*.C *.c);;Go4 hotstart script (*.hotstart);;Python script(*.py)");
    fd.setFileMode( QFileDialog::ExistingFile);
 
    if (fd.exec() != QDialog::Accepted) return;
 
    QStringList flst = fd.selectedFiles();
    if (flst.isEmpty()) return;
+   bool iscint = fd.selectedNameFilter().contains(".C") ||  fd.selectedNameFilter().contains(".c");
+   bool ishot = fd.selectedNameFilter().contains(".hotstart");
+   bool ispyth = fd.selectedNameFilter().contains(".py");
 
    QString cmd;
-   if(fd.selectedNameFilter().contains(".hotstart"))
-      cmd = flst[0];
-   else
-      cmd = QString(".x ") + flst[0];
-   if (InputLine->findText(cmd)<0) InputLine->addItem(cmd);
-   InputLine->setCurrentIndex(InputLine->findText(cmd));
+  if (iscint)
+  {
+    cmd = QString(".x ") + flst[0];
+  }
+  else if (ispyth)
+  {
+    cmd = QString("$") + flst[0];
+  }
+  else if (ishot)
+  {
+    cmd = flst[0];
+  }
+  else
+  {
+    std::cout << "TGo4CommandLine NEVER COME HERE - unknown file type!\n-" << std::endl;
+    return;
+  }
+
+  int index=InputLine->findText(cmd);
+  if(index<0)
+    {
+         InputLine->insertItem(-1,cmd);
+         index=InputLine->findText(cmd);
+    }
+  //std::cout <<"inserted item "<< cmd.toLatin1().constData() << std::endl;
+  InputLine->setCurrentIndex(index);
+
 }
 
 void TGo4CommandLine::ExecuteSlot()
@@ -58,21 +82,43 @@ void TGo4CommandLine::ExecuteSlot()
 
 void TGo4CommandLine::enterPressedSlot()
 {
-   QString str = InputLine->currentText();
-   if (str.length()==0) return;
+  const char pyprompt = '$';
+  QString str = InputLine->currentText();
+  if (str.length() == 0)
+    return;
 
-   if(str.contains("help") || str.contains(".go4h")) {
-      PrintHelp();
-   } else
-   if(str.contains(".hotstart") && !str.contains(".x")) {
-      StatusMessage(QString("Executing hotstart script: ") + str);
-      StartHotstart(str.toLatin1().constData());
-   } else {
+  if (str.contains("help") || str.contains(".go4h"))
+  {
+    PrintHelp();
+  }
+  else if (str.contains(".hotstart") && !str.contains(".x"))
+  {
+    StatusMessage(QString("Executing hotstart script: ") + str);
+    StartHotstart(str.toLatin1().constData());
+  }
+  else
+  {
+    // process cint line, check if python or not:
+    if (str.contains(pyprompt))
+    {
+      // Python support as initiated by Sven Augustin, MPI Heidelberg
+      str.remove(0, str.indexOf(pyprompt) + 1);
+      StatusMessage(QString("Executing Python script: ") + str);
+      str = "TPython::LoadMacro(\"" + str + "\")";
+      if (!fbPythonBound)
+      {
+        str.prepend("TPython::Bind(TGo4AbstractInterface::Instance(), \"go4\");");
+        fbPythonBound = kTRUE;
+      }
+
+    }
+    else
+    {
       StatusMessage(QString("Executing command: ") + str);
-      gROOT->ProcessLineSync(str.toLatin1().constData());
-   }
-
-   go4sett->setCommandsHistoryGUI(InputLine->getHistory(50));
+    }
+    gROOT->ProcessLineSync(str.toLatin1().constData());
+  }
+  go4sett->setCommandsHistoryGUI(InputLine->getHistory(50));
 }
 
 void TGo4CommandLine::LoadHistory()

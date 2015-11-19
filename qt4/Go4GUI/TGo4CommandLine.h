@@ -41,6 +41,9 @@ class TGo4CommandLine : public QGo4Widget, public Ui::TGo4CommandLine
 
       virtual void PrintHelp();
 
+   protected:
+      bool fbPythonBound;
+
 };
 
 #endif
