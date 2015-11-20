@@ -83,6 +83,7 @@ void TGo4CommandLine::ExecuteSlot()
 void TGo4CommandLine::enterPressedSlot()
 {
   const char pyprompt = '$';
+  QString pyinitfile="python/go4init.py"; // JAM put this to settings later?
   QString str = InputLine->currentText();
   if (str.length() == 0)
     return;
@@ -107,6 +108,8 @@ void TGo4CommandLine::enterPressedSlot()
       str = "TPython::LoadMacro(\"" + str + "\")";
       if (!fbPythonBound)
       {
+        QString go4sys=TGo4Log::GO4SYS();
+        str.prepend("TPython::LoadMacro(\"" + go4sys + pyinitfile +"\");");
         str.prepend("TPython::Bind(TGo4AbstractInterface::Instance(), \"go4\");");
         fbPythonBound = kTRUE;
       }

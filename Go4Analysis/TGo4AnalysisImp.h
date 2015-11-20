@@ -109,6 +109,9 @@ class TGo4Analysis : public TObject, public TGo4CommandReceiver  {
     /** leading character indicating python script execution*/
     static const char fgcPYPROMPT;
 
+    /** default name of go4 python init script*/
+    static const char* fgcPYINIT;
+
     static TGo4Analysis* Instance();
 
     static Bool_t Exists();

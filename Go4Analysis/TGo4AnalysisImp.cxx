@@ -128,6 +128,7 @@ const char* TGo4Analysis::fgcDEFAULTFILESUF=".root";
 const char* TGo4Analysis::fgcTOPDYNAMICLIST="Go4DynamicList";
 
 const char TGo4Analysis::fgcPYPROMPT = '$';
+const char* TGo4Analysis::fgcPYINIT = "python/go4init.py";
 
 TGo4Analysis* TGo4Analysis::Instance()
 {
@@ -2247,6 +2248,9 @@ if (strchr(command,TGo4Analysis::fgcPYPROMPT) && (strchr(command,TGo4Analysis::f
     comstring = "TPython::LoadMacro(\"" + comstring + "\")";
     if(!fbPythonBound)
       {
+        TString go4sys=TGo4Log::GO4SYS();
+        TString pyinit=TGo4Analysis::fgcPYINIT; // JAM todo: put python path and filename into settings
+        comstring.Prepend("TPython::LoadMacro(\"" + go4sys + pyinit +"\");");
         comstring.Prepend("TPython::Bind(go4, \"go4\");" );
         fbPythonBound=kTRUE;
       }
