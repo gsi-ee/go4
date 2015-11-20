@@ -160,9 +160,9 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
       SetItemField("/Control/CmdDeleteObject", "_title", "Delete object from analysis");
       SetItemField("/Control/CmdDeleteObject", "_hidden", "true");
 
-      RegisterCommand("/Control/CmdExecute", "this->CmdExecute(\"%arg1%\");", "");
-      SetItemField("/Control/CmdExecute", "_title", "Execute line in the analysis context");
-      SetItemField("/Control/CmdExecute", "_hidden", "true");
+      RegisterCommand("/Control/CmdExecute", "this->CmdExecute(\"%arg1%\");", "button;go4sys/icons/macro_t.png");
+      SetItemField("/Control/CmdExecute", "_title", "Execute interpreter line in the analysis context. '@' means 'TGo4Analysis::Instance()->' ; A leading '$' invokes python skript.");
+      //SetItemField("/Control/CmdExecute", "_hidden", "true");
    }
 
    RegisterObject("/Control", fAnalysisStatus);
@@ -526,7 +526,7 @@ Bool_t TGo4Sniffer::CmdExecute(const char* exeline)
         return kFALSE;
      }
   Int_t errcode=0;
-  Long_t res=ana->ExecuteLine(exeline, &errcode);
+  ana->ExecuteLine(exeline, &errcode);
   fflush(stdout);
   return errcode!=0 ? kFALSE : kTRUE;
 
