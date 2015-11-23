@@ -167,6 +167,80 @@
       return painter.DrawingReady();
    }
    
+   GO4.drawAnalysisPlayer = function(hpainter, itemname) {
+      var url = hpainter.GetOnlineItemUrl(itemname);
+      if (url == null) return null;
+
+      var frame = hpainter.GetDisplay().FindFrame(itemname, true);
+      if (frame==null) return null;
+
+      var divid = d3.select(frame).attr('id');
+      
+      var player = new JSROOT.TBasePainter();
+      player.url = url;
+      player.hpainter = hpainter;
+      player.itemname = itemname;
+      player.draw_ready = true; 
+      
+      
+      player.DrawReady = function() {
+         this.draw_ready = true;   
+      }
+      
+      player.ProcessTimer = function() {
+         var subid = this.divid + "_terminal";
+         if ($("#" + subid).length==0) {
+            // detect if drawing disappear 
+            clearInterval(this.interval);
+            this.interval = null;
+            return;
+         }
+         if (!this.draw_ready) return;
+         
+         var msgitem = this.itemname.replace("Control", "Status/Msg");
+
+         this.draw_ready = false;
+
+         this.hpainter.display(msgitem,"divid:" + subid, this.DrawReady.bind(this));
+      }
+      
+      player.ClickButton = function(kind) {
+         this.hpainter.ExecuteCommand(this.itemname+"/CmdClearObject", null, kind);
+      }
+      
+      player.Show = function(divid) {
+         $("#"+divid).html("<fieldset style='max-width: 100%; max-height: 80%; overflow: auto;'>" +
+                           "<legend>Terminal</legend>" +
+                           "<div id='" + divid + "_terminal'></div>" + 
+                           "</fieldset>" +
+                           "<fieldset>" +
+                           "<legend>Script</legend>" + 
+                           "</fieldset>" + 
+                           "<fieldset>" +
+                           "<legend>Commands</legend>" + 
+                           "<button class='go4_clearhiostos'>Clear histos</button>" + 
+                           "<button class='go4_clearcond'>Clear conditions</button>" +
+                           "</fieldset>");
+         
+         this.interval = setInterval(this.ProcessTimer.bind(this), 2000);
+         
+         $("#"+divid + " .go4_clearhiostos").button().click(this.ClickButton.bind(this,"Histograms"));
+
+         $("#"+divid + " .go4_clearcond").button().click(this.ClickButton.bind(this,"Conditions"));
+
+         this.SetDivId(divid);
+         
+         return this;
+      }
+      
+      player.CheckResize = function(force) {
+         
+      }
+      
+      return player.Show(divid);
+   }
+
+   
    // ============================================================================== 
    
    JSROOT.addDrawFunc("TGo4WinCond", { script: GO4.source_dir + 'html/condition.js', func: 'GO4.drawGo4Cond' }, ";editor");

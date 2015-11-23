@@ -176,6 +176,8 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
    RegisterObject("/Control", this);
    SetItemField("/Control/go4_sniffer", "_hidden", "true");
 
+   SetItemField("/Control", "_player", "GO4.drawAnalysisPlayer");
+
    RestrictGo4("/Control","visible=controller,admin");
 
    RestrictGo4("/Control/CmdExit","visible=admin");
