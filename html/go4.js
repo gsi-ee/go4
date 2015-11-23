@@ -197,15 +197,15 @@
          }
          if (!this.draw_ready) return;
          
-         var msgitem = this.itemname.replace("Control", "Status/Msg");
-
+         var msgitem = this.itemname.replace("Control/Terminal", "Status/Msg");
+         
          this.draw_ready = false;
 
          this.hpainter.display(msgitem,"divid:" + subid, this.DrawReady.bind(this));
       }
       
       player.ClickButton = function(kind) {
-         this.hpainter.ExecuteCommand(this.itemname+"/CmdClearObject", null, kind);
+         this.hpainter.ExecuteCommand(this.itemname.replace("Terminal", "CmdClearObject"), null, kind);
       }
       
       player.Show = function(divid) {
