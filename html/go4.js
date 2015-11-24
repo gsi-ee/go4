@@ -167,7 +167,7 @@
       return painter.DrawingReady();
    }
    
-   GO4.drawAnalysisPlayer = function(hpainter, itemname) {
+   GO4.drawAnalysisTerminal = function(hpainter, itemname) {
       var url = hpainter.GetOnlineItemUrl(itemname);
       if (url == null) return null;
 
@@ -197,7 +197,7 @@
          }
          if (!this.draw_ready) return;
          
-         var msgitem = this.itemname.replace("Control/Terminal", "Status/Msg");
+         var msgitem = this.itemname.replace("Control/Terminal", "Status/Log");
          
          this.draw_ready = false;
 

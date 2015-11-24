@@ -581,6 +581,6 @@ void TGo4AnalysisClient::SendStatusMessage(Int_t level, Bool_t printout, const T
     TGo4Slave::SendStatusMessage(level, printout, text);
 
     TGo4AnalysisSniffer* sniff = fxAnalysis->GetSniffer();
-    if (sniff) sniff->StatusMessage(level, text);
+    if (sniff) sniff->StatusMessage(level, printout, text);
 
 }

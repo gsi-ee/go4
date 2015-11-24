@@ -178,7 +178,7 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
 
    CreateItem("/Control/Terminal", "Analysis terminal");
    SetItemField("/Control/Terminal", "_icon", "go4sys/icons/analysiswin.png");
-   SetItemField("/Control/Terminal", "_player", "GO4.drawAnalysisPlayer");
+   SetItemField("/Control/Terminal", "_player", "GO4.drawAnalysisTerminal");
 
    RestrictGo4("/Control","visible=controller,admin");
 
@@ -318,12 +318,10 @@ void* TGo4Sniffer::FindInHierarchy(const char *path, TClass **cl, TDataMember **
 
 Bool_t TGo4Sniffer::CmdStart()
 {
-   Info("CmdStart", "Resume analysis loop");
-
    TGo4Analysis* an = TGo4Analysis::Instance();
    if (an) {
       an->StartAnalysis();
-      StatusMessage(0, "Resume analysis loop");
+      StatusMessage(0, kTRUE, "Resume analysis loop");
    }
 
    return kTRUE;
@@ -331,12 +329,12 @@ Bool_t TGo4Sniffer::CmdStart()
 
 Bool_t TGo4Sniffer::CmdStop()
 {
-   Info("CmdStop", "Suspend analysis loop");
    TGo4Analysis* an = TGo4Analysis::Instance();
    if (an) {
       an->StopAnalysis();
-      StatusMessage(0, "Suspend analysis loop");
+      StatusMessage(0, kTRUE, "Suspend analysis loop");
    }
+
    return kTRUE;
 }
 
@@ -390,10 +388,8 @@ Bool_t TGo4Sniffer::CmdClear()
    if (an) {
       an->ClearObjects("Histograms");
       an->ClearObjects("Conditions");
-      StatusMessage(0, "Clear Histograms and Conditions folder");
+      an->SendMessageToGUI(1, kTRUE, "Clear Histograms and Conditions folder");
    }
-
-   Info("CmdClear", "Clear Histograms and Conditions folder");
    return kTRUE;
 }
 
@@ -418,8 +414,7 @@ Bool_t TGo4Sniffer::CmdRestart()
       }
     }
 
-   StatusMessage(0, "Restart analysis loop");
-   Info("CmdRestart", "Restart analysis loop");
+   StatusMessage(0, kTRUE, "Restart analysis loop");
 
    return kTRUE;
 }
@@ -439,8 +434,7 @@ Bool_t TGo4Sniffer::CmdClose()
       an->CloseAnalysis();
     }
 
-   StatusMessage(0, "Close analysis");
-   Info("CmdClose", "Close analysis");
+   StatusMessage(0, kTRUE, "Close analysis");
 
    return kTRUE;
 }
@@ -460,8 +454,7 @@ Bool_t TGo4Sniffer::CmdExit()
       an->StopWorking();
    }
 
-   StatusMessage(0, "Exit analysis process");
-   Info("CmdExit", "Exit analysis");
+   StatusMessage(0, kTRUE, "Exit analysis process");
 
    return kTRUE;
 
@@ -582,7 +575,7 @@ void TGo4Sniffer::RatemeterUpdate(TGo4Ratemeter* r)
    fEventRate->GetYaxis()->SetTitle("Events/s");
 }
 
-void TGo4Sniffer::StatusMessage(int level, const TString &msg)
+void TGo4Sniffer::StatusMessage(int level, Bool_t printout, const TString &msg)
 {
    const char* prev = GetItemField("/Status/Message", "value");
    TString res;
@@ -594,6 +587,9 @@ void TGo4Sniffer::StatusMessage(int level, const TString &msg)
    TDatime now;
 
    fStatusMessages.AddMsg(TString::UItoa(now.Convert(kFALSE), 10) + ":" + TString::Itoa(level,10) + ":" + msg);
+
+   // add status message to the log
+   // if (printout) SetTitle(msg.Data());
 }
 
 void TGo4Sniffer::ProcessSnifferEvents()

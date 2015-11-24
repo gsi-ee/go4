@@ -113,7 +113,7 @@ class TGo4Sniffer : public TRootSniffer,
       virtual void RatemeterUpdate(TGo4Ratemeter*);
 
       /** Method from analysis sniffer */
-      virtual void StatusMessage(int level, const TString&);
+      virtual void StatusMessage(int level, Bool_t printout, const TString&);
 
       /** Method called in go4 analysis thread, used to executed server commands */
       virtual void ProcessSnifferEvents();

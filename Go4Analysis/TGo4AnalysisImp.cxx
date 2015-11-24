@@ -1190,7 +1190,7 @@ void TGo4Analysis::Message(Int_t prio, const char* text,...)
 void TGo4Analysis::SendMessageToGUI(Int_t level, Bool_t printout, const char* text)
 {
    if(fxAnalysisSlave) {
-      // gui mode: send Text via status channel
+      // gui mode: send Text via status channel - also sniffer will be informed
       fxAnalysisSlave->SendStatusMessage(level, printout, text);
    } else {
       // batch mode: no gui connection, handle local printout
@@ -1198,9 +1198,10 @@ void TGo4Analysis::SendMessageToGUI(Int_t level, Bool_t printout, const char* te
       TGo4Log::OutputEnable(printout); // override the messaging state
       TGo4Log::Message(level, text);
       TGo4Log::OutputEnable(previousmode);
+
+      if (fSniffer) fSniffer->StatusMessage(level, printout, text);
    } // if (fxAnalysisSlave)
 
-   if (fSniffer) fSniffer->StatusMessage(level, text);
 }
 
 void TGo4Analysis::SendObjectToGUI(TObject* ob)
