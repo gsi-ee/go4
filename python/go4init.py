@@ -1,7 +1,7 @@
 
 """
 Add PyROOT-bound go4 object to builtins
-this allows it to be accessed inside imported modules
+this allows it to be accessed inside imported modules, cf. go4py.go4.Wrapper
 """
 
 import __builtin__
