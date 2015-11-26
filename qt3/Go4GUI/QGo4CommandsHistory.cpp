@@ -30,7 +30,7 @@ QGo4CommandsHistory::~QGo4CommandsHistory()
 
 void QGo4CommandsHistory::keyPressEvent(QKeyEvent* e)
 {
-   if (e->key()==Qt::Key_Return)
+   if ( (e->key()==Qt::Key_Return) || (e->key()==Qt::Key_Enter) )
      fiEnterPressed = (fiEnterPressed+1) % 2;
    QComboBox::keyPressEvent(e);
 }

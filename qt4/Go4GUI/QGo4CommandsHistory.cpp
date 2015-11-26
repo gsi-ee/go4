@@ -35,7 +35,7 @@ QGo4CommandsHistory::~QGo4CommandsHistory()
 
 void QGo4CommandsHistory::keyPressEvent(QKeyEvent* e)
 {
-   if (e->key()==Qt::Key_Return){
+  if ( (e->key()==Qt::Key_Return) || (e->key()==Qt::Key_Enter) ){
      if(count()>=GO4_COMHIS_MAX)  setInsertPolicy(InsertAtCurrent); // overwrite last command
      emit enterPressedSingal();
    }
