@@ -160,7 +160,7 @@ TGo4Sniffer::TGo4Sniffer(const char* name) :
       SetItemField("/Control/CmdDeleteObject", "_title", "Delete object from analysis");
       SetItemField("/Control/CmdDeleteObject", "_hidden", "true");
 
-      RegisterCommand("/Control/CmdExecute", "this->CmdExecute(\"%arg1%\");", "button;go4sys/icons/macro_t.png");
+      RegisterCommand("/Control/CmdExecute", "this->CmdExecute(\"%arg1%\");", "go4sys/icons/macro_t.png");
       SetItemField("/Control/CmdExecute", "_title", "Execute interpreter line in the analysis context. '@' means 'TGo4Analysis::Instance()->' ; A leading '$' invokes python skript.");
       //SetItemField("/Control/CmdExecute", "_hidden", "true");
    }

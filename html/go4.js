@@ -170,25 +170,32 @@
    GO4.drawAnalysisTerminal = function(hpainter, itemname) {
       var url = hpainter.GetOnlineItemUrl(itemname);
       if (url == null) return null;
-
       var frame = hpainter.GetDisplay().FindFrame(itemname, true);
       if (frame==null) return null;
-
       var divid = d3.select(frame).attr('id');
+      var h = $("#"+divid).height(), w = $("#"+divid).width();
+      if ((h<10) && (w>10)) $("#"+divid).height(w*0.7);
       
       var player = new JSROOT.TBasePainter();
       player.url = url;
       player.hpainter = hpainter;
       player.itemname = itemname;
       player.draw_ready = true; 
+      player.needscroll = false;
       
       
       player.DrawReady = function() {
-         this.draw_ready = true;   
+     	  if(this.needscroll) {
+     		  this.ClickScroll();    	  
+     		  this.needscroll=false;
+     	  }
+    	  this.draw_ready = true;
+     	  
       }
       
       player.ProcessTimer = function() {
-         var subid = this.divid + "_terminal";
+         //var subid = this.divid + "_terminal";
+    	  var subid ="anaterm_output_container";
          if ($("#" + subid).length==0) {
             // detect if drawing disappear 
             clearInterval(this.interval);
@@ -204,37 +211,90 @@
          this.hpainter.display(msgitem,"divid:" + subid, this.DrawReady.bind(this));
       }
       
-      player.ClickButton = function(kind) {
-         this.hpainter.ExecuteCommand(this.itemname.replace("Terminal", "CmdClearObject"), null, kind);
+      player.ClickCommand = function(kind) {
+    	 var pthis=this;
+         this.hpainter.ExecuteCommand(this.itemname.replace("Terminal", "CmdExecute"), function(){pthis.needscroll=true}, kind);
+         //console.log("Execute ClickCommand with" + kind);
+         
       }
       
+      player.ClickClear = function() {
+    	  //console.log("Clear terminal");
+    	  document.getElementById("anaterm_output_container").firstChild.innerHTML="";
+      }
+    
+      player.ClickScroll = function() {
+    	  //console.log("ScrollEndTerminal");	
+    	  var disp = $("#anaterm_output_container").children(":first"); // inner frame created by hpainter has the scrollbars, i.e. first child
+    	  disp.scrollTop(disp[0].scrollHeight - disp.height());      
+      }
+      
+      
+      player.fillDisplay = function() {
+    	  
+          var id = "#"+this.divid;
+          var pthis=this;
+          //console.log("fillDisplay for id - " + id);
+          this.interval = setInterval(this.ProcessTimer.bind(this), 2000);
+          
+          $(id + " .go4_clearterm")
+        	.button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
+        	.click(this.ClickClear.bind(this))
+            .children(":first") // select first button element, used for images
+            .css('background-image', "url(" + GO4.source_dir + "icons/clear.png)");
+        	
+          
+          $(id + " .go4_endterm")
+          	.button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
+          	.click(this.ClickScroll.bind(this))
+            .children(":first") // select first button element, used for images
+            .css('background-image', "url(" + GO4.source_dir + "icons/shiftdown.png)");
+          	
+          
+          
+          $(id + " .go4_printhistos")
+          	.button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
+          	.click(this.ClickCommand.bind(this,"@PrintHistograms()"))
+            .children(":first") // select first button element, used for images
+            .css('background-image', "url(" + GO4.source_dir + "icons/hislist.png)");
+
+          $(id + " .go4_printcond").button()
+          	.button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
+          	.click(this.ClickCommand.bind(this,"@PrintConditions()"))
+            .children(":first") // select first button element, used for images
+            .css('background-image', "url(" + GO4.source_dir + "icons/condlist.png)");
+          
+          
+          $("#go4_anaterm_cmd_form").submit(
+                  function(event) {
+                	 var command= pthis.itemname.replace("Terminal", "CmdExecute");
+                     var cmdpar=document.getElementById("go4_anaterm_command").value;
+                     console.log("submit command - " + cmdpar);
+                     pthis.hpainter.ExecuteCommand(command,  function(){pthis.needscroll=true}, cmdpar);
+                     event.preventDefault(); 
+                  });
+          
+          
+          $(id + " .go4_executescript").button()
+        	.button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
+          .children(":first") // select first button element, used for images
+          .css('background-image', "url(" + GO4.source_dir + "icons/macro_t.png)");
+          
+      
+      }
+      
+      
       player.Show = function(divid) {
-         $("#"+divid).html("<fieldset style='max-width: 100%; max-height: 80%; overflow: auto;'>" +
-                           "<legend>Terminal</legend>" +
-                           "<div id='" + divid + "_terminal'></div>" + 
-                           "</fieldset>" +
-                           "<fieldset>" +
-                           "<legend>Script</legend>" + 
-                           "</fieldset>" + 
-                           "<fieldset>" +
-                           "<legend>Commands</legend>" + 
-                           "<button class='go4_clearhiostos'>Clear histos</button>" + 
-                           "<button class='go4_clearcond'>Clear conditions</button>" +
-                           "</fieldset>");
-         
-         this.interval = setInterval(this.ProcessTimer.bind(this), 2000);
-         
-         $("#"+divid + " .go4_clearhiostos").button().click(this.ClickButton.bind(this,"Histograms"));
+    	  var pthis = this;
+    	  $("#"+divid).load(GO4.source_dir + "html/terminal.htm", "", 
+    	            function() { pthis.SetDivId(divid); pthis.fillDisplay();}
+    	  				);
 
-         $("#"+divid + " .go4_clearcond").button().click(this.ClickButton.bind(this,"Conditions"));
-
-         this.SetDivId(divid);
-         
          return this;
       }
       
       player.CheckResize = function(force) {
-         
+    	  console.log("CheckResize..., force=" + force);
       }
       
       return player.Show(divid);
