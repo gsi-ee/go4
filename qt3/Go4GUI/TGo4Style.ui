@@ -66,7 +66,7 @@
                 </sizepolicy>
             </property>
             <property name="maxValue">
-                <number>49</number>
+                <number>255</number>
             </property>
             <property name="value">
                 <number>1</number>

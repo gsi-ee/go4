@@ -163,6 +163,8 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    fConnectingCounter = 0;
    fConnectingHttp = "";
 
+   fbGetAnalysisConfig=true;
+
    fbPanelTimerActive = false;
    winMapper = 0;
 
@@ -1134,7 +1136,7 @@ void TGo4MainWindow::ConnectDabcSlot()
       QMessageBox::warning(0, "DABC server", "Cannot connect to DABC server");
 }
 
-TGo4ServerProxy* TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* user, const char* pass, bool with_qt_process)
+TGo4ServerProxy* TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* user, const char* pass, bool with_qt_process, bool get_analysis_config)
 {
    QString httpaddr;
 
@@ -1179,7 +1181,10 @@ TGo4ServerProxy* TGo4MainWindow::ConnectHttpSlot(const char* addr, const char* u
 
    if (serv && serv->IsGo4Analysis()) {
       EstablishRatemeter(2);
-      if (!serv->IsViewer()) EstablishAnalysisConfiguration(3);
+      if (!serv->IsViewer()) {
+             EstablishAnalysisConfiguration(get_analysis_config ? 3 : 2);
+           }
+
 
       TGo4LogInfo* loginfo = (TGo4LogInfo*) FindGo4Widget("LogInfo", false);
       if (loginfo!=0) loginfo->WorkWithInfo(serv->LoginfoSlot());
@@ -1644,7 +1649,12 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
       QString addr = QString("%1:%2").arg(go4sett->getClientNode()).arg(go4sett->getClientPort());
 
       // first verify that http server already running with such address
-      if (ConnectHttpSlot(addr.toLatin1().constData())!=0) return;
+      // need to request analysis status anyway
+      if (ConnectHttpSlot(addr.toLatin1().constData(),0,0,false, true )!=0) {
+        StatusMessage("Connected to exisiting analysis webserver!"); // JAM tell user that this is no analysis restart!
+        std::cout<< "!!! Connected to exisiting analysis webserver "<<addr.toLatin1().constData()<< "!!! "<<std::endl; // status message is shadowed by ratemeters....
+        return;
+      }
 
       res = TGo4ServerProxy::GetLaunchString(launchcmd, killcmd,
                            2, shellmode, termmode,
@@ -1669,6 +1679,7 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
 
       fConnectingCounter = 100; // try next 10 seconds connect with the server
       fConnectingHttp = addr;
+      fbGetAnalysisConfig=true; // pass to timer that we want to have analysis config window when ready JAM
       QTimer::singleShot(100, this, SLOT(CheckConnectingCounterSlot()));
 
       return;
@@ -1987,7 +1998,7 @@ void TGo4MainWindow::ConnectServerSlot(bool interactive, const char* password)
      StatusMessage(msg);
      ConnectHttpSlot(fulladdress.toLatin1().constData(),
              go4sett->getClientAccountName().toLatin1().constData(),
-             pass.toLatin1().constData());
+             pass.toLatin1().constData(), false, false);
      UpdateCaptionButtons();
    }
 }
@@ -1995,17 +2006,20 @@ void TGo4MainWindow::ConnectServerSlot(bool interactive, const char* password)
 void TGo4MainWindow::CheckConnectingCounterSlot()
 {
    if (fConnectingHttp.length() > 0) {
-      TGo4ServerProxy *serv = ConnectHttpSlot(fConnectingHttp.toLatin1().constData(), 0, 0, go4sett->getClientTermMode()==1);
+      TGo4ServerProxy *serv =
+          ConnectHttpSlot(fConnectingHttp.toLatin1().constData(), 0, 0, go4sett->getClientTermMode()==1,fbGetAnalysisConfig);
       if (serv != 0) {
          serv->SetAnalysisLaunched(go4sett->getClientTermMode()==1 ? 2 : 1);
          fConnectingHttp = "";
          fConnectingCounter = 0;
+         fbGetAnalysisConfig=false;
          return;
       }
       if (--fConnectingCounter<=0) {
          StatusMessage(fConnectingHttp + " refused connection. Try again");
          fConnectingHttp = "";
          fConnectingCounter = 0;
+         fbGetAnalysisConfig=false;
          return;
       }
    } else {
@@ -2355,18 +2369,31 @@ TGo4AnalysisConfiguration* TGo4MainWindow::FindAnalysisConfiguration()
 
 void TGo4MainWindow::ToggleAnalysisConfiguration()
 {
-   TGo4AnalysisConfiguration* conf = FindAnalysisConfiguration();
-   QWidget* mdi = conf ? conf->parentWidget() : 0;
+  TGo4AnalysisConfiguration* conf = FindAnalysisConfiguration();
+  QWidget* mdi = conf ? conf->parentWidget() : 0;
 
-   if (mdi==0) return;
+  if (mdi == 0)
+    return;
 
-   if (mdi->isVisible()) {
-      mdi->hide();
-   } else {
-      mdi->raise();
-      mdi->show();
-      if (mdi->isMinimized()) mdi->showNormal();
-   }
+  if (mdi->isVisible())
+  {
+    mdi->hide();
+  }
+  else
+  {
+
+    if (conf->GetNumSteps() == 0)
+    {
+      // this can happen when gui connected to server without requesting the setup. Do it when user wants to see config:
+      TGo4ServerProxy* anal = Browser()->FindServer();
+      if (anal != 0)
+        anal->RequestAnalysisSettings();
+    }
+    mdi->raise();
+    mdi->show();
+    if (mdi->isMinimized())
+      mdi->showNormal();
+  }
 }
 
 TGo4AnalysisWindow* TGo4MainWindow::FindAnalysisWindow()

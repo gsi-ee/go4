@@ -83,7 +83,7 @@ class TGo4MainWindow : public QMainWindow {
       void OpenFileSlot();
       void OpenRemoteFileSlot();
       void ConnectDabcSlot();
-      TGo4ServerProxy* ConnectHttpSlot(const char* addr = 0, const char* user=0, const char* pass=0, bool with_qt_process = false);
+      TGo4ServerProxy* ConnectHttpSlot(const char* addr = 0, const char* user=0, const char* pass=0, bool with_qt_process = false, bool get_analysis_config=false);
       void ConnectHServerSlot();
       void SaveFileSlot();
       void CascadeSubWindows();
@@ -228,6 +228,7 @@ class TGo4MainWindow : public QMainWindow {
 
       int                fCloseCounter;
       int                fConnectingCounter; // counter to establish connection
+      bool               fbGetAnalysisConfig; // flag to decide if we want to have analysis config after connect
       QString            fConnectingHttp;   // http address (set when doing connection to http)
       QString            fLastPassword;
       QString            fLastFileDir;

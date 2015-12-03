@@ -35,6 +35,8 @@ Changes in Go4 v5.0.x
 4. Support Python Scripting in GUI command line (TGo4AbstractInterface binding). File search dialog of GUI
    commandline tool will provide also file filters for *.py macros. 
 5. Analysis terminal window: added button to scroll down to end of output text.
+6. Web GUI: Implemented analysis terminal window with macro command line (requires ROOT>=5.34.34)
+7. Color Tool: Extended palette range to cover new ROOT6 palette styles.
 
 
 
