@@ -25,8 +25,10 @@
 /** minimum and maximum ROOT named palette types:*/
 #define GO4NAMEDPAL_MIN 51
 
-#if ROOT_VERSION_CODE >= ROOT_VERSION(6,0,0)
+#if ROOT_VERSION_CODE >= ROOT_VERSION(6,5,0)
 #define GO4NAMEDPAL_MAX 112
+#elif ROOT_VERSION_CODE >= ROOT_VERSION(6,0,2)
+#define GO4NAMEDPAL_MAX 111
 #elif ROOT_VERSION_CODE >= ROOT_VERSION(5,34,0)
 #define GO4NAMEDPAL_MAX 56
 #else
@@ -97,8 +99,8 @@ enum Go4_Palette_t
   Go4_WaterMelon,
   Go4_Cool,
   Go4_Copper,
-  Go4_GistEarth
-
+  Go4_GistEarth,
+  Go4_Viridis
 };
 
 
