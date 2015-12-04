@@ -1466,12 +1466,12 @@ void TGo4MainWindow::PaletteSettingsSlot()
   QString palvals;
   go4sett->getPaletteOpt(min,def,max);
   palvals.sprintf("%d:%d:%d",min,def,max);
-     QString str = QInputDialog::getText(this,
-                       "Default Palette options",
+     QString str = QInputDialog::getText("Default Palette options",
                        "Input - MinIndex:DefaultIndex:MaxIndex",
-                       QLineEdit::Normal, palvals, &ok);
+                       QLineEdit::Normal, palvals, &ok, this);
+     
   if (ok) {
-       QStringList parts=str.split(":");
+       QStringList parts=QStringList::split(":",str);
        min=parts[0].toInt();
        def=parts[1].toInt();
        max=parts[2].toInt();

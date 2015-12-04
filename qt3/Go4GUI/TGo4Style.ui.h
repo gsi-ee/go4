@@ -111,81 +111,81 @@ void TGo4Style::init()
 
    for(int i=GO4NAMEDPAL_MIN; i<=GO4NAMEDPAL_MAX+1; ++i) // need one index more for Go4_None entry
    {
-     PaletteComboBox->addItem("dummy");
+     PaletteComboBox->insertItem("dummy");
    }
-   PaletteComboBox->setItemText(Go4_None,                    "unnamed palette");
-   PaletteComboBox->setItemText(Go4_DeepSea,                 "DeepSea");
-   PaletteComboBox->setItemText(Go4_GreyScale,               "GreyScale");
-   PaletteComboBox->setItemText(Go4_DarkBodyRadiator,        "DarkBodyRadiator");
-   PaletteComboBox->setItemText(Go4_BlueYellow,              "BlueYellow");
-   PaletteComboBox->setItemText(Go4_RainBow,                 "RainBow");
-   PaletteComboBox->setItemText(Go4_InvertedDarkBodyRadiator,"InvertedDarkBodyRadiator");
+   PaletteComboBox->changeItem("unnamed palette" ,Go4_None);
+   PaletteComboBox->changeItem("DeepSea", Go4_DeepSea);
+   PaletteComboBox->changeItem("GreyScale", Go4_GreyScale);
+   PaletteComboBox->changeItem("DarkBodyRadiator", Go4_DarkBodyRadiator);
+   PaletteComboBox->changeItem("BlueYellow", Go4_BlueYellow);
+   PaletteComboBox->changeItem("RainBow", Go4_RainBow);
+   PaletteComboBox->changeItem("InvertedDarkBodyRadiator", Go4_InvertedDarkBodyRadiator);
 // below for ROOT 6 only. This is all handled by indices of init loop above
-   PaletteComboBox->setItemText(Go4_Bird,                    "Bird");
-   PaletteComboBox->setItemText(Go4_Cubehelix,               "Cubehelix");
-   PaletteComboBox->setItemText(Go4_GreenRedViolet,          "GreenRedViolet");
-   PaletteComboBox->setItemText(Go4_BlueRedYellow,           "BlueRedYellow");
-   PaletteComboBox->setItemText(Go4_Ocean,                   "Ocean");
-   PaletteComboBox->setItemText(Go4_ColorPrintableOnGrey,    "ColorPrintableOnGrey");
-   PaletteComboBox->setItemText(Go4_Alpine,                  "Alpine");
-   PaletteComboBox->setItemText(Go4_Aquamarine,              "Aquamarine");
-   PaletteComboBox->setItemText(Go4_Army,                    "Army");
-   PaletteComboBox->setItemText(Go4_Atlantic,                "Atlantic");
-   PaletteComboBox->setItemText(Go4_Aurora,                  "Aurora");
-   PaletteComboBox->setItemText(Go4_Avocado,                 "Avocado");
-   PaletteComboBox->setItemText(Go4_Beach,                   "Beach");
-   PaletteComboBox->setItemText(Go4_BlackBody,               "BlackBody");
-   PaletteComboBox->setItemText(Go4_BlueGreenYellow,         "BlueGreenYellow");
-   PaletteComboBox->setItemText(Go4_BrownCyan,               "BrownCyan");
-   PaletteComboBox->setItemText(Go4_CMYK,                    "CMYK");
-   PaletteComboBox->setItemText(Go4_Candy,                   "Candy");
-   PaletteComboBox->setItemText(Go4_Cherry,                  "Cherry");
-   PaletteComboBox->setItemText(Go4_Coffee,                  "Coffee");
-   PaletteComboBox->setItemText(Go4_DarkRainBow,             "DarkRainBow");
-   PaletteComboBox->setItemText(Go4_DarkTerrain,             "DarkTerrain");
-   PaletteComboBox->setItemText(Go4_Fall,                    "Fall");
-   PaletteComboBox->setItemText(Go4_FruitPunch,              "FruitPunch");
-   PaletteComboBox->setItemText(Go4_Fuchsia,                 "Fuchsia");
-   PaletteComboBox->setItemText(Go4_GreyYellow,              "GreyYellow");
-   PaletteComboBox->setItemText(Go4_GreenBrownTerrain,       "GreenBrownTerrain");
-   PaletteComboBox->setItemText(Go4_GreenPink,               "GreenPink");
-   PaletteComboBox->setItemText(Go4_Island,                  "Island");
-   PaletteComboBox->setItemText(Go4_Lake,                    "Lake");
-   PaletteComboBox->setItemText(Go4_LightTemperature,        "LightTemperature");
-   PaletteComboBox->setItemText(Go4_LightTerrain,            "LightTerrain");
-   PaletteComboBox->setItemText(Go4_Mint,                    "Mint");
-   PaletteComboBox->setItemText(Go4_Neon,                    "Neon");
-   PaletteComboBox->setItemText(Go4_Pastel,                  "Pastel");
-   PaletteComboBox->setItemText(Go4_Pearl,                   "Pearl");
-   PaletteComboBox->setItemText(Go4_Pigeon,                  "Pigeon");
-   PaletteComboBox->setItemText(Go4_Plum,                    "Plum");
-   PaletteComboBox->setItemText(Go4_RedBlue,                 "RedBlue");
-   PaletteComboBox->setItemText(Go4_Rose,                    "Rose");
-   PaletteComboBox->setItemText(Go4_Rust,                    "Rust");
-   PaletteComboBox->setItemText(Go4_SandyTerrain,            "SandyTerrain");
-   PaletteComboBox->setItemText(Go4_Sienna,                  "Sienna");
-   PaletteComboBox->setItemText(Go4_Solar,                   "Solar");
-   PaletteComboBox->setItemText(Go4_SouthWest,               "SouthWest");
-   PaletteComboBox->setItemText(Go4_StarryNight,             "StarryNight");
-   PaletteComboBox->setItemText(Go4_Sunset,                  "Sunset");
-   PaletteComboBox->setItemText(Go4_TemperatureMap,          "TemperatureMap");
-   PaletteComboBox->setItemText(Go4_Thermometer,             "Thermometer");
-   PaletteComboBox->setItemText(Go4_Valentine,               "Valentine");
-   PaletteComboBox->setItemText(Go4_VisibleSpectrum,         "VisibleSpectrum");
-   PaletteComboBox->setItemText(Go4_WaterMelon,              "WaterMelon");
-   PaletteComboBox->setItemText(Go4_Cool,                    "Cool");
-   PaletteComboBox->setItemText(Go4_Copper,                  "Copper");
-   PaletteComboBox->setItemText(Go4_GistEarth,               "GistEarth");
-   PaletteComboBox->setItemText(Go4_Viridis,                 "Virids");      
+   PaletteComboBox->changeItem("Bird",                  Go4_Bird);
+   PaletteComboBox->changeItem("Cubehelix",             Go4_Cubehelix);
+   PaletteComboBox->changeItem("GreenRedViolet",        Go4_GreenRedViolet);
+   PaletteComboBox->changeItem("BlueRedYellow",         Go4_BlueRedYellow);
+   PaletteComboBox->changeItem("Ocean",                 Go4_Ocean);
+   PaletteComboBox->changeItem("ColorPrintableOnGrey",  Go4_ColorPrintableOnGrey);
+   PaletteComboBox->changeItem("Alpine",                Go4_Alpine);
+   PaletteComboBox->changeItem("Aquamarine",            Go4_Aquamarine);
+   PaletteComboBox->changeItem("Army",                  Go4_Army);
+   PaletteComboBox->changeItem("Atlantic",              Go4_Atlantic);
+   PaletteComboBox->changeItem("Aurora",                Go4_Aurora);
+   PaletteComboBox->changeItem("Avocado",               Go4_Avocado);
+   PaletteComboBox->changeItem("Beach",                 Go4_Beach);           
+   PaletteComboBox->changeItem("BlackBody",             Go4_BlackBody);       
+   PaletteComboBox->changeItem("BlueGreenYellow",       Go4_BlueGreenYellow); 
+   PaletteComboBox->changeItem("BrownCyan",             Go4_BrownCyan);       
+   PaletteComboBox->changeItem("CMYK",                  Go4_CMYK);            
+   PaletteComboBox->changeItem("Candy",                 Go4_Candy);           
+   PaletteComboBox->changeItem("Cherry",                Go4_Cherry);          
+   PaletteComboBox->changeItem("Coffee",                Go4_Coffee);          
+   PaletteComboBox->changeItem("DarkRainBow",           Go4_DarkRainBow);     
+   PaletteComboBox->changeItem("DarkTerrain",           Go4_DarkTerrain);     
+   PaletteComboBox->changeItem("Fall",                  Go4_Fall);            
+   PaletteComboBox->changeItem("FruitPunch",            Go4_FruitPunch);      
+   PaletteComboBox->changeItem("Fuchsia",               Go4_Fuchsia);         
+   PaletteComboBox->changeItem("GreyYellow",            Go4_GreyYellow);      
+   PaletteComboBox->changeItem("GreenBrownTerrain",     Go4_GreenBrownTerrain);
+   PaletteComboBox->changeItem("GreenPink",             Go4_GreenPink);       
+   PaletteComboBox->changeItem("Island",                Go4_Island);          
+   PaletteComboBox->changeItem("Lake",                  Go4_Lake);            
+   PaletteComboBox->changeItem("LightTemperature",      Go4_LightTemperature);
+   PaletteComboBox->changeItem("LightTerrain",          Go4_LightTerrain);    
+   PaletteComboBox->changeItem("Mint",                  Go4_Mint);            
+   PaletteComboBox->changeItem("Neon",                  Go4_Neon);            
+   PaletteComboBox->changeItem("Pastel",                Go4_Pastel);          
+   PaletteComboBox->changeItem("Pearl",                 Go4_Pearl);           
+   PaletteComboBox->changeItem("Pigeon",                Go4_Pigeon);          
+   PaletteComboBox->changeItem("Plum",                  Go4_Plum);            
+   PaletteComboBox->changeItem("RedBlue",               Go4_RedBlue);         
+   PaletteComboBox->changeItem("Rose",                  Go4_Rose);            
+   PaletteComboBox->changeItem("Rust",                  Go4_Rust);            
+   PaletteComboBox->changeItem("SandyTerrain",          Go4_SandyTerrain);    
+   PaletteComboBox->changeItem("Sienna",                Go4_Sienna);          
+   PaletteComboBox->changeItem("Solar",                 Go4_Solar);           
+   PaletteComboBox->changeItem("SouthWest",             Go4_SouthWest);       
+   PaletteComboBox->changeItem("StarryNight",           Go4_StarryNight);     
+   PaletteComboBox->changeItem("Sunset",                Go4_Sunset);          
+   PaletteComboBox->changeItem("TemperatureMap",        Go4_TemperatureMap);  
+   PaletteComboBox->changeItem("Thermometer",           Go4_Thermometer);     
+   PaletteComboBox->changeItem("Valentine",             Go4_Valentine);       
+   PaletteComboBox->changeItem("VisibleSpectrum",       Go4_VisibleSpectrum); 
+   PaletteComboBox->changeItem("WaterMelon",            Go4_WaterMelon);      
+   PaletteComboBox->changeItem("Cool",                  Go4_Cool);            
+   PaletteComboBox->changeItem("Copper",                Go4_Copper);          
+   PaletteComboBox->changeItem("GistEarth",             Go4_GistEarth);       
+   PaletteComboBox->changeItem("Virids",                Go4_Viridis);         
 
 }
 
 
 void TGo4Style::SetPaletteRange(int min, int def, int max)
 {
-    Palette->setMinimum(min);
+    Palette->setMinValue(min);
     Palette->setValue(def);
-    Palette->setMaximum(max);
+    Palette->setMaxValue(max);
     gStyle->SetPalette(def,0,0);
 }
 
@@ -210,7 +210,7 @@ void TGo4Style::SetPalette( int t )
   if (!fbMenuLock) // try to avoid feedback of qt signals between widget slots
   {
     fbMenuLock = true;
-    PaletteComboBox->setCurrentIndex(CodePalette(t));
+    PaletteComboBox->setCurrentItem(CodePalette(t));
     fbMenuLock = false;
   }
       
@@ -230,7 +230,7 @@ void TGo4Style::SetNamedPalette(int i)
   }
 }
 
-Go4_Palette_t TGo4Style::CodePalette(int i)
+int TGo4Style::CodePalette(int i)
 {
   Go4_Palette_t rev;
   if(i<GO4NAMEDPAL_MIN || i > GO4NAMEDPAL_MAX)
@@ -240,7 +240,7 @@ Go4_Palette_t TGo4Style::CodePalette(int i)
   return rev;
 }
 
-int TGo4Style::DecodePalette(Go4_Palette_t key)
+int TGo4Style::DecodePalette(int key)
 {
     if(key==Go4_None) return -1;
     return (key-1 + GO4NAMEDPAL_MIN ); // account Go4_None offset

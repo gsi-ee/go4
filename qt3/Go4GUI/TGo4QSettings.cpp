@@ -414,7 +414,7 @@ void    TGo4QSettings::getPaletteOpt(int& min, int& def, int& max)
 {
   min =  readNumEntry(GetSettingsName()+"/geometry/PaletteMin", 0);
   def = readNumEntry(GetSettingsName()+"/geometry/PaletteDef", 1);
-  max = greadNumEntry(GetSettingsName()+"/geometry/PaletteMax", 56);
+  max = readNumEntry(GetSettingsName()+"/geometry/PaletteMax", 56);
 }
 
 

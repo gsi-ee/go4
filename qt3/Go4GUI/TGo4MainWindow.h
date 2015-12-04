@@ -106,6 +106,7 @@ class TGo4MainWindow : public QMainWindow {
       void ChangeFetchWhenSaveSlot();
       void ChangeHideEventElement();
       void CanvasColorSlot();
+      void PaletteSettingsSlot();
       void CrosshairSlot();
       void EventStatusSlot();
       void MarkerSettingsSlot();

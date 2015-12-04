@@ -137,7 +137,7 @@
     </connection>
     <connection>
         <sender>PaletteComboBox</sender>
-        <signal>vactivated(int)</signal>
+        <signal>activated(int)</signal>
         <receiver>TGo4Style</receiver>
         <slot>SetNamedPalette(int)</slot>
     </connection>
@@ -150,9 +150,12 @@
 </connections>
 <includes>
     <include location="local" impldecl="in implementation">TColor.h</include>
+    <include location="local" impldecl="in implementation">TStyle.h</include>
     <include location="local" impldecl="in implementation">qcolordialog.h</include>
+    <include location="local" impldecl="in implementation">qcombobox.h</include>
     <include location="local" impldecl="in implementation">TGo4WorkSpace.h</include>
     <include location="local" impldecl="in implementation">TGo4ViewPanel.h</include>
+    <include location="local" impldecl="in implementation">TGo4QSettings.h</include>
     <include location="local" impldecl="in implementation">TGo4Style.ui.h</include>
 </includes>
 <variables>
