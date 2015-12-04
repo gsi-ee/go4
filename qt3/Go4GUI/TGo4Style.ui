@@ -1,6 +1,6 @@
 <!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>TGo4Style</class>
-<author>Mohammad Al-Turany/S Linev</author>
+<author>Mohammad Al-Turany/S Linev/JAM</author>
 <widget class="QWidget">
     <property name="name">
         <cstring>TGo4Style</cstring>
@@ -72,6 +72,19 @@
                 <number>1</number>
             </property>
         </widget>
+        <widget class="QComboBox">
+            <property name="name">
+                <cstring>PaletteComboBox</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+        </widget>        
         <widget class="QLabel">
             <property name="name">
                 <cstring>TextLabel2_3</cstring>
@@ -123,6 +136,12 @@
         <slot>SetPalette(int)</slot>
     </connection>
     <connection>
+        <sender>PaletteComboBox</sender>
+        <signal>vactivated(int)</signal>
+        <receiver>TGo4Style</receiver>
+        <slot>SetNamedPalette(int)</slot>
+    </connection>
+    <connection>
         <sender>PadColor</sender>
         <signal>clicked()</signal>
         <receiver>TGo4Style</receiver>
@@ -136,10 +155,21 @@
     <include location="local" impldecl="in implementation">TGo4ViewPanel.h</include>
     <include location="local" impldecl="in implementation">TGo4Style.ui.h</include>
 </includes>
+<variables>
+    <variable>bool fbMenuLock</variable>
+</variables>
 <slots>
     <slot>SetPadColor()</slot>
     <slot>SetPalette( int t )</slot>
+    <slot>SetNamedPalette( int t )</slot>
 </slots>
+<functions>
+    <function>init()</function>
+    <function returnType="int">CodePalette(int i)</function>
+    <function returnType="int">DecodePalette(int i)</function>
+    <function>SetPaletteRange(int min, int def, int max)</function>
+</functions>
+
 <pixmapinproject/>
 <layoutdefaults spacing="0" margin="0"/>
 </UI>

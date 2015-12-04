@@ -37,6 +37,7 @@ class TGo4ViewPanel;
 class TPad;
 class TGo4Slot;
 class TGo4ObjectManager;
+class TGo4Style;
 class TGo4AnalysisProxy;
 class TGo4BrowserProxy;
 class TGo4WidgetProxy;
@@ -196,7 +197,7 @@ class TGo4MainWindow : public QMainWindow {
       QDockWindow* BrowserDockWin;
       QDockWindow* MBSDockWin;
       QDockWindow* lidock;
-
+      TGo4Style*   fxStyle;
       TGo4ObjectManager* fxOM;
       QString            fOMDataPath;
       QString            fOMBrowserPath;

@@ -287,9 +287,9 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    QToolBar* stylebar = new QToolBar(this, "Color Tools");
    addDockWindow(stylebar, "Color Tools", Qt::DockTop, TRUE );
    setAppropriate (stylebar, true);
-   TGo4Style* style = new TGo4Style(stylebar, "StyleToolBar");
-   style->polish();
-   style->show();
+   fxStyle = new TGo4Style(stylebar, "StyleToolBar");
+   fxStyle->polish();
+   fxStyle->show();
 
    QToolBar* BrowserOptionsPanel = new QToolBar(this,"Browser Options Panel");
    addDockWindow(BrowserOptionsPanel, "Browser Options", Qt::DockTop, TRUE);
@@ -498,6 +498,9 @@ void TGo4MainWindow::AddSettingMenu()
    PanelMenu->setItemEnabled(fiDrawItemId, go4sett->getCloneFlag());
 
    PanelMenu->insertItem("Printf arguments...", this, SLOT(StatFormatSlot()));
+   PanelMenu->insertItem("Palette settings ...", this, SLOT(PaletteSettingsSlot()));
+
+
 
 
    SettingMenu->insertItem("&Log actions...",this, SLOT(LogSettingsSlot()));
@@ -1454,6 +1457,34 @@ void TGo4MainWindow::StatFormatSlot()
          gStyle->SetStatFormat(str.ascii());
    }
 }
+
+void TGo4MainWindow::PaletteSettingsSlot()
+{
+  // JAM: later we might put some elaborate input dialog here. for the moment keep on with parsing a string-
+  bool ok = false;
+  int min=0, def=0, max =0;
+  QString palvals;
+  go4sett->getPaletteOpt(min,def,max);
+  palvals.sprintf("%d:%d:%d",min,def,max);
+     QString str = QInputDialog::getText(this,
+                       "Default Palette options",
+                       "Input - MinIndex:DefaultIndex:MaxIndex",
+                       QLineEdit::Normal, palvals, &ok);
+  if (ok) {
+       QStringList parts=str.split(":");
+       min=parts[0].toInt();
+       def=parts[1].toInt();
+       max=parts[2].toInt();
+//       std::cout <<"PaletteSettingsSlot has "<<min<<":"<<def<<":"<<max  <<std::endl;
+       go4sett->setPaletteOpt(min,def,max);
+       // activate settings immediately, do not need to restart go4
+       fxStyle->SetPaletteRange(min,def,max);
+     }
+}
+
+
+
+
 
 void TGo4MainWindow::CrosshairSlot()
 {

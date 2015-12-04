@@ -403,6 +403,23 @@ void TGo4QSettings::getCanvasColor(int& red, int& green, int& blue)
    blue  = readNumEntry(GetSettingsName()+"/geometry/ViewPanelBackBlu", 220);
 }
 
+void    TGo4QSettings::setPaletteOpt(int min, int def, int max)
+{
+     writeEntry(GetSettingsName()+"/geometry/PaletteMin", min);
+	 writeEntry(GetSettingsName()+"/geometry/PaletteDef", def);
+     writeEntry(GetSettingsName()+"/geometry/PaletteMax", max);
+}
+
+void    TGo4QSettings::getPaletteOpt(int& min, int& def, int& max)
+{
+  min =  readNumEntry(GetSettingsName()+"/geometry/PaletteMin", 0);
+  def = readNumEntry(GetSettingsName()+"/geometry/PaletteDef", 1);
+  max = greadNumEntry(GetSettingsName()+"/geometry/PaletteMax", 56);
+}
+
+
+
+
 void TGo4QSettings::setCloneFlag(bool on)
 {
    writeEntry( GetSettingsName()+"/geometry/CloneFlag", on ? 1: 0);
