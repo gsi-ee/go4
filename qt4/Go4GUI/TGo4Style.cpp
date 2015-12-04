@@ -34,7 +34,10 @@ TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
 
    SetPaletteRange(min,def,max);
 
-
+   for(int i=GO4NAMEDPAL_MIN; i<=GO4NAMEDPAL_MAX+1; ++i) // need one index more for Go4_None entry
+   {
+     PaletteComboBox->addItem("dummy");
+   }
    PaletteComboBox->setItemText(Go4_None,                    "unnamed palette");
    PaletteComboBox->setItemText(Go4_DeepSea,                 "DeepSea");
    PaletteComboBox->setItemText(Go4_GreyScale,               "GreyScale");
@@ -42,7 +45,7 @@ TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
    PaletteComboBox->setItemText(Go4_BlueYellow,              "BlueYellow");
    PaletteComboBox->setItemText(Go4_RainBow,                 "RainBow");
    PaletteComboBox->setItemText(Go4_InvertedDarkBodyRadiator,"InvertedDarkBodyRadiator");
-#if ROOT_VERSION_CODE >= ROOT_VERSION(6,0,0)
+//#if ROOT_VERSION_CODE >= ROOT_VERSION(6,0,0) // all handled by indices of init loop above
    PaletteComboBox->setItemText(Go4_Bird,                    "Bird");
    PaletteComboBox->setItemText(Go4_Cubehelix,               "Cubehelix");
    PaletteComboBox->setItemText(Go4_GreenRedViolet,          "GreenRedViolet");
@@ -98,8 +101,7 @@ TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
    PaletteComboBox->setItemText(Go4_Cool,                    "Cool");
    PaletteComboBox->setItemText(Go4_Copper,                  "Copper");
    PaletteComboBox->setItemText(Go4_GistEarth,               "GistEarth");
-#endif
-
+//#endif
 }
 
 

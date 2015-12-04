@@ -26,11 +26,11 @@
 #define GO4NAMEDPAL_MIN 51
 
 #if ROOT_VERSION_CODE >= ROOT_VERSION(6,0,0)
-#define GO4NAMEDPAL_MAX 111
+#define GO4NAMEDPAL_MAX 112
 #elif ROOT_VERSION_CODE >= ROOT_VERSION(5,34,0)
 #define GO4NAMEDPAL_MAX 56
 #else
-#define GO4NAMEDPAL_MAX 50
+#define GO4NAMEDPAL_MAX 50 // no named entries for old ROOT
 #endif
 
 

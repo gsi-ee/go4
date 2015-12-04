@@ -56,45 +56,16 @@
        <property name="value">
         <number>1</number>
        </property>
+        <property name="toolTip">
+        <string>ROOT Index of active color palette.</string>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QComboBox" name="PaletteComboBox">
-       <item>
-        <property name="text">
-         <string>Deep Sea</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Grey Scale</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Dark Body Radiator</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Blue Yellow</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>RainBow</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Inverted Dark Body Radiator</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Bird</string>
-        </property>
-       </item>
+       <property name="toolTip">
+        <string>ROOT Name of active palette. Note that there are unnamed palette indices in ROOT.</string>
+       </property>
       </widget>
      </item>
     </layout>
