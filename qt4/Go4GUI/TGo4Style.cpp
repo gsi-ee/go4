@@ -34,11 +34,12 @@ TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
 
    SetPaletteRange(min,def,max);
 
-   for(int i=GO4NAMEDPAL_MIN; i<=GO4NAMEDPAL_MAX+1; ++i) // need one index more for Go4_None entry
+   for(int i=GO4NAMEDPAL_MIN; i<=GO4NAMEDPAL_MAX+2; ++i) // need two indices more for Go4_None and Go4_Default
    {
      PaletteComboBox->addItem("dummy");
    }
    PaletteComboBox->setItemText(Go4_None,                    "unnamed palette");
+   PaletteComboBox->setItemText(Go4_Default,                 "ClassicDefault");
    PaletteComboBox->setItemText(Go4_DeepSea,                 "DeepSea");
    PaletteComboBox->setItemText(Go4_GreyScale,               "GreyScale");
    PaletteComboBox->setItemText(Go4_DarkBodyRadiator,        "DarkBodyRadiator");
@@ -157,17 +158,20 @@ void TGo4Style::SetNamedPalette(int i)
 Go4_Palette_t TGo4Style::CodePalette(int i)
 {
   Go4_Palette_t rev;
-  if(i<GO4NAMEDPAL_MIN || i > GO4NAMEDPAL_MAX)
+  if(i==1)
+    rev=Go4_Default;
+  else if(i<GO4NAMEDPAL_MIN || i > GO4NAMEDPAL_MAX)
     rev=Go4_None;
   else
-    rev= (Go4_Palette_t) (i +1 -GO4NAMEDPAL_MIN); // account Go4_None offset
+    rev= (Go4_Palette_t) (i +2 -GO4NAMEDPAL_MIN); // account Go4_None and Go4_Default offset
   return rev;
 }
 
 int TGo4Style::DecodePalette(Go4_Palette_t key)
 {
     if(key==Go4_None) return -1;
-    return (key-1 + GO4NAMEDPAL_MIN ); // account Go4_None offset
+    if(key==Go4_Default) return 1; // old default rainbow index
+    return (key-2 + GO4NAMEDPAL_MIN ); // account Go4_None and Go4_Default  offset
 }
 
 

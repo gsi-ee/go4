@@ -39,6 +39,7 @@
 enum Go4_Palette_t
 {
   Go4_None,
+  Go4_Default,
   Go4_DeepSea,
   Go4_GreyScale,
   Go4_DarkBodyRadiator,

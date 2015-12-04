@@ -34,6 +34,7 @@
 enum Go4_Palette_t
 {
   Go4_None,
+  Go4_Default,
   Go4_DeepSea,
   Go4_GreyScale,
   Go4_DarkBodyRadiator,
@@ -114,6 +115,7 @@ void TGo4Style::init()
      PaletteComboBox->insertItem("dummy");
    }
    PaletteComboBox->changeItem("unnamed palette" ,Go4_None);
+   PaletteComboBox->changeItem("ClassicDefault" ,Go4_Default);
    PaletteComboBox->changeItem("DeepSea", Go4_DeepSea);
    PaletteComboBox->changeItem("GreyScale", Go4_GreyScale);
    PaletteComboBox->changeItem("DarkBodyRadiator", Go4_DarkBodyRadiator);
@@ -233,17 +235,20 @@ void TGo4Style::SetNamedPalette(int i)
 int TGo4Style::CodePalette(int i)
 {
   Go4_Palette_t rev;
-  if(i<GO4NAMEDPAL_MIN || i > GO4NAMEDPAL_MAX)
+  if(i==1)
+    rev=Go4_Default;
+  else if(i<GO4NAMEDPAL_MIN || i > GO4NAMEDPAL_MAX)
     rev=Go4_None;
   else
-    rev= (Go4_Palette_t) (i +1 -GO4NAMEDPAL_MIN); // account Go4_None offset
+    rev= (Go4_Palette_t) (i +2 -GO4NAMEDPAL_MIN); // account Go4_None and Go4_Default offset
   return rev;
 }
 
 int TGo4Style::DecodePalette(int key)
 {
     if(key==Go4_None) return -1;
-    return (key-1 + GO4NAMEDPAL_MIN ); // account Go4_None offset
+    if(key==Go4_Default) return 1; // old default rainbow index
+    return (key-2 + GO4NAMEDPAL_MIN ); // account Go4_None and Go4_Default offset
 }
 
 
