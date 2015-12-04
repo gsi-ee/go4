@@ -130,6 +130,9 @@ class TGo4QSettings {
       void    setCanvasColor(int red, int green, int blue);
       void    getCanvasColor(int& red, int& green, int& blue);
 
+      void    setPaletteOpt(int min, int def, int max);
+      void    getPaletteOpt(int& min, int& def, int& max);
+
       void    setOptStat(int value);
       int     getOptStat();
 

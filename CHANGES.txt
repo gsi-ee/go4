@@ -36,7 +36,9 @@ Changes in Go4 v5.0.x
    commandline tool will provide also file filters for *.py macros. 
 5. Analysis terminal window: added button to scroll down to end of output text.
 6. Web GUI: Implemented analysis terminal window with macro command line (requires ROOT>=5.34.34)
-7. Color Tool: Extended palette range to cover new ROOT6 palette styles.
+7. TGo4Style Color Tool: Added selection menu to provide new ROOT6 named palettes.
+   New entry "Settings/Panel defaults/Palette settings" to specify minimum and maximum valid ROOT palette indices for spinbox,
+   and default palette index. (Qt4 only, Qt3 has extended palette index range at least.)
 
 
 

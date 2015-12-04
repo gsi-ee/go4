@@ -287,8 +287,8 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
 
    QToolBar* stylebar = addToolBar("Color Tools");
    stylebar->setObjectName("Go4StyleDock");
-   TGo4Style* style = new TGo4Style(this, "Go4Style");
-   stylebar->addWidget(style);
+   fxStyle = new TGo4Style(this, "Go4Style");
+   stylebar->addWidget(fxStyle);
 
    QToolBar* BrowserOptionsPanel = addToolBar("Browser Options");
    BrowserOptionsPanel->setObjectName("BrowserOptionsDock");
@@ -512,6 +512,7 @@ void TGo4MainWindow::AddSettingMenu()
    panelMenu->addAction("TH3 draw opt ...", this, SLOT(TH3DrawOptSlot()));
    panelMenu->addAction("TGraph draw opt ...", this, SLOT(TGraphDrawOptSlot()));
    panelMenu->addAction("Printf format ...", this, SLOT(GStyleStatFormatSlot()));
+   panelMenu->addAction("Palette settings ...", this, SLOT(PaletteSettingsSlot()));
 
    settMenu->addAction("&Log actions...", this, SLOT(LogSettingsSlot()));
 
@@ -1618,6 +1619,32 @@ void TGo4MainWindow::GStyleStatFormatSlot()
          gStyle->SetStatFormat(str.toLatin1().constData());
    }
 }
+
+
+void TGo4MainWindow::PaletteSettingsSlot()
+{
+  // JAM: later we might put some elaborate input dialog here. for the moment keep on with parsing a string-
+  bool ok = false;
+  int min=0, def=0, max =0;
+  QString palvals;
+  go4sett->getPaletteOpt(min,def,max);
+  palvals.sprintf("%d:%d:%d",min,def,max);
+     QString str = QInputDialog::getText(this,
+                       "Default Palette options",
+                       "Input - MinIndex:DefaultIndex:MaxIndex",
+                       QLineEdit::Normal, palvals, &ok);
+  if (ok) {
+       QStringList parts=str.split(":");
+       min=parts[0].toInt();
+       def=parts[1].toInt();
+       max=parts[2].toInt();
+//       std::cout <<"PaletteSettingsSlot has "<<min<<":"<<def<<":"<<max  <<std::endl;
+       go4sett->setPaletteOpt(min,def,max);
+       // activate settings immediately, do not need to restart go4
+       fxStyle->SetPaletteRange(min,def,max);
+     }
+}
+
 
 
 void TGo4MainWindow::LaunchClientSlot(bool interactive)

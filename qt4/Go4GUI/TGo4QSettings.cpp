@@ -479,6 +479,23 @@ void TGo4QSettings::getCanvasColor(int& red, int& green, int& blue)
    blue  = getInt( "/ViewPanel/BackBlu", 220);
 }
 
+
+void    TGo4QSettings::setPaletteOpt(int min, int def, int max)
+{
+     setInt( "/ViewPanel/PaletteMin", min);
+     setInt( "/ViewPanel/PaletteDef", def);
+     setInt( "/ViewPanel/PaletteMax", max);
+}
+
+void    TGo4QSettings::getPaletteOpt(int& min, int& def, int& max)
+{
+  min   = getInt( "/ViewPanel/PaletteMin", 0);
+  def = getInt( "/ViewPanel/PaletteDef", 1);
+  max  = getInt( "/ViewPanel/PaletteMax", 56);
+}
+
+
+
 void TGo4QSettings::setCloneFlag(bool on)
 {
    setBool("/ViewPanel/CloneFlag", on);

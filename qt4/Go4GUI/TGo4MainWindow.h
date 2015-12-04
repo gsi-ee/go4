@@ -38,6 +38,7 @@ class TGo4ViewPanel;
 class TPad;
 class TGo4Slot;
 class TGo4ObjectManager;
+class TGo4Style;
 class TGo4AnalysisProxy;
 class TGo4BrowserProxy;
 class TGo4WidgetProxy;
@@ -126,6 +127,7 @@ class TGo4MainWindow : public QMainWindow {
       void TH3DrawOptSlot();
       void TGraphDrawOptSlot();
       void GStyleStatFormatSlot();
+      void PaletteSettingsSlot();
 
       void PrepareForClientConnectionSlot(bool interactive = true);
       void LaunchClientSlot(bool interactive = true);
@@ -215,7 +217,7 @@ class TGo4MainWindow : public QMainWindow {
       QMenu*             windowsMenu;
       QSignalMapper*     winMapper;
       TGo4MdiArea*       fxMdiArea;
-
+      TGo4Style*         fxStyle;
       TGo4ObjectManager* fxOM;
       QString            fOMDataPath;
       QString            fOMBrowserPath;
