@@ -19,7 +19,7 @@
 #include "TGo4QSettings.h"
 #include "TStyle.h"
 
-#include "Riostream.h"
+//#include "Riostream.h"
 
 TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
    QWidget( parent, fl ), fbMenuLock(false)
@@ -27,12 +27,8 @@ TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
    setObjectName( name ? name : "Go4Style");
    setupUi(this);
 
-   // here defaults from settings:
-   int min,max,def;
-   go4sett->getPaletteOpt(min,def,max);
-   //std::cout<<"TGo4Style - Palette options are "<<min<<":"<<def<<":"<<max << std::endl;
 
-   SetPaletteRange(min,def,max);
+
 
    for(int i=GO4NAMEDPAL_MIN; i<=GO4NAMEDPAL_MAX+2; ++i) // need two indices more for Go4_None and Go4_Default
    {
@@ -103,25 +99,59 @@ TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
    PaletteComboBox->setItemText(Go4_Copper,                  "Copper");
    PaletteComboBox->setItemText(Go4_GistEarth,               "GistEarth");
    PaletteComboBox->setItemText(Go4_Viridis,                 "Virids");
+
+   // here defaults from settings:
+   int min,max,def;
+   go4sett->getPaletteOpt(min,def,max);
+   //std::cout<<"TGo4Style - Palette options are "<<min<<":"<<def<<":"<<max << std::endl;
+
+   SetPaletteRange(min,def,max);
+
+
 }
 
 
 void TGo4Style::SetPaletteRange(int min, int def, int max)
 {
+
   Palette->setMinimum(min);
-    Palette->setValue(def);
-    Palette->setMaximum(max);
-    gStyle->SetPalette(def,0,0);
+  Palette->setMaximum(max);
+  Palette->setValue(def);
+  def=Palette->value(); // spinbox automatic limiting of range
+  gStyle->SetPalette(def,0,0);
+  SetPalette(def);
+  RefreshPaletteText(min,max);
 }
+
+void TGo4Style::RefreshPaletteText(int min, int max)
+{
+  // mark unavailable entries in palette selection box:
+  QString label;
+  const QString notavailable="not avail:";
+  for (int pt = 0; pt <= GO4NAMEDPAL_MAX + 2 - GO4NAMEDPAL_MIN; ++pt)    // need two indices more for Go4_None and Go4_Default
+  {
+    int ix = DecodePalette((Go4_Palette_t) pt);
+    if (ix < 0)
+      continue;
+    label = PaletteComboBox->itemText(pt);
+    label.remove(notavailable); // clear any old markers
+    if ((ix < min) || (ix > max))
+    {
+      label.prepend(notavailable);
+    }
+    PaletteComboBox->setItemText(pt, label);
+  }
+
+
+}
+
 
 
 void TGo4Style::SetPadColor()
 {
    QColor c = QColorDialog::getColor();
    if (!c.isValid()) return;
-
    Int_t color = TColor::GetColor(c.red(), c.green(), c.blue());
-
    TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
    if (panel!=0)
       panel->ChangeDrawOption(101, color, 0);
@@ -147,6 +177,17 @@ void TGo4Style::SetNamedPalette(int i)
   //std::cout<<"TGo4Style::SetNamedPalette "<<i  << std::endl;
   int ix=DecodePalette((Go4_Palette_t) i);
   if (ix<0) return;
+  // range check of current preferences here:
+  if(ix< Palette->minimum())
+    {
+      ix=Palette->minimum();
+      PaletteComboBox->setCurrentIndex(CodePalette(ix)); // show correct palette name here.
+    }
+  if(ix> Palette->maximum())
+     {
+       ix=Palette->maximum();
+       PaletteComboBox->setCurrentIndex(CodePalette(ix)); // show correct palette name here. 
+     }
   if (!fbMenuLock)  // try to avoid feedback of qt signals between widget slots
   {
     fbMenuLock = true;

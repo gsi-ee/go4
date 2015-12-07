@@ -22,12 +22,20 @@
 
 #if ROOT_VERSION_CODE >= ROOT_VERSION(6,5,0)
 #define GO4NAMEDPAL_MAX 112
-#elif ROOT_VERSION_CODE >= ROOT_VERSION(6,0,2)
+#elif ROOT_VERSION_CODE >= ROOT_VERSION(6,4,0)
 #define GO4NAMEDPAL_MAX 111
-#elif ROOT_VERSION_CODE >= ROOT_VERSION(5,34,0)
+#elif ROOT_VERSION_CODE >= ROOT_VERSION(6,2,0)
 #define GO4NAMEDPAL_MAX 56
+#elif ROOT_VERSION_CODE >= ROOT_VERSION(6,0,0)
+#define GO4NAMEDPAL_MAX 55
+#elif ROOT_VERSION_CODE >= ROOT_VERSION(5,34,6)
+#define GO4NAMEDPAL_MAX 56
+#elif ROOT_VERSION_CODE >= ROOT_VERSION(5,34,4)
+#define GO4NAMEDPAL_MAX 55
+#elif ROOT_VERSION_CODE >= ROOT_VERSION(3,2,7)
+#define GO4NAMEDPAL_MAX 51 // DeepSea even for old ROOT
 #else
-#define GO4NAMEDPAL_MAX 50 // no named entries for old ROOT
+#define GO4NAMEDPAL_MAX 50 // no named entries for very very old ROOT
 #endif
 
 
@@ -105,10 +113,7 @@ void TGo4Style::init()
 {
  fbMenuLock=false;
  int min,max,def;
-   go4sett->getPaletteOpt(min,def,max);
-   //std::cout<<"TGo4Style - Palette options are "<<min<<":"<<def<<":"<<max << std::endl;
-
-   SetPaletteRange(min,def,max);
+   
 
    for(int i=GO4NAMEDPAL_MIN; i<=GO4NAMEDPAL_MAX+1; ++i) // need one index more for Go4_None entry
    {
@@ -180,16 +185,45 @@ void TGo4Style::init()
    PaletteComboBox->changeItem("GistEarth",             Go4_GistEarth);       
    PaletteComboBox->changeItem("Virids",                Go4_Viridis);         
 
+
+	go4sett->getPaletteOpt(min,def,max);
+   //std::cout<<"TGo4Style - Palette options are "<<min<<":"<<def<<":"<<max << std::endl;
+
+   SetPaletteRange(min,def,max);
+
 }
+
 
 
 void TGo4Style::SetPaletteRange(int min, int def, int max)
 {
     Palette->setMinValue(min);
-    Palette->setValue(def);
     Palette->setMaxValue(max);
+    Palette->setValue(def);
+    def=Palette->value(); // spinbox automatic limiting of range
     gStyle->SetPalette(def,0,0);
+	SetPalette(def);
+	RefreshPaletteText(min,max);
 }
+
+void TGo4Style::RefreshPaletteText(int min, int max)
+{
+  // mark unavailable entries in palette selection box:
+  QString label;
+  const QString notavailable="not avail:";
+  for (int pt = 0; pt <= GO4NAMEDPAL_MAX + 2 - GO4NAMEDPAL_MIN; ++pt)    // need two indices more for Go4_None and Go4_Default
+  {
+    int ix = DecodePalette((Go4_Palette_t) pt);
+    if (ix < 0)
+      continue;
+    label = PaletteComboBox->itemText(pt);
+    label.remove(notavailable); // clear any old markers
+    if ((ix < min) || (ix > max))
+    {
+      label.prepend(notavailable);
+    }
+    PaletteComboBox->changeItem(pt, label);
+  }
 
 void TGo4Style::SetPadColor()
 {
@@ -224,6 +258,17 @@ void TGo4Style::SetNamedPalette(int i)
   //std::cout<<"TGo4Style::SetNamedPalette "<<i  << std::endl;
   int ix=DecodePalette((Go4_Palette_t) i);
   if (ix<0) return;
+  // range check of current preferences here:
+  if(ix< Palette->minimum())
+    {
+      ix=Palette->minimum();
+      PaletteComboBox->setCurrentItem(CodePalette(ix)); // show correct palette name here.
+    }
+  if(ix> Palette->maximum())
+     {
+       ix=Palette->maximum();
+       PaletteComboBox->setCurrentItem(CodePalette(ix)); // show correct palette name here. 
+     }
   if (!fbMenuLock)  // try to avoid feedback of qt signals between widget slots
   {
     fbMenuLock = true;

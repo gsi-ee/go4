@@ -27,12 +27,20 @@
 
 #if ROOT_VERSION_CODE >= ROOT_VERSION(6,5,0)
 #define GO4NAMEDPAL_MAX 112
-#elif ROOT_VERSION_CODE >= ROOT_VERSION(6,0,2)
+#elif ROOT_VERSION_CODE >= ROOT_VERSION(6,4,0)
 #define GO4NAMEDPAL_MAX 111
-#elif ROOT_VERSION_CODE >= ROOT_VERSION(5,34,0)
+#elif ROOT_VERSION_CODE >= ROOT_VERSION(6,2,0)
 #define GO4NAMEDPAL_MAX 56
+#elif ROOT_VERSION_CODE >= ROOT_VERSION(6,0,0)
+#define GO4NAMEDPAL_MAX 55
+#elif ROOT_VERSION_CODE >= ROOT_VERSION(5,34,6)
+#define GO4NAMEDPAL_MAX 56
+#elif ROOT_VERSION_CODE >= ROOT_VERSION(5,34,4)
+#define GO4NAMEDPAL_MAX 55
+#elif ROOT_VERSION_CODE >= ROOT_VERSION(3,2,7)
+#define GO4NAMEDPAL_MAX 51 // DeepSea even for old ROOT
 #else
-#define GO4NAMEDPAL_MAX 50 // no named entries for old ROOT
+#define GO4NAMEDPAL_MAX 50 // no named entries for very very old ROOT
 #endif
 
 
@@ -131,6 +139,9 @@ class TGo4Style : public QWidget, public Ui::TGo4Style
 
    /** Transform combobox index to ROOT palette index*/
    int DecodePalette(Go4_Palette_t key);
+
+   /** Change selection menu entries according to index range*/
+   void RefreshPaletteText(int min, int max);
 
    bool fbMenuLock;
 
