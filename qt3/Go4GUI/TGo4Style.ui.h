@@ -115,7 +115,7 @@ void TGo4Style::init()
  int min,max,def;
    
 
-   for(int i=GO4NAMEDPAL_MIN; i<=GO4NAMEDPAL_MAX+1; ++i) // need one index more for Go4_None entry
+   for(int i=GO4NAMEDPAL_MIN; i<=GO4NAMEDPAL_MAX+2; ++i) // need two index more for Go4_None and Go4_Default
    {
      PaletteComboBox->insertItem("dummy");
    }
@@ -216,15 +216,15 @@ void TGo4Style::RefreshPaletteText(int min, int max)
     int ix = DecodePalette((Go4_Palette_t) pt);
     if (ix < 0)
       continue;
-    label = PaletteComboBox->itemText(pt);
+    label = PaletteComboBox->text(pt);
     label.remove(notavailable); // clear any old markers
     if ((ix < min) || (ix > max))
     {
       label.prepend(notavailable);
     }
-    PaletteComboBox->changeItem(pt, label);
+    PaletteComboBox->changeItem(label,pt);
   }
-
+}
 void TGo4Style::SetPadColor()
 {
    QColor c = QColorDialog::getColor();
@@ -259,14 +259,14 @@ void TGo4Style::SetNamedPalette(int i)
   int ix=DecodePalette((Go4_Palette_t) i);
   if (ix<0) return;
   // range check of current preferences here:
-  if(ix< Palette->minimum())
+  if(ix< Palette->minValue())
     {
-      ix=Palette->minimum();
+      ix=Palette->minValue();
       PaletteComboBox->setCurrentItem(CodePalette(ix)); // show correct palette name here.
     }
-  if(ix> Palette->maximum())
+  if(ix> Palette->maxValue())
      {
-       ix=Palette->maximum();
+       ix=Palette->maxValue();
        PaletteComboBox->setCurrentItem(CodePalette(ix)); // show correct palette name here. 
      }
   if (!fbMenuLock)  // try to avoid feedback of qt signals between widget slots

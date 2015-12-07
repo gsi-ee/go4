@@ -171,6 +171,7 @@
     <function returnType="int">CodePalette(int i)</function>
     <function returnType="int">DecodePalette(int i)</function>
     <function>SetPaletteRange(int min, int def, int max)</function>
+    <function>RefreshPaletteText(int min, int max)</function>
 </functions>
 
 <pixmapinproject/>
