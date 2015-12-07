@@ -1750,6 +1750,7 @@ void TGo4MainWindow::LaunchClientSlot(bool interactive)
    StatusMessage("Starting Analysis....  Please wait");
 
    if ((isserver==1) && interactive) {
+      fbGetAnalysisConfig=true; // pass to timer that we want to have analysis config window when ready JAM
       ConnectServerSlot(true, "");
    }
 }
@@ -1977,7 +1978,6 @@ TGo4AnalysisConfiguration* TGo4MainWindow::EstablishAnalysisConfiguration(int le
 void TGo4MainWindow::ConnectServerSlot(bool interactive, const char* password)
 {
    if (fConnectingCounter>0) return;
-
    TGo4AnalysisProxy* anal = Browser()->FindAnalysis();
    if (anal!=0) {
       if (anal->IsConnected() || !anal->IsAnalysisServer()) {
@@ -2056,7 +2056,20 @@ void TGo4MainWindow::CheckConnectingCounterSlot()
             StatusMessage("Analysis refused connection. Try again");
          fConnectingCounter = 0;
          EstablishRatemeter((anal!=0) && anal->IsConnected() ? 2 : 0);
-         EstablishAnalysisConfiguration((anal!=0) && anal->IsConnected() && (anal->IsController() || anal->IsAdministrator()) ? 3 : 0);
+         int level=0;
+         if((anal!=0) && anal->IsConnected() && (anal->IsController() || anal->IsAdministrator()))
+           {
+             if(fbGetAnalysisConfig)
+               {
+                 level=3;
+                 fbGetAnalysisConfig=false;
+               }
+             else
+             {
+               level=2;
+             }
+           }
+         EstablishAnalysisConfiguration(level);
          UpdateDockAnalysisWindow();
          UpdateCaptionButtons();
          if ((anal!=0) && !anal->IsConnected()) RemoveAnalysisProxy(1);
