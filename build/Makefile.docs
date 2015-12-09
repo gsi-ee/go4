@@ -1,0 +1,24 @@
+
+docs: go4-doxygen
+
+clean-docs: clean-go4-doxygen
+
+DOCS_DIR  = ./docs
+DOCS_HTML = $(DOCS_DIR)/doxygen/go4doxygen_$(MAJOR).$(MINOR)
+
+go4-doxygen: clean-docs
+	@echo "Generating doxygen documentation ..."
+	@mkdir -p $(DOCS_DIR)/doxygen
+	@/usr/bin/doxygen $(DOCS_DIR)/go4doxygenconfig
+	@echo "Packing html..."
+	@mv $(DOCS_DIR)/doxygen/html $(DOCS_HTML)
+	@tar cvvf $(DOCS_HTML).tar 	$(DOCS_HTML)/
+	@gzip $(DOCS_HTML).tar
+#	@echo "Processing LaTeX..."
+#	@cd $(DOCS_DIR)/doxygen/latex; make
+	@echo "Go4 doxygen documentation is ready."
+	
+
+clean-go4-doxygen:
+	@echo "Cleaning doxygen documentation ..."
+	@rm -rf $(DOCS_DIR)/doxygen

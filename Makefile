@@ -13,6 +13,14 @@ ifneq ($(findstring $(MAKECMDGOALS), $(PACKAGERULES)),)
 DOPACKAGE = true
 endif
 
+# rules which are used to produce packages
+DOCRULES    = docs clean-docs go4-doxygen clean-go4-doxygen 
+
+ifneq ($(findstring $(MAKECMDGOALS), $(DOCRULES)),)
+DODOCS = true
+endif
+
+
 FASTRULES   += clean-qt3 clean-qt4 clean-bak clean-dep \
                clean-plugin clean-bin clean-prefix clean-svn \
                $(PACKAGERULES)
@@ -203,6 +211,10 @@ clean-svn:
 
 ifdef DOPACKAGE
 -include build/Makefile.packaging
+endif
+
+ifdef DODOCS
+-include build/Makefile.docs
 endif
 
 Go4_Makefile_Rules =

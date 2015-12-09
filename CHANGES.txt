@@ -38,7 +38,7 @@ Changes in Go4 v5.0.x
 6. Web GUI: Implemented analysis terminal window with macro command line (requires ROOT>=5.34.34)
 7. TGo4Style Color Tool: Added selection menu to provide new ROOT6 named palettes.
    New entry "Settings/Panel defaults/Palette settings" to specify minimum and maximum valid ROOT palette indices for spinbox,
-   and default palette index. (Qt4 only, Qt3 has extended palette index range at least.)
+   and default palette index.
 
 
 
@@ -57,6 +57,7 @@ Changes in Go4 v5.0.0
    Set default tree flush threshold to 10000 events. Due to changed ROOT API, positive numbers
    indicate number of events, negative number of bytes to flush tree into file. Was historically set to a large number (of bytes)
    so practically tree was never flushed until end of analysis.
+6. Add doxygen documentation generation to Makefile. Now "make docs" will produce doxygen html output in subdirectory docs/doxygen.   
         
 
 
