@@ -311,6 +311,8 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void SetActiveObj( TPad * pad, int kind, TGo4Slot * activeslot );
       virtual TObject * GetActiveObj( TPad * pad, int kind );
       virtual QString GetActiveObjName( TPad * pad, int kind );
+      virtual int GetAutoColor(int indx);
+
 };
 
 #endif

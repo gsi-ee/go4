@@ -1274,8 +1274,8 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
                   conny->SetValues(0, 0, 0, 0);
                else
                   conny->SetValues(0, 0);
-               conny->SetLineColor(ix % 6 + 2);
-               conny->SetFillColor(ix % 6 + 2);
+               conny->SetLineColor(GetAutoColor(ix%9 + 1));
+               conny->SetFillColor(GetAutoColor(ix%9 + 1));
                conny->SetFillStyle(3002);
                conny->SetWorkHistogram(hist);
                // adjust two dim region to one dim defaults
@@ -1369,8 +1369,8 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
 
             int ix = GetNumMarkers(pad, kind_Poly);
 
-            cond->SetLineColor(ix % 6 + 2);
-            cond->SetFillColor(ix % 6 + 2);
+            cond->SetLineColor(GetAutoColor(ix%9 + 1));
+            cond->SetFillColor(GetAutoColor(ix%9 + 1));
             cond->SetFillStyle(3002);
          }
 
@@ -1533,8 +1533,8 @@ bool TGo4ViewPanel::CompleteMarkerEdit(TPad* pad)
                   cut->SetPoint(n, x, y);
 
                int ix = GetNumMarkers(pad, kind_Poly);
-               cond->SetLineColor(ix%6 +2);
-               cond->SetFillColor(ix%6 +2);
+               cond->SetLineColor(GetAutoColor(ix%9 + 1));
+               cond->SetFillColor(GetAutoColor(ix%9 + 1));
                cond->SetFillStyle(3002);
             }
 
@@ -2574,6 +2574,26 @@ void TGo4ViewPanel::CollectMainDrawObjects(TGo4Slot* slot, TObjArray* objs,
    }
 }
 
+int TGo4ViewPanel::GetAutoColor(int indx) {
+   if (indx<0) indx = 0;
+
+   switch (indx % 10) {
+      case 0: return kBlack;
+      case 1: return kRed;
+      case 2: return kGreen;
+      case 3: return kBlue;
+      case 4: return kCyan;
+      case 5: return kOrange;
+      case 6: return kSpring;
+      case 7: return kViolet;
+      case 8: return kPink;
+      case 9: return kAzure;
+   }
+
+   return kBlack;
+}
+
+
 TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture* padopt,
                              TGo4Slot* sislot, TGo4Slot* legslot, TObjArray* objs,
                              TObjArray * objslots, bool showitems)
@@ -2600,7 +2620,7 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
    // if error, no superimpose is allowed
    if (iserror || (ishstack && isgstack)) {
       TGo4Log::Error("Superimpose of multiple objects with different types");
-      std::cout<< "SSSSSSSSS Superimpose of multiple objects with different types"<< std::endl;
+      std::cout<< "Superimpose of multiple objects with different types"<< std::endl;
       return 0;
    }
 
@@ -2624,7 +2644,7 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
          Int_t objindx = padslot->GetIndexOf(objslot); // slot index for object starts from 2
 
          if (resetcolors || (kind == kind_FitModels) || (objslot->GetPar("::FirstDraw") != 0)) {
-            histo->SetLineColor(((objindx + 7) % 9) + 1);
+            histo->SetLineColor(GetAutoColor(n));
          }
          histo->GetXaxis()->UnZoom();
 
@@ -2671,7 +2691,7 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
 
          if (resetcolors || (kind == kind_FitModels) || first_draw) {
             // use only basic 9 colors
-            Int_t nextcol = ((objindx + 7) % 9) + 1;
+            Int_t nextcol = GetAutoColor(((objindx + 7) % 9));
             gr->SetLineColor(nextcol);
             gr->SetMarkerColor(nextcol);
          }
@@ -3317,8 +3337,8 @@ void TGo4ViewPanel::CheckForSpecialObjects(TPad *pad, TGo4Slot* padslot)
       if (obj->InheritsFrom(TGo4Condition::Class())) {
          numcond++;
          TGo4Condition* cond = static_cast<TGo4Condition*>(obj);
-         cond->SetLineColor(numcond + 1);
-         cond->SetFillColor(numcond + 1);
+         cond->SetLineColor(GetAutoColor(numcond));
+         cond->SetFillColor(GetAutoColor(numcond));
          cond->SetFillStyle(3444);
          SetDrawKind(subslot, kind_Condition);
          continue;
@@ -4125,22 +4145,20 @@ void TGo4ViewPanel::RedrawSpecialObjects(TPad *pad, TGo4Slot* padslot)
 
       TString drawopt = GetSpecialDrawOption(subslot);
       if(obj->InheritsFrom(TF1::Class())){
-        if(!pad->GetListOfPrimitives()->IsEmpty())
-          drawopt.Append("LSAME"); // for correct overlay of TF1 objects JAM
-        TF1* func=dynamic_cast<TF1*>(obj);
-        Int_t objindx = padslot->GetIndexOf(subslot);
-        func->SetLineColor(((objindx +7)   % 9) + 2); // 9 basic colors for superimpose of tf1, like for other superimpose
+         if(!pad->GetListOfPrimitives()->IsEmpty())
+            drawopt.Append("LSAME"); // for correct overlay of TF1 objects JAM
+         TF1* func = dynamic_cast<TF1*>(obj);
+         Int_t objindx = padslot->GetIndexOf(subslot);
+         func->SetLineColor(GetAutoColor(((objindx+7) % 9) + 1)); // 9 basic colors for superimpose of tf1, like for other superimpose
       }
 
       if ((selname == obj->GetName()) && (selectedobj == 0)) {
          selectedobj = obj;
          selectdrawopt = drawopt.Data();
-      } else
-        {
-           obj->Draw(drawopt.Data());
-           //std::cout<<"RedrawSpecialObjects has drawn" << obj->GetName()<<"with draw options "<<drawopt.Data() << std::endl;
-        }
-      }
+      } else {
+         obj->Draw(drawopt.Data());
+     }
+   }
 
    // if one has selected object on the pad, one should
    // draw it as last to bring it to the front of other
