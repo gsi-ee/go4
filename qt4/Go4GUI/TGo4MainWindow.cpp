@@ -369,6 +369,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
 
    QApplication::setStyle(go4sett->getAppStyle());
 
+   faSuperimpose->setChecked(go4sett->getPadSuperimpose());
    faCrosshair->setChecked(go4sett->getPadCrosshair());
    faEventstatus->setChecked(go4sett->getPadEventStatus());
 
@@ -485,8 +486,11 @@ void TGo4MainWindow::AddSettingMenu()
    panelMenu->addAction("Marker labels...", this, SLOT(MarkerSettingsSlot()));
    panelMenu->addAction("Statistics box...", this, SLOT(OptStatsSlot()));
 
+   faSuperimpose = AddChkAction(panelMenu, "&Superimpose mode",
+                   go4sett->getPadSuperimpose(), this, SLOT(SuperimposeSlot()));
+
    faCrosshair = AddChkAction(panelMenu, "Cross(&X)hair mode",
-               go4sett->getPadCrosshair(), this, SLOT(CrosshairSlot()));
+                   go4sett->getPadCrosshair(), this, SLOT(CrosshairSlot()));
 
    faEventstatus = AddChkAction(panelMenu, "Show Event Status",
                    go4sett->getPadEventStatus(), this, SLOT(EventStatusSlot()));
@@ -1524,6 +1528,12 @@ void TGo4MainWindow::OptStatsSlot()
    if (stset.exec() != QDialog::Accepted) return;
    // all work is done inside dialog.
 }
+
+void TGo4MainWindow::SuperimposeSlot()
+{
+   go4sett->setPadSuperimpose(faSuperimpose->isChecked());
+}
+
 
 void TGo4MainWindow::CrosshairSlot()
 {

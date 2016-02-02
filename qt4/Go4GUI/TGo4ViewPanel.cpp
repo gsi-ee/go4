@@ -2947,7 +2947,9 @@ void TGo4ViewPanel::AllocatePadOptions(TPad* pad)
    TGo4Slot* tgtslot = padslot->FindChild("::PadOptions");
    if (tgtslot == 0) {
       tgtslot = new TGo4Slot(padslot, "::PadOptions", "Pad options slot");
-      tgtslot->SetProxy(new TGo4ObjectProxy(new TGo4Picture, kTRUE));
+      TGo4Picture* opt = new TGo4Picture;
+      opt->SetSuperimpose(go4sett->getPadSuperimpose());
+      tgtslot->SetProxy(new TGo4ObjectProxy(opt, kTRUE));
       SetDrawKind(tgtslot, kind_PadOptions);
    }
 }
@@ -3451,7 +3453,7 @@ void TGo4ViewPanel::ProcessPictureRedraw(const char* picitemname, TPad* pad, TGo
    }
 
    if (ndraw > 1)
-      padopt->SetSuperimpose(true);
+      padopt->SetSuperimpose(kTRUE);
 
    TListIter iter(pic->GetSpecialObjects());
    TObject* obj = 0;

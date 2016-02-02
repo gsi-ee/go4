@@ -455,6 +455,16 @@ bool TGo4QSettings::getPadCrosshair()
    return getBool(  "/geometry/Crosshairmode", false);
 }
 
+void TGo4QSettings::setPadSuperimpose(bool on)
+{
+   setBool(  "/geometry/Superimpose", on);
+}
+
+bool TGo4QSettings::getPadSuperimpose()
+{
+   return getBool(  "/geometry/Superimpose", false);
+}
+
 void TGo4QSettings::setPadEventStatus(bool on)
 {
    setBool(  "/geometry/Eventstatusmode", on);

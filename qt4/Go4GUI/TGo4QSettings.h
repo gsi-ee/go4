@@ -124,6 +124,9 @@ class TGo4QSettings {
       void    setPadCrosshair(bool on);
       bool    getPadCrosshair();
 
+      void    setPadSuperimpose(bool on);
+      bool    getPadSuperimpose();
+
       void    setPadEventStatus(bool on);
       bool    getPadEventStatus();
 

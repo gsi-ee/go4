@@ -112,6 +112,7 @@ class TGo4MainWindow : public QMainWindow {
       void ChangeWindowRubberBandSlot();
 
       void CanvasColorSlot();
+      void SuperimposeSlot();
       void CrosshairSlot();
       void EventStatusSlot();
       void MarkerSettingsSlot();
@@ -245,6 +246,7 @@ class TGo4MainWindow : public QMainWindow {
       QAction*           faDrawOnce;
       QAction*           faWindowRubberBand;
 
+      QAction*           faSuperimpose;
       QAction*           faCrosshair;
       QAction*           faEventstatus;
       QAction*           faClone;
