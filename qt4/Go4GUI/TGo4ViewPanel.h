@@ -60,6 +60,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
          DrawItemnameId   = 1014,
          AxisTimeDisplayId= 1015,
          SetTimeFormatId  = 1016,
+         SetXYRatioOneId  = 1017,
          BringToFrontId   = 4998,
          MasterSelectId   = 4999,
          FirstSelectId    = 5000 };
@@ -254,8 +255,8 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void PrintCanvas();
       virtual void StartRootEditor();
       virtual void StartConditionEditor();
-      virtual void RectangularRatio();
-      virtual void DefaultPadMargin();
+      virtual void RectangularRatio(TPad* pad=0);
+      virtual void DefaultPadMargin(TPad* pad=0);
       virtual void ClearActivePad();
       virtual void ClearCanvas();
       virtual void AboutToShowOptionsMenu();

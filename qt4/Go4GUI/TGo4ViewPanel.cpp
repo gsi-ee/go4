@@ -176,10 +176,12 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 
    editMenu->addAction("Start &condition editor", this,
          SLOT(StartConditionEditor()));
-   editMenu->addSeparator();
-   editMenu->addAction("&1:1 coordinates ratio", this,
-         SLOT(RectangularRatio()));
-   editMenu->addAction("&Default pad margins", this, SLOT(DefaultPadMargin()));
+
+// JAM 2016: moved this functionality to options/Picture properties
+//   editMenu->addSeparator();
+//   editMenu->addAction("&1:1 coordinates ratio", this,
+//         SLOT(RectangularRatio()));
+//   editMenu->addAction("&Default pad margins", this, SLOT(DefaultPadMargin()));
    editMenu->addSeparator();
    editMenu->addAction("Clear &markers", this, SLOT(ClearAllMarkers()));
    editMenu->addAction("Clear &pad", this, SLOT(ClearActivePad()));
@@ -208,6 +210,8 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    AddIdAction(fOptionsMenu, fOptionsMap, "Draw Time", DrawTimeId);
    AddIdAction(fOptionsMenu, fOptionsMap, "Draw Date", DrawDateId);
    AddIdAction(fOptionsMenu, fOptionsMap, "Draw item name", DrawItemnameId);
+   fOptionsMenu->addSeparator();
+   AddIdAction(fOptionsMenu, fOptionsMap, "&1:1 Coordinate ratio", SetXYRatioOneId);
    fOptionsMenu->addSeparator();
    AddIdAction(fOptionsMenu, fOptionsMap, "&X-Axis displays time", AxisTimeDisplayId);
    AddIdAction(fOptionsMenu, fOptionsMap, "Set X-Axis time format...", SetTimeFormatId);
@@ -1927,9 +1931,10 @@ void TGo4ViewPanel::StartConditionEditor()
    }
 }
 
-void TGo4ViewPanel::RectangularRatio()
+void TGo4ViewPanel::RectangularRatio(TPad *pad)
 {
-   TPad *pad = GetActivePad();
+  if(pad == 0)
+      pad = GetActivePad();
    if (pad == 0)
       return;
 
@@ -1958,9 +1963,10 @@ void TGo4ViewPanel::RectangularRatio()
    RedrawPanel(pad, true);
 }
 
-void TGo4ViewPanel::DefaultPadMargin()
+void TGo4ViewPanel::DefaultPadMargin(TPad *pad)
 {
-   TPad *pad = GetActivePad();
+   if(pad == 0)
+        pad = GetActivePad();
    if (pad == 0)
       return;
 
@@ -2016,6 +2022,8 @@ void TGo4ViewPanel::AboutToShowOptionsMenu()
    SetIdAction(fOptionsMap, SetLegendId, true, padopt->IsLegendDraw());
    SetIdAction(fOptionsMap, AxisTimeDisplayId, true,
          padopt->IsXAxisTimeDisplay());
+   SetIdAction(fOptionsMap, SetXYRatioOneId, true, padopt->IsXYRatioOne());
+
 }
 
 void TGo4ViewPanel::SelectMenuItemActivated(int id)
@@ -4182,7 +4190,6 @@ void TGo4ViewPanel::ChangeDrawOptionForPad(TGo4Slot* padslot, int kind,
       int value, const char* drawopt)
 {
    TGo4LockGuard lock;
-
    TGo4Picture* subopt = GetPadOptions(padslot);
    if (subopt == 0)
       return;
@@ -4215,8 +4222,10 @@ void TGo4ViewPanel::ChangeDrawOptionForPad(TGo4Slot* padslot, int kind,
          subopt->SetPadModified();
          break;
       }
+
       default:
          subopt->ChangeDrawOption(kind, value);
+         break;
    }
 }
 
@@ -4964,6 +4973,12 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
    TAxis* xax = h1->GetXaxis();
    xax->SetTimeDisplay(padopt->IsXAxisTimeDisplay());
    xax->SetTimeFormat(padopt->GetXAxisTimeFormat());
+
+   // JAM 2016 finally we evaluate the rectangular axis scale property:
+
+
+   padopt->IsXYRatioOne() ? RectangularRatio(pad) : DefaultPadMargin(pad);
+
 }
 
 bool TGo4ViewPanel::GetVisibleRange(TPad* pad, int naxis, double& min, double& max)
@@ -5455,7 +5470,6 @@ QString TGo4ViewPanel::GetActiveObjName(TPad* pad, int kind)
 void TGo4ViewPanel::OptionsMenuItemActivated(int id)
 {
    TGo4LockGuard lock;
-
    switch (id) {
       case CrosshairId: {
          fbCanvasCrosshair = !fbCanvasCrosshair;
@@ -5519,6 +5533,7 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
             bool s = act ? act->isChecked() : false;
             ChangeDrawOption(id - 1000, s, 0);
          }
+         break;
    }
 }
 
