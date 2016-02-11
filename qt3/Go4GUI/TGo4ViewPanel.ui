@@ -919,8 +919,8 @@
     <slot>PrintCanvas()</slot>
     <slot>StartRootEditor()</slot>
     <slot>StartConditionEditor()</slot>
-    <slot>RectangularRatio()</slot>
-    <slot>DefaultPadMargin()</slot>
+    <slot>RectangularRatio(TPad * pad)</slot>
+    <slot>DefaultPadMargin(TPad * pad)</slot>
     <slot>ClearActivePad()</slot>
     <slot>ClearCanvas()</slot>
     <slot>AboutToShowOptionsMenu()</slot>

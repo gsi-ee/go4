@@ -82,6 +82,12 @@
                     <string>Polygon (TCutG) </string>
                 </property>
             </item>
+            <item>
+                <property name="text">
+                    <string>Go4 shape (ellipse, circle, box)</string>
+                </property>
+            </item>
+            
             <property name="name">
                 <cstring>ClassnameCombo</cstring>
             </property>
@@ -252,6 +258,7 @@
     <include location="local" impldecl="in implementation">TGo4Condition.h</include>
     <include location="local" impldecl="in implementation">TGo4WinCond.h</include>
     <include location="local" impldecl="in implementation">TGo4PolyCond.h</include>
+    <include location="local" impldecl="in implementation">TGo4ShapedCond.h</include>
     <include location="local" impldecl="in implementation">TGo4CondArray.h</include>
     <include location="local" impldecl="in implementation">TGo4CreateNewCondition.ui.h</include>
 </includes>

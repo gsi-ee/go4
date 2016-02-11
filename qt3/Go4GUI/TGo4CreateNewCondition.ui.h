@@ -29,7 +29,7 @@ TGo4Condition* TGo4CreateNewCondition::MakeCondition()
    if ((cname==0) || (*cname==0)) return 0;
    TGo4Condition* cond = 0;
 
-   if (arrsize>1) {
+   if (arrsize>1 && ctype!=3) {
        TGo4CondArray* arr = 0;
        if (ctype==2) {
           arr = new TGo4CondArray(cname, arrsize, "TGo4PolyCond");
@@ -78,6 +78,12 @@ TGo4Condition* TGo4CreateNewCondition::MakeCondition()
          pcond->SetValues(xx, yy, 5);
          cond = pcond;
          break;
+      }
+      case 3: {
+        TGo4ShapedCond* econd = new TGo4ShapedCond(cname, "Shaped condition");
+        econd->SetEllipse(50,50,50,50,0,32);
+        cond = econd;
+        break;
       }
    }
 
