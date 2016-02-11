@@ -41,7 +41,7 @@ Changes in Go4 v5.0.x
    and default palette index.
 8. GUI: Added shaped condition class to "Create new condition" tool. (Qt4 only).   
 9. Provided "1:1 Coordinate ratio" display for histograms as pad option for TGo4Picture. So this property
-   can be saved and recovered to autosave file, or predefined in analysis code by method TGo4Picture::SetXYRatioOne(bool).
+   can be saved and recovered with hotstart script, or predefined in analysis code by method TGo4Picture::SetXYRatioOne(bool).
    Moved corresponding entry in viewpanel from Edit to Options menu, can be toggled now (Qt4 only).  
 
 
