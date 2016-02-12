@@ -117,6 +117,8 @@
     <function>ExportSelectedItems(const char* filtername)</function>
     <function>ExportSelectedItems(const char* filename, const char* filedir, const char* format, const char* description)</function>
     <function returnType="QListViewItem*">FindItemFor(TGo4Slot* slot)</function>
+    <function>ExpandItem(const QString it)</function>
+    <function>ExecuteItem(const QString it)</function> 
 </functions>
 <pixmapinproject/>
 <layoutdefaults spacing="6" margin="11"/>

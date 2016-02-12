@@ -481,6 +481,18 @@ void TGo4Browser::ListView_doubleClicked(QListViewItem* item)
    else
    if (TGo4BrowserProxy::CanEditItem(cando))
       EditItem(fullname.latin1());
+
+   else
+      if (TGo4BrowserProxy::CanExpandItem(cando)) {
+         item->setOpen(true);
+         ExpandItem(fullname);
+      } else
+      if (TGo4BrowserProxy::CanExecuteItem(cando)) {
+         ExecuteItem(fullname);
+      }
+
+
+
 //   else
 //      ShowItemInfo(fullname.latin1());
 
@@ -527,6 +539,9 @@ void TGo4Browser::ListView_contextMenuRequested(QListViewItem* item, const QPoin
    int nexport = 0;
    int ndelete = 0;
    int nassigned = 0;
+   int nexpand = 0;
+   int nexecute=0;
+
 
    QListViewItemIterator it(ListView);
    for ( ; it.current(); ++it )
@@ -550,6 +565,14 @@ void TGo4Browser::ListView_contextMenuRequested(QListViewItem* item, const QPoin
 
          if (kind==TGo4Access::kndFolder)
            nfolders++;
+
+
+         if (TGo4BrowserProxy::CanExpandItem(cando)) nexpand++;
+
+         if (TGo4BrowserProxy::CanExecuteItem(cando)) nexecute++;
+
+
+
 
          if (TGo4BrowserProxy::CanDrawItem(cando)) {
            ndraw++;
@@ -629,6 +652,25 @@ void TGo4Browser::ListView_contextMenuRequested(QListViewItem* item, const QPoin
    contextMenu.insertItem(QPixmap::fromMimeSource("superimpose.png"),
                           "Superimpose",  0, 0, 0, 12);
    contextMenu.setItemEnabled(12, (ndraw>1) && (nsuperimpose==ndraw));
+
+
+
+//   if (nexpand > 0)
+//       AddIdAction(&menu, &map, QIcon(":/icons/zoomlim.png"), "Expand", 28, true);
+//
+
+   contextMenu.insertItem(QPixmap::fromMimeSource("zoomlim.png"),
+                           "Expand",  0, 0, 0, 28);
+   contextMenu.setItemEnabled(28, (nexpand>0));
+
+//    if (nexecute == 1)
+//       AddIdAction(&menu, &map, QIcon(":/icons/zoomlim.png"), "Execute", 29, true);
+
+   contextMenu.insertItem(QPixmap::fromMimeSource("zoomlim.png"),
+                              "Execute",  0, 0, 0, 29);
+   contextMenu.setItemEnabled(29, (nexecute==1));
+
+
 
    contextMenu.insertItem(QPixmap::fromMimeSource("right.png"),
                           "Fetch item(s)",  0, 0, 0, 18);
@@ -896,6 +938,19 @@ void TGo4Browser::ContextMenuActivated(int id)
                break;
             }
 
+            case 28: { // expand
+                         if (TGo4BrowserProxy::CanExpandItem(cando)) {
+                            (*it)->setOpen(true);
+                            ExpandItem(itemname);
+                         }
+                         break;
+                      }
+            case 29: { // execute
+                           if (TGo4BrowserProxy::CanExecuteItem(cando))
+                              ExecuteItem(itemname);
+                           break;
+                        }
+
             case 41: { // create folder in memory
               bool ok = false;
               QString folder =
@@ -1014,3 +1069,42 @@ void TGo4Browser::ExportSelectedItems(const char* filename, const char* filedir,
 
     items.Delete();
 }
+
+
+void TGo4Browser::ExpandItem(const QString itemname)
+{
+   BrowserProxy()->GetBrowserObject(itemname.latin1(), 100);
+}
+
+void TGo4Browser::ExecuteItem(const QString itemname)
+{
+   TString objname, arg1, arg2, arg3;
+
+   TGo4ServerProxy* serv = BrowserProxy()->DefineServerObject(itemname.latin1(), &objname, kFALSE);
+
+   if ((serv==0) || (objname.Length()==0)) return;
+
+   Int_t nargs = serv->NumCommandArgs(objname);
+   if (nargs<0) return;
+
+   for (Int_t n=0;n<nargs;n++) {
+      bool ok = false;
+      QString value =
+            QInputDialog::getText("Input command arguments",
+                                 QString("Arg%1:").arg(n+1), QLineEdit::Normal, QString::null, &ok);
+
+
+
+
+      if (!ok) return;
+      if (n==0) arg1 = value.latin1(); else
+      if (n==1) arg2 = value.latin1(); else
+      if (n==2) arg3 = value.latin1();
+   }
+
+   Bool_t res = serv->SubmitCommand(objname, 3, (arg1.Length() > 0 ? arg1.Data() : 0), (arg2.Length() > 0 ? arg2.Data() : 0), (arg3.Length() > 0 ? arg3.Data() : 0));
+
+   StatusMessage(QString(" Command execution:") + objname.Data() + QString("  result = ") + (res ? "TRUE" : "FALSE"));
+}
+
+
