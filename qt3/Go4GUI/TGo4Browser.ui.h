@@ -655,18 +655,13 @@ void TGo4Browser::ListView_contextMenuRequested(QListViewItem* item, const QPoin
 
 
 
-//   if (nexpand > 0)
-//       AddIdAction(&menu, &map, QIcon(":/icons/zoomlim.png"), "Expand", 28, true);
-//
-
+   if (nexpand > 0)
    contextMenu.insertItem(QPixmap::fromMimeSource("zoomlim.png"),
                            "Expand",  0, 0, 0, 28);
    contextMenu.setItemEnabled(28, (nexpand>0));
 
-//    if (nexecute == 1)
-//       AddIdAction(&menu, &map, QIcon(":/icons/zoomlim.png"), "Execute", 29, true);
-
-   contextMenu.insertItem(QPixmap::fromMimeSource("zoomlim.png"),
+   if (nexecute == 1)
+     contextMenu.insertItem(QPixmap::fromMimeSource("zoomlim.png"),
                               "Execute",  0, 0, 0, 29);
    contextMenu.setItemEnabled(29, (nexecute==1));
 
