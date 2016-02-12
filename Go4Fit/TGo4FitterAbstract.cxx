@@ -14,6 +14,7 @@
 #include "TGo4FitterAbstract.h"
 
 #include "Riostream.h"
+#include "TBuffer.h"
 #include "TArrayD.h"
 #include "TArrayI.h"
 #include "TVectorD.h"

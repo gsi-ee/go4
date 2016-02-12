@@ -14,6 +14,8 @@
 #include "TGo4FitParsList.h"
 
 #include "Riostream.h"
+#include "TBuffer.h"
+
 #include "TClass.h"
 #include "TStyle.h"
 #include "TString.h"

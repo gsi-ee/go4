@@ -29,6 +29,7 @@
 #include "TFolder.h"
 #include "TFile.h"
 #include "TKey.h"
+#include "TThread.h"
 #include "TMutex.h"
 #include "TROOT.h"
 #include "TCutG.h"

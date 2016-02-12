@@ -15,6 +15,7 @@
 
 #include "TMutex.h"
 #include "TApplication.h"
+#include "TSystem.h"
 #include "TObjArray.h"
 
 #include "TGo4Log.h"

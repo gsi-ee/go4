@@ -12,6 +12,7 @@
 //-----------------------------------------------------------------------
 
 #include "TGo4ObjectQueue.h"
+#include "TBuffer.h"
 
 #include "TGo4Log.h"
 

@@ -17,6 +17,7 @@
 #include "TApplication.h"
 #include "TH1.h"
 #include "TClass.h"
+#include "TBuffer.h"
 
 #include "TGo4BufferQueue.h"
 #include "TGo4ObjectQueue.h"

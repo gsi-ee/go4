@@ -14,6 +14,8 @@
 #include "TGo4FitData.h"
 
 #include "Riostream.h"
+#include "TBuffer.h"
+
 #include "TMath.h"
 #include "TObjArray.h"
 #include "TArrayC.h"
