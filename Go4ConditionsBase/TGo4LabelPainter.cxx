@@ -15,7 +15,7 @@
 
 #include "TROOT.h"
 #include "TVirtualPad.h"
-//#include "iostream.h"
+#include "Riostream.h"
 
 TGo4LabelPainter::TGo4LabelPainter() :
    TNamed(),
@@ -159,14 +159,15 @@ Bool_t TGo4LabelPainter::CheckLabel()
       return kTRUE;
    }
 
-   if(TGo4Label::fxLastDeleted==(char*) fxLabel)
-      {
-         // our label was deleted by user mouse menu just before
-         TGo4Label::fxLastDeleted=0;
-         fxLabel=0; // reset reference, will re-create label on next paint
-         //std::cout <<"CheckLabel with lastdeleted case" << std::endl;
-         return kFALSE;
-      }
+// JAM 2016: this is rest of some ancient functionality?
+//   if(TGo4Label::fxLastDeleted==(char*) fxLabel)
+//      {
+//         // our label was deleted by user mouse menu just before
+//         TGo4Label::fxLastDeleted=0;
+//         fxLabel=0; // reset reference, will re-create label on next paint
+//         std::cout <<"CheckLabel with lastdeleted case" << std::endl;
+//         return kFALSE;
+//      }
    //std::cout <<"CheckLabel returns "<< (bool) (fxLabel!=0) << std::endl;
    return fxLabel!=0;
 }

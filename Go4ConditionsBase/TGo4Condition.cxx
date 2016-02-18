@@ -129,7 +129,6 @@ TGo4Condition::~TGo4Condition()
    GO4TRACE((15,"TGo4Condition::~TGo4Condition()",__LINE__, __FILE__));
 
    UnDraw("reset");
-
    if(fxPainter) {
       delete fxPainter;
       fxPainter = 0;
@@ -831,21 +830,26 @@ if(fxPainter!=0)
 
 void TGo4Condition::Draw(Option_t* opt)
 {
+
+  //std::cout<<"TGo4Condition::Draw with visible="<< TGo4Condition::IsVisible()<< std::endl;
    if(TGo4Condition::IsVisible()) {
       if(gPad && gPad->GetListOfPrimitives()->FindObject(this)==0) {
-         UnDraw();
+
+         //UnDraw(); // JAM2016: we do not really need this anymore due to changed Delete option and handling in painter
          AppendPad(opt);
       }
       SetPainted(kTRUE);
-   } else
-      UnDraw(opt);
+   } else{
+     //std::cout<<"TGo4Condition::Draw does undraw"<< std::endl;
+       UnDraw(opt);
+   }
 }
 
 void TGo4Condition::UnDraw(Option_t* opt)
 {
    SetPainted(kFALSE);
    gROOT->GetListOfCanvases()->RecursiveRemove(this);
-
+   //std::cout<<"TGo4Condition::UnDraw" << std::endl;
    if(fxPainter==0) fxPainter=CreatePainter();
    // condition subclass may not provide a real painter, then we skip unpainting:
    if(fxPainter!=0) {

@@ -48,7 +48,6 @@ void TGo4ConditionPainter::PaintCondition(Option_t*)
 void TGo4ConditionPainter::UnPaintCondition(Option_t*)
 {
 
-
 }
 
 void TGo4ConditionPainter::PaintLabel(Option_t* opt)

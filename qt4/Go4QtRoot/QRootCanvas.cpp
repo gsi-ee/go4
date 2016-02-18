@@ -1012,12 +1012,18 @@ void QRootCanvas::executeMenu(int id)
       gROOT->cd();
 
 
-      if (method->GetListOfMethodArgs()->First()) {
-         methodDialog(fMenuObj, method);
-      } else {
-
+      if (method->GetListOfMethodArgs()->First()){
+        if (strstr(method->GetName(), "Delete")){
+          // JAM2016: do not allow mouse menu delete in Go4
+          //std::cout << "Supressing Delete in menu!" << std::endl;
+        }
+        else {
+          methodDialog(fMenuObj, method);
+        }
+      }
+    else
+      {
          gROOT->SetFromPopUp(kTRUE);
-
          fMenuObj->Execute(method->GetName(), "");
 
          if (fMenuObj->TestBit(TObject::kNotDeleted)) {

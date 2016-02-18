@@ -20,20 +20,24 @@
 #include "TGo4PolyCond.h"
 
 TGo4PolyCondView::TGo4PolyCondView(TCutG* source) :
-   TCutG(), fxPolyCondition(0)
+   TCutG(), fbExecutesMouseEvent(kFALSE),fxPolyCondition(0)
 {
    SetCut(source);
    SetBit(kMustCleanup);
+   //std::cout<< "TGo4PolyCondView ctor from cut"<< (long) source<< std::endl;
 }
 
 TGo4PolyCondView::TGo4PolyCondView() :
-   TCutG(), fxPolyCondition(0)
+   TCutG(), fbExecutesMouseEvent(kFALSE),fxPolyCondition(0)
 {
    SetBit(kMustCleanup);
+   //std::cout<< "TGo4PolyCondView default ctor"<< std::endl;
 }
+
 
 TGo4PolyCondView::~TGo4PolyCondView()
 {
+  //std::cout<< "TGo4PolyCondView dtor"<< std::endl;
 }
 
 void TGo4PolyCondView::Paint(Option_t* opt)
@@ -62,6 +66,10 @@ Int_t TGo4PolyCondView::RemovePoint()
 
 void TGo4PolyCondView::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 {
+
+
+// TODO: do we really need this for newer ROOT versions?
+#if 1
 ////// begin button double workaround JA
 // the following is necessary to avoid bug in ROOT TGraph::ExecuteEvent
 // that does not handle the kButton1Up after kButton1Double
@@ -79,9 +87,21 @@ if(event==kButton1Double)
    {
       //std::cout <<"PolyCondView supressing double click" << std::endl;
       ignoreNext=kTRUE;
+      fbExecutesMouseEvent=kTRUE;
       return;
    }
 /////// end button double workaround JA
+#endif
+
+// JAM2016: try same mouse event locking as for window condition.
+if(event==kButton1Down && fxPolyCondition)
+{
+  //std::cout <<"PolyCondView ExecuteEvent for button 1 down" << std::endl;
+  fbExecutesMouseEvent=kTRUE; // only lock painting if we really touch the polygon JAM
+}
+
+
+
 TCutG::ExecuteEvent(event,px,py);
 if(event==kButton1Up && fxPolyCondition)
    {
@@ -92,6 +112,8 @@ if(event==kButton1Up && fxPolyCondition)
             UpdateCondition();
          }
       fxPolyCondition->ResetLabel("pop"); // always pop our label to foreground
+
+      fbExecutesMouseEvent=kFALSE; //end update lock
   }// if(event==...)
 }
 

@@ -46,7 +46,9 @@ TGo4WinCondPainter::~TGo4WinCondPainter()
 void TGo4WinCondPainter::PaintCondition(Option_t* opt)
 {
 if(gPad==0) return;
-if(fxBox && fxBox->IsAtExecuteMouseEvent()) return; // JAM supress resetting coordinates during mouse modification of box
+TObject* boxinpad=gPad->GetListOfPrimitives()->FindObject(fxBox);
+//std::cout<<"TGo4WinCondPainter::PaintCondition with fxBox= "<<(long) fxBox<<", isatexecutemousevent="<<(fxBox?fxBox->IsAtExecuteMouseEvent():0) << std::endl;
+if(fxBox && boxinpad && fxBox->IsAtExecuteMouseEvent()) return; // JAM supress resetting coordinates during mouse modification of box
 double xpmin=0;
 double xpmax=0;
 double ypmin=0;
@@ -103,10 +105,14 @@ if(wconny && wconny->IsVisible())
          }
 #endif // ROOT_VERSION < 4.3.2
 
-      if(fxBox==0 || gPad->GetListOfPrimitives()->FindObject(fxBox)==0)
-      // user might have deleted box from pad by mouse even if fxBox!=0
-         {
+        //if(fxBox==0 || boxinpad==0)
+        // user might have deleted box from pad by mouse even if fxBox!=0
+        // JAM 2016: this is a memory leak! for each condition update we get new condition view
+        // better: suppress Delete in mouse menu in QtROOT interface (disregard plain ROOT browser here :-))
+        if(fxBox==0)
+        {
             fxBox= new TGo4WinCondView(xpmin,ypmin,xpmax, ypmax);
+            //std::cout <<"TGo4WinCondPainter::PaintCondition creates new fxBox." <<std::endl;
          }
       else
          {
@@ -126,7 +132,7 @@ if(wconny && wconny->IsVisible())
             fxBox->SetFillColor(wconny->GetFillColor());
             fxBox->SetFillStyle(wconny->GetFillStyle());
          }
-      if(gPad->GetListOfPrimitives()->FindObject(fxBox)==0)
+      if(boxinpad==0)
          {
             fxBox->SetLineWidth(wconny->GetLineWidth());
             fxBox->SetLineColor(wconny->GetLineColor());
@@ -147,6 +153,7 @@ else
 
 void TGo4WinCondPainter::UnPaintCondition(Option_t* opt)
 {
+
    gROOT->GetListOfCanvases()->RecursiveRemove(fxBox);
    // we do not delete view, but restore graphics properties though invisible
    TString option(opt);

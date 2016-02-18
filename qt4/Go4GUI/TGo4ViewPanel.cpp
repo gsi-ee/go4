@@ -1301,7 +1301,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
                if(!fbPickAgain) fiMouseMode=kMouseROOT;
                docheck = true;
             } else {
-               std::cout <<"TGo4ViewPanel:MouseClick() NEVER COME HERE" << std::endl;
+               std::cout <<"TGo4ViewPanel:PadClickedSlot() NEVER COME HERE" << std::endl;
                return;
             }
          // do not change original condition dimension
@@ -1328,6 +1328,7 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
       }
 
       case kMousePickPolygon: {
+        //std::cout <<"TGo4ViewPanel:PadClickedSlot() in kMousePickPolygon" << std::endl;
          gROOT->SetEditorMode("");
          TGo4PolyCond* cond = 0;
 
@@ -3984,7 +3985,7 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
 
 void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, bool scancontent, bool first_draw)
 {
-   // printf(" RedrawGraph %s first_time %d\n", gr->GetName(), first_draw);
+   //printf(" RedrawGraph %s first_time %d\n", gr->GetName(), first_draw);
 
    if ((pad == 0) || (padopt == 0) || (gr == 0)) return;
 

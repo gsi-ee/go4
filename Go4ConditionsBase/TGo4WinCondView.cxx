@@ -26,7 +26,7 @@ TGo4WinCondView::TGo4WinCondView(Double_t x1,Double_t y1,Double_t x2,Double_t y2
 }
 
 TGo4WinCondView::TGo4WinCondView()
-   : TBox(),fxWinCondition(0)
+   : TBox(),fbExecutesMouseEvent(kFALSE),fxWinCondition(0)
 {
     SetBit(kMustCleanup);
 }
@@ -34,6 +34,7 @@ TGo4WinCondView::TGo4WinCondView()
 TGo4WinCondView::~TGo4WinCondView()
 {
 }
+
 
 void TGo4WinCondView::Paint(Option_t* opt)
 {
@@ -57,6 +58,7 @@ if(event==kButton1Down && fxWinCondition)
 {
   fbExecutesMouseEvent=kTRUE; // only lock painting if we really touch the box JAM
 }
+
 TBox::ExecuteEvent(event,px,py);
 if(event==kButton1Up && fxWinCondition)
    {
@@ -117,6 +119,7 @@ if(event==kButton1Up && fxWinCondition)
                }
          }// if(dim>1)
    fbExecutesMouseEvent=kFALSE; // only release execute event lock when we finish the move JAM
+
    } // if(event==...)
 }
 

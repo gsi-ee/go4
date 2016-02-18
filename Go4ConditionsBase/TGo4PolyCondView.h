@@ -70,12 +70,21 @@ public:
     virtual Int_t InsertPoint();// *MENU*
     virtual Int_t RemovePoint();// *MENU*
 
+    Bool_t IsAtExecuteMouseEvent(){return fbExecutesMouseEvent;}
+
+
 private:
+
+    /** JAM this one will supress condition repaint during execution of mouse events*/
+    Bool_t fbExecutesMouseEvent;
+
 
     /** pointer to viewed condition for update after graphical action */
     TGo4PolyCond* fxPolyCondition; //!
 
-    ClassDef(TGo4PolyCondView,6)
+
+
+    ClassDef(TGo4PolyCondView,7)
 };
 
 #endif //TGO4POLYCONDVIEW_H

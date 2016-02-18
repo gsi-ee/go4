@@ -48,6 +48,7 @@ TGo4PolyCond::TGo4PolyCond() :
    fxCut(0)
 {
    SetDimension(2);
+   //std::cout <<"TGo4PolyCond default ctor, this="<<(long) this << std::endl;
 }
 // ----------------------------------------------------------
 TGo4PolyCond::TGo4PolyCond(const char* name, const char* title) :
@@ -55,12 +56,18 @@ TGo4PolyCond::TGo4PolyCond(const char* name, const char* title) :
    fxCut(0)
 {
    SetDimension(2);
+   //std::cout <<"TGo4PolyCond ctor of name:"<< name<< ", this="<<(long) this << std::endl;
 }
 // ----------------------------------------------------------
 TGo4PolyCond::~TGo4PolyCond()
 {
+   UnDraw(); // JAM 2016 - do it before cut has vanished!
    if(fxCut != 0)
+     {
+     //std::cout <<"TGo4PolyCond dtor of this="<<(long) this <<" deletes the cut "<< fxCut << std::endl;
        delete fxCut;
+       fxCut=0; // JAM2016: reset for Unpaint in PolyCondView?
+     }
 }
 
 Double_t TGo4PolyCond::GetXLow()
@@ -139,7 +146,7 @@ void TGo4PolyCond::SetValues(TCutG * newcut)
 
    delete fxCutHis; // fxCut changed, so discard previous fxCut histogram
    fxCutHis=0;
-//std::cout << "Set fxCut " << fxCut << " from " << newcut << std::endl;
+   //std::cout << "TGo4PolyCond::SetValues fxCut " << fxCut << " from " << newcut << std::endl;
 }
 // ----------------------------------------------------------
 void TGo4PolyCond::SetValuesDirect(TCutG * newcut)
@@ -158,7 +165,7 @@ void TGo4PolyCond::SetValuesDirect(TCutG * newcut)
 
    delete fxCutHis; // fxCut changed, so discard previous fxCut histogram
    fxCutHis=0;
-//std::cout << "Set fxCut " << fxCut << " from " << newcut << std::endl;
+   //std::cout << "TGo4PolyCond::SetValuesDirect  fxCut " << fxCut << " from " << newcut << std::endl;
 }
 
 
@@ -373,6 +380,7 @@ TGo4ConditionPainter* TGo4PolyCond::CreatePainter()
 {
    TGo4ConditionPainter* painter=new TGo4PolyCondPainter(GetName());
    painter->SetCondition(this);
+   //std::cout<<"TGo4PolyCond::CreatePainter() creates new painter"<< (long) painter<< std::endl;
    return painter;
 }
 

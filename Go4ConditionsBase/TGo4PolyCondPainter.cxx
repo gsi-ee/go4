@@ -45,15 +45,21 @@ TGo4PolyCondPainter::~TGo4PolyCondPainter()
 void TGo4PolyCondPainter::PaintCondition(Option_t* opt)
 {
    if(gPad==0) return;
+   TObject* cutinpad=gPad->GetListOfPrimitives()->FindObject(fxCutView);
+   //std::cout<<"TGo4PolyCondPainter::PaintCondition with fxCutView "<<(long) fxCutView<<", gPad="<<(long) gPad<<", isatexecutemousevent="<<(fxCutView?fxCutView->IsAtExecuteMouseEvent():0)<<", cutinpad="<< (long)cutinpad << std::endl;
+   if(fxCutView && cutinpad && fxCutView->IsAtExecuteMouseEvent()) return;
    TGo4PolyCond* pconny=dynamic_cast<TGo4PolyCond*>(fxCondition);
    if(pconny && pconny->IsVisible()) {
       TCutG* cutg=pconny->GetCut(kFALSE);
       if(cutg==0) return; // case of empty polygon condition
-      if(fxCutView==0 || gPad->GetListOfPrimitives()->FindObject(fxCutView)==0) {
+      //if(fxCutView==0 || gPad->GetListOfPrimitives()->FindObject(fxCutView)==0) {
+      // JAM2016: deletion from canvas is supressed inside Go4 by QtROOT interface. Just create if not already there:
+      if(fxCutView==0) {
          // Only set up new view object if not already there
          // necessary to change cut interactively (points, colors, etc...)
          // Since cutg may be deleted from canvas by user.
          fxCutView = new TGo4PolyCondView(cutg);
+
          fxCutView->SetLineWidth(pconny->GetLineWidth());
          fxCutView->SetLineColor(pconny->GetLineColor());
          fxCutView->SetLineStyle(pconny->GetLineStyle());
@@ -71,8 +77,9 @@ void TGo4PolyCondPainter::PaintCondition(Option_t* opt)
          fxCutView->SetFillColor(pconny->GetFillColor());
          fxCutView->SetFillStyle(pconny->GetFillStyle());
       }
-      if(gPad->GetListOfPrimitives()->FindObject(fxCutView)==0)
+      if(cutinpad==0)
       {
+        //std::cout <<"TGo4PolyCondPainter::PaintCondition appends to pad "<< (long)fxCutView << std::endl;
          fxCutView->AppendPad();
       }
    }// if(pconny && pconny->IsVisible())
@@ -83,9 +90,11 @@ else
 void TGo4PolyCondPainter::UnPaintCondition(Option_t* opt)
 {
    gROOT->GetListOfCanvases()->RecursiveRemove(fxCutView);
+   //std::cout <<"TGo4PolyCondPainter::UnPaintCondition removes  cut view "<< (long)fxCutView << std::endl;
    // we do not delete view, but restore graphics properties though invisible
    TString option(opt);
    if(option.Contains("reset")) {
+    // std::cout <<"TGo4PolyCondPainter::UnPaintCondition with deletes cut view"<< (long)fxCutView << std::endl;
       delete fxCutView;
       fxCutView=0;
    }
