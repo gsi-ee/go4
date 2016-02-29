@@ -127,13 +127,15 @@ TGo4Condition::TGo4Condition(const char* name, const char* title) :
 TGo4Condition::~TGo4Condition()
 {
    GO4TRACE((15,"TGo4Condition::~TGo4Condition()",__LINE__, __FILE__));
-
-   UnDraw("reset");
+   //std::cout <<"TGo4Condition "<<(long) this <<" dtor " << std::endl;
+   //UnDraw("reset");
    if(fxPainter) {
+     //std::cout <<"TGo4Condition "<<(long) this <<" dtor deletes painter"<< (long) fxPainter << std::endl;
       delete fxPainter;
       fxPainter = 0;
    }
    if(fxCutHis) {
+     //std::cout <<"TGo4Condition "<<(long) this <<" dtor deletes cuthistogram"<< (long) fxCutHis << std::endl;
       delete fxCutHis;
       fxCutHis = 0;
    }
@@ -823,6 +825,7 @@ if(fxPainter==0) fxPainter=CreatePainter();
 // condition subclass may not provide a real painter, then we skip painting:
 if(fxPainter!=0)
    {
+      fxPainter->SetCondition(this); // JAM2016
       fxPainter->PaintCondition(opt);
       fxPainter->PaintLabel(opt);
    }
@@ -831,11 +834,11 @@ if(fxPainter!=0)
 void TGo4Condition::Draw(Option_t* opt)
 {
 
-  //std::cout<<"TGo4Condition::Draw with visible="<< TGo4Condition::IsVisible()<< std::endl;
+  //std::cout<<"TGo4Condition::Draw of instance:"<<(long) this  << " with visible="<< TGo4Condition::IsVisible()<< std::endl;
    if(TGo4Condition::IsVisible()) {
       if(gPad && gPad->GetListOfPrimitives()->FindObject(this)==0) {
 
-         //UnDraw(); // JAM2016: we do not really need this anymore due to changed Delete option and handling in painter
+         //UnDraw(); // JAM2016: do we need this? for switching condition between different pads...? no!
          AppendPad(opt);
       }
       SetPainted(kTRUE);
@@ -849,7 +852,7 @@ void TGo4Condition::UnDraw(Option_t* opt)
 {
    SetPainted(kFALSE);
    gROOT->GetListOfCanvases()->RecursiveRemove(this);
-   //std::cout<<"TGo4Condition::UnDraw" << std::endl;
+   //std::cout<<"TGo4Condition::UnDraw of instance:"<<(long) this  << std::endl;
    if(fxPainter==0) fxPainter=CreatePainter();
    // condition subclass may not provide a real painter, then we skip unpainting:
    if(fxPainter!=0) {
@@ -910,6 +913,7 @@ void TGo4Condition::ResetLabel(Option_t* opt)
 void TGo4Condition::SetWorkHistogram(TH1* histo)
 {
    fxHisto=histo;
+   //std::cout <<"TGo4Condition "<<(long) this <<" ::SetWorkHistogram deletes cuthistogram"<< (long) fxCutHis<<", new histogram is:"<<(long) histo << std::endl;
    delete fxCutHis; // discard internal cut histogram
    fxCutHis=0;
 }

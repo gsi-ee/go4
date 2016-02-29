@@ -36,6 +36,7 @@ TGo4PolyCondPainter::~TGo4PolyCondPainter()
 {
    UnPaintCondition();
    if (fxCutView!=0) {
+     //std::cout <<"TGo4PolyCondPainter dtor deletes  cut view "<< (long)fxCutView << std::endl;
       delete fxCutView;
       fxCutView = 0;
    }
@@ -46,13 +47,18 @@ void TGo4PolyCondPainter::PaintCondition(Option_t* opt)
 {
    if(gPad==0) return;
    TObject* cutinpad=gPad->GetListOfPrimitives()->FindObject(fxCutView);
-   //std::cout<<"TGo4PolyCondPainter::PaintCondition with fxCutView "<<(long) fxCutView<<", gPad="<<(long) gPad<<", isatexecutemousevent="<<(fxCutView?fxCutView->IsAtExecuteMouseEvent():0)<<", cutinpad="<< (long)cutinpad << std::endl;
-   if(fxCutView && cutinpad && fxCutView->IsAtExecuteMouseEvent()) return;
+   //std::cout<<"TGo4PolyCondPainter::PaintCondition with fxCutView "<<(long) fxCutView<<", gPad="<<(long) gPad<<", isatexecutemousevent="<<(fxCutView?fxCutView->IsAtExecuteMouseEvent():0)<<", cutinpad="<< (long)cutinpad;
+   //std::cout<<", Threadid="<< (long) pthread_self()<< std::endl;
+
+   //if(fxCutView && cutinpad && (fxCutView->IsAtExecuteMouseEvent() || fxCutView->IsAtExecuteMouseMenu())) return; // do not repaint during mouse move on polygon
+
+   if(fxCutView && cutinpad && fxCutView->IsAtExecuteMouseEvent()) return; // do not repaint during mouse move on polygon
+   if(fxCutView && fxCutView->IsAtExecuteMouseMenu()) return;
+
    TGo4PolyCond* pconny=dynamic_cast<TGo4PolyCond*>(fxCondition);
    if(pconny && pconny->IsVisible()) {
       TCutG* cutg=pconny->GetCut(kFALSE);
       if(cutg==0) return; // case of empty polygon condition
-      //if(fxCutView==0 || gPad->GetListOfPrimitives()->FindObject(fxCutView)==0) {
       // JAM2016: deletion from canvas is supressed inside Go4 by QtROOT interface. Just create if not already there:
       if(fxCutView==0) {
          // Only set up new view object if not already there
@@ -65,8 +71,11 @@ void TGo4PolyCondPainter::PaintCondition(Option_t* opt)
          fxCutView->SetLineStyle(pconny->GetLineStyle());
          fxCutView->SetFillColor(pconny->GetFillColor());
          fxCutView->SetFillStyle(pconny->GetFillStyle());
-      } else
-         fxCutView->SetCut(cutg); // update view if condition was changed manually
+      } else {
+          //if(!fxCutView->IsAtExecuteMouseMenu()) // supress exchanging point arrays during insert/remove points menu JAM2016
+           fxCutView->SetCut(cutg); // update view if condition was changed manually
+        }
+
       fxCutView->SetCondition(pconny); // backreference for execute event
       if(!strcmp(opt,"fixstyle")) {
          // reproduce condition colors always
@@ -89,12 +98,13 @@ else
 
 void TGo4PolyCondPainter::UnPaintCondition(Option_t* opt)
 {
+   if(fxCutView==0) return; // JAM2016
    gROOT->GetListOfCanvases()->RecursiveRemove(fxCutView);
    //std::cout <<"TGo4PolyCondPainter::UnPaintCondition removes  cut view "<< (long)fxCutView << std::endl;
    // we do not delete view, but restore graphics properties though invisible
    TString option(opt);
    if(option.Contains("reset")) {
-    // std::cout <<"TGo4PolyCondPainter::UnPaintCondition with deletes cut view"<< (long)fxCutView << std::endl;
+     //std::cout <<"TGo4PolyCondPainter::UnPaintCondition with reset deletes cut view"<< (long)fxCutView << std::endl;
       delete fxCutView;
       fxCutView=0;
    }

@@ -2151,6 +2151,10 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
 {
    Bool_t tdisp=kFALSE;
    TString tform;
+   //std::cout << "TGo4BrowserProxy::UpdateObjectContent for "<< (obj? obj->GetName(): "NULL") << ", obj="<< (long) obj<<", newobj="<< (long) newobj<< std::endl;
+   //obj->SetBit(kCanDelete, kFALSE); // JAM2016 test
+
+
    if (obj->InheritsFrom(TH1::Class())) {
       TH1* histo = dynamic_cast<TH1*> (obj);
       TH1* histo2 = dynamic_cast<TH1*> (newobj);

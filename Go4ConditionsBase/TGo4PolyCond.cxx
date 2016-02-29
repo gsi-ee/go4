@@ -25,6 +25,10 @@
 #include "TGo4PolyCondPainter.h"
 #include "TGo4Log.h"
 
+/** JAM2016: this define switches between cloning when updating condition
+ * and simple copy of TCutG points*/
+//#define POLYCOND_UPDATE_WITHCLONE 1
+
 
  TString TGo4PolyCond::fgxURL_NPOINTS="npolygon";
  TString TGo4PolyCond::fgxURL_XPRE="x";
@@ -48,7 +52,8 @@ TGo4PolyCond::TGo4PolyCond() :
    fxCut(0)
 {
    SetDimension(2);
-   //std::cout <<"TGo4PolyCond default ctor, this="<<(long) this << std::endl;
+   //SetBit(kCanDelete, kFALSE);
+   //std::cout <<"TGo4PolyCond default ctor, this="<<(long) this <<", threadid="<< (long) pthread_self()<<std::endl;
 }
 // ----------------------------------------------------------
 TGo4PolyCond::TGo4PolyCond(const char* name, const char* title) :
@@ -56,15 +61,17 @@ TGo4PolyCond::TGo4PolyCond(const char* name, const char* title) :
    fxCut(0)
 {
    SetDimension(2);
+   //SetBit(kCanDelete, kFALSE);
    //std::cout <<"TGo4PolyCond ctor of name:"<< name<< ", this="<<(long) this << std::endl;
 }
 // ----------------------------------------------------------
 TGo4PolyCond::~TGo4PolyCond()
 {
-   UnDraw(); // JAM 2016 - do it before cut has vanished!
+   //std::cout <<"TGo4PolyCond dtor of this="<<(long) this <<", threadid="<< (long) pthread_self()<< std::endl;
+   //UnDraw(); // JAM 2016 - do it before cut has vanished!
    if(fxCut != 0)
      {
-     //std::cout <<"TGo4PolyCond dtor of this="<<(long) this <<" deletes the cut "<< fxCut << std::endl;
+       //std::cout <<"TGo4PolyCond dtor of this="<<(long) this <<" deletes the cut "<< (long) fxCut << std::endl;
        delete fxCut;
        fxCut=0; // JAM2016: reset for Unpaint in PolyCondView?
      }
@@ -112,12 +119,15 @@ Bool_t TGo4PolyCond::IsPolygonType()
 // ----------------------------------------------------------
 TCutG* TGo4PolyCond::GetCut(Bool_t changeowner)
 {
+  //std::cout <<"TGo4PolyCond "<<(long) this <<" ::GetCut for cut "<< (long) fxCut << std::endl;
    TCutG* tempcut = fxCut;
 
    if(changeowner) {
       fxCut = 0;
+      //std::cout <<"TGo4PolyCond "<<(long) this <<" ::GetCut deletes cuthistogram"<< (long) fxCutHis << std::endl;
       delete fxCutHis;
       fxCutHis=0;
+
    }
    return tempcut;
 }
@@ -125,36 +135,70 @@ TCutG* TGo4PolyCond::GetCut(Bool_t changeowner)
 // ----------------------------------------------------------
 TCutG * TGo4PolyCond::CloneCut(TGo4PolyCond * source)
 {
+
   TCutG * tempcut = source->GetCut(false); // get fxCut pointer
-  if(tempcut) return (TCutG *)tempcut->Clone(GetName());
-         else return 0;
+  //std::cout <<"TGo4PolyCond  "<<(long) this <<" CloneCut "<< (long) tempcut<<"from polycond "<< (long) source << std::endl;
+  if(tempcut)
+  {
+    CleanupSpecials(); // JAM2016: Clone might delete cut of same name from list of specials, remove it first
+    TCutG* ret= (TCutG *)tempcut->Clone(GetName());
+    CleanupSpecials();
+    return ret;
+  }
+  else return 0;
 }
 // ----------------------------------------------------------
 void TGo4PolyCond::SetValues(TCutG * newcut)
 {
    if(newcut==0) return;
+#ifdef POLYCOND_UPDATE_WITHCLONE
    if(fxCut!=0) delete fxCut;
+   CleanupSpecials(); // JAM2016: Clone might delete cut of same name from list of specials, remove it first
+   //fxCut = (TCutG*) newcut->Clone(NextAvailableName());
+   fxCut = (TCutG*) newcut->Clone(GetName());
+   fxCut->SetBit(kCanDelete,kFALSE);
+   CleanupSpecials();
+#else
+   Int_t pn = newcut->GetN();
+   if(fxCut==0)
+   {
+     fxCut = new TCutG(GetName(),pn);
+     fxCut->SetBit(kMustCleanup);
+     TGo4PolyCond::CleanupSpecials(); // JAM2016
+   }
+   else
+   {
+     fxCut->Set(pn);
+   }
+   Double_t xp=0;
+   Double_t yp=0;
+   for(Int_t i=0; i<pn; ++i) {
+     newcut->GetPoint(i,xp,yp);
+     fxCut->SetPoint(i,xp,yp);
+   }
 
-   fxCut = (TCutG*) newcut->Clone(NextAvailableName());
 
+#endif
    // when updated from view, we store graphical attributes:
    SetLineColor(newcut->GetLineColor());
    SetLineWidth(newcut->GetLineWidth());
    SetLineStyle(newcut->GetLineStyle());
    SetFillColor(newcut->GetFillColor());
    SetFillStyle(newcut->GetFillStyle());
-
+   //std::cout << "TGo4PolyCond::SetValues deletes cut histogram " << (long) fxCutHis << std::endl;
    delete fxCutHis; // fxCut changed, so discard previous fxCut histogram
    fxCutHis=0;
-   //std::cout << "TGo4PolyCond::SetValues fxCut " << fxCut << " from " << newcut << std::endl;
+   //std::cout << "TGo4PolyCond::SetValues fxCut " << (long) fxCut << " from " << (long) newcut << std::endl;
 }
-// ----------------------------------------------------------
+ // ----------------------------------------------------------
 void TGo4PolyCond::SetValuesDirect(TCutG * newcut)
 {
    if(newcut==0) return;
-   if(fxCut!=0) delete fxCut;
+   if(fxCut!=0 && fxCut!=newcut) delete fxCut;
 
    fxCut = newcut;
+   //fxCut->SetName(NextAvailableName()); // JAM2016
+   fxCut->SetName(GetName());
 
    // when updated from view, we store graphical attributes:
    SetLineColor(newcut->GetLineColor());
@@ -165,7 +209,7 @@ void TGo4PolyCond::SetValuesDirect(TCutG * newcut)
 
    delete fxCutHis; // fxCut changed, so discard previous fxCut histogram
    fxCutHis=0;
-   //std::cout << "TGo4PolyCond::SetValuesDirect  fxCut " << fxCut << " from " << newcut << std::endl;
+   //std::cout << "TGo4PolyCond::SetValuesDirect  fxCut " << (long) fxCut << " from " << (long)newcut << std::endl;
 }
 
 
@@ -173,9 +217,14 @@ void TGo4PolyCond::SetValuesDirect(TCutG * newcut)
 void TGo4PolyCond::SetValues(Double_t * x, Double_t * y, Int_t len)
 {
    if(fxCut != 0) delete fxCut;
-   fxCut = new TCutG(NextAvailableName(), len, x, y);
+   TGo4PolyCond::CleanupSpecials(); // JAM2016
+   //fxCut = new TCutG(NextAvailableName(), len, x, y);
+   fxCut = new TCutG(GetName(), len, x, y);
    fxCut->SetBit(kMustCleanup);
-   //std::cout << "Set new fxCut " << fxCut << std::endl;
+   //fxCut->SetBit(kCanDelete,kFALSE);
+   TGo4PolyCond::CleanupSpecials(); // JAM2016
+
+   //std::cout << "TGo4PolyCond::SetValues() Set new fxCut " << (long) fxCut << std::endl;
    delete fxCutHis; // discard previous fxCut histogram
    fxCutHis=0;
 }
@@ -217,23 +266,50 @@ Bool_t TGo4PolyCond::UpdateFrom(TGo4Condition * cond, Bool_t counts)
   if(!TGo4Condition::UpdateFrom(cond,counts)) return kFALSE;
   if(cond->InheritsFrom(TGo4PolyCond::Class()))
      {
+
+#ifdef POLYCOND_UPDATE_WITHCLONE
        TCutG * temp = CloneCut((TGo4PolyCond*)cond);  // get clone from source, still valid there!
        CleanupSpecials(); // remove all references to cloned TCutG from list of specials
        //std::cout << "Update " << GetName() << " from " << temp << std::endl;
        if(temp != 0)
           {
-             //std::cout << "Delete fxCut " << fxCut << std::endl;
-             if(fxCut != 0) delete fxCut;
-             fxCut = temp;
+             TCutG* old=fxCut; // JAM2016 change cut before deleting the old one!
+             fxCut=temp;
+             //std::cout << "Delete fxCut " << (long) old << std::endl;
+             if(old != 0) delete old;
              delete fxCutHis;
              fxCutHis=0;
-             //std::cout << "Update new fxCut " << fxCut << std::endl;
+             //std::cout << "Update new fxCut " << (long) fxCut << std::endl;
              return kTRUE;
           }
        else
           {
              return kFALSE;
           }
+#else
+       /* JAM2016: try to avoid streaming the cut multiple times when updating condition:*/
+       TGo4PolyCond* source=(TGo4PolyCond*)cond;
+       TCutG * srccut = source->GetCut(false);
+       //std::cout << "TGo4PolyCond::UpdateFrom without Clone of" << GetName() << ", srccut="<<(long )srccut<<", fxCut="<< (long)fxCut << std::endl;
+
+       if(srccut==0) return kFALSE;
+       CleanupSpecials(); // redundant? do it to get rid of entries from streamer!?
+       Int_t pn = srccut->GetN();
+       fxCut->Set(pn);
+       Double_t xp=0;
+       Double_t yp=0;
+       for(Int_t i=0; i<pn; ++i) {
+         srccut->GetPoint(i,xp,yp);
+         fxCut->SetPoint(i,xp,yp);
+       }
+
+       // still need this to reassign the bins of statistics histogram:
+       delete fxCutHis;
+       fxCutHis=0;
+
+      return kTRUE;
+#endif
+
     }
  else
    {
@@ -389,6 +465,7 @@ TH2* TGo4PolyCond::CreateCutHistogram(TH1* source)
    TH2* his=dynamic_cast<TH2*>(source);
    if(his==0) return 0;
    TH2* work= (TH2*) his->Clone();
+   //std::cout<<"TGo4PolyCond::CreateCutHistogram creates new cut histogram"<< (long) work <<" from source:"<< (long)source<< std::endl;
    Int_t nx=work->GetNbinsX();
    Int_t ny=work->GetNbinsY();
    TAxis* xaxis = work->GetXaxis();
@@ -418,13 +495,14 @@ TH2* TGo4PolyCond::CreateCutHistogram(TH1* source)
 // ----------------------------------------------------------
 void TGo4PolyCond::CleanupSpecials()
 {
+  //std::cout<<"TGo4PolyCond::CleanupSpecials()..."<< std::endl;
    TSeqCollection* specials=gROOT->GetListOfSpecials();
    TIter iter(specials);
    TObject* ob=0;
    while((ob = iter())!=0) {
      if(ob->InheritsFrom(TCutG::Class())) {
         specials->Remove(ob);
-        //std::cout <<">>>>>>>>>> removed fxCut" <<ob<<" :" << ob->GetName() <<" from list of specials "<< std::endl;
+        //std::cout <<">>>>>>>>>> removed fxCut" << (long) ob<<" :" << ob->GetName() <<" from list of specials "<< std::endl;
      }
    }//while
 }

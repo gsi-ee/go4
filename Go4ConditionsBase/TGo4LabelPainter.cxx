@@ -24,6 +24,7 @@ TGo4LabelPainter::TGo4LabelPainter() :
    fdY0(0),
    fbIsLabStreamed(kTRUE)
 {
+   //std::cout <<"TGo4LabelPainter "<< (long)this<<" default ctor "<< std::endl;
    InitAttributes();
 }
 
@@ -34,6 +35,7 @@ TGo4LabelPainter::TGo4LabelPainter(const char* name, const char* title) :
    fdY0(0),
    fbIsLabStreamed(kFALSE)
 {
+   //std::cout <<"TGo4LabelPainter "<< (long)this<<" ctor from name "<<name << std::endl;
    InitAttributes();
 }
 
@@ -53,6 +55,7 @@ void TGo4LabelPainter::InitAttributes()
 
 TGo4LabelPainter::~TGo4LabelPainter()
 {
+  //std::cout <<"TGo4LabelPainter dtor of "<< (long)this <<" will delete label"<< fxLabel << std::endl;
    if (fxLabel!=0) {
       delete fxLabel;
       fxLabel = 0;
@@ -62,7 +65,7 @@ TGo4LabelPainter::~TGo4LabelPainter()
 void TGo4LabelPainter::PaintLabel(Option_t* opt)
 {
    if(gPad==0) return;
-   Double_t xrange=(gPad->GetUxmax()-gPad->GetUxmin());
+    Double_t xrange=(gPad->GetUxmax()-gPad->GetUxmin());
    Double_t yrange=(gPad->GetUymax()-gPad->GetUymin());
    if(!CheckLabel()) {
       // label was deleted by us or by root:
@@ -99,6 +102,9 @@ void TGo4LabelPainter::PaintLabel(Option_t* opt)
    fxLabel->AddText(fxCaption.Data());
    fxLabel->AddText(" "); // dummy for automatic position of next line
    fxLabel->AddLine(0,0,0,0);
+
+   //std::cout <<"TGo4LabelPainter::PaintLabel of this="<< (long)this <<" with label "<<(long) fxLabel << std::endl;
+
 }
 
 void TGo4LabelPainter::UnPaintLabel(Option_t* opt)
@@ -141,7 +147,7 @@ TGo4Label* TGo4LabelPainter::CreateCurrentLabel(Double_t x, Double_t y)
    Double_t ymax=0;
    LabelCoords(x0,y0,xmax,ymax);
    TGo4Label* label=new TGo4Label(x0,y0,xmax,ymax);
-   //printf(" new label=0x%x \n",(long) label);
+   //printf("TGo4LabelPainter::CreateCurrentLabel has new label=%d \n",(long) label); std::cout << std::endl;
    label->SetOwner(this);
    TAttText::Copy(*label);
    TAttLine::Copy(*label);
@@ -159,16 +165,15 @@ Bool_t TGo4LabelPainter::CheckLabel()
       return kTRUE;
    }
 
-// JAM 2016: this is rest of some ancient functionality?
-//   if(TGo4Label::fxLastDeleted==(char*) fxLabel)
-//      {
-//         // our label was deleted by user mouse menu just before
-//         TGo4Label::fxLastDeleted=0;
-//         fxLabel=0; // reset reference, will re-create label on next paint
-//         std::cout <<"CheckLabel with lastdeleted case" << std::endl;
-//         return kFALSE;
-//      }
-   //std::cout <<"CheckLabel returns "<< (bool) (fxLabel!=0) << std::endl;
+   if(TGo4Label::fxLastDeleted==(char*) fxLabel)
+      {
+         // our label was deleted by user mouse menu (or pad clear!)just before
+         TGo4Label::fxLastDeleted=0;
+         fxLabel=0; // reset reference, will re-create label on next paint
+         //std::cout <<"CheckLabel with lastdeleted case" << std::endl;
+         return kFALSE;
+      }
+   //std::cout <<"CheckLabel sees label "<<(long) fxLabel <<" and returns "<< (bool) (fxLabel!=0) << std::endl;
    return fxLabel!=0;
 }
 

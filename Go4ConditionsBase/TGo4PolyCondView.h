@@ -71,13 +71,15 @@ public:
     virtual Int_t RemovePoint();// *MENU*
 
     Bool_t IsAtExecuteMouseEvent(){return fbExecutesMouseEvent;}
-
+    Bool_t IsAtExecuteMouseMenu(){return fbExecutesMouseMenu;}
 
 private:
 
     /** JAM this one will supress condition repaint during execution of mouse events*/
     Bool_t fbExecutesMouseEvent;
 
+    /** JAM this one will supress condition repaint during mouse menu execution*/
+    Bool_t fbExecutesMouseMenu;
 
     /** pointer to viewed condition for update after graphical action */
     TGo4PolyCond* fxPolyCondition; //!

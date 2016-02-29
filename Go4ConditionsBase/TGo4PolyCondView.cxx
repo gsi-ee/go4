@@ -19,30 +19,41 @@
 
 #include "TGo4PolyCond.h"
 
+/** JAM2016: like for polygon condition we may supress intermediate streaming when updating
+ * the condition from view by disabling the following define:*/
+//#define POLYCONDVIEW_UPDATE_WITHCLONE 1
+
+
 TGo4PolyCondView::TGo4PolyCondView(TCutG* source) :
-   TCutG(), fbExecutesMouseEvent(kFALSE),fxPolyCondition(0)
+   TCutG(), fbExecutesMouseEvent(kFALSE),fbExecutesMouseMenu(kFALSE), fxPolyCondition(0)
 {
    SetCut(source);
    SetBit(kMustCleanup);
-   //std::cout<< "TGo4PolyCondView ctor from cut"<< (long) source<< std::endl;
+   //SetBit(kCanDelete, kFALSE);
+   //std::cout<< "TGo4PolyCondView "<< (long) this <<" ctor from cut"<< (long) source<< std::endl;
+   TGo4PolyCond::CleanupSpecials(); // JAM2016 - immediately take us out of special list
 }
 
 TGo4PolyCondView::TGo4PolyCondView() :
-   TCutG(), fbExecutesMouseEvent(kFALSE),fxPolyCondition(0)
+   TCutG(), fbExecutesMouseEvent(kFALSE),fbExecutesMouseMenu(kFALSE),fxPolyCondition(0)
 {
    SetBit(kMustCleanup);
-   //std::cout<< "TGo4PolyCondView default ctor"<< std::endl;
+   //SetBit(kCanDelete, kFALSE);
+  //std::cout<< "TGo4PolyCondView"<< (long) this <<" default ctor"<< std::endl;
+   TGo4PolyCond::CleanupSpecials(); // JAM2016 - immediately take us out of special list
 }
 
 
 TGo4PolyCondView::~TGo4PolyCondView()
 {
-  //std::cout<< "TGo4PolyCondView dtor"<< std::endl;
+ // std::cout<< "TGo4PolyCondView "<< (long) this <<" dtor"<< std::endl;
 }
 
 void TGo4PolyCondView::Paint(Option_t* opt)
 {
-   if(fxPolyCondition) TCutG::Paint(opt);
+
+    //std::cout<<"TGo4PolyCondView::Paint, this="<< (long) this <<", Threadid="<< (long) pthread_self()<<", polycondition:"<< (long) fxPolyCondition<< std::endl;
+    if(fxPolyCondition) TCutG::Paint(opt);
    // we have a valid condition set from painter.Otherwise,
    // suppress painting of condition view without owner. This case
    // happens after inserting canvas in go4 (separate cloning
@@ -52,22 +63,27 @@ void TGo4PolyCondView::Paint(Option_t* opt)
 
 Int_t TGo4PolyCondView::InsertPoint()
 {
+   fbExecutesMouseMenu=kTRUE;
+   //std::cout<<"TGo4PolyCondView::InsertPoint, this="<< (long) this <<", Threadid="<< (long) pthread_self()<< std::endl;
    Int_t rev = TGraph::InsertPoint();
    UpdateCondition();
+   fbExecutesMouseMenu=kFALSE;
    return rev;
 }
 
 Int_t TGo4PolyCondView::RemovePoint()
 {
+   fbExecutesMouseMenu=kTRUE;
    Int_t rev = TGraph::RemovePoint();
    UpdateCondition();
+   fbExecutesMouseMenu=kFALSE;
    return rev;
 }
 
 void TGo4PolyCondView::ExecuteEvent(Int_t event, Int_t px, Int_t py)
 {
 
-
+ // std::cout<<"TGo4PolyCondView::ExecuteEvent, Threadid="<< (long) pthread_self()<< std::endl;
 // TODO: do we really need this for newer ROOT versions?
 #if 1
 ////// begin button double workaround JA
@@ -101,13 +117,14 @@ if(event==kButton1Down && fxPolyCondition)
 }
 
 
-
+//TGo4PolyCond::CleanupSpecials(); // JAM2016
 TCutG::ExecuteEvent(event,px,py);
+//TGo4PolyCond::CleanupSpecials(); // JAM 2016 avoid some intermediate TCutG objects in global list? NO!
 if(event==kButton1Up && fxPolyCondition)
    {
       //std::cout <<"PolyCondView ExecuteEvent for button 1 up" << std::endl;
       Pop(); // do condition under edit into foreground, for condarray
-      if(IsCutChanged())
+      if(!fbExecutesMouseMenu && IsCutChanged())
          {
             UpdateCondition();
          }
@@ -161,21 +178,35 @@ return needsupdate;
 void TGo4PolyCondView::UpdateCondition()
 {
    if(fxPolyCondition==0) return;
+   //std::cout<< "TGo4PolyCondView "<< (long) this <<" ::UpdateCondition"<< std::endl;
+
+#ifdef POLYCONDVIEW_UPDATE_WITHCLONE
+
    TCutG* ccut = CreateCut();
    fxPolyCondition->SetValues(ccut);
    delete ccut;
+   //std::cout<< "TGo4PolyCondView::UpdateCondition has deleted intermediat TCutG "<< (long) ccut<< std::endl;
+//   fxPolyCondition->SetValuesDirect(ccut); // change ownership of ccut
    TGo4PolyCond::CleanupSpecials();
+#else
+   fxPolyCondition->SetValues(this); // probably this is problematic if update with cloning is enabled in condition class!
+#endif
    fxPolyCondition->SetChanged(kTRUE);
 }
 
 
 void TGo4PolyCondView::SetCut(TCutG* source)
 {
-   Set(0); // clear array of points
+  // std::cout<< "TGo4PolyCondView "<< (long) this <<" ::SetCut from cut"<< (long) source<< std::endl;
+
    if(source==0)
-      SetPoint(0,0,0); //dummy to suppress empty graph warnings
+   {
+     Set(0); // clear array of points
+     SetPoint(0,0,0); //dummy to suppress empty graph warnings
+   }
    else {
       Int_t pn=source->GetN();
+      Set(pn); // set to new number of points
       Double_t xp=0;
       Double_t yp=0;
       for(Int_t i=0; i<pn; ++i) {
@@ -185,10 +216,13 @@ void TGo4PolyCondView::SetCut(TCutG* source)
    }
 }
 
+
 TCutG* TGo4PolyCondView::CreateCut()
 {
    TCutG* result = new TCutG;
    result->SetBit(kMustCleanup);
+   //result->SetBit(kCanDelete,kFALSE);
+   TGo4PolyCond::CleanupSpecials(); // JAM2016 - immediately take us out of special list
    Int_t pn = GetN();
    Double_t xp=0;
    Double_t yp=0;
@@ -209,12 +243,13 @@ const char* TGo4PolyCondView::GetName() const
    if(fxPolyCondition)
       return (fxPolyCondition->GetName());
    else
-      return 0;
+      return (TCutG::GetName()); // JAM2016
 }
 
 void TGo4PolyCondView::SetName(const char* nam)
 {
    if(fxPolyCondition) fxPolyCondition->SetName(nam);
+   TCutG::SetName(nam); // JAM2016
 }
 
 void TGo4PolyCondView::SetLabelDraw(Bool_t on)

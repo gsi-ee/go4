@@ -31,9 +31,9 @@
 class TGo4Label : public TPaveText {
 
   public:
-    TGo4Label(): TPaveText(), fxOwner(0) { SetBit(kMustCleanup);}
+    TGo4Label(): TPaveText(), fxOwner(0) { SetBit(kMustCleanup); /*SetBit(kCanDelete,kFALSE);*/}
     TGo4Label(Double_t x1, Double_t y1, Double_t x2, Double_t y2, Option_t* option = "br")
-    : TPaveText(x1,y1,x2,y2,option),fxOwner(0) { SetBit(kMustCleanup); }
+    : TPaveText(x1,y1,x2,y2,option),fxOwner(0) { SetBit(kMustCleanup); /*SetBit(kCanDelete,kFALSE);*/}
 
     virtual ~TGo4Label(){fxLastDeleted=(char*) this;}
     void SetOwner(TObject* ob){fxOwner=ob;}

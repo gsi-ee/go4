@@ -679,7 +679,6 @@ void TGo4ViewPanel::SetSelectedMarkerByMouseClick(TPad* pad, const char* name)
    TGo4LockGuard lock;
 
    if (!fbMarkEditorVisible) return;
-
    TGo4Slot* padslot = GetPadSlot(pad);
    if (padslot == 0) return;
 
@@ -1207,7 +1206,6 @@ void TGo4ViewPanel::SetActivePad(TPad* pad)
 void TGo4ViewPanel::PadClickedSlot(TPad* pad)
 {
    TGo4LockGuard lock;
-
    SetActivePad(pad);
 
    if (pad == 0)
@@ -3301,7 +3299,11 @@ void TGo4ViewPanel::CheckObjectsAssigments(TPad * pad, TGo4Slot * padslot)
 
       if (oldhisto == 0)
          if (cond != 0)
-            cond->SetWorkHistogram(selhisto);
+         {
+           //std::cout<< "CheckObjectsAssigments sets work histogram:"<<(long) selhisto<<"("<<selhisto->GetName()<<") to condition:"<<(long) cond<<" ("<<cond->GetName()<<")" << std::endl;
+           cond->SetWorkHistogram(selhisto);
+
+         }
          else if (mark != 0)
             mark->SetHistogram(selhisto);
    }
@@ -3773,6 +3775,13 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
    // do not draw anything else if subpads are there
    if (ischilds) return ischildmodified;
 
+
+   // JAM2016: does this help for some array conflicts in TGraph painter? YES!
+     //std::cout <<"PPPPPPPP ProcessPadRedraw with root escape before pad Clear PPPPPPPPPP" << std::endl;
+   gROOT->SetEscape();
+   fxQCanvas->HandleInput(kButton1Up, 0, 0);
+   fxQCanvas->HandleInput(kMouseMotion, 0, 0); // stolen from TRootEmbeddedCanvas::HandleContainerKey
+   // end JAM2016
    pad->Clear();
 
    pad->SetCrosshair(fbCanvasCrosshair);
@@ -3878,7 +3887,8 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 
    gPad = pad; // instead of pad->cd(), while it is redraw frame
    if (drawobj != 0) {
-
+      //std::cout<<"PPPPPPP Process Pad Redraw with object"<<(long) drawobj<<", name:"<<drawobj->GetName() << std::endl;
+      //drawobj->SetBit(kCanDelete, kFALSE); // jam2016
       bool first_draw = (slot->GetPar("::PadFirstDraw") == 0);
       if (first_draw) slot->SetPar("::PadFirstDraw", "true");
 
@@ -4126,6 +4136,7 @@ void TGo4ViewPanel::RedrawLegend(TPad *pad, TGo4Picture* padopt,
 {
    if (legslot == 0) return;
    TLegend* legend = dynamic_cast<TLegend*>(legslot->GetAssignedObject());
+   //legend->SetBit(kCanDelete, kFALSE); // jam2016
    if(legend!=0) legend->Draw();
 }
 
@@ -4165,15 +4176,17 @@ void TGo4ViewPanel::RedrawSpecialObjects(TPad *pad, TGo4Slot* padslot)
          selectedobj = obj;
          selectdrawopt = drawopt.Data();
       } else {
+         //obj->SetBit(kCanDelete, kFALSE); // jam2016
          obj->Draw(drawopt.Data());
      }
    }
 
    // if one has selected object on the pad, one should
    // draw it as last to bring it to the front of other
-   if (selectedobj != 0)
-      selectedobj->Draw(selectdrawopt ? selectdrawopt : "");
-
+   if (selectedobj != 0){
+       //selectedobj->SetBit(kCanDelete, kFALSE); // jam2016
+       selectedobj->Draw(selectdrawopt ? selectdrawopt : "");
+   }
 
 }
 
@@ -4976,8 +4989,6 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
    xax->SetTimeFormat(padopt->GetXAxisTimeFormat());
 
    // JAM 2016 finally we evaluate the rectangular axis scale property:
-
-
    padopt->IsXYRatioOne() ? RectangularRatio(pad) : DefaultPadMargin(pad);
 
 }

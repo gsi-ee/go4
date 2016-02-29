@@ -23,12 +23,14 @@ TGo4WinCondView::TGo4WinCondView(Double_t x1,Double_t y1,Double_t x2,Double_t y2
    :TBox(x1,y1,x2,y2), fbExecutesMouseEvent(kFALSE), fxWinCondition(0)
 {
     SetBit(kMustCleanup);
+    //SetBit(kCanDelete, kFALSE);
 }
 
 TGo4WinCondView::TGo4WinCondView()
    : TBox(),fbExecutesMouseEvent(kFALSE),fxWinCondition(0)
 {
     SetBit(kMustCleanup);
+    //SetBit(kCanDelete, kFALSE);
 }
 
 TGo4WinCondView::~TGo4WinCondView()

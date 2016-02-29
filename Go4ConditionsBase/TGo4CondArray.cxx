@@ -77,6 +77,8 @@ TGo4CondArray::TGo4CondArray(const char* name, Int_t elements, Int_t contype) :
       fiType = contype;
       for(Int_t i = 0; i < elements; i++)
          condarr->AddLast(new TGo4PolyCond(Form("%s%06d",name,i)));
+
+      TGo4PolyCond::CleanupSpecials(); // JAM2016
    } else {
      fiNumCond = 0;
      fiType = 0;
@@ -98,6 +100,8 @@ TGo4CondArray::TGo4CondArray(const char* name, Int_t elements, const char* type)
       fiType = kGO4CONDPOLYGON;
       for(Int_t i = 0; i < elements; i++)
          condarr->AddLast(new TGo4PolyCond(Form("%s%06d",name,i)));
+
+      TGo4PolyCond::CleanupSpecials(); // JAM2016
    } else {
       fiNumCond = 0;
       fiType = 0;
