@@ -3627,6 +3627,16 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
    if (ischilds)
       return ischildmodified;
 
+
+   // JAM2016: does this help for some array conflicts in TGraph painter? YES!
+       //std::cout <<"PPPPPPPP ProcessPadRedraw with root escape before pad Clear PPPPPPPPPP" << std::endl;
+   gROOT->SetEscape();
+   fxGo4QRootCanvas->HandleInput(kButton1Up, 0, 0);
+   fxGo4QRootCanvas->HandleInput(kMouseMotion, 0, 0); // stolen from TRootEmbeddedCanvas::HandleContainerKey
+   // end JAM2016
+
+
+
    pad->Clear();
 
    pad->SetCrosshair(fbCanvasCrosshair);
