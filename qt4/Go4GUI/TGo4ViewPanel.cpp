@@ -1591,14 +1591,9 @@ bool TGo4ViewPanel::CompleteMarkerEdit(TPad* pad)
 
 void TGo4ViewPanel::PadDoubleClickedSlot(TPad* pad)
 {
-   if (CompleteMarkerEdit(pad))
-      return;
+   if (CompleteMarkerEdit(pad)) return;
+   if (fxDoubleClickTimerPad != 0) return;
 
-   if (GetNumberOfPads(GetCanvas()) <= 1)
-      return;
-
-   if (fxDoubleClickTimerPad != 0)
-      return;
    fxDoubleClickTimerPad = pad;
    QTimer::singleShot(100, this, SLOT(ProcessPadDoubleClick()));
 }
@@ -1617,6 +1612,12 @@ void TGo4ViewPanel::CanvasStatusEventSlot(const char* message)
 void TGo4ViewPanel::ProcessPadDoubleClick()
 {
    if (fxDoubleClickTimerPad == 0) return;
+
+   if (GetNumberOfPads(GetCanvas()) <= 1)  {
+      MoveScale(1,0,0,0);
+      fxDoubleClickTimerPad = 0;
+      return;
+   }
 
    TGo4Picture pic;
    MakePictureForPad(&pic, fxDoubleClickTimerPad, true);
@@ -4467,8 +4468,6 @@ void TGo4ViewPanel::MoveScale(int expandfactor, int xaction, int yaction, int za
    TPad* selpad = IsApplyToAllFlag() ? GetCanvas() : GetActivePad();
    if (selpad == 0)
       return;
-
-//   std::cout << "TGo4ViewPanel::MoveScale " << expandfactor << " " << xaction << std::endl;
 
    TGo4Picture* padopt = GetPadOptions(selpad);
    if (padopt != 0) {
