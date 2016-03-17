@@ -1,12 +1,13 @@
 --------------------------------------------------------------
-         Go4 Release Package v5.0.1 (build 50001)
-                      20-July-2015
+         Go4 Release Package v5.1.0 (build 50100)
+                      17-March-2016
 --------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
 --------------------------------------------------------------
 Authors: Joern Adamczewski-Musch      (1999-)
          Mohammad Al-Turany           (2000-2004)
+         Sven Augustin [Python]	      (2015-)
          Denis Bertini                (2001-2004)
          Hans Georg Essel             (1999-2010)
          Marc Hemberger               (1999-2000)
