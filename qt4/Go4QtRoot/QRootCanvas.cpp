@@ -86,7 +86,6 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
    setAttribute(Qt::WA_PaintOnScreen);
    setAttribute(Qt::WA_PaintUnclipped);
 
-
    // add the Qt::WinId to TGX11 interface
    fQtWindowId = winId();
    fRootWindowId = gVirtualX->AddWindow((ULong_t)fQtWindowId, 100, 30);
@@ -140,11 +139,9 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
 
   //std::cout <<"----- QRootCanvas::mouseMoveEvent with timestamp:"<<timestamp<<", oldstamp:"<<lastprocesstime << std::endl;
 #endif
- if (fCanvas!=0) {
-     if (e->buttons() & Qt::LeftButton){
-       //std::cout <<"----- QRootCanvas::mouseMoveEvent with left button held" << std::endl;
-              fCanvas->HandleInput(kButton1Motion, e->x(), e->y());
-    }
+  if (fCanvas!=0) {
+     if (e->buttons() & Qt::LeftButton)
+        fCanvas->HandleInput(kButton1Motion, e->x(), e->y());
      else
         fCanvas->HandleInput(kMouseMotion, e->x(), e->y());
   }
@@ -175,12 +172,9 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
 void QRootCanvas::mousePressEvent( QMouseEvent *e )
 {
    TGo4LockGuard threadlock;
-   //std::cout <<"----- QRootCanvas::mousePressEvent" << std::endl;
    TObjLink* pickobj = 0;
    TPad* pad = fCanvas->Pick(e->x(), e->y(), pickobj);
    TObject *selected = fCanvas->GetSelected();
-
-   // fCanvas->cd();
 
    switch(e->button()) {
      case Qt::LeftButton :
@@ -190,15 +184,15 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
      case Qt::RightButton : {
         TString selectedOpt("");
         if (pad!=0) {
-          if (pickobj==0) {
-            fCanvas->SetSelected(pad);
-            selected = pad;
-          } else
-          if(selected==0) {
-            selected    = pickobj->GetObject();
-            selectedOpt = pickobj->GetOption();
-          }
-         pad->cd();
+           if (pickobj==0) {
+              fCanvas->SetSelected(pad);
+              selected = pad;
+           } else
+           if(selected==0) {
+              selected    = pickobj->GetObject();
+              selectedOpt = pickobj->GetOption();
+           }
+           pad->cd();
         }
         fCanvas->SetSelectedPad(pad);
         gROOT->SetSelectedPrimitive(selected);
@@ -263,6 +257,7 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
 void QRootCanvas::mouseReleaseEvent( QMouseEvent *e )
 {
    TGo4LockGuard threadlock;
+
    switch(e->button()) {
       case Qt::LeftButton :
          fCanvas->HandleInput(kButton1Up, e->x(), e->y());
@@ -277,7 +272,7 @@ void QRootCanvas::mouseReleaseEvent( QMouseEvent *e )
          break;
       default:
          break;
-  }
+   }
    e->accept();
 }
 
@@ -312,17 +307,15 @@ void QRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
 
 void QRootCanvas::activateRepaint(int mode)
 {
-
    fRepaintMode |= mode;
 //   if (fRepaintMode > 0) setUpdatesEnabled( false ); // JAM avoid flicker on Qt5 ?
    fRepaintTimer->setSingleShot(true);
    fRepaintTimer->start(100);
-   }
+}
 
 void QRootCanvas::resizeEvent( QResizeEvent *)
 {
    activateRepaint(act_Resize);
-
 }
 
 void QRootCanvas::paintEvent( QPaintEvent *)
@@ -337,9 +330,6 @@ void QRootCanvas::paintEvent( QPaintEvent *)
    else
       activateRepaint(act_Update);
 }
-
-
-
 
 void QRootCanvas::processRepaintTimer()
 {

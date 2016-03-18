@@ -3778,10 +3778,12 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 
 
    // JAM2016: does this help for some array conflicts in TGraph painter? YES!
-     //std::cout <<"PPPPPPPP ProcessPadRedraw with root escape before pad Clear PPPPPPPPPP" << std::endl;
    gROOT->SetEscape();
    fxQCanvas->HandleInput(kButton1Up, 0, 0);
    fxQCanvas->HandleInput(kMouseMotion, 0, 0); // stolen from TRootEmbeddedCanvas::HandleContainerKey
+   // SL2016 - one need to reset escape status back, some other functionality (like zooming) may not work
+   gROOT->SetEscape(kFALSE);
+
    // end JAM2016
    pad->Clear();
 
