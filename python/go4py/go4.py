@@ -1,9 +1,18 @@
 
-import sys
+from facade import Facade
 from types import ModuleType
 
 
-class Wrapper(ModuleType):
+def realNone(obj):
+    """
+    Replace PyROOT null pointer (== None) with a real Python None (is None)
+    """
+    return None if obj == None else obj
+
+
+
+@Facade(__name__)
+class go4Wrapper(ModuleType):
     """
     Wraps the PyROOT-bound go4 object (transferred here via __builtin__)
     to provide some safety measures
@@ -23,28 +32,6 @@ class Wrapper(ModuleType):
             folder = "Go4"
         obj = self.analysis.NextMatchingObject(expr, folder, reset)
         return self.realNone(obj)
-
-
-def realNone(obj):
-    """
-    Replace PyROOT null pointer (== None) with a real Python None (is None)
-    """
-    return None if obj == None else obj
-
-
-def init():
-    """
-    Replace this module with an instance of the Wrapper class in sys.modules
-    Update the globals of this instance from the globals of the module
-    cf. https://mail.python.org/pipermail/python-ideas/2012-May/014969.html
-    """
-    w = Wrapper(__name__)
-    w.__dict__.update(globals())
-    sys.modules[__name__] = w
-
-
-
-init()
 
 
 
