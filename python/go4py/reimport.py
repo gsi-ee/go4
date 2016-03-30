@@ -2,6 +2,21 @@
 import sys
 
 
+# Try to get a reload function:
+try:
+    # Built-in (Python 2) or imported before
+    reload
+except NameError:
+    # Python 3
+    try:
+        # New in 3.1, not in 2.7
+        from importlib import reload
+    except ImportError:
+        # Deprecated since 3.4
+        from imp import reload
+
+
+
 def reimport(modulename):
     """
     Reloads modulename if it was imported before, imports it otherwise.
@@ -21,6 +36,17 @@ def reimport(modulename):
         reload(m)
     finally:
         return m
+
+
+
+# Alternatively the module can be deleted to trigger a clean import:
+
+#if 'myModule' in sys.modules:  
+#    del sys.modules["myModule"]
+
+#for mod in sys.modules.keys():
+#    if mod.startswith('myModule.'):
+#        del sys.modules[mod]
 
 
 
