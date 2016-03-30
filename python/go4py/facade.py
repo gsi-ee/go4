@@ -1,6 +1,5 @@
 
 import sys
-from functools import update_wrapper
 
 
 class Facade(object):

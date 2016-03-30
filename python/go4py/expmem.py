@@ -53,8 +53,8 @@ class ExpMem(object):
 
     def MatchingObjects(self, expr="*", folder=None):
         """
-		Iterate over Objects() that match expr
-		"""
+        Iterate over Objects() that match expr
+        """
         for obj in self.Objects(folder):
             name = obj.GetName()
             if fnmatchcase(name, expr):
@@ -63,8 +63,8 @@ class ExpMem(object):
 
     def tree(self, folder=None, indent=1):
         """
-		Recursively print the object/folder tree of the opened .root-file
-		"""
+        Recursively print the object/folder tree of the opened .root-file
+        """
         if folder is None:
             folder = self.root
             print folder.GetName()
