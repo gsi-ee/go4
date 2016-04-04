@@ -649,11 +649,10 @@ Bool_t TGo4AnalysisWebStatus::ExecuteLine(const char* exeline)
 {
   if ((exeline==0) || (*exeline==0)) return kFALSE;
   TGo4Analysis* ana = TGo4Analysis::Instance();
-  if(ana==0) {
-            return kFALSE;
-         }
+  if(ana==0) return kFALSE;
+
   Int_t errcode=0;
-  Long_t res=ana->ExecuteLine(exeline, &errcode);
+  ana->ExecuteLine(exeline, &errcode);
   fflush(stdout);
   return errcode!=0 ? kFALSE : kTRUE;
 }
