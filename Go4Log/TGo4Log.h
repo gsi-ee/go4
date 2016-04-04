@@ -62,6 +62,9 @@ class TGo4Log {
        * Always add trailing slash into the end of the string. */
       static const char* GO4SYS();
 
+      /** Return include path for this Go4 installation */
+      static const char* GO4INCPATH();
+
       /** Return subdirectory in the GO4SYS.
        * Always add trailing slash into the end of the string. */
       static TString subGO4SYS(const char* subdir);

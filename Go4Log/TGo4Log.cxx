@@ -178,6 +178,17 @@ const char* TGo4Log::GO4SYS()
    return fgsGO4SYS.Length()>0 ? fgsGO4SYS.Data() : "";
 }
 
+const char* TGo4Log::GO4INCPATH()
+{
+   #ifdef COMP_GO4INC
+   return COMP_GO4INC;
+   #endif
+
+   return "";
+}
+
+
+
 TString TGo4Log::subGO4SYS(const char* subdir)
 {
    const char* go4sys = GO4SYS();

@@ -34,7 +34,10 @@ include/%.h: $(GO4LOG_DIR)/%.h
 ifdef GO4_WIN32
 $(GO4LOG_O) : DEFINITIONS += -DCOMP_GO4SYS="\"$(shell cygpath -m $(GO4TOPPATH))\""
 else
-$(GO4LOG_O) : DEFINITIONS += -DCOMP_GO4SYS="\"$(GO4TOPPATH)\""
+$(GO4LOG_O) : DEFINITIONS += -DCOMP_GO4SYS="\"$(GO4TOPPATH)\"" 
+ifneq ($(GO4PREFIX),)
+$(GO4LOG_O) : DEFINITIONS += -DCOMP_GO4INC="\"$(GO4INCPATH)\""
+endif
 endif
 
 clean-bin::

@@ -185,8 +185,6 @@ int main(int argc, char **argv)
 
    TGo4AbstractInterface::SetInitSharedLibs();
 
-
-
    TGo4Log::LogfileEnable(kFALSE); // will enable or disable logging all messages
    TGo4Log::Instance(); // init logger object
    TGo4Log::SetIgnoreLevel(1); // set this to 1 to suppress detailed debug output
@@ -198,6 +196,11 @@ int main(int argc, char **argv)
    // makes problem in multi-threaded environment, where CINT lock
    // also used for object streaming
    gInterpreter->SetProcessLineLock(kFALSE);
+
+   TString go4inc = TGo4Log::GO4INCPATH();
+   if (go4inc.Length()==0) go4inc = TGo4Log::subGO4SYS("include");
+   if (go4inc.Length()>0)
+      gInterpreter->AddIncludePath(go4inc.Data());
 
    // ShowGuideLines cases crashes - it has stored gpad in static variable
    gEnv->SetValue("Canvas.ShowGuideLines", 0);
