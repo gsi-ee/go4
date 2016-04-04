@@ -15,6 +15,7 @@
 
 #include <string>
 #include <map>
+#include <stdlib.h>
 
 #include "TRegexp.h"
 #include "TSystem.h"
