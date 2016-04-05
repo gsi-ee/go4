@@ -3897,7 +3897,7 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
       if (drawobj->InheritsFrom(TH1::Class())) {
          TH1* h1 = (TH1*) drawobj;
          h1->SetBit(kCanDelete, kFALSE);
-         RedrawHistogram(pad, padopt, h1, updatecontent);
+         RedrawHistogram(pad, padopt, h1, updatecontent, first_draw);
       } else if (drawobj->InheritsFrom(THStack::Class())) {
          THStack* hs = (THStack*) drawobj;
          RedrawStack(pad, padopt, hs, dosuperimpose, updatecontent);
@@ -3924,7 +3924,7 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
    return true;
 }
 
-void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his, bool scancontent)
+void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his, bool scancontent, bool first_draw)
 {
    if ((pad == 0) || (padopt == 0) || (his == 0)) return;
 
@@ -3941,6 +3941,9 @@ void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his, bo
          drawopt = go4sett->getTH3DrawOpt().toLatin1().constData();
 
    drawopt.ToUpper();
+
+   if (first_draw && (go4sett->getDrawLineWidth() > 1) && (his->GetLineWidth()==1))
+      his->SetLineWidth(go4sett->getDrawLineWidth());
 
    his->SetStats(padopt->IsHisStats());
    his->SetBit(TH1::kNoTitle, !padopt->IsHisTitle());
@@ -4014,6 +4017,8 @@ void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, boo
             padopt->SetDrawOption(drawopt);
          }
       }
+      if ((go4sett->getDrawLineWidth() > 1) && (gr->GetLineWidth()==1))
+         gr->SetLineWidth(go4sett->getDrawLineWidth());
    }
 
    if (drawopt.Length() == 0)

@@ -166,6 +166,9 @@ class TGo4QSettings {
       void    setDrawItemFlag(bool on = true);
       bool    getDrawItemFlag();
 
+      void    setDrawLineWidth(int w = 1);
+      int     getDrawLineWidth();
+
       void    setTH1DrawOpt(const QString& value);
       QString getTH1DrawOpt();
 

@@ -21,6 +21,11 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
+Changes in Go4 v5.1.x (April 2016)
+1. Let configure default line width for objects draw. Useful for 4K monitors,
+   where default line width (=1) is too tiny.  
+
+
 Changes in Go4 v5.1.0 (March 2016)
 1. One can register Start/Stop/Clear commands in any place of THttpServer hierarchy.
    Such commands recognized by the GUI and used when pressing Start/Stop analysis buttons

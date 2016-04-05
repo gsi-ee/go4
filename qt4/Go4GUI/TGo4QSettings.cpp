@@ -526,7 +526,6 @@ bool TGo4QSettings::getDrawOnceFlag()
    return getBool("/ViewPanel/DrawOnce", false);
 }
 
-
 void TGo4QSettings::setDrawTimeFlag(bool on)
 {
    setBool("/ViewPanel/DrawTime", on);
@@ -555,6 +554,16 @@ void TGo4QSettings::setDrawItemFlag(bool on)
 bool TGo4QSettings::getDrawItemFlag()
 {
    return getBool("/ViewPanel/DrawItem");
+}
+
+void  TGo4QSettings::setDrawLineWidth(int w)
+{
+   setInt("/ViewPanel/DrawLineWidth", w);
+}
+
+int   TGo4QSettings::getDrawLineWidth()
+{
+   return getInt("/ViewPanel/DrawLineWidth", 1);
 }
 
 void  TGo4QSettings::setTH1DrawOpt(const QString& v)

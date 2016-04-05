@@ -122,7 +122,7 @@ class TGo4MainWindow : public QMainWindow {
       void ChangeDrawDateFlagSlot();
       void ChangeDrawItemFlagSlot();
 
-
+      void DrawLineWidthSlot();
       void TH1DrawOptSlot();
       void TH2DrawOptSlot();
       void TH3DrawOptSlot();
@@ -139,7 +139,6 @@ class TGo4MainWindow : public QMainWindow {
       void ToggleAnalysisWindow();
       void CloseAnalysisWindow();
       void EstablishAnalysisWindowForHttp();
-
 
       bool SubmitAnalysisSettings();
       void SubmitStartAnalysisSlot();

@@ -511,6 +511,7 @@ void TGo4MainWindow::AddSettingMenu()
    panelMenu->addAction(faDrawItem);
    faDrawItem->setEnabled(go4sett->getCloneFlag());
 
+   panelMenu->addAction("Draw line &width", this, SLOT(DrawLineWidthSlot()));
    panelMenu->addAction("TH1 draw opt ...", this, SLOT(TH1DrawOptSlot()));
    panelMenu->addAction("TH2 draw opt ...", this, SLOT(TH2DrawOptSlot()));
    panelMenu->addAction("TH3 draw opt ...", this, SLOT(TH3DrawOptSlot()));
@@ -1568,6 +1569,28 @@ void TGo4MainWindow::ChangeDrawDateFlagSlot()
 {
    go4sett->setDrawDateFlag(faDrawDate->isChecked());
 }
+
+void TGo4MainWindow::DrawLineWidthSlot()
+{
+   int w = go4sett->getDrawLineWidth();
+
+   bool ok = false;
+
+#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
+   w = QInputDialog::getInt(this,
+                            "Default line width for object drawing",
+                            "Input 1 to preserve default value",
+                             w, 1, 10, 1, &ok);
+#else
+   w = QInputDialog::getInteger(this,
+                               "Default line width for object drawing",
+                                "Input 1 to preserve default value",
+                                w, 1, 10, 1, &ok);
+#endif
+
+   if (ok) go4sett->setDrawLineWidth(w);
+}
+
 
 void TGo4MainWindow::TH1DrawOptSlot()
 {
