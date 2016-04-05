@@ -5,7 +5,8 @@ import sys
 # Try to get a reload function:
 try:
     # Built-in (Python 2) or imported before
-    reload
+    # allow it to be imported from here by assigning it locally
+    reload = reload
 except NameError:
     # Python 3
     try:
