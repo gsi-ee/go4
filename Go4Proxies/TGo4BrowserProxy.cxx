@@ -2151,9 +2151,7 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
 {
    Bool_t tdisp=kFALSE;
    TString tform;
-   //std::cout << "TGo4BrowserProxy::UpdateObjectContent for "<< (obj? obj->GetName(): "NULL") << ", obj="<< (long) obj<<", newobj="<< (long) newobj<< std::endl;
    //obj->SetBit(kCanDelete, kFALSE); // JAM2016 test
-
 
    if (obj->InheritsFrom(TH1::Class())) {
       TH1* histo = dynamic_cast<TH1*> (obj);
@@ -2197,8 +2195,6 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
             if (h2!=0) h2->Rebin2D(rebinx, rebiny);
             rebinres = UpdateObjectContent(histo, h2);
          }
-#else
-
 #endif
          delete clon;
 
@@ -2229,7 +2225,6 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
          histo->SetBinContent(n, value);
       }
 
-
 #if ROOT_VERSION_CODE < ROOT_VERSION(6,4,6)
       if (canrebin) histo->SetBit(TH1::kCanRebin, kTRUE);
 #else
@@ -2238,7 +2233,6 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
 
       histo->SetEntries(sum);
 
-
 #if ROOT_VERSION_CODE > ROOT_VERSION(4,3,2)
       TArrayD *sumw_tgt = 0, *sumw_src = 0;
 
@@ -2246,8 +2240,9 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
          sumw_src = histo2->GetSumw2();
 
       // if source has no sumw, target should also not has them
-      if (sumw_src==0) histo->GetSumw2()->Set(0);
-      else {
+      if (sumw_src==0) {
+         histo->GetSumw2()->Set(0);
+      } else {
          histo->Sumw2();
          sumw_tgt = histo->GetSumw2();
       }
@@ -2311,7 +2306,6 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
       }
       RestoreAxisTimeProperties(gr,tdisp,tform);
 
-
       return kTRUE;
    } else
    if (obj->InheritsFrom(TGraph::Class())) {
@@ -2361,11 +2355,11 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
 
 void TGo4BrowserProxy::SaveAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format)
 {
-	if(gr==0) return;
+   if(gr==0) return;
     TH1* h1=gr->GetHistogram();
-	TAxis* xax=h1->GetXaxis();
-	timedisplay=xax->GetTimeDisplay();
-	format=xax->GetTimeFormat();
+   TAxis* xax=h1->GetXaxis();
+   timedisplay=xax->GetTimeDisplay();
+   format=xax->GetTimeFormat();
 }
 
 void TGo4BrowserProxy::RestoreAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format)

@@ -3890,7 +3890,6 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 
    gPad = pad; // instead of pad->cd(), while it is redraw frame
    if (drawobj != 0) {
-      //std::cout<<"PPPPPPP Process Pad Redraw with object"<<(long) drawobj<<", name:"<<drawobj->GetName() << std::endl;
       //drawobj->SetBit(kCanDelete, kFALSE); // jam2016
       bool first_draw = (slot->GetPar("::PadFirstDraw") == 0);
       if (first_draw) slot->SetPar("::PadFirstDraw", "true");
@@ -3925,11 +3924,9 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
    return true;
 }
 
-void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his,
-      bool scancontent)
+void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his, bool scancontent)
 {
-   if ((pad == 0) || (padopt == 0) || (his == 0))
-      return;
+   if ((pad == 0) || (padopt == 0) || (his == 0)) return;
 
    if (scancontent)
       TakeFullRangeFromHisto(his, padopt, true);
@@ -3953,7 +3950,7 @@ void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his,
 }
 
 void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
-      bool dosuperimpose, bool scancontent)
+                                bool dosuperimpose, bool scancontent)
 {
    if ((pad == 0) || (padopt == 0) || (hs == 0)) return;
 
@@ -3980,8 +3977,6 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
    TH1* framehisto = hs->GetHistogram();
    if (framehisto == 0) return;
 
-   // std::cout << "Draw stack " << hs << " histo " << framehisto << "  with options " << drawopt << std::endl;
-
    framehisto->SetStats(false);
    framehisto->SetBit(TH1::kNoTitle, !padopt->IsHisTitle());
    TH1* h1 = dynamic_cast<TH1*>(hs->GetHists() ? hs->GetHists()->First() : 0);
@@ -3998,8 +3993,6 @@ void TGo4ViewPanel::RedrawStack(TPad *pad, TGo4Picture* padopt, THStack * hs,
 
 void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, bool scancontent, bool first_draw)
 {
-   //printf(" RedrawGraph %s first_time %d\n", gr->GetName(), first_draw);
-
    if ((pad == 0) || (padopt == 0) || (gr == 0)) return;
 
    if (scancontent) {
@@ -4112,10 +4105,9 @@ void TGo4ViewPanel::RedrawMultiGraph(TPad *pad, TGo4Picture* padopt,
 }
 
 void TGo4ViewPanel::RedrawImage(TPad *pad, TGo4Picture* padopt, TGo4ASImage* im,
-      TH2* asihisto, bool scancontent)
+                                TH2* asihisto, bool scancontent)
 {
-   if ((pad == 0) || (padopt == 0) || (im == 0))
-      return;
+   if ((pad == 0) || (padopt == 0) || (im == 0)) return;
 
    im->SetDrawData(asihisto, this, pad);
 
