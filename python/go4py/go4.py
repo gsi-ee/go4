@@ -1,5 +1,5 @@
 
-from facade import Facade
+from internals.facade import Facade
 from types import ModuleType
 
 

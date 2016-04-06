@@ -1,10 +1,12 @@
 
 from go4py import *
+
 import go4
 import convert
-from expmem import ExpMem
-from reimport import reimport, reload
-from addthispath import addthispath
+
+from internals.addthispath import addthispath
+from internals.expmem import ExpMem
+from internals.reimport import reimport, reload
 
 
 
