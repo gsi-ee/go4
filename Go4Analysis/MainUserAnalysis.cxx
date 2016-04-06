@@ -140,6 +140,7 @@ void usage(const char* subtopic = 0)
    std::cout << "                                Could be generated with htdigets utility, by default '$GO4SYS/etc/.htdigest' filename is used" << std::endl;
    std::cout << "  -fastcgi port               : run analysis with fastcgi server running, "<< std::endl;
    std::cout << "                                which can deliver data to normal webserver (see mod_proxy_fcgi for Apache)" << std::endl;
+   std::cout << "  -jsroot location            : use JSROOT from other location like http://jsroot.gsi.de/latest/" << std::endl;
 #ifdef WITH_DABC
    std::cout << "  -dabc master_host:port      : run analysis with optional connection to dabc application, "<< std::endl;
    std::cout << "                                which could receive objects from running analysis" << std::endl;
@@ -764,6 +765,11 @@ int main(int argc, char **argv)
          httpmode = kTRUE;
          if (narg >= argc) showerror("fastcgi options not specified");
          http_args.Add(new TObjString(Form("fastcgi:%s?top=Go4", argv[narg++])));
+      } else
+      if (strcmp(argv[narg], "-jsroot")==0) {
+         narg++;
+         if (narg >= argc) showerror("jsroot location not specified");
+         http_args.Add(new TObjString(Form("jsroot:%s", argv[narg++])));
       } else
       if (strcmp(argv[narg], "-auth")==0) {
          narg++;

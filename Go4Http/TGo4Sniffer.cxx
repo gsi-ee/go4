@@ -58,6 +58,11 @@ Bool_t TGo4Sniffer::CreateEngine(const char* args)
       TBufferJSON::SetFloatFormat("%15.9e");
    }
 
+   if (strstr(args, "jsroot:")==args) {
+      gHttpServer->SetJSROOT(args+7);
+      return kTRUE;
+   }
+
    return gHttpServer->CreateEngine(args);
 }
 
