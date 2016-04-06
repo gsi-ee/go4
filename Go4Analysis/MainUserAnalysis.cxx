@@ -643,6 +643,12 @@ int main(int argc, char **argv)
    // also used for object streaming
    gInterpreter->SetProcessLineLock(kFALSE);
 
+   // add main go4 include path for the case if scripts are called from inside analysis, required for ROOT6
+   TString go4inc = TGo4Log::GO4INCPATH();
+   if (go4inc.Length()==0) go4inc = TGo4Log::subGO4SYS("include");
+   if (go4inc.Length()>0)
+      gInterpreter->AddIncludePath(go4inc.Data());
+
    const char* analysis_name = GetArgValue(argc, argv, "-server");
    if (analysis_name==0) analysis_name = GetArgValue(argc, argv, "-gui");
    if (analysis_name==0) analysis_name = GetArgValue(argc, argv, "-name");
