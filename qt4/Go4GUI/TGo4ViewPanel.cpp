@@ -1755,19 +1755,16 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad,
 
          if (obj != 0) {
             if (dynamic_cast<TLatex*>(obj) || dynamic_cast<TF1*>(obj)) {
-               TGo4Proxy* prox = subslot->GetProxy();
-               TGo4ObjectProxy* oprox = dynamic_cast<TGo4ObjectProxy*>(prox);
-               TGo4LinkProxy* lprox = dynamic_cast<TGo4LinkProxy*>(prox);
-               // test here if we have local latex or monitored remote one
-               if (oprox != 0) {
+               // test here if we have local object or monitored remote one
+               if (dynamic_cast<TGo4ObjectProxy*>(subslot->GetProxy())) {
                   // make clone when really needed
                   pic->AddSpecialObject(obj->Clone(), drawopt);
-               } else if (lprox) {
+               } else if (dynamic_cast<TGo4LinkProxy*>(subslot->GetProxy())) {
                   const char* itemname = GetLinkedName(subslot);
                   if (itemname != 0)
                      pic->AddObjName(itemname, drawopt);
                } else {
-                  TGo4Log::Error("MakePictureForPad NEVER COME HERE unknown proxy %p", prox);
+                  TGo4Log::Error("MakePictureForPad NEVER COME HERE, unknown proxy type");
                }
             } else {
                obj = obj->Clone();
