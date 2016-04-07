@@ -26,6 +26,8 @@ Changes in Go4 v5.1.x (April 2016)
    where default line width (=1) is too tiny.  
 2. Bugfix - when creating hotstart, TLatex object was add to picture specials twice,
    which leads to crash when such picture need to be deleted.  
+3. When running go4analysis, one could specify alternative (newer) JSROOT
+   version like go4analysis -radom -jsroot http://jsroot.gsi.de/latest/
 
 
 Changes in Go4 v5.1.0 (March 2016)
