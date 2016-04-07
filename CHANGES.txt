@@ -28,6 +28,8 @@ Changes in Go4 v5.1.x (April 2016)
    which leads to crash when such picture need to be deleted.  
 3. When running go4analysis, one could specify alternative (newer) JSROOT
    version like go4analysis -random -jsroot http://jsroot.gsi.de/latest/
+4. Fix problem with ROOT6 - it requires exact location of go4 include files
+   when running GUI or analysis. Especially important when doing "make install" 
 
 
 Changes in Go4 v5.1.0 (March 2016)
