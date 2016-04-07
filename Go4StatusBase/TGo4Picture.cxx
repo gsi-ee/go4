@@ -176,11 +176,11 @@ TGo4Picture::TGo4Picture(TGo4Picture& picture) :
 
 TGo4Picture::~TGo4Picture()
 {
-   if (fxNames!=0) delete fxNames;
-   if (fxObjects) delete fxObjects;
-   if (fxSubPictures!=0) delete fxSubPictures;
-   if (fxOptObjects!=0) delete fxOptObjects;
-   if (fxSpecialObjects) delete fxSpecialObjects;
+   if (fxNames) { delete fxNames; fxNames = 0; }
+   if (fxObjects) { delete fxObjects; fxObjects = 0; }
+   if (fxSubPictures) { delete fxSubPictures; fxSubPictures = 0; }
+   if (fxOptObjects) { delete fxOptObjects; fxOptObjects = 0; }
+   if (fxSpecialObjects) { delete fxSpecialObjects; fxSpecialObjects = 0; }
 }
 
 void TGo4Picture::SetDrawHeader(Bool_t draw)

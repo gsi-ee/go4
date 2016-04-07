@@ -1752,56 +1752,31 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad,
             || (kind == kind_Specials)) {
          TObject* obj = subslot->GetAssignedObject();
          const char* drawopt = GetSpecialDrawOption(subslot);
+
          if (obj != 0) {
-            obj = obj->Clone();
-            TGo4Marker* mark = dynamic_cast<TGo4Marker*>(obj);
-            if (mark != 0)
-               mark->DeletePainter();
-            TGo4Condition* cond = dynamic_cast<TGo4Condition*>(obj);
-            if (cond != 0)
-               cond->DeletePainter();
-            TLatex* lat = dynamic_cast<TLatex*>(obj);
-            if (lat != 0) {
-               // test here if we have local latex or monitored remote one
+            if (dynamic_cast<TLatex*>(obj) || dynamic_cast<TF1*>(obj)) {
                TGo4Proxy* prox = subslot->GetProxy();
                TGo4ObjectProxy* oprox = dynamic_cast<TGo4ObjectProxy*>(prox);
                TGo4LinkProxy* lprox = dynamic_cast<TGo4LinkProxy*>(prox);
+               // test here if we have local latex or monitored remote one
                if (oprox != 0) {
-                  //std::cout <<"MakePictureForPad adding local latex object "<< obj->GetName()<< std::endl;
-                  pic->AddSpecialObject(obj, drawopt);
+                  // make clone when really needed
+                  pic->AddSpecialObject(obj->Clone(), drawopt);
                } else if (lprox) {
                   const char* itemname = GetLinkedName(subslot);
-                  //std::cout <<"MakePictureForPad adding linnked latex object "<<itemname<< std::endl;
                   if (itemname != 0)
                      pic->AddObjName(itemname, drawopt);
-                  delete obj; // remove initial clone which is not registered
                } else {
-                  // std::cout <<"MakePictureForPad NEVER COME HERE unknown proxy:"<< (int) prox<< std::endl;
-
+                  TGo4Log::Error("MakePictureForPad NEVER COME HERE unknown proxy %p", prox);
                }
-            } // if latex
-            // JAM test
-            TF1* fun = dynamic_cast<TF1*>(obj);
-                        if (fun != 0) {
-                           // test here if we have local function or monitored remote one
-                           TGo4Proxy* prox = subslot->GetProxy();
-                           TGo4ObjectProxy* oprox = dynamic_cast<TGo4ObjectProxy*>(prox);
-                           TGo4LinkProxy* lprox = dynamic_cast<TGo4LinkProxy*>(prox);
-                           if (oprox != 0) {
-                              //std::cout <<"MakePictureForPad adding local TF1 object "<< obj->GetName()<< std::endl;
-                              pic->AddSpecialObject(obj, drawopt);
-                           } else if (lprox) {
-                              const char* itemname = GetLinkedName(subslot);
-                              //std::cout <<"MakePictureForPad adding linked TF1 object "<<itemname<< std::endl;
-                              if (itemname != 0)
-                                 pic->AddObjName(itemname, drawopt);
-                              delete obj; // remove initial clone which is not registered
-                           } else {
-                               std::cout <<"MakePictureForPad NEVER COME HERE unknown proxy:"<< (long) prox<< std::endl;
+            } else {
+               obj = obj->Clone();
 
-                           }
-                        } // if TF1
-            else {
+               TGo4Marker* mark = dynamic_cast<TGo4Marker*>(obj);
+               if (mark != 0) mark->DeletePainter();
+               TGo4Condition* cond = dynamic_cast<TGo4Condition*>(obj);
+               if (cond != 0) cond->DeletePainter();
+
                pic->AddSpecialObject(obj, drawopt);
             }
          }
