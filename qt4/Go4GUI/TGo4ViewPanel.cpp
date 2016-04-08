@@ -3625,6 +3625,19 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
 
    BlockPanelRedraw(true);
 
+   if (true) {
+      TBox box;
+      // biggest workaround ever
+      // TBox::ExecuteEvent uses static (???!!!) variables to keep moving position
+      // of the box during dragging. If update happens in-between, it makes everything screwed
+      // just try to correctly reset its internal states
+      // should be here, before pad->Clear()
+      box.ExecuteEvent(kButton1Down, 0, 0);
+      box.ExecuteEvent(kMouseMotion, 0, 0);
+      box.ExecuteEvent(kButton1Up, 0, 0);
+   }
+
+
    bool isanychildmodified = false;
    bool ispadupdatecalled = false;
 
@@ -4879,17 +4892,6 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
             padopt->SetRange(ndim, selmin, selmax);
          }
       }
-   }
-
-   if (padopt->IsHisStats() || padopt->IsHisTitle()) {
-      TBox box;
-      // biggest workaround ever
-      // TBox::ExecuteEvent uses static (???!!!) variables to keep moving position
-      // of the box during dragging. If update happens in between, it makes everything screwed
-      // just try to correctly reset its internal states
-      box.ExecuteEvent(kButton1Down, 0, 0);
-      box.ExecuteEvent(kMouseMotion, 0, 0);
-      box.ExecuteEvent(kButton1Up, 0, 0);
    }
 
    if (padopt->IsHisStats() && isthishisto) {
