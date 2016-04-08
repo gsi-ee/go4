@@ -102,6 +102,11 @@ enum OptionsIdentifiers {
    op_TitleY2     = 92,
    op_TitleTextSz = 93,
 
+   op_FrameLeft   = 95,
+   op_FrameTop    = 96,
+   op_FrameRight  = 97,
+   op_FrameBottom = 98,
+
    op_TimeAxisX	  = 200,
    //op_TimeAxisXFmt= 201, // must be larger han op_ObjsBound for SetStrOption?
    	   	   	   	   	   	   // check reason for this later JAM
@@ -924,6 +929,37 @@ void* TGo4Picture::Cast(TObject* obj, TClass* cl)
    Int_t shift = obj->IsA()->GetBaseClassOffset(cl);
    if (shift<0) return 0;
    return (char*) obj + shift;
+}
+
+void TGo4Picture::SetFrameAttr(Double_t left, Double_t top, Double_t right, Double_t bottom)
+{
+   SetOptionD(PictureIndex, op_FrameLeft, left);
+   SetOptionD(PictureIndex, op_FrameTop, top);
+   SetOptionD(PictureIndex, op_FrameRight, right);
+   SetOptionD(PictureIndex, op_FrameBottom, bottom);
+}
+
+void TGo4Picture::SetFrameAttr(TPad* pad)
+{
+   if (pad==0) return;
+
+   if ((TMath::Abs( pad->GetLeftMargin() - gStyle->GetPadLeftMargin()) > 0.001) ||
+       (TMath::Abs( pad->GetTopMargin() - gStyle->GetPadTopMargin()) > 0.001) ||
+       (TMath::Abs( pad->GetRightMargin() - gStyle->GetPadRightMargin()) > 0.001) ||
+       (TMath::Abs( pad->GetBottomMargin() - gStyle->GetPadBottomMargin()) > 0.001))
+       SetFrameAttr(pad->GetLeftMargin(), pad->GetTopMargin(), pad->GetRightMargin(), pad->GetBottomMargin());
+}
+
+Bool_t TGo4Picture::GetFrameAttr(TPad* pad)
+{
+   if (pad==0) return kFALSE;
+
+   Double_t v;
+   if (GetOptionD(PictureIndex, op_FrameLeft, v)) pad->SetLeftMargin(v);
+   if (GetOptionD(PictureIndex, op_FrameTop, v)) pad->SetTopMargin(v);
+   if (GetOptionD(PictureIndex, op_FrameRight, v)) pad->SetRightMargin(v);
+   if (GetOptionD(PictureIndex, op_FrameBottom, v)) pad->SetBottomMargin(v);
+   return kTRUE;
 }
 
 void TGo4Picture::SetHisStats(Bool_t on)
@@ -1840,6 +1876,14 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
    if (GetRangeZ(min, max))
      fs << name << "SetRangeZ(" << min << ", " << max << ");" << std::endl;
 
+   Double_t v1,v2,v3,v4;
+   if (GetOptionD(PictureIndex, op_FrameLeft, v1) &&
+       GetOptionD(PictureIndex, op_FrameTop, v2) &&
+       GetOptionD(PictureIndex, op_FrameRight, v3) &&
+       GetOptionD(PictureIndex, op_FrameBottom, v4))
+      fs << name << "SetFrameAttr(" << v1 << ", " << v2 << ", " << v3 << ", " << v4 << ");" << std::endl;
+
+
    TAttLine latt;
    TAttFill fatt;
    TAttMarker matt;
@@ -1901,7 +1945,6 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
 
    // JAM2016 add 1:1 coordinate ratio property:
    fs << name << "SetXYRatioOne(" << (IsXYRatioOne() ? "true" : "false") << ");" << std::endl;
-
 
 
    Long_t lv;

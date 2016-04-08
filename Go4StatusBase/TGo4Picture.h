@@ -30,6 +30,7 @@ class TAttMarker;
 class TStyle;
 class TString;
 class TAxis;
+class TFrame;
 class TH1;
 class THStack;
 class TGraph;
@@ -155,6 +156,10 @@ class TGo4Picture : public TNamed {
       // set draw style (Go4GUI index like)
       void SetHisStats(Bool_t on);
       Bool_t IsHisStats() const;
+
+      void SetFrameAttr(Double_t left, Double_t top, Double_t right, Double_t bottom);
+      void SetFrameAttr(TPad* pad);
+      Bool_t GetFrameAttr(TPad* pad);
 
       void SetStatsAttr(Double_t x1, Double_t y1, Double_t x2, Double_t y2,
                         Int_t optstat = 1111, const char* statformat = "6.4g",

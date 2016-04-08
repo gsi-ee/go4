@@ -2149,9 +2149,8 @@ Int_t TGo4BrowserProxy::CompareAxis(TAxis* ax1, TAxis* ax2)
 
 Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_t* hasrebinx, Int_t* hasrebiny)
 {
-   Bool_t tdisp=kFALSE;
+   Bool_t tdisp(kFALSE);
    TString tform;
-   //obj->SetBit(kCanDelete, kFALSE); // JAM2016 test
 
    if (obj->InheritsFrom(TH1::Class())) {
       TH1* histo = dynamic_cast<TH1*> (obj);

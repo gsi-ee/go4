@@ -82,7 +82,6 @@ void TGo4LinkProxy::ReadData(TGo4Slot* slot, TDirectory* dir)
    const char* linkname = slot->GetPar("LinkProxy::LinkName");
    if (linkname!=0)
      fLink = slot->GetOM()->GetSlot(linkname);
-
 }
 
 Int_t TGo4LinkProxy::GetObjectKind()

@@ -1728,18 +1728,19 @@ void TGo4ViewPanel::ProduceGraphFromMarkers()
    SaveObjectInMemory("", graf);
 }
 
-void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad,
-      bool useitemname)
+void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemname)
 {
    TGo4Picture* padopt = GetPadOptions(pad);
    TGo4Slot* slot = GetPadSlot(pad);
-   if ((padopt == 0) || (slot == 0))
-      return;
+   if ((padopt == 0) || (slot == 0)) return;
 
    pic->CopyOptionsFrom(padopt);
 
    if (pad == GetCanvas() && fbFreezeTitle)
       pic->SetTitle(fFreezedTitle.toLatin1().constData());
+
+   if (!padopt->IsXYRatioOne())
+      pic->SetFrameAttr(pad);
 
    int objnamenum = 0;
 
@@ -2341,15 +2342,18 @@ bool TGo4ViewPanel::ScanDrawOptions(TPad* pad, TGo4Slot* padslot,
    while (link != 0) {
       const char* clname = link->GetObject()->ClassName();
       if ((strcmp(clname, "TFrame") == 0) || (strcmp(clname, "TLegend") == 0)) {
-         TPaveText* titl = dynamic_cast<TPaveText*>(link->GetObject());
-         if (titl &&(strcmp(titl->GetName(),"title")==0))
-            pic->SetTitleAttr(titl);
+
+         // comment out, can never be working
+         //TPaveText* titl = dynamic_cast<TPaveText*>(link->GetObject());
+         //if (titl &&(strcmp(titl->GetName(),"title")==0))
+         //   pic->SetTitleAttr(titl);
+
          link = link->Next();
       } else
          break;
    }
 
-      // take draw options from first drawn object
+   // take draw options from first drawn object
    if (link != 0) {
 
       TString newopt(link->GetOption());
@@ -3365,8 +3369,6 @@ void TGo4ViewPanel::CheckForSpecialObjects(TPad *pad, TGo4Slot* padslot)
       // remove picture from the pad
       delete picslot;
 
-      // std::cout << "!!!!!!!!!!!! Picture redraw done" << std::endl;
-
       return;
    }
 
@@ -3415,6 +3417,8 @@ void TGo4ViewPanel::ProcessPictureRedraw(const char* picitemname, TPad* pad, TGo
       TGo4Log::Error("Internal problem in view panel redraw");
       return;
    }
+
+   pic->GetFrameAttr(pad); // do it only once, pad preserves automatically
 
    padopt->CopyOptionsFrom(pic);
 
@@ -3487,17 +3491,13 @@ void TGo4ViewPanel::ProcessPictureRedraw(const char* picitemname, TPad* pad, TGo
 void TGo4ViewPanel::ProcessCanvasAdopt(TPad* tgtpad, TPad* srcpad,
       const char* srcpaditemname)
 {
-   if ((tgtpad == 0) || (srcpad == 0))
-      return;
-
-//   std::cout << "ProcessCanvasAdopt " << srcpad->GetName() << std::endl;
+   if ((tgtpad == 0) || (srcpad == 0)) return;
 
    TGo4Slot* padslot = GetPadSlot(tgtpad);
 
    TGo4Picture* padopt = GetPadOptions(tgtpad);
 
-   if ((padopt == 0) || (padslot == 0))
-      return;
+   if ((padopt == 0) || (padslot == 0)) return;
 
    tgtpad->SetTickx(srcpad->GetTickx());
    tgtpad->SetTicky(srcpad->GetTicky());
@@ -3526,8 +3526,6 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad* tgtpad, TPad* srcpad,
 
       TString itemname = TString::Format("%s/%s", srcpaditemname,
             obj->GetName());
-
-//      std::cout << "subitemname = " << itemname << " obj = " << obj << " class = " << (obj ? obj->ClassName() : "---") << std::endl;
 
       if (srcsubpad != 0) {
          nsubpads++;
@@ -3594,10 +3592,6 @@ void TGo4ViewPanel::ProcessCanvasAdopt(TPad* tgtpad, TPad* srcpad,
       // only first object is added,
       // make superimpose only for histos and graphs
       if ((kind > 0) && ((mainkind == 0) || (kind == mainkind) && (kind < 3))) {
-
-//         std::cout << tgtpad->GetName() << ":  Add main draw object " << obj->GetName()
-//              << "  class =  " << obj->ClassName()
-//              << "  srcitem = " << itemname << std::endl;
 
          if (drawopt != 0)
             padopt->SetDrawOption(drawopt, nmain);
@@ -3718,8 +3712,6 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 
    Int_t subpadindx = 0;
 
-   //std::cout << "ProcessPadRedraw " << pad->GetName() << " numchilds = " << slot->NumChilds() << std::endl;
-
    // first redraw all subpads
    for (int n = 0; n < slot->NumChilds(); n++) {
       subpadindx = (n + lastdrawnpad) % slot->NumChilds();
@@ -3747,7 +3739,6 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 
    // do not draw anything else if subpads are there
    if (ischilds) return ischildmodified;
-
 
    // JAM2016: does this help for some array conflicts in TGraph painter? YES!
    gROOT->SetEscape();
@@ -4177,8 +4168,7 @@ void TGo4ViewPanel::ChangeDrawOptionForPad(TGo4Slot* padslot, int kind,
 {
    TGo4LockGuard lock;
    TGo4Picture* subopt = GetPadOptions(padslot);
-   if (subopt == 0)
-      return;
+   if (subopt == 0) return;
    switch (kind) {
       case 0:
       case 1:
@@ -4232,8 +4222,7 @@ void TGo4ViewPanel::ChangeDrawOption(int kind, int value, const char* drawopt)
       pad = GetCanvas();
 
    TGo4Slot* slot = GetPadSlot(pad);
-   if (slot == 0)
-      return;
+   if (slot == 0) return;
 
    ChangeDrawOptionForPad(slot, kind, value, drawopt);
 
@@ -4906,7 +4895,17 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
             padopt->SetRange(ndim, selmin, selmax);
          }
       }
+   }
 
+   if (padopt->IsHisStats() || padopt->IsHisTitle()) {
+      TBox box;
+      // biggest workaround ever
+      // TBox::ExecuteEvent uses static (???!!!) variables to keep moving position
+      // of the box during dragging. If update happens in between, it makes everything screwed
+      // just try to correctly reset its internal states
+      box.ExecuteEvent(kButton1Down, 0, 0);
+      box.ExecuteEvent(kMouseMotion, 0, 0);
+      box.ExecuteEvent(kButton1Up, 0, 0);
    }
 
    if (padopt->IsHisStats() && isthishisto) {
@@ -4959,7 +4958,7 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
    xax->SetTimeFormat(padopt->GetXAxisTimeFormat());
 
    // JAM 2016 finally we evaluate the rectangular axis scale property:
-   padopt->IsXYRatioOne() ? RectangularRatio(pad) : DefaultPadMargin(pad);
+   if (padopt->IsXYRatioOne()) RectangularRatio(pad); // : DefaultPadMargin(pad);
 
 }
 
@@ -5494,8 +5493,7 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
       case SetTimeFormatId: {
          bool ok = false;
          TPad* pad = GetActivePad();
-         if (pad == 0)
-            pad = GetCanvas();
+         if (pad == 0) pad = GetCanvas();
          TGo4Picture *padopt = GetPadOptions(pad);
          QString oldfmt = padopt->GetXAxisTimeFormat();
          QString text = QInputDialog::getText(this, GetPanelName(),
