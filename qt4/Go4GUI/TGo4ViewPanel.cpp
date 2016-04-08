@@ -5243,7 +5243,6 @@ void TGo4ViewPanel::resizeEvent(QResizeEvent * e)
 }
 
 
-
 void TGo4ViewPanel::ResizeGedEditor()
 {
 #ifndef __NOGO4GED__

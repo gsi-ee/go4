@@ -626,9 +626,6 @@ void TGo4QSettings::restoreMainWindowState(QMainWindow* tgt)
 
 void TGo4QSettings::storeMainWindowState(QMainWindow* src)
 {
-   // std::cout << "State: " << src->saveState().toHex().data() << std::endl;
-   // std::cout << "Geom: " << src->saveGeometry().toHex().data() << std::endl;
-
    sett->setValue("/MainWindow/State", src->saveState());
 
    sett->setValue("/MainWindow/Geometry", src->saveGeometry());
@@ -645,11 +642,11 @@ QSize TGo4QSettings::lastPanelSize(const QString& kind, int dfltwidth, int dflth
    QSize rect(getInt(QString("/") + kind + QString("/Width"), dfltwidth),
               getInt(QString("/") + kind + QString("/Height"), dfltheight));
 
-   if (rect.height() > TGo4MdiArea::Instance()->height()*4/5)
-      rect.setHeight(TGo4MdiArea::Instance()->height()*4/5);
+   if (rect.height() > 1.5*TGo4MdiArea::Instance()->height())
+      rect.setHeight(1.5*TGo4MdiArea::Instance()->height());
 
-   if (rect.width() > TGo4MdiArea::Instance()->width()*4/5)
-      rect.setWidth(TGo4MdiArea::Instance()->width()*4/5);
+   if (rect.width() > 1.5*TGo4MdiArea::Instance()->width())
+      rect.setWidth(1.5*TGo4MdiArea::Instance()->width());
 
    return rect;
 }
