@@ -275,10 +275,11 @@ class TGo4Picture : public TNamed {
 
       const char* GetXAxisTimeFormat();
 
-
       void SetXYRatioOne(Bool_t on);
-      Bool_t  IsXYRatioOne();
+      Bool_t IsXYRatioOne();
 
+      void SetDefaultRatio(Bool_t on);
+      Bool_t CheckDefaultRatio();
 
       void SetPadAtt(Int_t BorderMode,
                      Int_t BorderSize,

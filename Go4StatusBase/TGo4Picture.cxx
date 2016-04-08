@@ -112,6 +112,7 @@ enum OptionsIdentifiers {
    	   	   	   	   	   	   // check reason for this later JAM
 
    op_XYRatioOne  = 300,  // JAM2016: 1:1 coordinate ratio
+   op_DefaultRatio = 301,  // temporary used to reset ratio to default
 
    op_ObjsBound   = 0x4000,
 
@@ -745,16 +746,28 @@ const char* TGo4Picture::GetXAxisTimeFormat()
 
 void TGo4Picture::SetXYRatioOne(Bool_t on)
 {
-    //std::cout<<"SetXYRatioOne with "<<on <<std::endl;
     SetOption (PictureIndex, op_XYRatioOne, on);
 }
 
 Bool_t  TGo4Picture::IsXYRatioOne()
 {
     Long_t value=0;
-    GetOption(PictureIndex, op_XYRatioOne,value);
+    GetOption(PictureIndex, op_XYRatioOne, value);
     return value;
 }
+
+void TGo4Picture::SetDefaultRatio(Bool_t on)
+{
+   SetOption (PictureIndex, op_DefaultRatio, on);
+}
+
+Bool_t TGo4Picture::CheckDefaultRatio()
+{
+   Long_t value=0;
+   GetOption(PictureIndex, op_DefaultRatio, value);
+   return value;
+}
+
 
 void TGo4Picture::SetAxisAtt(Int_t naxis,
                       Color_t AxisColor,
@@ -1238,7 +1251,10 @@ void TGo4Picture::ChangeDrawOption(Int_t kind, Int_t value)
       case 13: SetTitleDate(value!=0); break;
       case 14: SetTitleItem(value!=0); break;
       case 15: SetXAxisTimeDisplay(value!=0); break;
-      case 17: SetXYRatioOne(value!=0); break;
+      case 17:
+         SetXYRatioOne(value!=0);
+         if (value==0) SetDefaultRatio(true); //
+         break;
 
    }
    SetPadModified();

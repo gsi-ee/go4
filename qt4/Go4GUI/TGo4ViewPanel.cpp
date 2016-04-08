@@ -177,11 +177,6 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    editMenu->addAction("Start &condition editor", this,
          SLOT(StartConditionEditor()));
 
-// JAM 2016: moved this functionality to options/Picture properties
-//   editMenu->addSeparator();
-//   editMenu->addAction("&1:1 coordinates ratio", this,
-//         SLOT(RectangularRatio()));
-//   editMenu->addAction("&Default pad margins", this, SLOT(DefaultPadMargin()));
    editMenu->addSeparator();
    editMenu->addAction("Clear &markers", this, SLOT(ClearAllMarkers()));
    editMenu->addAction("Clear &pad", this, SLOT(ClearActivePad()));
@@ -1906,16 +1901,12 @@ void TGo4ViewPanel::StartConditionEditor()
 
 void TGo4ViewPanel::RectangularRatio(TPad *pad)
 {
-  if(pad == 0)
-      pad = GetActivePad();
-   if (pad == 0)
-      return;
+   if (pad == 0) return;
 
    double dx = fabs(pad->AbsPixeltoX(1) - pad->AbsPixeltoX(0));
    double dy = fabs(pad->AbsPixeltoY(1) - pad->AbsPixeltoY(0));
 
-   if ((dx <= 0) || (dy <= 0))
-      return;
+   if ((dx <= 0) || (dy <= 0)) return;
 
    double ratio = dx / dy;
 
@@ -1932,23 +1923,16 @@ void TGo4ViewPanel::RectangularRatio(TPad *pad)
       pad->SetTopMargin(top + change / 2.);
       pad->SetBottomMargin(bottom + change / 2.);
    }
-
-   RedrawPanel(pad, true);
 }
 
 void TGo4ViewPanel::DefaultPadMargin(TPad *pad)
 {
-   if(pad == 0)
-        pad = GetActivePad();
-   if (pad == 0)
-      return;
+   if (pad == 0) return;
 
    pad->SetLeftMargin(gStyle->GetPadLeftMargin());
    pad->SetRightMargin(gStyle->GetPadRightMargin());
    pad->SetTopMargin(gStyle->GetPadTopMargin());
    pad->SetBottomMargin(gStyle->GetPadBottomMargin());
-
-   RedrawPanel(pad, true);
 }
 
 void TGo4ViewPanel::ClearActivePad()
@@ -4958,8 +4942,10 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
    xax->SetTimeFormat(padopt->GetXAxisTimeFormat());
 
    // JAM 2016 finally we evaluate the rectangular axis scale property:
-   if (padopt->IsXYRatioOne()) RectangularRatio(pad); // : DefaultPadMargin(pad);
+   if (padopt->IsXYRatioOne()) RectangularRatio(pad); else
+   if (padopt->CheckDefaultRatio()) DefaultPadMargin(pad);
 
+   padopt->SetDefaultRatio(kFALSE); // can be handled only once
 }
 
 bool TGo4ViewPanel::GetVisibleRange(TPad* pad, int naxis, double& min, double& max)

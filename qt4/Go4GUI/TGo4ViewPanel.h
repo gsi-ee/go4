@@ -220,6 +220,8 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void ShootRepaintTimer(TPad * pad);
       virtual void PadDeleted( TPad * pad );
       virtual void SetFreezedTitle(const QString& title);
+      virtual void RectangularRatio(TPad* pad);
+      virtual void DefaultPadMargin(TPad* pad);
 
    public slots:
 
@@ -255,8 +257,6 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void PrintCanvas();
       virtual void StartRootEditor();
       virtual void StartConditionEditor();
-      virtual void RectangularRatio(TPad* pad=0);
-      virtual void DefaultPadMargin(TPad* pad=0);
       virtual void ClearActivePad();
       virtual void ClearCanvas();
       virtual void AboutToShowOptionsMenu();
