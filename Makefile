@@ -163,6 +163,7 @@ install: uninstall
 	@mkdir -p $(GO4TOPPATH); cp Makefile.config Makefile.rules $(GO4TOPPATH)
 	@mkdir -p $(GO4TOPPATH)/build; cp build/*.sh build/Makefile.* $(GO4TOPPATH)/build
 	@mkdir -p $(GO4TOPPATH)/etc; cp -r etc/* $(GO4TOPPATH)/etc
+	@mkdir -p $(GO4TOPPATH)/html; cp -r html/* $(GO4TOPPATH)/html
 	@mkdir -p $(GO4TOPPATH)/macros; cp macros/* $(GO4TOPPATH)/macros
 	@mkdir -p $(GO4TOPPATH)/docs; cp docs/* $(GO4TOPPATH)/docs
 ifeq ($(GO4_QT), 3)
