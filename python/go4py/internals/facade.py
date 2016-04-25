@@ -20,11 +20,13 @@ class Facade(object):
         """
         Replace current module with an instance of Interior in sys.modules
         Update the globals of this instance from the globals of the module
+        Keep a reference to the overwritten "scaffold" module to avoid GC
         cf. https://mail.python.org/pipermail/python-ideas/2012-May/014969.html
         """
         n = self.modulename
         w = Interior(n)
         w.__dict__.update(sys.modules[n].__dict__)
+        w._scaffold = sys.modules[n]
         sys.modules[n] = w
 
 
