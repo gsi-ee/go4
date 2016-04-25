@@ -11,6 +11,13 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
+
+// JAM2016: activate this for global ROOT "escape mode" before redraw (NOT RECOMMENDED)
+// otherwise, escape mode will reset global arrays of TGraph painter class only
+//#define GLOBALESCAPE 1
+
+
+
 #include "TGo4ViewPanel.h"
 
 #include <math.h>
@@ -3625,19 +3632,6 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
 
    BlockPanelRedraw(true);
 
-   if (true) {
-      TBox box;
-      // biggest workaround ever
-      // TBox::ExecuteEvent uses static (???!!!) variables to keep moving position
-      // of the box during dragging. If update happens in-between, it makes everything screwed
-      // just try to correctly reset its internal states
-      // should be here, before pad->Clear()
-      box.ExecuteEvent(kButton1Down, 0, 0);
-      box.ExecuteEvent(kMouseMotion, 0, 0);
-      box.ExecuteEvent(kButton1Up, 0, 0);
-   }
-
-
    bool isanychildmodified = false;
    bool ispadupdatecalled = false;
 
@@ -3737,12 +3731,23 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
    // do not draw anything else if subpads are there
    if (ischilds) return ischildmodified;
 
+
    // JAM2016: does this help for some array conflicts in TGraph painter? YES!
    gROOT->SetEscape();
+#ifdef GLOBALESCAPE
    fxQCanvas->HandleInput(kButton1Up, 0, 0);
    fxQCanvas->HandleInput(kMouseMotion, 0, 0); // stolen from TRootEmbeddedCanvas::HandleContainerKey
+#else
+   // JAM 2016: only reset crucial static arrays in TGraph subclasses, do not escape complete root...
+   // turned out to have strange side effects with TBox which also has static variables reacting on escape flag :(
+   TGraph dummy;
+   dummy.ExecuteEvent(kButton1Up, 0, 0);
+   dummy.ExecuteEvent(kMouseMotion, 0, 0);
+#endif
    // SL2016 - one need to reset escape status back, some other functionality (like zooming) may not work
    gROOT->SetEscape(kFALSE);
+
+
 
    // end JAM2016
    pad->Clear();
