@@ -3632,11 +3632,38 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
 
    BlockPanelRedraw(true);
 
+
+   // JAM2016: does this help for some array conflicts in TGraph painter? YES!
+   // must be done once before pad->Clear in ProcessPadRedraw, so we do it here instead for each subpad
+#ifdef GLOBALESCAPE
+   gROOT->SetEscape();
+   fxQCanvas->HandleInput(kButton1Up, 0, 0);
+   fxQCanvas->HandleInput(kMouseMotion, 0, 0); // stolen from TRootEmbeddedCanvas::HandleContainerKey
+   // SL2016 - one need to reset escape status back, some other functionality (like zooming) may not work
+   gROOT->SetEscape(kFALSE);
+
+#else
+   // JAM 2016: only reset crucial static arrays in TGraph subclasses, do not escape complete root...
+   // turned out to have strange side effects with TBox which also has static variables reacting on escape flag :(
+   if(true){ // just for the scope to delete dummy graph on stack
+     gPad = pad;
+     Bool_t oldmodified=gPad->IsModified();
+     TGraph dummy(1);
+     gROOT->SetEscape();
+     dummy.ExecuteEvent(kButton1Up, 0, 0); // will reset escape flag internally
+     gPad->Modified(oldmodified); // probably not necessary, since we only use escape mode in event handler. But who knows what future root brings?
+   }
+#endif
+
+
+
+
    bool isanychildmodified = false;
    bool ispadupdatecalled = false;
 
    QTime starttm = QTime::currentTime();
    bool intime = true;
+
 
    // this loop done to allow consequent update of multi-pad canvas
    // each subpad separately redrawn in ProcessPadRedraw() method and
@@ -3731,31 +3758,6 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
    // do not draw anything else if subpads are there
    if (ischilds) return ischildmodified;
 
-
-   // JAM2016: does this help for some array conflicts in TGraph painter? YES!
-   gROOT->SetEscape();
-#ifdef GLOBALESCAPE
-
-   fxQCanvas->HandleInput(kButton1Up, 0, 0);
-   fxQCanvas->HandleInput(kMouseMotion, 0, 0); // stolen from TRootEmbeddedCanvas::HandleContainerKey
-   // SL2016 - one need to reset escape status back, some other functionality (like zooming) may not work
-   gROOT->SetEscape(kFALSE);
-
-#else
-   // JAM 2016: only reset crucial static arrays in TGraph subclasses, do not escape complete root...
-   // turned out to have strange side effects with TBox which also has static variables reacting on escape flag :(
-   if(true){ // just for the scope to delete dummy graph on stack
-     gPad = pad;
-     TGraph dummy(1);
-     dummy.ExecuteEvent(kButton1Up, 0, 0); // will reset escape flag internally
-   //dummy.ExecuteEvent(kMouseMotion, 0, 0);
-   }
-   #endif
-
-
-
-
-   // end JAM2016
    pad->Clear();
 
    pad->SetCrosshair(fbCanvasCrosshair);
