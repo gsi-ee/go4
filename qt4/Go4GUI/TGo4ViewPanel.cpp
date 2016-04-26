@@ -3735,17 +3735,23 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
    // JAM2016: does this help for some array conflicts in TGraph painter? YES!
    gROOT->SetEscape();
 #ifdef GLOBALESCAPE
+
    fxQCanvas->HandleInput(kButton1Up, 0, 0);
    fxQCanvas->HandleInput(kMouseMotion, 0, 0); // stolen from TRootEmbeddedCanvas::HandleContainerKey
+   // SL2016 - one need to reset escape status back, some other functionality (like zooming) may not work
+   gROOT->SetEscape(kFALSE);
+
 #else
    // JAM 2016: only reset crucial static arrays in TGraph subclasses, do not escape complete root...
    // turned out to have strange side effects with TBox which also has static variables reacting on escape flag :(
-   TGraph dummy;
-   dummy.ExecuteEvent(kButton1Up, 0, 0);
-   dummy.ExecuteEvent(kMouseMotion, 0, 0);
-#endif
-   // SL2016 - one need to reset escape status back, some other functionality (like zooming) may not work
-   gROOT->SetEscape(kFALSE);
+   if(true){ // just for the scope to delete dummy graph on stack
+     gPad = pad;
+     TGraph dummy(1);
+     dummy.ExecuteEvent(kButton1Up, 0, 0); // will reset escape flag internally
+   //dummy.ExecuteEvent(kMouseMotion, 0, 0);
+   }
+   #endif
+
 
 
 
