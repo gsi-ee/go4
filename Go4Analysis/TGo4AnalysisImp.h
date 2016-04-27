@@ -536,6 +536,9 @@ class TGo4Analysis : public TObject, public TGo4CommandReceiver  {
     /** Returns current input file name */
     const char* GetInputFileName() const { return fxCurrentInputFileName.Data(); }
 
+    /** Returns default lmd test file name (in GO4SYS installation directory) */
+    const char* GetDefaultTestFileName() const { return fxDefaultTestFileName.Data(); }
+
     void SetDynListInterval(Int_t val);
 
     Int_t GetDynListInterval();
@@ -1083,7 +1086,10 @@ class TGo4Analysis : public TObject, public TGo4CommandReceiver  {
     /** optional ratemeter object */
     TGo4Ratemeter* fxRate; //!
 
-  ClassDef(TGo4Analysis,4)
+    /** default file name for distributed test lmd file*/
+    TString fxDefaultTestFileName; //!
+
+  ClassDef(TGo4Analysis,5)
 };
 
 #endif

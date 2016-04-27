@@ -25,7 +25,7 @@ Then the histograms are filled, the 2d one with polygon conditions.
 
 Run analysis
 Analysis can be started from the Go4 GUI or by command line:
-   shell> go4analysis -file /GSI/lea/gauss.lmd
+   shell> go4analysis -file $GO4SYS/data/test.lmd
    shell> go4analysis -random
    shell> go4analysis -stream r3f-12
 The events can be read from standard GSI lmd files or MBS or event servers.

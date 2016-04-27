@@ -4,6 +4,11 @@ endif
 
 include $(GO4SYS)/Makefile.config
 
+DOOPTIMIZATION=false
+
+##ANAL_LIB_DEP+=$(ROOTLIBPATH)/libMathMore.so
+#LDFLAGS += $(LIBS_FULLSET) -lMathMore
+
 ## normally should be like this for every module, but can be specific
 
 ifdef GO4PACKAGE
@@ -44,6 +49,7 @@ endif
 ##### local rules #####
 
 all::  $(EXAMP2STEP_LIB)
+
 
 $(EXAMP2STEP_LIB):   $(EXAMP2STEP_O) $(EXAMP2STEP_DO) $(ANAL_LIB_DEP)
 	@$(MakeLibrary) $(EXAMP2STEP_LIBNAME) "$(EXAMP2STEP_O) $(EXAMP2STEP_DO)" $(EXAMP2STEP_DIR) $(EXAMP2STEP_LINKDEF) "$(ANAL_LIB_DEP)" $(EXAMP2STEP_DS) "$(EXAMP2STEP_H)"

@@ -95,7 +95,8 @@ int main(int argc, char **argv)
      // the input. Please change subclass of TGo4EventSource
      // to change input type.
 /////////// MBS LISTMODE FILE /////////////////////////////////////////////
-     input= new TGo4MbsFile("/GSI/lea/examples/gauss.lmd");
+     TString testfilename=TString::Format("%s/data/test.lmd",getenv("GO4SYS")); // this file is part of go4 distribution
+     input= new TGo4MbsFile(testfilename.Data());
 //         input= new TGo4MbsFile("dat0.lmd");
         // for listmode file with given path and name
         // file will be opened in constructor and closed in destructor

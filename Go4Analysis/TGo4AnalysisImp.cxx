@@ -273,6 +273,8 @@ void TGo4Analysis::Constructor()
       fxAutoFileName = fgcDEFAULTFILENAME;
       if (fAnalysisName.Length()>0) fxAutoFileName = TString::Format("%sASF.root", fAnalysisName.Data());
       fxConfigFilename = fgcDEFAULTSTATUSFILENAME;
+      fxDefaultTestFileName=TString::Format("%s/data/test.lmd",getenv("GO4SYS"));
+
       TGo4CommandInvoker::Instance(); // make sure we have an invoker instance!
       TGo4CommandInvoker::SetCommandList(new TGo4AnalysisCommandList);
       TGo4CommandInvoker::Register("Analysis",this); // register as command receiver at the global invoker

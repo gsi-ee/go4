@@ -20,7 +20,7 @@ make all
 
 Description of the package
 
-A test file is /GSI/lea/gauss.lmd
+A test file is $GO4SYS/data/test.lmd
 
 
 Analysis:  TXXXAnalysis

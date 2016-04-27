@@ -62,7 +62,7 @@ TMeshAnalysis::TMeshAnalysis(int argc, char** argv) :
    TGo4StepFactory* factory1 = new TGo4StepFactory("UnpackFactory");
    factory1->DefOutputEvent("RawEvent", "TMeshRawEvent");
    factory1->DefEventProcessor("Unpacker","TMeshUnpackProc");
-   TGo4EventSourceParameter* source1 = new TGo4MbsFileParameter("/GSI/lea/gauss.lmd");
+   TGo4EventSourceParameter* source1 = new TGo4MbsFileParameter(GetDefaultTestFileName());
    TGo4EventStoreParameter* store1   = new TGo4FileStoreParameter("MeshRawEvent");
    TGo4AnalysisStep* step1  = new TGo4AnalysisStep("Unpack",factory1,source1,store1,0);
    AddAnalysisStep(step1);

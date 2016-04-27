@@ -566,7 +566,7 @@ TGo4Analysis* CreateDefaultAnalysis(TList* lst, const char* name, int user_argc,
    if (evsrc_cl!=0)
       factory->DefUserEventSource(evsrc_cl->GetName());
 
-   TGo4MbsFileParameter* sourcepar = new TGo4MbsFileParameter("/GSI/lea/gauss.lmd");
+   TGo4MbsFileParameter* sourcepar = new TGo4MbsFileParameter(analysis->GetDefaultTestFileName());
 
    TGo4AnalysisStep* step = new TGo4AnalysisStep("Analysis", factory, sourcepar);
 

@@ -90,6 +90,11 @@ TYYYUnpackProc::TYYYUnpackProc(const char* name) :
    if (GetCanvas("TestCanvas2")==0) {
       TCanvas* mycan = new TCanvas("TestCanvas2","Does this work2?");
       mycan->Divide(2,2);
+      mycan->cd(1);
+         fX->Draw();
+         mycan->cd(2);
+         fY->Draw();
+
       AddCanvas(mycan);
    }
 }
