@@ -123,6 +123,9 @@ class TGo4MainWindow : public QMainWindow {
       void ChangeDrawItemFlagSlot();
 
       void DrawLineWidthSlot();
+      void DrawFillColorSlot();
+      void DrawFillStyleSlot();
+
       void TH1DrawOptSlot();
       void TH2DrawOptSlot();
       void TH3DrawOptSlot();

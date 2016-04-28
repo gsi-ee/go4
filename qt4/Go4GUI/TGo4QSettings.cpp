@@ -566,6 +566,27 @@ int   TGo4QSettings::getDrawLineWidth()
    return getInt("/ViewPanel/DrawLineWidth", 1);
 }
 
+void  TGo4QSettings::setDrawFillColor(int col)
+{
+  setInt("/ViewPanel/DrawFillColor", col);
+}
+
+int     TGo4QSettings::getDrawFillColor()
+{
+  return getInt("/ViewPanel/DrawFillColor", 0);
+}
+
+void  TGo4QSettings::setDrawFillStyle(int style)
+{
+  setInt("/ViewPanel/DrawFillStyle", style);
+}
+int  TGo4QSettings::getDrawFillStyle()
+{
+  return getInt("/ViewPanel/DrawFillStyle", 1001);
+}
+
+
+
 void  TGo4QSettings::setTH1DrawOpt(const QString& v)
 {
    setStr("/ViewPanel/TH1DrawOpt", v);

@@ -3863,7 +3863,6 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 
    gPad = pad; // instead of pad->cd(), while it is redraw frame
    if (drawobj != 0) {
-      //drawobj->SetBit(kCanDelete, kFALSE); // jam2016
       bool first_draw = (slot->GetPar("::PadFirstDraw") == 0);
       if (first_draw) slot->SetPar("::PadFirstDraw", "true");
 
@@ -3917,6 +3916,14 @@ void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his, bo
 
    if (first_draw && (go4sett->getDrawLineWidth() > 1) && (his->GetLineWidth()==1))
       his->SetLineWidth(go4sett->getDrawLineWidth());
+
+   // only activate panel defaults if no fill color set by user:
+   if (first_draw && (go4sett->getDrawFillColor()>0) && (his->GetFillColor()==0))
+     his->SetFillColor(go4sett->getDrawFillColor());
+   if (first_draw && (go4sett->getDrawFillStyle()!=1001) && (his->GetFillStyle()==1001))
+     his->SetFillStyle(go4sett->getDrawFillStyle());
+
+
 
    his->SetStats(padopt->IsHisStats());
    his->SetBit(TH1::kNoTitle, !padopt->IsHisTitle());
@@ -3992,6 +3999,16 @@ void TGo4ViewPanel::RedrawGraph(TPad *pad, TGo4Picture* padopt, TGraph * gr, boo
       }
       if ((go4sett->getDrawLineWidth() > 1) && (gr->GetLineWidth()==1))
          gr->SetLineWidth(go4sett->getDrawLineWidth());
+
+
+      // only activate panel defaults if no fill color set by user:
+         if ((go4sett->getDrawFillColor()>0) && (gr->GetFillColor()==0))
+           gr->SetFillColor(go4sett->getDrawFillColor());
+         if ((go4sett->getDrawFillStyle()!=1001) && (gr->GetFillStyle()==1001))
+           gr->SetFillStyle(go4sett->getDrawFillStyle());
+
+
+
    }
 
    if (drawopt.Length() == 0)

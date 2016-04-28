@@ -169,6 +169,13 @@ class TGo4QSettings {
       void    setDrawLineWidth(int w = 1);
       int     getDrawLineWidth();
 
+      void    setDrawFillColor(int col);
+      int     getDrawFillColor();
+
+      void    setDrawFillStyle(int style);
+      int     getDrawFillStyle();
+
+
       void    setTH1DrawOpt(const QString& value);
       QString getTH1DrawOpt();
 

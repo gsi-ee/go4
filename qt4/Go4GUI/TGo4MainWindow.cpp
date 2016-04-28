@@ -511,7 +511,9 @@ void TGo4MainWindow::AddSettingMenu()
    panelMenu->addAction(faDrawItem);
    faDrawItem->setEnabled(go4sett->getCloneFlag());
 
-   panelMenu->addAction("Draw line &width", this, SLOT(DrawLineWidthSlot()));
+   panelMenu->addAction("Draw line &width ...", this, SLOT(DrawLineWidthSlot()));
+   panelMenu->addAction("Draw fill color ...", this, SLOT(DrawFillColorSlot()));
+   panelMenu->addAction("Draw fill style ...", this, SLOT(DrawFillStyleSlot()));
    panelMenu->addAction("TH1 draw opt ...", this, SLOT(TH1DrawOptSlot()));
    panelMenu->addAction("TH2 draw opt ...", this, SLOT(TH2DrawOptSlot()));
    panelMenu->addAction("TH3 draw opt ...", this, SLOT(TH3DrawOptSlot()));
@@ -1589,6 +1591,49 @@ void TGo4MainWindow::DrawLineWidthSlot()
 #endif
 
    if (ok) go4sett->setDrawLineWidth(w);
+}
+
+
+void TGo4MainWindow::DrawFillColorSlot()
+{
+   int w = go4sett->getDrawFillColor();
+
+   bool ok = false;
+
+#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
+   w = QInputDialog::getInt(this,
+                            "Default fill color for 1D objects (histogram and graph) drawing",
+                            "Input 0 for no fill",
+                             w, 0, 50, 1, &ok);
+#else
+   w = QInputDialog::getInteger(this,
+                               "Default fill color for 1D objects (histogram and graph) drawing",
+                                "Input 0 for no fill",
+                                w, 0, 50, 1, &ok);
+#endif
+
+   if (ok) go4sett->setDrawFillColor(w);
+}
+
+void TGo4MainWindow::DrawFillStyleSlot()
+{
+   int w = go4sett->getDrawFillStyle();
+
+   bool ok = false;
+
+#if QT_VERSION >= QT_VERSION_CHECK(4,6,0)
+   w = QInputDialog::getInt(this,
+                            "Default fill style for 1D objects (histogram and graph) drawing",
+                            "Input 1001 for solid fill",
+                             w, 0, 4000, 1, &ok);
+#else
+   w = QInputDialog::getInteger(this,
+                               "Default fill style for 1D objects (histogram and graph) drawing",
+                                "Input 1001 for solid fill",
+                                w, 0, 4000, 1, &ok);
+#endif
+
+   if (ok) go4sett->setDrawFillStyle(w);
 }
 
 

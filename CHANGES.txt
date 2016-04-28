@@ -1,6 +1,6 @@
 ---------------------------------------------------------------
          Go4 Release Package v5.1.x (build 50101)
-                      27-April-2016
+                      28-April-2016
 ---------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -31,11 +31,15 @@ Changes in Go4 v5.1.x (April 2016)
 4. Fix problem with ROOT6 - it requires exact location of go4 include files
    when running GUI or analysis. Especially important when doing "make install" 
 5. Preserve frame position in the hotstart, do not reset frame with every update.
-6. Bugfix in viewpanel redrawing: in v5.1.0 statistic and label boxes could disappear or be scrambled 
+6. New Viewpanel feature: double click on histogram pad does unzoom of axes. For subpads, still
+   another viewpanel with the subpad is opened.
+7. Bugfix in viewpanel redrawing: in v5.1.0 statistic and label boxes could disappear or be scrambled 
    when mouse was moved over them. This was an unwanted side-effect of the previous TGraph/polygon condition crash bugfix.
-7. Changed default test lmd file names of examples to  $GO4SYS/data/test.lmd instead /GSI/lea/gauss.lmd.
+8. Changed default test lmd file names of examples to  $GO4SYS/data/test.lmd instead /GSI/lea/gauss.lmd.
    New method TGo4Analysis::GetDefaultTestFileName() that delivers the actual path to this file in the
    current installation.
+9. Added panel defaults for 1d histogram draw fill color and style. Like the default line width, this
+   is included in go4 settings.   
 
 
 Changes in Go4 v5.1.0 (March 2016)
