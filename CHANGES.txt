@@ -1,6 +1,6 @@
 ---------------------------------------------------------------
-         Go4 Release Package v5.1.x (build 50101)
-                      28-April-2016
+         Go4 Release Package v5.1.2 (build 50102)
+                      2-May-2016
 ---------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -21,10 +21,10 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v5.1.x (April 2016)
+Changes in Go4 v5.1.2 (May 2016)
 1. Let configure default line width for objects draw. Useful for 4K monitors,
    where default line width (=1) is too tiny.  
-2. Bugfix - when creating hotstart, TLatex object was add to picture specials twice,
+2. Bugfix - when creating hotstart, TLatex object was added to picture specials twice,
    which leads to crash when such picture need to be deleted.  
 3. When running go4analysis, one could specify alternative (newer) JSROOT
    version like go4analysis -random -jsroot http://jsroot.gsi.de/latest/
@@ -40,6 +40,10 @@ Changes in Go4 v5.1.x (April 2016)
    current installation.
 9. Added panel defaults for 1d histogram draw fill color and style. Like the default line width, this
    is included in go4 settings.   
+10. Python support: restructured the whole module: moved things that are not interesting for a user, 
+    i.e., implementation details (ExpMem is in expmem.py) and helper modules (e.g. facade.py) into the 
+    go4py.internals namespace/subfolder. Added nicer error message if go4init is imported outside Go4.
+   
 
 
 Changes in Go4 v5.1.0 (March 2016)
