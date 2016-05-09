@@ -297,7 +297,9 @@ go4login: Makefile
 	@rm -f $@
 	@echo '########## Automatically generated login file ########' >> $@
 	@echo '' >> $@
-	@echo "echo Configure Go4 v$(MAJOR).$(MINOR) at $(GO4TOPPATH)" >> $@
+	@echo 'case "$$-" in *i*) # Shell is interactive' >> $@
+	@echo "  echo Configure Go4 v$(MAJOR).$(MINOR) at $(GO4TOPPATH)" >> $@
+	@echo 'esac' >> $@
 	@echo '' >> $@
 	@echo '##### ROOT-related settings ###########' >> $@
 ifdef ROOTSYS
