@@ -164,6 +164,26 @@ Double_t TGo4WinCond::GetRMS(TH1* histo, Int_t axis)
    return result;
 }
 
+Double_t TGo4WinCond::GetSkewness(TH1* histo, Int_t axis)
+{
+   if(histo==0) return 0;
+   Double_t result=0;
+   SetHistogramRanges(histo);
+   result=histo->GetSkewness(axis);
+   RestoreHistogramRanges(histo);
+   return result;
+}
+
+Double_t TGo4WinCond::GetCurtosis(TH1* histo, Int_t axis)
+{
+   if(histo==0) return 0;
+   Double_t result=0;
+   SetHistogramRanges(histo);
+   result=histo->GetKurtosis(axis);
+   RestoreHistogramRanges(histo);
+   return result;
+}
+
 Double_t TGo4WinCond::GetXMax(TH1* histo)
 {
    if(histo==0) return 0;

@@ -82,6 +82,12 @@ class TGo4WinCond : public TGo4Condition {
       virtual Double_t GetRMS(TH1* histo, Int_t axis=1);
 
       /** Calculate value for histogram inside condition limits. */
+      virtual Double_t GetSkewness(TH1* histo, Int_t axis=1);
+
+      /** Calculate value for histogram inside condition limits. */
+      virtual Double_t GetCurtosis(TH1* histo, Int_t axis=1);
+
+      /** Calculate value for histogram inside condition limits. */
       virtual Double_t GetXMax(TH1* histo);
 
       /** Calculate value for histogram inside condition limits. */

@@ -948,6 +948,34 @@ else
    }
 return rev;
 }
+Double_t TGo4CondArray::GetSkewness(TH1* histo, Int_t axis)
+{
+Double_t rev=0;
+if(IsMultiEdit())
+   {
+       rev=-2; // what is the result Skewness of all subconditions?
+   }
+else
+   {
+      TGo4Condition* conny=At(GetCurrentIndex());
+      if(conny) rev=conny->GetSkewness(histo,axis);
+   }
+return rev;
+}
+Double_t TGo4CondArray::GetCurtosis(TH1* histo, Int_t axis)
+{
+Double_t rev=0;
+if(IsMultiEdit())
+   {
+       rev=-2; // what is the result Curtosis of all subconditions?
+   }
+else
+   {
+      TGo4Condition* conny=At(GetCurrentIndex());
+      if(conny) rev=conny->GetCurtosis(histo,axis);
+   }
+return rev;
+}
 Double_t TGo4CondArray::GetXMax(TH1* histo)
 {
 Double_t rev=0;

@@ -648,6 +648,17 @@ Double_t TGo4Condition::GetRMS(TH1* histo, Int_t axis)
 {
    return 0;
 }
+
+Double_t TGo4Condition::GetSkewness(TH1* histo, Int_t axis)
+{
+   return 0;
+}
+
+Double_t TGo4Condition::GetCurtosis(TH1* histo, Int_t axis)
+{
+   return 0;
+}
+
 Double_t TGo4Condition::GetXMax(TH1* histo)
 {
    return 0;

@@ -390,6 +390,22 @@ Double_t TGo4PolyCond::GetRMS(TH1* histo, Int_t axis)
    else
       return -1;
 }
+Double_t TGo4PolyCond::GetSkewness(TH1* histo, Int_t axis)
+{
+   if(fxCutHis==0) fxCutHis=CreateCutHistogram(histo);
+   if(fxCutHis!=0)
+      return (fxCutHis->GetSkewness(axis));
+   else
+      return -1;
+}
+Double_t TGo4PolyCond::GetCurtosis(TH1* histo, Int_t axis)
+{
+   if(fxCutHis==0) fxCutHis=CreateCutHistogram(histo);
+   if(fxCutHis!=0)
+      return (fxCutHis->GetKurtosis(axis));
+   else
+      return -1;
+}
 Double_t TGo4PolyCond::GetXMax(TH1* histo)
 {
    Double_t result=0;
