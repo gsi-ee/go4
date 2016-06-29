@@ -189,6 +189,7 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       virtual void      paintEvent( QPaintEvent *e );
       virtual void      mouseDoubleClickEvent(QMouseEvent* e );
       virtual void      mouseMoveEvent(QMouseEvent *e);
+      virtual void      wheelEvent( QWheelEvent* e);
       virtual void      leaveEvent(QEvent *e);
       virtual void      closeEvent( QCloseEvent * e);
 

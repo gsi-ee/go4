@@ -169,6 +169,19 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
 #endif
 }
 
+void  QRootCanvas::wheelEvent( QWheelEvent* e)
+{
+   TGo4LockGuard threadlock;
+
+   if (fCanvas==0) return;
+   e->accept();
+   if (e->delta() > 0)
+      fCanvas->HandleInput(kWheelUp, e->x(), e->y());
+   else
+      fCanvas->HandleInput(kWheelDown, e->x(), e->y());
+}
+
+
 void QRootCanvas::mousePressEvent( QMouseEvent *e )
 {
    TGo4LockGuard threadlock;

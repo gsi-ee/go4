@@ -21,6 +21,10 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
+Changes in Go4 v5.1.x (June 2016)
+1. Handle mouse wheel events in QtRoot interface, used in ROOT zooming
+
+
 Changes in Go4 v5.1.2 (May 2016)
 1. Let configure default line width for objects draw. Useful for 4K monitors,
    where default line width (=1) is too tiny.  
