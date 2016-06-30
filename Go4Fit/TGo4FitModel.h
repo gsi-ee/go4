@@ -76,7 +76,7 @@ class TGo4FitAssignment : public TNamed {
 
 
 /**
- * Basic abstract class for represnting model components of fitted data.
+ * Basic abstract class for representing model components of fitted data.
  */
 class TGo4FitModel : public TGo4FitComponent {
    public:
@@ -88,7 +88,7 @@ class TGo4FitModel : public TGo4FitComponent {
 
       /**
        * Creates TGo4FitModel object with given name.
-       * Standard constrcutor. Add amplitude parameter, if specified.
+       * Standard constructor. Add amplitude parameter, if specified.
        * TGo4FitModel object should not be used directly. It is only basic class for concrete implementations like gaussians, polynoms and so on.
        */
       TGo4FitModel(const char* iName, const char* iTitle, Bool_t MakeAmplitude = kFALSE);
@@ -219,10 +219,10 @@ class TGo4FitModel : public TGo4FitComponent {
 
       /**
        * Set integration properties.
-       * This function make sence, if model assign to histogramic data. In this case each bins defined on some finite range.
+       * This function make sense, if model assign to histogramic data. In this case each bins defined on some finite range.
        * By default there is no integration and model uses central positions in each range, where data bins is defined.
        * If model changes much in these ranges, it may cause big error in modeling. In this case integration inside each data bin ranges can highly reduce these errors.
-       * To make integration, bin range on each axis divides on (2^depth) segemnts and value of model calculates in each segments. Thus, if data bins defined on two-dimensional space and depth=3, each bins range were diveded on 8x8=64 squares and model will be calculated 64 times.
+       * To make integration, bin range on each axis divides on (2^depth) segments and value of model calculates in each segments. Thus, if data bins defined on two-dimensional space and depth=3, each bins range were diveded on 8x8=64 squares and model will be calculated 64 times.
        * MinIntegrDepth and MaxIntegrDepth means minimum and maximum allowed integration depth correspondently. If MaxIntegrDepth not specified, it will be equal to MinIntegrDepth.
        * If MinIntegrDepth less then MaxIntegrDepth, model will try to use minimum value first. Then it checks, if result value changes not very much. If so, it finish calculation, otherwise it increases depth of integration up to MaxIntegrDepth.
        * IntegrEps sets maximum allowed error in result value. It can be absolute (when AbsoluteEps = kTRUE) or relative to previous calculated value (with depth-1).
@@ -236,7 +236,7 @@ class TGo4FitModel : public TGo4FitComponent {
       Bool_t NeedIntegration() { return (fiMinIntegrDepth>0) || (fiMaxIntegrDepth>0); }
 
        /**
-       * Prepares (if necesary) some intermediate variables to be able calculate values of model via EvalN() function.
+       * Prepares (if necessary) some intermediate variables to be able calculate values of model via EvalN() function.
        * Number of axis, which will be used in evaluations, should be specified.
        */
       virtual Bool_t BeforeEval(Int_t ndim);
@@ -358,7 +358,7 @@ class TGo4FitModel : public TGo4FitComponent {
       Int_t fiMinIntegrDepth;
 
       /**
-       * Maximum intergration depth.
+       * Maximum integration depth.
        */
       Int_t fiMaxIntegrDepth;
 
@@ -426,16 +426,13 @@ class TGo4FitModel : public TGo4FitComponent {
       Bool_t fbNeedToRebuild;                 //!
 
       /**
-       * List of all parameters, associated not only with component directly but also with incapsulated objects.
+       * List of all parameters, associated not only with component directly but also with encapsulated objects.
        */
       TGo4FitParsList* fxAllPars;              //!
 
       TArrayD* fxAllParsValues;                //!
 
-      /** @link aggregation
-       * @supplierCardinality 0..**/
-      /*#  TGo4FitAssignment lnkTGo4FitModel; */
-
    ClassDef(TGo4FitModel,1)
 };
+
 #endif // TGO4FITMODEL_H

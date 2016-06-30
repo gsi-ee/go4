@@ -45,7 +45,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
       virtual ~TGo4FitComponent();
 
       /**
-       * Return ampltide parameter object.
+       * Return amplitude parameter object.
        * If amplitude not exists, return 0.
        */
       TGo4FitParameter* GetAmplPar();
@@ -86,7 +86,7 @@ class TGo4FitComponent : public TGo4FitParsList, public TGo4FitSlotList {
 
       /**
        * Create amplitude parameter and adds it to parameters list.
-       * Typically amplitude is situated in the beggining of parameters list.
+       * Typically amplitude is situated in the beginning of parameters list.
        */
       Bool_t MakeAmpl(Bool_t isFixed = kFALSE);
 
