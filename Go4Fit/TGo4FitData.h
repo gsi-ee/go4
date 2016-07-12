@@ -68,7 +68,7 @@ class TGo4FitData : public TGo4FitComponent {
 
       /**
        * Always return kTRUE.
-       * This specify that any data object may has or hasnot amplitude.
+       * This specify that any data object may has or has not amplitude.
        * Amplitude parameter (if exist) will be used to scale bins values.
        */
       virtual Bool_t CanAmplTouch() { return kTRUE; }
@@ -116,7 +116,7 @@ class TGo4FitData : public TGo4FitComponent {
        * By default, TGo4FitData has no place (slots) for transformation objects.
        * In this case scale values can be taken from data source (TAxis of TH1) or just bins numbers can be used.
        * To use transformation of these values, inherited from TGo4FitAxisTrans class should be used.
-       * Slots fot such objects can be reserved first.
+       * Slots for such objects can be reserved first.
        */
       Bool_t SetNumberOfTransSlots(Int_t nslots);
 
@@ -304,7 +304,7 @@ class TGo4FitData : public TGo4FitComponent {
 
       /**
        * Specify sigma source.
-       * 0 - no sigmas, 1 -  try take from data, 2 - const value (fdSigmaValue)
+       * 0 - no sigmas, 1 -  try take from data, 2 - constant value (fdSigmaValue)
        */
       Int_t fiTakeSigmasFrom;
 
