@@ -21,8 +21,10 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v5.1.x (June 2016)
+Changes in Go4 v5.1.x (Summer 2016)
 1. Handle mouse wheel events in QtRoot interface, used in ROOT zooming
+2. Bugfix in parameter Editor: format string precision for Float_t, Double_t, and Double32_t was reduced to defaults. 
+   Now it supports full range of data type and exponential formatting. 
 
 
 Changes in Go4 v5.1.2 (May 2016)
