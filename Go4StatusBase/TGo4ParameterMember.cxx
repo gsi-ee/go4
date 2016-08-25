@@ -158,7 +158,7 @@ void TGo4ParameterMember::SetValue(char* addr)
 #if ROOT_VERSION_CODE >= ROOT_VERSION(4,3,2)
       case kBool_t:     fValue.Form("%d", *((Bool_t*)addr)); break;
 #endif
-      case kFloat_t:    fValue.Form("%f", *((Float_t*)addr)); break;
+      case kFloat_t:    fValue.Form("%.7g", *((Float_t*)addr)); break;
       case kDouble_t:   fValue.Form("%.16g", *((Double_t*)addr)); break;
       case kDouble32_t: fValue.Form("%.16g", *((Double32_t*)addr)); break;
       case kTString_t:  fValue = *((TString*)addr); break;
