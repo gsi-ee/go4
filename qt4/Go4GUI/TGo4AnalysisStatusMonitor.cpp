@@ -14,6 +14,9 @@
 #include "TGo4AnalysisStatusMonitor.h"
 #include <math.h>
 
+#include <qstatusbar.h>
+//#include <iostream>
+
 #include "TGo4AnalysisClientStatus.h"
 #include "TGo4Ratemeter.h"
 #include "TGo4BrowserProxy.h"
@@ -54,6 +57,13 @@ void TGo4AnalysisStatusMonitor::linkedObjectUpdated( const char * linkname, TObj
 {
    TGo4AnalysisClientStatus* status = dynamic_cast<TGo4AnalysisClientStatus*> (obj);
    TGo4Ratemeter* rate = dynamic_cast<TGo4Ratemeter*> (obj);
+
+   // JAM2016
+   //std::cout <<"linkedObjectUpdated" <<std::endl;
+   QStatusBar* guistatusbar=dynamic_cast<QStatusBar*>(parentWidget());
+   if(guistatusbar){
+     guistatusbar->clearMessage(); // JAM2016: always wipe out old gui messages when updating ratemeter
+   }
 
    if ((status==0) && (rate==0)) {
       // this is indication of lost connection to the server

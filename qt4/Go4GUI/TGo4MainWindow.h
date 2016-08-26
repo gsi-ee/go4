@@ -53,6 +53,10 @@ class QMenu;
    * @version 1.0
    * @since 15.05.2002 */
 
+
+#define GO4GUI_MAXMACRONUM 9
+
+
 class TGo4MainWindow : public QMainWindow {
    Q_OBJECT
 
@@ -152,6 +156,28 @@ class TGo4MainWindow : public QMainWindow {
       void CreateNewConditionSlot(bool forothereditor = false);
       void CreateNewDynEntrySlot(bool forothereditor = false);
 
+      // JAM2016: new -  for predefined analysis macros by id:
+      void ConfigureAnalysisMacros();
+
+      // default slots for macro buttons:
+
+      void ExecuteAnalysisMacro_1();
+      void ExecuteAnalysisMacro_2();
+      void ExecuteAnalysisMacro_3();
+      void ExecuteAnalysisMacro_4();
+      void ExecuteAnalysisMacro_5();
+      void ExecuteAnalysisMacro_6();
+      void ExecuteAnalysisMacro_7();
+      void ExecuteAnalysisMacro_8();
+      void ExecuteAnalysisMacro_9();
+
+
+      void ExecuteAnalysisMacro(int id);
+      void DefineAnalysisMacro(int id);
+      void ClearAnalysisMacros();
+      void ResetAnalysisMacros();
+
+
       // starting editors slots
       TGo4FitPanel* StartFitPanel();
       TGo4ParaEdit* StartParaEdit(const char* itemname = 0);
@@ -174,6 +200,8 @@ class TGo4MainWindow : public QMainWindow {
       void CheckConnectingCounterSlot();
       void checkPanelRepaintSlot();
 
+
+
    protected:
 
       void AddAnalysisBar();
@@ -183,6 +211,8 @@ class TGo4MainWindow : public QMainWindow {
       void AddSettingMenu();
       void AddToolsBar();
       void AddToolsMenu();
+
+      void AddAnalysisMacrosBar();
 
       virtual void closeEvent( QCloseEvent * ce );
 
@@ -266,6 +296,14 @@ class TGo4MainWindow : public QMainWindow {
       QAction*           faStopAnal;
       QAction*           faAnalConfig;
       QAction*           faAnalTermin;
+
+
+      QToolBar*               fAnalysisMacroBar;
+      QAction*                fAnalysisMacroConfigure;
+      std::vector<QAction*>   faAnalysisMacroActions;
+      std::vector<QString>    fAnalysisMacroCommands;
+      bool fbAnalysisMacroConfigMode;
+
 };
 
 #endif

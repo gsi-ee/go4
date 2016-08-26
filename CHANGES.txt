@@ -25,7 +25,11 @@ Changes in Go4 v5.1.x (Summer 2016)
 1. Handle mouse wheel events in QtRoot interface, used in ROOT zooming
 2. Bugfix in parameter Editor: format string precision for Float_t, Double_t, and Double32_t was reduced to defaults. 
    Now it supports full range of data type and exponential formatting. 
-
+3. Qt4 GUI: new toolbar for Analysis Command Buttons: Provides 9 buttons C1...C9 that can be freely configured
+   by the user with commands to be executed in the analysis process interpreter. Supports ROOT, go4 and Python macros.
+   Default shortcuts Ctrl-1 ... Ctrl-9 allow fast keyboard interaction.  
+4. Qt4 GUI: improvement in main window status message: Ratemeter will clear message when updating, 
+   no message display timeout anymore. Solves problem of gui messages still visible behind ratemeter counters. 
 
 Changes in Go4 v5.1.2 (May 2016)
 1. Let configure default line width for objects draw. Useful for 4K monitors,

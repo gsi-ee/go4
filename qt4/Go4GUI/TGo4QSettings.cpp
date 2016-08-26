@@ -998,3 +998,35 @@ void TGo4QSettings::setCommandsHistoryAnalysis(const QStringList & commands)
 {
    sett->setValue("/CommandsHistoryAnalysis", commands);
 }
+
+/////////////////////////////////
+
+QString TGo4QSettings::getAnalysisMacroCommand(int id)
+{
+    QString descriptor=QString("/AnalysisMacro%1/Command").arg(id);
+
+    return getStr(descriptor, "");
+}
+
+QString TGo4QSettings::getAnalysisMacroTip(int id)
+{
+    QString descriptor=QString("/AnalysisMacro%1/Tip").arg(id);
+    QString deftip=QString("Ctrl - %1").arg(id+1);
+    return getStr(descriptor, deftip);
+}
+
+
+void    TGo4QSettings::setAnalysisMacroCommand(int id, const QString& com)
+{
+  QString descriptor=QString("/AnalysisMacro%1/Command").arg(id);
+  setStr(descriptor, com);
+}
+
+void    TGo4QSettings::setAnalysisMacroTip(int id, const QString& com)
+{
+  QString descriptor=QString("/AnalysisMacro%1/Tip").arg(id);
+  setStr(descriptor, com);
+}
+
+
+

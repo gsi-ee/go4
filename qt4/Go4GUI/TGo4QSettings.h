@@ -268,6 +268,15 @@ class TGo4QSettings {
       /** main window state/geometry */
       void restoreMainWindowState(QMainWindow* tgt);
       void storeMainWindowState(QMainWindow* src);
+
+
+      /** for predefined macro buttons in main gui:*/
+      QString getAnalysisMacroCommand(int id);
+      QString getAnalysisMacroTip(int id);
+      void    setAnalysisMacroCommand(int id, const QString& com);
+      void    setAnalysisMacroTip(int id, const QString& com);
+
+
 };
 
 

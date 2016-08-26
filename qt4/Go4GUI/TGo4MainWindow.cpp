@@ -147,6 +147,8 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    // setUsesTextLabel(true);
    // setOpaqueMoving(false);
 
+
+
    fxOM = new TGo4ObjectManager("GUI_OM","Gui object manager");
    fOMDataPath    = "data";
    fOMBrowserPath = "gui";
@@ -169,6 +171,9 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    winMapper = 0;
 
    fbFullScreen = false;
+
+   fbAnalysisMacroConfigMode=false;
+
 
     // create mount point for all data sources
    fxOM->MakeFolder(fOMDataPath.toLatin1().constData());
@@ -327,6 +332,9 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    TGo4TreeViewer* tviewer = new TGo4TreeViewer(this, "TreeViewer");
    ConnectGo4Widget(tviewer);
    tviewerdock->addWidget(tviewer);
+
+   AddAnalysisMacrosBar(); // new 2016
+
 
    // test: can we implement shortcuts to enable specific dock windows JAM?
 //   QMenu* dockMenu = menuBar()->addMenu("&Docks");
@@ -1396,11 +1404,13 @@ void TGo4MainWindow::StatusMessage(const QString& mess)
    QString output = QDateTime::currentDateTime().toString(Qt::ISODate);
    output.append(": ");
    output.append(mess);
-   statusBar()->showMessage(output, 3000);
+   statusBar()->showMessage(output, 0); // JAM2016: do not clear message after 3s. ratemeter will clear message on each update.
    if(TGo4Log::IsAutoEnabled())
       TGo4Log::Message(1,output.toLatin1().constData());
 
-   UpdateCaptionButtons();
+   //UpdateCaptionButtons();
+   // <- JAM2016: do not refresh ratemeter display immediately,
+   // but give message a chance to appear a while!
 }
 
 void TGo4MainWindow::UpdateCaptionButtons()
@@ -1990,6 +2000,8 @@ TGo4AnalysisStatusMonitor* TGo4MainWindow::EstablishRatemeter(int level)
 // level = 2 - create
 {
   //std::cout<<"EstablishRatemeter with level "<<level << std::endl;
+
+
 
    TGo4AnalysisStatusMonitor* status =
      dynamic_cast<TGo4AnalysisStatusMonitor*>
@@ -3546,6 +3558,267 @@ void TGo4MainWindow::CreateGUIScriptSlot()
 
    TGo4Script::ProduceScript(fileName.toLatin1().constData(), this);
 }
+
+
+////////////// here functions for predefined analysis macros JAM2016
+
+void TGo4MainWindow::AddAnalysisMacrosBar()
+{
+
+    fAnalysisMacroBar = addToolBar( "Analysis Command Buttons" );
+    fAnalysisMacroBar->setObjectName("AnalysisCommandToolBar");
+    ResetAnalysisMacros();
+    // for the moment, we always show 9 buttons that might not all be ready:
+    QAction* act;
+
+//    act=fAnalysisMacroBar->addAction( QIcon( ":/icons/OK16.png" ), go4sett->getAnalysisMacroTip(0),
+//                            this, SLOT(ExecuteAnalysisMacro_0()));
+
+    // TODO: maybe invent several icons with different colors here. text color of single actions is not simply changeable
+
+    act=fAnalysisMacroBar->addAction( QString("C1"),
+                                  this, SLOT(ExecuteAnalysisMacro_1()));
+    act->setEnabled(false);
+    faAnalysisMacroActions.push_back(act);
+
+    act=fAnalysisMacroBar->addAction( QString("C2" ),
+                                 this, SLOT(ExecuteAnalysisMacro_2()));
+     act->setEnabled(false);
+    faAnalysisMacroActions.push_back(act);
+
+
+    act=fAnalysisMacroBar->addAction( QString("C3" ),
+                                  this, SLOT(ExecuteAnalysisMacro_3()));
+    act->setEnabled(false);
+    faAnalysisMacroActions.push_back(act);
+
+    act=fAnalysisMacroBar->addAction( QString("C4" ),
+                                    this, SLOT(ExecuteAnalysisMacro_4()));
+    act->setEnabled(false);
+    faAnalysisMacroActions.push_back(act);
+
+    act=fAnalysisMacroBar->addAction( QString("C5" ),
+                                  this, SLOT(ExecuteAnalysisMacro_5()));
+    act->setEnabled(false);
+    faAnalysisMacroActions.push_back(act);
+
+    act=fAnalysisMacroBar->addAction( QString("C6" ),
+                                    this, SLOT(ExecuteAnalysisMacro_6()));
+    act->setEnabled(false);
+    faAnalysisMacroActions.push_back(act);
+
+    act=fAnalysisMacroBar->addAction( QString("C7" ),
+                                     this, SLOT(ExecuteAnalysisMacro_7()));
+    act->setEnabled(false);
+    faAnalysisMacroActions.push_back(act);
+
+    act=fAnalysisMacroBar->addAction( QString("C8" ),
+                                       this, SLOT(ExecuteAnalysisMacro_8()));
+    act->setEnabled(false);
+    faAnalysisMacroActions.push_back(act);
+
+
+    act=fAnalysisMacroBar->addAction( QString("C9" ),
+                                          this, SLOT(ExecuteAnalysisMacro_9()));
+    act->setEnabled(false);
+    faAnalysisMacroActions.push_back(act);
+
+    // now fill the actions with custom commands and tool tips:
+
+
+
+    for(int i=0; i<GO4GUI_MAXMACRONUM;++i)
+    {
+      faAnalysisMacroActions[i]->setEnabled(false);
+      int butid=i+1;
+      faAnalysisMacroActions[i]->setShortcut(QString("Ctrl+%1").arg(butid));
+      QString com=go4sett->getAnalysisMacroCommand(i);
+      if(com.isEmpty()){
+        fAnalysisMacroCommands.push_back(QString(""));
+        continue;
+      }
+      faAnalysisMacroActions[i]->setEnabled(true);
+      faAnalysisMacroActions[i]->setToolTip(go4sett->getAnalysisMacroTip(i));
+      fAnalysisMacroCommands.push_back(com);
+    }
+
+
+
+}
+
+
+void TGo4MainWindow::ConfigureAnalysisMacros()
+{
+  //std::cout << "ConfigureAnalysisMacros " <<std::endl;
+
+  if(!fAnalysisMacroConfigure->isChecked())
+    {
+      //std:cout << "fAnalysisMacroConfigure is not checked"<< std::endl;
+      // here we must enable only the buttons with valid configuration:
+      for(int i=0; i<GO4GUI_MAXMACRONUM;++i)
+          {
+            QString com=go4sett->getAnalysisMacroCommand(i);
+            if(com.isEmpty()){
+                faAnalysisMacroActions[i]->setEnabled(false);
+            }
+          }
+      return;
+    }
+  // we try some interactive game:
+  //1) first popup of info window
+  QMessageBox::information(this,"Configuration of Analysis Macros", "Please click on the Command button that should be configured and define command or macro action for analysis process.");
+  for(int i=0; i<GO4GUI_MAXMACRONUM;++i)
+     {
+      faAnalysisMacroActions[i]->setEnabled(true); // need to activate all buttons in this mode!
+     }
+
+// the rest is handled in the button slots themselves!
+
+  //2) user must click on function button to configure
+  //3) popup of requester for command and tooltip
+  //4) done
+
+  // second click on configure button must end this mode! <- automatically by action toggle!
+
+
+
+
+
+}
+
+void TGo4MainWindow::ExecuteAnalysisMacro_1()
+{
+  ExecuteAnalysisMacro(0); // note the shift of index here. want to start with ctrl-1 as first macro...
+}
+
+void TGo4MainWindow::ExecuteAnalysisMacro_2()
+{
+  ExecuteAnalysisMacro(1); // note the shift of index here. want to start with ctrl-1 as first macro...
+}
+
+void TGo4MainWindow::ExecuteAnalysisMacro_3()
+{
+  ExecuteAnalysisMacro(2); // note the shift of index here. want to start with ctrl-1 as first macro...
+}
+
+void TGo4MainWindow::ExecuteAnalysisMacro_4()
+{
+  ExecuteAnalysisMacro(3); // note the shift of index here. want to start with ctrl-1 as first macro...
+}
+
+
+void TGo4MainWindow::ExecuteAnalysisMacro_5()
+{
+  ExecuteAnalysisMacro(4); // note the shift of index here. want to start with ctrl-1 as first macro...
+}
+
+void TGo4MainWindow::ExecuteAnalysisMacro_6()
+{
+  ExecuteAnalysisMacro(5); // note the shift of index here. want to start with ctrl-1 as first macro...
+}
+
+void TGo4MainWindow::ExecuteAnalysisMacro_7()
+{
+  ExecuteAnalysisMacro(6); // note the shift of index here. want to start with ctrl-1 as first macro...
+}
+
+void TGo4MainWindow::ExecuteAnalysisMacro_8()
+{
+  ExecuteAnalysisMacro(7); // note the shift of index here. want to start with ctrl-1 as first macro...
+}
+
+void TGo4MainWindow::ExecuteAnalysisMacro_9()
+{
+  ExecuteAnalysisMacro(8); // note the shift of index here. want to start with ctrl-1 as first macro...
+}
+
+
+
+void TGo4MainWindow::ExecuteAnalysisMacro(int id)
+{
+  //std::cout << "ExecuteAnalysisMacro "<< id <<std::endl;
+  if(fAnalysisMacroConfigure->isChecked())
+    {
+      DefineAnalysisMacro(id);
+      fAnalysisMacroConfigure->setChecked(false);
+      ConfigureAnalysisMacros(); // set non defined buttons disabled again, this slot is not called automatically with setChecked!
+      return;
+    }
+  QString cmd=fAnalysisMacroCommands[id];
+  if (cmd.length()==0) return;
+  //std::cout << "Invoke custom analysis command: "<< cmd.toLatin1().constData() <<std::endl;
+  StatusMessage(QString("Invoke custom analysis command: ").append(cmd));
+  TGo4ServerProxy* serv = Browser()->FindServer();
+  if (serv!=0)
+  {
+    // TODO: have to check priviliges here?
+    serv->ExecuteLine(cmd.toLatin1().constData());
+  }
+}
+
+
+void TGo4MainWindow::DefineAnalysisMacro(int id)
+{
+  bool ok;
+  int butid=id+1;
+  QString title=QString("Analysis command button %1 definition").arg(butid);
+  QString message=QString("Please specify analysis interpreter command to execute on button C%1 : <br>'@' means 'TGo4Analysis::Instance()->'<br>'.x' will invoke ROOT script<br>'$' will invoke Python.").arg(butid);
+  QString com=QInputDialog::getText(this, title, message, QLineEdit::Normal, go4sett->getAnalysisMacroCommand(id), &ok);
+  //if (!ok || com.isEmpty()) return;
+  if (!ok) return;
+  message=QString("Please specify tool tip for button C%1").arg(butid);
+  QString deftip=go4sett->getAnalysisMacroTip(id).split(":").first();
+  QString tip=QInputDialog::getText(this, title, message, QLineEdit::Normal, deftip, &ok);
+  if (!ok) return;
+  go4sett->setAnalysisMacroCommand(id, com);
+  tip.append(": ");
+  tip.append(faAnalysisMacroActions[id]->shortcut().toString());
+  go4sett->setAnalysisMacroTip(id, tip);
+  fAnalysisMacroCommands[id]=com;
+  faAnalysisMacroActions[id]->setToolTip(tip);
+}
+
+
+
+void TGo4MainWindow::ResetAnalysisMacros()
+{
+
+  fAnalysisMacroBar->clear();
+  // clear old entries but initialize default button:
+  fAnalysisMacroConfigure=fAnalysisMacroBar->addAction( QIcon( ":/icons/macro_t.png" ), "Define custom button actions for analysis commands",
+       this, SLOT(ConfigureAnalysisMacros()));
+  fAnalysisMacroConfigure->setCheckable(true);
+  fAnalysisMacroBar->addAction( QIcon( ":/icons/delete.png" ), "Clear all custom defined analysis commands",
+        this, SLOT(ClearAnalysisMacros()));
+
+
+  faAnalysisMacroActions.clear();
+  fAnalysisMacroCommands.clear();
+
+}
+
+
+void TGo4MainWindow::ClearAnalysisMacros()
+{
+  if(QMessageBox::question( this, "Analysis Macro Buttons", "Really Clear all user defined macro commands?",
+          QMessageBox::Yes | QMessageBox::No ,
+          QMessageBox::Yes) != QMessageBox::Yes ) {
+             return;
+       }
+
+
+  for(int i=0; i<GO4GUI_MAXMACRONUM;++i)
+      {
+        faAnalysisMacroActions[i]->setEnabled(false);
+        fAnalysisMacroCommands[i]="";
+        go4sett->setAnalysisMacroCommand(i,"");
+        go4sett->setAnalysisMacroTip(i,"");
+      }
+}
+
+
+
+//////////////// end predefined analysis macros
 
 void TGo4MainWindow::ProcessQtEvents()
 {
