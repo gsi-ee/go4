@@ -321,7 +321,7 @@ TGo4ViewPanel* QGo4Widget::DrawItem(const QString& itemname, TGo4ViewPanel* pane
 
 TGo4ViewPanel* QGo4Widget::WhereItemDrawn(const char* itemname)
 {
-   TGo4ViewPanel* res = false;
+   TGo4ViewPanel* res = 0;
    emit widgetService(this, service_WhereItemDrawn, itemname, &res);
    return res;
 }
