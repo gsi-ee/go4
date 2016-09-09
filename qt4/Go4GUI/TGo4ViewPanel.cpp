@@ -2574,7 +2574,6 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
                              TObjArray * objslots, bool showitems)
 {
    if ((sislot == 0) || (objs == 0) || (padopt == 0)) return 0;
-
    TObject* oldobj = sislot->GetAssignedObject();
 
    Bool_t ishstack = kFALSE;
@@ -2620,7 +2619,13 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
 
          if (resetcolors || (kind == kind_FitModels) || (objslot->GetPar("::FirstDraw") != 0)) {
             histo->SetLineColor(GetAutoColor(n));
+            if ((go4sett->getDrawLineWidth() > 1) && (histo->GetLineWidth()==1))
+                 histo->SetLineWidth(go4sett->getDrawLineWidth());
          }
+
+
+
+
          histo->GetXaxis()->UnZoom();
 
          const char* drawopt = padopt->GetDrawOption(n);
@@ -2669,6 +2674,8 @@ TObject* TGo4ViewPanel::ProduceSuperimposeObject(TGo4Slot* padslot, TGo4Picture*
             Int_t nextcol = GetAutoColor(((objindx + 7) % 9));
             gr->SetLineColor(nextcol);
             gr->SetMarkerColor(nextcol);
+            if ((go4sett->getDrawLineWidth() > 1) && (gr->GetLineWidth()==1))
+                             gr->SetLineWidth(go4sett->getDrawLineWidth());
          }
 
          if (first_draw && (n==0)) {
