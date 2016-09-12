@@ -54,6 +54,8 @@
 #include "TGedEditor.h"
 #endif
 
+#include "TGX11.h"
+
 #include "TGo4LockGuard.h"
 //#define TGo4LockGuard int JAMDEBUG
 
@@ -66,7 +68,8 @@
 QRootCanvas::QRootCanvas(QWidget *parent) :
    QWidget(parent),
    fMaskDoubleClick(false),
-   fxShowEventStatus(false)
+   fxShowEventStatus(false),
+   fQtScalingfactor(1.0)
 {
    setObjectName( "QRootCanvas");
 
@@ -92,6 +95,11 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
 
    fCanvas = new TCanvas("Canvas", width(), height(), fRootWindowId);
 
+#if QT_VERSION > QT_VERSION_CHECK(5,6,0)
+   // JAM the following is pure empiric. hopefully default denominator won't change in future qt?
+   fQtScalingfactor=(double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
+#endif 
+   //std::cout <<"Found Qt scaling factor:"<<fQtScalingfactor << std::endl;
    // create the context menu
    fMousePosX = 0;
    fMousePosY = 0;
@@ -139,11 +147,13 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
 
   //std::cout <<"----- QRootCanvas::mouseMoveEvent with timestamp:"<<timestamp<<", oldstamp:"<<lastprocesstime << std::endl;
 #endif
+
+
   if (fCanvas!=0) {
      if (e->buttons() & Qt::LeftButton)
-        fCanvas->HandleInput(kButton1Motion, e->x(), e->y());
+        fCanvas->HandleInput(kButton1Motion, scaledPosition(e->x()), scaledPosition(e->y()));
      else
-        fCanvas->HandleInput(kMouseMotion, e->x(), e->y());
+        fCanvas->HandleInput(kMouseMotion, scaledPosition(e->x()), scaledPosition(e->y()));
   }
 
   if(fxShowEventStatus) {
@@ -172,13 +182,16 @@ void QRootCanvas::mouseMoveEvent(QMouseEvent *e)
 void  QRootCanvas::wheelEvent( QWheelEvent* e)
 {
    TGo4LockGuard threadlock;
-
+ /*int scaledmetric= metric(QPaintDevice::PdmDevicePixelRatioScaled);
+ int scaledX=e->x() * scaledmetric/65536; // empiric
+ int scaledY=e->y() * scaledmetric/65536; // empiric
+ */  
    if (fCanvas==0) return;
    e->accept();
    if (e->delta() > 0)
-      fCanvas->HandleInput(kWheelUp, e->x(), e->y());
-   else
-      fCanvas->HandleInput(kWheelDown, e->x(), e->y());
+      fCanvas->HandleInput(kWheelUp, scaledPosition(e->x()), scaledPosition(e->y()));
+  else
+      fCanvas->HandleInput(kWheelDown, scaledPosition(e->x()), scaledPosition(e->y()));
 }
 
 
@@ -186,13 +199,42 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
 {
    TGo4LockGuard threadlock;
    TObjLink* pickobj = 0;
-   TPad* pad = fCanvas->Pick(e->x(), e->y(), pickobj);
+   // JAM2016-9 test
+//    std::cout <<"QRootCanvas::mousePressEvent at ("<<e->x()<<", "<<  e->y()<<")"<< std::endl;
+   int scaledX=scaledPosition(e->x()); 
+   int scaledY=scaledPosition(e->y());
+  // std::cout <<"      scaledX,scaledY: ("<<scaledX<<", "<<scaledY <<") "<< std::endl;    
+//      std::cout <<"global from event: ("<<e->globalX()<<", "<<  e->globalY()<< std::endl;
+//    QPoint globalp=QWidget::mapToGlobal(e->pos());
+//    std::cout <<"global from map: ("<<globalp.x()<<", "<<globalp.y() <<") "<< std::endl;
+//    QPoint parentp=QWidget::mapToParent(e->pos());
+//    std::cout <<"parent: ("<<parentp.x()<<", "<<parentp.y()<<") " << std::endl;
+//    QPoint backfromglobalp=QWidget::mapFromGlobal(globalp);
+//     std::cout <<"backglobal: ("<<backfromglobalp.x()<<", "<<backfromglobalp.y()<<") " << std::endl;
+//     Int_t destx=0, desty=0;
+//     Window_t child;
+//     Window_t rootwindow=gVirtualX->GetDefaultRootWindow();
+//      gVirtualX->TranslateCoordinates(rootwindow, fQtWindowId, globalp.x(), globalp.y(), destx, desty, child);
+//      std::cout <<"TGX11 global translated: ("<<destx<<", "<<desty<<") " << std::endl;
+//      std::cout <<"TGX11 winids - default root:"<<rootwindow<<", Qt:"<<fQtWindowId<<", child:" <<child<< std::endl;
+     
+     
+     /*  int themetric= metric(QPaintDevice::PdmDevicePixelRatio);
+      int scaledmetric= metric(QPaintDevice::PdmDevicePixelRatioScaled);
+      std::cout <<"metric="<<themetric<<", scaled="<<scaledmetric << std::endl;
+     int scaledX=e->x() * scaledmetric/65536; // empiric
+     int scaledY=e->y() * scaledmetric/65536; // empiric
+     std::cout <<"scaledX,scaledY: ("<<scaledX<<", "<<scaledY <<") "<< std::endl;
+    */ 
+      
+      
+   TPad* pad = fCanvas->Pick(scaledX, scaledY, pickobj);
    TObject *selected = fCanvas->GetSelected();
 
    switch(e->button()) {
      case Qt::LeftButton :
-        fCanvas->HandleInput(kButton1Down, e->x(), e->y());
-        emit PadClicked(pad);
+        fCanvas->HandleInput(kButton1Down, scaledX, scaledY);
+         emit PadClicked(pad);
         break;
      case Qt::RightButton : {
         TString selectedOpt("");
@@ -254,7 +296,7 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
         break;
      }
      case Qt::MidButton :
-        fCanvas->HandleInput(kButton2Down, e->x(), e->y());
+        fCanvas->HandleInput(kButton2Down, scaledX, scaledY);
         emit SelectedPadChanged(pad);   //   that inform the Qt-world that tha pad is changed
                                         // and give the pointer to the new pad as argument
                                        // of the signal (M. Al-Turany)
@@ -273,13 +315,13 @@ void QRootCanvas::mouseReleaseEvent( QMouseEvent *e )
 
    switch(e->button()) {
       case Qt::LeftButton :
-         fCanvas->HandleInput(kButton1Up, e->x(), e->y());
+         fCanvas->HandleInput(kButton1Up, scaledPosition(e->x()), scaledPosition(e->y()));
          break;
       case Qt::RightButton :
-         fCanvas->HandleInput(kButton3Up, e->x(), e->y());
+         fCanvas->HandleInput(kButton3Up, scaledPosition(e->x()), scaledPosition(e->y()));
          break;
       case Qt::MidButton :
-         fCanvas->HandleInput(kButton2Up, e->x(), e->y());
+         fCanvas->HandleInput(kButton2Up, scaledPosition(e->x()),scaledPosition( e->y()));
          break;
       case  Qt::NoButton :
          break;
@@ -295,9 +337,9 @@ void QRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
    switch(e->button()) {
       case Qt::LeftButton : {
          if (!fMaskDoubleClick)
-            fCanvas->HandleInput(kButton1Double, e->x(), e->y());
+            fCanvas->HandleInput(kButton1Double, scaledPosition(e->x()), scaledPosition(e->y()));
          TObjLink* pickobj = 0;
-         TPad* pad = fCanvas->Pick(e->x(), e->y(), pickobj);
+         TPad* pad = fCanvas->Pick(scaledPosition(e->x()), scaledPosition(e->y()), pickobj);
          emit PadDoubleClicked(pad);
          // prevent crash on following release event
          // if new canvas will be created in between
@@ -305,10 +347,10 @@ void QRootCanvas::mouseDoubleClickEvent( QMouseEvent *e )
          break;
       }
       case Qt::RightButton :
-         fCanvas->HandleInput(kButton3Double, e->x(), e->y());
+         fCanvas->HandleInput(kButton3Double, scaledPosition(e->x()), scaledPosition(e->y()));
          break;
       case Qt::MidButton :
-         fCanvas->HandleInput(kButton2Double, e->x(), e->y());
+         fCanvas->HandleInput(kButton2Double, scaledPosition(e->x()), scaledPosition(e->y()));
          break;
       case Qt::NoButton :
          break;
@@ -405,7 +447,7 @@ void QRootCanvas::dropEvent( QDropEvent *event )
 {
    TObject* obj(0);
    QPoint pos = event->pos();
-   TPad* pad = Pick(pos.x(), pos.y(), obj);
+   TPad* pad = Pick(scaledPosition(pos.x()), scaledPosition(pos.y()), obj);
 
    if (pad!=0)
       emit CanvasDropEvent(event, pad);
@@ -605,7 +647,7 @@ void QRootCanvas::GetCanvasPar(Int_t &wtopx, Int_t &wtopy, UInt_t &ww, UInt_t &w
 
 void QRootCanvas::HandleInput(EEventType button, Int_t x, Int_t y)
 {
-   fCanvas->HandleInput(button, x, y);
+   fCanvas->HandleInput(button, scaledPosition(x), scaledPosition(y));
 }
 
 Bool_t QRootCanvas::HasMenuBar()

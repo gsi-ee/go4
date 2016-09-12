@@ -193,6 +193,13 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       virtual void      leaveEvent(QEvent *e);
       virtual void      closeEvent( QCloseEvent * e);
 
+      
+      /** returns scaled point coordinate, for high dpi case*/
+      double scaledPosition(int p)
+        {
+            return (double) p * fQtScalingfactor;            
+        }
+      
       virtual QPaintEngine * paintEngine () const {return 0;}
 
       void              methodDialog(TObject* object, TMethod* method);
@@ -214,6 +221,8 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       TObject*          fMenuObj;      // object use to fill menu
       TList*            fMenuMethods;  // list of menu methods
       bool              fxShowEventStatus;
+      
+      double fQtScalingfactor;
 };
 
 #endif

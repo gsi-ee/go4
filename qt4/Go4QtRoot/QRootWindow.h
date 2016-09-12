@@ -50,6 +50,12 @@ class QRootWindow : public QWidget {
       /** switch root frame resize mode on paint event:
        true=explicit resize, false=no resize of TQRootFrame*/
       void SetResizeOnPaint(bool on=true) { fbResizeOnPaint=on; }
+      
+      /** deliver width scaled with Qt5 screen scaling factor*/
+      double ScaledWidth();
+      
+       /** deliver Heightth scaled with Qt5 screen scaling factor*/
+      double ScaledHeight();
 
    protected:
 
@@ -79,6 +85,8 @@ class QRootWindow : public QWidget {
        * for embedded TGedEditor, we better disable it and resize editor from
        * parent widget*/
       Bool_t fbResizeOnPaint;
+      
+      double fQtScalingfactor;
 };
 
 #endif

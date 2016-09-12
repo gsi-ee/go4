@@ -1872,6 +1872,12 @@ void TGo4ViewPanel::StartRootEditor()
    if (fbEditorFrameVisible && (fxPeditor == 0)) {
       TGo4LockGuard lock;
       SetActivePad(GetCanvas());
+
+#if QT_VERSION > QT_VERSION_CHECK(5,6,0)
+   // JAM the following is pure empiric. hopefully default denominator won't change in future qt?  
+   double scalefactor=(double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
+   EditorFrame->setMinimumWidth( EditorFrame->minimumWidth()/scalefactor);
+#endif       
       fxRooteditor->SetResizeOnPaint(kFALSE); // disable internal resize on paintEvent, we use ResizeGedEditor
       fxRooteditor->SetEditable(); // mainframe will adopt pad editor window
       fxPeditor = TVirtualPadEditor::LoadEditor();
@@ -5285,7 +5291,7 @@ void TGo4ViewPanel::ResizeGedEditor()
 #ifndef __NOGO4GED__
    TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
    if ((ed != 0) && fbEditorFrameVisible && fxRooteditor)
-      ed->Resize(fxRooteditor->width(), fxRooteditor->height());
+      ed->Resize(fxRooteditor->ScaledWidth(), fxRooteditor->ScaledHeight());
 #endif
 }
 

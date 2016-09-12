@@ -62,7 +62,7 @@ class TQRootFrame: public TGCompositeFrame {
 QRootWindow::QRootWindow( QWidget *parent, const char *name, bool designermode) :
    QWidget(parent),
    fxRootwindow(0),
-   fbResizeOnPaint(kTRUE)
+   fbResizeOnPaint(kTRUE),fQtScalingfactor(1.0)
 {
    setObjectName( name ? name : "QRootWindow");
 
@@ -81,6 +81,11 @@ QRootWindow::QRootWindow( QWidget *parent, const char *name, bool designermode) 
       fxRootwindow = new TQRootFrame(gVirtualX->GetWindowID(fiWinid));
       fxRootwindow->Resize();
       if ( parent ) parent->installEventFilter( this );
+#if QT_VERSION > QT_VERSION_CHECK(5,6,0)
+   // JAM the following is pure empiric. hopefully default denominator won't change in future qt?
+   fQtScalingfactor=(double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
+#endif 
+      
    }
 }
 
@@ -228,3 +233,16 @@ TGCompositeFrame* QRootWindow::GetRootFrame()
 {
    return fxRootwindow;
 }
+
+
+
+double QRootWindow::ScaledWidth()
+{
+    return fQtScalingfactor * width();
+}
+      
+double QRootWindow::ScaledHeight()
+{
+    return fQtScalingfactor * height();    
+}
+
