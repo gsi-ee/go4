@@ -310,5 +310,8 @@
    JSROOT.addDrawFunc("TGo4AnalysisWebStatus", { script: GO4.source_dir + 'html/analysiseditor.js', func: 'GO4.drawGo4AnalysisStatus' }, "editor");
 
    JSROOT.addDrawFunc("TGo4MsgList", GO4.DrawMsgList, "");
+   
+   JSROOT.addDrawFunc({ name: "TGo4MbsEvent", noinspect: true });
+   JSROOT.addDrawFunc({ name: "TGo4EventElement", noinspect: true });
 
 })();
