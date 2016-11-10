@@ -157,7 +157,7 @@ uninstall:
 
 install: uninstall
 	@echo "Installing Go4 in directory $(GO4PREFIX) ..."
-	@mkdir -p $(GO4EXEPATH); cp bin/go4 bin/go4analysis bin/go4-config $(GO4EXEPATH)
+	@mkdir -p $(GO4EXEPATH); cp bin/go4 bin/go4analysis bin/go4-config go4login $(GO4EXEPATH)
 	@mkdir -p $(GO4LIBPATH); cp lib/* $(GO4LIBPATH)
 	@mkdir -p $(GO4INCPATH); cp include/* $(GO4INCPATH)
 	@mkdir -p $(GO4TOPPATH); cp Makefile.config Makefile.rules $(GO4TOPPATH)
