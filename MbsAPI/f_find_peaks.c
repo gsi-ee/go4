@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -48,6 +48,66 @@
 #define HORI 0
 #define PRINT 0
 #include "f_find_peaks.h"
+
+int f_position(int l_len,double *pa_data,double *pr_pos,double *pr_sig, double *pr_sum)
+{
+
+#define LOW  2
+#define WIDTH  8
+
+  double r_sig_f     ;
+  int I,J,K,L     ;
+  double d_sum_prod  ;
+  double l_max_chan  ;
+  double *pl_data,d_max    ;
+
+  /* 2.0E2*SQRT(2.0E0*LOG(2.0E0))/100. */;
+  r_sig_f      = 55.4518;
+  r_sig_f      = 2.;
+  *pr_sum   = 0;
+  d_sum_prod   = 0;
+  *pr_sig      = 0.;
+  *pr_pos      = 0.;
+  d_max=0.0;
+
+  /* get maximum channel content and integral */
+  /*  pl_data = pa_data;
+      for(J = 0; J < l_len; J++)
+      {
+      if(d_max < *pl_data)
+      {
+      d_max = *pl_data;
+      l_max_chan = J;
+      }
+      pl_data++;
+      }
+  */
+  /* Calculate first momentum */
+  pl_data = pa_data;
+  for(J = 1; J <= l_len; J++)
+    {
+      *pr_sum = *pr_sum +     *pl_data;
+      d_sum_prod = d_sum_prod + J * *pl_data;
+      pl_data++;
+    }
+  /* Calculate second momentum */
+  if(*pr_sum > 0)
+    {
+      *pr_pos = (d_sum_prod/ *pr_sum + 0.5);
+      pl_data = pa_data;
+      for(J = 1; J <= l_len; J++)
+   {
+     *pr_sig = *pr_sig + ((double)J - *pr_pos) * ((double)J - *pr_pos) * *pl_data;
+     pl_data++;
+   }
+      *pr_sig = r_sig_f * sqrt(*pr_sig/ *pr_sum);
+    }
+  else return(1);
+  *pr_pos = *pr_pos -1.0;
+  return(0);
+}
+
+//**********************************************************************************
 
 void f_find_peaks(
         void   *pfData,     // pointer to data
@@ -283,63 +343,5 @@ void f_find_peaks(
   free(plMinimaL);
   free(pdData);
   free(pdNoise);
-}
-//**********************************************************************************
-int f_position(int l_len,double *pa_data,double *pr_pos,double *pr_sig, double *pr_sum)
-{
-
-#define LOW  2
-#define WIDTH  8
-
-  double r_sig_f     ;
-  int I,J,K,L     ;
-  double d_sum_prod  ;
-  double l_max_chan  ;
-  double *pl_data,d_max    ;
-
-  /* 2.0E2*SQRT(2.0E0*LOG(2.0E0))/100. */;
-  r_sig_f      = 55.4518;
-  r_sig_f      = 2.;
-  *pr_sum   = 0;
-  d_sum_prod   = 0;
-  *pr_sig      = 0.;
-  *pr_pos      = 0.;
-  d_max=0.0;
-
-  /* get maximum channel content and integral */
-  /*  pl_data = pa_data;
-      for(J = 0; J < l_len; J++)
-      {
-      if(d_max < *pl_data)
-      {
-      d_max = *pl_data;
-      l_max_chan = J;
-      }
-      pl_data++;
-      }
-  */
-  /* Calculate first momentum */
-  pl_data = pa_data;
-  for(J = 1; J <= l_len; J++)
-    {
-      *pr_sum = *pr_sum +     *pl_data;
-      d_sum_prod = d_sum_prod + J * *pl_data;
-      pl_data++;
-    }
-  /* Calculate second momentum */
-  if(*pr_sum > 0)
-    {
-      *pr_pos = (d_sum_prod/ *pr_sum + 0.5);
-      pl_data = pa_data;
-      for(J = 1; J <= l_len; J++)
-   {
-     *pr_sig = *pr_sig + ((double)J - *pr_pos) * ((double)J - *pr_pos) * *pl_data;
-     pl_data++;
-   }
-      *pr_sig = r_sig_f * sqrt(*pr_sig/ *pr_sum);
-    }
-  else return(1);
-  *pr_pos = *pr_pos -1.0;
-  return(0);
 }
 /** END f_position C Procedure ******************************************/

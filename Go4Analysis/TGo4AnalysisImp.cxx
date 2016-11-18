@@ -2101,7 +2101,8 @@ TGo4ShapedCond* TGo4Analysis::MakeEllipseCond(const char* fullname,
        AddAnalysisCondition(econd, foldername.Data());
      else
        AddAnalysisCondition(econd);
-       fbObjMade = kTRUE;
+
+    fbObjMade = kTRUE;
 
     return econd;
 }

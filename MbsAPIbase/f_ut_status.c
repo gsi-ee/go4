@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -33,6 +33,7 @@
 #include "s_set_ml.h"
 #include "s_set_mo.h"
 #include "f_stccomm.h"
+#include "f_swaplw.h"
 
 #define VERSION__DAQST  63
 #define VERSION__SETUP  63
@@ -865,7 +866,7 @@ l_cmd=4;
 l_status = f_stc_write (&l_cmd,4, l_tcp);  if (l_status != STC__SUCCESS) return(-1);
 l_status = f_stc_read (ps_set_mo,16,l_tcp,-1); if (l_status != STC__SUCCESS) return(-1);
 if(ps_set_mo->l_endian != 1) l_swap=1;
-if(l_swap) l_status = f_swaplw(ps_set_mo,4,NULL);
+if(l_swap) l_status = f_swaplw((INTS4*)ps_set_mo,4,NULL);
 
 l_status = f_stc_read (&ps_set_mo->l_max_nodes,(ps_set_mo->l_set_mo_lw-4)*4,  l_tcp,-1);
 if(l_swap) l_status = f_swaplw(&ps_set_mo->l_max_nodes,ps_set_mo->l_swap_lw-4,NULL);

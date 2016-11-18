@@ -334,55 +334,51 @@ TFolder * TGo4AnalysisObjectManager::CreateCompositeBranchFolder(TObjArray* bran
             branchname.Resize(leng-1); // strip dot from branchname
             //std::cout <<"searching for composite sub event "<< branchname.Data() << std::endl;
             if(csubevents!=0)
-               subevent = dynamic_cast<TGo4CompositeEvent *>(csubevents->FindObject(branchname.Data()));
+            	subevent = dynamic_cast<TGo4CompositeEvent *>(csubevents->FindObject(branchname.Data()));
 
-               if((subevent!=0) && subevent->getNElements()>0)
-               {
-                  //std::cout <<"found composite subevent "<< subevent->GetName() << std::endl;
-                  // found subbranch, add it to folder struct
+            if((subevent!=0) && subevent->getNElements()>0) {
+            	//std::cout <<"found composite subevent "<< subevent->GetName() << std::endl;
+            	// found subbranch, add it to folder struct
 
-                  subnames=CreateCompositeBranchFolder(branchlist,
-                        subevent,
-                        i+offset+1, &skippedentries,
-                        subevent->GetName(),
-                        subevent->GetTitle());
-                  nameslist->AddLast(subnames);
-                  offset+=skippedentries;
-                  //std::cout <<"skipped:"<<skippedentries<<", i:"<<i << std::endl;
-                  //std::cout <<"offset:"<<offset<< std::endl;
-                  // now process subbranchlist currentbranchlist of compevent,
-                  // add members of this folder to existing folder subnames!
-                  TFolder* temp=CreateBranchFolder(currentbranchlist,
-                        "dummy",
-                        "dummy");
-                  subnames->GetListOfFolders()->AddAll(temp->GetListOfFolders());
-
-
-               }
-               else
-               {
-                  //std::cout <<"composite subevent is basic member..." << std::endl;
-                  // subevent not in list, normal operation:
-                  //state=new TGo4ObjectStatus(dynamic_cast<TNamed*> (entry) );
-                  //nameslist->AddLast(state);
-                  if(currentbranchlist!=0)
-                  {
-                     if(currentbranchlist->IsEmpty())
-                     {
-                        // subbranchlist is empty, add status object to folder
-                        state=new TGo4BranchStatus(currentbranch);
-                        nameslist->AddLast(state);
-                     }
-                     else
-                     {
-                        subnames=CreateBranchFolder(currentbranchlist,
-                              currentbranch->GetName(),
-                              currentbranch->GetTitle());
-                        nameslist->AddLast(subnames);
-                     }
-                  } // if(currentbranchlist)
-               } //if(subevent && subevent->getNElements()>0)
-
+            	subnames=CreateCompositeBranchFolder(branchlist,
+            			subevent,
+						i+offset+1, &skippedentries,
+						subevent->GetName(),
+						subevent->GetTitle());
+            	nameslist->AddLast(subnames);
+            	offset+=skippedentries;
+            	//std::cout <<"skipped:"<<skippedentries<<", i:"<<i << std::endl;
+            	//std::cout <<"offset:"<<offset<< std::endl;
+            	// now process subbranchlist currentbranchlist of compevent,
+            	// add members of this folder to existing folder subnames!
+            	TFolder* temp=CreateBranchFolder(currentbranchlist,
+            			"dummy",
+						"dummy");
+            	subnames->GetListOfFolders()->AddAll(temp->GetListOfFolders());
+            }
+            else
+            {
+            	//std::cout <<"composite subevent is basic member..." << std::endl;
+            	// subevent not in list, normal operation:
+            	//state=new TGo4ObjectStatus(dynamic_cast<TNamed*> (entry) );
+            	//nameslist->AddLast(state);
+            	if(currentbranchlist!=0)
+            	{
+            		if(currentbranchlist->IsEmpty())
+            		{
+            			// subbranchlist is empty, add status object to folder
+            			state=new TGo4BranchStatus(currentbranch);
+            			nameslist->AddLast(state);
+            		}
+            		else
+            		{
+            			subnames=CreateBranchFolder(currentbranchlist,
+            					currentbranch->GetName(),
+								currentbranch->GetTitle());
+            			nameslist->AddLast(subnames);
+            		}
+            	} // if(currentbranchlist)
+            } //if(subevent && subevent->getNElements()>0)
          }   //  if(cl  && cl->InheritsFrom(TGo4CompositeEvent))
          else
          {
