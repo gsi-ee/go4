@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -59,6 +59,8 @@
 /*1- C Procedure *************+****************************************/
 
 #include "f_his_toupper.h"
+
+#include <ctype.h>
 
 void f_his_toupper(CHARS* c, INTS4 i)
 /* +++ convert string to uppercase, max i char +++ */
