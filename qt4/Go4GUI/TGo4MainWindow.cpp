@@ -3815,6 +3815,8 @@ void TGo4MainWindow::ConfigureAnalysisMacros()
   for(int i=0; i<GO4GUI_MAXMACRONUM;++i)
      {
       faAnalysisMacroActions[i]->setEnabled(true); // need to activate all buttons in this mode!
+      fAnalysisMacroMonitorCheck[i]->setEnabled(true);
+
      }
 
 // the rest is handled in the button slots themselves!
