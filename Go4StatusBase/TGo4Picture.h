@@ -278,8 +278,8 @@ class TGo4Picture : public TNamed {
       void SetXYRatioOne(Bool_t on);
       Bool_t IsXYRatioOne();
 
-      void SetDefaultRatio(Bool_t on);
-      Bool_t CheckDefaultRatio();
+//      void SetDefaultRatio(Bool_t on);
+//      Bool_t CheckDefaultRatio();
 
       void SetPadAtt(Int_t BorderMode,
                      Int_t BorderSize,

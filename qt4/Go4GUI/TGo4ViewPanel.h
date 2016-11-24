@@ -264,6 +264,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void ProcessPadModifiedSignal();
       virtual void RedrawPanel( TPad * pad, bool force );
       virtual void checkRepaintSlot();
+      virtual void checkResizeSlot();
       virtual void OptionsMenuItemActivated(int);
       virtual void SelectMenuItemActivated(int);
       virtual void ApplyToAllToggled(bool);
@@ -290,6 +291,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       QStatusBar *CanvasStatus;
       bool fbApplyToAllFlag;
       TPad* fxRepaintTimerPad;
+      TPad* fxResizeTimerPad;
       TPad* fxDoubleClickTimerPad;
       int fiMouseMode;
       int fiPickCounter;

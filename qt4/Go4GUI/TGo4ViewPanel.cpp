@@ -68,6 +68,8 @@
 #include <QMenu>
 #include <QtCore/QSignalMapper>
 
+#include <QTimer>
+
 #include "QRootWindow.h"
 #include "QRootCanvas.h"
 #include "QRootApplication.h"
@@ -111,6 +113,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    fbEditorFrameVisible = false;
    fiSkipRedrawCounter = 0;
    fxRepaintTimerPad = 0;
+   fxResizeTimerPad = 0;
    fxDoubleClickTimerPad = 0;
    fbFreezeTitle = false;
    fFreezedTitle = "";
@@ -1915,33 +1918,88 @@ void TGo4ViewPanel::StartConditionEditor()
 void TGo4ViewPanel::RectangularRatio(TPad *pad)
 {
    if (pad == 0) return;
+  
+   double defleft =gStyle->GetPadLeftMargin(); // always refer to ideal margins
+   double defright =gStyle->GetPadRightMargin();
+   double deftop =gStyle->GetPadTopMargin();
+   double defbottom =gStyle->GetPadBottomMargin();
 
    double dx = fabs(pad->AbsPixeltoX(1) - pad->AbsPixeltoX(0));
    double dy = fabs(pad->AbsPixeltoY(1) - pad->AbsPixeltoY(0));
-
+   //std::cout <<"-- dx:"<<dx<<", dy:"<<dy<< std::endl;
    if ((dx <= 0) || (dy <= 0)) return;
-
    double ratio = dx / dy;
+   //std::cout <<"-- Ratio is:"<<ratio<< std::endl;
+   if(fabs(1.0-ratio) < 1.0E-3)
+   {
+     //std::cout <<"DO NOT CHANGE!"<< std::endl;
+     return; // do not change margins again!
+   }
+
 
    if (ratio < 1.) {
-      double left = pad->GetLeftMargin();
-      double right = pad->GetRightMargin();
-      double change = (1. - left - right) * (1 - ratio);
-      pad->SetLeftMargin(left + change / 2.);
-      pad->SetRightMargin(right + change / 2.);
+
+     double left = pad->GetLeftMargin();
+     double right = pad->GetRightMargin();
+     double change = (1. - left - right) * (1 - ratio);
+     //std::cout <<"-- left:"<<left<<", right:"<<right<<", change:"<<change<< std::endl;
+     double newleft=left + change / 2.;
+     double newright=right + change / 2.;
+     double newtop= pad->GetTopMargin();
+     double newbottom= pad->GetBottomMargin();
+     //std::cout << " -- newleft"<<newleft<<", newright"<<newright;
+     //std::cout <<"newtop:"<<newtop<<", newbottom:"<<newbottom<< std::endl;
+     double shrink=newtop- deftop; // zoom everything consistent to the default margins
+     if(shrink>newleft-defleft) shrink=newleft-defleft; // avoid exceeding default boundaries
+     if(shrink>newright-defright) shrink=newright-defright; // avoid exceeding default boundaries
+
+     // now scale all margins up to the point that any margin reaches default margin:
+     newtop=newtop-shrink;
+     newbottom=newbottom-shrink;
+     newleft=newleft-shrink;
+     newright=newright-shrink;
+     //std::cout << "after shrink="<<shrink<<" :";
+     //std::cout << " -- newleft"<<newleft<<", newright"<<newright;
+     //std::cout <<"newtop:"<<newtop<<", newbottom:"<<newbottom<< std::endl;
+
+      pad->SetLeftMargin(newleft);
+      pad->SetRightMargin(newright);
+      pad->SetTopMargin(newtop);
+      pad->SetBottomMargin(newbottom);
    } else {
-      double bottom = pad->GetBottomMargin();
-      double top = pad->GetTopMargin();
+
+       double bottom = pad->GetBottomMargin();
+       double top = pad->GetTopMargin();
       double change = (1. - bottom - top) * (1. - 1 / ratio);
-      pad->SetTopMargin(top + change / 2.);
-      pad->SetBottomMargin(bottom + change / 2.);
+      //std::cout <<"-- left:"<<left<<", right:"<<right<<", change:"<<change<< std::endl;
+      double newleft=pad->GetLeftMargin();
+      double newright=pad->GetRightMargin();
+      double newtop= top + change / 2.;
+      double newbottom= bottom + change / 2.;
+      //std::cout << " -- newleft"<<newleft<<", newright"<<newright;
+      //std::cout <<"newtop:"<<newtop<<", newbottom:"<<newbottom<< std::endl;
+      double shrink=newleft - defleft;
+      if(shrink>newtop-deftop) shrink=newtop-deftop; // avoid exceeding default boundaries
+      if(shrink>newbottom-defbottom) shrink=newbottom-defbottom; // avoid exceeding default boundaries
+      // now scale all margins up to the point that any margin reaches default margin:
+      newtop=newtop - shrink;
+      newbottom=newbottom -shrink;
+      newleft=newleft- shrink;
+      newright=newright - shrink;
+      //std::cout << "after shrink="<<shrink<<" :";
+      //std::cout << " -- newleft"<<newleft<<", newright"<<newright;
+      //std::cout <<"newtop:"<<newtop<<", newbottom:"<<newbottom<< std::endl;
+
+      pad->SetTopMargin(newtop);
+      pad->SetBottomMargin(newbottom);
+      pad->SetLeftMargin(newleft);
+      pad->SetRightMargin(newright);
    }
 }
 
 void TGo4ViewPanel::DefaultPadMargin(TPad *pad)
 {
    if (pad == 0) return;
-
    pad->SetLeftMargin(gStyle->GetPadLeftMargin());
    pad->SetRightMargin(gStyle->GetPadRightMargin());
    pad->SetTopMargin(gStyle->GetPadTopMargin());
@@ -4987,10 +5045,15 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
    xax->SetTimeFormat(padopt->GetXAxisTimeFormat());
 
    // JAM 2016 finally we evaluate the rectangular axis scale property:
-   if (padopt->IsXYRatioOne()) RectangularRatio(pad); else
-   if (padopt->CheckDefaultRatio()) DefaultPadMargin(pad);
-
-   padopt->SetDefaultRatio(kFALSE); // can be handled only once
+   //std::cout<< "SetSelectedRangeToHisto - 1:1 is "<< padopt->IsXYRatioOne()<< std::endl;
+   if (padopt->IsXYRatioOne())
+   {
+     RectangularRatio(pad);
+   }
+   else
+   {
+     DefaultPadMargin(pad);
+    }
 }
 
 bool TGo4ViewPanel::GetVisibleRange(TPad* pad, int naxis, double& min, double& max)
@@ -5280,9 +5343,28 @@ void TGo4ViewPanel::SetSelectedRange(double xmin, double xmax, double ymin,
 
 void TGo4ViewPanel::resizeEvent(QResizeEvent * e)
 {
-   // store size of top widget -
+
+  // store size of top widget -
    // size of top widget will be restored when new panel is created
    go4sett->storePanelSize(parentWidget(), "ViewPanel");
+   //std::cout<< "TGo4ViewPanel::resizeEvent"<<std::endl;
+   TPad* selpad = IsApplyToAllFlag() ? GetCanvas() : GetActivePad();
+     if (selpad == 0)
+        return;
+   // only if we are in 1:1 aspect ratio, we might need a redraw here:
+   TGo4Slot* slot = GetPadSlot(selpad);
+   if (slot == 0) return;
+   TGo4Picture* padopt = GetPadOptions(slot);
+   if (padopt == 0) return;
+
+   if (padopt->IsXYRatioOne())
+   {
+     //std::cout<< "TGo4ViewPanel::resizeEvent with ratio :1"<<std::endl;
+     // note: we need to delay execution of redraw, since resize Event in QtROOT canvas will
+     // also happen in timer 100ms after us -> new coordinates are not refreshed here!
+     fxResizeTimerPad=selpad;
+     QTimer::singleShot(1000, this, SLOT(checkResizeSlot()));
+   }
 }
 
 
@@ -5353,6 +5435,14 @@ void TGo4ViewPanel::checkRepaintSlot()
    fxRepaintTimerPad = 0;
    if (pad != 0)
       RedrawPanel(pad, false);
+}
+
+void TGo4ViewPanel::checkResizeSlot()
+{
+   TPad* pad = fxResizeTimerPad;
+   fxResizeTimerPad = 0;
+   if (pad != 0)
+      RedrawPanel(pad, true);
 }
 
 void TGo4ViewPanel::PadDeleted(TPad* pad)

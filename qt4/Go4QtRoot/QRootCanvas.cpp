@@ -370,6 +370,7 @@ void QRootCanvas::activateRepaint(int mode)
 
 void QRootCanvas::resizeEvent( QResizeEvent *)
 {
+  //std::cout<< "QRootCanvas::resizeEvent"<<std::endl;
    activateRepaint(act_Resize);
 }
 
@@ -389,7 +390,8 @@ void QRootCanvas::paintEvent( QPaintEvent *)
 void QRootCanvas::processRepaintTimer()
 {
    if (fRepaintMode == 0) return;
-    //printf("processRepaintTimer with fRepaintMode %d",fRepaintMode);
+   //std::cout<< " QRootCanvas::processRepaintTimer()"<<std::endl;
+    //printf("processRepaintTimer with fRepaintMode %d\n",fRepaintMode);
     TGo4LockGuard threadlock;
 
    WId newid = winId();

@@ -21,7 +21,7 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v5.1.x (Summer 2016)
+Changes in Go4 v5.1.x (Fall 2016)
 1. Handle mouse wheel events in QtRoot interface, used in ROOT zooming
 2. Bugfix in parameter Editor: format string precision for Float_t, Double_t, and Double32_t was reduced to defaults. 
    Now it supports full range of data type and exponential formatting. 
@@ -30,7 +30,13 @@ Changes in Go4 v5.1.x (Summer 2016)
    Default shortcuts Ctrl-1 ... Ctrl-9 allow fast keyboard interaction.  
 4. Qt4 GUI: improvement in main window status message: Ratemeter will clear message when updating, 
    no message display timeout anymore. Solves problem of gui messages still visible behind ratemeter counters. 
-
+5. Qt4/5 GUI: Modified qtroot interface and gui viewpanel to take into account optional 
+   Qt5 high dpi scaling factors set by QT_SCALE_FACTOR environment variable (Qt> 5.6.x only).
+6. Qt4/5 GUI: Improved display of 1:1 coordinate ration for 2d histograms. 
+   Aspect ratio of the selected pad will be automatically re-adjusted when resizing the viewpanel.
+   Beside, the histogram borders will be expanded to use maximum margins of the pad.
+   
+   
 Changes in Go4 v5.1.2 (May 2016)
 1. Let configure default line width for objects draw. Useful for 4K monitors,
    where default line width (=1) is too tiny.  

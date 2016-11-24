@@ -757,17 +757,17 @@ Bool_t  TGo4Picture::IsXYRatioOne()
     return value;
 }
 
-void TGo4Picture::SetDefaultRatio(Bool_t on)
-{
-   SetOption (PictureIndex, op_DefaultRatio, on);
-}
-
-Bool_t TGo4Picture::CheckDefaultRatio()
-{
-   Long_t value=0;
-   GetOption(PictureIndex, op_DefaultRatio, value);
-   return value;
-}
+//void TGo4Picture::SetDefaultRatio(Bool_t on)
+//{
+//   SetOption (PictureIndex, op_DefaultRatio, on);
+//}
+//
+//Bool_t TGo4Picture::CheckDefaultRatio()
+//{
+//   Long_t value=0;
+//   GetOption(PictureIndex, op_DefaultRatio, value);
+//   return value;
+//}
 
 
 void TGo4Picture::SetAxisAtt(Int_t naxis,
@@ -1254,7 +1254,7 @@ void TGo4Picture::ChangeDrawOption(Int_t kind, Int_t value)
       case 15: SetXAxisTimeDisplay(value!=0); break;
       case 17:
          SetXYRatioOne(value!=0);
-         if (value==0) SetDefaultRatio(true); //
+         //if (value==0) SetDefaultRatio(true); //
          break;
 
    }
