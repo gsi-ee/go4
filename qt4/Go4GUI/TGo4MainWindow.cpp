@@ -487,6 +487,9 @@ void TGo4MainWindow::AddSettingMenu()
    faWindowRubberBand = AddChkAction(prefMenu, "Rubberband when moving windows",
                                 go4sett->getMoveSubwindowRubberBand(), this, SLOT(ChangeWindowRubberBandSlot()));
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,6,0)
+   prefMenu->addAction("GUI HighDPI Scale factor...", this, SLOT(ScaleFactorSlot()));
+#endif
 
    QMenu* panelMenu = settMenu->addMenu("&Panel defaults");
 
@@ -1731,6 +1734,22 @@ void TGo4MainWindow::PaletteSettingsSlot()
        // activate settings immediately, do not need to restart go4
        fxStyle->SetPaletteRange(min,def,max);
      }
+}
+
+
+void TGo4MainWindow::ScaleFactorSlot()
+{
+#if QT_VERSION >= QT_VERSION_CHECK(5,6,0)
+  double w = go4sett->getScreenScaleFactor();
+
+ bool ok = false;
+
+ w = QInputDialog::getDouble(this,
+                              "HighDPI scaling",
+                              "Please set scale factor. Restart GUI to apply!",
+                               w, 0, 50, 1, &ok);
+ if (ok) go4sett->setScreenScaleFactor(w);
+#endif
 }
 
 

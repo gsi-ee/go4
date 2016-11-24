@@ -1028,5 +1028,12 @@ void    TGo4QSettings::setAnalysisMacroTip(int id, const QString& com)
   setStr(descriptor, com);
 }
 
-
+double  TGo4QSettings::getScreenScaleFactor()
+{
+  return getDouble("/Screen/ScaleFactor", 1.0);
+}
+void    TGo4QSettings::setScreenScaleFactor(double factor)
+{
+  setDouble( "/Screen/ScaleFactor", factor);
+}
 

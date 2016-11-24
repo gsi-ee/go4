@@ -164,6 +164,55 @@ int main(int argc, char **argv)
 
    argc = 1; // hide all additional parameters from ROOT and Qt
 
+
+   ///////////// Define the GO4 Settings. //////////////////////
+     // has to be done here, since mainwindow components have local
+     // settings access before mainwindow init is executed!
+     // Default is to use current directory. Environment variable
+     // GO4SETTINGS can be set to a certain go4 setup location
+     // if GO4SETTINGS contains the "ACCOUNT" keyword, we use the
+     // qt default to have the settings in $HOME/.config/GSI
+     /////////////////JAM-  new for Qt 4.4: no search path anymore!
+     // we may store window geometries to local folder (or into user path, or into account path),
+     // the rest is in the account settings since we cannot specify user path anymore
+     // (will be in $HOME/.config/GSI/go4.conf)
+
+     const char* _env = gSystem->Getenv("GO4SETTINGS");
+
+     QString settfile;
+     if (_env!=0) settfile = _env;
+
+     if(iswin32 || settfile.isEmpty() || settfile.contains("ACCOUNT")) {
+        settfile = "";
+        // do nothing, it is default location in .config/GSI/go4.conf
+     } else {
+        if (settfile.contains("LOCAL")) settfile = QDir::currentPath() + "/go4.conf";
+        QString subdir = QFileInfo(settfile).absolutePath();
+        // if there is no write access to directory where setting file should be placed,
+        // default directory will be used
+        if (gSystem->AccessPathName(subdir.toLatin1().constData(),kWritePermission))
+           settfile = "";
+     }
+
+     go4sett = new TGo4QSettings(settfile);
+
+////// end settings setup ///////////////////////////////
+ if(traceon) TGo4Log::SetIgnoreLevel(0);
+             else TGo4Log::SetIgnoreLevel(1);
+
+print_go4_version();
+
+
+#if QT_VERSION >= QT_VERSION_CHECK(5,6,0)
+   // first thing to set is screen scale factor for Qt>5.6
+   double scalefactor=go4sett->getScreenScaleFactor();
+
+   std::cout << "Use Screen scale factor "<<scalefactor<<" from settings." << std::endl;
+   gSystem->Setenv("QT_SCALE_FACTOR",QString("%1").arg(scalefactor).toLatin1 ().constData ());
+#endif
+
+
+
    TApplication app("uno", &argc, argv); // ROOT application
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -205,45 +254,9 @@ int main(int argc, char **argv)
    // ShowGuideLines cases crashes - it has stored gpad in static variable
    gEnv->SetValue("Canvas.ShowGuideLines", 0);
 
-   ///////////// Define the GO4 Settings. //////////////////////
-   // has to be done here, since mainwindow components have local
-   // settings access before mainwindow init is executed!
-   // Default is to use current directory. Environment variable
-   // GO4SETTINGS can be set to a certain go4 setup location
-   // if GO4SETTINGS contains the "ACCOUNT" keyword, we use the
-   // qt default to have the settings in $HOME/.config/GSI
-   /////////////////JAM-  new for Qt 4.4: no search path anymore!
-   // we may store window geometries to local folder (or into user path, or into account path),
-   // the rest is in the account settings since we cannot specify user path anymore
-   // (will be in $HOME/.config/GSI/go4.conf)
 
-   const char* _env = gSystem->Getenv("GO4SETTINGS");
-
-   QString settfile;
-   if (_env!=0) settfile = _env;
-
-   if(iswin32 || settfile.isEmpty() || settfile.contains("ACCOUNT")) {
-      settfile = "";
-      // do nothing, it is default location in .config/GSI/go4.conf
-   } else {
-      if (settfile.contains("LOCAL")) settfile = QDir::currentPath() + "/go4.conf";
-      QString subdir = QFileInfo(settfile).absolutePath();
-      // if there is no write access to directory where setting file should be placed,
-      // default directory will be used
-      if (gSystem->AccessPathName(subdir.toLatin1().constData(),kWritePermission))
-         settfile = "";
-   }
-
-   go4sett = new TGo4QSettings(settfile);
-
-   /////// end settings setup ///////////////////////////////
-   if(traceon) TGo4Log::SetIgnoreLevel(0);
-          else TGo4Log::SetIgnoreLevel(1);
-
-   print_go4_version();
 
    // create instance, which should be used everywhere
-
    TGo4MainWindow* Go4MainGUI = new TGo4MainWindow(&myapp);
 
    myapp.connect(&myapp, SIGNAL(lastWindowClosed()), &myapp, SLOT(quit()));

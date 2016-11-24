@@ -159,6 +159,8 @@ class TGo4MainWindow : public QMainWindow {
       // JAM2016: new -  for predefined analysis macros by id:
       void ConfigureAnalysisMacros();
 
+
+
       // default slots for macro buttons:
 
       void ExecuteAnalysisMacro_1();
@@ -177,6 +179,8 @@ class TGo4MainWindow : public QMainWindow {
       void ClearAnalysisMacros();
       void ResetAnalysisMacros();
 
+      // modify default highdpi scaling
+      void ScaleFactorSlot();
 
       // starting editors slots
       TGo4FitPanel* StartFitPanel();

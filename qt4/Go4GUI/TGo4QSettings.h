@@ -276,6 +276,10 @@ class TGo4QSettings {
       void    setAnalysisMacroCommand(int id, const QString& com);
       void    setAnalysisMacroTip(int id, const QString& com);
 
+      /** for Qt>5.6: factor to scale up whole gui on high dpi screens*/
+      double  getScreenScaleFactor();
+      void    setScreenScaleFactor(double factor);
+
 
 };
 
