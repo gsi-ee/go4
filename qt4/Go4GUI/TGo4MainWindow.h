@@ -18,6 +18,8 @@
 
 #include <QCloseEvent>
 
+#include <QCheckBox>
+
 class QApplication;
 
 class QGo4Widget;
@@ -47,6 +49,11 @@ class TGo4ServerProxy;
 class QAction;
 class QSignalMapper;
 class QMenu;
+
+class QSpinBox;
+class QPushButton;
+
+
 
  /** This is the Go4 Main Window
    * @author Mohammad Al-Turany, modifications J.Adamczewski, S.Linev
@@ -179,6 +186,10 @@ class TGo4MainWindow : public QMainWindow {
       void ClearAnalysisMacros();
       void ResetAnalysisMacros();
 
+
+      void AnalysisMacroMonitorBtn_clicked();
+      void AnalysisMacroMonitorTimeout();
+
       // modify default highdpi scaling
       void ScaleFactorSlot();
 
@@ -307,6 +318,14 @@ class TGo4MainWindow : public QMainWindow {
       std::vector<QAction*>   faAnalysisMacroActions;
       std::vector<QString>    fAnalysisMacroCommands;
       bool fbAnalysisMacroConfigMode;
+
+
+      QTimer* fAnalysisMacroTimer;
+      QSpinBox* fAnalysisMacroTimeSpin;
+      std::vector<QCheckBox*> fAnalysisMacroMonitorCheck;
+      QPushButton* fAnalysisMacroMonitorButton;
+
+
 
 };
 

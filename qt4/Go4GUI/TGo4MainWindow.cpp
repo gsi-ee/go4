@@ -3580,88 +3580,213 @@ void TGo4MainWindow::CreateGUIScriptSlot()
 
 
 ////////////// here functions for predefined analysis macros JAM2016
+// TODO: export this functionality in own gui subclass
+// this may allow to use qt designer for improved handling...
 
 void TGo4MainWindow::AddAnalysisMacrosBar()
 {
 
-    fAnalysisMacroBar = addToolBar( "Analysis Command Buttons" );
-    fAnalysisMacroBar->setObjectName("AnalysisCommandToolBar");
-    ResetAnalysisMacros();
-    // for the moment, we always show 9 buttons that might not all be ready:
-    QAction* act;
-
+  fAnalysisMacroBar = addToolBar("Analysis Command Buttons");
+  fAnalysisMacroBar->setObjectName("AnalysisCommandToolBar");
+  ResetAnalysisMacros();
+  // for the moment, we always show 9 buttons that might not all be ready:
+  QAction* act;
+  QCheckBox* checkbox;
 //    act=fAnalysisMacroBar->addAction( QIcon( ":/icons/OK16.png" ), go4sett->getAnalysisMacroTip(0),
 //                            this, SLOT(ExecuteAnalysisMacro_0()));
 
-    // TODO: maybe invent several icons with different colors here. text color of single actions is not simply changeable
+  // TODO: maybe invent several icons with different colors here. text color of single actions is not simply changeable
 
-    act=fAnalysisMacroBar->addAction( QString("C1"),
-                                  this, SLOT(ExecuteAnalysisMacro_1()));
-    act->setEnabled(false);
-    faAnalysisMacroActions.push_back(act);
+  act = fAnalysisMacroBar->addAction(QString("C1"), this, SLOT(ExecuteAnalysisMacro_1()));
+  act->setEnabled(false);
+  faAnalysisMacroActions.push_back(act);
 
-    act=fAnalysisMacroBar->addAction( QString("C2" ),
-                                 this, SLOT(ExecuteAnalysisMacro_2()));
-     act->setEnabled(false);
-    faAnalysisMacroActions.push_back(act);
+  // each button gets monitoring selector:
+  checkbox = new QCheckBox(this);
+  checkbox->setChecked(false);
+  checkbox->setEnabled(false);
+  fAnalysisMacroMonitorCheck.push_back(checkbox);
+  fAnalysisMacroBar->addWidget(checkbox);
+  fAnalysisMacroBar->addSeparator();
 
+  act = fAnalysisMacroBar->addAction(QString("C2"), this, SLOT(ExecuteAnalysisMacro_2()));
+  act->setEnabled(false);
+  faAnalysisMacroActions.push_back(act);
 
-    act=fAnalysisMacroBar->addAction( QString("C3" ),
-                                  this, SLOT(ExecuteAnalysisMacro_3()));
-    act->setEnabled(false);
-    faAnalysisMacroActions.push_back(act);
+  // each button gets monitoring selector:
+  checkbox = new QCheckBox(this);
+  checkbox->setChecked(false);
+  checkbox->setEnabled(false);
+  fAnalysisMacroMonitorCheck.push_back(checkbox);
+  fAnalysisMacroBar->addWidget(checkbox);
+  fAnalysisMacroBar->addSeparator();
 
-    act=fAnalysisMacroBar->addAction( QString("C4" ),
-                                    this, SLOT(ExecuteAnalysisMacro_4()));
-    act->setEnabled(false);
-    faAnalysisMacroActions.push_back(act);
+  act = fAnalysisMacroBar->addAction(QString("C3"), this, SLOT(ExecuteAnalysisMacro_3()));
+  act->setEnabled(false);
+  faAnalysisMacroActions.push_back(act);
 
-    act=fAnalysisMacroBar->addAction( QString("C5" ),
-                                  this, SLOT(ExecuteAnalysisMacro_5()));
-    act->setEnabled(false);
-    faAnalysisMacroActions.push_back(act);
+  // each button gets monitoring selector:
+  checkbox = new QCheckBox(this);
+  checkbox->setChecked(false);
+  checkbox->setEnabled(false);
+  fAnalysisMacroMonitorCheck.push_back(checkbox);
+  fAnalysisMacroBar->addWidget(checkbox);
+  fAnalysisMacroBar->addSeparator();
 
-    act=fAnalysisMacroBar->addAction( QString("C6" ),
-                                    this, SLOT(ExecuteAnalysisMacro_6()));
-    act->setEnabled(false);
-    faAnalysisMacroActions.push_back(act);
+  act = fAnalysisMacroBar->addAction(QString("C4"), this, SLOT(ExecuteAnalysisMacro_4()));
+  act->setEnabled(false);
+  faAnalysisMacroActions.push_back(act);
 
-    act=fAnalysisMacroBar->addAction( QString("C7" ),
-                                     this, SLOT(ExecuteAnalysisMacro_7()));
-    act->setEnabled(false);
-    faAnalysisMacroActions.push_back(act);
+  // each button gets monitoring selector:
+  checkbox = new QCheckBox(this);
+  checkbox->setChecked(false);
+  checkbox->setEnabled(false);
+  fAnalysisMacroMonitorCheck.push_back(checkbox);
+  fAnalysisMacroBar->addWidget(checkbox);
+  fAnalysisMacroBar->addSeparator();
 
-    act=fAnalysisMacroBar->addAction( QString("C8" ),
-                                       this, SLOT(ExecuteAnalysisMacro_8()));
-    act->setEnabled(false);
-    faAnalysisMacroActions.push_back(act);
+  act = fAnalysisMacroBar->addAction(QString("C5"), this, SLOT(ExecuteAnalysisMacro_5()));
+  act->setEnabled(false);
+  faAnalysisMacroActions.push_back(act);
 
+  // each button gets monitoring selector:
+  checkbox = new QCheckBox(this);
+  checkbox->setChecked(false);
+  checkbox->setEnabled(false);
+  fAnalysisMacroMonitorCheck.push_back(checkbox);
+  fAnalysisMacroBar->addWidget(checkbox);
+  fAnalysisMacroBar->addSeparator();
 
-    act=fAnalysisMacroBar->addAction( QString("C9" ),
-                                          this, SLOT(ExecuteAnalysisMacro_9()));
-    act->setEnabled(false);
-    faAnalysisMacroActions.push_back(act);
+  act = fAnalysisMacroBar->addAction(QString("C6"), this, SLOT(ExecuteAnalysisMacro_6()));
+  act->setEnabled(false);
+  faAnalysisMacroActions.push_back(act);
 
-    // now fill the actions with custom commands and tool tips:
+  // each button gets monitoring selector:
+  checkbox = new QCheckBox(this);
+  checkbox->setChecked(false);
+  checkbox->setEnabled(false);
+  fAnalysisMacroMonitorCheck.push_back(checkbox);
+  fAnalysisMacroBar->addWidget(checkbox);
+  fAnalysisMacroBar->addSeparator();
 
+  act = fAnalysisMacroBar->addAction(QString("C7"), this, SLOT(ExecuteAnalysisMacro_7()));
+  act->setEnabled(false);
+  faAnalysisMacroActions.push_back(act);
 
+  // each button gets monitoring selector:
+  checkbox = new QCheckBox(this);
+  checkbox->setChecked(false);
+  checkbox->setEnabled(false);
+  fAnalysisMacroMonitorCheck.push_back(checkbox);
+  fAnalysisMacroBar->addWidget(checkbox);
+  fAnalysisMacroBar->addSeparator();
 
-    for(int i=0; i<GO4GUI_MAXMACRONUM;++i)
+  act = fAnalysisMacroBar->addAction(QString("C8"), this, SLOT(ExecuteAnalysisMacro_8()));
+  act->setEnabled(false);
+  faAnalysisMacroActions.push_back(act);
+
+  // each button gets monitoring selector:
+  checkbox = new QCheckBox(this);
+  checkbox->setChecked(false);
+  checkbox->setEnabled(false);
+  fAnalysisMacroMonitorCheck.push_back(checkbox);
+  fAnalysisMacroBar->addWidget(checkbox);
+  fAnalysisMacroBar->addSeparator();
+
+  act = fAnalysisMacroBar->addAction(QString("C9"), this, SLOT(ExecuteAnalysisMacro_9()));
+  act->setEnabled(false);
+  faAnalysisMacroActions.push_back(act);
+
+  // each button gets monitoring selector:
+  checkbox = new QCheckBox(this);
+  checkbox->setChecked(false);
+  checkbox->setEnabled(false);
+  fAnalysisMacroMonitorCheck.push_back(checkbox);
+  fAnalysisMacroBar->addWidget(checkbox);
+  fAnalysisMacroBar->addSeparator();
+
+  // now fill the actions with custom commands and tool tips:
+
+  for (int i = 0; i < GO4GUI_MAXMACRONUM; ++i)
+  {
+    faAnalysisMacroActions[i]->setEnabled(false);
+    int butid = i + 1;
+    faAnalysisMacroActions[i]->setShortcut(QString("Ctrl+%1").arg(butid));
+    QString com = go4sett->getAnalysisMacroCommand(i);
+    if (com.isEmpty())
     {
-      faAnalysisMacroActions[i]->setEnabled(false);
-      int butid=i+1;
-      faAnalysisMacroActions[i]->setShortcut(QString("Ctrl+%1").arg(butid));
-      QString com=go4sett->getAnalysisMacroCommand(i);
-      if(com.isEmpty()){
-        fAnalysisMacroCommands.push_back(QString(""));
-        continue;
-      }
-      faAnalysisMacroActions[i]->setEnabled(true);
-      faAnalysisMacroActions[i]->setToolTip(go4sett->getAnalysisMacroTip(i));
-      fAnalysisMacroCommands.push_back(com);
+      fAnalysisMacroCommands.push_back(QString(""));
+      continue;
     }
+    faAnalysisMacroActions[i]->setEnabled(true);
+    faAnalysisMacroActions[i]->setToolTip(go4sett->getAnalysisMacroTip(i));
+
+    fAnalysisMacroCommands.push_back(com);
+
+    fAnalysisMacroMonitorCheck[i]->setEnabled(true);
+    fAnalysisMacroMonitorCheck[i]->setToolTip(QString("Enable Timer Execution for command %1").arg(i+1));
+
+  }
+
+  // finally some elements for the monitoring:
+
+  fAnalysisMacroTimeSpin = new QSpinBox(this);
+  fAnalysisMacroTimeSpin->setMinimum(2);
+  fAnalysisMacroTimeSpin->setSuffix(" s");
+  fAnalysisMacroTimeSpin->setToolTip("Command Execution Interval in seconds");
+  fAnalysisMacroBar->addWidget(fAnalysisMacroTimeSpin);
+
+  fAnalysisMacroMonitorButton = new QPushButton(QIcon(":/icons/startselected.png"), "", this);
+  fAnalysisMacroMonitorButton->setToolTip("Start Command Execution Timer");
+
+  QObject::connect(fAnalysisMacroMonitorButton, SIGNAL (clicked ()), this, SLOT (AnalysisMacroMonitorBtn_clicked ()));
+  fAnalysisMacroBar->addWidget(fAnalysisMacroMonitorButton);
+
+  fAnalysisMacroTimer = new QTimer(this);
+  QObject::connect(fAnalysisMacroTimer, SIGNAL (timeout ()), this, SLOT (AnalysisMacroMonitorTimeout()));
 
 
+  fAnalysisMacroBar->adjustSize();
+
+}
+
+
+void TGo4MainWindow::AnalysisMacroMonitorBtn_clicked()
+{
+  //std::cout << "AnalysisMacroMonitorBtn_clicked " <<std::endl;
+
+  if(fAnalysisMacroTimer->isActive())
+  {
+    fAnalysisMacroTimer->stop();
+    fAnalysisMacroMonitorButton->setIcon(QIcon( ":/icons/startselected.png" ));
+    fAnalysisMacroMonitorButton->setToolTip("Start Command Execution Timer");
+    fAnalysisMacroTimeSpin->setEnabled(true);
+  }
+  else
+  {
+    double t=1000.0*fAnalysisMacroTimeSpin->value();
+    fAnalysisMacroTimer->start(t);
+    fAnalysisMacroMonitorButton->setIcon(QIcon( ":/icons/Stop.png" ));
+    fAnalysisMacroMonitorButton->setToolTip("Stop Command Execution Timer");
+    fAnalysisMacroTimeSpin->setEnabled(false);
+
+  }
+}
+
+
+void TGo4MainWindow::AnalysisMacroMonitorTimeout()
+{
+  //std::cout << "AnalysisMacroMonitorTimeout" <<std::endl;
+  if(fAnalysisMacroConfigure->isChecked())
+  {
+      AnalysisMacroMonitorBtn_clicked(); // stop timer in editor mode
+      return;
+  }
+   for(int i=0; i<fAnalysisMacroMonitorCheck.size(); ++i)
+    {
+       if(fAnalysisMacroMonitorCheck[i]->isChecked())
+           ExecuteAnalysisMacro(i);
+    }
 
 }
 
@@ -3679,6 +3804,7 @@ void TGo4MainWindow::ConfigureAnalysisMacros()
             QString com=go4sett->getAnalysisMacroCommand(i);
             if(com.isEmpty()){
                 faAnalysisMacroActions[i]->setEnabled(false);
+                fAnalysisMacroMonitorCheck[i]->setEnabled(false);
             }
           }
       return;

@@ -1,6 +1,6 @@
 ---------------------------------------------------------------
-         Go4 Release Package v5.1.2 (build 50102)
-                      2-May-2016
+         Go4 Release Package v5.1.x (build 50103)
+                      24-November-2016
 ---------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -35,8 +35,12 @@ Changes in Go4 v5.1.x (Fall 2016)
 6. Qt4/5 GUI: Improved display of 1:1 coordinate ration for 2d histograms. 
    Aspect ratio of the selected pad will be automatically re-adjusted when resizing the viewpanel.
    Beside, the histogram borders will be expanded to use maximum margins of the pad.
-7: Qt5 GUI: added HighDPI Scale factor to Preferences. Can be adjusted via Settings/Preferences Menu 
+7. Qt5 GUI: added HighDPI Scale factor to Preferences. Can be adjusted via Settings/Preferences Menu 
    Requires GUI Restart. Qt Version > 5.6 only! 
+8. Added Execution timer for Analysis Command button toolbar. Any user defined command that is checked
+   in toolbar can be executed frequently by a timer with adjustable period. This allows for example
+   to clear histograms frequently by defining command '@ClearObjects("Histograms")'   
+   
    
 Changes in Go4 v5.1.2 (May 2016)
 1. Let configure default line width for objects draw. Useful for 4K monitors,
