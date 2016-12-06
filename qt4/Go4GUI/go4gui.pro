@@ -76,7 +76,9 @@ HEADERS	+= \
 	TGo4CommandLine.h \
 	TGo4MacroDialog.h \
 	TGo4MarkerSettings.h \
-	TGo4OptStatsSettings.h
+	TGo4OptStatsSettings.h \
+	TGo4UserCommands.h \
+	TGo4UserCommandsDialog.h
 
 SOURCES	+= \
 	TGo4QSettings.cpp \
@@ -123,7 +125,9 @@ SOURCES	+= \
 	TGo4CommandLine.cpp \
 	TGo4MacroDialog.cpp \
 	TGo4MarkerSettings.cpp \
-	TGo4OptStatsSettings.cpp 
+	TGo4OptStatsSettings.cpp \
+	TGo4UserCommands.cpp \
+	TGo4UserCommandsDialog.cpp
 
 FORMS += TGo4ViewPanel.ui \
 	TGo4StartClient.ui \
@@ -159,7 +163,9 @@ FORMS += TGo4ViewPanel.ui \
 	TGo4CommandLine.ui \
 	TGo4MacroDialog.ui \
 	TGo4MarkerSettings.ui \
-	TGo4OptStatsSettings.ui
+	TGo4OptStatsSettings.ui \
+	TGo4UserCommands.ui \
+	TGo4UserCommandsDialog.ui
 
 	
 

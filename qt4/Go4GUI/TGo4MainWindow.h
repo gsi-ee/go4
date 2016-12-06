@@ -163,32 +163,7 @@ class TGo4MainWindow : public QMainWindow {
       void CreateNewConditionSlot(bool forothereditor = false);
       void CreateNewDynEntrySlot(bool forothereditor = false);
 
-      // JAM2016: new -  for predefined analysis macros by id:
-      void ConfigureAnalysisMacros();
 
-
-
-      // default slots for macro buttons:
-
-      void ExecuteAnalysisMacro_1();
-      void ExecuteAnalysisMacro_2();
-      void ExecuteAnalysisMacro_3();
-      void ExecuteAnalysisMacro_4();
-      void ExecuteAnalysisMacro_5();
-      void ExecuteAnalysisMacro_6();
-      void ExecuteAnalysisMacro_7();
-      void ExecuteAnalysisMacro_8();
-      void ExecuteAnalysisMacro_9();
-
-
-      void ExecuteAnalysisMacro(int id);
-      void DefineAnalysisMacro(int id);
-      void ClearAnalysisMacros();
-      void ResetAnalysisMacros();
-
-
-      void AnalysisMacroMonitorBtn_clicked();
-      void AnalysisMacroMonitorTimeout();
 
       // modify default highdpi scaling
       void ScaleFactorSlot();
@@ -311,20 +286,6 @@ class TGo4MainWindow : public QMainWindow {
       QAction*           faStopAnal;
       QAction*           faAnalConfig;
       QAction*           faAnalTermin;
-
-
-      QToolBar*               fAnalysisMacroBar;
-      QAction*                fAnalysisMacroConfigure;
-      std::vector<QAction*>   faAnalysisMacroActions;
-      std::vector<QString>    fAnalysisMacroCommands;
-      bool fbAnalysisMacroConfigMode;
-
-
-      QTimer* fAnalysisMacroTimer;
-      QSpinBox* fAnalysisMacroTimeSpin;
-      std::vector<QCheckBox*> fAnalysisMacroMonitorCheck;
-      QPushButton* fAnalysisMacroMonitorButton;
-
 
 
 };
