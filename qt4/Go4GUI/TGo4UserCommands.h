@@ -53,6 +53,8 @@ protected:
  public:
     TGo4UserCommands( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = 0 );
 
+    void AssignShortcuts();
+
  public slots:
 
 
@@ -75,7 +77,7 @@ protected:
 
       void ExecuteAnalysisMacro(int id);
       void DefineAnalysisMacro(int id);
-      void ClearAnalysisMacros();
+     // void ClearAnalysisMacros();
 
 
       void AnalysisMacroMonitorBtn_clicked();

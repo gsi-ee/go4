@@ -26,10 +26,16 @@ class TGo4UserCommandsDialog : public QDialog, public Ui::TGo4UserCommandsDialog
     TGo4UserCommandsDialog( QWidget* parent = 0 );
 
 
+    /** read command for index id*/
+    QString GetCommand(int id);
+
+    /** tooltip for index id  */
+    QString GetTooltip(int id);
+
  public slots:
 
 
-
+ virtual void ButtonPressed(QAbstractButton*);
 
  protected:
 

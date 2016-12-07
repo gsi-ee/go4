@@ -53,7 +53,7 @@ class QMenu;
 class QSpinBox;
 class QPushButton;
 
-
+class TGo4UserCommands;
 
  /** This is the Go4 Main Window
    * @author Mohammad Al-Turany, modifications J.Adamczewski, S.Linev
@@ -287,6 +287,8 @@ class TGo4MainWindow : public QMainWindow {
       QAction*           faAnalConfig;
       QAction*           faAnalTermin;
 
+
+      TGo4UserCommands* fUserCommandPanel;
 
 };
 

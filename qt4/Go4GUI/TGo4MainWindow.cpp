@@ -395,6 +395,11 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
 
    QString sfmt = go4sett->getGStyleStatFormat();
    if (!sfmt.isEmpty()) gStyle->SetStatFormat(sfmt.toLatin1().constData());
+
+
+   // test: does this help?
+   fUserCommandPanel->AssignShortcuts();
+
 }
 
 TGo4MainWindow::~TGo4MainWindow()
@@ -3587,8 +3592,11 @@ void TGo4MainWindow::AddAnalysisMacrosBar()
   AnalysisMacroBar->setObjectName("AnalysisCommandToolBar");
 
   // new: everything is in dedicated class
-  TGo4UserCommands* companel = new TGo4UserCommands(this, "UserCommands");
-  AnalysisMacroBar->addWidget(companel);
+  //TGo4UserCommands* companel = new TGo4UserCommands(this, "UserCommands");
+  fUserCommandPanel= new TGo4UserCommands(this, "UserCommands");
+  QAction* myaction=AnalysisMacroBar->addWidget(fUserCommandPanel);
+  //myaction->setShortcutContext(Qt::WidgetShortcut);
+  //companel->AssignShortcuts();
   AnalysisMacroBar->adjustSize();
 }
 

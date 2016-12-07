@@ -10,6 +10,9 @@
     <height>32</height>
    </rect>
   </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::PreventContextMenu</enum>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -226,9 +229,6 @@
      <property name="text">
       <string>C3</string>
      </property>
-     <property name="shortcut">
-      <string>Ctrl+3</string>
-     </property>
      <property name="autoRaise">
       <bool>true</bool>
      </property>
@@ -291,7 +291,7 @@
       <string>C4</string>
      </property>
      <property name="shortcut">
-      <string>Ctrl+4</string>
+      <string notr="true">Ctrl+4</string>
      </property>
      <property name="autoRaise">
       <bool>true</bool>

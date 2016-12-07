@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>437</width>
+    <height>298</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,11 +20,24 @@
    <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QTableWidget" name="tableWidget">
+   <item row="2" column="0">
+    <widget class="QDialogButtonBox" name="DialogButtonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QTableWidget" name="CommandsTable">
      <property name="toolTip">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Please specify analysis interpreter command to execute on respective buttons C1...C9 :&lt;/p&gt;&lt;p&gt;'&lt;span style=&quot; font-style:italic;&quot;&gt;@' means 'TGo4Analysis::Instance()-&amp;gt;'&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;'.x' will invoke ROOT script&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;'$' will invoke Python.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Tooltip can be set for bubble help with explanation.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Reset button will clear everything!&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
+     <attribute name="horizontalHeaderDefaultSectionSize">
+      <number>180</number>
+     </attribute>
      <attribute name="horizontalHeaderStretchLastSection">
       <bool>true</bool>
      </attribute>
@@ -78,21 +91,86 @@
        <string>Tooltip</string>
       </property>
      </column>
-     <item row="0" column="1">
+     <item row="0" column="0">
       <property name="text">
-       <string/>
+       <string>a</string>
       </property>
      </item>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
-     </property>
+     <item row="0" column="1">
+      <property name="text">
+       <string>b</string>
+      </property>
+     </item>
+     <item row="1" column="0">
+      <property name="text">
+       <string>c</string>
+      </property>
+     </item>
+     <item row="1" column="1">
+      <property name="text">
+       <string>d</string>
+      </property>
+     </item>
+     <item row="2" column="0">
+      <property name="text">
+       <string>e</string>
+      </property>
+     </item>
+     <item row="2" column="1">
+      <property name="text">
+       <string>f</string>
+      </property>
+     </item>
+     <item row="3" column="0">
+      <property name="text">
+       <string>g</string>
+      </property>
+     </item>
+     <item row="3" column="1">
+      <property name="text">
+       <string>h</string>
+      </property>
+     </item>
+     <item row="4" column="0">
+      <property name="text">
+       <string>i</string>
+      </property>
+     </item>
+     <item row="4" column="1">
+      <property name="text">
+       <string>j</string>
+      </property>
+     </item>
+     <item row="5" column="0">
+      <property name="text">
+       <string>k</string>
+      </property>
+     </item>
+     <item row="5" column="1">
+      <property name="text">
+       <string>l</string>
+      </property>
+     </item>
+     <item row="6" column="0">
+      <property name="text">
+       <string>m</string>
+      </property>
+     </item>
+     <item row="6" column="1">
+      <property name="text">
+       <string>n</string>
+      </property>
+     </item>
+     <item row="7" column="0">
+      <property name="text">
+       <string>o</string>
+      </property>
+     </item>
+     <item row="7" column="1">
+      <property name="text">
+       <string>p</string>
+      </property>
+     </item>
     </widget>
    </item>
   </layout>
@@ -100,7 +178,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>buttonBox</sender>
+   <sender>DialogButtonBox</sender>
    <signal>accepted()</signal>
    <receiver>TGo4UserCommandsDialog</receiver>
    <slot>accept()</slot>
@@ -116,7 +194,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>buttonBox</sender>
+   <sender>DialogButtonBox</sender>
    <signal>rejected()</signal>
    <receiver>TGo4UserCommandsDialog</receiver>
    <slot>reject()</slot>
