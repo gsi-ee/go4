@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>TGo4UserCommands</class>
- <widget class="QWidget" name="TGo4UserCommands">
+ <widget class="QGo4Widget" name="TGo4UserCommands">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>757</width>
+    <width>454</width>
     <height>32</height>
    </rect>
   </property>
@@ -44,28 +44,6 @@
     </widget>
    </item>
    <item>
-    <widget class="Line" name="line">
-     <property name="minimumSize">
-      <size>
-       <width>3</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="lineWidth">
-      <number>1</number>
-     </property>
-     <property name="midLineWidth">
-      <number>3</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QToolButton" name="CommandButton1">
      <property name="maximumSize">
       <size>
@@ -81,69 +59,23 @@
       </font>
      </property>
      <property name="text">
-      <string>C1</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="go4icons.qrc">
+       <normaloff>:/icons/Number-1-icon.png</normaloff>:/icons/Number-1-icon.png</iconset>
      </property>
      <property name="shortcut">
       <string>Ctrl+1</string>
+     </property>
+     <property name="toolButtonStyle">
+      <enum>Qt::ToolButtonIconOnly</enum>
      </property>
      <property name="autoRaise">
       <bool>true</bool>
      </property>
      <property name="arrowType">
       <enum>Qt::NoArrow</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="MonitorBox1">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="baseSize">
-      <size>
-       <width>10</width>
-       <height>10</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="Line" name="line_2">
-     <property name="minimumSize">
-      <size>
-       <width>3</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="lineWidth">
-      <number>1</number>
-     </property>
-     <property name="midLineWidth">
-      <number>3</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
    </item>
@@ -163,7 +95,11 @@
       </font>
      </property>
      <property name="text">
-      <string>C2</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="go4icons.qrc">
+       <normaloff>:/icons/Number-2-icon.png</normaloff>:/icons/Number-2-icon.png</iconset>
      </property>
      <property name="shortcut">
       <string>Ctrl+2</string>
@@ -173,41 +109,6 @@
      </property>
      <property name="arrowType">
       <enum>Qt::NoArrow</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="MonitorBox2">
-     <property name="maximumSize">
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="Line" name="line_3">
-     <property name="minimumSize">
-      <size>
-       <width>3</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="lineWidth">
-      <number>1</number>
-     </property>
-     <property name="midLineWidth">
-      <number>3</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
    </item>
@@ -227,48 +128,17 @@
       </font>
      </property>
      <property name="text">
-      <string>C3</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="go4icons.qrc">
+       <normaloff>:/icons/Number-3-icon.png</normaloff>:/icons/Number-3-icon.png</iconset>
      </property>
      <property name="autoRaise">
       <bool>true</bool>
      </property>
      <property name="arrowType">
       <enum>Qt::NoArrow</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="MonitorBox3">
-     <property name="maximumSize">
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="Line" name="line_4">
-     <property name="minimumSize">
-      <size>
-       <width>3</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="lineWidth">
-      <number>1</number>
-     </property>
-     <property name="midLineWidth">
-      <number>3</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
    </item>
@@ -288,7 +158,11 @@
       </font>
      </property>
      <property name="text">
-      <string>C4</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="go4icons.qrc">
+       <normaloff>:/icons/Number-4-icon.png</normaloff>:/icons/Number-4-icon.png</iconset>
      </property>
      <property name="shortcut">
       <string notr="true">Ctrl+4</string>
@@ -298,41 +172,6 @@
      </property>
      <property name="arrowType">
       <enum>Qt::NoArrow</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="MonitorBox4">
-     <property name="maximumSize">
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="Line" name="line_5">
-     <property name="minimumSize">
-      <size>
-       <width>3</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="lineWidth">
-      <number>1</number>
-     </property>
-     <property name="midLineWidth">
-      <number>3</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
    </item>
@@ -352,7 +191,11 @@
       </font>
      </property>
      <property name="text">
-      <string>C5</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="go4icons.qrc">
+       <normaloff>:/icons/Number-5-icon.png</normaloff>:/icons/Number-5-icon.png</iconset>
      </property>
      <property name="shortcut">
       <string>Ctrl+5</string>
@@ -362,41 +205,6 @@
      </property>
      <property name="arrowType">
       <enum>Qt::NoArrow</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="MonitorBox5">
-     <property name="maximumSize">
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="Line" name="line_6">
-     <property name="minimumSize">
-      <size>
-       <width>3</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="lineWidth">
-      <number>1</number>
-     </property>
-     <property name="midLineWidth">
-      <number>3</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
    </item>
@@ -416,7 +224,11 @@
       </font>
      </property>
      <property name="text">
-      <string>C6</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="go4icons.qrc">
+       <normaloff>:/icons/Number-6-icon.png</normaloff>:/icons/Number-6-icon.png</iconset>
      </property>
      <property name="shortcut">
       <string>Ctrl+6</string>
@@ -426,41 +238,6 @@
      </property>
      <property name="arrowType">
       <enum>Qt::NoArrow</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="MonitorBox6">
-     <property name="maximumSize">
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="Line" name="line_7">
-     <property name="minimumSize">
-      <size>
-       <width>3</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="lineWidth">
-      <number>1</number>
-     </property>
-     <property name="midLineWidth">
-      <number>3</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
    </item>
@@ -486,7 +263,11 @@
       </font>
      </property>
      <property name="text">
-      <string>C7</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="go4icons.qrc">
+       <normaloff>:/icons/Number-7-icon.png</normaloff>:/icons/Number-7-icon.png</iconset>
      </property>
      <property name="shortcut">
       <string>Ctrl+7</string>
@@ -496,41 +277,6 @@
      </property>
      <property name="arrowType">
       <enum>Qt::NoArrow</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="MonitorBox7">
-     <property name="maximumSize">
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="Line" name="line_8">
-     <property name="minimumSize">
-      <size>
-       <width>3</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="lineWidth">
-      <number>1</number>
-     </property>
-     <property name="midLineWidth">
-      <number>3</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
    </item>
@@ -550,7 +296,11 @@
       </font>
      </property>
      <property name="text">
-      <string>C8</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="go4icons.qrc">
+       <normaloff>:/icons/Number-8-icon.png</normaloff>:/icons/Number-8-icon.png</iconset>
      </property>
      <property name="shortcut">
       <string>Ctrl+8</string>
@@ -560,41 +310,6 @@
      </property>
      <property name="arrowType">
       <enum>Qt::NoArrow</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="MonitorBox8">
-     <property name="maximumSize">
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="Line" name="line_9">
-     <property name="minimumSize">
-      <size>
-       <width>3</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="lineWidth">
-      <number>1</number>
-     </property>
-     <property name="midLineWidth">
-      <number>3</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
      </property>
     </widget>
    </item>
@@ -614,7 +329,11 @@
       </font>
      </property>
      <property name="text">
-      <string>C9</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="go4icons.qrc">
+       <normaloff>:/icons/Number-9-icon.png</normaloff>:/icons/Number-9-icon.png</iconset>
      </property>
      <property name="shortcut">
       <string>Ctrl+9</string>
@@ -624,19 +343,6 @@
      </property>
      <property name="arrowType">
       <enum>Qt::NoArrow</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="MonitorBox9">
-     <property name="maximumSize">
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
      </property>
     </widget>
    </item>
@@ -689,20 +395,30 @@
     </widget>
    </item>
   </layout>
+  <zorder>CommandButton1</zorder>
+  <zorder>CommandButton2</zorder>
+  <zorder>CommandButton4</zorder>
+  <zorder>CommandButton5</zorder>
+  <zorder>CommandButton6</zorder>
+  <zorder>CommandButton7</zorder>
+  <zorder>CommandButton8</zorder>
+  <zorder>CommandButton9</zorder>
   <zorder>ConfigureButton</zorder>
-  <zorder>layoutWidget</zorder>
-  <zorder>layoutWidget</zorder>
-  <zorder>layoutWidget_2</zorder>
   <zorder>CommandButton3</zorder>
-  <zorder>layoutWidget_3</zorder>
-  <zorder>layoutWidget_4</zorder>
-  <zorder>layoutWidget_5</zorder>
-  <zorder>layoutWidget_6</zorder>
-  <zorder>layoutWidget_7</zorder>
-  <zorder>layoutWidget_8</zorder>
   <zorder>AutoTimeSpinBox</zorder>
   <zorder>CommandAutoButton</zorder>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QGo4Widget</class>
+   <extends>QWidget</extends>
+   <header>QGo4Widget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <includes>
+  <include location="local">QGo4Widget.h</include>
+ </includes>
  <resources>
   <include location="go4icons.qrc"/>
  </resources>

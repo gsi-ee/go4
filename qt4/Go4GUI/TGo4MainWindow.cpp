@@ -364,6 +364,7 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
    if (TGo4DabcProxy::GetDabcVersion())
       helpMenu->addAction("About &DABC", this, SLOT(aboutDABC()));
    helpMenu->addAction("About &Go4", this, SLOT(about()), Key_F4);
+   helpMenu->addAction("About Icons", this, SLOT(aboutIcons()));
 
    const char* libs = gSystem->Getenv("GO4USERLIBRARY");
 
@@ -395,11 +396,6 @@ TGo4MainWindow::TGo4MainWindow(QApplication* app) :
 
    QString sfmt = go4sett->getGStyleStatFormat();
    if (!sfmt.isEmpty()) gStyle->SetStatFormat(sfmt.toLatin1().constData());
-
-
-   // test: does this help?
-   fUserCommandPanel->AssignShortcuts();
-
 }
 
 TGo4MainWindow::~TGo4MainWindow()
@@ -459,6 +455,19 @@ void TGo4MainWindow::aboutDABC()
    AboutDabc.setIconPixmap(QPixmap( ":/icons/dabc.png"));
    AboutDabc.setTextFormat(Qt::RichText);
    AboutDabc.exec();
+}
+
+
+void TGo4MainWindow::aboutIcons()
+{
+	QString mestring("This Go4 uses some icons from  <a href='http://www.iconarchive.com/show/red-orb-alphabet-icons-by-iconarchive.html'>www.iconarchive.com</a> <br>");
+	mestring.append("These icons are licensed under a <a href='http://creativecommons.org/licenses/by/3.0/'>Creative Commons Attribution 3.0 License. </a> <br> ");
+	mestring.append("They were partially modified from red to green colors by the Go4 developers.");
+	QMessageBox AboutIcons("Icons", mestring,
+		QMessageBox::NoIcon,QMessageBox::Ok,QMessageBox::NoButton,QMessageBox::NoButton ,this);
+	AboutIcons.setIconPixmap(QPixmap( ":/icons/Number-4-icon-green.png"));
+	AboutIcons.setTextFormat(Qt::RichText);
+	AboutIcons.exec();
 }
 
 void TGo4MainWindow::AddSettingMenu()
@@ -3592,11 +3601,9 @@ void TGo4MainWindow::AddAnalysisMacrosBar()
   AnalysisMacroBar->setObjectName("AnalysisCommandToolBar");
 
   // new: everything is in dedicated class
-  //TGo4UserCommands* companel = new TGo4UserCommands(this, "UserCommands");
-  fUserCommandPanel= new TGo4UserCommands(this, "UserCommands");
-  QAction* myaction=AnalysisMacroBar->addWidget(fUserCommandPanel);
-  //myaction->setShortcutContext(Qt::WidgetShortcut);
-  //companel->AssignShortcuts();
+  TGo4UserCommands* companel = new TGo4UserCommands(this, "UserCommands");
+  ConnectGo4Widget(companel);
+  AnalysisMacroBar->addWidget(companel);
   AnalysisMacroBar->adjustSize();
 }
 

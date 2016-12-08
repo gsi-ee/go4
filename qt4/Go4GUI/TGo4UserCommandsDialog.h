@@ -32,6 +32,9 @@ class TGo4UserCommandsDialog : public QDialog, public Ui::TGo4UserCommandsDialog
     /** tooltip for index id  */
     QString GetTooltip(int id);
 
+    /** timer auto execute flag*/
+    bool GetAutoExecute(int id);
+
  public slots:
 
 

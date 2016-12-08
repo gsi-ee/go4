@@ -1015,6 +1015,18 @@ QString TGo4QSettings::getAnalysisMacroTip(int id)
     return getStr(descriptor, deftip);
 }
 
+bool TGo4QSettings::getAnalysisMacroAutomode(int id)
+{
+	 QString descriptor=QString("/AnalysisMacro%1/Automode").arg(id);
+	 return getBool(descriptor, false);
+}
+
+void TGo4QSettings::setAnalysisMacroAutomode(int id, bool on)
+{
+	 QString descriptor=QString("/AnalysisMacro%1/Automode").arg(id);
+	 setBool(descriptor, on);
+}
+
 
 void    TGo4QSettings::setAnalysisMacroCommand(int id, const QString& com)
 {

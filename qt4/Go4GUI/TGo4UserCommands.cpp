@@ -20,27 +20,16 @@
 #include <QMessageBox>
 #include <QInputDialog>
 
-
-
-#define USERCOMMANDS_CONFIGWINDOW 1
-
-#ifdef USERCOMMANDS_CONFIGWINDOW
 #include "TGo4UserCommandsDialog.h"
-#endif
 
 #include <iostream>
 
 TGo4UserCommands::TGo4UserCommands( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
-   QWidget( parent, fl )
+   QGo4Widget( parent, name , fl)
 {
-
-	fMainWindow=dynamic_cast<TGo4MainWindow*> (parent);
-
-
    setObjectName( name ? name : "Go4UserCommands");
    setupUi(this);
 
-   // TODO: here connect signals
    QObject::connect (CommandButton1, SIGNAL (pressed ()), this, SLOT (ExecuteAnalysisMacro_1 ()));
    QObject::connect (CommandButton2, SIGNAL (pressed ()), this, SLOT (ExecuteAnalysisMacro_2 ()));
    QObject::connect (CommandButton3, SIGNAL (pressed ()), this, SLOT (ExecuteAnalysisMacro_3 ()));
@@ -63,26 +52,11 @@ TGo4UserCommands::TGo4UserCommands( QWidget* parent, const char* name, Qt::Windo
    fAnalysisMacroButtons.push_back(CommandButton8);
    fAnalysisMacroButtons.push_back(CommandButton9);
 
-   fAnalysisMacroMonitorCheck.clear();
-   fAnalysisMacroMonitorCheck.push_back(MonitorBox1);
-   fAnalysisMacroMonitorCheck.push_back(MonitorBox2);
-   fAnalysisMacroMonitorCheck.push_back(MonitorBox3);
-   fAnalysisMacroMonitorCheck.push_back(MonitorBox4);
-   fAnalysisMacroMonitorCheck.push_back(MonitorBox5);
-   fAnalysisMacroMonitorCheck.push_back(MonitorBox6);
-   fAnalysisMacroMonitorCheck.push_back(MonitorBox7);
-   fAnalysisMacroMonitorCheck.push_back(MonitorBox8);
-   fAnalysisMacroMonitorCheck.push_back(MonitorBox9);
 
    for (int i = 0; i < GO4GUI_MAXMACRONUM; ++i)
     {
+	   fAnalysisMacroAutoExecute.push_back(false);
 	   fAnalysisMacroButtons[i]->setEnabled(false);
-	   fAnalysisMacroMonitorCheck[i]->setEnabled(false);
-//        int butid = i + 1;
-//      fAnalysisMacroButtons[i]->setShortcut(QString("Ctrl+%1").arg(butid));
-//        //fAnalysisMacroButtons[i]->setShortcut(QKeySequence(Qt::CTRL,  Qt::Key_0 + butid));
-//
-//      std::cout << "set shortcut "<<i<<" to "<<fAnalysisMacroButtons[i]->shortcut().toString().toLatin1 ().constData ()<< std::endl;
 
       QString com = go4sett->getAnalysisMacroCommand(i);
       if (com.isEmpty())
@@ -92,12 +66,8 @@ TGo4UserCommands::TGo4UserCommands( QWidget* parent, const char* name, Qt::Windo
       }
       fAnalysisMacroButtons[i]->setEnabled(true);
       fAnalysisMacroButtons[i]->setToolTip(go4sett->getAnalysisMacroTip(i));
-
       fAnalysisMacroCommands.push_back(com);
-
-      fAnalysisMacroMonitorCheck[i]->setEnabled(true);
-      fAnalysisMacroMonitorCheck[i]->setToolTip(QString("Enable Timer Execution for command %1").arg(i+1));
-
+      SetAutoExecute(i,go4sett->getAnalysisMacroAutomode(i));
     }
 
 
@@ -110,6 +80,8 @@ TGo4UserCommands::TGo4UserCommands( QWidget* parent, const char* name, Qt::Windo
 #ifdef 	USERCOMMANDS_CONFIGWINDOW
     ConfigureButton->setCheckable(false);
 #endif
+
+    AssignShortcuts();
 }
 
 void TGo4UserCommands::AssignShortcuts()
@@ -119,20 +91,9 @@ void TGo4UserCommands::AssignShortcuts()
 	for (int i = 0; i < GO4GUI_MAXMACRONUM; ++i)
 	    {
 		 	 int butid = i + 1;
-		 	 QAction* defaultaction=fAnalysisMacroButtons[i]->defaultAction();
-		 	 if(defaultaction){
-		 		 // never come here?
-		 		 	 defaultaction->setShortcut(QString("Ctrl+%1").arg(butid));
-		 		 	 //std::cout << "set default action shortcut "<<i<<" to "<<fAnalysisMacroButtons[i]->shortcut().toString().toLatin1 ().constData ()<< std::endl;
-
-		 	 	 }
-		 		 else
-		 		 {
-		 			 fAnalysisMacroButtons[i]->setShortcut(QString("Ctrl+%1").arg(butid));
-		 			 //std::cout << "set button shortcut "<<i<<" to "<<fAnalysisMacroButtons[i]->shortcut().toString().toLatin1 ().constData ()<< std::endl;
-
-		 		 }
-		 	 //fAnalysisMacroButtons[i]->setShortcut(QKeySequence(Qt::CTRL,  Qt::Key_0 + butid));
+		 	 fAnalysisMacroButtons[i]->setShortcut(QString("Ctrl+%1").arg(butid));
+//		 	 std::cout << "set button shortcut "<<i<<" to "<<fAnalysisMacroButtons[i]->shortcut().toString().toLatin1 ().constData ()<< std::endl;
+		  	 //fAnalysisMacroButtons[i]->setShortcut(QKeySequence(Qt::CTRL,  Qt::Key_0 + butid));
 	    }
 
 }
@@ -168,10 +129,10 @@ void TGo4UserCommands::AnalysisMacroMonitorTimeout()
       AnalysisMacroMonitorBtn_clicked(); // stop timer in editor mode
       return;
   }
-   for(int i=0; i<fAnalysisMacroMonitorCheck.size(); ++i)
+   for(int i=0; i<fAnalysisMacroAutoExecute.size(); ++i)
     {
-       if(fAnalysisMacroMonitorCheck[i]->isChecked())
-           ExecuteAnalysisMacro(i);
+       if(fAnalysisMacroAutoExecute[i])
+    	   ExecuteAnalysisMacro(i);
     }
 
 }
@@ -181,11 +142,10 @@ void TGo4UserCommands::ConfigureAnalysisMacros()
 {
   //std::cout << "ConfigureAnalysisMacros " <<std::endl;
 
-#ifdef 	USERCOMMANDS_CONFIGWINDOW
-
 TGo4UserCommandsDialog setup(this);
-
 if ( setup.exec() != QDialog::Accepted ) return;
+
+//AssignShortcuts(); // test if we can manipulate them afterwards.
 
 for(int id=0; id<GO4GUI_MAXMACRONUM;++id)
 {
@@ -198,16 +158,22 @@ for(int id=0; id<GO4GUI_MAXMACRONUM;++id)
 	go4sett->setAnalysisMacroTip(id, tip);
 	//std::cout<<"ConfigureAnalysisMacros - index"<<id<<" set command "<<com.toLatin1 ().constData ()<<", tip:"<<tip.toLatin1 ().constData ()<< std::endl;
 
+	bool execute=setup.GetAutoExecute(id);
+	go4sett->setAnalysisMacroAutomode(id, execute);
+
 	// put new setup to gui:
 	fAnalysisMacroCommands[id]=com;
 	fAnalysisMacroButtons[id]->setToolTip(tip);
 
+	SetAutoExecute(id,execute);
+
+
 	// now activate only such elements that are defined:
 	fAnalysisMacroButtons[id]->setEnabled(true);
-	fAnalysisMacroMonitorCheck[id]->setEnabled(true);
+	//fAnalysisMacroMonitorCheck[id]->setEnabled(true);
 	 if(com.isEmpty()){
 		 fAnalysisMacroButtons[id]->setEnabled(false);
-		 fAnalysisMacroMonitorCheck[id]->setEnabled(false);
+		 //fAnalysisMacroMonitorCheck[id]->setEnabled(false);
 	 }
 
 
@@ -215,46 +181,6 @@ for(int id=0; id<GO4GUI_MAXMACRONUM;++id)
 
 
 
-#else
-
-  // first we just reproduce what we had. later use configuration dialog here!
-  if(!ConfigureButton->isChecked())
-    {
-      //std:cout << "fAnalysisMacroConfigure is not checked"<< std::endl;
-      // here we must enable only the buttons with valid configuration:
-      for(int i=0; i<GO4GUI_MAXMACRONUM;++i)
-          {
-            QString com=go4sett->getAnalysisMacroCommand(i);
-            if(com.isEmpty()){
-                fAnalysisMacroButtons[i]->setEnabled(false);
-                fAnalysisMacroMonitorCheck[i]->setEnabled(false);
-            }
-          }
-      return;
-    }
-  // we try some interactive game:
-  //1) first popup of info window
-
-
-  QMessageBox::information(this,"Configuration of Analysis Macros", "Please click on the Command button that should be configured and define command or macro action for analysis process.");
-  for(int i=0; i<GO4GUI_MAXMACRONUM;++i)
-     {
-	  fAnalysisMacroButtons[i]->setEnabled(true); // need to activate all buttons in this mode!
-      fAnalysisMacroMonitorCheck[i]->setEnabled(true);
-
-     }
-
-// the rest is handled in the button slots themselves!
-
-  //2) user must click on function button to configure
-  //3) popup of requester for command and tooltip
-  //4) done
-
-  // second click on configure button must end this mode! <- automatically by action toggle!
-
-
-
-#endif
 
 }
 
@@ -309,20 +235,11 @@ void TGo4UserCommands::ExecuteAnalysisMacro_9()
 void TGo4UserCommands::ExecuteAnalysisMacro(int id)
 {
   //std::cout << "ExecuteAnalysisMacro "<< id <<std::endl;
-#ifndef 	USERCOMMANDS_CONFIGWINDOW
-  if(ConfigureButton->isChecked())
-    {
-      DefineAnalysisMacro(id);
-      ConfigureButton->setChecked(false);
-      ConfigureAnalysisMacros(); // set non defined buttons disabled again, this slot is not called automatically with setChecked!
-      return;
-    }
-#endif
   QString cmd=fAnalysisMacroCommands[id];
   if (cmd.length()==0) return;
   //std::cout << "Invoke custom analysis command: "<< cmd.toLatin1().constData() <<std::endl;
-  fMainWindow->StatusMessage(QString("Invoke custom analysis command: ").append(cmd));
-  TGo4ServerProxy* serv = fMainWindow->Browser()->FindServer();
+  StatusMessage(QString("Invoke custom analysis command: ").append(cmd));
+  TGo4ServerProxy* serv = Browser()->FindServer();
   if (serv!=0)
   {
     // TODO: have to check priviliges here?
@@ -331,50 +248,23 @@ void TGo4UserCommands::ExecuteAnalysisMacro(int id)
 }
 
 
-void TGo4UserCommands::DefineAnalysisMacro(int id)
-{
-#ifndef 	USERCOMMANDS_CONFIGWINDOW
-  bool ok;
-  int butid=id+1;
-  QString title=QString("Analysis command button %1 definition").arg(butid);
-  QString message=QString("Please specify analysis interpreter command to execute on button C%1 : <br>'@' means 'TGo4Analysis::Instance()->'<br>'.x' will invoke ROOT script<br>'$' will invoke Python.").arg(butid);
-  QString com=QInputDialog::getText(this, title, message, QLineEdit::Normal, go4sett->getAnalysisMacroCommand(id), &ok);
-  //if (!ok || com.isEmpty()) return;
-  if (!ok) return;
-  message=QString("Please specify tool tip for button C%1").arg(butid);
-  QString deftip=go4sett->getAnalysisMacroTip(id).split(":").first();
-  QString tip=QInputDialog::getText(this, title, message, QLineEdit::Normal, deftip, &ok);
-  if (!ok) return;
-  go4sett->setAnalysisMacroCommand(id, com);
-  tip.append(": ");
-  tip.append(fAnalysisMacroButtons[id]->shortcut().toString());
-  go4sett->setAnalysisMacroTip(id, tip);
-  fAnalysisMacroCommands[id]=com;
-  fAnalysisMacroButtons[id]->setToolTip(tip);
-#endif
 
+
+void TGo4UserCommands::SetAutoExecute(int id, bool on)
+{
+	fAnalysisMacroAutoExecute[id]=on;
+	QString iconname;
+	if(on)
+	{
+		iconname=QString(":/icons/Number-%1-icon-green.png").arg(id+1);
+	}
+	else
+	{
+		iconname=QString(":/icons/Number-%1-icon.png").arg(id+1);
+	}
+	fAnalysisMacroButtons[id]->setIcon(QIcon(iconname));
 }
 
 
-
-
-
-//void TGo4UserCommands::ClearAnalysisMacros()
-//{
-//  if(QMessageBox::question( this, "Analysis Macro Buttons", "Really Clear all user defined macro commands?",
-//          QMessageBox::Yes | QMessageBox::No ,
-//          QMessageBox::Yes) != QMessageBox::Yes ) {
-//             return;
-//       }
-//
-//
-//  for(int i=0; i<GO4GUI_MAXMACRONUM;++i)
-//      {
-//	  	 fAnalysisMacroButtons[i]->setEnabled(false);
-//        fAnalysisMacroCommands[i]="";
-//        go4sett->setAnalysisMacroCommand(i,"");
-//        go4sett->setAnalysisMacroTip(i,"");
-//      }
-//}
 
 

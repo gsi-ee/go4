@@ -53,7 +53,6 @@ class QMenu;
 class QSpinBox;
 class QPushButton;
 
-class TGo4UserCommands;
 
  /** This is the Go4 Main Window
    * @author Mohammad Al-Turany, modifications J.Adamczewski, S.Linev
@@ -61,7 +60,6 @@ class TGo4UserCommands;
    * @since 15.05.2002 */
 
 
-#define GO4GUI_MAXMACRONUM 9
 
 
 class TGo4MainWindow : public QMainWindow {
@@ -87,6 +85,7 @@ class TGo4MainWindow : public QMainWindow {
       void aboutQt();
       void aboutROOT();
       void aboutDABC();
+      void aboutIcons();
       void windowsMenuAboutToShow();
       void UserPanelSlot();
       TGo4ViewPanel* MakeNewPanel(int div = 0);
@@ -286,10 +285,6 @@ class TGo4MainWindow : public QMainWindow {
       QAction*           faStopAnal;
       QAction*           faAnalConfig;
       QAction*           faAnalTermin;
-
-
-      TGo4UserCommands* fUserCommandPanel;
-
 };
 
 #endif

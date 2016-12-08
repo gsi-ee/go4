@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>437</width>
-    <height>298</height>
+    <width>519</width>
+    <height>297</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -91,6 +91,11 @@
        <string>Tooltip</string>
       </property>
      </column>
+     <column>
+      <property name="text">
+       <string>Timer</string>
+      </property>
+     </column>
      <item row="0" column="0">
       <property name="text">
        <string>a</string>
@@ -99,6 +104,11 @@
      <item row="0" column="1">
       <property name="text">
        <string>b</string>
+      </property>
+     </item>
+     <item row="0" column="2">
+      <property name="text">
+       <string>on</string>
       </property>
      </item>
      <item row="1" column="0">
@@ -111,6 +121,11 @@
        <string>d</string>
       </property>
      </item>
+     <item row="1" column="2">
+      <property name="text">
+       <string>on</string>
+      </property>
+     </item>
      <item row="2" column="0">
       <property name="text">
        <string>e</string>
@@ -119,6 +134,11 @@
      <item row="2" column="1">
       <property name="text">
        <string>f</string>
+      </property>
+     </item>
+     <item row="2" column="2">
+      <property name="text">
+       <string>on</string>
       </property>
      </item>
      <item row="3" column="0">
@@ -131,6 +151,11 @@
        <string>h</string>
       </property>
      </item>
+     <item row="3" column="2">
+      <property name="text">
+       <string>on</string>
+      </property>
+     </item>
      <item row="4" column="0">
       <property name="text">
        <string>i</string>
@@ -139,6 +164,11 @@
      <item row="4" column="1">
       <property name="text">
        <string>j</string>
+      </property>
+     </item>
+     <item row="4" column="2">
+      <property name="text">
+       <string>on</string>
       </property>
      </item>
      <item row="5" column="0">
@@ -151,6 +181,11 @@
        <string>l</string>
       </property>
      </item>
+     <item row="5" column="2">
+      <property name="text">
+       <string>on</string>
+      </property>
+     </item>
      <item row="6" column="0">
       <property name="text">
        <string>m</string>
@@ -161,6 +196,11 @@
        <string>n</string>
       </property>
      </item>
+     <item row="6" column="2">
+      <property name="text">
+       <string>on</string>
+      </property>
+     </item>
      <item row="7" column="0">
       <property name="text">
        <string>o</string>
@@ -169,6 +209,11 @@
      <item row="7" column="1">
       <property name="text">
        <string>p</string>
+      </property>
+     </item>
+     <item row="7" column="2">
+      <property name="text">
+       <string>on</string>
       </property>
      </item>
     </widget>

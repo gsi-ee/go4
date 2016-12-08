@@ -273,8 +273,11 @@ class TGo4QSettings {
       /** for predefined macro buttons in main gui:*/
       QString getAnalysisMacroCommand(int id);
       QString getAnalysisMacroTip(int id);
+       bool getAnalysisMacroAutomode(int id);
       void    setAnalysisMacroCommand(int id, const QString& com);
       void    setAnalysisMacroTip(int id, const QString& com);
+      void setAnalysisMacroAutomode(int id, bool on);
+
 
       /** for Qt>5.6: factor to scale up whole gui on high dpi screens*/
       double  getScreenScaleFactor();

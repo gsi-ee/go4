@@ -13,9 +13,8 @@
 #ifndef TGO4USERCOMMANDS_H
 #define TGO4USERCOMMANDS_H
 
-class TGo4MainWindow;
 
-#include <QWidget>
+#include "QGo4Widget.h"
 #include <QString>
 #include <QToolButton>
 #include <QCheckBox>
@@ -28,27 +27,26 @@ class TGo4MainWindow;
 #include "ui_TGo4UserCommands.h"
 #include <vector>
 
-class TGo4UserCommands : public QWidget, public Ui::TGo4UserCommands
+class TGo4UserCommands : public QGo4Widget, public Ui::TGo4UserCommands
  {
      Q_OBJECT
 
 protected:
 
-	 /** shortcut array to Qt designer buttons*/
+	 /** array to Qt designer buttons*/
 	 std::vector<QToolButton*> fAnalysisMacroButtons;
-
-	 /** shortcut array to Qt designer boxes*/
-	 std::vector<QCheckBox*> fAnalysisMacroMonitorCheck;
 
 	 /** command strings to execute*/
 	 std::vector<QString>    fAnalysisMacroCommands;
+
+	 /** here we remember if we want automatic timer execution */
+	 std::vector<bool> fAnalysisMacroAutoExecute;
 
 
 
 	 QTimer* fAnalysisMacroTimer;
 
 
-	 TGo4MainWindow* fMainWindow;
 
  public:
     TGo4UserCommands( QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = 0 );
@@ -76,8 +74,11 @@ protected:
 
 
       void ExecuteAnalysisMacro(int id);
-      void DefineAnalysisMacro(int id);
-     // void ClearAnalysisMacros();
+      //void DefineAnalysisMacro(int id);
+
+      /** activate auto execution state for command of id*/
+      void SetAutoExecute(int id, bool on);
+
 
 
       void AnalysisMacroMonitorBtn_clicked();
