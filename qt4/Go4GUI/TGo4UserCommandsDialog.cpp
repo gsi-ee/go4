@@ -40,7 +40,7 @@ TGo4UserCommandsDialog::TGo4UserCommandsDialog( QWidget* parent )
 	   if(autoitem)
 	   	   {
 		   	   autoitem->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
-		   	   autoitem->setCheckState( monitor ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+		   	   autoitem->setCheckState( monitor ? Qt::Checked : Qt::Unchecked);
 
 	   	   }
 
@@ -73,7 +73,7 @@ bool TGo4UserCommandsDialog::GetAutoExecute(int id)
 	bool rev(false);
 	QTableWidgetItem* item=CommandsTable->item(id,2);
 	if(item)
-	rev=(item->checkState()==Qt::CheckState::Checked);
+	rev=(item->checkState()==Qt::Checked);
 	return rev;
 
 }
@@ -94,7 +94,7 @@ void TGo4UserCommandsDialog::ButtonPressed(QAbstractButton* but)
 		   QTableWidgetItem* autoitem=  CommandsTable->item(id,2);
 		   if(autoitem)
 		  	   	   {
-		  		   	   autoitem->setCheckState(Qt::CheckState::Unchecked);
+		  		   	   autoitem->setCheckState(Qt::Unchecked);
 		  	   	   }
 	   }
    } // if Reset
