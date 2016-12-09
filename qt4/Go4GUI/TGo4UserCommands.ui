@@ -39,6 +39,9 @@
        <normaloff>:/icons/macro_t.png</normaloff>:/icons/macro_t.png</iconset>
      </property>
      <property name="checkable">
+      <bool>false</bool>
+     </property>
+     <property name="autoRaise">
       <bool>true</bool>
      </property>
     </widget>
