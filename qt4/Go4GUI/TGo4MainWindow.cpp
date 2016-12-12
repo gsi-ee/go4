@@ -462,7 +462,7 @@ void TGo4MainWindow::aboutIcons()
 {
 	QString mestring("This Go4 uses some icons from  <a href='http://www.iconarchive.com/show/red-orb-alphabet-icons-by-iconarchive.html'>www.iconarchive.com</a> <br>");
 	mestring.append("These icons are licensed under a <a href='http://creativecommons.org/licenses/by/3.0/'>Creative Commons Attribution 3.0 License. </a> <br> ");
-	mestring.append("They were partially modified from red to green colors by the Go4 developers.");
+	mestring.append("They were modified by the Go4 developers.");
 	QMessageBox AboutIcons("Icons", mestring,
 		QMessageBox::NoIcon,QMessageBox::Ok,QMessageBox::NoButton,QMessageBox::NoButton ,this);
 	AboutIcons.setIconPixmap(QPixmap( ":/icons/Number-4-icon-green.png"));
