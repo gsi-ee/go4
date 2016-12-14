@@ -85,7 +85,6 @@ class TGo4MainWindow : public QMainWindow {
       void aboutQt();
       void aboutROOT();
       void aboutDABC();
-      void aboutIcons();
       void windowsMenuAboutToShow();
       void UserPanelSlot();
       TGo4ViewPanel* MakeNewPanel(int div = 0);

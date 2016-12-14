@@ -42,7 +42,6 @@ Changes in Go4 v5.1.x (Winter 2016)
    to clear histograms frequently by defining command '@ClearObjects("Histograms")' 
 9. Redesign of Analysis Command button toolbar: Icons instead of text labels 
    (text labels showed some problems with redefined keyboard shortcuts at Qt5!).
-   Use icons from www.iconarchive.com (see IconsLicense.txt)
    Added Configuration window for commands, tooltips, and timer execution state. Checkboxes in toolbar
    were replaced by red or green button icon colors to indicate which command is frequently executed by timer.     
    
