@@ -189,7 +189,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual bool IsFreezeTitle();
       virtual void ChangeDrawOptionForPad(TGo4Slot* padslot, int kind, int value, const char* drawopt );
       virtual void ChangeDrawOption( int kind, int value, const char* drawopt );
-      virtual void ResetPadFillColors( TPad * pad, int col );
+      virtual void ResetPadFillColors( TPad * pad, int col , TPad* backup=0);
       virtual void ClearPad( TPad * pad, bool removeitems, bool removesubpads );
       virtual void ClearPadItems( TGo4Slot * padslot, TGo4Slot* remain );
       virtual void ProcessPadClear( TPad * pad, bool removeitems, bool removesubpads );

@@ -1,6 +1,6 @@
 ---------------------------------------------------------------
          Go4 Release Package v5.1.x (build 50103)
-                      8-December-2016
+                      20-December-2016
 ---------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -21,7 +21,7 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
-Changes in Go4 v5.1.x (Winter 2016)
+Changes in Go4 v5.1.x (Winter 2016/2017)
 1. Handle mouse wheel events in QtRoot interface, used in ROOT zooming
 2. Bugfix in parameter Editor: format string precision for Float_t, Double_t, and Double32_t was reduced to defaults. 
    Now it supports full range of data type and exponential formatting. 
@@ -43,7 +43,10 @@ Changes in Go4 v5.1.x (Winter 2016)
 9. Redesign of Analysis Command button toolbar: Icons instead of text labels 
    (text labels showed some problems with redefined keyboard shortcuts at Qt5!).
    Added Configuration window for commands, tooltips, and timer execution state. Checkboxes in toolbar
-   were replaced by red or green button icon colors to indicate which command is frequently executed by timer.     
+   were replaced by red or green button icon colors to indicate which command is frequently executed by timer.  
+10. Qt4 GUI: Added preferences flag to supress background colors of pads and frames when exporting the canvas with
+    the Viewpanel "File/SaveAs.." Menu to various image and print formats. This mode can be set by main window menu 
+    "Settings/PanelDefaults/Save pad fillcolors white".      
    
    
 Changes in Go4 v5.1.2 (May 2016)

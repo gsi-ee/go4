@@ -535,6 +535,10 @@ void TGo4MainWindow::AddSettingMenu()
    panelMenu->addAction("Printf format ...", this, SLOT(GStyleStatFormatSlot()));
    panelMenu->addAction("Palette settings ...", this, SLOT(PaletteSettingsSlot()));
 
+
+   faSaveWhite=AddChkAction(panelMenu, "Save pad fillcolors white",
+       go4sett->getSavePadWhiteBackground(), this, SLOT(ChangeSaveWhiteBackgroundSlot()));
+
    settMenu->addAction("&Log actions...", this, SLOT(LogSettingsSlot()));
 
    settMenu->addAction("Generate &hotstart", this, SLOT(CreateGUIScriptSlot()));
@@ -1587,6 +1591,13 @@ void TGo4MainWindow::ChangeDrawDateFlagSlot()
 {
    go4sett->setDrawDateFlag(faDrawDate->isChecked());
 }
+
+
+void TGo4MainWindow::ChangeSaveWhiteBackgroundSlot()
+{
+  go4sett->setSavePadWhiteBackground(faSaveWhite->isChecked());
+}
+
 
 void TGo4MainWindow::DrawLineWidthSlot()
 {
@@ -2807,7 +2818,9 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
 {
    if (panel==0) return;
 
-   TCanvas* can = panel->GetCanvas();
+   TCanvas* can= panel->GetCanvas();
+   TCanvas* cansav;
+
 
    QFileDialog fd( this, QString("Save ") + panel->objectName() + " As", fLastFileDir);
    fd.setFileMode( QFileDialog::AnyFile );
@@ -2817,7 +2830,7 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
    QString PS_Portrait = "Post Script Portrait (*.ps)";
    QString PS_Landscape = "Post Script Landscape (*.ps)";
    QString EPS = "Encapsulated Post Script (*.eps)";
-   QString EPS_Preview = "Encapsulated Post Script previw (*.eps)";
+   QString EPS_Preview = "Encapsulated Post Script preview (*.eps)";
    QString GIF = "GIF format (*.gif)";
    QString PDF = "PDF format (*.pdf)";
    QString SVG = "SVG format (*.svg)";
@@ -2854,6 +2867,14 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
 
    if (fd.exec() != QDialog::Accepted) return;
 
+
+   bool blankbg=go4sett->getSavePadWhiteBackground();
+   if(blankbg)
+   {
+     can = (TCanvas*) panel->GetCanvas()->Clone();
+     can->SetName("PrintoutPad");
+     //std::cout << "SavePanelCanvas has cloned panel canvas! "<< can->GetName()<< std::endl;
+   }
    QStringList flst = fd.selectedFiles();
    if (flst.isEmpty()) return;
 
@@ -2919,15 +2940,22 @@ void TGo4MainWindow::SavePanelCanvas(TGo4ViewPanel* panel)
    if (filter==ROOTM) {
       opt = "root";
       if (!filename.endsWith(".root")) filename.append(".root");
-
-      // plain root browser might not know the go4 color numbers
-      // canvas always saved with white background!
-      panel->ResetPadFillColors(can,0);
    }
 
-   //TString oldname = thiscanvas->GetName();
-   //thiscanvas->SetName("Canvas");
+   if(blankbg)
+   {
+     panel->ResetPadFillColors(can,0);
+     // std::cout <<"Reset pad fill colors for blank bg option with canvas "<<can->GetName() <<std::endl;
+     gROOT->SetBatch(kTRUE); // force ROOT to make memory print of canvas instead of using actual window display for image formats.
+   }
    can->Print(filename.toLatin1().constData(), opt);
+
+    // std::cout<< "printed canvas "<<can->GetName() << std::endl;
+   if(blankbg)
+   {
+        gROOT->SetBatch(kFALSE);
+       delete can;
+   }
 }
 
 TGo4ObjectManager* TGo4MainWindow::OM()

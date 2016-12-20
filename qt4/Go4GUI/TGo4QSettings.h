@@ -283,6 +283,10 @@ class TGo4QSettings {
       double  getScreenScaleFactor();
       void    setScreenScaleFactor(double factor);
 
+      /** switch to make pad and frame backgrounds white before saving/printing them*/
+      bool getSavePadWhiteBackground();
+      void setSavePadWhiteBackground(bool on);
+
 
 };
 

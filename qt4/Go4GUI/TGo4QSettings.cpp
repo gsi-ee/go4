@@ -1049,3 +1049,14 @@ void    TGo4QSettings::setScreenScaleFactor(double factor)
   setDouble( "/Screen/ScaleFactor", factor);
 }
 
+bool TGo4QSettings::getSavePadWhiteBackground()
+{
+      return getBool("/ViewPanel/SavePadWhiteBackground" , false);
+
+}
+
+void  TGo4QSettings::setSavePadWhiteBackground(bool on)
+{
+
+  setBool("/ViewPanel/SavePadWhiteBackground", on);
+}

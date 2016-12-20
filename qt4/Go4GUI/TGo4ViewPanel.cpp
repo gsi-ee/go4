@@ -4331,23 +4331,52 @@ void TGo4ViewPanel::ChangeDrawOption(int kind, int value, const char* drawopt)
    RedrawPanel(pad, false);
 }
 
-void TGo4ViewPanel::ResetPadFillColors(TPad* pad, int col)
+void TGo4ViewPanel::ResetPadFillColors(TPad* pad, int col, TPad* backup)
 {
    TGo4LockGuard lock;
-
    if (pad == 0)
       return;
+   if(backup) col=backup->GetFillColor();
    pad->SetFillColor((Color_t) col);
+   //pad->Modified(); // for image formats, display window bitmap has to change
+   //std::cout<<"ResetPadFillColors sets color "<<col<<" to pad "<< (unsigned long) pad<<", name:"<<pad->GetName()<<", backup was "<<backup << std::endl;
    TIter iter(pad->GetListOfPrimitives());
    TObject* obj = 0;
    while ((obj = iter()) != 0) {
       TPad* subpad = dynamic_cast<TPad*>(obj);
       TFrame* fram = dynamic_cast<TFrame*>(obj);
-      if (subpad != 0)
-         ResetPadFillColors(subpad, col);
+      if (subpad != 0){
+        //std::cout<<"ResetPadFillColors finds subpad " << (unsigned long) subpad << std::endl;
+        TPad* backpad=0;
+        if(backup)
+          {
+            backpad=dynamic_cast<TPad*>(backup->GetListOfPrimitives()->FindObject(subpad->GetName()));
+            // debug only:
+//            if(backpad)
+//            {
+//                col=backpad->GetFillColor();
+//                std::cout<<"ResetPadFillColors finds backup pad "<<backpad->GetName()<<" with color "<< col << std::endl;
+//            }
+            // end debug
+          }
+         ResetPadFillColors(subpad, col, backpad);
+       }
       else if (fram != 0)
-         fram->SetFillColor((Color_t) col);
+      {
+        if(backup)
+        {
+         TFrame* backframe=dynamic_cast<TFrame*>(backup->GetListOfPrimitives()->FindObject(fram->GetName()));
+         if(backframe)
+          {
+              col=backframe->GetFillColor();
+              //std::cout<<"ResetPadFillColors finds backup frame "<<backframe->GetName()<<" with color "<< col << std::endl;
+          }
+        }
+        //std::cout<<"ResetPadFillColors sets color "<<col<<" to subframe "<< (unsigned long) fram->GetName()<< std::endl;
+        fram->SetFillColor((Color_t) col);
+      }
    }
+
 }
 
 void TGo4ViewPanel::ClearPad(TPad* pad, bool removeitems, bool removesubpads)

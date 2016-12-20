@@ -130,6 +130,7 @@ class TGo4MainWindow : public QMainWindow {
       void ChangeDrawTimeFlagSlot();
       void ChangeDrawDateFlagSlot();
       void ChangeDrawItemFlagSlot();
+      void ChangeSaveWhiteBackgroundSlot();
 
       void DrawLineWidthSlot();
       void DrawFillColorSlot();
@@ -273,6 +274,8 @@ class TGo4MainWindow : public QMainWindow {
       QAction*           faDrawTime;
       QAction*           faDrawDate;
       QAction*           faDrawItem;
+      QAction*           faSaveWhite;
+
 
       QAction*           faLaunchAnal;
       QAction*           faConnectAnal;
