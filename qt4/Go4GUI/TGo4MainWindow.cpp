@@ -497,6 +497,10 @@ void TGo4MainWindow::AddSettingMenu()
    QMenu* panelMenu = settMenu->addMenu("&Panel defaults");
 
    panelMenu->addAction("&Canvas color...", this, SLOT(CanvasColorSlot()));
+
+   faSaveWhite=AddChkAction(panelMenu, "White canvas for saved images",
+          go4sett->getSavePadWhiteBackground(), this, SLOT(ChangeSaveWhiteBackgroundSlot()));
+
    panelMenu->addAction("Marker labels...", this, SLOT(MarkerSettingsSlot()));
    panelMenu->addAction("Statistics box...", this, SLOT(OptStatsSlot()));
 
@@ -536,8 +540,7 @@ void TGo4MainWindow::AddSettingMenu()
    panelMenu->addAction("Palette settings ...", this, SLOT(PaletteSettingsSlot()));
 
 
-   faSaveWhite=AddChkAction(panelMenu, "Save pad fillcolors white",
-       go4sett->getSavePadWhiteBackground(), this, SLOT(ChangeSaveWhiteBackgroundSlot()));
+
 
    settMenu->addAction("&Log actions...", this, SLOT(LogSettingsSlot()));
 

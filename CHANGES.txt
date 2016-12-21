@@ -46,7 +46,7 @@ Changes in Go4 v5.1.x (Winter 2016/2017)
    were replaced by red or green button icon colors to indicate which command is frequently executed by timer.  
 10. Qt4 GUI: Added preferences flag to supress background colors of pads and frames when exporting the canvas with
     the Viewpanel "File/SaveAs.." Menu to various image and print formats. This mode can be set by main window menu 
-    "Settings/PanelDefaults/Save pad fillcolors white".      
+    "Settings/PanelDefaults/"White canvas for saved images".      
    
    
 Changes in Go4 v5.1.2 (May 2016)
