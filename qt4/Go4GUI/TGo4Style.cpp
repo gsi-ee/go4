@@ -118,7 +118,8 @@ void TGo4Style::SetPaletteRange(int min, int def, int max)
   Palette->setMaximum(max);
   Palette->setValue(def);
   def=Palette->value(); // spinbox automatic limiting of range
-  gStyle->SetPalette(def,0,0);
+  //gStyle->SetPalette(def,0,0);
+  gStyle->SetPalette(def);
   SetPalette(def);
   RefreshPaletteText(min,max);
 }
