@@ -1,6 +1,6 @@
 --------------------------------------------------------------
-         Go4 Release Package v5.1.2 (build 50102)
-                      2-May-2016
+         Go4 Release Package v5.2.0 (build 50200)
+                      9-January-2017
 --------------------------------------------------------------
     The GSI Online Offline Object Oriented (Go4) Project
     Experiment Data Processing at EE department, GSI
@@ -21,8 +21,8 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 These package was tested on
-    Suse 13.x (x86_64), openSUSE Leap 42.1
-    Debian 6.0, Debian 7.0,  Debian 8.0 (32 bit and 64bit)
+    Suse 13.x (x86_64), openSUSE Leap 42.2
+    Debian 6.0, Debian 7.0,  Debian 8.6 (32 bit and 64bit)
     compilers: gcc 4.7.2, gcc 4.8.1, gcc 4.8.5
     Windows 7
 
