@@ -33,6 +33,7 @@ go4-package:
 	@tar rhf $(GO4TAR_NAME) macros/*.C 
 	@tar rhf $(GO4TAR_NAME) icons --exclude=*.svn
 	@tar rhf $(GO4TAR_NAME) html --exclude=*.svn
+	@tar rhf $(GO4TAR_NAME) python --exclude=*.svn --exclude=*.pyc
 	@mkdir -p $(DISTR_DIR); cd $(DISTR_DIR); mkdir -p $(GO4PACK_VERS)
 	@mv $(GO4TAR_NAME) $(GO4DISTR_DIR)
 	@cd $(GO4DISTR_DIR); tar xf $(GO4TAR_NAME); rm -f $(GO4TAR_NAME)
