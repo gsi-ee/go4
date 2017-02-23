@@ -813,7 +813,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       if (pave_painter == null) {
          this.pave = JSROOT.Create("TPaveStats");
          this.pave.fName = "stats_" + this.cond.fName;
-         jQuery.extend(this.pave, { fX1NDC: 0.1, fY1NDC: 0.4, fX2NDC: 0.4, fY2NDC: 0.65, fBorderSize: 1 });
+         jQuery.extend(this.pave, { fX1NDC: 0.1, fY1NDC: 0.4, fX2NDC: 0.4, fY2NDC: 0.65, fBorderSize: 1, fFillColor: 0, fFillStyle: 1001 });
          jQuery.extend(this.pave, JSROOT.gStyle.StatText);
          jQuery.extend(this.pave, JSROOT.gStyle.StatFill);
       } else {

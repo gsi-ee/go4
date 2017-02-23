@@ -91,16 +91,16 @@
    }
    
    GO4.AfterMsgListRequest = function(hitem, item, obj) {
-      if (item==null) return;
+      if (!item) return;
       
-      if (obj==null) {
+      if (!obj) {
          delete item['last-id'];
          return;
       } 
       // ignore all other classes   
-      if (obj['_typename'] != 'TList') return;
+      if (obj._typename != 'TList') return;
          
-      obj['_typename'] = "TGo4MsgList";
+      obj._typename = "TGo4MsgList";
       
       if (obj.arr.length>0) {
          var duplicate = (('last-id' in item) && (item['last-id'] == obj.arr[0].fString));
@@ -153,7 +153,7 @@
          old.select(function(d,i) { return i < newsize - 2000 ? this : null; }).remove();
 
       for (var i=this.lst.arr.length-1;i>0;i--)
-         main.append("pre").html(this.lst.arr[i].fString);
+         main.append("pre").style('margin','3px').html(this.lst.arr[i].fString);
       
       // (re) set painter to first child element
       this.SetDivId(this.divid);
@@ -276,11 +276,9 @@
           
           
           $(id + " .go4_executescript").button()
-        	.button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
-          .children(":first") // select first button element, used for images
-          .css('background-image', "url(" + GO4.source_dir + "icons/macro_t.png)");
-          
-      
+        	   .button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
+            .children(":first") // select first button element, used for images
+            .css('background-image', "url(" + GO4.source_dir + "icons/macro_t.png)");
       }
       
       
