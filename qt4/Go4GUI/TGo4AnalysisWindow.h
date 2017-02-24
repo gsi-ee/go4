@@ -35,7 +35,8 @@ class TGo4AnalysisWindow : public QGo4Widget {
        void SetHistorySize(int sz);
        void StartAnalysisShell(const char* cmd, const char* workdir = 0, bool aschildprocess = false);
        void TerminateAnalysisProcess();
-       void AppendOutputBuffer(const QString& value);
+       void AppendOutputBuffer(const QString& value, int prio=0);
+       void UpdateTimeStampFormat();
        void WorkWithUpdateObjectCmd(TGo4Slot* slot);
        void WorkWithDebugOutput(TGo4Slot* slot);
        void WaitForNewObject(bool isobjectforeditor);
@@ -69,11 +70,19 @@ class TGo4AnalysisWindow : public QGo4Widget {
       void CreateButtons(QHBoxLayout*, bool);
       void CreateCmdLine(QHBoxLayout*);
 
+
+
+      /** prepend timestamp in front of next terminal buffer.
+       * Depending on prio, stderr output can be marked as warning*/
+      void AddTimeStamp(QString& buf, int prio=0);
+
       QProcess *fAnalysisProcess;
       QGo4CommandsHistory *fxCmdHist;
       QString outputBuffer;
       QTextEdit* fxOutput;
       unsigned int fiMaxOuputSize;
+      bool fbShowTimestamps;
+      QString fxTimeFormat;
       bool fNewObjectForEditor;
       bool fHasLink;
       bool fTerminateOnClose;

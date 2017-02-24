@@ -112,6 +112,13 @@ class TGo4QSettings {
       void    setTermHistorySize(int sz);
       int     getTermHistorySize();
 
+      bool getTermShowTimestamp();
+      void setTermShowTimestamp(bool on);
+
+      QString   getTermTimeFormat();
+      void      setTermTimeFormat(const QString& form);
+
+
       void    setHServName(const QString&);
       QString getHServName();
       void    setHServBase(const QString&);

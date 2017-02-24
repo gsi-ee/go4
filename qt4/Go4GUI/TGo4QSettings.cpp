@@ -1060,3 +1060,24 @@ void  TGo4QSettings::setSavePadWhiteBackground(bool on)
 
   setBool("/ViewPanel/SavePadWhiteBackground", on);
 }
+
+bool TGo4QSettings::getTermShowTimestamp()
+{
+  return getBool("/AnalisysTerminal/ShowTimestamp", false);
+}
+
+void TGo4QSettings::setTermShowTimestamp(bool on)
+{
+  setBool("/AnalisysTerminal/ShowTimestamp", on);
+}
+
+QString   TGo4QSettings::getTermTimeFormat()
+{
+  return getStr( "/AnalisysTerminal/TimeFormat", "yyyy-MM-dd·hh:mm:ss.zzz");
+}
+
+void  TGo4QSettings::setTermTimeFormat(const QString& form)
+{
+  setStr( "/AnalisysTerminal/TimeFormat", form);
+}
+

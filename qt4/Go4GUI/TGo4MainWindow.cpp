@@ -543,12 +543,17 @@ void TGo4MainWindow::AddSettingMenu()
 
 
    settMenu->addAction("&Log actions...", this, SLOT(LogSettingsSlot()));
+   QMenu* termMenu = settMenu->addMenu("&Terminal");
+   faTermTimeStamp = AddChkAction(termMenu, "Print timestamps",
+                         go4sett->getTermShowTimestamp(), this, SLOT(ChangeTerminalTimeStampSlot()));
+   termMenu->addAction("&Timestamp Format...", this, SLOT(ChangeTerminalTimeStampFormatSlot()));
+   termMenu->addAction("&History...", this, SLOT(InputTerminalParametersSlot()));
+   termMenu->addAction("&Font...", this, SLOT(ChangeTerminalFontSlot()));
+
 
    settMenu->addAction("Generate &hotstart", this, SLOT(CreateGUIScriptSlot()));
    settMenu->addAction("&Break hotstart execution", this, SLOT(StopGUIScriptSlot()));
 
-   settMenu->addAction("&Terminal history", this, SLOT(InputTerminalParametersSlot()));
-   settMenu->addAction("&Terminal font...", this, SLOT(ChangeTerminalFontSlot()));
 
    settMenu->addAction("&Save settings", this, SLOT(SaveSettingsSlot()));
 
@@ -1390,6 +1395,35 @@ void TGo4MainWindow::ChangeTerminalFontSlot()
    TGo4AnalysisWindow* anw = FindAnalysisWindow();
    if (anw) anw->setFont(font);
 }
+
+
+void TGo4MainWindow::ChangeTerminalTimeStampSlot()
+{
+  go4sett->setTermShowTimestamp(faTermTimeStamp->isChecked());
+  TGo4AnalysisWindow* anw = FindAnalysisWindow();
+  if (anw!=0)
+    anw->UpdateTimeStampFormat();
+}
+
+void TGo4MainWindow::ChangeTerminalTimeStampFormatSlot()
+{
+
+  bool ok = false;
+  QString str = QInputDialog::getText(this, "Analysis terminal timestamp format",
+      "Time format (empty resets to  yyyy-MM-dd·hh:mm:ss.zzz)",
+       QLineEdit::Normal, go4sett->getTermTimeFormat(), &ok);
+  if (ok)
+  {
+    if (str.isEmpty())
+      str = "yyyy-MM-dd·hh:mm:ss.zzz";
+    go4sett->setTermTimeFormat(str);
+    TGo4AnalysisWindow* anw = FindAnalysisWindow();
+    if (anw!=0)
+          anw->UpdateTimeStampFormat();
+  }
+}
+
+
 
 void TGo4MainWindow::SetStyleSlot(const QString &style)
 {
@@ -2351,7 +2385,7 @@ void TGo4MainWindow::TerminateAnalysis(bool interactive)
 
    anw = FindAnalysisWindow();
    if (anw!=0)
-      anw->AppendOutputBuffer(QString("\nKilling analysis client: \n  ")+fKillCommand);
+      anw->AppendOutputBuffer(QString("\nKilling analysis client: \n  ")+fKillCommand, 2);
    else
       StatusMessage(QString("Killing analysis client with: ")+fKillCommand);
 

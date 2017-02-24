@@ -32,6 +32,8 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QToolButton>
+#include <QDateTime>
+#include <QString>
 
 #include "TGo4QSettings.h"
 #include "TGo4AnalysisProxy.h"
@@ -49,6 +51,8 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
     fxOutput = 0;
     outputBuffer = "";
     fiMaxOuputSize = 0;
+    fbShowTimestamps=kFALSE;
+    fxTimeFormat="yyyy-MM-dd·hh:mm:ss";
     fxCmdHist = 0;
     fHasLink = false;
     fTerminateOnClose = false;
@@ -75,6 +79,9 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
        layout->addWidget( fxOutput, 0, 0 );
 
        fiMaxOuputSize = go4sett->getTermHistorySize();
+       UpdateTimeStampFormat();
+
+
 
        QHBoxLayout *box1 = new QHBoxLayout();
        box1->addWidget(new QLabel("Press enter to execute.", this), 1);
@@ -97,6 +104,14 @@ TGo4AnalysisWindow::TGo4AnalysisWindow(QWidget* parent, const char* name, bool n
        adjustSize();
     }
 }
+
+
+void TGo4AnalysisWindow::UpdateTimeStampFormat()
+{
+  fbShowTimestamps=go4sett->getTermShowTimestamp();
+  fxTimeFormat= go4sett->getTermTimeFormat();
+}
+
 
 void TGo4AnalysisWindow::CreateCmdLine(QHBoxLayout* box)
 {
@@ -260,7 +275,7 @@ void TGo4AnalysisWindow::readFromStdout()
    if (fAnalysisProcess!=0) {
       QByteArray ba = fAnalysisProcess->readAllStandardOutput();
       QString buf(ba);
-      AppendOutputBuffer(buf);
+      AppendOutputBuffer(buf,0);
    }
 }
 
@@ -270,13 +285,31 @@ void TGo4AnalysisWindow::readFromStderr()
     if (fAnalysisProcess!=0) {
        QByteArray ba = fAnalysisProcess->readAllStandardError();
        QString buf(ba);
-       AppendOutputBuffer(buf);
+       AppendOutputBuffer(buf,1);
     }
 }
 
-void TGo4AnalysisWindow::AppendOutputBuffer(const QString& value)
+
+void TGo4AnalysisWindow::AddTimeStamp(QString& buf, int prio)
 {
+  QString pre = prio>0 ? "!":"*";
+  QString format= QString("GO4-%1> [%2]\n").arg(pre).arg(fxTimeFormat);
+  buf = QDateTime::currentDateTime().toString(format)+ buf;
+}
+
+
+void TGo4AnalysisWindow::AppendOutputBuffer(const QString& value, int prio)
+{
+  if(fbShowTimestamps || prio>1)
+  {
+    QString buf=value;
+    AddTimeStamp(buf,prio);
+    outputBuffer.append(buf);
+  }
+  else
+  {
     outputBuffer.append(value);
+  }
 }
 
 void TGo4AnalysisWindow::StartAnalysisShell(const char* text, const char* workdir, bool aschildprocess)
@@ -316,7 +349,7 @@ void TGo4AnalysisWindow::RequestTerminate()
 void TGo4AnalysisWindow::TerminateAnalysisProcess()
 {
    if (fAnalysisProcess==0) return;
-   AppendOutputBuffer("\nTerminate process ... \n\n");
+   AppendOutputBuffer("\nTerminate process ... \n\n",2);
    fAnalysisProcess->terminate();
    if (fAnalysisProcess->state() == QProcess::Running) fAnalysisProcess->kill();
    delete fAnalysisProcess;

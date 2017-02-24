@@ -21,6 +21,13 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
+
+Changes in Go4 v5.2.x (spring 2017)
+1. Go4 GUI (Qt4/5): Optional timestamp output in analysis terminal window before each text buffer. This feature can be 
+   toggled by GUI menu "Settings/Terminal/PrintTimestamp". The format string (QDateTime) can be defined by menu
+   "Settings/Terminal/Timestamp Format..." dialog. Both properties are stored in go4 settings. Other properties of Analysis Terminal
+   such history and font, also appear as "Settings/Terminal" submenus now. Thanks Sven Augustin for this idea.
+
 Changes in Go4 v5.2.0 (January 2017)
 1. Handle mouse wheel events in QtRoot interface, used in ROOT zooming
 2. Bugfix in parameter Editor: format string precision for Float_t, Double_t, and Double32_t was reduced to defaults. 
