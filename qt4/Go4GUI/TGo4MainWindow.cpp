@@ -1410,12 +1410,12 @@ void TGo4MainWindow::ChangeTerminalTimeStampFormatSlot()
 
   bool ok = false;
   QString str = QInputDialog::getText(this, "Analysis terminal timestamp format",
-      "Time format (empty resets to  yyyy-MM-dd·hh:mm:ss.zzz)",
+      "Time format (empty resets to  yyyy-MM-dd·hh mm:ss.zzz)",
        QLineEdit::Normal, go4sett->getTermTimeFormat(), &ok);
   if (ok)
   {
     if (str.isEmpty())
-      str = "yyyy-MM-dd·hh:mm:ss.zzz";
+      str = "yyyy-MM-dd hh:mm:ss.zzz";
     go4sett->setTermTimeFormat(str);
     TGo4AnalysisWindow* anw = FindAnalysisWindow();
     if (anw!=0)

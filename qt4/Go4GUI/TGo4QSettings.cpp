@@ -1073,7 +1073,7 @@ void TGo4QSettings::setTermShowTimestamp(bool on)
 
 QString   TGo4QSettings::getTermTimeFormat()
 {
-  return getStr( "/AnalisysTerminal/TimeFormat", "yyyy-MM-dd·hh:mm:ss.zzz");
+  return getStr( "/AnalisysTerminal/TimeFormat", "yyyy-MM-dd·hh mm:ss.zzz");
 }
 
 void  TGo4QSettings::setTermTimeFormat(const QString& form)
