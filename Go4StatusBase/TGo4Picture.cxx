@@ -107,6 +107,7 @@ enum OptionsIdentifiers {
    op_FrameBottom = 98,
 
    op_ApplyToAll  = 99,
+   op_AutoZoom   = 100,
 
    op_TimeAxisX	  = 200,
    //op_TimeAxisXFmt= 201, // must be larger han op_ObjsBound for SetStrOption?
@@ -1130,7 +1131,7 @@ void TGo4Picture::SetTitleDate(Bool_t on)
 
 Bool_t TGo4Picture::IsTitleDate() const
 {
-   Long_t zn = kFALSE;
+   Long_t zn = 0;
    GetOption(PictureIndex, op_TitleDate, zn);
    return zn!=0;
 }
@@ -1142,7 +1143,7 @@ void TGo4Picture::SetTitleItem(Bool_t on)
 
 Bool_t TGo4Picture::IsTitleItem() const
 {
-   Long_t zn = kFALSE;
+   Long_t zn = 0;
    GetOption(PictureIndex, op_TitleItem, zn);
    return zn!=0;
 }
@@ -1166,7 +1167,7 @@ void TGo4Picture::SetCrosshair(bool on)
 
 bool TGo4Picture::IsCrosshair() const
 {
-   Long_t zn = kFALSE;
+   Long_t zn = 0;
    GetOption(PictureIndex, op_Crosshair, zn);
    return zn!=0;
 }
@@ -1190,7 +1191,7 @@ void TGo4Picture::SetSuperimpose(bool on)
 
 bool TGo4Picture::IsSuperimpose() const
 {
-   Long_t zn = kFALSE;
+   Long_t zn = 0;
    GetOption(PictureIndex, op_Superimpose, zn);
    return zn!=0;
 }
@@ -1202,8 +1203,20 @@ void TGo4Picture::SetApplyToAll(bool on)
 
 bool TGo4Picture::IsApplyToAll() const
 {
-   Long_t zn = kFALSE;
+   Long_t zn = 0;
    GetOption(PictureIndex, op_ApplyToAll, zn);
+   return zn!=0;
+}
+
+void TGo4Picture::SetAutoZoom(bool on)
+{
+   SetOption(PictureIndex, op_AutoZoom, on ? 1 : 0);
+}
+
+bool TGo4Picture::IsAutoZoom() const
+{
+   Long_t zn = 0;
+   GetOption(PictureIndex, op_AutoZoom, zn);
    return zn!=0;
 }
 
@@ -1214,7 +1227,7 @@ void TGo4Picture::SetContentModified(bool on)
 
 bool TGo4Picture::IsContentModified() const
 {
-   Long_t zn = kFALSE;
+   Long_t zn = 0;
    GetOption(PictureIndex, op_ContentModified, zn);
    return zn!=0;
 }
@@ -1226,7 +1239,7 @@ void TGo4Picture::SetPadModified(bool on)
 
 bool TGo4Picture::IsPadModified() const
 {
-   Long_t zn = kFALSE;
+   Long_t zn = 0;
    GetOption(PictureIndex, op_PadModified, zn);
    return zn!=0;
 }
@@ -1974,6 +1987,7 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
    }
 
    fs << name << "SetApplyToAll(" << (IsApplyToAll() ? "true" : "false") << ");" << std::endl;
+   fs << name << "SetAutoZoom(" << (IsAutoZoom() ? "true" : "false") << ");" << std::endl;
 
    // JAM2016 add 1:1 coordinate ratio property:
    fs << name << "SetXYRatioOne(" << (IsXYRatioOne() ? "true" : "false") << ");" << std::endl;

@@ -51,6 +51,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
          CrosshairId      = 302,
          FreezeTitleId    = 309,
          SetTitleTextId   = 310,
+         AutoZoomId       = 311,
          SuperimposeId    = 1011,
          StatisticsId     = 1006,
          SetTitleId       = 1007,
@@ -186,6 +187,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual void RedrawLegend( TPad * pad, TGo4Picture * padopt, TGo4Slot * legslot );
       virtual void RedrawSpecialObjects( TPad * pad, TGo4Slot* padslot);
       virtual bool IsApplyToAllFlag();
+      virtual bool IsAutoZoomFlag();
       virtual bool IsFreezeTitle();
       virtual void ChangeDrawOptionForPad(TGo4Slot* padslot, int kind, int value, const char* drawopt );
       virtual void ChangeDrawOption( int kind, int value, const char* drawopt );
@@ -212,6 +214,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
                                     double & zmin, double & zmax);
       virtual void SetSelectedRange(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax );
       virtual void SetAutoScale(bool on, TPad* selpad);
+      virtual void SetAutoZoomFlag(bool on);
       virtual void SetApplyToAllFlag(bool on);
       virtual void ResizeGedEditor();
       virtual void ActivateInGedEditor(TObject* obj);
@@ -291,6 +294,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       bool fbCanvasEventstatus;
       QStatusBar *CanvasStatus;
       bool fbApplyToAllFlag;
+      bool fbAutoZoomFlag;
       TPad* fxRepaintTimerPad;
       TPad* fxResizeTimerPad;
       TPad* fxDoubleClickTimerPad;

@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -35,6 +35,7 @@ class TXXXProc : public TGo4EventProcessor {
       TH1           *fHis2;
       TH1           *fHis2gate;
       TH1           *fHis3;
+      Long_t         fHis3Counter;
       TGo4WinCond   *fconHis1;
       TGo4WinCond   *fconHis2;
       TGo4PolyCond  *fPolyCon;

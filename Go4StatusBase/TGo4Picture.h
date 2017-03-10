@@ -199,6 +199,9 @@ class TGo4Picture : public TNamed {
       void SetApplyToAll(bool on);
       bool IsApplyToAll() const;
 
+      void SetAutoZoom(bool on);
+      bool IsAutoZoom() const;
+
       virtual void Draw(Option_t* option = "");     //  *MENU*
 
       virtual void Clear(Option_t* option = "");    //  *MENU*

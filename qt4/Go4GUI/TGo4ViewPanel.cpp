@@ -118,6 +118,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    fbFreezeTitle = false;
    fFreezedTitle = "";
    fbApplyToAllFlag = false;
+   fbAutoZoomFlag = false;
    fbCanvasCrosshair = false;
    fbCanvasEventstatus = false;
 
@@ -206,8 +207,8 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 
    AddIdAction(fOptionsMenu, fOptionsMap, "&Crosshair", CrosshairId);
    AddIdAction(fOptionsMenu, fOptionsMap, "Super&impose", SuperimposeId);
-   AddIdAction(fOptionsMenu, fOptionsMap, "Histogram &Statistics",
-         StatisticsId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Auto &zoom", AutoZoomId);
+   AddIdAction(fOptionsMenu, fOptionsMap, "Histogram &Statistics", StatisticsId);
    AddIdAction(fOptionsMenu, fOptionsMap, "Multiplot &Legend", SetLegendId);
 
    fOptionsMenu->addSeparator();
@@ -1742,6 +1743,7 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemn
    pic->CopyOptionsFrom(padopt);
 
    pic->SetApplyToAll(fbApplyToAllFlag);
+   pic->SetAutoZoom(fbAutoZoomFlag);
 
    if (pad == GetCanvas() && fbFreezeTitle)
       pic->SetTitle(fFreezedTitle.toLatin1().constData());
@@ -2040,6 +2042,7 @@ void TGo4ViewPanel::AboutToShowOptionsMenu()
 
    SetIdAction(fOptionsMap, StatisticsId, true, padopt->IsHisStats());
    SetIdAction(fOptionsMap, SuperimposeId, true, padopt->IsSuperimpose());
+   SetIdAction(fOptionsMap, AutoZoomId, true, IsAutoZoomFlag());
    SetIdAction(fOptionsMap, SetTitleId, true, padopt->IsHisTitle());
    SetIdAction(fOptionsMap, DrawTimeId, padopt->IsHisTitle() && fbCloneFlag,
          padopt->IsTitleTime());
@@ -3486,6 +3489,8 @@ void TGo4ViewPanel::ProcessPictureRedraw(const char* picitemname, TPad* pad, TGo
 
    SetApplyToAllFlag(pic->IsApplyToAll());
 
+   SetAutoZoomFlag(pic->IsAutoZoom());
+
    padopt->CopyOptionsFrom(pic);
 
    padopt->GetDrawAttributes(pad, TGo4Picture::PictureIndex);
@@ -3992,8 +3997,6 @@ void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his, bo
    if (first_draw && (go4sett->getDrawFillStyle()!=1001) && (his->GetFillStyle()==1001))
      his->SetFillStyle(go4sett->getDrawFillStyle());
 
-
-
    his->SetStats(padopt->IsHisStats());
    his->SetBit(TH1::kNoTitle, !padopt->IsHisTitle());
    his->Draw(drawopt.Data());
@@ -4247,6 +4250,16 @@ void TGo4ViewPanel::RedrawSpecialObjects(TPad *pad, TGo4Slot* padslot)
        selectedobj->Draw(selectdrawopt ? selectdrawopt : "");
    }
 
+}
+
+bool TGo4ViewPanel::IsAutoZoomFlag()
+{
+   return fbAutoZoomFlag;
+}
+
+void TGo4ViewPanel::SetAutoZoomFlag(bool on)
+{
+   fbAutoZoomFlag = on;
 }
 
 bool TGo4ViewPanel::IsApplyToAllFlag()
@@ -4601,15 +4614,14 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
    double new_umin, new_umax, fmin, fmax, tmin, tmax;
    double fact = expandfactor / 100.;
 
-   bool sel = padopt->GetRange(naxis, new_umin, new_umax);
+   bool sel = padopt->GetRange(naxis, new_umin, new_umax) && (action!=6);
 
    padopt->GetFullRange(naxis, fmin, fmax);
 
    // we use number of dimensions to determine if we have contents
    int ndim = padopt->GetFullRangeDim();
 
-   if (!sel || (new_umin >= new_umax))
-      padopt->GetFullRange(naxis, new_umin, new_umax);
+   if (!sel || (new_umin >= new_umax)) { new_umin = fmin; new_umax = fmax; }
 
    double shift = (new_umax - new_umin) * fact;
    // protect if changes is out of full axis ranges
@@ -4673,7 +4685,8 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
             new_umax = fmax;
          break;
 
-      case 5: { // Auto zoom
+      case 5:   // Auto-zoom
+      case 6: { // Auto zoom, but ignore selected range
          TH1* padhist = dynamic_cast<TH1*>(padobj);
 
          if (padhist==0) break;
@@ -4726,7 +4739,6 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
                     if ((firstbin==0) || (bin<firstbin)) firstbin = bin;
                   }
 
-
          if (firstbin>0) {
 
             if (firstbin >= lastbin) { firstbin--; lastbin++; }
@@ -4736,6 +4748,7 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
 
             Double_t left = axis->GetBinLowEdge(firstbin);
             Double_t right = axis->GetBinUpEdge(lastbin);
+
             Double_t margin = (right - left) * fact;
             left -= margin; right += margin;
 
@@ -4743,6 +4756,8 @@ void TGo4ViewPanel::MoveSingleScale(int expandfactor, int action, int naxis,
 
             if (left > new_umin) new_umin = left;
             if (right < new_umax) new_umax = right;
+
+            if (action==6) axis->SetRange(firstbin,lastbin);
          }
 
          break;
@@ -4863,6 +4878,11 @@ void TGo4ViewPanel::SetSelectedRangeToHisto(TPad* pad, TH1* h1, THStack* hs,
 
    TAxis* ax = h1->GetXaxis();
 
+   if (IsAutoZoomFlag() && isthishisto) {
+      MoveSingleScale(1., 6, 0, padopt, h1);
+      if (ndim>1) MoveSingleScale(1., 6, 1, padopt, h1);
+      if (ndim>2) MoveSingleScale(1., 6, 2, padopt, h1);
+   } else
    if (padopt->GetRange(0, umin, umax)) {
       // note: go4 range was full visible range of histogram
       // in new ROOT automatic shift of ranges can appear,
@@ -5631,6 +5651,12 @@ void TGo4ViewPanel::OptionsMenuItemActivated(int id)
 
       case FreezeTitleId: {
          fbFreezeTitle = !fbFreezeTitle;
+         break;
+      }
+
+      case AutoZoomId: {
+         fbAutoZoomFlag = !fbAutoZoomFlag;
+         if (fbAutoZoomFlag) RedrawPanel(GetCanvas(), true);
          break;
       }
 

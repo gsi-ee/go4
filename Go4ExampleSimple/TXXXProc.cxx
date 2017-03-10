@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -13,10 +13,10 @@
 
 #include "TXXXProc.h"
 
-//#include <stdlib.h>
-
 #include "TH1.h"
 #include "TH2.h"
+#include "TTimeStamp.h"
+#include "TMath.h"
 
 #include "TGo4Log.h"
 #include "TGo4MbsEvent.h"
@@ -56,6 +56,7 @@ TXXXProc::TXXXProc(const char* name) : TGo4EventProcessor(name)
    fHis1gate = MakeTH1('I', "His1g","Gated histogram", 5000, 1., 5001.);
    fHis2gate = MakeTH1('I', "His2g","Gated histogram", 5000, 1., 5001.);
    fHis3 = MakeTH1('I', "His3","Singular histogram", 20000, 0.999, 1.001);
+   fHis3Counter = 0;
 
    fconHis1 = MakeWinCond("cHis1", 100,2000, "His1");
    fconHis2 = MakeWinCond("cHis2", 100,2000, "His2");
@@ -162,6 +163,12 @@ Bool_t TXXXProc::BuildEvent(TGo4EventElement*)
    if(fconHis1->Test(value1))fHis1gate->Fill(value1); //fill histograms with gate
    if(fconHis2->Test(value2))fHis2gate->Fill(value2);
    if(fPolyCon->Test(value1,value2)) fCr1Ch1x2->Fill(value1,value2);
-   fHis3->Fill(1.);
+   if (fHis3Counter==0) {
+      TTimeStamp tm;
+      tm.Set();
+      fHis3->Reset();
+      fHis3->Fill(1 + 0.0005*TMath::Cos(tm.AsDouble()/100));
+   }
+   fHis3Counter = (fHis3Counter+1) % 10000;
    return kTRUE;
 }
