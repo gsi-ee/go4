@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -311,7 +311,7 @@ TGo4ViewPanel* QGo4Widget::DrawItem(const char* itemname, TGo4ViewPanel* panel, 
 
 TGo4ViewPanel* QGo4Widget::WhereItemDrawn(const char* itemname)
 {
-   TGo4ViewPanel* res = false;
+   TGo4ViewPanel* res = 0;
    emit widgetService(this, service_WhereItemDrawn, itemname, &res);
    return res;
 }
