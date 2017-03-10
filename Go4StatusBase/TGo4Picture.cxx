@@ -13,7 +13,6 @@
 
 #include "TGo4Picture.h"
 
-
 #include "TClass.h"
 #include "TObjArray.h"
 #include "TObjString.h"
@@ -106,6 +105,8 @@ enum OptionsIdentifiers {
    op_FrameTop    = 96,
    op_FrameRight  = 97,
    op_FrameBottom = 98,
+
+   op_ApplyToAll  = 99,
 
    op_TimeAxisX	  = 200,
    //op_TimeAxisXFmt= 201, // must be larger han op_ObjsBound for SetStrOption?
@@ -1194,6 +1195,18 @@ bool TGo4Picture::IsSuperimpose() const
    return zn!=0;
 }
 
+void TGo4Picture::SetApplyToAll(bool on)
+{
+   SetOption(PictureIndex, op_ApplyToAll, on ? 1 : 0);
+}
+
+bool TGo4Picture::IsApplyToAll() const
+{
+   Long_t zn = kFALSE;
+   GetOption(PictureIndex, op_ApplyToAll, zn);
+   return zn!=0;
+}
+
 void TGo4Picture::SetContentModified(bool on)
 {
    SetOption(PictureIndex, op_ContentModified, on ? 1 : 0);
@@ -1959,6 +1972,8 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
       fs << name << "SetSuperimpose(true);" << std::endl;
       fs << name << "SetLegendDraw(" << (IsLegendDraw() ? "true" : "false") << ");" << std::endl;
    }
+
+   fs << name << "SetApplyToAll(" << (IsApplyToAll() ? "true" : "false") << ");" << std::endl;
 
    // JAM2016 add 1:1 coordinate ratio property:
    fs << name << "SetXYRatioOne(" << (IsXYRatioOne() ? "true" : "false") << ");" << std::endl;

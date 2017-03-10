@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -724,6 +724,12 @@ void TGo4Script::SetSuperimpose(ViewPanelHandle handle, Bool_t on)
 {
    TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
    if (panel!=0) panel->SetPadSuperImpose(panel->GetActivePad(), on);
+}
+
+void TGo4Script::SetApplyToAll(ViewPanelHandle handle, Bool_t on)
+{
+   TGo4ViewPanel* panel = (TGo4ViewPanel*) handle;
+   if (panel!=0) panel->SetApplyToAllFlag(on);
 }
 
 Bool_t TGo4Script::DrawItem(const char* itemname, ViewPanelHandle handle, const char* drawopt)

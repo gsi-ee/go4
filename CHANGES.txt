@@ -27,6 +27,8 @@ Changes in Go4 v5.2.x (spring 2017)
    toggled by GUI menu "Settings/Terminal/PrintTimestamp". The format string (QDateTime) can be defined by menu
    "Settings/Terminal/Timestamp Format..." dialog. Both properties are stored in go4 settings. Other properties of Analysis Terminal
    such history and font, also appear as "Settings/Terminal" submenus now. Thanks Sven Augustin for this idea.
+2. Store 'Apply to all' flag of the viewpanel in the hotstart.
+
 
 Changes in Go4 v5.2.0 (January 2017)
 1. Handle mouse wheel events in QtRoot interface, used in ROOT zooming

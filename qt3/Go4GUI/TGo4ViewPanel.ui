@@ -1050,6 +1050,7 @@
     <function>GetSelectedRange(int &amp; ndim, bool &amp; autoscale, double &amp; xmin, double &amp; xmax, double &amp; ymin, double &amp; ymax, double &amp; zmin, double &amp; zmax)</function>
     <function>SetSelectedRange(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax )</function>
     <function>SetAutoScale(bool on, TPad* selpad)</function>
+    <function>SetApplyToAllFlag(bool on)</function>
     <function access="protected">enterEvent( QEvent * e )</function>
     <function access="protected">leaveEvent( QEvent * e )</function>
     <function access="protected">closeEvent( QCloseEvent * ce )</function>

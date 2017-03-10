@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -542,6 +542,9 @@ class TGo4AbstractInterface : public TObject {
 
       /** Set superimpose flag for active pad of viewpanel. */
       virtual void SetSuperimpose(ViewPanelHandle panel, Bool_t on = kTRUE) {}
+
+      /** Set apply to all flag for active pad of viewpanel. */
+      virtual void SetApplyToAll(ViewPanelHandle panel, Bool_t on = kTRUE) {}
 
       /** Draw browser item on specified viewpanel.
         * Parameters:

@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -1657,6 +1657,8 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad,
 
    pic->CopyOptionsFrom(padopt);
 
+   pic->SetApplyToAll(fbApplyToAllFlag);
+
    if (pad == GetCanvas() && fbFreezeTitle)
       pic->SetTitle(fFreezedTitle.ascii());
 
@@ -3296,6 +3298,8 @@ void TGo4ViewPanel::ProcessPictureRedraw(const char* picitemname, TPad* pad,
 
    padopt->CopyOptionsFrom(pic);
 
+   SetApplyToAllFlag(pic->IsApplyToAll());
+
    padopt->GetDrawAttributes(pad, TGo4Picture::PictureIndex);
 
    TGo4BrowserProxy* brcont = Browser();
@@ -3562,13 +3566,19 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
    if ((pad != GetCanvas()) || !ispadupdatecalled)
       GetCanvas()->Update();
 
-   QCheckBox* box1 = dynamic_cast<QCheckBox*>(child("ApplyToAllCheck"));
-   if(box1!=0) box1->setChecked(fbApplyToAllFlag);
+   SetApplyToAllFlag(fbApplyToAllFlag);
 
    BlockPanelRedraw(false);
 
    if (!force && isanychildmodified)
       ShootRepaintTimer(pad);
+}
+
+void TGo4ViewPanel::SetApplyToAllFlag(bool on)
+{
+   fbApplyToAllFlag = on;
+   QCheckBox* box1 = dynamic_cast<QCheckBox*>(child("ApplyToAllCheck"));
+   if(box1!=0) box1->setChecked(on);
 }
 
 bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)

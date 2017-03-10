@@ -1741,6 +1741,8 @@ void TGo4ViewPanel::MakePictureForPad(TGo4Picture* pic, TPad* pad, bool useitemn
 
    pic->CopyOptionsFrom(padopt);
 
+   pic->SetApplyToAll(fbApplyToAllFlag);
+
    if (pad == GetCanvas() && fbFreezeTitle)
       pic->SetTitle(fFreezedTitle.toLatin1().constData());
 
@@ -1877,10 +1879,10 @@ void TGo4ViewPanel::StartRootEditor()
       SetActivePad(GetCanvas());
 
 #if QT_VERSION > QT_VERSION_CHECK(5,6,0)
-   // JAM the following is pure empiric. hopefully default denominator won't change in future qt?  
+   // JAM the following is pure empiric. hopefully default denominator won't change in future qt?
    double scalefactor=(double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
    EditorFrame->setMinimumWidth( EditorFrame->minimumWidth()/scalefactor);
-#endif       
+#endif
       fxRooteditor->SetResizeOnPaint(kFALSE); // disable internal resize on paintEvent, we use ResizeGedEditor
       fxRooteditor->SetEditable(); // mainframe will adopt pad editor window
       fxPeditor = TVirtualPadEditor::LoadEditor();
@@ -1918,7 +1920,7 @@ void TGo4ViewPanel::StartConditionEditor()
 void TGo4ViewPanel::RectangularRatio(TPad *pad)
 {
    if (pad == 0) return;
-  
+
    double defleft =gStyle->GetPadLeftMargin(); // always refer to ideal margins
    double defright =gStyle->GetPadRightMargin();
    double deftop =gStyle->GetPadTopMargin();
@@ -3482,6 +3484,8 @@ void TGo4ViewPanel::ProcessPictureRedraw(const char* picitemname, TPad* pad, TGo
 
    pic->GetFrameAttr(pad); // do it only once, pad preserves automatically
 
+   SetApplyToAllFlag(pic->IsApplyToAll());
+
    padopt->CopyOptionsFrom(pic);
 
    padopt->GetDrawAttributes(pad, TGo4Picture::PictureIndex);
@@ -3703,7 +3707,6 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
 
    BlockPanelRedraw(true);
 
-
    // JAM2016: does this help for some array conflicts in TGraph painter? YES!
    // must be done once before pad->Clear in ProcessPadRedraw, so we do it here instead for each subpad
 #ifdef GLOBALESCAPE
@@ -3725,9 +3728,6 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
      gPad->Modified(oldmodified); // probably not necessary, since we only use escape mode in event handler. But who knows what future root brings?
    }
 #endif
-
-
-
 
    bool isanychildmodified = false;
    bool ispadupdatecalled = false;
@@ -3768,9 +3768,7 @@ void TGo4ViewPanel::RedrawPanel(TPad* pad, bool force)
    if (!ispadupdatecalled)
       GetQCanvas()->Update();
 
-   QCheckBox* box1 = findChild<QCheckBox*>("ApplyToAllCheck");
-   if (box1 != 0)
-      box1->setChecked(fbApplyToAllFlag);
+   SetApplyToAllFlag(fbApplyToAllFlag);
 
    BlockPanelRedraw(false);
 
@@ -5273,6 +5271,14 @@ void TGo4ViewPanel::GetSelectedRange(int& ndim, bool& autoscale, double& xmin,
    GetVisibleRange(GetActivePad(), 0, xmin, xmax);
    GetVisibleRange(GetActivePad(), 1, ymin, ymax);
    GetVisibleRange(GetActivePad(), 2, zmin, zmax);
+}
+
+void TGo4ViewPanel::SetApplyToAllFlag(bool on)
+{
+   fbApplyToAllFlag = on;
+
+   QCheckBox* box1 = findChild<QCheckBox*>("ApplyToAllCheck");
+   if (box1 != 0) box1->setChecked(on);
 }
 
 void TGo4ViewPanel::SetAutoScale(bool on, TPad* selpad)

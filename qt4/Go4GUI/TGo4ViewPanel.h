@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -212,6 +212,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
                                     double & zmin, double & zmax);
       virtual void SetSelectedRange(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax );
       virtual void SetAutoScale(bool on, TPad* selpad);
+      virtual void SetApplyToAllFlag(bool on);
       virtual void ResizeGedEditor();
       virtual void ActivateInGedEditor(TObject* obj);
       virtual void CleanupGedEditor();
