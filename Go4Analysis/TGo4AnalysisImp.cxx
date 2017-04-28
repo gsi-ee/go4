@@ -2246,7 +2246,7 @@ if (strchr(command,TGo4Analysis::fgcPYPROMPT) && (strchr(command,TGo4Analysis::f
     comstring = comstring.Strip(TString::kBoth);
     comstring = comstring.Strip(TString::kLeading,TGo4Analysis::fgcPYPROMPT);
     comstring = comstring.Strip(TString::kLeading);
-    TGo4Log::Info("Executing Python script: %s", comstring.Data());
+    TGo4Log::Debug("Executing Python script: %s", comstring.Data());
     comstring = "TPython::LoadMacro(\"" + comstring + "\")";
     if(!fbPythonBound)
       {
@@ -2280,7 +2280,7 @@ if (strchr(command,TGo4Analysis::fgcPYPROMPT) && (strchr(command,TGo4Analysis::f
     }
     while(at);
  }
-  TGo4Log::Info("ExecuteLine: %s", comstring.Data());
+  TGo4Log::Debug("ExecuteLine: %s", comstring.Data());
   return gROOT->ProcessLineSync(comstring, errcode);
  }
 
