@@ -50,7 +50,8 @@
                   .css('white-space', 'nowrap')
                   .html(html);
       
-      JSROOT.Painter.AdjustLayout(null, $('#'+divid).height()+10, false);
+      // use height of child element 
+      JSROOT.Painter.AdjustLayout(null, $('#'+divid+' div').height()+4, false);
       
       var xreq = null;
       var was_running = null;
@@ -292,7 +293,7 @@
       }
       
       player.CheckResize = function(force) {
-    	  console.log("CheckResize..., force=" + force);
+    	   // console.log("CheckResize..., force=" + force);
       }
       
       return player.Show(divid);
