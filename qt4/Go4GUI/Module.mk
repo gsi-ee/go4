@@ -126,7 +126,7 @@ endif
 endif
 	@$(RM) $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE)*
 	@$(RMDIR) $(GO4GUI4_DIR)/.obj $(GO4GUI4_DIR)/.moc
-	@$(RM) $(GO4GUI4_GEN_QRC)
+	@$(RM) $(GO4GUI4_GEN_QRC) $(GO4GUI4_DIR)/.qmake.stash
 ifeq ($(GO4_OS),Win32)
 	@$(RMDIR) $(GO4GUI4_DIR)/release $(GO4GUI4_DIR)/debug 
 	@$(RM) $(GO4GUI4_DIR)/go4_resource.rc

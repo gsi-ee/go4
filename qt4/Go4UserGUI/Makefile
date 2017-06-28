@@ -88,7 +88,7 @@ ifeq ($(GO4_OS),Win32)
 endif
 
 clean-qt4usergui: clean-qt4usergui-bin
-	@$(RM) $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).*
+	@$(RM) $(USERGUI4_LIBDIR)/$(USERGUI4_QTLIBNAME).* $(USERGUI4_LIBDIR)/.qmake.stash
 
 clean-qt4:: clean-qt4usergui
 
