@@ -778,15 +778,14 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       
       this.RecreateDrawG(false);
       
-      var w = Number(this.svg_frame(true).attr("width")),
-          h = Number(this.svg_frame(true).attr("height"));
+      var w = this.frame_width(), h = this.frame_height();
       
       var x = this.main_painter().x;
       var y = this.main_painter().y;
       
-      if ((this.cond['fFillStyle']==1001) && (this.cond['fFillColor']==19)) { 
-         this.cond['fFillStyle'] = 3006;
-         this.cond['fFillColor'] = 2;
+      if ((this.cond.fFillStyle==1001) && (this.cond.fFillColor==19)) { 
+         this.cond.fFillStyle = 3006;
+         this.cond.fFillColor = 2;
       }
       
       var fill = this.createAttFill(this.cond);
@@ -949,12 +948,12 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       JSROOT.hpainter.display(histofullpath, "divid:" + divid, function(res) {
          if (res==null) return console.log("fail to get histogram " + histofullpath);
          condpainter.SetDivId(divid);
-         console.log("Draw condition at " + divid);
          condpainter.drawCondition();
          condpainter.drawLabel();
+         condpainter.DrawingReady();
       });
       
-      return condpainter.DrawingReady();
+      return condpainter;
    }
    
    // JSROOT.addDrawFunc("TGo4WinCond", GO4.drawGo4Cond, ";editor");
