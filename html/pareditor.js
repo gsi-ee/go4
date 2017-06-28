@@ -128,20 +128,11 @@
 		console.log("Resulting option string:%s", optionstring);
 		return optionstring;
 	}
-
-   
-   
-   
    
    GO4.ParameterEditor.prototype.fillComments = function() {
       var editor = this;
-      if (editor.xreq!=null) return; // avoid double requests
-      var pre="";
-      if (this.GetItemName()!="") { // note: check against !=null does not work here!
-		  pre = this.GetItemName() + "/"; // suppress / if item name is empty
-			//console.log("Found non null itemname= -"+this.GetItemName()+"-");
-	}
-      
+      if (editor.xreq || !this.GetItemName()) return; // avoid double requests
+      var pre = this.GetItemName() + "/";
       
       editor.xreq = JSROOT.NewHttpRequest(pre+"h.json?more", 'object', function(res) {
          editor.xreq = null;
@@ -389,34 +380,36 @@
 
    }
    
-   
    GO4.ParameterEditor.prototype.RedrawObject = function(obj) {
-	   console.log("ParemeterEditor RedrawObject...");
-	      if (this.UpdateObject(obj))
-	         this.Redraw(); // no need to redraw complete pad
-	   }
+      console.log("ParemeterEditor RedrawObject...");
+      if (this.UpdateObject(obj))
+         this.Redraw(); // no need to redraw complete pad
+   }
 
-	   GO4.ParameterEditor.prototype.UpdateObject = function(obj) {
-	      if (obj._typename != this.par._typename) return false;
-	      console.log("ParemeterEditor UpdateObject...");	      
-	      this.par= JSROOT.clone(obj); 
-	      return true;
-	   }
-	   
-	   GO4.ParameterEditor.prototype.Redraw = function() {
-		   console.log("ParemeterEditor Redraw...");
-		   this.fillMemberTable();
-	   }
-   
-   
-   
-   
+   GO4.ParameterEditor.prototype.UpdateObject = function(obj) {
+      if (obj._typename != this.par._typename) return false;
+      console.log("ParemeterEditor UpdateObject...");	      
+      this.par= JSROOT.clone(obj); 
+      return true;
+   }
+
+   GO4.ParameterEditor.prototype.Redraw = function() {
+      console.log("ParemeterEditor Redraw...");
+      this.fillMemberTable();
+   }
+
    GO4.ParameterEditor.prototype.drawEditor = function(divid) {
       var pthis = this;
        
       $("#"+divid).empty();
-      $("#"+divid).load( GO4.source_dir + "html/pareditor.htm", "", 
-            function() { pthis.SetDivId(divid); pthis.fillEditor(); pthis.fillComments(); });
+      $("#"+divid).load( GO4.source_dir + "html/pareditor.htm", "", function() { 
+         pthis.SetDivId(divid); 
+         pthis.fillEditor(); 
+         pthis.fillComments();
+         pthis.DrawingReady();
+      });
+      
+      return this;
    }
    
    GO4.ParameterEditor.prototype.SetItemName = function(name) {
@@ -427,9 +420,9 @@
    GO4.drawParameter = function(divid, par, option, painter) {
       var h = $("#"+divid).height(), w = $("#"+divid).width();
       if ((h<10) && (w>10)) $("#"+divid).height(w*0.4);
-      painter = JSROOT.extend(painter, new GO4.ParameterEditor(par));
-      painter.drawEditor(divid);
-      return painter.DrawingReady();
+      var editor = new GO4.ParameterEditor(par);
+      if (painter) editor = JSROOT.extend(painter, editor);
+      return editor.drawEditor(divid);
    }
    
 })();

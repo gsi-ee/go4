@@ -698,6 +698,8 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
       $("#"+divid).empty();
       $("#"+divid).load(GO4.source_dir + "html/condeditor.htm", "", 
             function() { pthis.SetDivId(divid); pthis.fillEditor(); pthis.DrawingReady(); });
+      
+      return this;
    }
    
    GO4.ConditionEditor.prototype.RedrawPad = function(resize) {
@@ -908,8 +910,7 @@ GO4.ConditionEditor.prototype.EvaluateChanges = function(optionstring) {
          if ((h<10) && (w>10)) $("#"+divid).height(w*0.4);
          var editor = new GO4.ConditionEditor(cond);
          if (painter) editor = JSROOT.extend(painter, editor);
-         editor.drawEditor(divid);
-         return editor.DrawingReady();
+         return editor.drawEditor(divid);
       }
       
       // $('#'+divid).append("<br/>Histogram name is " + cond.fxHistoName);

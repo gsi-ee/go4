@@ -1143,16 +1143,17 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
       var pthis = this;
        
       $("#"+divid).empty();
-      $("#"+divid).load(GO4.source_dir + "html/analysiseditor.htm", "", 
-            function() {
-               var html = "<ul>";
-               for (var i=0;i<8;i++)
-                  html+='<li><a href="'+ GO4.source_dir + 'html/stepeditor.htm">Step ' + i + '</a></li>';
-               html+="</ul>";
-               $("#"+divid+" .steptabs").html(html);
-               pthis.SetDivId(divid); 
-               pthis.fillEditor();  
-            });
+      $("#"+divid).load(GO4.source_dir + "html/analysiseditor.htm", "", function() {
+         var html = "<ul>";
+         for (var i=0;i<8;i++)
+            html+='<li><a href="'+ GO4.source_dir + 'html/stepeditor.htm">Step ' + i + '</a></li>';
+         html+="</ul>";
+         $("#"+divid+" .steptabs").html(html);
+         pthis.SetDivId(divid); 
+         pthis.fillEditor();
+         pthis.DrawingReady()
+      });
+      return pthis;
       //console.log("analysis editor: drawEditor");
    }
    
@@ -1171,9 +1172,9 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
       //console.log("Draw analysis status");
       var h = $("#"+divid).height(), w = $("#"+divid).width();
       if ((h<10) && (w>10)) $("#"+divid).height(w*0.7);
-      painter = JSROOT.extend(painter, new GO4.AnalysisStatusEditor(stat));
-      painter.drawEditor(divid);
-      return painter.DrawingReady();
+      var status = new GO4.AnalysisStatusEditor(stat);
+      if (painter) status = JSROOT.extend(painter, status);
+      return status.drawEditor(divid);
    }
    
 })(); // function
