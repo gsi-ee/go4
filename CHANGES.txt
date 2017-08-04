@@ -30,6 +30,8 @@ Changes in Go4 v5.2.x (spring 2017)
 2. Store "Apply to all" flag of the viewpanel in the hotstart.
 3. Provide "Auto zoom" flag for the viewpanel. If set, all histograms will be automatically zoomed into non-zero range.
    Useful with monitoring, also preserved in hotstart file.
+4. One can specify GO4EXTRAINCLUDE shell variable, which automatically add to gInterpreter->AddIncludePath when
+   starting go4analysis.  This required when user classes should be used in ACLiC with ROOT6.  
 
 
 Changes in Go4 v5.2.0 (January 2017)

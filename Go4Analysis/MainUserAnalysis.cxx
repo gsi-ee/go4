@@ -650,6 +650,10 @@ int main(int argc, char **argv)
    if (go4inc.Length()>0)
       gInterpreter->AddIncludePath(go4inc.Data());
 
+   const char *extra_incl = gSystem->Getenv("GO4EXTRAINCLUDE");
+   if (extra_incl && *extra_incl)
+      gInterpreter->AddIncludePath(extra_incl);
+
    const char* analysis_name = GetArgValue(argc, argv, "-server");
    if (analysis_name==0) analysis_name = GetArgValue(argc, argv, "-gui");
    if (analysis_name==0) analysis_name = GetArgValue(argc, argv, "-name");
