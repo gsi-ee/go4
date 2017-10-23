@@ -2283,6 +2283,8 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
         gr->SetPointError(n, exl, exh, eyl, eyh);
 #endif
       }
+
+      UpdateListOfFunctions(gr,newgr);
       RestoreAxisTimeProperties(gr,tdisp,tform);
       return kTRUE;
    } else
@@ -2303,6 +2305,8 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
         ey = newgr->GetErrorY(n);
         gr->SetPointError(n, ex, ey);
       }
+
+      UpdateListOfFunctions(gr,newgr);
       RestoreAxisTimeProperties(gr,tdisp,tform);
 
       return kTRUE;
@@ -2324,6 +2328,7 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
         newgr->GetPoint(n,xp,yp);
         gr->SetPoint(n,xp,yp);
       }
+      UpdateListOfFunctions(gr,newgr);
       RestoreAxisTimeProperties(gr,tdisp,tform);
 
       return kTRUE;
@@ -2369,6 +2374,31 @@ void TGo4BrowserProxy::RestoreAxisTimeProperties(TGraph* gr, Bool_t& timedisplay
    xax->SetTimeDisplay(timedisplay);
    xax->SetTimeFormat(format.Data());
 }
+
+
+void TGo4BrowserProxy::UpdateListOfFunctions(TGraph* oldgr, TGraph* newgr)
+{
+   if(oldgr==0 || newgr==0) return;
+   TList* theFunctions=oldgr->GetListOfFunctions();
+   TObject *obj;
+   while ((obj  = theFunctions->First())) {
+      while (theFunctions->Remove(obj)) { }
+        //std::cout <<"Removed function object "<<obj->GetName() << std::endl;
+        delete obj;
+      }
+
+   TList* newFunctions=newgr->GetListOfFunctions();
+   TListIter fiter(newFunctions);
+   TF1* fun=0;
+   while((fun=dynamic_cast<TF1*>(fiter.Next())) !=0)
+   {
+     TF1* fclon=dynamic_cast<TF1*>(fun->Clone());
+     theFunctions->Add(fclon);
+     fclon->SetParent(oldgr);
+     //std::cout <<"Added function object "<<fclon->GetName() << std::endl;
+   }
+}
+
 
 
 void TGo4BrowserProxy::AddWaitingList(TGo4Slot* itemslot, const char* destination)

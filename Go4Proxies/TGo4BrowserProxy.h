@@ -227,6 +227,10 @@ class TGo4BrowserProxy : public TGo4Proxy {
       static void SaveAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format);
       static void RestoreAxisTimeProperties(TGraph* gr, Bool_t& timedisplay, TString& format);
 
+      /** preserve fit result functions contained in any graphlike objects*/
+      static void UpdateListOfFunctions(TGraph* oldgr, TGraph* newgr);
+
+
       TString            fxDataPath;    //!
       TString            fxBrowserPath; //!
       TString            fxViewPath;    //!
