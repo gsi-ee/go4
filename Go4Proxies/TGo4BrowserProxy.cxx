@@ -2397,6 +2397,17 @@ void TGo4BrowserProxy::UpdateListOfFunctions(TGraph* oldgr, TGraph* newgr)
      fclon->SetParent(oldgr);
      //std::cout <<"Added function object "<<fclon->GetName() << std::endl;
    }
+
+
+   // also restore graph axis titles here:
+   TH1* oldhis=oldgr->GetHistogram();
+   TH1* newhis=newgr->GetHistogram();
+   if(oldhis && newhis)
+   {
+      oldhis->GetXaxis()->SetTitle(newhis->GetXaxis()->GetTitle());
+      oldhis->GetYaxis()->SetTitle(newhis->GetYaxis()->GetTitle());
+   }
+
 }
 
 
