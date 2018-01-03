@@ -1,1 +1,55 @@
 .project
+
+# object and dependency files
+
+*/*.o
+*/*.d
+
+
+# normal libraries
+
+*/G__*.*
+*/*.rootmap
+*/*.so
+*/*.pcm
+
+# new lib 
+
+lib/*
+bin/*
+build/Makefile.gener
+go4login
+include/*
+.rootmap
+
+# qt generated files
+
+qt4/Go4GUI/.moc/*
+qt4/Go4GUI/.obj/*
+qt4/Go4GUI/.qmake.stash
+qt4/Go4GUI/Makefile.qt
+qt4/Go4GUI/qrc_go4icons.cpp
+qt4/Go4GUI/ui_*.h
+
+qt4/Go4UserGUI/.qmake.stash
+qt4/Go4UserGUI/Makefile.qt
+qt4/Go4UserGUI/*.o
+qt4/Go4UserGUI/*.so
+qt4/Go4UserGUI/moc_*.cpp
+qt4/Go4UserGUI/moc_*.h
+qt4/Go4UserGUI/ui_*.h
+
+# Go4Fit examples
+
+Go4FitExample/Example*
+Go4FitExample/Example4Dict.cxx
+
+# other examples
+
+Go4AnalysisClient/MainGo4AnalysisClient
+Go4EventServerExample/MainGo4EventServerExample
+Go4HistogramServer/MainGo4ObjectClient
+Go4Queue/MainGo4Queue
+Go4TaskHandlerExample/MainGo4TaskHandlerClient
+Go4TaskHandlerExample/MainGo4TaskHandlerServer
+Go4ThreadManagerExample/MainGo4ThreadManagerExample
