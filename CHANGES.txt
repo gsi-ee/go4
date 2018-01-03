@@ -29,32 +29,32 @@ Changes in Go4 v5.2.x (spring 2017)
    such history and font, also appear as "Settings/Terminal" submenus now. Thanks Sven Augustin for this idea.
 2. Store "Apply to all" flag of the viewpanel in the hotstart.
 3. Provide "Auto zoom" flag for the viewpanel. If set, all histograms will be automatically zoomed into non-zero range.
-   Useful with monitoring, also preserved in hotstart file.   
+   Useful with monitoring, also preserved in hotstart file.
 4. One can specify GO4EXTRAINCLUDE shell variable, which automatically add to gInterpreter->AddIncludePath when
-   starting go4analysis.  This required when user classes should be used in ACLiC with ROOT6.  
+   starting go4analysis.  This required when user classes should be used in ACLiC with ROOT6.
 5. Bugfix: Display of TGraph like objects in GUI will update also the TF1 functions contained in the graph,
-   like fitter results. Previously the first TF1 fetched was never changed again.   
+   like fitter results. Previously the first TF1 fetched was never changed again.
 
 
 Changes in Go4 v5.2.0 (January 2017)
 1. Handle mouse wheel events in QtRoot interface, used in ROOT zooming
-2. Bugfix in parameter Editor: format string precision for Float_t, Double_t, and Double32_t was reduced to defaults. 
-   Now it supports full range of data type and exponential formatting. 
+2. Bugfix in parameter Editor: format string precision for Float_t, Double_t, and Double32_t was reduced to defaults.
+   Now it supports full range of data type and exponential formatting.
 3. Qt4 GUI: new toolbar for Analysis Command Buttons: Provides 9 buttons C1...C9 that can be freely configured
    by the user with commands to be executed in the analysis process interpreter. Supports ROOT, go4 and Python macros.
-   Default shortcuts Ctrl-1 ... Ctrl-9 allow fast keyboard interaction.  
-4. Qt4 GUI: improvement in main window status message: Ratemeter will clear message when updating, 
-   no message display timeout anymore. Solves problem of gui messages still visible behind ratemeter counters. 
+   Default shortcuts Ctrl-1 ... Ctrl-9 allow fast keyboard interaction.
+4. Qt4 GUI: improvement in main window status message: Ratemeter will clear message when updating,
+   no message display timeout anymore. Solves problem of gui messages still visible behind ratemeter counters.
 5. Qt4/5 GUI: Modified qtroot interface and gui viewpanel to take into account optional 
-   Qt5 high dpi scaling factors set by QT_SCALE_FACTOR environment variable (Qt> 5.6.x only).   
-6. Qt4/5 GUI: Improved display of 1:1 coordinate ration for 2d histograms. 
+   Qt5 high dpi scaling factors set by QT_SCALE_FACTOR environment variable (Qt> 5.6.x only).
+6. Qt4/5 GUI: Improved display of 1:1 coordinate ration for 2d histograms.
    Aspect ratio of the selected pad will be automatically re-adjusted when resizing the viewpanel.
    Beside, the histogram borders will be expanded to use maximum margins of the pad.
 7. Qt5 GUI: added HighDPI Scale factor to Preferences. Can be adjusted via Settings/Preferences Menu 
-   Requires GUI Restart. Qt Version > 5.6 only! 
+   Requires GUI Restart. Qt Version > 5.6 only!
 8. Added Execution timer for Analysis Command button toolbar. Any user defined command that is checked
    in toolbar can be executed frequently by a timer with adjustable period. This allows for example
-   to clear histograms frequently by defining command '@ClearObjects("Histograms")' 
+   to clear histograms frequently by defining command '@ClearObjects("Histograms")'
 9. Redesign of Analysis Command button toolbar: Icons instead of text labels 
    (text labels showed some problems with redefined keyboard shortcuts at Qt5!).
    Added Configuration window for commands, tooltips, and timer execution state. Checkboxes in toolbar
