@@ -101,6 +101,8 @@ enum OptionsIdentifiers {
    op_TitleY2     = 92,
    op_TitleTextSz = 93,
 
+   op_HisContour  = 94,
+
    op_FrameLeft   = 95,
    op_FrameTop    = 96,
    op_FrameRight  = 97,
@@ -1046,6 +1048,18 @@ Bool_t TGo4Picture::GetStatsAttr(TPaveStats* stats)
    return kTRUE;
 }
 
+void TGo4Picture::SetHisContour(Int_t nlvl)
+{
+   SetOption(PictureIndex, op_HisContour, nlvl);
+}
+
+Int_t TGo4Picture::GetHisContour() const
+{
+   Long_t nlvl = 0;
+   GetOption(PictureIndex, op_HisContour, nlvl);
+   return nlvl;
+}
+
 void TGo4Picture::SetHisTitle(bool on)
 {
    SetOption(PictureIndex, op_HisTitle, on ? 1 : 0);
@@ -1053,9 +1067,9 @@ void TGo4Picture::SetHisTitle(bool on)
 
 Bool_t TGo4Picture::IsHisTitle() const
 {
-   Long_t zn = kTRUE;
+   Long_t zn = 1;
    GetOption(PictureIndex, op_HisTitle, zn);
-   return zn!=0;
+   return zn != 0;
 }
 
 void TGo4Picture::SetTitleAttr(Double_t x1, Double_t y1, Double_t x2, Double_t y2, Double_t textsize)
@@ -1282,6 +1296,7 @@ void TGo4Picture::ChangeDrawOption(Int_t kind, Int_t value)
          SetXYRatioOne(value!=0);
          //if (value==0) SetDefaultRatio(true); //
          break;
+      case 18: SetHisContour(value); break;
 
    }
    SetPadModified();
@@ -1978,6 +1993,9 @@ void TGo4Picture::MakeScript(std::ostream& fs, const char* name)
      fs << name << "SetTitleDate(" << (IsTitleDate() ? "true" : "false") << ");" << std::endl;
      fs << name << "SetTitleItem(" << (IsTitleItem() ? "true" : "false") << ");" << std::endl;
    }
+
+   Int_t nlvl = GetHisContour();
+   if (nlvl>0) fs << name << "SetHisContour(" << nlvl << ");" << std::endl;
 
    fs << name << "SetAutoScale(" << (IsAutoScale() ? "true" : "false") << ");" << std::endl;
 

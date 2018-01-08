@@ -167,6 +167,9 @@ class TGo4Picture : public TNamed {
       void SetStatsAttr(TPaveStats* stats);
       Bool_t GetStatsAttr(TPaveStats* stats);
 
+      void SetHisContour(Int_t nlvl);
+      Int_t GetHisContour() const;
+
       void SetHisTitle(bool on);
       Bool_t IsHisTitle() const;
 
