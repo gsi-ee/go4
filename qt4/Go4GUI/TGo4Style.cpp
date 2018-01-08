@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -26,9 +26,6 @@ TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
 {
    setObjectName( name ? name : "Go4Style");
    setupUi(this);
-
-
-
 
    for(int i=GO4NAMEDPAL_MIN; i<=GO4NAMEDPAL_MAX+2; ++i) // need two indices more for Go4_None and Go4_Default
    {
@@ -106,14 +103,10 @@ TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
    //std::cout<<"TGo4Style - Palette options are "<<min<<":"<<def<<":"<<max << std::endl;
 
    SetPaletteRange(min,def,max);
-
-
 }
-
 
 void TGo4Style::SetPaletteRange(int min, int def, int max)
 {
-
   Palette->setMinimum(min);
   Palette->setMaximum(max);
   Palette->setValue(def);
@@ -126,24 +119,20 @@ void TGo4Style::SetPaletteRange(int min, int def, int max)
 
 void TGo4Style::RefreshPaletteText(int min, int max)
 {
-  // mark unavailable entries in palette selection box:
-  QString label;
-  const QString notavailable="not avail:";
-  for (int pt = 0; pt <= GO4NAMEDPAL_MAX + 2 - GO4NAMEDPAL_MIN; ++pt)    // need two indices more for Go4_None and Go4_Default
-  {
-    int ix = DecodePalette((Go4_Palette_t) pt);
-    if (ix < 0)
-      continue;
-    label = PaletteComboBox->itemText(pt);
-    label.remove(notavailable); // clear any old markers
-    if ((ix < min) || (ix > max))
-    {
-      label.prepend(notavailable);
-    }
-    PaletteComboBox->setItemText(pt, label);
-  }
-
-
+   // mark unavailable entries in palette selection box:
+   QString label;
+   const QString notavailable = "not avail:";
+   for (int pt = 0; pt <= GO4NAMEDPAL_MAX + 2 - GO4NAMEDPAL_MIN; ++pt) { // need two indices more for Go4_None and Go4_Default
+      int ix = DecodePalette((Go4_Palette_t)pt);
+      if (ix < 0)
+         continue;
+      label = PaletteComboBox->itemText(pt);
+      label.remove(notavailable); // clear any old markers
+      if ((ix < min) || (ix > max)) {
+         label.prepend(notavailable);
+      }
+      PaletteComboBox->setItemText(pt, label);
+   }
 }
 
 
@@ -176,7 +165,7 @@ void TGo4Style::SetPalette(int t)
 void TGo4Style::SetNamedPalette(int i)
 {
   //std::cout<<"TGo4Style::SetNamedPalette "<<i  << std::endl;
-  int ix=DecodePalette((Go4_Palette_t) i);
+  int ix = DecodePalette((Go4_Palette_t) i);
   if (ix<0) return;
   // range check of current preferences here:
   if(ix< Palette->minimum())
@@ -187,7 +176,7 @@ void TGo4Style::SetNamedPalette(int i)
   if(ix> Palette->maximum())
      {
        ix=Palette->maximum();
-       PaletteComboBox->setCurrentIndex(CodePalette(ix)); // show correct palette name here. 
+       PaletteComboBox->setCurrentIndex(CodePalette(ix)); // show correct palette name here.
      }
   if (!fbMenuLock)  // try to avoid feedback of qt signals between widget slots
   {

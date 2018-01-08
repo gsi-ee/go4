@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -17,6 +17,7 @@
 
 #include "Riostream.h"
 #include "TSystem.h"
+#include "RVersion.h"
 
 #include "TGo4Marker.h"
 #include "TGo4Condition.h"
@@ -490,20 +491,22 @@ void TGo4QSettings::getCanvasColor(int& red, int& green, int& blue)
 }
 
 
-void    TGo4QSettings::setPaletteOpt(int min, int def, int max)
+void TGo4QSettings::setPaletteOpt(int min, int def, int max)
 {
-     setInt( "/ViewPanel/PaletteMin", min);
-     setInt( "/ViewPanel/PaletteDef", def);
-     setInt( "/ViewPanel/PaletteMax", max);
+   setInt( "/ViewPanel/PaletteMin", min);
+   setInt( "/ViewPanel/PaletteDef", def);
+   setInt( "/ViewPanel/PaletteMax", max);
 }
 
-void    TGo4QSettings::getPaletteOpt(int& min, int& def, int& max)
+void TGo4QSettings::getPaletteOpt(int& min, int& def, int& max)
 {
-  min   = getInt( "/ViewPanel/PaletteMin", 0);
-  def = getInt( "/ViewPanel/PaletteDef", 1);
-  max  = getInt( "/ViewPanel/PaletteMax", 56);
+   min = getInt( "/ViewPanel/PaletteMin", 0);
+   def = getInt( "/ViewPanel/PaletteDef", 1);
+   max = getInt( "/ViewPanel/PaletteMax", 56);
+#if ROOT_VERSION_CODE >= ROOT_VERSION(6,5,0)
+   if (max==56) max = 112; // default values for old ROOT can be overwritten
+#endif
 }
-
 
 
 void TGo4QSettings::setCloneFlag(bool on)
@@ -1073,7 +1076,7 @@ void TGo4QSettings::setTermShowTimestamp(bool on)
 
 QString   TGo4QSettings::getTermTimeFormat()
 {
-  return getStr( "/AnalisysTerminal/TimeFormat", "yyyy-MM-dd·hh mm:ss.zzz");
+  return getStr( "/AnalisysTerminal/TimeFormat", "yyyy-MM-ddï¿½hh mm:ss.zzz");
 }
 
 void  TGo4QSettings::setTermTimeFormat(const QString& form)
