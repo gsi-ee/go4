@@ -3997,6 +3997,9 @@ void TGo4ViewPanel::RedrawHistogram(TPad *pad, TGo4Picture* padopt, TH1 *his, bo
    if (first_draw && (go4sett->getDrawFillStyle()!=1001) && (his->GetFillStyle()==1001))
      his->SetFillStyle(go4sett->getDrawFillStyle());
 
+   Int_t nlvl = padopt->GetHisContour();
+   if (nlvl > 0) his->SetContour(nlvl);
+
    his->SetStats(padopt->IsHisStats());
    his->SetBit(TH1::kNoTitle, !padopt->IsHisTitle());
    his->Draw(drawopt.Data());

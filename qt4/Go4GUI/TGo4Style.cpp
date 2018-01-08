@@ -12,20 +12,28 @@
 //-----------------------------------------------------------------------
 
 #include "TGo4Style.h"
+
+#include "TStyle.h"
 #include "TColor.h"
-#include <QColorDialog>
+
+#include "TGo4Picture.h"
 #include "TGo4MdiArea.h"
 #include "TGo4ViewPanel.h"
 #include "TGo4QSettings.h"
-#include "TStyle.h"
+
+#include <QColorDialog>
 
 //#include "Riostream.h"
 
 TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
-   QWidget( parent, fl ), fbMenuLock(false)
+   QWidget( parent, fl ), fbMenuLock(false), fbSettingPanelData(false)
 {
    setObjectName( name ? name : "Go4Style");
    setupUi(this);
+
+   connect(TGo4MdiArea::Instance(), SIGNAL(panelSignal(TGo4ViewPanel*, TPad*, int)),
+           this, SLOT(panelSlot(TGo4ViewPanel*, TPad*, int)));
+
 
    for(int i=GO4NAMEDPAL_MIN; i<=GO4NAMEDPAL_MAX+2; ++i) // need two indices more for Go4_None and Go4_Default
    {
@@ -135,8 +143,6 @@ void TGo4Style::RefreshPaletteText(int min, int max)
    }
 }
 
-
-
 void TGo4Style::SetPadColor()
 {
    QColor c = QColorDialog::getColor();
@@ -200,9 +206,44 @@ Go4_Palette_t TGo4Style::CodePalette(int i)
 
 int TGo4Style::DecodePalette(Go4_Palette_t key)
 {
-    if(key==Go4_None) return -1;
-    if(key==Go4_Default) return 1; // old default rainbow index
-    return (key-2 + GO4NAMEDPAL_MIN ); // account Go4_None and Go4_Default  offset
+   if (key==Go4_None) return -1;
+   if (key==Go4_Default) return 1; // old default rainbow index
+   return (key-2 + GO4NAMEDPAL_MIN ); // account Go4_None and Go4_Default  offset
+}
+
+void TGo4Style::SetContourLevels(int nlvl)
+{
+   if (fbSettingPanelData) return;
+
+   TGo4ViewPanel* panel = TGo4MdiArea::Instance()->GetActivePanel();
+   if (panel)
+      panel->ChangeDrawOption(18, nlvl, 0);
+}
+
+void TGo4Style::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid)
+{
+   switch (signalid) {
+      case QGo4Widget::panel_Modified:
+      case QGo4Widget::panel_Updated:
+         break;
+      case QGo4Widget::panel_Activated:
+      case QGo4Widget::panel_ActiveUpdated: {
+         TGo4Picture* padopt = panel->GetPadOptions(pad);
+         if (padopt==0) break;
+
+         int nlvl = padopt->GetHisContour();
+
+         fbSettingPanelData = true;
+
+         ContourSpin->setValue(nlvl>0 ? nlvl : 20);
+
+         fbSettingPanelData = false;
+
+         break;
+      }
+      default:
+         break;
+   }
 }
 
 

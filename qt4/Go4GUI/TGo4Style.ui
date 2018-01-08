@@ -73,6 +73,54 @@
    <item row="0" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
+      <widget class="QLabel" name="ContourLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip">
+        <string>Select contour levels</string>
+       </property>
+       <property name="text">
+        <string>Contour</string>
+       </property>
+       <property name="wordWrap">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="ContourSpin">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimum">
+        <number>5</number>
+       </property>
+       <property name="maximum">
+        <number>1000</number>
+       </property>
+       <property name="singleStep">
+        <number>5</number>
+       </property>
+       <property name="value">
+        <number>20</number>
+       </property>
+       <property name="toolTip">
+         <string>Number of contour levels for current drawing.</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="2">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
       <widget class="QLabel" name="TextLabel2_3">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -123,48 +171,24 @@
    <signal>valueChanged(int)</signal>
    <receiver>TGo4Style</receiver>
    <slot>SetPalette(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
   <connection>
    <sender>PaletteComboBox</sender>
    <signal>activated(int)</signal>
    <receiver>TGo4Style</receiver>
    <slot>SetNamedPalette(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
+  </connection>
+  <connection>
+   <sender>ContourSpin</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>TGo4Style</receiver>
+   <slot>SetContourLevels(int)</slot>
   </connection>
   <connection>
    <sender>PadColor</sender>
    <signal>clicked()</signal>
    <receiver>TGo4Style</receiver>
    <slot>SetPadColor()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
   </connection>
  </connections>
 </ui>

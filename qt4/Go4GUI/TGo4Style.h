@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -112,7 +112,8 @@ enum Go4_Palette_t
   Go4_Viridis
 };
 
-
+class TGo4ViewPanel;
+class TPad;
 
 class TGo4Style : public QWidget, public Ui::TGo4Style
  {
@@ -133,6 +134,11 @@ class TGo4Style : public QWidget, public Ui::TGo4Style
 
    virtual void SetNamedPalette(int i);
 
+   virtual void SetContourLevels(int nlvl);
+
+   virtual void panelSlot( TGo4ViewPanel * panel, TPad * pad, int signalid );
+
+
  protected:
    /** Transform ROOT palette index in named palette combobox index */
    Go4_Palette_t CodePalette(int i);
@@ -145,6 +151,7 @@ class TGo4Style : public QWidget, public Ui::TGo4Style
 
    bool fbMenuLock;
 
+   bool fbSettingPanelData;
 
  };
 

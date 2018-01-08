@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -47,7 +47,7 @@ class TGo4HisDrawOptions : public QWidget, public Ui::TGo4HisDrawOptions
 
 
  public slots:
-   virtual void panelSlot( TGo4ViewPanel * panel, TPad * pad, int signalid );
+    virtual void panelSlot( TGo4ViewPanel * panel, TPad * pad, int signalid );
     virtual void SetDrawOptions( int t );
     virtual void SetErrorBars( int t );
     virtual void SetCoordinates( int t );
