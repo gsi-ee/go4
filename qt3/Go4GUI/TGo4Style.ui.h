@@ -183,7 +183,7 @@ void TGo4Style::init()
    PaletteComboBox->changeItem("Cool",                  Go4_Cool);            
    PaletteComboBox->changeItem("Copper",                Go4_Copper);          
    PaletteComboBox->changeItem("GistEarth",             Go4_GistEarth);       
-   PaletteComboBox->changeItem("Virids",                Go4_Viridis);         
+   PaletteComboBox->changeItem("Viridis",                Go4_Viridis);
 
 
 	go4sett->getPaletteOpt(min,def,max);

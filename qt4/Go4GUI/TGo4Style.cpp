@@ -103,7 +103,7 @@ TGo4Style::TGo4Style( QWidget* parent, const char* name, Qt::WindowFlags fl ) :
    PaletteComboBox->setItemText(Go4_Cool,                    "Cool");
    PaletteComboBox->setItemText(Go4_Copper,                  "Copper");
    PaletteComboBox->setItemText(Go4_GistEarth,               "GistEarth");
-   PaletteComboBox->setItemText(Go4_Viridis,                 "Virids");
+   PaletteComboBox->setItemText(Go4_Viridis,                 "Viridis");
 
    // here defaults from settings:
    int min,max,def;
