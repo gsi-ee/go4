@@ -34,6 +34,13 @@ ifeq ($(USEHTTPSERVER),true)
 
 ROOTHTTP_LIB = $(ROOTLIBPATH)/libRHTTP.$(DllSuf) 
 
+GO4HTTP_LIBSET  = $(LIBS_FULLSET) -lRHTTP
+
+ifeq ($(USEHTTPSNIFF),true)
+ROOTHTTPSNIFF_LIB = $(ROOTLIBPATH)/libRHTTPSniff.$(DllSuf)
+GO4HTTP_LIBSET += -lRHTTPSniff
+endif
+
 # used in the main Makefile
 
 #ALLHDRS +=  $(patsubst $(GO4HTTP_DIR)/%.h, include/%.h, $(GO4HTTP_H))
@@ -48,9 +55,9 @@ BUILDGO4LIBS += $(GO4HTTP_LIB)
 #	@echo "Copy header $@ ..." 
 #	@cp -f $< $@
 
-GO4HTTP_DEPLIB = $(ROOTHTTP_LIB) $(ANAL_LIB_DEP)
+GO4HTTP_DEPLIB = $(ROOTHTTP_LIB) $(ROOTHTTPSNIFF_LIB) $(ANAL_LIB_DEP)
 
-$(GO4HTTP_LIB):  MAKELIB_SET = $(LIBS_FULLSET) -lRHTTP
+$(GO4HTTP_LIB):  MAKELIB_SET = $(GO4HTTP_LIBSET)
 
 #required for static constants from analysis object manager
 ifeq ($(GO4_OS),Win32)
