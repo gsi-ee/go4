@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -68,7 +68,7 @@ Bool_t TGo4Sniffer::CreateEngine(const char* args)
 
 
 TGo4Sniffer::TGo4Sniffer(const char* name) :
-   TRootSniffer(name),
+   SniffBaseClass(name),
    TGo4AnalysisSniffer(),
    fAnalysisStatus(0),
    fEventRate(0),
@@ -235,7 +235,7 @@ void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
 {
    rec.SetField("_toptitle", "Go4 http server");
 
-   TRootSniffer::ScanRoot(rec);
+   SniffBaseClass::ScanRoot(rec);
 
    TGo4AnalysisObjectManager* om = TGo4Analysis::Instance() ? TGo4Analysis::Instance()->ObjectManager() : 0;
 
@@ -270,7 +270,7 @@ void TGo4Sniffer::ScanRoot(TRootSnifferScanRec& rec)
 
 void TGo4Sniffer::ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj)
 {
-   TRootSniffer::ScanObjectProperties(rec, obj);
+   SniffBaseClass::ScanObjectProperties(rec, obj);
 
    if (obj && obj->TestBit(TGo4Status::kGo4CanDelete)) {
       rec.SetField("_can_delete", "true");
@@ -317,7 +317,7 @@ void* TGo4Sniffer::FindInHierarchy(const char *path, TClass **cl, TDataMember **
       return fAnalysisStatus;
    }
 
-   return TRootSniffer::FindInHierarchy(path, cl, member, chld);
+   return SniffBaseClass::FindInHierarchy(path, cl, member, chld);
 }
 
 
@@ -680,7 +680,7 @@ Bool_t TGo4Sniffer::HasProduceMultiMethod()
 
 void TGo4Sniffer::RestrictGo4(const char* path, const char* options)
 {
-   // wrapper for TRootSniffer::Restrict, called only when method exists
+   // wrapper for TRootSnifferFull::Restrict, called only when method exists
 
    if (!HasRestrictMethod()) return;
 

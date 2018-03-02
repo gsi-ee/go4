@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -14,7 +14,13 @@
 #ifndef TGO4SNIFFER_H
 #define TGO4SNIFFER_H
 
+#ifdef SNIFFER_FULL
+#include "TRootSnifferFull.h"
+#define SniffBaseClass TRootSnifferFull
+#else
 #include "TRootSniffer.h"
+#define SniffBaseClass TRootSniffer
+#endif
 
 #include "TGo4AnalysisSniffer.h"
 
@@ -25,8 +31,9 @@ class TGraph;
 class TGo4Ratemeter;
 class THttpServer;
 
-class TGo4Sniffer : public TRootSniffer,
+class TGo4Sniffer : public SniffBaseClass,
                     public TGo4AnalysisSniffer {
+
    protected:
 
       TGo4AnalysisWebStatus*  fAnalysisStatus;
@@ -39,7 +46,7 @@ class TGo4Sniffer : public TRootSniffer,
 
       TGo4MsgList fStatusMessages;
 
-      /** if true, python binding of go4 has alredy been done.*/
+      /** if true, python binding of go4 has already been done.*/
       Bool_t fbPythonBound;
 
       virtual void ScanObjectProperties(TRootSnifferScanRec &rec, TObject *obj);
@@ -63,8 +70,6 @@ class TGo4Sniffer : public TRootSniffer,
       Bool_t SetAutoLoadGo4(const char* script);
 
       static THttpServer* gHttpServer;
-
-
 
 
    public:
