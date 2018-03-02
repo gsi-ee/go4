@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -573,8 +573,6 @@ class TGo4HttpLevelIter : public TGo4LevelIter {
       }
 };
 
-
-
 // =====================================================================
 
 TGo4HttpProxy::TGo4HttpProxy() :
@@ -604,7 +602,6 @@ TGo4HttpProxy::~TGo4HttpProxy()
 
    delete fXML; fXML = 0;
 }
-
 
 void TGo4HttpProxy::SetAccount(const char* username, const char* passwd)
 {
@@ -651,7 +648,7 @@ XMLNodePointer_t TGo4HttpProxy::FindItem(const char* name, XMLNodePointer_t curr
          const char* _name = fXML->GetAttr(chld,"_realname");
          if (_name==0) _name = fXML->GetAttr(chld,"_name");
 
-         if ((_name!=0) && (strncmp(_name, name, len)==0))
+         if ((_name!=0) && (strlen(_name) == len) && (strncmp(_name, name, len)==0))
             return FindItem(slash ? slash+1 : 0, chld);
 
          chld = fXML->GetNext(chld);
@@ -721,7 +718,6 @@ const char* TGo4HttpProxy::GetContainedObjectInfo()
    return fInfoStr.Data();
 }
 
-
 Bool_t TGo4HttpProxy::Connect(const char* nodename)
 {
    fNodeName = nodename;
@@ -736,7 +732,6 @@ Bool_t TGo4HttpProxy::NamesListReceived()
 {
    return (fxHierarchy!=0) && (fComm.fHReply==0);
 }
-
 
 Bool_t TGo4HttpProxy::UpdateHierarchy(Bool_t sync)
 {
@@ -768,6 +763,7 @@ Bool_t TGo4HttpProxy::HasSublevels() const
 TGo4Access* TGo4HttpProxy::ProvideAccess(const char* name)
 {
    XMLNodePointer_t item = FindItem(name);
+
    if (item==0) return 0;
 
    const char* _kind = fXML->GetAttr(item,"_kind");
