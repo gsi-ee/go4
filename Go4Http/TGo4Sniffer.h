@@ -16,10 +16,10 @@
 
 #ifdef SNIFFER_FULL
 #include "TRootSnifferFull.h"
-#define SniffBaseClass TRootSnifferFull
+typedef TRootSnifferFull SniffBaseClass;
 #else
 #include "TRootSniffer.h"
-#define SniffBaseClass TRootSniffer
+typedef TRootSniffer SniffBaseClass;
 #endif
 
 #include "TGo4AnalysisSniffer.h"
