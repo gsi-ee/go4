@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -130,7 +130,7 @@ INTS4 f_stc_read(void *p_buffer, INTS4 i_buflen, INTS4 i_channel, INTS4 i_timeou
 {
    INTS4                retval ,  buflen_tmp;
    INTS1               *p_buffer_tmp;
-   INTS4                i_retry=0;
+   INTS4                i_retry = 0;
    struct timeval       read_timeout;
    fd_set               xrmask,xwmask,xemask;
    INTS4                num_of_bytes_read = 0;
@@ -186,9 +186,9 @@ INTS4 f_stc_read(void *p_buffer, INTS4 i_buflen, INTS4 i_channel, INTS4 i_timeou
       printf("read ");fflush(stdout);
 #endif
 #ifdef GSI__WINNT
-      retval = recv(i_channel ,p_buffer_tmp, buflen_tmp,0);  /* Mohammad Al-Turany 31.07.00 */
+      retval = recv(i_channel, p_buffer_tmp, buflen_tmp, 0);  /* Mohammad Al-Turany 31.07.00 */
 #else
-      retval = read(i_channel , p_buffer_tmp,buflen_tmp);
+      retval = read(i_channel, p_buffer_tmp, buflen_tmp);
 #endif
       if( retval == -1 )
       {
@@ -199,9 +199,9 @@ INTS4 f_stc_read(void *p_buffer, INTS4 i_buflen, INTS4 i_channel, INTS4 i_timeou
             case EINVAL     : return STC__NGBUFSIZE;
             case EINTR      : return STC__EINTR;
             case ECONNRESET : return STC__ECONNRES;
-            default         :  sprintf(c_msg,"STC read error channel %d",i_channel);
-            perror(c_msg);
-            return STC__FAILURE;
+            default         : sprintf(c_msg,"STC read error channel %d",i_channel);
+                              perror(c_msg);
+                              return STC__FAILURE;
          }  /* switch( errno )  */
 
       } /* if( retval == -1 )  */
@@ -214,10 +214,10 @@ INTS4 f_stc_read(void *p_buffer, INTS4 i_buflen, INTS4 i_channel, INTS4 i_timeou
       num_of_bytes_read += retval;
       buflen_tmp        -= retval;
       p_buffer_tmp += retval;                 /* calc actual pointer   */
-      if( i_retry == 100000 )
-      {printf("Request %d bytes, read %d, timeout after 100000 retries\n",i_buflen,num_of_bytes_read);
-      return STC__NODATA;}
-      ++i_retry;
+      if( ++i_retry == 100000 ) {
+         printf("Request %d bytes, read %d, timeout after 100000 retries\n",i_buflen,num_of_bytes_read);
+         return STC__NODATA;
+      }
 
       read_timeout.tv_sec  = 100;
       read_timeout.tv_usec = 0;
@@ -226,7 +226,7 @@ INTS4 f_stc_read(void *p_buffer, INTS4 i_buflen, INTS4 i_channel, INTS4 i_timeou
 
 
 #ifdef DEBUG
-   printf("done\n");fflush(stdout);
+   printf("done\n"); fflush(stdout);
 #endif
    if( num_of_bytes_read == i_buflen ) return STC__SUCCESS;
 
