@@ -30,6 +30,7 @@ go4-package:
 	@tar rhf $(GO4TAR_NAME) README.txt CHANGES.txt Go4License.txt
 	@tar rhf $(GO4TAR_NAME) etc --exclude=*.svn
 	@tar rhf $(GO4TAR_NAME) docs/*.pdf
+    @tar rhf $(GO4TAR_NAME) docs/go4doxygenconfig
 	@tar rhf $(GO4TAR_NAME) macros/*.C 
 	@tar rhf $(GO4TAR_NAME) icons --exclude=*.svn
 	@tar rhf $(GO4TAR_NAME) html --exclude=*.svn
@@ -120,7 +121,7 @@ thrd-package:
 	@mkdir -p $(DISTR_DIR)/include
 	@touch -f $(DISTR_DIR)/include/.dummy
 	@cp -f etc/thrdmgr/Makefile $(DISTR_DIR)
-	@cp -f etc/thrdmgr/taskh.init $(DISTR_DIR)/go4.init
+	@cp -f etc/thrdmgr/thrdmgr.init $(DISTR_DIR)/go4.init
 	@cp -f etc/thrdmgr/README.txt $(DISTR_DIR)
 	@cd $(DISTR_DIR); rm -f $(THRDTAR_NAME); chmod u+w --recursive *; chmod go+rX --recursive *; tar chf $(THRDTAR_NAME) . --exclude=$(THRDTAR_NAME)*; gzip -f $(THRDTAR_NAME)
 	@mkdir -p $(PACKAGE_DIR)
