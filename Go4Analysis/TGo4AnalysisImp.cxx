@@ -2247,39 +2247,49 @@ if (strchr(command,TGo4Analysis::fgcPYPROMPT) && (strchr(command,TGo4Analysis::f
     comstring = comstring.Strip(TString::kLeading,TGo4Analysis::fgcPYPROMPT);
     comstring = comstring.Strip(TString::kLeading);
     TGo4Log::Debug("Executing Python script: %s", comstring.Data());
-    comstring = "TPython::LoadMacro(\"" + comstring + "\")";
-    if(!fbPythonBound)
-      {
-        TString go4sys=TGo4Log::GO4SYS();
-        TString pyinit=TGo4Analysis::fgcPYINIT; // JAM todo: put python path and filename into settings
-        comstring.Prepend("TPython::LoadMacro(\"" + go4sys + pyinit +"\");");
-        comstring.Prepend("TPython::Bind(go4, \"go4\");" );
-        fbPythonBound=kTRUE;
-      }
- } else {
+    const TString PY_EXT = ".py";
+    int imin = comstring.Index(PY_EXT + " ");
+    int imax = comstring.Length();
+    if (imin == -1) {
+      imin = imax;
+    } else {
+      imin += PY_EXT.Length();
+    }
+    int ilen = imax - imin;
+    TString scrstring = comstring(0, imin);
+    TString argstring = comstring(imin, ilen);
+
+    comstring  = "TPython::Exec(\"import sys; sys.argv = [\'" + scrstring + "\'] + \'" + argstring + "\'.split()\");";
+    comstring += "TPython::LoadMacro(\"" + scrstring + "\");";
+
+    if(!fbPythonBound) {
+      TString go4sys = TGo4Log::GO4SYS();
+      TString pyinit = TGo4Analysis::fgcPYINIT; // JAM todo: put python path and filename into settings
+      comstring.Prepend("TPython::LoadMacro(\"" + go4sys + pyinit +"\");");
+      comstring.Prepend("TPython::Bind(go4, \"go4\");" );
+      fbPythonBound = kTRUE;
+    }
+} else {
     comstring="";
     const char* cursor = command;
     const char* at=0;
-    do
-    {
-       Ssiz_t len=strlen(cursor);
-       at = strstr(cursor,"@");
-       if(at)
-       {
-          //std::cout <<"Found at: "<<at << std::endl;
-          len=(Ssiz_t) (at-cursor);
-          comstring.Append(cursor,len);
-          comstring.Append("TGo4Analysis::Instance()->");
-          cursor=at+1;
-       }
-       else
-       {
-          //std::cout <<"Appended "<<cursor << std::endl;
-          comstring.Append(cursor);
-       }
-    }
-    while(at);
- }
+    do {
+          Ssiz_t len=strlen(cursor);
+          at = strstr(cursor,"@");
+          if(at) {
+            //std::cout <<"Found at: "<<at << std::endl;
+            len=(Ssiz_t) (at-cursor);
+            comstring.Append(cursor,len);
+            comstring.Append("TGo4Analysis::Instance()->");
+            cursor=at+1;
+          } else {
+            //std::cout <<"Appended "<<cursor << std::endl;
+            comstring.Append(cursor);
+          }
+        } while(at);
+      }
+
+
   TGo4Log::Debug("ExecuteLine: %s", comstring.Data());
   return gROOT->ProcessLineSync(comstring, errcode);
  }

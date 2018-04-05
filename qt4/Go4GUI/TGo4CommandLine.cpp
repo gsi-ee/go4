@@ -105,7 +105,21 @@ void TGo4CommandLine::enterPressedSlot()
       // Python support as initiated by Sven Augustin, MPI Heidelberg
       str.remove(0, str.indexOf(pyprompt) + 1);
       StatusMessage(QString("Executing Python script: ") + str);
-      str = "TPython::LoadMacro(\"" + str + "\")";
+      const QString PY_EXT = ".py";
+      int imin = str.indexOf(PY_EXT + " ");
+      int imax = str.length();
+
+      if (imin == -1) {
+        imin = imax;
+      } else {
+        imin += PY_EXT.length();
+      }
+
+      QString scrstring = str.left(imin);
+      QString argstring = str.mid(imin);
+
+      str  = "TPython::Exec(\"import sys; sys.argv = [\'" + scrstring + "\'] + \'" + argstring + "\'.split()\");";
+      str += "TPython::LoadMacro(\"" + scrstring + "\")";
       if (!fbPythonBound)
       {
         QString go4sys=TGo4Log::GO4SYS();
