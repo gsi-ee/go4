@@ -98,8 +98,9 @@ include/%.h: $(GO4GUI4_DIR)/%.h
 	@echo "Copy header $@ ..." 
 	@cp -f $< $@
 
-
 endif
+
+ifdef GO4_QT
 
 ifneq ($(wildcard $(GO4GUI4_DIR)/$(GO4GUI4_QTPRO)),)
 $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE): $(GO4GUI4_DIR)/$(GO4GUI4_QTPRO) $(GO4GUI4_FORMS)
@@ -113,10 +114,20 @@ $(GO4GUI4_EXE) : $(GO4QT4HEADS) $(BUILDGO4LIBS) $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE)
 	@echo "Generating Qt4 part of the MainGUI..."
 	+cd $(GO4GUI4_DIR); $(MAKEFORQT) -f $(GO4GUI4_QTMAKE)
 
-
 qt4-GUI: $(GO4GUI4_EXE)
 
 qt4-heads: $(GO4GUI4_UI_PUBH) 
+
+else
+
+$(GO4GUI4_EXE) :
+
+qt4-GUI: 
+
+qt4-heads: 
+
+endif
+
 
 clean-qt4-GUI-bin:
 ifneq ($(MAKEFORQT),)

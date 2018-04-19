@@ -100,6 +100,7 @@ include/%.h: $(GO4GUI3_DIR)/%.h
 include/%.h: $(QT3ROOT_DIR)/%.h
 	@echo "Copy header $@ ..."
 	@cp -f $< $@
+
 endif
 
 $(GO4GUI3_DIR)/$(GO4GUI3_QTMAKE): $(GO4GUI3_DIR)/$(GO4GUI3_QTPRO) $(GO4GUI3_FORMS)

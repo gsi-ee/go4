@@ -42,6 +42,7 @@ endif
 
 ##### local rules #####
 
+ifdef GO4_QT
 ifneq ($(GO4_QT), 3)
 
 all:: all-qt4usergui
@@ -51,7 +52,7 @@ clean-bin:: clean-qt4usergui-bin
 clean:: clean-qt4usergui
 
 endif
-
+endif
 
 $(USERGUI4_DIR)/$(USERGUI4_QTMAKE): $(USERGUI4_DIR)/$(USERGUI4_QTPRO) $(USERGUI4_FORMS) $(USERGUI4_DEPRULES) 
 	@echo "Generating $(USERGUI4_QTMAKE)..."
@@ -70,10 +71,11 @@ ifneq ($(GO4_OS),Darwin)
 all-qt4usergui:  $(USERGUI4_QTLIB)
 
 else
+
 all-qt4usergui:
 	@echo "No user gui (yet) under Darwin"
+	
 endif
-
 
 
 clean-qt4usergui-bin:
