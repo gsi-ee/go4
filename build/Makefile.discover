@@ -313,8 +313,8 @@ ifeq ($(GO4_OS),Darwin)
 	@echo 'export DYLD_LIBRARY_PATH=$(ROOTLIBPATH):$$DYLD_LIBRARY_PATH' >> $@
 endif
 	@echo 'export LD_LIBRARY_PATH=$(ROOTLIBPATH):$$LD_LIBRARY_PATH' >> $@
-	@echo 'export LD_LIBRARY_PATH=$(ROOTLIBPATH):$$LD_LIBRARY_PATH' >> $@
 	@echo 'export PYTHONPATH=$(ROOTLIBPATH):$$PYTHONPATH' >> $@
+	@echo '' >> $@
 ifdef USEDABC
 	@echo '##### DABC-related settings ###########' >> $@
 	@echo 'export DABCSYS=$(DABCSYS)' >> $@
