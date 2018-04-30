@@ -21,6 +21,10 @@ This software can be used under the license agreements as stated
 in Go4License.txt file which is part of the distribution.
 ---------------------------------------------------------------
 
+Changes in Go4 v5.3.x (Summer 2018)
+1. Add Output of current filename to GUI log indow in case of MBS listmode list event source.
+
+
 
 Changes in Go4 v5.3.0 (March 2018)
 1. Go4 GUI (Qt4/5): Optional timestamp output in analysis terminal window before each text buffer. This feature can be 
