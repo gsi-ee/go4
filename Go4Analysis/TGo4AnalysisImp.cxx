@@ -75,7 +75,6 @@
 #include "TGo4EventErrorException.h"
 #include "TGo4EventTimeoutException.h"
 #include "TGo4EventEndException.h"
-#include "TGo4CompositeEvent.h"
 #include "TGo4AnalysisStepException.h"
 #include "TGo4TreeStructure.h"
 
