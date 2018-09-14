@@ -33,9 +33,9 @@ void TGo4MacroDialog::setCommand( const QString & selection )
     }
     else if (selection.contains("Divide"))
     {
-        fxCommand="divhistos(\"\",\"\",kTRUE);";
-        SyntaxLabel->setText("Bool_t divhistos(const char* histo1, const char* histo2, Bool_t draw)");
-        setToolTip("Divide histograms: result=histo1 by histo2.\n If draw==true, display in new viewpanel, otherwise just update existing displays ");
+        fxCommand="divhistos(\"\",\"\",kTRUE, kTRUE);";
+        SyntaxLabel->setText("Bool_t divhistos(const char* histo1, const char* histo2, Bool_t draw, Bool_t floatresult)");
+        setToolTip("Divide histograms: result=histo1 by histo2.\n If draw==true, display in new viewpanel, otherwise just update existing displays. \n If floatresult==true, result histogram will be TH1F, otherwise same type as original histograms");
     }
      else if (selection.contains("Rebin"))
     {

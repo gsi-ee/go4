@@ -21,6 +21,7 @@
 #include "TGo4Log.h"
 #include "TGo4QSettings.h"
 #include "TGo4MacroDialog.h"
+#include <exception>
 
 TGo4CommandLine::TGo4CommandLine(QWidget *parent, const char* name) :
    QGo4Widget(parent, name),fbPythonBound(false)
@@ -133,9 +134,22 @@ void TGo4CommandLine::enterPressedSlot()
     {
       StatusMessage(QString("Executing command: ") + str);
     }
-    gROOT->ProcessLineSync(str.toLatin1().constData());
+    try
+    {
+      gROOT->ProcessLineSync(str.toLatin1().constData());
+      go4sett->setCommandsHistoryGUI(InputLine->getHistory(50));
+    }
+    catch(std::exception& ex)
+    {
+      StatusMessage(QString("Error invoking command - Exception: ") + QString(ex.what()));
+    }
+    catch(...)
+    {
+      StatusMessage(QString("Error invoking command - unknown Exception!"));
+    }
+
   }
-  go4sett->setCommandsHistoryGUI(InputLine->getHistory(50));
+
 }
 
 void TGo4CommandLine::LoadHistory()

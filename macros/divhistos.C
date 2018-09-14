@@ -1,8 +1,10 @@
 #include "Riostream.h"
 
+
 ///////////////////////////////////////////////////////////////////
-//////// Go4 GUI example script addhistos.C
+//////// Go4 GUI example script divhistos.C
 //       J.Adamczewski, gsi, May 2006
+//       improvement for float ratios by S.Augustin, Sep 2018
 // NOTE: to be run in Go4 GUI local command line only!
 //       NEVER call this script in remote analysis process!!!
 /////// Functionality:
@@ -11,7 +13,42 @@
 // The draw flag switches if the results are displayed each time this makro is called
 // if display is switched off, the result histogram is just updated in browser and existing displays
 ///////
-Bool_t divhistos(const char* name1, const char* name2, Bool_t draw)
+
+
+TH1F* CloneTHI2F(TH1 * horig)
+{
+   TAxis* ax = horig->GetXaxis();
+
+   Int_t nbins   = ax->GetNbins();
+   Double_t vmin = ax->GetXmin();
+   Double_t vmax = ax->GetXmax();
+
+   TH1F* hnew = new TH1F("tmp", "tmp", nbins, vmin, vmax);
+   hnew->Add(horig, 1);
+
+   return hnew;
+}
+
+TH2F* CloneTHI2F_2D(TH1 * horig)
+{
+   TAxis* ax = horig->GetXaxis();
+   Int_t xnbins   = ax->GetNbins();
+   Double_t xvmin = ax->GetXmin();
+   Double_t xvmax = ax->GetXmax();
+   TAxis* ay = horig->GetYaxis();
+   Int_t ynbins   = ay->GetNbins();
+   Double_t yvmin = ay->GetXmin();
+   Double_t yvmax = ay->GetXmax();
+   TH2F* hnew = new TH2F("tmp", "tmp", xnbins, xvmin, yvmax, ynbins, yvmin, yvmax);
+   hnew->Add(horig, 1);
+
+   return hnew;
+}
+
+
+
+
+Bool_t divhistos(const char* name1, const char* name2, Bool_t draw, Bool_t float_division=kFALSE)
 {
    if(TGo4AbstractInterface::Instance()==0 || go4!=TGo4AbstractInterface::Instance()) {
       std::cout <<"FATAL: Go4 gui macro executed outside Go4 GUI!! returning." << std::endl;
@@ -34,7 +71,18 @@ Bool_t divhistos(const char* name1, const char* name2, Bool_t draw)
       std::cout <<"divhistos could not get histogram "<<fullname2 << std::endl;
       return kFALSE;
    }
-   TH1* result= (TH1*) his1->Clone();
+   TH1* result =0;
+   Int_t dim=his1->GetDimension();
+   if (float_division) {
+       if(dim==1)
+         result = CloneTHI2F(his1);
+       else if (dim==2)
+         result = CloneTHI2F_2D(his1);
+       else
+         result = (TH1*) his1->Clone();
+   } else {
+       result = (TH1*) his1->Clone();
+   }
 
    TString n1 = his1->GetName();
    TString n2 = his2->GetName();
