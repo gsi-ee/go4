@@ -68,6 +68,7 @@ void TGo4BufferQueue::InitBuffers()
    TGo4LockGuard mainguard;
    fxBufferList = new TList; // list owning all buffers
    fxFreeList = new TList;    // list indicating the free buffers
+   fxFreeList->SetOwner(kFALSE); // JAM2018 - avoid root6 problems at shutdown???
    fxBufferMutex = new TMutex;
    for (Int_t i=0; i< fiMaxBuffers; ++i) {
       TBuffer* buf = NewEntry();
@@ -80,12 +81,17 @@ TGo4BufferQueue::~TGo4BufferQueue()
 {
    GO4TRACE((14,"TGo4BufferQueue::~TTGo4BufferQueue()", __LINE__, __FILE__));
 
-   fxBufferList->Delete();
+   //printf ("JAM*************** DTOR of TGo4BufferQueue %s BEGIN\n", GetName());
+   //fxBufferList->Delete();// JAM2018 - avoid root6 problems at shutdown???
    TCollection::EmptyGarbageCollection();
+   //printf ("JAM*************** DTOR of TGo4BufferQueue %s after EmptyGarbageCollection \n", GetName());
 
    delete fxFreeList; fxFreeList = 0;
+   //printf ("JAM*************** DTOR of TGo4BufferQueue %s after delete fxFreeList \n", GetName());
    delete fxBufferList; fxBufferList = 0;
+   //printf ("JAM*************** DTOR of TGo4BufferQueue %s after delete fxBufferList \n", GetName());
    delete fxBufferMutex; fxBufferMutex = 0;
+   //printf ("JAM*************** DTOR of TGo4BufferQueue %s END\n", GetName());
 }
 
 TBuffer * TGo4BufferQueue::WaitBuffer()

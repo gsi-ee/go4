@@ -241,10 +241,16 @@ print_go4_version();
    // set this to 3 to get errors only
 
 
+
+#if ROOT_VERSION_CODE < ROOT_VERSION(6,12,0)
+   gInterpreter->SetProcessLineLock(kFALSE);
    // disable cint locking when called via process line
    // makes problem in multi-threaded environment, where CINT lock
    // also used for object streaming
-   gInterpreter->SetProcessLineLock(kFALSE);
+#else
+   gInterpreter->SetProcessLineLock(kTRUE); // changed for root 6 problems JAM 9-10-2018
+#endif
+
 
    TString go4inc = TGo4Log::GO4INCPATH();
    if (go4inc.Length()==0) go4inc = TGo4Log::subGO4SYS("include");

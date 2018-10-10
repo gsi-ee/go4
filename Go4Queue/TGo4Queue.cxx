@@ -34,9 +34,12 @@ TGo4Queue::TGo4Queue(const char* name) :
 
 TGo4Queue::~TGo4Queue()
 {
+
+  //printf ("JAM*************** DTOR of TGo4Queue %s BEGIN\n", GetName());
    delete fxList; fxList = 0;
    delete fxCondition; fxCondition = 0;
    delete fxMutex; fxMutex = 0;
+  // printf ("JAM*************** DTOR of TGo4Queue %s END\n", GetName());
 }
 
 void TGo4Queue::Clear(Option_t* opt)

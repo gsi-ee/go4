@@ -204,13 +204,20 @@ Bool_t TGo4Thread::Cancel ()
 
 
 
+         // JAM2018 bugfix for crashes with ROOT 6 concerning Thread CleanUpPop
+#if ROOT_VERSION_CODE > ROOT_VERSION(6,0,0)
+         TThread::Delete(fxThread);
+#else
 // this does not work properly for ROOT versions < 5.17-04
 // due to bug in static Delete() method (see root bug report 31085)
 //         TThread::Delete(fxThread);
-// use workaround, later with root version ifdefs:
-        fxThread->Kill();
-        delete fxThread;
+         fxThread->Kill();
+         delete fxThread;
 // note: this will skip the thread Cleanup(), but we do not use this feature in Go4
+#endif
+
+
+
 
 ///////// following deprecated workaround, remove it when above bug is solved
 //#ifndef WIN32

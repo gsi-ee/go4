@@ -292,6 +292,10 @@ void TGo4Analysis::Constructor()
       Message(2,"Analysis BaseClass ctor -- analysis singleton already exists !!!");
    }
    // settings for macro execution
+#if ROOT_VERSION_CODE > ROOT_VERSION(6,12,0)
+   TInterpreter* theI = gROOT->GetInterpreter();
+   theI->SetProcessLineLock(kTRUE); // mandatory for ROOT > 6.12
+#endif
    gROOT->ProcessLineSync("TGo4Analysis *go4 = TGo4Analysis::Instance();");
    gROOT->ProcessLineSync(Form(".x %s", TGo4Log::subGO4SYS("macros/anamacroinit.C").Data()));
 }
@@ -2290,7 +2294,19 @@ if (strchr(command,TGo4Analysis::fgcPYPROMPT) && (strchr(command,TGo4Analysis::f
 
 
   TGo4Log::Debug("ExecuteLine: %s", comstring.Data());
-  return gROOT->ProcessLineSync(comstring, errcode);
+
+//  TInterpreter* theI = gROOT->GetInterpreter();
+//  printf ("ExecuteLine sees interpreter of class %s \n",theI ? theI->IsA()->GetName() : "NULL");
+//  printf ("IsProcessLineLocked is %s \n", theI->IsProcessLineLocked() ? "true" : "false");
+//  printf ("gInterpreterMutex: 0x%x gGlobalMutex: 0x%x \n", gInterpreterMutex, gGlobalMutex);
+
+
+  //gROOT->GetInterpreter()->RewindInterpreterMutex();
+ // TCling__ResetInterpreterMutex();
+//  theI->SetProcessLineLock(kTRUE);
+  Long_t rev=gROOT->ProcessLineSync(comstring, errcode);
+//  theI->SetProcessLineLock(kFALSE);
+  return rev;
  }
 
 void TGo4Analysis::StopAnalysis()
