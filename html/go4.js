@@ -8,7 +8,7 @@
 
    GO4 = {};
 
-   GO4.version = "5.1.1";
+   GO4.version = "5.3.x";
 
    // use location to load all other scripts when required
    GO4.source_dir = function() {
@@ -53,8 +53,7 @@
       // use height of child element
       JSROOT.Painter.AdjustLayout(null, $('#'+divid+' div').height()+4, false);
 
-      var xreq = null;
-      var was_running = null;
+      var xreq = null, was_running = null;
 
       function UpdateRatemeter() {
          if (xreq!=null) return;
@@ -135,9 +134,9 @@
    }
 
    GO4.MsgListPainter.prototype.Draw = function() {
-      if (this.lst==null) return;
+      if (!this.lst) return;
 
-      var frame = d3.select("#" + this.divid);
+      var frame = this.select_main();
 
       var main = frame.select("div");
       if (main.empty())
@@ -170,10 +169,11 @@
 
    GO4.drawAnalysisTerminal = function(hpainter, itemname) {
       var url = hpainter.GetOnlineItemUrl(itemname);
-      if (url == null) return null;
       var frame = hpainter.GetDisplay().FindFrame(itemname, true);
-      if (frame==null) return null;
+      if (!url || !frame) return null;
+      
       var divid = d3.select(frame).attr('id');
+      
       var h = $("#"+divid).height(), w = $("#"+divid).width();
       if ((h<10) && (w>10)) $("#"+divid).height(w*0.7);
 
@@ -184,65 +184,61 @@
       player.draw_ready = true;
       player.needscroll = false;
 
-
       player.DrawReady = function() {
-       if(this.needscroll) {
-       this.ClickScroll();
-       this.needscroll=false;
-       }
-      this.draw_ready = true;
-
+         if(this.needscroll) {
+            this.ClickScroll();
+            this.needscroll = false;
+         }
+         this.draw_ready = true;
       }
 
       player.ProcessTimer = function() {
-         //var subid = this.divid + "_terminal";
-      var subid ="anaterm_output_container";
-         if ($("#" + subid).length==0) {
+         var subid = "anaterm_output_container";
+         if ($("#" + subid).length == 0) {
             // detect if drawing disappear
             clearInterval(this.interval);
             this.interval = null;
             return;
          }
-         if (!this.draw_ready) return;
+         if (!this.draw_ready)
+            return;
 
          var msgitem = this.itemname.replace("Control/Terminal", "Status/Log");
 
          this.draw_ready = false;
 
-         this.hpainter.display(msgitem,"divid:" + subid, this.DrawReady.bind(this));
+         this.hpainter.display(msgitem, "divid:" + subid, this.DrawReady.bind(this));
       }
 
       player.ClickCommand = function(kind) {
-     var pthis=this;
-         this.hpainter.ExecuteCommand(this.itemname.replace("Terminal", "CmdExecute"), function(){pthis.needscroll=true}, kind);
-         //console.log("Execute ClickCommand with" + kind);
-
+         var pthis = this;
+         this.hpainter.ExecuteCommand(this.itemname.replace("Terminal",
+               "CmdExecute"), function() {
+            pthis.needscroll = true
+         }, kind);
       }
 
       player.ClickClear = function() {
-      //console.log("Clear terminal");
-      document.getElementById("anaterm_output_container").firstChild.innerHTML="";
+         // console.log("Clear terminal");
+         document.getElementById("anaterm_output_container").firstChild.innerHTML = "";
       }
 
       player.ClickScroll = function() {
-      //console.log("ScrollEndTerminal");
-      var disp = $("#anaterm_output_container").children(":first"); // inner frame created by hpainter has the scrollbars, i.e. first child
-      disp.scrollTop(disp[0].scrollHeight - disp.height());
+         //  inner frame created by hpainter has the scrollbars, i.e. first child
+         var disp = $("#anaterm_output_container").children(":first"); 
+         disp.scrollTop(disp[0].scrollHeight - disp.height());
       }
 
 
-      player.fillDisplay = function() {
-
-          var id = "#"+this.divid;
-          var pthis=this;
-          //console.log("fillDisplay for id - " + id);
+      player.fillDisplay = function(id) {
+          this.SetDivId(id);
           this.interval = setInterval(this.ProcessTimer.bind(this), 2000);
 
           $(id + " .go4_clearterm")
-        .button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
-        .click(this.ClickClear.bind(this))
-            .children(":first") // select first button element, used for images
-            .css('background-image', "url(" + GO4.source_dir + "icons/clear.png)");
+              .button({text: false, icons: { primary: "ui-icon-blank MyTermButtonStyle"}})
+              .click(this.ClickClear.bind(this))
+              .children(":first") // select first button element, used for images
+              .css('background-image', "url(" + GO4.source_dir + "icons/clear.png)");
 
 
           $(id + " .go4_endterm")
@@ -265,15 +261,16 @@
             .children(":first") // select first button element, used for images
             .css('background-image', "url(" + GO4.source_dir + "icons/condlist.png)");
 
-
+          var pthis = this;
+          
           $("#go4_anaterm_cmd_form").submit(
-                  function(event) {
-                 var command= pthis.itemname.replace("Terminal", "CmdExecute");
-                     var cmdpar=document.getElementById("go4_anaterm_command").value;
-                     console.log("submit command - " + cmdpar);
-                     pthis.hpainter.ExecuteCommand(command,  function(){pthis.needscroll=true}, cmdpar);
-                     event.preventDefault();
-                  });
+              function(event) {
+                 var command = pthis.itemname.replace("Terminal", "CmdExecute");
+                 var cmdpar=document.getElementById("go4_anaterm_command").value;
+                 console.log("submit command - " + cmdpar);
+                 pthis.hpainter.ExecuteCommand(command,  function(){pthis.needscroll=true}, cmdpar);
+                 event.preventDefault();
+              });
 
 
           $(id + " .go4_executescript").button()
@@ -283,20 +280,13 @@
       }
 
 
-      player.Show = function(divid) {
-      var pthis = this;
-      $("#"+divid).load(GO4.source_dir + "html/terminal.htm", "",
-                function() { pthis.SetDivId(divid); pthis.fillDisplay();}
-      );
-
-         return this;
-      }
-
       player.CheckResize = function(force) {
-       // console.log("CheckResize..., force=" + force);
+         // console.log("CheckResize..., force=" + force);
       }
+      
+      $("#"+divid).load(GO4.source_dir + "html/terminal.htm", "", player.fillDisplay.bind(player, divid));
 
-      return player.Show(divid);
+      return player;
    }
 
 
