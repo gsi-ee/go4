@@ -29,6 +29,12 @@
       return "";
    }();
 
+   
+   if (!JSROOT.TBasePainter.prototype.get_main_id)
+      JSROOT.TBasePainter.prototype.get_main_id = function() {
+         var elem = this.select_main();
+         return elem.empty() ? "" : elem.attr("id");
+      }
 
    // ==================================================================================
 

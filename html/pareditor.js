@@ -23,111 +23,104 @@
    GO4.ParameterEditor.prototype = Object.create(JSROOT.TBasePainter.prototype);
 
    GO4.ParameterEditor.prototype.CheckResize = function() {
-//      var id = "#"+this.divid;
-//      var width = $(id).width();
-//      var height = $(id).height();
-//      $(id).children().eq(0).width(width - 4).height(height - 4);
    }
-
 
    // TODO: put to common "base class" of condition and parameter editor
    GO4.ParameterEditor.prototype.DabcCommand = function(cmd, option, callback) {
-    var pre="";
-    if (this.GetItemName()!="") { // note: check against !=null does not work here!
-        pre = this.GetItemName() + "/"; // suppress / if item name is empty
-        //console.log("Found non null itemname= -"+this.GetItemName()+"-");
-    }
-    pre +="exe.json\?method=";
-    var fullcom = pre + cmd + option;
+      var pre="";
+      if (this.GetItemName()!="") { // note: check against !=null does not work here!
+         pre = this.GetItemName() + "/"; // suppress / if item name is empty
+         //console.log("Found non null itemname= -"+this.GetItemName()+"-");
+      }
+      pre +="exe.json\?method=";
+      var fullcom = pre + cmd + option;
 
       JSROOT.NewHttpRequest(fullcom, 'text', function(res) {
          console.log("DabcCommand completed.");
          callback(res!=null);
       }).send(null);
-    }
+   }
 
    // TODO: put to common "base class" of condition and parameter editor
    // add identifier of changed element to list, make warning sign visible
-    GO4.ParameterEditor.prototype.MarkChanged = function(key) {
+   GO4.ParameterEditor.prototype.MarkChanged = function(key) {
       // first avoid duplicate keys:
-      var index;
-      for  (index = 0; index < this.changes.length; index++) {
-        if (this.changes[index]== key) return;
+      for (var index = 0; index < this.changes.length; index++) {
+         if (this.changes[index]== key) return;
       }
       this.changes.push(key);
       console.log("Mark changed :%s", key);
-      var id = "#"+this.divid;
+      var id = "#" + this.get_main_id();
       $(id+" .buttonChangeLabel").show();// show warning sign
-    }
+   }
+    
   // TODO: put to common "base class" of condition and parameter editor
-  GO4.ParameterEditor.prototype.ClearChanges = function() {
-    var index;
-    var len=this.changes.length;
-    for  (index = 0; index < len ; index++) {
-        var removed=this.changes.pop();
-        console.log("Clear changes removed :%s", removed);
-    }
-    var id = "#"+this.divid;
-    $(id+" .buttonChangeLabel").hide(); // hide warning sign
-
+   GO4.ParameterEditor.prototype.ClearChanges = function() {
+      var index;
+      var len=this.changes.length;
+      for  (index = 0; index < len ; index++) {
+         var removed=this.changes.pop();
+         console.log("Clear changes removed :%s", removed);
       }
+      var id = "#" + this.get_main_id();
+      $(id+" .buttonChangeLabel").hide(); // hide warning sign
+   }
 
   // scan changed value list and return optionstring to be send to server
-  GO4.ParameterEditor.prototype.EvaluateChanges = function(optionstring) {
-    var id = "#"+this.divid;
-    var index;
-    var len=this.changes.length;
-    for  (index = 0; index < len ; index++) {
-        //var cursor=changes.pop();
-      var key=this.changes[index];
-      console.log("Evaluate change key:%s", key);
-      // here mapping of key to editor field:
-      // key will be name of variable which is class name of input field:
-      var val=$(id+" ."+key.toString())[0].value;
-      //var opt= key.replace(/_/g, "[").replace(/-/g, "]");  // old with other placeholders
-            var arraysplit=key.split("_");
-            var opt="";
-            if(arraysplit.length>1)
-              {
-                // found array with index after separator, reformat it:
-              opt=arraysplit[0];
-              if(arraysplit.length>2)
-              {
-                if(arraysplit.length>3)
-                {
+   GO4.ParameterEditor.prototype.EvaluateChanges = function(optionstring) {
+      var id = "#" + this.get_main_id();
+      var len = this.changes.length;
+      for  (var index = 0; index < len ; index++) {
+         //var cursor=changes.pop();
+         var key = this.changes[index];
+         console.log("Evaluate change key:%s", key);
+         // here mapping of key to editor field:
+         // key will be name of variable which is class name of input field:
+         var val=$(id+" ."+key.toString())[0].value;
+         //var opt= key.replace(/_/g, "[").replace(/-/g, "]");  // old with other placeholders
+         var arraysplit=key.split("_");
+         var opt="";
+         if(arraysplit.length>1)
+         {
+            // found array with index after separator, reformat it:
+            opt=arraysplit[0];
+            if(arraysplit.length>2)
+            {
+               if(arraysplit.length>3)
+               {
                   // 3dim array:
                   var ix=arraysplit[arraysplit.length -3]; //
-             var iy=arraysplit[arraysplit.length -2]; //
-             var iz=arraysplit[arraysplit.length -1]; //
-             opt+="["+ix+"]["+iy+"]["+iz+"]";
-                }
-                else
-                  {
-                    // 2dim array:
-                    var ix=arraysplit[arraysplit.length -2]; //
-                    var iy=arraysplit[arraysplit.length -1]; //
-                    opt+="["+ix+"]["+iy+"]";
-                  }
-                var iy=arraysplit[arraysplit.length -2]; //
-              }
-              else
-                {
-                // 1dim array:
-                  opt=arraysplit[0];
-                  var ix=arraysplit[arraysplit.length -1]; //
-                  opt+="["+ix+"]";
-                }
-              }
+                  var iy=arraysplit[arraysplit.length -2]; //
+                  var iz=arraysplit[arraysplit.length -1]; //
+                  opt+="["+ix+"]["+iy+"]["+iz+"]";
+               }
+               else
+               {
+                  // 2dim array:
+                  var ix=arraysplit[arraysplit.length -2]; //
+                  var iy=arraysplit[arraysplit.length -1]; //
+                  opt+="["+ix+"]["+iy+"]";
+               }
+               var iy=arraysplit[arraysplit.length -2]; //
+            }
             else
-              {
-                opt=key;
-              }
+            {
+               // 1dim array:
+               opt=arraysplit[0];
+               var ix=arraysplit[arraysplit.length -1]; //
+               opt+="["+ix+"]";
+            }
+         }
+         else
+         {
+            opt=key;
+         }
 
-            optionstring +="&"+opt+"="+val;
-    }// for index
-    console.log("Resulting option string:%s", optionstring);
-    return optionstring;
-  }
+         optionstring +="&"+opt+"="+val;
+      }// for index
+      console.log("Resulting option string:%s", optionstring);
+      return optionstring;
+   }
 
    GO4.ParameterEditor.prototype.fillComments = function() {
       var editor = this;
@@ -136,13 +129,13 @@
 
       editor.xreq = JSROOT.NewHttpRequest(pre+"h.json?more", 'object', function(res) {
          editor.xreq = null;
-         if (res==null) return;
-         var id = "#"+editor.divid;
+         if (!res) return;
+         var id = "#" + editor.get_main_id();
          $(id + " .par_values tbody").find("tr").each( function(i,tr) {
             var name = $(tr).find("td:first").text();
             var title = null;
-            var arrayinfo=null;
-            var typeinfo=null;
+            var arrayinfo = null;
+            var typeinfo = null;
             for (var i in res._childs) {
                var n = res._childs[i]._name;
                var arsplit=name.split("["); // remove array information at the end, if any
@@ -179,8 +172,8 @@
    }
 
    GO4.ParameterEditor.prototype.fillMemberTable = function() {
-     var editor=this;
-     var id = "#"+this.divid;
+     var editor = this;
+     var id = "#" + this.get_main_id();
      var par = this.par;
      $(id + " .par_values tbody").html("");
      var found_title = false;
@@ -323,8 +316,8 @@
 
    GO4.ParameterEditor.prototype.fillEditor = function() {
       var editor=this;
-    var par = this.par;
-      var id = "#"+this.divid;
+      var par = this.par;
+      var id = "#" + this.get_main_id();
       var width = $(id).width();
       var height = $(id).height();
 
@@ -407,11 +400,10 @@
       this.fillComments();
    }
 
-   GO4.drawParameter = function(divid, par, option, painter) {
+   GO4.drawParameter = function(divid, par, option) {
       var h = $("#"+divid).height(), w = $("#"+divid).width();
       if ((h<10) && (w>10)) $("#"+divid).height(w*0.4);
       var editor = new GO4.ParameterEditor(par);
-      if (painter) editor = JSROOT.extend(painter, editor);
       return editor.drawEditor(divid);
    }
 

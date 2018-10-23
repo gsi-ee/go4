@@ -12,7 +12,6 @@
       throw e1;
    }
 
-
    GO4.EvIOType = {
           GO4EV_NULL: 0,                // no event store/source
           GO4EV_FILE: 1,                // root file with own tree
@@ -25,7 +24,6 @@
           GO4EV_BACK: 8,            // backstore in memory (pseudo-ringbuffer?)
           GO4EV_USER: 9,             // user defined source class
           GO4EV_MBS_RANDOM: 10            // random generated mbs event
-
       }
 
    GO4.AnalysisStatusEditor = function(stat) {
@@ -56,48 +54,41 @@
       }).send(null);
    }
 
-  GO4.AnalysisStatusEditor.prototype.MarkChanged = function(key, step) {
-        // first avoid duplicate keys:
-        var index;
-
-        for   (index = 0; index < this.changes[step].length; index++) {
-            if (this.changes[step][index]== key) return;
-         }
-        this.changes[step].push(key);
-        console.log("Mark changed :%s at step %d", key, step);
-        var id = "#"+this.divid;
-
-        $(id+" .buttonAnaChangeLabel").show();// show warning sign
-     }
-
-     // clear changed elements' list, make warning sign invisible
-GO4.AnalysisStatusEditor.prototype.ClearChanges = function() {
-   var index, step;
-   var numsteps=this.changes.length;
-   for   (step = 0; step < numsteps ; step++) {
-      var len=this.changes[step].length;
-      for   (index = 0; index < len ; index++) {
-         var removed=this.changes[step].pop();
-         //console.log("Clear changes removed :%s at step %d",removed, step);
+   GO4.AnalysisStatusEditor.prototype.MarkChanged = function(key, step) {
+      // first avoid duplicate keys:
+      for (var index = 0; index < this.changes[step].length; index++) {
+         if (this.changes[step][index]== key) return;
       }
-   }
-   var id = "#"+this.divid;
-   $(id+" .buttonAnaChangeLabel").hide(); // hide warning sign
+      this.changes[step].push(key);
+      console.log("Mark changed :%s at step %d", key, step);
+      var id = "#" + this.get_main_id();
 
-     }
-
-GO4.AnalysisStatusEditor.prototype.ClearShowstates = function() {
-   var index;
-   var len=this.showmore.length;
-   for   (index = 0; index < len ; index++) {
-      var removed=this.showmore.pop();
-       console.log("ClearShowstates removed :%s", removed);
+      $(id+" .buttonAnaChangeLabel").show();// show warning sign
    }
-}
+
+   // clear changed elements' list, make warning sign invisible
+   GO4.AnalysisStatusEditor.prototype.ClearChanges = function() {
+      var index, step;
+      var numsteps=this.changes.length;
+      for (step = 0; step < numsteps ; step++) {
+         var len=this.changes[step].length;
+         for   (index = 0; index < len ; index++) {
+            var removed=this.changes[step].pop();
+            //console.log("Clear changes removed :%s at step %d",removed, step);
+         }
+      }
+      var id = this.get_main_id();
+      if (id) $("#" + id + " .buttonAnaChangeLabel").hide(); // hide warning sign
+   }
+
+   GO4.AnalysisStatusEditor.prototype.ClearShowstates = function() {
+      for (var index = 0; index < this.showmore.length; ++index)
+         this.showmore.pop();
+   }
 
 //scan changed value list and return optionstring to be send to server
 GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
-   var id = "#"+this.divid;
+   var id = "#" + this.get_main_id();
    var editor=this;
    var index;
    var numsteps=this.changes.length;
@@ -236,7 +227,7 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 
    GO4.AnalysisStatusEditor.prototype.refreshEditor = function()
    {
-      var id = "#"+this.divid;
+      var id = "#" + this.get_main_id();
       var editor=this;
       var stat=this.stat;
       var names = "";
@@ -291,9 +282,8 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 
 
    GO4.AnalysisStatusEditor.prototype.showStepEditor = function(pthis, theElement, theIndex)
-
    {
-      var id = "#"+this.divid;
+      var id = "#" + this.get_main_id();
       var editor=this;
       var showmore=editor.showmore[theIndex];
       //console.log("showStepEditor for index "+theIndex+" has showmore="+showmore);
@@ -529,8 +519,8 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
 
    GO4.AnalysisStatusEditor.prototype.fillEditor = function()
    {
-      var id = "#"+this.divid;
-      var editor=this;
+      var id = "#" + this.get_main_id();
+      var editor = this;
 
       $(id +" .steptabs").tabs({
            heightStyle: "fill",
@@ -1140,6 +1130,9 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
    }
 
    GO4.AnalysisStatusEditor.prototype.drawEditor = function(divid) {
+      
+      this.SetDivId(divid);
+      
       var pthis = this;
 
       $("#"+divid).empty();
@@ -1148,13 +1141,12 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
          for (var i=0;i<8;i++)
             html+='<li><a href="'+ GO4.source_dir + 'html/stepeditor.htm">Step ' + i + '</a></li>';
          html+="</ul>";
-         $("#"+divid+" .steptabs").html(html);
+         $("#"+ divid+" .steptabs").html(html);
          pthis.SetDivId(divid);
          pthis.fillEditor();
-         pthis.DrawingReady()
+         pthis.DrawingReady();
       });
-      return pthis;
-      //console.log("analysis editor: drawEditor");
+      return this;
    }
 
    GO4.AnalysisStatusEditor.prototype.RedrawPad = function(resize) {
@@ -1168,12 +1160,11 @@ GO4.AnalysisStatusEditor.prototype.EvaluateChanges = function(optionstring) {
       return true;
    }
 
-   GO4.drawGo4AnalysisStatus = function(divid, stat, option, painter) {
+   GO4.drawGo4AnalysisStatus = function(divid, stat, option) {
       //console.log("Draw analysis status");
       var h = $("#"+divid).height(), w = $("#"+divid).width();
       if ((h<10) && (w>10)) $("#"+divid).height(w*0.7);
       var status = new GO4.AnalysisStatusEditor(stat);
-      if (painter) status = JSROOT.extend(painter, status);
       return status.drawEditor(divid);
    }
 
