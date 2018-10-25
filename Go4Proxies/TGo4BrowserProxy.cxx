@@ -2237,13 +2237,19 @@ Bool_t TGo4BrowserProxy::UpdateObjectContent(TObject* obj, TObject* newobj, Int_
 
       if (histo2->GetSumw2N()>0)
          sumw_src = histo2->GetSumw2();
+   //   printf ("JAM*** TGo4BrowserProxy::UpdateObjectContent histo2 %s has sumw2 n:%d, sum_src 0x%lx \n",histo2->GetName(), histo2->GetSumw2N(), (long) sumw_src);
+
 
       // if source has no sumw, target should also not has them
       if (sumw_src==0) {
          histo->GetSumw2()->Set(0);
       } else {
-         histo->Sumw2();
-         sumw_tgt = histo->GetSumw2();
+//        printf ("JAM*** TGo4BrowserProxy::UpdateObjectContent calling Sumw2 for histo1 %s , sumw2 before was N:%d, ptr: 0x%lx\n",
+//            histo->GetName(), histo->GetSumw2N(), (long) histo->GetSumw2());
+
+        if(histo->GetSumw2N()==0) // JAM2018 workaround to reduce warnings in ROOT 6 (?)
+          histo->Sumw2();
+        sumw_tgt = histo->GetSumw2();
       }
 
       if (sumw_src && sumw_tgt)
