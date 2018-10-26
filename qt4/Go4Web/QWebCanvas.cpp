@@ -25,7 +25,6 @@
 #include <QTimer>
 #include <QDropEvent>
 
-#include <stdio.h>
 #include <stdlib.h>
 
 
@@ -91,17 +90,13 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    gridLayout->addWidget(fView);
 
-   static bool guifactory = false;
+   static TQt5Timer *qt5timer = nullptr;
    static int wincnt = 1;
 
-   if (!guifactory) {
-      guifactory = true;
-      // enable Qt events processing inside ROOT event loop
-      TQt5Timer *timer = new TQt5Timer(10, kTRUE);
-      timer->TurnOn();
+   if (!qt5timer) {
+      qt5timer = new TQt5Timer(10, kTRUE);
+      qt5timer->TurnOn();
    }
-
-   // fCanvas = new TCanvas(Form("Canvas%d", wincnt++), 800, 600, TWebVirtualX::WebId);
 
    fCanvas = new TCanvas(kFALSE);
    fCanvas->SetName(Form("Canvas%d", wincnt++));
@@ -124,12 +119,9 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    TString url = web->CreateWebWindow(1); // create TWebWindow, which will handle all necessary connections
 
-   printf("URL %s\n", url.Data());
-
    QString fullurl = UrlSchemeHandler::installHandler(QString(url.Data()), web->GetServer());
 
-   printf("URL %s\n", fullurl.toLatin1().constData());
-
+   // disable openui completely from canvas - use only graphics
    fullurl.append("&noopenui");
 
    fView->load(QUrl(fullurl));
