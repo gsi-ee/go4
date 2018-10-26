@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -30,11 +30,9 @@
 //#define POLYCOND_UPDATE_WITHCLONE 1
 
 
- TString TGo4PolyCond::fgxURL_NPOINTS="npolygon";
- TString TGo4PolyCond::fgxURL_XPRE="x";
- TString TGo4PolyCond::fgxURL_YPRE="y";
-
-
+TString TGo4PolyCond::fgxURL_NPOINTS="npolygon";
+TString TGo4PolyCond::fgxURL_XPRE="x";
+TString TGo4PolyCond::fgxURL_YPRE="y";
 
 TString TGo4PolyCond::NextAvailableName()
 {
