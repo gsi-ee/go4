@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -21,7 +21,6 @@
 class TPad;
 class TGo4ViewPanel;
 
-
 /** @author S. Linev
   * @since 14.01.2014 */
 
@@ -37,9 +36,9 @@ class TGo4MdiArea : public QMdiArea {
 
       TPad* GetSelectedPad();
       void SetSelectedPad(TPad* pad);
-      
+
       /** this method allows to set general properties for all go4 subwindows JAM*/
-      QMdiSubWindow* AddGo4SubWindow(QWidget * widget, Qt::WindowFlags flags=0);
+      QMdiSubWindow* AddGo4SubWindow(QWidget *widget, Qt::WindowFlags flags = 0);
 
       void ResponseOnPanelEvent(int funcid, TGo4ViewPanel* panel, TPad* pad);
 

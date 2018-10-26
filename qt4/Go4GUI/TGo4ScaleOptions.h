@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -18,11 +18,11 @@
 #include "ui_TGo4ScaleOptions.h"
 
 class TGo4ScaleOptions : public QGo4Widget, public Ui::TGo4ScaleOptions
- {
-     Q_OBJECT
+{
+    Q_OBJECT
 
  public:
-     TGo4ScaleOptions(QWidget *parent = 0, const char* name=0);
+    TGo4ScaleOptions(QWidget *parent = 0, const char *name = 0);
     void MoveScale(int xaction, int yaction, int zaction);
 
  public slots:

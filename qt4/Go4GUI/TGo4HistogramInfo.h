@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -20,15 +20,13 @@
 class TH1;
 class TGo4HistogramStatus;
 
-
 class TGo4HistogramInfo : public QGo4Widget, public Ui::TGo4HistogramInfo
- {
-     Q_OBJECT
+{
+   Q_OBJECT
 
- public:
+public:
 
-    enum PropertyIndex
-      {
+   enum PropertyIndex {
        HISTITLE,
        HISCLASS,
        HISENTRIES,
@@ -43,27 +41,22 @@ class TGo4HistogramInfo : public QGo4Widget, public Ui::TGo4HistogramInfo
       };
 
 
-     TGo4HistogramInfo(QWidget *parent = 0, const char* name=0);
+   TGo4HistogramInfo(QWidget *parent = 0, const char* name=0);
 
    virtual bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);
-    virtual void DropItem(const char* itemname, TClass* cl, int kind);
-    virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
-    virtual void WorkWithHistogram(const char* itemname);
-    virtual void ResetWidget();
-    virtual void RefreshHistogramInfo(TH1* h1);
-    virtual void RefreshHistogramInfo(TGo4HistogramStatus* hstate);
-
+   virtual void DropItem(const char* itemname, TClass* cl, int kind);
+   virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
+   virtual void WorkWithHistogram(const char* itemname);
+   virtual void ResetWidget();
+   virtual void RefreshHistogramInfo(TH1* h1);
+   virtual void RefreshHistogramInfo(TGo4HistogramStatus* hstate);
 
  public slots:
 
-   virtual void HisInfoButton_clicked();
+    virtual void HisInfoButton_clicked();
     virtual void HisPrintButton_clicked();
     virtual void HisDrawButton_clicked();
     virtual void PrintLog_clicked();
-
-
-
-
  };
 
 #endif

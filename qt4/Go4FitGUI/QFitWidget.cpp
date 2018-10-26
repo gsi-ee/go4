@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -82,7 +82,7 @@ void QFitWidget::contextMenuEvent(QContextMenuEvent* ev)
   QMenu menu(this);
 
   if (fxPanel->FillPopupForItem(GetItem(),&menu, &map)) {
-    fxPanel->CurrFitItem = GetItem();
+     fxPanel->CurrFitItem = GetItem();
      menu.exec(ev->globalPos());
      fxPanel->CurrFitItem = 0;
   }

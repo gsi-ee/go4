@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -28,48 +28,45 @@ class TObjArray;
 class TClass;
 
 class TGo4ParaEdit : public QGo4Widget, public Ui::TGo4ParaEdit
- {
-     Q_OBJECT
+{
+    Q_OBJECT
 
- public:
+public:
 
-     enum ParEditColumns { fiColName=0, fiColType=1, fiColValue=2, fiColComment=3 };
+   enum ParEditColumns { fiColName=0, fiColType=1, fiColValue=2, fiColComment=3 };
 
-    TGo4ParaEdit(QWidget *parent = 0, const char* name=0);
+   TGo4ParaEdit(QWidget *parent = 0, const char* name=0);
    virtual ~TGo4ParaEdit();
 
    virtual bool IsAcceptDrag(const char* itemname, TClass* cl, int kind);
-    virtual void DropItem(const char* itemname, TClass* cl, int kind);
-    virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
-    virtual void linkedObjectRemoved( const char * linkname );
-    virtual void WorkWithParameter(const char* itemname, bool isrefresh);
-    virtual void ResetWidget();
-    virtual void RefreshWidget(TGo4Parameter* par);
-    virtual void RefreshWidget(TGo4ParameterStatus* parstatus);
-    virtual void ShowVisibleItems();
+   virtual void DropItem(const char* itemname, TClass* cl, int kind);
+   virtual void linkedObjectUpdated(const char* linkname, TObject* obj);
+   virtual void linkedObjectRemoved( const char * linkname );
+   virtual void WorkWithParameter(const char* itemname, bool isrefresh);
+   virtual void ResetWidget();
+   virtual void RefreshWidget(TGo4Parameter* par);
+   virtual void RefreshWidget(TGo4ParameterStatus* parstatus);
+   virtual void ShowVisibleItems();
 
-
-
- public slots:
+public slots:
    virtual void clearTextFields();
-    virtual void ChangedTable( int row, int col );
-    virtual void TableDoubleClick( int row, int col );
-    virtual void ContextMenu( const QPoint& );
-    virtual void ExpandShrinkArray();
-    virtual void IncArrayIndex();
-    virtual void DecArrayIndex();
-    virtual void EditFitter();
-    virtual void GetFitterFromEditor();
-    virtual void saveFile();
-    virtual void RefreshClicked();
-    virtual void ApplyClicked();
+   virtual void ChangedTable( int row, int col );
+   virtual void TableDoubleClick( int row, int col );
+   virtual void ContextMenu( const QPoint& );
+   virtual void ExpandShrinkArray();
+   virtual void IncArrayIndex();
+   virtual void DecArrayIndex();
+   virtual void EditFitter();
+   virtual void GetFitterFromEditor();
+   virtual void saveFile();
+   virtual void RefreshClicked();
+   virtual void ApplyClicked();
 
  protected:
-    int fiCurrentRow;
-    TObjArray* fItems;
-    QString fItemName;
-    bool fFillingTable;
-
- };
+   int fiCurrentRow;
+   TObjArray* fItems;
+   QString fItemName;
+   bool fFillingTable;
+};
 
 #endif

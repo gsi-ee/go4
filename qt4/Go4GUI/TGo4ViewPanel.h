@@ -17,7 +17,6 @@
 #include "QGo4Widget.h"
 #include "ui_TGo4ViewPanel.h"
 
-
 class THStack;
 class TObject;
 class TCanvas;
@@ -39,7 +38,6 @@ class TVirtualPadEditor;
 class QMenuBar;
 class QStatusBar;
 class QAction;
-
 
 class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
 {
@@ -320,7 +318,6 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual TObject * GetActiveObj( TPad * pad, int kind );
       virtual QString GetActiveObjName( TPad * pad, int kind );
       virtual int GetAutoColor(int indx);
-
 };
 
 #endif
