@@ -1923,22 +1923,34 @@ void TGo4ViewPanel::PrintCanvas()
 
 void TGo4ViewPanel::StartRootEditor()
 {
+   bool visible = false;
+
    if (fxQCanvas) {
 
       if (!fxQCanvas->isEditorAllowed()) return;
 
-      if (!fxQCanvas->isEditorVisible())
+      visible = !fxQCanvas->isEditorVisible();
+
+      if (visible)
          SetActivePad(GetCanvas());
 
       fxQCanvas->toggleEditor();
 
-     if (fxQCanvas->isEditorVisible())
-         ActivateInGedEditor(GetSelectedObject(GetActivePad(), 0));
    } else if (fxWCanvas) {
+
+#ifdef GO4_WEBGUI
+
       // SetActivePad(GetCanvas());
 
-      ActivateInGedEditor(GetSelectedObject(GetActivePad(), 0));
+      visible = !fxWCanvas->isEditorVisible();
+
+      fxWCanvas->setEditorVisible(visible);
+
+#endif
    }
+
+   if (visible)
+      ActivateInGedEditor(GetSelectedObject(GetActivePad(), 0));
 
    show();
 
@@ -1992,21 +2004,21 @@ void TGo4ViewPanel::RectangularRatio(TPad *pad)
      double right = pad->GetRightMargin();
      double change = (1. - left - right) * (1 - ratio);
      //std::cout <<"-- left:"<<left<<", right:"<<right<<", change:"<<change<< std::endl;
-     double newleft=left + change / 2.;
-     double newright=right + change / 2.;
-     double newtop= pad->GetTopMargin();
-     double newbottom= pad->GetBottomMargin();
+     double newleft = left + change / 2.;
+     double newright = right + change / 2.;
+     double newtop = pad->GetTopMargin();
+     double newbottom = pad->GetBottomMargin();
      //std::cout << " -- newleft"<<newleft<<", newright"<<newright;
      //std::cout <<"newtop:"<<newtop<<", newbottom:"<<newbottom<< std::endl;
      double shrink=newtop- deftop; // zoom everything consistent to the default margins
-     if(shrink>newleft-defleft) shrink=newleft-defleft; // avoid exceeding default boundaries
-     if(shrink>newright-defright) shrink=newright-defright; // avoid exceeding default boundaries
+     if(shrink>newleft-defleft) shrink = newleft-defleft; // avoid exceeding default boundaries
+     if(shrink>newright-defright) shrink = newright-defright; // avoid exceeding default boundaries
 
      // now scale all margins up to the point that any margin reaches default margin:
-     newtop=newtop-shrink;
-     newbottom=newbottom-shrink;
-     newleft=newleft-shrink;
-     newright=newright-shrink;
+     newtop = newtop - shrink;
+     newbottom = newbottom - shrink;
+     newleft = newleft - shrink;
+     newright = newright - shrink;
      //std::cout << "after shrink="<<shrink<<" :";
      //std::cout << " -- newleft"<<newleft<<", newright"<<newright;
      //std::cout <<"newtop:"<<newtop<<", newbottom:"<<newbottom<< std::endl;
@@ -2017,8 +2029,8 @@ void TGo4ViewPanel::RectangularRatio(TPad *pad)
       pad->SetBottomMargin(newbottom);
    } else {
 
-       double bottom = pad->GetBottomMargin();
-       double top = pad->GetTopMargin();
+      double bottom = pad->GetBottomMargin();
+      double top = pad->GetTopMargin();
       double change = (1. - bottom - top) * (1. - 1 / ratio);
       //std::cout <<"-- left:"<<left<<", right:"<<right<<", change:"<<change<< std::endl;
       double newleft=pad->GetLeftMargin();
@@ -2031,10 +2043,10 @@ void TGo4ViewPanel::RectangularRatio(TPad *pad)
       if(shrink>newtop-deftop) shrink=newtop-deftop; // avoid exceeding default boundaries
       if(shrink>newbottom-defbottom) shrink=newbottom-defbottom; // avoid exceeding default boundaries
       // now scale all margins up to the point that any margin reaches default margin:
-      newtop=newtop - shrink;
-      newbottom=newbottom -shrink;
-      newleft=newleft- shrink;
-      newright=newright - shrink;
+      newtop = newtop - shrink;
+      newbottom = newbottom -shrink;
+      newleft = newleft- shrink;
+      newright = newright - shrink;
       //std::cout << "after shrink="<<shrink<<" :";
       //std::cout << " -- newleft"<<newleft<<", newright"<<newright;
       //std::cout <<"newtop:"<<newtop<<", newbottom:"<<newbottom<< std::endl;

@@ -183,12 +183,22 @@ bool QWebCanvas::isStatusBarVisible()
    return fCanvas->GetShowEventStatus();
 }
 
+bool QWebCanvas::isEditorVisible()
+{
+   return fCanvas->GetShowEditor();
+}
+
 void QWebCanvas::setStatusBarVisible(bool flag)
 {
    if (fCanvas->GetShowEventStatus() != flag)
       fCanvas->ToggleEventStatus();
 }
 
+void QWebCanvas::setEditorVisible(bool flag)
+{
+   TCanvasImp *cimp = fCanvas->GetCanvasImp();
+   if (cimp) cimp->ShowEditor(flag);
+}
 
 void QWebCanvas::activateStatusLine()
 {

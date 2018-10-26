@@ -33,6 +33,7 @@ public:
    TCanvas *getCanvas() { return fCanvas; }
 
    bool isStatusBarVisible();
+   bool isEditorVisible();
 
    void Modified();
    void Update();
@@ -54,7 +55,9 @@ public slots:
    void actiavteEditor(TPad *pad = 0, TObject *obj = 0);
    void activateStatusLine();
 
-   void setStatusBarVisible(bool flag);
+   void setStatusBarVisible(bool flag = true);
+
+   void setEditorVisible(bool flag = true);
 
 protected slots:
 
