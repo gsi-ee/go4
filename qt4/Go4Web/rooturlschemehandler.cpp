@@ -147,7 +147,7 @@ TString UrlSchemeHandler::installHandler(const TString &url, THttpServer *server
    const char *suffix = url.Index("?") != kNPOS ? "&" : "?";
 
    protocol.Form("roothandler%d", gNumHandler);
-   fullurl.Form("%s://dummy:8080%s%sqt5%s", protocol.Data(), url.Data(), suffix, (use_openui ? "" : "&noopenui"));
+   fullurl.Form("%s://dummy:8080%s%splatform=qt5&ws=rawlongpoll%s", protocol.Data(), url.Data(), suffix, (use_openui ? "" : "&noopenui"));
 
    if (create_handler) {
       const QByteArray protocol_name = QByteArray(protocol.Data());

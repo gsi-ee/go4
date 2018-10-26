@@ -125,7 +125,13 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    TString url = web->CreateWebWindow(1); // create TWebWindow, which will handle all necessary connections
 
+   printf("URL %s\n", url.Data());
+
    TString fullurl = UrlSchemeHandler::installHandler(url, web->GetServer(), false);
+
+   printf("URL %s\n", fullurl.Data());
+
+   // fullurl.Append("?qt5");
 
    fView->load(QUrl(fullurl.Data()));
 
