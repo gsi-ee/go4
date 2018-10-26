@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -40,7 +40,7 @@
 
 static int qt_x11_errhandler( Display *dpy, XErrorEvent *err )
 {
-  
+
   // special for modality usage: XGetWindowProperty + XQueryTree()
   if ( err->error_code == BadWindow ) {
     //if ( err->request_code == 25 && qt_xdnd_handle_badwindow() )
@@ -102,11 +102,11 @@ void q5MessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 {
     QByteArray localMsg = msg.toLocal8Bit();
     switch (type) {
-    case QtDebugMsg: 
+    case QtDebugMsg:
         if(QRootApplication::fDebug)
           fprintf(stderr, "QtRoot-Debug: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
         break;
-    case QtWarningMsg:   
+    case QtWarningMsg:
         if(QRootApplication::fWarning)
           fprintf(stderr, "QtRoot-Warning: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
         break;
@@ -118,7 +118,7 @@ void q5MessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         abort();
      default:
         fprintf(stderr, "QtRoot-other: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
-        break;    
+        break;
     }
 }
 #endif
@@ -134,22 +134,18 @@ QRootApplication::QRootApplication(int& argc, char **argv, int poll) :
             this, SLOT(execute()) );
     timer->setSingleShot(false);
     timer->start(20);
-    
+
   }
   // install a msg-handler
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
   qInstallMsgHandler( qMessageOutput );
 #else
-  qInstallMessageHandler( q5MessageOutput );  
+  qInstallMessageHandler( q5MessageOutput );
 #endif
 
   // install a filter on the parent
-
-//   QApplication::installEventFilter( this );
-
-   // install a filter on the parent   // M.Al-Turany
-
   // use Qt-specific XError Handler (moved this call here from tqapplication JA)
+  // QApplication::installEventFilter( this );
 
   const char* env = gSystem->Getenv("ROOT_CANVAS");
   int flag = 0;

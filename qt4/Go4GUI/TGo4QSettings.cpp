@@ -835,14 +835,24 @@ bool TGo4QSettings::getHideTGo4EventElement()
 }
 
 
-void    TGo4QSettings::setMoveSubwindowRubberBand(bool on)
+void TGo4QSettings::setMoveSubwindowRubberBand(bool on)
 {
-    setBool("/preferences/MoveSubwindowRubberBand", on);
+   setBool("/preferences/MoveSubwindowRubberBand", on);
 }
 
-bool    TGo4QSettings::getMoveSubwindowRubberBand()
+bool TGo4QSettings::getMoveSubwindowRubberBand()
 {
-    return getBool("/preferences/MoveSubwindowRubberBand", true);
+   return getBool("/preferences/MoveSubwindowRubberBand", true);
+}
+
+void TGo4QSettings::setWebBasedCanvas(bool on)
+{
+   setBool("/preferences/WebBasedCanvas", on);
+}
+
+bool TGo4QSettings::getWebBasedCanvas()
+{
+   return getBool("/preferences/WebBasedCanvas", false);
 }
 
 

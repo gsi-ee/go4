@@ -92,6 +92,10 @@
 
 const char* NoStackDrawOption = "nostack, ";
 
+#ifdef GO4_WEBGUI
+#include "QWebCanvas.h"
+#endif
+
 TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    QGo4Widget(parent, name)
 {
@@ -125,23 +129,34 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 
    setWindowTitle(GetPanelName());
 
-
-   fxQCanvas = new QRootCanvas(this);
-   // fxQCanvas->setObjectName(QStringLiteral("fxQCanvas"));
    QSizePolicy sizePolicy3(static_cast<QSizePolicy::Policy>(7), static_cast<QSizePolicy::Policy>(7));
    sizePolicy3.setHorizontalStretch(0);
    sizePolicy3.setVerticalStretch(20);
    sizePolicy3.setHeightForWidth(fxQCanvas->sizePolicy().hasHeightForWidth());
-   fxQCanvas->setSizePolicy(sizePolicy3);
-   fxQCanvas->setMinimumSize(QSize(50, 50));
 
-   fxGridLayout->addWidget(fxQCanvas, 1, 1, 1, 1);
+   fxQCanvas = 0;
+   fxWCanvas = 0;
 
-   QObject::connect(fxQCanvas, SIGNAL(CanvasDropEvent(QDropEvent*,TPad*)), this, SLOT(CanvasDropEventSlot(QDropEvent*,TPad*)));
+#ifdef GO4_WEBGUI
+   if (go4sett->getWebBasedCanvas()) {
 
-   fxQCanvas->setObjectName(GetPanelName());
-   fxQCanvas->getCanvas()->SetName(GetPanelName());
-   fxQCanvas->setEditorFrame(EditorFrame);
+   }
+#endif
+
+   if (!fxWCanvas) {
+      fxQCanvas = new QRootCanvas(this);
+      // fxQCanvas->setObjectName(QStringLiteral("fxQCanvas"));
+      fxQCanvas->setMinimumSize(QSize(50, 50));
+      fxQCanvas->setSizePolicy(sizePolicy3);
+
+      fxGridLayout->addWidget(fxQCanvas, 1, 1, 1, 1);
+
+      QObject::connect(fxQCanvas, SIGNAL(CanvasDropEvent(QDropEvent*,TPad*)), this, SLOT(CanvasDropEventSlot(QDropEvent*,TPad*)));
+
+      fxQCanvas->setObjectName(GetPanelName());
+      fxQCanvas->getCanvas()->SetName(GetPanelName());
+      fxQCanvas->setEditorFrame(EditorFrame);
+   }
 
 //   printf("Resize x %d y %d\n", go4sett->lastPanelSize().width(), go4sett->lastPanelSize().height());
 //   resize(go4sett->lastPanelSize());

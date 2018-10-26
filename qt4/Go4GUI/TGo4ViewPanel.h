@@ -33,6 +33,7 @@ class TGo4Slot;
 class TGo4Picture;
 class TObjArray;
 class QRootCanvas;
+class QWebCanvas;
 class QMenuBar;
 class QStatusBar;
 class QAction;
@@ -302,7 +303,8 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       QSignalMapper* fOptionsMap;
       QMenu* fOptionsMenu;
 
-      QRootCanvas* fxQCanvas;
+      QRootCanvas *fxQCanvas; ///< qtroot canvas
+      QWebCanvas *fxWCanvas;  ///< web canvas
 
       virtual void CheckActionAtTheEnd( TPad * pad );
       virtual bool CompleteMarkerEdit( TPad * pad );
