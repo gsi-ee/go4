@@ -60,11 +60,19 @@ protected:
 
    virtual void dropEvent(QDropEvent* event);
 
+   double scaledPosition(int p)
+   {
+      return (double) p * fQtScalingfactor;
+   }
+
+
    RootWebView *fView;  ///< qt webwidget to show
 
    TCanvas *fCanvas;
 
    QTimer *fRepaintTimer;
+
+   double fQtScalingfactor;
 };
 
 #endif

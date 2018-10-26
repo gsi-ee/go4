@@ -24,6 +24,7 @@
 #include <QGridLayout>
 #include <QApplication>
 #include <QTimer>
+#include <QDropEvent>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -52,6 +53,14 @@ public:
 
 QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 {
+   fQtScalingfactor = 1.0;
+
+#if QT_VERSION > QT_VERSION_CHECK(5,6,0)
+   // JAM the following is pure empiric. hopefully default denominator won't change in future qt?
+   fQtScalingfactor=(double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
+#endif
+
+
    setObjectName( "QWebCanvas");
 
    setSizeIncrement( QSize( 100, 100 ) );
@@ -111,6 +120,8 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    TString fullurl = UrlSchemeHandler::installHandler(url, web->GetServer(), false);
 
    fView->load(QUrl(fullurl.Data()));
+
+   fCanvas->SetCanvasSize(fView->width(), fView->height());
 }
 
 QWebCanvas::~QWebCanvas()
@@ -120,16 +131,32 @@ QWebCanvas::~QWebCanvas()
 void QWebCanvas::resizeEvent(QResizeEvent *event)
 {
    printf("Resize width: %d %d height: %d %d\n", (int) width(), (int) fView->width(), (int) height(), (int) fView->height());
+
+   fCanvas->SetCanvasSize(fView->width(), fView->height());
 }
 
 void QWebCanvas::dropEvent(QDropEvent* event)
 {
-   emit CanvasDropEvent(event, fCanvas);
+   // TODO: remove, not needed at all
+
+   TObject* obj(0);
+   QPoint pos = event->pos();
+   TPad* pad = fCanvas->Pick(scaledPosition(pos.x()), scaledPosition(pos.y()), obj);
+
+   printf("Drop on pad %s\n", pad ? pad->GetName() : "---");
+
+   emit CanvasDropEvent(event, pad ? pad : fCanvas);
 }
 
 void QWebCanvas::dropView(QDropEvent* event)
 {
-   emit CanvasDropEvent(event, fCanvas);
+   TObject* obj(0);
+   QPoint pos = event->pos();
+   TPad* pad = fCanvas->Pick(scaledPosition(pos.x()), scaledPosition(pos.y()), obj);
+
+   printf("Drop on view %s\n", pad ? pad->GetName() : "---");
+
+   emit CanvasDropEvent(event, pad ? pad : fCanvas);
 }
 
 void QWebCanvas::actiavteEditor(TPad *pad, TObject *obj)
