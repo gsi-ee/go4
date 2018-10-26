@@ -19,7 +19,6 @@
 #include "TTimer.h"
 #include "TROOT.h"
 
-#include "rooturlschemehandler.h"
 #include <QGridLayout>
 #include <QApplication>
 #include <QTimer>
