@@ -11,8 +11,8 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-#ifndef QROOTCANVAS_H
-#define QROOTCANVAS_H
+#ifndef QWEBCANVAS_H
+#define QWEBCANVAS_H
 
 #include "rootwebview.h"
 
