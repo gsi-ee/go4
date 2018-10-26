@@ -14,8 +14,14 @@
 #include "QWebCanvas.h"
 
 #include "TCanvas.h"
+#include "TWebCanvas.h"
+#include "TWebGuiFactory.h"
+#include "THttpServer.h"
 
 #include <QGridLayout>
+
+#include <stdio.h>
+#include <stdlib.h>
 
 QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 {
@@ -27,7 +33,30 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    gridLayout->addWidget(fView);
 
-   fCanvas = 0;
+   static bool guifactory = false;
+
+   static int wincnt = 1;
+
+   if (!guifactory) {
+      guifactory = true;
+      gGuiFactory = gBatchGuiFactory = new TWebGuiFactory();
+   }
+
+   fCanvas = new TCanvas(Form("Canvas%d", wincnt), 100, 200, wincnt);
+
+   // not call show, but try to extract URL for the
+
+   TWebCanvas *web = dynamic_cast<TWebCanvas *>(fCanvas->GetCanvasImp());
+   if (!web) {
+      printf("Something went wrong - no web canvas provided\n");
+      exit(3);
+   }
+
+   TString url = web->CreateWebWindow(1); // create TWebWindow, which will handle all necessary connections
+
+   THttpServer *serv = web->GetServer(); // get http server instance
+
+   wincnt++;
 }
 
 QWebCanvas::~QWebCanvas()
