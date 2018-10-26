@@ -43,7 +43,7 @@ ifdef withweb
 GO4GUI4_QMAKEFLAGS += "HEADERS += ../Go4Web/rootwebpage.h ../Go4Web/rootwebview.h ../Go4Web/rooturlschemehandler.h ../Go4Web/QWebCanvas.h" 
 GO4GUI4_QMAKEFLAGS += "SOURCES += ../Go4Web/rootwebpage.cpp ../Go4Web/rootwebview.cpp ../Go4Web/rooturlschemehandler.cpp ../Go4Web/QWebCanvas.cpp" 
 GO4GUI4_QMAKEFLAGS += "QT += webengine webenginewidgets" 
-GO4GUI4_QMAKEFLAGS += "LIBS += -lWeb6Canv -lRHTTP" 
+GO4GUI4_QMAKEFLAGS += "LIBS += -lRHTTP -lROOTWebDisplay -lWebGui6" 
 GO4GUI4_QMAKEFLAGS += "QMAKE_CXXFLAGS += -DGO4_WEBGUI"
 GO4WEBGUI4_S          = $(wildcard $(GO4WEBGUI4_DIR)/*.cpp)
 GO4WEBGUI4_H          = $(GO4WEBGUI4_S:.cpp=.h)
