@@ -190,7 +190,7 @@ QString UrlSchemeHandler::installHandler(const QString &url_, THttpServer *serve
    const char *suffix = url.Index("?") != kNPOS ? "&" : "?";
 
    protocol.Form("roothandler%d", gNumHandler);
-   fullurl.Form("%s://rootserver.local%s%splatform=qt5&ws=rawlongpoll&noopenui", protocol.Data(), url.Data(), suffix);
+   fullurl.Form("%s://rootserver.local%s%splatform=qt5&ws=rawlongpoll", protocol.Data(), url.Data(), suffix);
 
    if (create_handler) {
       const QByteArray protocol_name = QByteArray(protocol.Data());
