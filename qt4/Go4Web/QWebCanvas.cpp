@@ -16,14 +16,39 @@
 #include "TCanvas.h"
 #include "TWebCanvas.h"
 #include "TWebGuiFactory.h"
+#include "TWebVirtualX.h"
 #include "THttpServer.h"
+#include "TTimer.h"
 
 #include "rooturlschemehandler.h"
 #include <QWebEngineProfile>
 #include <QGridLayout>
+#include <QApplication>
 
 #include <stdio.h>
 #include <stdlib.h>
+
+
+class TQt5Timer : public TTimer {
+public:
+   TQt5Timer(Long_t milliSec, Bool_t mode) : TTimer(milliSec, mode)
+   {
+      // construtor
+   }
+   virtual ~TQt5Timer()
+   {
+      // destructor
+   }
+   virtual void Timeout()
+   {
+      // timeout handler
+      // used to process http requests in main ROOT thread
+
+      QApplication::sendPostedEvents();
+      QApplication::processEvents();
+   }
+};
+
 
 QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 {
@@ -42,10 +67,15 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    if (!guifactory) {
       guifactory = true;
+      printf("Create WebGuiFactory\n");
       gGuiFactory = gBatchGuiFactory = new TWebGuiFactory();
+
+      // enable Qt events processing inside ROOT event loop
+      TQt5Timer *timer = new TQt5Timer(10, kTRUE);
+      timer->TurnOn();
    }
 
-   fCanvas = new TCanvas(Form("Canvas%d", wincnt), 100, 200, wincnt);
+   fCanvas = new TCanvas(Form("Canvas%d", wincnt), 100, 200, TWebVirtualX::WebId);
    wincnt++;
 
    // not call Show, but try to extract URL for the
