@@ -38,6 +38,14 @@ else
 GO4GUI4_FORMS       = $(filter-out $(GO4GUI4_DIR)/TGo4DabcMonitor.ui, $(wildcard $(GO4GUI4_DIR)/*.ui))
 endif
 
+
+ifdef withweb
+GO4GUI4_QMAKEFLAGS += "HEADERS += ../Go4Web/rootwebpage.h ../Go4Web/rootwebview.h" 
+GO4GUI4_QMAKEFLAGS += "SOURCES += ../Go4Web/rootwebpage.cpp ../Go4Web/rootwebview.cpp" 
+GO4GUI4_QMAKEFLAGS += "QT += webengine webenginewidgets" 
+endif
+
+
 GO4GUI4_PACKAGE_FORMS = $(wildcard $(GO4GUI4_DIR)/*.ui)
 
 GO4GUI4_FH          = $(GO4GUI4_FORMS:.ui=.h)
