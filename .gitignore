@@ -39,6 +39,15 @@ qt4/Go4UserGUI/moc_*.cpp
 qt4/Go4UserGUI/moc_*.h
 qt4/Go4UserGUI/ui_*.h
 
+
+qt4/WebUserGUI/.qmake.stash
+qt4/WebUserGUI/Makefile.qt
+qt4/WebUserGUI/*.o
+qt4/WebUserGUI/*.so
+qt4/WebUserGUI/moc_*.cpp
+qt4/WebUserGUI/moc_*.h
+qt4/WebUserGUI/ui_*.h
+
 # Go4Fit examples
 
 Go4FitExample/Example*
