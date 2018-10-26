@@ -96,7 +96,7 @@ MODULES  = MbsAPIbase MbsAPI RawAPI  \
            Go4CommandsTaskHandler Go4TaskHandler \
            Go4ConditionsBase Go4DynamicList Go4Event \
            Go4EventServer Go4Exceptions \
-           Go4Display Go4Proxies Web6Canvas \
+           Go4Display Go4Proxies \
            Go4ObjectManager \
            Go4Queue Go4Socket Go4StatusAnalysis Go4StatusBase \
            Go4Http Go4HistogramServer Go4Analysis Go4AnalysisClient Go4Dict
