@@ -108,9 +108,7 @@ int main(int argc, char **argv)
    int logport = 5000;
    const char* logpass = 0;
 
-   bool prepare_for_client = false;
-   bool traceon = false;
-   bool usergui = false;
+   bool prepare_for_client(false), traceon(false), usergui(false);
 
    QString hotstart(""), dabcnode("");
    QStringList files, httpnodes;
@@ -209,6 +207,13 @@ int main(int argc, char **argv)
 
    TApplication app("uno", &argc, argv); // ROOT application
 
+   char* argv2[3];
+   argv2[0] = argv[0];
+#ifdef GO4_WEBGUI
+   argv2[argc++] = "--ignore-gpu-blacklist";
+#endif
+   argv2[argc] = 0;
+
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
    QApplication::setColorSpec( QApplication::ManyColor );
 #else
@@ -218,7 +223,7 @@ int main(int argc, char **argv)
 
    Q_INIT_RESOURCE(go4icons);
 
-   QRootApplication myapp(argc, argv); // Qt application
+   QRootApplication myapp(argc, argv2); // Qt application
 
    // qt4.4 sets local settings not to "C", but to system-depended values
    ::setlocale(LC_ALL, "C");
