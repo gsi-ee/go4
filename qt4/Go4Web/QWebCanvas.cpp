@@ -99,10 +99,11 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    web->CreateWebWindow(1); // create TWebWindow, which will handle all necessary connections
 
-   TString where;
-   where.Form("qt5 qprnt:%llu layout:%llu url:&noopenui", (long long unsigned) this, (long long unsigned) gridLayout);
+   ROOT::Experimental::RWebDisplayArgs args("qt5");
+   args.SetDriverData(this);
+   args.SetUrlOpt("noopenui");
 
-   web->ShowWebWindow(where.Data());
+   web->ShowWebWindow(args);
 
    fView = findChild<QWebEngineView*>("RootWebView");
    if (!fView) {
