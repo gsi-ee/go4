@@ -18,6 +18,7 @@
 
 class TCanvas;
 class TPad;
+class TObject;
 
 class QWebCanvas : public QWidget {
 
@@ -27,11 +28,17 @@ public:
    QWebCanvas(QWidget *parent = 0);
    virtual ~QWebCanvas();
 
+   /// returns canvas shown in the widget
    TCanvas *getCanvas() { return fCanvas; }
 
 signals:
 
    void CanvasDropEvent(QDropEvent*, TPad*);
+
+public slots:
+
+   void activateGed(TObject *obj = 0);
+   void activateStatusLine();
 
 protected slots:
 
@@ -39,7 +46,7 @@ protected slots:
 
 protected:
 
-   virtual void   resizeEvent(QResizeEvent *event);
+   virtual void resizeEvent(QResizeEvent *event);
 
    virtual void dropEvent(QDropEvent* event);
 

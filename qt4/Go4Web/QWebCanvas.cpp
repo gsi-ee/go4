@@ -127,3 +127,15 @@ void QWebCanvas::dropView(QDropEvent* event)
    emit CanvasDropEvent(event, fCanvas);
 }
 
+void QWebCanvas::activateGed(TObject *obj)
+{
+   TCanvasImp *cimp = fCanvas->GetCanvasImp();
+   if (cimp) cimp->ShowEditor(kTRUE);
+}
+
+void QWebCanvas::activateStatusLine()
+{
+   TCanvasImp *cimp = fCanvas->GetCanvasImp();
+   if (cimp) cimp->ShowStatusBar(kTRUE);
+}
+

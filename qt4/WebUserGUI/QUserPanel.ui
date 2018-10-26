@@ -199,6 +199,47 @@ and then just drag &amp; drop object to this label (not to output window).</stri
                 </widget>
               </item>
               <item row="1" column="0" >
+                <layout class="QHBoxLayout" >
+                  <item>
+                    <widget class="QPushButton" name="EditorBtn" >
+                      <property name="text" >
+                        <string>Editor</string>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="StatusBtn" >
+                      <property name="text" >
+                        <string>Status</string>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="PingBtn" >
+                      <property name="text" >
+                        <string>Ping</string>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <spacer name="spacer22" >
+                      <property name="sizeHint" >
+                        <size>
+                          <width>120</width>
+                          <height>20</height>
+                        </size>
+                      </property>
+                      <property name="sizeType" >
+                        <enum>QSizePolicy::Expanding</enum>
+                      </property>
+                      <property name="orientation" >
+                        <enum>Qt::Horizontal</enum>
+                      </property>
+                    </spacer>
+                  </item>
+                </layout>
+              </item>
+              <item row="2" column="0" >
                 <widget class="QWebCanvas" name="fxDrawCanvas">
                   <property name="sizePolicy" >
                     <sizepolicy>
