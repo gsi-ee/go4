@@ -231,7 +231,7 @@ int main(int argc, char **argv)
    // set this to 2 to get warnings and errors only
    // set this to 3 to get errors only
 
-
+   // SL 11.01.2018 Disable of interpreter locking  makes strange problems with other ROOT components, try to keep it enabled
 
 #if ROOT_VERSION_CODE < ROOT_VERSION(6,12,0)
    gInterpreter->SetProcessLineLock(kFALSE);
@@ -241,7 +241,6 @@ int main(int argc, char **argv)
 #else
    gInterpreter->SetProcessLineLock(kTRUE); // changed for root 6 problems JAM 9-10-2018
 #endif
-
 
    TString go4inc = TGo4Log::GO4INCPATH();
    if (go4inc.Length()==0) go4inc = TGo4Log::subGO4SYS("include");
