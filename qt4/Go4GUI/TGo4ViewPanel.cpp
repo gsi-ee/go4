@@ -223,11 +223,11 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    menugrid->addWidget(box1, 1, Qt::AlignRight);
    menugrid->addWidget(fAutoScaleCheck, 1, Qt::AlignRight);
 
-   gridLayout->addLayout(menugrid, 0, 0, 1, 2);
+   fxGridLayout->addLayout(menugrid, 0, 0, 1, 2);
 
    // status widget
    CanvasStatus = new QStatusBar(this);
-   gridLayout->addWidget(CanvasStatus, 3, 0, 1, 2);
+   fxGridLayout->addWidget(CanvasStatus, 3, 0, 1, 2);
    CanvasStatus->setVisible(false);
    fxQCanvas->setStatusBar(CanvasStatus);
    fxQCanvas->setStatusBarVisible(status_flag);

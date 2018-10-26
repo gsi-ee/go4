@@ -53,7 +53,7 @@
     <property name="sizeGripEnabled" stdset="0" >
       <bool>false</bool>
     </property>
-    <layout class="QGridLayout" >
+    <layout class="QGridLayout" name="fxGridLayout">
       <property name="margin" >
         <number>2</number>
       </property>
