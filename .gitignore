@@ -21,6 +21,7 @@ build/Makefile.gener
 go4login
 include/*
 .rootmap
+*.hotstart
 
 # qt generated files
 

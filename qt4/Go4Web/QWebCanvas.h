@@ -41,6 +41,8 @@ signals:
 
    void CanvasDropEvent(QDropEvent*, TPad*);
 
+   void SelectedPadChanged(TPad*);
+
 public slots:
 
    void actiavteEditor(TPad *pad = 0, TObject *obj = 0);
@@ -64,6 +66,8 @@ protected:
    {
       return (double) p * fQtScalingfactor;
    }
+
+   void ProcessActivePadChanged(TPad *pad) { emit SelectedPadChanged(pad); }
 
 
    RootWebView *fView;  ///< qt webwidget to show

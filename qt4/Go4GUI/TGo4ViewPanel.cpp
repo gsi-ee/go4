@@ -279,6 +279,10 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 
       connect(fxWCanvas, SIGNAL(CanvasDropEvent(QDropEvent*,TPad*)), this,
                SLOT(CanvasDropEventSlot(QDropEvent*,TPad*)));
+
+      connect(fxWCanvas, SIGNAL(SelectedPadChanged(TPad*)), this,
+              SLOT(SetActivePad(TPad*)));
+
 #endif
    } else {
       CanvasStatus = new QStatusBar(this);
@@ -1214,21 +1218,28 @@ void TGo4ViewPanel::SetActivePad(TPad* pad)
    raise();
 
    if (pad == 0) {
-      GetCanvas()->SetSelected(0);
-      GetCanvas()->SetSelectedPad(0);
-      CanvasUpdate();
+      if (!fxWCanvas) {
+         GetCanvas()->SetSelected(0);
+         GetCanvas()->SetSelectedPad(0);
+         CanvasUpdate();
+      }
       return;
    }
 
    fxActivePad = pad;
-   fxActivePad->cd();
-   GetCanvas()->SetSelectedPad(fxActivePad);
+   if (!fxWCanvas) {
+      fxActivePad->cd();
+      GetCanvas()->SetSelectedPad(fxActivePad);
+   }
 
    TGo4MdiArea::Instance()->SetSelectedPad(fxActivePad);
 
-   BlockPanelRedraw(true);
-   CanvasUpdate();
-   BlockPanelRedraw(false);
+   // no need for update of web canvas here
+   if (!fxWCanvas) {
+      BlockPanelRedraw(true);
+      CanvasUpdate();
+      BlockPanelRedraw(false);
+   }
 
    DisplayPadStatus(fxActivePad);
 
