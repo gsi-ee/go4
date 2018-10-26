@@ -102,6 +102,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    fCanvas->SetName(Form("Canvas%d", wincnt++));
    fCanvas->SetTitle("title");
    fCanvas->SetCanvas(fCanvas);
+   fCanvas->SetBatch(kTRUE); // mark canvas as batch
 
    gPad = fCanvas;
 
