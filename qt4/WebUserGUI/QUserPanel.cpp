@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -68,10 +68,12 @@ QUserPanel::QUserPanel( QWidget* parent,  const char* name ) :
 
    PrintLbl->setText("");
 
+   TabWidget->setCurrentIndex(2);
+
    QObject::connect(InfoBtn, SIGNAL(clicked()), this, SLOT(InfoBtn_clicked()));
    QObject::connect(EditBtn, SIGNAL(clicked()), this, SLOT(EditBtn_clicked()));
    QObject::connect(DrawBtn, SIGNAL(clicked()), this, SLOT(DrawBtn_clicked()));
-   
+
    QObject::connect(fxDrawCanvas, SIGNAL(CanvasDropEvent(QDropEvent*,TPad*)), this, SLOT(CanvasDropEventSlot(QDropEvent*,TPad*)));
 }
 
@@ -192,7 +194,7 @@ void QUserPanel::EditBtn_clicked()
 void QUserPanel::DrawBtn_clicked()
 {
    DrawItem(DragItemLbl->text());
-   
+
    return;
 
    printf("Create histogram\n");
@@ -203,7 +205,7 @@ void QUserPanel::DrawBtn_clicked()
    fxDrawCanvas->getCanvas()->cd();
    h1->Draw("");
    h1->SetDirectory(0);
-   
+
    fxDrawCanvas->getCanvas()->Modified();
    fxDrawCanvas->getCanvas()->Update();
 }
