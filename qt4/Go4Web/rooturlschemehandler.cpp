@@ -17,39 +17,64 @@
 #include "rooturlschemehandler.h"
 
 #include <QBuffer>
+#include <QByteArray>
 #include <QFile>
 #include <QWebEngineUrlRequestJob>
 #include <QWebEngineProfile>
 
+#include <ROOT/TLogger.hxx>
+
 #include "THttpServer.h"
 #include "THttpCallArg.h"
-
-#include <stdio.h>
+#include "TBase64.h"
 
 int UrlSchemeHandler::gNumHandler = 0;
 THttpServer *UrlSchemeHandler::gLastServer = nullptr;
 
+
+/////////////////////////////////////////////////////////////////////////////////////
+/// Class UrlRequestJobHolder
+/// Required to monitor state of QWebEngineUrlRequestJob
+/// Qt can delete object at any time, therefore one connects destroy signal
+/// from the request to clear pointer
+////////////////////////////////////////////////////////////////////////////////////
+
+UrlRequestJobHolder::UrlRequestJobHolder(QWebEngineUrlRequestJob *req) : QObject(), fRequest(req)
+{
+   if (fRequest)
+      connect(fRequest, &QObject::destroyed, this, &UrlRequestJobHolder::onRequestDeleted);
+}
+
+void UrlRequestJobHolder::onRequestDeleted(QObject *obj)
+{
+   if (fRequest == obj)
+      fRequest = nullptr;
+}
+
+void UrlRequestJobHolder::reset()
+{
+   if (fRequest)
+      disconnect(fRequest, &QObject::destroyed, this, &UrlRequestJobHolder::onRequestDeleted);
+   fRequest = nullptr;
+}
+
+// ===================================================================
+
 class TWebGuiCallArg : public THttpCallArg {
+
 protected:
-   QWebEngineUrlRequestJob *fRequest;
-   int fDD;
+   UrlRequestJobHolder fRequest;
 
 public:
-   TWebGuiCallArg(QWebEngineUrlRequestJob *req) : THttpCallArg(), fRequest(req), fDD(0) {}
-   virtual ~TWebGuiCallArg()
-   {
-      if (fDD != 1)
-         printf("FAAAAAAAAAAAAAIL %d\n", fDD);
-   }
+   explicit TWebGuiCallArg(QWebEngineUrlRequestJob *req = nullptr) : THttpCallArg(), fRequest(req) {}
+
+   virtual ~TWebGuiCallArg() {}
 
    void SendFile(const char *fname)
    {
       const char *mime = THttpServer::GetMimeType(fname);
 
-      printf("Sending file %s\n", fname);
-
       QBuffer *buffer = new QBuffer;
-      fRequest->connect(fRequest, SIGNAL(destroyed()), buffer, SLOT(deleteLater()));
 
       QFile file(fname);
       buffer->open(QIODevice::WriteOnly);
@@ -60,34 +85,48 @@ public:
       file.close();
       buffer->close();
 
-      fRequest->reply(mime, buffer);
-      fDD++;
+      QWebEngineUrlRequestJob *req = fRequest.req();
+
+      if (req) {
+         buffer->connect(req, &QObject::destroyed, buffer, &QObject::deleteLater);
+         req->reply(mime, buffer);
+         fRequest.reset();
+      }
    }
 
    virtual void HttpReplied()
    {
-      if (Is404()) {
-         printf("Request MISS %s %s\n", GetPathName(), GetFileName());
+      QWebEngineUrlRequestJob *req = fRequest.req();
 
-         fRequest->fail(QWebEngineUrlRequestJob::UrlNotFound);
-         fDD++;
+      if (!req) {
+         R__ERROR_HERE("webgui") << "Qt5 request already processed path " << GetPathName() << " file " << GetFileName();
+         return;
+      }
+
+      if (Is404()) {
+         R__ERROR_HERE("webgui") << "Qt5 request FAIL path " << GetPathName() << " file " << GetFileName();
+
+         req->fail(QWebEngineUrlRequestJob::UrlNotFound);
          // abort request
       } else if (IsFile()) {
          // send file
          SendFile((const char *)GetContent());
       } else {
 
-         // printf("Reply %s %s typ:%s res:%ld\n", GetPathName(), GetFileName(), GetContentType(), GetContentLength());
-         // if (GetContentLength()<100) printf("BODY:%s\n", (const char*) GetContent());
-
          QBuffer *buffer = new QBuffer;
-         fRequest->connect(fRequest, SIGNAL(destroyed()), buffer, SLOT(deleteLater()));
 
-         buffer->setData((const char *)GetContent(), GetContentLength());
+         buffer->open(QIODevice::WriteOnly);
 
-         fRequest->reply(GetContentType(), buffer);
-         fDD++;
+         buffer->write((const char *)GetContent(), GetContentLength());
+
+         buffer->close();
+
+         buffer->connect(req, &QObject::destroyed, buffer, &QObject::deleteLater);
+
+         req->reply(GetContentType(), buffer);
       }
+
+      fRequest.reset();
    }
 };
 
@@ -97,45 +136,49 @@ void UrlSchemeHandler::requestStarted(QWebEngineUrlRequestJob *request)
 {
    QUrl url = request->requestUrl();
 
-   QByteArray ba = url.toString().toLatin1();
-
-   // printf("[%ld] Request started %s\n", TThread::SelfId(), ba.data());
-
    if (!fServer) {
-      printf("HttpServer is not specified\n");
+      R__ERROR_HERE("webgui") << "Server not specified when request is started";
+      request->fail(QWebEngineUrlRequestJob::UrlNotFound);
       return;
    }
-
-   TWebGuiCallArg *arg = new TWebGuiCallArg(request);
 
    QString inp_path = url.path();
    QString inp_query = url.query();
    QString inp_method = request->requestMethod();
 
+   auto arg = std::make_shared<TWebGuiCallArg>(request);
+
    TString fname;
 
    if (fServer->IsFileRequested(inp_path.toLatin1().data(), fname)) {
-
       arg->SendFile(fname.Data());
-      delete arg;
       // process file
       return;
    }
 
+   // Analyze and cut post data as soon as possible
+   TString query = inp_query.toLatin1().data();
+   Int_t pos = query.Index("&post=");
+   if (pos != kNPOS) {
+      TString buf = TBase64::Decode(query.Data() + pos + 6);
+      arg->SetPostData(std::string(buf.Data()));
+      query.Resize(pos);
+   }
+
    arg->SetPathAndFileName(inp_path.toLatin1().data());
-   arg->SetQuery(inp_query.toLatin1().data());
+   arg->SetQuery(query.Data());
    arg->SetMethod(inp_method.toLatin1().data());
    arg->SetTopName("webgui");
 
-   fServer->SubmitHttp(arg);
+   // can process immediately - function called in main thread
+   fServer->SubmitHttp(arg, kTRUE);
 }
-
 
 /////////////////////////////////////////////////////////////////
 
-TString UrlSchemeHandler::installHandler(const TString &url, THttpServer *server, bool use_openui)
+QString UrlSchemeHandler::installHandler(const QString &url_, THttpServer *server)
 {
-   TString protocol, fullurl;
+   TString protocol, fullurl, url(url_.toLatin1().data());
    bool create_handler = false;
 
    if (gLastServer != server) {
@@ -147,7 +190,7 @@ TString UrlSchemeHandler::installHandler(const TString &url, THttpServer *server
    const char *suffix = url.Index("?") != kNPOS ? "&" : "?";
 
    protocol.Form("roothandler%d", gNumHandler);
-   fullurl.Form("%s://dummy:8080%s%splatform=qt5&ws=rawlongpoll%s", protocol.Data(), url.Data(), suffix, (use_openui ? "" : "&noopenui"));
+   fullurl.Form("%s://rootserver.local%s%splatform=qt5&ws=rawlongpoll&noopenui", protocol.Data(), url.Data(), suffix);
 
    if (create_handler) {
       const QByteArray protocol_name = QByteArray(protocol.Data());
@@ -155,5 +198,5 @@ TString UrlSchemeHandler::installHandler(const TString &url, THttpServer *server
       QWebEngineProfile::defaultProfile()->installUrlSchemeHandler(protocol_name, handler);
    }
 
-   return fullurl;
+   return QString(fullurl.Data());
 }

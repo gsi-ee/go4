@@ -127,13 +127,13 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    printf("URL %s\n", url.Data());
 
-   TString fullurl = UrlSchemeHandler::installHandler(url, web->GetServer(), false);
+   QString fullurl = UrlSchemeHandler::installHandler(QString(url.Data()), web->GetServer());
 
-   printf("URL %s\n", fullurl.Data());
+   printf("URL %s\n", fullurl.toLatin1().constData());
 
    // fullurl.Append("?qt5");
 
-   fView->load(QUrl(fullurl.Data()));
+   fView->load(QUrl(fullurl));
 
    fCanvas->SetCanvasSize(fView->width(), fView->height());
 }

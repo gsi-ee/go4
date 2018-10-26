@@ -19,7 +19,6 @@
 #include <QMimeData>
 #include <QDragEnterEvent>
 #include <QDropEvent>
-#include <QWebEngineSettings>
 
 RootWebView::RootWebView(QWidget *parent, unsigned width, unsigned height) :
    QWebEngineView(parent),
@@ -28,16 +27,9 @@ RootWebView::RootWebView(QWidget *parent, unsigned width, unsigned height) :
 {
    setPage(new RootWebPage());
 
-   if (!page()->settings()->testAttribute(QWebEngineSettings::WebGLEnabled))
-      printf("Error: WEBGL is not enabled!!!\n");
-
-   // connect(this, SIGNAL(javaScriptConsoleMessage(JavaScriptConsoleMessageLevel, const QString &, int, const QString
-   // &)),
-   //        this, SLOT(doConsole(JavaScriptConsoleMessageLevel, const QString &, int, const QString &)));
-
-   // connect(this, &QWebEngineView::javaScriptConsoleMessage, this, &RootWebView::doConsole);
-
    connect(page(), &QWebEnginePage::windowCloseRequested, this, &RootWebView::onWindowCloseRequested);
+
+   connect(page(), &QWebEnginePage::loadFinished /*   loadStarted */, this, &RootWebView::onLoadStarted);
 
    setAcceptDrops(true);
 }
@@ -61,17 +53,21 @@ void RootWebView::dragEnterEvent( QDragEnterEvent *e )
 
 void RootWebView::dropEvent(QDropEvent* event)
 {
-   printf("RootWebView drop event\n");
    emit drop(event);
 }
-
-
 
 void RootWebView::closeEvent(QCloseEvent *)
 {
    page()->runJavaScript("if (window && window.onqt5unload) window.onqt5unload();");
+}
 
-   // printf("run javascript done\n");
+void RootWebView::onLoadStarted()
+{
+   page()->runJavaScript("var jsroot_qt5_identifier = true;");
+   page()->runJavaScript("window.jsroot_qt5_identifier = true;");
+   page()->runJavaScript("console.log('window type = ' + typeof window + '  1: ' + typeof jsroot_qt5_identifier + '   2: ' +  typeof window.jsroot_qt5_identifier);");
+
+   printf("RootWebView::onLoadStarted\n");
 }
 
 void RootWebView::onWindowCloseRequested()

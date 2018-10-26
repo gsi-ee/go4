@@ -18,11 +18,29 @@
 
 #include <QWebEngineUrlSchemeHandler>
 
-#include "TString.h"
-
 class THttpServer;
 
+class UrlRequestJobHolder : public QObject {
+   Q_OBJECT
+
+   QWebEngineUrlRequestJob *fRequest{nullptr};
+
+public:
+   UrlRequestJobHolder(QWebEngineUrlRequestJob *req);
+
+   QWebEngineUrlRequestJob *req() { return fRequest; }
+
+   void reset();
+
+public slots:
+   void onRequestDeleted(QObject *obj);
+};
+
+// ===============================================================
+
+
 class UrlSchemeHandler : public QWebEngineUrlSchemeHandler {
+   Q_OBJECT
 protected:
    THttpServer *fServer; ///< server instance which should handle requests
 
@@ -39,7 +57,8 @@ public:
 
    virtual void requestStarted(QWebEngineUrlRequestJob *request);
 
-   static TString installHandler(const TString &url, THttpServer *server, bool use_openui = true);
+   static QString installHandler(const QString &url, THttpServer *server);
+
 };
 
 
