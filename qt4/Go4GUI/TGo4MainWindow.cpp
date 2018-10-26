@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -874,20 +874,18 @@ bool TGo4MainWindow::startUserGUI(const char* usergui)
    if ((usergui!=0) && (strlen(usergui)>0)) {
       QFileInfo info(usergui);
       if (info.exists())
-        if (info.isFile()) {
-           dirname = info.path();
-           libname = info.fileName();
-
-        } else
-        if (info.isDir()) {
-           dirname = usergui;
-        }
-     if ((dirname.length()>0) && (dirname[dirname.length()-1]!='/')) dirname+="/";
+         if (info.isFile()) {
+            dirname = info.path();
+            libname = info.fileName();
+         } else if (info.isDir()) {
+            dirname = usergui;
+         }
+      if ((dirname.length()>0) && (dirname[dirname.length()-1]!='/')) dirname+="/";
    }
 
    bool defaultnames = libname.length()==0;
    if (defaultnames)
-     libname = "libGo4UserGui";
+      libname = "libGo4UserGui";
 
    TStartUserGuiFunc startfunc = 0;
 
@@ -937,7 +935,7 @@ void TGo4MainWindow::UserPanelSlot()
 
    // check GO4USERGUI variable
    if (gSystem->Getenv("GO4USERGUI")!=0)
-     if (startUserGUI(gSystem->Getenv("GO4USERGUI"))) return;
+      if (startUserGUI(gSystem->Getenv("GO4USERGUI"))) return;
 
    // check from standard LD_LIBRARY_PATHS
    if (startUserGUI(0)) return;
@@ -946,7 +944,6 @@ void TGo4MainWindow::UserPanelSlot()
 
    QMessageBox::critical(this,"Starting user GUI", "No suitable libraries found");
 }
-
 
 TGo4ViewPanel* TGo4MainWindow::MakeNewPanel(int ndiv)
 {

@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -15,12 +15,6 @@
 #define TGO4MAINWINDOW_H
 
 #include <QMainWindow>
-
-#include <QCloseEvent>
-
-#include <QCheckBox>
-
-class QApplication;
 
 class QGo4Widget;
 class TGo4FitPanel;
@@ -49,17 +43,15 @@ class TGo4ServerProxy;
 class QAction;
 class QSignalMapper;
 class QMenu;
-
 class QSpinBox;
 class QPushButton;
-
+class QCloseEvent;
+class QApplication;
 
  /** This is the Go4 Main Window
    * @author Mohammad Al-Turany, modifications J.Adamczewski, S.Linev
    * @version 1.0
    * @since 15.05.2002 */
-
-
 
 
 class TGo4MainWindow : public QMainWindow {
@@ -132,7 +124,6 @@ class TGo4MainWindow : public QMainWindow {
       void ChangeDrawItemFlagSlot();
       void ChangeSaveWhiteBackgroundSlot();
 
-
       void ChangeTerminalTimeStampSlot();
       void ChangeTerminalTimeStampFormatSlot();
 
@@ -166,8 +157,6 @@ class TGo4MainWindow : public QMainWindow {
       void CreateNewConditionSlot(bool forothereditor = false);
       void CreateNewDynEntrySlot(bool forothereditor = false);
 
-
-
       // modify default highdpi scaling
       void ScaleFactorSlot();
 
@@ -192,8 +181,6 @@ class TGo4MainWindow : public QMainWindow {
       void CreateGUIScriptSlot();
       void CheckConnectingCounterSlot();
       void checkPanelRepaintSlot();
-
-
 
    protected:
 
@@ -279,7 +266,6 @@ class TGo4MainWindow : public QMainWindow {
       QAction*           faDrawDate;
       QAction*           faDrawItem;
       QAction*           faSaveWhite;
-
 
       QAction*           faLaunchAnal;
       QAction*           faConnectAnal;
