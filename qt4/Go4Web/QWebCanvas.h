@@ -17,6 +17,7 @@
 #include "rootwebview.h"
 
 class TCanvas;
+class TPad;
 
 class QWebCanvas : public QWidget {
 
@@ -28,9 +29,19 @@ public:
 
    TCanvas *getCanvas() { return fCanvas; }
 
+signals:
+
+   void CanvasDropEvent(QDropEvent*, TPad*);
+
+protected slots:
+
+   void dropView(QDropEvent* event);
+
 protected:
 
    virtual void   resizeEvent(QResizeEvent *event);
+
+   virtual void dropEvent(QDropEvent* event);
 
    RootWebView *fView;  ///< qt webwidget to show
 

@@ -62,18 +62,21 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    setFocusPolicy( Qt::TabFocus );
    setCursor( Qt::CrossCursor );
 
+   setAcceptDrops(true);
+
    // disable option that at least background is redrawn immediately
    // and canvas content after 100 ms timeout
    //setAttribute(Qt::WA_NoSystemBackground);
    // setAttribute(Qt::WA_PaintOnScreen);
    // setAttribute(Qt::WA_PaintUnclipped);
 
-
    QGridLayout *gridLayout = new QGridLayout(this);
-   gridLayout->setSpacing(1);
+   gridLayout->setSpacing(10);
    gridLayout->setMargin(1);
 
    fView = new RootWebView(this);
+
+   QObject::connect(fView, SIGNAL(drop(QDropEvent*)), this, SLOT(dropView(QDropEvent*)));
 
    gridLayout->addWidget(fView);
 
@@ -138,3 +141,15 @@ void QWebCanvas::resizeEvent(QResizeEvent *event)
 {
    printf("Resize width: %d %d height: %d %d\n", (int) width(), (int) fView->width(), (int) height(), (int) fView->height());
 }
+
+void QWebCanvas::dropEvent(QDropEvent* event)
+{
+   printf("DROP EVENT on QWebCanvas\n");
+   emit CanvasDropEvent(event, fCanvas);
+}
+
+void QWebCanvas::dropView(QDropEvent* event)
+{
+   emit CanvasDropEvent(event, fCanvas);
+}
+
