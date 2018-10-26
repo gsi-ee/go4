@@ -81,7 +81,6 @@ GO4AN_LIB       = $(GO4DLLPATH)/$(GO4AN_LIBNAME).$(DllSuf)
 GO4BGUI_LIBNAME = $(LIB_PREFIX)Go4GUI
 GO4BGUI_LIB     = $(GO4DLLPATH)/$(GO4BGUI_LIBNAME).$(DllSuf)
 
-
 BUILDGO4LIBS += $(GO4FIT_LIB) \
                 $(GO4BASE_LIB) \
                 $(THRDMNGR_LIB) \
@@ -97,7 +96,7 @@ MODULES  = MbsAPIbase MbsAPI RawAPI  \
            Go4CommandsTaskHandler Go4TaskHandler \
            Go4ConditionsBase Go4DynamicList Go4Event \
            Go4EventServer Go4Exceptions \
-           Go4Display Go4Proxies \
+           Go4Display Go4Proxies Web6Canvas \
            Go4ObjectManager \
            Go4Queue Go4Socket Go4StatusAnalysis Go4StatusBase \
            Go4Http Go4HistogramServer Go4Analysis Go4AnalysisClient Go4Dict
