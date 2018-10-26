@@ -302,6 +302,8 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       QSignalMapper* fOptionsMap;
       QMenu* fOptionsMenu;
 
+      QRootCanvas* fxQCanvas;
+
       virtual void CheckActionAtTheEnd( TPad * pad );
       virtual bool CompleteMarkerEdit( TPad * pad );
       virtual void resizeEvent( QResizeEvent * e );

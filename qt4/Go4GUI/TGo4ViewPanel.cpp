@@ -124,9 +124,23 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    fbPickAgain = false;
 
    setWindowTitle(GetPanelName());
+
+
+   fxQCanvas = new QRootCanvas(this);
+   // fxQCanvas->setObjectName(QStringLiteral("fxQCanvas"));
+   QSizePolicy sizePolicy3(static_cast<QSizePolicy::Policy>(7), static_cast<QSizePolicy::Policy>(7));
+   sizePolicy3.setHorizontalStretch(0);
+   sizePolicy3.setVerticalStretch(20);
+   sizePolicy3.setHeightForWidth(fxQCanvas->sizePolicy().hasHeightForWidth());
+   fxQCanvas->setSizePolicy(sizePolicy3);
+   fxQCanvas->setMinimumSize(QSize(50, 50));
+
+   fxGridLayout->addWidget(fxQCanvas, 1, 1, 1, 1);
+
+   QObject::connect(fxQCanvas, SIGNAL(CanvasDropEvent(QDropEvent*,TPad*)), this, SLOT(CanvasDropEventSlot(QDropEvent*,TPad*)));
+
    fxQCanvas->setObjectName(GetPanelName());
    fxQCanvas->getCanvas()->SetName(GetPanelName());
-
    fxQCanvas->setEditorFrame(EditorFrame);
 
 //   printf("Resize x %d y %d\n", go4sett->lastPanelSize().width(), go4sett->lastPanelSize().height());

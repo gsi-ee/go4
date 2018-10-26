@@ -554,6 +554,7 @@
           </property>
         </widget>
       </item>
+      <!-- this is now cretaed in the constructor   
       <item row="1" column="1" >
         <widget class="QRootCanvas" name="fxQCanvas" >
           <property name="sizePolicy" >
@@ -572,6 +573,7 @@
           </property>
         </widget>
       </item>
+      --> 
       <item rowspan="1" row="0" column="0" colspan="2" >
         <widget class="QFrame" name="MenuFrame" >
           <property name="sizePolicy" >
@@ -601,7 +603,6 @@
   <layoutdefault spacing="3" margin="3" />
   <includes>
     <include location="local">QGo4Widget.h</include>
-    <include location="local">QRootCanvas.h</include>
   </includes>
   <connections>
     <connection>
@@ -657,12 +658,6 @@
       <signal>clicked()</signal>
       <receiver>TGo4ViewPanel</receiver>
       <slot>DelSelectedMarker_clicked()</slot>
-    </connection>
-    <connection>
-      <sender>fxQCanvas</sender>
-      <signal>CanvasDropEvent(QDropEvent*,TPad*)</signal>
-      <receiver>TGo4ViewPanel</receiver>
-      <slot>CanvasDropEventSlot(QDropEvent*,TPad*)</slot>
     </connection>
     <connection>
       <sender>GetConditionBtn</sender>
