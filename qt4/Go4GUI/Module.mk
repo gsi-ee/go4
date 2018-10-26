@@ -3,8 +3,8 @@ GO4GUI4_NAME        = Go4GUI
 ## normally should be like this for every module, but can be specific
 
 GO4GUI4_DIR         = qt4/$(GO4GUI4_NAME)
-
 GO4FITGUI4_DIR      = qt4/Go4FitGUI
+GO4WEBGUI4_DIR      = qt4/Go4Web
 
 GO4GUI4_QTPRO       = go4gui.pro
 GO4GUI4_QTMAKE      = Makefile.qt
@@ -40,9 +40,11 @@ endif
 
 
 ifdef withweb
-GO4GUI4_QMAKEFLAGS += "HEADERS += ../Go4Web/rootwebpage.h ../Go4Web/rootwebview.h" 
-GO4GUI4_QMAKEFLAGS += "SOURCES += ../Go4Web/rootwebpage.cpp ../Go4Web/rootwebview.cpp" 
+GO4GUI4_QMAKEFLAGS += "HEADERS += ../Go4Web/rootwebpage.h ../Go4Web/rootwebview.h ../Go4Web/QWebCanvas.h" 
+GO4GUI4_QMAKEFLAGS += "SOURCES += ../Go4Web/rootwebpage.cpp ../Go4Web/rootwebview.cpp ../Go4Web/QWebCanvas.cpp" 
 GO4GUI4_QMAKEFLAGS += "QT += webengine webenginewidgets" 
+GO4WEBGUI4_S          = $(wildcard $(GO4WEBGUI4_DIR)/*.cpp)
+GO4WEBGUI4_H          = $(GO4WEBGUI4_S:.cpp=.h)
 endif
 
 
@@ -62,7 +64,6 @@ GO4GUI4_QTH         = $(GO4GUI4_QTS:.cpp=.h)
 GO4FITGUI4_S        = $(wildcard $(GO4FITGUI4_DIR)/*.cpp)
 GO4FITGUI4_H        = $(wildcard $(GO4FITGUI4_DIR)/*.h)
 GO4FITGUI4_FORMS    = $(wildcard $(GO4FITGUI4_DIR)/*.ui)
-
 
 
 GO4GUI4_PUBH        = $(patsubst $(GO4GUI4_DIR)/%.h, include/%.h, $(GO4GUI4_H) $(GO4GUI4_QTH) $(GO4GUI4_FH))
@@ -118,7 +119,7 @@ endif
 
 $(GO4GUI4_EXE) : $(GO4QT4HEADS) $(BUILDGO4LIBS) $(GO4GUI4_DIR)/$(GO4GUI4_QTMAKE) \
                  $(GO4GUI4_FORMS) $(GO4GUI4_S) $(GO4GUI4_EXES) $(GO4GUI4_H) $(GO4GUI4_QTS) $(GO4GUI4_QTH) \
-                 $(QT4ROOT_H) $(QT4ROOT_S) $(GO4FITGUI4_S) $(GO4FITGUI4_H) $(GO4FITGUI4_FORMS) 
+                 $(QT4ROOT_H) $(QT4ROOT_S) $(GO4FITGUI4_S) $(GO4FITGUI4_H) $(GO4FITGUI4_FORMS) $(GO4WEBGUI4_H) $(GO4WEBGUI4_S) 
 	@echo "Generating Qt4 part of the MainGUI..."
 	+cd $(GO4GUI4_DIR); $(MAKEFORQT) -f $(GO4GUI4_QTMAKE)
 
