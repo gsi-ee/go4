@@ -18,6 +18,8 @@
 #include "TWebGuiFactory.h"
 #include "THttpServer.h"
 
+#include "rooturlschemehandler.h"
+#include <QWebEngineProfile>
 #include <QGridLayout>
 
 #include <stdio.h>
@@ -34,8 +36,9 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    gridLayout->addWidget(fView);
 
    static bool guifactory = false;
-
    static int wincnt = 1;
+   static int nhandler = 0;
+   static THttpServer *last_serv = 0;
 
    if (!guifactory) {
       guifactory = true;
@@ -43,9 +46,9 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    }
 
    fCanvas = new TCanvas(Form("Canvas%d", wincnt), 100, 200, wincnt);
+   wincnt++;
 
-   // not call show, but try to extract URL for the
-
+   // not call Show, but try to extract URL for the
    TWebCanvas *web = dynamic_cast<TWebCanvas *>(fCanvas->GetCanvasImp());
    if (!web) {
       printf("Something went wrong - no web canvas provided\n");
@@ -53,10 +56,31 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    }
 
    TString url = web->CreateWebWindow(1); // create TWebWindow, which will handle all necessary connections
-
    THttpServer *serv = web->GetServer(); // get http server instance
 
-   wincnt++;
+   char protocol[100], fullurl[2000];
+   bool create_handler = false;
+
+   if (last_serv != serv) {
+      last_serv = serv;
+      create_handler = true;
+      nhandler++;
+   }
+
+   const char *suffix = url.Index("?") != kNPOS ? "&qt5" : "?qt5";
+
+   snprintf(protocol, sizeof(protocol), "roothandler%d", nhandler);
+   snprintf(fullurl, sizeof(fullurl), "%s://dummy:8080%s%s", protocol, url.Data(), suffix);
+
+   printf("Start %s\n", fullurl);
+
+   if (create_handler) {
+      const QByteArray protocol_name = QByteArray(protocol);
+      UrlSchemeHandler *handler = new UrlSchemeHandler(Q_NULLPTR, serv);
+      QWebEngineProfile::defaultProfile()->installUrlSchemeHandler(protocol_name, handler);
+   }
+
+   fView->load(QUrl(fullurl));
 }
 
 QWebCanvas::~QWebCanvas()
