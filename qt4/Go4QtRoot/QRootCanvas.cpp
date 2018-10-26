@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -34,6 +34,8 @@
 #include <QAction>
 #include <QMimeData>
 #include <QDateTime>
+#include <QFrame>
+#include <QVBoxLayout>
 
 #include "TPad.h"
 #include "TCanvas.h"
@@ -52,6 +54,7 @@
 #include "TMath.h"
 #ifndef __NOGO4GED__
 #include "TGedEditor.h"
+#include "TVirtualPadEditor.h"
 #endif
 
 #include "TGX11.h"
@@ -60,6 +63,7 @@
 //#define TGo4LockGuard int JAMDEBUG
 
 #include "QRootDialog.h"
+#include "QRootWindow.h"
 #include "QRootApplication.h"
 
 #include <cstring>
@@ -98,7 +102,7 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
 #if QT_VERSION > QT_VERSION_CHECK(5,6,0)
    // JAM the following is pure empiric. hopefully default denominator won't change in future qt?
    fQtScalingfactor=(double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
-#endif 
+#endif
    //std::cout <<"Found Qt scaling factor:"<<fQtScalingfactor << std::endl;
    // create the context menu
    fMousePosX = 0;
@@ -112,13 +116,38 @@ QRootCanvas::QRootCanvas(QWidget *parent) :
    fRepaintTimer = new QTimer;
    fRepaintTimer->setSingleShot(true);
    connect(fRepaintTimer, SIGNAL(timeout()), this, SLOT(processRepaintTimer()));
+
+   fEditorFrame = 0;
+   fxPeditor = 0;
+   fxRooteditor = 0;
+   fDummyHisto = 0;
 }
 
 QRootCanvas::~QRootCanvas()
 {
+   // cannot call here, must be done before until X11 frame is exists
+   // cleanupEditor();
+
+   if (fDummyHisto) {
+      delete fDummyHisto;
+      fDummyHisto = 0;
+   }
+
+#ifndef __NOGO4GED__
+   if (gTQSender == getCanvas())
+      gTQSender = 0;
+
+   // prevent problems with root's subeditor cache
+   if (fxPeditor != 0) {
+      fxPeditor->DeleteEditors();
+      delete fxPeditor;
+      fxPeditor = 0;
+   }
+#endif
+
    if(fCanvas) {
-     delete fCanvas;
-     fCanvas = 0;
+      delete fCanvas;
+      fCanvas = 0;
    }
 
    if (fMenuMethods) {
@@ -185,7 +214,7 @@ void  QRootCanvas::wheelEvent( QWheelEvent* e)
  /*int scaledmetric= metric(QPaintDevice::PdmDevicePixelRatioScaled);
  int scaledX=e->x() * scaledmetric/65536; // empiric
  int scaledY=e->y() * scaledmetric/65536; // empiric
- */  
+ */
    if (fCanvas==0) return;
    e->accept();
    if (e->delta() > 0)
@@ -201,9 +230,9 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
    TObjLink* pickobj = 0;
    // JAM2016-9 test
 //    std::cout <<"QRootCanvas::mousePressEvent at ("<<e->x()<<", "<<  e->y()<<")"<< std::endl;
-   int scaledX=scaledPosition(e->x()); 
+   int scaledX=scaledPosition(e->x());
    int scaledY=scaledPosition(e->y());
-  // std::cout <<"      scaledX,scaledY: ("<<scaledX<<", "<<scaledY <<") "<< std::endl;    
+  // std::cout <<"      scaledX,scaledY: ("<<scaledX<<", "<<scaledY <<") "<< std::endl;
 //      std::cout <<"global from event: ("<<e->globalX()<<", "<<  e->globalY()<< std::endl;
 //    QPoint globalp=QWidget::mapToGlobal(e->pos());
 //    std::cout <<"global from map: ("<<globalp.x()<<", "<<globalp.y() <<") "<< std::endl;
@@ -217,17 +246,17 @@ void QRootCanvas::mousePressEvent( QMouseEvent *e )
 //      gVirtualX->TranslateCoordinates(rootwindow, fQtWindowId, globalp.x(), globalp.y(), destx, desty, child);
 //      std::cout <<"TGX11 global translated: ("<<destx<<", "<<desty<<") " << std::endl;
 //      std::cout <<"TGX11 winids - default root:"<<rootwindow<<", Qt:"<<fQtWindowId<<", child:" <<child<< std::endl;
-     
-     
+
+
      /*  int themetric= metric(QPaintDevice::PdmDevicePixelRatio);
       int scaledmetric= metric(QPaintDevice::PdmDevicePixelRatioScaled);
       std::cout <<"metric="<<themetric<<", scaled="<<scaledmetric << std::endl;
      int scaledX=e->x() * scaledmetric/65536; // empiric
      int scaledY=e->y() * scaledmetric/65536; // empiric
      std::cout <<"scaledX,scaledY: ("<<scaledX<<", "<<scaledY <<") "<< std::endl;
-    */ 
-      
-      
+    */
+
+
    TPad* pad = fCanvas->Pick(scaledX, scaledY, pickobj);
    TObject *selected = fCanvas->GetSelected();
 
@@ -1103,3 +1132,89 @@ void QRootCanvas::executeMenu(int id)
    delete fMenuMethods;
    fMenuMethods = 0;
 }
+
+bool QRootCanvas::isEditorVisible()
+{
+   return fEditorFrame ? fEditorFrame->isVisible() : false;
+}
+
+
+bool QRootCanvas::isEditorAllowed()
+{
+#ifdef __NOGO4GED__
+   return false;
+#else
+   return QRootApplication::IsRootCanvasMenuEnabled();
+#endif
+}
+
+void QRootCanvas::toggleEditor()
+{
+   if (!fEditorFrame) return;
+
+#ifndef __NOGO4GED__
+   bool flag = !isEditorVisible();
+
+   fEditorFrame->setVisible(flag);
+   if (flag && (fxPeditor == 0)) {
+#if QT_VERSION > QT_VERSION_CHECK(5,6,0)
+      // JAM the following is pure empiric. hopefully default denominator won't change in future qt?
+      double scalefactor=(double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
+      fEditorFrame->setMinimumWidth( fEditorFrame->minimumWidth()/scalefactor);
+#endif
+
+      fxRooteditor = new QRootWindow(fEditorFrame, "rootwrapperwindow");
+      QVBoxLayout* gedlayout = new QVBoxLayout(fEditorFrame);
+      gedlayout->setContentsMargins(0, 0, 0, 0);
+      gedlayout->addWidget(fxRooteditor);
+
+      TGo4LockGuard lock;
+      fxRooteditor->SetResizeOnPaint(kFALSE); // disable internal resize on paintEvent, we use ResizeGedEditor
+      fxRooteditor->SetEditable(); // mainframe will adopt pad editor window
+
+      fxPeditor = TVirtualPadEditor::LoadEditor();
+      fxPeditor->SetGlobal(kFALSE);
+      fxRooteditor->SetEditable(kFALSE); // back to window manager as root window
+   }
+#endif
+}
+
+void QRootCanvas::resizeEditor()
+{
+#ifndef __NOGO4GED__
+   TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
+   if ((ed != 0) && isEditorVisible() && fxRooteditor)
+      ed->Resize(fxRooteditor->ScaledWidth(), fxRooteditor->ScaledHeight());
+#endif
+}
+
+
+void QRootCanvas::actiavteEditor(TPad *pad, TObject *obj)
+{
+#ifndef __NOGO4GED__
+   TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
+   if ((ed != 0) && (obj != 0) && isEditorVisible()) {
+      gTQSender = getCanvas();
+      ed->SetModel(pad, obj, kButton1Down);
+   }
+#endif
+}
+
+void QRootCanvas::cleanupEditor()
+{
+#ifndef __NOGO4GED__
+//   std::cout << "TGo4ViewPanel::CleanupGedEditor()" << std::endl;
+   TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
+   if (!ed) return;
+   if (fDummyHisto == 0) {
+      fDummyHisto = new TH1I("dummyhisto", "dummyhisto", 100, -10., 10.);
+      fDummyHisto->FillRandom("gaus", 1000);
+      fDummyHisto->SetDirectory(0);
+      fDummyHisto->SetBit(kCanDelete, kFALSE);
+   }
+   gTQSender = getCanvas();
+   ed->SetModel(0, fDummyHisto, kButton1Down);
+   ed->SetModel(0, getCanvas(), kButton1Down);
+#endif
+}
+

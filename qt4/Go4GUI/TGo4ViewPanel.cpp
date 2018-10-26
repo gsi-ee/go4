@@ -22,7 +22,6 @@
 #include "TH1.h"
 #include "TH2.h"
 #include "TH3.h"
-#include "TVirtualPadEditor.h"
 #include "TVirtualX.h"
 #include "RVersion.h"
 #include "Riostream.h"
@@ -51,10 +50,6 @@
 #include "TGCanvas.h"
 #include "TGTab.h"
 
-#ifndef __NOGO4GED__
-#include "TGedEditor.h"
-#endif
-
 #include <QMenuBar>
 #include <QStatusBar>
 #include <QFileDialog>
@@ -67,7 +62,6 @@
 
 #include <QTimer>
 
-#include "QRootWindow.h"
 #include "QRootCanvas.h"
 #include "QRootApplication.h"
 
@@ -107,7 +101,6 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 
    fxActivePad = 0;
 
-   fbEditorFrameVisible = false;
    fiSkipRedrawCounter = 0;
    fxRepaintTimerPad = 0;
    fxResizeTimerPad = 0;
@@ -135,14 +128,13 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    fxQCanvas->setObjectName(GetPanelName());
    fxQCanvas->getCanvas()->SetName(GetPanelName());
 
+   fxQCanvas->setEditorFrame(EditorFrame);
+
 //   printf("Resize x %d y %d\n", go4sett->lastPanelSize().width(), go4sett->lastPanelSize().height());
 //   resize(go4sett->lastPanelSize());
 
    fSelectMenu = 0;
    fSelectMap = 0;
-   fxRooteditor = 0;
-   fxPeditor = 0;
-   fDummyHisto = 0;
 
    fMenuBar = new QMenuBar(MenuFrame);
    fMenuBar->setMinimumWidth(50);
@@ -170,12 +162,8 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
          SLOT(SetMarkerPanel()));
 
    QAction* act = AddChkAction(editMenu, "Show &ROOT attributes editor",
-         fbEditorFrameVisible, this, SLOT(StartRootEditor()));
-#ifdef __NOGO4GED__
-   act->setEnabled(false);
-#else
-   act->setEnabled(QRootApplication::IsRootCanvasMenuEnabled());
-#endif
+                   fxQCanvas->isEditorVisible(), this, SLOT(StartRootEditor()));
+   act->setEnabled(fxQCanvas->isEditorAllowed());
 
    // must get fbCanvasEventstatus from
    fbCanvasEventstatus = go4sett->getPadEventStatus();
@@ -244,8 +232,6 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    gridLayout->addWidget(CanvasStatus, 3, 0, 1, 2);
    CanvasStatus->setVisible(false);
 
-   EditorFrame->setVisible(fbEditorFrameVisible);
-
    connect(GetQCanvas(), SIGNAL(SelectedPadChanged(TPad*)), this,
          SLOT(SetActivePad(TPad*)));
    connect(GetQCanvas(), SIGNAL(PadClicked(TPad*)), this,
@@ -264,22 +250,12 @@ TGo4ViewPanel::~TGo4ViewPanel()
 {
    TGo4LockGuard lock;
 
-   // prevent problems with root's subeditor cache
-   if (fxPeditor != 0) {
-      fxPeditor->DeleteEditors();
-      delete fxPeditor;
-      fxPeditor = 0;
-   }
-
-   if (fDummyHisto != 0) {
-      delete fDummyHisto;
-      fDummyHisto = 0;
-   }
-
    // we should delete all markers first, while they
    // have internal reference on the pad, which will be
    // deleted by the net canvas->Clear() call
    ProcessMarkersClear(GetCanvas(), true);
+
+   CleanupGedEditor();
 
    GetCanvas()->Clear();
 
@@ -447,11 +423,6 @@ void TGo4ViewPanel::CompleteInitialization()
    UpdatePadStatus(GetCanvas(), true);
 
    fAutoScaleCheck->setChecked(GetPadOptions(GetCanvas())->IsAutoScale());
-
-   fxRooteditor = new QRootWindow(EditorFrame, "rootwrapperwindow");
-   QVBoxLayout* gedlayout = new QVBoxLayout(EditorFrame);
-   gedlayout->setContentsMargins(0, 0, 0, 0);
-   gedlayout->addWidget(fxRooteditor);
 
    //    fMenuBar
    connect(TGo4MdiArea::Instance(),
@@ -1870,31 +1841,19 @@ void TGo4ViewPanel::PrintCanvas()
 
 void TGo4ViewPanel::StartRootEditor()
 {
-#ifndef __NOGO4GED__
-   fbEditorFrameVisible = !fbEditorFrameVisible;
-   EditorFrame->setVisible(fbEditorFrameVisible);
-   if (fbEditorFrameVisible && (fxPeditor == 0)) {
-      TGo4LockGuard lock;
+   if (!fxQCanvas->isEditorAllowed()) return;
+
+   if (!fxQCanvas->isEditorVisible())
       SetActivePad(GetCanvas());
 
-#if QT_VERSION > QT_VERSION_CHECK(5,6,0)
-   // JAM the following is pure empiric. hopefully default denominator won't change in future qt?
-   double scalefactor=(double) metric(QPaintDevice::PdmDevicePixelRatioScaled)/65536.;
-   EditorFrame->setMinimumWidth( EditorFrame->minimumWidth()/scalefactor);
-#endif
-      fxRooteditor->SetResizeOnPaint(kFALSE); // disable internal resize on paintEvent, we use ResizeGedEditor
-      fxRooteditor->SetEditable(); // mainframe will adopt pad editor window
-      fxPeditor = TVirtualPadEditor::LoadEditor();
-      fxPeditor->SetGlobal(kFALSE);
-      fxRooteditor->SetEditable(kFALSE); // back to window manager as root window
+   fxQCanvas->toggleEditor();
+
+   if (fxQCanvas->isEditorVisible())
       ActivateInGedEditor(GetSelectedObject(GetActivePad(), 0));
-   } else {
-      ActivateInGedEditor(0);
-   }
 
    show();
+
    ResizeGedEditor();
-#endif
 }
 
 void TGo4ViewPanel::StartConditionEditor()
@@ -5426,43 +5385,18 @@ void TGo4ViewPanel::resizeEvent(QResizeEvent * e)
 
 void TGo4ViewPanel::ResizeGedEditor()
 {
-#ifndef __NOGO4GED__
-   TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
-   if ((ed != 0) && fbEditorFrameVisible && fxRooteditor)
-      ed->Resize(fxRooteditor->ScaledWidth(), fxRooteditor->ScaledHeight());
-#endif
+   fxQCanvas->resizeEditor();
 }
 
 void TGo4ViewPanel::ActivateInGedEditor(TObject* obj)
 {
-   if (!fbEditorFrameVisible) return;
-
-#ifndef __NOGO4GED__
-   TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
-   if ((ed != 0) && (obj != 0))
-      if (!obj->InheritsFrom(THStack::Class()) && !obj->InheritsFrom(TMultiGraph::Class())) {
-         gTQSender = GetCanvas();
-         ed->SetModel(GetActivePad(), obj, kButton1Down);
-      }
-#endif
+   if (obj && !obj->InheritsFrom(THStack::Class()) && !obj->InheritsFrom(TMultiGraph::Class()))
+      fxQCanvas->actiavteEditor(GetActivePad(), obj);
 }
 
 void TGo4ViewPanel::CleanupGedEditor()
 {
-#ifndef __NOGO4GED__
-//   std::cout << "TGo4ViewPanel::CleanupGedEditor()" << std::endl;
-   TGedEditor* ed = dynamic_cast<TGedEditor*>(fxPeditor);
-   if (ed == 0) return;
-   if (fDummyHisto == 0) {
-      fDummyHisto = new TH1I("dummyhisto", "dummyhisto", 100, -10., 10.);
-      fDummyHisto->FillRandom("gaus", 1000);
-      fDummyHisto->SetDirectory(0);
-      fDummyHisto->SetBit(kCanDelete, kFALSE);
-   }
-   gTQSender = GetCanvas();
-   ed->SetModel(0, fDummyHisto, kButton1Down);
-   ed->SetModel(0, GetCanvas(), kButton1Down);
-#endif
+   fxQCanvas->cleanupEditor();
 }
 
 void TGo4ViewPanel::ShootRepaintTimer()

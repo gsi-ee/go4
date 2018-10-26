@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -52,11 +52,15 @@ class TCanvas;
 class TBrowser;
 class TContextMenu;
 class TList;
+class TVirtualPadEditor;
+class TH1;
 
 class QSignalMapper;
 class QMenu;
 class QAction;
 class QTimer;
+class QRootWindow;
+class QFrame;
 
 /** This canvas uses Qt eventloop to handle user input
   *   @short Graphic Qt Widget based Canvas
@@ -81,6 +85,14 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
 
       bool              showEventStatus() const;
       void              setShowEventStatus(bool s);
+
+      void              setEditorFrame(QFrame *fr) { fEditorFrame = fr; }
+      bool              isEditorAllowed();
+      bool              isEditorVisible();
+      void              toggleEditor();
+      void              resizeEditor();
+      void              actiavteEditor(TPad *pad, TObject *obj);
+      void              cleanupEditor();
 
    signals:
       /** signal which will be emitted when root selected pad is changed
@@ -193,13 +205,13 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       virtual void      leaveEvent(QEvent *e);
       virtual void      closeEvent( QCloseEvent * e);
 
-      
+
       /** returns scaled point coordinate, for high dpi case*/
       double scaledPosition(int p)
         {
-            return (double) p * fQtScalingfactor;            
+            return (double) p * fQtScalingfactor;
         }
-      
+
       virtual QPaintEngine * paintEngine () const {return 0;}
 
       void              methodDialog(TObject* object, TMethod* method);
@@ -213,6 +225,11 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       QTimer*           fRepaintTimer; // do not draw canvas immediately, postpone this on few miliseconds
       int               fRepaintMode; // 0 - inactive, 1 - paint, 2 - resize, -1 - skip first repaint event
 
+      QFrame*           fEditorFrame;        // frame to show editor
+      TVirtualPadEditor* fxPeditor;          // ROOT editor
+      QRootWindow*      fxRooteditor;        // QtRoot window to embed ROOT editor
+      TH1*              fDummyHisto;         // dummy histogram used for editor cleanup
+
    private:
       bool              fMaskDoubleClick;
       double            fMousePosX;    // mouse position in user coordinate when activate menu
@@ -221,7 +238,7 @@ class QDESIGNER_WIDGET_EXPORT QRootCanvas : public QWidget {
       TObject*          fMenuObj;      // object use to fill menu
       TList*            fMenuMethods;  // list of menu methods
       bool              fxShowEventStatus;
-      
+
       double fQtScalingfactor;
 };
 

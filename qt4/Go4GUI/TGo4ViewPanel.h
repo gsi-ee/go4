@@ -29,12 +29,10 @@ class TCutG;
 class TMultiGraph;
 class TGo4ASImage;
 class TGo4Picture;
-class QRootWindow;
-class QRootCanvas;
 class TGo4Slot;
 class TGo4Picture;
 class TObjArray;
-class TVirtualPadEditor;
+class QRootCanvas;
 class QMenuBar;
 class QStatusBar;
 class QAction;
@@ -278,9 +276,6 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
 
       QString fPanelName;
       QByteArray fbaPanelName;
-      bool fbEditorFrameVisible;
-      TVirtualPadEditor* fxPeditor;
-      QRootWindow* fxRooteditor;
       bool fbFreezeTitle;
       QString fFreezedTitle;
       bool fbMarkEditorVisible;
@@ -303,7 +298,6 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       bool fbCloneFlag;
       bool fbModifiedSignalFlag;
       bool fbLeaveFocusAfterCondEnd;
-      TH1* fDummyHisto;
       QMenu* fSelectMenu;
       QSignalMapper* fSelectMap;
       QCheckBox* fAutoScaleCheck;
