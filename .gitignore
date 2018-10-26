@@ -22,6 +22,8 @@ go4login
 include/*
 .rootmap
 *.hotstart
+*.json
+
 
 # qt generated files
 

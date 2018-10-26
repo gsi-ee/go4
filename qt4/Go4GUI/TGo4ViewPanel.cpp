@@ -283,6 +283,9 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
       connect(fxWCanvas, SIGNAL(SelectedPadChanged(TPad*)), this,
               SLOT(SetActivePad(TPad*)));
 
+      connect(fxWCanvas, SIGNAL(PadClicked(TPad*,int,int)), this,
+               SLOT(PadClickedSlot(TPad*,int,int)));
+
 #endif
    } else {
       CanvasStatus = new QStatusBar(this);
@@ -1247,7 +1250,7 @@ void TGo4ViewPanel::SetActivePad(TPad* pad)
    CallPanelFunc(panel_Activated, fxActivePad);
 }
 
-void TGo4ViewPanel::PadClickedSlot(TPad* pad)
+void TGo4ViewPanel::PadClickedSlot(TPad* pad, int px, int py)
 {
    TGo4LockGuard lock;
    SetActivePad(pad);
@@ -1255,10 +1258,14 @@ void TGo4ViewPanel::PadClickedSlot(TPad* pad)
    if (pad == 0)
       return;
 
-   Int_t px = pad->GetEventX();
-   Int_t py = pad->GetEventY();
+   if ((px<0) || (py<0)) {
+      px = pad->GetEventX();
+      py = pad->GetEventY();
+   }
+
    Double_t x = pad->PadtoX(pad->AbsPixeltoX(px));
    Double_t y = pad->PadtoY(pad->AbsPixeltoY(py));
+
    bool docreate = GetSelectedMarkerName(pad).length() == 0;
    bool docheck = false;
    bool iscreated = false;

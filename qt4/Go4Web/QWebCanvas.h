@@ -43,6 +43,8 @@ signals:
 
    void SelectedPadChanged(TPad*);
 
+   void PadClicked(TPad*,int,int);
+
 public slots:
 
    void actiavteEditor(TPad *pad = 0, TObject *obj = 0);
@@ -69,6 +71,7 @@ protected:
 
    void ProcessActivePadChanged(TPad *pad) { emit SelectedPadChanged(pad); }
 
+   void ProcessPadClicked(TPad *pad, int x, int y) { emit PadClicked(pad,x,y); }
 
    RootWebView *fView;  ///< qt webwidget to show
 

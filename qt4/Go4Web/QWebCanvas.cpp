@@ -117,8 +117,10 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
 
 
-   web->SetActivePadChangedSignal([this](TPad *pad){ ProcessActivePadChanged(pad); });
+   web->SetActivePadChangedHandler([this](TPad *pad){ ProcessActivePadChanged(pad); });
 
+
+   web->SetPadClickedHandler([this](TPad *pad, int x, int y) { ProcessPadClicked(pad, x, y); });
 
    TString url = web->CreateWebWindow(1); // create TWebWindow, which will handle all necessary connections
 
