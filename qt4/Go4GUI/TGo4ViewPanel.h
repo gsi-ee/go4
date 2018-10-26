@@ -155,6 +155,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       virtual TGo4Slot * GetSuperimposeSlot(TGo4Slot* slot);
       virtual TObject * GetPadMainObject( TPad * pad );
       virtual TCanvas * GetCanvas();
+      virtual bool IsWebCanvas() const { return fxWCanvas != 0; }
       virtual TPad * GetActivePad();
       virtual void AllocatePadOptions(TPad* pad);
       virtual TGo4Picture * GetPadOptions( TPad * pad );

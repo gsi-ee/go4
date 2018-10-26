@@ -3954,10 +3954,14 @@ bool TGo4ViewPanel::ProcessPadRedraw(TPad* pad, bool force)
 
    const char* drawopt = padopt->GetDrawOption(0);
 
-   Bool_t doasiimage = (drawopt != 0) && !dosuperimpose &&
+   Bool_t doasiimage = !dosuperimpose && !fxWCanvas &&
                         objs.Last()->InheritsFrom(TH2::Class());
-   if (doasiimage)
-      doasiimage = TString(drawopt).Contains("asimage");
+
+   if (drawopt && TString(drawopt).Contains("asimage")) {
+      if (!doasiimage) { drawopt = "col"; padopt->SetDrawOption("col", 0); }
+   } else {
+      doasiimage = kFALSE;
+   }
 
    if (dosuperimpose) {
       if (sislot == 0)

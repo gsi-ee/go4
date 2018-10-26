@@ -42,7 +42,7 @@ class TGo4HisDrawOptions : public QWidget, public Ui::TGo4HisDrawOptions
                            int & HisCoordStyle,
                            int & HisDrawStyle);
     virtual void CodeDrawOptions( int HisErrorStyle, int HisCoordStyle, int HisDrawStyle, TString & buf );
-    virtual void UpdateView(int viewtype);
+    virtual void UpdateView(int viewtype, bool webcanvas = false);
     virtual void ChangeColor(int kind);
 
 

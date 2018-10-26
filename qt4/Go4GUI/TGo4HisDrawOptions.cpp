@@ -3,7 +3,7 @@
 //       The GSI Online Offline Object Oriented (Go4) Project
 //         Experiment Data Processing at EE department, GSI
 //-----------------------------------------------------------------------
-// Copyright (C) 2000- GSI Helmholtzzentrum für Schwerionenforschung GmbH
+// Copyright (C) 2000- GSI Helmholtzzentrum fï¿½r Schwerionenforschung GmbH
 //                     Planckstr. 1, 64291 Darmstadt, Germany
 // Contact:            http://go4.gsi.de
 //-----------------------------------------------------------------------
@@ -85,7 +85,7 @@ void TGo4HisDrawOptions::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid
 
          fbSettingPanelData = true;
 
-         if (fiLastView!=viewtype) UpdateView(viewtype);
+         if (fiLastView!=viewtype) UpdateView(viewtype, panel->IsWebCanvas());
 
          int ErrorStyle = 0, CoordStyle = 0, DrawStyle = 0;
          DecodeDrawOption(drawopt, ErrorStyle, CoordStyle, DrawStyle);
@@ -111,7 +111,7 @@ void TGo4HisDrawOptions::panelSlot(TGo4ViewPanel* panel, TPad* pad, int signalid
    }
 }
 
-void TGo4HisDrawOptions::UpdateView(int viewtype)
+void TGo4HisDrawOptions::UpdateView(int viewtype, bool webcanvas)
 {
    int lines=30;
    ErrorBars->clear();
@@ -168,7 +168,7 @@ void TGo4HisDrawOptions::UpdateView(int viewtype)
          DrawOption->addItem( QIcon(""),         "TEXT content");
          lines=30;
 #ifndef __NOGO4ASI__
-         DrawOption->addItem( QIcon(":/icons/asimage.png"), " ASImage");
+         if (!webcanvas) DrawOption->addItem( QIcon(":/icons/asimage.png"), " ASImage");
          DrawOption->addItem( QIcon(""), "");
 #else
          DrawOption->addItem( QIcon(""), "");
