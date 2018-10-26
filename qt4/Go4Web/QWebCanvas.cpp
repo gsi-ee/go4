@@ -28,27 +28,6 @@
 #include <stdlib.h>
 
 
-class TQt5Timer : public TTimer {
-public:
-   TQt5Timer(Long_t milliSec, Bool_t mode) : TTimer(milliSec, mode)
-   {
-      // construtor
-   }
-   virtual ~TQt5Timer()
-   {
-      // destructor
-   }
-   virtual void Timeout()
-   {
-      // timeout handler
-      // used to process http requests in main ROOT thread
-
-      QApplication::sendPostedEvents();
-      QApplication::processEvents();
-   }
-};
-
-
 QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 {
    fQtScalingfactor = 1.0;
@@ -84,19 +63,18 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    gridLayout->setSpacing(10);
    gridLayout->setMargin(1);
 
-   fView = new RootWebView(this);
+   //fView = new RootWebView(this);
+   //QObject::connect(fView, SIGNAL(drop(QDropEvent*)), this, SLOT(dropView(QDropEvent*)));
+   //gridLayout->addWidget(fView);
 
-   QObject::connect(fView, SIGNAL(drop(QDropEvent*)), this, SLOT(dropView(QDropEvent*)));
+   //static TQt5Timer *qt5timer = nullptr;
 
-   gridLayout->addWidget(fView);
+   //if (!qt5timer) {
+   //   qt5timer = new TQt5Timer(10, kTRUE);
+   //   qt5timer->TurnOn();
+   //}
 
-   static TQt5Timer *qt5timer = nullptr;
    static int wincnt = 1;
-
-   if (!qt5timer) {
-      qt5timer = new TQt5Timer(10, kTRUE);
-      qt5timer->TurnOn();
-   }
 
    fCanvas = new TCanvas(kFALSE);
    fCanvas->SetName(Form("Canvas%d", wincnt++));
@@ -118,16 +96,33 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    web->SetPadDblClickedHandler([this](TPad *pad, int x, int y) { ProcessPadDblClicked(pad, x, y); });
 
-   TString url = web->CreateWebWindow(1); // create TWebWindow, which will handle all necessary connections
+   web->CreateWebWindow(1); // create TWebWindow, which will handle all necessary connections
 
-   QString fullurl = UrlSchemeHandler::installHandler(QString(url.Data()), web->GetServer());
+   TString where;
+   where.Form("qt5 qprnt:%llu layout:%llu url:&noopenui", (long long unsigned) this, (long long unsigned) gridLayout);
 
-   // disable openui completely from canvas - use only graphics
-   fullurl.append("&noopenui");
+   web->ShowWebWindow(where.Data());
 
-   fView->load(QUrl(fullurl));
+   fView = findChild<QWebEngineView*>("RootWebView");
+   if (!fView) {
+      printf("FAIL TO FIND VIEW!!!!!\n");
+      exit(11);
+   }
+
+   gridLayout->addWidget(fView);
+
+   QObject::connect(fView, SIGNAL(drop(QDropEvent*)), this, SLOT(dropView(QDropEvent*)));
 
    fCanvas->SetCanvasSize(fView->width(), fView->height());
+
+   // QString fullurl = UrlSchemeHandler::installHandler(QString(url.Data()), web->GetServer());
+
+   // disable openui completely from canvas - use only graphics
+   // fullurl.append("&noopenui");
+
+   // fView->load(QUrl(fullurl));
+
+   // fCanvas->SetCanvasSize(fView->width(), fView->height());
 }
 
 QWebCanvas::~QWebCanvas()

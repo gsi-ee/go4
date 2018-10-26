@@ -14,7 +14,9 @@
 #ifndef QWEBCANVAS_H
 #define QWEBCANVAS_H
 
-#include "rootwebview.h"
+#include <QWidget>
+#include <QWebEngineView>
+
 
 class TCanvas;
 class TPad;
@@ -84,7 +86,7 @@ protected:
 
    void ProcessPadDblClicked(TPad *pad, int x, int y) { emit PadDblClicked(pad,x,y); }
 
-   RootWebView *fView;  ///< qt webwidget to show
+   QWebEngineView *fView;  ///< qt webwidget to show
 
    TCanvas *fCanvas;
 
