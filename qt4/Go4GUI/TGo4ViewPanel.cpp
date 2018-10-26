@@ -11,12 +11,9 @@
 // in Go4License.txt file which is part of the distribution.
 //-----------------------------------------------------------------------
 
-
 // JAM2016: activate this for global ROOT "escape mode" before redraw (NOT RECOMMENDED)
 // otherwise, escape mode will reset global arrays of TGraph painter class only
 //#define GLOBALESCAPE 1
-
-
 
 #include "TGo4ViewPanel.h"
 
@@ -102,7 +99,7 @@
 const char* NoStackDrawOption = "nostack, ";
 
 TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
-      QGo4Widget(parent, name)
+   QGo4Widget(parent, name)
 {
    setupUi(this);
 
@@ -182,8 +179,8 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 
    // must get fbCanvasEventstatus from
    fbCanvasEventstatus = go4sett->getPadEventStatus();
-   AddChkAction(editMenu, "Show &event status", fbCanvasEventstatus, this,
-         SLOT(ShowEventStatus()));
+   fxCanvasEventstatusChk = AddChkAction(editMenu, "Show &event status", fbCanvasEventstatus, this,
+            SLOT(ShowEventStatus()));
 
    editMenu->addAction("Start &condition editor", this,
          SLOT(StartConditionEditor()));
@@ -2098,6 +2095,7 @@ void TGo4ViewPanel::ShowEventStatus()
 
    fxQCanvas->setShowEventStatus(fbCanvasEventstatus);
    CanvasStatus->setVisible(fbCanvasEventstatus);
+   fxCanvasEventstatusChk->setChecked(fbCanvasEventstatus);
    if (!fbCanvasEventstatus)
       DisplayPadStatus(GetActivePad());
 }
