@@ -1,0 +1,245 @@
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>QUserPanel</class>
+  <widget class="QGo4Widget" name="QUserPanel" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>682</width>
+        <height>559</height>
+      </rect>
+    </property>
+    <property name="windowTitle" >
+      <string>User panel</string>
+    </property>
+    <layout class="QGridLayout" >
+      <item row="1" column="0" >
+        <widget class="QTabWidget" name="TabWidget" >
+          <widget class="QWidget" name="DragAndDropTab" >
+            <attribute name="title" >
+              <string>Drag &amp;&amp; drop</string>
+            </attribute>
+            <layout class="QGridLayout" >
+              <item row="4" column="0" >
+                <widget class="QLabel" name="DragKindLbl" >
+                  <property name="text" >
+                    <string>textLabel4</string>
+                  </property>
+                  <property name="wordWrap" >
+                    <bool>false</bool>
+                  </property>
+                </widget>
+              </item>
+              <item row="5" column="0" >
+                <layout class="QHBoxLayout" >
+                  <item>
+                    <widget class="QPushButton" name="InfoBtn" >
+                      <property name="text" >
+                        <string>Info</string>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="EditBtn" >
+                      <property name="text" >
+                        <string>Edit</string>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <widget class="QPushButton" name="DrawBtn" >
+                      <property name="text" >
+                        <string>Draw</string>
+                      </property>
+                    </widget>
+                  </item>
+                  <item>
+                    <spacer name="spacer6" >
+                      <property name="sizeHint" >
+                        <size>
+                          <width>120</width>
+                          <height>20</height>
+                        </size>
+                      </property>
+                      <property name="sizeType" >
+                        <enum>QSizePolicy::Expanding</enum>
+                      </property>
+                      <property name="orientation" >
+                        <enum>Qt::Horizontal</enum>
+                      </property>
+                    </spacer>
+                  </item>
+                </layout>
+              </item>
+              <item row="3" column="0" >
+                <widget class="QLabel" name="DragClassLbl" >
+                  <property name="text" >
+                    <string>textLabel3</string>
+                  </property>
+                  <property name="wordWrap" >
+                    <bool>false</bool>
+                  </property>
+                </widget>
+              </item>
+              <item row="1" column="0" >
+                <widget class="QLabel" name="DragLbl" >
+                  <property name="text" >
+                    <string>textLabel2</string>
+                  </property>
+                  <property name="wordWrap" >
+                    <bool>false</bool>
+                  </property>
+                </widget>
+              </item>
+              <item row="2" column="0" >
+                <widget class="QLabel" name="DragItemLbl" >
+                  <property name="text" >
+                    <string>textLabel5</string>
+                  </property>
+                  <property name="wordWrap" >
+                    <bool>false</bool>
+                  </property>
+                </widget>
+              </item>
+              <item row="0" column="0" >
+                <widget class="QLabel" name="InfoLabel1" >
+                  <property name="text" >
+                    <string>This is example of using drag &amp; drop mechanism of Go4 in user gui.&lt;br>
+Any object from browser can be draged in this widget.&lt;br>
+Widget can react on two events:&lt;br>
+1. Drag enter action. In that case user can accept or &lt;br>
+   discard draged object in IsAcceptDrag() function.&lt;br>
+2. Drop action. In that case object can be linked to widget. &lt;br>
+   After that widget will be informed when object is updated or deleted.</string>
+                  </property>
+                  <property name="alignment" >
+                    <set>Qt::AlignVCenter</set>
+                  </property>
+                  <property name="wordWrap" >
+                    <bool>true</bool>
+                  </property>
+                </widget>
+              </item>
+              <item row="6" column="0" >
+                <spacer name="spacer5" >
+                  <property name="sizeHint" >
+                    <size>
+                      <width>20</width>
+                      <height>40</height>
+                    </size>
+                  </property>
+                  <property name="sizeType" >
+                    <enum>QSizePolicy::Expanding</enum>
+                  </property>
+                  <property name="orientation" >
+                    <enum>Qt::Vertical</enum>
+                  </property>
+                </spacer>
+              </item>
+            </layout>
+          </widget>
+          <widget class="QWidget" name="PrintTab" >
+            <attribute name="title" >
+              <string>Object print</string>
+            </attribute>
+            <layout class="QGridLayout" >
+              <item rowspan="1" row="0" column="0" colspan="2" >
+                <widget class="QLabel" name="PrintInfoLabel" >
+                  <property name="text" >
+                    <string>This example shows how Print() method of any object from browser can be called.&lt;br>
+First select method which is used in obj->Print() to produce output &lt;br>
+and then just drag &amp; drop object to this label (not to output window).</string>
+                  </property>
+                  <property name="wordWrap" >
+                    <bool>false</bool>
+                  </property>
+                </widget>
+              </item>
+              <item rowspan="1" row="1" column="0" colspan="2" >
+                <widget class="QLabel" name="PrintLbl" >
+                  <property name="text" >
+                    <string>PrintLbl</string>
+                  </property>
+                  <property name="wordWrap" >
+                    <bool>false</bool>
+                  </property>
+                </widget>
+              </item>
+              <item rowspan="1" row="3" column="0" colspan="2" >
+                <widget class="QTextEdit" name="PrintEdit" >
+                  <property name="readOnly" >
+                    <bool>true</bool>
+                  </property>
+                </widget>
+              </item>
+            </layout>
+          </widget>
+          <widget class="QWidget" name="MonitoringTab" >
+            <attribute name="title" >
+              <string>Drawing</string>
+            </attribute>
+            <layout class="QGridLayout" >
+              <property name="margin" >
+                <number>2</number>
+              </property>
+              <property name="spacing" >
+                <number>2</number>
+              </property>
+              <item row="0" column="0" >
+                <widget class="QLabel" name="DrawInfoLbl" >
+                  <property name="text" >
+                    <string>This is example of using QtRoot canvas inside user widget. &lt;br> Just drag &amp; drop items like histograms or graphs from browser to canvas to draw them.</string>
+                  </property>
+                  <property name="wordWrap" >
+                    <bool>false</bool>
+                  </property>
+                </widget>
+              </item>
+              <item row="1" column="0" >
+                <widget class="QWebCanvas" name="fxDrawCanvas" >
+                  <property name="sizePolicy" >
+                    <sizepolicy>
+                      <hsizetype>7</hsizetype>
+                      <vsizetype>7</vsizetype>
+                      <horstretch>0</horstretch>
+                      <verstretch>1</verstretch>
+                    </sizepolicy>
+                  </property>
+                  <property name="minimumSize" >
+                    <size>
+                      <width>200</width>
+                      <height>100</height>
+                    </size>
+                  </property>
+                </widget>
+              </item>
+            </layout>
+          </widget>
+        </widget>
+      </item>
+      <item row="0" column="0" >
+        <widget class="QLabel" name="textLabel1" >
+          <property name="text" >
+            <string>This is an example of Go4 User GUI. &lt;br>This panel uses functionality, provided by QGo4Widget class. &lt;br>Tab widgets shows drag and drop facility, easy print method and monitoring example</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
+        </widget>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <images>
+    <image name="image0" >
+      <data format="XBM.GZ" length="79" >789c534e494dcbcc4b554829cdcdad8c2fcf4c29c95030e0524611cd48cd4ccf28010a1797249664262b2467241641a592324b8aa363156c15aab914146aadb90067111b1f</data>
+    </image>
+  </images>
+  <includes>
+    <include location="local">QGo4Widget.h</include>
+    <include location="local">QWebCanvas.h</include>
+  </includes>
+</ui>
