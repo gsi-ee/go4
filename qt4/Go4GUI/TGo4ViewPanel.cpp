@@ -139,7 +139,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    CanvasStatus = 0;
 
 #ifdef GO4_WEBGUI
-   if (go4sett->getWebBasedCanvas() && false)  {
+   if (go4sett->getWebBasedCanvas())  {
       fxWCanvas = new QWebCanvas(this);
 
       fxWCanvas->setMinimumSize(QSize(50, 50));
@@ -276,6 +276,9 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
       // TODO: one can get status from webcanvas here
 #ifdef GO4_WEBGUI
       fxWCanvas->setStatusBarVisible(status_flag);
+
+      connect(fxWCanvas, SIGNAL(CanvasDropEvent(QDropEvent*,TPad*)), this,
+               SLOT(CanvasDropEventSlot(QDropEvent*,TPad*)));
 #endif
    } else {
       CanvasStatus = new QStatusBar(this);
