@@ -30,6 +30,8 @@ public:
 
 protected:
 
+   virtual void   resizeEvent(QResizeEvent *event);
+
    RootWebView *fView;  ///< qt webwidget to show
 
    TCanvas *fCanvas;

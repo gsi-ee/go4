@@ -52,6 +52,23 @@ public:
 
 QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 {
+   setObjectName( "QWebCanvas");
+
+   setSizeIncrement( QSize( 100, 100 ) );
+
+   setUpdatesEnabled( true );
+   setMouseTracking(true);
+
+   setFocusPolicy( Qt::TabFocus );
+   setCursor( Qt::CrossCursor );
+
+   // disable option that at least background is redrawn immediately
+   // and canvas content after 100 ms timeout
+   //setAttribute(Qt::WA_NoSystemBackground);
+   // setAttribute(Qt::WA_PaintOnScreen);
+   // setAttribute(Qt::WA_PaintUnclipped);
+
+
    QGridLayout *gridLayout = new QGridLayout(this);
    gridLayout->setSpacing(1);
    gridLayout->setMargin(1);
@@ -97,12 +114,12 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
       nhandler++;
    }
 
-   const char *suffix = url.Index("?") != kNPOS ? "&qt5" : "?qt5";
+   const char *suffix = url.Index("?") != kNPOS ? "&" : "?";
 
    snprintf(protocol, sizeof(protocol), "roothandler%d", nhandler);
-   snprintf(fullurl, sizeof(fullurl), "%s://dummy:8080%s%s", protocol, url.Data(), suffix);
+   snprintf(fullurl, sizeof(fullurl), "%s://dummy:8080%s%sqt5&noopenui", protocol, url.Data(), suffix);
 
-   printf("Start %s\n", fullurl);
+   printf("Canvas %p Start %s\n", fCanvas, fullurl);
 
    if (create_handler) {
       const QByteArray protocol_name = QByteArray(protocol);
@@ -115,4 +132,9 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
 QWebCanvas::~QWebCanvas()
 {
+}
+
+void QWebCanvas::resizeEvent(QResizeEvent *event)
+{
+   printf("Resize width: %d %d height: %d %d\n", (int) width(), (int) fView->width(), (int) height(), (int) fView->height());
 }
