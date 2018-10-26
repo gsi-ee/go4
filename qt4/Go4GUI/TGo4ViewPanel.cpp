@@ -132,7 +132,6 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    QSizePolicy sizePolicy3(static_cast<QSizePolicy::Policy>(7), static_cast<QSizePolicy::Policy>(7));
    sizePolicy3.setHorizontalStretch(0);
    sizePolicy3.setVerticalStretch(20);
-   sizePolicy3.setHeightForWidth(fxQCanvas->sizePolicy().hasHeightForWidth());
 
    fxQCanvas = 0;
    fxWCanvas = 0;
@@ -144,6 +143,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
       fxWCanvas = new QWebCanvas(this);
 
       fxWCanvas->setMinimumSize(QSize(50, 50));
+      sizePolicy3.setHeightForWidth(fxWCanvas->sizePolicy().hasHeightForWidth());
       fxWCanvas->setSizePolicy(sizePolicy3);
 
       fxGridLayout->addWidget(fxWCanvas, 1, 1, 1, 1);
@@ -157,6 +157,7 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
       fxQCanvas = new QRootCanvas(this);
       // fxQCanvas->setObjectName(QStringLiteral("fxQCanvas"));
       fxQCanvas->setMinimumSize(QSize(50, 50));
+      sizePolicy3.setHeightForWidth(fxQCanvas->sizePolicy().hasHeightForWidth());
       fxQCanvas->setSizePolicy(sizePolicy3);
 
       fxGridLayout->addWidget(fxQCanvas, 1, 1, 1, 1);
