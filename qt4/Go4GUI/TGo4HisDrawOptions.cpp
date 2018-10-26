@@ -257,7 +257,7 @@ void TGo4HisDrawOptions::UpdateView(int viewtype, bool webcanvas)
          break;
       case view_Graph:
          Coordinates->addItem("A: norm axis");
-         Coordinates->addItem("supp. axis");
+         Coordinates->addItem("AI: supp. axis");
          Coordinates->addItem("AX+: top");
          Coordinates->addItem("AY+: right");
          Coordinates->addItem("AX+Y+: x & y");
@@ -386,6 +386,7 @@ void TGo4HisDrawOptions::DecodeDrawOption(const char* drawopt,
       if (buf.Contains("y+")) HisCoordStyle = 3; else
       if (buf.Contains("x+")) HisCoordStyle = 2; else
       if (buf.Contains("a1")) HisCoordStyle = 5; else
+      if (buf.Contains("ai")) HisCoordStyle = 1; else
       if (buf.Contains("a")) HisCoordStyle = 0; else HisCoordStyle = 1;
 
       if (buf.Contains("x") && (HisCoordStyle!=4) && (HisCoordStyle!=2)) HisErrorStyle = 1; else
@@ -551,7 +552,7 @@ void TGo4HisDrawOptions::CodeDrawOptions(int HisErrorStyle,
 
       switch (HisCoordStyle) {
          case 0: buf.Append("A"); break;
-         case 1: break;
+         case 1: buf.Append("AI"); break;
          case 2: buf.Append("AX+"); break;
          case 3: buf.Append("AY+"); break;
          case 4: buf.Append("AX+Y+"); break;
