@@ -19,6 +19,7 @@
 #include <QMimeData>
 #include <QDragEnterEvent>
 #include <QDropEvent>
+#include <QWebEngineSettings>
 
 RootWebView::RootWebView(QWidget *parent, unsigned width, unsigned height) :
    QWebEngineView(parent),
@@ -26,6 +27,9 @@ RootWebView::RootWebView(QWidget *parent, unsigned width, unsigned height) :
    fHeight(height)
 {
    setPage(new RootWebPage());
+
+   if (!page()->settings()->testAttribute(QWebEngineSettings::WebGLEnabled))
+      printf("Error: WEBGL is not enabled!!!\n");
 
    // connect(this, SIGNAL(javaScriptConsoleMessage(JavaScriptConsoleMessageLevel, const QString &, int, const QString
    // &)),
