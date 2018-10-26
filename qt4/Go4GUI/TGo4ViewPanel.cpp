@@ -138,8 +138,16 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
    fxWCanvas = 0;
 
 #ifdef GO4_WEBGUI
-   if (go4sett->getWebBasedCanvas()) {
+   if (go4sett->getWebBasedCanvas() && false)  {
+      fxWCanvas = new QWebCanvas(this);
 
+      fxWCanvas->setMinimumSize(QSize(50, 50));
+      fxWCanvas->setSizePolicy(sizePolicy3);
+
+      fxGridLayout->addWidget(fxWCanvas, 1, 1, 1, 1);
+
+      fxWCanvas->setObjectName(GetPanelName());
+      fxWCanvas->getCanvas()->SetName(GetPanelName());
    }
 #endif
 
