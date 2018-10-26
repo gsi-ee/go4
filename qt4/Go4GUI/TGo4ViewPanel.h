@@ -284,6 +284,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
       int fiSkipRedrawCounter;
       bool fbCanvasCrosshair;
       QAction *fxCanvasEventstatusChk;
+      QAction *fxCanvasEditorChk;
       QStatusBar *CanvasStatus;
       bool fbApplyToAllFlag;
       bool fbAutoZoomFlag;

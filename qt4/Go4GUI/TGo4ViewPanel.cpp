@@ -205,9 +205,9 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
       ed_allowed = fxQCanvas->isEditorAllowed();
    }
 
-   QAction* act = AddChkAction(editMenu, "Show &ROOT attributes editor",
+   fxCanvasEditorChk = AddChkAction(editMenu, "Show &ROOT attributes editor",
                          ed_visible, this, SLOT(StartRootEditor()));
-   act->setEnabled(ed_allowed);
+   fxCanvasEditorChk->setEnabled(ed_allowed);
 
    bool status_flag = go4sett->getPadEventStatus();
    fxCanvasEventstatusChk = AddChkAction(editMenu, "Show &event status", status_flag, this,
@@ -288,6 +288,9 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 
       connect(fxWCanvas, SIGNAL(PadDblClicked(TPad*,int,int)), this,
                SLOT(PadDoubleClickedSlot(TPad*,int,int)));
+
+      connect(fxWCanvas, SIGNAL(CanvasUpdated()), this,
+              SLOT(CanvasUpdatedSlot()));
 
 #endif
    } else {
@@ -1723,12 +1726,17 @@ void TGo4ViewPanel::MenuCommandExecutedSlot(TObject* obj, const char* cmdname)
          return;
       } while (iter.next());
    }
-
 }
 
 void TGo4ViewPanel::CanvasUpdatedSlot()
 {
-   ResizeGedEditor();
+   if (fxWCanvas) {
+      TCanvasImp *imp = GetCanvas()->GetCanvasImp();
+      fxCanvasEventstatusChk->setChecked(imp->HasStatusBar());
+      fxCanvasEditorChk->setChecked(imp->HasEditor());
+   } else {
+      ResizeGedEditor();
+   }
 }
 
 void TGo4ViewPanel::SaveCanvas()
@@ -1927,7 +1935,8 @@ void TGo4ViewPanel::StartRootEditor()
      if (fxQCanvas->isEditorVisible())
          ActivateInGedEditor(GetSelectedObject(GetActivePad(), 0));
    } else if (fxWCanvas) {
-      SetActivePad(GetCanvas());
+      // SetActivePad(GetCanvas());
+
       ActivateInGedEditor(GetSelectedObject(GetActivePad(), 0));
    }
 
@@ -5503,6 +5512,8 @@ void TGo4ViewPanel::ResizeGedEditor()
 
 void TGo4ViewPanel::ActivateInGedEditor(TObject* obj)
 {
+   printf("TGo4ViewPanel::ActivateInGedEditor %s %p\n", obj ? obj->GetName() : "---", obj);
+
    if (obj && !obj->InheritsFrom(THStack::Class()) && !obj->InheritsFrom(TMultiGraph::Class()))
       if (fxQCanvas) {
          fxQCanvas->actiavteEditor(GetActivePad(), obj);

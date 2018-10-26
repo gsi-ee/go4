@@ -115,7 +115,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
       exit(3);
    }
 
-
+   web->SetUpdatedHandler([this]() { ProcessCanvasUpdated(); });
 
    web->SetActivePadChangedHandler([this](TPad *pad){ ProcessActivePadChanged(pad); });
 
@@ -169,8 +169,13 @@ void QWebCanvas::dropView(QDropEvent* event)
 
 void QWebCanvas::actiavteEditor(TPad *pad, TObject *obj)
 {
-   TCanvasImp *cimp = fCanvas->GetCanvasImp();
-   if (cimp) cimp->ShowEditor(kTRUE);
+   TWebCanvas *cimp = dynamic_cast<TWebCanvas*> (fCanvas->GetCanvasImp());
+   if (cimp) {
+      printf("QWebCanvas:: Activate editor\n");
+
+      cimp->ShowEditor(kTRUE);
+      cimp->ActivateInEditor(pad, obj);
+   }
 }
 
 bool QWebCanvas::isStatusBarVisible()

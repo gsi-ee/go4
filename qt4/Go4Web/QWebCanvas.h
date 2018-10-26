@@ -41,6 +41,8 @@ signals:
 
    void CanvasDropEvent(QDropEvent*, TPad*);
 
+   void CanvasUpdated();
+
    void SelectedPadChanged(TPad*);
 
    void PadClicked(TPad*,int,int);
@@ -70,6 +72,8 @@ protected:
    {
       return (double) p * fQtScalingfactor;
    }
+
+   void ProcessCanvasUpdated() { emit CanvasUpdated(); }
 
    void ProcessActivePadChanged(TPad *pad) { emit SelectedPadChanged(pad); }
 
