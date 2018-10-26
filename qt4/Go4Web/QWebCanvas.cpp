@@ -79,6 +79,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    fCanvas = new TCanvas(kFALSE);
    fCanvas->SetName(Form("Canvas%d", wincnt++));
    fCanvas->SetTitle("title");
+   fCanvas->ResetBit(TCanvas::kShowEditor);
    fCanvas->SetCanvas(fCanvas);
    fCanvas->SetBatch(kTRUE); // mark canvas as batch
 
@@ -165,7 +166,6 @@ void QWebCanvas::actiavteEditor(TPad *pad, TObject *obj)
    TWebCanvas *cimp = dynamic_cast<TWebCanvas*> (fCanvas->GetCanvasImp());
    if (cimp) {
       printf("QWebCanvas:: Activate editor\n");
-
       cimp->ShowEditor(kTRUE);
       cimp->ActivateInEditor(pad, obj);
    }

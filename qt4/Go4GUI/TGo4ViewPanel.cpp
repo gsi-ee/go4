@@ -101,6 +101,9 @@ TGo4ViewPanel::TGo4ViewPanel(QWidget *parent, const char* name) :
 {
    setupUi(this);
 
+   // TODO: viewpanel does not closed when press close button
+   // setAttribute(Qt::WA_DeleteOnClose, true);
+
    fPanelName = objectName();
 
    fxActivePad = 0;

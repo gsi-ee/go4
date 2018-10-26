@@ -72,7 +72,8 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
          kMouseDraw        // draw on mouse press
       };
 
-      enum {kind_None = -1,
+      enum {
+         kind_None = -1,
          kind_Link = 1,
          knd_Reference = 2,
          kind_Additional = 100,
@@ -94,7 +95,7 @@ class TGo4ViewPanel : public QGo4Widget, public Ui::TGo4ViewPanel
          kind_ThisPad = 1002,
          kind_PadSlot = 1003 };
 
-      TGo4ViewPanel(QWidget *parent = 0, const char* name=0);
+      TGo4ViewPanel(QWidget *parent = 0, const char* name = 0);
 
       virtual ~TGo4ViewPanel();
 
