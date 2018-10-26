@@ -21,7 +21,6 @@
 #include "TTimer.h"
 
 #include "rooturlschemehandler.h"
-#include <QWebEngineProfile>
 #include <QGridLayout>
 #include <QApplication>
 
@@ -82,8 +81,6 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
 
    static bool guifactory = false;
    static int wincnt = 1;
-   static int nhandler = 0;
-   static THttpServer *last_serv = 0;
 
    if (!guifactory) {
       guifactory = true;
@@ -95,8 +92,7 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
       timer->TurnOn();
    }
 
-   fCanvas = new TCanvas(Form("Canvas%d", wincnt), 100, 200, TWebVirtualX::WebId);
-   wincnt++;
+   fCanvas = new TCanvas(Form("Canvas%d", wincnt++), 100, 200, TWebVirtualX::WebId);
 
    // not call Show, but try to extract URL for the
    TWebCanvas *web = dynamic_cast<TWebCanvas *>(fCanvas->GetCanvasImp());
@@ -106,31 +102,10 @@ QWebCanvas::QWebCanvas(QWidget *parent) : QWidget(parent)
    }
 
    TString url = web->CreateWebWindow(1); // create TWebWindow, which will handle all necessary connections
-   THttpServer *serv = web->GetServer(); // get http server instance
 
-   char protocol[100], fullurl[2000];
-   bool create_handler = false;
+   TString fullurl = UrlSchemeHandler::installHandler(url, web->GetServer(), false);
 
-   if (last_serv != serv) {
-      last_serv = serv;
-      create_handler = true;
-      nhandler++;
-   }
-
-   const char *suffix = url.Index("?") != kNPOS ? "&" : "?";
-
-   snprintf(protocol, sizeof(protocol), "roothandler%d", nhandler);
-   snprintf(fullurl, sizeof(fullurl), "%s://dummy:8080%s%sqt5&noopenui", protocol, url.Data(), suffix);
-
-   printf("Canvas %p Start %s\n", fCanvas, fullurl);
-
-   if (create_handler) {
-      const QByteArray protocol_name = QByteArray(protocol);
-      UrlSchemeHandler *handler = new UrlSchemeHandler(Q_NULLPTR, serv);
-      QWebEngineProfile::defaultProfile()->installUrlSchemeHandler(protocol_name, handler);
-   }
-
-   fView->load(QUrl(fullurl));
+   fView->load(QUrl(fullurl.Data()));
 }
 
 QWebCanvas::~QWebCanvas()
@@ -144,7 +119,6 @@ void QWebCanvas::resizeEvent(QResizeEvent *event)
 
 void QWebCanvas::dropEvent(QDropEvent* event)
 {
-   printf("DROP EVENT on QWebCanvas\n");
    emit CanvasDropEvent(event, fCanvas);
 }
 

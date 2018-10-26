@@ -18,11 +18,17 @@
 
 #include <QWebEngineUrlSchemeHandler>
 
+#include "TString.h"
+
 class THttpServer;
 
 class UrlSchemeHandler : public QWebEngineUrlSchemeHandler {
 protected:
    THttpServer *fServer; ///< server instance which should handle requests
+
+   static int  gNumHandler;  ///< number of created handlers
+   static THttpServer *gLastServer;  ///< keep pointer of last server
+
 public:
    UrlSchemeHandler(QObject *p = Q_NULLPTR, THttpServer *server = Q_NULLPTR)
       : QWebEngineUrlSchemeHandler(p), fServer(server)
@@ -32,6 +38,8 @@ public:
    virtual ~UrlSchemeHandler() {}
 
    virtual void requestStarted(QWebEngineUrlRequestJob *request);
+
+   static TString installHandler(const TString &url, THttpServer *server, bool use_openui = true);
 };
 
 

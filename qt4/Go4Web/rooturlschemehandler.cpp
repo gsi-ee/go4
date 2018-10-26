@@ -19,11 +19,15 @@
 #include <QBuffer>
 #include <QFile>
 #include <QWebEngineUrlRequestJob>
+#include <QWebEngineProfile>
 
 #include "THttpServer.h"
 #include "THttpCallArg.h"
 
 #include <stdio.h>
+
+int UrlSchemeHandler::gNumHandler = 0;
+THttpServer *UrlSchemeHandler::gLastServer = nullptr;
 
 class TWebGuiCallArg : public THttpCallArg {
 protected:
@@ -124,4 +128,32 @@ void UrlSchemeHandler::requestStarted(QWebEngineUrlRequestJob *request)
    arg->SetTopName("webgui");
 
    fServer->SubmitHttp(arg);
+}
+
+
+/////////////////////////////////////////////////////////////////
+
+TString UrlSchemeHandler::installHandler(const TString &url, THttpServer *server, bool use_openui)
+{
+   TString protocol, fullurl;
+   bool create_handler = false;
+
+   if (gLastServer != server) {
+      gLastServer = server;
+      create_handler = true;
+      gNumHandler++;
+   }
+
+   const char *suffix = url.Index("?") != kNPOS ? "&" : "?";
+
+   protocol.Form("roothandler%d", gNumHandler);
+   fullurl.Form("%s://dummy:8080%s%sqt5%s", protocol.Data(), url.Data(), suffix, (use_openui ? "" : "&noopenui"));
+
+   if (create_handler) {
+      const QByteArray protocol_name = QByteArray(protocol.Data());
+      UrlSchemeHandler *handler = new UrlSchemeHandler(Q_NULLPTR, server);
+      QWebEngineProfile::defaultProfile()->installUrlSchemeHandler(protocol_name, handler);
+   }
+
+   return fullurl;
 }
